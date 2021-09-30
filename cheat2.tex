@@ -59,72 +59,82 @@
 \end{terms}
 
 
-\subsection{Некоторые свойства бинарных отношений}
+\subsection{Некоторые свойства гомогенных бинарных отношений}
 
 Возможные свойства гомогенного бинарного отношения $R \subseteq M^2$:
 \hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation#Properties}{Properties of homogeneous relations}
 
-\begin{tabular}{l @{\hspace{1em}} L @{\hspace{1em}} l}
+\begin{tabular}{@{\hspace{.5em}} l @{\hspace{1em}} L @{\hspace{.5em}}}
     \toprule
-    \thead{Свойство} & \thead{\text{Формальное определение}} & \thead{Отношение} \\
+    \thead{Свойство} & \thead{\text{Формальное определение}} \\
     \midrule
-    Рефлексивность & \forall x \in M : x \rel x & \href{https://en.wikipedia.org/wiki/Reflexive_relation}{Reflexive} \\
-    Иррефлексивность & \forall x \in M : \neg (x \rel x) & \href{https://en.wikipedia.org/wiki/Irreflexive_relation}{Irreflexive} \\
-    Корефлексивность & \forall x,y \in M : (x \rel y) \implies (x = y) & \href{https://en.wikipedia.org/wiki/Coreflexive_relation}{Coreflexive} \\
-    Симметричность & \forall x,y \in M : (x \rel y) \implies (y \rel x) & \href{https://en.wikipedia.org/wiki/Symmetric_relation}{Symmetric} \\
-    Антисимметричность & \forall x,y \in M : (x \rel y) \land (y \rel x) \implies (x = y)) & \href{https://en.wikipedia.org/wiki/Antisymmetric_relation}{Antisymmetric} \\
-    Асимметричность & \forall x,y \in M : (x \rel y) \implies \neg (y \rel x) & \href{https://en.wikipedia.org/wiki/Asymmetric_relation}{Asymmetric} \\
-    Транзитивность & \forall x,y,z \in M : (x \rel y) \land (y \rel z) \implies (x \rel z) & \href{https://en.wikipedia.org/wiki/Transitive_relation}{Transitive} \\
-    Антитранзитивность & \forall x,y,z \in M : (x \rel y) \land (y \rel z) \implies \neg (x \rel z)) & \href{https://en.wikipedia.org/wiki/Antitransitive}{Antitransitive} \\
-    Евклидовость (правая) & \forall x,y,z \in M : (x \rel y) \land (x \rel z) \implies (y \rel z) & \href{https://en.wikipedia.org/wiki/Euclidean_relation}{Right Euclidean} \\
-    Евклидовость (левая) & \forall x,y,z \in M : (y \rel x) \land (z \rel x) \implies (y \rel z) & \href{https://en.wikipedia.org/wiki/Euclidean_relation}{Left Euclidean} \\
-    Связность & \forall x,y \in M : (x \neq y) \implies (x \rel y) \lor (y \rel x) & \href{https://en.wikipedia.org/wiki/Connected_relation}{Connex} \\
-    Связность (сильная) & \forall x,y \in M : (x \rel y) \lor (y \rel x) & \href{https://en.wikipedia.org/wiki/Connected_relation}{Strongly connected} \\
-    Плотность & \forall x,y \in M : (x \rel y) \implies \exists z \in M : (x \rel z) \land (z \rel y) & \href{https://en.wikipedia.org/wiki/Dense_relation}{Dense} \\
+%
+    Рефлексивность
+    \hfill\href{https://en.wikipedia.org/wiki/Reflexive_relation}{Reflexive}
+    & \forall x \in M : x \rel x \\
+%
+    Иррефлексивность
+    \hfill\href{https://en.wikipedia.org/wiki/Irreflexive_relation}{Irreflexive}
+    & \forall x \in M : \neg (x \rel x) \\
+%
+    Корефлексивность
+    \hfill\href{https://en.wikipedia.org/wiki/Coreflexive_relation}{Coreflexive}
+    & \forall x,y \in M : (x \rel y) \implies (x = y) \\
+%
+    Симметричность
+    \hfill\href{https://en.wikipedia.org/wiki/Symmetric_relation}{Symmetric}
+    & \forall x,y \in M : (x \rel y) \implies (y \rel x) \\
+%
+    Антисимметричность
+    \hfill\href{https://en.wikipedia.org/wiki/Antisymmetric_relation}{Antisymmetric}
+    & \forall x,y \in M : (x \rel y) \land (y \rel x) \implies (x = y)) \\
+%
+    Асимметричность
+    \hfill\href{https://en.wikipedia.org/wiki/Asymmetric_relation}{Asymmetric}
+    & \forall x,y \in M : (x \rel y) \implies \neg (y \rel x) \\
+%
+    Транзитивность
+    \hfill\href{https://en.wikipedia.org/wiki/Transitive_relation}{Transitive}
+    & \forall x,y,z \in M : (x \rel y) \land (y \rel z) \implies (x \rel z) \\
+%
+    Антитранзитивность
+    \hfill\href{https://en.wikipedia.org/wiki/Antitransitive}{Antitransitive}
+    & \forall x,y,z \in M : (x \rel y) \land (y \rel z) \implies \neg (x \rel z)) \\
+%
+    Евклидовость (правая)
+    \hfill\href{https://en.wikipedia.org/wiki/Euclidean_relation}{Right Euclidean}
+    & \forall x,y,z \in M : (x \rel y) \land (x \rel z) \implies (y \rel z) \\
+%
+    Евклидовость (левая)
+    \hfill\href{https://en.wikipedia.org/wiki/Euclidean_relation}{Left Euclidean}
+    & \forall x,y,z \in M : (y \rel x) \land (z \rel x) \implies (y \rel z) \\
+%
+    Связность
+    \hfill\href{https://en.wikipedia.org/wiki/Connected_relation}{Connex}
+    & \forall x,y \in M : (x \neq y) \implies (x \rel y) \lor (y \rel x) \\
+%
+    Связность (сильная)~
+    \hfill\href{https://en.wikipedia.org/wiki/Connected_relation}{Strongly connected}
+    & \forall x,y \in M : (x \rel y) \lor (y \rel x) \\
+%
+    Плотность
+    \hfill\href{https://en.wikipedia.org/wiki/Dense_relation}{Dense}
+    & \forall x,y \in M : (x \rel y) \implies \exists z \in M : (x \rel z) \land (z \rel y) \\
+%
     \bottomrule
 \end{tabular}
-
-\vspace{\baselineskip}
-
-Возможные свойства гетерогенного бинарного отношения $R \subseteq X \times Y$:
-\hfill\href{https://en.wikipedia.org/wiki/Binary_relation#Special_types_of_binary_relations}{Special types of binary relations}
-
-\begin{tabular}{l @{\hspace{1em}} L}
-    \toprule
-    \thead{Отношение} & \thead{\text{Формальное определение}} \\
-    \midrule
-    Injective (left-unique) & \forall x,z \in X, y \in Y : (x \rel y) \land (z \rel y) \implies (x = z) \\
-    Functional (right-unique) & \forall x \in X, y,z \in Y : (x \rel y) \land (x \rel z) \implies (y = z) \\
-    One-to-One & \text{Injective and Functional} \\
-    One-to-Many & \text{Injective and not Functional} \\
-    Many-to-One & \text{Not Injective and Functional} \\
-    Many-to-Many & \text{Not Injective and not Functional} \\
-    Serial (left-total) & \forall x \in X : \exists y \in Y : (x \rel y) \\
-    Surjective (right-total) & \forall y \in Y : \exists x \in X : (x \rel y) \\
-    \bottomrule
-\end{tabular}
-
-\vspace{\baselineskip}
-
-\begin{terms}
-    \item \textbf{Частичная функция} -- Functional бинарное отношение. Обозначается $f : X \pto Y$.
-    \hfill\href{https://en.wikipedia.org/wiki/Partial_function}{Partial function}
-
-    \item \textbf{Функция} -- Functional и Serial бинарное отношение. Обозначается $f : X \to Y$.
-    \hfill\href{https://en.wikipedia.org/wiki/Function_(mathematics)}{Function}
-\end{terms}
 
 
 \subsection{Отношения эквивалентности}
 
 \begin{terms}
-    \item \textbf{Отношение эквивалентности} -- рефлексивное, симметричное и транзитивное бинарное отношение.
-    % \hfill\href{https://en.wikipedia.org/wiki/Equivalence_relation}{Equivalence relation}
+    \item \textbf{Отношение эквивалентности} -- рефлексивное, симметричное и транзитивное.
+    \hfill\href{https://en.wikipedia.org/wiki/Equivalence_relation}{Equivalence relation}
 
     \item \textbf{Класс эквивалентности} элемента $x \in A$: $\equivclass{x} = \Set{y \in A \given x \rel y}$.
     \hfill\href{https://en.wikipedia.org/wiki/Equivalence_class}{Equivalence class}
 
-    \item \textbf{Разбиение} (\textbf{Quotient set}) множества $A$ на классы эквивалентности: $\quotient[R]{A} = \equivclass{A} = \Set{\equivclass{x} \given x \in A}$.
+    \item \textbf{Разбиение} множества $A$ \textbf{на классы эквивалентности}: $\quotient[R]{A} = \equivclass{A} = \Set{\equivclass{x} \given x \in A}$.
     \hfill\href{https://en.wikipedia.org/wiki/Equivalence_class}{Quotient set}
 \end{terms}
 
@@ -132,19 +142,72 @@
 \subsection{Отношения порядка}
 
 \begin{terms}
-    \item \textbf{Preorder} (\textbf{quasi-order}) -- \emph{reflexive} and \emph{transitive} relation.
+    \item \textbf{Предпорядок} (\textbf{квазипорядок}) -- \emph{рефлексивное} и \emph{транзитивное} отношение.
+    \hfill\href{https://en.wikipedia.org/wiki/Preorder}{Preorder}
 
-    \item \textbf{Partial order} -- \emph{reflexive}, \emph{antisymmetric} and \emph{transitive} relation.
+    \item \textbf{Частичный порядок} -- \emph{рефлексивное}, \emph{антисимметричное} и \emph{транзитивное} отношение.
+    \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set}{Partial order}
 
-    \item \textbf{Total (linear) order} -- \emph{connex} partial order.
+    \item \textbf{Линейный (полный) порядок} -- \emph{связный} частичный порядок.
+    \hfill\href{https://en.wikipedia.org/wiki/Total_order}{Total order}
 
-    \item \textbf{Strict partial order} -- \emph{irreflexive}, \emph{antisymmetric} and \emph{transitive} relation.
+    \item \textbf{Строгий частичный порядок} -- \emph{иррефл.}, \emph{антисимм.} и \emph{транзитивное} отношение.
+    \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set#Strict_partial_order}{Strict partial order}
 
-    \item \textbf{Strict total order} -- \emph{connex} strict partial order.
+    \item \textbf{Строгий линейный (полный) порядок} -- \emph{связный} строгий частичный порядок.
+    \hfill\href{https://en.wikipedia.org/wiki/Total_order#Strict_total_order}{Strict total order}
 \end{terms}
 
 % ? & \text{Each non-empty } S \subset M : S \text{ contains a minimal element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-founded_relation}{Well-founded} \\
 % Вполне упорядоченное & \text{Each non-empty } S \subset M \text{ contains the smallest element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-order}{Well-ordering} \\
+
+
+\subsection{Некоторые свойства гетерогенных бинарных отношений}
+
+Возможные свойства гетерогенного бинарного отношения $R \subseteq X \times Y$:
+\hfill\href{https://en.wikipedia.org/wiki/Binary_relation#Special_types_of_binary_relations}{Special types of binary relations}
+
+\begin{tabular}{@{\hspace{.5em}} l @{\hspace{1em}} L @{\hspace{.5em}}}
+    \toprule
+    \thead{Отношение} & \thead{\text{Формальное определение}} \\
+    \midrule
+%
+    Injective (left-unique)
+    & \forall x,z \in X ~\forall y \in Y : (x \rel y) \land (z \rel y) \implies (x = z) \\
+ %
+    Functional (right-unique)
+    & \forall x \in X ~\forall y,z \in Y : (x \rel y) \land (x \rel z) \implies (y = z) \\
+%
+    One-to-One
+    & \text{Injective and Functional} \\
+%
+    One-to-Many
+    & \text{Injective and not Functional} \\
+%
+    Many-to-One
+    & \text{Not Injective and Functional} \\
+%
+    Many-to-Many
+    & \text{Not Injective and not Functional} \\
+%
+    Serial (left-total)
+    & \forall x \in X : \exists y \in Y : (x \rel y) \\
+%
+    Surjective (right-total)
+    & \forall y \in Y : \exists x \in X : (x \rel y) \\
+%
+    \bottomrule
+\end{tabular}
+
+\subsection{Функции как отношения}
+
+\begin{terms}
+    \item \textbf{Частичная функция} $f : X \pto Y$ -- Functional бинарное отношение.
+    \hfill\href{https://en.wikipedia.org/wiki/Partial_function}{Partial function}
+
+    \item \textbf{Функция} $f : X \to Y$ -- Functional и Serial бинарное отношение.
+    \hfill\href{https://en.wikipedia.org/wiki/Function_(mathematics)}{Function}
+\end{terms}
 
 
 %% Ensure page break
