@@ -17,54 +17,78 @@
 
 %% Add custom setup below
 
-%% Colors for the prime factorization
-\colorlet{my-green}{green!60!black}
-\colorlet{my-blue}{blue!60!black}
+\usepackage{physics}
 
-%% Counter for relations
-\newcounter{relindexno}
-\newcommand{\relindex}{%
-    \stepcounter{relindexno}%
-    \therelindexno}
+% %% Counter for relations
+% \newcounter{relindexno}
+% \newcommand{\relindex}{%
+%     \stepcounter{relindexno}%
+%     \arabic{relindexno}}
+
+%% Math enquote
+\newcommand{\mathenquote}[1]{\text{\enquote{$#1$\kern.3ex}}}
 
 %% Jaccard index
 \newcommand{\Jac}{%
     \mathbf{Jac}}
+
+%% Colors for the prime factorization
+\colorlet{my-green}{green!60!black}
+\colorlet{my-blue}{blue!60!black}
 
 
 \begin{document}
 \selectlanguage{english}
 \begin{tasks}
     %% Task: Check properties of relations
-    \item For each given relation $R_i$ over $M = \Set{1,2,3}$, determine whether it is \textit{reflexive}, \textit{irreflexive}, \textit{coreflexive}, \textit{symmetric}, \textit{antisymmetric}, \textit{asymmetric}, \textit{transitive}, \textit{antitransitive}, \textit{connex}, \textit{right/left euclidean}, \textit{dense}.
+    \item For each given relation $R_i$ over $M = \Set{1,2,3}$, determine whether it is \textit{reflexive}, \textit{irreflexive}, \textit{coreflexive}, \textit{symmetric}, \textit{antisymmetric}, \textit{asymmetric}, \textit{transitive}, \textit{antitransitive}, \textit{connex}, \textit{right/left Euclidean}, \textit{dense}.
     Organize your answer in a table (\eg columns \--- relations, rows \--- properties).
 
+    \newcommand{\myindex}{\arabic{subtasksi}}
+
     \begin{multicols}{2}
-    \begin{items}
-        \item $R_{\relindex} = \Set{\Pair{1,1}, \Pair{2,2}, \Pair{3,3}}$
+    \begin{subtasks}
+        \item $M_{\myindex} = \Real$ \\
+        $x \rel[R_{\myindex}] y \iff \abs{x - y} \leq 1$
 
-        \item $R_{\relindex} = \Set{\Pair{3,1}, \Pair{3,2}, \Pair{1,2}}$
-
-        \item $R_{\relindex} = \Set{\Pair{x,y} \given x < y}$
-
-        \item $\relmatrix{R_{\relindex}} = \begin{bsmallmatrix}
-            1 & 0 & 1 \\
-            1 & 1 & 0 \\
-            0 & 0 & 1 \\
+        \item $M_{\myindex} = \Set{a,b,c,d}$,
+        $\relmatrix{R_{\myindex}} = \begin{bsmallmatrix}
+            0 & 1 & 0 & 1 \\
+            0 & 0 & 0 & 1 \\
+            1 & 1 & 0 & 0 \\
+            0 & 0 & 1 & 0 \\
         \end{bsmallmatrix}$
 
-        \item $R_{\relindex} = \Set{\Pair{1,3}, \Pair{2,3}, \Pair{3,1}, \Pair{1,2}}$
+        \item $M_{\myindex} = \Set{\text{\enquote{rock}}, \text{\enquote{scissors}}, \text{\enquote{paper}}}$ \\
+        $R_{\myindex} = \Set{\Pair{x,y} \given x \text{ beats } y}$
 
-        \item $R_{\relindex} = \Set{\Pair{3,2}, \Pair{2,2}, \Pair{2,3}, \Pair{3,3}}$
+        \item $M_{\myindex} = \powerset{\Set{a,b,c}}$ \\
+        $R_{\myindex} = \mathenquote{\subseteq}$
 
-        \item $R_{\relindex} = \Set{\Pair{x,y} \given x^2 + (-y)^3 \congruent[3] 2}$
+        % \item $R_{\relindex} = \Set{\Pair{1,1}, \Pair{2,2}, \Pair{3,3}}$
 
-        \item $\relmatrix{R_{\relindex}} = \begin{bsmallmatrix}
-            0 & 0 & 0 \\
-            0 & 0 & 0 \\
-            1 & 1 & 0 \\
-        \end{bsmallmatrix}$
-    \end{items}
+        % \item $R_{\relindex} = \Set{\Pair{3,1}, \Pair{3,2}, \Pair{1,2}}$
+
+        % \item $R_{\relindex} = \Set{\Pair{x,y} \given x < y}$
+
+        % \item $\relmatrix{R_{\relindex}} = \begin{bsmallmatrix}
+        %     1 & 0 & 1 \\
+        %     1 & 1 & 0 \\
+        %     0 & 0 & 1 \\
+        % \end{bsmallmatrix}$
+
+        % \item $R_{\relindex} = \Set{\Pair{1,3}, \Pair{2,3}, \Pair{3,1}, \Pair{1,2}}$
+
+        % \item $R_{\relindex} = \Set{\Pair{3,2}, \Pair{2,2}, \Pair{2,3}, \Pair{3,3}}$
+
+        % \item $R_{\relindex} = \Set{\Pair{x,y} \given x^2 + (-y)^3 \congruent[3] 2}$
+
+        % \item $\relmatrix{R_{\relindex}} = \begin{bsmallmatrix}
+        %     0 & 0 & 0 \\
+        %     0 & 0 & 0 \\
+        %     1 & 1 & 0 \\
+        % \end{bsmallmatrix}$
+    \end{subtasks}
     \end{multicols}
 
 
