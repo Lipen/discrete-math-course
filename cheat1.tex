@@ -1,0 +1,742 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=4mm,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeSingleHeader% {<l>}{<r>}
+    {\TextCheatsheetEng: Set Theory}
+    {\TextDiscreteMathEng, \IconFall~Fall 2021}
+% \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
+% \fancyhead[C]{\includegraphics[height=14pt,raise=-2pt,set height=0pt,set depth=0pt]{img/set-theory.pdf}}
+
+%% Add custom setup below
+
+\usepackage{venndiagram}
+
+% \titlespacing{\type}{left}{above}{below}[right]
+\titlespacing{\section}{0pt}{*1}{*0.5}
+\titlespacing{\subsection}{0pt}{*1}{*0.5}
+
+\setlength{\tabcolsep}{0pt}
+
+% \usepackage{showframe}
+% \renewcommand\ShowFrameLinethickness{0.1pt}
+% \renewcommand*\ShowFrameColor{\color{lightgray}}
+
+
+\begin{document}
+
+\section{Set Theory Cheatsheet}
+
+\subsection{Терминология и обозначения}
+
+\begin{terms}
+    \item \textbf{Множество} -- \emph{неупорядоченный} набор \emph{уникальных} элементов.
+    \hfill\href{https://en.wikipedia.org/wiki/Set_(mathematics)}{Set}
+
+    \item Множество может быть задано с помощью:
+    \begin{terms}
+        \item перечисления элементов: $\Set{a_1, a_2, \dotsc, a_n}$ -- множество, состоящее из $n$ элементов $a_1, a_2, \dotsc, a_n$.
+        \begin{terms}
+            \item Например, $\Set{\square, \Cat, 42}$ -- множество, содержащее квадрат, кошку (или кота) и число 42.
+            \hfill\href{https://ru.wikipedia.org/wiki/\%D0\%9E\%D1\%82\%D0\%B2\%D0\%B5\%D1\%82_\%D0\%BD\%D0\%B0_\%D0\%B3\%D0\%BB\%D0\%B0\%D0\%B2\%D0\%BD\%D1\%8B\%D0\%B9_\%D0\%B2\%D0\%BE\%D0\%BF\%D1\%80\%D0\%BE\%D1\%81_\%D0\%B6\%D0\%B8\%D0\%B7\%D0\%BD\%D0\%B8,_\%D0\%B2\%D1\%81\%D0\%B5\%D0\%BB\%D0\%B5\%D0\%BD\%D0\%BD\%D0\%BE\%D0\%B9_\%D0\%B8_\%D0\%B2\%D1\%81\%D0\%B5\%D0\%B3\%D0\%BE_\%D1\%82\%D0\%B0\%D0\%BA\%D0\%BE\%D0\%B3\%D0\%BE}{42}
+        \end{terms}
+
+        \item характеристического свойства: $\Set{x \given P(x)}$ -- множество элементов, обладающих \textbf{свойством} $P$.
+        \hfill\href{https://en.wikipedia.org/wiki/Predicate_(mathematical_logic)}{Predicate}
+        \begin{terms}
+            \item Например, $\Set{x \in \Natural \given \text{$x$ -- простое}}$ -- множество простых чисел.
+            \hfill\href{https://en.wikipedia.org/wiki/Prime_number}{Prime number}
+        \end{terms}
+    \end{terms}
+
+    \item $\emptyset = \Set{}$ -- \textbf{пустое} множество.
+    \hfill\href{https://en.wikipedia.org/wiki/Empty_set}{Empty set}
+
+    \item $\universalset$ -- \textbf{универсальное} множество (множество-\textbf{универсум}).
+    \hfill\href{https://en.wikipedia.org/wiki/Universal_set}{Universal set}
+
+    \item $x \in A$ -- элемент $x$ \textbf{принадлежит} множеству $A$.
+    \hfill\href{https://en.wikipedia.org/wiki/Element_(mathematics)}{Element}
+    \begin{terms}
+        \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
+            1 \in \Set{1,2,3}
+            & \square \in \Set{\triangle, \square, \circle}
+            & 1.25 \in \Rational
+            & 2 \in \Set{x \in \Natural \given \text{$x$ -- простое}}
+        \end{tabular}
+    \end{terms}
+
+    \item $x \notin A$ -- элемент $x$ \textbf{не принадлежит} множеству $A$.
+    \begin{terms}
+        \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
+            9 \notin \Set{1,2,3}
+            & \Cat \notin \Set{\triangle, \square, \circle}
+            & \pi \notin \Rational
+            & 42 \notin \Set{x \in \Natural \given \text{$x$ -- простое}}
+        \end{tabular}
+    \end{terms}
+
+    \item $A \subseteq B$ -- множество $A$ является \textbf{подмножеством} множества $B$, т.е. $\forall x \ldotp (x \in A \implies x \in B)$.
+    \hfill\href{https://en.wikipedia.org/wiki/Subset}{Subset}
+    \begin{terms}
+        \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
+            \Set{a, b} \subseteq \Set{a, b, c}
+            & \Set{\Set{5}} \subseteq \Set{7, \Set{5}}
+            & \Set{\square} \nsubseteq \Set{a, \circle, 9}
+            & \Set{42} \nsubseteq \Set{\Set{42}}
+        \end{tabular}
+    \end{terms}
+
+    \item $A \subset B$ -- множество $A$ является \textbf{строгим подмножеством} множества $B$, т.е. $A \subseteq B$ и $A \neq B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Subset\#\%E2\%8A\%82_and_\%E2\%8A\%83_symbols}{Strict subset}
+    \begin{terms}
+        \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
+            \Set{c} \subset \Set{a, b, c}
+            & \Set{7} \subset \Set{7, \Set{5}}
+            & \Set{\Cat} \not\subset \Set{a, \circle, 9}
+            & \Set{42} \not\subset \Set{42}
+        \end{tabular}
+    \end{terms}
+
+    \item $A = B$ -- множества $A$ и $B$ содержат одинаковые элементы, т.е. $\forall x \ldotp (x \in A \iff x \in B)$.
+    \hfill\href{https://en.wikipedia.org/wiki/Equality_(mathematics)\#Set_equality_based_on_first-order_logic_without_equality}{Equality}
+    \begin{terms}
+        \item \begin{tabular}{\ML{6cm} L}
+            \Set{\triangle, a, \Set{5}} = \Set{a, \Set{5}, \triangle}
+            & \Set{2, \Set{\square, \square, \square}, 2} = \Set{2, \Set{\square}}
+        \end{tabular}
+    \end{terms}
+\end{terms}
+
+
+\subsection{Операции над множествами}
+
+\begin{terms}
+    \item $\card{A}$ -- \textbf{мощность} множества $A$ (число элементов).
+    \hfill\href{https://en.wikipedia.org/wiki/Cardinality}{Cardinality}
+
+    \item $2^{A} = \mathcal{P}(A) = \Set{X \given X \subseteq A}$ -- \textbf{булеан} множества $A$ (множество всех подмножеств).
+    \hfill\href{https://en.wikipedia.org/wiki/Power_set}{Powerset}
+
+    \item $A \intersection B = \Set{x \given x \in A \land x \in B}$ -- \textbf{пересечение} множеств $A$ и $B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Intersection_(set_theory)}{Intersection}
+
+    \item $A \union B = \Set{x \given x \in A \lor x \in B}$ -- \textbf{объединение} множеств $A$ и $B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Union_(set_theory)}{Union}
+
+    \item $A \setminus B = A \intersection \overline{B} = \Set{x \given x \in A \;\land\; x \notin B}$ -- \textbf{разность} множеств $A$ и $B$ (дополнение $A$ до $B$).
+    \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)}{Set difference}
+
+    \item $\overline{A} = \universalset \setminus A = \Set{x \in \universalset \given x \notin A}$ -- \textbf{дополнение} (до универсума) множества $A$.
+    \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)}{Complement}
+
+    \item $A \symdiff B = (A \setminus B) \union (B \setminus A) = (A \union B) \setminus (A \intersection B)$ -- \textbf{симметрическая разность} множеств $A$ и $B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Symmetric_difference}{Symmetric difference}
+
+    \item $A \times B = \Set{(a, b) \given a \in A \;\land\; b \in B}$ -- \textbf{декартово произведение} множеств $A$ и $B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product}{Cartesian product}
+
+    \item $\underbrace{A_1 \times \ldots \times A_n}_{n \text{ sets}} = \Set{\underbracket{(a_1, \ldots, a_n)}_{n\text{-tuple}} \given a_i \in A_i,\; i \in [1; n]}$ -- \textbf{$n$-арное декартово произведение} множеств $A_1, \ldots, A_n$.
+
+    \item $A^n = \underbrace{A \times \ldots \times A}_{n \text{ раз}} = \Set{\underbracket{(a_1, \ldots, a_n)}_{n\text{-кортеж}} \given a_i \in A,\; i \in [1; n]}$\vspace{-4pt} -- \textbf{декартова степень} множества $A$.
+    \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product\#n-ary_Cartesian_power}{$n$-ary Cartesian power}
+
+    % \item $$
+\end{terms}
+
+
+\subsection{Некоторые свойства и законы}
+
+\begin{multicols}{2}
+\begin{terms}
+    \item Свойства операций над множествами ($\forall A$):
+
+    \begin{tabular}{L @{\hspace{1em}} L @{\hspace{1em}} L}
+        A \union \emptyset = A
+        & A \intersection \emptyset = \emptyset
+        & A \symdiff \emptyset = A \\
+        %
+        A \union \universalset = \universalset
+        & A \intersection \universalset = A
+        & A \symdiff \universalset = \overline{A} \\
+        %
+        A \union A = A
+        & A \intersection A = A
+        & A \symdiff A = \emptyset \\
+        %
+        A \union \overline{A} = \universalset
+        & A \intersection \overline{A} = \emptyset
+        & A \symdiff \overline{A} = \universalset \\
+        %
+        % \smash{\overline{\overline{A}}} = A
+        % \doverlinesmashed{A} = A
+        \doverline{A} = A
+        & \overline{\emptyset} = \universalset
+        & \overline{\universalset} = \emptyset \\
+        %
+        \card{\emptyset} = 0
+        & \card{2^{A}} = 2^{\card{A}}
+        & \card{A^{n}} = \card{A}^n \\
+        %
+        \card{\Natural} = \card{\Integer} = \card{\Rational} = \aleph_0
+        & \card{\Real} = \mathfrak{c} = \card{2^{\Natural}} = \beth_1
+        & \card{A \times B} = \card{A} \cdot \card{B} \\
+        %
+        \emptyset \subseteq A
+        & 2^{\emptyset} = \Set{\emptyset}
+        & A^0 = \Set{()} \\
+    \end{tabular}
+
+    \item Мистические законы:
+    \begin{terms}
+        \item $A \union (\overline{A} \intersection B) = A \union B$
+        \item $A \intersection (\overline{A} \union B) = A \intersection B$
+    \end{terms}
+
+    \item Законы поглощения:
+    \begin{terms}
+        \item $A \union (A \intersection B) = A \intersection (A \union B) = A$
+        % \item $A \union (A \intersection B) = A$
+        % \item $A \intersection (A \union B) = A$
+    \end{terms}
+
+    \item Законы де Моргана:
+    \hfill\href{https://en.wikipedia.org/wiki/De_Morgan\%27s_laws}{De Morgan's laws}
+    \begin{terms}
+        \item $\overline{A \union B} = \overline{A} \intersection \overline{B}$
+        \item $\overline{A \intersection B} = \overline{A} \union \overline{B}$
+    \end{terms}
+
+    \columnbreak
+
+    \item Транзитивные законы:
+    \hfill\href{https://en.wikipedia.org/wiki/Transitive_relation}{Transitive relation}
+    \begin{terms}
+        \item $(A \subset B) \land (B \subset C) \implies (A \subset C)$
+        \item $(A \subseteq B) \land (B \subseteq C) \implies (A \subseteq C)$
+        \item $(A = B) \land (B = C) \implies (A = C)$
+    \end{terms}
+
+    % \columnbreak
+
+    \item Коммутативные законы:
+    \hfill\href{https://en.wikipedia.org/wiki/Commutative_property}{Commutativity}
+    \begin{terms}
+        \item $A \union B = B \union A$
+        \item $A \intersection B = B \intersection A$
+        \item $A \symdiff B = B \symdiff A$
+        % \item $A \setminus B \neq B \setminus A$
+        % \item $A \times B \neq B \times A$
+    \end{terms}
+
+    \item Ассоциативные законы:
+    \hfill\href{https://en.wikipedia.org/wiki/Associative_property}{Associativity}
+    \begin{terms}
+        \item $A \union (B \union C) = (A \union B) \union C$
+        \item $A \intersection (B \intersection C) = (A \intersection B) \intersection C$
+        \item $A \symdiff (B \symdiff C) = (A \symdiff B) \symdiff C$
+        % \item $A \setminus (B \setminus C) \neq (A \setminus B) \setminus C$ \quad
+        % \item $A \times (B \times C) \neq (A \times B) \times C \neq A \times B \times C$
+    \end{terms}
+
+    \item Дистрибутивные законы:
+    \hfill\href{https://en.wikipedia.org/wiki/Distributive_property}{Distributivity}
+    \begin{terms}
+        \item $A \union (B \intersection C) = (A \union B) \intersection (A \union C)$
+        \item $A \intersection (B \union C) = (A \intersection B) \union (A \intersection C)$
+        \item $A \intersection (B \symdiff C) = (A \intersection B) \symdiff (A \intersection C)$
+        \item $A \times (B \union C) = (A \times B) \union (A \times C)$
+        \item $A \times (B \intersection C) = (A \times B) \intersection (A \times C)$
+        \item $A \times (B \setminus C) = (A \times B) \setminus (A \times C)$
+    \end{terms}
+\end{terms}
+% \end{minipage}
+\end{multicols}
+
+% \vspace{4cm} % Ensure page break
+
+
+\subsection{Диаграммы Венна%
+\texorpdfstring{\hfill\normalfont\href{https://en.wikipedia.org/wiki/Venn_diagram}{Venn diagram}}{}}
+
+% Definitions
+\def\firstcircle{(0,0) circle[radius=1]}
+\def\secondcircle{(1.2,0) circle[radius=1]}
+\newcommand\drawcircles[1][]{% [<style>]
+    \draw[outline,#1]
+        \firstcircle  node[left]  {$A$}
+        \secondcircle node[right] {$B$}; }
+\newcommand\drawuniverse[1][]{% [<style>]
+    \draw[universe,#1] (-1.1,-1.1) rectangle (2.3,1.6); }
+\newcommand\drawlabel[1]{% {<label>}
+    \node[above] at (current bounding box.north) {#1}; }
+
+\tikzset{
+    myvennstyle/.style={
+        scale=0.95,
+        universe/.style={draw=blue!70},
+        outline/.style={draw=blue!50, thick},
+        filled/.style={fill=blue!20},
+    },
+}
+
+\begin{figure}[H]
+\centering%
+\begin{tikzpicture}[myvennstyle]
+    \begin{scope}
+        \clip \firstcircle;
+        \fill[filled] \secondcircle;
+    \end{scope}
+    \drawcircles
+    \drawlabel{$A \intersection B$}
+    \drawuniverse
+\end{tikzpicture}%
+\hfill%
+\begin{tikzpicture}[myvennstyle]
+    \drawcircles[filled]
+    \drawlabel{$A \union B$}
+    \drawuniverse
+\end{tikzpicture}%
+\hfill%
+\begin{tikzpicture}[myvennstyle]
+    \drawcircles[filled,even odd rule]
+    \drawlabel{$A \symdiff B$}
+    \drawuniverse
+\end{tikzpicture}%
+\hfill%
+\begin{tikzpicture}[myvennstyle]
+    \begin{scope}
+        \clip \firstcircle;
+        \draw[filled,even odd rule]
+            \firstcircle
+            \secondcircle;
+    \end{scope}
+    \drawcircles
+    \drawlabel{$A \setminus B$}
+    \drawuniverse
+\end{tikzpicture}%
+\hfill%
+\begin{tikzpicture}[myvennstyle]
+    \begin{scope}
+        \clip \secondcircle;
+        \draw[filled,even odd rule]
+            \firstcircle
+            \secondcircle;
+    \end{scope}
+    \drawcircles
+    \drawlabel{$B \setminus A$}
+    \drawuniverse
+\end{tikzpicture}%
+\end{figure}
+
+\vspace{4pt plus 6pt}
+
+\begin{adjustbox}{valign=t, minipage=0.2\textwidth}
+    \begin{venndiagram3sets}[
+        tikzoptions={
+            scale=0.9,
+        },
+        labelOnlyA={$1$},
+        labelOnlyB={$2$},
+        labelOnlyC={$3$},
+        labelOnlyAB={$4$},
+        labelOnlyBC={$5$},
+        labelOnlyAC={$6$},
+        labelABC={$7$},
+        labelNotABC={$8$},
+        radius=1cm,
+        overlap=0.8cm,
+        vgap=0.2cm,
+        hgap=0.2cm
+    ]
+        \begin{scope}[blend mode=soft light]
+            \setkeys{venn}{shade=red!20}
+            \fillA
+            \setkeys{venn}{shade=green!20}
+            \fillB
+            \setkeys{venn}{shade=blue!20}
+            \fillC
+        \end{scope}
+    \end{venndiagram3sets}
+\\[16pt]
+    \begin{venndiagram3sets}[
+        tikzoptions={
+            remember picture,
+            scale=0.9,
+        },
+        labelOnlyA={$1$},
+        labelOnlyB={$2$},
+        labelOnlyC={$3$},
+        labelOnlyAB={$4$},
+        labelOnlyBC={$5$},
+        labelOnlyAC={$6$},
+        labelABC={$7$},
+        labelNotABC={$8$},
+        radius=1cm,
+        overlap=0.8cm,
+        vgap=0.2cm,
+        hgap=0.2cm
+    ]
+        \setkeys{venn}{shade=green!20}
+        \fillOnlyA
+        \fillACapBNotC
+        \fillACapCNotB
+        \fillNotABC
+        \setpostvennhook{
+            \coordinate (venn1) at (current bounding box.east);
+        }
+    \end{venndiagram3sets}
+\\[16pt]
+    \begin{venndiagram3sets}[
+        tikzoptions={
+            remember picture,
+            scale=0.9,
+        },
+        labelOnlyA={$1$},
+        labelOnlyB={$2$},
+        labelOnlyC={$3$},
+        labelOnlyAB={$4$},
+        labelOnlyBC={$5$},
+        labelOnlyAC={$6$},
+        labelABC={$7$},
+        labelNotABC={$8$},
+        radius=1cm,
+        overlap=0.8cm,
+        vgap=0.2cm,
+        hgap=0.2cm
+    ]
+        \setkeys{venn}{shade=green!20}
+        \fillOnlyA
+        \fillBCapCNotA
+        \fillACapCNotB
+        \setpostvennhook{
+            \coordinate (venn2) at (current bounding box.east);
+        }
+    \end{venndiagram3sets}
+\end{adjustbox}%
+\hfill%
+\begin{adjustbox}{valign=t, minipage=0.8\textwidth}
+    На предоставленной слева диаграмме Венна для трёх множеств $A$, $B$, $C$ и универсума~$\universalset$ области отмечены номерами.
+    Для заданного списка областей нарисуйте диаграмму Венна и составьте соответствующую формулу, используя термы $A$, $B$, $C$, $\overline{A}$, $\overline{B}$, $\overline{C}$ и операторы $\union$,~$\intersection$.
+
+    \begin{enumerate}[leftmargin=1pc, itemsep=4pt]
+        \item \(\begin{aligned}[t]
+            \smash[b]{\underbrace{\mathcal{S}(1,4,6,8)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn1);}}
+            &= \mathcal{S}(1,4,6) + \mathcal{S}(8) = {}
+            &\dslash\;& \text{\href{https://bit.ly/2nWtPaq}{Wolfram}} \;\dslash \\
+            %
+            &= \mathrlap{\begin{aligned}[t]
+                \dslash\;& \mathcal{S}(1,4,6) = \text{$A$ without $ABC$}, \\
+                & \mathcal{S}(8) = \text{outside of $(A+B+C)$} \;\dslash {}={} \\
+            \end{aligned}} \\
+            %
+            &= (A - ABC) + \overline{A+B+C} = {}
+            &\dslash\;& \text{правило: $A - B = A \overline{B}$)} \;\dslash \\
+            %
+            &= A\overline{ABC} + \overline{A+B+C} = {}
+            &\dslash\;& \text{два де Моргана} \;\dslash \\
+            %
+            &= A \cdot (\overline{A} + \overline{B} + \overline{C}) + \overline{A} \cdot \overline{B} \cdot \overline{C} = {}
+            &\dslash\;& \text{раскрываем скобку, сокращаем $A\overline{A} = \emptyset$} \;\dslash \\
+            %
+            &= \cancelto{\smash{\emptyset}}{A\overline{A}} + A\overline{B} + A\overline{C} + \overline{A} \cdot \overline{B} \cdot \overline{C} = {}
+            &\dslash\;& \text{выносим $\overline{B}$ за скобку} \;\dslash \\
+            %
+            &= \overline{B} \cdot (A + \overline{A} \cdot \overline{C}) + A\overline{C} = {}
+            &\dslash\;& \text{закон поглощения: $A + \overline{A}B = A + B$} \;\dslash \\
+            %
+            &= \overline{B} \cdot (A + \overline{C}) + A\overline{C} = {}
+            &\dslash\;& \text{раскрываем скобку} \;\dslash \\
+            %
+            &= \uwave{A \cdot \overline{B} + \overline{B} \cdot \overline{C} + A \cdot \overline{C}} \\
+        \end{aligned}\)
+
+        \item \(\begin{aligned}[t]
+            \smash[b]{\underbrace{\mathcal{S}(1,5,6)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn2);}} &= \mathcal{S}(1,6) + \mathcal{S}(5) = {}
+            &\dslash\;& \text{\href{https://bit.ly/2o3gmNT}{Wolfram}} \;\dslash \\
+            %
+            &= \mathrlap{\begin{aligned}[t]
+                \dslash\;& \mathcal{S}(1,6) = \text{$A$ without $AB$}, \\
+                & \mathcal{S}(5) = \text{$BC$ without $ABC$} \;\dslash {}={} \\
+            \end{aligned}} \\
+            %
+            &= (A - AB) + (BC - ABC) = {}
+            &\dslash\;& \text{правило: $A - B = A \overline{B}$)} \;\dslash \\
+            %
+            &= A\overline{AB} + BC\overline{ABC} = {}
+            &\dslash\;& \text{два де Моргана} \;\dslash \\
+            %
+            &= A \cdot (\overline{A} + \overline{B}) + BC \cdot (\overline{A} + \overline{B} + \overline{C}) = {}
+            &\dslash\;& \text{раскрываем скобку} \;\dslash \\
+            %
+            &= \cancelto{\smash{\emptyset}}{A\overline{A}} + A\overline{B} + \overline{A}BC + \cancelto{\smash{\emptyset}}{BC\overline{B}} + \cancelto{\smash{\emptyset}}{BC\overline{C}} = {}
+            &\dslash\;& \text{сокращаем $A\overline{A} = \emptyset$} \;\dslash \\
+            %
+            &= \uwave{A\overline{B} + \overline{A}BC} \\
+        \end{aligned}\)
+    \end{enumerate}
+\end{adjustbox}
+
+
+% \subsection{Диаграммы (круги) Эйлера%
+% \texorpdfstring{\hfill\normalfont\href{https://en.wikipedia.org/wiki/Euler_diagram}{Euler diagram}}{}}
+
+% \tikzset{
+%     myeulerstyle/.style={
+%         scale=0.7,
+%         colorA/.style={blue},
+%         colorB/.style={green},
+%         colorC/.style={red},
+%         % colorU/.style={black},
+%         colorU/.style={},
+%         colorAfill/.style={fill=blue!10},
+%         colorBfill/.style={fill=green!10},
+%         colorCfill/.style={fill=red!10},
+%         % colorUfill/.style={fill=gray!10},
+%         colorUfill/.style={},
+%     }
+% }
+
+% \adjustbox{valign=t}{\begin{minipage}{0.2\textwidth}%
+%     \begin{tikzpicture}[myeulerstyle]
+%         \coordinate (botleft) at (-1.7,-2.5);
+%         \coordinate (topright) at (3.4,2.5);
+%         \draw[colorUfill] (botleft) rectangle (topright);
+%         \draw[colorCfill] (0.8,0) circle[radius=2.2];
+%         \draw[colorBfill] (0.4,0) circle[radius=1.6];
+%         \draw[colorAfill] (0,0) circle[radius=1];
+%         \node at (0,0) {$A$};
+%         \node[right] at (1,0) {$B$};
+%         \node[right] at (2,0) {$C$};
+%         \node[below left] at (topright) {$\universalset$};
+%         \drawlabel{$A \subset B \subset C \subset \universalset$}
+%     \end{tikzpicture}
+% \end{minipage}}%
+% \hfill%
+% \begin{adjustbox}{valign=t,minipage=0.75\textwidth}
+%     Множества $A \subset B \subset C \subset \universalset$ возможно изобразить на отрезке, что позволит графически упрощать выражения, содержащие операцию пересечения ($\intersection$):
+
+%     \begin{adjustbox}{valign=t,minipage=0.32\textwidth}
+%         \begin{tikzpicture}[
+%             myeulerstyle,
+%             myline/.style={thick},
+%         ]
+%             \def\YA{-0.4}
+%             \def\YB{-1}
+%             \def\YC{-1.6}
+%             \def\YU{-2.2}
+%             \foreach \x/\s in {0/{\emptyset},1/a,2/b,3/c,4/\mathfrak{u}} {
+%                 \draw (\x,-0.1) -- (\x,0.1) node[above] {$\s$};
+%             }
+%             \draw[dashed]
+%                 (0,0) -- +(0,\YU)
+%                 ++(1,0) -- +(0,\YA)
+%                 ++(1,0) -- +(0,\YB)
+%                 ++(1,0) -- +(0,\YC)
+%                 ++(1,0) -- +(0,\YU)
+%             ;
+%             \draw[very thick] (0,0) -- (4,0);
+%             \draw[myline,colorA] (0,\YA) -- node[below] {$A$} (1,\YA);
+%             \draw[myline,colorB] (0,\YB) -- node[below] {$B$} (2,\YB);
+%             \draw[myline,colorC] (0,\YC) -- node[below] {$C$} (3,\YC);
+%             \draw[myline,colorU] (0,\YU) -- node[below] {$\universalset$} (4,\YU);
+%         \end{tikzpicture}
+%     \end{adjustbox}%
+%     \hfill%
+%     \begin{adjustbox}{valign=t,minipage=0.32\textwidth}
+%         \begin{tikzpicture}[
+%             myeulerstyle,
+%             myline/.style={thick},
+%         ]
+%             \def\YA{-0.4}
+%             \def\YB{-0.9}
+%             \def\YC{-1.4}
+%             \def\YU{-1.9}
+%             \foreach \x/\s in {0/{\emptyset},1/a,2/b,3/c,4/\mathfrak{u}} {
+%                 \draw (\x,-0.1) -- (\x,0.1) node[above] {$\s$};
+%             }
+%             \draw[dashed]
+%                 (0,0) -- +(0,\YC)
+%                 ++(1,0) -- +(0,\YA)
+%                 ++(1,0) -- +(0,\YB)
+%                 ++(1,0) -- +(0,\YC)
+%                 ++(1,0) -- +(0,\YB)
+%             ;
+%             \draw[very thick] (0,0) -- (4,0);
+%             \draw[myline,colorA] (1,\YA) -- node[below,pos=0.15] {$\overline{A}$} (4,\YA);
+%             \draw[myline,colorB] (2,\YB) -- node[below,pos=0.75] {$\overline{B}$} (4,\YB);
+%             \draw[myline,colorC] (0,\YC) -- node[below] {$C$} (3,\YC);
+%             \node[above] at (current bounding box.north) {$P = \overline{A} \intersection \overline{B} \intersection C = $};
+%         \end{tikzpicture}
+%     \end{adjustbox}%
+%     \hfill%
+%     \begin{adjustbox}{valign=t,minipage=0.32\textwidth}%
+%         \begin{tikzpicture}[
+%             %
+%         ]
+%             \draw (0,0) -- (1,1);
+%         \end{tikzpicture}
+%     \end{adjustbox}%
+% \end{adjustbox}
+
+
+\subsection{Декартово произведение множеств на плоскости \texorpdfstring{$\Real^2$}{R\string^2}%
+\texorpdfstring{\hfill\normalfont\href{https://en.wikipedia.org/wiki/Real_coordinate_space}{$\Real^2$ coordinate space}}{}}
+
+Декартово произведение двух множеств -- множество пар. Если представить, что такие пары -- элементы пространства~$\Real^2$ (точки на плоскости), то возможна следующая геометрическая интерпретация:
+
+\tikzset{
+    mycartesianstyle/.style={
+        % scale=0.95,
+        circ/.style={draw,solid,circle,inner sep=0pt,minimum size=4pt},
+        filled/.style={fill=blue!20},
+        alone/.style={circ,filled},
+        included/.style={circ,fill=black},
+        excluded/.style={circ,fill=white},
+    }
+}
+
+\begin{figure}[!htb]
+\centering
+\hfill%
+\begin{tikzpicture}[mycartesianstyle]
+    % Grid
+    \draw[help lines] (0,0) grid (5.7,4.7);
+    % X axis
+    \draw[-latex] (-0.3,0) -- (5.7,0) node[below] {$x$};
+    \foreach \x in {1,2,3,4,5} {
+        \draw (\x,0.1) -- (\x,-0.1) node[below] {\x};
+    }
+    % Y axis
+    \draw[-latex] (0,-0.3) -- (0,4.7) node[left] {$y$};
+    \foreach \x in {1,2,3,4} {
+        \draw (0.1,\x) -- (-0.1,\x) node[left] {\x};
+    }
+    % Zero label
+    \node[below left] (-0.1,-0.1) {0};
+    % Sideway A vector
+    \draw[thick,] (1,-0.7) node[included]{} -- node[below] {$A = [1; 4)$} (4,-0.7) node[excluded]{};
+    % Sideway B vector
+    \draw[thick] (-0.7,2) node[excluded]{} -- node[rotate=90,above,midway] {$B = (2; 4]$} (-0.7,4) node[included]{};
+    % Filling
+    \path[filled] (1,2) rectangle (4,4);
+    % Edges
+    \draw[thick]
+        (1,2)
+        --
+        (1,4) node[included]{}
+        --
+        (4,4)
+    ;
+    \draw[thick,dashed]
+        (1,2) node[excluded]{}
+        --
+        (4,2) node[excluded]{}
+        -- node[right,fill=white,outer sep=1pt] {$A \times B$}
+        (4,4) node[excluded]{}
+    ;
+    % Additional C^2 point
+    \draw[thick] (1,1) node[alone]{} node[right,xshift=2pt,fill=white] {$C^2 = \Set{(1,1)}$};
+    % Caption
+    \drawlabel{\smash[b]{$(A \times B) \union C^2 = \Bigl( [1; 4) \times (2; 4] \Bigr) \union \Set{1}^2$}};
+\end{tikzpicture}%
+\hfill%
+\begin{tikzpicture}[mycartesianstyle]
+    \def\Aleft{1}
+    \def\Aright{5}
+    \def\Bleft{1}
+    \def\Bright{4}
+    \def\Cleft{2}
+    \def\Cright{3}
+    \def\Dleft{2}
+    \def\Dright{3}
+    \def\Xside{-0.7}
+    \def\Xsidetwo{-1.4}
+    \def\Yside{-0.7}
+    \def\Ysidetwo{-1}
+    \def\axisovershoot{0.2}
+    % Grid
+    \draw[help lines] (0,0) grid (5.7,4.7);
+    % X axis
+    \draw[-latex] (-\axisovershoot,0) -- (5.7,0) node[below] {$x$};
+    \foreach \x in {1,2,3,4,5} {
+        \draw (\x,0.1) -- (\x,-0.1) node[below] {\x};
+    }
+    % Y axis
+    \draw[-latex] (0,-\axisovershoot) -- (0,4.7) node[left] {$y$};
+    \foreach \x in {1,2,3,4} {
+        \draw (0.1,\x) -- (-0.1,\x) node[left] {\x};
+    }
+    % Zero label
+    \node[below left] (-0.1,-0.1) {0};
+    % Sideway A vector
+    \draw[thick] (\Aleft,\Xside) node[excluded]{} -- node[below,pos=0.75] {$A = (\Aleft; \Aright]$} (\Aright,\Xside) node[included]{};
+    % Sideway B vector
+    \draw[thick] (\Xside,\Bleft) node[excluded]{} -- node[rotate=90,above] {$B = (\Bleft; \Bright]$} (\Xside,\Bright) node[included]{};
+    % Sideway C vector
+    \draw[thick,overlay] (\Cleft,\Ysidetwo) node[included]{} -- node[below] {$C = [\Cleft; \Cright]$} (\Cright,\Ysidetwo) node[included]{};
+    % Sideway D vector
+    \draw[thick] (\Xsidetwo,\Dleft) node[excluded]{} -- node[rotate=90,above] {$D = (\Dleft; \Dright)$} (\Xsidetwo,\Dright) node[excluded]{};
+    % Filling
+    \path[filled,even odd rule] (\Aleft,\Bleft) rectangle (\Aright,\Bright) (\Cleft,\Dleft) rectangle (\Cright,\Dright);
+    % Outer edges
+    \draw[thick]
+        (\Aleft,\Bright)
+        --
+        (\Aright,\Bright) node[included]{}
+        --
+        (\Aright,\Bleft)
+    ;
+    \draw[thick,dashed]
+        (\Aleft,\Bright) node[excluded]{}
+        --
+        (\Aleft,\Bleft) node[excluded]{}
+        -- node[below,fill=white,outer sep=1pt] {$A \times B$}
+        (\Aright,\Bleft) node[excluded]{}
+    ;
+    % Inner edges
+    \draw[thick]
+        (\Cleft,\Dleft)
+        --
+        (\Cright,\Dleft)
+        (\Cleft,\Dright)
+        -- node[above] {$C \times D$}
+        (\Cright,\Dright)
+    ;
+    \draw[thick,dashed]
+        (\Cleft,\Dleft) node[included]{}
+        --
+        (\Cleft,\Dright) node[included]{}
+        (\Cright,\Dleft) node[included]{}
+        --
+        (\Cright,\Dright) node[included]{}
+    ;
+    % Label
+    \node[rotate=50] at (3.9,2.5) {$(A \times B) \setminus (C \times D)$};
+    % Caption
+    \drawlabel{\smash[b]{$(A \times B) \setminus (C \times D) = \Bigl( (\Aleft; \Aright] \times (\Bleft; \Bright] \Bigr) \setminus \Bigl( [\Cleft; \Cright] \times (\Dleft; \Dright) \Bigr)$}};
+    % Dashed lines from sideway vectors onto the axes
+    % \begin{scope}[on background layer]
+    % \path[dashed,help lines] (\Aleft,\Yside) edge[bend left] (\Aleft,\Bleft);
+    % \path[dashed,help lines] (\Aright,\Yside) edge[bend left] (\Aright,\Bleft);
+    % \path[dashed,help lines] (\Xside,\Bleft) edge[bend left] (\Aleft,\Bleft);
+    % \path[dashed,help lines] (\Xside,\Bright) edge[bend left] (\Aleft,\Bright);
+    % \path[dashed,help lines] (\Cleft,\Ysidetwo) edge[bend left] (\Cleft,\Dleft);
+    % \path[dashed,help lines] (\Cright,\Ysidetwo) edge[bend left] (\Cright,\Dleft);
+    % \path[dashed,help lines] (\Xsidetwo,\Dleft) edge[bend right] (\Cleft,\Dleft);
+    % \path[dashed,help lines] (\Xsidetwo,\Dright) edge[bend left] (\Cleft,\Dright);
+    % \end{scope}
+\end{tikzpicture}%
+\hfill%
+\null%
+\end{figure}
+
+\end{document}

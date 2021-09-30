@@ -1,0 +1,528 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=4mm,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeSingleHeader% {<l>}{<r>}
+    {\TextCheatsheetEng: Binary Relations}
+    {\TextDiscreteMathEng, \IconFall~Fall 2021}
+% \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
+
+%% Add custom setup below
+
+% \titlespacing{\type}{left}{above}{below}[right]
+\titlespacing{\section}{0pt}{*1}{*0.5}
+\titlespacing{\subsection}{0pt}{*1}{*0.5}
+
+\setlength{\tabcolsep}{0pt}
+
+
+\begin{document}
+
+\setcounter{section}{1}
+\section{Binary Relations Cheatsheet}
+
+\subsection{Терминология и обозначения}
+
+\begin{terms}
+    \item $A \times B = \Set{\Pair{a,b} \given a \in A,~ b \in B}$ -- \textbf{декартово произведение} множеств $A$ и $B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product}{Cartesian product}
+
+    \item $A^2 = A \times A$ -- \textbf{декартов квадрат} множества $A$.
+    \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product\#n-ary_Cartesian_power}{Cartesian square}
+
+    \item $R \subseteq A \times B$ -- \textbf{бинарное отношение} $R$, определённое на паре множеств $A$ и $B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Binary_relation}{Binary relation}
+
+    \item $R \subseteq A^2$ -- (гомогенное) бинарное отношение на множестве $A$.
+    \hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation}{Homogeneous relation (endorelation)}
+
+    \item $a \rel b$ -- элементы $a$ и $b$ \textbf{находятся в отношении} $R$, т.е. $\Pair{a,b} \in R$.
+
+    % \item $\mathcal{E}_A = \emptyset$ -- \textbf{пустое} отношение.
+    % \hfill\href{http://mathonline.wikidot.com/the-empty-universal-and-identity-relations-on-a-set}{Empty relation}
+
+    % \item $\mathcal{I}_A = \Delta_A = \idrel{A} = \Set{(x,x) \given x \in A}$ -- \textbf{тождественное (диагональное)} отношение.
+    % \hfill\href{https://en.wikipedia.org/wiki/Identity_function}{Identity function}
+
+    % \item $\mathcal{U}_A = A^2 = \Set{(x,y) \given x,y \in A}$ -- \textbf{полное (универсальное)} отношение.
+    % \hfill\href{http://mathonline.wikidot.com/the-empty-universal-and-identity-relations-on-a-set}{Universal relation}
+
+    % \item $$
+\end{terms}
+
+
+\subsection{Некоторые свойства бинарных отношений}
+
+Возможные свойства гомогенного бинарного отношения $R \subseteq M^2$:
+\hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation#Properties}{Properties of homogeneous relations}
+
+\begin{tabular}{l @{\hspace{1em}} L @{\hspace{1em}} l}
+    \toprule
+    \thead{Свойство} & \thead{\text{Формальное определение}} & \thead{Отношение} \\
+    \midrule
+    Рефлексивность & \forall x \in M : x \rel x & \href{https://en.wikipedia.org/wiki/Reflexive_relation}{Reflexive} \\
+    Иррефлексивность & \forall x \in M : \neg (x \rel x) & \href{https://en.wikipedia.org/wiki/Irreflexive_relation}{Irreflexive} \\
+    Корефлексивность & \forall x,y \in M : (x \rel y) \implies (x = y) & \href{https://en.wikipedia.org/wiki/Coreflexive_relation}{Coreflexive} \\
+    Симметричность & \forall x,y \in M : (x \rel y) \implies (y \rel x) & \href{https://en.wikipedia.org/wiki/Symmetric_relation}{Symmetric} \\
+    Антисимметричность & \forall x,y \in M : (x \rel y) \land (y \rel x) \implies (x = y)) & \href{https://en.wikipedia.org/wiki/Antisymmetric_relation}{Antisymmetric} \\
+    Асимметричность & \forall x,y \in M : (x \rel y) \implies \neg (y \rel x) & \href{https://en.wikipedia.org/wiki/Asymmetric_relation}{Asymmetric} \\
+    Транзитивность & \forall x,y,z \in M : (x \rel y) \land (y \rel z) \implies (x \rel z) & \href{https://en.wikipedia.org/wiki/Transitive_relation}{Transitive} \\
+    Антитранзитивность & \forall x,y,z \in M : (x \rel y) \land (y \rel z) \implies \neg (x \rel z)) & \href{https://en.wikipedia.org/wiki/Antitransitive}{Antitransitive} \\
+    Евклидовость (правая) & \forall x,y,z \in M : (x \rel y) \land (x \rel z) \implies (y \rel z) & \href{https://en.wikipedia.org/wiki/Euclidean_relation}{Right Euclidean} \\
+    Евклидовость (левая) & \forall x,y,z \in M : (y \rel x) \land (z \rel x) \implies (y \rel z) & \href{https://en.wikipedia.org/wiki/Euclidean_relation}{Left Euclidean} \\
+    Связность & \forall x,y \in M : (x \neq y) \implies (x \rel y) \lor (y \rel x) & \href{https://en.wikipedia.org/wiki/Connected_relation}{Connex} \\
+    Связность (сильная) & \forall x,y \in M : (x \rel y) \lor (y \rel x) & \href{https://en.wikipedia.org/wiki/Connected_relation}{Strongly connected} \\
+    Плотность & \forall x,y \in M : (x \rel y) \implies \exists z \in M : (x \rel z) \land (z \rel y) & \href{https://en.wikipedia.org/wiki/Dense_relation}{Dense} \\
+    \bottomrule
+\end{tabular}
+
+\vspace{\baselineskip}
+
+Возможные свойства гетерогенного бинарного отношения $R \subseteq X \times Y$:
+\hfill\href{https://en.wikipedia.org/wiki/Binary_relation#Special_types_of_binary_relations}{Special types of binary relations}
+
+\begin{tabular}{l @{\hspace{1em}} L}
+    \toprule
+    \thead{Отношение} & \thead{\text{Формальное определение}} \\
+    \midrule
+    Injective (left-unique) & \forall x,z \in X, y \in Y : (x \rel y) \land (z \rel y) \implies (x = z) \\
+    Functional (right-unique) & \forall x \in X, y,z \in Y : (x \rel y) \land (x \rel z) \implies (y = z) \\
+    One-to-One & \text{Injective and Functional} \\
+    One-to-Many & \text{Injective and not Functional} \\
+    Many-to-One & \text{Not Injective and Functional} \\
+    Many-to-Many & \text{Not Injective and not Functional} \\
+    Serial (left-total) & \forall x \in X : \exists y \in Y : (x \rel y) \\
+    Surjective (right-total) & \forall y \in Y : \exists x \in X : (x \rel y) \\
+    \bottomrule
+\end{tabular}
+
+\vspace{\baselineskip}
+
+\begin{terms}
+    \item \textbf{Частичная функция} -- Functional бинарное отношение. Обозначается $f : X \pto Y$.
+    \hfill\href{https://en.wikipedia.org/wiki/Partial_function}{Partial function}
+
+    \item \textbf{Функция} -- Functional и Serial бинарное отношение. Обозначается $f : X \to Y$.
+    \hfill\href{https://en.wikipedia.org/wiki/Function_(mathematics)}{Function}
+\end{terms}
+
+
+\subsection{Отношения эквивалентности}
+
+\begin{terms}
+    \item \textbf{Отношение эквивалентности} -- рефлексивное, симметричное и транзитивное бинарное отношение.
+    % \hfill\href{https://en.wikipedia.org/wiki/Equivalence_relation}{Equivalence relation}
+
+    \item \textbf{Класс эквивалентности} элемента $x \in A$: $\equivclass{x} = \Set{y \in A \given x \rel y}$.
+    \hfill\href{https://en.wikipedia.org/wiki/Equivalence_class}{Equivalence class}
+
+    \item \textbf{Разбиение} (\textbf{Quotient set}) множества $A$ на классы эквивалентности: $\quotient[R]{A} = \equivclass{A} = \Set{\equivclass{x} \given x \in A}$.
+    \hfill\href{https://en.wikipedia.org/wiki/Equivalence_class}{Quotient set}
+\end{terms}
+
+
+\subsection{Отношения порядка}
+
+\begin{terms}
+    \item \textbf{Preorder} (\textbf{quasi-order}) -- \emph{reflexive} and \emph{transitive} relation.
+
+    \item \textbf{Partial order} -- \emph{reflexive}, \emph{antisymmetric} and \emph{transitive} relation.
+
+    \item \textbf{Total (linear) order} -- \emph{connex} partial order.
+
+    \item \textbf{Strict partial order} -- \emph{irreflexive}, \emph{antisymmetric} and \emph{transitive} relation.
+
+    \item \textbf{Strict total order} -- \emph{connex} strict partial order.
+\end{terms}
+
+% ? & \text{Each non-empty } S \subset M : S \text{ contains a minimal element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-founded_relation}{Well-founded} \\
+% Вполне упорядоченное & \text{Each non-empty } S \subset M \text{ contains the smallest element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-order}{Well-ordering} \\
+
+
+%% Ensure page break
+\newpage
+
+
+\subsection{Операции над отношениями}
+
+\begin{terms}
+    \item $R^{-1} = \Set{\Pair{b,a} \given \Pair{a,b} \in R} \subseteq B \times A$ -- отношение, \textbf{обратное} к $R \subseteq A \times B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Converse_relation}{Converse relation}
+
+    \item $\overline{R} = \Set{\Pair{a,b} \given \Pair{a,b} \notin R}$ -- \textbf{дополнение} отношения $R$.
+    \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)\#Complementary_relation}{Complementary relation}
+
+    \item $R_1 \circ R_2 = \Set{\Pair{x,y} \given \exists z : (x \rel[R_1] z) \land (z \rel[R_2] y)}$ -- \textbf{композиция} отношений $R_1$ и $R_2$.
+    \hfill\href{https://en.wikipedia.org/wiki/Composition_of_relations}{Composition of relations}
+    \begin{terms}
+        \item Если $R_1 \subseteq A \times B$ и $R_2 \subseteq B \times C$, то $R_1 \circ R_2 \subseteq A \times C$.
+
+        % \item Если $R = R_1 \circ R_2$, то $\forall x,y : (x \rel[R] y \iff \exists z : (x \rel[R_1] z \land z \rel[R_2] y))$.
+    \end{terms}
+
+    \item $R[M] = \Set{y \given \exists x \in M : x \rel y}$ -- \textbf{применение} отношения $R$ ко множеству $M$.
+
+    \item $R^{+} = R \union \idrel{A}$ -- \textbf{рефлексивное замыкание} отношения $R \subseteq A^2$.
+    \hfill\href{https://en.wikipedia.org/wiki/Reflexive_closure}{Reflexive closure}
+    \begin{terms}
+        \item If $R$ is a \emph{strict partial order} on $A$, then $R^{+} = R \union \idrel{A}$ is a \emph{partial order}.
+
+        \item If $R$ is a \emph{total strict order} on $A$, then $R^{+} = R \union \idrel{A}$ is a \emph{linear order}.
+
+        \item If $R$ is a \emph{partial order} on $A$, then $R^{-} = R \setminus \idrel{A}$ is a \emph{strict partial order}.
+
+        \item If $R$ is a \emph{linear order} on $A$, then $R^{-} = R \setminus \idrel{A}$ is a \emph{strict total order}.
+    \end{terms}
+
+    % R^{+}
+    \item $R \union \bigunionclap{n \in N, n > 0} R^n$ -- \textbf{транзитивное замыкание} отношения $R \subseteq A^2$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
+    \hfill\href{https://en.wikipedia.org/wiki/Transitive_closure}{Transitive closure}
+\end{terms}
+
+
+%% Ensure page break
+% \vspace{5cm}
+% \newpage
+
+
+\subsection{Матричное представление отношений}
+
+Любое бинарное отношение $R \subseteq A \times B$, определённое на паре множеств $A = \Set{a_1, \dotsc, a_n}$ и $B = \Set{b_1, \dotsc, b_m}$ может быть представлено в виде матрицы $\relmatrix{R}$ размера $n \times m$, элементы которой -- 0 или 1.
+% Будем обозначать матрицу отношения $R$ как $\relmatrix{R}$.
+% Если $(i,j)$-тый элемент матрицы равен 1, то соответствующие элементы $a_i$ и $b_j$ находятся в отношении $R$.
+\[
+    \relmatrix{R} = \begin{bmatrix} r_{i,j} \end{bmatrix}
+    \qquad
+    % ,\text{ где }
+    r_{i,j} = \begin{cases*}
+        1 & если $\Pair{a_i,b_j} \in R \iff a_i \rel b_j$ \\
+        0 & если $\Pair{a_i,b_j} \notin R \iff a_i \nrel b_j$
+    \end{cases*}
+\]
+
+Пусть $A$ -- множество. Матрица тождественного отношения $\idrel{A}$ -- единичная матрица; матрица полного отношения~$\universalrel{A}$ полностью составлена из 1:
+
+\[
+    \relmatrix{\idrel{A}} = \begin{bmatrix}
+        1 & 0 & \dots & 0 \\
+        0 & 1 & \dots & 0 \\
+        \hdotsfor[2]{4} \\
+        0 & 0 & \dots & 1
+    \end{bmatrix}
+    \qquad
+    \relmatrix{\universalrel{A}} = \begin{bmatrix}
+        1 & 1 & \dots & 1 \\
+        1 & 1 & \dots & 1 \\
+        \hdotsfor[2]{4} \\
+        1 & 1 & \dots & 1 \\
+    \end{bmatrix}
+\]
+
+% Ensure page break
+% \vspace{4cm}
+
+
+\newenvironment{mygridscope}[1]{% {<n>}
+    \let\oldn\n
+    \def\n{#1}
+
+    \newcommand\drawcell[2][]{% [<style>]{<pos>}
+        \draw[cell, ##1] (##2) rectangle +(1,1); }
+    \newcommand\drawcells[1]{% {<cell-macro>}
+        \foreach \i in {1,...,\n} {
+            \foreach \j in {1,...,\n} {
+                ##1
+            }
+        }
+    }
+    \newcommand\drawgrid[1][]{% [<style>]
+        \draw[grid, ##1] (0,0) grid (\n,\n); }
+    \newcommand\drawleftlabels[2][]{% [<style>]{<label-macro>}
+        \foreach \i in {1,...,\n} {
+            \node[leftlabel,##1] at (\i,0) {##2};
+        }
+    }
+    \newcommand\drawtoplabels[2][]{% [<style>]{<label-macro>}
+        \foreach \i in {1,...,\n} {
+            \node[toplabel,##1] at (0,\i) {##2};
+        }
+    }
+
+    \begin{scope}[yshift=\n cm, rotate=-90]
+    \begin{scope}[xshift=-0.5cm, yshift=-0.5cm]
+    \begin{scope}[mygrid]
+}{
+    \end{scope}
+    \end{scope}
+    \end{scope}
+    \let\n\oldn
+}
+
+\newcommand\drawlabelnorth[1]{% {<label>}
+    \node[above,align=center] at (current bounding box.north) {#1};
+}
+\newcommand\drawlabelsouth[1]{% {<label>}
+    \node[below,align=center] at (current bounding box.south) {#1};
+}
+
+% myrotate/.style={rotate=#1, nodes={rotate=#1}}
+\tikzstyle{mymatrixstyle}=[
+    scale=0.5,
+    font=\small,
+    mygrid/.style={
+        % rotate=-45,
+        % myrotate=-45,
+    },
+    % baseline={([yshift=-0.6ex]current bounding box.center)},
+    cell/.style={ % Style for each cell
+        draw=none,
+        fill=none,
+        % fill opacity=0.2,
+        xshift=-0.5cm,
+        yshift=-0.5cm,
+    },
+    grid/.style={ % Style for the actual grid
+        xshift=0.5cm,
+        yshift=0.5cm,
+    },
+    mylabel/.style={
+        % overlay,
+    },
+    leftlabel/.style={
+        mylabel,
+    },
+    toplabel/.style={
+        mylabel,
+    },
+]
+\tikzstyle{mymatrixlegendstyle}=[
+    mymatrixstyle,
+    baseline={([yshift=-0.6ex]base)},
+]
+
+\def\matrixsize{4}
+
+Пусть $R \subseteq M^2$ -- бинарное отношение, определённое на множестве $M = \Set{m_1, \dotsc, m_{\matrixsize}}$.
+Примеры матриц отношений, обладающих некоторыми свойствами:
+
+\begin{table}[!h]
+\centering
+\begin{tabular}[t]{ c *{2}{@{\hspace{1cm}} c} }
+    \begin{tikzpicture}[mymatrixstyle]
+        \begin{mygridscope}{\matrixsize}
+            \drawcells{
+                \ifthenelse{\i = \j}{
+                    \drawcell[fill=blue!20]{\i,\j}
+                    \node at (\i,\j) {1};
+                }{
+                    \node at (\i,\j) {$\cdot$};
+                }
+            }
+            \drawgrid
+            \drawleftlabels{$m_{\i}$}
+            \drawtoplabels{$m_{\i}$}
+        \end{mygridscope}
+        \drawlabelnorth{Reflexive \\ $\forall x \in M : x \rel x$}
+    \end{tikzpicture}
+&
+    \begin{tikzpicture}[mymatrixstyle]
+        \begin{mygridscope}{\matrixsize}
+            \drawcells{
+                \ifthenelse{\i = \j}{
+                    \drawcell[fill=blue!20]{\i,\j}
+                    \node at (\i,\j) {0};
+                }{
+                    \node at (\i,\j) {$\cdot$};
+                }
+            }
+            \drawgrid
+            \drawleftlabels{$m_{\i}$}
+            \drawtoplabels{$m_{\i}$}
+        \end{mygridscope}
+        \drawlabelnorth{Irreflexive \\ $\forall x \in M : \neg (x \rel x)$}
+    \end{tikzpicture}
+&
+    \begin{tikzpicture}[mymatrixstyle]
+        \begin{mygridscope}{\matrixsize}
+            \drawcells{
+                \ifthenelse{\i = \j}{
+                    \drawcell[fill=blue!20]{\i,\j}
+                    \node at (\i,\j) {$\cdot$};
+                }{
+                    \drawcell[fill=red!20]{\i,\j}
+                    \node at (\i,\j) {0};
+                }
+            }
+            \drawgrid
+            \drawleftlabels{$m_{\i}$}
+            \drawtoplabels{$m_{\i}$}
+        \end{mygridscope}
+        \drawlabelnorth{Coreflexive \\ $\mathclap{\forall x,y \in M : (x \rel y) \implies (x = y)}$}
+    \end{tikzpicture}
+\\[8pt]
+    \begin{tikzpicture}[mymatrixstyle]
+        \begin{mygridscope}{\matrixsize}
+            \drawcells{
+                \ifthenelse{\i = \j}{
+                    \drawcell[fill=blue!20]{\i,\j}
+                    \node at (\i,\j) {$\cdot$};
+                }{\ifthenelse{\i > \j}{
+                    \pgfmathsetmacro{\v}{random(0,1)}
+                    \ifthenelse{\v = 1}{
+                        \drawcell[fill=green!20]{\i,\j}
+                        \drawcell[fill=green!20]{\j,\i}
+                    }{
+                        \drawcell[fill=red!20]{\i,\j}
+                        \drawcell[fill=red!20]{\j,\i}
+                    }
+                    \node at (\i,\j) {$\v$};
+                    \node at (\j,\i) {$\v$};
+                }{}}
+            }
+            \drawgrid
+            \drawleftlabels{$m_{\i}$}
+            \drawtoplabels{$m_{\i}$}
+        \end{mygridscope}
+        \drawlabelnorth{Symmetric \\ $\forall x,y \in M :$ \\ $(x \rel y) \implies (y \rel x)$}
+    \end{tikzpicture}
+&
+    \begin{tikzpicture}[mymatrixstyle]
+        \begin{mygridscope}{\matrixsize}
+            \drawcells{
+                \ifthenelse{\i = \j}{
+                    \drawcell[fill=blue!20]{\i,\j}
+                    \node at (\i,\j) {$\cdot$};
+                }{\ifthenelse{\i > \j}{
+                    \pgfmathsetmacro{\v}{random(0,1)}
+                    \ifthenelse{\v = 1}{
+                        \drawcell[fill=green!20]{\i,\j}
+                        \drawcell[fill=red!20]{\j,\i}
+                        \node (\i-\j) at (\i,\j) {1};
+                        \node (\j-\i) at (\j,\i) {0};
+                    }{
+                        \drawcell[fill=red!20]{\i,\j}
+                        \node at (\i,\j) {0};
+                        \node at (\j,\i) {$\cdot$};
+                    }
+                }{}}
+            }
+            \drawgrid
+            \drawleftlabels{$m_{\i}$}
+            \drawtoplabels{$m_{\i}$}
+        \end{mygridscope}
+        \drawlabelnorth{Antisymmetric \\ $\forall x,y \in M :$ \\ $\mathclap{(x \rel y) \land (y \rel x) \implies (x = y)}$}
+    \end{tikzpicture}
+&
+    \begin{tikzpicture}[mymatrixstyle]
+        \begin{mygridscope}{\matrixsize}
+            \drawcells{
+                \ifthenelse{\i = \j}{
+                    \drawcell[fill=blue!20]{\i,\j}
+                    \node at (\i,\j) {0};
+                }{\ifthenelse{\i > \j}{
+                    \pgfmathsetmacro{\v}{random(0,1)}
+                    \ifthenelse{\v = 1}{
+                        \drawcell[fill=green!20]{\i,\j}
+                        \drawcell[fill=red!20]{\j,\i}
+                        \node at (\i,\j) {1};
+                        \node at (\j,\i) {0};
+                    }{
+                        \drawcell[fill=red!20]{\i,\j}
+                        \node at (\i,\j) {0};
+                        \node at (\j,\i) {$\cdot$};
+                    }
+                }{}}
+            }
+            \drawgrid
+            \drawleftlabels{$m_{\i}$}
+            \drawtoplabels{$m_{\i}$}
+        \end{mygridscope}
+        \drawlabelnorth{Asymmetric \\ $\forall x,y \in M :$ \\ $(x \rel y) \implies \neg (y \rel x)$}
+    \end{tikzpicture}
+\end{tabular}
+\end{table}
+
+\textbf{Легенда:}
+
+\begingroup
+\setcellgapes[t]{4pt}
+\makegapedcells
+\begin{tabular}{ r @{~---~} l }
+    \begin{tikzpicture}[mymatrixlegendstyle]
+        \coordinate (base) at (0,0.5);
+        \begin{mygridscope}{1}
+            \drawcell[fill=green!20]{1,1}
+            \node at (1,1) {1};
+            \drawgrid
+            \drawleftlabels{$m_{i}$}
+            \drawtoplabels{$m_{j}$}
+        \end{mygridscope}
+    \end{tikzpicture}
+    & $m_i$ и $m_j$ находятся в отношении $R$, т.е. $m_i \rel m_j$
+\\
+    \begin{tikzpicture}[mymatrixlegendstyle]
+        \coordinate (base) at (0,0.5);
+        \begin{mygridscope}{1}
+            \drawcell[fill=red!20]{1,1}
+            \node at (1,1) {0};
+            \drawgrid
+            \drawleftlabels{$m_i$}
+            \drawtoplabels{$m_j$}
+        \end{mygridscope}
+    \end{tikzpicture}
+    & $m_i$ и $m_j$ не находятся в отношении $R$, т.е. $m_i \nrel m_j$
+\\
+    \begin{tikzpicture}[mymatrixlegendstyle]
+        \coordinate (base) at (0,0.5);
+        \begin{mygridscope}{1}
+            \node at (1,1) {$\cdot$};
+            \drawgrid
+            \drawleftlabels{$m_i$}
+            \drawtoplabels{$m_j$}
+        \end{mygridscope}
+    \end{tikzpicture}
+    & $m_i$ и $m_j$ могут находиться в отношении $R$, а могут и не находиться
+\end{tabular}
+\endgroup
+
+
+% \subsection{Графовое представление отношений}
+
+% Любое бинарное отношение $R \subseteq A \times B$, определённое на паре множеств $A$ и $B$ может быть представлено в виде ориентированного графа $G = \Pair{V,E}$, где $V = A \union B$ -- множество вершин, $E = R$ -- множество направленных рёбер.
+
+% \vspace{5mm}
+% % \begin{adjustbox}{cframe=red}
+% \begin{tikzpicture}[>=stealth]
+%     \node[draw,circle] (v3) at (0,0) {3};
+%     \node[draw,circle] (v1) [above right of=v3] {1};
+%     \node[draw,circle] (v2) [below right of=v3] {2};
+%     \node[draw,circle] (v4) [right of=v2] {4};
+%     \node[draw,circle] (v5) [right of=v1] {5};
+
+%     \path[->]
+%         (v1) edge[out=-45, in=-135] (v5)
+%         (v5) edge[out=135, in=45] (v1)
+%         (v2) edge[out=-45, in=-135] (v4)
+%         (v4) edge[out=135, in=45] (v2)
+%         (v3) edge[out=120, in=60, looseness=4] (v3)
+%     ;
+
+%     \drawlabelnorth{$A = \Set{1,\dotsc,5},\quad R \subseteq A^2$ \\ $a \rel b \iff a + b \equiv 1 \pmod{5}$}
+% \end{tikzpicture}
+% % \end{adjustbox}
+
+
+% \subsection{Функциональные отношения}
+
+% ...
+
+
+\end{document}
