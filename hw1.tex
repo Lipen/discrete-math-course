@@ -1,0 +1,126 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{mypreamble}
+
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=4mm,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
+    {\TextHomeworkRus~\#1}
+    {Теория множеств}
+    {\TextDiscreteMathRus}
+    {\IconFall~Осень 2021}
+
+%% Add custom setup below
+
+
+\begin{document}
+\begin{tasks}
+    \item Определите истинность заданных утверждений.
+    Считайте, что $a \neq b$ -- урэлементы.
+
+    \begin{multicols}{3}
+    \begin{subtasks}
+        \item $a \in \Set{\Set{a}, b}$
+        \item $a \in \Set{a, \Set{b}}$
+        \item $\Set{a} \in \Set{a, \Set{a}}$
+        \item $\Set{a} \subset \Set{a, b}$
+        \item $\Set{a} \subseteq \Set{\Set{a}, \Set{b}}$
+        \item $\Set{\Set{a}} \subset \Set{\Set{a}, \Set{a, b}}$
+        \item $\Set{\Set{a}, b} \subseteq \Set{a, \Set{a, b}, \Set{b}}$
+        \item $\emptyset \in \emptyset$
+        \item $\emptyset \subseteq \emptyset$
+        \item $\emptyset \subset \emptyset$
+        \item $\emptyset \in \Set{\emptyset}$
+        \item $\emptyset \subseteq \Set{\Set{\emptyset}}$
+        \item $\Set{\emptyset, \emptyset} \subset \Set{\emptyset}$
+        \item $\Set{\Set{\emptyset}} \subset \Set{\Set{\emptyset}, \Set{\emptyset}}$
+        \item $a \in 2^{\Set{a}}$
+        \item $2^{\Set{a, \emptyset}} \subset 2^{\Set{a, b, \emptyset}}$
+        \item $\Set{a, b} \subseteq 2^{\Set{a, b}}$
+        \item $\Set{a, a} \in 2^{\Set{a, a}}$
+        \item $\Set{\Set{a}, \emptyset} \subseteq 2^{\Set{a, a}}$
+        \item $\Set{a, \Set{a}} \subset 2^{\Set{a, 2^{\Set{a}}}}$
+        \item $\Set{\Set{a, \Set{\emptyset}}} \subseteq 2^{\Set{a, 2^{\emptyset}}}$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Дано множество-универсум\footnotemark{} $\universalset = \Set{1, 2, \ldots, 10}$ и его подмножества:
+    \footnotetext{Здесь под универсумом имеется в виду множество доступных урэлементов. Считайте, что $\overline{A} = \universalset \setminus A$.}%
+    $A = \Set{x \given x \text{ -- чётное}}$,
+    $B = \Set{x {\given} x \text{ -- простое\footnotemark}}$,
+    $C = \Set{2, 4, 7, 9}$.
+    \footnotetext{Считайте, что 1 \href{https://letmegooglethat.com/?q=is+1+a+prime+number?}{не является} простым числом.}%
+    Нарисуйте диаграмму Венна и найдите:
+
+    \begin{multicols}{3}
+    \begin{subtasks}
+        \item $B \symdiff (A \intersection C)$
+        \item $\smash{\overline{B} \setminus (A \symdiff C)}$
+        \item $\smash{\overline{A \union C} \union (C \symdiff B)}$
+        \item $\smash{\card{\Set{A \union B \union 2^{\emptyset} \union 2^{\universalset}}}}$
+        \item $\smash{(2^{A} \intersection 2^{C}) \setminus 2^{B}}$
+        \item $\smash{2^{B \intersection C} \setminus \Set{2^{\card{2^{\Set{\emptyset}}}}, \card{\overline{B \intersection C}}}}$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Даны следующие множества\footnotemark:
+    \footnotetext{$\square$ -- самый обыкновенный квадрат, $\Cat$ -- самый обыкновенный кот.}
+
+    \begin{multicols}{3}
+    \begin{items}
+        \item $A = \Set{1, 2, 4}$
+        \item $B = \Set{\square, \Cat} \union \emptyset$
+        \item $C = 2^\emptyset \setminus \Set{\emptyset}$
+        \item $D = \Set{\Cat, \card{2^{\Set{\emptyset, C}}}}$
+        \item $E = 2^{A \setminus D} \intersection 2^{\Set{\card{B \setminus D}}}$
+        \item $\mathrlap{F = 2^{\Set{
+            \Set{\emptyset, \emptyset} \setminus \Set{\Set{\emptyset}},
+            \Set{\emptyset} \symdiff C,
+            \Set{\emptyset, C},
+            2^{\emptyset}
+        }}}$
+    \end{items}
+    \end{multicols}
+
+    Найти:
+
+    \begin{multicols}{3}
+    \begin{subtasks}
+        \item $A \symdiff D$
+        \item $E \symdiff 2^{C}$
+        \item $B \times E$
+        \item $E \times 2^{B}$
+        \item $D^{\card{C}}$
+        \item $F^3$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Пусть $A = \Set{3, \card{B}}$, $B = \Set{1, \card{A}, \card{B}}$.
+    Найдите, чему равны множества $A$ и $B$.
+
+
+    \item Изобразите на графиках $\Real^2$ следующие множества точек:
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $\Set{1,2,3} \times [1; 3]$
+        \item $[1; 4) \times (2; 4] \setminus \Set{\Pair{2, 3}}$
+        \item $([1; 6] \times (1; 5]) \setminus ([4; 5] \times (2; 4))$
+        \item $\Set{\Pair{x, y} \in [1; 5] \times [1; 4] \given (y > x) \lor (x \geq 4)}$
+        \item $\Set{\Pair{x, y} \in (1;5]^2 \given 4(x-2)^2 + 9(y-3)^2 \leq 36}$
+        \item $\Set{\Pair{x, y} \in \Natural^2 \given \exists z \in \Natural : x^3 + y^3 = z^3}$
+    \end{subtasks}
+    \end{multicols}
+
+    % \item \ldots
+\end{tasks}
+
+\end{document}
