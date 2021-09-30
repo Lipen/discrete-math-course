@@ -1,5 +1,6 @@
-## Ignore tests and quests
+## Ignore tests, homeworks and quests
 test*
+hw*
 quest*
 
 ## Extra ignore
