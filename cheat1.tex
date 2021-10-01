@@ -86,7 +86,7 @@
         \end{tabular}
     \end{terms}
 
-    \item $A \subseteq B$ -- множество $A$ является \textbf{подмножеством} множества $B$, т.е. $\forall x \ldotp (x \in A \implies x \in B)$.
+    \item $A \subseteq B$ -- множество $A$ является \textbf{подмножеством} множества $B$, т.е. $\forall x : x \in A \implies x \in B$.
     \hfill\href{https://en.wikipedia.org/wiki/Subset}{Subset}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
@@ -98,7 +98,7 @@
     \end{terms}
 
     \item $A \subset B$ -- множество $A$ является \textbf{строгим подмножеством} множества $B$, т.е. $A \subseteq B$ и $A \neq B$.
-    \hfill\href{https://en.wikipedia.org/wiki/Subset\#\%E2\%8A\%82_and_\%E2\%8A\%83_symbols}{Strict subset}
+    \hfill\href{https://en.wikipedia.org/wiki/Strict_subset}{Strict subset}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
             \Set{c} \subset \Set{a, b, c}
@@ -108,8 +108,8 @@
         \end{tabular}
     \end{terms}
 
-    \item $A = B$ -- множества $A$ и $B$ содержат одинаковые элементы, т.е. $\forall x \ldotp (x \in A \iff x \in B)$.
-    \hfill\href{https://en.wikipedia.org/wiki/Equality_(mathematics)\#Set_equality_based_on_first-order_logic_without_equality}{Equality}
+    \item $A = B$ -- множества $A$ и $B$ содержат одинаковые элементы, т.е. $\forall x : x \in A \iff x \in B$.
+    \hfill\href{https://en.wikipedia.org/wiki/Axiom_of_extensionality}{Extensionality}
     \begin{terms}
         \item \begin{tabular}{\ML{6cm} L}
             \Set{\triangle, a, \Set{5}} = \Set{a, \Set{5}, \triangle}
@@ -143,13 +143,13 @@
     \item $A \symdiff B = (A \setminus B) \union (B \setminus A) = (A \union B) \setminus (A \intersection B)$ -- \textbf{симметрическая разность} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Symmetric_difference}{Symmetric difference}
 
-    \item $A \times B = \Set{(a, b) \given a \in A \;\land\; b \in B}$ -- \textbf{декартово произведение} множеств $A$ и $B$.
+    \item $A \times B = \Set{\Pair{a, b} \given a \in A,\; b \in B}$ -- \textbf{декартово произведение} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product}{Cartesian product}
 
-    \item $\underbrace{A_1 \times \ldots \times A_n}_{n \text{ sets}} = \Set{\underbracket{(a_1, \ldots, a_n)}_{n\text{-tuple}} \given a_i \in A_i,\; i \in [1; n]}$ -- \textbf{$n$-арное декартово произведение} множеств $A_1, \ldots, A_n$.
+    \item $\underbrace{A_1 \times \ldots \times A_n}_{n \text{ sets}} = \Set{\underbracket{\Tuple{a_1, \ldots, a_n}}_{n\text{-tuple}} \given a_i \in A_i,\; i \in [1; n]}$ -- \textbf{$n$-арное декартово произведение} множеств $A_1, \ldots, A_n$.
 
-    \item $A^n = \underbrace{A \times \ldots \times A}_{n \text{ раз}} = \Set{\underbracket{(a_1, \ldots, a_n)}_{n\text{-кортеж}} \given a_i \in A,\; i \in [1; n]}$\vspace{-4pt} -- \textbf{декартова степень} множества $A$.
-    \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product\#n-ary_Cartesian_power}{$n$-ary Cartesian power}
+    \item $A^n = \underbrace{A \times \ldots \times A}_{n \text{ раз}} = \Set{\underbracket{\Tuple{a_1, \ldots, a_n}}_{n\text{-кортеж}} \given a_i \in A,\; i \in [1; n]}$\vspace{-4pt} -- \textbf{декартова степень} множества $A$.
+    \hfill\href{https://en.wikipedia.org/wiki/Tuple}{Tuple}
 
     % \item $$
 \end{terms}
@@ -646,7 +646,7 @@
         (4,4) node[excluded]{}
     ;
     % Additional C^2 point
-    \draw[thick] (1,1) node[alone]{} node[right,xshift=2pt,fill=white] {$C^2 = \Set{(1,1)}$};
+    \draw[thick] (1,1) node[alone]{} node[right,xshift=2pt,fill=white] {$C^2 = \Set{\Pair{1,1}}$};
     % Caption
     \drawlabel{\smash[b]{$(A \times B) \union C^2 = \Bigl( [1; 4) \times (2; 4] \Bigr) \union \Set{1}^2$}};
 \end{tikzpicture}%
