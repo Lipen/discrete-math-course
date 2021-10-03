@@ -108,24 +108,22 @@
 
 
     %% Task: Explore the Jaccard index.
-    \item Let $R_{\theta}$ be a relation of $\theta$-similarity of finite sets defined as follows\footnotemark{}: $A \rel[R_{\theta}] B \iff \Jac(A,B) \geq \theta$, where $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ is a Jaccard index.
-    \footnotetext{A set $A$ is said to be $\theta$-similar to $B$ \textit{iff} the Jaccard index $\Jac(A,B)$ for these sets is at least $\theta$. Obviously, $\theta \in [0; 1] \subseteq \Real$.}
+    \item Let $R_{\theta}$ be a relation of $\theta$-similarity of finite sets defined as follows\footnote{A set $A$ is said to be $\theta$-similar to $B$ \textit{iff} the Jaccard index $\Jac(A,B)$ for these sets is at least $\theta$. Obviously, $\theta \in [0; 1] \subseteq \Real$.}: $A \rel[R_{\theta}] B \iff \Jac(A,B) \geq \theta$, where $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ is a Jaccard index.
 
     \begin{subtasks}
+        \item Draw the graph of a relation $R_{\theta} \subseteq \Set{A_i}^2$, where $\theta = 0.25$, $A_1 = \Set{1,2,5,6}$, $A_2 = \Set{2,3,4,5,7,9}$, $A_3 = \Set{1,4,5,6}$, $A_4 = \Set{3,7,9}$, $A_5 = \Set{1,5,6,8,9}$.
         \item Determine whether $\theta$-similarity is a tolerance relation.
         \item Determine whether $\theta$-similarity is an equivalence relation.
     \end{subtasks}
 
 
-    %% Task: Explore the quotient set.
-    \item Let $X = \Set{x, \square, 42, \Cat}$.
-    A homogeneous relation $R$ over $\powerset{X}$ if defined as follows: $A \rel B \iff \card{A} =\nobreak \card{B}$.
-    % Show that $R$ is an equivalence relation.
-    % Find the quotient set of $\powerset{X}$ by $R$.
+    %% Task: Explore the equinumerosity relation and quotient set.
+    \item An equinumerosity relation $R$ over sets if defined as follows: $A \rel B \iff \card{A} =\nobreak \card{B}$.
+    % Let $X = \Set{b, \square, 42, \Cat}$.
 
     \begin{subtasks}
         \item Show that $R$ is an equivalence relation.
-        \item Find the quotient set of $\powerset{X}$ by $R$.
+        \item Find the quotient set of $\powerset{\Set{a,b,c,d}}$ by $R$.
     \end{subtasks}
 
 
@@ -134,13 +132,13 @@
     Consider a divisibility relation $R \subseteq H^2$ defined as follows: $x \!\rel\!\nobreak y \iff y \divby\nobreak x$.
 
     \begin{subtasks}
-        \item Sort $R$ (as a set of pairs) lexicographically.
+        \item Sort $R$ (as a set of pairs) lexicographically\footnote{Lexicographic order for pairs: $\Pair{a,b} \preceq \Pair{a',b'} \iff (a < a') \lor ((a = a') \land (b \leq b'))$}.
 
         \item Show that $R$ is a partial order.
 
         \item Determine whether $R$ is a linear (total) order.
 
-        \item Draw the Hasse diagram for a \textit{graded poset} $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank.
+        \item Draw the Hasse diagram for a \textit{graded poset} $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank (bottom-up).
 
         \item Find the minimal, minimum (least), maximal and maximum (greatest) elements in the poset~$\Pair{H, R}$.
         If there are multiple or none, explain why.
