@@ -371,12 +371,12 @@
 %% Two dots for integer intervals: [1..C] = [1 \dd C]
 % \newcommand{\twodots}{\mathinner{\ldotp\ldotp}}
 \newcommand\twodots{\mathinner{..}}
-\let\dd\twodots
+% \let\dd\twodots
 
 %% Range operation [low .. high]
 % Note: outer {}-braces ensure non-breakable range
 \newcommand\Range[2]{% {<low>}{<high>}
-    {[#1 \dd #2]}}
+    {[#1 \twodots #2]}}
 
 %% Boolean vector
 \newcommand\boolvec[1]{\Bool^{\card{#1}}}
