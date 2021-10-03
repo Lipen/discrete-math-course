@@ -30,7 +30,7 @@
 
 %% Jaccard index
 \newcommand{\Jac}{%
-    \mathbf{Jac}}
+    \mathrm{Jac}}
 
 %% Colors for the prime factorization
 \colorlet{my-green}{green!60!black}
@@ -40,8 +40,8 @@
 \begin{document}
 \selectlanguage{english}
 \begin{tasks}
-    %% Task: Check properties of relations
-    \item For each given relation $R_i$ over $M = \Set{1,2,3}$, determine whether it is \textit{reflexive}, \textit{irreflexive}, \textit{coreflexive}, \textit{symmetric}, \textit{antisymmetric}, \textit{asymmetric}, \textit{transitive}, \textit{antitransitive}, \textit{connex}, \textit{right/left Euclidean}, \textit{dense}.
+    %% Task: Check properties of relations.
+    \item For each given set $M_i$ and relation $R_i \subseteq M^2$, determine whether it is \textit{reflexive}, \textit{irreflexive}, \textit{coreflexive}, \textit{symmetric}, \textit{antisymmetric}, \textit{asymmetric}, \textit{transitive}, \textit{antitransitive}, \textit{connex}, \textit{right/left Euclidean}, \textit{dense}.
     Organize your answer in a table (\eg columns \--- relations, rows \--- properties).
 
     \newcommand{\myindex}{\arabic{subtasksi}}
@@ -51,7 +51,10 @@
         \item $M_{\myindex} = \Real$ \\
         $x \rel[R_{\myindex}] y \iff \abs{x - y} \leq 1$
 
-        \item $M_{\myindex} = \Set{a,b,c,d}$,
+        \item $M_{\myindex} = \powerset{\Set{a,b,c}}$ \\
+        $R_{\myindex} = \mathenquote{\subseteq}$
+
+        \item $M_{\myindex} = \Set{a,b,c,d}$\quad
         $\relmatrix{R_{\myindex}} = \begin{bsmallmatrix}
             0 & 1 & 0 & 1 \\
             0 & 0 & 0 & 1 \\
@@ -61,9 +64,6 @@
 
         \item $M_{\myindex} = \Set{\text{\enquote{rock}}, \text{\enquote{scissors}}, \text{\enquote{paper}}}$ \\
         $R_{\myindex} = \Set{\Pair{x,y} \given x \text{ beats } y}$
-
-        \item $M_{\myindex} = \powerset{\Set{a,b,c}}$ \\
-        $R_{\myindex} = \mathenquote{\subseteq}$
 
         % \item $R_{\relindex} = \Set{\Pair{1,1}, \Pair{2,2}, \Pair{3,3}}$
 
@@ -92,8 +92,8 @@
     \end{multicols}
 
 
-    %% Task: Proof some statements
-    \item Proof or disproof the following statements about the binary relations $R$ and $S$:
+    %% Task: Proof some statements about relation properties.
+    \item Proof (rigorously) or disproof (by providing a counterexample) the following statements about arbitrary homogeneous relations $R$ and $S$:
 
     \begin{multicols}{2}
     \begin{subtasks}
@@ -107,19 +107,29 @@
     \end{multicols}
 
 
-    %% Task: Find the quotient set
+    %% Task: Explore the Jaccard index.
+    \item Let $R_{\theta}$ be a relation of $\theta$-similarity of finite sets defined as follows\footnotemark{}: $A \rel[R_{\theta}] B \iff \Jac(A,B) \geq \theta$, where $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ is a Jaccard index.
+    \footnotetext{A set $A$ is said to be $\theta$-similar to $B$ \textit{iff} the Jaccard index $\Jac(A,B)$ for these sets is at least $\theta$. Obviously, $\theta \in [0; 1] \subseteq \Real$.}
+
+    \begin{subtasks}
+        \item Determine whether $\theta$-similarity is a tolerance relation.
+        \item Determine whether $\theta$-similarity is an equivalence relation.
+    \end{subtasks}
+
+
+    %% Task: Explore the quotient set.
     \item Let $X = \Set{x, \square, 42, \Cat}$.
     A homogeneous relation $R$ over $\powerset{X}$ if defined as follows: $A \rel B \iff \card{A} =\nobreak \card{B}$.
-    Show that~$R$ is an equivalence relation.
-    Find the quotient set of~$\powerset{X}$ by~$R$.
+    % Show that $R$ is an equivalence relation.
+    % Find the quotient set of $\powerset{X}$ by $R$.
+
+    \begin{subtasks}
+        \item Show that $R$ is an equivalence relation.
+        \item Find the quotient set of $\powerset{X}$ by $R$.
+    \end{subtasks}
 
 
-    %% Task: Get used to the Jaccard index
-    \item Let $R$ be a relation of $\theta$-similarity defined as follows: $A \rel B \iff \Jac(A,B) \ge \theta$, where $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ is a Jaccard index.
-    Determine whether $\theta$-similarity is an equivalence relation.
-
-
-    %% Task: Explore the divisibility relation
+    %% Task: Explore the divisibility relation.
     \item Let $H = \Set{1, 2, 4, 5, 10, 12, 20}$.
     Consider a divisibility relation $R \subseteq H^2$ defined as follows: $x \!\rel\!\nobreak y \iff y \divby\nobreak x$.
 
@@ -128,15 +138,16 @@
 
         \item Show that $R$ is a partial order.
 
-        \item Draw the Hasse diagram for a \textit{graded poset} $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank.
-
         \item Determine whether $R$ is a linear (total) order.
+
+        \item Draw the Hasse diagram for a \textit{graded poset} $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank.
 
         \item Find the minimal, minimum (least), maximal and maximum (greatest) elements in the poset~$\Pair{H, R}$.
         If there are multiple or none, explain why.
 
         % \item Perform a topological sort of the poset $\Pair{H, R}$.
     \end{subtasks}
+
 
     % \item Show that the transitive closure of $R$ is in fact transitive.
 
