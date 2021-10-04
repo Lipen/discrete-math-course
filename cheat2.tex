@@ -209,14 +209,55 @@
 
     \item \textbf{Строгий линейный (полный) порядок} --- \emph{связный} строгий частичный порядок.
     \hfill\href{https://en.wikipedia.org/wiki/Total_order#Strict_total_order}{Strict total order}
+
+\centerline{\rule{0.4\textwidth}{.2pt}}
+
+    \item \textbf{Частично упорядоченное множество} --- упорядоченная пара  $\Pair{M,R}$, где $M$ -- произвольное множество, $R \subseteq M^2$ -- отношение \textit{частичного порядка} на $M$.
+    \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set}{Poset (partially ordered set)}
+
+    % \item TODO: minimal/maximal element
+    % \item TODO: least/greatest element
+
+    \item \textbf{Диаграмма Хассе} --- способ визуализации частично упорядоченного множества $\Pair{M,R}$ в виде графа. Вершины такого графа -- элементы множества~$M$. Ребро (изображается направленным вверх) из $x$ в~$y$ соответствует тому, что $y$ \href{https://en.wikipedia.org/wiki/Covering_relation}{\enquote{покрывает}} $x$, то есть: $x \lessdot y \iff x R y \land \nexists z: (x R z \land z R y)$.
+    \hfill\href{https://en.wikipedia.org/wiki/Hasse_diagram}{Hasse diagram}
 \end{terms}
+
+% \begin{tikzpicture}[
+%     frontline/.style={
+%         preaction={draw=white,-,line width=4pt},
+%     },
+%     inner sep=2pt,
+% ]
+%     \def\hgap{10mm}
+%     \def\vgap{8mm}
+%     \node (empty) at (0,0)          {$\emptyset$};
+%     \node (a)   at (-\hgap,\vgap)   {$\Set{a}$};
+%     \node (b)   at (0,\vgap)        {$\Set{b}$};
+%     \node (c)   at (\hgap,\vgap)    {$\Set{c}$};
+%     \node (ab)  at (-\hgap,2*\vgap) {$\Set{a,b}$};
+%     \node (ac)  at (0,2*\vgap)      {$\Set{a,c}$};
+%     \node (bc)  at (\hgap,2*\vgap)  {$\Set{b,c}$};
+%     \node (abc) at (0,3*\vgap)      {$\Set{a,b,c}$};
+%     \draw (empty) -- (a);
+%     \draw (empty) -- (b);
+%     \draw (empty) -- (c);
+%     \draw (a) -- (ab);
+%     \draw (a) -- (ac);
+%     \draw (c) -- (ac);
+%     \draw (c) -- (bc);
+%     \draw[frontline] (b) -- (ab);
+%     \draw[frontline] (b) -- (bc);
+%     \draw (ab) -- (abc);
+%     \draw (ac) -- (abc);
+%     \draw (bc) -- (abc);
+% \end{tikzpicture}
 
 % ? & \text{Each non-empty } S \subset M : S \text{ contains a minimal element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-founded_relation}{Well-founded} \\
 % Вполне упорядоченное & \text{Each non-empty } S \subset M \text{ contains the smallest element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-order}{Well-ordering} \\
 
 
-%% Ensure page break
-% \newpage
+% Ensure page break
+\newpage
 
 
 \subsection{Некоторые свойства гетерогенных бинарных отношений}
