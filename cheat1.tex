@@ -26,6 +26,9 @@
 
 \usepackage{venndiagram}
 
+\usepackage{witharrows}
+
+% %% Show page layout
 % \usepackage{showframe}
 % \renewcommand\ShowFrameLinethickness{0.1pt}
 % \renewcommand*\ShowFrameColor{\color{lightgray}}
@@ -430,60 +433,61 @@
     Для заданного списка областей нарисуйте диаграмму Венна и составьте соответствующую формулу, используя термы $A$, $B$, $C$, $\overline{A}$, $\overline{B}$, $\overline{C}$ и операторы $\union$,~$\intersection$.
 
     \begin{enumerate}[leftmargin=1pc, itemsep=4pt]
-        \item \(\begin{aligned}[t]
+        \item \(\begin{WithArrows}[more-columns,command-name=Explain,group]
             \smash[b]{\underbrace{\mathcal{S}(1,4,6,8)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn1);}}
             &= \mathcal{S}(1,4,6) + \mathcal{S}(8) = {}
-            &\dslash\;& \text{\href{https://bit.ly/2nWtPaq}{Wolfram}} \;\dslash \\
+            ~\dslash\; \text{\href{https://bit.ly/2nWtPaq}{Wolfram}} \;\dslash \\
             %
-            &= \mathrlap{\begin{aligned}[t]
+            &= \begin{aligned}[t]
                 \dslash\;& \mathcal{S}(1,4,6) = \text{$A$ without $ABC$}, \\
                 & \mathcal{S}(8) = \text{outside of $(A+B+C)$} \;\dslash {}={} \\
-            \end{aligned}} \\
+            \end{aligned} \\
             %
             &= (A - ABC) + \overline{A+B+C} = {}
-            &\dslash\;& \text{правило: $A - B = A \overline{B}$)} \;\dslash \\
+            \Explain{правило: $A - B = A \overline{B}$)} \\
             %
             &= A\overline{ABC} + \overline{A+B+C} = {}
-            &\dslash\;& \text{два де Моргана} \;\dslash \\
+            \Explain{два де Моргана} \\
             %
             &= A \cdot (\overline{A} + \overline{B} + \overline{C}) + \overline{A} \cdot \overline{B} \cdot \overline{C} = {}
-            &\dslash\;& \text{раскрываем скобку, сокращаем $A\overline{A} = \emptyset$} \;\dslash \\
+            \Explain{раскрываем скобку, сокращаем $A\overline{A} = \emptyset$} \\
             %
             &= \cancelto{\smash{\emptyset}}{A\overline{A}} + A\overline{B} + A\overline{C} + \overline{A} \cdot \overline{B} \cdot \overline{C} = {}
-            &\dslash\;& \text{выносим $\overline{B}$ за скобку} \;\dslash \\
+            \Explain{выносим $\overline{B}$ за скобку} \\
             %
             &= \overline{B} \cdot (A + \overline{A} \cdot \overline{C}) + A\overline{C} = {}
-            &\dslash\;& \text{закон поглощения: $A + \overline{A}B = A + B$} \;\dslash \\
+            \Explain{закон поглощения: $A + \overline{A}B = A + B$} \\
             %
             &= \overline{B} \cdot (A + \overline{C}) + A\overline{C} = {}
-            &\dslash\;& \text{раскрываем скобку} \;\dslash \\
+            \Explain{раскрываем скобку} \\
             %
-            &= \uwave{A \cdot \overline{B} + \overline{B} \cdot \overline{C} + A \cdot \overline{C}} \\
-        \end{aligned}\)
+            &= \uwave{A \cdot \overline{B} + \overline{B} \cdot \overline{C} + A \cdot \overline{C}}
+        \end{WithArrows}\)
 
-        \item \(\begin{aligned}[t]
-            \smash[b]{\underbrace{\mathcal{S}(1,5,6)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn2);}} &= \mathcal{S}(1,6) + \mathcal{S}(5) = {}
-            &\dslash\;& \text{\href{https://bit.ly/2o3gmNT}{Wolfram}} \;\dslash \\
+        \item \(\begin{WithArrows}[more-columns,command-name=Explain,group]
+            \smash[b]{\underbrace{\mathcal{S}(1,5,6)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn2);}}
+            &= \mathcal{S}(1,6) + \mathcal{S}(5) = {}
+            ~\dslash\; \text{\href{https://bit.ly/2o3gmNT}{Wolfram}} \;\dslash \\
             %
-            &= \mathrlap{\begin{aligned}[t]
+            &= \begin{aligned}[t]
                 \dslash\;& \mathcal{S}(1,6) = \text{$A$ without $AB$}, \\
                 & \mathcal{S}(5) = \text{$BC$ without $ABC$} \;\dslash {}={} \\
-            \end{aligned}} \\
+            \end{aligned} \\
             %
             &= (A - AB) + (BC - ABC) = {}
-            &\dslash\;& \text{правило: $A - B = A \overline{B}$)} \;\dslash \\
+            \Explain{правило: $A - B = A \overline{B}$)} \\
             %
             &= A\overline{AB} + BC\overline{ABC} = {}
-            &\dslash\;& \text{два де Моргана} \;\dslash \\
+            \Explain{два де Моргана} \\
             %
             &= A \cdot (\overline{A} + \overline{B}) + BC \cdot (\overline{A} + \overline{B} + \overline{C}) = {}
-            &\dslash\;& \text{раскрываем скобку} \;\dslash \\
+            \Explain{раскрываем скобку} \\
             %
             &= \cancelto{\smash{\emptyset}}{A\overline{A}} + A\overline{B} + \overline{A}BC + \cancelto{\smash{\emptyset}}{BC\overline{B}} + \cancelto{\smash{\emptyset}}{BC\overline{C}} = {}
-            &\dslash\;& \text{сокращаем $A\overline{A} = \emptyset$} \;\dslash \\
+            \Explain{сокращаем $A\overline{A} = \emptyset$} \\
             %
-            &= \uwave{A\overline{B} + \overline{A}BC} \\
-        \end{aligned}\)
+            &= \uwave{A\overline{B} + \overline{A}BC}
+        \end{WithArrows}\)
     \end{enumerate}
 \end{adjustbox}
 
