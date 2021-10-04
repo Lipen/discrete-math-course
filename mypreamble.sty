@@ -347,7 +347,7 @@
 
 %% Partial function arrow with stroke
 \makeatletter
-\@ifpackageloaded{libertinust1math}{%
+\@ifpackageloaded{libertinust1math}{
     % Just use symbol from libertinust1math (symbol)
     \DeclareMathSymbol{\pto}{\mathrel}{symbols}{"4E}
 }{
@@ -362,8 +362,13 @@
 \makeatother
 
 %% Double forward slash
-% \newcommand\dslash{/\mkern-6mu/}
-\newcommand\dslash{/\mkern-3mu/}
+\makeatletter
+\@ifpackageloaded{libertinust1math}{
+    \newcommand\dslash{/\mkern-3mu/}
+}{
+    \newcommand\dslash{/\mkern-5mu/}
+}
+\makeatother
 
 %% 1-multicolumn shortcut
 \newcommand\mc[2][c]{\multicolumn{1}{#1}{#2}}
