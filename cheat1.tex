@@ -127,9 +127,20 @@
 \begin{terms}
     \item $\card{A}$ -- \textbf{мощность} множества $A$ (число элементов).
     \hfill\href{https://en.wikipedia.org/wiki/Cardinality}{Cardinality}
+    \begin{terms}
+        \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{4cm} L}
+            \card{\Set{4,\square,d}} = 3
+            & \card{\Set{1,9,9,9,1}} = 2
+            & \card{\Set{\Set{a,b,c}, \Set{3,5,9}}} = 2
+            & \card{\Set{1,\Set{2,3,4,5}}} = 2
+        \end{tabular}
+    \end{terms}
 
     \item $2^{A} = \mathcal{P}(A) = \Set{X \given X \subseteq A}$ -- \textbf{булеан} множества $A$ (множество всех подмножеств).
     \hfill\href{https://en.wikipedia.org/wiki/Power_set}{Powerset}
+    \begin{terms}
+        \item $\powerset{\Set{1,\square,\emptyset}} = \Set{\emptyset, ~\Set{1}, \Set{\square}, \Set{\emptyset}, ~\Set{1,\square}, \Set{1,\emptyset}, \Set{\square,\emptyset}, ~\Set{1,\square,3}}$
+    \end{terms}
 
     \item $A \intersection B = \Set{x \given x \in A \land x \in B}$ -- \textbf{пересечение} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Intersection_(set_theory)}{Intersection}
@@ -200,73 +211,77 @@
         & A^0 = \Set{()} \\
     \end{tabular}
 
+    \columnbreak
+
+    \item Законы де Моргана:
+    \hfill\href{https://en.wikipedia.org/wiki/De_Morgan's_laws}{De Morgan's laws}
+    \begin{terms}
+        \item $\overline{A \union B} = \overline{A} \intersection \overline{B}$
+        \item $\overline{A \intersection B} = \overline{A} \union \overline{B}$
+    \end{terms}
+
+    \item Законы поглощения:
+    \hfill\href{https://en.wikipedia.org/wiki/Absorption_law}{Absorption law}
+    \begin{terms}
+        % \item $A \union (A \intersection B) = A \intersection (A \union B) = A$
+        \item $A \union (A \intersection B) = A$
+        \item $A \intersection (A \union B) = A$
+    \end{terms}
+
     \item Мистические законы:
     \begin{terms}
         \item $A \union (\overline{A} \intersection B) = A \union B$
         \item $A \intersection (\overline{A} \union B) = A \intersection B$
     \end{terms}
 
-    \item Законы поглощения:
-    \begin{terms}
-        \item $A \union (A \intersection B) = A \intersection (A \union B) = A$
-        % \item $A \union (A \intersection B) = A$
-        % \item $A \intersection (A \union B) = A$
-    \end{terms}
-
-    \item Законы де Моргана:
-    \hfill\href{https://en.wikipedia.org/wiki/De_Morgan\%27s_laws}{De Morgan's laws}
-    \begin{terms}
-        \item $\overline{A \union B} = \overline{A} \intersection \overline{B}$
-        \item $\overline{A \intersection B} = \overline{A} \union \overline{B}$
-    \end{terms}
-
-    \columnbreak
-
-    \item Транзитивные законы:
-    \hfill\href{https://en.wikipedia.org/wiki/Transitive_relation}{Transitive relation}
-    \begin{terms}
-        \item $(A \subset B) \land (B \subset C) \implies (A \subset C)$
-        \item $(A \subseteq B) \land (B \subseteq C) \implies (A \subseteq C)$
-        \item $(A = B) \land (B = C) \implies (A = C)$
-    \end{terms}
-
     % \columnbreak
 
-    \item Коммутативные законы:
-    \hfill\href{https://en.wikipedia.org/wiki/Commutative_property}{Commutativity}
-    \begin{terms}
-        \item $A \union B = B \union A$
-        \item $A \intersection B = B \intersection A$
-        \item $A \symdiff B = B \symdiff A$
-        % \item $A \setminus B \neq B \setminus A$
-        % \item $A \times B \neq B \times A$
-    \end{terms}
+    % \item Транзитивные законы:
+    % \hfill\href{https://en.wikipedia.org/wiki/Transitive_relation}{Transitive relation}
+    % \begin{terms}
+    %     \item $(A \subset B) \land (B \subset C) \implies (A \subset C)$
+    %     \item $(A \subseteq B) \land (B \subseteq C) \implies (A \subseteq C)$
+    %     \item $(A = B) \land (B = C) \implies (A = C)$
+    % \end{terms}
 
-    \item Ассоциативные законы:
-    \hfill\href{https://en.wikipedia.org/wiki/Associative_property}{Associativity}
-    \begin{terms}
-        \item $A \union (B \union C) = (A \union B) \union C$
-        \item $A \intersection (B \intersection C) = (A \intersection B) \intersection C$
-        \item $A \symdiff (B \symdiff C) = (A \symdiff B) \symdiff C$
-        % \item $A \setminus (B \setminus C) \neq (A \setminus B) \setminus C$ \quad
-        % \item $A \times (B \times C) \neq (A \times B) \times C \neq A \times B \times C$
-    \end{terms}
+    % % \columnbreak
 
-    \item Дистрибутивные законы:
-    \hfill\href{https://en.wikipedia.org/wiki/Distributive_property}{Distributivity}
-    \begin{terms}
-        \item $A \union (B \intersection C) = (A \union B) \intersection (A \union C)$
-        \item $A \intersection (B \union C) = (A \intersection B) \union (A \intersection C)$
-        \item $A \intersection (B \symdiff C) = (A \intersection B) \symdiff (A \intersection C)$
-        \item $A \times (B \union C) = (A \times B) \union (A \times C)$
-        \item $A \times (B \intersection C) = (A \times B) \intersection (A \times C)$
-        \item $A \times (B \setminus C) = (A \times B) \setminus (A \times C)$
-    \end{terms}
+    % \item Коммутативные законы:
+    % \hfill\href{https://en.wikipedia.org/wiki/Commutative_property}{Commutativity}
+    % \begin{terms}
+    %     \item $A \union B = B \union A$
+    %     \item $A \intersection B = B \intersection A$
+    %     \item $A \symdiff B = B \symdiff A$
+    %     % \item $A \setminus B \neq B \setminus A$
+    %     % \item $A \times B \neq B \times A$
+    % \end{terms}
+
+    % \item Ассоциативные законы:
+    % \hfill\href{https://en.wikipedia.org/wiki/Associative_property}{Associativity}
+    % \begin{terms}
+    %     \item $A \union (B \union C) = (A \union B) \union C$
+    %     \item $A \intersection (B \intersection C) = (A \intersection B) \intersection C$
+    %     \item $A \symdiff (B \symdiff C) = (A \symdiff B) \symdiff C$
+    %     % \item $A \setminus (B \setminus C) \neq (A \setminus B) \setminus C$ \quad
+    %     % \item $A \times (B \times C) \neq (A \times B) \times C \neq A \times B \times C$
+    % \end{terms}
+
+    % \item Дистрибутивные законы:
+    % \hfill\href{https://en.wikipedia.org/wiki/Distributive_property}{Distributivity}
+    % \begin{terms}
+    %     \item $A \union (B \intersection C) = (A \union B) \intersection (A \union C)$
+    %     \item $A \intersection (B \union C) = (A \intersection B) \union (A \intersection C)$
+    %     \item $A \intersection (B \symdiff C) = (A \intersection B) \symdiff (A \intersection C)$
+    %     \item $A \times (B \union C) = (A \times B) \union (A \times C)$
+    %     \item $A \times (B \intersection C) = (A \times B) \intersection (A \times C)$
+    %     \item $A \times (B \setminus C) = (A \times B) \setminus (A \times C)$
+    % \end{terms}
 \end{terms}
-% \end{minipage}
 \end{multicols}
 
-% \vspace{4cm} % Ensure page break
+
+%% Ensure page break
+\newpage
 
 
 \subsection{Диаграммы Венна%
