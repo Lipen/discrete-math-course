@@ -221,39 +221,113 @@
     % \item TODO: minimal/maximal element
     % \item TODO: least/greatest element
 
-    \item \textbf{Диаграмма Хассе} --- способ визуализации частично упорядоченного множества $\Pair{M,R}$ в виде графа. Вершины такого графа -- элементы множества~$M$. Ребро (изображается направленным вверх) из $x$ в~$y$ соответствует тому, что $y$ \href{https://en.wikipedia.org/wiki/Covering_relation}{\enquote{покрывает}} $x$, то есть: $x \lessdot y \iff x R y \land \nexists z: (x R z \land z R y)$.
+    \item \textbf{Диаграмма Хассе} --- способ визуализации частично упорядоченного множества $\Pair{M,R}$ в виде графа, вершины которого -- элементы множества~$M$, а ребро (изображается направленным вверх) из $x$ в~$y$ соответствует тому, что $y$ \href{https://en.wikipedia.org/wiki/Covering_relation}{\enquote{покрывает}} $x$, то есть: $x \lessdot y \iff x R y \land \nexists z: (x R z \land z R y)$.
     \hfill\href{https://en.wikipedia.org/wiki/Hasse_diagram}{Hasse diagram}
+    % Fun stuff:
+    % http://blog.ezyang.com/2010/12/hussling-haskell-types-into-hasse-diagrams/
 \end{terms}
 
-% \begin{tikzpicture}[
-%     frontline/.style={
-%         preaction={draw=white,-,line width=4pt},
-%     },
-%     inner sep=2pt,
-% ]
-%     \def\hgap{10mm}
-%     \def\vgap{8mm}
-%     \node (empty) at (0,0)          {$\emptyset$};
-%     \node (a)   at (-\hgap,\vgap)   {$\Set{a}$};
-%     \node (b)   at (0,\vgap)        {$\Set{b}$};
-%     \node (c)   at (\hgap,\vgap)    {$\Set{c}$};
-%     \node (ab)  at (-\hgap,2*\vgap) {$\Set{a,b}$};
-%     \node (ac)  at (0,2*\vgap)      {$\Set{a,c}$};
-%     \node (bc)  at (\hgap,2*\vgap)  {$\Set{b,c}$};
-%     \node (abc) at (0,3*\vgap)      {$\Set{a,b,c}$};
-%     \draw (empty) -- (a);
-%     \draw (empty) -- (b);
-%     \draw (empty) -- (c);
-%     \draw (a) -- (ab);
-%     \draw (a) -- (ac);
-%     \draw (c) -- (ac);
-%     \draw (c) -- (bc);
-%     \draw[frontline] (b) -- (ab);
-%     \draw[frontline] (b) -- (bc);
-%     \draw (ab) -- (abc);
-%     \draw (ac) -- (abc);
-%     \draw (bc) -- (abc);
-% \end{tikzpicture}
+\begin{center}
+\begin{tabular}{@{} c @{}}
+    % \begin{adjustbox}{cframe=red}
+    \begin{tikzpicture}[
+        mynode/.style={
+            inner sep=2pt,
+        },
+        arrow/.style={
+            ->,
+            >={Latex[round,open]},
+        },
+        frontline/.style={
+            preaction={draw=white,-,line width=4pt},
+        },
+    ]
+        \def\hgap{12mm}
+        \def\vgap{10mm}
+        \node[mynode] (empty) at (0,0)            {$\emptyset$};
+        \node[mynode] (a)     at (-\hgap,\vgap)   {$\Set{a}$};
+        \node[mynode] (b)     at (0,\vgap)        {$\Set{b}$};
+        \node[mynode] (c)     at (\hgap,\vgap)    {$\Set{c}$};
+        \node[mynode] (ab)    at (-\hgap,2*\vgap) {$\Set{a,b}$};
+        \node[mynode] (ac)    at (0,2*\vgap)      {$\Set{a,c}$};
+        \node[mynode] (bc)    at (\hgap,2*\vgap)  {$\Set{b,c}$};
+        \node[mynode] (abc)   at (0,3*\vgap)      {$\Set{a,b,c}$};
+        \draw[arrow] (empty) -- (a);
+        \draw[arrow] (empty) -- (b);
+        \draw[arrow] (empty) -- (c);
+        \draw[arrow] (a) -- (ab);
+        \draw[arrow] (a) -- (ac);
+        \draw[arrow] (c) -- (ac);
+        \draw[arrow] (c) -- (bc);
+        \draw[arrow,frontline] (b) -- (ab);
+        \draw[arrow,frontline] (b) -- (bc);
+        \draw[arrow] (ab) -- (abc);
+        \draw[arrow] (ac) -- (abc);
+        \draw[arrow] (bc) -- (abc);
+        \node (label) at (current bounding box.south) [below] {$\Pair{\powerset{\Set{a,b,c}}, \subseteq}$};
+    \end{tikzpicture}%
+    % \end{adjustbox}%
+    \hspace{2em}%
+    % \begin{adjustbox}{cframe=red}
+    \begin{tikzpicture}[
+        rel/.style={
+            -,
+            preaction={draw=white,-,line width=4pt},
+        },
+        reldot/.style={
+            rel,
+            dotted,
+        },
+        node distance=2mm,
+    ]
+        \matrix (m) [
+            matrix of math nodes,
+            row sep=4mm,
+            column sep=3mm,
+            nodes={inner sep=2pt},
+        ] {
+            |(n8)| 8 & |(n12)| 12 & |(n20)| 20 & |(p3)| \dots \\
+            |(n4)| 4 & |(n6)| 6 & |(n10)| 10 & |(p2)| \dots \\
+            |(n2)| 2 & |(n3)| 3 & |(n5)| 5 & |(p1)| \dots \\
+        };
+        \node (zero) [above=of m] {0};
+        \node (one) [below=of m] {1};
+
+        \draw[rel] (one) -- (n2);
+        \draw[rel] (one) -- (n3);
+        \draw[rel] (one) -- (n5);
+        \draw[rel] (one) -- (p1);
+
+        \draw[rel] (n2) -- (n4);
+        \draw[rel] (n2) -- (n6);
+        \draw[rel] (n2) -- (n10);
+        \draw[reldot] (n2) -- (p2);
+        \draw[rel] (n3) -- (n6);
+        \draw[reldot] (n3) -- (p2);
+        \draw[rel] (n5) -- (n10);
+        \draw[reldot] (n5) -- (p2);
+        \draw[reldot] (p1) -- (p2);
+
+        \draw[rel] (n4) -- (n8);
+        \draw[rel] (n4) -- (n12);
+        \draw[rel] (n4) -- (n20);
+        \draw[reldot] (n4) -- (p3);
+        \draw[rel] (n6) -- (n12);
+        \draw[reldot] (n6) -- (p3);
+        \draw[rel] (n10) -- (n20);
+        \draw[reldot] (n10) -- (p3);
+        \draw[reldot] (p2) -- (p3);
+
+        \draw[rel] (n8)  -- (zero);
+        \draw[rel] (n12) -- (zero);
+        \draw[rel] (n20) -- (zero);
+        \draw[rel] (p3)  -- (zero);
+
+        \node (label) at (current bounding box.south) [below] {$\Pair{\NaturalZero, \divides}$};
+    \end{tikzpicture}%
+    % \end{adjustbox}%
+\end{tabular}
+\end{center}
 
 % ? & \text{Each non-empty } S \subset M : S \text{ contains a minimal element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-founded_relation}{Well-founded} \\
 % Вполне упорядоченное & \text{Each non-empty } S \subset M \text{ contains the smallest element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-order}{Well-ordering} \\
