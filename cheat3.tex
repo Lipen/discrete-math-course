@@ -82,6 +82,12 @@
 %% Silence some warnings
 \WarningFilter{latexfont}{Font shape `OMS/LinuxLibertineT-TLF/m/n' undefined}
 \WarningFilter{latexfont}{Some font shapes were not available, defaults substituted.}
+\WarningFilter{latexfont}{Font shape `OT1/cmtt/m/n' in size <5.5> not available}
+\WarningFilter{latexfont}{Font shape `U/bbold/m/n' in size <5.5> not available}
+
+%% Define inline list
+\newlist{mylist}{enumerate*}{1}
+\setlist[mylist]{label=(\arabic*)}
 
 
 \begin{document}
@@ -94,17 +100,17 @@
 \subsection{Definitions}
 
 \begin{terms}
-    \item \raggedright \textbf{Boolean function} is a function of the form \(f: \Bool^n \to \Bool\), where \(n \geq 0\) is the \emph{arity} of the function and \(\Bool =\nobreak \Set{0, 1} =\nobreak \Set{\bot, \top} =\nobreak \Set{\texttt{F}, \texttt{T}}\) is a Boolean domain.
+    \item \raggedright \textbf{Boolean function} is a function of the form $f: \Bool^n \to \Bool$, where $n \geq 0$ is the \emph{arity} of the function and $\Bool =\nobreak \Set{0, 1} =\nobreak \Set{\bot, \top} =\nobreak \Set{\texttt{F}, \texttt{T}}$ is a Boolean domain.
 
     \item There are multiple ways to represent a Boolean function (all examples represent the same function):
     \begin{enumerate}[left=6pt .. 18pt]
-        \item Truth table, \eg \(f = (1010)\), where LSB corresponds to $\mymathbb{0}$, MSB to $\mymathbb{1}$.
-        \item Analytically (as a sentence of propositional logic), \eg \(f(A,B) = \neg B\).
-        \item Sum of minterms, \eg \(f = \sum m(0,2) = m_0 + m_2\).\hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf}{Minterms}
-        \item Product of maxterms, \eg \(f = \prod M(1,3) = M_1 \cdot M_3\).\hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf#page=2}{Maxterms}
-        \item Boolean function number, \eg \(f^{2}_{10}\) is the 10-th 2-ary function.\hfill\href{https://mathworld.wolfram.com/BooleanFunction.html}{Boolean function} \\
-        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table. 10-th Boolean function \(f^{2}_{10}\) with the truth table \((1010)\) can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha, since \(\texttt{rev}(1010_2) = 0101_2 = 5_{10}\).\hfill\href{https://bit.ly/3nFbad5}{WolframAlpha}
-        % \item Representative number, \eg \(\#f = 1010\).
+        \item Truth table, \eg $f = (1010)$, where LSB corresponds to $\mymathbb{0}$, MSB to $\mymathbb{1}$.
+        \item Analytically (as a sentence of propositional logic), \eg $f(A,B) = \neg B$.
+        \item Sum of minterms, \eg $f = \sum m(0,2) = m_0 + m_2$.\hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf}{Minterms}
+        \item Product of maxterms, \eg $f = \prod M(1,3) = M_1 \cdot M_3$.\hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf#page=2}{Maxterms}
+        \item Boolean function number, \eg $f^{2}_{10}$ is the 10-th 2-ary function.\hfill\href{https://mathworld.wolfram.com/BooleanFunction.html}{Boolean function} \\
+        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table. 10-th Boolean function $f^{2}_{10}$ with the truth table $(1010)$ can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha, since $\texttt{rev}(1010_2) = 0101_2 = 5_{10}$.\hfill\href{https://bit.ly/3nFbad5}{WolframAlpha}
+        % \item Representative number, \eg $\#f = 1010$.
     \end{enumerate}
 
     % \item Minterms
@@ -115,92 +121,111 @@
 
 
 \newpage
-\subsection{Propositional Logic}
+\subsection{Propositional logic}
 
 \begin{terms}
-    \item \textbf{Alphabet} of propositional logic consists of:
+    \item \textbf{Proposition} is a statement which can be either true or false.
+    \hfill\href{https://en.wikipedia.org/wiki/Truth-bearer}{Truth-bearer}
+
+    \item \textbf{Alphabet} of propositional logic consists of
+    \begin{mylist}
+        \item atomic symbols and
+        \item operator symbols.
+    \end{mylist}
+    % \hfill\href{https://en.wikipedia.org/wiki/Alphabet_(formal_languages)}{Alphabet}
+
+    % \item \textbf{Braces:} ( and ).
+
+    % \hfill\href{https://en.wikipedia.org/wiki/Formal_language}{Formal language}
+
+    % https://en.wikipedia.org/wiki/Atomic_formula
+    \item \textbf{Atomic formula} (\textbf{atom}) is an irreducible formula without logical connectives.
     \begin{terms}
-        \item Propositional \textbf{variables} (\textit{propositions}): \(A, B, C, \dotsc, Z\). With indices, if needed: \(A_1, A_2, \dotsc, Z_1, Z_2, \dotsc\).
+        \item Propositional \textbf{variables}: $A, B, C, \dotsc, Z$. With indices, if needed: $A_1, A_2, \dotsc, Z_1, Z_2, \dotsc$.
 
-        \item \textbf{Constants}: \(\top\) for always true proposition (\textit{tautology}), \(\bot\) for always false proposition (\textit{contradiction}).
-
-        \item \textbf{Connectives}:
-
-        \begingroup
-        \newcommand{\myA}{\mathcal{P}}
-        \newcommand{\myB}{\mathcal{Q}}
-
-        \begin{tabular}{l @{\hspace{10pt}} l @{\hspace{2pt}} c}
-        % \toprule
-            \thead{Type} &
-            \thead{Natural meaning} &
-            \thead{Symbolization} \\
-        \midrule
-            Negation $\neg$ &
-            \makecell[lt]{
-                It is not the case that $\myA$. \\[-\jot]
-                It is false that $\myA$. \\[-\jot]
-                It is not true that $\myA$.
-            } &
-            $\neg \myA$ \\
-        \cmidrule(lr){1-3}
-            Conjunction $\land$ &
-            \makecell[lt]{
-                Both $\myA$ and $\myB$. \\[-\jot]
-                $\myA$ but $\myB$. \\[-\jot]
-                $\myA$, although $\myB$.
-            } &
-            $\myA \land \myB$ \\
-        \cmidrule(lr){1-3}
-            Disjunction $\lor$ &
-            \makecell[lt]{
-                Either $\myA$ or $\myB$ (or both). \\[-\jot]
-                $\myA$ unless $\myB$.
-            } &
-            $\myA \lor \myB$ \\
-        \cmidrule(lr){1-3}
-            Xor $\xor$ &
-            \makecell[lt]{
-                Either $\myA$ or $\myB$ (but not both). \\[-\jot]
-                $\myA$ xor $\myB$.
-            } &
-            $\myA \xor \myB$ \\
-        \cmidrule(lr){1-3}
-            Conditional $\implies$ &
-            \makecell[lt]{
-                If $\myA$, then $\myB$. \\[-\jot]
-                $\myA$ only if $\myB$. \\[-\jot]
-                $\myB$ if $\myA$.
-            } &
-            $\myA \implies \myB$ \\
-        \cmidrule(lr){1-3}
-            Biconditional $\iff$ &
-            \makecell[lt]{
-                $\myA$, if and only if $\myB$. \\[-\jot]
-                $\myA$ iff $\myB$. \\[-\jot]
-                $\myA$ just in case $\myB$.
-            } &
-            $\myA \iff \myB$ \\
-        % \bottomrule
-        \end{tabular}
-        \vspace{1pt}
-        \endgroup
-
-        \item \textbf{Braces:} ( and ).
+        \item \textbf{Logical constants}: $\top$ for always true proposition (\textit{tautology}), $\bot$ for always false proposition (\textit{contradiction}).
     \end{terms}
 
+    \item \textbf{Logical connectives} (\textbf{operators}):
+    % \hfill\href{https://en.wikipedia.org/wiki/Logical_connective}{Logical connective}
+
+    \begingroup
+    \newcommand{\myA}{\mathcal{P}}
+    \newcommand{\myB}{\mathcal{Q}}
+
+    \begin{tabular}{l @{\hspace{1em}} l @{\hspace{2pt}} c}
+    % \toprule
+        \thead{Type} &
+        \thead{Natural meaning} &
+        \thead{Symbolization} \\
+    \midrule
+        \href{https://en.wikipedia.org/wiki/Negation}{Negation} &
+        \makecell[lt]{
+            It is not the case that $\myA$. \\[-\jot]
+            It is false that $\myA$. \\[-\jot]
+            It is not true that $\myA$.
+        } &
+        $\neg \myA$ \\
+    \cmidrule(lr){1-3}
+        \href{https://en.wikipedia.org/wiki/Logical_conjunction}{Conjunction} &
+        \makecell[lt]{
+            Both $\myA$ and $\myB$. \\[-\jot]
+            $\myA$ but $\myB$. \\[-\jot]
+            $\myA$, although $\myB$.
+        } &
+        $\myA \land \myB$ \\
+    \cmidrule(lr){1-3}
+        \href{https://en.wikipedia.org/wiki/Logical_disjunction}{Disjunction} &
+        \makecell[lt]{
+            Either $\myA$ or $\myB$ (or both). \\[-\jot]
+            $\myA$ unless $\myB$.
+        } &
+        $\myA \lor \myB$ \\
+    \cmidrule(lr){1-3}
+        \href{https://en.wikipedia.org/wiki/Exclusive_or}{Exclusive or (Xor)} &
+        \makecell[lt]{
+            Either $\myA$ or $\myB$ (but not both). \\[-\jot]
+            $\myA$ xor $\myB$.
+        } &
+        $\myA \xor \myB$ \\
+    \cmidrule(lr){1-3}
+        \href{https://en.wikipedia.org/wiki/Material_conditional}{\makecell[lt]{Implication \\[-\jot] (Conditional)}} &
+        \makecell[lt]{
+            If $\myA$, then $\myB$. \\[-\jot]
+            $\myA$ only if $\myB$. \\[-\jot]
+            $\myB$ if $\myA$.
+        } &
+        $\myA \implies \myB$ \\
+    \cmidrule(lr){1-3}
+        \href{https://en.wikipedia.org/wiki/Logical_biconditional}{Biconditional} &
+        \makecell[lt]{
+            $\myA$, if and only if $\myB$. \\[-\jot]
+            $\myA$ iff $\myB$. \\[-\jot]
+            $\myA$ just in case $\myB$.
+        } &
+        $\myA \iff \myB$ \\
+    % \bottomrule
+    \end{tabular}
+    \vspace{1pt}
+    \endgroup
+
     \item \textbf{Sentence} of propositional logic is defined inductively:
+    \hfill\href{https://en.wikipedia.org/wiki/Well-formed_formula}{Well-formed formula (WFF)}
+
     \begin{enumerate}[left=6pt .. 18pt]
         \item Every propositional variable/constant is a sentence.
 
-        \item If \(\mathcal{A}\) is a sentence, then \(\neg\mathcal{A}\) is a sentence.
+        \item If $\mathcal{A}$ is a sentence, then $\neg\mathcal{A}$ is a sentence.
 
-        \item If \(\mathcal{A}\) and \(\mathcal{B}\) are sentences, then \((\mathcal{A} \land \mathcal{B})\), \((\mathcal{A} \lor \mathcal{B})\), \((\mathcal{A} \implies \mathcal{B})\), \((\mathcal{A} \iff \mathcal{B})\) are sentences.
+        \item If $\mathcal{A}$ and $\mathcal{B}$ are sentences, then $(\mathcal{A} \land \mathcal{B})$, $(\mathcal{A} \lor \mathcal{B})$, $(\mathcal{A} \implies \mathcal{B})$, $(\mathcal{A} \iff \mathcal{B})$ are sentences.
 
         \item Nothing else is a sentence.
     \end{enumerate}
 
-    \item Well-formed formulae (WFF) grammar in Backus-Naur form (BNF):
+    \item Well-formed formulae grammar:
+    \hfill\href{https://en.wikipedia.org/wiki/Backus-Naur_form}{Backus-Naur form (BNF)}
+
+    \vspace{-2pt}
     \setlength{\grammarparsep}{0pt plus 4pt}
     \setlength{\grammarindent}{6em}
     \begin{grammar}
@@ -220,19 +245,19 @@
             $\land$ | $\lor$ | $\xor$ | $\implies$ | $\impliedby$ | $\iff$
     \end{grammar}
 
-    \item \textbf{Literal} is a propositional variable or its negation: \(\mathcal{L}_i = X_i\) (\textit{positive} literal), \(\mathcal{L}_j = \neg X_j\) (\textit{negative} literal).
+    \item \textbf{Literal} is a propositional variable or its negation: $\mathcal{L}_i = X_i$ (\textit{positive} literal), $\mathcal{L}_j = \neg X_j$ (\textit{negative} literal).
 
     \item \textbf{Argument} is a set of logical statements, called \emph{premises}, intended to support or infer a claim (\emph{conclusion}):
+    % \hfill\href{https://en.wikipedia.org/wiki/Argument}{Argument}
     \[
         \underbrace{
             \mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n
         }_{\textit{premises}}
-        % ~\therefore
         \quad
         \begin{tikzpicture}[remember picture,overlay,on grid,baseline={(therefore.base)},inner sep=0pt]
             \node (therefore) {$\therefore$};
             \node (label) [below left=11mm and 5mm of therefore] {\small\enquote{therefore}};
-            \draw[->,>={Stealth[]},shorten >=2pt] (label.north) to[out=90,in=-100,looseness=1.2] (therefore.south);
+            \draw[->,>={Stealth[]},shorten >=2pt] (label.north) to[out=90,in=-100,looseness=1.3] (therefore.south);
         \end{tikzpicture}
         \vrule height 0pt depth 11mm width 0pt\relax
         ~~
@@ -242,6 +267,7 @@
     \]
 
     \item An argument is \textbf{valid} if whenever all the premises are true, the conclusion is also true.
+    \hfill\href{https://en.wikipedia.org/wiki/Validity_(logic)}{Validity}
 
     \item An argument is \textbf{invalid} if there is a case (\textit{a counterexample)} when all the premises are true, but the conclusion is false.
 \end{terms}
@@ -252,20 +278,27 @@
 
 \begin{terms}
     \item \textbf{Valuation} is any assignment of truth values to propositional variables.
+    \hfill\href{https://en.wikipedia.org/wiki/Valuation_(logic)}{Valuation}
 
-    \item \(\mathcal{A}\) is a \textbf{tautology} iff it is true on every valuation. Might be symbolized as \enquote{\,\({} \entails \mathcal{A}\)\,}.
+    \item $\mathcal{A}$ is a \textbf{tautology} iff it is true on every valuation. Might be symbolized as \enquote{\,${} \entails \mathcal{A}$\,}.
+    \hfill\href{https://en.wikipedia.org/wiki/Tautology_(logic)}{Tautology}
 
-    \item \(\mathcal{A}\) is a \textbf{contradiction} iff it is false on every valuation. Might be symbolized as \enquote{\,\(\mathcal{A} \entails {}\)\,}.
+    \item $\mathcal{A}$ is a \textbf{contradiction} iff it is false on every valuation. Might be symbolized as \enquote{\,$\mathcal{A} \entails {}$\,}.
+    \hfill\href{https://en.wikipedia.org/wiki/Contradiction}{Contradiction}
 
-    \item \(\mathcal{A}\) is a \textbf{contingency} iff it might be true on some valuation and false on another. In other words, a \textbf{contingent} proposition is neither a tautology nor a contradiction.
+    \item $\mathcal{A}$ is a \textbf{contingency} iff it might be true on some valuation and false on another. In other words, a \textbf{contingent} proposition is neither a tautology nor a contradiction.
+    \hfill\href{https://en.wikipedia.org/wiki/Contingency_(philosophy)}{Contingency}
 
-    \item \(\mathcal{A}\) and \(\mathcal{B}\) are \textbf{equivalent} (symbolized as \(\mathcal{A} \equiv \mathcal{B}\)) iff, for every valuation, their truth values agree, \ie there is no valuation in which they have opposite truth values.
+    \item $\mathcal{A}$ and $\mathcal{B}$ are \textbf{equivalent} (symbolized as $\mathcal{A} \equiv \mathcal{B}$) iff, for every valuation, their truth values agree, \ie there is no valuation in which they have opposite truth values.
+    \hfill\href{https://en.wikipedia.org/wiki/Logical_equivalence}{Equivalence}
 
-    \item \(\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n\) are \textbf{consistent} (\textbf{jointly satisfiable}) iff there is \emph{some} valuation which makes them all true. Sentences are \textbf{inconsistent} (\textbf{jointly unsatisfiable}) iff there is \emph{no} valuation that makes them all true.
+    \item $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ are \textbf{consistent} (\textbf{jointly satisfiable}) iff there is \emph{some} valuation which makes them all true. Sentences are \textbf{inconsistent} (\textbf{jointly unsatisfiable}) iff there is \emph{no} valuation that makes them all true.
+    \hfill\href{https://en.wikipedia.org/wiki/Consistency}{Consistency}
 
-    \item The sentences \(\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n\) \textbf{entail} the sentence \(\mathcal{C}\) (symbolized as \(\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}\)) if there is no valuation which makes all of \(\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n\) true and \(\mathcal{C}\) false.
+    \item The sentences $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ \textbf{entail} the sentence $\mathcal{C}$ (symbolized as $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}$) if there is no valuation which makes all of $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ true and $\mathcal{C}$ false.
+    \hfill\href{https://en.wikipedia.org/wiki/Entailment}{Entailment}
 
-    \item If \(\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}\), then the argument \(\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \therefore \mathcal{C}\) is \textbf{valid}.
+    \item If $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}$, then the argument $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \therefore \mathcal{C}$ is \textbf{valid}.
 \end{terms}
 
 \begin{figure}[H]
@@ -740,29 +773,29 @@
 \begin{terms}
     \item \emph{Disjunctive} forms:
     \begin{terms}
-        \item \textbf{Term} is a conjunction of literals: \(\mathcal{T} = \biglandnolim{i} \mathcal{L}_i\).
+        \item \textbf{Term} is a conjunction of literals: $\mathcal{T} = \biglandnolim{i} \mathcal{L}_i$.
 
-        \item Formula is in \textbf{disjunctive normal form (DNF)} if it is a disjunction of terms: \(\textrm{DNF} = \biglornolim{i} \mathcal{T}_i\).
+        \item Formula is in \textbf{disjunctive normal form (DNF)} if it is a disjunction of terms: $\textrm{DNF} = \biglornolim{i} \mathcal{T}_i$.
 
-        \item \textbf{Minterm} is conjunction of literals, where \emph{each} variable appears \emph{once}, \eg \(m_6 = (A \land B \land \neg C)\).
+        \item \textbf{Minterm} is conjunction of literals, where \emph{each} variable appears \emph{once}, \eg $m_6 = (A \land B \land \neg C)$.
 
-        \item Formula is in \textbf{canonical DNF (CDNF)} if it is a disjunction of minterms: \(\textrm{CDNF} = \biglornolim{i} m_i\).
+        \item Formula is in \textbf{canonical DNF (CDNF)} if it is a disjunction of minterms: $\textrm{CDNF} = \biglornolim{i} m_i$.
     \end{terms}
 
     \item \emph{Conjunctive} forms:
     \begin{terms}
-        \item \textbf{Clause} is a disjunction of literals: \(\mathcal{C} = \biglornolim{i} \mathcal{L}_i\)
+        \item \textbf{Clause} is a disjunction of literals: $\mathcal{C} = \biglornolim{i} \mathcal{L}_i$
 
-        \item Formula is in \textbf{conjunctive normal form (CNF)} if it is a conjunction of clauses: \(\textrm{CNF} = \biglandnolim{i} \mathcal{C}_i\).
+        \item Formula is in \textbf{conjunctive normal form (CNF)} if it is a conjunction of clauses: $\textrm{CNF} = \biglandnolim{i} \mathcal{C}_i$.
 
-        \item \textbf{Maxterm} is disjunction of literals, where \emph{each} variable appears \emph{once}, \eg \(M_6 = (\neg A \lor \neg B \lor C)\).
+        \item \textbf{Maxterm} is disjunction of literals, where \emph{each} variable appears \emph{once}, \eg $M_6 = (\neg A \lor \neg B \lor C)$.
 
-        \item Formula is in \textbf{canonical CNF (CCNF)} if it is a conjunction of maxterms: \(\textrm{CCNF} = \biglandnolim{i} M_i\).
+        \item Formula is in \textbf{canonical CNF (CCNF)} if it is a conjunction of maxterms: $\textrm{CCNF} = \biglandnolim{i} M_i$.
     \end{terms}
 
     \item Some other normal forms:
     \begin{terms}
-        \item Formula is in \textbf{negation normal form (NNF)} if the negation operator (\(\neg\)) is only applied to variables and the only other allowed Boolean operators are conjunction (\(\land\)) and disjunction (\(\lor\)).
+        \item Formula is in \textbf{negation normal form (NNF)} if the negation operator ($\neg$) is only applied to variables and the only other allowed Boolean operators are conjunction ($\land$) and disjunction ($\lor$).
 
         \item Formula $f$ is in \textbf{Blake canonical form (BCF)} if it is a disjunction of all the \textit{prime implicants} of $f$.
 
@@ -795,10 +828,10 @@
 In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{equivalent} CNF/DNF:
 \begin{enumerate}[topsep=2pt, itemsep=2pt]
     \item Eliminate equivalences:
-    \par\(\mathcal{A} \iff \mathcal{B} ~\rightsquigarrow~ (\mathcal{A} \implies \mathcal{B}) \land (\mathcal{B} \implies \mathcal{A})\)
+    \par$\mathcal{A} \iff \mathcal{B} ~\rightsquigarrow~ (\mathcal{A} \implies \mathcal{B}) \land (\mathcal{B} \implies \mathcal{A})$
 
     \item Eliminate implications:
-    \par\(\mathcal{A} \implies \mathcal{B} ~\rightsquigarrow~ \neg\mathcal{A} \lor \mathcal{B}\)
+    \par$\mathcal{A} \implies \mathcal{B} ~\rightsquigarrow~ \neg\mathcal{A} \lor \mathcal{B}$
 
     \item Push negation downwards:
     \par\(\openup-\jot\begin{aligned}[t]
@@ -807,7 +840,7 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
     \end{aligned}\)
 
     \item Eliminate double negation:
-    \par\(\neg\neg\mathcal{A} ~\rightsquigarrow~ \mathcal{A}\)
+    \par$\neg\neg\mathcal{A} ~\rightsquigarrow~ \mathcal{A}$
 
     \item Push disjunction (for CNF) / conjunction (for DNF) downward:
     \par\(\openup-\jot\begin{aligned}[t]
@@ -815,7 +848,7 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
         (\mathcal{A} \lor \mathcal{B}) \land \mathcal{C} ~\rightsquigarrow_{\textrm{DNF}}~ (\mathcal{A} \land \mathcal{C}) \lor (\mathcal{B} \land \mathcal{C}) \\
     \end{aligned}\)
 
-    \item Eliminate \(\top\) and \(\bot\):
+    \item Eliminate $\top$ and $\bot$:
     \par\(\openup-\jot\begin{aligned}[t]
         \mathcal{A} \land \top &~\rightsquigarrow~ \mathcal{A} &\qquad&&
         \mathcal{A} \land \bot &~\rightsquigarrow~ \bot \\
@@ -833,33 +866,33 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
 \begin{terms}
     \item A set of Boolean functions $F$ is \textbf{functionally complete}, iff it contains:
     \begin{terms}
-        \item at least one function that does \textit{not} preserve zero, \ie \(\exists f \in F: f \notin T_0\), and
-        \item at least one function that does \textit{not} preserve one, \ie \(\exists f \in F: f \notin T_1\), and
-        \item at least one function that is \textit{not} self-dual, \ie \(\exists f \in F: f \notin S\), and
-        \item at least one function that is \textit{not} monotonic, \ie \(\exists f \in F: f \notin M\), and
-        \item at least one function that is \textit{not} linear function, \ie \(\exists f \in F: f \notin L\).
+        \item at least one function that does \textit{not} preserve zero, \ie $\exists f \in F: f \notin T_0$, and
+        \item at least one function that does \textit{not} preserve one, \ie $\exists f \in F: f \notin T_1$, and
+        \item at least one function that is \textit{not} self-dual, \ie $\exists f \in F: f \notin S$, and
+        \item at least one function that is \textit{not} monotonic, \ie $\exists f \in F: f \notin M$, and
+        \item at least one function that is \textit{not} linear function, \ie $\exists f \in F: f \notin L$.
     \end{terms}
 
     \item A function $f$ is \textbf{zero-preserving} iff it is \texttt{False} on the zero-valuation: \\
-    \(f \in T_0 \iff f(\mymathbb{0}) = 0\)
+    $f \in T_0 \iff f(\mymathbb{0}) = 0$
 
     \item A function $f$ is \textbf{one-preserving} iff it is \texttt{True} on the one-valuation: \\
-    \(f \in T_1 \iff f(\mymathbb{1}) = 1\)
+    $f \in T_1 \iff f(\mymathbb{1}) = 1$
 
     \item A function $f$ is \textbf{self-dual} iff it is dual to itself: \\
-    \(f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)\).
+    $f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)$.
 
     \item A function $f$ is \textbf{monotonic} iff for every increasing valuations, the function does not decrease: \\
-    \(f \in M \iff \forall a,b \in \Bool^n: a \preceq b \implies f(a) \leq f(b)\).
+    $f \in M \iff \forall a,b \in \Bool^n: a \preceq b \implies f(a) \leq f(b)$.
 
     \begin{terms}
-        \item Comparison of valuations \(a,b \in \Bool^n\) is defined as follows: \\
-        \(a \preceq b \iff \biglandclap{1 \leq i \leq n} a_i \leq b_i\)
+        \item Comparison of valuations $a,b \in \Bool^n$ is defined as follows: \\
+        $a \preceq b \iff \biglandclap{1 \leq i \leq n} a_i \leq b_i$
     \end{terms}
 
 
     \item A function $f$ is \textbf{linear} iff its Zhegalkin polynomial is linear (\ie has a degree at most 1): \\
-    \(f \in L \iff \operatorname{deg} f_{\xor} \leq 1\)
+    $f \in L \iff \operatorname{deg} f_{\xor} \leq 1$
 \end{terms}
 
 
@@ -971,7 +1004,7 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
 % % \centering
 % \begin{tikzpicture}[mykarnaughstyle]
 %     \karnaughmapvert{4}%
-%     % {\(f(A,B,C,D)\)}%
+%     % {$f(A,B,C,D)$}%
 %     {}%
 %     {{$A$}{$B$}{$C$}{$D$}}%
 %     {0110 0110 0110 0110}%
