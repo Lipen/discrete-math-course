@@ -76,14 +76,15 @@
 %% Not-iff
 \def\niff{\nleftrightarrow}
 
-%% some math font?
+%% Extra blackboard-like math font
 \DeclareMathAlphabet{\mymathbb}{U}{bbold}{m}{n}
+
+%% Autoscale missing font sizes
+\usepackage{anyfontsize}
 
 %% Silence some warnings
 \WarningFilter{latexfont}{Font shape `OMS/LinuxLibertineT-TLF/m/n' undefined}
 \WarningFilter{latexfont}{Some font shapes were not available, defaults substituted.}
-\WarningFilter{latexfont}{Font shape `OT1/cmtt/m/n' in size <5.5> not available}
-\WarningFilter{latexfont}{Font shape `U/bbold/m/n' in size <5.5> not available}
 
 %% Define inline list
 \newlist{mylist}{enumerate*}{1}
