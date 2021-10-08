@@ -38,14 +38,6 @@
 \newcommand{\InvalidArgument}{%
     \mathclap{\overset{\smash{\textcolor{ColorInvalid}{\textit{invalid}}}}{\therefore}}}
 
-% \input{tex/tikzlibrarykarnaugh.code}
-% \kmunitlength=1cm
-
-\newcommand\Vtextvisiblespace[1][.3em]{%
-  \mbox{\kern.06em\vrule height.3ex}%
-  \vbox{\hrule width#1}%
-  \hbox{\vrule height.3ex}}
-
 %% BNF grammar
 \usepackage{syntax}
 
@@ -63,15 +55,6 @@
     {0.5em}% <hsep> [.5em]
     {2.0em}% <justsep> [2.5em]
     {0.8pt}% <linethickness> [.2mm]
-% \nddim%
-%     {4.5ex}% <height> [4.5ex]
-%     {3.5ex}% <topheight> [3.5ex]
-%     {1.5ex}% <depth> [1.5ex]
-%     {0.8em}% <labelsep> [1em]
-%     {0.5em}% <indent> [1.6em]
-%     {0.5em}% <hsep> [.5em]
-%     {2.0em}% <justsep> [2.5em]
-%     {0.8pt}% <linethickness> [.2mm]
 
 %% Not-iff
 \def\niff{\nleftrightarrow}
@@ -86,7 +69,7 @@
 \WarningFilter{latexfont}{Font shape `OMS/LinuxLibertineT-TLF/m/n' undefined}
 \WarningFilter{latexfont}{Some font shapes were not available, defaults substituted.}
 
-%% Define inline list
+%% Inline list
 \newlist{mylist}{enumerate*}{1}
 \setlist[mylist]{label=(\arabic*)}
 
