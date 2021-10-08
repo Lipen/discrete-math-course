@@ -337,6 +337,14 @@
 \newcommand{\Seedling}{%
     \scalerel*{\text{\faSeedling}}{A}}
 
+%% External link symbol
+\newcommand{\Link}{%
+    \scalerel*{\text{\faExternalLink*}}{A}}
+
+%% Superscript link (href)
+\newcommand{\Href}[1]{% {<url>}
+    \textsuperscript{\href{#1}{\Link}}}
+
 %% Circle symbol
 \let\oldcircle\circle
 \renewcommand\circle{%

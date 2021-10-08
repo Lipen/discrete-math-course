@@ -84,16 +84,26 @@
 \subsection{Definitions}
 
 \begin{terms}
-    \item \raggedright \textbf{Boolean function} is a function of the form $f: \Bool^n \to \Bool$, where $n \geq 0$ is the \emph{arity} of the function and $\Bool =\nobreak \Set{0, 1} =\nobreak \Set{\bot, \top} =\nobreak \Set{\texttt{F}, \texttt{T}}$ is a Boolean domain.
+    \item \raggedright \textbf{Boolean function}\Href{https://en.wikipedia.org/wiki/Boolean_function} is a function of the form $f: \Bool^n \to \Bool$, where $n \geq 0$ is the \emph{arity} of the function and $\Bool =\nobreak \Set{0, 1} =\nobreak \Set{\bot, \top} =\nobreak \Set{\texttt{F}, \texttt{T}}$ is a Boolean domain.
 
     \item There are multiple ways to represent a Boolean function (all examples represent the same function):
+
     \begin{enumerate}[left=6pt .. 18pt]
         \item Truth table, \eg $f = (1010)$, where LSB corresponds to $\mymathbb{0}$, MSB to $\mymathbb{1}$.
+
         \item Analytically (as a sentence of propositional logic), \eg $f(A,B) = \neg B$.
-        \item Sum of minterms, \eg $f = \sum m(0,2) = m_0 + m_2$.\hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf}{Minterms}
-        \item Product of maxterms, \eg $f = \prod M(1,3) = M_1 \cdot M_3$.\hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf#page=2}{Maxterms}
-        \item Boolean function number, \eg $f^{2}_{10}$ is the 10-th 2-ary function.\hfill\href{https://mathworld.wolfram.com/BooleanFunction.html}{Boolean function} \\
-        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table. 10-th Boolean function $f^{2}_{10}$ with the truth table $(1010)$ can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha, since $\texttt{rev}(1010_2) = 0101_2 = 5_{10}$.\hfill\href{https://bit.ly/3nFbad5}{WolframAlpha}
+
+        \item Sum of minterms, \eg $f = \sum m(0,2) = m_0 + m_2$.
+        \hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf}{Minterms}
+
+        \item Product of maxterms, \eg $f = \prod M(1,3) = M_1 \cdot M_3$.
+        \hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf#page=2}{Maxterms}
+
+        \item Boolean function number, \eg $f^{2}_{10}$ is the 10-th 2-ary function.
+        \hfill\href{https://mathworld.wolfram.com/BooleanFunction.html}{Boolean function} \\
+        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table. 10-th Boolean function $f^{2}_{10}$ with the truth table $(1010)$ can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha, since $\texttt{rev}(1010_2) = 0101_2 = 5_{10}$.
+        \hfill\href{https://bit.ly/3nFbad5}{WolframAlpha}
+
         % \item Representative number, \eg $\#f = 1010$.
     \end{enumerate}
 
@@ -108,10 +118,10 @@
 \subsection{Propositional logic}
 
 \begin{terms}
-    \item \textbf{Proposition} is a statement which can be either true or false.
+    \item \textbf{Proposition}\Href{https://en.wikipedia.org/wiki/Proposition} is a statement which can be either true or false.
     \hfill\href{https://en.wikipedia.org/wiki/Truth-bearer}{Truth-bearer}
 
-    \item \textbf{Alphabet} of propositional logic consists of
+    \item \textbf{Alphabet}\Href{https://en.wikipedia.org/wiki/Alphabet_(formal_languages)} of propositional logic consists of
     \begin{mylist}
         \item atomic symbols and
         \item operator symbols.
@@ -123,14 +133,14 @@
     % \hfill\href{https://en.wikipedia.org/wiki/Formal_language}{Formal language}
 
     % https://en.wikipedia.org/wiki/Atomic_formula
-    \item \textbf{Atomic formula} (\textbf{atom}) is an irreducible formula without logical connectives.
+    \item \textbf{Atomic formula}\Href{https://en.wikipedia.org/wiki/Atomic_formula} (\textbf{atom}) is an irreducible formula without logical connectives.
     \begin{terms}
         \item Propositional \textbf{variables}: $A, B, C, \dotsc, Z$. With indices, if needed: $A_1, A_2, \dotsc, Z_1, Z_2, \dotsc$.
 
-        \item \textbf{Logical constants}: $\top$ for always true proposition (\textit{tautology}), $\bot$ for always false proposition (\textit{contradiction}).
+        \item Logical \textbf{constants}: $\top$ for always true proposition (\textit{tautology}), $\bot$ for always false proposition (\textit{contradiction}).
     \end{terms}
 
-    \item \textbf{Logical connectives} (\textbf{operators}):
+    \item \textbf{Logical connectives}\Href{https://en.wikipedia.org/wiki/Logical_connective} (\textbf{operators}):
     % \hfill\href{https://en.wikipedia.org/wiki/Logical_connective}{Logical connective}
 
     \begingroup
@@ -143,51 +153,63 @@
         \thead{Natural meaning} &
         \thead{Symbolization} \\
     \midrule
-        \href{https://en.wikipedia.org/wiki/Negation}{Negation} &
-        \makecell[lt]{
+        \Href{https://en.wikipedia.org/wiki/Negation}%
+        Negation
+        % \hfill\Href{https://en.wikipedia.org/wiki/Negation}
+        & \makecell[lt]{
             It is not the case that $\myA$. \\[-\jot]
             It is false that $\myA$. \\[-\jot]
             It is not true that $\myA$.
-        } &
-        $\neg \myA$ \\
+        }
+        & $\neg \myA$ \\
     \cmidrule(lr){1-3}
-        \href{https://en.wikipedia.org/wiki/Logical_conjunction}{Conjunction} &
-        \makecell[lt]{
+        \Href{https://en.wikipedia.org/wiki/Logical_conjunction}%
+        Conjunction
+        % \hfill\Href{https://en.wikipedia.org/wiki/Logical_conjunction}
+        & \makecell[lt]{
             Both $\myA$ and $\myB$. \\[-\jot]
             $\myA$ but $\myB$. \\[-\jot]
             $\myA$, although $\myB$.
-        } &
-        $\myA \land \myB$ \\
+        }
+        & $\myA \land \myB$ \\
     \cmidrule(lr){1-3}
-        \href{https://en.wikipedia.org/wiki/Logical_disjunction}{Disjunction} &
-        \makecell[lt]{
+        \Href{https://en.wikipedia.org/wiki/Logical_disjunction}%
+        Disjunction
+        % \hfill\Href{https://en.wikipedia.org/wiki/Logical_disjunction}
+        & \makecell[lt]{
             Either $\myA$ or $\myB$ (or both). \\[-\jot]
             $\myA$ unless $\myB$.
-        } &
-        $\myA \lor \myB$ \\
+        }
+        & $\myA \lor \myB$ \\
     \cmidrule(lr){1-3}
-        \href{https://en.wikipedia.org/wiki/Exclusive_or}{Exclusive or (Xor)} &
-        \makecell[lt]{
+        \Href{https://en.wikipedia.org/wiki/Exclusive_or}%
+        Exclusive or (Xor)
+        % ~\hfill\Href{https://en.wikipedia.org/wiki/Exclusive_or}
+        & \makecell[lt]{
             Either $\myA$ or $\myB$ (but not both). \\[-\jot]
             $\myA$ xor $\myB$.
-        } &
-        $\myA \xor \myB$ \\
+        }
+        & $\myA \xor \myB$ \\
     \cmidrule(lr){1-3}
-        \href{https://en.wikipedia.org/wiki/Material_conditional}{\makecell[lt]{Implication \\[-\jot] (Conditional)}} &
-        \makecell[lt]{
+        \Href{https://en.wikipedia.org/wiki/Material_conditional}%
+        \makecell[lt]{Implication \\[-\jot] (Conditional)}
+        % \hfill\Href{https://en.wikipedia.org/wiki/Material_conditional}
+        & \makecell[lt]{
             If $\myA$, then $\myB$. \\[-\jot]
             $\myA$ only if $\myB$. \\[-\jot]
             $\myB$ if $\myA$.
-        } &
-        $\myA \implies \myB$ \\
+        }
+        & $\myA \implies \myB$ \\
     \cmidrule(lr){1-3}
-        \href{https://en.wikipedia.org/wiki/Logical_biconditional}{Biconditional} &
-        \makecell[lt]{
+        \Href{https://en.wikipedia.org/wiki/Logical_biconditional}%
+        Biconditional
+        % \hfill\Href{https://en.wikipedia.org/wiki/Logical_biconditional}
+        & \makecell[lt]{
             $\myA$, if and only if $\myB$. \\[-\jot]
             $\myA$ iff $\myB$. \\[-\jot]
             $\myA$ just in case $\myB$.
-        } &
-        $\myA \iff \myB$ \\
+        }
+        & $\myA \iff \myB$ \\
     % \bottomrule
     \end{tabular}
     \vspace{1pt}
@@ -229,10 +251,9 @@
             $\land$ | $\lor$ | $\xor$ | $\implies$ | $\impliedby$ | $\iff$
     \end{grammar}
 
-    \item \textbf{Literal} is a propositional variable or its negation: $\mathcal{L}_i = X_i$ (\textit{positive} literal), $\mathcal{L}_j = \neg X_j$ (\textit{negative} literal).
+    \item \textbf{Literal}\Href{https://en.wikipedia.org/wiki/Literal_(mathematical_logic)} is a propositional variable or its negation: $\mathcal{L}_i = X_i$ (\textit{positive} literal), $\mathcal{L}_j = \neg X_j$ (\textit{negative} literal).
 
-    \item \textbf{Argument} is a set of logical statements, called \emph{premises}, intended to support or infer a claim (\emph{conclusion}):
-    % \hfill\href{https://en.wikipedia.org/wiki/Argument}{Argument}
+    \item \textbf{Argument}\Href{https://en.wikipedia.org/wiki/Argument} is a set of logical statements, called \emph{premises}, intended to support or infer a claim (\emph{conclusion}):
     \[
         \underbrace{
             \mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n
