@@ -25,8 +25,8 @@
 \setlength{\tabcolsep}{0pt}
 
 \usepackage{venndiagram}
-
 \usepackage{witharrows}
+\usepackage{pdfcomment}
 
 % %% Show page layout
 % \usepackage{showframe}
@@ -72,20 +72,36 @@
     \hfill\href{https://en.wikipedia.org/wiki/Element_(mathematics)}{Element}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
-            1 \in \Set{1,2,3}
-            & \square \in \Set{\triangle, \square, \circle}
-            & 1.25 \in \Rational
-            & 2 \in \Set{x \in \Natural \given \text{$x$ -- простое}}
+            \pdftooltip%
+                {1 \in \Set{1,2,3}}%
+                {Почему? Потому что правое множество действительно содержит элемент \enquote{1}.}
+            & \pdftooltip%
+                {\square \in \Set{\triangle, \square, \circle}}%
+                {Почему? Потому что правое множество дейсвительно содержит элемент \enquote{квадрат}.}
+            & \pdftooltip%
+                {1.25 \in \Rational}%
+                {Почему? Потому что 1.25 действительно является рациональным числом (5/4).}
+            & \pdftooltip%
+                {2 \in \Set{x \in \Natural \given \text{$x$ -- простое}}}%
+                {Почему? Потому что число 2 действительно считается простым числом.}
         \end{tabular}
     \end{terms}
 
     \item $x \notin A$ -- элемент $x$ \textbf{не принадлежит} множеству $A$.
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
-            9 \notin \Set{1,2,3}
-            & \Cat \notin \Set{\triangle, \square, \circle}
-            & \pi \notin \Rational
-            & 42 \notin \Set{x \in \Natural \given \text{$x$ -- простое}}
+            \pdftooltip%
+                {9 \notin \Set{1,2,3}}%
+                {Почему? Потому что правое множество действительно не содержит элемента \enquote{9}.}
+            & \pdftooltip%
+                {\Cat \notin \Set{\square, 42, \Set{\Cat}}}%
+                {Почему? Потому что правое множество не содержит элемента \enquote{cat}.\textLF Правое множество содержит элемент \enquote{множество, содержащее \enquote{cat}}. Однако, здесь это не имеет значения.}
+            & \pdftooltip%
+                {\pi \notin \Rational}%
+                {Почему? Потому что число Пи действительно не является рациональным.}
+            & \pdftooltip%
+                {42 \notin \Set{x \in \Natural \given \text{$x$ -- простое}}}%
+                {Почему? Потому что число 42 действительно не является простым.}
         \end{tabular}
     \end{terms}
 
@@ -93,10 +109,18 @@
     \hfill\href{https://en.wikipedia.org/wiki/Subset}{Subset}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
-            \Set{a, b} \subseteq \Set{a, b, c}
-            & \Set{\Set{5}} \subseteq \Set{7, \Set{5}}
-            & \Set{\square} \nsubseteq \Set{a, \circle, 9}
-            & \Set{42} \nsubseteq \Set{\Set{42}}
+            \pdftooltip%
+                {\Set{a, b} \subseteq \Set{a, b, c}}%
+                {Почему? Потому что элементы \enquote{a} и \enquote{b} (из левого множества) содержатся в правом множестве.}
+            & \pdftooltip%
+                {\Set{\Set{42}} \subseteq \Set{\Set{42}}}%
+                {Почему? Потому что множества в левой и правой части равны.}
+            & \pdftooltip%
+                {\Set{\square} \nsubseteq \Set{a, \circle, 9}}%
+                {Почему? Потмоу что элемент \enquote{квадрат} (из левого множества) не содержится в правом множестве.}
+            & \pdftooltip%
+                {\Set{5} \nsubseteq \Set{7, \Set{5}}}%
+                {Почему? Потому что элемент \enquote{5} (из левого множества) не содержится в правом множестве как непосредственный элемент.}
         \end{tabular}
     \end{terms}
 
@@ -104,10 +128,18 @@
     \hfill\href{https://en.wikipedia.org/wiki/Strict_subset}{Strict subset}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
-            \Set{c} \subset \Set{a, b, c}
-            & \Set{7} \subset \Set{7, \Set{5}}
-            & \Set{\Cat} \not\subset \Set{a, \circle, 9}
-            & \Set{42} \not\subset \Set{42}
+            \pdftooltip%
+                {\Set{c} \subset \Set{a, b, c}}%
+                {Почему? Потому что элемент \enquote{c} содержится в правом множестве, а оба множества не равны.}
+            & \pdftooltip%
+                {\Set{42} \nsubset \Set{42}}%
+                {Почему? Потому что, хоть элемент \enquote{42} (из левого множества) и содержится в правом множестве, но оба множества равны, что нарушает отношение \enquote{строгое подмножество}.}
+            & \pdftooltip%
+                {\Set{\Cat} \nsubset \Set{a, \circle, 9}}%
+                {Почему? Потому что элемент \enquote{cat} (из левого множества) не содержится в правом множестве.}
+            & \pdftooltip%
+                {\Set{5} \nsubset \Set{7, \Set{5}}}%
+                {Почему? Потому что элемент \enquote{5} (из левого множества) не содержится в правом множестве как непосредственный элемент.}
         \end{tabular}
     \end{terms}
 
@@ -115,9 +147,15 @@
     \hfill\href{https://en.wikipedia.org/wiki/Axiom_of_extensionality}{Extensionality}
     \begin{terms}
         \item \begin{tabular}{\ML{4.5cm} \ML{4.5cm} L}
-            \Set{\triangle, a, \Set{5}} = \Set{a, \Set{5}, \triangle}
-            & \Set{2, \Set{\square, \square, \square}, 2} = \Set{2, \Set{\square}}
-            & \Set{6, \emptyset} \neq \Set{6}
+            \pdftooltip%
+                {\Set{\triangle, a, \Set{5}} = \Set{a, \Set{5}, \triangle}}%
+                {Почему? Потому что множество -- \emph{неупорядоченный} набор элементов.\textLF В данном примере оба множества содержат одинаковый набор элементов.}
+            & \pdftooltip%
+                {\Set{2, \Set{\square, \square, \square}, 2} = \Set{2, \Set{\square}}}%
+                {Почему? Потому что множество -- набор \emph{уникальных} элементов.\textLF В левой части некоторые элементы повторяются, однако, задаётся именно \enquote{множество} (т.к. используются фигурные скобки), поэтому на самом деле в обоих частях задаётся одно и то же множество ровно из двух элементов -- \enquote{числа 2} и \enquote{множества, содержащего квадрат}.}
+            & \pdftooltip%
+                {\Set{6, \emptyset} \neq \Set{6}}%
+                {Почему? Потому что левое множество содержит два элемента: \enquote{число 6} и \enquote{пустое множество}, а правое -- только один: \enquote{число 6}.}
         \end{tabular}
     \end{terms}
 \end{terms}
@@ -130,10 +168,18 @@
     \hfill\href{https://en.wikipedia.org/wiki/Cardinality}{Cardinality}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{4cm} L}
-            \card{\Set{4,\square,d}} = 3
-            & \card{\Set{1,9,9,9,1}} = 2
-            & \card{\Set{\Set{a,b,c}, \Set{3,5,9}}} = 2
-            & \card{\Set{1,\Set{2,3,4,5}}} = 2
+            \pdftooltip%
+                {\card{\Set{4,\square,d}} = 3}%
+                {Почему? Потому что в заданном множестве действительно три элемента.}
+            & \pdftooltip%
+                {\card{\Set{1,9,9,9,1}} = 2}%
+                {Почему? Потому что в заданном множестве (наборе уникальных элементов) действительно два различных элемента.}
+            & \pdftooltip%
+                {\card{\Set{\Set{a,b,c}, \Set{3,5,9}}} = 2}%
+                {Почему? Потому что в заданном множестве действительно два элемента.\textLF Внутренняя структура этих элементов не оказывает влияния на мощность множества.}
+            & \pdftooltip%
+                {\card{\Set{1,\Set{2,3,4,\Set{5}}}} = 2}%
+                {Почему? Потому что в заданном множестве действительно два элемента.\textLF Внутренняя структура этих элементов не оказывает влияния на мощность множества.}
         \end{tabular}
     \end{terms}
 
