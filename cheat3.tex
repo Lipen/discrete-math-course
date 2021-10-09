@@ -59,9 +59,6 @@
 %% Not-iff
 \def\niff{\nleftrightarrow}
 
-%% Extra blackboard-like math font
-\DeclareMathAlphabet{\mymathbb}{U}{bbold}{m}{n}
-
 %% Autoscale missing font sizes
 \usepackage{anyfontsize}
 
@@ -89,7 +86,7 @@
     \item There are multiple ways to represent a Boolean function (all examples represent the same function):
 
     \begin{enumerate}[left=6pt .. 18pt]
-        \item Truth table, \eg $f = (1010)$, where LSB corresponds to $\mymathbb{0}$, MSB to $\mymathbb{1}$.
+        \item Truth table, \eg $f = (1010)$, where LSB corresponds to $\vvmathbb{0}$, MSB to $\vvmathbb{1}$.
 
         \item Analytically (as a sentence of propositional logic), \eg $f(A,B) = \neg B$.
 
@@ -879,10 +876,10 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
     \end{terms}
 
     \item A function $f$ is \textbf{zero-preserving} iff it is \texttt{False} on the zero-valuation: \\
-    $f \in T_0 \iff f(\mymathbb{0}) = 0$
+    $f \in T_0 \iff f(\vvmathbb{0}) = 0$
 
     \item A function $f$ is \textbf{one-preserving} iff it is \texttt{True} on the one-valuation: \\
-    $f \in T_1 \iff f(\mymathbb{1}) = 1$
+    $f \in T_1 \iff f(\vvmathbb{1}) = 1$
 
     \item A function $f$ is \textbf{self-dual} iff it is dual to itself: \\
     $f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)$.
