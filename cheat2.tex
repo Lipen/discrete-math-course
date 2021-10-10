@@ -35,28 +35,28 @@
 \subsection{Терминология и обозначения}
 
 \begin{terms}
-    \item $A \times B = \Set{\Pair{a,b} \given a \in A,~ b \in B}$ --- \textbf{декартово произведение} множеств $A$ и $B$.
+    \item $A \times B = \Set{\Pair{a,b} \given a \in A,~ b \in B}$ \--- \textbf{декартово произведение} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product}{Cartesian product}
 
-    \item $A^2 = A \times A$ --- \textbf{декартов квадрат} множества $A$.
+    \item $A^2 = A \times A$ \--- \textbf{декартов квадрат} множества $A$.
     \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product\#n-ary_Cartesian_power}{Cartesian square}
 
-    \item $R \subseteq A \times B$ --- \textbf{бинарное отношение} $R$, определённое на паре множеств $A$ и $B$.
+    \item $R \subseteq A \times B$ \--- \textbf{бинарное отношение} $R$, определённое на паре множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Binary_relation}{Binary relation}
 
-    \item $R \subseteq A^2$ --- (гомогенное) бинарное отношение на множестве $A$.
+    \item $R \subseteq A^2$ \--- (гомогенное) бинарное отношение на множестве $A$.
     \hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation}{Homogeneous relation (endorelation)}
 
-    \item $a \rel b$ --- элементы $a$ и $b$ \textbf{находятся в отношении} $R$, т.е. $\Pair{a,b} \in R$.
+    \item $a \rel b$ \--- элементы $a$ и $b$ \textbf{находятся в отношении} $R$, т.е. $\Pair{a,b} \in R$.
     \hfill\href{https://en.wikipedia.org/wiki/Ordered_pair}{Ordered pair}
 
-    \item $\emptyrel{A} = \emptyset$ -- \textbf{пустое} отношение.
+    \item $\emptyrel{A} = \emptyset$ \--- \textbf{пустое} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation#Particular_homogeneous_relations}{Empty relation}
 
-    \item $\idrel{A} = \Set{\Pair{x,x} \given x \in A}$ -- \textbf{тождественное (диагональное)} отношение.
+    \item $\idrel{A} = \Set{\Pair{x,x} \given x \in A}$ \--- \textbf{тождественное (диагональное)} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation#Particular_homogeneous_relations}{Identity relation}
 
-    \item $\universalrel{A} = A^2 = \Set{\Pair{x,y} \given x,y \in A}$ -- \textbf{полное (универсальное)} отношение.
+    \item $\universalrel{A} = A^2 = \Set{\Pair{x,y} \given x,y \in A}$ \--- \textbf{полное (универсальное)} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Homogeneous_relation#Particular_homogeneous_relations}{Universal relation}
 
     % \item $$
@@ -66,27 +66,27 @@
 \subsection{Операции над отношениями}
 
 \begin{terms}
-    \item $R \union S = \Set{\Pair{a,b} \given (a \rel[R] b) \lor (a \rel[S] b)}$ --- \textbf{объединение} отношений $R$ и $S$.
+    \item $R \union S = \Set{\Pair{a,b} \given (a \rel[R] b) \lor (a \rel[S] b)}$ \--- \textbf{объединение} отношений $R$ и $S$.
     \hfill\href{https://en.wikipedia.org/wiki/Binary_relation#Union}{Union of relations}
 
-    \item $R \intersection S = \Set{\Pair{a,b} \given (a \rel[R] b) \land (a \rel[S] b)}$ --- \textbf{пересечение} отношений $R$ и $S$.
+    \item $R \intersection S = \Set{\Pair{a,b} \given (a \rel[R] b) \land (a \rel[S] b)}$ \--- \textbf{пересечение} отношений $R$ и $S$.
     \hfill\href{https://en.wikipedia.org/wiki/Binary_relation#Intersection}{Intersection of relations}
 
-    \item $R^{-1} = \Set{\Pair{b,a} \given \Pair{a,b} \in R} \subseteq B \times A$ --- отношение, \textbf{обратное} к $R \subseteq A \times B$.
+    \item $R^{-1} = \Set{\Pair{b,a} \given \Pair{a,b} \in R} \subseteq B \times A$ \--- отношение, \textbf{обратное} к $R \subseteq A \times B$.
     \hfill\href{https://en.wikipedia.org/wiki/Converse_relation}{Converse relation}
 
-    \item $\overline{R} = \Set{\Pair{a,b} \given \Pair{a,b} \notin R}$ --- \textbf{дополнение} отношения $R$.
+    \item $\overline{R} = \Set{\Pair{a,b} \given \Pair{a,b} \notin R}$ \--- \textbf{дополнение} отношения $R$.
     \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)\#Complementary_relation}{Complementary relation}
 
-    \item $R_1 \circ R_2 = \Set{\Pair{x,y} \given \exists z : (x \rel[R_1] z) \land (z \rel[R_2] y)}$ --- \textbf{композиция} отношений $R_1$ и $R_2$.
+    \item $R_1 \circ R_2 = \Set{\Pair{x,y} \given \exists z : (x \rel[R_1] z) \land (z \rel[R_2] y)}$ \--- \textbf{композиция} отношений $R_1$ и $R_2$.
     \hfill\href{https://en.wikipedia.org/wiki/Composition_of_relations}{Composition of relations}
     \begin{terms}
         \item Если $R_1 \subseteq A \times B$ и $R_2 \subseteq B \times C$, то $R_1 \circ R_2 \subseteq A \times C$.
     \end{terms}
 
-    \item $R[M] = \Set{y \given \exists x \in M : x \rel y}$ --- \textbf{применение} отношения $R$ ко множеству $M$.
+    \item $R[M] = \Set{y \given \exists x \in M : x \rel y}$ \--- \textbf{применение} отношения $R$ ко множеству $M$.
 
-    \item $R^{=} = R \union \idrel{A}$ --- \textbf{рефлексивное замыкание} отношения $R \subseteq A^2$.
+    \item $R^{=} = R \union \idrel{A}$ \--- \textbf{рефлексивное замыкание} отношения $R \subseteq A^2$.
     \hfill\href{https://en.wikipedia.org/wiki/Reflexive_closure}{Reflexive closure}
     % \begin{terms}
     %     \item If $R$ is a \emph{strict partial order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{partial order}.
@@ -94,7 +94,7 @@
     %     \item If $R$ is a \emph{strict linear order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{linear order}.
     % \end{terms}
 
-    \item $R^{\neq} = R \setminus \idrel{A}$ --- \textbf{рефлексивное сокращение} отношения $R \subseteq A^2$.
+    \item $R^{\neq} = R \setminus \idrel{A}$ \--- \textbf{рефлексивное сокращение} отношения $R \subseteq A^2$.
     \hfill\href{https://en.wikipedia.org/wiki/Reflexive_reduction}{Reflexive reduction}
     % \begin{terms}
     %     \item If $R$ is a \emph{partial order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict partial order}.
@@ -102,10 +102,10 @@
     %     \item If $R$ is a \emph{linear order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict linear order}.
     % \end{terms}
 
-    \item $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ --- \textbf{транзитивное замыкание} отношения $R \subseteq A^2$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
+    \item $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ \--- \textbf{транзитивное замыкание} отношения $R \subseteq A^2$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
     \hfill\href{https://en.wikipedia.org/wiki/Transitive_closure}{Transitive closure}
 
-    % \item $R^{*} = (R^{+})^{=}$ -- \textbf{рефлексивное транзитивное замыкание} отношения $R \subseteq A^2$.
+    % \item $R^{*} = (R^{+})^{=}$ \--- \textbf{рефлексивное транзитивное замыкание} отношения $R \subseteq A^2$.
     % \hfill\href{https://en.wikipedia.org/wiki/Reflexive_transitive_closure}{Reflexive transitive closure}
 \end{terms}
 
@@ -183,10 +183,10 @@
 \subsection{Отношения эквивалентности}
 
 \begin{terms}
-    \item \textbf{Отношение толерантности} -- \textit{рефлексивное} и \textit{симметричное}.
+    \item \textbf{Отношение толерантности} \--- \textit{рефлексивное} и \textit{симметричное}.
     \hfill\href{https://en.wikipedia.org/wiki/Tolerance_relation}{Tolerance relation}
 
-    \item \textbf{Отношение эквивалентности} -- \textit{рефлексивное}, \textit{симметричное} и \textit{транзитивное}.
+    \item \textbf{Отношение эквивалентности} \--- \textit{рефлексивное}, \textit{симметричное} и \textit{транзитивное}.
     \hfill\href{https://en.wikipedia.org/wiki/Equivalence_relation}{Equivalence relation}
 
     \item \textbf{Класс эквивалентности} элемента $x \in A$: $\equivclass{x} = \Set{y \in A \given x \rel y}$.
@@ -201,30 +201,30 @@
 \texorpdfstring{\hfill\normalfont\href{https://en.wikipedia.org/wiki/Order_theory}{Order theory}}{}}
 
 \begin{terms}
-    \item \textbf{Предпорядок} (\textbf{квазипорядок}) --- \emph{рефлексивное} и \emph{транзитивное} отношение.
+    \item \textbf{Предпорядок} (\textbf{квазипорядок}) \--- \emph{рефлексивное} и \emph{транзитивное} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Preorder}{Preorder}
 
-    \item \textbf{Частичный порядок} --- \emph{рефлексивное}, \emph{антисимметричное} и \emph{транзитивное} отношение.
+    \item \textbf{Частичный порядок} \--- \emph{рефлексивное}, \emph{антисимметричное} и \emph{транзитивное} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Partial_order}{Partial order}
 
-    \item \textbf{Линейный (полный) порядок} --- \emph{сильно-связный} частичный порядок.
+    \item \textbf{Линейный (полный) порядок} \--- \emph{сильно-связный} частичный порядок.
     \hfill\href{https://en.wikipedia.org/wiki/Linear_order}{Linear (total) order}
 
-    \item \textbf{Строгий частичный порядок} --- \emph{иррефл.}, \emph{антисимм.} и \emph{транзитивное} отношение.
+    \item \textbf{Строгий частичный порядок} \--- \emph{иррефл.}, \emph{антисимм.} и \emph{транзитивное} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set#Strict_partial_order}{Strict partial order}
 
-    \item \textbf{Строгий линейный (полный) порядок} --- \emph{связный} строгий частичный порядок.
+    \item \textbf{Строгий линейный (полный) порядок} \--- \emph{связный} строгий частичный порядок.
     \hfill\href{https://en.wikipedia.org/wiki/Total_order#Strict_total_order}{Strict total order}
 
 \centerline{\rule{0.5\textwidth}{.2pt}}
 
-    \item \textbf{Частично упорядоченное множество} --- упорядоченная пара $\Pair{M,R}$, где $M$ -- произвольное множество, $R \subseteq M^2$ -- отношение \textit{частичного порядка} на $M$.
+    \item \textbf{Частично упорядоченное множество} \--- упорядоченная пара $\Pair{M,R}$, где $M$ \--- произвольное множество, $R \subseteq M^2$ \--- отношение \textit{частичного порядка} на $M$.
     \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set}{Partially ordered set (Poset)}
 
     % \item TODO: minimal/maximal element
     % \item TODO: least/greatest element
 
-    \item \textbf{Диаграмма Хассе} --- способ визуализации частично упорядоченного множества $\Pair{M,R}$ в виде графа, вершины которого -- элементы множества~$M$, а ребро (изображается направленным вверх) из $x$ в~$y$ соответствует тому, что $y$ \href{https://en.wikipedia.org/wiki/Covering_relation}{\enquote{покрывает}} $x$, то есть: $x \lessdot y \iff x R y \land \nexists z: (x R z \land z R y)$.
+    \item \textbf{Диаграмма Хассе} \--- способ визуализации частично упорядоченного множества $\Pair{M,R}$ в виде графа, вершины которого \--- элементы множества~$M$, а ребро (изображается направленным вверх) из $x$ в~$y$ соответствует тому, что $y$ \href{https://en.wikipedia.org/wiki/Covering_relation}{\enquote{покрывает}} $x$, то есть: $x \lessdot y \iff x R y \land \nexists z: (x R z \land z R y)$.
     \hfill\href{https://en.wikipedia.org/wiki/Hasse_diagram}{Hasse diagram}
     % Fun stuff:
     % http://blog.ezyang.com/2010/12/hussling-haskell-types-into-hasse-diagrams/
@@ -380,10 +380,10 @@
 \subsection{Функции как отношения}
 
 \begin{terms}
-    \item \textbf{Частичная функция} $f : X \pto Y$ -- Functional бинарное отношение.
+    \item \textbf{Частичная функция} $f : X \pto Y$ \--- Functional бинарное отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Partial_function}{Partial function}
 
-    \item \textbf{Функция} $f : X \to Y$ -- Functional и Serial бинарное отношение.
+    \item \textbf{Функция} $f : X \to Y$ \--- Functional и Serial бинарное отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Function_(mathematics)}{Function}
 \end{terms}
 
@@ -399,7 +399,7 @@
 
 \subsection{Матричное представление отношений}
 
-Любое бинарное отношение $R \subseteq A \times B$, определённое на паре множеств $A = \Set{a_1, \dotsc, a_n}$ и $B = \Set{b_1, \dotsc, b_m}$ может быть представлено в виде матрицы $\relmatrix{R}$ размера $n \times m$, элементы которой -- 0 или 1:
+Любое бинарное отношение $R \subseteq A \times B$, определённое на паре множеств $A = \Set{a_1, \dotsc, a_n}$ и $B = \Set{b_1, \dotsc, b_m}$ может быть представлено в виде матрицы $\relmatrix{R}$ размера $n \times m$, элементы которой \--- 0 или 1:
 \hfill\href{https://en.wikipedia.org/wiki/Logical_matrix}{Logical matrix}
 \[
     \relmatrix{R} = \begin{bmatrix} r_{i,j} \end{bmatrix}
@@ -411,7 +411,7 @@
     \end{cases*}
 \]
 
-% Пусть $A$ -- множество. Матрица тождественного отношения $\idrel{A}$ -- единичная матрица; матрица полного отношения~$\universalrel{A}$ полностью составлена из 1:
+% Пусть $A$ \--- множество. Матрица тождественного отношения $\idrel{A}$ \--- единичная матрица; матрица полного отношения~$\universalrel{A}$ полностью составлена из 1:
 
 % \[
 %     \relmatrix{\idrel{A}} = \begin{bmatrix}
@@ -509,7 +509,7 @@
 
 \def\matrixsize{4}
 
-Пусть $R \subseteq M^2$ --- бинарное отношение, определённое на множестве $M = \Set{m_1, \dotsc, m_{\matrixsize}}$.
+Пусть $R \subseteq M^2$ \--- бинарное отношение, определённое на множестве $M = \Set{m_1, \dotsc, m_{\matrixsize}}$.
 Примеры матриц отношений, обладающих некоторыми свойствами:
 
 \begin{table}[!h]
@@ -695,7 +695,7 @@
 
 % \subsection{Графовое представление отношений}
 
-% Любое бинарное отношение $R \subseteq A \times B$, определённое на паре множеств $A$ и $B$ может быть представлено в виде ориентированного графа $G = \Pair{V,E}$, где $V = A \union B$ -- множество вершин, $E = R$ -- множество направленных рёбер.
+% Любое бинарное отношение $R \subseteq A \times B$, определённое на паре множеств $A$ и $B$ может быть представлено в виде ориентированного графа $G = \Pair{V,E}$, где $V = A \union B$ \--- множество вершин, $E = R$ \--- множество направленных рёбер.
 
 % \vspace{5mm}
 % % \begin{adjustbox}{cframe=red}

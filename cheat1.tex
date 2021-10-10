@@ -38,34 +38,34 @@
 \subsection{Терминология и обозначения}
 
 \begin{terms}
-    \item \textbf{Множество} -- \emph{неупорядоченный} набор \emph{уникальных} элементов.
+    \item \textbf{Множество} \--- \emph{неупорядоченный} набор \emph{уникальных} элементов.
     \hfill\href{https://en.wikipedia.org/wiki/Set_(mathematics)}{Set}
 
     \item Множество может быть задано с помощью:
     \hfill\href{https://en.wikipedia.org/wiki/Set-builder_notation}{Set-builder notation}
     \begin{terms}
-        \item перечисления элементов: $\Set{a_1, a_2, \dotsc, a_n}$ -- множество, состоящее из $n$ элементов $a_1, a_2, \dotsc, a_n$.
+        \item перечисления элементов: $\Set{a_1, a_2, \dotsc, a_n}$ \--- множество, состоящее из $n$ элементов $a_1, a_2, \dotsc, a_n$.
         \hfill\href{https://en.wikipedia.org/wiki/Urelement}{Urelement}
         \begin{terms}
-            \item Например, $\Set{\square, \Cat, 42}$ -- множество, содержащее квадрат, кошку (или кота) и число 42.
+            \item Например, $\Set{\square, \Cat, 42}$ \--- множество, содержащее квадрат, кошку (или кота) и число 42.
             \hfill\href{https://ru.wikipedia.org/wiki/The_Ultimate_Question_of_Life,_the_Universe,_and_Everything}{42}
         \end{terms}
 
-        \item характеристического свойства: $\Set{x \given P(x)}$ -- множество элементов, обладающих \textbf{свойством} $P$.
+        \item характеристического свойства: $\Set{x \given P(x)}$ \--- множество элементов, обладающих \textbf{свойством} $P$.
         \hfill\href{https://en.wikipedia.org/wiki/Predicate_(mathematical_logic)}{Predicate}
         \begin{terms}
-            \item Например, $\Set{x \in \Natural \given \text{$x$ -- простое}}$ -- множество простых чисел.
+            \item Например, $\Set{x \in \Natural \given \text{$x$ \--- простое}}$ \--- множество простых чисел.
             \hfill\href{https://en.wikipedia.org/wiki/Prime_number}{Prime number}
         \end{terms}
     \end{terms}
 
-    \item $\emptyset = \Set{}$ -- \textbf{пустое} множество.
+    \item $\emptyset = \Set{}$ \--- \textbf{пустое} множество.
     \hfill\href{https://en.wikipedia.org/wiki/Empty_set}{Empty set}
 
-    \item $\universalset$ -- \textbf{универсальное} множество (\textbf{универсум}).
+    \item $\universalset$ \--- \textbf{универсальное} множество (\textbf{универсум}).
     \hfill\href{https://en.wikipedia.org/wiki/Universal_set}{Universal set}
 
-    \item $x \in A$ -- элемент $x$ \textbf{принадлежит} множеству $A$.
+    \item $x \in A$ \--- элемент $x$ \textbf{принадлежит} множеству $A$.
     \hfill\href{https://en.wikipedia.org/wiki/Element_(mathematics)}{Element}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
@@ -79,12 +79,12 @@
                 {1.25 \in \Rational}%
                 {Почему? Потому что 1.25 действительно является рациональным числом (5/4).}
             & \pdftooltip%
-                {2 \in \Set{x \in \Natural \given \text{$x$ -- простое}}}%
+                {2 \in \Set{x \in \Natural \given \text{$x$ \--- простое}}}%
                 {Почему? Потому что число 2 действительно считается простым числом.}
         \end{tabular}
     \end{terms}
 
-    \item $x \notin A$ -- элемент $x$ \textbf{не принадлежит} множеству $A$.
+    \item $x \notin A$ \--- элемент $x$ \textbf{не принадлежит} множеству $A$.
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
             \pdftooltip%
@@ -97,12 +97,12 @@
                 {\pi \notin \Rational}%
                 {Почему? Потому что число Пи действительно не является рациональным.}
             & \pdftooltip%
-                {42 \notin \Set{x \in \Natural \given \text{$x$ -- простое}}}%
+                {42 \notin \Set{x \in \Natural \given \text{$x$ \--- простое}}}%
                 {Почему? Потому что число 42 действительно не является простым.}
         \end{tabular}
     \end{terms}
 
-    \item $A \subseteq B$ -- множество $A$ является \textbf{подмножеством} множества $B$, т.е. $\forall x : x \in A \implies x \in B$.
+    \item $A \subseteq B$ \--- множество $A$ является \textbf{подмножеством} множества $B$, т.е. $\forall x : x \in A \implies x \in B$.
     \hfill\href{https://en.wikipedia.org/wiki/Subset}{Subset}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
@@ -121,7 +121,7 @@
         \end{tabular}
     \end{terms}
 
-    \item $A \subset B$ -- множество $A$ является \textbf{строгим подмножеством} множества $B$, т.е. $A \subseteq B$ и $A \neq B$.
+    \item $A \subset B$ \--- множество $A$ является \textbf{строгим подмножеством} множества $B$, т.е. $A \subseteq B$ и $A \neq B$.
     \hfill\href{https://en.wikipedia.org/wiki/Strict_subset}{Strict subset}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{3cm} L}
@@ -140,19 +140,19 @@
         \end{tabular}
     \end{terms}
 
-    \item $A = B$ -- множества $A$ и $B$ содержат одинаковые элементы, т.е. $\forall x : x \in A \iff x \in B$.
+    \item $A = B$ \--- множества $A$ и $B$ содержат одинаковые элементы, т.е. $\forall x : x \in A \iff x \in B$.
     \hfill\href{https://en.wikipedia.org/wiki/Axiom_of_extensionality}{Extensionality}
     \begin{terms}
         \item \begin{tabular}{\ML{4.5cm} \ML{4.5cm} L}
             \pdftooltip%
                 {\Set{\triangle, a, \Set{5}} = \Set{a, \Set{5}, \triangle}}%
-                {Почему? Потому что множество -- \emph{неупорядоченный} набор элементов.\textLF В данном примере оба множества содержат одинаковый набор элементов.}
+                {Почему? Потому что множество --- \emph{неупорядоченный} набор элементов.\textLF В данном примере оба множества содержат одинаковый набор элементов.}
             & \pdftooltip%
                 {\Set{2, \Set{\square, \square, \square}, 2} = \Set{2, \Set{\square}}}%
-                {Почему? Потому что множество -- набор \emph{уникальных} элементов.\textLF В левой части некоторые элементы повторяются, однако, задаётся именно \enquote{множество} (т.к. используются фигурные скобки), поэтому на самом деле в обоих частях задаётся одно и то же множество ровно из двух элементов -- \enquote{числа 2} и \enquote{множества, содержащего квадрат}.}
+                {Почему? Потому что множество --- набор \emph{уникальных} элементов.\textLF В левой части некоторые элементы повторяются, однако, задаётся именно \enquote{множество} (т.к. используются фигурные скобки), поэтому на самом деле в обоих частях задаётся одно и то же множество ровно из двух элементов --- \enquote{числа 2} и \enquote{множества, содержащего квадрат}.}
             & \pdftooltip%
                 {\Set{6, \emptyset} \neq \Set{6}}%
-                {Почему? Потому что левое множество содержит два элемента: \enquote{число 6} и \enquote{пустое множество}, а правое -- только один: \enquote{число 6}.}
+                {Почему? Потому что левое множество содержит два элемента: \enquote{число 6} и \enquote{пустое множество}, а правое --- только один: \enquote{число 6}.}
         \end{tabular}
     \end{terms}
 \end{terms}
@@ -161,7 +161,7 @@
 \subsection{Операции над множествами}
 
 \begin{terms}
-    \item $\card{A}$ -- \textbf{мощность} множества $A$ (число элементов).
+    \item $\card{A}$ \--- \textbf{мощность} множества $A$ (число элементов).
     \hfill\href{https://en.wikipedia.org/wiki/Cardinality}{Cardinality}
     \begin{terms}
         \item \begin{tabular}{\ML{3cm} \ML{3cm} \ML{4cm} L}
@@ -180,33 +180,33 @@
         \end{tabular}
     \end{terms}
 
-    \item $2^{A} = \powerset{A} = \Set{X \given X \subseteq A}$ -- \textbf{булеан} множества $A$ (множество всех подмножеств).
+    \item $2^{A} = \powerset{A} = \Set{X \given X \subseteq A}$ \--- \textbf{булеан} множества $A$ (множество всех подмножеств).
     \hfill\href{https://en.wikipedia.org/wiki/Power_set}{Powerset}
     \begin{terms}
         \item $\powerset{\Set{1,\square,\emptyset}} = \Set{\emptyset, ~\Set{1}, \Set{\square}, \Set{\emptyset}, ~\Set{1,\square}, \Set{1,\emptyset}, \Set{\square,\emptyset}, ~\Set{1,\square,3}}$
     \end{terms}
 
-    \item $A \intersection B = \Set{x \given x \in A \land x \in B}$ -- \textbf{пересечение} множеств $A$ и $B$.
+    \item $A \intersection B = \Set{x \given x \in A \land x \in B}$ \--- \textbf{пересечение} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Intersection_(set_theory)}{Intersection}
 
-    \item $A \union B = \Set{x \given x \in A \lor x \in B}$ -- \textbf{объединение} множеств $A$ и $B$.
+    \item $A \union B = \Set{x \given x \in A \lor x \in B}$ \--- \textbf{объединение} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Union_(set_theory)}{Union}
 
-    \item $A \setminus B = A \intersection \overline{B} = \Set{x \given x \in A \;\land\; x \notin B}$ -- \textbf{разность} множеств $A$ и $B$ (дополнение $A$ до $B$).
+    \item $A \setminus B = A \intersection \overline{B} = \Set{x \given x \in A \;\land\; x \notin B}$ \--- \textbf{разность} множеств $A$ и $B$ (дополнение $A$ до $B$).
     \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)}{Set difference}
 
-    \item $\overline{A} = \universalset \setminus A = \Set{x \in \universalset \given x \notin A}$ -- \textbf{дополнение} (до универсума) множества $A$.
+    \item $\overline{A} = \universalset \setminus A = \Set{x \in \universalset \given x \notin A}$ \--- \textbf{дополнение} (до универсума) множества $A$.
     \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)}{Complement}
 
-    \item $A \symdiff B = (A \setminus B) \union (B \setminus A) = (A \union B) \setminus (A \intersection B)$ -- \textbf{симметрическая разность} множеств $A$~и~$B$.~
+    \item $A \symdiff B = (A \setminus B) \union (B \setminus A) = (A \union B) \setminus (A \intersection B)$ \--- \textbf{симметрическая разность} множеств $A$~и~$B$.~
     \hfill\href{https://en.wikipedia.org/wiki/Symmetric_difference}{Symmetric difference}
 
-    \item $A \times B = \Set{\Pair{a, b} \given a \in A,\, b \in B}$ -- \textbf{декартово произведение} множеств $A$ и $B$.
+    \item $A \times B = \Set{\Pair{a, b} \given a \in A,\, b \in B}$ \--- \textbf{декартово произведение} множеств $A$ и $B$.
     \hfill\href{https://en.wikipedia.org/wiki/Cartesian_product}{Cartesian product}
 
-    \item $\underbrace{A_1 \times \ldots \times A_n}_{n \text{ sets}} = \Set{\underbracket{\Tuple{a_1, \ldots, a_n}}_{n\text{-tuple}} \given a_i \in A_i,\, i \in [1; n]}$ -- \textbf{$n$-арное декартово произведение} множеств $A_1, \ldots, A_n$.
+    \item $\underbrace{A_1 \times \ldots \times A_n}_{n \text{ sets}} = \Set{\underbracket{\Tuple{a_1, \ldots, a_n}}_{n\text{-tuple}} \given a_i \in A_i,\, i \in [1; n]}$ \--- \textbf{$n$-арное декартово произведение} множеств $A_1, \ldots, A_n$.
 
-    \item $A^n = \underbrace{A \times \ldots \times A}_{n \text{ раз}} = \Set{\underbracket{\Tuple{a_1, \ldots, a_n}}_{n\text{-кортеж}} \given a_i \in A,\, i \in [1; n]}$\vspace{-4pt} -- \textbf{декартова степень} множества $A$.
+    \item $A^n = \underbrace{A \times \ldots \times A}_{n \text{ раз}} = \Set{\underbracket{\Tuple{a_1, \ldots, a_n}}_{n\text{-кортеж}} \given a_i \in A,\, i \in [1; n]}$\vspace{-4pt} \--- \textbf{декартова степень} множества $A$.
     \hfill\href{https://en.wikipedia.org/wiki/Tuple}{Tuple}
 
     % \item $$
@@ -656,7 +656,7 @@
 \subsection{Декартово произведение множеств на плоскости \texorpdfstring{$\Real^2$}{R\string^2}%
 \texorpdfstring{\hfill\normalfont\href{https://en.wikipedia.org/wiki/Real_coordinate_space}{$\Real^2$ coordinate space}}{}}
 
-Декартово произведение двух множеств -- множество пар. Если представить, что такие пары -- элементы пространства~$\Real^2$ (точки на плоскости), то возможна следующая геометрическая интерпретация:
+Декартово произведение двух множеств \--- множество пар. Если представить, что такие пары \--- элементы пространства~$\Real^2$ (точки на плоскости), то возможна следующая геометрическая интерпретация:
 
 \tikzset{
     mycartesianstyle/.style={
