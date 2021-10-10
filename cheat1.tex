@@ -669,9 +669,8 @@
     }
 }
 
-\begin{figure}[!htb]
+\begin{figure}[H]
 \centering
-\hfill%
 \begin{tikzpicture}[mycartesianstyle]
     % Grid
     \draw[help lines] (0,0) grid (5.6,4.6);
@@ -713,7 +712,7 @@
     % Caption
     \drawlabel{\smash[b]{$(A \times B) \union C^2 = \Bigl( [1; 4) \times (2; 4] \Bigr) \union \Set{1}^2$}};
 \end{tikzpicture}%
-\hfill%
+\qquad%
 \begin{tikzpicture}[mycartesianstyle]
     \def\Aleft{1}
     \def\Aright{5}
@@ -799,9 +798,7 @@
     % \path[dashed,help lines] (\Xsidetwo,\Dleft) edge[bend right] (\Cleft,\Dleft);
     % \path[dashed,help lines] (\Xsidetwo,\Dright) edge[bend left] (\Cleft,\Dright);
     % \end{scope}
-\end{tikzpicture}%
-\hfill%
-\null%
+\end{tikzpicture}
 \end{figure}
 
 \end{document}
