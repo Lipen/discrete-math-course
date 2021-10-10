@@ -5,14 +5,17 @@
 \geometry{
     margin=2cm,
     includehead,
-    % includefoot,
-    headsep=4mm,
+    includefoot,
+    headsep=8pt,
+    footskip=16pt,
 }
 \pagestyle{fancy}
-\fancyfoot{}
 \MakeSingleHeader% {<l>}{<r>}
-    {\TextCheatsheetEng: Binary Relations}
+    {\TextCheatsheetEng: Binary Relations}%
     {\TextDiscreteMathEng, \IconFall~Fall 2021}
+\fancyfoot{}
+\fancyfoot[L]{\tiny Build time: \DTMnow}
+\fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
 % \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
 
 %% Add custom setup below

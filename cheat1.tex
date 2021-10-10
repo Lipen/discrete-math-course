@@ -5,16 +5,18 @@
 \geometry{
     margin=2cm,
     includehead,
-    % includefoot,
-    headsep=4mm,
+    includefoot,
+    headsep=8pt,
+    footskip=16pt,
 }
 \pagestyle{fancy}
-\fancyfoot{}
 \MakeSingleHeader% {<l>}{<r>}
-    {\TextCheatsheetEng: Set Theory}
+    {\TextCheatsheetEng: Set Theory}%
     {\TextDiscreteMathEng, \IconFall~Fall 2021}
+\fancyfoot{}
+\fancyfoot[L]{\tiny Build time: \DTMnow}
+\fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
 % \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
-% \fancyhead[C]{\includegraphics[height=14pt,raise=-2pt,set height=0pt,set depth=0pt]{img/set-theory.pdf}}
 
 %% Add custom setup below
 
@@ -27,11 +29,6 @@
 \usepackage{venndiagram}
 \usepackage{witharrows}
 \usepackage{pdfcomment}
-
-% %% Show page layout
-% \usepackage{showframe}
-% \renewcommand\ShowFrameLinethickness{0.1pt}
-% \renewcommand*\ShowFrameColor{\color{lightgray}}
 
 
 \begin{document}
@@ -495,7 +492,7 @@
     Для заданного списка областей нарисуйте диаграмму Венна и составьте соответствующую формулу, используя термы $A$, $B$, $C$, $\overline{A}$, $\overline{B}$, $\overline{C}$ и операторы $\union$,~$\intersection$.
 
     \begin{enumerate}[leftmargin=1pc, itemsep=4pt]
-        \item \(\begin{WithArrows}[more-columns,command-name=Explain,group]
+        \item \(\begin{WithArrows}[command-name=Explain,group,jot=2pt]
             \smash[b]{\underbrace{\mathcal{S}(1,4,6,8)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn1);}}
             &= \mathcal{S}(1,4,6) + \mathcal{S}(8) = {}
             ~\dslash\; \text{\href{https://bit.ly/2nWtPaq}{Wolfram}} \;\dslash \\
@@ -526,7 +523,7 @@
             &= \uwave{A \cdot \overline{B} + \overline{B} \cdot \overline{C} + A \cdot \overline{C}}
         \end{WithArrows}\)
 
-        \item \(\begin{WithArrows}[more-columns,command-name=Explain,group]
+        \item \(\begin{WithArrows}[command-name=Explain,group,jot=2pt]
             \smash[b]{\underbrace{\mathcal{S}(1,5,6)}_{\tikz[remember picture, overlay] \draw[-latex, shorten >=2pt] (0,1ex) to[bend left] (venn2);}}
             &= \mathcal{S}(1,6) + \mathcal{S}(5) = {}
             ~\dslash\; \text{\href{https://bit.ly/2o3gmNT}{Wolfram}} \;\dslash \\
@@ -677,14 +674,14 @@
 \hfill%
 \begin{tikzpicture}[mycartesianstyle]
     % Grid
-    \draw[help lines] (0,0) grid (5.7,4.7);
+    \draw[help lines] (0,0) grid (5.6,4.6);
     % X axis
-    \draw[-latex] (-0.3,0) -- (5.7,0) node[below] {$x$};
+    \draw[-latex] (-0.3,0) -- (5.6,0) node[below] {$x$};
     \foreach \x in {1,2,3,4,5} {
         \draw (\x,0.1) -- (\x,-0.1) node[below] {\x};
     }
     % Y axis
-    \draw[-latex] (0,-0.3) -- (0,4.7) node[left] {$y$};
+    \draw[-latex] (0,-0.3) -- (0,4.6) node[left] {$y$};
     \foreach \x in {1,2,3,4} {
         \draw (0.1,\x) -- (-0.1,\x) node[left] {\x};
     }
