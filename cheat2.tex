@@ -281,9 +281,30 @@
     mynode/.style={
         inner sep=2pt,
     },
-    arrow/.style={
-        ->,
-        >={Latex[round,open]},
+    rel/.style={
+        % -,
+        ->,>={Latex[round,open]},
+    },
+]
+    \def\vgap{7.3mm}
+    \def\n{4}
+    \foreach \i [evaluate=\i as \ni using {int(\i)}, evaluate=\i as \j using {\i-1}] in {1,...,\n}{
+        \node[mynode] (n\ni) at (0,\j*\vgap) {\ni};
+    }
+    \node[mynode] (top) at (0,\n*\vgap) {$\cdots$};
+    \foreach \i [evaluate=\i as \ni using {int(\i)}, evaluate=\i as \nj using {int(\i-1)}] in {2,...,\n}{
+        \draw[rel] (n\nj) -- (n\ni);
+    }
+    \draw[rel] (n\n) -- (top);
+    \node (label) at (current bounding box.south) [below] {$\Pair{\NaturalPlus, \leq}$};
+\end{tikzpicture}%
+\hspace{2em}%
+\begin{tikzpicture}[
+    mynode/.style={
+        inner sep=2pt,
+    },
+    rel/.style={
+        ->,>={Latex[round,open]},
     },
     frontline/.style={
         preaction={draw=white,-,line width=4pt},
@@ -299,32 +320,27 @@
     \node[mynode] (ac)    at (0,2*\vgap)      {$\Set{a,c}$};
     \node[mynode] (bc)    at (\hgap,2*\vgap)  {$\Set{b,c}$};
     \node[mynode] (abc)   at (0,3*\vgap)      {$\Set{a,b,c}$};
-    \draw[arrow] (empty) -- (a);
-    \draw[arrow] (empty) -- (b);
-    \draw[arrow] (empty) -- (c);
-    \draw[arrow] (a) -- (ab);
-    \draw[arrow] (a) -- (ac);
-    \draw[arrow] (c) -- (ac);
-    \draw[arrow] (c) -- (bc);
-    \draw[arrow,frontline] (b) -- (ab);
-    \draw[arrow,frontline] (b) -- (bc);
-    \draw[arrow] (ab) -- (abc);
-    \draw[arrow] (ac) -- (abc);
-    \draw[arrow] (bc) -- (abc);
+    \draw[rel] (empty) -- (a);
+    \draw[rel] (empty) -- (b);
+    \draw[rel] (empty) -- (c);
+    \draw[rel] (a) -- (ab);
+    \draw[rel] (a) -- (ac);
+    \draw[rel] (c) -- (ac);
+    \draw[rel] (c) -- (bc);
+    \draw[rel,frontline] (b) -- (ab);
+    \draw[rel,frontline] (b) -- (bc);
+    \draw[rel] (ab) -- (abc);
+    \draw[rel] (ac) -- (abc);
+    \draw[rel] (bc) -- (abc);
     \node (label) at (current bounding box.south) [below] {$\Pair{\powerset{\Set{a,b,c}}, \subseteq}$};
 \end{tikzpicture}%
-% \end{adjustbox}%
 \hspace{2em}%
-% \begin{adjustbox}{cframe=red}
 \begin{tikzpicture}[
     rel/.style={
         -,
         preaction={draw=white,-,line width=4pt},
     },
-    reldot/.style={
-        rel,
-        dotted,
-    },
+    reldot/.style={rel, dotted},
     node distance=2mm,
 ]
     \matrix (m) [
@@ -372,7 +388,6 @@
 
     \node (label) at (current bounding box.south) [below] {$\Pair{\NaturalZero, \divides}$};
 \end{tikzpicture}%
-% \end{adjustbox}%
 \end{tabular}
 \end{center}
 
