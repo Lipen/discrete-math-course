@@ -105,6 +105,9 @@
     \item $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ \--- \textbf{транзитивное замыкание} отношения $R \subseteq A^2$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
     \hfill\href{https://en.wikipedia.org/wiki/Transitive_closure}{Transitive closure}
 
+    \item $R^{-} = R \setminus \Set{\Pair{a,c} \given \exists b : (a \rel b) \land (b \rel c)}$ \--- \textbf{транзитивное сокращение} отношения $R \subseteq A^2$.
+    \hfill\href{https://en.wikipedia.org/wiki/Transitive_reduction}{Transitive reduction}
+
     % \item $R^{*} = (R^{+})^{=}$ \--- \textbf{рефлексивное транзитивное замыкание} отношения $R \subseteq A^2$.
     % \hfill\href{https://en.wikipedia.org/wiki/Reflexive_transitive_closure}{Reflexive transitive closure}
 \end{terms}
@@ -203,6 +206,8 @@
 \begin{terms}
     \item \textbf{Предпорядок} (\textbf{квазипорядок}) \--- \emph{рефлексивное} и \emph{транзитивное} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Preorder}{Preorder}
+    % Memetic stuff:
+    % https://begriffs.com/posts/2013-12-17-the-weird-forest-of-big-oh-asymptotics.html
 
     \item \textbf{Частичный порядок} \--- \emph{рефлексивное}, \emph{антисимметричное} и \emph{транзитивное} отношение.
     \hfill\href{https://en.wikipedia.org/wiki/Partial_order}{Partial order}
@@ -216,15 +221,40 @@
     \item \textbf{Строгий линейный (полный) порядок} \--- \emph{связный} строгий частичный порядок.
     \hfill\href{https://en.wikipedia.org/wiki/Total_order#Strict_total_order}{Strict total order}
 
-\centerline{\rule{0.5\textwidth}{.2pt}}
-
     \item \textbf{Частично упорядоченное множество} \--- упорядоченная пара $\Pair{M,R}$, где $M$ \--- произвольное множество, $R \subseteq M^2$ \--- отношение \textit{частичного порядка} на $M$.
     \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set}{Partially ordered set (Poset)}
 
-    % \item TODO: minimal/maximal element
-    % \item TODO: least/greatest element
+    \item Элемент упорядоченного множества $\Pair{M, R}$ называется \textbf{максимальным}, если он не меньше других элементов, то есть не существует элемента больше.
+    Дуально, элемент называется \textbf{минимальным}, если он не больше других, то есть нет элемента меньше.
+    \hfill\href{https://en.wikipedia.org/wiki/Maximal_and_minimal_elements}{Maximal and minimal elements}
+    \begin{terms}
+        \item $a \in M \text{ is \textbf{maximal}}
+        \iff \forall b \neq a : \neg (a \rel b)
+        ~\equiv~ \nexists b \neq a : (a \rel b)$
+        \item $a \in M \text{ is \textbf{minimal}\,}
+        \iff \forall b \neq a : \neg (b \rel a)
+        ~\equiv~ \nexists b \neq a : (b \rel a)$
+    \end{terms}
 
-    \item \textbf{Диаграмма Хассе} \--- способ визуализации частично упорядоченного множества $\Pair{M,R}$ в виде графа, вершины которого \--- элементы множества~$M$, а ребро (изображается направленным вверх) из $x$ в~$y$ соответствует тому, что $y$ \href{https://en.wikipedia.org/wiki/Covering_relation}{\enquote{покрывает}} $x$, то есть: $x \lessdot y \iff x R y \land \nexists z: (x R z \land z R y)$.
+    \item Элемент упорядоченного множества $\Pair{M, R}$ называется \textbf{наибольшим}, если он больше всех элементов.
+    Дуально, элемент называется \textbf{наименьшим}, если он меньше всех элементов.
+    \hfill\href{https://en.wikipedia.org/wiki/Greatest_element_and_least_element}{Greatest and least elements}
+    \begin{terms}
+        \item $a \in M \text{ is \textbf{maximum} (\textbf{greatest})}
+        \iff \forall b : (b \rel a)$
+        \item $a \in M \text{ is \textbf{minimum} (\textbf{least})}
+        \iff \forall b : (a \rel b)$
+    \end{terms}
+
+    \item $(x \lessdot y) \iff (x < y) \land \nexists z: ((x < z) \land (z < y))$ \--- \textbf{отношение покрытия} ($y$ \enquote{\textit{покрывает}} $x$).
+    \hfill\href{https://en.wikipedia.org/wiki/Covering_relation}{Covering relation}
+    \begin{terms}
+        % \item \enquote{$\leq$} \--- некоторый \textit{частичный порядок}
+        \item \enquote{$<$} \--- индуцированный \textit{строгий частичный порядок}: $(x < y) \iff (x \leq y) \land (x \neq y)$
+    \end{terms}
+
+    \item \textbf{Диаграмма Хассе} \--- визуализация частично упорядоченного множества $\Pair{M, R}$ в виде графа \textit{транзитивного сокращения}~$R^{-}$.
+    Вершины такого графа \--- элементы множества~$M$, а рёбра (изображаются по возможности направленными вверх) соответствуют \textit{отношению покрытия}.
     \hfill\href{https://en.wikipedia.org/wiki/Hasse_diagram}{Hasse diagram}
     % Fun stuff:
     % http://blog.ezyang.com/2010/12/hussling-haskell-types-into-hasse-diagrams/
@@ -321,10 +351,10 @@
         \draw[reldot] (n10) -- (p3);
         \draw[reldot] (p2) -- (p3);
 
-        \draw[rel] (n8)  -- (zero);
-        \draw[rel] (n12) -- (zero);
-        \draw[rel] (n20) -- (zero);
-        \draw[rel] (p3)  -- (zero);
+        \draw[reldot] (n8)  -- (zero);
+        \draw[reldot] (n12) -- (zero);
+        \draw[reldot] (n20) -- (zero);
+        \draw[reldot] (p3)  -- (zero);
 
         \node (label) at (current bounding box.south) [below] {$\Pair{\NaturalZero, \divides}$};
     \end{tikzpicture}%
@@ -344,7 +374,7 @@
 % Вполне упорядоченное & \text{Each non-empty } S \subset M \text{ contains the smallest element w.r.t. } R & \href{https://en.wikipedia.org/wiki/Well-order}{Well-ordering} \\
 
 
-% Ensure page break
+%% Ensure page break
 \newpage
 
 
