@@ -86,30 +86,38 @@
 
     \item $R[M] = \Set{y \given \exists x \in M : x \rel y}$ \--- \textbf{применение} отношения $R$ ко множеству $M$.
 
-    \item $R^{=} = R \union \idrel{A}$ \--- \textbf{рефлексивное замыкание} отношения $R \subseteq A^2$.
-    \hfill\href{https://en.wikipedia.org/wiki/Reflexive_closure}{Reflexive closure}
-    % \begin{terms}
-    %     \item If $R$ is a \emph{strict partial order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{partial order}.
+    \item \textbf{Замыкание отношения} $R$ относительно свойства $P$ \--- минимальное надмножество~$R$ (наименьшее по включению множество, включающее~$R$), обладающее свойством~$P$.
+    \hfill\href{https://en.wikipedia.org/wiki/Closure_(mathematics)#Binary_relation_closures}{Closure}
 
-    %     \item If $R$ is a \emph{strict linear order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{linear order}.
-    % \end{terms}
+    \begin{terms}
+        \item $R^{=} = R^{r} = R \union \idrel{A}$ \--- \textbf{рефлексивное замыкание} отношения $R \subseteq A^2$.
+        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_closure}{Reflexive closure}
+        % \begin{terms}
+        %     \item If $R$ is a \emph{strict partial order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{partial order}.
 
-    \item $R^{\neq} = R \setminus \idrel{A}$ \--- \textbf{рефлексивное сокращение} отношения $R \subseteq A^2$.
-    \hfill\href{https://en.wikipedia.org/wiki/Reflexive_reduction}{Reflexive reduction}
-    % \begin{terms}
-    %     \item If $R$ is a \emph{partial order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict partial order}.
+        %     \item If $R$ is a \emph{strict linear order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{linear order}.
+        % \end{terms}
 
-    %     \item If $R$ is a \emph{linear order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict linear order}.
-    % \end{terms}
+        \item $R^{\neq} = R \setminus \idrel{A}$ \--- \textbf{рефлексивное сокращение} отношения $R \subseteq A^2$.
+        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_reduction}{Reflexive reduction}
+        % \begin{terms}
+        %     \item If $R$ is a \emph{partial order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict partial order}.
 
-    \item $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ \--- \textbf{транзитивное замыкание} отношения $R \subseteq A^2$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
-    \hfill\href{https://en.wikipedia.org/wiki/Transitive_closure}{Transitive closure}
+        %     \item If $R$ is a \emph{linear order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict linear order}.
+        % \end{terms}
 
-    \item $R^{-} = R \setminus \Set{\Pair{a,c} \given \exists b : (a \rel b) \land (b \rel c)}$ \--- \textbf{транзитивное сокращение} отношения $R \subseteq A^2$.
-    \hfill\href{https://en.wikipedia.org/wiki/Transitive_reduction}{Transitive reduction}
+        \item $R^{\sim} = R^{s} = R \union R^{-1}$ \--- \textbf{симметричное замыкание} отношения~$R$.
+        \hfill\href{https://en.wikipedia.org/wiki/Symmetric_closure}{Symmetric closure}
 
-    % \item $R^{*} = (R^{+})^{=}$ \--- \textbf{рефлексивное транзитивное замыкание} отношения $R \subseteq A^2$.
-    % \hfill\href{https://en.wikipedia.org/wiki/Reflexive_transitive_closure}{Reflexive transitive closure}
+        \item $R^{+} = R^{t} = \bigunionclap{n \in \NaturalPlus} R^n$ \--- \textbf{транзитивное замыкание} отношения $R$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
+        \hfill\href{https://en.wikipedia.org/wiki/Transitive_closure}{Transitive closure}
+
+        \item $R^{-} = R \setminus \Set{\Pair{a,c} \given \exists b : (a \rel b) \land (b \rel c)}$ \--- \textbf{транзитивное сокращение} отношения $R$.
+        \hfill\href{https://en.wikipedia.org/wiki/Transitive_reduction}{Transitive reduction}
+
+        \item $R^{\equiv} = ((R^{=})^{\sim})^{+}$ \--- \textbf{рефлексивное симметричное транзитивное замыкание} отношения~$R$. Минимальное отношение эквивалентности, содержащее~$R$.
+        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_symmetric_transitive_closure}{Reflexive symmetric transitive closure}
+    \end{terms}
 \end{terms}
 
 
@@ -224,27 +232,33 @@
     \item \textbf{Частично упорядоченное множество} \--- упорядоченная пара $\Pair{M,R}$, где $M$ \--- произвольное множество, $R \subseteq M^2$ \--- отношение \textit{частичного порядка} на $M$.
     \hfill\href{https://en.wikipedia.org/wiki/Partially_ordered_set}{Partially ordered set (Poset)}
 
-    \item Элемент упорядоченного множества $\Pair{M, R}$ называется \textbf{максимальным}, если он не меньше других элементов, то есть не существует элемента больше.
-    Дуально, элемент называется \textbf{минимальным}, если он не больше других, то есть нет элемента меньше.
+    \item Элемент упорядоченного множества $\Pair{M, R}$ называется \textbf{максимальным}, если он \textit{не меньше других} элементов, то есть \textit{не существует элемента больше}.
+    Дуально, элемент называется \textbf{минимальным}, если он \textit{не больше других}, то есть \textit{нет элемента меньше}.
     \hfill\href{https://en.wikipedia.org/wiki/Maximal_and_minimal_elements}{Maximal and minimal elements}
-    \begin{terms}
-        \item $a \in M \text{ is \textbf{maximal}}
-        \iff \forall b \neq a : \neg (a \rel b)
-        ~\equiv~ \nexists b \neq a : (a \rel b)$
-        \item $a \in M \text{ is \textbf{minimal}\,}
-        \iff \forall b \neq a : \neg (b \rel a)
-        ~\equiv~ \nexists b \neq a : (b \rel a)$
-    \end{terms}
 
-    \item Элемент упорядоченного множества $\Pair{M, R}$ называется \textbf{наибольшим}, если он больше всех элементов.
-    Дуально, элемент называется \textbf{наименьшим}, если он меньше всех элементов.
+    $\begin{WithArrows}[format=lClClCl, jot=0pt]
+        a \in M \text{ is \textbf{maximal}}
+        & \iff & \forall b \neq a : \neg (a \rel b)
+        & \equiv & \nexists b \neq a : (a \rel b)
+        & \equiv & \forall b \in M : (a \rel b) \implies (a = b)
+        \\
+        a \in M \text{ is \textbf{minimal}}
+        & \iff & \forall b \neq a : \neg (b \rel a)
+        & \equiv & \nexists b \neq a : (b \rel a)
+        & \equiv & \forall b \in M : (b \rel a) \implies (b = a)
+    \end{WithArrows}$
+
+    \item Элемент упорядоченного множества $\Pair{M, R}$ называется \textbf{наибольшим}, если он \textit{больше всех} элементов.
+    Дуально,~элемент называется \textbf{наименьшим}, если он \textit{меньше всех} элементов.
     \hfill\href{https://en.wikipedia.org/wiki/Greatest_element_and_least_element}{Greatest and least elements}
-    \begin{terms}
-        \item $a \in M \text{ is \textbf{maximum} (\textbf{greatest})}
-        \iff \forall b : (b \rel a)$
-        \item $a \in M \text{ is \textbf{minimum} (\textbf{least})}
-        \iff \forall b : (a \rel b)$
-    \end{terms}
+
+    $\begin{WithArrows}[format=lCl, jot=0pt]
+        a \in M \text{ is \textbf{maximum} (\textbf{greatest})}
+        & \iff & \forall b : (b \rel a)
+        \\
+        a \in M \text{ is \textbf{minimum} (\textbf{least})}
+        & \iff & \forall b : (a \rel b)
+    \end{WithArrows}$
 
     \item $(x \lessdot y) \iff (x < y) \land \nexists z: ((x < z) \land (z < y))$ \--- \textbf{отношение покрытия} ($y$ \enquote{\textit{покрывает}} $x$).
     \hfill\href{https://en.wikipedia.org/wiki/Covering_relation}{Covering relation}
@@ -547,7 +561,7 @@
 
 \def\matrixsize{4}
 
-Пусть $R \subseteq M^2$ \--- бинарное отношение, определённое на множестве $M = \Set{m_1, \dotsc, m_{\matrixsize}}$.
+Пусть $R \subseteq M^2$ \--- гомогенное бинарное отношение, определённое на множестве $M = \Set{m_1, \dotsc, m_{\matrixsize}}$.
 Примеры матриц отношений, обладающих некоторыми свойствами:
 
 \begin{table}[!h]
