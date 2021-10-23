@@ -78,33 +78,26 @@
     \item $\overline{R} = \Set{\Pair{a,b} \given \Pair{a,b} \notin R}$ \--- \textbf{дополнение} отношения $R$.
     \hfill\href{https://en.wikipedia.org/wiki/Complement_(set_theory)\#Complementary_relation}{Complementary relation}
 
-    \item $R_1 \circ R_2 = \Set{\Pair{x,y} \given \exists z : (x \rel[R_1] z) \land (z \rel[R_2] y)}$ \--- \textbf{композиция} отношений $R_1$ и $R_2$.
+    \item $R \relcomp S = S \circ R = \Set{\Pair{x,y} \given \exists z : (x \rel[R] z) \land (z \rel[S] y)}$ \--- \textbf{композиция} отношений $R$ и $S$.
     \hfill\href{https://en.wikipedia.org/wiki/Composition_of_relations}{Composition of relations}
     \begin{terms}
-        \item Если $R_1 \subseteq A \times B$ и $R_2 \subseteq B \times C$, то $R_1 \circ R_2 \subseteq A \times C$.
+        \item Если $R \subseteq A \times B$ и $S \subseteq B \times C$, то $R \relcomp S \subseteq A \times C$.
     \end{terms}
+
+    \item $R^{\circ i+1} = R \circ R^{\circ i}$ \--- \textbf{\enquote{композитная} (функциональная) степень} отношения $R$.
+    \hfill\href{https://en.wikipedia.org/wiki/Function_composition#Functional_powers}{Functional power}
+
+    При этом $R^{\circ 1} = R$, $R^{\circ 0} = \idrel{A}$.
+    Чаще используется нотация~$R^{i}$, совпадающая с нотацией \textit{Декартовой степени}.
 
     \item $R[M] = \Set{y \given \exists x \in M : x \rel y}$ \--- \textbf{применение} отношения $R$ ко множеству $M$.
 
-    \item \textbf{Замыкание отношения} $R$ относительно свойства $P$ \--- минимальное надмножество~$R$ (наименьшее по включению множество, включающее~$R$), обладающее свойством~$P$.
+    \item \textbf{Замыкание отношения} $R$ относительно свойства $P$ \--- минимальное (по включению) надмножество~$R$, обладающее свойством~$P$.
     \hfill\href{https://en.wikipedia.org/wiki/Closure_(mathematics)#Binary_relation_closures}{Closure}
 
     \begin{terms}
         \item $R^{=} = R^{r} = R \union \idrel{A}$ \--- \textbf{рефлексивное замыкание} отношения $R \subseteq A^2$.
         \hfill\href{https://en.wikipedia.org/wiki/Reflexive_closure}{Reflexive closure}
-        % \begin{terms}
-        %     \item If $R$ is a \emph{strict partial order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{partial order}.
-
-        %     \item If $R$ is a \emph{strict linear order} on $A$, then $R^{=} = R \union \idrel{A}$ is a \emph{linear order}.
-        % \end{terms}
-
-        \item $R^{\neq} = R \setminus \idrel{A}$ \--- \textbf{рефлексивное сокращение} отношения $R \subseteq A^2$.
-        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_reduction}{Reflexive reduction}
-        % \begin{terms}
-        %     \item If $R$ is a \emph{partial order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict partial order}.
-
-        %     \item If $R$ is a \emph{linear order} on $A$, then $R^{\neq} = R \setminus \idrel{A}$ is a \emph{strict linear order}.
-        % \end{terms}
 
         \item $R^{\sim} = R^{s} = R \union R^{-1}$ \--- \textbf{симметричное замыкание} отношения~$R$.
         \hfill\href{https://en.wikipedia.org/wiki/Symmetric_closure}{Symmetric closure}
@@ -112,11 +105,25 @@
         \item $R^{+} = R^{t} = \bigunionclap{n \in \NaturalPlus} R^n$ \--- \textbf{транзитивное замыкание} отношения $R$, где $R^1 = R$, $R^{k+1} = R^k \circ R$.
         \hfill\href{https://en.wikipedia.org/wiki/Transitive_closure}{Transitive closure}
 
-        \item $R^{-} = R \setminus \Set{\Pair{a,c} \given \exists b : (a \rel b) \land (b \rel c)}$ \--- \textbf{транзитивное сокращение} отношения $R$.
+        \item $R^{\equiv} = ((R^{r})^{s})^{t}$ \--- \textbf{рефлексивное симметричное транзитивное замыкание} отношения~$R$. Минимальное отношение эквивалентности, содержащее~$R$.
+        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_symmetric_transitive_closure}{Reflexive symmetric transitive closure}
+    \end{terms}
+
+    \item \textbf{Сокращение отношения} $R$ \--- минимальное отношение, \textit{замыкание} которого совпадает с \textit{замыканием}~$R$.
+
+    \begin{terms}
+        \item \textbf{Рефлексивное сокращение} $R^{\neq} = R \setminus \idrel{A}$ \--- минимальное отношение, рефлексивное замыкание которого совпадает с рефлексивным замыканием $R$, то есть $(R^{\neq})^{=} = R^{=}$.
+        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_reduction}{Reflexive reduction}
+
+        \item \textbf{Симметричное сокращение} $R^{\nsim} = R \setminus R^{-1}$ \--- минимальное отношение, симметричное замыкание которого совпадает с симметричным замыканием $R$, то есть $(R^{\nsim})^{\sim} = R^{\sim}$.
+
+        \item \textbf{Транзитивное сокращение} $R^{-}$ \--- минимальное отношение, транзитивное замыкание которого совпадает с транзитивным замыканием $R$, то есть $(R^{-})^{+} = R^{+}$.
+        % TODO: how to construct
         \hfill\href{https://en.wikipedia.org/wiki/Transitive_reduction}{Transitive reduction}
 
-        \item $R^{\equiv} = ((R^{=})^{\sim})^{+}$ \--- \textbf{рефлексивное симметричное транзитивное замыкание} отношения~$R$. Минимальное отношение эквивалентности, содержащее~$R$.
-        \hfill\href{https://en.wikipedia.org/wiki/Reflexive_symmetric_transitive_closure}{Reflexive symmetric transitive closure}
+        Транзитивное сокращение $R^{-}$ отношения $R$ без циклов (в том числе, без петель) можно найти, используя его транзитивное замыкание: $R^{-}_{\text{DAG}} = R \setminus (R \circ R^{+}) = R \setminus \bigunionclap{n \geq 2} R^n$.
+
+        Для нахождения транзитивного сокращения отношения без циклов, но с петлями, необходимо запомнить существующие петли, убрать их, осуществить транзитивное сокращение (см. выше), а затем вернуть исходные петли: $R^{-}_{\text{loop-DAG}} = (R^{\neq})^{-} \union \Set{(x,x) \given x \rel x}$.
     \end{terms}
 \end{terms}
 
