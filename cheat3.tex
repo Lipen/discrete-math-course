@@ -332,28 +332,29 @@
     @{~~~} B @{\,} c @{\,} c @{\,} c % \neg (B \implies A)
     @{~}
 }
-    A&B  &
-    A&\implies&B & A &\ValidArgument& B  &
-    \neg&A&\implies&\neg&B &\ValidArgument& B&\implies&A  &
-    A&\implies&B & B &\InvalidArgument& \neg&(B&\implies&A) \BotStrut\\
+    A&B
+    & A&\implies&B & A &\ValidArgument& B
+    & \neg&A&\implies&\neg&B &\ValidArgument& B&\implies&A
+    & A&\implies&B & B &\InvalidArgument& \neg&(B&\implies&A)
+    \BotStrut\\
     \hline\TopStrut
     % print('\n'.join(f'{a}&{b}  &  {a}&{not a or b}&{b} & {a} &\\--& {b}  &  {not a}&{a}&{a or not b}&{not b}&{b} &\\--& {b}&{not b or a}&{a}  &  {a}&{not a or b}&{b} & {b} &\\--& {not(not b or a)}&{b}&{not b or a}&{a} \\\\'.replace('True', '1').replace('False', '0') for a,b in [(False, False), (False, True), (True, False), (True, True)]))
-    0&0  &
-    &1& & 0 &\cdot& 0  &
-    1&&1&1& &\Valid& &1&  &
-    &1& & 0 &\cdot& 0&&1& \\
-    0&1  &
-    &1& & 0 &\cdot& 1  &
-    1&&0&0& &\cdot& &0&  &
-    &1& & 1 &\Valid& 1&&0& \\
-    1&0  &
-    &0& & 1 &\cdot& 0  &
-    0&&1&1& &\Valid& &1&  &
-    &0& & 0 &\cdot& 0&&1& \\
-    1&1  &
-    &1& & 1 &\Valid& 1  &
-    0&&1&0& &\Valid& &1&  &
-    &1& & 1 &\Invalid& 0&&1& \\
+    0&0
+    &&1& & 0 &\cdot& 0
+    &1&&1&1& &\Valid& &1&
+    &&1& & 0 &\cdot& 0&&1& \\
+    0&1
+    &&1& & 0  &\cdot& 1
+    &1&&0&0& &\cdot& &0&
+    &&1& & 1 &\Valid& 1&&0& \\
+    1&0
+    &&0& & 1 &\cdot& 0
+    &0&&1&1& &\Valid& &1&
+    &&0& & 0 &\cdot& 0&&1& \\
+    1&1
+    &&1& & 1 &\Valid& 1
+    &0&&1&0& &\Valid& &1&
+    &&1& & 1 &\Invalid& 0&&1& \\
 \end{array}\)
 
 \vspace{10pt}
@@ -374,35 +375,36 @@
     @{~~~} c @{\,} B @{\,} c @{\,} c @{\,} c % R \implies (S \implies T)
     @{~}
 }
-    R&S&T  &
-    R&\lor&S & S&\lor&T & \neg&R &\InvalidArgument& S&\land&T  &
-    (R&\land&S)&\implies&T &\ValidArgument& R&\implies&(S&\implies&T) \BotStrut\\
+    R&S&T
+    & R&\lor&S & S&\lor&T & \neg&R &\InvalidArgument& S&\land&T
+    & (R&\land&S)&\implies&T &\ValidArgument& R&\implies&(S&\implies&T)
+    \BotStrut\\
     \hline\TopStrut
     % print('\n'.join(f'{r}&{s}&{t}  &\n{r}&{r or s}&{s} & {s}&{s or t}&{t} & {not r}&{r} &\\--& {s}&{s and t}&{t}  &\n{r}&{r and s}&{s}&{not(r and s) or t}&{t} &\\--& {r}&{not r or (not s or t)}&{s}&{not s or t}&{t} \\\\'.replace('True','1').replace('False','0') for r in B for s in B for t in B))
-    0&0&0  &
-    &0& & &0& & 1& &\cdot& &0&  &
-    &0&&1&0 &\Valid& 0&1&&1& \\
-    0&0&1  &
-    &0& & &1& & 1& &\cdot& &0&  &
-    &0&&1&1 &\Valid& 0&1&&1& \\
-    0&1&0  &
-    &1& & &1& & 1& &\Invalid& &0&  &
-    &0&&1&0 &\Valid& 0&1&&0& \\
-    0&1&1  &
-    &1& & &1& & 1& &\Valid& &1&  &
-    &0&&1&1 &\Valid& 0&1&&1& \\
-    1&0&0  &
-    &1& & &0& & 0& &\cdot& &0&  &
-    &0&&1&0 &\Valid& 1&1&&1& \\
-    1&0&1  &
-    &1& & &1& & 0& &\cdot& &0&  &
-    &0&&1&1 &\Valid& 1&1&&1& \\
-    1&1&0  &
-    &1& & &1& & 0& &\cdot& &0&  &
-    &1&&0&0 &\cdot& 1&0&&0& \\
-    1&1&1  &
-    &1& & &1& & 0& &\cdot& &1&  &
-    &1&&1&1 &\Valid& 1&1&&1& \\
+    0&0&0
+    &&0& & &0& & 1& &\cdot& &0&
+    &&0&&1&0 &\Valid& 0&1&&1& \\
+    0&0&1
+    &&0& & &1& & 1& &\cdot& &0&
+    &&0&&1&1 &\Valid& 0&1&&1& \\
+    0&1&0
+    &&1& & &1& & 1& &\Invalid& &0&
+    &&0&&1&0 &\Valid& 0&1&&0& \\
+    0&1&1
+    &&1& & &1& & 1& &\Valid& &1&
+    &&0&&1&1 &\Valid& 0&1&&1& \\
+    1&0&0
+    &&1& & &0& & 0& &\cdot& &0&
+    &&0&&1&0 &\Valid& 1&1&&1& \\
+    1&0&1
+    &&1& & &1& & 0& &\cdot& &0&
+    &&0&&1&1 &\Valid& 1&1&&1& \\
+    1&1&0
+    &&1& & &1& & 0& &\cdot& &0&
+    &&1&&0&0 &\cdot& 1&0&&0& \\
+    1&1&1
+    &&1& & &1& & 0& &\cdot& &1&
+    &&1&&1&1 &\Valid& 1&1&&1& \\
 \end{array}\)
 
     % \item \dots
