@@ -123,12 +123,6 @@
 \newcolumntype{Y}{>{$}X<{$}}
 \newcolumntype{\BC}{>{\boldmath$}c<{$}}
 
-\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
-\newcolumntype{^}{>{\currentrowstyle}}
-\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
-    #1\ignorespaces
-}
-
 %% Left-aligned equation
 \newenvironment{flusheqs}[1][]% [<array's valign>]
     {\noindent\(\begin{array}[#1]{@{}>{\displaystyle}l@{}}}
