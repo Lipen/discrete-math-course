@@ -500,7 +500,7 @@
         \begin{flusheqs}
         \begin{nd}
             \have[m]{A}{\myA}
-            \have[~]{rA}{\myA} \r{A}
+            \have[\therefore]{rA}{\myA} \r{A}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -510,7 +510,7 @@
         \begin{nd}
             \have[i]{AimpliesB}{\myA \implies \myB}
             \have[j]{A}{\myA}
-            \have[~]{B}{\myB} \mp{AimpliesB,A}
+            \have[\therefore]{B}{\myB} \mp{AimpliesB,A}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -520,7 +520,7 @@
         \begin{nd}
             \have[i]{AimpliesB}{\myA \implies \myB}
             \have[j]{negB}{\neg\myB}
-            \have[~]{negA}{\neg\myA} \mt{AimpliesB,negB}
+            \have[\therefore]{negA}{\neg\myA} \mt{AimpliesB,negB}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
@@ -532,7 +532,7 @@
                 \hypo[i]{hypA}{\myA}
                 \have[j]{bot}{\bot}
             \close
-            \have[~]{negA}{\neg\myA} \ni{hypA-bot}
+            \have[\therefore]{negA}{\neg\myA} \ni{hypA-bot}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
@@ -540,7 +540,7 @@
         \begin{nd}
             \have[i]{negA}{\neg\myA}
             \have[j]{A}{\myA}
-            \have[~]{bot}{\bot} \ne{negA,A}
+            \have[\therefore]{bot}{\bot} \ne{negA,A}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -549,7 +549,7 @@
         \begin{flusheqs}
         \begin{nd}
             \have[m]{negnegA}{\neg\neg\myA}
-            \have[~]{A}{\myA} \nne{negnegA}
+            \have[\therefore]{A}{\myA} \nne{negnegA}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
@@ -561,7 +561,7 @@
                 \hypo[i]{negA}{\neg\myA}
                 \have[j]{bot}{\bot}
             \close
-            \have[~]{A}{\myA} \ip{negA-bot}
+            \have[\therefore]{A}{\myA} \ip{negA-bot}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -577,7 +577,7 @@
                 \hypo[k]{negA}{\neg\myA}
                 \have[l]{BfromNegA}{\myB}
             \close
-            \have[~]{B}{\myB} \lem{A-BfromA,negA-BfromNegA}
+            \have[\therefore]{B}{\myB} \lem{A-BfromA,negA-BfromNegA}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
@@ -588,7 +588,7 @@
         \begin{flusheqs}
         \begin{nd}
             \have[m]{bot}{\bot}
-            \have[~]{A}{\myA} \x{bot}
+            \have[\therefore]{A}{\myA} \x{bot}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -598,15 +598,15 @@
         \begin{nd}
             \have[i]{A}{\myA}
             \have[j]{B}{\myB}
-            \have[~]{AandB}{\myA \land \myB} \ai{A,B}
+            \have[\therefore]{AandB}{\myA \land \myB} \ai{A,B}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
         \begin{flusheqs}
         \begin{nd}
             \have[m]{AandB}{\myA \land \myB}
-            \have[~]{A}{\myA} \ae{AandB} \ae{AandB}
-            \have[~]{B}{\myB} \ae{AandB} \ae{AandB}
+            \have[\therefore]{A}{\myA} \ae{AandB} \ae{AandB}
+            \have[\therefore]{B}{\myB} \ae{AandB} \ae{AandB}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -615,14 +615,14 @@
         \begin{flusheqs}
         \begin{nd}
             \have[m]{A}{\myA}
-            \have[~]{AorB}{\myA \lor \myB} \oi{A}
+            \have[\therefore]{AorB}{\myA \lor \myB} \oi{A}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
         % \begin{flusheqs}
         % \begin{nd}
         %     \have[m]{A}{\myA}
-        %     \have[~]{BorA}{\myB \lor \myA} \oi{A}
+        %     \have[\therefore]{BorA}{\myB \lor \myA} \oi{A}
         % \end{nd}
         % \end{flusheqs}
         % \DrawLine{tcbcolframe}
@@ -637,7 +637,7 @@
                 \hypo[k]{hypB}{\myB}
                 \have[l]{CfromB}{\myC}
             \close
-            \have[~]{C}{\myC} \oe{AorB,hypA-CfromA,hypB-CfromB}
+            \have[\therefore]{C}{\myC} \oe{AorB,hypA-CfromA,hypB-CfromB}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -647,7 +647,7 @@
         \begin{nd}
             \have[i]{AorB}{\myA \lor \myB}
             \have[j]{negA}{\neg\myA}
-            \have[~]{B}{\myB} \ds{AorB,negA}
+            \have[\therefore]{B}{\myB} \ds{AorB,negA}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
@@ -655,7 +655,7 @@
         \begin{nd}
             \have[i]{AorB}{\myA \lor \myB}
             \have[j]{negB}{\neg\myB}
-            \have[~]{A}{\myA} \ds{AorB,negB}
+            \have[\therefore]{A}{\myA} \ds{AorB,negB}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
@@ -665,7 +665,7 @@
         \begin{nd}
             \have[i]{AimpliesB}{\myA \implies \myB}
             \have[j]{BimpliesC}{\myB \implies \myC}
-            \have[~]{AimpliesC}{\myA \implies \myC} \hs{AimpliesB,BimpliesC}
+            \have[\therefore]{AimpliesC}{\myA \implies \myC} \hs{AimpliesB,BimpliesC}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
@@ -682,7 +682,7 @@
                 \hypo[i]{hypA}{\myA}
                 \have[j]{BfromA}{\myB}
             \close
-            \have[~]{AimpliesB}{\myA \implies \myB} \ii{hypA-BfromA}
+            \have[\therefore]{AimpliesB}{\myA \implies \myB} \ii{hypA-BfromA}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -691,7 +691,7 @@
     %     \begin{flusheqs}
     %     \begin{nd}
     %         \have[m]{AimpliesB}{\myA \implies \myB}
-    %         \have[~]{imp}{\neg\myA \lor \myB} \imp{AimpliesB}
+    %         \have[\therefore]{imp}{\neg\myA \lor \myB} \imp{AimpliesB}
     %     \end{nd}
     %     \end{flusheqs}
     % \end{formalboxderived}
@@ -700,7 +700,7 @@
         \begin{flusheqs}
         \begin{nd}
             \have[m]{AimpliesB}{\myA \implies \myB}
-            \have[~]{contra}{\neg\myB \implies \neg\myA} \contra{AimpliesB}
+            \have[\therefore]{contra}{\neg\myB \implies \neg\myA} \contra{AimpliesB}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
@@ -716,7 +716,7 @@
                 \hypo[k]{hypB}{\myB}
                 \have[l]{AfromB}{\myA}
             \close
-            \have[~]{AiffB}{\myA \iff \myB} \ei{hypA-BfromA,hypB-AfromB}
+            \have[\therefore]{AiffB}{\myA \iff \myB} \ei{hypA-BfromA,hypB-AfromB}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
@@ -724,7 +724,7 @@
         \begin{nd}
             \have[i]{AiffB}{\myA \iff \myB}
             \have[j]{A}{\myA}
-            \have[~]{B}{\myB} \ee{AiffB,A}
+            \have[\therefore]{B}{\myB} \ee{AiffB,A}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
@@ -732,7 +732,7 @@
         \begin{nd}
             \have[i]{AiffB}{\myA \iff \myB}
             \have[j]{B}{\myB}
-            \have[~]{A}{\myA} \ee{AiffB,B}
+            \have[\therefore]{A}{\myA} \ee{AiffB,B}
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
@@ -741,28 +741,28 @@
         \begin{flusheqs}
         \begin{nd}
             \have[m]{negAorB}{\neg(\myA \lor \myB)}
-            \have[~]{negAnegB}{\neg\myA \land \neg\myB} \dm{negAorB}
+            \have[\therefore]{negAnegB}{\neg\myA \land \neg\myB} \dm{negAorB}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
         \begin{flusheqs}
         \begin{nd}
             \have[m]{negAnegB}{\neg\myA \land \neg\myB}
-            \have[~]{negAorB}{\neg(\myA \lor \myB)} \dm{negAnegB}
+            \have[\therefore]{negAorB}{\neg(\myA \lor \myB)} \dm{negAnegB}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
         \begin{flusheqs}
         \begin{nd}
             \have[m]{negAandB}{\neg(\myA \land \myB)}
-            \have[~]{negAornegB}{\neg\myA \lor \neg\myB} \dm{negAandB}
+            \have[\therefore]{negAornegB}{\neg\myA \lor \neg\myB} \dm{negAandB}
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
         \begin{flusheqs}
         \begin{nd}
             \have[m]{negAornegB}{\neg\myA \lor \neg\myB}
-            \have[~]{negAandB}{\neg(\myA \land \myB)} \dm{negAornegB}
+            \have[\therefore]{negAandB}{\neg(\myA \land \myB)} \dm{negAornegB}
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
