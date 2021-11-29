@@ -535,6 +535,14 @@
     \begin{formalboxbasic}{Negation}
         \begin{flusheqs}
         \begin{nd}
+            \have[i]{negA}{\neg\myA}
+            \have[j]{A}{\myA}
+            \have[\therefore]{bot}{\bot} \ne{negA,A}
+        \end{nd}
+        \end{flusheqs}
+        \DrawLine{tcbcolframe}
+        \begin{flusheqs}
+        \begin{nd}
             \open
                 \hypo[i]{hypA}{\myA}
                 \have[j]{bot}{\bot}
@@ -542,24 +550,7 @@
             \have[\therefore]{negA}{\neg\myA} \ni{hypA-bot}
         \end{nd}
         \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{negA}{\neg\myA}
-            \have[j]{A}{\myA}
-            \have[\therefore]{bot}{\bot} \ne{negA,A}
-        \end{nd}
-        \end{flusheqs}
     \end{formalboxbasic}
-    \vfill
-    \begin{formalboxderived}{Double negation}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{negnegA}{\neg\neg\myA}
-            \have[\therefore]{A}{\myA} \nne{negnegA}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
     \vfill
     \begin{formalboxbasic}{Indirect proof}
         \begin{flusheqs}
@@ -572,6 +563,15 @@
         \end{nd}
         \end{flusheqs}
     \end{formalboxbasic}
+    \vfill
+    \begin{formalboxderived}{Double negation}
+        \begin{flusheqs}
+        \begin{nd}
+            \have[m]{negnegA}{\neg\neg\myA}
+            \have[\therefore]{A}{\myA} \nne{negnegA}
+        \end{nd}
+        \end{flusheqs}
+    \end{formalboxderived}
     \vfill
     \begin{formalboxderived}{Excluded middle}
         \begin{flusheqs}
@@ -626,13 +626,13 @@
         \end{nd}
         \end{flusheqs}
         \DrawLine{tcbcolframe}
-        % \begin{flusheqs}
-        % \begin{nd}
-        %     \have[m]{A}{\myA}
-        %     \have[\therefore]{BorA}{\myB \lor \myA} \oi{A}
-        % \end{nd}
-        % \end{flusheqs}
-        % \DrawLine{tcbcolframe}
+        \begin{flusheqs}
+        \begin{nd}
+            \have[m]{A}{\myA}
+            \have[\therefore]{BorA}{\myB \lor \myA} \oi{A}
+        \end{nd}
+        \end{flusheqs}
+        \DrawLine{tcbcolframe}
         \begin{flusheqs}
         \begin{nd}
             \have[m]{AorB}{\myA \lor \myB}
@@ -676,9 +676,6 @@
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
-    \vfill
-    \textcolor{colorbasicrule}{\textbf{Green:} basic rules.}\par
-    \textcolor{colorderivedrule}{\textbf{Orange:} derived rules.}
 \end{adjustbox}%
 \hfill%
 \begin{adjustbox}{minipage=[t][\myheight]{.3\linewidth},valign=t}
@@ -773,6 +770,9 @@
         \end{nd}
         \end{flusheqs}
     \end{formalboxderived}
+    \vfill
+    \textcolor{colorbasicrule}{\textbf{Green:} basic rules.}\par
+    \textcolor{colorderivedrule}{\textbf{Orange:} derived rules.}
     \vfill
     More rules can be found in the \\
     \href{https://forallx.openlogicproject.org}{\enquote{forall~x:~Calgary}} book (\href{https://forallx.openlogicproject.org/forallxyyc.pdf#page=416}{p.~406}).
