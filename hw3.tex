@@ -1,0 +1,156 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=\baselineskip,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
+    {\TextHomeworkEng~\#3}
+    {Formal Logic}
+    {\TextDiscreteMathEng}
+    {\IconFall~Fall 2021}
+
+%% Add custom setup below
+
+%% Formal proofs
+\usepackage{fitch}
+% https://www.mathstat.dal.ca/~selinger/fitch/fitchdoc.pdf
+% \nddim{height}{topheight}{depth}{labelsep}{indent}{hsep}{justsep}{linethickness}
+% Default: \nddim{4.5ex}{3.5ex}{1.5ex}{1em}{1.6em}{.5em}{2.5em}{.2mm}
+\nddim%
+    {4.0ex}% <height> [4.5ex]
+    {3.3ex}% <topheight> [3.5ex]
+    {1.2ex}% <depth> [1.5ex]
+    {0.7em}% <labelsep> [1em]
+    {0.7em}% <indent> [1.6em]
+    {0.5em}% <hsep> [.5em]
+    {2.0em}% <justsep> [2.5em]
+    {0.8pt}% <linethickness> [.2mm]
+
+\begin{document}
+\begin{tasks}
+    \item Construct complete truth tables for the given sentences. For each sentence, determine if it is a tautology, a contradiction, or a contingency. For each formula, draw its parse tree.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item \((A \implies B) \iff (B \implies A)\)
+        \item \(((H \iff H) \implies H) \land \neg(H \implies H)\)
+        \item \(\neg(R \land S \land T) \iff (R \lor S \lor T)\)
+        \item \((P \lor (Q \implies \neg P)) \land (P \implies \neg Q)\)
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item For each given set of sentences, determine whether it is logically consistent (jointly satisfiable).
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item \(\neg D,~ (D \lor F),~ \neg F\)
+
+        \item \((T \implies K),~ \neg K,~ (K \lor \neg T)\)
+
+        \item \(\neg(A \implies (\neg C \implies B)),~ ((B \lor C) \land A)\)
+
+        \item \((C \implies B),~ (D \lor C),~ \neg B,~ (D \implies B)\)
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Complete the following deductive formal proofs by filling in missing formulae and justifications.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \newcommand{\mybox}{%
+            \tikz[baseline=0.5ex] \draw (0,0) rectangle (2em,2.5ex);%
+        }
+
+        \item \(\begin{nd}[t]
+            \hypo{p1}{H \implies (R \land C)} \premise
+            \hypo{p2}{\neg R \lor \neg C} \premise
+            \have{a}{\neg(R \land C)} \by{\mybox}{}
+            \have[\therefore]{c}{\mybox} \mt{p1,a}
+        \end{nd}\)
+
+        \item \(\begin{nd}[t]
+            \hypo{p1}{K \land S} \premise
+            \hypo{p2}{\neg K} \premise
+            \have{a}{\mybox} \by{\mybox}{}
+            \have{a}{\mybox} \by{\mybox}{}
+            \have[\therefore]{c}{\neg S} \by{\mybox}{}
+        \end{nd}\)
+
+        \item \(\begin{nd}[t]
+            \hypo{p}{A \implies \neg A} \premise
+            \have[\,\vdots]{a}{\mybox} \by{(multiple lines)}{}
+            \have[\therefore]{c}{\neg A} \by{LEM \mybox}{}
+        \end{nd}\)
+
+        \item \(\begin{nd}[t]
+            \hypo{p}{(P \land Q) \lor (P \land R)} \premise
+            \open
+            \hypo{a1}{\mybox} \by{Assumption}{}
+            \have{b1}{P} \by{\mybox}{}
+            \close
+            \open
+            \hypo{a2}{\mybox} \by{Assumption}{}
+            \have{b2}{P} \by{\mybox}{}
+            \close
+            \have[\therefore]{c}{P} \by{\mybox}{}
+        \end{nd}\)
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Symbolize the given arguments with well-formed formulae (WFFs) of propositional logic.
+    For each argument, determine its validity using a truth table.
+    For each \textit{valid} argument, provide a deductive formal proof in Fitch notation.
+    For each \textit{invalid} argument, provide a counterexample valuation.
+
+    \begin{subtasks}
+        % (P -> Q), ~Q \/ R, P \therefore R
+        \item \textit{If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
+        Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality (or both).
+        Philosophers do ponder profound problems.
+        Therefore, right reasoning reveals reality.}
+
+        % A -> (~B \/ ~C), B, ~A \/ ~C \therefore ~A
+        \item \textit{If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras.
+        Baby baboons beat bongos.
+        Aardvarks aren't adorable unless crocodiles can't consume cute capybaras.
+        Therefore, aardvarks aren't adorable.}
+
+        % ~D -> G, D -> H \therefore G \/ H
+        \item \textit{If discipline doesn't defeat deficiency, then geniuses generally get good grades.
+        If discipline defeats deficiency, then homework has harmed humanity.
+        Therefore, geniuses generally get good grades unless homework has harmed humanity.}
+
+        % C -> ~I, (M /\ D) \/ C, I, \therefore M <-> D
+        \item \textit{Crocodiles can consume cute capybaras only if incarcerating iguanas isn't illegal.
+        Mad monkeys make mayhem and dinosaurs do disco dance, unless crocodiles consume cute capybaras.
+        It is known that incarcerating iguanas is illegal.
+        Therefore, dinosaurs do disco dance if and only if mad monkeys make mayhem.}
+    \end{subtasks}
+
+
+    \item For each given argument, construct a deductive proof in Fitch notation using only basic rules.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $\neg\neg A \therefore A$
+        \item ${} \therefore \neg (A \lor B) \iff (\neg A \land \neg B)$
+        \item $((A \implies B) \implies A) \therefore A$
+        \item ${} \therefore (A \implies B) \lor (B \implies A)$
+    \end{subtasks}
+    \end{multicols}
+
+    % \item \ldots
+\end{tasks}
+
+
+\end{document}
