@@ -1,0 +1,21 @@
+= Discrete Math
+
+> This repo contains some supplementary materials for the Discrete Math course at ITMO University.
+
+== Rendered
+
+:url-template: https://texlive2020.latexonline.cc/compile?git=https://github.com/Lipen/discrete-math-course&command=pdflatex&target=
+
+=== Cheatsheets
+
+- {url-template}cheat1.tex[Cheatsheet 1: Set Theory]
+- {url-template}cheat2.tex[Cheatsheet 2: Binary Relations]
+- {url-template}cheat3.tex[Cheatsheet 3: Formal Logic]
+- {url-template}cheat4.tex[Cheatsheet 4: Boolean Algebra]
+
+=== Homeworks
+
+- {url-template}hw1.tex[Homework 1: Set Theory]
+- {url-template}hw2.tex[Homework 2: Binary Relations]
+- {url-template}hw3.tex[Homework 3: Formal Logic]
+- {url-template}hw4.tex[Homework 4: Boolean Algebra]
