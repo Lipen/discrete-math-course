@@ -1,0 +1,196 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=\baselineskip,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
+    {\TextHomeworkEng~\#5}
+    {Graph Theory}
+    {\TextDiscreteMathEng}
+    {\IconSpring~Spring 2022}
+
+%% Add custom setup below
+
+\newcommand{\MyGraph}{\mathcal{G}}
+\newcommand{\MyGraphFull}{\MyGraph^{*}}
+\newcommand{\op}[1]{\operatorname*{#1}}
+\newcommand{\dist}[1]{\op{dist}(#1)}
+\newcommand{\degree}[1]{\op{deg}(#1)}
+\newcommand{\minDegree}[1]{\delta(#1)}
+\newcommand{\maxDegree}[1]{\Delta(#1)}
+\newcommand{\eccentricity}[1]{\varepsilon(#1)}
+\newcommand{\graphRadius}[1]{\op{rad}(#1)}
+\newcommand{\graphDiameter}[1]{\op{diam}(#1)}
+\newcommand{\graphGirth}[1]{\op{girth}(#1)}
+\newcommand{\graphCenter}[1]{\op{center}(#1)}
+\newcommand{\graphCentroid}[1]{\op{centroid}(#1)}
+% \newcommand{\stabilitynumber}[1]{\alpha(#1)}
+% \newcommand{\matchingnumber}[1]{\alpha'(#1)}
+\newcommand{\vertexConnectivity}[1]{\varkappa(#1)}
+\newcommand{\edgeConnectivity}[1]{\lambda(#1)}
+\newcommand{\blockGraph}[1]{\op{B}(#1)}
+
+\declaretheoremstyle[
+    spaceabove=6pt,
+    spacebelow=6pt,
+    postheadspace=0.5em,
+    notefont=\normalfont\scshape,
+]{mystyle}
+\declaretheorem[style=mystyle]{theorem}
+
+
+\begin{document}
+
+\selectlanguage{english}
+
+\begin{tasks}
+    \item The graph\footnote{Hereinafter, \enquote{graphs} are \enquote{simple, finite, undirected, and unweighted}, unless stated otherwise.} of Europe $\MyGraphFull = \Pair{V, E}$ is defined as follows: each vertex $v \in V$ is a Europe country\footnote{Since the absolute geopolitical correctness is not necessary to accomplish this task, you can simply use \url{https://simple.wikipedia.org/wiki/List_of_European_countries} or any other similar source as a reference.}; two vertices are adjacent ($\Set{u,v} \in E$) if the corresponding countries share a land border.
+    Let $\MyGraph$ be the largest connected component of $\MyGraphFull$.
+
+    \begin{subtasks}
+        \item Draw\footnote{You may either preserve the original spatial relationships between vertices, or use an automatic layout software. Take a look at Graphviz, Gephi, Cytoscape.} $\MyGraphFull$ with the minimum number of intersecting edges\footnote{Since $\MyGraphFull$ naturally corresponds to a \enquote{map}, it \emph{has} to be planar. However, due to \emph{some broken countries}, it might be impossible to draw $\MyGraphFull$ completely without edge intersections, so you just have to minimize them.}.
+
+        \item Find $\card{V}$, $\card{E}$, $\minDegree{\MyGraph}$, $\maxDegree{\MyGraph}$, $\graphRadius{\MyGraph}$, $\graphDiameter{\MyGraph}$, $\graphGirth{\MyGraph}$, $\graphCenter{\MyGraph}$, $\vertexConnectivity{\MyGraph}$, $\edgeConnectivity{\MyGraph}$.
+
+        \item Find the minimum vertex coloring $Z : V \to \Natural$ of $\MyGraph$.
+
+        \item Find the minimum edge coloring $X : E \to \Natural$ of $\MyGraph$.
+
+        \item Find the maximum clique $Q \subseteq V$ of $\MyGraph$.
+
+        \item Find the maximum stable set $S \subseteq V$ of $\MyGraph$.
+
+        \item Find the maximum matching $M \subseteq E$ of $\MyGraph$.
+
+        \item Find the minimum vertex cover $R \subseteq V$ of $\MyGraph$.
+
+        \item Find the minimum edge cover $F \subseteq E$ of $\MyGraph$.
+
+        \item Find the shortest closed walk $W$ that visits every vertex of $\MyGraph$.
+
+        \item Find the shortest closed walk $U$ that visits every edge of $\MyGraph$.
+        % \footnotetext{This is the \textsc{Chinese Postman Problem}.}
+
+        \item Find all biconnected components (blocks) and draw the block-cut tree of~$\MyGraphFull$.
+
+        \item Find all 2-edge-connected components of~$\MyGraphFull$.
+
+        \item Construct an SPQR tree of the largest biconnected component of~$\MyGraph$.
+
+        \item Add the weight function $w : E \to \Real$ denoting the distance\footnote{You may choose geodesic\Href{https://en.wikipedia.org/wiki/Great-circle_distance} or road distance, to your preference. You have to use \emph{more-or-less real} data.} between capitals.
+        Find the minimum (\wrt the total weight of edges) spanning tree $T$ for the largest connected component of the weighted Europe graph $\MyGraphFull_{w} = \Tuple{V, E, w}$.
+
+        \item Find $\graphCentroid{T}$ (\wrt the edge weight function $w$).
+
+        \item Construct the Pr\"{u}fer code for $T$.
+    \end{subtasks}
+
+
+    \item Prove \emph{rigorously} the following theorems:
+
+    \begin{theorem}[Triangle Inequality]
+        For any connected graph $G = \Pair{V, E}$:
+        \[
+            \forall x,y,z \in V : \dist{x,y} + \dist{y,z} \geq \dist{x,z}
+        \]
+    \end{theorem}
+
+    % \begin{theorem}
+    %     For any connected graph $G$: $\graphRadius{G} \leq \graphDiameter{G} \leq 2 \graphRadius{G}$.
+    % \end{theorem}
+
+    % \begin{theorem}
+    %     Every $r$-regular ($r > 0$) $(n,m)$-bipartite graph has $n = m$.
+    % \end{theorem}
+
+    \begin{theorem}[Tree]
+        A connected graph $G = \Pair{V, E}$ is a tree (\ie acyclic graph) \emph{iff} $\card{E} = \card{V} - 1$.
+    \end{theorem}
+
+    \begin{theorem}[Whitney]
+        For any graph $G$: $\vertexConnectivity{G} \leq \edgeConnectivity{G} \leq \minDegree{G}$.
+    \end{theorem}
+
+    \begin{theorem}[Chartrand]
+        For a connected graph $G$: if $\minDegree{G} \geq \Floor{\card{V} / 2}$, then $\edgeConnectivity{G} = \minDegree{G}$.
+    \end{theorem}
+
+    \begin{theorem}[Menger]
+        For any pair of non-adjacent vertices $u$ and~$v$ in an undirected graph, the size of the minimum \emph{vertex cut} is equal to the maximum number of pairwise \emph{internally vertex-disjoint paths} from $u$ to~$v$.
+    \end{theorem}
+
+    \begin{theorem}[Harary]
+        Every block of a block graph\footnote{A block graph $H = \blockGraph{G}$ is an intersection graph of all blocks (biconnected components) of $G$, \ie each vertex $v \in V(H)$ corresponds to a block of $G$, and there is an edge $\Set{v,u} \in E(H)$ iff \enquote{blocks} $v$ and $u$ share a cut vertex.} is a clique.
+    \end{theorem}
+
+\end{tasks}
+
+
+\newpage
+% \fancyhead[C]{\textbf{Minor Cheatsheet}}
+
+\centerline{\textbf{Minor Cheatsheet}}
+
+\begin{terms}
+    \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} $G$ is a pair $\Pair{V, E}$ of a set of vertices $V = \Set{v_1,\dotsc,v_n}$ and a set of edges $E = \Set{e_1,\dotsc,e_m}$.
+
+    \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$. Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$.
+    \begin{terms}
+        \item $A^k = A \times \dotsb \times A = \Set{\Tuple{x_1,\dotsc,x_k} \given x_1,\dotsc,x_k \in A}$ is the set of $k$-tuples (Cartesian $k$-power of~$A$).
+
+        \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
+    \end{terms}
+
+    \item \textbf{Degree}\Href{https://en.wikipedia.org/wiki/Degree_(graph_theory)} $\degree{v}$ of a vertex $v$ is the number of edges indident to $v$ (loops are counted twice).
+    \begin{terms}
+        \item $\minDegree{G} = \min\limits_{v \in V} \degree{v}$ is the \textbf{minimum degree}.
+        \item $\maxDegree{G} = \max\limits_{v \in V} \degree{v}$ is the \textbf{maximum degree}.
+    \end{terms}
+
+    % \item A graph is \textbf{$r$-regular} if all its vertices have the same degree: $\forall v \in V : \degree{v} = r$.
+
+    \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges in an arbitrary traversal of a graph.
+    \begin{terms}
+        \item \textbf{Trail} is a walk with distinct edges.
+        \item \textbf{Path} is a walk with distinct vertices (and therefore distinct edges).
+        \item The walk is \textbf{closed} if it starts and ends at the same vertex. Otherwise, it is \textbf{open}.
+        \item \textbf{Circuit} is a closed trail.
+        \item \textbf{Cycle} is a closed path.
+    \end{terms}
+
+    \item \textbf{Distance}\Href{https://en.wikipedia.org/wiki/Distance_(graph_theory)} $\dist{u,v}$ between two vertices is the length of the shortest path $u \rightsquigarrow v$.
+    \begin{terms}
+        \item $\eccentricity{v} = \max\limits_{u \in V} \dist{v,u}$ is the \textbf{eccentricity} of the vertex $v$.
+        \item $\graphRadius{G} = \min\limits_{v \in V} \eccentricity{v}$ is the \textbf{radius} of the graph $G$.
+        \item $\graphDiameter{G} = \max\limits_{v \in V} \eccentricity{v}$ is the \textbf{diameter} of the graph $G$.
+    \end{terms}
+
+    \item \textbf{Girth}\Href{https://en.wikipedia.org/wiki/Girth_(graph_theory)} is the length of the shortest cycle in the graph.
+
+    \item \textbf{Clique}\Href{https://en.wikipedia.org/wiki/Clique_(graph_theory)} $Q \subseteq V$ is a set of vertices inducing a complete subgraph.
+
+    \item \textbf{Stable set}\Href{https://en.wikipedia.org/wiki/Independent_set_(graph_theory)} $S \subseteq V$ is a set of independent (pairwise non-adjacent) vertices.
+
+    \item \textbf{Matching}\Href{https://en.wikipedia.org/wiki/Matching_(graph_theory)} $M \subseteq E$ is a set of independent (pairwise non-adjacent) edges.
+
+    \item \textbf{Vertex cover}\Href{https://en.wikipedia.org/wiki/Vertex_cover} $R \subseteq V$ is a set of vertices \enquote{covering} all edges.
+
+    \item \textbf{Edge cover}\Href{https://en.wikipedia.org/wiki/Edge_cover} $F \subseteq E$ is a set of edges \enquote{covering} all vertices.
+
+    \item Note the distinction between the terms \textbf{maximum} (\enquote{globally}) and \textbf{maximal} (\enquote{locally}):
+    \begin{terms}
+        \newcommand{\MySet}{A}
+        \item Some set $\MySet^{*}$ is \textbf{maximum (by cardinality)} if there is no other set $\MySet$ such that $\card{\MySet} > \card{\MySet^{*}}$.
+        \item Some set $\MySet'$ is \textbf{maximal (by inclusion)} if there is no other set $\MySet$ such that $\MySet \supset \MySet'$.
+        \item Similarly for \textbf{minimum} / \textbf{minimal}.
+    \end{terms}
+\end{terms}
+
+\end{document}

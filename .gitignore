@@ -3,6 +3,13 @@ test*
 hw*
 quest*
 
+## ...except some published homeworks
+!hw1.tex
+!hw2.tex
+!hw3.tex
+!hw4.tex
+!hw5.tex
+
 ## Extra ignore
 trash
 _*
