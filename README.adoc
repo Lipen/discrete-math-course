@@ -12,6 +12,7 @@
 - {url-template}cheat2.tex[Cheatsheet 2: Binary Relations]
 - {url-template}cheat3.tex[Cheatsheet 3: Formal Logic]
 - {url-template}cheat4.tex[Cheatsheet 4: Boolean Algebra]
+- {url-template}cheat5.tex[Cheatsheet 5: Graph Theory]
 
 === Homeworks
 
