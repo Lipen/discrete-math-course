@@ -126,7 +126,7 @@
                     (a) -- (b) -- (c) -- (e) -- (f) -- (a)
                     (d) edge (a) edge (e) edge (f)
                 ;
-                \node[below] (label) at (current bounding box.south) {Simple};
+                \node (label) at (.6,-.55) {Simple};
             } &
             \tikz[baseline=(label.base)]{
                 \path
@@ -142,15 +142,15 @@
                     (a) edge[bend left] (b) edge[bend right] (b)
                     (e) edge[bend left] (f) edge[bend right] (f)
                 ;
-                \node[below] (label) at (current bounding box.south) {Multigraph};
+                \node (label) at (.6,-.55) {Multigraph};
             } &
             \tikz[baseline=(label.base)]{
                 \path
-                    (0,.1)   node[dot] (a) {}
-                    (.25,.7)  node[dot] (b) {}
-                    (1,.7)   node[dot] (c) {}
-                    (.6,.3)  node[dot] (d) {}
-                    (1.2,0)  node[dot] (e) {}
+                    (0,.2)   node[dot] (a) {}
+                    (.25,.8) node[dot] (b) {}
+                    (1,.8)   node[dot] (c) {}
+                    (.6,.4)  node[dot] (d) {}
+                    (1.2,.1) node[dot] (e) {}
                     (.5,-.2) node[dot] (f) {}
                 ;
                 \draw
@@ -160,7 +160,7 @@
                     (e) edge[out=30,in=-50,loop] ()
                     (a) edge[out=130,in=50,loop] ()
                 ;
-                \node[below] (label) at (current bounding box.south) {Pseudograph};
+                \node (label) at (.7,-.5) {Pseudograph};
             } \\[4pt]
 
             \tikz[baseline=(label.base)]{
@@ -173,7 +173,7 @@
                     (.4,-.2) node[dot] (c) {}
                     (.7,.2)  node[dot] (d) {}
                 ;
-                \node[below] (label) at (current bounding box.south) {Empty};
+                \node (label) at (.35,-.55) {Empty};
             } &
             \tikz[baseline=(label.base)]{
                 \path
@@ -187,7 +187,7 @@
                     (b) edge (c) edge (d)
                     (c) edge (d)
                 ;
-                \node[below] (label) at (current bounding box.south) {Complete};
+                \node (label) at (.5,-.55) {Complete};
             }
         \end{adjustbox}
         \vspace{-\intextsep}
@@ -477,7 +477,7 @@
     \item \textbf{Edge connectivity}\Href{https://en.wikipedia.org/wiki/Edge_connectivity} $\edgeConnectivity{G}$ is the minimum number of edges that has to be removed in order to make the graph disconnected.
     Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-edge-connected.
 
-    \item \textbf{$k$-edge-connected graph}\Href{https://en.wikipedia.org/wiki/K-edge-connected_graph} is a graph remains connected after less than $k$ edges are removed, \ie $\edgeConnectivity{G} \geq k$.
+    \item \textbf{$k$-edge-connected graph}\Href{https://en.wikipedia.org/wiki/K-edge-connected_graph} is a graph that remains connected after less than $k$ edges are removed, \ie $\edgeConnectivity{G} \geq k$.
     \begin{items}
         \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-edge-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{edge-disjoint} paths between $u$ and~$v$.
     \end{items}
