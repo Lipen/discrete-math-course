@@ -1,0 +1,554 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    includefoot,
+    headsep=8pt,
+    footskip=16pt,
+}
+\pagestyle{fancy}
+\MakeSingleHeader% {<l>}{<r>}
+    {\TextCheatsheetEng: Graph Theory}%
+    {\TextDiscreteMathEng, \IconSpring~Spring 2022}
+\fancyfoot{}
+\fancyfoot[L]{\tiny Build time: \DTMnow}
+\fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
+% \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
+
+%% Add custom setup below
+
+% \titlespacing{\type}{left}{above}{below}[right]
+\titlespacing{\section}{0pt}{*1}{*0.5}
+\titlespacing{\subsection}{0pt}{*1}{*0.5}
+
+\newcommand{\op}[1]{\operatorname*{#1}}
+\newcommand{\dist}[1]{\op{dist}(#1)}
+\newcommand{\degree}[1]{\op{deg}(#1)}
+\newcommand{\minDegree}[1]{\delta(#1)}
+\newcommand{\maxDegree}[1]{\Delta(#1)}
+\newcommand{\eccentricity}[1]{\varepsilon(#1)}
+\newcommand{\graphRadius}[1]{\op{rad}(#1)}
+\newcommand{\graphDiameter}[1]{\op{diam}(#1)}
+\newcommand{\graphGirth}[1]{\op{girth}(#1)}
+\newcommand{\graphCenter}[1]{\op{center}(#1)}
+\newcommand{\graphCentroid}[1]{\op{centroid}(#1)}
+% \newcommand{\stabilitynumber}[1]{\alpha(#1)}
+% \newcommand{\matchingnumber}[1]{\alpha'(#1)}
+\newcommand{\vertexConnectivity}[1]{\varkappa(#1)}
+\newcommand{\edgeConnectivity}[1]{\lambda(#1)}
+\newcommand{\blockGraph}[1]{\op{B}(#1)}
+
+% \usepackage{cutwin}
+
+\declaretheoremstyle[
+    spaceabove=6pt,
+    spacebelow=6pt,
+    postheadspace=0.5em,
+    notefont=\normalfont\scshape,
+]{mystyle}
+\declaretheorem[style=mystyle]{theorem}
+% \declaretheoremstyle[
+%     spaceabove=0pt,
+%     spacebelow=0pt,
+%     postheadspace=0.5em,
+%     notefont=\normalfont\scshape,
+% ]{mylemmastyle}
+% \declaretheorem[style=mylemmastyle]{lemma}
+
+\tikzset{
+    dot/.style = {
+        draw,
+        fill=black,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
+    circ/.style = {
+        draw,
+        % fill=white,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
+    position/.style args={#1:#2 from #3}{
+        at=(#3.#1), anchor=#1+180, shift=(#1:#2)
+    },
+}
+
+
+\begin{document}
+
+\selectlanguage{english}
+
+\setcounter{section}{4}
+\section{Graph Theory Cheatsheet}
+
+\subsection{Graph Theory%
+\texorpdfstring{\normalsize\protect\Href{https://en.wikipedia.org/wiki/Graph_theory}\hfill\href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory}{Glossary}}{}}
+
+\begin{terms}
+    \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} is an ordered pair $G = \Pair{V, E}$, where $V = \Set{v_1,\dotsc,v_n}$ is a set of vertices, and $E = \Set{e_1,\dotsc,e_m}$ is a set of edges.
+
+    \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$, \ie each edge $e_i \in E$ between vertices $u$ and~$v$ is denoted by $\Set{u,v} \in V^{(2)}$.
+    Such~\emph{undirected edges} are also called \emph{links} or \emph{lines}.
+    \begin{terms}
+        \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
+    \end{terms}
+
+    \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$, \ie each edge $e_i \in E$ from vertex $u$ to~$v$ is denoted by an ordered pair~$\Pair{u,v} \in V^{2}$.
+    Such \emph{directed edges} are also called \emph{arcs} or \emph{arrows}.
+    \begin{terms}
+        \item $A^k = A \times \dotsb \times A = \Set{\Tuple{x_1,\dotsc,x_k} \given x_1,\dotsc,x_k \in A}$ is the set of $k$-tuples (Cartesian $k$-power of~$A$).
+    \end{terms}
+
+    \begin{minipage}{\linewidth}
+
+    % \setlength{\intextsep}{0pt}%
+    % \setlength{\columnsep}{0pt}%
+    \begin{wrapfigure}{r}{0pt}
+        \setlength{\tabcolsep}{2pt}%
+        \begin{adjustbox}{tabular={@{} ccc @{}}}
+            \tikz[baseline=(label.base)]{
+                \path
+                    (0,.1)   node[dot] (a) {}
+                    (.3,.8)  node[dot] (b) {}
+                    (1,.8)   node[dot] (c) {}
+                    (.7,.4)  node[dot] (d) {}
+                    (1.2,0)  node[dot] (e) {}
+                    (.5,-.2) node[dot] (f) {}
+                ;
+                \draw
+                    (a) -- (b) -- (c) -- (e) -- (f) -- (a)
+                    (d) edge (a) edge (e) edge (f)
+                ;
+                \node[below] (label) at (current bounding box.south) {Simple};
+            } &
+            \tikz[baseline=(label.base)]{
+                \path
+                    (0,.1)   node[dot] (a) {}
+                    (.3,.8)  node[dot] (b) {}
+                    (1,.8)   node[dot] (c) {}
+                    (.7,.4)  node[dot] (d) {}
+                    (1.2,0)  node[dot] (e) {}
+                    (.5,-.2) node[dot] (f) {}
+                ;
+                \draw
+                    (b) -- (c) -- (e) -- (d) -- (a) -- (f)
+                    (a) edge[bend left] (b) edge[bend right] (b)
+                    (e) edge[bend left] (f) edge[bend right] (f)
+                ;
+                \node[below] (label) at (current bounding box.south) {Multigraph};
+            } &
+            \tikz[baseline=(label.base)]{
+                \path
+                    (0,.1)   node[dot] (a) {}
+                    (.25,.7)  node[dot] (b) {}
+                    (1,.7)   node[dot] (c) {}
+                    (.6,.3)  node[dot] (d) {}
+                    (1.2,0)  node[dot] (e) {}
+                    (.5,-.2) node[dot] (f) {}
+                ;
+                \draw
+                    (b) -- (d) -- (f) -- (e)
+                    (a) edge[bend left] (f) edge[bend right] (f)
+                    (c) edge[bend left] (e) edge[bend right] (e) edge (b)
+                    (e) edge[out=30,in=-50,loop] ()
+                    (a) edge[out=130,in=50,loop] ()
+                ;
+                \node[below] (label) at (current bounding box.south) {Pseudograph};
+            } \\[4pt]
+
+            \tikz[baseline=(label.base)]{
+                \node (label) {Null};
+            } &
+            \tikz[baseline=(label.base)]{
+                \path
+                    (0,0)    node[dot] (a) {}
+                    (.4,.5)  node[dot] (b) {}
+                    (.4,-.2) node[dot] (c) {}
+                    (.7,.2)  node[dot] (d) {}
+                ;
+                \node[below] (label) at (current bounding box.south) {Empty};
+            } &
+            \tikz[baseline=(label.base)]{
+                \path
+                    (0,0)    node[dot] (a) {}
+                    (.4,.6)  node[dot] (b) {}
+                    (1,.3)   node[dot] (c) {}
+                    (.7,-.2) node[dot] (d) {}
+                ;
+                \draw
+                    (a) edge (b) edge (c) edge (d)
+                    (b) edge (c) edge (d)
+                    (c) edge (d)
+                ;
+                \node[below] (label) at (current bounding box.south) {Complete};
+            }
+        \end{adjustbox}
+        \vspace{-\intextsep}
+    \end{wrapfigure}
+
+    \item \textbf{Multi-edges}\Href{https://en.wikipedia.org/wiki/Multi-edge} are edges that have the same end nodes.
+    \item \textbf{Loop}\Href{https://en.wikipedia.org/wiki/Loop_(graph_theory)} is an edge that connects a vertex to itself.
+    \item \textbf{Simple graph}\Href{https://en.wikipedia.org/wiki/Graph_theory\#Graph} is a graph without multi-edges and loops.
+    \item \textbf{Multigraph}\Href{https://en.wikipedia.org/wiki/Multigraph} is a graph with multi-edges.
+    \item \textbf{Pseudograph}\Href{https://en.wikipedia.org/wiki/Pseudograph} is a multigraph with loops.
+    % \item \textbf{Hypergraph}\Href{https://en.wikipedia.org/wiki/Hypergraph} is a generalization of a graph in which \\ an edge can join any number of vertices.
+
+    \item \textbf{Null graph}\Href{https://en.wikipedia.org/wiki/Null_graph} is a \enquote{graph} without vertices.
+    \item \textbf{Trivial graph} is a graph consisting of a single vertex.
+    \item \textbf{Empty (edgeless) graph}\Href{https://en.wikipedia.org/wiki/Edgeless_graph} is a graph without edges.
+    \end{minipage}
+
+    \item \textbf{Complete graph}\Href{https://en.wikipedia.org/wiki/Complete_graph} $K_n$ is a simple graph in which every pair of distinct vertices is connected by an edge.
+
+    \item \textbf{Weighted graph}\Href{https://en.wikipedia.org/wiki/Weighted_graph} $G = \Tuple{V, E, w}$ is a graph in which each edge has an associated numerical value (the \emph{weight}) represented by the \textbf{weight function} $w: E \to \mathrm{Num}$.
+
+    \begin{minipage}{\linewidth}
+
+    \setlength{\intextsep}{0pt}%
+    % \setlength{\columnsep}{0pt}%
+    \begin{wrapfigure}{r}{0pt}
+        \tikzset{
+            mylabel/.style args={#1:#2}{
+                append after command={
+                    (\tikzlastnode.center) node [#1] {#2}
+                }
+            },
+        }
+        \NiceMatrixOptions{
+            code-for-first-row = \color{gray},
+            code-for-first-col = \color{gray},
+        }
+        \setlength{\tabcolsep}{2pt}
+        \begin{tabular}{@{} cc @{}}
+            \tikz[baseline]{
+                \path
+                    (0,0)     node (a) [dot,mylabel={left=1pt:a}] {}
+                    (.8,.6)   node (b) [dot,mylabel={above right:b}] {}
+                    (1.2,-.1) node (c) [dot,mylabel={above right:c}] {}
+                    (.5,-.5)  node (d) [dot,mylabel={left=1pt:d}] {}
+                ;
+                \draw[inner sep=2pt]
+                    (a) edge node[sloped,above]{$e_1$} (b)
+                    (b) edge node[sloped,above]{$e_2$} (c)
+                    (c) edge node[sloped,below]{$e_3$} (d)
+                    (b) edge node[sloped,above]{$e_4$} (d)
+                    (c) edge[out=0,in=-90,loop,>=To] node[right]{$e_5$} (c)
+                ;
+            }
+            &
+            \tikz[baseline]{
+                \path
+                    (0,0)     node (a) [dot,mylabel={left=1pt:a}] {}
+                    (.8,.6)   node (b) [dot,mylabel={above right:b}] {}
+                    (1.2,-.1) node (c) [dot,mylabel={above right:c}] {}
+                    (.5,-.5)  node (d) [dot,mylabel={left=1pt:d}] {}
+                ;
+                \draw[->,>={Stealth[]}, inner sep=2pt]
+                    (a) edge node[sloped,above]{$e_1$} (b)
+                    (b) edge node[sloped,above]{$e_2$} (c)
+                    (c) edge node[sloped,below]{$e_3$} (d)
+                    (b) edge node[sloped,above]{$e_4$} (d)
+                    (c) edge[out=0,in=-90,loop,>=To] node[right]{$e_5$} (c)
+                ;
+            } \\
+            %
+            \multicolumn{2}{c}{\textbf{Adjacency matrix:}} \\
+            %
+            \(\begin{bNiceMatrix}[
+                light-syntax,
+                small,
+                first-row, first-col,
+            ]
+               {} a b c d ;
+                a 0 1 0 0 ;
+                b 1 0 1 1 ;
+                c 0 1 0 1 ;
+                d 0 1 1 0 ;
+            \end{bNiceMatrix}\)
+            &
+            \begin{NiceMatrixBlock}[auto-columns-width]
+            \(\begin{bNiceMatrix}[
+                light-syntax,
+                small, r,
+                first-row, first-col,
+            ]
+                {} a  b  c  d ;
+                a  0  1  0  0 ;
+                b -1  0  1  1 ;
+                c  0 -1  0  1 ;
+                d  0 -1 -1  0 ;
+            \end{bNiceMatrix}\)
+            \end{NiceMatrixBlock} \\
+            %
+            \multicolumn{2}{c}{\textbf{Incidence matrix:}} \\
+            %
+            \(\begin{bNiceMatrix}[
+                light-syntax,
+                small,
+                first-row, first-col,
+            ]
+                {} e_1 e_2 e_3 e_4 e_5 ;
+                a    0   0   0   0   0 ;
+                b    1   1   0   1   0 ;
+                c    0   1   1   0   2 ;
+                d    0   0   1   1   0 ;
+            \end{bNiceMatrix}\)
+            &
+            \begin{NiceMatrixBlock}[auto-columns-width]
+            \(\begin{bNiceMatrix}[
+                light-syntax,
+                small, r,
+                first-row, first-col,
+            ]
+                {} e_1 e_2 e_3 e_4 e_5 ;
+                a   -1   0   0   0   0 ;
+                b    1  -1   0  -1   0 ;
+                c    0   1  -1   0   2 ;
+                d    0   0   1   1   0 ;
+            \end{bNiceMatrix}\)
+            \end{NiceMatrixBlock} \\
+        \end{tabular}
+    \end{wrapfigure}
+
+    \item \textbf{Adjacency}\Href{https://en.wikipedia.org/wiki/Adjacent_(graph_theory)} is the relation between two vertices connected with an edge.
+    \item \textbf{Adjacency matrix}\Href{https://en.wikipedia.org/wiki/Adjacency_matrix} is a square matrix $A_{V \times V}$ used to represent an adjacency relation of a finite graph.
+    \begin{terms}
+        \item For simple graphs, adjacency matrix is binary, \ie $A_{ij} \in \Bool$.
+        % \hfill\href{https://en.wikipedia.org/wiki/Logical_matrix}{Boolean matrix}
+        \item For multigraphs, adjacency matrix contains edge mutiplicities, \ie $A_{ij} \in \NaturalZero$.
+    \end{terms}
+    \item \textbf{Incidence}\Href{https://en.wikipedia.org/wiki/Incidence_(geometry)} is a relation between an edge and its endpoints.
+    \item \textbf{Incidence matrix}\Href{https://en.wikipedia.org/wiki/Incidence_matrix} is a Boolean matrix $B_{V \times E}$ of an incidence relation.
+
+    \end{minipage}
+
+
+    \item \textbf{Degree}\Href{https://en.wikipedia.org/wiki/Degree_(graph_theory)} $\degree{v}$ the number of edges indident to $v$ (loops are counted twice).
+    \begin{terms}
+        \item $\minDegree{G} = \min\limits_{v \in V} \degree{v}$ is the \textbf{minimum degree}.
+        \item $\maxDegree{G} = \max\limits_{v \in V} \degree{v}$ is the \textbf{maximum degree}.
+        % TODO: in-degree and out-degree
+        \item \textsc{Handshaking lemma}. $\displaystyle \sum_{v \in V} \degree{v} = 2 \card{E}$.
+    \end{terms}
+
+    \item A graph is called \textbf{$r$-regular} if all its vertices have the same degree: $\forall v \in V : \degree{v} = r$.
+
+    \begin{minipage}{\linewidth}
+
+    \setlength{\intextsep}{0pt}%
+    % \setlength{\columnsep}{0pt}%
+    \begin{wrapfigure}{r}{0pt}
+        \setlength{\tabcolsep}{3pt}%
+        \NiceMatrixOptions{
+            notes/style = \arabic{#1},
+            notes/code-before = \footnotesize \color{gray} \RaggedRight,
+        }
+        \begin{NiceTabular}{@{} rccl @{}}
+            \toprule
+            \thead{Term} & \thead{V}\tabularnote{Can vertices be repeated?} & \thead{E}\tabularnote{Can edges be repeated?} & \thead{Closed} \\
+            Walk  & $+$ & $+$ & Closed walk \\
+            Trail & $+$ & $-$ & Circuit \\
+            Path  & $-$ & $-$ & Cycle \\
+                    & $-$ & $+$ & (\emph{impossible}) \\
+            \bottomrule
+        \end{NiceTabular}
+    \end{wrapfigure}
+
+    \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges in an arbitrary graph traversal.
+
+    \begin{terms}
+        \item \textbf{Trail} is a walk with distinct edges.
+        \item \textbf{Path} is a walk with distinct vertices (and therefore distinct edges).
+        \item A walk is \textbf{closed} if it starts and ends at the same vertex. Otherwise, it is \textbf{open}.
+        \item \textbf{Circuit} is a closed trail.
+        \item \textbf{Cycle} is a closed path.
+    \end{terms}
+
+    \end{minipage}
+
+    \item \textbf{Length} of a path (walk, trail) $l = u \rightsquigarrow v$ is the number of edges in it: $\card{l} = \card{E(l)}$.
+
+    \item \textbf{Girth}\Href{https://en.wikipedia.org/wiki/Girth_(graph_theory)} is the length of the shortest cycle in the graph.
+
+    \begin{minipage}{\linewidth}
+
+    \setlength{\intextsep}{0pt}%
+    \setlength{\columnsep}{0pt}%
+    \begin{wrapfigure}{r}{0pt}
+        \setlength{\tabcolsep}{8pt}%
+        \begin{tabular}{@{} cc @{}}
+            \tikz[baseline, on grid]{
+                \node[dot] (a) {};
+                % Center
+                \node[fit=(a), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
+                \node[text=blue] at (0,.5) {Center};
+                % Centroid
+                \node[fit=(a), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=8pt, inner ysep=4pt, yshift=-2pt] (centroid) {};
+                \node[text=green!60!black] at (0,-.5) {Centroid};
+            } &
+            \tikz[baseline, on grid]{
+                \node[dot] (a) {};
+                \node[dot] (b) [right=.5 of a] {};
+                \node[dot] (c) [right=.5 of b] {};
+                \node[dot] (d) [position=140:.5 from a] {};
+                \node[dot] (e) [position=-140:.5 from a] {};
+                \draw (a) -- (b) -- (c);
+                \draw (a) edge (d) edge (e);
+                % Center
+                \node[fit=(a)(b), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
+                \node[text=blue] at (.25,.5) {Center};
+                % Centroid
+                \node[fit=(a), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=6pt, inner ysep=4pt, xshift=-1pt, yshift=-2pt] (centroid) {};
+                \node[text=green!60!black] at (.3,-.5) {Centroid};
+            } \\
+            \tikz[baseline, on grid]{
+                \node[dot] (a) {};
+                \node[dot] (b) [right=.5 of a] {};
+                \node[dot] (c) [right=.5 of b] {};
+                \node[dot] (d) [right=.5 of c] {};
+                \node[dot] (e) [position=40:.5 from d] {};
+                \node[dot] (f) [position=-40:.5 from d] {};
+                \draw (a) -- (b) -- (c) -- (d);
+                \draw (d) edge (e) edge (f);
+                % Center
+                \node[fit=(c), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
+                \node[text=blue] at (1,.5) {Center};
+                % Centroid
+                \node[fit=(c)(d), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=6pt, inner ysep=4pt, xshift=-1pt, yshift=-2pt] (centroid) {};
+                \node[text=green!60!black] at (1,-.5) {Centroid};
+            } &
+            \tikz[baseline, on grid]{
+                \node[dot] (a) {};
+                \node[dot] (b) [right=.5 of a] {};
+                \draw (a) -- (b);
+                % Center
+                \node[fit=(a)(b), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
+                \node[text=blue] at (.25,.5) {Center};
+                % Centroid
+                \node[fit=(a)(b), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=8pt, inner ysep=4pt, yshift=-2pt] (centroid) {};
+                \node[text=green!60!black] at (.25,-.5) {Centroid};
+            } \\
+        \end{tabular}
+    \end{wrapfigure}
+
+    \item \textbf{Distance}\Href{https://en.wikipedia.org/wiki/Distance_(graph_theory)} $\dist{u,v}$ between two vertices is the length of the shortest path $u \rightsquigarrow v$.
+    \begin{terms}
+        \item $\eccentricity{v} = \max\limits_{u \in V} \dist{v,u}$ is the \textbf{eccentricity} of the vertex $v$.
+        \item $\graphRadius{G} = \min\limits_{v \in V} \eccentricity{v}$ is the \textbf{radius} of the graph $G$.
+        \item $\graphDiameter{G} = \max\limits_{v \in V} \eccentricity{v}$ is the \textbf{diameter} of the graph $G$.
+        \item $\graphCenter{G} = \Set{v \given \eccentricity{v} = \graphRadius{G}}$ is the \textbf{center} of the graph $G$.
+    \end{terms}
+
+    \end{minipage}
+
+    \item \textbf{Clique}\Href{https://en.wikipedia.org/wiki/Clique_(graph_theory)} $Q \subseteq V$ is a set of vertices inducing a complete subgraph.
+
+    \item \textbf{Stable set}\Href{https://en.wikipedia.org/wiki/Independent_set_(graph_theory)} $S \subseteq V$ is a set of independent (pairwise non-adjacent) vertices.
+
+    \item \textbf{Matching}\Href{https://en.wikipedia.org/wiki/Matching_(graph_theory)} $M \subseteq E$ is a set of independent (pairwise non-adjacent) edges.
+
+    \item \textbf{Vertex cover}\Href{https://en.wikipedia.org/wiki/Vertex_cover} $R \subseteq V$ is a set of vertices \enquote{covering} all edges.
+
+    \item \textbf{Edge cover}\Href{https://en.wikipedia.org/wiki/Edge_cover} $F \subseteq E$ is a set of edges \enquote{covering} all vertices.
+
+    \item \textbf{Subgraph}\Href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory\#subgraph} of a graph $G = \Pair{V,E}$ is another graph $G' = \Pair{V',E'}$ such that $V' \subseteq V$, $E' \subseteq E$.
+
+    \item \textbf{Induces subgraph}\Href{https://en.wikipedia.org/wiki/Induced_subgraph} of a graph $G = \Pair{V,E}$ is another graph $G'$, formed from a subset~$S$ of the vertices of the graph and \emph{all} the edges (from the original graph) connecting pairs of vertices in that subset.
+    Formally, $G[S] = G' = \Pair{V',E'}$, where $S \subseteq V$, $V' = V \intersection S$, $E' = \Set{e \in E \given \exists v \in S: e \mathrel{I} v}$.
+
+    \item \textbf{Vertex connectivity}\Href{https://en.wikipedia.org/wiki/Vertex_connectivity} $\vertexConnectivity{G}$ is the minimum number of vertices that has to be removed in order to make the graph disconnected or trivial.
+    Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-vertex-connected.
+
+    \item \textbf{$k$-vertex-connected graph}\Href{https://en.wikipedia.org/wiki/K-vertex-connected_graph} is a graph that remains connected after less than $k$ vertices are removed, \ie $\vertexConnectivity{G} \geq k$.
+
+    \begin{items}
+        \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-vertex-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{vertex-independent} (\emph{internally vertex-disjoint}) paths between $u$ and~$v$.
+        \item $k$-vertex-connected graphs are also called simply \emph{$k$-connected}.
+        \item 1-connected graph is called \emph{connected}, 2-connected is \emph{biconnected}, 3-connected is \emph{triconnected}.
+    \end{items}
+
+    \item \textbf{Edge connectivity}\Href{https://en.wikipedia.org/wiki/Edge_connectivity} $\edgeConnectivity{G}$ is the minimum number of edges that has to be removed in order to make the graph disconnected.
+    Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-edge-connected.
+
+    \item \textbf{$k$-edge-connected graph}\Href{https://en.wikipedia.org/wiki/K-edge-connected_graph} is a graph remains connected after less than $k$ edges are removed, \ie $\edgeConnectivity{G} \geq k$.
+    \begin{items}
+        \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-edge-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{edge-disjoint} paths between $u$ and~$v$.
+    \end{items}
+
+    \begin{minipage}{\linewidth}
+
+    \setlength{\intextsep}{0pt}%
+    \setlength{\columnsep}{0pt}%
+    \begin{wrapfigure}{r}{0pt}
+        \tikz[baseline]{
+            \coordinate (origin);
+            \node[dot] (a1) [position=36:.5 from origin] {};
+            \node[dot] (a2) [position=-36:.5 from origin] {};
+            \node[dot] (a3) [position=108:.5 from origin] {};
+            \node[dot] (a4) [position=-108:.5 from origin] {};
+            \node[dot] (a5) [position=180:.5 from origin] {};
+            \node[dot] (x1) [right=.8 of a1] {};
+            \node[dot] (x2) [right=.8 of a2] {};
+            \node[dot] (x3) [right=.5 of x1] {};
+            \node[dot] (x4) [right=.5 of x2] {};
+            \draw (a1) edge (a3) edge (a4) edge (a5)
+                -- (a2) edge (a4) edge (a5)
+                -- (a3) edge (a5)
+                -- (a4)
+                -- (a5)
+                -- cycle;
+            \draw (x1) edge (x3) edge (x4)
+                -- (x2) edge (x4)
+                -- (x3)
+                -- (x4)
+                -- cycle;
+            \draw (a1) edge (x1);
+            \draw (a2) edge (x1) edge (x2);
+            \node[below] at (current bounding box.south) {$\vertexConnectivity{G} = 2$, $\edgeConnectivity{G} = 3$, \\ $\minDegree{G} = 3$, $\maxDegree{G} = 6$};
+        }
+    \end{wrapfigure}
+
+    \item \textsc{Whitney's theorem}. $\vertexConnectivity{G} \leq \edgeConnectivity{G} \leq \minDegree{G}$.
+
+    \end{minipage}
+
+    \item \textit{To be continued...}
+
+
+    \vfill
+    \emph{TODO}
+
+    \begin{otherlanguage}{russian}
+
+    \item Операции над графами: дополнение, объединение, пересечение
+    \item Граф пересечений
+    \item Рёберный граф (Line graph)
+    \item Двудольный граф (Bipartite graph)
+    \item Связность (connectivity)
+    \item Сильная связность
+    \item Отношение (вершинной/рёберной) k-связности (неэкв./экв.)
+    \item Теорема Менгере
+    \item Двусвязность
+    \item Точки сочленения (шарниры/cut vertex/articulation point)
+    \item Блоки (компоненты вершинной двусвязности)
+    \item Отношение вершинной двусвязности (экв.)
+    \item Мосты
+    \item Острова (компоненты рёберной двусвязности)
+    \item Отношение рёберной двусвязности (эквивалентно 2-рёб-связности)
+    \item Дерево
+    \item Вес вершины в дереве
+    \item Центроид дерева
+
+    \end{otherlanguage}
+
+\endgroup
+
+
+\end{document}
