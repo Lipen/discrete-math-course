@@ -382,6 +382,7 @@
     \setlength{\intextsep}{0pt}%
     \setlength{\columnsep}{0pt}%
     \begin{wrapfigure}{r}{0pt}
+        \colorlet{mygreen}{green!60!black}%
         \setlength{\tabcolsep}{8pt}%
         \begin{tabular}{@{} cc @{}}
             \tikz[baseline, on grid]{
@@ -390,8 +391,8 @@
                 \node[fit=(a), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
                 \node[text=blue] at (0,.5) {Center};
                 % Centroid
-                \node[fit=(a), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=8pt, inner ysep=4pt, yshift=-2pt] (centroid) {};
-                \node[text=green!60!black] at (0,-.5) {Centroid};
+                \node[fit=(a), draw=mygreen, fill=green, fill opacity=0.1, inner xsep=8pt, inner ysep=4pt, yshift=-2pt] (centroid) {};
+                \node[text=mygreen] at (0,-.5) {Centroid};
             } &
             \tikz[baseline, on grid]{
                 \node[dot] (a) {};
@@ -405,8 +406,8 @@
                 \node[fit=(a)(b), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
                 \node[text=blue] at (.25,.5) {Center};
                 % Centroid
-                \node[fit=(a), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=6pt, inner ysep=4pt, xshift=-1pt, yshift=-2pt] (centroid) {};
-                \node[text=green!60!black] at (.3,-.5) {Centroid};
+                \node[fit=(a), draw=mygreen, fill=green, fill opacity=0.1, inner xsep=6pt, inner ysep=4pt, xshift=-1pt, yshift=-2pt] (centroid) {};
+                \node[text=mygreen] at (.3,-.5) {Centroid};
             } \\
             \tikz[baseline, on grid]{
                 \node[dot] (a) {};
@@ -421,8 +422,8 @@
                 \node[fit=(c), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
                 \node[text=blue] at (1,.5) {Center};
                 % Centroid
-                \node[fit=(c)(d), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=6pt, inner ysep=4pt, xshift=-1pt, yshift=-2pt] (centroid) {};
-                \node[text=green!60!black] at (1,-.5) {Centroid};
+                \node[fit=(c)(d), draw=mygreen, fill=green, fill opacity=0.1, inner xsep=6pt, inner ysep=4pt, xshift=-1pt, yshift=-2pt] (centroid) {};
+                \node[text=mygreen] at (1,-.5) {Centroid};
             } &
             \tikz[baseline, on grid]{
                 \node[dot] (a) {};
@@ -432,8 +433,8 @@
                 \node[fit=(a)(b), draw=blue, fill=blue, fill opacity=0.1, inner xsep=4pt, inner ysep=4pt, yshift=2pt] (center) {};
                 \node[text=blue] at (.25,.5) {Center};
                 % Centroid
-                \node[fit=(a)(b), draw=green!60!black, fill=green, fill opacity=0.1, inner xsep=8pt, inner ysep=4pt, yshift=-2pt] (centroid) {};
-                \node[text=green!60!black] at (.25,-.5) {Centroid};
+                \node[fit=(a)(b), draw=mygreen, fill=green, fill opacity=0.1, inner xsep=8pt, inner ysep=4pt, yshift=-2pt] (centroid) {};
+                \node[text=mygreen] at (.25,-.5) {Centroid};
             } \\
         \end{tabular}
     \end{wrapfigure}
