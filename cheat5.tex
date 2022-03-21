@@ -440,14 +440,15 @@
     \end{wrapfigure}
 
     \item \textbf{Distance}\Href{https://en.wikipedia.org/wiki/Distance_(graph_theory)} $\dist{u,v}$ between two vertices is the length of the shortest path $u \rightsquigarrow v$.
+
+    \end{minipage}
+
     \begin{terms}
         \item $\eccentricity{v} = \max\limits_{u \in V} \dist{v,u}$ is the \textbf{eccentricity} of the vertex $v$.
         \item $\graphRadius{G} = \min\limits_{v \in V} \eccentricity{v}$ is the \textbf{radius} of the graph $G$.
         \item $\graphDiameter{G} = \max\limits_{v \in V} \eccentricity{v}$ is the \textbf{diameter} of the graph $G$.
         \item $\graphCenter{G} = \Set{v \given \eccentricity{v} = \graphRadius{G}}$ is the \textbf{center} of the graph $G$.
     \end{terms}
-
-    \end{minipage}
 
     \item \textbf{Clique}\Href{https://en.wikipedia.org/wiki/Clique_(graph_theory)} $Q \subseteq V$ is a set of vertices inducing a complete subgraph.
 
