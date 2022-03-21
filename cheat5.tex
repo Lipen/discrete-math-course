@@ -78,6 +78,11 @@
     position/.style args={#1:#2 from #3}{
         at=(#3.#1), anchor=#1+180, shift=(#1:#2)
     },
+    mylabel/.style args={#1:#2}{
+        append after command={
+            (\tikzlastnode.center) node [#1] {#2}
+        }
+    },
 }
 
 
@@ -216,13 +221,6 @@
     \setlength{\intextsep}{0pt}%
     % \setlength{\columnsep}{0pt}%
     \begin{wrapfigure}{r}{0pt}
-        \tikzset{
-            mylabel/.style args={#1:#2}{
-                append after command={
-                    (\tikzlastnode.center) node [#1] {#2}
-                }
-            },
-        }
         \NiceMatrixOptions{
             code-for-first-row = \color{gray},
             code-for-first-col = \color{gray},
