@@ -96,12 +96,14 @@
 
     \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$, \ie each edge $e_i \in E$ between vertices $u$ and~$v$ is denoted by $\Set{u,v} \in V^{(2)}$.
     Such~\emph{undirected edges} are also called \emph{links} or \emph{lines}.
+
     \begin{terms}
         \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
     \end{terms}
 
     \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$, \ie each edge $e_i \in E$ from vertex $u$ to~$v$ is denoted by an ordered pair~$\Pair{u,v} \in V^{2}$.
     Such \emph{directed edges} are also called \emph{arcs} or \emph{arrows}.
+
     \begin{terms}
         \item $A^k = A \times \dotsb \times A = \Set{\Tuple{x_1,\dotsc,x_k} \given x_1,\dotsc,x_k \in A}$ is the set of $k$-tuples (Cartesian $k$-power of~$A$).
     \end{terms}
@@ -324,13 +326,14 @@
         % \hfill\href{https://en.wikipedia.org/wiki/Logical_matrix}{Boolean matrix}
         \item For multigraphs, adjacency matrix contains edge mutiplicities, \ie $A_{ij} \in \NaturalZero$.
     \end{terms}
+
     \item \textbf{Incidence}\Href{https://en.wikipedia.org/wiki/Incidence_(geometry)} is a relation between an edge and its endpoints.
     \item \textbf{Incidence matrix}\Href{https://en.wikipedia.org/wiki/Incidence_matrix} is a Boolean matrix $B_{V \times E}$ of an incidence relation.
 
     \end{minipage}
 
-
     \item \textbf{Degree}\Href{https://en.wikipedia.org/wiki/Degree_(graph_theory)} $\degree{v}$ the number of edges indident to $v$ (loops are counted twice).
+
     \begin{terms}
         \item $\minDegree{G} = \min\limits_{v \in V} \degree{v}$ is the \textbf{minimum degree}.
         \item $\maxDegree{G} = \max\limits_{v \in V} \degree{v}$ is the \textbf{maximum degree}.
@@ -362,7 +365,6 @@
     \end{wrapfigure}
 
     \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges in an arbitrary graph traversal.
-
     \begin{terms}
         \item \textbf{Trail} is a walk with distinct edges.
         \item \textbf{Path} is a walk with distinct vertices (and therefore distinct edges).
