@@ -471,25 +471,24 @@
     Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-vertex-connected.
 
     \item \textbf{$k$-vertex-connected graph}\Href{https://en.wikipedia.org/wiki/K-vertex-connected_graph} is a graph that remains connected after less than $k$ vertices are removed, \ie $\vertexConnectivity{G} \geq k$.
-
-    \begin{items}
+    \begin{terms}
         \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-vertex-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{vertex-independent} (\emph{internally vertex-disjoint}) paths between $u$ and~$v$.
         \item $k$-vertex-connected graphs are also called simply \emph{$k$-connected}.
         \item 1-connected graph is called \emph{connected}, 2-connected is \emph{biconnected}, 3-connected is \emph{triconnected}.
-    \end{items}
+    \end{terms}
 
     \item \textbf{Edge connectivity}\Href{https://en.wikipedia.org/wiki/Edge_connectivity} $\edgeConnectivity{G}$ is the minimum number of edges that has to be removed in order to make the graph disconnected.
     Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-edge-connected.
 
     \item \textbf{$k$-edge-connected graph}\Href{https://en.wikipedia.org/wiki/K-edge-connected_graph} is a graph that remains connected after less than $k$ edges are removed, \ie $\edgeConnectivity{G} \geq k$.
-    \begin{items}
+    \begin{terms}
         \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-edge-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{edge-disjoint} paths between $u$ and~$v$.
-    \end{items}
+    \end{terms}
 
     \begin{minipage}{\linewidth}
 
     \setlength{\intextsep}{0pt}%
-    \setlength{\columnsep}{0pt}%
+    % \setlength{\columnsep}{0pt}%
     \begin{wrapfigure}{r}{0pt}
         \tikz[]{
             \coordinate (origin);
@@ -519,12 +518,192 @@
         }
     \end{wrapfigure}
 
+    \vspace{2pt}
+
     \item \textsc{Whitney's theorem}. $\vertexConnectivity{G} \leq \edgeConnectivity{G} \leq \minDegree{G}$.
 
     \end{minipage}
 
-    \item \textbf{Forest}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)\#Forest} is an undirected acyclic graph.
     \item \textbf{Tree}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)} is a connected undirected acyclic graph.
+    \item \textbf{Forest}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)\#Forest} is an undirected acyclic graph, \ie a disjoint union of trees.
+
+    \item An \textbf{unrooted tree} (\textbf{free tree}) is a tree without any designated \emph{root}.
+    \item A \textbf{rooted tree} is a tree in which one vertex has been designated the \emph{root}.
+    \begin{terms}
+        \item In a rooted tree, the \textbf{parent} of a vertex $v$ is the vertex connected to $v$ on the path to the root.
+        \item A \textbf{child} of a vertex $v$ is a vertex of which $v$ is the parent.
+        \item A \textbf{sibling} to a vertex $v$ is any other vertex on the tree which has the same parent as $v$.
+
+        % \item An \textbf{ascendant} of a vertex $v$ is any vertex which is either the parent of $v$ or is (recursively) the ascendant of the parent of $v$.
+        % \item A \textbf{descendant} of a vertex $v$ is any vertex which is either the child of $v$ or is (recursively) the descendant of any of the children of $v$.
+
+        \item A \textbf{leaf} is a vertex with no children. Equivalently, \textbf{leaf} is a \emph{pendant vertex}, \ie $\degree{v} = 1$.
+        \item An \textbf{internal vertex} is a vertex that is not a leaf.
+
+        \item A \textbf{$k$-ary tree} is a rooted tree in which each vertex has at most $k$ children. \emph{2-ary trees} are called \textbf{binary trees}.
+    \end{terms}
+
+    \item A \textbf{labeled tree}\Href{https://en.wikipedia.org/wiki/Labeled_tree} is a tree in which each vertex is given a unique \emph{label}, \eg $1, 2, \dotsc, n$.
+
+    \item \textsc{Cayley's formula}\Href{https://en.wikipedia.org/wiki/Cayley's_formula}. Number of labeled trees on $n$ vertices is $n^{n-2}$.
+
+    \item \textbf{Pr\"{u}fer code}\Href{https://en.wikipedia.org/wiki/Prufer_sequence} is a unique sequence of labels $\Set{1,\dotsc,n}$ of length $(n-2)$ associated with the labeled tree on $n$ vertices.
+    \begin{terms}
+        \item \textbf{\textsc{Encoding}} (iterative algorithm for converting tree $T$ labeled with $\Set{1,\dotsc,n}$ into a Pr\"{u}fer sequence $K$):
+        \begin{terms}
+            \item On each iteration, remove the leaf with \textcolor{red}{\emph{the smallest label}}, and extend $K$ with \textcolor{blue}{\emph{a single neighbour}} of this leaf.
+            \item After $(n-2)$ iterations, the tree will be left with two adjacent vertices \--- there is no need to encode them, because there is only one unique tree on 2 vertices, which requires 0 bits of information to encode.
+        \end{terms}
+
+        \begingroup
+        \def\Dist{.5}
+        \def\LabelY{-1.1}
+
+        \tikz[baseline]{
+            \node[dot] (2) [label={2}] {};
+            \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
+            \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
+            \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
+            \node[dot] (5) [label={5}, position=-120:{\Dist} from 2] {};
+            \node[dot] (1) [label={1}, position=-160:{\Dist} from 5] {};
+            \node[dot] (4) [label={4}, position=130:{\Dist} from 5] {};
+            \draw (1) -- (5);
+            \draw (4) -- (5);
+            \draw (5) -- (2);
+            \draw (2) -- (7);
+            \draw (2) -- (3);
+            \draw (3) -- (6);
+            \node at (0,\LabelY) {$K = \emptyset$};
+        }%
+        \hfill%
+        \tikz[baseline]{
+            \node[dot] (2) [label={2}] {};
+            \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
+            \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
+            \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
+            \node[dot,blue] (5) [label={[text=blue]5}, position=-120:{\Dist} from 2] {};
+            \node[dot,red] (1) [label={[text=red]1}, position=-160:{\Dist} from 5] {};
+            \node[dot] (4) [label={4}, position=130:{\Dist} from 5] {};
+            \draw[red] (1) -- (5);
+            \draw (4) -- (5);
+            \draw (5) -- (2);
+            \draw (2) -- (7);
+            \draw (2) -- (3);
+            \draw (3) -- (6);
+            \node at (0,\LabelY) {$K = \mathcolor{blue}{5}$};
+        }%
+        \hfill%
+        \tikz[baseline]{
+            \node[dot] (2) [label={2}] {};
+            \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
+            \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
+            \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
+            \node[dot,blue] (5) [label={[text=blue]5}, position=-120:{\Dist} from 2] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
+            \node[dot,red] (4) [label={[text=red]4}, position=130:{\Dist} from 5] {};
+            \draw[lightgray,dashed] (1) -- (5);
+            \draw[red] (4) -- (5);
+            \draw (5) -- (2);
+            \draw (2) -- (7);
+            \draw (2) -- (3);
+            \draw (3) -- (6);
+            \node at (0,\LabelY) {$K = 5\mathcolor{blue}{5}$};
+        }%
+        \hfill%
+        \tikz[baseline]{
+            \node[dot,blue] (2) [label={[text=blue]2}] {};
+            \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
+            \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
+            \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
+            \node[dot,red] (5) [label={[text=red]5}, position=-120:{\Dist} from 2] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \draw[lightgray,dashed] (1) -- (5);
+            \draw[lightgray,dashed] (4) -- (5);
+            \draw[red] (5) -- (2);
+            \draw (2) -- (7);
+            \draw (2) -- (3);
+            \draw (3) -- (6);
+            \node at (0,\LabelY) {$K = 55\mathcolor{blue}{2}$};
+        }%
+        \hfill%
+        \tikz[baseline]{
+            \node[dot] (2) [label={2}] {};
+            \node[dot,blue] (3) [label={[text=blue]3}, position=30:{\Dist} from 2] {};
+            \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
+            \node[dot,red] (6) [label={[text=red]6}, position=-60:{\Dist} from 3] {};
+            \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \draw[lightgray,dashed] (1) -- (5);
+            \draw[lightgray,dashed] (4) -- (5);
+            \draw[lightgray,dashed] (5) -- (2);
+            \draw (2) -- (7);
+            \draw (2) -- (3);
+            \draw[red] (3) -- (6);
+            \node at (0,\LabelY) {$K = 552\mathcolor{blue}{3}$};
+        }%
+        \hfill%
+        \tikz[baseline]{
+            \node[dot,blue] (2) [label={[text=blue]2}] {};
+            \node[dot,red] (3) [label={[text=red]3}, position=30:{\Dist} from 2] {};
+            \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
+            \node[dot,lightgray] (6) [label={[text=lightgray]6}, position=-60:{\Dist} from 3] {};
+            \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \draw[lightgray,dashed] (1) -- (5);
+            \draw[lightgray,dashed] (4) -- (5);
+            \draw[lightgray,dashed] (5) -- (2);
+            \draw (2) -- (7);
+            \draw[red] (2) -- (3);
+            \draw[lightgray,dashed] (3) -- (6);
+            \node at (0,\LabelY) {$K = 5523\mathcolor{blue}{2}$};
+        }%
+        \hfill%
+        \tikz[baseline]{
+            \node[dot,blue] (2) [label={[text=blue]2}] {};
+            \node[dot,lightgray] (3) [label={[text=lightgray]3}, position=30:{\Dist} from 2] {};
+            \node[dot,blue] (7) [label={[text=blue]7}, position=-60:{\Dist} from 2] {};
+            \node[dot,lightgray] (6) [label={[text=lightgray]6}, position=-60:{\Dist} from 3] {};
+            \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \draw[lightgray,dashed] (1) -- (5);
+            \draw[lightgray,dashed] (4) -- (5);
+            \draw[lightgray,dashed] (5) -- (2);
+            \draw[blue] (2) -- (7);
+            \draw[lightgray,dashed] (2) -- (3);
+            \draw[lightgray,dashed] (3) -- (6);
+            \node at (0,\LabelY) {$K = \underline{55232}$};
+        }
+
+        \endgroup
+
+        % P: deque = Prüfer code
+        % W: deque = {v| v not in Prüfer code}
+        % while P is not empty:
+        %     v = P.pop_left()
+        %     edge_connect(W.pop_min(), v)
+        %     If v not in P:
+        %         W.add(v)
+        % edge_connect(W[0], W[1])
+
+        \item \textbf{\textsc{Decoding}} (iterative algorithm for converting a Pr\"{u}fer sequence $K$ into a tree $T$):
+        \begin{terms}
+            \item Given a Pr\"{u}fer code $K$ of length $(n-2)$, construct a set of \enquote{leaves} $W = \Set{1,\dotsc,n} \setminus K$.
+            \item On each iteration:
+            % TODO: fix margin
+            \begin{enumerate}[label=(\arabic*)]
+                \item Pop the \emph{first} element of $K$ (denote it as $k$) and the \emph{minimum} label in $W$ (denote it as $w$).
+                \item Connect $k$ and $w$ with an edge $\Pair{k, w}$ in the tree $T$.
+                \item If $k \notin K$, then extend the set of \enquote{leaves} $W \coloneqq W \union \Set{k}$.
+            \end{enumerate}
+            \item After $(n-2)$ iterations, the sequence $K$ will be empty, and the set $W$ will contain exactly two vertices \--- connect them with an edge.
+        \end{terms}
+
+        % TODO: visualization
+    \end{terms}
 
     % \item
 
@@ -550,7 +729,6 @@
     % \item Мосты
     % \item Острова (компоненты рёберной двусвязности)
     % \item Отношение рёберной двусвязности (эквивалентно 2-рёб-связности)
-    % \item Дерево
     % \item Вес вершины в дереве
     % \item Центроид дерева
 
