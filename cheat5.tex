@@ -91,10 +91,11 @@
 \selectlanguage{english}
 
 \setcounter{section}{4}
-\section{Graph Theory Cheatsheet}
+\section{Graph Theory Cheatsheet%
+\texorpdfstring{\normalsize\hfill\href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory}{Glossary}}{}}
 
-\subsection{Graph Theory%
-\texorpdfstring{\normalsize\protect\Href{https://en.wikipedia.org/wiki/Graph_theory}\hfill\href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory}{Glossary}}{}}
+% \subsection{Graph Theory%
+% \texorpdfstring{\normalsize\protect\Href{https://en.wikipedia.org/wiki/Graph_theory}\hfill\href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory}{Glossary}}{}}
 
 \begin{terms}
     \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} is an ordered pair $G = \Pair{V, E}$, where $V = \Set{v_1,\dotsc,v_n}$ is a set of vertices, and $E = \Set{e_1,\dotsc,e_m}$ is a set of edges.
@@ -216,6 +217,13 @@
 
     \item \textbf{Weighted graph}\Href{https://en.wikipedia.org/wiki/Weighted_graph} $G = \Tuple{V, E, w}$ is a graph in which each edge has an associated numerical value (the \emph{weight}) represented by the \textbf{weight function} $w: E \to \mathrm{Num}$.
 
+    \item \textbf{Subgraph}\Href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory\#subgraph} of a graph $G = \Pair{V,E}$ is another graph $G' = \Pair{V',E'}$ such that $V' \subseteq V$, $E' \subseteq E$. Designated as $G' \subseteq G$.
+
+    \item \textbf{Spanning (partial) subgraph}\Href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory\#spanning} is a subgraph that includes all vertices of a graph.
+
+    \item \textbf{Induces subgraph}\Href{https://en.wikipedia.org/wiki/Induced_subgraph} of a graph $G = \Pair{V,E}$ is another graph $G'$ formed from a subset~$S$ of the vertices of the graph and \emph{all} the edges (from the original graph) connecting pairs of vertices in that subset.
+    Formally, $G' = G[S] = \Pair{V',E'}$, where $S \subseteq V$, $V' = V \intersection S$, $E' = \Set{e \in E \given \exists v \in S: e \mathrel{I} v}$.
+
     \begin{minipage}{\linewidth}
 
     \setlength{\intextsep}{0pt}%
@@ -318,10 +326,11 @@
     \end{wrapfigure}
 
     \item \textbf{Adjacency}\Href{https://en.wikipedia.org/wiki/Adjacent_(graph_theory)} is the relation between two vertices connected with an edge.
-    \item \textbf{Adjacency matrix}\Href{https://en.wikipedia.org/wiki/Adjacency_matrix} is a square matrix $A_{V \times V}$ used to represent an adjacency relation of a finite graph.
+    \item \textbf{Adjacency matrix}\Href{https://en.wikipedia.org/wiki/Adjacency_matrix} is a square matrix $A_{V \times V}$ of an adjacency relation.
     \begin{terms}
-        \item For simple graphs, adjacency matrix is binary, \ie $A_{ij} \in \Bool$.
+        \item For simple graphs, adjacency matrix is binary, \ie $A_{ij} \in \Set{0,1}$.
         % \hfill\href{https://en.wikipedia.org/wiki/Logical_matrix}{Boolean matrix}
+        \item For directed graphs, $A_{ij} \in \Set{0,1,-1}$.
         \item For multigraphs, adjacency matrix contains edge mutiplicities, \ie $A_{ij} \in \NaturalZero$.
     \end{terms}
 
@@ -340,6 +349,12 @@
     \end{terms}
 
     \item A graph is called \textbf{$r$-regular} if all its vertices have the same degree: $\forall v \in V : \degree{v} = r$.
+
+    \item \textbf{Complement graph}\Href{https://en.wikipedia.org/wiki/Complement_graph} of a graph $G$ is a graph~$H$ on the same vertices such that two distinct vertices of~$H$ are adjacent iff they are non-adjacent in~$G$.
+
+    \item \textbf{Intersection graph}\Href{https://en.wikipedia.org/wiki/Intersection_graph} of a family of sets $F = \Set{S_i}$ is a graph $G = \Omega(F) = \Pair{V,E}$ such that each vertex $v_i \in V$ denotes the set~$S_i$, \ie $V = F$, and the two vertices $v_i$ and~$v_j$ are adjacent whenever the corresponding sets $S_i$ and~$S_j$ have a non-empty intersection, \ie $E = \Set{ \Pair{v_i,v_j} \given i \neq j, S_i \intersection S_j \neq \emptyset }$.
+
+    \item \textbf{Line graph}\Href{https://en.wikipedia.org/wiki/Line_graph} of a graph $G = \Pair{V,E}$ is another graph $L(G) = \Omega(E)$ that represents the adjacencies between edges of~$G$. Each vertex of~$L(G)$ represents an edge of~$G$, and two vertices of~$L(G)$ are adjacent iff the corresponding edges share a common endpoint in~$G$ (\ie edges are \enquote{adjacent}/\enquote{incident}).
 
     \begin{minipage}{\linewidth}
 
@@ -460,13 +475,6 @@
 
     \item \textbf{Edge cover}\Href{https://en.wikipedia.org/wiki/Edge_cover} $F \subseteq E$ is a set of edges \enquote{covering} all vertices.
 
-    \item \textbf{Subgraph}\Href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory\#subgraph} of a graph $G = \Pair{V,E}$ is another graph $G' = \Pair{V',E'}$ such that $V' \subseteq V$, $E' \subseteq E$. Designated as $G' \subseteq G$.
-
-    \item \textbf{Spanning subgraph} is a subgraph that includes all vertices of a graph.
-
-    \item \textbf{Induces subgraph}\Href{https://en.wikipedia.org/wiki/Induced_subgraph} of a graph $G = \Pair{V,E}$ is another graph $G'$, formed from a subset~$S$ of the vertices of the graph and \emph{all} the edges (from the original graph) connecting pairs of vertices in that subset.
-    Formally, $G[S] = G' = \Pair{V',E'}$, where $S \subseteq V$, $V' = V \intersection S$, $E' = \Set{e \in E \given \exists v \in S: e \mathrel{I} v}$.
-
     \item \textbf{Vertex connectivity}\Href{https://en.wikipedia.org/wiki/Vertex_connectivity} $\vertexConnectivity{G}$ is the minimum number of vertices that has to be removed in order to make the graph disconnected or trivial.
     Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-vertex-connected.
 
@@ -557,7 +565,7 @@
 
         \begingroup
         \def\Dist{.5}
-        \def\LabelY{-1.1}
+        \def\LabelY{-0.9}
 
         \tikz[baseline]{
             \node[dot] (2) [label={2}] {};
@@ -565,8 +573,8 @@
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
             \node[dot] (5) [label={5}, position=-120:{\Dist} from 2] {};
-            \node[dot] (1) [label={1}, position=-160:{\Dist} from 5] {};
-            \node[dot] (4) [label={4}, position=130:{\Dist} from 5] {};
+            \node[dot] (1) [label={1}, position=180:{\Dist} from 5] {};
+            \node[dot] (4) [label={4}, position=120:{\Dist} from 5] {};
             \draw (1) -- (5);
             \draw (4) -- (5);
             \draw (5) -- (2);
@@ -582,8 +590,8 @@
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
             \node[dot,blue] (5) [label={[text=blue]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,red] (1) [label={[text=red]1}, position=-160:{\Dist} from 5] {};
-            \node[dot] (4) [label={4}, position=130:{\Dist} from 5] {};
+            \node[dot,red] (1) [label={[text=red]1}, position=180:{\Dist} from 5] {};
+            \node[dot] (4) [label={4}, position=120:{\Dist} from 5] {};
             \draw[red] (1) -- (5);
             \draw (4) -- (5);
             \draw (5) -- (2);
@@ -599,8 +607,8 @@
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
             \node[dot,blue] (5) [label={[text=blue]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
-            \node[dot,red] (4) [label={[text=red]4}, position=130:{\Dist} from 5] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
+            \node[dot,red] (4) [label={[text=red]4}, position=120:{\Dist} from 5] {};
             \draw[lightgray,dashed] (1) -- (5);
             \draw[red] (4) -- (5);
             \draw (5) -- (2);
@@ -616,8 +624,8 @@
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
             \node[dot,red] (5) [label={[text=red]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
             \draw[lightgray,dashed] (1) -- (5);
             \draw[lightgray,dashed] (4) -- (5);
             \draw[red] (5) -- (2);
@@ -633,8 +641,8 @@
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot,red] (6) [label={[text=red]6}, position=-60:{\Dist} from 3] {};
             \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
             \draw[lightgray,dashed] (1) -- (5);
             \draw[lightgray,dashed] (4) -- (5);
             \draw[lightgray,dashed] (5) -- (2);
@@ -650,8 +658,8 @@
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot,lightgray] (6) [label={[text=lightgray]6}, position=-60:{\Dist} from 3] {};
             \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
             \draw[lightgray,dashed] (1) -- (5);
             \draw[lightgray,dashed] (4) -- (5);
             \draw[lightgray,dashed] (5) -- (2);
@@ -667,8 +675,8 @@
             \node[dot,blue] (7) [label={[text=blue]7}, position=-60:{\Dist} from 2] {};
             \node[dot,lightgray] (6) [label={[text=lightgray]6}, position=-60:{\Dist} from 3] {};
             \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=-160:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=130:{\Dist} from 5] {};
+            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
+            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
             \draw[lightgray,dashed] (1) -- (5);
             \draw[lightgray,dashed] (4) -- (5);
             \draw[lightgray,dashed] (5) -- (2);
@@ -705,18 +713,14 @@
         % TODO: visualization
     \end{terms}
 
-    % \item
-
-    \item \textit{To be continued...}
+    % \item \textit{To be continued...}
 
     % \vfill
     % \emph{TODO}
 
     % \begin{otherlanguage}{russian}
 
-    % \item Операции над графами: дополнение, объединение, пересечение
-    % \item Граф пересечений
-    % \item Рёберный граф (Line graph)
+    % \item Операции над графами: объединение, пересечение
     % \item Двудольный граф (Bipartite graph)
     % \item Связность (connectivity)
     % \item Сильная связность
