@@ -94,9 +94,6 @@
 \section{Graph Theory Cheatsheet%
 \texorpdfstring{\normalsize\hfill\href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory}{Glossary}}{}}
 
-% \subsection{Graph Theory%
-% \texorpdfstring{\normalsize\protect\Href{https://en.wikipedia.org/wiki/Graph_theory}\hfill\href{https://en.wikipedia.org/wiki/Glossary_of_graph_theory}{Glossary}}{}}
-
 \begin{terms}
     \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} is an ordered pair $G = \Pair{V, E}$, where $V = \Set{v_1,\dotsc,v_n}$ is a set of vertices, and $E = \Set{e_1,\dotsc,e_m}$ is a set of edges.
 
@@ -329,7 +326,6 @@
     \item \textbf{Adjacency matrix}\Href{https://en.wikipedia.org/wiki/Adjacency_matrix} is a square matrix $A_{V \times V}$ of an adjacency relation.
     \begin{terms}
         \item For simple graphs, adjacency matrix is binary, \ie $A_{ij} \in \Set{0,1}$.
-        % \hfill\href{https://en.wikipedia.org/wiki/Logical_matrix}{Boolean matrix}
         \item For directed graphs, $A_{ij} \in \Set{0,1,-1}$.
         \item For multigraphs, adjacency matrix contains edge mutiplicities, \ie $A_{ij} \in \NaturalZero$.
     \end{terms}
@@ -688,15 +684,6 @@
 
         \endgroup
 
-        % P: deque = Prüfer code
-        % W: deque = {v| v not in Prüfer code}
-        % while P is not empty:
-        %     v = P.pop_left()
-        %     edge_connect(W.pop_min(), v)
-        %     If v not in P:
-        %         W.add(v)
-        % edge_connect(W[0], W[1])
-
         \item \textbf{\textsc{Decoding}} (iterative algorithm for converting a Pr\"{u}fer sequence $K$ into a tree $T$):
         \begin{terms}
             \item Given a Pr\"{u}fer code $K$ of length $(n-2)$, construct a set of \enquote{leaves} $W = \Set{1,\dotsc,n} \setminus K$.
@@ -738,7 +725,6 @@
 
     % \end{otherlanguage}
 
-\endgroup
-
+\end{terms}
 
 \end{document}
