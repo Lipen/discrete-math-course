@@ -1,0 +1,124 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    includefoot,
+    headsep=8pt,
+    footskip=16pt,
+}
+\pagestyle{fancy}
+\MakeSingleHeader% {<l>}{<r>}
+    {\TextCheatsheetEng: Combinatorics}%
+    {\TextDiscreteMathEng, \IconSpring~Spring 2022}
+\fancyfoot{}
+\fancyfoot[L]{\tiny Build time: \DTMnow}
+\fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
+% \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
+
+%% Add custom setup below
+
+% \titlespacing{\type}{left}{above}{below}[right]
+\titlespacing{\section}{0pt}{*1}{*0.5}
+\titlespacing{\subsection}{0pt}{*1}{*0.5}
+
+\declaretheoremstyle[
+    spaceabove=6pt,
+    spacebelow=6pt,
+    postheadspace=0.5em,
+    notefont=\normalfont\scshape,
+]{mystyle}
+\declaretheorem[style=mystyle]{theorem}
+
+\tikzset{
+    dot/.style = {
+        draw,
+        fill=black,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
+    circ/.style = {
+        draw,
+        % fill=white,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
+    position/.style args={#1:#2 from #3}{
+        at=(#3.#1), anchor=#1+180, shift=(#1:#2)
+    },
+    mylabel/.style args={#1:#2}{
+        append after command={
+            (\tikzlastnode.center) node [#1] {#2}
+        }
+    },
+}
+
+
+\begin{document}
+
+\selectlanguage{english}
+
+\setcounter{section}{5}
+\section{Combinatorics Cheatsheet}
+
+\subsection{Overview}
+
+\begin{terms}
+    \item \textbf{Combinatorics} is a field of mathematics concerned with:
+    \begin{terms}
+        \item Arrangements of elements of a set into patterns satisfying specific rules, generally referred to as \emph{discrete structures}.
+        \item The existence, enumeration, analysis, classification and optimization of discrete structures.
+        \item Generalizations and specializations of relations between discrete structures.
+    \end{terms}
+\end{terms}
+
+\subsection{Permutations and Combinations}
+
+\subsubsection{Basic Counting Principles}
+
+\noindent TODO: addition, multiplication, subtraction, bijection, pigeonhole, double counting
+
+\subsubsection{Ordered Arrangements}
+
+\noindent TODO: string, tuple, sequence, map (function), k-permutation, circular permutation
+
+\begin{terms}
+    \item ...
+\end{terms}
+
+\subsubsection{Unordered Arrangements}
+
+\noindent TODO: subset, k-combination, multiset, k-comb of a multiset, k-perm of a multiset, binomial coefficient
+
+\begin{terms}
+    \item ...
+\end{terms}
+
+\subsubsection{Multinomial Coefficients}
+
+\begin{terms}
+    \item ...
+\end{terms}
+
+\subsubsection{The Twelvefold Way%
+\texorpdfstring{\hfill\normalsize\href{https://en.wikipedia.org/wiki/Twelvefold_way}{Twelvefold way}}{}}
+
+\begin{terms}
+    \item ...
+\end{terms}
+
+\subsection{Inclusion--Exclusion Principle%
+\texorpdfstring{\hfill\normalsize\href{https://en.wikipedia.org/wiki/Inclusion-exclusion_principle}{PIE}}{}}
+
+\noindent TODO: PIE, M\"{o}bius Inversion
+
+% TODO: \subsection{Generating Functions}
+% TODO: \subsection{Partitions}
+
+\end{document}
