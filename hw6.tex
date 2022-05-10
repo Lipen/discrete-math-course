@@ -1,0 +1,492 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=\baselineskip,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
+    {\TextHomeworkEng~\#6}
+    {Combinatorics}
+    {\TextDiscreteMathEng}
+    {\IconSpring~Spring 2022}
+
+%% Add custom setup below
+
+\newcommand*{\chancery}{\fontfamily{pzc}\selectfont}
+\DeclareTextFontCommand{\textpzc}{\chancery}
+
+\usepackage{epigraph}
+\usepackage{varwidth}
+
+\renewcommand{\epigraphsize}{\small}
+\setlength{\beforeepigraphskip}{0pt}
+\setlength{\afterepigraphskip}{-0.5\baselineskip}
+\setlength{\epigraphwidth}{0.6\textwidth}% Maximum epigraph width
+\setlength{\epigraphrule}{0.4pt}
+\renewcommand{\textflush}{flushright}
+\renewcommand{\sourceflush}{flushright}
+
+% https://tex.stackexchange.com/a/96717/216486
+\makeatletter
+\newsavebox{\epi@textbox}
+\newsavebox{\epi@sourcebox}
+\newlength\epi@finalwidth
+\renewcommand{\epigraph}[2]{%
+  \vspace{\beforeepigraphskip}
+  {\epigraphsize\begin{\epigraphflush}
+  \epi@finalwidth=\z@
+  \sbox\epi@textbox{%
+    \varwidth{\epigraphwidth}
+    \begin{\textflush}#1\end{\textflush}
+    \endvarwidth
+  }%
+  \epi@finalwidth=\wd\epi@textbox
+  \sbox\epi@sourcebox{%
+    \varwidth{\epigraphwidth}
+    \begin{\sourceflush}#2\end{\sourceflush}%
+    \endvarwidth
+  }%
+  \ifdim\wd\epi@sourcebox>\epi@finalwidth
+     \epi@finalwidth=\wd\epi@sourcebox
+  \fi
+  \leavevmode\vbox{
+    \hb@xt@\epi@finalwidth{\hfil\box\epi@textbox}
+    \vskip1.25ex
+    \hrule height \epigraphrule
+    \vskip.75ex
+    \hb@xt@\epi@finalwidth{\hfil\box\epi@sourcebox}
+  }%
+  \end{\epigraphflush}
+  \vspace{\afterepigraphskip}}}
+\makeatother
+
+\tikzset{
+    position/.style args={#1:#2 from #3}{
+        at=(#3.#1), anchor=#1+180, shift=(#1:#2)
+    },
+}
+
+\usepackage{stringstrings}
+
+
+\begin{document}
+\selectlanguage{english}
+
+\epigraph{\textpzc{Do whatever you want, but always explain what you are doing.}}{--- \textsc{Konstantin}, 2020}
+
+\begin{tasks}
+    \item Find the number of different 5-digit numbers using digits 1--9 under the given constraints.
+    For each case, provide representative examples of (non-)complying numbers (\eg 12345 and 52814 are suitable for~(b), but 44521 and 935 are~not) and derive a generic\footnote{Here, \enquote{generic formula} means \enquote{depending on the input data}. In this particular example, $n = 9$ and $k = 5$, but the sought formula must also be valid for all other (adequate) values of~$n$ and~$k$.} formula.
+    Try to express the formula using standard combinatorial terms, \eg $k$-combs $C_n^k$ and $k$-perms $P(n,k)$.
+    \begin{subtasks}
+        \item Digits \emph{can} be repeated.
+
+        \item Digits \emph{cannot} be repeated.
+
+        \item Digits \emph{can} be repeated and must be written in \emph{non-increasing}\footnote{A sequence $(x_n)$ is said to be \emph{strictly monotonically increasing} if each term is \emph{strictly greater} than the previous one, \ie $x_{i} < x_{i+1}$. A sequence $(x_n)$ is called \emph{non-increasing} if each term is \emph{less than or equal} to the previous one, \ie $x_{i} \geq x_{i+1}$.} order.
+
+        \item Digits \emph{cannot} be repeated and must be written in \emph{increasing} order.
+
+        \item Digits \emph{can} be repeated, must be written in \emph{non-decreasing} order, and the 4th digit must be 6.
+    \end{subtasks}
+
+
+\tikzstyle{myboxstyle}=[
+    scale=0.95, transform shape,
+    baseline=4pt, % why? maybe in order to maintain depth
+    % baseline=(box-label.base),
+    myoutline/.style={
+        thick,
+        line join=bevel,
+    },
+    myback/.style={
+        myoutline,
+        fill=black!50,
+    },
+    myfront/.style={
+        myoutline,
+        fill=black!20,
+        fill opacity=0.75,
+    },
+    myball/.style={
+        ball color=white,
+    },
+]
+
+\def\boxWidth{0.9}
+\def\boxHeight{0.4}
+\def\boxDepth{0.4}
+\def\boxLeftX{0.16}
+\def\boxLeftY{0.08}
+\def\boxRightX{0.2}
+\def\boxRightY{0.1}
+\def\ballRadius{0.22}
+
+\newcommand{\drawBoxBack}{
+    %% Back
+    \draw[myback] (0,0)
+    -- ++(0,\boxHeight)
+    -- ++(\boxDepth,\boxDepth)
+    -- ++(\boxWidth,0)
+    -- ++(0,-\boxHeight)
+    -- ++(-\boxDepth,-\boxDepth)
+    -- cycle;
+    \draw[myoutline] (0,0)
+    -- ++(\boxDepth,\boxDepth)
+    -- ++(0,\boxHeight) ++(0,-\boxHeight)
+    -- ++(\boxWidth,0);
+
+    %% Left thing
+    \draw[myfront,fill opacity=1] (0,\boxHeight)
+    -- ++(\boxDepth,\boxDepth)
+    -- ++(-\boxLeftX,\boxLeftY)
+    -- ++(-\boxDepth,-\boxDepth)
+    -- cycle;
+}
+
+\newcommand{\drawBoxFront}[1]{% {<label>}
+    %% Front
+    \draw[myfront] (0,0)
+    -- ++(\boxWidth,0)
+    -- ++(\boxDepth,\boxDepth)
+    -- ++(0,\boxHeight)
+    -- ++(-\boxDepth,-\boxDepth)
+    -- ++(-\boxWidth,0)
+    -- cycle;
+    \draw[myoutline] (\boxWidth,0)
+    -- ++(0,\boxHeight);
+
+    %% Right thing
+    \draw[myfront] (\boxWidth,\boxHeight)
+    -- ++(\boxDepth,\boxDepth)
+    -- ++(\boxRightX,\boxRightY)
+    -- ++(-\boxDepth,-\boxDepth)
+    -- cycle;
+
+    %% Label
+    \node (box-label) at (\boxWidth/2,\boxHeight/2) {\vphantom{12345ABCDE}#1};
+}
+
+\newcommand{\drawBall}[3][]{% [<style>]{<pos>}{<label>}
+    \draw[myball,#1] (#2) circle [radius=\ballRadius] node {#3};}
+\newcommand{\drawBallOne}[2][]{% [<style>]{<label>}
+    \drawBall[#1]{ 0.52, 0.55 }{#2}}
+\newcommand{\drawBallTwo}[2][]{% [<style>]{<label>}
+    \drawBall[#1]{ 0.88, 0.51 }{#2}}
+\newcommand{\drawBallThree}[2][]{% [<style>]{<label>}
+    \drawBall[#1]{ 0.31, 0.33 }{#2}}
+\newcommand{\drawBallFour}[2][]{% [<style>]{<label>}
+    \drawBall[#1]{ 0.71, 0.3 }{#2}}
+\newcommand{\drawBallCenter}[2][]{% [<style>]{<label>}
+    \drawBall[#1]{ 0.62, 0.38 }{#2}}
+\newcommand{\drawBallLowCenter}[2][]{% [<style>]{<label>}
+    \drawBall[#1]{ 0.54, 0.31 }{#2}}
+
+\newcommand{\drawBox}[3][]{% [<style>]{<box-label>}{<body>}
+    \begin{tikzpicture}[myboxstyle,scale=1.5,transform shape,#1]
+        \drawBoxBack
+        #3
+        \drawBoxFront{#2}
+    \end{tikzpicture}%
+}
+
+\newcounter{balls}
+\newcommand{\newBall}{\stepcounter{balls}\theballs}
+\newcommand{\resetBalls}{\setcounter{balls}{0}}
+\renewcommand{\theballs}{\arabic{balls}} % Use this to redefine counter format
+
+\newcounter{boxes}
+\newcommand{\newBox}{\stepcounter{boxes}\theboxes}
+\newcommand{\resetBoxes}{\setcounter{boxes}{0}}
+\renewcommand{\theboxes}{\Alph{boxes}} % Use this to redefine counter format
+
+\newcommand{\drawBoxWithoutBalls}[1][]{% [<style>]
+    \drawBox[#1]{\newBox}{}}
+\newcommand{\drawBoxWithOneBall}[1][]{% [<style>]
+    \drawBox[#1]{\newBox}{
+        \drawBallCenter{\newBall}
+    }}
+\newcommand{\drawBoxWithTwoBalls}[1][]{% [<style>]
+    \drawBox[#1]{\newBox}{
+        % \drawBallOne{\newBall}
+        % \drawBallFour{\newBall}
+        \drawBallThree{\newBall}
+        \drawBallTwo{\newBall}
+    }}
+\newcommand{\drawBoxWithThreeBalls}[1][]{% [<style>]
+    \drawBox[#1]{\newBox}{
+        \drawBallOne{\newBall}
+        \drawBallTwo{\newBall}
+        % \drawBallThree{\newBall}
+        \drawBallLowCenter{\newBall}
+    }}
+\newcommand{\drawBoxWithFourBalls}[1][]{% [<style>]
+    \drawBox[#1]{\newBox}{
+        \drawBallOne{\newBall}
+        \drawBallTwo{\newBall}
+        \drawBallThree{\newBall}
+        \drawBallFour{\newBall}
+    }}
+
+
+    \item One of the classical combinatorial problems is counting the number of arrangements of $n$ balls into $k$ boxes.
+    There are at least \href{https://en.wikipedia.org/wiki/Twelvefold_way}{12 variations} of this problem: four cases (a--d) with three different constraints (1--3).
+    For each problem (case+constraint), derive the corresponding generic formula.
+    Additionally, pick several (representative) values for~$n$ and~$k$ and use your derived formulae to find the numbers of arrangements.
+    Visualize several possible arrangements for the chosen~$n$ and~$k$.
+
+    \vspace{2pt}
+    \textit{\uline{Cases with arrangement examples}}:
+
+    \begin{enumerate}[label=\alph*., itemsep=4pt]
+        %% U -> L
+        \item $\textbf{U} \to \textbf{L}$: Balls are \textbf{U}nlabeled, Boxes are \textbf{L}abeled.
+
+        \resetBalls
+        \resetBoxes
+        \renewcommand{\theballs}{}
+        \renewcommand{\theboxes}{\Alph{boxes}}
+        \drawBoxWithThreeBalls
+        \drawBoxWithoutBalls
+        \drawBoxWithFourBalls
+        \drawBoxWithTwoBalls
+        \drawBoxWithOneBall
+        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
+
+        %% L -> U
+        \item $\textbf{L} \to \textbf{U}$: Balls are \textbf{L}abeled, Boxes are \textbf{U}nlabeled.
+
+        \resetBoxes
+        \resetBalls
+        \renewcommand{\theballs}{\arabic{balls}}
+        \renewcommand{\theboxes}{}
+        \drawBoxWithOneBall
+        \drawBoxWithTwoBalls
+        \drawBoxWithoutBalls
+        \drawBoxWithFourBalls
+        \drawBoxWithThreeBalls
+        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
+
+        %% L -> L
+        \item $\textbf{L} \to \textbf{L}$: Balls are \textbf{L}abeled, Boxes are \textbf{L}abeled.
+
+        \resetBoxes
+        \resetBalls
+        \renewcommand{\theballs}{\arabic{balls}}
+        \renewcommand{\theboxes}{\Alph{boxes}}
+        \drawBoxWithTwoBalls
+        \drawBoxWithOneBall
+        \drawBoxWithThreeBalls
+        \drawBoxWithoutBalls
+        \drawBoxWithFourBalls
+        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
+
+        %% U -> U
+        \item $\textbf{U} \to \textbf{U}$: Balls are \textbf{U}nlabeled, Boxes are \textbf{U}nlabeled.
+
+        \resetBoxes
+        \resetBalls
+        \renewcommand{\theballs}{}
+        \renewcommand{\theboxes}{}
+        \drawBoxWithFourBalls
+        \drawBoxWithThreeBalls
+        \drawBoxWithTwoBalls
+        \drawBoxWithOneBall
+        \drawBoxWithoutBalls
+        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
+    \end{enumerate}
+
+    \vspace{2pt}
+    \textit{\uline{Constraints}}:
+
+    \begin{enumerate}[label=\arabic*., noitemsep]
+        \item $\leq 1$ ball per box \--- \emph{injective} mapping.
+        \item $\geq 1$ ball per box \--- \emph{surjective} mapping.
+        \item Arbitrary number of balls per box.
+    \end{enumerate}
+
+    % \vspace{2pt}
+    \textit{\uline{Notes}}:
+
+    \begin{itemize}[label=$\ast$, noitemsep]
+        \item \textbf{U}nlabeled means \enquote{indistinguishable}, and \textbf{L}abeled means \enquote{distinguishable}.
+
+        \item \href{https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind}{Stirling number of the second kind} $s^{II}_k(n)$ \--- number of ways to partition a set of~$n$ elements into~$k$ non-empty subsets.
+        Use $s^{II}_k(n)$ directly without expanding the closed formula.
+
+        \item \href{https://en.wikipedia.org/wiki/Partition_(number_theory)#Restricted_part_size_or_number_of_parts}{Partition function} $p_k(n)$ \--- number of ways to partition the integer $n$ into~$k$ positive parts, \ie $n = a_1 + \dotsb + a_k$, where $a_1 \geq \dotsb \geq a_k \geq 1$.
+        Use $p_k(n)$ directly.
+        % Use $p_k(n)$ directly, since the closed-form expression is unknown.
+    \end{itemize}
+
+
+    \item Proof the Generalized Pascal's Formula (for $n \geq 1$ and $k_1,\dotsc,k_r \geq 0$ with $k_1 + \dotsb + k_r = n$):
+    \[
+        \binom{n}{k_1,\dotsc,k_r} = \sum_{i=1}^{r} \binom{n-1}{k_1,\dotsc,k_i-1,\dotsc,k_r}
+    \]
+
+    Count the number of permutations of a multiset $\Sigma^{*} = \Set{2 \cdot \triangle, 3 \cdot \square, 1 \cdot \Cat}$ using GPF.
+
+
+\tikzstyle{myrnastyle}=[
+    scale=0.8, transform shape,
+    dot/.style={
+        draw,
+        fill=black,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
+    matching/.style={
+        draw,
+        % dashed,
+        red,
+        ultra thick,
+    },
+    basepair/.style={
+        draw,
+        dashed,
+        lightgray,
+        thick,
+    },
+]
+
+\newcommand{\drawRNA}{%
+    \def\myRadNode{1.6}
+    \def\myRadLabel{2.0}
+
+    % Outside edges
+    % \draw (75:\myRadNode) arc (75:-255:\myRadNode);
+
+    % Nodes
+    \foreach [count=\i, evaluate=\x as \a using {105-\i*30}] \x in {A,U,C,G,U,A,A,U,C,G,C,G}
+    {
+        \node[dot] (v\i) at (\a:\myRadNode) {};
+        \node at (\a:\myRadLabel) {\x};
+        % \node at (\a:1.3) {\i}; % DEBUG index
+    }
+}
+
+
+    \item A \emph{non-crossing perfect matching}\footnote{Credits to \href{https://rosalind.info/about}{Rosalind} for this task.} in a graph is a set of pairwise disjoint edges that cover all vertices and do not intersect with each other.
+    For example, consider a graph on~$2n$ vertices numbered from~1~to~$2n$ and arranged in a circle.
+    Additionally, assume that edges are straight lines.
+    In~this~case, edges $\Set{i,j}$ and $\Set{a,b}$ intersect whenever $i < a < j < b$.
+
+    \begin{subtasks}
+        \item Count the number of all possible non-crossing perfect matchings in a complete graph~$K_{2n}$.
+
+        \item Consider a graph on vertices labeled with letters from $\Set{\texttt{A}, \texttt{C}, \texttt{G}, \texttt{U}}$.
+        Each pair of vertices labeled with \texttt{A} and \texttt{U} is connected with a \emph{basepair edge}.
+        Similarly, \texttt{C}--\texttt{G} pairs are also connected.
+
+        The picture below illustrates some of possible non-crossing perfect matchings in the graph with 12 vertices \texttt{AUCGUAAUCGCG} arranged in a circle.
+        Basepair edges are drawn dashed gray, matching is red.
+
+        % Matching 1
+        \begin{tikzpicture}[myrnastyle]
+            \drawRNA
+            \draw[matching] (v1) -- (v2);
+            \draw[basepair] (v1) -- (v5);
+            \draw[basepair] (v1) -- (v8);
+            \draw[basepair] (v2) -- (v6);
+            \draw[basepair] (v2) -- (v7);
+            \draw[matching] (v3) -- (v4);
+            \draw[basepair] (v3) -- (v10);
+            \draw[basepair] (v3) -- (v12);
+            \draw[basepair] (v4) -- (v9);
+            \draw[basepair] (v4) -- (v11);
+            \draw[matching] (v5) -- (v6);
+            \draw[basepair] (v5) -- (v7);
+            \draw[basepair] (v6) -- (v8);
+            \draw[matching] (v7) -- (v8);
+            \draw[basepair] (v9) -- (v10);
+            \draw[matching] (v9) -- (v12);
+            \draw[matching] (v10)-- (v11);
+            \draw[basepair] (v11)-- (v12);
+        \end{tikzpicture}%
+        \hfill%
+        % Matching 2
+        \begin{tikzpicture}[myrnastyle]
+            \drawRNA
+            \draw[basepair] (v1) -- (v2);
+            \draw[basepair] (v1) -- (v5);
+            \draw[matching] (v1) -- (v8);
+            \draw[basepair] (v2) -- (v6);
+            \draw[matching] (v2) -- (v7);
+            \draw[matching] (v3) -- (v4);
+            \draw[basepair] (v3) -- (v10);
+            \draw[basepair] (v3) -- (v12);
+            \draw[basepair] (v4) -- (v9);
+            \draw[basepair] (v4) -- (v11);
+            \draw[matching] (v5) -- (v6);
+            \draw[basepair] (v5) -- (v7);
+            \draw[basepair] (v6) -- (v8);
+            \draw[basepair] (v7) -- (v8);
+            \draw[basepair] (v9) -- (v10);
+            \draw[matching] (v9) -- (v12);
+            \draw[matching] (v10)-- (v11);
+            \draw[basepair] (v11)-- (v12);
+        \end{tikzpicture}%
+        \hfill%
+        % Matching 3
+        \begin{tikzpicture}[myrnastyle]
+            \drawRNA
+            \draw[matching] (v1) -- (v2);
+            \draw[basepair] (v1) -- (v5);
+            \draw[basepair] (v1) -- (v8);
+            \draw[basepair] (v2) -- (v6);
+            \draw[basepair] (v2) -- (v7);
+            \draw[basepair] (v3) -- (v4);
+            \draw[basepair] (v3) -- (v10);
+            \draw[matching] (v3) -- (v12);
+            \draw[basepair] (v4) -- (v9);
+            \draw[matching] (v4) -- (v11);
+            \draw[matching] (v5) -- (v6);
+            \draw[basepair] (v5) -- (v7);
+            \draw[basepair] (v6) -- (v8);
+            \draw[matching] (v7) -- (v8);
+            \draw[matching] (v9) -- (v10);
+            \draw[basepair] (v9) -- (v12);
+            \draw[basepair] (v10)-- (v11);
+            \draw[basepair] (v11)-- (v12);
+        \end{tikzpicture}%
+        \hfill%
+        % Matching 4
+        \begin{tikzpicture}[myrnastyle]
+            \drawRNA
+            \draw[basepair] (v1) -- (v2);
+            \draw[basepair] (v1) -- (v5);
+            \draw[matching] (v1) -- (v8);
+            \draw[basepair] (v2) -- (v6);
+            \draw[matching] (v2) -- (v7);
+            \draw[matching] (v3) -- (v4);
+            \draw[basepair] (v3) -- (v10);
+            \draw[basepair] (v3) -- (v12);
+            \draw[basepair] (v4) -- (v9);
+            \draw[basepair] (v4) -- (v11);
+            \draw[matching] (v5) -- (v6);
+            \draw[basepair] (v5) -- (v7);
+            \draw[basepair] (v6) -- (v8);
+            \draw[basepair] (v7) -- (v8);
+            \draw[matching] (v9) -- (v10);
+            \draw[basepair] (v9) -- (v12);
+            \draw[basepair] (v10)-- (v11);
+            \draw[matching] (v11)-- (v12);
+        \end{tikzpicture}
+
+        \def\myRNA{CGUAAUUACGGCAUUAGCAU}
+        Count the number of all possible non-crossing perfect matchings in the graph on \stringlength{\myRNA} vertices labeled with \texttt{\myRNA}.
+    \end{subtasks}
+
+    % \item \ldots
+\end{tasks}
+
+\end{document}
