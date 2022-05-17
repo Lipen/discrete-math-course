@@ -1,0 +1,86 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=\baselineskip,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
+    {\TextHomeworkEng~\#7}
+    {Recurrences}
+    {\TextDiscreteMathEng}
+    {\IconSpring~Spring 2022}
+\fancyhead[C]{\includegraphics[height=\baselineskip]{img/ouroboros.png}}
+
+%% Add custom setup below
+
+
+\begin{document}
+\selectlanguage{english}
+
+\begin{tasks}
+    \item For each given recurrence relation, find the first five terms, derive the closed-form solution, and check it by substituting it back to the recurrence relation.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        % % Telescoping (trivial)
+        % \item $a_n = a_{n-1} + 1$ with $a_1 = 3$
+
+        % Telescoping
+        \item $a_n = a_{n-1} + n$ with $a_0 = 2$
+
+        % Iteration
+        \item $a_n = 2a_{n-1} + 2$ with $a_0 = 1$
+
+        % Iteration
+        \item $a_n = 3a_{n-1} + 2^n$ with $a_0 = 5$
+
+        % Quadratic characteristic equation with different roots
+        \item $a_n = 4a_{n-1} + 5a_{n-2}$ with $a_0 = 1$, $a_1 = 17$
+
+        % Quadratic characteristic equation with repeated roots
+        \item $a_n = 4a_{n-1} - 4a_{n-2}$ with $a_0 = 3$, $a_1 = 11$
+
+        % Cubic characteristic equation with different roots
+        \item $a_n = 2a_{n-1} + a_{n-2} - 2a_{n-3}$ with $a_{0,1,2} = 3,2,6$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Solve the following recurrences by applying the \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master Theorem}.
+    For the cases where the Master theorem does not apply, use the \href{https://en.wikipedia.org/wiki/Akra-Bazzi_method}{Akra--Bazzi method}.
+    In cases where neither of these two theorems apply, explain why and solve the recurrence relation by closely examining the recursion tree.
+    Solutions must be in the form $T(n) \in \Theta(\dots)$.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $T(n) = 2T(n/2) + n$
+        \item $T(n) = T(3n/4) + T(n/4) + n$
+        \item $T(n) = 3T(n/2) + n$
+        \item $T(n) = 2T(n/2) + n/\log n$
+        \item $T(n) = 6T(n/3) + n^2 \log n$
+        \item $T(n) = T(3n/4) + n \log n$
+        \item $T(n) = T(\Floor{n/2}) + T(\Ceil{n/2}) + n$
+        \item $T(n) = T(n/2) + T(n/4) + 1$
+        \item $T(n) = T(n/2) + T(n/3) + T(n/6) + n$
+        \item $T(n) = 2T(n/3) + 2T(2n/3) + n$
+        \item $T(n) = \sqrt{2n} T(\sqrt{2n}) + \sqrt{n}$
+        \item $T(n) = \sqrt{2n} T(\sqrt{2n}) + n$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Consider a recurrence relation $a_n = 2a_{n-1} + 2a_{n-2}$ with $a_0 = a_1 = 2$.
+    Solve it (\ie find a closed formula) and show how it can be used to estimate the value of $\sqrt{3}$ (hint: observe $\lim_{n \to \infty} a_n / a_{n-1}$).
+    After that, devise an algorithm for constructing a recurrence relation with integer coefficients that can be used to~estimate the square root~$\sqrt{k}$ of a given integer~$k$.
+    Implement your algorithm using any high-level language and benchmark\footnote{You can, for example, use \href{https://github.com/sharkdp/hyperfine}{\texttt{hyperfine}} for benchmarking your binaries. Make sure to setup a fair environment for comparison, \ie minimize the possible delays of shell, interpreter, VM, \textit{etc}.} it against the standard \texttt{sqrt} function.
+
+    % \item \ldots
+\end{tasks}
+
+\end{document}

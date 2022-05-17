@@ -23,3 +23,4 @@
 - {url-template}hw4.tex[Homework 4: Boolean Algebra]
 - {url-template}hw5.tex[Homework 5: Graph Theory]
 - {url-template}hw6.tex[Homework 6: Combinatorics]
+- {url-template}hw7.tex[Homework 7: Recurrences]
