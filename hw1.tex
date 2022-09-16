@@ -14,7 +14,7 @@
     {\TextHomeworkRus~\#1}
     {Теория множеств}
     {\TextDiscreteMathRus}
-    {\IconFall~Осень 2021}
+    {\IconFall~Осень 2022}
 
 %% Add custom setup below
 
@@ -52,13 +52,12 @@
     \end{multicols}
 
 
-    \item Дано множество-универсум\footnotemark{} $\universalset = \Set{1, 2, \ldots, 10}$ и его подмножества:
-    \footnotetext{Здесь под универсумом имеется в виду множество доступных урэлементов. Считайте, что $\overline{A} = \universalset \setminus A$.}%
+    \item Дано множество-универсум\footnote{Здесь под универсумом имеется в виду множество доступных урэлементов. Считайте, что $\overline{A} = \universalset \setminus A$.} $\universalset = \Set{1, 2, \ldots, 10}$ и его подмножества:
     $A = \Set{x \given x \text{ -- чётное}}$,
     $B = \Set{x {\given} x \text{ -- простое\footnotemark}}$,
     $C = \Set{2, 4, 7, 9}$.
-    \footnotetext{Считайте, что 1 \href{https://letmegooglethat.com/?q=is+1+a+prime+number?}{не является} простым числом.}%
-    Нарисуйте диаграмму Венна и найдите:
+    \footnotetext{Считайте, что 1 \href{https://www.google.com/search?q=is 1 a prime number}{не является} простым числом.}%
+    Нарисуйте диаграмму Венна для $A, B, C, \universalset$ и найдите:
 
     \begin{multicols}{3}
     \begin{subtasks}
@@ -72,8 +71,7 @@
     \end{multicols}
 
 
-    \item Даны следующие множества\footnotemark:
-    \footnotetext{$\square$ -- самый обыкновенный квадрат, $\Cat$ -- самый обыкновенный кот.}
+    \item Даны следующие множества\footnote{$\square$ -- самый обыкновенный квадрат, $\Cat$ -- самый обыкновенный кот.}:
 
     \begin{multicols}{3}
     \begin{items}
@@ -121,6 +119,16 @@
         \item $\Set{\Pair{x, y} \in \Natural^2 \given \exists z \in \Natural : x^3 + y^3 = z^3}$
     \end{subtasks}
     \end{multicols}
+
+
+    \item Подробно докажите (или опровергните) следующие утверждения:
+
+    \begin{subtasks}
+        \item Если $A \subseteq B$ и $B \subseteq C$, то $A \subseteq C$.
+        \item $\card{\powerset{A}} = 2^{\card{A}}$.
+        \item Множество рациональных\footnote{Рациональное число можно представить в виде дроби $m / n$, где $m \in \Integer$ \--- целое, а $n \in \Natural$ \--- натуральное.} чисел $\Rational$ счётно.
+        \item $\powerset{\Natural}$ \--- несчётное множество.
+    \end{subtasks}
 
     % \item \ldots
 \end{tasks}
