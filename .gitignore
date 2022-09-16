@@ -13,6 +13,8 @@ quest*
 !hw7.tex
 
 ## Extra ignore
+.devcontainer/
+.vscode/
 trash
 _*
 *.pdf
