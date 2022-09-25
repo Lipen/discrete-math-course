@@ -14,17 +14,11 @@
     {\TextHomeworkEng~\#2}
     {Binary Relations}
     {\TextDiscreteMathEng}
-    {\IconFall~Fall 2021}
+    {\IconFall~Fall 2022}
 
 %% Add custom setup below
 
 \usepackage{physics}
-
-% %% Counter for relations
-% \newcounter{relindexno}
-% \newcommand{\relindex}{%
-%     \stepcounter{relindexno}%
-%     \arabic{relindexno}}
 
 %% Math enquote
 \newcommand{\mathenquote}[1]{\text{\enquote{$#1$\kern.3ex}}}
@@ -36,6 +30,9 @@
 %% Colors for the prime factorization
 \colorlet{my-green}{green!60!black}
 \colorlet{my-blue}{blue!60!black}
+
+%% Definitions
+\declaretheorem[numbered=unless unique]{definition}
 
 
 \begin{document}
@@ -151,12 +148,14 @@
     % Task: explore the transitive closure.
     \item Prove that the transitive closure $R^{+}$ is in fact transitive.
 
-    \begin{terms}
-        \item $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ is a \textit{transitive closure} of $R \subseteq M^2$, where
-        \item $R^{k+1} = R^k \circ R$ is a \textit{compositional (functional) power}\footnote{Note: this is \textit{not a Cartesian power}, despite of the same notation~$R^n$. Another possible notation for compositional power~is~$R^{\circ n}$, but it is too wild to use it here.},
-        \item $R^1 = R$,
-        \item $S \circ R = \Set{\Pair{x,y} \given \exists z : (x \rel[R] z) \land (z \rel[S] y)}$ is a \textit{composition} (\textit{relative product}) of relations $R$ and $S$.
-    \end{terms}
+    \begin{definition}
+        $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ is a \textit{transitive closure} of $R \subseteq M^2$, where
+        \begin{terms}
+            \item $R^{k+1} = R^k \circ R$ is a \textit{compositional (functional) power}\footnote{Note: this \textit{is not a Cartesian power}, despite of the same notation~$R^n$. Another possible notation for compositional power~is~$R^{\circ n}$, but it is too wild to use it here.},
+            \item $R^1 = R$,
+            \item $S \circ R = \Set{\Pair{x,y} \given \exists z : (x \rel[R] z) \land (z \rel[S] y)}$ is a \textit{composition} (\textit{relative product}) of relations $R$ and $S$.
+        \end{terms}
+    \end{definition}
 
     % \item \dots
 \end{tasks}
