@@ -41,6 +41,7 @@
 \begin{tasks}
     %% Task: Check properties of relations.
     \item For each given relation $R_i \subseteq {M_i}^2$, determine whether it is \textit{reflexive}, \textit{irreflexive}, \textit{coreflexive}, \textit{symmetric}, \textit{antisymmetric}, \textit{asymmetric}, \textit{transitive}, \textit{antitransitive}, \textit{semiconnex}, \textit{connex}, \textit{left/right Euclidean}, \textit{dense}.
+    Provide a counterexample for each non-complying property (\eg \enquote{the transitivity does not hold for $x,y,z = (3,1,2)$}).
     Organize your answer in a table (\eg columns \--- relations, rows \--- properties).
 
     \newcommand{\myindex}{\arabic{subtasksi}}
@@ -116,7 +117,8 @@
 
 
     %% Task: Explore the Jaccard index.
-    \item Let $R_{\theta}$ be a relation of $\theta$-similarity of finite sets defined as follows\footnote{A set $A$ is said to be $\theta$-similar to $B$ \textit{iff} the Jaccard index $\Jac(A,B)$ for these sets is at least $\theta$. Obviously, $\theta \in [0; 1] \subseteq \Real$.}: $A \rel[R_{\theta}] B \iff \Jac(A,B) \geq \theta$, where $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ is a Jaccard index\Href{https://en.wikipedia.org/wiki/Jaccard_index}.
+    \item Let $R_{\theta}$ be a relation of $\theta$-similarity of finite sets defined as follows: a set~$A$ is said to be $\theta$-similar to~$B$ \textit{iff} the Jaccard index\Href{https://en.wikipedia.org/wiki/Jaccard_index} $\Jac(A,B)$ for these sets is at least $\theta$, \ie $A \rel[R_{\theta}] B \iff \Jac(A,B) \geq \theta$.
+    Obviously, $\theta \in [0; 1] \subseteq \Real$.
 
     \begin{subtasks}
         \item Draw the graph of a relation $R_{\theta} \subseteq \Set{A_i}^2$, where $\theta = 0.25$, $A_1 = \Set{1,2,5,6}$, $A_2 = \Set{2,3,4,5,7,9}$, $A_3 = \Set{1,4,5,6}$, $A_4 = \Set{3,7,9}$, $A_5 = \Set{1,5,6,8,9}$.
