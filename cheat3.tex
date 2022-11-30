@@ -11,8 +11,8 @@
 }
 \pagestyle{fancy}
 \MakeSingleHeader% {<l>}{<r>}
-    {\TextCheatsheetEng: Formal Logic}%
-    {\TextDiscreteMathEng, \IconFall~Fall 2021}
+    {\TextCheatsheetEng: Boolean Algebra}%
+    {\TextDiscreteMathEng, \IconFall~Fall 2022}
 \fancyfoot{}
 \fancyfoot[L]{\tiny Build time: \DTMnow}
 \fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
@@ -26,721 +26,310 @@
 
 \setlength{\tabcolsep}{0pt}
 
-\colorlet{ColorValid}{green!70!black}
-\colorlet{ColorInvalid}{red!70!black}
-
-%% checkmark and crossmark symbols
-\usepackage{pifont}
-\newcommand{\cmark}{\text{\ding{51}}}
-\newcommand{\xmark}{\text{\ding{55}}}
-
-\newcommand{\Valid}{\textcolor{ColorValid}{\cmark}}
-\newcommand{\Invalid}{\textcolor{ColorInvalid}{\xmark}}
-\newcommand{\ValidArgument}{%
-    \mathclap{\overset{\smash{\textcolor{ColorValid}{\textit{valid}}}}{\therefore}}}
-\newcommand{\InvalidArgument}{%
-    \mathclap{\overset{\smash{\textcolor{ColorInvalid}{\textit{invalid}}}}{\therefore}}}
-
-%% BNF grammar
-\usepackage{syntax}
-
-%% Formal proofs
-\usepackage{fitch}
-% https://www.mathstat.dal.ca/~selinger/fitch/fitchdoc.pdf
-% \nddim{height}{topheight}{depth}{labelsep}{indent}{hsep}{justsep}{linethickness}
-% Default: \nddim{4.5ex}{3.5ex}{1.5ex}{1em}{1.6em}{.5em}{2.5em}{.2mm}
-\nddim%
-    {3.6ex}% <height> [4.5ex]
-    {3.0ex}% <topheight> [3.5ex]
-    {1.0ex}% <depth> [1.5ex]
-    {0.8em}% <labelsep> [1em]
-    {0.5em}% <indent> [1.6em]
-    {0.5em}% <hsep> [.5em]
-    {2.0em}% <justsep> [2.5em]
-    {0.8pt}% <linethickness> [.2mm]
-
 %% Autoscale missing font sizes
 \usepackage{anyfontsize}
-
-%% Silence some warnings
-\WarningFilter{latexfont}{Font shape `OMS/LinuxLibertineT-TLF/m/n' undefined}
-\WarningFilter{latexfont}{Some font shapes were not available, defaults substituted.}
-
-%% Inline list
-\newlist{mylist}{enumerate*}{1}
-\setlist[mylist]{label=(\arabic*)}
 
 
 \begin{document}
 
 \selectlanguage{english}
 
-\setcounter{section}{2}
-\section{Formal Logic Cheatsheet}
+\setcounter{section}{2}% +1 = actual
+\section{Boolean Algebra Cheatsheet}
 
-\subsection{Propositional Logic%
-\texorpdfstring{\normalsize\protect\Href{https://en.wikipedia.org/wiki/Propositional_logic}}{}}
+\subsection{Definitions}
 
 \begin{terms}
-    \item \textbf{Proposition}\Href{https://en.wikipedia.org/wiki/Proposition} is a statement which can be either true or false.
-    \hfill\href{https://en.wikipedia.org/wiki/Truth-bearer}{Truth-bearer}
+    \item \raggedright \textbf{Boolean function}\Href{https://en.wikipedia.org/wiki/Boolean_function} is a function of the form $f: \Bool^{n} \to \Bool$, where $n \geq 0$ is the \emph{arity} of the function and $\Bool =\nobreak \Set{0, 1} =\nobreak \Set{\bot, \top} =\nobreak \Set{\texttt{F}, \texttt{T}}$ is a Boolean domain.
 
-    \item \textbf{Alphabet}\Href{https://en.wikipedia.org/wiki/Alphabet_(formal_languages)} of propositional logic consists of
-    \begin{mylist}
-        \item atomic symbols and
-        \item operator symbols.
-    \end{mylist}
-    % \hfill\href{https://en.wikipedia.org/wiki/Alphabet_(formal_languages)}{Alphabet}
-
-    % \item \textbf{Braces:} ( and ).
-
-    % \hfill\href{https://en.wikipedia.org/wiki/Formal_language}{Formal language}
-
-    % https://en.wikipedia.org/wiki/Atomic_formula
-    \item \textbf{Atomic formula}\Href{https://en.wikipedia.org/wiki/Atomic_formula} (\textbf{atom}) is an irreducible formula without logical connectives.
-    \begin{terms}
-        \item Propositional \textbf{variables}: $A, B, C, \dotsc, Z$. With indices, if needed: $A_1, A_2, \dotsc, Z_1, Z_2, \dotsc$.
-
-        \item Logical \textbf{constants}: $\top$ for always true proposition (\textit{tautology}), $\bot$ for always false proposition (\textit{contradiction}).
-    \end{terms}
-
-    \item \textbf{Logical connectives}\Href{https://en.wikipedia.org/wiki/Logical_connective} (\textbf{operators}):
-    % \hfill\href{https://en.wikipedia.org/wiki/Logical_connective}{Logical connective}
-
-    \begingroup
-    \newcommand{\myA}{\mathcal{P}}
-    \newcommand{\myB}{\mathcal{Q}}
-
-    \begin{tabular}{l @{\hspace{1em}} l @{\hspace{2pt}} c}
-    % \toprule
-        \thead{Type} &
-        \thead{Natural meaning} &
-        \thead{Symbolization} \\
-    \midrule
-        \Href{https://en.wikipedia.org/wiki/Negation}%
-        Negation
-        % \hfill\Href{https://en.wikipedia.org/wiki/Negation}
-        & \makecell[lt]{
-            It is not the case that $\myA$. \\[-\jot]
-            It is false that $\myA$. \\[-\jot]
-            It is not true that $\myA$.
-        }
-        & $\neg \myA$ \\
-    \cmidrule(r){1-3}
-        \Href{https://en.wikipedia.org/wiki/Logical_conjunction}%
-        Conjunction
-        % \hfill\Href{https://en.wikipedia.org/wiki/Logical_conjunction}
-        & \makecell[lt]{
-            Both $\myA$ and $\myB$. \\[-\jot]
-            $\myA$ but $\myB$. \\[-\jot]
-            $\myA$, although $\myB$.
-        }
-        & $\myA \land \myB$ \\
-    \cmidrule(r){1-3}
-        \Href{https://en.wikipedia.org/wiki/Logical_disjunction}%
-        Disjunction
-        % \hfill\Href{https://en.wikipedia.org/wiki/Logical_disjunction}
-        & \makecell[lt]{
-            Either $\myA$ or $\myB$ (or both). \\[-\jot]
-            $\myA$ unless $\myB$.
-        }
-        & $\myA \lor \myB$ \\
-    \cmidrule(r){1-3}
-        \Href{https://en.wikipedia.org/wiki/Exclusive_or}%
-        Exclusive or (Xor)
-        % ~\hfill\Href{https://en.wikipedia.org/wiki/Exclusive_or}
-        & \makecell[lt]{
-            Either $\myA$ or $\myB$ (but not both). \\[-\jot]
-            $\myA$ xor $\myB$.
-        }
-        & $\myA \xor \myB$ \\
-    \cmidrule(r){1-3}
-        \Href{https://en.wikipedia.org/wiki/Material_conditional}%
-        \makecell[lt]{Implication \\[-\jot] (Conditional)}
-        % \hfill\Href{https://en.wikipedia.org/wiki/Material_conditional}
-        & \makecell[lt]{
-            If $\myA$, then $\myB$. \\[-\jot]
-            $\myA$ only if $\myB$. \\[-\jot]
-            $\myB$ if $\myA$.
-        }
-        & $\myA \implies \myB$ \\
-    \cmidrule(r){1-3}
-        \Href{https://en.wikipedia.org/wiki/Logical_biconditional}%
-        Biconditional
-        % \hfill\Href{https://en.wikipedia.org/wiki/Logical_biconditional}
-        & \makecell[lt]{
-            $\myA$, if and only if $\myB$. \\[-\jot]
-            $\myA$ iff $\myB$. \\[-\jot]
-            $\myA$ just in case $\myB$.
-        }
-        & $\myA \iff \myB$ \\
-    % \bottomrule
-    \end{tabular}
-    \vspace{1pt}
-    \endgroup
-
-    \item \textbf{Sentence} of propositional logic is defined inductively:
-    \hfill\href{https://en.wikipedia.org/wiki/Well-formed_formula}{Well-formed formula (WFF)}
+    \item There are multiple ways to represent a Boolean function (all examples represent the same function):
 
     \begin{enumerate}[left=6pt .. 18pt]
-        \item Every propositional variable/constant is a sentence.
+        \item Truth table, \eg $f = (1010)$, where LSB corresponds to $\vvmathbb{1}$, MSB to $\vvmathbb{0}$.
+        \hfill\href{https://en.wikipedia.org/wiki/Bit_numbering}{Least/Most Significant Bit}
 
-        \item If $\mathcal{A}$ is a sentence, then $\neg\mathcal{A}$ is a sentence.
+        \item Analytically (as a sentence of propositional logic), \eg $f(A,B) = \neg B$.
+        \hfill\href{https://en.wikipedia.org/wiki/Propositional_logic}{Propositional logic}
 
-        \item If $\mathcal{A}$ and $\mathcal{B}$ are sentences, then $(\mathcal{A} \land \mathcal{B})$, $(\mathcal{A} \lor \mathcal{B})$, $(\mathcal{A} \implies \mathcal{B})$, $(\mathcal{A} \iff \mathcal{B})$ are sentences.
+        \item Sum of minterms, \eg $f = \sum m(0,2) = m_0 + m_2$.
+        \hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf}{Minterms}
 
-        \item Nothing else is a sentence.
+        \item Product of maxterms, \eg $f = \prod M(1,3) = M_1 \cdot M_3$.
+        \hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf#page=2}{Maxterms}
+
+        \item Boolean function number, \eg $f^{(2)}_{10}$ is the 10-th 2-ary function.
+        \hfill\href{https://mathworld.wolfram.com/BooleanFunction.html}{Boolean function} \\
+        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table.
+        10-th Boolean function $f^{(2)}_{10}$ with the truth table $(1010)$ can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha, since $\texttt{rev}(1010_2) = 0101_2 = 5_{10}$.
+        \hfill\href{https://bit.ly/3nFbad5}{WolframAlpha}
+
+        % \item Representative number, \eg $\#f = 1010$.
     \end{enumerate}
 
-    \item Well-formed formulae grammar:
-    \hfill\href{https://en.wikipedia.org/wiki/Backus-Naur_form}{Backus-Naur form (BNF)}
-
-    \vspace{-2pt}
-    \setlength{\grammarparsep}{0pt plus 4pt}
-    \setlength{\grammarindent}{6em}
-    \begin{grammar}
-        <sentence> ::=
-             <constant>
-        \alt <variable>
-        \alt $\neg$ <sentence>
-        \alt `(' <sentence> <binop> <sentence> `)'
-
-        <constant> ::=
-            $\top$ | $\bot$
-
-        <variable> ::=
-            $A$ | \dots | $Z$ | $A_1$ | \dots | $Z_n$
-
-        <binop> ::=
-            $\land$ | $\lor$ | $\xor$ | $\implies$ | $\impliedby$ | $\iff$
-    \end{grammar}
-
-    \item \textbf{Literal}\Href{https://en.wikipedia.org/wiki/Literal_(mathematical_logic)} is a propositional variable or its negation: $\mathcal{L}_i = X_i$ (\textit{positive} literal), $\mathcal{L}_j = \neg X_j$ (\textit{negative} literal).
-
-    \item \textbf{Argument}\Href{https://en.wikipedia.org/wiki/Argument} is a set of logical statements, called \emph{premises}, intended to support or infer a claim (\emph{conclusion}):
-    \[
-        \underbrace{
-            \mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n
-        }_{\textit{premises}}
-        \quad
-        \begin{tikzpicture}[remember picture,overlay,on grid,baseline={(therefore.base)},inner sep=0pt]
-            \node (therefore) {$\therefore$};
-            \node (label) [below left=11mm and 5mm of therefore] {\small\enquote{therefore}};
-            \draw[->,>={Stealth[]},shorten >=2pt] (label.north) to[out=90,in=-100,looseness=1.3] (therefore.south);
-        \end{tikzpicture}
-        \vrule height 0pt depth 11mm width 0pt\relax
-        ~~
-        \underbrace{
-            \mathcal{C}_{\vphantom{n}}
-        }_{\mathclap{\textit{conclusion}}}
-    \]
-
-    \item An argument is \textbf{valid} if whenever all the premises are true, the conclusion is also true.
-    \hfill\href{https://en.wikipedia.org/wiki/Validity_(logic)}{Validity}
-
-    \item An argument is \textbf{invalid} if there is a case (\textit{a counterexample)} when all the premises are true, but the conclusion is false.
+    % TODO: more Boolean algebra definitions
 \end{terms}
 
 
-\newpage
-\subsection{Semantics of Propositional Logic}
+\subsection{Normal Forms}
+
+% TODO: links
 
 \begin{terms}
-    \item \textbf{Valuation}\Href{https://en.wikipedia.org/wiki/Valuation_(logic)} is any assignment of truth values to propositional variables.
-    % \hfill\href{https://en.wikipedia.org/wiki/Valuation_(logic)}{Valuation}
+    \item \emph{Disjunctive} forms:
+    \begin{terms}
+        \item \textbf{Term} (also called \textbf{cube}) is a conjunction of literals: $\mathcal{T} = \biglandnolim{i} \mathcal{L}_i$.
 
-    \item $\mathcal{A}$ is a \textbf{tautology}\Href{https://en.wikipedia.org/wiki/Tautology_(logic)} iff it is true on every valuation. Might be symbolized as \enquote{\,${} \entails \mathcal{A}$\,}.
-    % \hfill\href{https://en.wikipedia.org/wiki/Tautology_(logic)}{Tautology}
+        \item Formula is in \textbf{disjunctive normal form (DNF)} if it is a disjunction of terms: $\textrm{DNF} = \biglornolim{i} \mathcal{T}_i$.
 
-    \item $\mathcal{A}$ is a \textbf{contradiction}\Href{https://en.wikipedia.org/wiki/Contradiction} iff it is false on every valuation. Might be symbolized as \enquote{\,$\mathcal{A} \entails {}$\,}.
-    % \hfill\href{https://en.wikipedia.org/wiki/Contradiction}{Contradiction}
+        \item \textbf{Minterm} is conjunction of literals, where \emph{each} variable appears \emph{once}, \eg $m_6 = (A \land B \land \neg C)$.
 
-    \item $\mathcal{A}$ is a \textbf{contingency}\Href{https://en.wikipedia.org/wiki/Contingency_(philosophy)} iff it might be true on some valuation and false on another. In other words, a \textbf{contingent} proposition is neither a tautology nor a contradiction.
-    % \hfill\href{https://en.wikipedia.org/wiki/Contingency_(philosophy)}{Contingency}
+        \item Formula is in \textbf{canonical DNF (CDNF)} if it is a disjunction of minterms: $\textrm{CDNF} = \biglornolim{i} m_i$.
+    \end{terms}
 
-    \item $\mathcal{A}$ and $\mathcal{B}$ are \textbf{equivalent}\Href{https://en.wikipedia.org/wiki/Logical_equivalence} (symbolized as $\mathcal{A} \equiv \mathcal{B}$) iff, for every valuation, their truth values agree, \ie there is no valuation in which they have opposite truth values.
-    \hfill\href{https://en.wikipedia.org/wiki/Formal_equivalence_checking}{Equivalence check}
+    \item \emph{Conjunctive} forms:
+    \begin{terms}
+        \item \textbf{Clause} is a disjunction of literals: $\mathcal{C} = \biglornolim{i} \mathcal{L}_i$
 
-    \item $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ are \textbf{consistent} (\textbf{jointly satisfiable}) iff there is \emph{some} valuation which makes them all true. Sentences are \textbf{inconsistent} (\textbf{jointly unsatisfiable}) iff there is \emph{no} valuation that makes them all true.
-    ~\hfill\href{https://en.wikipedia.org/wiki/Consistency}{Consistency}\,/\,\href{https://en.wikipedia.org/wiki/Satisfiability}{Satisfiability}
+        \item Formula is in \textbf{conjunctive normal form (CNF)} if it is a conjunction of clauses: $\textrm{CNF} = \biglandnolim{i} \mathcal{C}_i$.
 
-    \item The sentences $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ \textbf{entail} the sentence $\mathcal{C}$ (symbolized as $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}$) if there is no valuation which makes all of $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ true and $\mathcal{C}$ false.
-    \hfill\href{https://en.wikipedia.org/wiki/Logical_consequence#Semantic_consequence}{Semantic entailment}
+        \item \textbf{Maxterm} is disjunction of literals, where \emph{each} variable appears \emph{once}, \eg $M_6 = (\neg A \lor \neg B \lor C)$.
 
-    \item If $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}$, then the argument $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \therefore \mathcal{C}$ is \textbf{valid}.
+        \item Formula is in \textbf{canonical CNF (CCNF)} if it is a conjunction of maxterms: $\textrm{CCNF} = \biglandnolim{i} M_i$.
+    \end{terms}
 
-    \vspace{2pt}
-    \textit{Validity check examples}:
+    \item Some other normal forms:
+    \begin{terms}
+        \item Formula is in \textbf{negation normal form (NNF)} if the negation operator ($\neg$) is only applied to variables and the only other allowed Boolean operators are conjunction ($\land$) and disjunction ($\lor$).
 
-\vspace{6pt}
-\(\begin{array}{
-    @{~}
-    c @{~~} c % Arguments: A,B
-    % A \implies B, A \therefore B
-    @{~~~} |
-    @{~~~} c @{\,} B @{\,} c % A \implies B
-    @{~~~} B % A
-    @{~~~} c % therefore
-    @{~~~} B % B
-    % \neg A \implies \neg B \therefore B \implies A
-    @{~~~} |
-    @{~~~} c @{} c @{\,} B @{\,} c @{} c % \neg A \implies \neg B
-    @{~~~} c % therefore
-    @{~~~} c @{\,} B @{\,} c % B \implies A
-    % A \implies B, B \therefore \neg (B \implies A)
-    @{~~~} |
-    @{~~~} c @{\,} B @{\,} c % A \implies B
-    @{~~~} B % B
-    @{~~~} c % therefore
-    @{~~~} B @{\,} c @{\,} c @{\,} c % \neg (B \implies A)
-    @{~}
-}
-    A&B
-    & A&\implies&B & A &\ValidArgument& B
-    & \neg&A&\implies&\neg&B &\ValidArgument& B&\implies&A
-    & A&\implies&B & B &\InvalidArgument& \neg&(B&\implies&A)
-    \BotStrut\\
-    \hline\TopStrut
-    % print('\n'.join(f'{a}&{b}  &  {a}&{not a or b}&{b} & {a} &\\--& {b}  &  {not a}&{a}&{a or not b}&{not b}&{b} &\\--& {b}&{not b or a}&{a}  &  {a}&{not a or b}&{b} & {b} &\\--& {not(not b or a)}&{b}&{not b or a}&{a} \\\\'.replace('True', '1').replace('False', '0') for a,b in [(False, False), (False, True), (True, False), (True, True)]))
-    0&0
-    &&1& & 0 &\cdot& 0
-    &1&&1&1& &\Valid& &1&
-    &&1& & 0 &\cdot& 0&&1& \\
-    0&1
-    &&1& & 0  &\cdot& 1
-    &1&&0&0& &\cdot& &0&
-    &&1& & 1 &\Valid& 1&&0& \\
-    1&0
-    &&0& & 1 &\cdot& 0
-    &0&&1&1& &\Valid& &1&
-    &&0& & 0 &\cdot& 0&&1& \\
-    1&1
-    &&1& & 1 &\Valid& 1
-    &0&&1&0& &\Valid& &1&
-    &&1& & 1 &\Invalid& 0&&1& \\
-\end{array}\)
+        \item Formula $f$ is in \textbf{Blake canonical form (BCF)} if it is a disjunction of all the \textit{prime implicants} of $f$.
 
-\vspace{10pt}
-\(\begin{array}{
-    @{~}
-    c @{~~} c @{~~} c % Arguments: R,S,T
-    % R \lor S, S \lor T, \neg R \therefore S \land T
-    @{~~~} |
-    @{~~~} c @{\,} B @{\,} c % R \lor S
-    @{~~~} c @{\,} B @{\,} c % S \lor T
-    @{~~~} B @{\,} c % \neg R
-    @{~~~} c % therefore
-    @{~~~} c @{\,} B @{\,} c % S \land T
-    % (R \land S) \implies T \therefore R \implies (S \implies T)
-    @{~~~} |
-    @{~~~} c @{\,} c @{\,} c @{\,} B @{\,} c % (R \land S) \implies T
-    @{~~~} c % therefore
-    @{~~~} c @{\,} B @{\,} c @{\,} c @{\,} c % R \implies (S \implies T)
-    @{~}
-}
-    R&S&T
-    & R&\lor&S & S&\lor&T & \neg&R &\InvalidArgument& S&\land&T
-    & (R&\land&S)&\implies&T &\ValidArgument& R&\implies&(S&\implies&T)
-    \BotStrut\\
-    \hline\TopStrut
-    % print('\n'.join(f'{r}&{s}&{t}  &\n{r}&{r or s}&{s} & {s}&{s or t}&{t} & {not r}&{r} &\\--& {s}&{s and t}&{t}  &\n{r}&{r and s}&{s}&{not(r and s) or t}&{t} &\\--& {r}&{not r or (not s or t)}&{s}&{not s or t}&{t} \\\\'.replace('True','1').replace('False','0') for r in B for s in B for t in B))
-    0&0&0
-    &&0& & &0& & 1& &\cdot& &0&
-    &&0&&1&0 &\Valid& 0&1&&1& \\
-    0&0&1
-    &&0& & &1& & 1& &\cdot& &0&
-    &&0&&1&1 &\Valid& 0&1&&1& \\
-    0&1&0
-    &&1& & &1& & 1& &\Invalid& &0&
-    &&0&&1&0 &\Valid& 0&1&&0& \\
-    0&1&1
-    &&1& & &1& & 1& &\Valid& &1&
-    &&0&&1&1 &\Valid& 0&1&&1& \\
-    1&0&0
-    &&1& & &0& & 0& &\cdot& &0&
-    &&0&&1&0 &\Valid& 1&1&&1& \\
-    1&0&1
-    &&1& & &1& & 0& &\cdot& &0&
-    &&0&&1&1 &\Valid& 1&1&&1& \\
-    1&1&0
-    &&1& & &1& & 0& &\cdot& &0&
-    &&1&&0&0 &\cdot& 1&0&&0& \\
-    1&1&1
-    &&1& & &1& & 0& &\cdot& &1&
-    &&1&&1&1 &\Valid& 1&1&&1& \\
-\end{array}\)
+        \item Formula is in \textbf{prenex normal form (PNF)} if it consists of \textit{prefix} \--- quantifiers and bound variables, and \textit{matrix} \--- quatifier-free part.
 
-    \item \textbf{Soundness\Href{https://en.wikipedia.org/wiki/Soundness}:} $\Gamma \vdash \mathcal{A} \implies \Gamma \entails \mathcal{A}$
-    \quad\enquote{Every provable statement is in fact true}
+        \item Formula is in \textbf{Skolem normal form (SNF)} if it is in prenex normal form with only universal first-order quantifiers.
 
-    \item \textbf{Completeness:}\Href{https://en.wikipedia.org/wiki/Completeness_(logic)} $\Gamma \entails \mathcal{A} \implies \Gamma \vdash \mathcal{A}$
-    \quad\enquote{Every true statement has a proof}
+        \item \textbf{Zhegalkin polynomial} is a formula in the following form (\textbf{algebraic normal form (ANF)}):
+        \begin{terms}
+            \item \(
+                f(X_1, \dotsc, X_n) = a_0 \xor
+                \bigxorclap{\substack{
+                    1 \leq i_1 \leq \dotsb \leq i_k \leq n \\
+                    1 \leq k \leq n }}
+                (a_{i_1, \dotsc, i_k} \land X_{i_1} \land \dots \land X_{i_k}),
+                \text{ where } a_0, a_{i_1, \dotsc, i_k} \in \Bool
+            \)
 
-
-    % \item \dots
+            \item \(
+                f(x_1, \dotsc, x_n) = a_0 \xor (a_1 x_1 \xor \dotsb \xor a_n x_n) \xor (a_{1,2} x_1 x_2 \xor \dotsb \xor a_{n-1,n} x_{n-1} x_n) \xor \dotsb \xor a_{1,\dotsc,n} x_1 \dots x_n
+            \)
+        \end{terms}
+    \end{terms}
 \end{terms}
 
 
+% \newpage
+\subsection{Conversion to CNF/DNF}
+
+In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{equivalent} CNF/DNF:
+\begin{enumerate}[topsep=2pt, itemsep=2pt]
+    \item Eliminate equivalences, implications and other \enquote{non-standard} operations (\ie rewrite using only $\Set{\land, \lor, \neg}$):
+    \par\(\openup-\jot\begin{aligned}[t]
+        \mathcal{A} \iff \mathcal{B} &~\rightsquigarrow~ (\mathcal{A} \implies \mathcal{B}) \land (\mathcal{B} \implies \mathcal{A}) \\
+        \mathcal{A} \implies \mathcal{B} &~\rightsquigarrow~ \neg\mathcal{A} \lor \mathcal{B}
+    \end{aligned}\)
+
+    \item Push negation downwards:
+    \par\(\openup-\jot\begin{aligned}[t]
+        \neg(\mathcal{A} \lor \mathcal{B}) &~\rightsquigarrow~ \neg\mathcal{A} \land \neg\mathcal{B} \\
+        \neg(\mathcal{A} \land \mathcal{B}) &~\rightsquigarrow~ \neg\mathcal{A} \lor \neg\mathcal{B}
+    \end{aligned}\)
+
+    \item Eliminate double negation:
+    \par$\neg\neg\mathcal{A} ~\rightsquigarrow~ \mathcal{A}$
+
+    Note that after the recursive application of 1\==3 the formula is in NNF.
+
+    \item Push disjunction (for CNF) / conjunction (for DNF) downward:
+    \par\(\openup-\jot\begin{aligned}[t]
+        (\mathcal{A} \land \mathcal{B}) \lor \mathcal{C} ~\rightsquigarrow_{\textrm{CNF}}~ (\mathcal{A} \lor \mathcal{C}) \land (\mathcal{B} \lor \mathcal{C}) \\
+        (\mathcal{A} \lor \mathcal{B}) \land \mathcal{C} ~\rightsquigarrow_{\textrm{DNF}}~ (\mathcal{A} \land \mathcal{C}) \lor (\mathcal{B} \land \mathcal{C}) \\
+    \end{aligned}\)
+
+    \item Eliminate $\top$ and $\bot$:
+    \par\(\openup-\jot\begin{aligned}[t]
+        \mathcal{A} \land \top &~\rightsquigarrow~ \mathcal{A} &\qquad&&
+        \mathcal{A} \land \bot &~\rightsquigarrow~ \bot \\
+        \mathcal{A} \lor \top &~\rightsquigarrow~ \top &\qquad&&
+        \mathcal{A} \lor \bot &~\rightsquigarrow~ \mathcal{A} \\
+        \neg\top &~\rightsquigarrow~ \bot &\qquad&&
+        \neg\bot &~\rightsquigarrow~ \top
+    \end{aligned}\)
+\end{enumerate}
+
+
 \newpage
-\subsection{Natural Deduction Rules}
+\subsection{Functional Completeness}
 
-\colorlet{colorbasicrule}{green!45!black}
-\colorlet{colorderivedrule}{orange!70!black}
+\begin{terms}
+    \item A set of Boolean functions $F$ is \textbf{functionally complete}, iff it contains:
+    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness}{Functional completeness}
+    \begin{terms}
+        \item at least one function that does \textit{not} preserve zero, \ie $\exists f \in F: f \notin T_0$, and
+        \item at least one function that does \textit{not} preserve one, \ie $\exists f \in F: f \notin T_1$, and
+        \item at least one function that is \textit{not} self-dual, \ie $\exists f \in F: f \notin S$, and
+        \item at least one function that is \textit{not} monotonic, \ie $\exists f \in F: f \notin M$, and
+        \item at least one function that is \textit{not} linear function, \ie $\exists f \in F: f \notin L$.
+    \end{terms}
 
-\begingroup
-\newcommand{\myA}{\mathcal{A}}
-\newcommand{\myB}{\mathcal{B}}
-\newcommand{\myC}{\mathcal{C}}
-\newcommand{\midlineheight}{.7\baselineskip}
-\newcommand{\extratopskip}{8pt}
-\newcommand{\myheight}{%
-    \dimexpr\textheight-16pt-\extratopskip\relax}
+    \item A function $f$ is \textbf{zero-preserving} iff it is \texttt{False} on the zero-valuation:\par
+    \quad$f \in T_0 \iff f(\vvmathbb{0}) = 0$
 
-% \hypo{<line label>}{<formula>}: line with horizontal bar
-% \have{<line label>}{<formula>}: line without horizontal bar
-% \open: opens a subproof
-% \close: closes a subproof
-% \by{<rule}{<line labels}
-% \hypo[<symbol>][<offset>]{<line label>}{<formula>}
-% \have[<symbol>][<offset>]{<line label>}{<formula>}
+    \item A function $f$ is \textbf{one-preserving} iff it is \texttt{True} on the one-valuation:\par
+    \quad$f \in T_1 \iff f(\vvmathbb{1}) = 1$
 
-\tcbset{
-    formalbox/.style={% with arg #1 = <title>
-        title={\strut #1},
-        fonttitle=\bfseries,
-        size=title,
-        boxsep=2pt,
-        top=0pt,
-        bottom=1mm,
-        leftupper=0pt,
-        rightupper=0pt,
-        %%% draft,
-    },
-    myoverlay/.style={% with arg #1 = <text>
-        enhanced,
-        overlay={
-            \path[
-                draw=blue,
-                fill=blue!75!white,
-                opacity=0.8,
-            ] (frame.north east)
-            ++(0,-0.8)
-            ++(-0.1mm,-0.1mm)
-            -- ++(-0.8,0.8)
-            -- ++(-0.7,0)
-            -- ++(1.5,-1.5)
-            -- cycle;
-            \path (frame.north east) ++(-0.57,-0.57)
-            node[white,rotate=-45] {#1};
-        },
-    },
-}
+    \item A function $f$ is \textbf{self-dual} iff it is dual to itself:\par
+    \quad$f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)$.
 
-\newtcolorbox{formalboxbasic}[2][]{% [<style>]{<title>}
-    formalbox=#2,
-    % myoverlay={Basic},
-    colback=green!5,
-    colframe=colorbasicrule,
-    #1
-}
-\newtcolorbox{formalboxderived}[2][]{% [<style>]{<title>}
-    formalbox=#2,
-    % myoverlay={Derived},
-    colback=orange!5,
-    colframe=colorderivedrule,
-    #1
-}
+    \item A function $f$ is \textbf{monotonic} iff for every increasing valuations, the function does not decrease:
+    \hfill\href{https://en.wikipedia.org/wiki/Monotone_boolean_function}{Monotone function}
 
-\makeatletter
-\newcommand{\DrawLine}[1]{% {<color>}
-    \vrule height \midlineheight depth \dimexpr \midlineheight-1ex\relax width 0pt\relax
-    \begin{tikzpicture}
-        \path[use as bounding box] (0,0) -- (\linewidth,0);
-        \draw[color=#1,dashed,dash phase=5pt]
-            (0-\kvtcb@leftupper-\kvtcb@boxsep,0)
-            --(\linewidth+\kvtcb@rightupper+\kvtcb@boxsep,0);
-    \end{tikzpicture}}
-\makeatother
+    \quad$f \in M \iff \forall a,b \in \Bool^n: a \preceq b \implies f(a) \leq f(b)$.
 
-\vskip\extratopskip
+    Comparison of valuations $a,b \in \Bool^n$ is defined as follows:
 
-\begin{adjustbox}{minipage=[t][\myheight]{.3\linewidth},valign=t}
-    \begin{formalboxbasic}{Reiteration}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{A}{\myA}
-            \have[\therefore]{rA}{\myA} \r{A}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxbasic}{Modus ponens}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AimpliesB}{\myA \implies \myB}
-            \have[j]{A}{\myA}
-            \have[\therefore]{B}{\myB} \mp{AimpliesB,A}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxderived}{Modus tollens}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AimpliesB}{\myA \implies \myB}
-            \have[j]{negB}{\neg\myB}
-            \have[\therefore]{negA}{\neg\myA} \mt{AimpliesB,negB}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-    \vfill
-    \begin{formalboxbasic}{Negation}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{negA}{\neg\myA}
-            \have[j]{A}{\myA}
-            \have[\therefore]{bot}{\bot} \ne{negA,A}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \open
-                \hypo[i]{hypA}{\myA}
-                \have[j]{bot}{\bot}
-            \close
-            \have[\therefore]{negA}{\neg\myA} \ni{hypA-bot}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxbasic}{Indirect proof}
-        \begin{flusheqs}
-        \begin{nd}
-            \open
-                \hypo[i]{negA}{\neg\myA}
-                \have[j]{bot}{\bot}
-            \close
-            \have[\therefore]{A}{\myA} \ip{negA-bot}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxderived}{Double negation}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{negnegA}{\neg\neg\myA}
-            \have[\therefore]{A}{\myA} \nne{negnegA}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-    \vfill
-    \begin{formalboxderived}{Excluded middle}
-        \begin{flusheqs}
-        \begin{nd}
-            \open
-                \hypo[i]{A}{\myA}
-                \have[j]{BfromA}{\myB}
-            \close
-            \open
-                \hypo[k]{negA}{\neg\myA}
-                \have[l]{BfromNegA}{\myB}
-            \close
-            \have[\therefore]{B}{\myB} \lem{A-BfromA,negA-BfromNegA}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-\end{adjustbox}%
-\hfill%
-\begin{adjustbox}{minipage=[t][\myheight]{.3\linewidth},valign=t}
-    \begin{formalboxbasic}{Explosion}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{bot}{\bot}
-            \have[\therefore]{A}{\myA} \x{bot}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxbasic}{Conjunction}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{A}{\myA}
-            \have[j]{B}{\myB}
-            \have[\therefore]{AandB}{\myA \land \myB} \ai{A,B}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{AandB}{\myA \land \myB}
-            \have[\therefore]{A}{\myA} \ae{AandB} \ae{AandB}
-            \have[\therefore]{B}{\myB} \ae{AandB} \ae{AandB}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxbasic}{Disjunction}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{A}{\myA}
-            \have[\therefore]{AorB}{\myA \lor \myB} \oi{A}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{A}{\myA}
-            \have[\therefore]{BorA}{\myB \lor \myA} \oi{A}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{AorB}{\myA \lor \myB}
-            \open
-                \hypo[i]{hypA}{\myA}
-                \have[j]{CfromA}{\myC}
-            \close
-            \open
-                \hypo[k]{hypB}{\myB}
-                \have[l]{CfromB}{\myC}
-            \close
-            \have[\therefore]{C}{\myC} \oe{AorB,hypA-CfromA,hypB-CfromB}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxderived}{Disjunctive syllogism}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AorB}{\myA \lor \myB}
-            \have[j]{negA}{\neg\myA}
-            \have[\therefore]{B}{\myB} \ds{AorB,negA}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AorB}{\myA \lor \myB}
-            \have[j]{negB}{\neg\myB}
-            \have[\therefore]{A}{\myA} \ds{AorB,negB}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-    \vfill
-    \begin{formalboxderived}{Hypothetical syllogism}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AimpliesB}{\myA \implies \myB}
-            \have[j]{BimpliesC}{\myB \implies \myC}
-            \have[\therefore]{AimpliesC}{\myA \implies \myC} \hs{AimpliesB,BimpliesC}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-\end{adjustbox}%
-\hfill%
-\begin{adjustbox}{minipage=[t][\myheight]{.3\linewidth},valign=t}
-    \begin{formalboxbasic}{Conditional}
-        \begin{flusheqs}
-        \begin{nd}
-            \open
-                \hypo[i]{hypA}{\myA}
-                \have[j]{BfromA}{\myB}
-            \close
-            \have[\therefore]{AimpliesB}{\myA \implies \myB} \ii{hypA-BfromA}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    % \begin{formalboxderived}{Implication}
-    %     \begin{flusheqs}
-    %     \begin{nd}
-    %         \have[m]{AimpliesB}{\myA \implies \myB}
-    %         \have[\therefore]{imp}{\neg\myA \lor \myB} \imp{AimpliesB}
-    %     \end{nd}
-    %     \end{flusheqs}
-    % \end{formalboxderived}
-    % \vfill
-    \begin{formalboxderived}{Contraposition}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{AimpliesB}{\myA \implies \myB}
-            \have[\therefore]{contra}{\neg\myB \implies \neg\myA} \contra{AimpliesB}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-    \vfill
-    \begin{formalboxbasic}{Biconditional}
-        \begin{flusheqs}
-        \begin{nd}
-            \open
-                \hypo[i]{hypA}{\myA}
-                \have[j]{BfromA}{\myB}
-            \close
-            \open
-                \hypo[k]{hypB}{\myB}
-                \have[l]{AfromB}{\myA}
-            \close
-            \have[\therefore]{AiffB}{\myA \iff \myB} \ei{hypA-BfromA,hypB-AfromB}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AiffB}{\myA \iff \myB}
-            \have[j]{A}{\myA}
-            \have[\therefore]{B}{\myB} \ee{AiffB,A}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[i]{AiffB}{\myA \iff \myB}
-            \have[j]{B}{\myB}
-            \have[\therefore]{A}{\myA} \ee{AiffB,B}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxbasic}
-    \vfill
-    \begin{formalboxderived}{De Morgan Rules}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{negAorB}{\neg(\myA \lor \myB)}
-            \have[\therefore]{negAnegB}{\neg\myA \land \neg\myB} \dm{negAorB}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{negAnegB}{\neg\myA \land \neg\myB}
-            \have[\therefore]{negAorB}{\neg(\myA \lor \myB)} \dm{negAnegB}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{negAandB}{\neg(\myA \land \myB)}
-            \have[\therefore]{negAornegB}{\neg\myA \lor \neg\myB} \dm{negAandB}
-        \end{nd}
-        \end{flusheqs}
-        \DrawLine{tcbcolframe}
-        \begin{flusheqs}
-        \begin{nd}
-            \have[m]{negAornegB}{\neg\myA \lor \neg\myB}
-            \have[\therefore]{negAandB}{\neg(\myA \land \myB)} \dm{negAornegB}
-        \end{nd}
-        \end{flusheqs}
-    \end{formalboxderived}
-    \vfill
-    \textcolor{colorbasicrule}{\textbf{Green:} basic rules.}\par
-    \textcolor{colorderivedrule}{\textbf{Orange:} derived rules.}
-    \vfill
-    More rules can be found in the \\
-    \href{https://forallx.openlogicproject.org}{\enquote{forall~x:~Calgary}} book (\href{https://forallx.openlogicproject.org/forallxyyc.pdf#page=416}{p.~406}).
-\end{adjustbox}
+    $\displaystyle a \preceq b \iff \biglandclap{1 \leq i \leq n} a_i \leq b_i$
 
-\endgroup
+    \item A function $f$ is \textbf{linear} iff its Zhegalkin polynomial is linear (\ie has a degree at most 1):\par
+    \quad$f \in L \iff \operatorname{deg} f_{\xor} \leq 1$
+\end{terms}
+
+
+% \subsection{Truth Tables}
+
+% \begin{tabular}{
+%     @{~}
+%     C @{~} C
+%     @{~~~} |
+%     @{~~~} C @{\,} C
+%     @{~~~} C @{\,} C @{\,} C
+%     @{~~~} C @{\,} C @{\,} C
+%     @{~~~} C @{\,} C @{\,} C
+%     @{~~~} C @{\,} C @{\,} C
+%     @{~~~} C @{\,} C @{\,} C
+%     @{~}
+% }
+% \toprule
+%     A & B &
+%     \neg & A &
+%     A & \land & B &
+%     A & \lor & B &
+%     A & \xor & B &
+%     A & \implies & B &
+%     A & \iff & B \BotStrut\\
+% \hline\TopStrut
+%     0 & 0 &
+%     \textbf{1} & 0 &      % \neg
+%     0 & \textbf{0} & 0 &  % \land
+%     0 & \textbf{0} & 0 &  % \lor
+%     0 & \textbf{0} & 0 &  % \xor
+%     0 & \textbf{1} & 0 &  % \implies
+%     0 & \textbf{1} & 0 \\ % \iff
+%     0 & 1 &
+%     \textbf{1} & 0 &      % \neg
+%     0 & \textbf{0} & 1 &  % \land
+%     0 & \textbf{1} & 1 &  % \lor
+%     0 & \textbf{1} & 1 &  % \xor
+%     0 & \textbf{1} & 1 &  % \implies
+%     0 & \textbf{0} & 1 \\ % \iff
+%     1 & 0 &
+%     \textbf{0} & 1 &      % \neg
+%     1 & \textbf{0} & 0 &  % \land
+%     1 & \textbf{1} & 0 &  % \lor
+%     1 & \textbf{1} & 0 &  % \xor
+%     1 & \textbf{0} & 0 &  % \implies
+%     1 & \textbf{0} & 0 \\ % \iff
+%     1 & 1 &
+%     \textbf{0} & 1 &      % \neg
+%     1 & \textbf{1} & 1 &  % \land
+%     1 & \textbf{1} & 1 &  % \lor
+%     1 & \textbf{0} & 1 &  % \xor
+%     1 & \textbf{1} & 1 &  % \implies
+%     1 & \textbf{1} & 1 \\ % \iff
+% \bottomrule
+% \end{tabular}
+
+
+% \subsection{Karnaugh map}
+
+% \tikzset{mykarnaughstyle/.style={
+%     karnaugh,
+%     x=1\kmunitlength, y=1\kmunitlength,
+%     enable indices,
+%     % disable bars,
+%     binary index,
+%     kmindexpos={0.5}{0.15},
+%     kmindex/.style={font=\tiny\itshape,blue},
+%     kmcell/.style={
+%         label={[font=\scriptsize,red,right,xshift=-0.45\kmunitlength,inner sep=1pt]\the\kmindexcounter},
+%         font=\bfseries,
+%     },
+%     kmbar  top sep=0.7\kmunitlength,
+%     kmbar left sep=0.7\kmunitlength,
+%     grp/.style n args={3}{
+%         draw,
+%         rectangle,
+%         ##1,
+%         fill=##1!30,
+%         fill opacity=0.3,
+%         minimum width=##2\kmunitlength,
+%         minimum height=##3\kmunitlength,
+%         rounded corners=0.2\kmunitlength,
+%     },
+%     thick,
+% }}
+
+% \newcommand{\drawlabels}{%
+%     \begin{scope}[font=\small]
+%         \begin{scope}[xshift=0.5\kmunitlength]
+%             \node[above] at (0,4) {00};
+%             \node[above] at (1,4) {01};
+%             \node[above] at (2,4) {11};
+%             \node[above] at (3,4) {10};
+%         \end{scope}
+%         \begin{scope}[yshift=0.5\kmunitlength]
+%             \node[left] at (0,3) {00};
+%             \node[left] at (0,2) {01};
+%             \node[left] at (0,1) {11};
+%             \node[left] at (0,0) {10};
+%         \end{scope}
+%     \end{scope}
+%     \draw[sloped,font=\scriptsize,inner sep=2pt] (0,4) -- node[above]{AB} node[below]{CD} +(-0.4,0.4);
+% }
+
+% The \textbf{Karnaugh map} is a heuristic method for simplifying Boolean formulas.
+
+% % \begin{figure}[H]
+% % \centering
+% \begin{tikzpicture}[mykarnaughstyle]
+%     \karnaughmapvert{4}%
+%     % {$f(A,B,C,D)$}%
+%     {}%
+%     {{$A$}{$B$}{$C$}{$D$}}%
+%     {0110 0110 0110 0110}%
+%     {
+%         \node[grp={blue}{0.9}{1.9}](n000) at (0.5,2) {};
+%         \node[grp={blue}{0.9}{1.9}](n001) at (3.5,2) {};
+%         % \draw[blue]
+%         %     (n000.north) to [bend  left=25] (n001.north)
+%         %     (n000.south) to [bend right=25] (n001.south) ;
+%         \node[grp={red}{1.9}{0.9}](n100) at (2,3.5) {};
+%         \node[grp={red}{1.9}{0.9}](n110) at (2,0.5) {};
+%         % \draw[red]
+%         %     (n100.west) to [bend right=25] (n110.west)
+%         %     (n100.east) to [bend  left=25] (n110.east) ;
+%     }
+%     % \drawlabels
+% \end{tikzpicture}
+% % \end{figure}
 
 
 \end{document}
