@@ -29,6 +29,18 @@
 %% Autoscale missing font sizes
 \usepackage{anyfontsize}
 
+%% Theorem environmnet
+\declaretheorem{theorem}
+
+%% Post's Theorem
+\declaretheoremstyle[
+    name={Post's Functional Completeness Theorem\protect\Href{https://doi.org/10.1305/ndjfl/1093635508}},
+    numbered=no,
+    spaceabove=6pt,
+    spacebelow=6pt,
+]{poststyle}
+\declaretheorem[style=poststyle]{posttheorem}
+
 
 \begin{document}
 
@@ -170,36 +182,50 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
 \subsection{Functional Completeness}
 
 \begin{terms}
-    \item A set of Boolean functions $F$ is \textbf{functionally complete}, iff it contains:
+    \item A set $S$ is called \textbf{closed} under some operation~\enquote{\textbullet} if the result of the operation applied to any elements in the set is also contained in this set, \ie $\forall x,y \in S: (x \mathbin{\text{\textbullet}} y) \in S$.
+    \hfill\href{https://mathworld.wolfram.com/ClosedSet.html}{Closed set}
+
+    \item The \textbf{closure} $S^{*}$ of a set $S$ is the minimal \emph{closed} superset of $S$.
+    \hfill\href{https://mathworld.wolfram.com/SetClosure.html}{Closure}
+
+    % \item TODO: Composition (superposition) of Boolean functions.
+
+    \item A set of Boolean functions~$F$ is called \textbf{functionally complete} if it can be used to express all possible Boolean functions.
+    Formally, $F^{*} = \mathbb{F}$, where $F^{*}$ is a \emph{functional closure}, and $\mathbb{F} = \bigunionnolim{n \in \Natural} \Set{ f \colon \Bool^{n} \to \Bool }$.
     \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness}{Functional completeness}
-    \begin{terms}
-        \item at least one function that does \textit{not} preserve zero, \ie $\exists f \in F: f \notin T_0$, and
-        \item at least one function that does \textit{not} preserve one, \ie $\exists f \in F: f \notin T_1$, and
-        \item at least one function that is \textit{not} self-dual, \ie $\exists f \in F: f \notin S$, and
-        \item at least one function that is \textit{not} monotonic, \ie $\exists f \in F: f \notin M$, and
-        \item at least one function that is \textit{not} linear function, \ie $\exists f \in F: f \notin L$.
-    \end{terms}
 
-    \item A function $f$ is \textbf{zero-preserving} iff it is \texttt{False} on the zero-valuation:\par
-    \quad$f \in T_0 \iff f(\vvmathbb{0}) = 0$
+    \begin{posttheorem}
+        A set of Boolean functions~$F$ is functionally complete, iff it contains:
+        \begin{itemize}
+            \item at least one function that does \textit{not} preserve zero, \ie $\exists f \in F: f \notin T_0$, and
+            \item at least one function that does \textit{not} preserve one, \ie $\exists f \in F: f \notin T_1$, and
+            \item at least one function that is \textit{not} self-dual, \ie $\exists f \in F: f \notin S$, and
+            \item at least one function that is \textit{not} monotonic, \ie $\exists f \in F: f \notin M$, and
+            \item at least one function that is \textit{not} linear function, \ie $\exists f \in F: f \notin L$.
+        \end{itemize}
+    \end{posttheorem}
 
-    \item A function $f$ is \textbf{one-preserving} iff it is \texttt{True} on the one-valuation:\par
-    \quad$f \in T_1 \iff f(\vvmathbb{1}) = 1$
+    \item A function $f$ is \textbf{zero-preserving} iff it is \texttt{False} on the zero-valuation ($\vvmathbb{0} = \Tuple{0,0,\dotsc,0}$):
+    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness#Characterization_of_functional_completeness}{Falsity-preserving}
+    \par\quad$f \in T_0 \iff f(\vvmathbb{0}) = 0$
 
-    \item A function $f$ is \textbf{self-dual} iff it is dual to itself:\par
-    \quad$f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)$.
+    \item A function $f$ is \textbf{one-preserving} iff it is \texttt{True} on the one-valuation ($\vvmathbb{1} = \Tuple{1,1,\dotsc,1}$):
+    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness#Characterization_of_functional_completeness}{Truth-preserving}
+    \par\quad$f \in T_1 \iff f(\vvmathbb{1}) = 1$
+
+    \item A function $f$ is \textbf{self-dual} iff it is dual to itself:
+    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness#Characterization_of_functional_completeness}{Self-dual}
+    \par\quad$f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)$.
 
     \item A function $f$ is \textbf{monotonic} iff for every increasing valuations, the function does not decrease:
     \hfill\href{https://en.wikipedia.org/wiki/Monotone_boolean_function}{Monotone function}
-
-    \quad$f \in M \iff \forall a,b \in \Bool^n: a \preceq b \implies f(a) \leq f(b)$.
+    \par\quad$f \in M \iff \forall a,b \in \Bool^n: a \preceq b \implies f(a) \leq f(b)$.
 
     Comparison of valuations $a,b \in \Bool^n$ is defined as follows:
+    \par\quad$\displaystyle a \preceq b \iff \biglandclap{1 \leq i \leq n} (a_i \leq b_i)$
 
-    $\displaystyle a \preceq b \iff \biglandclap{1 \leq i \leq n} a_i \leq b_i$
-
-    \item A function $f$ is \textbf{linear} iff its Zhegalkin polynomial is linear (\ie has a degree at most 1):\par
-    \quad$f \in L \iff \operatorname{deg} f_{\xor} \leq 1$
+    \item A function $f$ is \textbf{linear} iff its Zhegalkin polynomial is linear (\ie has a degree at most 1):
+    \par\quad$f \in L \iff \operatorname{deg} f_{\xor} \leq 1$
 \end{terms}
 
 
