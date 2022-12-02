@@ -69,13 +69,10 @@
         \item Product of maxterms, \eg $f = \prod M(1,3) = M_1 \cdot M_3$.
         \hfill\href{http://www.cs.ucr.edu/~ehwang/courses/cs120a/minterms.pdf#page=2}{Maxterms}
 
-        \item Boolean function number, \eg $f^{(2)}_{10}$ is the 10-th 2-ary function.
-        \hfill\href{https://mathworld.wolfram.com/BooleanFunction.html}{Boolean function} \\
-        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table.
-        10-th Boolean function $f^{(2)}_{10}$ with the truth table $(1010)$ can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha, since $\texttt{rev}(1010_2) = 0101_2 = 5_{10}$.
-        \hfill\href{https://bit.ly/3nFbad5}{WolframAlpha}
+        \item Boolean function number\Href{https://mathworld.wolfram.com/BooleanFunction.html}, \eg $f^{(2)}_{10}$ is the 10-th 2-ary function.
 
-        % \item Representative number, \eg $\#f = 1010$.
+        Note that Wolfram's \enquote{Boolean operator number} is a slightly different term, which uses the reversed truth table.
+        10-th Boolean function $f^{(2)}_{10}$ with the truth table $(1010)$ can be obtained via the query \enquote{5th Boolean function of 2~variables} (note: not 10th!) in WolframAlpha\Href{https://bit.ly/3nFbad5}, since $\texttt{rev}(1010_2) = 0101_2 = 5_{10}$.
     \end{enumerate}
 
     % TODO: more Boolean algebra definitions
@@ -84,42 +81,40 @@
 
 \subsection{Normal Forms}
 
-% TODO: links
-
 \begin{terms}
     \item \emph{Disjunctive} forms:
     \begin{terms}
-        \item \textbf{Term} (also called \textbf{cube}) is a conjunction of literals: $\mathcal{T} = \biglandnolim{i} \mathcal{L}_i$.
+        \item \textbf{Cube} is a conjunction of literals: $\mathcal{T} = \biglandnolim{i} \mathcal{L}_i$.
 
-        \item Formula is in \textbf{disjunctive normal form (DNF)} if it is a disjunction of terms: $\textrm{DNF} = \biglornolim{i} \mathcal{T}_i$.
+        \item Formula is in \textbf{disjunctive normal form (DNF)}\Href{https://en.wikipedia.org/wiki/Disjunctive_normal_form} if it is a disjunction of terms: $\textrm{DNF} = \biglornolim{i} \mathcal{T}_i$.
 
         \item \textbf{Minterm} is conjunction of literals, where \emph{each} variable appears \emph{once}, \eg $m_6 = (A \land B \land \neg C)$.
 
-        \item Formula is in \textbf{canonical DNF (CDNF)} if it is a disjunction of minterms: $\textrm{CDNF} = \biglornolim{i} m_i$.
+        \item Formula is in \textbf{canonical DNF (CDNF)}\Href{https://en.wikipedia.org/wiki/Canonical_disjunctive_normal_form} if it is a disjunction of minterms: $\textrm{CDNF} = \biglornolim{i} m_i$.
     \end{terms}
 
     \item \emph{Conjunctive} forms:
     \begin{terms}
-        \item \textbf{Clause} is a disjunction of literals: $\mathcal{C} = \biglornolim{i} \mathcal{L}_i$
+        \item \textbf{Clause}\Href{https://en.wikipedia.org/wiki/Clause_(logic)} is a disjunction of literals: $\mathcal{C} = \biglornolim{i} \mathcal{L}_i$
 
-        \item Formula is in \textbf{conjunctive normal form (CNF)} if it is a conjunction of clauses: $\textrm{CNF} = \biglandnolim{i} \mathcal{C}_i$.
+        \item Formula is in \textbf{conjunctive normal form (CNF)}\Href{https://en.wikipedia.org/wiki/Conjunctive_normal_form} if it is a conjunction of clauses: $\textrm{CNF} = \biglandnolim{i} \mathcal{C}_i$.
 
         \item \textbf{Maxterm} is disjunction of literals, where \emph{each} variable appears \emph{once}, \eg $M_6 = (\neg A \lor \neg B \lor C)$.
 
-        \item Formula is in \textbf{canonical CNF (CCNF)} if it is a conjunction of maxterms: $\textrm{CCNF} = \biglandnolim{i} M_i$.
+        \item Formula is in \textbf{canonical CNF (CCNF)}\Href{https://en.wikipedia.org/wiki/Canonical_conjunctive_normal_form} if it is a conjunction of maxterms: $\textrm{CCNF} = \biglandnolim{i} M_i$.
     \end{terms}
 
     \item Some other normal forms:
     \begin{terms}
-        \item Formula is in \textbf{negation normal form (NNF)} if the negation operator ($\neg$) is only applied to variables and the only other allowed Boolean operators are conjunction ($\land$) and disjunction ($\lor$).
+        \item Formula is in \textbf{negation normal form (NNF)}\Href{https://en.wikipedia.org/wiki/Negation_normal_form} if the negation operator ($\neg$) is only applied to variables and the only other allowed Boolean operators are conjunction ($\land$) and disjunction ($\lor$).
 
-        \item Formula $f$ is in \textbf{Blake canonical form (BCF)} if it is a disjunction of all the \textit{prime implicants} of $f$.
+        \item Formula $f$ is in \textbf{Blake canonical form (BCF)}\Href{https://en.wikipedia.org/wiki/Blake_canonical_form} if it is a disjunction of \emph{all} the \textit{prime implicants} of $f$.
 
-        \item Formula is in \textbf{prenex normal form (PNF)} if it consists of \textit{prefix} \--- quantifiers and bound variables, and \textit{matrix} \--- quatifier-free part.
+        \item Formula is in \textbf{prenex normal form (PNF)}\Href{https://en.wikipedia.org/wiki/Prenex_normal_form} if it consists of \textit{prefix} \--- quantifiers and bound variables, and \textit{matrix} \--- quatifier-free part.
 
-        \item Formula is in \textbf{Skolem normal form (SNF)} if it is in prenex normal form with only universal first-order quantifiers.
+        \item Formula is in \textbf{Skolem normal form (SNF)}\Href{https://en.wikipedia.org/wiki/Skolem_normal_form} if it is in prenex normal form with only universal first-order quantifiers.
 
-        \item \textbf{Zhegalkin polynomial} is a formula in the following form (\textbf{algebraic normal form (ANF)}):
+        \item \textbf{Zhegalkin polynomial}\Href{https://en.wikipedia.org//wiki/Zhegalkin_polynomial} is a formula in the following form (\textbf{algebraic normal form (ANF)}):
         \begin{terms}
             \item \(
                 f(X_1, \dotsc, X_n) = a_0 \xor
@@ -179,7 +174,8 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
 
 
 \newpage
-\subsection{Functional Completeness}
+\subsection{Functional Completeness%
+\texorpdfstring{\normalsize\protect\Href{https://en.wikipedia.org/wiki/Functional_completeness}}{}}
 
 \begin{terms}
     \item A set $S$ is called \textbf{closed} under some operation~\enquote{\textbullet} if the result of the operation applied to any elements in the set is also contained in this set, \ie $\forall x,y \in S: (x \mathbin{\text{\textbullet}} y) \in S$.
@@ -192,7 +188,6 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
 
     \item A set of Boolean functions~$F$ is called \textbf{functionally complete} if it can be used to express all possible Boolean functions.
     Formally, $F^{*} = \mathbb{F}$, where $F^{*}$ is a \emph{functional closure}, and $\mathbb{F} = \bigunionnolim{n \in \Natural} \Set{ f \colon \Bool^{n} \to \Bool }$.
-    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness}{Functional completeness}
 
     \begin{posttheorem}
         A set of Boolean functions~$F$ is functionally complete iff it contains:
@@ -205,27 +200,22 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
         \end{itemize}
     \end{posttheorem}
 
-    \item A function $f$ is \textbf{zero-preserving} iff it is \texttt{False} on the zero-valuation ($\vvmathbb{0} = \Tuple{0,0,\dotsc,0}$):
-    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness#Characterization_of_functional_completeness}{Falsity-preserving}
+    \item A function $f$ is \textbf{zero-preserving}\Href{https://en.wikipedia.org/wiki/Functional_completeness\#Characterization_of_functional_completeness} iff it is \texttt{False} on the zero-valuation ($\vvmathbb{0} = \Tuple{0,0,\dotsc,0}$):
     \par\quad$f \in T_0 \iff f(\vvmathbb{0}) = 0$
 
-    \item A function $f$ is \textbf{one-preserving} iff it is \texttt{True} on the one-valuation ($\vvmathbb{1} = \Tuple{1,1,\dotsc,1}$):
-    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness#Characterization_of_functional_completeness}{Truth-preserving}
+    \item A function $f$ is \textbf{one-preserving}\Href{https://en.wikipedia.org/wiki/Functional_completeness\#Characterization_of_functional_completeness} iff it is \texttt{True} on the one-valuation ($\vvmathbb{1} = \Tuple{1,1,\dotsc,1}$):
     \par\quad$f \in T_1 \iff f(\vvmathbb{1}) = 1$
 
-    \item A function $f$ is \textbf{self-dual} iff it is dual to itself:
-    \hfill\href{https://en.wikipedia.org/wiki/Functional_completeness#Characterization_of_functional_completeness}{Self-dual}
+    \item A function $f$ is \textbf{self-dual}\Href{https://en.wikipedia.org/wiki/Functional_completeness\#Characterization_of_functional_completeness} iff it is dual to itself:
     \par\quad$f \in S \iff \forall x_1,\dotsc,x_n \in \Bool : f(x_1, \dotsc, x_n) = \overline{f}(\overline{x}_1, \dotsc, \overline{x}_n)$.
 
-    \item A function $f$ is \textbf{monotonic} iff for every increasing valuations, the function does not decrease:
-    \hfill\href{https://en.wikipedia.org/wiki/Monotone_boolean_function}{Monotone function}
+    \item A function $f$ is \textbf{monotonic}\Href{https://en.wikipedia.org/wiki/Monotone_boolean_function} iff for every increasing valuations, the function does not decrease:
     \par\quad$f \in M \iff \forall a,b \in \Bool^n: a \preceq b \implies f(a) \leq f(b)$.
 
     Comparison of valuations $a,b \in \Bool^n$ is defined as follows:
     \par\quad$\displaystyle a \preceq b \iff \biglandclap{1 \leq i \leq n} (a_i \leq b_i)$
 
     \item A function $f$ is \textbf{linear} iff its Zhegalkin polynomial is linear (\ie has a degree at most 1):
-    \hfill\href{https://en.wikipedia.org//wiki/Zhegalkin_polynomial}{Zhegalkin polynomial}
     \par\quad$f \in L \iff \operatorname{deg} f_{\xor} \leq 1$
 
     % TODO: Post's lattice
