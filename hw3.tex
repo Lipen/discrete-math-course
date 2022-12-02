@@ -317,7 +317,7 @@
     \item Binary Decision Diagram\Href{https://en.wikipedia.org/wiki/Binary_decision_diagram} is a representation of a Boolean function as a directed acyclic graph, which consists of \emph{decision} nodes and two \emph{terminal} nodes (0~and~1).
     Each decision node is labeled by a Boolean variable~$x_i$ and has two child nodes called \emph{low} and \emph{high}.
     The edge from node to a low (high) child represents an assignment of the value \texttt{FALSE} (\texttt{TRUE}, respectively) to variable~$x_i$.
-    A path from the root node to the 1-terminal (0-terminal) represents an assignment (a cube) for which the represented Boolean function is true (false, respectively).
+    A path from the root node to the 1-terminal (0-terminal) represents an assignment for which the represented Boolean function is true (false, respectively).
 
     BDD is called \emph{ordered} if different variables appear in the same order on all paths from the root.
     For example, if the natural order $x_1 \prec x_2 \prec \dotsb \prec x_n$ is used, the root is marked with the variable~$x_1$, its children with~$x_2$, \textit{etc}.
