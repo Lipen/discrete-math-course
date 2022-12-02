@@ -247,22 +247,25 @@
 
 \begin{terms}
     \item \textbf{Valuation}\Href{https://en.wikipedia.org/wiki/Valuation_(logic)} is any assignment of truth values to propositional variables.
-    % \hfill\href{https://en.wikipedia.org/wiki/Valuation_(logic)}{Valuation}
+    \hfill\href{https://en.wikipedia.org/wiki/Interpretation_(logic)}{Interpretation}
 
-    \item $\mathcal{A}$ is a \textbf{tautology}\Href{https://en.wikipedia.org/wiki/Tautology_(logic)} iff it is true on every valuation. Might be symbolized as \enquote{\,${} \entails \mathcal{A}$\,}.
-    % \hfill\href{https://en.wikipedia.org/wiki/Tautology_(logic)}{Tautology}
+    \item $\mathcal{A}$ is a \textbf{tautology}\Href{https://en.wikipedia.org/wiki/Tautology_(logic)} (\textbf{valid}) iff it is true on \emph{every} valuation. Might be symbolized as \enquote{${} \entails \mathcal{A}$}.
 
-    \item $\mathcal{A}$ is a \textbf{contradiction}\Href{https://en.wikipedia.org/wiki/Contradiction} iff it is false on every valuation. Might be symbolized as \enquote{\,$\mathcal{A} \entails {}$\,}.
-    % \hfill\href{https://en.wikipedia.org/wiki/Contradiction}{Contradiction}
+    \item $\mathcal{A}$ is a \textbf{contradiction}\Href{https://en.wikipedia.org/wiki/Contradiction} iff it is false on \emph{every} valuation. Might be symbolized as \enquote{\,$\mathcal{A} \entails {}$\,}.
 
-    \item $\mathcal{A}$ is a \textbf{contingency}\Href{https://en.wikipedia.org/wiki/Contingency_(philosophy)} iff it might be true on some valuation and false on another. In other words, a \textbf{contingent} proposition is neither a tautology nor a contradiction.
-    % \hfill\href{https://en.wikipedia.org/wiki/Contingency_(philosophy)}{Contingency}
+    \item $\mathcal{A}$ is a \textbf{contingency}\Href{https://en.wikipedia.org/wiki/Contingency_(philosophy)} iff it is true on some valuation and false on another. In other words, a \textbf{contingent} proposition is neither a tautology nor a contradiction.
+
+    \item $\mathcal{A}$ is \textbf{satisfiable} iff it is true on \emph{some} valuation.
+    \hfill\href{https://en.wikipedia.org/wiki/Satisfiability}{Satisfiability}
+
+    \item $\mathcal{A}$ is \textbf{falsifiable} iff it is not valid, \ie it is false on \emph{some} valuation.
+    \hfill\href{https://en.wikipedia.org/wiki/Falsifiability}{Falsifiability}
 
     \item $\mathcal{A}$ and $\mathcal{B}$ are \textbf{equivalent}\Href{https://en.wikipedia.org/wiki/Logical_equivalence} (symbolized as $\mathcal{A} \equiv \mathcal{B}$) iff, for every valuation, their truth values agree, \ie there is no valuation in which they have opposite truth values.
     \hfill\href{https://en.wikipedia.org/wiki/Formal_equivalence_checking}{Equivalence check}
 
     \item $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ are \textbf{consistent} (\textbf{jointly satisfiable}) iff there is \emph{some} valuation which makes them all true. Sentences are \textbf{inconsistent} (\textbf{jointly unsatisfiable}) iff there is \emph{no} valuation that makes them all true.
-    ~\hfill\href{https://en.wikipedia.org/wiki/Consistency}{Consistency}\,/\,\href{https://en.wikipedia.org/wiki/Satisfiability}{Satisfiability}
+    ~\hfill\href{https://en.wikipedia.org/wiki/Consistency}{Consistency}
 
     \item The sentences $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ \textbf{entail} the sentence $\mathcal{C}$ (symbolized as $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n \entails \mathcal{C}$) if there is no valuation which makes all of $\mathcal{A}_1, \mathcal{A}_2, \dotsc, \mathcal{A}_n$ true and $\mathcal{C}$ false.
     \hfill\href{https://en.wikipedia.org/wiki/Logical_consequence#Semantic_consequence}{Semantic entailment}
