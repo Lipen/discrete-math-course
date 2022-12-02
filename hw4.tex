@@ -37,26 +37,26 @@
 \selectlanguage{english}
 
 \begin{tasks}
-    \item Construct complete truth tables for the given sentences. For each sentence, determine if it is a tautology, a contradiction, or a contingency. For each formula, draw its parse tree.
+    % \item Construct complete truth tables for the given sentences. For each sentence, determine if it is a tautology, a contradiction, or a contingency. For each formula, draw its parse tree.
 
-    \begin{multicols}{2}
-    \begin{subtasks}
-        \item $(A \implies B) \iff (B \implies A)$
-        \item $((H \iff H) \implies H) \land \neg(H \implies H)$
-        \item $\neg(R \land S \land T) \iff (R \lor S \lor T)$
-        \item $(P \lor (Q \implies \neg P)) \land (P \implies \neg Q)$
-    \end{subtasks}
-    \end{multicols}
+    % \begin{multicols}{2}
+    % \begin{subtasks}
+    %     \item $(A \implies B) \iff (B \implies A)$
+    %     \item $((H \iff H) \implies H) \land \neg(H \implies H)$
+    %     \item $\neg(R \land S \land T) \iff (R \lor S \lor T)$
+    %     \item $(P \lor (Q \implies \neg P)) \land (P \implies \neg Q)$
+    % \end{subtasks}
+    % \end{multicols}
 
 
     \item For each given set of sentences, determine whether it is logically consistent (jointly satisfiable).
 
     \begin{multicols}{2}
     \begin{subtasks}
-        \item $\neg D,~ (D \lor F),~ \neg F$
-        \item $(T \implies K),~ \neg K,~ (K \lor \neg T)$
-        \item $\neg(A \implies (\neg C \implies B)),~ ((B \lor C) \land A)$
-        \item $(C \implies B),~ (D \lor C),~ \neg B,~ (D \implies B)$
+        \item $\neg D$, $(D \lor F)$, $\neg F$
+        \item $(T \implies K)$, $\neg K$, $(K \lor \neg T)$
+        \item $\neg(A \implies (\neg C \implies B))$, $((B \lor C) \land A)$
+        \item $(C \implies B)$, $(D \lor C)$, $\neg B$, $(D \implies B)$
     \end{subtasks}
     \end{multicols}
 
@@ -108,7 +108,7 @@
 
     \item Symbolize the given arguments with well-formed formulae (WFFs) of propositional logic.
     For each argument, determine its validity using a truth table.
-    For each \textit{valid} argument, provide a deductive formal proof in Fitch notation.
+    For each \textit{valid} argument, provide a deductive formal proof\footnote{You can check your proofs at \url{https://proofs.openlogicproject.org}. However, note that some inference rules may be missing here, \eg contraposition and commutativity \--- nevertheless, you are still allowed to use them in this task.} in Fitch notation.
     For each \textit{invalid} argument, provide a counterexample valuation.
 
     \begin{subtasks}
@@ -142,9 +142,23 @@
     \begin{multicols}{2}
     \begin{subtasks}
         \item $\neg\neg A \therefore A$
-        \item ${} \therefore \neg (A \lor B) \iff (\neg A \land \neg B)$
         \item $((A \implies B) \implies A) \therefore A$
-        \item ${} \therefore (A \implies B) \lor (B \implies A)$
+        \item $(\neg B \implies \neg A) \therefore (A \implies B)$
+        \item $\neg (A \lor B) \therefore (\neg A \land \neg B)$
+        \item $(\neg A \land \neg B) \therefore \neg (A \lor B)$
+        \item $(A \implies B) \land (\neg A \implies B) \therefore B$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item For each given tautology, construct a deductive proof in Fitch notation.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $(A \implies B) \lor (B \implies A)$
+        \item $A \implies (B \implies A)$
+        \item $(\neg B \implies \neg A) \implies ((\neg B \implies A) \implies B)$
+        \item $(A \implies (B \implies C)) \implies ((A \implies B) \implies (A \implies C))$
     \end{subtasks}
     \end{multicols}
 
