@@ -2,6 +2,7 @@
 test*
 hw*
 quest*
+exam*
 
 ## ...except some published homeworks
 !hw1.tex
