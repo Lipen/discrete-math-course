@@ -14,7 +14,7 @@
     {\TextHomeworkEng~\#5}
     {Graph Theory}
     {\TextDiscreteMathEng}
-    {\IconSpring~Spring 2022}
+    {\IconSpring~Spring 2023}
 
 %% Add custom setup below
 
@@ -81,12 +81,12 @@
 
         \item Find all 2-edge-connected components of~$\MyGraphFull$.
 
-        \item Construct an SPQR tree of the largest biconnected component of~$\MyGraph$.
+        % \item Construct an SPQR tree of the largest biconnected component of~$\MyGraph$.
 
-        \item Add the weight function $w : E \to \Real$ denoting the distance\footnote{You may choose geodesic\Href{https://en.wikipedia.org/wiki/Great-circle_distance} or road distance, to your preference. You have to use \emph{more-or-less real} data.} between capitals.
-        Find the minimum (\wrt the total weight of edges) spanning tree $T$ for the largest connected component of the weighted Europe graph $\MyGraphFull_{w} = \Tuple{V, E, w}$.
+        \item Add the weight function $w : E \to \Real$ denoting the distance\footnote{You may choose geodesic\Href{https://en.wikipedia.org/wiki/Great-circle_distance} or road distance, to your preference. You \emph{have} to use \emph{more-or-less real} data.} between capitals.
+        Find the minimum (\wrt the total weight of edges) spanning tree~$T$ for the largest connected component of the weighted Europe graph $\MyGraphFull_{w} = (V, E, w)$.
 
-        \item Find $\graphCentroid{T}$ (\wrt the edge weight function $w$).
+        \item Find $\graphCentroid{T}$ (\wrt the edge weight function~$w$).
 
         \item Construct the Pr\"{u}fer code for $T$.
     \end{subtasks}
@@ -113,6 +113,10 @@
         A connected graph $G = \Pair{V, E}$ is a tree (\ie acyclic graph) \emph{iff} $\card{E} = \card{V} - 1$.
     \end{theorem}
 
+    \begin{theorem}[Hall]
+        For any bipartite graph $G = (X, Y, E)$, there exists $X$-perfect matching (set of disjoint edges covering all vertices in~$X$) \emph{iff} $\card{N(W)} \geq \card{W}$ for every $W \subseteq X$.
+    \end{theorem}
+
     \begin{theorem}[Whitney]
         For any graph $G$: $\vertexConnectivity{G} \leq \edgeConnectivity{G} \leq \minDegree{G}$.
     \end{theorem}
@@ -132,23 +136,29 @@
 \end{tasks}
 
 
+\iffalse
+
 \newpage
-% \fancyhead[C]{\textbf{Minor Cheatsheet}}
 
 \centerline{\textbf{Minor Cheatsheet}}
 
 \begin{terms}
     \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} $G$ is a pair $\Pair{V, E}$ of a set of vertices $V = \Set{v_1,\dotsc,v_n}$ and a set of edges $E = \Set{e_1,\dotsc,e_m}$.
 
-    \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$. Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$.
+    \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$.
 
     \begin{terms}
-        \item $A^k = A \times \dotsb \times A = \Set{\Tuple{x_1,\dotsc,x_k} \given x_1,\dotsc,x_k \in A}$ is the set of $k$-tuples (Cartesian $k$-power of~$A$).
+        \item $A^k = A \times \dots \times A = \Set{(x_1,\dotsc,x_k) \given x_1,\dotsc,x_k \in A}$ is the set of $k$-tuples (Cartesian $k$-power of~$A$).
+    \end{terms}
 
+    \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$.
+
+    \begin{terms}
         \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
     \end{terms}
 
     \item \textbf{Degree}\Href{https://en.wikipedia.org/wiki/Degree_(graph_theory)} $\degree{v}$ of a vertex $v$ is the number of edges indident to $v$ (loops are counted twice).
+
     \begin{terms}
         \item $\minDegree{G} = \min\limits_{v \in V} \degree{v}$ is the \textbf{minimum degree}.
         \item $\maxDegree{G} = \max\limits_{v \in V} \degree{v}$ is the \textbf{maximum degree}.
@@ -157,6 +167,7 @@
     % \item A graph is \textbf{$r$-regular} if all its vertices have the same degree: $\forall v \in V : \degree{v} = r$.
 
     \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges in an arbitrary traversal of a graph.
+
     \begin{terms}
         \item \textbf{Trail} is a walk with distinct edges.
         \item \textbf{Path} is a walk with distinct vertices (and therefore distinct edges).
@@ -188,10 +199,15 @@
     \item Note the distinction between the terms \textbf{maximum} (\enquote{globally}) and \textbf{maximal} (\enquote{locally}):
     \begin{terms}
         \newcommand{\MySet}{A}
+
         \item Some set $\MySet^{*}$ is \textbf{maximum (by cardinality)} if there is no other set $\MySet$ such that $\card{\MySet} > \card{\MySet^{*}}$.
+
         \item Some set $\MySet'$ is \textbf{maximal (by inclusion)} if there is no other set $\MySet$ such that $\MySet \supset \MySet'$.
+
         \item Similarly for \textbf{minimum} / \textbf{minimal}.
     \end{terms}
 \end{terms}
+
+\fi
 
 \end{document}
