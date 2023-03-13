@@ -96,6 +96,14 @@
 
 \begin{terms}
     \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} is an ordered pair $G = \Pair{V, E}$, where $V = \Set{v_1,\dotsc,v_n}$ is a set of vertices, and $E = \Set{e_1,\dotsc,e_m}$ is a set of edges.
+    \begin{terms}
+        \item Given a graph $G$, the notation $V(G)$ denotes the vertices of $G$.
+        \item Given a graph $G$, the notation $E(G)$ denotes the edges of $G$.
+        \item In fact, $V({\cdot})$ and $E({\cdot})$ functions allow to access \enquote{vertices} and \enquote{edges} of any object possessing them (\eg paths).
+    \end{terms}
+
+    \item \textbf{Order} of a graph $G$ is the number of vertices in it: $\card{V(G)}$.
+    \item \textbf{Size} of a graph $G$ is the number of edges in it: $\card{E(G)}$.
 
     \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$, \ie each edge $e_i \in E$ between vertices $u$ and~$v$ is denoted by $\Set{u,v} \in V^{(2)}$.
     Such~\emph{undirected edges} are also called \emph{links} or \emph{lines}.
@@ -471,14 +479,45 @@
 
     \item \textbf{Edge cover}\Href{https://en.wikipedia.org/wiki/Edge_cover} $F \subseteq E$ is a set of edges \enquote{covering} all vertices.
 
+    \item \textbf{Cut vertex} (\textbf{articulation point})\href{https://mathworld.wolfram.com/ArticulationVertex.html} is a vertex whose removal increases the number of connected components.
+
+    \item \textbf{Bridge}\Href{https://en.wikipedia.org/wiki/Bridge_(graph_theory)} is an edge whose removal increases the number of connected components.
+
+    \item \textbf{Biconnected graph}\Href{https://en.wikipedia.org/wiki/Biconnected_graph} is a connected \enquote{nonseparable} graph, which means that the removal of any vertex does not make the graph disconnected. Alternatively, this is a graph without \emph{cut vertices}.
+
+    \item \textbf{Biconnectivity} can be defined as a relation on edges $R \subseteq E^2$:
+    \begin{terms}
+        \item Two edges are called \emph{biconnected} if there exist two \emph{edge-disjoint} paths between the ends of these edges.
+        \item Trivially, this relation is an equivalence relation.
+        \item Equivalence classes of this relation are called \textbf{biconnectivity components}\Href{https://en.wikipedia.org/wiki/Biconnected_component}, also known as \textbf{blocks}.
+    \end{terms}
+
+    \item \textbf{Edge biconnectivity} can be defined as a relation on vertices $R \subseteq V^2$:
+    \begin{terms}
+        \item Two vertices are called \emph{edge-biconnected} if there exist two \emph{internally vertex-disjoint} paths between them.
+        \item Trivially, this relation is an equivalence relation.
+        \item Equivalence classes of this relation are called \textbf{edge biconnectivity components} (or \emph{2-edge-connected components}).
+    \end{terms}
+
     \item \textbf{Vertex connectivity}\Href{https://en.wikipedia.org/wiki/Vertex_connectivity} $\vertexConnectivity{G}$ is the minimum number of vertices that has to be removed in order to make the graph disconnected or trivial (singleton).
     Equivalently, it is the largest~$k$ for which the graph~$G$ is $k$-vertex-connected.
 
     \item \textbf{$k$-vertex-connected graph}\Href{https://en.wikipedia.org/wiki/K-vertex-connected_graph} is a graph that remains connected after less than $k$ vertices are removed, \ie $\vertexConnectivity{G} \geq k$.
     \begin{terms}
         \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-vertex-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{vertex-independent} (\emph{internally vertex-disjoint}) paths between $u$ and~$v$.
+
         \item $k$-vertex-connected graphs are also called simply \emph{$k$-connected}.
-        \item 1-connected graph is called \emph{connected}, 2-connected is \emph{biconnected}, 3-connected is \emph{triconnected}.
+
+        \item 1-connected graphs are called \emph{connected}, 2-connected are \emph{biconnected}, 3-connected are \emph{triconnected}, \textit{etc}.
+
+        \item Note the \enquote{exceptions}:
+        \begin{terms}
+            \item Singleton graph $K_1$ has $\vertexConnectivity{K_1} = 0$, so it is \textbf{not} \emph{1-connected}, but still considered \emph{connected}.
+
+            \item Graph $K_2$ has $\vertexConnectivity{K_2} = 1$, so it is \textbf{not} \emph{2-connected}, but considered \emph{biconnected}, so it can be a block.
+
+            % TODO: what about K_3? Is it considered triconnected?
+        \end{terms}
     \end{terms}
 
     \item \textbf{Edge connectivity}\Href{https://en.wikipedia.org/wiki/Edge_connectivity} $\edgeConnectivity{G}$ is the minimum number of edges that has to be removed in order to make the graph disconnected or trivial (singleton).
@@ -487,6 +526,13 @@
     \item \textbf{$k$-edge-connected graph}\Href{https://en.wikipedia.org/wiki/K-edge-connected_graph} is a graph that remains connected after less than $k$ edges are removed, \ie $\edgeConnectivity{G} \geq k$.
     \begin{terms}
         \item Corollary of Menger's theorem: graph $G = \Pair{V,E}$ is $k$-edge-connected if, for every pair of vertices $u,v \in V$, it is possible to find $k$ \emph{edge-disjoint} paths between $u$ and~$v$.
+
+        \item 2-edge-connected are called \emph{edge-biconnected}, 3-edge-connected are \emph{edge-triconnected}, \textit{etc}.
+
+        \item Note the \enquote{exception}:
+        \begin{terms}
+            \item Singleton graph $K_1$ has $\edgeConnectivity{K_1} = 0$, so it is \textbf{not} \emph{2-edge-connected}, but considered \emph{edge-biconnected}, so it can be a \emph{2-edge-connected component}.
+        \end{terms}
     \end{terms}
 
     \begin{minipage}{\linewidth}
@@ -527,6 +573,18 @@
     \item \textsc{Whitney's theorem}. For any graph $G$, $\vertexConnectivity{G} \leq \edgeConnectivity{G} \leq \minDegree{G}$.
 
     \end{minipage}
+
+    % \begin{tabular}{ccc}
+    %     \thead{Graph} & \thead{Vertex} & \thead{Edge} \\
+
+    %     \begin{tikzpicture}
+    %         \node[dot, label=below:$v_1$] {};
+    %     \end{tikzpicture}
+
+    % \end{tabular}
+
+
+    \newpage
 
     \item \textbf{Tree}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)} is a connected undirected acyclic graph.
     \item \textbf{Forest}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)\#Forest} is an undirected acyclic graph, \ie a disjoint union of trees.
