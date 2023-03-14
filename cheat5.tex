@@ -85,6 +85,9 @@
     },
 }
 
+\colorlet{myred}{Red}
+\colorlet{mygreen}{green!80!black}
+
 
 \begin{document}
 
@@ -473,7 +476,151 @@
 
     \item \textbf{Stable set}\Href{https://en.wikipedia.org/wiki/Independent_set_(graph_theory)} $S \subseteq V$ is a set of independent (pairwise non-adjacent) vertices.
 
+    \medskip
+    \begin{tikzpicture}[
+        baseline,
+        on grid,
+        stable/.style={dot,minimum size=6pt,fill=mygreen},
+        notstable/.style={stable,fill=myred},
+    ]
+        \def\Radius{0.5}
+        \def\HGap{2.5cm}
+        \def\LabelYShift{-3pt}
+
+        \begin{scope}
+            \node[notstable] (v1) at (0:\Radius) {};
+            \node[notstable] (v2) at (60:\Radius) {};
+            \node[dot] (v3) at (120:\Radius) {};
+            \node[dot] (v4) at (180:\Radius) {};
+            \node[notstable] (v5) at (240:\Radius) {};
+            \node[dot] (v6) at (300:\Radius) {};
+            \node[dot] (v7) [left=\Radius of v3] {};
+            \draw[-] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- (v6) -- (v1) (v3) -- (v7);
+            \node[below,align=center] at (0,-\Radius) [yshift=\LabelYShift] {\textcolor{myred}{\textbf{not stable set}}};
+        \end{scope}
+
+        \begin{scope}[xshift=\HGap]
+            \node[stable] (v1) at (0:\Radius) {};
+            \node[dot] (v2) at (60:\Radius) {};
+            \node[dot] (v3) at (120:\Radius) {};
+            \node[stable] (v4) at (180:\Radius) {};
+            \node[dot] (v5) at (240:\Radius) {};
+            \node[dot] (v6) at (300:\Radius) {};
+            \node[dot] (v7) [left=\Radius of v3] {};
+            \draw[-] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- (v6) -- (v1) (v3) -- (v7);
+            \node[below,align=center] at (0,-\Radius) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{stable set}} \\ \textcolor{myred}{not maximal} \\ \textcolor{myred}{not maximum}};
+        \end{scope}
+
+        \begin{scope}[xshift=\HGap*2]
+            \node[stable] (v1) at (0:\Radius) {};
+            \node[dot] (v2) at (60:\Radius) {};
+            \node[stable] (v3) at (120:\Radius) {};
+            \node[dot] (v4) at (180:\Radius) {};
+            \node[stable] (v5) at (240:\Radius) {};
+            \node[dot] (v6) at (300:\Radius) {};
+            \node[dot] (v7) [left=\Radius of v3] {};
+            \draw[-] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- (v6) -- (v1) (v3) -- (v7);
+            \node[below,align=center] at (0,-\Radius) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{stable set}} \\ \textcolor{mygreen}{maximal} \\ \textcolor{myred}{not maximum}};
+        \end{scope}
+
+        \begin{scope}[xshift=\HGap*3]
+            \node[dot] (v1) at (0:\Radius) {};
+            \node[stable] (v2) at (60:\Radius) {};
+            \node[dot] (v3) at (120:\Radius) {};
+            \node[stable] (v4) at (180:\Radius) {};
+            \node[dot] (v5) at (240:\Radius) {};
+            \node[stable] (v6) at (300:\Radius) {};
+            \node[stable] (v7) [left=\Radius of v3] {};
+            \draw[-] (v1) -- (v2) -- (v3) -- (v4) -- (v5) -- (v6) -- (v1) (v3) -- (v7);
+            \node[below,align=center] at (0,-\Radius) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{stable set}} \\ \textcolor{mygreen}{maximal} \\ \textcolor{mygreen}{maximum}};
+        \end{scope}
+    \end{tikzpicture}
+
     \item \textbf{Matching}\Href{https://en.wikipedia.org/wiki/Matching_(graph_theory)} $M \subseteq E$ is a set of independent (pairwise non-adjacent) edges.
+
+    \medskip
+    \begin{tikzpicture}[
+        baseline,
+        on grid,
+        matching/.style={mygreen,line width=3pt},
+        notmatching/.style={myred,line width=2.5pt},
+    ]
+        \def\Side{0.6}
+        \def\HGap{2.5cm}
+        \def\LabelX{1.5*\Side}
+        \def\LabelY{0}
+        \def\LabelYShift{-3pt}
+
+        \begin{scope}
+            \node[dot] (v1) at (0,0) {};
+            \node[dot] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[dot] (v4) at (3*\Side,0) {};
+            \node[dot] (v5) at (0.5*\Side,\Side) {};
+            \node[dot] (v6) at (1.5*\Side,\Side) {};
+            \draw (v1) -- (v2);
+            \draw[notmatching] (v1) -- (v5);
+            \draw[notmatching] (v2) -- (v3);
+            \draw[notmatching] (v2) -- (v6);
+            \draw (v3) -- (v4);
+            \draw[notmatching] (v3) -- (v6);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{myred}{\textbf{not matching}}};
+        \end{scope}
+
+        \begin{scope}[xshift=1*\HGap]
+            \node[dot] (v1) at (0,0) {};
+            \node[dot] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[dot] (v4) at (3*\Side,0) {};
+            \node[dot] (v5) at (0.5*\Side,\Side) {};
+            \node[dot] (v6) at (1.5*\Side,\Side) {};
+            \draw[matching] (v1) -- (v2);
+            \draw (v1) -- (v5);
+            \draw (v2) -- (v3);
+            \draw (v2) -- (v6);
+            \draw (v3) -- (v4);
+            \draw (v3) -- (v6);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{matching}} \\ \textcolor{myred}{not maximal} \\ \textcolor{myred}{not maximum}};
+        \end{scope}
+
+        \begin{scope}[xshift=2*\HGap]
+            \node[dot] (v1) at (0,0) {};
+            \node[dot] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[dot] (v4) at (3*\Side,0) {};
+            \node[dot] (v5) at (0.5*\Side,\Side) {};
+            \node[dot] (v6) at (1.5*\Side,\Side) {};
+            \draw (v1) -- (v2);
+            \draw (v1) -- (v5);
+            \draw[matching] (v2) -- (v3);
+            \draw (v2) -- (v6);
+            \draw (v3) -- (v4);
+            \draw (v3) -- (v6);
+            \draw[matching] (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{matching}} \\ \textcolor{mygreen}{maximal} \\ \textcolor{myred}{not maximum}};
+        \end{scope}
+
+        \begin{scope}[xshift=3*\HGap]
+            \node[dot] (v1) at (0,0) {};
+            \node[dot] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[dot] (v4) at (3*\Side,0) {};
+            \node[dot] (v5) at (0.5*\Side,\Side) {};
+            \node[dot] (v6) at (1.5*\Side,\Side) {};
+            \draw (v1) -- (v2);
+            \draw[matching] (v1) -- (v5);
+            \draw (v2) -- (v3);
+            \draw[matching] (v2) -- (v6);
+            \draw[matching] (v3) -- (v4);
+            \draw (v3) -- (v6);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{matching}} \\ \textcolor{mygreen}{maximal} \\ \textcolor{mygreen}{maximum}};
+        \end{scope}
+    \end{tikzpicture}
+
+    \item \textbf{Perfect matching}\Href{https://en.wikipedia.org/wiki/Perfect_matching} is a matching that covers all vertices in the graph.
 
     \item \textbf{Vertex cover}\Href{https://en.wikipedia.org/wiki/Vertex_cover} $R \subseteq V$ is a set of vertices \enquote{covering} all edges.
 
