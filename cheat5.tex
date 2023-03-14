@@ -65,7 +65,6 @@
         shape=circle,
         minimum size=4pt,
         inner sep=0pt,
-        outer sep=0pt,
     },
     circ/.style = {
         draw,
@@ -73,7 +72,6 @@
         shape=circle,
         minimum size=4pt,
         inner sep=0pt,
-        outer sep=0pt,
     },
     position/.style args={#1:#2 from #3}{
         at=(#3.#1), anchor=#1+180, shift=(#1:#2)
@@ -86,7 +84,8 @@
 }
 
 \colorlet{myred}{Red}
-\colorlet{mygreen}{green!80!black}
+\colorlet{mygreen}{green!70!black}
+\colorlet{myblue}{RoyalBlue}
 
 
 \begin{document}
@@ -480,12 +479,19 @@
     \begin{tikzpicture}[
         baseline,
         on grid,
-        stable/.style={dot,minimum size=6pt,fill=mygreen},
+        stable/.style={
+            circ,
+            minimum size=11pt,
+            fill=mygreen,
+            fill opacity=0.2,
+            % label={center:\scriptsize\faCat}
+            label={center:\scriptsize\faBiohazard}
+        },
         notstable/.style={stable,fill=myred},
     ]
         \def\Radius{0.5}
         \def\HGap{2.5cm}
-        \def\LabelYShift{-3pt}
+        \def\LabelYShift{-4pt}
 
         \begin{scope}
             \node[notstable] (v1) at (0:\Radius) {};
@@ -549,7 +555,7 @@
         \def\HGap{2.5cm}
         \def\LabelX{1.5*\Side}
         \def\LabelY{0}
-        \def\LabelYShift{-3pt}
+        \def\LabelYShift{-4pt}
 
         \begin{scope}
             \node[dot] (v1) at (0,0) {};
@@ -624,7 +630,96 @@
 
     \item \textbf{Vertex cover}\Href{https://en.wikipedia.org/wiki/Vertex_cover} $R \subseteq V$ is a set of vertices \enquote{covering} all edges.
 
+    \medskip
+    \begin{tikzpicture}[
+        baseline,
+        on grid,
+        % cover/.style={dot,minimum size=6pt,fill=mygreen},
+        cover/.style={
+            circ,
+            minimum size=11pt,
+            fill=mygreen,
+            fill opacity=0.2,
+            label={center:\scriptsize\faEye[regular]}
+        },
+        notcover/.style={cover,fill=myred},
+        % covered/.style={mygreen,line width=2pt},
+        notcovered/.style={myred,line width=2pt},
+    ]
+        \def\Side{0.8}
+        \def\HGap{2.5cm}
+        \def\LabelX{\Side}
+        \def\LabelY{0}
+        \def\LabelYShift{-6pt}
+
+        \begin{scope}
+            \node[dot] (v1) at (0,0) {};
+            \node[notcover] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[notcover] (v4) at (0,\Side) {};
+            \node[dot] (v5) at (\Side,\Side) {};
+            \node[notcover] (v6) at (2*\Side,\Side) {};
+            \draw (v1) -- (v4);
+            \draw[notcovered] (v1) -- (v5);
+            \draw (v2) -- (v5);
+            \draw[notcovered] (v3) -- (v5);
+            \draw (v4) -- (v5);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{myred}{\textbf{not vertex cover}}};
+        \end{scope}
+
+        \begin{scope}[xshift=1*\HGap]
+            \node[cover] (v1) at (0,0) {};
+            \node[cover] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[dot] (v4) at (0,\Side) {};
+            \node[cover] (v5) at (\Side,\Side) {};
+            \node[cover] (v6) at (2*\Side,\Side) {};
+            \draw (v1) -- (v4);
+            \draw (v1) -- (v5);
+            \draw (v2) -- (v5);
+            \draw (v3) -- (v5);
+            \draw (v4) -- (v5);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{vertex cover}} \\ \textcolor{myred}{not minimal} \\ \textcolor{myred}{not minimum}};
+        \end{scope}
+
+        \begin{scope}[xshift=2*\HGap]
+            \node[cover] (v1) at (0,0) {};
+            \node[cover] (v2) at (\Side,0) {};
+            \node[cover] (v3) at (2*\Side,0) {};
+            \node[cover] (v4) at (0,\Side) {};
+            \node[dot] (v5) at (\Side,\Side) {};
+            \node[cover] (v6) at (2*\Side,\Side) {};
+            \draw (v1) -- (v4);
+            \draw (v1) -- (v5);
+            \draw (v2) -- (v5);
+            \draw (v3) -- (v5);
+            \draw (v4) -- (v5);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{vertex cover}} \\ \textcolor{mygreen}{minimal} \\ \textcolor{myred}{not minimum}};
+        \end{scope}
+
+        \begin{scope}[xshift=3*\HGap]
+            \node[cover] (v1) at (0,0) {};
+            \node[dot] (v2) at (\Side,0) {};
+            \node[dot] (v3) at (2*\Side,0) {};
+            \node[dot] (v4) at (0,\Side) {};
+            \node[cover] (v5) at (\Side,\Side) {};
+            \node[dot] (v6) at (2*\Side,\Side) {};
+            \draw (v1) -- (v4);
+            \draw (v1) -- (v5);
+            \draw (v2) -- (v5);
+            \draw (v3) -- (v5);
+            \draw (v4) -- (v5);
+            \draw (v5) -- (v6);
+            \node[below,align=center] at (\LabelX,\LabelY) [yshift=\LabelYShift] {\textcolor{mygreen}{\textbf{vertex cover}} \\ \textcolor{mygreen}{minimal} \\ \textcolor{mygreen}{minimum}};
+        \end{scope}
+    \end{tikzpicture}
+
     \item \textbf{Edge cover}\Href{https://en.wikipedia.org/wiki/Edge_cover} $F \subseteq E$ is a set of edges \enquote{covering} all vertices.
+
+    % TODO: section
 
     \item \textbf{Cut vertex} (\textbf{articulation point})\href{https://mathworld.wolfram.com/ArticulationVertex.html} is a vertex whose removal increases the number of connected components.
 
@@ -731,7 +826,8 @@
     % \end{tabular}
 
 
-    \newpage
+    % \newpage
+    % TODO: section
 
     \item \textbf{Tree}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)} is a connected undirected acyclic graph.
     \item \textbf{Forest}\Href{https://en.wikipedia.org/wiki/Tree_(graph_theory)\#Forest} is an undirected acyclic graph, \ie a disjoint union of trees.
