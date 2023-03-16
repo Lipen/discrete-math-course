@@ -1,26 +1,61 @@
 = Discrete Math
 
+image:https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml/badge.svg?branch=master["Build",link="https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml"]
+
 > This repo contains some supplementary materials for the Discrete Math course at ITMO University.
 
 == Rendered
 
-:url-template: https://texlive2020.latexonline.cc/compile?git=https://github.com/Lipen/discrete-math-course&command=pdflatex&target=
+[%autowidth]
+|===
+^|Cheatsheets ^|Homeworks
 
-=== Cheatsheets
+|image:https://img.shields.io/badge/Cheatsheet 1-Set Theory-blue?style=social&logo=gitbook["Cheatsheet 1: Set Theory", link="https://lipen.github.io/discrete-math-course/cheat1.pdf"]
+|image:https://img.shields.io/badge/Homework 1-Set Theory-blue?style=social&logo=gitbook["Homework 1: Set Theory", link="https://lipen.github.io/discrete-math-course/hw1.pdf"]
 
-- {url-template}cheat1.tex[Cheatsheet 1: Set Theory]
-- {url-template}cheat2.tex[Cheatsheet 2: Binary Relations]
-- {url-template}cheat3.tex[Cheatsheet 3: Formal Logic]
-- {url-template}cheat4.tex[Cheatsheet 4: Boolean Algebra]
-- {url-template}cheat5.tex[Cheatsheet 5: Graph Theory]
-- {url-template}cheat6.tex[Cheatsheet 6: Combinatorics]
+|image:https://img.shields.io/badge/Cheatsheet 2-Binary Relations-blue?style=social&logo=gitbook["Cheatsheet 2: Binary Relations", link="https://lipen.github.io/discrete-math-course/cheat2.pdf"]
+|image:https://img.shields.io/badge/Homework 2-Binary Relations-blue?style=social&logo=gitbook["Homework 2: Binary Relations", link="https://lipen.github.io/discrete-math-course/hw2.pdf"]
 
-=== Homeworks
+|image:https://img.shields.io/badge/Cheatsheet 3-Formal Logic-blue?style=social&logo=gitbook["Cheatsheet 3: Formal Logic", link="https://lipen.github.io/discrete-math-course/cheat3.pdf"]
+|image:https://img.shields.io/badge/Homework 3-Formal Logic-blue?style=social&logo=gitbook["Homework 3: Formal Logic", link="https://lipen.github.io/discrete-math-course/hw3.pdf"]
 
-- {url-template}hw1.tex[Homework 1: Set Theory]
-- {url-template}hw2.tex[Homework 2: Binary Relations]
-- {url-template}hw3.tex[Homework 3: Formal Logic]
-- {url-template}hw4.tex[Homework 4: Boolean Algebra]
-- {url-template}hw5.tex[Homework 5: Graph Theory]
-- {url-template}hw6.tex[Homework 6: Combinatorics]
-- {url-template}hw7.tex[Homework 7: Recurrences]
+|image:https://img.shields.io/badge/Cheatsheet 4-Boolean Algebra-blue?style=social&logo=gitbook["Cheatsheet 4: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/cheat4.pdf"]
+|image:https://img.shields.io/badge/Homework 4-Boolean Algebra-blue?style=social&logo=gitbook["Homework 4: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/hw4.pdf"]
+
+|image:https://img.shields.io/badge/Cheatsheet 5-Graph Theory-blue?style=social&logo=gitbook["Cheatsheet 5: Graph Theory", link="https://lipen.github.io/discrete-math-course/cheat5.pdf"]
+|image:https://img.shields.io/badge/Homework 5-Graph Theory-blue?style=social&logo=gitbook["Homework 5: Graph Theory", link="https://lipen.github.io/discrete-math-course/hw5.pdf"]
+
+|image:https://img.shields.io/badge/Cheatsheet 6-Combinatorics-blue?style=social&logo=gitbook["Cheatsheet 6: Combinatorics", link="https://lipen.github.io/discrete-math-course/cheat6.pdf"]
+|image:https://img.shields.io/badge/Homework 6-Combinatorics-blue?style=social&logo=gitbook["Homework 6: Combinatorics", link="https://lipen.github.io/discrete-math-course/hw6.pdf"]
+
+|
+|image:https://img.shields.io/badge/Homework 7-Recurrences-blue?style=social&logo=gitbook["Homework 7: Recurrences", link="https://lipen.github.io/discrete-math-course/hw7.pdf"]
+|===
+
+// :url-template: https://lipen.github.io/discrete-math-course/
+//
+// === Cheatsheets
+// - {url-template}cheat1.tex[Cheatsheet 1: Set Theory]
+// - {url-template}cheat2.tex[Cheatsheet 2: Binary Relations]
+// - {url-template}cheat3.tex[Cheatsheet 3: Formal Logic]
+// - {url-template}cheat4.tex[Cheatsheet 4: Boolean Algebra]
+// - {url-template}cheat5.tex[Cheatsheet 5: Graph Theory]
+// - {url-template}cheat6.tex[Cheatsheet 6: Combinatorics]
+//
+// === Homeworks
+// - {url-template}hw1.tex[Homework 1: Set Theory]
+// - {url-template}hw2.tex[Homework 2: Binary Relations]
+// - {url-template}hw3.tex[Homework 3: Formal Logic]
+// - {url-template}hw4.tex[Homework 4: Boolean Algebra]
+// - {url-template}hw5.tex[Homework 5: Graph Theory]
+// - {url-template}hw6.tex[Homework 6: Combinatorics]
+// - {url-template}hw7.tex[Homework 7: Recurrences]
+
+== Build
+
+To compile the PDFs from the source code, you can use link:https://mg.readthedocs.io/latexmk.html[Latexmk]:
+
+[source]
+----
+latexmk -pdf cheat1.tex
+----
