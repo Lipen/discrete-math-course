@@ -14,10 +14,8 @@ jobs:
       - name: Build LaTeX project and generate PDFs
         uses: xu-cheng/latex-action@v2
         with:
+          root_file: "*.tex"
           glob_root_file: true
-          root_file: |
-            "cheat*.tex"
-            "hw*.tex"
 
       - name: Upload PDFs as artifact
         uses: actions/upload-artifact@v3
