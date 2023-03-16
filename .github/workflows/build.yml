@@ -1,0 +1,37 @@
+name: Build
+run-name: Render PDFs
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: nschloe/action-cached-lfs-checkout@v1
+
+      - name: Build LaTeX project and generate PDFs
+        uses: xu-cheng/latex-action@v2
+        with:
+          glob_root_file: true
+          root_file: |
+            "cheat*.tex"
+            "hw*.tex"
+
+      - name: Upload PDFs as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: PDF
+          path: "*.pdf"
+
+      - name: Prepare files for gh-pages
+        run: |
+          mkdir -p out
+          mv *.pdf out/
+
+      - name: Publish PDFs to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
