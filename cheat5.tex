@@ -541,8 +541,8 @@
     \begin{tikzpicture}[
         baseline,
         on grid,
-        matching/.style={mygreen,line width=2.5pt},
-        notmatching/.style={myred,line width=2pt},
+        matching/.style={mygreen,draw opacity=0.7,line width=3pt},
+        notmatching/.style={matching,myred},
     ]
         \def\Side{0.6}
         \def\HGap{2.5cm}
@@ -717,8 +717,8 @@
     \begin{tikzpicture}[
         baseline,
         on grid,
-        cover/.style={mygreen,line width=2.5pt},
-        notcover/.style={myred,line width=2pt},
+        cover/.style={mygreen,draw opacity=0.7,line width=3pt},
+        notcover/.style={cover,myred},
     ]
         \def\Side{0.6}
         \def\HGap{2.5cm}
@@ -929,19 +929,39 @@
 
     \item \textsc{Cayley's formula}\Href{https://en.wikipedia.org/wiki/Cayley's_formula}. Number of labeled trees on $n$ vertices is $n^{n-2}$.
 
+    % Group for Prufer code definition
+    \begingroup
+
+    \colorlet{color-min}{red}
+    \colorlet{color-parent}{blue}
+    \colorlet{color-removed}{lightgray}
+    \colorlet{color-last}{green!70!black}
+
     \item \textbf{Pr\"{u}fer code}\Href{https://en.wikipedia.org/wiki/Prufer_sequence} is a unique sequence of labels $\Set{1,\dotsc,n}$ of length $(n-2)$ associated with the labeled tree on $n$ vertices.
     \begin{terms}
         \item \textbf{\textsc{Encoding}} (iterative algorithm for converting tree $T$ labeled with $\Set{1,\dotsc,n}$ into a Pr\"{u}fer sequence $K$):
         \begin{terms}
-            \item On each iteration, remove the leaf with \textcolor{red}{\emph{the smallest label}}, and extend $K$ with \textcolor{blue}{\emph{a single neighbour}} of this leaf.
-            \item After $(n-2)$ iterations, the tree will be left with two adjacent vertices \--- there is no need to encode them, because there is only one unique tree on 2 vertices, which requires 0 bits of information to encode.
+            \item On each iteration, remove the leaf with \textcolor{color-min}{\emph{the smallest label}}, and extend $K$ with \textcolor{color-parent}{\emph{a single neighbour}} of this leaf.
+            \item After $(n-2)$ iterations, the tree will be left with \textcolor{color-last}{\emph{two adjacent}} vertices \--- there is no need to encode them, because there is only one unique tree on 2 vertices, which requires 0 bits of information to encode.
         \end{terms}
 
+        % Group for Prufer code pictures
         \begingroup
+
         \def\Dist{.5}
         \def\LabelY{-0.9}
 
-        \tikz[baseline]{
+        \tikzstyle{prufer}=[
+            dot-removed/.style={dot,color-removed},
+            dot-parent/.style={dot,color-parent},
+            dot-min/.style={dot,color-min},
+            dot-last/.style={dot,color-last},
+            edge-removed/.style={color-removed,dashed},
+            edge-min/.style={color-min,very thick},
+            edge-last/.style={color-last,very thick},
+        ]
+
+        \tikz[baseline,prufer]{
             \node[dot] (2) [label={2}] {};
             \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
@@ -958,15 +978,15 @@
             \node at (0,\LabelY) {$K = \emptyset$};
         }%
         \hfill%
-        \tikz[baseline]{
+        \tikz[baseline,prufer]{
             \node[dot] (2) [label={2}] {};
             \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
-            \node[dot,blue] (5) [label={[text=blue]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,red] (1) [label={[text=red]1}, position=180:{\Dist} from 5] {};
+            \node[dot-parent] (5) [label={[text=color-parent]5}, position=-120:{\Dist} from 2] {};
+            \node[dot-min] (1) [label={[text=color-min]1}, position=180:{\Dist} from 5] {};
             \node[dot] (4) [label={4}, position=120:{\Dist} from 5] {};
-            \draw[red] (1) -- (5);
+            \draw[edge-min] (1) -- (5);
             \draw (4) -- (5);
             \draw (5) -- (2);
             \draw (2) -- (7);
@@ -975,16 +995,16 @@
             \node at (0,\LabelY) {$K = \mathcolor{blue}{5}$};
         }%
         \hfill%
-        \tikz[baseline]{
+        \tikz[baseline,prufer]{
             \node[dot] (2) [label={2}] {};
             \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
-            \node[dot,blue] (5) [label={[text=blue]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
-            \node[dot,red] (4) [label={[text=red]4}, position=120:{\Dist} from 5] {};
-            \draw[lightgray,dashed] (1) -- (5);
-            \draw[red] (4) -- (5);
+            \node[dot-parent] (5) [label={[text=color-parent]5}, position=-120:{\Dist} from 2] {};
+            \node[dot-removed] (1) [label={[text=color-removed]1}, position=180:{\Dist} from 5] {};
+            \node[dot-min] (4) [label={[text=color-min]4}, position=120:{\Dist} from 5] {};
+            \draw[edge-removed] (1) -- (5);
+            \draw[edge-min] (4) -- (5);
             \draw (5) -- (2);
             \draw (2) -- (7);
             \draw (2) -- (3);
@@ -992,71 +1012,71 @@
             \node at (0,\LabelY) {$K = 5\mathcolor{blue}{5}$};
         }%
         \hfill%
-        \tikz[baseline]{
-            \node[dot,blue] (2) [label={[text=blue]2}] {};
+        \tikz[baseline,prufer]{
+            \node[dot-parent] (2) [label={[text=color-parent]2}] {};
             \node[dot] (3) [label={3}, position=30:{\Dist} from 2] {};
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
             \node[dot] (6) [label={6}, position=-60:{\Dist} from 3] {};
-            \node[dot,red] (5) [label={[text=red]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
-            \draw[lightgray,dashed] (1) -- (5);
-            \draw[lightgray,dashed] (4) -- (5);
-            \draw[red] (5) -- (2);
+            \node[dot-min] (5) [label={[text=color-min]5}, position=-120:{\Dist} from 2] {};
+            \node[dot-removed] (1) [label={[text=color-removed]1}, position=180:{\Dist} from 5] {};
+            \node[dot-removed] (4) [label={[text=color-removed]4}, position=120:{\Dist} from 5] {};
+            \draw[edge-removed] (1) -- (5);
+            \draw[edge-removed] (4) -- (5);
+            \draw[edge-min] (5) -- (2);
             \draw (2) -- (7);
             \draw (2) -- (3);
             \draw (3) -- (6);
             \node at (0,\LabelY) {$K = 55\mathcolor{blue}{2}$};
         }%
         \hfill%
-        \tikz[baseline]{
+        \tikz[baseline,prufer]{
             \node[dot] (2) [label={2}] {};
-            \node[dot,blue] (3) [label={[text=blue]3}, position=30:{\Dist} from 2] {};
+            \node[dot-parent] (3) [label={[text=color-parent]3}, position=30:{\Dist} from 2] {};
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
-            \node[dot,red] (6) [label={[text=red]6}, position=-60:{\Dist} from 3] {};
-            \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
-            \draw[lightgray,dashed] (1) -- (5);
-            \draw[lightgray,dashed] (4) -- (5);
-            \draw[lightgray,dashed] (5) -- (2);
+            \node[dot-min] (6) [label={[text=color-min]6}, position=-60:{\Dist} from 3] {};
+            \node[dot-removed] (5) [label={[text=color-removed]5}, position=-120:{\Dist} from 2] {};
+            \node[dot-removed] (1) [label={[text=color-removed]1}, position=180:{\Dist} from 5] {};
+            \node[dot-removed] (4) [label={[text=color-removed]4}, position=120:{\Dist} from 5] {};
+            \draw[edge-removed] (1) -- (5);
+            \draw[edge-removed] (4) -- (5);
+            \draw[edge-removed] (5) -- (2);
             \draw (2) -- (7);
             \draw (2) -- (3);
-            \draw[red] (3) -- (6);
+            \draw[edge-min] (3) -- (6);
             \node at (0,\LabelY) {$K = 552\mathcolor{blue}{3}$};
         }%
         \hfill%
-        \tikz[baseline]{
-            \node[dot,blue] (2) [label={[text=blue]2}] {};
-            \node[dot,red] (3) [label={[text=red]3}, position=30:{\Dist} from 2] {};
+        \tikz[baseline,prufer]{
+            \node[dot-parent] (2) [label={[text=color-parent]2}] {};
+            \node[dot-min] (3) [label={[text=color-min]3}, position=30:{\Dist} from 2] {};
             \node[dot] (7) [label={7}, position=-60:{\Dist} from 2] {};
-            \node[dot,lightgray] (6) [label={[text=lightgray]6}, position=-60:{\Dist} from 3] {};
-            \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
-            \draw[lightgray,dashed] (1) -- (5);
-            \draw[lightgray,dashed] (4) -- (5);
-            \draw[lightgray,dashed] (5) -- (2);
+            \node[dot-removed] (6) [label={[text=color-removed]6}, position=-60:{\Dist} from 3] {};
+            \node[dot-removed] (5) [label={[text=color-removed]5}, position=-120:{\Dist} from 2] {};
+            \node[dot-removed] (1) [label={[text=color-removed]1}, position=180:{\Dist} from 5] {};
+            \node[dot-removed] (4) [label={[text=color-removed]4}, position=120:{\Dist} from 5] {};
+            \draw[edge-removed] (1) -- (5);
+            \draw[edge-removed] (4) -- (5);
+            \draw[edge-removed] (5) -- (2);
             \draw (2) -- (7);
-            \draw[red] (2) -- (3);
-            \draw[lightgray,dashed] (3) -- (6);
+            \draw[edge-min] (2) -- (3);
+            \draw[edge-removed] (3) -- (6);
             \node at (0,\LabelY) {$K = 5523\mathcolor{blue}{2}$};
         }%
         \hfill%
-        \tikz[baseline]{
-            \node[dot,blue] (2) [label={[text=blue]2}] {};
-            \node[dot,lightgray] (3) [label={[text=lightgray]3}, position=30:{\Dist} from 2] {};
-            \node[dot,blue] (7) [label={[text=blue]7}, position=-60:{\Dist} from 2] {};
-            \node[dot,lightgray] (6) [label={[text=lightgray]6}, position=-60:{\Dist} from 3] {};
-            \node[dot,lightgray] (5) [label={[text=lightgray]5}, position=-120:{\Dist} from 2] {};
-            \node[dot,lightgray] (1) [label={[text=lightgray]1}, position=180:{\Dist} from 5] {};
-            \node[dot,lightgray] (4) [label={[text=lightgray]4}, position=120:{\Dist} from 5] {};
-            \draw[lightgray,dashed] (1) -- (5);
-            \draw[lightgray,dashed] (4) -- (5);
-            \draw[lightgray,dashed] (5) -- (2);
-            \draw[blue] (2) -- (7);
-            \draw[lightgray,dashed] (2) -- (3);
-            \draw[lightgray,dashed] (3) -- (6);
+        \tikz[baseline,prufer]{
+            \node[dot-last] (2) [label={[text=color-last]2}] {};
+            \node[dot-removed] (3) [label={[text=color-removed]3}, position=30:{\Dist} from 2] {};
+            \node[dot-last] (7) [label={[text=color-last]7}, position=-60:{\Dist} from 2] {};
+            \node[dot-removed] (6) [label={[text=color-removed]6}, position=-60:{\Dist} from 3] {};
+            \node[dot-removed] (5) [label={[text=color-removed]5}, position=-120:{\Dist} from 2] {};
+            \node[dot-removed] (1) [label={[text=color-removed]1}, position=180:{\Dist} from 5] {};
+            \node[dot-removed] (4) [label={[text=color-removed]4}, position=120:{\Dist} from 5] {};
+            \draw[edge-removed] (1) -- (5);
+            \draw[edge-removed] (4) -- (5);
+            \draw[edge-removed] (5) -- (2);
+            \draw[edge-last] (2) -- (7);
+            \draw[edge-removed] (2) -- (3);
+            \draw[edge-removed] (3) -- (6);
             \node at (0,\LabelY) {$K = \underline{55232}$};
         }
 
@@ -1075,8 +1095,9 @@
             \item After $(n-2)$ iterations, the sequence $K$ will be empty, and the set $W$ will contain exactly two vertices \--- connect them with an edge.
         \end{terms}
 
-        % TODO: visualization
+        % TODO: visualization of decoding?
     \end{terms}
+    \endgroup
 
     % \item \textit{To be continued...}
 
