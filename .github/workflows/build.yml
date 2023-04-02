@@ -23,13 +23,19 @@ jobs:
           name: PDF
           path: "*.pdf"
 
+      - name: Upload PDFs as release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: current
+          files: "*.pdf"
+
       - name: Prepare files for gh-pages
         run: |
-          mkdir -p out
-          mv *.pdf out/
+          mkdir -p public
+          mv *.pdf public/
 
       - name: Publish PDFs to gh-pages branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
+          publish_dir: ./public
