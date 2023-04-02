@@ -26,6 +26,8 @@ jobs:
       - name: Upload PDFs as release
         uses: softprops/action-gh-release@v1
         with:
+          body: Current state of PDFs
+          name: Latest PDFs
           tag_name: current
           files: "*.pdf"
 
