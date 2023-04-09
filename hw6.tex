@@ -82,12 +82,12 @@
 
 \begin{tasks}
     \item Find the number of different 5-digit numbers using digits 1--9 under the given constraints.
-    For each case, provide representative examples of (non-)complying numbers (\eg 12345 and 52814 are suitable for~(b), but 44521 and 935 are~not) and derive a generic\footnote{Here, \enquote{generic formula} means \enquote{depending on the input data}. In this particular example, $n = 9$ and $k = 5$, but the sought formula must also be valid for all other (adequate) values of~$n$ and~$k$.} formula.
+    For each case, provide representative examples of (non-)complying numbers (\eg 12345 and 52814 are suitable for~\ref{item:digits-cannot-be-repeated}, but 44521 and 935 are~not) and derive a generic\footnote{Here, \enquote{generic formula} means \enquote{depending on the input data}. In this particular example, $n = 9$ and $k = 5$, but the sought formula must also be valid for all other (adequate) values of~$n$ and~$k$.} formula.
     Try to express the formula using standard combinatorial terms, \eg $k$-combs $C_n^k$ and $k$-perms $P(n,k)$.
     \begin{subtasks}
         \item Digits \emph{can} be repeated.
 
-        \item Digits \emph{cannot} be repeated.
+        \item\label{item:digits-cannot-be-repeated} Digits \emph{cannot} be repeated.
 
         \item Digits \emph{can} be repeated and must be written in \emph{non-increasing}\footnote{A sequence $(x_n)$ is said to be \emph{strictly monotonically increasing} if each term is \emph{strictly greater} than the previous one, \ie $x_{i} < x_{i+1}$. A sequence $(x_n)$ is called \emph{non-increasing} if each term is \emph{less than or equal} to the previous one, \ie $x_{i} \geq x_{i+1}$.} order.
 
