@@ -419,7 +419,7 @@
 \newcommand\Real{\mathbb{R}}
 
 %% Big operators factory
-\newcommand\newbigop[2]{%
+\newcommand\newbigop[2]{% {<name>}{<symbol>}
     \expandafter\newcommand\csname big#1\endcsname[1]{%
         #2\limits_{##1}}
     \expandafter\newcommand\csname big#1nolim\endcsname[1]{%
