@@ -420,15 +420,15 @@
 
 %% Big operators factory
 \newcommand\newbigop[2]{% {<name>}{<symbol>}
-    \expandafter\newcommand\csname big#1\endcsname[1]{%
-        #2\limits_{##1}}
-    \expandafter\newcommand\csname big#1nolim\endcsname[1]{%
-        #2\nolimits_{##1}}
-    \expandafter\newcommand\csname big#1clap\endcsname[1]{%
+    \expandafter\newcommand\csname big#1\endcsname{%
+        #2\limits}
+    \expandafter\newcommand\csname big#1nolim\endcsname{%
+        #2\nolimits}
+    \expandafter\newcommand\csname big#1clap\endcsname[1]{% {<sub>}
         #2\limits_{\mathclap{##1}}}
-    \expandafter\newcommand\csname big#1smashl\endcsname[1]{%
+    \expandafter\newcommand\csname big#1smashl\endcsname[1]{% {<sub>}
         \smashoperator[l]{#2_{##1}}}
-    \expandafter\newcommand\csname big#1smashr\endcsname[1]{%
+    \expandafter\newcommand\csname big#1smashr\endcsname[1]{% {<sub>}
         \smashoperator[r]{#2_{##1}}}
 }
 %% Big operators
@@ -436,8 +436,8 @@
 \newbigop{lor}{\bigvee}
 \newbigop{union}{\bigcup}
 \newbigop{intersection}{\bigcap}
-\newbigop{sum}{\sum}
 \newbigop{xor}{\bigoplus}
+\newbigop{sum}{\sum}
 
 %% Set declaration syntax (from mathtools manual)
 \providecommand\given{}

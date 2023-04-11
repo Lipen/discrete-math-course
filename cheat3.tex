@@ -84,24 +84,24 @@
 \begin{terms}
     \item \emph{Disjunctive} forms:
     \begin{terms}
-        \item \textbf{Cube} is a conjunction of literals: $\mathcal{T} = \biglandnolim{i} \mathcal{L}_i$.
+        \item \textbf{Cube} is a conjunction of literals: $\mathcal{T} = \bigland\nolimits_{i} \mathcal{L}_i$.
 
-        \item Formula is in \textbf{disjunctive normal form (DNF)}\Href{https://en.wikipedia.org/wiki/Disjunctive_normal_form} if it is a disjunction of terms: $\textrm{DNF} = \biglornolim{i} \mathcal{T}_i$.
+        \item Formula is in \textbf{disjunctive normal form (DNF)}\Href{https://en.wikipedia.org/wiki/Disjunctive_normal_form} if it is a disjunction of terms: $\textrm{DNF} = \biglor\nolimits_{i} \mathcal{T}_i$.
 
         \item \textbf{Minterm} is conjunction of literals, where \emph{each} variable appears \emph{once}, \eg $m_6 = (A \land B \land \neg C)$.
 
-        \item Formula is in \textbf{canonical DNF (CDNF)}\Href{https://en.wikipedia.org/wiki/Canonical_disjunctive_normal_form} if it is a disjunction of minterms: $\textrm{CDNF} = \biglornolim{i} m_i$.
+        \item Formula is in \textbf{canonical DNF (CDNF)}\Href{https://en.wikipedia.org/wiki/Canonical_disjunctive_normal_form} if it is a disjunction of minterms: $\textrm{CDNF} = \biglor\nolimits_{i} m_i$.
     \end{terms}
 
     \item \emph{Conjunctive} forms:
     \begin{terms}
-        \item \textbf{Clause}\Href{https://en.wikipedia.org/wiki/Clause_(logic)} is a disjunction of literals: $\mathcal{C} = \biglornolim{i} \mathcal{L}_i$
+        \item \textbf{Clause}\Href{https://en.wikipedia.org/wiki/Clause_(logic)} is a disjunction of literals: $\mathcal{C} = \biglor\nolimits_{i} \mathcal{L}_i$
 
-        \item Formula is in \textbf{conjunctive normal form (CNF)}\Href{https://en.wikipedia.org/wiki/Conjunctive_normal_form} if it is a conjunction of clauses: $\textrm{CNF} = \biglandnolim{i} \mathcal{C}_i$.
+        \item Formula is in \textbf{conjunctive normal form (CNF)}\Href{https://en.wikipedia.org/wiki/Conjunctive_normal_form} if it is a conjunction of clauses: $\textrm{CNF} = \bigland\nolimits_{i} \mathcal{C}_i$.
 
         \item \textbf{Maxterm} is disjunction of literals, where \emph{each} variable appears \emph{once}, \eg $M_6 = (\neg A \lor \neg B \lor C)$.
 
-        \item Formula is in \textbf{canonical CNF (CCNF)}\Href{https://en.wikipedia.org/wiki/Canonical_conjunctive_normal_form} if it is a conjunction of maxterms: $\textrm{CCNF} = \biglandnolim{i} M_i$.
+        \item Formula is in \textbf{canonical CNF (CCNF)}\Href{https://en.wikipedia.org/wiki/Canonical_conjunctive_normal_form} if it is a conjunction of maxterms: $\textrm{CCNF} = \bigland\nolimits_{i} M_i$.
     \end{terms}
 
     \item Some other normal forms:
@@ -188,7 +188,7 @@ In order to convert \emph{arbitrary} (\ie \emph{any}) Boolean formula to \emph{e
     % \item TODO: Functional closure.
 
     \item A set of Boolean functions~$F$ is called \textbf{functionally complete} if it can be used to express all possible Boolean functions.
-    Formally, $F^{*} = \mathbb{F}$, where $F^{*}$ is a \emph{functional closure} of~$F$, and $\mathbb{F} = \bigunionnolim{n \in \Natural} \Set{ f \colon \Bool^{n} \to \Bool }$.
+    Formally, $F^{*} = \mathbb{F}$, where $F^{*}$ is a \emph{functional closure} of~$F$, and $\mathbb{F} = \bigunion\nolimits_{n \in \Natural} \Set{ f \colon \Bool^{n} \to \Bool }$.
 
     \begin{posttheorem}
         A set of Boolean functions~$F$ is functionally complete iff it contains:

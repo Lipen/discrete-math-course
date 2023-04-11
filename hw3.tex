@@ -25,6 +25,12 @@
     logic ports/scale=0.7,
 }
 
+\newenvironment{smallcases}{%
+    \bigl\lbrace\begin{smallmatrix}%
+}{%
+    \end{smallmatrix}%
+}
+
 
 \begin{document}
 \selectlanguage{english}
@@ -127,11 +133,11 @@
     \begin{multicols}{2}
     \begin{subtasks}
         \item $X \iff (A \land B)$
-        \item $Z \iff \biglornolim{\!i} C_i$
+        \item $Z \iff \biglor\nolimits_{i} C_i$
         \item $D_1 \xor \dotsb \xor D_n$
         \item $\mathtt{majority}(X_1, X_2, X_3)$ \footnote{Majority function\Href{https://en.wikipedia.org/wiki/Majority_function} is a Boolean function that is 1 iff the majority (more than half) of the inputs are 1.}
-        \item $R \implies (S \implies (T \implies \biglandnolim{i} F_i))$
-        \item $M \implies (H \iff \biglornolim{\!i} D_i)$
+        \item $R \implies (S \implies (T \implies \bigland\nolimits_{i} F_i))$
+        \item $M \implies (H \iff \biglor\nolimits_{i} D_i)$
     \end{subtasks}
     \end{multicols}
 
@@ -304,10 +310,10 @@
 
     %% Task: MUX.
     \item Consider a Boolean function $f \colon \Bool^3 \to \Bool$ defined as follows:
-    $f(x,y,z) = \bigl\{ \begin{smallmatrix}
+    $f(x,y,z) = \begin{smallcases}
         x & \text{if } z = 0 \\
         y & \text{if } z = 1
-    \end{smallmatrix}$.
+    \end{smallcases}$.
     Construct a formula for it using the standard Boolean basis $\Set{\land, \lor, \neg}$.
 
 
