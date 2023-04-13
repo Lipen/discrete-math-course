@@ -74,174 +74,169 @@
 
 \usepackage{stringstrings}
 
+\DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
+
+\declaretheoremstyle[
+    spaceabove=6pt,
+    spacebelow=6pt,
+    postheadspace=0.5em,
+    notefont=\normalfont\scshape,
+]{mystyle}
+\declaretheorem[style=mystyle]{theorem}
+\declaretheorem[style=mystyle,numbered=no]{theorem*}
+
 
 \begin{document}
 \selectlanguage{english}
 
 \epigraph{\textpzc{Do whatever you want, but always explain what you are doing.}}{--- \textsc{Konstantin}, 2020}
 
-\begin{tasks}
-    \item Find the number of different 5-digit numbers using digits 1--9 under the given constraints.
-    For each case, provide representative examples of (non-)complying numbers (\eg 12345 and 52814 are suitable for~\ref{item:digits-cannot-be-repeated}, but 44521 and 935 are~not) and derive a generic\footnote{Here, \enquote{generic formula} means \enquote{depending on the input data}. In this particular example, $n = 9$ and $k = 5$, but the sought formula must also be valid for all other (adequate) values of~$n$ and~$k$.} formula.
-    Try to express the formula using standard combinatorial terms, \eg $k$-combs $C_n^k$ and $k$-perms $P(n,k)$.
-    \begin{subtasks}
-        \item Digits \emph{can} be repeated.
+\begin{tasks}[align=right,left=0pt]
+    \begingroup
+    \tikzstyle{myboxstyle}=[
+        scale=0.95, transform shape,
+        baseline,
+        % baseline=(box-label.base),
+        myoutline/.style={
+            thick,
+            line join=bevel,
+        },
+        myback/.style={
+            myoutline,
+            fill=black!50,
+        },
+        myfront/.style={
+            myoutline,
+            fill=black!20,
+            fill opacity=0.75,
+        },
+        myball/.style={
+            ball color=white,
+        },
+    ]
 
-        \item\label{item:digits-cannot-be-repeated} Digits \emph{cannot} be repeated.
+    \def\boxWidth{0.9}
+    \def\boxHeight{0.4}
+    \def\boxDepth{0.4}
+    \def\boxLeftX{0.16}
+    \def\boxLeftY{0.08}
+    \def\boxRightX{0.2}
+    \def\boxRightY{0.1}
+    \def\ballRadius{0.22}
 
-        \item Digits \emph{can} be repeated and must be written in \emph{non-increasing}\footnote{A sequence $(x_n)$ is said to be \emph{strictly monotonically increasing} if each term is \emph{strictly greater} than the previous one, \ie $x_{i} < x_{i+1}$. A sequence $(x_n)$ is called \emph{non-increasing} if each term is \emph{less than or equal} to the previous one, \ie $x_{i} \geq x_{i+1}$.} order.
+    \newcommand{\drawBoxBack}{
+        %% Back
+        \draw[myback] (0,0)
+        -- ++(0,\boxHeight)
+        -- ++(\boxDepth,\boxDepth)
+        -- ++(\boxWidth,0)
+        -- ++(0,-\boxHeight)
+        -- ++(-\boxDepth,-\boxDepth)
+        -- cycle;
+        \draw[myoutline] (0,0)
+        -- ++(\boxDepth,\boxDepth)
+        -- ++(0,\boxHeight) ++(0,-\boxHeight)
+        -- ++(\boxWidth,0);
 
-        \item Digits \emph{cannot} be repeated and must be written in \emph{strictly increasing} order.
+        %% Left thing
+        \draw[myfront,fill opacity=1] (0,\boxHeight)
+        -- ++(\boxDepth,\boxDepth)
+        -- ++(-\boxLeftX,\boxLeftY)
+        -- ++(-\boxDepth,-\boxDepth)
+        -- cycle;
+    }
 
-        \item Digits \emph{can} be repeated, must be written in \emph{non-decreasing} order, and the 4th digit must be 6.
-    \end{subtasks}
+    \newcommand{\drawBoxFront}[1]{% {<label>}
+        %% Front
+        \draw[myfront] (0,0)
+        -- ++(\boxWidth,0)
+        -- ++(\boxDepth,\boxDepth)
+        -- ++(0,\boxHeight)
+        -- ++(-\boxDepth,-\boxDepth)
+        -- ++(-\boxWidth,0)
+        -- cycle;
+        \draw[myoutline] (\boxWidth,0)
+        -- ++(0,\boxHeight);
 
+        %% Right thing
+        \draw[myfront] (\boxWidth,\boxHeight)
+        -- ++(\boxDepth,\boxDepth)
+        -- ++(\boxRightX,\boxRightY)
+        -- ++(-\boxDepth,-\boxDepth)
+        -- cycle;
 
-\tikzstyle{myboxstyle}=[
-    scale=0.95, transform shape,
-    baseline=4pt, % why? maybe in order to maintain depth
-    % baseline=(box-label.base),
-    myoutline/.style={
-        thick,
-        line join=bevel,
-    },
-    myback/.style={
-        myoutline,
-        fill=black!50,
-    },
-    myfront/.style={
-        myoutline,
-        fill=black!20,
-        fill opacity=0.75,
-    },
-    myball/.style={
-        ball color=white,
-    },
-]
+        %% Label
+        \node (box-label) at (\boxWidth/2,\boxHeight/2) {\vphantom{12345ABCDE}#1};
+    }
 
-\def\boxWidth{0.9}
-\def\boxHeight{0.4}
-\def\boxDepth{0.4}
-\def\boxLeftX{0.16}
-\def\boxLeftY{0.08}
-\def\boxRightX{0.2}
-\def\boxRightY{0.1}
-\def\ballRadius{0.22}
+    \newcommand{\drawBall}[3][]{% [<style>]{<pos>}{<label>}
+        \draw[myball,#1] (#2) circle [radius=\ballRadius] node {#3};}
+    \newcommand{\drawBallOne}[2][]{% [<style>]{<label>}
+        \drawBall[#1]{ 0.52, 0.55 }{#2}}
+    \newcommand{\drawBallTwo}[2][]{% [<style>]{<label>}
+        \drawBall[#1]{ 0.88, 0.51 }{#2}}
+    \newcommand{\drawBallThree}[2][]{% [<style>]{<label>}
+        \drawBall[#1]{ 0.31, 0.33 }{#2}}
+    \newcommand{\drawBallFour}[2][]{% [<style>]{<label>}
+        \drawBall[#1]{ 0.71, 0.3 }{#2}}
+    \newcommand{\drawBallCenter}[2][]{% [<style>]{<label>}
+        \drawBall[#1]{ 0.62, 0.38 }{#2}}
+    \newcommand{\drawBallLowCenter}[2][]{% [<style>]{<label>}
+        \drawBall[#1]{ 0.54, 0.31 }{#2}}
 
-\newcommand{\drawBoxBack}{
-    %% Back
-    \draw[myback] (0,0)
-    -- ++(0,\boxHeight)
-    -- ++(\boxDepth,\boxDepth)
-    -- ++(\boxWidth,0)
-    -- ++(0,-\boxHeight)
-    -- ++(-\boxDepth,-\boxDepth)
-    -- cycle;
-    \draw[myoutline] (0,0)
-    -- ++(\boxDepth,\boxDepth)
-    -- ++(0,\boxHeight) ++(0,-\boxHeight)
-    -- ++(\boxWidth,0);
+    \newcommand{\drawBox}[3][]{% [<style>]{<box-label>}{<body>}
+        \begin{tikzpicture}[myboxstyle,scale=1.5,transform shape,#1]
+            \drawBoxBack
+            #3
+            \drawBoxFront{#2}
+        \end{tikzpicture}%
+    }
 
-    %% Left thing
-    \draw[myfront,fill opacity=1] (0,\boxHeight)
-    -- ++(\boxDepth,\boxDepth)
-    -- ++(-\boxLeftX,\boxLeftY)
-    -- ++(-\boxDepth,-\boxDepth)
-    -- cycle;
-}
+    \newcounter{balls}
+    \newcommand{\newBall}{\stepcounter{balls}\theballs}
+    \newcommand{\resetBalls}{\setcounter{balls}{0}}
+    \renewcommand{\theballs}{\arabic{balls}} % Use this to redefine counter format
 
-\newcommand{\drawBoxFront}[1]{% {<label>}
-    %% Front
-    \draw[myfront] (0,0)
-    -- ++(\boxWidth,0)
-    -- ++(\boxDepth,\boxDepth)
-    -- ++(0,\boxHeight)
-    -- ++(-\boxDepth,-\boxDepth)
-    -- ++(-\boxWidth,0)
-    -- cycle;
-    \draw[myoutline] (\boxWidth,0)
-    -- ++(0,\boxHeight);
+    \newcounter{boxes}
+    \newcommand{\newBox}{\stepcounter{boxes}\theboxes}
+    \newcommand{\resetBoxes}{\setcounter{boxes}{0}}
+    \renewcommand{\theboxes}{\Alph{boxes}} % Use this to redefine counter format
 
-    %% Right thing
-    \draw[myfront] (\boxWidth,\boxHeight)
-    -- ++(\boxDepth,\boxDepth)
-    -- ++(\boxRightX,\boxRightY)
-    -- ++(-\boxDepth,-\boxDepth)
-    -- cycle;
-
-    %% Label
-    \node (box-label) at (\boxWidth/2,\boxHeight/2) {\vphantom{12345ABCDE}#1};
-}
-
-\newcommand{\drawBall}[3][]{% [<style>]{<pos>}{<label>}
-    \draw[myball,#1] (#2) circle [radius=\ballRadius] node {#3};}
-\newcommand{\drawBallOne}[2][]{% [<style>]{<label>}
-    \drawBall[#1]{ 0.52, 0.55 }{#2}}
-\newcommand{\drawBallTwo}[2][]{% [<style>]{<label>}
-    \drawBall[#1]{ 0.88, 0.51 }{#2}}
-\newcommand{\drawBallThree}[2][]{% [<style>]{<label>}
-    \drawBall[#1]{ 0.31, 0.33 }{#2}}
-\newcommand{\drawBallFour}[2][]{% [<style>]{<label>}
-    \drawBall[#1]{ 0.71, 0.3 }{#2}}
-\newcommand{\drawBallCenter}[2][]{% [<style>]{<label>}
-    \drawBall[#1]{ 0.62, 0.38 }{#2}}
-\newcommand{\drawBallLowCenter}[2][]{% [<style>]{<label>}
-    \drawBall[#1]{ 0.54, 0.31 }{#2}}
-
-\newcommand{\drawBox}[3][]{% [<style>]{<box-label>}{<body>}
-    \begin{tikzpicture}[myboxstyle,scale=1.5,transform shape,#1]
-        \drawBoxBack
-        #3
-        \drawBoxFront{#2}
-    \end{tikzpicture}%
-}
-
-\newcounter{balls}
-\newcommand{\newBall}{\stepcounter{balls}\theballs}
-\newcommand{\resetBalls}{\setcounter{balls}{0}}
-\renewcommand{\theballs}{\arabic{balls}} % Use this to redefine counter format
-
-\newcounter{boxes}
-\newcommand{\newBox}{\stepcounter{boxes}\theboxes}
-\newcommand{\resetBoxes}{\setcounter{boxes}{0}}
-\renewcommand{\theboxes}{\Alph{boxes}} % Use this to redefine counter format
-
-\newcommand{\drawBoxWithoutBalls}[1][]{% [<style>]
-    \drawBox[#1]{\newBox}{}}
-\newcommand{\drawBoxWithOneBall}[1][]{% [<style>]
-    \drawBox[#1]{\newBox}{
-        \drawBallCenter{\newBall}
-    }}
-\newcommand{\drawBoxWithTwoBalls}[1][]{% [<style>]
-    \drawBox[#1]{\newBox}{
-        % \drawBallOne{\newBall}
-        % \drawBallFour{\newBall}
-        \drawBallThree{\newBall}
-        \drawBallTwo{\newBall}
-    }}
-\newcommand{\drawBoxWithThreeBalls}[1][]{% [<style>]
-    \drawBox[#1]{\newBox}{
-        \drawBallOne{\newBall}
-        \drawBallTwo{\newBall}
-        % \drawBallThree{\newBall}
-        \drawBallLowCenter{\newBall}
-    }}
-\newcommand{\drawBoxWithFourBalls}[1][]{% [<style>]
-    \drawBox[#1]{\newBox}{
-        \drawBallOne{\newBall}
-        \drawBallTwo{\newBall}
-        \drawBallThree{\newBall}
-        \drawBallFour{\newBall}
-    }}
-
+    \newcommand{\drawBoxWithoutBalls}[1][]{% [<style>]
+        \drawBox[#1]{\newBox}{}}
+    \newcommand{\drawBoxWithOneBall}[1][]{% [<style>]
+        \drawBox[#1]{\newBox}{
+            \drawBallCenter{\newBall}
+        }}
+    \newcommand{\drawBoxWithTwoBalls}[1][]{% [<style>]
+        \drawBox[#1]{\newBox}{
+            % \drawBallOne{\newBall}
+            % \drawBallFour{\newBall}
+            \drawBallThree{\newBall}
+            \drawBallTwo{\newBall}
+        }}
+    \newcommand{\drawBoxWithThreeBalls}[1][]{% [<style>]
+        \drawBox[#1]{\newBox}{
+            \drawBallOne{\newBall}
+            \drawBallTwo{\newBall}
+            % \drawBallThree{\newBall}
+            \drawBallLowCenter{\newBall}
+        }}
+    \newcommand{\drawBoxWithFourBalls}[1][]{% [<style>]
+        \drawBox[#1]{\newBox}{
+            \drawBallOne{\newBall}
+            \drawBallTwo{\newBall}
+            \drawBallThree{\newBall}
+            \drawBallFour{\newBall}
+        }}
 
     \item One of the classical combinatorial problems is counting the number of arrangements of $n$ balls into $k$ boxes.
     There are at least \href{https://en.wikipedia.org/wiki/Twelvefold_way}{12 variations} of this problem: four cases (a--d) with three different constraints (1--3).
     For each problem (case+constraint), derive the corresponding generic formula.
-    Additionally, pick several (representative) values for~$n$ and~$k$ and use your derived formulae to find the numbers of arrangements.
+    Additionally, pick several representative values for~$n$ and~$k$ and use your derived formulae to find the numbers of arrangements.
     Visualize several possible arrangements for the chosen~$n$ and~$k$.
 
-    \vspace{2pt}
+    \smallskip
     \textit{\uline{Cases with arrangement examples}}:
 
     \begin{enumerate}[label=\alph*., itemsep=4pt]
@@ -302,7 +297,7 @@
         % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
     \end{enumerate}
 
-    \vspace{2pt}
+    \smallskip
     \textit{\uline{Constraints}}:
 
     \begin{enumerate}[label=\arabic*., noitemsep]
@@ -311,19 +306,68 @@
         \item Arbitrary number of balls per box.
     \end{enumerate}
 
-    % \vspace{2pt}
+    \smallskip
     \textit{\uline{Notes}}:
 
     \begin{itemize}[label=$\ast$, noitemsep]
         \item \textbf{U}nlabeled means \enquote{indistinguishable}, and \textbf{L}abeled means \enquote{distinguishable}.
 
-        \item \href{https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind}{Stirling number of the second kind} $s^{II}_k(n)$ \--- number of ways to partition a set of~$n$ elements into~$k$ non-empty subsets.
-        Use $s^{II}_k(n)$ directly without expanding the closed formula.
+        \item \href{https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind}{Stirling number of the second kind} $s^{\text{II}}_k(n) = \stirling{n}{k} = S(n, k)$ is the number of ways to partition a set of~$n$ elements into~$k$ non-empty subsets.
+        Use $s^{\text{II}}_k(n)$ notation (or $\stirling{n}{k}$, or $S(n, k)$, to your preference) directly without expanding the closed formula.
 
-        \item \href{https://en.wikipedia.org/wiki/Partition_(number_theory)#Restricted_part_size_or_number_of_parts}{Partition function} $p_k(n)$ \--- number of ways to partition the integer $n$ into~$k$ positive parts, \ie $n = a_1 + \dotsb + a_k$, where $a_1 \geq \dotsb \geq a_k \geq 1$.
-        Use $p_k(n)$ directly.
-        % Use $p_k(n)$ directly, since the closed-form expression is unknown.
+        \item \href{https://en.wikipedia.org/wiki/Partition_(number_theory)#Restricted_part_size_or_number_of_parts}{Partition function} $p_k(n)$ is the number of ways to partition the integer $n$ into~$k$ positive parts, \ie the number of solutions to the following equation: $n = a_1 + \dotsb + a_k$, where $a_1 \geq \dotsb \geq a_k \geq 1$.
+        Use $p_k(n)$ directly, since the closed-form expression is unknown.
     \end{itemize}
+
+    \endgroup
+
+
+    \item How many different passwords can be formed using the following rules?
+
+    \begin{items}
+        \item The password must be exactly 8 characters long.
+        \item The password must consist only of Latin letters (a-z, A-Z) and Arabic digits (0-9).
+        \item The password must contain at least 2 digits (0-9) and at least 1 uppercase letter (A-Z).
+        \item Each character can be used no more than once in the password.
+    \end{items}
+
+    \smallskip
+    How long does it take to crack such a password?
+
+
+    \filbreak
+
+    \item Find the number of different 5-digit numbers using digits 1--9 under the given constraints.
+    For each case, provide examples of numbers that comply and do not comply with the constraints, and derive a generic formula that can be applied to other values of~$n$ (total available digits) and~$k$ (number of digits in the number).
+    Express the formula using standard combinatorial terms, such as $k$-combinations $C_n^k$ and $k$-permutations $P(n, k)$.
+
+    \begin{subtasks}
+        \item Digits \emph{can} be repeated.
+
+        \item\label{item:digits-cannot-be-repeated} Digits \emph{cannot} be repeated.
+
+        \item Digits \emph{can} be repeated and must be written in \emph{non-increasing}\footnote{A sequence $(x_n)$ is said to be \emph{strictly monotonically increasing} if each term is \emph{strictly greater} than the previous one, \ie $x_{i} < x_{i+1}$. A sequence $(x_n)$ is called \emph{non-increasing} if each term is \emph{less than or equal} to the previous one, \ie $x_{i} \geq x_{i+1}$.} order.
+
+        \item Digits \emph{cannot} be repeated and must be written in \emph{strictly increasing} order.
+
+        \item Digits \emph{can} be repeated and the number must be divisible by 3 or 5.
+
+        \item Digits \emph{cannot} be repeated and the sum of the digits must be even.
+    \end{subtasks}
+
+
+    \item Let $n$ be a positive integer.
+    Prove the following identity using a combinatorial argument:
+    \[
+        \sum_{k = 1}^{n} k \cdot C_{n}^{k} = n \cdot 2^{n-1}
+    \]
+
+
+    \item Let $r, m, n$ be non-negative integers.
+    Prove the following identity using a combinatorial argument:
+    \[
+        \binom{m + n}{r} = \sum_{k = 0}^{r} \binom{m}{k} \binom{n}{r - k}
+    \]
 
 
     \item Proof the Generalized Pascal's Formula (for $n \geq 1$ and $k_1,\dotsc,k_r \geq 0$ with $k_1 + \dotsb + k_r = n$):
@@ -331,49 +375,53 @@
         \binom{n}{k_1,\dotsc,k_r} = \sum_{i=1}^{r} \binom{n-1}{k_1,\dotsc,k_i-1,\dotsc,k_r}
     \]
 
-    Count the number of permutations of a multiset $\Sigma^{*} = \Set{2 \cdot \triangle, 3 \cdot \square, 1 \cdot \Cat}$ using GPF.
+
+    \item Find the coefficient of $x^5 y^7 z^3$ in the expansion of $(x + y + z)^{15}$.
 
 
-\tikzstyle{myrnastyle}=[
-    scale=0.8, transform shape,
-    dot/.style={
-        draw,
-        fill=black,
-        shape=circle,
-        minimum size=4pt,
-        inner sep=0pt,
-        outer sep=0pt,
-    },
-    matching/.style={
-        draw,
-        % dashed,
-        red,
-        ultra thick,
-    },
-    basepair/.style={
-        draw,
-        dashed,
-        lightgray,
-        thick,
-    },
-]
+    \item Count the number of permutations of the multiset $\Sigma^{*} = \Set{2 \cdot \triangle, 3 \cdot \square, 1 \cdot \Cat}$.
 
-\newcommand{\drawRNA}{%
-    \def\myRadNode{1.6}
-    \def\myRadLabel{2.0}
 
-    % Outside edges
-    % \draw (75:\myRadNode) arc (75:-255:\myRadNode);
+    \begingroup
+    \tikzstyle{myrnastyle}=[
+        scale=0.8, transform shape,
+        dot/.style={
+            draw,
+            fill=black,
+            shape=circle,
+            minimum size=4pt,
+            inner sep=0pt,
+            outer sep=0pt,
+        },
+        matching/.style={
+            draw,
+            % dashed,
+            red,
+            ultra thick,
+        },
+        basepair/.style={
+            draw,
+            dashed,
+            lightgray,
+            thick,
+        },
+    ]
 
-    % Nodes
-    \foreach [count=\i, evaluate=\x as \a using {105-\i*30}] \x in {A,U,C,G,U,A,A,U,C,G,C,G}
-    {
-        \node[dot] (v\i) at (\a:\myRadNode) {};
-        \node at (\a:\myRadLabel) {\x};
-        % \node at (\a:1.3) {\i}; % DEBUG index
+    \newcommand{\drawRNA}{%
+        \def\myRadNode{1.6}
+        \def\myRadLabel{2.0}
+
+        % Outside edges
+        % \draw (75:\myRadNode) arc (75:-255:\myRadNode);
+
+        % Nodes
+        \foreach [count=\i, evaluate=\x as \a using {105-\i*30}] \x in {A,U,C,G,U,A,A,U,C,G,C,G}
+        {
+            \node[dot] (v\i) at (\a:\myRadNode) {};
+            \node at (\a:\myRadLabel) {\x};
+            % \node at (\a:1.3) {\i}; % DEBUG index
+        }
     }
-}
-
 
     \item A \emph{non-crossing perfect matching}\footnote{Credits to \href{https://rosalind.info/about}{Rosalind} for this task.} in a graph is a set of pairwise disjoint edges that cover all vertices and do not intersect with each other.
     For example, consider a graph on~$2n$ vertices numbered from~1~to~$2n$ and arranged in a circle.
@@ -485,6 +533,91 @@
         \def\myRNA{CGUAAUUACGGCAUUAGCAU}
         Count the number of all possible non-crossing perfect matchings in the graph on \stringlength{\myRNA} vertices arranged in a circle and labeled with \texttt{\myRNA}.
     \end{subtasks}
+
+    \endgroup
+
+
+    \item How many integer solutions are there for each given equation?
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $x_1 + x_2 + x_3 = 20$, where $x_i \geq 0$
+        \item $x_1 + x_2 + x_3 = 20$, where $x_i \geq 1$
+        \item $x_1 + x_2 + x_3 = 20$, where $x_i \geq 5$
+        \item $x_1 + x_2 + x_3 \leq 20$, where $x_i \geq 0$
+        \item $x_1 + x_2 + x_3 = 20$, where $1 \leq x_1 \leq x_2 \leq x_3$
+        \item $x_1 + x_2 + x_3 = 20$, where $0 \leq x_1 \leq x_2 \leq x_3$
+        \item $x_1 + x_2 + x_3 = 20$, where $0 \leq x_1 \leq x_2 \leq x_3 \leq 10$
+        \item $x_1 + x_2 + x_3 = 5$, where $-5 \leq x_i \leq 5$
+        % \item $3x_1 + 3x_2 + 3x_3 + 7x_4 = 22$, where $x_i \geq 0$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Consider three dice: one with 4~faces, one with 6~faces, and one with 8~faces.
+    The faces are numbered 1~to~4, 1~to~6, and 1~to~8, respectively.
+    Find the probability of rolling a total sum of~12.
+
+
+    \item Let $A = \{ 1, 2, 3, \dots, 12 \}$.
+    Define an \emph{interesting} subset of~$A$ as a subset in which no two elements have a difference of~3.
+    Determine the number of interesting subsets of~$A$.
+
+
+    \item Find the number of ways to arrange five people of distinct heights in a line such that no three consecutive individuals form a strictly ascending or descending height sequence.
+
+
+    \begingroup
+    \item GLaDOS, the mastermind AI, is testing a new batch of first-year students in one of her infamous test chambers.
+    She assigns each test subject a unique number from 1 to~$n$, and then splits the students into $k$~groups (here, groups are indistinguishable).
+    Furthermore, one student in each group is assigned as the group leader.
+    GLaDOS wants to know how many different ways she can arrange the students into groups and select group leaders, so that the students can navigate through the test chambers without getting lost.
+    She calls this arrangement a \enquote{GLaDOS Partition}.
+
+    \newcommand*{\leader}[1]{\uline{#1}}
+    \newcommand*{\sep}{\,|\,}
+
+    \smallskip
+    For example, consider $n = 7$ students and $k = 3$ groups.
+    Here are three (out of many!) different partitions, with the group leaders underlined:
+    $(\leader{1} \sep 2\leader{5}67 \sep 3\leader{4})$,
+    $(\leader{1} \sep 25\leader{6}7 \sep \leader{3}4)$,
+    and $(\leader{1} \sep 25\leader{6}7 \sep 3\leader{4})$.
+
+    \smallskip
+    Let the number of GLaDOS Partitions for $n$~students into $k$~groups, where each group has a designated leader, be denoted as~$G(n,k)$.
+    Your task is to find a generic formula and/or recurrence relation for~$G(n,k)$ and justify it.
+
+    \endgroup
+
+
+    \item Every regular expression $P$ generates a regular language $\mathcal{L}(P)$, which consists of all strings that match the pattern specified by~$P$.
+    For each given~$P$, find the size of the set $\mathcal{L}' =\nobreak \Set{w \in\nobreak \mathcal{L}(P) \given \operatorname{length}(w) \leq 5}$ which contains all accepted words of length at most~5.
+    For \enquote{any} (\verb/./) and \enquote{negative} (\verb/[^.]/) matches, assume that the alphabet is $\Sigma = \Set{\texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}}$.
+    % Additionally, construct the corresponding $\varepsilon$-NFA and the minimized DFA for each pattern~$P$.
+    Additionally, construct the corresponding DFA (Deterministic Finite Automaton) for each pattern~$P$.
+
+    \begin{multicols}{3}
+    \begin{subtasks}
+        \item $P_{\arabic{subtasksi}} = \verb/ab*/$
+        \item $P_{\arabic{subtasksi}} = \verb/a+b?c/$
+        \item $P_{\arabic{subtasksi}} = \verb/[^cd]+c{3}/$
+        \item $P_{\arabic{subtasksi}} = \verb/[^a](.|ddd)?/$
+        \item $P_{\arabic{subtasksi}} = \verb/d(a|bc)*/$
+        \item $P_{\arabic{subtasksi}} = \verb/((a|ab)[cd]){2}/$
+    \end{subtasks}
+    \end{multicols}
+
+
+\bigskip
+% \noindent\hfil\rule{0.5\textwidth}{.2pt}\hfil
+\noindent\hfil\rule{0.3\textwidth}{.1pt}~~$\ast$~$\ast$~$\ast$~~\rule{0.3\textwidth}{.1pt}\hfil
+\bigskip
+
+    Please make sure to answer \emph{all} questions and provide \emph{clear} explanations for your solutions.
+
+    \smallskip
+    \emph{Good luck!}
 
     % \item \ldots
 \end{tasks}
