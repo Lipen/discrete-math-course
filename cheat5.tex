@@ -360,23 +360,25 @@
     \setlength{\intextsep}{0pt}%
     % \setlength{\columnsep}{0pt}%
     \begin{wrapfigure}{r}{0pt}
-        \setlength{\tabcolsep}{3pt}%
+        \setlength{\tabcolsep}{4pt}%
         \NiceMatrixOptions{
             notes/style = \arabic{#1},
             notes/code-before = \footnotesize \color{gray} \RaggedRight,
         }
-        \begin{NiceTabular}{@{} rccl @{}}
-            \toprule
-            \thead{Term} & \thead{V}\tabularnote{Can vertices be repeated?} & \thead{E}\tabularnote{Can edges be repeated?} & \thead{Closed} \\
+        \begin{NiceTabular}{ cccl }
+            % Note: "If a command \tabularnote{...} is exactly at the end of a cell (with no space at all after), the label of the note is composed in an overlapping position (towards the right)."
+            \toprule \RowStyle{\bfseries}
+            Term & V\tabularnote{Can vertices be repeated?}& E\tabularnote{Can edges be repeated?}& \enquote{Closed} term \\
+            \midrule
             Walk  & $+$ & $+$ & Closed walk \\
             Trail & $+$ & $-$ & Circuit \\
             Path  & $-$ & $-$ & Cycle \\
-                    & $-$ & $+$ & (\emph{impossible}) \\
+                  & $-$ & $+$ & (\emph{impossible}) \\
             \bottomrule
         \end{NiceTabular}
     \end{wrapfigure}
 
-    \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges in an arbitrary graph traversal.
+    \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges: $l = v_{1} e_{1} v_{2} \dots e_{n-1} v_{n}$.
     \begin{terms}
         \item \textbf{Trail} is a walk with distinct edges.
         \item \textbf{Path} is a walk with distinct vertices (and therefore distinct edges).
