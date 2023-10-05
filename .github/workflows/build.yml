@@ -12,10 +12,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Build LaTeX project and generate PDFs
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v3
         with:
           root_file: "*.tex"
-          glob_root_file: true
 
       - name: Upload PDFs as artifact
         uses: actions/upload-artifact@v3
