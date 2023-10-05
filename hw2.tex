@@ -14,7 +14,7 @@
     {\TextHomeworkEng~\#2}
     {Binary Relations}
     {\TextDiscreteMathEng}
-    {\IconFall~Fall 2022}
+    {\IconFall~Fall 2023}
 
 %% Add custom setup below
 
@@ -40,7 +40,7 @@
 
 \begin{tasks}
     %% Task: Check properties of relations.
-    \item For each given relation $R_i \subseteq {M_i}^2$, determine whether it is \textit{reflexive}, \textit{irreflexive}, \textit{coreflexive}, \textit{symmetric}, \textit{antisymmetric}, \textit{asymmetric}, \textit{transitive}, \textit{antitransitive}, \textit{semiconnex}, \textit{connex}, \textit{left/right Euclidean}, \textit{dense}.
+    \item For each given relation $R_i \subseteq {M_i}^2$, determine whether it is \textit{reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, antitransitive, semiconnex, connex, left/right Euclidean}.
     Provide a counterexample for each non-complying property (\eg \enquote{transitivity does not hold for $x,y,z = (3,1,2)$}).
     Organize your answer in a table (\eg columns \--- relations, rows \--- properties).
 
@@ -108,22 +108,68 @@
 
 
     %% Task: Explore the equinumerosity relation and quotient set.
-    \item An equinumerosity relation $R$ over sets is defined as follows: $A \rel B \iff \card{A} =\nobreak \card{B}$.
+    \item An equinumerosity relation $\sim$ over sets is defined as follows: $A \sim B \iff \card{A} =\nobreak \card{B}$.
 
     \begin{subtasks}
-        \item Show that $R$ is an equivalence relation.
-        \item Find the quotient set of $\powerset{\Set{a,b,c,d}}$ by $R$.
+        \item Show that $\sim$ is an equivalence relation over finite sets.
+        \item Show that $\sim$ is an equivalence relation over infinite sets\footnote{For infinite sets, $\card{A} = \card{B}$ means there is a bijection between $A$ and $B$.}.
+        \item Find the quotient set of $\powerset{\Set{a,b,c,d}}$ by $\sim$.
     \end{subtasks}
 
 
     %% Task: Explore the Jaccard index.
-    \item Let $R_{\theta}$ be a relation of $\theta$-similarity of finite non-empty sets defined as follows: a set~$A$ is said to be $\theta$-similar to~$B$ \textit{iff} the Jaccard index\Href{https://en.wikipedia.org/wiki/Jaccard_index} $\Jac(A,B)$ for these sets is at least $\theta$, \ie $A \rel[R_{\theta}] B \iff \Jac(A,B) \geq \theta$.
-    Obviously, $\theta \in [0; 1] \subseteq \Real$.
+    \item Let $R_{\theta}$ be a relation of $\theta$-similarity (clearly, $\theta \in [0; 1] \subseteq \Real$) of finite non-empty sets defined as follows: a set~$A$ is said to be \textit{$\theta$-similar} to~$B$ \textit{iff} the Jaccard index $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ for these sets is at least~$\theta$, \ie $\Pair{A, B} \in R_{\theta} \iff \Jac(A,B) \geq \theta$.
 
     \begin{subtasks}
         \item Draw the graph of a relation $R_{\theta} \subseteq \Set{A_i}^2$, where $\theta = 0.25$, $A_1 = \Set{1,2,5,6}$, $A_2 = \Set{2,3,4,5,7,9}$, $A_3 = \Set{1,4,5,6}$, $A_4 = \Set{3,7,9}$, $A_5 = \Set{1,5,6,8,9}$.
         \item Determine whether $\theta$-similarity is a tolerance relation.
         \item Determine whether $\theta$-similarity is an equivalence relation.
+    \end{subtasks}
+
+
+    % Task: Explore the characteristic function.
+    \item The characteristic function~$f_S$ of a set~$S$ is defined as follows:
+    \[
+        f_S(x) = \begin{cases}
+            1 &\text{if } x \in S \\
+            0 &\text{if } x \notin S
+        \end{cases}
+    \]
+
+    Let~$A$~and~$B$ be finite sets.
+    Show that for all $x \in \universalset$:
+
+    \begin{subtasks}
+        \item $f_{\,\overline{A}} (x) = 1 - f_A(x)$
+        \item $f_{A \intersection B} (x) = f_A(x) \cdot f_B(x)$
+        \item $f_{A \union B} (x) = f_A(x) + f_B(x) - f_A(x) \cdot f_B(x)$
+        \item $f_{A \xor B} (x) = f_A(x) + f_B(x) - 2 f_A(x) \cdot f_B(x)$
+    \end{subtasks}
+
+
+    % Task: Find the error in the "proof".
+    \item Find the error in the \enquote{proof} of the following \enquote{theorem}.
+
+    \smallskip
+    \enquote{\textit{Theorem}}: Let $R$ be a relation on a set $A$ that is symmetric and transitive. Then $R$ is reflexive.
+
+    \smallskip
+    \enquote{\textit{Proof}}: Let $a \in A$. Take an element $b \in A$ such that $\Pair{a, b} \in R$. Because $R$ is symmetric, we also have $\Pair{b, a} \in R$. Now using the transitive property, we can conclude that $\Pair{a, a} \in R$ because $\Pair{a, b} \in R$ and $\Pair{b, a} \in R$.
+
+
+    % Task: Explore the closures.
+    \item Give an example of a relation $R$ on the set $\Set{a, b, c}$ such that the symmetric closure of the reflexive closure of the
+    transitive closure of~$R$ is not transitive.
+
+
+    % Task: Composition of injections and surjections.
+    \item Prove or disprove the following statements about the functions $f$ and $g$:
+
+    \begin{subtasks}
+        \item If $f$ and $g$ are injections, then $g \circ f$ is also an injection.
+        \item If $f$ and $g$ are surjections, then $g \circ f$ is also a surjection.
+        \item If $f$ and $f \circ g$ are injections, then $g$ is also an injection.
+        \item If $f$ and $f \circ g$ are surjections, then $g$ is also a surjection.
     \end{subtasks}
 
 
@@ -138,7 +184,7 @@
 
         \item Determine whether $R$ is a linear (total) order.
 
-        \item Draw the Hasse diagram for a \textit{graded poset} $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a grading function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank (bottom-up).
+        \item Draw the Hasse diagram for a graded poset $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a grading function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank (bottom-up).
 
         \item Find the minimal, minimum (least), maximal and maximum (greatest) elements in the poset~$\Pair{H, R}$.
         If there are multiple or none, explain why.
@@ -153,11 +199,21 @@
     \begin{definition}
         $R^{+} = \bigunionclap{n \in \NaturalPlus} R^n$ is a \textit{transitive closure} of $R \subseteq M^2$, where
         \begin{terms}
-            \item $R^{k+1} = R^k \circ R$ is a \textit{compositional (functional) power}\footnote{Note: this \textit{is not a Cartesian power}, despite of the same notation~$R^n$. Another possible notation for compositional power~is~$R^{\circ n}$, but it is too wild to use it here.},
+            \item $R^{k+1} = R^k \circ R$ is a compositional (functional) power\footnote{Note: this \emph{is not a Cartesian power}, despite of the same notation~$R^n$. Another possible notation for compositional power~is~$R^{\circ n}$, but it is too wild to use it here.},
             \item $R^1 = R$,
-            \item $S \circ R = \Set{\Pair{x,y} \given \exists z : (x \rel[R] z) \land (z \rel[S] y)}$ is a \textit{composition} (\textit{relative product}) of relations $R$ and $S$.
+            \item $S \circ R = \Set{\Pair{x,y} \given \exists z : (x \rel[R] z) \land (z \rel[S] y)}$ is a composition (relative product) of relations $R$ and $S$.
         \end{terms}
     \end{definition}
+
+
+    % Task: Dedekind-infinite set.
+    \item Prove that a set $S$ is infinite if and only if there is a proper subset $A \subset S$ such that there is a one-to-one correspondence (bijection) between $A$~and~$S$.
+
+
+    % Task: Refinement relation over partitions is a lattice.
+    \item Given a set $S$ and two partitions $P_1$ and $P_2$ of $S$, we define the relation $P_1 \preceq P_2$ as follows: $P_1$~is~considered a \textit{refinement} of~$P_2$ if every subset in~$P_1$ is also a subset in~$P_2$.
+    Show that the set of all partitions of a set~$S$ with the refinement relation~$\preceq$ is a lattice.
+
 
     % \item \dots
 \end{tasks}
