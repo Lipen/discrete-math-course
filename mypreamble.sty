@@ -540,58 +540,13 @@
 \newcommand\doverlinesmashed[1]{%
     \vphantom{#1}\smash{\doverline{#1}}}
 
-%% Equalizer
-% \makeatletter
-% \newcommand{\equalizeto}[3]{% {<symbol>}{<base>}{<type>}
-%     #3{\mathpalette\equalize@to{{#1}{#2}}}}
-% \newcommand{\equalize@to}[2]{\equalize@@to#1#2}
-% \newcommand{\equalize@@to}[3]{%
-%     \begingroup
-%     \settowidth\dimen@{$\m@th#1#3$}% measure #3 in the current style
-% %\vcenter{\hbox{\resizebox{\dimen@}{!}{$\m@th#1#2$}}}%
-%     \makebox[\dimen@]{$\m@th#1#2$}%
-%     \endgroup
-% }
-% \makeatother
-
 %% Symmetric difference operator
 \newcommand{\symdiff}{%
     \mathbin{\triangle}}
-% \newcommand\symdiff{%
-%     \equalizeto{\triangle}{\intersection}{\mathbin}}
-%%% %% Set difference operator
-%%% % \let\oldsetminus\setminus
-%%% % \renewcommand\setminus{%
-%%% %     \equalizeto{\oldsetminus}{\intersection}{\mathbin}}
-%% Cartesian product operator
-% \let\oldtimes\times
-% \renewcommand\times{%
-%     \equalizeto{\oldtimes}{\intersection}{\mathbin}}
-%% Composition operator
-% \let\oldcirc\circ
-% \renewcommand\circ{%
-%     \equalizeto{\oldcirc}{\intersection}{\mathbin}}
 
-
-%% Setminus operator
-% \newcommand\rsetminus{\mathbin{\mathpalette\rsetminusaux\relax}}
-% \newcommand\rsetminusaux[2]{%
-%     \mspace{-4mu}
-%     \raisebox{\rsmraise{#1}\depth}{\rotatebox[origin=c]{-20}{$#1\smallsetminus$}}
-%     \mspace{-4mu}
-% }
-% \newcommand\rsmraise[1]{%
-%   \ifx#1\displaystyle .8\else
-%     \ifx#1\textstyle .8\else
-%       \ifx#1\scriptstyle .6\else
-%         .45%
-%       \fi
-%     \fi
-%   \fi
-% }
-% \let\oldsetminus\setminus
-% \renewcommand\setminus{%
-%     \equalizeto{\rsetminus}{\intersection}{\mathbin}}
+%% Meet and join operators
+\newcommand{\meet}{\mathbin{\scalebox{0.8}{$\wedge$}}}
+\newcommand{\join}{\mathbin{\scalebox{0.8}{$\vee$}}}
 
 %% Struts
 \newcommand\TopStrut{\rule{0pt}{2.6ex}}
