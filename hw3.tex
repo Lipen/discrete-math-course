@@ -311,12 +311,13 @@
 
 
     %% Task: MUX.
-    \item Consider a Boolean function $f \colon \Bool^3 \to \Bool$ defined as follows:
-    $f(x,y,z) = \begin{smallcases}
-        x & \text{if } z = 0 \\
-        y & \text{if } z = 1
+    \item Consider a Boolean function $\operatorname{ITE} \colon \Bool^3 \to \Bool$ defined as follows:
+    $\operatorname{ITE}(c,x,y) = \begin{smallcases}
+        x & \text{if } c = 0 \\
+        y & \text{if } c = 1
     \end{smallcases}$.
     Construct a formula for it using the standard Boolean basis $\Set{\land, \lor, \neg}$.
+    Determine whether $\Set{\operatorname{ITE}}$ is functionally complete.
 
 
     %% Task: BDD.
