@@ -254,10 +254,14 @@
 
     % Task: Subtractor.
     \item A \textit{half subtractor} is a circuit that has two bits as input and produces as output a difference bit and a borrow. A \textit{full subtractor} is a circuit that has two bits and a borrow as input, and produces as output a difference bit and a borrow.
+
     \begin{subtasks}
         \item Construct a circuit for a half subtractor using AND gates, OR gates, and inverters.
+
         \item Construct a circuit for a full subtractor using half subtractors and NAND gates.
-        \item Construct a circuit that computes the \textit{saturating} difference of two four-bit integers $(x_3 x_2 x_1 x_0)_2$ and $(y_3 y_2 y_1 y_0)_2$ using half/full subtractors, AND gates, OR gates, and inverters. When $x \geq y$, the output bits $d_3, \dots, d_0$ should represent $d = x - y$, and when $x < y$, the output must be zero.
+
+        \item Construct a circuit that computes the \textit{saturating} difference of two four-bit integers $(x_3 x_2 x_1 x_0)_2$ and $(y_3 y_2 y_1 y_0)_2$ using half/full subtractors, AND gates, OR gates, and inverters.
+        When $x \geq y$, the output bits $d_3, \dots, d_0$ should represent $d = x - y$, and when $x < y$, the output must be zero.
     \end{subtasks}
 
 
