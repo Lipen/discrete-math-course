@@ -32,25 +32,6 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml/
 |image:https://img.shields.io/badge/Homework 7-Recurrences-blue?style=social&logo=gitbook["Homework 7: Recurrences", link="https://lipen.github.io/discrete-math-course/hw7.pdf"]
 |===
 
-// :url-template: https://lipen.github.io/discrete-math-course/
-//
-// === Cheatsheets
-// - {url-template}cheat1.tex[Cheatsheet 1: Set Theory]
-// - {url-template}cheat2.tex[Cheatsheet 2: Binary Relations]
-// - {url-template}cheat3.tex[Cheatsheet 3: Boolean Algebra]
-// - {url-template}cheat4.tex[Cheatsheet 4: Formal Logic]
-// - {url-template}cheat5.tex[Cheatsheet 5: Graph Theory]
-// - {url-template}cheat6.tex[Cheatsheet 6: Combinatorics]
-//
-// === Homeworks
-// - {url-template}hw1.tex[Homework 1: Set Theory]
-// - {url-template}hw2.tex[Homework 2: Binary Relations]
-// - {url-template}hw3.tex[Homework 3: Boolean Algebra]
-// - {url-template}hw4.tex[Homework 4: Formal Logic]
-// - {url-template}hw5.tex[Homework 5: Graph Theory]
-// - {url-template}hw6.tex[Homework 6: Combinatorics]
-// - {url-template}hw7.tex[Homework 7: Recurrences]
-
 == Build
 
 To compile the PDFs from the source code, you can use link:https://mg.readthedocs.io/latexmk.html[Latexmk]:
