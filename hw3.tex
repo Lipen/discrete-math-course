@@ -31,6 +31,26 @@
     \end{smallmatrix}%
 }
 
+\makeatletter
+\newtcolorbox{defbox}[1][]{%
+    enhanced jigsaw, % better frame drawing
+    borderline west={1pt}{0pt}{black}, % straigh vertical line at the left edge
+    sharp corners, % no rounded corners
+    boxrule=0pt, % no real frame,
+    fonttitle={\bfseries},
+    coltitle={black},  % Black colour for title
+    attach title to upper, % Move the title into the box
+    after title={\ },
+    colback=gray!10,
+    % right=0pt,
+    top=0pt,
+    bottom=0pt,
+    frame hidden,
+    baseline={\tcb@height-2\kvtcb@boxsep+\baselineskip-2\lineskip},
+    #1
+}
+\makeatother
+
 
 \begin{document}
 \selectlanguage{english}
@@ -309,20 +329,35 @@
 
 
     %% Task: Binary-to-Gray conversion.
-    \item Construct a minimal (in terms of the number of gates) Boolean circuit that implements the conversion of 4-bit binary numbers to Gray code\Href{https://en.wikipedia.org/wiki/Gray_code}, \ie the function $f \colon \Bool^4 \to \Bool^4$ with the semantics $(b_3,b_2,b_1,b_0) \mapsto (g_3,g_2,g_1,g_0)$, \eg $\mathtt{0000}_{2} \mapsto \mathtt{0000}_{\mathrm{Gray}}$, and $\mathtt{1001}_{2} \mapsto \mathtt{1101}_{\mathrm{Gray}}$.
+    \item Construct a minimal Boolean circuit that implements the conversion of 4-bit binary numbers to Gray code\Href{https://en.wikipedia.org/wiki/Gray_code}, \ie the function $f \colon \Bool^4 \to \Bool^4$ with the semantics $(b_3,b_2,b_1,b_0) \mapsto (g_3,g_2,g_1,g_0)$, \eg $\mathtt{0000}_{2} \mapsto \mathtt{0000}_{\mathrm{Gray}}$, and $\mathtt{1001}_{2} \mapsto \mathtt{1101}_{\mathrm{Gray}}$.
     Use only $\mathtt{NAND}$ and $\mathtt{NOR}$ logic gates.
 
 
+    % Task: Subtractor.
+    \item A \textit{half subtractor} is a circuit that has two bits as input and produces as output a difference bit and a borrow. A \textit{full subtractor} is a circuit that has two bits and a borrow as input, and produces as output a difference bit and a borrow.
+    \begin{subtasks}
+        \item Construct a circuit for a half subtractor using AND gates, OR gates, and inverters.
+        \item Construct a circuit for a full subtractor using half subtractors and NAND gates.
+        \item Construct a circuit that computes the \textit{saturating} difference of two four-bit integers $(x_3 x_2 x_1 x_0)_2$ and $(y_3 y_2 y_1 y_0)_2$ using half/full subtractors, AND gates, OR gates, and inverters. When $x \geq y$, the output bits $d_3, \dots d_0$ should represent $d = x - y$, and when $x < y$, the output must be zero.
+    \end{subtasks}
+
+
     % Task: Comparator.
-    \item Construct a circuit that compares the two-bit integers $(x_1 x_0)_2$ and $(y_1 y_0)_2$, returning an output of~1 when the first of these numbers is larger and an output of~0 otherwise.
+    \item Construct a circuit that compares the two-bit integers $(x_1 x_0)_2$ and $(y_1 y_0)_2$, and outputs 1 when $x > y$ and 0 otherwise.
 
 
     % Task: Multiplier.
     \item Construct a circuit that computes the product of the two-bit integers $(x_1 x_0)_2$ and $(y_1 y_0)_2$.
-    The circuit should have four-bit output $(p_3 p_2 p_1 p_0)_2$.
+    The circuit should have four-bit output $(p_3 p_2 p_1 p_0)_2$ representing the product $ p = x \cdot y$.
 
 
-    %% Task: MUX.
+    % % Task: MUX.
+    % \item A \textit{multiplexer} is a switching circuit that produces as output one of its input bits based on the value of control bits.
+    % Construct a 4-to-1 multiplexer (using AND gates, OR gates, and inverters) that has as input the four bits $x_0$, $x_1$, $x_2$, and $x_3$ and the two control bits $c_0$ and $c_1$.
+    % The circuit should output~$x_i$, where $i$~is the value of the two-bit integer $(c_1 c_0)_2$.
+
+
+    %% Task: ITE.
     \item Consider a Boolean function $\operatorname{ITE} \colon \Bool^3 \to \Bool$ defined as follows:
     $\operatorname{ITE}(c,x,y) = \begin{smallcases}
         x & \text{if } c = 0 \\
@@ -332,39 +367,17 @@
     Determine whether the set $\Set{\operatorname{ITE}}$ is functionally complete.
 
 
-    \makeatletter
-    \newtcolorbox{defbox}[1][]{%
-        enhanced jigsaw, % better frame drawing
-        borderline west={1pt}{0pt}{black}, % straigh vertical line at the left edge
-        sharp corners, % no rounded corners
-        boxrule=0pt, % no real frame,
-        fonttitle={\bfseries},
-        coltitle={black},  % Black colour for title
-        attach title to upper, % Move the title into the box
-        after title={\ },
-        colback=gray!10,
-        % right=0pt,
-        top=0pt,
-        bottom=0pt,
-        frame hidden,
-        baseline={\tcb@height-2\kvtcb@boxsep+\baselineskip-2\lineskip},
-        #1
-    }
-    \makeatother
-
     %% Task: BDD.
-    \item For each given function~$f_i$, construct an Reduced Ordered Binary Decision Diagram (ROBDD) using the natural order $x_1 \prec x_2 \prec \dotsb \prec x_n$.
-    Determine whether the ROBDD can be reduced by using a different variable order \--- if so, draw it.
+    \item For each given function~$f_i$, construct a Reduced Ordered Binary Decision Diagram (ROBDD) using the natural variable order $x_1 \prec x_2 \prec \dotsb \prec x_n$.
+    Determine whether the ROBDD can be reduced even further by using a different variable order \--- if so, show it.
 
     \begin{defbox}
         Binary Decision Diagram\Href{https://en.wikipedia.org/wiki/Binary_decision_diagram} (BDD) is a representation of a Boolean function as a directed acyclic graph, which consists of \emph{decision} nodes and two \emph{terminal} nodes (0~and~1).
         Each decision node is labeled by a Boolean variable~$x_i$ and has two child nodes called \emph{low} and \emph{high}.
-        The edge from node to a low (high) child represents an assignment of the value \texttt{FALSE} (\texttt{TRUE}, respectively) to variable~$x_i$.
-        A path from the root node to the 1-terminal (0-terminal) corresponds to an assignment for which the represented Boolean function is true (false, respectively).
+        The edge from node to a low (high) child represents an assignment of the value \texttt{FALSE} (\texttt{TRUE}) to variable~$x_i$.
+        A path from the root node to the 1-terminal (0-terminal) corresponds to an assignment for which the represented Boolean function is true (false).
 
-        BDD is called \emph{ordered} if different variables appear in the same order on all paths from the root.
-        For example, if the natural order $x_1 \prec x_2 \prec \dotsb \prec x_n$ is used, the root is marked with the variable~$x_1$, its children with~$x_2$, \textit{etc}.
-        Note that some variables in the order can be skipped, if necessary.
+        BDD is called \emph{ordered} if variables appear in the same order on all paths from the root.
 
         BDD is called \emph{reduced} if it does not contain a node $v$ with $\operatorname{high}(v) = \operatorname{low}(v)$, and there does not exist a pair of nodes $u,v$ such that the sub-OBDDs rooted in $u$ and $v$ are isomorphic.
     \end{defbox}
