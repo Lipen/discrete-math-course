@@ -61,7 +61,7 @@
     \begin{subtasks}
         \item Calculate the SHA-256 hash~$h$ of the string $s = \text{\enquote{DM Fall 2023 HW3}}$ (without quotes, with all spaces, encoded in UTF-8).
         Convert hash~$h$ to a 256-bit binary string~$b$ (prepend leading zeros if necessary).
-        Cut the binary string~$b$ into eight 32-bit slices $r_1, \dotsc, r_8$, \eg $r_2 = b_{33 \dd 64}$.
+        Cut the binary string~$b$ into eight 32-bit slices $r_1, \dotsc, r_8$, \textit{e.g.} $r_2 = b_{33 \dd 64}$.
         Xor all slices into a 32-bit string $d = r_1 \xor \dotsb \xor r_8$.
         Compute $w = d \xor \mathtt{0x24d03294}$.
 
@@ -69,7 +69,7 @@
 
         \item Use K-map to find the minimal DNF and minimal CNF for th function $f$.
 
-        \item Use K-map to find the number of prime implicants, \ie the size of BCF\@.
+        \item Use K-map to find the number of prime implicants, \textit{i.e.} the size of BCF\@.
         % \footnote{Here, consider only implicants represented as product terms.}
 
         \begin{tikzpicture}[]
@@ -141,7 +141,7 @@
     \begin{notebox}
         \RaggedRight
         WolframAlpha\Href{https://www.wolframalpha.com} interprets the query \enquote{$n$-th Boolean function of $k$ variables} in a reverse manner.
-        In order to employ WolframAlpha properly, manually flip the truth table beforehand, \eg the correct query for $f^{(2)}_{10}$ is \enquote{5th~Boolean function of 2~variables}\Href{https://www.wolframalpha.com/input?i=5th+boolean+function+of+2+variables}, which gives $f^{(2)}_{10} = \neg x_2$, since $\mathtt{rev}(1010_2) = 0101_2 = 5_{10}$.
+        In order to employ WolframAlpha properly, manually flip the truth table beforehand, \textit{e.g.} the correct query for $f^{(2)}_{10}$ is \enquote{5th~Boolean function of 2~variables}\Href{https://www.wolframalpha.com/input?i=5th+boolean+function+of+2+variables}, which gives $f^{(2)}_{10} = \neg x_2$, since $\mathtt{rev}(1010_2) = 0101_2 = 5_{10}$.
     \end{notebox}
 
     \begin{multicols}{2}
@@ -248,7 +248,7 @@
 
 
     %% Task: Binary-to-Gray conversion.
-    \item Construct a minimal Boolean circuit that implements the conversion of 4-bit binary numbers to Gray code\Href{https://en.wikipedia.org/wiki/Gray_code}, \ie the function $f \colon \Bool^4 \to \Bool^4$ with the semantics $(b_3,b_2,b_1,b_0) \mapsto (g_3,g_2,g_1,g_0)$, \eg $\mathtt{0000}_{2} \mapsto \mathtt{0000}_{\mathrm{Gray}}$, and $\mathtt{1001}_{2} \mapsto \mathtt{1101}_{\mathrm{Gray}}$.
+    \item Construct a minimal Boolean circuit that implements the conversion of 4-bit binary numbers to Gray code\Href{https://en.wikipedia.org/wiki/Gray_code}, \textit{i.e.} the function $f \colon \Bool^4 \to \Bool^4$ with the semantics $(b_3,b_2,b_1,b_0) \mapsto (g_3,g_2,g_1,g_0)$, \textit{e\Cat[1.5pt]g.}, $\mathtt{0000}_{2} \mapsto \mathtt{0000}_{\mathrm{Gray}}$, and $\mathtt{1001}_{2} \mapsto \mathtt{1101}_{\mathrm{Gray}}$.
     Use only $\mathtt{NAND}$ and $\mathtt{NOR}$ logic gates.
 
 
@@ -281,7 +281,8 @@
     $\operatorname{ITE}(c,x,y) = \begin{smallcases}
         x & \text{if } c = 0 \\
         y & \text{if } c = 1
-    \end{smallcases}$.
+    \end{smallcases}$
+
     Construct a formula for it using the standard Boolean basis $\Set{\land, \lor, \neg}$.
     Determine whether the set $\Set{\operatorname{ITE}}$ is functionally complete.
 
