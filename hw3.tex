@@ -329,18 +329,42 @@
     Determine whether the set $\Set{\operatorname{ITE}}$ is functionally complete.
 
 
+    \makeatletter
+    \newtcolorbox{defbox}[1][]{%
+        enhanced jigsaw, % better frame drawing
+        borderline west={1pt}{0pt}{black}, % straigh vertical line at the left edge
+        sharp corners, % no rounded corners
+        boxrule=0pt, % no real frame,
+        fonttitle={\bfseries},
+        coltitle={black},  % Black colour for title
+        attach title to upper, % Move the title into the box
+        after title={\ },
+        colback=gray!10,
+        % right=0pt,
+        top=0pt,
+        bottom=0pt,
+        frame hidden,
+        baseline={\tcb@height-2\kvtcb@boxsep+\baselineskip-2\lineskip},
+        #1
+    }
+    \makeatother
+
     %% Task: BDD.
-    \item Binary Decision Diagram\Href{https://en.wikipedia.org/wiki/Binary_decision_diagram} (BDD) is a representation of a Boolean function as a directed acyclic graph, which consists of \emph{decision} nodes and two \emph{terminal} nodes (0~and~1).
-    Each decision node is labeled by a Boolean variable~$x_i$ and has two child nodes called \emph{low} and \emph{high}.
-    The edge from node to a low (high) child represents an assignment of the value \texttt{FALSE} (\texttt{TRUE}, respectively) to variable~$x_i$.
-    A path from the root node to the 1-terminal (0-terminal) corresponds to an assignment for which the represented Boolean function is true (false, respectively).
+    \item For each given function~$f_i$, construct an Reduced Ordered Binary Decision Diagram (ROBDD) using the natural order $x_1 \prec x_2 \prec \dotsb \prec x_n$.
+    Determine whether the ROBDD can be reduced by using a different variable order \--- if so, draw it.
 
-    BDD is called \emph{ordered} if different variables appear in the same order on all paths from the root.
-    For example, if the natural order $x_1 \prec x_2 \prec \dotsb \prec x_n$ is used, the root is marked with the variable~$x_1$, its children with~$x_2$, \textit{etc}.
-    Note that some variables in the order can be skipped, if necessary.
+    \begin{defbox}
+        Binary Decision Diagram\Href{https://en.wikipedia.org/wiki/Binary_decision_diagram} (BDD) is a representation of a Boolean function as a directed acyclic graph, which consists of \emph{decision} nodes and two \emph{terminal} nodes (0~and~1).
+        Each decision node is labeled by a Boolean variable~$x_i$ and has two child nodes called \emph{low} and \emph{high}.
+        The edge from node to a low (high) child represents an assignment of the value \texttt{FALSE} (\texttt{TRUE}, respectively) to variable~$x_i$.
+        A path from the root node to the 1-terminal (0-terminal) corresponds to an assignment for which the represented Boolean function is true (false, respectively).
 
-    For each given function~$f_i$, construct an Ordered Binary Decision Diagram (OBDD) using the natural order.
-    Determine whether the OBDD can be reduced by using a different variable order \--- if so, draw it.
+        BDD is called \emph{ordered} if different variables appear in the same order on all paths from the root.
+        For example, if the natural order $x_1 \prec x_2 \prec \dotsb \prec x_n$ is used, the root is marked with the variable~$x_1$, its children with~$x_2$, \textit{etc}.
+        Note that some variables in the order can be skipped, if necessary.
+
+        BDD is called \emph{reduced} if it does not contain a node $v$ with $\operatorname{high}(v) = \operatorname{low}(v)$, and there does not exist a pair of nodes $u,v$ such that the sub-OBDDs rooted in $u$ and $v$ are isomorphic.
+    \end{defbox}
 
     \begin{multicols}{2}
     \begin{subtasks}
