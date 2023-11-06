@@ -36,55 +36,55 @@
 \selectlanguage{english}
 
 \begin{tasks}
-    %% Task: Karnaugh maps.
-    \item Perform the following steps:
-    \begin{subtasks}
-        \item Calculate the SHA-256 hash~$h$ of the string $s = \verb|"Your Full Name HW3"|$ (substitute your full name as in the scores table, without quotes, with all spaces, encoded in UTF-8).
-        Convert hash~$h$ to a 256-bit binary string~$b$ (prepend leading zeros if necessary).
-        Cut the binary string~$b$ into eight 32-bit slices $r_1, \dotsc, r_8$, \eg $r_2 = b_{33 \dd 64}$.
-        Xor all slices into a 32-bit string $d = r_1 \xor \dotsb \xor r_8$.
+    % %% Task: Karnaugh maps.
+    % \item Perform the following steps:
+    % \begin{subtasks}
+    %     \item Calculate the SHA-256 hash~$h$ of the string $s = \verb|"Your Full Name HW3"|$ (substitute your full name as in the scores table, without quotes, with all spaces, encoded in UTF-8).
+    %     Convert hash~$h$ to a 256-bit binary string~$b$ (prepend leading zeros if necessary).
+    %     Cut the binary string~$b$ into eight 32-bit slices $r_1, \dotsc, r_8$, \eg $r_2 = b_{33 \dd 64}$.
+    %     Xor all slices into a 32-bit string $d = r_1 \xor \dotsb \xor r_8$.
 
-        \item Draw the Karnaugh map (use a template below) for a function $f(A,B,C,D,E)$ defined by the truth table~$d$ (MSB corresponds to~$\vvmathbb{0}$, LSB to~$\vvmathbb{1}$).
-        Use it to find the number of prime implicants\footnote{Here, consider only implicants represented as product terms.}.
+    %     \item Draw the Karnaugh map (use a template below) for a function $f(A,B,C,D,E)$ defined by the truth table~$d$ (MSB corresponds to~$\vvmathbb{0}$, LSB to~$\vvmathbb{1}$).
+    %     Use it to find the number of prime implicants\footnote{Here, consider only implicants represented as product terms.}.
 
-        \begin{tikzpicture}[]
-            \def\sidelinepaw{0.1}
-            \newcommand\sidelineV[4]{% {<start>}{<height>}{<node-style>}{<node-text>}
-                \coordinate (start) at #1;
-                \draw[thick] (start) +(-\sidelinepaw,0) -- +(\sidelinepaw,0);
-                \draw[thick] (start)++(0,#2) +(-\sidelinepaw,0) -- +(\sidelinepaw,0);
-                \draw[very thick] (start) -- node[#3]{#4} ++(0,#2);
-            }
-            \newcommand\sidelineH[4]{% {<start>}{<width>}{<node-style>}{<node-text>}
-                \coordinate (start) at #1;
-                \draw[thick] (start) +(0,-\sidelinepaw) -- +(0,\sidelinepaw);
-                \draw[thick] (start)++(#2,0) +(0,-\sidelinepaw) -- +(0,\sidelinepaw);
-                \draw[very thick] (start) -- node[#3]{#4} ++(#2,0);
-            }
+    %     \begin{tikzpicture}[]
+    %         \def\sidelinepaw{0.1}
+    %         \newcommand\sidelineV[4]{% {<start>}{<height>}{<node-style>}{<node-text>}
+    %             \coordinate (start) at #1;
+    %             \draw[thick] (start) +(-\sidelinepaw,0) -- +(\sidelinepaw,0);
+    %             \draw[thick] (start)++(0,#2) +(-\sidelinepaw,0) -- +(\sidelinepaw,0);
+    %             \draw[very thick] (start) -- node[#3]{#4} ++(0,#2);
+    %         }
+    %         \newcommand\sidelineH[4]{% {<start>}{<width>}{<node-style>}{<node-text>}
+    %             \coordinate (start) at #1;
+    %             \draw[thick] (start) +(0,-\sidelinepaw) -- +(0,\sidelinepaw);
+    %             \draw[thick] (start)++(#2,0) +(0,-\sidelinepaw) -- +(0,\sidelinepaw);
+    %             \draw[very thick] (start) -- node[#3]{#4} ++(#2,0);
+    %         }
 
-            \draw (0,0) grid (8,4);
-            \node[above] at (0.5,4) {000};
-            \node[above] at (1.5,4) {001};
-            \node[above] at (2.5,4) {011};
-            \node[above] at (3.5,4) {010};
-            \node[above] at (4.5,4) {110};
-            \node[above] at (5.5,4) {111};
-            \node[above] at (6.5,4) {101};
-            \node[above] at (7.5,4) {100};
-            \node[left] at (0,0.5) {10};
-            \node[left] at (0,1.5) {11};
-            \node[left] at (0,2.5) {01};
-            \node[left] at (0,3.5) {00};
-            \draw (0,4) -- node[sloped,below]{$AB$~~} node[sloped,above]{$CDE$} ++(-1.4,.7);
+    %         \draw (0,0) grid (8,4);
+    %         \node[above] at (0.5,4) {000};
+    %         \node[above] at (1.5,4) {001};
+    %         \node[above] at (2.5,4) {011};
+    %         \node[above] at (3.5,4) {010};
+    %         \node[above] at (4.5,4) {110};
+    %         \node[above] at (5.5,4) {111};
+    %         \node[above] at (6.5,4) {101};
+    %         \node[above] at (7.5,4) {100};
+    %         \node[left] at (0,0.5) {10};
+    %         \node[left] at (0,1.5) {11};
+    %         \node[left] at (0,2.5) {01};
+    %         \node[left] at (0,3.5) {00};
+    %         \draw (0,4) -- node[sloped,below]{$AB$~~} node[sloped,above]{$CDE$} ++(-1.4,.7);
 
-            \sidelineV{(-0.7,0)}{2cm}{left}{$A$}
-            \sidelineV{(8.3,1)}{2}{right}{$B$}
-            \sidelineH{(4,-0.2)}{4}{below}{$C$}
-            \sidelineH{(2,4.6)}{4}{above}{$D$}
-            \sidelineH{(1,4.8)}{2}{above}{$E$}
-            \sidelineH{(5,4.8)}{2}{above}{$E$}
-        \end{tikzpicture}
-    \end{subtasks}
+    %         \sidelineV{(-0.7,0)}{2cm}{left}{$A$}
+    %         \sidelineV{(8.3,1)}{2}{right}{$B$}
+    %         \sidelineH{(4,-0.2)}{4}{below}{$C$}
+    %         \sidelineH{(2,4.6)}{4}{above}{$D$}
+    %         \sidelineH{(1,4.8)}{2}{above}{$E$}
+    %         \sidelineH{(5,4.8)}{2}{above}{$E$}
+    %     \end{tikzpicture}
+    % \end{subtasks}
 
 
     %% Task: Find minimal DNF,CNF,etc using Karnaugh map, and find Zhegalkin polynomial.
