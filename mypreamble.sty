@@ -60,9 +60,7 @@
 \usepackage{pgf}
 \pgfmathsetseed{\number\pdfrandomseed}
 
-\makeatletter
 \def\input@path{{../}}%
-\makeatother
 
 \usepackage{subfiles}
 \newcommand{\onlyinsubfile}[1]{#1}
@@ -71,13 +69,11 @@
 %%%% \renewcommand{\onlyinsubfile}[1]{}
 %%%% \renewcommand{\notinsubfile}[1]{#1}
 
-\makeatletter
 \newcommand{\onlyinpreamble}[1]{% {<text>}
     \ifx\@onlypreamble\@notprerr% after \begin{document}
     \else% before \begin{document}
         #1%
     \fi}
-\makeatother
 
 %% Usage:
 %%   place "\enabletikzpreview%"
@@ -246,7 +242,6 @@
 
 % Case environment (column)
 \newenvironment{case}[2][0.3\linewidth]{% [<width>]{<case>}
-    \providecommand{\TextCase}{\TextCaseEng}%
     \ifthenelse{\boolean{is-adjustbox-cframe}}{%
         \begin{adjustbox}{valign=t,minipage=#1,cframe=red}%
     }{%
@@ -270,7 +265,6 @@
 %% Back-reference from footnote
 \usepackage{footnotebackref}
 % https://tex.stackexchange.com/a/78438
-\makeatletter
 \LetLtxMacro{\BHFN@Old@footnotemark}{\@footnotemark}
 \renewcommand*{\@footnotemark}{%
     \refstepcounter{BackrefHyperFootnoteCounter}%
@@ -278,7 +272,6 @@
     \label{\BackrefFootnoteTag}%
     \BHFN@Old@footnotemark
 }
-\makeatother
 
 %% Bookmarks
 % Note: use [numbered] option to obtain numbered sections
@@ -326,9 +319,7 @@
 \providecommand{\Chi}{\mathrm{X}}
 
 %% Current font size
-\makeatletter
 \newcommand\thefontsize{\f@size}
-\makeatother
 
 %% Cat symbol
 \newcommand\CatSymbol[1]{% {<height>}
@@ -367,7 +358,6 @@
 %     \mathord{\scalerel*{\tikz \node[draw, isosceles triangle, isosceles triangle apex angle=60, minimum width=1ex, shape border rotate=90] {};}{A}}}
 
 %% Partial function arrow with stroke
-\makeatletter
 \@ifpackageloaded{libertinust1math}{
     % Just use symbol from libertinust1math (symbol)
     \DeclareMathSymbol{\pto}{\mathrel}{symbols}{"4E}
@@ -380,16 +370,13 @@
     \newcommand{\p@to@gets}[2]{%
         \ooalign{\hidewidth$\m@th#1\mapstochar\mkern5mu$\hidewidth\cr$\m@th#1\to$\cr}}
 }
-\makeatother
 
 %% Double forward slash
-\makeatletter
 \@ifpackageloaded{libertinust1math}{
     \newcommand\dslash{/\mkern-3mu/}
 }{
     \newcommand\dslash{/\mkern-5mu/}
 }
-\makeatother
 
 %% 1-multicolumn shortcut
 \newcommand\mc[2][c]{\multicolumn{1}{#1}{#2}}
@@ -673,7 +660,6 @@
 
 %% Math color
 % Source: https://tex.stackexchange.com/a/261480/216486
-\makeatletter
 \def\mathcolor#1#{\@mathcolor{#1}}
 \def\@mathcolor#1#2#3{%
     \protect\leavevmode
@@ -681,7 +667,6 @@
         \color#1{#2}#3%
     \endgroup
 }
-\makeatother
 
 %% Hidden (boxed) math
 \newcommand{\mathhide}[1]{% {<arg>}
