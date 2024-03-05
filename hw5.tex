@@ -83,10 +83,10 @@
     \begin{subtasks}
         \item \tikz[mygraphstyle, baseline=(b.south)]{
             \node[dot] (b) [label=above:{b}] {};
-            \node[dot] (a) [label=above right:{a}, above left=8mm and 16mm of b] {};
-            \node[dot] (c) [label=above right:{c}, above right=8mm and 16mm of b] {};
-            \node[dot] (e) [label=below right:{e}, below left=8mm and 16mm of b] {};
-            \node[dot] (d) [label=below right:{d}, below right=8mm and 16mm of b] {};
+            \node[dot] (a) [label=left:{a}, above left=8mm and 16mm of b] {};
+            \node[dot] (c) [label=left:{c}, above right=8mm and 16mm of b] {};
+            \node[dot] (e) [label=right:{e}, below left=8mm and 16mm of b] {};
+            \node[dot] (d) [label=right:{d}, below right=8mm and 16mm of b] {};
             \draw (a) -- (b) -- (c) -- (d) -- (b) -- (e) -- (a);
         }
 
@@ -97,12 +97,12 @@
             \node[dot] (c) [label=left:{$c$}, left=8mm of d] {};
             \node[dot] (h) [label=right:{$h$}, below=12mm of d] {};
             \node[dot] (g) [label=left:{$g$}, left=8mm of h] {};
-            \node[dot] (k) [label=below:{$k$}, below=8mm of h] {};
+            \node[dot] (k) [label={[text height=1.5ex]below:{$k$}}, below=8mm of h] {};
             \node[dot] (e) [label=left:{$e$}, below=8mm of b] {};
             \node[dot] (f) [label=right:{$f$}, right=8mm of e] {};
             \node[dot] (i) [label=left:{$i$}, below=12mm of e] {};
             \node[dot] (j) [label=right:{$j$}, right=8mm of i] {};
-            \node[dot] (m) [label=below:{$i$}, below=8mm of i] {};
+            \node[dot] (m) [label={[text height=1.5ex]below:{$m$}}, below=8mm of i] {};
             \draw (a) -- (d) -- (h) -- (k) -- (g) -- (c) -- (a);
             \draw (b) -- (e) -- (i) -- (m) -- (j) -- (f) -- (b);
             \draw (a) -- (b);
@@ -134,10 +134,10 @@
         \item \tikz[mygraphstyle, baseline=(b.south)]{
             \coordinate (zero);
             \node[dot] (a) [label=above:{$a$}, position=90:14mm from zero] {};
-            \node[dot] (d) [label=below left:{\smash{$d$}}, position=210:14mm from zero] {};
-            \node[dot] (f) [label=below right:{\smash{$f$}}, position=-30:14mm from zero] {};
-            \node[dot] (b) [label=above left:{\smash{$b$}}, position=150:{7mm-1pt} from zero] {};
-            \node[dot] (c) [label=above right:{\smash{$c$}}, position=30:{7mm-1pt} from zero] {};
+            \node[dot] (d) [label=left:{$d$}, position=210:14mm from zero] {};
+            \node[dot] (f) [label=right:{$f$}, position=-30:14mm from zero] {};
+            \node[dot] (b) [label=left:{$b$}, position=150:{7mm-1pt} from zero] {};
+            \node[dot] (c) [label=right:{$c$}, position=30:{7mm-1pt} from zero] {};
             \node[dot] (e) [label=below:{$e$}, position=270:{7mm-1pt} from zero] {};
             \draw (zero) circle (14mm+2pt);
             \draw (a) -- (b) -- (c) -- (e) -- (b) -- (d) -- (e) -- (f) -- (c) -- (a);
