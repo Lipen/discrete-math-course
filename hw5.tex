@@ -14,7 +14,7 @@
     {\TextHomeworkEng~\#5}
     {Graph Theory}
     {\TextDiscreteMathEng}
-    {\IconSpring~Spring 2023}
+    {\IconSpring~Spring 2024}
 
 %% Add custom setup below
 
@@ -45,51 +45,342 @@
 ]{mystyle}
 \declaretheorem[style=mystyle]{theorem}
 
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+\tikzset{
+    position/.style args={#1:#2 from #3}{
+        at=(#3.#1), anchor=#1+180, shift=(#1:#2)
+    },
+}
+
+\tikzstyle{mygraphstyle}=[
+    auto,
+    on grid,
+    dot/.style={
+        draw,
+        fill=black,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
+    every label/.append style={
+        text depth=0pt
+    },
+]
+
 
 \begin{document}
 \selectlanguage{english}
 
 \begin{tasks}
-    \item The graph\footnote{Hereinafter, \enquote{graphs} are \enquote{simple, finite, undirected, and unweighted}, unless stated otherwise.} of Europe $\MyGraphFull = \Pair{V, E}$ is defined as follows: each vertex $v \in V$ is a Europe country\footnote{Since the absolute geopolitical correctness is not necessary to accomplish this task, you can simply use \url{https://simple.wikipedia.org/wiki/List_of_European_countries} or any other similar source as a reference.}; two vertices are adjacent ($\Set{u,v} \in E$) if the corresponding countries share a land border.
-    Let $\MyGraph$ be the largest connected component of $\MyGraphFull$.
+
+    \item For each of the following graphs, find $\vertexConnectivity{G}$, $\edgeConnectivity{G}$, $\minDegree{G}$, $\eccentricity{v}$ of each vertex $v \in V(G)$, $\graphRadius{G}$, $\graphDiameter{G}$, $\graphCenter{G}$.
+    Find Euler path, Euler circuit, and Hamiltonian cycle, if they exist.
+    In addition, find maximum clique $Q \subseteq V$, maximum stable set $S \subseteq V$, maximum matching $M \subseteq E$, minimum dominating set $D \subseteq V$, minimum dominating set $D \subseteq V$, minimum vertex cover $R \subseteq V$, minimum edge cover $F \subseteq E$ of $G$.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item \tikz[mygraphstyle, baseline=(b.south)]{
+            \node[dot] (b) [label=above:{b}] {};
+            \node[dot] (a) [label=above right:{a}, above left=8mm and 16mm of b] {};
+            \node[dot] (c) [label=above right:{c}, above right=8mm and 16mm of b] {};
+            \node[dot] (e) [label=below right:{e}, below left=8mm and 16mm of b] {};
+            \node[dot] (d) [label=below right:{d}, below right=8mm and 16mm of b] {};
+            \draw (a) -- (b) -- (c) -- (d) -- (b) -- (e) -- (a);
+        }
+
+        \item \tikz[mygraphstyle, baseline=(c.south)]{
+            \node[dot] (a) [label=above:{$a$}] {};
+            \node[dot] (b) [label=above:{$b$}, right=12mm of a] {};
+            \node[dot] (d) [label=right:{$d$}, below=8mm of a] {};
+            \node[dot] (c) [label=left:{$c$}, left=8mm of d] {};
+            \node[dot] (h) [label=right:{$h$}, below=12mm of d] {};
+            \node[dot] (g) [label=left:{$g$}, left=8mm of h] {};
+            \node[dot] (k) [label=below:{$k$}, below=8mm of h] {};
+            \node[dot] (e) [label=left:{$e$}, below=8mm of b] {};
+            \node[dot] (f) [label=right:{$f$}, right=8mm of e] {};
+            \node[dot] (i) [label=left:{$i$}, below=12mm of e] {};
+            \node[dot] (j) [label=right:{$j$}, right=8mm of i] {};
+            \node[dot] (m) [label=below:{$i$}, below=8mm of i] {};
+            \draw (a) -- (d) -- (h) -- (k) -- (g) -- (c) -- (a);
+            \draw (b) -- (e) -- (i) -- (m) -- (j) -- (f) -- (b);
+            \draw (a) -- (b);
+            \draw (k) -- (m);
+            \draw (c) -- (d);
+            \draw (g) -- (h);
+            \draw (e) -- (f);
+            \draw (i) -- (j);
+        }
+
+        \item \tikz[mygraphstyle, baseline=(a.south)]{
+            \node[dot] (a) [label=above:{$a$}] {};
+            \node[dot] (c) [label=above:{$c$}, right=20mm of a] {};
+            \node[dot] (g) [label=above left:{$g$}, right=10mm of c] {};
+            \node[dot] (e) [label=above:{$e$}, right=20mm of g] {};
+            \node[dot] (b) [label=right:{$b$}, above right=10mm and 10mm of a] {};
+            \node[dot] (h) [label=right:{$h$}, below right=10mm and 10mm of a] {};
+            \node[dot] (d) [label=right:{$d$}, above right=10mm and 10mm of g] {};
+            \node[dot] (f) [label=right:{$f$}, below right=10mm and 10mm of g] {};
+            \draw (a) -- (b) -- (c) -- (h) -- (a);
+            \draw (b) -- (h);
+            \draw (a) -- (c) -- (g) -- (e);
+            \draw (g) -- (d) -- (e) -- (f) -- (g);
+            \draw (d) -- (f);
+            \draw (c) edge[out=45,in=180] (d);
+            \draw (c) edge[out=-45,in=180] (f);
+        }
+
+        \item \tikz[mygraphstyle, baseline=(b.south)]{
+            \coordinate (zero);
+            \node[dot] (a) [label=above:{$a$}, position=90:14mm from zero] {};
+            \node[dot] (d) [label=below left:{\smash{$d$}}, position=210:14mm from zero] {};
+            \node[dot] (f) [label=below right:{\smash{$f$}}, position=-30:14mm from zero] {};
+            \node[dot] (b) [label=above left:{\smash{$b$}}, position=150:{7mm-1pt} from zero] {};
+            \node[dot] (c) [label=above right:{\smash{$c$}}, position=30:{7mm-1pt} from zero] {};
+            \node[dot] (e) [label=below:{$e$}, position=270:{7mm-1pt} from zero] {};
+            \draw (zero) circle (14mm+2pt);
+            \draw (a) -- (b) -- (c) -- (e) -- (b) -- (d) -- (e) -- (f) -- (c) -- (a);
+        }
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item A \textbf{precedence graph} is a directed graph where the vertices represent the program instructions and the edges represent the dependencies between instructions: there is an edge from one statement to a second statement if the second statement cannot be executed before the first statement.
+
+    For~example, the instruction $b \coloneqq a + 1$ depends on the instruction $a \coloneqq 0$, so there would be an edge from the statement $S_1 = (a \coloneqq 0)$ to the statement $S_2 = (b \coloneqq a + 1)$.
+
+    Construct a precedence graph for the following program:
+    \par\hspace{2em}$S_1 :~ x \coloneqq 0$
+    \par\hspace{2em}$S_3 :~ y \coloneqq 2$
+    \par\hspace{2em}$S_2 :~ x \coloneqq x + 1$
+    \par\hspace{2em}$S_4 :~ z \coloneqq y$
+    \par\hspace{2em}$S_5 :~ x \coloneqq x + 2$
+    \par\hspace{2em}$S_6 :~ y \coloneqq x + z$
+    \par\hspace{2em}$S_7 :~ z \coloneqq 4$
+
+
+    \item\label{task:weighted-graph} Find a shortest path between $a$ and $z$ in the given graph.
+
+    \tikz[mygraphstyle] {
+        \node[dot] (a) [label=left:{$a$}] {};
+        \node[dot] (c) [label=below:{$c$}, right=12mm of a] {};
+        \node[dot] (b) [label=above:{$b$}, above=12mm of c] {};
+        \node[dot] (e) [label=above:{$e$}, right=18mm of b] {};
+        \node[dot] (f) [label=above:{$f$}, below=12mm of e] {};
+        \node[dot] (d) [label=below:{$d$}, below=12mm of c] {};
+        \node[dot] (g) [label=below:{$g$}, below=12mm of f] {};
+        \node[dot] (h) [label=above:{$h$}, above right=6mm and 18mm of e] {};
+        \node[dot] (i) [label=above:{$i$}, above right=6mm and 18mm of f] {};
+        \node[dot] (j) [label={[xshift=-2pt]below right:{$j$}}, below=12mm of i] {};
+        \node[dot] (k) [label=below:{$k$}, below=12mm of j] {};
+        \node[dot] (l) [label=above:{$l$}, below right=8mm and 18mm of h] {};
+        \node[dot] (m) [label={[xshift=4pt]above left:{$m$}}, below=10mm of l] {};
+        \node[dot] (n) [label={[xshift=3pt]above left:{$n$}}, below=10mm of m] {};
+        \node[dot] (o) [label=above left:{$o$}, right=36mm of h] {};
+        \node[dot] (p) [label={[xshift=-4pt]above right:{$p$}}, below=12mm of o] {};
+        \node[dot] (q) [label={[xshift=-4pt]above right:{$q$}}, below=12mm of p] {};
+        \node[dot] (r) [label=below:{$r$}, below=12mm of q] {};
+        \node[dot] (s) [label={[xshift=-2pt,yshift=-2pt]above right:{$s$}}, above right=6mm and 12mm of p] {};
+        \node[dot] (t) [label={[xshift=-2pt,yshift=2pt]below right:{$t$}}, right=12mm of q] {};
+        \node[dot] (z) [label=right:{$z$}, above right=9mm and 9mm of t] {};
+        \draw (a) --node[sloped,above]{2} (b);
+        \draw (a) --node[above,pos=0.7]{4} (c);
+        \draw (a) --node[sloped,below]{1} (d);
+        \draw (b) --node[above]{1} (e);
+        \draw (b) --node[right,xshift=-2pt]{3} (c);
+        \draw (c) --node[sloped,above]{2} (e);
+        \draw (c) --node[above,pos=0.7]{2} (f);
+        \draw (d) --node[below]{4} (g);
+        \draw (d) --node[sloped,above]{5} (f);
+        \draw (e) --node[sloped,above]{3} (h);
+        \draw (f) --node[sloped,above,pos=0.4]{3} (h);
+        \draw (f) --node[sloped,above,pos=0.6]{2} (i);
+        \draw (f) --node[sloped,above]{4} (j);
+        \draw (f) --node[right]{3} (g);
+        \draw (g) --node[sloped,below]{2} (k);
+        \draw (i) --node[right]{3} (j);
+        \draw (i) --node[sloped,above]{3} (l);
+        \draw (j) --node[left]{6} (k);
+        \draw (k) --node[sloped,above]{4} (n);
+        \draw (h) --node[sloped,above,pos=0.6]{1} (l);
+        \draw (h) --node[above]{8} (o);
+        \draw (l) --node[sloped,above,pos=0.4]{6} (o);
+        \draw (m) --node[sloped,above]{4} (o);
+        \draw (i) --node[sloped,above]{2} (m);
+        \draw (i) --node[sloped,above]{2} (m);
+        \draw (j) --node[sloped,above]{6} (m);
+        \draw (j) --node[sloped,above]{3} (n);
+        \draw (k) --node[sloped,above]{4} (n);
+        \draw (k) --node[below]{2} (r);
+        \draw (m) --node[right]{5} (n);
+        \draw (m) --node[left,pos=0.75]{3} (l);
+        \draw (n) --node[sloped,above]{2} (q);
+        \draw (m) --node[sloped,above,pos=0.6]{2} (p);
+        \draw (n) --node[sloped,above]{1} (r);
+        \draw (o) --node[left]{2} (p);
+        \draw (o) --node[sloped,above]{6} (s);
+        \draw (p) --node[left]{1} (q);
+        \draw (p) --node[sloped,above]{2} (s);
+        \draw (p) --node[sloped,above]{1} (t);
+        \draw (q) --node[right,pos=0.4]{8} (r);
+        \draw (q) --node[sloped,above]{3} (t);
+        \draw (r) --node[sloped,below]{5} (t);
+        \draw (t) --node[sloped,below]{8} (z);
+        \draw (s) --node[sloped,above]{2} (z);
+    }
+
+
+    \item Imagine that you have a three-liter jar and another five-liter jar.
+    You can fill any jar with water, empty any jar, or transfer water from one jar to the other.
+    Use a directed graph to demonstrate how you can end up with a jar containing exactly one litre of water.
+
+
+    \item Draw $K_5$ and $K_{3,3}$ on the surface of a torus (a donut-shaped solid) without intersecting edges.
+
+
+    \item Floyd's algorithm (pseudocode given below) can be used to find the shortest path between any two vertices in a weighted connected simple graph.
 
     \begin{subtasks}
-        \item Draw\footnote{You may either preserve the original spatial relationships between vertices, or use an automatic layout software. Take a look at Graphviz, Gephi, Cytoscape.} $\MyGraphFull$ with the minimum number of intersecting edges\footnote{Since $\MyGraphFull$ naturally corresponds to a \enquote{map}, it \emph{has} to be planar. However, due to \emph{some broken countries}, it might be impossible to draw $\MyGraphFull$ completely without edge intersections, so you just have to minimize them.}.
-
-        \item Find $\card{V}$, $\card{E}$, $\minDegree{\MyGraph}$, $\maxDegree{\MyGraph}$, $\graphRadius{\MyGraph}$, $\graphDiameter{\MyGraph}$, $\graphGirth{\MyGraph}$, $\graphCenter{\MyGraph}$, $\vertexConnectivity{\MyGraph}$, $\edgeConnectivity{\MyGraph}$.
-
-        \item Find the minimum vertex coloring $Z : V \to \Natural$ of $\MyGraph$.
-
-        \item Find the minimum edge coloring $X : E \to \Natural$ of $\MyGraph$.
-
-        \item Find the maximum clique $Q \subseteq V$ of $\MyGraph$.
-
-        \item Find the maximum stable set $S \subseteq V$ of $\MyGraph$.
-
-        \item Find the maximum matching $M \subseteq E$ of $\MyGraph$.
-
-        \item Find the minimum vertex cover $R \subseteq V$ of $\MyGraph$.
-
-        \item Find the minimum edge cover $F \subseteq E$ of $\MyGraph$.
-
-        \item Find the shortest closed walk $W$ that visits every vertex of $\MyGraph$.
-
-        \item Find the shortest closed walk $U$ that visits every edge of $\MyGraph$.
-        % \footnotetext{This is the \textsc{Chinese Postman Problem}.}
-
-        \item Find all biconnected components (blocks) and draw the block-cut tree of~$\MyGraphFull$.
-
-        \item Find all 2-edge-connected components of~$\MyGraphFull$.
-
-        % \item Construct an SPQR tree of the largest biconnected component of~$\MyGraph$.
-
-        \item Add the weight function $w : E \to \Real$ denoting the distance\footnote{You may choose geodesic\Href{https://en.wikipedia.org/wiki/Great-circle_distance} or road distance, to your preference. You \emph{have} to use \emph{more-or-less real} data.} between capitals.
-        Find the minimum (\wrt the total weight of edges) spanning tree~$T$ for the largest connected component of the weighted Europe graph $\MyGraphFull_{w} = (V, E, w)$.
-
-        \item Find $\graphCentroid{T}$ (\wrt the edge weight function~$w$).
-
-        \item Construct the Pr\"{u}fer code for $T$.
+        \item Implement Floyd's algorithm in your favorite programming language and use it to find the distance between all pairs of vertices in the weighted graph given in task~\ref{task:weighted-graph}.
+        \item Prove that Floyd's algorithm determines the shortest distance between all pairs of vertices in a weighted simple graph.
+        \item Explain in detail (with examples and illustrations) the behavior of the Floyd's algorithm on a graph with negative cycles (a \emph{negative cycle} is a cycle whose edge weights sum to a negative value).
+        \item Give a big-$\mathcal{O}$ estimate of the number of operations (comparisons and additions) used by Floyd's algorithm to determine the shortest distance between every pair of vertices in a weighted simple graph with $n$ vertices.
+        \item Modify the algorithm to output the actual shortest path between any two given vertices, not just the distance between them.
     \end{subtasks}
+
+    \begin{algorithm}
+        \caption{Floyd's algorithm}
+        \DontPrintSemicolon
+        \KwData{weighted simple graph $G = \Pair{V, E, w}$ with vertices $V = \Set{v_1, \dots, v_n}$ and weights~$w(v_i, v_j)$, where $w(v_i, v_j) = \infty$ if $\Pair{v_i, v_j} \notin E$.}
+        \KwResult{$d(v_i, v_j)$ is the length of a shortest path between $v_i$ and $v_j$.}
+        \For{$i \coloneqq 1$ \KwTo $n$}{
+            \For{$j \coloneqq 1$ \KwTo $n$}{
+                $d(v_i, v_j) \coloneqq w(v_i, v_j)$ \;
+            }
+        }
+        \For{$i \coloneqq 1$ \KwTo $n$}{
+            \For{$j \coloneqq 1$ \KwTo $n$}{
+                \For{$k \coloneqq 1$ \KwTo $n$}{
+                    \If{$d(v_j, v_i) + d(v_i, v_k) < d(v_j, v_k)$}{
+                        $d(v_j, v_k) \coloneqq d(v_j, v_i) + d(v_i, v_k)$ \;
+                    }
+                }
+            }
+        }
+    \end{algorithm}
+
+
+    \item\label{task:graceful-graphs} A tree with $n$ vertices is called \textbf{graceful} if its vertices can be labeled with the integers $1, 2, \dots, n$ in such a way that the absolute values of the difference of the labels of adjacent vertices are all different.
+    Show that the following graphs are graceful.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item \tikz[mygraphstyle, baseline=-2pt]{
+            \draw    (0,0) node[dot] {}
+                -- ++(1,0) node[dot] {}
+                -- ++(1,0) node[dot] {}
+                -- ++(1,0) node[dot] {};
+        }
+
+        \item \tikz[mygraphstyle, baseline=-2pt]{
+            \draw    (0,0) node[dot] {}
+                -- ++(1,0) node[dot] {}
+                -- ++(1,0) node[dot] (x) {}
+                -- ++(1,0) node[dot] {}
+                -- ++(1,0) node[dot] {};
+            \draw (x) -- ++(0,-1) node[dot] {}
+                      -- ++(0,-1) node[dot] {};
+        }
+
+        \item \tikz[mygraphstyle, baseline=-2pt]{
+            \draw    (0,0) node[dot] {}
+                -- ++(1,0) node[dot] (x) {}
+                -- ++(1,0) node[dot] {}
+                -- ++(1,0) node[dot] {};
+            \draw (x) -- ++(0,-1) node[dot] {};
+        }
+
+        \item \tikz[mygraphstyle, baseline=-2pt]{
+            \draw    (0,0) node[dot] {}
+                -- ++(1,0) node[dot] (x) {}
+                -- ++(1,0) node[dot] (y) {}
+                -- ++(1,0) node[dot] {};
+            \draw (x) -- ++(0,-1) node[dot] {};
+            \draw (y) -- ++(0,-1) node[dot] {};
+        }
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item A \textbf{caterpillar} is a tree that contains a simple path such that every vertex not contained in this path is adjacent to a vertex in the path.
+
+    \begin{subtasks}
+        \item Which of the graphs in task~\ref{task:graceful-graphs} are caterpillars?
+        \item How many non-isomorphic caterpillars are there with six vertices?
+        \item Prove or disprove that all caterpillars are graceful.
+    \end{subtasks}
+
+
+    \item Draw all pairwise non-isomorphic unlabeled unrooted trees on 7 vertices.
+
+
+    \item Consider the following algorithm (let's call it \enquote{Algorithm S}) for finding a minimum spanning tree from a connected weighted simple graph $G = \Pair{V, E}$ by successively adding groups of edges.
+    Suppose that the vertices in $V$ are ordered.
+    Consider the lexicographic order on edges $\Pair{u, v} \in E$ with $u \prec v$.
+    An edge $\Pair{u_1, v_1}$ precedes $\Pair{u_2, v_2}$ if $u_1$ precedes $u_2$ or if $u_1 = u_1$ and $v_1$ precedes $v_2$.
+
+    The algorithm~S begins by simultaneously choosing the edge of least weight incident to each vertex.
+    The first edge in the ordering is taken in the case of ties.
+    This produces (you are going to prove it) a graph with no simple circuits, that is, a forest of trees.
+    Next, simultaneously choose for each tree in the forest the shortest edge between a vertex in this tree and a vertex in a different tree.
+    Again, the first edge in the ordering is chosen in the case of ties.
+    This produces an acyclic graph containing fewer trees than before this step.
+    Continue the process of simultaneously adding edges connecting trees until $n - 1$ edges have been chosen.
+    At this stage a minimum spanning tree has been constructed.
+
+    \begin{subtasks}
+        \item Show that the addition of edge at each stage of algorithm S produces a forest.
+        \item Express algorithm S in pseudocode.
+        \item Use algorithm S to produce a minimum spanning tree for the weighted graph given in task~\ref{task:weighted-graph}.
+    \end{subtasks}
+
+
+    \item The \textbf{density} of an undirected graph $G$ is the number of edges
+    of $G$ divided by the number of possible edges in an undirected
+    graph with $|G|$ vertices.
+    That is, the density of $G = \Pair{V, E}$ is $\frac{2 |E|}{|V| (|V| - 1)}$.
+    A family of graphs $G_n$, $n = 1, 2, \dots$ is \textbf{sparse} if the limit of the density of $G_n$ is zero as $n$ grows without bound, while it is \textbf{dense} if this proportion approaches a positive real number.
+
+    For each of these families of graphs, determine whether it is sparse, dense, or neither.
+
+    \begin{multicols}{3}
+    \begin{subtasks}
+        \item $K_n$ (complete graph\Href{https://en.wikipedia.org/wiki/Complete_graph})
+        \item $C_n$ (cycle graph\Href{https://en.wikipedia.org/wiki/Cycle_graph})
+        \item $K_{n,n}$ (complete bipartite\Href{https://en.wikipedia.org/wiki/Complete_bipartite_graph})
+        \item $K_{3,n}$ (complete bipartite\Href{https://en.wikipedia.org/wiki/Complete_bipartite_graph})
+        \item $Q_n$ (hypercube graph\Href{https://en.wikipedia.org/wiki/Hypercube_graph})
+        \item $W_n$ (wheel graph\Href{https://en.wikipedia.org/wiki/Wheel_graph})
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Consider a graph of subway lines in Saint Petersburg in 2050\Href{https://web.archive.org/web/20240301072159/https://commons.wikimedia.org/wiki/File:Saint_Petersburg_metro_future_map_RUS.png}.
+    Consider only the vertices corresponding to transfer stations.
+    Smoothen out all other (non-transfer) vertices between transfer stations and also remove all pendant non-transfer vertices.
+    Denote the resulting graph~$G$.
+    Find~its vertex and edge connectivity, cut vertices and bridges, blocks and islands.
+
+
+    \item Find an error in the following inductive \enquote{proof} of the statement that every tree with $n$ vertices has a path of length $n - 1$.
+
+    $\triangleright$
+    Base: A tree with one vertex clearly has a path of length~0.
+    Inductive step: Assume that a tree with $n$~vertices has a path of length $n - 1$, which has $u$ as its terminal vertex.
+    Add a vertex~$v$ and the edge from $u$ to~$v$.
+    The resulting tree has $n + 1$ vertices and has a path of length~$n$.
+    \qed
 
 
     \item Prove \emph{rigorously} the following theorems:
@@ -101,9 +392,9 @@
         \]
     \end{theorem}
 
-    % \begin{theorem}
-    %     For any connected graph $G$: $\graphRadius{G} \leq \graphDiameter{G} \leq 2 \graphRadius{G}$.
-    % \end{theorem}
+    \begin{theorem}
+        Any connected graph $G$ has $\graphRadius{G} \leq \graphDiameter{G} \leq 2 \graphRadius{G}$.
+    \end{theorem}
 
     % \begin{theorem}
     %     Every $r$-regular ($r > 0$) $(n,m)$-bipartite graph has $n = m$.
@@ -113,9 +404,9 @@
         A connected graph $G = \Pair{V, E}$ is a tree (\ie acyclic graph) \emph{iff} $\card{E} = \card{V} - 1$.
     \end{theorem}
 
-    \begin{theorem}[Hall]
-        For any bipartite graph $G = (X, Y, E)$, there exists $X$-perfect matching (set of disjoint edges covering all vertices in~$X$) \emph{iff} $\card{N(W)} \geq \card{W}$ for every $W \subseteq X$.
-    \end{theorem}
+    % \begin{theorem}[Hall]
+    %     For any bipartite graph $G = (X, Y, E)$, there exists $X$-perfect matching (set of disjoint edges covering all vertices in~$X$) \emph{iff} $\card{N(W)} \geq \card{W}$ for every $W \subseteq X$.
+    % \end{theorem}
 
     \begin{theorem}[Whitney]
         For any graph $G$: $\vertexConnectivity{G} \leq \edgeConnectivity{G} \leq \minDegree{G}$.
@@ -125,89 +416,13 @@
         For a connected graph $G = \Pair{V, E}$: if $\minDegree{G} \geq \Floor{\card{V} / 2}$, then $\edgeConnectivity{G} = \minDegree{G}$.
     \end{theorem}
 
-    \begin{theorem}[Menger]
-        For any pair of non-adjacent vertices $u$ and~$v$ in an undirected graph, the size of the minimum \emph{vertex cut} is equal to the maximum number of pairwise \emph{internally vertex-disjoint paths} from $u$ to~$v$.
-    \end{theorem}
+    % \begin{theorem}[Menger]
+    %     For any pair of non-adjacent vertices $u$ and~$v$ in an undirected graph, the size of the minimum vertex cut is equal to the maximum number of pairwise internally vertex-disjoint paths from $u$ to~$v$.
+    % \end{theorem}
 
     \begin{theorem}[Harary]
         Every block of a block graph\footnote{A block graph $H = \blockGraph{G}$ is an intersection graph of all blocks (biconnected components) of $G$, \ie each vertex $v \in V(H)$ corresponds to a block of $G$, and there is an edge $\Set{v,u} \in E(H)$ iff \enquote{blocks} $v$ and $u$ share a cut vertex.} is a clique.
     \end{theorem}
 
 \end{tasks}
-
-
-\iffalse
-
-\newpage
-
-\centerline{\textbf{Minor Cheatsheet}}
-
-\begin{terms}
-    \item \textbf{Graph}\Href{https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)} $G$ is a pair $\Pair{V, E}$ of a set of vertices $V = \Set{v_1,\dotsc,v_n}$ and a set of edges $E = \Set{e_1,\dotsc,e_m}$.
-
-    \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$.
-
-    \begin{terms}
-        \item $A^k = A \times \dots \times A = \Set{(x_1,\dotsc,x_k) \given x_1,\dotsc,x_k \in A}$ is the set of $k$-tuples (Cartesian $k$-power of~$A$).
-    \end{terms}
-
-    \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$.
-
-    \begin{terms}
-        \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
-    \end{terms}
-
-    \item \textbf{Degree}\Href{https://en.wikipedia.org/wiki/Degree_(graph_theory)} $\degree{v}$ of a vertex $v$ is the number of edges indident to $v$ (loops are counted twice).
-
-    \begin{terms}
-        \item $\minDegree{G} = \min\limits_{v \in V} \degree{v}$ is the \textbf{minimum degree}.
-        \item $\maxDegree{G} = \max\limits_{v \in V} \degree{v}$ is the \textbf{maximum degree}.
-    \end{terms}
-
-    % \item A graph is \textbf{$r$-regular} if all its vertices have the same degree: $\forall v \in V : \degree{v} = r$.
-
-    \item \textbf{Walk}\Href{https://en.wikipedia.org/wiki/Path_(graph_theory)\#Walk,_trail,_and_path} is an alternating sequence of vertices and edges in an arbitrary traversal of a graph.
-
-    \begin{terms}
-        \item \textbf{Trail} is a walk with distinct edges.
-        \item \textbf{Path} is a walk with distinct vertices (and therefore distinct edges).
-        \item The walk is \textbf{closed} if it starts and ends at the same vertex. Otherwise, it is \textbf{open}.
-        \item \textbf{Circuit} is a closed trail.
-        \item \textbf{Cycle} is a closed path.
-    \end{terms}
-
-    \item \textbf{Distance}\Href{https://en.wikipedia.org/wiki/Distance_(graph_theory)} $\dist{u,v}$ between two vertices is the length of the shortest path $u \rightsquigarrow v$.
-
-    \begin{terms}
-        \item $\eccentricity{v} = \max\limits_{u \in V} \dist{v,u}$ is the \textbf{eccentricity} of the vertex $v$.
-        \item $\graphRadius{G} = \min\limits_{v \in V} \eccentricity{v}$ is the \textbf{radius} of the graph $G$.
-        \item $\graphDiameter{G} = \max\limits_{v \in V} \eccentricity{v}$ is the \textbf{diameter} of the graph $G$.
-    \end{terms}
-
-    \item \textbf{Girth}\Href{https://en.wikipedia.org/wiki/Girth_(graph_theory)} is the length of the shortest cycle in the graph.
-
-    \item \textbf{Clique}\Href{https://en.wikipedia.org/wiki/Clique_(graph_theory)} $Q \subseteq V$ is a set of vertices inducing a complete subgraph.
-
-    \item \textbf{Stable set}\Href{https://en.wikipedia.org/wiki/Independent_set_(graph_theory)} $S \subseteq V$ is a set of independent (pairwise non-adjacent) vertices.
-
-    \item \textbf{Matching}\Href{https://en.wikipedia.org/wiki/Matching_(graph_theory)} $M \subseteq E$ is a set of independent (pairwise non-adjacent) edges.
-
-    \item \textbf{Vertex cover}\Href{https://en.wikipedia.org/wiki/Vertex_cover} $R \subseteq V$ is a set of vertices \enquote{covering} all edges.
-
-    \item \textbf{Edge cover}\Href{https://en.wikipedia.org/wiki/Edge_cover} $F \subseteq E$ is a set of edges \enquote{covering} all vertices.
-
-    \item Note the distinction between the terms \textbf{maximum} (\enquote{globally}) and \textbf{maximal} (\enquote{locally}):
-    \begin{terms}
-        \newcommand{\MySet}{A}
-
-        \item Some set $\MySet^{*}$ is \textbf{maximum (by cardinality)} if there is no other set $\MySet$ such that $\card{\MySet} > \card{\MySet^{*}}$.
-
-        \item Some set $\MySet'$ is \textbf{maximal (by inclusion)} if there is no other set $\MySet$ such that $\MySet \supset \MySet'$.
-
-        \item Similarly for \textbf{minimum} / \textbf{minimal}.
-    \end{terms}
-\end{terms}
-
-\fi
-
 \end{document}
