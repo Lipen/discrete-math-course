@@ -369,8 +369,9 @@
 
 
     \item Consider a graph of subway lines in Saint Petersburg in 2050\Href{https://web.archive.org/web/20240301072159/https://commons.wikimedia.org/wiki/File:Saint_Petersburg_metro_future_map_RUS.png}.
-    Smoothen out all vertices, i.e. retain only transfer and final stations.
-    Find all cut vertices and bridges, blocks and islands, maximum stable set, maximum matching, minimum dominating set, minimum vertex and edge covers.
+    Represent each transfer station as a single vertex.
+    Smoothen out\Href{https://en.wikipedia.org/wiki/Homeomorphism_(graph_theory)\#Subdivision_and_smoothing} all 2-degree vertices and remove all pendant (1-degree) vertices (\emph{repeat until fixed point}).
+    In the resulting graph\footnote{Hint: the resulting subway graph consists of 28 vertices (transfer stations).}, find vertex and edge connectivity, maximum stable set, maximum matching, minimum dominating set, minimum vertex and edge covers.
 
 
     \item Find an error in the following inductive \enquote{proof} of the statement that every tree with $n$ vertices has a path of length $n - 1$.
