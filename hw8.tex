@@ -1,0 +1,152 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    % includefoot,
+    headsep=\baselineskip,
+}
+\pagestyle{fancy}
+\fancyfoot{}
+\MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
+    {\TextHomeworkEng~\#8}
+    {Recurrences and Generating Functions}
+    {\TextDiscreteMathEng}
+    {\IconSpring~Spring 2024}
+\fancyhead[C]{\includegraphics[height=\baselineskip]{img/ouroboros.png}}
+
+%% Add custom setup below
+
+
+\begin{document}
+\selectlanguage{english}
+
+\begin{tasks}[align=right,left=0pt]
+    \item For each given recurrence relation, find the first five terms, derive the closed-form solution, and check it by substituting it back to the recurrence relation.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        % % Telescoping (trivial)
+        % \item $a_n = a_{n-1} + 1$ with $a_1 = 3$
+
+        % Telescoping
+        \item $a_n = a_{n-1} + n$ with $a_0 = 2$
+
+        % Iteration
+        \item $a_n = 2a_{n-1} + 2$ with $a_0 = 1$
+
+        % Iteration
+        \item $a_n = 3a_{n-1} + 2^n$ with $a_0 = 5$
+
+        % Quadratic characteristic equation with different roots
+        \item $a_n = 4a_{n-1} + 5a_{n-2}$ with $a_0 = 1$, $a_1 = 17$
+
+        % Quadratic characteristic equation with repeated roots
+        \item $a_n = 4a_{n-1} - 4a_{n-2}$ with $a_0 = 3$, $a_1 = 11$
+
+        % Cubic characteristic equation with different roots
+        \item $a_n = 2a_{n-1} + a_{n-2} - 2a_{n-3}$ with $a_{0,1,2} = 3,2,6$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Solve the following recurrences by applying the \href{https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)}{Master theorem}.
+    For the cases where the Master theorem does not apply, use the \href{https://en.wikipedia.org/wiki/Akra-Bazzi_method}{Akra--Bazzi method}.
+    In cases where neither of these two theorems apply, explain why and solve the recurrence relation by closely examining the recursion tree.
+    Solutions must be in the form $T(n) \in \Theta(\dots)$.
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $T(n) = 2T(n/2) + n$
+        \item $T(n) = T(3n/4) + T(n/4) + n$
+        \item $T(n) = 3T(n/2) + n$
+        \item $T(n) = 2T(n/2) + n/\log n$
+        \item $T(n) = 6T(n/3) + n^2 \log n$
+        \item $T(n) = T(3n/4) + n \log n$
+        \item $T(n) = T(\Floor{n/2}) + T(\Ceil{n/2}) + n$
+        \item $T(n) = T(n/2) + T(n/4) + 1$
+        \item $T(n) = T(n/2) + T(n/3) + T(n/6) + n$
+        \item $T(n) = 2T(n/3) + 2T(2n/3) + n$
+        \item $T(n) = \sqrt{2n} T(\sqrt{2n}) + \sqrt{n}$
+        \item $T(n) = \sqrt{2n} T(\sqrt{2n}) + n$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Consider a recurrence relation $a_n = 2a_{n-1} + 2a_{n-2}$ with $a_0 = a_1 = 2$.
+    Solve it (\ie find a closed formula) and show how it can be used to estimate the value of~$\sqrt{3}$ (hint: observe $\lim_{n \to \infty} a_n / a_{n-1}$).
+    After that, devise an algorithm for constructing a recurrence relation with integer coefficients and initial conditions that can be used to estimate the square root~$\sqrt{k}$ of a given integer~$k$.
+    % Implement your algorithm using any high-level language and benchmark\footnote{You can, for example, use \href{https://github.com/sharkdp/hyperfine}{\texttt{hyperfine}} for benchmarking your binaries. Make sure to setup a fair environment for comparison, \ie minimize the possible delays of shell, interpreter, VM, \textit{etc}.} it against the standard \texttt{sqrt} function.
+
+
+    \item Find a closed formula for the $n$-th term of the sequence with generating function $\frac{3x}{1 - 4x} + \frac{1}{1-x}$.
+
+
+    \item Given the generating function $G(x) = \frac{5x^2 + 2x + 1}{(1 - x)^3}$, decompose it into partial fractions and find the sequence that it represents.
+
+
+    \item Pell--Lucas numbers are defined by $Q_{0} = Q_{1} = 2$ and $Q_{n} = 2 Q_{n-1} + Q_{n-2}$ for $n \geq 2$.
+    Derive the corresponding generating function and find a closed formula for the $n$-th Pell--Lucas number.
+
+
+    \item For each given recurrence relation, derive the corresponding generating function and find a closed formula for the $n$-th term of the sequence.
+
+    \begin{subtasks}
+        \item $a_n = 2a_{n-1} - a_{n-2}$ with $a_0 = 3$, $a_1 = 5$
+        \item $a_{n} = a_{n-1} + a_{n-2} - a_{n-3}$ with $a_{0} = 1$, $a_{1} = 1$, $a_{2} = 5$
+        \item $a_{n} = a_{n-1} + n$ with $a_0 = 0$
+        \item $a_{n} = a_{n-1} + 2a_{n-2} + 2^n$ with $a_0 = 2$, $a_1 = 1$
+    \end{subtasks}
+
+
+    \item Find the number of non-negative integer solutions to the Diophantine equation $3x + 5y = 100$ using generating functions.
+
+
+    \item Consider a $2n$-digit ticket number to be \enquote{lucky} if the sum of its first $n$ digits is equal to the sum of its last $n$ digits.
+    Each digit (including the first one!) in a number can take value from 0 to~9.
+    For~example, a 6-digit ticket $345\,264$ is lucky since $3+4+5 = 2+6+4$.
+
+    \begin{subtasks}
+        \item Find the number of lucky 6-digit and 8-digit tickets.
+        \item Find the generating function for the number of $2n$-digit lucky tickets.
+        \item Find a closed formula for the number of $2n$-digit lucky tickets.
+    \end{subtasks}
+
+
+    % \item Find the generating function for each of the following sequences.
+    %
+    % \begin{multicols}{3}
+    % \begin{subtasks}
+    %     \item 5, 5, 5, 5, \dots
+    %     \item 0, 0, 2, 4, 6, 8, \dots
+    %     \item 2, 10, 50, 250, 1250, \dots
+    %     % \item -1, 3, -9, 27, -81, \dots
+    %     \item 1, -2, 4, -8, 16, \dots
+    %     \item 1, 0, 2, 0, 3, 0, 4, \dots
+    %     \item 3, 4, 6, 9, 13, 18, 24, \dots
+    %     \item 1, 4, 12, 34, 96, \dots
+    %     \item 1, 1, 1, 2, 3, 4, 5, \dots
+    %     \item 3, 5, 9, 15, 23, 33, \dots
+    % \end{subtasks}
+    % \end{multicols}
+
+    % \item Given the Fibonacci sequence defined by $F_{0} = 0$, $F_{1} = 1$, $F_{n} = F_{n-1} + F_{n-2}$ for $n \geq 2$, derive the corresponding generating function and find a closed formula for the $n$-th Fibonacci number.
+
+    % \item Let $a_n$ be the number of ways to write $n$ as a sum of 1's, 2's, and 3's.
+    % Find a generating function for the sequence $(a_n)$ and use it to calculate $a_7$.
+
+    % \item Consider the sequence defined by $a_n = \binom{n}{k}$ for a fixed $k \geq 0$ and all $n \geq 0$.
+    % Find the generating function $A(x)$ for this sequence.
+
+    % \item Let $a_n$ be the number of permutations of $n$ elements with no fixed points (\ie no element appears in its original position).
+    % Find a generating function for the sequence $(a_n)$ and use it to calculate $a_5$.
+
+    % \item The generating function for the Catalan numbers is $C(x) = \frac{1 - \sqrt{1 - 4x}}{2x}$.
+    % Prove this formula. Find the first five Catalan numbers
+
+    % \item \ldots
+\end{tasks}
+
+\end{document}

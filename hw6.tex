@@ -12,70 +12,48 @@
 \fancyfoot{}
 \MakeDoubleHeader% {<l1>}{<l2>}{<r1>}{<r2>}
     {\TextHomeworkEng~\#6}
-    {Combinatorics}
+    {Automata Theory}
     {\TextDiscreteMathEng}
-    {\IconSpring~Spring 2023}
+    {\IconSpring~Spring 2024}
 
 %% Add custom setup below
 
-\newcommand*{\chancery}{\fontfamily{pzc}\selectfont}
-\DeclareTextFontCommand{\textpzc}{\chancery}
+%% BNF grammar
+\usepackage{syntax}
 
-\usepackage{epigraph}
-\usepackage{varwidth}
-
-\renewcommand{\epigraphsize}{\small}
-\setlength{\beforeepigraphskip}{0pt}
-\setlength{\afterepigraphskip}{-0.5\baselineskip}
-\setlength{\epigraphwidth}{0.6\textwidth}% Maximum epigraph width
-\setlength{\epigraphrule}{0.4pt}
-\renewcommand{\textflush}{flushright}
-\renewcommand{\sourceflush}{flushright}
-
-% https://tex.stackexchange.com/a/96717/216486
-\makeatletter
-\newsavebox{\epi@textbox}
-\newsavebox{\epi@sourcebox}
-\newlength\epi@finalwidth
-\renewcommand{\epigraph}[2]{%
-  \vspace{\beforeepigraphskip}
-  {\epigraphsize\begin{\epigraphflush}
-  \epi@finalwidth=\z@
-  \sbox\epi@textbox{%
-    \varwidth{\epigraphwidth}
-    \begin{\textflush}#1\end{\textflush}
-    \endvarwidth
-  }%
-  \epi@finalwidth=\wd\epi@textbox
-  \sbox\epi@sourcebox{%
-    \varwidth{\epigraphwidth}
-    \begin{\sourceflush}#2\end{\sourceflush}%
-    \endvarwidth
-  }%
-  \ifdim\wd\epi@sourcebox>\epi@finalwidth
-     \epi@finalwidth=\wd\epi@sourcebox
-  \fi
-  \leavevmode\vbox{
-    \hb@xt@\epi@finalwidth{\hfil\box\epi@textbox}
-    \vskip1.25ex
-    \hrule height \epigraphrule
-    \vskip.75ex
-    \hb@xt@\epi@finalwidth{\hfil\box\epi@sourcebox}
-  }%
-  \end{\epigraphflush}
-  \vspace{\afterepigraphskip}}}
-\makeatother
-
+%% TikZ
+\usetikzlibrary{automata,shapes}
 \tikzset{
     position/.style args={#1:#2 from #3}{
         at=(#3.#1), anchor=#1+180, shift=(#1:#2)
     },
+    dot/.style={
+        draw,
+        fill=black,
+        shape=circle,
+        minimum size=4pt,
+        inner sep=0pt,
+        outer sep=0pt,
+    },
 }
+\tikzstyle{mygraphstyle}=[
+    auto,
+    on grid,
+]
+\tikzstyle{myautomatonstyle}=[
+    auto, on grid,
+    >={Stealth[]},
+    shorten >=1pt,
+    semithick,
+    bend angle=15,
+    initial text={},
+    every state/.style={
+        inner sep=0pt,
+        minimum size=2em,
+    },
+]
 
-\usepackage{stringstrings}
-
-\DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
-
+%% Theorems
 \declaretheoremstyle[
     spaceabove=6pt,
     spacebelow=6pt,
@@ -83,519 +61,15 @@
     notefont=\normalfont\scshape,
 ]{mystyle}
 \declaretheorem[style=mystyle]{theorem}
-\declaretheorem[style=mystyle,numbered=no]{theorem*}
 
 
 \begin{document}
 \selectlanguage{english}
 
-\epigraph{\textpzc{Do whatever you want, but always explain what you are doing.}}{--- \textsc{Konstantin}, 2020}
+\begin{tasks}
 
-\begin{tasks}[align=right,left=0pt]
-    \begingroup
-    \tikzstyle{myboxstyle}=[
-        scale=0.95, transform shape,
-        baseline,
-        % baseline=(box-label.base),
-        myoutline/.style={
-            thick,
-            line join=bevel,
-        },
-        myback/.style={
-            myoutline,
-            fill=black!50,
-        },
-        myfront/.style={
-            myoutline,
-            fill=black!20,
-            fill opacity=0.75,
-        },
-        myball/.style={
-            ball color=white,
-        },
-    ]
-
-    \def\boxWidth{0.9}
-    \def\boxHeight{0.4}
-    \def\boxDepth{0.4}
-    \def\boxLeftX{0.16}
-    \def\boxLeftY{0.08}
-    \def\boxRightX{0.2}
-    \def\boxRightY{0.1}
-    \def\ballRadius{0.22}
-
-    \newcommand{\drawBoxBack}{
-        %% Back
-        \draw[myback] (0,0)
-        -- ++(0,\boxHeight)
-        -- ++(\boxDepth,\boxDepth)
-        -- ++(\boxWidth,0)
-        -- ++(0,-\boxHeight)
-        -- ++(-\boxDepth,-\boxDepth)
-        -- cycle;
-        \draw[myoutline] (0,0)
-        -- ++(\boxDepth,\boxDepth)
-        -- ++(0,\boxHeight) ++(0,-\boxHeight)
-        -- ++(\boxWidth,0);
-
-        %% Left thing
-        \draw[myfront,fill opacity=1] (0,\boxHeight)
-        -- ++(\boxDepth,\boxDepth)
-        -- ++(-\boxLeftX,\boxLeftY)
-        -- ++(-\boxDepth,-\boxDepth)
-        -- cycle;
-    }
-
-    \newcommand{\drawBoxFront}[1]{% {<label>}
-        %% Front
-        \draw[myfront] (0,0)
-        -- ++(\boxWidth,0)
-        -- ++(\boxDepth,\boxDepth)
-        -- ++(0,\boxHeight)
-        -- ++(-\boxDepth,-\boxDepth)
-        -- ++(-\boxWidth,0)
-        -- cycle;
-        \draw[myoutline] (\boxWidth,0)
-        -- ++(0,\boxHeight);
-
-        %% Right thing
-        \draw[myfront] (\boxWidth,\boxHeight)
-        -- ++(\boxDepth,\boxDepth)
-        -- ++(\boxRightX,\boxRightY)
-        -- ++(-\boxDepth,-\boxDepth)
-        -- cycle;
-
-        %% Label
-        \node (box-label) at (\boxWidth/2,\boxHeight/2) {\vphantom{12345ABCDE}#1};
-    }
-
-    \newcommand{\drawBall}[3][]{% [<style>]{<pos>}{<label>}
-        \draw[myball,#1] (#2) circle [radius=\ballRadius] node {#3};}
-    \newcommand{\drawBallOne}[2][]{% [<style>]{<label>}
-        \drawBall[#1]{ 0.52, 0.55 }{#2}}
-    \newcommand{\drawBallTwo}[2][]{% [<style>]{<label>}
-        \drawBall[#1]{ 0.88, 0.51 }{#2}}
-    \newcommand{\drawBallThree}[2][]{% [<style>]{<label>}
-        \drawBall[#1]{ 0.31, 0.33 }{#2}}
-    \newcommand{\drawBallFour}[2][]{% [<style>]{<label>}
-        \drawBall[#1]{ 0.71, 0.3 }{#2}}
-    \newcommand{\drawBallCenter}[2][]{% [<style>]{<label>}
-        \drawBall[#1]{ 0.62, 0.38 }{#2}}
-    \newcommand{\drawBallLowCenter}[2][]{% [<style>]{<label>}
-        \drawBall[#1]{ 0.54, 0.31 }{#2}}
-
-    \newcommand{\drawBox}[3][]{% [<style>]{<box-label>}{<body>}
-        \begin{tikzpicture}[myboxstyle,scale=1.5,transform shape,#1]
-            \drawBoxBack
-            #3
-            \drawBoxFront{#2}
-        \end{tikzpicture}%
-    }
-
-    \newcounter{balls}
-    \newcommand{\newBall}{\stepcounter{balls}\theballs}
-    \newcommand{\resetBalls}{\setcounter{balls}{0}}
-    \renewcommand{\theballs}{\arabic{balls}} % Use this to redefine counter format
-
-    \newcounter{boxes}
-    \newcommand{\newBox}{\stepcounter{boxes}\theboxes}
-    \newcommand{\resetBoxes}{\setcounter{boxes}{0}}
-    \renewcommand{\theboxes}{\Alph{boxes}} % Use this to redefine counter format
-
-    \newcommand{\drawBoxWithoutBalls}[1][]{% [<style>]
-        \drawBox[#1]{\newBox}{}}
-    \newcommand{\drawBoxWithOneBall}[1][]{% [<style>]
-        \drawBox[#1]{\newBox}{
-            \drawBallCenter{\newBall}
-        }}
-    \newcommand{\drawBoxWithTwoBalls}[1][]{% [<style>]
-        \drawBox[#1]{\newBox}{
-            % \drawBallOne{\newBall}
-            % \drawBallFour{\newBall}
-            \drawBallThree{\newBall}
-            \drawBallTwo{\newBall}
-        }}
-    \newcommand{\drawBoxWithThreeBalls}[1][]{% [<style>]
-        \drawBox[#1]{\newBox}{
-            \drawBallOne{\newBall}
-            \drawBallTwo{\newBall}
-            % \drawBallThree{\newBall}
-            \drawBallLowCenter{\newBall}
-        }}
-    \newcommand{\drawBoxWithFourBalls}[1][]{% [<style>]
-        \drawBox[#1]{\newBox}{
-            \drawBallOne{\newBall}
-            \drawBallTwo{\newBall}
-            \drawBallThree{\newBall}
-            \drawBallFour{\newBall}
-        }}
-
-    \item One of the classical combinatorial problems is counting the number of arrangements of $n$ balls into $k$ boxes.
-    There are at least \href{https://en.wikipedia.org/wiki/Twelvefold_way}{12 variations} of this problem: four cases (a--d) with three different constraints (1--3).
-    For each problem (case+constraint), derive the corresponding generic formula.
-    Additionally, pick several representative values for~$n$ and~$k$ and use your derived formulae to find the numbers of arrangements.
-    Visualize several possible arrangements for the chosen~$n$ and~$k$.
-
-    \smallskip
-    \textit{\uline{Cases with arrangement examples}}:
-
-    \begin{enumerate}[label=\alph*., itemsep=4pt]
-        %% U -> L
-        \item $\textbf{U} \to \textbf{L}$: Balls are \textbf{U}nlabeled, Boxes are \textbf{L}abeled.
-
-        \resetBalls
-        \resetBoxes
-        \renewcommand{\theballs}{}
-        \renewcommand{\theboxes}{\Alph{boxes}}
-        \drawBoxWithThreeBalls
-        \drawBoxWithoutBalls
-        \drawBoxWithFourBalls
-        \drawBoxWithTwoBalls
-        \drawBoxWithOneBall
-        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
-
-        %% L -> U
-        \item $\textbf{L} \to \textbf{U}$: Balls are \textbf{L}abeled, Boxes are \textbf{U}nlabeled.
-
-        \resetBoxes
-        \resetBalls
-        \renewcommand{\theballs}{\arabic{balls}}
-        \renewcommand{\theboxes}{}
-        \drawBoxWithOneBall
-        \drawBoxWithTwoBalls
-        \drawBoxWithoutBalls
-        \drawBoxWithFourBalls
-        \drawBoxWithThreeBalls
-        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
-
-        %% L -> L
-        \item $\textbf{L} \to \textbf{L}$: Balls are \textbf{L}abeled, Boxes are \textbf{L}abeled.
-
-        \resetBoxes
-        \resetBalls
-        \renewcommand{\theballs}{\arabic{balls}}
-        \renewcommand{\theboxes}{\Alph{boxes}}
-        \drawBoxWithTwoBalls
-        \drawBoxWithOneBall
-        \drawBoxWithThreeBalls
-        \drawBoxWithoutBalls
-        \drawBoxWithFourBalls
-        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
-
-        %% U -> U
-        \item $\textbf{U} \to \textbf{U}$: Balls are \textbf{U}nlabeled, Boxes are \textbf{U}nlabeled.
-
-        \resetBoxes
-        \resetBalls
-        \renewcommand{\theballs}{}
-        \renewcommand{\theboxes}{}
-        \drawBoxWithFourBalls
-        \drawBoxWithThreeBalls
-        \drawBoxWithTwoBalls
-        \drawBoxWithOneBall
-        \drawBoxWithoutBalls
-        % ($n = \arabic{balls}$, $k = \arabic{boxes}$)
-    \end{enumerate}
-
-    \smallskip
-    \textit{\uline{Constraints}}:
-
-    \begin{enumerate}[label=\arabic*., noitemsep]
-        \item $\leq 1$ ball per box \--- \emph{injective} mapping.
-        \item $\geq 1$ ball per box \--- \emph{surjective} mapping.
-        \item Arbitrary number of balls per box.
-    \end{enumerate}
-
-    \smallskip
-    \textit{\uline{Notes}}:
-
-    \begin{itemize}[label=$\ast$, noitemsep]
-        \item \textbf{U}nlabeled means \enquote{indistinguishable}, and \textbf{L}abeled means \enquote{distinguishable}.
-
-        \item \href{https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind}{Stirling number of the second kind} $s^{\text{II}}_k(n) = \stirling{n}{k} = S(n, k)$ is the number of ways to partition a set of~$n$ elements into~$k$ non-empty subsets.
-        Use $s^{\text{II}}_k(n)$ notation (or $\stirling{n}{k}$, or $S(n, k)$, to your preference) directly without expanding the closed formula.
-
-        \item \href{https://en.wikipedia.org/wiki/Partition_(number_theory)#Restricted_part_size_or_number_of_parts}{Partition function} $p_k(n)$ is the number of ways to partition the integer $n$ into~$k$ positive parts, \ie the number of solutions to the following equation: $n = a_1 + \dotsb + a_k$, where $a_1 \geq \dotsb \geq a_k \geq 1$.
-        Use $p_k(n)$ directly, since the closed-form expression is unknown.
-    \end{itemize}
-
-    \endgroup
-
-
-    \item How many different passwords can be formed using the following rules?
-
-    \begin{items}
-        \item The password must be exactly 8 characters long.
-        \item The password must consist only of Latin letters (a-z, A-Z) and Arabic digits (0-9).
-        \item The password must contain at least 2 digits (0-9) and at least 1 uppercase letter (A-Z).
-        \item Each character can be used no more than once in the password.
-    \end{items}
-
-    \smallskip
-    How long does it take to crack such a password?
-
-
-    \filbreak
-
-    \item Find the number of different 5-digit numbers using digits 1--9 under the given constraints.
-    For each case, provide examples of numbers that comply and do not comply with the constraints, and derive a generic formula that can be applied to other values of~$n$ (total available digits) and~$k$ (number of digits in the number).
-    Express the formula using standard combinatorial terms, such as $k$-combinations $C_n^k$ and $k$-permutations $P(n, k)$.
-
-    \begin{subtasks}
-        \item Digits \emph{can} be repeated.
-
-        \item\label{item:digits-cannot-be-repeated} Digits \emph{cannot} be repeated.
-
-        \item Digits \emph{can} be repeated and must be written in \emph{non-increasing}\footnote{A sequence $(x_n)$ is said to be \emph{strictly monotonically increasing} if each term is \emph{strictly greater} than the previous one, \ie $x_{i} < x_{i+1}$. A sequence $(x_n)$ is called \emph{non-increasing} if each term is \emph{less than or equal} to the previous one, \ie $x_{i} \geq x_{i+1}$.} order.
-
-        \item Digits \emph{cannot} be repeated and must be written in \emph{strictly increasing} order.
-
-        \item Digits \emph{can} be repeated and the number must be divisible by 3 or 5.
-
-        \item Digits \emph{cannot} be repeated and the sum of the digits must be even.
-    \end{subtasks}
-
-
-    \item Let $n$ be a positive integer.
-    Prove the following identity using a combinatorial argument:
-    \[
-        \sum_{k = 1}^{n} k \cdot C_{n}^{k} = n \cdot 2^{n-1}
-    \]
-
-
-    \item Let $r, m, n$ be non-negative integers.
-    Prove the following identity using a combinatorial argument:
-    \[
-        \binom{m + n}{r} = \sum_{k = 0}^{r} \binom{m}{k} \binom{n}{r - k}
-    \]
-
-
-    \item Prove the Generalized Pascal's Formula (for $n \geq 1$ and $k_1,\dotsc,k_r \geq 0$ with $k_1 + \dotsb + k_r = n$):
-    \[
-        \binom{n}{k_1,\dotsc,k_r} = \sum_{i=1}^{r} \binom{n-1}{k_1,\dotsc,k_i-1,\dotsc,k_r}
-    \]
-
-
-    \item Find the coefficient of $x^5 y^7 z^3$ in the expansion of $(x + y + z)^{15}$.
-
-
-    \item Count the number of permutations of the multiset $\Sigma^{*} = \Set{2 \cdot \triangle, 3 \cdot \square, 1 \cdot \Cat}$.
-
-
-    \begingroup
-    \tikzstyle{myrnastyle}=[
-        scale=0.8, transform shape,
-        dot/.style={
-            draw,
-            fill=black,
-            shape=circle,
-            minimum size=4pt,
-            inner sep=0pt,
-            outer sep=0pt,
-        },
-        matching/.style={
-            draw,
-            % dashed,
-            red,
-            ultra thick,
-        },
-        basepair/.style={
-            draw,
-            dashed,
-            lightgray,
-            thick,
-        },
-    ]
-
-    \newcommand{\drawRNA}{%
-        \def\myRadNode{1.6}
-        \def\myRadLabel{2.0}
-
-        % Outside edges
-        % \draw (75:\myRadNode) arc (75:-255:\myRadNode);
-
-        % Nodes
-        \foreach [count=\i, evaluate=\x as \a using {105-\i*30}] \x in {A,U,C,G,U,A,A,U,C,G,C,G}
-        {
-            \node[dot] (v\i) at (\a:\myRadNode) {};
-            \node at (\a:\myRadLabel) {\x};
-            % \node at (\a:1.3) {\i}; % DEBUG index
-        }
-    }
-
-    \item A \emph{non-crossing perfect matching}\footnote{Credits to \href{https://rosalind.info/about}{Rosalind} for this task.} in a graph is a set of pairwise disjoint edges that cover all vertices and do not intersect with each other.
-    For example, consider a graph on~$2n$ vertices numbered from~1~to~$2n$ and arranged in a circle.
-    Additionally, assume that edges are straight lines.
-    In~this~case, edges $\Set{i,j}$ and $\Set{a,b}$ intersect whenever $i < a < j < b$.
-
-    \begin{subtasks}
-        \item Count the number of all possible non-crossing perfect matchings in a complete graph~$K_{2n}$.
-
-        \item Consider a graph on vertices labeled with letters from $\Set{\texttt{A}, \texttt{C}, \texttt{G}, \texttt{U}}$.
-        Each pair of vertices labeled with \texttt{A} and \texttt{U} is connected with a \emph{basepair edge}.
-        Similarly, \texttt{C}--\texttt{G} pairs are also connected.
-
-        The picture below illustrates some of possible non-crossing perfect matchings in the graph with 12 vertices \texttt{AUCGUAAUCGCG} arranged in a circle.
-        Basepair edges are drawn dashed gray, matching is red.
-
-        % Matching 1
-        \begin{tikzpicture}[myrnastyle]
-            \drawRNA
-            \draw[matching] (v1) -- (v2);
-            \draw[basepair] (v1) -- (v5);
-            \draw[basepair] (v1) -- (v8);
-            \draw[basepair] (v2) -- (v6);
-            \draw[basepair] (v2) -- (v7);
-            \draw[matching] (v3) -- (v4);
-            \draw[basepair] (v3) -- (v10);
-            \draw[basepair] (v3) -- (v12);
-            \draw[basepair] (v4) -- (v9);
-            \draw[basepair] (v4) -- (v11);
-            \draw[matching] (v5) -- (v6);
-            \draw[basepair] (v5) -- (v7);
-            \draw[basepair] (v6) -- (v8);
-            \draw[matching] (v7) -- (v8);
-            \draw[basepair] (v9) -- (v10);
-            \draw[matching] (v9) -- (v12);
-            \draw[matching] (v10)-- (v11);
-            \draw[basepair] (v11)-- (v12);
-        \end{tikzpicture}%
-        \hfill%
-        % Matching 2
-        \begin{tikzpicture}[myrnastyle]
-            \drawRNA
-            \draw[basepair] (v1) -- (v2);
-            \draw[basepair] (v1) -- (v5);
-            \draw[matching] (v1) -- (v8);
-            \draw[basepair] (v2) -- (v6);
-            \draw[matching] (v2) -- (v7);
-            \draw[matching] (v3) -- (v4);
-            \draw[basepair] (v3) -- (v10);
-            \draw[basepair] (v3) -- (v12);
-            \draw[basepair] (v4) -- (v9);
-            \draw[basepair] (v4) -- (v11);
-            \draw[matching] (v5) -- (v6);
-            \draw[basepair] (v5) -- (v7);
-            \draw[basepair] (v6) -- (v8);
-            \draw[basepair] (v7) -- (v8);
-            \draw[basepair] (v9) -- (v10);
-            \draw[matching] (v9) -- (v12);
-            \draw[matching] (v10)-- (v11);
-            \draw[basepair] (v11)-- (v12);
-        \end{tikzpicture}%
-        \hfill%
-        % Matching 3
-        \begin{tikzpicture}[myrnastyle]
-            \drawRNA
-            \draw[matching] (v1) -- (v2);
-            \draw[basepair] (v1) -- (v5);
-            \draw[basepair] (v1) -- (v8);
-            \draw[basepair] (v2) -- (v6);
-            \draw[basepair] (v2) -- (v7);
-            \draw[basepair] (v3) -- (v4);
-            \draw[basepair] (v3) -- (v10);
-            \draw[matching] (v3) -- (v12);
-            \draw[basepair] (v4) -- (v9);
-            \draw[matching] (v4) -- (v11);
-            \draw[matching] (v5) -- (v6);
-            \draw[basepair] (v5) -- (v7);
-            \draw[basepair] (v6) -- (v8);
-            \draw[matching] (v7) -- (v8);
-            \draw[matching] (v9) -- (v10);
-            \draw[basepair] (v9) -- (v12);
-            \draw[basepair] (v10)-- (v11);
-            \draw[basepair] (v11)-- (v12);
-        \end{tikzpicture}%
-        \hfill%
-        % Matching 4
-        \begin{tikzpicture}[myrnastyle]
-            \drawRNA
-            \draw[basepair] (v1) -- (v2);
-            \draw[basepair] (v1) -- (v5);
-            \draw[matching] (v1) -- (v8);
-            \draw[basepair] (v2) -- (v6);
-            \draw[matching] (v2) -- (v7);
-            \draw[matching] (v3) -- (v4);
-            \draw[basepair] (v3) -- (v10);
-            \draw[basepair] (v3) -- (v12);
-            \draw[basepair] (v4) -- (v9);
-            \draw[basepair] (v4) -- (v11);
-            \draw[matching] (v5) -- (v6);
-            \draw[basepair] (v5) -- (v7);
-            \draw[basepair] (v6) -- (v8);
-            \draw[basepair] (v7) -- (v8);
-            \draw[matching] (v9) -- (v10);
-            \draw[basepair] (v9) -- (v12);
-            \draw[basepair] (v10)-- (v11);
-            \draw[matching] (v11)-- (v12);
-        \end{tikzpicture}
-
-        \def\myRNA{CGUAAUUACGGCAUUAGCAU}
-        Count the number of all possible non-crossing perfect matchings in the graph on \stringlength{\myRNA} vertices arranged in a circle and labeled with \texttt{\myRNA}.
-    \end{subtasks}
-
-    \endgroup
-
-
-    \item How many integer solutions are there for each given equation?
-
-    \begin{multicols}{2}
-    \begin{subtasks}
-        \item $x_1 + x_2 + x_3 = 20$, where $x_i \geq 0$
-        \item $x_1 + x_2 + x_3 = 20$, where $x_i \geq 1$
-        \item $x_1 + x_2 + x_3 = 20$, where $x_i \geq 5$
-        \item $x_1 + x_2 + x_3 \leq 20$, where $x_i \geq 0$
-        \item $x_1 + x_2 + x_3 = 20$, where $1 \leq x_1 \leq x_2 \leq x_3$
-        \item $x_1 + x_2 + x_3 = 20$, where $0 \leq x_1 \leq x_2 \leq x_3$
-        \item $x_1 + x_2 + x_3 = 20$, where $0 \leq x_1 \leq x_2 \leq x_3 \leq 10$
-        \item $x_1 + x_2 + x_3 = 5$, where $-5 \leq x_i \leq 5$
-        % \item $3x_1 + 3x_2 + 3x_3 + 7x_4 = 22$, where $x_i \geq 0$
-    \end{subtasks}
-    \end{multicols}
-
-
-    \item Consider three dice: one with 4~faces, one with 6~faces, and one with 8~faces.
-    The faces are numbered 1~to~4, 1~to~6, and 1~to~8, respectively.
-    Find the probability of rolling a total sum of~12.
-
-
-    \item Let $A = \{ 1, 2, 3, \dots, 12 \}$.
-    Define an \emph{interesting} subset of~$A$ as a subset in which no two elements have a difference of~3.
-    Determine the number of interesting subsets of~$A$.
-
-
-    \item Find the number of ways to arrange five people of distinct heights in a line such that no three consecutive individuals form a strictly ascending or descending height sequence.
-
-
-    \begingroup
-    \item GLaDOS, the mastermind AI, is testing a new batch of first-year students in one of her infamous test chambers.
-    She assigns each test subject a unique number from 1 to~$n$, and then splits the students into $k$~groups (here, groups are indistinguishable).
-    Furthermore, one student in each group is assigned as the group leader.
-    GLaDOS wants to know how many different ways she can arrange the students into groups and select group leaders, so that the students can navigate through the test chambers without getting lost.
-    She calls this arrangement a \enquote{GLaDOS Partition}.
-
-    \newcommand*{\leader}[1]{\uline{#1}}
-    \newcommand*{\sep}{\,|\,}
-
-    \smallskip
-    For example, consider $n = 7$ students and $k = 3$ groups.
-    Here are three (out of many!) different partitions, with the group leaders underlined:
-    $(\leader{1} \sep 2\leader{5}67 \sep 3\leader{4})$,
-    $(\leader{1} \sep 25\leader{6}7 \sep \leader{3}4)$,
-    and $(\leader{1} \sep 25\leader{6}7 \sep 3\leader{4})$.
-
-    \smallskip
-    Let the number of GLaDOS Partitions for $n$~students into $k$~groups, where each group has a designated leader, be denoted as~$G(n,k)$.
-    Your task is to find a generic formula and/or recurrence relation for~$G(n,k)$ and justify it.
-
-    \endgroup
-
-
-    \item Every regular expression $P$ generates a regular language $\mathcal{L}(P)$, which consists of all strings that match the pattern specified by~$P$.
-    For each given~$P$, find the size of the set $\mathcal{L}' =\nobreak \Set{w \in\nobreak \mathcal{L}(P) \given \operatorname{length}(w) \leq 5}$ which contains all accepted words of length at most~5.
+    \item For each given regular expression~$P$, construct a DFA (Deterministic Finite Automaton), and find the number of accepted word of length at most~5, i.e. the size of the set $\mathcal{L}' =\nobreak \Set{w \in\nobreak \mathcal{L}(P) \given |w| \leq 5}$.
     For \enquote{any} (\verb/./) and \enquote{negative} (\verb/[^.]/) matches, assume that the alphabet is $\Sigma = \Set{\texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}}$.
-    % Additionally, construct the corresponding $\varepsilon$-NFA and the minimized DFA for each pattern~$P$.
-    Additionally, construct the corresponding DFA (Deterministic Finite Automaton) for each pattern~$P$.
 
     \begin{multicols}{3}
     \begin{subtasks}
@@ -609,17 +83,321 @@
     \end{multicols}
 
 
-\bigskip
-% \noindent\hfil\rule{0.5\textwidth}{.2pt}\hfil
-\noindent\hfil\rule{0.3\textwidth}{.1pt}~~$\ast$~$\ast$~$\ast$~~\rule{0.3\textwidth}{.1pt}\hfil
-\bigskip
+    \item Describe the set of strings defined by each of these sets of productions in EBNF\Href{https://en.wikipedia.org/wiki/Backus-Naur_form} (extended Backus-Naur form).
 
-    Please make sure to answer \emph{all} questions and provide \emph{clear} explanations for your solutions.
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \setlength{\grammarparsep}{0pt plus 4pt}
+        \setlength{\grammarindent}{5em}
 
-    \smallskip
-    \emph{Good luck!}
+        \item \begin{grammar}
+            <string> ::= <L>+ <D>? <L>+
 
-    % \item \ldots
+            <L> ::= "a" | "b" | "c"
+
+            <D> ::= "0" | "1"
+        \end{grammar}
+
+        \item \begin{grammar}
+            <string> ::= <sign>? <N>
+
+            <sign> ::= `+' | `-'
+
+            <N> ::= <D> (<D> | "0")*
+
+            <D> ::= "1" | $\ldots$ | "9"
+        \end{grammar}
+
+        \item \begin{grammar}
+            <string> ::= <L>* (<D>+)? <L>*
+
+            <L> ::= "x" | "y"
+
+            <D> ::= "0" | "1"
+        \end{grammar}
+
+        \item \begin{grammar}
+            <string> ::= <C> <R>*
+
+            <C> ::= "a" | $\ldots$ | "z" | "A" | $\ldots$ | "Z"
+
+            <D> ::= "0" | $\ldots$ | "9"
+
+            <R> ::= <C> | <D> | `_'
+        \end{grammar}
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Let $\mathcal{G} = \Pair{V, T, S, P}$ be the phrase-structure grammar with vocabulary $V = \Set{\mathtt{A}, \mathtt{S}}$, terminal symbols $T = \Set{0, 1}$, start symbol $S = \mathtt{S}$, and set of productions $P$: $\mathtt{S} \to \mathtt{1S}$, $\mathtt{S} \to \mathtt{00A}$, $\mathtt{A} \to \mathtt{0A}$, $\mathtt{A} \to \mathtt{0}$.
+
+    \begin{subtasks}
+        \item Show that \texttt{111000} belongs to the language generated by $\mathcal{G}$.
+        \item Show that \texttt{11001} does not belong to the language generated by $\mathcal{G}$.
+        \item What is the language generated by $\mathcal{G}$?
+    \end{subtasks}
+
+
+    \item Find the output generated from the input string \texttt{01110} for each of the following Mealy machines.
+
+    \tikz[myautomatonstyle,baseline=(xxx.base)]{
+        \node[state, initial] (s0) {$s_0$};
+        \node[state, right=2.5cm of s0] (s1) {$s_1$};
+        \node[state, below=2.5cm of s0] (s2) {$s_2$};
+        \node[state, right=2.5cm of s2] (s3) {$s_3$};
+        \coordinate (xxx) at ($(s0)!.5!(s2)$);
+        \path[->]
+            (s0) edge [bend left, above] node {0/1} (s1)
+            (s1) edge [bend left, below] node {0/1} (s0)
+            (s0) edge [bend right, left] node {1/0} (s2)
+            (s2) edge [bend right, right] node {1/0} (s0)
+            (s1) edge [bend left, right] node {1/0} (s3)
+            (s3) edge [bend left, left] node {0/1} (s1)
+            (s2) edge [bend left, above] node {0/0} (s3)
+            (s3) edge [bend left, below] node {1/1} (s2)
+        ;
+    }%
+    \hfill%
+    \tikz[myautomatonstyle,baseline=(xxx.base)]{
+        \node[state, initial] (s0) {$s_0$};
+        \node[state, above right=1cm and 2cm of s0] (s1) {$s_1$};
+        \node[state, below right=1cm and 2cm of s0] (s2) {$s_2$};
+        \coordinate (xxx) at (s0);
+        \path[->]
+            (s0) edge [bend left, above, sloped] node {0/0} (s1)
+            (s0) edge [bend left, above, sloped] node {1/1} (s2)
+            (s1) edge [loop right, above, near start] node {1/0} (s1)
+            (s1) edge [] node {0/0} (s2)
+            (s2) edge [loop right, above, near start] node {0/1} (s2)
+            (s2) edge [bend left, below, sloped] node {1/0} (s0)
+        ;
+    }%
+    \hfill%
+    \tikz[myautomatonstyle,baseline=(xxx.base)]{
+        \node[state, initial] (s0) {$s_0$};
+        \node[state, right=2.5cm of s0] (s1) {$s_1$};
+        \node[state, below=2.5cm of s0] (s2) {$s_2$};
+        \node[state, right=2.5cm of s2] (s3) {$s_3$};
+        \coordinate (xxx) at ($(s0)!.5!(s2)$);
+        \path[->]
+            (s0) edge [bend left, above] node {1/1} (s1)
+            (s1) edge [bend left, below] node {0/0} (s0)
+            (s1) edge [loop right, midway, right] node {1/1} (s1)
+            (s0) edge [above, sloped, near end] node {0/0} (s3)
+            (s2) edge [above, sloped, near start] node {1/1} (s1)
+            (s2) edge [below] node {0/0} (s3)
+            (s3) edge [right] node {0/0} (s1)
+            (s3) edge [loop right, midway, right] node {1/0} (s3)
+        ;
+    }
+
+
+    \item Construct a Moore machine for each of the following descriptions.
+
+    \begin{subtasks}
+        \item Determine the residue modulo~3 of the input treated as a binary number.
+        For example, for input $\varepsilon$ (which corresponds to \enquote{value} 0) the residue is 0; \texttt{101} (5 in decimal) has residue 2; and \texttt{1010} (value 10) has residue 1.
+
+        \item Output the residue modulo~5 of the input from $\Set{0,1,2}^*$ treated as a ternary (base~3) number.
+
+        \item Output $A$ if the binary input ends with \texttt{101}; output $B$ if it ends with \texttt{110}; otherwise output~$C$.
+    \end{subtasks}
+
+
+    \item Show that regular languages are \emph{closed} under the following operations.
+
+    \begin{subtasks}
+        \item Union, that is, if $L_1$ and $L_2$ are regular languages, then $L_1 \union L_2$ is also regular.
+        \item Concatenation, that is, if $L_1$ and $L_2$ are regular languages, then $L_1 \cdot L_2$ is also regular.
+        \item Kleene star, that is, if $L$ is a regular language, then $L^*$ is also regular.
+        \item Complement, that is, if $L$ is a regular language, then $\overline{L} = \Sigma^* - L$ is also regular.
+        \item Intersection, that is, if $L_1$ and $L_2$ are regular languages, then $L_1 \intersection L_2$ is also regular.
+    \end{subtasks}
+
+
+    \newpage
+
+    \item Determine whether the following languages are regular or not. For non-regular languages, use Pumping lemma to prove that they are not regular. For each regular language, provide a regular expression and construct an $\varepsilon$-NFA.
+
+    \begin{subtasks}
+        \item $L_{\arabic{subtasksi}} = \Set{w \in \Set{0, 1}^* \given \text{length of $w$ is odd}}$
+
+        \item $L_{\arabic{subtasksi}} = \Set{0^n 1^n \given n \in \Natural}$
+
+        \item $L_{\arabic{subtasksi}} = \Set{w \in \Set{0, 1}^* \given \text{$w$ contains an even number of 1s}}$
+
+        \item $L_{\arabic{subtasksi}} = \Set{1^{n^2} \given n \in \Natural}$
+    \end{subtasks}
+
+
+    \item Consider a finite-state automaton $M = (\Sigma, Q, q_0, F, \delta)$ and a non-negative integer~$k$.
+    Let $R_k$ be the relation on the set of states of $M$ such that $s \mathrel{R_k} t$ if and only if for every input string $w \in \Sigma^*$ with $|w| \leq k$, $\delta(s, w)$ and $\delta(t, w)$ are both final states or both not final states.
+    Furthermore, let $R^*$ be the relation on the set of states of $M$ such that $s \mathrel{R^*} t$ if and only if for every input string $w \in \Sigma^*$, regardless of length, $\delta(s, w)$ and $\delta(t, w)$ are both final states or both not final states.
+
+    \begin{subtasks}
+        \item Show that for every nonnegative integer~$k$, $R_k$ is an equivalence relation on~$S$.
+        \par Two states $s$ and $t$ are called $k$-equivalent if $s \mathrel{R_k} t$.
+
+        \item Show that $R^*$ is an equivalence relation on $S$.
+        \par Two states $s$ and $t$ are called $*$-equivalent if $s \mathrel{R^*} t$.
+
+        \item Show that if two states $s$ and $t$ are $k$-equivalent ($k > 0$), then they are also $(k - 1)$-equivalent.
+
+        \item Show that the equivalence classes of $R_k$ are a \emph{refinement} of the equivalence classes of $R_{k-1}$.
+
+        \item Show that if two states $s$ and $t$ are $k$-equivalent for every non-negative integer $k$, then they are $*$-equivalent.
+
+        \item Show that all states in a given $R^*$-equivalence class are final or all are not final.
+
+        \item Show that if two states $s$ and $t$ are $*$-equivalent, then $\delta(s, a)$ and $\delta(t, a)$ are also $*$-equivalent for all $a \in \Sigma$.
+    \end{subtasks}
+
+
+    \item Consider the finite-state automaton $M = (\Sigma, Q, q_0, F, \delta)$ depicted below.
+
+    \tikz[myautomatonstyle]{
+        \node[state, initial] (s0) {$s_0$};
+        \node[state, above right=1cm and 2cm of s0] (s1) {$s_1$};
+        \node[state, below right=1cm and 2cm of s0] (s2) {$s_2$};
+        \node[state, accepting, right=2cm of s1] (s3) {$s_3$};
+        \node[state, right=2cm of s2] (s4) {$s_4$};
+        \node[state, right=2cm of s3] (s5) {$s_5$};
+        \node[state, accepting, right=2cm of s4] (s6) {$s_6$};
+
+        \path[->]
+            (s0) edge [above, sloped] node {0} (s1)
+                 edge [below, sloped] node {1} (s2)
+            (s1) edge [above] node {0} (s3)
+                 edge [above, sloped] node {1} (s4)
+            % (s2) edge [above, sloped, very near start] node {0} (s5)
+            (s2) edge [out=-40, in=-140, below] node {1} (s6)
+            (s3) edge [loop above, right, near end] node {0} (s3)
+                 edge [left] node {1} (s4)
+            (s4) edge [bend right, below, sloped, near start] node {0} (s5)
+                 edge [below] node {1} (s6)
+            (s5) edge [above] node {0} (s3)
+                 edge [bend right, above, sloped, near start] node {1} (s4)
+            (s6) edge [above, sloped, very near start] node {0} (s3)
+                 edge [loop right, right] node {1} (s6)
+        ;
+        \draw[->] (s2)
+            to[out=45, in=-80] node [above, sloped, near start] {0} ++(0.7, 2)
+            to[out=100, in=180] ++(1.3,1.4)
+            to[out=0, in=120] (s5)
+        ;
+    }
+
+    \begin{subtasks}
+        \item Find the $k$-equivalence classes of $M$ for $k = 0, 1, 2, 3$.
+
+        \item Find the $*$-equivalence classes of $M$.
+
+        \item Construct the quotient automaton $\overline{M}$ of $M$.
+
+        $\triangleright$ The quotient automaton $\overline{M}$ of the deterministic finite-state automaton $M = (\Sigma, S, s_0, F, \delta)$ is the finite state automaton $\overline{M} = (\Sigma, \overline{S}, [s_0]_{R^*}, \overline{F}, \overline{\delta})$, where the set of states $\overline{S}$ is the set of $R^*$-equivalence classes of $S$; the transition function $\overline{\delta}$ is defined by $\overline{\delta}([s]_{R^*}, a) = [\delta(s, a)]_{R^*}$ for all states $[s]_{R^*}$ of $\overline{M}$ and input symbols $a \in \Sigma$; and $\overline{F}$ is the set consiting of $R^*$-equivalence classes of final states of $M$.
+    \end{subtasks}
+
+
+    \newpage
+
+    \item Solve the following regex crosswords.
+    Fill each cell with a single ASCII character (an uppercase letter, a digit, a punctuation mark, or a space).
+    Each row/column, when read left to right or top to bottom must match the regular expression(s) given for that row/column.
+
+    % Beginner > Beatles
+    \begin{tikzpicture}[baseline=0]
+        \draw (0,0) grid (2,-2);
+        \node at (0, -0.5) [left] {\verb/HE|LL|O+/};
+        \node at (0, -1.5) [left] {\verb/[PLEASE]+/};
+        \node at (0.5, 0) [rotate=-45, above left] {\verb/[^SPEAK]+/};
+        \node at (1.5, 0) [rotate=-45, above left] {\verb/EP|IP|EF/};
+    \end{tikzpicture}%
+    \hfill%
+    %
+    % Experienced > Royal Dinner
+    \begin{tikzpicture}[baseline=0]
+        \draw (0,0) grid (5,-3);
+        \node at (0, -0.5) [left] {\verb/(Y|F)(.)\2[DAF]\1/};
+        \node at (0, -1.5) [left] {\verb/(U|O|I)*T[FRO]+/};
+        \node at (0, -2.5) [left] {\verb/[KANE]*[GIN]*/};
+        \node at (0.5, 0) [rotate=-45, above left] {\verb/(FI|A)+/};
+        \node at (1.5, 0) [rotate=-45, above left] {\verb/(YE|OT)K/};
+        \node at (2.5, 0) [rotate=-45, above left] {\verb/(.)[IF]+/};
+        \node at (3.5, 0) [rotate=-45, above left] {\verb/[NODE]+/};
+        \node at (4.5, 0) [rotate=-45, above left] {\verb/(FY|F|RG)+/};
+    \end{tikzpicture}
+
+    % Intermediate > Technology
+    \begin{tikzpicture}[baseline=0]
+        \draw (0,0) grid (4,-3);
+        \node at (0, -0.5) [left] {\verb/[RUNT]*/};
+        \node at (0, -1.5) [left] {\verb/O.*[HAT]/};
+        \node at (0, -2.5) [left] {\verb/(.)*DO\1/};
+        \node at (0.5, 0) [rotate=-45, above left] {\verb/[^NRU](NO|ON)/};
+        \node at (1.5, 0) [rotate=-45, above left] {\verb/(D|FU|UF)+/};
+        \node at (2.5, 0) [rotate=-45, above left] {\verb/(FO|A|R)*/};
+        \node at (3.5, 0) [rotate=-45, above left] {\verb/(N|A)*/};
+    \end{tikzpicture}%
+    \hfill%
+    %
+    % Double Cross > GMC Vandura
+    \begin{tikzpicture}[baseline=0]
+        \draw (0,0) grid (3,-2);
+        \node at (0, -0.5) [left] {\verb/(CAT|A-T)+/};
+        \node at (0, -1.5) [left] {\verb/[MA\-\sE]+/};
+        \node at (3, -0.5) [right] {\verb/[^KI\sP]+/};
+        \node at (3, -1.5) [right] {\verb/(M|APS|EA)*/};
+        \node at (0.5, 0) [rotate=-45, above left] {\verb/[^MCI]+/};
+        \node at (1.5, 0) [rotate=-45, above left] {\verb/.A/};
+        \node at (2.5, 0) [rotate=-45, above left] {\verb/(TM|BF)/};
+        \node at (0.5, -2) [rotate=-45, below right] {\verb/[AI][E\s]/};
+        \node at (1.5, -2) [rotate=-45, below right] {\verb/[A\-Z]+/};
+        \node at (2.5, -2) [rotate=-45, below right] {\verb/[\sT\-M]+/};
+    \end{tikzpicture}
+
+    % Double Cross > Big Mac
+    \begin{tikzpicture}[baseline=0]
+        \draw (0,0) grid (3,-4);
+        \node at (0, -0.5) [left] {\verb/.[LUH]+/};
+        \node at (0, -1.5) [left] {\verb/(P|K)[^U]+/};
+        \node at (0, -2.5) [left] {\verb/.*C+[TIF]/};
+        \node at (0, -3.5) [left] {\verb/(NO|ONE|ION)*/};
+        \node at (3, -0.5) [right] {\verb/.*L+/};
+        \node at (3, -1.5) [right] {\verb/[PUF\s]*/};
+        \node at (3, -2.5) [right] {\verb/[TIC]*/};
+        \node at (3, -3.5) [right] {\verb/[NOI\sE]+/};
+        \node at (0.5, 0) [rotate=-45, above left] {\verb/(.)\1(.)\2/};
+        \node at (1.5, 0) [rotate=-45, above left] {\verb/[C\sOU]+/};
+        \node at (2.5, 0) [rotate=-45, above left] {\verb/[^PU\sH]+/};
+        \node at (0.5, -4) [rotate=-45, below right] {\verb/[PIF]+/};
+        \node at (1.5, -4) [rotate=-45, below right] {\verb/.*[OWE]*/};
+        \node at (2.5, -4) [rotate=-45, below right] {\verb/(TN|LF|TF)*/};
+    \end{tikzpicture}%
+    \hfill%
+    %
+    % Palindromeda > Time Walker
+    \begin{tikzpicture}[baseline=0]
+        \draw (0,0) grid (4,-4);
+        \node at (0, -0.5) [left] {\verb/(EP|ST)*/};
+        \node at (0, -1.5) [left] {\verb/T[A-Z]*/};
+        \node at (0, -2.5) [left] {\verb/.M.T/};
+        \node at (0, -3.5) [left] {\verb/.*P.[S-X]+/};
+        \node at (0.5, 0) [rotate=-45, above left] {\verb/.*E.*/};
+        \node at (1.5, 0) [rotate=-45, above left] {\verb/[^P]I(IT|ME)/};
+        \node at (2.5, 0) [rotate=-45, above left] {\verb/(EM|FE)(IT|IP)/};
+        \node at (3.5, 0) [rotate=-45, above left] {\verb/(TS|PE|KE)*/};
+    \end{tikzpicture}
+    %
+    % % Palindromeda > Ten o'clock
+    % \begin{tikzpicture}[baseline=0]
+    %     \draw (0,0) grid (3,-3);
+    %     \node at (0, -0.5) [left] {\verb/(T|E|N)*/};
+    %     \node at (0, -1.5) [left] {\verb/(.)*W+\1/};
+    %     \node at (0, -2.5) [left] {\verb/[LENT]*/};
+    %     \node at (0.5, 0) [rotate=-45, above left] {\verb/(ENT|NTE|NET)*/};
+    %     \node at (1.5, 0) [rotate=-45, above left] {\verb/[WEAR]*/};
+    %     \node at (2.5, 0) [rotate=-45, above left] {\verb/[R-Z]E*[M-R]/};
+    % \end{tikzpicture}
+
 \end{tasks}
-
 \end{document}
