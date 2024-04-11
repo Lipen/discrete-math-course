@@ -239,6 +239,36 @@
         Then $\quotient[R_L]{\Sigma^*}$ is of finite index.
     \end{enumerate}
 
+    \newpage
+    \item \textbf{Formal grammar}\Href{https://en.wikipedia.org/wiki/Formal_grammar} is 4-tuple $\mathcal{G} = (V, T, S, \mathcal{P})$, where:
+
+    \begin{terms} 
+        \item $\mathcal{V}$ is vocabulary, set of variables or non-terminal symbols.
+
+        \item $T$ is set of terminal symbols disjoint from $\mathcal{V}$.
+
+        \item $S$ is start symbol, also called sentence symbol.
+
+        \item $\mathcal{P}$ is set of production rules, each rule of the form:
+        $\mathcal{V}^*S\mathcal{V}^* \xrightarrow{} \mathcal{V}^*$.
+    \end{terms}
+
+    \item Binary relation $\mathbf{\Rightarrow}$ over an grammar $\mathcal{G}$ is defined by:\\
+    $x \Rightarrow y \Longleftrightarrow \exists u,v,p,q \in \mathcal{V}: (x = upv) \land (p \rightarrow{} q \in \mathcal{P}) \land (y = uqv)$.\\
+    Pronounce as $y$ is directly derivable from $x$.
+    \item Binary relation $\mathbf{\Rightarrow^*}$ over an grammar $\mathcal{G}$ is defined as reflexive transitive closure of $\Rightarrow$.\\
+    Pronounce as $y$ is derivable from $x$.
+
+    \item \textbf{Backus-Naur Form (BNF)}\Href{https://en.wikipedia.org/wiki/Backus–Naur_form} is notation to describe the syntax of formal language. A BNF specification is a set of derivation rules, written as:\\
+    $<symbol> ::= \underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$, where:
+    \begin{terms}
+        \item $<symbol>$ is a nonterminal variable that is always enclosed between the pair $<>$.
+
+        \item $::=$ means that the symbol on the left must be replaced with the expression on the right.
+
+        \item $\underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$  consists of one or more sequences of either terminal or nonterminal symbols where each sequence is separated by a vertical bar $"|"$ indicating a choice.
+    \end{terms}
+    %TODO? EBNF.
 \end{terms}
 
 \end{document}
