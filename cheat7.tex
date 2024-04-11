@@ -12,7 +12,7 @@
 \pagestyle{fancy}
 \MakeSingleHeader% {<l>}{<r>}
     {\TextCheatsheetEng: Combinatorics}%
-    {\TextDiscreteMathEng, \IconSpring~Spring 2022}
+    {\TextDiscreteMathEng, \IconSpring~Spring 2024}
 \fancyfoot{}
 \fancyfoot[L]{\tiny Build time: \DTMnow}
 \fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
@@ -31,33 +31,6 @@
     notefont=\normalfont\scshape,
 ]{mystyle}
 \declaretheorem[style=mystyle]{theorem}
-
-\tikzset{
-    dot/.style = {
-        draw,
-        fill=black,
-        shape=circle,
-        minimum size=4pt,
-        inner sep=0pt,
-        outer sep=0pt,
-    },
-    circ/.style = {
-        draw,
-        % fill=white,
-        shape=circle,
-        minimum size=4pt,
-        inner sep=0pt,
-        outer sep=0pt,
-    },
-    position/.style args={#1:#2 from #3}{
-        at=(#3.#1), anchor=#1+180, shift=(#1:#2)
-    },
-    mylabel/.style args={#1:#2}{
-        append after command={
-            (\tikzlastnode.center) node [#1] {#2}
-        }
-    },
-}
 
 
 \begin{document}
