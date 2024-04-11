@@ -102,27 +102,21 @@
 
     \item $\mathrm{REG}$ is closed under union, concatenation, and Kleene star operations.
 
-    \item \textbf{Regular expressions (regex)}\Href{https://en.wikipedia.org/wiki/Regular_expression}.
-
-    % TODO
-    % \begin{tabular}{ l l }
-    %     \toprule
-    %     Regex & Definition \\ \hline
-    %     \verb/./ & Any single character from the alphabet \\
-    %     \verb/[abc]/ & Any single character from the group (i.e.\ \verb/a/, \verb/b/, or \verb/c/) \\
-    %     \verb/[a-z]/ & Any single character from the range (i.e.\ any lowercase letter from \verb/a/ to \verb/z/) \\
-    %     \verb/[^abc]/ & Any single character \textbf{not} from the group \\
-    %     $\alpha | \beta$ & \ or $b$ \\
-    %     $^ a$ & Starts with a \\
-    %     $a\$$ & Ends with a \\
-    %     $a?$ & 0 or 1 times \\
-    %     $a*$ & 0 or more times \\
-    %     $a+$ & 1 or more times \\
-    %     $a\{n\}$ & $n$ times exactly \\
-    %     $a\{n,m\}$ & From $n$ to $m$ times \\
-    %     $a\{n,\}$ & At least $n$ times \\
-    % \end{tabular}
-
+    \item \textbf{Regular expressions (regex)}\Href{https://en.wikipedia.org/wiki/Regular_expression}.\\
+    Hereinafter: $c \in \Sigma$, $A \subseteq \Sigma^*$, $A = \alpha$,  $B \subseteq \Sigma^*$, $B = \beta$.\\
+     \begin{tabular}{ l l }
+         \toprule
+         Regular Language & Regex (Academic regular expressions) \\ \hline
+         $\emptyset$ & $\emptyset$ \\
+         $\{\varepsilon\}$ & $\varepsilon$ \\
+         $\{c\}$ & $c$ \\
+         $A \cup B$ & $(\alpha)|(\beta)$\\
+         $A \cdot B$ & $\alpha\beta$\\
+         $A^*$ & $\alpha^*$\\
+         $A\cdot A^*$ & $\alpha^+$\\
+         $A \cup \{\varepsilon\}$ & $\alpha?$\\
+     \end{tabular}
+    \\
     \item \textbf{Deterministic Finite Automaton (DFA)}\Href{https://en.wikipedia.org/wiki/Deterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
 
     \begin{terms}
@@ -268,7 +262,10 @@
 
         \item $\underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$  consists of one or more sequences of either terminal or nonterminal symbols where each sequence is separated by a vertical bar $"|"$ indicating a choice.
     \end{terms}
+
     %TODO? EBNF.
+    
+    
 \end{terms}
 
 \end{document}
