@@ -11,8 +11,8 @@
 }
 \pagestyle{fancy}
 \MakeSingleHeader% {<l>}{<r>}
-    {\TextCheatsheetEng: Combinatorics}%
-    {\TextDiscreteMathEng, \IconSpring~Spring 2022}
+    {\TextCheatsheetEng: Automata Theory}%
+    {\TextDiscreteMathEng, \IconSpring~Spring 2024}
 \fancyfoot{}
 \fancyfoot[L]{\tiny Build time: \DTMnow}
 \fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
@@ -32,92 +32,240 @@
 ]{mystyle}
 \declaretheorem[style=mystyle]{theorem}
 
-\tikzset{
-    dot/.style = {
-        draw,
-        fill=black,
-        shape=circle,
-        minimum size=4pt,
-        inner sep=0pt,
-        outer sep=0pt,
-    },
-    circ/.style = {
-        draw,
-        % fill=white,
-        shape=circle,
-        minimum size=4pt,
-        inner sep=0pt,
-        outer sep=0pt,
-    },
-    position/.style args={#1:#2 from #3}{
-        at=(#3.#1), anchor=#1+180, shift=(#1:#2)
-    },
-    mylabel/.style args={#1:#2}{
-        append after command={
-            (\tikzlastnode.center) node [#1] {#2}
-        }
-    },
-}
-
 
 \begin{document}
+
 \selectlanguage{english}
 
-\setcounter{section}{5}
-\section{Combinatorics Cheatsheet}
-
-\subsection{Overview}
+\setcounter{section}{5}% +1 = actual
+\section{Automata Theory Cheatsheet}
 
 \begin{terms}
-    \item \textbf{Combinatorics} is a field of mathematics concerned with:
+    \item \textbf{Alphabet}\Href{https://en.wikipedia.org/wiki/Alphabet_(formal_languages)} is a finite set of symbols $\Sigma$.
+
     \begin{terms}
-        \item Arrangements of elements of a set into patterns satisfying specific rules, generally referred to as \emph{discrete structures}.
-        \item The existence, enumeration, analysis, classification and optimization of discrete structures.
-        \item Generalizations and specializations of relations between discrete structures.
+        \item \textbf{Word} $w \in \Sigma^*$ is a finite sequence of symbols from $\Sigma$.
+
+        \item Set of all words: $\Sigma^* = \bigunion_{k = 0}^{\infty} \Sigma^k$.
+
+        \item $\Sigma^0 = \Set{\varepsilon} \neq \emptyset$
     \end{terms}
+
+    \item \textbf{Language}\Href{https://en.wikipedia.org/wiki/Formal_language} over an alphabet $\Sigma$ is a subset $L \subseteq \Sigma^*$.
+
+    \begin{terms}
+        \item \textbf{Union, intersection}: $L_1 \union L_2 \xleftrightarrow{} \{w\ |\ w \in L_1 \lor w \in L_2\}$
+
+        \item \textbf{Concatenation}\Href{https://en.wikipedia.org/wiki/Concatenation}: $L_1 \cdot L_2 \xleftrightarrow{} \{ab\ |\ a \in L_1, b \in L_2\}$
+
+        \begin{terms}
+            \item $L \cdot \emptyset = L = \emptyset \cdot L$
+
+            \item $L^k = L \cdot L \cdot ... \cdot L$ - $k$ times
+
+            \item \textbf{Kleene star (closure)}\Href{https://en.wikipedia.org/wiki/Kleene_star}: $L^* = \bigunion_{k = 0}^{\infty}\Sigma^k$
+        \end{terms}
+
+        \item \textbf{Complement}: $\overline{L(M)} = L(\overline{M})$ (here, $\overline{M}$ is a complement automaton in which terminal states are exactly those that are not terminal in the original atuomaton).
+
+        \item \textbf{Intersection}: $L_1 \intersection L_2 = \overline{\overline{L_1} \union \overline{L_2}}$.
+
+        \item \textbf{Equivalence}: $L_1 = L_2 \xleftrightarrow{} (L_1 \intersection \overline{L_2}) \union (\overline{L_1} \intersection L_2) = \emptyset$.
+    \end{terms}
+
+    % TODO
+    % \item $\mathrm{REG}$ \textbf{(family of regular languages)}\Href{https://en.wikipedia.org/wiki/Regular_language} is set over an alphabet $\Sigma$.
+
+    \begin{terms}
+        \item Empty language $\emptyset$ is regular.
+
+        \item For any $a \in \Sigma$, a singleton language $\Set{a}$ is regular.
+
+        \item Any finite language is regular.
+
+        \item If $A$ is a regular language, then $A^*$ is also regular.
+
+        \item If $A$ and $B$ are regular languages, then $A \union B$ is also regular.
+
+        \item If $A$ and $B$ are regular languages, then $A \cdot B$ is also regular.
+
+        \item No other languages over $\Sigma$ are regular.
+    \end{terms}
+
+    \item \textbf{REG (set of regular languages)} is set over an alphabet $\Sigma$\\ $\mathrm{REG} = \bigunion_{k = 0}^{\infty} \mathrm{Reg}_{k} = \mathrm{Reg}_{\infty}$.
+
+    \begin{terms}
+        \item $\mathrm{Reg}_{0} = \Set{\emptyset, \Set{\varepsilon}} \union \Set{\Set{c} \given c \in \Sigma}$.
+
+        \item $\mathrm{Reg}_{i + 1} = \mathrm{Reg}_{i} \union \Set{A \cdot B, A \union B \given A,B \in \mathrm{Reg}_{i}} \union \Set{A^* \given A \in \mathrm{Reg}_{i}}$.
+    \end{terms}
+
+    \item $\mathrm{REG}$ is closed under union, concatenation, and Kleene star operations.
+
+    \item \textbf{Regular expressions (regex)}\Href{https://en.wikipedia.org/wiki/Regular_expression} consist of constants, which denote sets of strings, and operator symbols, which denote operations over these sets..\\
+    Hereinafter: $c \in \Sigma$, $A \subseteq \Sigma^*$, $A = \alpha$,  $B \subseteq \Sigma^*$, $B = \beta$.\\
+     \begin{tabular}{ l l }
+         \toprule
+         Regular Language & Regex (Academic regular expressions) \\ \hline
+         $\emptyset$ & $\emptyset$ \\
+         $\{\varepsilon\}$ & $\varepsilon$ \\
+         $\{c\}$ & $c$ \\
+         $A \cup B$ & $(\alpha)|(\beta)$\\
+         $A \cdot B$ & $\alpha\beta$\\
+         $A^*$ & $\alpha^*$\\
+         $A\cdot A^*$ & $\alpha^+$\\
+         $A \cup \{\varepsilon\}$ & $\alpha?$\\
+     \end{tabular}
+    \\
+    \item \textbf{Deterministic Finite Automaton (DFA)}\Href{https://en.wikipedia.org/wiki/Deterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an alphabet;
+        \item $Q = \Set{q_1, \dots, q_n}$ is a finite set of states;
+        \item $q_0 \in Q$ is an initial state;
+        \item $F \subseteq Q$ is set of final (terminal, accepting) states;
+        \item $\delta \colon Q \times \Sigma \to Q$ is transition function.
+    \end{terms}
+
+    \item Language accepted by an automaton $\mathcal{A}$ is the set $L(\mathcal{A}) = \Set{w \given \delta(q_0, w) \in F}$.
+
+\newpage
+
+    \item \textbf{Nondeterministic Finite Automaton (NFA)}\Href{https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an alphabet;
+
+        \item $Q = \Set{q_1, \dots, q_n}$ is a finite set of states;
+
+        \item $q_0 \in Q$ is an initial state;
+
+        \item $F \subseteq Q$ is set of final (terminal, accepting) states;
+
+        \item $\delta$ is transition function, $\delta: Q \times \Sigma \to 2^Q$.\\
+        $\delta: (q,c) \mapsto \{q^{\{1\}},q^{\{2\}}, ... , q^{\{k\}}\}$, $c \in \Sigma$, $q \in Q$ (Nondeterminism).
+
+        \item $L(A) = \{ s| (q_0, s) \vdash^*_{NFA} (f, \epsilon), f\in F\}$ is a language of NFA
+    \end{terms}
+
+    \item \textbf{NFA to DFA} conversion algorithm:
+
+    \begin{enumerate}
+        \item Set initial state of NFA to initial state of DFA.
+
+        \item Take the states in the DFA, and compute in the NFA what the union $\delta$ of those states for each letter in the alphabet and add them as new states in the DFA.
+
+        \item Set every DFA state as accepting if it contains an accepting state from the NFA
+    \end{enumerate}
+
+    \item \textbf{Epsilon-NFA ($\varepsilon$-NFA)} is an NFA which allows $\varepsilon$-moves, that is, the automaton can change state without consuming input.
+
+    \begin{terms}
+        \item $\delta \colon Q \times (\Sigma \union \{\varepsilon\}) \to 2^Q$.
+    \end{terms}
+
+    \item \textbf{$\varepsilon$-NFA to NFA}:
+    \begin{enumerate}
+        \item Find transitive-closure of $\varepsilon$.
+
+        \item Back-propagate accepting states over $\varepsilon$-transitions.
+
+        \item Perform symbol-transition back-closure over $\varepsilon$-transitions.
+
+        \item Remove $\varepsilon$-transitions.
+    \end{enumerate}
+
+    % TODO: rewrite
+    \item \textbf{Pumping lemma}\Href{https://en.wikipedia.org/wiki/Pumping_lemma_for_regular_languages} states that if $L$ if a regular language, then there exists an integer $n > 1$ depending only on $L$, such that $\forall w \in L$, $|w| > n$ can be written as $w = xyz$, such that:
+    \begin{enumerate}
+        \item $|y| > 0$, i.e. $y \neq \varepsilon$.
+
+        \item $|xy| \leq n$.
+
+        \item $\forall k \geq 0$, word $x y^{k} z$ is also in language $L$.
+    \end{enumerate}
+
+    \item \textbf{Moore machine}\Href{https://en.wikipedia.org/wiki/Moore_machine} is a finite-state machine whose output is determines only by the current state.
+    $\mathcal{M}_\text{Moore} = \{\Sigma, \Omega, Q, q_0, \delta, \lambda_\text{Moore}\}$, where:
+    \begin{terms}
+        \item $\Sigma$ is an input alphabet;
+
+        \item $\Omega$ is an output alphabet;
+
+        \item $Q = \Set{q_1, \dots, q_n}$ is finite set of states;
+
+        \item $q_0 \in Q$ is an initial state;
+
+        \item $\delta \colon Q \times \Sigma \to Q$ is transition function;
+
+        \item $\lambda_\text{Moore} \colon Q \to \Omega$ is output function.
+    \end{terms}
+
+    \item \textbf{Mealy machine}\Href{https://en.wikipedia.org/wiki/Mealy_machine} is finite-state machine whose output is determined both by the current state and current input.
+    Formally, $\mathcal{M}_\text{Mealy} = \{\Sigma, \Omega, Q, q_0, \delta, \lambda_\text{Mealy}\}$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an input alphabet;
+
+        \item $\Omega$ is an output alphabet;
+
+        \item $Q = \Set{q_1, \dots, q_n}$ is finite set of states;
+
+        \item $q_0 \in Q$ is an initial state;
+
+        \item $\delta \colon Q \times \Sigma \to Q$ is transition function;
+
+        \item $\lambda_{Mealy} \colon Q \times \Sigma \to \Omega$ is output function.
+    \end{terms}
+
+    \item \textbf{Emptiness}. Language $L(M)$ is not empty ($L \neq \emptyset$) if $M$ accepts a word $w$ such that $|w| \leq n$.
+
+    \item \textbf{Infiniteness}. Language $L(M)$ is infinite $(|L| = \infty)$ if $M$ accepts a word $w$ such that $n \leq |w| < 2n$.
+
+    \item \textbf{Myhill-Nerode theorem}\Href{https://en.wikipedia.org/wiki/Myhill–Nerode_theorem} states that the following three statement are equivalent:
+    \begin{enumerate}
+        \item $L \subseteq \Sigma^*$ is accepted by some finite automaton ($L$ is regular).
+
+        \item $L$ is the union of some equivalence classes of right invariant equivalence relation of finite index.
+
+        \item Let $R_L$ be a relation over words: $x \rel[R_L] y$ iff $\forall z \in \Sigma : xz \in L \equiv yz \in L$.
+        % TODO: check who exactly is "of finite index" - relation or quiotient.
+        Then $\quotient[R_L]{\Sigma^*}$ is of finite index.
+    \end{enumerate}
+
+    \newpage
+    \item \textbf{Formal grammar}\Href{https://en.wikipedia.org/wiki/Formal_grammar} is 4-tuple $\mathcal{G} = (V, T, S, \mathcal{P})$, where:
+
+    \begin{terms} 
+        \item $\mathcal{V}$ is vocabulary, set of variables or non-terminal symbols.
+
+        \item $T$ is set of terminal symbols disjoint from $\mathcal{V}$.
+
+        \item $S$ is start symbol, also called sentence symbol.
+
+        \item $\mathcal{P}$ is set of production rules, each rule of the form:
+        $\mathcal{V}^*S\mathcal{V}^* \xrightarrow{} \mathcal{V}^*$.
+    \end{terms}
+
+    \item Binary relation $\mathbf{\Rightarrow}$ over an grammar $\mathcal{G}$ is defined by:\\
+    $x \Rightarrow y \Longleftrightarrow \exists u,v,p,q \in \mathcal{V}: (x = upv) \land (p \rightarrow{} q \in \mathcal{P}) \land (y = uqv)$.\\
+    Pronounce as $y$ is directly derivable from $x$.
+    \item Binary relation $\mathbf{\Rightarrow^*}$ over an grammar $\mathcal{G}$ is defined as reflexive transitive closure of $\Rightarrow$.\\
+    Pronounce as $y$ is derivable from $x$.
+
+    \item \textbf{Backus-Naur Form (BNF)}\Href{https://en.wikipedia.org/wiki/Backus–Naur_form} is notation to describe the syntax of formal language. A BNF specification is a set of derivation rules, written as:\\
+    $<symbol> ::= \underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$, where:
+    \begin{terms}
+        \item $<symbol>$ is a nonterminal variable that is always enclosed between the pair $<>$.
+
+        \item $::=$ means that the symbol on the left must be replaced with the expression on the right.
+
+        \item $\underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$  consists of one or more sequences of either terminal or nonterminal symbols where each sequence is separated by a vertical bar $"|"$ indicating a choice.
+    \end{terms}
+
+    %TODO? EBNF.
+    
+    
 \end{terms}
-
-\subsection{Permutations and Combinations}
-
-\subsubsection{Basic Counting Principles}
-
-\noindent TODO: addition, multiplication, subtraction, bijection, pigeonhole, double counting
-
-\subsubsection{Ordered Arrangements}
-
-\noindent TODO: string, tuple, sequence, map (function), k-permutation, circular permutation
-
-\begin{terms}
-    \item ...
-\end{terms}
-
-\subsubsection{Unordered Arrangements}
-
-\noindent TODO: subset, k-combination, multiset, k-comb of a multiset, k-perm of a multiset, binomial coefficient
-
-\begin{terms}
-    \item ...
-\end{terms}
-
-\subsubsection{Multinomial Coefficients}
-
-\begin{terms}
-    \item ...
-\end{terms}
-
-\subsubsection{The Twelvefold Way%
-\texorpdfstring{\hfill\normalsize\href{https://en.wikipedia.org/wiki/Twelvefold_way}{Twelvefold way}}{}}
-
-\begin{terms}
-    \item ...
-\end{terms}
-
-\subsection{Inclusion--Exclusion Principle%
-\texorpdfstring{\hfill\normalsize\href{https://en.wikipedia.org/wiki/Inclusion-exclusion_principle}{PIE}}{}}
-
-\noindent TODO: PIE, M\"{o}bius Inversion
-
-% TODO: \subsection{Generating Functions}
-% TODO: \subsection{Partitions}
 
 \end{document}
