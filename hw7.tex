@@ -591,24 +591,6 @@
     \endgroup
 
 
-    \item Every regular expression $P$ generates a regular language $\mathcal{L}(P)$, which consists of all strings that match the pattern specified by~$P$.
-    For each given~$P$, find the size of the set $\mathcal{L}' =\nobreak \Set{w \in\nobreak \mathcal{L}(P) \given \operatorname{length}(w) \leq 5}$ which contains all accepted words of length at most~5.
-    For \enquote{any} (\verb/./) and \enquote{negative} (\verb/[^.]/) matches, assume that the alphabet is $\Sigma = \Set{\texttt{a}, \texttt{b}, \texttt{c}, \texttt{d}}$.
-    % Additionally, construct the corresponding $\varepsilon$-NFA and the minimized DFA for each pattern~$P$.
-    Additionally, construct the corresponding DFA (Deterministic Finite Automaton) for each pattern~$P$.
-
-    \begin{multicols}{3}
-    \begin{subtasks}
-        \item $P_{\arabic{subtasksi}} = \verb/ab*/$
-        \item $P_{\arabic{subtasksi}} = \verb/a+b?c/$
-        \item $P_{\arabic{subtasksi}} = \verb/[^cd]+c{3}/$
-        \item $P_{\arabic{subtasksi}} = \verb/[^a](.|ddd)?/$
-        \item $P_{\arabic{subtasksi}} = \verb/d(a|bc)*/$
-        \item $P_{\arabic{subtasksi}} = \verb/((a|ab)[cd]){2}/$
-    \end{subtasks}
-    \end{multicols}
-
-
 \bigskip
 % \noindent\hfil\rule{0.5\textwidth}{.2pt}\hfil
 \noindent\hfil\rule{0.3\textwidth}{.1pt}~~$\ast$~$\ast$~$\ast$~~\rule{0.3\textwidth}{.1pt}\hfil
