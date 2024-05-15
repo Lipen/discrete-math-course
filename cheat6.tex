@@ -139,13 +139,11 @@
 
     \item $\mathrm{REG}$ is closed under union, concatenation, and Kleene star operations.
 
-    \item \textbf{Regular expressions (regex)}\Href{https://en.wikipedia.org/wiki/Regular_expression} consist of constants, which denote sets of strings, and operator symbols, which denote operations over these sets.
+    \item \textbf{Regular expressions (regex)}\Href{https://en.wikipedia.org/wiki/Regular_expression} is a sequence of special characters that define a regular language or an operation over regular languages.
+    The table below illustrates the correspondence between regular languages and regular expressions.
+    Here, $c \in \Sigma$ denotes the symbol of a given alphabet, $A \subseteq \Sigma^*$ and $B \subseteq \Sigma^*$ are some regular languages, $\alpha$ and $\beta$ are regular expressions.
+    In regular expressions, concatenation is denoted by~$\cdot$ (can be omitted in regex), union by~$|$, Kleene star by~$*$, and the grouping is made by parentheses.
 
-    % TODO: fix A=\alpha -- this is incorrect
-    Hereinafter: $c \in \Sigma$, $A \subseteq \Sigma^*$, $A = \alpha$,  $B \subseteq \Sigma^*$, $B = \beta$.
-
-    % TODO: move table to the right (along the text)
-    % TODO: swap columns
     \begin{tabular}{cc}
         \toprule
         \thead{Language} & \thead{Regex} \\
