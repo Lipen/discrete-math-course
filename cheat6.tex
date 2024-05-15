@@ -236,21 +236,22 @@
 
     \begin{minipage}{\linewidth}
     \begin{wrapfigure}{r}{0pt}
-        \setlength{\tabcolsep}{2pt}%
-
-        \tikz[myautomatonstyle,baseline=(s0.base)]{
+        \tikz[myautomatonstyle]{
             \node[state, initial] (si) {$s_i$};
             \node[state, above right=1cm and 2cm of si] (s0) {$s_0$};
             \node[state, below right=1cm and 2cm of si] (s1) {$s_1$};
             \path[->]
-            (si) edge [bend left, sloped, above] node {0/0} (s0)
-            edge [bend right, sloped, below] node {1/0} (s1)
-            (s0) edge [loop right, right] node {0/0} (s0)
-            edge [bend left, right] node {1/1} (s1)
-            (s1) edge [loop right, right] node {1/0} (s1)
-            edge [bend left, left] node {0/1} (s0)
+                (si) edge [bend left, sloped, above] node {0/0} (s0)
+                     edge [bend right, sloped, below] node {1/0} (s1)
+                (s0) edge [loop right, right] node {0/0} (s0)
+                     edge [bend left, right] node {1/1} (s1)
+                (s1) edge [loop right, right] node {1/0} (s1)
+                     edge [bend left, left] node {0/1} (s0)
             ;
-            \node (label) at (5,0) {This Mealy \\ machine's output is 1 \\ if current and \\ previous symbols are \\ equal, else 0};
+            \node at (5.7,0) [align=left] {This Mealy machine's \\
+            output is 1 whenever both \\
+            previous and current symbols \\
+            are equal, and 0 otherwise};
         }
         \vspace{-\intextsep}
     \end{wrapfigure}
@@ -277,21 +278,19 @@
 
     \begin{minipage}{\linewidth}
     \begin{wrapfigure}{r}{0pt}
-        \setlength{\tabcolsep}{2pt}%
-
         \tikz[myautomatonstyle]{
             \node[state, initial] (s0) {$0$};
             \node[state, right=2cm of s0] (s1) {$1$};
             \node[state, right=2cm of s1] (s2) {$2$};
             \path[->]
-            (s0) edge [loop above, above] node {0} (s0)
-            edge [bend left, above] node {1} (s1)
-            (s1) edge [bend left, below] node {1} (s0)
-            edge [bend right, below] node {0} (s2)
-            (s2) edge [bend right, above] node {1} (s1)
-            edge [loop above, above] node {0} (s2)
+                (s0) edge [loop above, above] node {0} (s0)
+                     edge [bend left, above] node {1} (s1)
+                (s1) edge [bend left, below] node {1} (s0)
+                     edge [bend right, below] node {0} (s2)
+                (s2) edge [bend right, above] node {1} (s1)
+                     edge [loop above, above] node {0} (s2)
             ;
-            \node (label) at (2,-1) {This Moore machine's output \\ is modulo 3 of a binary number};
+            \node at (2,-1) [align=center] {This Moore machine's output \\ is modulo 3 of a binary number};
         }
         \vspace{-\intextsep}
     \end{wrapfigure}
