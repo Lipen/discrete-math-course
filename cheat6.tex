@@ -46,6 +46,10 @@
     },
 ]
 
+%% BNF grammar
+\usepackage{syntax}
+
+
 \begin{document}
 
 \selectlanguage{english}
@@ -355,22 +359,26 @@
 
     $x \Rightarrow y \Longleftrightarrow \exists u,v,p,q \in \mathcal{V}: (x = upv) \land (p \rightarrow{} q \in \mathcal{P}) \land (y = uqv)$.
 
-    Pronounce as $y$ is directly derivable from $x$.
+    Pronounce as \enquote{$y$ is directly derivable from $x$}.
 
-    \item Binary relation $\mathbf{\Rightarrow^*}$ over an grammar $\mathcal{G}$ is defined as reflexive transitive closure of $\Rightarrow$.
+    \item Binary relation $\mathbf{\Rightarrow^*}$ over a grammar $\mathcal{G}$ is defined as reflexive transitive closure of $\Rightarrow$.
 
-    Pronounce as $y$ is derivable from $x$.
+    Pronounced as \enquote{$y$ is derivable from $x$}.
 
-    % TODO: use package for BNF
-    \item \textbf{Backus-Naur Form (BNF)}\Href{https://en.wikipedia.org/wiki/Backus–Naur_form} is notation to describe the syntax of formal language. A BNF specification is a set of derivation rules, written as:
-    $<symbol> ::= \underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$, where:
-
+    \item \textbf{Backus-Naur Form (BNF)}\Href{https://en.wikipedia.org/wiki/Backus–Naur_form} is notation to describe the syntax of formal language.
+    A BNF specification is a set of derivation rules, written as follows:
+    \setlength{\grammarparsep}{0pt plus 4pt}
+    \setlength{\grammarindent}{6em}
+    \begin{grammar}
+        <symbol> ::= <expression>
+    \end{grammar}
+    where:
     \begin{terms}
-        \item $<symbol>$ is a nonterminal variable that is always enclosed between the pair $<>$.
+        \item \synt{symbol} is a non-terminal symbol that is enclosed in angle brackets.
 
-        \item $::=$ means that the symbol on the left must be replaced with the expression on the right.
+        \item \synt{expression} consists of one or more sequences of either terminal or non-terminal symbols where each sequence is separated by a vertical bar indicating a choice.
 
-        \item $\underline{\hspace{4mm}}{}expression\underline{\hspace{4mm}}$  consists of one or more sequences of either terminal or nonterminal symbols where each sequence is separated by a vertical bar $"|"$ indicating a choice.
+        \item $::=$ is a symbol that separates the production rule for a non-terminal symbol.
     \end{terms}
 
     %TODO? EBNF.
