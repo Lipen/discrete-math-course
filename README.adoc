@@ -28,7 +28,7 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml/
 |
 |image:https://img.shields.io/badge/Homework 6-Automata Theory-blue?style=social&logo=gitbook["Homework 6: Automata Theory", link="https://lipen.github.io/discrete-math-course/hw6.pdf"]
 
-|image:https://img.shields.io/badge/Cheatsheet 7-Combinatorics-blue?style=social&logo=gitbook["Cheatsheet 7: Combinatorics", link="https://lipen.github.io/discrete-math-course/cheat6.pdf"]
+|image:https://img.shields.io/badge/Cheatsheet 7-Combinatorics-blue?style=social&logo=gitbook["Cheatsheet 7: Combinatorics", link="https://lipen.github.io/discrete-math-course/cheat7.pdf"]
 |image:https://img.shields.io/badge/Homework 7-Combinatorics-blue?style=social&logo=gitbook["Homework 7: Combinatorics", link="https://lipen.github.io/discrete-math-course/hw7.pdf"]
 
 |
