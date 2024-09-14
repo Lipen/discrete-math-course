@@ -1,0 +1,395 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage{mypreamble}
+
+%% Page setup
+\geometry{
+    margin=2cm,
+    includehead,
+    includefoot,
+    headsep=8pt,
+    footskip=16pt,
+}
+\pagestyle{fancy}
+\MakeSingleHeader% {<l>}{<r>}
+    {\TextCheatsheetEng: Automata Theory}%
+    {\TextDiscreteMathEng, \IconSpring~Spring 2024}
+\fancyfoot{}
+\fancyfoot[L]{\tiny Build time: \DTMnow}
+\fancyfoot[R]{\tiny Source code can be found at \url{https://github.com/Lipen/discrete-math-course}}
+% \fancyfoot[C]{\thepage\ of \zpageref{LastPage}}
+
+%% Add custom setup below
+
+% \titlespacing{\type}{left}{above}{below}[right]
+\titlespacing{\section}{0pt}{*1}{*0.5}
+\titlespacing{\subsection}{0pt}{*1}{*0.5}
+
+\declaretheoremstyle[
+    spaceabove=6pt,
+    spacebelow=6pt,
+    postheadspace=0.5em,
+    notefont=\normalfont\scshape,
+]{mystyle}
+\declaretheorem[style=mystyle]{theorem}
+
+\usetikzlibrary{automata,shapes}
+\tikzstyle{myautomatonstyle}=[
+    auto, on grid,
+    >={Stealth[]},
+    shorten >=1pt,
+    semithick,
+    bend angle=15,
+    initial text={},
+    every state/.style={
+        inner sep=0pt,
+        minimum size=2em,
+    },
+]
+
+%% BNF grammar
+\usepackage{syntax}
+
+
+\begin{document}
+
+\selectlanguage{english}
+
+\setcounter{section}{5}% +1 = actual
+\section{Automata Theory Cheatsheet}
+
+\begin{terms}
+    \item \textbf{Alphabet}\Href{https://en.wikipedia.org/wiki/Alphabet_(formal_languages)} is a finite set of symbols, commonly denoted $\Sigma$.
+
+    \item \textbf{Word} $w \in \Sigma^*$ is a finite sequence of symbols from alphabet $\Sigma$
+    For example, $w = abacaba \in \Set{a, b, c}^*$.
+
+    \item \textbf{Length} of a word: $|w| = n$, where $n$ is the number of symbols in word $w$.
+    For example, $|abacaba| = 7$.
+
+    \item \textbf{Empty word} $\varepsilon$ is a word of length 0.
+
+    \item \textbf{Concatenation} of words $w_1$ and $w_2$ is $w_1 \cdot w_2 = w_1 w_2$.
+
+    \item \textbf{Power} of a word $w$ is $w^n = w \cdot w \cdot \ldots \cdot w$ ($n$ times).
+    % Note that $\Sigma^0 = \Set{\varepsilon} \neq \emptyset$.
+
+    \item \textbf{Reverse} of a word $w$ is $w^R$.
+
+    % \item \textbf{Subword} of a word $w$ is $w[i:j] = w_i \dots w_j$.
+
+    % \item \textbf{Prefix} of a word $w$ is $w[1:i] = w_1 \dots w_i$.
+
+    % \item \textbf{Suffix} of a word $w$ is $w[i:n] = w_i \dots w_n$.
+
+    \item \textbf{Language}\Href{https://en.wikipedia.org/wiki/Formal_language} $L$ over an alphabet $\Sigma$ is a set of words $L \subseteq \Sigma^*$.
+
+    \item \textbf{Empty language} $\emptyset$ is a language that contains no words.
+
+    \item \textbf{Singleton\Href{https://en.wikipedia.org/wiki/Singleton_(mathematics)} language} $\Set{w}$ is a language that contains only one word $w$.
+
+    \item \textbf{Empty string language} $\Set{\varepsilon}$ is a language that contains only one empty word $\varepsilon$.
+
+    \item \textbf{Operations} on languages:
+
+    \begin{terms}
+        \item \textbf{Union}: $L_1 \union L_2 = \Set{w \given w \in L_1 \lor w \in L_2}$
+
+        \item \textbf{Intersection}: $L_1 \intersection L_2 = \Set{w \given w \in L_1 \land w \in L_2}$
+
+        \item \textbf{Complement}: $\neg{L} = \Set{w \given w \notin L}$
+
+        \item \textbf{Concatenation}\Href{https://en.wikipedia.org/wiki/Concatenation}: $L_1 \cdot L_2 = \Set{ab \given a \in L_1, b \in L_2}$
+
+        \item \textbf{Kleene star (Kleene closure)}\Href{https://en.wikipedia.org/wiki/Kleene_star}: $L^* = \bigunion_{k = 0}^{\infty}\Sigma^k$
+    \end{terms}
+
+    % TODO: move
+    \item \textbf{Equivalence}: $L_1 \equiv L_2 \iff (L_1 \intersection \overline{L_2}) \union (\overline{L_1} \intersection L_2) = \emptyset$
+
+    % TODO: rewrite
+    % \item $\mathrm{REG}$ \textbf{(family of regular languages)}\Href{https://en.wikipedia.org/wiki/Regular_language} is set over an alphabet $\Sigma$.
+
+    \item \textbf{Regular language}\Href{https://en.wikipedia.org/wiki/Regular_language} is a language that can be defined by a regular expression.
+
+    Regular languages are defined inductively (recursively):
+
+    \begin{terms}
+        \item The empty language $\emptyset$ is regular.
+
+        \item For any $a \in \Sigma$, the singleton language $\Set{a}$ is regular.
+
+        \item If $A$ is a regular language, then $A^*$ (Kleene star) is also regular.
+
+        \item If $A$ and $B$ are regular languages, then $A \union B$ (union) is also regular.
+
+        \item If $A$ and $B$ are regular languages, then $A \cdot B$ (concatenation) is also regular.
+
+        \item No other languages over $\Sigma$ are regular.
+    \end{terms}
+
+    % TODO: remove/rewrite
+    \item \textbf{REG (set of regular languages)} is set over an alphabet $\Sigma$\\ $\mathrm{REG} = \bigunion_{k = 0}^{\infty} \mathrm{Reg}_{k} = \mathrm{Reg}_{\infty}$.
+
+    % TODO: remove/rewrite
+    \begin{terms}
+        \item $\mathrm{Reg}_{0} = \Set{\emptyset, \Set{\varepsilon}} \union \Set{\Set{c} \given c \in \Sigma}$.
+
+        \item $\mathrm{Reg}_{i + 1} = \mathrm{Reg}_{i} \union \Set{A \cdot B, A \union B \given A,B \in \mathrm{Reg}_{i}} \union \Set{A^* \given A \in \mathrm{Reg}_{i}}$.
+    \end{terms}
+
+    \item $\mathrm{REG}$ is closed under union, concatenation, and Kleene star operations.
+
+    \item \textbf{Regular expressions (regex)}\Href{https://en.wikipedia.org/wiki/Regular_expression} is a sequence of special characters that define a regular language or an operation over regular languages.
+    The table below illustrates the correspondence between regular languages and regular expressions.
+    Here, $c \in \Sigma$ denotes the symbol of a given alphabet, $A \subseteq \Sigma^*$ and $B \subseteq \Sigma^*$ are some regular languages, $\alpha$ and $\beta$ are regular expressions.
+    In regular expressions, concatenation is denoted by~$\cdot$ (can be omitted in regex), union by~$|$, Kleene star by~$*$, and the grouping is made by parentheses.
+
+    \begingroup
+    \setlength{\tabcolsep}{0.5em}
+    \renewcommand{\arraystretch}{0.8}
+    \begin{tabular}{cc}
+        \toprule
+        \thead{Language} & \thead{Regex} \\
+        \midrule
+        $\emptyset$ & $\emptyset$ \\
+        $\Set{\varepsilon}$ & $\varepsilon$ \\
+        $\Set{c}$ & $c$ \\
+        $A \union B$ & $\alpha | \beta$ \\
+        $A \cdot B$ & $\alpha \beta$ \\
+        $A^*$ & $\alpha^*$ \\
+        $A\cdot A^*$ & $\alpha^+$ \\
+        $A \union \Set{\varepsilon}$ & $\alpha?$ \\
+        \bottomrule
+    \end{tabular}
+    \endgroup
+
+    \item \textbf{Deterministic Finite Automaton (DFA)}\Href{https://en.wikipedia.org/wiki/Deterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an alphabet;
+        \item $Q = \Set{q_1, \dots, q_n}$ is a finite set of states;
+        \item $q_0 \in Q$ is an initial state;
+        \item $F \subseteq Q$ is set of final (terminal, accepting) states;
+        \item $\delta \colon Q \times \Sigma \to Q$ is transition function.
+    \end{terms}
+
+    \item Language \textbf{accepted} by an automaton $\mathcal{A}$ is the set $L(\mathcal{A}) = \Set{w \given \delta(q_0, w) \in F}$.
+
+    \item \textbf{Nondeterministic Finite Automaton (NFA)}\Href{https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an alphabet;
+
+        \item $Q = \Set{q_1, \dots, q_n}$ is a finite set of states;
+
+        \item $q_0 \in Q$ is an initial state;
+
+        \item $F \subseteq Q$ is set of final (terminal, accepting) states;
+
+        \item $\delta: Q \times \Sigma \to 2^Q$ is a transition function.
+
+        % TODO: ?
+        % $\delta: (q, c) \mapsto \Set{q^_1, q_2, \dots, q_n}$, $c \in \Sigma$, $q \in Q$ (Nondeterminism).
+    \end{terms}
+
+    % TODO: explain \vdash first
+    % \item Language accepted by an NFA $\mathcal{A}$ is the set $L(\mathcal{A}) = \Set{w \given \Pair{q_0, w} \vdash^*_{\text{NFA}} \Pair{f, \epsilon}, f \in F}$.
+
+    \item \textbf{NFA to DFA} conversion algorithm:
+
+    \begin{enumerate}
+        \item Set initial state of NFA to initial state of DFA.
+
+        \item Take the states in the DFA, and compute in the NFA what the union $\delta$ of those states for each letter in the alphabet and add them as new states in the DFA.
+
+        \item Set every DFA state as accepting if it contains an accepting state from the NFA
+    \end{enumerate}
+
+    \item \textbf{Epsilon-NFA ($\varepsilon$-NFA)} is an NFA which allows $\varepsilon$-moves, that is, the automaton can change state without consuming input.
+
+    % TODO: inline function definition into the definition above.
+    \begin{terms}
+        \item $\delta \colon Q \times (\Sigma \union \{\varepsilon\}) \to 2^Q$.
+    \end{terms}
+
+    \item \textbf{$\varepsilon$-NFA to NFA}:
+    % TODO: prove that each step is correct (does not change the semantics of the automaton, i.e. the language it accepts is the same after each step, including the last one)
+    \begin{enumerate}
+        \item Find transitive-closure of $\varepsilon$.
+
+        \item Back-propagate accepting states over $\varepsilon$-transitions.
+
+        \item Perform symbol-transition back-closure over $\varepsilon$-transitions.
+
+        \item Remove $\varepsilon$-transitions.
+    \end{enumerate}
+
+    % TODO: rewrite
+    % TODO: theorem environment
+    \item \textbf{Pumping lemma}\Href{https://en.wikipedia.org/wiki/Pumping_lemma_for_regular_languages} states that if $L$ if a regular language, then there exists an integer $n > 1$ depending only on $L$, such that $\forall w \in L$, $|w| > n$ can be written as $w = xyz$, such that:
+
+    \begin{enumerate}
+        \item $|y| > 0$, i.e. $y \neq \varepsilon$
+
+        \item $|xy| \leq n$
+
+        \item $\forall k \geq 0$, word $x y^{k} z$ is also in language $L$
+    \end{enumerate}
+
+
+    \item \textbf{Mealy\footnotemark{} machine}\Href{https://en.wikipedia.org/wiki/Mealy_machine} is a finite-state machine whose output is determined both by the current state and the current input.
+    \footnotetext{\textsc{Mealy, George H.} (1955).
+    \href{https://doi.org/10.1002/j.1538-7305.1955.tb03788.x}{A Method for Synthesizing Sequential Circuits}.
+    \textit{The Bell System Technical Journal}, 34(5), 1045--79.}
+
+    \begin{minipage}{\linewidth}
+    \begin{wrapfigure}{r}{0pt}
+        \tikz[myautomatonstyle]{
+            \node[state, initial] (si) {$s_i$};
+            \node[state, above right=1cm and 2cm of si] (s0) {$s_0$};
+            \node[state, below right=1cm and 2cm of si] (s1) {$s_1$};
+            \path[->]
+                (si) edge [bend left, sloped, above] node {0/0} (s0)
+                     edge [bend right, sloped, below] node {1/0} (s1)
+                (s0) edge [loop right, right] node {0/0} (s0)
+                     edge [bend left, right] node {1/1} (s1)
+                (s1) edge [loop right, right] node {1/0} (s1)
+                     edge [bend left, left] node {0/1} (s0)
+            ;
+            \node at (5.7,0) [align=left] {This Mealy machine's \\
+            output is 1 whenever both \\
+            previous and current symbols \\
+            are equal, and 0 otherwise};
+        }
+        \vspace{-\intextsep}
+    \end{wrapfigure}
+
+    Formally, $\mathcal{M}_\text{Mealy} = \Set{\Sigma, \Omega, Q, q_0, \delta, \lambda_\text{Mealy}}$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an input alphabet;
+
+        \item $\Omega$ is an output alphabet;
+
+        \item $Q = \Set{q_1, \dots, q_n}$ is finite set of states;
+
+        \item $q_0 \in Q$ is an initial state;
+
+        \item $\delta \colon Q \times \Sigma \to Q$ is a transition function;
+
+        \item $\lambda_\text{Mealy} \colon Q \times \Sigma \to \Omega$ is an output function.
+    \end{terms}
+
+    \end{minipage}
+
+    \item \textbf{Moore\footnotemark{} machine}\Href{https://en.wikipedia.org/wiki/Moore_machine} is a finite-state machine whose output is determines only by the current state.
+    \footnotetext{\textsc{Moore, Edward F.} (1956).
+    \href{https://doi.org/10.1515/9781400882618-006}{Gedanken-Experiments on Sequential Machines}.
+    \textit{Automata Studies, Annals of Mathematical Studies} (34), 129--153.}
+
+    \begin{minipage}{\linewidth}
+    \begin{wrapfigure}{r}{0pt}
+        \tikz[myautomatonstyle]{
+            \node[state, initial] (s0) {$0$};
+            \node[state, right=2cm of s0] (s1) {$1$};
+            \node[state, right=2cm of s1] (s2) {$2$};
+            \path[->]
+                (s0) edge [loop above, above] node {0} (s0)
+                     edge [bend left, above] node {1} (s1)
+                (s1) edge [bend left, below] node {1} (s0)
+                     edge [bend right, below] node {0} (s2)
+                (s2) edge [bend right, above] node {1} (s1)
+                     edge [loop above, above] node {0} (s2)
+            ;
+            \node at (2,-1) [align=center] {This Moore machine's output \\ is modulo 3 of a binary number};
+        }
+        \vspace{-\intextsep}
+    \end{wrapfigure}
+
+    Formally, $\mathcal{M}_\text{Moore} = (\Sigma, \Omega, Q, q_0, \delta, \lambda_\text{Moore})$, where:
+
+    \begin{terms}
+        \item $\Sigma$ is an input alphabet;
+
+        \item $\Omega$ is an output alphabet;
+
+        \item $Q = \Set{q_1, \dots, q_n}$ is a finite set of states;
+
+        \item $q_0 \in Q$ is an initial state;
+
+        \item $\delta \colon Q \times \Sigma \to Q$ is a transition function;
+
+        \item $\lambda_\text{Moore} \colon Q \to \Omega$ is an output function.
+    \end{terms}
+
+    \end{minipage}
+
+    % TODO: what is M?
+    % TODO: theorem
+    \item \textbf{Emptiness}.
+    Language $L(M)$ is not empty ($L \neq \emptyset$) if $M$ accepts a word $w$ such that $|w| \leq n$.
+
+    % TODO: what is M?
+    % TODO: theorem
+    \item \textbf{Infiniteness}.
+    Language $L(M)$ is infinite $(|L| = \infty)$ if $M$ accepts a word $w$ such that $n \leq |w| < 2n$.
+
+    % TODO: theorem environment
+    \item \textbf{Myhill-Nerode theorem}\Href{https://en.wikipedia.org/wiki/Myhill–Nerode_theorem} states that the following three statement are equivalent:
+
+    \begin{enumerate}
+        \item $L \subseteq \Sigma^*$ is accepted by some finite automaton ($L$ is regular).
+
+        \item $L$ is the union of some equivalence classes of right invariant equivalence relation of finite index.
+
+        \item Let $R_L$ be a relation over words: $x \rel[R_L] y$ iff $\forall z \in \Sigma : xz \in L \equiv yz \in L$.
+        Then the quotient $\quotient[R_L]{\Sigma^*}$ is finite.
+    \end{enumerate}
+
+\newpage
+
+    \item \textbf{Formal grammar}\Href{https://en.wikipedia.org/wiki/Formal_grammar} is 4-tuple $\mathcal{G} = (V, T, S, \mathcal{P})$, where:
+
+    \begin{terms}
+        \item $\mathcal{V}$ is vocabulary, set of variables or non-terminal symbols.
+
+        \item $T$ is set of terminal symbols disjoint from $\mathcal{V}$.
+
+        \item $S$ is start symbol, also called sentence symbol.
+
+        \item $\mathcal{P}$ is set of production rules, each rule of the form:
+        $\mathcal{V}^*S\mathcal{V}^* \xrightarrow{} \mathcal{V}^*$.
+    \end{terms}
+
+    \item Binary relation $\mathbf{\Rightarrow}$ over an grammar $\mathcal{G}$ is defined by:
+
+    $x \Rightarrow y \Longleftrightarrow \exists u,v,p,q \in \mathcal{V}: (x = upv) \land (p \rightarrow{} q \in \mathcal{P}) \land (y = uqv)$.
+
+    Pronounce as \enquote{$y$ is directly derivable from $x$}.
+
+    \item Binary relation $\mathbf{\Rightarrow^*}$ over a grammar $\mathcal{G}$ is defined as reflexive transitive closure of $\Rightarrow$.
+
+    Pronounced as \enquote{$y$ is derivable from $x$}.
+
+    \item \textbf{Backus-Naur Form (BNF)}\Href{https://en.wikipedia.org/wiki/Backus–Naur_form} is notation to describe the syntax of formal language.
+    A BNF specification is a set of derivation rules, written as follows:
+    \setlength{\grammarparsep}{0pt plus 4pt}
+    \setlength{\grammarindent}{6em}
+    \begin{grammar}
+        <symbol> ::= <expression>
+    \end{grammar}
+    where:
+    \begin{terms}
+        \item \synt{symbol} is a non-terminal symbol that is enclosed in angle brackets.
+
+        \item \synt{expression} consists of one or more sequences of either terminal or non-terminal symbols where each sequence is separated by a vertical bar indicating a choice.
+
+        \item $::=$ is a symbol that separates the production rule for a non-terminal symbol.
+    \end{terms}
+
+    %TODO? EBNF.
+
+
+\end{terms}
+
+\end{document}
