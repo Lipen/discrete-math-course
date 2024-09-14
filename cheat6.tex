@@ -144,6 +144,9 @@
     Here, $c \in \Sigma$ denotes the symbol of a given alphabet, $A \subseteq \Sigma^*$ and $B \subseteq \Sigma^*$ are some regular languages, $\alpha$ and $\beta$ are regular expressions.
     In regular expressions, concatenation is denoted by~$\cdot$ (can be omitted in regex), union by~$|$, Kleene star by~$*$, and the grouping is made by parentheses.
 
+    \begingroup
+    \setlength{\tabcolsep}{0.5em}
+    \renewcommand{\arraystretch}{0.8}
     \begin{tabular}{cc}
         \toprule
         \thead{Language} & \thead{Regex} \\
@@ -158,6 +161,7 @@
         $A \union \Set{\varepsilon}$ & $\alpha?$ \\
         \bottomrule
     \end{tabular}
+    \endgroup
 
     \item \textbf{Deterministic Finite Automaton (DFA)}\Href{https://en.wikipedia.org/wiki/Deterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
 
