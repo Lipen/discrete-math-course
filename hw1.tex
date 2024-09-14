@@ -14,16 +14,19 @@
     {\TextHomeworkRus~\#1}
     {Теория множеств}
     {\TextDiscreteMathRus}
-    {\IconFall~Осень 2023}
+    {\IconFall~Осень 2024}
 
 %% Add custom setup below
+
+\newcommand{\Jaccard}{\mathcal{J}}
+\newcommand{\JaccardDist}{d_{\Jaccard}}
 
 
 \begin{document}
 
 \begin{tasks}
     \item Определите истинность заданных утверждений.
-    Считайте, что $a \neq b$ -- урэлементы.
+    Считайте, что $a$ и $b$ \--- урэлементы, $a \neq b$.
 
     \begin{multicols}{3}
     \begin{subtasks}
@@ -34,6 +37,14 @@
         \item $\Set{a} \subseteq \Set{\Set{a}, \Set{b}}$
         \item $\Set{\Set{a}} \subset \Set{\Set{a}, \Set{a, b}}$
         \item $\Set{\Set{a}, b} \subseteq \Set{a, \Set{a, b}, \Set{b}}$
+        \item $\begin{multlined}[t]
+            \{ a,a \} \union \{ a,a,a \} = \\
+            \{ a,a,a,a,a \}
+        \end{multlined}$
+        \item $\{ a,a \} \union \{ a,a,a \} = \{ a \}$
+        \item $\{ a,a \} \intersection \{ a,a,a \} = \{ a \}$
+        \item $\{ a,a \} \intersection \{ a,a,a \} = \{ a,a \}$
+        \item $\{ a,a,a \} \setminus \{ a,a \} = \{ a \}$
         \item $\emptyset \in \emptyset$
         \item $\emptyset \subseteq \emptyset$
         \item $\emptyset \subset \emptyset$
@@ -53,52 +64,80 @@
 
 
     \item Дано множество-универсум\footnote{Здесь под универсумом имеется в виду множество доступных урэлементов. Считайте, что $\overline{A} = \universalset \setminus A$.} $\universalset = \Set{1, 2, \ldots, 10}$ и его подмножества:
-    $A = \Set{x \given x \text{ -- чётное}}$,
-    $B = \Set{x {\given} x \text{ -- простое\footnotemark}}$,
+    $A = \Set{x \given x \text{ \--- чётное}}$,
+    $B = \Set{x \given x \text{ \--- простое\footnotemark}}$,
     $C = \Set{2, 4, 7, 9}$.
     \footnotetext{Считайте, что 1 \href{https://www.google.com/search?q=is 1 a prime number}{не является} простым числом.}%
-    Нарисуйте диаграмму Венна для заданных множеств, отметьте на ней все элементы и найдите:
+    Нарисуйте диаграмму Венна для заданных множеств, отметьте на ней все элементы, а затем найдите:
 
     \begin{multicols}{3}
     \begin{subtasks}
+        \item $B \setminus \overline{C}$
+
         \item $B \symdiff (A \intersection C)$
-        \item $\smash{\overline{B} \setminus (A \symdiff C)}$
-        \item $\smash{\overline{A \union C} \union (C \symdiff B)}$
-        \item $\smash{\card{\Set{A \union B \union 2^{\emptyset} \union 2^{\universalset}}}}$
-        \item $\smash{(2^{A} \intersection 2^{C}) \setminus 2^{B}}$
-        \item $\smash{2^{B \intersection C} \setminus \Set{2^{\card{2^{\Set{\emptyset}}}}, \card{\overline{B \intersection C}}}}$
+
+        \item $\universalset \setminus (\overline{C} \union A)$
+
+        \item $\card{\Set{A \union B \union 2^{\emptyset} \union 2^{\universalset}}}$
+
+        \item $\card{2^{A \setminus C}}$
+
+        \item $(2^{A} \intersection 2^{C}) \setminus 2^{B}$
     \end{subtasks}
     \end{multicols}
 
 
-    \item Даны следующие множества\footnote{$\square$ -- самый обыкновенный квадрат, $\Cat$ -- самый обыкновенный кот.}:
-
-    \begin{multicols}{3}
-    \begin{items}
-        \item $A = \Set{1, 2, 4}$
-        \item $B = \Set{\square, \Cat} \union \emptyset$
-        \item $C = 2^\emptyset \setminus \Set{\emptyset}$
-        \item $D = \Set{\Cat, \card{2^{\Set{\emptyset, C}}}}$
-        \item $E = 2^{A \setminus D} \intersection 2^{\Set{\card{B \setminus D}}}$
-        \item $\mathrlap{F = 2^{\Set{
-            \Set{\emptyset, \emptyset} \setminus \Set{\Set{\emptyset}},
-            \Set{\emptyset} \symdiff C,
-            \Set{\emptyset, C},
-            2^{\emptyset}
-        }}}$
-    \end{items}
-    \end{multicols}
-
-    Найти:
+    \item Даны следующие множества\footnote{$\square$ \--- самый обыкновенный квадрат, $\Cat$ \--- самый обыкновенный кот.}:
+    $A = \Set{1, 2, 4}$,
+    $B = \Set{\square, \Cat} \union \emptyset$,
+    $C = 2^\emptyset \setminus \Set{\emptyset}$,
+    $D = \Set{4, \card{2^{\Set{\emptyset, C}}}}$.
+    Внезапно требуется найти:
 
     \begin{multicols}{3}
     \begin{subtasks}
         \item $A \symdiff D$
-        \item $E \symdiff 2^{C}$
-        \item $B \times E$
-        \item $E \times 2^{B}$
+        \item $C \times B$
+        \item $B \intersection \overline{A}$
+        \item $B \times 2^{\Set{C}}$
         \item $D^{\card{C}}$
-        \item $F^3$
+        \item $\Set{D \intersection \Set{A}} \times (D \union \card{D})$
+    \end{subtasks}
+    \end{multicols}
+
+
+    \item Мера Жаккара\footnote{\href{https://en.wikipedia.org/wiki/Jaccard_index}{Jaccard index}} $\Jaccard(A, B)$ для двух конечных множеств $A$ и~$B$ определяет степень их похожести и задаётся следующим образом:
+    \[
+        \Jaccard(A, B) = \frac{\card{A \intersection B}}{\card{A \union B}}
+    \]
+    При этом $\Jaccard(\emptyset, \emptyset) = 1$.
+    Расстояние Жаккара $\JaccardDist(A,B)$ между двумя множествами $A$ и~$B$ определяет степень их различия и задаётся как $d_J(A,B) = 1 - \Jaccard(A,B)$.
+
+    Докажите следующие утверждения для произвольных конечных множеств $A$ и~$B$.
+
+    \begin{subtasks}
+        \item $\Jaccard(A,A) = 1$ и $\JaccardDist(A,A) = 0$.
+        \item $\Jaccard(A,B) = \Jaccard(B, A)$ и $\JaccardDist(A,B) = \JaccardDist(B, A)$.
+        \item $\Jaccard(A,B) = 1$ и $\JaccardDist(A,B) = 0$ тогда и только тогда, когда $A = B$.
+        \item $0 \leq \Jaccard(A,B) \leq 1$ и $0 \leq \JaccardDist(A,B) \leq 1$.
+        \item Для произвольных (необязательно конечных) множеств $A$, $B$ и~$C$ выполняется так называемое \emph{неравенство треугольника}\footnote{Из (a)-(c) и (e) следует, что $\JaccardDist$ является \href{https://en.wikipedia.org/wiki/Metric_space}{\emph{метрикой}}, что крайне интересно и полезно... \textit{для некоторых}.}:
+        \[
+            \JaccardDist(A,C) \leq \JaccardDist(A,B) + \JaccardDist(B,C)
+        \]
+    \end{subtasks}
+
+
+    \item Изобразите на графиках $\Real^2$ следующие множества точек:
+    % \footnote{Для всех заданных интервалов (например, $[a;b]$) считайте, что они являются подмножествами $\Real$.}
+
+    \begin{multicols}{2}
+    \begin{subtasks}
+        \item $\Set{1,2,3} \times (1; 3]$
+        \item $[1; 5) \times (1; 4] \setminus \Set{\Pair{2, 3}}$
+        \item $[1; 7] \times (1;5] \setminus (1;4] \times (1;3)$
+        \item $\Set{\Pair{x,y} \given y \in \Set{1,\dots,5}, x \in [1; 6-y)}$
+        \item $\Set{\Pair{x, y} \in [1; 5] \times [1; 4) \given (y \geq x) \lor (x > 4)}$
+        \item $\Set{\Pair{x, y} \in (1;5]^2 \given 4(x-2)^2 + 9(y-3)^2 \leq 36}$
     \end{subtasks}
     \end{multicols}
 
@@ -115,27 +154,45 @@
     \end{align*}
 
 
-    \item Изобразите на графиках $\Real^2$ следующие множества точек:
+    \item Нечёткие множества\footnote{\href{https://en.wikipedia.org/wiki/Fuzzy_set}{Fuzzy sets}} \--- обобщение множеств для случаев, когда необходимо описать \textit{вероятностный} или \textit{частичный} характер нахождения элементов во множестве.
+    Каждому элементу~$x \in X$ заданного универсума~$X$ сопоставляется \emph{степень принадлежности} $\mu(x) \in [0;1] \subseteq \Real$, задаваемая в виде действительного числа от 0 до~1.
+    Нечёткие множества задаются с помощью перечисления элементов вместе со степенями принадлежности, например, $F = \{ a:0.4, b:0.8, c:0.2, d:0.9, e:0.7 \}$ и $R = \{ a:0.6, b:0.9, c:0.4, d:0.1, e:0.5 \}$.
 
-    \begin{multicols}{2}
     \begin{subtasks}
-        \item $\Set{1,2,3} \times [1; 3]$
-        \item $[1; 4) \times (2; 4] \setminus \Set{\Pair{2, 3}}$
-        \item $([1; 6] \times (1; 5]) \setminus ([4; 5] \times (2; 4))$
-        \item $\Set{\Pair{x, y} \in [1; 5] \times [1; 4] \given (y > x) \lor (x \geq 4)}$
-        \item $\Set{\Pair{x, y} \in (1;5]^2 \given 4(x-2)^2 + 9(y-3)^2 \leq 36}$
-        \item $\Set{\Pair{x, y} \in \Natural^2 \given \exists z \in \Natural : x^3 + y^3 = z^3}$
+        \item Дополнение нечёткого множества~$S$ обозначается~$\overline{S}$ и задаётся как множество, в котором степень принадлежности каждого элемента равна $\mu_{\overline{S}}(x) = 1 - \mu_{S}(x)$.
+        Найдите $\overline{F}$ и $\overline{R}$.
+
+        \item Объединение нечётких множеств $S$ и~$T$ обозначается $S \union T$ и задаётся как множество, в котором степень принадлежности каждого элемента есть \emph{максимум} из степеней принадлежности данного элемента в двух исходных множествах $S$ и~$T$.
+        Найдите $F \union R$.
+
+        \item Пересечение нечётких множеств $S \intersection T$ задаётся аналогично объединению: $\mu_{S \intersection T}(x) = \min\{\mu_{S}(x), \mu_{T}(x)\}$.
+        Найдите $F \intersection R$.
+
+        \item Самостоятельно придумайте определение для разности нечётких множеств $S \setminus T$.
+        Найдите $F \setminus R$ и $R \setminus F$.
     \end{subtasks}
-    \end{multicols}
 
 
-    \item Подробно докажите (или опровергните) следующие утверждения:
+    \item Определите счётность или несчётность следующих множеств:
+
+    \begin{subtasks}
+        % \item Подмножество счётного множества.
+        % \item Надмножество несчётного множества.
+        \item Множество рациональных\footnote{Рациональное число можно представить в виде дроби $m / n$, где $m \in \Integer$ \--- целое, а $n \in \Natural$ \--- натуральное.} чисел $\Rational$.
+        \item Объединение \textit{счётного} числа счётных множеств.
+        \item Булеан множества натуральных чисел $\powerset{\Natural}$.
+        \item Множество всех функций вида $f : \Natural \to \Natural$.
+        \item Множество действительных корней всех уравнений вида $ax^2 + bx + c = 0$ с целочисленными коэффициентами $a$, $b$ и~$c$.
+    \end{subtasks}
+
+
+    \item Докажите или опровергните следующие утверждения:
 
     \begin{subtasks}
         \item Если $A \subseteq B$ и $B \subseteq C$, то $A \subseteq C$.
         \item $\card{\powerset{A}} = 2^{\card{A}}$.
-        \item Множество рациональных\footnote{Рациональное число можно представить в виде дроби $m / n$, где $m \in \Integer$ \--- целое, а $n \in \Natural$ \--- натуральное.} чисел $\Rational$ счётно.
-        \item $\powerset{\Natural}$ \--- несчётное множество.
+        \item $\card{\Complex} = \card{\Real}$, то есть множества комплексных и действительных чисел равномощны.
+        \item $\Pair{a,b} = \Pair{c,d} \iff (a = c) \land (b = d)$ при использовании определения пары по Куратовскому: $\Pair{x, y}_K = \Set{\Set{x}, \Set{x, y}}$.
     \end{subtasks}
 
     % \item \ldots
