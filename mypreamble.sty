@@ -672,3 +672,51 @@
 %% Hidden (boxed) math
 \newcommand{\mathhide}[1]{% {<arg>}
     \boxed{\phantom{#1}}}
+
+%% Epigraph
+\usepackage{epigraph}
+\usepackage{varwidth}
+
+\renewcommand{\epigraphsize}{\small}
+\setlength{\beforeepigraphskip}{0pt}
+\setlength{\afterepigraphskip}{-0.5\baselineskip}
+\setlength{\epigraphwidth}{0.6\textwidth}% Maximum epigraph width
+\setlength{\epigraphrule}{0.4pt}
+\renewcommand{\textflush}{flushright}
+\renewcommand{\sourceflush}{flushright}
+
+% https://tex.stackexchange.com/a/96717/216486
+\newsavebox{\epi@textbox}
+\newsavebox{\epi@sourcebox}
+\newlength\epi@finalwidth
+\renewcommand{\epigraph}[2]{%
+  \vspace{\beforeepigraphskip}
+  {\epigraphsize\begin{\epigraphflush}
+  \epi@finalwidth=\z@
+  \sbox\epi@textbox{%
+    \varwidth{\epigraphwidth}
+    \begin{\textflush}#1\end{\textflush}
+    \endvarwidth
+  }%
+  \epi@finalwidth=\wd\epi@textbox
+  \sbox\epi@sourcebox{%
+    \varwidth{\epigraphwidth}
+    \begin{\sourceflush}#2\end{\sourceflush}%
+    \endvarwidth
+  }%
+  \ifdim\wd\epi@sourcebox>\epi@finalwidth
+     \epi@finalwidth=\wd\epi@sourcebox
+  \fi
+  \leavevmode\vbox{
+    \hb@xt@\epi@finalwidth{\hfil\box\epi@textbox}
+    \vskip1.25ex
+    \hrule height \epigraphrule
+    \vskip.75ex
+    \hb@xt@\epi@finalwidth{\hfil\box\epi@sourcebox}
+  }%
+  \end{\epigraphflush}
+  \vspace{\afterepigraphskip}}}
+
+%% Fancy font
+\newcommand*{\chancery}{\fontfamily{pzc}\selectfont}
+\DeclareTextFontCommand{\textpzc}{\chancery}
