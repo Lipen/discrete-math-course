@@ -18,6 +18,7 @@
 
 %% Add custom setup below
 
+%% Macros from physics
 \usepackage{physics}
 
 %% Math enquote
@@ -34,13 +35,19 @@
 %% Definitions
 \declaretheorem[numbered=unless unique]{definition}
 
+%% Algorithms
+\usepackage[ruled,linesnumbered,vlined]{algorithm2e}
+
 
 \begin{document}
 \selectlanguage{english}
 
+\setlength{\epigraphwidth}{0.4\textwidth}
+\epigraph{\textpzc{In der Mathematik ist die Kunst Fragen zu stellen wertvoller als Probleme zu lösen}}{--- Georg Cantor}
+
 \begin{tasks}
     %% Task: Check properties of relations.
-    \item For each given relation $R_i \subseteq {M_i}^2$, determine whether it is \textit{reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, antitransitive, semiconnex, connex, left/right Euclidean}.
+    \item For each given relation $R_i \subseteq {M_i}^2$, determine whether it is \textit{reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, left/right Euclidean, connex}.
     Provide a counterexample for each non-complying property (\eg \enquote{transitivity does not hold for $x,y,z = (3,1,2)$}).
     Organize your answer in a table (\eg columns \--- relations, rows \--- properties).
 
@@ -127,30 +134,37 @@
     \item Let $R_{\theta}$ be a relation of $\theta$-similarity (clearly, $\theta \in [0; 1] \subseteq \Real$) of finite non-empty sets defined as follows: a set~$A$ is said to be \textit{$\theta$-similar} to~$B$ \textit{iff} the Jaccard index $\Jac(A,B) = \frac{\card{A \intersection B}}{\card{A \union B}}$ for these sets is at least~$\theta$, \ie $\Pair{A, B} \in R_{\theta} \iff \Jac(A,B) \geq \theta$.
 
     \begin{subtasks}
-        \item Determine whether $\theta$-similarity is a tolerance relation.
+        \item Determine whether $\theta$-similarity is a tolerance relation\footnote{A tolerance relation is a \textit{reflexive} and \textit{symmetric} relation.}.
         \item Determine whether $\theta$-similarity is an equivalence relation.
         \item Draw the graph of a relation $R_{\theta} \subseteq \Set{A_i}^2$, where $\theta = 0.25$, $A_1 = \Set{1,2,5,6}$, $A_2 = \Set{2,3,4,5,7,9}$, $A_3 = \Set{1,4,5,6}$, $A_4 = \Set{3,7,9}$, $A_5 = \Set{1,5,6,8,9}$.
     \end{subtasks}
 
 
-    % Task: Explore the characteristic function.
-    \item The characteristic function~$f_S$ of a set~$S$ is defined as follows:
-    \[
-        f_S(x) = \begin{cases}
-            1 &\text{if } x \in S \\
-            0 &\text{if } x \notin S
-        \end{cases}
-    \]
+    % % Task: Explore the characteristic function.
+    % \item The characteristic function~$f_S$ of a set~$S$ is defined as follows:
+    % \[
+    %     f_S(x) = \begin{cases}
+    %         1 &\text{if } x \in S \\
+    %         0 &\text{if } x \notin S
+    %     \end{cases}
+    % \]
 
-    Let~$A$~and~$B$ be finite sets.
-    Show that for all $x \in \universalset$:
+    % Let~$A$~and~$B$ be finite sets.
+    % Show that for all $x \in \universalset$:
 
-    \begin{subtasks}
-        \item $f_{\,\overline{A}} (x) = 1 - f_A(x)$
-        \item $f_{A \intersection B} (x) = f_A(x) \cdot f_B(x)$
-        \item $f_{A \union B} (x) = f_A(x) + f_B(x) - f_A(x) \cdot f_B(x)$
-        \item $f_{A \xor B} (x) = f_A(x) + f_B(x) - 2 f_A(x) \cdot f_B(x)$
-    \end{subtasks}
+    % \begin{subtasks}
+    %     \item $f_{\,\overline{A}} (x) = 1 - f_A(x)$
+    %     \item $f_{A \intersection B} (x) = f_A(x) \cdot f_B(x)$
+    %     \item $f_{A \union B} (x) = f_A(x) + f_B(x) - f_A(x) \cdot f_B(x)$
+    %     \item $f_{A \xor B} (x) = f_A(x) + f_B(x) - 2 f_A(x) \cdot f_B(x)$
+    % \end{subtasks}
+
+
+    % Task: Explore the Boolean product of matrices.
+    \item Any binary relation $R \subseteq M^2$ can be represented as a zero-one matrix~$\relmatrix{R} = [r_{ij}]$, where the element~$r_{ij}$ is equal to~1 if $\Pair{m_i, m_j} \in R$ and 0~otherwise.
+    Boolean product of two square matrices $A = [a_{ij}]$ and $B = [b_{ij}]$ is a matrix $C = A \odot B = [c_{ij}]$ defined as follows: $c_{ij} = \biglornolim_{k} (a_{ik} \land b_{kj})$.
+    A~composition of relations $R$ and~$S$ is a relation $S \circ R$ defined as follows: $\Pair{a,b} \in S \circ R \iff \exists c : \Pair{a,c} \in R \land \Pair{c,b} \in S$.
+    Show that the matrix representation of the composition of relations $R$ and~$S$ is equal to the Boolean product of the corresponding matrices, \ie $\relmatrix{S \circ R} = \relmatrix{R} \odot \relmatrix{S}$.
 
 
     % Task: Find the error in the "proof".
@@ -168,29 +182,84 @@
     transitive closure of~$R$ is not transitive.
 
 
+    % % Task: Explore the naive algorithm for transitive closure.
+    % \item Given a relation $R$, the transitive closure $R^{+}$ can be computed using the following algorithm.
+
+    % \begin{minipage}{0.8\textwidth}
+    % \begin{algorithm}[H]
+    %     \caption{Na\"ive algorithm for computing the transitive closure $R^{+}$}
+    %     \DontPrintSemicolon
+    %     \SetKwInput{Input}{Input}
+    %     \SetKwInput{Output}{Output}
+    %     \Input{Zero-one matrix $M = \relmatrix{R}$ of size $n \times n$.}
+    %     \Output{Zero-one matrix $B$ for the transitive closure $R^{+}$.}
+    %     \BlankLine
+    %     $A \gets M$\;
+    %     $B \gets A$\;
+    %     \For{$i = 2$ \KwTo $n$}{
+    %         $A \gets A \odot M$\;
+    %         $B \gets B \lor A$\;
+    %     }
+    %     \Return $B$
+    % \end{algorithm}
+    % \end{minipage}
+
+
+    % \item Given a relation $R \subseteq M^2$, the transitive closure $R^{+}$ can be computed using the Roy\--Warshall algorithm, which is presented below.
+
+    % \begin{minipage}{0.8\textwidth}
+    % \begin{algorithm}[H]
+    %     \caption{Roy\--Warshall algorithm}
+    %     \DontPrintSemicolon
+    %     \SetKwInput{Input}{Input}
+    %     \SetKwInput{Output}{Output}
+    %     \Input{Zero-one matrix $M = \relmatrix{R}$ of size $n \times n$.}
+    %     \Output{Zero-one matrix $W = [w_{ij}]$ for the transitive closure $R^{+}$.}
+    %     \BlankLine
+    %     $W \gets M$\;
+    %     \For{$k = 1$ \KwTo $n$}{
+    %         \For{$i = 1$ \KwTo $n$}{
+    %             \For{$j = 1$ \KwTo $n$}{
+    %                 $w_{ij} \gets w_{ij} \lor (w_{ik} \land w_{kj})$\;
+    %             }
+    %         }
+    %     }
+    %     \Return $W$
+    % \end{algorithm}
+    % \end{minipage}
+
+
+    % Task: Explore the inverse of a composition.
+    \item Consider two relations $R \subseteq A \times B$ and $S \subseteq B \times C$.
+    Prove that $(S \circ R)^{-1} = R^{-1} \circ S^{-1}$.
+
+
     % Task: Composition of injections and surjections.
     \item Prove or disprove the following statements about the functions $f$ and $g$:
 
     \begin{subtasks}
         \item If $f$ and $g$ are injections, then $g \circ f$ is also an injection.
+
         \item If $f$ and $g$ are surjections, then $g \circ f$ is also a surjection.
+
         \item If $f$ and $f \circ g$ are injections, then $g$ is also an injection.
+
         \item If $f$ and $f \circ g$ are surjections, then $g$ is also a surjection.
     \end{subtasks}
 
 
     %% Task: Explore the divisibility relation.
     \item Let $H = \Set{1, 2, 4, 5, 10, 12, 20}$.
-    Consider a divisibility relation $R \subseteq H^2$ defined as follows: $x \!\rel\!\nobreak y \iff y \divby\nobreak x$.
+    Consider a divisibility relation $R \subseteq H^2$ defined as follows: $x \rel y \iff y \divby x$.
 
     \begin{subtasks}
-        \item Sort $R$ (as a set of pairs) lexicographically\footnote{Lexicographic order for pairs: $\Pair{a,b} \preceq \Pair{a',b'} \iff (a < a') \lor ((a = a') \land (b \leq b'))$}.
+        \item Sort $R$ (as a set of pairs) lexicographically\footnote{Lexicographic order for pairs: $\Pair{a,b} \preceq \Pair{a',b'} \iff (a < a') \lor ((a = a') \land (b \leq b'))$. For example, $\Pair{1,2} \preceq \Pair{1,3} \preceq \Pair{2,1}$.}.
 
         \item Show that $R$ is a partial order.
 
         \item Determine whether $R$ is a linear (total) order.
 
-        \item Draw the Hasse diagram for a graded poset $\Triple{H, R, \rho}$, where $\rho : H \to \NaturalZero$ is a grading function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank (bottom-up).
+        \item Draw the Hasse diagram for a graded poset $\Triple{H, R, \rho}$, where $\rho \colon H \to \NaturalZero$ is a grading function which maps a number $n \in H$ to the sum of all exponents appearing in its prime factorization, \eg $\rho(20) = \rho(2^{\mathcolor{my-green}{2}} \cdot 5^{\textcolor{my-blue}{1}}) = \mathcolor{my-green}{2} + \textcolor{my-blue}{1} = 3$, so the number 20 would have the 3rd rank (bottom-up).
 
         \item Find the minimal, minimum (least), maximal and maximum (greatest) elements in the poset~$\Pair{H, R}$.
         If there are multiple or none, explain why.
@@ -212,8 +281,15 @@
     \end{definition}
 
 
-    % Task: Dedekind-infinite set.
-    \item Prove that a set $S$ is infinite if and only if there is a proper subset $A \subset S$ such that there is a one-to-one correspondence (bijection) between $A$~and~$S$.
+    % % Task: Dedekind-infinite set.
+    % \item A set $A$ is \emph{finite} if there is a bijection between $A$ and a set of the form $\Set{1, 2, \dots, n}$ for some~$n \in \Natural$.
+    % A~set is called \emph{infinite} if it is not finite.
+    % A~set $S$ is \emph{Dedekind-infinite} if there is a proper subset $B \subset S$ such that there is a bijection between $S$ and~$B$.
+    %
+    % Prove that any infinite set is Dedekind-infinite.
+    % What about the converse?
+    %
+    % Prove that a set $S$ is infinite if and only if there is a proper subset $A \subset S$ such that there is a one-to-one correspondence (bijection) between $A$~and~$S$.
 
 
     % Task: Refinement relation over partitions is a lattice.
