@@ -182,53 +182,6 @@
     transitive closure of~$R$ is not transitive.
 
 
-    % % Task: Explore the naive algorithm for transitive closure.
-    % \item Given a relation $R$, the transitive closure $R^{+}$ can be computed using the following algorithm.
-
-    % \begin{minipage}{0.8\textwidth}
-    % \begin{algorithm}[H]
-    %     \caption{Na\"ive algorithm for computing the transitive closure $R^{+}$}
-    %     \DontPrintSemicolon
-    %     \SetKwInput{Input}{Input}
-    %     \SetKwInput{Output}{Output}
-    %     \Input{Zero-one matrix $M = \relmatrix{R}$ of size $n \times n$.}
-    %     \Output{Zero-one matrix $B$ for the transitive closure $R^{+}$.}
-    %     \BlankLine
-    %     $A \gets M$\;
-    %     $B \gets A$\;
-    %     \For{$i = 2$ \KwTo $n$}{
-    %         $A \gets A \odot M$\;
-    %         $B \gets B \lor A$\;
-    %     }
-    %     \Return $B$
-    % \end{algorithm}
-    % \end{minipage}
-
-
-    % \item Given a relation $R \subseteq M^2$, the transitive closure $R^{+}$ can be computed using the Roy\--Warshall algorithm, which is presented below.
-
-    % \begin{minipage}{0.8\textwidth}
-    % \begin{algorithm}[H]
-    %     \caption{Roy\--Warshall algorithm}
-    %     \DontPrintSemicolon
-    %     \SetKwInput{Input}{Input}
-    %     \SetKwInput{Output}{Output}
-    %     \Input{Zero-one matrix $M = \relmatrix{R}$ of size $n \times n$.}
-    %     \Output{Zero-one matrix $W = [w_{ij}]$ for the transitive closure $R^{+}$.}
-    %     \BlankLine
-    %     $W \gets M$\;
-    %     \For{$k = 1$ \KwTo $n$}{
-    %         \For{$i = 1$ \KwTo $n$}{
-    %             \For{$j = 1$ \KwTo $n$}{
-    %                 $w_{ij} \gets w_{ij} \lor (w_{ik} \land w_{kj})$\;
-    %             }
-    %         }
-    %     }
-    %     \Return $W$
-    % \end{algorithm}
-    % \end{minipage}
-
-
     % Task: Explore the inverse of a composition.
     \item Consider two relations $R \subseteq A \times B$ and $S \subseteq B \times C$.
     Prove that $(S \circ R)^{-1} = R^{-1} \circ S^{-1}$.
@@ -279,17 +232,6 @@
             \item $S \circ R = \Set{\Pair{x,y} \given \exists z : (x \rel[R] z) \land (z \rel[S] y)}$ is a composition (relative product) of relations $R$ and $S$.
         \end{terms}
     \end{definition}
-
-
-    % % Task: Dedekind-infinite set.
-    % \item A set $A$ is \emph{finite} if there is a bijection between $A$ and a set of the form $\Set{1, 2, \dots, n}$ for some~$n \in \Natural$.
-    % A~set is called \emph{infinite} if it is not finite.
-    % A~set $S$ is \emph{Dedekind-infinite} if there is a proper subset $B \subset S$ such that there is a bijection between $S$ and~$B$.
-    %
-    % Prove that any infinite set is Dedekind-infinite.
-    % What about the converse?
-    %
-    % Prove that a set $S$ is infinite if and only if there is a proper subset $A \subset S$ such that there is a one-to-one correspondence (bijection) between $A$~and~$S$.
 
 
     % Task: Refinement relation over partitions is a lattice.
