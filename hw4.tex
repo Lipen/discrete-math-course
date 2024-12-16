@@ -225,8 +225,8 @@
         Given a set of elements and constraints of the form $(a,b,c)$, meaning that in any acceptable linear ordering of these elements, $b$~must lie between $a$ and~$c$, determine if there exists such an ordering that satisfies all betweenness constraints.
     \end{enumerate}
 
-    \filbreak
-
+    % use minipage to prevent page break for this block
+    \begin{minipage}{\linewidth}
     \textbf{Guidelines for the reduction:}
     \begin{itemize}
         \item Define logical variables to represent key properties of the problem (e.g., whether a vertex is assigned a specific color, whether an item is placed in a particular bin, etc.).
@@ -234,6 +234,7 @@
         \item Show how a solution to the SAT instance corresponds to a solution of the original problem.
         \item Verify that your reduction captures all valid solutions of the original problem.
     \end{itemize}
+    \end{minipage}
 
     \medskip
     \textbf{Example solution for the Graph Coloring problem:}
