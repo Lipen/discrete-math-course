@@ -14,7 +14,7 @@
     {\TextHomeworkEng~\#4}
     {Formal Logic}
     {\TextDiscreteMathEng}
-    {\IconFall~Fall 2023}
+    {\IconFall~Fall 2024}
 
 %% Add custom setup below
 
@@ -161,6 +161,119 @@
         \item $(A \implies (B \implies C)) \implies ((A \implies B) \implies (A \implies C))$
     \end{subtasks}
     \end{multicols}
+
+
+    \item Reduce \emph{any three}\footnote{Collaborate with your classmates to cover distinct problems. Try to select problems from different domains.} of the following problems to the Boolean satisfiability problem (SAT).
+    Provide a detailed encoding of each problem into logical variables and constraints.
+    While your encoding does not have to be in CNF, explain how the high-level constraints, such as arithmetics, are translated into propositional logic.
+    Additionally, discuss possible extensions or variations of the problems, and describe how your reduction could be adapted to handle these cases effectively.
+
+    \begin{enumerate}[start=0]
+        \item \emph{(Do not pick it!)} \textbf{Graph Coloring:} Determine if a given graph $G = (V, E)$ can be properly colored with $k$~colors (such that no two adjacent vertices share the same color).
+
+        \item \textbf{Sudoku Puzzle:} Determine if a partially filled $9 \times 9$ Sudoku grid can be completed while satisfying the standard Sudoku rules (each row, column, and $3 \times 3$ sub-grid contains each digit from 1 to~9 exactly once).
+
+        \item \textbf{N-Queens Problem:} Place $N$ queens on an $N \times N$ chessboard such that no two queens threaten each other (i.e., no two queens share the same row, column, or diagonal).
+
+        \item \textbf{Hamiltonian Cycle:} Determine if a given directed graph $G = (V, E)$ contains a Hamiltonian cycle (a path that visits each vertex exactly once and returns to the starting vertex).
+
+        \item \textbf{Clique:} Determine if a graph $G = (V, E)$ has a $k$-clique (a complete subgraph with $k$~vertices).
+
+        \item \textbf{Vertex Cover:} Determine if a graph $G = (V, E)$ has a vertex cover of size~$k$, i.e. a set of vertices such that every edge in~$E$ is incident to at least one vertex in the set.
+
+        \item \textbf{Tiling Problem:} Determine if a given rectangular region can be tiled without gaps or overlaps using a specified set of shapes (e.g., dominoes or tetrominoes).
+
+        \item \textbf{3D Packing Problem:} Determine if a set of 3D rectangular objects can fit into a container of fixed dimensions without overlapping, rotating the objects as necessary.
+
+        \item \textbf{Exact Cover Problem:} Determine if a collection of subsets of a universe~$U$ can be selected such that each element of~$U$ is covered exactly once.
+
+        \item \textbf{Cryptarithm Solver:} Solve a cryptarithm, such as $\mathtt{SEND} + \mathtt{MORE} = \mathtt{MONEY}$, by assigning a unique digit to each letter, ensuring that the arithmetic equation holds.
+
+        \item \textbf{Boolean Formula Synthesis:} Given a Boolean function $f \colon \Bool^n \to \Bool$, construct a corresponding Boolean formula in a form of a parse tree with $k$~nodes (logic gates and variables).
+
+        \item \textbf{Boolean Circuit Synthesis:} Given a Boolean function $f \colon \Bool^n \to \Bool^m$, construct a corresponding Boolean circuit consisting of $k$~logic gates (e.g.,~AND, OR,~NOT).
+
+        \item \textbf{Logical Equivalence Check:} Determine if two given Boolean circuits are equivalent, i.e., they compute the same function.
+
+        \item \textbf{Scheduling Problem:} Assign $n$~tasks to $m$~time slots and $k$~processors such that each task is scheduled exactly once, precedence constraints (given as a directed acyclic graph $G = (V, E)$) are satisfied, tasks that require a shared resource do not overlap in time, and tasks that require multiple time slots are scheduled in uninterrupted intervals.
+
+        \item \textbf{Pancake Sorting:} Given a stack of pancakes of varying sizes, determine the sequence of flips (a \textit{flip} is a reversal of all pancakes above a certain point) required to sort them in order of size, with the largest pancake at the bottom.
+
+        \item \textbf{Latin Square:} Determine if a partially filled $n \times n$ grid can be completed with $n$ distinct symbols in such a way that no symbol appears more than once in any row or column.
+    \end{enumerate}
+
+    \newpage
+
+    \textbf{Guidelines for the reduction:}
+    \begin{itemize}
+        \item Define logical variables to represent key properties of the problem (e.g., whether a vertex has a specific color, whether an element is included in a subset, etc.).
+        \item Formulate constraints that enforce the rules of the problem using propositional logic.
+        \item Describe how a solution to the SAT instance corresponds to a solution to the original problem.
+        \item Verify that your reduction captures all valid solutions to the original problem.
+    \end{itemize}
+
+    \medskip
+    \textbf{Example solution for Graph Coloring problem:}
+
+    Determine if a given graph $G = (V, E)$ can be properly colored with $k$~colors (such that no two adjacent vertices share the same color).
+
+    \begin{enumerate}
+        \item Define variables $x_{v,c}$ for each $v \in V$ and $c \in [1; k]$, where $x_{v,c} = 1$ if vertex~$v$ is assigned color~$c$.
+
+        \item Add constraints to ensure each vertex is assigned exactly one color:
+        \[
+            \biglor_{c=1}^3 x_{v,c}
+            \quad \text{for all } v \in V
+        \]
+        \[
+            \neg(x_{v,c} \land x_{v,c'})
+            \quad \text{for all } v \in V, c \neq c'
+        \]
+
+        \item Add constraints to ensure adjacent vertices do not share the same color:
+        \[
+            \neg(x_{u,c} \land x_{v,c})
+            \quad \text{for all } (u, v) \in E, c \in [1; k]
+        \]
+
+        \item Add constraint to ensure that the \enquote{first} vertex is colored with the \enquote{first} color:
+        \[
+            x_{1,1} = 1
+        \]
+
+        \item Possible extensions and variations:
+        \begin{itemize}[left=0pt]
+            \item Bounded coloring: Use each color at least $t_{\min}$ and at most $t_{\max}$ times.
+            \item Exact coloring\Href{https://en.wikipedia.org/wiki/Exact_coloring}: Color the vertices of a graph such that every pair of colors appears on exactly one pair of adjacent vertices.
+        \end{itemize}
+    \end{enumerate}
+
+    \medskip
+    \textbf{Example solution for Knapsack problem:}
+
+    Given a set of items, each with a weight and a value, determine the number of each item to put in the knapsack so that the total weight does not exceed the limit and the total value is maximized.
+
+    \begin{enumerate}
+        \item Define variables $x_i$ for each item $i$, where $x_i = 1$ if item $i$ is included in the knapsack.
+
+        \item Add constraints to ensure the total weight does not exceed the limit:
+        \[
+            \sum_{i} w_i \cdot x_i \leq W
+        \]
+        where $w_i$ is the weight of item $i$ and $W$ is the weight limit.
+
+        \item Formulate the objective function to maximize the total value:
+        \[
+            \max \sum_{i} v_i \cdot x_i
+        \]
+        where $v_i$ is the value of item $i$.
+
+        \item Possible extensions and variations:
+        \begin{itemize}[left=0pt]
+            \item Fractional knapsack: Allow items to be broken into smaller pieces, so that a fraction of an item (with non-proportionally less value) can be included in the knapsack.
+            \item Multiple knapsacks: Consider multiple knapsacks with different weight limits.
+        \end{itemize}
+    \end{enumerate}
 
     % \item \ldots
 \end{tasks}
