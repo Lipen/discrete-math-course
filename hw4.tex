@@ -164,112 +164,119 @@
 
 
     \item Reduce \emph{any three}\footnote{Collaborate with your classmates to cover distinct problems. Try to select problems from different domains.} of the following problems to the Boolean satisfiability problem (SAT).
-    Provide a detailed encoding of each problem into logical variables and constraints.
-    While your encoding does not have to be in CNF, explain how the high-level constraints, such as arithmetics, are translated into propositional logic.
-    Additionally, discuss possible extensions or variations of the problems, and describe how your reduction could be adapted to handle these cases effectively.
+
+    Provide a detailed encoding of each chosen problem into logical variables and propositional constraints.
+    While your encoding does not have to be in CNF, explain how high-level constraints (such as arithmetic conditions) translate into propositional logic.
+    Additionally, discuss possible extensions or variations for each problem, and describe how your reduction could be adapted to handle these cases effectively.
 
     \begin{enumerate}[start=0]
-        \item \emph{(Do not pick it!)} \textbf{Graph Coloring:} Determine if a given graph $G = (V, E)$ can be properly colored with $k$~colors (such that no two adjacent vertices share the same color).
+        \item \emph{(Do not pick this one!)} \textbf{Graph Coloring:}
+        Determine if a given graph $G = (V, E)$ can be properly colored with $k$ colors so that no two adjacent vertices share the same color.
 
-        \item \textbf{Sudoku Puzzle:} Determine if a partially filled $9 \times 9$ Sudoku grid can be completed while satisfying the standard Sudoku rules (each row, column, and $3 \times 3$ sub-grid contains each digit from 1 to~9 exactly once).
+        \item \textbf{Sudoku Puzzle:}
+        Determine if a partially filled $9 \times 9$ Sudoku grid can be completed so that each row, column, and $3 \times 3$ sub-grid contains each digit from 1 to 9 exactly once.
 
-        \item \textbf{N-Queens Problem:} Place $N$ queens on an $N \times N$ chessboard such that no two queens threaten each other (i.e., no two queens share the same row, column, or diagonal).
+        \item \textbf{N-Queens Problem:}
+        Place $N$ queens on an $N \times N$ chessboard so that no two queens threaten each other (no shared row, column, or diagonal).
 
-        \item \textbf{Hamiltonian Cycle:} Determine if a given directed graph $G = (V, E)$ contains a Hamiltonian cycle (a path that visits each vertex exactly once and returns to the starting vertex).
+        \item \textbf{Hamiltonian Cycle:}
+        Determine if a given directed graph $G = (V, E)$ contains a Hamiltonian cycle that visits each vertex exactly once and returns to the starting point.
 
-        \item \textbf{Clique:} Determine if a graph $G = (V, E)$ has a $k$-clique (a complete subgraph with $k$~vertices).
+        \item \textbf{Clique:}
+        Determine if a graph $G = (V, E)$ has a $k$-clique: a complete subgraph on $k$ vertices.
 
-        \item \textbf{Vertex Cover:} Determine if a graph $G = (V, E)$ has a vertex cover of size~$k$, i.e. a set of vertices such that every edge in~$E$ is incident to at least one vertex in the set.
+        \item \textbf{Vertex Cover:}
+        Determine if a graph $G = (V, E)$ has a vertex cover of size~$k$: a set of vertices touching all edges.
 
-        \item \textbf{Tiling Problem:} Determine if a given rectangular region can be tiled without gaps or overlaps using a specified set of shapes (e.g., dominoes or tetrominoes).
+        \item \textbf{Tiling Problem:}
+        Determine if a given rectangular region can be tiled (without gaps or overlaps) using a specified set of shapes (e.g., dominoes or tetrominoes).
 
-        \item \textbf{3D Packing Problem:} Determine if a set of 3D rectangular objects can fit into a container of fixed dimensions without overlapping, rotating the objects as necessary.
+        \item \textbf{3D Packing Problem:}
+        Determine if a set of 3D rectangular objects can fit into a container of fixed dimensions without overlapping, possibly rotating the objects as necessary.
 
-        \item \textbf{Exact Cover Problem:} Determine if a collection of subsets of a universe~$U$ can be selected such that each element of~$U$ is covered exactly once.
+        \item \textbf{Exact Cover Problem:}
+        Given a universe $U$ and a collection of subsets, determine if there exists a sub-collection of these subsets that covers each element of $U$ exactly once.
 
-        \item \textbf{Cryptarithm Solver:} Solve a cryptarithm, such as $\mathtt{SEND} + \mathtt{MORE} = \mathtt{MONEY}$, by assigning a unique digit to each letter, ensuring that the arithmetic equation holds.
+        \item \textbf{Cryptarithm Solver:}
+        Given a cryptarithm (e.g., $\mathtt{SEND} + \mathtt{MORE} = \mathtt{MONEY}$), assign a unique digit to each letter so that the resulting arithmetic equation holds true.
 
-        \item \textbf{Boolean Formula Synthesis:} Given a Boolean function $f \colon \Bool^n \to \Bool$, construct a corresponding Boolean formula in a form of a parse tree with $k$~nodes (logic gates and variables).
+        \item \textbf{Boolean Formula Synthesis:}\Href{https://doi.org/10.17586/2226-1494-2020-20-6-841-847}
+        Given a Boolean function $f: \{0,1\}^n \to \{0,1\}$, construct a Boolean formula in a form of a parse tree with $k$~nodes (logic connectives and variables) that computes~$f$.
 
-        \item \textbf{Boolean Circuit Synthesis:} Given a Boolean function $f \colon \Bool^n \to \Bool^m$, construct a corresponding Boolean circuit consisting of $k$~logic gates (e.g.,~AND, OR,~NOT).
+        \item \textbf{Boolean Circuit Synthesis:}
+        Given a Boolean function $f: \{0,1\}^n \to \{0,1\}^m$, construct a Boolean circuit with $k$ logic gates that computes~$f$.
 
-        \item \textbf{Logical Equivalence Check:} Determine if two given Boolean circuits are equivalent, i.e., they compute the same function.
+        \item \textbf{Logical Equivalence Check:}
+        Determine if two given Boolean circuits are equivalent (i.e.,~they compute the same Boolean function).
 
-        \item \textbf{Scheduling Problem:} Assign $n$~tasks to $m$~time slots and $k$~processors such that each task is scheduled exactly once, precedence constraints (given as a directed acyclic graph $G = (V, E)$) are satisfied, tasks that require a shared resource do not overlap in time, and tasks that require multiple time slots are scheduled in uninterrupted intervals.
+        \item \textbf{Scheduling Problem:}
+        Assign $n$ tasks to $m$ time slots and $k$ processors. Each task should be scheduled exactly once, precedence constraints must be satisfied, tasks sharing a resource cannot overlap, and tasks requiring multiple time slots must be scheduled contiguously.
 
-        \item \textbf{Pancake Sorting:} Given a stack of pancakes of varying sizes, determine the sequence of flips (a \textit{flip} is a reversal of all pancakes above a certain point) required to sort them in order of size, with the largest pancake at the bottom.
+        \item \textbf{Pancake Sorting:}
+        Given a stack of pancakes of varying sizes, determine a sequence of flips (each flip reverses the order of the top portion of the stack) to sort the stack with the largest pancake at the bottom.
 
-        \item \textbf{Latin Square:} Determine if a partially filled $n \times n$ grid can be completed with $n$ distinct symbols in such a way that no symbol appears more than once in any row or column.
+        \item \textbf{Latin Square:}
+        Determine if a partially filled $n \times n$ grid can be completed so that each row and column contains each of $n$ distinct symbols exactly once.
+
+        \item \textbf{Bin Packing Problem:}
+        Given a set of items with sizes and a fixed number of bins with given capacities, determine if all items can be placed into the bins without exceeding any bin's capacity.
+
+        \item \textbf{Betweenness Problem:}
+        Given a set of elements and constraints of the form $(a,b,c)$, meaning that in any acceptable linear ordering of these elements, $b$~must lie between $a$ and~$c$, determine if there exists such an ordering that satisfies all betweenness constraints.
     \end{enumerate}
 
-    \newpage
+    \filbreak
 
     \textbf{Guidelines for the reduction:}
     \begin{itemize}
-        \item Define logical variables to represent key properties of the problem (e.g., whether a vertex has a specific color, whether an element is included in a subset, etc.).
-        \item Formulate constraints that enforce the rules of the problem using propositional logic.
-        \item Describe how a solution to the SAT instance corresponds to a solution to the original problem.
-        \item Verify that your reduction captures all valid solutions to the original problem.
+        \item Define logical variables to represent key properties of the problem (e.g., whether a vertex is assigned a specific color, whether an item is placed in a particular bin, etc.).
+        \item Formulate constraints that enforce the rules of the problem in propositional logic.
+        \item Show how a solution to the SAT instance corresponds to a solution of the original problem.
+        \item Verify that your reduction captures all valid solutions of the original problem.
     \end{itemize}
 
     \medskip
-    \textbf{Example solution for Graph Coloring problem:}
-
-    Determine if a given graph $G = (V, E)$ can be properly colored with $k$~colors (such that no two adjacent vertices share the same color).
+    \textbf{Example solution for the Graph Coloring problem:}
 
     \begin{enumerate}
-        \item Define variables $x_{v,c}$ for each $v \in V$ and $c \in [1; k]$, where $x_{v,c} = 1$ if vertex~$v$ is assigned color~$c$.
-
-        \item Add constraints to ensure each vertex is assigned exactly one color:
+        \item Define variables $x_{v,c}$ for each vertex $v \in V$ and color $c \in \{1,\dots,k\}$, where $x_{v,c}=1$ if vertex $v$ is assigned color $c$.
+        \item Add constraints ensuring each vertex is assigned exactly one color:
         \[
-            \biglor_{c=1}^3 x_{v,c}
-            \quad \text{for all } v \in V
+            \biglor_{c=1}^{k} x_{v,c} \quad \text{for all } v \in V
         \]
         \[
-            \neg(x_{v,c} \land x_{v,c'})
-            \quad \text{for all } v \in V, c \neq c'
+            \neg(x_{v,c} \land x_{v,c'}) \quad \text{for all } v \in V, \, c \neq c'
         \]
-
-        \item Add constraints to ensure adjacent vertices do not share the same color:
+        \item Add constraints ensuring no two adjacent vertices share the same color:
         \[
-            \neg(x_{u,c} \land x_{v,c})
-            \quad \text{for all } (u, v) \in E, c \in [1; k]
+            \neg(x_{u,c} \land x_{v,c}) \quad \text{for all } (u,v) \in E, \, c \in \{1,\dots,k\}
         \]
-
-        \item Add constraint to ensure that the \enquote{first} vertex is colored with the \enquote{first} color:
+        \item Optionally, fix a specific vertex and color to reduce symmetries:
         \[
             x_{1,1} = 1
         \]
-
         \item Possible extensions and variations:
         \begin{itemize}[left=0pt]
-            \item Bounded coloring: Use each color at least $t_{\min}$ and at most $t_{\max}$ times.
-            \item Exact coloring\Href{https://en.wikipedia.org/wiki/Exact_coloring}: Color the vertices of a graph such that every pair of colors appears on exactly one pair of adjacent vertices.
+            \item Bounded coloring: Require each color to be used at least $t_{\min}$ and at most $t_{\max}$ times.
+            \item Exact coloring\Href{https://en.wikipedia.org/wiki/Exact_coloring}: Ensure every pair of colors appears on exactly one pair of adjacent vertices.
         \end{itemize}
     \end{enumerate}
 
     \medskip
-    \textbf{Example solution for Knapsack problem:}
-
-    Given a set of items, each with a weight and a value, determine the number of each item to put in the knapsack so that the total weight does not exceed the limit and the total value is maximized.
+    \textbf{Example solution for the Knapsack problem:}
 
     \begin{enumerate}
-        \item Define variables $x_i$ for each item $i$, where $x_i = 1$ if item $i$ is included in the knapsack.
-
-        \item Add constraints to ensure the total weight does not exceed the limit:
+        \item Define variables $x_i$ for each item~$i$, where $x_i = 1$ if item~$i$ is included.
+        \item Add constraints to ensure the total weight does not exceed the limit~$W$:
         \[
-            \sum_{i} w_i \cdot x_i \leq W
+            \sum_{i} w_i x_i \leq W
         \]
-        where $w_i$ is the weight of item $i$ and $W$ is the weight limit.
-
-        \item Formulate the objective function to maximize the total value:
+        \item Formulate the objective (though the SAT is a decision problem, you can encode the optimization (e.g., maximization) problem as a series of checks for a certain value threshold):
         \[
-            \max \sum_{i} v_i \cdot x_i
+            \sum_{i} v_i x_i \geq V_{\text{target}}
         \]
-        where $v_i$ is the value of item $i$.
-
         \item Possible extensions and variations:
-        \begin{itemize}[left=0pt]
+        \begin{itemize}
             \item Fractional knapsack: Allow items to be broken into smaller pieces, so that a fraction of an item (with non-proportionally less value) can be included in the knapsack.
             \item Multiple knapsacks: Consider multiple knapsacks with different weight limits.
         \end{itemize}
