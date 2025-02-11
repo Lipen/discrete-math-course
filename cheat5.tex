@@ -98,6 +98,13 @@
         \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
     \end{terms}
 
+    \item Two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$ are called \textbf{isomorphic} if there exists a bijection $f: V_1 \to V_2$ such that for all $u, v \in V_1$, the edge relation is preserved:
+    \[
+    \Set{u, v} \in E_1 \iff \Set{f(u), f(v)} \in E_2.
+    \]
+    This means that the graphs are structurally identical up to vertex renaming.
+    Notation: $G_1 \cong G_2$.
+
     \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$, \ie each edge $e_i \in E$ from vertex $u$ to~$v$ is denoted by an ordered pair~$\Pair{u,v} \in V^{2}$.
     Such \emph{directed edges} are also called \emph{arcs} or \emph{arrows}.
 
@@ -364,7 +371,7 @@
             Walk  & $+$ & $+$ & Closed walk \\
             Trail & $+$ & $-$ & Circuit \\
             Path  & $-$ & $-$ & Cycle \\
-                  & $-$ & $+$ & (\emph{impossible}) \\
+                  & $-$ & $+$ & (\emph{possible for $K_2$}) \\
             \bottomrule
         \end{NiceTabular}
     \end{wrapfigure}
