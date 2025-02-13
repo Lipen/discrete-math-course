@@ -91,19 +91,17 @@
     \item \textbf{Order} of a graph $G$ is the number of vertices in it: $\card{V(G)}$.
     \item \textbf{Size} of a graph $G$ is the number of edges in it: $\card{E(G)}$.
 
+    \item Two graphs are \textbf{equal} if their vertex sets and edge sets are equal: $G_1 = G_2$ iff $V_1 = V_2$ and $E_1 = E_2$.
+
+    \item Two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$ are called \textbf{isomorphic}\Href{https://en.wikipedia.org/wiki/Graph_isomorphism}, denoted $G_1 \isomorphic G_2$, if there exists an \emph{edge-preserving} bijection $f \colon V_1 \to V_2$, that is, any two vertices $u,v \in V_1$ are adjacent in $G_1$ if and only if $f(u)$ and $f(v)$ are adjacent in $G_2$.
+    This means that the graphs are structurally identical \emph{up to vertex renaming}.
+
     \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$, \ie each edge $e_i \in E$ between vertices $u$ and~$v$ is denoted by $\Set{u,v} \in V^{(2)}$.
     Such~\emph{undirected edges} are also called \emph{links} or \emph{lines}.
 
     \begin{terms}
         \item $A^{(k)} = \Set{\Set{x_1,\dotsc,x_k} \given x_1 \neq \dotsb \neq x_k \in A} = \Set{ S \given S \subseteq A, \card{S} = k }$ is the set of $k$-sized subsets of~$A$.
     \end{terms}
-
-    \item Two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$ are called \textbf{isomorphic} if there exists a bijection $f: V_1 \to V_2$ such that for all $u, v \in V_1$, the edge relation is preserved:
-    \[
-    \Set{u, v} \in E_1 \iff \Set{f(u), f(v)} \in E_2.
-    \]
-    This means that the graphs are structurally identical up to vertex renaming.
-    Notation: $G_1 \cong G_2$.
 
     \item Simple \textbf{directed}\Href{https://en.wikipedia.org/wiki/Directed_graph} graphs have $E \subseteq V^{2}$, \ie each edge $e_i \in E$ from vertex $u$ to~$v$ is denoted by an ordered pair~$\Pair{u,v} \in V^{2}$.
     Such \emph{directed edges} are also called \emph{arcs} or \emph{arrows}.
