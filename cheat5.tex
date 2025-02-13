@@ -93,7 +93,7 @@
 
     \item Two graphs are \textbf{equal} if their vertex sets and edge sets are equal: $G_1 = G_2$ iff $V_1 = V_2$ and $E_1 = E_2$.
 
-    \item Two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$ are called \textbf{isomorphic}\Href{https://en.wikipedia.org/wiki/Graph_isomorphism}, denoted $G_1 \isomorphic G_2$, if there exists an \emph{edge-preserving} bijection $f \colon V_1 \to V_2$, that is, any two vertices $u,v \in V_1$ are adjacent in $G_1$ if and only if $f(u)$ and $f(v)$ are adjacent in $G_2$.
+    \item Two graphs $G_1 = (V_1, E_1)$ and $G_2 = (V_2, E_2)$ are called \textbf{isomorphic}\Href{https://en.wikipedia.org/wiki/Graph_isomorphism}, denoted $G_1 \isomorphic G_2$, if there exists an \emph{edge-preserving} bijection $f \colon V_1 \to V_2$, \ie any two vertices $u,v \in V_1$ are adjacent in~$G_1$ if and only if $f(u)$ and~$f(v)$ are adjacent in~$G_2$.
     This means that the graphs are structurally identical \emph{up to vertex renaming}.
 
     \item Simple \textbf{undirected}\Href{https://en.wikipedia.org/wiki/Undirected_graph} graphs have $E \subseteq V^{(2)}$, \ie each edge $e_i \in E$ between vertices $u$ and~$v$ is denoted by $\Set{u,v} \in V^{(2)}$.
@@ -348,6 +348,8 @@
     \item \textbf{Complement graph}\Href{https://en.wikipedia.org/wiki/Complement_graph} of a graph $G$ is a graph~$H$ on the same vertices such that two distinct vertices of~$H$ are adjacent iff they are non-adjacent in~$G$.
 
     \item \textbf{Intersection graph}\Href{https://en.wikipedia.org/wiki/Intersection_graph} of a family of sets $F = \Set{S_i}$ is a graph $G = \Omega(F) = \Pair{V,E}$ such that each vertex $v_i \in V$ denotes the set~$S_i$, \ie $V = F$, and the two vertices $v_i$ and~$v_j$ are adjacent whenever the corresponding sets $S_i$ and~$S_j$ have a non-empty intersection, \ie $E = \Set{ \Pair{v_i,v_j} \given i \neq j, S_i \intersection S_j \neq \emptyset }$.
+
+    \needspace{2\baselineskip}
 
     \item \textbf{Line graph}\Href{https://en.wikipedia.org/wiki/Line_graph} of a graph $G = \Pair{V,E}$ is another graph $L(G) = \Omega(E)$ that represents the adjacencies between edges of~$G$. Each vertex of~$L(G)$ represents an edge of~$G$, and two vertices of~$L(G)$ are adjacent iff the corresponding edges share a common endpoint in~$G$ (\ie edges are \enquote{adjacent}/\enquote{incident}).
 
