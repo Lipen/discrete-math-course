@@ -2,8 +2,6 @@
 
 #import ctheorems: *
 
-#let default-color = blue.darken(40%)
-
 #let layouts = (
   "small": ("height": 9cm, "space": 1.4cm),
   "medium": ("height": 10.5cm, "space": 1.6cm),
@@ -25,7 +23,6 @@
   authors: (),
   layout: "medium",
   ratio: 4 / 3,
-  title-color: none,
   dark: false,
 ) = {
   // Parsing
@@ -36,13 +33,13 @@
   let width = ratio * height
 
   // Colors
-  if title-color == none {
-    title-color = default-color
-  }
+  let title-color = blue.darken(40%)
+  let emph-color = blue.darken(20%)
 
   // Dark mode
   if dark {
-    title-color = title-color.lighten(30%)
+    title-color = title-color.lighten(40%)
+    emph-color = emph-color.lighten(40%)
   }
 
   // Common template
@@ -55,7 +52,7 @@
   set page(
     width: width,
     height: height,
-    margin: (x: 0.5 * space, top: space, bottom: 0.75 * space),
+    margin: (x: 0.5 * space, top: space, bottom: 0.5 * space),
     header: context {
       let page = here().page()
       let headings = query(selector(heading.where(level: 2)))
@@ -81,9 +78,7 @@
     footer: context {
       set text(0.8em)
       set align(right)
-      rect(radius: 100%, fill: title-color.transparentize(85%))[
-        #counter(page).display("1/1", both: true)
-      ]
+      counter(page).display("1 / 1", both: true)
     },
     footer-descent: 0.5em,
   )
@@ -125,6 +120,9 @@
     ),
   )
   set enum(numbering: nums => text(fill: title-color)[*#nums.*])
+
+  // Colored emph
+  show emph: set text(fill: emph-color) if emph-color != none
 
   // Make links underlined
   show link: underline
@@ -183,16 +181,18 @@
   "proof",
   "Proof",
   inset: (x: 0em, y: 0em),
+  titlefmt: it => strong(it),
 )
 #let example = thmplain(
   "example",
   "Example",
   inset: (x: 0em, y: 0em),
+  titlefmt: it => strong(it),
 ).with(numbering: none)
 #let examples = example.with(title: "Examples")
 #let note = thmplain(
   "note",
   "Note",
   inset: (x: 0em, y: 0em),
-  titlefmt: (it) => strong(it),
+  titlefmt: it => strong(it),
 ).with(numbering: none)
