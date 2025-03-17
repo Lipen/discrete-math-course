@@ -187,7 +187,7 @@
   "example",
   "Example",
   inset: (x: 0em, y: 0em),
-  titlefmt: it => strong(it),
+  titlefmt: it => text(style: "italic", it),
 ).with(numbering: none)
 #let examples = example.with(title: "Examples")
 #let note = thmplain(
