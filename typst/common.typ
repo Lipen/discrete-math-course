@@ -27,8 +27,8 @@
 ) = fletcher.node(
   pos,
   align(center, label),
-  fill: tint.lighten(80%),
-  stroke: tint.darken(20%),
+  fill: if (tint != none) { tint.lighten(80%) },
+  stroke: if (tint != none) { tint.darken(20%) },
   shape: shape,
   ..args,
 )
@@ -47,7 +47,6 @@
     blob(
       (0, 0),
       content,
-      shape: fletcher.shapes.rect,
       tint: tint,
       ..blob-style,
     ),
