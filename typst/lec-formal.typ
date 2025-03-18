@@ -71,9 +71,9 @@
 
 #definition[
   A class of regular languages $"REG"$ is defined inductively:
-  - $"Reg"_0 = { emptyset, {epsilon} } union { {a} | a in Sigma }$, the _empty_ and _singleton_ languages
-  - $"Reg"_(i+1) = "Reg"_i union { A union B | A, B in "Reg"_i } union { A dot B | A, B in "Reg"_i } union { A^* | A in "Reg"_i }$, \ the inductively extended $(i+1)$-th _generation_ of regular languages
-  - $"REG" = limits(union.big)_(k = 0)^infinity "Reg"_k$, the _class_ of all regular languages
+  - $"Reg"_0 = { emptyset, {epsilon} } union { {a} | a in Sigma }$, the _empty_ and _singleton_ languages.
+  - $"Reg"_(i+1) = "Reg"_i union { A union B | A, B in "Reg"_i } union { A dot B | A, B in "Reg"_i } union { A^* | A in "Reg"_i }$, \ the inductively extended $(i+1)$-th _generation_ of regular languages.
+  - $"REG" = limits(union.big)_(k = 0)^infinity "Reg"_k$, the _class_ of all regular languages.
 ]
 
 #theorem[
