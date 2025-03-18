@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - .gitignore
+      - README*
+      - LICENSE
+      - .github/**
+      - "!.github/workflows/ci.yml"
   workflow_dispatch:
 
 jobs:
