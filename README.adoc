@@ -51,7 +51,7 @@ To compile the PDFs from the TeX source code, you can use link:https://mg.readth
 latexmk -pdf cheat1.tex
 ----
 
-For the `*.typ` files (in `typst/*` directory), use link:https://typst.app/[Typst].
+For the `.typ` files (in `typst/*` directory), use link:https://typst.app/[Typst].
 
 [source]
 ----
