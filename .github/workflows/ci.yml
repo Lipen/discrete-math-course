@@ -25,7 +25,7 @@ jobs:
         with:
           cache-dependency-path: typst/requirements.typ
 
-      - run: rm typst/requirements.pdf
+      - run: rm -f typst/requirements.pdf
       - run: typst --version
       - run: typst compile typst/lec-flow.typ
       - run: typst compile typst/lec-formal.typ
