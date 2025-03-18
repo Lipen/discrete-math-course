@@ -34,7 +34,7 @@
 ]
 
 #definition[
-  The set of _all_ finite words over the alphabet $Sigma$ is called the _Kleene star_, $Sigma^* = limits(union.big)_(k = 0)^infinity Sigma$.
+  The set of _all_ finite words over the alphabet $Sigma$ is called the _Kleene star_, $Sigma^* = limits(union.big)_(k = 0)^infinity Sigma^k$.
 ]
 
 #definition[
@@ -65,7 +65,7 @@
   - $L^k = underbrace(L dot dots dot L, k "times") = \{ underbrace(w w dots w, k "words") | w in L \}$
   - $L^0 = {epsilon}$
 
-- _Kleene star_: $L^* = limits(union.big)_(k = 0)^infinity L$
+- _Kleene star_: $L^* = limits(union.big)_(k = 0)^infinity L^k$
 
 == Regular Languages
 
