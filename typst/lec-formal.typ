@@ -149,6 +149,15 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
   )
 ]
 
+== Exercises
+
+For each language below (over the alphabet $Sigma = {0, 1}$), draw a DFA recognizing it:
++ $L_1 = {"101", "110"}$
++ $L_2 = overline(L)_1$
++ $L_3 = {w | w "starts and ends with the same bit"}$
++ $L_4 = {"110"}^* = {epsilon, "110", "110110", "110110110", dots}$
++ $L_5 = {w | w "contains 110 as a substring"}$
+
 == Recognizers vs Transducers
 
 There are two main types of finite-state machines:
