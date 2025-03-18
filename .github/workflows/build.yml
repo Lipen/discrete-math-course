@@ -14,6 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup Typst
+        uses: typst-community/setup-typst@v4
+        with:
+          cache-dependency-path: typst/requirements.typ
+
+      - run: rm typst/requirements.pdf
+      - run: typst --version
+      - run: typst compile typst/lec-flow.typ
+      - run: typst compile typst/lec-formal.typ
+      - run: mv typst/*.pdf .
+
       - name: Build LaTeX project and generate PDFs
         uses: xu-cheng/latex-action@v3
         with:
@@ -26,7 +37,7 @@ jobs:
           path: "*.pdf"
 
       - name: Upload PDFs as release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body: Current state of PDFs
           name: Latest PDFs
