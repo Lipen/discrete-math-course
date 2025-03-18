@@ -50,7 +50,7 @@ jobs:
           mv *.pdf public/
 
       - name: Publish PDFs to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
