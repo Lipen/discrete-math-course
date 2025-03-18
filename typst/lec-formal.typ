@@ -129,7 +129,7 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
   Automaton $cal(A)$ recognizing strings with an even number of 0s, $cal(L)(cal(A)) = { 0^n | n "is even" }$.
 
   #let aut = (
-    q0: (q1: (0, 1)),
+    q0: (q0: 1, q1: 0),
     q1: (q0: 0, q1: 1),
   )
   #grid(
@@ -141,8 +141,7 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
       final: ("q0",),
       style: (
         state: (radius: 0.5, extrude: 0.8),
-        transition: (curve: 0.6),
-        q1-q1: (anchor: top + right),
+        transition: (curve: 0.5),
       ),
     ),
     [Here, $q_0$ is the _start_ (denoted by an arrow) and also the~_accepting_ (denoted by double circle) state.],
