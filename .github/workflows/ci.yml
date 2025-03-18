@@ -1,4 +1,4 @@
-name: Build
+name: CI
 run-name: Render PDFs
 
 on:
