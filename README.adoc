@@ -1,6 +1,6 @@
 = Discrete Math
 
-image:https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml/badge.svg?branch=master["Build",link="https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml"]
+image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/badge.svg?branch=master["CI",link="https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml"]
 
 > This repo contains some supplementary materials for the Discrete Math course at ITMO University.
 
@@ -35,11 +35,25 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/build.yml/
 |image:https://img.shields.io/badge/Homework 8-Recurrences-blue?style=social&logo=gitbook["Homework 8: Recurrences", link="https://lipen.github.io/discrete-math-course/hw8.pdf"]
 |===
 
+[%autowidth]
+|===
+^|Lectures
+|image:https://img.shields.io/badge/Lecture-Flow Networks-blue?style=social&logo=gitbook["Lecture: Flow Networks", link="https://lipen.github.io/discrete-math-course/lec-flow.pdf"]
+|image:https://img.shields.io/badge/Lecture-Formal Languages-blue?style=social&logo=gitbook["Lecture: Formal Languages", link="https://lipen.github.io/discrete-math-course/lec-formal.pdf"]
+|===
+
 == Build
 
-To compile the PDFs from the source code, you can use link:https://mg.readthedocs.io/latexmk.html[Latexmk]:
+To compile the PDFs from the TeX source code, you can use link:https://mg.readthedocs.io/latexmk.html[Latexmk]:
 
 [source]
 ----
 latexmk -pdf cheat1.tex
+----
+
+For the `*.typ` files (in `typst/*` directory), use link:https://typst.app/[Typst].
+
+[source]
+----
+typst compile typst/lec-flow.typ
 ----
