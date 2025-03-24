@@ -215,7 +215,7 @@ There are two main types of finite-state machines:
 #definition[
   A word $w in Sigma^*$ is _accepted_ by an automaton $cal(A)$ if the computation, starting in the initial configuration at state $q_0$ with input $w$, _can reach the final configuration $conf(f, epsilon)$_, where $f in F$ is any accepting state, and $epsilon$ denotes that the input has been fully consumed.
 
-  Formally, $cal(A)$ accepts $w in Sigma^*$ if $conf(q_0, w) scripts(tack)^* conf(f, epsilon)$ for some $f in F$.
+  Formally, $cal(A)$ _accepts_ $w in Sigma^*$ if $conf(q_0, w) scripts(tack)^* conf(f, epsilon)$ for some $f in F$.
 ]
 
 #definition[
