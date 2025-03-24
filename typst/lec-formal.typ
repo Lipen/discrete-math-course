@@ -238,39 +238,8 @@ There are two main types of finite-state machines:
   $"REG" = "AUT"$.
 ]
 
-#proof[($thin "REG" subset.eq "AUT" thin$)][
-  _For every regular language, there is a DFA that accepts it._
-
-  Proof by induction over the _generation index $k$_.
-  Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
-
-  *Base:* $k = 0$, construct automata for $"Reg"_0 = { emptyset, {epsilon}, {c} "for" c in Sigma }$:
-
-  #align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      import finite.draw: state, transition
-
-      set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
-
-      state((0, 0), "a1_q0", label: $q_0$, initial: true)
-      state((1, 0), "a1_q1", label: $q_1$, final: true)
-
-      state((4, 0), "a2_q0", label: $q_0$, initial: true)
-
-      state((7, 0), "a3_q0", label: $q_0$, initial: true)
-      state((8, 0), "a3_q1", label: $q_1$, final: true)
-      transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
-
-      content((rel: (0, -1), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L = emptyset$]
-      content((rel: (0, -1), to: "a2_q0.center"))[$L = {epsilon}$]
-      content((rel: (0, -1), to: ("a3_q0.center", 50%, "a3_q1.center")))[$L = {c}$]
-    })
-  ]
-
-  *Induction step:* $k > 0$, already have automata for languages $L_1, L_2 in "Reg"_(k-1)$.
-
-  TODO
+#proof[
+  See the next lecture!
 ]
 
 
