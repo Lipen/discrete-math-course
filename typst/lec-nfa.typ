@@ -1,7 +1,7 @@
 #import "theme.typ": *
 #show: slides.with(
   title: [Discrete Mathematics],
-  subtitle: "Formal Languages",
+  subtitle: "NFA",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
   ratio: 16 / 9,
