@@ -248,7 +248,7 @@ $
 
 == Rabin--Scott Powerset Construction
 
-Any NFA can be converted to a DFA using Rabin--Scott subset construction.
+Any NFA can be converted to a DFA using _Rabin--Scott subset construction_.
 
 $cal(A)_"N" = angle.l Sigma, Q_"N", delta_"N", q_0, F_"N" angle.r$
 - $Q_"N" = {q_1, q_2, ..., q_n}$
