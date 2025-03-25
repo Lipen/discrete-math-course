@@ -178,7 +178,7 @@
           draw-node: (node, ..) => {
             if node.children.len() == 0 {
               if node.content == $4$ {
-                cetz.draw.circle((), radius: 0.3, fill: green.lighten(80%))
+                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
               } else if node.content == $5$ and node.depth == 5 {
                 cetz.draw.circle((), radius: 0.3, fill: green.lighten(80%))
               } else if node.content == $2$ {
