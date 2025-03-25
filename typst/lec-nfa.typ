@@ -262,7 +262,60 @@ $cal(A)_"D" = angle.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" angle.r$
 
 == $epsilon$-NFA
 
-TODO
+#definition[
+  _Epsilon closure_ of a state $q$, denoted $E(q)$ or $epsilon"-clo"(q)$, is a set of states reachable from $q$ by $epsilon$-transitions.
+  $
+    E(q) = epsilon"-clo"(q) = { r in Q | #cetz.canvas({
+      import cetz.draw: *
+      import finite.draw: state, transition
+
+      set-style(state: (radius: 0.3))
+
+      state((0, 0), "q", label: $q$)
+      state((1.5, 0), "r", label: $r$)
+
+      transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
+    }) }
+  $
+  This definition can be extended to the _sets of states_. For $P subset.eq Q$:
+  $
+    E(P) = union.big_(q in P) E(q)
+  $
+]
+
+#note[
+  $q in epsilon"-clo"(q)$ since each state has an _implicit_ $epsilon$-loop.
+]
+
+#example[
+  For the following NFA, epsilon closure of $q$ is $epsilon"-clo"(q) = {q, r, s}$.
+
+  #cetz.canvas({
+    import cetz.draw: *
+    import finite.draw: state, transition
+
+    set-style(state: (radius: 0.3))
+
+    state((0, 0), "q", label: $q$)
+    state((1.5, 0), "r", label: $r$)
+    state((3, 0), "s", label: $s$)
+
+    transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
+    transition("r", "s", inputs: "eps", label: $epsilon$, curve: 0.001)
+  })
+]
+
+== From $epsilon$-NFA to NFA
+
+To construct NFA from $epsilon$-NFA:
++ Perform a transitive closure of $epsilon$-transitions.
+  - After that, accepted words contain _no two consecutive_ $epsilon$-transitions.
++ Back-propagate accepting states over $epsilon$-transitions.
+  - After that, accepted words _do not end_ with $epsilon$.
++ Perform symbol-transition back-closure over $epsilon$-transitions.
+  - After that, accepted words _do not contain_ $epsilon$-transitions.
++ Remove $epsilon$-transitions.
+  - After that, you get an NFA.
 
 == Kleene's Theorem
 
