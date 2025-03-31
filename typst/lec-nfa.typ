@@ -45,6 +45,7 @@
 ]
 
 #[
+  // .* (110*)+
   #let aut = (
     q0: (q0: (0, 1), q1: 1),
     q1: (q2: 1),
@@ -54,13 +55,12 @@
     columns: 2,
     column-gutter: 1em,
     finite.transition-table(aut),
-    // .* (1 1 0*)+
     finite.automaton(
       aut,
       final: ("q2",),
       style: (
         state: (radius: 0.5, extrude: 0.8),
-        transition: (curve: 0.6),
+        transition: (curve: 0.5),
         q1: (label: $q_1$),
         q2: (label: $q_2$),
       ),
