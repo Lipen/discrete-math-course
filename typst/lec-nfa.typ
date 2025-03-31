@@ -326,71 +326,108 @@ To construct NFA from $epsilon$-NFA:
 #proof[($thin "REG" subset.eq "AUT" thin$)][
   _For every regular language, there is a DFA that recognizes it._
 
-  Proof by induction over the _generation index $k$_.
-  Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
-
-  Another name of this part: Thompson's construction (NFA from regular expression).
-
-  *Base:* $k = 0$, construct automata for $"Reg"_0 = { emptyset, {epsilon}, {c} "for" c in Sigma }$, _showing $"Reg"_0 subset.eq "AUT"$_:
-
-  #align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      import finite.draw: state, transition
-
-      set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
-
-      state((0, 0), "a1_q0", label: $q_0$, initial: true)
-      state((1, 0), "a1_q1", label: $q_1$, final: true)
-
-      translate(x: 4)
-      state((0, 0), "a2_q0", label: $q_0$, initial: true)
-      state((1, 0), "a2_q1", label: $q_1$, final: true)
-      transition("a2_q0", "a2_q1", inputs: "c", label: $epsilon$, curve: 0.5)
-
-      translate(x: 4)
-      state((0, 0), "a3_q0", label: $q_0$, initial: true)
-      state((1, 0), "a3_q1", label: $q_1$, final: true)
-      transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
-
-      content((rel: (0, -1), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L = emptyset$]
-      content((rel: (0, -1), to: ("a2_q0.center", 50%, "a2_q1.center")))[$L = {epsilon}$]
-      content((rel: (0, -1), to: ("a3_q0.center", 50%, "a3_q1.center")))[$L = {c}$]
-    })
-  ]
-
-  *Induction step:* $k > 0$, already have automata for languages $L_1, L_2 in "Reg"_(k-1)$.
-
-  //   #align(center)[
-  //     #cetz.canvas({
-  //       import cetz.draw: *
-  //       import finite.draw: state, transition
-
-  //       set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
-
-  //       state((0, 0), "a1_q0", label: $q_0$, initial: true)
-  //       state((2, 1), "a1_q1", label: [])
-  //       state((2, -1), "a1_q2", label: [])
-  //       rect((1, 0.2), (rel: (2, 1.6)))
-  //       rect((1, -1.8), (rel: (2, 1.6)))
-
-  //       // translate(x: 3)
-  //       // state((0, 0), "a3_q0", label: $q_0$, initial: true)
-  //       // state((1, 0), "a3_q1", label: $q_1$, final: true)
-  //       // transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
-
-  //       content((rel: (0, 2), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L' = L_1 union L_2$]
-  //       // content((rel: (0, -1), to: "a2_q0.center"))[$L = {epsilon}$]
-  //       // content((rel: (0, -1), to: ("a3_q0.center", 50%, "a3_q1.center")))[$L = {c}$]
-  //     })
-  //   ]
+  Use _Thompson's construction_ to build an $epsilon$-NFA from regular expression, and then convert it to DFA.
 ]
-
-#pagebreak()
 
 #proof[($thin "AUT" subset.eq "REG" thin$)][
   _The language recognized by a DFA is regular._
 
-  TODO: Kleene's algorithm (regular expression from DFA):
-  Given a deterministic automaton $cal(A)$, we can construct a regular expression for the regular language recognized by $cal(A)$.
+  Use _Kleene's algorithm_ to construct a regular expression from an automaton.
 ]
+
+#place(center + bottom)[
+  #import fletcher: diagram, node, edge
+  #diagram(
+    // debug: true,
+    edge-stroke: 1pt,
+    node-corner-radius: 3pt,
+    spacing: (3em, 2em),
+    blob((0, 0), [DFA], name: <dfa>, tint: yellow),
+    blob((1, 0), [NFA], name: <nfa>, tint: yellow),
+    blob((2, 0), [$epsilon$-NFA], name: <enfa>, tint: yellow),
+    blob((3, 0), [RegExp], name: <re>, tint: yellow),
+    // edge(<dfa>, <nfa>, "-}>", bend: 45deg)[direct $subset.eq$],
+    // edge(<nfa>, <enfa>, "-}>", bend: 45deg)[direct $subset.eq$],
+    edge(<nfa>, <dfa>, "-}>", bend: 45deg)[Powerset],
+    edge(<enfa>, <nfa>, "-}>", bend: 45deg)[$epsilon$-closure],
+    edge(<dfa>, "u,r,r,r", <re>, "-}>")[Kleene's algorithm],
+    edge(<re>, <enfa>, "-}>", bend: 45deg)[Thompson's \ construction],
+  )
+]
+
+
+== Thompson's construction
+
+#definition[
+  _Thompson's construction_ is a method of constructing an NFA from a regular expression.
+]
+
+Prove $"REG" subset.eq "AUT"$ by induction over the _generation index $k$_.
+Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
+
+*Base:* $k = 0$, construct automata for $"Reg"_0 = { emptyset, {epsilon}, {c} "for" c in Sigma }$, _showing $"Reg"_0 subset.eq "AUT"$_.
+
+#align(center)[
+  #cetz.canvas({
+    import cetz.draw: *
+    import finite.draw: state, transition
+
+    set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
+
+    state((0, 0), "a1_q0", label: $q_0$, initial: true)
+    state((1, 0), "a1_q1", label: $q_1$, final: true)
+
+    translate(x: 4)
+    state((0, 0), "a2_q0", label: $q_0$, initial: true)
+    state((1, 0), "a2_q1", label: $q_1$, final: true)
+    transition("a2_q0", "a2_q1", inputs: "c", label: $epsilon$, curve: 0.5)
+
+    translate(x: 4)
+    state((0, 0), "a3_q0", label: $q_0$, initial: true)
+    state((1, 0), "a3_q1", label: $q_1$, final: true)
+    transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
+
+    content((rel: (0, -1), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L = emptyset$]
+    content((rel: (0, -1), to: ("a2_q0.center", 50%, "a2_q1.center")))[$L = {epsilon}$]
+    content((rel: (0, -1), to: ("a3_q0.center", 50%, "a3_q1.center")))[$L = {c}$]
+  })
+]
+
+*Induction step:* $k > 0$, already have automata for languages $L_1, L_2 in "Reg"_(k-1)$.
+
+TODO: fancy pictures. For now, draw on the board.
+
+//   #align(center)[
+//     #cetz.canvas({
+//       import cetz.draw: *
+//       import finite.draw: state, transition
+
+//       set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
+
+//       state((0, 0), "a1_q0", label: $q_0$, initial: true)
+//       state((2, 1), "a1_q1", label: [])
+//       state((2, -1), "a1_q2", label: [])
+//       rect((1, 0.2), (rel: (2, 1.6)))
+//       rect((1, -1.8), (rel: (2, 1.6)))
+
+//       // translate(x: 3)
+//       // state((0, 0), "a3_q0", label: $q_0$, initial: true)
+//       // state((1, 0), "a3_q1", label: $q_1$, final: true)
+//       // transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
+
+//       content((rel: (0, 2), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L' = L_1 union L_2$]
+//       // content((rel: (0, -1), to: "a2_q0.center"))[$L = {epsilon}$]
+//       // content((rel: (0, -1), to: ("a3_q0.center", 50%, "a3_q1.center")))[$L = {c}$]
+//     })
+//   ]
+
+== Kleene's Algorithm
+
+TODO: Kleene's algorithm (regular expression from DFA):
+Given a deterministic automaton $cal(A)$, we can construct a regular expression for the regular language recognized by $cal(A)$.
+
+#definition[
+  _Kleene's algorithm_ is a method of constructing a regular expression from a deterministic finite automaton.
+]
+
+TODO: fancy pictures. For now, draw on the board.
