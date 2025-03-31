@@ -1,7 +1,7 @@
 #import "theme.typ": *
 #show: slides.with(
   title: [Discrete Mathematics],
-  subtitle: "NFA",
+  subtitle: "Non-determinism",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
   ratio: 16 / 9,
