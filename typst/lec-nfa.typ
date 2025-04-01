@@ -423,11 +423,20 @@ TODO: fancy pictures. For now, draw on the board.
 
 == Kleene's Algorithm
 
-TODO: Kleene's algorithm (regular expression from DFA):
-Given a deterministic automaton $cal(A)$, we can construct a regular expression for the regular language recognized by $cal(A)$.
-
 #definition[
-  _Kleene's algorithm_ is a method of constructing a regular expression from a deterministic finite automaton.
+  _Kleene's algorithm_ is a method of constructing a regular expression from a DFA.
 ]
 
-TODO: fancy pictures. For now, draw on the board.
+Let $R_(i j)^k$ be a set of all words that take $cal(A)$ from state $q_i$ to $q_j$ without going _through_ (both entering and leaving) any state numbered higher than $k$.
+Note that $i$ and $j$ _can_ be higher than $k$.
+Since all states are numbered 1 to $n$, $R_(i j)^n$ denotes the set of all words that take $q_i$ to $q_j$.
+We can define $R_(i j)^k$ recursively:
+$
+  R_(i j)^k &= R_(i j)^(k-1) union R_(i k)^(k-1) (R_(k k)^(k-1))^* R_(k j)^(k - 1) \
+  R_(i j)^0 &= cases(
+    {a | delta(q_i, a) = q_j} & "if" i != j,
+    {a | delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
+  )
+$
+
+// TODO
