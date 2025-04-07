@@ -223,8 +223,8 @@ $
 //   )
 // ]
 
-#pagebreak()
-// TODO: title
+
+== Formal Proof of Non-regularity
 
 #theorem[
   $L = { 0^n 1^n | n in NN }$ is not regular.
@@ -234,9 +234,9 @@ $
   By contradiction.
   Assume that $L$ is regular.
 
-  Let $n$ be the pumping length guaranteed by the weak pumping lemma.
+  Let $n$ be the pumping length guaranteed by the weak pumping lemma ("there exists $n$...").
   Consider the string $w = 0^n 1^n$.
-  Then $abs(w) = 2n >= n$ and $w in L$, so we can write $w = x y z$ such that $y != epsilon$ and for any $i in NN$, we have $x y^i z in L$.
+  Then $abs(w) = 2n >= n$ and $w in L$, so we can write (split) $w = x y z$ such that $y != epsilon$ and for any $i in NN$, we have $x y^i z in L$.
 
   We consider three cases:
   #enum(numbering: i => "Case " + str(i) + ":")[
