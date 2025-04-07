@@ -149,7 +149,9 @@ A typical word in $"EQUAL"$ looks like this: $001 "#" 001$.
   Thus, $"EQUAL"$ _is not regular_.
 ]
 
-== Non-regular Languages
+= Non-regular Languages
+
+== (Not only) Regular Languages
 
 - The weak pumping lemma describes a property common to _all_ regular languages.
 - Any language $L$ which does not have this property _cannot be regular_.
