@@ -308,6 +308,50 @@ Overall, we can add the following condition to the weak pumping lemma:
 $
   abs(x y) <= n
 $
-This restriction means that we can limit where the string to pump (middle part $y$) must be.
-If we specifically choose the first $n$ characters of the string to pump, we can ensure $y$ to have a specific property.
+This restriction means that we can limit where the string to pump must be.
+If we specifically choose the first $n$ characters of the string to pump, we can ensure $y$ (middle part) to have a specific property.
+
 We can then show that $y$ cannot be pumped arbitrarily many times.
+
+#align(center)[
+  #cetz.canvas({
+    import cetz.draw: *
+    import finite.draw: state, transition
+
+    set-style(state: (radius: 0.5, extrude: 0.8))
+
+    state((.565, 0), "q0", initial: true, label: $q_0$)
+    state((2, 0), "q1", label: $q_1$)
+    state((3, 2), "q2", label: $q_2$)
+    state((4, 0), "q3", label: $q_3$)
+    state((6, 0), "q4", label: $q_4$, final: true)
+    state((3, 4), "q5", label: $q_5$)
+
+    transition("q0", "q1", inputs: 0, curve: 0.001)
+    transition("q0", "q5", inputs: 1, curve: 1.2, stroke: (dash: "dashed"))
+    transition("q1", "q1", inputs: 0, curve: 0.5, anchor: bottom)
+    transition("q1", "q2", inputs: 1, curve: 0.5)
+    transition("q2", "q5", inputs: 0, curve: 0, stroke: (dash: "dashed"))
+    transition("q2", "q3", inputs: 1, curve: 0.5)
+    transition("q3", "q1", inputs: 0, curve: 0)
+    transition("q3", "q4", inputs: 1, curve: 0.001)
+    transition("q4", "q5", inputs: (0, 1), curve: -1.2, stroke: (dash: "dashed"))
+    transition("q5", "q5", inputs: (0, 1), curve: 0.5, stroke: (dash: "dashed"))
+  })
+  $
+    q_0
+    to^0 q_1
+    to^1 q_2
+    to^1 q_3
+    to^0 q_1
+    to^1 q_2
+    to^1 q_3
+    to^0 q_1
+    to^1 q_2
+    to^1 q_3
+    to^0 q_1
+    to^1 q_2
+    to^1 q_3
+    to^1 q_4
+  $
+]
