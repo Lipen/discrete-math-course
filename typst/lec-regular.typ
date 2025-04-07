@@ -145,7 +145,7 @@ A typical word in $"EQUAL"$ looks like this: $001 "#" 001$.
     Then $x y^2 z = 0^n "#" 0^(n+k) notin "EQUAL"$, contradicting the weak pumping lemma.
   ]
   In either case we reach a contradiction, so our assumption was wrong.
-  Thus $"EQUAL"$ is not regular.
+  Thus, $"EQUAL"$ _is not regular_.
 ]
 
 == Non-regular Languages
