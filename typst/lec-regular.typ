@@ -355,3 +355,24 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
     to^1 q_4
   $
 ]
+
+== Formal Proof using The Pumping Lemma
+
+#theorem[
+  $L = { w in {0,1}^* | w "has an equal number of 0s and 1s" }$ is _not regular_.
+]
+
+#proof[
+  By contradiction.
+  Assume that $L$ is regular.
+
+  Let $n$ be the pumping length guaranteed by the weak pumping lemma.
+  Consider the string $w = 0^n 1^n$.
+  Then $abs(w) = 2n >= n$ and $w in L$.
+  Therefore, there exist strings $x$, $y$, and $z$ such that $w = x y z$, $abs(x y) <= n$, #box[$y != epsilon$], and for any $i in NN$, we have $x y^i z in L$.
+
+  Since $abs(x y) <= n$, $y$ must consist solely of $0$s.
+  But then $x y^2 z = 0^(n+abs(y)) 1^n$, and since $abs(y) > 0$, $x y^2 z notin L$.
+
+  We have reached a contradiction, so our assumption was wrong and $L$ is not regular.
+]
