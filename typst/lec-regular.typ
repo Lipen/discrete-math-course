@@ -241,10 +241,10 @@ $
   We consider three cases:
   #enum(numbering: i => "Case " + str(i) + ":")[
     $y$ consists solely of $0$s.
-    Then $x y^0 z = x z = 0^n - abs(y) 1^n$, and since $abs(y) > 0$, $x z notin L$.
+    Then $x y^0 z = x z = 0^(n-abs(y)) 1^n$, and since $abs(y) > 0$, $x z notin L$.
   ][
     $y$ consists solely of $1$s.
-    Then $x y^0 z = x z = 0^n 1^n - abs(y)$, and since $abs(y) > 0$, $x z notin L$.
+    Then $x y^0 z = x z = 0^n 1^(n-abs(y))$, and since $abs(y) > 0$, $x z notin L$.
   ][
     $y$ consists of $k > 0$ $0$s followed by $m > 0$ $1$s.
     Then $x y^2 z = 0^n 1^m 0^k 1^n$, so $x y^2 z notin L$.
