@@ -50,6 +50,7 @@ Regular languages can be composed from "smaller" regular languages.
 - The substring of $w$ between those _revisited states_ can be removed, duplicated, tripled, etc. without changing the fact that $D$ accepts $w$.
 
 #align(center)[
+  #show: box.with(inset: -1em)
   #cetz.canvas({
     import cetz.draw: set-style
     import finite.draw: state, transition
