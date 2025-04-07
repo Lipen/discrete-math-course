@@ -163,6 +163,10 @@ A typical word in $"EQUAL"$ looks like this: $001 "#" 001$.
   How would we prove that $L$ is non-regular?
 ]
 
+#fancy-box[
+  Use the Pumping Lemma to show that $L$ _can not_ be regular.
+]
+
 == Pumping Lemma as a Game
 
 The weak pumping lemma can be thought of as a _game_ between #Green[*you*] and an #Red[*adversary*].
