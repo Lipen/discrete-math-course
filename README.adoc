@@ -41,6 +41,7 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/bad
 |image:https://img.shields.io/badge/Lecture-Flow Networks-blue?style=social&logo=gitbook["Lecture: Flow Networks", link="https://lipen.github.io/discrete-math-course/lec-flow.pdf"]
 |image:https://img.shields.io/badge/Lecture-Formal Languages-blue?style=social&logo=gitbook["Lecture: Formal Languages", link="https://lipen.github.io/discrete-math-course/lec-formal.pdf"]
 |image:https://img.shields.io/badge/Lecture-NFA-blue?style=social&logo=gitbook["Lecture: NFA", link="https://lipen.github.io/discrete-math-course/lec-nfa.pdf"]
+|image:https://img.shields.io/badge/Lecture-Pumping Lemma-blue?style=social&logo=gitbook["Lecture: Pumping Lemma", link="https://lipen.github.io/discrete-math-course/lec-regular.pdf"]
 |===
 
 == Build
