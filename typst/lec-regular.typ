@@ -254,3 +254,60 @@ $
   ]
   In all three cases we reach a contradiction, so our assumption was wrong and $L$ is not regular.
 ]
+
+= Pumping Lemma
+
+== Pumping
+
+Consider the language $L$ over $Sigma = {0, 1}$ of strings $w in Sigma^*$ that contain _an equal number_ of $0$s and $1$s.
+
+For example:
+- #Green[`01`] in $L$
+- #Red[`11011`] not in $L$
+- #Green[`110010`] in $L$
+
+*Question:* Is $L$ a _regular_ language?
+
+Let's _use_ the weak pumping lemma to show it is by _pumping all the strings_ in this language.
+
+#proof[(incorrect)][
+  We are going to show that $L$ satisfies the conditions of the weak pumping lemma.
+  Let $n = 2$.
+  Consider any string $w in L$ (i.e., $w$ contains the same number of $0$s and $1$s) with $abs(w) >= 2$.
+
+  We can split $w = x y z$ such that $x = z = epsilon$ and $y = w$, so $y != epsilon$.
+  Then, for any natural number $i in NN$, $x y^i z = w^i$, which has the same number of $0$s and $1$s.
+
+  Since $L$ passes the conditions of the weak pumping lemma, $L$ is regular.
+]
+
+== A word of Caution
+
+- The weak and full pumping lemmas describe the _necessary_ condition of regular languages.
+  - If $L$ is regular, then it passes the conditions of the weak pumping lemma.
+
+- The weak and full pumping lemmas are _not_ a _sufficient_ condition of regular languages.
+  - If $L$ is not regular, then it does _not_ pass the conditions of the weak pumping lemma.
+
+- If a language _fails_ the pumping lemma, it is _definitely not regular_.
+
+- If a language _passes_ the pumping lemma, we _learn nothing_ about whether it is regular or not.
+
+== The Stronger Pumping Lemma
+
+The language $L$ _can_ be proven to be _non-regular_ using a _stronger version_ of the pumping lemma.
+
+For the intuition behind the "full" pumping lemma, let's revisit our original observation.
+- Let $D$ be a DFA with $n$ states.
+- Any string $w$ accepted by $D$ of length at least $n$ must visit some state twice _within its first $n$_ symbols.
+  - The number of visited states is equal to $n + 1$.
+  - By the pigeonhole principle, some state is _duplicated_.
+- The substring of $w$ between those _revisited states_ can be removed, duplicated, tripled, etc. without changing the fact that $D$ accepts $w$.
+
+Overall, we can add the following condition to the weak pumping lemma:
+$
+  abs(x y) <= n
+$
+This restriction means that we can limit where the string to pump (middle part $y$) must be.
+If we specifically choose the first $n$ characters of the string to pump, we can ensure $y$ to have a specific property.
+We can then show that $y$ cannot be pumped arbitrarily many times.
