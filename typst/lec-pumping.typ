@@ -356,7 +356,7 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
   $
 ]
 
-== Formal Proof using The Pumping Lemma
+== Formal Proof of Non-regularity
 
 #theorem[
   $L = { w in {0,1}^* | w "has an equal number of 0s and 1s" }$ is _not regular_.
