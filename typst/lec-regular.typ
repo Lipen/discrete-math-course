@@ -167,7 +167,7 @@ A typical word in $"EQUAL"$ looks like this: $001 "#" 001$.
 ]
 
 #fancy-box[
-  Use the Pumping Lemma to show that $L$ _can not_ be regular.
+  Use the Pumping Lemma to show that $L$ _cannot_ be regular.
 ]
 
 == Pumping Lemma as a Game
