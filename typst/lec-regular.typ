@@ -376,3 +376,11 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 
   We have reached a contradiction, so our assumption was wrong and $L$ is not regular.
 ]
+
+== Summary of the Pumping Lemma
+
++ Using the _pigeonhole principle_, we can prove the weak and full _pumping lemma_.
+
++ These lemmas describe essential properties of the _regular_ languages.
+
++ Any language that _fails_ to have these properties _can not be regular_.
