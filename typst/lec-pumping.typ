@@ -284,10 +284,10 @@ Let's _use_ the weak pumping lemma to show it is by _pumping all the strings_ in
 == A word of Caution
 
 - The weak and full pumping lemmas describe the _necessary_ condition of regular languages.
-  - If $L$ is regular, then it passes the conditions of the weak pumping lemma.
+  - If $L$ is _regular_, then it _passes_ the conditions of the pumping lemma.
 
-- The weak and full pumping lemmas are _not_ a _sufficient_ condition of regular languages.
-  - If $L$ is not regular, then it does _not_ pass the conditions of the weak pumping lemma.
+- The weak and full pumping lemmas are _not a sufficient_ condition of regular languages.
+  - If $L$ is _not regular_, then it still _may pass_ the conditions of the pumping lemma.
 
 - If a language _fails_ the pumping lemma, it is _definitely not regular_.
 
