@@ -30,7 +30,7 @@ jobs:
       - run: typst compile typst/lec-flow.typ
       - run: typst compile typst/lec-formal.typ
       - run: typst compile typst/lec-nfa.typ
-      - run: typst compile typst/lec-pumping.typ
+      - run: typst compile typst/lec-regular.typ
       - run: mv typst/*.pdf .
 
       - name: Build LaTeX project and generate PDFs
