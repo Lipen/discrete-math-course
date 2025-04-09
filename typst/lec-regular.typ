@@ -382,3 +382,67 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 + These lemmas describe essential properties of the _regular_ languages.
 
 + Any language that _fails_ to have these properties _can not be regular_.
+
+= Closure Properties of Regular Languages
+
+== Closure of Regular Languages
+
++ The _union_ of two regular languages is regular.
++ The _intersection_ of two regular languages is regular.
++ The _complement_ of a regular language is regular.
++ The _difference_ of two regular languages is regular.
++ The _reversal_ of a regular language is regular.
++ The _Kleene star_ of a regular language is regular.
++ The _concatenation_ of regular languages is regular.
++ A _homomorphism_ (substitution of strings for symbols) of a regular language is regular.
++ The _inverse homomorphism_ of a regular language is regular.
+
+== Closure under Union
+
+#theorem[
+  If $L_1$ and $L_2$ are regular languages, then so is their union $L_1 union L_2$.
+]
+
+#proof[
+  Since $L_1$ and $L_2$ are regular, they have regular expressions, i.e. $L_1 = cal(L)(R_1)$ and $L_2 = cal(L)(R_2)$.
+  Then $L_1 union L_2 = cal(L)(R_1 + R_2)$ by the definition of the union ($+$) operator for regular expressions.
+]
+
+== Closure under Complement
+
+#theorem[
+  If $L$ is a regular language over the alphabet $Sigma$, then its complement $overline(L) = Sigma^* - L$ is also a regular language.
+]
+#proof[
+  Let $L = cal(L)(A)$ for some DFA $A = (Q, Sigma, delta, q_0, F)$.
+  Then $overline(L) = cal(L)(B)$, where $B$ is the DFA $(Q, Sigma, delta, q_0, Q - F)$.
+  That is, $B$ is exactly like $A$, but the accepting states of $A$ have become non-accepting states of $B$, and vice versa.
+  Then $w$ is in $overline(L)$ if and only if $delta(q_0, w)$ is in $Q - F$, which occurs if and only if $w$ is not in $cal(L)(A)$.
+]
+
+// TODO: re-check
+#example[
+  Let $A$ be the automaton presented below on the left.
+  Recall that DFA $A$ accepts only the strings of 0's and 1's that end in 01 in regular-expression terms, $L(A) = (0 + 1)^* 01$.
+  The complement of $cal(L)(A)$ is therefore all strings of 0's and 1's that do _not_ end in $01$.
+  Below on the right is the automaton for ${0,1}^* - cal(L)(A)$.
+  It is the same as on the left, but with the accepting states flipped.
+
+  #cetz.canvas({
+    import cetz.draw: *
+    import finite.draw: state, transition
+
+    set-style(state: (radius: 0.5, extrude: 0.8))
+
+    state((0.565, 0), "q0", label: $q_0$, initial: true)
+    state((2, 0), "q1", label: $q_1$)
+    state((4, 0), "q2", label: $q_2$, final: true)
+
+    transition("q0", "q1", inputs: 0, curve: 0.001)
+    transition("q0", "q0", inputs: 1, curve: 0.5)
+    transition("q1", "q1", inputs: 0, curve: 0.5)
+    transition("q1", "q2", inputs: 1, curve: 0.001)
+    transition("q2", "q1", inputs: 0, curve: 0.3, label: (pos: 1))
+    transition("q2", "q0", inputs: 1, curve: 1)
+  })
+]
