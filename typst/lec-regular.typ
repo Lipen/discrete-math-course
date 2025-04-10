@@ -446,3 +446,29 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
     transition("q2", "q0", inputs: 1, curve: 1)
   })
 ]
+
+== Closure under Intersection
+
+#theorem[
+  If $L_1$ and $L_2$ are regular languages, then so is their intersection $L_1 intersect L_2$.
+]
+
+#proof[
+  TODO: product construction
+]
+
+== Closure under Difference
+
+TODO
+
+== Closure under Reversal
+
+#theorem[
+  If $L$ is a regular language, then so its reversal $L^R = { w^R | w in L }$.
+]
+
+Here, $w^R = a_n a_(n-1) dots a_1$ denotes the reversal of a string $w = a_1 a_2 dots a_n$.
+
+#example[
+  Let $L = { 001, 10, 111 }$, then $L^R = { 001^R, 10^R, 111^R } = { 100, 01, 111 }$.
+]
