@@ -13,6 +13,7 @@
 #let power(x) = $cal(P)(#x)$
 #let regex(s) = raw(s)
 #let conf(q, s) = $angle.l #q, #s angle.r$
+#let lang(x) = $cal(L)(#x)$
 
 #let Green(x) = {
   show emph: set text(green.darken(20%))
@@ -404,8 +405,8 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 ]
 
 #proof[
-  Since $L_1$ and $L_2$ are regular, they have regular expressions, i.e. $L_1 = cal(L)(R_1)$ and $L_2 = cal(L)(R_2)$.
-  Then $L_1 union L_2 = cal(L)(R_1 + R_2)$ by the definition of the union ($+$) operator for regular expressions.
+  Since $L_1$ and $L_2$ are regular, they have regular expressions, i.e. $L_1 = lang(R_1)$ and $L_2 = lang(R_2)$.
+  Then $L_1 union L_2 = lang(R_1 + R_2)$ by the definition of the union ($+$) operator for regular expressions.
 ]
 
 == Closure under Complement
@@ -414,18 +415,18 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
   If $L$ is a regular language over the alphabet $Sigma$, then its complement $overline(L) = Sigma^* - L$ is also a regular language.
 ]
 #proof[
-  Let $L = cal(L)(A)$ for some DFA $A = (Q, Sigma, delta, q_0, F)$.
-  Then $overline(L) = cal(L)(B)$, where $B$ is the DFA $(Q, Sigma, delta, q_0, Q - F)$.
+  Let $L = lang(A)$ for some DFA $A = (Q, Sigma, delta, q_0, F)$.
+  Then $overline(L) = lang(B)$, where $B$ is the DFA $(Q, Sigma, delta, q_0, Q - F)$.
   That is, $B$ is exactly like $A$, but the accepting states of $A$ have become non-accepting states of $B$, and vice versa.
-  Then $w$ is in $overline(L)$ if and only if $delta(q_0, w)$ is in $Q - F$, which occurs if and only if $w$ is not in $cal(L)(A)$.
+  Then $w$ is in $overline(L)$ if and only if $delta(q_0, w)$ is in $Q - F$, which occurs if and only if $w$ is not in $lang(A)$.
 ]
 
 // TODO: re-check
 #example[
   Let $A$ be the automaton presented below on the left.
   Recall that DFA $A$ accepts only the strings of 0's and 1's that end in 01 in regular-expression terms, $L(A) = (0 + 1)^* 01$.
-  The complement of $cal(L)(A)$ is therefore all strings of 0's and 1's that do _not_ end in $01$.
-  Below on the right is the automaton for ${0,1}^* - cal(L)(A)$.
+  The complement of $lang(A)$ is therefore all strings of 0's and 1's that do _not_ end in $01$.
+  Below on the right is the automaton for ${0,1}^* - lang(A)$.
   It is the same as on the left, but with the accepting states flipped.
 
   #cetz.canvas({
