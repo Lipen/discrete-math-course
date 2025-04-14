@@ -548,49 +548,51 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
   Its states are labelled by the pairs of states of the two automata.
   It is easy to see that this automaton accepts the _intersection_ of the two languages: all strings that _have both a 0 and a 1_.
 
-  #cetz.canvas({
-    import cetz.draw: *
-    import finite.draw: state, transition
+  #align(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+      import finite.draw: state, transition
 
-    set-style(state: (radius: 0.5, extrude: 0.8))
+      set-style(state: (radius: 0.5, extrude: 0.8))
 
-    group({
-      state((0.566, 0), "p", label: $p$, initial: true)
-      state((2, 0), "q", label: $q$, final: true)
+      group({
+        state((0.566, 0), "p", label: $p$, initial: true)
+        state((2, 0), "q", label: $q$, final: true)
 
-      transition("p", "q", inputs: 0, curve: 0.001)
-      transition("p", "p", inputs: 1, curve: 0.5)
-      transition("q", "q", inputs: (0, 1), curve: 0.5)
+        transition("p", "q", inputs: 0, curve: 0.001)
+        transition("p", "p", inputs: 1, curve: 0.5)
+        transition("q", "q", inputs: (0, 1), curve: 0.5)
+      })
+
+      translate((5, 0))
+
+      group({
+        state((0.566, 0), "r", label: $r$, initial: true)
+        state((2, 0), "s", label: $s$, final: true)
+
+        transition("r", "s", inputs: 1, curve: 0.001)
+        transition("r", "r", inputs: 0, curve: 0.5)
+        transition("s", "s", inputs: (0, 1), curve: 0.5)
+      })
+
+      translate((5, 1))
+
+      group({
+        state((0.566, 0), "pr", label: $p r$, initial: true)
+        state((2, 0), "ps", label: $p s$)
+        state((0, -2), "qr", label: $q r$)
+        state((2, -2), "qs", label: $q s$, final: true)
+
+        transition("pr", "qr", inputs: 0, curve: 0)
+        transition("pr", "ps", inputs: 1, curve: 0.001)
+        transition("ps", "qs", inputs: 0, curve: 0)
+        transition("ps", "ps", inputs: 1, curve: 0.5)
+        transition("qr", "qr", inputs: 0, curve: 0.5, anchor: left)
+        transition("qr", "qs", inputs: 1, curve: 0.001)
+        transition("qs", "qs", inputs: (0, 1), curve: 0.5, anchor: right)
+      })
     })
-
-    translate((5, 0))
-
-    group({
-      state((0.566, 0), "r", label: $r$, initial: true)
-      state((2, 0), "s", label: $s$, final: true)
-
-      transition("r", "s", inputs: 1, curve: 0.001)
-      transition("r", "r", inputs: 0, curve: 0.5)
-      transition("s", "s", inputs: (0, 1), curve: 0.5)
-    })
-
-    translate((5, 1))
-
-    group({
-      state((0.566, 0), "pr", label: $p r$, initial: true)
-      state((2, 0), "ps", label: $p s$)
-      state((0, -2), "qr", label: $q r$)
-      state((2, -2), "qs", label: $q s$, final: true)
-
-      transition("pr", "qr", inputs: 0, curve: 0)
-      transition("pr", "ps", inputs: 1, curve: 0.001)
-      transition("ps", "qs", inputs: 0, curve: 0)
-      transition("ps", "ps", inputs: 1, curve: 0.5)
-      transition("qr", "qr", inputs: 0, curve: 0.5, anchor: left)
-      transition("qr", "qs", inputs: 1, curve: 0.001)
-      transition("qs", "qs", inputs: (0, 1), curve: 0.5, anchor: right)
-    })
-  })
+  ]
 ]
 
 == Closure under Difference
