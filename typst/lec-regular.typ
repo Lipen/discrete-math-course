@@ -688,27 +688,31 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 
 + Are the two languages _equivalent_?
 
-== Converting Among Representations
+== Decision Procedures
 
+*Converting among representations*
 - $epsilon$-closure: $O(n^3)$
-
 - $epsilon$-NFA to DFA: $n^3 2^n$
-
 - DFA to $epsilon$-NFA: $O(n)$
-
 - $epsilon$-NFA to RegEx: $O(n^3 4^n)$
-
 - RegEx to $epsilon$-NFA: $O(n)$
 
-== Testing Emptiness of a Regular Language
+*Testing _emptiness_ of a regular language*
+- Given an automaton, we can determine whether the accepting states are reachable, in $O(n^2)$ time.
+- Given a regular expression, we can construct an $epsilon$-NFA and then determine the reachability of the accepting states, in $O(n)$ time.
+  Alternatively, we can inspect the regex directly.
 
-Given an automaton, we can determine whether the accepting states are reachable, in $O(n^2)$ time.
+*Testing _membership_ in a regular language*
+- Given an automaton with $s$ states and a string $w$ of size $n$, we can simulate the automaton for $w$ to determine whether it accepts $w$.
+  - For DFA, this can be done in $O(n)$ time.
+  - For NFA or $epsilon$-NFA, in $O(n s^2)$.
 
-Given a regular expression, we can construct an $epsilon$-NFA and then determine the reachability of the accepting states, in $O(n)$ time.
-Alternatively, we can inspect the regex directly.
+== Emptiness, Finiteness, Infiniteness
 
-== Testing Membership in a Regular Language
+#theorem[
+  The language $L$ accepted by a finite automaton with $n$ states is _non-empty_ iff the finite automaton accepts a word of length less than $n$.
+]
 
-Given an automaton with $s$ states and a string $w$ of size $n$, we can simulate the automaton for $w$ to determine whether it accepts $w$.
-For DFA, this can be done in $O(n)$ time.
-For NFA or $epsilon$-NFA, in $O(n s^2)$.
+#theorem[
+  The language $L$ accepted by a finite automaton with $n$ states is _infinite_ iff the automaton accepts some word of length $l$, where $n <= l < 2n$.
+]
