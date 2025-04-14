@@ -616,3 +616,42 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 
   If we apply the rules for Kleene star and union to the two parts, and then apply the basis rule that says the reversals of $regex("0")$ and $regex("1")$ are unchanged, we find that $L^R$ has regular expression $regex("0*(0+1)")$.
 ]
+
+= Decision Properties of Regular Languages
+
+== Fundamental Questions about Languages
+
++ Is the language _empty_?
+
++ Is the language _finite_?
+
++ Is the particular string $w$ _in_ the language?
+
++ Is the language a _subset_ of another language?
+
++ Are the two languages _equivalent_?
+
+== Converting Among Representations
+
+- $epsilon$-closure: $O(n^3)$
+
+- $epsilon$-NFA to DFA: $n^3 2^n$
+
+- DFA to $epsilon$-NFA: $O(n)$
+
+- $epsilon$-NFA to RegEx: $O(n^3 4^n)$
+
+- RegEx to $epsilon$-NFA: $O(n)$
+
+== Testing Emptiness of a Regular Language
+
+Given an automaton, we can determine whether the accepting states are reachable, in $O(n^2)$ time.
+
+Given a regular expression, we can construct an $epsilon$-NFA and then determine the reachability of the accepting states, in $O(n)$ time.
+Alternatively, we can inspect the regex directly.
+
+== Testing Membership in a Regular Language
+
+Given an automaton with $s$ states and a string $w$ of size $n$, we can simulate the automaton for $w$ to determine whether it accepts $w$.
+For DFA, this can be done in $O(n)$ time.
+For NFA or $epsilon$-NFA, in $O(n s^2)$.
