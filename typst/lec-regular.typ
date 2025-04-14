@@ -401,12 +401,13 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 == Closure under Union
 
 #theorem[
-  If $L_1$ and $L_2$ are regular languages, then so is their union $L_1 union L_2$.
+  If $L$ and $M$ are regular languages, then so is their union $L union M$.
 ]
 
 #proof[
-  Since $L_1$ and $L_2$ are regular, they have regular expressions, i.e. $L_1 = lang(R_1)$ and $L_2 = lang(R_2)$.
-  Then $L_1 union L_2 = lang(R_1 + R_2)$ by the definition of the union ($+$) operator for regular expressions.
+  Since $L$ and $M$ are regular, they have regular expressions, i.e. $L = lang(R)$ and $M = lang(S)$.
+
+  Then $L union M = lang(R + S)$ by the definition of the union ($+$) operator for regular expressions.
 ]
 
 == Closure under Complement
@@ -414,20 +415,83 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 #theorem[
   If $L$ is a regular language over the alphabet $Sigma$, then its complement $overline(L) = Sigma^* - L$ is also a regular language.
 ]
+
 #proof[
   Let $L = lang(A)$ for some DFA $A = (Q, Sigma, delta, q_0, F)$.
   Then $overline(L) = lang(B)$, where $B$ is the DFA $(Q, Sigma, delta, q_0, Q - F)$.
-  That is, $B$ is exactly like $A$, but the accepting states of $A$ have become non-accepting states of $B$, and vice versa.
+  That is, $B$ is exactly like $A$, but with the accepting states flipped.
   Then $w$ is in $overline(L)$ if and only if $delta(q_0, w)$ is in $Q - F$, which occurs if and only if $w$ is not in $lang(A)$.
 ]
 
-// TODO: re-check
 #example[
-  Let $A$ be the automaton presented below on the left.
-  Recall that DFA $A$ accepts only the strings of 0's and 1's that end in 01 in regular-expression terms, $L(A) = (0 + 1)^* 01$.
-  The complement of $lang(A)$ is therefore all strings of 0's and 1's that do _not_ end in $01$.
+  The DFA $A$ presented below on the left accepts only the strings of 0's and 1's that end in $regex("01")$, $lang(A) = regex("(0+1)*01")$.
+  The complement of $lang(A)$ is therefore all strings of 0's and 1's that _do not_ end in $regex("01")$.
   Below on the right is the automaton for ${0,1}^* - lang(A)$.
-  It is the same as on the left, but with the accepting states flipped.
+  // It is the same as on the left, but with the accepting states flipped.
+
+  #v(1em)
+  #place(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+      import finite.draw: state, transition
+
+      set-style(state: (radius: 0.5, extrude: 0.8))
+
+      let aut(complement) = group({
+        state((0.566, 0), "q0", label: $q_0$, initial: true, final: complement)
+        state((2, 0), "q1", label: $q_1$, final: complement)
+        state((4, 0), "q2", label: $q_2$, final: not complement)
+
+        transition("q0", "q1", inputs: 0, curve: 0)
+        transition("q0", "q0", inputs: 1, curve: 0.5)
+        transition("q1", "q1", inputs: 0, curve: 0.5)
+        transition("q1", "q2", inputs: 1, curve: 0.5)
+        transition("q2", "q1", inputs: 0, curve: 0.001)
+        transition("q2", "q0", inputs: 1, curve: 1)
+      })
+
+      aut(false)
+      translate((8, 0))
+      aut(true)
+    })
+  ]
+]
+
+// TODO: example of a non-regular language NOTEQUAL = overline(EQUAL)
+
+== Closure under Intersection
+
+#theorem[
+  If $L$ and $M$ are regular languages, then so is their intersection $L intersect M$.
+]
+
+#proof[(simple)][
+  $L intersect M = overline(overline(L) union overline(M))$.
+]
+#proof[
+  We can directly construct a "product" DFA for the intersection of two regular languages.
+
+  Let $L$ and $M$ be the languages of automata $A_L = (Q_L, Sigma, delta_L, q_L, F_L)$ and $A_M = (Q_M, Sigma, delta_M, q_M, F_M)$.
+  Note that we assume that the alphabets of both automata are the same (or $Sigma$ is their union).
+  // The product construction also works for NFAs, but to keep things simple we assume that both $A_L$ and $A_M$ are DFAs.
+
+  For $L intersect M$, we construct the automaton $A$ that simulates both $A_L$ and $A_M$.
+  The states of $A$ are the product of the states of $A_L$ and $A_M$.
+  The initial state is $(q_L, q_M)$, and the accepting states are $F_L times F_M$.
+  The transitions are defined as $delta(angle.l p, q angle.r, c) = angle.l delta_L (p, c), delta_M (q, c) angle.r$.
+
+  To see why $lang(A) = lang(A_L) intersect lang(A_M)$, first observe that $hat(delta) (angle.l q_L, q_M angle.r, w) = angle.l hat(delta)_L (q_L, w), hat(delta)_M (q_M, w) angle.r$.
+  But $A$ accepts $w$ if and only if $hat(delta) (q_0, w)$ is in $F_L times F_M$, which occurs if and only if $hat(delta)_L (q_L, w)$ is in $F_L$ and $hat(delta)_M (q_M, w)$ is in $F_M$.
+  Or rather, $A$ accepts $w$ if and only if both $A_L$ and $A_M$ accept $w$.
+  Thus, $A$ accepts the intersection of $L$ and $M$.
+]
+
+#example[
+  The first automaton on the left accepts all strings that _have a 0_.
+  The second automaton in the middle accepts all strings that _have a 1_.
+  On the right, we show the _product_ of these two automata.
+  Its states are labelled by the pairs of states of the two automata.
+  It is easy to see that this automaton accepts the _intersection_ of the two languages: all strings that _have both a 0 and a 1_.
 
   #cetz.canvas({
     import cetz.draw: *
@@ -435,41 +499,120 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 
     set-style(state: (radius: 0.5, extrude: 0.8))
 
-    state((0.565, 0), "q0", label: $q_0$, initial: true)
-    state((2, 0), "q1", label: $q_1$)
-    state((4, 0), "q2", label: $q_2$, final: true)
+    group({
+      state((0.566, 0), "p", label: $p$, initial: true)
+      state((2, 0), "q", label: $q$, final: true)
 
-    transition("q0", "q1", inputs: 0, curve: 0.001)
-    transition("q0", "q0", inputs: 1, curve: 0.5)
-    transition("q1", "q1", inputs: 0, curve: 0.5)
-    transition("q1", "q2", inputs: 1, curve: 0.001)
-    transition("q2", "q1", inputs: 0, curve: 0.3, label: (pos: 1))
-    transition("q2", "q0", inputs: 1, curve: 1)
+      transition("p", "q", inputs: 0, curve: 0.001)
+      transition("p", "p", inputs: 1, curve: 0.5)
+      transition("q", "q", inputs: (0, 1), curve: 0.5)
+    })
+
+    translate((5, 0))
+
+    group({
+      state((0.566, 0), "r", label: $r$, initial: true)
+      state((2, 0), "s", label: $s$, final: true)
+
+      transition("r", "s", inputs: 1, curve: 0.001)
+      transition("r", "r", inputs: 0, curve: 0.5)
+      transition("s", "s", inputs: (0, 1), curve: 0.5)
+    })
+
+    translate((5, 1))
+
+    group({
+      state((0.566, 0), "pr", label: $p r$, initial: true)
+      state((2, 0), "ps", label: $p s$)
+      state((0, -2), "qr", label: $q r$)
+      state((2, -2), "qs", label: $q s$, final: true)
+
+      transition("pr", "qr", inputs: 0, curve: 0)
+      transition("pr", "ps", inputs: 1, curve: 0.001)
+      transition("ps", "qs", inputs: 0, curve: 0)
+      transition("ps", "ps", inputs: 1, curve: 0.5)
+      transition("qr", "qr", inputs: 0, curve: 0.5, anchor: left)
+      transition("qr", "qs", inputs: 1, curve: 0.001)
+      transition("qs", "qs", inputs: (0, 1), curve: 0.5, anchor: right)
+    })
   })
-]
-
-== Closure under Intersection
-
-#theorem[
-  If $L_1$ and $L_2$ are regular languages, then so is their intersection $L_1 intersect L_2$.
-]
-
-#proof[
-  TODO: product construction
 ]
 
 == Closure under Difference
 
-TODO
+#theorem[
+  If $L$ and $M$ are regular languages, then so is their difference $L minus M$.
+]
+
+#proof[
+  Observe that $L minus M = L intersect overline(M)$.
+  By previous theorems, $overline(M)$ is regular, and $L intersect overline(M)$ is also regular.
+]
 
 == Closure under Reversal
 
-#theorem[
-  If $L$ is a regular language, then so its reversal $L^R = { w^R | w in L }$.
+#definition[
+  The _reversal_ of a string $w = a_1 a_2 dots a_n$ is the string $w^R = a_n a_(n-1) dots a_1$.
+
+  #example[
+    $0010^R = 0100$ and $epsilon^R = epsilon$.
+  ]
 ]
 
-Here, $w^R = a_n a_(n-1) dots a_1$ denotes the reversal of a string $w = a_1 a_2 dots a_n$.
+#definition[
+  The _reversal_ of a language $L$ is the language $L^R = { w^R | w in L }$.
+
+  #example[
+    Let $L = { 001, 10, 111 }$, then $L^R = { 001^R, 10^R, 111^R } = { 100, 01, 111 }$.
+  ]
+]
+
+#theorem[
+  If $L$ is a regular language, then so its reversal $L^R$.
+]
+
+#proof[
+  Assume $L$ is defined by regular expression $E$.
+  The proof is a structural induction on the size of $E$.
+  We show that there is another regular expression $E^R$ such that $lang(E^R) = (lang(E))^R$, that is, the language of $E^R$ is the reversal of the language of $E$.
+
+  _Basis:_ If $E$ is $epsilon$, $emptyset$, or $regex("a")$ for some symbol $a$, then $E^R$ is the same as $E$.
+
+  _Induction:_ There are three cases, depending on the form of $E$.
+  + $E = E_1 + E_2$.
+    Then $E^R = E_1^R + E_2^R$.
+
+    The justification is that the reversal of the union of two languages is obtained by computing the reversals of the two languages and taking the union of those languages.
+
+  + $E = E_1 E_2$. Then $E^R = E_2^R E_1^R$.
+    Note that we reverse the order of the two languages, as well as reversing the languages themselves.
+    For example, if $lang(E_1) = {0,1 111}$ and $lang(E_2) = {00, 10}$, then $lang(E_1 E_2) = {0100, 0110, 11100, 11110}$.
+    The reversal of the latter language is
+    $
+      {0010, 0110, 00111, 01111}
+    $
+    If we concatenate the reversals of $lang(E_2)$ and $lang(E_1)$, we get
+    $
+      {00,01} {10, 111} = {0010, 00111, 0110, 01111}
+    $
+    which is the same language as $(lang(E_1 E_2))^R$.
+    In general, if a word $w$ in $lang(E)$ is the concatenation of $w_1$ from $lang(E_1)$ and $w_2$ from $lang(E_2)$, then $w^R = w_2^R w_1^R$.
+
+  + $E = E_1^*$. Then $E^R = (E_1^R)^*$.
+
+    The justification is that any string $w$ in $lang(E)$ can be written as $w_1 w_2 dots w_n$, where each $w_i$ is in $lang(E_1)$.
+    Then $w^R = w_n^R w_(n-1)^R dots w_1^R$.
+    Each $w_i^R$ is in $lang(E^R)$, so $w^R$ is in $lang((E_1^R)^*)$.
+
+    Conversely, any string in $lang((E_1^R)^*)$ is of the form $w_1 w_2 dots w_n$, where each $w_i$ is the reversal of a string in $lang(E_1)$.
+    The reversal of this string, $w_n^R w_(n-1)^R dots w_1^R$, is therefore a string in $lang(E_1^*)$, which is $lang(E)$.
+
+    We have thus shown that a string is in $lang(E)$ if and only if its reversal is in $lang((E_1^R)^*)$.
+]
 
 #example[
-  Let $L = { 001, 10, 111 }$, then $L^R = { 001^R, 10^R, 111^R } = { 100, 01, 111 }$.
+  Let $L$ be defined by the regular expression $regex("(0+1)0*")$.
+  Then $L^R$ is the language of $(regex("0*"))^R (regex("0+1"))^R$.
+
+  If we apply the rules for Kleene star and union to the two parts, and then apply the basis rule that says the reversals of $regex("0")$ and $regex("1")$ are unchanged, we find that $L^R$ has regular expression $regex("0*(0+1)")$.
 ]
