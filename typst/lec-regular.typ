@@ -410,6 +410,61 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
   Then $L union M = lang(R + S)$ by the definition of the union ($+$) operator for regular expressions.
 ]
 
+#v(1em)
+#align(center)[
+  #cetz.canvas({
+    import cetz.draw: *
+    import finite.draw: state, transition
+
+    set-style(state: (radius: 0.2, extrude: 0.6))
+
+    group({
+      state((0, 0), "q0", label: none, initial: (label: none))
+      state((1, 0), "q1", label: none, final: true)
+      state((0, -1), "q2", label: none)
+      rect((-1, -1.5), (1.5, .5), name: "A", radius: 0.1)
+      content("A.south-west", padding: .5em, anchor: "south-west")[$A$]
+    })
+
+    group({
+      translate((0, -2.5))
+      state((0, 0), "q0", label: none, initial: (label: none))
+      state((1, 0), "q1", label: none)
+      state((0, -1), "q2", label: none, final: true)
+      rect((-1, -1.5), (1.5, .5), name: "B", radius: 0.1)
+      content("B.south-west", padding: .5em, anchor: "south-west")[$B$]
+    })
+
+    group({
+      translate((5, 0))
+      group(
+        name: "A",
+        {
+          state((-0.5, 0), "q0", label: none, initial: false)
+          state((1, 0), "q1", label: none, final: true)
+          state((0, -1), "q2", label: none)
+          rect((-1, -1.5), (1.4, .4), name: "B", radius: 0.1, stroke: 0.2pt)
+        },
+      )
+      group(
+        name: "B",
+        {
+          translate((0, -2.5))
+          state((-0.5, 0), "q0", label: none, initial: false)
+          state((1, 0), "q1", label: none)
+          state((0, -1), "q2", label: none, final: true)
+          rect((-1, -1.4), (1.4, .5), name: "B", radius: 0.1, stroke: 0.2pt)
+        },
+      )
+      state((-1.5, -1.5), "x", label: none, initial: (label: none))
+      rect((-2.5, -4), (1.5, .5), name: "C", radius: 0.1)
+      content("C.south-west", padding: .5em, anchor: "south-west")[$A union B$]
+      transition("x", "A.q0", label: $epsilon$, curve: 0.1)
+      transition("x", "B.q0", label: $epsilon$, curve: -0.1)
+    })
+  })
+]
+
 == Closure under Complement
 
 #theorem[
