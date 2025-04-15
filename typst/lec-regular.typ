@@ -714,5 +714,15 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 ]
 
 #theorem[
-  The language $L$ accepted by a finite automaton with $n$ states is _infinite_ iff the automaton accepts some word of length $l$, where $n <= l < 2n$.
+  The language $L$ accepted by a finite automaton $M$ with $n$ states is _infinite_ iff the automaton accepts some word of length $l$, where $n <= l < 2n$.
+]
+
+#proof[
+  If $w$ is in $lang(M)$ and $n <= abs(w) < 2n$, then by the Pumping lemma, $lang(M)$ is infinite.
+  That is, $w = x y z$, and for all $i$, $x y^i z$ is in $L$.
+  Conversely, if $lang(M)$ is infinite, then there exists $w$ in $lang(M)$, where $abs(w) >= n$.
+  If $abs(w) < 2n$, we are done.
+  If no word is of length between $n$ and $2n - 1$, let $w$ be of length at least $2n$, but as short as any word in $lang(M)$ whose length is greater than of equal to $2n$.
+  Again by the Pumping lemma, we can write $w = x y z$ with $1 <= abs(y) <= n$ and $x z in lang(M)$.
+  Either $w$ was not the shortest word of length $2n$ or more, or $abs(x z)$ is between $n$ and $2n - 1$, a contradiction in either case.
 ]
