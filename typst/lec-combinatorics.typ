@@ -378,7 +378,7 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
 
 #definition[
   Let $X$ be a finite set of types, and let $M = angle.l X, r angle.r$ be a finite multiset with repetition numbers $r_1, dots, r_abs(X)$.
-  A _$k$-combination of $M$_ is a multiset $S = angle.l X, s angle.r$ with with types in $X$ and repetition numbers $s_1, dots, s_abs(X)$ such that #box[$s_i <= r_i$] for all #box[$1 <= i <= abs(X)$], and $sum_(i = 1)^abs(X) s_i = k$.
+  A _$k$-combination of $M$_ is a multiset $S = angle.l X, s angle.r$ with types in $X$ and repetition numbers $s_1, dots, s_abs(X)$ such that #box[$s_i <= r_i$] for all #box[$1 <= i <= abs(X)$], and $sum_(i = 1)^abs(X) s_i = k$.
 ]
 
 #example[
