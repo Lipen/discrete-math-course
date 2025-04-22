@@ -31,6 +31,7 @@ jobs:
       - run: typst compile typst/lec-formal.typ
       - run: typst compile typst/lec-nfa.typ
       - run: typst compile typst/lec-regular.typ
+      - run: typst compile typst/lec-combinatorics.typ
       - run: mv typst/*.pdf .
 
       - name: Build LaTeX project and generate PDFs
