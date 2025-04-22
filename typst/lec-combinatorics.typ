@@ -329,7 +329,7 @@ TODO: circular permutations
 
 #example[
   Let $X = { #emoji.hat, #emoji.seal, #emoji.cat, #emoji.accordion, #emoji.cactus }$.
-  - An ordered arrangement of 7 elements could be $S = { #emoji.hat, #emoji.hat, #emoji.seal, #emoji.cat, #emoji.cat, #emoji.cat, #emoji.cactus }^*$.
+  - An unordered arrangement of 7 elements could be $S = { #emoji.hat, #emoji.hat, #emoji.seal, #emoji.cat, #emoji.cat, #emoji.cat, #emoji.cactus }^*$.
   - The same multiset could be written as $S = { 2 #emoji.hat, 1 #emoji.seal, 3 #emoji.cat, 0 #emoji.accordion, 1 #emoji.cactus }$.
 ]
 
@@ -348,7 +348,7 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
 
   // The set of all $k$-combinations of $X = [n]$ is denoted by $C(n, k)$.
 
-  The set of all $k$-subsets of $X$ is denoted $binom(X, k)$.
+  The set of all $k$-subsets of $X$ is denoted $binom(X, k) = {A subset.eq X | abs(A) = k}$.
   If $abs(X) = n$, then
   $
     binom(n, k) := abs(binom(X, k))
@@ -422,12 +422,12 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 #theorem[
   The generalization of the binomial theorem:
   $
-    (x_1 + dots + x_n)^n = sum_(0 <= k_1, dots, k_n <= n \ k_1 + dots + k_n = k)^n binom(n, k_1, dots, k_n) dot x_1^k_1 dot dots dot x_r^k_r
+    (x_1 + dots + x_r)^n = sum_(0 <= k_1, dots, k_r <= n \ k_1 + dots + k_r = n)^n binom(n, k_1, dots, k_r) dot x_1^k_1 dot dots dot x_r^k_r
   $
 
   _Multinomial coefficients_ are defined as
   $
-    binom(n, k_1, dots, k_n) = n! / (k_1! dot dots dot k_n!)
+    binom(n, k_1, dots, k_r) = n! / (k_1! dot dots dot k_r!)
   $
 ] <multinomial-theorem>
 
