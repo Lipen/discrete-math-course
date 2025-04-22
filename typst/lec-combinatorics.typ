@@ -393,7 +393,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 
 #definition[
   Let $M$ be a finite multiset with set of types $X$.
-  A _$k$-permutation of $M$_ is an ordered arrangement of $k$ elements of $M$ where different orderings of elements of the same type are not distinguished.
+  A _$k$-permutation of $M$_ is an ordered arrangement of $k$ elements of $M$ where different orderings of elements of the same type are _not distinguished_.
   This is an ordered multiset with types in $X$ and repetition numbers $s_1, dots, s_abs(X)$ such that #box[$s_i <= r_i$] for all #box[$1 <= i <= abs(X)$], and $sum_(i = 1)^abs(X) s_i = k$.
 ]
 
