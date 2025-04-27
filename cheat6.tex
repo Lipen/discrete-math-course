@@ -298,8 +298,8 @@
                      edge [bend left, above] node {1} (s1)
                 (s1) edge [bend left, below] node {1} (s0)
                      edge [bend right, below] node {0} (s2)
-                (s2) edge [bend right, above] node {1} (s1)
-                     edge [loop above, above] node {0} (s2)
+                (s2) edge [bend right, above] node {0} (s1)
+                     edge [loop above, above] node {1} (s2)
             ;
             \node at (2,-1) [align=center] {This Moore machine's output \\ is modulo 3 of a binary number};
         }
