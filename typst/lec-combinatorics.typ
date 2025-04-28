@@ -359,6 +359,22 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
   The set of edges in a simple undirected graph consists of 2-subsets of its vertices: $E subset.eq binom(V, 2)$.
 ]
 
+= Multisets
+
+== Multiset
+
+#definition[
+  A _multiset_ is a modification of the concept of a set that allows for _repetitions_ of its elements.
+  Formally, it is denoted as a pair $M = angle.l X, r angle.r$, where $X$ is the _groundset_ (the set of _types_) and $r : X to NN_0$ is the _multiplicity function_.
+]
+
+#example[
+  When the multiset is defined by enumeration, it is advisable to use the notation with the star:
+  $
+    M = { a, b, a, a, b }^* = {3 dot a, 2 dot b} quad X = { a, b } quad r_a = 3, r_b = 2
+  $
+]
+
 == Counting $k$-Combinations
 
 #theorem[
