@@ -507,7 +507,8 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   - Suppose $k = 5$.
   - Consider a 5-combination of $S$: ${ #emoji.banana, #emoji.apple.red, #emoji.banana, #emoji.pear, #emoji.pear }$.
   - Reorder and group: ${ #emoji.banana #emoji.banana | #emoji.apple.red | #emoji.pear #emoji.pear }$.
-  - Convert to _dots_ and _bars_: #h(1em) $bullet bullet | bullet | bullet bullet$
-  - Represent as a multiset: $M = { k dot bullet, (s-1) dot | zws }$
+  - Convert to _dots_ and _bars_: #h(1em) $bullet bullet bar bullet bar bullet bullet$
+  - Represent as a multiset: $M = { k dot bullet, (s-1) dot bar zws }$
+  - Observe: each _permutation_ of $k$ dots and $(s-1)$ bars corresponds to a _$k$-combination_ of $S$.
   - Permute the 2-type multiset: $binom(k + s - 1, k, s - 1)$ ways, by @multinomial-theorem.
 ]
