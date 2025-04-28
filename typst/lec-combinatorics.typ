@@ -375,6 +375,10 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
   $
 ]
 
+#example[
+  Prime factorization of a natural number $n$ is a multiset, e.g. $120 = 2^3 dot 3^1 dot 5^1$.
+]
+
 == Counting $k$-Combinations
 
 #theorem[
