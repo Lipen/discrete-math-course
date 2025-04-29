@@ -735,3 +735,15 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
     = sum_(k = 0)^(n - 1) binom(n - 1, k) B_n
   $
 ]
+
+= Integer Partitions
+
+== Integer Partitions
+
+#definition[
+  An _integer partition_ of a positive integer $k >= 1$ into $s$ _positive_ parts is a _solution_ to the equation $k = a_1 + dots + a_s$, where $a_1 >= a_2 >= dots >= a_s >= 1$.
+
+  - The number of partitions of $k$ into $s$ positive non-decreasing parts is denoted $p(k, s)$.
+
+  - The number of partitions of $k$ into _some_ positive non-decreasing parts is called a _partition number_ and denoted $p(k) = sum_(s = 1)^(k) p(k, s)$.
+]
