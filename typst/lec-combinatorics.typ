@@ -741,9 +741,17 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 == Integer Partitions
 
 #definition[
-  An _integer partition_ of a positive integer $k >= 1$ into $s$ _positive_ parts is a _solution_ to the equation $k = a_1 + dots + a_s$, where $a_1 >= a_2 >= dots >= a_s >= 1$.
+  An _integer partition_ of a positive integer $n >= 1$ into $k$ _positive_ parts is a _solution_ to the equation $n = a_1 + dots + a_k$, where $a_1 >= a_2 >= dots >= a_k >= 1$.
 
-  - The number of partitions of $k$ into $s$ positive non-decreasing parts is denoted $p(k, s)$.
+  - The number of integer partitions of $n$ into $k$ positive non-decreasing parts is denoted $p_k (n)$.
 
-  - The number of partitions of $k$ into _some_ positive non-decreasing parts is called a _partition number_ and denoted $p(k) = sum_(s = 1)^(k) p(k, s)$.
+  - The number of integer partitions of $k$ into _some_ positive non-decreasing parts is called a _partition number_ and denoted $p(n)$, defined recursively:
+    $
+      p_k (n) = cases(
+        1 & "if" n = k = 0,
+        0 & "if" n >= 1 "and" k = 0,
+        0 & "if" k > n,
+        p_k (n - k) + p_(k - 1) (n - 1) & "if" 1 <= k <= n,
+      )
+    $
 ]
