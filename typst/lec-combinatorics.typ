@@ -11,6 +11,7 @@
 #show table.cell.where(y: 0): strong
 
 #let power(x) = $cal(P)(#x)$
+#let stirling(n, k) = $vec(delim: "{", #n, #k)$
 
 = Combinatorics
 
@@ -513,4 +514,224 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   - Represent as a multiset: $M = { k dot bullet, (s-1) dot bar zws }$
   - Observe: each _permutation_ of $k$ dots and $(s-1)$ bars corresponds to a _$k$-combination_ of $S$.
   - Permute the 2-type multiset: $binom(k + s - 1, k, s - 1)$ ways, by @multinomial-theorem.
+]
+
+= Compositions
+
+== Weak Compositions
+
+#definition[
+  A _weak composition_ of a non-negative integer $k >= 0$ into $s$ parts is a _solution_ to the equation $b_1 + dots + b_s = k$, where each $b_i >= 0$.
+]
+
+#example[
+  Let $k = 5$, $s = 3$.
+  Possible non-negative integer solutions for $b_1 + b_2 + b_3 = 5$ are:
+  - $(b_1, b_2, b_3) = (1, 1, 3)$
+  - $(b_1, b_2, b_3) = (1, 3, 1)$
+  - $(b_1, b_2, b_3) = (2, 0, 3)$
+  - $(b_1, b_2, b_3) = (0, 5, 0)$
+  - ... (total 21 solutions)
+]
+
+#note[
+  If $M$ is a multiset over groundset ${1, dots, s}$ with all multiplicities infinite ($r_i = infinity$), then for $k >= 0$, the number of sub-multisets of $M$ of size $k$ is exactly the number of weak compositions of $k$ into $s$ parts.
+]
+
+== Counting Weak Compositions
+
+#theorem[
+  There are $binom(k + s - 1, k, s - 1)$ _weak compositions_ of $k > 0$ into $s$ parts.
+]
+
+#proof[
+  Observe that $k = overbrace(underbrace(1 + 1, b_1) + underbrace(dots, b_i) + underbrace(1 + 1, b_s), k "ones")$.
+
+  Use the _stars-and-bars_ method to count the number of $s$ groups composed of $k$ "ones".
+]
+
+#example[
+  Let $k = 3$.
+  There are $binom(3 + 3 - 1, 3, 3 - 1) = binom(5, 3) = binom(5, 2) = 10$ ways to decompose $k = 3$ into $s = 3$ parts:
+  $
+    k &= 3 = \
+    &= 0 + 1 + 2 = 0 + 2 + 1 \
+    &= 1 + 0 + 2 = 1 + 2 + 0 = 1 + 1 + 1 \
+    &= 2 + 0 + 1 = 2 + 1 + 0 \
+    &= 3 + 0 + 0 = 0 + 3 + 0 = 0 + 0 + 3 \
+  $
+]
+
+== Compositions
+
+#definition[
+  A _composition_ of a positive integer $k >= 1$ into $s$ _positive_ parts is a _solution_ to the equation $b_1 + dots + b_s = k$, where each $b_i > 0$.
+]
+
+#theorem[
+  There are $binom(k - 1, s - 1)$ _compositions_ of $k > 0$ into $s$ positive parts.
+]
+
+#theorem[
+  The total number of compositions of $k > 0$ into _some_ number of positive parts is
+  $
+    sum_(s = 1)^k binom(k - 1, s - 1) = 2^(k - 1)
+  $
+]
+
+// TODO: proof, by induction, substitute t := s - 1, then apply Binomial theorem for (1+1)^(k-1)
+
+== Parallel Summation Identity
+
+*Q*: How many integer solutions are there to the _inequality_ $b_1 + dots + b_s <= k$, where each $b_i >= 0$?
+
+#theorem[
+  $display(sum_(m = 0)^k binom(m + s - 1, m) = binom(k + s, k))$
+]
+
+#proof[(hint)][
+  Introduce a "dummy" variable $b_(s+1)$ to take up the _slack_ between $b_1 + dots + b_s$ and $k$.
+  Construct a bijection with the solutions to $b_1 + dots + b_s + b_(s+1) = k$, where $b_i >= 0$.
+]
+
+= Set Partitions
+
+== Set Partitions
+
+#definition[
+  A _partition_ of a set $X$ is a set of non-empty subsets of $X$ such that every element of $X$ belongs to exactly one of these subsets.
+
+  Equivalently, a family of sets $P$ is a partition of $X$ iff:
+  + The family $P$ does not contain the empty set: $emptyset notin P$.
+  + The union of $P$ is $X$, that is, $union.big_(A in P) A = X$.
+    The sets in $P$ are said to _cover_ $X$.
+  + The intersection of any two distinct sets in $P$ is empty: $forall A, B in P . thin (A != B) imply (A intersect B = emptyset)$. \
+    The sets in $P$ are said to be _pairwise disjoint_ or _mutually exclusive_.
+
+  The sets in $P$ are called _blocks_, _parts_, or _cells_, of the partition.
+
+  The block in $P$ containing an element $x in X$ is denoted by $[x]$.
+
+  // The _rank_ of $P$ is $abs(X) - abs(P)$, if $X$ is finite.
+]
+
+== Examples of Set Partitions
+
+#example[
+  The empty set $X = emptyset$ has exactly one partition, $P = emptyset$.
+]
+
+#example[
+  Any singleton set $X = {x}$ has exactly one partition, $P = { {x} }$.
+]
+
+#example[
+  For any non-empty proper subset $A subset U$, the set $A$ and its complement form a partition of $U$, namely $P = {A, U - A}$.
+]
+
+#example[
+  The set $X = {1,2,3}$ has five partitions:
+  + ${ {1}, {2}, {3} }$ or $1 | 2 | 3$
+  + ${ {1}, {2,3} }$ or $1 | 2 thick 3$
+  + ${ {1,2}, {3} }$ or $1 thick 2 | 3$
+  + ${ {1,3}, {2} }$ or $1 thick 3 | 2$
+  + ${ {1,2,3} }$ or $1 thick 2 thick 3$
+]
+
+#example[
+  The following are _not_ partitions of ${1,2,3}$:
+  - ${ {}, {1, 3}, {2} }$, because it contains the empty set.
+  - ${ {1, 2}, {2, 3} }$, because the element $2$ is contained in more than one block.
+  - ${ {1}, {3} }$, because no block contains the element $3$.
+]
+
+// TODO: refinement of partitions (see, e.g., wiki)
+
+// TODO: partitions of multisets
+
+== Counting Set Partitions
+
+#definition[
+  The number of partitions of a set $X$ (of size $n = abs(X)$) into $k$ non-empty blocks ("unlabeled subsets") is called a _Stirling number of the second kind_ and denoted $S(n, k)$ or $stirling(n, k)$.
+]
+
+#example[
+  Let $X = {1,2,3,4}$, $k = 2$.
+  There are 7 possible partitions:
+
+  #cetz.canvas({
+    import cetz.draw: *
+    let myfill = green.lighten(80%)
+    scale(50%)
+    set-style(stroke: 0.5pt)
+    for (b1, b2, b3, b4) in (
+      (true, false, false, false),
+      (true, true, false, false),
+      (true, false, true, false),
+      (true, false, false, true),
+      (true, true, true, false),
+      (true, true, false, true),
+      (true, false, true, true),
+    ) {
+      translate((3, 0))
+      rect((-1, 0), (0, 1), radius: (north-west: .5), fill: if b1 { myfill })
+      rect((0, 1), (1, 0), radius: (north-east: .5), fill: if b2 { myfill })
+      rect((0, -1), (1, 0), radius: (south-east: .5), fill: if b3 { myfill })
+      rect((-1, 0), (0, -1), radius: (south-west: .5), fill: if b4 { myfill })
+      content((-0.5, 0.5))[$1$]
+      content((0.5, 0.5))[$2$]
+      content((-0.5, -0.5))[$3$]
+      content((0.5, -0.5))[$4$]
+    }
+  })
+]
+
+#theorem[
+  Let $stirling(n, 0) = 0$ for $n >= 1$, $stirling(0, k) = 0$ for $k >= 1$, and $stirling(0, 0) = 1$.
+  For $n, k >= 1$, we have:
+  $
+    stirling(n, k) = stirling(n - 1, k - 1) + k dot stirling(n - 1, k)
+  $
+]
+
+#proof[(informal)][
+  TODO
+]
+
+== Bell Numbers
+
+#definition[
+  The total number of partitions of a set $X$ of size $n = abs(X)$ (into an arbitrary number of non-empty blocks) is called a _Bell number_ and denoted $B_n$.
+  $
+    B_n = sum_(k = 0)^(n) stirling(n, k)
+  $
+]
+
+#note[
+  Consider the special case of $n = 0$.
+  There is exactly _one_ partition of $emptyset$ into non-empty parts: #box[$emptyset = union.big_(A in emptyset) A in emptyset$].
+  Every $A in emptyset$ is non-empty, since no such $A$ exists.
+  Thus, we have $B_0 = S(0, 0) = 1$.
+]
+
+#pagebreak()
+
+#theorem[
+  For $n >= 1$, we have the recursive identity for Bell numbers:
+  $
+    B_n = sum_(k = 0)^(n - 1) binom(n - 1, k) B_k
+  $
+]
+
+#proof[
+  Every partition of $[n]$ has one part that contains the number $n$.
+  In addition to $n$, this part also contains $k$ other numbers (for some $0 <= k <= n-1$).
+  The remaining $n - 1 - k$ elements are partitioned arbitrarily.
+  From this correspondence, we obtain the desired identity:
+  $
+    B_n
+    = sum_(k = 0)^(n - 1) binom(n - 1, k) B_(n-1-k)
+    = sum_(k = 0)^(n - 1) binom(n - 1, n-1-k) B_(n-1-k)
+    = sum_(k = 0)^(n - 1) binom(n - 1, k) B_n
+  $
 ]
