@@ -38,7 +38,7 @@
     >={Stealth[]},
     shorten >=1pt,
     semithick,
-    bend angle=15,
+    bend angle=20,
     initial text={},
     every state/.style={
         inner sep=0pt,
@@ -286,6 +286,7 @@
 
     \begin{minipage}{\linewidth}
     \begin{wrapfigure}{r}{0pt}
+    \begin{adjustbox}{trim=0 0 0 5pt}
         \tikz[myautomatonstyle]{
             \node[state, initial] (s0) {$0$};
             \node[state, right=2cm of s0] (s1) {$1$};
@@ -298,9 +299,9 @@
                 (s2) edge [bend right, above] node {0} (s1)
                      edge [loop above, above] node {1} (s2)
             ;
-            \node at (2,-1) [align=center] {This Moore machine's output \\ is modulo 3 of a binary number};
+            \node at (2,-1.2) [align=center] {This Moore machine's output \\ is modulo 3 of a binary number.};
         }
-        \vspace{-\intextsep}
+    \end{adjustbox}
     \end{wrapfigure}
 
     Formally, $\mathcal{M}_\text{Moore} = (\Sigma, \Omega, Q, q_0, \delta, \lambda_\text{Moore})$, where:
