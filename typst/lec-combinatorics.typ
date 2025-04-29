@@ -359,6 +359,19 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
   The set of edges in a simple undirected graph consists of 2-subsets of its vertices: $E subset.eq binom(V, 2)$.
 ]
 
+== Counting $k$-Combinations
+
+#theorem[
+  For $0 <= k <= n$, we have
+  $
+    binom(n, k) = n! / (k! dot (n - k)!)
+  $
+]
+
+#proof[
+  $display(abs(P(n, k)) = n! / (n - k)! = binom(n, k) dot k!)$
+]
+
 = Multisets
 
 == Multiset
@@ -377,21 +390,6 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
 
 #example[
   Prime factorization of a natural number $n$ is a multiset, e.g. $120 = 2^3 dot 3^1 dot 5^1$.
-]
-
-== Counting $k$-Combinations
-
-#theorem[
-  For $0 <= k <= n$, we have
-  $
-    binom(n, k) = n! / (k! dot (n - k)!)
-  $
-]
-
-#proof[
-  $
-    abs(P(n, k)) = n! / (n - k)! = binom(n, k) dot k!
-  $
 ]
 
 == $k$-Combinations of a Multiset
