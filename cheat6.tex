@@ -245,21 +245,18 @@
     \begin{minipage}{\linewidth}
     \begin{wrapfigure}{r}{0pt}
         \tikz[myautomatonstyle]{
-            \node[state, initial] (si) {$s_i$};
-            \node[state, above right=1cm and 2cm of si] (s0) {$s_0$};
-            \node[state, below right=1cm and 2cm of si] (s1) {$s_1$};
+            \node[state, initial] (q0) {$q_0$};
+            \node[state, above right=1cm and 1.5cm of q0] (p0) {$p_0$};
+            \node[state, below right=1cm and 1.5cm of q0] (p1) {$p_1$};
             \path[->]
-                (si) edge [bend left, sloped, above] node {0/0} (s0)
-                     edge [bend right, sloped, below] node {1/0} (s1)
-                (s0) edge [loop right, right] node {0/0} (s0)
-                     edge [bend left, right] node {1/1} (s1)
-                (s1) edge [loop right, right] node {1/0} (s1)
-                     edge [bend left, left] node {0/1} (s0)
+                (q0) edge [bend left, sloped, above] node {0/n} (p0)
+                     edge [bend right, sloped, below] node {1/n} (p1)
+                (p0) edge [loop right, right] node {0/y} (p0)
+                     edge [bend left, right] node {1/n} (p1)
+                (p1) edge [loop right, right] node {1/y} (p1)
+                     edge [bend left, left] node {0/n} (p0)
             ;
-            \node at (5.7,0) [align=left] {This Mealy machine's \\
-            output is 1 whenever both \\
-            previous and current symbols \\
-            are different, and 0 otherwise};
+            \node at (5.5,0) [align=left] {The output of this Mealy \\ machine is "y" whenever \\ the last two symbols \\ in the input are the same, \\ and "n" if they are different.};
         }
         \vspace{-\intextsep}
     \end{wrapfigure}
