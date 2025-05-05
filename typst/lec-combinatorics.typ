@@ -815,6 +815,8 @@ TODO: small example of PIE with 2 or 3 sets
   In the last step, we used that for any $y in RR$ we have $(1-y)^k = sum_(i = 0)^k binom(k, i) (-y)^i$ which implies #box[(for $y = 1$)] that $0 = sum_(i = 0)^k binom(k, i) (-1)^i$.
 ]
 
+== Very Useful Corollary of PIE
+
 #corollary[
   #emoji.cat.shock
   $
