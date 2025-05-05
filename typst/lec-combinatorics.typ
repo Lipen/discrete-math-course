@@ -446,7 +446,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 
   _Multinomial coefficients_ are defined as
   $
-    binom(n, k_1, dots, k_r) = n! / (k_1! dot dots dot k_r!)
+    binom(n, k_1, dots, k_r) = n! / (k_1 ! dot dots dot k_r !)
   $
 ] <multinomial-theorem>
 
