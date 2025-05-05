@@ -854,8 +854,9 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
 ]
 
 #proof[
+  Let $X$ be the set of all maps from $[k]$ to $[n]$.
+
   + _Define bad properties:_
-    Let $X$ be the set of all maps from $[k]$ to $[n]$.
     Define the "bad" property $P_i$ for $i in [n]$ as "$i$ is not in the image of $f$", i.e.
     $
       f : [k] to [n] "has property" P_i
@@ -869,6 +870,8 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
     We claim $N(S) = (n - abs(S))^k$ for any $S subset.eq [n]$.
     To see this, observe that $f$ has all properties with indices from $S$ if and only if $f(i) notin S$ for all $i in [k]$.
     In other words, $f$ must be a function from~$[k]$~to~$[n] setminus S$, and there are $(n - abs(S))^k$ of those.
+
+    #v(1fr)
 
   + _Apply PIE:_
     Using @thm:pie, the number of surjections from $[k]$ to $[n]$ is
@@ -899,4 +902,43 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
   $
     n! s2(k, n) = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k
   $
+]
+
+== Derangements
+
+#theorem[
+  The _derangements_ $D_n$ on $n$ elements are permutations of $[n]$ without fixed points.
+
+  The number of derangements is given by
+  $
+    abs(D_n) = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
+  $
+]
+
+#proof[
+  Let $X$ be the set of all permutations of $[n]$.
+
+  + Define the "bad" property $P_i$ to mean "$pi$ has a fixpoint $i$" ($i in [n]$):
+    $
+      pi in X "has property" P_i
+      quad iff quad
+      pi(i) = i
+    $
+
+  + We claim $N(S) = (n - abs(S))!$ for any $S subset.eq [n]$.
+
+    Indeed, $pi in X$ has all properties with indices from $S$ if and only if all $i in S$ are fixed points of $pi$.
+    On the other elements, i.e. on $[n] setminus S$, $pi$ may be an arbitrary bijection, so there are $(n - abs(S))!$ choices for $pi$.
+
+    #v(1fr)
+
+  + Using @thm:pie, the number of derangements is given by
+    $
+      abs(X setminus (X_1 union dots union X_n))
+      &=^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
+      &= sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))! \
+      &= sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
+    $
+
+    In the last step, we used that $(-1)^abs(S) (n - abs(S))!$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
 ]
