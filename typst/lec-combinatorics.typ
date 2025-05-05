@@ -12,6 +12,28 @@
 
 #let power(x) = $cal(P)(#x)$
 #let stirling(n, k) = $vec(delim: "{", #n, #k)$
+#let equ(eq, id: none) = {
+  let numbering = if type(id) != none { "(1)" } else { none }
+  let body = if type(id) == none { eq } else if type(id) == label [#eq #id] else [#eq #label(id)]
+  set math.equation(numbering: numbering)
+  body
+}
+
+#show ref: it => {
+  let el = it.element
+  if el != none and el.func() == math.equation {
+    show underline: it => it.body
+    link(
+      el.location(),
+      numbering(
+        el.numbering,
+        ..counter(math.equation).at(el.location()),
+      ),
+    )
+  } else {
+    it
+  }
+}
 
 = Combinatorics
 
@@ -204,7 +226,7 @@ If we count the same quantity in _two different ways_, then this gives us a (per
     $
 
   The identity we obtain is therefore:~
-  $display( sum_(i = 1)^(n - 1) i = (n dot (n - 1)) / 2 )$
+  $display(sum_(i = 1)^(n - 1) i = (n dot (n - 1)) / 2)$
 ]
 
 = Arrangements, Permutations, Combinations
@@ -491,7 +513,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   Suppose you have a _sufficiently large_ amount of each type of fruit (#emoji.banana, #emoji.apple.red, #emoji.pear) in the supermarket, and you want to buy _two_ fruits.
   How many choices do you have?
 
-  There are exactly _six_ combinations: ${ #emoji.banana, #emoji.banana }, { #emoji.banana, #emoji.apple.red }, { #emoji.banana, #emoji.pear }, { #emoji.apple.red, #emoji.apple.red }, { #emoji.apple.red, #emoji.pear }, { #emoji.pear, #emoji.pear } $.
+  There are exactly _six_ combinations: ${ #emoji.banana, #emoji.banana }, { #emoji.banana, #emoji.apple.red }, { #emoji.banana, #emoji.pear }, { #emoji.apple.red, #emoji.apple.red }, { #emoji.apple.red, #emoji.pear }, { #emoji.pear, #emoji.pear }$.
 
   Note that your selection is _not ordered_, so ${ #emoji.pear, #emoji.apple.red }$ and ${ #emoji.apple.red, #emoji.pear }$ are considered the _same_ choice.
 ]
@@ -754,4 +776,48 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
         p_k (n - k) + p_(k - 1) (n - 1) & "if" 1 <= k <= n,
       )
     $
+]
+
+= Inclusion–Exclusion
+
+== The Inclusion–Exclusion Principle
+
+TODO: small example of PIE with 2 or 3 sets
+
+== Principle of Inclusion–Exclusion (PIE)
+
+#theorem[
+  Let $X$ be a finite set and $P_1, dots, P_m$ _properties_.
+  - Define $X_i = { x in X | thin x "has" P_i }$, i.e. the set of all elements from $X$ having a property $P_i$.
+  - Define for $S subset.eq [m]$ the set $N(S) = { x in X | forall i in S : thin x "has" P_i }$.
+    Observe: $N(S) = intersect.big_(i in S) X_i$.
+
+  The number of elements of $X$ that satisfy _none_ of the properties $P_1, dots, P_m$ is given by
+  #equ(
+    $
+      abs(X setminus (X_1 union dots union X_m)) sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S))
+    $,
+    id: <pie>,
+  )
+]
+
+#proof[
+  Consider any $x in X$.
+  If $x in X$ has none of the properties, then $x in N(emptyset)$ and $x notin N(S)$ for any other $S != emptyset$.
+  Hence _$x$ contributes 1_ to the sum @pie.
+
+  If $x in X$ has exactly $k >= 1$ of the properties, call this set $T in binom([m], k)$.
+  Then $x in N(S)$ iff $S subset.eq T$. \
+  The _contribution of $x$_ to the sum @pie is $sum_(S subset.eq T) (-1)^abs(S) = sum_(i = 0)^k binom(k, i) (-1)^i = 0$, i.e. _zero_.
+]
+
+#note[
+  In the last step, we used that for any $y in RR$ we have $(1-y)^k = sum_(i = 0)^k binom(k, i) (-y)^i$ which implies #box[(for $y = 1$)] that $0 = sum_(i = 0)^k binom(k, i) (-1)^i$.
+]
+
+#corollary[
+  #emoji.cat.shock
+  $
+    abs(union.big_(i in [m]) X_i) = abs(X) - sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S)) = sum_(emptyset != S subset.eq [m]) (-1)^(abs(S)-1) abs(N(S))
+  $
 ]
