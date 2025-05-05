@@ -12,6 +12,7 @@
 
 #let power(x) = $cal(P)(#x)$
 #let stirling(n, k) = $vec(delim: "{", #n, #k)$
+#let s2(n, k) = $s^("II")_(#k) (#n)$
 #let equ(eq, id: none) = {
   let numbering = if type(id) != none { "(1)" } else { none }
   let body = if type(id) == none { eq } else if type(id) == label [#eq #id] else [#eq #label(id)]
@@ -797,18 +798,18 @@ TODO: small example of PIE with 2 or 3 sets
     $
       abs(X setminus (X_1 union dots union X_m)) sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S))
     $,
-    id: <pie>,
+    id: <eq:pie>,
   )
-]
+] <thm:pie>
 
 #proof[
   Consider any $x in X$.
   If $x in X$ has none of the properties, then $x in N(emptyset)$ and $x notin N(S)$ for any other $S != emptyset$.
-  Hence _$x$ contributes 1_ to the sum @pie.
+  Hence _$x$ contributes 1_ to the sum @eq:pie.
 
   If $x in X$ has exactly $k >= 1$ of the properties, call this set $T in binom([m], k)$.
   Then $x in N(S)$ iff $S subset.eq T$. \
-  The _contribution of $x$_ to the sum @pie is $sum_(S subset.eq T) (-1)^abs(S) = sum_(i = 0)^k binom(k, i) (-1)^i = 0$, i.e. _zero_.
+  The _contribution of $x$_ to the sum @eq:pie is $sum_(S subset.eq T) (-1)^abs(S) = sum_(i = 0)^k binom(k, i) (-1)^i = 0$, i.e. _zero_.
 ]
 
 #note[
@@ -821,5 +822,81 @@ TODO: small example of PIE with 2 or 3 sets
   #emoji.cat.shock
   $
     abs(union.big_(i in [m]) X_i) = abs(X) - sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S)) = sum_(emptyset != S subset.eq [m]) (-1)^(abs(S)-1) abs(N(S))
+  $
+]
+
+// TODO: picture with 3 circles and plus/minus signs
+
+== Applications of PIE
+
+Let's state the principle of inclusion-exclusion using a rigid pattern:
+
++ _Define "bad" properties._
+
+  Identify the things to count as the elements of some universe $X$ except for the whose having _at least one_ of the "bad" properties $P_1, dots, P_m$.
+  In other words, we want to count $X setminus (X_1 union dots union X_m)$.
+
++ _Count $N(S)$._
+
+  For each $S subset.eq [m]$, determine $N(S)$, the number of elements of $X$ having _all_ bad properties $P_i$ for $i in S$.
+
++ _Apply PIE_.
+
+  Use @thm:pie to obtain a closed formula for $abs(X setminus (X_1 union dots union X_m))$.
+
+== Counting Surjections via PIE
+
+#theorem[
+  The number of surjections from $[k]$ to $[n]$ is given by
+  $
+    abs({ f : [k] to_"surj." [n] }) = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k
+  $
+]
+
+#proof[
+  + _Define bad properties:_
+    Let $X$ be the set of all maps from $[k]$ to $[n]$.
+    Define the "bad" property $P_i$ for $i in [n]$ as "$i$ is not in the image of $f$", i.e.
+    $
+      f : [k] to [n] "has property" P_i
+      quad iff quad
+      forall j in [k] : f(j) != i
+    $
+
+    The _surjective_ functions are exactly those functions that _do not_ have any of the "bad" properties.
+
+  + _Count $N(S)$:_
+    We claim $N(S) = (n - abs(S))^k$ for any $S subset.eq [n]$.
+    To see this, observe that $f$ has all properties with indices from $S$ if and only if $f(i) notin S$ for all $i in [k]$.
+    In other words, $f$ must be a function from~$[k]$~to~$[n] setminus S$, and there are $(n - abs(S))^k$ of those.
+
+  + _Apply PIE:_
+    Using @thm:pie, the number of surjections from $[k]$ to $[n]$ is
+    $
+      abs(X setminus (X_1 union dots union X_n))
+      &=^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
+      &= sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k \
+      &= sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k \
+    $
+    In the last step, we used that $(-1)^abs(S) (n - abs(S))^k$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
+]
+
+== More Useful Corollaries
+
+#corollary[
+  Consider the case $n = k$.
+  A function from $[n]$ to $[n]$ is a _surjection_ iff it is a _bijection_.
+  Since there are $n!$ binjections on $[n]$ (namely, all permutations), we have the following identity:
+  $
+    n! = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^i
+  $
+]
+
+#corollary[
+  A surjection from $[k]$ to $[n]$ can be seen as a partition of $[k]$ into $n$ non-empty distinguishable (labeled) parts (the map assigns a part to each $i in [k]$).
+
+  Since the partition of $[k]$ into $n$ non-empty indistinguishable parts is denoted $s2(k, n)$, and there are $n!$ ways to assign labels to $n$ parts, we obtain that the number of surjections is equal to $n! s2(k, n)$:
+  $
+    n! s2(k, n) = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k
   $
 ]
