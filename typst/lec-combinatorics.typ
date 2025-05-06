@@ -755,7 +755,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
     B_n
     = sum_(k = 0)^(n - 1) binom(n - 1, k) B_(n-1-k)
     = sum_(k = 0)^(n - 1) binom(n - 1, n-1-k) B_(n-1-k)
-    = sum_(k = 0)^(n - 1) binom(n - 1, k) B_n
+    = sum_(k = 0)^(n - 1) binom(n - 1, k) B_k
   $
 ]
 
