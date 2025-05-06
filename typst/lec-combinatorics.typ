@@ -766,18 +766,93 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 #definition[
   An _integer partition_ of a positive integer $n >= 1$ into $k$ _positive_ parts is a _solution_ to the equation $n = a_1 + dots + a_k$, where $a_1 >= a_2 >= dots >= a_k >= 1$.
 
-  - The number of integer partitions of $n$ into $k$ positive non-decreasing parts is denoted $p_k (n)$.
-
-  - The number of integer partitions of $k$ into _some_ positive non-decreasing parts is called a _partition number_ and denoted $p(n)$, defined recursively:
+  - The number of integer partitions of $n$ into $k$ positive non-decreasing parts is denoted $p_(k)(n)$ and defined recursively:
     $
-      p_k (n) = cases(
-        1 & "if" n = k = 0,
-        0 & "if" n >= 1 "and" k = 0,
+      p_(k)(n) = cases(
         0 & "if" k > n,
-        p_k (n - k) + p_(k - 1) (n - 1) & "if" 1 <= k <= n,
+        0 & "if" n >= 1 "and" k = 0,
+        1 & "if" n = k = 0,
+        p_(k)(n - k) + p_(k - 1)(n - 1) & "if" 1 <= k <= n,
       )
     $
+
+  - The number of partitions of $n$ (into an arbitrary number of parts) is the _partition function_ $p(n)$:
+    $
+      p(n) = sum_(k = 0)^(n) p_(k)(n)
+    $
 ]
+
+== Ferrer Diagrams and Yound Tableaux
+
+#let parts = (6, 4, 3, 1)
+#let total = parts.sum()
+
+#example[
+  Consider an integer partition: $#total = #(parts.map(str)).join(" + ")$.
+]
+
+#let max(a) = {
+  let m = 0
+  for x in a {
+    if x > m { m = x }
+  }
+  m
+}
+
+#let partition_diagram(parts, young: false) = cetz.canvas({
+  import cetz.draw: *
+
+  // Flip Y to grow DOWN
+  scale(y: -1)
+
+  // Visual parameters
+  let spacing = 0.5 // space between cells
+  let h = spacing // row height
+  let w = spacing // column width
+
+  // Diagram dimensions
+  let cols = max(parts)
+  let rows = parts.len()
+
+  // Outer rectangle
+  let gap = spacing // margin
+  let left = -gap
+  let top = -gap
+  let right = (cols - 1) * w + gap
+  let bottom = (rows - 1) * h + gap
+  rect(
+    (left, top),
+    (right, bottom),
+    stroke: 1pt + luma(80%),
+    radius: 3pt,
+  )
+
+  // Element
+  let c(x, y) = if young {
+    // Box
+    rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), stroke: 0.8pt, radius: 3pt, fill: green.lighten(80%))
+  } else {
+    // Dot
+    circle((x, y), radius: 0.1, stroke: 0.8pt, fill: green.lighten(80%))
+  }
+
+  // Partition
+  for i in range(0, rows) {
+    let p = parts.at(i)
+    let y = i * h
+    for j in range(0, p) {
+      let x = j * w
+      c(x, y)
+    }
+  }
+})
+
+#table(
+  columns: 2,
+  stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+  table.header[Ferrer Diagram][Young Tableaux],
+  partition_diagram(parts, young: false), partition_diagram(parts, young: true),
+)
 
 = Inclusion–Exclusion
 
