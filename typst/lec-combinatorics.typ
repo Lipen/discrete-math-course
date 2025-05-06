@@ -847,6 +847,19 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   }
 })
 
+#place(right)[
+  #grid(
+    columns: 2,
+    align: center,
+    column-gutter: 1em,
+    row-gutter: 0.5em,
+    link("https://en.wikipedia.org/wiki/Norman_Macleod_Ferrers", image("assets/Norman_Ferrer.jpg", height: 3cm)),
+    link("https://en.wikipedia.org/wiki/Alfred_Young_(mathematician)", image("assets/Alfred_Young.jpg", height: 3cm)),
+
+    [Norman Ferrer], [Alfred Young],
+  )
+]
+
 #table(
   columns: 2,
   stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
