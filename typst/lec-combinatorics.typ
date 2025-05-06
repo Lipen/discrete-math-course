@@ -830,7 +830,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   // Element
   let c(x, y) = if young {
     // Box
-    rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), stroke: 0.8pt, radius: 3pt, fill: green.lighten(80%))
+    rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), stroke: 0.8pt, radius: 1pt, fill: green.lighten(80%))
   } else {
     // Dot
     circle((x, y), radius: 0.1, stroke: 0.8pt, fill: green.lighten(80%))
