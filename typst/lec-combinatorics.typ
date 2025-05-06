@@ -871,7 +871,7 @@ TODO: small example of PIE with 2 or 3 sets
   The number of elements of $X$ that satisfy _none_ of the properties $P_1, dots, P_m$ is given by
   #equ(
     $
-      abs(X setminus (X_1 union dots union X_m)) sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S))
+      abs(X setminus (X_1 union dots union X_m)) = sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S))
     $,
     id: <eq:pie>,
   )
