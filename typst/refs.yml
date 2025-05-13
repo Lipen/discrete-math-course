@@ -1,0 +1,16 @@
+polya1954:
+  type: book
+  title:
+    value: "Mathematics and Plausible Reasoning, {Volume} 1: {Induction} and Analogy in Mathematics"
+    short: Mathematics and Plausible Reasoning
+  author: Pólya, George
+  date: 1954
+  page-total: 296
+
+wilf2006:
+  type: book
+  title: "{generatingfunctionology}"
+  author: Wilf, Herbert S.
+  date: 2006
+  edition: 3
+  page-total: 256
