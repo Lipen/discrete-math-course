@@ -982,7 +982,7 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
 #corollary[
   Consider the case $n = k$.
   A function from $[n]$ to $[n]$ is a _surjection_ iff it is a _bijection_.
-  Since there are $n!$ binjections on $[n]$ (namely, all permutations), we have the following identity:
+  Since there are $n!$ bijections on $[n]$ (namely, all permutations), we have the following identity:
   $
     n! = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^i
   $
