@@ -121,7 +121,7 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 
 #definition[
   We say a finite set $S$ is _partitioned_ into _parts_ $S_1, dots, S_m$ if the parts are pairwise disjoint and their union is $S$.
-  In other words, $S_i intersect S_j = emptyset$ for $i != j$ and $S_1 union S_2 union dots union S_k = S$.
+  In other words, $S_i intersect S_j = emptyset$ for $i != j$ and $S_1 union S_2 union dots union S_m = S$.
   In that case:
   $
     abs(S) = abs(S_1) + abs(S_2) + dots + abs(S_m)
