@@ -335,7 +335,7 @@ TODO: circular permutations
 #theorem[
   For any natural numbers $0 <= k <= n$, we have
   $
-    abs(P_c (n, k)) = n! / (k! dot (n - k)!)
+    abs(P_c (n, k)) = n! / (k dot (n - k)!)
   $
 ]
 
@@ -345,7 +345,7 @@ TODO: circular permutations
 
   + $abs(P(n, k)) = abs(P_c (n, k)) dot k$ because every equivalence class in $P_c (n, k)$ contains $k$ permutations from $P(n, k)$ since there are $k$ ways to rotate a $k$-permutation.
 
-  From this we get $n! / (n - k)! = abs(P_c (n, k)) dot k$ which implies $abs(P_c (n, k)) = n! / (k! dot (n - k)!)$.
+  From this we get $n! / (n - k)! = abs(P_c (n, k)) dot k$ which implies $abs(P_c (n, k)) = n! / (k dot (n - k)!)$.
 ]
 
 == Unordered Arrangements
