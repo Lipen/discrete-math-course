@@ -1111,7 +1111,7 @@ $
   & 1 / (1 + x) = sum_(n = 0)^(infinity) (-1)^n x^n = 0+ 1 - x + x^2 - x^3 + dots & "generates" & (1, -1, 1, dots) & "(sign-alternating "1"'s)" \
   & 1 / (1 - 3x) = sum_(n = 0)^(infinity) 3^n x^n = 1 + 3x + 9x^2 + 27x^3 + dots & "generates" & (1, 3, 9, dots) & "(powers of "3")" \
   & 1 / (1 - x^2) = sum_(n = 0)^(infinity) x^n = 1 + x^2 + x^4 + x^6 + dots & "generates" & (1, 0, 1, 0, dots) & "(regular gaps)" \
-  & 1 / (1 - x)^2 = sum_(n = 0)^(infinity) (n+1) x^n = 0 + x + 2x^2 + 3x^3 + dots & "generates" & (0, 1, 2, 3, dots) & "(natural numbers)" \
+  & 1 / (1 - x)^2 = sum_(n = 0)^(infinity) (n+1) x^n = 1 + 2x + 3x^2 + 4x^3 + dots & "generates" & (1, 2, 3, 4, dots) & "(natural numbers)" \
 $
 
 #pagebreak()
