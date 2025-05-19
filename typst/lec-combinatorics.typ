@@ -120,11 +120,11 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Addition Principle
 
 #definition[
-  We say a finite set $S$ is _partitioned_ into _parts_ $S_1, dots, S_m$ if the parts are pairwise disjoint and their union is $S$.
+  We say a finite set $S$ is _partitioned_ into _parts_ $S_1, dots, S_k$ if the parts are pairwise disjoint and their union is $S$.
   In other words, $S_i intersect S_j = emptyset$ for $i != j$ and $S_1 union S_2 union dots union S_k = S$.
   In that case:
   $
-    abs(S) = abs(S_1) + abs(S_2) + dots + abs(S_m)
+    abs(S) = abs(S_1) + abs(S_2) + dots + abs(S_k)
   $
 ]
 
@@ -335,7 +335,7 @@ TODO: circular permutations
 #theorem[
   For any natural numbers $0 <= k <= n$, we have
   $
-    abs(P_c (n, k)) = n! / (k! dot (n - k)!)
+    abs(P_c (n, k)) = n! / (k dot (n - k)!)
   $
 ]
 
@@ -345,7 +345,7 @@ TODO: circular permutations
 
   + $abs(P(n, k)) = abs(P_c (n, k)) dot k$ because every equivalence class in $P_c (n, k)$ contains $k$ permutations from $P(n, k)$ since there are $k$ ways to rotate a $k$-permutation.
 
-  From this we get $n! / (n - k)! = abs(P_c (n, k)) dot k$ which implies $abs(P_c (n, k)) = n! / (k! dot (n - k)!)$.
+  From this we get $n! / (n - k)! = abs(P_c (n, k)) dot k$ which implies $abs(P_c (n, k)) = n! / (k dot (n - k)!)$.
 ]
 
 == Unordered Arrangements
@@ -1111,7 +1111,7 @@ $
   & 1 / (1 + x) = sum_(n = 0)^(infinity) (-1)^n x^n = 0+ 1 - x + x^2 - x^3 + dots & "generates" & (1, -1, 1, dots) & "(sign-alternating "1"'s)" \
   & 1 / (1 - 3x) = sum_(n = 0)^(infinity) 3^n x^n = 1 + 3x + 9x^2 + 27x^3 + dots & "generates" & (1, 3, 9, dots) & "(powers of "3")" \
   & 1 / (1 - x^2) = sum_(n = 0)^(infinity) x^n = 1 + x^2 + x^4 + x^6 + dots & "generates" & (1, 0, 1, 0, dots) & "(regular gaps)" \
-  & 1 / (1 - x)^2 = sum_(n = 0)^(infinity) (n+1) x^n = 0 + x + 2x^2 + 3x^3 + dots & "generates" & (1, 0, 1, 0, dots) & "(natural numbers)" \
+  & 1 / (1 - x)^2 = sum_(n = 0)^(infinity) (n+1) x^n = 1 + 2x + 3x^2 + 4x^3 + dots & "generates" & (1, 2, 3, 4, dots) & "(natural numbers)" \
 $
 
 #pagebreak()
