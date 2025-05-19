@@ -1076,7 +1076,7 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
 ]
 
 #example[
-  $G(x) = 3 + 8x^2 + x^3 + 1 / 7 x^5 + 100 x^6 + ...$ _generates_ the sequence $(3, 8, 1, 1 / 7, 100, dots)$
+  $G(x) = 3 + 8x^2 + x^3 + 1 / 7 x^5 + 100 x^6 + ...$ _generates_ the sequence $(3, 0, 8, 1, 0, 1 / 7, 100, 0, dots)$
 ]
 
 #example[
