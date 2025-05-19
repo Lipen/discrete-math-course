@@ -1207,5 +1207,219 @@ $
     $
 ]
 
+= Recurrence Relations
+
+== Recurrence Relations
+
+#example[
+  - _Recurrent relation_ defining a sequence $(a_n)$:
+    $
+      a_n = cases(
+        a_0 = "const" & "if" n = 0,
+        a_(n-1) + d & "if" n > 0,
+      )
+    $
+
+  - _Solving_ it results in a non-recursive _closed_ formula:
+    $
+      a_n = a_0 + n dot d
+    $
+
+  - _Checking_ it confirms that the formula is correct:
+    $
+      a_n &= underbracket(a_(n-1)) + d = underbracket(a_0 + (n-1)d, a_(n-1)) + d = a_0 + n dot d quad qed
+    $
+]
+
+== Linear Homogeneous Recurrence Relations
+
+#definition[
+  A _linear homogeneous_ recurrence relation _of degree $k$_ with constant coefficients is a recurrence relation of the form
+  $
+    a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k),
+  $
+  where $c_1, c_2, dots, c_k$ are constants (real or complex numbers), and $c_k != 0$.
+]
+
+#examples[
+  - $b_n = 2.71 b_(n-1)$ is a linear homogeneous recurrence relation of degree 1.
+  - $F_n = F_(n-1) + F_(n-2)$ is a linear homogeneous recurrence relation of degree 2.
+  - $g_n = 2 g_(n-5)$ is a linear homogeneous recurrence relation of degree 5.
+  - The recurrence relation $a_n = a_(n-1) + a_(n-2)^2$ is _not linear_.
+  - The recurrence relation $H_n = 2 H_(n-1) + 1$ is _not homogeneous_.
+  - The recurrence relation $B_n = n B_(n-1)$ does _not_ have _constant_ coefficients.
+]
+
+== Characteristic Equations
+
+Hereinafter, $(*)$ denotes a linear homogeneous recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$.
+
+#theorem[
+  $a_n = r^n$ is a solution to $(*)$ if and only if $r^n = c_1 r^(n-1) + c_2 r^(n-2) + dots + c_k r^(n-k)$.
+]
+
+// Divide both sides by $r^(n-k)$ and reorganize the terms:
+
+#definition[
+  A _characteristic equation_ for $(*)$ is the algebraic equation in $r$ defined as:
+  $
+    r^k - c_1 r^(k-1) - c_2 r^(k-2) - dots - c_k = 0
+  $
+]
+
+The sequence $(a_n)$ with $a_n = r^n$ (with $r_n != 0$) is a solution if and only if $r$ is a solution of the characteristic equation.
+Such solutions are called _characteristic roots_ of $(*)$.
+
+== Distinct Roots Case
+
+#theorem[
+  Let $c_1$ and $c_2$ be real numbers.
+  Suppose that $r^2 - c_1 r - c_2 = 0$ has two _distinct_ roots $r_1$~and~$r_2$.
+  Then the sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
+]
+
+#proof[(sketch)][
+  Since $r_1$ and $r_2$ are roots, then $r_1^2 = c_1 r_1 + c_2$ and $r_2^2 = c_1 r_2 + c_2$.
+  Next, we can see:
+  $
+    c_1 a_(n-1) + c_2 a_(n-2)
+    &= c_1 (alpha_1 r_1^(n-1) + alpha_2 r_2^(n-1)) + c_2 (alpha_1 r_1^(n-2) + alpha_2 r_2^(n-2)) \
+    &= alpha_1 r_1^(n-2) (c_1 r_1 + c_2) + alpha_2 r_2^(n-2) (c_1 r_2 + c_2) \
+    &= alpha_1 r_1^(n-2) r_1^2 + alpha_2 r_2^(n-2) r_2^2 \
+    &= alpha_1 r_1^n + alpha_2 r_2^n \
+    &= a_n
+  $
+
+  To show that every solution $(a_n)$ of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ has $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for some constants $alpha_1$ and $alpha_2$, suppose that the initial condition are $a_0 = C_0$ and $a_1 = C_1$, and show that there exist constants $alpha_1$ and $alpha_2$ such that $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ satisfies the same initial conditions.
+]
+
+== Solving Recurrence Relations using Characteristic Equations
+
+#example[
+  Solve $a_n = a_(n-1) + 2 a_(n-2)$ with $a_0 = 2$ and $a_1 = 7$.
+
+  - The characteristic equation is $r^2 - r - 2 = 0$.
+  - It has two distinct roots $r_1 = 2$ and $r_2 = -1$.
+  - The sequence $(a_n)$ is a solution iff $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$ and some constants $alpha_1$ and $alpha_2$.
+    $
+      cases(
+        a_0 = 2 = alpha_1 + alpha_2,
+        a_1 = 7 = alpha_1 dot 2 + alpha_2 dot (-1),
+      )
+    $
+  - Solving these two equations gives $alpha_1 = 3$ and $alpha_2 = -1$.
+  - Hence, the _solution_ to the recurrence equation with given initial conditions is the sequence $(a_n)$ with
+    $
+      a_n = 3 dot 2^n - (-1)^n
+    $
+]
+
+== Fibonacci Numbers
+
+#example[
+  Find the closed formula for Fibonacci numbers.
+
+  - The recurrence relation is $F_n = F_(n-1) + F_(n-2)$.
+  - The characteristic equation is $r^2 - r - 1 = 0$.
+  - The roots are $r_1 = \(1 + sqrt(5)) slash 2$ and $r_2 = \(1 - sqrt(5)) slash 2$.
+  - Therefore, the solution is
+    $F_n = alpha_1 \( (1 + sqrt(5)) / 2 \)^n + alpha_2 \( (1 - sqrt(5)) / 2 \)^n$
+    for some constants $alpha_1$ and $alpha_2$.
+  - Using the initial conditions $F_0 = 0$ and $F_1 = 1$, we get
+    $
+      cases(
+        F_0 = alpha_1 + alpha_2 = 1,
+        F_1 = alpha_1 dot \( (1 + sqrt(5)) / 2 \) + alpha_2 dot \( (1 - sqrt(5)) / 2 \) = 1,
+      )
+    $
+  - Solving these two equations gives $alpha_1 = 1 slash sqrt(5)$ and $alpha_2 = -1 slash sqrt(5)$.
+  - Hence, the _closed formula_ (also known as Binet's formula) for Fibonacci numbers is
+    $
+      F_n = 1 / sqrt(5) underbracket(((1+sqrt(5)) / 2), phi)^n - 1 / sqrt(5) underbracket(((1-sqrt(5)) / 2), psi)^n = (phi^n - psi^n) / sqrt(5)
+    $
+]
+
+== Single Root Case
+
+#theorem[
+  Let $c_1$ and $c_2$ be real numbers.
+  Suppose that $r^2 - c_1 r - c_2 = 0$ has a _single_ root $r_0$.
+  A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = alpha_1 r_0^n + alpha_2 n r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
+]
+
+#example[
+  Solve $a_n = 6 a_(n-1) - 9 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
+
+  The characteristic equation is $r^2 - 6 r + 9 = 0$ with a single (repeated) root $r_0 = 3$.
+  Hence, the solutions is of the form $a_n = alpha_1 3^n + alpha_2 n 3^n$.
+  $
+    cases(
+      a_0 = 1 = alpha_1,
+      a_1 = 6 = alpha_1 dot 3 + alpha_2 dot 3,
+    )
+    quad arrow.long.double quad
+    cases(
+      alpha_1 = 1,
+      alpha_2 = 1,
+    )
+  $
+  Thus, the _solution_ is $a_n = 3^n + n 3^n$.
+]
+
+== Generic Case
+
+TODO
+
+== Linear Non-Homogeneous Recurrence Relations
+
+$
+  a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n)
+$
+
+#example[
+  $a_n = 3 a_(n-1) + 2n$ is non-homogeneous.
+]
+
+#definition[
+  An _associated homogeneous recurrence relation_ is the relation without the term $F(n)$.
+]
+
+== Solving Non-Homogeneous Recurrence Relations
+
+#theorem[
+  If $\(a_n^((p)))$ is a _particular_ solution of the non-homogeneous linear recurrence relation #box[$a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n)$], then _every solution_ is of the form $\(a_n^((p)) + a_n^((h)))$, where $\(a_n^((h)))$ is a solution of the associated homogeneous recurrence relation.
+] <thm:non-homo>
+
+#example[
+  Find all solutions of the recurrence relation $a_n = 3 a_(n-1) + 2n$.
+  What is the solution with $a_1 = 3$?
+
+  - First, solve the associated homogeneous recurrence relation $a_n = 3 a_(n-1)$.
+  - It has a general solution $a_n^((h)) = alpha 3^n$, where $alpha$ is a constant.
+  - To find a particular solution, observe that $F(n) = 2n$ is a polynomial in $n$ of degree 1, so a reasonable trial solution is a linear function in $n$, for example, $p_n = c n + d$, where $c$ and $d$ are constants.
+  - Thus, the equation $a_n = 3 a_(n-1) + 2n$ becomes $c n + d = 3 (c (n-1) + d) + 2n$.
+  - Simplify and reorder: $(2 + 2c) n + (2d - 3c) = 0$.
+    $
+      cases(
+        2 + 2c = 0,
+        2d - 3c = 0,
+      )
+      quad arrow.long.double quad
+      cases(
+        c = -1,
+        d = -3 slash 2,
+      )
+    $
+  - Thus, $a_n^((p)) = -n - 3 slash 2$ is a _particular_ solution.
+  - By @thm:non-homo, all solutions are of the form
+    $
+      a_n = a_n^((p)) + a_n^((h)) = -n - 3 slash 2 + alpha 3^n,
+    $
+    where $alpha$ is a constant.
+  - To find the solution with $a_1 = 3$, let $n = 1$ in the formula: $3 = -1 - 3 slash 2 + 3 alpha$, thus $alpha = 11 slash 6$.
+  - The _solution_ is $a_n = - n - 3 slash 2 + (11 slash 6) 3^n$.
+]
+
+
 == Bibliography
 #bibliography("refs.yml")
