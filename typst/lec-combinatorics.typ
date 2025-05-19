@@ -1186,7 +1186,7 @@ $
   Multiply polynomials and find $[x^20] G(x)$:
   $
     & [x^20] (1+x^2+x^4+dots+x^20) (x^12+x^13+dots+x^20) (1+x+x^2+x^3+x^4+x^5) = \
-    & = [x^20] (x^45 + 2x^44 + dots + 21x^20 + dots + 2x^13 + x^12) \
+    & = [x^20] (x^45 + 2x^44 + dots + underbracket(21x^20) + dots + 2x^13 + x^12) \
     & = 21
   $
 ]
