@@ -18,6 +18,10 @@
 #let power(x) = $cal(P)(#x)$
 #let stirling(n, k) = $vec(delim: "{", #n, #k)$
 #let s2(n, k) = $s^("II")_(#k) (#n)$
+
+#let operator(x) = math.op[*#x*]
+#let shift = operator("E")
+
 #let equ(eq, id: none) = {
   let numbering = if type(id) != none { "(1)" } else { none }
   let body = if type(id) == none { eq } else if type(id) == label [#eq #id] else [#eq #label(id)]
@@ -40,6 +44,18 @@
     it
   }
 }
+
+#let Green(x) = {
+  show emph: set text(green.darken(20%))
+  text(x, green.darken(20%))
+}
+#let Red(x) = {
+  show emph: set text(red.darken(20%))
+  text(x, red.darken(20%))
+}
+
+#let YES = Green[#sym.checkmark]
+#let NO = Red[#sym.crossmark]
 
 = Combinatorics
 
@@ -1418,6 +1434,140 @@ $
     where $alpha$ is a constant.
   - To find the solution with $a_1 = 3$, let $n = 1$ in the formula: $3 = -1 - 3 slash 2 + 3 alpha$, thus $alpha = 11 slash 6$.
   - The _solution_ is $a_n = - n - 3 slash 2 + (11 slash 6) 3^n$.
+]
+
+= Annihilators
+
+== Operators
+
+#definition[
+  _Operators_ are higher-order functions that transform functions into other functions.
+
+  For example, differential and integral operators $d / (d x)$ and $integral d x$ are core operators in calculus.
+
+  In combinatorics, we are interested in the following three operators:
+  - _Sum_: $(f + g)(n) := f(n) + g(n)$
+  - _Scale_: $(alpha dot f)(n) := alpha dot f(n)$
+  - _Shift_: $(shift f)(n) := f(n + 1)$
+]
+
+#examples[
+  - Scale and Shift operators are _linear_: $shift (f - 3 (g - h)) = shift f + (-3) shift g + 3 shift h$
+  - Operators are _composable_: $(shift - 2) f := shift f + (-2) f$
+  - $shift^2 f = shift (shift f)$
+  - $shift^k f (n) = f(n + k)$
+  - $(shift - 2)^2 = (shift - 2) (shift - 2)$
+  - $(shift - 1)(shift -2) = shift^2 - 3 shift + 2$
+]
+
+== Applying Operators
+
+#examples[
+  Below are the results of applying different operators to $f(n) = 2^n$:
+  $
+    2 f(n) &= 2 dot 2^n = 2^(n+1) \
+    3 f(n) &= 3 dot 2^n \
+    shift f(n) &= 2^(n+1) \
+    shift^2 f(n) &= 2^(n+2) \
+    (shift - 2) f(n) &= shift f(n) - 2f(n) = 2^(n+1) - 2^(n+1) = 0 \
+    (shift^2 - 1) f(n) &= shift^2 f(n) - f(n) = 2^(n+2) - 2^n = 3 dot 2^n
+  $
+]
+
+== Compound Operators
+
+#fancy-box[
+  The compound operators can be seen as polynomials in "variable" $shift$.
+]
+
+#example[
+  The compound operators $shift^2 - 3 shift + 2$ and $(shift - 1)(shift -2)$ are equivalent:
+  $
+    "Let" g(n) :=& (shift - 2) f(n) = f(n+1) - 2f(n) \
+    "Then" (shift - 1) (shift - 2) f(n) =& (shift - 1) g(n) \
+    =& g(n+1) - g(n) \
+    =& [f(n+2) - 2f(n-1)] - [f(n+1) - 2f(n)] \
+    =& f(n+2) - 3f(n+1) + 2f(n) \
+    =& (shift^2 - 3 shift + 2) f(n) quad YES
+  $
+]
+
+== Operators Summary
+
+#table(
+  columns: 2,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header[Operator][Definition],
+  [addition], $(f+g)(n) := f(n) + g(n)$,
+  [subtraction], $(f-g)(n) := f(n) - g(n)$,
+  [multiplication], $(alpha dot f)(n) := alpha dot f(n)$,
+  [shift], $shift f(n) := f(n+1)$,
+  [k-fold shift], $shift^k f(n) := f(n+k)$,
+  table.cell(rowspan: 3)[composition],
+  $(operator(X) + operator(Y)) f := operator(X) f + operator(Y) f$,
+  $(operator(X) - operator(Y)) f := operator(X) f - operator(Y) f$,
+  $operator(X) operator(Y) f := operator(X) (operator(Y) f) = operator(Y) (operator(X) f)$,
+  [distribution], $operator(X) (f + g) = operator(X) f + operator(X) g$,
+)
+
+== Annihilators
+
+#definition[
+  An _annihilator_ of a function $f$ is any non-trivial operator that transforms $f$ into zero.
+]
+
+TODO: examples!
+
+== Annihilators Summary
+
+#table(
+  columns: 2,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header[Operator][Functions annihilated],
+  $shift - 1$, $alpha$,
+  $shift - a$, $alpha a^n$,
+  $(shift - a)(shift - b)$, $alpha a^n + beta b^n quad ["if" a != b]$,
+  $(shift - a_0)(shift - a_1) dots (shift - a_k)$, $sum_(i=0)^k alpha_i a_i^n quad ["if" a_i "are distinct"]$,
+  $(shift - 1)^2$, $alpha n + beta$,
+  $(shift - a)^2$, $(alpha n + beta) a^n$,
+  $(shift - a)^2 (shift - b)$, $(alpha n + beta) a^n + gamma b^n quad ["if" a != b]$,
+  $(shift - a)^d$, $(sum_(i=0)^(d-1) alpha_i n^i) a^n$,
+)
+
+== Properties of Annihilators
+
+#theorem[
+  If $operator(X)$ annihilates $f$, then $operator(X)$ also annihilates $alpha f$ for any constant $alpha$.
+]
+#theorem[
+  If $operator(X)$ annihilates both $f$ and $g$, then $operator(X)$ also annihilates $f plus.minus g$.
+]
+#theorem[
+  If $operator(X)$ annihilates $f$, then $operator(X)$ also annihilates $shift f$.
+]
+#theorem[
+  If $operator(X)$ annihilates $f$ and $operator(Y)$ annihilates $g$, then $operator(X) operator(Y)$ annihilates $f plus.minus g$.
+]
+
+== Annihilating Recurrences
+
++ Write the recurrence in the _operator form_.
++ Find the _annihilator_ for the recurrence.
++ _Factor_ the annihilator, if necessary.
++ Find the _generic solution_ from the annihilator.
++ Solve for coefficients using the _initial conditions_.
+
+#example[
+  $r(n) = 5r(n-1)$ with $r(0) = 3$.
+
+  + $r(n+1) - 5r(n) = 0$ \
+    $(shift - 5) r(n) = 0$
+  + $(shift - 5)$ annihilates $r(n)$.
+  + $(shift - 5)$ is already factored.
+  + $r(n) = alpha 5^n$
+  + $r(0) = alpha 3 quad arrow.r.long quad alpha = 3$
+
+  Thus, $r(n) = 3 dot 5^n$.
 ]
 
 
