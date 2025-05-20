@@ -1221,6 +1221,13 @@ $
     $
       G(x) = (x^2 dot frac(1, 1-x)) dot (x^3 dot frac(1-x^4, 1-x)) dot (frac(1-x^10, 1-x))
     $
+
+  - Perform the series expansion:
+    $
+      G(x) = x^5 + 3x^6 + 6x^7 + 10x^8 + 14x^9 + 18x^10 + 22x^11 + underbracket(26x^12) + 30x^13 + \ 34x^14 + 37x^15 + 39x^16 + 40x^17 + dots + 40x^n + dots
+    $
+
+  - Sequence: $(g_n) = (0, 0, 0, 0, 0, 1, 3, 6, 10, 14, 18, 22, 26, 30, 34, 37, 39, overline(40), dots)$
 ]
 
 = Recurrence Relations
