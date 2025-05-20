@@ -1210,7 +1210,7 @@ $
 == Using Power Series in Combinatorial Problems
 
 #example[
-  Find the number of integer solutions to $x_1 + x_2 + x_3 = 12$ with $x_1 >= 2$, $3 <= x_2 <= 6$, $x_3 <= 9$.
+  Find the number of integer solutions to $a_1 + a_2 + a_3 = 12$ with $a_1 >= 2$, $3 <= a_2 <= 6$, $a_3 <= 9$.
 
   - Compose the generating function:
     $
