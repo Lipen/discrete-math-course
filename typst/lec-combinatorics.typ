@@ -1575,7 +1575,7 @@ TODO: examples!
   + $(shift - 5)$ annihilates $r(n)$.
   + $(shift - 5)$ is already factored.
   + $r(n) = alpha 5^n$ is a generic solution.
-  + $r(0) = alpha 3 quad arrow.r.double.long quad alpha = 3$
+  + $r(0) = alpha = 3 quad arrow.r.double.long quad alpha = 3$
 
   Thus, $r(n) = 3 dot 5^n$.
 ]
