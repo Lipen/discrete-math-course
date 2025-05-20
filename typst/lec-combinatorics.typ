@@ -1353,7 +1353,7 @@ Such solutions are called _characteristic roots_ of $(*)$.
   - Using the initial conditions $F_0 = 0$ and $F_1 = 1$, we get
     $
       cases(
-        F_0 = alpha_1 + alpha_2 = 1,
+        F_0 = alpha_1 + alpha_2 = 0,
         F_1 = alpha_1 dot \( (1 + sqrt(5)) / 2 \) + alpha_2 dot \( (1 - sqrt(5)) / 2 \) = 1,
       )
     $
