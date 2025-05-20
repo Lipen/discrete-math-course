@@ -1562,12 +1562,62 @@ TODO: examples!
 
   + $r(n+1) - 5r(n) = 0$ \
     $(shift - 5) r(n) = 0$
+
   + $(shift - 5)$ annihilates $r(n)$.
   + $(shift - 5)$ is already factored.
-  + $r(n) = alpha 5^n$
-  + $r(0) = alpha 3 quad arrow.r.long quad alpha = 3$
+  + $r(n) = alpha 5^n$ is a generic solution.
+  + $r(0) = alpha 3 quad arrow.r.double.long quad alpha = 3$
 
   Thus, $r(n) = 3 dot 5^n$.
+]
+
+#pagebreak()
+
+#example[
+  $T(n) = 2 T(n-1) + 1$ with $T(0) = 0$
+
+  + $T(n+1) - 2T(n) = 1$ \
+    $(shift - 2) T(n) = 1$
+
+  + $(shift - 2)$ does _not_ annihilate $T(n)$: the residue is $1$. \
+    $(shift - 1)$ annihilates the residue $1$. \
+    Thus, $(shift - 1)(shift - 2)$ annihilates $T(n)$.
+  + $(shift - 1)(shift - 2)$ is already factored.
+  + $T(n) = alpha 2^n + beta$ is a generic solution.
+  + $
+      cases(
+        reverse: #true,
+        T(0) = 0 = alpha dot 2^0 + beta,
+        T(1) = 1 = alpha dot 2^1 + beta,
+      )
+      quad arrow.long.double quad
+      cases(
+        alpha = 1,
+        beta = -1,
+      )
+    $
+
+  Thus, $T(n) = 2^n - 1$.
+]
+
+#pagebreak()
+
+#example[
+  $T(n) = T(n-1) + 2T(n-2) + 2^n - n^2$
+
+  + Operator form: \
+    $(shift^2 - shift - 2) T(n) = shift^2 (2^n - n^2)$
+
+  + Annihilator: \
+    $(shift^2 - shift - 2) (shift - 2) (shift - 1)^3$
+
+  + Factorization: \
+    $(shift + 1) (shift - 2)^2 (shift - 1)^3$
+
+  + Generic solution: \
+    $T(n) = alpha (-1)^n + (beta n + gamma) 2^n + delta n^2 + epsilon n + n$
+
+  Thus, $T(n) in Theta(n 2^n)$
 ]
 
 
