@@ -157,9 +157,9 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Multiplication Principle
 
 #definition[
-  If $S$ is a finite set that is the _product_ of $S_1, dots, S_m$, that is, $S = S_1 times dots times S_m$, then
+  If $S$ is a finite set that is the _product_ of $S_1, dots, S_k$, that is, $S = S_1 times dots times S_k$, then
   $
-    abs(S) = abs(S_1) times dots times abs(S_m)
+    abs(S) = abs(S_1) times dots times abs(S_k)
   $
 ]
 
@@ -207,12 +207,12 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Pigeonhole Principle
 
 #definition[
-  Let $S_1, dots, S_m$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_m) = n$].
+  Let $S_1, dots, S_k$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_k) = n$].
   // Then
   $
-    exists i in {1,dots,m}: abs(S_i) >= floor(n / m)
+    exists i in {1,dots,k}: abs(S_i) >= floor(n / k)
     quad "and" quad
-    exists j in {1,dots,m}: abs(S_j) <= ceil(n / m)
+    exists j in {1,dots,k}: abs(S_j) <= ceil(n / k)
   $
 ]
 
