@@ -157,9 +157,9 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Multiplication Principle
 
 #definition[
-  If $S$ is a finite set that is the _product_ of $S_1, dots, S_m$, that is, $S = S_1 times dots times S_m$, then
+  If $S$ is a finite set that is the _product_ of $S_1, dots, S_k$, that is, $S = S_1 times dots times S_k$, then
   $
-    abs(S) = abs(S_1) times dots times abs(S_m)
+    abs(S) = abs(S_1) times dots times abs(S_k)
   $
 ]
 
@@ -207,12 +207,12 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Pigeonhole Principle
 
 #definition[
-  Let $S_1, dots, S_m$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_m) = n$].
+  Let $S_1, dots, S_k$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_k) = n$].
   // Then
   $
-    exists i in {1,dots,m}: abs(S_i) >= floor(n / m)
+    exists i in {1,dots,k}: abs(S_i) >= floor(n / k)
     quad "and" quad
-    exists j in {1,dots,m}: abs(S_j) <= ceil(n / m)
+    exists j in {1,dots,k}: abs(S_j) <= ceil(n / k)
   $
 ]
 
@@ -1126,7 +1126,7 @@ $
   & x / (1 - x) = sum_(n = 1)^(infinity) x^n = x + x^2 + x^3 + dots & "generates" & (0, 1, 1, 1, dots) & "(right shift)" \
   & 1 / (1 + x) = sum_(n = 0)^(infinity) (-1)^n x^n = 0+ 1 - x + x^2 - x^3 + dots & "generates" & (1, -1, 1, dots) & "(sign-alternating "1"'s)" \
   & 1 / (1 - 3x) = sum_(n = 0)^(infinity) 3^n x^n = 1 + 3x + 9x^2 + 27x^3 + dots & "generates" & (1, 3, 9, dots) & "(powers of "3")" \
-  & 1 / (1 - x^2) = sum_(n = 0)^(infinity) x^n = 1 + x^2 + x^4 + x^6 + dots & "generates" & (1, 0, 1, 0, dots) & "(regular gaps)" \
+  & 1 / (1 - x^2) = sum_(n = 0)^(infinity) x^(2n) = 1 + x^2 + x^4 + x^6 + dots & "generates" & (1, 0, 1, 0, dots) & "(regular gaps)" \
   & 1 / (1 - x)^2 = sum_(n = 0)^(infinity) (n+1) x^n = 1 + 2x + 3x^2 + 4x^3 + dots & "generates" & (1, 2, 3, 4, dots) & "(natural numbers)" \
 $
 
@@ -1353,7 +1353,7 @@ Such solutions are called _characteristic roots_ of $(*)$.
   - Using the initial conditions $F_0 = 0$ and $F_1 = 1$, we get
     $
       cases(
-        F_0 = alpha_1 + alpha_2 = 1,
+        F_0 = alpha_1 + alpha_2 = 0,
         F_1 = alpha_1 dot \( (1 + sqrt(5)) / 2 \) + alpha_2 dot \( (1 - sqrt(5)) / 2 \) = 1,
       )
     $
@@ -1575,7 +1575,7 @@ TODO: examples!
   + $(shift - 5)$ annihilates $r(n)$.
   + $(shift - 5)$ is already factored.
   + $r(n) = alpha 5^n$ is a generic solution.
-  + $r(0) = alpha 3 quad arrow.r.double.long quad alpha = 3$
+  + $r(0) = alpha = 3 quad arrow.r.double.long quad alpha = 3$
 
   Thus, $r(n) = 3 dot 5^n$.
 ]
