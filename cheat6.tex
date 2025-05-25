@@ -163,13 +163,13 @@
     \end{tabular}
     \endgroup
 
-    \item \textbf{Deterministic Finite Automaton (DFA)}\Href{https://en.wikipedia.org/wiki/Deterministic_finite_automaton} is 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
+    \item \textbf{Deterministic Finite Automaton (DFA)}\Href{https://en.wikipedia.org/wiki/Deterministic_finite_automaton} is a 5-tuple $\mathcal{A} = (\Sigma, Q, q_0, F, \delta)$, where:
 
     \begin{terms}
         \item $\Sigma$ is an alphabet;
         \item $Q = \Set{q_1, \dots, q_n}$ is a finite set of states;
         \item $q_0 \in Q$ is an initial state;
-        \item $F \subseteq Q$ is set of final (terminal, accepting) states;
+        \item $F \subseteq Q$ is a set of final (terminal, accepting) states;
         \item $\delta \colon Q \times \Sigma \to Q$ is a transition function.
     \end{terms}
 
@@ -184,7 +184,7 @@
 
         \item $q_0 \in Q$ is an initial state;
 
-        \item $F \subseteq Q$ is set of final (terminal, accepting) states;
+        \item $F \subseteq Q$ is a set of final (terminal, accepting) states;
 
         \item $\delta: Q \times \Sigma \to 2^Q$ is a transition function.
 
@@ -205,7 +205,7 @@
         \item Set every DFA state as accepting if it contains an accepting state from the NFA
     \end{enumerate}
 
-    \item \textbf{Epsilon-NFA ($\varepsilon$-NFA)} is an NFA which allows $\varepsilon$-moves, that is, the automaton can change state without consuming input.
+    \item \textbf{Epsilon-NFA ($\varepsilon$-NFA)} is a NFA that allows $\varepsilon$-moves, that is, the automaton can change state without consuming input.
 
     % TODO: inline function definition into the definition above.
     \begin{terms}
@@ -226,7 +226,7 @@
 
     % TODO: rewrite
     % TODO: theorem environment
-    \item \textbf{Pumping lemma}\Href{https://en.wikipedia.org/wiki/Pumping_lemma_for_regular_languages} states that if $L$ if a regular language, then there exists an integer $n > 1$ depending only on $L$, such that $\forall w \in L$, $|w| > n$ can be written as $w = xyz$, such that:
+    \item \textbf{Pumping lemma}\Href{https://en.wikipedia.org/wiki/Pumping_lemma_for_regular_languages} states that if $L$ is a regular language, then there exists an integer $n > 1$ depending only on $L$, such that $\forall w \in L$, $|w| > n$ can be written as $w = xyz$, such that:
 
     \begin{enumerate}
         \item $|y| > 0$, i.e. $y \neq \varepsilon$
@@ -279,7 +279,7 @@
 
     \end{minipage}
 
-    \item \textbf{Moore\footnotemark{} machine}\Href{https://en.wikipedia.org/wiki/Moore_machine} is a finite-state machine whose output is determines only by the current state.
+    \item \textbf{Moore\footnotemark{} machine}\Href{https://en.wikipedia.org/wiki/Moore_machine} is a finite-state machine whose output is determined only by the current state.
     \footnotetext{\textsc{Moore, Edward F.} (1956).
     \href{https://doi.org/10.1515/9781400882618-006}{Gedanken-Experiments on Sequential Machines}.
     \textit{Automata Studies, Annals of Mathematical Studies} (34), 129--153.}
@@ -349,13 +349,13 @@
     \item \textbf{Formal grammar}\Href{https://en.wikipedia.org/wiki/Formal_grammar} is 4-tuple $\mathcal{G} = (V, T, S, \mathcal{P})$, where:
 
     \begin{terms}
-        \item $\mathcal{V}$ is vocabulary, set of variables or non-terminal symbols.
+        \item $\mathcal{V}$ is a vocabulary - set of variables or non-terminal symbols.
 
-        \item $T$ is set of terminal symbols disjoint from $\mathcal{V}$.
+        \item $T$ is a set of terminal symbols disjoint from $\mathcal{V}$.
 
-        \item $S$ is start symbol, also called sentence symbol.
+        \item $S$ is a starting symbol, also called sentence symbol.
 
-        \item $\mathcal{P}$ is set of production rules, each rule of the form:
+        \item $\mathcal{P}$ is a set of production rules, each rule of the form:
         $\mathcal{V}^*S\mathcal{V}^* \xrightarrow{} \mathcal{V}^*$.
     \end{terms}
 
