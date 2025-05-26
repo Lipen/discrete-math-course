@@ -1629,6 +1629,206 @@ TODO: examples!
   Thus, $T(n) in Theta(n 2^n)$
 ]
 
+= Asymptotic Analysis
+
+== Asymptotics 101
+
+#definition[_Big-O notation_][
+  The notation $f in O(g)$ means that the function $f(n)$ is _asymptotically bounded from above_ by the function $g(n)$, up to a constant factor.
+  $
+    f(n) in O(g(n))
+    quad iff quad
+    exists c > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n)) <= c dot g(n)
+  $
+]
+
+#definition[_Small-o notation_][
+  The notation $f in o(g)$ means that the function $f(n)$ is _asympotically dominated_ by $g(n)$, up to a constant factor.
+  $
+    f(n) in o(g(n))
+    quad iff quad
+    forall c > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n)) <= c dot g(n)
+  $
+]
+
+#note[
+  The difference is only in the $exists c$ and $forall c$ quantifier.
+]
+
+#note[
+  Flip $<=$ to $>=$ in the above definitions to obtain the dual notations: $f in Omega(g)$ and $f in omega(g)$.
+]
+
+#definition[_Theta notation_][
+  $f in Theta(g)$ iff $f in O(g)$ and $g in O(f)$.
+]
+
+== Limits
+
+#table(
+  columns: 4,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  align: horizon + left,
+  table.header[Notation][Name][Description][Limit definition],
+  $f in o(g)$, [Small Oh], [$f$ is dominated by $g$], $ lim_(n to infinity) f(n) / g(n) = 0 $,
+  $f in O(g)$, [Big Oh], [$f$ is bounded above by $g$], $ limsup_(n to infinity) abs(f(n)) / g(n) < infinity $,
+  $f tilde g$, [Equivalence], [$f$ is asympotically equal to $g$], $ lim_(n to infinity) f(n) / g(n) = 1 $,
+  $f in Omega(g)$, [Big Omega], [$f$ is bounded below by $g$], $ liminf_(n to infinity) f(n) / g(n) > 0 $,
+  $f in omega(g)$, [Small Omega], [$f$ dominates $g$], $ lim_(n to infinity) f(n) / g(n) = infinity $,
+)
+
+== Asymptotic Equivalence
+
+#definition[
+  The notation $f tilde g$ means that functions $f(n)$ and $g(n)$ are _asymptotically equivalent_.
+  $
+    f tilde g
+    quad iff quad
+    forall epsilon > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n) / g(n) - 1) <= epsilon
+    quad iff quad
+    lim_(n to infinity) f(n) / g(n) = 1
+  $
+]
+
+#note[
+  $f tilde g$ and $g tilde f$ are equivalent, since $tilde$ is an equivalence relation.
+]
+
+#note[
+  $f tilde g$ and $f in Theta(g)$ are _different_ notions!
+]
+
+== Some Properties of Asymptotics
+
+#box[
+  $
+    f in O(g) "and" f in Omega(g) &quad iff quad f in Theta(g) \
+    f in O(g) &quad iff quad g in Omega(f) \
+    f in o(g) &quad iff quad g in omega(f) \
+    f in o(g) &quad imply quad f in O(g) \
+    f in omega(g) &quad imply quad f in Omega(g) \
+    f tilde g &quad imply quad f in Theta(g) \
+  $
+]
+
+== Divide-and-Conquer Algorithms Analysis
+
+#image("assets/divide-and-conquer.png")
+
+== Divide-and-Conquer Recurrence
+
+$ T(n) = a dot T(n / b) + f(n) $
+
+- $T(n)$ is the _cost_ of the recursive algorithm
+- $a$ is the number of _parts_ (_sub-problems_)
+- $n "/" b$ is the _size_ of each part
+- $T(n / b)$ is the cost of each _sub-problem_
+- $f(n)$ is the cost of _splitting_ and _merging_ the solutions of the subproblems
+
+Hereinafter, $c_"crit" = log_b a$ is a _critical constant_.
+
+== Master Theorem
+
+$ T(n) = a dot T(n / b) + f(n) $
+
+#table(
+  columns: 4,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header[Case][Description][Condition][Bound],
+  [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$ \ where $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
+  [Case II],
+  ["merge" $approx$ "recursion"],
+  [$f(n) in Theta(n^(c_"crit") log^k n)$ \ where $k >= 0$],
+  [$T(n) in Theta(n^(c_"crit") log^(k+1) n)$],
+
+  [Case III],
+  ["merge" $>>$ "recursion"],
+  [$f(n) in Omega(n^(c_"crit"))$ \ where $c > c_"crit"$],
+  [$T(n) in Theta(f(n))$],
+)
+
+#note[
+  Case III also requires the _regularity condition_ to hold: $a f(n "/" b) <= k f(n)$ for some constant $k < 1$ and all sufficiently large $n$.
+]
+
+#note[
+  There is an _extended_ Case II, with three sub-cases (IIa, IIb, IIc) for other values of $k$.
+]
+
+== Examples of Master Theorem Application
+
+#examples[
+  Determine the case of Master Theorem and the bound of $T(n)$ for the following recurrences.
+
+  + $T(n) = 3 T(n "/" 9) + sqrt(n)$
+  // Case 2
+  // T(n) in Theta(n^(1/2) log n)
+
+  + $T(n) = 2 T(n "/" 4) + n^(0.51)$
+  // Case 3
+  // T(n) in Theta(n^(0.51))
+
+  + $T(n) = 5 T(n "/" 25) + n^(0.49)$
+  // Case 1
+  // T(n) in Theta(n^0.5)
+
+  + $T(n) = T(floor(n / 2)) + T(ceil(n / 2))$
+  // Case 2 (approximated)
+  // T(n) in Theta(n log n)
+
+  + $T(n) = 3 T(n "/" 9) + sqrt(n) / (log n)$
+  // Case 2b
+  // T(n) in Theta(n^(1/2) log log n)
+
+  + $T(n) = 6 T(n "/" 36) + sqrt(n) / (log^2 n)$
+  // Case 2c
+  // T(n) in Theta(n^(1/2))
+
+  + $T(n) = 4 T(n "/" 16) + sqrt(n / (log n))$
+  // Case 2a
+  // T(n) in Theta(n^(1/2) (log n)^(1/2))
+]
+
+== Akra--Bazzi Method
+
+$
+  T(n) = f(n) + sum_(i = 1)^k a_i T(b_i n + underbracket(h_i (n), *))
+$
+
+- $k$ is a constant
+- $a_i > 0$
+- $0 < b_i < 1$
+- $h_i (n) in O(n / (log^2 n))$ is a _small perturbation_
+
+Bound of $T(n)$ by Akra--Bazzi method:
+$
+  T(n) in Theta(n^p dot (1 + integral_1^n f(x) / x^(p+1) d x))
+$
+where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)$
+
+== Example of Akra--Bazzi Method Application
+
+#example[
+  Suppose the runtime of an algorithm is expressed by the following recurrence relation:
+  $
+    T(n) = cases(
+      1 "for" 0 <= n <= 3,
+      n^2 + 7 / 4 T(floor(1 / 2 n)) + T(ceil(3 / 4 n)) "for" n > 3,
+    )
+  $
+
+  - Note that the Master Theorem _is not_ applicable here, since there are _two_ different recursive terms.
+  - Let's apply the Akra--Bazzi method.
+    First, solve the equation $7 / 4 (1 / 2)^p + (3 / 4)^p = 1$.
+    This gives us $p = 2$.
+  - Next, use the formula from AB-method to obtain the bound:
+    $
+      T(x) &in Theta(x^p (1 + integral_1^x f(u) / x^(p+1) d u)) = \
+      &= Theta(x^2 (1 + integral_1^x u^2 / u^3 d u)) = \
+      &= Theta(x^2 (1 + ln x)) = \
+      &= Theta(x^2 log x)
+    $
+]
 
 == Bibliography
 #bibliography("refs.yml")
