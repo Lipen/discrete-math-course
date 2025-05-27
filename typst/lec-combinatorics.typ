@@ -1583,7 +1583,7 @@ TODO: examples!
 #pagebreak()
 
 #example[
-  $T(n) = 2 T(n-1) + 1$ with $T(0) = 0$
+  $T(n) = 2 T(n-1) + 1$ with $T(0) = 0, T(1) = 1$
 
   + $T(n+1) - 2T(n) = 1$ \
     $(shift - 2) T(n) = 1$
