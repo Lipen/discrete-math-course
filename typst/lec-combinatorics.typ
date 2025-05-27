@@ -1593,7 +1593,9 @@ TODO: examples!
     Thus, $(shift - 1)(shift - 2)$ annihilates $T(n)$.
   + $(shift - 1)(shift - 2)$ is already factored.
   + $T(n) = alpha 2^n + beta$ is a generic solution.
-  + $
+  + Find the coefficients $alpha,beta$ using $T(0) = 0$ and $T(1) = 2 T(0) + 1 = 1$:
+
+    $display(
       cases(
         reverse: #true,
         T(0) = 0 = alpha dot 2^0 + beta,
@@ -1604,7 +1606,7 @@ TODO: examples!
         alpha = 1,
         beta = -1,
       )
-    $
+    )$
 
   Thus, $T(n) = 2^n - 1$.
 ]
