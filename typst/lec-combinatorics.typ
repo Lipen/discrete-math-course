@@ -1626,6 +1626,9 @@ TODO: examples!
   + Generic solution: \
     $T(n) = alpha (-1)^n + (beta n + gamma) 2^n + delta n^2 + epsilon n + n$
 
+  + There are no initial conditions.
+    We can only provide an asymptotic bound.
+
   Thus, $T(n) in Theta(n 2^n)$
 ]
 
