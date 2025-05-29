@@ -1734,6 +1734,7 @@ Hereinafter, $c_"crit" = log_b a$ is a _critical constant_.
 
 == Master Theorem
 
+The master theorem @entley1980 applies to divide-and-conquer recurrences of the form
 $ T(n) = a dot T(n / b) + f(n) $
 
 #table(
@@ -1758,6 +1759,7 @@ $ T(n) = a dot T(n / b) + f(n) $
 
 #note[
   There is an _extended_ Case II, with three sub-cases (IIa, IIb, IIc) for other values of $k$.
+  See #link("https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)#Generic_form")[wiki].
 ]
 
 == Examples of Master Theorem Application
@@ -1796,6 +1798,7 @@ $ T(n) = a dot T(n / b) + f(n) $
 
 == Akra--Bazzi Method
 
+The Akra--Bazzi method @akra1998 is a _generalization_ of the master theorem to recurrences of the form
 $
   T(n) = f(n) + sum_(i = 1)^k a_i T(b_i n + underbracket(h_i (n), *))
 $
