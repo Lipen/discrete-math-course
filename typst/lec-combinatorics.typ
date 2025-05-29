@@ -594,7 +594,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 ]
 
 #proof[
-  Observe that $k = overbrace(underbrace(1 + 1, b_1) + underbrace(dots, b_i) + underbrace(1 + 1, b_s), k "ones")$.
+  Observe that $k = overbrace(underbrace(1 + 1, inline(b_1)) + underbrace(dots, inline(b_i)) + underbrace(1 + 1, inline(b_s)), k "ones")$.
 
   Use the _stars-and-bars_ method to count the number of $s$ groups composed of $k$ "ones".
 ]
