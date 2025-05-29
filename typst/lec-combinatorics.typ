@@ -1234,6 +1234,189 @@ $
   - Answer for $n = 12$ is $[x^12] G(x) = 26$.
 ]
 
+== Operations on Generating Functions
+
+Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x^n$ be ordinaty generating functions.
+
+#table(
+  columns: 2,
+  align: left + horizon,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header[Operation][Result],
+  [Differentiate $F(x)$ term-wise], box($ F'(x) = sum_(n = 0)^infinity (n + 1) a_(n + 1) x^n $),
+  [Multiply $F(x)$ by a scalar $lambda in RR$ term-wise], box($ lambda F(x) = sum_(n = 0)^infinity lambda a_n x^n $),
+  [Add $F(x)$ and $G(x)$ term-wise], box($ F(x) + G(x) = sum_(n = 0)^infinity (a_n + b_n) x^n $),
+  [Multiply $F(x)$ and $G(x)$ term-wise \ (_Cauchy product_, or _convolution_)],
+  box($ F(x) dot G(x) = sum_(n = 0)^infinity (sum_(k = 0)^n a_k b_(n - k)) x^n $),
+)
+
+== Well-Formed Paranthesis Expressions
+
+#example[
+  Find the number of _well-formed parenthesis expressions_ with $n$ pairs of parenthesis.
+
+  For example, "`(()())()`" is a well-formed parenthesis expression with 4 pairs of parenthesis.
+
+  Formally, a permutation of the multiset ${n dot "\"(\"", n dot "\")\""}$ is _well-formed_ if reading it from left to right and counting "$+1$" for every opening parenthesis "(" and "$-1$" for every closing parenthesis ")" never yields a negative number at any time.
+
+  Every well-formed expression with $n >= 1$ pairs of paranthesis starts with "(" and there is a unique matching ")" such that the sequence in between and the sequence after are well-formed.
+  For example:
+  $
+    lr((()), size: #150%) () ()
+    quad
+    lr((() (())), size: #150%)
+    quad
+    lr((), size: #150%) (()(()))
+  $
+  In other words, a well-formed expression with $n$ pairs of parenthesis is obtained by putting a well-formed expression with $k$ pairs in between "(" and ")" and then appending a well-formed expression with #box($n-k-1$) pairs of parenthesis.
+  This gives the equation:
+  #place(center)[
+    #v(1em)
+    $
+      a_n = sum_(k = 0)^(n - 1) a_k a_(n - k - 1)
+    $
+  ]
+]
+
+#pagebreak()
+
+$
+  a_n = sum_(k = 0)^(n - 1) a_k a_(n - k - 1)
+$
+
+Let $F(x)$ be a generating function for $a_n$, then we know:
+$
+  F(x) &= sum_(n = 0)^infinity a_n x^n
+  = 1 + sum_(n = 1)^infinity ( sum_(k = 0)^(n - 1) a_k a_(n - k - 1) ) x^n
+  = 1 + sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^(n+1) \
+  &= 1 + x dot sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^n
+  = 1 + x dot F(x)^2
+$
+
+== Newton's Binomial Theorem
+
+Let's revisit the binomial theorem:
+$
+  (1 + x)^n = sum_(k = 0)^n binom(n, k) x^k = sum_(k = 0)^infinity binom(n, k) x^k
+  quad forall n in NN
+$
+where $binom(n, k) = 0$ for $k > n$.
+
+#note[
+  This shows that $(1 + x)^n$ is the generating function for the series $(a_k)_(k in NN)$ with $a_k = binom(n, k)$.
+]
+
+#fancy-box[
+  We can extend this result from natural numbers $n in NN$ to any _real_ number $n in RR$.
+]
+
+== Binomial Coefficients for Real Numbers
+
+#definition[
+  Let $p(n, k) = n dot (n - 1) dot dots dot (n - k + 1)$, also called the _falling factorial_ $n^underline(k)$.
+
+  Extend the definition of binomial coefficients for real numbers $n,k in RR$:
+  $
+    binom(n, k) = p(n, k) / k!
+  $
+]
+
+#note[
+  This definition aligns with the definition of binomial coefficients for natural numbers:
+  $
+    binom(n, k) = n! / (k! dot (n - k)!) = (n dot (n-1) dot dots dot (n-k+1)) / k!
+  $
+]
+
+#example[
+  Consider the number "$-7 "/" 2$ choose $5$":
+  $
+    binom(-7 "/" 2, 5) = (-7 / 2 dot -9 / 2 dot -11 / 2 dot -13 / 2 dot -15 / 2) / 5! = - 9009 / 256
+  $
+]
+
+#note[
+  $p(n, 0) = 1$ and for $k >= 1$, we have $p(n, k) = (n - k + 1) dot p(n, k - 1) = n dot p(n - 1, k - 1)$.
+  #h(1fr) $(star.filled)$
+]
+
+== Extended Newton's Binomial Theorem
+
+#theorem[
+  For all non-zero $n in RR$, we have:
+  $
+    (1 + x)^n = sum_(k = 0)^infinity binom(n, k) x^k
+  $
+]
+
+#example[
+  Let $n = 1 "/" 2$, then we have an identity for $sqrt(1 + x)$:
+  $
+    sqrt(1 + x) = sum_(k = 0)^infinity binom(1 "/" 2, k) x^k
+  $
+
+  To actually _use_ this fact, we need some _lemma_...
+]
+
+#theorem(title: "Lemma")[
+  For any integer $n >= 1$, we have:
+  $
+    binom(1 "/" 2, n) = (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n
+  $
+]
+
+#proof[
+  By induction on $n$.
+
+  *Base*: $n = 1$.
+  #v(-2em)
+  $
+    binom(1 "/" 2, 1)
+    = (1 "/" 2) / 1!
+    = 1 / 2 = 1 dot 1 dot 1 / 2 dot 1
+    = underbracket((-1)^2, 1)
+    dot underbracket(binom(2-2, 1-1), 1)
+    dot underbracket(1 / (2^(2-1)), 1 / 2)
+    dot underbracket(1 / 1, 1)
+  $
+  #v(-1em)
+
+  *Induction step*: $n$ to $n + 1$ for $n > 1$.
+  We use the recusion $(star.filled)$ $p(n, k) = n dot p(n - 1, k - 1)$:
+  #place(center)[
+    $
+      binom(1 "/" 2, n + 1)
+      &= p(1 "/" 2, n + 1) / (n + 1)!
+      = ((1 "/" 2 - (n + 1) + 1) dot p(1 "/" 2, n)) / ((n + 1) dot n!)
+      = - (n - 1 "/" 2) / (n + 1) binom(1 "/" 2, n) \
+      &=^"IH" - (n - 1 "/" 2) / (n + 1) (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n \
+      &= (2n) / (2n) dot (2n-1) / (2n) dot (-1)^(n+2) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / (n+1) \
+      &= (-1)^(n+2) dot underbrace(((2n-2)! dot (2n-1) dot (2n)) / ((n-1)! dot (n-1) dot n dot n), display(binom(2n, n))) dot 1 / (2^(2n+1)) dot 1 / (n+1)
+    $
+  ]
+]
+#pagebreak()
+
+== Catalan Numbers
+
+#theorem(title: "Proposition")[
+  $
+    sqrt(1 + n) = sum_(n = 0)^infinity binom(1 "/" 2, n) x^n
+    = 1 + sum_(n = 1)^infinity -2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot x^n
+  $
+]
+
+#example[
+  Going back to the example with the number of well-formed paranthesis expressions, we get:
+  $
+    F(x) &= (1 - sqrt(1 - 4x)) / (2x)
+    = 1 / (2x) sum_(n = 1) 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
+    &= 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
+    = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
+  $
+  The numbers $C_n := binom(2n, n) 1 / (n+1)$ are called _Catalan numbers_.
+]
+
 = Recurrence Relations
 
 == Recurrence Relations
