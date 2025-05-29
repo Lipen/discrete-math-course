@@ -384,7 +384,7 @@ TODO: circular permutations
 
 == Subsets
 
-The most important special case of unordered arrangements is where all repetitions are $1$, i.e., $r_x = 1$ for all $x in X$.
+The most important special case of unordered arrangements is where all repetitions are $1$, that is, #box($r_x = 1$) for all $x in X$.
 Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
 
 #definition[
