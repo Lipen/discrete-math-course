@@ -343,9 +343,11 @@ TODO: circular permutations
 
   Every #box[$k$-permutation] can be constructed like this in _exactly one way_.
   The total number of #box[$k$-permutations] is therefore given as the product:
-  $
-    abs(P(n, k)) = n dot (n - 1) dot dots dot (n - k + 1) = n! / (n - k)!
-  $
+  #place(center)[
+    $
+      abs(P(n, k)) = n dot (n - 1) dot dots dot (n - k + 1) = n! / (n - k)!
+    $
+  ]
 ]
 
 == Counting Circular Permutations
