@@ -330,6 +330,8 @@ TODO: circular permutations
   $
     abs(P(n, k)) = n dot (n - 1) dot dots dot (n - k + 1) = n! / (n - k)!
   $
+
+  This formula is also called _falling factorial_ and denoted $n^underline(k)$ or $(n)_k$.
 ]
 
 #proof[
