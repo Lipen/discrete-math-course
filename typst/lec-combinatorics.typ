@@ -480,7 +480,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   $
   where each $binom(n, k)$ is a positive integer known as a _binomial coefficient_, defined as
   $
-    binom(n, k) = n! / (k! dot (n - k)!) = (n (n-1) (n-2) dots (n-k+1)) / (k (k-1) (k-2) dots dot 2 dot 1)
+    binom(n, k) = n! / (k! dot (n - k)!) = (n dot (n-1) dot (n-2) dot dots dot (n-k+1)) / (k dot (k-1) dot (k-2) dot dots dot 2 dot 1)
   $
 ]
 
