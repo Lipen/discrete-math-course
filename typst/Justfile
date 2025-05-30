@@ -1,0 +1,12 @@
+default:
+    @just --list
+
+all: \
+    (compile "lec-flow.typ") \
+    (compile "lec-formal.typ") \
+    (compile "lec-nfa.typ") \
+    (compile "lec-regular.typ") \
+    (compile "lec-combinatorics.typ")
+
+compile target:
+    typst compile {{target}}
