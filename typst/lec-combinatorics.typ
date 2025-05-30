@@ -1430,6 +1430,7 @@ where $binom(n, k) = 0$ for $k > n$.
 == Catalan Numbers
 
 #theorem(title: "Proposition")[
+  Now we can expand $sqrt(1 + n)$ into the following series:
   $
     sqrt(1 + n) = sum_(n = 0)^infinity binom(1 "/" 2, n) x^n
     = 1 + sum_(n = 1)^infinity -2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot x^n
