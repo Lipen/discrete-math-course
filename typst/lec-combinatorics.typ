@@ -2026,5 +2026,147 @@ where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)
     $
 ]
 
+= Advanced Topics
+
+== Gamma Function
+
+#definition[
+  _Gamma function_ $Gamma(x)$ is the most common _extension_ of the factorial function to real and complex numbers.
+  It is defined for all complex numbers $z in CC$ (except non-positive integers) as
+  $
+    Gamma(z) = integral_0^infinity t^(z - 1) e^(-t) d t
+  $
+  For positive integers $z = n$, it is defined as
+  $
+    Gamma(n) = (n - 1)!
+  $
+]
+
+*Motivation*:
+The factorial is defined for positive integers as $n! = 1 dot 2 dot dots dot n = (n - 1)! dot n$. \
+We want to _extend_ this definition to _all real numbers_ and capture its _recursive_ nature. \
+Overall, we are looking for a _smooth_ function $Gamma(x)$ such that:
+- $Gamma(n + 1) = n!$ for all $n in NN$, matching the factorial.
+- $Gamma(x + 1) = x dot Gamma(x)$, satisfying a _recursive_ property.
+- $Gamma(x)$ is defined for all _real_ numbers $x > 0$.
+
+== Definition of a Gamma Function
+
+The main definition of a gamma function is known as _Euler integral of the second kind_:
+$
+  Gamma(z) = integral_0^infinity t^(z - 1) e^(-t) d t
+$
+
+Gauss proposed a function $Gamma(x)$ defined by the _limit_
+$
+  Gamma(x) := lim_(n to infinity) (n! dot n^x) / (x dot (x+1) dot dots dot (x+n)) = lim_(n to infinity) (n! dot n^x) / (product_(k = 0)^n (x + k))
+  quad "for" x > 0
+$
+
+== Integral Definition
+
+$
+  Gamma(x) = integral_0^infinity t^(x - 1) e^(-t) d t
+$
+Let's check that the integral definition is indeed a suitable definition of a gamma function.
+
+$
+  Gamma(z + 1)
+  &= integral_0^infinity t^z e^(-t) d t \
+  &= [-t^z e^(-t)]_0^infinity + integral_0^infinity z t^(z-1) e^(-t) d t \
+  &= lim_(t to infinity) (-t^z e^(-t)) - (-0^z e^(-0)) + z integral_0^infinity t^(z-1) e^(-t) d t
+$
+#v(-.5em)
+Note that $-t^z e^(-t) to 0$ as $t to infinity$, so:
+#v(-.5em)
+$
+  Gamma(z + 1)
+  = z integral_0^infinity t^(z-1) e^(-t) d t
+  = z dot Gamma(z)
+$
+
+== Limit Definition
+
+$
+  Gamma(x) = lim_(n to infinity) (n! dot n^x) / (product_(k = 0)^(n) (x + k))
+$
+Let's check that the limit definition is indeed a suitable definition of a gamma function.
+
+*Step 1*. Write $Gamma(x + 1)$.
+$
+  Gamma(x + 1)
+  = lim_(n to infinity) (n! dot n^(x+1)) / (product_(k = 0)^n (x + 1 + k))
+  = lim_(n to infinity) (n! dot n^(x+1)) / (product_(k = 1)^(n + 1) (x + k))
+$
+*Step 2*. Multiply both numerator and denominator by $x$ and rearrange:
+$
+  = lim_(n to infinity) (n! dot n^(x+1)) / ((x+1) dot dots dot (x+n+1))
+  = lim_(n to infinity) (n! dot n^x) / (x dot (x+1) dot dots dot (x+n)) dot n / (x + n + 1) dot x
+$
+*Step 3*. Take the limit.
+As $n to infinity$, the ratio $n / (x + n + 1)$ approaches $1$.
+$
+  Gamma(x + 1) = x dot Gamma(x)
+$
+
+== Equivalence of Definitions
+
+Let's prove the equivalence of two definitions: integral and limit.
+
+We claim:
+$
+  integral_0^n t^(x-1) (1 - t / n)^n d t
+  eq.quest
+  lim_(n to infinity) (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
+$
+Note that as $n to infinity$, the integrand $(1 - t / n)^n$ approaches $e^(-t)$, so this integral approximates $Gamma(x)$.
+
+Substitute $u = t / n$:
+$
+  integral_0^n t^(x-1) (1 - t / n)^n d t
+  = n^x integral_0^1 u^(x-1) (1-u)^n d u
+  = n^x dot Beta(x, n + 1)
+$
+where $Beta(x, n + 1)$ is the Beta function:
+$
+  Beta(x, y) = integral_0^1 t^(x-1) (1-t)^(y-1) d t = (Gamma(x) dot Gamma(y)) / Gamma(x + y)
+$
+
+#pagebreak()
+
+Then:
+$
+  I_n
+  = n^x dot Beta(x, n + 1)
+  = n^x dot (Gamma(x) dot Gamma(n + 1)) / Gamma(x + n + 1)
+  = (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
+$
+
+Take the limit on both sides.
+Since $display(lim_(n to infinity) I_n = Gamma(x))$, we have:
+$
+  Gamma(x) = lim_(n to infinity) (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
+$
+
+== Using the Gamma Function
+
+// Factorial
+$
+  n! = Gamma(n + 1)
+$
+// Generalized binomial coefficients
+$
+  binom(r, k) = Gamma(r + 1) / (Gamma(k + 1) dot Gamma(r - k + 1))
+$
+// Stirling's approximation
+$
+  Gamma(n + 1) approx sqrt(2 pi n) (n / e)^n
+$
+// Beta function
+$
+  Beta(x, y) = (Gamma(x) Gamma(y)) / Gamma(x + y)
+$
+
+
 == Bibliography
 #bibliography("refs.yml")
