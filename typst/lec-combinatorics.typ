@@ -1441,7 +1441,7 @@ where $binom(n, k) = 0$ for $k > n$.
   Going back to the example with the number of well-formed paranthesis expressions, we get:
   $
     F(x) &= (1 - sqrt(1 - 4x)) / (2x)
-    = 1 / (2x) sum_(n = 1) 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
+    = 1 / (2x) sum_(n = 1)^infinity 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
     &= 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
     = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
   $
