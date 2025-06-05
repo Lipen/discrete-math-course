@@ -1965,7 +1965,7 @@ $ T(n) = a dot T(n / b) + f(n) $
 
   [Case III],
   ["merge" $>>$ "recursion"],
-  [$f(n) in Omega(n^(c_"crit"))$ \ where $c > c_"crit"$],
+  [$f(n) in Omega(n^c)$ \ where $c > c_"crit"$],
   [$T(n) in Theta(f(n))$],
 )
 
