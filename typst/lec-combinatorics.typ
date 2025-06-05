@@ -2047,7 +2047,7 @@ where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)
     This gives us $p = 2$.
   - Next, use the formula from AB-method to obtain the bound:
     $
-      T(x) &in Theta(x^p (1 + integral_1^x f(u) / x^(p+1) d u)) = \
+      T(x) &in Theta(x^p (1 + integral_1^x f(u) / u^(p+1) d u)) = \
       &= Theta(x^2 (1 + integral_1^x u^2 / u^3 d u)) = \
       &= Theta(x^2 (1 + ln x)) = \
       &= Theta(x^2 log x)
