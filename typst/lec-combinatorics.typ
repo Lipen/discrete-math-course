@@ -1609,7 +1609,17 @@ Such solutions are called _characteristic roots_ of $(*)$.
 
 == Generic Case
 
-TODO
+#theorem[
+  Suppose that characteristic equation for $(*)$ has $t$ roots $r_i$, each repeated $s_i$ times.
+  A sequence $(a_n)$ is a solution of the recurrence relation $(*)$ if and only if #box[$a_n = sum_(i=1)^(t)(r_i^n dot sum_(j=0)^(s_i-1)x^j alpha_(i,j))$] for $n = 0, 1, 2, dots$, where $alpha_(i,j)$ are constants.
+]
+
+#example[
+  Find generic solution for $a_n = 7 a_(n-1) - 16 a_(n-2) + 12 a_(n-3)$.
+
+  The characteristic equation is $r^3 - 7 r^2 + 16 r - 12 = 0$ with roots $r_0 = 2$ (repeated $s_0=2$ times) and #box[$r_1 = 3$] (repeated $s_1=1$ time).
+  Hence, the solution is of the form $a_n = (alpha_1 n + alpha_2) 2^n + alpha_3 3^n$.
+]
 
 == Linear Non-Homogeneous Recurrence Relations
 
