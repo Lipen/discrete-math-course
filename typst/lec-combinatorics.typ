@@ -1842,7 +1842,7 @@ TODO: examples!
     $(shift + 1) (shift - 2)^2 (shift - 1)^3$
 
   + Generic solution: \
-    $T(n) = alpha (-1)^n + (beta n + gamma) 2^n + delta n^2 + epsilon n + n$
+    $T(n) = alpha (-1)^n + (beta n + gamma) 2^n + delta n^2 + epsilon n + zeta$
 
   + There are no initial conditions.
     We can only provide an asymptotic bound.
