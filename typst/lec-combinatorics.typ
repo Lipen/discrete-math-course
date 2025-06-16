@@ -1668,7 +1668,7 @@ $
 #definition[
   _Operators_ are higher-order functions that transform functions into other functions.
 
-  For example, differential and integral operators $d / (d x)$ and $integral d x$ are core operators in calculus.
+  For example, differential and integral operators $d / (dif x)$ and $integral dif x$ are core operators in calculus.
 
   In combinatorics, we are interested in the following three operators:
   - _Sum_: $(f + g)(n) := f(n) + g(n)$
@@ -2023,7 +2023,7 @@ $
 
 Bound of $T(n)$ by Akra--Bazzi method:
 $
-  T(n) in Theta(n^p dot (1 + integral_1^n f(x) / x^(p+1) d x))
+  T(n) in Theta(n^p dot (1 + integral_1^n f(x) / x^(p+1) dif x))
 $
 where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)$
 
