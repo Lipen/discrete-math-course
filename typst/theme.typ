@@ -2,12 +2,6 @@
 
 #import ctheorems: *
 
-#let layouts = (
-  "small": ("height": 9cm, "space": 1.4cm),
-  "medium": ("height": 10.5cm, "space": 1.6cm),
-  "large": ("height": 12cm, "space": 1.8cm),
-)
-
 #let title-slide(content) = {
   set page(header: none, footer: none)
   set align(horizon)
@@ -21,16 +15,13 @@
   subtitle: none,
   date: none,
   authors: (),
-  layout: "medium",
-  ratio: 4 / 3,
+  ratio: 16 / 9,
   dark: false,
 ) = {
-  // Parsing
-  if layout not in layouts {
-    panic("Unknown layout " + layout)
-  }
-  let (height, space) = layouts.at(layout)
+  // Page dimensions
+  let height = 10.5cm
   let width = ratio * height
+  let space = 1.6cm
 
   // Colors
   let title-color = blue.darken(40%)
@@ -54,6 +45,7 @@
     height: height,
     margin: (x: 0.5 * space, top: space, bottom: 0.5 * space),
     header: context {
+      // show: body => block(width: 100%, height: 100%, stroke: 1pt + red, body)
       let page = here().page()
       let headings = query(selector(heading.where(level: 2)))
       let heading = headings.rev().find(x => x.location().page() <= page)
@@ -76,7 +68,8 @@
     },
     header-ascent: 1.2em,
     footer: context {
-      set text(0.8em)
+      // show: body => block(width: 100%, height: 100%, stroke: 1pt + red, body)
+      set text(0.8em, fill: gray)
       set align(right)
       counter(page).display("1 / 1", both: true)
     },
