@@ -1310,9 +1310,9 @@ Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x
 
 #pagebreak()
 
-$
-  a_n = sum_(k = 0)^(n - 1) a_k a_(n - k - 1)
-$
+// $
+//   a_n = sum_(k = 0)^(n - 1) a_k a_(n - k - 1)
+// $
 
 Let $F(x)$ be a generating function for $a_n$, then we know:
 $
@@ -1321,6 +1321,19 @@ $
   = 1 + sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^(n+1) \
   &= 1 + x dot sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^n
   = 1 + x dot F(x)^2
+$
+
+Solving the equation $x F^2 - F + 1 = 0$ for $F$ gives:
+$
+  F(x) = frac(1 plus.minus sqrt(1 - 4x), 2x)
+$
+
+We are only interested in the root with the _minus_ sign, since $lim_(x to 0) F(x) = a_0 = 1$:
+$
+  lim_(x to 0) F(x)
+  = lim_(x to 0) frac(1 - sqrt(1 - 4x), 2x)
+  = lim_(x to 0) frac(frac(2, sqrt(1 - 4x)), 2)
+  = 1
 $
 
 == Newton's Binomial Theorem
