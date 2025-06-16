@@ -1963,10 +1963,7 @@ $ T(n) = a dot T(n / b) + f(n) $
   [$f(n) in Theta(n^(c_"crit") log^k n)$ \ where $k >= 0$],
   [$T(n) in Theta(n^(c_"crit") log^(k+1) n)$],
 
-  [Case III],
-  ["merge" $>>$ "recursion"],
-  [$f(n) in Omega(n^c)$ \ where $c > c_"crit"$],
-  [$T(n) in Theta(f(n))$],
+  [Case III], ["merge" $>>$ "recursion"], [$f(n) in Omega(n^c)$ \ where $c > c_"crit"$], [$T(n) in Theta(f(n))$],
 )
 
 #note[
