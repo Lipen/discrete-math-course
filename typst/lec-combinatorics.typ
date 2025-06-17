@@ -1610,7 +1610,7 @@ Such solutions are called _characteristic roots_ of $(*)$.
 == Generic Case
 
 #theorem[
-  Suppose that characteristic equation for $(*)$ has $t$ roots $r_i$, each repeated $s_i$ times.
+  Suppose that the characteristic equation for $(*)$ has $t$ roots $r_i$, each repeated $s_i$ times.
   A sequence $(a_n)$ is a solution of the recurrence relation $(*)$ if and only if #box[$a_n = sum_(i=1)^(t)(r_i^n dot sum_(j=0)^(s_i-1)x^j alpha_(i,j))$] for $n = 0, 1, 2, dots$, where $alpha_(i,j)$ are constants.
 ]
 
