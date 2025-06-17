@@ -1634,7 +1634,7 @@ Such solutions are called _characteristic roots_ of $(*)$.
 
 #example[
   // $a_n = 4a_(n-1) - 8a_(n-2) + 8a_(n-3) - 4a_(n-4)$
-  Solve the recurrence: $a_n = 6a_(n-1) - 16a_(n-2) + 25a_(n-3) - 20a_(n-4) + 8a_(n-5)$.
+  Solve the recurrence $a_n = 6a_(n-1) - 16a_(n-2) + 25a_(n-3) - 20a_(n-4) + 8a_(n-5)$ with the initial conditions $a_0 = 2$, $a_1 = 2$, $a_2 = 0$, $a_3 = -4$, $a_4 = -8$.
 
   Characteristic equation is $r^5 - 6r^4 + 16r^3 - 25r^2 + 20r - 8 = 0$.
 
@@ -1643,6 +1643,25 @@ Such solutions are called _characteristic roots_ of $(*)$.
   General solution has the form:
   $
     a_n = (alpha_(1,0) + alpha_(1,1) n) (1 - i)^n + (alpha_(2,0) + alpha_(2,1) n) (1 + i)^n + alpha_(3,0) thin 2^n
+  $
+
+  To find the constants, we can use the initial conditions:
+  $
+    cases(
+      a_0 &= 2 &= alpha_(1,0) &+ alpha_(1,1) &+ alpha_(2,0) &+ alpha_(2,1) &+ alpha_(3,0),
+      a_1 &= 2 &= (alpha_(1,0) &+ alpha_(1,1)) (1 - i) &+ (alpha_(2,0) &+ alpha_(2,1)) (1 + i) &+ 2 alpha_(3,0),
+      a_2 &= 0 &= (alpha_(1,0) &+ 2 alpha_(1,1)) (1 - i)^2 &+ (alpha_(2,0) &+ 2 alpha_(2,1)) (1 + i)^2 &+ 4 alpha_(3,0),
+      a_3 &= -4 &= (alpha_(1,0) &+ 3 alpha_(1,1)) (1 - i)^3 &+ (alpha_(2,0) &+ 3 alpha_(2,1)) (1 + i)^3 &+ 8 alpha_(3,0),
+      a_4 &= -8 &= (alpha_(1,0) &+ 4 alpha_(1,1)) (1 - i)^4 &+ (alpha_(2,0) &+ 4 alpha_(2,1)) (1 + i)^4 &+ 16 alpha_(3,0),
+    )
+    quad arrow.long.double quad
+    cases(
+      alpha_(1,0) = 1,
+      alpha_(1,1) = 0,
+      alpha_(2,0) = 1,
+      alpha_(2,1) = 0,
+      alpha_(3,0) = 0,
+    )
   $
 ]
 
