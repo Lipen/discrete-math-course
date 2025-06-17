@@ -1630,6 +1630,22 @@ Such solutions are called _characteristic roots_ of $(*)$.
   $
 ]
 
+== Complex Case
+
+#example[
+  // $a_n = 4a_(n-1) - 8a_(n-2) + 8a_(n-3) - 4a_(n-4)$
+  Solve the recurrence: $a_n = 6a_(n-1) - 16a_(n-2) + 25a_(n-3) - 20a_(n-4) + 8a_(n-5)$.
+
+  Characteristic equation is $r^5 - 6r^4 + 16r^3 - 25r^2 + 20r - 8 = 0$.
+
+  Characteristic roots are: $r_1 = (1 - i)$, repeated twice, $r_2 = (1 + i)$, also repeated twice, and $r_3 = 2$.
+
+  General solution has the form:
+  $
+    a_n = (alpha_(1,0) + alpha_(1,1) n) (1 - i)^n + (alpha_(2,0) + alpha_(2,1) n) (1 + i)^n + alpha_(3,0) thin 2^n
+  $
+]
+
 == Linear Non-Homogeneous Recurrence Relations
 
 $
