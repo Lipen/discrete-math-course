@@ -1607,18 +1607,27 @@ Such solutions are called _characteristic roots_ of $(*)$.
   Thus, the _solution_ is $a_n = (1 + n) thin 3^n$.
 ]
 
-== Generic Case
+== General Case
 
 #theorem[
-  Suppose that the characteristic equation for $(*)$ has $t$ roots $r_i$, each repeated $s_i$ times.
-  A sequence $(a_n)$ is a solution of the recurrence relation $(*)$ if and only if #box[$a_n = sum_(i=1)^(t)(r_i^n dot sum_(j=0)^(s_i-1)x^j alpha_(i,j))$] for $n = 0, 1, 2, dots$, where $alpha_(i,j)$ are constants.
+  Let $c_1, dots, c_k$ be real numbers.
+  Suppose that the recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ has $t$~distinct characteristic roots $r_1, dots, r_t$ with multiplicities $m_1, dots, m_t$, respectively, so that $m_i >= 1$ for $i = 1, dots, t$ and $m_1 + dots + m_t = k$.
+
+  Then the general of the recurrence relation is given by
+  $
+    a_n = sum_(i = 1)^(t)(r_i^n dot sum_(j = 0)^(s_i - 1) alpha_(i,j) x^j)
+  $
+  where $alpha_(i,j)$ are constants for $1 <= i <= t$ and $0 <= j <= m_i - 1$.
 ]
 
 #example[
   Find generic solution for $a_n = 7 a_(n-1) - 16 a_(n-2) + 12 a_(n-3)$.
 
-  The characteristic equation is $r^3 - 7 r^2 + 16 r - 12 = 0$ with roots $r_0 = 2$ (repeated $s_0=2$ times) and #box[$r_1 = 3$] (repeated $s_1=1$ time).
-  Hence, the solution is of the form $a_n = (alpha_1 n + alpha_2) 2^n + alpha_3 3^n$.
+  The characteristic equation $r^3 - 7 r^2 + 16 r - 12 = 0$ has $t = 2$ distinct roots: $r_1 = 2$ repeated $m_1 = 2$ times, and $r_2 = 3$ with multiplicity $m_2 = 1$.
+  Hence, the solution is of the form
+  $
+    a_n = (alpha_(1,0) + alpha_(1,1) n) thin 2^n + alpha_(2,0) thin 3^n
+  $
 ]
 
 == Linear Non-Homogeneous Recurrence Relations
