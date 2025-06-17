@@ -1539,8 +1539,8 @@ Such solutions are called _characteristic roots_ of $(*)$.
 #example[
   Solve $a_n = a_(n-1) + 2 a_(n-2)$ with $a_0 = 2$ and $a_1 = 7$.
 
-  - The characteristic equation is $r^2 - r - 2 = 0$.
-  - It has two distinct roots $r_1 = 2$ and $r_2 = -1$.
+  - The _characteristic_ equation is $r^2 - r - 2 = 0$.
+  - It has two _distinct_ roots $r_1 = 2$ and $r_2 = -1$.
   - The sequence $(a_n)$ is a solution iff $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$ and some constants $alpha_1$ and $alpha_2$.
     $
       cases(
@@ -1580,23 +1580,23 @@ Such solutions are called _characteristic roots_ of $(*)$.
     $
 ]
 
-== Single Root Case
+== Single (Repeated) Root Case
 
 #theorem[
   Let $c_1$ and $c_2$ be real numbers.
-  Suppose that $r^2 - c_1 r - c_2 = 0$ has a _single_ root $r_0$.
-  A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = alpha_1 r_0^n + alpha_2 n r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
+  Suppose that $r^2 - c_1 r - c_2 = 0$ has a _single_ _(repeated)_ root $r_0$.
+  A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = (alpha_1 + alpha_2 n) thin r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
 ]
 
 #example[
   Solve $a_n = 6 a_(n-1) - 9 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
 
   The characteristic equation is $r^2 - 6 r + 9 = 0$ with a single (repeated) root $r_0 = 3$.
-  Hence, the solutions is of the form $a_n = alpha_1 3^n + alpha_2 n 3^n$.
+  Hence, the solutions is of the form $a_n = (alpha_1 + alpha_2 n) thin 3^n$.
   $
     cases(
       a_0 = 1 = alpha_1,
-      a_1 = 6 = alpha_1 dot 3 + alpha_2 dot 3,
+      a_1 = 6 = (alpha_1 + alpha_2) dot 3,
     )
     quad arrow.long.double quad
     cases(
@@ -1604,7 +1604,7 @@ Such solutions are called _characteristic roots_ of $(*)$.
       alpha_2 = 1,
     )
   $
-  Thus, the _solution_ is $a_n = 3^n + n 3^n$.
+  Thus, the _solution_ is $a_n = (1 + n) thin 3^n$.
 ]
 
 == Generic Case
