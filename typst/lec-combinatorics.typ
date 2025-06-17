@@ -1552,8 +1552,8 @@ Such solutions are called _characteristic roots_ of $(*)$.
 #example[
   Solve $a_n = a_(n-1) + 2 a_(n-2)$ with $a_0 = 2$ and $a_1 = 7$.
 
-  - The characteristic equation is $r^2 - r - 2 = 0$.
-  - It has two distinct roots $r_1 = 2$ and $r_2 = -1$.
+  - The _characteristic_ equation is $r^2 - r - 2 = 0$.
+  - It has two _distinct_ roots $r_1 = 2$ and $r_2 = -1$.
   - The sequence $(a_n)$ is a solution iff $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$ and some constants $alpha_1$ and $alpha_2$.
     $
       cases(
@@ -1593,23 +1593,23 @@ Such solutions are called _characteristic roots_ of $(*)$.
     $
 ]
 
-== Single Root Case
+== Single (Repeated) Root Case
 
 #theorem[
   Let $c_1$ and $c_2$ be real numbers.
-  Suppose that $r^2 - c_1 r - c_2 = 0$ has a _single_ root $r_0$.
-  A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = alpha_1 r_0^n + alpha_2 n r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
+  Suppose that $r^2 - c_1 r - c_2 = 0$ has a _single_ _(repeated)_ root $r_0$.
+  A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = (alpha_1 + alpha_2 n) thin r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
 ]
 
 #example[
   Solve $a_n = 6 a_(n-1) - 9 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
 
   The characteristic equation is $r^2 - 6 r + 9 = 0$ with a single (repeated) root $r_0 = 3$.
-  Hence, the solutions is of the form $a_n = alpha_1 3^n + alpha_2 n 3^n$.
+  Hence, the solutions is of the form $a_n = (alpha_1 + alpha_2 n) thin 3^n$.
   $
     cases(
       a_0 = 1 = alpha_1,
-      a_1 = 6 = alpha_1 dot 3 + alpha_2 dot 3,
+      a_1 = 6 = (alpha_1 + alpha_2) dot 3,
     )
     quad arrow.long.double quad
     cases(
@@ -1617,12 +1617,66 @@ Such solutions are called _characteristic roots_ of $(*)$.
       alpha_2 = 1,
     )
   $
-  Thus, the _solution_ is $a_n = 3^n + n 3^n$.
+  Thus, the _solution_ is $a_n = (1 + n) thin 3^n$.
 ]
 
-== Generic Case
+== General Case
 
-TODO
+#theorem[
+  Let $c_1, dots, c_k$ be real numbers.
+  Suppose that the recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ has $t$~distinct characteristic roots $r_1, dots, r_t$ with multiplicities $m_1, dots, m_t$, respectively, so that $m_i >= 1$ for $i = 1, dots, t$ and $m_1 + dots + m_t = k$.
+
+  Then the general of the recurrence relation is given by
+  $
+    a_n = sum_(i = 1)^(t)(r_i^n dot sum_(j = 0)^(s_i - 1) alpha_(i,j) x^j)
+  $
+  where $alpha_(i,j)$ are constants for $1 <= i <= t$ and $0 <= j <= m_i - 1$.
+]
+
+#example[
+  Find generic solution for $a_n = 7 a_(n-1) - 16 a_(n-2) + 12 a_(n-3)$.
+
+  The characteristic equation $r^3 - 7 r^2 + 16 r - 12 = 0$ has $t = 2$ distinct roots: $r_1 = 2$ repeated $m_1 = 2$ times, and $r_2 = 3$ with multiplicity $m_2 = 1$.
+  Hence, the solution is of the form
+  $
+    a_n = (alpha_(1,0) + alpha_(1,1) n) thin 2^n + alpha_(2,0) thin 3^n
+  $
+]
+
+== Complex Case
+
+#example[
+  // $a_n = 4a_(n-1) - 8a_(n-2) + 8a_(n-3) - 4a_(n-4)$
+  Solve the recurrence $a_n = 6a_(n-1) - 16a_(n-2) + 25a_(n-3) - 20a_(n-4) + 8a_(n-5)$ with the initial conditions $a_0 = 2$, $a_1 = 2$, $a_2 = 0$, $a_3 = -4$, $a_4 = -8$.
+
+  Characteristic equation is $r^5 - 6r^4 + 16r^3 - 25r^2 + 20r - 8 = 0$.
+
+  Characteristic roots are: $r_1 = (1 - i)$, repeated twice, $r_2 = (1 + i)$, also repeated twice, and $r_3 = 2$.
+
+  General solution has the form:
+  $
+    a_n = (alpha_(1,0) + alpha_(1,1) n) (1 - i)^n + (alpha_(2,0) + alpha_(2,1) n) (1 + i)^n + alpha_(3,0) thin 2^n
+  $
+
+  To find the constants, we can use the initial conditions:
+  $
+    cases(
+      a_0 &= 2 &= alpha_(1,0) &+ alpha_(1,1) &+ alpha_(2,0) &+ alpha_(2,1) &+ alpha_(3,0),
+      a_1 &= 2 &= (alpha_(1,0) &+ alpha_(1,1)) (1 - i) &+ (alpha_(2,0) &+ alpha_(2,1)) (1 + i) &+ 2 alpha_(3,0),
+      a_2 &= 0 &= (alpha_(1,0) &+ 2 alpha_(1,1)) (1 - i)^2 &+ (alpha_(2,0) &+ 2 alpha_(2,1)) (1 + i)^2 &+ 4 alpha_(3,0),
+      a_3 &= -4 &= (alpha_(1,0) &+ 3 alpha_(1,1)) (1 - i)^3 &+ (alpha_(2,0) &+ 3 alpha_(2,1)) (1 + i)^3 &+ 8 alpha_(3,0),
+      a_4 &= -8 &= (alpha_(1,0) &+ 4 alpha_(1,1)) (1 - i)^4 &+ (alpha_(2,0) &+ 4 alpha_(2,1)) (1 + i)^4 &+ 16 alpha_(3,0),
+    )
+    quad arrow.long.double quad
+    cases(
+      alpha_(1,0) = 1,
+      alpha_(1,1) = 0,
+      alpha_(2,0) = 1,
+      alpha_(2,1) = 0,
+      alpha_(3,0) = 0,
+    )
+  $
+]
 
 == Linear Non-Homogeneous Recurrence Relations
 
