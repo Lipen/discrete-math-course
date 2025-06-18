@@ -49,10 +49,10 @@ Topics include:
 == Basic Notions
 
 #definition[
-  A _set_ is an unordered collection of distinct objects (elements).
+  A _set_ is an unordered collection of distinct objects, called _elements_.
 
-  - In _naïve_ set theory, sets can contain _any_ objects. Non-set objects are called _urelements_.
-  - In _axiomatic_ set theory, _everything is a set_, there are no urelements.
+  - In _naïve_ set theory, sets can contain _any_ objects (including non-sets, called _urelements_).
+  - In modern _axiomatic_ set theory, _everything is a set_ (no urelements).
 ]
 
 #example[
@@ -117,7 +117,7 @@ Topics include:
   ${a,b} subset.eq {a,b,c}$, but ${a,b,x} subset.eq.not {a,b,c}$.
 ]
 #example[
-  ${0} in {0, {0}}$ _and_ ${0} subset.eq {0, {0}}$.
+  ${0} in {0, {0}}$ _and_ ${0} subset.eq {0, {0}}$, that is, ${0}$ is an element, and also a subset.
 ]
 
 == Power Sets
@@ -134,10 +134,7 @@ Topics include:
   If $A = {1, 2, 3}$, then $power(A) = {emptyset, {1}, {2}, {3}, {1, 2}, {1, 3}, {2, 3}, {1, 2, 3}}$.
 ]
 #example[
-  The power set of the empty set is $power(emptyset) = {emptyset}$, _non-empty_ set containing the empty set.
-]
-#example[
-  If $A = {emptyset, {emptyset}}$, then $power(A) = {emptyset, {emptyset}, {{emptyset}}, {emptyset, {emptyset}}}$.
+  The power set of the empty set is $power(emptyset) = {emptyset}$, a _non-empty_ set containing the empty set.
 ]
 
 #theorem[
@@ -147,6 +144,9 @@ Topics include:
 #proof[(combinatorial)][
   For each of the $n$ elements in the set, we can either include it in a subset or not.
   These $n$ independent binary choices yield $2^n$ possible subsets by the multiplication principle.
+  #place(center)[
+    $ underbrace(2 times 2 times dots times 2, n " times") = 2^n $
+  ]
 ]
 
 #pagebreak()
@@ -165,8 +165,8 @@ Topics include:
 
   The power set $power(A)$ can be partitioned into two _disjoint_ collections:
   + Subsets of $A$ that _do not_ contain $a$.
-    This collection is exactly $power(A')$.
-    By the inductive hypothesis, it has $abs(power(A')) = 2^k$ elements.
+  This collection is exactly $power(A')$.
+  By the inductive hypothesis, it has $abs(power(A')) = 2^k$ elements.
   + Subsets of $A$ that _do_ contain $a$.
     Each such subset is of the form $S union {a}$ where $S subset.eq A'$.
     This establishes a bijection with $power(A')$, so this collection also has $2^k$ elements.
@@ -300,12 +300,13 @@ Suppose a set can be either _"normal"_ or _"unusual"_.
 Consider the set $R$ of _all normal sets_:
 $ R = { A | A notin A } $
 
-_Paradox_ arises when we ask whether $R$ is normal or unusual:
-- Suppose $R$ is _normal_. Then by definition, $R notin R$, which means $R$ is _not_ in the set of normal sets, _contradicting_ our assumption that it is normal.
-- Suppose $R$ is _unusual_. Then by definition, $R in R$, which means $R$ _is_ in the set of normal sets, _contradicting_ our assumption that it is unusual.
-- We reach a contradiction in both cases. Thus, _$R$ does not exist_.
+The paradox arises when we ask: #strong[Is $R$ a normal set?]
+- Suppose $R$ is _normal_. By its definition, $R$ must be an element of $R$, so $R in R$. But elements of $R$ are normal sets, and normal sets do not contain themselves. So $R notin R$. Contradiction.
+- Suppose $R$ is _unusual_. This means $R$ contains itself, so $R in R$. But the definition of $R$ only includes sets that do _not_ contain themselves. So $R$ cannot be a member of $R$, i.e. $R notin R$. Contradiction.
 
-This paradox shows that we cannot allow _unrestricted_ set formation via set-builder notation ${x | P(x)}$.
+A contradiction is reached in both cases. The only possible conclusion is that #strong[the set $R$ cannot exist].
+
+This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
 
 = Relations
 
@@ -426,19 +427,16 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   A preorder which is also antisymmetric is called a _partial order_.
 ]
 #definition[
+  A relation $R subset.eq M^2$ is _connected_ if for every pair of distinct elements, either one is related to the other or vice versa:
+  $ forall x, y in M. thin (x neq y) imply (x rel(R) y or y rel(R) x) $
+]
+#definition[
   A partial order which is also connected is called a _total order_ (or _linear order_).
 ]
 
 #example[
   Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$: $x prec.curly.eq y$ iff $"len"(x) <= "len"(y)$.
-  This is a preorder (reflexive and transitive), and even connected, but not partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
-]
-
-== More Properties
-
-#definition[
-  A relation $R subset.eq M^2$ is _connected_ if for every pair of distinct elements, either one is related to the other or vice versa:
-  $ forall x, y in M. thin (x neq y) imply (x rel(R) y or y rel(R) x) $
+  This is a preorder (reflexive and transitive), and even connected, but not a partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
 ]
 
 = Functions
@@ -446,15 +444,15 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 == Definition of a Function
 
 #definition[
-  A *function* (or _map_, or _mapping_) $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a relation $f subset.eq A times B$ that satisfies the following properties:
-  + _Functional_ (or _right-unique_): Each element in $A$ is related to _at most one_ element in $B$.
-    $ forall a in A. thin forall b_1, b_2 in B. thin (pair(a, b_1) in f and pair(a, b_2) in f) imply (b_1 = b_2) $
-  + _Serial_ (or _left-total_): Each element in $A$ is related to _at least one_ element in $B$.
-    $ forall a in A. thin exists b in B. thin pair(a, b) in f $
+  A _function_ $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a special kind of relation $f subset.eq A times B$ where every element of $A$ is paired with _exactly one_ element of $B$.
 
-  Together, these conditions mean that for every $a in A$, there is _exactly one_ $b in B$ such that $pair(a, b) in f$.
-
-  *Notation:* We write $f(a) = b$ to denote that $pair(a, b) in f$.
+  This means two conditions must hold:
+  + _Functional (left-total)_:
+    For every $a in A$, there is _at least one_ pair $pair(a, b)$ in $f$.
+    $ forall a in A, exists b in B: pair(a, b) in f $
+  + _Serial (right-unique)_:
+    For every $a in A$, there is _at most one_ pair $pair(a, b)$ in $f$.
+    $ (pair(a, b_1) in f and pair(a, b_2) in f) ==> b_1 = b_2 $
 ]
 
 #definition[
@@ -467,9 +465,9 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 
 #definition[
   For a function $f: A to B$:
-  - The set $A$ is called the *domain* of $f$, denoted $dom(f)$.
-  - The set $B$ is called the *codomain* of $f$, denoted $cod(f)$.
-  - The *range* (or _image_) of $f$ is the set of all values that $f$ actually takes:
+  - The set $A$ is called the _domain_ of $f$, denoted $dom(f)$.
+  - The set $B$ is called the _codomain_ of $f$, denoted $cod(f)$.
+  - The _range_ (or _image_) of $f$ is the set of all values that $f$ actually takes:
     $ range(f) = "Im"(f) = { b in B | exists a in A, f(a) = b } = { f(a) | a in A } $
   Note that $range(f) subset.eq cod(f)$.
 ]
@@ -525,7 +523,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 == Injective Functions
 
 #definition[
-  A function $f: A to B$ is *injective* (or _one-to-one_) if distinct elements in the domain map to distinct elements in the codomain.
+  A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!]) if distinct elements in the domain map to distinct elements in the codomain.
   $ forall a_1, a_2 in A, (f(a_1) = f(a_2)) ==> (a_1 = a_2) $
 ]
 
@@ -540,7 +538,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 == Surjective Functions
 
 #definition[
-  A function $f: A to B$ is *surjective* (or _onto_) if every element in the codomain is the image of at least one element in the domain.
+  A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
   $ forall b in B. thin exists a in A. thin f(a) = b $
   For surjective functions, $range(f) = cod(f)$.
 ]
@@ -555,7 +553,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 == Bijective Functions
 
 #definition[
-  A function $f: A to B$ is *bijective* if it is both injective and surjective.
+  A function $f: A to B$ is _bijective_ if it is both injective and surjective.
   A bijective function establishes a _one-to-one correspondence_ between the elements of $A$ and $B$.
 ]
 
@@ -571,7 +569,8 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 == Function Composition
 
 #definition[
-  Let $f: A to B$ and $g: B to C$ be two functions. The *composition* of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
+  Let $f: A to B$ and $g: B to C$ be two functions.
+  The _composition_ of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
   $ (g compose f)(a) = g(f(a)) $
   // for all $a in A$.
 ]
@@ -583,22 +582,21 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   Note that in general, $g compose f != f compose g$.
 ]
 
-#theorem[
-  Properties of function composition:
-  - _Associativity_: If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+#theorem[Properties of Composition][
+  - _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
   - The _identity_ function acts as a _neutral_ element for composition:
     - $id_B compose f = f$ for any function $f: A to B$.
     - $f compose id_A = f$ for any function $f: A to B$.
-  - Composition preserves the properties of functions:
-    - If $f: A to B$ and $g: B to C$ are both injective, then $g compose f$ is injective.
-    - If $f: A to B$ and $g: B to C$ are both surjective, then $g compose f$ is surjective.
-    - If $f: A to B$ and $g: B to C$ are both bijective, then $g compose f$ is bijective.
+  - Composition _preserves_ the properties of functions:
+    - If $f$ and $g$ are injective, so is $g compose f$.
+    - If $f$ and $g$ are surjective, so is $g compose f$.
+    - If $f$ and $g$ are bijective, so is $g compose f$.
 ]
 
 == Inverse Functions
 
 #definition[
-  If $f: A to B$ is a bijective function, then its *inverse function*, denoted $f^(-1): B to A$, is defined as:
+  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is~defined as:
   $ f^(-1)(b) = a quad "iff" quad f(a) = b $.
 ]
 
@@ -607,8 +605,10 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #example[
-  Let $f: RR to RR$ be $f(x) = 2x + 1$. We found it's bijective.
-  To find $f^(-1)(y)$, let $y = 2x+1$. Solving for $x$, we get $x = (y-1) / 2$.
+  Let $f: RR to RR$ be $f(x) = 2x + 1$.
+  We found it's bijective.
+  To find $f^(-1)(y)$, let $y = 2x+1$.
+  Solving for $x$, we get $x = (y-1) / 2$.
   So, $f^(-1)(y) = (y-1) / 2$.
 ]
 
@@ -622,24 +622,32 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 
 == Image and Preimage of Sets
 
-#definition[Image of a Set][
-  Let $f: A to B$ be a function and let $S subset.eq A$. The *image of $S$ under $f$* is the set:
+#definition[
+  Let $f: A to B$ be a function and let $S subset.eq A$.
+  The _image of $S$ under $f$_ is the set:
   $ f(S) = { f(s) | s in S } $
-  Note that $f(S) subset.eq B$. The range of $f$ is $f(A)$.
+  Note that $f(S) subset.eq B$.
+  The range of $f$ is $f(A)$.
 ]
 
-#definition[Preimage of a Set (Inverse Image)][
-  Let $f: A to B$ be a function and let $T subset.eq B$. The *preimage of $T$ under $f$* (or _inverse image of $T$_) is the set:
+#definition[
+  Let $f: A to B$ be a function and let $T subset.eq B$.
+  The _preimage of $T$ under $f$_ (or _inverse image of $T$_) is the set of all elements in the domain that map into $T$:
   $ f^(-1)(T) = { a in A | f(a) in T } $
-  Note that $f^(-1)(T) subset.eq A$.
-  *Caution:* The notation $f^(-1)(T)$ is used even if $f$ is not bijective (and thus $f^(-1)$ as an inverse function does not exist). It always refers to the set of elements in the domain that map into $T$.
 ]
+
+#note[
+  The notation $f^(-1)(T)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
+  It always refers to the set of domain elements that map into $T$.
+]
+
+#pagebreak()
 
 #example[
-  Let $f: ZZ to ZZ$ be $f(x) = x^2$.
+  Let $f: ZZ -> ZZ$ be $f(x) = x^2$.
   - Let $S = {-2, -1, 0, 1, 2}$. Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
-  - Let $T_1 = {1, 9}$. Then $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
-  - Let $T_2 = {2, 3}$. Then $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
+  - Let $T_1 = {1, 9}$. The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
+  - Let $T_2 = {2, 3}$. The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
 ]
 
 == TODO
