@@ -212,7 +212,8 @@ Topics include:
 ]
 
 #example[
-  $pair(#emoji.cactus, #emoji.cactus) != (#emoji.cactus,) != #emoji.cactus != {#emoji.cactus}$, these are all different objects: ordered pair, 1-tuple, urelement, singleton~set. Note, however, that $pair(#emoji.cactus, #emoji.cactus) = {{#emoji.cactus}}$.
+  $pair(#emoji.cactus, #emoji.cactus) != (#emoji.cactus,) != #emoji.cactus != {#emoji.cactus}$, these are all different objects: an ordered pair, a 1-tuple, an~urelement, and a singleton~set.
+  Note, however, that $pair(#emoji.cactus, #emoji.cactus) = {{#emoji.cactus}}$.
 ]
 
 == Cartesian Product
