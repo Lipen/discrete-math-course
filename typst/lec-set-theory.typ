@@ -144,8 +144,34 @@ Topics include:
   $abs(power(A)) = 2^abs(A)$ for any finite set $A$.
 ]
 
+#proof[(combinatorial)][
+  For each of the $n$ elements in the set, we can either include it in a subset or not.
+  These $n$ independent binary choices yield $2^n$ possible subsets by the multiplication principle.
+]
+
+#pagebreak()
+
 #proof[
-  Each element in a set with $n$ elements can either be included or not, giving $2^n$ combinations.
+  By _induction_ on $n = abs(A)$, the cardinality of the set $A$.
+
+  *Base case:*
+  If $n = 0$, then $A = emptyset$ and $power(A) = {emptyset}$.
+  Thus, $abs(power(A)) = 1 = 2^0$.
+
+  *Inductive step:*
+  Assume the formula holds for any set of size $k$.
+  Let $A$ be a set with $abs(A) = k+1$.
+  Choose an arbitrary element $a in A$ and let $A' = A setminus {a}$, so $abs(A') = k$.
+
+  The power set $power(A)$ can be partitioned into two _disjoint_ collections:
+  + Subsets of $A$ that _do not_ contain $a$.
+    This collection is exactly $power(A')$.
+    By the inductive hypothesis, it has $abs(power(A')) = 2^k$ elements.
+  + Subsets of $A$ that _do_ contain $a$.
+    Each such subset is of the form $S union {a}$ where $S subset.eq A'$.
+    This establishes a bijection with $power(A')$, so this collection also has $2^k$ elements.
+
+  The total number of subsets of $A$ is the _sum_ of their sizes: $abs(power(A)) = 2^k + 2^k = 2 dot 2^k = 2^(k+1)$.
 ]
 
 == Some Important Sets
