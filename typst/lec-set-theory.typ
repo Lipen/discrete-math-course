@@ -141,7 +141,7 @@ Topics include:
 ]
 
 #theorem[
-  $abs(power(A)) = 2^abs(A)$ for any set $A$.
+  $abs(power(A)) = 2^abs(A)$ for any finite set $A$.
 ]
 
 #proof[
