@@ -136,6 +136,9 @@ Topics include:
 #example[
   The power set of the empty set is $power(emptyset) = {emptyset}$, _non-empty_ set containing the empty set.
 ]
+#example[
+  If $A = {emptyset, {emptyset}}$, then $power(A) = {emptyset, {emptyset}, {{emptyset}}, {emptyset, {emptyset}}}$.
+]
 
 #theorem[
   $abs(power(A)) = 2^abs(A)$ for any set $A$.
