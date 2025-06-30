@@ -27,6 +27,9 @@
   let title-color = blue.darken(40%)
   let emph-color = blue.darken(20%)
 
+  // Fonts
+  let title-font = "Libertinus Sans"
+
   // Dark mode
   if dark {
     title-color = title-color.lighten(40%)
@@ -51,7 +54,7 @@
       let heading = headings.rev().find(x => x.location().page() <= page)
       if heading != none {
         set align(bottom)
-        set text(1.4em, weight: "bold", fill: title-color)
+        set text(1.4em, weight: "bold", font: title-font, fill: title-color)
         let body = {
           heading.body
           if not heading.location().page() == page {
@@ -79,7 +82,7 @@
   set bibliography(title: none)
 
   // Rules
-  show heading.where(level: 1): x => {
+  show heading.where(level: 1): it => {
     set page(header: none, footer: none, margin: 0pt)
     set align(horizon)
     set text(1.2em, weight: "bold", fill: title-color)
@@ -88,30 +91,23 @@
       inset: 1em,
       align: (right, left),
       fill: (title-color, none),
-      [#block(height: 100%)], [#text(size: 1.2em, weight: "bold", fill: title-color)[#x]],
+      [#block(height: 100%)], [#text(it, size: 1.2em, weight: "bold", font: title-font, fill: title-color)],
     )
   }
   show heading.where(level: 2): pagebreak(weak: true)
   show heading: set text(1.1em, fill: title-color)
 
   // Style headings
-  set heading(
-    numbering: numbly.numbly(
-      sym.section + "{1} ",
-      none,
-      sym.square + "",
-      default: (.., last) => str(last) + ".",
-    ),
-  )
+  set heading(numbering: numbly.numbly(sym.section + "{1} ", none, sym.square + "", default: (.., last) => (
+    str(last) + "."
+  )))
 
   // Style lists
-  set list(
-    marker: (
-      text(fill: title-color)[•],
-      text(fill: title-color)[‣],
-      text(fill: title-color)[-],
-    ),
-  )
+  set list(marker: (
+    text(fill: title-color)[•],
+    text(fill: title-color)[‣],
+    text(fill: title-color)[-],
+  ))
   set enum(numbering: nums => text(fill: title-color)[*#nums.*])
 
   // Colored emph
@@ -125,21 +121,25 @@
     if (type(authors) != array) {
       authors = (authors,)
     }
-    title-slide[
-      #text(2em, weight: "bold", fill: title-color, title)
-      #v(1.4em, weak: true)
-      #if subtitle != none {
-        text(1.1em, weight: "bold", subtitle)
+    title-slide({
+      // Title:
+      {
+        set text(font: "Libertinus Sans")
+        set text(2em, weight: "bold", fill: title-color)
+        title
       }
-      #if subtitle != none and date != none {
-        text(1.1em)[ --- ]
+      v(1.4em, weak: true)
+      // Subtitle:
+      {
+        set text(1.4em, weight: "bold")
+        subtitle
       }
-      #if date != none {
-        text(1.1em, date)
+      v(1em, weak: true)
+      // Authors:
+      {
+        authors.join(", ", last: " and ")
       }
-      #v(1em, weak: true)
-      #authors.join(", ", last: " and ")
-    ]
+    })
   }
 
   // Content
