@@ -210,7 +210,7 @@ Topics include:
   columns: 3,
   align: (left, right, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header[Operation][Notation][Formal definition],
+  table.header([Operation], [Notation], [Formal definition]),
   [Union], $A union B$, ${ x | x in A or x in B }$,
   [Intersection], $A intersect B$, ${ x | x in A and x in B }$,
   [Difference], $A setminus B$, ${ x | x in A and x notin B }$,
