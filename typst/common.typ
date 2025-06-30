@@ -40,17 +40,12 @@
   blob-style: (:),
   content,
 ) = {
-  fletcher.diagram(
-    node-corner-radius: 2pt,
-    node-stroke: .8pt,
-    ..diagram-style,
-    blob(
-      (0, 0),
-      content,
-      tint: tint,
-      ..blob-style,
-    ),
-  )
+  fletcher.diagram(node-corner-radius: 2pt, node-stroke: .8pt, ..diagram-style, blob(
+    (0, 0),
+    content,
+    tint: tint,
+    ..blob-style,
+  ))
 }
 
 // Fitch-style proofs
