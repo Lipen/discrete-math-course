@@ -491,9 +491,9 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
       circle((3, 0), radius: (1, 2))
 
       set-style(mark: (scale: 1.5))
-      line((0, 1), (3, 1), mark: (end: "stealth")) // 1 -> x
-      line((0, 0), (3, 0), mark: (end: "stealth")) // 2 -> y
-      line((0, -1), (3, 1), mark: (end: "stealth")) // 3 -> x
+      line((0, 1), ((), 95%, (3, 1)), mark: (end: "stealth")) // 1 -> x
+      line((0, 0), ((), 95%, (3, 0)), mark: (end: "stealth")) // 2 -> y
+      line((0, -1), ((), 95%, (3, 1)), mark: (end: "stealth")) // 3 -> x
 
       circle((0, 0), radius: 0.1, fill: white)
       circle((0, 1), radius: 0.1, fill: white)
