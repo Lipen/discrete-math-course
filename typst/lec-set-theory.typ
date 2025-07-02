@@ -813,6 +813,10 @@ Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural num
   $ZZ smaller.eq NN$, since there is bijection (and thus an injection) $f: ZZ to NN$.
 ]
 
+#example[
+  $NN smaller power(NN)$, since there is an injection $f(x) = {x}$, but no bijection exists.
+]
+
 == Cantor's Theorem
 
 #theorem[Cantor][
