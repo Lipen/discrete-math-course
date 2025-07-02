@@ -780,7 +780,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
         column-gutter: 1em,
         row-gutter: 1em,
         $f(0)$, $f(1)$, $f(2)$, $f(3)$, $f(4)$, $f(5)$, $f(6)$, $dots$,
-        $ceil(0/2)$, $ceil(1/2)$, $ceil(2/2)$, $ceil(3/2)$, $ceil(4/2)$, $ceil(5/2)$, $ceil(6/2)$, $dots$,
+        $ceil(0/2)$, $-ceil(1/2)$, $ceil(2/2)$, $-ceil(3/2)$, $ceil(4/2)$, $-ceil(5/2)$, $ceil(6/2)$, $dots$,
         $0$, $-1$, $1$, $-2$, $2$, $-3$, $3$, $dots$,
       )
     ]
