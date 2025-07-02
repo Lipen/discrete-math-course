@@ -766,11 +766,11 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #example[
-  $abs({x in NN | x "is prime"}) = aleph_0$, the set of prime numbers is countable.
+  $abs({x in NN | x "is prime"}) = aleph_0$, the set of _prime_ numbers is countable.
 ]
 
 #example[
-  $abs(ZZ) = aleph_0$, the set of integers ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable.
+  $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable.
 
   - There is a bijection $f: NN to ZZ$ defined by $f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")$.
     #align(center)[
