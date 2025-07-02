@@ -703,7 +703,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 //   If $A equinumerous B$, then $A$ is countable if and only if $B$ is.
 // ]
 
-== Cantor's Theorem
+#pagebreak()
 
 #definition[
   The cardinality of a set $A$ is _less than or the same_ as the cardinality of a set $B$, denoted $abs(A) <= abs(B)$ or $A smaller.eq B$, if there is an _injection_ (one-to-one function) from $A$ to $B$.
@@ -711,19 +711,43 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #definition[
-  Set $A$ is _smaller_ than $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, iff there is an injection, but no bijection from $A$ to $B$, i.e., $A smaller.eq B$ and $A equinumerous.not B$.
+  Set $A$ is _smaller_ than $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, iff there is an _injection_, but _no~bijection_ from $A$ to $B$, i.e., $A smaller.eq B$ and $A equinumerous.not B$.
 ]
+
+#example[
+  ${1, 2} smaller {a, b, c}$, since there is an injection $f: {1, 2} to {a, b, c}$ defined by $f(1) = a$ and $f(2) = b$, but no bijection exists.
+]
+
+#example[
+  $NN smaller.eq ZZ$, since there is bijection (and thus an injection) $f: NN to ZZ$.
+]
+
+#example[
+  $ZZ smaller.eq NN$, since there is bijection (and thus an injection) $f: ZZ to NN$.
+]
+
+== Cantor's Theorem
 
 #theorem[Cantor][
   $A smaller power(A)$, for any set $A$.
 ]
 
 #proof[
-  The map $f(x) = {x}$ is an injection $f: A to power(A)$, since if $x != y$, then also ${x} != {y}$ by extensionality, thus $f(x) != f(y)$.
+  The map $f(x) = {x}$ is an injection $f: A to power(A)$, since if $x != y$, then also ${x} != {y}$ by extensionality, and so $f(x) != f(y)$.
   So we have that $A smaller.eq power(A)$.
 
   It remains to show that $A equinumerous.not B$.
   For reductio, suppose $A equinumerous B$, i.e., there is some bijection $g: A to B$.
+  Now~consider $D = {x in A | x notin g(x)}$.
+  Note that $D subset.eq A$, so $D in power(A)$.
+  Since $g$ is a bijection, there exists some $y in A$ such that $g(y) = D$.
+  But now we have
+  // $y in g(y)$ iff $y in D$ iff $y notin g(y)$.
+  $
+    y in g(y) "iff" y in D "iff" y notin g(y)
+  $
+  This is a contradiction, since $y$ cannot be both _in_ and _not in_ $g(y)$.
+  Thus, $A equinumerous.not power(A)$.
 ]
 
 == Countable Sets
