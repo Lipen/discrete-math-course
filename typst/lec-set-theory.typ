@@ -765,6 +765,21 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 //   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
 // ]
 
+== Pairing Functions
+
+#definition[
+  A function $f: A times B to NN$ is an arithmetical _pairing function_ if it is injective.
+
+  We say that $f$ _encodes_ $A times B$, and that $f(a, b)$ is the _code_ of the pair $pair(a, b)$.
+]
+
+#example[
+  The _Cantor pairing function_ $g: NN^2 to NN$ is defined as:
+  $
+    g(n, k) = frac((n+k+1)(n+k), 2) + n
+  $
+]
+
 == TODO
 
 - ...
