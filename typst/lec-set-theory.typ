@@ -743,6 +743,9 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 //   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
 // ]
 
+// TODO: Cantor's Zig-Zag Method
+// $N times N$ is countable
+
 == Pairing Functions
 
 #definition[
