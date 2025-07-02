@@ -21,6 +21,8 @@
 #let dom = $op("dom")$
 #let cod = $op("cod")$
 #let range = $op("range")$
+#let equinumerous = symbol(math.approx, ("not", math.approx.not))
+#let smaller = symbol(math.prec, ("eq", math.prec.eq))
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -648,6 +650,84 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   - Let $S = {-2, -1, 0, 1, 2}$. Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
   - Let $T_1 = {1, 9}$. The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
   - Let $T_2 = {2, 3}$. The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
+]
+
+= Cardinality
+
+== Size of Sets
+
+#definition[
+  The _size_ of a _finite_ set $X$, denoted $abs(X)$, is the number of elements it contains.
+
+  // For a _finite_ set $X$, its _size_, denoted $abs(X)$, is the number of elements it contains.
+
+  // If a finite set is enumerated as $X = {x_1, dots, x_n}$, then its size is $n$.
+]
+
+#examples[
+  - $abs({#emoji.planet, #emoji.dino, #emoji.violin}) = 3$
+  - $abs(power({1,2,3})) = 2^3 = 8$
+  - $abs(emptyset) = 0$
+  - $abs(NN) = infinity$
+]
+
+== Cardinality of Sets
+
+#definition[
+  Two sets $A$ and $B$ have the same _cardinality_ and called _equinumerous_, denoted #box[$abs(A) = abs(B)$] or $A equinumerous B$, iff there is a _bijection_ (one-to-one correspondence) from $A$ to $B$.
+]
+
+// TODO: proposition
+#theorem[
+  Equinumerosity is an equivalence relation.
+]
+
+#proof[
+  Let $A$, $B$, $C$ be sets.
+  - _Reflexivity:_
+    The identity map $id_A: A to A$, where $id_A (x) = x$, is a bijection, so $A equinumerous A$.
+  - _Symmetry:_
+    Suppose $A equinumerous B$, then there is a bijection $f: A to B$.
+    Since it is a bijection, its inverse $f^(-1)$ exists and is also a bijection.
+    Hence, $f^(-1): B to A$ is a bijection, so $B equinumerous A$.
+  - _Transitivity:_
+    Suppose that $A equinumerous B$ and $B equinumerous C$, i.e., there are bijections $f: A to B$ and $g: B to C$.
+    Then~the composition $g compose f: A to C$ is also a bijection.
+    So $A equinumerous C$.
+]
+
+// TODO: proposition
+// #theorem[
+//   If $A equinumerous B$, then $A$ is countable if and only if $B$ is.
+// ]
+
+== Cantor's Theorem
+
+#definition[
+  The cardinality of a set $A$ is _less than or the same_ as the cardinality of a set $B$, denoted $abs(A) <= abs(B)$ or $A smaller.eq B$, if there is an _injection_ (one-to-one function) from $A$ to $B$.
+  // Set $A$ is _no larger than_ $B$, denoted $A smaller.eq B$, iff there is an _injection_ from $A$ to $B$.
+]
+
+#definition[
+  Set $A$ is _smaller_ than $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, iff there is an injection, but no bijection from $A$ to $B$, i.e., $A smaller.eq B$ and $A equinumerous.not B$.
+]
+
+#theorem[Cantor][
+  $A smaller power(A)$, for any set $A$.
+]
+
+#proof[
+  The map $f(x) = {x}$ is an injection $f: A to power(A)$, since if $x != y$, then also ${x} != {y}$ by extensionality, thus $f(x) != f(y)$.
+  So we have that $A smaller.eq power(A)$.
+
+  It remains to show that $A equinumerous.not B$.
+  For reductio, suppose $A equinumerous B$, i.e., there is some bijection $g: A to B$.
+]
+
+== Countable Sets
+
+#definition[
+  A set called _countable_ if it is either finite or has the same cardinality as the set of natural numbers $NN$.
 ]
 
 == TODO
