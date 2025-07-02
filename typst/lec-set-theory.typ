@@ -761,6 +761,35 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   $
 ]
 
+== Uncountable Sets
+
+#definition[
+  A set is _uncountable_ if it is not countable.
+]
+
+In order to prove that a set $A$ is _uncountable_, we need to show that _no bijection $NN to A$ can exist_.
+
+The general strategy for showing that is to use _Cantor's diagonal argument_.
+Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural numbers), we construct a _new_ element of $A$ that _differs_ from each $x_i$, thus showing that the list cannot be complete, and hence no bijection can exist.
+
+#theorem[
+  $B^omega$ is uncountable.
+]
+
+#proof[
+  Recall that $BB^omega$ is the set of all _infinite sequences_ of elements from $BB = {0, 1}$. \
+  For example, $BB^omega$ contains sequences like $0000dots$, $010101dots$, $1110dots$, etc.
+
+  Suppose for contradiction that $BB^omega$ is countable.
+  Then we can _enumerate_ its elements as $x_1, x_2, dots$, where each $x_i$ is an infinite sequence of bits, so we can represent it as $x_i = (b_(i 1), b_(i 2), b_(i 3), dots)$, where $b_(i j) in BB$ is the $j$-th bit of the $i$-th sequence.
+
+  Now we construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), dots)$, where $overline(b)_(i i) = 1 - b_(i i)$, i.e., we flip the $i$-th bit of the $i$-th sequence.
+  This sequence _differs_ from each $x_i$ at least in the $i$-th position, so it cannot be equal to any $x_i$, so it is _not in_ the enumeration $x_1, x_2, dots$.
+
+  Since $Delta$ is constructed from the bits, it is also an _element_ of $BB^omega$.
+  Thus, we have found an element of $BB^omega$ that is not in the enumeration $x_1, x_2, dots$, contradicting the assumption that $BB^omega$ is countable.
+]
+
 == Sets of Different Sizes
 
 #definition[
