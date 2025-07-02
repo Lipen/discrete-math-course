@@ -728,6 +728,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 
 #definition[
   A set called _countable_ if it is either finite or has the same cardinality as the set of natural numbers $NN$.
+  Alternatively, a set is countable if there is a _bijection_ from $NN$ to that set.
 ]
 
 #note[
