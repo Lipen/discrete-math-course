@@ -844,6 +844,18 @@ Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural num
   Thus, $A equinumerous.not power(A)$.
 ]
 
+== Schröder--Bernstein Theorem
+
+#theorem[Schröder--Bernstein][
+  If $A smaller.eq B$ and $B smaller.eq A$, then $A equinumerous B$.
+]
+
+In other words, if there are injections in both directions between two sets, then there is a bijection.
+
+#proof[
+  Obvious, but difficult.
+]
+
 == TODO
 
 - ...
