@@ -730,6 +730,41 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   A set called _countable_ if it is either finite or has the same cardinality as the set of natural numbers $NN$.
 ]
 
+#note[
+  When an infinite set is _countable_, its cardinality is denoted $aleph_0$ (_"aleph-null"_ ).
+]
+
+#example[
+  $abs(NN_"odd" = {x in NN | x "is odd"}) = aleph_0$, the set of _odd_ natural numbers is countable.
+
+  - There is a bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$.
+]
+
+#example[
+  $abs({x in NN | x "is prime"}) = aleph_0$, the set of prime numbers is countable.
+]
+
+#example[
+  $abs(ZZ) = aleph_0$, the set of integers ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable.
+
+  - There is a bijection $f: NN to ZZ$ defined by $f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")$.
+    #align(center)[
+      #grid(
+        columns: 8,
+        align: center,
+        column-gutter: 1em,
+        row-gutter: 1em,
+        $f(0)$, $f(1)$, $f(2)$, $f(3)$, $f(4)$, $f(5)$, $f(6)$, $dots$,
+        $ceil(0/2)$, $ceil(1/2)$, $ceil(2/2)$, $ceil(3/2)$, $ceil(4/2)$, $ceil(5/2)$, $ceil(6/2)$, $dots$,
+        $0$, $-1$, $1$, $-2$, $2$, $-3$, $3$, $dots$,
+      )
+    ]
+]
+
+// #example[
+//   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
+// ]
+
 == TODO
 
 - ...
