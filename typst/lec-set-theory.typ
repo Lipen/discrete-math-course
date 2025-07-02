@@ -797,7 +797,6 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   Note that $D subset.eq A$, so $D in power(A)$.
   Since $g$ is a bijection, there exists some $y in A$ such that $g(y) = D$.
   But now we have
-  // $y in g(y)$ iff $y in D$ iff $y notin g(y)$.
   $
     y in g(y) "iff" y in D "iff" y notin g(y)
   $
