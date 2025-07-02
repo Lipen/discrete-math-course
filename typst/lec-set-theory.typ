@@ -665,10 +665,12 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #examples[
-  - $abs({#emoji.planet, #emoji.dino, #emoji.violin}) = 3$
-  - $abs(power({1,2,3})) = 2^3 = 8$
-  - $abs(emptyset) = 0$
-  - $abs(NN) = infinity$
+  - Let $A = {#emoji.planet, #emoji.dino, #emoji.violin}$, then $abs(A) = 3$, since $A$ contains exactly 3 elements.
+  - Let $B = {#emoji.kiwi, #emoji.kiwi, #emoji.kiwi}$, then $abs(B) = 1$, since $B$ contains only one unique element (the kiwi).
+  - $abs(power({1,2,3})) = 2^3 = 8$, since the power set consists of all 8 possible subsets of ${1, 2, 3}$.
+  - $abs(emptyset) = 0$, since the empty set contains no elements.
+  - $abs(NN) = infinity$, since there are infinitely many natural numbers.
+  - $abs(RR) = infinity$, since there are infinitely many real numbers.
 ]
 
 == Cardinality of Sets
