@@ -1,7 +1,7 @@
 #import "theme.typ": *
 #show: slides.with(
-  title: [Discrete Mathematics],
-  subtitle: "Set Theory",
+  title: [Set Theory],
+  subtitle: "Discrete Math",
   date: "Fall 2025",
   authors: "Konstantin Chukharev",
   ratio: 16 / 9,

@@ -130,9 +130,17 @@
       }
       v(1.4em, weak: true)
       // Subtitle:
-      {
+      if subtitle != none or date != none {
         set text(1.4em, weight: "bold")
-        subtitle
+        if subtitle != none {
+          subtitle
+        }
+        if date != none {
+          if subtitle != none {
+            [, ]
+          }
+          date
+        }
       }
       v(1em, weak: true)
       // Authors:
