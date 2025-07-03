@@ -269,10 +269,10 @@ Formal languages are classified by _Chomsky hierarchy_:
 
 #v(1.5cm, weak: true)
 _Examples_:
-- $L = { a^n | n geq 0 }$
-- $L = { a^n b^n | n geq 0 }$
-- $L = { a^n b^n c^n | n geq 0 }$
-- $L = { angle.l M, w angle.r | M "is a TM that halts on input" w }$
+- $L = { a^n | n geq 0 }$ is regular.
+- $L = { a^n b^n | n geq 0 }$ is context-free.
+- $L = { a^n b^n c^n | n geq 0 }$ is context-sensitive.
+- $L = { angle.l M, w angle.r | M "is a TM that halts on input" w }$ is recursively enumerable.
 
 #place(horizon + center, dx: 1.7cm, dy: .6cm)[
   #cetz.canvas({
