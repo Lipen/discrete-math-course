@@ -754,6 +754,17 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   We say that $f$ _encodes_ $A times B$, and that $f(a, b)$ is the _code_ of the pair $pair(a, b)$.
 ]
 
+#place(right)[
+  #grid(
+    columns: 1,
+    align: right,
+    column-gutter: 1em,
+    row-gutter: 0.5em,
+    link("https://en.wikipedia.org/wiki/Georg_Cantor", image("assets/Georg_Cantor.jpg", height: 3cm)),
+    [Georg Cantor],
+  )
+]
+
 #example[
   The _Cantor pairing function_ $g: NN^2 to NN$ is defined as:
   $
