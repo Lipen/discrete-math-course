@@ -848,12 +848,45 @@ Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural num
 
 #theorem[Schröder--Bernstein][
   If $A smaller.eq B$ and $B smaller.eq A$, then $A equinumerous B$.
-]
+] <shroder-bernstein>
 
 In other words, if there are injections in both directions between two sets, then there is a bijection.
 
 #proof[
   Obvious, but difficult.
+]
+
+== Another Cantor's Theorem
+
+Let $L$ be the unit line, i.e., the set of points $[0, 1]$.
+Let $S$ be the unit square, i.e., the set of points $L times L$.
+
+#align(center)[
+  #cetz.canvas({
+    import cetz.draw: *
+    line((0, 0), (1, 0), mark: (symbol: "|"))
+    content((.5, .5))[$L$]
+    translate((1.5, 0))
+    rect((0, 0), (1, 1), fill: luma(80%))
+    content((.5, .5))[$S$]
+  })
+]
+
+#theorem[
+  $L equinumerous S$.
+]
+
+#proof[#footnote[See https://math.stackexchange.com/a/183383 for more detailed analysis.]][
+  Consider the function $f: L to S$ defined by $f(x) = (x, x)$.
+  This is an injection, since if $f(a) = f(b)$, then $(a, a) = (b, b)$, so $a = b$.
+  Thus, $L smaller.eq S$.
+
+  Now consider the function $g: S to L$ that maps $(x, y)$ to the real number obtained by interleaving the decimal expansions of $x$ and $y$.
+  More precisely, if $x = 0.x_1 x_2 x_3 dots$ and $y = 0.y_1 y_2 y_3 dots$, then $g(x, y) = 0.x_1 y_1 x_2 y_2 x_3 y_3 dots$.
+  This is an injection, since if $g(a, b) = g(c, d)$, then $a_n = c_n$ and $b_n = d_n$ for all $n in NN$, so $(a, b) = (c, d)$.
+  Thus, $S smaller.eq L$.
+
+  By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
 ]
 
 == TODO
