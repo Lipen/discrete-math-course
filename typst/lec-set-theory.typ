@@ -469,7 +469,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   A relation $R subset.eq M^2$ is called a _preorder_ if it is reflexive and transitive.
 ]
 #definition[
-  A preorder which is also antisymmetric is called a _partial order_.
+  A _partial order_ is a relation $R subset.eq M^2$ that is reflexive, antisymmetric, and transitive.
 ]
 #definition[
   A relation $R subset.eq M^2$ is _connected_ if for every pair of distinct elements, either one is related to the other or vice versa:
