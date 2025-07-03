@@ -176,6 +176,46 @@ Topics include:
   The total number of subsets of $A$ is the _sum_ of their sizes: $abs(power(A)) = 2^k + 2^k = 2 dot 2^k = 2^(k+1)$.
 ]
 
+== Hasse Diagram of Power Set
+
+The elements of the power set of ${a, b, c}$ ordered with respect to inclusion ($subset.eq$):
+
+#align(center)[
+  #import fletcher: diagram, node, edge
+  #let myblob(pos, label, ..args) = blob(
+    pos,
+    label,
+    tint: green,
+    outset: 1pt,
+    ..args,
+  )
+  #diagram(
+    spacing: (1cm, 1cm),
+    edge-stroke: .8pt,
+    node-corner-radius: 2pt,
+    myblob((0, 0), ${a,b,c}$, name: <s123>),
+    myblob((-1, 1), ${a, b}$, name: <s12>),
+    myblob((0, 1), ${a, c}$, name: <s13>),
+    myblob((1, 1), ${b, c}$, name: <s23>),
+    myblob((-1, 2), ${a}$, name: <s1>),
+    myblob((0, 2), ${b}$, name: <s2>),
+    myblob((1, 2), ${c}$, name: <s3>),
+    myblob((0, 3), $emptyset$, name: <s0>),
+    edge(<s12>, <s123>, "-}>"),
+    edge(<s13>, <s123>, "-}>"),
+    edge(<s23>, <s123>, "-}>"),
+    edge(<s1>, <s12>, "-}>"),
+    edge(<s1>, <s13>, "-}>"),
+    edge(<s2>, <s12>, "-}>"),
+    edge(<s2>, <s23>, "-}>"),
+    edge(<s3>, <s13>, "-}>"),
+    edge(<s3>, <s23>, "-}>"),
+    edge(<s0>, <s1>, "-}>"),
+    edge(<s0>, <s2>, "-}>"),
+    edge(<s0>, <s3>, "-}>"),
+  )
+]
+
 == Some Important Sets
 
 #example[
