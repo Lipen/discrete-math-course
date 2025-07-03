@@ -167,8 +167,8 @@ Topics include:
 
   The power set $power(A)$ can be partitioned into two _disjoint_ collections:
   + Subsets of $A$ that _do not_ contain $a$.
-  This collection is exactly $power(A')$.
-  By the inductive hypothesis, it has $abs(power(A')) = 2^k$ elements.
+    This collection is exactly $power(A')$.
+    By the inductive hypothesis, it has $abs(power(A')) = 2^k$ elements.
   + Subsets of $A$ that _do_ contain $a$.
     Each such subset is of the form $S union {a}$ where $S subset.eq A'$.
     This establishes a bijection with $power(A')$, so this collection also has $2^k$ elements.
