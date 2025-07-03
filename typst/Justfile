@@ -2,6 +2,7 @@ default:
     @just --list
 
 all: \
+    (compile "lec-set-theory.typ") \
     (compile "lec-flow.typ") \
     (compile "lec-formal.typ") \
     (compile "lec-nfa.typ") \
