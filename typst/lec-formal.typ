@@ -274,16 +274,16 @@ _Examples_:
 - $L = { a^n b^n c^n | n geq 0 }$ is context-sensitive.
 - $L = { angle.l M, w angle.r | M "is a TM that halts on input" w }$ is recursively enumerable.
 
-#place(horizon + center, dx: 1.7cm, dy: .6cm)[
+#place(horizon + center, dx: 1.8cm, dy: .5cm)[
   #cetz.canvas({
     import cetz.draw: *
-    circle((0, 0), radius: (1, .5))
-    circle((0, 0.5), radius: (1.4, 1))
-    circle((0, 1), radius: (2, 1.5))
-    circle((0, 1.6), radius: (2.8, 2.1))
+    circle((0, 0), radius: (1, .6))
+    circle((0, 0.6), radius: (1.5, 1.2))
+    circle((0, 1.2), radius: (2, 1.8))
+    circle((0, 1.8), radius: (2.5, 2.4))
     content((0, 0))[Regular]
-    content((0, 0.9))[Context-Free]
-    content((0, 1.9))[Context-Sensitive]
-    content((0, 2.9))[Recursively Enumerable]
+    content((0, 1.1))[Context-Free]
+    content((0, 2.4))[Context-\ Sensitive]
+    content((0, 3.5))[Recursively \ Enumerable]
   })
 ]
