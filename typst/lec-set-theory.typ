@@ -73,7 +73,7 @@ Topics include:
 ]
 
 #example[
-  ${a, b, b} = {a, b} = {b, a} = {b, a, b}$
+  ${a, b, b} = {a, b} = {b, a} = {b, a, b}$, all these denote the same set with elements $a$ and $b$.
 ]
 
 == Set-Builder Notation
