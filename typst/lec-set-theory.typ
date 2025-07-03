@@ -16,11 +16,11 @@
 #let iff = iff.double.long
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $angle.l #a, #b angle.r$
-#let rel(x) = $class("relation", #x)$
-#let nrel(x) = $class("relation", cancel(#x))$
-#let dom = $op("dom")$
-#let cod = $op("cod")$
-#let range = $op("range")$
+#let rel(x) = math.class("relation", x)
+#let nrel(x) = rel(math.cancel(x))
+#let dom = math.op("dom")
+#let cod = math.op("cod")
+#let range = math.op("range")
 #let equinumerous = symbol(math.approx, ("not", math.approx.not))
 #let smaller = symbol(math.prec, ("eq", math.prec.eq))
 
