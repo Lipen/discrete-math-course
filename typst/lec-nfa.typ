@@ -153,6 +153,7 @@
     ],
     [
       #import cetz.tree
+      #let r = 0.3
       #let data = (
         $0$,
         (
@@ -177,19 +178,13 @@
           data,
           draw-node: (node, ..) => {
             if node.children.len() == 0 {
-              if node.content == $4$ {
-                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
-              } else if node.content == $5$ and node.depth == 5 {
-                cetz.draw.circle((), radius: 0.3, fill: green.lighten(80%))
-              } else if node.content == $2$ {
-                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
-              } else if node.content == $5$ and node.depth == 3 {
-                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
+              if node.content == $5$ and node.depth == 5 {
+                cetz.draw.circle((), radius: r, fill: green.lighten(80%))
               } else {
-                cetz.draw.circle((), radius: 0.3, fill: yellow.lighten(80%))
+                cetz.draw.circle((), radius: r, fill: red.lighten(80%))
               }
             } else {
-              cetz.draw.circle((), radius: 0.3, fill: yellow.lighten(80%))
+              cetz.draw.circle((), radius: r, fill: yellow.lighten(80%))
             }
             cetz.draw.content((), node.content)
           },
