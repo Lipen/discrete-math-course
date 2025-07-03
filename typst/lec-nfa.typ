@@ -7,6 +7,8 @@
   // dark: true,
 )
 
+#import finite: cetz
+
 #show table.cell.where(y: 0): strong
 
 #let power(x) = $cal(P)(#x)$
@@ -59,7 +61,7 @@
       final: ("q2",),
       style: (
         state: (radius: 0.5, extrude: 0.8),
-        transition: (curve: 0.5),
+        transition: (curve: 0.6),
         q1: (label: $q_1$),
         q2: (label: $q_2$),
       ),
@@ -134,7 +136,7 @@
           q4-q4: (curve: 0.5),
         ),
         layout: finite.layout.custom.with(
-          positions: (..) => (
+          positions: (
             q0: (0, 0),
             q1: (2, 0),
             q2: (5, 0),
@@ -369,16 +371,16 @@ Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
     set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
 
     state((0, 0), "a1_q0", label: $q_0$, initial: true)
-    state((1, 0), "a1_q1", label: $q_1$, final: true)
+    state((1.5, 0), "a1_q1", label: $q_1$, final: true)
 
     translate(x: 4)
     state((0, 0), "a2_q0", label: $q_0$, initial: true)
-    state((1, 0), "a2_q1", label: $q_1$, final: true)
+    state((1.5, 0), "a2_q1", label: $q_1$, final: true)
     transition("a2_q0", "a2_q1", inputs: "c", label: $epsilon$, curve: 0.5)
 
     translate(x: 4)
     state((0, 0), "a3_q0", label: $q_0$, initial: true)
-    state((1, 0), "a3_q1", label: $q_1$, final: true)
+    state((1.5, 0), "a3_q1", label: $q_1$, final: true)
     transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
 
     content((rel: (0, -1), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L = emptyset$]

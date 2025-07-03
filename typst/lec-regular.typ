@@ -7,6 +7,8 @@
   // dark: true,
 )
 
+#import finite: cetz
+
 #show table.cell.where(y: 0): strong
 
 #let power(x) = $cal(P)(#x)$
