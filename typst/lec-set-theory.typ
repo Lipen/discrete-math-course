@@ -183,7 +183,7 @@ Topics include:
 The elements of the power set of ${a, b, c}$ ordered with respect to inclusion ($subset.eq$):
 
 #align(center)[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #let myblob(pos, label, ..args) = blob(
     pos,
     label,
