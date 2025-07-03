@@ -23,6 +23,8 @@
 #let range = math.op("range")
 #let equinumerous = symbol(math.approx, ("not", math.approx.not))
 #let smaller = symbol(math.prec, ("eq", math.prec.eq))
+#let Join = math.or
+#let Meet = math.and
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -984,6 +986,35 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   #note[
     Not all posets have a greatest element, but if they do, it is _unique_ and also a maximal element.
   ]
+]
+
+#definition[
+  An element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ in a poset $pair(S, leq)$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+]
+
+#definition[
+  An _upper bound set_ of $C$ is a set $U subset.eq S$ of all elements that are upper bounds of $C$.
+]
+
+#definition[
+  An upper bound $u in S$ of a subset $C subset.eq S$ in a poset $pair(S, leq)$ is called a _supremum_ (or~_join_), denoted $sup(S)$ or $Join.big S$, if it is the _least_ upper bound, i.e., for any other upper bound $v in S$ of~$C$, we have $u leq v$.
+
+  #note[
+    If it exists, the least upper bound is _unique_.
+  ]
+]
+
+== Lattices
+
+#definition[
+  An _upper semilattice_ (or _join-semilattice_), denoted $pair(S, Join)$, is a poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a join (supremum).
+]
+#definition[
+  A _lower semilattice_ (or _meet-semilattice_), denoted $pair(S, Meet)$, is a poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a meet (infimum).
+]
+
+#definition[
+  A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
 ]
 
 == TODO
