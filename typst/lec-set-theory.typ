@@ -122,6 +122,8 @@ Topics include:
   ${0} in {0, {0}}$ _and_ ${0} subset.eq {0, {0}}$, that is, ${0}$ is an element, and also a subset.
 ]
 
+// TODO: visualize subsets using Euler diagrams (nested circles)
+
 == Power Sets
 
 #definition[
@@ -247,6 +249,8 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
 ]
 
 == Operations on Sets
+
+// TODO: visualize set operations using Venn diagrams (overlapping circles)
 
 #table(
   columns: 3,
