@@ -966,20 +966,25 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 == Partially Ordered Sets
 
+// Poset
 #definition[
   A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
 
   // A partial order is a relation $leq$ over $S$ that is reflexive, antisymmetric, and transitive.
 ]
 
+// Chain
 #definition[
   A _chain_ in a poset $pair(S, leq)$ is a subset $C subset.eq S$ such that any two elements $x, y in C$ are~_comparable_, i.e., either $x leq y$ or $y leq x$.
 ]
 
+// Minimal element
 #definition[
   An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
 ]
+// TODO: Maximal element
 
+// Greatest element
 #definition[
   The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
 
@@ -988,31 +993,59 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   ]
 ]
 
+// TODO: Least element
+
+// TODO: examples
+
+== Upper and Lower Bounds
+
+// Upper bound
 #definition[
-  An element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ in a poset $pair(S, leq)$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
 ]
 
+// Lower bound
 #definition[
-  An _upper bound set_ of $C$ is a set $U subset.eq S$ of all elements that are upper bounds of $C$.
+  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
 ]
 
+// TODO: examples
+
+== Suprema and Infima
+
+// Supremum
 #definition[
-  An upper bound $u in S$ of a subset $C subset.eq S$ in a poset $pair(S, leq)$ is called a _supremum_ (or~_join_), denoted $sup(S)$ or $Join.big S$, if it is the _least_ upper bound, i.e., for any other upper bound $v in S$ of~$C$, we have $u leq v$.
+  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
 
   #note[
     If it exists, the least upper bound is _unique_.
   ]
 ]
 
+// Infimum
+#definition[
+  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
+
+  #note[
+    If it exists, the greatest lower bound is _unique_.
+  ]
+]
+
+// TODO: examples
+
 == Lattices
 
+// Upper semilattice
 #definition[
-  An _upper semilattice_ (or _join-semilattice_), denoted $pair(S, Join)$, is a poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a join (supremum).
-]
-#definition[
-  A _lower semilattice_ (or _meet-semilattice_), denoted $pair(S, Meet)$, is a poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a meet (infimum).
+  A poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a join (supremum) is called an _upper semilattice_ (or _join-semilattice_) and denoted $pair(S, Join)$.
 ]
 
+// Lower semilattice
+#definition[
+  A poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a meet (infimum) is called a _lower semilattice_ (or _meet-semilattice_) and denoted $pair(S, Meet)$.
+]
+
+// Lattice
 #definition[
   A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
 ]
