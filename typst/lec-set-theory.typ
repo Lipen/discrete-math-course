@@ -928,19 +928,23 @@ In other words, if there are injections in both directions between two sets, the
 Let $L$ be the unit line, i.e., the set of points $[0, 1]$.
 Let $S$ be the unit square, i.e., the set of points $L times L$.
 
-#align(center)[
-  #cetz.canvas({
-    import cetz.draw: *
-    line((0, 0), (1, 0), mark: (symbol: "|"))
-    content((.5, .5))[$L$]
-    translate((1.5, 0))
-    rect((0, 0), (1, 1), fill: luma(80%))
-    content((.5, .5))[$S$]
-  })
-]
+#columns(2)[
+  #theorem[
+    $L equinumerous S$.
+  ]
 
-#theorem[
-  $L equinumerous S$.
+  #colbreak()
+
+  #align(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+      line((0, 0), (1, 0), mark: (symbol: "|"))
+      content((.5, .5))[$L$]
+      translate((1.5, 0))
+      rect((0, 0), (1, 1), fill: luma(80%))
+      content((.5, .5))[$S$]
+    })
+  ]
 ]
 
 #proof[#footnote[See https://math.stackexchange.com/a/183383 for more detailed analysis.]][
