@@ -960,6 +960,32 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
 ]
 
+= Algebraic Structures
+
+== Partially Ordered Sets
+
+#definition[
+  A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
+
+  // A partial order is a relation $leq$ over $S$ that is reflexive, antisymmetric, and transitive.
+]
+
+#definition[
+  A _chain_ in a poset $pair(S, leq)$ is a subset $C subset.eq S$ such that any two elements $x, y in C$ are~_comparable_, i.e., either $x leq y$ or $y leq x$.
+]
+
+#definition[
+  An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
+]
+
+#definition[
+  The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
+
+  #note[
+    Not all posets have a greatest element, but if they do, it is _unique_ and also a maximal element.
+  ]
+]
+
 == TODO
 
 - ...
