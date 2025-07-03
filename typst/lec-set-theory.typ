@@ -4,7 +4,7 @@
   subtitle: "Discrete Math",
   date: "Fall 2025",
   authors: "Konstantin Chukharev",
-  ratio: 16 / 9,
+  // dark: true,
 )
 
 #show table.cell.where(y: 0): strong

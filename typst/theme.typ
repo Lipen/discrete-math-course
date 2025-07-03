@@ -15,12 +15,11 @@
   subtitle: none,
   date: none,
   authors: (),
-  ratio: 16 / 9,
   dark: false,
 ) = {
   // Page dimensions
   let height = 10.5cm
-  let width = ratio * height
+  let width = height * 16 / 9
   let space = 1.6cm
 
   // Colors
@@ -69,14 +68,12 @@
         }
       }
     },
-    header-ascent: 1.2em,
     footer: context {
       // show: body => block(width: 100%, height: 100%, stroke: 1pt + red, body)
       set text(0.8em, fill: gray)
       set align(right)
       counter(page).display("1 / 1", both: true)
     },
-    footer-descent: 0.5em,
   )
   set outline(target: heading.where(level: 1), title: none)
   set bibliography(title: none)

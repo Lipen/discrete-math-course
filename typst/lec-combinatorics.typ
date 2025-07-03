@@ -1,10 +1,9 @@
 #import "theme.typ": *
 #show: slides.with(
-  title: [Discrete Mathematics],
-  subtitle: "Combinatorics",
+  title: [Combinatorics],
+  subtitle: "Discrete Math",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
-  ratio: 16 / 9,
   // dark: true,
 )
 
