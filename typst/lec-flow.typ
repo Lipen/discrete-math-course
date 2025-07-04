@@ -47,7 +47,7 @@ TODO: a picture with a graph and a question about the flow in it
   Very meaningful example of a flow network with annotated capacities:
 ]
 #align(center)[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     spacing: (2cm, 0.5cm),
     edge-stroke: 1pt,
@@ -107,7 +107,7 @@ TODO: a picture with a graph and a question about the flow in it
 #example[Yet another meaningful example.]
 #v(1em)
 #place(center)[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     spacing: (2cm, 0.5cm),
     edge-stroke: 1pt,
@@ -159,9 +159,9 @@ TODO: a picture with a graph and a question about the flow in it
 #proof[
   This follows directly from the flow conservation condition.
   $
-    abs(f) &= sum_(e in Out(s)) f(e) = \
-    &= sum_(e in Out(s)) f(e) - sum_(v in V setminus {s,t}) [ sum_(e in In(v)) f(e) - sum_(e in Out(v)) f(e) ] = \
-    &= sum_(e in In(t)) f(e)
+    abs(f) & = sum_(e in Out(s)) f(e) =                                                                                  \
+           & = sum_(e in Out(s)) f(e) - sum_(v in V setminus {s,t}) [ sum_(e in In(v)) f(e) - sum_(e in Out(v)) f(e) ] = \
+           & = sum_(e in In(t)) f(e)
   $
 ]
 
@@ -198,7 +198,7 @@ TODO: a picture with a graph and a question about the flow in it
     row-gutter: 1em,
     [*Network $N$ with flow $f$*], [*Residual Network $N_f$*],
     [
-      #import fletcher: diagram, node, edge
+      #import fletcher: diagram, edge, node
       #diagram(
         spacing: (2cm, 1cm),
         edge-stroke: 1pt,
@@ -214,7 +214,7 @@ TODO: a picture with a graph and a question about the flow in it
       )
     ],
     [
-      #import fletcher: diagram, node, edge
+      #import fletcher: diagram, edge, node
       #diagram(
         spacing: (2cm, 1cm),
         edge-stroke: 1pt,
@@ -266,7 +266,7 @@ TODO: a picture with a graph and a question about the flow in it
 == Example
 
 #place[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     spacing: (1.5cm, 0.4cm),
     edge-stroke: 1pt,
@@ -383,11 +383,11 @@ TODO: a picture with a graph and a question about the flow in it
 
 #proof[
   $
-    f(A,B) &= f^"out" (A) - f^"in" (A) \
-    &lt.eq f^"out" (A) \
-    &= sum_(e in Out(A)) f(e) \
-    &lt.eq sum_(e in Out(A)) c(e) \
-    &= c(A, B)
+    f(A,B) & = f^"out" (A) - f^"in" (A)   \
+           & lt.eq f^"out" (A)            \
+           & = sum_(e in Out(A)) f(e)     \
+           & lt.eq sum_(e in Out(A)) c(e) \
+           & = c(A, B)
   $
 ]
 
@@ -419,7 +419,7 @@ TODO: a picture with a graph and a question about the flow in it
 ]
 
 #[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     spacing: (1.5cm, 0.4cm),
     edge-stroke: 1pt,

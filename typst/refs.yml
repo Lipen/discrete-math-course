@@ -19,9 +19,9 @@ entley1980:
   type: article
   title: A General Method for Solving Divide-and-Conquer Recurrences
   author:
-  - Bentley, Jon Louis
-  - Haken, Dorothea
-  - Saxe, James B.
+    - Bentley, Jon Louis
+    - Haken, Dorothea
+    - Saxe, James B.
   date: 1980-09
   page-range: 36-44
   serial-number:
@@ -36,8 +36,8 @@ akra1998:
   type: article
   title: On the Solution of Linear Recurrence Equations
   author:
-  - Akra, Mohamad
-  - Bazzi, Louay
+    - Akra, Mohamad
+    - Bazzi, Louay
   date: 1998-05-01
   page-range: 195-210
   serial-number:

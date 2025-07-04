@@ -32,13 +32,9 @@
   let el = it.element
   if el != none and el.func() == math.equation {
     show underline: it => it.body
-    link(
-      el.location(),
-      numbering(
-        el.numbering,
-        ..counter(math.equation).at(el.location()),
-      ),
-    )
+    link(el.location())[
+      #numbering(el.numbering, ..counter(math.equation).at(el.location()))
+    ]
   } else {
     it
   }
@@ -147,7 +143,7 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
   Let $S$ be the set of students attending the combinatorics lecture.
   It can be partitioned into parts $S_1$ and $S_2$ where
   $
-    & S_1 = #[set of students that _like_ easy examples.] \
+    & S_1 = #[set of students that _like_ easy examples.]       \
     & S_2 = #[set of students that _don't like_ easy examples.] \
   $
   If $abs(S_1) = 22$ and $abs(S_2) = 8$, then we can conclude $abs(S) = abs(S_1) + abs(S_2) = 30$.
@@ -602,11 +598,11 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   Let $k = 3$.
   There are $binom(3 + 3 - 1, 3, 3 - 1) = binom(5, 3) = binom(5, 2) = 10$ ways to decompose $k = 3$ into $s = 3$ parts:
   $
-    k &= 3 = \
-    &= 0 + 1 + 2 = 0 + 2 + 1 \
-    &= 1 + 0 + 2 = 1 + 2 + 0 = 1 + 1 + 1 \
-    &= 2 + 0 + 1 = 2 + 1 + 0 \
-    &= 3 + 0 + 0 = 0 + 3 + 0 = 0 + 0 + 3 \
+    k & = 3 =                               \
+      & = 0 + 1 + 2 = 0 + 2 + 1             \
+      & = 1 + 0 + 2 = 1 + 2 + 0 = 1 + 1 + 1 \
+      & = 2 + 0 + 1 = 2 + 1 + 0             \
+      & = 3 + 0 + 0 = 0 + 3 + 0 = 0 + 0 + 3 \
   $
 ]
 
@@ -888,7 +884,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 #table(
   columns: 2,
   stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-  table.header[Ferrer Diagram][Young Tableaux],
+  table.header([Ferrer Diagram], [Young Tableaux]),
   partition_diagram(parts, young: false), partition_diagram(parts, young: true),
 )
 
@@ -989,10 +985,9 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
   + _Apply PIE:_
     Using @thm:pie, the number of surjections from $[k]$ to $[n]$ is
     $
-      abs(X setminus (X_1 union dots union X_n))
-      &=^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
-      &= sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k \
-      &= sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k \
+      abs(X setminus (X_1 union dots union X_n)) & =^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
+                                                 & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k  \
+                                                 & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k        \
     $
     In the last step, we used that $(-1)^abs(S) (n - abs(S))^k$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
 ]
@@ -1047,10 +1042,9 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
 
   + Using @thm:pie, the number of derangements is given by
     $
-      abs(X setminus (X_1 union dots union X_n))
-      &=^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
-      &= sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))! \
-      &= sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
+      abs(X setminus (X_1 union dots union X_n)) & =^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
+                                                 & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))!   \
+                                                 & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
     $
 
     In the last step, we used that $(-1)^abs(S) (n - abs(S))!$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
@@ -1130,7 +1124,7 @@ The generating function $G(x) = 1 + x + x^2 + dots$ is also known as the _Maclau
   columns: 4,
   align: (right + horizon, left + horizon, left + horizon, left + horizon),
   stroke: (x, y) => if y == 0 { (bottom: .6pt) },
-  table.header[Formula][Power series][Sequence][Description],
+  table.header([Formula], [Power series], [Sequence], [Description]),
   box($ 1 / (1 - x) $), box($ sum_(n = 0)^infinity x^n = 1 + x + x^2 + x^3 + dots $), $(1, 1, 1, dots)$, [constant 1],
   box($ 2 / (1 - x) $),
   box($ sum_(n = 0)^infinity 2 x^n = 2 + 2x + 2x^2 + 2x^3 + dots $),
@@ -1164,11 +1158,10 @@ The generating function $G(x) = 1 + x + x^2 + dots$ is also known as the _Maclau
 )
 
 $
-  frac(1-x^(n+1), 1-x)
-  &= frac(1, 1-x) - frac(x^(n+1), 1-x) = \
-  &eq.delta (1,1,1,dots) - \(underbrace(0\,0\,dots\,0, n+1 "zeros"),1,1,dots) = \
-  &= \(underbrace(1\,1\,dots\,1, n+1 "ones"), 0,0,dots) = \
-  &eq.delta 1 + x + x^2 + dots + x^n
+  frac(1-x^(n+1), 1-x) & = frac(1, 1-x) - frac(x^(n+1), 1-x) =                                        \
+                       & eq.delta (1,1,1,dots) - \(underbrace(0\,0\,dots\,0, n+1 "zeros"),1,1,dots) = \
+                       & = \(underbrace(1\,1\,dots\,1, n+1 "ones"), 0,0,dots) =                       \
+                       & eq.delta 1 + x + x^2 + dots + x^n
 $
 
 == Exercises
@@ -1232,7 +1225,7 @@ $
 
   Multiply polynomials and find $[x^20] G(x)$:
   $
-    & [x^20] (1+x^2+x^4+dots+x^20) (x^12+x^13+dots+x^20) (1+x+x^2+x^3+x^4+x^5) = \
+    & [x^20] (1+x^2+x^4+dots+x^20) (x^12+x^13+dots+x^20) (1+x+x^2+x^3+x^4+x^5) =  \
     & = [x^20] (x^45 + 2x^44 + dots + underbracket(21x^20) + dots + 2x^13 + x^12) \
     & = 21
   $
@@ -1271,7 +1264,7 @@ Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x
   columns: 2,
   align: left + horizon,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header[Operation][Result],
+  table.header([Operation], [Result]),
   [Differentiate $F(x)$ term-wise], box($ F'(x) = sum_(n = 0)^infinity (n + 1) a_(n + 1) x^n $),
   [Multiply $F(x)$ by a scalar $lambda in RR$ term-wise], box($ lambda F(x) = sum_(n = 0)^infinity lambda a_n x^n $),
   [Add $F(x)$ and $G(x)$ term-wise], box($ F(x) + G(x) = sum_(n = 0)^infinity (a_n + b_n) x^n $),
@@ -1315,11 +1308,11 @@ Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x
 
 Let $F(x)$ be a generating function for $a_n$, then we know:
 $
-  F(x) &= sum_(n = 0)^infinity a_n x^n
-  = 1 + sum_(n = 1)^infinity ( sum_(k = 0)^(n - 1) a_k a_(n - k - 1) ) x^n
-  = 1 + sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^(n+1) \
-  &= 1 + x dot sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^n
-  = 1 + x dot F(x)^2
+  F(x) & = sum_(n = 0)^infinity a_n x^n
+         = 1 + sum_(n = 1)^infinity ( sum_(k = 0)^(n - 1) a_k a_(n - k - 1) ) x^n
+         = 1 + sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^(n+1) \
+       & = 1 + x dot sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^n
+         = 1 + x dot F(x)^2
 $
 
 Solving the equation $x F^2 - F + 1 = 0$ for $F$ gives:
@@ -1452,10 +1445,10 @@ where $binom(n, k) = 0$ for $k > n$.
 #example[
   Going back to the example with the number of well-formed paranthesis expressions, we get:
   $
-    F(x) &= (1 - sqrt(1 - 4x)) / (2x)
-    = 1 / (2x) sum_(n = 1)^infinity 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
-    &= 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
-    = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
+    F(x) & = (1 - sqrt(1 - 4x)) / (2x)
+           = 1 / (2x) sum_(n = 1)^infinity 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
+         & = 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
+           = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
   $
   The numbers $C_n := binom(2n, n) 1 / (n+1)$ are called _Catalan numbers_.
 ]
@@ -1480,7 +1473,7 @@ where $binom(n, k) = 0$ for $k > n$.
 
   - _Checking_ it confirms that the formula is correct:
     $
-      a_n &= underbracket(a_(n-1)) + d = underbracket(a_0 + (n-1)d, a_(n-1)) + d = a_0 + n dot d quad qed
+      a_n & = underbracket(a_(n-1)) + d = underbracket(a_0 + (n-1)d, a_(n-1)) + d = a_0 + n dot d quad qed
     $
 ]
 
@@ -1535,12 +1528,11 @@ Such solutions are called _characteristic roots_ of $(*)$.
   Since $r_1$ and $r_2$ are roots, then $r_1^2 = c_1 r_1 + c_2$ and $r_2^2 = c_1 r_2 + c_2$.
   Next, we can see:
   $
-    c_1 a_(n-1) + c_2 a_(n-2)
-    &= c_1 (alpha_1 r_1^(n-1) + alpha_2 r_2^(n-1)) + c_2 (alpha_1 r_1^(n-2) + alpha_2 r_2^(n-2)) \
-    &= alpha_1 r_1^(n-2) (c_1 r_1 + c_2) + alpha_2 r_2^(n-2) (c_1 r_2 + c_2) \
-    &= alpha_1 r_1^(n-2) r_1^2 + alpha_2 r_2^(n-2) r_2^2 \
-    &= alpha_1 r_1^n + alpha_2 r_2^n \
-    &= a_n
+    c_1 a_(n-1) + c_2 a_(n-2) & = c_1 (alpha_1 r_1^(n-1) + alpha_2 r_2^(n-1)) + c_2 (alpha_1 r_1^(n-2) + alpha_2 r_2^(n-2)) \
+                              & = alpha_1 r_1^(n-2) (c_1 r_1 + c_2) + alpha_2 r_2^(n-2) (c_1 r_2 + c_2)                     \
+                              & = alpha_1 r_1^(n-2) r_1^2 + alpha_2 r_2^(n-2) r_2^2                                         \
+                              & = alpha_1 r_1^n + alpha_2 r_2^n                                                             \
+                              & = a_n
   $
 
   To show that every solution $(a_n)$ of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ has $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for some constants $alpha_1$ and $alpha_2$, suppose that the initial condition are $a_0 = C_0$ and $a_1 = C_1$, and show that there exist constants $alpha_1$ and $alpha_2$ such that $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ satisfies the same initial conditions.
@@ -1660,9 +1652,9 @@ Such solutions are called _characteristic roots_ of $(*)$.
   To find the constants, we can use the initial conditions:
   $
     cases(
-      a_0 &= 2 &= alpha_(1,0) &+ alpha_(1,1) &+ alpha_(2,0) &+ alpha_(2,1) &+ alpha_(3,0),
-      a_1 &= 2 &= (alpha_(1,0) &+ alpha_(1,1)) (1 - i) &+ (alpha_(2,0) &+ alpha_(2,1)) (1 + i) &+ 2 alpha_(3,0),
-      a_2 &= 0 &= (alpha_(1,0) &+ 2 alpha_(1,1)) (1 - i)^2 &+ (alpha_(2,0) &+ 2 alpha_(2,1)) (1 + i)^2 &+ 4 alpha_(3,0),
+      a_0 & = 2 & = alpha_(1,0) & + alpha_(1,1) & + alpha_(2,0) & + alpha_(2,1) & + alpha_(3,0),
+      a_1 & = 2 & = (alpha_(1,0) & + alpha_(1,1)) (1 - i) & + (alpha_(2,0) & + alpha_(2,1)) (1 + i) & + 2 alpha_(3,0),
+      a_2 & = 0 & = (alpha_(1,0) & + 2 alpha_(1,1)) (1 - i)^2 & + (alpha_(2,0) & + 2 alpha_(2,1)) (1 + i)^2 & + 4 alpha_(3,0),
       a_3 &= -4 &= (alpha_(1,0) &+ 3 alpha_(1,1)) (1 - i)^3 &+ (alpha_(2,0) &+ 3 alpha_(2,1)) (1 + i)^3 &+ 8 alpha_(3,0),
       a_4 &= -8 &= (alpha_(1,0) &+ 4 alpha_(1,1)) (1 - i)^4 &+ (alpha_(2,0) &+ 4 alpha_(2,1)) (1 + i)^4 &+ 16 alpha_(3,0),
     )
@@ -1756,12 +1748,12 @@ $
 #examples[
   Below are the results of applying different operators to $f(n) = 2^n$:
   $
-    2 f(n) &= 2 dot 2^n = 2^(n+1) \
-    3 f(n) &= 3 dot 2^n \
-    shift f(n) &= 2^(n+1) \
-    shift^2 f(n) &= 2^(n+2) \
-    (shift - 2) f(n) &= shift f(n) - 2f(n) = 2^(n+1) - 2^(n+1) = 0 \
-    (shift^2 - 1) f(n) &= shift^2 f(n) - f(n) = 2^(n+2) - 2^n = 3 dot 2^n
+                2 f(n) & = 2 dot 2^n = 2^(n+1)                             \
+                3 f(n) & = 3 dot 2^n                                       \
+            shift f(n) & = 2^(n+1)                                         \
+          shift^2 f(n) & = 2^(n+2)                                         \
+      (shift - 2) f(n) & = shift f(n) - 2f(n) = 2^(n+1) - 2^(n+1) = 0      \
+    (shift^2 - 1) f(n) & = shift^2 f(n) - f(n) = 2^(n+2) - 2^n = 3 dot 2^n
   $
 ]
 
@@ -1774,12 +1766,12 @@ $
 #example[
   The compound operators $shift^2 - 3 shift + 2$ and $(shift - 1)(shift -2)$ are equivalent:
   $
-    "Let" g(n) :=& (shift - 2) f(n) = f(n+1) - 2f(n) \
-    "Then" (shift - 1) (shift - 2) f(n) =& (shift - 1) g(n) \
-    =& g(n+1) - g(n) \
-    =& [f(n+2) - 2f(n-1)] - [f(n+1) - 2f(n)] \
-    =& f(n+2) - 3f(n+1) + 2f(n) \
-    =& (shift^2 - 3 shift + 2) f(n) quad YES
+                            "Let" g(n) := & (shift - 2) f(n) = f(n+1) - 2f(n)     \
+    "Then" (shift - 1) (shift - 2) f(n) = & (shift - 1) g(n)                      \
+                                        = & g(n+1) - g(n)                         \
+                                        = & [f(n+2) - 2f(n-1)] - [f(n+1) - 2f(n)] \
+                                        = & f(n+2) - 3f(n+1) + 2f(n)              \
+                                        = & (shift^2 - 3 shift + 2) f(n) quad YES
   $
 ]
 
@@ -1788,7 +1780,7 @@ $
 #table(
   columns: 2,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header[Operator][Definition],
+  table.header([Operator], [Definition]),
   [addition], $(f+g)(n) := f(n) + g(n)$,
   [subtraction], $(f-g)(n) := f(n) - g(n)$,
   [multiplication], $(alpha dot f)(n) := alpha dot f(n)$,
@@ -1814,7 +1806,7 @@ TODO: examples!
 #table(
   columns: 2,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header[Operator][Functions annihilated],
+  table.header([Operator], [Functions annihilated]),
   $shift - 1$, $alpha$,
   $shift - a$, $alpha a^n$,
   $(shift - a)(shift - b)$, $alpha a^n + beta b^n quad ["if" a != b]$,
@@ -1956,7 +1948,7 @@ TODO: examples!
   columns: 4,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
   align: horizon + left,
-  table.header[Notation][Name][Description][Limit definition],
+  table.header([Notation], [Name], [Description], [Limit definition]),
   $f in o(g)$, [Small Oh], [$f$ is dominated by $g$], $ lim_(n to infinity) f(n) / g(n) = 0 $,
   $f in O(g)$, [Big Oh], [$f$ is bounded above by $g$], $ limsup_(n to infinity) abs(f(n)) / g(n) < infinity $,
   $f tilde g$, [Equivalence], [$f$ is asympotically equal to $g$], $ lim_(n to infinity) f(n) / g(n) = 1 $,
@@ -1989,12 +1981,12 @@ TODO: examples!
 
 #box[
   $
-    f in O(g) "and" f in Omega(g) &quad iff quad f in Theta(g) \
-    f in O(g) &quad iff quad g in Omega(f) \
-    f in o(g) &quad iff quad g in omega(f) \
-    f in o(g) &quad imply quad f in O(g) \
-    f in omega(g) &quad imply quad f in Omega(g) \
-    f tilde g &quad imply quad f in Theta(g) \
+    f in O(g) "and" f in Omega(g) & quad iff quad f in Theta(g)   \
+                        f in O(g) & quad iff quad g in Omega(f)   \
+                        f in o(g) & quad iff quad g in omega(f)   \
+                        f in o(g) & quad imply quad f in O(g)     \
+                    f in omega(g) & quad imply quad f in Omega(g) \
+                        f tilde g & quad imply quad f in Theta(g) \
   $
 ]
 
@@ -2022,7 +2014,7 @@ $ T(n) = a dot T(n / b) + f(n) $
 #table(
   columns: 4,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header[Case][Description][Condition][Bound],
+  table.header([Case], [Description], [Condition], [Bound]),
   [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$ \ where $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
   [Case II],
   ["merge" $approx$ "recursion"],
@@ -2110,10 +2102,10 @@ where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)
     This gives us $p = 2$.
   - Next, use the formula from AB-method to obtain the bound:
     $
-      T(x) &in Theta(x^p (1 + integral_1^x f(u) / u^(p+1) d u)) = \
-      &= Theta(x^2 (1 + integral_1^x u^2 / u^3 d u)) = \
-      &= Theta(x^2 (1 + ln x)) = \
-      &= Theta(x^2 log x)
+      T(x) & in Theta(x^p (1 + integral_1^x f(u) / u^(p+1) d u)) = \
+           & = Theta(x^2 (1 + integral_1^x u^2 / u^3 d u)) =       \
+           & = Theta(x^2 (1 + ln x)) =                             \
+           & = Theta(x^2 log x)
     $
 ]
 
@@ -2162,10 +2154,9 @@ $
 Let's check that the integral definition is indeed a suitable definition of a gamma function.
 
 $
-  Gamma(z + 1)
-  &= integral_0^infinity t^z e^(-t) d t \
-  &= [-t^z e^(-t)]_0^infinity + integral_0^infinity z t^(z-1) e^(-t) d t \
-  &= lim_(t to infinity) (-t^z e^(-t)) - (-0^z e^(-0)) + z integral_0^infinity t^(z-1) e^(-t) d t
+  Gamma(z + 1) & = integral_0^infinity t^z e^(-t) d t                                                           \
+               & = [-t^z e^(-t)]_0^infinity + integral_0^infinity z t^(z-1) e^(-t) d t                          \
+               & = lim_(t to infinity) (-t^z e^(-t)) - (-0^z e^(-0)) + z integral_0^infinity t^(z-1) e^(-t) d t
 $
 #v(-.5em)
 Note that $-t^z e^(-t) to 0$ as $t to infinity$, so:

@@ -91,7 +91,7 @@
   columns: 3,
   align: (center, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header[Language][Expression][Description],
+  table.header([Language], [Expression], [Description]),
   $emptyset$, [], [Empty language],
   ${epsilon}$, $epsilon$, [Language with a single empty word],
   ${"a"}$, $regex("a")$, [Singleton language with a literal character "a"],
@@ -135,14 +135,10 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
     columns: 3,
     column-gutter: 2em,
     finite.transition-table(aut),
-    finite.automaton(
-      aut,
-      final: ("q0",),
-      style: (
-        state: (radius: 0.5, extrude: 0.8),
-        transition: (curve: 0.5),
-      ),
-    ),
+    finite.automaton(aut, final: ("q0",), style: (
+      state: (radius: 0.5, extrude: 0.8),
+      transition: (curve: 0.5),
+    )),
     [Here, $q_0$ is the _start_ (denoted by an arrow) and also the~_accepting_ (denoted by double circle) state.],
   )
 ]
@@ -163,7 +159,7 @@ There are two main types of finite-state machines:
 + _Acceptors_ (or _recognizers_), automata that produce a binary _yes/no answer_, indicating whether or not the recieved input word $w in Sigma^*$ is _accepted_, i.e., belongs to the language $L$ recognized by the automaton.
 
 #align(center)[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     // debug: true,
     edge-stroke: 0.8pt,
