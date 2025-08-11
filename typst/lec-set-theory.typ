@@ -483,7 +483,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 #pagebreak()
 
 #theorem[Equivalences $<=>$ Partitions][
-  Each equivalence relation $R$ on $M$ yields the partition #box($cal(P)_R = { [x]_R | x in M }$).
+  Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { [x]_R | x in M }$].
   Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $x R_cal(P) y$ iff $x,y$ lie in the same block.
   These constructions invert one another.
 ]
