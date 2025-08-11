@@ -465,6 +465,35 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $[x]_R = [y]_R$ for all $x, y in M$.
 ]
 
+== Partitions and Equivalence Relations
+
+#definition[
+  A _partition_ $cal(P)$ of a set $M$ is a family of non-empty, pairwise-disjoint subsets whose union is $M$:
+  - (Non-empty) $forall B in cal(P). thin B != emptyset$.
+  - (Disjoint) $forall B_1, B_2 in cal(P). thin B_1 != B_2 imply B_1 intersect B_2 = emptyset$.
+  - (Cover) $union.big_(B in cal(P)) B = M$.
+  Elements of $cal(P)$ are _blocks_ (or _cells_).
+]
+
+#example[
+  For $M = {0,1,2,3,4,5}$: ${{0,2,4},{1,3,5}}$ (even / odd) and ${{0,5},{1,2,3},{4}}$ (arbitrary) are partitions.
+]
+// TODO: visualize partitions from the example
+
+#pagebreak()
+
+#theorem[Equivalences $<=>$ Partitions][
+  Each equivalence relation $R$ on $M$ yields the partition #box($cal(P)_R = { [x]_R | x in M }$).
+  Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $x R_cal(P) y$ iff $x,y$ lie in the same block.
+  These constructions invert one another.
+]
+
+#proof[(Sketch)][
+  Classes of an equivalence are non-empty, disjoint, and cover $M$.
+  Conversely "same block" relation is reflexive, symmetric, transitive.
+  Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
+]
+
 == Orders
 
 #definition[
