@@ -1178,8 +1178,18 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   Complements are unique in a Boolean algebra.
 ]
 
-#proof[(Sketch)][
-  If $x', y'$ both complement $x$: $x' = x' Meet top = x' Meet (x Join y') = (x' Meet x) Join (x' Meet y') = #box[$bot Join (x' Meet y')$] = x' Meet y'$. Symmetric for $y'$, so $x'=y'$.
+#proof[
+  Suppose for some element $a$ we have two complements $x$ and $y$.
+  $
+    x
+    = x Meet top
+    = x Meet (a Join y)
+    = (x Meet a) Join (x Meet y)
+    = bot Join (x Meet y)
+    = x Meet y
+  $
+  Identically, we can show that $y = x Meet y$.
+  Hence, $x = y$.
 ]
 
 #theorem[De Morgan][
