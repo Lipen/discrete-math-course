@@ -1187,7 +1187,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 #note[
-  Logical reading: $Join mapsto or$, $Meet mapsto and$, "complement" $mapsto not$.
+  Logical reading: "join" $mapsto or$, "meet" $mapsto and$, "complement" $mapsto not$.
 ]
 
 == TODO
