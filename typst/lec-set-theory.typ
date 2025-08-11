@@ -13,7 +13,7 @@
 #show quote: set par(justify: false)
 #show quote: set align(left)
 
-#let iff = iff.double.long
+#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
