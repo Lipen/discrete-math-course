@@ -1179,7 +1179,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 #proof[(Sketch)][
-  If $x', y'$ both complement $x$: $x' = x' Meet top = x' Meet (x Join y') = (x' Meet x) Join (x' Meet y') = bot Join (x' Meet y') = x' Meet y'$. Symmetric for $y'$, so $x'=y'$.
+  If $x', y'$ both complement $x$: $x' = x' Meet top = x' Meet (x Join y') = (x' Meet x) Join (x' Meet y') = #box[$bot Join (x' Meet y')$] = x' Meet y'$. Symmetric for $y'$, so $x'=y'$.
 ]
 
 #theorem[De Morgan][
