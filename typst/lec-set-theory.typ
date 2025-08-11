@@ -1164,6 +1164,32 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   Subspaces of a vector space (ordered by inclusion) form a modular (not always distributive) lattice.
 ]
 
+== Boolean Algebras
+
+#definition[
+  A _Boolean algebra_ is a bounded distributive lattice $(B, Join, Meet, bot, top)$ with complement $(dot)': B to B$ such that $x Join x' = top$ and $x Meet x' = bot$.
+]
+
+#example[
+  $(power(A), union, intersect, emptyset, A)$ with $X' = A setminus X$ is a Boolean algebra.
+]
+
+#theorem[Unique Complement][
+  Complements are unique in a Boolean algebra.
+]
+
+#proof[(Sketch)][
+  If $x', y'$ both complement $x$: $x' = x' Meet top = x' Meet (x Join y') = (x' Meet x) Join (x' Meet y') = bot Join (x' Meet y') = x' Meet y'$. Symmetric for $y'$, so $x'=y'$.
+]
+
+#theorem[De Morgan][
+  $(x Join y)' = x' Meet y'$ and $(x Meet y)' = x' Join y'$ in any Boolean algebra.
+]
+
+#note[
+  Logical reading: $Join mapsto or$, $Meet mapsto and$, "complement" $mapsto not$.
+]
+
 == TODO
 
 - ...
