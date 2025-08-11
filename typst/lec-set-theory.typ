@@ -831,8 +831,29 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 //   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
 // ]
 
-// TODO: Cantor's Zig-Zag Method
-// $N times N$ is countable
+== Countability Constructions
+
+#definition[
+  A set $X$ is _enumerable_ if there is a surjection $e: NN to X$ (equivalently a bijection with either $NN$ or an initial segment of $NN$ if $X$ finite).
+]
+
+#theorem[Zig-Zag Enumeration][
+  $NN^2$ is countable.
+]
+
+#proof[
+  List pairs by diagonals of constant sum: $(0,0); (0,1),(1,0); (0,2),(1,1),(2,0); dots$ giving a bijection with $NN$.
+]
+
+#theorem[
+  $QQ$ is countable.
+]
+
+#proof[
+  Enumerate positive reduced fractions $p "/" q$ ordered by $p+q$ and increasing $p$; skip non-reduced.
+  Interleave $0$ and negatives.
+  This yields _enumeration_, hence $QQ equinumerous NN$.
+]
 
 == Pairing Functions
 
