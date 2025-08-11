@@ -1073,7 +1073,11 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
 ]
 
-// TODO: examples
+#examples[
+  - In $(RR, <=)$ for $C = (0,1)$: every $x <= 0$ is a lower bound; every $x >= 1$ an upper bound.
+  - In $(power(A), subset.eq)$ for $C = {{1,2},{1,3}}$: lower bounds include ${1}$, $emptyset$; upper bounds include ${1,2,3}$.
+  - In $(ZZ, |)$ for $C = {4,6}$: upper bounds are multiples of $12$; least upper bound $12$; lower bounds are divisors of $2$; greatest lower bound $2$.
+]
 
 == Suprema and Infima
 
