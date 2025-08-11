@@ -1042,11 +1042,15 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   A _chain_ in a poset $pair(S, leq)$ is a subset $C subset.eq S$ such that any two elements $x, y in C$ are~_comparable_, i.e., either $x leq y$ or $y leq x$.
 ]
 
+// TODO: anti-chain
+
 // Minimal element
 #definition[
   An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
 ]
-// TODO: Maximal element
+#definition[
+  A _maximal element_ $m$ satisfies: there is no $y in S$ with $m < y$. There may be multiple maximal (or minimal) elements; contrast with unique greatest (if it exists).
+]
 
 // Greatest element
 #definition[
@@ -1057,9 +1061,21 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   ]
 ]
 
-// TODO: Least element
+// Least element
+#definition[
+  A _least element_ (bottom) $b$ satisfies $b leq x$ for all $x in S$.
+]
 
-// TODO: examples
+#note[
+  Greatest (top) and least (bottom) elements are unique when they exist.
+]
+
+#examples[
+  - $(power(A), subset.eq)$: least $emptyset$, greatest $A$.
+  - $(NN, |)$: least $1$, no greatest.
+  - $(ZZ, <=)$: no least or greatest.
+  - $({1,2,3,6}, |)$: least $1$, greatest $6$, maximal elements $2,3$ (besides $6$).
+]
 
 == Upper and Lower Bounds
 
