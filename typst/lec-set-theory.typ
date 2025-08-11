@@ -510,9 +510,23 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   A partial order which is also connected is called a _total order_ (or _linear order_).
 ]
 
+== Examples of Orders
+
 #example[
   Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$: $x prec.curly.eq y$ iff $"len"(x) <= "len"(y)$.
   This is a preorder (reflexive and transitive), and even connected, but not a partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
+]
+
+#example[
+  The subset relation $subset.eq$ on $power(A)$ is a partial order (reflexive, antisymmetric, transitive); typically not total, since not all subsets are comparable (e.g., $A = {1}$ and $B = {2, 3}$).
+]
+
+#example[
+  Divisibility $|$ on $D = {1,2,3,6}$: $1|2|6$, $1|3|6$; $2$ and $3$ incomparable. Partial, not total.
+]
+
+#example[
+  Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
 ]
 
 = Functions
