@@ -1138,6 +1138,32 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
 ]
 
+== Properties of Lattices
+
+#definition[
+  A lattice is _bounded_ if it has a greatest element $top$ and a least element $bot$.
+]
+
+#definition[
+  A lattice is _distributive_ if $x Meet (y Join z) = (x Meet y) Join (x Meet z)$ (and dually).
+]
+
+#definition[
+  A lattice is _modular_ if $x leq z$ implies $x Join (y Meet z) = (x Join y) Meet z$.
+
+  #note[
+    Distributive $=>$ modular.
+  ]
+]
+
+#example[
+  $(power(A), subset.eq)$ is a bounded distributive lattice with $Join = union$, $Meet = intersect$, $top = A$, $bot = emptyset$.
+]
+
+#example[
+  Subspaces of a vector space (ordered by inclusion) form a modular (not always distributive) lattice.
+]
+
 == TODO
 
 - ...
