@@ -1115,7 +1115,11 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   ]
 ]
 
-// TODO: examples
+#examples[
+  - $pair(RR, <=)$: $sup({0,1}) = 1$, $inf({0,1}) = 0$.
+  - $pair(power(A), subset.eq)$: $sup = union$, $inf = intersect$.
+  - Divisibility on $NN_(>0)$: $sup({a, b}) = lcm(a, b)$ (if any common multiple), $inf({a, b}) = gcd(a, b)$.
+]
 
 == Lattices
 
