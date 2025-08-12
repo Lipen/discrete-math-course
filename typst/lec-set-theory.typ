@@ -594,12 +594,12 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
       circle((3, 1), radius: 0.1, fill: white)
       circle((3, -1), radius: 0.1, fill: white)
 
-      content((-0.2, 1), anchor: "east")[1]
-      content((-0.2, 0), anchor: "east")[2]
-      content((-0.2, -1), anchor: "east")[3]
-      content((3.2, 1), anchor: "west")[x]
-      content((3.2, 0), anchor: "west")[y]
-      content((3.2, -1), anchor: "west")[z]
+      content((-0.2, 1), anchor: "east")[$1$]
+      content((-0.2, 0), anchor: "east")[$2$]
+      content((-0.2, -1), anchor: "east")[$3$]
+      content((3.2, 1), anchor: "west")[$x$]
+      content((3.2, 0), anchor: "west")[$y$]
+      content((3.2, -1), anchor: "west")[$z$]
     })
   ]
 ]
