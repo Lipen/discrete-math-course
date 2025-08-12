@@ -673,16 +673,18 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   Note that in general, $g compose f != f compose g$.
 ]
 
-#theorem[Properties of Composition][
-  - _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
-  - The _identity_ function acts as a _neutral_ element for composition:
-    - $id_B compose f = f$ for any function $f: A to B$.
-    - $f compose id_A = f$ for any function $f: A to B$.
-  - Composition _preserves_ the properties of functions:
-    - If $f$ and $g$ are injective, so is $g compose f$.
-    - If $f$ and $g$ are surjective, so is $g compose f$.
-    - If $f$ and $g$ are bijective, so is $g compose f$.
-]
+== Properties of Function Composition
+
+- _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+
+- The _identity_ function acts as a _neutral_ element for composition:
+  - $id_B compose f = f$ for any function $f: A to B$.
+  - $f compose id_A = f$ for any function $f: A to B$.
+
+- Composition _preserves_ the properties of functions:
+  - If $f$ and $g$ are injective, so is $g compose f$.
+  - If $f$ and $g$ are surjective, so is $g compose f$.
+  - If $f$ and $g$ are bijective, so is $g compose f$.
 
 == Inverse Functions
 
