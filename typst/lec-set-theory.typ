@@ -547,7 +547,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #definition[
-  A relation that satisfies the functional property is called a _partial function_.
+  A relation that satisfies the functional (left-total) property is called a _partial function_.
 
   A relation that satisfies both properties is called a _total function_, or simply a _function_.
 ]
