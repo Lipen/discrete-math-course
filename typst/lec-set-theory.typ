@@ -687,8 +687,10 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 == Inverse Functions
 
 #definition[
-  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is~defined as:
-  $ f^(-1)(b) = a quad "iff" quad f(a) = b $.
+  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
+  $
+    f^(-1)(b) = a quad "iff" quad f(a) = b
+  $
 ]
 
 #note[
