@@ -1069,10 +1069,6 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 // Greatest element
 #definition[
   The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
-
-  #note[
-    Not all posets have a greatest element, but if they do, it is _unique_ and also a maximal element.
-  ]
 ]
 
 // Least element
@@ -1081,7 +1077,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 #note[
-  Greatest (top) and least (bottom) elements are unique when they exist.
+  Greatest (top) and least (bottom) elements are _unique_ when they exist.
 ]
 
 #examples[
