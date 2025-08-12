@@ -983,7 +983,7 @@ Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural num
 In other words, if there are injections in both directions between two sets, then there is a bijection.
 
 #proof[
-  Obvious, but difficult.
+  Obvious, but difficult. #emoji.person.shrug
 ]
 
 == Another Cantor's Theorem
