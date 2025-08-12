@@ -570,7 +570,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   - $dom(f) = A$.
   - $cod(f) = B$.
   - $range(f) = {x, y}$.
-  We have $f(1)=x$, $f(2)=y$, $f(3)=x$.
+  We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
 
   #place(bottom + right)[
     #cetz.canvas({
