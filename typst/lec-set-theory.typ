@@ -801,7 +801,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #example[
-  $abs(NN_"odd" = {x in NN | x "is odd"}) = aleph_0$, the set of _odd_ natural numbers is countable.
+  $abs(NN_"odd" = {1, 3, 5, ...}) = aleph_0$, the set of _odd_ natural numbers is countable.
 
   - There is a bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$.
 ]
@@ -811,7 +811,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #example[
-  $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable.
+  $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, ..., -2, -1, 0, 1, 2, ..., infinity$) is countable.
 
   - There is a bijection $f: NN to ZZ$ defined by $f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")$.
     #align(center)[
