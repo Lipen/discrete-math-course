@@ -755,7 +755,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 #examples[
   - Let $A = {#emoji.planet, #emoji.dino, #emoji.violin}$, then $abs(A) = 3$, since $A$ contains _exactly 3_ elements.
   - Let $B = {#emoji.kiwi, #emoji.kiwi, #emoji.kiwi}$, then $abs(B) = 1$, since $B$ contains _only one unique_ element (the kiwi).
-  - $abs(power({1,2,3})) = 2^3 = 8$, since the power set consists of _all 8 possible subsets_ of ${1, 2, 3}$.
+  - $abs(power({1,2,#emoji.cat})) = 2^3 = 8$, since the power set consists of _all 8 possible subsets_ of ${1, 2, #emoji.cat}$.
   - $abs(emptyset) = 0$, since the _empty_ set contains _no elements_.
   - $abs(NN) = infinity$, since there are _infinitely many_ natural numbers.
   - $abs(RR) = infinity$, since there are _infinitely many_ real numbers.
