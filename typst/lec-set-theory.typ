@@ -1071,10 +1071,10 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 #examples[
-  - $(power(A), subset.eq)$: least $emptyset$, greatest $A$.
-  - $(NN, |)$: least $1$, no greatest.
-  - $(ZZ, <=)$: no least or greatest.
-  - $({1,2,3,6}, |)$: least $1$, greatest $6$, maximal elements $2,3$ (besides $6$).
+  - $pair(power(A), subset.eq)$: least $emptyset$, greatest $A$.
+  - $pair(NN^+, |)$: least $1$, no greatest element.
+  - $pair(ZZ, <=)$: no least or greatest element.
+  - $pair({1,...,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$.
 ]
 
 == Upper and Lower Bounds
