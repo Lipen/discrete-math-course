@@ -1056,8 +1056,14 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 #definition[
   An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
 ]
+
+// Maximal element
 #definition[
-  A _maximal element_ $m$ satisfies: there is no $y in S$ with $m < y$. There may be multiple maximal (or minimal) elements; contrast with unique greatest (if it exists).
+  A _maximal element_ $m$ satisfies: there is no $y in S$ with $m < y$.
+]
+
+#note[
+  There may be multiple maximal (or minimal) elements.
 ]
 
 // Greatest element
