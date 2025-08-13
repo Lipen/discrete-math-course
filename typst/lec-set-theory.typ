@@ -18,13 +18,15 @@
 #let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let dom = math.op("dom")
-#let cod = math.op("cod")
-#let range = math.op("range")
+#let Dom = math.op("dom")
+#let Cod = math.op("cod")
+#let Range = math.op("range")
 #let equinumerous = symbol(math.approx, ("not", math.approx.not))
 #let smaller = symbol(math.prec, ("eq", math.prec.eq))
 #let Join = math.or
 #let Meet = math.and
+#let nand = $overline(and)$
+#let nor = $overline(or)$
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -36,7 +38,36 @@
 #let YES = Green(sym.checkmark)
 #let NO = Red(sym.crossmark)
 
-= Sets
+#show heading.where(level: 1): none
+
+= Set Theory
+#focus-slide(
+  epigraph: [A set is a Many that allows itself to be thought of as a One.],
+  epigraph-author: "Georg Cantor",
+  scholars: (
+    (
+      name: "Georg Cantor",
+      image: image("assets/Georg_Cantor.jpg"),
+    ),
+    (
+      name: "Richard Dedekind",
+      image: image("assets/Richard_Dedekind.jpg"),
+    ),
+    (
+      name: "Bertrand Russell",
+      image: image("assets/Bertrand_Russell.jpg"),
+    ),
+    (
+      name: "Ernst Zermelo",
+      image: image("assets/Ernst_Zermelo.jpg"),
+    ),
+    (
+      name: "Abraham Fraenkel",
+      image: image("assets/Abraham_Fraenkel.jpg"),
+    ),
+    // TODO: +
+  ),
+)
 
 == Introduction
 
@@ -357,6 +388,29 @@ A contradiction is reached in both cases. The only possible conclusion is that #
 This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
 
 = Relations
+#focus-slide(
+  // TODO: replace epigraph
+  epigraph: [Mathematics is the art of giving the same name to different things.],
+  epigraph-author: "Henri Poincaré",
+  scholars: (
+    (
+      name: "Henri Poincaré",
+      image: image("assets/Henri_Poincare.jpg"),
+    ),
+    (
+      name: "Évariste Galois",
+      image: image("assets/Evariste_Galois.jpg"),
+    ),
+    (
+      name: "Michael Rabin",
+      image: image("assets/Michael_Rabin.jpg"),
+    ),
+    (
+      name: "Herbert Wilf",
+      image: image("assets/Herbert_Wilf.jpg"),
+    ),
+  ),
+)
 
 == Relations as Sets
 
@@ -466,7 +520,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $[x]_R = [y]_R$ for all $x, y in M$.
 ]
 
-== Partitions and Equivalence Relations
+== Partitions
 
 #definition[
   A _partition_ $cal(P)$ of a set $M$ is a family of non-empty, pairwise-disjoint subsets whose union is $M$:
@@ -481,7 +535,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 // TODO: visualize partitions from the example
 
-#pagebreak()
+== Partitions and Equivalence Relations
 
 #theorem[Equivalences $<=>$ Partitions][
   Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { [x]_R | x in M }$].
@@ -531,6 +585,36 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 = Functions
+#focus-slide(
+  epigraph: [A function is a machine which converts a certain class of inputs \ into a certain class of outputs.],
+  epigraph-author: "Norbert Wiener",
+  scholars: (
+    (
+      name: "Leonhard Euler",
+      image: image("assets/Leonhard_Euler.jpg"),
+    ),
+    (
+      name: "Augustin-Louis Cauchy",
+      image: image("assets/Augustin-Louis_Cauchy.jpg"),
+    ),
+    (
+      name: "Karl Weierstrass",
+      image: image("assets/Karl_Weierstrass.jpg"),
+    ),
+    (
+      name: "Joseph-Louis Lagrange",
+      image: image("assets/Joseph-Louis_Lagrange.jpg"),
+    ),
+    (
+      name: "George Pólya",
+      image: image("assets/George_Polya.jpg"),
+    ),
+    (
+      name: "Norbert Wiener",
+      image: image("assets/Norbert_Wiener.jpg"),
+    ),
+  ),
+)
 
 == Definition of a Function
 
@@ -556,20 +640,20 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 
 #definition[
   For a function $f: A to B$:
-  - The set $A$ is called the _domain_ of $f$, denoted $dom(f)$.
-  - The set $B$ is called the _codomain_ of $f$, denoted $cod(f)$.
+  - The set $A$ is called the _domain_ of $f$, denoted $Dom(f)$.
+  - The set $B$ is called the _codomain_ of $f$, denoted $Cod(f)$.
   - The _range_ (or _image_) of $f$ is the set of all values that $f$ actually takes:
-    $ range(f) = "Im"(f) = { b in B | exists a in A, f(a) = b } = { f(a) | a in A } $
-  Note that $range(f) subset.eq cod(f)$.
+    $ Range(f) = "Im"(f) = { b in B | exists a in A, f(a) = b } = { f(a) | a in A } $
+  Note that $Range(f) subset.eq Cod(f)$.
 ]
 
 #example[
   Let $A = {1, 2, 3}$ and $B = {x, y, z}$.
   Let $f = {pair(1, x), pair(2, y), pair(3, x)}$.
   - $f$ is a function from $A$ to $B$.
-  - $dom(f) = A$.
-  - $cod(f) = B$.
-  - $range(f) = {x, y}$.
+  - $Dom(f) = A$.
+  - $Cod(f) = B$.
+  - $Range(f) = {x, y}$.
   We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
 
   #place(bottom + right)[
@@ -606,9 +690,9 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 
 #example[
   Consider $g: ZZ to ZZ$ defined by $g(n) = n^2$.
-  - $dom(g) = ZZ$.
-  - $cod(g) = ZZ$.
-  - $range(g) = {0, 1, 4, 9, dots}$ (the set of non-negative perfect squares).
+  - $Dom(g) = ZZ$.
+  - $Cod(g) = ZZ$.
+  - $Range(g) = {0, 1, 4, 9, dots}$ (the set of non-negative perfect squares).
 ]
 
 == Injective Functions
@@ -631,7 +715,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 #definition[
   A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
   $ forall b in B. thin exists a in A. thin f(a) = b $
-  For surjective functions, $range(f) = cod(f)$.
+  For surjective functions, $Range(f) = Cod(f)$.
 ]
 
 #example[
@@ -670,7 +754,6 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   Let $f: RR to RR$ be $f(x) = x^2$ and $g: RR to RR$ be $g(x) = x+1$.
   - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$.
   - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$.
-  Note that in general, $g compose f != f compose g$.
 ]
 
 == Properties of Function Composition
@@ -685,6 +768,8 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   - If $f$ and $g$ are injective, so is $g compose f$.
   - If $f$ and $g$ are surjective, so is $g compose f$.
   - If $f$ and $g$ are bijective, so is $g compose f$.
+
+- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
 
 == Inverse Functions
 
@@ -745,7 +830,37 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   - Let $T_2 = {2, 3}$. The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
 ]
 
-= Cardinality
+= Cardinality & Infinity
+#focus-slide(
+  epigraph: [God made the integers, all else is the work of man.],
+  epigraph-author: "Leopold Kronecker",
+  scholars: (
+    (
+      name: "Georg Cantor",
+      image: image("assets/Georg_Cantor.jpg"),
+    ),
+    (
+      name: "Kurt Gödel",
+      image: image("assets/Kurt_Godel.jpg"),
+    ),
+    (
+      name: "Leopold Kronecker",
+      image: image("assets/Leopold_Kronecker.jpg"),
+    ),
+    (
+      name: "David Hilbert",
+      image: image("assets/David_Hilbert.jpg"),
+    ),
+    (
+      name: "Giuseppe Peano",
+      image: image("assets/Giuseppe_Peano.jpg"),
+    ),
+    (
+      name: "John von Neumann",
+      image: image("assets/John_von_Neumann.jpg"),
+    ),
+  ),
+)
 
 == Size of Sets
 
@@ -815,18 +930,24 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 
 #example[
   $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable, since there is a bijection $f: NN to ZZ$ defined by $f(n)$:
-  $
-    f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")
-    #h(2em)
-    mat(
-      delim: "[",
-      column-gap: #1em,
-      row-gap: #0.5em,
-      f(0), f(1), f(2), f(3), f(4), f(5), f(6), dots;
-      ceil(0/2), -ceil(1/2), ceil(2/2), -ceil(3/2), ceil(4/2), -ceil(5/2), ceil(6/2), dots;
-      0, -1, 1, -2, 2, -3, 3, dots
-    )
-  $
+  #align(center, grid(
+    columns: 2,
+    align: horizon,
+    column-gutter: 1em,
+    $
+      f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")
+    $,
+    $
+      mat(
+        delim: "[",
+        column-gap: #1em,
+        row-gap: #0.5em,
+        f(0), f(1), f(2), f(3), f(4), f(5), f(6), dots;
+        ceil(0/2), -ceil(1/2), ceil(2/2), -ceil(3/2), ceil(4/2), -ceil(5/2), ceil(6/2), dots;
+        0, -1, 1, -2, 2, -3, 3, dots
+      )
+    $,
+  ))
 ]
 
 // #example[
@@ -844,7 +965,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
 #proof[
-  List pairs by diagonals of constant sum: $(0,0); (0,1),(1,0); (0,2),(1,1),(2,0); dots$ giving a bijection with $NN$.
+  List pairs by diagonals of constant sum: $pair(0, 0); pair(0, 1),pair(1, 0); pair(0, 2),pair(1, 1),pair(2, 0); dots$ giving a bijection with $NN$.
 ]
 
 #theorem[
@@ -871,7 +992,12 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
     align: right,
     column-gutter: 1em,
     row-gutter: 0.5em,
-    link("https://en.wikipedia.org/wiki/Georg_Cantor", image("assets/Georg_Cantor.jpg", height: 3cm)),
+    link("https://en.wikipedia.org/wiki/Georg_Cantor", box(
+      radius: 10%,
+      clip: true,
+      stroke: 1pt + blue.lighten(20%),
+      image("assets/Georg_Cantor.jpg", height: 3cm),
+    )),
     [Georg Cantor],
   )
 ]
@@ -1038,7 +1164,37 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
 ]
 
-= Algebraic Structures
+= Order Theory
+#focus-slide(
+  epigraph: [Order is heaven's first law.],
+  epigraph-author: "Alexander Pope",
+  scholars: (
+    (
+      name: "Helmut Hasse",
+      image: image("assets/Helmut_Hasse.jpg"),
+    ),
+    (
+      name: "Alfred Tarski",
+      image: image("assets/Alfred_Tarski.jpg"),
+    ),
+    (
+      name: "Emmy Noether",
+      image: image("assets/Emmy_Noether.jpg"),
+    ),
+    (
+      name: "Garrett Birkhoff",
+      image: image("assets/Garrett_Birkhoff.jpg"),
+    ),
+    (
+      name: "Dana Scott",
+      image: image("assets/Dana_Scott.jpg"),
+    ),
+    (
+      name: "Felix Hausdorff",
+      image: image("assets/Felix_Hausdorff.jpg"),
+    ),
+  ),
+)
 
 == Partially Ordered Sets
 
@@ -1049,12 +1205,16 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   // A partial order is a relation $leq$ over $S$ that is reflexive, antisymmetric, and transitive.
 ]
 
+// TODO: linear order
+
 // Chain
 #definition[
   A _chain_ in a poset $pair(S, leq)$ is a subset $C subset.eq S$ such that any two elements $x, y in C$ are~_comparable_, i.e., either $x leq y$ or $y leq x$.
 ]
 
 // TODO: anti-chain
+
+// TODO: Hasse diagram
 
 // Minimal element
 #definition[
@@ -1104,9 +1264,9 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 #examples[
-  - In $(RR, <=)$ for interval $C = (0,1)$: every $x <= 0$ is a lower bound; every $x >= 1$ an upper bound.
-  - In $(power(A), subset.eq)$ for $C = {{1,2},{1,3}}$: lower bounds include ${1}$, $emptyset$; upper bounds include ${1,2,3}$.
-  - In $(ZZ, |)$ for $C = {4,6}$: upper bounds are multiples of $12$; least upper bound $12$; lower bounds are divisors of $2$; greatest lower bound $2$.
+  - In $pair(RR, <=)$ for interval $C = (0,1)$: every $x <= 0$ is a lower bound; every $x >= 1$ an upper bound.
+  - In $pair(power(A), subset.eq)$ for $C = {{1,2},{1,3}}$: lower bounds include ${1}$, $emptyset$; upper bounds include ${1,2,3}$.
+  - In $pair(ZZ, |)$ for $C = {4,6}$: upper bounds are multiples of $12$; least upper bound $12$; lower bounds are divisors of $2$; greatest lower bound $2$.
 ]
 
 == Suprema and Infima
@@ -1132,8 +1292,28 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 #examples[
   - $pair(RR, <=)$: $sup({0,1}) = 1$, $inf({0,1}) = 0$, i.e., $sup(C) = max(C)$, $inf(C) = min(C)$.
   - $pair(power(A), subset.eq)$: $sup = union$, $inf = intersect$.
-  - Divisibility on $NN_(>0)$: $sup({a, b}) = lcm(a, b)$ (if any common multiple), $inf({a, b}) = gcd(a, b)$.
+  - Divisibility on $NN_(>0)$: $sup {a, b} = lcm(a, b)$ (if any common multiple), $inf {a, b} = gcd(a, b)$.
 ]
+
+// = Lattices
+// #focus-slide(
+//   epigraph: [Order and simplification are the first steps toward mastery of a subject.],
+//   epigraph-author: "Thomas Mann",
+//   scholars: (
+//     (
+//       name: "Garrett Birkhoff",
+//       image: image("assets/Garrett_Birkhoff.jpg"),
+//     ),
+//     (
+//       name: "Alfred Tarski",
+//       image: image("assets/Alfred_Tarski.jpg"),
+//     ),
+//     (
+//       name: "John von Neumann",
+//       image: image("assets/John_von_Neumann.jpg"),
+//     ),
+//   ),
+// )
 
 == Lattices
 
@@ -1150,6 +1330,25 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 // Lattice
 #definition[
   A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
+]
+
+== Why Lattices?
+
+#block(
+  width: 100%,
+  fill: yellow.lighten(80%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  inset: 0.8em,
+)[
+  *Why study lattices?*
+  Whenever you have:
+  - Elements that can be _compared_ (ordered)
+  - Ways to _combine_ elements (join, meet)
+  - Consistent behavior under combination
+
+  ...you likely have a lattice!
+  This structure appears in programming languages, databases, security systems, logic circuits, and many other areas of computer science and mathematics.
 ]
 
 == Properties of Lattices
@@ -1170,15 +1369,217 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   ]
 ]
 
-#example[
-  $(power(A), subset.eq)$ is a bounded distributive lattice with $Join = union$, $Meet = intersect$, $top = A$, $bot = emptyset$.
+#example[Powerset Lattice][
+  $pair(power(A), subset.eq)$ is a bounded distributive lattice with $Join = union$, $Meet = intersect$, $top = A$, $bot = emptyset$.
+
+  #place(right)[
+    #box(
+      radius: 20%,
+      clip: true,
+      stroke: 1pt + navy,
+      image("assets/base.jpg", height: 2.5cm),
+    )
+  ]
+
+  *Why this matters:*
+  This is the foundation of set-based reasoning in:
+  - Database theory (relational algebra)
+  - Formal specification languages (Z, B-method)
+  - Model checking and verification
+]
+
+== Examples of Lattices
+
+// #example[
+//   Subspaces of a vector space (ordered by inclusion) form a modular (not always distributive) lattice.
+
+//   *Application:* Linear algebra, quantum mechanics (state spaces), signal processing (subspace methods).
+// ]
+
+#example[Divisibility Lattice][
+  For positive integers, $a leq b$ iff $a$ divides $b$.
+  - Join: Least Common Multiple (LCM)
+  - Meet: Greatest Common Divisor (GCD)
+  - Used in: Number theory, cryptography (RSA), computer algebra systems
+]
+
+#example[Partition Lattice][
+  All partitions of a set $S$, ordered by refinement.
+  - $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
+  - Join: Coarsest common refinement
+  - Meet: Finest common coarsening
+  - Applications: Clustering, database normalization
+]
+
+#block(
+  inset: 0.8em,
+  fill: luma(240),
+  radius: 0.5em,
+)[
+  Lattices aren't just abstract algebra --- they appear everywhere in computer science and mathematics.
+
+  The _join_ and _meet_ operations capture fundamental patterns of _combination_ and _interaction_.
+]
+
+== Why Lattices Matter [1]: Information Security Levels
+
+#place(top + right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 16pt,
+    edge-stroke: 1pt + navy,
+    node-corner-radius: 2pt,
+    blob((0, 0), [Public], tint: green, name: <public>),
+    edge("-}>"),
+    blob((0, -1), [Internal], tint: yellow, name: <internal>),
+    edge("-}>"),
+    blob((0, -2), [Confidential], tint: orange, name: <confidential>),
+    edge("-}>"),
+    blob((0, -3), [Secret], tint: red, name: <secret>),
+    edge("-}>"),
+    blob((0, -4), [Top Secret], tint: purple, name: <top-secret>),
+  )
 ]
 
 #example[
-  Subspaces of a vector space (ordered by inclusion) form a modular (not always distributive) lattice.
+  In computer security, information has _classification levels_ forming a lattice:
+
+  - Elements: ${"Public", "Internal", "Confidential", "Secret", "Top Secret"}$
+  - Order: $"Public" leq "Internal" leq "Confidential" leq "Secret" leq "Top Secret"$
+  - Join ($Join$): Higher classification needed to combine information
+  - Meet ($Meet$): Lower classification that both pieces can be declassified to
+
+  For instance:
+  - $"Internal" Join "Confidential" = "Confidential"$ (combination needs higher level)
+  - $"Secret" Meet "Confidential" = "Confidential"$ (both can be declassified to this level)
 ]
 
-== Boolean Algebras
+== Why Lattices Matter [2]: Program Analysis and Type Systems
+
+#example[
+  In programming language theory, _types_ form lattices:
+
+  *Subtype Lattice:*
+  - Order: $#`int` subset.sq.eq #`number` subset.sq.eq #`any`$, $#`string` subset.sq.eq #`any`$
+  - Join: Most general common supertype (for union types)
+  - Meet: Most specific common subtype (for intersection types)
+
+  *Control Flow Analysis:*
+  - Elements: Sets of possible program states
+  - Order: Subset inclusion ($subset.eq$)
+  - Join: Union of possible states (at merge points)
+  - Meet: Intersection of guaranteed properties
+]
+
+== Why Lattices Matter [3]: Database Query Optimization
+
+#example[
+  _Query execution plans_ form a lattice:
+
+  - Elements: Different ways to execute a query
+  - Order: "Plan A $leq$ Plan B" if A is more efficient than B
+  - Join: Combine optimization strategies
+  - Meet: Find common optimizations
+
+  This structure helps database optimizers systematically explore the space of possible query plans.
+]
+
+== Why Lattices Matter [4]: Concept Hierarchies and Ontologies
+
+#example[
+  Knowledge representation uses _concept lattices_.
+
+  For example, consider a biological taxonomy:
+  #block[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1em, 2em),
+      node-fill: luma(240),
+      node-stroke: 0.5pt,
+      edge-stroke: 1pt,
+      node((.5, 0), [Animal], name: <animal>),
+      node((0, 1), [Mammal], name: <mammal>),
+      node((1, 1), [Bird], name: <bird>),
+      node((0, 2), [Dog], name: <dog>),
+      node((1, 2), [Eagle], name: <eagle>),
+      edge(<mammal>, <animal>, "-}>"),
+      edge(<bird>, <animal>, "-}>"),
+      edge(<dog>, <mammal>, "-}>"),
+      edge(<eagle>, <bird>, "-}>"),
+    )
+  ]
+
+  - Elements: Biological concepts (e.g., Animal, Mammal, Dog)
+  - Order: "Concept A $leq$ Concept B" if A is a more specific type of B, e.g., "Dog $leq$ Mammal"
+  - Join: Most specific common ancestor, e.g., "Mammal $Join$ Bird $=$ Animal"
+  - Meet: Most general common descendant, e.g., "Bird $Meet$ Eagle $=$ Eagle"
+]
+
+== Why Lattices Matter [5]: Distributed Systems and Causality
+
+#example[
+  In distributed systems, _events_ form a lattice _under causality_:
+
+  - Elements: System events with vector timestamps
+  - Order: "Event A $leq$ Event B" if A causally precedes B
+  - Join: Latest information from both events
+  - Meet: Common causal history
+
+  This structure is crucial for:
+  - Consistent distributed databases
+  - Version control systems (Git DAG)
+  - Blockchain consensus algorithms
+]
+
+== Why Lattices Matter [6]: Logic and Boolean Reasoning
+
+#example[
+  _Propositional formulas_ form lattices:
+
+  - Elements: Boolean formulas over variables
+  - Order: $phi leq psi$ if $phi$ implies $psi$ (semantic entailment)
+  - Join: Disjunction ($or$) --- weaker condition
+  - Meet: Conjunction ($and$) --- stronger condition
+
+  Special case: _Boolean algebra_ $(True, False, or, and, not)$ used in:
+  - Digital circuit design
+  - Database query languages (SQL WHERE clauses)
+  - Search engines (Boolean search)
+]
+
+= Boolean Algebra
+#focus-slide(
+  epigraph: [Мы почитаем всех нулями, \ А единицами — себя.],
+  epigraph-author: [А.С. Пушкин, «Евгений Онегин»],
+  scholars: (
+    (
+      name: "Gottfried Wilhelm Leibniz",
+      image: image("assets/Gottfried_Wilhelm_Leibniz.jpg"),
+    ),
+    (
+      name: "George Boole",
+      image: image("assets/George_Boole.jpg"),
+    ),
+    (
+      name: "Augustus De Morgan",
+      image: image("assets/Augustus_De_Morgan.jpg"),
+    ),
+    (
+      name: "Charles Sanders Peirce",
+      image: image("assets/Charles_Sanders_Peirce.jpg"),
+    ),
+    (
+      name: "Ernst Schröder",
+      image: image("assets/Ernst_Schroeder.jpg"),
+    ),
+    (
+      name: "Claude Shannon",
+      image: image("assets/Claude_Shannon.jpg"),
+    ),
+  ),
+)
+
+== Definition and Basic Properties
 
 #definition[
   A _Boolean algebra_ is a bounded distributive lattice $(B, Join, Meet, bot, top)$ with complement $(dot)': B to B$ such that $x Join x' = top$ and $x Meet x' = bot$.
@@ -1188,30 +1589,286 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   $(power(A), union, intersect, emptyset, A)$ with $X' = A setminus X$ is a Boolean algebra.
 ]
 
-#theorem[Unique Complement][
+#example[Digital Circuit Design][
+  Consider 3-bit binary values as Boolean algebra:
+  - Elements: ${ 000, 001, 010, 011, 100, 101, 110, 111 }$
+  - Order: Bitwise comparison ($001 leq 011$ since $0 leq 0$, $0 leq 1$, $1 leq 1$)
+  - Join: Bitwise OR ($010 Join 101 = 111$)
+  - Meet: Bitwise AND ($110 Meet 101 = 100$)
+  - Complement: Bitwise NOT ($001' = 110$)
+
+  This directly corresponds to logic gates: OR, AND, NOT gates in computer processors.
+]
+
+#note[
+  Logical reading: "join" $mapsto or$, "meet" $mapsto and$, "complement" $mapsto not$.
+]
+
+== Example: Database Query Lattice
+
+#example[
+  A database has tables `Students`, `Courses`, `Enrollments`.
+  - Let $Q_1 =$ "Computer Science students"
+  - Let $Q_2 =$ "Students in Math courses"
+  - Let $Q_3 =$ "Graduate students"
+
+  Consider queries as lattice elements ordered by result size (specificity).
+
+  *Lattice Operations:*
+  - $Q_1 Join Q_2 =$ "Students in CS OR Math courses" (larger result set)
+  - $Q_1 Meet Q_2 =$ "CS students taking Math courses" (smaller result set)
+  - $Q_1 Meet Q_3 =$ "Graduate CS students" (most specific)
+
+  *Why this matters:*
+  Query optimizers use this structure to:
+  + Find equivalent but more efficient queries.
+  + Cache common subqueries.
+  + Predict result set sizes for cost estimation.
+]
+
+== Complement is Unique
+
+#theorem[
   Complements are unique in a Boolean algebra.
 ]
 
 #proof[
-  Suppose for some element $a$ we have two complements $x$ and $y$.
+  Suppose for some element $a$ we have _two_ complements $x$ and $y$.
   $
-    x
-    = x Meet top
-    = x Meet (a Join y)
-    = (x Meet a) Join (x Meet y)
-    = bot Join (x Meet y)
-    = x Meet y
+    x & = x Meet top                 & #[~] & top "is the identity for" Meet \
+      & = x Meet (a Join y)          & #[~] & "by definition of complement:" top = a Join y \
+      & = (x Meet a) Join (x Meet y) & #[~] & Meet "distributes over" Join \
+      & = bot Join (x Meet y)        & #[~] & "by definition of complement: " x Meet a = bot \
+      & = (a Meet y) Join (x Meet y) & #[~] & "by definition of complement: " bot = a Meet y \
+      & = (a Join x) Meet y          & #[~] & Meet "distributes over" Join \
+      & = top Meet y                 & #[~] & "by definition of complement: " a Join x = top \
+      & = y                          & #[~] & top "is the identity for" Meet
   $
-  Identically, we can show that $y = x Meet y$.
-  Hence, $x = y$.
+  That is, $x = y$.
 ]
+
+== De Morgan's Laws
 
 #theorem[De Morgan][
   $(x Join y)' = x' Meet y'$ and $(x Meet y)' = x' Join y'$ in any Boolean algebra.
 ]
 
+== Digital Logic Circuits
+
+#definition[
+  A _logic gate_ is a physical device that implements a Boolean function, taking binary inputs and producing a binary output.
+]
+
+#place(right, dy: 1.5em)[
+  #import "@preview/circuiteria:0.2.0"
+  #circuiteria.circuit({
+    import circuiteria: *
+    import "@preview/cetz:0.3.2": draw
+    draw.scale(80%)
+
+    let label(s) = text(size: 10pt)[#s]
+
+    element.gate-and(id: "and", x: 0, y: 0, w: 2, h: 2)
+    draw.content("and", label[AND])
+
+    element.gate-or(id: "or", x: 3.5, y: 0, w: 2, h: 2)
+    draw.content("or", label[OR])
+
+    element.gate-not(id: "not", x: 7, y: 0, w: 2, h: 2)
+    draw.content((rel: (-5pt, 0), to: "not"), label[NOT])
+
+    element.gate-nand(id: "nand", x: 0, y: -3, w: 2, h: 2)
+    draw.content("nand", label[NAND])
+
+    element.gate-nor(id: "nor", x: 3.5, y: -3, w: 2, h: 2)
+    draw.content((rel: (3pt, 0), to: "nor"), label[NOR])
+
+    element.gate-xor(id: "xor", x: 7, y: -3, w: 2, h: 2)
+    draw.content((rel: (5pt, 0), to: "xor"), label[XOR])
+
+    for id in ("and", "or", "not", "nand", "nor", "xor") {
+      wire.stub(id + "-port-in0", "west")
+      if id != "not" {
+        wire.stub(id + "-port-in1", "west")
+      }
+      wire.stub(id + "-port-out", "east")
+    }
+  })
+]
+
+#v(-8pt)
+#table(
+  columns: 3,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  inset: 4pt,
+  table.header([Gate], [Formula], [Description]),
+  [AND], $A and B$, [Outputs $1$ only when both inputs are $1$],
+  [OR], $A or B$, [Outputs $1$ when at least one input is $1$],
+  [NOT], $not A$, [Outputs the opposite of the input],
+  [NAND], $not (A and B)$, [Outputs $0$ only when both inputs are $1$],
+  [NOR], $not (A or B)$, [Outputs $0$ when at least one input is $1$],
+  [XOR], $A xor B$, [Outputs $1$ when inputs differ],
+  [XNOR], $A equiv B$, [Outputs $1$ when inputs are the same],
+)
+
 #note[
-  Logical reading: "join" $mapsto or$, "meet" $mapsto and$, "complement" $mapsto not$.
+  NAND and NOR gates are _universal_ --- any Boolean function can be implemented using only NAND gates (or only NOR gates).
+  For example, to implement AND using NAND:
+  $
+    A and B = not not (A and B) = not (A nand B) = (A nand B) nand (A nand B)
+  $
+]
+
+== Combinational Logic
+
+#definition[
+  A _combinational circuit_ is a circuit where the output depends only on the current input values, without any memory or state.
+]
+
+#example[Half Adder][
+  Adds two single bits:
+  - Sum: $S = A xor B$
+  - Carry: $C = A and B$
+]
+
+#example[Full Adder][
+  Adds two bits plus a carry-in:
+  - Sum: $S = A xor B xor C_"in"$
+  - Carry-out: $C_"out" = (A and B) or (C_"in" and (A xor B))$
+]
+
+== Sequential Logic and Memory
+
+#definition[
+  A _sequential circuit_ is a circuit where the output depends on both current inputs and previous state (memory).
+]
+
+#example[Flip-Flops][
+  - *SR Latch*: Set-Reset memory element.
+  - *D Flip-Flop*: Data storage triggered by clock edge.
+  - *JK Flip-Flop*: Eliminates forbidden state of SR latch.
+  - *T Flip-Flop*: Toggle flip-flop for counters.
+]
+
+== Normal Forms
+
+#definition[
+  A _literal_ is a Boolean variable or its negation (e.g., $x$, $not x$).
+]
+
+// #definition[
+//   A _clause_ is a disjunction (OR) of literals.
+//   For example, $(x or not y)$ is a 2-clause.
+// ]
+
+// #definition[
+//   A _term_ is a conjunction (AND) of literals.
+//   For example, $(x and not y)$ is a 2-term.
+// ]
+
+#definition[DNF][
+  A Boolean formula is in _disjunctive normal form (DNF)_ if it is a disjunction (OR) of _terms_ --- conjunctions (AND) of literals.
+]
+#example[
+  $f(x,y,z) = underbracket((x and y and not z), "term") or underbracket((not x and z), "term") or underbracket((not y and not z), "term") or underbracket(#hide("(") x #hide(")"), "term")$
+]
+
+#definition[CNF][
+  A Boolean formula is in _conjunctive normal form (CNF)_ if it is a conjunction (AND) of _clauses_ --- disjunctions (OR) of literals.
+]
+#example[
+  $f(x,y,z) = underbracket((x or y or not z), "clause") and underbracket((not x or z), "clause") and underbracket((not y or not z), "clause") and underbracket(#hide("(") x #hide(")"), "clause")$
+]
+
+== Minterms and Maxterms
+
+#definition[Minterm and Maxterm][
+  - A _minterm_ is a product (AND) of literals where each variable appears exactly once.
+  - A _maxterm_ is a sum (OR) of literals where each variable appears exactly once.
+]
+
+#note[
+  A minterm (maxterm) is a function that evaluates to 1 (0, respectively) for exactly one combination of variable values.
+]
+
+#example[
+  $f(x,y,z) = x overline(y) z$ is a minterm, and $g(x,y,z) = x + overline(y) + z$ is a maxterm for variables $x, y, z$.
+  - $f(x,y,z) = 1$ only on input $101$, i.e., $x = 1$, $y = 0$, $z = 1$, correspending to the minterm $x overline(y) z$.
+  - $g(x,y,z) = 0$ only on input $010$, i.e., $x = 0$, $y = 1$, $z = 0$, correspending to the maxterm $overline(x) + y + overline(z)$.
+]
+
+== Canonical Forms
+
+#definition[SoP][
+  Every Boolean function can be _uniquely_ expressed as a _sum of minterms_ (SoP, Sum of Products) corresponding to rows where the function evaluates to 1.
+
+  // TODO: example
+]
+
+#definition[PoS][
+  Every Boolean function can be _uniquely_ expressed as a _product of maxterms_ (PoS, Product of Sums) corresponding to rows where the function evaluates to 0.
+
+  // TODO: example
+]
+
+// TODO: Blake canonical form
+
+== Karnaugh Maps
+
+#definition[
+  A _Karnaugh map_ (K-map) is a graphical method for simplifying Boolean expressions by visually identifying adjacent minterms that can be combined.
+]
+
+#example[3-variable K-map][
+  For function $f(A,B,C)$:
+  ```
+       C̄   C
+  ĀB̄ | 0 | 1 |
+  ĀB | 2 | 3 |
+  AB | 6 | 7 |
+  AB̄ | 4 | 5 |
+  ```
+  Adjacent cells (including wraparound) can be combined to eliminate variables.
+]
+
+== Zhegalkin Polynomials
+
+#definition[
+  A _Zhegalkin polynomial_ is a representation of a Boolean function as a polynomial over $"GF"(2)$ using XOR ($xor$) and AND ($and$, often omitted) operations.
+]
+
+// TODO: mention "algebraic normal form (ANF)"
+
+#theorem[
+  Every Boolean function has a unique representation as a Zhegalkin polynomial:
+  $
+    f(x_1, dots, x_n) = xor.big_(S subset.eq {1,dots,n}) (a_S product_(i in S) x_i)
+  $
+  where $a_S in {0,1}$ and $xor$ denotes XOR.
+]
+
+#example[
+  $f(x,y) = x or y = x xor y xor x y$
+]
+
+== Binary Decision Diagrams (BDDs)
+
+#definition[BDD][
+  A _binary decision diagram (BDD)_ is a directed acyclic graph representing a Boolean function, where each non-terminal node represents a variable test and edges represent variable assignments.
+]
+
+// TODO: ordered BDD
+
+#definition[ROBDD][
+  A _reduced_ ordered binary decision diagram (ROBDD) is an ordered BDD with a fixed variable ordering where:
+  - No variable appears more than once on any path
+  - No two nodes have identical low and high successors
+  - No node has identical low and high successors
+]
+
+#theorem[
+  // For a fixed variable ordering, every Boolean function has a _unique_ ROBDD.
+  Every Boolean function has a unique reduced ordered binary decision diagram (ROBDD) representation for a given variable ordering.
 ]
 
 == TODO
