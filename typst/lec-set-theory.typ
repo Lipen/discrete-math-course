@@ -526,7 +526,8 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   A _partition_ $cal(P)$ of a set $M$ is a family of non-empty, pairwise-disjoint subsets whose union is $M$:
   - (Non-empty) $forall B in cal(P). thin (B != emptyset)$
   - (Disjoint) $forall B_1, B_2 in cal(P). thin (B_1 != B_2) imply (B_1 intersect B_2 = emptyset)$
-  - (Cover) $union.big_(B in cal(P)) B = M$
+  - (Cover) $limits(union.big)_(B in cal(P)) B = M$
+
   Elements of $cal(P)$ are _blocks_ (or _cells_).
 ]
 
