@@ -70,4 +70,3 @@
 #let notin = sym.in.not
 #let setminus = sym.backslash
 #let intersect = sym.inter
-#let dom = math.op("dom")
