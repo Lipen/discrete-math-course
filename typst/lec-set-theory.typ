@@ -18,9 +18,9 @@
 #let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let Dom = math.op("dom")
-#let Cod = math.op("cod")
-#let Range = math.op("range")
+#let Dom = math.op("Dom")
+#let Cod = math.op("Cod")
+#let Range = math.op("Range")
 #let equinumerous = symbol(math.approx, ("not", math.approx.not))
 #let smaller = symbol(math.prec, ("eq", math.prec.eq))
 #let Join = math.or
@@ -643,17 +643,20 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   - The set $A$ is called the _domain_ of $f$, denoted $Dom(f)$.
   - The set $B$ is called the _codomain_ of $f$, denoted $Cod(f)$.
   - The _range_ (or _image_) of $f$ is the set of all values that $f$ actually takes:
-    $ Range(f) = "Im"(f) = { b in B | exists a in A, f(a) = b } = { f(a) | a in A } $
-  Note that $Range(f) subset.eq Cod(f)$.
+    $ Range(f) = { b in B | exists a in A, f(a) = b } = { f(a) | a in A } $
+
+    #note[
+      $Range(f) subset.eq Cod(f)$
+    ]
 ]
 
 #example[
   Let $A = {1, 2, 3}$ and $B = {x, y, z}$.
   Let $f = {pair(1, x), pair(2, y), pair(3, x)}$.
   - $f$ is a function from $A$ to $B$.
-  - $Dom(f) = A$.
-  - $Cod(f) = B$.
-  - $Range(f) = {x, y}$.
+  - $Dom(f) = A$
+  - $Cod(f) = B$
+  - $Range(f) = {x, y} subset.eq B$
   We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
 
   #place(bottom + right)[
