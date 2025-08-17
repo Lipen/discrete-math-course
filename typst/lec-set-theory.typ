@@ -526,7 +526,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     link("https://en.wikipedia.org/wiki/Bertrand_Russell", box(
       radius: 5pt,
       clip: true,
-      stroke: 1pt + blue,
+      stroke: 1pt + blue.darken(20%),
       image("assets/Bertrand_Russell.jpg", height: 3cm),
     )),
     [Bertrand Russell],
@@ -1208,7 +1208,7 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
     link("https://en.wikipedia.org/wiki/Georg_Cantor", box(
       radius: 5pt,
       clip: true,
-      stroke: 1pt + blue.lighten(20%),
+      stroke: 1pt + blue.darken(20%),
       image("assets/Georg_Cantor.jpg", height: 3cm),
     )),
     [Georg Cantor],
@@ -1569,7 +1569,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
     #box(
       radius: 5pt,
       clip: true,
-      stroke: 1pt + navy,
+      stroke: 1pt + blue.darken(20%),
       image("assets/base.jpg", height: 2.5cm),
     )
   ]
