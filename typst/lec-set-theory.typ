@@ -935,9 +935,8 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 #example[
   $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable, since there is a bijection $f: NN to ZZ$ defined by $f(n)$:
   #align(center, grid(
-    columns: 2,
+    columns: (1fr, auto),
     align: horizon,
-    column-gutter: 1em,
     $
       f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")
     $,
