@@ -65,7 +65,6 @@
       name: "Abraham Fraenkel",
       image: image("assets/Abraham_Fraenkel.jpg"),
     ),
-    // TODO: +
   ),
 )
 
