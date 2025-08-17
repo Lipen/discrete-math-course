@@ -751,6 +751,55 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
 ]
 
+== Composition of Relations
+
+#definition[
+  The _composition_ of two relations $R subset.eq A times B$ and $S subset.eq B times C$ is defined as:
+  $
+    R rel(";") S = S compose R = { pair(a, c) | exists b in B. thin (a rel(R) b) and (b rel(S) c) }
+  $
+]
+
+// TODO: composition power
+// TODO: examples
+// TODO: visualize
+
+== Associativity of Composition
+
+#theorem[
+  Composition of relations is associative:
+  $(R rel(";") S) rel(";") T = R rel(";") (S rel(";") T)$.
+]
+
+#proof[
+  Let $R subset.eq A times B$, $S subset.eq B times C$, and $T subset.eq C times D$ be three relations.
+
+  *($subset.eq$):*
+  Let $pair(a, d) in (R rel(";") S) rel(";") T$.
+  - By definition of composition:
+    $exists c in C. thin (pair(a, c) in R rel(";") S) and (pair(c, d) in T)$.
+  - Since $pair(a, c) in (R rel(";") S)$, we have:
+    $exists b in B. thin (pair(a, b) in R) and (pair(b, c) in S)$.
+  - From $pair(b, c) in S$ and $pair(c, d) in T$, we have:
+    $pair(b, d) in S rel(";") T$.
+  - From $pair(a, b) in R$ and $pair(b, d) in S rel(";") T$, we have:
+    $pair(a, d) in R rel(";") (S rel(";") T)$.
+
+  *($supset.eq$):*
+  Let $pair(a, d) in R rel(";") (S rel(";") T)$.
+  - By definition of composition:
+    $exists b in B. thin (pair(a, b) in R) and (pair(b, d) in S rel(";") T)$.
+  - Since $pair(b, d) in S rel(";") T$, we have:
+    $exists c in C. thin (pair(b, c) in S) and (pair(c, d) in T)$.
+  - From $pair(a, b) in R$ and $pair(b, c) in S$, we have:
+    $pair(a, c) in R rel(";") S$.
+  - From $pair(a, c) in R rel(";") S$ and $pair(c, d) in T$, we have:
+    $pair(a, d) in (R rel(";") S) rel(";") T$.
+
+  Therefore, $(R rel(";") S) rel(";") T = R rel(";") (S rel(";") T)$.
+]
+
+
 = Functions
 #focus-slide(
   epigraph: [A function is a machine which converts a certain class of inputs \ into a certain class of outputs.],
