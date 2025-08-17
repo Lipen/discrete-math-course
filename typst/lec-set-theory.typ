@@ -366,7 +366,12 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     align: right,
     column-gutter: 1em,
     row-gutter: 0.5em,
-    link("https://en.wikipedia.org/wiki/Bertrand_Russell", image("assets/Bertrand_Russell.jpg", height: 3cm)),
+    link("https://en.wikipedia.org/wiki/Bertrand_Russell", box(
+      radius: 10%,
+      clip: true,
+      stroke: 1pt + blue,
+      image("assets/Bertrand_Russell.jpg", height: 3cm),
+    )),
     [Bertrand Russell],
   )
 ]
