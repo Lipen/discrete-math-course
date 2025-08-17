@@ -551,21 +551,20 @@ This paradox showed that _unrestricted comprehension_ --- the ability to form a 
 
 = Relations
 #focus-slide(
-  // TODO: replace epigraph
-  epigraph: [Mathematics is the art of giving the same name to different things.],
-  epigraph-author: "Henri Poincaré",
+  epigraph: [In mathematics you don't understand things. You just get used to them.],
+  epigraph-author: "John von Neumann",
   scholars: (
     (
       name: "René Descartes",
       image: image("assets/Rene_Descartes.jpg"),
     ),
     (
-      name: "Henri Poincaré",
-      image: image("assets/Henri_Poincare.jpg"),
-    ),
-    (
       name: "Évariste Galois",
       image: image("assets/Evariste_Galois.jpg"),
+    ),
+    (
+      name: "Ernst Schröder",
+      image: image("assets/Ernst_Schroeder.jpg"),
     ),
     (
       name: "Michael Rabin",
@@ -1761,10 +1760,6 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
     (
       name: "Charles Sanders Peirce",
       image: image("assets/Charles_Sanders_Peirce.jpg"),
-    ),
-    (
-      name: "Ernst Schröder",
-      image: image("assets/Ernst_Schroeder.jpg"),
     ),
     (
       name: "Claude Shannon",
