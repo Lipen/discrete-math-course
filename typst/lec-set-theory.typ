@@ -404,15 +404,15 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
 
     // Set A: [1, 4) on x-axis
     draw.line((1, -0.7), (4, -0.7), stroke: 3pt + blue)
-    draw.circle((1, -0.7), radius: 0.08, fill: blue, stroke: 2pt + blue) // closed at 1
-    draw.circle((4, -0.7), radius: 0.08, fill: white, stroke: 2pt + blue) // open at 4
+    draw.circle((1, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 1
+    draw.circle((4, -0.7), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 4
     draw.content((2.5, -0.7), text(fill: blue)[$A = \[1; 4\)$], anchor: "north", padding: 0.2)
 
     // Set B: (2, 4] on y-axis
-    draw.line((-0.7, 2), (-0.7, 4), stroke: 3pt + red)
-    draw.circle((-0.7, 2), radius: 0.08, fill: white, stroke: 2pt + red) // open at 2
-    draw.circle((-0.7, 4), radius: 0.08, fill: red, stroke: 2pt + red) // closed at 4
-    draw.content((-0.9, 3), text(fill: red)[$B = \(2; 4\]$], angle: 90deg, anchor: "south")
+    draw.line((-0.7, 2), (-0.7, 4), stroke: 3pt + blue)
+    draw.circle((-0.7, 2), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 2
+    draw.circle((-0.7, 4), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 4
+    draw.content((-0.9, 3), text(fill: blue)[$B = \(2; 4\]$], angle: 90deg, anchor: "south")
 
     // Cartesian product A × B (filled rectangle)
     draw.rect((1, 2), (4, 4), fill: blue.transparentize(80%), stroke: none)
@@ -430,8 +430,8 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     draw.circle((1, 2), radius: 0.08, fill: white, stroke: 2pt + blue) // (1,2) excluded
 
     // Label
-    draw.content((2.5, 3), [$A times B$], frame: "rect", stroke: none, fill: blue.transparentize(80%), padding: 0.1)
-    draw.content((3, 4.5), $A times B = \[1, 4\) times \(2, 4\]$)
+    draw.content((2.5, 3), $A times B$, frame: "rect", stroke: none, fill: blue.transparentize(80%), padding: 0.1)
+    draw.content((3, 4.5), $#text(blue)[$A times B$] = \[1, 4\) times \(2, 4\]$)
   })
   #h(1fr)
   // Second plot: Set difference of products
@@ -452,16 +452,16 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     draw.content((3.2, -0.7), text(fill: blue)[$A = \(1; 5\]$], anchor: "north-west", padding: 0.2)
 
     // Set B: (1, 4] on y-axis
-    draw.line((-0.7, 1), (-0.7, 4), stroke: 3pt + red)
-    draw.circle((-0.7, 1), radius: 0.08, fill: white, stroke: 1.5pt + red) // open at 1
-    draw.circle((-0.7, 4), radius: 0.08, fill: red, stroke: 1.5pt + red) // closed at 4
-    draw.content((-0.7, 3.2), text(fill: red)[$B = \(1; 4\]$], angle: 90deg, anchor: "south-west", padding: 0.2)
+    draw.line((-0.7, 1), (-0.7, 4), stroke: 3pt + blue)
+    draw.circle((-0.7, 1), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 1
+    draw.circle((-0.7, 4), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 4
+    draw.content((-0.7, 3.2), text(fill: blue)[$B = \(1; 4\]$], angle: 90deg, anchor: "south-west", padding: 0.2)
 
     // Set C: [2, 3] on x-axis (second level)
-    draw.line((2, -1.1), (3, -1.1), stroke: 3pt + green)
-    draw.circle((2, -1.1), radius: 0.08, fill: green, stroke: 2pt + green) // closed at 2
-    draw.circle((3, -1.1), radius: 0.08, fill: green, stroke: 2pt + green) // closed at 3
-    draw.content((2.5, -1.1), text(fill: green)[$C = \[2; 3\]$], anchor: "north", padding: 0.2)
+    draw.line((2, -1.1), (3, -1.1), stroke: 3pt + orange)
+    draw.circle((2, -1.1), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // closed at 2
+    draw.circle((3, -1.1), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // closed at 3
+    draw.content((2.5, -1.1), text(fill: orange)[$C = \[2; 3\]$], anchor: "north", padding: 0.2)
 
     // Set D: (2, 3) on y-axis (second level)
     draw.line((-1.1, 2), (-1.1, 3), stroke: 3pt + orange)
@@ -482,10 +482,10 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     draw.line((1, 1), (1, 4), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // left
 
     // Inner boundary (hole)
-    draw.line((2, 2), (3, 2), stroke: 2pt + green) // bottom
-    draw.line((3, 2), (3, 3), stroke: (thickness: 2pt, paint: green, dash: "dashed")) // right
-    draw.line((3, 3), (2, 3), stroke: 2pt + green) // top
-    draw.line((2, 3), (2, 2), stroke: (thickness: 2pt, paint: green, dash: "dashed")) // left
+    draw.line((2, 2), (3, 2), stroke: 2pt + orange) // bottom
+    draw.line((3, 2), (3, 3), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // right
+    draw.line((3, 3), (2, 3), stroke: 2pt + orange) // top
+    draw.line((2, 3), (2, 2), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // left
 
     // Corner points for outer rectangle
     draw.circle((5, 4), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // (5,4) included
@@ -494,10 +494,10 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     draw.circle((1, 4), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (1,4) excluded
 
     // Corner points for inner rectangle
-    draw.circle((2, 2), radius: 0.08, fill: green, stroke: 1.5pt + green) // (2,2) included
-    draw.circle((3, 2), radius: 0.08, fill: green, stroke: 1.5pt + green) // (3,2) included
-    draw.circle((3, 3), radius: 0.08, fill: green, stroke: 1.5pt + green) // (3,3) included
-    draw.circle((2, 3), radius: 0.08, fill: green, stroke: 1.5pt + green) // (2,3) included
+    draw.circle((2, 2), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (2,2) included
+    draw.circle((3, 2), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (3,2) included
+    draw.circle((3, 3), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (3,3) included
+    draw.circle((2, 3), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (2,3) included
 
     // Label
     draw.content(
@@ -510,7 +510,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     )
     draw.content(
       (3.5, 4.8),
-      $(A times B) setminus (C times D) =\ (\(1; 5\] times \(1; 4\]) setminus (\[2; 3\] times \(2; 3\))$,
+      $#text(blue)[$(A times B)$] setminus #text(orange)[$(C times D)$] =\ (\(1; 5\] times \(1; 4\]) setminus (\[2; 3\] times \(2; 3\))$,
     )
   })
 ]
