@@ -1006,8 +1006,8 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   epigraph-author: "Leopold Kronecker",
   scholars: (
     (
-      name: "Kurt Gödel",
-      image: image("assets/Kurt_Godel.jpg"),
+      name: "Giuseppe Peano",
+      image: image("assets/Giuseppe_Peano.jpg"),
     ),
     (
       name: "Leopold Kronecker",
@@ -1018,8 +1018,8 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
       image: image("assets/David_Hilbert.jpg"),
     ),
     (
-      name: "Giuseppe Peano",
-      image: image("assets/Giuseppe_Peano.jpg"),
+      name: "Kurt Gödel",
+      image: image("assets/Kurt_Godel.jpg"),
     ),
     (
       name: "John von Neumann",
