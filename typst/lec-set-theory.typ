@@ -556,6 +556,10 @@ This paradox showed that _unrestricted comprehension_ --- the ability to form a 
   epigraph-author: "Henri Poincaré",
   scholars: (
     (
+      name: "René Descartes",
+      image: image("assets/Rene_Descartes.jpg"),
+    ),
+    (
       name: "Henri Poincaré",
       image: image("assets/Henri_Poincare.jpg"),
     ),
