@@ -840,10 +840,6 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   epigraph-author: "Leopold Kronecker",
   scholars: (
     (
-      name: "Georg Cantor",
-      image: image("assets/Georg_Cantor.jpg"),
-    ),
-    (
       name: "Kurt Gödel",
       image: image("assets/Kurt_Godel.jpg"),
     ),
@@ -1298,26 +1294,6 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   - $pair(power(A), subset.eq)$: $sup = union$, $inf = intersect$.
   - Divisibility on $NN_(>0)$: $sup {a, b} = lcm(a, b)$ (if any common multiple), $inf {a, b} = gcd(a, b)$.
 ]
-
-// = Lattices
-// #focus-slide(
-//   epigraph: [Order and simplification are the first steps toward mastery of a subject.],
-//   epigraph-author: "Thomas Mann",
-//   scholars: (
-//     (
-//       name: "Garrett Birkhoff",
-//       image: image("assets/Garrett_Birkhoff.jpg"),
-//     ),
-//     (
-//       name: "Alfred Tarski",
-//       image: image("assets/Alfred_Tarski.jpg"),
-//     ),
-//     (
-//       name: "John von Neumann",
-//       image: image("assets/John_von_Neumann.jpg"),
-//     ),
-//   ),
-// )
 
 == Lattices
 
