@@ -2008,16 +2008,37 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   A _Karnaugh map_ (K-map) is a graphical method for simplifying Boolean expressions by visually identifying adjacent minterms that can be combined.
 ]
 
-#example[3-variable K-map][
-  For function $f(A,B,C)$:
-  ```
-       C̄   C
-  ĀB̄ | 0 | 1 |
-  ĀB | 2 | 3 |
-  AB | 6 | 7 |
-  AB̄ | 4 | 5 |
-  ```
-  Adjacent cells (including wraparound) can be combined to eliminate variables.
+// #[
+//   #import "karnaugh.typ": karnaugh
+//   #let x = -1
+//   #karnaugh(
+//     ("AB", "CD"),
+//     (
+//       (0, 0, 0, x),
+//       (0, 1, x, 0),
+//       (1, 1, 1, 0),
+//       (x, 1, 0, x),
+//     ),
+//     implicants: (
+//       (1, 1, 2),
+//       (2, 0, 2),
+//     ),
+//   )
+// ]
+
+#[
+  #import "@preview/k-mapper:1.2.0": karnaugh
+
+  #karnaugh(
+    16,
+    x-label: $C D$,
+    y-label: $A B$,
+    manual-terms: range(16),
+    implicants: ((5, 7), (5, 13), (15, 15)),
+    vertical-implicants: ((1, 11),),
+    horizontal-implicants: ((4, 14),),
+    // corner-implicants: true,
+  )
 ]
 
 == Zhegalkin Polynomials
