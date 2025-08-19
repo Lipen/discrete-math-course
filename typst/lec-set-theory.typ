@@ -732,7 +732,34 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
 ]
 
-// TODO: closures
+== Closures of Relations
+
+#definition[
+  Let $R subset.eq M^2$ be a relation. The _closures_ of $R$ are the smallest relations containing $R$ with specific properties:
+
+  - _Reflexive closure_: $R^+ = R union I_M$
+  - _Symmetric closure_: $R^s = R union R^(-1)$
+  - _Transitive closure_: $R^*$ is the smallest transitive relation containing $R$
+]
+
+// TODO: examples of reflexive closure
+// TODO: examples of symmetric closure
+
+// #theorem[
+//   The transitive closure can be computed as:
+//   $R^* = union.big_(n=1)^infinity R^n$
+//   where $R^n = underbrace(R compose R compose dots compose R, n "times")$.
+//
+//   For finite sets, $R^* = R^1 union R^2 union dots union R^abs(M)$.
+// ]
+//
+// #example[
+//   Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
+//   - $R^1 = {pair(1, 2), pair(2, 3)}$
+//   - $R^2 = R compose R = {pair(1, 3)}$
+//   - $R^3 = R^2 compose R = emptyset$
+//   - So $R^* = {pair(1, 2), pair(2, 3), pair(1, 3)}$
+// ]
 
 == Properties of Homogeneous Relations
 
