@@ -2071,7 +2071,43 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 == TODO
 
-- ...
+- Applications of lattices in:
+  - Formal concept analysis
+  - Domain theory in computer science
+  - Algebraic topology
+  - Cryptography (lattice-based cryptography)
+- Advanced topics in set theory:
+  - Cardinal arithmetic
+  - Ordinal numbers
+  - Forcing and independence results
+  - Large cardinals
+- Connections to Boolean algebra (next lecture)
+- Applications in formal logic and proof theory
+
+== Looking Ahead: Boolean Algebra
+
+The next lecture will explore _Boolean algebra_, which provides the mathematical foundation for:
+- Digital circuit design and computer hardware
+- Propositional logic and automated reasoning
+- Database query optimization
+- Formal verification of software and hardware systems
+
+Key topics will include:
+- Boolean functions and their representations
+- Normal forms (CNF, DNF)
+- Minimization techniques (Karnaugh maps, Quine-McCluskey)
+- Functional completeness and Post's theorem
+- The satisfiability problem (SAT) and its computational complexity
+
+== Preview: Formal Logic
+
+Following Boolean algebra, we will study _formal logic_, covering:
+- Propositional and predicate logic
+- Natural deduction and proof systems
+- Completeness and soundness theorems
+- Applications to program verification and AI reasoning
+
+This progression from sets $to$ relations $to$ functions $to$ Boolean algebra $to$ logic provides a solid foundation for advanced topics in discrete mathematics and computer science.
 
 // == Bibliography
 // #bibliography("refs.yml")
