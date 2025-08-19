@@ -1004,6 +1004,44 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A partial order which is also connected is called a _total order_ (or _linear order_).
 ]
 
+== Chains and Antichains
+
+#definition[
+  In a partially ordered set $(M, prec.eq)$:
+
+  - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
+    Formally:
+    $
+      forall x, y in C. thin (x prec.eq y "or" y prec.eq x)
+    $
+
+  - An _antichain_ is a subset $A subset.eq M$ where no two distinct elements are comparable.
+    Formally:
+    $
+      forall x, y in A. thin (x != y) imply (x prec.eq.not y "and" y prec.eq.not x)
+    $
+]
+
+#example[
+  Consider the divisibility relation $|$ on ${1, 2, 3, 4, 6, 12}$:
+  - Chain: ${1, 2, 4, 12}$ (since $1 divides 2 divides 4 divides 12$)
+  - Chain: ${1, 3, 6, 12}$ (since $1 divides 3 divides 6 divides 12$)
+  - Antichain: ${2, 3}$ (since $2 divides.not 3$ and $3 divides.not 2$)
+  - Antichain: ${4, 6}$ (since $4 divides.not 6$ and $6 divides.not 4$)
+]
+
+== Dilworth's Theorem
+
+#theorem[Dilworth][
+  In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
+]
+
+#example[
+  In the Boolean lattice $power({a, b})$ with inclusion:
+  - Maximum antichain: ${{a}, {b}}$ of size 2
+  - Minimum chain decomposition: ${emptyset, {a}} union {{b}, {a,b}}$ with 2 chains
+]
+
 == Examples of Orders
 
 #example[
