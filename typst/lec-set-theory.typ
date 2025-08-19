@@ -1070,9 +1070,28 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $
 ]
 
-// TODO: composition power
-// TODO: examples
-// TODO: visualize
+== Powers of Relations
+
+#definition[
+  For a homogeneous relation $R subset.eq M^2$, we define _powers_ of $R$:
+  - $R^0 = I_M$ (identity relation)
+  - $R^1 = R$
+  - $R^(n+1) = R^n compose R$ for $n >= 1$
+]
+
+#example[
+  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(2, 3), pair(3, 4)}$ (successor relation).
+  - $R^1 = {pair(1, 2), pair(2, 3), pair(3, 4)}$
+  - $R^2 = {pair(1, 3), pair(2, 4)}$ (two steps)
+  - $R^3 = {pair(1, 4)}$ (three steps)
+  - $R^4 = emptyset$ (no four-step paths)
+]
+
+#theorem[
+  For any relation $R$ on a finite set with $n$ elements:
+  - $R^+ = R^1 union R^2 union dots union R^n$ is a _transitive closure_.
+  - $R^* = R^0 union R^+ = I union R^+$ is a _reflexive-transitive closure_.
+]
 
 == Associativity of Composition
 
