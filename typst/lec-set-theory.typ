@@ -419,7 +419,27 @@ For any sets $A$, $B$, and $C$:
 
 == Geometric Interpretation of Cartesian Product
 
-// The Cartesian product $A times B$ can be visualized as a region on the coordinate plane, where each point $pair(a, b)$ represents an element of the product.
+The Cartesian product $A times B$ can be visualized as a region on the coordinate plane, where each point $pair(a, b)$ represents an element of the product.
+
+#example[
+  If $A = [1, 4)$ and $B = (2, 4]$, then $A times B$ represents the rectangular region:
+  ${(x, y) | 1 <= x < 4 "and" 2 < y <= 4}$
+]
+
+#example[
+  For discrete sets $A = {1, 2, 3}$ and $B = {1, 2}$, the product $A times B$ consists of 6 points:
+  $(1,1), (1,2), (2,1), (2,2), (3,1), (3,2)$ arranged in a grid pattern.
+]
+
+#example[
+  The set difference $(A times B) setminus (C times D)$ where:
+  - $A times B = [0, 3] times [0, 2]$ (outer rectangle)
+  - $C times D = (1, 2) times (0.5, 1.5)$ (inner rectangle to subtract)
+
+  Results in an "L-shaped" region.
+]
+
+#pagebreak()
 
 #place(bottom)[
   #import cetz: draw
