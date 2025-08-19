@@ -712,6 +712,28 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   - Universal: ${pair(a, a), pair(a, b), pair(a, c) pair(b, a), pair(b, b), pair(b, c), pair(c, a), pair(c, b), pair(c, c)}$ (all 9 pairs)
 ]
 
+== Operations on Relations
+
+#definition[
+  For relations $R, S subset.eq A times B$:
+  - _Union_: $R union S = {pair(a, b) | pair(a, b) in R "or" pair(a, b) in S}$
+  - _Intersection_: $R intersect S = {pair(a, b) | pair(a, b) in R "and" pair(a, b) in S}$
+  - _Complement_: $overline(R) = (A times B) setminus R$
+]
+
+#definition[
+  For a relation $R subset.eq A times B$, the _converse_ (or _inverse_) relation is:
+  $
+    R^(-1) = {pair(b, a) | pair(a, b) in R} subset.eq B times A
+  $
+]
+
+#example[
+  If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
+]
+
+// TODO: closures
+
 == Properties of Homogeneous Relations
 
 #definition[
