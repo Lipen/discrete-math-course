@@ -397,7 +397,7 @@ For any sets $A$, $B$, and $C$:
 ]
 
 #definition[
-  The _n-fold Cartesian product_ (also known as the _Cartesian power_) of a set $A$ is defined as:
+  The _n-fold Cartesian product_ (also known as _Cartesian power_) of a set $A$ is defined as:
   $ A^n = underbrace(A times A times dots times A, n "times") = { (a_1, a_2, dots, a_n) | a_i in A } $
 ]
 
