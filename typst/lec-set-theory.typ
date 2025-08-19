@@ -696,6 +696,22 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
   $
 ]
 
+== Special Relations
+
+#definition[
+  For any set $M$, we define these special relations:
+  - _Empty relation_: $emptyset subset.eq M^2$ (no elements are related)
+  - _Identity relation_: $I_M = {pair(x, x) | x in M}$ (each element related only to itself)
+  - _Universal relation_: $U_M = M^2$ (every element related to every element)
+]
+
+#example[
+  For $M = {a, b, c}$:
+  - Empty: $emptyset$
+  - Identity: ${pair(a, a), pair(b, b), (c,c)}$
+  - Universal: ${pair(a, a), pair(a, b), pair(a, c) pair(b, a), pair(b, b), pair(b, c), pair(c, a), pair(c, b), pair(c, c)}$ (all 9 pairs)
+]
+
 == Properties of Homogeneous Relations
 
 #definition[
