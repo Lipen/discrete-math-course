@@ -714,10 +714,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #definition[
-  A binary relation $R subset.eq A times B$ on two different sets $A$ and $B$ is called _heterogeneous_.
-]
-#definition[
-  A binary relation $R subset.eq M^2$ on the same set $M$ is called _homogeneous_.
+  - A binary relation $R subset.eq A times B$ on two different sets $A$ and $B$ is called _heterogeneous_.
+  - A binary relation $R subset.eq M^2$ on the same set $M$ is called _homogeneous_.
 ]
 
 /*
