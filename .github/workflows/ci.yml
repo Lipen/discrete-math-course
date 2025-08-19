@@ -27,6 +27,8 @@ jobs:
 
       - run: rm -f typst/requirements.pdf
       - run: typst --version
+      - run: typst compile typst/lec-set-theory.typ
+      - run: typst compile typst/lec-boolean-algebra.typ
       - run: typst compile typst/lec-flow.typ
       - run: typst compile typst/lec-formal.typ
       - run: typst compile typst/lec-nfa.typ
