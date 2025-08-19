@@ -20,6 +20,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - uses: fontist/setup-fontist@v2
+      - run: fontist install "Libertinus Sans"
+
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
