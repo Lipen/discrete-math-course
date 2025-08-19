@@ -1204,7 +1204,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - $Range(f) = {x, y} subset.eq B$
   We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
 
-  #place(bottom + right)[
+  #place(top + right)[
     #cetz.canvas({
       import cetz.draw: *
 
@@ -1213,25 +1213,24 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       circle((0, 0), radius: (1, 2))
       circle((3, 0), radius: (1, 2))
 
-      set-style(mark: (scale: 1.5))
-      line((0, 1), ((), 95%, (3, 1)), mark: (end: "stealth")) // 1 -> x
-      line((0, 0), ((), 95%, (3, 0)), mark: (end: "stealth")) // 2 -> y
-      line((0, -1), ((), 95%, (3, 1)), mark: (end: "stealth")) // 3 -> x
+      circle((0, 1), radius: 0.1, fill: white, name: "1")
+      circle((0, 0), radius: 0.1, fill: white, name: "2")
+      circle((0, -1), radius: 0.1, fill: white, name: "3")
 
-      circle((0, 0), radius: 0.1, fill: white)
-      circle((0, 1), radius: 0.1, fill: white)
-      circle((0, -1), radius: 0.1, fill: white)
+      circle((3, 1), radius: 0.1, fill: white, name: "x")
+      circle((3, 0), radius: 0.1, fill: white, name: "y")
+      circle((3, -1), radius: 0.1, fill: white, name: "z")
 
-      circle((3, 0), radius: 0.1, fill: white)
-      circle((3, 1), radius: 0.1, fill: white)
-      circle((3, -1), radius: 0.1, fill: white)
+      content("1", [$1$], anchor: "east", padding: 0.2)
+      content("2", [$2$], anchor: "east", padding: 0.2)
+      content("3", [$3$], anchor: "east", padding: 0.2)
+      content("x", [$x$], anchor: "west", padding: 0.2)
+      content("y", [$y$], anchor: "west", padding: 0.2)
+      content("z", [$z$], anchor: "west", padding: 0.2)
 
-      content((-0.2, 1), anchor: "east")[$1$]
-      content((-0.2, 0), anchor: "east")[$2$]
-      content((-0.2, -1), anchor: "east")[$3$]
-      content((3.2, 1), anchor: "west")[$x$]
-      content((3.2, 0), anchor: "west")[$y$]
-      content((3.2, -1), anchor: "west")[$z$]
+      line("1", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-x")
+      line("2", "y", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "2-y")
+      line("3", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "3-x")
     })
   ]
 ]
