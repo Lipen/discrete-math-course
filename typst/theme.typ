@@ -262,29 +262,26 @@
 
   // Rules
   show heading.where(level: 1): it => {
-    // Only create simple focus page if we're not already in a focus-title-slide
-    if not in-focus-slide.get() {
-      // Create a simple focus page for regular level 1 headings
-      set page(header: none, footer: none, margin: 1cm)
+    // Create a simple focus page for regular level 1 headings
+    set page(header: none, footer: none, margin: 1cm)
 
-      // Main layout: simple centered title
-      align(center + horizon, block(
-        inset: 1.2em,
-        radius: 20%,
-        fill: title-color.lighten(80%),
-        stroke: 2pt + title-color.lighten(60%),
-      )[
-        #set text(
-          2.2em,
-          weight: "bold",
-          font: title-font,
-          fill: title-color,
-        )
-        #it.body
-      ])
+    // Main layout: simple centered title
+    align(center + horizon, block(
+      inset: 1.2em,
+      radius: 20%,
+      fill: title-color.lighten(80%),
+      stroke: 2pt + title-color.lighten(60%),
+    )[
+      #set text(
+        2.2em,
+        weight: "bold",
+        font: title-font,
+        fill: title-color,
+      )
+      #it.body
+    ])
 
-      pagebreak(weak: true)
-    }
+    pagebreak(weak: true)
   }
   show heading.where(level: 2): pagebreak(weak: true)
   show heading: set text(1.1em, fill: title-color)
