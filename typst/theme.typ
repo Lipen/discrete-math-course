@@ -273,7 +273,7 @@
       stroke: 2pt + title-color.lighten(60%),
     )[
       #set text(
-        2.2em,
+        2em,
         weight: "bold",
         font: title-font,
         fill: title-color,
