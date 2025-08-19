@@ -284,8 +284,6 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
 
 == Operations on Sets
 
-// TODO: visualize set operations using Venn diagrams (overlapping circles)
-
 #table(
   columns: 3,
   align: (left, right, left),
@@ -298,6 +296,67 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   [Complement], [$overline(A)$ or $A^c$], ${ x | x notin A }$,
   [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$,
 )
+
+== Venn Diagrams and Euler Circles
+
+#definition[
+  A _Venn diagram_ is a visual representation of sets and their relationships using overlapping circles or closed curves.
+  Each circle represents a set, and overlapping regions show intersections.
+]
+
+#definition[
+  _Euler circles_ (or _Euler diagrams_) are a simpler form where circles may or may not overlap, and non-overlapping regions represent disjoint sets.
+]
+
+#example[
+  For sets $A = {1, 2, 3}$ and $B = {2, 3, 4}$:
+  - $A intersect B = {2, 3}$ (overlapping region)
+  - $A setminus B = {1}$ (left-only region)
+  - $B setminus A = {4}$ (right-only region)
+  - $A union B = {1, 2, 3, 4}$ (entire diagram)
+]
+
+// TODO: Add Venn diagram visualization
+//
+// #example[Three-Set Venn Diagram][
+//   For three sets $A$, $B$, $C$, a complete Venn diagram shows 8 regions:
+//   - $A intersect B intersect C$ (center)
+//   - $A intersect B intersect overline(C)$, $A intersect overline(B) intersect C$, $overline(A) intersect B intersect C$
+//   - $A intersect overline(B) intersect overline(C)$, $overline(A) intersect B intersect overline(C)$, $overline(A) intersect overline(B) intersect C$
+//   - $overline(A) intersect overline(B) intersect overline(C)$ (outside all sets)
+// ]
+
+== Laws of Set Operations
+
+For any sets $A$, $B$, and $C$:
+
+#columns(2)[
+  *Commutative Laws:*
+  - $A union B = B union A$
+  - $A intersect B = B intersect A$
+
+  *Associative Laws:*
+  - $(A union B) union C = A union (B union C)$
+  - $(A intersect B) intersect C = A intersect (B intersect C)$
+
+  *Distributive Laws:*
+  - $A union (B intersect C) = (A union B) intersect (A union C)$
+  - $A intersect (B union C) = (A intersect B) union (A intersect C)$
+
+  #colbreak()
+
+  *De Morgan's Laws:*
+  - $overline(A union B) = overline(A) intersect overline(B)$
+  - $overline(A intersect B) = overline(A) union overline(B)$
+
+  *Identity Laws:*
+  - $A union emptyset = A$, $A intersect U = A$ (where $U$ is the universal set)
+  - $A intersect emptyset = emptyset$, $A union U = U$
+
+  *Complement Laws:*
+  - $A union overline(A) = U$, $A intersect overline(A) = emptyset$
+  - $overline(overline(A)) = A$ (double complement)
+]
 
 == Tuples and Ordered Pairs
 
