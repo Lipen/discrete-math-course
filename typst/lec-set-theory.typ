@@ -629,6 +629,36 @@ A contradiction is reached in both cases. The only possible conclusion is that #
 
 This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
 
+== From Naïve to Axiomatic Set Theory
+
+#definition[
+  _Naïve set theory_ allows unrestricted set formation: for any property $P(x)$, we can form the set ${x | P(x)}$.
+  Russell's paradox shows this leads to contradictions.
+]
+
+#definition[
+  _Axiomatic set theory_ restricts set formation through a system of axioms.
+
+  The most widely accepted system is _Zermelo-Fraenkel set theory with the Axiom of Choice_ (ZFC).
+]
+
+== ZFC Axioms
+
++ *Extensionality*: Sets with the same elements are equal.
++ *Empty Set*: There exists a set $emptyset$ with no elements.
++ *Pairing*: For any $a$ and $b$, there exists a set ${a, b}$.
++ *Union*: For any collection of sets, their union exists.
++ *Power Set*: For any set $A$, the power set $power(A)$ exists.
++ *Infinity*: There exists an infinite set (containing $NN$).
++ *Separation*: From any set $A$ and property $P$, we can form ${x in A | P(x)}$.
++ *Replacement*: If $F$ is a function-like relation, then for any set $A$, the image $F[A]$ exists.
++ *Foundation*: Every non-empty set has a minimal element (prevents self-membership).
++ *Choice*: Every collection of non-empty sets has a choice function.
+
+#note[
+  The *Separation* axiom prevents Russell's paradox by only allowing formation of subsets from existing sets, not arbitrary collections.
+]
+
 = Relations
 #focus-slide(
   epigraph: [In mathematics you don't understand things. You just get used to them.],
