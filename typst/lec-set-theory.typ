@@ -696,7 +696,14 @@ This paradox showed that _unrestricted comprehension_ --- the ability to form a 
 *Notation:*
 If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A$ is _related_ to element $b in B$.
 
-Formally, $a rel(R) b$ iff $pair(a, b) in R$.
+#block(
+  fill: yellow.lighten(80%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  outset: .5em,
+)[
+  Formally, $a rel(R) b$ iff $pair(a, b) in R$.
+]
 
 *Note:* $R$ is used to denote both the relation itself ($a rel(R) b$) _and_ the set of pairs ($R subset.eq A times B$).
 
