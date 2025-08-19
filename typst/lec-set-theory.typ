@@ -18,6 +18,7 @@
 #let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
+#let matrel(x) = $bracket.double.l #x bracket.double.r$
 #let Dom = math.op("Dom")
 #let Cod = math.op("Cod")
 #let Range = math.op("Range")
@@ -629,6 +630,71 @@ Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 })
 
 */
+
+== Graph Representation
+
+#definition[
+  A homogeneous relation $R subset.eq M^2$ can be represented as a _directed graph_ where:
+  - Vertices correspond to elements of $M$
+  - There is a directed edge from $x$ to $y$ if $x rel(R) y$, i.e. $pair(x, y) in R$
+]
+
+#example[
+  For $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$, the graph has vertices ${1, 2, 3}$ and directed edges $1 to 2$, $2 to 3$, and $1 to 3$.
+]
+
+#cetz.canvas({
+  import cetz: draw
+
+  draw.content((0, 0), [$1$], frame: "circle", stroke: 1pt, padding: 0.2, name: "1")
+  draw.content((2, 0), [$2$], frame: "circle", stroke: 1pt, padding: 0.2, name: "2")
+  draw.content((1, 2), [$3$], frame: "circle", stroke: 1pt, padding: 0.2, name: "3")
+  draw.line("1", "2", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-2")
+  draw.line("2", "3", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "2-3")
+  draw.line("1", "3", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-3")
+  draw.content(
+    ("1-2.start", 50%, "1-2.end"),
+    text(fill: blue)[$1 rel(R) 2$],
+    angle: "1-2.end",
+    anchor: "north",
+    padding: 0.2,
+  )
+  draw.content(
+    ("2-3.start", 50%, "2-3.end"),
+    text(fill: blue)[$2 rel(R) 3$],
+    angle: "2-3.start",
+    anchor: "south",
+    padding: 0.2,
+  )
+  draw.content(
+    ("1-3.start", 50%, "1-3.end"),
+    text(fill: blue)[$1 rel(R) 3$],
+    angle: "1-3.end",
+    anchor: "south",
+    padding: 0.2,
+  )
+})
+
+== Matrix Representation
+
+#definition[
+  A binary relation $R subset.eq A times B$ can be represented as a _matrix_ $M_R = matrel(R)$ where:
+  - Rows correspond to elements of $A$
+  - Columns correspond to elements of $B$
+  - $M_R [i,j] = 1$ if $a_i rel(R) b_j$, and $M_R [i,j] = 0$ otherwise
+]
+
+#example[
+  Let $A = {a, b, c}$, $B = {x, y}$, and $R = {pair(a, x), pair(b, x), pair(c, y)}$.
+  The matrix representation is:
+  $
+    matrel(R) = mat(
+      1, 0;
+      1, 0;
+      0, 1
+    ) quad "where rows are" {a, b, c} "and columns are" {x, y}
+  $
+]
 
 == Properties of Homogeneous Relations
 
