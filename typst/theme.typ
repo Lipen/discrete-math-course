@@ -231,7 +231,12 @@
       let heading = headings.rev().find(x => x.location().page() <= page)
       if heading != none {
         set align(bottom)
-        set text(1.4em, weight: "bold", font: title-font, fill: title-color)
+        set text(
+          1.4em,
+          weight: "bold",
+          font: title-font,
+          fill: title-color,
+        )
         let body = {
           heading.body
           if not heading.location().page() == page {
@@ -313,8 +318,12 @@
     title-slide({
       // Title:
       {
-        set text(font: "Libertinus Sans")
-        set text(2em, weight: "bold", fill: title-color)
+        set text(
+          2em,
+          weight: "bold",
+          font: title-font,
+          fill: title-color,
+        )
         title
       }
       v(1.4em, weak: true)
