@@ -460,7 +460,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
   $pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 1), pair(3, 2)$ arranged in a grid pattern.
 ]
 
-#let example-data-1 = (
+#let example-data = (
   A: (0, 3),
   B: (0, 2),
   C: (1, 2),
@@ -473,7 +473,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     B: (Bl, Br),
     C: (Cl, Cr),
     D: (Dl, Dr),
-  ) = example-data-1
+  ) = example-data
   The set difference $(A times B) setminus (C times D)$ where:
   - $A times B = \[Al; Ar\] times \[Bl; Br\]$ (outer rectangle)
   - $C times D = \(Cl; Cr\) times \(Dl; Dr\]$ (inner rectangle to subtract)
@@ -495,7 +495,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
       B: (Bl, Br),
       C: (Cl, Cr),
       D: (Dl, Dr),
-    ) = example-data-1
+    ) = example-data
 
     // Set A: [0; 3] on x-axis
     draw.line((Al, -0.7), (Ar, -0.7), stroke: 3pt + blue)
@@ -586,7 +586,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
   // First plot: Simple interval product
   #cetz.canvas(baseline: (0, 0), {
     let max-x = 5
-    let max-y = 4
+    let max-y = 3
 
     // Draw the grid and axes
     draw-grid(max-x, max-y)
@@ -594,36 +594,63 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     draw-y-axis(max-y)
     draw-origin()
 
+    // Data for this plot
+    let A = (1, 4)
+    let B = (1, 3)
+    let (Al, Ar) = A
+    let (Bl, Br) = B
+
     // Set A: [1, 4) on x-axis
-    draw.line((1, -0.7), (4, -0.7), stroke: 3pt + blue)
-    draw.circle((1, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 1
-    draw.circle((4, -0.7), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 4
-    draw.content((2.5, -0.7), text(fill: blue)[$A = \[1; 4\)$], anchor: "north", padding: 0.2)
+    draw.line((Al, -0.7), (Ar, -0.7), stroke: 3pt + blue)
+    draw.circle((Al, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 1
+    draw.circle((Ar, -0.7), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 4
+    draw.content(
+      ((Al + Ar) / 2, -0.7),
+      text(fill: blue)[$A = \[Al; Ar\)$],
+      anchor: "north",
+      padding: 0.2,
+    )
 
     // Set B: (2, 4] on y-axis
-    draw.line((-0.7, 2), (-0.7, 4), stroke: 3pt + blue)
-    draw.circle((-0.7, 2), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 2
-    draw.circle((-0.7, 4), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 4
-    draw.content((-0.9, 3), text(fill: blue)[$B = \(2; 4\]$], angle: 90deg, anchor: "south")
+    draw.line((-0.7, Bl), (-0.7, Br), stroke: 3pt + blue)
+    draw.circle((-0.7, Bl), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 2
+    draw.circle((-0.7, Br), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 4
+    draw.content(
+      (-0.9, (Bl + Br) / 2),
+      text(fill: blue)[$B = \(Bl; Br\]$],
+      angle: 90deg,
+      anchor: "south",
+    )
 
     // Cartesian product A × B (filled rectangle)
-    draw.rect((1, 2), (4, 4), fill: blue.transparentize(80%), stroke: none)
+    draw.rect((Al, Bl), (Ar, Br), fill: blue.transparentize(80%), stroke: none)
 
     // Boundary of A × B
-    draw.line((1, 4), (4, 4), stroke: (paint: blue, thickness: 2pt)) // top
-    draw.line((4, 4), (4, 2), stroke: (paint: blue, thickness: 2pt, dash: "dashed")) // right
-    draw.line((4, 2), (1, 2), stroke: (paint: blue, thickness: 2pt, dash: "dashed")) // bottom
-    draw.line((1, 2), (1, 4), stroke: (paint: blue, thickness: 2pt)) // left
+    draw.line((Al, Br), (Ar, Br), stroke: (paint: blue, thickness: 2pt)) // top
+    draw.line((Ar, Br), (Ar, Bl), stroke: (paint: blue, thickness: 2pt, dash: "dashed")) // right
+    draw.line((Ar, Bl), (Al, Bl), stroke: (paint: blue, thickness: 2pt, dash: "dashed")) // bottom
+    draw.line((Al, Bl), (Al, Br), stroke: (paint: blue, thickness: 2pt)) // left
 
     // Corner points
-    draw.circle((1, 4), radius: 0.08, fill: blue, stroke: 2pt + blue) // (1,4) included
-    draw.circle((4, 4), radius: 0.08, fill: white, stroke: 2pt + blue) // (4,4) excluded
-    draw.circle((4, 2), radius: 0.08, fill: white, stroke: 2pt + blue) // (4,2) excluded
-    draw.circle((1, 2), radius: 0.08, fill: white, stroke: 2pt + blue) // (1,2) excluded
+    draw.circle((Al, Br), radius: 0.08, fill: blue, stroke: 2pt + blue) // (top-left) included
+    draw.circle((Ar, Br), radius: 0.08, fill: white, stroke: 2pt + blue) // (top-right) excluded
+    draw.circle((Ar, Bl), radius: 0.08, fill: white, stroke: 2pt + blue) // (bottom-right) excluded
+    draw.circle((Al, Bl), radius: 0.08, fill: white, stroke: 2pt + blue) // (bottom-left) excluded
 
     // Label
-    draw.content((2.5, 3), $A times B$, frame: "rect", stroke: none, fill: blue.transparentize(80%), padding: 0.1)
-    draw.content((3, 4.5), $#text(blue)[$A times B$] = \[1, 4\) times \(2, 4\]$)
+    draw.content(
+      ((Al + Ar) / 2, (Bl + Br) / 2),
+      $A times B$,
+      frame: "rect",
+      stroke: none,
+      fill: blue.transparentize(80%),
+      padding: 0.1,
+    )
+    draw.content(
+      (Al, max-y + 0.4),
+      $#text(blue)[$A times B$] = \[Al; Ar\) times \(Bl , Br\]$,
+      anchor: "south-west",
+    )
   })
   #h(1fr)
   // Second plot: Set difference of products
@@ -637,29 +664,61 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     draw-y-axis(max-y)
     draw-origin()
 
+    // Data for this plot
+    let A = (1, 5)
+    let B = (1, 4)
+    let C = (2, 3)
+    let D = (2, 3)
+    let (Al, Ar) = A
+    let (Bl, Br) = B
+    let (Cl, Cr) = C
+    let (Dl, Dr) = D
+
     // Set A: (1, 5] on x-axis
-    draw.line((1, -0.7), (5, -0.7), stroke: 3pt + blue)
-    draw.circle((1, -0.7), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 1
-    draw.circle((5, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 5
-    draw.content((3.2, -0.7), text(fill: blue)[$A = \(1; 5\]$], anchor: "north-west", padding: 0.2)
+    draw.line((Al, -0.7), (Ar, -0.7), stroke: 3pt + blue)
+    draw.circle((Al, -0.7), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 1
+    draw.circle((Ar, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 5
+    draw.content(
+      ((Al + Ar) / 2, -0.7),
+      text(fill: blue)[$A = \(Al; Ar\]$],
+      anchor: "north",
+      padding: 0.2,
+    )
 
     // Set B: (1, 4] on y-axis
-    draw.line((-0.7, 1), (-0.7, 4), stroke: 3pt + blue)
-    draw.circle((-0.7, 1), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 1
-    draw.circle((-0.7, 4), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 4
-    draw.content((-0.7, 3.2), text(fill: blue)[$B = \(1; 4\]$], angle: 90deg, anchor: "south-west", padding: 0.2)
+    draw.line((-0.7, Bl), (-0.7, Br), stroke: 3pt + blue)
+    draw.circle((-0.7, Bl), radius: 0.08, fill: white, stroke: 1.5pt + blue) // open at 1
+    draw.circle((-0.7, Br), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 4
+    draw.content(
+      (-0.7, (Bl + Br) / 2),
+      text(fill: blue)[$B = \(Bl; Br\]$],
+      angle: 90deg,
+      anchor: "south",
+      padding: 0.2,
+    )
 
     // Set C: [2, 3] on x-axis (second level)
-    draw.line((2, -1.1), (3, -1.1), stroke: 3pt + orange)
-    draw.circle((2, -1.1), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // closed at 2
-    draw.circle((3, -1.1), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // closed at 3
-    draw.content((2.5, -1.1), text(fill: orange)[$C = \[2; 3\]$], anchor: "north", padding: 0.2)
+    draw.line((Cl, -1.5), (Cr, -1.5), stroke: 3pt + orange)
+    draw.circle((Cl, -1.5), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // closed at 2
+    draw.circle((Cr, -1.5), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // closed at 3
+    draw.content(
+      ((Cl + Cr) / 2, -1.5),
+      text(fill: orange)[$C = \[Cl; Cr\]$],
+      anchor: "north",
+      padding: 0.2,
+    )
 
     // Set D: (2, 3) on y-axis (second level)
-    draw.line((-1.1, 2), (-1.1, 3), stroke: 3pt + orange)
-    draw.circle((-1.1, 2), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 2
-    draw.circle((-1.1, 3), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 3
-    draw.content((-1.1, 2.5), text(fill: orange)[$D = \(2; 3\)$], angle: 90deg, anchor: "south", padding: 0.2)
+    draw.line((-1.1, Dl), (-1.1, Dr), stroke: 3pt + orange)
+    draw.circle((-1.1, Dl), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 2
+    draw.circle((-1.1, Dr), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 3
+    draw.content(
+      (-1.1, (Dl + Dr) / 2),
+      text(fill: orange)[$D = \(Dl; Dr\)$],
+      angle: 90deg,
+      anchor: "south",
+      padding: 0.2,
+    )
 
     let pat = tiling(size: (30pt, 30pt))[
       #place(rect(fill: blue.transparentize(80%)))
@@ -670,34 +729,34 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
 
     // A × B (outer rectangle)
     // draw.rect((1, 1), (5, 4), fill: blue.transparentize(80%), stroke: none)
-    draw.rect((1, 1), (5, 4), fill: pat, stroke: none)
+    draw.rect((Al, Bl), (Ar, Br), fill: pat, stroke: none)
 
     // C × D (inner rectangle)
-    draw.rect((2, 2), (3, 3), fill: white, stroke: none)
+    draw.rect((Cl, Dl), (Cr, Dr), fill: white, stroke: none)
 
     // Outer boundary
-    draw.line((1, 4), (5, 4), stroke: 2pt + blue) // top
-    draw.line((5, 4), (5, 1), stroke: 2pt + blue) // right
-    draw.line((5, 1), (1, 1), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // bottom
-    draw.line((1, 1), (1, 4), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // left
+    draw.line((Al, Br), (Ar, Br), stroke: 2pt + blue) // top
+    draw.line((Ar, Br), (Ar, Bl), stroke: 2pt + blue) // right
+    draw.line((Ar, Bl), (Al, Bl), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // bottom
+    draw.line((Al, Bl), (Al, Br), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // left
 
     // Inner boundary (hole)
-    draw.line((2, 2), (3, 2), stroke: 2pt + orange) // bottom
-    draw.line((3, 2), (3, 3), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // right
-    draw.line((3, 3), (2, 3), stroke: 2pt + orange) // top
-    draw.line((2, 3), (2, 2), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // left
+    draw.line((Cl, Dl), (Cr, Dl), stroke: 2pt + orange) // bottom
+    draw.line((Cr, Dl), (Cr, Dr), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // right
+    draw.line((Cr, Dr), (Cl, Dr), stroke: 2pt + orange) // top
+    draw.line((Cl, Dr), (Cl, Dl), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // left
 
     // Corner points for outer rectangle
-    draw.circle((5, 4), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // (5,4) included
-    draw.circle((5, 1), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (5,1) excluded
-    draw.circle((1, 1), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (1,1) excluded
-    draw.circle((1, 4), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (1,4) excluded
+    draw.circle((Ar, Br), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // (top-right) included
+    draw.circle((Ar, Bl), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (bottom-right) excluded
+    draw.circle((Al, Bl), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (bottom-left) excluded
+    draw.circle((Al, Br), radius: 0.08, fill: white, stroke: 1.5pt + blue) // (top-left) excluded
 
     // Corner points for inner rectangle
-    draw.circle((2, 2), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (2,2) included
-    draw.circle((3, 2), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (3,2) included
-    draw.circle((3, 3), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (3,3) included
-    draw.circle((2, 3), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (2,3) included
+    draw.circle((Cl, Dl), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (bottom-left) included
+    draw.circle((Cr, Dl), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (bottom-right) included
+    draw.circle((Cr, Dr), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (top-right) included
+    draw.circle((Cl, Dr), radius: 0.08, fill: orange, stroke: 1.5pt + orange) // (top-left) included
 
     // Label
     draw.content(
@@ -709,8 +768,9 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
       padding: 0.1,
     )
     draw.content(
-      (3.5, 4.8),
-      $#text(blue)[$(A times B)$] setminus #text(orange)[$(C times D)$] =\ (\(1; 5\] times \(1; 4\]) setminus (\[2; 3\] times \(2; 3\))$,
+      (Al, max-y + 0.4),
+      $#text(blue)[$(A times B)$] setminus #text(orange)[$(C times D)$] =\ (\(Al; Ar\] times \(Bl; Br\]) setminus (\[Cl; Cr\] times \(Dl; Dr\))$,
+      anchor: "south-west",
     )
   })
 ]
