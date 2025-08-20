@@ -554,7 +554,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     // draw.rect((Al, Bl), (Ar, Br), fill: blue.transparentize(80%), stroke: none)
     draw.rect((Al, Bl), (Ar, Br), fill: pat, stroke: none)
     // Fill C × D (inner rectangle)
-    draw.rect((Cl, Dl), (Cr, Dr), fill: white, stroke: none)
+    draw.rect((Cl, Dl), (Cr, Dr), fill: white, stroke: 1pt + white)
 
     // Outer boundary
     draw.line((Al, Br), (Ar, Br), stroke: (paint: blue, thickness: 2pt)) // top
@@ -732,7 +732,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     draw.rect((Al, Bl), (Ar, Br), fill: pat, stroke: none)
 
     // C × D (inner rectangle)
-    draw.rect((Cl, Dl), (Cr, Dr), fill: white, stroke: none)
+    draw.rect((Cl, Dl), (Cr, Dr), fill: white, stroke: 1pt + white)
 
     // Outer boundary
     draw.line((Al, Br), (Ar, Br), stroke: 2pt + blue) // top
