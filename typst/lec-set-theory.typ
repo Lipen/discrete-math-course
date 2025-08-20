@@ -39,6 +39,35 @@
 #let YES = Green(sym.checkmark)
 #let NO = Red(sym.crossmark)
 
+#import cetz: draw
+
+#let draw-grid(max-x, max-y) = {
+  draw.grid(
+    (0, 0),
+    (max-x + 0.3, max-y + 0.3),
+    stroke: gray + 0.4pt,
+  )
+}
+#let draw-x-axis(max-x) = {
+  draw.line((-0.3, 0), (max-x + 0.7, 0), name: "x-axis", mark: (end: "stealth", fill: black))
+  draw.content("x-axis.end", [$x$], anchor: "north", padding: 0.1)
+  for x in range(1, max-x + 1) {
+    draw.line((x, -0.1), (x, 0.1), stroke: 0.5pt)
+    draw.content((x, 0), [#x], anchor: "north", padding: 0.2)
+  }
+}
+#let draw-y-axis(max-y) = {
+  draw.line((0, -0.3), (0, max-y + 0.7), name: "y-axis", mark: (end: "stealth", fill: black))
+  draw.content("y-axis.end", [$y$], anchor: "east", padding: 0.1)
+  for y in range(1, max-y + 1) {
+    draw.line((-0.1, y), (0.1, y), stroke: 0.5pt)
+    draw.content((0, y), [#y], anchor: "east", padding: 0.2)
+  }
+}
+#let draw-origin() = {
+  draw.content((0, 0), [0], anchor: "north-east", padding: 0.2)
+}
+
 #show heading.where(level: 1): none
 
 = Set Theory
@@ -422,55 +451,138 @@ For any sets $A$, $B$, and $C$:
 The Cartesian product $A times B$ can be visualized as a region on the coordinate plane, where each point $pair(a, b)$ represents an element of the product.
 
 #example[
-  If $A = [1, 4)$ and $B = (2, 4]$, then $A times B$ represents the rectangular region:
-  ${(x, y) | 1 <= x < 4 "and" 2 < y <= 4}$
+  If $A = [1, 4)$ and $B = (2, 4]$, then $A times B$ represents the rectangular region (see next slide):
+  $ {pair(x, y) | 1 <= x < 4 "and" 2 < y <= 4} $
 ]
 
 #example[
   For discrete sets $A = {1, 2, 3}$ and $B = {1, 2}$, the product $A times B$ consists of 6 points:
-  $(1,1), (1,2), (2,1), (2,2), (3,1), (3,2)$ arranged in a grid pattern.
+  $pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 1), pair(3, 2)$ arranged in a grid pattern.
 ]
 
-#example[
-  The set difference $(A times B) setminus (C times D)$ where:
-  - $A times B = [0, 3] times [0, 2]$ (outer rectangle)
-  - $C times D = (1, 2) times (0.5, 1.5)$ (inner rectangle to subtract)
+#let example-data-1 = (
+  A: (0, 3),
+  B: (0, 2),
+  C: (1, 2),
+  D: (0.5, 1.5),
+)
 
-  Results in an "L-shaped" region.
+#example[
+  #let (
+    A: (Al, Ar),
+    B: (Bl, Br),
+    C: (Cl, Cr),
+    D: (Dl, Dr),
+  ) = example-data-1
+  The set difference $(A times B) setminus (C times D)$ where:
+  - $A times B = \[Al; Ar\] times \[Bl; Br\]$ (outer rectangle)
+  - $C times D = \(Cl; Cr\) times \(Dl; Dr\]$ (inner rectangle to subtract)
+]
+
+#place(bottom + right, dy: 1.5em)[
+  #cetz.canvas({
+    let max-x = 3
+    let max-y = 2
+
+    // Draw the grid and axes
+    draw-grid(max-x, max-y)
+    draw-x-axis(max-x)
+    draw-y-axis(max-y)
+    draw-origin()
+
+    let (
+      A: (Al, Ar),
+      B: (Bl, Br),
+      C: (Cl, Cr),
+      D: (Dl, Dr),
+    ) = example-data-1
+
+    // Set A: [0; 3] on x-axis
+    draw.line((Al, -0.7), (Ar, -0.7), stroke: 3pt + blue)
+    draw.circle((Al, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 0
+    draw.circle((Ar, -0.7), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 3
+    draw.content(
+      ((Al + Ar) / 2, -0.7),
+      text(fill: blue)[$A = \[0; 3\]$],
+      anchor: "north",
+      padding: 0.2,
+    )
+
+    // Set B: [0; 2] on y-axis
+    draw.line((-0.7, Bl), (-0.7, Br), stroke: 3pt + blue)
+    draw.circle((-0.7, Bl), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 0
+    draw.circle((-0.7, Br), radius: 0.08, fill: blue, stroke: 1.5pt + blue) // closed at 2
+    draw.content(
+      (-0.7, (Bl + Br) / 2),
+      text(fill: blue)[$B = \[0; 2\]$],
+      angle: 90deg,
+      anchor: "south",
+      padding: 0.2,
+    )
+
+    // Set C: (1; 2) on x-axis (inner rectangle)
+    draw.line((Cl, -1.5), (Cr, -1.5), stroke: 3pt + orange)
+    draw.circle((Cl, -1.5), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 1
+    draw.circle((Cr, -1.5), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 2
+    draw.content(
+      ((Cl + Cr) / 2, -1.5),
+      text(fill: orange)[$C = \(1; 2\)$],
+      anchor: "north",
+      padding: 0.2,
+    )
+
+    // Set D: (0.5; 1.5) on y-axis (inner rectangle)
+    draw.line((-1.5, Dl), (-1.5, Dr), stroke: 3pt + orange)
+    draw.circle((-1.5, Dl), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 0.5
+    draw.circle((-1.5, Dr), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 1.5
+    draw.content(
+      (-1.5, (Dl + Dr) / 2),
+      text(fill: orange)[$D = \(0.5; 1.5\)$],
+      angle: 90deg,
+      anchor: "south",
+      padding: 0.2,
+    )
+
+    let pat = tiling(size: (20pt, 20pt))[
+      #place(rect(fill: blue.transparentize(80%)))
+      #place(line(start: (0%, 100%), end: (100%, 0%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+      #place(line(start: (-10%, 10%), end: (10%, -10%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+      #place(line(start: (90%, 110%), end: (110%, 90%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+    ]
+
+    // Fill A × B (outer rectangle)
+    // draw.rect((Al, Bl), (Ar, Br), fill: blue.transparentize(80%), stroke: none)
+    draw.rect((Al, Bl), (Ar, Br), fill: pat, stroke: none)
+    // Fill C × D (inner rectangle)
+    draw.rect((Cl, Dl), (Cr, Dr), fill: white, stroke: none)
+
+    // Outer boundary
+    draw.line((Al, Br), (Ar, Br), stroke: (paint: blue, thickness: 2pt)) // top
+    draw.line((Ar, Br), (Ar, Bl), stroke: (paint: blue, thickness: 2pt)) // right
+    draw.line((Al, Bl), (Ar, Bl), stroke: (paint: blue, thickness: 2pt)) // bottom
+    draw.line((Al, Bl), (Al, Br), stroke: (paint: blue, thickness: 2pt)) // left
+    // Outer corners
+    draw.circle((Al, Br), radius: 0.08, fill: blue, stroke: 2pt + blue) // (top-left) included
+    draw.circle((Ar, Br), radius: 0.08, fill: blue, stroke: 2pt + blue) // (top-right) included
+    draw.circle((Ar, Bl), radius: 0.08, fill: white, stroke: 2pt + blue) // (bot-right) excluded
+    draw.circle((Al, Bl), radius: 0.08, fill: white, stroke: 2pt + blue) // (bot-left) excluded
+
+    // Inner boundary (hole)
+    draw.line((Cl, Dr), (Cr, Dr), stroke: (paint: orange, thickness: 2pt, dash: "dashed")) // top
+    draw.line((Cr, Dr), (Cr, Dl), stroke: (paint: orange, thickness: 2pt)) // right
+    draw.line((Cl, Dl), (Cr, Dl), stroke: (paint: orange, thickness: 2pt)) // bottom
+    draw.line((Cl, Dl), (Cl, Dr), stroke: (paint: orange, thickness: 2pt)) // left
+    // Inner corners
+    draw.circle((Cl, Dr), radius: 0.08, fill: orange, stroke: 2pt + orange) // (top-left) included
+    draw.circle((Cr, Dr), radius: 0.08, fill: orange, stroke: 2pt + orange) // (top-right) included
+    draw.circle((Cr, Dl), radius: 0.08, fill: orange, stroke: 2pt + orange) // (bot-right) included
+    draw.circle((Cl, Dl), radius: 0.08, fill: orange, stroke: 2pt + orange) // (bot-left) included
+  })
 ]
 
 #pagebreak()
 
 #place(bottom)[
-  #import cetz: draw
-
-  #let draw-grid(max-x, max-y) = {
-    draw.grid(
-      (0, 0),
-      (max-x + 0.3, max-y + 0.3),
-      stroke: gray + 0.4pt,
-    )
-  }
-  #let draw-x-axis(max-x) = {
-    draw.line((-0.3, 0), (max-x + 0.7, 0), name: "x-axis", mark: (end: "stealth", fill: black))
-    draw.content("x-axis.end", [$x$], anchor: "north", padding: 0.1)
-    for x in range(1, max-x + 1) {
-      draw.line((x, -0.1), (x, 0.1), stroke: 0.5pt)
-      draw.content((x, 0), [#x], anchor: "north", padding: 0.2)
-    }
-  }
-  #let draw-y-axis(max-y) = {
-    draw.line((0, -0.3), (0, max-y + 0.7), name: "y-axis", mark: (end: "stealth", fill: black))
-    draw.content("y-axis.end", [$y$], anchor: "east", padding: 0.1)
-    for y in range(1, max-y + 1) {
-      draw.line((-0.1, y), (0.1, y), stroke: 0.5pt)
-      draw.content((0, y), [#y], anchor: "east", padding: 0.2)
-    }
-  }
-  #let draw-origin() = {
-    draw.content((0, 0), [0], anchor: "north-east", padding: 0.2)
-  }
-
   // First plot: Simple interval product
   #cetz.canvas(baseline: (0, 0), {
     let max-x = 5
@@ -549,8 +661,16 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     draw.circle((-1.1, 3), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 3
     draw.content((-1.1, 2.5), text(fill: orange)[$D = \(2; 3\)$], angle: 90deg, anchor: "south", padding: 0.2)
 
+    let pat = tiling(size: (30pt, 30pt))[
+      #place(rect(fill: blue.transparentize(80%)))
+      #place(line(start: (0%, 100%), end: (100%, 0%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+      #place(line(start: (-10%, 10%), end: (10%, -10%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+      #place(line(start: (90%, 110%), end: (110%, 90%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+    ]
+
     // A × B (outer rectangle)
-    draw.rect((1, 1), (5, 4), fill: blue.transparentize(80%), stroke: none)
+    // draw.rect((1, 1), (5, 4), fill: blue.transparentize(80%), stroke: none)
+    draw.rect((1, 1), (5, 4), fill: pat, stroke: none)
 
     // C × D (inner rectangle)
     draw.rect((2, 2), (3, 3), fill: white, stroke: none)
