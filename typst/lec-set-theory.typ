@@ -799,7 +799,14 @@ Suppose a set can be either _"normal"_ or _"unusual"_.
 
 *Note:* being "normal" or "unusual" is a predicate $P(x)$ that can be applied to any set $x$.
 
-Consider the set $R$ of _all normal sets_: $R = { A | A notin A }$.
+#block(
+  fill: yellow.lighten(80%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  outset: .5em,
+)[
+  Consider the set of _all normal sets_: $R = { A | A notin A }$.
+]
 
 The paradox arises when we ask: #strong[Is $R$ a normal set?]
 - Suppose $R$ is _normal_. By its definition, $R$ must be an element of $R$, so $R in R$. But elements of $R$ are normal sets, and normal sets do not contain themselves. So $R notin R$. Contradiction.
