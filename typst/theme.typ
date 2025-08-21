@@ -69,57 +69,11 @@
 
   // heading(title)
 
-  let truchet-tiles(seed: 42, unit-size: 50, x-unit: 10, y-unit: 10, stroke: black + 1pt) = {
-    import suiji: choice, gen-rng-f, integers-f
-
-    let c = 4 / 3 * (calc.sqrt(2) - 1)
-    let tot-unit = x-unit * y-unit
-    let s = unit-size * 1pt
-    let t = s / 2
-    let cell(dx, dy, k) = if k == 0 {
-      (
-        std.curve.move((dx, dy)),
-        std.curve.move((t, 0pt), relative: true),
-        std.curve.cubic((0pt, t * c), (-t * (1 - c), t), (-t, t), relative: true),
-        std.curve.move((2 * t, 0pt), relative: true),
-        std.curve.cubic((-t * c, 0pt), (-t, t * (1 - c)), (-t, t), relative: true),
-      )
-    } else {
-      (
-        std.curve.move((dx, dy)),
-        std.curve.move((t, 0pt), relative: true),
-        std.curve.cubic((0pt, t * c), (t * (1 - c), t), (t, t), relative: true),
-        std.curve.move((-2 * t, 0pt), relative: true),
-        std.curve.cubic((t * c, 0pt), (t, t * (1 - c)), (t, t), relative: true),
-      )
-    }
-
-    let rng-f = gen-rng-f(seed)
-    let (_, vk) = integers-f(rng-f, high: 2, size: tot-unit)
-    let cmd = range(tot-unit).map(i => cell(calc.rem(i, x-unit) * s, calc.floor(i / x-unit) * s, vk.at(i))).join()
-
-    box(
-      width: s * x-unit,
-      height: s * y-unit,
-      std.curve(stroke: stroke, ..cmd),
-    )
-  }
-
   // Set up the page for the title slide
   set page(
     header: none,
     footer: none,
     margin: page-margin,
-    background: {
-      let color = if dark { gray.transparentize(95%) } else { silver.lighten(70%) }
-      place(center + horizon, truchet-tiles(
-        seed: 42,
-        unit-size: 30,
-        x-unit: 20,
-        y-unit: 10,
-        stroke: 4pt + gradient.radial(white, color),
-      ))
-    },
   )
 
   set text(fill: text-color)
