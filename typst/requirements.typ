@@ -4,7 +4,7 @@
 #import "@preview/ctheorems:1.1.3"
 #import "@preview/curryst:0.5.1"
 #import "@preview/derive-it:0.1.3"
-#import "@preview/diagraph:0.3.4"
+#import "@preview/diagraph:0.3.5"
 #import "@preview/finite:0.5.0"
 #import "@preview/fletcher:0.5.8"
 #import "@preview/fontawesome:0.6.0"
