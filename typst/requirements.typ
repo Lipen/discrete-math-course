@@ -1,5 +1,5 @@
 #import "@preview/cetz:0.4.1"
-#import "@preview/cheq:0.2.2"
+#import "@preview/cheq:0.2.3"
 #import "@preview/colorful-boxes:1.4.3"
 #import "@preview/ctheorems:1.1.3"
 #import "@preview/curryst:0.5.1"
