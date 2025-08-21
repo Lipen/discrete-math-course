@@ -830,6 +830,27 @@ How can we fix this?..
   The most widely accepted system is _Zermelo-Fraenkel set theory with the Axiom of Choice_ (ZFC).
 ]
 
+#grid(
+  columns: 2,
+  align: center,
+  column-gutter: 1em,
+  row-gutter: 0.5em,
+  link("https://en.wikipedia.org/wiki/Ernst_Zermelo", box(
+    radius: 5pt,
+    clip: true,
+    stroke: 1pt + blue.darken(20%),
+    image("assets/Ernst_Zermelo.jpg", height: 3cm),
+  )),
+  link("https://en.wikipedia.org/wiki/Abraham_Fraenkel", box(
+    radius: 5pt,
+    clip: true,
+    stroke: 1pt + blue.darken(20%),
+    image("assets/Abraham_Fraenkel.jpg", height: 3cm),
+  )),
+
+  [Ernst Zermelo], [Abraham\ Fraenkel],
+)
+
 == ZFC Axioms
 
 + *Extensionality*: Sets with the same elements are equal.
