@@ -815,6 +815,7 @@ The paradox arises when we ask: #strong[Is $R$ a normal set?]
 A contradiction is reached in both cases. The only possible conclusion is that #strong[the set $R$ cannot exist].
 
 This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
+How can we fix this?..
 
 == From Naïve to Axiomatic Set Theory
 
