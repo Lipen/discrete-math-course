@@ -7,7 +7,7 @@
 #import "@preview/diagraph:0.3.4"
 #import "@preview/finite:0.5.0"
 #import "@preview/fletcher:0.5.8"
-#import "@preview/fontawesome:0.5.0"
+#import "@preview/fontawesome:0.6.0"
 #import "@preview/lovelace:0.3.0"
 #import "@preview/numbly:0.1.0"
 #import "@preview/shadowed:0.2.0"
