@@ -1189,7 +1189,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw.scale(50%)
 
     // Set M
-    draw.rect((0, -0.5), (4, 3.5), radius: .3)
+    draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
 
     // Elements:
     draw.circle((1, 2), radius: 0.1, fill: white, name: "0")
@@ -1212,16 +1212,16 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
     // Partition block {0, 2, 4}:
     draw.rect(
-      (0.3, 1.6),
-      (3.7, 3.2),
+      (0.5, 1.6),
+      (3.5, 3.2),
       radius: .3,
       stroke: 2pt + blue,
       fill: blue.transparentize(80%),
     )
     // Partition block {1, 3, 5}:
     draw.rect(
-      (0.3, 1.4),
-      (3.7, -0.2),
+      (0.5, 1.4),
+      (3.5, -0.2),
       radius: .3,
       stroke: 2pt + orange,
       fill: orange.transparentize(80%),
@@ -1236,7 +1236,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw.scale(50%)
 
     // Set M
-    draw.rect((0, -0.5), (4, 3.5), radius: .3)
+    draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
 
     // Elements:
     draw.circle((1, 2), radius: 0.1, fill: white, name: "0")
@@ -1254,7 +1254,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
     // Partition block {0, 5}:
     draw.rect(
-      (0.3, 1.6),
+      (0.5, 1.6),
       (2.4, 3.2),
       radius: .3,
       stroke: 2pt + blue,
@@ -1262,8 +1262,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     )
     // Partition block {1, 2, 3}:
     draw.rect(
-      (0.3, 1.4),
-      (3.7, -0.2),
+      (0.5, 1.4),
+      (3.5, -0.2),
       radius: .3,
       stroke: 2pt + orange,
       fill: orange.transparentize(80%),
@@ -1271,7 +1271,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     // Partition block {4}:
     draw.rect(
       (2.6, 1.6),
-      (3.7, 3.2),
+      (3.5, 3.2),
       radius: .3,
       stroke: 2pt + green.darken(20%),
       fill: green.darken(20%).transparentize(80%),
