@@ -1697,6 +1697,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$.
 ]
 
+// TODO: functional powers
+// (if Y subset.eq X, then f:X->Y can be composed with itself)
+
 == Properties of Function Composition
 
 - _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
