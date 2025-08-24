@@ -357,7 +357,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
 
 == Laws of Set Operations
 
-For any sets $A$, $B$, and $C$:
+For any sets $A$, $B$, $C$, and the universal set $U$:
 
 #columns(2)[
   *Commutative Laws:*
@@ -379,7 +379,7 @@ For any sets $A$, $B$, and $C$:
   - $overline(A intersect B) = overline(A) union overline(B)$
 
   *Identity Laws:*
-  - $A union emptyset = A$, $A intersect U = A$ (where $U$ is the universal set)
+  - $A union emptyset = A$, $A intersect U = A$
   - $A intersect emptyset = emptyset$, $A union U = U$
 
   *Complement Laws:*
