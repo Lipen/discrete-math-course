@@ -1551,13 +1551,56 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #definition[
   A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!]) if distinct elements in the domain map to distinct elements in the codomain.
-  $ forall a_1, a_2 in A, (f(a_1) = f(a_2)) ==> (a_1 = a_2) $
+  Formally:
+  $
+    forall a_1, a_2 in A. thin (f(a_1) = f(a_2)) imply (a_1 = a_2)
+  $
+]
+
+#v(-.5em)
+#align(center)[
+  #import fletcher: diagram, edge, node, shapes
+  #diagram(
+    edge-stroke: 1pt,
+    node((0cm, 0cm), $1$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
+    node((0cm, -1.5cm), $2$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
+    node((3cm, 0cm), $x$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
+    node((3cm, -1.5cm), $y$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    render: (grid, nodes, edges, options) => {
+      import fletcher: cetz
+      cetz.canvas({
+        // Background:
+        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+
+        // Main diagram:
+        fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
+
+        // Overlay:
+        let (x, y) = (1.5, -0.5)
+        let s = 1.8
+        cetz.draw.line(
+          (x - s / 2, y + s / 2),
+          (x + s / 2, y - s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+        cetz.draw.line(
+          (x - s / 2, y - s / 2),
+          (x + s / 2, y + s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+      })
+    },
+  )
 ]
 
 #example[
   $f: NN to NN$ defined by $f(n) = 2n$ is injective.
   If $f(n_1) = f(n_2)$, then $2n_1 = 2n_2$, so $n_1 = n_2$.
 ]
+
 #example[
   $g: ZZ to ZZ$ defined by $g(n) = n^2$ is _not_ injective, because $g(-1) = 1$ and $g(1) = 1$, but $-1 != 1$.
 ]
@@ -1566,13 +1609,57 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #definition[
   A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
-  $ forall b in B. thin exists a in A. thin f(a) = b $
-  For surjective functions, $Range(f) = Cod(f)$.
+  Formally:
+  $
+    forall b in B. thin exists a in A. thin f(a) = b
+  $
+
+  For surjective functions, $Range(f) = Cod(f)$, i.e., there are _no "uncovered"_ elements in the right side.
+]
+
+#v(-.5em)
+#align(center)[
+  #import fletcher: diagram, edge, node, shapes
+  #diagram(
+    edge-stroke: 1pt,
+    node((0cm, 0cm), $1$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
+    node((0cm, -1.5cm), $2$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
+    node((3cm, 0cm), $x$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
+    node((3cm, -1.5cm), $y$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    render: (grid, nodes, edges, options) => {
+      import fletcher: cetz
+      cetz.canvas({
+        // Background:
+        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+
+        // Main diagram:
+        fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
+
+        // Overlay:
+        let (x, y) = (3, -1.5)
+        let s = 1
+        cetz.draw.line(
+          (x - s / 2, y + s / 2),
+          (x + s / 2, y - s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+        cetz.draw.line(
+          (x - s / 2, y - s / 2),
+          (x + s / 2, y + s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+      })
+    },
+  )
 ]
 
 #example[
   $f: RR to RR$ defined by $f(x) = x^3$ is surjective. For any $y in RR$, $x = root(3, y)$ is such that $f(x)=y$.
 ]
+
 #example[
   $g: NN to NN$ defined by $g(n) = 2n$ is _not_ surjective, because odd numbers in $NN$ (the codomain) are not in the range of $g$. For example, there is no $n in NN$ such that $2n = 3$.
 ]
