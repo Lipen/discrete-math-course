@@ -212,7 +212,7 @@ Topics include:
   For each of the $n$ elements in the set, we can either include it in a subset or not.
   These $n$ independent binary choices yield $2^n$ possible subsets by the multiplication principle.
   #place(center)[
-    $ underbrace(2 times 2 times dots times 2, n " times") = 2^n $
+    $ underbrace(2 times 2 times dots times 2, n "times") = 2^n $
   ]
 ]
 
