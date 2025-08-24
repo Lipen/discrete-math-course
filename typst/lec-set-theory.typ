@@ -1685,7 +1685,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #definition[
   Let $f: A to B$ and $g: B to C$ be two functions.
   The _composition_ of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
-  $ (g compose f)(a) = g(f(a)) $
+  $
+    (g compose f)(a) = g(f(a))
+  $
   // for all $a in A$.
 ]
 
