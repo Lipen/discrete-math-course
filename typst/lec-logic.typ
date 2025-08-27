@@ -1037,7 +1037,7 @@
   A proposition "$S$ is $P$" has _existential import_ if it implies the existence of objects (at~least one) in its subject class $S$.
 ]
 
-#Block(color: orange.lighten(60%))[
+#Block(color: orange.lighten(50%))[
   *The Problem:*
 
   Traditional logic (Aristotle) assumes all categorical propositions have existential import.
@@ -1649,7 +1649,7 @@
 
 // TODO: incompleteness theorem for arithmetic
 
-#Block(color: orange.lighten(60%))[
+#Block(color: orange.lighten(50%))[
   *The trade-off:*
   - Propositional logic: decidable (SAT-solvable) but has _limited expressiveness_
   - First-order logic: highly expressive but _undecidable_
