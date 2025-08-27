@@ -808,8 +808,8 @@
 
 == The Four Standard Forms
 
-#definition[A, E, I, O Propositions][
-  Traditional logic recognizes four standard forms of categorical propositions:
+#definition[
+  Traditional logic recognizes _four standard forms_ of categorical propositions:
 
   #table(
     columns: 5,
