@@ -28,8 +28,7 @@
 #let Meet = math.and
 #let nand = $overline(and)$
 #let nor = $overline(or)$
-#let proves = $⊢$
-#let models = $⊨$
+#let proves = entails
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -710,14 +709,13 @@
 
 == Proof of Completeness
 
-// TODO: provide 'proves.not' and 'models.not' commands
 #proof[
-  We prove the contrapositive: if $Gamma not proves phi$, then $Gamma not models phi$.
+  We prove the contrapositive: if $Gamma proves.not phi$, then $Gamma models.not phi$.
 
   The _strategy_ is to construct a model (interpretation) that satisfies all formulas in $Gamma$, but falsifies $phi$.
 
   #enum(numbering: it => [*Step #it:*])[
-    If $Gamma not proves phi$, then $Gamma union {not phi}$ is consistent (cannot derive $bot$).
+    If $Gamma proves.not phi$, then $Gamma union {not phi}$ is consistent (cannot derive $bot$).
   ][
     Extend $Gamma union {not phi}$ to a _maximal consistent set_ $Delta$:
     - $Delta$ is consistent (cannot derive $bot$)
@@ -736,7 +734,7 @@
     Since $Gamma subset.eq Delta$, we have $EvalWith(gamma, nu) = True$ for all $gamma in Gamma$.
   ]
 
-  Therefore $Gamma not models phi$.
+  Therefore $Gamma models.not phi$.
 ]
 
 == The Completeness Result
