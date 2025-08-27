@@ -1158,6 +1158,7 @@
   - Some consonants indicate required operations for reduction
 ]
 
+// TODO: re-check
 #example[Famous Valid Forms][
   #table(
     columns: 4,
