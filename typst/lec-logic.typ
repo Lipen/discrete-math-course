@@ -138,7 +138,6 @@
 
 #let EvalWith(phi, inter) = $bracket.double.l phi bracket.double.r_(inter)$
 #let Eval(phi) = EvalWith(phi, $nu$)
-// #let Eval(phi) = $nu(phi)$
 
 #definition[
   The truth value (_evaluation_) of complex formulas is determined recursively:
@@ -201,19 +200,19 @@
 == Semantic Concepts
 
 #definition[
-  A formula $phi$ is _satisfiable_ if there exists an interpretation $nu$ such that $Eval(phi) = True$.
+  A formula $phi$ is _satisfiable_ if there exists an interpretation $nu$ such that $EvalWith(phi, nu) = True$.
 
   A formula is _unsatisfiable_ if no such interpretation exists.
 ]
 
 #definition[
-  A formula $phi$ is a _tautology_ (or _valid_) if $Eval(phi) = True$ for every interpretation $nu$.
+  A formula $phi$ is a _tautology_ (or _valid_) if $EvalWith(phi, nu) = True$ for every interpretation $nu$.
 
   Notation: $models phi$ (read: "$phi$ is valid").
 ]
 
 #definition[
-  A formula $phi$ is a _contradiction_ if $Eval(phi) = False$ for every interpretation $nu$.
+  A formula $phi$ is a _contradiction_ if $EvalWith(phi, nu) = False$ for every interpretation $nu$.
 ]
 
 #example[
@@ -225,11 +224,11 @@
 == Logical Equivalence
 
 #definition[
-  Two formulas $phi$ and $psi$ are _logically equivalent_, written $phi equiv psi$, if they have the same truth value under every interpretation:
+  Two formulas $alpha$ and $beta$ are _logically equivalent_, written $alpha equiv beta$, if they have the same truth value under every interpretation:
   $
-    phi equiv psi
+    alpha equiv beta
     quad "iff" quad
-    forall nu. thin EvalWith(phi, nu) = EvalWith(psi, nu)
+    forall nu. thin EvalWith(alpha, nu) = EvalWith(beta, nu)
   $
 ]
 
@@ -266,11 +265,11 @@
 == Semantic Entailment
 
 #definition[
-  A set of formulas $Gamma$ _semantically entails_ a formula $phi$, written $Gamma models phi$, if every interpretation that makes all formulas in $Gamma$ true also makes $phi$ true:
+  A set of formulas $Gamma$ _semantically entails_ a formula $alpha$, written $Gamma models alpha$, if every interpretation that makes all formulas in $Gamma$ true also makes $alpha$ true:
   $
-    Gamma models phi
+    Gamma models alpha
     quad "iff" quad
-    forall nu. thin (forall psi in Gamma. thin EvalWith(psi, nu) = True) imply EvalWith(phi, nu) = True
+    forall nu. thin (forall beta in Gamma. thin EvalWith(beta, nu) = True) imply EvalWith(alpha, nu) = True
   $
 ]
 
@@ -279,11 +278,11 @@
 ]
 
 #theorem[Semantic Deduction Theorem][
-  For any formulas $phi$ and $psi$:
+  For any formulas $alpha$ and $beta$:
   $
-    {phi} models psi
+    {alpha} models beta
     quad "iff" quad
-    models phi imply psi
+    models alpha imply beta
   $
 ]
 
@@ -401,13 +400,13 @@
     #grid(
       columns: 1,
       inset: 5pt,
-      $phi$,
-      $psi$,
+      $alpha$,
+      $beta$,
       grid.hline(stroke: .8pt),
-      $phi and psi$,
+      $alpha and beta$,
     )
 
-    If we have both $phi$ and $psi$, we can conclude $phi and psi$.
+    If we have both $alpha$ and $beta$, we can conclude $alpha and beta$.
   ],
   [
     *Conjunction Elimination ($and$E):*
@@ -418,20 +417,20 @@
       grid(
         columns: 1,
         inset: 5pt,
-        $phi and psi$,
+        $alpha and beta$,
         grid.hline(stroke: .8pt),
-        $phi$,
+        $alpha$,
       ),
       grid(
         columns: 1,
         inset: 5pt,
-        $phi and psi$,
+        $alpha and beta$,
         grid.hline(stroke: .8pt),
-        $psi$,
+        $beta$,
       ),
     )
 
-    From $phi and psi$, we can conclude either $phi$ or $psi$.
+    From $alpha and beta$, we can conclude either $alpha$ or $beta$.
   ],
 )
 
@@ -449,20 +448,20 @@
       grid(
         columns: 1,
         inset: 5pt,
-        $phi$,
+        $alpha$,
         grid.hline(stroke: .8pt),
-        $phi or psi$,
+        $alpha or beta$,
       ),
       grid(
         columns: 1,
         inset: 5pt,
-        $psi$,
+        $beta$,
         grid.hline(stroke: .8pt),
-        $phi or psi$,
+        $alpha or beta$,
       ),
     )
 
-    From either $phi$ or $psi$, we can conclude $phi or psi$.
+    From either $alpha$ or $beta$, we can conclude $alpha or beta$.
   ],
   [
     *Disjunction Elimination ($or$E):*
@@ -470,14 +469,14 @@
       #grid(
         columns: 1,
         inset: 5pt,
-        $phi or psi$,
-        $[phi] dots chi$,
-        $[psi] dots chi$,
+        $alpha or beta$,
+        $[alpha] dots gamma$,
+        $[beta] dots gamma$,
         grid.hline(stroke: .8pt),
-        $chi$,
+        $gamma$,
       )
 
-      To use $phi or psi$, assume each disjunct and show that both lead to the same conclusion $chi$.
+      To use $alpha or beta$, assume each disjunct and show that both lead to the same conclusion $gamma$.
     ]
   ],
 )
@@ -493,14 +492,14 @@
       #grid(
         columns: 1,
         inset: 5pt,
-        $[phi] dots psi$,
+        $[alpha] dots beta$,
         grid.hline(stroke: .8pt),
-        $phi imply psi$,
+        $alpha imply beta$,
       )
 
-      To prove $phi imply psi$, assume $phi$ and derive $psi$.
+      To prove $alpha imply beta$, assume $alpha$ and derive $beta$.
 
-      This _discharges_ the assumption $phi$.
+      This _discharges_ the assumption $alpha$.
     ]
   ],
   [
@@ -508,10 +507,10 @@
     #grid(
       columns: 1,
       inset: 5pt,
-      $phi imply psi$,
-      $phi$,
+      $alpha imply beta$,
+      $alpha$,
       grid.hline(stroke: .8pt),
-      $psi$,
+      $beta$,
     )
 
     This is _modus ponens_ --- the fundamental rule of reasoning.
@@ -628,10 +627,10 @@
       #grid(
         columns: 1,
         inset: 5pt,
-        $phi imply psi$,
-        $not psi$,
+        $alpha imply beta$,
+        $not beta$,
         grid.hline(stroke: .8pt),
-        $not phi$,
+        $not alpha$,
       )
     ],
     [
@@ -639,10 +638,10 @@
       #grid(
         columns: 1,
         inset: 5pt,
-        $phi imply psi$,
-        $psi imply chi$,
+        $alpha imply beta$,
+        $beta imply gamma$,
         grid.hline(stroke: .8pt),
-        $phi imply chi$,
+        $alpha imply gamma$,
       )
     ],
     [
@@ -681,7 +680,7 @@
 
   *Inductive step:* Show each inference rule preserves semantic validity:
   - If premises are true under interpretation $nu$, then conclusion is also true under $nu$
-  - For example, for $and$I: if $EvalWith(phi, nu) = True$ and $EvalWith(psi, nu) = True$, then $EvalWith(phi and psi, nu) = True$
+  - For example, for $and$I: if $Eval(alpha) = True$ and $Eval(beta) = True$, then $Eval(alpha and beta) = True$
 
   The proof requires checking all inference rules systematically.
 ]
@@ -713,31 +712,28 @@
 == Proof of Completeness
 
 #proof[
-  We prove the contrapositive: if $Gamma proves.not phi$, then $Gamma models.not phi$.
+  We prove the contrapositive: if $Gamma proves.not alpha$, then $Gamma models.not alpha$.
 
-  The _strategy_ is to construct a model (interpretation) that satisfies all formulas in $Gamma$, but falsifies $phi$.
+  The _strategy_ is to construct a model (interpretation) that satisfies all formulas in $Gamma$, but falsifies $alpha$.
 
   #enum(numbering: it => [*Step #it:*])[
-    If $Gamma proves.not phi$, then $Gamma union {not phi}$ is consistent (cannot derive $bot$).
+    If $Gamma proves.not alpha$, then $Gamma union {not alpha}$ is consistent (cannot derive $bot$).
   ][
-    Extend $Gamma union {not phi}$ to a _maximal consistent set_ $Delta$:
+    Extend $Gamma union {not alpha}$ to a _maximal consistent set_ $Delta$:
     - $Delta$ is consistent (cannot derive $bot$)
-    - For every formula $psi$, either $psi in Delta$ or $not psi in Delta$
+    - For every formula $beta$, either $beta in Delta$ or $not beta in Delta$
   ][
     Define interpretation $nu$ for atomic propositions $P$ by:
-    $
-      nu(P) = True iff P in Delta
-    $][
-    Show by induction that for all formulas $psi$:
-    $
-      EvalWith(psi, nu) = True iff psi in Delta
-    $
+    $ nu(P) = True iff P in Delta $
   ][
-    Since $not phi in Delta$, we have $EvalWith(phi, nu) = False$.
-    Since $Gamma subset.eq Delta$, we have $EvalWith(gamma, nu) = True$ for all $gamma in Gamma$.
+    Show by induction that for all formulas $beta$:
+    $ Eval(beta) = True iff beta in Delta $
+  ][
+    Since $not alpha in Delta$, we have $Eval(alpha) = False$.
+    Since $Gamma subset.eq Delta$, we have $Eval(gamma) = True$ for all $gamma in Gamma$.
   ]
 
-  Therefore $Gamma models.not phi$.
+  Therefore $Gamma models.not alpha$.
 ]
 
 == The Completeness Result
