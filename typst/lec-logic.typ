@@ -854,9 +854,9 @@
 
 #example[Group Theory][
   The theory of groups has axioms:
-  - $forall x, y, z. thin (x dot (y dot z)) = ((x dot y) dot z)$ (associativity)
-  - $exists e. forall x. thin (x dot e = x) and (e dot x = x)$ (identity)
-  - $forall x. exists y. thin (x dot y = e) and (y dot x = e)$ (inverses)
+  - (Associativity) $forall x, y, z. thin (x dot (y dot z)) = ((x dot y) dot z)$
+  - (Identity) $exists e. forall x. thin (x dot e = x) and (e dot x = x)$
+  - (Inverses) $forall x. exists y. thin (x dot y = e) and (y dot x = e)$
 
   Models include $angle.l ZZ, + angle.r$, $angle.l RR setminus {0}, dot angle.r$, etc.
 ]
