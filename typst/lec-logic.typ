@@ -348,7 +348,7 @@
   Now we turn to _syntax_ --- how to _prove_ formulas using purely symbolic manipulation, without reference to truth values.
 ]
 
-#definition[Proof System][
+#definition[
   A _proof system_ consists of:
   - _Axioms_: formulas assumed to be true
   - _Inference rules_: patterns for deriving new formulas from existing ones
