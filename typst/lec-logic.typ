@@ -1059,8 +1059,8 @@
 
 == Syllogisms: Reasoning with Categories
 
-#definition[Categorical Syllogism][
-  A form of reasoning with three categorical propositions:
+#definition[
+  _Categorical syllogism_ is a form of reasoning with three categorical propositions:
   - _Major premise_: contains the predicate of the conclusion
   - _Minor premise_: contains the subject of the conclusion
   - _Conclusion_: derived from the premises
