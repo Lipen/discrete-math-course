@@ -1013,16 +1013,15 @@
 
 == Summary: The Logical Landscape
 
-// TODO: add #Yes and #No commands for icons
 #table(
   columns: 4,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Logic], [Expressiveness], [Decidability], [Completeness]),
-  [Propositional], [Basic], [YES], [YES],
-  [First-Order], [High], [NO], [YES],
-  [Second-Order], [Very High], [NO], [NO],
-  [Higher-Order], [Maximum], [NO], [NO],
+  [Propositional], [Basic], [#YES], [#YES],
+  [First-Order], [High], [#NO], [#YES],
+  [Second-Order], [Very High], [#NO], [#NO],
+  [Higher-Order], [Maximum], [#NO], [#NO],
 )
 
 #Block(color: blue.lighten(60%))[
