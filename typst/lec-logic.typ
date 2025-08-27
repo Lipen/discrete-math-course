@@ -997,6 +997,8 @@
   )
 ]
 
+#pagebreak(weak: true)
+
 #example[
   Given: "All roses are flowers" (A-form, #true)
 
@@ -1041,12 +1043,15 @@
   *The Problem:*
 
   Traditional logic (Aristotle) assumes all categorical propositions have existential import.
+
   Modern logic questions this assumption.
 
   Consider: "All unicorns are magical"
   - Traditional: Implies unicorns exist (so the statement is false)
   - Modern: True vacuously (if there are no unicorns, the implication holds trivially)
 ]
+
+#pagebreak(weak: true)
 
 #example[Impact on the Square][
   In modern logic with empty domains:
