@@ -1176,31 +1176,34 @@
 
 == Syllogistic Fallacies
 
-#definition[Common Syllogistic Fallacies][
+#Block(color: orange.lighten(50%))[
+  *Common syllogistic fallacies:*
   #grid(
     columns: 2,
     column-gutter: 1em,
     [
-      *Fallacy of Four Terms:*
+      *Fallacy of Four Terms:* \
       Using more than three distinct terms
 
-      Example:
-      - All banks are financial institutions
-      - The river bank is muddy
-      - Therefore, some financial institutions are muddy
+      #example[
+        - All banks are financial institutions
+        - The river bank is muddy
+        - Therefore, some financial institutions are muddy
 
-      (Equivocates on "bank")
+        (Equivocates on "bank")
+      ]
     ],
     [
-      *Undistributed Middle:*
+      *Undistributed Middle:* \
       Middle term not distributed in either premise
 
-      Example:
-      - All cats are mammals
-      - All dogs are mammals
-      - Therefore, all cats are dogs
+      #example[
+        - All cats are mammals
+        - All dogs are mammals
+        - Therefore, all cats are dogs
 
-      ("Mammals" not distributed)
+        ("Mammals" not distributed)
+      ]
     ],
   )
 ]
