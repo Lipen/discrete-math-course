@@ -762,6 +762,678 @@
 
 // TODO: Emphasize that this is only valid in PL. FOL is complete but undecidable; HOL is incomplete.
 
+= Predicate Logic
+#focus-slide(
+  epigraph: [All men are mortal. Socrates is a man. Therefore, Socrates is mortal.],
+  epigraph-author: [Classical syllogism],
+  scholars: (
+    "Aristotle",
+    "Socrates",
+    "George Boole",
+  ),
+)
+
+== From Propositional to Categorical
+
+#Block[
+  Classical propositional logic treats statements as atomic units.
+
+  But human reasoning often involves _relationships between classes_ of objects:
+  - "All birds can fly"
+  - "Some mammals are aquatic"
+  - "No reptiles are warm-blooded"
+
+  _Traditional logic_ studies these patterns, providing a bridge to modern predicate logic.
+]
+
+== Categorical Propositions
+
+#definition[
+  A _categorical proposition_ is a statement that asserts or denies a relationship between two _categories_ (classes) of objects.
+
+  Every categorical proposition has:
+  - _Subject term_ (S): the category being described
+  - _Predicate term_ (P): the category used in the description
+  - _Quantifier_: indicates how much of the subject is included
+  - _Quality_: affirmative or negative
+]
+
+#example[
+  "All _politicians_ are _corrupt_."
+  - Subject: politicians
+  - Predicate: corrupt people
+  - Quantifier: all (universal)
+  - Quality: affirmative
+]
+
+== The Four Standard Forms
+
+#definition[A, E, I, O Propositions][
+  Traditional logic recognizes four standard forms of categorical propositions:
+
+  #table(
+    columns: 5,
+    align: (center, center, center, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([Form], [Quantifier], [Quality], [Structure], [Example]),
+    [*A*], [Universal], [Affirmative], [All S are P], ["All cats are mammals"],
+    [*E*], [Universal], [Negative], [No S are P], ["No fish are mammals"],
+    [*I*], [Particular], [Affirmative], [Some S are P], ["Some birds are flightless"],
+    [*O*], [Particular], [Negative], [Some S are not P], ["Some animals are not vertebrates"],
+  )
+]
+
+// TODO: The letters A, E, I, O come from latin words "affirmo" and "nego".
+
+== Examples of Categorical Propositions
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    *A (Universal Affirmative):*
+    - All students are hardworking
+    - Every theorem has a proof
+    - All prime numbers except 2 are odd
+
+    *E (Universal Negative):*
+    - No circles are squares
+    - No valid argument has false premises and true conclusion
+    - No even number greater than 2 is prime
+  ],
+  [
+    *I (Particular Affirmative):*
+    - Some politicians are honest
+    - Some functions are continuous
+    - Some equations have multiple solutions
+
+    *O (Particular Negative):*
+    - Some students are not prepared
+    - Some triangles are not right triangles
+    - Some numbers are not rational
+  ],
+)
+
+== The Square of Opposition
+
+#definition[
+  A _square of opposition_ is a diagram showing the logical relationships between A, E, I, and O propositions with the same subject and predicate terms.
+]
+
+// #Block(color: yellow.lighten(60%))[
+//   *Square Structure:*
+//   ```
+//         A ←—————— contraries —————→ E
+//         ↑                           ↑
+//         │                           │
+//   subalternation              subalternation
+//         │                           │
+//         ↓                           ↓
+//         I ←———— subcontraries ————→ O
+
+//         Contradictories: A←→O, E←→I (diagonal lines)
+//   ```
+// ]
+
+#align(center)[
+  #cetz.canvas({
+    import cetz: draw
+
+    let s = 0.5
+    let w = 4
+
+    let draw-corner(
+      pos,
+      name,
+      content,
+    ) = {
+      let (x, y) = pos
+      draw.rect(
+        (x - s, y + s),
+        (x + s, y - s),
+        name: name,
+        stroke: 1pt + blue,
+        radius: 5pt,
+      )
+      draw.content(name, text(1.5em)[#content])
+    }
+
+    draw-corner((0, 0), "A", [A])
+    draw-corner((w, 0), "E", [E])
+    draw-corner((0, -w), "I", [I])
+    draw-corner((w, -w), "O", [O])
+
+    draw.line("A", "E", name: "A-E", stroke: 2pt + blue)
+    draw.line("I", "O", name: "I-O", stroke: 2pt + blue)
+    draw.line(
+      "A",
+      "O",
+      name: "A-O",
+      stroke: (paint: blue, thickness: 2pt, dash: "dashed"),
+    )
+    draw.line(
+      "I",
+      "E",
+      name: "I-E",
+      stroke: (paint: blue, thickness: 2pt, dash: "dashed"),
+    )
+    draw.line(
+      "A",
+      "I",
+      name: "A-I",
+      stroke: (paint: blue, thickness: 2pt, dash: "solid"),
+      mark: (end: "stealth", fill: blue),
+    )
+    draw.line(
+      "E",
+      "O",
+      name: "E-O",
+      stroke: (paint: blue, thickness: 2pt, dash: "solid"),
+      mark: (end: "stealth", fill: blue),
+    )
+
+    draw.content(
+      "A-E",
+      [Contraries],
+      anchor: "south",
+      padding: 0.1,
+    )
+    draw.content(
+      "I-O",
+      [Subcontraries],
+      anchor: "north",
+      padding: 0.1,
+    )
+    draw.content(
+      "A-I",
+      [Subalternation],
+      angle: "I",
+      anchor: "north",
+      padding: 0.1,
+    )
+    draw.content(
+      "E-O",
+      [Subalternation],
+      angle: "O",
+      anchor: "south",
+      padding: 0.1,
+    )
+    draw.content(
+      "I-E",
+      box(fill: white, inset: 5pt)[Contradictories],
+      angle: "E",
+      anchor: "south",
+      padding: 1pt,
+    )
+  })
+]
+
+== Logical Relationships in the Square
+
+#definition[The Four Relationships][
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    [
+      *Contradictories* (A--O, E--I):
+      - Cannot both be true
+      - Cannot both be false
+      - Exactly one must be true
+
+      *Contraries* (A--E):
+      - Cannot both be true
+      - Can both be false
+      - At most one is true
+    ],
+    [
+      *Subcontraries* (I--O):
+      - Cannot both be false
+      - Can both be true
+      - At least one is true
+
+      *Subalternation* (A $imply$ I, E $imply$ O):
+      - If universal is true, particular is true
+      - If particular is false, universal is false
+    ],
+  )
+]
+
+#example[
+  Given: "All roses are flowers" (A-form, #true)
+
+  By the square of opposition:
+  - "No roses are flowers" (E-form) is #false (contraries)
+  - "Some roses are flowers" (I-form) is #true (subalternation)
+  - "Some roses are not flowers" (O-form) is #false (contradictories)
+]
+
+== Translation Between Traditional and Modern Logic
+
+#definition[
+  Categorical propositions can be translated into first-order logic:
+
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([Traditional], [Modern Logic], [Reading]),
+    [All S are P], [$forall x (S(x) → P(x))$], ["For all x, if x is S then x is P"],
+    [No S are P], [$forall x (S(x) → ¬P(x))$], ["For all x, if x is S then x is not P"],
+    [Some S are P], [$exists x (S(x) ∧ P(x))$], ["There exists x such that x is S and x is P"],
+    [Some S are not P], [$exists x (S(x) ∧ ¬P(x))$], ["There exists x such that x is S and x is not P"],
+  )
+]
+
+#example[
+  "All students are hardworking" becomes:
+  $forall x (text("Student")(x) → text("Hardworking")(x))$
+
+  "Some politicians are not honest" becomes:
+  $exists x (text("Politician")(x) ∧ ¬text("Honest")(x))$
+]
+
+== The Existential Import Problem
+
+#definition[
+  A proposition "$S$ is $P$" has _existential import_ if it implies the existence of objects (at~least one) in its subject class $S$.
+]
+
+#Block(color: orange.lighten(60%))[
+  *The Problem:*
+
+  Traditional logic (Aristotle) assumes all categorical propositions have existential import.
+  Modern logic questions this assumption.
+
+  Consider: "All unicorns are magical"
+  - Traditional: Implies unicorns exist (so the statement is false)
+  - Modern: True vacuously (if there are no unicorns, the implication holds trivially)
+]
+
+#example[Impact on the Square][
+  In modern logic with empty domains:
+  - A and E can both be true (if subject class is empty)
+  - I and O can both be false (if subject class is empty)
+  - Subalternation fails (A can be true while I is false)
+
+  The traditional square of opposition only works when we assume non-empty subject classes.
+]
+
+== Syllogisms: Reasoning with Categories
+
+#definition[Categorical Syllogism][
+  A form of reasoning with three categorical propositions:
+  - _Major premise_: contains the predicate of the conclusion
+  - _Minor premise_: contains the subject of the conclusion
+  - _Conclusion_: derived from the premises
+
+  Uses exactly three terms: major, minor, and middle.
+]
+
+#example[Classic Syllogism][
+  #grid(
+    columns: 1,
+    inset: 5pt,
+    [All humans are mortal (Major premise)],
+    [Socrates is human (Minor premise)],
+    grid.hline(stroke: .8pt),
+    [Therefore, Socrates is mortal (Conclusion)],
+  )
+
+  Terms:
+  - Major term: mortal (P)
+  - Minor term: Socrates (S)
+  - Middle term: human (M)
+]
+
+== Figures and Moods of Syllogisms
+
+#definition[
+  The _figure_ of a syllogism is determined by the position of the middle term:
+
+  #align(center)[
+    #table(
+      columns: 4,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Figure 1], [Figure 2], [Figure 3], [Figure 4]),
+      grid(
+        columns: 1,
+        inset: 5pt,
+        [*M* — P],
+        [S — *M*],
+        grid.hline(stroke: .8pt),
+        [S — P],
+      ),
+      grid(
+        columns: 1,
+        inset: 5pt,
+        [P — *M*],
+        [S — *M*],
+        grid.hline(stroke: .8pt),
+        [S — P],
+      ),
+      grid(
+        columns: 1,
+        inset: 5pt,
+        [*M* — P],
+        [*M* — S],
+        grid.hline(stroke: .8pt),
+        [S — P],
+      ),
+      grid(
+        columns: 1,
+        inset: 5pt,
+        [P — *M*],
+        [*M* — S],
+        grid.hline(stroke: .8pt),
+        [S — P],
+      ),
+    )
+  ]
+]
+
+#definition[
+  The _mood_ of a syllogism is the 3-letter sequence of categorical forms (A, E, I, O) of its three propositions, in order: major premise, minor premise, conclusion.
+]
+
+#example[Barbara (AAA-1)][
+  #grid(
+    columns: 1,
+    inset: 5pt,
+    [All M are P *(A)*],
+    [All S are M *(A)*],
+    grid.hline(stroke: .8pt),
+    [All S are P *(A)*],
+  )
+
+  This arguments has mood AAA in figure 1, called "Barbara" — a valid syllogistic form.
+]
+
+== Valid Syllogistic Forms
+
+#Block[
+  Traditional logic identified 24 valid syllogistic forms across the four figures.
+
+  Each valid form has a traditional Latin name that encodes its mood:
+  - Vowels indicate the categorical forms (A, E, I, O)
+  - Some consonants indicate required operations for reduction
+]
+
+#example[Famous Valid Forms][
+  #table(
+    columns: 4,
+    align: center,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([Figure 1], [Figure 2], [Figure 3], [Figure 4]),
+    [Barbara (AAA)], [Cesare (EAE)], [Darapti (AAI)], [Bramantip (AAI)],
+    [Celarent (EAE)], [Camestres (AEE)], [Disamis (IAI)], [Camenes (AEE)],
+    [Darii (AII)], [Festino (EIO)], [Datisi (AII)], [Dimaris (IAI)],
+    [Ferio (EIO)], [Baroco (AOO)], [Felapton (EAO)], [Fesapo (EAO)],
+    [], [], [Bocardo (OAO)], [Fresison (EIO)],
+    [], [], [Ferison (EIO)], [],
+  )
+]
+
+== Syllogistic Fallacies
+
+#definition[Common Syllogistic Fallacies][
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    [
+      *Fallacy of Four Terms:*
+      Using more than three distinct terms
+
+      Example:
+      - All banks are financial institutions
+      - The river bank is muddy
+      - Therefore, some financial institutions are muddy
+
+      (Equivocates on "bank")
+    ],
+    [
+      *Undistributed Middle:*
+      Middle term not distributed in either premise
+
+      Example:
+      - All cats are mammals
+      - All dogs are mammals
+      - Therefore, all cats are dogs
+
+      ("Mammals" not distributed)
+    ],
+  )
+]
+
+#definition[More Fallacies][
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    [
+      *Illicit Major:*
+      Major term distributed in conclusion but not in major premise
+
+      *Illicit Minor:*
+      Minor term distributed in conclusion but not in minor premise
+    ],
+    [
+      *Fallacy of Exclusive Premises:*
+      Both premises negative
+
+      *Existential Fallacy:*
+      Particular conclusion from universal premises (when subject class may be empty)
+    ],
+  )
+]
+
+== Distribution of Terms
+
+#definition[
+  A term is _distributed_ in a proposition if the proposition says something about _all_ members of the class denoted by that term.
+
+  - Only _universal_ propositions (A, E) distribute their _subject_ term.
+  - Only _negative_ propositions (E, O) distribute their _predicate_ term.
+
+  #table(
+    columns: 3,
+    align: (left, center, center),
+    stroke: (x, y) => if (x == 0 and y == 0) or (x > 0 and y == 1) { (bottom: 0.8pt) } else if x > 0 and y == 0 {
+      (bottom: 0.4pt)
+    },
+    table.header(
+      table.cell(rowspan: 2, align: bottom)[Form],
+      table.cell(colspan: 2, align: center)[Distribution],
+      [Subject],
+      [Predicate],
+    ),
+    [*A*: All S are P], [#YES], [#NO],
+    [*E*: No S are P], [#YES], [#YES],
+    [*I*: Some S are P], [#NO], [#NO],
+    [*O*: Some S are not P], [#NO], [#YES],
+  )
+]
+
+== Why Distribution Matters
+
+// TODO: introduce Venn diagrams earlier
+#example[
+  Consider the terms in these propositions:
+
+  #place(right)[
+    #cetz.canvas({
+      import cetz: draw
+      import "@preview/cetz-venn:0.1.4"
+
+      draw.scale(60%)
+
+      cetz-venn.venn2(
+        name: "venn",
+        a-fill: red.lighten(80%),
+        not-ab-stroke: none,
+        padding: 0,
+      )
+
+      draw.content("venn.a", [S])
+      draw.content("venn.b", [P])
+    })
+  ]
+
+  - "All cats are mammals" (A-form)
+    - Says something about ALL cats (subject distributed)
+    - Says nothing about ALL mammals (predicate not distributed)
+
+  #place(right)[
+    #cetz.canvas({
+      import cetz: draw
+      import "@preview/cetz-venn:0.1.4"
+
+      draw.scale(60%)
+
+      cetz-venn.venn2(
+        name: "venn",
+        ab-fill: red.lighten(80%),
+        not-ab-stroke: none,
+        padding: 0,
+      )
+
+      draw.content("venn.a", [S])
+      draw.content("venn.b", [P])
+    })
+  ]
+
+  - "No reptiles are mammals" (E-form)
+    - Says something about ALL reptiles (subject distributed)
+    - Says something about ALL mammals (predicate distributed)
+
+  #place(right)[
+    #cetz.canvas({
+      import cetz: draw
+      import "@preview/cetz-venn:0.1.4"
+
+      draw.scale(60%)
+
+      cetz-venn.venn2(
+        name: "venn",
+        not-ab-stroke: none,
+        padding: 0,
+      )
+
+      draw.content("venn.a", [S])
+      draw.content("venn.b", [P])
+      draw.content("venn.ab", text(fill: red.darken(20%))[#sym.crossmark])
+    })
+  ]
+
+  - "Some birds are flightless" (I-form)
+    - Says something about SOME birds (subject not distributed)
+    - Says something about SOME flightless creatures (predicate not distributed)
+
+  #place(right)[
+    #cetz.canvas({
+      import cetz: draw
+      import "@preview/cetz-venn:0.1.4"
+
+      draw.scale(60%)
+
+      cetz-venn.venn2(
+        name: "venn",
+        not-ab-stroke: none,
+        padding: 0,
+      )
+
+      draw.content("venn.a", text(fill: red.darken(20%))[#sym.crossmark])
+      draw.content("venn.b", [P])
+    })
+  ]
+
+  - "Some animals are not vertebrates" (O-form)
+    - Says something about SOME animals (subject not distributed)
+    - Says something about ALL vertebrates (predicate distributed)
+]
+
+== Rules for Valid Syllogisms
+
+#definition[Validity Rules][
+  A categorical syllogism is valid if and only if it satisfies all these rules:
+
+  1. *Exactly three terms* (no equivocation)
+  2. *Middle term distributed at least once*
+  3. *No term distributed in conclusion unless distributed in premise*
+  4. *No conclusion from two negative premises*
+  5. *Negative conclusion if and only if exactly one negative premise*
+  6. *No particular conclusion from two universal premises* (if existential import assumed)
+]
+
+== Venn Diagrams for Categorical Logic
+
+#definition[Venn Diagram Method][
+  Categorical propositions can be represented using Venn diagrams with two or three circles.
+
+  - Shaded regions represent empty classes
+  - X marks represent existing individuals
+  - Overlap patterns show relationships between categories
+]
+
+// TODO: Show Venn diagrams for each categorical form.
+
+#example[Venn Diagram for Syllogism][
+  Testing Barbara (AAA-1):
+  - All M are P: Shade M outside P
+  - All S are M: Shade S outside M
+  - Conclusion: All S are P
+
+  The diagrams show that S must be entirely within P, validating the syllogism.
+]
+
+== Modern Developments
+
+#Block[
+  Traditional categorical logic has evolved in several directions:
+
+  - *Set theory*: Categories become sets, relations become set operations
+  - *Formal semantics*: Precise treatment of quantification and scope
+  - *Knowledge representation*: Description logics in AI and semantic web
+  - *Natural language processing*: Computational linguistics and parsing
+  - *Database theory*: Query languages and constraint systems
+]
+
+// TODO: Traditional logic isn't obsolete - it's foundational
+
+== Limitations of Traditional Logic
+
+#Block(color: yellow.lighten(40%))[
+  Traditional categorical logic has important _limitations_:
+  + Only handles simple quantification (all, some, no)
+  + Cannot express complex relationships (between more than two categories)
+  + Limited to categorical structure (subject--predicate form)
+  + Struggles with relational statements ("John is taller than Mary")
+  + No systematic treatment of compound statements
+  + Existential import controversies
+]
+
+#example[What traditional logic cannot express][
+  - "Every student likes some professor" (multiple quantifiers)
+  - "If John is happy, then Mary is happy" (conditional with individuals)
+  - "All numbers between 5 and 10 are prime" (complex domain restrictions)
+  - "Most birds can fly" (non-standard quantifiers)
+  - "Students who study hard usually succeed" (statistical generalizations)
+]
+
+== The Legacy of Traditional Logic
+
+#Block(color: blue.lighten(60%))[
+  *Enduring Contributions:*
+  =
+  - Systematic study of quantification and categorical reasoning
+  - Recognition of logical form vs. content
+  - Analysis of validity in natural language arguments
+  - Foundation for formal semantics and knowledge representation
+  - Critical thinking tools for evaluating everyday reasoning
+
+  *Modern Relevance:*
+  Traditional logic remains important for understanding human reasoning patterns, developing AI systems that interact naturally with humans, and teaching critical thinking skills.
+]
+
 = First-Order Logic
 #focus-slide()
 
