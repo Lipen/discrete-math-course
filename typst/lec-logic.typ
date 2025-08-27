@@ -593,7 +593,8 @@
 
 == Example: Fitch Proof
 
-#example[Proving $(P imply Q) imply ((not Q) imply (not P))$ (Contrapositive)][
+#example[Proving Contrapositive][
+  $(P imply Q) therefore ((not Q) imply (not P))$
   ```
   1  | P → Q                     Premise
      |________________________
