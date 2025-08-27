@@ -1686,7 +1686,6 @@
 
 #table(
   columns: 4,
-  align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Logic], [Expressiveness], [Decidability], [Completeness]),
   [Propositional], [Basic], [#YES], [#YES],
