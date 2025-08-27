@@ -1068,20 +1068,25 @@
   Uses exactly three terms: major, minor, and middle.
 ]
 
-#example[Classic Syllogism][
+#example[Classic syllogism][
   #grid(
-    columns: 1,
-    inset: 5pt,
-    [All humans are mortal (Major premise)],
-    [Socrates is human (Minor premise)],
-    grid.hline(stroke: .8pt),
-    [Therefore, Socrates is mortal (Conclusion)],
+    columns: 2,
+    column-gutter: 2em,
+    grid(
+      columns: 2,
+      inset: 5pt,
+      [All humans are mortal], [(Major premise)],
+      [Socrates is human], [(Minor premise)],
+      grid.hline(stroke: .8pt),
+      [Therefore, Socrates is mortal], [(Conclusion)],
+    ),
+    [
+      Terms:
+      - Major term: mortal (P)
+      - Minor term: Socrates (S)
+      - Middle term: human (M)
+    ],
   )
-
-  Terms:
-  - Major term: mortal (P)
-  - Minor term: Socrates (S)
-  - Middle term: human (M)
 ]
 
 == Figures and Moods of Syllogisms
