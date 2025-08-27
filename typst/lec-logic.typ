@@ -936,31 +936,31 @@
       "A-E",
       [Contraries],
       anchor: "south",
-      padding: 0.1,
+      padding: 0.2,
     )
     draw.content(
       "I-O",
       [Subcontraries],
       anchor: "north",
-      padding: 0.1,
+      padding: 0.2,
     )
     draw.content(
       "A-I",
       [Subalternation],
       angle: "I",
       anchor: "north",
-      padding: 0.1,
+      padding: 0.2,
     )
     draw.content(
       "E-O",
       [Subalternation],
       angle: "O",
       anchor: "south",
-      padding: 0.1,
+      padding: 0.2,
     )
     draw.content(
       "I-E",
-      box(fill: white, inset: 5pt)[Contradictories],
+      box(fill: white, inset: 4pt)[Contradictories],
       angle: "E",
       anchor: "south",
       padding: 1pt,
