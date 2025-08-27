@@ -552,8 +552,10 @@
   ],
 )
 
-#definition[Contradiction ($bot$)][
-  A special formula that represents logical inconsistency. From $bot$, anything can be derived (_ex falso quodlibet_).
+#definition[
+  _Contradiction_ ($bot$) is special formula that represents logical inconsistency.
+
+  From $bot$, anything can be derived (_ex falso quodlibet_).
 ]
 
 == Additional Rules
