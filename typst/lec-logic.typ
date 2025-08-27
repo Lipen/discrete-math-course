@@ -838,8 +838,8 @@
 #definition[Truth in a Structure][
   For structure $cal(M)$ and assignment $sigma$:
   - $cal(M), sigma models P(t_1, dots, t_n)$ iff $angle.l cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma angle.r in cal(I)(P)$
-  - $cal(M), sigma models forall x. phi$ iff $cal(M), sigma' models phi$ for all $sigma'$ that differ from $sigma$ at most on $x$
-  - $cal(M), sigma models exists x. phi$ iff $cal(M), sigma' models phi$ for some $sigma'$ that differs from $sigma$ at most on $x$
+  - $cal(M), sigma models forall x. thin phi$ iff $cal(M), sigma' models phi$ for all $sigma'$ that differ from $sigma$ at most on $x$
+  - $cal(M), sigma models exists x. thin phi$ iff $cal(M), sigma' models phi$ for some $sigma'$ that differs from $sigma$ at most on $x$
 ]
 
 == Theories and Models
@@ -876,7 +876,7 @@
           inset: 5pt,
           $phi(a)$,
           grid.hline(stroke: .8pt),
-          $forall x. phi(x)$,
+          $forall x. thin phi(x)$,
         )
 
         Where $a$ is arbitrary (fresh).
@@ -886,7 +886,7 @@
       #grid(
         columns: 1,
         inset: 5pt,
-        $forall x. phi(x)$,
+        $forall x. thin phi(x)$,
         grid.hline(stroke: .8pt),
         $phi(t)$,
       )
@@ -898,7 +898,7 @@
         inset: 5pt,
         $phi(t)$,
         grid.hline(stroke: .8pt),
-        $exists x. phi(x)$,
+        $exists x. thin phi(x)$,
       )
 
       *Existential Elimination ($exists$E):*
@@ -906,7 +906,7 @@
         #grid(
           columns: 1,
           inset: 5pt,
-          $exists x. phi(x)$,
+          $exists x. thin phi(x)$,
           $[phi(a)] dots psi$,
           grid.hline(stroke: .8pt),
           $psi$,
