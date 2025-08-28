@@ -557,6 +557,7 @@
   From $bot$, anything can be derived (_ex falso quodlibet_).
 ]
 
+// TODO: remove this section and fit all negation rules into one slide
 == Additional Rules
 
 #grid(
