@@ -2,6 +2,7 @@ default:
     @just --list
 
 all: \
+    (compile "hw1.typ") \
     (compile "lec-set-theory.typ") \
     (compile "lec-boolean-algebra.typ") \
     (compile "lec-logic.typ") \
