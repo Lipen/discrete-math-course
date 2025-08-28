@@ -613,12 +613,11 @@
 
 == Derived Rules
 
-#definition[Derived Rules][
-  Complex inference patterns that can be proven from basic rules, used as shortcuts in proofs.
+#definition[
+  _Derived rules_ are complex inference patterns that can be proven from basic rules, used as _shortcuts_ in proofs.
 ]
 
-#example[
-  Useful _derived_ rules:
+#example[Useful derived rules][
   #grid(
     columns: 3,
     column-gutter: 1em,
