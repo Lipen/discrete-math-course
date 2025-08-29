@@ -1,3 +1,6 @@
+#import "common.typ": *
+#show: template
+
 #set page(
   paper: "a4",
   margin: 2cm,
@@ -10,22 +13,22 @@
     *Set Theory*
     #h(1fr)
     *Fall 2025*
+    #place(bottom, dy: 0.4em)[
+      #line(length: 100%, stroke: 0.6pt)
+    ]
   ]
-    + line(length: 100%, stroke: 0.4pt),
 )
 
 #set text(12pt)
 #set par(justify: true)
 
 // Symbols and notation
-#show sym.emptyset: set text(font: "Libertinus Serif")
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $angle.l #a, #b angle.r$
 #let card(x) = $|#x|$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$
 #let cat = emoji.cat.face
-// #let square = $square.filled$
 
 // Helper functions
 #let tasklist(cols, body) = {
