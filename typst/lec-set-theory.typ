@@ -1215,7 +1215,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       (0.5, 1.6),
       (3.5, 3.2),
       radius: .3,
-      stroke: 2pt + blue,
+      stroke: 1pt + blue,
       fill: blue.transparentize(80%),
     )
     // Partition block {1, 3, 5}:
@@ -1223,7 +1223,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       (0.5, 1.4),
       (3.5, -0.2),
       radius: .3,
-      stroke: 2pt + orange,
+      stroke: 1pt + orange,
       fill: orange.transparentize(80%),
     )
   })
@@ -1257,7 +1257,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       (0.5, 1.6),
       (2.4, 3.2),
       radius: .3,
-      stroke: 2pt + blue,
+      stroke: 1pt + blue,
       fill: blue.transparentize(80%),
     )
     // Partition block {1, 2, 3}:
@@ -1265,7 +1265,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       (0.5, 1.4),
       (3.5, -0.2),
       radius: .3,
-      stroke: 2pt + orange,
+      stroke: 1pt + orange,
       fill: orange.transparentize(80%),
     )
     // Partition block {4}:
@@ -1273,7 +1273,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       (2.6, 1.6),
       (3.5, 3.2),
       radius: .3,
-      stroke: 2pt + green.darken(20%),
+      stroke: 1pt + green.darken(20%),
       fill: green.darken(20%).transparentize(80%),
     )
   })
