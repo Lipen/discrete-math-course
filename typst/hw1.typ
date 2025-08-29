@@ -3,7 +3,7 @@
 
 #set page(
   paper: "a4",
-  margin: 2cm,
+  margin: (top: 3cm, rest: 2cm),
   header: [
     #set text(10pt)
     #smallcaps[*Homework Assignment #1*]
