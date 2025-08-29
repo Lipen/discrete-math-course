@@ -31,6 +31,7 @@ jobs:
       - run: rm -f typst/requirements.pdf
       - run: typst --version
       - run: typst fonts --font-path ~/.fontist/fonts
+      - run: typst compile --font-path ~/.fontist/fonts typst/syllabus.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-set-theory.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-boolean-algebra.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-logic.typ
