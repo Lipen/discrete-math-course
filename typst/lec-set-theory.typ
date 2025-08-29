@@ -709,11 +709,11 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     )
 
     // Set D: (2, 3) on y-axis (second level)
-    draw.line((-1.1, Dl), (-1.1, Dr), stroke: 3pt + orange)
-    draw.circle((-1.1, Dl), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 2
-    draw.circle((-1.1, Dr), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 3
+    draw.line((-1.5, Dl), (-1.5, Dr), stroke: 3pt + orange)
+    draw.circle((-1.5, Dl), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 2
+    draw.circle((-1.5, Dr), radius: 0.08, fill: white, stroke: 1.5pt + orange) // open at 3
     draw.content(
-      (-1.1, (Dl + Dr) / 2),
+      (-1.5, (Dl + Dr) / 2),
       text(fill: orange)[$D = \(Dl; Dr\)$],
       angle: 90deg,
       anchor: "south",
