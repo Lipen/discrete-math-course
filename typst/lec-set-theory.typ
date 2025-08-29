@@ -1289,7 +1289,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #proof[(Sketch)][
   Classes of an equivalence are non-empty, disjoint, and cover $M$.
-  Conversely "same block" relation is reflexive, symmetric, transitive.
+  Conversely, "same block" relation is reflexive, symmetric, transitive.
   Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
 ]
 
