@@ -1011,7 +1011,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Let $A = {a, b, c}$, $B = {x, y}$, and $R = {pair(a, x), pair(b, x), pair(c, y)}$.
   The matrix representation is:
   $
-    matrel(R) = mat(
+    matrel(R) = natrix.bnat(
       1, 0;
       1, 0;
       0, 1
