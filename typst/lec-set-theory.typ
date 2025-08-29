@@ -238,7 +238,7 @@ Topics include:
     Each such subset is of the form $S union {a}$ where $S subset.eq A'$.
     This establishes a bijection with $power(A')$, so this collection also has $2^k$ elements.
 
-  The total number of subsets of $A$ is the _sum_ of their sizes: $abs(power(A)) = 2^k + 2^k = 2 dot 2^k = 2^(k+1)$.
+  The total number of subsets of $A$ is the _sum_ of their sizes: $abs(power(A)) = 2^k + 2^k = 2 dot 2^k = 2^(k+1) = 2^abs(A)$.
 ]
 
 == Hasse Diagram of Power Set
