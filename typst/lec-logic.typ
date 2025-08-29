@@ -761,7 +761,7 @@
 
 // TODO: Emphasize that this is only valid in PL. FOL is complete but undecidable; HOL is incomplete.
 
-= Predicate Logic
+= Categorical Logic
 #focus-slide(
   epigraph: [All men are mortal. Socrates is a man. Therefore, Socrates is mortal.],
   epigraph-author: [Classical syllogism],
