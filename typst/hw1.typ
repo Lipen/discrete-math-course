@@ -57,28 +57,26 @@ Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not se
 
 #tasklist("steps1", cols: 2)[
   + $a in {a, b}$
-  + $a in.not {{a}, b}$
-  + ${a} in.not {a, {a}}$
+  + $a in {{a}, b}$
+  + ${a} in {a, {a}}$
   + ${a} subset.eq {a, b}$
+  + ${a} subset {a, a}$
   + ${{a}} subset {{a}, {a, b}}$
   + ${a, b} union {b, b} = {a, b}$
-  + ${a, b} inter {b} = {b}$
-  + $emptyset in.not emptyset$
+  + ${a, b} inter {{b}} = {b}$
+  + $emptyset notin emptyset$
   + $emptyset subset.eq emptyset$
-  + $emptyset in {emptyset}$
-
   #colbreak()
-
-  + ${emptyset} subset.eq {{emptyset}}$
-  + ${a} in power({a})$
+  + $emptyset in {emptyset}$
+  + ${emptyset, emptyset} subset {emptyset}$
+  + ${{emptyset}} subset {{emptyset}, {emptyset}}$
   + $power(emptyset) = {emptyset}$
-  + ${a, b} subset.not power({a, b})$
-  + $a in.not power({a})$
-  + ${{a}} subset.not power({a})$
-  + ${a, a} = {a}$
+  + $a in power({a})$
+  + ${a, a} in power({a, a})$
+  + ${a, b} subset power({a, b})$
+  + ${{a}} subset power({a})$
   + ${a, b, b} without {b} = {a, b}$
-  + $card(power({a, b})) = 4$
-  + ${{a}, emptyset} subset.not power({a, emptyset})$
+  + ${{a}, emptyset} subset.eq power({a, emptyset})$
 ]
 
 
@@ -97,7 +95,7 @@ A cybersecurity team monitors different types of network threats. They classify 
 - $Human = {"phishing", "social-eng", "ddos", "insider", "malware"}$ #h(1fr) (threats targeting _humans_)
 - $Network = {"ransomware", "cryptojack", "ddos", "botnet", "worm"}$ #h(1fr) (threats requiring _network access_)
 
-The universal set $Threats$ contains all 10 distinct threat types mentioned above.
+The universal set $Threats$ contains all distinct threat types mentioned above.
 
 *Part (a):*
 Compute the following and interpret each result in cybersecurity context:
@@ -363,9 +361,9 @@ Security audit requires checking:
 == Problem 9: Set Theory Foundations and Proofs
 
 *Part (a):*
-Consider the set $R = {x | x in.not x}$ (the set of all sets that do not contain themselves).
+Consider the set $R = {x | x notin x}$ (the set of all sets that do not contain themselves).
 + Prove that assuming $R in R$ leads to a contradiction.
-+ Prove that assuming $R in.not R$ also leads to a contradiction.
++ Prove that assuming $R notin R$ also leads to a contradiction.
 + Explain why this shows that naive set theory is inconsistent.
 + How do modern axiomatic set theories (like ZFC) avoid this paradox?
 
