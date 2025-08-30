@@ -70,3 +70,4 @@
 #let notin = sym.in.not
 #let setminus = sym.without
 #let intersect = sym.inter
+#let symdiff = sym.triangle

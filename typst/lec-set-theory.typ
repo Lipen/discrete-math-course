@@ -321,7 +321,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   [Union], $A union B$, ${ x | x in A or x in B }$,
   [Intersection], $A intersect B$, ${ x | x in A and x in B }$,
   [Difference], $A setminus B$, ${ x | x in A and x notin B }$,
-  [Symmetric diff.], $A triangle B$, $(A setminus B) union (B setminus A)$,
+  [Symmetric diff.], $A symdiff B$, $(A setminus B) union (B setminus A)$,
   [Complement], [$overline(A)$ or $A^c$], ${ x | x notin A }$,
   [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$,
 )
