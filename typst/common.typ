@@ -68,5 +68,5 @@
 #let models = sym.tack.double
 #let entails = sym.tack.r
 #let notin = sym.in.not
-#let setminus = sym.backslash
+#let setminus = sym.without
 #let intersect = sym.inter
