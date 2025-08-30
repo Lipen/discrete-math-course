@@ -6,7 +6,7 @@
   margin: (top: 3cm, rest: 2cm),
   header: [
     #set text(10pt)
-    #smallcaps[*Homework Assignment #1*]
+    #smallcaps[*Homework Assignment \#1*]
     #h(1fr)
     *Discrete Mathematics*
     \
@@ -16,205 +16,386 @@
     #place(bottom, dy: 0.4em)[
       #line(length: 100%, stroke: 0.6pt)
     ]
-  ]
+  ],
 )
 
 #set text(12pt)
 #set par(justify: true)
 
-// Symbols and notation
+#show emph: set text(fill: blue.darken(20%))
+
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $angle.l #a, #b angle.r$
-#let card(x) = $|#x|$
+#let card(x) = $abs(#x)$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$
-#let cat = emoji.cat.face
+#let Cosine = $cal(c)$
 
-// Helper functions
-#let tasklist(cols, body) = {
+#let Green(x) = text(green.darken(20%), x)
+#let Red(x) = text(red.darken(20%), x)
+
+#let True = Green(`true`)
+#let False = Red(`false`)
+
+#let tasklist(id, cols: 1, body) = {
+  let s = counter(id)
+  s.update(1) // Start from 1
+
+  set enum(numbering: _ => context {
+    s.step()
+    s.display("1.")
+  })
+
   columns(cols, gutter: 1em)[#body]
 }
 
-= Set Theory: Foundations and Applications
+== Problem 1: Set Theory Evaluation
 
-*Instructions:* Show all work clearly. For true/false questions, provide brief justifications. For computational problems, show intermediate steps.
-
-== Problem 1: Truth Values and Basic Set Relations
-
-Determine the truth value of each statement below.
+Evaluate each statement as #True or #False.
+Provide brief justifications.
 Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not sets).
 
-#tasklist(3)[
-  #let s = counter("steps")
-  #s.step() // ???
-  #let step-num(_) = context {
-    s.step()
-    s.display("(a)")
-  }
-
-  #set enum(numbering: step-num)
-
-  + $a in {{a}, b}$
-  + $a in {a, {b}}$
-  + ${a} in {a, {a}}$
-  + ${a} subset {a, b}$
-  + ${a} subset.eq {{a}, {b}}$
+#tasklist("steps1", cols: 2)[
+  + $a in {a, b}$
+  + $a in.not {{a}, b}$
+  + ${a} in.not {a, {a}}$
+  + ${a} subset.eq {a, b}$
   + ${{a}} subset {{a}, {a, b}}$
-  + ${{a}, b} subset.eq {a, {a, b}, {b}}$
-  + ${a, a} union {a, a, a} = {a, a, a, a, a}$
-
-  #colbreak()
-  #set enum(numbering: step-num)
-
-  + ${a, a} union {a, a, a} = {a}$
-  + ${a, a} inter {a, a, a} = {a}$
-  + ${a, a} inter {a, a, a} = {a, a}$
-  + ${a, a, a} without {a, a} = {a}$
-  + $emptyset in emptyset$
+  + ${a, b} union {b, b} = {a, b}$
+  + ${a, b} inter {b} = {b}$
+  + $emptyset in.not emptyset$
   + $emptyset subset.eq emptyset$
-  + $emptyset subset emptyset$
   + $emptyset in {emptyset}$
 
   #colbreak()
-  #set enum(numbering: step-num)
 
-  + $emptyset subset.eq {{emptyset}}$
-  + ${emptyset, emptyset} subset {emptyset}$
-  + ${{emptyset}} subset {{emptyset}, {emptyset}}$
-  + $a in power({a})$
-  + $power({a, emptyset}) subset power({a, b, emptyset})$
-  + ${a, b} subset.eq power({a, b})$
-  + ${a, a} in power({a, a})$
-  + ${{a}, emptyset} subset.eq power({a, a})$
+  + ${emptyset} subset.eq {{emptyset}}$
+  + ${a} in power({a})$
+  + $power(emptyset) = {emptyset}$
+  + ${a, b} subset.not power({a, b})$
+  + $a in.not power({a})$
+  + ${{a}} subset.not power({a})$
+  + ${a, a} = {a}$
+  + ${a, b, b} without {b} = {a, b}$
+  + $card(power({a, b})) = 4$
+  + ${{a}, emptyset} subset.not power({a, emptyset})$
 ]
 
-== Problem 2: Venn Diagrams and Set Operations
 
-Given the universal set $U = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}$ and its subsets:
-- $A = {x in U | x "is even"}$
-- $B = {x in U | x "is prime"}$ (Note: 1 is _not_ considered prime)
-- $C = {2, 4, 7, 9}$
+== Problem 2: Network Security and Set Operations
 
-*Part (a):* Draw a Venn diagram showing all three sets (and the universum), and label each element in the appropriate regions.
+#let Active = $A$
+#let Human = $P$
+#let Network = $N$
+#let Threats = $T$
+#let Critical = $C$
+#let High = $H$
+#let Medium = $M$
 
-*Part (b):* Find the following sets:
+A cybersecurity team monitors different types of network threats. They classify threats into sets based on their characteristics:
+- $Active = {"malware", "phishing", "ddos", "ransomware", "botnet"}$ #h(1fr) (_active_ threats detected)
+- $Human = {"phishing", "social-eng", "ddos", "insider", "malware"}$ #h(1fr) (threats targeting _humans_)
+- $Network = {"ransomware", "cryptojack", "ddos", "botnet", "worm"}$ #h(1fr) (threats requiring _network access_)
 
-#tasklist(3)[
-  + $B without overline(C)$
-  + $B triangle.small (A inter C)$
-  + $U without (overline(C) union A)$
-  + $card({A union B union power(emptyset) union power(U)})$
-  + $card(power(A without C))$
-  + $(power(A) inter power(C)) without power(B)$
+The universal set $Threats$ contains all 10 distinct threat types mentioned above.
+
+*Part (a):*
+Compute the following and interpret each result in cybersecurity context:
+#tasklist("steps2a", cols: 3)[
+  + $Active inter Human$ // (threats that are both active and target humans)
+  + $Active union Network$ // (threats that are either active or need network access)
+  #colbreak()
+  + $(Active inter Human) without Network$ // (human-targeted active threats that don't need network)
+  + $overline(Active) inter Human$ // (human-targeted threats that aren't currently active)
+  #colbreak()
+  + $Active symdiff Human$ // (threats that are either active or human-targeted, but not both)
+  + $Human without (Active union Network)$ // (human-targeted threats that are neither active nor network-based)
 ]
 
-== Problem 3: Complex Set Constructions
+*Part (b):*
+The security team wants to prioritize threats. Define priority levels:
+- _Critical:_ $Critical = Active inter Human inter Network$ #h(1fr) (active, human-targeted, network-based)
+- _High:_ $High = (Active inter Human) without Network$ #h(1fr) (active and human-targeted, but not network-based)
+- _Medium:_ $Medium = Active without (Critical union High)$ #h(1fr) (active but not in higher priorities)
 
-Consider the following sets:
-- $A = {1, 2, 4}$
-- $B = {square, cat} union emptyset$ (where $square$ and $cat$ are distinct symbols)
-- $C = power(emptyset) without {emptyset}$
-- $D = {4, card(power({emptyset, C}))}$
+Find each priority set and verify that they form a _partition_ of $Threats$.
+
+*Part (c):*
+Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
+
+
+== Problem 3: Social Media Content Moderation
+
+#let Categories = $S$
+#let Flagged = $T$ // F
+#let Reported = $U$
+#let Manual = $M$
+
+A social media platform uses automated systems to detect problematic content. Posts are classified into several categories:
+- $Flagged = {"spam", "hate", "fake_news", "violence"}$ #h(1fr) (content types flagged by AI)
+- $Reported = {"spam", "bot", "fake_news", "harassment"}$ #h(1fr) (content reported by users)
+- $Manual = {"hate", "violence", "harassment", "doxxing"}$ #h(1fr) (content requiring manual review)
+
+Define $Categories = Flagged union Reported union Manual$ as the set of all content categories.
+
+*Part (a):*
+A post can have multiple classifications.
+Find:
++ Posts flagged by AI but not reported by users: $Flagged without Reported$
++ Posts needing both AI and manual review: $Flagged inter Manual$
++ Posts in exactly one classification system: $Flagged symdiff Reported symdiff Manual$
++ The "oversight gap" (user-reported issues not covered by AI or manual review): $Reported without (Flagged union Manual)$
+
+*Part (b):*
+The platform creates action sets based on combinations:
+- $A_1 = Flagged inter Reported$ #h(1fr) (automatic removal - both AI and user flagged)
+- $A_2 = Manual without A_1$ #h(1fr) (manual review - not automatically removed)
+- $A_3 = (Flagged union Reported) without (A_1 union A_2)$ #h(1fr) (warning only)
+
+Compute each action set and verify they partition $Flagged union Reported union Manual$.
+
+*Part (c):*
+Calculate the power set $power({Flagged, Reported, Manual})$ and interpret what do subsets like ${Flagged, Reported}$ represent in terms of content moderation workflows?
+
+
+== Problem 4: Recommendation Systems and Similarity Metrics
+
+Streaming services use similarity measures to recommend content.
+Consider user preferences as sets of genres they enjoy.
+
+Users and their preferred genres:
+- Alice: $A = {"sci-fi", "thriller", "drama"}$
+- Bob: $B = {"comedy", "thriller", "action"}$
+- Carol: $C = {"drama", "romance", "thriller"}$
+- David: $D = {"sci-fi", "action", "horror"}$
+
+*Part (a):*
+The _Jaccard similarity_ between users $X$ and $Y$ is:
+$
+  Jaccard(X, Y) = frac(
+    card(X inter Y),
+    card(X union Y)
+  )
+$
+
+Calculate $Jaccard(A, B)$, $Jaccard(A, C)$, $Jaccard(B, D)$, and $Jaccard(C, D)$.
+Which pair of users has the highest similarity?
+
+*Part (b):*
+The _Cosine similarity_ (simplified for sets) is:
+$
+  Cosine(X, Y) = frac(
+    card(X inter Y),
+    sqrt(card(X)) dot sqrt(card(Y))
+  )
+$
+
+Calculate $Cosine(A, B)$, $Cosine(A, C)$, $Cosine(B, D)$, and $Cosine(C, D)$.
+Do the rankings change compared to Jaccard similarity?
+
+*Part (c):*
+A user with preferences $U = {"thriller", "horror"}$ joins the platform.
+The recommendation algorithm suggests content that:
++ At least 2 similar users enjoy:
+  $ inter.big_(X in {A,B,C,D} \ J(U,X) >= 0.2) X $
++ Appears in users most similar to $U$: genres from the user with highest $Jaccard(U, X)$
+
+Find both recommendation sets.
+What would you recommend to user $U$?
+
+*Part (d):*
+Prove that Jaccard similarity satisfies:
++ $0 <= Jaccard(X, Y) <= 1$ for any sets $X,Y$
++ $Jaccard(X, Y) = Jaccard(Y, X)$
++ $Jaccard(X, X) = 1$ for any non-empty set $X$
+
+
+== Problem 5: Game Development and Coordinate Systems
+
+A game developer is designing a 2D puzzle game with different gameplay zones.
+Each zone is defined by specific coordinate regions in $RR^2$.
+
+*Part (a):*
+Sketch each gameplay zone in the coordinate plane:
++ Safe Zone: $[1, 4] times [2, 5]$
++ Danger Zone: $(2, 6) times (1, 4]$
++ Treasure Zone: ${(x,y) | x in {1, 3, 5}, y in [2, 4)}$
++ Boss Arena: ${(x,y) in [0, 6] times [0, 6] | x^2 + y^2 <= 9}$
+
+*Part (b):*
+The game mechanics require calculating the area of zone interactions:
++ Overlap of Safe and Danger zones: $(text("Safe Zone")) inter (text("Danger Zone"))$
++ Safe areas outside Danger zone: $(text("Safe Zone")) without (text("Danger Zone"))$
++ All special locations: $text("Treasure Zone") union text("Boss Arena")$
+
+*Part (c):*
+Power-ups spawn at lattice points (integer coordinates) within zones.
++ Count lattice points in Safe Zone.
++ Count lattice points in the overlap of Safe and Danger zones.
++ Find lattice points in Treasure Zone.
+
+*Part (d):*
+A player moves from point $(2,3)$ to $(4,1)$.
++ Through which zones does the straight-line path pass?
++ Through which zones does the Manhattan path pass?
+
+
+== Problem 6: Recursive Data Structures
+
+In computer science, data structures often have self-referential definitions. Consider the following system where sets reference their own cardinalities.
+
+*Part (a):*
+Find all sets $A$ and $B$ that satisfy:
+$
+  A & = {1, 2, card(B)} \
+  B & = {card(A), 3, 4}
+$
+
+Start by determining possible values for $card(A)$ and $card(B)$, then verify which combinations work.
+
+*Part (b):*
+Consider a more complex system:
+$
+  X & = {0, card(Y), card(Z)} \
+  Y & = {1, card(X)} \
+  Z & = {card(X), card(Y), 2}
+$
+
+Find all valid solutions $(X, Y, Z)$. Explain why some potential solutions don't work.
+
+*Part (c):*
+Design your own self-referential system with three sets that has:
+- Exactly one valid solution
+- At least one set containing the number 5
+- Each set having exactly 2 elements
+
+Provide the system and prove your solution is unique.
+
+
+== Problem 7: Machine Learning Feature Selection
+
+#let Numerical = $N$
+#let Categorical = $C$
+#let Text = $T$
+#let Important = $I$
+#let Basic = $B$
+#let Advanced = $A$
+#let Core = $K$
+#let Experimental = $E$
+#let Overlapping = $O$
+
+In machine learning, features are often represented as sets, and feature selection uses set operations. A dataset has features grouped by type:
+
+- Numerical features: $Numerical = {"age", "income", "score", "rating", "price"}$
+- Categorical features: $Categorical = {"color", "brand", "category", "status", "type"}$
+- Text features: $Text = {"description", "review", "comment", "title"}$
+- Important features (from analysis): $Important = {"age", "brand", "score", "review", "price", "status"}$
+
+*Part (a):*
+Feature engineering creates new feature sets:
++ Basic features: $Basic = Numerical union Categorical$ #h(1fr) (traditional ML features)
++ Advanced features: $Advanced = Text union Important$ #h(1fr) (includes text and important features)
++ Core features: $Core = Important without Text$ #h(1fr) (important non-text features)
++ Experimental features: $Experimental = (Numerical union Categorical union Text) without Important$ #h(1fr) (all non-important features)
+
+Calculate each set.
+
+*Part (b):*
+Model configurations use different feature combinations:
++ Configuration 1: Use only numerical important features.
++ Configuration 2: Use categorical features plus important text features.
++ Configuration 3: Use all features except experimental ones.
+
+Express each configuration as a set operation and calculate the result.
+
+*Part (c):*
+The team discovers that features in set $Overlapping = {"age", "price", "income"}$ are highly correlated (overlapping information). If they must remove all but one feature from $Overlapping$:
++ How many ways can they choose which feature to keep?
++ If they keep "price", how do the sets $Important$, $Core$, and $Basic$ change?
++ Calculate the new configurations from part (b) after this change.
+
+
+== Problem 8: Cryptocurrency and Blockchain Analysis
+
+#let Miners = $M$
+#let Validators = $V$
+#let Users = $U$
+#let Stakers = $S$
+#let Participants = $P$
+#let HighValue = $H$
+#let Transactions = $T$
+#let Suspicious = $X$
+
+A blockchain network has different types of participants and transactions.
+
+*Part (a):*
+Participant classification:
+- Miners: $Miners = {"miner1", "miner2", "miner3", "miner4"}$
+- Validators: $Validators = {"validator1", "validator2", "validator3"}$
+- Regular users: $Users = {"user1", "user2", "user3", "user4", "user5"}$
+- Nodes that stake coins: $Stakers = {"miner2", "validator1", "validator3", "user1", "user5"}$
+
+Calculate:
++ All network participants: $Participants = Miners union Validators union Users$
++ Participants with dual roles: $(Miners inter Stakers) union (Validators inter Stakers) union (Users inter Stakers)$
++ Non-staking participants: $Participants without Stakers$
++ Staking miners only: $Miners inter Stakers$
+
+*Part (b):*
+Transaction analysis over one day:
+- High-value transactions: $HighValue = {"tx1", "tx3", "tx7", "tx9"}$
+- Validated transactions: $Transactions = {"tx1", "tx2", "tx4", "tx5", "tx7", "tx8"}$
+- Suspicious transactions: $Suspicious = {"tx3", "tx6", "tx9", "tx10"}$
 
 Find:
++ Confirmed high-value: $HighValue inter Transactions$
++ Unconfirmed suspicious: $Suspicious without Transactions$
++ Safe transactions: $Transactions without Suspicious$
++ All flagged transactions: $HighValue union Suspicious$
 
-#tasklist(2)[
-  + $A triangle.small D$
-  + $C times B$
-  + $B inter overline(A)$
-  + $B times power({C})$
-  + $D^(card(C))$
-  + ${D inter {A}} times (D union {card(D)})$
-]
+*Part (c):*
+Security audit requires checking:
++ Are all high-value transactions either validated or suspicious? #h(1fr) (Is $HighValue subset.eq Transactions union Suspicious$?)
++ Do any transactions appear in all three categories? #h(1fr) (Is $HighValue inter Transactions inter Suspicious = emptyset$?)
++ What percentage of all transactions are validated? #h(1fr) (Calculate $card(Transactions) "/" card(HighValue union Transactions union Suspicious)$)
 
-== Problem 4: The Jaccard Index and Metric Properties
 
-The *Jaccard index* $Jaccard(A, B)$ for two finite sets $A$ and $B$ measures their similarity:
-$ Jaccard(A, B) = (card(A inter B))/(card(A union B)) $
-with the convention that $Jaccard(emptyset, emptyset) = 1$.
+== Problem 9: Set Theory Foundations and Proofs
 
-The *Jaccard distance* $JaccardDist(A, B)$ measures their dissimilarity:
-$ JaccardDist(A, B) = 1 - Jaccard(A, B) $
+*Part (a):*
+Consider the set $R = {x | x in.not x}$ (the set of all sets that do not contain themselves).
++ Prove that assuming $R in R$ leads to a contradiction.
++ Prove that assuming $R in.not R$ also leads to a contradiction.
++ Explain why this shows that naive set theory is inconsistent.
++ How do modern axiomatic set theories (like ZFC) avoid this paradox?
 
-Prove the following properties for arbitrary finite sets $A$, $B$, and $C$:
+*Part (b):*
+Let $A$ and $B$ be finite sets. Prove or disprove each statement:
++ If $A subset.eq B$, then $power(A) subset.eq power(B)$
++ $power(A inter B) = power(A) inter power(B)$
++ $power(A union B) = power(A) union power(B)$
++ $card(power(A times B)) = 2^(card(A) dot card(B))$
 
-#[
-  #set enum(numbering: "(a)")
-  + *Reflexivity:* $Jaccard(A, A) = 1$ and $JaccardDist(A, A) = 0$
-  + *Symmetry:* $Jaccard(A, B) = Jaccard(B, A)$ and $JaccardDist(A, B) = JaccardDist(B, A)$
-  + *Identity of indiscernibles:* $Jaccard(A, B) = 1$ and $JaccardDist(A, B) = 0$ if and only if $A = B$
-  + *Boundedness:* $0 <= Jaccard(A, B) <= 1$ and $0 <= JaccardDist(A, B) <= 1$
-  + *Triangle inequality:* $JaccardDist(A, C) <= JaccardDist(A, B) + JaccardDist(B, C)$
-]
+*Part (c):*
+Provide complete proofs for each of the following statements:
++ Prove that the set of even natural numbers has the same cardinality as $NN$.
++ Prove that $card(NN times NN) = card(NN)$.
++ Show that if $A$ is countable and $B$ is uncountable, then $A union B$ is uncountable.
++ Prove or disprove: If $card(A) = card(B)$ and $card(C) = card(D)$, then $card(A times C) = card(B times D)$.
 
-*Note:* Properties (a)-(c) and (e) show that $JaccardDist$ is _a metric_ on the space of finite sets.
-
-== Problem 5: Cartesian Products and Geometric Visualization
-
-Sketch each of the following sets of points in the coordinate plane $RR^2$:
-
-#tasklist(1)[
-  + ${1, 2, 3} times (1, 3]$
-  + $[1, 5) times (1, 4] without {pair(2, 3)}$
-  + $[1, 7] times (1, 5] without (1, 4] times (1, 3)$
-  + ${pair(x, y) | y in {1, 2, 3, 4, 5}, x in [1, 6-y)}$
-  + ${pair(x, y) in [1, 5] times [1, 4) | (y >= x) or (x > 4)}$
-  + ${pair(x, y) in (1, 5]^2 | 4(x-2)^2 + 9(y-3)^2 <= 36}$
-]
-
-== Problem 6: Self-Referential Sets
-
-Find all sets $A$, $B$, and $C$ that satisfy the following system:
-$
-  A & = {1, card(B), card(C)} \
-  B & = {2, card(A), card(C)} \
-  C & = {1, 2, card(A), card(B)}
-$
-
-*Hint:* Start by determining possible values for $card(A)$, $card(B)$, and $card(C)$.
-
-== Problem 7: Fuzzy Sets and Extended Operations
-
-*Fuzzy sets* generalize classical sets by allowing elements to have degrees of membership between 0 and 1. Each element $x$ in a universe $X$ has a *membership degree* $mu(x) in [0, 1]$.
-
-Given fuzzy sets:
-- $F = {a: 0.4, b: 0.8, c: 0.2, d: 0.9, e: 0.7}$
-- $R = {a: 0.6, b: 0.9, c: 0.4, d: 0.1, e: 0.5}$
-
-+ *Complement:* For fuzzy set $S$, define $overline(S)$ where $mu_(overline(S))(x) = 1 - mu_S(x)$. Find $overline(F)$ and $overline(R)$.
-
-+ *Union:* Define $S union T$ where $mu_(S union T)(x) = max{mu_S(x), mu_T(x)}$. Find $F union R$.
-
-+ *Intersection:* Define $S inter T$ where $mu_(S inter T)(x) = min{mu_S(x), mu_T(x)}$. Find $F inter R$.
-
-+ *Difference:* Propose your own definition for fuzzy set difference $S without T$. Find $F without R$ and $R without F$ using your definition.
-
-== Problem 8: Cardinality and Infinity
-
-Determine whether each of the following sets is countable or uncountable. Provide justification for your answers.
-
-+ The set of rational numbers $QQ$
-+ The power set of natural numbers $power(NN)$
-+ The set of all functions $f: NN -> NN$
-+ The union of countably many countable sets
-+ The set of all real roots of quadratic equations $a x^2 + b x + c = 0$ where $a, b, c in ZZ$
-
-== Problem 9: Fundamental Properties
-
-Prove or disprove each statement:
-
-+ *Transitivity of inclusion:* If $A subset.eq B$ and $B subset.eq C$, then $A subset.eq C$
-
-+ *Power set cardinality:* $card(power(A)) = 2^(card(A))$ for any finite set $A$
-
-+ *Complex numbers:* $card(CC) = card(RR)$ (the complex and real numbers are equinumerous)
-
-+ *Kuratowski pairs:* $pair(a, b) = pair(c, d)$ if and only if $(a = c) and (b = d)$, where ordered pairs are defined as $pair(x, y) = {{x}, {x, y}}$
 
 #line(length: 100%, stroke: 0.4pt)
 
 *Submission Guidelines:*
-- Show all work and reasoning clearly.
-- For proofs, state what you're proving, provide clear logical steps, and indicate the end with QED or $square.filled$.
-- For false statements, provide counterexamples.
-- Collaborate with classmates, but write solutions independently.
+- Show all work and reasoning clearly for computational problems.
+- For proofs, state what you're proving, provide clear logical steps, and conclude with QED or $square$.
+- For false statements, provide specific counterexamples.
+- Real-world context problems should include brief explanations of practical significance.
+- Collaborate with classmates on concepts, but write all solutions independently.
+- Submit as PDF with clearly labeled problems and legible work.
+
+*Grading Rubric:*
+- Computational accuracy: 40%
+- Mathematical reasoning and proof quality: 30%
+- Application context understanding: 10%
+- Presentation and clarity: 20%
