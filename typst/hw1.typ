@@ -29,7 +29,8 @@
 #let card(x) = $abs(#x)$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$
-#let Cosine = $cal(c)$
+#let Cosine = $cal(C)$
+#let CosineDist = $d_cal(C)$
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -156,7 +157,7 @@ Compute each action set and verify they partition $Flagged union Reported union 
 Calculate the power set $power({Flagged, Reported, Manual})$ and interpret what do subsets like ${Flagged, Reported}$ represent in terms of content moderation workflows?
 
 
-== Problem 4: Recommendation Systems and Similarity Metrics
+== Problem 4: Similarity and Distance Metrics
 
 Streaming services use similarity measures to recommend content.
 Consider user preferences as sets of genres they enjoy.
@@ -167,19 +168,27 @@ Users and their preferred genres:
 - Carol: $C = {"drama", "romance", "thriller"}$
 - David: $D = {"sci-fi", "action", "horror"}$
 
-*Part (a):*
-The _Jaccard similarity_ between users $X$ and $Y$ is:
+*Part (a): Jaccard Similarity and Distance*
+
+The _Jaccard similarity_ between users $X$ and $Y$ is defined as:
 $
   Jaccard(X, Y) = frac(
     card(X inter Y),
     card(X union Y)
   )
 $
+with the convention that $Jaccard(emptyset, emptyset) = 1$.
 
-Calculate $Jaccard(A, B)$, $Jaccard(A, C)$, $Jaccard(B, D)$, and $Jaccard(C, D)$.
-Which pair of users has the highest similarity?
+The _Jaccard distance_ measures dissimilarity:
+$
+  JaccardDist(X, Y) = 1 - Jaccard(X, Y)
+$
 
-*Part (b):*
++ Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among given users.
++ Determine which pair is most similar and which is most dissimilar.
+
+*Part (b): Cosine Similarity and Distance*
+
 The _Cosine similarity_ (simplified for sets) is:
 $
   Cosine(X, Y) = frac(
@@ -188,24 +197,39 @@ $
   )
 $
 
-Calculate $Cosine(A, B)$, $Cosine(A, C)$, $Cosine(B, D)$, and $Cosine(C, D)$.
-Do the rankings change compared to Jaccard similarity?
+The _Cosine distance_ is:
+$
+  CosineDist(X, Y) = 1 - Cosine(X, Y)
+$
 
-*Part (c):*
++ Calculate $Cosine(X, Y)$ and $CosineDist(X, Y)$ for all user pairs.
++ Determine which pair is most similar and which is most dissimilar.
+
+*Part (c): Metric Properties*
+
+Prove that Jaccard distance satisfies the triangle inequality:
+$
+  JaccardDist(A, C) <= JaccardDist(A, B) + JaccardDist(B, C)
+$
+for arbitrary finite sets $A$, $B$, and $C$.
+
+*Part (d): Counterexample for Cosine Distance*
+
+Show that cosine distance does NOT satisfy the triangle inequality by providing a specific counterexample.
+Find three non-empty sets $X$, $Y$, and $Z$ such that:
+$
+  CosineDist(X, Z) > CosineDist(X, Y) + CosineDist(Y, Z)
+$
+
+*Hint*: Try sets of different sizes where one set has no intersection with the others.
+
+*Part (e): Recommendation Application*
+
 A user with preferences $U = {"thriller", "horror"}$ joins the platform.
-The recommendation algorithm suggests content that:
-+ At least 2 similar users enjoy:
-  $ inter.big_(X in {A,B,C,D} \ J(U,X) >= 0.2) X $
-+ Appears in users most similar to $U$: genres from the user with highest $Jaccard(U, X)$
-
-Find both recommendation sets.
-What would you recommend to user $U$?
-
-*Part (d):*
-Prove that Jaccard similarity satisfies:
-+ $0 <= Jaccard(X, Y) <= 1$ for any sets $X,Y$
-+ $Jaccard(X, Y) = Jaccard(Y, X)$
-+ $Jaccard(X, X) = 1$ for any non-empty set $X$
+Using Jaccard similarity, find:
++ Users with similarity $>= 0.2$ to user $U$.
++ The most similar user to $U$.
++ Recommended genres based on the most similar user's preferences.
 
 
 == Problem 5: Game Development and Coordinate Systems
