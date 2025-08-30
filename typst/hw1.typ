@@ -114,7 +114,8 @@ Compute the following and interpret each result in cybersecurity context:
 ]
 
 *Part (b):*
-The security team wants to prioritize threats. Define priority levels:
+The security team wants to prioritize threats.
+Define priority levels:
 - Critical: $Critical = Active inter Human inter Network$ #h(1fr) (active, human-targeted, network-based)
 - High: $High = (Active inter Human) without Network$ #h(1fr) (active and human-targeted, but not network-based)
 - Medium: $Medium = Active without (Critical union High)$ #h(1fr) (active but not in higher priorities)
@@ -266,7 +267,8 @@ A player moves from point $(2,3)$ to $(4,1)$.
 
 == Problem 6: Recursive Data Structures
 
-In computer science, data structures often have self-referential definitions. Consider the following system where sets reference their own cardinalities.
+In computer science, data structures often have self-referential definitions.
+Consider the following system where sets reference their own cardinalities.
 
 *Part (a):*
 Find all sets $A$ and $B$ that satisfy:
@@ -285,7 +287,8 @@ $
   Z & = {card(X), card(Y), 2}
 $
 
-Find all valid solutions $(X, Y, Z)$. Explain why some potential solutions don't work.
+Find all valid solutions $(X, Y, Z)$.
+Explain why some potential solutions don't work.
 
 *Part (c):*
 Design your own self-referential system with three sets that has:
@@ -308,7 +311,8 @@ Provide the system and prove your solution is unique.
 #let Experimental = $E$
 #let Overlapping = $O$
 
-In machine learning, features are often represented as sets, and feature selection uses set operations. A dataset has features grouped by type:
+In machine learning, features are often represented as sets, and feature selection uses set operations.
+A dataset has features grouped by type:
 
 - Numerical features: $Numerical = {"age", "income", "score", "rating", "price"}$
 - Categorical features: $Categorical = {"color", "brand", "category", "status", "type"}$
@@ -333,7 +337,8 @@ Model configurations use different feature combinations:
 Express each configuration as a set operation and calculate the result.
 
 *Part (c):*
-The team discovers that features in set $Overlapping = {"age", "price", "income"}$ are highly correlated (overlapping information). If they must remove all but one feature from $Overlapping$:
+The team discovers that features in set $Overlapping = {"age", "price", "income"}$ are highly correlated (overlapping information).
+If they must remove all but one feature from $Overlapping$:
 + How many ways can they choose which feature to keep?
 + If they keep "price", how do the sets $Important$, $Core$, and $Basic$ change?
 + Calculate the new configurations from part (b) after this change.
