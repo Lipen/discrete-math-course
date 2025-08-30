@@ -134,7 +134,7 @@ A social media platform uses automated systems to detect problematic content. Po
 - $Reported = {"spam", "bot", "fake_news", "harassment"}$ #h(1fr) (content reported by users)
 - $Manual = {"hate", "violence", "harassment", "doxxing"}$ #h(1fr) (content requiring manual review)
 
-Define $Categories = Flagged union Reported union Manual$ as the set of all content categories.
+Define $Categories = Flagged union Reported union Manual$ as the universal set of all content categories.
 
 *Part (a):*
 A post can have multiple classifications.
