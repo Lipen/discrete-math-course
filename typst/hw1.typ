@@ -58,8 +58,8 @@ Evaluate each statement as #True or #False.
 Provide brief justifications.
 Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not sets).
 
-#tasklist("steps1", cols: 2)[
-  + $a in {a, b}$
+#tasklist("steps1", cols: 3)[
+  // + $a in {a, b}$
   + $a in {{a}, b}$
   + ${a} in {a, {a}}$
   + ${a} subset.eq {a, b}$
@@ -67,19 +67,21 @@ Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not se
   + ${{a}} subset {{a}, {a, b}}$
   + ${a, b} union {b, b} = {a, b}$
   + ${a, b} inter {{b}} = {b}$
+  #colbreak()
   + $emptyset notin emptyset$
   + $emptyset subset.eq emptyset$
-  #colbreak()
   + $emptyset in {emptyset}$
   + ${emptyset, emptyset} subset {emptyset}$
   + ${{emptyset}} subset {{emptyset}, {emptyset}}$
   + $power(emptyset) = {emptyset}$
+  + ${{a}, emptyset} subset.eq power({a, emptyset})$
+  #colbreak()
   + $a in power({a})$
   + ${a, a} in power({a, a})$
   + ${a, b} subset power({a, b})$
   + ${{a}} subset power({a})$
   + ${a, b, b} without {b} = {a, b}$
-  + ${{a}, emptyset} subset.eq power({a, emptyset})$
+  // TODO: two more
 ]
 
 
@@ -103,26 +105,35 @@ The universal set $Threats$ contains all distinct threat types mentioned above.
 *Part (a):*
 Compute the following and interpret each result in cybersecurity context:
 #tasklist("steps2a", cols: 3)[
-  + $Active inter Human$ // (threats that are both active and target humans)
-  + $Active union Network$ // (threats that are either active or need network access)
+  + $Active inter Human$
+  // (threats that are both active and target humans)
+  + $Active union Network$
+  // (threats that are either active or need network access)
   #colbreak()
-  + $(Active inter Human) without Network$ // (human-targeted active threats that don't need network)
-  + $overline(Active) inter Human$ // (human-targeted threats that aren't currently active)
+  + $(Active inter Human) without Network$
+  // (human-targeted active threats that don't need network)
+  + $overline(Active) inter Human$
+  // (human-targeted threats that aren't currently active)
   #colbreak()
-  + $Active symdiff Human$ // (threats that are either active or human-targeted, but not both)
-  + $Human without (Active union Network)$ // (human-targeted threats that are neither active nor network-based)
+  + $Active symdiff Human$
+  // (threats that are either active or human-targeted, but not both)
+  + $Human without (Active union Network)$
+  // (human-targeted threats that are neither active nor network-based)
 ]
 
 *Part (b):*
 The security team wants to prioritize threats.
 Define priority levels:
-- Critical: $Critical = Active inter Human inter Network$ #h(1fr) (active, human-targeted, network-based)
-- High: $High = (Active inter Human) without Network$ #h(1fr) (active and human-targeted, but not network-based)
-- Medium: $Medium = Active without (Critical union High)$ #h(1fr) (remaining active threats)
+- Critical: $Critical = Active inter Human inter Network$
+  #h(1fr) (active, human-targeted, network-based)
+- High: $High = (Active inter Human) without Network$
+  #h(1fr) (active and human-targeted, but not network-based)
+- Medium: $Medium = Active without (Critical union High)$
+  #h(1fr) (remaining active threats)
 
-1. Compute $Critical$, $High$, $Medium$.
-2. Show that $Critical$, $High$, and $Medium$ are pairwise disjoint.
-3. Show that $Critical union High union Medium = Active$.
++ Compute $Critical$, $High$, $Medium$.
++ Show that $Critical$, $High$, and $Medium$ are pairwise disjoint.
++ Show that $Critical union High union Medium = Active$.
 
 *Part (c):*
 Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
@@ -138,9 +149,12 @@ Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threa
 #let Manual = $M$
 
 A social media platform uses automated systems to detect problematic content. Posts are classified into several categories:
-- $Flagged = {"spam", "hate", "fake_news", "violence"}$ #h(1fr) (content types flagged by AI)
-- $Reported = {"spam", "bot", "fake_news", "harassment"}$ #h(1fr) (content reported by users)
-- $Manual = {"hate", "violence", "harassment", "doxxing"}$ #h(1fr) (content requiring manual review)
+- $Flagged = {"spam", "hate", "fake_news", "violence"}$
+  #h(1fr) (content types flagged by AI)
+- $Reported = {"spam", "bot", "fake_news", "harassment"}$
+  #h(1fr) (content reported by users)
+- $Manual = {"hate", "violence", "harassment", "doxxing"}$
+  #h(1fr) (content requiring manual review)
 
 Define $Categories = Flagged union Reported union Manual$ as the universal set of all content categories.
 
@@ -154,9 +168,12 @@ Find:
 
 *Part (b):*
 The platform creates action sets based on combinations:
-- $A_1 = Flagged inter Reported$ #h(1fr) (automatic removal)
-- $A_2 = Manual without A_1$ #h(1fr) (manual review only)
-- $A_3 = (Flagged union Reported) without (A_1 union A_2)$ #h(1fr) (warning only)
+- $A_1 = Flagged inter Reported$
+  #h(1fr) (automatic removal)
+- $A_2 = Manual without A_1$
+  #h(1fr) (manual review only)
+- $A_3 = (Flagged union Reported) without (A_1 union A_2)$
+  #h(1fr) (warning only)
 
 Compute each action set and determine if they partition $S$.
 
@@ -327,10 +344,14 @@ A dataset has features grouped by type:
 
 *Part (a):*
 Feature engineering creates new feature sets:
-+ Basic features: $Basic = Numerical union Categorical$ #h(1fr) (traditional ML features)
-+ Advanced features: $Advanced = Text union Important$ #h(1fr) (includes text and important features)
-+ Core features: $Core = Important without Text$ #h(1fr) (important non-text features)
-+ Experimental features: $Experimental = (Numerical union Categorical union Text) without Important$ #h(1fr) (all non-important features)
++ Basic features: $Basic = Numerical union Categorical$
+  #h(1fr) (traditional ML features)
++ Advanced features: $Advanced = Text union Important$
+  #h(1fr) (includes text and important features)
++ Core features: $Core = Important without Text$
+  #h(1fr) (important non-text features)
++ Experimental features: $Experimental = (Numerical union Categorical union Text) without Important$
+  #h(1fr) (all non-important features)
 
 Calculate each set.
 
