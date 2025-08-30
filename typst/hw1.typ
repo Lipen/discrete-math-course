@@ -112,9 +112,9 @@ Compute the following and interpret each result in cybersecurity context:
 
 *Part (b):*
 The security team wants to prioritize threats. Define priority levels:
-- _Critical:_ $Critical = Active inter Human inter Network$ #h(1fr) (active, human-targeted, network-based)
-- _High:_ $High = (Active inter Human) without Network$ #h(1fr) (active and human-targeted, but not network-based)
-- _Medium:_ $Medium = Active without (Critical union High)$ #h(1fr) (active but not in higher priorities)
+- Critical: $Critical = Active inter Human inter Network$ #h(1fr) (active, human-targeted, network-based)
+- High: $High = (Active inter Human) without Network$ #h(1fr) (active and human-targeted, but not network-based)
+- Medium: $Medium = Active without (Critical union High)$ #h(1fr) (active but not in higher priorities)
 
 Find each priority set and verify that they form a _partition_ of $Threats$.
 
