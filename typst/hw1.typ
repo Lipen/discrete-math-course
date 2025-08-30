@@ -22,6 +22,8 @@
 #set text(12pt)
 #set par(justify: true)
 
+#show heading.where(level: 2): set block(below: 1em, above: 1.4em)
+
 #show emph: set text(fill: blue.darken(20%))
 
 #let power(x) = $cal(P)(#x)$
