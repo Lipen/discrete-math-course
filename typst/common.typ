@@ -71,3 +71,4 @@
 #let setminus = sym.without
 #let intersect = sym.inter
 #let symdiff = sym.triangle
+#let sim = sym.tilde
