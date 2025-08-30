@@ -118,19 +118,23 @@ The security team wants to prioritize threats.
 Define priority levels:
 - Critical: $Critical = Active inter Human inter Network$ #h(1fr) (active, human-targeted, network-based)
 - High: $High = (Active inter Human) without Network$ #h(1fr) (active and human-targeted, but not network-based)
-- Medium: $Medium = Active without (Critical union High)$ #h(1fr) (active but not in higher priorities)
+- Medium: $Medium = Active without (Critical union High)$ #h(1fr) (remaining active threats)
 
-Find each priority set and verify that they form a _partition_ of $Threats$.
+1. Compute $Critical$, $High$, $Medium$.
+2. Show that $Critical$, $High$, and $Medium$ are pairwise disjoint.
+3. Show that $Critical union High union Medium = Active$.
 
 *Part (c):*
 Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
 
 
+#pagebreak()
+
 == Problem 3: Social Media Content Moderation
 
 #let Categories = $S$
-#let Flagged = $T$ // F
-#let Reported = $U$
+#let Flagged = $F$
+#let Reported = $R$
 #let Manual = $M$
 
 A social media platform uses automated systems to detect problematic content. Posts are classified into several categories:
@@ -143,21 +147,23 @@ Define $Categories = Flagged union Reported union Manual$ as the universal set o
 *Part (a):*
 A post can have multiple classifications.
 Find:
-+ Posts flagged by AI but not reported by users: $Flagged without Reported$
-+ Posts needing both AI and manual review: $Flagged inter Manual$
-+ Posts in exactly one classification system: $Flagged symdiff Reported symdiff Manual$
-+ The "oversight gap" (user-reported issues not covered by AI or manual review): $Reported without (Flagged union Manual)$
++ Posts flagged by AI but not reported by users. // $Flagged without Reported$
++ Posts needing both AI and manual review. // $Flagged inter Manual$
++ Posts in exactly one classification system. // $Flagged symdiff Reported symdiff Manual$
++ The "oversight gap" (user-reported issues not covered by AI or manual review). // $Reported without (Flagged union Manual)$
 
 *Part (b):*
 The platform creates action sets based on combinations:
-- $A_1 = Flagged inter Reported$ #h(1fr) (automatic removal - both AI and user flagged)
-- $A_2 = Manual without A_1$ #h(1fr) (manual review - not automatically removed)
+- $A_1 = Flagged inter Reported$ #h(1fr) (automatic removal)
+- $A_2 = Manual without A_1$ #h(1fr) (manual review only)
 - $A_3 = (Flagged union Reported) without (A_1 union A_2)$ #h(1fr) (warning only)
 
-Compute each action set and verify they partition $Flagged union Reported union Manual$.
+Compute each action set and determine if they partition $S$.
 
 *Part (c):*
-Calculate the power set $power({Flagged, Reported, Manual})$ and interpret what do subsets like ${Flagged, Reported}$ represent in terms of content moderation workflows?
+Calculate the power set $power({Flagged, Reported, Manual})$.
+
+What do subsets like ${Flagged, Reported}$ represent in terms of content moderation workflows?
 
 
 == Problem 4: Similarity and Distance Metrics
@@ -344,49 +350,50 @@ If they must remove all but one feature from $Overlapping$:
 + Calculate the new configurations from part (b) after this change.
 
 
-== Problem 8: Cryptocurrency and Blockchain Analysis
+== Problem 8: Fuzzy Sets and Approximate Membership
 
-#let Miners = $M$
-#let Validators = $V$
-#let Users = $U$
-#let Stakers = $S$
-#let Participants = $P$
-#let HighValue = $H$
-#let Transactions = $T$
-#let Suspicious = $X$
+In many real‑world systems, categorical boundaries are blurred.
+_Fuzzy sets_ model the graded (probabilistic or partial) membership via a function $mu(x) in \[0;1\] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
 
-A blockchain network has different types of participants and transactions.
+Consider two fuzzy sets over the same finite universe $X = {a,b,c,d,e}$:
+$
+  F = { a:0.4, b:0.8, c:0.2, d:0.9, e:0.7 } \
+  R = { a:0.6, b:0.9, c:0.4, d:0.1, e:0.5 }
+$
 
-*Part (a):*
-Participant classification:
-- Miners: $Miners = {"miner1", "miner2", "miner3", "miner4"}$
-- Validators: $Validators = {"validator1", "validator2", "validator3"}$
-- Regular users: $Users = {"user1", "user2", "user3", "user4", "user5"}$
-- Nodes that stake coins: $Stakers = {"miner2", "validator1", "validator3", "user1", "user5"}$
+*Part (a): Complement.*
+Define $mu_overline(S)(x) = 1 - mu_S (x)$.
+Compute $overline(F)$ and $overline(R)$.
 
-Calculate:
-+ All network participants: $Participants = Miners union Validators union Users$
-+ Participants with dual roles: $(Miners inter Stakers) union (Validators inter Stakers) union (Users inter Stakers)$
-+ Non-staking participants: $Participants without Stakers$
-+ Staking miners only: $Miners inter Stakers$
+*Part (b): Union (max t‑conorm).*
+For $S union T$: $mu_(S union T)(x) = max(mu_S (x), mu_T (x))$. Compute $F union R$.
 
-*Part (b):*
-Transaction analysis over one day:
-- High-value transactions: $HighValue = {"tx1", "tx3", "tx7", "tx9"}$
-- Validated transactions: $Transactions = {"tx1", "tx2", "tx4", "tx5", "tx7", "tx8"}$
-- Suspicious transactions: $Suspicious = {"tx3", "tx6", "tx9", "tx10"}$
+*Part (c): Intersection (min t‑norm).*
+For $S inter T$: $mu_(S inter T)(x) = min(mu_S (x), mu_T (x))$.
+Compute $F inter R$.
 
-Find:
-+ Confirmed high-value: $HighValue inter Transactions$
-+ Unconfirmed suspicious: $Suspicious without Transactions$
-+ Safe transactions: $Transactions without Suspicious$
-+ All flagged transactions: $HighValue union Suspicious$
+*Part (d): Difference.*
+Propose and justify a definition for $S without T$.
+Using your chosen definition, compute $F without R$ and $R without F$.
 
-*Part (c):*
-Security audit requires checking:
-+ Are all high-value transactions either validated or suspicious? #h(1fr) (Is $HighValue subset.eq Transactions union Suspicious$?)
-+ Do any transactions appear in all three categories? #h(1fr) (Is $HighValue inter Transactions inter Suspicious = emptyset$?)
-+ What percentage of all transactions are validated? #h(1fr) (Calculate $card(Transactions) "/" card(HighValue union Transactions union Suspicious)$)
+*Part (e): Fuzzy Jaccard similarity.*
+One fuzzy analogue:
+$
+  Jaccard_f (F,R) = frac(
+    sum_(x in X) min { mu_F (x), mu_R (x) },
+    sum_(x in X) max { mu_F (x), mu_R (x) }
+  )
+$
+Compute $Jaccard_f (F,R)$ and the corresponding distance $1 - Jaccard_f (F,R)$.
+
+*Part (f): Defuzzification.*
+Suppose a system triggers an alert if an element’s membership in $F union R$ exceeds 0.75.
+List all triggered elements with their degrees and briefly comment on the trade‑off between using crisp vs fuzzy thresholds.
+
+// *Optional:* Compare ordering of elements by membership in $F$, $R$, and $F union R$.
+// Explain how this could influence a recommendation system (Problem 4).
+
+#pagebreak()
 
 
 == Problem 9: Set Theory Foundations and Proofs
