@@ -299,11 +299,11 @@ List all triggered elements with their degrees and briefly comment on the tradeâ
 
 Determine whether the following sets are countable or uncountable.
 Provide justifications.
-+ The set of rational numbers#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] $QQ$.
++ The set of rational#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
 + The set of all functions of the form $f: NN -> NN$.
 + The union of a _countable_ number of countable sets.
-+ The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients $a$, $b$, and $c$.
++ The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
 
 
 == Problem 9: Set Theory Foundations
