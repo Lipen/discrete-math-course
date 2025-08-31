@@ -31,6 +31,7 @@
 #let card(x) = $abs(#x)$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$
+#let FuzzyJaccard = $tilde(cal(J))$
 #let Cosine = $cal(C)$
 #let CosineDist = $d_cal(C)$
 
@@ -149,8 +150,7 @@ Users and their preferred genres:
 - Carol: $C = {"drama", "romance", "thriller"}$
 - David: $D = {"sci-fi", "action", "horror"}$
 
-*Part (a): Jaccard Similarity and Distance*
-
+*Part (a):*
 The _Jaccard similarity_ between users $X$ and $Y$ is defined as:
 $
   Jaccard(X, Y) = frac(
@@ -168,34 +168,28 @@ $
 + Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among given users.
 + Determine which pair is most similar and which is most dissimilar.
 
-*Part (b): Cosine Similarity and Distance*
-
-The _Cosine similarity_ (simplified for sets) is:
+*Part (b):*
+The _Cosine similarity_ for sets can be defined#footnote[#link("https://en.wikipedia.org/wiki/Cosine_similarity#Otsuka–Ochiai_coefficient")[Otsuka–Ochiai coefficient]] as:
 $
   Cosine(X, Y) = frac(
     card(X inter Y),
-    sqrt(card(X)) dot sqrt(card(Y))
+    sqrt(card(X) dot card(Y))
   )
 $
 
-The _Cosine distance_ is:
-$
-  CosineDist(X, Y) = 1 - Cosine(X, Y)
-$
+The _Cosine distance_ is $CosineDist(X, Y) = 1 - Cosine(X, Y)$.
 
 + Calculate $Cosine(X, Y)$ and $CosineDist(X, Y)$ for all user pairs.
 + Determine which pair is most similar and which is most dissimilar.
 
-*Part (c): Metric Properties*
-
+*Part (c):*
 Prove that Jaccard distance satisfies the triangle inequality:
 $
   JaccardDist(A, C) <= JaccardDist(A, B) + JaccardDist(B, C)
 $
 for arbitrary finite sets $A$, $B$, and $C$.
 
-*Part (d): Counterexample for Cosine Distance*
-
+*Part (d):*
 Show that cosine distance does NOT satisfy the triangle inequality by providing a specific counterexample.
 Find three non-empty sets $X$, $Y$, and $Z$ such that:
 $
@@ -204,8 +198,7 @@ $
 
 *Hint*: Try sets of different sizes where one set has no intersection with the others.
 
-*Part (e): Recommendation Application*
-
+*Part (e):*
 A user with preferences $U = {"thriller", "horror"}$ joins the platform.
 Using Jaccard similarity, find:
 + Users with similarity $>= 0.2$ to user $U$.
@@ -225,24 +218,11 @@ Sketch each gameplay zone in the coordinate plane:
 + Treasure Zone: ${(x,y) | x in {1, 3, 5}, y in [2, 4)}$
 + Boss Arena: ${(x,y) in [1, 6] times [1, 6] | (x-6)^2 + (y-1)^2 < 9}$
 
-// TODO: replace part b
-// *Part (b):*
-// The game mechanics require calculating the area of zone interactions:
-// + Overlap of Safe and Danger zones: $(text("Safe Zone")) inter (text("Danger Zone"))$
-// + Safe areas outside Danger zone: $(text("Safe Zone")) without (text("Danger Zone"))$
-// + All special locations: $text("Treasure Zone") union text("Boss Arena")$
-
 *Part (b):*
 Power-ups spawn at lattice points (integer coordinates) within zones.
 + Count lattice points in Safe Zone.
 + Count lattice points in the overlap of Safe and Danger zones.
 + Find lattice points in Treasure Zone.
-
-// TODO: re-formulate part d
-// *Part (d):*
-// A player moves from point $(2,3)$ to $(4,1)$.
-// + Through which zones does the straight-line path pass?
-// + Through which zones does the Manhattan path pass?
 
 
 == Problem 6: Recursive Data Structures
@@ -277,7 +257,7 @@ Design your own _non-trivial_ self-referential system.
 == Problem 7: Fuzzy Sets and Approximate Membership
 
 In many real‑world systems, categorical boundaries are blurred.
-_Fuzzy sets_ model the "graded" (probabilistic or partial) membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
+_Fuzzy sets_ model the partial or probabilistic membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
 
 Consider two fuzzy sets over the same finite universe $X = {a,b,c,d,e}$:
 $
@@ -285,50 +265,45 @@ $
   R = { a:0.6, b:0.9, c:0.4, d:0.1, e:0.5 }
 $
 
-*Part (a): Complement.*
-Define $mu_overline(S)(x) = 1 - mu_S (x)$.
+*Part (a):*
+Define the complement of a fuzzy set S to be $mu_overline(S)(x) = 1 - mu_S (x)$.
 Compute $overline(F)$ and $overline(R)$.
 
-*Part (b): Union (max t‑conorm).*
-For $S union T$: $mu_(S union T)(x) = max(mu_S (x), mu_T (x))$. Compute $F union R$.
+*Part (b):*
+For the union, define $mu_(S union T)(x) = max(mu_S (x), mu_T (x))$. Compute $F union R$.
 
-*Part (c): Intersection (min t‑norm).*
-For $S inter T$: $mu_(S inter T)(x) = min(mu_S (x), mu_T (x))$.
+*Part (c):*
+For the intersection, define $mu_(S inter T)(x) = min(mu_S (x), mu_T (x))$.
 Compute $F inter R$.
 
-*Part (d): Difference.*
+*Part (d):*
 Propose and justify a definition for $S without T$.
 Using your chosen definition, compute $F without R$ and $R without F$.
 
-*Part (e): Fuzzy Jaccard similarity.*
-One fuzzy analogue:
+*Part (e):*
+One fuzzy analogue of Jaccard similarity is:
 $
-  Jaccard_f (F,R) = frac(
+  FuzzyJaccard_f (F,R) = frac(
     sum_(x in X) min { mu_F (x), mu_R (x) },
     sum_(x in X) max { mu_F (x), mu_R (x) }
   )
 $
-Compute $Jaccard_f (F,R)$ and the corresponding distance $1 - Jaccard_f (F,R)$.
+Compute $FuzzyJaccard_f (F,R)$ and the corresponding distance $1 - FuzzyJaccard_f (F,R)$.
 
 *Part (f): Defuzzification.*
-Suppose a system triggers an alert if an element’s membership in $F union R$ exceeds 0.75.
+Suppose a system triggers an alert if an element’s membership in $F union R$ exceeds $0.75$.
 List all triggered elements with their degrees and briefly comment on the trade‑off between using crisp vs fuzzy thresholds.
-
-// *Optional:* Compare ordering of elements by membership in $F$, $R$, and $F union R$.
-// Explain how this could influence a recommendation system (Problem 4).
 
 
 == Problem 8: Cardinality and Countability
 
-Determine whether the following sets are countable or uncountable. Provide justifications for your answers.
-
-#tasklist("steps8", cols: 1)[
-  + The set of rational numbers#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] $QQ$.
-  + The power set of natural numbers $power(NN)$.
-  + The set of all functions of the form $f: NN -> NN$.
-  + The union of a _countable_ number of countable sets.
-  + The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients $a$, $b$, and $c$.
-]
+Determine whether the following sets are countable or uncountable.
+Provide justifications.
++ The set of rational numbers#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] $QQ$.
++ The power set of natural numbers $power(NN)$.
++ The set of all functions of the form $f: NN -> NN$.
++ The union of a _countable_ number of countable sets.
++ The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients $a$, $b$, and $c$.
 
 
 == Problem 9: Set Theory Foundations
@@ -341,7 +316,8 @@ Consider the set $R = {x | x notin x}$ (the set of all sets that do not contain 
 + How do modern axiomatic set theories (like ZFC) avoid this paradox?
 
 *Part (b):*
-Let $A$ and $B$ be finite sets. Prove or disprove each statement:
+Let $A$ and $B$ be finite sets.
+Prove or disprove each statement:
 + If $A subset.eq B$, then $power(A) subset.eq power(B)$
 + $power(A inter B) = power(A) inter power(B)$
 + $power(A union B) = power(A) union power(B)$
