@@ -85,103 +85,68 @@ Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not se
 ]
 
 
-== Problem 2: Network Security and Set Operations
+== Problem 2: Dynamic Security Classification System
 
-#let Active = $A$
-#let Human = $P$
-#let Network = $N$
-#let Threats = $T$
-#let Critical = $C$
-#let High = $H$
-#let Medium = $M$
-
-A cybersecurity team monitors different types of network threats. They classify threats into sets based on their characteristics:
-- $Active = {"malware", "phishing", "ddos", "ransomware", "botnet"}$ #h(1fr) (_active_ threats detected)
-- $Human = {"phishing", "social-eng", "ddos", "insider", "malware"}$ #h(1fr) (threats targeting _humans_)
-- $Network = {"ransomware", "cryptojack", "ddos", "botnet", "worm"}$ #h(1fr) (threats requiring _network access_)
-
-The universal set $Threats$ contains all distinct threat types mentioned above.
+A cybersecurity company develops an adaptive threat classification system that evolves based on emerging threats.
+The system must handle overlapping categories and dynamic priority assignments.
 
 *Part (a):*
-Compute the following and interpret each result in cybersecurity context:
-#tasklist("steps2a", cols: 3)[
-  + $Active inter Human$
-  // (threats that are both active and target humans)
-  + $Active union Network$
-  // (threats that are either active or need network access)
-  #colbreak()
-  + $(Active inter Human) without Network$
-  // (human-targeted active threats that don't need network)
-  + $overline(Active) inter Human$
-  // (human-targeted threats that aren't currently active)
-  #colbreak()
-  + $Active symdiff Human$
-  // (threats that are either active or human-targeted, but not both)
-  + $Human without (Active union Network)$
-  // (human-targeted threats that are neither active nor network-based)
-]
+Given three evolving threat _categories_:
+- $T_1 = {x | x "is a network-based attack"}$
+- $T_2 = {x | x "targets user credentials"}$
+- $T_3 = {x | x "uses social engineering"}$
+
+Consider specific threats: ${"malware", "phishing", "ddos", "vishing", "smishing", "ransomware", "keylogger"}$
+
++ Classify each threat into appropriate categories (a threat can belong to multiple categories).
++ Prove that for any finite universe $U$ and subsets $A, B, C subset.eq U$:
+  $
+    card(A union B union C) = card(A) + card(B) + card(C) - card(A inter B) - card(A inter C) - card(B inter C) + card(A inter B inter C)
+  $
+
++ Apply this formula to verify your classification counts.
 
 *Part (b):*
-The security team wants to prioritize threats.
-Define priority levels:
-- Critical: $Critical = Active inter Human inter Network$
-  #h(1fr) (active, human-targeted, network-based)
-- High: $High = (Active inter Human) without Network$
-  #h(1fr) (active and human-targeted, but not network-based)
-- Medium: $Medium = Active without (Critical union High)$
-  #h(1fr) (remaining active threats)
+The system uses machine learning with confidence scores. Define:
+- High-confidence: $H = {x in U | "conf"(x) >= 0.8}$
+- Medium-confidence: $M = {x in U | 0.4 <= "conf"(x) < 0.8}$
+- Low-confidence: $L = {x in U | "conf"(x) < 0.4}$
 
-+ Compute $Critical$, $High$, $Medium$.
-+ Show that $Critical$, $High$, and $Medium$ are pairwise disjoint.
-+ Show that $Critical union High union Medium = Active$.
+Given that exactly 40% of threats have high confidence, 35% have medium confidence:
++ Prove that ${H, M, L}$ forms a partition of $U$.
++ If $card(U) = 100$ threats, determine $card(H)$, $card(M)$, and $card(L)$.
++ Show that for any partition ${A_1, A_2, ..., A_n}$ of a finite set $S$: $sum_(i=1)^n card(A_i) = card(S)$.
 
 *Part (c):*
-Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
+The system assigns priority based on both threat category overlap and detection confidence. Define a priority function:
+$"priority"(x) = card({i | x in T_i}) + "confidence-weight"(x)$
+
+where confidence-weight is: 3 for high, 2 for medium, 1 for low confidence.
+
++ For the threat "phishing" (assume it belongs to $T_2$ and $T_3$, with high confidence), compute its priority score.
++ Prove that if threat $a$ belongs to more categories than threat $b$, and both have the same confidence level, then $"priority"(a) > "priority"(b)$.
++ Design a formal definition for "critical threats" using set operations and priority thresholds that ensures exactly the top 20% of threats by priority are classified as critical.
+
+*Part (d):*
+The company wants to minimize false positives while maximizing threat coverage.
+Define:
+- Detected: $D = H union M$
+  #h(1fr) (system only acts on medium+ confidence)
+- Actual threats: $A subset.eq U$
+  #h(1fr) (unknown true threat set)
+- False positives: $F = D without A$
+  #h(1fr) (detected but not actual threats)
+- Coverage rate: $card(D inter A) "/" card(A)$
+  #h(1fr) (how many actual threats are detected)
+- Precision rate: $card(D inter A) "/" card(D)$
+  #h(1fr) (how many detected threats are actual)
+
++ Express the relationship between coverage, precision, and the sizes of sets $D$, $A$, and $F$.
++ Prove that improving coverage (increasing $card(D inter A)$) while keeping $card(D)$ constant requires decreasing false positives $card(F)$.
++ If the system must maintain precision $>= 0.75$ and coverage $>= 0.85$, derive constraints on $card(A)$, $card(D)$, and $card(F)$ in terms of $card(U)$.
 
 
-== Problem 3: Social Media Content Moderation
-
-#let Categories = $S$
-#let Flagged = $F$
-#let Reported = $R$
-#let Manual = $M$
-
-A social media platform uses automated systems to detect problematic content. Posts are classified into several categories:
-- $Flagged = {"spam", "hate", "fake_news", "violence"}$
-  #h(1fr) (content types flagged by AI)
-- $Reported = {"spam", "bot", "fake_news", "harassment"}$
-  #h(1fr) (content reported by users)
-- $Manual = {"hate", "violence", "harassment", "doxxing"}$
-  #h(1fr) (content requiring manual review)
-
-Define $Categories = Flagged union Reported union Manual$ as the universal set of all content categories.
-
-*Part (a):*
-A post can have multiple classifications.
-Find:
-+ Posts flagged by AI but not reported by users. // $Flagged without Reported$
-+ Posts needing both AI and manual review. // $Flagged inter Manual$
-+ Posts in exactly one classification system. // $Flagged symdiff Reported symdiff Manual$
-+ The "oversight gap" (user-reported issues not covered by AI or manual review). // $Reported without (Flagged union Manual)$
-
-*Part (b):*
-The platform creates action sets based on combinations:
-- $A_1 = Flagged inter Reported$
-  #h(1fr) (automatic removal)
-- $A_2 = Manual without A_1$
-  #h(1fr) (manual review only)
-- $A_3 = (Flagged union Reported) without (A_1 union A_2)$
-  #h(1fr) (warning only)
-
-Compute each action set and determine if they partition $S$.
-
-*Part (c):*
-Calculate the power set $power({Flagged, Reported, Manual})$.
-
-What do subsets like ${Flagged, Reported}$ represent in terms of content moderation workflows?
-
-
-== Problem 4: Similarity and Distance Metrics
+== Problem 3: Similarity and Distance Metrics
 
 Streaming services use similarity measures to recommend content.
 Consider user preferences as sets of genres they enjoy.
