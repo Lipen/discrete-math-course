@@ -291,7 +291,7 @@ $
 Compute $FuzzyJaccard_f (F,R)$ and the corresponding distance $1 - FuzzyJaccard_f (F,R)$.
 
 *Part (f): Defuzzification.*
-Suppose a system triggers an alert if an element’s membership in $F union R$ exceeds $0.75$.
+Suppose a system triggers an alert if an element’s membership in #box[$F union R$] exceeds $0.75$.
 List all triggered elements with their degrees and briefly comment on the trade‑off between using crisp vs fuzzy thresholds.
 
 
