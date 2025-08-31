@@ -56,31 +56,30 @@
 
 Evaluate each statement as #True or #False.
 Provide brief justifications.
-Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not sets).
+Consider $a$ and $b$ to be distinct ($a eq.not b$) _urelements_ (atomic objects that are not sets).
 
 #tasklist("steps1", cols: 3)[
-  // + $a in {a, b}$
   + $a in {{a}, b}$
   + ${a} in {a, {a}}$
-  + ${a} subset.eq {a, b}$
   + ${a} subset {a, a}$
-  + ${{a}} subset {{a}, {a, b}}$
-  + ${a, b} union {b, b} = {a, b}$
+  + ${a} subset.eq {{a}, {b}}$
+  + ${{a}, b} subset.eq {a, {a, b}, {b}}$
   + ${a, b} inter {{b}} = {b}$
+  + ${a, a, a} without {a} = {a, a}$
   #colbreak()
-  + $emptyset notin emptyset$
+  + $emptyset in emptyset$
   + $emptyset subset.eq emptyset$
+  + $emptyset subset emptyset$
   + $emptyset in {emptyset}$
+  + $emptyset subset.eq {{emptyset}}$
   + ${emptyset, emptyset} subset {emptyset}$
-  + ${{emptyset}} subset {{emptyset}, {emptyset}}$
   + $power(emptyset) = {emptyset}$
-  + ${{a}, emptyset} subset.eq power({a, emptyset})$
   #colbreak()
   + $a in power({a})$
+  + $power({a, emptyset}) subset power({a, b, emptyset})$
+  + ${a, b} subset.eq power({a, b})$
   + ${a, a} in power({a, a})$
-  + ${a, b} subset power({a, b})$
-  + ${{a}} subset power({a})$
-  + ${a, b, b} without {b} = {a, b}$
+  + ${{a}, emptyset} subset.eq power({a, a})$
   // TODO: two more
 ]
 
@@ -95,35 +94,36 @@ Consider $a$ and $b$ to be distinct _urelements_ (atomic objects that are not se
 #let High = $H$
 #let Medium = $M$
 
-A cybersecurity team monitors different types of network threats. They classify threats into sets based on their characteristics:
-- $Active = {"malware", "phishing", "ddos", "ransomware", "botnet"}$ #h(1fr) (currently _actively_ detected threats)
-- $Human = {"phishing", "social-eng", "ddos", "insider", "malware"}$ #h(1fr) (threats targeting _humans_)
-- $Network = {"ransomware", "cryptojack", "ddos", "botnet", "worm"}$ #h(1fr) (threats requiring _network access_)
+A cybersecurity team monitors different types of _network threats_.
+They classify threats into sets based on their characteristics:
+- $Active = {"malware", "phishing", "ddos", "ransomware", "botnet"}$
+  #h(1fr) (currently _actively_ detected threats)
+- $Human = {"phishing", "social-eng", "ddos", "insider", "malware"}$
+  #h(1fr) (threats targeting _humans_)
+- $Network = {"ransomware", "cryptojack", "ddos", "botnet", "worm"}$
+  #h(1fr) (threats requiring _network access_)
 
 The universal set $Threats = Active union Human union Network$ contains all distinct threat types mentioned above.
 
 *Part (a):*
 Compute the following and interpret each result in cybersecurity context:
-#tasklist("steps2a", cols: 3)[
+#tasklist("steps2a", cols: 4)[
   + $Active inter Human$
-  // (threats that are both active and target humans)
   + $Active union Network$
-  // (threats that are either active or need network access)
   #colbreak()
   + $(Active inter Human) without Network$
-  // (human-targeted active threats that don't need network)
   + $overline(Active) inter Human$
-  // (human-targeted threats that aren't currently active)
   #colbreak()
   + $Active symdiff Human$
-  // (threats that are either active or human-targeted, but not both)
   + $Human without (Active union Network)$
-  // (human-targeted threats that are neither active nor network-based)
+  #colbreak()
+  + $power({Active, Human, Network})$
+  + $card((Human union Network) inter overline(Active))$
 ]
 
 *Part (b):*
 The security team wants to prioritize threats.
-Define priority levels:
+Define _priority levels_:
 - Critical: $Critical = Active inter Human inter Network$
   #h(1fr) (active, human-targeted, network-based)
 - High: $High = (Active inter Human) without Network$
@@ -132,12 +132,11 @@ Define priority levels:
   #h(1fr) (remaining active threats)
 
 + Compute $Critical$, $High$, $Medium$.
-+ Determine whether $Critical$, $High$, $Medium$ form a partition of $Active$.
++ Determine whether ${Critical, High, Medium}$ is a partition of $Active$.
 
 *Part (c):*
 Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
-Annotate the $Critical$, $High$, and $Medium$ threat categories.
-
+Annotate the priority categories.
 
 == Problem 3: Similarity and Distance Metrics
 
@@ -249,41 +248,36 @@ Power-ups spawn at lattice points (integer coordinates) within zones.
 == Problem 6: Recursive Data Structures
 
 In computer science, data structures often have self-referential definitions.
-Consider the following system where sets reference their own cardinalities.
+Consider the following systems where sets reference their own cardinalities.
 
 *Part (a):*
-Find all sets $A$ and $B$ that satisfy:
+Find all sets $X$ and $Y$ that satisfy:
 $
-  A & = {1, 2, card(B)} \
-  B & = {card(A), 3, 4}
+  X & = {1, 2, card(Y)} \
+  Y & = {card(X), 3, 4}
 $
 
-Start by determining possible values for $card(A)$ and $card(B)$, then verify which combinations work.
+Start by determining possible values for $card(X)$ and $card(Y)$, then verify which combinations work.
 
 *Part (b):*
 Consider a more complex system:
 $
-  X & = {0, card(Y), card(Z)} \
-  Y & = {1, card(X)} \
-  Z & = {card(X), card(Y), 2}
+  A & = {1, card(B), card(C)} \
+  B & = {2, card(A), card(C)} \
+  C & = {1, 2, card(A), card(B)}
 $
 
-Find all valid solutions $(X, Y, Z)$.
+Find all valid solutions $(A, B, C)$.
 Explain why some potential solutions don't work.
 
 *Part (c):*
-Design your own self-referential system with three sets that has:
-- Exactly one valid solution
-- At least one set containing the number 5
-- Each set having exactly 2 elements
-
-Provide the system and prove your solution is unique.
+Design your own _non-trivial_ self-referential system.
 
 
 == Problem 7: Fuzzy Sets and Approximate Membership
 
 In many realâ€‘world systems, categorical boundaries are blurred.
-_Fuzzy sets_ model the graded (probabilistic or partial) membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
+_Fuzzy sets_ model the "graded" (probabilistic or partial) membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
 
 Consider two fuzzy sets over the same finite universe $X = {a,b,c,d,e}$:
 $
@@ -324,7 +318,20 @@ List all triggered elements with their degrees and briefly comment on the tradeâ
 // Explain how this could influence a recommendation system (Problem 4).
 
 
-== Problem 8: Set Theory Foundations and Proofs
+== Problem 8: Cardinality and Countability
+
+Determine whether the following sets are countable or uncountable. Provide justifications for your answers.
+
+#tasklist("steps8", cols: 1)[
+  + The set of rational numbers#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] $QQ$.
+  + The power set of natural numbers $power(NN)$.
+  + The set of all functions of the form $f: NN -> NN$.
+  + The union of a _countable_ number of countable sets.
+  + The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients $a$, $b$, and $c$.
+]
+
+
+== Problem 9: Set Theory Foundations
 
 *Part (a):*
 Consider the set $R = {x | x notin x}$ (the set of all sets that do not contain themselves).
