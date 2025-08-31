@@ -139,8 +139,6 @@ Define priority levels:
 Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
 
 
-#pagebreak()
-
 == Problem 3: Social Media Content Moderation
 
 #let Categories = $S$
@@ -266,26 +264,28 @@ Each zone is defined by specific coordinate regions in $RR^2$.
 *Part (a):*
 Sketch each gameplay zone in the coordinate plane:
 + Safe Zone: $[1, 4] times [2, 5]$
-+ Danger Zone: $(2, 6) times (1, 4]$
++ Danger Zone: $(2, 6] times [1, 4)$
 + Treasure Zone: ${(x,y) | x in {1, 3, 5}, y in [2, 4)}$
-+ Boss Arena: ${(x,y) in [0, 6] times [0, 6] | x^2 + y^2 <= 9}$
++ Boss Arena: ${(x,y) in [1, 6] times [1, 6] | (x-6)^2 + (y-1)^2 < 9}$
+
+// TODO: replace part b
+// *Part (b):*
+// The game mechanics require calculating the area of zone interactions:
+// + Overlap of Safe and Danger zones: $(text("Safe Zone")) inter (text("Danger Zone"))$
+// + Safe areas outside Danger zone: $(text("Safe Zone")) without (text("Danger Zone"))$
+// + All special locations: $text("Treasure Zone") union text("Boss Arena")$
 
 *Part (b):*
-The game mechanics require calculating the area of zone interactions:
-+ Overlap of Safe and Danger zones: $(text("Safe Zone")) inter (text("Danger Zone"))$
-+ Safe areas outside Danger zone: $(text("Safe Zone")) without (text("Danger Zone"))$
-+ All special locations: $text("Treasure Zone") union text("Boss Arena")$
-
-*Part (c):*
 Power-ups spawn at lattice points (integer coordinates) within zones.
 + Count lattice points in Safe Zone.
 + Count lattice points in the overlap of Safe and Danger zones.
 + Find lattice points in Treasure Zone.
 
-*Part (d):*
-A player moves from point $(2,3)$ to $(4,1)$.
-+ Through which zones does the straight-line path pass?
-+ Through which zones does the Manhattan path pass?
+// TODO: re-formulate part d
+// *Part (d):*
+// A player moves from point $(2,3)$ to $(4,1)$.
+// + Through which zones does the straight-line path pass?
+// + Through which zones does the Manhattan path pass?
 
 
 == Problem 6: Recursive Data Structures
@@ -322,95 +322,7 @@ Design your own self-referential system with three sets that has:
 Provide the system and prove your solution is unique.
 
 
-== Problem 7: Machine Learning Feature Selection
-
-#let Numerical = $N$
-#let Categorical = $C$
-#let Text = $T$
-#let Important = $I$
-#let Basic = $B$
-#let Advanced = $A$
-#let Core = $K$
-#let Experimental = $E$
-#let Overlapping = $O$
-
-In machine learning, feature engineering and selection can be framed with set systems, equivalence relations, and hitting (set cover) problems.
-
-Consider the following dataset feature groups:
-- Numerical: $Numerical = {"age", "income", "score", "rating", "price"}$
-- Categorical: $Categorical = {"color", "brand", "category", "status", "type"}$
-- Text: $Text = {"description", "review", "comment", "title"}$
-- Important: $Important = {"age", "brand", "score", "review", "price", "status"}$
-
-We further refine Numerical & Categorical into correlation clusters (conceptual groups sharing information):
-- $C_1 = {"age", "income", "price"}$
-  #h(1fr) (financial/scale)
-- $C_2 = {"score", "rating"}$
-  #h(1fr) (performance metrics)
-- $C_3 = {"color", "brand", "category", "status", "type"}$
-  #h(1fr) (categorical descriptors)
-- $C_4 = {"description", "review", "comment", "title"}$
-  #h(1fr) (textual content)
-
-*Note:* $C_1, C_2, C_3, C_4$ are pairwise disjoint and their union is $Numerical union Categorical union Text$.
-
-*Part (a):*
-- Basic: $Basic = Numerical union Categorical$ (traditional ML).
-- Advanced: $Advanced = Text union Important$.
-- Core: $Core = Important without Text$ (important non‑text).
-- Experimental: $Experimental = (Numerical union Categorical union Text) without Important$ (all non‑important features).
-
-+ Compute each set and its cardinality.
-+ List all containments among {Important, Basic, Advanced, Core, Experimental} that hold (e.g. $Core subset.eq Important$) and one that does not hold (with counterexample element).
-
-#let sim = sym.tilde
-
-*Part (b):*
-Define a relation $sim$ on $Numerical union Categorical union Text$ by $x sim y$ iff $x$ and $y$ lie in the same cluster $C_i$.
-+ Prove $sim$ is an equivalence relation.
-+ List the equivalence classes explicitly.
-+ Form the quotient set $(Numerical union Categorical union Text) slash sim$ and give its cardinality.
-+ Which classes contain at least one Important feature?
-
-*Part (c):*
-A representative system chooses exactly one feature from each class $C_1, C_2, C_3, C_4$.
-+ How many total representative systems exist? (Explain product rule.)
-+ How many representative systems contain no Important feature?
-+ Deduce the number that contain at least one Important feature.
-+ Argue that any representative system with at least one Important feature hits (intersects) the set $Important$.
-
-*Part (d):*
-Consider the hypergraph $H$ whose edges are $C_1, C_2, C_3, C_4,$ and $Important$.
-A hitting set intersects every edge.
-+ Prove any hitting set must have size $>= 4$.
-+ Exhibit a hitting set of size 4 (thus minimal).
-+ Characterize all minimal hitting sets: they are exactly the sets with one element from each $C_i$ and containing at least one Important element. Explain why.
-+ Count all minimal hitting sets. (Hint: start with all 4‑tuples choosing one from each $C_i$; subtract those with zero Important elements.)
-+ Show your count equals $card(C_1) card(C_2) card(C_3) card(C_4) - card(C_1 without Important) card(C_2 without Important) card(C_3 without Important) card(C_4 without Important)$ and evaluate numerically.
-
-*Part (e):*
-Define three model configurations:
-- Numerical‑important only: $C^((1)) = Numerical inter Important$.
-- Categorical plus important text: $C^((2)) = Categorical union (Text inter Important)$.
-- All features excluding Experimental: $C^((3)) = (Numerical union Categorical union Text) without Experimental$.
-
-Tasks:
-+ Compute each set.
-+ Verify $C^((3)) = Important union (Text without Important)$.
-+ Is $C^((2)) subset.eq C^((3))$? Justify.
-+ Compute Jaccard($C^((1)), C^((2))$) and interpret overlap.
-
-*Part (f):*  Provide concise proofs:
-+ $Core subset.eq Basic$.
-+ $Advanced = Important union Text$ (already a definition rewriting).
-+ $Core$ is the largest subset of $Important$ disjoint from $Text$.
-  (Show any larger subset would contain a text element.)
-+ $|Experimental| = |Numerical| + |Categorical| + |Text| - |Important inter (Numerical union Categorical union Text)|$.
-  Evaluate numerically.
-+ If one feature (of your choice) is removed from each class $C_i$, prove the new minimal hitting set size is still 4 unless an entire class loses all Important features and you add a new constraint requiring at least one Important feature.
-
-
-== Problem 8: Fuzzy Sets and Approximate Membership
+== Problem 7: Fuzzy Sets and Approximate Membership
 
 In many real‑world systems, categorical boundaries are blurred.
 _Fuzzy sets_ model the graded (probabilistic or partial) membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
@@ -453,10 +365,8 @@ List all triggered elements with their degrees and briefly comment on the trade�
 // *Optional:* Compare ordering of elements by membership in $F$, $R$, and $F union R$.
 // Explain how this could influence a recommendation system (Problem 4).
 
-#pagebreak()
 
-
-== Problem 9: Set Theory Foundations and Proofs
+== Problem 8: Set Theory Foundations and Proofs
 
 *Part (a):*
 Consider the set $R = {x | x notin x}$ (the set of all sets that do not contain themselves).
@@ -482,7 +392,7 @@ Provide complete proofs for each of the following statements:
 
 #line(length: 100%, stroke: 0.4pt)
 
-*Submission Guidelines:*
+*Submission guidelines:*
 - Show all work and reasoning clearly for computational problems.
 - For proofs, state what you're proving, provide clear logical steps, and conclude with QED or $square$.
 - For false statements, provide specific counterexamples.
@@ -490,7 +400,7 @@ Provide complete proofs for each of the following statements:
 - Collaborate with classmates on concepts, but write all solutions independently.
 - Submit as PDF with clearly labeled problems and legible work.
 
-*Grading Rubric:*
+*Grading rubric:*
 - Computational accuracy: 40%
 - Mathematical reasoning and proof quality: 30%
 - Application context understanding: 10%
