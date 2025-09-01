@@ -270,15 +270,15 @@ Define the complement of a fuzzy set S to be $mu_overline(S)(x) = 1 - mu_S (x)$.
 Compute $overline(F)$ and $overline(R)$.
 
 *Part (b):*
-For the union, define $mu_(S union T)(x) = max(mu_S (x), mu_T (x))$. Compute $F union R$.
+For the union, define $mu_(S union T)(x) = max{mu_S (x), mu_T (x)}$. Compute $F union R$.
 
 *Part (c):*
-For the intersection, define $mu_(S inter T)(x) = min(mu_S (x), mu_T (x))$.
+For the intersection, define $mu_(S inter T)(x) = min{mu_S (x), mu_T (x)}$.
 Compute $F inter R$.
 
 *Part (d):*
 Propose and justify a definition for $S without T$.
-Using your chosen definition, compute $F without R$ and $R without F$.
+Compute $F without R$ and $R without F$.
 
 *Part (e):*
 One fuzzy analogue of Jaccard similarity is:
