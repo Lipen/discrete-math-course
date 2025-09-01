@@ -145,10 +145,10 @@ Streaming services use similarity measures to recommend content.
 Consider user preferences as sets of genres they enjoy.
 
 Users and their preferred genres:
-- Alice: $A = {"sci-fi", "thriller", "drama"}$
-- Bob: $B = {"comedy", "thriller", "action"}$
-- Carol: $C = {"drama", "romance", "thriller"}$
-- David: $D = {"sci-fi", "action", "horror"}$
+- Anna: $A = {"sci-fi", "thriller", "drama"}$
+- Boris: $B = {"comedy", "thriller", "action"}$
+- Clara: $C = {"drama", "romance", "thriller"}$
+- Diana: $D = {"sci-fi", "action", "horror"}$
 
 *Part (a):*
 The _Jaccard similarity_ between users $X$ and $Y$ is defined as:
