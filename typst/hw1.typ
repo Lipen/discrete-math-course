@@ -296,30 +296,14 @@ Suppose a system triggers an alert if an element’s membership in #box[$F union
 List all triggered elements with their degrees and briefly comment on the trade‑off between using crisp vs fuzzy thresholds.
 
 
-== Problem 8: Set Theory Foundations
+== Problem 8: Power Sets
 
-*Part (a):*
-Consider the set $R = {x | x notin x}$ (the set of all sets that do not contain themselves).
-+ Prove that assuming $R in R$ leads to a contradiction.
-+ Prove that assuming $R notin R$ also leads to a contradiction.
-+ Explain why this shows that naive set theory is inconsistent.
-+ How do modern axiomatic set theories (like ZFC) avoid this paradox?
-
-*Part (b):*
 Let $A$ and $B$ be finite sets.
 Prove or disprove each statement:
 + If $A subset.eq B$, then $power(A) subset.eq power(B)$
 + $power(A inter B) = power(A) inter power(B)$
 + $power(A union B) = power(A) union power(B)$
 + $card(power(A times B)) = 2^(card(A) dot card(B))$
-
-*Part (c):*
-Provide complete proofs for each of the following statements:
-+ If $A$ is countable and $B$ is uncountable, then $A union B$ is uncountable.
-+ If $A$ is infinite and $B$ is finite, then $card(A union B) = card(A)$.
-+ If $card(A) = card(B)$ and $card(C) = card(D)$, then $card(A times C) = card(B times D)$.
-+ The union of a countable number of countable sets is countable.
-
 
 == Problem 9: Cardinality and Infinity
 
@@ -328,6 +312,7 @@ Provide justifications, including explicit bijections or diagonalization argumen
 + The set of rational#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
 + The set of all functions of the form $f: NN -> NN$.
++ The union of a countable number of countable sets.
 + The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
 
 
@@ -337,7 +322,6 @@ Provide justifications, including explicit bijections or diagonalization argumen
 - Show all work and reasoning clearly for computational problems.
 - For proofs, state what you're proving, provide clear logical steps, and conclude with QED or $square$.
 - For false statements, provide specific counterexamples.
-- Real-world context problems should include brief explanations of practical significance.
 - Collaborate with classmates on concepts, but write all solutions independently.
 - Submit as PDF with clearly labeled problems and legible work.
 
