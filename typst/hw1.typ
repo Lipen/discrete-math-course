@@ -167,6 +167,7 @@ $
 
 + Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among given users.
 + Determine which pair is most similar and which is most dissimilar.
++ Draw a graph with users as nodes and edges weighted by Jaccard similarity.
 
 *Part (b):*
 The _Cosine similarity_ for sets can be defined#footnote[#link("https://en.wikipedia.org/wiki/Cosine_similarity#Otsuka–Ochiai_coefficient")[Otsuka–Ochiai coefficient]] as:
@@ -181,6 +182,7 @@ The _Cosine distance_ is $CosineDist(X, Y) = 1 - Cosine(X, Y)$.
 
 + Calculate $Cosine(X, Y)$ and $CosineDist(X, Y)$ for all user pairs.
 + Determine which pair is most similar and which is most dissimilar.
++ Draw a graph with users as nodes and edges weighted by Cosine similarity.
 
 *Part (c):*
 Prove that Jaccard distance satisfies the triangle inequality:
