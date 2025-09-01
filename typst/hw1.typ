@@ -270,7 +270,8 @@ Define the complement of a fuzzy set S to be $mu_overline(S)(x) = 1 - mu_S (x)$.
 Compute $overline(F)$ and $overline(R)$.
 
 *Part (b):*
-For the union, define $mu_(S union T)(x) = max{mu_S (x), mu_T (x)}$. Compute $F union R$.
+For the union, define $mu_(S union T)(x) = max{mu_S (x), mu_T (x)}$.
+Compute $F union R$.
 
 *Part (c):*
 For the intersection, define $mu_(S inter T)(x) = min{mu_S (x), mu_T (x)}$.
