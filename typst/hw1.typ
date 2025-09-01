@@ -142,7 +142,7 @@ Annotate the priority categories.
 == Problem 3: Similarity and Distance Metrics
 
 Streaming services use similarity measures to recommend content.
-Consider user preferences as sets of genres they enjoy.
+Consider _user preferences_ as sets of genres they enjoy.
 
 Users and their preferred genres:
 - Anna: $A = {"sci-fi", "thriller", "drama"}$
