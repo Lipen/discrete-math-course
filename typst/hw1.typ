@@ -85,7 +85,7 @@ Consider $a$ and $b$ to be distinct ($a eq.not b$) _urelements_ (atomic objects 
 ]
 
 
-== Problem 2: Network Security and Set Operations
+== Problem 2: Set Operations
 
 #let Threats = $T$
 #let Active = $A$
@@ -206,7 +206,7 @@ Using Jaccard similarity, find:
 + Recommended genres based on the most similar user's preferences.
 
 
-== Problem 5: Game Development and Coordinate Systems
+== Problem 5: Coordinate Systems
 
 A game developer is designing a 2D puzzle game with different gameplay zones.
 Each zone is defined by specific coordinate regions in $RR^2$.
@@ -254,7 +254,7 @@ Explain why some potential solutions don't work.
 Design your own _non-trivial_ self-referential system.
 
 
-== Problem 7: Fuzzy Sets and Approximate Membership
+== Problem 7: Fuzzy Sets
 
 In many real‑world systems, categorical boundaries are blurred.
 _Fuzzy sets_ model the partial or probabilistic membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
@@ -295,7 +295,7 @@ Suppose a system triggers an alert if an element’s membership in #box[$F union
 List all triggered elements with their degrees and briefly comment on the trade‑off between using crisp vs fuzzy thresholds.
 
 
-== Problem 8: Cardinality and Countability
+== Problem 8: Cardinality and Infinity
 
 Determine whether the following sets are countable or uncountable.
 Provide justifications.
