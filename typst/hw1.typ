@@ -314,20 +314,19 @@ Prove or disprove each statement:
 
 *Part (c):*
 Provide complete proofs for each of the following statements:
-+ Show that the set of even natural numbers has the same cardinality as $NN$.
-+ Show that $card(NN times NN) = card(NN)$.
-+ Show that if $A$ is countable and $B$ is uncountable, then $A union B$ is uncountable.
-+ Prove or disprove: If $card(A) = card(B)$ and $card(C) = card(D)$, then $card(A times C) = card(B times D)$.
++ If $A$ is countable and $B$ is uncountable, then $A union B$ is uncountable.
++ If $A$ is infinite and $B$ is finite, then $card(A union B) = card(A)$.
++ If $card(A) = card(B)$ and $card(C) = card(D)$, then $card(A times C) = card(B times D)$.
++ The union of a countable number of countable sets is countable.
 
 
 == Problem 9: Cardinality and Infinity
 
 Determine whether the following sets are countable or uncountable.
-Provide justifications.
+Provide justifications, including explicit bijections or diagonalization arguments where appropriate.
 + The set of rational#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
 + The set of all functions of the form $f: NN -> NN$.
-+ The union of a countable number of countable sets.
 + The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
 
 
@@ -342,7 +341,6 @@ Provide justifications.
 - Submit as PDF with clearly labeled problems and legible work.
 
 *Grading rubric:*
-- Computational accuracy: 40%
+- Computational accuracy: 50%
 - Mathematical reasoning and proof quality: 30%
-- Application context understanding: 10%
 - Presentation and clarity: 20%
