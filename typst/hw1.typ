@@ -295,18 +295,7 @@ Suppose a system triggers an alert if an element’s membership in #box[$F union
 List all triggered elements with their degrees and briefly comment on the trade‑off between using crisp vs fuzzy thresholds.
 
 
-== Problem 8: Cardinality and Infinity
-
-Determine whether the following sets are countable or uncountable.
-Provide justifications.
-+ The set of rational#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] numbers $QQ$.
-+ The power set of natural numbers $power(NN)$.
-+ The set of all functions of the form $f: NN -> NN$.
-+ The union of a _countable_ number of countable sets.
-+ The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
-
-
-== Problem 9: Set Theory Foundations
+== Problem 8: Set Theory Foundations
 
 *Part (a):*
 Consider the set $R = {x | x notin x}$ (the set of all sets that do not contain themselves).
@@ -325,10 +314,21 @@ Prove or disprove each statement:
 
 *Part (c):*
 Provide complete proofs for each of the following statements:
-+ Prove that the set of even natural numbers has the same cardinality as $NN$.
-+ Prove that $card(NN times NN) = card(NN)$.
++ Show that the set of even natural numbers has the same cardinality as $NN$.
++ Show that $card(NN times NN) = card(NN)$.
 + Show that if $A$ is countable and $B$ is uncountable, then $A union B$ is uncountable.
 + Prove or disprove: If $card(A) = card(B)$ and $card(C) = card(D)$, then $card(A times C) = card(B times D)$.
+
+
+== Problem 9: Cardinality and Infinity
+
+Determine whether the following sets are countable or uncountable.
+Provide justifications.
++ The set of rational#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] numbers $QQ$.
++ The power set of natural numbers $power(NN)$.
++ The set of all functions of the form $f: NN -> NN$.
++ The union of a countable number of countable sets.
++ The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
 
 
 #line(length: 100%, stroke: 0.4pt)
