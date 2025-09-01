@@ -145,10 +145,10 @@ Streaming services use similarity measures to recommend content.
 Consider _user preferences_ as sets of genres they enjoy.
 
 Users and their preferred genres:
-- Anna: $A = {"sci-fi", "thriller", "drama"}$
-- Boris: $B = {"comedy", "thriller", "action"}$
-- Clara: $C = {"drama", "romance", "thriller"}$
-- Diana: $D = {"sci-fi", "action", "horror"}$
+- Anna: $A = {"sci-fi", "thriller"}$
+- Boris: $B = {"thriller", "drama", "romance"}$
+- Clara: $C = {"horror", "romance", "drama", "comedy"}$
+- Diana: $D = {"action", "sci-fi", "comedy", "fantasy"}$
 
 #v(2cm, weak: true)
 
@@ -205,9 +205,8 @@ $
 *Part (e):*
 A user with preferences $U = {"thriller", "horror"}$ joins the platform.
 Using Jaccard similarity, find:
-+ Users with similarity $>= 0.2$ to user $U$.
++ Users with similarity $>= 0.25$ to user $U$.
 + The most similar user to $U$.
-+ Recommended genres based on the most similar user's preferences.
 
 
 #pagebreak()
