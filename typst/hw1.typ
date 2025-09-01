@@ -312,7 +312,7 @@ Prove or disprove each statement:
 
 Determine whether the following sets are countable or uncountable.
 Provide justifications, including explicit bijections or diagonalization arguments where appropriate.
-+ The set of rational#footnote[A rational number can be represented as a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN$ is a natural number.] numbers $QQ$.
++ The set of rational#footnote[A rational number is a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.] numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
 + The set of all functions of the form $f: NN -> NN$.
 + The union of a countable number of countable sets.
