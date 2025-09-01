@@ -200,8 +200,6 @@ $
   CosineDist(X, Z) > CosineDist(X, Y) + CosineDist(Y, Z)
 $
 
-*Hint*: Try sets of different sizes where one set has no intersection with the others.
-
 *Part (e):*
 A user with preferences $U = {"thriller", "horror"}$ joins the platform.
 Using Jaccard similarity, find users with similarity $>= 0.25$ to user $U$.
