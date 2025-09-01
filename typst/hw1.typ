@@ -313,6 +313,7 @@ Provide justifications, including explicit bijections or diagonalization argumen
 + The power set of natural numbers $power(NN)$.
 + The set of all functions of the form $f: NN -> NN$.
 + The union of a countable number of countable sets.
++ The set of all computer programs in a particular programming language.
 + The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
 
 
