@@ -7,6 +7,8 @@
   // dark: true,
 )
 
+#show heading.where(level: 1): none
+
 #show table.cell.where(y: 0): strong
 
 #set quote(block: true)
@@ -67,8 +69,6 @@
 #let draw-origin() = {
   draw.content((0, 0), [0], anchor: "north-east", padding: 0.2)
 }
-
-#show heading.where(level: 1): none
 
 = Set Theory
 #focus-slide(
