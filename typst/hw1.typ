@@ -204,9 +204,7 @@ $
 
 *Part (e):*
 A user with preferences $U = {"thriller", "horror"}$ joins the platform.
-Using Jaccard similarity, find:
-+ Users with similarity $>= 0.25$ to user $U$.
-+ The most similar user to $U$.
+Using Jaccard similarity, find users with similarity $>= 0.25$ to user $U$.
 
 
 #pagebreak()
