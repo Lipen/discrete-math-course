@@ -150,6 +150,8 @@ Users and their preferred genres:
 - Clara: $C = {"drama", "romance", "thriller"}$
 - Diana: $D = {"sci-fi", "action", "horror"}$
 
+#v(2cm, weak: true)
+
 *Part (a):*
 The _Jaccard similarity_ between users $X$ and $Y$ is defined as:
 $
@@ -207,6 +209,8 @@ Using Jaccard similarity, find:
 + The most similar user to $U$.
 + Recommended genres based on the most similar user's preferences.
 
+
+#pagebreak()
 
 == Problem 5: Coordinate Systems
 
