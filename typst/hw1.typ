@@ -251,7 +251,7 @@ Find all valid solutions $(A, B, C)$.
 Explain why some potential solutions don't work.
 
 *Part (c):*
-Design your own _non-trivial_ self-referential system.
+Design your own _non-trivial_ self-referential set system.
 
 
 == Problem 7: Fuzzy Sets
