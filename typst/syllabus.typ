@@ -20,10 +20,10 @@
 #set par(justify: true)
 #set heading(numbering: "1.")
 
+#show table.cell.where(y: 0): strong
+
 #show heading.where(level: 1): set block(below: 1em, above: 1.4em)
 #show heading.where(level: 2): set block(below: 0.8em, above: 1em)
-
-#set enum(numbering: it => text(fill: navy)[*#numbering("1.", it)*])
 
 = Course Information
 
@@ -70,9 +70,9 @@ The course is organized into four main modules:
 
 == Module 3: Boolean Algebra (Weeks 9-12)
 - Boolean functions and truth tables
-- Normal forms (CNF, DNF) and minimization
+- Normal forms (CNF, DNF)
 - Logic gates and digital circuits
-- Karnaugh maps and circuit design
+- Karnaugh maps and minimization (Quine-McCluskey)
 - Applications to computer hardware
 
 == Module 4: Formal Logic (Weeks 13-16)
@@ -90,24 +90,26 @@ Your final grade will be calculated as follows:
   columns: 3,
   align: (left, center, right),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Component*], [*Points Each*], [*Total Points*]),
+  table.header([Component], [Points Each], [Total Points]),
   [Homework Assignments (4)], [10], [40],
   [Module Tests (4)], [5], [20],
   [Theoretical Minimums (2)], [10], [20],
   [Final Exam], [20], [20],
-  [*Total*], [—], [*100*],
+  table.hline(stroke: 0.4pt),
+  [*Total*], [], [*100*],
 )
 
 == Homework Assignments (40 points total)
-- One homework per module, due at the end of each 4-week period
+- One homework per module, due at the end of each 4-week (approx) period
 - Mix of computational problems and proof exercises
-- Late submissions: -20% per day late
+- Late submissions: punished
 - Collaboration allowed, but solutions must be written independently
 
 == Module Tests (20 points total)
-- Short tests (45 minutes) covering material from each completed module
+- Long tests (90 minutes) covering material from each completed module
 - Primarily computational problems and short derivations
-- Closed book, but formula sheets may be provided
+- All sources allowed (notes, textbooks)
+- No collaboration during tests
 
 == Theoretical Minimums (20 points total)
 - Two comprehensive exams testing deeper understanding
@@ -141,7 +143,6 @@ The final exam has three components:
 
 == Attendance
 - Lectures are mandatory
-- More than 3 unexcused absences may result in course failure
 - Material covered in lectures is essential for success
 
 == Academic Integrity
@@ -163,6 +164,7 @@ The final exam has three components:
 
 = Course Schedule
 
+// TODO: reorganize the table
 #table(
   columns: 4,
   align: (center, left, left, left),
@@ -178,6 +180,128 @@ The final exam has three components:
   [16], [—], [Theoretical Minimum 2], [TM2 exam, Test 4],
   [17], [Finals], [Final examination period], [Final exam],
 )
+
+== Week 1: Set Theory
+- Introduction to sets and notation
+- Basic operations: union, intersection, difference
+- Power sets and subsets
+- Venn diagrams
+- Cartesian products and geometric interpretation
+- Russell's paradox
+
+== Week 2: Set Theory
+- Axiomatic foundations of set theory
+- Zermelo-Fraenkel axioms overview
+- Axiom of choice and its implications
+
+== Week 3: Binary Relations
+- Introduction to relations
+- Graph representations of relations
+- Matrix representation of relations
+- Operations on relations
+- Closures of relations
+- Properties of homogeneous relations
+- Reflexive, symmetric, transitive relations
+- Equivalence relations and partitions
+
+#line(length: 100%, stroke: 0.4pt)
+- Homework 1 due
+- Test 1 covering weeks 1-2 material
+
+== Week 4: Binary Relations
+- Order relations
+- Chains and antichains
+- Dilworth's theorem
+- (?) Well-ordering principle
+- Composition of relations
+- Hasse diagrams
+
+== Week 5: Binary Relations
+- Functions as special types of relations
+- Domain, codomain, range
+- Injective, surjective, bijective functions
+- Function composition
+- Inverse functions
+- Image and preimage of sets
+- Pigeonhole principle
+
+== Week 6: Set Theory (again)
+- Cardinality of sets
+- Infinite sets and countability
+- Pairing functions
+- Cantor's diagonal argument
+- Uncountable sets
+- Cantor's theorem
+- Schroeder-Bernstein theorem
+- Line and square paradox
+
+== Week 7: Binary Relations
+- Order theory
+- Partially ordered sets (posets)
+- Greatest lower bound and least upper bound
+- Lattices and their properties
+- Modular and distributive lattices
+- Boolean algebras as special lattices
+
+#line(length: 100%, stroke: 0.4pt)
+- Homework 2 due
+- Test 2 covering weeks 3-7 material
+- Theoretical Minimum 1 covering Set Theory and Binary Relations
+
+== Week 8: Boolean Algebra
+- Boolean functions and truth tables
+- Normal forms: CNF and DNF
+
+== Week 9: Boolean Algebra
+- Logic gates and digital circuits
+
+== Week 10: Boolean Algebra
+- Karnaugh maps and circuit minimization
+
+#line(length: 100%, stroke: 0.4pt)
+- Homework 3 due
+- Test 3 covering weeks 8-10 material
+
+== Week 11: Formal Logic
+- Propositional logic: syntax and semantics
+- Logical equivalences and implications
+
+== Week 12: Formal Logic
+- Natural deduction proof system
+- Basic proof techniques
+- Soundness and completeness of propositional logic
+- Limitations of propositional logic
+
+== Week 13: Formal Logic
+- Introduction to predicate (first-order) logic
+- Syntax and semantics of predicate logic
+- Quantifiers: universal and existential
+- Prenex normal form
+- Gödel's completeness theorem
+- Gödel's incompleteness theorems
+
+== Week 14: Formal Logic
+- Categorical logic
+- A, E, I, O statements
+- Traditional square of opposition
+- Syllogisms and their validity
+- Venn diagram representation of syllogisms
+- Limitations of categorical logic
+
+== Week 15: Formal Logic
+- Review of formal logic concepts
+
+#line(length: 100%, stroke: 0.4pt)
+- Homework 4 due
+- Test 4 covering weeks 11-15 material
+- Theoretical Minimum 2 covering Boolean Algebra and Formal Logic
+
+== Week 16: Formal Logic (extra)
+- Ordinal and cardinal numbers
+- Introduction to metalogical concepts
+
+== Session
+- Final exam covering all course material
 
 = Getting Help
 
@@ -205,5 +329,3 @@ The final exam has three components:
 #line(length: 100%, stroke: 0.4pt)
 
 *This syllabus is subject to change with advance notice. Students are responsible for staying informed of any modifications.*
-
-Last updated: August 29, 2025
