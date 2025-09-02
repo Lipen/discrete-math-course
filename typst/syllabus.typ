@@ -13,6 +13,12 @@
       #line(length: 100%, stroke: 0.6pt)
     ]
   ],
+  footer: [
+    #set text(10pt, fill: gray)
+    #datetime.today().display()
+    #h(1fr)
+    #link("https://github.com/Lipen/discrete-math-course")
+  ],
 )
 
 #set text(12pt)
