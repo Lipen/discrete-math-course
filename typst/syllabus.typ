@@ -164,24 +164,14 @@ The final exam has three components:
 
 = Course Schedule
 
-// TODO: reorganize the table
-#table(
-  columns: 4,
-  align: (center, left, left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Week*], [*Module*], [*Topics*], [*Assessments*]),
-  [1-4], [Set Theory], [Sets, operations, cardinality, paradoxes, axiomatization], [HW1 due end of week 4],
-  [5], [Binary Relations], [Introduction to relations, properties], [Test 1],
-  [6-8], [Binary Relations], [Equivalence, order, functions, composition], [HW2 due end of week 8],
-  [9], [—], [Theoretical Minimum 1], [TM1 exam, Test 2],
-  [10-12], [Boolean Algebra], [Boolean functions, circuits, minimization], [HW3 due end of week 12],
-  [13], [Formal Logic], [Propositional logic basics], [Test 3],
-  [14-16], [Formal Logic], [Natural deduction, categorical logic, predicate logic], [HW4 due end of week 15],
-  [16], [—], [Theoretical Minimum 2], [TM2 exam, Test 4],
-  [17], [Finals], [Final examination period], [Final exam],
+#let header(body) = block(
+  above: 1.2em,
+  below: 0.8em,
+  sticky: true,
+  text(size: 1.2em, weight: "bold", body),
 )
 
-== Week 1: Set Theory
+#header[Week 1: Set Theory]
 - Introduction to sets and notation
 - Basic operations: union, intersection, difference
 - Power sets and subsets
@@ -189,12 +179,12 @@ The final exam has three components:
 - Cartesian products and geometric interpretation
 - Russell's paradox
 
-== Week 2: Set Theory
+#header[Week 2: Set Theory]
 - Axiomatic foundations of set theory
 - Zermelo-Fraenkel axioms overview
 - Axiom of choice and its implications
 
-== Week 3: Binary Relations
+#header[Week 3: Binary Relations]
 - Introduction to relations
 - Graph representations of relations
 - Matrix representation of relations
@@ -208,7 +198,7 @@ The final exam has three components:
 - Homework 1 due
 - Test 1 covering weeks 1-2 material
 
-== Week 4: Binary Relations
+#header[Week 4: Binary Relations]
 - Order relations
 - Chains and antichains
 - Dilworth's theorem
@@ -216,7 +206,7 @@ The final exam has three components:
 - Composition of relations
 - Hasse diagrams
 
-== Week 5: Binary Relations
+#header[Week 5: Binary Relations]
 - Functions as special types of relations
 - Domain, codomain, range
 - Injective, surjective, bijective functions
@@ -225,7 +215,7 @@ The final exam has three components:
 - Image and preimage of sets
 - Pigeonhole principle
 
-== Week 6: Set Theory (again)
+#header[Week 6: Set Theory (again)]
 - Cardinality of sets
 - Infinite sets and countability
 - Pairing functions
@@ -235,7 +225,7 @@ The final exam has three components:
 - Schroeder-Bernstein theorem
 - Line and square paradox
 
-== Week 7: Binary Relations
+#header[Week 7: Binary Relations]
 - Order theory
 - Partially ordered sets (posets)
 - Greatest lower bound and least upper bound
@@ -248,31 +238,31 @@ The final exam has three components:
 - Test 2 covering weeks 3-7 material
 - Theoretical Minimum 1 covering Set Theory and Binary Relations
 
-== Week 8: Boolean Algebra
+#header[Week 8: Boolean Algebra]
 - Boolean functions and truth tables
 - Normal forms: CNF and DNF
 
-== Week 9: Boolean Algebra
+#header[Week 9: Boolean Algebra]
 - Logic gates and digital circuits
 
-== Week 10: Boolean Algebra
+#header[Week 10: Boolean Algebra]
 - Karnaugh maps and circuit minimization
 
 #line(length: 100%, stroke: 0.4pt)
 - Homework 3 due
 - Test 3 covering weeks 8-10 material
 
-== Week 11: Formal Logic
+#header[Week 11: Formal Logic]
 - Propositional logic: syntax and semantics
 - Logical equivalences and implications
 
-== Week 12: Formal Logic
+#header[Week 12: Formal Logic]
 - Natural deduction proof system
 - Basic proof techniques
 - Soundness and completeness of propositional logic
 - Limitations of propositional logic
 
-== Week 13: Formal Logic
+#header[Week 13: Formal Logic]
 - Introduction to predicate (first-order) logic
 - Syntax and semantics of predicate logic
 - Quantifiers: universal and existential
@@ -280,7 +270,7 @@ The final exam has three components:
 - Gödel's completeness theorem
 - Gödel's incompleteness theorems
 
-== Week 14: Formal Logic
+#header[Week 14: Formal Logic]
 - Categorical logic
 - A, E, I, O statements
 - Traditional square of opposition
@@ -288,7 +278,7 @@ The final exam has three components:
 - Venn diagram representation of syllogisms
 - Limitations of categorical logic
 
-== Week 15: Formal Logic
+#header[Week 15: Formal Logic]
 - Review of formal logic concepts
 
 #line(length: 100%, stroke: 0.4pt)
@@ -296,12 +286,15 @@ The final exam has three components:
 - Test 4 covering weeks 11-15 material
 - Theoretical Minimum 2 covering Boolean Algebra and Formal Logic
 
-== Week 16: Formal Logic (extra)
+#header[Week 16: Formal Logic (extra)]
 - Ordinal and cardinal numbers
 - Introduction to metalogical concepts
 
-== Session
+#line(length: 100%, stroke: 0.4pt)
+
+#header[Session]
 - Final exam covering all course material
+
 
 = Getting Help
 
