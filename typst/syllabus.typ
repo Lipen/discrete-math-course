@@ -58,28 +58,28 @@ By the end of this course, students will be able to:
 
 The course is organized into four main modules:
 
-== Module 1: Set Theory (Weeks 1-4)
+== Module 1: Set Theory (Weeks 1-2)
 - Basic set operations and notation
 - Power sets and cardinality
 - Cartesian products and relations
 - Russell's paradox and axiomatic foundations
 - Applications to computer science
 
-== Module 2: Binary Relations (Weeks 5-8)
+== Module 2: Binary Relations (Weeks 3-7)
 - Properties of relations (reflexive, symmetric, transitive)
 - Equivalence relations and partitions
 - Order relations and lattices
 - Functions as special relations
 - Composition and closure operations
 
-== Module 3: Boolean Algebra (Weeks 9-12)
+== Module 3: Boolean Algebra (Weeks 8-10)
 - Boolean functions and truth tables
 - Normal forms (CNF, DNF)
 - Logic gates and digital circuits
 - Karnaugh maps and minimization (Quine-McCluskey)
 - Applications to computer hardware
 
-== Module 4: Formal Logic (Weeks 13-16)
+== Module 4: Formal Logic (Weeks 11-16)
 - Propositional logic: syntax and semantics
 - Natural deduction and proof systems
 - Traditional categorical logic and syllogisms
