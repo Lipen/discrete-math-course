@@ -603,6 +603,8 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
   The set difference $(A times B) setminus (C times D)$ where:
   - $A times B = \[Al; Ar\] times \[Bl; Br\]$ (outer rectangle)
   - $C times D = \(Cl; Cr\) times \(Dl; Dr\]$ (inner rectangle to subtract)
+
+  The resulting set is visualized as the blue-shaded area on the right.
 ]
 
 #place(bottom + right, dy: 1.5em)[
