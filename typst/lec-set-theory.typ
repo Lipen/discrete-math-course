@@ -70,6 +70,75 @@
   draw.content((0, 0), [0], anchor: "north-east", padding: 0.2)
 }
 
+#[
+  #set page(margin: 0pt)
+
+  #let panel(
+    tint: white,
+    title,
+    body,
+  ) = block(
+    height: 100%,
+    width: 100%,
+    fill: tint.lighten(80%),
+  )[
+    #stack(
+      // Top part:
+      box(
+        width: 100%,
+        height: 50%,
+        inset: .5em,
+        // stroke: .1pt,
+      )[
+        #set align(bottom + center)
+        #set text(size: 1.4em)
+        #box(
+          inset: .5em,
+          stroke: (bottom: .8pt),
+        )[
+          *#title*
+        ]
+      ],
+      // Bottom part:
+      box(
+        width: 100%,
+        inset: (right: .5em, rest: 1em),
+        // stroke: .1pt,
+      )[
+        #body
+      ],
+    )
+  ]
+
+  #grid(
+    columns: 4,
+    panel(tint: blue)[Set \ Theory][
+      - Basic concepts
+      - Set operations
+      - Power sets
+      - Cardinality
+    ],
+    panel(tint: green)[Binary \ Relations][
+      - Relation properties
+      - Equivalence relations
+      - Orders
+      - Functions
+    ],
+    panel(tint: purple)[Boolean \ Albegra][
+      - Boolean operations
+      - Laws and identities
+      - Normal forms
+      - Logic circuits
+    ],
+    panel(tint: orange)[Formal \ Logic][
+      - Propositional logic
+      - Categorial logic
+      - Predicate logic
+      - Natural deduction
+    ],
+  )
+]
+
 = Set Theory
 #focus-slide(
   epigraph: [A set is a Many that allows itself to be thought of as a One.],
