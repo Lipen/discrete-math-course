@@ -80,7 +80,7 @@
   ) = block(
     height: 100%,
     width: 100%,
-    fill: tint.lighten(80%),
+    fill: tint.lighten(85%),
   )[
     #stack(
       // Top part:
