@@ -43,6 +43,19 @@
 
 #import cetz: draw
 
+#let draw-venn2(..args) = cetz.canvas({
+  draw.scale(50%)
+  cetz-venn.venn2(
+    not-ab-fill: none,
+    not-ab-stroke: none,
+    padding: 0,
+    ..args,
+    name: "venn",
+  )
+  draw.content("venn.a", [A])
+  draw.content("venn.b", [B])
+})
+
 #let draw-grid(max-x, max-y) = {
   draw.grid(
     (0, 0),
@@ -383,16 +396,60 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
 == Operations on Sets
 
 #table(
-  columns: 3,
-  align: (left, right, left),
+  columns: 4,
+  align: (left, right, left, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([Operation], [Notation], [Formal definition]),
-  [Union], $A union B$, ${ x | x in A or x in B }$,
-  [Intersection], $A intersect B$, ${ x | x in A and x in B }$,
-  [Difference], $A setminus B$, ${ x | x in A and x notin B }$,
-  [Symmetric diff.], $A symdiff B$, $(A setminus B) union (B setminus A)$,
-  [Complement], [$overline(A)$ or $A^c$], ${ x | x notin A }$,
-  [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$,
+  table.header([Operation], [Notation], [Formal definition], [Venn diagram]),
+  [Union],
+  $A union B$,
+  ${ x | x in A or x in B }$,
+  [
+    #draw-venn2(
+      a-fill: green.transparentize(80%),
+      b-fill: green.transparentize(80%),
+      ab-fill: green.transparentize(80%),
+    )
+  ],
+
+  [Intersection],
+  $A intersect B$,
+  ${ x | x in A and x in B }$,
+  [
+    #draw-venn2(
+      ab-fill: green.transparentize(80%),
+    )
+  ],
+
+  [Difference],
+  $A setminus B$,
+  ${ x | x in A and x notin B }$,
+  [
+    #draw-venn2(
+      a-fill: green.transparentize(80%),
+    )
+  ],
+
+  [Symmetric diff.],
+  $A symdiff B$,
+  $(A setminus B) union (B setminus A)$,
+  [
+    #draw-venn2(
+      a-fill: green.transparentize(80%),
+      b-fill: green.transparentize(80%),
+    )
+  ],
+
+  [Complement],
+  [$overline(A)$ or $A^c$],
+  ${ x | x notin A }$,
+  [
+    #draw-venn2(
+      not-ab-fill: green.transparentize(80%),
+      padding: .2,
+      not-ab-stroke: 1pt + green.darken(20%),
+    )
+  ],
+  // [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$, [],
 )
 
 == Venn Diagrams and Euler Circles

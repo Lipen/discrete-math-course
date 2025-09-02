@@ -13,3 +13,4 @@
 #import "@preview/shadowed:0.2.0"
 #import "@preview/wrap-it:0.1.1"
 #import "@preview/natrix:0.1.0"
+#import "@preview/cetz-venn:0.1.4"
