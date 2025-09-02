@@ -27,11 +27,15 @@
 
 = Course Information
 
-*Course Title:* Discrete Mathematics \
-*Semester:* Fall 2025 \
-*Prerequisites:* High school mathematics (algebra, basic logic) \
-*Language:* Russian (verbal), English (materials) \
-*Format:* In-person lectures with written assignments
+#grid(
+  columns: 2,
+  inset: 5pt,
+  [*Title:*], [Discrete Mathematics],
+  [*Semester:*], [Fall 2025],
+  [*Prerequisites:*], [High school mathematics (algebra, basic logic)],
+  [*Language:*], [Russian (verbal), English (materials)],
+  [*Format:*], [In-person lectures with written assignments and verbal exams],
+)
 
 = Course Description
 
