@@ -1399,7 +1399,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #theorem[Equivalences $<=>$ Partitions][
   Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { [x]_R | x in M }$].
-  Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $x R_cal(P) y$ iff $x,y$ lie in the same block.
+  Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $pair(x, y) in R_cal(P)$ iff $x$ and $y$ lie in the same block.
   These constructions invert one another.
 ]
 
