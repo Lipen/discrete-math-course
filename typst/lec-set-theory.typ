@@ -1310,6 +1310,11 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   For $M = {0,1,2,3,4,5}$: ${{0,2,4},{1,3,5}}$ and ${{0,5},{1,2,3},{4}}$ are partitions.
 ]
 
+#let draw-element(pos, anchor, name, label) = {
+  draw.circle(pos, radius: 0.1, fill: black, name: name)
+  draw.content(name, label, anchor: anchor, padding: 0.2)
+}
+
 #align(center)[
   #cetz.canvas(baseline: (0, 0), {
     import cetz: draw
@@ -1320,23 +1325,12 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
 
     // Elements:
-    draw.circle((1, 2), radius: 0.1, fill: white, name: "0")
-    draw.content("0", [$0$], anchor: "south", padding: 0.2)
-
-    draw.circle((1, 1), radius: 0.1, fill: white, name: "1")
-    draw.content("1", [$1$], anchor: "north", padding: 0.2)
-
-    draw.circle((2, 2), radius: 0.1, fill: white, name: "2")
-    draw.content("2", [$2$], anchor: "south", padding: 0.2)
-
-    draw.circle((2, 1), radius: 0.1, fill: white, name: "3")
-    draw.content("3", [$3$], anchor: "north", padding: 0.2)
-
-    draw.circle((3, 2), radius: 0.1, fill: white, name: "4")
-    draw.content("4", [$4$], anchor: "south", padding: 0.2)
-
-    draw.circle((3, 1), radius: 0.1, fill: white, name: "5")
-    draw.content("5", [$5$], anchor: "north", padding: 0.2)
+    draw-element((1, 2), "south", "0", [$0$])
+    draw-element((1, 1), "north", "1", [$1$])
+    draw-element((2, 2), "south", "2", [$2$])
+    draw-element((2, 1), "north", "3", [$3$])
+    draw-element((3, 2), "south", "4", [$4$])
+    draw-element((3, 1), "north", "5", [$5$])
 
     // Partition block {0, 2, 4}:
     draw.rect(
@@ -1367,18 +1361,12 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
 
     // Elements:
-    draw.circle((1, 2), radius: 0.1, fill: white, name: "0")
-    draw.content("0", [$0$], anchor: "south", padding: 0.2)
-    draw.circle((1, 1), radius: 0.1, fill: white, name: "1")
-    draw.content("1", [$1$], anchor: "north", padding: 0.2)
-    draw.circle((2, 2), radius: 0.1, fill: white, name: "5")
-    draw.content("5", [$5$], anchor: "south", padding: 0.2)
-    draw.circle((2, 1), radius: 0.1, fill: white, name: "2")
-    draw.content("2", [$2$], anchor: "north", padding: 0.2)
-    draw.circle((3, 2), radius: 0.1, fill: white, name: "4")
-    draw.content("4", [$4$], anchor: "south", padding: 0.2)
-    draw.circle((3, 1), radius: 0.1, fill: white, name: "3")
-    draw.content("3", [$3$], anchor: "north", padding: 0.2)
+    draw-element((1, 2), "south", "0", [$0$])
+    draw-element((1, 1), "north", "1", [$1$])
+    draw-element((2, 2), "south", "5", [$5$])
+    draw-element((2, 1), "north", "2", [$2$])
+    draw-element((3, 2), "south", "4", [$4$])
+    draw-element((3, 1), "north", "3", [$3$])
 
     // Partition block {0, 5}:
     draw.rect(
