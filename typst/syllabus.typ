@@ -31,6 +31,8 @@
 #show heading.where(level: 1): set block(below: 1em, above: 1.4em)
 #show heading.where(level: 2): set block(below: 0.8em, above: 1em)
 
+#show emph: set text(fill: blue.darken(20%))
+
 = Course Information
 
 #grid(
@@ -110,10 +112,76 @@ Your final grade will be calculated as follows:
 )
 
 == Homework Assignments (40 points total)
-- One homework per module, due at the end of each 4-week (approx) period
-- Mix of computational problems and proof exercises
-- Late submissions: punished
-- Collaboration allowed, but solutions must be written independently
+
+Homework is an essential part of the course.
+Each assignment is designed to consolidate the material of one thematic block, prepare students for the corresponding test, and provide an opportunity for independent problem-solving practice.
+
+=== General principles
+
+- Homework assignments are *mandatory* and count toward the final grade.
+- Completing homework is a *checkpoint requirement*: each assignment must be passed with a _minimum score_ in order to complete the course.
+- Assignments include a mix of basic practice tasks, medium-level exercises, and challenging problems.
+  This ensures both systematic practice and deeper engagement with the subject.
+  If the students find the assignments _too easy_ or _too hard_, they should *inform the instructor*.
+- Students are encouraged to _discuss_ homework problems with peers, but the final solutions must be written _independently_.
+
+=== Homework structure and weight
+
+- There are *four* homework assignments per semester, one for each major topic.
+- Each homework consists of approximately 10 problems of varying difficulty.
+- Each assignment is worth *10 points*, contributing to a total of *40 points* toward the final grade.
+
+=== Submissions
+
+- Homework must be submitted to Dropbox (links are provided in the course chat).
+- Each submission must include the student's full name, group number, and ISU identifier.
+- Submissions must be in *PDF* format, neatly formatted and clearly legible.
+- All non-PDFs or files larger than 10 MiB will be *rejected*.
+- The submission time is determined by the timestamp on the Dropbox server.
+- Students are allowed to submit multiple times _before_ the deadline.
+  The instructor _may_ or _may not_ consider the additional re-submissions _after_ the deadline.
+- *Do not submit the last minute!*
+
+=== Minimum Thresholds
+
+- Each homework has a *minimum passing scope* (typically around 80% of the maximum).
+- Submissions below this threshold are considered _incomplete_ and must be _resubmitted_.
+- Once the threshold is met, the assignment is consider _passed_.
+- Note that the minimum threshold is considered _before_ the penalties, and the final score may be _lower_ than the threshold if penalties are applied, but not less than 50%.
+
+=== Resubmissions
+
+TODO
+
+=== Deadlines and Late Policy
+
+- Homework assignments are due *the day before the test*.
+- Exact deadlines will be announced in advance.
+- The deadline time is always 23:55 (GMT+2).
+- Late submissions are highly discouraged and will incur penalties:
+  - Up to 24 hours late: -1 max point.
+  - From 1 to 7 days late: -2 max points.
+  - More than 1 week late: only 50% max score possible.
+
+=== Defense
+
+- All homework assignments must be _defended orally_ during the semester.
+- After the submission deadline, the instructor will schedule individual defense sessions.
+- During the defense, students will explain their solutions and answer questions.
+- Successful defense is required to receive credit for the assignment.
+- Unsuccessful defense may require re-submission and re-defense.
+- Failure to attend the defense without valid reason will result in zero score.
+
+=== Evaluation and Penalties
+
+- Each homework is graded out of 10 points.
+- TODO
+
+=== Incentives and Contrubutions
+
+- High-quality solutions, neat presentation, or particularly elegant approaches may be rewarded with bonus points and shared with the class (with student's permission).
+- Active participation in discussions and helping peers may also be recognized.
+- Contrubutions to the course (e.g., suggesting problems, providing feedback, fixing typos) on GitHub or in-person may also yield minor privileges.
 
 == Module Tests (20 points total)
 - Long tests (90 minutes) covering material from each completed module
