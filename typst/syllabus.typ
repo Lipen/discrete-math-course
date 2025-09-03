@@ -148,6 +148,7 @@ Each assignment is designed to consolidate the material of one thematic block, p
 - Submissions below this threshold are considered _incomplete_ and must be _resubmitted_.
 - Once the threshold is met, the assignment is consider _passed_.
 - Note that the minimum threshold is considered _before_ the penalties, and the final score may be _lower_ than the threshold if penalties are applied, but not less than 50%.
+  Submissions scored below 50% are considered _failed_ and must be _resubmitted_.
 
 === Resubmissions
 
@@ -165,17 +166,29 @@ TODO
 
 === Defense
 
-- All homework assignments must be _defended orally_ during the semester.
+- All homework assignments must be _defended orally_ in a short discussion (typically 10-15 minutes).
 - After the submission deadline, the instructor will schedule individual defense sessions.
 - During the defense, students will explain their solutions and answer questions.
+- The instructor or mentor may ask about solutions, reasoning, or related theory.
 - Successful defense is required to receive credit for the assignment.
 - Unsuccessful defense may require re-submission and re-defense.
 - Failure to attend the defense without valid reason will result in zero score.
 
 === Evaluation and Penalties
 
-- Each homework is graded out of 10 points.
-- TODO
+- Each homework worth *10 points*.
+- Each problem is graded individually, typically from 0 to 1.
+- _Incorrect or unclear_ solutions receive _partial_ credit.
+- The total score is the scaled (weighed) sum normalized to 10 points.
+- _Partial or incomplete_ solutions are *not accepted*.
+- There are two types of *penalties*:
+  - _Max score_ (P) penalties, limiting the maximum achievable score.
+    - Late submissions (see above).
+  - _Score deductions_ (F), directly reducing the final score.
+    - Formatting issues: -1 points.
+    - Illegible handwriting: -2 points.
+    - Missing name or identifier: -1 point.
+    - Plagiarism or copying: 0 points (assignment considered failed).
 
 === Incentives and Contrubutions
 
