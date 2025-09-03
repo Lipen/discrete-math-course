@@ -192,15 +192,16 @@ TODO
 
 === Incentives and Contrubutions
 
-- High-quality solutions, neat presentation, or particularly elegant approaches may be rewarded with bonus points and shared with the class (with student's permission).
-- Active participation in discussions and helping peers may also be recognized.
-- Contrubutions to the course (e.g., suggesting problems, providing feedback, fixing typos) on GitHub or in-person may also yield minor privileges.
+- High-quality solutions, neat presentation, or particularly elegant approaches _may_ be rewarded with bonus points and shared with the class (with student's permission).
+- Active participation in discussions and helping peers _may_ also be recognized.
+- Contrubutions to the course (e.g., suggesting problems, providing feedback, fixing typos) on GitHub or in-person _may_ also yield minor privileges.
 
 == Module Tests (20 points total)
-- Long tests (90 minutes) covering material from each completed module
-- Primarily computational problems and short derivations
-- All sources allowed (notes, textbooks)
-- No collaboration during tests
+
+- Long tests (90 minutes) covering material from each completed module.
+- Primarily computational problems and short derivations.
+- _All sources allowed_ (notes, textbooks), until stated otherwise by the instructor.
+- *No collaboration* during tests.
 
 == Theoretical Minimums (20 points total)
 - Two comprehensive exams testing deeper understanding
@@ -228,7 +229,7 @@ The final exam has three components:
   [F], [< 60],
 )
 
-*Note:* Both theoretical minimums must be passed and all homeworks must be completed to receive a passing grade, regardless of total points.
+*Note:* Both theoretical minimums must be passed and _all homeworks_ must be completed to receive a passing grade, regardless of total points.
 
 = Course Policies
 
