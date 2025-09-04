@@ -1,12 +1,13 @@
 #import "theme.typ": *
 #show: slides.with(
-  title: [Discrete Mathematics],
-  subtitle: "Non-determinism",
+  title: [Non-determinism],
+  subtitle: "Discrete Math",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
-  ratio: 16 / 9,
   // dark: true,
 )
+
+#import finite: cetz
 
 #show table.cell.where(y: 0): strong
 
@@ -55,16 +56,12 @@
     columns: 2,
     column-gutter: 1em,
     finite.transition-table(aut),
-    finite.automaton(
-      aut,
-      final: ("q2",),
-      style: (
-        state: (radius: 0.5, extrude: 0.8),
-        transition: (curve: 0.5),
-        q1: (label: $q_1$),
-        q2: (label: $q_2$),
-      ),
-    ),
+    finite.automaton(aut, final: ("q2",), style: (
+      state: (radius: 0.5, extrude: 0.8),
+      transition: (curve: 0.6),
+      q1: (label: $q_1$),
+      q2: (label: $q_2$),
+    )),
   )
 
   // This NFA has _two_ transitions from $q_0$ by the symbol $1$.
@@ -134,16 +131,14 @@
           q5: (label: $5$),
           q4-q4: (curve: 0.5),
         ),
-        layout: finite.layout.custom.with(
-          positions: (..) => (
-            q0: (0, 0),
-            q1: (2, 0),
-            q2: (5, 0),
-            q3: (1, 2),
-            q4: (3, 2),
-            q5: (5, 2),
-          ),
-        ),
+        layout: finite.layout.custom.with(positions: (
+          q0: (0, 0),
+          q1: (2, 0),
+          q2: (5, 0),
+          q3: (1, 2),
+          q4: (3, 2),
+          q5: (5, 2),
+        )),
       )
       #box(stroke: 1pt, inset: 1em, radius: .5em, fill: blue.lighten(80%))[
         $
@@ -153,6 +148,7 @@
     ],
     [
       #import cetz.tree
+      #let r = 0.3
       #let data = (
         $0$,
         (
@@ -173,27 +169,18 @@
         ),
       )
       #cetz.canvas({
-        tree.tree(
-          data,
-          draw-node: (node, ..) => {
-            if node.children.len() == 0 {
-              if node.content == $4$ {
-                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
-              } else if node.content == $5$ and node.depth == 5 {
-                cetz.draw.circle((), radius: 0.3, fill: green.lighten(80%))
-              } else if node.content == $2$ {
-                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
-              } else if node.content == $5$ and node.depth == 3 {
-                cetz.draw.circle((), radius: 0.3, fill: red.lighten(80%))
-              } else {
-                cetz.draw.circle((), radius: 0.3, fill: yellow.lighten(80%))
-              }
+        tree.tree(data, draw-node: (node, ..) => {
+          if node.children.len() == 0 {
+            if node.content == $5$ and node.depth == 5 {
+              cetz.draw.circle((), radius: r, fill: green.lighten(80%))
             } else {
-              cetz.draw.circle((), radius: 0.3, fill: yellow.lighten(80%))
+              cetz.draw.circle((), radius: r, fill: red.lighten(80%))
             }
-            cetz.draw.content((), node.content)
-          },
-        )
+          } else {
+            cetz.draw.circle((), radius: r, fill: yellow.lighten(80%))
+          }
+          cetz.draw.content((), node.content)
+        })
       })
     ],
   )
@@ -223,16 +210,16 @@
 
 Reachability relation for NFA is very similar to DFA's:
 $
-  conf(q, x) scripts(tack)_"DFA" conf(r, y) quad &"iff" quad
-  cases(
-    x = c y & "where" c in Sigma,
-    r = delta(q, c)
-  ) \
-  conf(q, x) scripts(tack)_"NFA" conf(r, y) quad &"iff" quad
-  cases(
-    x = c y & "where" c in Sigma,
-    r in delta(q, c)
-  )
+  conf(q, x) scripts(tack)_"DFA" conf(r, y) quad & "iff" quad
+                                                   cases(
+                                                     x = c y & "where" c in Sigma,
+                                                     r = delta(q, c)
+                                                   ) \
+  conf(q, x) scripts(tack)_"NFA" conf(r, y) quad & "iff" quad
+                                                   cases(
+                                                     x = c y & "where" c in Sigma,
+                                                     r in delta(q, c)
+                                                   )
 $
 
 #definition[
@@ -264,18 +251,19 @@ $cal(A)_"D" = angle.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" angle.r$
 
 #definition[
   _Epsilon closure_ of a state $q$, denoted $E(q)$ or $epsilon"-clo"(q)$, is a set of states reachable from $q$ by $epsilon$-transitions.
+  #let clo-aut = cetz.canvas({
+    import cetz.draw: *
+    import finite.draw: state, transition
+
+    set-style(state: (radius: 0.3))
+
+    state((0, 0), "q", label: $q$)
+    state((1.5, 0), "r", label: $r$)
+
+    transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
+  })
   $
-    E(q) = epsilon"-clo"(q) = { r in Q | #cetz.canvas({
-      import cetz.draw: *
-      import finite.draw: state, transition
-
-      set-style(state: (radius: 0.3))
-
-      state((0, 0), "q", label: $q$)
-      state((1.5, 0), "r", label: $r$)
-
-      transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
-    }) }
+    E(q) = epsilon"-clo"(q) = { r in Q | #clo-aut }
   $
   This definition can be extended to the _sets of states_. For $P subset.eq Q$:
   $
@@ -336,7 +324,7 @@ To construct NFA from $epsilon$-NFA:
 ]
 
 #place(center + bottom)[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     // debug: true,
     edge-stroke: 1pt,
@@ -375,16 +363,16 @@ Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
     set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
 
     state((0, 0), "a1_q0", label: $q_0$, initial: true)
-    state((1, 0), "a1_q1", label: $q_1$, final: true)
+    state((1.5, 0), "a1_q1", label: $q_1$, final: true)
 
     translate(x: 4)
     state((0, 0), "a2_q0", label: $q_0$, initial: true)
-    state((1, 0), "a2_q1", label: $q_1$, final: true)
+    state((1.5, 0), "a2_q1", label: $q_1$, final: true)
     transition("a2_q0", "a2_q1", inputs: "c", label: $epsilon$, curve: 0.5)
 
     translate(x: 4)
     state((0, 0), "a3_q0", label: $q_0$, initial: true)
-    state((1, 0), "a3_q1", label: $q_1$, final: true)
+    state((1.5, 0), "a3_q1", label: $q_1$, final: true)
     transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
 
     content((rel: (0, -1), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L = emptyset$]
@@ -432,11 +420,11 @@ Note that $i$ and $j$ _can_ be higher than $k$.
 Since all states are numbered 1 to $n$, $R_(i j)^n$ denotes the set of all words that take $q_i$ to $q_j$.
 We can define $R_(i j)^k$ recursively:
 $
-  R_(i j)^k &= R_(i j)^(k-1) union R_(i k)^(k-1) (R_(k k)^(k-1))^* R_(k j)^(k - 1) \
-  R_(i j)^0 &= cases(
-    {a | delta(q_i, a) = q_j} & "if" i != j,
-    {a | delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
-  )
+  R_(i j)^k & = R_(i j)^(k-1) union R_(i k)^(k-1) (R_(k k)^(k-1))^* R_(k j)^(k - 1) \
+  R_(i j)^0 & = cases(
+                {a | delta(q_i, a) = q_j} & "if" i != j,
+                {a | delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
+              )
 $
 
 // TODO

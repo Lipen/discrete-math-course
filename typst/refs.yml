@@ -14,3 +14,36 @@ wilf2006:
   date: 2006
   edition: 3
   page-total: 256
+
+entley1980:
+  type: article
+  title: A General Method for Solving Divide-and-Conquer Recurrences
+  author:
+    - Bentley, Jon Louis
+    - Haken, Dorothea
+    - Saxe, James B.
+  date: 1980-09
+  page-range: 36-44
+  serial-number:
+    doi: 10.1145/1008861.1008865
+  parent:
+    type: periodical
+    title: ACM SIGACT News
+    issue: 3
+    volume: 12
+
+akra1998:
+  type: article
+  title: On the Solution of Linear Recurrence Equations
+  author:
+    - Akra, Mohamad
+    - Bazzi, Louay
+  date: 1998-05-01
+  page-range: 195-210
+  serial-number:
+    doi: 10.1023/A:1018373005182
+  parent:
+    type: periodical
+    title: Computational Optimization and Applications
+    issue: 2
+    volume: 10

@@ -38,6 +38,9 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/bad
 [%autowidth]
 |===
 ^|Lectures
+|image:https://img.shields.io/badge/Lecture-Set Theory-blue?style=social&logo=gitbook["Lecture: Set Theory", link="https://lipen.github.io/discrete-math-course/lec-set-theory.pdf"]
+|image:https://img.shields.io/badge/Lecture-Boolean Algebra-blue?style=social&logo=gitbook["Lecture: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/lec-boolean-algebra.pdf"]
+|image:https://img.shields.io/badge/Lecture-Formal Logic-blue?style=social&logo=gitbook["Lecture: Formal Logic", link="https://lipen.github.io/discrete-math-course/lec-logic.pdf"]
 |image:https://img.shields.io/badge/Lecture-Flow Networks-blue?style=social&logo=gitbook["Lecture: Flow Networks", link="https://lipen.github.io/discrete-math-course/lec-flow.pdf"]
 |image:https://img.shields.io/badge/Lecture-Formal Languages-blue?style=social&logo=gitbook["Lecture: Formal Languages", link="https://lipen.github.io/discrete-math-course/lec-formal.pdf"]
 |image:https://img.shields.io/badge/Lecture-NFA-blue?style=social&logo=gitbook["Lecture: NFA", link="https://lipen.github.io/discrete-math-course/lec-nfa.pdf"]

@@ -1,12 +1,13 @@
 #import "theme.typ": *
 #show: slides.with(
-  title: [Discrete Mathematics],
-  subtitle: "(Not only) Regular Languages",
+  title: [(Not only) Regular Languages],
+  subtitle: "Discrete Math",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
-  ratio: 16 / 9,
   // dark: true,
 )
+
+#import finite: cetz
 
 #show table.cell.where(y: 0): strong
 
@@ -194,7 +195,7 @@ $
     columns: 2,
     column-gutter: 1em,
     stroke: (x, y) => if y == 0 { (bottom: .8pt) },
-    table.header[#Red[Adversary]][#Green[You]],
+    table.header(Red[Adversary], Green[You]),
     [Maliciously choose \ pumping length $n$], [],
     [], [Cleverly choose a string \ $w in L$, $abs(w) >= n$],
     [Maliciously split \ $w = x y z$, $y != epsilon$], [],
@@ -437,25 +438,19 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
 
     group({
       translate((5, 0))
-      group(
-        name: "A",
-        {
-          state((-0.5, 0), "q0", label: none, initial: false)
-          state((1, 0), "q1", label: none, final: true)
-          state((0, -1), "q2", label: none)
-          rect((-1, -1.5), (1.4, .4), name: "B", radius: 0.1, stroke: 0.2pt)
-        },
-      )
-      group(
-        name: "B",
-        {
-          translate((0, -2.5))
-          state((-0.5, 0), "q0", label: none, initial: false)
-          state((1, 0), "q1", label: none)
-          state((0, -1), "q2", label: none, final: true)
-          rect((-1, -1.4), (1.4, .5), name: "B", radius: 0.1, stroke: 0.2pt)
-        },
-      )
+      group(name: "A", {
+        state((-0.5, 0), "q0", label: none, initial: false)
+        state((1, 0), "q1", label: none, final: true)
+        state((0, -1), "q2", label: none)
+        rect((-1, -1.5), (1.4, .4), name: "B", radius: 0.1, stroke: 0.2pt)
+      })
+      group(name: "B", {
+        translate((0, -2.5))
+        state((-0.5, 0), "q0", label: none, initial: false)
+        state((1, 0), "q1", label: none)
+        state((0, -1), "q2", label: none, final: true)
+        rect((-1, -1.4), (1.4, .5), name: "B", radius: 0.1, stroke: 0.2pt)
+      })
       state((-1.5, -1.5), "x", label: none, initial: (label: none))
       rect((-2.5, -4), (1.5, .5), name: "C", radius: 0.1)
       content("C.south-west", padding: .5em, anchor: "south-west")[$A union B$]

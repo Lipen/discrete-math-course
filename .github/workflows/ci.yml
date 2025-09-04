@@ -20,6 +20,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - uses: fontist/setup-fontist@v2
+      - run: fontist install "Libertinus Sans"
+
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
@@ -27,11 +30,16 @@ jobs:
 
       - run: rm -f typst/requirements.pdf
       - run: typst --version
-      - run: typst compile typst/lec-flow.typ
-      - run: typst compile typst/lec-formal.typ
-      - run: typst compile typst/lec-nfa.typ
-      - run: typst compile typst/lec-regular.typ
-      - run: typst compile typst/lec-combinatorics.typ
+      - run: typst fonts --font-path ~/.fontist/fonts
+      - run: typst compile --font-path ~/.fontist/fonts typst/syllabus.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-set-theory.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-boolean-algebra.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-logic.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-flow.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-formal.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-nfa.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-regular.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-combinatorics.typ
       - run: mv typst/*.pdf .
 
       - name: Build LaTeX project and generate PDFs

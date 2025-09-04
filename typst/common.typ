@@ -40,17 +40,12 @@
   blob-style: (:),
   content,
 ) = {
-  fletcher.diagram(
-    node-corner-radius: 2pt,
-    node-stroke: .8pt,
-    ..diagram-style,
-    blob(
-      (0, 0),
-      content,
-      tint: tint,
-      ..blob-style,
-    ),
-  )
+  fletcher.diagram(node-corner-radius: 2pt, node-stroke: .8pt, ..diagram-style, blob(
+    (0, 0),
+    content,
+    tint: tint,
+    ..blob-style,
+  ))
 }
 
 // Fitch-style proofs
@@ -65,7 +60,7 @@
 #let imply = sym.arrow.r
 #let implies = imply
 #let iff = sym.arrow.l.r
-#let to = sym.arrow.long.r
+#let to = sym.arrow.r
 #let maps = sym.arrow.bar
 #let neq = sym.eq.not
 #let leq = sym.lt.eq
@@ -73,6 +68,7 @@
 #let models = sym.tack.double
 #let entails = sym.tack.r
 #let notin = sym.in.not
-#let setminus = sym.backslash
+#let setminus = sym.without
 #let intersect = sym.inter
-#let dom = math.op("dom")
+#let symdiff = sym.triangle
+#let sim = sym.tilde

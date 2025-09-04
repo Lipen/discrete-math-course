@@ -1,10 +1,9 @@
 #import "theme.typ": *
 #show: slides.with(
-  title: [Discrete Mathematics],
-  subtitle: "Formal Languages",
+  title: [Formal Languages],
+  subtitle: "Discrete Math",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
-  ratio: 16 / 9,
   // dark: true,
 )
 
@@ -92,7 +91,7 @@
   columns: 3,
   align: (center, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header[Language][Expression][Description],
+  table.header([Language], [Expression], [Description]),
   $emptyset$, [], [Empty language],
   ${epsilon}$, $epsilon$, [Language with a single empty word],
   ${"a"}$, $regex("a")$, [Singleton language with a literal character "a"],
@@ -136,14 +135,10 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
     columns: 3,
     column-gutter: 2em,
     finite.transition-table(aut),
-    finite.automaton(
-      aut,
-      final: ("q0",),
-      style: (
-        state: (radius: 0.5, extrude: 0.8),
-        transition: (curve: 0.5),
-      ),
-    ),
+    finite.automaton(aut, final: ("q0",), style: (
+      state: (radius: 0.5, extrude: 0.8),
+      transition: (curve: 0.5),
+    )),
     [Here, $q_0$ is the _start_ (denoted by an arrow) and also the~_accepting_ (denoted by double circle) state.],
   )
 ]
@@ -164,7 +159,7 @@ There are two main types of finite-state machines:
 + _Acceptors_ (or _recognizers_), automata that produce a binary _yes/no answer_, indicating whether or not the recieved input word $w in Sigma^*$ is _accepted_, i.e., belongs to the language $L$ recognized by the automaton.
 
 #align(center)[
-  #import fletcher: diagram, node, edge
+  #import fletcher: diagram, edge, node
   #diagram(
     // debug: true,
     edge-stroke: 0.8pt,
@@ -270,21 +265,21 @@ Formal languages are classified by _Chomsky hierarchy_:
 
 #v(1.5cm, weak: true)
 _Examples_:
-- $L = { a^n | n geq 0 }$
-- $L = { a^n b^n | n geq 0 }$
-- $L = { a^n b^n c^n | n geq 0 }$
-- $L = { angle.l M, w angle.r | M "is a TM that halts on input" w }$
+- $L = { a^n | n geq 0 }$ is regular.
+- $L = { a^n b^n | n geq 0 }$ is context-free.
+- $L = { a^n b^n c^n | n geq 0 }$ is context-sensitive.
+- $L = { angle.l M, w angle.r | M "is a TM that halts on input" w }$ is recursively enumerable.
 
-#place(horizon + center, dx: 1.7cm, dy: .6cm)[
+#place(horizon + center, dx: 1.8cm, dy: .5cm)[
   #cetz.canvas({
     import cetz.draw: *
-    circle((0, 0), radius: (1, .5))
-    circle((0, 0.5), radius: (1.4, 1))
-    circle((0, 1), radius: (2, 1.5))
-    circle((0, 1.6), radius: (2.8, 2.1))
+    circle((0, 0), radius: (1, .6))
+    circle((0, 0.6), radius: (1.5, 1.2))
+    circle((0, 1.2), radius: (2, 1.8))
+    circle((0, 1.8), radius: (2.5, 2.4))
     content((0, 0))[Regular]
-    content((0, 0.9))[Context-Free]
-    content((0, 1.9))[Context-Sensitive]
-    content((0, 2.9))[Recursively Enumerable]
+    content((0, 1.1))[Context-Free]
+    content((0, 2.4))[Context-\ Sensitive]
+    content((0, 3.5))[Recursively \ Enumerable]
   })
 ]

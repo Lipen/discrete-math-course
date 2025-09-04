@@ -1,10 +1,9 @@
 #import "theme.typ": *
 #show: slides.with(
-  title: [Discrete Mathematics],
-  subtitle: "Combinatorics",
+  title: [Combinatorics],
+  subtitle: "Discrete Math",
   date: "Spring 2025",
   authors: "Konstantin Chukharev",
-  ratio: 16 / 9,
   // dark: true,
 )
 
@@ -18,6 +17,10 @@
 #let power(x) = $cal(P)(#x)$
 #let stirling(n, k) = $vec(delim: "{", #n, #k)$
 #let s2(n, k) = $s^("II")_(#k) (#n)$
+
+#let operator(x) = math.op[*#x*]
+#let shift = operator("E")
+
 #let equ(eq, id: none) = {
   let numbering = if type(id) != none { "(1)" } else { none }
   let body = if type(id) == none { eq } else if type(id) == label [#eq #id] else [#eq #label(id)]
@@ -29,17 +32,25 @@
   let el = it.element
   if el != none and el.func() == math.equation {
     show underline: it => it.body
-    link(
-      el.location(),
-      numbering(
-        el.numbering,
-        ..counter(math.equation).at(el.location()),
-      ),
-    )
+    link(el.location())[
+      #numbering(el.numbering, ..counter(math.equation).at(el.location()))
+    ]
   } else {
     it
   }
 }
+
+#let Green(x) = {
+  show emph: set text(green.darken(20%))
+  text(x, green.darken(20%))
+}
+#let Red(x) = {
+  show emph: set text(red.darken(20%))
+  text(x, red.darken(20%))
+}
+
+#let YES = Green[#sym.checkmark]
+#let NO = Red[#sym.crossmark]
 
 = Combinatorics
 
@@ -120,11 +131,11 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Addition Principle
 
 #definition[
-  We say a finite set $S$ is _partitioned_ into _parts_ $S_1, dots, S_m$ if the parts are pairwise disjoint and their union is $S$.
+  We say a finite set $S$ is _partitioned_ into _parts_ $S_1, dots, S_k$ if the parts are pairwise disjoint and their union is $S$.
   In other words, $S_i intersect S_j = emptyset$ for $i != j$ and $S_1 union S_2 union dots union S_k = S$.
   In that case:
   $
-    abs(S) = abs(S_1) + abs(S_2) + dots + abs(S_m)
+    abs(S) = abs(S_1) + abs(S_2) + dots + abs(S_k)
   $
 ]
 
@@ -132,7 +143,7 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
   Let $S$ be the set of students attending the combinatorics lecture.
   It can be partitioned into parts $S_1$ and $S_2$ where
   $
-    & S_1 = #[set of students that _like_ easy examples.] \
+    & S_1 = #[set of students that _like_ easy examples.]       \
     & S_2 = #[set of students that _don't like_ easy examples.] \
   $
   If $abs(S_1) = 22$ and $abs(S_2) = 8$, then we can conclude $abs(S) = abs(S_1) + abs(S_2) = 30$.
@@ -141,9 +152,9 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Multiplication Principle
 
 #definition[
-  If $S$ is a finite set that is the _product_ of $S_1, dots, S_m$, that is, $S = S_1 times dots times S_m$, then
+  If $S$ is a finite set that is the _product_ of $S_1, dots, S_k$, that is, $S = S_1 times dots times S_k$, then
   $
-    abs(S) = abs(S_1) times dots times abs(S_m)
+    abs(S) = abs(S_1) times dots times abs(S_k)
   $
 ]
 
@@ -191,12 +202,12 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 == Pigeonhole Principle
 
 #definition[
-  Let $S_1, dots, S_m$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_m) = n$].
+  Let $S_1, dots, S_k$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_k) = n$].
   // Then
   $
-    exists i in {1,dots,m}: abs(S_i) >= floor(n / m)
+    exists i in {1,dots,k}: abs(S_i) >= floor(n / k)
     quad "and" quad
-    exists j in {1,dots,m}: abs(S_j) <= ceil(n / m)
+    exists j in {1,dots,k}: abs(S_j) <= ceil(n / k)
   $
 ]
 
@@ -314,6 +325,8 @@ TODO: circular permutations
   $
     abs(P(n, k)) = n dot (n - 1) dot dots dot (n - k + 1) = n! / (n - k)!
   $
+
+  This formula is also called the _falling factorial_ and denoted $n^underline(k)$ or $(n)_k$.
 ]
 
 #proof[
@@ -325,9 +338,11 @@ TODO: circular permutations
 
   Every #box[$k$-permutation] can be constructed like this in _exactly one way_.
   The total number of #box[$k$-permutations] is therefore given as the product:
-  $
-    abs(P(n, k)) = n dot (n - 1) dot dots dot (n - k + 1) = n! / (n - k)!
-  $
+  #place(center)[
+    $
+      abs(P(n, k)) = n dot (n - 1) dot dots dot (n - k + 1) = n! / (n - k)!
+    $
+  ]
 ]
 
 == Counting Circular Permutations
@@ -335,7 +350,7 @@ TODO: circular permutations
 #theorem[
   For any natural numbers $0 <= k <= n$, we have
   $
-    abs(P_c (n, k)) = n! / (k! dot (n - k)!)
+    abs(P_c (n, k)) = n! / (k dot (n - k)!)
   $
 ]
 
@@ -345,7 +360,7 @@ TODO: circular permutations
 
   + $abs(P(n, k)) = abs(P_c (n, k)) dot k$ because every equivalence class in $P_c (n, k)$ contains $k$ permutations from $P(n, k)$ since there are $k$ ways to rotate a $k$-permutation.
 
-  From this we get $n! / (n - k)! = abs(P_c (n, k)) dot k$ which implies $abs(P_c (n, k)) = n! / (k! dot (n - k)!)$.
+  From this we get $display(n! / (n - k)! = abs(P_c (n, k)) dot k)$, which implies $display(abs(P_c (n, k)) = n! / (k dot (n - k)!))$.
 ]
 
 == Unordered Arrangements
@@ -364,8 +379,8 @@ TODO: circular permutations
 
 == Subsets
 
-The most important special case of unordered arrangements is where all repetitions are $1$, i.e., $r_x = 1$ for all $x in X$.
-Then $S$ is simply a _subset_ of $X$, denoted $S subset X$.
+The most important special case of unordered arrangements is where all repetitions are $1$, that is, #box($r_x = 1$) for all $x in X$.
+Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
 
 #definition[
   A _$k$-combination_ of $X$ is an unordered arrangement of $k$ _distinct_ elements of $X$.
@@ -460,7 +475,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   $
   where each $binom(n, k)$ is a positive integer known as a _binomial coefficient_, defined as
   $
-    binom(n, k) = n! / (k! dot (n - k)!) = (n (n-1) (n-2) dots (n-k+1)) / (k (k-1) (k-2) dots dot 2 dot 1)
+    binom(n, k) = n! / (k! dot (n - k)!) = (n dot (n-1) dot (n-2) dot dots dot (n-k+1)) / (k dot (k-1) dot (k-2) dot dots dot 2 dot 1)
   $
 ]
 
@@ -534,14 +549,15 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 ]
 
 #proof[
-  Let $S = { infinity #emoji.banana, infinity #emoji.apple.red, infinity #emoji.pear }$, so $s = 3$.
-  - Suppose $k = 5$.
-  - Consider a 5-combination of $S$: ${ #emoji.banana, #emoji.apple.red, #emoji.banana, #emoji.pear, #emoji.pear }$.
+  Let $S = angle.l X, r_infinity angle.r = { infinity #emoji.banana, infinity #emoji.apple.red, infinity #emoji.pear }$ with $r_x = infinity$ and $abs(X) = s = 3$.
+  - Let $k = 5$ (as an example). Consider a 5-combination of $S$: ${ #emoji.banana, #emoji.apple.red, #emoji.banana, #emoji.pear, #emoji.pear }$.
   - Reorder and group: ${ #emoji.banana #emoji.banana | #emoji.apple.red | #emoji.pear #emoji.pear }$.
   - Convert to _dots_ and _bars_: #h(1em) $bullet bullet bar bullet bar bullet bullet$
-  - Represent as a multiset: $M = { k dot bullet, (s-1) dot bar zws }$
-  - Observe: each _permutation_ of $k$ dots and $(s-1)$ bars corresponds to a _$k$-combination_ of $S$.
+  - Represent as a 2-type multiset: $M = { thin k dot bullet, thick (s-1) dot bar zws thin }$
+  - Observe: each _permutation_ of $k$ dots and $(s-1)$ bars corresponds _uniquely_ to a _$k$-combination_ of $S$.
   - Permute the 2-type multiset: $binom(k + s - 1, k, s - 1)$ ways, by @multinomial-theorem.
+
+  This method is also known as _Stars and Bars_.
 ]
 
 = Compositions
@@ -573,7 +589,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 ]
 
 #proof[
-  Observe that $k = overbrace(underbrace(1 + 1, b_1) + underbrace(dots, b_i) + underbrace(1 + 1, b_s), k "ones")$.
+  Observe that $k = overbrace(underbrace(1 + 1, inline(b_1)) + underbrace(dots, inline(b_i)) + underbrace(1 + 1, inline(b_s)), k "ones")$.
 
   Use the _stars-and-bars_ method to count the number of $s$ groups composed of $k$ "ones".
 ]
@@ -582,11 +598,11 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   Let $k = 3$.
   There are $binom(3 + 3 - 1, 3, 3 - 1) = binom(5, 3) = binom(5, 2) = 10$ ways to decompose $k = 3$ into $s = 3$ parts:
   $
-    k &= 3 = \
-    &= 0 + 1 + 2 = 0 + 2 + 1 \
-    &= 1 + 0 + 2 = 1 + 2 + 0 = 1 + 1 + 1 \
-    &= 2 + 0 + 1 = 2 + 1 + 0 \
-    &= 3 + 0 + 0 = 0 + 3 + 0 = 0 + 0 + 3 \
+    k & = 3 =                               \
+      & = 0 + 1 + 2 = 0 + 2 + 1             \
+      & = 1 + 0 + 2 = 1 + 2 + 0 = 1 + 1 + 1 \
+      & = 2 + 0 + 1 = 2 + 1 + 0             \
+      & = 3 + 0 + 0 = 0 + 3 + 0 = 0 + 0 + 3 \
   $
 ]
 
@@ -868,7 +884,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 #table(
   columns: 2,
   stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-  table.header[Ferrer Diagram][Young Tableaux],
+  table.header([Ferrer Diagram], [Young Tableaux]),
   partition_diagram(parts, young: false), partition_diagram(parts, young: true),
 )
 
@@ -969,10 +985,9 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
   + _Apply PIE:_
     Using @thm:pie, the number of surjections from $[k]$ to $[n]$ is
     $
-      abs(X setminus (X_1 union dots union X_n))
-      &=^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
-      &= sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k \
-      &= sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k \
+      abs(X setminus (X_1 union dots union X_n)) & =^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
+                                                 & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k  \
+                                                 & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k        \
     $
     In the last step, we used that $(-1)^abs(S) (n - abs(S))^k$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
 ]
@@ -1027,10 +1042,9 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
 
   + Using @thm:pie, the number of derangements is given by
     $
-      abs(X setminus (X_1 union dots union X_n))
-      &=^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
-      &= sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))! \
-      &= sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
+      abs(X setminus (X_1 union dots union X_n)) & =^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
+                                                 & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))!   \
+                                                 & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
     $
 
     In the last step, we used that $(-1)^abs(S) (n - abs(S))!$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
@@ -1076,7 +1090,7 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
 ]
 
 #example[
-  $G(x) = 3 + 8x^2 + x^3 + 1 / 7 x^5 + 100 x^6 + ...$ _generates_ the sequence $(3, 8, 1, 1 / 7, 100, dots)$
+  $G(x) = 3 + 8x^2 + x^3 + 1 / 7 x^5 + 100 x^6 + ...$ _generates_ the sequence $(3, 0, 8, 1, 0, 1 / 7, 100, 0, dots)$
 ]
 
 #example[
@@ -1088,7 +1102,7 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
   Thus, the generating function of $(1, 1, 1, dots)$ is $G(x) = sum_(n = 0)^(infinity) x^n = frac(1, 1 - x)$.
 ]
 
-== More Examples of Generating Functions
+== The Core Generating Function
 
 Another proof that $(1, 1, 1, dots)$ is generated by $G(x) = 1 + x + x^2 + x^3 + dots = sum_(n = 0)^(infinity) x^n = frac(1, 1 - x) = S$:
 #grid(
@@ -1100,28 +1114,54 @@ Another proof that $(1, 1, 1, dots)$ is generated by $G(x) = 1 + x + x^2 + x^3 +
   $x dot S$, $=$, $#hide($0 +$) x + x^2 + x^3 + dots$,
   $S - x dot S$, $=$, $1$,
 )
-Thus, $display(S = 1 / (1 - x))$
+Thus, $display(S = 1 / (1 - x))$.
 
-#pagebreak()
+The generating function $G(x) = 1 + x + x^2 + dots$ is also known as the _Maclaurin series_ of $display(1 / (1 - x))$.
+
+== More Examples of Generating Functions
+
+#table(
+  columns: 4,
+  align: (right + horizon, left + horizon, left + horizon, left + horizon),
+  stroke: (x, y) => if y == 0 { (bottom: .6pt) },
+  table.header([Formula], [Power series], [Sequence], [Description]),
+  box($ 1 / (1 - x) $), box($ sum_(n = 0)^infinity x^n = 1 + x + x^2 + x^3 + dots $), $(1, 1, 1, dots)$, [constant 1],
+  box($ 2 / (1 - x) $),
+  box($ sum_(n = 0)^infinity 2 x^n = 2 + 2x + 2x^2 + 2x^3 + dots $),
+  $(2, 2, 2, dots)$,
+  [constant 2],
+
+  box($ x / (1 - x) $),
+  box($ sum_(n = 1)^infinity x^n = 0 + x + x^2 + x^3 + dots $),
+  $(0, 1, 1, 1, dots)$,
+  [right shift],
+
+  box($ 1 / (1 + x) $),
+  box($ sum_(n = 0)^infinity (-1)^n x^n = 0 + 1 - x + x^2 - x^3 + dots $),
+  $(1, -1, 1, dots)$,
+  [sign-alternating 1's],
+
+  box($ 1 / (1 - 3x) $),
+  box($ sum_(n = 0)^infinity 3^n x^n = 1 + 3x + 9x^2 + 27x^3 + dots $),
+  $(1, 3, 9, dots)$,
+  [powers of 3],
+
+  box($ 1 / (1 - x^2) $),
+  box($ sum_(n = 0)^infinity x^(2n) = 1 + x^2 + x^4 + x^6 + dots $),
+  $(1, 0, 1, 0, dots)$,
+  [regular gaps],
+
+  box($ 1 / (1 - x)^2 $),
+  box($ sum_(n = 0)^infinity (n+1) x^n = 1 + 2x + 3x^2 + 4x^3 + dots $),
+  $(1, 2, 3, 4, dots)$,
+  [natural numbers],
+)
 
 $
-  & 1 / (1 - x) = sum_(n = 0)^(infinity) x^n = 1 + x + x^2 + x^3 + dots & "generates" & (1, 1, 1, dots) & "(constant "1")" \
-  & 2 / (1 - x) = sum_(n = 0)^(infinity) 2 x^n = 2 + 2x + 2x^2 + 2x^3 + dots & "generates" & (2, 2, 2, dots) & "(constant "2")" \
-  & x / (1 - x) = sum_(n = 1)^(infinity) x^n = x + x^2 + x^3 + dots & "generates" & (0, 1, 1, 1, dots) & "(right shift)" \
-  & 1 / (1 + x) = sum_(n = 0)^(infinity) (-1)^n x^n = 0+ 1 - x + x^2 - x^3 + dots & "generates" & (1, -1, 1, dots) & "(sign-alternating "1"'s)" \
-  & 1 / (1 - 3x) = sum_(n = 0)^(infinity) 3^n x^n = 1 + 3x + 9x^2 + 27x^3 + dots & "generates" & (1, 3, 9, dots) & "(powers of "3")" \
-  & 1 / (1 - x^2) = sum_(n = 0)^(infinity) x^n = 1 + x^2 + x^4 + x^6 + dots & "generates" & (1, 0, 1, 0, dots) & "(regular gaps)" \
-  & 1 / (1 - x)^2 = sum_(n = 0)^(infinity) (n+1) x^n = 0 + x + 2x^2 + 3x^3 + dots & "generates" & (1, 0, 1, 0, dots) & "(natural numbers)" \
-$
-
-#pagebreak()
-
-$
-  frac(1-x^(n+1), 1-x)
-  &= frac(1, 1-x) - frac(x^(n+1), 1-x) = \
-  &eq.delta (1,1,1,dots) - \(underbrace(0\,0\,dots\,0, n+1 "zeros"),1,1,dots) = \
-  &= \(underbrace(1\,1\,dots\,1, n+1 "ones"), 0,0,dots) = \
-  &eq.delta 1 + x + x^2 + dots + x^n
+  frac(1-x^(n+1), 1-x) & = frac(1, 1-x) - frac(x^(n+1), 1-x) =                                        \
+                       & eq.delta (1,1,1,dots) - \(underbrace(0\,0\,dots\,0, n+1 "zeros"),1,1,dots) = \
+                       & = \(underbrace(1\,1\,dots\,1, n+1 "ones"), 0,0,dots) =                       \
+                       & eq.delta 1 + x + x^2 + dots + x^n
 $
 
 == Exercises
@@ -1157,19 +1197,22 @@ $
 == Solving Combinatorial Problems via Generating Functions
 
 #example[
-  Find the number of integer solutions to $x_1 + x_2 + x_3 = 12$ with $0 <= x_i <= 6$.
-
-  - Possible values for $x_1$: $0, 1, dots, 6$.
-  - Write this as a polynomial $x^0 + x^1 + dots + x^6$.
-  - Do the same for $x_2$ and $x_3$.
-  - Since all combinations of $x_1$, $x_2$ and $x_3$ are suitable non-conflicting solutions, we can multiply those polynomials and obtain the _generating function_ $G(x) = (1 + x + x^2 + dots + x^6)^3$.
-  - For each $n$, the coefficient of $x^n$ in $G(x)$ is the number of integer solutions to $x_1 + x_2 + x_3 = n$.
-  - Specifically, we are interested in the coefficient of $x^12$ in $G(x)$, denoted $[x^12] G(x)$.
-  - Use #strike[pen and paper] #link("https://www.wolframalpha.com/input?i=expand+%281%2Bx%2Bx%5E2%2Bx%5E3%2Bx%5E4%2Bx%5E5%2Bx%5E6%29%5E3")[Wolfram Alpha] to expand $G(x)$:
-    $
-      G(x) = x^18 + 3x^17 + 6x^16 + dots + underparen(28x^12) + dots + 6x^2 + 3x + 1
-    $
-  - The answer is $[x^12] G(x) = 28$ solutions.
+  Find the number of integer solutions to $y_1 + y_2 + y_3 = 12$ with $0 <= x_i <= 6$.
+  - Possible values for $y_1$ are $0 <= y_1 <= 6$.
+    - There is a _single_ way to select $y_1 = 0$.
+      The same for other values among $1, dots, 6$.
+    - There are _no_ ways to select any value of $y_1$ higher than $6$.
+    - The _number of ways to select $y_1$ to be equal to $n$_ forms a sequence $(1, 1, 1, 1, 1, 1, 1, 0, dots)$.
+    - Write this sequence as a polynomial $x^0 + x^1 + dots + x^6$.
+    - Do the same for $y_2$ and $y_3$ (_in isolation_!).
+  - Since all combinations of $y_1$, $y_2$ and $y_3$ are valid non-conflicting solutions, we can multiply those polynomials and obtain the _generating function_ $G(x) = (1 + x + x^2 + dots + x^6)^3$.
+    - For each $n$, the coefficient of $x^n$ in $G(x)$ is the number of integer solutions to $x_1 + x_2 + x_3 = n$.
+    - In particular, we are interested in the coefficient of $x^12$ in $G(x)$, denoted $[x^12] G(x)$.
+    - Use #strike[pen and paper] #link("https://www.wolframalpha.com/input?i=expand+%281%2Bx%2Bx%5E2%2Bx%5E3%2Bx%5E4%2Bx%5E5%2Bx%5E6%29%5E3")[Wolfram Alpha] to expand $G(x)$:
+      $
+        G(x) = x^18 + 3x^17 + 6x^16 + dots + underbracket(28x^12) + dots + 6x^2 + 3x + 1
+      $
+  - The _answer_ is $[x^12] G(x) = 28$ solutions.
 ]
 
 == Slightly More Complex Combinatorial Problem
@@ -1182,8 +1225,8 @@ $
 
   Multiply polynomials and find $[x^20] G(x)$:
   $
-    & [x^20] (1+x^2+x^4+dots+x^20) (x^12+x^13+dots+x^20) (1+x+x^2+x^3+x^4+x^5) = \
-    & = [x^20] (x^45 + 2x^44 + dots + 21x^20 + dots + 2x^13 + x^12) \
+    & [x^20] (1+x^2+x^4+dots+x^20) (x^12+x^13+dots+x^20) (1+x+x^2+x^3+x^4+x^5) =  \
+    & = [x^20] (x^45 + 2x^44 + dots + underbracket(21x^20) + dots + 2x^13 + x^12) \
     & = 21
   $
 ]
@@ -1191,7 +1234,7 @@ $
 == Using Power Series in Combinatorial Problems
 
 #example[
-  Find the number of integer solutions to $x_1 + x_2 + x_3 = 12$ with $x_1 >= 2$, $3 <= x_2 <= 6$, $x_3 <= 9$.
+  Find the number of integer solutions to $a_1 + a_2 + a_3 = 12$ with $a_1 >= 2$, $3 <= a_2 <= 6$, $0 <= a_3 <= 9$.
 
   - Compose the generating function:
     $
@@ -1202,7 +1245,1010 @@ $
     $
       G(x) = (x^2 dot frac(1, 1-x)) dot (x^3 dot frac(1-x^4, 1-x)) dot (frac(1-x^10, 1-x))
     $
+
+  - Expand the series:
+    $
+      G(x) = x^5 + 3x^6 + 6x^7 + 10x^8 + 14x^9 + 18x^10 + 22x^11 + underbracket(26x^12) + 30x^13 + \ 34x^14 + 37x^15 + 39x^16 + 40x^17 + dots + 40x^n + dots
+    $
+
+  - Sequence: $(g_n) = (0, 0, 0, 0, 0, 1, 3, 6, 10, 14, 18, 22, 26, 30, 34, 37, 39, overline(40), dots)$
+
+  - Answer for $n = 12$ is $[x^12] G(x) = 26$.
 ]
+
+== Operations on Generating Functions
+
+Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x^n$ be ordinaty generating functions.
+
+#table(
+  columns: 2,
+  align: left + horizon,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([Operation], [Result]),
+  [Differentiate $F(x)$ term-wise], box($ F'(x) = sum_(n = 0)^infinity (n + 1) a_(n + 1) x^n $),
+  [Multiply $F(x)$ by a scalar $lambda in RR$ term-wise], box($ lambda F(x) = sum_(n = 0)^infinity lambda a_n x^n $),
+  [Add $F(x)$ and $G(x)$ term-wise], box($ F(x) + G(x) = sum_(n = 0)^infinity (a_n + b_n) x^n $),
+  [Multiply $F(x)$ and $G(x)$ term-wise \ (_Cauchy product_, or _convolution_)],
+  box($ F(x) dot G(x) = sum_(n = 0)^infinity (sum_(k = 0)^n a_k b_(n - k)) x^n $),
+)
+
+== Well-Formed Paranthesis Expressions
+
+#example[
+  Find the number of _well-formed parenthesis expressions_ with $n$ pairs of parenthesis.
+
+  For example, "`(()())()`" is a well-formed parenthesis expression with 4 pairs of parenthesis.
+
+  Formally, a permutation of the multiset ${n dot "\"(\"", n dot "\")\""}$ is _well-formed_ if reading it from left to right and counting "$+1$" for every opening parenthesis "(" and "$-1$" for every closing parenthesis ")" never yields a negative number at any time.
+
+  Every well-formed expression with $n >= 1$ pairs of paranthesis starts with "(" and there is a unique matching ")" such that the sequence in between and the sequence after are well-formed.
+  For example:
+  $
+    lr((()), size: #150%) () ()
+    quad
+    lr((() (())), size: #150%)
+    quad
+    lr((), size: #150%) (()(()))
+  $
+  In other words, a well-formed expression with $n$ pairs of parenthesis is obtained by putting a well-formed expression with $k$ pairs in between "(" and ")" and then appending a well-formed expression with #box($n-k-1$) pairs of parenthesis.
+  This gives the equation:
+  #place(center)[
+    #v(1em)
+    $
+      a_n = sum_(k = 0)^(n - 1) a_k a_(n - k - 1)
+    $
+  ]
+]
+
+#pagebreak()
+
+// $
+//   a_n = sum_(k = 0)^(n - 1) a_k a_(n - k - 1)
+// $
+
+Let $F(x)$ be a generating function for $a_n$, then we know:
+$
+  F(x) & = sum_(n = 0)^infinity a_n x^n
+         = 1 + sum_(n = 1)^infinity ( sum_(k = 0)^(n - 1) a_k a_(n - k - 1) ) x^n
+         = 1 + sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^(n+1) \
+       & = 1 + x dot sum_(n = 0)^infinity ( sum_(k = 0)^(n) a_k a_(n - k) ) x^n
+         = 1 + x dot F(x)^2
+$
+
+Solving the equation $x F^2 - F + 1 = 0$ for $F$ gives:
+$
+  F(x) = frac(1 plus.minus sqrt(1 - 4x), 2x)
+$
+
+We are only interested in the root with the _minus_ sign, since $lim_(x to 0) F(x) = a_0 = 1$:
+$
+  lim_(x to 0) F(x)
+  = lim_(x to 0) frac(1 - sqrt(1 - 4x), 2x)
+  = lim_(x to 0) frac(frac(2, sqrt(1 - 4x)), 2)
+  = 1
+$
+
+== Newton's Binomial Theorem
+
+Let's revisit the binomial theorem:
+$
+  (1 + x)^n = sum_(k = 0)^n binom(n, k) x^k = sum_(k = 0)^infinity binom(n, k) x^k
+  quad forall n in NN
+$
+where $binom(n, k) = 0$ for $k > n$.
+
+#note[
+  This shows that $(1 + x)^n$ is the generating function for the series $(a_k)_(k in NN)$ with $a_k = binom(n, k)$.
+]
+
+#fancy-box[
+  We can extend this result from natural numbers $n in NN$ to any _real_ number $n in RR$.
+]
+
+== Binomial Coefficients for Real Numbers
+
+#definition[
+  Let $p(n, k) = n dot (n - 1) dot dots dot (n - k + 1)$, also called the _falling factorial_ $n^underline(k)$.
+
+  Extend the definition of binomial coefficients for real numbers $n,k in RR$:
+  $
+    binom(n, k) = p(n, k) / k!
+  $
+]
+
+#note[
+  This definition aligns with the definition of binomial coefficients for natural numbers:
+  $
+    binom(n, k) = n! / (k! dot (n - k)!) = (n dot (n-1) dot dots dot (n-k+1)) / k!
+  $
+]
+
+#example[
+  Consider the number "$-7 "/" 2$ choose $5$":
+  $
+    binom(-7 "/" 2, 5) = (-7 / 2 dot -9 / 2 dot -11 / 2 dot -13 / 2 dot -15 / 2) / 5! = - 9009 / 256
+  $
+]
+
+#note[
+  $p(n, 0) = 1$ and for $k >= 1$, we have $p(n, k) = (n - k + 1) dot p(n, k - 1) = n dot p(n - 1, k - 1)$.
+  #h(1fr) $(star.filled)$
+]
+
+== Extended Newton's Binomial Theorem
+
+#theorem[
+  For all non-zero $n in RR$, we have:
+  $
+    (1 + x)^n = sum_(k = 0)^infinity binom(n, k) x^k
+  $
+]
+
+#example[
+  Let $n = 1 "/" 2$, then we have an identity for $sqrt(1 + x)$:
+  $
+    sqrt(1 + x) = sum_(k = 0)^infinity binom(1 "/" 2, k) x^k
+  $
+
+  To actually _use_ this fact, we need some _lemma_...
+]
+
+#theorem(title: "Lemma")[
+  For any integer $n >= 1$, we have:
+  $
+    binom(1 "/" 2, n) = (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n
+  $
+]
+
+#proof[
+  By induction on $n$.
+
+  *Base*: $n = 1$.
+  #v(-2em)
+  $
+    binom(1 "/" 2, 1)
+    = (1 "/" 2) / 1!
+    = 1 / 2 = 1 dot 1 dot 1 / 2 dot 1
+    = underbracket((-1)^2, 1)
+    dot underbracket(binom(2-2, 1-1), 1)
+    dot underbracket(1 / (2^(2-1)), 1 / 2)
+    dot underbracket(1 / 1, 1)
+  $
+  #v(-1em)
+
+  *Induction step*: $n$ to $n + 1$ for $n > 1$.
+  We use the recusion $(star.filled)$ $p(n, k) = n dot p(n - 1, k - 1)$:
+  #place(center)[
+    $
+      binom(1 "/" 2, n + 1)
+      &= p(1 "/" 2, n + 1) / (n + 1)!
+      = ((1 "/" 2 - (n + 1) + 1) dot p(1 "/" 2, n)) / ((n + 1) dot n!)
+      = - (n - 1 "/" 2) / (n + 1) binom(1 "/" 2, n) \
+      &=^"IH" - (n - 1 "/" 2) / (n + 1) (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n \
+      &= (2n) / (2n) dot (2n-1) / (2n) dot (-1)^(n+2) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / (n+1) \
+      &= (-1)^(n+2) dot underbrace(((2n-2)! dot (2n-1) dot (2n)) / ((n-1)! dot (n-1) dot n dot n), display(binom(2n, n))) dot 1 / (2^(2n+1)) dot 1 / (n+1)
+    $
+  ]
+]
+#pagebreak()
+
+== Catalan Numbers
+
+#theorem(title: "Proposition")[
+  Now we can expand $sqrt(1 + n)$ into the following series:
+  $
+    sqrt(1 + n) = sum_(n = 0)^infinity binom(1 "/" 2, n) x^n
+    = 1 + sum_(n = 1)^infinity -2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot x^n
+  $
+]
+
+#example[
+  Going back to the example with the number of well-formed paranthesis expressions, we get:
+  $
+    F(x) & = (1 - sqrt(1 - 4x)) / (2x)
+           = 1 / (2x) sum_(n = 1)^infinity 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
+         & = 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
+           = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
+  $
+  The numbers $C_n := binom(2n, n) 1 / (n+1)$ are called _Catalan numbers_.
+]
+
+= Recurrence Relations
+
+== Recurrence Relations
+
+#example[
+  - _Recurrent relation_ defining a sequence $(a_n)$:
+    $
+      a_n = cases(
+        a_0 = "const" & "if" n = 0,
+        a_(n-1) + d & "if" n > 0,
+      )
+    $
+
+  - _Solving_ it results in a non-recursive _closed_ formula:
+    $
+      a_n = a_0 + n dot d
+    $
+
+  - _Checking_ it confirms that the formula is correct:
+    $
+      a_n & = underbracket(a_(n-1)) + d = underbracket(a_0 + (n-1)d, a_(n-1)) + d = a_0 + n dot d quad qed
+    $
+]
+
+== Linear Homogeneous Recurrence Relations
+
+#definition[
+  A _linear homogeneous_ recurrence relation _of degree $k$_ with constant coefficients is a recurrence relation of the form
+  $
+    a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k),
+  $
+  where $c_1, c_2, dots, c_k$ are constants (real or complex numbers), and $c_k != 0$.
+]
+
+#examples[
+  - $b_n = 2.71 b_(n-1)$ is a linear homogeneous recurrence relation of degree 1.
+  - $F_n = F_(n-1) + F_(n-2)$ is a linear homogeneous recurrence relation of degree 2.
+  - $g_n = 2 g_(n-5)$ is a linear homogeneous recurrence relation of degree 5.
+  - The recurrence relation $a_n = a_(n-1) + a_(n-2)^2$ is _not linear_.
+  - The recurrence relation $H_n = 2 H_(n-1) + 1$ is _not homogeneous_.
+  - The recurrence relation $B_n = n B_(n-1)$ does _not_ have _constant_ coefficients.
+]
+
+== Characteristic Equations
+
+Hereinafter, $(*)$ denotes a linear homogeneous recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$.
+
+#theorem[
+  $a_n = r^n$ is a solution to $(*)$ if and only if $r^n = c_1 r^(n-1) + c_2 r^(n-2) + dots + c_k r^(n-k)$.
+]
+
+// Divide both sides by $r^(n-k)$ and reorganize the terms:
+
+#definition[
+  A _characteristic equation_ for $(*)$ is the algebraic equation in $r$ defined as:
+  $
+    r^k - c_1 r^(k-1) - c_2 r^(k-2) - dots - c_k = 0
+  $
+]
+
+The sequence $(a_n)$ with $a_n = r^n$ (with $r_n != 0$) is a solution if and only if $r$ is a solution of the characteristic equation.
+Such solutions are called _characteristic roots_ of $(*)$.
+
+== Distinct Roots Case
+
+#theorem[
+  Let $c_1$ and $c_2$ be real numbers.
+  Suppose that $r^2 - c_1 r - c_2 = 0$ has two _distinct_ roots $r_1$~and~$r_2$.
+  Then the sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
+]
+
+#proof[(sketch)][
+  Since $r_1$ and $r_2$ are roots, then $r_1^2 = c_1 r_1 + c_2$ and $r_2^2 = c_1 r_2 + c_2$.
+  Next, we can see:
+  $
+    c_1 a_(n-1) + c_2 a_(n-2) & = c_1 (alpha_1 r_1^(n-1) + alpha_2 r_2^(n-1)) + c_2 (alpha_1 r_1^(n-2) + alpha_2 r_2^(n-2)) \
+                              & = alpha_1 r_1^(n-2) (c_1 r_1 + c_2) + alpha_2 r_2^(n-2) (c_1 r_2 + c_2)                     \
+                              & = alpha_1 r_1^(n-2) r_1^2 + alpha_2 r_2^(n-2) r_2^2                                         \
+                              & = alpha_1 r_1^n + alpha_2 r_2^n                                                             \
+                              & = a_n
+  $
+
+  To show that every solution $(a_n)$ of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ has $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for some constants $alpha_1$ and $alpha_2$, suppose that the initial condition are $a_0 = C_0$ and $a_1 = C_1$, and show that there exist constants $alpha_1$ and $alpha_2$ such that $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ satisfies the same initial conditions.
+]
+
+== Solving Recurrence Relations using Characteristic Equations
+
+#example[
+  Solve $a_n = a_(n-1) + 2 a_(n-2)$ with $a_0 = 2$ and $a_1 = 7$.
+
+  - The _characteristic_ equation is $r^2 - r - 2 = 0$.
+  - It has two _distinct_ roots $r_1 = 2$ and $r_2 = -1$.
+  - The sequence $(a_n)$ is a solution iff $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$ and some constants $alpha_1$ and $alpha_2$.
+    $
+      cases(
+        a_0 = 2 = alpha_1 + alpha_2,
+        a_1 = 7 = alpha_1 dot 2 + alpha_2 dot (-1),
+      )
+    $
+  - Solving these two equations gives $alpha_1 = 3$ and $alpha_2 = -1$.
+  - Hence, the _solution_ to the recurrence equation with given initial conditions is the sequence $(a_n)$ with
+    $
+      a_n = 3 dot 2^n - (-1)^n
+    $
+]
+
+== Fibonacci Numbers
+
+#example[
+  Find the closed formula for Fibonacci numbers.
+
+  - The recurrence relation is $F_n = F_(n-1) + F_(n-2)$.
+  - The characteristic equation is $r^2 - r - 1 = 0$.
+  - The roots are $r_1 = \(1 + sqrt(5)) slash 2$ and $r_2 = \(1 - sqrt(5)) slash 2$.
+  - Therefore, the solution is
+    $F_n = alpha_1 \( (1 + sqrt(5)) / 2 \)^n + alpha_2 \( (1 - sqrt(5)) / 2 \)^n$
+    for some constants $alpha_1$ and $alpha_2$.
+  - Using the initial conditions $F_0 = 0$ and $F_1 = 1$, we get
+    $
+      cases(
+        F_0 = alpha_1 + alpha_2 = 0,
+        F_1 = alpha_1 dot \( (1 + sqrt(5)) / 2 \) + alpha_2 dot \( (1 - sqrt(5)) / 2 \) = 1,
+      )
+    $
+  - Solving these two equations gives $alpha_1 = 1 slash sqrt(5)$ and $alpha_2 = -1 slash sqrt(5)$.
+  - Hence, the _closed formula_ (also known as Binet's formula) for Fibonacci numbers is
+    $
+      F_n = 1 / sqrt(5) underbracket(((1+sqrt(5)) / 2), phi)^n - 1 / sqrt(5) underbracket(((1-sqrt(5)) / 2), psi)^n = (phi^n - psi^n) / sqrt(5)
+    $
+]
+
+== Single (Repeated) Root Case
+
+#theorem[
+  Let $c_1$ and $c_2$ be real numbers.
+  Suppose that $r^2 - c_1 r - c_2 = 0$ has a _single_ _(repeated)_ root $r_0$.
+  A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = (alpha_1 + alpha_2 n) thin r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
+]
+
+#example[
+  Solve $a_n = 6 a_(n-1) - 9 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
+
+  The characteristic equation is $r^2 - 6 r + 9 = 0$ with a single (repeated) root $r_0 = 3$.
+  Hence, the solutions is of the form $a_n = (alpha_1 + alpha_2 n) thin 3^n$.
+  $
+    cases(
+      a_0 = 1 = alpha_1,
+      a_1 = 6 = (alpha_1 + alpha_2) dot 3,
+    )
+    quad arrow.long.double quad
+    cases(
+      alpha_1 = 1,
+      alpha_2 = 1,
+    )
+  $
+  Thus, the _solution_ is $a_n = (1 + n) thin 3^n$.
+]
+
+== General Case
+
+#theorem[
+  Let $c_1, dots, c_k$ be real numbers.
+  Suppose that the recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ has $t$~distinct characteristic roots $r_1, dots, r_t$ with multiplicities $m_1, dots, m_t$, respectively, so that $m_i >= 1$ for $i = 1, dots, t$ and $m_1 + dots + m_t = k$.
+
+  Then the general of the recurrence relation is given by
+  $
+    a_n = sum_(i = 1)^(t)(r_i^n dot sum_(j = 0)^(s_i - 1) alpha_(i,j) x^j)
+  $
+  where $alpha_(i,j)$ are constants for $1 <= i <= t$ and $0 <= j <= m_i - 1$.
+]
+
+#example[
+  Find generic solution for $a_n = 7 a_(n-1) - 16 a_(n-2) + 12 a_(n-3)$.
+
+  The characteristic equation $r^3 - 7 r^2 + 16 r - 12 = 0$ has $t = 2$ distinct roots: $r_1 = 2$ repeated $m_1 = 2$ times, and $r_2 = 3$ with multiplicity $m_2 = 1$.
+  Hence, the solution is of the form
+  $
+    a_n = (alpha_(1,0) + alpha_(1,1) n) thin 2^n + alpha_(2,0) thin 3^n
+  $
+]
+
+== Complex Case
+
+#example[
+  // $a_n = 4a_(n-1) - 8a_(n-2) + 8a_(n-3) - 4a_(n-4)$
+  Solve the recurrence $a_n = 6a_(n-1) - 16a_(n-2) + 25a_(n-3) - 20a_(n-4) + 8a_(n-5)$ with the initial conditions $a_0 = 2$, $a_1 = 2$, $a_2 = 0$, $a_3 = -4$, $a_4 = -8$.
+
+  Characteristic equation is $r^5 - 6r^4 + 16r^3 - 25r^2 + 20r - 8 = 0$.
+
+  Characteristic roots are: $r_1 = (1 - i)$, repeated twice, $r_2 = (1 + i)$, also repeated twice, and $r_3 = 2$.
+
+  General solution has the form:
+  $
+    a_n = (alpha_(1,0) + alpha_(1,1) n) (1 - i)^n + (alpha_(2,0) + alpha_(2,1) n) (1 + i)^n + alpha_(3,0) thin 2^n
+  $
+
+  To find the constants, we can use the initial conditions:
+  $
+    cases(
+      a_0 & = 2 & = alpha_(1,0) & + alpha_(1,1) & + alpha_(2,0) & + alpha_(2,1) & + alpha_(3,0),
+      a_1 & = 2 & = (alpha_(1,0) & + alpha_(1,1)) (1 - i) & + (alpha_(2,0) & + alpha_(2,1)) (1 + i) & + 2 alpha_(3,0),
+      a_2 & = 0 & = (alpha_(1,0) & + 2 alpha_(1,1)) (1 - i)^2 & + (alpha_(2,0) & + 2 alpha_(2,1)) (1 + i)^2 & + 4 alpha_(3,0),
+      a_3 &= -4 &= (alpha_(1,0) &+ 3 alpha_(1,1)) (1 - i)^3 &+ (alpha_(2,0) &+ 3 alpha_(2,1)) (1 + i)^3 &+ 8 alpha_(3,0),
+      a_4 &= -8 &= (alpha_(1,0) &+ 4 alpha_(1,1)) (1 - i)^4 &+ (alpha_(2,0) &+ 4 alpha_(2,1)) (1 + i)^4 &+ 16 alpha_(3,0),
+    )
+    quad arrow.long.double quad
+    cases(
+      alpha_(1,0) = 1,
+      alpha_(1,1) = 0,
+      alpha_(2,0) = 1,
+      alpha_(2,1) = 0,
+      alpha_(3,0) = 0,
+    )
+  $
+]
+
+== Linear Non-Homogeneous Recurrence Relations
+
+$
+  a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n)
+$
+
+#example[
+  $a_n = 3 a_(n-1) + 2n$ is non-homogeneous.
+]
+
+#definition[
+  An _associated homogeneous recurrence relation_ is the relation without the term $F(n)$.
+]
+
+== Solving Non-Homogeneous Recurrence Relations
+
+#theorem[
+  If $\(a_n^((p)))$ is a _particular_ solution of the non-homogeneous linear recurrence relation #box[$a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n)$], then _every solution_ is of the form $\(a_n^((p)) + a_n^((h)))$, where $\(a_n^((h)))$ is a solution of the associated homogeneous recurrence relation.
+] <thm:non-homo>
+
+#example[
+  Find all solutions of the recurrence relation $a_n = 3 a_(n-1) + 2n$.
+  What is the solution with $a_1 = 3$?
+
+  - First, solve the associated homogeneous recurrence relation $a_n = 3 a_(n-1)$.
+  - It has a general solution $a_n^((h)) = alpha 3^n$, where $alpha$ is a constant.
+  - To find a particular solution, observe that $F(n) = 2n$ is a polynomial in $n$ of degree 1, so a reasonable trial solution is a linear function in $n$, for example, $p_n = c n + d$, where $c$ and $d$ are constants.
+  - Thus, the equation $a_n = 3 a_(n-1) + 2n$ becomes $c n + d = 3 (c (n-1) + d) + 2n$.
+  - Simplify and reorder: $(2 + 2c) n + (2d - 3c) = 0$.
+    $
+      cases(
+        2 + 2c = 0,
+        2d - 3c = 0,
+      )
+      quad arrow.long.double quad
+      cases(
+        c = -1,
+        d = -3 slash 2,
+      )
+    $
+  - Thus, $a_n^((p)) = -n - 3 slash 2$ is a _particular_ solution.
+  - By @thm:non-homo, all solutions are of the form
+    $
+      a_n = a_n^((p)) + a_n^((h)) = -n - 3 slash 2 + alpha 3^n,
+    $
+    where $alpha$ is a constant.
+  - To find the solution with $a_1 = 3$, let $n = 1$ in the formula: $3 = -1 - 3 slash 2 + 3 alpha$, thus $alpha = 11 slash 6$.
+  - The _solution_ is $a_n = - n - 3 slash 2 + (11 slash 6) 3^n$.
+]
+
+= Annihilators
+
+== Operators
+
+#definition[
+  _Operators_ are higher-order functions that transform functions into other functions.
+
+  For example, differential and integral operators $d / (dif x)$ and $integral dif x$ are core operators in calculus.
+
+  In combinatorics, we are interested in the following three operators:
+  - _Sum_: $(f + g)(n) := f(n) + g(n)$
+  - _Scale_: $(alpha dot f)(n) := alpha dot f(n)$
+  - _Shift_: $(shift f)(n) := f(n + 1)$
+]
+
+#examples[
+  - Scale and Shift operators are _linear_: $shift (f - 3 (g - h)) = shift f + (-3) shift g + 3 shift h$
+  - Operators are _composable_: $(shift - 2) f := shift f + (-2) f$
+  - $shift^2 f = shift (shift f)$
+  - $shift^k f (n) = f(n + k)$
+  - $(shift - 2)^2 = (shift - 2) (shift - 2)$
+  - $(shift - 1)(shift -2) = shift^2 - 3 shift + 2$
+]
+
+== Applying Operators
+
+#examples[
+  Below are the results of applying different operators to $f(n) = 2^n$:
+  $
+                2 f(n) & = 2 dot 2^n = 2^(n+1)                             \
+                3 f(n) & = 3 dot 2^n                                       \
+            shift f(n) & = 2^(n+1)                                         \
+          shift^2 f(n) & = 2^(n+2)                                         \
+      (shift - 2) f(n) & = shift f(n) - 2f(n) = 2^(n+1) - 2^(n+1) = 0      \
+    (shift^2 - 1) f(n) & = shift^2 f(n) - f(n) = 2^(n+2) - 2^n = 3 dot 2^n
+  $
+]
+
+== Compound Operators
+
+#fancy-box[
+  The compound operators can be seen as polynomials in "variable" $shift$.
+]
+
+#example[
+  The compound operators $shift^2 - 3 shift + 2$ and $(shift - 1)(shift -2)$ are equivalent:
+  $
+                            "Let" g(n) := & (shift - 2) f(n) = f(n+1) - 2f(n)     \
+    "Then" (shift - 1) (shift - 2) f(n) = & (shift - 1) g(n)                      \
+                                        = & g(n+1) - g(n)                         \
+                                        = & [f(n+2) - 2f(n-1)] - [f(n+1) - 2f(n)] \
+                                        = & f(n+2) - 3f(n+1) + 2f(n)              \
+                                        = & (shift^2 - 3 shift + 2) f(n) quad YES
+  $
+]
+
+== Operators Summary
+
+#table(
+  columns: 2,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([Operator], [Definition]),
+  [addition], $(f+g)(n) := f(n) + g(n)$,
+  [subtraction], $(f-g)(n) := f(n) - g(n)$,
+  [multiplication], $(alpha dot f)(n) := alpha dot f(n)$,
+  [shift], $shift f(n) := f(n+1)$,
+  [k-fold shift], $shift^k f(n) := f(n+k)$,
+  table.cell(rowspan: 3)[composition],
+  $(operator(X) + operator(Y)) f := operator(X) f + operator(Y) f$,
+  $(operator(X) - operator(Y)) f := operator(X) f - operator(Y) f$,
+  $operator(X) operator(Y) f := operator(X) (operator(Y) f) = operator(Y) (operator(X) f)$,
+  [distribution], $operator(X) (f + g) = operator(X) f + operator(X) g$,
+)
+
+== Annihilators
+
+#definition[
+  An _annihilator_ of a function $f$ is any non-trivial operator that transforms $f$ into zero.
+]
+
+TODO: examples!
+
+== Annihilators Summary
+
+#table(
+  columns: 2,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([Operator], [Functions annihilated]),
+  $shift - 1$, $alpha$,
+  $shift - a$, $alpha a^n$,
+  $(shift - a)(shift - b)$, $alpha a^n + beta b^n quad ["if" a != b]$,
+  $(shift - a_0)(shift - a_1) dots (shift - a_k)$, $sum_(i=0)^k alpha_i a_i^n quad ["if" a_i "are distinct"]$,
+  $(shift - 1)^2$, $alpha n + beta$,
+  $(shift - a)^2$, $(alpha n + beta) a^n$,
+  $(shift - a)^2 (shift - b)$, $(alpha n + beta) a^n + gamma b^n quad ["if" a != b]$,
+  $(shift - a)^d$, $(sum_(i=0)^(d-1) alpha_i n^i) a^n$,
+)
+
+== Properties of Annihilators
+
+#theorem[
+  If $operator(X)$ annihilates $f$, then $operator(X)$ also annihilates $alpha f$ for any constant $alpha$.
+]
+#theorem[
+  If $operator(X)$ annihilates both $f$ and $g$, then $operator(X)$ also annihilates $f plus.minus g$.
+]
+#theorem[
+  If $operator(X)$ annihilates $f$, then $operator(X)$ also annihilates $shift f$.
+]
+#theorem[
+  If $operator(X)$ annihilates $f$ and $operator(Y)$ annihilates $g$, then $operator(X) operator(Y)$ annihilates $f plus.minus g$.
+]
+
+== Annihilating Recurrences
+
++ Write the recurrence in the _operator form_.
++ Find the _annihilator_ for the recurrence.
++ _Factor_ the annihilator, if necessary.
++ Find the _generic solution_ from the annihilator.
++ Solve for coefficients using the _initial conditions_.
+
+#example[
+  $r(n) = 5r(n-1)$ with $r(0) = 3$.
+
+  + $r(n+1) - 5r(n) = 0$ \
+    $(shift - 5) r(n) = 0$
+
+  + $(shift - 5)$ annihilates $r(n)$.
+  + $(shift - 5)$ is already factored.
+  + $r(n) = alpha 5^n$ is a generic solution.
+  + $r(0) = alpha = 3 quad arrow.r.double.long quad alpha = 3$
+
+  Thus, $r(n) = 3 dot 5^n$.
+]
+
+#pagebreak()
+
+#example[
+  $T(n) = 2 T(n-1) + 1$ with $T(0) = 0$
+
+  + $T(n+1) - 2T(n) = 1$ \
+    $(shift - 2) T(n) = 1$
+
+  + $(shift - 2)$ does _not_ annihilate $T(n)$: the residue is $1$. \
+    $(shift - 1)$ annihilates the residue $1$. \
+    Thus, $(shift - 1)(shift - 2)$ annihilates $T(n)$.
+  + $(shift - 1)(shift - 2)$ is already factored.
+  + $T(n) = alpha 2^n + beta$ is a generic solution.
+  + Find the coefficients $alpha,beta$ using $T(0) = 0$ and $T(1) = 2 T(0) + 1 = 1$:
+
+    $display(
+      cases(
+        reverse: #true,
+        T(0) = 0 = alpha dot 2^0 + beta,
+        T(1) = 1 = alpha dot 2^1 + beta,
+      )
+      quad arrow.long.double quad
+      cases(
+        alpha = 1,
+        beta = -1,
+      )
+    )$
+
+  Thus, $T(n) = 2^n - 1$.
+]
+
+#pagebreak()
+
+#example[
+  $T(n) = T(n-1) + 2T(n-2) + 2^n - n^2$
+
+  + Operator form: \
+    $(shift^2 - shift - 2) T(n) = shift^2 (2^n - n^2)$
+
+  + Annihilator: \
+    $(shift^2 - shift - 2) (shift - 2) (shift - 1)^3$
+
+  + Factorization: \
+    $(shift + 1) (shift - 2)^2 (shift - 1)^3$
+
+  + Generic solution: \
+    $T(n) = alpha (-1)^n + (beta n + gamma) 2^n + delta n^2 + epsilon n + zeta$
+
+  + There are no initial conditions.
+    We can only provide an asymptotic bound.
+
+  Thus, $T(n) in Theta(n 2^n)$
+]
+
+= Asymptotic Analysis
+
+== Asymptotics 101
+
+#definition[_Big-O notation_][
+  The notation $f in O(g)$ means that the function $f(n)$ is _asymptotically bounded from above_ by the function $g(n)$, up to a constant factor.
+  $
+    f(n) in O(g(n))
+    quad iff quad
+    exists c > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n)) <= c dot g(n)
+  $
+]
+
+#definition[_Small-o notation_][
+  The notation $f in o(g)$ means that the function $f(n)$ is _asympotically dominated_ by $g(n)$, up to a constant factor.
+  $
+    f(n) in o(g(n))
+    quad iff quad
+    forall c > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n)) <= c dot g(n)
+  $
+]
+
+#note[
+  The difference is only in the $exists c$ and $forall c$ quantifier.
+]
+
+#note[
+  Flip $<=$ to $>=$ in the above definitions to obtain the dual notations: $f in Omega(g)$ and $f in omega(g)$.
+]
+
+#definition[_Theta notation_][
+  $f in Theta(g)$ iff $f in O(g)$ and $g in O(f)$.
+]
+
+== Limits
+
+#table(
+  columns: 4,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  align: horizon + left,
+  table.header([Notation], [Name], [Description], [Limit definition]),
+  $f in o(g)$, [Small Oh], [$f$ is dominated by $g$], $ lim_(n to infinity) f(n) / g(n) = 0 $,
+  $f in O(g)$, [Big Oh], [$f$ is bounded above by $g$], $ limsup_(n to infinity) abs(f(n)) / g(n) < infinity $,
+  $f tilde g$, [Equivalence], [$f$ is asympotically equal to $g$], $ lim_(n to infinity) f(n) / g(n) = 1 $,
+  $f in Omega(g)$, [Big Omega], [$f$ is bounded below by $g$], $ liminf_(n to infinity) f(n) / g(n) > 0 $,
+  $f in omega(g)$, [Small Omega], [$f$ dominates $g$], $ lim_(n to infinity) f(n) / g(n) = infinity $,
+)
+
+== Asymptotic Equivalence
+
+#definition[
+  The notation $f tilde g$ means that functions $f(n)$ and $g(n)$ are _asymptotically equivalent_.
+  $
+    f tilde g
+    quad iff quad
+    forall epsilon > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n) / g(n) - 1) <= epsilon
+    quad iff quad
+    lim_(n to infinity) f(n) / g(n) = 1
+  $
+]
+
+#note[
+  $f tilde g$ and $g tilde f$ are equivalent, since $tilde$ is an equivalence relation.
+]
+
+#note[
+  $f tilde g$ and $f in Theta(g)$ are _different_ notions!
+]
+
+== Some Properties of Asymptotics
+
+#box[
+  $
+    f in O(g) "and" f in Omega(g) & quad iff quad f in Theta(g)   \
+                        f in O(g) & quad iff quad g in Omega(f)   \
+                        f in o(g) & quad iff quad g in omega(f)   \
+                        f in o(g) & quad imply quad f in O(g)     \
+                    f in omega(g) & quad imply quad f in Omega(g) \
+                        f tilde g & quad imply quad f in Theta(g) \
+  $
+]
+
+== Divide-and-Conquer Algorithms Analysis
+
+#image("assets/divide-and-conquer.png")
+
+== Divide-and-Conquer Recurrence
+
+$ T(n) = a dot T(n / b) + f(n) $
+
+- $T(n)$ is the _cost_ of the recursive algorithm
+- $a$ is the number of _parts_ (_sub-problems_)
+- $n "/" b$ is the _size_ of each part
+- $T(n / b)$ is the cost of each _sub-problem_
+- $f(n)$ is the cost of _splitting_ and _merging_ the solutions of the subproblems
+
+Hereinafter, $c_"crit" = log_b a$ is a _critical constant_.
+
+== Master Theorem
+
+The master theorem @entley1980 applies to divide-and-conquer recurrences of the form
+$ T(n) = a dot T(n / b) + f(n) $
+
+#table(
+  columns: 4,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([Case], [Description], [Condition], [Bound]),
+  [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$ \ where $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
+  [Case II],
+  ["merge" $approx$ "recursion"],
+  [$f(n) in Theta(n^(c_"crit") log^k n)$ \ where $k >= 0$],
+  [$T(n) in Theta(n^(c_"crit") log^(k+1) n)$],
+
+  [Case III], ["merge" $>>$ "recursion"], [$f(n) in Omega(n^c)$ \ where $c > c_"crit"$], [$T(n) in Theta(f(n))$],
+)
+
+#note[
+  Case III also requires the _regularity condition_ to hold: $a f(n "/" b) <= k f(n)$ for some constant $k < 1$ and all sufficiently large $n$.
+]
+
+#note[
+  There is an _extended_ Case II, with three sub-cases (IIa, IIb, IIc) for other values of $k$.
+  See #link("https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)#Generic_form")[wiki].
+]
+
+== Examples of Master Theorem Application
+
+#examples[
+  Determine the case of Master Theorem and the bound of $T(n)$ for the following recurrences.
+
+  + $T(n) = 3 T(n "/" 9) + sqrt(n)$
+  // Case 2
+  // T(n) in Theta(n^(1/2) log n)
+
+  + $T(n) = 2 T(n "/" 4) + n^(0.51)$
+  // Case 3
+  // T(n) in Theta(n^(0.51))
+
+  + $T(n) = 5 T(n "/" 25) + n^(0.49)$
+  // Case 1
+  // T(n) in Theta(n^0.5)
+
+  + $T(n) = T(floor(n / 2)) + T(ceil(n / 2))$
+  // Case 2 (approximated)
+  // T(n) in Theta(n log n)
+
+  + $T(n) = 3 T(n "/" 9) + sqrt(n) / (log n)$
+  // Case 2b
+  // T(n) in Theta(n^(1/2) log log n)
+
+  + $T(n) = 6 T(n "/" 36) + sqrt(n) / (log^2 n)$
+  // Case 2c
+  // T(n) in Theta(n^(1/2))
+
+  + $T(n) = 4 T(n "/" 16) + sqrt(n / (log n))$
+  // Case 2a
+  // T(n) in Theta(n^(1/2) (log n)^(1/2))
+]
+
+== Akra--Bazzi Method
+
+The Akra--Bazzi method @akra1998 is a _generalization_ of the master theorem to recurrences of the form
+$
+  T(n) = f(n) + sum_(i = 1)^k a_i T(b_i n + underbracket(h_i (n), *))
+$
+
+- $k$ is a constant
+- $a_i > 0$
+- $0 < b_i < 1$
+- $h_i (n) in O(n / (log^2 n))$ is a _small perturbation_
+
+Bound of $T(n)$ by Akra--Bazzi method:
+$
+  T(n) in Theta(n^p dot (1 + integral_1^n f(x) / x^(p+1) dif x))
+$
+where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)$
+
+== Example of Akra--Bazzi Method Application
+
+#example[
+  Suppose the runtime of an algorithm is expressed by the following recurrence relation:
+  $
+    T(n) = cases(
+      1 "for" 0 <= n <= 3,
+      n^2 + 7 / 4 T(floor(1 / 2 n)) + T(ceil(3 / 4 n)) "for" n > 3,
+    )
+  $
+
+  - Note that the Master Theorem _is not_ applicable here, since there are _two_ different recursive terms.
+  - Let's apply the Akra--Bazzi method.
+    First, solve the equation $7 / 4 (1 / 2)^p + (3 / 4)^p = 1$.
+    This gives us $p = 2$.
+  - Next, use the formula from AB-method to obtain the bound:
+    $
+      T(x) & in Theta(x^p (1 + integral_1^x f(u) / u^(p+1) d u)) = \
+           & = Theta(x^2 (1 + integral_1^x u^2 / u^3 d u)) =       \
+           & = Theta(x^2 (1 + ln x)) =                             \
+           & = Theta(x^2 log x)
+    $
+]
+
+= Advanced Topics
+
+== Gamma Function
+
+#definition[
+  _Gamma function_ $Gamma(x)$ is the most common _extension_ of the factorial function to real and complex numbers.
+  It is defined for all complex numbers $z in CC$ (except non-positive integers) as
+  $
+    Gamma(z) = integral_0^infinity t^(z - 1) e^(-t) d t
+  $
+  For positive integers $z = n$, it is defined as
+  $
+    Gamma(n) = (n - 1)!
+  $
+]
+
+*Motivation*:
+The factorial is defined for positive integers as $n! = 1 dot 2 dot dots dot n = (n - 1)! dot n$. \
+We want to _extend_ this definition to _all real numbers_ and capture its _recursive_ nature. \
+Overall, we are looking for a _smooth_ function $Gamma(x)$ such that:
+- $Gamma(n + 1) = n!$ for all $n in NN$, matching the factorial.
+- $Gamma(x + 1) = x dot Gamma(x)$, satisfying a _recursive_ property.
+- $Gamma(x)$ is defined for all _real_ numbers $x > 0$.
+
+== Definition of a Gamma Function
+
+The main definition of a gamma function is known as _Euler integral of the second kind_:
+$
+  Gamma(z) = integral_0^infinity t^(z - 1) e^(-t) d t
+$
+
+Gauss proposed a function $Gamma(x)$ defined by the _limit_
+$
+  Gamma(x) := lim_(n to infinity) (n! dot n^x) / (x dot (x+1) dot dots dot (x+n)) = lim_(n to infinity) (n! dot n^x) / (product_(k = 0)^n (x + k))
+  quad "for" x > 0
+$
+
+== Integral Definition
+
+$
+  Gamma(x) = integral_0^infinity t^(x - 1) e^(-t) d t
+$
+Let's check that the integral definition is indeed a suitable definition of a gamma function.
+
+$
+  Gamma(z + 1) & = integral_0^infinity t^z e^(-t) d t                                                           \
+               & = [-t^z e^(-t)]_0^infinity + integral_0^infinity z t^(z-1) e^(-t) d t                          \
+               & = lim_(t to infinity) (-t^z e^(-t)) - (-0^z e^(-0)) + z integral_0^infinity t^(z-1) e^(-t) d t
+$
+#v(-.5em)
+Note that $-t^z e^(-t) to 0$ as $t to infinity$, so:
+#v(-.5em)
+$
+  Gamma(z + 1)
+  = z integral_0^infinity t^(z-1) e^(-t) d t
+  = z dot Gamma(z)
+$
+
+== Limit Definition
+
+$
+  Gamma(x) = lim_(n to infinity) (n! dot n^x) / (product_(k = 0)^(n) (x + k))
+$
+Let's check that the limit definition is indeed a suitable definition of a gamma function.
+
+*Step 1*. Write $Gamma(x + 1)$.
+$
+  Gamma(x + 1)
+  = lim_(n to infinity) (n! dot n^(x+1)) / (product_(k = 0)^n (x + 1 + k))
+  = lim_(n to infinity) (n! dot n^(x+1)) / (product_(k = 1)^(n + 1) (x + k))
+$
+*Step 2*. Multiply both numerator and denominator by $x$ and rearrange:
+$
+  = lim_(n to infinity) (n! dot n^(x+1)) / ((x+1) dot dots dot (x+n+1))
+  = lim_(n to infinity) (n! dot n^x) / (x dot (x+1) dot dots dot (x+n)) dot n / (x + n + 1) dot x
+$
+*Step 3*. Take the limit.
+As $n to infinity$, the ratio $n / (x + n + 1)$ approaches $1$.
+$
+  Gamma(x + 1) = x dot Gamma(x)
+$
+
+== Equivalence of Definitions
+
+Let's prove the equivalence of two definitions: integral and limit.
+
+We claim:
+$
+  integral_0^n t^(x-1) (1 - t / n)^n d t
+  eq.quest
+  lim_(n to infinity) (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
+$
+Note that as $n to infinity$, the integrand $(1 - t / n)^n$ approaches $e^(-t)$, so this integral approximates $Gamma(x)$.
+
+Substitute $u = t / n$:
+$
+  integral_0^n t^(x-1) (1 - t / n)^n d t
+  = n^x integral_0^1 u^(x-1) (1-u)^n d u
+  = n^x dot Beta(x, n + 1)
+$
+where $Beta(x, n + 1)$ is the Beta function:
+$
+  Beta(x, y) = integral_0^1 t^(x-1) (1-t)^(y-1) d t = (Gamma(x) dot Gamma(y)) / Gamma(x + y)
+$
+
+#pagebreak()
+
+Then:
+$
+  I_n
+  = n^x dot Beta(x, n + 1)
+  = n^x dot (Gamma(x) dot Gamma(n + 1)) / Gamma(x + n + 1)
+  = (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
+$
+
+Take the limit on both sides.
+Since $display(lim_(n to infinity) I_n = Gamma(x))$, we have:
+$
+  Gamma(x) = lim_(n to infinity) (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
+$
+
+== Using the Gamma Function
+
+// Factorial
+$
+  n! = Gamma(n + 1)
+$
+// Generalized binomial coefficients
+$
+  binom(r, k) = Gamma(r + 1) / (Gamma(k + 1) dot Gamma(r - k + 1))
+$
+// Stirling's approximation
+$
+  Gamma(n + 1) approx sqrt(2 pi n) (n / e)^n
+$
+// Beta function
+$
+  Beta(x, y) = (Gamma(x) Gamma(y)) / Gamma(x + y)
+$
+
 
 == Bibliography
 #bibliography("refs.yml")
