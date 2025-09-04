@@ -44,9 +44,27 @@
 #import cetz: canvas, draw
 
 // Helper function for creating visual elements
-#let visual-box(content, color: blue, icon: none) = {
+#let visual-box(
+  body,
+  color: blue,
+  icon: none,
+  header: none,
+) = {
   let bg = color.transparentize(90%)
   let border = color.darken(20%)
+  let content = [
+    #if header != none [
+      #block(
+        below: .8em,
+        text(
+          size: 1.2em,
+          weight: "bold",
+          fill: border.darken(20%),
+        )[#header],
+      )
+    ]
+    #body
+  ]
 
   block(
     fill: bg,
@@ -117,9 +135,11 @@
   columns: (1fr, 1fr),
   column-gutter: 2em,
   [
-    #visual-box(color: blue, icon: emoji.clipboard)[
-      *Course information*
-
+    #visual-box(
+      color: blue,
+      icon: emoji.clipboard,
+      header: [Course information],
+    )[
       - *Title:* Discrete Mathematics
       - *Semester:* Fall 2025
       - *Prerequisites:* High school math
@@ -127,11 +147,11 @@
       - *Format:* Lectures, assignments, exam
     ]
 
-    #v(1em)
-
-    #visual-box(color: green, icon: emoji.darts)[
-      *What you'll master*
-
+    #visual-box(
+      color: green,
+      icon: emoji.darts,
+      header: [What you'll master],
+    )[
       - Mathematical structures & reasoning
       - Discrete (vs continuous) mathematics
       - Proof construction & validation
@@ -141,8 +161,6 @@
   [
     #align(center + horizon)[
       #course-overview-visual()
-      // #v(1em)
-      // _Four interconnected modules building mathematical maturity_
     ]
   ],
 )
@@ -155,27 +173,41 @@
 
     let steps = (
       (emoji.numbers, [Sets], blue),
-      (emoji.hands.shake, [Relations, Functions], green),
-      (emoji.lightbulb, [Boolean Logic], purple),
-      (emoji.page.pencil, [Formal Proofs], orange),
-      (emoji.mortarboard, [Mathematical Maturity], red),
+      (emoji.hands.shake, [Relations, \ Functions], green),
+      (emoji.lightbulb, [Boolean \ Logic], purple),
+      (emoji.page.pencil, [Formal \ Proofs], orange),
+      (emoji.mortarboard, [Mathematical \ Maturity], red),
     )
 
     for (i, (icon, label, color)) in steps.enumerate() {
       let x = i * 3
       let y = 0
+      let r = 0.8
 
       // Step circle
-      circle((x, y), radius: 0.8, fill: color.lighten(80%), stroke: 2pt + color)
-      content((x + .11, y + .09), text(size: 26pt)[#icon])
+      circle(
+        (x, y),
+        radius: r,
+        fill: color.lighten(80%),
+        stroke: 2pt + color.darken(20%),
+        name: "step" + str(i),
+      )
+      content(
+        (x + .12, y + .1),
+        text(size: 26pt)[#icon],
+      )
 
-      // Label below
-      content((x, y - 1.5), align(center, text(size: 0.8em, weight: "bold")[#label]))
+      // Label
+      content((x, y - r), anchor: "north", padding: .2, align(center, text(size: 0.8em, weight: "bold")[#label]))
+    }
 
-      // Arrow to next step
-      if i < steps.len() - 1 {
-        line((x + 0.8, y), (x + 2.2, y), stroke: 2pt + gray, mark: (end: ">"))
-      }
+    // Connections
+    for i in range(steps.len() - 1) {
+      line(
+        "step" + str(i),
+        "step" + str(i + 1),
+        stroke: 2pt + gradient.linear(steps.at(i).at(2).darken(20%), steps.at(i + 1).at(2).darken(20%)),
+      )
     }
   })
 }
@@ -190,9 +222,11 @@
   columns: 2,
   column-gutter: 2em,
   [
-    #visual-box(color: blue, icon: emoji.darts)[
-      *Core skills you'll develop*
-
+    #visual-box(
+      color: blue,
+      icon: emoji.darts,
+      header: [Core skills you'll develop],
+    )[
       + Work confidently with sets, relations, functions, logic, proofs
       + Design Boolean circuits
       + Construct mathematical proofs
@@ -200,9 +234,11 @@
     ]
   ],
   [
-    #visual-box(color: purple, icon: emoji.rocket)[
-      *Why this matters?*
-
+    #visual-box(
+      color: purple,
+      icon: emoji.rocket,
+      header: [Why this matters?],
+    )[
       - Foundation for computer science
       - Critical thinking & logical reasoning
       - Problem-solving methodology
@@ -215,25 +251,17 @@
 == The Four Pillars of Discrete Mathematics
 
 #let module-visual(number, title, icon, color, topics, applications) = {
-  visual-box(color: color)[
-    #grid(
-      columns: (auto, 1fr),
-      column-gutter: 1em,
-      align: (center, left),
-      [
-        #text(size: 3em, fill: color.darken(20%))[#icon]
-        #v(2em, weak: true)
-        #text(size: 1.5em, weight: "bold", fill: color.darken(30%))[#number]
-      ],
-      [
-        #block(below: .8em, text(size: 1.2em, weight: "bold", fill: color.darken(20%))[#title])
+  visual-box(
+    color: color,
+    icon: [
+      #text(size: 2em, fill: color.darken(20%))[#icon]
+    ],
+    header: title,
+  )[
+    #topics
 
-        #topics
-
-        *Applications:*
-        #text(style: "italic", fill: color.darken(10%))[#applications]
-      ],
-    )
+    *Applications:*
+    #text(style: "italic", fill: color.darken(20%))[#applications.]
   ]
 }
 
@@ -389,34 +417,44 @@
 }
 
 #grid(
-  columns: (1fr, 1fr),
+  columns: (.9fr, 1fr),
   column-gutter: 1.5em,
   row-gutter: 1.5em,
 
-  align(center)[
+  align(center + bottom)[
     #assessment-visual()
   ],
 
-  visual-box(color: blue, icon: emoji.books)[
-    *Homework (40% - Most Important!)*
+  visual-box(
+    color: blue,
+    icon: emoji.books,
+    header: [Homework (40% - Most Important!)],
+  )[
     - 4 assignments, 10 points each
-    - Computational & proof problems
-    - Collaboration allowed, write independently
+    - Computational and proof problems
+    - Collaboration allowed
     - Oral defense required
+    - Late submissions penalized
+    - Partial solutions are not accepted
   ],
 
-  visual-box(color: red, icon: emoji.warning)[
-    *Critical Requirements*
-    - Both Theoretical Minimums must be passed
-    - All homework must be completed
+  visual-box(
+    color: red,
+    icon: emoji.warning,
+    header: [Critical Requirements],
+  )[
+    - Both theoretical minimums and _all_ homeworks must be completed
     - Academic integrity enforced
   ],
 
-  visual-box(color: green, icon: emoji.page.pencil)[
-    *Tests, Theory, Exams*
+  visual-box(
+    color: green,
+    icon: emoji.page.pencil,
+    header: [Tests & Exams],
+  )[
     - _Module tests:_ Computational tasks
-    - _Theoretical minimums:_ Checks deep understanding
-    - _Exam:_ Written + Verbal + Practical
+    - _Theoretical minimums:_ Oral questionnaire
+    - _Final Exam:_ Written + Verbal + Practical
   ],
 )
 
@@ -481,19 +519,14 @@
       }
 
       // Draw parallelogram
-      let points = (
+      line(
         (x-start, 0), // Bottom left
         (x-start + skew, cell-height), // Top left
         (x-end + skew, cell-height), // Top right
         (x-end, 0), // Bottom right
-      )
-      merge-path(
+        close: true,
         fill: module-color.lighten(80%),
         stroke: 1pt + module-color.darken(20%),
-        for i in range(points.len()) {
-          let next-i = calc.rem(i + 1, points.len())
-          line(points.at(i), points.at(next-i))
-        },
       )
 
       // Week number
@@ -564,9 +597,11 @@
   columns: (1fr, 1fr),
   column-gutter: 2em,
 
-  visual-box(color: blue, icon: emoji.calendar)[
-    *Nearest Key Milestones*
-
+  visual-box(
+    color: blue,
+    icon: emoji.calendar,
+    header: [Nearest Milestones],
+  )[
     - *Week 3:* Module 1 Test
     - *Week 4:* First Homework due
     - *Week 8:* Theoretical Minimum 1
@@ -574,9 +609,11 @@
     Keep track of announcements!
   ],
 
-  visual-box(color: green, icon: emoji.lightbulb)[
-    *Study Strategy*
-
+  visual-box(
+    color: green,
+    icon: emoji.lightbulb,
+    header: [Study Strategy],
+  )[
     - Start homework early!
     - Form study groups for collaboration
     - Attend office hours for help
@@ -590,15 +627,21 @@
   columns: (1fr, 1fr),
   column-gutter: 2em,
   [
-    #visual-box(color: blue, icon: emoji.books)[
-      *Course Materials*
+    #visual-box(
+      color: blue,
+      icon: emoji.books,
+      header: [Course Materials],
+    )[
       - *Primary:* Lecture notes
       - *Reference:* Kenneth Rosen's textbook
       - *Website:* #link("https://github.com/Lipen/discrete-math-course")
     ]
 
-    #visual-box(color: purple, icon: emoji.book.open)[
-      *Additional Resources*
+    #visual-box(
+      color: purple,
+      icon: emoji.book.open,
+      header: [Additional Resources],
+    )[
       - Online tutorials and videos
       - Practice problem sets
       - Mathematical proof guides
@@ -607,16 +650,22 @@
     ]
   ],
   [
-    #visual-box(color: orange, icon: emoji.lightning)[
-      *Academic Integrity*
+    #visual-box(
+      color: orange,
+      icon: emoji.lightning,
+      header: [Academic Integrity],
+    )[
       - Homework: collaboration allowed
-      - Tests/Exams: Individual work only
+      - Tests/Exams: individual work only
       - Plagiarism = automatic failure
       - When in doubt, ask!
     ]
 
-    #visual-box(color: red, icon: emoji.clipboard)[
-      *Submission Guidelines*
+    #visual-box(
+      color: red,
+      icon: emoji.clipboard,
+      header: [Submission Guidelines],
+    )[
       - PDF format only (no exceptions)
       - Include name, group, ISU ID
       - Submit before deadline (23:55 GMT+3)
@@ -632,8 +681,11 @@
   columns: (1fr, 1fr),
   column-gutter: 2em,
   [
-    #visual-box(color: green, icon: emoji.hands.shake)[
-      *Getting Help*
+    #visual-box(
+      color: green,
+      icon: emoji.hands.shake,
+      header: [Getting Help],
+    )[
       - Instructor office hours: [TBA]
       - Teaching assistant hours: [TBA]
       - Telegram chat for Q&A: [TBA]
@@ -641,8 +693,7 @@
       - GitHub for course feedback
     ]
 
-    #visual-box(color: blue, icon: emoji.silhouette.double)[
-      *Study Community*
+    #visual-box(color: blue, icon: emoji.silhouette.double, header: [Study Community])[
       - Form study groups with classmates
       - Discuss problems
       - Share learning strategies
@@ -651,8 +702,11 @@
     ]
   ],
   [
-    #visual-box(color: purple, icon: emoji.arm.muscle)[
-      *Success Strategies*
+    #visual-box(
+      color: purple,
+      icon: emoji.arm.muscle,
+      header: [Success Strategies],
+    )[
       - Work steadily, don't cram
       - Do problems beyond homework
       - Ask early and often
@@ -660,8 +714,7 @@
       - Mathematical maturity takes time!
     ]
 
-    #visual-box(color: orange, icon: emoji.darts)[
-      *Learning Tips*
+    #visual-box(color: orange, icon: emoji.darts, header: [Learning Tips])[
       - Attend every lecture
       - Start homework assignments early
       - Practice writing clear explanations
