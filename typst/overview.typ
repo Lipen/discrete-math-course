@@ -7,6 +7,8 @@
   // dark: true,
 )
 
+#show heading.where(level: 1): none
+
 #show table.cell.where(y: 0): strong
 
 #set quote(block: true)
@@ -66,6 +68,14 @@
   ]
 }
 
+= Discrete Mathematics
+#focus-slide(
+  epigraph: [Mathematics is not about numbers, equations, computations, or algorithms: \ it is about understanding.],
+  epigraph-author: "William Paul Thurston",
+)
+
+== Course Overview
+
 #let course-overview-visual() = {
   canvas(length: 1cm, {
     import draw: *
@@ -102,10 +112,6 @@
   })
 }
 
-// = Welcome to Discrete Mathematics!
-
-== Course Overview
-
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 2em,
@@ -120,7 +126,7 @@
       - *Format:* Lectures, assignments, exam
     ]
 
-    #v(1fr)
+    #v(1em)
 
     #visual-box(color: green, icon: emoji.darts)[
       *What you'll master*
@@ -660,23 +666,3 @@
     ]
   ],
 )
-
-== Final Words
-
-#[
-  #v(2em)
-
-  #visual-box(color: blue, icon: emoji.mortarboard)[
-    #align(center)[
-      #set text(fill: blue.darken(20%))
-      #text(size: 1.4em, style: "italic")[
-        "Mathematics is not about numbers, equations, computations, or algorithms: it is about understanding."
-      ]
-      #align(right)[
-        #text(size: 1em, weight: "bold")[
-          — William Paul Thurston
-        ]
-      ]
-    ]
-  ]
-]
