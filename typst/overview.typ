@@ -428,7 +428,7 @@
   visual-box(
     color: blue,
     icon: emoji.books,
-    header: [Homework (40% - Most Important!)],
+    header: [Homework],
   )[
     - 4 assignments, 10 points each
     - Computational and proof problems
