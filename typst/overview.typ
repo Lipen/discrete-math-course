@@ -668,3 +668,10 @@
     ]
   ],
 )
+
+= Questions?
+
+#focus-slide(
+  epigraph: [The important thing is not to stop questioning.],
+  epigraph-author: "Albert Einstein",
+)
