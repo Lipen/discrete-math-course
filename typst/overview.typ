@@ -443,15 +443,16 @@
   // ]
 ]
 
-== Course Timeline: 17 Weeks of Mathematical Adventure
+== Course Timeline: 16+ Weeks of Mathematical Adventure
 
 #let timeline-visual() = {
-  canvas(length: 0.7cm, {
+  cetz.canvas({
     import draw: *
 
-    // Timeline parameters
-    let total-width = 17 // 17 weeks total
-    let timeline-height = 1.2
+    // Parameters
+    let total-weeks = 16 // not including session
+    let cell-height = 1
+    let cell-width = 1
     let skew = 0.2 // Parallelogram skew amount
 
     // Module definitions with week ranges
@@ -460,21 +461,13 @@
       ("Binary Relations", 3, 7, green, emoji.hands.shake),
       ("Boolean Algebra", 8, 10, purple, emoji.lightbulb),
       ("Formal Logic", 11, 16, orange, emoji.page.pencil),
-      ("Finals", 17, 17, red, emoji.mortarboard),
+      ("Exams", 17, 17, red, emoji.mortarboard),
     )
 
-    // Draw main timeline background (simple rectangle)
-    let base-y = -timeline-height / 2
-    let top-y = timeline-height / 2
-
-    // rect((0, base-y), (total-width, top-y), fill: gray.lighten(90%), stroke: 1pt + gray.darken(20%))
-
-    // Draw individual week parallelograms
-    for week in range(1, 18) {
-      let x-start = week - 1
-      let x-end = week
-      let week-base-y = base-y + 0.1
-      let week-top-y = top-y - 0.1
+    // Draw timeline
+    for week in range(1, total-weeks + 2) {
+      let x-start = (week - 1) * cell-width
+      let x-end = week * cell-width
 
       // Find which module this week belongs to
       let (module-name, module-color) = {
@@ -486,77 +479,84 @@
         }
       }
 
-      // Draw parallelogram for each week
-      let parallelogram-points = (
-        (x-start + skew, week-base-y), // Bottom left
-        (x-end + skew, week-base-y), // Bottom right
-        (x-end, week-top-y), // Top right
-        (x-start, week-top-y), // Top left
+      // Draw parallelogram
+      let points = (
+        (x-start, 0), // Bottom left
+        (x-start + skew, cell-height), // Top left
+        (x-end + skew, cell-height), // Top right
+        (x-end, 0), // Bottom right
+      )
+      merge-path(
+        fill: module-color.lighten(80%),
+        stroke: 1pt + module-color.darken(20%),
+        for i in range(points.len()) {
+          let next-i = calc.rem(i + 1, points.len())
+          line(points.at(i), points.at(next-i))
+        },
       )
 
-      // Fill the parallelogram
-      for i in range(parallelogram-points.len()) {
-        let next-i = calc.rem(i + 1, parallelogram-points.len())
-        line(
-          parallelogram-points.at(i),
-          parallelogram-points.at(next-i),
-          stroke: 1pt + module-color.darken(10%),
-          fill: if i == 0 { module-color.lighten(80%) } else { none },
-        )
-      }
-
       // Week number
-      let center-x = (x-start + x-end) / 2 + skew / 2
-      content((center-x, 0), text(size: 0.4em, weight: "bold", fill: module-color.darken(30%))[Week #week])
+      let center-x = (x-start + x-end + skew) / 2
+      let center-y = cell-height / 2
+      content((center-x, center-y), if week == total-weeks + 1 [
+        #text(
+          size: .6em,
+          weight: "bold",
+          fill: module-color.darken(20%),
+        )[Session]
+      ] else [
+        #text(
+          size: .9em,
+          weight: "bold",
+          fill: module-color.darken(20%),
+        )[W#week]
+      ])
+    }
 
-      // Add activity markers for specific weeks
-      let marker-y = top-y + 0.4
+    // Homework markers
+    for (i, week) in (3, 7, 10, 15).enumerate() {
+      let x = week * cell-width + skew
+      let y = cell-height
+      let name = "hw" + str(i)
+      circle((x, y), radius: (0.4, 0.3), fill: blue.lighten(20%), stroke: 1pt + blue.darken(20%), name: name)
+      content(name, text(size: 0.7em, fill: white, weight: "bold")[HW #(i + 1)])
+    }
 
-      // Homework due weeks (end of each module)
-      if week == 4 or week == 8 or week == 12 or week == 16 {
-        circle((center-x, marker-y), radius: 0.15, fill: blue, stroke: 1pt + white)
-        content((center-x, marker-y), text(size: 0.3em, fill: white, weight: "bold")[HW])
-      }
+    // Test markers
+    for (i, week) in (3, 7, 10, 15).enumerate() {
+      let x = week * cell-width
+      let y = 0
+      let name = "test" + str(week)
+      circle((x, y), radius: (0.4, 0.3), fill: green.lighten(20%), stroke: 1pt + green.darken(20%), name: name)
+      content(name, text(size: 0.7em, fill: black, weight: "bold")[Test #(i + 1)])
+    }
 
-      // Test weeks (start of next module)
-      if week == 5 or week == 9 or week == 13 or week == 17 {
-        circle((center-x, marker-y + 0.5), radius: 0.15, fill: green, stroke: 1pt + white)
-        content((center-x, marker-y + 0.5), text(size: 0.3em, fill: white, weight: "bold")[T])
-      }
-
-      // Theoretical Minimums
-      if week == 8 {
-        circle((center-x, marker-y + 1), radius: 0.2, fill: purple, stroke: 2pt + white)
-        content((center-x, marker-y + 1), text(size: 0.3em, fill: white, weight: "bold")[TM1])
-      }
-      if week == 16 {
-        circle((center-x, marker-y + 1), radius: 0.2, fill: purple, stroke: 2pt + white)
-        content((center-x, marker-y + 1), text(size: 0.3em, fill: white, weight: "bold")[TM2])
-      }
+    // Theoretical minimum markers
+    for (i, week) in (8, 16).enumerate() {
+      let x = week * cell-width + skew
+      let y = cell-height
+      let name = "tm" + str(i)
+      circle((x, y), radius: (0.4, 0.3), fill: purple.lighten(50%), stroke: 1pt + purple.darken(20%), name: name)
+      content(name, text(size: 0.7em, fill: black, weight: "bold")[TM #(i + 1)])
     }
 
     // Module labels at the bottom
     for (name, start-week, end-week, color, icon) in modules {
-      let center-x = (start-week + end-week - 1) / 2 + skew / 2
-      content((center-x, base-y - 0.6), text(size: 0.6em, weight: "bold", fill: color.darken(20%))[#icon #name])
+      let center-x = (start-week + end-week - 1) / 2 - skew / 2
+      let y = -0.2
+      content((center-x, y), anchor: "north", padding: .2, text(
+        size: .9em,
+        weight: "bold",
+        fill: color.darken(20%),
+      )[#icon#name])
     }
   })
 }
 
 #v(1em)
-
 #align(center)[
   #timeline-visual()
 ]
-
-// #visual-box(color: gray, icon: "📝")[
-//   *Legend*
-
-//   🔵 HW = Homework
-//   🟢 T = Test
-//   🟣 TM = Theoretical Minimum
-// ]
-
 #v(1em)
 
 #grid(
