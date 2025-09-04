@@ -158,7 +158,7 @@ TODO
 
 - Homework assignments are due *the day before the test*.
 - Exact deadlines will be announced in advance.
-- The deadline time is always 23:55 (GMT+2).
+- The deadline time is always 23:55 (GMT+3).
 - Late submissions are highly discouraged and will incur penalties:
   - Up to 24 hours late: -1 max point.
   - From 1 to 7 days late: -2 max points.
