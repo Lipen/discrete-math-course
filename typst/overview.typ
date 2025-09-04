@@ -514,7 +514,7 @@
     }
 
     // Homework markers
-    for (i, week) in (3, 7, 10, 15).enumerate() {
+    for (i, week) in (3, 6, 10, 14).enumerate() {
       let x = week * cell-width + skew
       let y = cell-height
       let name = "hw" + str(i)
@@ -523,8 +523,8 @@
     }
 
     // Test markers
-    for (i, week) in (3, 7, 10, 15).enumerate() {
-      let x = week * cell-width
+    for (i, week) in (3, 7, 11, 15).enumerate() {
+      let x = (week - 1) * cell-width + cell-width / 2
       let y = 0
       let name = "test" + str(week)
       circle((x, y), radius: (0.4, 0.3), fill: green.lighten(20%), stroke: 1pt + green.darken(20%), name: name)
@@ -533,7 +533,7 @@
 
     // Theoretical minimum markers
     for (i, week) in (8, 16).enumerate() {
-      let x = week * cell-width + skew
+      let x = (week - 1) * cell-width + cell-width / 2 + skew
       let y = cell-height
       let name = "tm" + str(i)
       circle((x, y), radius: (0.4, 0.3), fill: purple.lighten(50%), stroke: 1pt + purple.darken(20%), name: name)
@@ -564,11 +564,13 @@
   column-gutter: 2em,
 
   visual-box(color: blue, icon: emoji.calendar)[
-    *Key Milestones*
+    *Nearest Key Milestones*
 
-    - *Week 3:* First homework due
-    - *Week 4:* Module 1 Test
+    - *Week 3:* Module 1 Test
+    - *Week 4:* First Homework due
     - *Week 8:* Theoretical Minimum 1
+
+    Keep track of announcements!
   ],
 
   visual-box(color: green, icon: emoji.lightbulb)[
