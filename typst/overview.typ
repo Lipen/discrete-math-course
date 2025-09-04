@@ -81,8 +81,8 @@
     import draw: *
 
     // Central node
-    circle((0, 0), radius: 1.5, fill: blue.lighten(70%), stroke: 2pt + blue, name: "central")
-    content((0, 0), align(center, text(size: 1em, weight: "bold")[*Discrete* \ *Math*]))
+    circle((0, 0), radius: 1.5, fill: red.lighten(80%), stroke: 2pt + red, name: "central")
+    content((0, 0), align(center, text(size: 1.2em, weight: "bold")[*Discrete* \ *Math*]))
 
     // Branch nodes
     let positions = (
@@ -103,11 +103,12 @@
 
     for (i, (pos, topic, color)) in array.zip(positions, topics, colors).enumerate() {
       // Topic circle
-      circle(pos, radius: 1, fill: color.lighten(80%), stroke: 2pt + color, name: "node-" + topic)
-      content(pos, block(width: 1.5cm, align(center, text(size: 0.8em, weight: "bold")[#topic])))
+      let name = "node-" + str(i)
+      circle(pos, radius: 1, fill: color.lighten(80%), stroke: 2pt + color, name: name)
+      content(name, block(width: 1.5cm, align(center, text(size: 0.9em, weight: "bold")[#topic])))
 
       // Connection line
-      line("central", "node-" + topic, stroke: 1pt + gray)
+      line("central", name, stroke: 2pt + gray)
     }
   })
 }
@@ -138,7 +139,7 @@
     ]
   ],
   [
-    #align(center)[
+    #align(center + horizon)[
       #course-overview-visual()
       // #v(1em)
       // _Four interconnected modules building mathematical maturity_
