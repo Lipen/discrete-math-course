@@ -835,16 +835,16 @@
     - Every theorem has a proof
     - All prime numbers except 2 are odd
 
-    *E (Universal Negative):*
-    - No circles are squares
-    - No valid argument has false premises and true conclusion
-    - No even number greater than 2 is prime
-  ],
-  [
     *I (Particular Affirmative):*
     - Some politicians are honest
     - Some functions are continuous
     - Some equations have multiple solutions
+  ],
+  [
+    *E (Universal Negative):*
+    - No circles are squares
+    - No valid argument has false premises and true conclusion
+    - No even number greater than 2 is prime
 
     *O (Particular Negative):*
     - Some students are not prepared
