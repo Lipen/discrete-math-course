@@ -405,9 +405,9 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   ${ x | x in A or x in B }$,
   [
     #draw-venn2(
-      a-fill: green.transparentize(80%),
-      b-fill: green.transparentize(80%),
-      ab-fill: green.transparentize(80%),
+      a-fill: purple.transparentize(80%),
+      b-fill: purple.transparentize(80%),
+      ab-fill: purple.transparentize(80%),
     )
   ],
 
@@ -416,7 +416,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   ${ x | x in A and x in B }$,
   [
     #draw-venn2(
-      ab-fill: green.transparentize(80%),
+      ab-fill: purple.transparentize(80%),
     )
   ],
 
@@ -425,7 +425,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   ${ x | x in A and x notin B }$,
   [
     #draw-venn2(
-      a-fill: green.transparentize(80%),
+      a-fill: purple.transparentize(80%),
     )
   ],
 
@@ -434,8 +434,8 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   $(A setminus B) union (B setminus A)$,
   [
     #draw-venn2(
-      a-fill: green.transparentize(80%),
-      b-fill: green.transparentize(80%),
+      a-fill: purple.transparentize(80%),
+      b-fill: purple.transparentize(80%),
     )
   ],
 
@@ -444,9 +444,9 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   ${ x | x notin A }$,
   [
     #draw-venn2(
-      not-ab-fill: green.transparentize(80%),
+      not-ab-fill: purple.transparentize(80%),
       padding: .2,
-      not-ab-stroke: 1pt + green.darken(20%),
+      not-ab-stroke: 1pt + purple.darken(20%),
     )
   ],
   // [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$, [],
