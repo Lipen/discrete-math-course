@@ -1383,7 +1383,7 @@
   Categorical propositions can be represented using Venn diagrams with two or three circles.
 
   - Shaded regions represent empty classes
-  - X marks represent existing individuals
+  - #NO marks represent existing individuals
   - Overlap patterns show relationships between categories
 ]
 
