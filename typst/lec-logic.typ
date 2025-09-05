@@ -1464,7 +1464,7 @@
   - "Socrates is human"
   - "Therefore, Socrates is mortal"
 
-  In propositional logic, these would be unrelated atomic propositions $P$, $Q$, $R$, without any structure connecting them.
+  In propositional logic, these would be _unrelated_ atomic propositions $P$, $Q$, $R$, without any structure connecting them.
 ]
 
 #definition[
