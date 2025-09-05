@@ -100,7 +100,13 @@
 
     // Central node
     circle((0, 0), radius: 1.5, fill: red.lighten(80%), stroke: 2pt + red, name: "central")
-    content((0, 0), align(center, text(size: 1.2em, weight: "bold")[*Discrete* \ *Math*]))
+    content((0, 0), block(
+      width: 2.5cm,
+      align(center, text(
+        size: 1.2em,
+        weight: "bold",
+      )[Discrete Math]),
+    ))
 
     // Branch nodes
     let positions = (
@@ -109,24 +115,44 @@
       (-3, -2), // Boolean Algebra
       (3, -2), // Formal Logic
     )
-
     let topics = (
       "Set Theory",
       "Binary Relations",
       "Boolean Algebra",
       "Formal Logic",
     )
-
-    let colors = (blue, green, purple, orange)
+    let colors = (
+      blue,
+      green,
+      purple,
+      orange,
+    )
 
     for (i, (pos, topic, color)) in array.zip(positions, topics, colors).enumerate() {
-      // Topic circle
       let name = "node-" + str(i)
-      circle(pos, radius: 1, fill: color.lighten(80%), stroke: 2pt + color, name: name)
-      content(name, block(width: 1.5cm, align(center, text(size: 0.9em, weight: "bold")[#topic])))
-
+      // Topic circle
+      circle(
+        pos,
+        radius: 1,
+        fill: color.lighten(80%),
+        stroke: 2pt + color,
+        name: name,
+      )
+      // Topic label
+      content(name, block(
+        width: 1.5cm,
+        align(center, text(
+          size: 0.9em,
+          weight: "bold",
+        )[#topic]),
+      ))
       // Connection line
-      line("central", name, stroke: 2pt + gray)
+      line(
+        "central",
+        name,
+        // stroke: 2pt + gradient.linear(red, color),
+        stroke: 2pt + gray,
+      )
     }
   })
 }
