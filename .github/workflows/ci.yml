@@ -33,20 +33,19 @@ jobs:
       - run: typst fonts --font-path ~/.fontist/fonts
 
       - name: Compile Typst files
-        working-directory: typst
         run: |
           echo "Compiling Typst files..."
           COMPILE="typst compile --font-path ~/.fontist/fonts"
-          $COMPILE syllabus.typ
-          $COMPILE overview.typ
-          $COMPILE lec-set-theory.typ
-          $COMPILE lec-boolean-algebra.typ
-          $COMPILE lec-logic.typ
-          $COMPILE lec-flow.typ
-          $COMPILE lec-formal.typ
-          $COMPILE lec-nfa.typ
-          $COMPILE lec-regular.typ
-          $COMPILE lec-combinatorics.typ
+          $COMPILE typst/syllabus.typ
+          $COMPILE typst/overview.typ
+          $COMPILE typst/lec-set-theory.typ
+          $COMPILE typst/lec-boolean-algebra.typ
+          $COMPILE typst/lec-logic.typ
+          $COMPILE typst/lec-flow.typ
+          $COMPILE typst/lec-formal.typ
+          $COMPILE typst/lec-nfa.typ
+          $COMPILE typst/lec-regular.typ
+          $COMPILE typst/lec-combinatorics.typ
           echo "Compilation finished."
           ls -la *.pdf
 
