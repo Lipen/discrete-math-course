@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-typst:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -31,41 +31,71 @@ jobs:
       - run: rm -f typst/requirements.pdf
       - run: typst --version
       - run: typst fonts --font-path ~/.fontist/fonts
-      - run: typst compile --font-path ~/.fontist/fonts typst/syllabus.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/overview.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-set-theory.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-boolean-algebra.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-logic.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-flow.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-formal.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-nfa.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-regular.typ
-      - run: typst compile --font-path ~/.fontist/fonts typst/lec-combinatorics.typ
-      - run: mv typst/*.pdf .
+
+      - name: Compile Typst files
+        working-directory: typst
+        run: |
+          echo "Compiling Typst files..."
+          COMPILE="typst compile --font-path ~/.fontist/fonts"
+          $COMPILE syllabus.typ
+          $COMPILE overview.typ
+          $COMPILE lec-set-theory.typ
+          $COMPILE lec-boolean-algebra.typ
+          $COMPILE lec-logic.typ
+          $COMPILE lec-flow.typ
+          $COMPILE lec-formal.typ
+          $COMPILE lec-nfa.typ
+          $COMPILE lec-regular.typ
+          $COMPILE lec-combinatorics.typ
+          echo "Compilation finished."
+          ls -la *.pdf
+
+      - name: Upload PDFs as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-typst
+          path: "typst/*.pdf"
+
+  build-tex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Build LaTeX project and generate PDFs
         uses: xu-cheng/latex-action@v3
         with:
+          working_directory: tex
           root_file: "*.tex"
 
       - name: Upload PDFs as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: PDF
-          path: "*.pdf"
+          name: pdf-tex
+          path: "tex/*.pdf"
 
-      - name: Upload PDFs as release
-        uses: softprops/action-gh-release@v2
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-typst, build-tex]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download PDF artifacts
+        uses: actions/download-artifact@v5
         with:
-          body: Current state of PDFs
-          name: Latest PDFs
-          tag_name: current
-          files: "*.pdf"
+          pattern: pdf-*
+
+      - name: Show files
+        run: ls -R
 
       - name: Prepare files for gh-pages
         run: |
+          # Note: All Typst PDFs go to the root of 'public', TeX PDFs go to 'public/tex'
           mkdir -p public
-          mv *.pdf public/
+          mv pdf-typst/*.pdf public/
+          mkdir -p public/tex
+          mv pdf-tex/*.pdf public/tex
 
       - name: Publish PDFs to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
