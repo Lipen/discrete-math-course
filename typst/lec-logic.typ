@@ -1291,7 +1291,7 @@
     })
   ]
 
-  - "All cats are mammals" (A-form)
+  - "All cats are mammals" (_A-form_)
     - Says something about ALL cats (subject distributed)
     - Says nothing about ALL mammals (predicate not distributed)
 
@@ -1314,7 +1314,7 @@
     })
   ]
 
-  - "No reptiles are mammals" (E-form)
+  - "No reptiles are mammals" (_E-form_)
     - Says something about ALL reptiles (subject distributed)
     - Says something about ALL mammals (predicate distributed)
 
@@ -1337,7 +1337,7 @@
     })
   ]
 
-  - "Some birds are flightless" (I-form)
+  - "Some birds are flightless" (_I-form_)
     - Says something about SOME birds (subject not distributed)
     - Says something about SOME flightless creatures (predicate not distributed)
 
@@ -1359,7 +1359,7 @@
     })
   ]
 
-  - "Some animals are not vertebrates" (O-form)
+  - "Some animals are not vertebrates" (_O-form_)
     - Says something about SOME animals (subject not distributed)
     - Says something about ALL vertebrates (predicate distributed)
 ]
