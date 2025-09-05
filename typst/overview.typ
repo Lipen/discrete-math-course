@@ -151,7 +151,7 @@
         "central",
         name,
         // stroke: 2pt + gradient.linear(red, color),
-        stroke: 2pt + gray,
+        stroke: 2pt + red,
       )
     }
   })
