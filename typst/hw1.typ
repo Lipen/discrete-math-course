@@ -62,26 +62,27 @@ Consider $a$ and $b$ to be distinct ($a eq.not b$) _urelements_ (atomic objects 
 #tasklist("steps1", cols: 3)[
   + $a in {{a}, b}$
   + ${a} in {a, {a}}$
-  + ${a} subset {a, a}$
   + ${a} subset.eq {{a}, {b}}$
+  + ${a, b} in {a, b}$
   + ${{a}, b} subset.eq {a, {a, b}, {b}}$
-  + ${a, b} inter {{b}} = {b}$
+  + ${{a}} subset {{a}, {a}}$
   + ${a, a, a} without {a} = {a, a}$
   #colbreak()
   + $emptyset in emptyset$
+  + $emptyset in {emptyset}$
+  + $emptyset in {{emptyset}}$
   + $emptyset subset.eq emptyset$
   + $emptyset subset emptyset$
-  + $emptyset in {emptyset}$
   + $emptyset subset.eq {{emptyset}}$
   + ${emptyset, emptyset} subset {emptyset}$
-  + $power(emptyset) = {emptyset}$
   #colbreak()
+  + $power(emptyset) = {emptyset}$
   + $a in power({a})$
   + $power({a, emptyset}) subset power({a, b, emptyset})$
   + ${a, b} subset.eq power({a, b})$
   + ${a, a} in power({a, a})$
   + ${{a}, emptyset} subset.eq power({a, a})$
-  // TODO: two more
+  + $power({a, b}) supset.eq {{a}, {emptyset}}$
 ]
 
 
