@@ -22,6 +22,8 @@
 #set text(12pt)
 #set par(justify: true)
 
+#show table.cell.where(y: 0): strong
+
 #show heading.where(level: 2): set block(below: 1em, above: 1.4em)
 
 #show emph: set text(fill: blue.darken(20%))
@@ -40,6 +42,9 @@
 
 #let True = Green(`true`)
 #let False = Red(`false`)
+
+#let YES = Green(sym.checkmark)
+#let NO = Red(sym.crossmark)
 
 #let tasklist(id, cols: 1, body) = {
   let s = counter(id)
@@ -140,18 +145,40 @@ Define _priority levels_:
 Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
 Annotate the priority categories.
 
+
+#pagebreak()
+
 == Problem 3: Similarity and Distance Metrics
 
 Streaming services use similarity measures to recommend content.
+
 Consider _user preferences_ as sets of genres they enjoy.
+For example, user Anna likes Sci-fi and Thriller, so her preference set is $A = {"sci-fi", "thriller"}$.
 
-Users and their preferred genres:
-- Anna: $A = {"sci-fi", "thriller"}$
-- Boris: $B = {"thriller", "drama", "romance"}$
-- Clara: $C = {"horror", "romance", "drama", "comedy"}$
-- Diana: $D = {"action", "sci-fi", "comedy", "fantasy"}$
-
-#v(2cm, weak: true)
+#align(center,table(
+  columns: 9,
+  align: (x, y) => {
+    let h = if x == 0 { right } else { center }
+    let v = if y == 0 { bottom }
+    h + v
+  },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header(
+    [],
+    rotate(-90deg, reflow: true)[Sci-fi],
+    rotate(-90deg, reflow: true)[Thriller],
+    rotate(-90deg, reflow: true)[Drama],
+    rotate(-90deg, reflow: true)[Romance],
+    rotate(-90deg, reflow: true)[Horror],
+    rotate(-90deg, reflow: true)[Comedy],
+    rotate(-90deg, reflow: true)[Action],
+    rotate(-90deg, reflow: true)[Fantasy],
+  ),
+  [*Anna*], [#YES], [#YES], [#NO], [#NO], [#NO], [#NO], [#NO], [#NO],
+  [*Boris*], [#NO], [#YES], [#YES], [#YES], [#NO], [#NO], [#NO], [#NO],
+  [*Clara*], [#NO], [#NO], [#YES], [#YES], [#YES], [#YES], [#NO], [#NO],
+  [*Diana*], [#YES], [#NO], [#NO], [#NO], [#NO], [#YES], [#YES], [#YES],
+))
 
 *Part (a):*
 The _Jaccard similarity_ between users $X$ and $Y$ is defined as:
@@ -206,8 +233,6 @@ A user with preferences $U = {"thriller", "horror"}$ joins the platform.
 Using Jaccard similarity, find users with similarity $>= 0.25$ to user $U$.
 
 
-#pagebreak()
-
 == Problem 5: Coordinate Systems
 
 A game developer is designing a 2D puzzle game with different gameplay zones.
@@ -255,6 +280,8 @@ Explain why some potential solutions don't work.
 *Part (c):*
 Design your own _non-trivial_ self-referential set system.
 
+
+#pagebreak()
 
 == Problem 7: Fuzzy Sets
 
