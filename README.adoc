@@ -4,11 +4,48 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/bad
 
 > This repo contains some supplementary materials for the Discrete Math course at ITMO University.
 
-== Rendered
+== Rendered PDFs
 
 [%autowidth]
 |===
-^|Cheatsheets ^|Homeworks
+^|Lectures ^|Homeworks
+
+|image:https://img.shields.io/badge/Lecture-Set Theory-blue?style=social&logo=gitbook["Lecture: Set Theory", link="https://lipen.github.io/discrete-math-course/lec-set-theory.pdf"]
+|image:https://img.shields.io/badge/Homework 1-Set Theory-blue?style=social&logo=gitbook["Homework 1: Set Theory", link="https://lipen.github.io/discrete-math-course/hw1.pdf"]
+
+|image:https://img.shields.io/badge/Lecture-Set Theory-blue?style=social&logo=gitbook["Lecture: Set Theory", link="https://lipen.github.io/discrete-math-course/lec-set-theory.pdf"]
+|image:https://img.shields.io/badge/Homework 2-Binary Relations-blue?style=social&logo=gitbook["Homework 2: Binary Relations", link="https://lipen.github.io/discrete-math-course/hw2.pdf"]
+
+|image:https://img.shields.io/badge/Lecture-Boolean Algebra-blue?style=social&logo=gitbook["Lecture: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/lec-boolean-algebra.pdf"]
+|image:https://img.shields.io/badge/Homework 3-Boolean Algebra-blue?style=social&logo=gitbook["Homework 3: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/hw3.pdf"]
+
+|image:https://img.shields.io/badge/Lecture-Formal Logic-blue?style=social&logo=gitbook["Lecture: Formal Logic", link="https://lipen.github.io/discrete-math-course/lec-logic.pdf"]
+|image:https://img.shields.io/badge/Homework 4-Formal Logic-blue?style=social&logo=gitbook["Homework 4: Formal Logic", link="https://lipen.github.io/discrete-math-course/hw4.pdf"]
+
+|image:https://img.shields.io/badge/Lecture-Flow Networks-blue?style=social&logo=gitbook["Lecture: Flow Networks", link="https://lipen.github.io/discrete-math-course/lec-flow.pdf"]
+|image:https://img.shields.io/badge/Homework 5-Graph Theory-blue?style=social&logo=gitbook["Homework 5: Graph Theory", link="https://lipen.github.io/discrete-math-course/hw5.pdf"]
+
+|image:https://img.shields.io/badge/Lecture-Formal Languages-blue?style=social&logo=gitbook["Lecture: Formal Languages", link="https://lipen.github.io/discrete-math-course/lec-formal.pdf"]
+|image:https://img.shields.io/badge/Homework 6-Automata Theory-blue?style=social&logo=gitbook["Homework 6: Automata Theory", link="https://lipen.github.io/discrete-math-course/hw6.pdf"]
+
+|image:https://img.shields.io/badge/Lecture-NFA-blue?style=social&logo=gitbook["Lecture: NFA", link="https://lipen.github.io/discrete-math-course/lec-nfa.pdf"]
+|
+
+|image:https://img.shields.io/badge/Lecture-Regular Languages-blue?style=social&logo=gitbook["Lecture: (Not only) Regular Languages", link="https://lipen.github.io/discrete-math-course/lec-regular.pdf"]
+|
+
+|image:https://img.shields.io/badge/Lecture-Combinatorics-blue?style=social&logo=gitbook["Lecture: Combinatorics", link="https://lipen.github.io/discrete-math-course/lec-combinatorics.pdf"]
+|image:https://img.shields.io/badge/Homework 7-Combinatorics-blue?style=social&logo=gitbook["Homework 7: Combinatorics", link="https://lipen.github.io/discrete-math-course/hw7.pdf"]
+
+|
+|image:https://img.shields.io/badge/Homework 8-Recurrences-blue?style=social&logo=gitbook["Homework 8: Recurrences", link="https://lipen.github.io/discrete-math-course/hw8.pdf"]
+|===
+
+== Legacy TeX Materials
+
+[%autowidth]
+|===
+^|Cheatsheets (Legacy) ^|Homeworks (Legacy)
 
 |image:https://img.shields.io/badge/Cheatsheet 1-Set Theory-blue?style=social&logo=gitbook["Cheatsheet 1: Set Theory", link="https://lipen.github.io/discrete-math-course/tex/cheat1.pdf"]
 |image:https://img.shields.io/badge/Homework 1-Set Theory-blue?style=social&logo=gitbook["Homework 1: Set Theory", link="https://lipen.github.io/discrete-math-course/tex/hw1.pdf"]
@@ -35,31 +72,20 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/bad
 |image:https://img.shields.io/badge/Homework 8-Recurrences-blue?style=social&logo=gitbook["Homework 8: Recurrences", link="https://lipen.github.io/discrete-math-course/tex/hw8.pdf"]
 |===
 
-[%autowidth]
-|===
-^|Lectures
-|image:https://img.shields.io/badge/Lecture-Set Theory-blue?style=social&logo=gitbook["Lecture: Set Theory", link="https://lipen.github.io/discrete-math-course/lec-set-theory.pdf"]
-|image:https://img.shields.io/badge/Lecture-Boolean Algebra-blue?style=social&logo=gitbook["Lecture: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/lec-boolean-algebra.pdf"]
-|image:https://img.shields.io/badge/Lecture-Formal Logic-blue?style=social&logo=gitbook["Lecture: Formal Logic", link="https://lipen.github.io/discrete-math-course/lec-logic.pdf"]
-|image:https://img.shields.io/badge/Lecture-Flow Networks-blue?style=social&logo=gitbook["Lecture: Flow Networks", link="https://lipen.github.io/discrete-math-course/lec-flow.pdf"]
-|image:https://img.shields.io/badge/Lecture-Formal Languages-blue?style=social&logo=gitbook["Lecture: Formal Languages", link="https://lipen.github.io/discrete-math-course/lec-formal.pdf"]
-|image:https://img.shields.io/badge/Lecture-NFA-blue?style=social&logo=gitbook["Lecture: NFA", link="https://lipen.github.io/discrete-math-course/lec-nfa.pdf"]
-|image:https://img.shields.io/badge/Lecture-Regular Languages-blue?style=social&logo=gitbook["Lecture: (Not only) Regular Languages", link="https://lipen.github.io/discrete-math-course/lec-regular.pdf"]
-|image:https://img.shields.io/badge/Lecture-Combinatorics-blue?style=social&logo=gitbook["Lecture: Combinatorics", link="https://lipen.github.io/discrete-math-course/lec-combinatorics.pdf"]
-|===
-
 == Build
 
-To compile the PDFs from the TeX source code, you can use link:https://mg.readthedocs.io/latexmk.html[Latexmk]:
-
-[source]
-----
-latexmk -pdf cheat1.tex
-----
-
-For the `.typ` files (in `typst/*` directory), use link:https://typst.app/[Typst].
+// For the `.typ` files (in `typst/*` directory), use link:https://typst.app/[Typst].
+To compile PFDs, use link:https://typst.app/[Typst]:
 
 [source]
 ----
 typst compile typst/lec-flow.typ
+----
+
+
+To compile PDFs from the TeX source code (`./tex` folder), you can use link:https://mg.readthedocs.io/latexmk.html[Latexmk]:
+
+[source]
+----
+latexmk -pdf cheat1.tex
 ----

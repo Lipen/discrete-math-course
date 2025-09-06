@@ -46,6 +46,7 @@ jobs:
           typst compile --font-path ~/.fontist/fonts lec-nfa.typ
           typst compile --font-path ~/.fontist/fonts lec-regular.typ
           typst compile --font-path ~/.fontist/fonts lec-combinatorics.typ
+          typst compile --font-path ~/.fontist/fonts hw1.typ
           echo "Compilation finished."
           ls -la *.pdf
 
