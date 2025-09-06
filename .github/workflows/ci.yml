@@ -32,23 +32,20 @@ jobs:
       - run: typst --version
       - run: typst fonts --font-path ~/.fontist/fonts
 
-      - name: Compile Typst files
-        working-directory: typst
-        run: |
-          echo "Compiling Typst files..."
-          typst compile --font-path ~/.fontist/fonts syllabus.typ
-          typst compile --font-path ~/.fontist/fonts overview.typ
-          typst compile --font-path ~/.fontist/fonts lec-set-theory.typ
-          typst compile --font-path ~/.fontist/fonts lec-boolean-algebra.typ
-          typst compile --font-path ~/.fontist/fonts lec-logic.typ
-          typst compile --font-path ~/.fontist/fonts lec-flow.typ
-          typst compile --font-path ~/.fontist/fonts lec-formal.typ
-          typst compile --font-path ~/.fontist/fonts lec-nfa.typ
-          typst compile --font-path ~/.fontist/fonts lec-regular.typ
-          typst compile --font-path ~/.fontist/fonts lec-combinatorics.typ
-          typst compile --font-path ~/.fontist/fonts hw1.typ
-          echo "Compilation finished."
-          ls -la *.pdf
+      - run: typst compile --font-path ~/.fontist/fonts typst/syllabus.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/overview.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-set-theory.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-boolean-algebra.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-logic.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-flow.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-formal.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-nfa.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-regular.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-combinatorics.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/hw1.typ
+
+      - name: List generated PDFs
+        run: ls -lh typst/*.pdf
 
       - name: Upload PDFs as artifact
         uses: actions/upload-artifact@v4
