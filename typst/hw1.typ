@@ -12,7 +12,7 @@
     \
     *Set Theory*
     #h(1fr)
-    *Fall 2025*
+    *$#emoji.leaf.maple$Fall 2025*
     #place(bottom, dy: 0.4em)[
       #line(length: 100%, stroke: 0.6pt)
     ]
@@ -102,7 +102,7 @@ Consider $a$ and $b$ to be distinct ($a eq.not b$) _urelements_ (atomic objects 
 #let Medium = $M$
 
 A cybersecurity team monitors different types of _network threats_.
-They classify threats into sets based on their characteristics:
+They classify threats into sets based on their attack vectors:
 - $Active = {"malware", "phishing", "ddos", "ransomware", "botnet"}$
   #h(1fr) (currently _actively_ detected threats)
 - $Human = {"phishing", "social-eng", "ddos", "insider", "malware"}$
@@ -131,7 +131,7 @@ Compute the following and interpret each result in cybersecurity context:
 ]
 
 *Part (b):*
-The security team wants to prioritize threats.
+The security team needs to triage threats effectively.
 Define _priority levels_:
 - Critical: $Critical = Active inter Human inter Network$
   #h(1fr) (active, human-targeted, network-based)
@@ -145,7 +145,7 @@ Define _priority levels_:
 
 *Part (c):*
 Draw a Venn diagram showing sets $Active$, $Human$, and $Network$ with all threat types labeled in their appropriate regions.
-Annotate the priority categories.
+Use colors to annotate the priority categories.
 
 
 #pagebreak()
@@ -155,7 +155,7 @@ Annotate the priority categories.
 Streaming services use similarity measures to recommend content.
 
 Consider _user preferences_ as sets of genres they enjoy.
-For example, user Anna likes Sci-fi and Thriller, so her preference set is $A = {"sci-fi", "thriller"}$.
+For example, if Anna loves mind-bending plots, her preference set is $A = {"sci-fi", "thriller"}$.
 
 #align(center, table(
   columns: 9,
@@ -183,23 +183,26 @@ For example, user Anna likes Sci-fi and Thriller, so her preference set is $A = 
 ))
 
 *Part (a):*
-The _Jaccard similarity_ between users $X$ and $Y$ is defined as:
+The _Jaccard similarity_ measures how much two users' tastes overlap:
 $
   Jaccard(X, Y) = frac(
     card(X inter Y),
     card(X union Y)
+  ) = frac(
+    "shared preferences",
+    "total unique preferences"
   )
 $
 with the convention that $Jaccard(emptyset, emptyset) = 1$.
 
-The _Jaccard distance_ measures dissimilarity:
+The _Jaccard distance_ measures how different users are:
 $
   JaccardDist(X, Y) = 1 - Jaccard(X, Y)
 $
 
-+ Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among given users.
++ Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among users.
 + Determine which pair is most similar and which is most dissimilar.
-+ Draw a graph with users as nodes and edges weighted by Jaccard similarity.
++ Draw a social network graph with users as nodes and edges weighted by Jaccard similarity.
 + Build $G_(0.25)$: the graph with edges where Jaccard $>= 0.25$.
   List connected components.
 
@@ -237,8 +240,12 @@ $
 $
 
 *Part (e):*
-A user with preferences $U = {"thriller", "horror"}$ joins the platform.
-Using Jaccard similarity, find users with similarity $>= 0.25$ to user $U$.
+A new user joins with preferences $U = {"thriller", "horror"}$.
+Using Jaccard similarity, find existing users with similarity $>= 0.25$ to recommend as "users with similar taste."
+
+*Challenge:*
+Design your own similarity metric that you think would work better than Jaccard for movie recommendations.
+Explain your reasoning.
 
 
 == Problem 4: Logic and Set Identities
@@ -252,7 +259,7 @@ Translate each statement to first-order logic with quantifiers over a universal 
 + $A subset.eq B iff power(A) subset.eq power(B)$
 
 *Part (b):*
-Prove the following set identities using both Venn diagrams and symbolic reasoning:
+Prove the following identities using both Venn diagrams and symbolic reasoning:
 + $(A without B) union (B without A) = (A union B) without (A inter B)$
 + De Morgan's laws: $overline(A union B) = overline(A) inter overline(B)$ and $overline(A inter B) = overline(A) union overline(B)$
 + $A subset.eq B$ if and only if $A inter B = A$ if and only if $A union B = B$
@@ -289,13 +296,13 @@ A player starts at position $P_0 = pair(2, 6)$ and moves according to vectors $v
 + Does the player ever enter the Boss Arena $B$?
 
 
-== Problem 6: Recursive Data Structures
+== Problem 6: Self-Referential Set Puzzles
 
-In computer science, data structures often have self-referential definitions.
-Consider the following systems where sets reference their own cardinalities.
+In computer science, recursive data structures reference themselves.
+These mathematical puzzles explore similar self-referential concepts that appear in programming, logic, and even philosophy.
 
 *Part (a):*
-Find all sets $X$ and $Y$ that satisfy:
+Find all sets $X$ and $Y$ that satisfy this system:
 $
   X & = {1, 2, card(Y)} \
   Y & = {card(X), 3, 4}
@@ -315,18 +322,22 @@ Find all valid solutions $(A, B, C)$.
 Explain why some potential solutions don't work.
 
 *Part (c):*
-Design your own _non-trivial_ self-referential set system.
+Design your own _non-trivial_ self-referential set system involving 2--4 sets.
 
 
-== Problem 7: Fuzzy Sets
+== Problem 7: Fuzzy Logic
 
-In many real‑world systems, categorical boundaries are blurred.
-_Fuzzy sets_ model the partial or probabilistic membership via a function $mu(x) in [0;1] subset.eq RR$ assigning each element a _membership degree_ representing how "strongly" the element belongs to the set.
+In the real world, boundaries aren't always crisp.
+Is a 180cm person tall?
+Is 10°C warm?
+_Fuzzy sets_ model this uncertainty and are crucial in AI, machine learning, and control systems.
 
-Consider two fuzzy sets over the same finite universe $X = {a,b,c,d,e}$:
+Unlike classical sets where membership is binary (in/out), fuzzy sets assign each element a _membership degree_ $mu(x) in [0;1] subset.eq RR$ representing how "strongly" the element belongs.
+
+Consider two fuzzy sets over $X = {a,b,c,d,e}$:
 $
-  F = { a:0.4, b:0.8, c:0.2, d:0.9, e:0.7 } \
-  R = { a:0.6, b:0.9, c:0.4, d:0.1, e:0.5 }
+  F & = { a:0.4, b:0.8, c:0.2, d:0.9, e:0.7 } \
+  R & = { a:0.6, b:0.9, c:0.4, d:0.1, e:0.5 }
 $
 
 *Part (a):*
@@ -363,7 +374,8 @@ List all triggered elements with their degrees and briefly comment on the trade�
 == Problem 8: Power Sets
 
 Let $A$ and $B$ be finite sets.
-Prove or disprove each statement:
+For each statement below, either provide a _rigorous proof_ or find a _counterexample_ that disproves the claim.
+
 + If $A subset.eq B$, then $power(A) subset.eq power(B)$
 + $power(A inter B) = power(A) inter power(B)$
 + $power(A union B) = power(A) union power(B)$
@@ -372,26 +384,30 @@ Prove or disprove each statement:
 
 == Problem 9: Cardinality and Infinity
 
-Determine whether the following sets are countable or uncountable.
-Provide justifications, including explicit bijections or diagonalization arguments where appropriate.
+For each set below, determine whether it is _countable_ (same size as natural numbers) or _uncountable_ (strictly larger than natural numbers).
+Provide clear justifications, including explicit bijections or diagonalization arguments where appropriate.
+
 + The set of rational#footnote[A rational number is a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.] numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
-+ The set of all functions of the form $f: NN -> NN$.
-+ The union of a countable number of countable sets.
++ The set of all functions $f: NN -> NN$.
++ The union of countably many countable sets.
 + The set of all computer programs in a particular programming language.
-+ The set of real roots of all equations of the form $a x^2 + b x + c = 0$ with integer coefficients.
++ The set of real roots of all quadratic equations $a x^2 + b x + c = 0$ with integer coefficients.
 
 
 #line(length: 100%, stroke: 0.4pt)
 
-*Submission guidelines:*
+*Submission Guidelines:*
 - Show all work and reasoning clearly for computational problems.
 - For proofs, state what you're proving, provide clear logical steps, and conclude with QED or $square$.
 - For false statements, provide specific counterexamples.
-- Collaborate with classmates on concepts, but write all solutions independently.
+- Collaborate with classmates, but write all solutions independently.
 - Submit as PDF with clearly labeled problems and legible work.
 
-*Grading rubric:*
+*Grading Rubric:*
 - Computational accuracy: 50%
+  #h(1fr) #text(.7em)[(Getting the right answer)]
 - Mathematical reasoning and proof quality: 30%
+  #h(1fr) #text(.7em)[(Showing clear logical thinking)]
 - Presentation and clarity: 20%
+  #h(1fr) #text(.7em)[(Making your solutions easy to follow)]
