@@ -155,7 +155,7 @@ Streaming services use similarity measures to recommend content.
 Consider _user preferences_ as sets of genres they enjoy.
 For example, user Anna likes Sci-fi and Thriller, so her preference set is $A = {"sci-fi", "thriller"}$.
 
-#align(center,table(
+#align(center, table(
   columns: 9,
   align: (x, y) => {
     let h = if x == 0 { right } else { center }
@@ -198,6 +198,8 @@ $
 + Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among given users.
 + Determine which pair is most similar and which is most dissimilar.
 + Draw a graph with users as nodes and edges weighted by Jaccard similarity.
++ Build $G_(0.3)$: the graph with edges where Jaccard $>= 0.3$.
+  List connected components.
 
 *Part (b):*
 The _Cosine similarity_ for sets can be defined#footnote[#link("https://en.wikipedia.org/wiki/Cosine_similarity#Otsuka–Ochiai_coefficient")[Otsuka–Ochiai coefficient]] as:
@@ -213,6 +215,8 @@ The _Cosine distance_ is $CosineDist(X, Y) = 1 - Cosine(X, Y)$.
 + Calculate $Cosine(X, Y)$ and $CosineDist(X, Y)$ for all user pairs.
 + Determine which pair is most similar and which is most dissimilar.
 + Draw a graph with users as nodes and edges weighted by Cosine similarity.
++ Show that $Jaccard(X, Y) <= Cosine(X, Y)$ for all nonempty finite sets $X, Y$.
+  When the equality holds?
 
 *Part (c):*
 Prove that Jaccard distance satisfies the triangle inequality:
@@ -220,6 +224,8 @@ $
   JaccardDist(A, C) <= JaccardDist(A, B) + JaccardDist(B, C)
 $
 for arbitrary finite sets $A$, $B$, and $C$.
+
+// Prove that equality holds if and only if $A subset.eq B subset.eq C$ or $C subset.eq B subset.eq A$.
 
 *Part (d):*
 Show that cosine distance does NOT satisfy the triangle inequality by providing a specific counterexample.
@@ -281,8 +287,6 @@ Explain why some potential solutions don't work.
 Design your own _non-trivial_ self-referential set system.
 
 
-#pagebreak()
-
 == Problem 7: Fuzzy Sets
 
 In many real‑world systems, categorical boundaries are blurred.
@@ -333,6 +337,7 @@ Prove or disprove each statement:
 + $power(A inter B) = power(A) inter power(B)$
 + $power(A union B) = power(A) union power(B)$
 + $card(power(A times B)) = 2^(card(A) dot card(B))$
+
 
 == Problem 9: Cardinality and Infinity
 
