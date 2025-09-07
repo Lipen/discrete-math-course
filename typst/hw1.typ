@@ -112,6 +112,8 @@ They classify threats into sets based on their characteristics:
 
 The universal set $Threats = Active union Human union Network$ contains all distinct threat types mentioned above.
 
+*Note:* All complements ($overline(X)$) are taken relative to the universal set $Threats$.
+
 *Part (a):*
 Compute the following and interpret each result in cybersecurity context:
 #tasklist("steps2a", cols: 4)[
