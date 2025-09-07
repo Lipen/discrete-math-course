@@ -288,6 +288,7 @@ A player starts at position $P_0 = pair(2, 6)$ and moves according to vectors $v
 + Determine which zones the player is in after each move.
 + Does the player ever enter the Boss Arena $B$?
 
+
 == Problem 6: Recursive Data Structures
 
 In computer science, data structures often have self-referential definitions.
