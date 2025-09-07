@@ -270,18 +270,23 @@ A game developer is designing a 2D puzzle game with different gameplay zones.
 Each zone is defined by specific coordinate regions in $RR^2$.
 
 *Part (a):*
-Sketch each gameplay zone in the coordinate plane:
-+ Safe Zone: $[1, 4] times [2, 5]$
-+ Danger Zone: $(2, 6] times [1, 4)$
-+ Treasure Zone: ${(x,y) | x in {1, 3, 5}, y in [2, 4)}$
-+ Boss Arena: ${(x,y) in [1, 6] times [1, 6] | (x-6)^2 + (y-1)^2 < 9}$
+Sketch all gameplay zones on the coordinate plane:
++ Game Area: $G = [0; 8] times [1; 7]$
++ Safe Zone: $S = (1; 4) times (5, 7]$
++ Impassible Wall: $W = { pair(x, 4) | 0 <= x <= 6 }$
++ Danger Zone: $D = { pair(x, y) in G | y < x "or" y < 4 }$
++ Treasure Zones: $T = { pair(x, y) | x in {1,2,3}, 0 < y <= 3 }$
++ Boss Arena: $B = { pair(x, y) in G | 16 (x - 9)^2 + 25 y^2 <= 400 }$
 
 *Part (b):*
-Power-ups spawn at lattice points (integer coordinates) within zones.
-+ Count lattice points in Safe Zone.
-+ Count lattice points in the overlap of Safe and Danger zones.
-+ Find lattice points in Treasure Zone.
+Power-ups spawn at lattice points (integer coordinates) within the Danger Zone $D$, excluding the wall $W$ and borders of $G$.
+Count the number of such points.
 
+*Part (c):*
+A player starts at position $P_0 = pair(2, 6)$ and moves according to vectors $v_1 = pair(4, 0)$, #box($v_2 = pair(1, -2)$), and $v_3 = pair(-4, -3)$.
++ Calculate the player's position after each move: $P_i = P_(i-1) + v_i$.
++ Determine which zones the player is in after each move.
++ Does the player ever enter the Boss Arena $B$?
 
 == Problem 6: Recursive Data Structures
 
