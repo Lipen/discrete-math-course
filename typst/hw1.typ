@@ -200,7 +200,7 @@ $
 + Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among given users.
 + Determine which pair is most similar and which is most dissimilar.
 + Draw a graph with users as nodes and edges weighted by Jaccard similarity.
-+ Build $G_(0.3)$: the graph with edges where Jaccard $>= 0.3$.
++ Build $G_(0.25)$: the graph with edges where Jaccard $>= 0.25$.
   List connected components.
 
 *Part (b):*
