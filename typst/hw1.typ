@@ -241,6 +241,29 @@ A user with preferences $U = {"thriller", "horror"}$ joins the platform.
 Using Jaccard similarity, find users with similarity $>= 0.25$ to user $U$.
 
 
+== Problem 4: Logic and Set Identities
+
+This problem bridges set theory and logical reasoning, preparing for formal proofs.
+
+*Part (a):*
+Translate each statement to first-order logic with quantifiers over a universal set $U$:
++ $A subset.eq B$
++ $A = B$
++ $A subset.eq B iff power(A) subset.eq power(B)$
+
+*Part (b):*
+Prove the following set identities using both Venn diagrams and symbolic reasoning:
++ $(A without B) union (B without A) = (A union B) without (A inter B)$
++ De Morgan's laws: $overline(A union B) = overline(A) inter overline(B)$ and $overline(A inter B) = overline(A) union overline(B)$
++ $A subset.eq B$ if and only if $A inter B = A$ if and only if $A union B = B$
++ Distributive law: $A inter (B union C) = (A inter B) union (A inter C)$
+
+*Part (c):*
+For any universe $U$ and a set $X subset.eq U$, prove that the complement operator is:
++ An _involution_: $overline(overline(X)) = X$
++ Order-reversing: if $X subset.eq Y$, then $overline(Y) subset.eq overline(X)$
+
+
 == Problem 5: Coordinate Systems
 
 A game developer is designing a 2D puzzle game with different gameplay zones.
