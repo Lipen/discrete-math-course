@@ -125,22 +125,23 @@ Let $S_1 = {"Math", "CS", "Physics"}$, $S_2 = {"Math", "CS", "Biology"}$, $S_3 =
 
 == Problem 4: Similarity Networks
 
-Dating apps match users based on shared interests. The _θ-similarity relation_ $R_theta$ connects users $A$ and $B$ if their Jaccard similarity $Jaccard(A, B) = frac(card(A inter B), card(A union B))$ is at least $theta$.
+Academic researchers collaborate when they share expertise areas.
+We can model this using the _#box[$theta$-similarity] relation_ $R_theta$, where $theta$ is a numeric parameter: researchers $A$ and $B$ are $theta$-similar if their Jaccard similarity $Jaccard(A, B) = frac(card(A inter B), card(A union B))$ is at least $theta$.
 
-Consider five users with interests:
-- Anton: ${1,2,5,6}$ (hiking, movies, cooking, reading)
-- Bogdan: ${2,3,4,5,7,9}$ (movies, gaming, music, cooking, travel, art)
-- Valera: ${1,4,5,6}$ (hiking, music, cooking, reading)
-- Gleb: ${3,7,9}$ (gaming, travel, art)
-- Danil: ${1,5,6,8,9}$ (hiking, cooking, reading, fitness, art)
+Consider five researchers with expertise:
+- Anton: ${1,2,5,6}$ (algorithms, ML, security, databases)
+- Bogdan: ${2,3,4,5,7,9}$ (ML, graphics, robotics, security, web, AI)
+- Valera: ${1,4,5,6}$ (algorithms, robotics, security, databases)
+- Gleb: ${3,7,9}$ (graphics, web, AI)
+- Danil: ${1,5,6,8,9}$ (algorithms, security, databases, mobile, AI)
 
 *Part (a):* For $theta = 0.25$:
 + Calculate all pairwise Jaccard similarities.
-+ Draw the similarity network graph.
-+ Identify connected components.
++ Draw the collaboration network graph.
++ Find research clusters (connected components).
 
 *Part (b):*
-+ Prove that $theta$-similarity is a tolerance relation (reflexive and symmetric).
++ Prove that θ-similarity is a tolerance relation (reflexive and symmetric).
 + Determine for which values of $theta$ it becomes an equivalence relation.
 + What's the maximum $theta$ for which the network stays connected?
 
