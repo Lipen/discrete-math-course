@@ -119,7 +119,8 @@ The _equinumerosity relation_ $tilde.equiv$ is defined as: $A tilde.equiv B$ iff
 
 #block(sticky: true)[*Part (b): Student Course Enrollment*]
 
-A university tracks student course enrollments. Students are considered "academically similar" if they share at least 60% of their courses.
+A university tracks student course enrollments.
+Students are considered "academically similar" if they share at least 60% of their courses.
 Let $S_1 = {"Math", "CS", "Physics"}$, $S_2 = {"Math", "CS", "Biology"}$, $S_3 = {"Math", "Physics", "Chemistry"}$, $S_4 = {"CS", "Biology", "Statistics"}$.
 
 + Define this as a formal relation using the Jaccard index.
