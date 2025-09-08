@@ -246,7 +246,7 @@ For relations $R subset.eq A times B$ and $S subset.eq B times C$, prove: $(S co
 
 For functions $f: A -> B$ and $g: B -> C$, analyze composition properties:
 
-#tasklist("steps8", cols: 2)[
+#tasklist("steps9", cols: 2)[
   + If $f$ and $g$ are injective, is $g compose f$ injective?
   + If $f$ and $g$ are surjective, is $g compose f$ surjective?
   + If $g compose f$ is injective, is $f$ injective?
