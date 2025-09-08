@@ -62,34 +62,31 @@
 
 == Problem 1: Relation Properties Analysis
 
-For each relation below, determine whether it is _reflexive, irreflexive, symmetric, antisymmetric, asymmetric, transitive, connex_.
-Organize your findings in a table with relations as columns and properties as rows (or vice versa).
-Provide counterexamples for properties that don't hold.
+For each relation below, determine whether it is _reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, left/right Euclidean, connex_.
+Organize your findings in a table and provide counterexamples for properties that don't hold.
 
-#tasklist("steps1", cols: 1)[
-  + *Proximity relation:*
-    For real numbers, define $x rel(R) y$ iff $|x - y| <= 1$.
++ *Proximity relation:*
+  For real numbers, define $x rel(R) y$ iff $|x - y| <= 1$.
 
-  + *Subset hierarchy:*
-    For all subsets of ${a,b,c}$, define $pair(A, B) in R$ iff $A subset.eq B$.
++ *Subset hierarchy:*
+  For all subsets of ${a,b,c}$, define $pair(A, B) in R$ iff $A subset.eq B$.
 
-  + *Communication flow:*
-    For users ${a,b,c,d}$, relation $R$ has adjacency matrix:
-    $
-      relmat(R) = natrix.bnat(
-        0, 1, 0, 1;
-        0, 0, 0, 1;
-        1, 1, 0, 0;
-        0, 0, 1, 0
-      )
-    $
++ *Communication flow:*
+  For users ${a,b,c,d}$, relation $R$ has adjacency matrix:
+  $
+    relmat(R) = natrix.bnat(
+      0, 1, 0, 1;
+      0, 0, 0, 1;
+      1, 1, 0, 0;
+      0, 0, 1, 0
+    )
+  $
 
-  + *Game dominance:*
-    In rock-paper-scissors, define $x rel(R) y$ iff "$x$ beats $y$".
++ *Game dominance:*
+  In rock-paper-scissors, define $x rel(R) y$ iff "$x$ beats $y$".
 
-  + *Equivalence:*
-    For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
-]
++ *Equivalence:*
+  For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
 
 
 == Problem 2: Relation Composition Laws
