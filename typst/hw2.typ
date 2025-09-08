@@ -89,7 +89,7 @@ Organize your findings in a table and provide counterexamples for properties tha
   For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
 
 
-== Problem 2: Relation Composition Laws
+== Problem 2: Relation Set Operations
 
 For arbitrary homogeneous relations $R subset.eq M^2$ and $S subset.eq M^2$, prove or disprove each statement:
 
