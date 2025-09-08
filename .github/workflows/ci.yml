@@ -43,6 +43,7 @@ jobs:
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-regular.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-combinatorics.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/hw1.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/hw2.typ
 
       - name: List generated PDFs
         run: ls -lh typst/*.pdf
