@@ -33,9 +33,8 @@
 #let card(x) = $abs(#x)$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$
-#let FuzzyJaccard = $tilde(cal(J))$
-#let Cosine = $cal(C)$
-#let CosineDist = $d_cal(C)$
+#let rel(x) = math.class("relation", x)
+#let nrel(x) = rel(math.cancel(x))
 #let relmat(x) = $bracket.double.l #x bracket.double.r$
 #let circ = math.class("relation", $circle.small$)
 
@@ -63,28 +62,33 @@
 
 == Problem 1: Relation Properties Analysis
 
-Social media platforms use various relationships between users.
-For each relation below, determine whether it is _reflexive, irreflexive, symmetric, antisymmetric, asymmetric, transitive, or connex_.
-Organize your findings in a table and provide counterexamples for properties that don't hold.
+For each relation below, determine whether it is _reflexive, irreflexive, symmetric, antisymmetric, asymmetric, transitive, connex_.
+Organize your findings in a table with relations as columns and properties as rows (or vice versa).
+Provide counterexamples for properties that don't hold.
 
-#tasklist("steps1", cols: 2)[
-  + On $RR$, users $x$ and $y$ are "close" if $|x - y| <= 1$ (within 1 unit distance).
+#tasklist("steps1", cols: 1)[
+  + *Proximity relation:*
+    For real numbers, define $x rel(R) y$ iff $|x - y| <= 1$.
 
-  + On $power({a,b,c})$, relation "subset or equal" ($subset.eq$).
+  + *Subset hierarchy:*
+    For all subsets of ${a,b,c}$, define $pair(A, B) in R$ iff $A subset.eq B$.
 
-  + On ${a,b,c,d}$ with adjacency matrix:
-    $mat(
-      0, 1, 0, 1;
-      0, 0, 0, 1;
-      1, 1, 0, 0;
-      0, 0, 1, 0
-    )$
+  + *Communication flow:*
+    For users ${a,b,c,d}$, relation $R$ has adjacency matrix:
+    $
+      relmat(R) = natrix.bnat(
+        0, 1, 0, 1;
+        0, 0, 0, 1;
+        1, 1, 0, 0;
+        0, 0, 1, 0
+      )
+    $
 
-  + Rock-paper-scissors where $x R y$ means "$x$ beats $y$".
+  + *Game dominance:*
+    In rock-paper-scissors, define $x rel(R) y$ iff "$x$ beats $y$".
 
-  + On ${1,2,3,4,5}$, relation "happened before" with pairs: ${(1,3), (1,4), (2,3), (2,4), (3,1), (3,4)}$.
-
-  + On $NN$, relation $x equiv y space (mod 7)$.
+  + *Equivalence:*
+    For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
 ]
 
 
