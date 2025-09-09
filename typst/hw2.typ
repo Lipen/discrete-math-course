@@ -36,7 +36,7 @@
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
 #let relmat(x) = $bracket.double.l #x bracket.double.r$
-#let circ = math.class("relation", $circle.small$)
+#let boolprod = math.class("binary", $dot.circle$)
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -154,13 +154,13 @@ Consider five researchers with expertise:
 
 Any relation $R subset.eq M^2$ can be represented as a boolean matrix $[r_(i j)]$ where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$.
 
-The _boolean product_ $A circ B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
+The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
 
-+ Prove that if $R$ and $S$ are relations, then the matrix of $S compose R$ equals $relmat(R) circ relmat(S)$.
++ Prove that if $R$ and $S$ are relations, then the matrix of $S compose R$ equals $relmat(R) boolprod relmat(S)$.
 + Compute the boolean product:
   $
     natrix.bnat(1, 0, 1; 0, 1, 0; 1, 1, 0)
-    circ
+    boolprod
     natrix.bnat(0, 1, 1; 1, 0, 1; 0, 1, 0)
   $
 
