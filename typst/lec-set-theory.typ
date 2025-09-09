@@ -459,7 +459,7 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
 ]
 
 #example[
-  $A = { x | x in NN and x > 5 }$ is the set of natural numbers greater than 5, that is, $A = {6, 7, 8, dots}$.
+  $A = { x | x in NN "and" x > 5 } = {6, 7, 8, dots}$ is the set of natural numbers greater than 5.
 ]
 
 #example[
