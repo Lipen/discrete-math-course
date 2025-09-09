@@ -470,6 +470,36 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   $QQ = { a "/" b | a in ZZ, b in NN, b != 0 }$ is the set of rational numbers (fractions).
 ]
 
+== Some Important Sets
+
+#example[
+  $NN = {0, 1, 2, dots}$ is the set of natural numbers.
+]
+#example[
+  $ZZ = {dots, -2, -1, 0, 1, 2, dots}$ is the set of integers.
+]
+#example[
+  $QQ = { a "/" b | a in ZZ, b in NN, b != 0 }$ is the set of rational numbers.
+]
+#example[
+  $RR = (-infinity, +infinity)$ is the set of real numbers (the continuum).
+]
+#example[
+  $BB = {0, 1}$ is the set of Boolean values (truth values).
+]
+
+#example[
+  The set $A^*$ of _finite strings_ over an alphabet $A$ is defined as:
+  $
+    A^* = {epsilon} union { a_1 a_2 dots a_n | n in NN, a_i in A } = union.big_(n in NN) A^n
+  $
+  For example, $BB^* = { epsilon, 0, 1, 00, 01, 10, 11, 001, 010, 011, 100, 101, 110, 111, 0000, dots }$.
+]
+
+#example[
+  The set $A^omega$ of _infinite sequences_ over $A$.
+]
+
 == Subsets
 
 #definition[
@@ -590,36 +620,6 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     edge(<s0>, <s2>, "-}>"),
     edge(<s0>, <s3>, "-}>"),
   )
-]
-
-== Some Important Sets
-
-#example[
-  $NN = {0, 1, 2, dots}$ is the set of natural numbers.
-]
-#example[
-  $ZZ = {dots, -2, -1, 0, 1, 2, dots}$ is the set of integers.
-]
-#example[
-  $QQ = { a "/" b | a in ZZ, b in NN, b != 0 }$ is the set of rational numbers.
-]
-#example[
-  $RR = (-infinity, +infinity)$ is the set of real numbers (the continuum).
-]
-#example[
-  $BB = {0, 1}$ is the set of Boolean values (truth values).
-]
-
-#example[
-  The set $A^*$ of _finite strings_ over an alphabet $A$ is defined as:
-  $
-    A^* = {epsilon} union { a_1 a_2 dots a_n | n in NN, a_i in A } = union.big_(n in NN) A^n
-  $
-  For example, $BB^* = { epsilon, 0, 1, 00, 01, 10, 11, 001, 010, 011, 100, 101, 110, 111, 0000, dots }$.
-]
-
-#example[
-  The set $A^omega$ of _infinite sequences_ over $A$.
 ]
 
 == Operations on Sets
