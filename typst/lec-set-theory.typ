@@ -193,32 +193,261 @@ Topics include:
 - Axiomatic foundations
 - Applications in logic and computer science
 
-== Basic Notions
+== What is a Set?
 
 #definition[
   A _set_ is an unordered collection of distinct objects, called _elements_.
+]
 
-  - In _naïve_ set theory, sets can contain _any_ objects (including non-sets, called _urelements_).
-  - In modern _axiomatic_ set theory, _everything is a set_ (no urelements).
+#place(right)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    // Back
+    merge-path(
+      stroke: (join: "round", paint: gray, dash: "dashed"),
+      line((0, 0), (1, 1), (3, 1), (2, 0)),
+    )
+    merge-path(
+      stroke: (join: "round", paint: gray, dash: "dashed"),
+      line((0, 0), (0, 2), (1, 3), (1, 1)),
+    )
+    merge-path(
+      stroke: (join: "round", paint: gray, dash: "dashed"),
+      line((1, 3), (3, 3), (3, 1)),
+    )
+
+    // Inside
+    content((1.5, 2.2), text(size: 4em)[#emoji.cat.face])
+    content((2.2, 1.5), text(size: 4em)[#emoji.cat.face.laugh])
+    content((1.2, 1.2), text(size: 4em)[#emoji.cat.face.shock])
+
+    // Front
+    merge-path(
+      fill: blue.transparentize(80%),
+      stroke: (join: "round"),
+      line((0, 2), (1, 3), (3, 3), (2, 2), close: true),
+    )
+    merge-path(
+      fill: red.transparentize(80%),
+      stroke: (join: "round"),
+      line((2, 0), (2, 2), (3, 3), (3, 1), close: true),
+    )
+    merge-path(
+      fill: green.transparentize(80%),
+      stroke: (join: "round"),
+      line((0, 0), (0, 2), (2, 2), (2, 0), close: true),
+    )
+  })
+]
+
+#block(
+  fill: blue.lighten(90%),
+  stroke: 1pt + blue.darken(20%),
+  radius: 5pt,
+  inset: 1em,
+)[
+  Think of a set as a _"box"_ or _"bag"_ containing objects where:
+  - The _order_ doesn't matter.
+  - Each object appears _only once_ (no duplicates).
+  - We can check if an object is _directly_ inside or not.
+
+  *Note:* A set _can_ contain other sets.
+  Nested set is considered a _single_ object.
+]
+
+*Basic notation:*
+Sets are written within _curly braces_: ${...}$.
+
+We use uppercase letters ($A, B, C, dots$) to denote sets and lowercase letters ($a, b, c, dots$) for their elements.
+
+#example[
+  $A = {5, triangle, #emoji.bird}$ is a set containing _three_ distinct elements: the number 5, a triangle, and a birb#footnote[A _birb_ is a _small bird_. Here, we assume it is distint from the number 5 and triangle.].
+]
+
+== Set Membership
+
+We can check if an object is an _element_ of a set or not using the symbols $in$ and $notin$.
+- $a in A$ means "$a$ is _an element of_ $A$"
+- $a notin A$ means "$a$ is _not an element of_ $A$"
+
+#example[
+  Let $A = {42, #emoji.koala, #emoji.bread}$.
+  - $#emoji.koala in A$ is #True, since the koala is indeed one of the elements of $A$.
+  - $#emoji.penguin in A$ is #False, denoted as "$#emoji.penguin notin A$", since there is _no_ penguin in $A$.
+]
+
+== More Set Examples
+
+#example[Numbers][
+  - $B = {1, 2, 3, 4, 5}$ --- finite set of first five positive integers
+  - $E = {2, 4, 6, 8, 10, ...}$ --- infinite set of even positive integers
+  - $D = {-1, 0, 1}$ --- set containing negative, zero, and positive integers
+]
+
+#example[Objects][
+  - $F = {#emoji.apple, #emoji.banana, #emoji.grapes}$ --- set of fruits
+  - $C = {Red("red"), Green("green"), Blue("blue")}$ --- set of color names
+  - $M = {pi, e, sqrt(2)}$ --- set of famous mathematical constants
+]
+
+#example[Special Sets][
+  - $emptyset = {}$ --- the _empty set_ (contains no elements)
+  - ${emptyset}$ --- set containing the empty set as its only element
+  - ${{1, 2}, {3, 4}}$ --- set containing two other sets as elements
+]
+
+== Naive vs Axiomatic Set Theory
+
+#definition[
+  In _naive set theory_ (19th century):
+  - Sets can be formed from _any_ collection of objects
+  - "A set is any collection of definite, distinguishable objects" --- Georg Cantor
+  - _Unrestricted comprehension_: for any property $P(x)$, we can form ${x | P(x)}$
+]
+
+#definition[
+  In _axiomatic set theory_ (modern approach):
+  - Set formation is governed by specific _axioms_
+  - Most commonly used: _Zermelo-Fraenkel with Axiom of Choice_ (ZFC)
+  - _Restricted comprehension_: we can only form ${x in A | P(x)}$ from existing sets
+]
+
+#block(
+  fill: yellow.lighten(80%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  outset: .5em,
+)[
+  *Why the change?*
+  Russell's _paradox_ showed that naive set theory leads to _contradictions_. \
+  Axiomatic set theory was developed to provide a _consistent foundation_ for mathematics.
+]
+
+#note[
+  This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
+  We'll use an intuitive approach while being aware of the foundations.
+]
+
+== Urelements vs Sets Only
+
+#definition[
+  _Urelements_#footnote[From the German prefix _ur-_ meaning "primordial" (primitive)] are objects that:
+  - Are _not_ sets themselves
+  - Can be _elements_ of sets
+  - Have no internal structure that set theory can examine
+
+  #examples[numbers, people, physical objects, symbols.]
+]
+
+#definition[
+  In _pure set theory_:
+  - _Everything is a set_ --- no urelements allowed
+  - Numbers, functions, relations are all constructed from sets
+  - Even "primitive" objects like 0, 1, 2 are defined as specific sets
+]
+
+#pagebreak()
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    *With Urelements:*
+    - $A = {1, 2, #emoji.cat}$
+    - 1 and 2 are numbers (urelements)
+    - $#emoji.cat$ represents some object
+    - Natural and intuitive
+  ],
+  [
+    *Pure Sets Only:*
+    - $0 = emptyset$
+    - $1 = {emptyset} = {0}$
+    - $2 = {emptyset, {emptyset}} = {0, 1}$
+    - _Everything_ built from $emptyset$
+  ],
+)
+
+#note[
+  For this course, we'll often use urelements for intuitive examples, but remember that everything _can_ be constructed as pure sets in formal mathematics.
+]
+
+== The Extensionality Property
+
+#definition[
+  Two sets are _equal_, denoted $A = B$, if and only if they have exactly the same elements.
+
+  Formally: $A = B$ iff $forall x. thin (x in A iff x in B)$
+
+  Equivalently: $A = B$ iff $A subset.eq B$ and $B subset.eq A$
+]
+
+#note[
+  This is actually one of the fundamental _axioms_ of set theory!
 ]
 
 #example[
-  $A = {5, #emoji.koala, #emoji.bird}$ is a set of three elements: the number 5, a koala, and a birb.
+  All of these represent the _same set_:
+
+  #align(center)[
+    #cetz.canvas({
+      let w = 1.8
+      let h = 1
+      let gap = 1
+
+      let box-style = (
+        fill: blue.lighten(80%),
+        stroke: 1pt + blue.darken(20%),
+        radius: .2,
+      )
+
+      let draw-box(x, y) = {
+        draw.rect((x, y), (x + w, y + h), ..box-style)
+      }
+      let draw-content(x, y, body) = {
+        draw.content((x, y), text(size: 1.2em, body))
+      }
+      let draw-label(x, y, body) = {
+        draw.content((x, y), text(size: .9em, body), anchor: "north", padding: .2)
+      }
+
+      let draw-set(x, y, body, label) = {
+        draw-box(x, y)
+        draw-content(x + w / 2, y + h / 2, body)
+        draw-label(x + w / 2, y, label)
+      }
+
+      let x = 0
+      draw-set(x, 0)[${a, b}$][normal form]
+
+      x += w
+      draw.content((x + gap / 2, h / 2), [$=$])
+
+      x += gap
+      draw-set(x, 0)[${b, a}$][different order]
+
+      x += w
+      draw.content((x + gap / 2, h / 2), [$=$])
+
+      x += gap
+      draw-set(x, 0)[${a, b, b}$][with duplicate]
+
+      x += w
+      draw.content((x + gap / 2, h / 2), [$=$])
+
+      x += gap
+      draw-set(x, 0)[${b, a, b}$][reorder + duplicates]
+    })
+  ]
 ]
 
-*Notation:* $a in A$ means "$a$ is _an element of_ $A$".
-
-#example[
-  "$#emoji.koala in A$" is #True, while "$#emoji.penguin in A$" is #False, denoted as "$#emoji.penguin notin A$".
-]
-
-#definition[Extensionality][
-  Two sets are _equal_, denoted $A = B$, if they have the same elements, that is, iff every element of $A$ is also in $B$, and vice versa.
-  Formally, $A = B$ iff $A subset.eq B$ and $B subset.eq A$.
-]
-
-#example[
-  ${a, b, b} = {a, b} = {b, a} = {b, a, b}$, all these denote the same set with elements $a$ and $b$.
+#block(
+  fill: yellow.lighten(90%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  outset: .5em,
+)[
+  The extensionality principle makes set equality _well-defined_ and ensures that the representation of a set doesn't affect its identity --- only its _content_ matters.
 ]
 
 == Set-Builder Notation
