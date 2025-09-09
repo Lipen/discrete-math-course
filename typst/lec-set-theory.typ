@@ -493,7 +493,7 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   $
     A^* = {epsilon} union { a_1 a_2 dots a_n | n in NN, a_i in A } = union.big_(n in NN) A^n
   $
-  For example, $BB^* = { epsilon, 0, 1, 00, 01, 10, 11, 001, 010, 011, 100, 101, 110, 111, 0000, dots }$.
+  For example, $BB^* = { epsilon, 0, 1, 00, 01, 10, 11, 001, 010, ..., 0000, dots }$, where $epsilon$ is the _empty string_.
 ]
 
 #example[
