@@ -476,7 +476,7 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   A set $A$ is a _subset_ of $B$, denoted $A subset.eq B$, if every element of $A$ is also an element of $B$.
   - Formally, $A subset.eq B iff forall x. thin (x in A) imply (x in B)$.
   - If $A$ is not a subset of $B$, we write $A subset.eq.not B$.
-  - If $A subset.eq B$ and $A neq B$, we say $A$ is a _proper (or strict) subset_ of $B$, denoted $A subset B$ or $A subset.neq B$.
+  - If $A subset.eq B$ and $A neq B$, we say $A$ is a _proper_ (or _strict_) _subset_ of $B$, denoted $A subset B$ or $A subset.neq B$.
   - If $A$ is a subset of $B$, denoted $A subset.eq B$, then $B$ is a _superset_ of $A$, denoted $B supset.eq A$.
 ]
 
