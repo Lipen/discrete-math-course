@@ -143,7 +143,7 @@ Consider five researchers with expertise:
 + Find research clusters (connected components).
 
 *Part (b):*
-+ Prove that θ-similarity is a tolerance relation (reflexive and symmetric).
++ Prove that $theta$-similarity is a tolerance relation (reflexive and symmetric).
 + Determine for which values of $theta$ it becomes an equivalence relation.
 + What's the maximum $theta$ for which the network stays connected?
 
