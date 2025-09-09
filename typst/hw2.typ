@@ -168,7 +168,7 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 
 + Define the _transitive closure_ $R^+$ formally.
 + Prove that $R^+$ is indeed transitive.
-+ For relation $R = {(1,2), (2,3), (3,1), (1,4)}$ on ${1,2,3,4}$, compute $R^+$ step by step.
++ For relation $R = {pair(1,2), pair(2,3), pair(3,1), pair(1,4)}$ on ${1,2,3,4}$, compute $R^+$ step by step.
 
 
 == Problem 6: Proof Validation and Counterexamples
