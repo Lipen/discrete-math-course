@@ -733,6 +733,58 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   )
 ]
 
+== Venn Diagrams and Euler Circles
+
+#align(center)[
+  #grid(
+    columns: 2,
+    align: left + horizon,
+    column-gutter: 1em,
+    cetz.canvas({
+      draw.circle((-0.5, 0), radius: 1)
+      draw.circle((0.5, 0), radius: 1)
+      draw.circle((0, 0), radius: 0.3)
+
+      draw.content((-1, 0))[$1$]
+      draw.content((1, 0))[$2$]
+      draw.content((0, 0))[$3$]
+    }),
+    [
+      #set enum(numbering: "(1)")
+      + people who know what a Venn diagram is
+      + people who know what an Euler diagram is
+      + people who know the difference
+    ],
+  )
+]
+
+#definition[
+  A _Venn diagram_ is a visual representation of sets and their relationships using overlapping circles.
+  Each circle represents a set, and overlapping regions show intersections.
+]
+
+#definition[
+  _Euler diagram_ is a graphical representation of sets and their relationships using closed shapes (usually circles).
+]
+
+// #example[
+//   For sets $A = {1, 2, 3}$ and $B = {2, 3, 4}$:
+//   - $A intersect B = {2, 3}$ (overlapping region)
+//   - $A setminus B = {1}$ (left-only region)
+//   - $B setminus A = {4}$ (right-only region)
+//   - $A union B = {1, 2, 3, 4}$ (entire diagram)
+// ]
+
+// TODO: Add Venn diagram visualization
+//
+// #example[Three-Set Venn Diagram][
+//   For three sets $A$, $B$, $C$, a complete Venn diagram shows 8 regions:
+//   - $A intersect B intersect C$ (center)
+//   - $A intersect B intersect overline(C)$, $A intersect overline(B) intersect C$, $overline(A) intersect B intersect C$
+//   - $A intersect overline(B) intersect overline(C)$, $overline(A) intersect B intersect overline(C)$, $overline(A) intersect overline(B) intersect C$
+//   - $overline(A) intersect overline(B) intersect overline(C)$ (outside all sets)
+// ]
+
 == Operations on Sets
 
 #table(
@@ -791,35 +843,6 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   ],
   // [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$, [],
 )
-
-== Venn Diagrams and Euler Circles
-
-#definition[
-  A _Venn diagram_ is a visual representation of sets and their relationships using overlapping circles or closed curves.
-  Each circle represents a set, and overlapping regions show intersections.
-]
-
-#definition[
-  _Euler circles_ (or _Euler diagrams_) are a simpler form where circles may or may not overlap, and non-overlapping regions represent disjoint sets.
-]
-
-#example[
-  For sets $A = {1, 2, 3}$ and $B = {2, 3, 4}$:
-  - $A intersect B = {2, 3}$ (overlapping region)
-  - $A setminus B = {1}$ (left-only region)
-  - $B setminus A = {4}$ (right-only region)
-  - $A union B = {1, 2, 3, 4}$ (entire diagram)
-]
-
-// TODO: Add Venn diagram visualization
-//
-// #example[Three-Set Venn Diagram][
-//   For three sets $A$, $B$, $C$, a complete Venn diagram shows 8 regions:
-//   - $A intersect B intersect C$ (center)
-//   - $A intersect B intersect overline(C)$, $A intersect overline(B) intersect C$, $overline(A) intersect B intersect C$
-//   - $A intersect overline(B) intersect overline(C)$, $overline(A) intersect B intersect overline(C)$, $overline(A) intersect overline(B) intersect C$
-//   - $overline(A) intersect overline(B) intersect overline(C)$ (outside all sets)
-// ]
 
 == Laws of Set Operations
 
