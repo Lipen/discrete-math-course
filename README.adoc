@@ -6,6 +6,8 @@ image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/bad
 
 == Rendered PDFs
 
+image:https://img.shields.io/badge/Course Syllabus-Discrete Math-blue?style=social&logo=gitbook["Course Syllabus", link="https://lipen.github.io/discrete-math-course/syllabus.pdf"]
+
 [%autowidth]
 |===
 ^|Lectures ^|Homeworks
