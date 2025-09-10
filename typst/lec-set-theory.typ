@@ -265,6 +265,26 @@ We use uppercase letters ($A, B, C, dots$) to denote sets and lowercase letters 
   $A = {5, triangle, #emoji.bird}$ is a set containing _three_ distinct elements: the number 5, a triangle, and a birb#footnote[A _birb_ is a _small bird_. Here, we assume it is distint from the number 5 and triangle.].
 ]
 
+== Examples of Sets
+
+#example[Simple sets][
+  - $P = {2, 3, 5, 7, 11, 13}$ --- set of first six prime numbers
+  - $E = {2, 4, 6, 8, 10, ...}$ --- _infinite_ set of even positive integers
+  - $F = {#emoji.apple, #emoji.banana, #emoji.grapes}$ --- set of fruits
+  - $C = {pi, e, sqrt(2), phi}$ --- set of famous mathematical constants
+]
+
+#example[Special sets][
+  - $emptyset = {}$ --- the _empty set_ (contains no elements)
+  - ${emptyset}$ --- _singleton_ set containing the empty set as its only element
+  - $frak(U) = {...}$ -- the _universal set_ (contains all things in the considered universe)
+]
+
+#example[Nested sets][
+  - $N = { {1, 2}, {3, 4} }$ --- set containing _two_ sets as elements
+  - $M = \{ underbracket(emptyset, 1), underbracket({#emoji.heart}, 2), underbracket({a, {b, {c}}}, 3) }$ --- set with _three_ elements: (1) empty set, (2) singleton, (3) nested set
+]
+
 == Set Membership
 
 We can check if an object is an _element_ of a set or not using the symbols $in$ and $notin$.
@@ -275,26 +295,6 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   Let $A = {42, #emoji.koala, #emoji.bread}$.
   - $#emoji.koala in A$ is #True, since the koala is indeed one of the elements of $A$.
   - $#emoji.penguin in A$ is #False, denoted as "$#emoji.penguin notin A$", since there is _no_ penguin in $A$.
-]
-
-== More Set Examples
-
-#example[Numbers][
-  - $B = {1, 2, 3, 4, 5}$ --- finite set of first five positive integers
-  - $E = {2, 4, 6, 8, 10, ...}$ --- infinite set of even positive integers
-  - $D = {-1, 0, 1}$ --- set containing negative, zero, and positive integers
-]
-
-#example[Objects][
-  - $F = {#emoji.apple, #emoji.banana, #emoji.grapes}$ --- set of fruits
-  - $C = {Red("red"), Green("green"), Blue("blue")}$ --- set of color names
-  - $M = {pi, e, sqrt(2)}$ --- set of famous mathematical constants
-]
-
-#example[Special Sets][
-  - $emptyset = {}$ --- the _empty set_ (contains no elements)
-  - ${emptyset}$ --- set containing the empty set as its only element
-  - ${{1, 2}, {3, 4}}$ --- set containing two other sets as elements
 ]
 
 == Urelements vs Sets Only
