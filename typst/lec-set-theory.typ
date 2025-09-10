@@ -511,40 +511,6 @@ The only possible conclusion is that #strong[the set $R$ cannot exist].
 This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
 How can we fix this?..
 
-// == Naive vs Axiomatic Set Theory
-//
-// #definition[
-//   In _naive set theory_ (19th--early 20th century):
-//   - Sets can be formed from _any_ collection of objects
-//   - "A set is any collection of definite, distinguishable objects" --- Georg Cantor
-//   - _Unrestricted comprehension_: for any property $P(x)$, we can form ${x | P(x)}$
-//   - Simple and intuitive, but leads to contradictions
-// ]
-//
-// #definition[
-//   In _axiomatic set theory_ (modern approach):
-//   - Set formation is governed by specific _axioms_
-//   - Most commonly used: _Zermelo-Fraenkel with Axiom of Choice_ (ZFC)
-//   - _Restricted comprehension_: we can only form ${x in A | P(x)}$ from existing sets
-//   - Mathematically rigorous and consistent
-// ]
-//
-// #block(
-//   fill: yellow.lighten(80%),
-//   stroke: 1pt + yellow.darken(20%),
-//   radius: 5pt,
-//   outset: .5em,
-// )[
-//   *Why the change?*
-//   _Russell's paradox_ showed that naive set theory leads to _contradictions_. \
-//   Axiomatic set theory was developed to provide a _consistent foundation_ for mathematics.
-// ]
-//
-// #note[
-//   This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
-//   We'll use an intuitive approach while being aware of the foundations.
-// ]
-
 == From Naive to Axiomatic Set Theory
 
 #block(
