@@ -1254,6 +1254,7 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
   align: center,
   column-gutter: 1em,
   row-gutter: 0.5em,
+
   link("https://en.wikipedia.org/wiki/Ernst_Zermelo", box(
     radius: 5pt,
     clip: true,
@@ -1267,7 +1268,7 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
     image("assets/Abraham_Fraenkel.jpg", height: 3cm),
   )),
 
-  [Ernst Zermelo], [Abraham\ Fraenkel],
+  text(fill: blue.darken(20%))[Ernst \ Zermelo], text(fill: blue.darken(20%))[Abraham\ Fraenkel],
 )
 
 #definition[Extensionality][
