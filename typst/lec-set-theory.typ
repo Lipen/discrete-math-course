@@ -297,6 +297,17 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   - $#emoji.penguin in A$ is #False, denoted as "$#emoji.penguin notin A$", since there is _no_ penguin in $A$.
 ]
 
+#example[
+  Let $B = {a, {b}}$.
+  - $a in B$ is #True --- the element $a$ is directly in $B$
+  - $b in B$ is #False --- the element $b$ is _not_ directly in $B$ (it's inside the nested set ${b}$)
+  - ${b} in B$ is #True --- the nested set ${b}$ itself is a direct element of $B$
+]
+
+#note[
+  Membership operator ($in$) only checks _direct_ elements, not what's inside nested sets.
+]
+
 == Urelements vs Sets Only
 
 #definition[
