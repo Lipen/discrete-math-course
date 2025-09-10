@@ -1245,8 +1245,6 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
 
 == The ZFC Axiom System
 
-After covering the basic concepts of set theory, let's examine the formal foundation that makes it all rigorous.
-
 The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of modern set theory:
 
 #grid(
