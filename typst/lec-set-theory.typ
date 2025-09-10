@@ -789,7 +789,7 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
 
 #table(
   columns: 4,
-  align: (left, right, left, center),
+  align: (left, right, left, center).map(x => x + horizon),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Operation], [Notation], [Formal definition], [Venn diagram]),
   [Union],
