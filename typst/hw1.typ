@@ -268,7 +268,7 @@ Prove the following identities using both Venn diagrams and symbolic reasoning:
 *Part (c):*
 For any universe $U$ and a set $X subset.eq U$, prove that the complement operator is:
 + An _involution_: $overline(overline(X)) = X$
-+ Order-reversing: if $X subset.eq Y$, then $overline(Y) subset.eq overline(X)$
++ Order-reversing (_anti-monotonic_): if $X subset.eq Y$, then $overline(Y) subset.eq overline(X)$
 
 
 == Problem 5: Coordinate Systems
