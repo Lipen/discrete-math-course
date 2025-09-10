@@ -237,16 +237,17 @@ Example colorings related by $R$:
 *Challenge:* Extend to a $3 times 3$ board. How many equivalence classes are there?
 
 
-== Problem 8: Relation Composition Properties
+== Problem 8: Composition Properties
+
+*Part (a): Composition of Relations*
 
 For relations $R subset.eq A times B$ and $S subset.eq B times C$, prove: $(S compose R)^(-1) = R^(-1) compose S^(-1)$.
 
-
-== Problem 9: Function Composition Properties
+*Part (b): Function Composition*
 
 For functions $f: A -> B$ and $g: B -> C$, analyze composition properties:
 
-#tasklist("steps9", cols: 2)[
+#tasklist("steps-fun-comp", cols: 2)[
   + If $f$ and $g$ are injective, is $g compose f$ injective?
   + If $f$ and $g$ are surjective, is $g compose f$ surjective?
   + If $g compose f$ is injective, is $f$ injective?
