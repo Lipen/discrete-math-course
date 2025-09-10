@@ -382,19 +382,6 @@ For each statement below, either provide a _rigorous proof_ or find a _counterex
 + $card(power(A times B)) = 2^(card(A) dot card(B))$
 
 
-== Problem 9: Cardinality and Infinity
-
-For each set below, determine whether it is _countable_ (same size as natural numbers) or _uncountable_ (strictly larger than natural numbers).
-Provide clear justifications, including explicit bijections or diagonalization arguments where appropriate.
-
-+ The set of rational#footnote[A rational number is a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.] numbers $QQ$.
-+ The power set of natural numbers $power(NN)$.
-+ The set of all functions $f: NN -> NN$.
-+ The union of countably many countable sets.
-+ The set of all computer programs in a particular programming language.
-+ The set of real roots of all quadratic equations $a x^2 + b x + c = 0$ with integer coefficients.
-
-
 #line(length: 100%, stroke: 0.4pt)
 
 *Submission Guidelines:*
