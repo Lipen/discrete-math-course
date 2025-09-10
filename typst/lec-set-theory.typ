@@ -1271,36 +1271,51 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
 
 #definition[Extensionality][
   Sets with the same elements are equal.
-  $forall A, B. (forall x. x in A iff x in B) imply A = B$
+  $
+    forall A, B. (forall x. thin x in A iff x in B) imply A = B
+  $
 ]
 
 #definition[Empty Set][
-  There exists a set with no elements: $exists emptyset. forall x. x notin emptyset$
+  There exists a set with no elements:
+  $
+    exists emptyset. forall x. thin x notin emptyset
+  $
 ]
 
 #definition[Pairing][
   For any objects $a$ and $b$, there exists a set containing exactly them:
-  $forall a, b. exists C. forall x. x in C iff (x = a or x = b)$
+  $
+    forall a, b. exists C. forall x. thin x in C iff (x = a or x = b)
+  $
 ]
 
 #definition[Union][
   For any family of sets, their union exists:
-  $forall cal(F). exists U. forall x. x in U iff exists A in cal(F). x in A$
+  $
+    forall cal(F). exists U. forall x. thin x in U iff exists A in cal(F). thin x in A
+  $
 ]
 
 #definition[Power Set][
   For any set $A$, the set of all its subsets exists:
-  $forall A. exists power(A). forall X. X in power(A) iff X subset.eq A$
+  $
+    forall A. exists power(A). forall X. thin X in power(A) iff X subset.eq A
+  $
 ]
 
 #definition[Infinity][
   There exists an infinite set (intuitively, containing natural numbers):
-  $exists S. emptyset in S and (forall x in S. x union {x} in S)$
+  $
+    exists S. thin emptyset in S and (forall x in S. thin x union {x} in S)
+  $
 ]
 
 #definition[Separation (Subset)][
   From any set and property, we can form the subset of elements satisfying that property:
-  $forall A. forall P. exists B. forall x. x in B iff (x in A and P(x))$
+  $
+    forall A. forall P. exists B. forall x. thin x in B iff (x in A and P(x))
+  $
 
   #note[This axiom prevents Russell's paradox by only allowing formation of subsets from existing sets.]
 ]
@@ -1311,12 +1326,16 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
 
 #definition[Foundation (Regularity)][
   Every non-empty set has a minimal element (prevents sets from containing themselves):
-  $forall A. A != emptyset imply exists x in A. A intersect x = emptyset$
+  $
+    forall A. thin A != emptyset imply exists x in A. thin A intersect x = emptyset
+  $
 ]
 
 #definition[Choice][
   Every collection of non-empty sets has a choice function:
-  $forall cal(F). (emptyset notin cal(F)) imply exists f. forall A in cal(F). f(A) in A$
+  $
+    forall cal(F). thin (emptyset notin cal(F)) imply exists f. forall A in cal(F). thin f(A) in A
+  $
 ]
 
 = Relations
