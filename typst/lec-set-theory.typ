@@ -600,15 +600,15 @@ How can we fix this?..
 ]
 
 #align(center)[
-#block(
-  fill: purple.lighten(90%),
-  stroke: 1pt + purple.darken(20%),
-  radius: 5pt,
-  inset: .5em,
-)[
-  This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
-  We'll use an intuitive approach while being aware of the foundations.
-]
+  #block(
+    fill: purple.lighten(90%),
+    stroke: 1pt + purple.darken(20%),
+    radius: 5pt,
+    inset: .5em,
+  )[
+    This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
+    We'll use an intuitive approach while being aware of the foundations.
+  ]
 ]
 
 == Subsets
