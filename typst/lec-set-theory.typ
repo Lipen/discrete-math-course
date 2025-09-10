@@ -301,18 +301,18 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
 
 #definition[
   _Urelements_#footnote[From the German prefix _ur-_ meaning "primordial" (primitive)] are objects that:
-  - Are _not_ sets themselves
-  - Can be _elements_ of sets
-  - Have no internal structure that set theory can examine
+  - Are _not_ sets themselves.
+  - Can be _elements_ of sets.
+  - Have no internal structure that set theory can examine.
 
   #examples[numbers, people, physical objects, symbols.]
 ]
 
 #definition[
   In _pure set theory_:
-  - _Everything is a set_ --- no urelements allowed
-  - Numbers, functions, relations are all constructed from sets
-  - Even "primitive" objects like 0, 1, 2 are defined as specific sets
+  - _Everything is a set_ --- no urelements allowed.
+  - Numbers, functions, relations are all constructed from sets.
+  - Even "primitive" objects like 0, 1, 2 are defined as specific sets.
 ]
 
 #pagebreak()
