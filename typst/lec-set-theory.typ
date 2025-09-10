@@ -718,9 +718,9 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     align: left + horizon,
     column-gutter: 1em,
     cetz.canvas({
-      draw.circle((-0.5, 0), radius: 1)
-      draw.circle((0.5, 0), radius: 1)
-      draw.circle((0, 0), radius: 0.3)
+      draw.circle((-0.5, 0), radius: 1, fill: blue.transparentize(90%))
+      draw.circle((0.5, 0), radius: 1, fill: yellow.transparentize(90%))
+      draw.circle((0, 0), radius: 0.3, fill: red.transparentize(80%))
 
       draw.content((-1, 0))[$1$]
       draw.content((1, 0))[$2$]
