@@ -297,38 +297,6 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   - ${{1, 2}, {3, 4}}$ --- set containing two other sets as elements
 ]
 
-== Naive vs Axiomatic Set Theory
-
-#definition[
-  In _naive set theory_ (19th century):
-  - Sets can be formed from _any_ collection of objects
-  - "A set is any collection of definite, distinguishable objects" --- Georg Cantor
-  - _Unrestricted comprehension_: for any property $P(x)$, we can form ${x | P(x)}$
-]
-
-#definition[
-  In _axiomatic set theory_ (modern approach):
-  - Set formation is governed by specific _axioms_
-  - Most commonly used: _Zermelo-Fraenkel with Axiom of Choice_ (ZFC)
-  - _Restricted comprehension_: we can only form ${x in A | P(x)}$ from existing sets
-]
-
-#block(
-  fill: yellow.lighten(80%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
-  outset: .5em,
-)[
-  *Why the change?*
-  Russell's _paradox_ showed that naive set theory leads to _contradictions_. \
-  Axiomatic set theory was developed to provide a _consistent foundation_ for mathematics.
-]
-
-#note[
-  This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
-  We'll use an intuitive approach while being aware of the foundations.
-]
-
 == Urelements vs Sets Only
 
 #definition[
@@ -372,7 +340,7 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   For this course, we'll often use urelements for intuitive examples, but remember that everything _can_ be constructed as pure sets in formal mathematics.
 ]
 
-== The Extensionality Property
+== The Extensionality Principle
 
 #definition[
   Two sets are _equal_, denoted $A = B$, if and only if they have exactly the same elements.
@@ -498,6 +466,149 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
 
 #example[
   The set $A^omega$ of _infinite sequences_ over $A$.
+]
+
+== Russell’s Paradox
+
+#place(right)[
+  #grid(
+    columns: 1,
+    align: right,
+    column-gutter: 1em,
+    row-gutter: 0.5em,
+    link("https://en.wikipedia.org/wiki/Bertrand_Russell", box(
+      radius: 5pt,
+      clip: true,
+      stroke: 1pt + blue.darken(20%),
+      image("assets/Bertrand_Russell.jpg", height: 3cm),
+    )),
+    text(fill: blue.darken(20%))[Bertrand Russell],
+  )
+]
+
+Suppose a set can be either _"normal"_ or _"unusual"_.
+- A set is considered _normal_ if it does _not contain itself_ as an element. That is, $A notin A$.
+- Otherwise, it is _unusual_. That is, $A in A$.
+
+*Note:* being "normal" or "unusual" is a predicate $P(x)$ that can be applied to any set $x$.
+
+#block(
+  fill: yellow.lighten(80%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  outset: .5em,
+)[
+  Consider the set of _all normal sets_: $R = { A | A notin A }$.
+]
+
+The paradox arises when we ask: #strong[Is $R$ a normal set?]
+- Suppose $R$ is _normal_. By its definition, $R$ must be an element of $R$, so $R in R$. But elements of $R$ are normal sets, and normal sets do not contain themselves. So $R notin R$. Contradiction.
+- Suppose $R$ is _unusual_. This means $R$ contains itself, so $R in R$. But the definition of $R$ only includes sets that do _not_ contain themselves. So $R$ cannot be a member of $R$, i.e. $R notin R$. Contradiction.
+
+A contradiction is reached in _both_ cases.
+The only possible conclusion is that #strong[the set $R$ cannot exist].
+
+This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
+How can we fix this?..
+
+// == Naive vs Axiomatic Set Theory
+//
+// #definition[
+//   In _naive set theory_ (19th--early 20th century):
+//   - Sets can be formed from _any_ collection of objects
+//   - "A set is any collection of definite, distinguishable objects" --- Georg Cantor
+//   - _Unrestricted comprehension_: for any property $P(x)$, we can form ${x | P(x)}$
+//   - Simple and intuitive, but leads to contradictions
+// ]
+//
+// #definition[
+//   In _axiomatic set theory_ (modern approach):
+//   - Set formation is governed by specific _axioms_
+//   - Most commonly used: _Zermelo-Fraenkel with Axiom of Choice_ (ZFC)
+//   - _Restricted comprehension_: we can only form ${x in A | P(x)}$ from existing sets
+//   - Mathematically rigorous and consistent
+// ]
+//
+// #block(
+//   fill: yellow.lighten(80%),
+//   stroke: 1pt + yellow.darken(20%),
+//   radius: 5pt,
+//   outset: .5em,
+// )[
+//   *Why the change?*
+//   _Russell's paradox_ showed that naive set theory leads to _contradictions_. \
+//   Axiomatic set theory was developed to provide a _consistent foundation_ for mathematics.
+// ]
+//
+// #note[
+//   This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
+//   We'll use an intuitive approach while being aware of the foundations.
+// ]
+
+== From Naive to Axiomatic Set Theory
+
+#block(
+  fill: green.lighten(90%),
+  stroke: 1pt + green.darken(20%),
+  radius: 5pt,
+  inset: .5em,
+)[
+  #set text(size: 0.8em)
+  #set par(justify: true)
+
+  *Historical Note*
+
+  *Georg Cantor* developed _naive set theory_ in the late 19th century, which *David Hilbert* famously called "a~paradise from which no one shall expel us".
+  This intuitive approach revolutionized mathematics by providing a foundation for _infinite_ sets and real analysis.
+
+  However, paradise was short-lived.
+  In 1901, *Bertrand Russell* discovered his famous paradox, showing that unrestricted set formation leads to _contradictions_.
+  This crisis motivated Russell and *Alfred Whitehead* to write _"Principia Mathematica"_ (1910-1913), attempting to rebuild mathematics on _logical foundations_.
+
+  The modern solution came through _axiomatic set theory_: *Ernst Zermelo* (1908) and *Abraham Fraenkel* (1922) independently developed the _ZFC_ axiom system, providing the rigorous foundation we use today.
+  Their work transformed Cantor's intuitive paradise into a mathematically _consistent_ framework.
+]
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([Criterion], [Naive], [Axiomatic]),
+    [Set formation], [_Any collection_ of objects], [From _existing_ sets using _axioms_],
+    [Comprehension], [Unrestricted: ${x | P(x)}$], [Restricted: ${x in A | P(x)}$],
+    [Distinctions], [Simple and intuitive], [Mathematically rigorous],
+    [Consistency], [Leads to _paradoxes_], [Axiomatically _consistent_],
+  )
+]
+
+== ZFC Axioms
+
++ *Extensionality*: Sets with the same elements are equal.
++ *Empty Set*: There exists a set $emptyset$ with no elements.
++ *Pairing*: For any $a$ and $b$, there exists a set ${a, b}$.
++ *Union*: For any collection of sets, their union exists.
++ *Power Set*: For any set $A$, the power set $power(A)$ exists.
++ *Infinity*: There exists an infinite set (containing $NN$).
++ *Separation*: From any set $A$ and property $P$, we can form ${x in A | P(x)}$.
++ *Replacement*: If $F$ is a function-like relation, then for any set $A$, the image $F[A]$ exists.
++ *Foundation*: Every non-empty set has a minimal element (prevents self-membership).
++ *Choice*: Every collection of non-empty sets has a choice function.
+
+#note[
+  The *Separation* axiom prevents Russell's paradox by only allowing formation of subsets from existing sets, not arbitrary collections.
+]
+
+#align(center)[
+#block(
+  fill: purple.lighten(90%),
+  stroke: 1pt + purple.darken(20%),
+  radius: 5pt,
+  inset: .5em,
+)[
+  This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
+  We'll use an intuitive approach while being aware of the foundations.
+]
 ]
 
 == Subsets
@@ -1132,60 +1243,11 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
   })
 ]
 
-== Russell’s Paradox
+== The ZFC Axiom System
 
-#place(right)[
-  #grid(
-    columns: 1,
-    align: right,
-    column-gutter: 1em,
-    row-gutter: 0.5em,
-    link("https://en.wikipedia.org/wiki/Bertrand_Russell", box(
-      radius: 5pt,
-      clip: true,
-      stroke: 1pt + blue.darken(20%),
-      image("assets/Bertrand_Russell.jpg", height: 3cm),
-    )),
-    [Bertrand Russell],
-  )
-]
+After covering the basic concepts of set theory, let's examine the formal foundation that makes it all rigorous.
 
-Suppose a set can be either _"normal"_ or _"unusual"_.
-- A set is considered _normal_ if it does _not contain itself_ as an element. That is, $A notin A$.
-- Otherwise, it is _unusual_. That is, $A in A$.
-
-*Note:* being "normal" or "unusual" is a predicate $P(x)$ that can be applied to any set $x$.
-
-#block(
-  fill: yellow.lighten(80%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
-  outset: .5em,
-)[
-  Consider the set of _all normal sets_: $R = { A | A notin A }$.
-]
-
-The paradox arises when we ask: #strong[Is $R$ a normal set?]
-- Suppose $R$ is _normal_. By its definition, $R$ must be an element of $R$, so $R in R$. But elements of $R$ are normal sets, and normal sets do not contain themselves. So $R notin R$. Contradiction.
-- Suppose $R$ is _unusual_. This means $R$ contains itself, so $R in R$. But the definition of $R$ only includes sets that do _not_ contain themselves. So $R$ cannot be a member of $R$, i.e. $R notin R$. Contradiction.
-
-A contradiction is reached in both cases. The only possible conclusion is that #strong[the set $R$ cannot exist].
-
-This paradox showed that _unrestricted comprehension_ --- the ability to form a set from any arbitrary property --- is logically inconsistent.
-How can we fix this?..
-
-== From Naïve to Axiomatic Set Theory
-
-#definition[
-  _Naïve set theory_ allows unrestricted set formation: for any property $P(x)$, we can form the set ${x | P(x)}$.
-  Russell's paradox shows this leads to contradictions.
-]
-
-#definition[
-  _Axiomatic set theory_ restricts set formation through a system of axioms.
-
-  The most widely accepted system is _Zermelo-Fraenkel set theory with the Axiom of Choice_ (ZFC).
-]
+The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of modern set theory:
 
 #grid(
   columns: 2,
@@ -1208,21 +1270,54 @@ How can we fix this?..
   [Ernst Zermelo], [Abraham\ Fraenkel],
 )
 
-== ZFC Axioms
+#definition[Extensionality][
+  Sets with the same elements are equal.
+  $forall A, B. (forall x. x in A iff x in B) imply A = B$
+]
 
-+ *Extensionality*: Sets with the same elements are equal.
-+ *Empty Set*: There exists a set $emptyset$ with no elements.
-+ *Pairing*: For any $a$ and $b$, there exists a set ${a, b}$.
-+ *Union*: For any collection of sets, their union exists.
-+ *Power Set*: For any set $A$, the power set $power(A)$ exists.
-+ *Infinity*: There exists an infinite set (containing $NN$).
-+ *Separation*: From any set $A$ and property $P$, we can form ${x in A | P(x)}$.
-+ *Replacement*: If $F$ is a function-like relation, then for any set $A$, the image $F[A]$ exists.
-+ *Foundation*: Every non-empty set has a minimal element (prevents self-membership).
-+ *Choice*: Every collection of non-empty sets has a choice function.
+#definition[Empty Set][
+  There exists a set with no elements: $exists emptyset. forall x. x notin emptyset$
+]
 
-#note[
-  The *Separation* axiom prevents Russell's paradox by only allowing formation of subsets from existing sets, not arbitrary collections.
+#definition[Pairing][
+  For any objects $a$ and $b$, there exists a set containing exactly them:
+  $forall a, b. exists C. forall x. x in C iff (x = a or x = b)$
+]
+
+#definition[Union][
+  For any family of sets, their union exists:
+  $forall cal(F). exists U. forall x. x in U iff exists A in cal(F). x in A$
+]
+
+#definition[Power Set][
+  For any set $A$, the set of all its subsets exists:
+  $forall A. exists power(A). forall X. X in power(A) iff X subset.eq A$
+]
+
+#definition[Infinity][
+  There exists an infinite set (intuitively, containing natural numbers):
+  $exists S. emptyset in S and (forall x in S. x union {x} in S)$
+]
+
+#definition[Separation (Subset)][
+  From any set and property, we can form the subset of elements satisfying that property:
+  $forall A. forall P. exists B. forall x. x in B iff (x in A and P(x))$
+
+  #note[This axiom prevents Russell's paradox by only allowing formation of subsets from existing sets.]
+]
+
+#definition[Replacement][
+  If $F$ is a function-like relation, then for any set $A$, the image $F[A]$ exists.
+]
+
+#definition[Foundation (Regularity)][
+  Every non-empty set has a minimal element (prevents sets from containing themselves):
+  $forall A. A != emptyset imply exists x in A. A intersect x = emptyset$
+]
+
+#definition[Choice][
+  Every collection of non-empty sets has a choice function:
+  $forall cal(F). (emptyset notin cal(F)) imply exists f. forall A in cal(F). f(A) in A$
 ]
 
 = Relations
