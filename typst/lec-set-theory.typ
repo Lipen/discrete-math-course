@@ -2390,14 +2390,23 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #definition[
   The _cardinality_ of a set $X$, denoted $abs(X)$, is a measure of its "size".
-  - For _finite_ sets, cardinality $abs(X)$ is simply the number of elements in $X$.
-  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, e.g. countable vs uncountable.
+  - For _finite_ sets, cardinality $abs(X)$ is the same as size, i.e., the number of elements in $X$.
+  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, e.g. _countable_ vs _uncountable_.
 ]
 
 #examples[
   - $abs(NN) = aleph_0$
   - $abs(QQ) = aleph_0$
   - $abs(RR) = 2^(aleph_0) = frak(c)$
+]
+
+#note[
+  $abs(X)$ is _not_ just a number, but a _cardinal number_.
+  - Cardinal numbers extend natural numbers to describe sizes of infinite sets.
+  - The _finite_ cardinal numbers are just natural numbers: $0, 1, 2, 3, dots$.
+  - The first (smallest) _infinite_ cardinal is $aleph_0$ (the cardinality of $NN$).
+  - _Arithmetic_ operations on cardinal numbers _differ_ from those on natural numbers.
+    - For example, $aleph_0 + 1 = aleph_0$ and $aleph_0 dot 2 = aleph_0$.
 ]
 
 == Equinumerosity
