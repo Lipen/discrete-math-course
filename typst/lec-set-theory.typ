@@ -642,8 +642,6 @@ How can we fix this?..
   ${0} in {0, {0}}$ _and_ ${0} subset.eq {0, {0}}$, that is, ${0}$ is an element, and also a subset.
 ]
 
-// TODO: visualize subsets using Euler diagrams (nested circles)
-
 == Euler Circles
 
 #definition[
