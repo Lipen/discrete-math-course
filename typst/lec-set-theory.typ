@@ -2375,10 +2375,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #definition[
   The _size_ of a _finite_ set $X$, denoted $abs(X)$, is the number of elements it contains.
-
-  // For a _finite_ set $X$, its _size_, denoted $abs(X)$, is the number of elements it contains.
-
-  // If a finite set is enumerated as $X = {x_1, dots, x_n}$, then its size is $n$.
 ]
 
 #examples[
