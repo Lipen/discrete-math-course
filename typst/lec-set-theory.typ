@@ -793,11 +793,11 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     // content("venn.abc", text(size: 0.3em)[$A intersect B intersect C$])
     content("venn.not-abc", text(0.7em)[$overline(A union B union C)$], anchor: "south-west")
 
-    line("venn.bc", (rel: (2.5, -1.3)), mark: (start: "o", fill: black), name: "arrow-bc")
-    content("arrow-bc.end", [$(B intersect C) without A$], anchor: "north-west", padding: .1)
+    line("venn.bc", (rel: (2.5, -1.2)), mark: (start: "o", fill: black), name: "arrow-bc")
+    content("arrow-bc.end", [$(B intersect C) without A$], anchor: "west", padding: .1)
 
-    line("venn.ac", (rel: (-2.5, -1.3)), mark: (start: "o", fill: black), name: "arrow-ac")
-    content("arrow-ac.end", [$(A intersect C) without B$], anchor: "north-east", padding: .1)
+    line("venn.ac", (rel: (-2.5, -1.2)), mark: (start: "o", fill: black), name: "arrow-ac")
+    content("arrow-ac.end", [$(A intersect C) without B$], anchor: "east", padding: .1)
 
     line((rel: (0, 0.1), to: "venn.ab"), (rel: (-2.3, .7)), mark: (start: "o", fill: black), name: "arrow-ab")
     content("arrow-ab.end", [$(A intersect B) without C$], anchor: "east", padding: .1)
