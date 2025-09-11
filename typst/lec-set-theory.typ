@@ -687,6 +687,15 @@ How can we fix this?..
   )
 ]
 
+== Set Partitions
+
+#definition[
+  A _partition_ of a set $M$ is a collection of non-empty, pairwise-disjoint subsets whose union is~$M$.
+  Elements of the partition are called _blocks_ or _cells_.
+]
+
+// TODO: visualize set partition
+
 == Power Sets
 
 #definition[
