@@ -591,6 +591,31 @@ How can we fix this?..
 = Sets: Part II
 #focus-slide()
 
+== Size of Sets
+
+#definition[
+  The _size_ of a _finite_ set $X$, denoted $abs(X)$, is the number of elements it contains.
+]
+
+#examples[
+  - Let $A = {#emoji.planet, #emoji.dino, #emoji.violin}$, then $abs(A) = 3$, since $A$ contains _exactly 3_ elements.
+  - Let $B = {#emoji.kiwi, #emoji.kiwi, #emoji.kiwi}$, then $abs(B) = 1$, since $B$ contains _only one unique_ element (the kiwi).
+  - $abs(emptyset) = 0$, since the _empty_ set contains _no elements_.
+  - $abs(NN) = infinity$, since there are _infinitely many_ natural numbers.
+  - $abs(RR) = infinity$, since there are _infinitely many_ real numbers.
+]
+
+#v(1em)
+#block(
+  fill: yellow.lighten(90%),
+  stroke: 1pt + yellow.darken(20%),
+  radius: 5pt,
+  outset: .5em,
+)[
+  Later, we will explore _infinite_ sets and different "types of infinity" (_countable_ vs _uncountable_) in more detail.
+  For now, we focus only on _finite_ sets.
+]
+
 == Subsets
 
 #definition[
