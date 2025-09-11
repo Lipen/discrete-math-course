@@ -2389,6 +2389,20 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 == Cardinality of Sets
 
 #definition[
+  The _cardinality_ of a set $X$, denoted $abs(X)$, is a measure of its "size".
+  - For _finite_ sets, cardinality $abs(X)$ is simply the number of elements in $X$.
+  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, e.g. countable vs uncountable.
+]
+
+#examples[
+  - $abs(NN) = aleph_0$
+  - $abs(QQ) = aleph_0$
+  - $abs(RR) = 2^(aleph_0) = frak(c)$
+]
+
+== Equinumerosity
+
+#definition[
   Two sets $A$ and $B$ have the same _cardinality_ and called _equinumerous_, denoted #box[$abs(A) = abs(B)$] or $A equinumerous B$, iff there is a _bijection_ (one-to-one correspondence) from $A$ to $B$.
 ]
 
