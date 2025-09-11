@@ -1750,7 +1750,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $[x]_R = [y]_R$ for all $x, y in M$.
 ]
 
-== Partitions
+== Set Partitions
 
 #definition[
   A _partition_ $cal(P)$ of a set $M$ is a family of non-empty, pairwise-disjoint subsets whose union is $M$:
