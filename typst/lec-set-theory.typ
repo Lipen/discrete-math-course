@@ -588,6 +588,9 @@ How can we fix this?..
   ]
 ]
 
+= Sets: Part II
+#focus-slide()
+
 == Subsets
 
 #definition[
@@ -615,6 +618,47 @@ How can we fix this?..
 ]
 
 // TODO: visualize subsets using Euler diagrams (nested circles)
+
+== Euler Circles
+
+#definition[
+  _Euler diagram_ is a graphical representation of sets and their relationships using closed shapes (usually circles).
+]
+
+#align(center)[
+  #grid(
+    columns: 2,
+    column-gutter: 2em,
+    align: left + horizon,
+    [
+      #set text(size: 1.5em)
+      #cetz.canvas({
+        import cetz.draw: *
+        circle((0, 0), radius: 1, fill: green.transparentize(80%), name: "A")
+        circle((0, 0.5), radius: (1.5, 2), fill: blue.transparentize(80%), name: "B")
+        circle((3, 0.5), radius: 1, fill: red.transparentize(80%), name: "C")
+        content((-0.3, -0.4), [$1$])
+        content((0.3, -0.2), [$2$])
+        content((0.4, .5), [$3$])
+        content((-0.5, 1.7), [$4$])
+        content((0.4, 1.6), [$5$])
+        content((2.5, 0.7), [$6$])
+        content((3.1, 0.0), [$7$])
+        content((3.4, 0.8), [$8$])
+        content("A.north-west", anchor: "north-west", padding: .1, text(fill: green.darken(20%))[$A$])
+        content("B.north-east", anchor: "south-west", padding: .1, text(fill: blue.darken(20%))[$B$])
+        content("C.south", anchor: "north", padding: .2, text(fill: red.darken(20%))[$C$])
+      })
+    ],
+    [
+      - $A subset.eq B subset.eq.not C$
+      - $A = {1,2,3} subset.eq B$
+      - $B = {1,2,3,4,5}$
+      - $C = {6,7,8}$
+      - $B intersect C = emptyset$
+    ],
+  )
+]
 
 == Power Sets
 
@@ -710,22 +754,84 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   )
 ]
 
-== Venn Diagrams and Euler Circles
+== Venn Diagrams
+
+#definition[
+  A _Venn diagram_ is a visual representation of sets and their relationships using overlapping circles.
+  Each circle represents a set, and overlapping regions show intersections.
+]
 
 #align(center)[
+  #set text(1.5em)
+  #cetz.canvas({
+    import cetz.draw: *
+
+    scale(150%)
+
+    cetz-venn.venn3(
+      a-fill: blue.transparentize(80%),
+      b-fill: yellow.transparentize(80%),
+      ab-fill: green.transparentize(80%),
+      c-fill: red.transparentize(80%),
+      ac-fill: purple.transparentize(80%),
+      bc-fill: orange.transparentize(80%),
+      abc-fill: gray.transparentize(80%),
+      a-stroke: 1pt + blue.darken(20%),
+      b-stroke: 1pt + yellow.darken(20%),
+      c-stroke: 1pt + red.darken(20%),
+      abc-stroke: 1pt + gray.darken(20%),
+      padding: 0.3,
+      name: "venn",
+    )
+
+    content("venn.a", [$A$])
+    content("venn.b", [$B$])
+    content("venn.c", [$C$])
+    // content("venn.ab", text(size: 0.5em)[$A intersect B$])
+    // content("venn.ac", text(size: 0.5em)[$A intersect C$])
+    // content("venn.bc", text(size: 0.5em)[$B intersect C$])
+    // content("venn.abc", text(size: 0.3em)[$A intersect B intersect C$])
+    content("venn.not-abc", text(0.7em)[$overline(A union B union C)$], anchor: "south-west")
+
+    line("venn.bc", (rel: (2.5, -1.3)), mark: (start: "o", fill: black), name: "arrow-bc")
+    content("arrow-bc.end", [$(B intersect C) without A$], anchor: "north-west", padding: .1)
+
+    line("venn.ac", (rel: (-2.5, -1.3)), mark: (start: "o", fill: black), name: "arrow-ac")
+    content("arrow-ac.end", [$(A intersect C) without B$], anchor: "north-east", padding: .1)
+
+    line((rel: (0, 0.1), to: "venn.ab"), (rel: (-2.3, .7)), mark: (start: "o", fill: black), name: "arrow-ab")
+    content("arrow-ab.end", [$(A intersect B) without C$], anchor: "east", padding: .1)
+
+    line("venn.abc", (rel: (2.5, .3)), mark: (start: "o", fill: black), name: "arrow-abc")
+    content("arrow-abc.end", [$A intersect B intersect C$], anchor: "west", padding: .1)
+  })
+]
+
+== Venn Diagrams vs Euler Circles
+
+#align(center + horizon)[
   #grid(
     columns: 2,
     align: left + horizon,
     column-gutter: 1em,
-    cetz.canvas({
-      draw.circle((-0.5, 0), radius: 1, fill: blue.transparentize(90%))
-      draw.circle((0.5, 0), radius: 1, fill: yellow.transparentize(90%))
-      draw.circle((0, 0), radius: 0.3, fill: red.transparentize(80%))
+    [
+      #set text(1.5em)
+      #cetz.canvas({
+        import cetz.draw: *
 
-      draw.content((-1, 0))[$1$]
-      draw.content((1, 0))[$2$]
-      draw.content((0, 0))[$3$]
-    }),
+        let x = 0.7
+        let r = 1.5
+        let r2 = 0.5
+        circle((-x, 0), radius: r, fill: blue.transparentize(90%))
+        circle((x, 0), radius: r, fill: yellow.transparentize(90%))
+        circle((0, 0), radius: r2, fill: red.transparentize(80%))
+
+        let t = 1.4
+        content((-t, 0))[$1$]
+        content((t, 0))[$2$]
+        content((0, 0))[$3$]
+      })
+    ],
     [
       #set enum(numbering: "(1)")
       + people who know what a Venn diagram is
@@ -734,33 +840,6 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     ],
   )
 ]
-
-#definition[
-  A _Venn diagram_ is a visual representation of sets and their relationships using overlapping circles.
-  Each circle represents a set, and overlapping regions show intersections.
-]
-
-#definition[
-  _Euler diagram_ is a graphical representation of sets and their relationships using closed shapes (usually circles).
-]
-
-// #example[
-//   For sets $A = {1, 2, 3}$ and $B = {2, 3, 4}$:
-//   - $A intersect B = {2, 3}$ (overlapping region)
-//   - $A setminus B = {1}$ (left-only region)
-//   - $B setminus A = {4}$ (right-only region)
-//   - $A union B = {1, 2, 3, 4}$ (entire diagram)
-// ]
-
-// TODO: Add Venn diagram visualization
-//
-// #example[Three-Set Venn Diagram][
-//   For three sets $A$, $B$, $C$, a complete Venn diagram shows 8 regions:
-//   - $A intersect B intersect C$ (center)
-//   - $A intersect B intersect overline(C)$, $A intersect overline(B) intersect C$, $overline(A) intersect B intersect C$
-//   - $A intersect overline(B) intersect overline(C)$, $overline(A) intersect B intersect overline(C)$, $overline(A) intersect overline(B) intersect C$
-//   - $overline(A) intersect overline(B) intersect overline(C)$ (outside all sets)
-// ]
 
 == Operations on Sets
 
@@ -853,6 +932,9 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
   - $A union overline(A) = U$, $A intersect overline(A) = emptyset$
   - $overline(overline(A)) = A$ (double complement)
 ]
+
+= Sets: Part III
+#focus-slide()
 
 == Tuples and Ordered Pairs
 
@@ -1243,6 +1325,9 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     )
   })
 ]
+
+= Sets: Part IV
+#focus-slide()
 
 == The ZFC Axiom System
 
