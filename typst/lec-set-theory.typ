@@ -647,7 +647,7 @@ How can we fix this?..
 == Euler Circles
 
 #definition[
-  _Euler diagram_ is a graphical representation of sets and their relationships using closed shapes (usually circles).
+  _Euler diagram_ is a graphical representation of sets and their relationships (subset, intersecting, disjoint) using closed shapes (usually circles).
 ]
 
 #align(center)[
