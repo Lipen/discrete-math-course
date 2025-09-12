@@ -1033,9 +1033,14 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 ]
 
 #note[
-  _Alternatively_, we can "peel off" the last element instead of the first:
+  _Alternatively_, we could "peel off" the last element instead of the first:
   $
     (a_1, a_2, dots, a_n) eq.def pair((a_1, a_2, dots, a_(n-1)), a_n)
+  $
+
+  This would yield _another valid definition_ of an $n$-tuple, with a different recursive structure:
+  $
+    (a_1, a_2, dots, a_n) = pair(pair(pair(...pair(emptyset, a_1), a_2), dots), a_n)
   $
 ]
 
