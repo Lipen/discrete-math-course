@@ -1016,6 +1016,29 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
   Note, however, that $pair(#emoji.cactus, #emoji.cactus) = {{#emoji.cactus}}$.
 ]
 
+== $n$-Tuples as Nested Ordered Pairs
+
+#definition[
+  An _n-tuple_ $(a_1, a_2, dots, a_n)$ can be defined recursively using ordered pairs:
+  - The 0-tuple (empty tuple) is represented by the empty set $emptyset$.
+  - An $n$-tuple, for $n > 0$, is an ordered pair of its first element and the remaining $(n-1)$-tuple:
+    $
+      (a_1, a_2, dots, a_n) eq.def pair(a_1, (a_2, dots, a_n))
+    $
+
+  This gives the following _recursive structure_:
+  $
+    (a_1, a_2, dots, a_n) = pair(a_1, pair(a_2, pair(dots, pair(a_n, emptyset)...)))
+  $
+]
+
+#note[
+  _Alternatively_, we can "peel off" the last element instead of the first:
+  $
+    (a_1, a_2, dots, a_n) eq.def pair((a_1, a_2, dots, a_(n-1)), a_n)
+  $
+]
+
 == Cartesian Product
 
 #definition[
