@@ -991,11 +991,11 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 ]
 
 #example[
-  $(#emoji.owl, #emoji.owl) != (#emoji.owl, #emoji.owl, #emoji.owl)$, these tuples are _not_ equal because they have different lengths.
+  $(#emoji.owl, #emoji.owl) != (#emoji.owl, #emoji.owl, #emoji.owl)$, these tuples are _not equal_ because they have _different lengths_.
 ]
 
 #example[
-  $(#emoji.ram, #emoji.goat, #emoji.sheep) != (#emoji.sheep, #emoji.ram, #emoji.goat)$, these tuples are _not equal_ because the _order_ of elements matters.
+  $(#emoji.ram, #emoji.goat, #emoji.sheep) != (#emoji.sheep, #emoji.ram, #emoji.goat)$, these tuples are _not equal_ because the _order_ of elements _matters_.
 ]
 
 #example[
