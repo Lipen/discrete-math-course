@@ -975,7 +975,7 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 == Tuples
 
 #definition[
-  A _tuple_ is an ordered collection of elements, denoted $(a_1, a_2, dots, a_n)$.
+  A _tuple_ is a finite ordered collection of elements, denoted $(a_1, a_2, dots, a_n)$.
 
   A tuple of length $n$ is called an _n-tuple_.
 ]
