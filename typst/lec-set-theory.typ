@@ -972,7 +972,7 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 = Sets: Part III
 #focus-slide()
 
-== Tuples and Ordered Pairs
+== Tuples
 
 #definition[
   A _tuple_ is an ordered collection of elements, denoted $(a_1, a_2, dots, a_n)$.
@@ -983,6 +983,24 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 #example[
   $(42, #emoji.crab, #emoji.cat.face.angry, #emoji.kiwi)$ is a 4-tuple.
 ]
+
+#definition[
+  Two tuples are _equal_, denoted $(a_1, a_2, dots, a_n) = (b_1, b_2, dots, b_m)$, if and only if they have the same length ($n = m$) and corresponding elements are equal ($a_i = b_i$ for all $1 leq i leq n$).
+]
+
+#example[
+  $(#emoji.owl, #emoji.owl) != (#emoji.owl, #emoji.owl, #emoji.owl)$, these tuples are _not_ equal because they have different lengths.
+]
+
+#example[
+  $(#emoji.ram, #emoji.goat, #emoji.sheep) != (#emoji.sheep, #emoji.ram, #emoji.goat)$, these tuples are _not equal_ because the _order_ of elements matters.
+]
+
+#example[
+  $(#emoji.fox, #emoji.fox) != (#emoji.fox, ) != #emoji.fox != {#emoji.fox}$, these are _all different_ objects: a 2-tuple, a 1-tuple, an~urelement, and a singleton~set.
+]
+
+== Ordered Pairs
 
 #definition[
   An ordered pair $pair(a, b)$ is a special 2-tuple, defined#footnote[Kuratowski's definition is the most cited and now-accepted definition of an ordered pair. For others, see #link("https://en.wikipedia.org/wiki/Ordered_pair#Defining_the_ordered_pair_using_set_theory")[wiki].] as:
