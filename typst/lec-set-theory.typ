@@ -1032,16 +1032,21 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
   $
 ]
 
+#examples[
+  - $(1, 2, 3) = pair(1, pair(2, pair(3, emptyset)))$
+  - $(#emoji.cat.face.angry, #emoji.cat.face.shock, #emoji.cat.face.heart, #emoji.cat.face.laugh) = pair(#emoji.cat.face.angry, pair(#emoji.cat.face.shock, pair(#emoji.cat.face.heart, pair(#emoji.cat.face.laugh, emptyset))))$
+]
+
 #note[
-  _Alternatively_, we could "peel off" the last element instead of the first:
+  _Alternatively_, we could "peel off" the _last_ element instead of the first:
   $
     (a_1, a_2, dots, a_n) eq.def pair((a_1, a_2, dots, a_(n-1)), a_n)
   $
 
-  This would yield _another valid definition_ of an $n$-tuple, with a different recursive structure:
-  $
-    (a_1, a_2, dots, a_n) = pair(pair(pair(...pair(emptyset, a_1), a_2), dots), a_n)
-  $
+  // This would yield _another valid definition_ of an $n$-tuple, with a different recursive structure:
+  // $
+  //   (a_1, a_2, dots, a_n) = pair(pair(pair(...pair(emptyset, a_1), a_2), dots), a_n)
+  // $
 ]
 
 == Cartesian Product
