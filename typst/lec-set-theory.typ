@@ -1015,7 +1015,16 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 
 #example[
   $pair(#emoji.cactus, #emoji.cactus) != (#emoji.cactus,) != #emoji.cactus != {#emoji.cactus}$, these are all different objects: an ordered pair, a 1-tuple, an~urelement, and a singleton~set.
-  Note, however, that $pair(#emoji.cactus, #emoji.cactus) = {{#emoji.cactus}}$.
+
+  #note[
+    $pair(#emoji.cactus, #emoji.cactus) = {{#emoji.cactus}}$, using Kuratowski's definition:
+    $
+      pair(#emoji.cactus, #emoji.cactus)
+      = { {#emoji.cactus}, \{underbracket(#emoji.cactus, "same"), underbracket(#emoji.cactus, "same")\} }
+      = { overbrace({#emoji.cactus}, "equal"), overbrace({underbracket(#emoji.cactus)}, "equal") }
+      = { overbrace({#emoji.cactus}) }
+    $
+  ]
 ]
 
 == $n$-Tuples as Nested Ordered Pairs
