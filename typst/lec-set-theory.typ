@@ -21,6 +21,8 @@
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
 #let matrel(x) = $bracket.double.l #x bracket.double.r$
+#let eqclass(x, R) = $bracket.l #x bracket.r_#R$
+#let quotient(M, R) = $M slash_(#R)$
 #let Dom = math.op("Dom")
 #let Cod = math.op("Cod")
 #let Range = math.op("Range")
@@ -1798,16 +1800,16 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #definition[
   Let $R subset.eq M^2$ be an equivalence relation on a set $M$.
   The _equivalence class_ of an element $x in M$ under $R$ is the set of all elements related to $x$:
-  $ [x]_R = { y in M | x rel(R) y } $
+  $ eqclass(x, R) = { y in M | x rel(R) y } $
 ]
 
 #definition[
   The _quotient set_ of $M$ by the equivalence relation $R$ is the set of all equivalence classes:
-  $ M slash_R = { [x]_R | x in M } $
+  $ quotient(M, R) = { eqclass(x, R) | x in M } $
 ]
 
 #theorem[
-  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $[x]_R = [y]_R$ for all $x, y in M$.
+  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
 ]
 
 == Set Partitions
@@ -1913,7 +1915,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 == Partitions and Equivalence Relations
 
 #theorem[Equivalences $<=>$ Partitions][
-  Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { [x]_R | x in M }$].
+  Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { eqclass(x, R) | x in M }$].
   Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $pair(x, y) in R_cal(P)$ iff $x$ and $y$ lie in the same block.
   These constructions invert one another.
 ]
