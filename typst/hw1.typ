@@ -203,8 +203,8 @@ $
 + Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among users.
 + Determine which pair is most similar and which is most dissimilar.
 + Draw a social network graph with users as nodes and edges weighted by Jaccard similarity.
-+ Build $G_(0.25)$: the graph with edges where Jaccard $>= 0.25$.
-  List connected components.
++ Build $G_(0.25)$: the graph with edges where Jaccard similarity $>= 0.25$.
+  List all connected components.
 
 *Part (b):*
 The _Cosine similarity_ for sets can be defined#footnote[#link("https://en.wikipedia.org/wiki/Cosine_similarity#Otsuka–Ochiai_coefficient")[Otsuka–Ochiai coefficient]] as:
