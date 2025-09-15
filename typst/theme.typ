@@ -130,8 +130,8 @@
   grid(
     columns: 1fr,
     // Note: one row for title+epigraph, one for portraits.
-    //  First row fills all available space
-    //  Second row (optional) is auto-sized to content
+    //  - First row fills all available space.
+    //  - Second row (optional) is auto-sized to content.
     rows: (1fr, auto),
     align(horizon, stack(
       // Title
