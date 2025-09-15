@@ -1391,7 +1391,7 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
 
 
 #focus-slide(
-  title:"Axiomatic Set Theory",
+  title: "Axiomatic Set Theory",
 )
 
 == The ZFC Axiom System
@@ -1681,9 +1681,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 
 #focus-slide(
-  title: _ => context {
+  title: _ => {
     relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Properties"
+    "Relations " + context numbering("I", relations-part.get()) + ": " + "Properties"
   },
 )
 
@@ -1751,9 +1751,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 
 #focus-slide(
-  title: _ => context {
+  title: _ => {
     relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Equivalences"
+    "Relations " + context numbering("I", relations-part.get()) + ": " + "Equivalences"
   },
 )
 
@@ -1894,9 +1894,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 
 #focus-slide(
-  title: _ => context {
+  title: _ => {
     relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Closures"
+    "Relations " + context numbering("I", relations-part.get()) + ": " + "Closures"
   },
 )
 
@@ -2294,9 +2294,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 
 #focus-slide(
-  title: _ => context {
+  title: _ => {
     relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Orders"
+    "Relations " + context numbering("I", relations-part.get()) + ": " + "Orders"
   },
 )
 
@@ -2379,9 +2379,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 
 #focus-slide(
-  title: _ => context {
+  title: _ => {
     relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Composition"
+    "Relations " + context numbering("I", relations-part.get()) + ": " + "Composition"
   },
 )
 
