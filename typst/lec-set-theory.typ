@@ -1480,3 +1480,58 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
     forall cal(F). thin (emptyset notin cal(F)) imply exists f. forall A in cal(F). thin f(A) in A
   $
 ]
+
+== TODO
+
+- Advanced topics in set theory:
+  - Cardinal arithmetic and operations
+  - Ordinal numbers and transfinite induction
+  - The Continuum Hypothesis
+  - Large cardinals
+- Applications of set operations in:
+  - Database theory (relational algebra)
+  - Boolean algebra and logic circuits
+  - Probability theory (events and sample spaces)
+  - Computer science (formal verification)
+- Further exploration of axiomatic foundations:
+  - Independence results (Cohen forcing)
+  - Alternative axiom systems (NBG, MK)
+  - Constructive set theory
+
+== Looking Ahead: Binary Relations
+
+The next lecture will explore _binary relations_, which provide the mathematical framework for:
+- Modeling relationships between objects
+- Understanding equivalence and ordering structures
+- Developing function theory
+- Database design and query optimization
+
+Key topics will include:
+- Relations as sets of ordered pairs
+- Properties of relations (reflexive, symmetric, transitive)
+- Equivalence relations and partitions
+- Partial and total orders
+- Closure operations on relations
+
+== Preview: Functions and Beyond
+
+Following relations, we will study _functions_ as special relations, covering:
+- Function properties (injective, surjective, bijective)
+- Function composition and inverse functions
+- Cardinality and different types of infinity
+- Applications to combinatorics and algorithm analysis
+
+This progression from sets $to$ relations $to$ functions provides the foundation for:
+- Boolean algebra and digital logic
+- Formal logic and proof systems
+- Graph theory and discrete structures
+- Advanced topics in discrete mathematics
+
+#Block(color: purple)[
+  *Set theory* is the language of mathematics --- _everything_ can be expressed in terms of _sets_.
+
+  These fundamentals lead to all areas of discrete mathematics and computer science.
+]
+
+// == Bibliography
+// #bibliography("refs.yml")
