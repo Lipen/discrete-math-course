@@ -104,7 +104,7 @@
       - Orders
       - Functions
     ],
-    panel(tint: purple)[Boolean \ Albegra][
+    panel(tint: purple)[Boolean \ Algebra][
       - Boolean operations
       - Laws and identities
       - Normal forms
