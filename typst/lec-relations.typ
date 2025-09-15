@@ -48,6 +48,19 @@
 #let YES = Green(sym.checkmark)
 #let NO = Red(sym.crossmark)
 
+#let Block(
+  color: blue,
+  body,
+  ..args,
+) = block(
+  body,
+  fill: color.lighten(90%),
+  stroke: 1pt + color.darken(20%),
+  radius: 5pt,
+  inset: 1em,
+  ..args.named(),
+)
+
 
 #[
   #set page(margin: 0pt)
@@ -2158,6 +2171,10 @@ Following Boolean algebra, we will study _formal logic_, covering:
 - Applications to program verification and AI reasoning
 
 This progression from sets $to$ relations $to$ functions $to$ Boolean algebra $to$ logic provides a solid foundation for advanced topics in discrete mathematics and computer science.
+
+#Block(color: purple)[
+  *Binary relations* are the bridge between sets and functions --- they model how objects _connect_, _organize_, and _interact_ in mathematical structures and real-world systems.
+]
 
 // == Bibliography
 // #bibliography("refs.yml")

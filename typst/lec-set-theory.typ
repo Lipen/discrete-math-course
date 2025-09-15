@@ -1528,9 +1528,8 @@ This progression from sets $to$ relations $to$ functions provides the foundation
 - Advanced topics in discrete mathematics
 
 #Block(color: purple)[
-  *Set theory* is the language of mathematics --- _everything_ can be expressed in terms of _sets_.
-
-  These fundamentals lead to all areas of discrete mathematics and computer science.
+  *Set theory* is the mathematical _lingua franca_ --- every mathematical concept can be defined in terms of sets.
+  Mastering these fundamentals leads to a deeper understanding of all areas of mathematics.
 ]
 
 // == Bibliography
