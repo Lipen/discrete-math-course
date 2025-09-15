@@ -26,6 +26,10 @@
 //   scholars: ("Name 1", "Name 2", "Name 3", ...)
 // )
 
+// Note: `title` can be:
+//  - none (default): use current heading (level 1)
+//  - function: a function that receives the current heading
+//  - str: use the provided string as the title
 #let focus-slide(
   title: none,
   epigraph: none,
@@ -35,6 +39,8 @@
 ) = {
   let title = if title == none {
     current-heading()
+  } else if type(title) == function {
+    title(current-heading())
   } else {
     title
   }
