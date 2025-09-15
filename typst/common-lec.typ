@@ -49,7 +49,12 @@
   ) = block(
     height: 100%,
     width: 100%,
-    fill: tint.lighten(85%),
+    // fill: tint.lighten(85%),
+    fill: gradient.linear(
+      dir: ttb,
+      tint.lighten(80%),
+      tint.lighten(95%),
+    ),
   )[
     #stack(
       // Top part:
