@@ -56,13 +56,13 @@
       box(
         width: 100%,
         height: 50%,
-        inset: .5em,
+        inset: 1em,
         // stroke: .1pt,
       )[
         #set align(bottom + center)
         #set text(size: 1.4em)
         #box(
-          inset: .5em,
+          outset: .5em,
           stroke: (bottom: .8pt),
         )[
           *#title*
