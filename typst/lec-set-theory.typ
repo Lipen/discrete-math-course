@@ -2348,6 +2348,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $
 ]
 
+// TODO: visualize
+
 == Powers of Relations
 
 #definition[
