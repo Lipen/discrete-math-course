@@ -63,7 +63,7 @@
         #set text(size: 1.4em)
         #box(
           outset: .5em,
-          stroke: (bottom: .8pt),
+          stroke: (bottom: 1pt + tint.darken(20%).transparentize(50%)),
         )[
           *#title*
         ]
