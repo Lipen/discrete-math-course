@@ -612,8 +612,10 @@ How can we fix this?..
   ]
 ]
 
-= Sets: Part II
-#focus-slide()
+
+#focus-slide(
+  title: "Sets: Basic Concepts",
+)
 
 == Size of Sets
 
@@ -993,8 +995,10 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
   - $overline(overline(A)) = A$ (double complement)
 ]
 
-= Sets: Part III
-#focus-slide()
+
+#focus-slide(
+  title: "Tuples, Pairs, and Products",
+)
 
 == Tuples
 
@@ -1385,8 +1389,10 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
   })
 ]
 
-= Sets: Part IV
-#focus-slide()
+
+#focus-slide(
+  title:"Axiomatic Set Theory",
+)
 
 == The ZFC Axiom System
 
@@ -1674,7 +1680,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-= Relations: Properties
 #focus-slide(
   title: _ => context {
     relations-part.update(it => it + 1)
@@ -1745,7 +1750,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-= Relations: Equivalences
 #focus-slide(
   title: _ => context {
     relations-part.update(it => it + 1)
@@ -1889,7 +1893,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-= Relations: Closures
 #focus-slide(
   title: _ => context {
     relations-part.update(it => it + 1)
@@ -2290,7 +2293,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-= Relations: Orders
 #focus-slide(
   title: _ => context {
     relations-part.update(it => it + 1)
@@ -2376,7 +2378,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-= Relations: Composition
 #focus-slide(
   title: _ => context {
     relations-part.update(it => it + 1)
