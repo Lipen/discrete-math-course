@@ -43,17 +43,17 @@
 
 #let CourseOverviewPage() = page(margin: 0pt)[
   #let panel(
-    tint: white,
+    color: white,
     title,
     body,
   ) = block(
     height: 100%,
     width: 100%,
-    // fill: tint.lighten(85%),
+    // fill: color.lighten(85%),
     fill: gradient.linear(
       dir: ttb,
-      tint.lighten(80%),
-      tint.lighten(95%),
+      color.lighten(80%),
+      color.lighten(95%),
     ),
   )[
     #stack(
@@ -68,7 +68,7 @@
         #set text(size: 1.4em)
         #box(
           outset: .5em,
-          stroke: (bottom: 1pt + tint.darken(20%).transparentize(50%)),
+          stroke: (bottom: 1pt + color.darken(20%).transparentize(50%)),
         )[
           *#title*
         ]
@@ -86,25 +86,25 @@
 
   #grid(
     columns: 4,
-    panel(tint: blue)[Set \ Theory][
+    panel(color: blue)[Set \ Theory][
       - Basic concepts
       - Set operations
       - Power sets
       - Cardinality
     ],
-    panel(tint: green)[Binary \ Relations][
+    panel(color: green)[Binary \ Relations][
       - Relation properties
       - Equivalence relations
       - Orders
       - Functions
     ],
-    panel(tint: purple)[Boolean \ Algebra][
+    panel(color: purple)[Boolean \ Algebra][
       - Boolean operations
       - Laws and identities
       - Normal forms
       - Logic circuits
     ],
-    panel(tint: orange)[Formal \ Logic][
+    panel(color: orange)[Formal \ Logic][
       - Propositional logic
       - Categorial logic
       - Predicate logic
