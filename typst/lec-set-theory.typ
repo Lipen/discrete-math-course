@@ -1665,34 +1665,403 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
 ]
 
+= Relations II: Closures
+#focus-slide()
+
 == Closures of Relations
 
 #definition[
-  Let $R subset.eq M^2$ be a relation. The _closures_ of $R$ are the smallest relations containing $R$ with specific properties:
-
-  - _Reflexive closure_: $R^+ = R union I_M$
-  - _Symmetric closure_: $R^s = R union R^(-1)$
-  - _Transitive closure_: $R^*$ is the smallest transitive relation containing $R$
+  The _closure_ of a relation $R subset.eq M^2$ with respect to a property $P$ is the smallest relation containing $R$ that satisfies property $P$.
+  - _Reflexive closure_: $r(R) = R union I_M$ (smallest reflexive relation containing $R$)
+  - _Symmetric closure_: $s(R) = R union R^(-1)$ (smallest symmetric relation containing $R$)
+  - _Transitive closure_: $t(R)$ is the smallest transitive relation containing $R$
 ]
 
-// TODO: examples of reflexive closure
-// TODO: examples of symmetric closure
+#block(
+  fill: blue.lighten(90%),
+  stroke: 1pt + blue.darken(20%),
+  radius: 5pt,
+  inset: 1em,
+)[
+  The key insight is that closure operations _add the minimum_ number of pairs needed to achieve the desired property, while preserving all existing pairs in the original relation.
+]
 
-// #theorem[
-//   The transitive closure can be computed as:
-//   $R^* = union.big_(n=1)^infinity R^n$
-//   where $R^n = underbrace(R compose R compose dots compose R, n "times")$.
-//
-//   For finite sets, $R^* = R^1 union R^2 union dots union R^abs(M)$.
+// TODO: visualize the extension of sets as blobs
+
+== Reflexive Closure
+
+#definition[
+  The _reflexive closure_ $r(R)$ of a relation $R subset.eq M^2$ is defined as:
+  $
+    r(R) = R union I_M = R union { pair(x, x) | x in M }
+  $
+]
+
+#example[
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 2), pair(2, 3)}$.
+
+  The identity relation is $I_M = {pair(1, 1), pair(2, 2), pair(3, 3)}$.
+
+  The reflexive closure is:
+  $
+    r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)}
+  $
+]
+
+== Symmetric Closure
+
+#definition[
+  The _symmetric closure_ $s(R)$ of a relation $R subset.eq M^2$ is defined as:
+  $
+    s(R) = R union R^(-1) = R union { pair(b, a) | pair(a, b) in R }
+  $
+]
+
+#example[
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$.
+
+  The converse relation is:
+  $
+    R^(-1) = {pair(2, 1), pair(3, 2), pair(3, 1)}
+  $
+
+  The symmetric closure is:
+  $
+    s(R) = R union R^(-1) = {pair(1, 2), pair(2, 3), pair(1, 3), pair(2, 1), pair(3, 2), pair(3, 1)}
+  $
+]
+
+== Transitive Closure
+
+#definition[
+  The _transitive closure_ $t(R)$ of a relation $R subset.eq M^2$ is the smallest transitive relation containing $R$.
+]
+
+#theorem[
+  The transitive closure can be computed as:
+  $
+    t(R) = union.big_(n=1)^infinity R^n
+    quad "where" R^n = underbrace(R compose R compose dots compose R, n "times")
+  $
+
+  For finite sets with $abs(M) = k$, we have $t(R) = R^1 union R^2 union dots union R^k$.
+]
+
+#proof[
+  Since $M$ is finite, any path of length greater than $abs(M)$ must repeat vertices, so we only need to consider paths of length at most $abs(M)$.
+]
+
+#pagebreak()
+
+#example[Step-by-step transitive closure computation][
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
+
+  *Step 1:* Compute $R^1 = R$.
+  $ R^1 = {pair(1, 2), pair(2, 3)} $
+
+  *Step 2:* Compute $R^2 = R compose R$.
+
+  For $pair(a, c) in R^2$, we need $exists b: pair(a, b) in R and pair(b, c) in R$.
+  - $pair(1, 3) in R^2$ since $pair(1, 2) in R$ and $pair(2, 3) in R$
+
+  $ R^2 = {pair(1, 3)} $
+
+  *Step 3:* Compute $R^3 = R^2 compose R$.
+
+  For $pair(a, c) in R^3$, we need $exists b: pair(a, b) in R^2 and pair(b, c) in R$.
+  - No such pairs exist.
+
+  $ R^3 = emptyset $
+
+  *Step 4:* Form the transitive closure:
+  $ t(R) = R^1 union R^2 union R^3 = {pair(1, 2), pair(2, 3), pair(1, 3)} $
+]
+
+// #example[Transitive closure of a more complex relation][
+//   Let $M = {a, b, c, d}$ and $R = {pair(a, b), pair(b, c), pair(c, d), pair(a, d)}$.
+
+//   *Computing powers:*
+
+//   $R^1 = {pair(a, b), pair(b, c), pair(c, d), pair(a, d)}$
+
+//   $R^2$: Look for 2-step paths
+//   - $pair(a, c)$: $a to b to c$
+//   - $pair(b, d)$: $b to c to d$
+
+//   $R^2 = {pair(a, c), pair(b, d)}$
+
+//   $R^3$: Look for 3-step paths
+//   - $pair(a, d)$: $a to b to c to d$ (but $pair(a, d)$ already in $R^1$)
+
+//   $R^3 = emptyset$ (no new pairs)
+
+//   *Transitive closure:*
+//   $ t(R) = R^1 union R^2 = {pair(a, b), pair(b, c), pair(c, d), pair(a, d), pair(a, c), pair(b, d)} $
 // ]
-//
-// #example[
-//   Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
-//   - $R^1 = {pair(1, 2), pair(2, 3)}$
-//   - $R^2 = R compose R = {pair(1, 3)}$
-//   - $R^3 = R^2 compose R = emptyset$
-//   - So $R^* = {pair(1, 2), pair(2, 3), pair(1, 3)}$
-// ]
+
+== Combined Closures
+
+#definition[
+  Closure operations can be combined to create relations with multiple properties:
+  - _Reflexive-symmetric closure_: $r s(R) = s r(R) = r(R) union s(R) union I_M$
+  - _Reflexive-transitive closure_: $r t(R) = t r(R) = t(R) union I_M$
+  - _Equivalence closure_: $r s t(R) = t s r(R)$ (reflexive, symmetric, and transitive)
+]
+
+#theorem[Commutativity of closure operations][
+  - Reflexive and symmetric closures commute: $r s(R) = s r(R)$
+  - Reflexive and transitive closures commute: $r t(R) = t r(R)$
+  - All three closures commute when applied together
+]
+
+#example[Reflexive-symmetric closure][
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
+
+  *Method 1:* Apply reflexive closure first, then symmetric
+  $ r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} $
+  $ s r(R) = r(R) union r(R)^(-1) $
+  $ = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3), pair(2, 1), pair(3, 2)} $
+
+  *Method 2:* Apply symmetric closure first, then reflexive
+  $ s(R) = R union R^(-1) = {pair(1, 2), pair(2, 3), pair(2, 1), pair(3, 2)} $
+  $ r s(R) = s(R) union I_M $
+  $ = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)} $
+
+  Both methods yield the same result, confirming commutativity.
+]
+
+#pagebreak()
+
+#example[Reflexive-transitive closure (Kleene star)][
+  Let $M = {a, b, c}$ and $R = {pair(a, b), pair(b, c)}$.
+
+  First, compute the transitive closure:
+  $ t(R) = R union R^2 = {pair(a, b), pair(b, c), pair(a, c)} $
+
+  Then add reflexivity:
+  $ r t(R) = t(R) union I_M = {pair(a, a), pair(a, b), pair(a, c), pair(b, b), pair(b, c), pair(c, c)} $
+
+  This is equivalent to the _reflexive-transitive closure_, often denoted $R^*$ (Kleene star).
+]
+
+#example[Complete equivalence closure][
+  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(3, 4)}$.
+
+  *Step 1:* Make it reflexive
+  $ r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 4)} $
+
+  *Step 2:* Make it symmetric
+  $ s r(R) = r(R) union r(R)^(-1) $
+  $ = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 3), pair(4, 4)} $
+
+  *Step 3:* Make it transitive
+  Since $pair(1, 2), pair(2, 1) in s r(R)$, transitivity requires $pair(1, 1)$ (already present).
+  Since $pair(3, 4), pair(4, 3) in s r(R)$, transitivity requires $pair(3, 3)$ (already present).
+
+  $ t s r(R) = s r(R) $ (no new pairs needed)
+
+  The equivalence closure partitions $M$ into equivalence classes ${1, 2}$ and ${3, 4}$.
+]
+
+#pagebreak()
+
+#example[Equivalence closure [2]][
+  Let $M = {a, b, c, d, e}$ and $R = {pair(a, b), pair(b, c), pair(d, e)}$.
+
+  *Reflexive closure:*
+  $ r(R) = R union {pair(a, a), pair(b, b), pair(c, c), pair(d, d), pair(e, e)} $
+
+  *Symmetric closure:*
+  $ s r(R) = r(R) union {pair(b, a), pair(c, b), pair(e, d)} $
+
+  *Transitive closure:*
+  We need to add pairs to ensure transitivity:
+  - From $pair(a, b), pair(b, c)$: add $pair(a, c)$
+  - From $pair(c, b), pair(b, a)$: add $pair(c, a)$
+
+  $ t s r(R) \\ = s r(R) union {pair(a, c), pair(c, a)} $
+
+  The final equivalence relation has equivalence classes ${a, b, c}$ and ${d, e}$.
+]
+
+== Warshall's Algorithm for Transitive Closure
+
+#definition[
+  _Warshall's algorithm_ computes the transitive closure of a relation using dynamic programming with time complexity $O(n^3)$.
+
+  Given an $n times n$ matrix $M$ representing relation $R$:
+  ```
+  for k = 1 to n:
+      for i = 1 to n:
+          for j = 1 to n:
+              M[i,j] = M[i,j] OR ( M[i,k] AND M[k,j] )
+  ```
+]
+
+#example[Warshall's algorithm step-by-step][
+  Let $M = {1, 2, 3, 4}$ with relation matrix:
+  $
+    M^((0)) = natrix.bnat(
+      0, 1, 0, 0;
+      0, 0, 1, 0;
+      0, 0, 0, 1;
+      1, 0, 0, 0
+    )
+  $
+
+  *Iteration $k = 1$:* Consider paths through vertex 1
+  $
+    M^((1)) = natrix.bnat(
+      0, 1, 0, 0;
+      0, 0, 1, 0;
+      0, 0, 0, 1;
+      1, 1, 0, 0
+    )
+  $
+  (Added $pair(4, 2)$: path $4 to 1 to 2$)
+
+  *Iteration $k = 2$:* Consider paths through vertex 2
+  $
+    M^((2)) = natrix.bnat(
+      0, 1, 1, 0;
+      0, 0, 1, 0;
+      0, 0, 0, 1;
+      1, 1, 1, 0
+    )
+  $
+  (Added $pair(1, 3)$ and $pair(4, 3)$)
+
+  *Iteration $k = 3$:* Consider paths through vertex 3
+  $
+    M^((3)) = natrix.bnat(
+      0, 1, 1, 1;
+      0, 0, 1, 1;
+      0, 0, 0, 1;
+      1, 1, 1, 1
+    )
+  $
+  (Added $pair(1, 4)$, $pair(2, 4)$, and $pair(4, 4)$)
+
+  *Iteration $k = 4$:* Consider paths through vertex 4
+  $
+    M^((4)) = natrix.bnat(
+      1, 1, 1, 1;
+      1, 1, 1, 1;
+      1, 1, 1, 1;
+      1, 1, 1, 1
+    )
+  $
+  (The relation becomes universal since there's a cycle)
+]
+
+#pagebreak()
+
+#example[Practical application: Reachability in graphs][
+  Consider a social network where $R$ represents "follows" relationships:
+  $
+    R = {pair(A, B), pair(B, C), pair(C, D), pair(A, E)}
+  $
+
+  Using Warshall's algorithm, we can determine _indirect influence_:
+  - $A$ can influence $C$ through $B$
+  - $A$ can influence $D$ through $B$ and $C$
+  - The transitive closure shows all possible influence paths
+
+  This is crucial for analyzing _information propagation_ in social networks, _dependency resolution_ in software systems, and _route planning_ in transportation networks.
+]
+
+== Properties and Advanced Applications of Closures
+
+#theorem[Closure properties][
+  For any relation $R subset.eq M^2$:
+  + _Idempotency_: $r(r(R)) = r(R)$, $s(s(R)) = s(R)$, $t(t(R)) = t(R)$
+  + _Monotonicity_: If $R_1 subset.eq R_2$, then $r(R_1) subset.eq r(R_2)$, etc.
+  + _Extensivity_: $R subset.eq r(R)$, $R subset.eq s(R)$, $R subset.eq t(R)$
+  + _Distributivity over union_: $r(R_1 union R_2) = r(R_1) union r(R_2)$, etc.
+]
+
+#example[Closure of the empty relation][
+  Let $M = {a, b, c}$ and $R = emptyset$.
+
+  - $r(emptyset) = emptyset union I_M = I_M = {pair(a, a), pair(b, b), pair(c, c)}$
+  - $s(emptyset) = emptyset union emptyset^(-1) = emptyset$
+  - $t(emptyset) = emptyset$ (since $emptyset^n = emptyset$ for all $n >= 1$)
+
+  The reflexive closure of the empty relation is the identity relation.
+]
+
+#example[Closure of the universal relation][
+  Let $M = {1, 2}$ and $R = M times M = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2)}$.
+
+  - $r(R) = R union I_M = R$ (since $I_M subset.eq R$)
+  - $s(R) = R union R^(-1) = R$ (since $R = R^(-1)$ for universal relation)
+  - $t(R) = R$ (universal relation is already transitive)
+
+  The universal relation is its own closure under all three operations.
+]
+
+#example[Non-commutativity with other operations][
+  Let $M = {1, 2, 3}$, $R_1 = {pair(1, 2)}$, and $R_2 = {pair(2, 3)}$.
+
+  Consider $t(R_1 union R_2)$ vs $t(R_1) union t(R_2)$:
+
+  $R_1 union R_2 = {pair(1, 2), pair(2, 3)}$
+  $t(R_1 union R_2) = {pair(1, 2), pair(2, 3), pair(1, 3)}$
+
+  $t(R_1) = {pair(1, 2)}$
+  $t(R_2) = {pair(2, 3)}$
+  $t(R_1) union t(R_2) = {pair(1, 2), pair(2, 3)}$
+
+  Since $pair(1, 3) in t(R_1 union R_2)$ but $pair(1, 3) notin t(R_1) union t(R_2)$, we have:
+  $ t(R_1 union R_2) != t(R_1) union t(R_2) $
+
+  However: $t(R_1) union t(R_2) subset.eq t(R_1 union R_2)$ always holds.
+]
+
+#example[Computing equivalence classes from closure][
+  Let $M = {1, 2, 3, 4, 5}$ and $R = {pair(1, 3), pair(2, 4), pair(4, 5)}$.
+
+  The equivalence closure gives us:
+  $
+    "equiv"(R) = r s t(R) = {pair(1, 1), pair(1, 3), pair(2, 2), pair(2, 4), pair(2, 5), pair(3, 1), pair(3, 3), pair(4, 2), pair(4, 4), pair(4, 5), pair(5, 2), pair(5, 4), pair(5, 5)}
+  $
+
+  The equivalence classes are:
+  - $[1] = {1, 3}$
+  - $[2] = {2, 4, 5}$
+
+  This partitions $M$ into ${{1, 3}, {2, 4, 5}}$.
+]
+
+#example[Closure in directed acyclic graphs (DAGs)][
+  Consider a dependency graph where $R = {pair("A", "B"), pair("B", "C"), pair("A", "D"), pair("D", "C")}$ represents "depends on" relationships.
+
+  The transitive closure reveals all indirect dependencies:
+  $ t(R) = R union {pair("A", "C")} $
+
+  This shows that component $A$ transitively depends on $C$ through two paths:
+  - $A to B to C$
+  - $A to D to C$
+
+  In software build systems, this helps determine the complete dependency tree.
+]
+
+#block(
+  fill: green.lighten(90%),
+  stroke: 1pt + green.darken(20%),
+  radius: 5pt,
+  inset: 1em,
+)[
+  *Real-world applications of relation closures:*
+
+  - *Reflexive closure*: Adding self-permissions in access control systems.
+  - *Symmetric closure*: Creating bidirectional relationships (friendship, equivalence).
+  - *Transitive closure*: Finding all reachable nodes in graphs, computing ancestor-descendant relationships.
+  - *Equivalence closure*: Partitioning data into similarity classes, creating canonical representations.
+]
+
+= Relations III: Properties
+#focus-slide()
 
 == Properties of Homogeneous Relations
 
@@ -1891,6 +2260,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
 ]
 
+= Relations IV: Orders
+#focus-slide()
+
 == Orders
 
 #definition[
@@ -1963,6 +2335,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[
   Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
 ]
+
+= Relations V: Composition
+#focus-slide()
 
 == Composition of Relations
 
