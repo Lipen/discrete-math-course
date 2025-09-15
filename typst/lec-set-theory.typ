@@ -1511,6 +1511,9 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
   ),
 )
 
+#let relations-part = state("relations")
+#relations-part.update(1)
+
 == Relations as Sets
 
 #definition[
@@ -1670,8 +1673,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
 ]
 
-= Relations II: Closures
-#focus-slide()
+= Relations: Closures
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Closures"
+  },
+)
 
 == Closures of Relations
 
@@ -2065,8 +2073,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - *Equivalence closure*: Partitioning data into similarity classes, creating canonical representations.
 ]
 
-= Relations III: Properties
-#focus-slide()
+= Relations: Properties
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Properties"
+  },
+)
 
 == Properties of Homogeneous Relations
 
@@ -2130,8 +2143,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - "Being in the same equivalence class" is Euclidean in both directions.
 ]
 
-= Relations IV: Equivalences
-#focus-slide()
+= Relations: Equivalences
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Equivalences"
+  },
+)
 
 == Equivalence Relations
 
@@ -2268,8 +2286,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
 ]
 
-= Relations V: Orders
-#focus-slide()
+= Relations: Orders
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Orders"
+  },
+)
 
 == Orders
 
@@ -2344,8 +2367,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
 ]
 
-= Relations VI: Composition
-#focus-slide()
+= Relations: Composition
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Composition"
+  },
+)
 
 == Composition of Relations
 
