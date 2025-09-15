@@ -71,3 +71,49 @@
 #let intersect = sym.inter
 #let symdiff = sym.triangle
 #let sim = sym.tilde
+
+#import ctheorems: *
+
+#let definition = thmbox(
+  "definition",
+  "Definition",
+  fill: rgb("#e8f8e8"),
+  inset: 0.8em,
+  padding: (),
+  base_level: 0,
+)
+#let theorem = thmbox(
+  "theorem",
+  "Theorem",
+  fill: rgb("e8e8f8"),
+  inset: 0.8em,
+  padding: (),
+  base_level: 0,
+)
+#let corollary = thmbox(
+  "corollary",
+  "Corollary",
+  base: "theorem",
+  fill: rgb("f8e8e8"),
+  inset: 0.8em,
+  padding: (),
+)
+#let proof = thmproof(
+  "proof",
+  "Proof",
+  inset: (x: 0em, y: 0em),
+  titlefmt: it => strong(it),
+)
+#let example = thmplain(
+  "example",
+  "Example",
+  inset: (x: 0em, y: 0em),
+  titlefmt: it => text(style: "italic", it),
+).with(numbering: none)
+#let examples = example.with(title: "Examples")
+#let note = thmplain(
+  "note",
+  "Note",
+  inset: (x: 0em, y: 0em),
+  titlefmt: it => strong(it),
+).with(numbering: none)
