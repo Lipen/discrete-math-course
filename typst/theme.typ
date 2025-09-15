@@ -302,9 +302,12 @@
   show heading: set text(1.1em, fill: title-color)
 
   // Style headings
-  set heading(numbering: numbly.numbly(sym.section + "{1} ", none, sym.square + "", default: (.., last) => (
-    str(last) + "."
-  )))
+  set heading(numbering: numbly.numbly(
+    sym.section + "{1} ",
+    none,
+    sym.square + "",
+    default: (.., last) => str(last) + ".",
+  ))
 
   // Style lists
   set list(marker: (
