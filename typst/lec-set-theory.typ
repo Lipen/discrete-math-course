@@ -2346,6 +2346,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
 ]
 
+// TODO: visualize
 #example[
   In the Boolean lattice $power({a, b})$ with inclusion:
   - Maximum antichain: ${{a}, {b}}$ of size 2
