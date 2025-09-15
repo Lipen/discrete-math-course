@@ -2356,7 +2356,10 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 == Examples of Orders
 
 #example[
-  Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$: $x prec.curly.eq y$ iff $"len"(x) <= "len"(y)$.
+  Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$:
+  $
+    x prec.curly.eq y quad "iff" quad "len"(x) <= "len"(y)
+  $
   This is a preorder (reflexive and transitive), and even connected, but not a partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
 ]
 
