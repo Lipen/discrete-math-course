@@ -1520,6 +1520,13 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
 #let relations-part = state("relations")
 #relations-part.update(1)
 
+#let focus-slide-relations(s) = focus-slide(
+  title: _ => {
+    relations-part.update(it => it + 1)
+    "Relations " + context numbering("I", relations-part.get()) + ": " + s
+  },
+)
+
 == Relations as Sets
 
 #definition[
@@ -1680,12 +1687,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide(
-  title: _ => {
-    relations-part.update(it => it + 1)
-    "Relations " + context numbering("I", relations-part.get()) + ": " + "Properties"
-  },
-)
+#focus-slide-relations("Properties")
 
 == Properties of Homogeneous Relations
 
@@ -1750,12 +1752,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide(
-  title: _ => {
-    relations-part.update(it => it + 1)
-    "Relations " + context numbering("I", relations-part.get()) + ": " + "Equivalences"
-  },
-)
+#focus-slide-relations("Equivalences")
 
 == Equivalence Relations
 
@@ -1893,12 +1890,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide(
-  title: _ => {
-    relations-part.update(it => it + 1)
-    "Relations " + context numbering("I", relations-part.get()) + ": " + "Closures"
-  },
-)
+#focus-slide-relations("Closures")
 
 == Closures of Relations
 
@@ -2293,12 +2285,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide(
-  title: _ => {
-    relations-part.update(it => it + 1)
-    "Relations " + context numbering("I", relations-part.get()) + ": " + "Orders"
-  },
-)
+#focus-slide-relations("Orders")
 
 == Orders
 
@@ -2378,12 +2365,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide(
-  title: _ => {
-    relations-part.update(it => it + 1)
-    "Relations " + context numbering("I", relations-part.get()) + ": " + "Composition"
-  },
-)
+#focus-slide-relations("Composition")
 
 == Composition of Relations
 
