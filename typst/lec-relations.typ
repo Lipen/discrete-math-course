@@ -169,10 +169,9 @@
 *Notation:*
 If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A$ is _related_ to element $b in B$.
 
-#block(
-  fill: yellow.lighten(80%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
+#Block(
+  color: yellow,
+  inset: 0pt,
   outset: .5em,
 )[
   Formally, $a rel(R) b$ iff $pair(a, b) in R$.
@@ -541,12 +540,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - _Transitive closure_: $t(R)$ is the smallest transitive relation containing $R$
 ]
 
-#block(
-  fill: blue.lighten(90%),
-  stroke: 1pt + blue.darken(20%),
-  radius: 5pt,
-  inset: 1em,
-)[
+#Block(color: blue)[
   The key insight is that closure operations _add the minimum_ number of pairs needed to achieve the desired property, while preserving all existing pairs in the original relation.
 ]
 
@@ -910,12 +904,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   In software build systems, this helps determine the complete dependency tree.
 ]
 
-#block(
-  fill: green.lighten(90%),
-  stroke: 1pt + green.darken(20%),
-  radius: 5pt,
-  inset: 1em,
-)[
+#Block(color: green)[
   *Real-world applications of relation closures:*
 
   - *Reflexive closure*: Adding self-permissions in access control systems.
@@ -1919,13 +1908,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 == Why Lattices?
 
-#block(
-  width: 100%,
-  fill: yellow.lighten(80%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
-  inset: 0.8em,
-)[
+#Block(color: yellow)[
   *Why study lattices?*
   Whenever you have:
   - Elements that can be _compared_ (ordered)
@@ -1996,11 +1979,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   - Applications: Clustering, database normalization
 ]
 
-#block(
-  inset: 0.8em,
-  fill: luma(240),
-  radius: 0.5em,
-)[
+#Block(color: blue)[
   Lattices aren't just abstract algebra --- they appear everywhere in computer science and mathematics.
 
   The _join_ and _meet_ operations capture fundamental patterns of _combination_ and _interaction_.
