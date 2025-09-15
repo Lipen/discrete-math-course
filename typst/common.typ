@@ -39,14 +39,17 @@
   diagram-style: (:),
   blob-style: (:),
   content,
-) = {
-  fletcher.diagram(node-corner-radius: 2pt, node-stroke: .8pt, ..diagram-style, blob(
+) = fletcher.diagram(
+  node-corner-radius: 2pt,
+  node-stroke: .8pt,
+  ..diagram-style,
+  blob(
     (0, 0),
     content,
     tint: tint,
     ..blob-style,
-  ))
-}
+  ),
+)
 
 // Fitch-style proofs
 #let fitch(..args) = derive-it.ded-nat(arr: args.pos(), ..args.named())
