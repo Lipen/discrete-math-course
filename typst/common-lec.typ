@@ -1,3 +1,5 @@
+// Note: this file should NOT contain `show` rules!
+
 #let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $angle.l #a, #b angle.r$
