@@ -8,7 +8,7 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#2*]
     #h(1fr)
-    *Discrete Mathematics*
+    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
     \
     *Binary Relations*
     #h(1fr)
