@@ -48,6 +48,19 @@
 #let YES = Green(sym.checkmark)
 #let NO = Red(sym.crossmark)
 
+#let Block(
+  color: blue,
+  body,
+  ..args,
+) = block(
+  body,
+  fill: color.lighten(90%),
+  stroke: 1pt + color.darken(20%),
+  radius: 5pt,
+  inset: 1em,
+  ..args.named(),
+)
+
 #import cetz: draw
 
 #let draw-venn2(..args) = cetz.canvas({
@@ -265,12 +278,7 @@ Topics include:
   })
 ]
 
-#block(
-  fill: blue.lighten(90%),
-  stroke: 1pt + blue.darken(20%),
-  radius: 5pt,
-  inset: 1em,
-)[
+#Block(color: blue)[
   Think of a set as a _"box"_ or _"bag"_ containing objects where:
   - The _order_ doesn't matter.
   - Each object appears _only once_ (no duplicates).
@@ -444,12 +452,7 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
   ]
 ]
 
-#block(
-  fill: yellow.lighten(90%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
-  outset: .5em,
-)[
+#Block(color: yellow)[
   The extensionality principle makes set equality _well-defined_ and ensures that the representation of a set doesn't affect its identity --- only its _content_ matters.
 ]
 
@@ -527,10 +530,9 @@ Suppose a set can be either _"normal"_ or _"unusual"_.
 
 *Note:* being "normal" or "unusual" is a predicate $P(x)$ that can be applied to any set $x$.
 
-#block(
-  fill: yellow.lighten(80%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
+#Block(
+  color: yellow,
+  inset: 0pt,
   outset: .5em,
 )[
   Consider the set of _all normal sets_: $R = { A | A notin A }$.
@@ -548,16 +550,17 @@ How can we fix this?..
 
 == From Naive to Axiomatic Set Theory
 
-#block(
-  fill: green.lighten(90%),
-  stroke: 1pt + green.darken(20%),
-  radius: 5pt,
-  inset: .5em,
+#Block(
+  color: green,
+  inset: 5pt,
 )[
+  #block(
+    stroke: (bottom: 0.4pt),
+    outset: (bottom: .3em),
+  )[*Historical Note*]
+
   #set text(size: 0.8em)
   #set par(justify: true)
-
-  *Historical Note*
 
   *Georg Cantor* developed _naive set theory_ in the late 19th century, which *David Hilbert* famously called "a~paradise from which no one shall expel us".
   This intuitive approach revolutionized mathematics by providing a foundation for _infinite_ sets and real analysis.
@@ -600,13 +603,8 @@ How can we fix this?..
   The *Separation* axiom prevents Russell's paradox by only allowing formation of subsets from existing sets, not arbitrary collections.
 ]
 
-#align(center)[
-  #block(
-    fill: purple.lighten(90%),
-    stroke: 1pt + purple.darken(20%),
-    radius: 5pt,
-    inset: .5em,
-  )[
+#place(bottom + center)[
+  #Block(color: purple)[
     This is just an introductory course, so we won't delve into the formal axioms here, _yet_. \
     We'll use an intuitive approach while being aware of the foundations.
   ]
@@ -631,13 +629,7 @@ How can we fix this?..
   - $abs(RR) = infinity$, since there are _infinitely many_ real numbers.
 ]
 
-#v(1em)
-#block(
-  fill: yellow.lighten(90%),
-  stroke: 1pt + yellow.darken(20%),
-  radius: 5pt,
-  outset: .5em,
-)[
+#Block(color: yellow)[
   Later, we will explore _infinite_ sets and different "types of infinity" (_countable_ vs _uncountable_) in more detail.
   For now, we focus on _finite_ sets only, or treat infinite sets informally and naively.
 ]
