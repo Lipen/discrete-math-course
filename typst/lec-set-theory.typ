@@ -2130,6 +2130,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - "Being in the same equivalence class" is Euclidean in both directions.
 ]
 
+= Relations IV: Equivalences
+#focus-slide()
+
 == Equivalence Relations
 
 #definition[
@@ -2265,7 +2268,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
 ]
 
-= Relations IV: Orders
+= Relations V: Orders
 #focus-slide()
 
 == Orders
@@ -2341,7 +2344,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
 ]
 
-= Relations V: Composition
+= Relations VI: Composition
 #focus-slide()
 
 == Composition of Relations
