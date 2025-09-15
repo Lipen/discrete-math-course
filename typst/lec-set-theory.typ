@@ -7,6 +7,11 @@
   // dark: true,
 )
 
+// Note: all 1-level (`=`) headers are hidden!
+// In order to show the title page for the section,
+//  use `#focus-slide()` after the `=` header.
+// Use custom parameters, e.g. `epigraph`, `scholars`, etc.
+//  to customize the section title slide.
 #show heading.where(level: 1): none
 
 #show table.cell.where(y: 0): strong
