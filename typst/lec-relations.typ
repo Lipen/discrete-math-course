@@ -7,6 +7,8 @@
   // dark: true,
 )
 
+#show heading.where(level: 1): none
+
 #import "common-lec.typ": *
 
 
