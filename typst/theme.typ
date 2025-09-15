@@ -323,6 +323,9 @@
   // Make links underlined
   show link: underline
 
+  // Bold first row in tables
+  show table.cell.where(y: 0): strong
+
   // Title page
   if title != none {
     if (type(authors) != array) {
