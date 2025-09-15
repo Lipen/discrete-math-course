@@ -23,7 +23,7 @@
 //   epigraph-author: [Author Name],
 //   scholars: ("Name 1", "Name 2", "Name 3", ...)
 // )
-
+//
 // Note: `title` can be:
 //  - none (default): use current heading (level 1)
 //  - function: a function that receives the current heading
