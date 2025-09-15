@@ -1121,7 +1121,7 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
 
 == Geometric Interpretation of Cartesian Product
 
-The Cartesian product $A times B$ can be visualized as a region on the coordinate plane $RR$, where each point $pair(a, b)$ represents an element of the product.
+The Cartesian product $A times B$ can be visualized as a region on the coordinate plane $RR^2$, where each point $pair(a, b)$ represents an element of the product.
 
 #example[
   Let $A = {1, 2, 3}$ and $B = {1, 2}$, then $A times B$ consists of six points:
