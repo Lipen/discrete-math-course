@@ -15,7 +15,7 @@ image:https://img.shields.io/badge/Course Syllabus-Discrete Math-blue?style=soci
 |image:https://img.shields.io/badge/Lecture-Set Theory-blue?style=social&logo=gitbook["Lecture: Set Theory", link="https://lipen.github.io/discrete-math-course/lec-set-theory.pdf"]
 |image:https://img.shields.io/badge/Homework 1-Set Theory-blue?style=social&logo=gitbook["Homework 1: Set Theory", link="https://lipen.github.io/discrete-math-course/hw1.pdf"]
 
-|image:https://img.shields.io/badge/Lecture-Set Theory-blue?style=social&logo=gitbook["Lecture: Set Theory", link="https://lipen.github.io/discrete-math-course/lec-set-theory.pdf"]
+|image:https://img.shields.io/badge/Lecture-Binary Relations-blue?style=social&logo=gitbook["Lecture: Binary Relations", link="https://lipen.github.io/discrete-math-course/lec-relations.pdf"]
 |image:https://img.shields.io/badge/Homework 2-Binary Relations-blue?style=social&logo=gitbook["Homework 2: Binary Relations", link="https://lipen.github.io/discrete-math-course/hw2.pdf"]
 
 |image:https://img.shields.io/badge/Lecture-Boolean Algebra-blue?style=social&logo=gitbook["Lecture: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/lec-boolean-algebra.pdf"]
