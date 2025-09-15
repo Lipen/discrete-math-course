@@ -615,7 +615,7 @@ How can we fix this?..
   outset: .5em,
 )[
   Later, we will explore _infinite_ sets and different "types of infinity" (_countable_ vs _uncountable_) in more detail.
-  For now, we focus only on _finite_ sets.
+  For now, we focus only on _finite_ sets or treat infinite sets informally and naively.
 ]
 
 == Subsets
