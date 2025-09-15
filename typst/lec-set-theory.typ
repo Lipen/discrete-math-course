@@ -1673,6 +1673,222 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
 ]
 
+
+= Relations: Properties
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Properties"
+  },
+)
+
+== Properties of Homogeneous Relations
+
+#definition[
+  A relation $R subset.eq M^2$ is _reflexive_ if every element is related to itself:
+  $ forall x in M. thin (x rel(R) x) $
+]
+#definition[
+  A relation $R subset.eq M^2$ is _symmetric_ if for every pair of elements, if one is related to the other, then the reverse is also true:
+  $ forall x, y in M. thin (x rel(R) y) imply (y rel(R) x) $
+]
+#definition[
+  A relation $R subset.eq M^2$ is _transitive_ if for every three elements, if the first is related to the second, and the second is related to the third, then the first is also related to the third:
+  $ forall x, y, z in M. thin (x rel(R) y and y rel(R) z) imply (x rel(R) z) $
+]
+
+== More Properties
+
+#definition[
+  A relation $R subset.eq M^2$ is _irreflexive_ if no element is related to itself:
+  $ forall x in M. thin (x nrel(R) x) $
+]
+#definition[
+  A relation $R subset.eq M^2$ is _antisymmetric_ if for every pair of elements, if both are related to each other, then they must be equal:
+  $ forall x, y in M. thin (x rel(R) y and y rel(R) x) imply (x = y) $
+]
+#definition[
+  A relation $R subset.eq M^2$ is _asymmetric_ if for every pair of elements, if one is related to the other, then the reverse is not true:
+  $ forall x, y in M. thin (x rel(R) y) imply (y nrel(R) x) $
+]
+
+#note[
+  _irreflexive_ + _antisymmetric_ = _asymmetric_.
+]
+
+== Additional Properties
+
+#definition[
+  A relation $R subset.eq M^2$ is:
+
+  - _Coreflexive_ if $R subset.eq I_M$ (only related to themselves, if at all):
+    $
+      forall x, y in M. thin (x rel(R) y) imply (x = y)
+    $
+
+  - _Left Euclidean_ if whenever an element is related to two others, those two are related:
+    $
+      forall x, y, z in M. thin (x rel(R) y and x rel(R) z) imply (y rel(R) z)
+    $
+
+  - _Right Euclidean_ if whenever two elements are both related to a third, they are related to each other:
+    $
+      forall x, y, z in M. thin (y rel(R) x and z rel(R) x) imply (y rel(R) z)
+    $
+]
+
+#example[
+  - Identity relation $I_M$ is coreflexive.
+    Any subset of $I_M$ is also coreflexive.
+  - Equality relation "$=$" is left and right Euclidean.
+  - "Being in the same equivalence class" is Euclidean in both directions.
+]
+
+
+= Relations: Equivalences
+#focus-slide(
+  title: _ => context {
+    relations-part.update(it => it + 1)
+    "Relations " + numbering("I", relations-part.get()) + ": " + "Equivalences"
+  },
+)
+
+== Equivalence Relations
+
+#definition[
+  A relation $R subset.eq M^2$ is an _equivalence relation_ if it is reflexive, symmetric and transitive.
+]
+
+#definition[
+  Let $R subset.eq M^2$ be an equivalence relation on a set $M$.
+  The _equivalence class_ of an element $x in M$ under $R$ is the set of all elements related to $x$:
+  $ eqclass(x, R) = { y in M | x rel(R) y } $
+]
+
+#definition[
+  The _quotient set_ of $M$ by the equivalence relation $R$ is the set of all equivalence classes:
+  $ quotient(M, R) = { eqclass(x, R) | x in M } $
+]
+
+#theorem[
+  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
+]
+
+== Set Partitions
+
+#definition[
+  A _partition_ $cal(P)$ of a set $M$ is a family of non-empty, pairwise-disjoint subsets whose union is $M$:
+  - (Non-empty) $forall B in cal(P). thin (B != emptyset)$
+  - (Disjoint) $forall B_1, B_2 in cal(P). thin (B_1 != B_2) imply (B_1 intersect B_2 = emptyset)$
+  - (Cover) $limits(union.big)_(B in cal(P)) B = M$
+
+  Elements of $cal(P)$ are _blocks_ (or _cells_).
+]
+
+#example[
+  For $M = {0,1,2,3,4,5}$: ${{0,2,4},{1,3,5}}$ and ${{0,5},{1,2,3},{4}}$ are partitions.
+]
+
+#let draw-element(pos, anchor, name, label) = {
+  draw.circle(pos, radius: 0.1, fill: black, name: name)
+  draw.content(name, label, anchor: anchor, padding: 0.2)
+}
+
+#align(center)[
+  #cetz.canvas(baseline: (0, 0), {
+    import cetz: draw
+
+    draw.scale(50%)
+
+    // Set M
+    draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
+
+    // Elements:
+    draw-element((1, 2), "south", "0", [$0$])
+    draw-element((1, 1), "north", "1", [$1$])
+    draw-element((2, 2), "south", "2", [$2$])
+    draw-element((2, 1), "north", "3", [$3$])
+    draw-element((3, 2), "south", "4", [$4$])
+    draw-element((3, 1), "north", "5", [$5$])
+
+    // Partition block {0, 2, 4}:
+    draw.rect(
+      (0.5, 1.6),
+      (3.5, 3.2),
+      radius: .3,
+      stroke: 1pt + blue,
+      fill: blue.transparentize(80%),
+    )
+    // Partition block {1, 3, 5}:
+    draw.rect(
+      (0.5, 1.4),
+      (3.5, -0.2),
+      radius: .3,
+      stroke: 1pt + orange,
+      fill: orange.transparentize(80%),
+    )
+  })
+  //
+  #h(1em)
+  //
+  #cetz.canvas(baseline: (0, 0), {
+    import cetz: draw
+
+    draw.scale(50%)
+
+    // Set M
+    draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
+
+    // Elements:
+    draw-element((1, 2), "south", "0", [$0$])
+    draw-element((1, 1), "north", "1", [$1$])
+    draw-element((2, 2), "south", "5", [$5$])
+    draw-element((2, 1), "north", "2", [$2$])
+    draw-element((3, 2), "south", "4", [$4$])
+    draw-element((3, 1), "north", "3", [$3$])
+
+    // Partition block {0, 5}:
+    draw.rect(
+      (0.5, 1.6),
+      (2.4, 3.2),
+      radius: .3,
+      stroke: 1pt + blue,
+      fill: blue.transparentize(80%),
+    )
+    // Partition block {1, 2, 3}:
+    draw.rect(
+      (0.5, 1.4),
+      (3.5, -0.2),
+      radius: .3,
+      stroke: 1pt + orange,
+      fill: orange.transparentize(80%),
+    )
+    // Partition block {4}:
+    draw.rect(
+      (2.6, 1.6),
+      (3.5, 3.2),
+      radius: .3,
+      stroke: 1pt + green.darken(20%),
+      fill: green.darken(20%).transparentize(80%),
+    )
+  })
+]
+
+== Partitions and Equivalence Relations
+
+#theorem[Equivalences $<=>$ Partitions][
+  Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { eqclass(x, R) | x in M }$].
+  Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $pair(x, y) in R_cal(P)$ iff $x$ and $y$ lie in the same block.
+  These constructions invert one another.
+]
+
+#proof[(Sketch)][
+  Classes of an equivalence are non-empty, disjoint, and cover $M$.
+  Conversely, "same block" relation is reflexive, symmetric, transitive.
+  Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
+]
+
+
 = Relations: Closures
 #focus-slide(
   title: _ => context {
@@ -2073,218 +2289,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - *Equivalence closure*: Partitioning data into similarity classes, creating canonical representations.
 ]
 
-= Relations: Properties
-#focus-slide(
-  title: _ => context {
-    relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Properties"
-  },
-)
-
-== Properties of Homogeneous Relations
-
-#definition[
-  A relation $R subset.eq M^2$ is _reflexive_ if every element is related to itself:
-  $ forall x in M. thin (x rel(R) x) $
-]
-#definition[
-  A relation $R subset.eq M^2$ is _symmetric_ if for every pair of elements, if one is related to the other, then the reverse is also true:
-  $ forall x, y in M. thin (x rel(R) y) imply (y rel(R) x) $
-]
-#definition[
-  A relation $R subset.eq M^2$ is _transitive_ if for every three elements, if the first is related to the second, and the second is related to the third, then the first is also related to the third:
-  $ forall x, y, z in M. thin (x rel(R) y and y rel(R) z) imply (x rel(R) z) $
-]
-
-== More Properties
-
-#definition[
-  A relation $R subset.eq M^2$ is _irreflexive_ if no element is related to itself:
-  $ forall x in M. thin (x nrel(R) x) $
-]
-#definition[
-  A relation $R subset.eq M^2$ is _antisymmetric_ if for every pair of elements, if both are related to each other, then they must be equal:
-  $ forall x, y in M. thin (x rel(R) y and y rel(R) x) imply (x = y) $
-]
-#definition[
-  A relation $R subset.eq M^2$ is _asymmetric_ if for every pair of elements, if one is related to the other, then the reverse is not true:
-  $ forall x, y in M. thin (x rel(R) y) imply (y nrel(R) x) $
-]
-
-#note[
-  _irreflexive_ + _antisymmetric_ = _asymmetric_.
-]
-
-== Additional Properties
-
-#definition[
-  A relation $R subset.eq M^2$ is:
-
-  - _Coreflexive_ if $R subset.eq I_M$ (only related to themselves, if at all):
-    $
-      forall x, y in M. thin (x rel(R) y) imply (x = y)
-    $
-
-  - _Left Euclidean_ if whenever an element is related to two others, those two are related:
-    $
-      forall x, y, z in M. thin (x rel(R) y and x rel(R) z) imply (y rel(R) z)
-    $
-
-  - _Right Euclidean_ if whenever two elements are both related to a third, they are related to each other:
-    $
-      forall x, y, z in M. thin (y rel(R) x and z rel(R) x) imply (y rel(R) z)
-    $
-]
-
-#example[
-  - Identity relation $I_M$ is coreflexive.
-    Any subset of $I_M$ is also coreflexive.
-  - Equality relation "$=$" is left and right Euclidean.
-  - "Being in the same equivalence class" is Euclidean in both directions.
-]
-
-= Relations: Equivalences
-#focus-slide(
-  title: _ => context {
-    relations-part.update(it => it + 1)
-    "Relations " + numbering("I", relations-part.get()) + ": " + "Equivalences"
-  },
-)
-
-== Equivalence Relations
-
-#definition[
-  A relation $R subset.eq M^2$ is an _equivalence relation_ if it is reflexive, symmetric and transitive.
-]
-
-#definition[
-  Let $R subset.eq M^2$ be an equivalence relation on a set $M$.
-  The _equivalence class_ of an element $x in M$ under $R$ is the set of all elements related to $x$:
-  $ eqclass(x, R) = { y in M | x rel(R) y } $
-]
-
-#definition[
-  The _quotient set_ of $M$ by the equivalence relation $R$ is the set of all equivalence classes:
-  $ quotient(M, R) = { eqclass(x, R) | x in M } $
-]
-
-#theorem[
-  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
-]
-
-== Set Partitions
-
-#definition[
-  A _partition_ $cal(P)$ of a set $M$ is a family of non-empty, pairwise-disjoint subsets whose union is $M$:
-  - (Non-empty) $forall B in cal(P). thin (B != emptyset)$
-  - (Disjoint) $forall B_1, B_2 in cal(P). thin (B_1 != B_2) imply (B_1 intersect B_2 = emptyset)$
-  - (Cover) $limits(union.big)_(B in cal(P)) B = M$
-
-  Elements of $cal(P)$ are _blocks_ (or _cells_).
-]
-
-#example[
-  For $M = {0,1,2,3,4,5}$: ${{0,2,4},{1,3,5}}$ and ${{0,5},{1,2,3},{4}}$ are partitions.
-]
-
-#let draw-element(pos, anchor, name, label) = {
-  draw.circle(pos, radius: 0.1, fill: black, name: name)
-  draw.content(name, label, anchor: anchor, padding: 0.2)
-}
-
-#align(center)[
-  #cetz.canvas(baseline: (0, 0), {
-    import cetz: draw
-
-    draw.scale(50%)
-
-    // Set M
-    draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
-
-    // Elements:
-    draw-element((1, 2), "south", "0", [$0$])
-    draw-element((1, 1), "north", "1", [$1$])
-    draw-element((2, 2), "south", "2", [$2$])
-    draw-element((2, 1), "north", "3", [$3$])
-    draw-element((3, 2), "south", "4", [$4$])
-    draw-element((3, 1), "north", "5", [$5$])
-
-    // Partition block {0, 2, 4}:
-    draw.rect(
-      (0.5, 1.6),
-      (3.5, 3.2),
-      radius: .3,
-      stroke: 1pt + blue,
-      fill: blue.transparentize(80%),
-    )
-    // Partition block {1, 3, 5}:
-    draw.rect(
-      (0.5, 1.4),
-      (3.5, -0.2),
-      radius: .3,
-      stroke: 1pt + orange,
-      fill: orange.transparentize(80%),
-    )
-  })
-  //
-  #h(1em)
-  //
-  #cetz.canvas(baseline: (0, 0), {
-    import cetz: draw
-
-    draw.scale(50%)
-
-    // Set M
-    draw.rect((.2, -0.5), (3.8, 3.5), radius: .3)
-
-    // Elements:
-    draw-element((1, 2), "south", "0", [$0$])
-    draw-element((1, 1), "north", "1", [$1$])
-    draw-element((2, 2), "south", "5", [$5$])
-    draw-element((2, 1), "north", "2", [$2$])
-    draw-element((3, 2), "south", "4", [$4$])
-    draw-element((3, 1), "north", "3", [$3$])
-
-    // Partition block {0, 5}:
-    draw.rect(
-      (0.5, 1.6),
-      (2.4, 3.2),
-      radius: .3,
-      stroke: 1pt + blue,
-      fill: blue.transparentize(80%),
-    )
-    // Partition block {1, 2, 3}:
-    draw.rect(
-      (0.5, 1.4),
-      (3.5, -0.2),
-      radius: .3,
-      stroke: 1pt + orange,
-      fill: orange.transparentize(80%),
-    )
-    // Partition block {4}:
-    draw.rect(
-      (2.6, 1.6),
-      (3.5, 3.2),
-      radius: .3,
-      stroke: 1pt + green.darken(20%),
-      fill: green.darken(20%).transparentize(80%),
-    )
-  })
-]
-
-== Partitions and Equivalence Relations
-
-#theorem[Equivalences $<=>$ Partitions][
-  Each equivalence relation $R$ on $M$ yields the partition #box[$cal(P)_R = { eqclass(x, R) | x in M }$].
-  Each partition $cal(P)$ yields an equivalence $R_cal(P)$ given by $pair(x, y) in R_cal(P)$ iff $x$ and $y$ lie in the same block.
-  These constructions invert one another.
-]
-
-#proof[(Sketch)][
-  Classes of an equivalence are non-empty, disjoint, and cover $M$.
-  Conversely, "same block" relation is reflexive, symmetric, transitive.
-  Composing the two constructions returns exactly the starting equivalence relation or partition (they are mutually inverse up to equality of sets of ordered pairs).
-]
 
 = Relations: Orders
 #focus-slide(
@@ -2366,6 +2370,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[
   Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
 ]
+
 
 = Relations: Composition
 #focus-slide(
