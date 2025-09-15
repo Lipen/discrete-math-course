@@ -1517,16 +1517,6 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
   ),
 )
 
-#let relations-part = state("relations")
-#relations-part.update(1)
-
-#let focus-slide-relations(s) = focus-slide(
-  title: _ => {
-    relations-part.update(it => it + 1)
-    "Relations " + context numbering("I", relations-part.get()) + ": " + s
-  },
-)
-
 == Relations as Sets
 
 #definition[
@@ -1687,7 +1677,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide-relations("Properties")
+#focus-slide(
+  title: "Properties of Relations",
+)
 
 == Properties of Homogeneous Relations
 
@@ -1752,7 +1744,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide-relations("Equivalences")
+#focus-slide(
+  title: "Equivalence Relations",
+)
 
 == Equivalence Relations
 
@@ -1890,7 +1884,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide-relations("Closures")
+#focus-slide(
+  title: "Closures of Relations",
+)
 
 == Closures of Relations
 
@@ -2285,7 +2281,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide-relations("Orders")
+#focus-slide(
+  title: "Order Relations",
+)
 
 == Orders
 
@@ -2365,7 +2363,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
-#focus-slide-relations("Composition")
+#focus-slide(
+  title: "Composition of Relations",
+)
 
 == Composition of Relations
 
