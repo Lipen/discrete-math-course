@@ -115,33 +115,37 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #cetz.canvas({
   import cetz: draw
 
-  draw.content((0, 0), [$1$], frame: "circle", stroke: 1pt, padding: 0.2, name: "1")
-  draw.content((2, 0), [$2$], frame: "circle", stroke: 1pt, padding: 0.2, name: "2")
-  draw.content((1, 2), [$3$], frame: "circle", stroke: 1pt, padding: 0.2, name: "3")
-  draw.line("1", "2", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-2")
-  draw.line("2", "3", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "2-3")
-  draw.line("1", "3", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-3")
-  draw.content(
-    ("1-2.start", 50%, "1-2.end"),
-    text(fill: blue)[$1 rel(R) 2$],
-    angle: "1-2.end",
-    anchor: "north",
-    padding: 0.2,
-  )
-  draw.content(
-    ("2-3.start", 50%, "2-3.end"),
-    text(fill: blue)[$2 rel(R) 3$],
-    angle: "2-3.start",
-    anchor: "south",
-    padding: 0.2,
-  )
-  draw.content(
-    ("1-3.start", 50%, "1-3.end"),
-    text(fill: blue)[$1 rel(R) 3$],
-    angle: "1-3.end",
-    anchor: "south",
-    padding: 0.2,
-  )
+  let draw-vertex(pos, name, label) = {
+    draw.circle(pos, radius: 0.4, stroke: 1pt, name: name)
+    draw.content(pos, label, anchor: "center")
+  }
+
+  let draw-edge(start, end, label, anchor, angle: none) = {
+    if angle == none {
+      angle = end
+    }
+    draw.line(
+      start,
+      end,
+      stroke: 2pt + blue,
+      mark: (end: "stealth", fill: blue),
+    )
+    draw.content(
+      (start, 50%, end),
+      text(fill: blue)[#label],
+      angle: angle,
+      anchor: anchor,
+      padding: 0.2,
+    )
+  }
+
+  draw-vertex((0, 0), "1", [$1$])
+  draw-vertex((2, 0), "2", [$2$])
+  draw-vertex((1, 2), "3", [$3$])
+
+  draw-edge("1", "2", [$1 rel(R) 2$], "north")
+  draw-edge("2", "3", [$2 rel(R) 3$], "south", angle: "2")
+  draw-edge("1", "3", [$1 rel(R) 3$], "south")
 })
 
 == Matrix Representation
