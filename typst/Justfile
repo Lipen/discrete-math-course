@@ -20,8 +20,9 @@ files := """
 
 all:
     #!/usr/bin/env sh
+    set -e
     for file in {{replace(files, "\n", ' ')}}; do
-        just compile $file || exit 0
+        just compile $file
     done
 
 compile target:
