@@ -963,10 +963,10 @@ Here, we use an _algebraic approach_ with set identities.
   We apply known set laws step by step:
   $
     & A union (A intersect B) = \
-    & = (A intersect U) union (A intersect B) && quad slash.double #[identity law: $A = A intersect U$] \
-    & = A intersect (U union B)               && quad slash.double #[distributive law] \
-    & = A intersect U                         && quad slash.double #[since $U union B = U$ for any set $B$] \
-    & = A                                     && quad slash.double #[identity law: $A intersect U = A$]
+    & = (A intersect U) union (A intersect B) && quad slash.double "identity law:" A = A intersect U \
+    & = A intersect (U union B)               && quad slash.double "distributive law" \
+    & = A intersect U                         && quad slash.double "since" U union B = U "for any set" B \
+    & = A                                     && quad slash.double "identity law:" A intersect U = A
   $
 
   Therefore, $A union (A intersect B) = A$.
