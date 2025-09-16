@@ -1,21 +1,28 @@
 default:
     @just --list
 
-all: \
-    (compile "syllabus.typ") \
-    (compile "overview.typ") \
-    (compile "hw1.typ") \
-    (compile "hw1-ru.typ") \
-    (compile "hw2.typ") \
-    (compile "lec-set-theory.typ") \
-    (compile "lec-relations.typ") \
-    (compile "lec-boolean-algebra.typ") \
-    (compile "lec-logic.typ") \
-    (compile "lec-flow.typ") \
-    (compile "lec-formal.typ") \
-    (compile "lec-nfa.typ") \
-    (compile "lec-regular.typ") \
-    (compile "lec-combinatorics.typ")
+files := """
+    syllabus.typ
+    overview.typ
+    hw1.typ
+    hw1-ru.typ
+    hw2.typ
+    lec-set-theory.typ
+    lec-relations.typ
+    lec-boolean-algebra.typ
+    lec-logic.typ
+    lec-flow.typ
+    lec-formal.typ
+    lec-nfa.typ
+    lec-regular.typ
+    lec-combinatorics.typ
+"""
+
+all:
+    #!/usr/bin/env sh
+    for file in {{replace(files, "\n", ' ')}}; do
+        just compile $file || exit 0
+    done
 
 compile target:
     typst compile {{target}}
