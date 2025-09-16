@@ -593,11 +593,61 @@ How can we fix this?..
 == Set Partitions
 
 #definition[
-  A _partition_ of a set $M$ is a collection of non-empty, pairwise-disjoint subsets whose union is~$M$.
+  Two sets $A$ and $B$ are _disjoint_ if they have no elements in common: $A intersect B = emptyset$.
+]
+
+#definition[
+  A collection of sets ${A_1, A_2, dots, A_n}$ is _pairwise disjoint_ if every pair of distinct sets is disjoint:
+  $A_i intersect A_j = emptyset$ for all $i != j$.
+]
+
+#definition[
+  A _partition_ of a set $M$ is a collection $cal(P) = {A_1, A_2, dots, A_n}$ of subsets of $M$ such that:
+  1. Each $A_i$ is _non-empty_: $A_i != emptyset$
+  2. The sets are _pairwise disjoint_: $A_i intersect A_j = emptyset$ for $i != j$
+  3. Their _union covers_ $M$: $A_1 union A_2 union dots union A_n = M$
+
   Elements of the partition are called _blocks_ or _cells_.
 ]
 
-// TODO: visualize set partition
+== Examples of Partitions
+
+#examples[Simple partitions][
+  - $cal(P)_1 = {{a}, {b, c}}$ is a partition of $M = {a, b, c}$ into two blocks.
+
+  - $cal(P)_2 = {{2, 4}, {1, 3, 5}}$ is a partition of $M = {1, dots, 5}$ into two blocks: _even_ and _odd_ numbers.
+
+  - $cal(P)_3 = {{#emoji.cow, #emoji.sheep, #emoji.rabbit}, {#emoji.tiger, #emoji.lion, #emoji.wolf}, {#emoji.dog, #emoji.pig, #emoji.bear}}$ is a partition of given animals into _herbivores_, _carnivores_, and _omnivores_.
+]
+
+== Verifying Partitions
+
+#theorem(title: "Claim")[
+  $cal(P) = {{1, 3}, {2, 6}, {4, 5}}$ is a partition of $M = {1, 2, 3, 4, 5, 6}$.
+]
+
+#proof(title: "Verification")[
+  + *Non-empty:* Each block ${1, 3}$, ${2, 6}$, ${4, 5}$ contains at least one element #YES
+  + *Pairwise disjoint:*
+    - ${1, 3} intersect {2, 6} = emptyset$ #YES
+    - ${1, 3} intersect {4, 5} = emptyset$ #YES
+    - ${2, 6} intersect {4, 5} = emptyset$ #YES
+  + *Union covers $M$:*
+    ${1, 3} union {2, 6} union {4, 5} = {1, 2, 3, 4, 5, 6} = M$ #YES
+
+  Therefore, $cal(P)$ is indeed a partition of $M$.
+]
+
+== Non-Examples of Partitions
+
+#example[Non-partitions][
+  *Why these are NOT partitions of $M = {1, 2, 3, 4}$:*
+  - ${{1, 2}, {2, 3}, {4}}$ --- blocks ${1, 2}$ and ${2, 3}$ are not disjoint
+
+  - ${{1}, {2, 3}}$ --- union is ${1, 2, 3} != M$ (missing element 4)
+
+  - ${{1, 2}, emptyset, {3, 4}}$ --- contains empty set
+]
 
 == Power Sets
 
