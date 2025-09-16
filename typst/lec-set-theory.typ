@@ -860,8 +860,8 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
   #colbreak()
 
   *De Morgan's Laws:*
-  - $overline(A union B) = overline(A) intersect overline(B)$
   - $overline(A intersect B) = overline(A) union overline(B)$
+  - $overline(A union B) = overline(A) intersect overline(B)$
 
   *Identity Laws:*
   - $A union emptyset = A$, $A intersect U = A$
@@ -870,6 +870,117 @@ For any sets $A$, $B$, $C$, and the universal set $U$:
   *Complement Laws:*
   - $A union overline(A) = U$, $A intersect overline(A) = emptyset$
   - $overline(overline(A)) = A$ (double complement)
+]
+
+== Proving Set Identities
+
+#theorem[Distributive Law][
+  $A union (B intersect C) = (A union B) intersect (A union C)$
+]
+
+We can prove set identities using various methods, such as:
+- Element-membership approach
+- Logical equivalences
+- Venn diagrams (informal)
+
+Here, we demonstrate the _element-membership approach_.
+
+#proof[
+  We show that $x in A union (B intersect C) iff x in (A union B) intersect (A union C)$.
+
+  *Step 1 ($arrow.double.r$):*
+  Suppose that $x in A union (B intersect C)$.
+  - Then $x in A$ _or_ $x in (B intersect C)$.
+    #h(2em) (definition of union)
+    - *Case 1:* If $x in A$, then $x in (A union B)$ and $x in (A union C)$, so $x in (A union B) intersect (A union C)$.
+    - *Case 2:* If $x in (B intersect C)$, then $x in B$ and $x in C$, so $x in (A union B)$ and $x in (A union C)$,\ hence $x in (A union B) intersect (A union C)$.
+  - In either case, $x in (A union B) intersect (A union C)$.
+    #h(2em) (definition of intersection)
+
+  *Step 2 ($arrow.double.l$):*
+  Suppose that $x in (A union B) intersect (A union C)$.
+  - Then $x in (A union B)$ _and_ $x in (A union C)$.
+    #h(2em) (definition of intersection)
+  - Since $x in (A union B)$, we have $x in A$ or $x in B$.
+  - Since $x in (A union C)$, we have $x in A$ or $x in C$.
+    - *Case 1:* If $x in A$, then $x in A union (B intersect C)$.
+    - *Case 2:* If $x notin A$, then from the conditions above, we must have $x in B$ and $x in C$, so $x in (B intersect C)$, hence $x in A union (B intersect C)$.
+  - In either case, $x in A union (B intersect C)$.
+
+  Therefore, $A union (B intersect C) = (A union B) intersect (A union C)$.
+]
+
+#pagebreak()
+
+#theorem[De Morgan's Law][
+  $overline(A intersect B) = overline(A) union overline(B)$
+]
+
+Here, we use the _set inclusion approach_ (double containment).
+
+// Note: manual proof because `ctheorems` is bad at placing $square$ in the right place...
+#[
+  *Proof:* #h(0.2em)
+  We prove $overline(A intersect B) subset.eq overline(A) union overline(B)$ and $overline(A) union overline(B) subset.eq overline(A intersect B)$.
+
+  #columns(2)[
+    *Step 1 ($subset.eq$):*
+    Show $overline(A intersect B) subset.eq overline(A) union overline(B)$.
+
+    Let $x in overline(A intersect B)$.
+    We must show $x in overline(A) union overline(B)$.
+    - Since $x in overline(A intersect B)$, we have $x notin A intersect B$.
+    - This means $x$ is _not in both_ $A$ and $B$ simultaneously.
+    - Therefore, either $x notin A$ _or_ $x notin B$ (or both).
+      - If $x notin A$, then $x in overline(A)$, so $x in overline(A) union overline(B)$.
+      - If $x notin B$, then $x in overline(B)$, so $x in overline(A) union overline(B)$.
+    - In either case, $x in overline(A) union overline(B)$.
+
+    #colbreak()
+
+    *Step 2 ($supset.eq$):*
+    Show $overline(A) union overline(B) subset.eq overline(A intersect B)$.
+
+    Let $x in overline(A) union overline(B)$.
+    We must show that $x in overline(A intersect B)$.
+    - Since $x in overline(A) union overline(B)$, we have $x in overline(A)$ or $x in overline(B)$.
+    - *Case 1:* If $x in overline(A)$, then $x notin A$, so $x notin A intersect B$.
+    - *Case 2:* If $x in overline(B)$, then $x notin B$, so $x notin A intersect B$.
+    - In either case, $x notin A intersect B$, so $x in overline(A intersect B)$.
+
+    Since both inclusions hold, $overline(A intersect B) = overline(A) union overline(B)$.
+    #h(1fr)$square$
+  ]
+]
+
+#theorem[Absorption Law][
+  $A union (A intersect B) = A$
+]
+
+Here, we use an _algebraic approach_ with set identities.
+
+#proof[
+  We apply known set laws step by step:
+  $
+    & A union (A intersect B) = \
+    & = (A intersect U) union (A intersect B) && quad slash.double #[identity law: $A = A intersect U$] \
+    & = A intersect (U union B)               && quad slash.double #[distributive law] \
+    & = A intersect U                         && quad slash.double #[since $U union B = U$ for any set $B$] \
+    & = A                                     && quad slash.double #[identity law: $A intersect U = A$]
+  $
+
+  Therefore, $A union (A intersect B) = A$.
+]
+
+== Proof Writing Guidelines
+
+#Block(color: blue.lighten(60%))[
+  - Always state what you want to prove clearly.
+  - Choose appropriate method (element-membership, logical equivalences, etc.).
+  - _Justify_ each step with definitions or previously proven results.
+  - Handle all _cases_ systematically.
+  - Use clear logical connectives (and, or, if-then).
+  - End with a clear _conclusion_ ($square$ or QED).
 ]
 
 
