@@ -290,8 +290,8 @@ Power-ups spawn at lattice points (integer coordinates) within the Danger Zone $
 Count the number of such points.
 
 *Part (c):*
-A player starts at position $P_0 = pair(2, 6)$ and moves according to vectors $v_1 = pair(4, 0)$, #box($v_2 = pair(1, -2)$), and $v_3 = pair(-4, -3)$.
-+ Calculate the player's position after each move: $P_i = P_(i-1) + v_i$.
+A player starts at position $P_0 = pair(2, 6)$ and makes exactly three moves according to vectors $v_1 = pair(4, 0)$, $v_2 = pair(1, -2)$, and $v_3 = pair(-4, -3)$ (in that order).
++ Calculate the player's position after each move: $P_i = P_(i-1) + v_i$ for $i = 1, 2, 3$.
 + Determine which zones the player is in after each move.
 + Does the player ever enter the Boss Arena $B$?
 
