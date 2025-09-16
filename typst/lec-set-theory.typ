@@ -579,13 +579,13 @@ How can we fix this?..
     [
       - $A subset.eq B subset.eq.not C$
 
-      - $A = {1,2,3} subset.eq B$
+      - $A = {1,2,3} subset.eq B$ (subset)
 
       - $B = {1,2,3,4,5}$
 
       - $C = {6,7,8}$
 
-      - $B intersect C = emptyset$
+      - $B intersect C = emptyset$ (disjoint)
     ],
   )
 ]
