@@ -287,18 +287,21 @@
 
     // Main layout: simple centered title
     align(center + horizon, block(
-      inset: 1.2em,
-      radius: 20%,
-      fill: title-color.lighten(80%),
-      stroke: 2pt + title-color.lighten(60%),
+      width: 90%,
+      // stroke: .1pt, // debug
     )[
-      #set text(
-        2em,
-        weight: "bold",
-        font: title-font,
-        fill: title-color,
-      )
-      #it.body
+      #block(
+        inset: 1em,
+        stroke: (bottom: 1pt + title-color),
+      )[
+        #set text(
+          1.6em,
+          weight: "bold",
+          font: title-font,
+          fill: title-color,
+        )
+        #it.body
+      ]
     ])
 
     pagebreak(weak: true)
