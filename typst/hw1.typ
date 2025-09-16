@@ -340,6 +340,8 @@ $
   R & = { a:0.6, b:0.9, c:0.4, d:0.1, e:0.5 }
 $
 
+Here, for example, $mu_F (b) = 0.8$ means element $b$ belongs to fuzzy set $F$ with degree $0.8$.
+
 *Part (a):*
 Define the complement of a fuzzy set S to be $mu_overline(S)(x) = 1 - mu_S (x)$.
 Compute $overline(F)$ and $overline(R)$.
