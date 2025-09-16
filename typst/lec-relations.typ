@@ -11,7 +11,21 @@
 
 #import "common-lec.typ": *
 
+#let rel(x) = math.class("relation", x)
+#let nrel(x) = rel(math.cancel(x))
+#let matrel(x) = $bracket.double.l #x bracket.double.r$
+#let eqclass(x, R) = $bracket.l #x bracket.r_#R$
+#let quotient(M, R) = $M slash_(#R)$
+#let Dom = math.op("Dom")
+#let Cod = math.op("Cod")
+#let Range = math.op("Range")
+#let equinumerous = symbol(math.approx, ("not", math.approx.not))
+#let smaller = symbol(math.prec, ("eq", math.prec.eq))
 #let relcomp = rel(";")
+#let Join = math.or
+#let Meet = math.and
+#let nand = $overline(and)$
+#let nor = $overline(or)$
 
 
 #CourseOverviewPage()

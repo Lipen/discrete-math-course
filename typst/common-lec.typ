@@ -3,20 +3,6 @@
 #let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $angle.l #a, #b angle.r$
-#let rel(x) = math.class("relation", x)
-#let nrel(x) = rel(math.cancel(x))
-#let matrel(x) = $bracket.double.l #x bracket.double.r$
-#let eqclass(x, R) = $bracket.l #x bracket.r_#R$
-#let quotient(M, R) = $M slash_(#R)$
-#let Dom = math.op("Dom")
-#let Cod = math.op("Cod")
-#let Range = math.op("Range")
-#let equinumerous = symbol(math.approx, ("not", math.approx.not))
-#let smaller = symbol(math.prec, ("eq", math.prec.eq))
-#let Join = math.or
-#let Meet = math.and
-#let nand = $overline(and)$
-#let nor = $overline(or)$
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
