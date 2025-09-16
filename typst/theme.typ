@@ -49,6 +49,7 @@
   let hex-height = 1in
 
   let title-font-size = 2.2em
+  let title-width = 90%
   let title-inset = 1.2em
   let title-stroke-width = 2pt
 
@@ -136,18 +137,21 @@
     align(horizon, stack(
       // Title
       block(
-        inset: title-inset,
-        radius: 20%,
-        fill: title-color.lighten(80%),
-        stroke: title-stroke-width + title-color.lighten(60%),
+        width: title-width,
+        // stroke: .1pt, // debug
       )[
-        #set text(
-          title-font-size,
-          weight: "bold",
-          font: "Libertinus Sans",
-          fill: title-color,
-        )
-        #title
+        #block(
+          stroke: (bottom: 1pt + title-color),
+          inset: 1em,
+        )[
+          #set text(
+            title-font-size,
+            weight: "bold",
+            font: "Libertinus Sans",
+            fill: title-color,
+          )
+          #title
+        ]
       ],
 
       // Epigraph
@@ -155,19 +159,22 @@
         block(
           width: epigraph-width,
           inset: (top: epigraph-inset),
+          // stroke: .1pt, // debug
         )[
           #set text(
             epigraph-font-size,
             style: "italic",
           )
-          #set par(justify: true)
           "#epigraph"
 
           #if epigraph-author != none [
-            #align(right, text(
-              epigraph-author-font-size,
-              weight: "bold",
-            )[— #epigraph-author])
+            #align(right)[
+              #set text(
+                epigraph-author-font-size,
+                weight: "bold",
+              )
+              --- #epigraph-author
+            ]
           ]
         ]
       },
