@@ -935,7 +935,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Let $pair(a, d) in (R rel(";") S) rel(";") T$.
   - By definition of composition:
     $exists c in C. thin (pair(a, c) in R rel(";") S) and (pair(c, d) in T)$.
-  - Since $pair(a, c) in (R rel(";") S)$, we have:
+  - Since $pair(a, c) in R rel(";") S$, we have:
     $exists b in B. thin (pair(a, b) in R) and (pair(b, c) in S)$.
   - From $pair(b, c) in S$ and $pair(c, d) in T$, we have:
     $pair(b, d) in S rel(";") T$.
