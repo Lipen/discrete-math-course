@@ -871,15 +871,15 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #example[
-  The subset relation $subset.eq$ on $power(A)$ is a partial order (reflexive, antisymmetric, transitive); typically not total, since not all subsets are comparable (e.g., $A = {1}$ and $B = {2, 3}$).
+  The _subset_ relation $subset.eq$ on $power(A)$ is a partial order (reflexive, antisymmetric, transitive); typically not total, since not all subsets are comparable (e.g., $A = {1}$ and $B = {2, 3}$).
 ]
 
 #example[
-  Divisibility $|$ on $D = {1,2,3,6}$: $1|2|6$, $1|3|6$; $2$ and $3$ incomparable. Partial, not total.
+  _Divisibility_ $|$ on $D = {1,2,3,6}$: $1|2|6$, $1|3|6$; $2$ and $3$ incomparable. Partial, not total.
 ]
 
 #example[
-  Lexicographic order on $A^n$ (induced by a total order on $A$) is a total order.
+  _Lexicographic order_ on $A^n$ (induced by a total order on $A$) is a total order.
 ]
 
 
