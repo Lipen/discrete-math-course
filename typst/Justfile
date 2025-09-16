@@ -26,3 +26,6 @@ all:
 
 compile target:
     typst compile {{target}}
+
+parallel:
+    parallel -k -- just compile {} ::: {{replace(files, "\n", ' ')}}
