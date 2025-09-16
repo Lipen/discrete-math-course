@@ -258,16 +258,15 @@
             numbering(" [1]", page - heading.location().page() + 1)
           }
         }
-        // Note: 'context' is needed *again* for 'measure'
-        context {
-          body
-          place(bottom, dy: 0.4em)[
-            #line(
-              length: measure(body).width,
-              stroke: 0.6pt + title-color,
-            )
-          ]
-        }
+        block(
+          outset: (bottom: 0.4em, x: 0.1em),
+          stroke: (bottom: 0.6pt + title-color),
+        )[
+          // Note: reduce leading to fit 2-line headings better
+          // Note: default leading is 0.65em
+          #set par(leading: 0.4em)
+          #body
+        ]
       }
     },
     footer: context {
