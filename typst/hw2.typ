@@ -131,8 +131,7 @@ Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^
 
 + Compute $T^2$ and $T^3$.
 + When does the trust network _stabilize_? Find the smallest $k$ where $T^k = T^(k+1)$.
-+ What is the _ultimate trust network_ $T^+ = union.big_(n=1)^infinity T^n$ containing all possible trust connections?
-  Under what conditions on $T$ does $T^+$ represent a _complete_ trust network (everyone trusts everyone else)?
++ Show that the _ultimate trust network_ $T^+ = union.big_(n=1)^infinity T^n$ containing all possible trust connections also satisfies the transitivity property, for arbitrary initial trust relation $T$.
 
 
 == Problem 3: Equivalence Relations and Quotient Sets
