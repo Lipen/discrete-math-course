@@ -125,27 +125,53 @@ Let $S_1 = {"Math", "CS", "Physics"}$, $S_2 = {"Math", "CS", "Biology"}$, $S_3 =
 + Find all equivalence classes if it exists, or explain why it doesn't.
 
 
-== Problem 4: Similarity Networks
+== Problem 4: Similarity Networks and Tolerance Relations
 
-Academic researchers collaborate when they share expertise areas.
-We can model this using the _#box[$theta$-similarity] relation_ $R_theta$, where $theta$ is a numeric parameter: researchers $A$ and $B$ are $theta$-similar if their Jaccard similarity $Jaccard(A, B) = frac(card(A inter B), card(A union B))$ is at least $theta$.
+Academic researchers often collaborate when they share common expertise areas.
+We model this collaboration potential using the _#box[$theta$-similarity] relation_ $R_theta$, where $theta in [0,1] subset.eq RR$ is a similarity threshold parameter.
+Two researchers $A$ and $B$ are _$theta$-similar_ (denoted $A rel(R_theta) B$) if their Jaccard similarity coefficient satisfies:
+$
+  Jaccard(A, B) = frac(card(A inter B), card(A union B)) >= theta
+$
+where $A$ and $B$ represent the sets of expertise areas for each researcher.
 
 Consider five researchers with expertise:
-- Anton: ${1,2,5,6}$ (algorithms, ML, security, databases)
-- Bogdan: ${2,3,4,5,7,9}$ (ML, graphics, robotics, security, web, AI)
-- Valera: ${1,4,5,6}$ (algorithms, robotics, security, databases)
-- Gleb: ${3,7,9}$ (graphics, web, AI)
-- Danil: ${1,5,6,8,9}$ (algorithms, security, databases, mobile, AI)
+- Anton: ${"Algorithms", "Security", "Mobile", "Robotics"}$
+- Bogdan: ${"Algorithms", "Web", "Databases", "Bioinformatics"}$
+- Valera: ${"Web", "Databases", "Visualization", "Security"}$
+- Gleb: ${"Mobile", "Neuroscience", "Bioinformatics", "Visualization"}$
+- Danil: ${"Robotics", "Neuroscience", "Mobile", "Web"}$
 
 *Part (a):* For $theta = 0.25$:
-+ Calculate all pairwise Jaccard similarities.
-+ Draw the collaboration network graph.
-+ Find research clusters (connected components).
++ Calculate all pairwise Jaccard similarities $Jaccard(A, B)$ for the 10 researcher pairs.
++ Determine which pairs are $theta$-similar (i.e., have Jaccard similarity $>= 0.25$).
++ Draw the collaboration network graph showing only $theta$-similar connections.
++ Identify all research clusters (connected components) in the network.
 
-*Part (b):*
-+ Prove that $theta$-similarity is a tolerance relation (reflexive and symmetric).
-+ Determine for which values of $theta$ it becomes an equivalence relation.
-+ What's the maximum $theta$ for which the network stays connected?
+*Part (b): $theta$-Relation Properties*
++ Prove that $R_theta$ is a _tolerance relation_ for any $theta in [0,1]$ by showing it is reflexive and symmetric.
++ For the specific researcher data above, determine whether $R_(0.25)$ is transitive.
+  If not, provide a counterexample showing where transitivity fails.
++ For which values of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary researcher expertise sets?
++ What is the maximum value of $theta$ for which the collaboration network of our five researchers remains connected (i.e., forms a single connected component)?
+
+*Part (c): Network Threshold Dynamics*
+
+Real collaboration networks exhibit critical threshold phenomena: small changes in similarity requirements can dramatically restructure the entire network.
+
++ *Critical threshold analysis:*
+  As $theta$ increases from 0 to 1, the collaboration network loses edges and components merge or split.
+  Find all threshold values where the number of connected components changes.
+  Identify the critical threshold $theta^*$ where the network first disconnects, and describe how the component structure evolves at each transition.
+
++ *Diversity vs. connectivity:*
+  Define each researcher's _diversity index_ as their number of expertise areas.
+  Calculate each researcher's diversity index and average Jaccard similarity with all others.
+  Determine the validity of the claim: "The researcher with the most expertise areas has the highest average Jaccard similarity."
+
++ *Network resilience:*
+  If one researcher leaves the collaboration network, which departure causes the most fragmentation?
+  Determine which researcher's absence results in the maximum number of connected components, and justify your answer using graph connectivity principles.
 
 
 == Problem 5: Matrix Representations and Boolean Algebra
