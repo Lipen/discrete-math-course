@@ -89,19 +89,45 @@ Organize your findings in a table and provide counterexamples for properties tha
   For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
 
 
-== Problem 2: Relation Set Operations
+== Problem 2: Social Network Dynamics and Relation Composition
 
-For arbitrary homogeneous relations $R subset.eq M^2$ and $S subset.eq M^2$, prove or disprove each statement:
+A social media platform tracks different types of user interactions.
 
-+ If $R$ and $S$ are _reflexive_, then $R inter S$ is reflexive.
-+ If $R$ and $S$ are _symmetric_, then $R inter S$ is symmetric.
-+ If $R$ and $S$ are _transitive_, then $R inter S$ is transitive.
-+ If $R$ and $S$ are _reflexive_, then $R union S$ is reflexive.
-+ If $R$ and $S$ are _symmetric_, then $R union S$ is symmetric.
-+ If $R$ and $S$ are _transitive_, then $R union S$ is transitive.
+Let $U = {"Alice", "Bob", "Carol", "Dave", "Eve"}$ be the set of users.
 
-For #True statements, provide rigorous proofs.
-For #False statements, construct counterexamples.
+*Part (a): Multi-layered Social Networks*
+
+The platform models three interaction types:
+- $F$ (friendship): symmetric relation where users are mutual friends
+- $L$ (follows): asymmetric relation where one user follows another
+- $T$ (trusts): relation indicating one user trusts another's content
+
+Given these specific relations:
+- $F = {pair("Alice", "Bob"), pair("Bob", "Alice"), pair("Carol", "Dave"), pair("Dave", "Carol")}$
+- $L = {pair("Alice", "Carol"), pair("Bob", "Dave"), pair("Carol", "Alice"), pair("Dave", "Eve"), pair("Eve", "Bob")}$
+- $T = {pair("Alice", "Bob"), pair("Bob", "Carol"), pair("Carol", "Dave"), pair("Dave", "Alice")}$
+
++ Calculate the _influence network_ $I = L compose T$ (users who trust someone that you follow).
++ Find the _social connectivity_ $S = F union (L inter L^(-1))$ (friends plus mutual followers).
++ Determine if there exists a "_social influencer_" --- a user $u$ such that for every other user $v$, there's a path from $u$ to $v$ through $I$.
+
+*Part (b): Network Properties and Counterexamples*
+
+The platform's algorithm team claims: _"If two relations are transitive, their intersection is always transitive."_
+Let's prove them wrong!
+
++ Construct a counterexample using two transitive relations $R_1$ and $R_2$ on a 3-element set such that $R_1 inter R_2$ is not transitive.
++ Prove that if $R$ and $S$ are equivalence relations on the same set, then $R inter S$ is also an equivalence relation.
++ Find the smallest set size where two symmetric relations can have an asymmetric union. Provide a concrete example.
+
+*Part (c): Trust Propagation*
+
+The platform wants to model _indirect trust_: you trust people that your trusted contacts trust.
+Define the _trust closure_ as $T^+ = union.big_(n=1)^infinity T^n$ where $T^n$ is the $n$-fold composition of $T$.
+
++ Compute $T^2$ and $T^3$ for the trust relation $T$ given above.
++ Determine when the trust network becomes "stable": find the smallest $k$ such that $T^k = T^(k+1)$.
++ If every user trusts at least one other user, under what conditions will the trust closure $T^+$ eventually include every possible pair of users?
 
 
 == Problem 3: Equivalence Relations and Quotient Sets
