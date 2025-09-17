@@ -37,6 +37,7 @@
 #let nrel(x) = rel(math.cancel(x))
 #let relmat(x) = $bracket.double.l #x bracket.double.r$
 #let boolprod = math.class("binary", $dot.circle$)
+#let equinumerous = math.approx
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -138,11 +139,11 @@ Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^
 
 #block(sticky: true)[*Part (a): Equinumerosity Relation*]
 
-The _equinumerosity relation_ $tilde.equiv$ is defined as: $A tilde.equiv B$ iff $card(A) = card(B)$.
+The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ iff $card(A) = card(B)$.
 
-+ Prove that $tilde.equiv$ is an equivalence relation over finite sets.
-+ Prove that $tilde.equiv$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
-+ Find the quotient set of $power({a,b,c,d})$ by $tilde.equiv$.
++ Prove that $equinumerous$ is an equivalence relation over finite sets.
++ Prove that $equinumerous$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
++ Find the quotient set of $power({a,b,c,d})$ by $equinumerous$.
 
 #block(sticky: true)[*Part (b): Student Course Enrollment*]
 
