@@ -892,11 +892,16 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   [$overline(A)$ or $A^c$],
   ${ x | x notin A }$,
   [
-    #draw-venn2(
-      not-ab-fill: purple.transparentize(80%),
-      padding: .2,
-      not-ab-stroke: 1pt + purple.darken(20%),
-    )
+    #cetz.canvas({
+      import cetz.draw: *
+
+      rect((-0.9, -0.6), (0.9, 0.6),
+        fill: purple.transparentize(80%),
+        stroke: purple.darken(20%)
+      )
+      circle((0, 0), radius: .5, fill: white)
+      content((0, 0), [A])
+    })
   ],
   // [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$, [],
 )
