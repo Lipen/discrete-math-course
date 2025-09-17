@@ -190,11 +190,17 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
     natrix.bnat(0, 1, 1; 1, 0, 1; 0, 1, 0)
   $
 
-*Part (b): Transitive Closure Algorithm*
+*Part (b): Transitive Closure*
 
-+ Define the _transitive closure_ $R^+$ formally.
+*Definition:* #h(.2em) $R^+ = union.big_(n=1)^infinity R^n$ is a _transitive closure_ of relation $R subset.eq M^2$, where:
+- $R^1 = R$
+- $R^(n+1) = R^n compose R$ for $n >= 1$
+- $S compose R = {pair(a, c) | exists b in M: (a rel(R) b) and (b rel(S) c)}$ is the composition of relations $R$ and $S$.
+
 + Prove that $R^+$ is indeed transitive.
 + For relation $R = {pair(1, 2), pair(2, 3), pair(3, 1), pair(1, 4)}$ on ${1,2,3,4}$, compute $R^+$ step by step.
+
+// TODO: Warshall-like algorithm with boolean matrices
 
 
 == Problem 6: Proof Validation and Counterexamples
