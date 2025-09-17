@@ -612,12 +612,23 @@ How can we fix this?..
 
 == Examples of Partitions
 
-#examples[Simple partitions][
-  - $cal(P)_1 = {{a}, {b, c}}$ is a partition of $M = {a, b, c}$ into two blocks.
+- $cal(P)_1 = {{a}, {b, c}}$ is a partition of $M = {a, b, c}$ into two blocks.
 
-  - $cal(P)_2 = {{2, 4}, {1, 3, 5}}$ is a partition of $M = {1, dots, 5}$ into two blocks: _even_ and _odd_ numbers.
+- $cal(P)_2 = {{2, 4}, {1, 3, 5}}$ is a partition of $M = {1, dots, 5}$ into two blocks: _even_ and _odd_ numbers.
 
-  - $cal(P)_3 = {{#emoji.cow, #emoji.sheep, #emoji.rabbit}, {#emoji.tiger, #emoji.lion, #emoji.wolf}, {#emoji.dog, #emoji.pig, #emoji.bear}}$ is a partition of given animals into _herbivores_, _carnivores_, and _omnivores_.
+- $cal(P)_3 = {{#emoji.cow, #emoji.sheep, #emoji.rabbit}, {#emoji.tiger, #emoji.lion, #emoji.wolf}, {#emoji.dog, #emoji.pig, #emoji.bear}}$ is a partition of given animals into _herbivores_, _carnivores_, and _omnivores_.
+
+#place(bottom + right)[
+  #box(
+    radius: 5pt,
+    clip: true,
+    stroke: 1pt + blue.darken(20%),
+  )[
+    #image(
+      "assets/animals.jpg",
+      height: 5.5cm,
+    )
+  ]
 ]
 
 == Verifying Partitions
