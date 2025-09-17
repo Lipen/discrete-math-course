@@ -85,7 +85,7 @@ Organize your findings in a table and provide counterexamples for properties tha
 + *Game dominance:*
   In rock-paper-scissors, define $x rel(R) y$ iff "$x$ beats $y$".
 
-+ *Equivalence:*
++ *Modulo equivalence:*
   For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
 
 
