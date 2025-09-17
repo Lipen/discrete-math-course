@@ -89,45 +89,50 @@ Organize your findings in a table and provide counterexamples for properties tha
   For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
 
 
-== Problem 2: Social Network Dynamics and Relation Composition
+== Problem 2: Social Network Relations
 
-A social media platform tracks different types of user interactions.
-
-Let $U = {"Alice", "Bob", "Carol", "Dave", "Eve"}$ be the set of users.
-
-*Part (a): Multi-layered Social Networks*
-
-The platform models three interaction types:
-- $F$ (friendship): symmetric relation where users are mutual friends
-- $L$ (follows): asymmetric relation where one user follows another
-- $T$ (trusts): relation indicating one user trusts another's content
+Consider a social network with users $U = {"Alice", "Bob", "Carol", "Dave", "Eve"}$ and three types of connections:
+- *Friendship* $F$: mutual (symmetric) friend relations
+- *Following* $L$: who follows whom (for updates)
+- *Trust* $T$: who trusts whom (for recommendations)
 
 Given these specific relations:
 - $F = {pair("Alice", "Bob"), pair("Bob", "Alice"), pair("Carol", "Dave"), pair("Dave", "Carol")}$
 - $L = {pair("Alice", "Carol"), pair("Bob", "Dave"), pair("Carol", "Alice"), pair("Dave", "Eve"), pair("Eve", "Bob")}$
 - $T = {pair("Alice", "Bob"), pair("Bob", "Carol"), pair("Carol", "Dave"), pair("Dave", "Alice")}$
 
-+ Calculate the _influence network_ $I = L compose T$ (users who trust someone that you follow).
-+ Find the _social connectivity_ $S = F union (L inter L^(-1))$ (friends plus mutual followers).
-+ Determine if there exists a "_social influencer_" --- a user $u$ such that for every other user $v$, there's a path from $u$ to $v$ through $I$.
+#block(sticky: true)[*Part (a): Relation Operations*]
 
-*Part (b): Network Properties and Counterexamples*
++ Compute the _influence chain_ $I = L compose T$. List all pairs in $I$.
++ Compute the _trust chain_ $J = T compose L$. List all pairs in $J$.
++ Compare $I$ and $J$. What do they represent?
+  What does $L inter L^(-1)$ represent?
++ Determine if there exists an _influencer_ --- a user to whom all other users are connected in $L union I$.
++ Determine if there exists a _trust hub_ --- a user to whom all other users are connected in $T union J$.
++ Find the _mutual connections_ $B = F union (L inter L^(-1))$.
 
-The platform's algorithm team claims: _"If two relations are transitive, their intersection is always transitive."_
-Let's prove them wrong!
+#block(sticky: true)[*Part (b): Property Preservation*]
 
-+ Construct a counterexample using two transitive relations $R_1$ and $R_2$ on a 3-element set such that $R_1 inter R_2$ is not transitive.
-+ Prove that if $R$ and $S$ are equivalence relations on the same set, then $R inter S$ is also an equivalence relation.
-+ Find the smallest set size where two symmetric relations can have an asymmetric union. Provide a concrete example.
++ *Transitivity:*
+  Is it true that if $R_1$ and $R_2$ are transitive relations, then $R_1 inter R_2$ is also transitive?
+  Either prove this statement or construct a counterexample on ${1,2,3}$.
 
-*Part (c): Trust Propagation*
++ *Equivalence:*
+  Prove that if $R$ and $S$ are equivalence relations on the same set, then $R inter S$ is also an equivalence relation.
 
-The platform wants to model _indirect trust_: you trust people that your trusted contacts trust.
-Define the _trust closure_ as $T^+ = union.big_(n=1)^infinity T^n$ where $T^n$ is the $n$-fold composition of $T$.
++ *Symmetry:*
+  Can combining two symmetric relations destroy symmetry?
+  Find the minimum example of two symmetric relations (on the same set) whose union is not symmetric.
 
-+ Compute $T^2$ and $T^3$ for the trust relation $T$ given above.
-+ Determine when the trust network becomes "stable": find the smallest $k$ such that $T^k = T^(k+1)$.
-+ If every user trusts at least one other user, under what conditions will the trust closure $T^+$ eventually include every possible pair of users?
+#block(sticky: true)[*Part (c): Trust Propagation*]
+
+Trust can spread in chains: you might trust someone because a person you trust recommends them.
+Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^3 = T^2 compose T$ represent _third-degree trust_ (trust over 3 steps), and so on.
+
++ Compute $T^2$ and $T^3$.
++ When does the trust network _stabilize_? Find the smallest $k$ where $T^k = T^(k+1)$.
++ What is the _ultimate trust network_ $T^+ = union.big_(n=1)^infinity T^n$ containing all possible trust connections?
+  Under what conditions on $T$ does $T^+$ represent a _complete_ trust network (everyone trusts everyone else)?
 
 
 == Problem 3: Equivalence Relations and Quotient Sets
