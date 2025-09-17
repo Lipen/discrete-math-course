@@ -135,15 +135,16 @@ $
 $
 where $A$ and $B$ represent the sets of expertise areas for each researcher.
 
-Consider five researchers with expertise:
-- Anton: ${"Algorithms", "Security", "Mobile", "Robotics"}$
-- Bogdan: ${"Algorithms", "Web", "Databases", "Bioinformatics"}$
-- Valera: ${"Web", "Databases", "Visualization", "Security"}$
-- Gleb: ${"Mobile", "Neuroscience", "Bioinformatics", "Visualization"}$
-- Danil: ${"Robotics", "Neuroscience", "Mobile", "Web"}$
+Consider six researchers with expertise:
+- Lai: ${ "Bioinformatics", "Databases", "Graphs", "HPC" }$
+- Shi: ${ "Cryptography", "Embedded", "FPGA", "IoT" }$
+- Qiu: ${ "Algorithms", "Bioinformatics", "Cryptography" }$
+- Wei: ${ "Algorithms", "Databases", "Graphs", "HPC" }$
+- Xin: ${ "Algorithms", "Databases", "Embedded" }$
+- Zhu: ${ "Cryptography", "Databases", "FPGA", "IoT" }$
 
 *Part (a):* For $theta = 0.25$:
-+ Calculate all pairwise Jaccard similarities $Jaccard(A, B)$ for the 10 researcher pairs.
++ Calculate all pairwise Jaccard similarities $Jaccard(A, B)$.
 + Determine which pairs are $theta$-similar (i.e., have Jaccard similarity $>= 0.25$).
 + Draw the collaboration network graph showing only $theta$-similar connections.
 + Identify all research clusters (connected components) in the network.
@@ -153,7 +154,7 @@ Consider five researchers with expertise:
 + For the specific researcher data above, determine whether $R_(0.25)$ is transitive.
   If not, provide a counterexample showing where transitivity fails.
 + For which values of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary researcher expertise sets?
-+ What is the maximum value of $theta$ for which the collaboration network of our five researchers remains connected (i.e., forms a single connected component)?
++ What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected (i.e., forms a single connected component)?
 
 *Part (c): Network Threshold Dynamics*
 
