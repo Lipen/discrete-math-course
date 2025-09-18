@@ -764,6 +764,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     )
   $
 
+  \
+
   *Iteration $k = 1$:* Consider paths through vertex 1
   $
     M^((1)) = natrix.bnat(
@@ -785,6 +787,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     )
   $
   (Added $pair(1, 3)$ and $pair(4, 3)$)
+
+  \
 
   *Iteration $k = 3$:* Consider paths through vertex 3
   $
