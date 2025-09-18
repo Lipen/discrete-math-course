@@ -842,8 +842,10 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - $s(emptyset) = emptyset union emptyset^(-1) = emptyset$
   - $t(emptyset) = emptyset$ (since $emptyset^n = emptyset$ for all $n >= 1$)
 
-  The reflexive closure of the empty relation is the identity relation.
+  The reflexive closure of the _empty_ relation is the _identity_ relation.
 ]
+
+#pagebreak()
 
 #example[Closure of the universal relation][
   Let $M = {1, 2}$ and $R = M times M = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2)}$.
@@ -855,23 +857,25 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   The universal relation is its own closure under all three operations.
 ]
 
+#pagebreak()
+
 #example[Non-commutativity with other operations][
   Let $M = {1, 2, 3}$, $R_1 = {pair(1, 2)}$, and $R_2 = {pair(2, 3)}$.
 
   Consider $t(R_1 union R_2)$ vs $t(R_1) union t(R_2)$:
-
-  $R_1 union R_2 = {pair(1, 2), pair(2, 3)}$
-  $t(R_1 union R_2) = {pair(1, 2), pair(2, 3), pair(1, 3)}$
-
-  $t(R_1) = {pair(1, 2)}$
-  $t(R_2) = {pair(2, 3)}$
-  $t(R_1) union t(R_2) = {pair(1, 2), pair(2, 3)}$
+  - $R_1 union R_2 = {pair(1, 2), pair(2, 3)}$
+  - $t(R_1 union R_2) = {pair(1, 2), pair(2, 3), pair(1, 3)}$
+  - $t(R_1) = {pair(1, 2)}$
+  - $t(R_2) = {pair(2, 3)}$
+  - $t(R_1) union t(R_2) = {pair(1, 2), pair(2, 3)}$
 
   Since $pair(1, 3) in t(R_1 union R_2)$ but $pair(1, 3) notin t(R_1) union t(R_2)$, we have:
   $ t(R_1 union R_2) != t(R_1) union t(R_2) $
 
   However: $t(R_1) union t(R_2) subset.eq t(R_1 union R_2)$ always holds.
 ]
+
+#pagebreak()
 
 #example[Computing equivalence classes from closure][
   Let $M = {1, 2, 3, 4, 5}$ and $R = {pair(1, 3), pair(2, 4), pair(4, 5)}$.
@@ -887,6 +891,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   This partitions $M$ into ${{1, 3}, {2, 4, 5}}$.
 ]
+
+#pagebreak()
 
 #example[Closure in directed acyclic graphs (DAGs)][
   Consider a dependency graph where $R = {pair("A", "B"), pair("B", "C"), pair("A", "D"), pair("D", "C")}$ represents "depends on" relationships.
