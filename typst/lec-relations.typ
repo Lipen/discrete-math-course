@@ -754,9 +754,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #example[Warshall's algorithm step-by-step][
-  Let $M = {1, 2, 3, 4}$ with relation matrix:
+  Let $X = {1, 2, 3, 4}$ and relation $R$ with matrix:
   $
-    M^((0)) = natrix.bnat(
+    matrel(R) = M^((0)) = natrix.bnat(
       0, 1, 0, 0;
       0, 0, 1, 0;
       0, 0, 0, 1;
