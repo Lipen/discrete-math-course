@@ -164,6 +164,65 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   draw-edge("1", "3", [$1 rel(R) 3$], "south")
 })
 
+#pagebreak()
+
+#definition[
+  A heterogeneous relation $R subset.eq A times B$ can be represented as a _bipartite graph_ where:
+  - Vertices in one partition correspond to elements of $A$
+  - Vertices in the other partition correspond to elements of $B$
+  - There is a directed edge from $a in A$ to $b in B$ if $a rel(R) b$, i.e. $pair(a, b) in R$
+]
+
+#example[
+  For $A = {a, b, c}$, $B = {x, y}$, and $R = {pair(a, y), pair(b, x), pair(c, y)}$, the bipartite graph has vertices ${a, b, c}$ on one side and ${x, y}$ on the other side with directed edges $a to y$, $b to x$, and $c to y$.
+]
+
+#align(center)[
+#cetz.canvas({
+  import cetz: draw
+
+  let draw-vertex(pos, name, label, fill: none) = {
+    draw.circle(pos, radius: 0.3, stroke: 1pt, fill: fill, name: name)
+    draw.content(pos, label, anchor: "center")
+  }
+
+  let draw-edge(start, end, label: none, stroke: 2pt + blue) = {
+    draw.line(
+      start,
+      end,
+      stroke: stroke,
+      mark: (end: "stealth", fill: stroke.paint),
+    )
+    if label != none {
+      draw.content(
+        (start, 50%, end),
+        text(fill: stroke.paint)[#label],
+        anchor: "center",
+        padding: 0.1,
+      )
+    }
+  }
+
+  // Left partition (set A)
+  draw-vertex((-2, 1), "a", [$a$], fill: green.lighten(80%))
+  draw-vertex((-2, 0), "b", [$b$], fill: green.lighten(80%))
+  draw-vertex((-2, -1), "c", [$c$], fill: green.lighten(80%))
+
+  // Right partition (set B)
+  draw-vertex((2, 0.5), "x", [$x$], fill: orange.lighten(80%))
+  draw-vertex((2, -0.5), "y", [$y$], fill: orange.lighten(80%))
+
+  // Edges representing the relation R
+  draw-edge("a", "y")
+  draw-edge("b", "x")
+  draw-edge("c", "y")
+
+  // Set labels
+  draw.content((-2, 1.8), text(fill: green.darken(20%), weight: "bold")[$A$], anchor: "center")
+  draw.content((2, 1.3), text(fill: orange.darken(20%), weight: "bold")[$B$], anchor: "center")
+})
+]
+
 == Matrix Representation
 
 #definition[
