@@ -145,15 +145,36 @@ The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ i
 + Prove that $equinumerous$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
 + Find the quotient set of $power({a,b,c,d})$ by $equinumerous$.
 
-#block(sticky: true)[*Part (b): Student Course Enrollment*]
+#block(sticky: true)[*Part (b): Musical Harmony*]
 
-A university tracks student course enrollments.
-Students are considered "academically similar" if they share at least 60% of their courses.
-Let $S_1 = {"Math", "CS", "Physics"}$, $S_2 = {"Math", "CS", "Biology"}$, $S_3 = {"Math", "Physics", "Chemistry"}$, $S_4 = {"CS", "Biology", "Statistics"}$.
+In music theory, notes are related by _harmonic intervals_.
+We'll explore two types of musical relations: pitch equivalence and harmonic consonance.
 
-+ Define this as a formal relation using the Jaccard index.
-+ Determine if this relation is an equivalence relation.
-+ Find all equivalence classes if it exists, or explain why it doesn't.
+Consider the chromatic scale: $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"sharp, "B"}$ (12 notes).
+
+Define the _pitch class_ relation $P$ where $x rel(P) y$ if notes $x$ and $y$ have the same pitch class (i.e., they differ by a multiple of 12 semitones, or octaves).
+
+For example: $C rel(P) C$ (same note), and if we extended beyond one octave, $C rel(P) C'$ (where $C'$ is C one octave higher).
+
+Now define the _perfect harmony_ relation $H$ where $x rel(H) y$ if the interval between notes $x$ and $y$ is a unison (0 semitones), perfect fifth (7 semitones), or perfect fourth (5 semitones).
+
+For example: $C rel(H) C$ (unison), $C rel(H) G$ (perfect fifth), $C rel(H) F$ (perfect fourth).
+
++ Show that $P$ is an equivalence relation by verifying reflexivity, symmetry, and transitivity.
+  Find all equivalence classes under $P$.
+
++ Analyze the relation $H$:
+  - Is $H$ reflexive? Symmetric? Transitive?
+  - Give a specific counterexample if some property fails.
+  - What type of relation is $H$?
+
++ *Harmonic closure analysis:* The _harmonic closure_ $H^*$ is the smallest equivalence relation containing $H$.
+  - Since $H$ is not transitive, we need to "close" it by adding all missing transitive connections.
+  - Start by exploring: if C relates to G (perfect fifth), and G relates to D (perfect fifth), what new relations must be added for transitivity?
+  - Continue this process systematically. Which notes can you reach from C through chains of perfect intervals?
+  - Compute the complete equivalence class $[C]$ under $H^*$. How many notes does it contain?
+  - How many total equivalence classes does $H^*$ have?
+  - *Musical interpretation:* In music theory, notes connected through chains of perfect fifths and fourths are considered to be in the same "harmonic family." Does your mathematical result align with the musical principle that all chromatic notes are harmonically related through such chains?
 
 
 == Problem 4: Similarity Networks and Tolerance Relations
