@@ -364,18 +364,15 @@ Provide clear justifications, including explicit bijections or diagonalization a
 
 Consider $H = {1,2,4,5,10,12,20}$ with divisibility relation $x R y$ iff $x | y$.
 
-+ Verify that $R$ is a partial order.
-+ Is $R$ a total order? Explain.
-+ Find all minimal, maximal, minimum, and maximum elements.
-+ Perform a topological sort of $H$.
-
-#block(sticky: true)[*Part (b): Graded Poset Visualization*]
-
 Define grading function $rho(n)$ to be the sum of exponents in prime factorization of $n$.
 For example: $rho(20) = rho(2^2 dot 5^1) = 2 + 1 = 3$.
 
++ Verify that $R$ is a partial order.
++ Is $R$ a total order? Explain.
 + Calculate $rho(n)$ for each $n in H$.
 + Draw the Hasse diagram for $pair(H, R)$ with elements arranged by grade $rho(n)$.
++ Find all minimal, maximal, minimum, and maximum elements, if they exist.
++ Perform a topological sort of $H$.
 + Identify all chains and antichains of maximum length.
 
 
