@@ -4,6 +4,7 @@ default:
 files := """
     syllabus.typ
     overview.typ
+    jaccard.typ
     hw1.typ
     hw1-ru.typ
     hw2.typ

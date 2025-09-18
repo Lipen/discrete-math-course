@@ -34,6 +34,7 @@ jobs:
 
       - run: typst compile --font-path ~/.fontist/fonts typst/syllabus.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/overview.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/jaccard.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-set-theory.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-relations.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-boolean-algebra.typ
