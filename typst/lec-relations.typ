@@ -591,25 +591,41 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[Step-by-step transitive closure computation][
   Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
 
-  *Step 1:* Compute $R^1 = R$.
-  $ R^1 = {pair(1, 2), pair(2, 3)} $
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([Step], [Description], [Result]),
+    [*Step 1:*],
+    [
+      Compute $R^1 = R$.
+    ],
+    [$R^1 = {pair(1, 2), pair(2, 3)}$],
 
-  *Step 2:* Compute $R^2 = R compose R$.
+    [*Step 2:*],
+    [
+      Compute $R^2 = R compose R$.
 
-  For $pair(a, c) in R^2$, we need $exists b: pair(a, b) in R and pair(b, c) in R$.
-  - $pair(1, 3) in R^2$ since $pair(1, 2) in R$ and $pair(2, 3) in R$
+      For $pair(a, c) in R^2$, we need $exists b: pair(a, b) in R and pair(b, c) in R$.
+      - $pair(1, 3) in R^2$ since $pair(1, 2) in R$ and $pair(2, 3) in R$
+    ],
+    [$R^2 = {pair(1, 3)}$],
 
-  $ R^2 = {pair(1, 3)} $
+    [*Step 3:*],
+    [
+      Compute $R^3 = R^2 compose R$.
 
-  *Step 3:* Compute $R^3 = R^2 compose R$.
+      For $pair(a, c) in R^3$, we need $exists b: pair(a, b) in R^2 and pair(b, c) in R$.
+      - No such pairs exist.
+    ],
+    [$R^3 = emptyset$],
 
-  For $pair(a, c) in R^3$, we need $exists b: pair(a, b) in R^2 and pair(b, c) in R$.
-  - No such pairs exist.
-
-  $ R^3 = emptyset $
-
-  *Step 4:* Form the transitive closure:
-  $ t(R) = R^1 union R^2 union R^3 = {pair(1, 2), pair(2, 3), pair(1, 3)} $
+    [*Step 4:*],
+    [
+      Form the transitive closure:
+      $t(R) = R^1 union R^2 union R^3$.
+    ],
+    [$t(R) = {pair(1, 2), pair(2, 3), pair(1, 3)}$],
+  )
 ]
 
 // #example[Transitive closure of a more complex relation][
