@@ -128,54 +128,56 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   For $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$, the graph has vertices ${1, 2, 3}$ and directed edges $1 to 2$, $2 to 3$, and $1 to 3$.
 ]
 
-#cetz.canvas({
-  import cetz: draw
+#align(center)[
+  #cetz.canvas({
+    import cetz: draw
 
-  let draw-vertex(pos, name, label) = {
-    draw.circle(pos, radius: 0.4, stroke: 1pt, name: name)
-    draw.content(pos, label, anchor: "center")
-  }
-
-  let draw-edge(start, end, label: none) = {
-    draw.line(
-      start,
-      end,
-      stroke: 2pt + blue,
-      mark: (end: "stealth", fill: blue),
-    )
-    if label != none {
-      assert(type(label) == dictionary)
-      let t = label.at("text")
-      let angle = label.at("angle", default: end)
-      let anchor = label.at("anchor", default: "south")
-      draw.content(
-        (start, 50%, end),
-        text(fill: blue)[#t],
-        angle: angle,
-        anchor: anchor,
-        padding: 0.2,
-      )
+    let draw-vertex(pos, name, label) = {
+      draw.circle(pos, radius: 0.4, stroke: 1pt, name: name)
+      draw.content(pos, label, anchor: "center")
     }
-  }
 
-  draw-vertex((0, 0), "1", [$1$])
-  draw-vertex((2, 0), "2", [$2$])
-  draw-vertex((1, 2), "3", [$3$])
+    let draw-edge(start, end, label: none) = {
+      draw.line(
+        start,
+        end,
+        stroke: 2pt + blue,
+        mark: (end: "stealth", fill: blue),
+      )
+      if label != none {
+        assert(type(label) == dictionary)
+        let t = label.at("text")
+        let angle = label.at("angle", default: end)
+        let anchor = label.at("anchor", default: "south")
+        draw.content(
+          (start, 50%, end),
+          text(fill: blue)[#t],
+          angle: angle,
+          anchor: anchor,
+          padding: 0.2,
+        )
+      }
+    }
 
-  draw-edge("1", "2", label: (
-    text: [$1 rel(R) 2$],
-    anchor: "north",
-  ))
-  draw-edge("2", "3", label: (
-    text: [$2 rel(R) 3$],
-    angle: "2",
-    anchor: "south",
-  ))
-  draw-edge("1", "3", label: (
-    text: [$1 rel(R) 3$],
-    anchor: "south",
-  ))
-})
+    draw-vertex((0, 0), "1", [$1$])
+    draw-vertex((2, 0), "2", [$2$])
+    draw-vertex((1, 2), "3", [$3$])
+
+    draw-edge("1", "2", label: (
+      text: [$1 rel(R) 2$],
+      anchor: "north",
+    ))
+    draw-edge("2", "3", label: (
+      text: [$2 rel(R) 3$],
+      angle: "2",
+      anchor: "south",
+    ))
+    draw-edge("1", "3", label: (
+      text: [$1 rel(R) 3$],
+      anchor: "south",
+    ))
+  })
+]
 
 #pagebreak()
 
