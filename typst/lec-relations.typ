@@ -649,6 +649,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - All three closures commute when applied together
 ]
 
+== Reflexive-Symmetric Closure
+
 #example[Reflexive-symmetric closure][
   Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
 
@@ -665,7 +667,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Both methods yield the same result, confirming commutativity.
 ]
 
-#pagebreak()
+== Reflexive-Transitive Closure
 
 #example[Reflexive-transitive closure (Kleene star)][
   Let $M = {a, b, c}$ and $R = {pair(a, b), pair(b, c)}$.
@@ -678,6 +680,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   This is equivalent to the _reflexive-transitive closure_, often denoted $R^*$ (Kleene star).
 ]
+
+== Equivalence Closure
 
 #example[Complete equivalence closure][
   Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(3, 4)}$.
