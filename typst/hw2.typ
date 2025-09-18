@@ -201,14 +201,15 @@ Consider six researchers with expertise in the following areas:
 + Draw the collaboration network graph showing only $theta$-similar connections.
 + Identify all research clusters (connected components) in the network.
 
-*Part (b): $theta$-Relation Properties*
+#block(sticky: true)[*Part (b): $theta$-Relation Properties*]
+
 + Prove that $R_theta$ is a _tolerance relation_ for any $theta in [0,1]$ by showing it is reflexive and symmetric.
 + For the specific researcher data above, determine whether $R_(0.25)$ is transitive.
   If not, provide a counterexample showing where transitivity fails.
 + For which values of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary researcher expertise sets?
 + What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected (i.e., forms a single connected component)?
 
-*Part (c): Network Threshold Dynamics*
+#block(sticky: true)[*Part (c): Network Threshold Dynamics*]
 
 Real collaboration networks exhibit critical threshold phenomena: small changes in similarity requirements can dramatically restructure the entire network.
 
@@ -229,7 +230,7 @@ Real collaboration networks exhibit critical threshold phenomena: small changes 
 
 == Problem 5: Matrix Representations and Boolean Algebra
 
-*Part (a): Boolean Matrix Operations*
+#block(sticky: true)[*Part (a): Boolean Matrix Operations*]
 
 Any relation $R subset.eq M^2$ can be represented as a boolean matrix $[r_(i j)]$ where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$.
 
@@ -243,7 +244,7 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
     natrix.bnat(0, 1, 1; 1, 0, 1; 0, 1, 0)
   $
 
-*Part (b): Transitive Closure*
+#block(sticky: true)[*Part (b): Transitive Closure*]
 
 *Definition:* #h(.2em) $R^+ = union.big_(n=1)^infinity R^n$ is a _transitive closure_ of relation $R subset.eq M^2$, where:
 - $R^1 = R$
@@ -258,7 +259,7 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 
 == Problem 6: Proof Validation and Counterexamples
 
-*Part (a): Find the Error*
+#block(sticky: true)[*Part (a): Find the Error*]
 
 Critique the following "proof":
 
@@ -269,7 +270,7 @@ _"Proof":_ Let $a in A$. Take $b in A$ such that $pair(a, b) in R$. Since $R$ is
 + Identify the logical error.
 + Provide a counterexample showing a symmetric, transitive relation that isn't reflexive.
 
-*Part (b): Closure Operations*
+#block(sticky: true)[*Part (b): Closure Operations*]
 
 Find a relation $R$ on ${a,b,c}$ such that the symmetric closure of the reflexive closure of the transitive closure of $R$ is _not_ transitive.
 
@@ -324,11 +325,11 @@ Example colorings related by $R$:
 
 == Problem 8: Composition Properties
 
-*Part (a): Composition of Relations*
+#block(sticky: true)[*Part (a): Composition of Relations*]
 
 For relations $R subset.eq A times B$ and $S subset.eq B times C$, prove: $(S compose R)^(-1) = R^(-1) compose S^(-1)$.
 
-*Part (b): Function Composition*
+#block(sticky: true)[*Part (b): Function Composition*]
 
 For functions $f: A -> B$ and $g: B -> C$, analyze composition properties:
 
@@ -358,7 +359,7 @@ Provide clear justifications, including explicit bijections or diagonalization a
 
 == Problem 10: Partial Orders and Hasse Diagrams
 
-*Part (a): Divisibility Poset*
+#block(sticky: true)[*Part (a): Divisibility Poset*]
 
 Consider $H = {1,2,4,5,10,12,20}$ with divisibility relation $x R y$ iff $x | y$.
 
@@ -367,7 +368,7 @@ Consider $H = {1,2,4,5,10,12,20}$ with divisibility relation $x R y$ iff $x | y$
 + Find all minimal, maximal, minimum, and maximum elements.
 + Perform a topological sort of $H$.
 
-*Part (b): Graded Poset Visualization*
+#block(sticky: true)[*Part (b): Graded Poset Visualization*]
 
 Define grading function $rho(n)$ to be the sum of exponents in prime factorization of $n$.
 For example: $rho(20) = rho(2^2 dot 5^1) = 2 + 1 = 3$.
@@ -379,7 +380,7 @@ For example: $rho(20) = rho(2^2 dot 5^1) = 2 + 1 = 3$.
 
 == Problem 11: Advanced Topics
 
-*Part (a): Well-Founded Relations*
+#block(sticky: true)[*Part (a): Well-Founded Relations*]
 
 A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing chains.
 
@@ -389,7 +390,7 @@ A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing ch
 + What about finite strings vs. infinite strings?
 + Construct a poset that is well-founded but not well-ordered.
 
-*Part (b): Partition Lattices*
+#block(sticky: true)[*Part (b): Partition Lattices*]
 
 For a set $S$, define refinement relation $prec.eq$ on partitions: $P_1 prec.eq P_2$ if every block of $P_1$ is contained in some block of $P_2$.
 
