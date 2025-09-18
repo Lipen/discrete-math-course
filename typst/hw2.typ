@@ -168,13 +168,14 @@ For example: $C rel(H) C$ (unison), $C rel(H) G$ (perfect fifth), $C rel(H) F$ (
   - Give a specific counterexample if some property fails.
   - What type of relation is $H$?
 
-+ *Harmonic closure analysis:* The _harmonic closure_ $H^*$ is the smallest equivalence relation containing $H$.
++ The _harmonic closure_ $H^*$ is the smallest equivalence relation containing $H$.
   - Since $H$ is not transitive, we need to "close" it by adding all missing transitive connections.
   - Start by exploring: if C relates to G (perfect fifth), and G relates to D (perfect fifth), what new relations must be added for transitivity?
   - Continue this process systematically. Which notes can you reach from C through chains of perfect intervals?
   - Compute the complete equivalence class $[C]$ under $H^*$. How many notes does it contain?
   - How many total equivalence classes does $H^*$ have?
-  - *Musical interpretation:* In music theory, notes connected through chains of perfect fifths and fourths are considered to be in the same "harmonic family." Does your mathematical result align with the musical principle that all chromatic notes are harmonically related through such chains?
+  - *Interpretation:* In music theory, notes connected through chains of perfect fifths and fourths are considered to be in the same "harmonic family."
+    Does your mathematical result align with the musical principle that all chromatic notes are harmonically related through such chains?
 
 
 == Problem 4: Similarity Networks and Tolerance Relations
