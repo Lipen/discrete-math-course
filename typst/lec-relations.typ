@@ -136,32 +136,45 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw.content(pos, label, anchor: "center")
   }
 
-  let draw-edge(start, end, label, anchor, angle: none) = {
-    if angle == none {
-      angle = end
-    }
+  let draw-edge(start, end, label: none) = {
     draw.line(
       start,
       end,
       stroke: 2pt + blue,
       mark: (end: "stealth", fill: blue),
     )
-    draw.content(
-      (start, 50%, end),
-      text(fill: blue)[#label],
-      angle: angle,
-      anchor: anchor,
-      padding: 0.2,
-    )
+    if label != none {
+      assert(type(label) == dictionary)
+      let t = label.at("text")
+      let angle = label.at("angle", default: end)
+      let anchor = label.at("anchor", default: "south")
+      draw.content(
+        (start, 50%, end),
+        text(fill: blue)[#t],
+        angle: angle,
+        anchor: anchor,
+        padding: 0.2,
+      )
+    }
   }
 
   draw-vertex((0, 0), "1", [$1$])
   draw-vertex((2, 0), "2", [$2$])
   draw-vertex((1, 2), "3", [$3$])
 
-  draw-edge("1", "2", [$1 rel(R) 2$], "north")
-  draw-edge("2", "3", [$2 rel(R) 3$], "south", angle: "2")
-  draw-edge("1", "3", [$1 rel(R) 3$], "south")
+  draw-edge("1", "2", label: (
+    text: [$1 rel(R) 2$],
+    anchor: "north",
+  ))
+  draw-edge("2", "3", label: (
+    text: [$2 rel(R) 3$],
+    angle: "2",
+    anchor: "south",
+  ))
+  draw-edge("1", "3", label: (
+    text: [$1 rel(R) 3$],
+    anchor: "south",
+  ))
 })
 
 #pagebreak()
@@ -178,49 +191,49 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #align(center)[
-#cetz.canvas({
-  import cetz: draw
+  #cetz.canvas({
+    import cetz: draw
 
-  let draw-vertex(pos, name, label, fill: none) = {
-    draw.circle(pos, radius: 0.3, stroke: 1pt, fill: fill, name: name)
-    draw.content(pos, label, anchor: "center")
-  }
-
-  let draw-edge(start, end, label: none, stroke: 2pt + blue) = {
-    draw.line(
-      start,
-      end,
-      stroke: stroke,
-      mark: (end: "stealth", fill: stroke.paint),
-    )
-    if label != none {
-      draw.content(
-        (start, 50%, end),
-        text(fill: stroke.paint)[#label],
-        anchor: "center",
-        padding: 0.1,
-      )
+    let draw-vertex(pos, name, label, fill: none) = {
+      draw.circle(pos, radius: 0.3, stroke: 1pt, fill: fill, name: name)
+      draw.content(pos, label, anchor: "center")
     }
-  }
 
-  // Left partition (set A)
-  draw-vertex((-2, 1), "a", [$a$], fill: green.lighten(80%))
-  draw-vertex((-2, 0), "b", [$b$], fill: green.lighten(80%))
-  draw-vertex((-2, -1), "c", [$c$], fill: green.lighten(80%))
+    let draw-edge(start, end, label: none, stroke: 2pt + blue) = {
+      draw.line(
+        start,
+        end,
+        stroke: stroke,
+        mark: (end: "stealth", fill: stroke.paint),
+      )
+      if label != none {
+        draw.content(
+          (start, 50%, end),
+          text(fill: stroke.paint)[#label],
+          anchor: "center",
+          padding: 0.1,
+        )
+      }
+    }
 
-  // Right partition (set B)
-  draw-vertex((2, 0.5), "x", [$x$], fill: orange.lighten(80%))
-  draw-vertex((2, -0.5), "y", [$y$], fill: orange.lighten(80%))
+    // Left partition (set A)
+    draw-vertex((-2, 1), "a", [$a$], fill: green.lighten(80%))
+    draw-vertex((-2, 0), "b", [$b$], fill: green.lighten(80%))
+    draw-vertex((-2, -1), "c", [$c$], fill: green.lighten(80%))
 
-  // Edges representing the relation R
-  draw-edge("a", "y")
-  draw-edge("b", "x")
-  draw-edge("c", "y")
+    // Right partition (set B)
+    draw-vertex((2, 0.5), "x", [$x$], fill: orange.lighten(80%))
+    draw-vertex((2, -0.5), "y", [$y$], fill: orange.lighten(80%))
 
-  // Set labels
-  draw.content((-2, 1.8), text(fill: green.darken(20%), weight: "bold")[$A$], anchor: "center")
-  draw.content((2, 1.3), text(fill: orange.darken(20%), weight: "bold")[$B$], anchor: "center")
-})
+    // Edges representing the relation R
+    draw-edge("a", "y")
+    draw-edge("b", "x")
+    draw-edge("c", "y")
+
+    // Set labels
+    draw.content((-2, 1.8), text(fill: green.darken(20%), weight: "bold")[$A$], anchor: "center")
+    draw.content((2, 1.3), text(fill: orange.darken(20%), weight: "bold")[$B$], anchor: "center")
+  })
 ]
 
 == Matrix Representation
