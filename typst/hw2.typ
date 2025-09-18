@@ -187,13 +187,13 @@ $
 $
 where $A$ and $B$ represent the sets of expertise areas for each researcher.
 
-Consider six researchers with expertise:
-- Lai: ${ "Bioinformatics", "Databases", "Graphs", "HPC" }$
-- Shi: ${ "Cryptography", "Embedded", "FPGA", "IoT" }$
-- Qiu: ${ "Algorithms", "Bioinformatics", "Cryptography" }$
-- Wei: ${ "Algorithms", "Databases", "Graphs", "HPC" }$
-- Xin: ${ "Algorithms", "Databases", "Embedded" }$
-- Zhu: ${ "Cryptography", "Databases", "FPGA", "IoT" }$
+Consider six researchers with expertise in the following areas:
+- Lai: ${ "Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases" }$
+- Shi: ${ "Internet of Things", "Cryptography", "Formal Methods", "Embedded" }$
+- Qiu: ${ "Cryptography", "Algorithms", "Bioinformatics" }$
+- Wei: ${ "High-Performance Computing", "Databases", "Graph Theory", "Algorithms" }$
+- Xin: ${ "Embedded", "Algorithms", "Databases" }$
+- Zhu: ${ "Formal Methods", "Internet of Things", "Cryptography", "Databases" }$
 
 *Part (a):* For $theta = 0.25$:
 + Calculate all pairwise Jaccard similarities $Jaccard(A, B)$.
