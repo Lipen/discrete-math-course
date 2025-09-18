@@ -202,7 +202,7 @@ $
 
 + Calculate $Jaccard(X, Y)$ and $JaccardDist(X, Y)$ for all pairs among users.
 + Determine which pair is most similar and which is most dissimilar.
-+ Draw a social network graph with users as nodes and edges weighted by Jaccard similarity.
++ Draw a social network graph with users as nodes and edges weighted by Jaccard similarity, excluding edges with weight 0.
 + Build $G_(0.25)$: the graph with edges where Jaccard similarity $>= 0.25$.
   List all connected components.
 
