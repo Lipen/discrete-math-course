@@ -907,14 +907,55 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   In software build systems, this helps determine the complete dependency tree.
 ]
 
-#Block(color: green)[
-  *Real-world applications of relation closures:*
+#pagebreak()
 
-  - *Reflexive closure*: Adding self-permissions in access control systems.
-  - *Symmetric closure*: Creating bidirectional relationships (friendship, equivalence).
-  - *Transitive closure*: Finding all reachable nodes in graphs, computing ancestor-descendant relationships.
-  - *Equivalence closure*: Partitioning data into similarity classes, creating canonical representations.
-]
+== When Relation Closures Actually Matter
+
+#grid(
+  columns: 2,
+  column-gutter: .8em,
+  row-gutter: .8em,
+
+  Block(color: blue.lighten(50%))[
+    #text(
+      size: 1.2em,
+      weight: "bold",
+      fill: blue.darken(20%),
+    )[🎬 Netflix Knows You Too Well]
+
+    *Transitive closure* powers recommendation systems and social networks:
+    - You like movie A, Alice likes A and B, so you might like B.
+    - Chain reactions: A $to$ B $to$ C $to$ D discovers surprising connections.
+
+    #text(size: 0.8em, style: "italic")[
+      That creepy moment when Netflix suggests something perfect?
+      That's transitive closure finding paths through millions of user preferences.
+    ]
+  ],
+
+  Block(color: green.lighten(50%))[
+    #text(
+      size: 1.2em,
+      weight: "bold",
+      fill: green.darken(20%),
+    )[💸 How Money Actually Moves]
+
+    *Transitive closure* tracks financial flows:
+    - You pay bank $arrow.double$ bank pays merchant $arrow.double$ merchant pays supplier.
+    - Money laundering detection: hidden chains of transactions.
+
+    #text(size: 0.8em, style: "italic")[
+      Banks use this to catch criminals who try to hide money through complex chains of fake transactions.
+    ]
+  ],
+
+  grid.cell(colspan: 2)[
+    #Block(color: orange.lighten(50%))[
+      *Key insight:*
+      If you can get from $A$ to $C$ by going through $B$, then _transitive closure_ provides the _direct_ $A to C$ relation --- whether it's movies, money, friends, or malware.
+    ]
+  ],
+)
 
 
 #focus-slide(
