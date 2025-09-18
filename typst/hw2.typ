@@ -104,13 +104,13 @@ Given these specific relations:
 
 #block(sticky: true)[*Part (a): Relation Operations*]
 
++ Find the _mutual connections_ $B = F union (L inter L^(-1))$.
+  What does $L inter L^(-1)$ represent?
 + Compute the _influence chain_ $I = L compose T$. List all pairs in $I$.
 + Compute the _trust chain_ $J = T compose L$. List all pairs in $J$.
 + Compare $I$ and $J$. What do they represent?
-  What does $L inter L^(-1)$ represent?
 + Determine if there exists an _influencer_ --- a user to whom all other users are connected in $L union I$.
 + Determine if there exists a _trust hub_ --- a user to whom all other users are connected in $T union J$.
-+ Find the _mutual connections_ $B = F union (L inter L^(-1))$.
 
 #block(sticky: true)[*Part (b): Property Preservation*]
 
