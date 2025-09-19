@@ -168,7 +168,7 @@ Consider six researchers with expertise in the following areas:
 *Part (a):* For $theta = 0.25$:
 + Calculate all pairwise Jaccard similarities $Jaccard(A, B)$.
 + Determine which pairs are $theta$-similar (i.e., have Jaccard similarity $>= 0.25$).
-+ Draw the collaboration network graph showing only $theta$-similar connections.
++ Draw the collaboration network graph $G_theta$ showing only $theta$-similar connections.
 + Identify all research clusters (connected components) in the network.
 
 #block(sticky: true)[*Part (b): $theta$-Relation Properties*]
