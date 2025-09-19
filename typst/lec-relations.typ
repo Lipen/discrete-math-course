@@ -345,6 +345,16 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   _irreflexive_ + _antisymmetric_ = _asymmetric_.
 ]
 
+== Notes on Properties
+
+- Reflexivity and irreflexivity are _not_ mutually exclusive if $M = emptyset$ (both are _vacuously_#footnote[
+  A statement "for all $x$ in emptyset, $P(x)$" is considered #True because there are _no counterexamples_ in the empty set.
+] #True).
+
+- Symmetry and antisymmetry are _not_ mutually exclusive (e.g. identity relation).
+
+- Asymmetry implies irreflexivity and antisymmetry.
+
 == Additional Properties
 
 #definition[
