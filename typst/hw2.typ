@@ -352,7 +352,9 @@ Consider the chromatic scale: $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"s
 
 Define the _harmonic precedence_ relation $prec.eq$ where $x prec.eq y$ if note $x$ has equal or higher harmonic priority than note $y$ in the circle of fifths ordering, starting from C.
 
-The circle of fifths gives us the ordering:
+The circle of fifths gives us the ordering#footnote[
+  Here, we ignore the octave repetition and omit the circular relation $F prec.eq C$.
+]:
 $
   "C" prec.eq "G" prec.eq "D" prec.eq "A" prec.eq "E" prec.eq "B" prec.eq "F"sharp prec.eq "C"sharp prec.eq "G"sharp prec.eq "D"sharp prec.eq "A"sharp prec.eq "F"
 $
