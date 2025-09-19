@@ -145,38 +145,6 @@ The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ i
 + Prove that $equinumerous$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
 + Find the quotient set of $power({a,b,c,d})$ by $equinumerous$.
 
-#block(sticky: true)[*Part (b): Musical Harmony*]
-
-In music theory, notes are related by _harmonic intervals_.
-We'll explore two types of musical relations: pitch equivalence and harmonic consonance.
-
-Consider the chromatic scale: $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"sharp, "B"}$ (12 notes).
-
-Define the _pitch class_ relation $P$ where $x rel(P) y$ if notes $x$ and $y$ have the same pitch class (i.e., they differ by a multiple of 12 semitones, or octaves).
-
-For example: $C rel(P) C$ (same note), and if we extended beyond one octave, $C rel(P) C'$ (where $C'$ is C one octave higher).
-
-Now define the _perfect harmony_ relation $H$ where $x rel(H) y$ if the interval between notes $x$ and $y$ is a unison (0 semitones), perfect fifth (7 semitones), or perfect fourth (5 semitones).
-
-For example: $C rel(H) C$ (unison), $C rel(H) G$ (perfect fifth), $C rel(H) F$ (perfect fourth).
-
-+ Show that $P$ is an equivalence relation by verifying reflexivity, symmetry, and transitivity.
-  Find all equivalence classes under $P$.
-
-+ Analyze the relation $H$:
-  - Is $H$ reflexive? Symmetric? Transitive?
-  - Give a specific counterexample if some property fails.
-  - What type of relation is $H$?
-
-+ The _harmonic closure_ $H^*$ is the smallest equivalence relation containing $H$.
-  - Since $H$ is not transitive, we need to "close" it by adding all missing transitive connections.
-  - Start by exploring: if C relates to G (perfect fifth), and G relates to D (perfect fifth), what new relations must be added for transitivity?
-  - Continue this process systematically. Which notes can you reach from C through chains of perfect intervals?
-  - Compute the complete equivalence class $[C]$ under $H^*$. How many notes does it contain?
-  - How many total equivalence classes does $H^*$ have?
-  - *Interpretation:* In music theory, notes connected through chains of perfect fifths and fourths are considered to be in the same "harmonic family."
-    Does your mathematical result align with the musical principle that all chromatic notes are harmonically related through such chains?
-
 
 == Problem 4: Similarity Networks and Tolerance Relations
 
@@ -369,11 +337,57 @@ For example: $rho(20) = rho(2^2 dot 5^1) = 2 + 1 = 3$.
 
 + Verify that $R$ is a partial order.
 + Is $R$ a total order? Explain.
-+ Calculate $rho(n)$ for each $n in H$.
 + Draw the Hasse diagram for $pair(H, R)$ with elements arranged by grade $rho(n)$.
 + Find all minimal, maximal, minimum, and maximum elements, if they exist.
 + Perform a topological sort of $H$.
-+ Identify all chains and antichains of maximum length.
+// + Identify all chains and antichains of maximum length.
+
+
+#block(sticky: true)[*Part (b): Harmonic Ordering*]
+
+In music theory, notes can be ordered by their _harmonic tension_ and _consonance hierarchy_.
+We'll explore ordering relations based on harmonic principles.
+
+Consider the chromatic scale: $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"sharp, "B"}$ (12 notes).
+
+Define the _harmonic precedence_ relation $prec.eq$ where $x prec.eq y$ if note $x$ has equal or higher harmonic priority than note $y$ in the circle of fifths ordering, starting from C.
+
+The circle of fifths gives us the ordering:
+$
+  "C" prec.eq "G" prec.eq "D" prec.eq "A" prec.eq "E" prec.eq "B" prec.eq "F"sharp prec.eq "C"sharp prec.eq "G"sharp prec.eq "D"sharp prec.eq "A"sharp prec.eq "F"
+$
+
+Define the _consonance dominance_ relation $triangle.l$ where $x triangle.l y$ if note $x$ is more consonant than note $y$ relative to C, based on harmonic interval theory.
+Each consonance level dominates all levels below it in the hierarchy:
+- Perfect unison: $"C"$ (0 semitones --- most consonant)
+- Perfect consonances: $"G"$ (perfect 5th, 7 semitones) and F (perfect 4th, 5 semitones)
+- Major consonances: $"E"$ (major 3rd, 4 semitones) and $"A"$ (major 6th, 9 semitones)
+- Minor consonances: $"D"$ (major 2nd, 2 semitones) and $"B"$ (major 7th, 11 semitones)
+- Mild dissonances: $"C"sharp$, $"D"sharp$, $"G"sharp$, $"A"sharp$
+- Maximum dissonance: $"F"sharp$ (tritone, 6 semitones)
+
++ Verify that $prec.eq$ is a partial order on $N$ by checking reflexivity, antisymmetry, and transitivity.
+// Draw the Hasse diagram for this harmonic precedence ordering.
+
++ Analyze the consonance dominance relation $triangle.l$:
+  - Is $triangle.l$ reflexive? Antisymmetric? Transitive? Partial order?
+  - Draw the Hasse diagram for $pair(N, triangle.l)$, arranging notes by consonance levels.
+  - Identify all maximal and minimal elements under $triangle.l$.
+
+#let steps = $Delta$
+
++ Consider the _circle of fifths distance_ ordering $d$ where $x rel(d) y$ iff $steps("C", x) <= steps("C", y)$, where $steps("C", z)$ is the minimum number of perfect fifth steps needed to reach note $z$ from C in the circle of fifths.
+
+  For example: $steps("C", "C") = 0$, $steps("C", "D") = 2$, $steps("C", "F"sharp) = 6$, $steps("C", "F") = 1$ (backwards), etc.
+
+  - Prove that $d$ defines a partial order on $N$.
+  - Find all elements that are comparable to C under this ordering.
+  - What is the greatest lower bound (infimum) of the set ${"G", "F"}$ under this ordering?
+
+// + Construct the _lexicographic harmonic ordering_ $prec.eq_"lex"$ by first ordering by consonance level, then by position in circle of fifths for ties.
+//   - Show this gives a total order on $N$.
+//   - List the first 6 elements in this total ordering.
+//   - Find the unique minimal and maximal elements.
 
 
 == Problem 11: Advanced Topics
