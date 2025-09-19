@@ -1197,7 +1197,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - The set $A$ is called the _domain_ of $f$, denoted $Dom(f)$.
   - The set $B$ is called the _codomain_ of $f$, denoted $Cod(f)$.
   - The _range_ (or _image_) of $f$ is the set of all values that $f$ actually takes:
-    $ Range(f) = { b in B | exists a in A, f(a) = b } = { f(a) | a in A } $
+    $
+      Range(f) = { b in B | exists a in A. thin f(a) = b } = { f(a) | a in A }
+    $
 
     #note[
       $Range(f) subset.eq Cod(f)$
