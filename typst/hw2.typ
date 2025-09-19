@@ -372,7 +372,7 @@ Each consonance level dominates all levels below it in the hierarchy:
 - Mild dissonances: $"C"sharp$, $"D"sharp$, $"G"sharp$, $"A"sharp$
 - Maximum dissonance: $"F"sharp$ (tritone, 6 semitones)
 
-+ Verify that $prec.eq$ is a partial order on $N$ by checking reflexivity, antisymmetry, and transitivity.
++ Verify that $prec.eq$ is a partial order by checking reflexivity, antisymmetry, and transitivity.
 // Draw the Hasse diagram for this harmonic precedence ordering.
 
 + Analyze the consonance dominance relation $triangle.l$:
