@@ -61,7 +61,7 @@
   columns(cols, gutter: 1em)[#body]
 }
 
-== Problem 1: Relation Properties Analysis
+== Problem 1: Relation Properties
 
 For each relation below, determine whether it is _reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, left/right Euclidean, connex_.
 Organize your findings in a table and provide counterexamples for properties that don't hold.
@@ -137,6 +137,7 @@ Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^
 
 == Problem 3: Equivalence Relations and Quotient Sets
 
+// TODO: either add more parts, or omit the single "part"
 #block(sticky: true)[*Part (a): Equinumerosity Relation*]
 
 The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ iff $card(A) = card(B)$.
@@ -197,6 +198,7 @@ Real collaboration networks exhibit critical threshold phenomena: small changes 
   Determine which researcher's absence results in the maximum number of connected components, and justify your answer using graph connectivity principles.
 
 
+// TODO: rename
 == Problem 5: Matrix Representations and Boolean Algebra
 
 #block(sticky: true)[*Part (a): Boolean Matrix Operations*]
@@ -226,6 +228,7 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 // TODO: Warshall-like algorithm with boolean matrices
 
 
+// TODO: rename
 == Problem 6: Proof Validation and Counterexamples
 
 #block(sticky: true)[*Part (a): Find the Error*]
@@ -246,7 +249,8 @@ Find a relation $R$ on ${a,b,c}$ such that the symmetric closure of the reflexiv
 // *Hint:* Work backwards --- start with a non-transitive relation and see what $R$ could produce it.
 
 
-== Problem 7: Geometric Transformations
+// TODO: remove this problem
+== #strike[Problem 7: Geometric Transformations]
 
 Consider all colorings of a $2 times 2$ checkerboard using red (#Red[$square.filled$]) and blue (#Blue[$square.filled$]) squares.
 Let $R$ relate two colorings if one can be obtained from the other by rotation (90°, 180°, 270°) or reflection.
@@ -392,6 +396,7 @@ Each consonance level dominates all levels below it in the hierarchy:
 //   - Find the unique minimal and maximal elements.
 
 
+// TODO: rename or split
 == Problem 11: Advanced Topics
 
 #block(sticky: true)[*Part (a): Well-Founded Relations*]
@@ -404,6 +409,7 @@ A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing ch
 + What about finite strings vs. infinite strings?
 + Construct a poset that is well-founded but not well-ordered.
 
+// TODO: consider renaming to "Refinement Lattices"
 #block(sticky: true)[*Part (b): Partition Lattices*]
 
 For a set $S$, define refinement relation $prec.eq$ on partitions: $P_1 prec.eq P_2$ if every block of $P_1$ is contained in some block of $P_2$.
