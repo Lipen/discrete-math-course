@@ -1168,16 +1168,24 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A _function_ $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a special kind of relation $f subset.eq A times B$ where every element of $A$ is paired with _exactly one_ element of $B$.
 
   This means two conditions must hold:
-  + _Functional (left-total)_:
-    For every $a in A$, there is _at least one_ pair $pair(a, b)$ in $f$.
-    $ forall a in A, exists b in B: pair(a, b) in f $
-  + _Serial (right-unique)_:
+  + _Functional (right-unique)_:
     For every $a in A$, there is _at most one_ pair $pair(a, b)$ in $f$.
-    $ (pair(a, b_1) in f and pair(a, b_2) in f) ==> b_1 = b_2 $
+    $
+      forall a in A. thin
+      forall b_1, b_2 in B. thin
+      (f(a) = b_1) and (f(a) = b_2) imply (b_1 = b_2)
+    $
+  + _Serial (left-total)_:
+    For every $a in A$, there is _at least one_ pair $pair(a, b)$ in $f$.
+    $
+      forall a in A. thin
+      exists b in B. thin
+      f(a) = b
+    $
 ]
 
 #definition[
-  A relation that satisfies the functional (left-total) property is called a _partial function_.
+  A relation that satisfies the _functional_ property is called a _partial function_.
 
   A relation that satisfies _both_ properties is called a _total function_, or simply a _function_.
 ]
