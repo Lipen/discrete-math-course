@@ -189,7 +189,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #example[
-  For animals $A = {#emoji.cat, #emoji.dog, #emoji.rabbit}$, food $B = {#emoji.carrot, #emoji.glass.milk}$, and relation $R$ = "likes to eat", we have the bipartite graph with animal vertices on one side and food vertices on the other side with four edges.
+  For animals $A = {#emoji.rabbit, #emoji.cat, #emoji.dog}$, food $B = {#emoji.carrot, #emoji.glass.milk}$, and relation $R$ = "likes to eat", we have the bipartite graph with animal vertices on the left side and food vertices on the right side with four edges.
 ]
 
 #align(center)[
@@ -219,9 +219,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     }
 
     // Left partition (animals)
-    draw-vertex((-2.5, 1), "cat", [$#emoji.cat$], fill: green.lighten(80%))
-    draw-vertex((-2.5, 0), "dog", [$#emoji.dog$], fill: green.lighten(80%))
-    draw-vertex((-2.5, -1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
+    draw-vertex((-2.5, 1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
+    draw-vertex((-2.5, 0), "cat", [$#emoji.cat$], fill: green.lighten(80%))
+    draw-vertex((-2.5, -1), "dog", [$#emoji.dog$], fill: green.lighten(80%))
 
     // Right partition (food)
     draw-vertex((2.5, 0.7), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
