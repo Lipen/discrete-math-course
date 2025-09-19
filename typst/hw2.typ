@@ -181,21 +181,23 @@ Consider six researchers with expertise in the following areas:
 
 #block(sticky: true)[*Part (c): Network Threshold Dynamics*]
 
-Real collaboration networks exhibit critical threshold phenomena: small changes in similarity requirements can dramatically restructure the entire network.
++ *Threshold analysis:*
+  As $theta$ increases from 0 to 1, the collaboration network $R_theta$ loses edges and components split.
+  For the given researcher data, find all critical values of $theta$ where the number of connected components changes.
+  List these threshold values and determine the number of components at each stage.
 
-+ *Critical threshold analysis:*
-  As $theta$ increases from 0 to 1, the collaboration network loses edges and components merge or split.
-  Find all threshold values where the number of connected components changes.
-  Identify the critical threshold $theta^*$ where the network first disconnects, and describe how the component structure evolves at each transition.
++ *Diversity analysis:*
+  Define the _diversity index_ $d(X)$ of researcher $X$ as the number of expertise areas they have (i.e., $d(X) = card(X)$).
+  For each researcher, compute their diversity index $d(X)$ and their average Jaccard similarity with all other researchers:
+    $
+      overline(Jaccard)(X) = 1/n sum_(Y != X) Jaccard(X, Y)
+    $
 
-+ *Diversity vs. connectivity:*
-  Define each researcher's _diversity index_ as their number of expertise areas.
-  Calculate each researcher's diversity index and average Jaccard similarity with all others.
-  Determine the validity of the claim: "The researcher with the most expertise areas has the highest average Jaccard similarity."
+  Test the hypothesis that the researcher with maximum diversity index also has maximum average Jaccard similarity.
 
 + *Network resilience:*
-  If one researcher leaves the collaboration network, which departure causes the most fragmentation?
-  Determine which researcher's absence results in the maximum number of connected components, and justify your answer using graph connectivity principles.
+  If one researcher leaves the collaboration network, which absense causes the most fragmentation?
+  Determine the researcher whose removal results in the maximum number of connected components in the remaining network.
 
 
 // TODO: rename
