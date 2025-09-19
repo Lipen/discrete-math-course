@@ -1046,7 +1046,9 @@ Here, we use _circular reasoning_ to prove the triple equivalence: $(1) imply (2
   *Step 1 ($1 imply 2$):* Show $A subset.eq B union C imply A setminus C subset.eq B$.
 
   Suppose $A subset.eq B union C$.
-  Let $x in A setminus C$.
+
+  Let $x in A setminus C$ (left side of the conclusion).
+  We must show $x in B$ (right side of the conclusion).
   - By definition of set difference, $x in A$ and $x notin C$.
   - Since $A subset.eq B union C$, we have $x in B union C$.
   - Since $x in B union C$ and $x notin C$, we must have $x in B$.
@@ -1057,7 +1059,9 @@ Here, we use _circular reasoning_ to prove the triple equivalence: $(1) imply (2
 
   *Step 2 ($2 imply 3$):* Show $A setminus C subset.eq B imply A intersect overline(B) subset.eq C$.
 
-  Suppose $A setminus C subset.eq B$. Let $x in A intersect overline(B)$.
+  Suppose $A setminus C subset.eq B$.
+  Let $x in A intersect overline(B)$.
+  We must show $x in C$.
   - By definition of intersection, $x in A$ and $x in overline(B)$.
   - Since $x in overline(B)$, we have $x notin B$.
   - Since $x in A$ and $x notin B$, we have $x notin A setminus C$ (otherwise $x in B$ by our assumption).
@@ -1069,11 +1073,13 @@ Here, we use _circular reasoning_ to prove the triple equivalence: $(1) imply (2
 
   *Step 3 ($3 imply 1$):* Show $A intersect overline(B) subset.eq C imply A subset.eq B union C$.
 
-  Suppose $A intersect overline(B) subset.eq C$. Let $x in A$.
+  Suppose $A intersect overline(B) subset.eq C$.
+  Let $x in A$.
+  We must show $x in B union C$.
   - Either $x in B$ or $x notin B$.
-  - *Case 1:* If $x in B$, then $x in B union C$.
-  - *Case 2:* If $x notin B$, then $x in overline(B)$, so $x in A intersect overline(B)$.
-    By our assumption, $x in C$, hence $x in B union C$.
+    - *Case 1:* If $x in B$, then $x in B union C$.
+    - *Case 2:* If $x notin B$, then $x in overline(B)$, so $x in A intersect overline(B)$.
+      By our assumption, $x in C$, hence $x in B union C$.
 
   In both cases, $x in B union C$. Therefore, $A subset.eq B union C$.
 
