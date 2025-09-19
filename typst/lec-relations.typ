@@ -206,7 +206,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
         start,
         end,
         stroke: stroke,
-        // mark: (end: "stealth", fill: stroke.paint),
+        mark: (end: "stealth", fill: stroke.paint),
       )
       if label != none {
         draw.content(
