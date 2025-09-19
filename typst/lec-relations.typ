@@ -1257,7 +1257,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!]) if distinct elements in the domain map to distinct elements in the codomain.
   Formally:
   $
-    forall a_1, a_2 in A. thin (f(a_1) = f(a_2)) imply (a_1 = a_2)
+    forall a_1, a_2 in A. thin
+    (f(a_1) = f(a_2)) imply (a_1 = a_2)
   $
 ]
 
@@ -1315,7 +1316,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
   Formally:
   $
-    forall b in B. thin exists a in A. thin f(a) = b
+    forall b in B. thin
+    exists a in A. thin
+    f(a) = b
   $
 
   For surjective functions, $Range(f) = Cod(f)$, i.e., there are _no "uncovered"_ elements in the right side.
