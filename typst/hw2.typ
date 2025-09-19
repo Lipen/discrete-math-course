@@ -176,7 +176,7 @@ Consider six researchers with expertise in the following areas:
 + Prove that $R_theta$ is a _tolerance relation_ for any $theta in [0,1]$ by showing it is reflexive and symmetric.
 + For the specific researcher data above, determine whether $R_(0.25)$ is transitive.
   If not, provide a counterexample showing where transitivity fails.
-+ For which values of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary researcher expertise sets?
++ For which values of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary sets?
 + What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected (i.e., forms a single connected component)?
 
 #block(sticky: true)[*Part (c): Network Threshold Dynamics*]
