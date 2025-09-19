@@ -414,7 +414,7 @@ A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing ch
 
 For a set $S$, define refinement relation $prec.eq$ on partitions: $P_1 prec.eq P_2$ if every block of $P_1$ is contained in some block of $P_2$.
 
-+ Prove this forms a lattice.
++ Prove that $pair(power(S), prec.eq)$ is a lattice.
 + For $S = {a,b,c}$, draw the partition lattice.
 + Find the meet and join of partitions ${{a},{b,c}}$ and ${{a,b},{c}}$.
 
