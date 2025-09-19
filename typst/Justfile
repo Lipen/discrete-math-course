@@ -17,13 +17,21 @@ files := """
     lec-nfa.typ
     lec-regular.typ
     lec-combinatorics.typ
+    test1.typ
+    test2.typ
+    test3.typ
+    test4.typ
 """
 
 all:
     #!/usr/bin/env sh
     set -e
     for file in {{replace(files, "\n", ' ')}}; do
-        just compile $file
+        if [ -f $file ]; then
+            just compile $file
+        else
+            echo "File '$file' does not exist!"
+        fi
     done
 
 compile target:
