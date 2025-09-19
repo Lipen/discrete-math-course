@@ -418,7 +418,9 @@ For a set $S$, define refinement relation $prec.eq$ on partitions: $P_1 prec.eq 
 + For $S = {a,b,c}$, draw the partition lattice.
 + Find the meet and join of partitions ${{a},{b,c}}$ and ${{a,b},{c}}$.
 
-*Challenge:* Prove that every finite lattice is isomorphic to a sublattice of some partition lattice.
+*Challenge:*
+For $S = {a,b,c,d}$, determine how many distinct partition lattices exist and characterize their structure.
+Compare partition lattice to the Boolean lattice.
 
 
 #line(length: 100%, stroke: 0.4pt)
