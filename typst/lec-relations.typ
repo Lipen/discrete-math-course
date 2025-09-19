@@ -355,12 +355,12 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       forall x, y in M. thin (x rel(R) y) imply (x = y)
     $
 
-  - _Left Euclidean_ if whenever an element is related to two others, those two are related:
+  - _Right Euclidean_ if whenever an element is related to two others, those two are related:
     $
       forall x, y, z in M. thin (x rel(R) y and x rel(R) z) imply (y rel(R) z)
     $
 
-  - _Right Euclidean_ if whenever two elements are both related to a third, they are related to each other:
+  - _Left Euclidean_ if whenever two elements are both related to a third, they are related to each other:
     $
       forall x, y, z in M. thin (y rel(R) x and z rel(R) x) imply (y rel(R) z)
     $
