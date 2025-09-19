@@ -1086,9 +1086,10 @@ Here, we use _circular reasoning_ to prove the triple equivalence: $(1) imply (2
   Since we have shown $(1) imply (2) imply (3) imply (1)$, all three statements are equivalent.
 ]
 
-#Block[
-  You could use the different ordering to prove the equivalence, e.g., $1 imply 3 imply 2 imply 1$.
-  As long as you form a cycle, the equivalence holds.
+#Block(color: yellow)[
+  The _order of implications_ in circular proofs is flexible.
+  We could equally prove $(1) imply (3) imply (2) imply (1)$ or any other permutation.
+  The key is forming a _complete cycle_ where each statement implies the next.
 ]
 
 == Proof Writing Guidelines
