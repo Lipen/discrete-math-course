@@ -1384,7 +1384,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - Surjective: For any $y in RR$, let $x = (y-1) / 2$. Then $f(x) = 2((y-1) / 2) + 1 = y-1+1 = y$.
 ]
 #example[
-  The identity function $id_A: A to A$ defined by $id_A(x) = x$ for all $x in A$ is bijective.
+  The identity function $id_A: A to A$ defined by $id_A (x) = x$ for all $x in A$ is bijective.
 ]
 
 == Function Composition
