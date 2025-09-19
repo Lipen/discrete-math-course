@@ -189,7 +189,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #example[
-  For $A = {a, b, c}$, $B = {x, y}$, and $R = {pair(a, y), pair(b, x), pair(c, y)}$, the bipartite graph has vertices ${a, b, c}$ on one side and ${x, y}$ on the other side with directed edges $a to y$, $b to x$, and $c to y$.
+  For animals $A = {#emoji.cat, #emoji.dog, #emoji.rabbit}$, food $B = {#emoji.carrot, #emoji.glass.milk}$, and relation $R$ = "likes to eat", we have the bipartite graph with animal vertices on one side and food vertices on the other side with four edges.
 ]
 
 #align(center)[
@@ -197,16 +197,16 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     import cetz: draw
 
     let draw-vertex(pos, name, label, fill: none) = {
-      draw.circle(pos, radius: 0.3, stroke: 1pt, fill: fill, name: name)
-      draw.content(pos, label, anchor: "center")
+      draw.circle(pos, radius: 0.4, stroke: 1pt, fill: fill, name: name)
+      draw.content(pos, text(size: 1.2em)[#label], anchor: "center")
     }
 
-    let draw-edge(start, end, label: none, stroke: 2pt + blue) = {
+    let draw-edge(start, end, label: none, stroke: 1.5pt + blue) = {
       draw.line(
         start,
         end,
         stroke: stroke,
-        mark: (end: "stealth", fill: stroke.paint),
+        // mark: (end: "stealth", fill: stroke.paint),
       )
       if label != none {
         draw.content(
@@ -218,23 +218,24 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       }
     }
 
-    // Left partition (set A)
-    draw-vertex((-2, 1), "a", [$a$], fill: green.lighten(80%))
-    draw-vertex((-2, 0), "b", [$b$], fill: green.lighten(80%))
-    draw-vertex((-2, -1), "c", [$c$], fill: green.lighten(80%))
+    // Left partition (animals)
+    draw-vertex((-2.5, 1), "cat", [$#emoji.cat$], fill: green.lighten(80%))
+    draw-vertex((-2.5, 0), "dog", [$#emoji.dog$], fill: green.lighten(80%))
+    draw-vertex((-2.5, -1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
 
-    // Right partition (set B)
-    draw-vertex((2, 0.5), "x", [$x$], fill: orange.lighten(80%))
-    draw-vertex((2, -0.5), "y", [$y$], fill: orange.lighten(80%))
+    // Right partition (food)
+    draw-vertex((2.5, 0.5), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
+    draw-vertex((2.5, -0.5), "milk", [$#emoji.glass.milk$], fill: orange.lighten(80%))
 
-    // Edges representing the relation R
-    draw-edge("a", "y")
-    draw-edge("b", "x")
-    draw-edge("c", "y")
+    // Edges representing the "likes to eat" relation
+    draw-edge("cat", "milk")
+    draw-edge("dog", "milk")
+    draw-edge("dog", "carrot")
+    draw-edge("rabbit", "carrot")
 
     // Set labels
-    draw.content((-2, 1.8), text(fill: green.darken(20%), weight: "bold")[$A$], anchor: "center")
-    draw.content((2, 1.3), text(fill: orange.darken(20%), weight: "bold")[$B$], anchor: "center")
+    draw.content((-2.5, 1.5), text(fill: green.darken(20%), weight: "bold")[Animals], anchor: "south", padding: 0.2)
+    draw.content((2.5, 1), text(fill: orange.darken(20%), weight: "bold")[Food], anchor: "south", padding: 0.2)
   })
 ]
 
