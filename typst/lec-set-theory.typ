@@ -1531,49 +1531,87 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
 #definition[Extensionality][
   Sets with the same elements are equal.
   $
-    forall A, B. (forall x. thin x in A iff x in B) imply A = B
+    forall A, B. thin
+    lr(
+      size: #150%,
+      [ lr(
+          size: #150%,
+          ( forall x. thin (x in A iff x in B) )
+        ) imply (A = B) ]
+    )
   $
 ]
 
 #definition[Empty Set][
-  There exists a set with no elements:
+  There exists a set $emptyset$ with no elements:
   $
-    exists emptyset. forall x. thin x notin emptyset
+    exists emptyset. thin
+    forall x. thin
+    (x notin emptyset)
   $
 ]
 
 #definition[Pairing][
-  For any objects $a$ and $b$, there exists a set containing exactly them:
+  For any objects $a$ and $b$, there exists a set $C$ containing exactly them:
   $
-    forall a, b. exists C. forall x. thin x in C iff (x = a or x = b)
+    forall a, b. thin
+    exists C. thin
+    forall x. thin
+    lr(
+      size: #150%,
+      [ (x in C) iff (x = a) or (x = b) ]
+    )
   $
 ]
 
 #definition[Union][
-  For any family of sets, their union exists:
+  For any family of sets $cal(F)$, their union $U$ exists:
   $
-    forall cal(F). exists U. forall x. thin x in U iff exists A in cal(F). thin x in A
+    forall cal(F). thin
+    exists U. thin
+    forall x. thin
+    lr(
+      size: #150%,
+      [ (x in U) iff exists A in cal(F). thin (x in A) ]
+    )
   $
 ]
 
 #definition[Power Set][
-  For any set $A$, the set of all its subsets exists:
+  For any set $A$, the set of all its subsets $power(A)$ exists:
   $
-    forall A. exists power(A). forall X. thin X in power(A) iff X subset.eq A
+    forall A. thin
+    exists power(A). thin
+    forall X. thin
+    lr(
+      size: #150%,
+      [ X in power(A) iff X subset.eq A ]
+    )
   $
 ]
 
 #definition[Infinity][
   There exists an infinite set (intuitively, containing natural numbers):
   $
-    exists S. thin emptyset in S and (forall x in S. thin x union {x} in S)
+    exists S. thin
+    lr(
+      size: #150%,
+      [ (emptyset in S) and forall x in S. thin (x union {x} in S) ]
+    )
   $
 ]
 
 #definition[Separation (Subset)][
-  From any set and property, we can form the subset of elements satisfying that property:
+  From any set $A$ and property $P$, we can form the subset $B$ of elements satisfying that property:
   $
-    forall A. forall P. exists B. forall x. thin x in B iff (x in A and P(x))
+    forall A. thin
+    forall P. thin
+    exists B. thin
+    forall x. thin
+    lr(
+      size: #150%,
+      [ (x in B) iff (x in A) and P(x) ]
+    )
   $
 
   #note[This axiom prevents Russell's paradox by only allowing formation of subsets from existing sets.]
@@ -1584,16 +1622,29 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
 ]
 
 #definition[Foundation (Regularity)][
-  Every non-empty set has a minimal element (prevents sets from containing themselves):
+  Every non-empty set $A$ has a _minimal element_:
   $
-    forall A. thin A != emptyset imply exists x in A. thin A intersect x = emptyset
+    forall A. thin
+    lr(
+      size: #150%,
+      [ (A != emptyset) imply exists x in A. thin (A intersect x = emptyset) ]
+    )
   $
+
+  #note[
+    This axiom prevents sets from containing themselves and forbids _infinite descending membership chains_ like $... in x_2 in x_1 in x_0$.
+    It ensures a _well-founded_ hierarchy of sets.
+  ]
 ]
 
 #definition[Choice][
-  Every collection of non-empty sets has a choice function:
+  Every collection of non-empty sets $cal(F)$ has a _choice function_ $f$ selecting one element from each set:
   $
-    forall cal(F). thin (emptyset notin cal(F)) imply exists f. forall A in cal(F). thin f(A) in A
+    forall cal(F). thin
+    lr(
+      size: #150%,
+      [ (emptyset notin cal(F)) imply exists f. thin forall A in cal(F). thin (f(A) in A) ]
+    )
   $
 ]
 
