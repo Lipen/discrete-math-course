@@ -224,8 +224,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw-vertex((-2.5, -1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
 
     // Right partition (food)
-    draw-vertex((2.5, 0.5), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
-    draw-vertex((2.5, -0.5), "milk", [$#emoji.glass.milk$], fill: orange.lighten(80%))
+    draw-vertex((2.5, 0.7), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
+    draw-vertex((2.5, -0.7), "milk", [$#emoji.glass.milk$], fill: orange.lighten(80%))
 
     // Edges representing the "likes to eat" relation
     draw-edge("cat", "milk")
@@ -234,8 +234,18 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw-edge("rabbit", "carrot")
 
     // Set labels
-    draw.content((-2.5, 1.5), text(fill: green.darken(20%), weight: "bold")[Animals], anchor: "south", padding: 0.2)
-    draw.content((2.5, 1), text(fill: orange.darken(20%), weight: "bold")[Food], anchor: "south", padding: 0.2)
+    draw.content(
+      (-2.5, 1.5),
+      text(fill: green.darken(20%), weight: "bold")[Animals ($A$)],
+      anchor: "south",
+      padding: 0.2,
+    )
+    draw.content(
+      (2.5, 1.2),
+      text(fill: orange.darken(20%), weight: "bold")[Food ($B$)],
+      anchor: "south",
+      padding: 0.2,
+    )
   })
 ]
 
