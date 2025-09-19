@@ -240,7 +240,7 @@ _"Theorem":_ If relation $R$ is symmetric and transitive, then $R$ is reflexive.
 _"Proof":_ Let $a in A$. Take $b in A$ such that $pair(a, b) in R$. Since $R$ is symmetric, $pair(b, a) in R$. By transitivity, with $pair(a, b) in R$ and $pair(b, a) in R$, we get $pair(a, a) in R$.
 
 + Identify the logical error.
-+ Provide a counterexample showing a symmetric, transitive relation that isn't reflexive.
++ Provide a counterexample showing a symmetric and transitive relation that isn't reflexive.
 
 #block(sticky: true)[*Part (b): Closure Operations*]
 
