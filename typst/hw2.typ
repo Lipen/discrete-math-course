@@ -143,7 +143,10 @@ Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^
 The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ iff $card(A) = card(B)$.
 
 + Prove that $equinumerous$ is an equivalence relation over finite sets.
-+ Prove that $equinumerous$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
++ Prove that $equinumerous$ is an equivalence relation over infinite sets.
+  #footnote[
+    For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.
+  ]
 + Find the quotient set of $power({a,b,c,d})$ by $equinumerous$.
 
 #block(sticky: true)[*Part (b): Modular Arithmetic*]
@@ -317,7 +320,11 @@ For functions $f: A -> B$ and $g: B -> C$, analyze composition properties:
 For each set below, determine whether it is _countable_ (same size as natural numbers) or _uncountable_ (strictly larger than natural numbers).
 Provide clear justifications, including explicit bijections or diagonalization arguments where appropriate.
 
-+ The set of rational#footnote[A rational number is a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.] numbers $QQ$.
++ The set of rational
+  #footnote[
+    A rational number is a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.
+  ]
+  numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
 + The set of all functions $f: NN -> NN$.
 + The union of countably many countable sets.
@@ -331,9 +338,11 @@ Provide clear justifications, including explicit bijections or diagonalization a
 
 #block(sticky: true)[*Part (a): Divisibility Poset*]
 
-Consider $H = {1,2,4,5,10,12,20}$ with _divisibility_#footnote[
+Consider $H = {1,2,4,5,10,12,20}$ with _divisibility_
+#footnote[
   A number $x$ _divides_ $y$ (denoted $x | y$) if there exists an integer $k$ such that $y = k dot x$.
-] relation $x rel(R) y$ iff $x | y$.
+]
+relation $x rel(R) y$ iff $x | y$.
 
 Define grading function $rho(n)$ to be the sum of exponents in prime factorization of $n$.
 For example: $rho(20) = rho(2^#Blue[$2$] dot 5^#Green[$1$]) = #Blue[$2$] + #Green[$1$] = 3$.
@@ -355,9 +364,10 @@ Consider the chromatic scale: $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"s
 
 Define the _harmonic precedence_ relation $prec.eq$ where $x prec.eq y$ if note $x$ has equal or higher harmonic priority than note $y$ in the circle of fifths ordering, starting from C.
 
-The circle of fifths gives us the ordering#footnote[
+The circle of fifths gives us the ordering:
+#footnote[
   Here, we ignore the octave repetition and omit the circular relation $F prec.eq C$.
-]:
+]
 $
   "C" prec.eq "G" prec.eq "D" prec.eq "A" prec.eq "E" prec.eq "B" prec.eq "F"sharp prec.eq "C"sharp prec.eq "G"sharp prec.eq "D"sharp prec.eq "A"sharp prec.eq "F"
 $
@@ -409,15 +419,19 @@ A poset is _well-ordered_ if every non-empty subset has a _least_ element.
 
 #block(sticky: true)[*Part (b): Partition Refinement Lattices*]
 
-A partition $alpha$ of a set $S$ is a _refinement_ of a partition $beta$, denoted#footnote[
+A partition $alpha$ of a set $S$ is a _refinement_ of a partition $beta$, denoted
+#footnote[
   We say that "$alpha$ is _finer_ than $beta$", and "$beta$ is _coarser_ than $alpha$".
-] $alpha finer beta$, if every block of $alpha$ is a subset of some block of $beta$.
+]
+$alpha finer beta$, if every block of $alpha$ is a subset of some block of $beta$.
 
 + Prove that the set of all partitions of $S$ with refinement relation $finer$ is a lattice.
-+ For $S = {a,b,c}$, list all 5 possible partitions#footnote[
++ For $S = {a,b,c}$, list all 5 possible partitions
+  #footnote[
     The number of partitions of an $n$-element set is the #link("https://en.wikipedia.org/wiki/Bell_number")[Bell number] $B_n$.
     For example, $B_3 = 5$.
-  ] and draw the Hasse diagram of the partition lattice.
+  ]
+  and draw the Hasse diagram of the partition lattice.
 + Draw the Hasse diagram of the partition lattice for $S = {a,b,c,d}$.
 + Compare the partition refinement lattice to the Boolean lattice.
 
