@@ -231,7 +231,7 @@ Any relation $R subset.eq M^2$ on a finite set $M$ with $n = card(M)$ can be rep
 
 The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
 
-+ Compute the boolean product:
++ Compute the Boolean product:
   $
     natrix.bnat(
       1, 0, 1;
