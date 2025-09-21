@@ -162,7 +162,7 @@ For example, $"abc" sim "bca"$ and $"aab" sim "aba"$, but $"abc" sim.not "ab"$ a
 
 + Prove that $sim$ is an equivalence relation.
 + Find all equivalence classes for strings over $Sigma$ of length 3.
-+ How many equivalence classes exist for strings over $Sigma$ of length $n$?
++ How many equivalence classes exist for $Sigma$-strings of length $n$?
 
 
 == Problem 4: Similarity Networks and Tolerance Relations
