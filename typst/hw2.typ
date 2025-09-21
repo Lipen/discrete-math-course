@@ -224,7 +224,7 @@ Consider six researchers with expertise in the following areas:
 
 #block(sticky: true)[*Part (a): Boolean Matrix Product*]
 
-Any relation $R subset.eq M^2$ can be represented as a Boolean matrix $relmat(R) = [r_(i j)]$, where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$, and $0$ otherwise.
+Any relation $R subset.eq M^2$ on a finite set $M$ with $n = card(M)$ can be represented as an $n times n$ Boolean matrix $relmat(R) = [r_(i j)]$, where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$, and $0$ otherwise.
 
 The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
 
