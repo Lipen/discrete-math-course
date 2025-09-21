@@ -280,7 +280,7 @@ Each zone is defined by specific coordinate regions in $RR^2$.
 *Part (a):*
 Sketch all gameplay zones on the coordinate plane:
 + Game Area: $G = [0; 8] times [0; 7]$
-+ Safe Zone: $S = (1; 4) times (5, 7]$
++ Safe Zone: $S = (1; 4) times (5; 7]$
 + Impassible Wall: $W = { pair(x, 4) | 0 <= x <= 6 }$
 + Danger Zone: $D = { pair(x, y) in G | y < x "or" y < 4 }$
 + Treasure Zones: $T = { pair(x, y) | x in {1,2,3}, 1 <= y < 3 }$
