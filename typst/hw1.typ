@@ -157,6 +157,7 @@ Streaming services use similarity measures to recommend content.
 Consider _user preferences_ as sets of genres they enjoy.
 For example, if Anna loves mind-bending plots, her preference set is $A = {"sci-fi", "thriller"}$.
 
+#v(-0.5em)
 #align(center, table(
   columns: 9,
   align: (x, y) => {
