@@ -220,13 +220,13 @@ Consider six researchers with expertise in the following areas:
 
 #pagebreak()
 
-== Problem 5: Boolean Matrix Operations and Transitive Closure
+== Problem 5: Boolean Matrix and Transitive Closure
 
-#block(sticky: true)[*Part (a): Boolean Matrix Operations*]
+#block(sticky: true)[*Part (a): Boolean Matrix Product*]
 
 Any relation $R subset.eq M^2$ can be represented as a Boolean matrix $relmat(R) = [r_(i j)]$, where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$, and $0$ otherwise.
 
-The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
+The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
 
 + Prove that if $R$ and $S$ are relations, then the matrix of $S compose R$ equals $relmat(R) boolprod relmat(S)$.
 + Compute the boolean product:
@@ -236,26 +236,17 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
     natrix.bnat(0, 1, 1; 1, 0, 1; 0, 1, 0)
   $
 
-#block(sticky: true)[*Part (b): Transitive Closure*]
+#block(sticky: true)[*Part (b): Warshall's Algorithm for Transitive Closure*]
 
-*Definition:* #h(.2em) $R^+ = union.big_(n=1)^infinity R^n$ is a _transitive closure_ of relation $R subset.eq M^2$, where:
-- $R^1 = R$
-- $R^(n+1) = R^n compose R$ for $n >= 1$
-- $S compose R = {pair(a, c) | exists b in M: (a rel(R) b) and (b rel(S) c)}$ is the composition of relations $R$ and $S$.
-
-+ Prove that $R^+$ is indeed transitive.
-+ For relation $R = {pair(1, 2), pair(2, 3), pair(3, 1), pair(1, 4)}$ on ${1,2,3,4}$, compute $R^+$ step by step.
-
-#block(sticky: true)[*Part (c): Warshall's Algorithm*]
-
-The _Warshall algorithm_ computes the transitive closure of a relation using boolean matrix operations.
-Given the adjacency matrix $A$ of relation $R$, it computes the matrix $A^+$ of $R^+$ using the recurrence:
+The _Warshall algorithm_ computes the transitive closure $R^+$ of a relation $R subset.eq M^2$ using Boolean matrix operations.
+Given the $n times n$ adjacency matrix $A$ of relation $R$, it computes the $n times n$ matrix $A^+$ of $R^+$ using the recurrence:
 $
   A^((k))_(i j) = A^((k-1))_(i j) or (A^((k-1))_(i k) and A^((k-1))_(k j))
 $
-where $A^((0)) = A$ and $A^+ = A^((n))$ for an $n times n$ matrix.
+where $A^((0)) = A$ and $A^+ = A^((n))$ for $n = card(M)$.
 
-+ Apply Warshall's algorithm to compute the transitive closure of relation $R$ from part (b).
++ Apply Warshall's algorithm to compute the transitive closure of $R$ on $M = {1, 2, 3, 4}$:
+  $ R = { pair(1, 2), pair(2, 3), pair(3, 1), pair(3, 4) } $
   Show each iteration step $A^((k))$ for $k = 1, 2, 3, 4$.
 + Prove that Warshall algorithm correctly computes the transitive closure in at most $n$ iterations.
 + Compare the computational complexity of Warshall's algorithm with the naive approach of repeatedly computing boolean matrix powers.
