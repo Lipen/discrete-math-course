@@ -273,7 +273,7 @@ _"Proof":_ Let $a in A$. Take $b in A$ such that $pair(a, b) in R$. Since $R$ is
 
 Find a relation $R$ on ${a,b,c}$ such that the symmetric closure of the reflexive closure of the transitive closure of $R$ is _not_ transitive.
 
-// *Hint:* Work backwards --- start with a non-transitive relation and see what $R$ could produce it.
+*Hint:* Work backwards --- start with a non-transitive relation and see what $R$ could produce it.
 
 
 == Problem 7: Composition Properties
