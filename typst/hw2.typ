@@ -156,11 +156,11 @@ Consider the relation $R_m$ on integers defined by $a rel(R_m) b$ iff $a equiv b
 
 #block(sticky: true)[*Part (c): String Equivalence Under Permutation*]
 
-Define relation $sim$ on the set of all finite strings over alphabet ${a, b, c}$ where $s_1 sim s_2$ iff $s_2$ can be obtained from $s_1$ by rearranging (permuting) its characters.
+Define relation $sim$ on the set of all finite strings over alphabet $Sigma = {a, b, c}$ where $s_1 sim s_2$ iff $s_2$ can be obtained from $s_1$ by rearranging (permuting) its characters.
 
 + Prove that $sim$ is an equivalence relation.
-+ Find all equivalence classes for strings of length 3.
-+ How many equivalence classes exist for strings of length $n$? Express your answer in terms of partitions of $n$.
++ Find all equivalence classes for strings over $Sigma$ of length 3.
++ How many equivalence classes exist for strings of length $n$?
 
 
 == Problem 4: Similarity Networks and Tolerance Relations
