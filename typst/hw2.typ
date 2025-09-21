@@ -294,25 +294,114 @@ Find a relation $R$ on ${a,b,c}$ such that the symmetric closure of the reflexiv
 *Hint:* Work backwards --- start with a non-transitive relation and see what $R$ could produce it.
 
 
-== Problem 7: Composition Properties
+== Problem 7: Data Pipeline Composition
 
-#block(sticky: true)[*Part (a): Composition of Relations*]
+Modern data processing systems rely heavily on chaining operations together.
+Understanding how mathematical properties are preserved (or lost) through the composition of steps is crucial for building reliable pipelines.
 
-For relations $R subset.eq A times B$ and $S subset.eq B times C$, prove: $(S compose R)^(-1) = R^(-1) compose S^(-1)$.
+#block(sticky: true)[*Part (a): Reversible Data Transformations*]
 
-#block(sticky: true)[*Part (b): Function Composition*]
-
-For functions $f: A -> B$ and $g: B -> C$, analyze composition properties:
-
-#tasklist("steps-fun-comp", cols: 2)[
-  + If $f$ and $g$ are injective, is $g compose f$ injective?
-  + If $f$ and $g$ are surjective, is $g compose f$ surjective?
-  + If $g compose f$ is injective, is $f$ injective?
-  #colbreak()
-  + If $g compose f$ is injective, is $g$ injective?
-  + If $g compose f$ is surjective, is $f$ surjective?
-  + If $g compose f$ is surjective, is $g$ surjective?
+Consider a multi-stage data processing pipeline where data flows through different formats:
+// $
+//   "Raw Data" to "Preprocessed Data" to "Processed Data"
+// $
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 1cm,
+    edge-stroke: 1pt,
+    node-corner-radius: 3pt,
+    blob(
+      (0, 0),
+      [Raw Data],
+      name: <raw>,
+    ),
+    edge("-}>", label: [$P$]),
+    blob(
+      (1, 0),
+      [Preprocessed Data],
+      name: <pre>,
+    ),
+    edge("-}>", label: [$T$]),
+    blob(
+      (2, 0),
+      [Processed Data],
+      name: <data>,
+    ),
+    edge(
+      <raw.south-east>,
+      <data.south-west>,
+      "-}>",
+      label: [$T compose P$],
+      bend: -15deg,
+    ),
+  )
 ]
+
+Let $P$ represent the preprocessing step (e.g., converting human-filled Excel to machine-readable JSON) and $T$ represent the transformation step (e.g., JSON to analytics results).
+The complete pipeline is the _composition_ $T compose P$, which directly transforms raw data to final results.
+In data engineering, it's often crucial to trace data provenance backwards --- if we see a result, we want to know which original data produced it.
+
+For relations $R subset.eq A times B$ and $S subset.eq B times C$, prove that the inverse of the composition equals the composition of individual inverse steps:
+$(S compose R)^(-1) = R^(-1) compose S^(-1)$.
+
+_This composition property ensures that data provenance tracking works correctly in complex pipelines._
+
+#block(sticky: true)[*Part (b): Pipeline Integrity Analysis*]
+
+In real-world data systems, we often need to ensure that certain properties are preserved through multi-stage processing. Consider a concrete pipeline:
+
+- $R =$ set of raw customer records (with potential duplicates and missing fields)
+- $C =$ set of cleaned customer records (deduplicated, standardized)
+- $F =$ set of customer feature vectors (for machine learning)
+
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 1cm,
+    edge-stroke: 1pt,
+    node-corner-radius: 3pt,
+    blob(
+      (0, 0),
+      [Raw \ Data],
+    ),
+    edge("-}>", label: [$f$]),
+    blob(
+      (1, 0),
+      [Cleaned \ Records],
+    ),
+    edge("-}>", label: [$g$]),
+    blob(
+      (2, 0),
+      [Feature \ Vectors],
+    ),
+  )
+]
+
+// + If $f$ and $g$ are injective, is $g compose f$ injective?
+// + If $f$ and $g$ are surjective, is $g compose f$ surjective?
+// + If $g compose f$ is injective, is $f$ injective?
+// + If $g compose f$ is injective, is $g$ injective?
+// + If $g compose f$ is surjective, is $f$ surjective?
+// + If $g compose f$ is surjective, is $g$ surjective?
+
+Let $f: R -> C$ be the data cleaning function and $g: C -> F$ be the feature extraction function.
+The complete pipeline is their _function composition_ $g compose f: R -> F$, and we need to analyze how properties are preserved through composition:
+
++ *Uniqueness preservation:*
+  If cleaning never merges distinct customers (injective $f$) and feature extraction never merges distinct records (injective $g$), does the complete pipeline preserve customer uniqueness (injective $g compose f$)?
++ *Coverage guarantee:*
+  If cleaning produces all possible clean record types (surjective $f$) and extraction produces all possible feature vectors (surjective $g$), does the pipeline produce all possible features (surjective $g compose f$)?
++ *Pipeline diagnostics:*
+  If the complete pipeline preserves customer uniqueness, can we conclude the cleaning step never merges customers?
++ *Error isolation:*
+  If the complete pipeline preserves customer uniqueness, can we conclude the feature extraction never merges records?
++ *Input coverage analysis:*
+  If the complete pipeline produces all possible feature vectors, can we conclude the cleaning step handles all possible raw data types?
++ *Output coverage analysis:*
+  If the complete pipeline produces all possible feature vectors, can we conclude the extraction step produces all possible features from clean data?
+
+For each property, either prove the statement or provide a concrete counterexample using realistic data processing scenarios (e.g., filtering operations, aggregations, joins).
 
 
 == Problem 8: Cardinality and Infinity
