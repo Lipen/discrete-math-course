@@ -218,6 +218,8 @@ Consider six researchers with expertise in the following areas:
   Determine the researcher whose removal results in the maximum number of connected components in the remaining network.
 
 
+#pagebreak()
+
 == Problem 5: Boolean Matrix Operations and Transitive Closure
 
 #block(sticky: true)[*Part (a): Boolean Matrix Operations*]
@@ -258,6 +260,8 @@ where $A^((0)) = A$ and $A^+ = A^((n))$ for an $n times n$ matrix.
 + Prove that Warshall algorithm correctly computes the transitive closure in at most $n$ iterations.
 + Compare the computational complexity of Warshall's algorithm with the naive approach of repeatedly computing boolean matrix powers.
 
+
+#pagebreak()
 
 == Problem 6: Proof Validation and Counterexamples
 
@@ -312,6 +316,8 @@ Provide clear justifications, including explicit bijections or diagonalization a
 + The set of all computer programs in a particular programming language.
 + The set of real roots of all quadratic equations $a x^2 + b x + c = 0$ with integer coefficients.
 
+
+#pagebreak()
 
 == Problem 9: Partial Orders and Hasse Diagrams
 
