@@ -276,54 +276,7 @@ Find a relation $R$ on ${a,b,c}$ such that the symmetric closure of the reflexiv
 // *Hint:* Work backwards --- start with a non-transitive relation and see what $R$ could produce it.
 
 
-// TODO: remove this problem
-== #strike[Problem 7: Geometric Transformations]
-
-Consider all colorings of a $2 times 2$ checkerboard using red (#Red[$square.filled$]) and blue (#Blue[$square.filled$]) squares.
-Let $R$ relate two colorings if one can be obtained from the other by rotation (90°, 180°, 270°) or reflection.
-
-Example colorings related by $R$:
-
-#cetz.canvas({
-  import cetz: draw
-
-  draw.scale(50%)
-
-  let draw-rect((x, y), color) = draw.rect(
-    (x, y),
-    (x + 1, y + 1),
-    fill: color.lighten(80%),
-    stroke: color.darken(20%),
-  )
-
-  let draw-red(pos) = draw-rect(pos, red)
-  let draw-blue(pos) = draw-rect(pos, blue)
-
-  draw-red((0, 0))
-  draw-blue((1, 0))
-  draw-blue((0, 1))
-  draw-red((1, 1))
-
-  draw-blue((3, 0))
-  draw-red((4, 0))
-  draw-red((3, 1))
-  draw-blue((4, 1))
-})
-
-*Part (a):*
-+ Prove that $R$ is an equivalence relation.
-+ How many distinct colorings exist?
-+ What are the equivalence classes under $R$?
-
-*Part (b):*
-+ Draw representatives for each equivalence class.
-+ Calculate the size of each equivalence class.
-+ Verify that Burnside's lemma gives the correct count.
-
-*Challenge:* Extend to a $3 times 3$ board. How many equivalence classes are there?
-
-
-== Problem 8: Composition Properties
+== Problem 7: Composition Properties
 
 #block(sticky: true)[*Part (a): Composition of Relations*]
 
@@ -344,7 +297,7 @@ For functions $f: A -> B$ and $g: B -> C$, analyze composition properties:
 ]
 
 
-== Problem 9: Cardinality and Infinity
+== Problem 8: Cardinality and Infinity
 
 For each set below, determine whether it is _countable_ (same size as natural numbers) or _uncountable_ (strictly larger than natural numbers).
 Provide clear justifications, including explicit bijections or diagonalization arguments where appropriate.
@@ -357,7 +310,7 @@ Provide clear justifications, including explicit bijections or diagonalization a
 + The set of real roots of all quadratic equations $a x^2 + b x + c = 0$ with integer coefficients.
 
 
-== Problem 10: Partial Orders and Hasse Diagrams
+== Problem 9: Partial Orders and Hasse Diagrams
 
 #block(sticky: true)[*Part (a): Divisibility Poset*]
 
@@ -423,8 +376,7 @@ Each consonance level dominates all levels below it in the hierarchy:
 //   - Find the unique minimal and maximal elements.
 
 
-// TODO: rename or split
-== Problem 11: Advanced Topics
+== Problem 10: Advanced Topics
 
 #block(sticky: true)[*Part (a): Well-Founded Relations*]
 
