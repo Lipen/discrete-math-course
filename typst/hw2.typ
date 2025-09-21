@@ -399,9 +399,9 @@ Each consonance level dominates all levels below it in the hierarchy:
 
 #block(sticky: true)[*Part (a): Well-Founded Relations*]
 
-A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing chains.
+A poset is _well-founded_ if every non-empty subset has a _minimal_ element.
 
-// A poset is _well-ordered_ if every non-empty subset has a least element.
+A poset is _well-ordered_ if every non-empty subset has a _least_ element.
 
 + Is the set of lowercase English strings with lexicographic order well-founded?
 + What about finite strings vs. infinite strings?
