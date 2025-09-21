@@ -159,10 +159,10 @@ where $A$ and $B$ represent the sets of expertise areas for each researcher.
 
 Consider six researchers with expertise in the following areas:
 - 赖 (Lài): ${ "Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases" }$
-- 石 (Shí): ${ "Internet of Things", "Cryptography", "Formal Methods", "Embedded" }$
+- 石 (Shí): ${ "Internet of Things", "Cryptography", "Formal Methods", "Embedded Systems" }$
 - 邱 (Qiū): ${ "Cryptography", "Algorithms", "Bioinformatics" }$
 - 魏 (Wèi): ${ "High-Performance Computing", "Databases", "Graph Theory", "Algorithms" }$
-- 辛 (Xīn): ${ "Embedded", "Algorithms", "Databases" }$
+- 辛 (Xīn): ${ "Embedded Systems", "Algorithms", "Databases" }$
 - 朱 (Zhū): ${ "Formal Methods", "Internet of Things", "Cryptography", "Databases" }$
 
 *Part (a):* For $theta = 0.25$:
