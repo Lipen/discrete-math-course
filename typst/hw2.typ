@@ -205,7 +205,7 @@ Consider six researchers with expertise in the following areas:
 
 #block(sticky: true)[*Part (a): Boolean Matrix Operations*]
 
-Any relation $R subset.eq M^2$ can be represented as a boolean matrix $[r_(i j)]$ where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$.
+Any relation $R subset.eq M^2$ can be represented as a Boolean matrix $relmat(R) = [r_(i j)]$, where $r_(i j) = 1$ iff $pair(m_i, m_j) in R$, and $0$ otherwise.
 
 The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
 
