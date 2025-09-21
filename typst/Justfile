@@ -17,10 +17,6 @@ files := """
     lec-nfa.typ
     lec-regular.typ
     lec-combinatorics.typ
-    test1.typ
-    test2.typ
-    test3.typ
-    test4.typ
 """
 
 all:
