@@ -241,10 +241,21 @@ The _boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 + Prove that $R^+$ is indeed transitive.
 + For relation $R = {pair(1, 2), pair(2, 3), pair(3, 1), pair(1, 4)}$ on ${1,2,3,4}$, compute $R^+$ step by step.
 
-// TODO: Warshall-like algorithm with boolean matrices
+#block(sticky: true)[*Part (c): Warshall's Algorithm*]
+
+The _Warshall algorithm_ computes the transitive closure of a relation using boolean matrix operations.
+Given the adjacency matrix $A$ of relation $R$, it computes the matrix $A^+$ of $R^+$ using the recurrence:
+$
+  A^(k)_(i j) = A^(k-1)_(i j) or (A^(k-1)_(i k) and A^(k-1)_(k j))
+$
+where $A^(0) = A$ and $A^+ = A^(n)$ for an $n times n$ matrix.
+
++ Apply Warshall's algorithm to compute the transitive closure of relation $R$ from part (b).
+  Show each iteration step $A^(k)$ for $k = 1, 2, 3, 4$.
++ Prove that the Warshall algorithm correctly computes the transitive closure in at most $n$ iterations.
++ Compare the computational complexity of Warshall's algorithm with the naive approach of repeatedly computing boolean matrix powers.
 
 
-// TODO: rename
 == Problem 6: Proof Validation and Counterexamples
 
 #block(sticky: true)[*Part (a): Find the Error*]
