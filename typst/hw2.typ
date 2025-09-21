@@ -388,18 +388,17 @@ A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing ch
 + What about finite strings vs. infinite strings?
 + Construct a poset that is well-founded but not well-ordered.
 
-// TODO: consider renaming to "Refinement Lattices"
-#block(sticky: true)[*Part (b): Partition Lattices*]
+#block(sticky: true)[*Part (b): Partition Refinement Lattices*]
 
-For a set $S$, define refinement relation $prec.eq$ on partitions: $P_1 prec.eq P_2$ if every block of $P_1$ is contained in some block of $P_2$.
+For a set $S$, define the refinement relation $prec.eq$ on partitions: $P_1 prec.eq P_2$ if every block of $P_1$ is contained in some block of $P_2$.
 
-+ Prove that $pair(power(S), prec.eq)$ is a lattice.
-+ For $S = {a,b,c}$, draw the partition lattice.
-+ Find the meet and join of partitions ${{a},{b,c}}$ and ${{a,b},{c}}$.
-
-*Challenge:*
-For $S = {a,b,c,d}$, determine how many distinct partition lattices exist and characterize their structure.
-Compare partition lattice to the Boolean lattice.
++ Prove that the set of all partitions of $S$ with refinement relation $prec.eq$ is a lattice.
++ For $S = {a,b,c}$, list all 5 possible partitions#footnote[
+    The number of partitions of an $n$-element set is the #link("https://en.wikipedia.org/wiki/Bell_number")[Bell number] $B_n$.
+    For example, $B_3 = 5$.
+  ] and draw the Hasse diagram of the partition lattice.
++ Draw the Hasse diagram of the partition lattice for $S = {a,b,c,d}$.
++ Compare the partition refinement lattice to the Boolean lattice.
 
 
 #line(length: 100%, stroke: 0.4pt)
