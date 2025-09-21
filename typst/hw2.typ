@@ -137,7 +137,6 @@ Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^
 
 == Problem 3: Equivalence Relations and Quotient Sets
 
-// TODO: either add more parts, or omit the single "part"
 #block(sticky: true)[*Part (a): Equinumerosity Relation*]
 
 The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ iff $card(A) = card(B)$.
@@ -145,6 +144,22 @@ The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ i
 + Prove that $equinumerous$ is an equivalence relation over finite sets.
 + Prove that $equinumerous$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
 + Find the quotient set of $power({a,b,c,d})$ by $equinumerous$.
+
+#block(sticky: true)[*Part (b): Modular Arithmetic Equivalence*]
+
+Consider the relation $R_m$ on integers defined by $a rel(R_m) b$ iff $a equiv b space (mod m)$ for fixed positive integer $m$.
+
++ Prove that $R_m$ is an equivalence relation for any $m >= 1$.
++ Describe the equivalence classes of $R_7$ and find the quotient set $ZZ slash R_7$.
++ Show that the quotient set $ZZ slash R_m$ has exactly $m$ elements and forms the additive group $ZZ_m$.
+
+#block(sticky: true)[*Part (c): String Equivalence Under Permutation*]
+
+Define relation $sim$ on the set of all finite strings over alphabet ${a, b, c}$ where $s_1 sim s_2$ iff $s_2$ can be obtained from $s_1$ by rearranging (permuting) its characters.
+
++ Prove that $sim$ is an equivalence relation.
++ Find all equivalence classes for strings of length 3.
++ How many equivalence classes exist for strings of length $n$? Express your answer in terms of partitions of $n$.
 
 
 == Problem 4: Similarity Networks and Tolerance Relations
