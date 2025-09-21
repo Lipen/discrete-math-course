@@ -327,7 +327,7 @@ Provide clear justifications, including explicit bijections or diagonalization a
 
 #pagebreak()
 
-== Problem 9: Partial Orders and Hasse Diagrams
+== Problem 9: Partial Orders
 
 #block(sticky: true)[*Part (a): Divisibility Poset*]
 
