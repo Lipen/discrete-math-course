@@ -409,8 +409,6 @@ A poset is _well-ordered_ if every non-empty subset has a _least_ element.
 
 #block(sticky: true)[*Part (b): Partition Refinement Lattices*]
 
-// For a set $S$, define the refinement relation $finer$ on partitions: $P_1 finer P_2$ if every block of $P_1$ is contained in some block of $P_2$.
-
 A partition $alpha$ of a set $S$ is a _refinement_ of a partition $beta$, denoted#footnote[
   We say that "$alpha$ is _finer_ than $beta$", and "$beta$ is _coarser_ than $alpha$".
 ] $alpha finer beta$, if every block of $alpha$ is a subset of some block of $beta$.
