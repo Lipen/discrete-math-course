@@ -228,13 +228,18 @@ Any relation $R subset.eq M^2$ on a finite set $M$ with $n = card(M)$ can be rep
 
 The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: $c_(i j) = or.big_k (a_(i k) and b_(k j))$.
 
-+ Prove that if $R$ and $S$ are relations, then the matrix of $S compose R$ equals $relmat(R) boolprod relmat(S)$.
 + Compute the boolean product:
   $
     natrix.bnat(1, 0, 1; 0, 1, 0; 1, 1, 0)
     boolprod
     natrix.bnat(0, 1, 1; 1, 0, 1; 0, 1, 0)
   $
++ For the Boolean matrix $M$ below, compute its Boolean square $M boolprod M$ and cube $M boolprod M boolprod M$.
+  Interpret these results in terms of paths in the corresponding directed graph.
+  $
+    M = natrix.bnat(1, 1, 0; 0, 1, 1; 1, 0, 1)
+  $
++ Prove that if $R$ and $S$ are relations, then the matrix of $S compose R$ equals $relmat(R) boolprod relmat(S)$.
 
 #block(sticky: true)[*Part (b): Warshall's Algorithm for Transitive Closure*]
 
