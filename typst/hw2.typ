@@ -136,7 +136,7 @@ Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^
 + Show that the _ultimate trust network_ $T^+ = union.big_(n=1)^infinity T^n$ containing all possible trust connections also satisfies the transitivity property, for arbitrary initial trust relation $T$.
 
 
-== Problem 3: Equivalence Relations and Quotient Sets
+== Problem 3: Equivalence Relations
 
 #block(sticky: true)[*Part (a): Equinumerosity Relation*]
 
@@ -146,21 +146,23 @@ The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ i
 + Prove that $equinumerous$ is an equivalence relation over infinite sets#footnote[For infinite sets, $card(A) = card(B)$ means there exists a bijection between $A$ and $B$.].
 + Find the quotient set of $power({a,b,c,d})$ by $equinumerous$.
 
-#block(sticky: true)[*Part (b): Modular Arithmetic Equivalence*]
+#block(sticky: true)[*Part (b): Modular Arithmetic*]
 
-Consider the relation $R_m$ on integers defined by $a rel(R_m) b$ iff $a equiv b space (mod m)$ for fixed positive integer $m$.
+Consider the relation $R_m$ on integers: $a rel(R_m) b$ iff $a equiv b space (mod m)$ for fixed $m >= 1$.
 
 + Prove that $R_m$ is an equivalence relation for any $m >= 1$.
 + Describe the equivalence classes of $R_7$ and find the quotient set $ZZ slash R_7$.
-+ Show that the quotient set $ZZ slash R_m$ has exactly $m$ elements and forms the additive group $ZZ_m$.
++ Show that the quotient set $ZZ slash R_m$ has exactly $m$ elements.
 
-#block(sticky: true)[*Part (c): String Equivalence Under Permutation*]
+#block(sticky: true)[*Part (c): String Permutation*]
 
 Define relation $sim$ on the set of all finite strings over alphabet $Sigma = {a, b, c}$ where $s_1 sim s_2$ iff $s_2$ can be obtained from $s_1$ by rearranging (permuting) its characters.
 
+For example, $"abc" sim "bca"$ and $"aab" sim "aba"$, but $"abc" sim.not "ab"$ and $"abc" sim.not "abb"$.
+
 + Prove that $sim$ is an equivalence relation.
 + Find all equivalence classes for strings over $Sigma$ of length 3.
-+ How many equivalence classes exist for strings of length $n$?
++ How many equivalence classes exist for strings over $Sigma$ of length $n$?
 
 
 == Problem 4: Similarity Networks and Tolerance Relations
