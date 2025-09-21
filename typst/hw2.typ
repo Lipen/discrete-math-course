@@ -239,11 +239,11 @@ The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 #block(sticky: true)[*Part (b): Warshall's Algorithm for Transitive Closure*]
 
 The _Warshall algorithm_ computes the transitive closure $R^+$ of a relation $R subset.eq M^2$ using Boolean matrix operations.
-Given the $n times n$ adjacency matrix $A$ of relation $R$, it computes the $n times n$ matrix $A^+$ of $R^+$ using the recurrence:
+For a set $M$ with $n = card(M)$, given the $n times n$ adjacency matrix $A$ of relation $R$, it computes the $n times n$ matrix $A^+$ of $R^+$ using the recurrence:
 $
   A^((k))_(i j) = A^((k-1))_(i j) or (A^((k-1))_(i k) and A^((k-1))_(k j))
 $
-where $A^((0)) = A$ and $A^+ = A^((n))$ for $n = card(M)$.
+where $A^((0)) = A$ and $A^+ = A^((n))$.
 
 + Apply Warshall's algorithm to compute the transitive closure of $R$ on $M = {1, 2, 3, 4}$:
   $ R = { pair(1, 2), pair(2, 3), pair(3, 1), pair(3, 4) } $
