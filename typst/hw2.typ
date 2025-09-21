@@ -204,19 +204,18 @@ Consider six researchers with expertise in the following areas:
 + *Diversity analysis:*
   Define the _diversity index_ $d(X)$ of researcher $X$ as the number of expertise areas they have (i.e., $d(X) = card(X)$).
   For each researcher, compute their diversity index $d(X)$ and their average Jaccard similarity with all other researchers:
-    $
-      overline(Jaccard)(X) = 1/n sum_(Y != X) Jaccard(X, Y)
-    $
+  $
+    overline(Jaccard)(X) = 1/n sum_(Y != X) Jaccard(X, Y)
+  $
 
   Test the hypothesis that the researcher with maximum diversity index also has maximum average Jaccard similarity.
 
 + *Network resilience:*
-  If one researcher leaves the collaboration network, which absense causes the most fragmentation?
+  If one researcher leaves the collaboration network, which absence causes the most fragmentation?
   Determine the researcher whose removal results in the maximum number of connected components in the remaining network.
 
 
-// TODO: rename
-== Problem 5: Matrix Representations and Boolean Algebra
+== Problem 5: Boolean Matrix Operations and Transitive Closure
 
 #block(sticky: true)[*Part (a): Boolean Matrix Operations*]
 
