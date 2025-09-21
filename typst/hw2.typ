@@ -36,8 +36,9 @@
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
 #let relmat(x) = $bracket.double.l #x bracket.double.r$
-#let boolprod = math.class("binary", $dot.circle$)
-#let equinumerous = math.approx
+#let boolprod = $dot.circle$
+#let equinumerous = $approx$
+#let finer = $lt.tri.eq$
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -390,9 +391,13 @@ A poset $pair(P, prec.eq)$ is _well-founded_ if it has no infinite decreasing ch
 
 #block(sticky: true)[*Part (b): Partition Refinement Lattices*]
 
-For a set $S$, define the refinement relation $prec.eq$ on partitions: $P_1 prec.eq P_2$ if every block of $P_1$ is contained in some block of $P_2$.
+// For a set $S$, define the refinement relation $finer$ on partitions: $P_1 finer P_2$ if every block of $P_1$ is contained in some block of $P_2$.
 
-+ Prove that the set of all partitions of $S$ with refinement relation $prec.eq$ is a lattice.
+A partition $alpha$ of a set $S$ is a _refinement_ of a partition $beta$, denoted#footnote[
+  We say that "$alpha$ is _finer_ than $beta$", and "$beta$ is _coarser_ than $alpha$".
+] $alpha finer beta$, if every block of $alpha$ is a subset of some block of $beta$.
+
++ Prove that the set of all partitions of $S$ with refinement relation $finer$ is a lattice.
 + For $S = {a,b,c}$, list all 5 possible partitions#footnote[
     The number of partitions of an $n$-element set is the #link("https://en.wikipedia.org/wiki/Bell_number")[Bell number] $B_n$.
     For example, $B_3 = 5$.
