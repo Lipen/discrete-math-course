@@ -314,7 +314,9 @@ Provide clear justifications, including explicit bijections or diagonalization a
 
 #block(sticky: true)[*Part (a): Divisibility Poset*]
 
-Consider $H = {1,2,4,5,10,12,20}$ with divisibility relation $x R y$ iff $x | y$.
+Consider $H = {1,2,4,5,10,12,20}$ with _divisibility_#footnote[
+  A number $x$ _divides_ $y$ (denoted $x | y$) if there exists an integer $k$ such that $y = k dot x$.
+] relation $x rel(R) y$ iff $x | y$.
 
 Define grading function $rho(n)$ to be the sum of exponents in prime factorization of $n$.
 For example: $rho(20) = rho(2^#Blue[$2$] dot 5^#Green[$1$]) = #Blue[$2$] + #Green[$1$] = 3$.
