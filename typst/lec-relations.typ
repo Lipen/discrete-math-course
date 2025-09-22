@@ -321,8 +321,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 == Notes on Properties
 
 - Reflexivity and irreflexivity are _not_ mutually exclusive if $M = emptyset$ (both are _vacuously_#footnote[
-  A statement "for all $x$ in emptyset, $P(x)$" is considered #True because there are _no counterexamples_ in the empty set.
-] #True).
+    A statement "for all $x$ in emptyset, $P(x)$" is considered #True because there are _no counterexamples_ in the empty set.
+  ] #True).
 
 - Symmetry and antisymmetry are _not_ mutually exclusive (e.g. identity relation).
 
@@ -1268,7 +1268,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 == Injective Functions
 
 #definition[
-  A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!]) if distinct elements in the domain map to distinct elements in the codomain.
+  A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[
+    Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!
+  ]) if distinct elements in the domain map to distinct elements in the codomain.
   Formally:
   $
     forall a_1, a_2 in A. thin
@@ -1820,7 +1822,9 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   ]
 ]
 
-#proof[#footnote[See https://math.stackexchange.com/a/183383 for more detailed analysis.]][
+#proof[#footnote[
+  See https://math.stackexchange.com/a/183383 for more detailed analysis.
+]][
   Consider the function $f: L to S$ defined by $f(x) = (x, x)$.
   This is an injection, since if #box[$f(a) = f(b)$], then $(a, a) = (b, b)$, so $a = b$.
   Thus, $L smaller.eq S$.
