@@ -499,6 +499,80 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 
 #focus-slide(
+  title: "Composition of Relations",
+)
+
+== Composition of Relations
+
+#definition[
+  The _composition_ of two relations $R subset.eq A times B$ and $S subset.eq B times C$ is defined as:
+  $
+    R relcomp S = S compose R = { pair(a, c) | exists b in B. thin (a rel(R) b) and (b rel(S) c) }
+  $
+]
+
+// TODO: visualize
+
+== Powers of Relations
+
+#definition[
+  For a homogeneous relation $R subset.eq M^2$, we define _powers_ of $R$:
+  - $R^0 = I_M$ (identity relation)
+  - $R^1 = R$
+  - $R^(n+1) = R^n compose R$ for $n >= 1$
+]
+
+#example[
+  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(2, 3), pair(3, 4)}$ (successor relation).
+  - $R^1 = {pair(1, 2), pair(2, 3), pair(3, 4)}$
+  - $R^2 = {pair(1, 3), pair(2, 4)}$ (two steps)
+  - $R^3 = {pair(1, 4)}$ (three steps)
+  - $R^4 = emptyset$ (no four-step paths)
+]
+
+#theorem[
+  For any relation $R$ on a finite set with $n$ elements:
+  - $R^+ = R^1 union R^2 union dots union R^n$ is a _transitive closure_.
+  - $R^* = R^0 union R^+ = I union R^+$ is a _reflexive-transitive closure_.
+]
+
+== Associativity of Composition
+
+#theorem[
+  Composition of relations is associative:
+  $(R relcomp S) relcomp T = R relcomp (S relcomp T)$.
+]
+
+#proof[
+  Let $R subset.eq A times B$, $S subset.eq B times C$, and $T subset.eq C times D$ be three relations.
+
+  *($subset.eq$):*
+  Let $pair(a, d) in (R relcomp S) relcomp T$.
+  - By definition of composition:
+    $exists c in C. thin (pair(a, c) in R relcomp S) and (pair(c, d) in T)$.
+  - Since $pair(a, c) in R relcomp S$, we have:
+    $exists b in B. thin (pair(a, b) in R) and (pair(b, c) in S)$.
+  - From $pair(b, c) in S$ and $pair(c, d) in T$, we have:
+    $pair(b, d) in S relcomp T$.
+  - From $pair(a, b) in R$ and $pair(b, d) in S relcomp T$, we have:
+    $pair(a, d) in R relcomp (S relcomp T)$.
+
+  *($supset.eq$):*
+  Let $pair(a, d) in R relcomp (S relcomp T)$.
+  - By definition of composition:
+    $exists b in B. thin (pair(a, b) in R) and (pair(b, d) in S relcomp T)$.
+  - Since $pair(b, d) in S relcomp T$, we have:
+    $exists c in C. thin (pair(b, c) in S) and (pair(c, d) in T)$.
+  - From $pair(a, b) in R$ and $pair(b, c) in S$, we have:
+    $pair(a, c) in R relcomp S$.
+  - From $pair(a, c) in R relcomp S$ and $pair(c, d) in T$, we have:
+    $pair(a, d) in (R relcomp S) relcomp T$.
+
+  Therefore, $(R relcomp S) relcomp T = R relcomp (S relcomp T)$.
+]
+
+
+#focus-slide(
   title: "Closures of Relations",
 )
 
@@ -1065,80 +1139,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #example[
   _Lexicographic order_ on $A^n$ (induced by a total order on $A$) is a total order.
-]
-
-
-#focus-slide(
-  title: "Composition of Relations",
-)
-
-== Composition of Relations
-
-#definition[
-  The _composition_ of two relations $R subset.eq A times B$ and $S subset.eq B times C$ is defined as:
-  $
-    R relcomp S = S compose R = { pair(a, c) | exists b in B. thin (a rel(R) b) and (b rel(S) c) }
-  $
-]
-
-// TODO: visualize
-
-== Powers of Relations
-
-#definition[
-  For a homogeneous relation $R subset.eq M^2$, we define _powers_ of $R$:
-  - $R^0 = I_M$ (identity relation)
-  - $R^1 = R$
-  - $R^(n+1) = R^n compose R$ for $n >= 1$
-]
-
-#example[
-  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(2, 3), pair(3, 4)}$ (successor relation).
-  - $R^1 = {pair(1, 2), pair(2, 3), pair(3, 4)}$
-  - $R^2 = {pair(1, 3), pair(2, 4)}$ (two steps)
-  - $R^3 = {pair(1, 4)}$ (three steps)
-  - $R^4 = emptyset$ (no four-step paths)
-]
-
-#theorem[
-  For any relation $R$ on a finite set with $n$ elements:
-  - $R^+ = R^1 union R^2 union dots union R^n$ is a _transitive closure_.
-  - $R^* = R^0 union R^+ = I union R^+$ is a _reflexive-transitive closure_.
-]
-
-== Associativity of Composition
-
-#theorem[
-  Composition of relations is associative:
-  $(R relcomp S) relcomp T = R relcomp (S relcomp T)$.
-]
-
-#proof[
-  Let $R subset.eq A times B$, $S subset.eq B times C$, and $T subset.eq C times D$ be three relations.
-
-  *($subset.eq$):*
-  Let $pair(a, d) in (R relcomp S) relcomp T$.
-  - By definition of composition:
-    $exists c in C. thin (pair(a, c) in R relcomp S) and (pair(c, d) in T)$.
-  - Since $pair(a, c) in R relcomp S$, we have:
-    $exists b in B. thin (pair(a, b) in R) and (pair(b, c) in S)$.
-  - From $pair(b, c) in S$ and $pair(c, d) in T$, we have:
-    $pair(b, d) in S relcomp T$.
-  - From $pair(a, b) in R$ and $pair(b, d) in S relcomp T$, we have:
-    $pair(a, d) in R relcomp (S relcomp T)$.
-
-  *($supset.eq$):*
-  Let $pair(a, d) in R relcomp (S relcomp T)$.
-  - By definition of composition:
-    $exists b in B. thin (pair(a, b) in R) and (pair(b, d) in S relcomp T)$.
-  - Since $pair(b, d) in S relcomp T$, we have:
-    $exists c in C. thin (pair(b, c) in S) and (pair(c, d) in T)$.
-  - From $pair(a, b) in R$ and $pair(b, c) in S$, we have:
-    $pair(a, c) in R relcomp S$.
-  - From $pair(a, c) in R relcomp S$ and $pair(c, d) in T$, we have:
-    $pair(a, d) in (R relcomp S) relcomp T$.
-
-  Therefore, $(R relcomp S) relcomp T = R relcomp (S relcomp T)$.
 ]
 
 
