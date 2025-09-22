@@ -744,7 +744,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   for k = 1 to n:
       for i = 1 to n:
           for j = 1 to n:
-              M[i,j] = M[i,j] OR (M[i,k] AND M[k,j])
+              M[i,j] := M[i,j] OR (M[i,k] AND M[k,j])
   ```
 ]
 
