@@ -189,7 +189,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #example[
-  For animals $A = {#emoji.rabbit, #emoji.cat, #emoji.dog}$, food $B = {#emoji.carrot, #emoji.glass.milk}$, and relation $R$ = "likes to eat", we have the bipartite graph with animal vertices on the left side and food vertices on the right side with four edges.
+  For animals $A = {#emoji.rabbit, #emoji.cat, #emoji.dog}$, food $B = {#emoji.carrot, #emoji.fish}$, and relation $R$ = "likes to eat", we have the bipartite graph with animal vertices on the left side and food vertices on the right side with four edges.
 ]
 
 #align(center)[
@@ -225,11 +225,11 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
     // Right partition (food)
     draw-vertex((2.5, 0.7), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
-    draw-vertex((2.5, -0.7), "milk", [$#emoji.glass.milk$], fill: orange.lighten(80%))
+    draw-vertex((2.5, -0.7), "fish", [$#emoji.fish$], fill: orange.lighten(80%))
 
     // Edges representing the "likes to eat" relation
-    draw-edge("cat", "milk")
-    draw-edge("dog", "milk")
+    draw-edge("cat", "fish")
+    draw-edge("dog", "fish")
     draw-edge("dog", "carrot")
     draw-edge("rabbit", "carrot")
 
