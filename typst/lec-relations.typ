@@ -738,8 +738,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #definition[
   _Warshall's algorithm_ computes the transitive closure of a relation using dynamic programming with time complexity $O(n^3)$.
 
-  Given an $n times n$ matrix $M$ representing relation $R$:
+  Given an $n times n$ matrix $M = matrel(R)$ representing relation $R$:
   ```
+  M = matrix(R)
   for k = 1 to n:
       for i = 1 to n:
           for j = 1 to n:
