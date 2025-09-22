@@ -572,6 +572,223 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 
+= Order Theory
+#focus-slide(
+  epigraph: [Order is heaven's first law.],
+  epigraph-author: "Alexander Pope",
+  scholars: (
+    (
+      name: "Helmut Hasse",
+      image: image("assets/Helmut_Hasse.jpg"),
+    ),
+    (
+      name: "Alfred Tarski",
+      image: image("assets/Alfred_Tarski.jpg"),
+    ),
+    (
+      name: "Emmy Noether",
+      image: image("assets/Emmy_Noether.jpg"),
+    ),
+    (
+      name: "Garrett Birkhoff",
+      image: image("assets/Garrett_Birkhoff.jpg"),
+    ),
+    (
+      name: "Dana Scott",
+      image: image("assets/Dana_Scott.jpg"),
+    ),
+    (
+      name: "Felix Hausdorff",
+      image: image("assets/Felix_Hausdorff.jpg"),
+    ),
+  ),
+)
+
+== Orders
+
+// Preorder
+#definition[
+  A relation $R subset.eq M^2$ is called a _preorder_ if it is reflexive and transitive.
+]
+
+// Partial order
+#definition[
+  A _partial order_ is a relation $R subset.eq M^2$ that is reflexive, antisymmetric, and transitive.
+]
+
+// Connected relation
+#definition[
+  A relation $R subset.eq M^2$ is _connected_ if for every pair of distinct elements, either one is related to the other or vice versa:
+  $ forall x, y in M. thin (x neq y) imply (x rel(R) y or y rel(R) x) $
+]
+
+// Linear/Total order
+#definition[
+  A partial order which is also connected is called a _total order_ (or _linear order_).
+]
+
+== Examples of Orders
+
+// TODO: begin with simpler examples, e.g. <= on numbers
+
+#example[
+  Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$:
+  $
+    x prec.curly.eq y quad "iff" quad "len"(x) <= "len"(y)
+  $
+  This is a preorder (reflexive and transitive), and even connected, but not a partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
+]
+
+#example[
+  The _subset_ relation $subset.eq$ on $power(A)$ is a partial order (reflexive, antisymmetric, transitive); typically not total, since not all subsets are comparable (e.g., $A = {1}$ and $B = {2, 3}$).
+]
+
+#example[
+  _Divisibility_ $|$ on $D = {1,2,3,6}$: $1|2|6$, $1|3|6$; $2$ and $3$ incomparable. Partial, not total.
+]
+
+#example[
+  _Lexicographic order_ on $A^n$ (induced by a total order on $A$) is a total order.
+]
+
+== Partially Ordered Sets
+
+// Poset
+#definition[
+  A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
+]
+
+// TODO: linearly ordered set
+
+== Hasse Diagrams
+
+TODO
+
+== Minimal and Maximal Elements
+
+// Minimal element
+#definition[
+  An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
+]
+
+// Maximal element
+#definition[
+  A _maximal element_ $m$ satisfies: there is no $y in S$ with $m < y$.
+]
+
+#note[
+  There may be multiple maximal (or minimal) elements.
+]
+
+// TODO: examples of minimal/maximal elements
+
+== Greatest and Least Elements
+
+// Greatest element
+#definition[
+  The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
+]
+
+// Least element
+#definition[
+  A _least element_ (bottom) $b$ satisfies $b leq x$ for all $x in S$.
+]
+
+#note[
+  Greatest (top) and least (bottom) elements are _unique_ when they exist.
+]
+
+#examples[
+  - $pair(power(A), subset.eq)$: least $emptyset$, greatest $A$.
+  - $pair(NN^+, |)$: least $1$, no greatest element.
+  - $pair(ZZ, <=)$: no least or greatest element.
+  - $pair({1,...,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$.
+]
+
+== Chains and Antichains
+
+#definition[
+  In a partially ordered set $(M, prec.eq)$:
+
+  - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
+    Formally:
+    $
+      forall x, y in C. thin (x prec.eq y "or" y prec.eq x)
+    $
+
+  - An _antichain_ is a subset $A subset.eq M$ where no two distinct elements are comparable.
+    Formally:
+    $
+      forall x, y in A. thin (x != y) imply (x prec.eq.not y "and" y prec.eq.not x)
+    $
+]
+
+#example[
+  Consider the divisibility relation $|$ on ${1, 2, 3, 4, 6, 12}$:
+  - Chain: ${1, 2, 4, 12}$ (since $1 divides 2 divides 4 divides 12$)
+  - Chain: ${1, 3, 6, 12}$ (since $1 divides 3 divides 6 divides 12$)
+  - Antichain: ${2, 3}$ (since $2 divides.not 3$ and $3 divides.not 2$)
+  - Antichain: ${4, 6}$ (since $4 divides.not 6$ and $6 divides.not 4$)
+]
+
+== Dilworth's Theorem
+
+#theorem[Dilworth][
+  In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
+]
+
+// TODO: visualize
+#example[
+  In the Boolean lattice $power({a, b})$ with inclusion:
+  - Maximum antichain: ${{a}, {b}}$ of size 2
+  - Minimum chain decomposition: ${emptyset, {a}} union {{b}, {a,b}}$ with 2 chains
+]
+
+== Upper and Lower Bounds
+
+// Upper bound
+#definition[
+  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+]
+
+// Lower bound
+#definition[
+  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
+]
+
+#examples[
+  - In $pair(RR, <=)$ for interval $C = (0,1)$: every $x <= 0$ is a lower bound; every $x >= 1$ an upper bound.
+  - In $pair(power(A), subset.eq)$ for $C = {{1,2},{1,3}}$: lower bounds include ${1}$, $emptyset$; upper bounds include ${1,2,3}$.
+  - In $pair(ZZ, |)$ for $C = {4,6}$: upper bounds are multiples of $12$; least upper bound $12$; lower bounds are divisors of $2$; greatest lower bound $2$.
+]
+
+== Suprema and Infima
+
+// Supremum
+#definition[
+  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
+
+  #note[
+    If it exists, the least upper bound is _unique_.
+  ]
+]
+
+// Infimum
+#definition[
+  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
+
+  #note[
+    If it exists, the greatest lower bound is _unique_.
+  ]
+]
+
+#examples[
+  - $pair(RR, <=)$: $sup({0,1}) = 1$, $inf({0,1}) = 0$, i.e., $sup(C) = max(C)$, $inf(C) = min(C)$.
+  - $pair(power(A), subset.eq)$: $sup = union$, $inf = intersect$.
+  - Divisibility on $NN_(>0)$: $sup {a, b} = lcm(a, b)$ (if any common multiple), $inf {a, b} = gcd(a, b)$.
+]
+
+
 #focus-slide(
   title: "Closures of Relations",
 )
@@ -1058,88 +1275,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     ]
   ],
 )
-
-
-#focus-slide(
-  title: "Order Relations",
-)
-
-== Orders
-
-#definition[
-  A relation $R subset.eq M^2$ is called a _preorder_ if it is reflexive and transitive.
-]
-#definition[
-  A _partial order_ is a relation $R subset.eq M^2$ that is reflexive, antisymmetric, and transitive.
-]
-#definition[
-  A relation $R subset.eq M^2$ is _connected_ if for every pair of distinct elements, either one is related to the other or vice versa:
-  $ forall x, y in M. thin (x neq y) imply (x rel(R) y or y rel(R) x) $
-]
-#definition[
-  A partial order which is also connected is called a _total order_ (or _linear order_).
-]
-
-== Chains and Antichains
-
-#definition[
-  In a partially ordered set $(M, prec.eq)$:
-
-  - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
-    Formally:
-    $
-      forall x, y in C. thin (x prec.eq y "or" y prec.eq x)
-    $
-
-  - An _antichain_ is a subset $A subset.eq M$ where no two distinct elements are comparable.
-    Formally:
-    $
-      forall x, y in A. thin (x != y) imply (x prec.eq.not y "and" y prec.eq.not x)
-    $
-]
-
-#example[
-  Consider the divisibility relation $|$ on ${1, 2, 3, 4, 6, 12}$:
-  - Chain: ${1, 2, 4, 12}$ (since $1 divides 2 divides 4 divides 12$)
-  - Chain: ${1, 3, 6, 12}$ (since $1 divides 3 divides 6 divides 12$)
-  - Antichain: ${2, 3}$ (since $2 divides.not 3$ and $3 divides.not 2$)
-  - Antichain: ${4, 6}$ (since $4 divides.not 6$ and $6 divides.not 4$)
-]
-
-== Dilworth's Theorem
-
-#theorem[Dilworth][
-  In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
-]
-
-// TODO: visualize
-#example[
-  In the Boolean lattice $power({a, b})$ with inclusion:
-  - Maximum antichain: ${{a}, {b}}$ of size 2
-  - Minimum chain decomposition: ${emptyset, {a}} union {{b}, {a,b}}$ with 2 chains
-]
-
-== Examples of Orders
-
-#example[
-  Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$:
-  $
-    x prec.curly.eq y quad "iff" quad "len"(x) <= "len"(y)
-  $
-  This is a preorder (reflexive and transitive), and even connected, but not a partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
-]
-
-#example[
-  The _subset_ relation $subset.eq$ on $power(A)$ is a partial order (reflexive, antisymmetric, transitive); typically not total, since not all subsets are comparable (e.g., $A = {1}$ and $B = {2, 3}$).
-]
-
-#example[
-  _Divisibility_ $|$ on $D = {1,2,3,6}$: $1|2|6$, $1|3|6$; $2$ and $3$ incomparable. Partial, not total.
-]
-
-#example[
-  _Lexicographic order_ on $A^n$ (induced by a total order on $A$) is a total order.
-]
 
 
 = Functions
@@ -1847,136 +1982,10 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
 ]
 
-= Order Theory
+
 #focus-slide(
-  epigraph: [Order is heaven's first law.],
-  epigraph-author: "Alexander Pope",
-  scholars: (
-    (
-      name: "Helmut Hasse",
-      image: image("assets/Helmut_Hasse.jpg"),
-    ),
-    (
-      name: "Alfred Tarski",
-      image: image("assets/Alfred_Tarski.jpg"),
-    ),
-    (
-      name: "Emmy Noether",
-      image: image("assets/Emmy_Noether.jpg"),
-    ),
-    (
-      name: "Garrett Birkhoff",
-      image: image("assets/Garrett_Birkhoff.jpg"),
-    ),
-    (
-      name: "Dana Scott",
-      image: image("assets/Dana_Scott.jpg"),
-    ),
-    (
-      name: "Felix Hausdorff",
-      image: image("assets/Felix_Hausdorff.jpg"),
-    ),
-  ),
+  title: "Lattices",
 )
-
-== Partially Ordered Sets
-
-// Poset
-#definition[
-  A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
-
-  // A partial order is a relation $leq$ over $S$ that is reflexive, antisymmetric, and transitive.
-]
-
-// TODO: linear order
-
-// Chain
-#definition[
-  A _chain_ in a poset $pair(S, leq)$ is a subset $C subset.eq S$ such that any two elements $x, y in C$ are~_comparable_, i.e., either $x leq y$ or $y leq x$.
-]
-
-// TODO: anti-chain
-
-// TODO: Hasse diagram
-
-// Minimal element
-#definition[
-  An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
-]
-
-// Maximal element
-#definition[
-  A _maximal element_ $m$ satisfies: there is no $y in S$ with $m < y$.
-]
-
-#note[
-  There may be multiple maximal (or minimal) elements.
-]
-
-// Greatest element
-#definition[
-  The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
-]
-
-// Least element
-#definition[
-  A _least element_ (bottom) $b$ satisfies $b leq x$ for all $x in S$.
-]
-
-#note[
-  Greatest (top) and least (bottom) elements are _unique_ when they exist.
-]
-
-#examples[
-  - $pair(power(A), subset.eq)$: least $emptyset$, greatest $A$.
-  - $pair(NN^+, |)$: least $1$, no greatest element.
-  - $pair(ZZ, <=)$: no least or greatest element.
-  - $pair({1,...,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$.
-]
-
-== Upper and Lower Bounds
-
-// Upper bound
-#definition[
-  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
-]
-
-// Lower bound
-#definition[
-  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
-]
-
-#examples[
-  - In $pair(RR, <=)$ for interval $C = (0,1)$: every $x <= 0$ is a lower bound; every $x >= 1$ an upper bound.
-  - In $pair(power(A), subset.eq)$ for $C = {{1,2},{1,3}}$: lower bounds include ${1}$, $emptyset$; upper bounds include ${1,2,3}$.
-  - In $pair(ZZ, |)$ for $C = {4,6}$: upper bounds are multiples of $12$; least upper bound $12$; lower bounds are divisors of $2$; greatest lower bound $2$.
-]
-
-== Suprema and Infima
-
-// Supremum
-#definition[
-  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
-
-  #note[
-    If it exists, the least upper bound is _unique_.
-  ]
-]
-
-// Infimum
-#definition[
-  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
-
-  #note[
-    If it exists, the greatest lower bound is _unique_.
-  ]
-]
-
-#examples[
-  - $pair(RR, <=)$: $sup({0,1}) = 1$, $inf({0,1}) = 0$, i.e., $sup(C) = max(C)$, $inf(C) = min(C)$.
-  - $pair(power(A), subset.eq)$: $sup = union$, $inf = intersect$.
-  - Divisibility on $NN_(>0)$: $sup {a, b} = lcm(a, b)$ (if any common multiple), $inf {a, b} = gcd(a, b)$.
-]
 
 == Lattices
 
