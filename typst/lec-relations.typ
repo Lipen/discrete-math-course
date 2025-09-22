@@ -895,12 +895,40 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #pagebreak()
 
 #example[Closure in directed acyclic graphs (DAGs)][
-  Consider a dependency graph where $R = {pair("A", "B"), pair("B", "C"), pair("A", "D"), pair("D", "C")}$ represents "depends on" relationships.
+  Consider a dependency graph where $R$ represents _"depends on"_ relationships:
+  $
+    R = {pair(A, B), pair(B, C), pair(A, D), pair(D, C)}
+  $
+  #place(right)[
+    #cetz.canvas({
+      import cetz.draw: *
+      let w = 1
+      let h = 1
+      let hgap = 1
+      let vgap = 1.6
+      let draw-rect((x, y), name) = {
+        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
+        content(name, [#name], anchor: "center")
+      }
+      let draw-edge(from, to) = {
+        line(from, to, stroke: 1pt, mark: (end: "stealth", fill: black))
+      }
+      draw-rect((0, 0), "A")
+      draw-rect((-hgap, vgap), "B")
+      draw-rect((hgap, vgap), "D")
+      draw-rect((0, 2 * vgap), "C")
+      draw-edge("A", "B")
+      draw-edge("A", "D")
+      draw-edge("B", "C")
+      draw-edge("D", "C")
+    })
+  ]
+  For example, component $A$ depends on $B$ and $D$, which both depend on $C$.
 
-  The transitive closure reveals all indirect dependencies:
-  $ t(R) = R union {pair("A", "C")} $
+  The transitive closure reveals all _indirect_ dependencies:
+  $ t(R) = R union {pair(A, C)} $
 
-  This shows that component $A$ transitively depends on $C$ through two paths:
+  This shows that component $A$ _transitively depends_ on $C$ through two paths:
   - $A to B to C$
   - $A to D to C$
 
