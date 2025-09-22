@@ -596,24 +596,24 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       image: image("assets/Helmut_Hasse.jpg"),
     ),
     (
-      name: "Alfred Tarski",
-      image: image("assets/Alfred_Tarski.jpg"),
-    ),
-    (
-      name: "Emmy Noether",
-      image: image("assets/Emmy_Noether.jpg"),
-    ),
-    (
-      name: "Garrett Birkhoff",
-      image: image("assets/Garrett_Birkhoff.jpg"),
-    ),
-    (
-      name: "Dana Scott",
-      image: image("assets/Dana_Scott.jpg"),
-    ),
-    (
       name: "Felix Hausdorff",
       image: image("assets/Felix_Hausdorff.jpg"),
+    ),
+    (
+      name: "Henri Poincaré",
+      image: image("assets/Henri_Poincare.jpg"),
+    ),
+    (
+      name: "Robert Floyd",
+      image: image("assets/Robert_Floyd.jpg"),
+    ),
+    (
+      name: "Stephen Warshall",
+      image: image("assets/Stephen_Warshall.jpg"),
+    ),
+    (
+      name: "Stephen Kleene",
+      image: image("assets/Stephen_Kleene.jpg"),
     ),
   ),
 )
@@ -1999,6 +1999,24 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 #focus-slide(
   title: "Lattices",
+  scholars: (
+    (
+      name: "Alfred Tarski",
+      image: image("assets/Alfred_Tarski.jpg"),
+    ),
+    (
+      name: "Garrett Birkhoff",
+      image: image("assets/Garrett_Birkhoff.jpg"),
+    ),
+    (
+      name: "Dana Scott",
+      image: image("assets/Dana_Scott.jpg"),
+    ),
+    (
+      name: "Emmy Noether",
+      image: image("assets/Emmy_Noether.jpg"),
+    ),
+  ),
 )
 
 == Lattices
