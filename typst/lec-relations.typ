@@ -367,20 +367,32 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A relation $R subset.eq M^2$ is an _equivalence relation_ if it is reflexive, symmetric and transitive.
 ]
 
+// TODO: examples of equivalence relations
+
+== Equivalence Classes
+
 #definition[
   Let $R subset.eq M^2$ be an equivalence relation on a set $M$.
   The _equivalence class_ of an element $x in M$ under $R$ is the set of all elements related to $x$:
   $ eqclass(x, R) = { y in M | x rel(R) y } $
 ]
 
+// TODO: examles of equivalence classes
+
+#theorem[
+  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
+]
+
+// TODO: proof (sketch?)
+
+== Quotient Sets
+
 #definition[
   The _quotient set_ of $M$ by the equivalence relation $R$ is the set of all equivalence classes:
   $ quotient(M, R) = { eqclass(x, R) | x in M } $
 ]
 
-#theorem[
-  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
-]
+// TODO: examples of quotient sets
 
 == Set Partitions
 
@@ -512,6 +524,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 // TODO: visualize
+
+// TODO: examples of composition
 
 == Powers of Relations
 
