@@ -89,33 +89,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - A binary relation $R subset.eq M^2$ on the same set $M$ is called _homogeneous_.
 ]
 
-/*
-
-== examples
-
-#cetz.canvas({
-  import cetz.draw: *
-
-  circle((0, 0), radius: (1, 2))
-  circle((3, 0), radius: (1, 2))
-
-  line((0, 1), (3, -1))
-  line((0, 1), (3, 1))
-  line((0, 0), (3, 0))
-  line((0, 0), (3, -1))
-  line((0, -1), (3, -1))
-
-  circle((0, 0), radius: 0.1, fill: white)
-  circle((0, 1), radius: 0.1, fill: white)
-  circle((0, -1), radius: 0.1, fill: white)
-
-  circle((3, 0), radius: 0.1, fill: white)
-  circle((3, 1), radius: 0.1, fill: white)
-  circle((3, -1), radius: 0.1, fill: white)
-})
-
-*/
-
 == Graph Representation
 
 #definition[
