@@ -891,7 +891,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   #let prefix = $lt.dot$
   Let $S = {"ab", "abc", "abd", "ac", "b", "bc"}$ ordered by the _prefix_ relation $prefix$:
   $
-    x prefix y "if" x "is a prefix of" y
+    x prefix y "iff" x "is a prefix of" y
   $
 
   *Minimal elements:* $"ab"$, $"ac"$, $"b"$
