@@ -283,6 +283,12 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
 ]
 
+#example[
+  For the usual order relations, the converse is the naively "opposite" order:
+  - The converse of "less" is "greater": $class("normal", scripts(<)^T) = class("normal", >)$
+  - The converse of "less or equal" is "greater or equal": $class("normal", scripts(<=)^T) = class("normal", >=)$
+]
+
 
 #focus-slide(
   title: "Properties of Relations",
