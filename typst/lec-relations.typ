@@ -2328,6 +2328,8 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 #focus-slide(
   title: "Lattices",
+  epigraph: [Order is the shape upon which beauty depends.],
+  epigraph-author: "Pearl S. Buck",
   scholars: (
     (
       name: "Alfred Tarski",
