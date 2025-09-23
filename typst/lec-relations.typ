@@ -643,26 +643,81 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 == Examples of Orders
 
-// TODO: begin with simpler examples, e.g. <= on numbers
+#example[
+  The relation $leq$ on real numbers $RR$ is a _total order_:
+  - *Reflexive:* $x leq x$ for all $x in RR$
+  - *Antisymmetric:* If $x leq y$ and $y leq x$, then $x = y$
+  - *Transitive:* If $x leq y$ and $y leq z$, then $x leq z$
+  - *Connected:* For any $x, y in RR$, either $x leq y$ or $y leq x$
+
+  This is the most familiar example of an order relation.
+  Similarly, $NN$, $ZZ$, and $QQ$ with $leq$ are all total orders.
+]
+
+// TODO: visualize the total order on a number line
+//       draw ALL edges, but make transitive ones lighter
+
+#pagebreak()
 
 #example[
-  Consider the _no longer than_ relation $prec.curly.eq$ on $BB^*$:
+  The _subset relation_ $subset.eq$ on the power set $power(A)$ is a *partial order*:
+  - *Reflexive:* Every set is a subset of itself: $X subset.eq X$
+  - *Antisymmetric:* If $X subset.eq Y$ and $Y subset.eq X$, then $X = Y$
+  - *Transitive:* If $X subset.eq Y$ and $Y subset.eq Z$, then $X subset.eq Z$
+
+  For $A = {1, 2}$, we have $power(A) = {emptyset, {1}, {2}, {1,2}}$ with:
+  - $emptyset subset.eq {1} subset.eq {1,2}$ (this is a chain)
+  - $emptyset subset.eq {2} subset.eq {1,2}$ (another chain)
+  - But ${1}$ and ${2}$ are *incomparable* (neither is a subset of the other)
+
+  This is *not* a total order because not all pairs are comparable.
+]
+// TODO: visualize
+
+#pagebreak()
+
+#example[
+  #let nolonger = $prec.curly.eq$
+  Consider the _no longer than_ relation $nolonger$ on binary strings $BB^*$:
   $
-    x prec.curly.eq y quad "iff" quad "len"(x) <= "len"(y)
+    x nolonger y quad "iff" quad "len"(x) <= "len"(y)
   $
-  This is a preorder (reflexive and transitive), and even connected, but not a partial order, since it is not antisymmetric: for example, $01 prec.curly.eq 10$ and $10 prec.curly.eq 01$, but $01 neq 10$.
+  This is a *preorder* (reflexive and transitive), and even connected, but *not* a partial order, since it is not antisymmetric: for example, $01 nolonger 10$ and $10 nolonger 01$, but $01 neq 10$.
+
+  *Why it is only a preorder:*
+  Different strings of the same length are all "equivalent" under this relation, but they're not actually equal.
 ]
+// TODO: visualize
+
+#pagebreak()
 
 #example[
-  The _subset_ relation $subset.eq$ on $power(A)$ is a partial order (reflexive, antisymmetric, transitive); typically not total, since not all subsets are comparable (e.g., $A = {1}$ and $B = {2, 3}$).
+  _Divisibility_ $|$ on positive integers is a partial order.
+  For $D = {1,2,3,4,6,12}$:
+  - $1 | 2 | 4$ and $1 | 2 | 6 | 12$ (chains through divisibility)
+  - $1 | 3 | 6 | 12$ (another chain)
+  - But $2$ and $3$ are incomparable: $2 divides.not 3$ and $3 divides.not 2$
+  - Similarly, $4$ and $6$ are incomparable
+
+  *Visualization:*
+  Think of this as a "family tree" of divisibility, where ancestors divide descendants.
 ]
+// TODO: visualize
+
+#pagebreak()
 
 #example[
-  _Divisibility_ $|$ on $D = {1,2,3,6}$: $1|2|6$, $1|3|6$; $2$ and $3$ incomparable. Partial, not total.
-]
+  _Lexicographic order_ on strings $A^n$ (like dictionary order) is a *total order*.
 
-#example[
-  _Lexicographic order_ on $A^n$ (induced by a total order on $A$) is a total order.
+  For binary strings of length 2: $00 < 01 < 10 < 11$
+
+  This extends the order on individual characters to entire strings:
+  - Compare strings character by character from left to right
+  - The first differing position determines the order
+  - If one string is a prefix of another, the shorter one comes first
+
+  *Key property:*
+  Every pair of strings is comparable, making this a total order.
 ]
 
 == Partially Ordered Sets
@@ -672,11 +727,127 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
 ]
 
+#example[
+  Consider the poset $(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
+
+  // TODO: visualize (complete relation graph with gray transitive edges)
+
+  *Order relation properties:*
+  - Reflexive: $n | n$ for all $n in D$
+  - Antisymmetric: If $a | b$ and $b | a$, then $a = b$
+  - Transitive: If $a | b$ and $b | c$, then $a | c$
+
+  *Special elements:*
+  - Least element: $1$ (divides all others)
+  - Greatest element: $12$ (divisible by all others)
+  - Minimal elements: just $1$
+  - Maximal elements: just $12$
+
+  #note[
+    This poset forms a _lattice_ since every pair has a supremum (LCM) and infimum (GCD).
+  ]
+]
+
 // TODO: linearly ordered set
 
 == Hasse Diagrams
 
-TODO
+// Hasse diagram
+#definition[
+  A _Hasse diagram_ is a visual representation of a poset where:
+  - Each element is represented as a vertex.
+  - If $x < y$ and there is no $z$ with $x < z < y$, draw an edge from $x$ to $y$.
+  - Elements are arranged vertically by the order relation.
+  - Transitive connections are omitted (implied by transitivity of the partial order).
+]
+
+#example[
+  For $D = {1, 2, 3, 6}$ with divisibility $|$:
+
+  // TODO: add more elements to make it less trivial
+
+  #place(right, dx: -1cm)[
+    #cetz.canvas({
+      import cetz.draw: *
+
+      let w = 1.4
+      let h = 1
+      let hgap = 1
+      let vgap = 1.2
+
+      let draw-vertex((x, y), name, label) = {
+        // rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
+        circle((x, y), radius: 0.4, fill: white, stroke: 1pt, name: name)
+        content(name, [#label])
+      }
+      let draw-edge(start, end) = {
+        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+      }
+
+      // Vertices
+      draw-vertex((0, 0), "1", [$1$])
+      draw-vertex((-hgap, vgap), "2", [$2$])
+      draw-vertex((hgap, vgap), "3", [$3$])
+      draw-vertex((0, vgap * 2), "6", [$6$])
+
+      // Edges
+      draw-edge("1", "2")
+      draw-edge("1", "3")
+      draw-edge("2", "6")
+      draw-edge("3", "6")
+    })
+  ]
+
+  *Reading the diagram:*
+  - $1$ divides everything (bottom element)
+  - $6$ is divisible by everything (top element)
+  - $2$ and $3$ are incomparable (same level, no path between them)
+  - Transitivity: $1 to 6$ (omitted) is implied by paths $1 to 2 to 6$ and $1 to 3 to 6$
+]
+
+== Subset Poset
+
+#example[
+  For $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion $subset.eq$:
+
+  #align(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+
+      let w = 1.4
+      let h = 1
+      let hgap = 1.5
+      let vgap = 2
+
+      let draw-vertex((x, y), name, label) = {
+        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
+        content(name, [#label])
+      }
+      let draw-edge(start, end) = {
+        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+      }
+
+      // Vertices
+      draw-vertex((0, 0), "empty", [$emptyset$])
+      draw-vertex((-hgap, vgap), "a", [${a}$])
+      draw-vertex((hgap, vgap), "b", [${b}$])
+      draw-vertex((0, vgap * 2), "ab", [${a,b}$])
+
+      // Edges
+      draw-edge("empty", "a")
+      draw-edge("empty", "b")
+      draw-edge("a", "ab")
+      draw-edge("b", "ab")
+    })
+  ]
+
+  #note[
+    This is the classic "diamond" shape characteristic of Boolean algebras.
+  ]
+  #note[
+    $pair(power(A), subset.eq)$ is also called the _Boolean lattice_.
+  ]
+]
 
 == Minimal and Maximal Elements
 
@@ -694,7 +865,42 @@ TODO
   There may be multiple maximal (or minimal) elements.
 ]
 
-// TODO: examples of minimal/maximal elements
+#example[
+  Consider the divisibility poset on $S = {2, 3, 4, 6, 8, 12}$:
+
+  #columns(2)[
+    *Minimal elements:* $2$ and $3$
+    - Nothing in $S$ properly divides $2$ (since $1 notin S$)
+    - Nothing in $S$ properly divides $3$
+
+    #colbreak()
+
+    *Maximal elements:* $8$ and $12$
+    - $8$ divides nothing else in $S$ except itself
+    - $12$ divides nothing else in $S$ except itself
+  ]
+
+  #note[
+    This poset has no greatest or least element, but multiple minimal/maximal elements.
+  ]
+]
+
+#pagebreak()
+
+#example[
+  #let prefix = $lt.dot$
+  Let $S = {"ab", "abc", "abd", "ac", "b", "bc"}$ ordered by the _prefix_ relation $prefix$:
+  $
+    x prefix y "if" x "is a prefix of" y
+  $
+
+  *Minimal elements:* $"ab"$, $"ac"$, $"b"$
+  - These strings are not prefixes of any other string in $S$
+
+  The Hasse diagram shows three separate "trees" rooted at these minimal elements.
+
+  // TODO: visualize
+]
 
 == Greatest and Least Elements
 
@@ -713,36 +919,77 @@ TODO
 ]
 
 #examples[
-  - $pair(power(A), subset.eq)$: least $emptyset$, greatest $A$.
-  - $pair(NN^+, |)$: least $1$, no greatest element.
-  - $pair(ZZ, <=)$: no least or greatest element.
-  - $pair({1,...,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$.
+  - $pair(power(A), subset.eq)$: least $emptyset$ (contained in every set), greatest $A$ (contains every subset).
+  - $pair(NN^+, |)$: least $1$ (divides every positive integer), no greatest element (no integer is divisible by all others).
+  - $pair(ZZ, <=)$: no least or greatest element (integers extend infinitely in both directions).
+  - $pair({1,2,3,4,5,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$ (prime powers and primes that don't divide anything else in the given set).
 ]
+
+#pagebreak()
+
+#example[
+  In project management, _tasks_ form a _scheduling poset_ under the "prerequisite" relation.
+
+  Consider tasks: $A$ (Design), $B$ (Code), $C$ (Test), $D$ (Deploy), $E$ (Document)
+  - $A prec B$ (we must design before coding)
+  - $A prec E$ (we must design before documenting)
+  - $B prec C$ (we must code before testing)
+  - $C prec D$ (we must test before deploying)
+
+  *Minimal element:* $A$ (Design) --- no prerequisites.
+
+  *Maximal elements:* $D$ (Deploy) and $E$ (Document) --- nothing depends on them.
+
+  *Chains:* $A to B to C to D$ represents one possible execution order.
+]
+// TODO: visualize
 
 == Chains and Antichains
 
+// Chain and Antichain
 #definition[
-  In a partially ordered set $(M, prec.eq)$:
+  In a partially ordered set $(M, leq)$:
 
   - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
     Formally:
     $
-      forall x, y in C. thin (x prec.eq y "or" y prec.eq x)
+      forall x, y in C. thin (x leq y "or" y leq x)
     $
 
   - An _antichain_ is a subset $A subset.eq M$ where no two distinct elements are comparable.
     Formally:
     $
-      forall x, y in A. thin (x != y) imply (x prec.eq.not y "and" y prec.eq.not x)
+      forall x, y in A. thin
+      (x != y) imply (x leq.not y "and" y leq.not x)
     $
 ]
 
+// TODO: move to a separate slide
+// TODO: visualize
 #example[
   Consider the divisibility relation $|$ on ${1, 2, 3, 4, 6, 12}$:
-  - Chain: ${1, 2, 4, 12}$ (since $1 divides 2 divides 4 divides 12$)
-  - Chain: ${1, 3, 6, 12}$ (since $1 divides 3 divides 6 divides 12$)
-  - Antichain: ${2, 3}$ (since $2 divides.not 3$ and $3 divides.not 2$)
-  - Antichain: ${4, 6}$ (since $4 divides.not 6$ and $6 divides.not 4$)
+
+  *Chains (totally ordered subsets):*
+  - ${1, 2, 4}$: $1 | 2 | 4$ (each divides the next)
+  - ${1, 2, 6, 12}$: $1 | 2 | 6 | 12$
+  - ${1, 3, 6, 12}$: $1 | 3 | 6 | 12$
+  - *Maximal chain:* ${1, 2, 6, 12}$ or ${1, 3, 6, 12}$ (length 4)
+
+  *Antichains (mutually incomparable subsets):*
+  - ${2, 3}$: neither divides the other
+  - ${4, 6}$: $4 divides.not 6$ and $6 divides.not 4$
+  - ${2, 3, 4}$: pairwise incomparable elements
+  - *Maximum antichain:* ${2, 3, 4}$ (size 3)
+
+  *Dilworth's theorem in action:* Maximum antichain size (3) equals minimum number of chains needed to cover the poset.
+]
+
+#example[
+  In a Git repository, commits form a poset under the "ancestor" relation:
+  - *Chain:* A sequence of commits on a single branch (linear history).
+  - *Antichain:* Commits on different branches that have diverged (no ancestry relation).
+
+  *Practical insight:* Merge commits combine multiple antichains back into a single chain.
 ]
 
 == Dilworth's Theorem
@@ -751,11 +998,43 @@ TODO
   In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
 ]
 
-// TODO: visualize
 #example[
-  In the Boolean lattice $power({a, b})$ with inclusion:
-  - Maximum antichain: ${{a}, {b}}$ of size 2
-  - Minimum chain decomposition: ${emptyset, {a}} union {{b}, {a,b}}$ with 2 chains
+  In the Boolean lattice $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion ($subset.eq$):
+
+  // #align(center)[
+  //   #cetz.canvas({
+  //     import cetz.draw: *
+
+  //     // Draw the Boolean lattice
+  //     circle((0, 0), radius: 0.15, fill: blue.lighten(80%), stroke: 1pt, name: "empty")
+  //     circle((-1, 1.5), radius: 0.15, fill: red.lighten(80%), stroke: 1pt, name: "a")
+  //     circle((1, 1.5), radius: 0.15, fill: red.lighten(80%), stroke: 1pt, name: "b")
+  //     circle((0, 3), radius: 0.15, fill: blue.lighten(80%), stroke: 1pt, name: "ab")
+
+  //     content("empty", [$emptyset$], anchor: "center")
+  //     content("a", [${a}$], anchor: "center")
+  //     content("b", [${b}$], anchor: "center")
+  //     content("ab", [${a,b}$], anchor: "center")
+
+  //     line("empty", "a", stroke: 1pt + blue)
+  //     line("empty", "b", stroke: 1pt + blue)
+  //     line("a", "ab", stroke: 1pt + blue)
+  //     line("b", "ab", stroke: 1pt + blue)
+
+  //     // Add annotations
+  //     content((-2, 1.5), text(fill: red)[Antichain], anchor: "east")
+  //     content((0, -0.8), text(fill: blue)[Chain 1], anchor: "center", angle: 90deg)
+  //     content((1.8, 2.2), text(fill: blue)[Chain 2], anchor: "center", angle: 90deg)
+  //   })
+  // ]
+
+  - *Maximum antichain:* ${{a}, {b}}$ of size 2 (red nodes - incomparable elements)
+  - *Minimum chain decomposition:*
+    - Chain 1: $emptyset subset.eq {a} subset.eq {a,b}$
+    - Chain 2: $emptyset subset.eq {b} subset.eq {a,b}$
+  - *Dilworth's theorem:* Maximum antichain size (2) = minimum number of chains (2).
+
+  Note: $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
 ]
 
 == Upper and Lower Bounds
@@ -770,10 +1049,37 @@ TODO
   In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
 ]
 
-#examples[
-  - In $pair(RR, <=)$ for interval $C = (0,1)$: every $x <= 0$ is a lower bound; every $x >= 1$ an upper bound.
-  - In $pair(power(A), subset.eq)$ for $C = {{1,2},{1,3}}$: lower bounds include ${1}$, $emptyset$; upper bounds include ${1,2,3}$.
-  - In $pair(ZZ, |)$ for $C = {4,6}$: upper bounds are multiples of $12$; least upper bound $12$; lower bounds are divisors of $2$; greatest lower bound $2$.
+#example[
+  In $pair(RR, <=)$ for interval $C = (0;1)$:
+  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
+  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
+  - *No* greatest lower bound or least upper bound in $C$ (since $(0;1)$ is open)
+]
+
+#example[
+  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
+  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
+  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
+  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
+  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
+]
+
+#example[
+  In divisibility poset for $C = {4,6}$:
+  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
+  - *Lower bounds:* common divisors, i.e., ${1, 2}$
+  - *Least upper bound:* $12 = "lcm"(4,6)$
+  - *Greatest lower bound:* $2 = "gcd"(4,6)$
+]
+
+#example[
+  In the task scheduling poset from earlier:
+  - For tasks $C = {B, E}$ (Code, Document):
+    - *Lower bound:* $A$ (Design) --- prerequisite for both
+    - *Upper bounds:* None in this poset
+    - *Greatest lower bound:* $A$ (latest common prerequisite)
+
+  This corresponds to finding the "merge point" in dependency graphs.
 ]
 
 == Suprema and Infima
@@ -797,9 +1103,28 @@ TODO
 ]
 
 #examples[
-  - $pair(RR, <=)$: $sup({0,1}) = 1$, $inf({0,1}) = 0$, i.e., $sup(C) = max(C)$, $inf(C) = min(C)$.
-  - $pair(power(A), subset.eq)$: $sup = union$, $inf = intersect$.
-  - Divisibility on $NN_(>0)$: $sup {a, b} = lcm(a, b)$ (if any common multiple), $inf {a, b} = gcd(a, b)$.
+  - $pair(RR, <=)$: For finite sets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
+    For infinite sets: $sup((0,1)) = 1$ and $inf((0,1)) = 0$ (even though $0, 1 notin (0,1)$)
+
+  - $pair(power(A), subset.eq)$:
+    - $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
+    - $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
+    - *Example:* $sup({{1,2}, {2,3}, {3,4}}) = {1,2,3,4}$
+
+  - Divisibility on $NN_(>0)$:
+    - $sup{a, b} = "lcm"(a, b)$ (least common multiple)
+    - $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
+    - *Example:* $sup{6, 10} = 30$, $inf{6, 10} = 2$
+]
+
+#example[Suprema and Infima in Programming][
+  In type systems, types form a lattice under subtyping:
+  - $sup{"int", "string"} = "any"$ (most general type containing both)
+  - $inf{"number", "int"} = "int"$ (most specific type contained in both)
+
+  In access control systems:
+  - $sup{"read", "write"} = "read-write"$ (union of permissions)
+  - $inf{"admin", "user"} = "guest"$ (intersection of permissions)
 ]
 
 
@@ -2096,24 +2421,50 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 #example[Divisibility Lattice][
   For positive integers, $a leq b$ iff $a$ divides $b$.
-  - Join: Least Common Multiple (LCM)
-  - Meet: Greatest Common Divisor (GCD)
-  - Used in: Number theory, cryptography (RSA), computer algebra systems
+  - *Join (LCM):* $6 Join 10 = "lcm"(6,10) = 30$
+  - *Meet (GCD):* $6 Meet 10 = "gcd"(6,10) = 2$
+  - *Bottom element:* $1$ (divides everything)
+  - *No top element:* No integer is divisible by all others
+
+  *Applications:*
+  - Number theory and cryptography (RSA key generation)
+  - Computer algebra systems (polynomial GCD algorithms)
+  - Scheduling problems (finding common time periods)
 ]
+
+#pagebreak()
+
+#example[File System Permissions][
+  Unix file permissions form a lattice under inclusion:
+  - Elements: Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
+  - Order: $P_1 leq P_2$ if $P_1 subset.eq P_2$ (fewer permissions $=>$ more restrictive)
+  - Join: Union of permissions (less restrictive)
+    - For example: ${"read"} Join {"execute"} = {"read", "execute"}$
+  - Meet: Intersection of permissions (more restrictive)
+    - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
+]
+// TODO: visualize
+
+#pagebreak()
 
 #example[Partition Lattice][
   All partitions of a set $S$, ordered by refinement.
   - $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
-  - Join: Coarsest common refinement
-  - Meet: Finest common coarsening
+  - Join: Finest common coarsening
+    - For example: $(1 2 | 3) Join (1 | 2 3) = (1 2 3)$
+  - Meet: Coarsest common refinement
+    - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
   - Applications: Clustering, database normalization
 ]
+// TODO: visualize
 
+#v(1fr)
 #Block(color: blue)[
   Lattices aren't just abstract algebra --- they appear everywhere in computer science and mathematics.
 
   The _join_ and _meet_ operations capture fundamental patterns of _combination_ and _interaction_.
 ]
+#v(1fr)
 
 == Why Lattices Matter [1]: Information Security Levels
 
