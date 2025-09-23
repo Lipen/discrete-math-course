@@ -1049,6 +1049,363 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Note: $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
 ]
 
+
+#focus-slide(
+  title: "Well Orders",
+)
+
+== Well-Ordered Sets
+
+#definition[
+  A poset $(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
+]
+
+#note[
+  A well-ordered set is automatically a _total order_ (linear order) since comparability follows from the well-ordering property.
+]
+
+#example[
+  The natural numbers $NN = {0, 1, 2, 3, dots}$ with the usual order $leq$ form a well-ordered set:
+  - Any non-empty subset has a smallest element.
+  - For instance, the subset ${5, 17, 23, 100}$ has least element $5$.
+  - Even infinite subsets like ${2, 4, 6, 8, dots}$ (even numbers) have a least element ($2$).
+]
+
+#example[
+  The integers $ZZ$ with the usual order are _not_ well-ordered:
+  - The subset ${-1, -2, -3, dots}$ (negative integers) has no least element.
+  - Any infinite descending sequence has no minimum.
+]
+
+== Examples of Well-Ordered Sets
+
+// TODO: check/refine
+#example[
+  _Lexicographic order_ on finite strings over an alphabet is well-ordered:
+  - Given any non-empty set of strings, there is always a lexicographically smallest one.
+  - For example, in ${"cat", "dog", "apple", "zebra"}$, the least element is "$"apple"$".
+
+  // TODO: add another example with set of "all" finite strings: {b, ab, aab, aaab, ...} has no least element
+
+  // TODO: fix this incorrect (or unclear) example...
+  // For infinite $omega$-strings, lexicographic order is _not_ well-ordered:
+  // - The set of all infinite binary strings has no least element.
+  // - For example, the subset of strings starting with "1" has no least element.
+]
+
+// TODO: add more lex orders (e.g. shortlex)
+
+// TODO: add more examples of well-ordered sets
+
+== Well-Founded Relations
+
+// TODO: extract the equivalent part with descending chain into a separate definition, and focus here only on minimal elements
+#definition[
+  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
+
+  Equivalently, $R$ is well-founded if there are no infinite _descending chains_:
+  $
+    not exists (x_0, x_1, x_2, dots) in M^NN. thin
+    forall i in NN. thin
+    x_(i+1) rel(R) x_i
+  $
+]
+
+#note[
+  If $R$ is a strict order $<$, then the infinite descending chain can be written as:
+  $
+    x_0 > x_1 > x_2 > dots
+  $
+]
+
+#note[
+  _Well-founded_ $!=$ _well-ordered_:
+  - Well-ordered requires a _least_ element (unique minimum)
+  - Well-founded only requires _minimal_ elements (no element below them)
+  - Every well-ordered set is well-founded, but not vice versa
+]
+
+== Examples of Well-Founded Relations
+
+#example[
+  Consider the _proper subset_ relation $subset$ on finite sets.
+  Let $M = {emptyset, {a}, {b}, {a,b}}$.
+  // with $A subset B$ meaning "$A$ is a proper subset of $B$", i.e. $A subset.eq B$, but $A != B$.
+
+  *Well-founded:* #YES Every subset of $M$ has minimal elements.
+  - _Example:_ The subset ${{a}, {b}, {a,b}}$ has minimal elements ${a}$ and ${b}$
+    - Neither ${a} subset {b}$ nor ${b} subset {a}$ (they're incomparable)
+    - Both are minimal since no set in the subset is a proper subset of them
+
+  *Well-ordered:* #NO Some subsets lack a unique least element.
+  - _Same example:_ ${{a}, {b}, {a,b}}$ has no "$subset$-least" element
+    - For "$subset$-least", we'd need a set $L$ such that $L subset X$ for all other $X$
+    - But ${a} subset.not {b}$ and ${b} subset.not {a}$, so neither can be least
+    - No single set is a proper subset of all others in this collection
+
+  #Block(color: yellow)[
+    *Key insight:* Well-founded $!=$ well-ordered:
+    - _Multiple minimal_ elements are allowed in well-founded relations.
+    - Well-ordered relations require a _unique_ least element in every subset.
+  ]
+]
+
+// #pagebreak()
+//
+// TODO: fix this BROKEN example
+//
+// #example[Comparing $(NN, leq)$ vs $(NN, >=)$][
+//   Same set, different relations show how direction affects properties:
+
+//   *$(NN, leq)$ --- standard "less than or equal":*
+//   - *Well-ordered:* #YES Every subset has a least (smallest) element.
+//   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
+//   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
+
+//   *$(NN, >=)$ --- "greater than or equal":*
+//   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
+//     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
+//     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
+//   - *Well-founded:* #NO Has infinite descending chains like $10 >= 9 >= 8 >= dots$
+
+//   #Block(color: yellow)[
+//     *Key insight:* The same mathematical structure can be well-ordered under one relation but not under its "reverse"!
+//   ]
+// ]
+
+#pagebreak()
+
+#example[
+  The _divisibility_ relation $(NN^+, |)$ is well-founded:
+  - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
+  - For example, in ${6, 12, 18, 4, 8}$: minimal elements are ${6, 4}$
+  - There are no infinite descending divisibility chains
+]
+
+#pagebreak()
+
+#example[
+  _Program termination analysis_ uses well-founded relations:
+  - Define a measure that decreases with each recursive call
+  - If the measure forms a well-founded order, the program terminates
+  - Example: factorial function decreases argument from $n$ to $n-1$
+]
+// TODO: add Dafny example
+
+== Noetherian Relations
+
+#definition[
+  A relation $R subset.eq S^2$ is _Noetherian_ if it satisfies the _descending chain condition (DCC)_:
+  every sequence $x_1 rel(R) x_2 rel(R) x_3 rel(R) dots$ eventually stabilizes.
+
+  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i. thin x_i rel(R) x_(i+1)) imply (exists N in NN. thin forall n >= N. thin (x_n = x_(n+1)))$
+]
+
+// TODO: this is duplicated below in chain condition equivalences
+#theorem[
+  For any relation $R$, the following are equivalent:
+  + $R$ is well-founded
+  + $R$ is Noetherian (satisfies DCC)
+  + $R$ has no infinite descending chains
+]
+
+#example[
+  The usual order $leq$ on $NN$ is Noetherian:
+  - Any descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize
+  - Since natural numbers are bounded below by $0$, infinite descent is impossible
+  - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
+]
+
+#pagebreak()
+
+#example[
+  In ring theory, a _Noetherian ring_ has the property that every ascending chain of ideals stabilizes:
+  $I_1 subset.eq I_2 subset.eq I_3 subset.eq dots$ eventually becomes constant.
+  This connects to termination of algorithms in computational algebra.
+]
+
+#example[
+  In rewriting systems and lambda calculus:
+  - A _reduction relation_ $to$ is Noetherian if all reduction sequences terminate
+  - Example: $beta$-reduction in simply typed lambda calculus is Noetherian
+  - This guarantees that programs always terminate (no infinite loops)
+]
+
+== Chain Conditions
+
+// Ascending chain condition (ACC)
+#definition[
+  A poset $P$ is said to satisfy the _ascending chain condition (ACC)_ if no strict ascending sequence $x_1 < x_2 < x_3 < dots$ of elements of $P$ exists.
+
+  Equivalently, every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually stabilizes.
+
+  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i leq x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
+]
+
+// Descending chain condition (DCC)
+#definition[
+  A poset $P$ is said to satisfy the _descending chain condition (DCC)_ if no strict descending sequence $x_1 > x_2 > x_3 > dots$ of elements of $P$ exists.
+
+  Equivalently, every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually stabilizes.
+
+  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
+]
+
+== Chain Condition Equivalences
+
+#theorem[
+  For a poset $(S, leq)$:
+  - *DCC* $<==>$ the relation $leq$ is well-founded $<==>$ no infinite descending chains.
+  - *ACC* $<==>$ the _dual_ relation $>=$ is well-founded $<==>$ no infinite ascending chains.
+]
+
+#proof[(sketch)][
+  - *DCC implies well-founded:* If there were a non-empty subset without a minimal element, we could construct an infinite descending chain, contradicting DCC.
+  - *Well-founded implies DCC:* If there were an infinite descending chain, its elements would form a non-empty subset without a minimal element, contradicting well-foundedness.
+  - The equivalence for ACC follows by applying the same reasoning to the dual relation $>=$.
+]
+
+== Examples of ACC and DCC
+
+#example[
+  Consider the poset $(power({1,2,3}), subset.eq)$ of subsets ordered by inclusion:
+  - *ACC holds:* #YES Any ascending chain $A_1 subset.eq A_2 subset.eq A_3 subset.eq dots$ must stabilize since we can't keep adding elements indefinitely.
+  // TODO: check where this claim is correct:
+  //  Here, it stabilizes to the full set ${1,2,3}$.
+  - *DCC holds:* #YES Any descending chain $B_1 supset.eq B_2 supset.eq B_3 supset.eq dots$ must stabilize since we can't keep removing elements indefinitely.
+  // TODO: check where this claim is correct:
+  //  Here, it stabilizes to the empty set $emptyset$.
+  - Both conditions hold because the set is finite.
+]
+
+#example[
+  In the natural numbers $(NN, leq)$:
+  - *DCC holds:* #NO Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
+  - *ACC fails:* #NO The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
+  - This shows that DCC and ACC are independent conditions.
+]
+
+#examples[Applications in algebra][
+  - *Noetherian rings:* Satisfy ACC for ideals (every ascending chain of ideals stabilizes).
+  - *Artinian rings:* Satisfy DCC for ideals (every descending chain of ideals stabilizes).
+  - *Principal ideal domains:* Both conditions hold, enabling algorithms like Euclidean division.
+]
+
+== Connections and Applications
+
+#theorem[Well-ordering principle][
+  Every well-ordered set admits _transfinite induction_: to prove $P(x)$ for all $x in S$, it suffices to show:
+  $forall x in S. thin (forall y < x. thin P(y)) imply P(x)$
+]
+
+#example[
+  _Mathematical induction_ on $NN$ is a special case of transfinite induction using the well-ordering of natural numbers.
+]
+
+#examples[Computer science applications][
+  - *Termination analysis:* Prove programs terminate by finding well-founded measures.
+  - *Parsing algorithms:* Use well-founded recursion on parse tree depth.
+  - *Datalog evaluation:* Stratified negation ensures termination via well-founded semantics.
+  - *Model checking:* Well-founded relations ensure finite state exploration.
+]
+
+#Block(color: blue)[
+  These concepts provide the mathematical foundation for reasoning about _termination_, _finiteness_, and _algorithmic complexity_ in computer science and mathematics.
+]
+
+// TODO: refine the summary
+
+// == Summary: Order-Theoretic Properties
+
+// #align(center)[
+//   #table(
+//     columns: 3,
+//     align: (left, left, left),
+//     stroke: (x, y) => if y == 0 { (bottom: 1pt) },
+//     // fill: (x, y) => if y == 0 { luma(220) },
+//     inset: 8pt,
+
+//     table.header([*Property*], [*Definition*], [*Key Examples*]),
+
+//     [*Well-Ordered*], [Every non-empty subset has a _least_ element], [$(NN, leq)$, lexicographic strings],
+
+//     [*Well-Founded*], [Every non-empty subset has _minimal_ elements], [Proper subset $subset$],
+
+//     [*Noetherian*],
+//     [
+//       No infinite descending chains
+//       $x_0 > x_1 > x_2 > dots$
+//     ],
+//     [Same as well-founded],
+
+//     [*Artinian*],
+//     [
+//       No infinite ascending chains
+//       $x_0 < x_1 < x_2 < dots$
+//     ],
+//     [$(power(A), subset.eq)$, some ring ideals],
+
+//     [*DCC*], [Descending Chain Condition:\ $x_1 >= x_2 >= dots$ stabilizes], [Same as Noetherian],
+
+//     [*ACC*], [Ascending Chain Condition: \ $x_1 <= x_2 <= dots$ stabilizes], [Same as Artinian],
+//   )
+// ]
+
+// #pagebreak()
+
+// #Block(color: yellow)[
+//   *Key Relationships:*
+//   - Well-Ordered $=>$ Well-Founded (every least element is minimal)
+//   - Well-Founded $<=>$ Noetherian $<=>$ DCC (equivalent conditions)
+//   - ACC is the "dual" of DCC (flip the relation direction)
+//   - Well-Founded + ACC $<=>$ finite chains in both directions
+// ]
+
+// == Detailed Comparison Table
+
+// #align(center)[
+//   #table(
+//     columns: 6,
+//     align: (left, center, center, center, center, left),
+//     stroke: (x, y) => if y == 0 { (bottom: 1pt) } + if x > 0 { (left: 0.5pt) },
+
+//     [*Property*], [$(NN, leq)$], [$(NN, >)$], [$(power(A_"fin"), subset.eq)$], [$(power(A_"inf"), subset.eq)$], [*Distinguishing Feature*],
+
+//     [*Well-Ordered*], [#YES], [#NO], [#YES], [#NO], [Unique least in every subset],
+
+//     [*Well-Founded*], [#YES], [#NO], [#YES], [#NO], [Minimal elements exist],
+
+//     [*DCC*], [#YES], [#NO], [#YES], [#NO], [No infinite descent],
+
+//     [*ACC*], [#NO], [#YES], [#YES], [#NO], [No infinite ascent],
+
+//     [*Total Order*], [#YES], [#YES], [#NO], [#NO], [All elements comparable],
+
+//     [*Finite*], [#NO], [#NO], [#YES], [#NO], [Bounded number of elements],
+//   )
+// ]
+
+// #examples[Why $(NN, >)$ fails][
+//   - *Not well-founded:* ${1,2,3,dots}$ has no maximal element
+//   - *Not DCC:* Infinite descent $3 > 2 > 1 > 0 > -1 > dots$ (if extended to $ZZ$)
+//   - *Has ACC:* Any ascending sequence $a_1 > a_2 > dots$ in $NN$ must stabilize
+// ]
+
+// #examples[Why $(power(A), subset.eq)$ succeeds][
+//   - *Well-ordered:* $emptyset$ is least element of any non-empty collection
+//   - *Well-founded:* Minimal sets exist (those contained in no others)
+//   - *Both DCC & ACC:* Can't infinitely add/remove elements from finite universe
+// ]
+
+
+#focus-slide(
+  title: "Suprema and Infima",
+)
+
 == Upper and Lower Bounds
 
 // Upper bound
