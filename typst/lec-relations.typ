@@ -269,10 +269,14 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #definition[
-  For a relation $R subset.eq A times B$, the _converse_ (or _inverse_, or _dual_) relation is:
+  For a relation $R subset.eq A times B$, the _inverse_ (or _converse_, or _dual_) relation is:
   $
     R^(-1) = {pair(b, a) | pair(a, b) in R} subset.eq B times A
   $
+
+  #note[
+    Other notations include $R^T$ (transpose), $R^C$ (converse), $R^circle.small$ (reciprocal).
+  ]
 ]
 
 #example[
