@@ -742,7 +742,56 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[
   Consider the poset $(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
 
-  // TODO: visualize (complete relation graph with gray transitive edges)
+  #place(right, dx: -1cm)[
+    #cetz.canvas({
+      import cetz.draw: *
+
+      let w = 1.4
+      let h = 1
+      let hgap = 1.2
+      let vgap1 = 1
+      let vgap2 = 1.5
+
+      let draw-vertex((x, y), name, label) = {
+        circle((x, y), radius: 0.4, fill: white, stroke: 1pt, name: name)
+        content(name, [#label])
+      }
+      let draw-edge(start, end) = {
+        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+      }
+      let draw-transitive-edge(start, end) = {
+        let color = luma(80%)
+        line(start, end, stroke: 0.5pt + color, mark: (end: "stealth", fill: color))
+      }
+
+      // Vertices
+      draw-vertex((0, 0), "1", [$1$])
+      draw-vertex((-hgap, vgap1), "2", [$2$])
+      draw-vertex((hgap, vgap1), "3", [$3$])
+      draw-vertex((-hgap, vgap1 + vgap2), "4", [$4$])
+      draw-vertex((hgap, vgap1 + vgap2), "6", [$6$])
+      draw-vertex((0, vgap1 * 2 + vgap2), "12", [$12$])
+
+      // Transitive edges
+      draw-transitive-edge("1", "4")
+      draw-transitive-edge("1", "6")
+      draw-transitive-edge("1", "12")
+      draw-transitive-edge("2", "12")
+      draw-transitive-edge("3", "12")
+
+      // TODO: Loops
+
+      // Edges
+      draw-edge("1", "2")
+      draw-edge("1", "3")
+      draw-edge("2", "4")
+      draw-edge("2", "6")
+      draw-edge("3", "4")
+      draw-edge("3", "6")
+      draw-edge("4", "12")
+      draw-edge("6", "12")
+    })
+  ]
 
   *Order relation properties:*
   - Reflexive: $n | n$ for all $n in D$
