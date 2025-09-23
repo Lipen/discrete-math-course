@@ -2341,6 +2341,10 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
       name: "Emmy Noether",
       image: image("assets/Emmy_Noether.jpg"),
     ),
+    (
+      name: "Marshall Stone",
+      image: image("assets/Marshall_Stone.jpg"),
+    )
   ),
 )
 
