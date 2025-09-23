@@ -720,6 +720,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Every pair of strings is comparable, making this a total order.
 ]
 
+// TODO: strict orders!
+
 == Partially Ordered Sets
 
 // Poset
