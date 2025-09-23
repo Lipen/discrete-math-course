@@ -1996,6 +1996,10 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
       name: "John von Neumann",
       image: image("assets/John_von_Neumann.jpg"),
     ),
+    (
+      name: "Paul Cohen",
+      image: image("assets/Paul_Cohen.jpg"),
+    ),
   ),
 )
 
@@ -2344,7 +2348,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
     (
       name: "Marshall Stone",
       image: image("assets/Marshall_Stone.jpg"),
-    )
+    ),
   ),
 )
 
