@@ -403,6 +403,107 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $ quotient(M, R) = { eqclass(x, R) | x in M } $
 ]
 
+#example[
+  Consider $M = {0, 1, 2, 3, 4, 5}$ with the equivalence relation "congruent modulo 3":
+  $
+    x equiv y space (mod 3) quad "iff" quad 3 | (x - y)
+  $
+
+  *Equivalence classes:*
+  - $eqclass(0, equiv) = {0, 3} = {x in M | x equiv 0 space (mod 3)}$
+  - $eqclass(1, equiv) = {1, 4} = {x in M | x equiv 1 space (mod 3)}$
+  - $eqclass(2, equiv) = {2, 5} = {x in M | x equiv 2 space (mod 3)}$
+
+  *Quotient set:*
+  $
+    quotient(M, equiv) = { {0, 3}, {1, 4}, {2, 5} }
+  $
+
+  Note that $eqclass(3, equiv) = eqclass(0, equiv) = {0, 3}$, so we don't get a new equivalence class.
+]
+
+#example[
+  Let $M = {"a", "ab", "abc", "x", "xy", "z"}$ with equivalence relation $R$ defined by:
+  $
+    s_1 rel(R) s_2 quad "iff" quad |s_1| = |s_2|
+  $
+  where $|s|$ denotes the length of string $s$.
+
+  *Equivalence classes by length:*
+  - $eqclass("a", R) = {"a", "x", "z"}$ (strings of length 1)
+  - $eqclass("ab", R) = {"ab", "xy"}$ (strings of length 2)
+  - $eqclass("abc", R) = {"abc"}$ (strings of length 3)
+
+  *Quotient set:*
+  $
+    quotient(M, R) = { {"a", "x", "z"}, {"ab", "xy"}, {"abc"} }
+  $
+
+  This partitions strings by their length, creating 3 equivalence classes.
+]
+
+#pagebreak()
+
+#example[
+  Consider the set of all points in the plane $M = RR^2$ with the equivalence relation:
+  $
+    pair(x_1, y_1) sim pair(x_2, y_2) quad "iff" quad x_1 + y_1 = x_2 + y_2
+  $
+
+  This relation groups points that lie on the same line of the form $x + y = c$ for some constant $c$.
+
+  *Equivalence classes:*
+  - $eqclass(pair(0,0), sim) = {pair(x, y) | x + y = 0}$ (the line $x + y = 0$)
+  - $eqclass(pair(1,0), sim) = {pair(x, y) | x + y = 1}$ (the line $x + y = 1$)
+  - $eqclass(pair(0,2), sim) = {pair(x, y) | x + y = 2}$ (the line $x + y = 2$)
+
+  *Quotient set:*
+  $
+    quotient(RR^2, sim) = { L_c | c in RR }
+  $
+  where $L_c = {pair(x, y) | x + y = c}$ is the line with equation $x + y = c$.
+
+  Each equivalence class is an entire line, and the quotient set consists of all such parallel lines.
+]
+
+#pagebreak()
+
+#example[
+  Let $M = {"apple", "ant", "banana", "bee", "cherry", "cat"}$ with equivalence relation:
+  $
+    w_1 rel(R) w_2 quad "iff" quad "first letter of" w_1 = "first letter of" w_2
+  $
+
+  *Equivalence classes:*
+  - $eqclass("apple", R) = {"apple", "ant"}$ (words starting with 'a')
+  - $eqclass("banana", R) = {"banana", "bee"}$ (words starting with 'b')
+  - $eqclass("cherry", R) = {"cherry", "cat"}$ (words starting with 'c')
+
+  *Quotient set:*
+  $
+    quotient(M, R) = { {"apple", "ant"}, {"banana", "bee"}, {"cherry", "cat"} }
+  $
+
+  This creates a dictionary-like grouping by first letter.
+]
+
+#pagebreak()
+
+#example[Trivial quotient sets][
+
+  *Identity relation:* If $R = I_M$ (identity relation), then each element forms its own equivalence class:
+  $
+    quotient(M, I_M) = { {x} | x in M }
+  $
+  The quotient set has the same cardinality as the original set.
+
+  *Universal relation:* If $R = M times M$ (universal relation), then all elements are equivalent:
+  $
+    quotient(M, M times M) = { M }
+  $
+  The quotient set contains exactly one equivalence class - the entire set $M$.
+]
+
 // TODO: examples of quotient sets
 
 == Set Partitions
