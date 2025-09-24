@@ -709,8 +709,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   The quotient set contains exactly one equivalence class --- the entire set $M$.
 ]
 
-// TODO: examples of quotient sets
-
 == Set Partitions
 
 #definition[
