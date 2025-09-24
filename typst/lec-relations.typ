@@ -967,7 +967,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - $"ac"$ stands alone (no other string extends it in $S$)
 ]
 
-#place(right + bottom)[
+#place(right + bottom, dx: -1em, dy: -1em)[
   #cetz.canvas({
     import cetz.draw: *
 
