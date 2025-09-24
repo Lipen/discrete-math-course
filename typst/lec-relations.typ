@@ -390,12 +390,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - *Symmetric:* If $x rel(I_M) y$, then $x = y$, thus $y = x$, so $y rel(I_M) x$ #YES
   - *Transitive:* If $x rel(I_M) y$ and $y rel(I_M) z$, then $x = y = z$, so $x rel(I_M) z$ #YES
 
-  // TODO: move to the next slide
-  //
-  // *Equivalence classes:* Each element forms its own equivalence class:
-  // $eqclass(x, I_M) = {x}$ for all $x in M$.
-  //
-  // This is the "finest" possible equivalence relation --- it distinguishes every element.
+  This is the "finest" possible equivalence relation --- it distinguishes every element.
 ]
 
 == Equivalence Classes
@@ -406,9 +401,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $ eqclass(x, R) = { y in M | x rel(R) y } $
 ]
 
-// TODO: small example for equality
-#example[
-  TODO
+#example[Equality][
+  For the identity relation $I_M$ on set $M = {a, b, c}$:
+  - $eqclass(a, I_M) = {a}$ (only $a$ is equal to $a$)
+  - $eqclass(b, I_M) = {b}$ (only $b$ is equal to $b$)
+  - $eqclass(c, I_M) = {c}$ (only $c$ is equal to $c$)
+
+  Each element forms its own equivalence class under equality.
 ]
 
 // TODO: where to include this?..
