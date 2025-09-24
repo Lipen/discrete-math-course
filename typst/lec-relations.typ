@@ -840,10 +840,10 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #example[
   Let $A = {1, 2, 3}$, $B = {a, b, c, d}$, $C = {x, y}$ with relations:
-  - $R = {(1, a), (1, b), (2, c), (3, d)} subset.eq A times B$
-  - $S = {(a, x), (b, y), (c, x)} subset.eq B times C$
+  - $R = {pair(1, a), pair(1, b), pair(2, c), pair(3, d)} subset.eq A times B$
+  - $S = {pair(a, x), pair(b, y), pair(c, x)} subset.eq B times C$
 
-  To find $R relcomp S$, we look for pairs $(i, z)$ where there exists $w$ such that $(i, w) in R$ and $(w, z) in S$:
+  To find $R relcomp S$, we look for pairs $(i, z)$ where there exists $w$ such that $pair(i, w) in R$ and $pair(w, z) in S$:
 
   From $1$: can reach $a$ and $b$ via $R$
   - $a$ connects to $x$ via $S$ $=>$ $(1, x)$ is in the composition
@@ -855,7 +855,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   From $3$: can reach $d$ via $R$
   - $d$ has no outgoing connections in $S$ $=>$ no pairs from $3$ in the composition
 
-  Therefore: $R relcomp S = {(1, x), (1, y), (2, x)}$
+  Therefore: $R relcomp S = {pair(1, x), pair(1, y), pair(2, x)}$
 ]
 
 #align(center)[
