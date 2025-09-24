@@ -599,9 +599,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   This relation groups points that lie on the same line of the form $x + y = c$ for some constant $c$.
 
   *Equivalence classes:*
-  - $eqclass(pair(0,0), sim) = {pair(x, y) | x + y = 0}$ (the line $x + y = 0$)
-  - $eqclass(pair(1,0), sim) = {pair(x, y) | x + y = 1}$ (the line $x + y = 1$)
-  - $eqclass(pair(0,2), sim) = {pair(x, y) | x + y = 2}$ (the line $x + y = 2$)
+  - $eqclass(pair(0, 0), sim) = {pair(x, y) | x + y = 0}$ (the line $x + y = 0$)
+  - $eqclass(pair(1, 0), sim) = {pair(x, y) | x + y = 1}$ (the line $x + y = 1$)
+  - $eqclass(pair(0, 2), sim) = {pair(x, y) | x + y = 2}$ (the line $x + y = 2$)
 
   *Quotient set:*
   $
@@ -843,7 +843,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     ) = natrix.bnat(1, 1; 1, 1)
   $
 
-  This means $R relcomp S = {pair(1,x), pair(1,y), pair(2,x), pair(2,y)}$ (the universal relation).
+  This means $R relcomp S = {pair(1, x), pair(1, y), pair(2, x), pair(2, y)}$ (the universal relation).
 ]
 
 #example[Path composition in a graph][
@@ -1906,16 +1906,16 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #example[
   $pair(power(A), subset.eq)$:
-    - $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
-    - $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
-    - *Example:* $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
+  - $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
+  - $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
+  - *Example:* $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
 ]
 
 #example[
   Divisibility on $NN_(>0)$:
-    - $sup{a, b} = "lcm"(a, b)$ (least common multiple)
-    - $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
-    - *Example:* $sup {6, 10} = 30$, $inf {6, 10} = 2$
+  - $sup{a, b} = "lcm"(a, b)$ (least common multiple)
+  - $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
+  - *Example:* $sup {6, 10} = 30$, $inf {6, 10} = 2$
 ]
 
 #example[Suprema and Infima in Programming][
