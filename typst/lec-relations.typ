@@ -860,6 +860,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Therefore: $R relcomp S = {pair(1, alpha), pair(1, beta), pair(2, alpha)}$
 ]
 
+// TODO: visualize
+
 == Examples of Composition
 
 #example[Composition in a social network][
