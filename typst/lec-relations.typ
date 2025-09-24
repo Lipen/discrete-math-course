@@ -849,6 +849,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     columns: 4,
     align: (left, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+
     table.header([$a$], [$b$ (via $R$)], [$c$ (via $S$)], [Result in $R relcomp S$]),
 
     [$1$], [$x$], [$alpha$], [$pair(1, alpha)$ #YES],
