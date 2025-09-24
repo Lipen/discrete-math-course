@@ -656,7 +656,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $
     quotient(M, M times M) = { M }
   $
-  The quotient set contains exactly one equivalence class - the entire set $M$.
+  The quotient set contains exactly one equivalence class --- the entire set $M$.
 ]
 
 // TODO: examples of quotient sets
