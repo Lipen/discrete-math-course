@@ -26,6 +26,7 @@
 #let Meet = math.and
 #let nand = $overline(and)$
 #let nor = $overline(or)$
+#let boolprod = $dot.circle$
 
 
 #CourseOverviewPage()
@@ -533,9 +534,86 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $
 ]
 
-// TODO: visualize
+#example[
+  Let $A = {1, 2}$, $B = {x, y, z}$, $C = {alpha, beta}$ with relations:
+  - $R = {pair(1, x), pair(1, y), pair(2, z)} subset.eq A times B$
+  - $S = {pair(x, alpha), pair(y, beta), pair(z, alpha)} subset.eq B times C$
 
-// TODO: examples of composition
+  To find $R relcomp S$, we look for pairs $pair(a, c)$ where there exists $b$ such that $a rel(R) b$ and $b rel(S) c$:
+
+  #table(
+    columns: 4,
+    align: (left, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([$a$], [$b$ (via $R$)], [$c$ (via $S$)], [Result in $R relcomp S$]),
+
+    [$1$], [$x$], [$alpha$], [$pair(1, alpha)$ ✓],
+    [$1$], [$y$], [$beta$], [$pair(1, beta)$ ✓],
+    [$2$], [$z$], [$alpha$], [$pair(2, alpha)$ ✓],
+  )
+
+  Therefore: $R relcomp S = {pair(1, alpha), pair(1, beta), pair(2, alpha)}$
+]
+
+== Examples of Composition
+
+#example[Composition in a social network][
+  Consider three sets:
+  - $"People" = {"Alice", "Bob", "Carol"}$
+  - $"Skills" = {"Python", "Design", "Management"}$
+  - $"Projects" = {"WebApp", "Mobile", "Analytics"}$
+
+  Define relations:
+  - $"HasSkill" = {pair("Alice", "Python"), pair("Alice", "Design"), pair("Bob", "Python"), pair("Carol", "Management")}$
+  - $"RequiresSkill" = {pair("Python", "WebApp"), pair("Python", "Analytics"), pair("Design", "WebApp"), pair("Management", "Mobile")}$
+
+  The composition $"HasSkill" relcomp "RequiresSkill"$ gives us $"CanWorkOn"$:
+  - Alice can work on WebApp (via Python AND Design)
+  - Alice can work on Analytics (via Python)
+  - Bob can work on WebApp (via Python)
+  - Bob can work on Analytics (via Python)
+  - Carol can work on Mobile (via Management)
+
+  So: $"CanWorkOn" = {pair("Alice", "WebApp"), pair("Alice", "Analytics"), pair("Bob", "WebApp"), pair("Bob", "Analytics"), pair("Carol", "Mobile")}$
+]
+
+#example[Matrix composition][
+  Relations can be composed using matrix multiplication over Boolean algebra.
+
+  Given $R subset.eq {1,2} times {a,b}$ and $S subset.eq {a,b} times {x,y}$:
+
+  $
+    matrel(R) = natrix.bnat(1, 0; 1, 1) quad
+    matrel(S) = natrix.bnat(1, 1; 0, 1)
+  $
+
+  The composition $matrel(R relcomp S) = matrel(R) boolprod matrel(S)$ using Boolean matrix multiplication:
+
+  $
+    matrel(R relcomp S) = natrix.bnat(
+      (1 and 1) or (0 and 0), (1 and 1) or (0 and 1);
+      (1 and 1) or (1 and 0), (1 and 1) or (1 and 1)
+    ) = natrix.bnat(1, 1; 1, 1)
+  $
+
+  This means $R relcomp S = {pair(1,x), pair(1,y), pair(2,x), pair(2,y)}$ (the universal relation).
+]
+
+#example[Path composition in a graph][
+  Consider a directed graph with vertices ${A, B, C, D}$ and relation $R$ representing direct edges:
+  $R = {pair(A, B), pair(B, C), pair(B, D), pair(C, D)}$
+
+  Powers of $R$ represent paths of different lengths:
+  - $R^1 = R$ (direct connections)
+  - $R^2 = R compose R$ (2-step paths):
+    - $pair(A, C)$: path $A to B to C$
+    - $pair(A, D)$: path $A to B to D$
+    - $pair(B, D)$: path $B to C to D$ (but $pair(B, D)$ already in $R^1$)
+
+  So $R^2 = {pair(A, C), pair(A, D), pair(B, D)}$, but since $pair(B, D) in R^1$, the new 2-step paths are $pair(A, C)$ and $pair(A, D)$.
+]
+
+// TODO: visualize
 
 == Powers of Relations
 
