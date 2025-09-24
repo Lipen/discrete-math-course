@@ -431,9 +431,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - *Symmetric:* If $congruent(a, b, n)$, then $n | (b - a) iff n | (a - b)$, thus $congruent(b, a, n)$ #YES
   - *Transitive:* If $congruent(a, b, n)$ and $congruent(b, c, n)$, then $n | (b - a)$ and $n | (c - b)$, so #box[$n | ((c - b) + (b - a)) iff n | (c - a)$], thus $congruent(a, c, n)$ #YES
 
-  Let $n = 5$ and $M = {0, 1, ..., 9}$.
-
   *Equivalence classes (remainders):*
+  Let $n = 5$ and $M = {0, 1, ..., 9}$.
   - $eqclass(0, equiv) = {0, 5} = {x in M | x equiv 0 space (mod 5)}$
   - $eqclass(1, equiv) = {1, 6} = {x in M | x equiv 1 space (mod 5)}$
   - $eqclass(2, equiv) = {2, 7} = {x in M | x equiv 2 space (mod 5)}$
