@@ -648,9 +648,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([$a$], [$b$ (via $R$)], [$c$ (via $S$)], [Result in $R relcomp S$]),
 
-    [$1$], [$x$], [$alpha$], [$pair(1, alpha)$ ✓],
-    [$1$], [$y$], [$beta$], [$pair(1, beta)$ ✓],
-    [$2$], [$z$], [$alpha$], [$pair(2, alpha)$ ✓],
+    [$1$], [$x$], [$alpha$], [$pair(1, alpha)$ #YES],
+    [$1$], [$y$], [$beta$], [$pair(1, beta)$ #YES],
+    [$2$], [$z$], [$alpha$], [$pair(2, alpha)$ #YES],
   )
 
   Therefore: $R relcomp S = {pair(1, alpha), pair(1, beta), pair(2, alpha)}$
