@@ -1571,16 +1571,23 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   ]
 ]
 
-#examples[
-  - $pair(RR, <=)$: For finite sets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
-    For infinite sets: $sup((0,1)) = 1$ and $inf((0,1)) = 0$ (even though $0, 1 notin (0,1)$)
+#example[
+  $pair(RR, <=)$:
+  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
+  - For infinite subsets: $sup((0,1)) = 1$ and $inf((0,1)) = 0$ (even though $0, 1 notin (0,1)$)
+]
 
-  - $pair(power(A), subset.eq)$:
+#pagebreak()
+
+#example[
+  $pair(power(A), subset.eq)$:
     - $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
     - $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
     - *Example:* $sup({{1,2}, {2,3}, {3,4}}) = {1,2,3,4}$
+]
 
-  - Divisibility on $NN_(>0)$:
+#example[
+  Divisibility on $NN_(>0)$:
     - $sup{a, b} = "lcm"(a, b)$ (least common multiple)
     - $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
     - *Example:* $sup{6, 10} = 30$, $inf{6, 10} = 2$
