@@ -1583,14 +1583,14 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $pair(power(A), subset.eq)$:
     - $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
     - $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
-    - *Example:* $sup({{1,2}, {2,3}, {3,4}}) = {1,2,3,4}$
+    - *Example:* $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
 ]
 
 #example[
   Divisibility on $NN_(>0)$:
     - $sup{a, b} = "lcm"(a, b)$ (least common multiple)
     - $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
-    - *Example:* $sup{6, 10} = 30$, $inf{6, 10} = 2$
+    - *Example:* $sup {6, 10} = 30$, $inf {6, 10} = 2$
 ]
 
 #example[Suprema and Infima in Programming][
