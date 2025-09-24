@@ -956,11 +956,62 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   $
 
   *Minimal elements:* $"ab"$, $"ac"$, $"b"$
+  - These strings have no other string in $S$ that is a proper prefix of them
+
+  *Maximal elements:* $"abc"$, $"abd"$, $"bc"$
   - These strings are not prefixes of any other string in $S$
 
-  The Hasse diagram shows three separate "trees" rooted at these minimal elements.
+  The Hasse diagram shows three separate "trees" rooted at the minimal elements, with:
+  - $"ab" prefix "abc"$ and $"ab" prefix "abd"$
+  - $"b" prefix "bc"$
+  - $"ac"$ stands alone (no other string extends it in $S$)
+]
 
-  // TODO: visualize
+#place(right + bottom)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    let w = 1.2
+    let h = 0.8
+    let hgap = 2.2
+    let vgap = 1.8
+
+    let draw-vertex((x, y), name, label, color: white) = {
+      rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, fill: color, name: name)
+      content(name, [#label], anchor: "center")
+    }
+
+    let draw-edge(start, end, color: black) = {
+      line(start, end, stroke: 1pt + color, mark: (end: "stealth", fill: color))
+    }
+
+    // Tree 1: "ab" -> "abc", "abd"
+    draw-vertex((0, 0), "ab", ["ab"], color: blue.lighten(80%))
+    draw-vertex((-0.8, vgap), "abc", ["abc"], color: green.lighten(80%))
+    draw-vertex((0.8, vgap), "abd", ["abd"], color: green.lighten(80%))
+
+    draw-edge("ab", "abc", color: blue)
+    draw-edge("ab", "abd", color: blue)
+
+    // Tree 2: "b" -> "bc"
+    draw-vertex((hgap, 0), "b", ["b"], color: blue.lighten(80%))
+    draw-vertex((hgap, vgap), "bc", ["bc"], color: green.lighten(80%))
+
+    draw-edge("b", "bc", color: blue)
+
+    // Tree 3: "ac" (standalone)
+    draw-vertex((-hgap, vgap / 2), "ac", ["ac"], color: orange.lighten(80%))
+
+    // Labels
+    // content((0, -1), text(fill: blue, weight: "bold")[Tree 1], anchor: "center")
+    // content((hgap, -1), text(fill: blue, weight: "bold")[Tree 2], anchor: "center")
+    // content((-hgap, -0.5), text(fill: orange.darken(30%), weight: "bold")[Tree 3], anchor: "center")
+
+    // Legend
+    content((-6, 3.2 - 2.5), text(size: 0.9em, fill: blue)[Minimal elements], anchor: "west")
+    content((-6, 2.8 - 2.5), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
+    content((-6, 2.4 - 2.5), text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal], anchor: "west")
+  })
 ]
 
 == Greatest and Least Elements
