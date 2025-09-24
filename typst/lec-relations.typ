@@ -508,9 +508,10 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[Similarity of triangles][
   Let $T$ be the set of all triangles in the plane. Define relation $sim$ by:
   $
-    triangle_1 sim triangle_2 quad "iff" quad triangle_1 "and" triangle_2 "are similar"
+    triangle_1 sim triangle_2 quad "iff" quad triangle_1 "and" triangle_2 "are similar" #footnote[
+      Two triangles are similar if their corresponding angles are equal.
+    ]
   $
-  (Two triangles are similar if their corresponding angles are equal)
 
   *Verification:*
   - *Reflexive:* Every triangle is similar to itself #YES
