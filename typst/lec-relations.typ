@@ -605,7 +605,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     pair(a, b) sim pair(c, d) quad "iff" quad a dot d = b dot c
   $
 
-  *Equivalence classes:* Each represents a rational number in its "reduced form."
+  *Equivalence classes:* Each represents a rational number in its "reduced form".
 
   #table(
     columns: 3,
