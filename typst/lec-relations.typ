@@ -1384,7 +1384,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #example[
   In the natural numbers $(NN, leq)$:
-  - *DCC holds:* #NO Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
+  - *DCC holds:* #YES Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
   - *ACC fails:* #NO The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
   - This shows that DCC and ACC are independent conditions.
 ]
