@@ -862,43 +862,51 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   #cetz.canvas({
     import cetz: draw
 
-    let draw-vertex(pos, name, label, fill: white) = {
-      draw.circle(pos, radius: 0.35, stroke: 1pt, fill: fill, name: name)
-      draw.content(name, text(size: 0.9em)[#label], anchor: "center")
+    let draw-vertex(pos, name, label, color: none) = {
+      draw.circle(
+        pos,
+        radius: 0.35,
+        stroke: 1pt + color.darken(20%),
+        fill: color.lighten(80%),
+        name: name,
+      )
+      draw.content(name, [#label])
     }
 
-    let draw-edge(start, end, color: blue, width: 1.2pt) = {
+    let draw-edge(start, end) = {
+      let color = blue
       draw.line(
         start,
         end,
-        stroke: width + color,
+        stroke: 1.2pt + color,
         mark: (end: "stealth", fill: color),
       )
     }
 
     let draw-composition-edge(start, end) = {
+      let color = green.darken(20%)
       draw.line(
         start,
         end,
-        stroke: (paint: green.darken(20%), dash: "dashed", thickness: 1.5pt),
-        mark: (end: "stealth", fill: green.darken(20%)),
+        stroke: (paint: color, dash: "dashed", thickness: 1pt),
+        mark: (end: "stealth", fill: color),
       )
     }
 
     // Set A (left column)
-    draw-vertex((-2.5, 1), "1", [$1$], fill: blue.lighten(85%))
-    draw-vertex((-2.5, 0), "2", [$2$], fill: blue.lighten(85%))
-    draw-vertex((-2.5, -1), "3", [$3$], fill: blue.lighten(85%))
+    draw-vertex((-2.5, 1), "1", [$1$], color: blue)
+    draw-vertex((-2.5, 0), "2", [$2$], color: blue)
+    draw-vertex((-2.5, -1), "3", [$3$], color: blue)
 
     // Set B (middle column)
-    draw-vertex((0, 1.5), "a", [$a$], fill: yellow.lighten(70%))
-    draw-vertex((0, 0.5), "b", [$b$], fill: yellow.lighten(70%))
-    draw-vertex((0, -0.5), "c", [$c$], fill: yellow.lighten(70%))
-    draw-vertex((0, -1.5), "d", [$d$], fill: red.lighten(70%))
+    draw-vertex((0, 1.5), "a", [$a$], color: yellow)
+    draw-vertex((0, 0.5), "b", [$b$], color: yellow)
+    draw-vertex((0, -0.5), "c", [$c$], color: yellow)
+    draw-vertex((0, -1.5), "d", [$d$], color: red)
 
     // Set C (right column)
-    draw-vertex((2.5, 0.5), "x", [$x$], fill: green.lighten(70%))
-    draw-vertex((2.5, -0.5), "y", [$y$], fill: green.lighten(70%))
+    draw-vertex((2.5, 0.5), "x", [$x$], color: green)
+    draw-vertex((2.5, -0.5), "y", [$y$], color: green)
 
     // Relation R edges (A to B)
     draw-edge("1", "a")
@@ -918,14 +926,21 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     draw-composition-edge("2", "x")
 
     // Labels
-    draw.content((-2.5, 1.8), text(fill: blue.darken(30%), weight: "bold")[Set $A$], anchor: "center")
-    draw.content((0, 2.3), text(fill: orange.darken(30%), weight: "bold")[Set $B$], anchor: "center")
-    draw.content((2.5, 1.3), text(fill: green.darken(30%), weight: "bold")[Set $C$], anchor: "center")
+    draw.content("1.north", anchor: "south", padding: 0.2, text(fill: blue.darken(20%))[*Set $A$*])
+    draw.content("a.north", anchor: "south", padding: 0.2, text(fill: orange.darken(20%))[*Set $B$*])
+    draw.content("x.north", anchor: "south", padding: 0.2, text(fill: green.darken(20%))[*Set $C$*])
 
     // Legend
-    draw.content((0, -2.5), text(size: 0.8em, fill: blue)[Solid: Relations $R$ and $S$], anchor: "center")
-    draw.content((0, -2.8), text(size: 0.8em, fill: green.darken(20%))[Dashed: Composition $R relcomp S$], anchor: "center")
-    draw.content((0, -3.1), text(size: 0.8em, fill: red)[Red: Dead end (no outgoing path)], anchor: "center")
+    draw.content(
+      (-2, -2.2),
+      anchor: "north-west",
+      text(size: 0.8em)[
+        Edges legend:
+        - #text(fill: blue.darken(20%))[Solid: Relations $R$ and $S$] \
+        - #text(fill: green.darken(20%))[Dashed: Composition $R relcomp S$] \
+        - #text(fill: red.darken(20%))[Red: Dead end (no outgoing path)]
+      ],
+    )
   })
 ]
 
