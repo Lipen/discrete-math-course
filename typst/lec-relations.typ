@@ -839,28 +839,95 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 ]
 
 #example[
-  Let $A = {1, 2}$, $B = {x, y, z}$, $C = {alpha, beta}$ with relations:
-  - $R = {pair(1, x), pair(1, y), pair(2, z)} subset.eq A times B$
-  - $S = {pair(x, alpha), pair(y, beta), pair(z, alpha)} subset.eq B times C$
+  Let $A = {1, 2, 3}$, $B = {a, b, c, d}$, $C = {x, y}$ with relations:
+  - $R = {(1, a), (1, b), (2, c), (3, d)} subset.eq A times B$
+  - $S = {(a, x), (b, y), (c, x)} subset.eq B times C$
 
-  To find $R relcomp S$, we look for pairs $pair(a, c)$ where there exists $b$ such that $a rel(R) b$ and $b rel(S) c$:
+  To find $R relcomp S$, we look for pairs $(i, z)$ where there exists $w$ such that $(i, w) in R$ and $(w, z) in S$:
 
-  #table(
-    columns: 4,
-    align: (left, center, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  From $1$: can reach $a$ and $b$ via $R$
+  - $a$ connects to $x$ via $S$ $=>$ $(1, x)$ is in the composition
+  - $b$ connects to $y$ via $S$ $=>$ $(1, y)$ is in the composition
 
-    table.header([$a$], [$b$ (via $R$)], [$c$ (via $S$)], [Result in $R relcomp S$]),
+  From $2$: can reach $c$ via $R$
+  - $c$ connects to $x$ via $S$ $=>$ $(2, x)$ is in the composition
 
-    [$1$], [$x$], [$alpha$], [$pair(1, alpha)$ #YES],
-    [$1$], [$y$], [$beta$], [$pair(1, beta)$ #YES],
-    [$2$], [$z$], [$alpha$], [$pair(2, alpha)$ #YES],
-  )
+  From $3$: can reach $d$ via $R$
+  - $d$ has no outgoing connections in $S$ $=>$ no pairs from $3$ in the composition
 
-  Therefore: $R relcomp S = {pair(1, alpha), pair(1, beta), pair(2, alpha)}$
+  Therefore: $R relcomp S = {(1, x), (1, y), (2, x)}$
 ]
 
-// TODO: visualize
+#align(center)[
+  #cetz.canvas({
+    import cetz: draw
+
+    let draw-vertex(pos, name, label, fill: white) = {
+      draw.circle(pos, radius: 0.35, stroke: 1pt, fill: fill, name: name)
+      draw.content(name, text(size: 0.9em)[#label], anchor: "center")
+    }
+
+    let draw-edge(start, end, color: blue, width: 1.2pt) = {
+      draw.line(
+        start,
+        end,
+        stroke: width + color,
+        mark: (end: "stealth", fill: color),
+      )
+    }
+
+    let draw-composition-edge(start, end) = {
+      draw.line(
+        start,
+        end,
+        stroke: (paint: green.darken(20%), dash: "dashed", thickness: 1.5pt),
+        mark: (end: "stealth", fill: green.darken(20%)),
+      )
+    }
+
+    // Set A (left column)
+    draw-vertex((-2.5, 1), "1", [$1$], fill: blue.lighten(85%))
+    draw-vertex((-2.5, 0), "2", [$2$], fill: blue.lighten(85%))
+    draw-vertex((-2.5, -1), "3", [$3$], fill: blue.lighten(85%))
+
+    // Set B (middle column)
+    draw-vertex((0, 1.5), "a", [$a$], fill: yellow.lighten(70%))
+    draw-vertex((0, 0.5), "b", [$b$], fill: yellow.lighten(70%))
+    draw-vertex((0, -0.5), "c", [$c$], fill: yellow.lighten(70%))
+    draw-vertex((0, -1.5), "d", [$d$], fill: red.lighten(70%))
+
+    // Set C (right column)
+    draw-vertex((2.5, 0.5), "x", [$x$], fill: green.lighten(70%))
+    draw-vertex((2.5, -0.5), "y", [$y$], fill: green.lighten(70%))
+
+    // Relation R edges (A to B)
+    draw-edge("1", "a")
+    draw-edge("1", "b")
+    draw-edge("2", "c")
+    draw-edge("3", "d")
+
+    // Relation S edges (B to C)
+    draw-edge("a", "x")
+    draw-edge("b", "y")
+    draw-edge("c", "x")
+    // Note: d has no outgoing edges (dead end)
+
+    // Composition R∘S (A to C) - dashed green lines
+    draw-composition-edge("1", "x")
+    draw-composition-edge("1", "y")
+    draw-composition-edge("2", "x")
+
+    // Labels
+    draw.content((-2.5, 1.8), text(fill: blue.darken(30%), weight: "bold")[Set $A$], anchor: "center")
+    draw.content((0, 2.3), text(fill: orange.darken(30%), weight: "bold")[Set $B$], anchor: "center")
+    draw.content((2.5, 1.3), text(fill: green.darken(30%), weight: "bold")[Set $C$], anchor: "center")
+
+    // Legend
+    draw.content((0, -2.5), text(size: 0.8em, fill: blue)[Solid: Relations $R$ and $S$], anchor: "center")
+    draw.content((0, -2.8), text(size: 0.8em, fill: green.darken(20%))[Dashed: Composition $R relcomp S$], anchor: "center")
+    draw.content((0, -3.1), text(size: 0.8em, fill: red)[Red: Dead end (no outgoing path)], anchor: "center")
+  })
+]
 
 == Examples of Composition
 
