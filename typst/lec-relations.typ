@@ -622,7 +622,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     [$pair(-5, 3)$], [${pair(-5, 3), pair(5, -3), pair(-10, 6), pair(10, -6), ...}$], [$-5"/"3$],
   )
 
-  *Quotient set:*
+  *Quotient set:* All equivalence classes together form the set of rational numbers:
   $
     QQ := quotient((ZZ times (ZZ setminus {0})), sim) = { eqclass(pair(a, b), sim) | pair(a, b) in ZZ times (ZZ setminus {0}) }
   $
