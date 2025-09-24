@@ -599,6 +599,58 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #pagebreak()
 
+#example[Construction of rational numbers][
+  Consider the set of ordered pairs $M = ZZ times (ZZ setminus {0})$.
+
+  Define the equivalence relation $sim$ by:
+  $
+    pair(a, b) sim pair(c, d) quad "iff" quad a dot d = b dot c
+  $
+
+  *Equivalence classes:* Each represents a rational number in its "reduced form."
+
+  #table(
+    columns: 3,
+    align: (left, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([*Representative*], [*Equivalence Class*], [*Rational Number*]),
+
+    [$pair(1, 2)$], [${pair(1, 2), pair(2, 4), pair(3, 6), pair(-1, -2), pair(-2, -4), ...}$], [$1/2$],
+
+    [$pair(0, 1)$], [${pair(0, 1), pair(0, 2), pair(0, -3), pair(0, 7), ...}$], [$0$],
+
+    [$pair(3, 4)$], [${pair(3, 4), pair(6, 8), pair(-3, -4), pair(9, 12), ...}$], [$3/4$],
+
+    [$pair(-5, 3)$], [${pair(-5, 3), pair(5, -3), pair(-10, 6), pair(10, -6), ...}$], [$-5/3$],
+  )
+
+  *Quotient set:*
+  $
+    QQ := quotient((ZZ times (ZZ setminus {0})), sim) = { eqclass(pair(a, b), sim) | pair(a, b) in ZZ times (ZZ setminus {0}) }
+  $
+
+  *Interpretation:*
+  Each equivalence class $eqclass(pair(a, b), sim)$ corresponds exactly to the rational number $a/b$.
+  - Different representations $(a, b)$ and $(c, d)$ belong to the same equivalence class iff they represent the same fraction: $a/b = c/d$
+  - The condition $a dot d = b dot c$ is the cross-multiplication test for fraction equality
+
+  *Operations on the quotient set:*
+  We can define arithmetic operations on $QQ$ by:
+  $
+      eqclass(pair(a, b), sim) + eqclass(pair(c, d), sim) & := eqclass(pair(a d + b c, b d), sim) \
+    eqclass(pair(a, b), sim) dot eqclass(pair(c, d), sim) & := eqclass(pair(a c, b d), sim)
+  $
+
+  These operations are _well-defined_ because the result doesn't depend on the choice of representatives.
+
+  *Mathematical significance:*
+  - This construction shows that $QQ$ is literally _the_ quotient set $quotient(ZZ times (ZZ setminus {0}), sim)$
+  - It demonstrates how equivalence relations and quotient sets create new mathematical structures
+  - This is the rigorous foundation for rational number arithmetic taught in elementary school
+]
+
+#pagebreak()
+
 #example[
   Consider the set of all points in the plane $M = RR^2$ with the equivalence relation:
   $
