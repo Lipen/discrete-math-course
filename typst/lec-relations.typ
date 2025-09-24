@@ -16,6 +16,7 @@
 #let matrel(x) = $bracket.double.l #x bracket.double.r$
 #let eqclass(x, R) = $bracket.l #x bracket.r_#R$
 #let quotient(M, R) = $#M slash_(#R)$
+#let congruent(a, b, n) = $#a equiv #b space (mod #n)$
 #let Dom = math.op("Dom")
 #let Cod = math.op("Cod")
 #let Range = math.op("Range")
@@ -418,8 +419,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 == Examples of Equivalence Relations
 
-#let congruent(a, b, n) = $#a equiv #b space (mod #n)$
-
 #example[Modular arithmetic][
   For any positive integer $n$, _congruence modulo $n$_ on $ZZ$ is defined by:
   $
@@ -433,11 +432,11 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   *Equivalence classes (remainders):*
   Let $n = 5$ and $M = {0, 1, ..., 9}$.
-  - $eqclass(0, equiv) = {0, 5} = {x in M | x equiv 0 space (mod 5)}$
-  - $eqclass(1, equiv) = {1, 6} = {x in M | x equiv 1 space (mod 5)}$
-  - $eqclass(2, equiv) = {2, 7} = {x in M | x equiv 2 space (mod 5)}$
-  - $eqclass(3, equiv) = {3, 8} = {x in M | x equiv 3 space (mod 5)}$
-  - $eqclass(4, equiv) = {4, 9} = {x in M | x equiv 4 space (mod 5)}$
+  - $eqclass(0, equiv) = {0, 5} = {x in M | congruent(x, 0, 5)}$
+  - $eqclass(1, equiv) = {1, 6} = {x in M | congruent(x, 1, 5)}$
+  - $eqclass(2, equiv) = {2, 7} = {x in M | congruent(x, 2, 5)}$
+  - $eqclass(3, equiv) = {3, 8} = {x in M | congruent(x, 3, 5)}$
+  - $eqclass(4, equiv) = {4, 9} = {x in M | congruent(x, 4, 5)}$
 ]
 
 #pagebreak()
@@ -557,13 +556,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[
   Consider $M = {0, 1, 2, 3, 4, 5}$ with the equivalence relation "congruent modulo 3":
   $
-    x equiv y space (mod 3) quad "iff" quad 3 | (x - y)
+    congruent(x, y, 3) quad "iff" quad 3 | (x - y)
   $
 
   *Equivalence classes:*
-  - $eqclass(0, equiv) = {0, 3} = {x in M | x equiv 0 space (mod 3)}$
-  - $eqclass(1, equiv) = {1, 4} = {x in M | x equiv 1 space (mod 3)}$
-  - $eqclass(2, equiv) = {2, 5} = {x in M | x equiv 2 space (mod 3)}$
+  - $eqclass(0, equiv) = {0, 3} = {x in M | congruent(x, 0, 3)}$
+  - $eqclass(1, equiv) = {1, 4} = {x in M | congruent(x, 1, 3)}$
+  - $eqclass(2, equiv) = {2, 5} = {x in M | congruent(x, 2, 3)}$
 
   *Quotient set:*
   $
