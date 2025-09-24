@@ -445,13 +445,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[Same absolute value][
   On $M = {-3, -2, -1, 0, 1, 2, 3}$, define relation $R$ by:
   $
-    x rel(R) y quad "iff" quad |x| = |y|
+    x rel(R) y quad "iff" quad abs(x) = abs(y)
   $
 
   *Verification:*
-  - *Reflexive:* $|x| = |x|$ for all $x$ #YES
-  - *Symmetric:* If $|x| = |y|$, then $|y| = |x|$ #YES
-  - *Transitive:* If $|x| = |y|$ and $|y| = |z|$, then $|x| = |z|$ #YES
+  - *Reflexive:* $abs(x) = abs(x)$ for all $x$ #YES
+  - *Symmetric:* If $abs(x) = abs(y)$, then $abs(y) = abs(x)$ #YES
+  - *Transitive:* If $abs(x) = abs(y)$ and $abs(y) = abs(z)$, then $abs(x) = abs(z)$ #YES
 
   *Equivalence classes:*
   - $eqclass(0, R) = {0}$
