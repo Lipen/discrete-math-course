@@ -378,25 +378,27 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A relation $R subset.eq M^2$ is an _equivalence relation_ if it is reflexive, symmetric and transitive.
 ]
 
-#example[
+#example[Equality][
   The _identity relation_ $I_M = {pair(x, x) | x in M}$ is an equivalence relation on any set $M$.
 
   #note[
-    The identity relation is just the equality relation "$=$".
+    The identity relation is just the common equality relation "$=$".
   ]
 
   *Verification:*
-  - *Reflexive:* $x rel(I_M) x$ for all $x in M$ #YES (by definition)
-  - *Symmetric:* If $x rel(I_M) y$, then $x = y$, so $y rel(I_M) x$ #YES
-  - *Transitive:* If $x rel(I_M) y$ and $y rel(I_M) z$, then $x = y = z$, so $x rel(I_M) z$ #YES
+  - *Reflexive:* #YES $x rel(I_M) x$ for all $x in M$ (by definition of $I_M$)
+  - *Symmetric:* #YES If $x rel(I_M) y$, then $x = y$, thus $y = x$, so $y rel(I_M) x$
+  - *Transitive:* #YES If $x rel(I_M) y$ and $y rel(I_M) z$, then $x = y = z$, so $x rel(I_M) z$
 
   *Equivalence classes:* Each element forms its own equivalence class:
   $eqclass(x, I_M) = {x}$ for all $x in M$.
 
-  This is the "finest" possible equivalence relation - it distinguishes every element.
+  This is the "finest" possible equivalence relation --- it distinguishes every element.
 ]
 
-#example[Modular arithmetic (Congruence)][
+== Examples of Equivalence Relations
+
+#example[Modular arithmetic][
   For any positive integer $n$, _congruence modulo $n$_ on $ZZ$ is defined by:
   $
     a equiv b space (mod n) quad "iff" quad n | (b - a)
@@ -416,6 +418,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - $eqclass(3, equiv) = {3, 8} = {x in M | x equiv 3 space (mod 5)}$
   - $eqclass(4, equiv) = {4, 9} = {x in M | x equiv 4 space (mod 5)}$
 ]
+
+#pagebreak()
 
 #example[Same absolute value][
   On $M = {-3, -2, -1, 0, 1, 2, 3}$, define relation $R$ by:
@@ -437,6 +441,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Each positive number is equivalent to its negative counterpart.
 ]
 
+#pagebreak()
+
 #example[Same string length][
   On the set of all finite strings $Sigma^*$ over alphabet $Sigma$, define:
   $
@@ -457,6 +463,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - $eqclass("ab", R) = {"aa", "ab", "ba", "bb"}$ (all strings of length 2)
 ]
 
+#pagebreak()
+
 #example[Living in the same city][
   Let $P$ be the set of all people, and define relation $R$ by:
   $
@@ -474,6 +482,8 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   *Real-world application:* This equivalence relation is used in demographic analysis and urban planning.
 ]
+
+#pagebreak()
 
 #example[Similarity of triangles][
   Let $T$ be the set of all triangles in the plane. Define relation $sim$ by:
