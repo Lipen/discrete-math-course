@@ -386,30 +386,53 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   ]
 
   *Verification:*
-  - *Reflexive:* #YES $x rel(I_M) x$ for all $x in M$ (by definition of $I_M$)
-  - *Symmetric:* #YES If $x rel(I_M) y$, then $x = y$, thus $y = x$, so $y rel(I_M) x$
-  - *Transitive:* #YES If $x rel(I_M) y$ and $y rel(I_M) z$, then $x = y = z$, so $x rel(I_M) z$
+  - *Reflexive:* $x rel(I_M) x$ for all $x in M$ (by definition of $I_M$) #YES
+  - *Symmetric:* If $x rel(I_M) y$, then $x = y$, thus $y = x$, so $y rel(I_M) x$ #YES
+  - *Transitive:* If $x rel(I_M) y$ and $y rel(I_M) z$, then $x = y = z$, so $x rel(I_M) z$ #YES
 
-  *Equivalence classes:* Each element forms its own equivalence class:
-  $eqclass(x, I_M) = {x}$ for all $x in M$.
-
-  This is the "finest" possible equivalence relation --- it distinguishes every element.
+  // TODO: move to the next slide
+  //
+  // *Equivalence classes:* Each element forms its own equivalence class:
+  // $eqclass(x, I_M) = {x}$ for all $x in M$.
+  //
+  // This is the "finest" possible equivalence relation --- it distinguishes every element.
 ]
 
+== Equivalence Classes
+
+#definition[
+  Let $R subset.eq M^2$ be an equivalence relation on a set $M$.
+  The _equivalence class_ of an element $x in M$ under $R$ is the set of all elements related to $x$:
+  $ eqclass(x, R) = { y in M | x rel(R) y } $
+]
+
+// TODO: small example for equality
+#example[
+  TODO
+]
+
+// TODO: where to include this?..
+// #theorem[
+//   If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
+// ]
+// TODO: proof (sketch?)
+
 == Examples of Equivalence Relations
+
+#let congruent(a, b, n) = $#a equiv #b space (mod #n)$
 
 #example[Modular arithmetic][
   For any positive integer $n$, _congruence modulo $n$_ on $ZZ$ is defined by:
   $
-    a equiv b space (mod n) quad "iff" quad n | (b - a)
+    congruent(a, b, n) quad "iff" quad n | (b - a)
   $
 
-  *Example with $n = 5$ on $M = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}$:*
-
   *Verification:*
-  - *Reflexive:* $a equiv a space (mod 5)$ since $5 | (a - a) = 5 | 0$ #YES
-  - *Symmetric:* If $a equiv b space (mod 5)$, then $5 | (b - a)$, so $5 | (a - b)$, thus $b equiv a space (mod 5)$ #YES
-  - *Transitive:* If $a equiv b space (mod 5)$ and $b equiv c space (mod 5)$, then $5 | (b - a)$ and $5 | (c - b)$, so $5 | ((c - b) + (b - a)) = 5 | (c - a)$, thus $a equiv c space (mod 5)$ #YES
+  - *Reflexive:* $congruent(a, a, n)$ since $n | (a - a) iff n | 0$ #YES
+  - *Symmetric:* If $congruent(a, b, n)$, then $n | (b - a) iff n | (a - b)$, thus $congruent(b, a, n)$ #YES
+  - *Transitive:* If $congruent(a, b, n)$ and $congruent(b, c, n)$, then $n | (b - a)$ and $n | (c - b)$, so #box[$n | ((c - b) + (b - a)) iff n | (c - a)$], thus $congruent(a, c, n)$ #YES
+
+  Let $n = 5$ and $M = {0, 1, ..., 9}$.
 
   *Equivalence classes (remainders):*
   - $eqclass(0, equiv) = {0, 5} = {x in M | x equiv 0 space (mod 5)}$
@@ -446,16 +469,16 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #example[Same string length][
   On the set of all finite strings $Sigma^*$ over alphabet $Sigma$, define:
   $
-    s_1 rel(R) s_2 quad "iff" quad |s_1| = |s_2|
+    s_1 rel(R) s_2 quad "iff" quad abs(s_1) = abs(s_2)
   $
-  where $|s|$ denotes the length of string $s$.
+  where $abs(s)$ denotes the length of string $s$.
 
   *Verification:*
   - *Reflexive:* Every string has the same length as itself #YES
   - *Symmetric:* If two strings have the same length, the relation is symmetric #YES
-  - *Transitive:* If $|s_1| = |s_2|$ and $|s_2| = |s_3|$, then $|s_1| = |s_3|$ #YES
+  - *Transitive:* If $abs(s_1) = abs(s_2)$ and $abs(s_2) = abs(s_3)$, then $abs(s_1) = abs(s_3)$ #YES
 
-  *Equivalence classes:* $eqclass(s, R) = {t in Sigma^* | |t| = |s|}$
+  *Equivalence classes:* $eqclass(s, R) = {t in Sigma^* | abs(t) = abs(s)}$
 
   For example, over $Sigma = {a, b}$:
   - $eqclass(epsilon, R) = {epsilon}$ (empty string)
@@ -466,7 +489,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 #pagebreak()
 
 #example[Living in the same city][
-  Let $P$ be the set of all people, and define relation $R$ by:
+  Let $P$ be the set of people, and define relation $R$ by:
   $
     p_1 rel(R) p_2 quad "iff" quad p_1 "and" p_2 "live in the same city"
   $
@@ -474,13 +497,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   *Verification:*
   - *Reflexive:* Every person lives in the same city as themselves #YES
   - *Symmetric:* If person A and B live in the same city, then B and A live in the same city #YES
-  - *Transitive:* If A and B live in the same city, and B and C live in the same city, then A and C live in the same city #YES
+  - *Transitive:* If A and B live in the same city, and B and C do so, then A and C live in the same city #YES
 
   *Equivalence classes:* Each equivalence class consists of all people living in the same city.
   - $eqclass("Alice", R)$ = all people living in Alice's city
   - This naturally partitions the population by cities
 
-  *Real-world application:* This equivalence relation is used in demographic analysis and urban planning.
+  *Application:* This relation captures a common social grouping based on location.
 ]
 
 #pagebreak()
@@ -494,17 +517,19 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   *Verification:*
   - *Reflexive:* Every triangle is similar to itself #YES
-  - *Symmetric:* If triangle A is similar to triangle B, then triangle B is similar to triangle A #YES
-  - *Transitive:* If A ~ B and B ~ C, then A ~ C (similarity is transitive) #YES
+  - *Symmetric:* If triangle $A$ is similar to triangle $B$, then triangle $B$ is similar to triangle $A$ #YES
+  - *Transitive:* If $A sim B$ and $B sim C$, then $A sim C$ (similarity is transitive) #YES
 
-  *Equivalence classes:* Each equivalence class consists of all triangles with the same shape (but possibly different sizes).
+  *Equivalence classes:* Each class consists of all triangles with the same shape (but possibly different sizes).
   - All equilateral triangles form one equivalence class
   - All right triangles with legs in ratio 3:4:5 form another equivalence class
 
   *Geometric significance:* This relation captures the concept of "same shape, different size."
 ]
 
-#example[Rational number equivalence][
+#pagebreak()
+
+#example[Rational numbers][
   On the set of ordered pairs $ZZ times (ZZ setminus {0})$, define:
   $
     pair(a, b) sim pair(c, d) quad "iff" quad a dot d = b dot c
@@ -523,24 +548,6 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   *Mathematical significance:* This construction shows how equivalence relations create new mathematical objects (rationals) from simpler ones (integers).
 ]
-
-// TODO: examples of equivalence relations
-
-== Equivalence Classes
-
-#definition[
-  Let $R subset.eq M^2$ be an equivalence relation on a set $M$.
-  The _equivalence class_ of an element $x in M$ under $R$ is the set of all elements related to $x$:
-  $ eqclass(x, R) = { y in M | x rel(R) y } $
-]
-
-// TODO: examles of equivalence classes
-
-#theorem[
-  If $R subset.eq M^2$ is an equivalence relation, then $x rel(R) y$ iff $eqclass(x, R) = eqclass(y, R)$ for all $x, y in M$.
-]
-
-// TODO: proof (sketch?)
 
 == Quotient Sets
 
@@ -565,15 +572,17 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     quotient(M, equiv) = { {0, 3}, {1, 4}, {2, 5} }
   $
 
-  Note that $eqclass(3, equiv) = eqclass(0, equiv) = {0, 3}$, so we don't get a new equivalence class.
+  Note that $eqclass(3, equiv) = eqclass(0, equiv) = {0, 3}$, so we don't get a new equivalence class, since $quotient(M, R)$ is a _set_.
 ]
+
+#pagebreak()
 
 #example[
   Let $M = {"a", "ab", "abc", "x", "xy", "z"}$ with equivalence relation $R$ defined by:
   $
-    s_1 rel(R) s_2 quad "iff" quad |s_1| = |s_2|
+    s_1 rel(R) s_2 quad "iff" quad abs(s_1) = abs(s_2)
   $
-  where $|s|$ denotes the length of string $s$.
+  where $abs(s)$ denotes the length of string $s$.
 
   *Equivalence classes by length:*
   - $eqclass("a", R) = {"a", "x", "z"}$ (strings of length 1)
