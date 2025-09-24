@@ -378,6 +378,142 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   A relation $R subset.eq M^2$ is an _equivalence relation_ if it is reflexive, symmetric and transitive.
 ]
 
+#example[
+  The _identity relation_ $I_M = {pair(x, x) | x in M}$ is an equivalence relation on any set $M$.
+
+  #note[
+    The identity relation is just the equality relation "$=$".
+  ]
+
+  *Verification:*
+  - *Reflexive:* $x rel(I_M) x$ for all $x in M$ #YES (by definition)
+  - *Symmetric:* If $x rel(I_M) y$, then $x = y$, so $y rel(I_M) x$ #YES
+  - *Transitive:* If $x rel(I_M) y$ and $y rel(I_M) z$, then $x = y = z$, so $x rel(I_M) z$ #YES
+
+  *Equivalence classes:* Each element forms its own equivalence class:
+  $eqclass(x, I_M) = {x}$ for all $x in M$.
+
+  This is the "finest" possible equivalence relation - it distinguishes every element.
+]
+
+#example[Modular arithmetic (Congruence)][
+  For any positive integer $n$, _congruence modulo $n$_ on $ZZ$ is defined by:
+  $
+    a equiv b space (mod n) quad "iff" quad n | (b - a)
+  $
+
+  *Example with $n = 5$ on $M = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}$:*
+
+  *Verification:*
+  - *Reflexive:* $a equiv a space (mod 5)$ since $5 | (a - a) = 5 | 0$ #YES
+  - *Symmetric:* If $a equiv b space (mod 5)$, then $5 | (b - a)$, so $5 | (a - b)$, thus $b equiv a space (mod 5)$ #YES
+  - *Transitive:* If $a equiv b space (mod 5)$ and $b equiv c space (mod 5)$, then $5 | (b - a)$ and $5 | (c - b)$, so $5 | ((c - b) + (b - a)) = 5 | (c - a)$, thus $a equiv c space (mod 5)$ #YES
+
+  *Equivalence classes (remainders):*
+  - $eqclass(0, equiv) = {0, 5} = {x in M | x equiv 0 space (mod 5)}$
+  - $eqclass(1, equiv) = {1, 6} = {x in M | x equiv 1 space (mod 5)}$
+  - $eqclass(2, equiv) = {2, 7} = {x in M | x equiv 2 space (mod 5)}$
+  - $eqclass(3, equiv) = {3, 8} = {x in M | x equiv 3 space (mod 5)}$
+  - $eqclass(4, equiv) = {4, 9} = {x in M | x equiv 4 space (mod 5)}$
+]
+
+#example[Same absolute value][
+  On $M = {-3, -2, -1, 0, 1, 2, 3}$, define relation $R$ by:
+  $
+    x rel(R) y quad "iff" quad |x| = |y|
+  $
+
+  *Verification:*
+  - *Reflexive:* $|x| = |x|$ for all $x$ #YES
+  - *Symmetric:* If $|x| = |y|$, then $|y| = |x|$ #YES
+  - *Transitive:* If $|x| = |y|$ and $|y| = |z|$, then $|x| = |z|$ #YES
+
+  *Equivalence classes:*
+  - $eqclass(0, R) = {0}$
+  - $eqclass(1, R) = eqclass(-1, R) = {-1, 1}$
+  - $eqclass(2, R) = eqclass(-2, R) = {-2, 2}$
+  - $eqclass(3, R) = eqclass(-3, R) = {-3, 3}$
+
+  Each positive number is equivalent to its negative counterpart.
+]
+
+#example[Same string length][
+  On the set of all finite strings $Sigma^*$ over alphabet $Sigma$, define:
+  $
+    s_1 rel(R) s_2 quad "iff" quad |s_1| = |s_2|
+  $
+  where $|s|$ denotes the length of string $s$.
+
+  *Verification:*
+  - *Reflexive:* Every string has the same length as itself #YES
+  - *Symmetric:* If two strings have the same length, the relation is symmetric #YES
+  - *Transitive:* If $|s_1| = |s_2|$ and $|s_2| = |s_3|$, then $|s_1| = |s_3|$ #YES
+
+  *Equivalence classes:* $eqclass(s, R) = {t in Sigma^* | |t| = |s|}$
+
+  For example, over $Sigma = {a, b}$:
+  - $eqclass(epsilon, R) = {epsilon}$ (empty string)
+  - $eqclass("a", R) = {"a", "b"}$ (all strings of length 1)
+  - $eqclass("ab", R) = {"aa", "ab", "ba", "bb"}$ (all strings of length 2)
+]
+
+#example[Living in the same city][
+  Let $P$ be the set of all people, and define relation $R$ by:
+  $
+    p_1 rel(R) p_2 quad "iff" quad p_1 "and" p_2 "live in the same city"
+  $
+
+  *Verification:*
+  - *Reflexive:* Every person lives in the same city as themselves #YES
+  - *Symmetric:* If person A and B live in the same city, then B and A live in the same city #YES
+  - *Transitive:* If A and B live in the same city, and B and C live in the same city, then A and C live in the same city #YES
+
+  *Equivalence classes:* Each equivalence class consists of all people living in the same city.
+  - $eqclass("Alice", R)$ = all people living in Alice's city
+  - This naturally partitions the population by cities
+
+  *Real-world application:* This equivalence relation is used in demographic analysis and urban planning.
+]
+
+#example[Similarity of triangles][
+  Let $T$ be the set of all triangles in the plane. Define relation $sim$ by:
+  $
+    triangle_1 sim triangle_2 quad "iff" quad triangle_1 "and" triangle_2 "are similar"
+  $
+  (Two triangles are similar if their corresponding angles are equal)
+
+  *Verification:*
+  - *Reflexive:* Every triangle is similar to itself #YES
+  - *Symmetric:* If triangle A is similar to triangle B, then triangle B is similar to triangle A #YES
+  - *Transitive:* If A ~ B and B ~ C, then A ~ C (similarity is transitive) #YES
+
+  *Equivalence classes:* Each equivalence class consists of all triangles with the same shape (but possibly different sizes).
+  - All equilateral triangles form one equivalence class
+  - All right triangles with legs in ratio 3:4:5 form another equivalence class
+
+  *Geometric significance:* This relation captures the concept of "same shape, different size."
+]
+
+#example[Rational number equivalence][
+  On the set of ordered pairs $ZZ times (ZZ setminus {0})$, define:
+  $
+    pair(a, b) sim pair(c, d) quad "iff" quad a dot d = b dot c
+  $
+
+  This relation is used to construct rational numbers $QQ$ from integer pairs.
+
+  *Verification:*
+  - *Reflexive:* $pair(a, b) sim pair(a, b)$ since $a dot b = b dot a$ #YES
+  - *Symmetric:* If $a dot d = b dot c$, then $c dot b = d dot a$ #YES
+  - *Transitive:* If $a dot d = b dot c$ and $c dot f = d dot e$, then $a dot f = b dot e$ #YES
+
+  *Equivalence classes:* Each equivalence class represents a rational number.
+  - $eqclass(pair(1, 2), sim) = {pair(1, 2), pair(2, 4), pair(3, 6), pair(-1, -2), ...}$ represents $1/2$
+  - $eqclass(pair(3, 4), sim) = {pair(3, 4), pair(6, 8), pair(-3, -4), ...}$ represents $3/4$
+
+  *Mathematical significance:* This construction shows how equivalence relations create new mathematical objects (rationals) from simpler ones (integers).
+]
+
 // TODO: examples of equivalence relations
 
 == Equivalence Classes
