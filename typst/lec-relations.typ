@@ -26,6 +26,8 @@
 #let equinumerous = symbol(math.approx, ("not", math.approx.not))
 #let smaller = symbol(math.prec, ("eq", math.prec.eq))
 #let covers = $lt.dot$
+#let lexleq = math.prec.eq // $rel(scripts(leq)_"lex")$
+#let lexlt = math.prec // $rel(scripts(lt)_"lex")$
 #let relcomp = rel(";")
 #let Join = math.or
 #let Meet = math.and
@@ -1117,17 +1119,22 @@
 #pagebreak()
 
 #example[
-  The _subset relation_ $subset.eq$ on the power set $power(A)$ is a *partial order*:
-  - *Reflexive:* Every set is a subset of itself: $X subset.eq X$
-  - *Antisymmetric:* If $X subset.eq Y$ and $Y subset.eq X$, then $X = Y$
-  - *Transitive:* If $X subset.eq Y$ and $Y subset.eq Z$, then $X subset.eq Z$
+  The _subset relation_ $subset.eq$ on the power set $power(A)$ is a *partial order*.
+
+  *Verification:*
+  - *Reflexive:* $X subset.eq X$ for all $X subset.eq A$ #YES
+    - Every set is a subset of itself by definition
+  - *Antisymmetric:* If $X subset.eq Y$ and $Y subset.eq X$, then $X = Y$ #YES
+    - If every element of $X$ is in $Y$, and every element of $Y$ is in $X$, then $X$ and $Y$ have the same elements
+  - *Transitive:* If $X subset.eq Y$ and $Y subset.eq Z$, then $X subset.eq Z$ #YES
+    - If every element of $X$ is in $Y$, and every element of $Y$ is in $Z$, then every element of $X$ is in $Z$
 
   For $A = {1, 2}$, we have $power(A) = {emptyset, {1}, {2}, {1,2}}$ with:
   - $emptyset subset.eq {1} subset.eq {1,2}$ (this is a chain)
   - $emptyset subset.eq {2} subset.eq {1,2}$ (another chain)
-  - But ${1}$ and ${2}$ are *incomparable* (neither is a subset of the other)
+  - But ${1}$ and ${2}$ are _incomparable_ (neither is a subset of the other)
 
-  This is *not* a total order because not all pairs are comparable.
+  This is _not_ a total order because not all pairs are comparable.
 ]
 // TODO: visualize
 
@@ -1139,9 +1146,18 @@
   $
     x nolonger y quad "iff" quad "len"(x) <= "len"(y)
   $
-  This is a *preorder* (reflexive and transitive), and even connected, but *not* a partial order, since it is not antisymmetric: for example, $01 nolonger 10$ and $10 nolonger 01$, but $01 neq 10$.
 
-  *Why it is only a preorder:*
+  *Verification:*
+  - *Reflexive:* $x nolonger x$ for all $x in BB^*$ #YES
+    - $"len"(x) <= "len"(x)$ is always true
+  - *Transitive:* If $x nolonger y$ and $y nolonger z$, then $x nolonger z$ #YES
+    - If $"len"(x) <= "len"(y)$ and $"len"(y) <= "len"(z)$, then $"len"(x) <= "len"(z)$ by transitivity of $<=$
+  - *Antisymmetric:* #NO
+    - Counter-example: $01 nolonger 10$ and $10 nolonger 01$ (since both have length 2), but $01 neq 10$
+  - *Connected:* For any $x, y in BB^*$, either $x nolonger y$ or $y nolonger x$ #YES
+    - Either $"len"(x) <= "len"(y)$ or $"len"(y) <= "len"(x)$ (or both)
+
+  This is a _preorder_ (reflexive and transitive), and even connected, but _not a partial order_ due to lack of antisymmetry.
   Different strings of the same length are all "equivalent" under this relation, but they're not actually equal.
 ]
 // TODO: visualize
@@ -1149,15 +1165,19 @@
 #pagebreak()
 
 #example[
-  _Divisibility_ $|$ on positive integers is a partial order.
-  For $D = {1,2,3,4,6,12}$:
-  - $1 | 2 | 4$ and $1 | 2 | 6 | 12$ (chains through divisibility)
-  - $1 | 3 | 6 | 12$ (another chain)
-  - But $2$ and $3$ are incomparable: $2 divides.not 3$ and $3 divides.not 2$
-  - Similarly, $4$ and $6$ are incomparable
+  _Divisibility_ $|$ on positive integers $NN^+$ is a partial order.
 
-  *Visualization:*
-  Think of this as a "family tree" of divisibility, where ancestors divide descendants.
+  *Verification:*
+  - *Reflexive:* $n | n$ for all $n in NN^+$ (every number divides itself) #YES
+  - *Antisymmetric:* If $a | b$ and $b | a$, then $a = b$ #YES
+    - If $a$ divides $b$, then $b = a k$ for some positive integer $k$
+    - If $b$ divides $a$, then $a = b ell$ for some positive integer $ell$
+    - Substituting: $b = a k = (b ell) k = b k ell$, so $k ell = 1$
+    - Since $k, ell in NN^+$, we must have $k = ell = 1$, hence $a = b$
+  - *Transitive:* If $a | b$ and $b | c$, then $a | c$ #YES
+    - If $a | b$, then $b = a k$ for some integer $k$
+    - If $b | c$, then $c = b ell$ for some integer $ell$
+    - Therefore: $c = b ell = (a k) ell = a (k ell)$, so $a | c$
 ]
 // TODO: visualize
 
@@ -1166,15 +1186,24 @@
 #example[
   _Lexicographic order_ on strings $A^n$ (like dictionary order) is a *total order*.
 
-  For binary strings of length 2: $00 < 01 < 10 < 11$
+  *Verification:*
+  - *Reflexive:* $s lexleq s$ for all strings $s$ #YES
+    - A string is lexicographically equal to itself
+  - *Antisymmetric:* If $s lexleq t$ and $t lexleq s$, then $s = t$ #YES
+    - If $s$ comes before or equals $t$ AND $t$ comes before or equals $s$, then $s = t$
+  - *Transitive:* If $s lexleq t$ and $t lexleq u$, then $s lexleq u$ #YES
+    - Lexicographic comparison preserves transitivity through character-by-character comparison
+  - *Connected:* For any strings $s, t$, either $s lexleq t$ or $t lexleq s$ #YES
+    - We can always compare strings lexicographically by comparing character by character
 
-  This extends the order on individual characters to entire strings:
-  - Compare strings character by character from left to right
-  - The first differing position determines the order
-  - If one string is a prefix of another, the shorter one comes first
+  For binary strings of length 2: $00 lexlt 01 lexlt 10 lexlt 11$
 
-  *Key property:*
-  Every pair of strings is comparable, making this a total order.
+  // *Lexicographic Comparison Algorithm:*
+  // - Compare strings character by character from left to right
+  // - The first differing position determines the order
+  // - If one string is a prefix of another, the shorter one comes first
+
+  *Key property:* Every pair of strings is comparable, making this a total order.
 ]
 
 // TODO: strict orders!
