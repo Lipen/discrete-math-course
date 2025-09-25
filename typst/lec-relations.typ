@@ -1394,35 +1394,49 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   ]
 ]
 
-== Minimal and Maximal Elements
-
-// Minimal element
-#definition[
-  An element $x in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if there is no "greater" element $y in S$ such that $y < x$ (i.e., $y leq x$ and $y neq x$).
-]
+== Maximal and Minimal Elements
 
 // Maximal element
 #definition[
-  A _maximal element_ $m$ satisfies: there is no $y in S$ with $m < y$.
+  An element $m in S$ is called a _maximal element_ of a poset $pair(S, leq)$ if it is not less than any other element, i.e., there is no even greater element.
+  $
+    forall x != m. thin not (x leq m)
+    quad iff quad
+    exists.not x != m. thin (m leq x)
+  $
+  Equivelently, $forall x in S. thin (m leq x) imply (m = x)$
+]
+
+// Minimal element
+#definition[
+  An element $m in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if it is not greater than any other element, i.e., there is no even smaller element.
+  $
+    forall x != m. thin not (m leq x)
+    quad iff quad
+    exists.not x != m. thin (x leq m)
+  $
+  Equivelently, $forall x in S. thin (x leq m) imply (m = x)$
 ]
 
 #note[
   There may be multiple maximal (or minimal) elements.
 ]
 
+== Example of Maximal and Minimal Elements
+
 #example[
   Consider the divisibility poset on $S = {2, 3, 4, 6, 8, 12}$:
 
   #columns(2)[
-    *Minimal elements:* $2$ and $3$
-    - Nothing in $S$ properly divides $2$ (since $1 notin S$)
-    - Nothing in $S$ properly divides $3$
-
-    #colbreak()
-
     *Maximal elements:* $8$ and $12$
     - $8$ divides nothing else in $S$ except itself
     - $12$ divides nothing else in $S$ except itself
+
+    #colbreak()
+
+    *Minimal elements:* $2$ and $3$
+    - Nothing in $S$ properly divides $2$ (since $1 notin S$)
+    - Nothing in $S$ properly divides $3$
   ]
 
   #note[
@@ -1439,11 +1453,11 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     x prefix y "iff" x "is a prefix of" y
   $
 
-  *Minimal elements:* $"ab"$, $"ac"$, $"b"$
-  - These strings have no other string in $S$ that is a proper prefix of them
-
-  *Maximal elements:* $"abc"$, $"abd"$, $"bc"$
+  *Maximal elements:* $"abc"$, $"abd"$, #underline[$"ac"$], $"bc"$
   - These strings are not prefixes of any other string in $S$
+
+  *Minimal elements:* $"ab"$, #underline[$"ac"$], $"b"$
+  - These strings have no other string in $S$ that is a proper prefix of them
 
   The Hasse diagram shows three separate "trees" rooted at the minimal elements, with:
   - $"ab" prefix "abc"$ and $"ab" prefix "abd"$
@@ -1492,9 +1506,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     // content((-hgap, -0.5), text(fill: orange.darken(30%), weight: "bold")[Tree 3], anchor: "center")
 
     // Legend
-    content((-6, 3.2 - 2.5), text(size: 0.9em, fill: blue)[Minimal elements], anchor: "west")
-    content((-6, 2.8 - 2.5), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
-    content((-6, 2.4 - 2.5), text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal], anchor: "west")
+    content((-6, 0.4), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
+    content((-6, 0), text(size: 0.9em, fill: blue)[Minimal elements], anchor: "west")
+    content((-6, -0.4), text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal], anchor: "west")
   })
 ]
 
