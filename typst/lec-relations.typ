@@ -981,14 +981,12 @@
   Relations can be composed using Boolean matrix multiplication.
 
   Given $R subset.eq {1,2} times {a,b}$ and $S subset.eq {a,b} times {x,y}$:
-
   $
     matrel(R) = natrix.bnat(1, 0; 1, 1) quad
     matrel(S) = natrix.bnat(1, 1; 0, 1)
   $
 
   The composition $matrel(R relcomp S) = matrel(R) boolprod matrel(S)$ using Boolean matrix multiplication:
-
   $
     matrel(R relcomp S) = natrix.bnat(
       (1 and 1) or (0 and 0), (1 and 1) or (0 and 1);
