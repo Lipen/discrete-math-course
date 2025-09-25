@@ -113,8 +113,8 @@ Given these specific relations:
 + Compute the _influence chain_ $I = L compose T$. List all pairs in $I$.
 + Compute the _trust chain_ $J = T compose L$. List all pairs in $J$.
 + Compare $I$ and $J$. What do they represent?
-+ Determine if there exists an _influencer_ --- a user to whom all other users are connected in $L union I$.
-+ Determine if there exists a _trust hub_ --- a user to whom all other users are connected in $T union J$.
++ Determine if there exists an _influencer_ --- a user whom all other users are connected to in $L union I$.
++ Determine if there exists a _trust hub_ --- a user whom all other users are connected to in $T union J$.
 
 #block(sticky: true)[*Part (b): Property Preservation*]
 
