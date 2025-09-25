@@ -183,46 +183,54 @@ $
 where $A$ and $B$ represent the sets of expertise areas for each researcher.
 
 Consider six researchers with expertise in the following areas:
-- 赖 (Lài): ${ "Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases" }$
-- 石 (Shí): ${ "Internet of Things", "Cryptography", "Formal Methods", "Embedded Systems" }$
-- 邱 (Qiū): ${ "Cryptography", "Algorithms", "Bioinformatics" }$
-- 魏 (Wèi): ${ "High-Performance Computing", "Databases", "Graph Theory", "Algorithms" }$
-- 辛 (Xīn): ${ "Embedded Systems", "Algorithms", "Databases" }$
-- 朱 (Zhū): ${ "Formal Methods", "Internet of Things", "Cryptography", "Databases" }$
+#align(center, table(
+  columns: (auto, auto),
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
 
-*Part (a):* For $theta = 0.25$:
-+ Calculate all pairwise Jaccard similarities $Jaccard(A, B)$.
-+ Determine which pairs are $theta$-similar (i.e., have Jaccard similarity $>= 0.25$).
-+ Draw the collaboration network graph $G_theta$ showing only $theta$-similar connections.
-+ Identify all research clusters (connected components) in the network.
+  table.header([Researcher], [Expertise Areas]),
 
-#block(sticky: true)[*Part (b): $theta$-Relation Properties*]
+  [赖 (Lài)], [$"Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases"$],
+  [石 (Shí)], [$"Internet of Things", "Cryptography", "Formal Methods", "Embedded Systems"$],
+  [邱 (Qiū)], [$"Cryptography", "Algorithms", "Bioinformatics"$],
+  [魏 (Wèi)], [$"High-Performance Computing", "Databases", "Graph Theory", "Algorithms"$],
+  [辛 (Xīn)], [$"Embedded Systems", "Algorithms", "Databases"$],
+  [朱 (Zhū)], [$"Formal Methods", "Internet of Things", "Cryptography", "Databases"$],
+))
 
-+ Prove that $R_theta$ is a _tolerance relation_ for any $theta in [0,1]$ by showing it is reflexive and symmetric.
-+ For the specific researcher data above, determine whether $R_(0.25)$ is transitive.
-  If not, provide a counterexample showing where transitivity fails.
-+ For which values of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary sets?
-+ What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected (i.e., forms a single connected component)?
+#block(sticky: true)[*Part (a): Building the Collaboration Network*]
 
-#block(sticky: true)[*Part (c): Network Threshold Dynamics*]
+For a similarity threshold of $theta = 0.25$:
++ Calculate all pairwise Jaccard similarities $Jaccard(A, B)$ between the six researchers.
++ Determine which pairs are $0.25$-similar.
++ Draw the collaboration network graph $G_(0.25)$, where vertices are researchers and edges connect $0.25$-similar pairs.
 
-+ *Threshold analysis:*
-  As $theta$ increases from 0 to 1, the collaboration network $R_theta$ loses edges and components split.
-  For the given researcher data, find all critical values of $theta$ where the number of connected components changes.
-  List these threshold values and determine the number of components at each stage.
+#block(sticky: true)[*Part (b): Properties of the Similarity Relation*]
+
++ Prove that the $theta$-similarity relation $R_theta$ is a _tolerance relation_ for any $theta in [0; 1]$ by showing it is reflexive and symmetric.
++ For the specific researcher data, determine whether the relation $R_(0.25)$ is transitive. If not, provide a counterexample where transitivity fails.
++ For which value(s) of $theta$ (if any) does $R_theta$ become an equivalence relation for arbitrary sets?
+
+#block(sticky: true)[*Part (c): Network Structure and Dynamics*]
+
++ Identify all research _clusters_ (the connected components) in the graph $G_(0.25)$.
++ As $theta$ increases from 0 to 1, the collaboration network $R_theta$ loses edges.
+  Find all _critical_ values of $theta$ at which the number of connected components in the network changes.
++ What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected?
+
+#block(sticky: true)[*Part (d): Researcher Impact Analysis*]
 
 + *Diversity analysis:*
-  Define the _diversity index_ $d(X)$ of researcher $X$ as the number of expertise areas they have (i.e., $d(X) = card(X)$).
-  For each researcher, compute their diversity index $d(X)$ and their average Jaccard similarity with all other researchers:
+  Define the _diversity index_ $d(X)$ of a researcher $X$ as their number of expertise areas, $d(X) = card(X)$.
+  For each researcher, compute their diversity index and their average Jaccard similarity with all others:
   $
-    overline(Jaccard)(X) = 1/n sum_(Y != X) Jaccard(X, Y)
+    overline(Jaccard)(X) = 1/5 sum_(Y != X) Jaccard(X, Y)
   $
-
-  Test the hypothesis that the researcher with maximum diversity index also has maximum average Jaccard similarity.
+  Does the researcher with the highest diversity index also have the highest average similarity?
 
 + *Network resilience:*
-  If one researcher leaves the collaboration network, which absence causes the most fragmentation?
-  Determine the researcher whose removal results in the maximum number of connected components in the remaining network.
+  If one researcher were to leave the network, whose absence would cause the most fragmentation?
+  Determine which researcher's removal from the $theta=0.25$ network results in the maximum number of connected components.
 
 
 #pagebreak()
