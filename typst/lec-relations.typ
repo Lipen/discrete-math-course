@@ -1582,6 +1582,7 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
 #pagebreak()
 
+// TODO: consider moving this example after chains or refactoring it, since it does not fit "greatest elements" example
 #example[
   In project management, _tasks_ form a _scheduling poset_ under the "prerequisite" relation.
 
