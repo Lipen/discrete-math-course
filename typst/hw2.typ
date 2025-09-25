@@ -262,18 +262,20 @@ The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 
 #block(sticky: true)[*Part (b): Warshall's Algorithm for Transitive Closure*]
 
-The _Warshall algorithm_ computes the transitive closure $R^+$ of a relation $R subset.eq M^2$ using Boolean matrix operations.
-For a set $M$ with $n = card(M)$, given the $n times n$ adjacency matrix $A$ of relation $R$, it computes the $n times n$ matrix $A^+$ of $R^+$ using the recurrence:
+The _Warshall algorithm_ computes the transitive closure $R^+$ of a relation $R$ on a set $M$ of size $n$.
+Given the $n times n$ adjacency matrix $A$ of the relation, the algorithm iteratively computes a sequence of matrices $A^((0)), A^((1)), dots, A^((n))$.
+
+It starts with $A^((0)) = A$ and uses the following recurrence for $k = 1, ..., n$:
 $
   A^((k))_(i j) = A^((k-1))_(i j) or (A^((k-1))_(i k) and A^((k-1))_(k j))
 $
-where $A^((0)) = A$ and $A^+ = A^((n))$.
+The final matrix $A^((n))$ is the adjacency matrix of the transitive closure $R^+$.
 
 + Apply Warshall's algorithm to compute the transitive closure of $R$ on $M = {1, 2, 3, 4}$:
   $ R = { pair(1, 2), pair(2, 3), pair(3, 1), pair(3, 4) } $
-  Show each iteration step $A^((k))$ for $k = 1, 2, 3, 4$.
-+ Prove that Warshall algorithm correctly computes the transitive closure in at most $n$ iterations.
-+ Compare the computational complexity of Warshall's algorithm with the naive approach of repeatedly computing boolean matrix powers.
+  Show the matrix at each iteration step, $A^((0)), A^((1)), A^((2)), A^((3))$, and the final result $A^((4))$.
++ Prove by induction on $k$ that $A^((k))_(i j) = 1$ if and only if there is a path from vertex $i$ to $j$ using only intermediate vertices from the set ${1, ..., k}$.
++ Compare the computational complexity of Warshall's algorithm with the naive approach of computing $A^+ = A or A^2 or ... or A^n$ using Boolean matrix products (powers).
 
 
 #pagebreak()
