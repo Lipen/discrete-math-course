@@ -474,8 +474,7 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
 
 + *Consonance Dominance:*
   Notes can also be ordered by their consonance relative to a root note (here, C).
-  Define the _consonance dominance_ relation $consonance$ where $x consonance y$ if note $x$ is strictly more consonant than note $y$.
-  The hierarchy of consonance levels is as follows, from most to least consonant:
+  The hierarchy of consonance levels is given by the table below, from most to least consonant.
   #align(center, table(
     columns: 3,
     align: (center, left, left),
@@ -488,8 +487,9 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
     [4], [Mild Dissonances], [$"C"sharp, "D"sharp, "G"sharp, "A"sharp$],
     [5], [Maximum Dissonance], [$"F"sharp$],
   ))
+  Define the _consonance dominance_ relation $consonance$ such that $x consonance y$ if note $x$ is strictly more consonant than note $y$, that is, $"level"(x) < "level"(y)$.
+  // A note at a certain level dominates all notes at higher-numbered (less consonant) levels.
 
-  A note at a certain level dominates all notes at higher-numbered (less consonant) levels.
   - Is $consonance$ reflexive? Antisymmetric? Transitive? Is it a partial order?
   - Draw the Hasse diagram for the poset $pair(N, consonance)$.
   - Identify all maximal and minimal elements in this poset.
