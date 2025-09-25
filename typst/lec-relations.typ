@@ -1000,7 +1000,7 @@
 #pagebreak()
 
 #example[Path composition in a graph][
-  Consider a directed graph with vertices ${A, B, C, D}$ and relation $R$ representing direct edges:
+  Consider a directed graph with vertices ${A, B, C, D}$ and relation~$R$ representing direct edges:
   $R = {pair(A, B), pair(B, C), pair(B, D), pair(C, D)}$
 
   Powers of $R$ represent paths of different lengths:
