@@ -71,8 +71,9 @@
   A _binary relation_ $R$ on sets $A$ and $B$ is a subset of the Cartesian product $A times B$.
 ]
 
-*Notation:*
-If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A$ is _related_ to element $b in B$.
+#note(title: "Notation")[
+  If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A$ is _related_ to element $b in B$.
+]
 
 #Block(
   color: yellow,
@@ -82,9 +83,13 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   Formally, $a rel(R) b$ iff $pair(a, b) in R$.
 ]
 
-*Note:* $R$ is used to denote both the relation itself ($a rel(R) b$) _and_ the set of pairs ($R subset.eq A times B$).
+#note[
+  $R$ is used to denote both the relation itself ($a rel(R) b$) _and_ the set of pairs ($R subset.eq A times B$).
+]
 
-*Note:* the _order_ of elements in the pair _matters_: $pair(a, b) in R$ denotes that $a$ is related to $b$, not the other way around, unless there is _another_ pair $pair(b, a)$ in the relation.
+#note[
+  The _order_ of elements in the pair _matters_: $pair(a, b) in R$ denotes that $a$ is related to $b$, not the other way around, unless there is _another_ pair $pair(b, a)$ in the relation.
+]
 
 #example[
   $R = { pair(n, k) | n, k in NN "and" n < k }$
