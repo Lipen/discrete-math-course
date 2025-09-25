@@ -999,6 +999,8 @@
   This means $R relcomp S = {pair(1, x), pair(1, y), pair(2, x), pair(2, y)}$ (the universal relation).
 ]
 
+#pagebreak()
+
 #example[Path composition in a graph][
   Consider a directed graph with vertices ${A, B, C, D}$ and relation $R$ representing direct edges:
   $R = {pair(A, B), pair(B, C), pair(B, D), pair(C, D)}$
