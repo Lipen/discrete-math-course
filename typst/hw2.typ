@@ -497,33 +497,38 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
 
 == Problem 10: Advanced Topics
 
-#block(sticky: true)[*Part (a): Well-Founded Relations*]
+#block(sticky: true)[*Part (a): Well-Founded and Well-Ordered Relations*]
 
 A poset is _well-founded_ if every non-empty subset has a _minimal_ element.
+A poset is _well-ordered_ if it is a well-founded total order (or, equivalently, if every non-empty subset has a _least_ element).
 
-A poset is _well-ordered_ if every non-empty subset has a _least_ element.
-
-+ Is the set of lowercase English strings with lexicographic order well-founded?
-+ What about finite strings vs. infinite strings?
-+ Construct a poset that is well-founded but not well-ordered.
++ Consider the set of all *finite* lowercase English strings. Is this set well-founded under lexicographic (dictionary) order?
++ Consider the set of all *infinite* lowercase English strings. Is this set well-founded under lexicographic order?
++ Construct an example of a poset that is well-founded but not well-ordered.
 
 #block(sticky: true)[*Part (b): Partition Refinement Lattices*]
 
 A partition $alpha$ of a set $S$ is a _refinement_ of a partition $beta$, denoted
 #footnote[
-  We say that "$alpha$ is _finer_ than $beta$", and "$beta$ is _coarser_ than $alpha$".
+  We say that "$alpha$ is _finer_ than $beta$" or "$beta$ is _coarser_ than $alpha$".
 ]
 $alpha finer beta$, if every block of $alpha$ is a subset of some block of $beta$.
 
-+ Prove that the set of all partitions of $S$ with refinement relation $finer$ is a lattice.
+#example[
+  For the set $S = {a, b, c}$, the partition $alpha = {{a}, {b}, {c}}$ is a refinement of $beta = {{a, b}, {c}}$, because the blocks ${a}$ and ${b}$ are subsets of ${a, b}$, and ${c}$ is a subset of ${c}$.
+]
+
++ Prove that the set of all partitions of a set $S$, ordered by the refinement relation $finer$, forms a lattice.
 + For $S = {a,b,c}$, list all 5 possible partitions
   #footnote[
     The number of partitions of an $n$-element set is the #link("https://en.wikipedia.org/wiki/Bell_number")[Bell number] $B_n$.
     For example, $B_3 = 5$.
   ]
   and draw the Hasse diagram of the partition lattice.
-+ Draw the Hasse diagram of the partition lattice for $S = {a,b,c,d}$.
-+ Compare the partition refinement lattice to the Boolean lattice.
++ Draw the Hasse diagram of the partition lattice for the set $S = {a,b,c,d}$.
++ Compare the structure of the partition refinement lattice to the Boolean lattice (the poset of subsets of $S$ ordered by $subset.eq$).
++ Is partition refinement lattice distributive?
++ Is partition refinement lattice complemented?
 
 
 #line(length: 100%, stroke: 0.4pt)
