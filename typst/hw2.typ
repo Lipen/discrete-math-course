@@ -184,12 +184,10 @@ where $A$ and $B$ represent the sets of expertise areas for each researcher.
 
 Consider six researchers with expertise in the following areas:
 #align(center, table(
-  columns: (auto, auto),
+  columns: 2,
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-
   table.header([Researcher], [Expertise Areas]),
-
   [赖 (Lài)], [$"Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases"$],
   [石 (Shí)], [$"Internet of Things", "Cryptography", "Formal Methods", "Embedded Systems"$],
   [邱 (Qiū)], [$"Cryptography", "Algorithms", "Bioinformatics"$],
