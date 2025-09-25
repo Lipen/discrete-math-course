@@ -488,7 +488,7 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
     [5], [Maximum Dissonance], [$"F"sharp$], [Tritone],
   ))
   Define the _consonance dominance_ relation $consonance$ such that $x consonance y$ if note $x$ is strictly more consonant than note $y$, that is, $"level"(x) < "level"(y)$.
-  // A note at a certain level dominates all notes at higher-numbered (less consonant) levels.
+  A note at a certain level dominates all notes at higher-numbered (less consonant) levels.
 
   - Is $consonance$ reflexive? Antisymmetric? Transitive? Is it a partial order?
   - Draw the Hasse diagram for the poset $pair(N, consonance)$.
