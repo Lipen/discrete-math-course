@@ -1447,6 +1447,48 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   ]
 ]
 
+#place(right, dx: -3em)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    let hgap = 1.4
+    let vgap = 1.2
+
+    let draw-vertex((x, y), name, label, color: white) = {
+      circle((x, y), radius: 0.35, fill: color, stroke: 1pt, name: name)
+      content(name, [#label])
+    }
+    let draw-edge(start, end) = {
+      line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+    }
+
+    // Level 0 (minimal elements): 2, 3
+    draw-vertex((-hgap / 2, 0), "2", [$2$], color: blue.lighten(80%))
+    draw-vertex((hgap / 2, 0), "3", [$3$], color: blue.lighten(80%))
+
+    // Level 1: 4, 6
+    draw-vertex((-hgap / 2, vgap), "4", [$4$])
+    draw-vertex((hgap / 2, vgap), "6", [$6$])
+
+    // Level 2 (maximal elements): 8, 12
+    draw-vertex((-hgap / 2, vgap * 2), "8", [$8$], color: red.lighten(80%))
+    draw-vertex((hgap / 2, vgap * 2), "12", [$12$], color: red.lighten(80%))
+
+    // Edges showing divisibility relationships
+    draw-edge("2", "4") // 2|4
+    draw-edge("2", "6") // 2|6
+    draw-edge("3", "6") // 3|6
+    draw-edge("4", "8") // 4|8
+    draw-edge("4", "12") // 4|12
+    draw-edge("6", "12") // 6|12
+  })
+]
+
+*Hasse diagram:*
+- #Red[Maximal elements] (8, 12) — they divide nothing else in $S$
+- #Blue[Minimal elements] (2, 3) — nothing in $S$ divides them
+- Two separate chains: $2 | 4 | 8$ and $3 | 6 | 12$
+
 #pagebreak()
 
 #example[
