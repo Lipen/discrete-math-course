@@ -1291,48 +1291,63 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   - Transitive connections are omitted (implied by transitivity of the partial order).
 ]
 
+#place(right)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    let hgap = 1.6
+    let vgap = 1.2
+
+    let draw-vertex((x, y), name, label) = {
+      circle((x, y), radius: 0.3, fill: white, stroke: 1pt, name: name)
+      content(name, [#label])
+    }
+    let draw-edge(start, end) = {
+      line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+    }
+
+    // Level 0 (bottom): 1
+    draw-vertex((0, 0), "1", [$1$])
+
+    // Level 1: primes 2, 3, 5
+    draw-vertex((-hgap, vgap), "2", [$2$])
+    draw-vertex((0, vgap), "3", [$3$])
+    draw-vertex((hgap, vgap), "5", [$5$])
+
+    // Level 2: composite numbers
+    draw-vertex((-hgap, vgap * 2), "4", [$4$])
+    draw-vertex((0, vgap * 2), "10", [$10$])
+    draw-vertex((hgap, vgap * 2), "35", [$35$])
+
+    // Level 3: maximal elements
+    draw-vertex((0, vgap * 3), "20", [$20$])
+
+    // Edges from 1 to primes
+    draw-edge("1", "2")
+    draw-edge("1", "3")
+    draw-edge("1", "5")
+
+    // Other edges
+    draw-edge("2", "4") // 2|4
+    draw-edge("2", "10") // 2|10
+    draw-edge("5", "10") // 5|10
+    draw-edge("4", "20") // 4|20
+    draw-edge("10", "20") // 10|20
+    draw-edge("5", "35") // 5|35
+  })
+]
+
 #example[
-  For $D = {1, 2, 3, 6}$ with divisibility $|$:
-
-  // TODO: add more elements to make it less trivial
-
-  #place(right, dx: -1cm)[
-    #cetz.canvas({
-      import cetz.draw: *
-
-      let w = 1.4
-      let h = 1
-      let hgap = 1
-      let vgap = 1.2
-
-      let draw-vertex((x, y), name, label) = {
-        // rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
-        circle((x, y), radius: 0.4, fill: white, stroke: 1pt, name: name)
-        content(name, [#label])
-      }
-      let draw-edge(start, end) = {
-        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
-      }
-
-      // Vertices
-      draw-vertex((0, 0), "1", [$1$])
-      draw-vertex((-hgap, vgap), "2", [$2$])
-      draw-vertex((hgap, vgap), "3", [$3$])
-      draw-vertex((0, vgap * 2), "6", [$6$])
-
-      // Edges
-      draw-edge("1", "2")
-      draw-edge("1", "3")
-      draw-edge("2", "6")
-      draw-edge("3", "6")
-    })
-  ]
+  For $D = {1, 2, 3, 4, 5, 10, 20, 35}$ with divisibility $|$.
 
   *Reading the diagram:*
-  - $1$ divides everything (bottom element)
-  - $6$ is divisible by everything (top element)
-  - $2$ and $3$ are incomparable (same level, no path between them)
-  - Transitivity: $1 to 6$ (omitted) is implied by paths $1 to 2 to 6$ and $1 to 3 to 6$
+  - $1$ divides everything (least element at bottom)
+  - Multiple maximal elements: $3$ and $20$ (no single greatest element)
+  - Some chains (not necessarily maximal, can skip elements):
+    - Chain: $1 | 2 | 4$ (powers of 2)
+    - Chain: $1 | 10 | 20$ (multiples of 10)
+    - Chain: $5 | 35$ (multiples of 5)
+  - Primes $2$, $3$, $5$ are incomparable to each other
 ]
 
 == Subset Poset
