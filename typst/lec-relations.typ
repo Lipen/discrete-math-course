@@ -867,90 +867,41 @@
   Therefore: $R relcomp S = {pair(1, x), pair(1, y), pair(2, x)}$
 ]
 
-#align(center)[
-  #cetz.canvas({
-    import cetz: draw
-
-    let draw-vertex(pos, name, label, color: none) = {
-      draw.circle(
-        pos,
-        radius: 0.35,
-        stroke: 1pt + color.darken(20%),
-        fill: color.lighten(80%),
-        name: name,
-      )
-      draw.content(name, [#label])
-    }
-
-    let draw-edge(start, end) = {
-      let color = blue
-      draw.line(
-        start,
-        end,
-        stroke: 1.2pt + color,
-        mark: (end: "stealth", fill: color),
-      )
-    }
-
-    let draw-composition-edge(start, end) = {
-      let color = green.darken(20%)
-      draw.line(
-        start,
-        end,
-        stroke: (paint: color, dash: "dashed", thickness: 1pt),
-        mark: (end: "stealth", fill: color),
-      )
-    }
-
-    // Set A (left column)
-    draw-vertex((-2.5, 1), "1", [$1$], color: blue)
-    draw-vertex((-2.5, 0), "2", [$2$], color: blue)
-    draw-vertex((-2.5, -1), "3", [$3$], color: blue)
-
-    // Set B (middle column)
-    draw-vertex((0, 1.5), "a", [$a$], color: yellow)
-    draw-vertex((0, 0.5), "b", [$b$], color: yellow)
-    draw-vertex((0, -0.5), "c", [$c$], color: yellow)
-    draw-vertex((0, -1.5), "d", [$d$], color: red)
-
-    // Set C (right column)
-    draw-vertex((2.5, 0.5), "x", [$x$], color: green)
-    draw-vertex((2.5, -0.5), "y", [$y$], color: green)
-
-    // Relation R edges (A to B)
-    draw-edge("1", "a")
-    draw-edge("1", "b")
-    draw-edge("2", "c")
-    draw-edge("3", "d")
-
-    // Relation S edges (B to C)
-    draw-edge("a", "x")
-    draw-edge("b", "y")
-    draw-edge("c", "x")
-    // Note: d has no outgoing edges (dead end)
-
-    // Composition R∘S (A to C) - dashed green lines
-    draw-composition-edge("1", "x")
-    draw-composition-edge("1", "y")
-    draw-composition-edge("2", "x")
-
-    // Labels
-    draw.content("1.north", anchor: "south", padding: 0.2, text(fill: blue.darken(20%))[*Set $A$*])
-    draw.content("a.north", anchor: "south", padding: 0.2, text(fill: orange.darken(20%))[*Set $B$*])
-    draw.content("x.north", anchor: "south", padding: 0.2, text(fill: green.darken(20%))[*Set $C$*])
-
-    // Legend
-    draw.content(
-      (-2, -2.2),
-      anchor: "north-west",
-      text(size: 0.8em)[
-        Edges legend:
-        - #text(fill: blue.darken(20%))[Solid: Relations $R$ and $S$] \
-        - #text(fill: green.darken(20%))[Dashed: Composition $R relcomp S$] \
-        - #text(fill: red.darken(20%))[Red: Dead end (no outgoing path)]
-      ],
-    )
-  })
+#v(1em)
+#place(center)[
+  #import fletcher: diagram, edge, node
+  #import fletcher.shapes: circle
+  #diagram(
+    // debug: true,
+    spacing: (5em, 2em),
+    edge-stroke: 1pt + blue,
+    blob((-1, 0.5), [$1$], tint: blue, shape: circle, name: <1>),
+    blob((-1, 1.5), [$2$], tint: blue, shape: circle, name: <2>),
+    blob((-1, 2.5), [$3$], tint: blue, shape: circle, name: <3>),
+    blob((0, 0), [$a$], tint: yellow, shape: circle, name: <a>),
+    blob((0, 1), [$b$], tint: yellow, shape: circle, name: <b>),
+    blob((0, 2), [$c$], tint: yellow, shape: circle, name: <c>),
+    blob((0, 3), [$d$], tint: red, shape: circle, name: <d>),
+    blob((1, 1), [$x$], tint: green, shape: circle, name: <x>),
+    blob((1, 2), [$y$], tint: green, shape: circle, name: <y>),
+    edge(<1>, <a>, "-}>"),
+    edge(<1>, <b>, "-}>"),
+    edge(<2>, <c>, "-}>"),
+    edge(<3>, <d>, "-}>"),
+    edge(<a>, <x>, "-}>"),
+    edge(<b>, <y>, "-}>"),
+    edge(<c>, <x>, "-}>"),
+    edge(<1>, <x>, "--}>", bend: 10deg, stroke: green.darken(20%)),
+    edge(<1>, <y>, "--}>", bend: -10deg, stroke: green.darken(20%)),
+    edge(<2>, <x>, "--}>", bend: -10deg, stroke: green.darken(20%)),
+    node((rel: (0cm, -2em), to: <d.south>), align(left)[
+      #set text(size: 0.8em)
+      Edges legend:
+      - #text(fill: blue.darken(20%))[Solid: Relations $R$ and $S$]
+      - #text(fill: green.darken(20%))[Dashed: Composition $R relcomp S$]
+      - #text(fill: red.darken(20%))[Red: Dead end (no outgoing path)]
+    ]),
+  )
 ]
 
 == Examples of Composition
