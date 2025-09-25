@@ -1714,7 +1714,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
     - Chain 2: $emptyset subset.eq {b} subset.eq {a,b}$
   - *Dilworth's theorem:* Maximum antichain size (2) = minimum number of chains (2).
 
-  Note: $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
+  #note[
+    $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
+  ]
 ]
 
 
