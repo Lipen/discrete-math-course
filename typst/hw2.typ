@@ -42,6 +42,7 @@
 #let boolprod = $dot.circle$
 #let equinumerous = $approx$
 #let finer = $lt.tri.eq$
+#let consonance = $rel(triangle.l)$
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)
@@ -458,52 +459,40 @@ For example: $rho(20) = rho(2^#Blue[$2$] dot 5^#Green[$1$]) = #Blue[$2$] + #Gree
 
 #block(sticky: true)[*Part (b): Harmonic Ordering*]
 
-In music theory, notes can be ordered by their _harmonic tension_ and _consonance hierarchy_.
-We'll explore ordering relations based on harmonic principles.
+In music theory, notes can be ordered based on harmonic principles.
+We'll explore two such orderings on the 12-note chromatic scale:
+$N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"sharp, "B"}$.
 
-Consider the chromatic scale: $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"sharp, "B"}$ (12 notes).
++ *Circle of Fifths Precedence:*
+  The circle of fifths defines a precedence relation $prec.eq$ on the notes: #footnote[
+    For this problem, we treat this as a linear sequence and ignore the wrap-around from F back to C.
+  ]
+  $
+    "C" prec.eq "G" prec.eq "D" prec.eq "A" prec.eq "E" prec.eq "B" prec.eq "F"sharp prec.eq "C"sharp prec.eq "G"sharp prec.eq "D"sharp prec.eq "A"sharp prec.eq "F"
+  $
+  Verify that this relation is a partial order and draw its Hasse diagram.
 
-Define the _harmonic precedence_ relation $prec.eq$ where $x prec.eq y$ if note $x$ has equal or higher harmonic priority than note $y$ in the circle of fifths ordering, starting from C.
++ *Consonance Dominance:*
+  Notes can also be ordered by their consonance relative to a root note (here, C).
+  Define the _consonance dominance_ relation $consonance$ where $x consonance y$ if note $x$ is strictly more consonant than note $y$.
+  The hierarchy of consonance levels is as follows, from most to least consonant:
+  #align(center, table(
+    columns: 3,
+    align: (center, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([Level], [Category], [Notes]),
+    [0], [Perfect Unison], [$"C"$],
+    [1], [Perfect Consonances], [$"G", "F"$],
+    [2], [Imperfect Consonances], [$"E", "A"$],
+    [3], [Near Consonances], [$"D", "B"$],
+    [4], [Mild Dissonances], [$"C"sharp, "D"sharp, "G"sharp, "A"sharp$],
+    [5], [Maximum Dissonance], [$"F"sharp$],
+  ))
 
-The circle of fifths gives us the ordering:
-#footnote[
-  Here, we ignore the octave repetition and omit the circular relation $F prec.eq C$.
-]
-$
-  "C" prec.eq "G" prec.eq "D" prec.eq "A" prec.eq "E" prec.eq "B" prec.eq "F"sharp prec.eq "C"sharp prec.eq "G"sharp prec.eq "D"sharp prec.eq "A"sharp prec.eq "F"
-$
-
-Define the _consonance dominance_ relation $triangle.l$ where $x triangle.l y$ if note $x$ is more consonant than note $y$ relative to C, based on harmonic interval theory.
-Each consonance level dominates all levels below it in the hierarchy:
-- Perfect unison: $"C"$ (0 semitones --- most consonant)
-- Perfect consonances: $"G"$ (perfect 5th, 7 semitones) and F (perfect 4th, 5 semitones)
-- Major consonances: $"E"$ (major 3rd, 4 semitones) and $"A"$ (major 6th, 9 semitones)
-- Minor consonances: $"D"$ (major 2nd, 2 semitones) and $"B"$ (major 7th, 11 semitones)
-- Mild dissonances: $"C"sharp$, $"D"sharp$, $"G"sharp$, $"A"sharp$
-- Maximum dissonance: $"F"sharp$ (tritone, 6 semitones)
-
-+ Verify that $prec.eq$ is a partial order by checking reflexivity, antisymmetry, and transitivity.
-// Draw the Hasse diagram for this harmonic precedence ordering.
-
-+ Analyze the consonance dominance relation $triangle.l$:
-  - Is $triangle.l$ reflexive? Antisymmetric? Transitive? Partial order?
-  - Draw the Hasse diagram for $pair(N, triangle.l)$, arranging notes by consonance levels.
-  - Identify all maximal and minimal elements under $triangle.l$.
-
-#let steps = $Delta$
-
-+ Consider the _circle of fifths distance_ ordering $d$ where $x rel(d) y$ iff $steps("C", x) <= steps("C", y)$, where $steps("C", z)$ is the minimum number of perfect fifth steps needed to reach note $z$ from C in the circle of fifths.
-
-  For example: $steps("C", "C") = 0$, $steps("C", "D") = 2$, $steps("C", "F"sharp) = 6$, $steps("C", "F") = 1$ (backwards), etc.
-
-  - Prove that $d$ defines a partial order on $N$.
-  - Find all elements that are comparable to C under this ordering.
-  - What is the greatest lower bound (infimum) of the set ${"G", "F"}$ under this ordering?
-
-// + Construct the _lexicographic harmonic ordering_ $prec.eq_"lex"$ by first ordering by consonance level, then by position in circle of fifths for ties.
-//   - Show this gives a total order on $N$.
-//   - List the first 6 elements in this total ordering.
-//   - Find the unique minimal and maximal elements.
+  A note at a certain level dominates all notes at higher-numbered (less consonant) levels.
+  - Is $consonance$ reflexive? Antisymmetric? Transitive? Is it a partial order?
+  - Draw the Hasse diagram for the poset $pair(N, consonance)$.
+  - Identify all maximal and minimal elements in this poset.
 
 
 == Problem 10: Advanced Topics
