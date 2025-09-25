@@ -502,8 +502,8 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
 A poset is _well-founded_ if every non-empty subset has a _minimal_ element.
 A poset is _well-ordered_ if it is a well-founded total order (or, equivalently, if every non-empty subset has a _least_ element).
 
-+ Consider the set of all *finite* lowercase English strings. Is this set well-founded under lexicographic (dictionary) order?
-+ Consider the set of all *infinite* lowercase English strings. Is this set well-founded under lexicographic order?
++ Is lexicographic order well-founded on the set of _finite_ lowercase English strings?
++ Is lexicographic order well-founded on the set of _infinite_ lowercase English strings?
 + Construct an example of a poset that is well-founded but not well-ordered.
 
 #block(sticky: true)[*Part (b): Partition Refinement Lattices*]
