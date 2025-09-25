@@ -474,7 +474,7 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
 
 + *Consonance Dominance:*
   Notes can also be ordered by their consonance relative to a root note (here, C).
-  The hierarchy of consonance levels is given by the table below, from most to least consonant.
+  The hierarchy of consonance levels is given by the table below.
   #align(center, table(
     columns: 4,
     align: (center, left, left, left),
