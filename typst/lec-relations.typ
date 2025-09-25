@@ -954,7 +954,9 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
 
   Define relations:
   - $"HasSkill" = {pair("Alice", "Python"), pair("Alice", "Design"), pair("Bob", "Python"), pair("Carol", "Management")}$
-  - $"RequiresSkill" = {pair("Python", "WebApp"), pair("Python", "Analytics"), pair("Design", "WebApp"), pair("Management", "Mobile")}$
+  - #box(width: 100em)[
+      $"RequiresSkill" = {pair("Python", "WebApp"), pair("Python", "Analytics"), pair("Design", "WebApp"), pair("Management", "Mobile")}$
+    ]
 
   The composition $"HasSkill" relcomp "RequiresSkill"$ gives us $"CanWorkOn"$:
   - Alice can work on WebApp (via Python AND Design)
