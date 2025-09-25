@@ -36,6 +36,9 @@
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
 #let relmat(x) = $bracket.double.l #x bracket.double.r$
+#let eqclass(x, R) = $bracket.l #x bracket.r_#R$
+#let quotient(M, R) = $#M slash_(#R)$
+#let congruent(a, b, n) = $#a equiv #b space (mod #n)$
 #let boolprod = $dot.circle$
 #let equinumerous = $approx$
 #let finer = $lt.tri.eq$
@@ -88,7 +91,7 @@ Organize your findings in a table and provide counterexamples for properties tha
   In rock-paper-scissors, define $x rel(R) y$ iff "$x$ beats $y$".
 
 + *Modulo equivalence:*
-  For natural numbers, define $x rel(R) y$ iff $x equiv y space (mod 7)$.
+  For natural numbers, define $x rel(R) y$ iff $congruent(x, y, 7)$.
 
 
 == Problem 2: Social Network Relations
@@ -151,11 +154,11 @@ The _equinumerosity relation_ $equinumerous$ is defined as: $A equinumerous B$ i
 
 #block(sticky: true)[*Part (b): Modular Arithmetic*]
 
-Consider the relation $R_m$ on integers: $a rel(R_m) b$ iff $a equiv b space (mod m)$ for fixed $m >= 1$.
+Consider the relation $R_m$ on integers: $a rel(R_m) b$ iff $congruent(a, b, m)$ for fixed $m >= 1$.
 
 + Prove that $R_m$ is an equivalence relation for any $m >= 1$.
-+ Describe the equivalence classes of $R_7$ and find the quotient set $ZZ slash R_7$.
-+ Show that the quotient set $ZZ slash R_m$ has exactly $m$ elements.
++ Describe the equivalence classes of $R_7$ and find the quotient set $quotient(ZZ, R_7)$.
++ Show that the quotient set $quotient(ZZ, R_m)$ has exactly $m$ elements.
 
 #block(sticky: true)[*Part (c): String Permutation*]
 
@@ -411,7 +414,7 @@ Provide clear justifications, including explicit bijections or diagonalization a
 
 + The set of rational
   #footnote[
-    A rational number is a fraction $m slash n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.
+    A rational number is a fraction $m "/" n$, where $m in ZZ$ is an integer and $n in NN^+$ is a natural number.
   ]
   numbers $QQ$.
 + The power set of natural numbers $power(NN)$.
