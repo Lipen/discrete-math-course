@@ -9,6 +9,9 @@
 
 #show heading.where(level: 1): none
 
+// Show i.e. in italic:
+#show "i.e.": set text(style: "italic")
+
 #import "common-lec.typ": *
 
 #let rel(x) = math.class("relation", x)
