@@ -1003,17 +1003,35 @@
   Consider a directed graph with vertices ${A, B, C, D}$ and relation~$R$ representing direct edges:
   $R = {pair(A, B), pair(B, C), pair(B, D), pair(C, D)}$
 
+  #place(right, dx: -3cm, dy: 1em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: 2em,
+      edge-stroke: 1pt + navy,
+      node-corner-radius: 5pt,
+      blob((0, 0), [$A$], tint: green, name: <a>),
+      blob((1, 0), [$B$], tint: orange, name: <b>),
+      blob((2, 1), [$C$], tint: blue, name: <c>),
+      blob((2, -1), [$D$], tint: red, name: <d>),
+      edge(<a>, <b>, "-}>"),
+      edge(<b>, <c>, "-}>"),
+      edge(<b>, <d>, "-}>"),
+      edge(<c>, <d>, "-}>"),
+      edge(<a>, <c>, "--}>", bend: -30deg, stroke: blue),
+      edge(<a>, <d>, "--}>", bend: 30deg, stroke: blue),
+      edge(<b>, <d>, "--}>", bend: 30deg, stroke: blue),
+    )
+  ]
+
   Powers of $R$ represent paths of different lengths:
   - $R^1 = R$ (direct connections)
   - $R^2 = R compose R$ (2-step paths):
     - $pair(A, C)$: path $A to B to C$
     - $pair(A, D)$: path $A to B to D$
-    - $pair(B, D)$: path $B to C to D$ (but $pair(B, D)$ already in $R^1$)
+    - $pair(B, D)$: path $B to C to D$
 
-  So $R^2 = {pair(A, C), pair(A, D), pair(B, D)}$, but since $pair(B, D) in R^1$, the new 2-step paths are $pair(A, C)$ and $pair(A, D)$.
+  So $R^2 = {#text(fill: blue)[$pair(A, C), pair(A, D), pair(B, D)$]}$.
 ]
-
-// TODO: visualize
 
 == Powers of Relations
 
