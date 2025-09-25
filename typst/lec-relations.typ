@@ -978,7 +978,7 @@
 ]
 
 #example[Matrix composition][
-  Relations can be composed using matrix multiplication over Boolean algebra.
+  Relations can be composed using Boolean matrix multiplication.
 
   Given $R subset.eq {1,2} times {a,b}$ and $S subset.eq {a,b} times {x,y}$:
 
