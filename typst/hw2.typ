@@ -476,16 +476,16 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
   Notes can also be ordered by their consonance relative to a root note (here, C).
   The hierarchy of consonance levels is given by the table below, from most to least consonant.
   #align(center, table(
-    columns: 3,
-    align: (center, left, left),
+    columns: 4,
+    align: (center, left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-    table.header([Level], [Category], [Notes]),
-    [0], [Perfect Unison], [$"C"$],
-    [1], [Perfect Consonances], [$"G", "F"$],
-    [2], [Imperfect Consonances], [$"E", "A"$],
-    [3], [Near Consonances], [$"D", "B"$],
-    [4], [Mild Dissonances], [$"C"sharp, "D"sharp, "G"sharp, "A"sharp$],
-    [5], [Maximum Dissonance], [$"F"sharp$],
+    table.header([Level], [Category], [Notes], [Interval]),
+    [0], [Perfect Unison], [$"C"$], [Unison],
+    [1], [Perfect Consonances], [$"G", "F"$], [Perfect 5th, 4th],
+    [2], [Imperfect Consonances], [$"E", "A"$], [Major 3rd, 6th],
+    [3], [Near Consonances], [$"D", "B"$], [Major 2nd, 7th],
+    [4], [Mild Dissonances], [$"C"sharp, "D"sharp, "G"sharp, "A"sharp$], [Minor intervals],
+    [5], [Maximum Dissonance], [$"F"sharp$], [Tritone],
   ))
   Define the _consonance dominance_ relation $consonance$ such that $x consonance y$ if note $x$ is strictly more consonant than note $y$, that is, $"level"(x) < "level"(y)$.
   // A note at a certain level dominates all notes at higher-numbered (less consonant) levels.
