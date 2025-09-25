@@ -25,6 +25,7 @@
 #let Range = math.op("Range")
 #let equinumerous = symbol(math.approx, ("not", math.approx.not))
 #let smaller = symbol(math.prec, ("eq", math.prec.eq))
+#let covers = $lt.dot$
 #let relcomp = rel(";")
 #let Join = math.or
 #let Meet = math.and
@@ -1394,6 +1395,25 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   ]
   #note[
     $pair(power(A), subset.eq)$ is also called the _Boolean lattice_.
+  ]
+]
+
+== Covering Relation
+
+// Covering relation
+#definition[
+  In a poset $pair(S, leq)$, an element $y in S$ _covers_ $x in S$, denoted $x covers y$, if there is no other element in between them:
+  $
+    x covers y
+    quad "iff" quad
+    (x < y) and exists.not z in S. thin (x < z < y)
+  $
+
+  #note[
+    "$<$" denotes the _induced strict order_:
+    $
+      x < y quad "iff" quad (x leq y) and (x neq y)
+    $
   ]
 ]
 
