@@ -1417,6 +1417,10 @@ If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A
   ]
 ]
 
+#note[
+  Hasse diagram is just a graph of a covering relation!
+]
+
 == Maximal and Minimal Elements
 
 // Maximal element
