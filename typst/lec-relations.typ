@@ -1195,7 +1195,7 @@
 #pagebreak()
 
 #example[
-  _Divisibility_ $|$ on positive integers $NN^+$ is a partial order.
+  _Divisibility_ $|$ on positive integers $NN^+$ is a *partial order*.
 
   *Verification:*
   - *Reflexive:* $n | n$ for all $n in NN^+$ (every number divides itself) #YES
@@ -1208,6 +1208,10 @@
     - If $a | b$, then $b = a k$ for some integer $k$
     - If $b | c$, then $c = b ell$ for some integer $ell$
     - Therefore: $c = b ell = (a k) ell = a (k ell)$, so $a | c$
+  - *Connected:* #NO
+    - Counter-example: $2$ does not divide $3$, and $3$ does not divide $2$
+
+  This is a _partial order_ but not a total order because some pairs are incomparable.
 ]
 // TODO: visualize
 
@@ -1233,7 +1237,7 @@
   // - The first differing position determines the order
   // - If one string is a prefix of another, the shorter one comes first
 
-  *Key property:* Every pair of strings is comparable, making this a total order.
+  *Key property:* Every pair of strings is _comparable_, making this a _total order_.
 ]
 
 // TODO: strict orders!
@@ -1378,12 +1382,12 @@
 
   *Reading the diagram:*
   - $1$ divides everything (least element at bottom)
-  - Multiple maximal elements: $3$ and $20$ (no single greatest element)
-  - Some chains (not necessarily maximal, can skip elements):
+  - Multiple _maximal_ elements: $3$ and $20$ (no single greatest element)
+  - Some _chains_ (not necessarily maximal, can skip elements):
     - Chain: $1 | 2 | 4$ (powers of 2)
     - Chain: $1 | 10 | 20$ (multiples of 10)
     - Chain: $5 | 35$ (multiples of 5)
-  - Primes $2$, $3$, $5$ are incomparable to each other
+  - Primes $2$, $3$, $5$ are _incomparable_ to each other
 ]
 
 == Subset Poset
