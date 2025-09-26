@@ -1382,7 +1382,7 @@
 
   *Reading the diagram:*
   - $1$ divides everything (least element at bottom)
-  - Multiple _maximal_ elements: $3$ and $20$ (no single greatest element)
+  - Multiple _maximal_ elements: $3$, $20$, $35$ (no single greatest element)
   - Some _chains_ (not necessarily maximal, can skip elements):
     - Chain: $1 | 2 | 4$ (powers of 2)
     - Chain: $1 | 10 | 20$ (multiples of 10)
