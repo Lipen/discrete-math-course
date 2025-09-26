@@ -1498,41 +1498,26 @@
   ]
 ]
 
-#place(right, dx: -3em)[
-  #cetz.canvas({
-    import cetz.draw: *
-
-    let hgap = 1.4
-    let vgap = 1.2
-
-    let draw-vertex((x, y), name, label, color: white) = {
-      circle((x, y), radius: 0.35, fill: color, stroke: 1pt, name: name)
-      content(name, [#label])
-    }
-    let draw-edge(start, end) = {
-      line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
-    }
-
-    // Level 0 (minimal elements): 2, 3
-    draw-vertex((-hgap / 2, 0), "2", [$2$], color: blue.lighten(80%))
-    draw-vertex((hgap / 2, 0), "3", [$3$], color: blue.lighten(80%))
-
-    // Level 1: 4, 6
-    draw-vertex((-hgap / 2, vgap), "4", [$4$])
-    draw-vertex((hgap / 2, vgap), "6", [$6$])
-
-    // Level 2 (maximal elements): 8, 12
-    draw-vertex((-hgap / 2, vgap * 2), "8", [$8$], color: red.lighten(80%))
-    draw-vertex((hgap / 2, vgap * 2), "12", [$12$], color: red.lighten(80%))
-
-    // Edges showing divisibility relationships
-    draw-edge("2", "4") // 2|4
-    draw-edge("2", "6") // 2|6
-    draw-edge("3", "6") // 3|6
-    draw-edge("4", "8") // 4|8
-    draw-edge("4", "12") // 4|12
-    draw-edge("6", "12") // 6|12
-  })
+#place(right, dx: -5em)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 3em,
+    node-shape: fletcher.shapes.circle,
+    node-inset: 0pt,
+    edge-stroke: 1pt + navy,
+    blob((0, 0), [$2$], width: 1.5em, tint: blue, name: <2>),
+    blob((1, 0), [$3$], width: 1.5em, tint: blue, name: <3>),
+    blob((0, -1), [$4$], width: 1.5em, stroke: navy, name: <4>),
+    blob((1, -1), [$6$], width: 1.5em, stroke: navy, name: <6>),
+    blob((0, -2), [$8$], width: 1.5em, tint: red, name: <8>),
+    blob((1, -2), [$12$], width: 1.5em, tint: red, name: <12>),
+    edge(<2>, <4>, "-}>"),
+    edge(<2>, <6>, "-}>"),
+    edge(<3>, <6>, "-}>"),
+    edge(<4>, <8>, "-}>"),
+    edge(<4>, <12>, "-}>"),
+    edge(<6>, <12>, "-}>"),
+  )
 ]
 
 *Hasse diagram:*
