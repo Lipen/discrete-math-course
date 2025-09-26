@@ -682,21 +682,19 @@
 
   The _strategy_ is to construct a model (interpretation) that satisfies all formulas in $Gamma$, but falsifies $alpha$.
 
-  #enum(numbering: it => [*Step #it:*])[
-    If $Gamma proves.not alpha$, then $Gamma union {not alpha}$ is consistent (cannot derive $bot$).
-  ][
-    Extend $Gamma union {not alpha}$ to a _maximal consistent set_ $Delta$:
-    - $Delta$ is consistent (cannot derive $bot$)
-    - For every formula $beta$, either $beta in Delta$ or $not beta in Delta$
-  ][
-    Define interpretation $nu$ for atomic propositions $P$ by:
-    $ nu(P) = True iff P in Delta $
-  ][
-    Show by induction that for all formulas $beta$:
-    $ Eval(beta) = True iff beta in Delta $
-  ][
-    Since $not alpha in Delta$, we have $Eval(alpha) = False$.
-    Since $Gamma subset.eq Delta$, we have $Eval(gamma) = True$ for all $gamma in Gamma$.
+  #[
+    #set enum(numbering: it => [*Step #it:*])
+
+    + If $Gamma proves.not alpha$, then $Gamma union {not alpha}$ is consistent (cannot derive $bot$).
+    + Extend $Gamma union {not alpha}$ to a _maximal consistent set_ $Delta$:
+      - $Delta$ is consistent (cannot derive $bot$)
+      - For every formula $beta$, either $beta in Delta$ or $not beta in Delta$
+    + Define interpretation $nu$ for atomic propositions $P$ by:
+      $ nu(P) = True iff P in Delta $
+    + Show by induction that for all formulas $beta$:
+      $ Eval(beta) = True iff beta in Delta $
+    + Since $not alpha in Delta$, we have $Eval(alpha) = False$.
+      Since $Gamma subset.eq Delta$, we have $Eval(gamma) = True$ for all $gamma in Gamma$.
   ]
 
   Therefore $Gamma models.not alpha$.
