@@ -28,6 +28,7 @@
 #let covers = $lt.dot$
 #let lexleq = math.prec.eq // $rel(scripts(leq)_"lex")$
 #let lexlt = math.prec // $rel(scripts(lt)_"lex")$
+#let subtype = $subset.sq.eq$
 #let relcomp = rel(";")
 #let Join = math.or
 #let Meet = math.and
@@ -3638,22 +3639,78 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   - $"Secret" Meet "Confidential" = "Confidential"$ (both can be declassified to this level)
 ]
 
-== Why Lattices Matter [2]: Program Analysis and Type Systems
+== Why Lattices Matter: Type Systems
 
-#example[
-  In programming language theory, _types_ form lattices:
+#place(top + right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (2em, 1.5em),
+    edge-stroke: 1pt + blue,
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 3pt,
+    node-fill: blue.lighten(90%),
+    node-stroke: 0.8pt + blue,
 
-  *Subtype Lattice:*
-  - Order: $#`int` subset.sq.eq #`number` subset.sq.eq #`any`$, $#`string` subset.sq.eq #`any`$
-  - Join: Most general common supertype (for union types)
-  - Meet: Most specific common subtype (for intersection types)
+    // Top level
+    node((1, 0), [`any`], name: <any>),
 
-  *Control Flow Analysis:*
-  - Elements: Sets of possible program states
-  - Order: Subset inclusion ($subset.eq$)
-  - Join: Union of possible states (at merge points)
-  - Meet: Intersection of guaranteed properties
+    // Second level
+    node((0, 1), [`number`], name: <number>),
+    node((2, 1), [`string`], name: <string>),
+
+    // Third level
+    node((-0.5, 2), [`int`], name: <int>),
+    node((0.5, 2), [`float`], name: <float>),
+
+    // Bottom level
+    node((0, 3), [`never`], name: <never>),
+
+    // Edges (subtype relations)
+    edge(<int>, <number>, "-}>"),
+    edge(<float>, <number>, "-}>"),
+    edge(<number>, <any>, "-}>"),
+    edge(<string>, <any>, "-}>"),
+    edge(<never>, <int>, "-}>"),
+    edge(<never>, <float>, "-}>"),
+  )
+
+  #block[
+    #set align(left)
+    #set text(size: 0.9em)
+    *Type Lattice*
+    - Arrows show subtype relation $subtype$
+    - Join: Move up to common parent
+    - Meet: Move down to common child
+  ]
 ]
+
+In programming language theory, _types_ form lattices.
+
+```typescript
+let x: int = 42;
+let y: string = "hello";
+let z = condition ? x : y;
+// z has type: int ∨ string = any
+```
+
+*Subtyping Lattice:*
+- Order: $#`int` subtype #`number` subtype #`any`$, ~$#`string` subtype #`any`$
+- Join ($Join$): Most general common supertype (union type)
+  - For example: $#`int` Join #`string` = #`any`$
+- Meet ($Meet$): Most specific common subtype (intersection type)
+  - Let $A = #`{ name: string }`$
+  - Let $B = #`{ age: int }`$
+  - Then $A Meet B = #`{ name: string, age: int }`$
+
+== Why Lattices Matter: Program Analysis
+
+TODO
+
+*Control Flow Analysis:*
+- Elements: Sets of possible program states
+- Order: Subset inclusion ($subset.eq$)
+- Join: Union of possible states (at merge points)
+- Meet: Intersection of guaranteed properties
 
 == Why Lattices Matter [3]: Database Query Optimization
 
