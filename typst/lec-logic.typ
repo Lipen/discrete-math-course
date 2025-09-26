@@ -1409,7 +1409,6 @@
 
 #Block(color: blue.lighten(60%))[
   *Enduring Contributions:*
-  =
   - Systematic study of quantification and categorical reasoning
   - Recognition of logical form vs. content
   - Analysis of validity in natural language arguments
