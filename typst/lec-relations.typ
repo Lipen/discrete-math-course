@@ -1631,26 +1631,6 @@
   - $pair({1,2,3,4,5,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$ (prime powers and primes that don't divide anything else in the given set).
 ]
 
-#pagebreak()
-
-// TODO: consider moving this example after chains or refactoring it, since it does not fit "greatest elements" example
-#example[
-  In project management, _tasks_ form a _scheduling poset_ under the "prerequisite" relation.
-
-  Consider tasks: $A$ (Design), $B$ (Code), $C$ (Test), $D$ (Deploy), $E$ (Document)
-  - $A prec B$ (we must design before coding)
-  - $A prec E$ (we must design before documenting)
-  - $B prec C$ (we must code before testing)
-  - $C prec D$ (we must test before deploying)
-
-  *Minimal element:* $A$ (Design) --- no prerequisites.
-
-  *Maximal elements:* $D$ (Deploy) and $E$ (Document) --- nothing depends on them.
-
-  *Chains:* $A to B to C to D$ represents one possible execution order.
-]
-// TODO: visualize
-
 == Chains and Antichains
 
 // Chain and Antichain
@@ -1698,6 +1678,28 @@
 
   *Practical insight:* Merge commits combine multiple antichains back into a single chain.
 ]
+
+== Chains and Antichains in Scheduling
+
+#example[
+  In project management, _tasks_ form a _scheduling poset_ under the "prerequisite" relation.
+
+  Consider tasks: $A$ (Design), $B$ (Code), $C$ (Test), $D$ (Deploy), $E$ (Document)
+  - $A prec B$ (we must design before coding)
+  - $A prec E$ (we must design before documenting)
+  - $B prec C$ (we must code before testing)
+  - $C prec D$ (we must test before deploying)
+
+  *Chain analysis:*
+  - *Maximal chain:* $A to B to C to D$ represents the critical path (longest sequence of dependent tasks)
+  - *Alternative chain:* $A to E$ (documentation can be done independently)
+
+  *Antichain analysis:*
+  - ${D, E}$ form an antichain (Deploy and Document are independent and can be done in parallel)
+
+  *Scheduling insight:* Tasks in an antichain can be executed simultaneously, while chains represent sequential dependencies.
+]
+// TODO: visualize
 
 == Dilworth's Theorem
 
