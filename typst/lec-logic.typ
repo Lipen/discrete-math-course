@@ -1039,15 +1039,15 @@
 
 #example[Classic syllogism][
   #grid(
-    columns: 2,
+    columns: 3,
     column-gutter: 2em,
     grid(
       columns: 2,
       inset: 5pt,
-      [All humans are mortal], [(Major premise)],
-      [Socrates is human], [(Minor premise)],
+      [All humans are mortal], [_(Major premise)_],
+      [Socrates is human], [_(Minor premise)_],
       grid.hline(stroke: .8pt),
-      [Therefore, Socrates is mortal], [(Conclusion)],
+      [Therefore, Socrates is mortal], [_(Conclusion)_],
     ),
     [
       Terms:
@@ -1055,6 +1055,14 @@
       - Minor term: Socrates (S)
       - Middle term: human (M)
     ],
+    grid(
+      columns: 2,
+      inset: 5pt,
+      [All M are P], [*(A)*],
+      [All S are M], [*(A)*],
+      grid.hline(stroke: .8pt),
+      [All S are P], [*(A)*],
+    ),
   )
 ]
 
