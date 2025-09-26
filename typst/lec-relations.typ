@@ -1753,47 +1753,51 @@
   In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
 ]
 
-#example[
-  In the Boolean lattice $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion ($subset.eq$):
+// #example[
+//   In the Boolean lattice $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion ($subset.eq$):
+//
+//   - *Maximum antichain:* ${{a}, {b}}$ of size 2 (red nodes - incomparable elements)
+//   - *Minimum chain decomposition:*
+//     - Chain 1: $emptyset subset.eq {a} subset.eq {a,b}$
+//     - Chain 2: $emptyset subset.eq {b} subset.eq {a,b}$
+//   - *Dilworth's theorem:* Maximum antichain size (2) = minimum number of chains (2).
+//
+//   #note[
+//     $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
+//   ]
+// ]
 
-  // #align(center)[
-  //   #cetz.canvas({
-  //     import cetz.draw: *
+#proof[
+  Let $(P, leq)$ be a finite poset. Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
+  We prove $alpha = beta$ by showing $alpha <= beta$ and $alpha >= beta$.
 
-  //     // Draw the Boolean lattice
-  //     circle((0, 0), radius: 0.15, fill: blue.lighten(80%), stroke: 1pt, name: "empty")
-  //     circle((-1, 1.5), radius: 0.15, fill: red.lighten(80%), stroke: 1pt, name: "a")
-  //     circle((1, 1.5), radius: 0.15, fill: red.lighten(80%), stroke: 1pt, name: "b")
-  //     circle((0, 3), radius: 0.15, fill: blue.lighten(80%), stroke: 1pt, name: "ab")
+  *Part 1 ($alpha <= beta$):* #h(0.2em)
+  Suppose $P$ can be covered by $k$ chains $C_1, C_2, ..., C_k$. Let $A$ be any antichain in $P$.
 
-  //     content("empty", [$emptyset$], anchor: "center")
-  //     content("a", [${a}$], anchor: "center")
-  //     content("b", [${b}$], anchor: "center")
-  //     content("ab", [${a,b}$], anchor: "center")
+  Since elements in an antichain are pairwise incomparable, no two elements of $A$ can belong to the same chain. Therefore, $A$ can contain at most one element from each chain $C_i$.
 
-  //     line("empty", "a", stroke: 1pt + blue)
-  //     line("empty", "b", stroke: 1pt + blue)
-  //     line("a", "ab", stroke: 1pt + blue)
-  //     line("b", "ab", stroke: 1pt + blue)
+  Thus $|A| <= k$, and taking the maximum over all antichains: $alpha <= k$.
 
-  //     // Add annotations
-  //     content((-2, 1.5), text(fill: red)[Antichain], anchor: "east")
-  //     content((0, -0.8), text(fill: blue)[Chain 1], anchor: "center", angle: 90deg)
-  //     content((1.8, 2.2), text(fill: blue)[Chain 2], anchor: "center", angle: 90deg)
-  //   })
-  // ]
+  Since this holds for any chain decomposition with $k$ chains: $alpha <= beta$.
 
-  - *Maximum antichain:* ${{a}, {b}}$ of size 2 (red nodes - incomparable elements)
-  - *Minimum chain decomposition:*
-    - Chain 1: $emptyset subset.eq {a} subset.eq {a,b}$
-    - Chain 2: $emptyset subset.eq {b} subset.eq {a,b}$
-  - *Dilworth's theorem:* Maximum antichain size (2) = minimum number of chains (2).
+  #colbreak()
 
-  #note[
-    $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
-  ]
+  *Part 2 ($alpha >= beta$):* #h(0.2em)
+  We construct a chain decomposition using exactly $alpha$ chains.
+
+  Define the _height_ of element $x in P$ as:
+  $h(x) = max{abs(C) : C "is a chain with maximum element" x}$
+
+  *Claim:* For each $i = 1, 2, ..., alpha$, the set $L_i = {x in P : h(x) = i}$ is an antichain.
+
+  *Proof of Claim:* Suppose $x, y in L_i$ with $x < y$. Then any maximal chain ending at $x$ can be extended by adding $y$, so $h(y) >= h(x) + 1 = i + 1$, contradicting $h(y) = i$.
+
+  Since $P$ is finite, $h(x) <= alpha$ for all $x in P$. The sets $L_1, ..., L_alpha$ partition $P$ into antichains.
+
+  For each $x in L_i$ with $i > 1$, there exists $y < x$ with $h(y) = i-1$ (by maximality of chains). This defines chains that cover all of $P$ using exactly $alpha$ chains.
+
+  Therefore $beta <= alpha$, completing the proof.
 ]
-
 
 #focus-slide(
   title: "Well Orders",
