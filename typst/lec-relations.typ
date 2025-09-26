@@ -2233,7 +2233,7 @@
 #example[
   $pair(RR, <=)$:
   - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
-  - For infinite subsets: $sup((0,1)) = 1$ and $inf((0,1)) = 0$ (even though $0, 1 notin (0,1)$)
+  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
 ]
 
 == Examples of Suprema and Infima
