@@ -1236,7 +1236,7 @@
         line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
       }
       let draw-transitive-edge(start, end) = {
-        let color = luma(80%)
+        let color = gray
         line(start, end, stroke: 0.5pt + color, mark: (end: "stealth", fill: color))
       }
 
