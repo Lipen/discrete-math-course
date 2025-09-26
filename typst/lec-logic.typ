@@ -7,51 +7,17 @@
   // dark: true,
 )
 
-#show table.cell.where(y: 0): strong
+#show heading.where(level: 1): none
 
-#set quote(block: true)
-#show quote: set par(justify: false)
-#show quote: set align(left)
+#import "common-lec.typ": *
 
-#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
-#let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let matrel(x) = $bracket.double.l #x bracket.double.r$
-#let Dom = math.op("Dom")
-#let Cod = math.op("Cod")
-#let Range = math.op("Range")
-#let equinumerous = symbol(math.approx, ("not", math.approx.not))
-#let smaller = symbol(math.prec, ("eq", math.prec.eq))
-#let Join = math.or
-#let Meet = math.and
-#let nand = $overline(and)$
-#let nor = $overline(or)$
 #let proves = entails
 
-#let Green(x) = text(green.darken(20%), x)
-#let Red(x) = text(red.darken(20%), x)
-#let Blue(x) = text(blue.darken(20%), x)
 
-#let True = Green(`true`)
-#let False = Red(`false`)
+#CourseOverviewPage()
 
-#let YES = Green(sym.checkmark)
-#let NO = Red(sym.crossmark)
-
-#let Block(
-  color: blue.lighten(40%),
-  body,
-) = block(
-  body,
-  fill: color.lighten(80%),
-  stroke: 1pt + color.darken(20%),
-  radius: 5pt,
-  inset: 8pt,
-)
-
-#show heading.where(level: 1): none
 
 = Formal Logic
 #focus-slide(
