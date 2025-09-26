@@ -970,10 +970,10 @@
       edge(<b>, <c>, "-}>"),
       edge(<b>, <d>, "-}>"),
       edge(<c>, <d>, "-}>"),
-      edge(<a>, <c>, "--}>", bend: -30deg, stroke: blue),
-      edge(<a>, <d>, "--}>", bend: 30deg, stroke: blue),
-      edge(<b>, <d>, "--}>", bend: 30deg, stroke: blue),
-      edge(<a>, <d>, "--}>", bend: 60deg, stroke: green),
+      edge(<a>, <c>, "--}>", bend: -30deg, stroke: blue.darken(20%)),
+      edge(<a>, <d>, "--}>", bend: 30deg, stroke: blue.darken(20%)),
+      edge(<b>, <d>, "--}>", bend: 30deg, stroke: blue.darken(20%)),
+      edge(<a>, <d>, "--}>", bend: 60deg, stroke: green.darken(20%)),
     )
   ]
 
