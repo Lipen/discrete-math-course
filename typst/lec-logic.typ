@@ -1142,6 +1142,7 @@
 
 // TODO: re-check
 #example[Famous Valid Forms][
+  #v(-0.5em)
   #table(
     columns: 4,
     align: center,
