@@ -2670,8 +2670,8 @@
   $
 
   The equivalence classes are:
-  - $[1] = {1, 3}$
-  - $[2] = {2, 4, 5}$
+  - $eqclass(1, R) = {1, 3}$
+  - $eqclass(2, R) = {2, 4, 5}$
 
   This partitions $M$ into ${{1, 3}, {2, 4, 5}}$.
 ]
