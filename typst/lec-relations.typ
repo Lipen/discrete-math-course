@@ -1656,7 +1656,7 @@
 #example[
   Consider the divisibility poset $(D, |)$ where $D = {1, 2, 3, 4, 5, 6, 10, 20, 35}$.
 
-  #place(right, dx: -1em, dy: 1em)[
+  #place(right, dx: -4em, dy: 0.5em)[
     #import fletcher: diagram, edge, node
     #diagram(
       spacing: (3em, 2.5em),
@@ -1673,9 +1673,9 @@
       node((0, -3), [20], width: 1.5em, name: <20>),
       node((1.5, -2), [35], width: 1.5em, name: <35>, fill: red.lighten(80%)),
       node((-1.5, -2), [3], width: 1.5em, name: <3>, fill: red.lighten(80%)),
-      edge(<1>, <2>, "-}>", bend: 30deg, stroke: 1.5pt + blue),
+      edge(<1>, <2>, "-}>", bend: 30deg, stroke: 2pt + blue),
       edge(<1>, <5>, "-}>", bend: -30deg),
-      edge(<2>, <4>, "-}>", stroke: 1.5pt + blue),
+      edge(<2>, <4>, "-}>", stroke: 2pt + blue),
       edge(<2>, <10>, "-}>"),
       edge(<5>, <10>, "-}>"),
       edge(<5>, <35>, "-}>", bend: -30deg),
@@ -1687,15 +1687,18 @@
 
   *Chains:* (totally ordered subsets)
   - Maximal chain: #Blue[${1, 2, 4, 12}$] --- longest path
-  - Not maximal: ${5, 20}$
-  - Can _skip_ elements: ${1, 3, 12}$
+  - Not maximal: ${5, 10}$
+  - Can _skip_ elements: ${1, 5, 20}$
+
+  *Maximal elements:* $3$, $20$, $35$
 
   *Antichains:* (pairwise incomparable elements)
   - Maximal antichain: #Red[${3, 4, 10, 35}$]
   - Incomparable on the same level: ${2, 5}$
   - Incomparable from different levels: ${3, 2, 35}$
 
-  *Dilworth's theorem:* max antichain size (3) = min chains to cover (3)
+  *Dilworth's theorem:*
+  Maximum antichain size (4) = minimum chains needed to cover (4).
 ]
 
 #pagebreak()
