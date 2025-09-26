@@ -1639,6 +1639,15 @@
     $
 ]
 
+#note[
+  - Chains correspond to arbitrary paths or sub-sequences in the Hasse diagram.
+  - A _maximal chain_ is a chain that cannot be extended by including any other elements from $M$.
+  - A _maximum chain_ is a chain of the largest possible size in $M$.
+  - A chain is a _totally ordered subset_ of the poset.
+  - An antichain consists of _pairwise incomparable elements_.
+  - Any singleton set is both a chain and an antichain.
+]
+
 == Examples of Chains and Antichains
 
 #example[
