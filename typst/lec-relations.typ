@@ -2516,9 +2516,9 @@
     )
   $
 
-  \
-
-  *Iteration $k = 1$:* Consider paths through vertex 1
+  #block(sticky: true)[
+    *Iteration $k = 1$:* Consider paths through vertex 1.
+  ]
   $
     M^((1)) = natrix.bnat(
       0, 1, 0, 0;
@@ -2529,7 +2529,9 @@
   $
   (Added $pair(4, 2)$: path $4 to 1 to 2$)
 
-  *Iteration $k = 2$:* Consider paths through vertex 2
+  #block(sticky: true)[
+    *Iteration $k = 2$:* Consider paths through vertex 2.
+  ]
   $
     M^((2)) = natrix.bnat(
       0, 1, 1, 0;
@@ -2540,9 +2542,8 @@
   $
   (Added $pair(1, 3)$ and $pair(4, 3)$)
 
-  \
-
-  *Iteration $k = 3$:* Consider paths through vertex 3
+  #block(sticky: true)[
+    *Iteration $k = 3$:* Consider paths through vertex 3.]
   $
     M^((3)) = natrix.bnat(
       0, 1, 1, 1;
@@ -2553,7 +2554,9 @@
   $
   (Added $pair(1, 4)$, $pair(2, 4)$, and $pair(4, 4)$)
 
-  *Iteration $k = 4$:* Consider paths through vertex 4
+  #block(sticky: true)[
+    *Iteration $k = 4$:* Consider paths through vertex 4.
+  ]
   $
     M^((4)) = natrix.bnat(
       1, 1, 1, 1;
@@ -2567,7 +2570,8 @@
 
 #pagebreak()
 
-#example[Practical application: Reachability in graphs][
+#example[Reachability in graphs][
+
   Consider a social network where $R$ represents "follows" relationships:
   $
     R = {pair(A, B), pair(B, C), pair(C, D), pair(A, E)}
@@ -2592,6 +2596,7 @@
 ]
 
 #example[Closure of the empty relation][
+
   Let $M = {a, b, c}$ and $R = emptyset$.
 
   - $r(emptyset) = emptyset union I_M = I_M = {pair(a, a), pair(b, b), pair(c, c)}$
@@ -2604,6 +2609,7 @@
 #pagebreak()
 
 #example[Closure of the universal relation][
+
   Let $M = {1, 2}$ and $R = M times M = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2)}$.
 
   - $r(R) = R union I_M = R$ (since $I_M subset.eq R$)
@@ -2616,6 +2622,7 @@
 #pagebreak()
 
 #example[Non-commutativity with other operations][
+
   Let $M = {1, 2, 3}$, $R_1 = {pair(1, 2)}$, and $R_2 = {pair(2, 3)}$.
 
   Consider $t(R_1 union R_2)$ vs $t(R_1) union t(R_2)$:
