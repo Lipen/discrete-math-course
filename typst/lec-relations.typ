@@ -2650,8 +2650,8 @@
 
 #pagebreak()
 
-#example[Closure in directed acyclic graphs (DAGs)][
-  Consider a dependency graph where $R$ represents _"depends on"_ relationships:
+#example[
+  Consider a directed acyclic graph (DAG) where $R$ represents _"depends on"_ relationships:
   $
     R = {pair(A, B), pair(B, C), pair(A, D), pair(D, C)}
   $
