@@ -2665,8 +2665,9 @@
 
   The equivalence closure gives us:
   $
-    "equiv"(R) & = r s t(R) \
-    & = {pair(1, 1), pair(1, 3), pair(2, 2), pair(2, 4), pair(2, 5), pair(3, 1), pair(3, 3), pair(4, 2), pair(4, 4), pair(4, 5), pair(5, 2), pair(5, 4), pair(5, 5)}
+    "equiv"(R) = & r s t(R) \
+               = & {pair(1, 1), pair(1, 3), pair(2, 2), pair(2, 4), pair(2, 5), pair(3, 1), \
+                 & quad pair(3, 3), pair(4, 2), pair(4, 4), pair(4, 5), pair(5, 2), pair(5, 4), pair(5, 5)}
   $
 
   The equivalence classes are:
