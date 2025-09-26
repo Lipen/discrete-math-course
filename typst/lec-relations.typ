@@ -1262,7 +1262,6 @@
       draw-edge("1", "3")
       draw-edge("2", "4")
       draw-edge("2", "6")
-      draw-edge("3", "4")
       draw-edge("3", "6")
       draw-edge("4", "12")
       draw-edge("6", "12")
