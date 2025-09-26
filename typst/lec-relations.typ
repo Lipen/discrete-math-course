@@ -973,6 +973,7 @@
       edge(<a>, <c>, "--}>", bend: -30deg, stroke: blue),
       edge(<a>, <d>, "--}>", bend: 30deg, stroke: blue),
       edge(<b>, <d>, "--}>", bend: 30deg, stroke: blue),
+      edge(<a>, <d>, "--}>", bend: 45deg, stroke: green),
     )
   ]
 
@@ -982,8 +983,12 @@
     - $pair(A, C)$: path $A to B to C$
     - $pair(A, D)$: path $A to B to D$
     - $pair(B, D)$: path $B to C to D$
-
-  So $R^2 = {#text(fill: blue)[$pair(A, C), pair(A, D), pair(B, D)$]}$.
+    - So $R^2 = {#Blue[$pair(A, C), pair(A, D), pair(B, D)$]}$.
+  - $R^3 = R^2 compose R$ (3-step paths):
+    - $pair(A, D)$: path $A to B to C to D$
+    - No more 3-step paths!
+    - So $R^3 = {#Green[$pair(A, D)$]}$.
+  - $R^4 = emptyset$ (no 4-step paths)
 ]
 
 == Powers of Relations
