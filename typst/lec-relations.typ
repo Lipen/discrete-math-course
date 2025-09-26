@@ -377,7 +377,7 @@
     $
 ]
 
-#example[
+#examples[
   - Identity relation $I_M$ is coreflexive.
     Any subset of $I_M$ is also coreflexive.
   - Equality relation "$=$" is left and right Euclidean.
