@@ -1651,25 +1651,54 @@
     $
 ]
 
-// TODO: move to a separate slide
-// TODO: visualize
+== Examples of Chains and Antichains
+
 #example[
-  Consider the divisibility relation $|$ on ${1, 2, 3, 4, 6, 12}$:
+  Consider the divisibility poset $(D, |)$ where $D = {1, 2, 3, 4, 5, 6, 10, 20, 35}$.
 
-  *Chains (totally ordered subsets):*
-  - ${1, 2, 4}$: $1 | 2 | 4$ (each divides the next)
-  - ${1, 2, 6, 12}$: $1 | 2 | 6 | 12$
-  - ${1, 3, 6, 12}$: $1 | 3 | 6 | 12$
-  - *Maximal chain:* ${1, 2, 6, 12}$ or ${1, 3, 6, 12}$ (length 4)
+  #place(right, dx: -1em, dy: 1em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (3em, 2.5em),
+      node-shape: fletcher.shapes.circle,
+      node-inset: 0pt,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      mark-scale: 50%,
+      node((0, 0), [1], width: 1.5em, name: <1>),
+      node((-0.5, -1), [2], width: 1.5em, name: <2>),
+      node((-0.5, -2), [4], width: 1.5em, name: <4>, fill: red.lighten(80%)),
+      node((0.5, -1), [5], width: 1.5em, name: <5>),
+      node((0.5, -2), [10], width: 1.5em, name: <10>, fill: red.lighten(80%)),
+      node((0, -3), [20], width: 1.5em, name: <20>),
+      node((1.5, -2), [35], width: 1.5em, name: <35>, fill: red.lighten(80%)),
+      node((-1.5, -2), [3], width: 1.5em, name: <3>, fill: red.lighten(80%)),
+      edge(<1>, <2>, "-}>", bend: 30deg, stroke: 1.5pt + blue),
+      edge(<1>, <5>, "-}>", bend: -30deg),
+      edge(<2>, <4>, "-}>", stroke: 1.5pt + blue),
+      edge(<2>, <10>, "-}>"),
+      edge(<5>, <10>, "-}>"),
+      edge(<5>, <35>, "-}>", bend: -30deg),
+      edge(<4>, <20>, "-}>", bend: 30deg, stroke: 2pt + blue),
+      edge(<10>, <20>, "-}>", bend: -30deg),
+      edge(<1>, <3>, "-}>", bend: 30deg),
+    )
+  ]
 
-  *Antichains (mutually incomparable subsets):*
-  - ${2, 3}$: neither divides the other
-  - ${4, 6}$: $4 divides.not 6$ and $6 divides.not 4$
-  - ${2, 3, 4}$: pairwise incomparable elements
-  - *Maximum antichain:* ${2, 3, 4}$ (size 3)
+  *Chains:* (totally ordered subsets)
+  - Maximal chain: #Blue[${1, 2, 4, 12}$] --- longest path
+  - Not maximal: ${5, 20}$
+  - Can _skip_ elements: ${1, 3, 12}$
 
-  *Dilworth's theorem in action:* Maximum antichain size (3) equals minimum number of chains needed to cover the poset.
+  *Antichains:* (pairwise incomparable elements)
+  - Maximal antichain: #Red[${3, 4, 10, 35}$]
+  - Incomparable on the same level: ${2, 5}$
+  - Incomparable from different levels: ${3, 2, 35}$
+
+  *Dilworth's theorem:* max antichain size (3) = min chains to cover (3)
 ]
+
+#pagebreak()
 
 #example[
   In a Git repository, commits form a poset under the "ancestor" relation:
