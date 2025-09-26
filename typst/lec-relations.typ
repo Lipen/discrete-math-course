@@ -2634,6 +2634,7 @@
 #pagebreak()
 
 #example[Computing equivalence classes from closure][
+
   Let $M = {1, 2, 3, 4, 5}$ and $R = {pair(1, 3), pair(2, 4), pair(4, 5)}$.
 
   The equivalence closure gives us:
