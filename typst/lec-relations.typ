@@ -1702,24 +1702,50 @@
 == Chains and Antichains in Scheduling
 
 #example[
-  In project management, _tasks_ form a _scheduling poset_ under the "prerequisite" relation.
+  In project management, tasks form a scheduling poset under the "_prerequisite_" relation.
 
-  Consider tasks: $A$ (Design), $B$ (Code), $C$ (Test), $D$ (Deploy), $E$ (Document)
-  - $A prec B$ (we must design before coding)
-  - $A prec E$ (we must design before documenting)
-  - $B prec C$ (we must code before testing)
-  - $C prec D$ (we must test before deploying)
+  Consider web development tasks: Design, Backend, Frontend, Testing, Deploy, Documentation.
 
-  *Chain analysis:*
-  - *Maximal chain:* $A to B to C to D$ represents the critical path (longest sequence of dependent tasks)
-  - *Alternative chain:* $A to E$ (documentation can be done independently)
+  #place(right, dx: -3em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (2em, 2em),
+      node-shape: fletcher.shapes.rect,
+      node-corner-radius: 0.2em,
+      node-stroke: 1pt,
+      node-outset: 1pt,
+      edge-stroke: 1pt,
+      node((0, 0), [Design], name: <Des>),
+      node((1, -1), [Backend], name: <Back>),
+      node((1, 1), [Frontend], name: <Front>),
+      node((2, 0), [Testing], name: <Test>),
+      node((3, 0), [Deploy], name: <Deploy>),
+      node((0, -1), [Documentation], name: <Doc>),
+      edge(<Des>, <Back>, "-}>", stroke: 2pt + red, mark-scale: 50%),
+      edge(<Des>, <Front>, "-}>"),
+      edge(<Back>, <Test>, "-}>", stroke: 2pt + red, mark-scale: 50%),
+      edge(<Front>, <Test>, "-}>"),
+      edge(<Test>, <Deploy>, "-}>", stroke: 2pt + red, mark-scale: 50%),
+      edge(<Des>, <Doc>, "-}>"),
+    )
+  ]
+
+  *Dependencies:*
+  - $"Design" prec "Back", "Front"$
+  - $"Back", "Front" prec "Test"$
+  - $"Test" prec "Deploy" prec "Doc"$
 
   *Antichain analysis:*
-  - ${D, E}$ form an antichain (Deploy and Document are independent and can be done in parallel)
+  - ${"Back", "Front"}$ can run in parallel after Design
+  - ${"Deploy", "Doc"}$ can run in parallel (final tasks)
 
-  *Scheduling insight:* Tasks in an antichain can be executed simultaneously, while chains represent sequential dependencies.
+  #Red[*Critical path*]: $"Design" to "Back" to "Test" to "Deploy"$ (length 3 max chain)
+
+  *Practical insights:*
+  - Chains = sequential dependencies (critical path)
+  - Antichains = tasks for parallel execution (resource allocation)
+  - Project duration = length of longest chain
 ]
-// TODO: visualize
 
 == Dilworth's Theorem
 
