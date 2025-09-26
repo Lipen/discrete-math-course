@@ -973,7 +973,7 @@
       edge(<a>, <c>, "--}>", bend: -30deg, stroke: blue),
       edge(<a>, <d>, "--}>", bend: 30deg, stroke: blue),
       edge(<b>, <d>, "--}>", bend: 30deg, stroke: blue),
-      edge(<a>, <d>, "--}>", bend: 45deg, stroke: green),
+      edge(<a>, <d>, "--}>", bend: 60deg, stroke: green),
     )
   ]
 
