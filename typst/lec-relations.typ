@@ -2183,6 +2183,8 @@
   - *No* greatest lower bound or least upper bound in $C$ (since $(0;1)$ is open)
 ]
 
+== Examples of Bounds
+
 #example[
   In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
   - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
@@ -2197,16 +2199,6 @@
   - *Lower bounds:* common divisors, i.e., ${1, 2}$
   - *Least upper bound:* $12 = "lcm"(4,6)$
   - *Greatest lower bound:* $2 = "gcd"(4,6)$
-]
-
-#example[
-  In the task scheduling poset from earlier:
-  - For tasks $C = {B, E}$ (Code, Document):
-    - *Lower bound:* $A$ (Design) --- prerequisite for both
-    - *Upper bounds:* None in this poset
-    - *Greatest lower bound:* $A$ (latest common prerequisite)
-
-  This corresponds to finding the "merge point" in dependency graphs.
 ]
 
 == Suprema and Infima
@@ -2235,7 +2227,7 @@
   - For infinite subsets: $sup((0,1)) = 1$ and $inf((0,1)) = 0$ (even though $0, 1 notin (0,1)$)
 ]
 
-#pagebreak()
+== Examples of Suprema and Infima
 
 #example[
   $pair(power(A), subset.eq)$:
