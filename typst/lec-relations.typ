@@ -2467,18 +2467,23 @@
 #example[Complete equivalence closure][
   Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(3, 4)}$.
 
-  *Step 1:* Make it reflexive
-  $ r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 4)} $
+  *Step 1:* Make it reflexive:
+  $
+    r(R) = R union I_M
+    = {pair(1, 1), pair(1, 2), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 4)}
+  $
 
-  *Step 2:* Make it symmetric
-  $ s r(R) = r(R) union r(R)^(-1) $
-  $ = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 3), pair(4, 4)} $
+  *Step 2:* Make it symmetric:
+  $
+    s r(R) = & r(R) union r(R)^(-1) \
+           = & {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 3), pair(4, 4)}
+  $
 
-  *Step 3:* Make it transitive
-  Since $pair(1, 2), pair(2, 1) in s r(R)$, transitivity requires $pair(1, 1)$ (already present).
-  Since $pair(3, 4), pair(4, 3) in s r(R)$, transitivity requires $pair(3, 3)$ (already present).
+  *Step 3:* Make it transitive:
+  - Since $pair(1, 2), pair(2, 1) in s r(R)$, transitivity requires $pair(1, 1)$ (already present).
+  - Since $pair(3, 4), pair(4, 3) in s r(R)$, transitivity requires $pair(3, 3)$ (already present).
 
-  $ t s r(R) = s r(R) $ (no new pairs needed)
+  $ t s r(R) = s r(R) quad "(no new pairs needed)" $
 
   The equivalence closure partitions $M$ into equivalence classes ${1, 2}$ and ${3, 4}$.
 ]
@@ -2499,7 +2504,7 @@
   - From $pair(a, b), pair(b, c)$: add $pair(a, c)$
   - From $pair(c, b), pair(b, a)$: add $pair(c, a)$
 
-  $ t s r(R) \\ = s r(R) union {pair(a, c), pair(c, a)} $
+  $ t s r(R) = s r(R) union {pair(a, c), pair(c, a)} $
 
   The final equivalence relation has equivalence classes ${a, b, c}$ and ${d, e}$.
 ]
