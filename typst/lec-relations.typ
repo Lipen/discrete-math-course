@@ -950,7 +950,43 @@
   This means $R relcomp S = {pair(1, x), pair(1, y), pair(2, x), pair(2, y)}$ (the universal relation).
 ]
 
-#pagebreak()
+== Powers of Relations
+
+#definition[
+  For a homogeneous relation $R subset.eq M^2$, we define _powers_ of $R$:
+  - $R^0 = I_M$ (identity relation)
+  - $R^1 = R$
+  - $R^(n+1) = R^n compose R$ for $n >= 1$
+]
+
+#example[
+  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(2, 3), pair(3, 4)}$ (successor relation).
+  - $R^1 = {pair(1, 2), pair(2, 3), pair(3, 4)}$
+  - $R^2 = {pair(1, 3), pair(2, 4)}$ (two steps)
+  - $R^3 = {pair(1, 4)}$ (three steps)
+  - $R^4 = emptyset$ (no four-step paths)
+]
+
+#place(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 3em,
+    node-corner-radius: 2pt,
+    edge-stroke: 1pt + navy,
+    blob((0, 0), [$1$], tint: green, name: <1>),
+    edge("-}>"),
+    blob((1, 0), [$2$], tint: orange, name: <2>),
+    edge("-}>"),
+    blob((2, 0), [$3$], tint: blue, name: <3>),
+    edge("-}>"),
+    blob((3, 0), [$4$], tint: red, name: <4>),
+    edge(<1>, <3>, "--}>", bend: 45deg, stroke: blue.darken(20%), label: [$R^2$]),
+    edge(<2>, <4>, "--}>", bend: 45deg, stroke: blue.darken(20%), label: [$R^2$]),
+    edge(<1>, <4>, "--}>", bend: -30deg, stroke: green.darken(20%), label: [$R^4$]),
+  )
+]
+
+== Paths in Graphs
 
 #example[Path composition in a graph][
   Consider a directed graph with vertices ${A, B, C, D}$ and relation~$R$ representing direct edges:
@@ -989,23 +1025,6 @@
     - No more 3-step paths!
     - So $R^3 = {#Green[$pair(A, D)$]}$.
   - $R^4 = emptyset$ (no 4-step paths)
-]
-
-== Powers of Relations
-
-#definition[
-  For a homogeneous relation $R subset.eq M^2$, we define _powers_ of $R$:
-  - $R^0 = I_M$ (identity relation)
-  - $R^1 = R$
-  - $R^(n+1) = R^n compose R$ for $n >= 1$
-]
-
-#example[
-  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(2, 3), pair(3, 4)}$ (successor relation).
-  - $R^1 = {pair(1, 2), pair(2, 3), pair(3, 4)}$
-  - $R^2 = {pair(1, 3), pair(2, 4)}$ (two steps)
-  - $R^3 = {pair(1, 4)}$ (three steps)
-  - $R^4 = emptyset$ (no four-step paths)
 ]
 
 #theorem[
