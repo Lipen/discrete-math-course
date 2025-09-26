@@ -1415,6 +1415,7 @@
   - Foundation for formal semantics and knowledge representation
   - Critical thinking tools for evaluating everyday reasoning
 
+  #set par(justify: true)
   *Modern Relevance:*
   Traditional logic remains important for understanding human reasoning patterns, developing AI systems that interact naturally with humans, and teaching critical thinking skills.
 ]
