@@ -2429,17 +2429,23 @@
 #example[Reflexive-symmetric closure][
   Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
 
-  *Method 1:* Apply reflexive closure first, then symmetric
-  $ r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} $
-  $ s r(R) = r(R) union r(R)^(-1) $
-  $ = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3), pair(2, 1), pair(3, 2)} $
+  *Method 1:* Apply reflexive closure first, then symmetric:
+  $
+    r(R) = & R union I_M \
+         = & {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} \
+           & slash.double s r(R) = r(R) union r(R)^(-1) \
+         = & {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3), pair(2, 1), pair(3, 2)}
+  $
 
-  *Method 2:* Apply symmetric closure first, then reflexive
-  $ s(R) = R union R^(-1) = {pair(1, 2), pair(2, 3), pair(2, 1), pair(3, 2)} $
-  $ r s(R) = s(R) union I_M $
-  $ = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)} $
+  *Method 2:* Apply symmetric closure first, then reflexive:
+  $
+    s(R) = & R union R^(-1) \
+         = & {pair(1, 2), pair(2, 3), pair(2, 1), pair(3, 2)} \
+           & slash.double r s(R) = s(R) union I_M \
+         = & {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)}
+  $
 
-  Both methods yield the same result, confirming commutativity.
+  Both methods yield the same result, confirming _commutativity_.
 ]
 
 == Reflexive-Transitive Closure
