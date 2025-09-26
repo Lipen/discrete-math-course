@@ -1229,11 +1229,11 @@
       let vgap2 = 1.5
 
       let draw-vertex((x, y), name, label) = {
-        circle((x, y), radius: 0.4, fill: white, stroke: 1pt, name: name)
+        circle((x, y), radius: 0.4, name: name)
         content(name, [#label])
       }
       let draw-edge(start, end) = {
-        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+        line(start, end, mark: (end: "stealth", fill: black))
       }
       let draw-transitive-edge(start, end) = {
         let color = gray
