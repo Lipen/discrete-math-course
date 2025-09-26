@@ -1027,11 +1027,12 @@
   - $R^4 = emptyset$ (no 4-step paths)
 ]
 
-#theorem[
-  For any relation $R$ on a finite set with $n$ elements:
-  - $R^+ = R^1 union R^2 union dots union R^n$ is a _transitive closure_.
-  - $R^* = R^0 union R^+ = I union R^+$ is a _reflexive-transitive closure_.
-]
+// TODO: move this theorem after(into) closures
+// #theorem[
+//   For any relation $R$ on a finite set with $n$ elements:
+//   - $R^+ = R^1 union R^2 union dots union R^n$ is a _transitive closure_.
+//   - $R^* = R^0 union R^+ = I union R^+$ is a _reflexive-transitive closure_.
+// ]
 
 == Associativity of Composition
 
