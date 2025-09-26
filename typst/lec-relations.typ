@@ -3605,7 +3605,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 #v(1fr)
 
-== Why Lattices Matter [1]: Information Security Levels
+== Why Lattices Matter: Information Security Levels
 
 #place(top + right)[
   #import fletcher: diagram, edge, node
@@ -3712,7 +3712,7 @@ TODO
 - Join: Union of possible states (at merge points)
 - Meet: Intersection of guaranteed properties
 
-== Why Lattices Matter [3]: Database Query Optimization
+== Why Lattices Matter: Database Query Optimization
 
 #example[
   _Query execution plans_ form a lattice:
@@ -3725,7 +3725,7 @@ TODO
   This structure helps database optimizers systematically explore the space of possible query plans.
 ]
 
-== Why Lattices Matter [4]: Concept Hierarchies and Ontologies
+== Why Lattices Matter: Concept Hierarchies and Ontologies
 
 #example[
   Knowledge representation uses _concept lattices_.
@@ -3757,7 +3757,7 @@ TODO
   - Meet: Most general common descendant, e.g., "Bird $Meet$ Eagle $=$ Eagle"
 ]
 
-== Why Lattices Matter [5]: Distributed Systems and Causality
+== Why Lattices Matter: Distributed Systems and Causality
 
 #example[
   In distributed systems, _events_ form a lattice _under causality_:
@@ -3773,7 +3773,7 @@ TODO
   - Blockchain consensus algorithms
 ]
 
-== Why Lattices Matter [6]: Logic and Boolean Reasoning
+== Why Lattices Matter: Logic and Boolean Reasoning
 
 #example[
   _Propositional formulas_ form lattices:
