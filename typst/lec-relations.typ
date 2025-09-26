@@ -1611,8 +1611,11 @@
 
 #examples[
   - $pair(power(A), subset.eq)$: least $emptyset$ (contained in every set), greatest $A$ (contains every subset).
+
   - $pair(NN^+, |)$: least $1$ (divides every positive integer), no greatest element (no integer is divisible by all others).
+
   - $pair(ZZ, <=)$: no least or greatest element (integers extend infinitely in both directions).
+
   - $pair({1,2,3,4,5,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$ (prime powers and primes that don't divide anything else in the given set).
 ]
 
