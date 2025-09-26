@@ -50,13 +50,14 @@ TODO: a picture with a graph and a question about the flow in it
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: (2cm, 0.5cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$16$],
     edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$13$],
     edge(<n1>, <n3>, "-}>", label-side: center, label-angle: auto)[$12$],
@@ -110,13 +111,14 @@ TODO: a picture with a graph and a question about the flow in it
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: (2cm, 0.5cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$4$],
     edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$2$],
     edge(<n1>, <n3>, "-}>", label-side: center, label-angle: auto)[$3$],
@@ -129,14 +131,15 @@ TODO: a picture with a graph and a question about the flow in it
 
   #diagram(
     spacing: (2cm, 0.5cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
     mark-scale: 150%,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, extrude: (-2.5, 0, 2.5), bend: 15deg)[$3 slash 4$],
     edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, extrude: (-1.25, 1.25), bend: -15deg)[$2 slash 2$],
     edge(<n1>, <n3>, "-}>", label-side: center, label-angle: auto, extrude: (-2.5, 0, 2.5))[$3 slash 3$],
@@ -159,7 +162,7 @@ TODO: a picture with a graph and a question about the flow in it
 #proof[
   This follows directly from the flow conservation condition.
   $
-    abs(f) & = sum_(e in Out(s)) f(e) =                                                                                  \
+    abs(f) & = sum_(e in Out(s)) f(e) = \
            & = sum_(e in Out(s)) f(e) - sum_(v in V setminus {s,t}) [ sum_(e in In(v)) f(e) - sum_(e in Out(v)) f(e) ] = \
            & = sum_(e in In(t)) f(e)
   $
@@ -201,11 +204,12 @@ TODO: a picture with a graph and a question about the flow in it
       #import fletcher: diagram, edge, node
       #diagram(
         spacing: (2cm, 1cm),
+        node-shape: fletcher.shapes.circle,
         edge-stroke: 1pt,
-        blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-        blob((2, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-        blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-        blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
+        blob((0, 0), $s$, tint: green, name: <s>),
+        blob((2, 0), $t$, tint: red, name: <t>),
+        blob((1, -1), $a$, tint: blue, name: <n1>),
+        blob((1, 1), $b$, tint: blue, name: <n2>),
         edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: 15deg)[$20 slash 20$],
         edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$0 slash 10$],
         edge(<n1>, <n2>, "-}>", label-side: center, stroke: 2pt + red)[$20 slash 30$],
@@ -217,11 +221,12 @@ TODO: a picture with a graph and a question about the flow in it
       #import fletcher: diagram, edge, node
       #diagram(
         spacing: (2cm, 1cm),
+        node-shape: fletcher.shapes.circle,
         edge-stroke: 1pt,
-        blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-        blob((2, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-        blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-        blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
+        blob((0, 0), $s$, tint: green, name: <s>),
+        blob((2, 0), $t$, tint: red, name: <t>),
+        blob((1, -1), $a$, tint: blue, name: <n1>),
+        blob((1, 1), $b$, tint: blue, name: <n2>),
         edge(<s>, <n1>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: 15deg)[$20$],
         edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$10$],
         edge(<n1>, <n2>, "<{-", label-side: center, stroke: red, bend: 30deg)[$20$],
@@ -269,13 +274,14 @@ TODO: a picture with a graph and a question about the flow in it
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: (1.5cm, 0.4cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$4$],
     edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, bend: -15deg, stroke: green)[$2 slash 2$],
     edge(<n1>, <n3>, "-}>", label-side: center, label-angle: auto)[$3$],
@@ -288,13 +294,14 @@ TODO: a picture with a graph and a question about the flow in it
   #h(1cm)
   #diagram(
     spacing: (1.5cm, 0.4cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, bend: 15deg, stroke: green)[$3 slash 4$],
     edge(<s>, <n2>, "-}>", label-side: center, label-angle: auto, bend: -15deg, stroke: green)[$2 slash 2$],
     edge(<n1>, <n3>, "-}>", label-side: center, label-angle: auto, stroke: green)[$3 slash 3$],
@@ -309,13 +316,14 @@ TODO: a picture with a graph and a question about the flow in it
 
   #diagram(
     spacing: (1.5cm, 0.4cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, bend: 15deg, stroke: green)[$4$],
     edge(<s>, <n2>, "<{-", label-side: center, label-angle: auto, bend: -15deg)[$2$],
     edge(<n1>, <n3>, "-}>", label-side: center, label-angle: auto, stroke: green)[$3$],
@@ -327,13 +335,14 @@ TODO: a picture with a graph and a question about the flow in it
   #h(1cm)
   #diagram(
     spacing: (1.5cm, 0.4cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0, 0), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((3, 0), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
-    blob((1, -1), $a$, shape: fletcher.shapes.circle, tint: blue, name: <n1>),
-    blob((1, 1), $b$, shape: fletcher.shapes.circle, tint: blue, name: <n2>),
-    blob((2, -1), $c$, shape: fletcher.shapes.circle, tint: blue, name: <n3>),
-    blob((2, 1), $d$, shape: fletcher.shapes.circle, tint: blue, name: <n4>),
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: blue, name: <n1>),
+    blob((1, 1), $b$, tint: blue, name: <n2>),
+    blob((2, -1), $c$, tint: blue, name: <n3>),
+    blob((2, 1), $d$, tint: blue, name: <n4>),
     edge(<s>, <n1>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$1$],
     edge(<s>, <n1>, "<{-", label-side: center, label-angle: auto, bend: -15deg)[$3$],
     edge(<s>, <n2>, "<{-", label-side: center, label-angle: auto, bend: -15deg)[$2$],
@@ -383,9 +392,9 @@ TODO: a picture with a graph and a question about the flow in it
 
 #proof[
   $
-    f(A,B) & = f^"out" (A) - f^"in" (A)   \
-           & lt.eq f^"out" (A)            \
-           & = sum_(e in Out(A)) f(e)     \
+    f(A,B) & = f^"out" (A) - f^"in" (A) \
+           & lt.eq f^"out" (A) \
+           & = sum_(e in Out(A)) f(e) \
            & lt.eq sum_(e in Out(A)) c(e) \
            & = c(A, B)
   $
@@ -422,24 +431,25 @@ TODO: a picture with a graph and a question about the flow in it
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: (1.5cm, 0.4cm),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    blob((0cm, 0cm), $s$, shape: fletcher.shapes.circle, tint: green, name: <s>),
-    blob((1cm, 1.3cm), $1$, inset: 4pt, shape: fletcher.shapes.circle, tint: green, name: <n1>),
-    blob((1.3cm, -0.6cm), $2$, inset: 4pt, shape: fletcher.shapes.circle, tint: green, name: <n2>),
-    blob((2.5cm, -1.5cm), $3$, inset: 4pt, shape: fletcher.shapes.circle, tint: green, name: <n3>),
-    blob((2.7cm, 2cm), $4$, inset: 4pt, shape: fletcher.shapes.circle, tint: green, name: <n4>),
-    blob((2.2cm, 0.4cm), $5$, inset: 4pt, shape: fletcher.shapes.circle, tint: green, name: <n5>),
+    blob((0cm, 0cm), $s$, tint: green, name: <s>),
+    blob((1cm, 1.3cm), $1$, inset: 4pt, tint: green, name: <n1>),
+    blob((1.3cm, -0.6cm), $2$, inset: 4pt, tint: green, name: <n2>),
+    blob((2.5cm, -1.5cm), $3$, inset: 4pt, tint: green, name: <n3>),
+    blob((2.7cm, 2cm), $4$, inset: 4pt, tint: green, name: <n4>),
+    blob((2.2cm, 0.4cm), $5$, inset: 4pt, tint: green, name: <n5>),
     edge(<s>, <n1>, "-}>"),
     edge(<s>, <n2>, "-}>"),
     edge(<n1>, <n4>, "-}>"),
     edge(<n1>, <n5>, "-}>"),
     edge(<n2>, <n5>, "-}>"),
     edge(<n2>, <n3>, "-}>"),
-    blob((4cm, -0.5cm), $6$, inset: 4pt, shape: fletcher.shapes.circle, tint: red, name: <n6>),
-    blob((4.5cm, 1.5cm), $7$, inset: 4pt, shape: fletcher.shapes.circle, tint: red, name: <n7>),
-    blob((5.5cm, 0.5cm), $8$, inset: 4pt, shape: fletcher.shapes.circle, tint: red, name: <n8>),
-    blob((5.5cm, -1.5cm), $9$, inset: 4pt, shape: fletcher.shapes.circle, tint: red, name: <n9>),
-    blob((7cm, -0.5cm), $t$, shape: fletcher.shapes.circle, tint: red, name: <t>),
+    blob((4cm, -0.5cm), $6$, inset: 4pt, tint: red, name: <n6>),
+    blob((4.5cm, 1.5cm), $7$, inset: 4pt, tint: red, name: <n7>),
+    blob((5.5cm, 0.5cm), $8$, inset: 4pt, tint: red, name: <n8>),
+    blob((5.5cm, -1.5cm), $9$, inset: 4pt, tint: red, name: <n9>),
+    blob((7cm, -0.5cm), $t$, tint: red, name: <t>),
     edge(<n6>, <n8>, "-}>"),
     edge(<n7>, <n8>, "-}>"),
     edge(<n6>, <n9>, "-}>"),

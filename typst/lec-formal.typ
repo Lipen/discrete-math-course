@@ -162,9 +162,10 @@ There are two main types of finite-state machines:
   #import fletcher: diagram, edge, node
   #diagram(
     // debug: true,
-    edge-stroke: 0.8pt,
-    node-corner-radius: 3pt,
     spacing: (5em, 2em),
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 3pt,
+    edge-stroke: 0.8pt,
     blob((-1, 0), name: <input>, tint: yellow)[$w in Sigma^*$],
     blob((0, 0), name: <automaton>, tint: blue)[Automaton $cal(A)$ \ $cal(L)(cal(A)) = L$],
     blob((1, -0.5), name: <acc>, tint: green)[accept],

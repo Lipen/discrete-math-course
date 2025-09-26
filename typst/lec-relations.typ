@@ -872,20 +872,20 @@
 #v(1em)
 #place(center)[
   #import fletcher: diagram, edge, node
-  #import fletcher.shapes: circle
   #diagram(
     // debug: true,
     spacing: (5em, 2em),
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt + blue,
-    blob((-1, 0.5), [$1$], tint: blue, shape: circle, name: <1>),
-    blob((-1, 1.5), [$2$], tint: blue, shape: circle, name: <2>),
-    blob((-1, 2.5), [$3$], tint: blue, shape: circle, name: <3>),
-    blob((0, 0), [$a$], tint: yellow, shape: circle, name: <a>),
-    blob((0, 1), [$b$], tint: yellow, shape: circle, name: <b>),
-    blob((0, 2), [$c$], tint: yellow, shape: circle, name: <c>),
-    blob((0, 3), [$d$], tint: red, shape: circle, name: <d>),
-    blob((1, 1), [$x$], tint: green, shape: circle, name: <x>),
-    blob((1, 2), [$y$], tint: green, shape: circle, name: <y>),
+    blob((-1, 0.5), [$1$], tint: blue, name: <1>),
+    blob((-1, 1.5), [$2$], tint: blue, name: <2>),
+    blob((-1, 2.5), [$3$], tint: blue, name: <3>),
+    blob((0, 0), [$a$], tint: yellow, name: <a>),
+    blob((0, 1), [$b$], tint: yellow, name: <b>),
+    blob((0, 2), [$c$], tint: yellow, name: <c>),
+    blob((0, 3), [$d$], tint: red, name: <d>),
+    blob((1, 1), [$x$], tint: green, name: <x>),
+    blob((1, 2), [$y$], tint: green, name: <y>),
     edge(<1>, <a>, "-}>"),
     edge(<1>, <b>, "-}>"),
     edge(<2>, <c>, "-}>"),
@@ -996,8 +996,8 @@
     #import fletcher: diagram, edge, node
     #diagram(
       spacing: 2em,
+      node-shape: fletcher.shapes.circle,
       edge-stroke: 1pt + navy,
-      node-corner-radius: 5pt,
       blob((0, 0), [$A$], tint: green, name: <a>),
       blob((1, 0), [$B$], tint: orange, name: <b>),
       blob((2, 1), [$C$], tint: blue, name: <c>),
@@ -2827,13 +2827,14 @@
 
 #v(-.5em)
 #align(center)[
-  #import fletcher: diagram, edge, node, shapes
+  #import fletcher: diagram, edge, node
   #diagram(
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    node((0cm, 0cm), $1$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
-    node((0cm, -1.5cm), $2$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
-    node((3cm, 0cm), $x$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
-    node((3cm, -1.5cm), $y$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
+    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
+    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
+    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
     edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     render: (grid, nodes, edges, options) => {
@@ -2889,13 +2890,14 @@
 
 #v(-.5em)
 #align(center)[
-  #import fletcher: diagram, edge, node, shapes
+  #import fletcher: diagram, edge, node
   #diagram(
+    node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    node((0cm, 0cm), $1$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
-    node((0cm, -1.5cm), $2$, shape: shapes.circle, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
-    node((3cm, 0cm), $x$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
-    node((3cm, -1.5cm), $y$, shape: shapes.circle, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
+    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
+    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
+    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
     edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     render: (grid, nodes, edges, options) => {
@@ -3556,6 +3558,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   #diagram(
     spacing: 16pt,
     edge-stroke: 1pt + navy,
+    node-shape: fletcher.shapes.rect,
     node-corner-radius: 2pt,
     blob((0, 0), [Public], tint: green, name: <public>),
     edge("-}>"),
@@ -3622,6 +3625,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
     #import fletcher: diagram, edge, node
     #diagram(
       spacing: (1em, 2em),
+      node-shape: fletcher.shapes.rect,
       node-fill: luma(240),
       node-stroke: 0.5pt,
       edge-stroke: 1pt,

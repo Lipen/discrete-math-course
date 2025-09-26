@@ -720,8 +720,9 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   )
   #diagram(
     spacing: (1cm, 1cm),
-    edge-stroke: .8pt,
+    node-shape: fletcher.shapes.rect,
     node-corner-radius: 2pt,
+    edge-stroke: .8pt,
     myblob((0, 0), ${a,b,c}$, name: <s123>),
     myblob((-1, 1), ${a, b}$, name: <s12>),
     myblob((0, 1), ${a, c}$, name: <s13>),

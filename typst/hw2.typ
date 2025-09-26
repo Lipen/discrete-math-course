@@ -315,30 +315,28 @@ Understanding how mathematical properties are preserved (or lost) through the co
 #block(sticky: true)[*Part (a): Reversible Data Transformations*]
 
 Consider a multi-stage data processing pipeline where data flows through different formats:
-// $
-//   "Raw Data" to "Preprocessed Data" to "Processed Data"
-// $
 #align(center)[
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: 1cm,
     edge-stroke: 1pt,
+    node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
     blob(
       (0, 0),
-      [Raw Data],
+      [Raw \ Data],
       name: <raw>,
     ),
     edge("-}>", label: [$P$]),
     blob(
       (1, 0),
-      [Preprocessed Data],
+      [Preprocessed \ Data],
       name: <pre>,
     ),
     edge("-}>", label: [$T$]),
     blob(
       (2, 0),
-      [Processed Data],
+      [Processed \ Data],
       name: <data>,
     ),
     edge(
@@ -349,6 +347,7 @@ Consider a multi-stage data processing pipeline where data flows through differe
       bend: -15deg,
     ),
   )
+  #v(-.5em)
 ]
 
 Let $P$ represent the preprocessing step (e.g., converting human-filled Excel to machine-readable JSON) and $T$ represent the transformation step (e.g., JSON to analytics results).
@@ -373,6 +372,7 @@ In real-world data systems, we often need to ensure that certain properties are 
   #diagram(
     spacing: 1cm,
     edge-stroke: 1pt,
+    node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
     blob(
       (0, 0),

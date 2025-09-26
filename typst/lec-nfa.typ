@@ -327,9 +327,10 @@ To construct NFA from $epsilon$-NFA:
   #import fletcher: diagram, edge, node
   #diagram(
     // debug: true,
-    edge-stroke: 1pt,
-    node-corner-radius: 3pt,
     spacing: (3em, 2em),
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 3pt,
+    edge-stroke: 1pt,
     blob((0, 0), [DFA], name: <dfa>, tint: yellow),
     blob((1, 0), [NFA], name: <nfa>, tint: yellow),
     blob((2, 0), [$epsilon$-NFA], name: <enfa>, tint: yellow),
