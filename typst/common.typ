@@ -22,14 +22,14 @@
   pos,
   label,
   tint: none,
-  shape: none,
+  shape: auto,
   ..args,
 ) = fletcher.node(
   pos,
   align(center, label),
   fill: if (tint != none) { tint.lighten(80%) },
   stroke: if (tint != none) { tint.darken(20%) },
-  shape: if shape != none { shape } else { auto },
+  shape: shape,
   ..args,
 )
 
