@@ -1628,6 +1628,44 @@
   - $pair({1,2,3,4,5,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$ (prime powers and primes that don't divide anything else in the given set).
 ]
 
+== Converse Orders
+
+#definition[
+  The _dual_ (or _converse_) of a poset $pair(S, leq)$ is the poset $pair(S, geq)$ where $x geq y$ iff $y leq x$.
+]
+
+#example[
+  Consider the $NN^+$ ordered naturally.
+  - For $leq$ order:
+    - The _$leq$-least_ element is $1$, since it is _$leq$-smaller_ than all others.
+    - $1$ is also $leq$-minimal, since there are no other element which is $leq$-smaller than $1$.
+    - There are _no $leq$-maximal_ elements, since the set is unbounded above.
+    - On the Hasse diagram, $1$ is at the bottom, and the diagram extends infinitely _upwards_.
+
+  - For $geq$ order, minimal and maximal elements "flip":
+    - There are _no $geq$-minimal_ elements.
+      A $geq$-minimal element would be an element $m$ such that there is no other ($geq$-smaller) element $n != m$ with $n geq m$.
+      However, for any $m in NN^+$, there exists $n = m + 1$ which is $n geq m$, so no such $geq$-minimal element exists.
+    - The _$geq$-greatest_ element is $1$, since all elements are _$geq$-smaller_ than it.
+    // - $1$ is also $geq$-maximal, since there are no other element which is $geq$-greater than $1$.
+    - On the Hasse diagram, $1$ is at the top, and the diagram extends infinitely _downwards_.
+]
+
+== Notes on Converse Orders
+
+#note[
+  - Maximal elements in $pair(S, leq)$ become minimal in $pair(S, geq)$ and vice versa.
+  - Greatest element in $pair(S, leq)$ becomes least in $pair(S, geq)$ and vice versa.
+  - Chains and antichains remain the same in both orders.
+  - The Hasse diagram is flipped vertically when taking the dual order.
+    - For $pair(NN^+, leq)$:
+      - The _least_ element $1$ is at the bottom.
+      - The diagram of $pair(NN^+, leq)$ extends infinitely _upwards_.
+    - In the dual $pair(NN^+, geq)$:
+      - $1$ becomes the _greatest_ element at the top.
+      - The diagram of $pair(NN^+, geq)$ extends infinitely _downwards_.
+]
+
 == Chains and Antichains
 
 // Chain and Antichain
