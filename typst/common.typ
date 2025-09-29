@@ -21,7 +21,7 @@
 #let blob(
   pos,
   label,
-  tint: white,
+  tint: none,
   shape: none,
   ..args,
 ) = fletcher.node(
