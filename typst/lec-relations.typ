@@ -1444,13 +1444,13 @@
     quad "iff" quad
     (x < y) and exists.not z in S. thin (x < z < y)
   $
+]
 
-  #note[
-    "$<$" denotes the _induced strict order_:
-    $
-      x < y quad "iff" quad (x leq y) and (x neq y)
-    $
-  ]
+#note[
+  "$<$" denotes the _induced strict order_:
+  $
+    x < y quad "iff" quad (x leq y) and (x neq y)
+  $
 ]
 
 #note[
