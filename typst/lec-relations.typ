@@ -1906,25 +1906,10 @@
 
 == Well-Founded Relations
 
-// TODO: extract the equivalent part with descending chain into a separate definition, and focus here only on minimal elements
 #definition[
   A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
 
   Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
-
-  Equivalently, $R$ is well-founded if there are no infinite _descending chains_:
-  $
-    not exists (x_0, x_1, x_2, dots) in M^NN. thin
-    forall i in NN. thin
-    x_(i+1) rel(R) x_i
-  $
-]
-
-#note[
-  If $R$ is a strict order $<$, then the infinite descending chain can be written as:
-  $
-    x_0 > x_1 > x_2 > dots
-  $
 ]
 
 #note[
@@ -1987,8 +1972,25 @@
 #example[
   The _divisibility_ relation $(NN^+, |)$ is well-founded:
   - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
-  - For example, in ${6, 12, 18, 4, 8}$: minimal elements are ${6, 4}$
-  - There are no infinite descending divisibility chains
+  - For example, in ${6, 12, 18, 4, 8}$:
+    - $4$ is minimal because no other number in the set divides $4$
+    - $6$ is minimal because no other number in the set divides $6$
+    - Note: $6$ divides both $12$ and $18$, but that doesn't affect minimality
+  - In ${2, 4, 8, 16}$: only $2$ is minimal (it divides all others, but nothing else divides it)
+]
+
+#pagebreak()
+
+#example[
+  Consider the relation _"properly contains"_ ($supset$) on finite sets.
+
+  Let $S = {{1}, {2}, {1,2}, {1,2,3}}$.
+
+  *Well-founded:* #YES Every subset has minimal elements.
+  - The subset ${{1}, {2}, {1,2,3}}$ has minimal elements ${1}$ and ${2}$
+    - Neither ${1} supset {2}$ nor ${2} supset {1}$ (they're incomparable)
+    - ${1,2,3} supset {1}$ and ${1,2,3} supset {2}$, but they remain minimal in this subset
+  - Any collection always has sets that contain no others in that collection
 ]
 
 #pagebreak()
@@ -2001,21 +2003,57 @@
 ]
 // TODO: add Dafny example
 
+== Alternative Characterization: No Infinite Descending Chains
+
+It turns out there's an equivalent way to characterize well-founded relations that's often more intuitive:
+
+#theorem[
+  A relation $R$ is well-founded if and only if there are no infinite _descending chains_:
+  $
+    not exists (x_0, x_1, x_2, dots) in M^NN. thin
+    forall i in NN. thin
+    x_(i+1) rel(R) x_i
+  $
+
+  In other words: no infinite sequence $x_0, x_1, x_2, dots$ where $x_1 rel(R) x_0$, $x_2 rel(R) x_1$, $x_3 rel(R) x_2$, etc.
+]
+
+#note[
+  If $R$ is a strict order $<$, then "$x_(i+1) rel(R) x_i$" means "$x_(i+1) < x_i$", so we get:
+  $
+    "No infinite sequence" quad x_0 > x_1 > x_2 > x_3 > dots
+  $
+  This is indeed a *descending* sequence since each element is smaller than the previous.
+]
+
+#pagebreak()
+#proof[($==>$)][
+  *Well-founded implies no infinite descending chains.*
+
+  Suppose $R$ is well-founded but there exists an infinite descending chain $x_0, x_1, x_2, dots$ where $x_(i+1) rel(R) x_i$ for all $i$. Consider the set $S = {x_0, x_1, x_2, dots}$. Since $R$ is well-founded, $S$ must have a minimal element $x_k$ for some $k$. But then $x_(k+1) rel(R) x_k$, contradicting the minimality of $x_k$.
+]
+#proof[($<==$)][
+  *No infinite descending chains implies well-founded.*
+
+  Suppose $R$ has no infinite descending chains. Let $S subset.eq M$ be any non-empty subset. If $S$ had no minimal elements, then for any $x_0 in S$, there would exist $x_1 in S$ with $x_1 rel(R) x_0$. Continuing this process, we could construct an infinite descending chain, contradicting our assumption.
+]
+
 == Noetherian Relations
 
 #definition[
   A relation $R subset.eq S^2$ is _Noetherian_ if it satisfies the _descending chain condition (DCC)_:
-  every sequence $x_1 rel(R) x_2 rel(R) x_3 rel(R) dots$ eventually stabilizes.
+  every sequence $x_1, x_2, x_3, dots$ where $x_(i+1) rel(R) x_i$ for all $i$ eventually stabilizes.
 
-  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i. thin x_i rel(R) x_(i+1)) imply (exists N in NN. thin forall n >= N. thin (x_n = x_(n+1)))$
+  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i. thin x_(i+1) rel(R) x_i) imply (exists N in NN. thin forall n >= N. thin (x_n = x_(n+1)))$
 ]
 
-// TODO: this is duplicated below in chain condition equivalences
-#theorem[
-  For any relation $R$, the following are equivalent:
-  + $R$ is well-founded
-  + $R$ is Noetherian (satisfies DCC)
-  + $R$ has no infinite descending chains
+#note[
+  We've just shown that Noetherian relations are exactly the well-founded relations!
+  The names come from different mathematical traditions, but they refer to the same concept.
+]
+
+#note(title: [Notation clarification])[
+  When we write "$x_(i+1) rel(R) x_i$" for a descending chain, we mean that each new element is $R$-related to the previous one. For example, if $R$ is "$<$", then $x_(i+1) < x_i$, giving us #box[$x_1 < x_0$], #box[$x_2 < x_1$], #box[$x_3 < x_2$], etc., which forms the descending sequence $x_0 > x_1 > x_2 > x_3 > dots$.
 ]
 
 #example[
@@ -2068,10 +2106,8 @@
   - *ACC* $<==>$ the _dual_ relation $>=$ is well-founded $<==>$ no infinite ascending chains.
 ]
 
-#proof[(sketch)][
-  - *DCC implies well-founded:* If there were a non-empty subset without a minimal element, we could construct an infinite descending chain, contradicting DCC.
-  - *Well-founded implies DCC:* If there were an infinite descending chain, its elements would form a non-empty subset without a minimal element, contradicting well-foundedness.
-  - The equivalence for ACC follows by applying the same reasoning to the dual relation $>=$.
+#proof[
+  The first equivalence (DCC $<==>$ well-founded) was proved earlier. The second equivalence for ACC follows by applying the same reasoning to the dual relation $>=$.
 ]
 
 == Examples of ACC and DCC
