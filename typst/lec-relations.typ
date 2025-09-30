@@ -2727,11 +2727,15 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   #align(center)[
     #cetz.canvas({
       import cetz.draw: *
-      line((0, 0), (1, 0), mark: (symbol: "|"))
-      content((.5, .5))[$L$]
-      translate((1.5, 0))
-      rect((0, 0), (1, 1), fill: luma(80%))
-      content((.5, .5))[$S$]
+      let w = 1
+      let gap = 1
+      line((0, 0), (w, 0), mark: (symbol: "|"))
+      content((w / 2, w / 2))[$L$]
+      translate((w, 0))
+      content((gap / 2, w / 2))[$equinumerous$]
+      translate((gap, 0))
+      rect((0, 0), (w, w), fill: luma(80%))
+      content((w / 2, w / 2))[$S$]
     })
   ]
 ]
