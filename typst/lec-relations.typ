@@ -2335,8 +2335,43 @@
   - *Data processing:* clean $to$ transform $to$ aggregate $to$ visualize
 ]
 
-// TODO: functional powers
-// (if Y subset.eq X, then f:X->Y can be composed with itself)
+== Functional Powers
+
+#definition[
+  The _functional power_ of $f: A to A$ can defined inductively:
+  $
+        f^0 & = id_A \
+    f^(n+1) & = f compose f^(n) = f^(n) compose f
+  $
+
+  #note[
+    This definition also works for functions $f: X to Y$ with $Y subset.eq X$.
+  ]
+
+  #note[
+    To avoid the confusion with exponential powers (e.g., $f^n (x)$ could be interpreted as $(f(x))^n$), we can use the notation $f^(circle.small n)$ to denote the $n$-th functional power.
+  ]
+]
+
+#example[
+  Let $f: RR to RR$ be $f(x) = 2x$.
+  - $f^0(x) = x$ (identity)
+  - $f^1(x) = 2x$
+  - $f^2(x) = f(f(x)) = f(2x) = 2(2x) = 4x$
+  - $f^3(x) = f(f^2 (x)) = f(4x) = 2(4x) = 8x$
+  - In general: $f^n (x) = 2^n x$
+]
+
+== Examples of Functional Powers
+
+#example[
+  Let $g: ZZ to ZZ$ be $g(x) = x + 1$ (successor function).
+  - $g^(circle.small 0) (x) = x$
+  - $g^(circle.small 1) (x) = x + 1$
+  - $g^(circle.small 2) (x) = g(g(x)) = g(x + 1) = (x + 1) + 1 = x + 2$
+  - $g^(circle.small 3) (x) = g(g^(circle.small 2) (x)) = g(x + 2) = (x + 2) + 1 = x + 3$
+  - In general: $g^(circle.small n) (x) = x + n$
+]
 
 == Properties of Function Composition
 
