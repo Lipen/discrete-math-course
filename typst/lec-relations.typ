@@ -2458,15 +2458,25 @@ TODO!
 
 #definition[
   The _cardinality_ of a set $X$, denoted $abs(X)$, is a measure of its "size".
-  - For _finite_ sets, cardinality $abs(X)$ is the same as size, i.e., the number of elements in $X$.
-  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, e.g. _countable_ vs _uncountable_.
+  - For _finite_ sets, cardinality $abs(X)$ is the same as _size_, i.e., the number of elements in $X$.
+  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, distinguishing between _countable_ (like $NN$) and _uncountable_ (like $RR$) infinities.
 ]
 
-#examples[
-  - $abs(NN) = aleph_0$
-  - $abs(QQ) = aleph_0$
-  - $abs(RR) = 2^(aleph_0) = frak(c)$
+#example[Finite sets][
+  - $abs({a, b, c}) = 3$ (three distinct elements)
+  - $abs(emptyset) = 0$ (empty set has no elements)
+  - $abs(power({1,2})) = abs({emptyset, {1}, {2}, {1,2}}) = 4 = 2^2$
 ]
+
+#example[Infinite sets][
+  - $abs(NN) = aleph_0$ ("aleph-null" --- smallest infinite cardinal, denoting _countable_ infinity)
+  - $abs(ZZ) = aleph_0$ (same size as natural numbers!)
+  - $abs(QQ) = aleph_0$ (rationals are also _countably_ infinite)
+  - $abs(RR) = 2^(aleph_0) = frak(c)$ ("continuum" --- _uncountably_ infinite)
+  - $abs(power(NN)) = 2^(aleph_0) > aleph_0$ (power set is always "larger")
+]
+
+== Cardinal Numbers
 
 #note[
   $abs(X)$ is _not_ just a number, but a _cardinal number_.
@@ -2476,11 +2486,16 @@ TODO!
   - _Arithmetic_ operations on cardinal numbers _differ_ from those on natural numbers.
     - For example, $aleph_0 + 1 = aleph_0$ and $aleph_0 dot 2 = aleph_0$.
 ]
+// TODO: extend cardinal numbers
 
 == Equinumerosity
 
 #definition[
-  Two sets $A$ and $B$ have the same _cardinality_ and called _equinumerous_, denoted #box[$abs(A) = abs(B)$] or $A equinumerous B$, iff there is a _bijection_ (one-to-one correspondence) from $A$ to $B$.
+  Two sets $A$ and $B$ have the same _cardinality_ and are called _equinumerous_, denoted $abs(A) = abs(B)$ or $A equinumerous B$, iff there exists a _bijection_ (one-to-one correspondence) from $A$ to $B$.
+
+  #note(title: "Intuition")[
+    If you can pair up every element of $A$ with exactly one element of $B$, with nothing left over on either side, then $A$ and $B$ have the same cardinality.
+  ]
 ]
 
 // TODO: proposition
@@ -2510,46 +2525,77 @@ TODO!
 == Countable Sets
 
 #definition[
-  A set called _countable_ if it is either finite or has the same cardinality as the set of natural numbers $NN$.
-  Alternatively, a set is countable if there is a _bijection_ from $NN$ to that set.
+  A set is _countable_ if it is either:
+  + _Finite_, or
+  + Has the same cardinality as $NN$ (i.e., there exists a bijection with $NN$)
 
-  When an infinite set is _countable_, its cardinality is denoted $aleph_0$ (_"aleph-null"_ ).
+  When an infinite set is countable, its cardinality is $aleph_0$ (_"aleph-null"_).
+
+  #note(title: "Intuition")[
+    A countable set is one whose elements can be "listed" or "enumerated" in a sequence.
+  ]
+]
+
+#example[Basic countable sets][
+  - $NN_"odd" = {1, 3, 5, 7, ...}$ with bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$
+
+  - $NN_"even" = {0, 2, 4, 6, ...}$ with bijection $f: NN to NN_"even"$ defined by $f(n) = 2n$
+
+  - Prime numbers ${2, 3, 5, 7, 11, 13, ...}$ are countable (can be enumerated)
+]
+
+== Examples of Countable Sets
+
+#Block(color: yellow)[
+  *Key insight:* Two sets have the same cardinality if we can pair up their elements perfectly --- establishing a one-to-one correspondence (bijection) between them.
 ]
 
 #example[
-  $abs(NN_"odd" = {1, 3, 5, dots}) = aleph_0$, the set of _odd_ natural numbers is countable, since there is a bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$.
-]
+  The set of _integers_ $ZZ = {..., -2, -1, 0, 1, 2, ...}$ is _countable_: $abs(ZZ) = aleph_0$
 
-#example[
-  $abs({x in NN | x "is prime"}) = aleph_0$, the set of _prime_ numbers is countable.
-]
-
-#example[
-  $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable, since there is a bijection $f: NN to ZZ$ defined by $f(n)$:
-  #align(center, grid(
-    columns: (1fr, auto),
-    align: horizon,
+  *Bijection* $f: NN to ZZ$ is defined by:
+  #align(center)[
     $
-      f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")
-    $,
-    $
-      mat(
-        delim: "[",
-        column-gap: #1em,
-        row-gap: #0.5em,
-        f(0), f(1), f(2), f(3), f(4), f(5), f(6), dots;
-        ceil(0/2), -ceil(1/2), ceil(2/2), -ceil(3/2), ceil(4/2), -ceil(5/2), ceil(6/2), dots;
-        0, -1, 1, -2, 2, -3, 3, dots
+      f(n) = cases(
+        n / 2 & "if" n "is even",
+        -(n+1) / 2 & "if" n "is odd"
       )
-    $,
-  ))
+      wide
+      natrix.bnat(
+        row-gap: #0.5em,
+        NN":", 0, 1, 2, 3, 4, 5, 6, 7, dots;
+        ZZ":", 0, -1, 1, -2, 2, -3, 3, -4, dots
+      )
+    $
+  ]
+
+  This systematically pairs each natural number with exactly one integer, covering all integers exactly once.
 ]
 
 // #example[
 //   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
 // ]
 
-== Countability Constructions
+== Properties of Countable Sets
+
+#theorem[Properties of countable sets][
+  + Any subset of a countable set is countable
+  + The union of countably many countable sets is countable
+  + The Cartesian product of two countable sets is countable ($NN times NN$ is countable)
+  + The set of finite sequences over a countable alphabet is countable
+]
+
+#example[More countable sets][
+  - *Rational numbers* $QQ$: Can be enumerated by listing fractions $p/q$ systematically
+
+  - *Finite binary strings* ${0, 1, 00, 01, 10, 11, 000, ...}$: Countably infinite
+
+  - *Polynomials with integer coefficients*: Can be systematically enumerated
+
+  - *Finite subsets of $NN$*: Each finite subset can be encoded as a finite binary string
+]
+
+== Enumerable Sets
 
 #definition[
   A set $X$ is _enumerable_ if there is a surjection $e: NN to X$ (equivalently a bijection with either $NN$ or an initial segment of $NN$ if $X$ finite).
@@ -2560,7 +2606,7 @@ TODO!
 ]
 
 #proof[
-  List pairs by diagonals of constant sum: $pair(0, 0); pair(0, 1),pair(1, 0); pair(0, 2),pair(1, 1),pair(2, 0); dots$ giving a bijection with $NN$.
+  List pairs by diagonals of constant sum: $pair(0, 0); pair(0, 1),pair(1, 0); pair(0, 2),pair(1, 1),pair(2, 0); dots$ which gives a bijection with $NN$.
 ]
 
 #theorem[
@@ -2607,27 +2653,36 @@ TODO!
 == Uncountable Sets
 
 #definition[
-  A set is _uncountable_ if it is not countable.
+  A set is _uncountable_ if it is infinite but not countable.
+
+  In other words, there is _no_ bijection between the set and $NN$.
 ]
 
-In order to prove that a set $A$ is _uncountable_, we need to show that _no bijection $NN to A$ can exist_.
+== Proving Uncountability
 
-The general strategy for showing that is to use _Cantor's diagonal argument_.
-Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural numbers), we construct a _new_ element of $A$ that _differs_ from each $x_i$, thus showing that the list cannot be complete, and hence no bijection can exist.
+#Block(color: orange)[
+  *Strategy for proving uncountability:* _Cantor's diagonal argument_.
+
+  Given a list of elements, say $x_1, x_2, dots$ (enumerated by natural numbers), we construct a _new_ element that _differs_ from each $x_i$, showing that the list is incomplete.
+]
 
 #theorem[
-  $B^omega$ is uncountable.
+  The set $BB^omega$ of all infinite binary sequences is _uncountable_.
 ]
 
 #proof[
-  Recall that $BB^omega$ is the set of all _infinite sequences_ of elements from $BB = {0, 1}$. \
-  For example, $BB^omega$ contains sequences like $0000dots$, $010101dots$, $1110dots$, etc.
+  $BB^omega$ contains sequences like $000000...$, $010101...$, $111000...$, etc.
 
   Suppose for contradiction that $BB^omega$ is countable.
   Then we can _enumerate_ its elements as $x_1, x_2, dots$, where each $x_i$ is an infinite sequence of bits, so we can represent it as $x_i = (b_(i 1), b_(i 2), b_(i 3), dots)$, where $b_(i j) in BB$ is the $j$-th bit of the $i$-th sequence.
+  So we have a listing like:
+  - $x_1 = (b_(1 1), b_(1 2), b_(1 3), b_(1 4), ...)$
+  - $x_2 = (b_(2 1), b_(2 2), b_(2 3), b_(2 4), ...)$
+  - $dots$
 
   Now we construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), dots)$, where $overline(b)_(i i) = 1 - b_(i i)$, i.e., we flip the $i$-th bit of the $i$-th sequence.
   This sequence _differs_ from each $x_i$ at least in the $i$-th position, so it cannot be equal to any $x_i$, so it is _not in_ the enumeration $x_1, x_2, dots$.
+  We place it "at the end" of our table for clarify:
 
   #grid(
     columns: 5,
@@ -2642,8 +2697,32 @@ Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural num
     $Delta$, $overline(b)_(1 1)$, $overline(b)_(2 2)$, $overline(b)_(3 3)$, $dots$,
   )
 
-  Since $Delta$ is constructed from the bits, it is also an _element_ of $BB^omega$.
-  Thus, we have found an element of $BB^omega$ that is not in the enumeration $x_1, x_2, dots$, contradicting the assumption that $BB^omega$ is countable.
+  Since $Delta$ is constructed from the "bits", it is also an _element_ of $BB^omega$.
+
+  Thus, we have found an element of $BB^omega$ that is _not_ in the enumeration $x_1, x_2, dots$, contradicting the assumption that $BB^omega$ is countable.
+  // *Diagonal construction:* Create sequence $Delta = (d_1, d_2, d_3, d_4, ...)$ where:
+  // $d_i = cases(0 & "if" b_(i,i) = 1, 1 & "if" b_(i,i) = 0)$ (flip the diagonal)
+  //
+  // *Key insight:* $Delta$ differs from $x_i$ in position $i$ for every $i$, so $Delta$ cannot equal any $x_i$.
+  // Therefore, $Delta in BB^omega$ but $Delta$ is not in our "complete" listing --- contradiction!
+]
+
+== Examples of Uncountable Sets
+
+#example[Important uncountable sets][
+  - *Real numbers* $RR$: Can be put in bijection with $BB^omega$ via binary expansions
+  - *Power set* $power(NN)$: By Cantor's theorem, always larger than the original set
+  - *Irrational numbers* $II = RR setminus QQ$: Since $QQ$ is countable but $RR$ is not
+  - *Transcendental numbers*: Numbers like $pi, e$ that are not algebraic
+  - *Function spaces* $RR^RR$: All functions from reals to reals
+  - *Infinite binary strings* $BB^omega$: As proved above
+]
+
+#example[Computer science connections][
+  - *Undecidable problems*: There are uncountably many languages, but only countably many algorithms
+  - *Real computation*: Continuous functions vs discrete algorithms
+  - *Cryptographic keys*: Key spaces can be countable or uncountable depending on the system
+  - *Information theory*: Continuous vs discrete information sources
 ]
 
 == Sets of Different Sizes
@@ -2680,24 +2759,27 @@ Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural num
 == Cantor's Theorem
 
 #theorem[Cantor][
-  $A smaller power(A)$, for any set $A$.
+  $A smaller power(A)$ for any set $A$.
+
+  // In other words, $abs(A) < abs(power(A))$ --- the power set is always strictly larger.
 ]
 
 #proof[
-  The map $f(x) = {x}$ is an injection $f: A to power(A)$, since if $x != y$, then also ${x} != {y}$ by extensionality, and so $f(x) != f(y)$.
-  So we have that $A smaller.eq power(A)$.
+  The map $f(x) = {x}$ is an injection from $A$ to $power(A)$, since if $x != y$, then ${x} != {y}$, and so $f(x) != f(y)$.
+  So~we have shown that $A smaller.eq power(A)$.
 
-  It remains to show that $A equinumerous.not B$.
-  For reductio, suppose $A equinumerous B$, i.e., there is some bijection $g: A to B$.
-  Now~consider $D = {x in A | x notin g(x)}$.
-  Note that $D subset.eq A$, so $D in power(A)$.
-  Since $g$ is a bijection, there exists some $y in A$ such that $g(y) = D$.
-  But now we have
-  $
-    y in g(y) "iff" y in D "iff" y notin g(y)
-  $
-  This is a contradiction, since $y$ cannot be both _in_ and _not in_ $g(y)$.
-  Thus, $A equinumerous.not power(A)$.
+  To show that $A equinumerous.not power(A)$, suppose for reductio that there is a bijection $g: A to power(A)$.
+  - Consider $D = {x in A | x notin g(x)}$.
+    Note that $D subset.eq A$, so $D in power(A)$.
+  - Since $g$ is surjective, there exists $y in A$ such that $g(y) = D$.
+    - If $y in D$, then by definition of $D$, we have $y notin g(y)$, i.e., $y notin D$. Contradiction!
+    - If $y notin D$, then $y notin g(y)$, so by definition of $D$, we have $y in D$. Contradiction!
+  - Therefore, no bijection $A to power(A)$ can exist, so $A equinumerous.not power(A)$. #qedhere
+]
+
+#Block(color: purple)[
+  *Profound implication:* There is no "largest" infinity!
+  We can always construct a bigger one using the power set operation: $aleph_0 < 2^(aleph_0) < 2^(2^(aleph_0)) < ...$
 ]
 
 == Schröder--Bernstein Theorem
@@ -2763,6 +2845,16 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   Thus, $S smaller.eq L$.
 
   By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
+]
+
+== Summary: Cardinality
+
+#Block(color: blue)[
+  *Cardinality* measures set "size," revealing surprising facts about infinity:
+  - _Finite sets:_ Count elements normally
+  - _Countable_ infinity ($aleph_0$): Sets like $NN$, $ZZ$, $QQ$ that can be "listed" (enumerated)
+  - _Uncountable_ infinity: Sets like $RR$, $power(NN)$ that are "too big" to list (enumerate with $NN$)
+  - *Cantor's insight:* $abs(A) < abs(power(A))$ always --- there's no "largest" infinity!
 ]
 
 
