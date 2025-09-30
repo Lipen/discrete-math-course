@@ -1852,6 +1852,8 @@
   Therefore $beta <= alpha$, completing the proof.
 ]
 
+// TODO: add intermediate slide to explain the abrupt transition from orders to functions: we need to cover cardinality, which requires bijections, which are special kinds of functions. After that, we are going to return back to cover well orders.
+
 
 = Functions
 #focus-slide(
