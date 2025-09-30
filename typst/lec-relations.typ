@@ -2026,10 +2026,10 @@
   #diagram(
     node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
-    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
-    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
-    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    blob((0cm, 0cm), $1$, tint: green, name: <A>),
+    blob((0cm, -1.5cm), $2$, tint: green, name: <B>),
+    blob((3cm, 0cm), $x$, tint: red, name: <X>),
+    blob((3cm, -1.5cm), $y$, tint: red, name: <Y>),
     edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     render: (grid, nodes, edges, options) => {
@@ -2118,18 +2118,20 @@
   #diagram(
     node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
-    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
-    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
-    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
-    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    blob((0cm, 0cm), $1$, tint: green, name: <A>),
+    blob((0cm, -1.5cm), $2$, tint: green, name: <B>),
+    blob((3cm, 0cm), $x$, tint: red, name: <X>),
+    blob((3cm, -1.5cm), $y$, tint: red, name: <Y>),
     edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
     render: (grid, nodes, edges, options) => {
       import fletcher: cetz
       cetz.canvas({
+        import cetz: draw
+
         // Background:
-        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
-        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
 
         // Main diagram:
         fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
@@ -2137,12 +2139,12 @@
         // Overlay:
         let (x, y) = (3, -1.5)
         let s = 1
-        cetz.draw.line(
+        draw.line(
           (x - s / 2, y + s / 2),
           (x + s / 2, y - s / 2),
           stroke: (thickness: 2pt, paint: red, cap: "round"),
         )
-        cetz.draw.line(
+        draw.line(
           (x - s / 2, y - s / 2),
           (x + s / 2, y + s / 2),
           stroke: (thickness: 2pt, paint: red, cap: "round"),
