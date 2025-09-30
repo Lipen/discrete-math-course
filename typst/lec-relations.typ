@@ -308,9 +308,8 @@
 ]
 
 
-#focus-slide(
-  title: "Properties of Relations",
-)
+= Properties of Relations
+#focus-slide()
 
 == Properties of Homogeneous Relations
 
@@ -385,9 +384,8 @@
 ]
 
 
-#focus-slide(
-  title: "Equivalence Relations",
-)
+= Equivalence Relations
+#focus-slide()
 
 == Equivalence Relations
 
@@ -841,9 +839,8 @@
 ]
 
 
-#focus-slide(
-  title: "Composition of Relations",
-)
+= Composition of Relations
+#focus-slide()
 
 == Composition of Relations
 
@@ -2377,9 +2374,8 @@ TODO
 ]
 
 
-#focus-slide(
-  title: "Closures of Relations",
-)
+= Closures of Relations
+#focus-slide()
 
 == Closures of Relations
 
@@ -3590,8 +3586,8 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 
+= Lattices
 #focus-slide(
-  title: "Lattices",
   epigraph: [Order is the shape upon which beauty depends.],
   epigraph-author: "Pearl S. Buck",
   scholars: (
