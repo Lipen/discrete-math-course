@@ -2718,15 +2718,17 @@ TODO
   This is crucial for analyzing _information propagation_ in social networks, _dependency resolution_ in software systems, and _route planning_ in transportation networks.
 ]
 
-== Properties and Advanced Applications of Closures
+== Properties of Closures
 
-#theorem[Closure properties][
+#theorem[
   For any relation $R subset.eq M^2$:
   + _Idempotency_: $r(r(R)) = r(R)$, $s(s(R)) = s(R)$, $t(t(R)) = t(R)$
   + _Monotonicity_: If $R_1 subset.eq R_2$, then $r(R_1) subset.eq r(R_2)$, etc.
   + _Extensivity_: $R subset.eq r(R)$, $R subset.eq s(R)$, $R subset.eq t(R)$
   + _Distributivity over union_: $r(R_1 union R_2) = r(R_1) union r(R_2)$, etc.
 ]
+
+== Examples of Closures
 
 #example[Closure of the empty relation][
 
