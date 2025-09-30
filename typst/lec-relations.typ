@@ -1527,8 +1527,8 @@
 ]
 
 *Hasse diagram:*
-- #Red[Maximal elements] (8, 12) — they divide nothing else in $S$
-- #Blue[Minimal elements] (2, 3) — nothing in $S$ divides them
+- #Red[Maximal elements] (8, 12) --- they divide nothing else in $S$
+- #Blue[Minimal elements] (2, 3) --- nothing in $S$ divides them
 - Two separate chains: $2 | 4 | 8$ and $3 | 6 | 12$
 
 #pagebreak()
