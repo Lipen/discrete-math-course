@@ -2074,9 +2074,9 @@ TODO
 == DCC and Well-Foundedness
 
 #theorem[
-  For any poset $(S, leq)$, the following are equivalent:
-  + $(S, leq)$ is well-founded (every non-empty subset has $lt$-minimal elements)
-  + $(S, leq)$ satisfies DCC (no infinite descending chains)
+  For any poset $(S, leq)$, the following are _equivalent_:
+  + $(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
+  + $(S, leq)$ satisfies _DCC_ (no infinite descending chains)
 ]
 
 #note[
