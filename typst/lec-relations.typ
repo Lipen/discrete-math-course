@@ -1852,6 +1852,22 @@
   Therefore $beta <= alpha$, completing the proof.
 ]
 
+== Summary: Orders
+
+#Block(color: orange)[
+  *Orders* provide structured ways to compare and rank elements:
+  - _Preorders:_ Basic comparison (reflexive, transitive)
+  - _Partial orders:_ Add antisymmetry for unique comparisons
+  - _Total orders:_ Every pair of elements is comparable
+
+  *Visualization:* Hasse diagrams clearly show structure and hierarchy by omitting redundant transitive edges, revealing _chains_ (ordered sequences) and _antichains_ (incomparable elements).
+]
+
+#Block(color: teal)[
+  *Applications:* Task scheduling • Git version control • Database indexing • Type hierarchies • Boolean algebra • Concurrent systems • Build systems (dependency resolution) • Social networks • File system permissions • Web page ranking • Package managers • Distributed systems
+]
+
+
 // TODO: add intermediate slide to explain the abrupt transition from orders to functions: we need to cover cardinality, which requires bijections, which are special kinds of functions. After that, we are going to return back to cover well orders.
 
 
