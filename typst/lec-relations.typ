@@ -2578,7 +2578,7 @@ TODO
 
 == Equivalence Closure
 
-#example[Complete equivalence closure][
+#example[
   Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(3, 4)}$.
 
   *Step 1:* Make it reflexive:
@@ -2604,7 +2604,7 @@ TODO
 
 #pagebreak()
 
-#example[Equivalence closure [2]][
+#example[
   Let $M = {a, b, c, d, e}$ and $R = {pair(a, b), pair(b, c), pair(d, e)}$.
 
   *Reflexive closure:*
