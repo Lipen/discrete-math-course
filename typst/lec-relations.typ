@@ -2327,26 +2327,43 @@ TODO
 
 #example[
   $pair(power(A), subset.eq)$:
-  - $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
-  - $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
-  - *Example:* $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
+  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
+  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
+  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
+  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
 ]
 
 #example[
-  Divisibility on $NN_(>0)$:
-  - $sup{a, b} = "lcm"(a, b)$ (least common multiple)
-  - $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
-  - *Example:* $sup {6, 10} = 30$, $inf {6, 10} = 2$
+  Divisibility on $NN^+$:
+  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
+  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
+  - $sup {6, 10} = 30$
+  - $inf {6, 10} = 2$
 ]
 
-#example[Suprema and Infima in Programming][
-  In type systems, types form a lattice under subtyping:
-  - $sup{"int", "string"} = "any"$ (most general type containing both)
-  - $inf{"number", "int"} = "int"$ (most specific type contained in both)
+#pagebreak()
 
-  In access control systems:
-  - $sup{"read", "write"} = "read-write"$ (union of permissions)
-  - $inf{"admin", "user"} = "guest"$ (intersection of permissions)
+#example[Type Systems and Subtyping][
+  Types form a lattice under the subtyping relation $subset.eq$:
+  - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
+  - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
+  - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
+  - $sup{#`number`, #`string`} = #`number | string`$ (union types)
+]
+
+#example[Access Control and Security Lattices][
+  Permissions form a lattice under the "includes" relation:
+  - $sup{"read", "write"} = "read-write"$ (union of capabilities)
+  - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
+  - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
+  - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
+]
+
+#example[Program Analysis and Abstract Interpretation][
+  Abstract values form lattices for static analysis:
+  - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
+  - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
+  - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
 ]
 
 
