@@ -2834,55 +2834,46 @@ TODO
   In software build systems, this helps determine the complete dependency tree.
 ]
 
-#pagebreak()
+== Applications of Relation Closures
 
-== When Relation Closures Actually Matter
+#example[*Graph Reachability*][
+  In directed graphs, transitive closure determines reachability:
+  - *Social networks:* Finding mutual connections and influence propagation
+  - *Transportation:* Computing all possible routes between cities
+  - *Citation networks:* Tracking intellectual dependencies in research
+  - *Web crawling:* Discovering linked pages and site connectivity
+]
 
-#grid(
-  columns: 2,
-  column-gutter: .8em,
-  row-gutter: .8em,
+#example[*Program Analysis*][
+  Closure operations enable sophisticated program optimization:
+  - *Data flow analysis:* Transitive closure computes variable dependencies
+  - *Call graph construction:* Finding all possible function invocations
+  - *Alias analysis:* Determining which pointers may reference the same memory
+  - *Taint analysis:* Tracking information flow and potential vulnerabilities
+]
 
-  Block(color: blue.lighten(50%))[
-    #text(
-      size: 1.2em,
-      weight: "bold",
-      fill: blue.darken(20%),
-    )[🎬 Netflix Knows You Too Well]
+#example[*Database Systems*][
+  Relational databases extensively use closure computations:
+  - *Recursive queries:* Computing organizational hierarchies and bill-of-materials
+  - *Join optimization:* Finding efficient query execution plans
+  - *Integrity constraints:* Ensuring referential consistency across tables
+  - *Data lineage:* Tracking data provenance and transformation chains
+]
 
-    *Transitive closure* powers recommendation systems and social networks:
-    - You like movie A, Alice likes A and B, so you might like B.
-    - Chain reactions: A $to$ B $to$ C $to$ D discovers surprising connections.
+== Complexity of Closure Computations
 
-    #text(size: 0.8em, style: "italic")[
-      That creepy moment when Netflix suggests something perfect?
-      That's transitive closure finding paths through millions of user preferences.
-    ]
-  ],
+#theorem[
+  For a relation $R$ on $n$ elements, the time complexities are:
+  - *Reflexive closure:* $O(n)$ time
+  - *Symmetric closure:* $O(|R|)$ time
+  - *Transitive closure:* $O(n^3)$ time (Floyd-Warshall algorithm)
+]
 
-  Block(color: green.lighten(50%))[
-    #text(
-      size: 1.2em,
-      weight: "bold",
-      fill: green.darken(20%),
-    )[💸 How Money Actually Moves]
+#note[
+  The transitive closure bottleneck drives many algorithmic design decisions in practice.
+]
 
-    *Transitive closure* tracks financial flows:
-    - You pay bank $arrow.double$ bank pays merchant $arrow.double$ merchant pays supplier.
-    - Money laundering detection: hidden chains of transactions.
-
-    #text(size: 0.8em, style: "italic")[
-      Banks use this to catch criminals who try to hide money through complex chains of fake transactions.
-    ]
-  ],
-
-  grid.cell(colspan: 2)[
-    #Block(color: orange.lighten(50%))[
-      *Key insight:*
-      If you can get from $A$ to $C$ by going through $B$, then _transitive closure_ provides the _direct_ $A to C$ relation --- whether it's movies, money, friends, or malware.
-    ]
-  ],
-)
+// TODO: mention FO+TC = NL, FO+LFP = P, etc.
 
 
 = Functions
