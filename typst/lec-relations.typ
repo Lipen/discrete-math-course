@@ -2650,6 +2650,9 @@ TODO!
   $
 ]
 
+// TODO: other pairing functions
+// TODO: perfect hash functions
+
 == Uncountable Sets
 
 #definition[
