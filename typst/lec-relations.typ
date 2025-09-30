@@ -1853,524 +1853,716 @@
 ]
 
 
-= Suprema and Infima
-#focus-slide()
+= Functions
+#focus-slide(
+  epigraph: [A function is a machine which converts a certain class of inputs \ into a certain class of outputs.],
+  epigraph-author: "Norbert Wiener",
+  scholars: (
+    (
+      name: "Leonhard Euler",
+      image: image("assets/Leonhard_Euler.jpg"),
+    ),
+    (
+      name: "Augustin-Louis Cauchy",
+      image: image("assets/Augustin-Louis_Cauchy.jpg"),
+    ),
+    (
+      name: "Karl Weierstrass",
+      image: image("assets/Karl_Weierstrass.jpg"),
+    ),
+    (
+      name: "Joseph-Louis Lagrange",
+      image: image("assets/Joseph-Louis_Lagrange.jpg"),
+    ),
+    (
+      name: "George Pólya",
+      image: image("assets/George_Polya.jpg"),
+    ),
+    (
+      name: "Norbert Wiener",
+      image: image("assets/Norbert_Wiener.jpg"),
+    ),
+  ),
+)
 
-== Upper and Lower Bounds
+== Definition of a Function
 
-// Upper bound
 #definition[
-  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+  A _function_ $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a special kind of relation $f subset.eq A times B$ where every element of $A$ is paired with _exactly one_ element of $B$.
+
+  This means two conditions must hold:
+  + _Functional (right-unique)_:
+    For every $a in A$, there is _at most one_ pair $pair(a, b)$ in $f$.
+    $
+      forall a in A. thin
+      forall b_1, b_2 in B. thin
+      (f(a) = b_1) and (f(a) = b_2) imply (b_1 = b_2)
+    $
+  + _Serial (left-total)_:
+    For every $a in A$, there is _at least one_ pair $pair(a, b)$ in $f$.
+    $
+      forall a in A. thin
+      exists b in B. thin
+      f(a) = b
+    $
 ]
 
-// Lower bound
 #definition[
-  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
+  A relation that satisfies the _functional_ property is called a _partial function_.
+
+  A relation that satisfies _both_ properties is called a _total function_, or simply a _function_.
+]
+
+== Domain, Codomain, Range
+
+#definition[
+  For a function $f: A to B$:
+  - The set $A$ is called the _domain_ of $f$, denoted $Dom(f)$.
+  - The set $B$ is called the _codomain_ of $f$, denoted $Cod(f)$.
+  - The _range_ (or _image_) of $f$ is the set of all values that $f$ actually takes:
+    $
+      Range(f) = { b in B | exists a in A. thin f(a) = b } = { f(a) | a in A }
+    $
+
+    #note[
+      $Range(f) subset.eq Cod(f)$
+    ]
 ]
 
 #example[
-  In $pair(RR, <=)$ for interval $C = (0;1)$:
-  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
-  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
-  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
-]
+  Let $A = {1, 2, 3}$ and $B = {x, y, z}$.
+  Let $f = {pair(1, x), pair(2, y), pair(3, x)}$.
+  - $f$ is a function from $A$ to $B$.
+  - $Dom(f) = A$
+  - $Cod(f) = B$
+  - $Range(f) = {x, y} subset.eq B$
+  We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
 
-== Examples of Bounds
+  #place(top + right)[
+    #cetz.canvas({
+      import cetz.draw: *
 
-#example[
-  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
-  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
-  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
-  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
-  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
-]
+      scale(75%)
 
-#example[
-  In divisibility poset for $C = {4,6}$:
-  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
-  - *Lower bounds:* common divisors, i.e., ${1, 2}$
-  - *Least upper bound:* $12 = "lcm"(4,6)$
-  - *Greatest lower bound:* $2 = "gcd"(4,6)$
-]
+      circle((0, 0), radius: (1, 2))
+      circle((3, 0), radius: (1, 2))
 
-== Suprema and Infima
+      circle((0, 1), radius: 0.1, fill: white, name: "1")
+      circle((0, 0), radius: 0.1, fill: white, name: "2")
+      circle((0, -1), radius: 0.1, fill: white, name: "3")
 
-// Supremum
-#definition[
-  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
+      circle((3, 1), radius: 0.1, fill: white, name: "x")
+      circle((3, 0), radius: 0.1, fill: white, name: "y")
+      circle((3, -1), radius: 0.1, fill: white, name: "z")
 
-  #note[
-    If it exists, the least upper bound is _unique_.
+      content("1", [$1$], anchor: "east", padding: 0.2)
+      content("2", [$2$], anchor: "east", padding: 0.2)
+      content("3", [$3$], anchor: "east", padding: 0.2)
+      content("x", [$x$], anchor: "west", padding: 0.2)
+      content("y", [$y$], anchor: "west", padding: 0.2)
+      content("z", [$z$], anchor: "west", padding: 0.2)
+
+      line("1", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-x")
+      line("2", "y", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "2-y")
+      line("3", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "3-x")
+    })
   ]
 ]
 
-// Infimum
-#definition[
-  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
-
-  #note[
-    If it exists, the greatest lower bound is _unique_.
-  ]
-]
-
 #example[
-  $pair(RR, <=)$:
-  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
-  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
+  Consider $g: ZZ to ZZ$ defined by $g(n) = n^2$.
+  - $Dom(g) = ZZ$.
+  - $Cod(g) = ZZ$.
+  - $Range(g) = {0, 1, 4, 9, dots}$ (the set of non-negative perfect squares).
 ]
 
-== Examples of Suprema and Infima
-
-#example[
-  $pair(power(A), subset.eq)$:
-  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
-  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
-  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
-  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
-]
-
-#example[
-  Divisibility on $NN^+$:
-  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
-  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
-  - $sup {6, 10} = 30$
-  - $inf {6, 10} = 2$
-]
-
-== Lattices
+== Injective Functions
 
 #definition[
-  A poset $(S, leq)$ is called a _lattice_ if every pair of elements has both a supremum (join) and an infimum (meet).
-
-  We denote a lattice as $(S, or, and)$ where:
-  - $a Join b = sup{a, b}$ (the join operation)
-  - $a Meet b = inf{a, b}$ (the meet operation)
-]
-
-== Examples of Lattices
-
-#example[Type Systems and Subtyping][
-  Types form a lattice under the subtyping relation $subset.eq$:
-  - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
-  - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
-  - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
-  - $sup{#`number`, #`string`} = #`number | string`$ (union types)
-]
-
-#example[Access Control and Security Lattices][
-  Permissions form a lattice under the "includes" relation:
-  - $sup{"read", "write"} = "read-write"$ (union of capabilities)
-  - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
-  - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
-  - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
-]
-
-#example[Program Analysis and Abstract Interpretation][
-  Abstract values form lattices for static analysis:
-  - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
-  - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
-  - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
-]
-
-
-= Well Orders
-#focus-slide()
-
-== Well-Ordered Sets
-
-#definition[
-  A poset $(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
-
-  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
-]
-
-#note[
-  A well-ordered set is automatically a _total order_ (linear order) since comparability follows from the well-ordering property.
-]
-
-#example[
-  The natural numbers $NN = {0, 1, 2, 3, dots}$ with the usual order $leq$ form a well-ordered set:
-  - Any non-empty subset has a smallest element.
-  - For instance, the subset ${5, 17, 23, 100}$ has least element $5$.
-  - Even infinite subsets like ${2, 4, 6, 8, dots}$ (even numbers) have a least element ($2$).
-]
-
-#example[
-  The integers $ZZ$ with the usual order are _not_ well-ordered:
-  - The subset ${-1, -2, -3, dots}$ (negative integers) has no least element.
-  - Any infinite descending sequence has no minimum.
-]
-
-== Examples of Well-Ordered Sets
-
-// TODO: check/refine
-#example[
-  _Lexicographic order_ on finite strings over an alphabet is well-ordered:
-  - Given any non-empty set of strings, there is always a lexicographically smallest one.
-  - For example, in ${"cat", "dog", "apple", "zebra"}$, the least element is "$"apple"$".
-
-  // TODO: add another example with set of "all" finite strings: {b, ab, aab, aaab, ...} has no least element
-
-  // TODO: fix this incorrect (or unclear) example...
-  // For infinite $omega$-strings, lexicographic order is _not_ well-ordered:
-  // - The set of all infinite binary strings has no least element.
-  // - For example, the subset of strings starting with "1" has no least element.
-]
-
-// TODO: add more lex orders (e.g. shortlex)
-
-// TODO: add more examples of well-ordered sets
-
-== Well-Ordered Induction
-
-TODO
-
-== Well-Founded Relations
-
-#definition[
-  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
-
-  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
-]
-
-// TODO: add example with (NN, leq)
-
-#note[
-  _Well-founded_ $!=$ _well-ordered_:
-  - Well-ordered requires a _least_ element (unique minimum)
-  - Well-founded only requires _minimal_ elements (no element below them)
-  - Every well-ordered set is well-founded, but not vice versa
-]
-
-== Examples of Well-Founded Relations
-
-#example[
-  Consider the _proper subset_ relation $subset$ on finite sets.
-  Let $M = {emptyset, {a}, {b}, {a,b}}$.
-  // with $A subset B$ meaning "$A$ is a proper subset of $B$", i.e. $A subset.eq B$, but $A != B$.
-
-  *Well-founded:* #YES Every subset of $M$ has minimal elements.
-  - _Example:_ The subset ${{a}, {b}, {a,b}}$ has minimal elements ${a}$ and ${b}$
-    - Neither ${a} subset {b}$ nor ${b} subset {a}$ (they're incomparable)
-    - Both are minimal since no set in the subset is a proper subset of them
-
-  *Well-ordered:* #NO Some subsets lack a unique least element.
-  - _Same example:_ ${{a}, {b}, {a,b}}$ has no "$subset$-least" element
-    - For "$subset$-least", we'd need a set $L$ such that $L subset X$ for all other $X$
-    - But ${a} subset.not {b}$ and ${b} subset.not {a}$, so neither can be least
-    - No single set is a proper subset of all others in this collection
-
-  #Block(color: yellow)[
-    *Key insight:* Well-founded $!=$ well-ordered:
-    - _Multiple minimal_ elements are allowed in well-founded relations.
-    - Well-ordered relations require a _unique_ least element in every subset.
-  ]
-]
-
-// #pagebreak()
-//
-// TODO: fix this BROKEN example
-//
-// #example[Comparing $(NN, leq)$ vs $(NN, >=)$][
-//   Same set, different relations show how direction affects properties:
-
-//   *$(NN, leq)$ --- standard "less than or equal":*
-//   - *Well-ordered:* #YES Every subset has a least (smallest) element.
-//   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
-//   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
-
-//   *$(NN, >=)$ --- "greater than or equal":*
-//   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
-//     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
-//     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
-//   - *Well-founded:* #NO Has infinite descending chains like $10 >= 9 >= 8 >= dots$
-
-//   #Block(color: yellow)[
-//     *Key insight:* The same mathematical structure can be well-ordered under one relation but not under its "reverse"!
-//   ]
-// ]
-
-#pagebreak()
-
-#example[
-  The _divisibility_ relation $(NN^+, |)$ is well-founded:
-  - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
-  - For example, in ${6, 12, 18, 4, 8}$:
-    - $4$ is minimal because no other number in the set divides $4$
-    - $6$ is minimal because no other number in the set divides $6$
-    - Note: $6$ divides both $12$ and $18$, but that doesn't affect minimality
-  - In ${2, 4, 8, 16}$: only $2$ is minimal (it divides all others, but nothing else divides it)
-]
-
-#pagebreak()
-
-#example[
-  Consider the relation _"properly contains"_ ($supset$) on finite sets.
-
-  Let $S = {{1}, {2}, {1,2}, {1,2,3}}$.
-
-  *Well-founded:* #YES Every subset has minimal elements.
-  - The subset ${{1}, {2}, {1,2,3}}$ has minimal elements ${1}$ and ${2}$
-    - Neither ${1} supset {2}$ nor ${2} supset {1}$ (they're incomparable)
-    - ${1,2,3} supset {1}$ and ${1,2,3} supset {2}$, but they remain minimal in this subset
-  - Any collection always has sets that contain no others in that collection
-]
-
-#pagebreak()
-
-#example[
-  _Program termination analysis_ uses well-founded relations:
-  - Define a measure that decreases with each recursive call
-  - If the measure forms a well-founded order, the program terminates
-  - Example: factorial function decreases argument from $n$ to $n-1$
-]
-// TODO: add Dafny example
-
-== Well-Founded Induction
-
-TODO
-
-== Induced Strict Order
-
-#definition[
-  Given a partial order $leq$, the _induced strict order_ $lt$ is defined as:
+  A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[
+    Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!
+  ]) if distinct elements in the domain map to distinct elements in the codomain.
+  Formally:
   $
-    x lt y "iff" (x leq y "and" x != y)
+    forall a_1, a_2 in A. thin
+    (f(a_1) = f(a_2)) imply (a_1 = a_2)
   $
 ]
 
-#note[
-  Given a poset $(S, leq)$, we can use $lt$ to denote its associated strict order.
-]
-
-#note[
-  $gt$ is the converse of $lt$, so we can write $b > a$ instead of $a < b$.
-]
-
-#note[
-  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $(S, leq)$.
-]
-
-== Descending Chain Condition
-
-#definition[
-  A poset $pair(S, leq)$ is said to satisfy the _descending chain condition (DCC)_ if no strict descending sequence $x_1 > x_2 > x_3 > dots$ of elements of $S$ exists.
-
-  Equivalently, every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually stabilizes.
-
-  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
-]
-
-#note[
-  The term "_sequence_" does not mean we must list all elements consequently or uniquely.
-  It simply means we have a function from $NN$ to $S$.
-  Elements can repeat, and we can skip elements in $S$.
-  However, when we say "_descending sequence_," we mean that each new element is less than the previous one.
-]
-
-#example[
-  The natural numbers $(NN, leq)$ satisfy DCC:
-  - Since natural numbers are bounded below by $0$, infinite descent is impossible.
-  - Any (weakly) descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize.
-  - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
-]
-
-== Well-Founded Posets
-
-#definition[
-  A poset $(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
-
-  In other words, every non-empty subset of $S$ has $lt$-minimal elements.
-]
-
-// #note[
-//   A relation $R$ is called _Artinian_ if it is well-founded (equivalently, satisfies DCC when $R$ is a partial order).
-//   This is the "dual" concept to Noetherian relations.
-// ]
-
-== DCC and Well-Foundedness
-
-#theorem[
-  For any poset $(S, leq)$, the following are _equivalent_:
-  + $(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
-  + $(S, leq)$ satisfies _DCC_ (no infinite descending chains)
-]
-
-#note[
-  Here, we again use "$lt$" (and its converse "$gt$") to denote the strict order induced by "$leq$".
-]
-
-#proof[($==>$)][
-  *Well-founded implies DCC*
-
-  Suppose $(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
-  Consider the set $T = {x_0, x_1, x_2, dots}$.
-  Since $(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
-  But then $x_k > x_(k+1)$, contradicting the minimality of $x_k$.
-]
-
-#proof[($<==$)][
-  *DCC implies well-founded*
-
-  Suppose $(S, leq)$ satisfies DCC.
-  Let $T subset.eq S$ be any non-empty subset.
-  If $T$ had no minimal elements, then for any $x_0 in T$, there would exist $x_1 in T$ with $x_0 > x_1$.
-  Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
-]
-
-== Ascending Chain Condition
-
-#definition[
-  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if no strict ascending sequence $x_1 < x_2 < x_3 < dots$ of elements of $S$ exists.
-
-  Equivalently, every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually stabilizes.
-]
-
-#example[
-  $pair(NN, leq)$ does _not_ satisfy ACC since infinite ascending chains like $2 < 3 < 5 < 7 < dots$ exist.
-]
-
-#example[
-  Consider the poset $(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
-  - *ACC fails:* #NO \
-    The ascending chain $emptyset subset.eq {1} subset.eq {1,2} subset.eq {1,2,3} subset.eq dots$ never stabilizes.
-  - *DCC fails:* #NO \
-    The descending chain $NN supset.eq (NN without {1}) supset.eq (NN without {1,2}) supset.eq dots$ never stabilizes.
-]
-
-== Noetherian Relations
-
-#definition[
-  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if the converse relation $R^(-1)$ is well-founded.
-
-  Equivalently, $R subset.eq M^2$ is Noetherian if every non-empty subset of $M$ has $R$-maximal elements.
-]
-
-#note[
-  This means no infinite ascending chains $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$ exist.
-]
-
-#example[
-  The usual order $leq$ on $NN$ is NOT Noetherian:
-  - We can construct infinite ascending chains like $1 < 2 < 3 < 4 < dots$
-  - However, its converse $geq$ would be well-founded (DCC holds for $leq$)
-]
-
-#pagebreak()
-
-#example[
-  In ring theory, a _Noetherian ring_ has the property that every ascending chain of ideals stabilizes:
-  $I_1 subset.eq I_2 subset.eq I_3 subset.eq dots$ eventually becomes constant.
-]
-
-#example[
-  In rewriting systems and lambda calculus:
-  - A _reduction relation_ $to$ is Noetherian if all reduction sequences terminate
-  - For example, $beta$-reduction in simply typed lambda calculus is Noetherian
-  - This guarantees that programs always terminate (no infinite loops)
-]
-
-== Noetherian Relations and ACC
-
-#theorem[
-  For any poset $pair(S, leq)$, the following are equivalent:
-  - $pair(S, leq)$ is Noetherian (coverse well-founded)
-  - $pair(S, leq)$ satisfies ACC (no infinite ascending chains)
-]
-
-#proof[
-  By definition, $(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
-  By the earlier theorem, this is equivalent to $geq$ satisfying DCC, which is exactly the same as $leq$ satisfying ACC.
-]
-
-== Relationships Between Chain Conditions
-
-#theorem[
-  For a poset $(S, leq)$:
-  - *DCC* $iff$ the relation $leq$ is well-founded $iff$ no infinite descending chains.
-  - *ACC* $iff$ the _dual_ relation $geq$ is well-founded $iff$ no infinite ascending chains.
-]
-
-#proof[
-  The first equivalence (DCC $iff$ well-founded) was proved earlier.
-  The second equivalence for ACC follows by applying the same reasoning to the dual relation $geq$.
-]
-
-== Examples of ACC and DCC
-
-#example[
-  Consider the poset $pair(power({1,2,3}), subset.eq)$ of subsets ordered by inclusion:
-  - *ACC holds:* #YES
-    Any ascending chain $A_1 subset.eq A_2 subset.eq A_3 subset.eq dots$ must stabilize since we can't keep adding elements indefinitely.
-  - *DCC holds:* #YES
-    Any descending chain $B_1 supset.eq B_2 supset.eq B_3 supset.eq dots$ must stabilize since we can't keep removing elements indefinitely.
-  - Both conditions hold because the set is finite.
-]
-
-#example[
-  In the natural numbers $(NN, leq)$:
-  - *DCC holds:* #YES
-    Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
-  - *ACC fails:* #NO
-    The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
-  - This shows that DCC and ACC are independent conditions.
-]
-
-#examples[Applications in algebra][
-  - *Noetherian rings:* Satisfy ACC for ideals (every ascending chain of ideals stabilizes).
-  - *Artinian rings:* Satisfy DCC for ideals (every descending chain of ideals stabilizes).
-  - *Principal ideal domains:* Both conditions hold, enabling algorithms like Euclidean division.
-]
-
-== Connections and Applications
-
-#theorem[Well-ordering principle][
-  Every well-ordered set admits _transfinite induction_: to prove $P(x)$ for all $x in S$, it suffices to show:
-  $forall x in S. thin (forall y < x. thin P(y)) imply P(x)$
-]
-
-#example[
-  _Mathematical induction_ on $NN$ is a special case of transfinite induction using the well-ordering of natural numbers.
-]
-
-#examples[Computer science applications][
-  - *Termination analysis:* Prove programs terminate by finding well-founded measures.
-  - *Parsing algorithms:* Use well-founded recursion on parse tree depth.
-  - *Datalog evaluation:* Stratified negation ensures termination via well-founded semantics.
-  - *Model checking:* Well-founded relations ensure finite state exploration.
-]
-
-#Block(color: blue)[
-  These concepts provide the mathematical foundation for reasoning about _termination_, _finiteness_, and _algorithmic complexity_ in computer science and mathematics.
-]
-
-== Summary: Well-Founded Relations and Chain Conditions
-
+#v(-.5em)
 #align(center)[
-  #table(
-    columns: 3,
-    align: left,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  #import fletcher: diagram, edge, node
+  #diagram(
+    node-shape: fletcher.shapes.circle,
+    edge-stroke: 1pt,
+    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
+    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
+    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
+    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    render: (grid, nodes, edges, options) => {
+      import fletcher: cetz
+      cetz.canvas({
+        // Background:
+        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
 
-    table.header([Concept], [Characterization], [Key Property]),
+        // Main diagram:
+        fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
 
-    [*Well-ordered*], [Every subset has unique least element], [Stronger than well-founded],
-
-    [*Well-founded*], [Every subset has minimal elements], [DCC: no infinite descent],
-
-    [*DCC (Artinian)*], [No infinite descending chains], [Same as well-founded],
-
-    [*ACC (Noetherian)*], [No infinite ascending chains], [Dual of DCC],
+        // Overlay:
+        let (x, y) = (1.5, -0.5)
+        let s = 1.8
+        cetz.draw.line(
+          (x - s / 2, y + s / 2),
+          (x + s / 2, y - s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+        cetz.draw.line(
+          (x - s / 2, y - s / 2),
+          (x + s / 2, y + s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+      })
+    },
   )
 ]
 
-#Block[
-  *Key relationships:*
-  - Well-ordered $==>$ Total order (least elements imply comparability)
-  - Well-ordered $==>$ Well-founded (every least element is minimal)
-  - Well-founded $<=>$ Noetherian $<=>$ DCC (equivalent characterizations)
-  - ACC is independent of DCC (a structure can satisfy one but not the other)
-  - These concepts are fundamental for proving termination and finiteness properties
+#example[
+  $f: NN to NN$ defined by $f(n) = 2n$ is injective.
+  If $f(n_1) = f(n_2)$, then $2n_1 = 2n_2$, so $n_1 = n_2$.
+]
+
+#example[
+  $g: ZZ to ZZ$ defined by $g(n) = n^2$ is _not_ injective, because $g(-1) = 1$ and $g(1) = 1$, but $-1 != 1$.
+]
+
+== Surjective Functions
+
+#definition[
+  A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
+  Formally:
+  $
+    forall b in B. thin
+    exists a in A. thin
+    f(a) = b
+  $
+
+  For surjective functions, $Range(f) = Cod(f)$, i.e., there are _no "uncovered"_ elements in the right side.
+]
+
+#v(-.5em)
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    node-shape: fletcher.shapes.circle,
+    edge-stroke: 1pt,
+    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
+    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
+    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
+    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
+    edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
+    render: (grid, nodes, edges, options) => {
+      import fletcher: cetz
+      cetz.canvas({
+        // Background:
+        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+
+        // Main diagram:
+        fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
+
+        // Overlay:
+        let (x, y) = (3, -1.5)
+        let s = 1
+        cetz.draw.line(
+          (x - s / 2, y + s / 2),
+          (x + s / 2, y - s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+        cetz.draw.line(
+          (x - s / 2, y - s / 2),
+          (x + s / 2, y + s / 2),
+          stroke: (thickness: 2pt, paint: red, cap: "round"),
+        )
+      })
+    },
+  )
+]
+
+#example[
+  $f: RR to RR$ defined by $f(x) = x^3$ is surjective. For any $y in RR$, $x = root(3, y)$ is such that $f(x)=y$.
+]
+
+#example[
+  $g: NN to NN$ defined by $g(n) = 2n$ is _not_ surjective, because odd numbers in $NN$ (the codomain) are not in the range of $g$. For example, there is no $n in NN$ such that $2n = 3$.
+]
+
+== Bijective Functions
+
+#definition[
+  A function $f: A to B$ is _bijective_ if it is both injective and surjective.
+  A bijective function establishes a _one-to-one correspondence_ between the elements of $A$ and $B$.
+]
+
+#example[
+  $f: RR to RR$ defined by $f(x) = 2x + 1$ is bijective.
+  - Injective: If $2x_1+1 = 2x_2+1$, then $2x_1 = 2x_2$, so $x_1=x_2$.
+  - Surjective: For any $y in RR$, let $x = (y-1) / 2$. Then $f(x) = 2((y-1) / 2) + 1 = y-1+1 = y$.
+]
+#example[
+  The identity function $id_A: A to A$ defined by $id_A (x) = x$ for all $x in A$ is bijective.
+]
+
+== Function Composition
+
+#definition[
+  Let $f: A to B$ and $g: B to C$ be two functions.
+  The _composition_ of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
+  $
+    (g compose f)(a) = g(f(a))
+  $
+  // for all $a in A$.
+]
+
+#example[
+  Let $f: RR to RR$ be $f(x) = x^2$ and $g: RR to RR$ be $g(x) = x+1$.
+  - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$.
+  - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$.
+]
+
+// TODO: functional powers
+// (if Y subset.eq X, then f:X->Y can be composed with itself)
+
+== Properties of Function Composition
+
+- _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+
+- The _identity_ function acts as a _neutral_ element for composition:
+  - $id_B compose f = f$ for any function $f: A to B$.
+  - $f compose id_A = f$ for any function $f: A to B$.
+
+- Composition _preserves_ the properties of functions:
+  - If $f$ and $g$ are injective, so is $g compose f$.
+  - If $f$ and $g$ are surjective, so is $g compose f$.
+  - If $f$ and $g$ are bijective, so is $g compose f$.
+
+- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
+
+== Inverse Functions
+
+#definition[
+  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
+  $
+    f^(-1)(b) = a quad "iff" quad f(a) = b
+  $
+]
+
+#note[
+  A function has an inverse _if and only if_ it is bijective.
+]
+
+#example[
+  Let $f: RR to RR$ be $f(x) = 2x + 1$.
+  We found it's bijective.
+  To find $f^(-1)(y)$, let $y = 2x+1$.
+  Solving for $x$, we get $x = (y-1) / 2$.
+  So, $f^(-1)(y) = (y-1) / 2$.
+]
+
+#theorem[
+  If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
+  - $f^(-1)$ is also bijective.
+  - $(f^(-1) compose f)(a) = a$ for all $a in A$ (i.e., $f^(-1) compose f = id_A$).
+  - $(f compose f^(-1))(b) = b$ for all $b in B$ (i.e., $f compose f^(-1) = id_B$).
+  - If $f: A to B$ and $g: B to C$ are both bijective, then $(g compose f)^(-1) = f^(-1) compose g^(-1)$.
+]
+
+== Image and Preimage of Sets
+
+#definition[
+  Let $f: A to B$ be a function and let $S subset.eq A$.
+  The _image of $S$ under $f$_ is the set:
+  $ f(S) = { f(s) | s in S } $
+  Note that $f(S) subset.eq B$.
+  The range of $f$ is $f(A)$.
+]
+
+#definition[
+  Let $f: A to B$ be a function and let $T subset.eq B$.
+  The _preimage of $T$ under $f$_ (or _inverse image of $T$_) is the set of all elements in the domain that map into $T$:
+  $ f^(-1)(T) = { a in A | f(a) in T } $
+]
+
+#note[
+  The notation $f^(-1)(T)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
+  It always refers to the set of domain elements that map into $T$.
+]
+
+#pagebreak()
+
+#example[
+  Let $f: ZZ -> ZZ$ be $f(x) = x^2$.
+  - Let $S = {-2, -1, 0, 1, 2}$. Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
+  - Let $T_1 = {1, 9}$. The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
+  - Let $T_2 = {2, 3}$. The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
+]
+
+
+= Cardinality & Infinity
+#focus-slide(
+  epigraph: [God made the integers, all else is the work of man.],
+  epigraph-author: "Leopold Kronecker",
+  scholars: (
+    (
+      name: "Giuseppe Peano",
+      image: image("assets/Giuseppe_Peano.jpg"),
+    ),
+    (
+      name: "Leopold Kronecker",
+      image: image("assets/Leopold_Kronecker.jpg"),
+    ),
+    (
+      name: "David Hilbert",
+      image: image("assets/David_Hilbert.jpg"),
+    ),
+    (
+      name: "Kurt Gödel",
+      image: image("assets/Kurt_Godel.jpg"),
+    ),
+    (
+      name: "John von Neumann",
+      image: image("assets/John_von_Neumann.jpg"),
+    ),
+    (
+      name: "Paul Cohen",
+      image: image("assets/Paul_Cohen.jpg"),
+    ),
+  ),
+)
+
+== Size of Sets
+
+#definition[
+  The _size_ of a _finite_ set $X$, denoted $abs(X)$, is the number of elements it contains.
+]
+
+#examples[
+  - Let $A = {#emoji.planet, #emoji.dino, #emoji.violin}$, then $abs(A) = 3$, since $A$ contains _exactly 3_ elements.
+  - Let $B = {#emoji.kiwi, #emoji.kiwi, #emoji.kiwi}$, then $abs(B) = 1$, since $B$ contains _only one unique_ element (the kiwi).
+  - $abs(power({1,2,#emoji.cat})) = 2^3 = 8$, since the power set consists of _all 8 possible subsets_ of ${1, 2, #emoji.cat}$.
+  - $abs(emptyset) = 0$, since the _empty_ set contains _no elements_.
+  - $abs(NN) = infinity$, since there are _infinitely many_ natural numbers.
+  - $abs(RR) = infinity$, since there are _infinitely many_ real numbers.
+]
+
+== Cardinality of Sets
+
+#definition[
+  The _cardinality_ of a set $X$, denoted $abs(X)$, is a measure of its "size".
+  - For _finite_ sets, cardinality $abs(X)$ is the same as size, i.e., the number of elements in $X$.
+  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, e.g. _countable_ vs _uncountable_.
+]
+
+#examples[
+  - $abs(NN) = aleph_0$
+  - $abs(QQ) = aleph_0$
+  - $abs(RR) = 2^(aleph_0) = frak(c)$
+]
+
+#note[
+  $abs(X)$ is _not_ just a number, but a _cardinal number_.
+  - Cardinal numbers extend natural numbers to describe sizes of infinite sets.
+  - The _finite_ cardinal numbers are just natural numbers: $0, 1, 2, 3, dots$.
+  - The first (smallest) _infinite_ cardinal is $aleph_0$ (the cardinality of $NN$).
+  - _Arithmetic_ operations on cardinal numbers _differ_ from those on natural numbers.
+    - For example, $aleph_0 + 1 = aleph_0$ and $aleph_0 dot 2 = aleph_0$.
+]
+
+== Equinumerosity
+
+#definition[
+  Two sets $A$ and $B$ have the same _cardinality_ and called _equinumerous_, denoted #box[$abs(A) = abs(B)$] or $A equinumerous B$, iff there is a _bijection_ (one-to-one correspondence) from $A$ to $B$.
+]
+
+// TODO: proposition
+#theorem[
+  Equinumerosity is an equivalence relation.
+]
+
+#proof[
+  Let $A$, $B$, $C$ be sets.
+  - _Reflexivity:_
+    The identity map $id_A: A to A$, where $id_A (x) = x$, is a bijection, so $A equinumerous A$.
+  - _Symmetry:_
+    Suppose $A equinumerous B$, then there is a bijection $f: A to B$.
+    Since it is a bijection, its inverse $f^(-1)$ exists and is also a bijection.
+    Hence, $f^(-1): B to A$ is a bijection, so $B equinumerous A$.
+  - _Transitivity:_
+    Suppose that $A equinumerous B$ and $B equinumerous C$, i.e., there are bijections $f: A to B$ and $g: B to C$.
+    Then~the composition $g compose f: A to C$ is also a bijection.
+    So $A equinumerous C$.
+]
+
+// TODO: proposition
+// #theorem[
+//   If $A equinumerous B$, then $A$ is countable if and only if $B$ is.
+// ]
+
+== Countable Sets
+
+#definition[
+  A set called _countable_ if it is either finite or has the same cardinality as the set of natural numbers $NN$.
+  Alternatively, a set is countable if there is a _bijection_ from $NN$ to that set.
+
+  When an infinite set is _countable_, its cardinality is denoted $aleph_0$ (_"aleph-null"_ ).
+]
+
+#example[
+  $abs(NN_"odd" = {1, 3, 5, dots}) = aleph_0$, the set of _odd_ natural numbers is countable, since there is a bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$.
+]
+
+#example[
+  $abs({x in NN | x "is prime"}) = aleph_0$, the set of _prime_ numbers is countable.
+]
+
+#example[
+  $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable, since there is a bijection $f: NN to ZZ$ defined by $f(n)$:
+  #align(center, grid(
+    columns: (1fr, auto),
+    align: horizon,
+    $
+      f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")
+    $,
+    $
+      mat(
+        delim: "[",
+        column-gap: #1em,
+        row-gap: #0.5em,
+        f(0), f(1), f(2), f(3), f(4), f(5), f(6), dots;
+        ceil(0/2), -ceil(1/2), ceil(2/2), -ceil(3/2), ceil(4/2), -ceil(5/2), ceil(6/2), dots;
+        0, -1, 1, -2, 2, -3, 3, dots
+      )
+    $,
+  ))
+]
+
+// #example[
+//   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
+// ]
+
+== Countability Constructions
+
+#definition[
+  A set $X$ is _enumerable_ if there is a surjection $e: NN to X$ (equivalently a bijection with either $NN$ or an initial segment of $NN$ if $X$ finite).
+]
+
+#theorem[Zig-Zag Enumeration][
+  $NN^2$ is countable.
+]
+
+#proof[
+  List pairs by diagonals of constant sum: $pair(0, 0); pair(0, 1),pair(1, 0); pair(0, 2),pair(1, 1),pair(2, 0); dots$ giving a bijection with $NN$.
+]
+
+#theorem[
+  $QQ$ is countable.
+]
+
+#proof[
+  Enumerate positive reduced fractions $p "/" q$ ordered by $p+q$ and increasing $p$; skip non-reduced.
+  Interleave $0$ and negatives.
+  This yields _enumeration_, hence $QQ equinumerous NN$.
+]
+
+== Pairing Functions
+
+#definition[
+  A function $f: A times B to NN$ is an arithmetical _pairing function_ if it is injective.
+
+  We say that $f$ _encodes_ $A times B$, and that $f(a, b)$ is the _code_ of the pair $pair(a, b)$.
+]
+
+#place(right)[
+  #grid(
+    columns: 1,
+    align: right,
+    column-gutter: 1em,
+    row-gutter: 0.5em,
+    link("https://en.wikipedia.org/wiki/Georg_Cantor", box(
+      radius: 5pt,
+      clip: true,
+      stroke: 1pt + blue.darken(20%),
+      image("assets/Georg_Cantor.jpg", height: 3cm),
+    )),
+    [Georg Cantor],
+  )
+]
+
+#example[
+  The _Cantor pairing function_ $g: NN^2 to NN$ is defined as:
+  $
+    g(n, k) = frac((n+k+1)(n+k), 2) + n
+  $
+]
+
+== Uncountable Sets
+
+#definition[
+  A set is _uncountable_ if it is not countable.
+]
+
+In order to prove that a set $A$ is _uncountable_, we need to show that _no bijection $NN to A$ can exist_.
+
+The general strategy for showing that is to use _Cantor's diagonal argument_.
+Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural numbers), we construct a _new_ element of $A$ that _differs_ from each $x_i$, thus showing that the list cannot be complete, and hence no bijection can exist.
+
+#theorem[
+  $B^omega$ is uncountable.
+]
+
+#proof[
+  Recall that $BB^omega$ is the set of all _infinite sequences_ of elements from $BB = {0, 1}$. \
+  For example, $BB^omega$ contains sequences like $0000dots$, $010101dots$, $1110dots$, etc.
+
+  Suppose for contradiction that $BB^omega$ is countable.
+  Then we can _enumerate_ its elements as $x_1, x_2, dots$, where each $x_i$ is an infinite sequence of bits, so we can represent it as $x_i = (b_(i 1), b_(i 2), b_(i 3), dots)$, where $b_(i j) in BB$ is the $j$-th bit of the $i$-th sequence.
+
+  Now we construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), dots)$, where $overline(b)_(i i) = 1 - b_(i i)$, i.e., we flip the $i$-th bit of the $i$-th sequence.
+  This sequence _differs_ from each $x_i$ at least in the $i$-th position, so it cannot be equal to any $x_i$, so it is _not in_ the enumeration $x_1, x_2, dots$.
+
+  #grid(
+    columns: 5,
+    align: center,
+    inset: 5pt,
+    stroke: (x, y) => if x == 0 { (right: .8pt) } + if y == 0 { (bottom: .8pt) },
+    [], $1$, $2$, $3$, $dots$,
+    $x_1$, $bold(b_(1 1))$, $b_(1 2)$, $b_(1 3)$, $dots$,
+    $x_2$, $b_(2 1)$, $bold(b_(2 2))$, $b_(2 3)$, $dots$,
+    $x_3$, $b_(3 1)$, $b_(3 2)$, $bold(b_(3 3))$, $dots$,
+    $dots.v$, $dots.v$, $dots.v$, $dots.v$, $dots.down$,
+    $Delta$, $overline(b)_(1 1)$, $overline(b)_(2 2)$, $overline(b)_(3 3)$, $dots$,
+  )
+
+  Since $Delta$ is constructed from the bits, it is also an _element_ of $BB^omega$.
+  Thus, we have found an element of $BB^omega$ that is not in the enumeration $x_1, x_2, dots$, contradicting the assumption that $BB^omega$ is countable.
+]
+
+== Sets of Different Sizes
+
+#definition[
+  The cardinality of a set $A$ is _less than or the same_ as the cardinality of a set $B$, denoted $abs(A) <= abs(B)$ or $A smaller.eq B$, if there is an _injection_ (one-to-one function) from $A$ to $B$.
+  // Set $A$ is _no larger than_ $B$, denoted $A smaller.eq B$, iff there is an _injection_ from $A$ to $B$.
+]
+
+#definition[
+  Set $A$ is _smaller_ than $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, iff there is an _injection_, but _no~bijection_ from $A$ to $B$, i.e., $A smaller.eq B$ and $A equinumerous.not B$.
+]
+
+#note[
+  Using this notation, we can say that a set $X$ is _countable_ iff $X smaller.eq NN$, and _uncountable_ iff $NN smaller X$.
+]
+
+#example[
+  ${1, 2} smaller {a, b, c}$, since there is an injection $f: {1, 2} to {a, b, c}$ defined by $f(1) = a$ and $f(2) = b$, but no bijection exists.
+]
+
+#example[
+  $NN smaller.eq ZZ$, since there is bijection (and thus an injection) $f: NN to ZZ$.
+]
+
+#example[
+  $ZZ smaller.eq NN$, since there is bijection (and thus an injection) $f: ZZ to NN$.
+]
+
+#example[
+  $NN smaller power(NN)$, since there is an injection $f(x) = {x}$, but no bijection exists.
+]
+
+== Cantor's Theorem
+
+#theorem[Cantor][
+  $A smaller power(A)$, for any set $A$.
+]
+
+#proof[
+  The map $f(x) = {x}$ is an injection $f: A to power(A)$, since if $x != y$, then also ${x} != {y}$ by extensionality, and so $f(x) != f(y)$.
+  So we have that $A smaller.eq power(A)$.
+
+  It remains to show that $A equinumerous.not B$.
+  For reductio, suppose $A equinumerous B$, i.e., there is some bijection $g: A to B$.
+  Now~consider $D = {x in A | x notin g(x)}$.
+  Note that $D subset.eq A$, so $D in power(A)$.
+  Since $g$ is a bijection, there exists some $y in A$ such that $g(y) = D$.
+  But now we have
+  $
+    y in g(y) "iff" y in D "iff" y notin g(y)
+  $
+  This is a contradiction, since $y$ cannot be both _in_ and _not in_ $g(y)$.
+  Thus, $A equinumerous.not power(A)$.
+]
+
+== Schröder--Bernstein Theorem
+
+#theorem[Schröder--Bernstein][
+  If $A smaller.eq B$ and $B smaller.eq A$, then $A equinumerous B$.
+] <shroder-bernstein>
+
+In other words, if there are injections in both directions between two sets, then there is a bijection.
+
+#proof[
+  Obvious, but difficult. #emoji.person.shrug
+]
+
+== Another Cantor's Theorem
+
+Let $L$ be the unit line, i.e., the set of points $[0, 1]$.
+Let $S$ be the unit square, i.e., the set of points $L times L$.
+
+#columns(2)[
+  #theorem[
+    $L equinumerous S$.
+  ]
+
+  #colbreak()
+
+  #align(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+      line((0, 0), (1, 0), mark: (symbol: "|"))
+      content((.5, .5))[$L$]
+      translate((1.5, 0))
+      rect((0, 0), (1, 1), fill: luma(80%))
+      content((.5, .5))[$S$]
+    })
+  ]
+]
+
+#proof[#footnote[
+  See https://math.stackexchange.com/a/183383 for more detailed analysis.
+]][
+  Consider the function $f: L to S$ defined by $f(x) = (x, x)$.
+  This is an injection, since if #box[$f(a) = f(b)$], then $(a, a) = (b, b)$, so $a = b$.
+  Thus, $L smaller.eq S$.
+
+  Now consider the function $g: S to L$ that maps $(x, y)$ to the real number obtained by _interleaving_ the decimal expansions of $x$ and $y$.
+  #v(-.5em)
+  $
+    cases(
+      reverse: #true,
+      x & = 0.#Blue($x_1 x_2 x_3 dots$),
+      y & = 0.#Green($y_1 y_2 y_3 dots$),
+    )
+    #h(1em)
+    g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
+  $
+  #v(-.5em)
+  This is an injection, since if $g(a, b) = g(c, d)$, then $a_n = c_n$ and $b_n = d_n$ for all $n in NN$, so $(a, b) = (c, d)$.
+  Thus, $S smaller.eq L$.
+
+  By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
 ]
 
 
@@ -2874,718 +3066,6 @@ TODO
 // TODO: mention FO+TC = NL, FO+LFP = P, etc.
 
 
-= Functions
-#focus-slide(
-  epigraph: [A function is a machine which converts a certain class of inputs \ into a certain class of outputs.],
-  epigraph-author: "Norbert Wiener",
-  scholars: (
-    (
-      name: "Leonhard Euler",
-      image: image("assets/Leonhard_Euler.jpg"),
-    ),
-    (
-      name: "Augustin-Louis Cauchy",
-      image: image("assets/Augustin-Louis_Cauchy.jpg"),
-    ),
-    (
-      name: "Karl Weierstrass",
-      image: image("assets/Karl_Weierstrass.jpg"),
-    ),
-    (
-      name: "Joseph-Louis Lagrange",
-      image: image("assets/Joseph-Louis_Lagrange.jpg"),
-    ),
-    (
-      name: "George Pólya",
-      image: image("assets/George_Polya.jpg"),
-    ),
-    (
-      name: "Norbert Wiener",
-      image: image("assets/Norbert_Wiener.jpg"),
-    ),
-  ),
-)
-
-== Definition of a Function
-
-#definition[
-  A _function_ $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a special kind of relation $f subset.eq A times B$ where every element of $A$ is paired with _exactly one_ element of $B$.
-
-  This means two conditions must hold:
-  + _Functional (right-unique)_:
-    For every $a in A$, there is _at most one_ pair $pair(a, b)$ in $f$.
-    $
-      forall a in A. thin
-      forall b_1, b_2 in B. thin
-      (f(a) = b_1) and (f(a) = b_2) imply (b_1 = b_2)
-    $
-  + _Serial (left-total)_:
-    For every $a in A$, there is _at least one_ pair $pair(a, b)$ in $f$.
-    $
-      forall a in A. thin
-      exists b in B. thin
-      f(a) = b
-    $
-]
-
-#definition[
-  A relation that satisfies the _functional_ property is called a _partial function_.
-
-  A relation that satisfies _both_ properties is called a _total function_, or simply a _function_.
-]
-
-== Domain, Codomain, Range
-
-#definition[
-  For a function $f: A to B$:
-  - The set $A$ is called the _domain_ of $f$, denoted $Dom(f)$.
-  - The set $B$ is called the _codomain_ of $f$, denoted $Cod(f)$.
-  - The _range_ (or _image_) of $f$ is the set of all values that $f$ actually takes:
-    $
-      Range(f) = { b in B | exists a in A. thin f(a) = b } = { f(a) | a in A }
-    $
-
-    #note[
-      $Range(f) subset.eq Cod(f)$
-    ]
-]
-
-#example[
-  Let $A = {1, 2, 3}$ and $B = {x, y, z}$.
-  Let $f = {pair(1, x), pair(2, y), pair(3, x)}$.
-  - $f$ is a function from $A$ to $B$.
-  - $Dom(f) = A$
-  - $Cod(f) = B$
-  - $Range(f) = {x, y} subset.eq B$
-  We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
-
-  #place(top + right)[
-    #cetz.canvas({
-      import cetz.draw: *
-
-      scale(75%)
-
-      circle((0, 0), radius: (1, 2))
-      circle((3, 0), radius: (1, 2))
-
-      circle((0, 1), radius: 0.1, fill: white, name: "1")
-      circle((0, 0), radius: 0.1, fill: white, name: "2")
-      circle((0, -1), radius: 0.1, fill: white, name: "3")
-
-      circle((3, 1), radius: 0.1, fill: white, name: "x")
-      circle((3, 0), radius: 0.1, fill: white, name: "y")
-      circle((3, -1), radius: 0.1, fill: white, name: "z")
-
-      content("1", [$1$], anchor: "east", padding: 0.2)
-      content("2", [$2$], anchor: "east", padding: 0.2)
-      content("3", [$3$], anchor: "east", padding: 0.2)
-      content("x", [$x$], anchor: "west", padding: 0.2)
-      content("y", [$y$], anchor: "west", padding: 0.2)
-      content("z", [$z$], anchor: "west", padding: 0.2)
-
-      line("1", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-x")
-      line("2", "y", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "2-y")
-      line("3", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "3-x")
-    })
-  ]
-]
-
-#example[
-  Consider $g: ZZ to ZZ$ defined by $g(n) = n^2$.
-  - $Dom(g) = ZZ$.
-  - $Cod(g) = ZZ$.
-  - $Range(g) = {0, 1, 4, 9, dots}$ (the set of non-negative perfect squares).
-]
-
-== Injective Functions
-
-#definition[
-  A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[
-    Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!
-  ]) if distinct elements in the domain map to distinct elements in the codomain.
-  Formally:
-  $
-    forall a_1, a_2 in A. thin
-    (f(a_1) = f(a_2)) imply (a_1 = a_2)
-  $
-]
-
-#v(-.5em)
-#align(center)[
-  #import fletcher: diagram, edge, node
-  #diagram(
-    node-shape: fletcher.shapes.circle,
-    edge-stroke: 1pt,
-    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
-    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
-    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
-    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
-    edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
-    edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
-    render: (grid, nodes, edges, options) => {
-      import fletcher: cetz
-      cetz.canvas({
-        // Background:
-        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
-        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
-
-        // Main diagram:
-        fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
-
-        // Overlay:
-        let (x, y) = (1.5, -0.5)
-        let s = 1.8
-        cetz.draw.line(
-          (x - s / 2, y + s / 2),
-          (x + s / 2, y - s / 2),
-          stroke: (thickness: 2pt, paint: red, cap: "round"),
-        )
-        cetz.draw.line(
-          (x - s / 2, y - s / 2),
-          (x + s / 2, y + s / 2),
-          stroke: (thickness: 2pt, paint: red, cap: "round"),
-        )
-      })
-    },
-  )
-]
-
-#example[
-  $f: NN to NN$ defined by $f(n) = 2n$ is injective.
-  If $f(n_1) = f(n_2)$, then $2n_1 = 2n_2$, so $n_1 = n_2$.
-]
-
-#example[
-  $g: ZZ to ZZ$ defined by $g(n) = n^2$ is _not_ injective, because $g(-1) = 1$ and $g(1) = 1$, but $-1 != 1$.
-]
-
-== Surjective Functions
-
-#definition[
-  A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
-  Formally:
-  $
-    forall b in B. thin
-    exists a in A. thin
-    f(a) = b
-  $
-
-  For surjective functions, $Range(f) = Cod(f)$, i.e., there are _no "uncovered"_ elements in the right side.
-]
-
-#v(-.5em)
-#align(center)[
-  #import fletcher: diagram, edge, node
-  #diagram(
-    node-shape: fletcher.shapes.circle,
-    edge-stroke: 1pt,
-    node((0cm, 0cm), $1$, fill: green.lighten(80%), stroke: green.darken(20%), name: <A>),
-    node((0cm, -1.5cm), $2$, fill: green.lighten(80%), stroke: green.darken(20%), name: <B>),
-    node((3cm, 0cm), $x$, fill: red.lighten(80%), stroke: red.darken(20%), name: <X>),
-    node((3cm, -1.5cm), $y$, fill: red.lighten(80%), stroke: red.darken(20%), name: <Y>),
-    edge(<A>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
-    edge(<B>, <X>, "-}>", label-side: center, label-angle: auto)[$f$],
-    render: (grid, nodes, edges, options) => {
-      import fletcher: cetz
-      cetz.canvas({
-        // Background:
-        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
-        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
-
-        // Main diagram:
-        fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
-
-        // Overlay:
-        let (x, y) = (3, -1.5)
-        let s = 1
-        cetz.draw.line(
-          (x - s / 2, y + s / 2),
-          (x + s / 2, y - s / 2),
-          stroke: (thickness: 2pt, paint: red, cap: "round"),
-        )
-        cetz.draw.line(
-          (x - s / 2, y - s / 2),
-          (x + s / 2, y + s / 2),
-          stroke: (thickness: 2pt, paint: red, cap: "round"),
-        )
-      })
-    },
-  )
-]
-
-#example[
-  $f: RR to RR$ defined by $f(x) = x^3$ is surjective. For any $y in RR$, $x = root(3, y)$ is such that $f(x)=y$.
-]
-
-#example[
-  $g: NN to NN$ defined by $g(n) = 2n$ is _not_ surjective, because odd numbers in $NN$ (the codomain) are not in the range of $g$. For example, there is no $n in NN$ such that $2n = 3$.
-]
-
-== Bijective Functions
-
-#definition[
-  A function $f: A to B$ is _bijective_ if it is both injective and surjective.
-  A bijective function establishes a _one-to-one correspondence_ between the elements of $A$ and $B$.
-]
-
-#example[
-  $f: RR to RR$ defined by $f(x) = 2x + 1$ is bijective.
-  - Injective: If $2x_1+1 = 2x_2+1$, then $2x_1 = 2x_2$, so $x_1=x_2$.
-  - Surjective: For any $y in RR$, let $x = (y-1) / 2$. Then $f(x) = 2((y-1) / 2) + 1 = y-1+1 = y$.
-]
-#example[
-  The identity function $id_A: A to A$ defined by $id_A (x) = x$ for all $x in A$ is bijective.
-]
-
-== Function Composition
-
-#definition[
-  Let $f: A to B$ and $g: B to C$ be two functions.
-  The _composition_ of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
-  $
-    (g compose f)(a) = g(f(a))
-  $
-  // for all $a in A$.
-]
-
-#example[
-  Let $f: RR to RR$ be $f(x) = x^2$ and $g: RR to RR$ be $g(x) = x+1$.
-  - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$.
-  - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$.
-]
-
-// TODO: functional powers
-// (if Y subset.eq X, then f:X->Y can be composed with itself)
-
-== Properties of Function Composition
-
-- _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
-
-- The _identity_ function acts as a _neutral_ element for composition:
-  - $id_B compose f = f$ for any function $f: A to B$.
-  - $f compose id_A = f$ for any function $f: A to B$.
-
-- Composition _preserves_ the properties of functions:
-  - If $f$ and $g$ are injective, so is $g compose f$.
-  - If $f$ and $g$ are surjective, so is $g compose f$.
-  - If $f$ and $g$ are bijective, so is $g compose f$.
-
-- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
-
-== Inverse Functions
-
-#definition[
-  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
-  $
-    f^(-1)(b) = a quad "iff" quad f(a) = b
-  $
-]
-
-#note[
-  A function has an inverse _if and only if_ it is bijective.
-]
-
-#example[
-  Let $f: RR to RR$ be $f(x) = 2x + 1$.
-  We found it's bijective.
-  To find $f^(-1)(y)$, let $y = 2x+1$.
-  Solving for $x$, we get $x = (y-1) / 2$.
-  So, $f^(-1)(y) = (y-1) / 2$.
-]
-
-#theorem[
-  If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
-  - $f^(-1)$ is also bijective.
-  - $(f^(-1) compose f)(a) = a$ for all $a in A$ (i.e., $f^(-1) compose f = id_A$).
-  - $(f compose f^(-1))(b) = b$ for all $b in B$ (i.e., $f compose f^(-1) = id_B$).
-  - If $f: A to B$ and $g: B to C$ are both bijective, then $(g compose f)^(-1) = f^(-1) compose g^(-1)$.
-]
-
-== Image and Preimage of Sets
-
-#definition[
-  Let $f: A to B$ be a function and let $S subset.eq A$.
-  The _image of $S$ under $f$_ is the set:
-  $ f(S) = { f(s) | s in S } $
-  Note that $f(S) subset.eq B$.
-  The range of $f$ is $f(A)$.
-]
-
-#definition[
-  Let $f: A to B$ be a function and let $T subset.eq B$.
-  The _preimage of $T$ under $f$_ (or _inverse image of $T$_) is the set of all elements in the domain that map into $T$:
-  $ f^(-1)(T) = { a in A | f(a) in T } $
-]
-
-#note[
-  The notation $f^(-1)(T)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
-  It always refers to the set of domain elements that map into $T$.
-]
-
-#pagebreak()
-
-#example[
-  Let $f: ZZ -> ZZ$ be $f(x) = x^2$.
-  - Let $S = {-2, -1, 0, 1, 2}$. Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
-  - Let $T_1 = {1, 9}$. The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
-  - Let $T_2 = {2, 3}$. The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
-]
-
-= Cardinality & Infinity
-#focus-slide(
-  epigraph: [God made the integers, all else is the work of man.],
-  epigraph-author: "Leopold Kronecker",
-  scholars: (
-    (
-      name: "Giuseppe Peano",
-      image: image("assets/Giuseppe_Peano.jpg"),
-    ),
-    (
-      name: "Leopold Kronecker",
-      image: image("assets/Leopold_Kronecker.jpg"),
-    ),
-    (
-      name: "David Hilbert",
-      image: image("assets/David_Hilbert.jpg"),
-    ),
-    (
-      name: "Kurt Gödel",
-      image: image("assets/Kurt_Godel.jpg"),
-    ),
-    (
-      name: "John von Neumann",
-      image: image("assets/John_von_Neumann.jpg"),
-    ),
-    (
-      name: "Paul Cohen",
-      image: image("assets/Paul_Cohen.jpg"),
-    ),
-  ),
-)
-
-== Size of Sets
-
-#definition[
-  The _size_ of a _finite_ set $X$, denoted $abs(X)$, is the number of elements it contains.
-]
-
-#examples[
-  - Let $A = {#emoji.planet, #emoji.dino, #emoji.violin}$, then $abs(A) = 3$, since $A$ contains _exactly 3_ elements.
-  - Let $B = {#emoji.kiwi, #emoji.kiwi, #emoji.kiwi}$, then $abs(B) = 1$, since $B$ contains _only one unique_ element (the kiwi).
-  - $abs(power({1,2,#emoji.cat})) = 2^3 = 8$, since the power set consists of _all 8 possible subsets_ of ${1, 2, #emoji.cat}$.
-  - $abs(emptyset) = 0$, since the _empty_ set contains _no elements_.
-  - $abs(NN) = infinity$, since there are _infinitely many_ natural numbers.
-  - $abs(RR) = infinity$, since there are _infinitely many_ real numbers.
-]
-
-== Cardinality of Sets
-
-#definition[
-  The _cardinality_ of a set $X$, denoted $abs(X)$, is a measure of its "size".
-  - For _finite_ sets, cardinality $abs(X)$ is the same as size, i.e., the number of elements in $X$.
-  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, e.g. _countable_ vs _uncountable_.
-]
-
-#examples[
-  - $abs(NN) = aleph_0$
-  - $abs(QQ) = aleph_0$
-  - $abs(RR) = 2^(aleph_0) = frak(c)$
-]
-
-#note[
-  $abs(X)$ is _not_ just a number, but a _cardinal number_.
-  - Cardinal numbers extend natural numbers to describe sizes of infinite sets.
-  - The _finite_ cardinal numbers are just natural numbers: $0, 1, 2, 3, dots$.
-  - The first (smallest) _infinite_ cardinal is $aleph_0$ (the cardinality of $NN$).
-  - _Arithmetic_ operations on cardinal numbers _differ_ from those on natural numbers.
-    - For example, $aleph_0 + 1 = aleph_0$ and $aleph_0 dot 2 = aleph_0$.
-]
-
-== Equinumerosity
-
-#definition[
-  Two sets $A$ and $B$ have the same _cardinality_ and called _equinumerous_, denoted #box[$abs(A) = abs(B)$] or $A equinumerous B$, iff there is a _bijection_ (one-to-one correspondence) from $A$ to $B$.
-]
-
-// TODO: proposition
-#theorem[
-  Equinumerosity is an equivalence relation.
-]
-
-#proof[
-  Let $A$, $B$, $C$ be sets.
-  - _Reflexivity:_
-    The identity map $id_A: A to A$, where $id_A (x) = x$, is a bijection, so $A equinumerous A$.
-  - _Symmetry:_
-    Suppose $A equinumerous B$, then there is a bijection $f: A to B$.
-    Since it is a bijection, its inverse $f^(-1)$ exists and is also a bijection.
-    Hence, $f^(-1): B to A$ is a bijection, so $B equinumerous A$.
-  - _Transitivity:_
-    Suppose that $A equinumerous B$ and $B equinumerous C$, i.e., there are bijections $f: A to B$ and $g: B to C$.
-    Then~the composition $g compose f: A to C$ is also a bijection.
-    So $A equinumerous C$.
-]
-
-// TODO: proposition
-// #theorem[
-//   If $A equinumerous B$, then $A$ is countable if and only if $B$ is.
-// ]
-
-== Countable Sets
-
-#definition[
-  A set called _countable_ if it is either finite or has the same cardinality as the set of natural numbers $NN$.
-  Alternatively, a set is countable if there is a _bijection_ from $NN$ to that set.
-
-  When an infinite set is _countable_, its cardinality is denoted $aleph_0$ (_"aleph-null"_ ).
-]
-
-#example[
-  $abs(NN_"odd" = {1, 3, 5, dots}) = aleph_0$, the set of _odd_ natural numbers is countable, since there is a bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$.
-]
-
-#example[
-  $abs({x in NN | x "is prime"}) = aleph_0$, the set of _prime_ numbers is countable.
-]
-
-#example[
-  $abs(ZZ) = aleph_0$, the set of _integers_ ($-infinity, dots, -2, -1, 0, 1, 2, dots, infinity$) is countable, since there is a bijection $f: NN to ZZ$ defined by $f(n)$:
-  #align(center, grid(
-    columns: (1fr, auto),
-    align: horizon,
-    $
-      f(n) = (-1)^n ceil(n / 2) = cases(n/2 & "if" n "is even", -(n+1)/2 & "if" n "is odd")
-    $,
-    $
-      mat(
-        delim: "[",
-        column-gap: #1em,
-        row-gap: #0.5em,
-        f(0), f(1), f(2), f(3), f(4), f(5), f(6), dots;
-        ceil(0/2), -ceil(1/2), ceil(2/2), -ceil(3/2), ceil(4/2), -ceil(5/2), ceil(6/2), dots;
-        0, -1, 1, -2, 2, -3, 3, dots
-      )
-    $,
-  ))
-]
-
-// #example[
-//   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
-// ]
-
-== Countability Constructions
-
-#definition[
-  A set $X$ is _enumerable_ if there is a surjection $e: NN to X$ (equivalently a bijection with either $NN$ or an initial segment of $NN$ if $X$ finite).
-]
-
-#theorem[Zig-Zag Enumeration][
-  $NN^2$ is countable.
-]
-
-#proof[
-  List pairs by diagonals of constant sum: $pair(0, 0); pair(0, 1),pair(1, 0); pair(0, 2),pair(1, 1),pair(2, 0); dots$ giving a bijection with $NN$.
-]
-
-#theorem[
-  $QQ$ is countable.
-]
-
-#proof[
-  Enumerate positive reduced fractions $p "/" q$ ordered by $p+q$ and increasing $p$; skip non-reduced.
-  Interleave $0$ and negatives.
-  This yields _enumeration_, hence $QQ equinumerous NN$.
-]
-
-== Pairing Functions
-
-#definition[
-  A function $f: A times B to NN$ is an arithmetical _pairing function_ if it is injective.
-
-  We say that $f$ _encodes_ $A times B$, and that $f(a, b)$ is the _code_ of the pair $pair(a, b)$.
-]
-
-#place(right)[
-  #grid(
-    columns: 1,
-    align: right,
-    column-gutter: 1em,
-    row-gutter: 0.5em,
-    link("https://en.wikipedia.org/wiki/Georg_Cantor", box(
-      radius: 5pt,
-      clip: true,
-      stroke: 1pt + blue.darken(20%),
-      image("assets/Georg_Cantor.jpg", height: 3cm),
-    )),
-    [Georg Cantor],
-  )
-]
-
-#example[
-  The _Cantor pairing function_ $g: NN^2 to NN$ is defined as:
-  $
-    g(n, k) = frac((n+k+1)(n+k), 2) + n
-  $
-]
-
-== Uncountable Sets
-
-#definition[
-  A set is _uncountable_ if it is not countable.
-]
-
-In order to prove that a set $A$ is _uncountable_, we need to show that _no bijection $NN to A$ can exist_.
-
-The general strategy for showing that is to use _Cantor's diagonal argument_.
-Given a list of elements of $A$, say $x_1, x_2, dots$ (enumerated by natural numbers), we construct a _new_ element of $A$ that _differs_ from each $x_i$, thus showing that the list cannot be complete, and hence no bijection can exist.
-
-#theorem[
-  $B^omega$ is uncountable.
-]
-
-#proof[
-  Recall that $BB^omega$ is the set of all _infinite sequences_ of elements from $BB = {0, 1}$. \
-  For example, $BB^omega$ contains sequences like $0000dots$, $010101dots$, $1110dots$, etc.
-
-  Suppose for contradiction that $BB^omega$ is countable.
-  Then we can _enumerate_ its elements as $x_1, x_2, dots$, where each $x_i$ is an infinite sequence of bits, so we can represent it as $x_i = (b_(i 1), b_(i 2), b_(i 3), dots)$, where $b_(i j) in BB$ is the $j$-th bit of the $i$-th sequence.
-
-  Now we construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), dots)$, where $overline(b)_(i i) = 1 - b_(i i)$, i.e., we flip the $i$-th bit of the $i$-th sequence.
-  This sequence _differs_ from each $x_i$ at least in the $i$-th position, so it cannot be equal to any $x_i$, so it is _not in_ the enumeration $x_1, x_2, dots$.
-
-  #grid(
-    columns: 5,
-    align: center,
-    inset: 5pt,
-    stroke: (x, y) => if x == 0 { (right: .8pt) } + if y == 0 { (bottom: .8pt) },
-    [], $1$, $2$, $3$, $dots$,
-    $x_1$, $bold(b_(1 1))$, $b_(1 2)$, $b_(1 3)$, $dots$,
-    $x_2$, $b_(2 1)$, $bold(b_(2 2))$, $b_(2 3)$, $dots$,
-    $x_3$, $b_(3 1)$, $b_(3 2)$, $bold(b_(3 3))$, $dots$,
-    $dots.v$, $dots.v$, $dots.v$, $dots.v$, $dots.down$,
-    $Delta$, $overline(b)_(1 1)$, $overline(b)_(2 2)$, $overline(b)_(3 3)$, $dots$,
-  )
-
-  Since $Delta$ is constructed from the bits, it is also an _element_ of $BB^omega$.
-  Thus, we have found an element of $BB^omega$ that is not in the enumeration $x_1, x_2, dots$, contradicting the assumption that $BB^omega$ is countable.
-]
-
-== Sets of Different Sizes
-
-#definition[
-  The cardinality of a set $A$ is _less than or the same_ as the cardinality of a set $B$, denoted $abs(A) <= abs(B)$ or $A smaller.eq B$, if there is an _injection_ (one-to-one function) from $A$ to $B$.
-  // Set $A$ is _no larger than_ $B$, denoted $A smaller.eq B$, iff there is an _injection_ from $A$ to $B$.
-]
-
-#definition[
-  Set $A$ is _smaller_ than $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, iff there is an _injection_, but _no~bijection_ from $A$ to $B$, i.e., $A smaller.eq B$ and $A equinumerous.not B$.
-]
-
-#note[
-  Using this notation, we can say that a set $X$ is _countable_ iff $X smaller.eq NN$, and _uncountable_ iff $NN smaller X$.
-]
-
-#example[
-  ${1, 2} smaller {a, b, c}$, since there is an injection $f: {1, 2} to {a, b, c}$ defined by $f(1) = a$ and $f(2) = b$, but no bijection exists.
-]
-
-#example[
-  $NN smaller.eq ZZ$, since there is bijection (and thus an injection) $f: NN to ZZ$.
-]
-
-#example[
-  $ZZ smaller.eq NN$, since there is bijection (and thus an injection) $f: ZZ to NN$.
-]
-
-#example[
-  $NN smaller power(NN)$, since there is an injection $f(x) = {x}$, but no bijection exists.
-]
-
-== Cantor's Theorem
-
-#theorem[Cantor][
-  $A smaller power(A)$, for any set $A$.
-]
-
-#proof[
-  The map $f(x) = {x}$ is an injection $f: A to power(A)$, since if $x != y$, then also ${x} != {y}$ by extensionality, and so $f(x) != f(y)$.
-  So we have that $A smaller.eq power(A)$.
-
-  It remains to show that $A equinumerous.not B$.
-  For reductio, suppose $A equinumerous B$, i.e., there is some bijection $g: A to B$.
-  Now~consider $D = {x in A | x notin g(x)}$.
-  Note that $D subset.eq A$, so $D in power(A)$.
-  Since $g$ is a bijection, there exists some $y in A$ such that $g(y) = D$.
-  But now we have
-  $
-    y in g(y) "iff" y in D "iff" y notin g(y)
-  $
-  This is a contradiction, since $y$ cannot be both _in_ and _not in_ $g(y)$.
-  Thus, $A equinumerous.not power(A)$.
-]
-
-== Schröder--Bernstein Theorem
-
-#theorem[Schröder--Bernstein][
-  If $A smaller.eq B$ and $B smaller.eq A$, then $A equinumerous B$.
-] <shroder-bernstein>
-
-In other words, if there are injections in both directions between two sets, then there is a bijection.
-
-#proof[
-  Obvious, but difficult. #emoji.person.shrug
-]
-
-== Another Cantor's Theorem
-
-Let $L$ be the unit line, i.e., the set of points $[0, 1]$.
-Let $S$ be the unit square, i.e., the set of points $L times L$.
-
-#columns(2)[
-  #theorem[
-    $L equinumerous S$.
-  ]
-
-  #colbreak()
-
-  #align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-      line((0, 0), (1, 0), mark: (symbol: "|"))
-      content((.5, .5))[$L$]
-      translate((1.5, 0))
-      rect((0, 0), (1, 1), fill: luma(80%))
-      content((.5, .5))[$S$]
-    })
-  ]
-]
-
-#proof[#footnote[
-  See https://math.stackexchange.com/a/183383 for more detailed analysis.
-]][
-  Consider the function $f: L to S$ defined by $f(x) = (x, x)$.
-  This is an injection, since if #box[$f(a) = f(b)$], then $(a, a) = (b, b)$, so $a = b$.
-  Thus, $L smaller.eq S$.
-
-  Now consider the function $g: S to L$ that maps $(x, y)$ to the real number obtained by _interleaving_ the decimal expansions of $x$ and $y$.
-  #v(-.5em)
-  $
-    cases(
-      reverse: #true,
-      x & = 0.#Blue($x_1 x_2 x_3 dots$),
-      y & = 0.#Green($y_1 y_2 y_3 dots$),
-    )
-    #h(1em)
-    g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
-  $
-  #v(-.5em)
-  This is an injection, since if $g(a, b) = g(c, d)$, then $a_n = c_n$ and $b_n = d_n$ for all $n in NN$, so $(a, b) = (c, d)$.
-  Thus, $S smaller.eq L$.
-
-  By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
-]
-
-
 = Lattices
 #focus-slide(
   epigraph: [Order is the shape upon which beauty depends.],
@@ -3614,6 +3094,87 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   ),
 )
 
+== Upper and Lower Bounds
+
+// Upper bound
+#definition[
+  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+]
+
+// Lower bound
+#definition[
+  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
+]
+
+#example[
+  In $pair(RR, <=)$ for interval $C = (0;1)$:
+  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
+  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
+  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
+]
+
+== Examples of Bounds
+
+#example[
+  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
+  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
+  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
+  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
+  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
+]
+
+#example[
+  In divisibility poset for $C = {4,6}$:
+  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
+  - *Lower bounds:* common divisors, i.e., ${1, 2}$
+  - *Least upper bound:* $12 = "lcm"(4,6)$
+  - *Greatest lower bound:* $2 = "gcd"(4,6)$
+]
+
+== Suprema and Infima
+
+// Supremum
+#definition[
+  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
+
+  #note[
+    If it exists, the least upper bound is _unique_.
+  ]
+]
+
+// Infimum
+#definition[
+  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
+
+  #note[
+    If it exists, the greatest lower bound is _unique_.
+  ]
+]
+
+#example[
+  $pair(RR, <=)$:
+  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
+  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
+]
+
+== Examples of Suprema and Infima
+
+#example[
+  $pair(power(A), subset.eq)$:
+  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
+  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
+  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
+  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
+]
+
+#example[
+  Divisibility on $NN^+$:
+  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
+  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
+  - $sup {6, 10} = 30$
+  - $inf {6, 10} = 2$
+]
+
 == Lattices
 
 // Upper semilattice
@@ -3630,6 +3191,31 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 #definition[
   A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
 ]
+
+// == Examples of Lattices
+//
+// #example[Type Systems and Subtyping][
+//   Types form a lattice under the subtyping relation $subset.eq$:
+//   - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
+//   - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
+//   - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
+//   - $sup{#`number`, #`string`} = #`number | string`$ (union types)
+// ]
+//
+// #example[Access Control and Security Lattices][
+//   Permissions form a lattice under the "includes" relation:
+//   - $sup{"read", "write"} = "read-write"$ (union of capabilities)
+//   - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
+//   - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
+//   - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
+// ]
+//
+// #example[Program Analysis and Abstract Interpretation][
+//   Abstract values form lattices for static analysis:
+//   - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
+//   - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
+//   - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
+// ]
 
 == Why Lattices?
 
@@ -3919,6 +3505,408 @@ TODO
   - Database query languages (SQL WHERE clauses)
   - Search engines (Boolean search)
 ]
+
+
+= Well Orders
+#focus-slide()
+
+== Well-Ordered Sets
+
+#definition[
+  A poset $(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
+]
+
+#note[
+  A well-ordered set is automatically a _total order_ (linear order) since comparability follows from the well-ordering property.
+]
+
+#example[
+  The natural numbers $NN = {0, 1, 2, 3, dots}$ with the usual order $leq$ form a well-ordered set:
+  - Any non-empty subset has a smallest element.
+  - For instance, the subset ${5, 17, 23, 100}$ has least element $5$.
+  - Even infinite subsets like ${2, 4, 6, 8, dots}$ (even numbers) have a least element ($2$).
+]
+
+#example[
+  The integers $ZZ$ with the usual order are _not_ well-ordered:
+  - The subset ${-1, -2, -3, dots}$ (negative integers) has no least element.
+  - Any infinite descending sequence has no minimum.
+]
+
+== Examples of Well-Ordered Sets
+
+// TODO: check/refine
+#example[
+  _Lexicographic order_ on finite strings over an alphabet is well-ordered:
+  - Given any non-empty set of strings, there is always a lexicographically smallest one.
+  - For example, in ${"cat", "dog", "apple", "zebra"}$, the least element is "$"apple"$".
+
+  // TODO: add another example with set of "all" finite strings: {b, ab, aab, aaab, ...} has no least element
+
+  // TODO: fix this incorrect (or unclear) example...
+  // For infinite $omega$-strings, lexicographic order is _not_ well-ordered:
+  // - The set of all infinite binary strings has no least element.
+  // - For example, the subset of strings starting with "1" has no least element.
+]
+
+// TODO: add more lex orders (e.g. shortlex)
+
+// TODO: add more examples of well-ordered sets
+
+== Well-Ordered Induction
+
+TODO
+
+== Well-Founded Relations
+
+#definition[
+  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
+]
+
+// TODO: add example with (NN, leq)
+
+#note[
+  _Well-founded_ $!=$ _well-ordered_:
+  - Well-ordered requires a _least_ element (unique minimum)
+  - Well-founded only requires _minimal_ elements (no element below them)
+  - Every well-ordered set is well-founded, but not vice versa
+]
+
+== Examples of Well-Founded Relations
+
+#example[
+  Consider the _proper subset_ relation $subset$ on finite sets.
+  Let $M = {emptyset, {a}, {b}, {a,b}}$.
+  // with $A subset B$ meaning "$A$ is a proper subset of $B$", i.e. $A subset.eq B$, but $A != B$.
+
+  *Well-founded:* #YES Every subset of $M$ has minimal elements.
+  - _Example:_ The subset ${{a}, {b}, {a,b}}$ has minimal elements ${a}$ and ${b}$
+    - Neither ${a} subset {b}$ nor ${b} subset {a}$ (they're incomparable)
+    - Both are minimal since no set in the subset is a proper subset of them
+
+  *Well-ordered:* #NO Some subsets lack a unique least element.
+  - _Same example:_ ${{a}, {b}, {a,b}}$ has no "$subset$-least" element
+    - For "$subset$-least", we'd need a set $L$ such that $L subset X$ for all other $X$
+    - But ${a} subset.not {b}$ and ${b} subset.not {a}$, so neither can be least
+    - No single set is a proper subset of all others in this collection
+
+  #Block(color: yellow)[
+    *Key insight:* Well-founded $!=$ well-ordered:
+    - _Multiple minimal_ elements are allowed in well-founded relations.
+    - Well-ordered relations require a _unique_ least element in every subset.
+  ]
+]
+
+// #pagebreak()
+//
+// TODO: fix this BROKEN example
+//
+// #example[Comparing $(NN, leq)$ vs $(NN, >=)$][
+//   Same set, different relations show how direction affects properties:
+
+//   *$(NN, leq)$ --- standard "less than or equal":*
+//   - *Well-ordered:* #YES Every subset has a least (smallest) element.
+//   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
+//   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
+
+//   *$(NN, >=)$ --- "greater than or equal":*
+//   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
+//     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
+//     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
+//   - *Well-founded:* #NO Has infinite descending chains like $10 >= 9 >= 8 >= dots$
+
+//   #Block(color: yellow)[
+//     *Key insight:* The same mathematical structure can be well-ordered under one relation but not under its "reverse"!
+//   ]
+// ]
+
+#pagebreak()
+
+#example[
+  The _divisibility_ relation $(NN^+, |)$ is well-founded:
+  - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
+  - For example, in ${6, 12, 18, 4, 8}$:
+    - $4$ is minimal because no other number in the set divides $4$
+    - $6$ is minimal because no other number in the set divides $6$
+    - Note: $6$ divides both $12$ and $18$, but that doesn't affect minimality
+  - In ${2, 4, 8, 16}$: only $2$ is minimal (it divides all others, but nothing else divides it)
+]
+
+#pagebreak()
+
+#example[
+  Consider the relation _"properly contains"_ ($supset$) on finite sets.
+
+  Let $S = {{1}, {2}, {1,2}, {1,2,3}}$.
+
+  *Well-founded:* #YES Every subset has minimal elements.
+  - The subset ${{1}, {2}, {1,2,3}}$ has minimal elements ${1}$ and ${2}$
+    - Neither ${1} supset {2}$ nor ${2} supset {1}$ (they're incomparable)
+    - ${1,2,3} supset {1}$ and ${1,2,3} supset {2}$, but they remain minimal in this subset
+  - Any collection always has sets that contain no others in that collection
+]
+
+#pagebreak()
+
+#example[
+  _Program termination analysis_ uses well-founded relations:
+  - Define a measure that decreases with each recursive call
+  - If the measure forms a well-founded order, the program terminates
+  - Example: factorial function decreases argument from $n$ to $n-1$
+]
+// TODO: add Dafny example
+
+== Well-Founded Induction
+
+TODO
+
+== Induced Strict Order
+
+#definition[
+  Given a partial order $leq$, the _induced strict order_ $lt$ is defined as:
+  $
+    x lt y "iff" (x leq y "and" x != y)
+  $
+]
+
+#note[
+  Given a poset $(S, leq)$, we can use $lt$ to denote its associated strict order.
+]
+
+#note[
+  $gt$ is the converse of $lt$, so we can write $b > a$ instead of $a < b$.
+]
+
+#note[
+  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $(S, leq)$.
+]
+
+== Descending Chain Condition
+
+#definition[
+  A poset $pair(S, leq)$ is said to satisfy the _descending chain condition (DCC)_ if no strict descending sequence $x_1 > x_2 > x_3 > dots$ of elements of $S$ exists.
+
+  Equivalently, every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually stabilizes.
+
+  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
+]
+
+#note[
+  The term "_sequence_" does not mean we must list all elements consequently or uniquely.
+  It simply means we have a function from $NN$ to $S$.
+  Elements can repeat, and we can skip elements in $S$.
+  However, when we say "_descending sequence_," we mean that each new element is less than the previous one.
+]
+
+#example[
+  The natural numbers $(NN, leq)$ satisfy DCC:
+  - Since natural numbers are bounded below by $0$, infinite descent is impossible.
+  - Any (weakly) descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize.
+  - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
+]
+
+== Well-Founded Posets
+
+#definition[
+  A poset $(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
+
+  In other words, every non-empty subset of $S$ has $lt$-minimal elements.
+]
+
+// #note[
+//   A relation $R$ is called _Artinian_ if it is well-founded (equivalently, satisfies DCC when $R$ is a partial order).
+//   This is the "dual" concept to Noetherian relations.
+// ]
+
+== DCC and Well-Foundedness
+
+#theorem[
+  For any poset $(S, leq)$, the following are _equivalent_:
+  + $(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
+  + $(S, leq)$ satisfies _DCC_ (no infinite descending chains)
+]
+
+#note[
+  Here, we again use "$lt$" (and its converse "$gt$") to denote the strict order induced by "$leq$".
+]
+
+#proof[($==>$)][
+  *Well-founded implies DCC*
+
+  Suppose $(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
+  Consider the set $T = {x_0, x_1, x_2, dots}$.
+  Since $(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
+  But then $x_k > x_(k+1)$, contradicting the minimality of $x_k$.
+]
+
+#proof[($<==$)][
+  *DCC implies well-founded*
+
+  Suppose $(S, leq)$ satisfies DCC.
+  Let $T subset.eq S$ be any non-empty subset.
+  If $T$ had no minimal elements, then for any $x_0 in T$, there would exist $x_1 in T$ with $x_0 > x_1$.
+  Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
+]
+
+== Ascending Chain Condition
+
+#definition[
+  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if no strict ascending sequence $x_1 < x_2 < x_3 < dots$ of elements of $S$ exists.
+
+  Equivalently, every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually stabilizes.
+]
+
+#example[
+  $pair(NN, leq)$ does _not_ satisfy ACC since infinite ascending chains like $2 < 3 < 5 < 7 < dots$ exist.
+]
+
+#example[
+  Consider the poset $(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
+  - *ACC fails:* #NO \
+    The ascending chain $emptyset subset.eq {1} subset.eq {1,2} subset.eq {1,2,3} subset.eq dots$ never stabilizes.
+  - *DCC fails:* #NO \
+    The descending chain $NN supset.eq (NN without {1}) supset.eq (NN without {1,2}) supset.eq dots$ never stabilizes.
+]
+
+== Noetherian Relations
+
+#definition[
+  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if the converse relation $R^(-1)$ is well-founded.
+
+  Equivalently, $R subset.eq M^2$ is Noetherian if every non-empty subset of $M$ has $R$-maximal elements.
+]
+
+#note[
+  This means no infinite ascending chains $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$ exist.
+]
+
+#example[
+  The usual order $leq$ on $NN$ is NOT Noetherian:
+  - We can construct infinite ascending chains like $1 < 2 < 3 < 4 < dots$
+  - However, its converse $geq$ would be well-founded (DCC holds for $leq$)
+]
+
+#pagebreak()
+
+#example[
+  In ring theory, a _Noetherian ring_ has the property that every ascending chain of ideals stabilizes:
+  $I_1 subset.eq I_2 subset.eq I_3 subset.eq dots$ eventually becomes constant.
+]
+
+#example[
+  In rewriting systems and lambda calculus:
+  - A _reduction relation_ $to$ is Noetherian if all reduction sequences terminate
+  - For example, $beta$-reduction in simply typed lambda calculus is Noetherian
+  - This guarantees that programs always terminate (no infinite loops)
+]
+
+== Noetherian Relations and ACC
+
+#theorem[
+  For any poset $pair(S, leq)$, the following are equivalent:
+  - $pair(S, leq)$ is Noetherian (coverse well-founded)
+  - $pair(S, leq)$ satisfies ACC (no infinite ascending chains)
+]
+
+#proof[
+  By definition, $(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
+  By the earlier theorem, this is equivalent to $geq$ satisfying DCC, which is exactly the same as $leq$ satisfying ACC.
+]
+
+== Relationships Between Chain Conditions
+
+#theorem[
+  For a poset $(S, leq)$:
+  - *DCC* $iff$ the relation $leq$ is well-founded $iff$ no infinite descending chains.
+  - *ACC* $iff$ the _dual_ relation $geq$ is well-founded $iff$ no infinite ascending chains.
+]
+
+#proof[
+  The first equivalence (DCC $iff$ well-founded) was proved earlier.
+  The second equivalence for ACC follows by applying the same reasoning to the dual relation $geq$.
+]
+
+== Examples of ACC and DCC
+
+#example[
+  Consider the poset $pair(power({1,2,3}), subset.eq)$ of subsets ordered by inclusion:
+  - *ACC holds:* #YES
+    Any ascending chain $A_1 subset.eq A_2 subset.eq A_3 subset.eq dots$ must stabilize since we can't keep adding elements indefinitely.
+  - *DCC holds:* #YES
+    Any descending chain $B_1 supset.eq B_2 supset.eq B_3 supset.eq dots$ must stabilize since we can't keep removing elements indefinitely.
+  - Both conditions hold because the set is finite.
+]
+
+#example[
+  In the natural numbers $(NN, leq)$:
+  - *DCC holds:* #YES
+    Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
+  - *ACC fails:* #NO
+    The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
+  - This shows that DCC and ACC are independent conditions.
+]
+
+#examples[Applications in algebra][
+  - *Noetherian rings:* Satisfy ACC for ideals (every ascending chain of ideals stabilizes).
+  - *Artinian rings:* Satisfy DCC for ideals (every descending chain of ideals stabilizes).
+  - *Principal ideal domains:* Both conditions hold, enabling algorithms like Euclidean division.
+]
+
+== Connections and Applications
+
+#theorem[Well-ordering principle][
+  Every well-ordered set admits _transfinite induction_: to prove $P(x)$ for all $x in S$, it suffices to show:
+  $forall x in S. thin (forall y < x. thin P(y)) imply P(x)$
+]
+
+#example[
+  _Mathematical induction_ on $NN$ is a special case of transfinite induction using the well-ordering of natural numbers.
+]
+
+#examples[Computer science applications][
+  - *Termination analysis:* Prove programs terminate by finding well-founded measures.
+  - *Parsing algorithms:* Use well-founded recursion on parse tree depth.
+  - *Datalog evaluation:* Stratified negation ensures termination via well-founded semantics.
+  - *Model checking:* Well-founded relations ensure finite state exploration.
+]
+
+#Block(color: blue)[
+  These concepts provide the mathematical foundation for reasoning about _termination_, _finiteness_, and _algorithmic complexity_ in computer science and mathematics.
+]
+
+== Summary: Well-Founded Relations and Chain Conditions
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+
+    table.header([Concept], [Characterization], [Key Property]),
+
+    [*Well-ordered*], [Every subset has unique least element], [Stronger than well-founded],
+
+    [*Well-founded*], [Every subset has minimal elements], [DCC: no infinite descent],
+
+    [*DCC (Artinian)*], [No infinite descending chains], [Same as well-founded],
+
+    [*ACC (Noetherian)*], [No infinite ascending chains], [Dual of DCC],
+  )
+]
+
+#Block[
+  *Key relationships:*
+  - Well-ordered $==>$ Total order (least elements imply comparability)
+  - Well-ordered $==>$ Well-founded (every least element is minimal)
+  - Well-founded $<=>$ Noetherian $<=>$ DCC (equivalent characterizations)
+  - ACC is independent of DCC (a structure can satisfy one but not the other)
+  - These concepts are fundamental for proving termination and finiteness properties
+]
+
 
 == Outline
 #outline()
