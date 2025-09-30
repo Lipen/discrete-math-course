@@ -2019,9 +2019,11 @@
     render: (grid, nodes, edges, options) => {
       import fletcher: cetz
       cetz.canvas({
+        import cetz: draw
+
         // Background:
-        cetz.draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
-        cetz.draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        draw.circle((0, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
+        draw.circle((3, -0.75), radius: (0.7, 1.4), stroke: 0.4pt)
 
         // Main diagram:
         fletcher.draw-diagram(grid, nodes, edges, debug: options.debug)
@@ -2029,12 +2031,12 @@
         // Overlay:
         let (x, y) = (1.5, -0.5)
         let s = 1.8
-        cetz.draw.line(
+        draw.line(
           (x - s / 2, y + s / 2),
           (x + s / 2, y - s / 2),
           stroke: (thickness: 2pt, paint: red, cap: "round"),
         )
-        cetz.draw.line(
+        draw.line(
           (x - s / 2, y - s / 2),
           (x + s / 2, y + s / 2),
           stroke: (thickness: 2pt, paint: red, cap: "round"),
