@@ -2002,6 +2002,43 @@
   - $Range(g) = {0, 1, 4, 9, dots}$ (the set of non-negative perfect squares).
 ]
 
+== Image and Preimage of Sets
+
+#definition[
+  Let $f: A to B$ be a function and let $S subset.eq A$.
+  The _image of $S$ under $f$_ is the set:
+  $ f(S) = { f(s) | s in S } $
+  Note that $f(S) subset.eq B$.
+  The range of $f$ is $f(A)$.
+]
+
+#definition[
+  Let $f: A to B$ be a function and let $T subset.eq B$.
+  The _preimage of $T$ under $f$_ (or _inverse image of $T$_) is the set of all elements in the domain that map into $T$:
+  $
+    f^(-1)(T) = { a in A | f(a) in T }
+  $
+]
+
+#note[
+  The notation $f^(-1)(S)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
+  It always refers to the set of domain elements that map into $S$.
+]
+
+== Examples of Image and Preimage
+
+#example[
+  Let $f: ZZ -> ZZ$ be $f(x) = x^2$.
+  - Let $S = {-2, -1, 0, 1, 2}$.
+    - Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
+
+  - Let $T_1 = {1, 9}$.
+    - The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
+
+  - Let $T_2 = {2, 3}$.
+    - The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
+]
+
 == Injective Functions
 
 #definition[
@@ -2231,6 +2268,91 @@
   - *Coordinate transformations:* Reversible mappings between coordinate systems.
 ]
 
+== Inverse Functions
+
+#definition[
+  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
+  $
+    f^(-1)(b) = a quad "iff" quad f(a) = b
+  $
+]
+
+#note[
+  A function has an inverse _if and only if_ it is bijective.
+]
+
+#example[
+  Let $f: RR to RR$ be $f(x) = 2x + 1$.
+  We found it's bijective.
+  To find $f^(-1)(y)$, let $y = 2x+1$.
+  Solving for $x$, we get $x = (y-1) / 2$.
+  So, $f^(-1)(y) = (y-1) / 2$.
+]
+
+// TODO: new slide and proof
+#theorem[
+  If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
+  - $f^(-1)$ is also bijective.
+  - $(f^(-1) compose f)(a) = a$ for all $a in A$ (i.e., $f^(-1) compose f = id_A$).
+  - $(f compose f^(-1))(b) = b$ for all $b in B$ (i.e., $f compose f^(-1) = id_B$).
+  - If $f: A to B$ and $g: B to C$ are both bijective, then $(g compose f)^(-1) = f^(-1) compose g^(-1)$.
+]
+
+== Function Composition
+
+#definition[
+  Let $f: A to B$ and $g: B to C$ be two functions.
+  The _composition_ of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
+  $
+    (g compose f)(a) = g(f(a))
+  $
+  // for all $a in A$.
+]
+
+#example[
+  Let $f: RR to RR$ be $f(x) = x^2$ and $g: RR to RR$ be $g(x) = x+1$.
+  - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$
+  - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$
+]
+
+#note[
+  $g compose f != f compose g$ (composition is not commutative!)
+]
+
+// TODO: visualize function composition
+
+== Examples of Function Composition
+
+#Block(color: yellow)[
+  *Key insight:*
+  Function composition is like a "pipeline" --- the output of $f$ becomes the input to $g$.
+  Read right-to-left: $g compose f$ means "first apply $f$, then apply $g$".
+]
+
+#example[Computer science applications][
+  - *Function pipelines:* `data |> filter |> map |> reduce`
+  - *Compiler design:* lexer $to$ parser $to$ optimizer $to$ code generator
+  - *Data processing:* clean $to$ transform $to$ aggregate $to$ visualize
+]
+
+// TODO: functional powers
+// (if Y subset.eq X, then f:X->Y can be composed with itself)
+
+== Properties of Function Composition
+
+- *Associativity:* If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+
+- The _identity_ function acts as a _neutral_ element for composition:
+  - $id_B compose f = f$ for any function $f: A to B$.
+  - $f compose id_A = f$ for any function $f: A to B$.
+
+- Composition _preserves_ the properties of functions:
+  - If $f$ and $g$ are injective, so is $g compose f$.
+  - If $f$ and $g$ are surjective, so is $g compose f$.
+  - If $f$ and $g$ are bijective, so is $g compose f$.
+
+- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
+
 == Monotonic Functions
 
 #definition[
@@ -2378,128 +2500,6 @@ Functions can be characterized by several key properties that determine their ma
     [$0$], [$0$], [$0$], [Zero],
     [$-1$], [$-1$], [$-1$], [Negative integer],
   )
-]
-
-== Function Composition
-
-#definition[
-  Let $f: A to B$ and $g: B to C$ be two functions.
-  The _composition_ of $g$ and $f$, denoted $g compose f$ (read as "$g$ composed with $f$" or "$g$ after $f$"), is a function from $A$ to $C$ defined by:
-  $
-    (g compose f)(a) = g(f(a))
-  $
-  // for all $a in A$.
-]
-
-#example[
-  Let $f: RR to RR$ be $f(x) = x^2$ and $g: RR to RR$ be $g(x) = x+1$.
-  - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$
-  - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$
-]
-
-#note[
-  $g compose f != f compose g$ (composition is not commutative!)
-]
-
-// TODO: visualize function composition
-
-== Examples of Function Composition
-
-#Block(color: yellow)[
-  *Key insight:*
-  Function composition is like a "pipeline" --- the output of $f$ becomes the input to $g$.
-  Read right-to-left: $g compose f$ means "first apply $f$, then apply $g$".
-]
-
-#example[Computer science applications][
-  - *Function pipelines:* `data |> filter |> map |> reduce`
-  - *Compiler design:* lexer $to$ parser $to$ optimizer $to$ code generator
-  - *Data processing:* clean $to$ transform $to$ aggregate $to$ visualize
-]
-
-// TODO: functional powers
-// (if Y subset.eq X, then f:X->Y can be composed with itself)
-
-== Properties of Function Composition
-
-- *Associativity:* If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
-
-- The _identity_ function acts as a _neutral_ element for composition:
-  - $id_B compose f = f$ for any function $f: A to B$.
-  - $f compose id_A = f$ for any function $f: A to B$.
-
-- Composition _preserves_ the properties of functions:
-  - If $f$ and $g$ are injective, so is $g compose f$.
-  - If $f$ and $g$ are surjective, so is $g compose f$.
-  - If $f$ and $g$ are bijective, so is $g compose f$.
-
-- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
-
-== Inverse Functions
-
-#definition[
-  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
-  $
-    f^(-1)(b) = a quad "iff" quad f(a) = b
-  $
-]
-
-#note[
-  A function has an inverse _if and only if_ it is bijective.
-]
-
-#example[
-  Let $f: RR to RR$ be $f(x) = 2x + 1$.
-  We found it's bijective.
-  To find $f^(-1)(y)$, let $y = 2x+1$.
-  Solving for $x$, we get $x = (y-1) / 2$.
-  So, $f^(-1)(y) = (y-1) / 2$.
-]
-
-// TODO: new slide and proof
-#theorem[
-  If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
-  - $f^(-1)$ is also bijective.
-  - $(f^(-1) compose f)(a) = a$ for all $a in A$ (i.e., $f^(-1) compose f = id_A$).
-  - $(f compose f^(-1))(b) = b$ for all $b in B$ (i.e., $f compose f^(-1) = id_B$).
-  - If $f: A to B$ and $g: B to C$ are both bijective, then $(g compose f)^(-1) = f^(-1) compose g^(-1)$.
-]
-
-== Image and Preimage of Sets
-
-#definition[
-  Let $f: A to B$ be a function and let $S subset.eq A$.
-  The _image of $S$ under $f$_ is the set:
-  $ f(S) = { f(s) | s in S } $
-  Note that $f(S) subset.eq B$.
-  The range of $f$ is $f(A)$.
-]
-
-#definition[
-  Let $f: A to B$ be a function and let $T subset.eq B$.
-  The _preimage of $T$ under $f$_ (or _inverse image of $T$_) is the set of all elements in the domain that map into $T$:
-  $
-    f^(-1)(T) = { a in A | f(a) in T }
-  $
-]
-
-#note[
-  The notation $f^(-1)(S)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
-  It always refers to the set of domain elements that map into $S$.
-]
-
-== Examples of Image and Preimage
-
-#example[
-  Let $f: ZZ -> ZZ$ be $f(x) = x^2$.
-  - Let $S = {-2, -1, 0, 1, 2}$.
-    - Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
-
-  - Let $T_1 = {1, 9}$.
-    - The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
-
-  - Let $T_2 = {2, 3}$.
-    - The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
 ]
 
 == Summary: Functions
