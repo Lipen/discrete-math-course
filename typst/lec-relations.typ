@@ -1892,16 +1892,17 @@
 #definition[
   A _function_ $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a special kind of relation $f subset.eq A times B$ where every element of $A$ is paired with _exactly one_ element of $B$.
 
-  This means two conditions must hold:
-  + _Functional (right-unique)_:
-    For every $a in A$, there is _at most one_ pair $pair(a, b)$ in $f$.
+  This "exactly one" requirement breaks down into two conditions:
+  + _Functional property (right-unique or well-defined)_:
+    Each input has _at most one_ output. No input can map to multiple different outputs.
     $
       forall a in A. thin
       forall b_1, b_2 in B. thin
       (f(a) = b_1) and (f(a) = b_2) imply (b_1 = b_2)
     $
-  + _Serial (left-total)_:
-    For every $a in A$, there is _at least one_ pair $pair(a, b)$ in $f$.
+
+  + _Total property (left-total or defined everywhere)_:
+    Each input has _at least one_ output. Every element in the domain must map to something.
     $
       forall a in A. thin
       exists b in B. thin
@@ -1910,10 +1911,17 @@
 ]
 
 #definition[
-  A relation that satisfies the _functional_ property is called a _partial function_.
+  A relation that satisfies only the _functional_ property (but not necessarily total) is called a _partial function_. It may be undefined for some inputs.
 
-  A relation that satisfies _both_ properties is called a _total function_, or simply a _function_.
+  A relation that satisfies _both_ properties is called a _total function_, or simply a _function_. It is defined for every input in its domain.
 ]
+
+#note[
+  In most contexts, when we say "function" we mean _total function_.
+  Partial functions are explicitly noted when needed, especially in computability theory and programming language semantics.
+]
+
+// TODO: add notation for partial functions:  f : A hook B (or arrow with bar), contrast with f : A to B for total functions.
 
 == Domain, Codomain, Range
 
@@ -1982,16 +1990,21 @@
 
 #definition[
   A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[
-    Do not confuse it with _one-to-one correspondence_, which is a bijection, not just injection!
+    Do not confuse "one-to-one" with "one-to-one correspondence", which refers to a _bijection_ --- another concept!
   ]) if distinct elements in the domain map to distinct elements in the codomain.
   Formally:
   $
     forall a_1, a_2 in A. thin
     (f(a_1) = f(a_2)) imply (a_1 = a_2)
   $
+
+  Equivalent formulation:
+  $
+    forall a_1, a_2 in A. thin
+    (a_1 != a_2) imply (f(a_1) != f(a_2))
+  $
 ]
 
-#v(-.5em)
 #align(center)[
   #import fletcher: diagram, edge, node
   #diagram(
@@ -2031,13 +2044,41 @@
   )
 ]
 
-#example[
-  $f: NN to NN$ defined by $f(n) = 2n$ is injective.
-  If $f(n_1) = f(n_2)$, then $2n_1 = 2n_2$, so $n_1 = n_2$.
+== Examples of Injective Functions
+
+#Block(color: yellow)[
+  *Key insight:* An injective function never "collapses" different inputs to the same output.
+  Each output has at most one pre-image.
 ]
 
 #example[
-  $g: ZZ to ZZ$ defined by $g(n) = n^2$ is _not_ injective, because $g(-1) = 1$ and $g(1) = 1$, but $-1 != 1$.
+  $f: NN to NN$ defined by $f(n) = 2n$ is injective.
+  - If $f(n_1) = f(n_2)$, then $2n_1 = 2n_2$, so $n_1 = n_2$. #YES
+]
+
+#example[
+  $g: RR to RR$ defined by $g(x) = x^3$ is injective.
+  - The cube function is strictly increasing, so distinct inputs give distinct outputs. #YES
+]
+
+#example[Computer science applications][
+  - *Student ID assignment:* Each student gets a unique ID number.
+  - *Hash functions (perfect):* Different data should hash to different values (to avoid collisions).
+  - *Primary keys in databases:* Each record must have a unique identifier.
+  - *Memory addresses:* Each memory location has a unique address.
+]
+
+== Examples of Non-Injective Functions
+
+#example[Counter-examples (not injective functions)][
+  - $g: ZZ to ZZ$ defined by $g(n) = n^2$ is _not_ injective.
+    - $g(-1) = 1$ and $g(1) = 1$, but $-1 != 1$. #NO
+
+  - $h: RR to RR$ defined by $h(x) = sin(x)$ is _not_ injective.
+    - $h(0) = h(pi) = 0$, but $0 != pi$. #NO
+
+  - $f: ZZ to ZZ_5$ defined by $f(x) = x mod 5$ is _not_ injective.
+    - $f(2) = f(7) = 2$, but $2 != 7$. #NO
 ]
 
 == Surjective Functions
@@ -2054,7 +2095,6 @@
   For surjective functions, $Range(f) = Cod(f)$, i.e., there are _no "uncovered"_ elements in the right side.
 ]
 
-#v(-.5em)
 #align(center)[
   #import fletcher: diagram, edge, node
   #diagram(
@@ -2094,12 +2134,44 @@
   )
 ]
 
-#example[
-  $f: RR to RR$ defined by $f(x) = x^3$ is surjective. For any $y in RR$, $x = root(3, y)$ is such that $f(x)=y$.
+== Examples of Surjective Functions
+
+#Block(color: yellow)[
+  *Key insight:* A surjective function "covers" the entire codomain. Every possible output is actually achieved by some input.
 ]
 
 #example[
-  $g: NN to NN$ defined by $g(n) = 2n$ is _not_ surjective, because odd numbers in $NN$ (the codomain) are not in the range of $g$. For example, there is no $n in NN$ such that $2n = 3$.
+  $f: RR to RR$ defined by $f(x) = x^3$ is surjective.
+  - For any $y in RR$, let $x = root(3, y)$. Then $f(x) = (root(3, y))^3 = y$. #YES
+]
+
+#example[
+  $g: RR to [0, infinity)$ defined by $g(x) = x^2$ is surjective.
+  - For any $y >= 0$, let $x = sqrt(y)$. Then $g(x) = (sqrt(y))^2 = y$. #YES
+]
+
+#example[
+  $f: ZZ to ZZ_5$ defined by $f(x) = x mod 5$ is surjective.
+  - Every element ${0, 1, 2, 3, 4}$ is achieved: $f(0)=0, f(1)=1, f(2)=2, f(3)=3, f(4)=4$. #YES
+]
+
+#example[Computer science applications][
+  - *Color quantization:* Map 24-bit colors to 8-bit palette (should cover all palette colors).
+  - *Load balancing:* Distribute requests across servers (all servers should be used).
+  - *Hash table design:* Hash function should potentially reach every bucket.
+]
+
+== Examples of Non-Surjective Functions
+
+#example[Counter-examples (not surjective)][
+  - $g: NN to NN$ defined by $g(n) = 2n$ is _not_ surjective.
+    - Odd numbers like $3, 5, 7, ...$ are never achieved since $2n$ is always even. #NO
+
+  - $h: RR to RR$ defined by $h(x) = x^2$ is _not_ surjective.
+    - Negative numbers like $-1, -2, -3, ...$ are never achieved since $x^2 >= 0$. #NO
+
+  - $f: RR to RR$ defined by $f(x) = e^x$ is _not_ surjective.
+    - Negative numbers and zero are never achieved since $e^x > 0$ for all $x$. #NO
 ]
 
 == Bijective Functions
@@ -2107,15 +2179,73 @@
 #definition[
   A function $f: A to B$ is _bijective_ if it is both injective and surjective.
   A bijective function establishes a _one-to-one correspondence_ between the elements of $A$ and $B$.
+
+  Equivelently, $f$ is bijective iff it has an inverse function $f^(-1): B to A$.
 ]
 
 #example[
   $f: RR to RR$ defined by $f(x) = 2x + 1$ is bijective.
-  - Injective: If $2x_1+1 = 2x_2+1$, then $2x_1 = 2x_2$, so $x_1=x_2$.
-  - Surjective: For any $y in RR$, let $x = (y-1) / 2$. Then $f(x) = 2((y-1) / 2) + 1 = y-1+1 = y$.
+  - *Injective:* If $2x_1+1 = 2x_2+1$, then $x_1=x_2$. #YES
+  - *Surjective:* For any $y in RR$, let $x = (y-1)/2$. Then $f(x) = y$. #YES
+  - *Inverse:* $f^(-1)(y) = (y-1) / 2$.
 ]
+
 #example[
-  The identity function $id_A: A to A$ defined by $id_A (x) = x$ for all $x in A$ is bijective.
+  $g: [0, infinity) to [0, infinity)$ defined by $g(x) = x^2$ is bijective.
+  - *Injective:* If $x_1^2 = x_2^2$ and $x_1, x_2 >= 0$, then $x_1 = x_2$. #YES
+  - *Surjective:* For any $y >= 0$, let $x = sqrt(y)$. Then $g(x) = y$. #YES
+  - *Inverse:* $g^(-1)(y) = sqrt(y)$.
+]
+
+== Examples of Bijective Functions
+
+#Block(color: yellow)[
+  *Key insight:* Bijective functions are "perfect matchings" between sets.
+  Every element in $A$ pairs with _exactly one_ element in $B$, and vice versa.
+]
+
+#example[Computer science applications][
+  - *Encryption algorithms:* Must be bijective to ensure decryption is possible.
+  - *Base conversion:* Bijection between decimal and binary representations.
+  - *Perfect hash functions:* Bijective mapping from keys to table positions.
+  - *Coordinate transformations:* Reversible mappings between coordinate systems.
+]
+
+
+// TODO: refactor those slides...
+== Important Function Properties
+
+TODO!
+
+#definition[Monotonic functions][
+  A function $f: (A, leq_A) to (B, leq_B)$ between ordered sets is:
+  - _Monotonic increasing_ (or _order-preserving_) if $x leq_A y imply f(x) leq_B f(y)$
+  - _Strictly increasing_ if $x <_A y imply f(x) <_B f(y)$
+  - _Monotonic decreasing_ if $x leq_A y imply f(x) geq_B f(y)$
+]
+
+#definition[
+  For any set $S subset.eq A$, the _characteristic function_ $chi_S: A to {0, 1}$ is:
+  $
+    chi_S (x) = cases(
+      1 & "if" x in S,
+      0 & "if" x notin S
+    )
+  $
+  This function "indicates" membership in set $S$.
+]
+
+#definition[Floor and ceiling functions][
+  - Floor function $floor: RR to ZZ$ maps $x$ to the largest integer $<= x$: $floor(x) = max{n in ZZ | n <= x}$
+  - Ceiling function $ceil: RR to ZZ$ maps $x$ to the smallest integer $>= x$: $ceil(x) = min{n in ZZ | n >= x}$
+
+  *Examples:* $floor(3.7) = 3$, $ceil(3.7) = 4$, $floor(-2.3) = -3$, $ceil(-2.3) = -2$
+]
+
+#example[Applications][
+  - *Monotonic functions:* Essential in optimization, algorithm analysis, and data structures
+  - *Characteristic functions:* Used in probability theory, set operations, and database queries
+  - *Floor/ceiling:* Critical in discrete algorithms, array indexing, and complexity analysis
 ]
 
 == Function Composition
@@ -2131,8 +2261,28 @@
 
 #example[
   Let $f: RR to RR$ be $f(x) = x^2$ and $g: RR to RR$ be $g(x) = x+1$.
-  - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$.
-  - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$.
+  - $(g compose f)(x) = g(f(x)) = g(x^2) = x^2 + 1$
+  - $(f compose g)(x) = f(g(x)) = f(x+1) = (x+1)^2 = x^2 + 2x + 1$
+]
+
+#note[
+  $g compose f != f compose g$ (composition is not commutative!)
+]
+
+// TODO: visualize function composition
+
+== Examples of Function Composition
+
+#Block(color: yellow)[
+  *Key insight:*
+  Function composition is like a "pipeline" --- the output of $f$ becomes the input to $g$.
+  Read right-to-left: $g compose f$ means "first apply $f$, then apply $g$".
+]
+
+#example[Computer science applications][
+  - *Function pipelines:* `data |> filter |> map |> reduce`
+  - *Compiler design:* lexer $to$ parser $to$ optimizer $to$ code generator
+  - *Data processing:* clean $to$ transform $to$ aggregate $to$ visualize
 ]
 
 // TODO: functional powers
@@ -2140,7 +2290,7 @@
 
 == Properties of Function Composition
 
-- _Associativity:_ If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+- *Associativity:* If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
 
 - The _identity_ function acts as a _neutral_ element for composition:
   - $id_B compose f = f$ for any function $f: A to B$.
@@ -2174,6 +2324,7 @@
   So, $f^(-1)(y) = (y-1) / 2$.
 ]
 
+// TODO: new slide and proof
 #theorem[
   If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
   - $f^(-1)$ is also bijective.
@@ -2195,21 +2346,46 @@
 #definition[
   Let $f: A to B$ be a function and let $T subset.eq B$.
   The _preimage of $T$ under $f$_ (or _inverse image of $T$_) is the set of all elements in the domain that map into $T$:
-  $ f^(-1)(T) = { a in A | f(a) in T } $
+  $
+    f^(-1)(T) = { a in A | f(a) in T }
+  $
 ]
 
 #note[
-  The notation $f^(-1)(T)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
-  It always refers to the set of domain elements that map into $T$.
+  The notation $f^(-1)(S)$ is used even if the inverse function $f^(-1)$ does not exist (i.e., if $f$ is not bijective).
+  It always refers to the set of domain elements that map into $S$.
 ]
 
-#pagebreak()
+== Examples of Image and Preimage
 
 #example[
   Let $f: ZZ -> ZZ$ be $f(x) = x^2$.
-  - Let $S = {-2, -1, 0, 1, 2}$. Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
-  - Let $T_1 = {1, 9}$. The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
-  - Let $T_2 = {2, 3}$. The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
+  - Let $S = {-2, -1, 0, 1, 2}$.
+    - Then $f(S) = {f(-2), f(-1), f(0), f(1), f(2)} = {4, 1, 0, 1, 4} = {0, 1, 4}$.
+
+  - Let $T_1 = {1, 9}$.
+    - The preimage is $f^(-1)(T_1) = {x in ZZ | x^2 in {1, 9}} = {-3, -1, 1, 3}$.
+
+  - Let $T_2 = {2, 3}$.
+    - The preimage is $f^(-1)(T_2) = {x in ZZ | x^2 in {2, 3}} = emptyset$.
+]
+
+== Summary: Functions
+
+#Block(color: blue)[
+  *Functions* establish relationships between sets where every input has exactly one output:
+  - _Injective:_ Different inputs $to$ Different outputs (one-to-one)
+  - _Surjective:_ Every output is achieved (onto)
+  - _Bijective:_ Both injective and surjective (perfect correspondence)
+]
+
+#Block(color: green)[
+  *Key applications in computer science:*
+  - *Database design:* Functions model relationships
+  - *Algorithm analysis:* Function properties affect complexity
+  - *Cryptography:* Bijective functions enable encryption/decryption
+  - *Type systems:* Function signatures and type hierarchies
+  - *Data structures:* Mappings, hashing, and uniqueness constraints
 ]
 
 
