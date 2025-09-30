@@ -2870,8 +2870,8 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   - _Transitive closure_: $t(R)$ is the smallest transitive relation containing $R$
 ]
 
-#Block(color: blue)[
-  The key insight is that closure operations _add the minimum_ number of pairs needed to achieve the desired property, while preserving all existing pairs in the original relation.
+#Block(color: yellow)[
+  *Key insight:* closure operations _add the minimum_ number of pairs needed to achieve the desired property, while preserving all existing pairs in the original relation.
 ]
 
 // TODO: visualize the extension of sets as blobs
