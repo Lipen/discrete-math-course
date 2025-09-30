@@ -2231,21 +2231,56 @@
   - *Coordinate transformations:* Reversible mappings between coordinate systems.
 ]
 
-
-// TODO: refactor those slides...
-== Important Function Properties
-
-TODO!
-
-#definition[Monotonic functions][
-  A function $f: (A, leq_A) to (B, leq_B)$ between ordered sets is:
-  - _Monotonic increasing_ (or _order-preserving_) if $x leq_A y imply f(x) leq_B f(y)$
-  - _Strictly increasing_ if $x <_A y imply f(x) <_B f(y)$
-  - _Monotonic decreasing_ if $x leq_A y imply f(x) geq_B f(y)$
-]
+== Monotonic Functions
 
 #definition[
-  For any set $S subset.eq A$, the _characteristic function_ $chi_S: A to {0, 1}$ is:
+  A function $f: A to B$ is called _monotonic_ if it preserves order relationships.
+
+  For real-valued functions $f: RR to RR$:
+  - _Monotonic increasing_ if $x <= y imply f(x) <= f(y)$
+  - _Strictly increasing_ if $x < y imply f(x) < f(y)$
+  - _Monotonic decreasing_ if $x <= y imply f(x) >= f(y)$
+  - _Strictly decreasing_ if $x < y imply f(x) > f(y)$
+]
+
+#Block(color: yellow)[
+  *Key insights:*
+  - Monotonic functions have predictable behavior: they never "change direction"
+  - Strictly monotonic functions are always injective (one-to-one)
+  - These concepts extend naturally to any sets with ordering relationships
+]
+
+== Function Properties Overview
+
+Functions can be characterized by several key properties that determine their mathematical behavior.
+
+#table(
+  columns: 2,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([*Property*], [*Definition*]),
+
+  [*Well-defined*], [Each input maps to exactly one output],
+
+  [*Total*], [Defined for all inputs in the domain],
+
+  [*Partial*], [May be undefined for some inputs],
+
+  [*Injective* (One-to-one)], [Different inputs → different outputs],
+
+  [*Surjective* (Onto)], [Every codomain element is achieved],
+
+  [*Bijective*], [Both injective and surjective, one-to-one correspondence],
+
+  [*Monotonic*], [Preserves or reverses order relationships],
+
+  [*Continuous*], [Small input changes → small output changes],
+)
+
+== Characteristic Functions
+
+#definition[
+  For any set $S subset.eq A$, the _characteristic function_ (or _indicator function_) $chi_S: A to {0, 1}$ is:
   $
     chi_S (x) = cases(
       1 & "if" x in S,
@@ -2255,17 +2290,94 @@ TODO!
   This function "indicates" membership in set $S$.
 ]
 
-#definition[Floor and ceiling functions][
-  - Floor function $floor: RR to ZZ$ maps $x$ to the largest integer $<= x$: $floor(x) = max{n in ZZ | n <= x}$
-  - Ceiling function $ceil: RR to ZZ$ maps $x$ to the smallest integer $>= x$: $ceil(x) = min{n in ZZ | n >= x}$
+#example[
+  Let $A = {1, 2, 3, 4, 5}$ and $S = {2, 4}$.
+  Then $chi_S$ maps:
+  - $chi_S (1) = 0$ (since $1 notin S$)
+  - $chi_S (2) = 1$ (since $2 in S$)
+  - $chi_S (3) = 0$ (since $3 notin S$)
+  - $chi_S (4) = 1$ (since $4 in S$)
+  - $chi_S (5) = 0$ (since $5 notin S$)
 
-  *Examples:* $floor(3.7) = 3$, $ceil(3.7) = 4$, $floor(-2.3) = -3$, $ceil(-2.3) = -2$
+  So $chi_S = {(1,0), (2,1), (3,0), (4,1), (5,0)}$.
+]
+
+== Properties of Characteristic Functions
+
+#definition[
+  For sets $A, B subset.eq U$:
+  - $chi_(A intersect B) = chi_A dot chi_B$ (pointwise multiplication)
+  - $chi_(A union B) = chi_A + chi_B - chi_A dot chi_B$
+  - $chi_(overline(A)) = 1 - chi_A$ (complement)
+  - $chi_(A triangle B) = chi_A + chi_B - 2 chi_A dot chi_B$ (symmetric difference)
+  - $chi_emptyset = 0$ and $chi_U = 1$ (constant functions)
 ]
 
 #example[Applications][
-  - *Monotonic functions:* Essential in optimization, algorithm analysis, and data structures
-  - *Characteristic functions:* Used in probability theory, set operations, and database queries
-  - *Floor/ceiling:* Critical in discrete algorithms, array indexing, and complexity analysis
+  - *Probability theory:* Indicator random variables
+  - *Database queries:* Boolean conditions in WHERE clauses
+  - *Set operations:* Converting logical operations to arithmetic
+  - *Machine learning:* Feature encoding (one-hot encoding)
+  - *Computer graphics:* Masking and selection operations
+  - *Digital signal processing:* Window functions and filters
+]
+
+== Floor and Ceiling Functions
+
+#definition[
+  - _Floor function_ $floor: RR to ZZ$ maps $x$ to the largest integer $<= x$:
+    $floor(x) = max{n in ZZ | n <= x}$
+
+  - _Ceiling function_ $ceil: RR to ZZ$ maps $x$ to the smallest integer $>= x$:
+    $ceil(x) = min{n in ZZ | n >= x}$
+]
+
+#place(right, dx: -1cm)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    scale(70%)
+
+    // Draw coordinate system
+    line((-3, 0), (3, 0), stroke: 0.5pt, mark: (end: "stealth", fill: black))
+    line((0, -2), (0, 4), stroke: 0.5pt, mark: (end: "stealth", fill: black))
+
+    // Draw floor function (step function going down-left)
+    for i in range(-2, 3) {
+      line((i, i), (i + 1, i), stroke: 2pt + blue)
+      circle((i, i), radius: 0.1, fill: blue, stroke: blue.darken(20%))
+      circle((i + 1, i), radius: 0.1, fill: white, stroke: blue)
+    }
+
+    // Draw ceiling function (step function going up-right)
+    for i in range(-2, 3) {
+      line((i, i + 1), (i + 1, i + 1), stroke: 2pt + red)
+      circle((i, i + 1), radius: 0.1, fill: white, stroke: red)
+      circle((i + 1, i + 1), radius: 0.1, fill: red, stroke: red.darken(20%))
+    }
+
+    content((2.5, 1.5), text(fill: blue, weight: "bold")[$floor(x)$], anchor: "west")
+    content((2.5, 3.5), text(fill: red, weight: "bold")[$ceil(x)$], anchor: "west")
+
+    // Add axis labels
+    content((3, -0.3), [$x$], anchor: "west")
+    content((-0.3, 4), [$y$], anchor: "south")
+  })
+]
+
+#example[
+  #table(
+    columns: 4,
+    align: (center, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([$x$], [$floor(x)$], [$ceil(x)$], [Note]),
+
+    [$3.7$], [$3$], [$4$], [Positive non-integer],
+    [$-2.3$], [$-3$], [$-2$], [Negative non-integer],
+    [$5$], [$5$], [$5$], [Integer (floor = ceiling)],
+    [$0$], [$0$], [$0$], [Zero],
+    [$-1$], [$-1$], [$-1$], [Negative integer],
+  )
 ]
 
 == Function Composition
