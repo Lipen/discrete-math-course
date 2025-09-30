@@ -1855,9 +1855,129 @@
   Therefore $beta <= alpha$, completing the proof.
 ]
 
-#focus-slide(
-  title: "Well Orders",
-)
+
+= Suprema and Infima
+#focus-slide()
+
+== Upper and Lower Bounds
+
+// Upper bound
+#definition[
+  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+]
+
+// Lower bound
+#definition[
+  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
+]
+
+#example[
+  In $pair(RR, <=)$ for interval $C = (0;1)$:
+  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
+  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
+  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
+]
+
+== Examples of Bounds
+
+#example[
+  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
+  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
+  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
+  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
+  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
+]
+
+#example[
+  In divisibility poset for $C = {4,6}$:
+  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
+  - *Lower bounds:* common divisors, i.e., ${1, 2}$
+  - *Least upper bound:* $12 = "lcm"(4,6)$
+  - *Greatest lower bound:* $2 = "gcd"(4,6)$
+]
+
+== Suprema and Infima
+
+// Supremum
+#definition[
+  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
+
+  #note[
+    If it exists, the least upper bound is _unique_.
+  ]
+]
+
+// Infimum
+#definition[
+  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
+
+  #note[
+    If it exists, the greatest lower bound is _unique_.
+  ]
+]
+
+#example[
+  $pair(RR, <=)$:
+  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
+  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
+]
+
+== Examples of Suprema and Infima
+
+#example[
+  $pair(power(A), subset.eq)$:
+  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
+  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
+  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
+  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
+]
+
+#example[
+  Divisibility on $NN^+$:
+  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
+  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
+  - $sup {6, 10} = 30$
+  - $inf {6, 10} = 2$
+]
+
+== Lattices
+
+#definition[
+  A poset $(S, leq)$ is called a _lattice_ if every pair of elements has both a supremum (join) and an infimum (meet).
+
+  We denote a lattice as $(S, or, and)$ where:
+  - $a Join b = sup{a, b}$ (the join operation)
+  - $a Meet b = inf{a, b}$ (the meet operation)
+]
+
+== Examples of Lattices
+
+#example[Type Systems and Subtyping][
+  Types form a lattice under the subtyping relation $subset.eq$:
+  - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
+  - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
+  - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
+  - $sup{#`number`, #`string`} = #`number | string`$ (union types)
+]
+
+#example[Access Control and Security Lattices][
+  Permissions form a lattice under the "includes" relation:
+  - $sup{"read", "write"} = "read-write"$ (union of capabilities)
+  - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
+  - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
+  - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
+]
+
+#example[Program Analysis and Abstract Interpretation][
+  Abstract values form lattices for static analysis:
+  - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
+  - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
+  - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
+]
+
+
+= Well Orders
+#focus-slide()
 
 == Well-Ordered Sets
 
@@ -2254,116 +2374,6 @@ TODO
   - Well-founded $<=>$ Noetherian $<=>$ DCC (equivalent characterizations)
   - ACC is independent of DCC (a structure can satisfy one but not the other)
   - These concepts are fundamental for proving termination and finiteness properties
-]
-
-#focus-slide(
-  title: "Suprema and Infima",
-)
-
-== Upper and Lower Bounds
-
-// Upper bound
-#definition[
-  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
-]
-
-// Lower bound
-#definition[
-  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
-]
-
-#example[
-  In $pair(RR, <=)$ for interval $C = (0;1)$:
-  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
-  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
-  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
-]
-
-== Examples of Bounds
-
-#example[
-  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
-  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
-  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
-  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
-  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
-]
-
-#example[
-  In divisibility poset for $C = {4,6}$:
-  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
-  - *Lower bounds:* common divisors, i.e., ${1, 2}$
-  - *Least upper bound:* $12 = "lcm"(4,6)$
-  - *Greatest lower bound:* $2 = "gcd"(4,6)$
-]
-
-== Suprema and Infima
-
-// Supremum
-#definition[
-  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
-
-  #note[
-    If it exists, the least upper bound is _unique_.
-  ]
-]
-
-// Infimum
-#definition[
-  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
-
-  #note[
-    If it exists, the greatest lower bound is _unique_.
-  ]
-]
-
-#example[
-  $pair(RR, <=)$:
-  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
-  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
-]
-
-== Examples of Suprema and Infima
-
-#example[
-  $pair(power(A), subset.eq)$:
-  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
-  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
-  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
-  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
-]
-
-#example[
-  Divisibility on $NN^+$:
-  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
-  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
-  - $sup {6, 10} = 30$
-  - $inf {6, 10} = 2$
-]
-
-#pagebreak()
-
-#example[Type Systems and Subtyping][
-  Types form a lattice under the subtyping relation $subset.eq$:
-  - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
-  - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
-  - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
-  - $sup{#`number`, #`string`} = #`number | string`$ (union types)
-]
-
-#example[Access Control and Security Lattices][
-  Permissions form a lattice under the "includes" relation:
-  - $sup{"read", "write"} = "read-write"$ (union of capabilities)
-  - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
-  - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
-  - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
-]
-
-#example[Program Analysis and Abstract Interpretation][
-  Abstract values form lattices for static analysis:
-  - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
-  - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
-  - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
 ]
 
 
