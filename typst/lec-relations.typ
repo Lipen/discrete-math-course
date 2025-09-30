@@ -2276,7 +2276,7 @@ TODO
   In $pair(RR, <=)$ for interval $C = (0;1)$:
   - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
   - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
-  - *No* greatest lower bound or least upper bound in $C$ (since $(0;1)$ is open)
+  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
 ]
 
 == Examples of Bounds
