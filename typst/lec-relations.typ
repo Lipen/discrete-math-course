@@ -3924,6 +3924,9 @@ TODO
   - Search engines (Boolean search)
 ]
 
+== Outline
+#outline()
+
 == TODO
 
 - Applications of lattices in:
