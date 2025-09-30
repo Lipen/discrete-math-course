@@ -2268,36 +2268,6 @@
   - *Coordinate transformations:* Reversible mappings between coordinate systems.
 ]
 
-== Inverse Functions
-
-#definition[
-  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
-  $
-    f^(-1)(b) = a quad "iff" quad f(a) = b
-  $
-]
-
-#note[
-  A function has an inverse _if and only if_ it is bijective.
-]
-
-#example[
-  Let $f: RR to RR$ be $f(x) = 2x + 1$.
-  We found it's bijective.
-  To find $f^(-1)(y)$, let $y = 2x+1$.
-  Solving for $x$, we get $x = (y-1) / 2$.
-  So, $f^(-1)(y) = (y-1) / 2$.
-]
-
-// TODO: new slide and proof
-#theorem[
-  If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
-  - $f^(-1)$ is also bijective.
-  - $(f^(-1) compose f)(a) = a$ for all $a in A$ (i.e., $f^(-1) compose f = id_A$).
-  - $(f compose f^(-1))(b) = b$ for all $b in B$ (i.e., $f compose f^(-1) = id_B$).
-  - If $f: A to B$ and $g: B to C$ are both bijective, then $(g compose f)^(-1) = f^(-1) compose g^(-1)$.
-]
-
 == Function Composition
 
 #definition[
@@ -2334,6 +2304,21 @@
   - *Compiler design:* lexer $to$ parser $to$ optimizer $to$ code generator
   - *Data processing:* clean $to$ transform $to$ aggregate $to$ visualize
 ]
+
+== Properties of Function Composition
+
+- *Associativity:* If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+
+- The _identity_ function acts as a _neutral_ element for composition:
+  - $id_B compose f = f$ for any function $f: A to B$.
+  - $f compose id_A = f$ for any function $f: A to B$.
+
+- Composition _preserves_ the properties of functions:
+  - If $f$ and $g$ are injective, so is $g compose f$.
+  - If $f$ and $g$ are surjective, so is $g compose f$.
+  - If $f$ and $g$ are bijective, so is $g compose f$.
+
+- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
 
 == Functional Powers
 
@@ -2373,20 +2358,35 @@
   - In general: $g^(circle.small n) (x) = x + n$
 ]
 
-== Properties of Function Composition
+== Inverse Functions
 
-- *Associativity:* If $f: A to B$, $g: B to C$, and $h: C to D$, then $(h compose g) compose f = h compose (g compose f)$.
+#definition[
+  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
+  $
+    f^(-1)(b) = a quad "iff" quad f(a) = b
+  $
+]
 
-- The _identity_ function acts as a _neutral_ element for composition:
-  - $id_B compose f = f$ for any function $f: A to B$.
-  - $f compose id_A = f$ for any function $f: A to B$.
+#note[
+  A function has an inverse _if and only if_ it is bijective.
+]
 
-- Composition _preserves_ the properties of functions:
-  - If $f$ and $g$ are injective, so is $g compose f$.
-  - If $f$ and $g$ are surjective, so is $g compose f$.
-  - If $f$ and $g$ are bijective, so is $g compose f$.
+#example[
+  Let $f: RR to RR$ be $f(x) = 2x + 1$.
+  We found it's bijective.
+  To find $f^(-1)(y)$, let $y = 2x+1$.
+  Solving for $x$, we get $x = (y-1) / 2$.
+  So, $f^(-1)(y) = (y-1) / 2$.
+]
 
-- Note that in general, $g compose f != f compose g$, i.e., function composition is _not commutative_.
+// TODO: new slide and proof
+#theorem[
+  If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
+  - $f^(-1)$ is also bijective.
+  - $(f^(-1) compose f)(a) = a$ for all $a in A$ (i.e., $f^(-1) compose f = id_A$).
+  - $(f compose f^(-1))(b) = b$ for all $b in B$ (i.e., $f compose f^(-1) = id_B$).
+  - If $f: A to B$ and $g: B to C$ are both bijective, then $(g compose f)^(-1) = f^(-1) compose g^(-1)$.
+]
 
 == Monotonic Functions
 
