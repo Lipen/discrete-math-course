@@ -643,7 +643,7 @@
 
   *Interpretation:*
   Each equivalence class $eqclass(pair(a, b), sim)$ corresponds exactly to the rational number $a/b$.
-  - Different representations $(a, b)$ and $(c, d)$ belong to the same equivalence class iff they represent the same fraction: $a/b = c/d$
+  - Different representations $pair(a, b)$ and $pair(c, d)$ belong to the same equivalence class iff they represent the same fraction: $a/b = c/d$
   - The condition $a dot d = b dot c$ is the cross-multiplication test for fraction equality
 
   *Operations on the quotient set:*
@@ -856,14 +856,14 @@
   - $R = {pair(1, a), pair(1, b), pair(2, c), pair(3, d)} subset.eq A times B$
   - $S = {pair(a, x), pair(b, y), pair(c, x)} subset.eq B times C$
 
-  To find $R relcomp S$, we look for pairs $(i, z)$ where there exists $w$ such that $pair(i, w) in R$ and $pair(w, z) in S$:
+  To find $R relcomp S$, we look for pairs $pair(i, z)$ where there exists $w$ such that $pair(i, w) in R$ and $pair(w, z) in S$:
 
   From $1$: can reach $a$ and $b$ via $R$
-  - $a$ connects to $x$ via $S$ $=>$ $(1, x)$ is in the composition
-  - $b$ connects to $y$ via $S$ $=>$ $(1, y)$ is in the composition
+  - $a$ connects to $x$ via $S$ $=>$ $pair(1, x)$ is in the composition
+  - $b$ connects to $y$ via $S$ $=>$ $pair(1, y)$ is in the composition
 
   From $2$: can reach $c$ via $R$
-  - $c$ connects to $x$ via $S$ $=>$ $(2, x)$ is in the composition
+  - $c$ connects to $x$ via $S$ $=>$ $pair(2, x)$ is in the composition
 
   From $3$: can reach $d$ via $R$
   - $d$ has no outgoing connections in $S$ $=>$ no pairs from $3$ in the composition
@@ -1247,7 +1247,7 @@
 ]
 
 #example[
-  Consider the poset $(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
+  Consider the poset $pair(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
 
   #place(right, dx: -1cm)[
     #cetz.canvas({
@@ -1667,7 +1667,7 @@
 
 // Chain and Antichain
 #definition[
-  In a partially ordered set $(M, leq)$:
+  In a partially ordered set $pair(M, leq)$:
 
   - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
     Formally:
@@ -1695,7 +1695,7 @@
 == Examples of Chains and Antichains
 
 #example[
-  Consider the divisibility poset $(D, |)$ where $D = {1, 2, 3, 4, 5, 6, 10, 20, 35}$.
+  Consider the divisibility poset $pair(D, |)$ where $D = {1, 2, 3, 4, 5, 6, 10, 20, 35}$.
 
   #place(right, dx: -4em, dy: 0.5em)[
     #import fletcher: diagram, edge, node
@@ -1821,7 +1821,8 @@
 // ]
 
 #proof[
-  Let $(P, leq)$ be a finite poset. Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
+  Let $pair(P, leq)$ be a finite poset.
+  Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
   We prove $alpha = beta$ by showing $alpha <= beta$ and $alpha >= beta$.
 
   *Part 1 ($alpha <= beta$):* #h(0.2em)
@@ -2977,11 +2978,11 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 #proof[#footnote[
   See https://math.stackexchange.com/a/183383 for more detailed analysis.
 ]][
-  Consider the function $f: L to S$ defined by $f(x) = (x, x)$.
-  This is an injection, since if #box[$f(a) = f(b)$], then $(a, a) = (b, b)$, so $a = b$.
+  Consider the function $f: L to S$ defined by $f(x) = pair(x, x)$.
+  This is an injection, since if #box[$f(a) = f(b)$], then $pair(a, a) = pair(b, b)$, so $a = b$.
   Thus, $L smaller.eq S$.
 
-  Now consider the function $g: S to L$ that maps $(x, y)$ to the real number obtained by _interleaving_ the decimal expansions of $x$ and $y$.
+  Now consider the function $g: S to L$ that maps $pair(x, y)$ to the real number obtained by _interleaving_ the decimal expansions of $x$ and $y$.
   #v(-.5em)
   $
     cases(
@@ -2993,7 +2994,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
     g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
   $
   #v(-.5em)
-  This is an injection, since if $g(a, b) = g(c, d)$, then $a_n = c_n$ and $b_n = d_n$ for all $n in NN$, so $(a, b) = (c, d)$.
+  This is an injection, since if $g(a, b) = g(c, d)$, then $a_n = c_n$ and $b_n = d_n$ for all $n in NN$, so $pair(a, b) = pair(c, d)$.
   Thus, $S smaller.eq L$.
 
   By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
@@ -3957,7 +3958,7 @@ TODO
 == Well-Ordered Sets
 
 #definition[
-  A poset $(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
+  A poset $pair(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
 
   Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
 ]
@@ -4049,15 +4050,15 @@ TODO
 //
 // TODO: fix this BROKEN example
 //
-// #example[Comparing $(NN, leq)$ vs $(NN, >=)$][
+// #example[Comparing $pair(NN, leq)$ vs $pair(NN, >=)$][
 //   Same set, different relations show how direction affects properties:
 
-//   *$(NN, leq)$ --- standard "less than or equal":*
+//   *$pair(NN, leq)$ --- standard "less than or equal":*
 //   - *Well-ordered:* #YES Every subset has a least (smallest) element.
 //   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
 //   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
 
-//   *$(NN, >=)$ --- "greater than or equal":*
+//   *$pair(NN, >=)$ --- "greater than or equal":*
 //   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
 //     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
 //     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
@@ -4071,7 +4072,7 @@ TODO
 #pagebreak()
 
 #example[
-  The _divisibility_ relation $(NN^+, |)$ is well-founded:
+  The _divisibility_ relation $pair(NN^+, |)$ is well-founded:
   - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
   - For example, in ${6, 12, 18, 4, 8}$:
     - $4$ is minimal because no other number in the set divides $4$
@@ -4118,7 +4119,7 @@ TODO
 ]
 
 #note[
-  Given a poset $(S, leq)$, we can use $lt$ to denote its associated strict order.
+  Given a poset $pair(S, leq)$, we can use $lt$ to denote its associated strict order.
 ]
 
 #note[
@@ -4126,7 +4127,7 @@ TODO
 ]
 
 #note[
-  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $(S, leq)$.
+  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $pair(S, leq)$.
 ]
 
 == Descending Chain Condition
@@ -4147,7 +4148,7 @@ TODO
 ]
 
 #example[
-  The natural numbers $(NN, leq)$ satisfy DCC:
+  The natural numbers $pair(NN, leq)$ satisfy DCC:
   - Since natural numbers are bounded below by $0$, infinite descent is impossible.
   - Any (weakly) descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize.
   - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
@@ -4156,7 +4157,7 @@ TODO
 == Well-Founded Posets
 
 #definition[
-  A poset $(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
+  A poset $pair(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
 
   In other words, every non-empty subset of $S$ has $lt$-minimal elements.
 ]
@@ -4169,9 +4170,9 @@ TODO
 == DCC and Well-Foundedness
 
 #theorem[
-  For any poset $(S, leq)$, the following are _equivalent_:
-  + $(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
-  + $(S, leq)$ satisfies _DCC_ (no infinite descending chains)
+  For any poset $pair(S, leq)$, the following are _equivalent_:
+  + $pair(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
+  + $pair(S, leq)$ satisfies _DCC_ (no infinite descending chains)
 ]
 
 #note[
@@ -4181,16 +4182,16 @@ TODO
 #proof[($==>$)][
   *Well-founded implies DCC*
 
-  Suppose $(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
+  Suppose $pair(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
   Consider the set $T = {x_0, x_1, x_2, dots}$.
-  Since $(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
+  Since $pair(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
   But then $x_k > x_(k+1)$, contradicting the minimality of $x_k$.
 ]
 
 #proof[($<==$)][
   *DCC implies well-founded*
 
-  Suppose $(S, leq)$ satisfies DCC.
+  Suppose $pair(S, leq)$ satisfies DCC.
   Let $T subset.eq S$ be any non-empty subset.
   If $T$ had no minimal elements, then for any $x_0 in T$, there would exist $x_1 in T$ with $x_0 > x_1$.
   Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
@@ -4209,7 +4210,7 @@ TODO
 ]
 
 #example[
-  Consider the poset $(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
+  Consider the poset $pair(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
   - *ACC fails:* #NO \
     The ascending chain $emptyset subset.eq {1} subset.eq {1,2} subset.eq {1,2,3} subset.eq dots$ never stabilizes.
   - *DCC fails:* #NO \
@@ -4257,14 +4258,14 @@ TODO
 ]
 
 #proof[
-  By definition, $(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
+  By definition, $pair(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
   By the earlier theorem, this is equivalent to $geq$ satisfying DCC, which is exactly the same as $leq$ satisfying ACC.
 ]
 
 == Relationships Between Chain Conditions
 
 #theorem[
-  For a poset $(S, leq)$:
+  For a poset $pair(S, leq)$:
   - *DCC* $iff$ the relation $leq$ is well-founded $iff$ no infinite descending chains.
   - *ACC* $iff$ the _dual_ relation $geq$ is well-founded $iff$ no infinite ascending chains.
 ]
@@ -4286,7 +4287,7 @@ TODO
 ]
 
 #example[
-  In the natural numbers $(NN, leq)$:
+  In the natural numbers $pair(NN, leq)$:
   - *DCC holds:* #YES
     Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
   - *ACC fails:* #NO
