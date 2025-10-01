@@ -1159,22 +1159,19 @@
       bezier(p0, p3, p1, p2, stroke: 1.5pt + color, mark: (end: ">", fill: color))
 
       // Function to calculate point on Bézier curve at parameter t
+      // Cubic Bézier formula: B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
       let point-on-bezier(t) = {
-        // Cubic Bézier formula: B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
         let t1 = 1 - t
-        let x = (
-          calc.pow(t1, 3) * p0.at(0)
-            + 3 * calc.pow(t1, 2) * t * p1.at(0)
-            + 3 * t1 * calc.pow(t, 2) * p2.at(0)
-            + calc.pow(t, 3) * p3.at(0)
+        cetz.vector.add(
+          cetz.vector.add(
+            cetz.vector.scale(p0, calc.pow(t1, 3)),
+            cetz.vector.scale(p1, 3 * calc.pow(t1, 2) * t),
+          ),
+          cetz.vector.add(
+            cetz.vector.scale(p2, 3 * t1 * calc.pow(t, 2)),
+            cetz.vector.scale(p3, calc.pow(t, 3)),
+          ),
         )
-        let y = (
-          calc.pow(t1, 3) * p0.at(1)
-            + 3 * calc.pow(t1, 2) * t * p1.at(1)
-            + 3 * t1 * calc.pow(t, 2) * p2.at(1)
-            + calc.pow(t, 3) * p3.at(1)
-        )
-        (x, y)
       }
 
       if label != none {
