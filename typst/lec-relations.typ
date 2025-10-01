@@ -1460,7 +1460,7 @@
 #definition[
   An element $m in S$ is called a _maximal element_ of a poset $pair(S, leq)$ if it is not less than any other element, i.e., there is no even greater element.
   $
-    forall x != m. thin not (x leq m)
+    forall x != m. thin not (m leq x)
     quad iff quad
     exists.not x != m. thin (m leq x)
   $
@@ -1471,11 +1471,11 @@
 #definition[
   An element $m in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if it is not greater than any other element, i.e., there is no even smaller element.
   $
-    forall x != m. thin not (m leq x)
+    forall x != m. thin not (x leq m)
     quad iff quad
     exists.not x != m. thin (x leq m)
   $
-  Equivelently, $forall x in S. thin (x leq m) imply (m = x)$
+  Equivelently, $forall x in S. thin (x leq m) imply (x = m)$
 ]
 
 #note[
