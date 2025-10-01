@@ -984,7 +984,7 @@
     blob((3, 0), [$4$], tint: red, name: <4>),
     edge(<1>, <3>, "--}>", bend: 45deg, stroke: blue.darken(20%), label: [$R^2$]),
     edge(<2>, <4>, "--}>", bend: 45deg, stroke: blue.darken(20%), label: [$R^2$]),
-    edge(<1>, <4>, "--}>", bend: -30deg, stroke: green.darken(20%), label: [$R^4$]),
+    edge(<1>, <4>, "--}>", bend: -30deg, stroke: green.darken(20%), label: [$R^3$]),
   )
 ]
 
