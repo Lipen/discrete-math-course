@@ -1131,10 +1131,10 @@
 
 #example[
   The relation $leq$ on real numbers $RR$ is a _total order_:
-  - *Reflexive:* $x leq x$ for all $x in RR$
-  - *Antisymmetric:* If $x leq y$ and $y leq x$, then $x = y$
-  - *Transitive:* If $x leq y$ and $y leq z$, then $x leq z$
-  - *Connected:* For any $x, y in RR$, either $x leq y$ or $y leq x$
+  - *Reflexive:* $x leq x$ for all $x in RR$ #YES
+  - *Antisymmetric:* If $x leq y$ and $y leq x$, then $x = y$ #YES
+  - *Transitive:* If $x leq y$ and $y leq z$, then $x leq z$ #YES
+  - *Connected:* For any $x, y in RR$, either $x leq y$ or $y leq x$ #YES
 
   This is the most familiar example of an order relation.
   Similarly, $NN$, $ZZ$, and $QQ$ with $leq$ are all total orders.
