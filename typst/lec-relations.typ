@@ -1140,8 +1140,78 @@
   Similarly, $NN$, $ZZ$, and $QQ$ with $leq$ are all total orders.
 ]
 
-// TODO: visualize the total order on a number line
-//       draw ALL edges, but make transitive ones lighter
+#align(center)[
+  #cetz.canvas(length: 1cm, {
+    import cetz.draw: *
+
+    // Custom function for curvy edges
+    let curvy-edge(from, to, height: 0.5, color: blue, label: none) = {
+      let mid-x = (from + to) / 2
+      let control1 = (from + 0.3 * (to - from), height)
+      let control2 = (to - 0.3 * (to - from), height)
+
+      // Control points for the Bézier curve
+      let p0 = (from, 0)
+      let p1 = (from + 0.3 * (to - from), height)
+      let p2 = (to - 0.3 * (to - from), height)
+      let p3 = (to, 0)
+
+      bezier(p0, p3, p1, p2, stroke: 1.5pt + color, mark: (end: ">", fill: color))
+
+      // Function to calculate point on Bézier curve at parameter t
+      let point-on-bezier(t) = {
+        // Cubic Bézier formula: B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
+        let t1 = 1 - t
+        let x = (
+          calc.pow(t1, 3) * p0.at(0)
+            + 3 * calc.pow(t1, 2) * t * p1.at(0)
+            + 3 * t1 * calc.pow(t, 2) * p2.at(0)
+            + calc.pow(t, 3) * p3.at(0)
+        )
+        let y = (
+          calc.pow(t1, 3) * p0.at(1)
+            + 3 * calc.pow(t1, 2) * t * p1.at(1)
+            + 3 * t1 * calc.pow(t, 2) * p2.at(1)
+            + calc.pow(t, 3) * p3.at(1)
+        )
+        (x, y)
+      }
+
+      if label != none {
+        // Use midpoint of the curve (t=0.5) for label positioning
+        let label-pos = point-on-bezier(0.5)
+        content(
+          label-pos,
+          text(10pt, fill: color)[#label],
+          anchor: if height > 0 { "south" } else { "north" },
+          padding: 0.1,
+        )
+      }
+    }
+
+    // Draw main number line
+    line((-5, 0), (5, 0), stroke: 2pt + black, mark: (symbol: ">", fill: black))
+
+    // Draw ticks and numbers
+    for i in range(-4, 5) {
+      line((i, -0.1), (i, 0.1), stroke: 1pt + black)
+      content((i, 0), text(10pt, str(i)), anchor: "north", padding: 0.2)
+    }
+
+    // Add infinity labels
+    content((-5, 0), anchor: "north", padding: 0.2, [$-infinity$])
+    content((5, 0), anchor: "north", padding: 0.2, [$+infinity$])
+
+    // Draw some curvy order edges
+    curvy-edge(-3, -1, height: 0.6, color: blue, label: $-3 leq -1$)
+    curvy-edge(-1, 2, height: 0.9, color: red, label: $-1 leq 2$)
+    curvy-edge(0, 3, height: -0.9, color: green, label: $0 leq 3$)
+    curvy-edge(-2, 1, height: -0.9, color: purple, label: $-2 leq 1$)
+
+    // Add title
+    content((0, -1.6))[Linear order $leq$ on real numbers $RR$]
+  })
+]
 
 #pagebreak()
 
