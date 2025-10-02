@@ -2049,9 +2049,11 @@
 ]
 
 #definition[
-  A relation that satisfies only the _functional_ property (but not necessarily total) is called a _partial function_. It may be undefined for some inputs.
+  A relation that satisfies only the _functional_ property (but not necessarily total) is called a _partial function_, denoted $f: A arrow.r.hook B$.
+  It may be undefined for some inputs.
 
-  A relation that satisfies _both_ properties is called a _total function_, or simply a _function_. It is defined for every input in its domain.
+  A relation that satisfies _both_ properties is called a _total function_, denoted $f: A to B$.
+  It is defined for every input in its domain.
 ]
 
 #note[
