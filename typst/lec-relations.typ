@@ -1873,6 +1873,70 @@
   In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
 ]
 
+#example[
+  Consider the divisibility poset on $P = {2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60}$.
+
+  #place(right, dy: -1em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1.8em, 1.4em),
+      node-shape: fletcher.shapes.circle,
+      node-stroke: 1pt,
+      edge-stroke: 0.8pt,
+      // Level 0: primes 2, 3, 5 (minimal elements)
+      node((-1.5, 0), [2], width: 1.1em, name: <2>),
+      node((0, 0), [3], width: 1.1em, name: <3>),
+      node((1.5, 0), [5], width: 1.1em, name: <5>),
+      // Level 1: products of two primes (antichain)
+      node((-2, -1), [4], width: 1.1em, name: <4>, fill: red.lighten(80%)),
+      node((-1, -1), [6], width: 1.1em, name: <6>, fill: red.lighten(80%)),
+      node((0, -1), [10], width: 1.1em, name: <10>, fill: red.lighten(80%)),
+      node((1.5, -1), [15], width: 1.1em, name: <15>, fill: red.lighten(80%)),
+      // Level 2: products of three prime factors
+      node((-1.5, -2), [12], width: 1.1em, name: <12>),
+      node((0, -2), [20], width: 1.1em, name: <20>),
+      node((1.5, -2), [30], width: 1.1em, name: <30>),
+      // Level 3: 60
+      node((0, -3), [60], width: 1.1em, name: <60>),
+
+      // Edges to level 1
+      edge(<2>, <4>, "-}>"),
+      edge(<2>, <6>, "-}>"),
+      edge(<2>, <10>, "-}>"),
+      edge(<3>, <6>, "-}>"),
+      edge(<3>, <15>, "-}>"),
+      edge(<5>, <10>, "-}>"),
+      edge(<5>, <15>, "-}>"),
+      // Edges to level 2
+      edge(<4>, <12>, "-}>"),
+      edge(<6>, <12>, "-}>"),
+      edge(<4>, <20>, "-}>"),
+      edge(<10>, <20>, "-}>"),
+      edge(<6>, <30>, "-}>"),
+      edge(<10>, <30>, "-}>"),
+      edge(<15>, <30>, "-}>"),
+      // Edges to 60
+      edge(<12>, <60>, "-}>"),
+      edge(<20>, <60>, "-}>"),
+      edge(<30>, <60>, "-}>"),
+    )
+  ]
+
+  *Maximum antichain:* ${4, 6, 10, 15}$ (size 4)
+  - These are all numbers with exactly 2 prime factors (counting multiplicity)
+  - None divides any other: $4 = 2^2$, $6 = 2 dot 3$, $10 = 2 dot 5$, $15 = 3 dot 5$
+
+  *Minimum chain decomposition:* We need exactly 4 chains to cover $P$:
+  - Chain 1: $2 | 4 | 12 | 60$
+  - Chain 2: $3 | 6 | 30 | 60$
+  - Chain 3: $5 | 10 | 20 | 60$
+  - Chain 4: $5 | 15 | 30 | 60$
+
+  *Dilworth's theorem:* Maximum antichain size (4) = Minimum number of chains (4). #YES
+]
+
+== Proof of Dilworth's Theorem
+
 #proof[
   Let $pair(P, leq)$ be a finite poset.
   Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
