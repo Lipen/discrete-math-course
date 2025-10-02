@@ -1923,16 +1923,17 @@
   ]
 
   *Maximum antichain:* ${4, 6, 10, 15}$ (size 4)
-  - These are all numbers with exactly 2 prime factors (counting multiplicity)
-  - None divides any other: $4 = 2^2$, $6 = 2 dot 3$, $10 = 2 dot 5$, $15 = 3 dot 5$
+  - These elements are pairwise _incomparable_ (none divides another).
 
-  *Minimum chain decomposition:* We need exactly 4 chains to cover $P$:
+  *Minimum chain decomposition:* We need exactly 4 chains that _cover_ $P$:
   - Chain 1: $2 | 4 | 12 | 60$
-  - Chain 2: $3 | 6 | 30 | 60$
-  - Chain 3: $5 | 10 | 20 | 60$
-  - Chain 4: $5 | 15 | 30 | 60$
+  - Chain 2: $3 | 6 | 30$
+  - Chain 3: $5 | 10 | 20$
+  - Chain 4: $15$ (singleton chain)
 
-  *Dilworth's theorem:* Maximum antichain size (4) = Minimum number of chains (4). #YES
+  Each element appears in exactly one chain, forming a _partition_ of $P$.
+
+  *Dilworth's theorem:* Maximum _antichain_ size (4) = Minimum number of _disjoint chains_ (4). #YES
 ]
 
 == Proof of Dilworth's Theorem
