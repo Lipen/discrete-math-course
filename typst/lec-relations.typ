@@ -2649,17 +2649,62 @@
   A function $f: A to B$ is called _monotonic_ if it preserves order relationships.
 
   For real-valued functions $f: RR to RR$:
-  - _Monotonic increasing_ if $x <= y imply f(x) <= f(y)$
+  - _Monotonic increasing_ (or _isotone_) if $x <= y imply f(x) <= f(y)$
   - _Strictly increasing_ if $x < y imply f(x) < f(y)$
-  - _Monotonic decreasing_ if $x <= y imply f(x) >= f(y)$
+  - _Monotonic decreasing_ (or _antitone_) if $x <= y imply f(x) >= f(y)$
   - _Strictly decreasing_ if $x < y imply f(x) > f(y)$
+
+  #note[
+    More generally, for any posets $pair(A, scripts(leq)_A)$ and $pair(B, scripts(leq)_B)$:
+    - $f$ is _order-preserving_ (monotone) if $x scripts(leq)_A y imply f(x) scripts(leq)_B f(y)$
+    - $f$ is _order-reversing_ (antitone) if $x scripts(leq)_A y imply f(x) scripts(geq)_B f(y)$
+  ]
+]
+
+#pagebreak()
+
+#theorem[Monotonicity implies injectivity][
+  If $f: RR to RR$ is *strictly* increasing or *strictly* decreasing, then $f$ is *injective*.
+]
+
+#proof[
+  Suppose $f$ is strictly increasing.
+  Let $x_1, x_2 in RR$ with $x_1 != x_2$.
+  Then either $x_1 < x_2$ or $x_2 < x_1$.
+  - If $x_1 < x_2$, then $f(x_1) < f(x_2)$ by strict monotonicity, so $f(x_1) != f(x_2)$.
+  - If $x_2 < x_1$, then $f(x_2) < f(x_1)$ by strict monotonicity, so $f(x_1) != f(x_2)$.
+
+  In both cases, $f(x_1) != f(x_2)$, proving injectivity.
+  The proof for strictly decreasing is analogous.
 ]
 
 #Block(color: yellow)[
   *Key insights:*
   - Monotonic functions have predictable behavior: they never "change direction"
-  - Strictly monotonic functions are always injective (one-to-one)
-  - These concepts extend naturally to any sets with ordering relationships
+  - *Strictly* monotonic functions are always injective (one-to-one)
+  - Non-strict monotonic functions may have "flat" regions where different inputs map to the same output
+  - Connection to Order Theory: monotonic functions are _order-homomorphisms_ between posets
+]
+
+#example[
+  Examples of *strictly monotonic functions* (which are always injective):
+  - $f(x) = 2x + 1$ is strictly increasing on $RR$, hence injective. #YES
+  - $g(x) = -x$ is strictly decreasing on $RR$, hence injective. #YES
+  - $h(x) = x^3$ is strictly increasing on $RR$, hence injective. #YES
+  - $k(x) = e^x$ is strictly increasing on $RR$, hence injective. #YES
+]
+
+#example[
+  Examples of *monotonic but NOT strictly monotonic* functions (not necessarily injective):
+  - $f(x) = floor(x)$ is monotonic increasing but NOT strictly increasing.
+    - For $x in [2, 3)$, we have $f(x) = 2$ (constant on intervals).
+    - This is NOT injective: $f(2.1) = f(2.9) = 2$ but $2.1 != 2.9$. #NO
+
+  - $g(x) = cases(
+      x & "if" x <= 0,
+      0 & "if" 0 < x < 1,
+      x - 1 &"if" x >= 1
+    )$ ~ is monotonic but not injective.
 ]
 
 == Function Properties Overview
