@@ -2097,74 +2097,91 @@
     ]
 ]
 
-#example[
-  Let $A = {1, 2, 3}$ and $B = {x, y, z}$.
-  Let $f = {pair(1, x), pair(2, y), pair(3, x)}$.
-  - $f$ is a function from $A$ to $B$.
-  - $Dom(f) = A$
-  - $Cod(f) = B$
-  - $Range(f) = {x, y} subset.eq B$
-  We have $f(1) = x$, $f(2) = y$, $f(3) = x$.
+#place(bottom + right)[
+  #cetz.canvas({
+    import cetz.draw: *
 
-  #place(top + right)[
-    #cetz.canvas({
-      import cetz.draw: *
+    scale(75%)
 
-      scale(75%)
+    let w = 3.2
 
-      let w = 3.2
+    let draw-element((x, y), label, name, dir) = {
+      circle((x, y), radius: 0.1, stroke: 1pt, name: name)
+      content(
+        name,
+        [#label],
+        anchor: if dir == left { "east" } else { "west" },
+        padding: 0.2,
+      )
+    }
 
-      let draw-element((x, y), label, name, dir) = {
-        circle((x, y), radius: 0.1, stroke: 1pt, name: name)
-        content(
-          name,
-          [#label],
-          anchor: if dir == left { "east" } else { "west" },
-          padding: 0.2,
-        )
-      }
+    let draw-edge(start, end, color: blue) = {
+      line(
+        start,
+        end,
+        stroke: 1pt + color,
+        mark: (end: "stealth", fill: color),
+        name: start + "-" + end,
+      )
+    }
 
-      let draw-edge(start, end, color: blue) = {
-        line(
-          start,
-          end,
-          stroke: 1pt + color,
-          mark: (end: "stealth", fill: color),
-          name: start + "-" + end,
-        )
-      }
+    // Draw domain and codomain ellipses
+    circle((0, 0), radius: (1, 2))
+    circle((w, 0), radius: (1, 2))
 
-      // Draw domain and codomain ellipses
-      circle((0, 0), radius: (1, 2))
-      circle((w, 0), radius: (1, 2))
+    // Draw elements in domain and codomain
+    draw-element((0, 1), $1$, "1", left)
+    draw-element((0, 0), $2$, "2", left)
+    draw-element((0, -1), $3$, "3", left)
 
-      // Draw elements in domain and codomain
-      draw-element((0, 1), $1$, "1", left)
-      draw-element((0, 0), $2$, "2", left)
-      draw-element((0, -1), $3$, "3", left)
+    draw-element((w, 1), $x$, "x", right)
+    draw-element((w, 0), $y$, "y", right)
+    draw-element((w, -1), $z$, "z", right)
 
-      draw-element((w, 1), $x$, "x", right)
-      draw-element((w, 0), $y$, "y", right)
-      draw-element((w, -1), $z$, "z", right)
+    // Draw edges representing the function
+    draw-edge("1", "x")
+    draw-edge("2", "y")
+    draw-edge("3", "x")
 
-      // Draw edges representing the function
-      draw-edge("1", "x")
-      draw-edge("2", "y")
-      draw-edge("3", "x")
-
-      // Draw labels
-      content((w / 2, -2.4), [$f: A to B$])
-      // content((0, -2.5), [$Dom f = A$])
-      // content((w, -2.5), [$Cod f = B$])
-    })
-  ]
+    // Draw labels
+    // content((w / 2, -2.4), [$f: A to B$])
+  })
 ]
 
 #example[
-  Consider $g: ZZ to ZZ$ defined by $g(n) = n^2$.
-  - $Dom(g) = ZZ$.
-  - $Cod(g) = ZZ$.
-  - $Range(g) = {0, 1, 4, 9, dots}$ (the set of non-negative perfect squares).
+  Let $A = {1, 2, 3}$ and $B = {x, y, z}$, and define $f = {pair(1, x), pair(2, y), pair(3, x)}$.
+  - $f: A to B$ is a function from $A$ to $B$
+  - $Dom(f) = A = {1, 2, 3}$ ("from")
+  - $Cod(f) = B = {x, y, z}$ ("to")
+  - $Range(f) = {x, y} subset B$ (note that $z$ is not in the range)
+  - We have $f(1) = x$, $f(2) = y$, $f(3) = x$
+
+]
+
+== Examples of Domain, Codomain, Range
+
+#example[
+  Consider the _squaring_ function $g: ZZ to ZZ$ defined by $g(n) = n^2$.
+  - $Dom(g) = Cod(g) = ZZ$ (all integers)
+  - $Range(g) = {0, 1, 4, 9, 16, dots} = {n^2 | n in NN}$ (non-negative perfect squares)
+
+  Note that the range of $g$ is a proper subset of the codomain: $Range(g) subset Cod(g)$, since $-1 notin Range(g)$.
+]
+
+#example[
+  The _absolute value_ function $f: RR to RR$ defined by $f(x) = abs(x)$:
+  - $Dom(f) = Cod(f) = RR$ (all real numbers)
+  - $Range(f) = [0, infinity) = {y in RR | y >= 0}$ (non-negative reals)
+]
+
+#example[
+  The _exponential_ function $exp: RR to (0, infinity)$ defined by $exp(x) = e^x$:
+  - $Dom(exp) = RR$ (all real numbers)
+  - $Cod(exp) = (0, infinity)$ (positive real numbers)
+  - $Range(exp) = (0, infinity)$ (same as codomain --- this function is _surjective_!)
+
+  Note the careful choice of codomain: if we used $exp: RR to RR$, the range would still be $(0, infinity)$,
+  making it not surjective.
 ]
 
 == Image and Preimage of Sets
@@ -2454,7 +2471,46 @@
   $g compose f != f compose g$ (composition is not commutative!)
 ]
 
-// TODO: visualize function composition
+#place(bottom + right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (5em, 2em),
+    node-shape: fletcher.shapes.circle,
+    node-stroke: 1pt,
+    edge-stroke: 1pt,
+    // Set A
+    blob((-1, 0.5), [$a_1$], tint: blue, name: <a1>),
+    blob((-1, 1.5), [$a_2$], tint: blue, name: <a2>),
+    blob((-1, 2.5), [$a_3$], tint: blue, name: <a3>),
+    // Set B
+    blob((0, 0.3), [$b_1$], tint: yellow, name: <b1>),
+    blob((0, 1.5), [$b_2$], tint: yellow, name: <b2>),
+    blob((0, 2.7), [$b_3$], tint: yellow, name: <b3>),
+    // Set C
+    blob((1, 1), [$c_1$], tint: green, name: <c1>),
+    blob((1, 2), [$c_2$], tint: green, name: <c2>),
+    // Function f: A -> B
+    edge(<a1>, <b2>, "-}>", stroke: blue),
+    edge(<a2>, <b1>, "-}>", stroke: blue),
+    edge(<a3>, <b3>, "-}>", stroke: blue),
+    // Function g: B -> C
+    edge(<b1>, <c1>, "-}>", stroke: red),
+    edge(<b2>, <c2>, "-}>", stroke: red),
+    edge(<b3>, <c1>, "-}>", stroke: red),
+    // Composition g ∘ f: A -> C (curly dashed edges)
+    edge(<a1>, <c2>, "--}>", bend: 15deg, stroke: green.darken(20%)),
+    edge(<a2>, <c1>, "--}>", bend: 10deg, stroke: green.darken(20%)),
+    edge(<a3>, <c1>, "--}>", bend: -10deg, stroke: green.darken(20%)),
+    // Legend
+    // node((rel: (0cm, -2.5em), to: <b1.south>), align(left)[
+    //   #set text(size: 0.8em)
+    //   Edges legend:
+    //   - #text(fill: blue)[Solid blue: Function $f: A to B$]
+    //   - #text(fill: red)[Solid red: Function $g: B to C$]
+    //   - #text(fill: green.darken(20%))[Dashed green: Composition $g compose f: A to C$]
+    // ]),
+  )
+]
 
 == Examples of Function Composition
 
