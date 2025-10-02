@@ -2031,7 +2031,7 @@
   A _function_ $f$ from a set $A$ to a set $B$, denoted $f: A to B$, is a special kind of relation $f subset.eq A times B$ where every element of $A$ is paired with _exactly one_ element of $B$.
 
   This "exactly one" requirement breaks down into two conditions:
-  + _Functional property (right-unique or well-defined)_:
+  + _Functional property_ (_right-unique_ or _well-defined_):
     Each input has _at most one_ output. No input can map to multiple different outputs.
     $
       forall a in A. thin
@@ -2039,7 +2039,7 @@
       (f(a) = b_1) and (f(a) = b_2) imply (b_1 = b_2)
     $
 
-  + _Total property (left-total or defined everywhere)_:
+  + _Total property_ (_left-total_ or _defined everywhere_):
     Each input has _at least one_ output. Every element in the domain must map to something.
     $
       forall a in A. thin
