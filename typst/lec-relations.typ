@@ -2600,7 +2600,41 @@
   So, $f^(-1)(y) = (y-1) / 2$.
 ]
 
-// TODO: new slide and proof
+#example[
+  The exponential function $exp: RR to (0, infinity)$ defined by $exp(x) = e^x$ is bijective.
+  - Its inverse is the natural logarithm: $ln: (0, infinity) to RR$.
+  - We have: $ln(e^x) = x$ for all $x in RR$ and $e^(ln y) = y$ for all $y > 0$.
+
+  #note[
+    If we tried $exp: RR to RR$, it wouldn't be surjective (negative numbers never achieved), hence no inverse!
+    The codomain restriction is essential.
+  ]
+]
+
+#pagebreak()
+
+#example[Polynomial with domain restriction][
+  Consider $f: RR to RR$ defined by $f(x) = x^2$.
+  - This is *not* injective: $f(-2) = f(2) = 4$, so no inverse exists.
+
+  However, if we *restrict the domain* to $f: [0, infinity) to [0, infinity)$, then:
+  - $f$ becomes bijective (both injective and surjective on non-negative reals).
+  - The inverse is $f^(-1)(y) = sqrt(y)$ for $y >= 0$.
+
+  #Block(color: yellow)[
+    *Key insight:* Many functions need domain/codomain restrictions to become invertible.
+    This is crucial in calculus when finding inverse functions!
+  ]
+]
+
+#example[
+  The sine function $sin: RR to RR$ is *not* injective (it's periodic), so it has no inverse.
+
+  However, with domain restriction, $sin: [-pi/2, pi/2] to [-1, 1]$ *is* bijective, with inverse $arcsin: [-1, 1] to [-pi/2, pi/2]$.
+
+  Similarly: $cos: [0, pi] to [-1, 1]$ has inverse $arccos$, and $tan: (-pi/2, pi/2) to RR$ has inverse $arctan$.
+]
+
 #theorem[
   If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
   - $f^(-1)$ is also bijective.
