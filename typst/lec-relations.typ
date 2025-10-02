@@ -2517,7 +2517,8 @@
 #Block(color: yellow)[
   *Key insight:*
   Function composition is like a "pipeline" --- the output of $f$ becomes the input to $g$.
-  Read right-to-left: $g compose f$ means "first apply $f$, then apply $g$".
+
+  Read right-to-left: $g compose f$ means "first apply $f$, then apply $g$", or rather, "do $g$ after $f$".
 ]
 
 #example[Computer science applications][
