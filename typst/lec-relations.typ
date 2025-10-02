@@ -2583,7 +2583,7 @@
 == Inverse Functions
 
 #definition[
-  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is defined as:
+  If $f: A to B$ is a bijective function, then its _inverse function_, denoted $f^(-1): B to A$, is:
   $
     f^(-1)(b) = a quad "iff" quad f(a) = b
   $
