@@ -2092,27 +2092,50 @@
 
       scale(75%)
 
+      let w = 3.2
+
+      let draw-element((x, y), label, name, dir) = {
+        circle((x, y), radius: 0.1, stroke: 1pt, name: name)
+        content(
+          name,
+          [#label],
+          anchor: if dir == left { "east" } else { "west" },
+          padding: 0.2,
+        )
+      }
+
+      let draw-edge(start, end, color: blue) = {
+        line(
+          start,
+          end,
+          stroke: 1pt + color,
+          mark: (end: "stealth", fill: color),
+          name: start + "-" + end,
+        )
+      }
+
+      // Draw domain and codomain ellipses
       circle((0, 0), radius: (1, 2))
-      circle((3, 0), radius: (1, 2))
+      circle((w, 0), radius: (1, 2))
 
-      circle((0, 1), radius: 0.1, fill: white, name: "1")
-      circle((0, 0), radius: 0.1, fill: white, name: "2")
-      circle((0, -1), radius: 0.1, fill: white, name: "3")
+      // Draw elements in domain and codomain
+      draw-element((0, 1), $1$, "1", left)
+      draw-element((0, 0), $2$, "2", left)
+      draw-element((0, -1), $3$, "3", left)
 
-      circle((3, 1), radius: 0.1, fill: white, name: "x")
-      circle((3, 0), radius: 0.1, fill: white, name: "y")
-      circle((3, -1), radius: 0.1, fill: white, name: "z")
+      draw-element((w, 1), $x$, "x", right)
+      draw-element((w, 0), $y$, "y", right)
+      draw-element((w, -1), $z$, "z", right)
 
-      content("1", [$1$], anchor: "east", padding: 0.2)
-      content("2", [$2$], anchor: "east", padding: 0.2)
-      content("3", [$3$], anchor: "east", padding: 0.2)
-      content("x", [$x$], anchor: "west", padding: 0.2)
-      content("y", [$y$], anchor: "west", padding: 0.2)
-      content("z", [$z$], anchor: "west", padding: 0.2)
+      // Draw edges representing the function
+      draw-edge("1", "x")
+      draw-edge("2", "y")
+      draw-edge("3", "x")
 
-      line("1", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "1-x")
-      line("2", "y", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "2-y")
-      line("3", "x", stroke: 2pt + blue, mark: (end: "stealth", fill: blue), name: "3-x")
+      // Draw labels
+      content((w / 2, -2.4), [$f: A to B$])
+      // content((0, -2.5), [$Dom f = A$])
+      // content((w, -2.5), [$Cod f = B$])
     })
   ]
 ]
