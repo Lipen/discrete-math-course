@@ -2061,7 +2061,25 @@
   Partial functions are explicitly noted when needed, especially in computability theory and programming language semantics.
 ]
 
-// TODO: add notation for partial functions:  f : A hook B (or arrow with bar), contrast with f : A to B for total functions.
+== Examples of Functions
+
+#example[Partial functions][
+  - *Division*: $f: RR times RR arrow.r.hook RR$ defined by $f(x, y) = x / y$ is partial because $f(x, 0)$ is undefined.
+
+  - *Square root on integers*: $g: ZZ arrow.r.hook RR$ defined by $g(n) = sqrt(n)$ is partial because negative integers have no real square root.
+
+  - *Array access*: $"arr": NN arrow.r.hook T$ where $"arr"(i)$ returns the element at index $i$, but is undefined for out-of-bounds indices.
+
+  - *Head of list*: $"head": "List"[T] arrow.r.hook T$ returns the first element, but is undefined for empty lists.
+]
+
+#example[Total functions][
+  - *Absolute value*: $|dot|: RR to RR$ is total --- defined for all real numbers.
+
+  - *Successor*: $S: NN to NN$ defined by $S(n) = n + 1$ is total --- defined for all natural numbers.
+
+  - *Constant function*: $f: A to B$ defined by $f(x) = b_0$ for some fixed $b_0 in B$ is always total.
+]
 
 == Domain, Codomain, Range
 
