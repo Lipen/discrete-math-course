@@ -1873,51 +1873,40 @@
   In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
 ]
 
-// #example[
-//   In the Boolean lattice $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion ($subset.eq$):
-//
-//   - *Maximum antichain:* ${{a}, {b}}$ of size 2 (red nodes - incomparable elements)
-//   - *Minimum chain decomposition:*
-//     - Chain 1: $emptyset subset.eq {a} subset.eq {a,b}$
-//     - Chain 2: $emptyset subset.eq {b} subset.eq {a,b}$
-//   - *Dilworth's theorem:* Maximum antichain size (2) = minimum number of chains (2).
-//
-//   #note[
-//     $emptyset$ and ${a,b}$ appear in both chains, which is allowed in chain decompositions.
-//   ]
-// ]
-
 #proof[
   Let $pair(P, leq)$ be a finite poset.
   Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
   We prove $alpha = beta$ by showing $alpha <= beta$ and $alpha >= beta$.
 
-  *Part 1 ($alpha <= beta$):* #h(0.2em)
-  Suppose $P$ can be covered by $k$ chains $C_1, C_2, ..., C_k$. Let $A$ be any antichain in $P$.
-
-  Since elements in an antichain are pairwise incomparable, no two elements of $A$ can belong to the same chain. Therefore, $A$ can contain at most one element from each chain $C_i$.
-
-  Thus $|A| <= k$, and taking the maximum over all antichains: $alpha <= k$.
-
-  Since this holds for any chain decomposition with $k$ chains: $alpha <= beta$.
+  *Easy part ($alpha <= beta$):*
+  Suppose $P$ can be partitioned into $k$ chains $C_1, dots, C_k$.
+  Let $A$ be any antichain in $P$.
+  Since elements in an antichain are pairwise incomparable, each chain contains at most one element of $A$.
+  Therefore $abs(A) <= k$.
+  Taking the maximum over all antichains gives $alpha <= k$.
+  Since this holds for any chain partition, we have $alpha <= beta$.
+  #h(1fr) $qed$
 
   #colbreak()
 
-  *Part 2 ($alpha >= beta$):* #h(0.2em)
-  We construct a chain decomposition using exactly $alpha$ chains.
+  *Hard part ($alpha >= beta$):*
+  Let $A subset.eq P$ be a maximal antichain of size $alpha$.
 
-  Define the _height_ of element $x in P$ as:
-  $h(x) = max{abs(C) : C "is a chain with maximum element" x}$
+  We construct a chain partition of $P$ of size $alpha$ as follows:
+  - Initialize $cal(C) := emptyset$.
+  - While $P != emptyset$:
+    + Choose a maximal element $x in P$ (no element above $x$ in the remaining poset).
+    + Build a chain $C$ ending at $x$:
+      - Start with $C := { x }$.
+      - Repeatedly add a maximal _predecessor_ element $y in P setminus C$ such that $y < "current bottom of" C$.
+    + Add $C$ to $cal(C)$ and remove all elements of $C$ from $P$.
 
-  *Claim:* For each $i = 1, 2, ..., alpha$, the set $L_i = {x in P : h(x) = i}$ is an antichain.
+  By construction:
+  - Each $C in cal(C)$ is a chain (elements are added only below the current bottom).
+  - Chains in $cal(C)$ cover all elements of $P$.
+  - Each chain contains exactly one element of the maximal antichain $A$, so $abs(cal(C)) = alpha$.
 
-  *Proof of Claim:* Suppose $x, y in L_i$ with $x < y$. Then any maximal chain ending at $x$ can be extended by adding $y$, so $h(y) >= h(x) + 1 = i + 1$, contradicting $h(y) = i$.
-
-  Since $P$ is finite, $h(x) <= alpha$ for all $x in P$. The sets $L_1, ..., L_alpha$ partition $P$ into antichains.
-
-  For each $x in L_i$ with $i > 1$, there exists $y < x$ with $h(y) = i-1$ (by maximality of chains). This defines chains that cover all of $P$ using exactly $alpha$ chains.
-
-  Therefore $beta <= alpha$, completing the proof.
+  Therefore $P$ can be covered by $alpha$ chains, giving $beta <= alpha$.
 ]
 
 == Summary: Orders
