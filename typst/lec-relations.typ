@@ -2759,6 +2759,56 @@ Functions can be characterized by several key properties that determine their ma
   So $chi_S = {(1,0), (2,1), (3,0), (4,1), (5,0)}$.
 ]
 
+#place(right + bottom)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    // Draw axis
+    line((-0.5, 0), (6, 0), stroke: 1pt, fill: black, mark: (end: "stealth"))
+    line((0, -0.5), (0, 1.5), stroke: 1pt, fill: black, mark: (end: "stealth"))
+
+    // Draw characteristic function as step function
+    let points = ((1, 0), (2, 1), (3, 0), (4, 1), (5, 0))
+
+    for (x, y) in points {
+      // Vertical line at each point
+      if y == 1 {
+        line((x, 0), (x, 1), stroke: 2pt + blue)
+        circle((x, 1), radius: 0.1, fill: blue, stroke: blue)
+        circle((x, 0), radius: 0.08, fill: white, stroke: blue)
+      } else {
+        circle((x, 0), radius: 0.1, fill: red, stroke: red)
+      }
+
+      // Label x-axis
+      content((x, 0), text(size: 0.9em)[#x], anchor: "north", padding: 0.2)
+    }
+
+    // Ticks
+    line((-0.1, 1), (0.1, 1), stroke: 0.8pt)
+
+    // Labels
+    content((6, 0), [$x$], anchor: "north", padding: 0.2)
+    content((0, 1.5), [$chi_S (x)$], anchor: "east", padding: 0.2)
+    content((0, 0), [$0$], anchor: "north-east", padding: 0.2)
+    content((0, 1), [$1$], anchor: "east", padding: 0.2)
+
+    // Highlight the set S
+    content(
+      (3, 1.1),
+      text(fill: blue, weight: "bold")[Elements in $S = {2, 4}$ map to $1$],
+      anchor: "south",
+      padding: 0.2,
+    )
+    content(
+      (3, -0.5),
+      text(fill: red, weight: "bold")[Elements not in $S$ map to $0$],
+      anchor: "north",
+      padding: 0.2,
+    )
+  })
+]
+
 == Properties of Characteristic Functions
 
 #definition[
