@@ -2715,24 +2715,25 @@ Functions can be characterized by several key properties that determine their ma
 #table(
   columns: 2,
   align: (left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header([*Property*], [*Definition*]),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
-  [*Well-defined*], [Each input maps to exactly one output],
+  table.header([Property], [Definition]),
 
-  [*Total*], [Defined for all inputs in the domain],
+  [*Functional* (Right-unique)], [Each input maps to _at most one_ output],
 
-  [*Partial*], [May be undefined for some inputs],
+  [*Total* (Left-total)], [Each input maps to _at least one_ output (defined everywhere)],
 
-  [*Injective* (One-to-one)], [Different inputs → different outputs],
+  [*Partial*], [Functional but not total (may be undefined for some inputs)],
 
-  [*Surjective* (Onto)], [Every codomain element is achieved],
+  [*Injective* (Left-unique)], [Different inputs $==>$ different outputs],
 
-  [*Bijective*], [Both injective and surjective, one-to-one correspondence],
+  [*Surjective* (Right-total)], [Every codomain element is covered],
+
+  [*Bijective*], [Both injective and surjective (one-to-one correspondence)],
 
   [*Monotonic*], [Preserves or reverses order relationships],
 
-  [*Continuous*], [Small input changes → small output changes],
+  [*Continuous*], [Small input changes $==>$ small output changes],
 )
 
 == Characteristic Functions
