@@ -1794,7 +1794,7 @@
   ]
 
   *Chains:* (totally ordered subsets)
-  - Maximal chain: #Blue[${1, 2, 4, 12}$] --- longest path
+  - Maximal chain: #Blue[${1, 2, 4, 20}$] --- longest path
   - Not maximal: ${5, 10}$
   - Can _skip_ elements: ${1, 5, 20}$
 
