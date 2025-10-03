@@ -1,20 +1,3 @@
-## Ignore tests, homeworks and quests
-test*
-hw*
-quest*
-exam*
-
-## ...except some published homeworks
-!hw1.tex
-!hw2.tex
-!hw3.tex
-!hw4.tex
-!hw5.tex
-!hw6.tex
-!hw7.tex
-!hw8.tex
-!hw*.typ
-
 ## Extra ignore
 .devcontainer/
 .vscode/

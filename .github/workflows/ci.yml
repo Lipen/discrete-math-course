@@ -1,5 +1,5 @@
 name: CI
-run-name: Render PDFs
+run-name: Build and Deploy
 
 on:
   push:
@@ -12,6 +12,15 @@ on:
       - .github/**
       - "!.github/workflows/ci.yml"
   workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
 
 jobs:
   build-typst:
@@ -75,31 +84,68 @@ jobs:
           name: pdf-tex
           path: "tex/*.pdf"
 
-  deploy:
+  build-mdbook:
     runs-on: ubuntu-latest
-    needs: [build-typst, build-tex]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Download PDF artifacts
+      - name: Install mdBook
+        run: |
+          mkdir -p ~/bin
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.52/mdbook-v0.4.52-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=~/bin
+          echo "$HOME/bin" >> $GITHUB_PATH
+
+      - name: Build website with mdBook
+        run: |
+          cd docs
+          mdbook build
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: "docs/dist/"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [build-typst, build-tex, build-mdbook]
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          pattern: pdf-*
+          pattern: '*'
 
-      - name: Show files
+      - name: Show downloaded files
         run: ls -R
 
       - name: Prepare files for gh-pages
         run: |
-          # Note: All Typst PDFs go to the root of 'public', TeX PDFs go to 'public/tex'
+          # Create public directory and copy website files first
           mkdir -p public
-          mv pdf-typst/*.pdf public/
-          mkdir -p public/tex
-          mv pdf-tex/*.pdf public/tex
+          cp -r website/* public/
 
-      - name: Publish PDFs to gh-pages branch
-        uses: peaceiris/actions-gh-pages@v4
+          # Copy all Typst PDFs to the root
+          cp pdf-typst/*.pdf public/
+
+          # Copy TeX PDFs to tex/ subdirectory
+          mkdir -p public/tex
+          cp pdf-tex/*.pdf public/tex/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          path: './public'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
