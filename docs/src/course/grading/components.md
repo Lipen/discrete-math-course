@@ -9,7 +9,7 @@
 
 **Purpose**: Practice, preparation, feedback
 
-[See Homework section for details](../../assessments/homework/index.md)
+[See Homework section for details](../../assessments/homework/README.md)
 
 ## Module Tests (20 points)
 
@@ -20,7 +20,7 @@
 
 **Purpose**: Computational skills and problem-solving
 
-[See Tests section for details](../../assessments/tests/index.md)
+[See Tests section for details](../../assessments/tests/README.md)
 
 ## Theoretical Minimums (20 points)
 
@@ -33,7 +33,7 @@
 
 **Purpose**: Deep theoretical understanding and proof skills
 
-[See Colloquiums section for details](../../assessments/colloquiums/index.md)
+[See Colloquiums section for details](../../assessments/colloquiums/README.md)
 
 ## Final Exam (20 points)
 
@@ -43,4 +43,4 @@
 
 **Purpose**: Integration across all topics
 
-[See Final Exam section for details](../../assessments/exam/index.md)
+[See Final Exam section for details](../../assessments/exam/README.md)

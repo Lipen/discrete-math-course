@@ -1,6 +1,6 @@
 # Welcome to Discrete Mathematics
 
-**ITMO University • Fall 2025 • Instructor: Konstantin Chukharev**
+**ITMO University • Fall 2025 -- Spring 2026 • Instructor: Konstantin Chukharev**
 
 This site contains all course materials, assignments, and resources for the Discrete Mathematics course.
 
@@ -9,8 +9,8 @@ This site contains all course materials, assignments, and resources for the Disc
 **New to the course?**
 
 - Start with [Course Overview](./course/overview.md)
-- Review the [Schedule](./course/schedule/index.md)
-- Understand [How You're Graded](./course/grading/index.md)
+- Review the [Schedule](./course/schedule/README.md)
+- Understand [How You're Graded](./course/grading/README.md)
 
 **Need help?**
 
@@ -19,9 +19,9 @@ This site contains all course materials, assignments, and resources for the Disc
 
 **Working on assignments?**
 
-- [Homework Guidelines](./assessments/homework/index.md)
-- [Test Information](./assessments/tests/index.md)
-- [Colloquium Prep](./assessments/colloquiums/index.md)
+- [Homework Guidelines](./assessments/homework/README.md)
+- [Test Information](./assessments/tests/README.md)
+- [Colloquium Prep](./assessments/colloquiums/README.md)
 
 ## 📚 Lecture Slides (PDFs)
 
