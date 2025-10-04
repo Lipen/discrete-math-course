@@ -3107,7 +3107,9 @@ Functions can be characterized by several key properties that determine their ma
 == Enumerable Sets
 
 #definition[
-  A set $X$ is _enumerable_ if there is a surjection $e: NN to X$ (equivalently a bijection with either $NN$ or an initial segment of $NN$ if $X$ finite).
+  A set $X$ is _enumerable_ if there is a surjection $e: NN to X$.
+
+  Equivalently, there is a bijection between $X$ and $NN$, or (if $X$ is finite) an initial segment of $NN$.
 ]
 
 #theorem[Zig-Zag Enumeration][
