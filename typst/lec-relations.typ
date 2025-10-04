@@ -2710,6 +2710,12 @@
     )$ ~ is monotonic but not injective.
 ]
 
+#example[
+  $f: (RR without {0}) to RR$ defined by $f(x) = 1 / x$ is *injective but not monotonic*.
+  - If $f(x_1) = f(x_2)$, then $1/x_1 = 1/x_2$ implies $x_1 = x_2$. #YES
+  - However, $f$ is not monotonic since it decreases on $(-infinity, 0)$ and increases on $(0, infinity)$. #NO
+]
+
 == Function Properties Overview
 
 Functions can be characterized by several key properties that determine their mathematical behavior.
