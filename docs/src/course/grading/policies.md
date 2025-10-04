@@ -4,9 +4,9 @@
 
 ### Homework
 
-- 0-24 hours late: -1 point from max
-- 1-7 days late: -2 points from max
-- >7 days late: max 5/10 possible
+- 0-24 hours late: -1 point from max (max 9/10 possible)
+- 1-7 days late: -2 points from max (max 8/10 possible)
+- $>$7 days late: max 5/10 possible
 
 ### Tests & Exams
 
@@ -24,10 +24,10 @@
 
 ## Bonuses
 
-- Exceptional solutions: +0.5 to +1 point
-- Active participation: instructor discretion
+- Exceptional solutions
+- Active participation
 - Course contributions: GitHub PRs, error reports
-- Helping peers: study groups, tutoring
+- Helping peers: study groups, tutoring, answering questions
 
 ## Academic Integrity
 
@@ -56,16 +56,8 @@
 
 **Rule**: You must write solutions independently and defend them orally.
 
-## Regrade Requests
-
-1. Wait 24 hours (cool-off period)
-2. Write specific explanation
-3. Submit within one week
-4. Entire work may be regraded (score could decrease)
-
 ## Attendance
 
 - Not directly graded
 - Essential for success
 - Material may not be in notes
-- Builds cumulatively

@@ -17,7 +17,7 @@ Best for:
 
 ## Telegram Channel
 
-**Link**: [Course Telegram](https://t.me/discrete_math_course)
+**Link**: Provided in class
 
 - Announcements
 - Quick questions
@@ -30,19 +30,6 @@ Best for:
 - No homework solutions
 - Search before asking
 - Help fellow students
-
-## Email
-
-**Address**: <instructor@university.edu>
-
-Use for:
-
-- Personal issues
-- Grade concerns
-- Schedule conflicts
-- Administrative matters
-
-**Response time**: Within 24-48 hours (longer on weekends)
 
 ## Study Groups
 
