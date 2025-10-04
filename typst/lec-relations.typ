@@ -2685,7 +2685,7 @@
   *Key insights:*
   - Monotonic functions have predictable behavior: they never "change direction"
   - *Strictly* monotonic functions are always injective (one-to-one)
-  - Non-strict monotonic functions may have "flat" regions where different inputs map to the same output
+  - Non-strict monotonic functions may have "flat" regions (also known as "plateaus") where different inputs map to the same output
   - Connection to Order Theory: monotonic functions are _order-homomorphisms_ between posets
 ]
 
