@@ -1,6 +1,7 @@
 = Discrete Math
 
 image:https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml/badge.svg?branch=master["CI",link="https://github.com/Lipen/discrete-math-course/actions/workflows/ci.yml"]
+image:https://img.shields.io/badge/Website-Visit-brightgreen?style=social&logo=mdbook["Course Website", link="https://lipen.github.io/discrete-math-course/"]
 
 > This repo contains some supplementary materials for the Discrete Math course at ITMO University.
 
