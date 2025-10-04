@@ -3109,6 +3109,7 @@ Functions can be characterized by several key properties that determine their ma
 #definition[
   A set $X$ is _enumerable_ if there is a surjection $e: NN to X$.
 
+  // TODO: Convert this "equivalence fact" to a proper theorem: if there is a surjection NN -> X, then we can construct a bijection between X and a subset of NN.
   Equivalently, there is a bijection between $X$ and $NN$, or (if $X$ is finite) an initial segment of $NN$.
 ]
 
