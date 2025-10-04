@@ -1,10 +1,8 @@
 [book]
 title = "Discrete Mathematics"
-description = "Course materials for Discrete Mathematics at ITMO University"
 authors = ["Konstantin Chukharev"]
+description = "Course materials for Discrete Mathematics at ITMO University"
 language = "en"
-multilingual = false
-src = "src"
 
 [build]
 build-dir = "dist"
@@ -15,16 +13,14 @@ preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/Lipen/discrete-math-course"
 edit-url-template = "https://github.com/Lipen/discrete-math-course/edit/master/docs/{path}"
 site-url = "/discrete-math-course/"
+smart-punctuation = true
+
+# For more options, see:
+# https://rust-lang.github.io/mdBook/format/configuration/renderers.html
 
 [output.html.search]
 enable = true
-limit-results = 30
 use-boolean-and = true
-boost-title = 2
-boost-hierarchy = 1
-boost-paragraph = 1
-expand = true
-heading-split-level = 3
 
 [output.html.fold]
 enable = true
