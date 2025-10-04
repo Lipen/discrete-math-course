@@ -61,8 +61,8 @@ All lecture materials are available as downloadable PDFs:
 | Cheatsheet: Boolean Algebra | [cheat3.pdf](tex/cheat3.pdf) |
 | Cheatsheet: Formal Logic | [cheat4.pdf](tex/cheat4.pdf) |
 | Cheatsheet: Graph Theory | [cheat5.pdf](tex/cheat5.pdf) |
-| Cheatsheet: Automata Theory | [cheat5.pdf](tex/cheat5.pdf) |
-| Cheatsheet: Combinatorics | [cheat5.pdf](tex/cheat5.pdf) |
+| Cheatsheet: Automata Theory | [cheat6.pdf](tex/cheat6.pdf) |
+| Cheatsheet: Combinatorics | [cheat7.pdf](tex/cheat7.pdf) |
 
 ## 📋 Course Documents
 
