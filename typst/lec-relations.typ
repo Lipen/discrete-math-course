@@ -3577,14 +3577,86 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 
 == Schröder--Bernstein Theorem
 
-#theorem[Schröder--Bernstein][
+#theorem[
   If $A smaller.eq B$ and $B smaller.eq A$, then $A equinumerous B$.
+
+  Equivalently, if there are injections $f: A to B$ and $g: B to A$, then there exists a bijection $h: A to B$.
 ] <shroder-bernstein>
 
-In other words, if there are injections in both directions between two sets, then there is a bijection.
-
 #proof[
-  Obvious, but difficult. #emoji.person.shrug
+  Let $f : A to B$ and $g : B to A$ be injections.
+
+  We write $g^(-1)$ to denote the inverse map defined on the image $g(B)$, i.e., $g^(-1) : g(B) to B$, where $g^(-1)(a)$ denotes the unique $b in B$ such that $g(b) = a$.
+
+  // TODO: visualize
+
+  *Step 1:*
+  Define inductively the sets $A_n subset.eq A$ and $B_n subset.eq B$ as follows:
+  - $A_0 := A setminus g(B)$ (elements of $A$ not in the image of $g$)
+  - $B_n := f(A_n)$ for $n >= 0$ (images of $A_n$ under $f$)
+  - $A_(n+1) := g(B_n)$ for $n >= 0$ (images of $B_n$ under $g$)
+
+  Define $A_infinity subset.eq A$ as the union of all $A_n$:
+  $
+    A_infinity = union.big_(n >= 0) A_n
+  $
+
+  *Step 2:*
+  Define the candidate bijection $h: A to B$ by:
+  $
+    h(a) = cases(
+      f(a) & "if" a in A_infinity,
+      g^(-1)(a) & "if" a in A without A_infinity
+    )
+  $
+
+  *Step 3:*
+  Check that $h$ is well-defined.
+  - If $a in A_infinity$, then $h(a) = f(a)$ is well-defined since $f$ is defined on all of $A$.
+  - If $a in A setminus A_infinity$, then $a notin A_0$ (since $A_0 subset.eq A_infinity$), so $a in g(B)$.
+    Thus, $h(a) = g^(-1)(a)$ exists and is unique
+
+  We also need to check the two cases map into disjoint subsets of $B$.
+  Observe:
+  $
+    f(A_infinity) = union.big_(n >= 0) f(A_n) = union.big_(n >= 0) B_n
+  $
+  If $a notin A_infinity$ and $b = g^(-1)(a)$, then $b notin union.big_(n >= 0) B_n$, since if $b in B_n$ for some $n$, then $a = g(b) in g(B_n) = A_(n+1) subset.eq A_infinity$, contradicting $a notin A_infinity$.
+  Hence $g^(-1)(A without A_infinity) subset.eq B without f(A_infinity)$.
+  So two image-sets $f(A_infinity)$ and $g^(-1)(A without A_infinity)$ are disjoint.
+  That prevents ambiguity across the two cases.
+
+  #colbreak()
+
+  *Step 4:*
+  Show that $h$ is injective.
+
+  Take $a, a' in A$ with $h(a) = h(a')$.
+  Consider cases:
+  - *Both* $a, a' in A_infinity$, then $f(a) = f(a')$.
+    Since $f$ is injective, $a = a'$.
+  - *Both* $a, a' notin A_infinity$, then $g^(-1)(a) = g^(-1)(a')$.
+    Since $g$ is injective, $a = a'$.
+  - *One* in $A_infinity$ and the *other is not*.
+    Suppose $a in A_infinity$ and $a' notin A_infinity$.
+    Then $h(a) = f(a) in f(A_infinity)$, but $h(a') = g^(-1)(a') in B without f(A_infinity)$.
+    These cannot be equal, so this case is impossible.
+  // Thus, $h$ is injective.
+
+  *Step 5:*
+  Show that $h$ is surjective.
+
+  Let $b in B$.
+  Consider two cases:
+  - If $b in f(A_infinity)$, then $b = f(a)$ for some $a in A_infinity$, and then $h(a) = f(a) = b$.
+  - If $b notin f(A_infinity)$, then $a = g(b) in A$.
+    We claim that $a notin A_infinity$.
+    Otherwise, $b in B_n$ for some $n$, contradicting $b notin f(A_infinity)$.
+    Thus $a in A without A_infinity$, so $h(a) = g^(-1)(a) = b$.
+  // Therefore, $h$ is surjective.
+
+  *Conclusion:*
+  Since $h$ is both injective and surjective, $h$ is a bijection, so $A equinumerous B$.
 ]
 
 == Another Cantor's Theorem
