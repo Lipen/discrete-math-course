@@ -3712,7 +3712,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
 ]
 
-== Summary: Cardinality
+== Summary: Cardinality & Infinity
 
 #Block(color: blue)[
   *Cardinality* measures set "size," revealing surprising facts about infinity:
