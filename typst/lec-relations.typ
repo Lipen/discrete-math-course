@@ -1116,15 +1116,26 @@
   A _partial order_ is a relation $R subset.eq M^2$ that is reflexive, antisymmetric, and transitive.
 ]
 
-// Connected relation
 #definition[
-  A relation $R subset.eq M^2$ is _connected_ if for every pair of distinct elements, either one is related to the other or vice versa:
-  $ forall x, y in M. thin (x neq y) imply (x rel(R) y or y rel(R) x) $
+  A _linear order_ is a partial order $R subset.eq M^2$ where every pair of elements is _comparable_:
+  $
+    forall x, y in M. thin (x rel(R) y or y rel(R) x)
+  $
 ]
 
-// Linear/Total order
-#definition[
-  A partial order which is also connected is called a _total order_ (or _linear order_).
+#note[
+  The above condition is called _strong connectivity_.
+  The similar property with the $x != y$ condition is called _semi-connectivity_.
+  The corresponding relations are called _connex_ and _semi-connex_.
+]
+
+#note[
+  Hereinafter, we mainly study the "non-strict" orders (e.g., $<=$, $subset.eq$), which require the _reflexivity_.
+  The~"strict" orders (e.g., $<$, $subset$) require _irreflexivity_ instead, and are defined similarly.
+]
+
+#note[
+  Strict linear orders require _semi-connectivity_ instead, since connectivity alone implies reflexivity!
 ]
 
 == Examples of Orders
