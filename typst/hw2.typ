@@ -320,9 +320,10 @@ Consider a multi-stage data processing pipeline where data flows through differe
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: 1cm,
-    edge-stroke: 1pt,
     node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
+    node-stroke: 1pt + gray,
+    edge-stroke: 1pt,
     blob(
       (0, 0),
       [Raw \ Data],
@@ -372,9 +373,10 @@ In real-world data systems, we often need to ensure that certain properties are 
   #import fletcher: diagram, edge, node
   #diagram(
     spacing: 1cm,
-    edge-stroke: 1pt,
     node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
+    node-stroke: 1pt + gray,
+    edge-stroke: 1pt,
     blob(
       (0, 0),
       [Raw \ Data],
