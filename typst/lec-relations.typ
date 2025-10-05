@@ -3661,7 +3661,7 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 
 == Another Cantor's Theorem
 
-Let $L$ be the unit line, i.e., the set of points $[0, 1]$.
+Let $L$ be the unit line, i.e., the set of points $[0; 1]$.
 Let $S$ be the unit square, i.e., the set of points $L times L$.
 
 #columns(2)[
