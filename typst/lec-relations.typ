@@ -3164,7 +3164,6 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 
 #proof[
   Let $A subset.eq NN$ be infinite.
-
   We construct a bijection $f: NN to A$ recursively as follows:
   - $f(0) = a_0 = min A$
   - $f(n+1) = min(A setminus {f(0), f(1), ..., f(n)})$
@@ -3175,16 +3174,15 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
   *Properties of $f$:*
   - *Injective:* By construction, $f(i) != f(j)$ for $i != j$, since we explicitly exclude previous values.
   - *Surjective:* Every $a in A$ eventually becomes the minimum of a remaining set, so $a = f(n)$ for some $n$.
-  - Therefore, $f$ is a bijection between $NN$ and $A$.
 
+  Therefore, $f$ is a bijection between $NN$ and $A$.
   Thus $A equinumerous NN$, meaning $abs(A) = aleph_0$.
 ]
 
-// #Block(color: blue)[
-//   *Why this matters:*
-//   This lemma shows that there is essentially only "one size" of countably infinite set when we restrict to subsets of $NN$.
-//   Every infinite subset of natural numbers is "the same size" as $NN$ itself.
-// ]
+#Block(color: yellow)[
+  *Key insight:*
+  There is essentially only "one size" of countably infinite sets, namely $aleph_0$.
+]
 
 == Enumerable Sets
 
