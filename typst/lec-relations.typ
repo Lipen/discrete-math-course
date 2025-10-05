@@ -3000,7 +3000,7 @@ Functions can be characterized by several key properties that determine their ma
 == Equinumerosity
 
 #definition[
-  Two sets $A$ and $B$ have the same _cardinality_ and are called _equinumerous_, denoted $abs(A) = abs(B)$ or $A equinumerous B$, iff there exists a _bijection_ (one-to-one correspondence) from $A$ to $B$.
+  Two sets $A$ and $B$ have the same _cardinality_ and are called _equinumerous_, denoted $abs(A) = abs(B)$ or $A equinumerous B$, iff there exists a _bijection_ (one-to-one correspondence) between $A$ and $B$.
 
   #note(title: "Intuition")[
     If you can pair up every element of $A$ with exactly one element of $B$, with nothing left over on either side, then $A$ and $B$ have the same cardinality.
