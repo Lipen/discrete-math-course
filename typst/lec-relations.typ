@@ -3570,8 +3570,9 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 ]
 
 #Block(color: purple)[
-  *Profound implication:* There is no "largest" infinity!
-  We can always construct a bigger one using the power set operation: $aleph_0 < 2^(aleph_0) < 2^(2^(aleph_0)) < ...$
+  *Profound implication:*
+  There is no "largest" infinity!
+  We can always construct a bigger one using the power set operation: $aleph_0 < 2^(aleph_0) < 2^(2^(aleph_0)) < dots$
 ]
 
 == Schröder--Bernstein Theorem
