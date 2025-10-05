@@ -227,13 +227,13 @@
     // Set labels
     draw.content(
       (-2.5, 1.5),
-      text(fill: green.darken(20%), weight: "bold")[Animals ($A$)],
+      text(fill: green.darken(20%))[Animals ($A$)],
       anchor: "south",
       padding: 0.2,
     )
     draw.content(
       (2.5, 1.2),
-      text(fill: orange.darken(20%), weight: "bold")[Food ($B$)],
+      text(fill: orange.darken(20%))[Food ($B$)],
       anchor: "south",
       padding: 0.2,
     )
@@ -1666,9 +1666,9 @@
     draw-vertex((-hgap, vgap / 2), "ac", ["ac"], color: orange.lighten(80%))
 
     // Labels
-    // content((0, -1), text(fill: blue, weight: "bold")[Tree 1], anchor: "center")
-    // content((hgap, -1), text(fill: blue, weight: "bold")[Tree 2], anchor: "center")
-    // content((-hgap, -0.5), text(fill: orange.darken(30%), weight: "bold")[Tree 3], anchor: "center")
+    // content((0, -1), text(fill: blue)[Tree 1], anchor: "center")
+    // content((hgap, -1), text(fill: blue)[Tree 2], anchor: "center")
+    // content((-hgap, -0.5), text(fill: orange.darken(30%))[Tree 3], anchor: "center")
 
     // Legend
     content((-6, 0.4), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
@@ -2812,13 +2812,13 @@ Functions can be characterized by several key properties that determine their ma
     // Highlight the set S
     content(
       (3, 1.1),
-      text(fill: blue, weight: "bold")[Elements in $S = {2, 4}$ map to $1$],
+      text(fill: blue)[Elements in $S = {2, 4}$ map to $1$],
       anchor: "south",
       padding: 0.2,
     )
     content(
       (3, -0.5),
-      text(fill: red, weight: "bold")[Elements not in $S$ map to $0$],
+      text(fill: red)[Elements not in $S$ map to $0$],
       anchor: "north",
       padding: 0.2,
     )
@@ -2879,8 +2879,8 @@ Functions can be characterized by several key properties that determine their ma
       circle((i + 1, i + 1), radius: 0.1, fill: red, stroke: red.darken(20%))
     }
 
-    content((2.5, 1.5), text(fill: blue, weight: "bold")[$floor(x)$], anchor: "west")
-    content((2.5, 3.5), text(fill: red, weight: "bold")[$ceil(x)$], anchor: "west")
+    content((2.5, 1.5), text(fill: blue)[$floor(x)$], anchor: "west")
+    content((2.5, 3.5), text(fill: red)[$ceil(x)$], anchor: "west")
 
     // Add axis labels
     content((3, -0.3), [$x$], anchor: "west")
