@@ -3722,6 +3722,14 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
   - *Cantor's insight:* $abs(A) < abs(power(A))$ always --- there's no "largest" infinity!
 ]
 
+#Block(color: green)[
+  *Key techniques:*
+  - _Bijections_ show equal cardinality
+  - _Injections_ show one set is no larger than another
+  - _Cantor's diagonal argument_ proves uncountability
+  - _Schröder--Bernstein theorem_ combines injections to yield bijections
+]
+
 
 = Closures of Relations
 #focus-slide()
