@@ -134,11 +134,12 @@ Given these specific relations:
 
 Trust can spread in chains: you might trust someone because a person you trust recommends them.
 Let $T^2 = T compose T$ represent _second-hand trust_ (trust over 2 people), $T^3 = T^2 compose T$ represent _third-degree trust_ (trust over 3 steps), and so on.
+Define the _$k$-fold trust network_ as $T^[k] = union.big_(i=1)^k T^i$.
 
 + Compute $T^2$ and $T^3$.
 + When does the trust network _stabilize_?
-  Find the smallest $k$ where $T^k = T^(k+1)$.
-+ Show that the _ultimate trust network_ $T^+ = union.big_(n=1)^infinity T^n$ containing all possible trust connections also satisfies the transitivity property, for arbitrary initial trust relation $T$.
+  Find the smallest $k$ where $T^[k+1] = T^[k]$.
++ Show that the _ultimate trust network_ $T^+ = union.big_(n=1)^infinity T^n$ (containing all possible trust connections) also satisfies the transitivity property, for arbitrary initial trust relation $T$.
 
 
 == Problem 3: Equivalence Relations
