@@ -3036,13 +3036,15 @@ Functions can be characterized by several key properties that determine their ma
 #definition[
   A set is _countable_ if it is either:
   + _Finite_, or
-  + Has the same cardinality as $NN$ (i.e., there exists a bijection with $NN$)
+  + Has the same cardinality as $NN$ (i.e., there exists a _bijection_ with $NN$)
+]
 
+#note(title: "Intuition")[
+  A countable set is one whose elements can be "listed" or "enumerated" in a sequence.
+]
+
+#note[
   When an infinite set is countable, its cardinality is $aleph_0$ (_"aleph-null"_).
-
-  #note(title: "Intuition")[
-    A countable set is one whose elements can be "listed" or "enumerated" in a sequence.
-  ]
 ]
 
 #example[Basic countable sets][
@@ -3081,10 +3083,6 @@ Functions can be characterized by several key properties that determine their ma
   This systematically pairs each natural number with exactly one integer, covering all integers exactly once.
 ]
 
-// #example[
-//   $abs(QQ) = aleph_0$, the set of rational numbers is countable.
-// ]
-
 == Properties of Countable Sets
 
 #theorem[Properties of countable sets][
@@ -3104,27 +3102,299 @@ Functions can be characterized by several key properties that determine their ma
   - *Finite subsets of $NN$*: Each finite subset can be encoded as a finite binary string
 ]
 
+== Dedekind-Infinite Sets
+
+#definition[
+  A set $X$ is _Dedekind-infinite_ if some proper subset $Y subset X$ is equinumerous to it, i.e., there is a bijection between $X$ and one of its proper subsets.
+
+  A set that is not Dedekind-infinite is called _Dedekind-finite_.
+]
+
+#note[
+  Intuitively, an "infinite" set can be put in one-to-one correspondence with a part of itself.
+  This is impossible for finite sets.
+]
+
+#example[
+  The set of natural numbers $NN$ is Dedekind-infinite:
+  - Let $Y = {2, 4, 6, 8, ...} = NN_"even" subset NN$ (proper subset)
+  - Define $f: NN to Y$ by $f(n) = 2n$ (bijection)
+  - Since $NN equinumerous NN_"even"$, the set $NN$ is Dedekind-infinite
+]
+
+== Examples of Dedekind-Infinite Sets
+
+#examples[
+  - $ZZ$ is Dedekind-infinite: bijection with positive integers
+  - $QQ$ is Dedekind-infinite: bijection with positive rationals
+  - $RR$ is Dedekind-infinite: bijection with $(0, 1)$
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  Being Dedekind-infinite is equivalent to being infinite (assuming the Axiom of Choice).
+  This gives us a purely set-theoretic definition of infinity without reference to natural numbers.
+]
+
+== Another Definition of Countable Sets
+
+If we can "fit" all elements of $S$ into the natural numbers without overlaps, then $S$ is countable.
+
+#definition[
+  A set $S$ is _countable_ if there exists an _injection_ $f: S to NN$.
+
+  This means each element of $S$ can be assigned a unique natural number.
+]
+
+#note[
+  This definition works both for _finite_ and countably infinite sets.
+]
+
+== Infinite Subsets of Natural Numbers
+
+#theorem[
+  Any infinite subset $A subset.eq NN$ has a bijection with $NN$.
+] <infinite-subset-bijection>
+
+#proof[
+  Let $A subset.eq NN$ be infinite.
+
+  We construct a bijection $f: NN to A$ recursively as follows:
+  - $f(0) = a_0 = min A$
+  - $f(n+1) = min(A setminus {f(0), f(1), ..., f(n)})$
+
+  By well-ordering principle, each subset of $NN$, has a least element.
+  At each step, $A setminus {f(0), ..., f(n)}$ is still infinite (otherwise $A$ would be finite), so it has a minimum element, making the construction well-defined.
+
+  *Properties of $f$:*
+  - *Injective:* By construction, $f(i) != f(j)$ for $i != j$, since we explicitly exclude previous values.
+  - *Surjective:* Every $a in A$ eventually becomes the minimum of a remaining set, so $a = f(n)$ for some $n$.
+  - Therefore, $f$ is a bijection between $NN$ and $A$.
+
+  Thus $A equinumerous NN$, meaning $abs(A) = aleph_0$.
+]
+
+// #Block(color: blue)[
+//   *Why this matters:*
+//   This lemma shows that there is essentially only "one size" of countably infinite set when we restrict to subsets of $NN$.
+//   Every infinite subset of natural numbers is "the same size" as $NN$ itself.
+// ]
+
 == Enumerable Sets
 
 #definition[
   A set $X$ is _enumerable_ if there is a surjection $e: NN to X$.
 
-  // TODO: Convert this "equivalence fact" to a proper theorem: if there is a surjection NN -> X, then we can construct a bijection between X and a subset of NN.
-  Equivalently, there is a bijection between $X$ and $NN$, or (if $X$ is finite) an initial segment of $NN$.
+  The function $e$ is called an _enumeration_ of $X$, and we say that $e$ _enumerates_ $X$.
 ]
 
-#theorem[Zig-Zag Enumeration][
+#note(title: "Intuition")[
+  An enumerable set is one whose elements can be "listed" (possibly with repetitions) by a function from natural numbers: $e(0), e(1), e(2), e(3), dots$
+]
+#note[
+  Each element of $X$ appears at least once in this list, though some elements might appear multiple times, since the enumeration requires only a _surjection_, not a bijection.
+]
+
+== Characterization of Enumerable Sets
+
+#theorem[
+  For any set $X$, the following are equivalent:
+  + $X$ is enumerable (there exists a surjection $e: NN to X$)
+  + $X$ is empty, or there exists an injection $f: X to NN$
+  + $X$ is countable (finite or has a bijection with $NN$)
+]
+
+#proof[
+  We prove $(1) => (2) => (3) => (1)$.
+
+  *$(1) => (2)$:*
+  Suppose $e: NN to X$ is a surjection.
+
+  If $X = emptyset$, we're done.
+  Otherwise, $X$ is non-empty.
+
+  For each $x in X$, define $f(x) = min{n in NN | e(n) = x}$ (the first index where $x$ appears in the enumeration).
+  This is well-defined because $e$ is surjective, so every $x$ has at least one preimage.
+
+  $f$ is injective: if $f(x) = f(y) = n$, then $e(n) = x$ and $e(n) = y$, so $x = y$.
+
+  *$(2) => (3)$:* Suppose $X = emptyset$ or there exists an injection $f: X to NN$.
+
+  - If $X = emptyset$, then $X$ is finite (hence countable).
+  - Otherwise, $f$ maps $X$ injectively into $NN$, so $X equinumerous "Im"(f) subset.eq NN$, where $"Im"(f) = f(X)$.
+  - By @infinite-subset-bijection about infinite subsets of $NN$, either $"Im"(f)$ is finite or $"Im"(f) equinumerous NN$.
+  - In either case, $X$ is countable.
+
+  *$(3) => (1)$:* Suppose $X$ is countable.
+  - If $X$ is finite with $n$ elements, list them as $x_0, x_1, ..., x_(n-1)$, and define:
+    $
+      e(k) = cases(
+        x_k & "if" k < n,
+        x_0 & "if" k >= n
+      )
+    $
+    This is a surjection from $NN$ to $X$ (repeating $x_0$ for all $k >= n$).
+  - If $X equinumerous NN$, let $g: NN to X$ be a bijection. Then $g$ is also a surjection.
+
+  In both cases, we have constructed a surjection $e: NN to X$.
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  Being _enumerable_, being _countable_, and having an _injection_ into $NN$ are all equivalent conditions.
+  This gives us multiple ways to prove a set is enumerable/countable.
+]
+
+== Examples of Enumerable Sets
+
+#example[Explicit enumerations][
+
+  *Even numbers:* $e(n) = 2n$ gives enumeration $0, 2, 4, 6, 8, ...$
+
+  *Odd numbers:* $e(n) = 2n + 1$ gives enumeration $1, 3, 5, 7, 9, ...$
+
+  *Perfect squares:* $e(n) = n^2$ gives enumeration $0, 1, 4, 9, 16, 25, ...$
+
+  *Prime numbers:* $e(0) = 2, e(1) = 3, e(2) = 5, e(3) = 7, e(4) = 11, dots$
+  - *Note:* while we don't have a closed formula, we can enumerate primes algorithmically (e.g., using the Sieve of Eratosthenes).
+]
+
+#pagebreak()
+
+#example[Integers enumeration][
+  The enumeration $e: NN to ZZ$ defined by:
+  $
+    e(n) = cases(
+      n / 2 & "if" n "is even",
+      -(n+1) / 2 & "if" n "is odd"
+    )
+  $
+
+  produces the sequence: $0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, dots$
+
+  This systematically alternates between non-negative and negative integers.
+]
+
+#example[Finite strings][
+  The set $Sigma^*$ of all finite strings over alphabet $Sigma = {a, b}$ can be enumerated by:
+  - First, list strings by length
+  - Within each length, use lexicographic order
+
+  Enumeration: $epsilon, a, b, a a, a b, b a, b b, a a a, a a b, a b a, a b b, b a a, dots$
+
+  This shows $Sigma^*$ is countable for any finite alphabet $Sigma$.
+]
+
+#pagebreak()
+
+#example[Rational numbers][
+  We can enumerate positive rationals by listing fractions $p/q$ ordered by $p + q$:
+
+  #align(center)[
+    #table(
+      columns: 5,
+      align: center,
+      inset: 6pt,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$p+q$], [Fractions], [Reduced], [Indices], [Count]),
+      [$1$], [$0/1$], [---], [---], [0],
+      [$2$], [$1/1$], [$1/1$], [0], [1],
+      [$3$], [$1/2, 2/1$], [$1/2, 2/1$], [1, 2], [2],
+      [$4$], [$1/3, 2/2, 3/1$], [$1/3, 3/1$], [3, 4], [2],
+      [$5$], [$1/4, 2/3, 3/2, 4/1$], [$1/4, 2/3, 3/2, 4/1$], [5, 6, 7, 8], [4],
+      [$dots$], [$dots$], [$dots$], [$dots$], [$dots$],
+    )
+  ]
+
+  Skip non-reduced fractions (like $2/2$) and enumerate: $1/1, 1/2, 2/1, 1/3, 3/1, 1/4, 2/3, 3/2, 4/1, dots$
+
+  Adding zero and negative rationals by interleaving gives full enumeration of $QQ$.
+]
+
+== Zig-Zag Enumeration
+
+#theorem[
   $NN^2$ is countable.
 ]
 
 #proof[
-  List pairs by diagonals of constant sum: $pair(0, 0); pair(0, 1),pair(1, 0); pair(0, 2),pair(1, 1),pair(2, 0); dots$ which gives a bijection with $NN$.
+  We enumerate all pairs in $NN^2$ by traversing diagonals of constant sum $n + k$.
+
+  #align(center)[
+    #let cantor(n, k) = (n + k) * (n + k + 1) / 2 + k
+    #table(
+      columns: 6,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+
+      table.header([$n arrow.b quad k arrow.r$], [$0$], [$1$], [$2$], [$3$], [$dots$]),
+      [$0$],
+
+      [#text(fill: red.darken(20%))[$pair(0, 0)$] \ #text(size: 0.8em, fill: red.darken(20%))[$#cantor(0, 0)$]],
+      [#text(fill: orange.darken(20%))[$pair(0, 1)$] \ #text(size: 0.8em, fill: orange.darken(20%))[$#cantor(0, 1)$]],
+      [#text(fill: green.darken(20%))[$pair(0, 2)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(0, 2)$]],
+      [#text(fill: blue.darken(20%))[$pair(0, 3)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(0, 3)$]],
+      [$dots$],
+
+      [$1$],
+      [#text(fill: orange.darken(20%))[$pair(1, 0)$] \ #text(size: 0.8em, fill: orange.darken(20%))[$#cantor(1, 0)$]],
+      [#text(fill: green.darken(20%))[$pair(1, 1)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(1, 1)$]],
+      [#text(fill: blue.darken(20%))[$pair(1, 2)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(1, 2)$]],
+      [#text(fill: purple.darken(20%))[$pair(1, 3)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(1, 3)$]],
+      [$dots$],
+
+      [$2$],
+      [#text(fill: green.darken(20%))[$pair(2, 0)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(2, 0)$]],
+      [#text(fill: blue.darken(20%))[$pair(2, 1)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(2, 1)$]],
+      [#text(fill: purple.darken(20%))[$pair(2, 2)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(2, 2)$]],
+      [#text(fill: teal.darken(20%))[$pair(2, 3)$] \ #text(size: 0.8em, fill: teal.darken(20%))[$#cantor(2, 3)$]],
+      [$dots$],
+
+      [$3$],
+      [#text(fill: blue.darken(20%))[$pair(3, 0)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(3, 0)$]],
+      [#text(fill: purple.darken(20%))[$pair(3, 1)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(3, 1)$]],
+      [#text(fill: teal.darken(20%))[$pair(3, 2)$] \ #text(size: 0.8em, fill: teal.darken(20%))[$#cantor(3, 2)$]],
+      [#text(fill: navy.lighten(20%))[$pair(3, 3)$] \ #text(size: 0.8em, fill: navy.lighten(20%))[$#cantor(3, 3)$]],
+      [$dots$],
+
+      [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.down$],
+    )
+  ]
+
+  *Enumeration order:* We traverse (upward) diagonals where $n + k = s$ for $s = 0, 1, 2, dots$:
+  - Diagonal $s=0$: $pair(0, 0)$ #text(fill: red.darken(20%))[(index 0)]
+  - Diagonal $s=1$: $pair(1, 0), pair(0, 1)$ #text(fill: orange.darken(20%))[(indices 1--2)]
+  - Diagonal $s=2$: $pair(2, 0), pair(1, 1), pair(0, 2)$ #text(fill: green.darken(20%))[(indices 3--5)]
+  - Diagonal $s=3$: $pair(3, 0), pair(2, 1), pair(1, 2), pair(0, 3)$ #text(fill: blue.darken(20%))[(indices 6--9)]
+  - And so on...
+
+  *Bijection formula:* The pair $pair(n, k)$ maps to index:
+  $
+    f(n, k) = underbrace(frac((n+k)(n+k+1), 2), "pairs before diagonal" n+k) + underbrace(k, "position within diagonal")
+  $
+
+  This is the _Cantor pairing function_, which gives a bijection $f: NN^2 to NN$.
+
+  Since we have an explicit bijection, $NN^2 equinumerous NN$, so $abs(NN^2) = aleph_0$.
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  The _zig-zag method_ systematically visits every pair exactly once.
+  Each diagonal is finite, and we process diagonals in order, ensuring every pair eventually appears.
+]
+
+#Block(color: blue)[
+  *Why this matters:*
+  This construction shows that "2-dimensional infinity" ($NN^2$) is the same size as "#box[1-dimensional] infinity" ($NN$).
+  More generally, $NN^n$ is countable for any finite $n$.
 ]
 
 #theorem[
   $QQ$ is countable.
 ]
 
+// TODO: remove this theorem, since it relies on "enumeration"...
 #proof[
   Enumerate positive reduced fractions $p "/" q$ ordered by $p+q$ and increasing $p$; skip non-reduced.
   Interleave $0$ and negatives.
@@ -3137,22 +3407,6 @@ Functions can be characterized by several key properties that determine their ma
   A function $f: A times B to NN$ is an arithmetical _pairing function_ if it is injective.
 
   We say that $f$ _encodes_ $A times B$, and that $f(a, b)$ is the _code_ of the pair $pair(a, b)$.
-]
-
-#place(right)[
-  #grid(
-    columns: 1,
-    align: right,
-    column-gutter: 1em,
-    row-gutter: 0.5em,
-    link("https://en.wikipedia.org/wiki/Georg_Cantor", box(
-      radius: 5pt,
-      clip: true,
-      stroke: 1pt + blue.darken(20%),
-      image("assets/Georg_Cantor.jpg", height: 3cm),
-    )),
-    [Georg Cantor],
-  )
 ]
 
 #example[
@@ -3173,8 +3427,6 @@ Functions can be characterized by several key properties that determine their ma
   In other words, there is _no_ bijection between the set and $NN$.
 ]
 
-== Proving Uncountability
-
 #Block(color: orange)[
   *Strategy for proving uncountability:* _Cantor's diagonal argument_.
 
@@ -3189,37 +3441,58 @@ Functions can be characterized by several key properties that determine their ma
   $BB^omega$ contains sequences like $000000...$, $010101...$, $111000...$, etc.
 
   Suppose for contradiction that $BB^omega$ is countable.
-  Then we can _enumerate_ its elements as $x_1, x_2, dots$, where each $x_i$ is an infinite sequence of bits, so we can represent it as $x_i = (b_(i 1), b_(i 2), b_(i 3), dots)$, where $b_(i j) in BB$ is the $j$-th bit of the $i$-th sequence.
-  So we have a listing like:
-  - $x_1 = (b_(1 1), b_(1 2), b_(1 3), b_(1 4), ...)$
-  - $x_2 = (b_(2 1), b_(2 2), b_(2 3), b_(2 4), ...)$
-  - $dots$
+  Then we can _enumerate_ its elements as $x_1, x_2, x_3, dots$, where each $x_i$ is an infinite sequence of bits.
 
-  Now we construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), dots)$, where $overline(b)_(i i) = 1 - b_(i i)$, i.e., we flip the $i$-th bit of the $i$-th sequence.
-  This sequence _differs_ from each $x_i$ at least in the $i$-th position, so it cannot be equal to any $x_i$, so it is _not in_ the enumeration $x_1, x_2, dots$.
-  We place it "at the end" of our table for clarify:
+  #align(center)[
+    #table(
+      columns: 6,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+      table.header([Sequence], [Position 1], [Position 2], [Position 3], [Position 4], [$dots$]),
+      [$x_1$], [#text(fill: red)[*$b_(1 1)$*]], [$b_(1 2)$], [$b_(1 3)$], [$b_(1 4)$], [$dots$],
+      [$x_2$], [$b_(2 1)$], [#text(fill: red)[*$b_(2 2)$*]], [$b_(2 3)$], [$b_(2 4)$], [$dots$],
+      [$x_3$], [$b_(3 1)$], [$b_(3 2)$], [#text(fill: red)[*$b_(3 3)$*]], [$b_(3 4)$], [$dots$],
+      [$x_4$], [$b_(4 1)$], [$b_(4 2)$], [$b_(4 3)$], [#text(fill: red)[*$b_(4 4)$*]], [$dots$],
+      [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.down$],
+      [#text(fill: blue)[*$Delta$*]],
+      [#text(fill: blue)[*$overline(b)_(1 1)$*]],
+      [#text(fill: blue)[*$overline(b)_(2 2)$*]],
+      [#text(fill: blue)[*$overline(b)_(3 3)$*]],
+      [#text(fill: blue)[*$overline(b)_(4 4)$*]],
+      [$dots$],
+    )
+  ]
 
-  #grid(
-    columns: 5,
-    align: center,
-    inset: 5pt,
-    stroke: (x, y) => if x == 0 { (right: .8pt) } + if y == 0 { (bottom: .8pt) },
-    [], $1$, $2$, $3$, $dots$,
-    $x_1$, $bold(b_(1 1))$, $b_(1 2)$, $b_(1 3)$, $dots$,
-    $x_2$, $b_(2 1)$, $bold(b_(2 2))$, $b_(2 3)$, $dots$,
-    $x_3$, $b_(3 1)$, $b_(3 2)$, $bold(b_(3 3))$, $dots$,
-    $dots.v$, $dots.v$, $dots.v$, $dots.v$, $dots.down$,
-    $Delta$, $overline(b)_(1 1)$, $overline(b)_(2 2)$, $overline(b)_(3 3)$, $dots$,
-  )
+  We construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), overline(b)_(4 4), dots)$ where:
+  $
+    overline(b)_(i i) = cases(
+      1 & "if" b_(i i) = 0,
+      0 & "if" b_(i i) = 1
+    )
+  $
 
-  Since $Delta$ is constructed from the "bits", it is also an _element_ of $BB^omega$.
+  *Key observation:*
+  The diagonal elements #text(fill: red)[$(b_(1 1), b_(2 2), b_(3 3), b_(4 4), dots)$] are highlighted in red.
+  The new sequence $Delta$ (shown in #text(fill: blue)[blue]) flips each diagonal element.
 
-  Thus, we have found an element of $BB^omega$ that is _not_ in the enumeration $x_1, x_2, dots$, contradicting the assumption that $BB^omega$ is countable.
-  // *Diagonal construction:* Create sequence $Delta = (d_1, d_2, d_3, d_4, ...)$ where:
-  // $d_i = cases(0 & "if" b_(i,i) = 1, 1 & "if" b_(i,i) = 0)$ (flip the diagonal)
-  //
-  // *Key insight:* $Delta$ differs from $x_i$ in position $i$ for every $i$, so $Delta$ cannot equal any $x_i$.
-  // Therefore, $Delta in BB^omega$ but $Delta$ is not in our "complete" listing --- contradiction!
+  *Why $Delta$ is not in the list:*
+  - $Delta != x_1$ because they differ at position 1: $overline(b)_(1 1) != b_(1 1)$
+  - $Delta != x_2$ because they differ at position 2: $overline(b)_(2 2) != b_(2 2)$
+  - ...
+  - In general, $Delta != x_i$ for any $i$ because they differ at position $i$
+
+  Since $Delta in BB^omega$ but $Delta$ is not in our supposedly complete enumeration, we have reached a contradiction.
+
+  Therefore, $BB^omega$ is _uncountable_.
+]
+
+#Block(color: yellow)[
+  Notice the similarity to the zig-zag enumeration!
+  Both use a 2D table structure:
+  - *Zig-zag:* Systematically visits all pairs $(n,k)$ to show $NN^2$ is countable.
+  - *Diagonal argument:* Shows we _cannot_ systematically visit all infinite sequences.
+
+  *The key difference:* zig-zag works because each diagonal is _finite_, while the diagonal argument shows that infinite sequences cannot be fully enumerated.
 ]
 
 == Examples of Uncountable Sets
