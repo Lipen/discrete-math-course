@@ -1327,54 +1327,42 @@
 #example[
   Consider the poset $pair(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
 
-  #place(right, dx: -1cm)[
-    #cetz.canvas({
-      import cetz.draw: *
-
-      let w = 1.4
-      let h = 1
-      let hgap = 1.2
-      let vgap1 = 1
-      let vgap2 = 1.5
-
-      let draw-vertex((x, y), name, label) = {
-        circle((x, y), radius: 0.4, name: name)
-        content(name, [#label])
-      }
-      let draw-edge(start, end) = {
-        line(start, end, mark: (end: "stealth", fill: black))
-      }
-      let draw-transitive-edge(start, end) = {
-        let color = gray
-        line(start, end, stroke: 0.5pt + color, mark: (end: "stealth", fill: color))
-      }
-
-      // Vertices
-      draw-vertex((0, 0), "1", [$1$])
-      draw-vertex((-hgap, vgap1), "2", [$2$])
-      draw-vertex((hgap, vgap1), "3", [$3$])
-      draw-vertex((-hgap, vgap1 + vgap2), "4", [$4$])
-      draw-vertex((hgap, vgap1 + vgap2), "6", [$6$])
-      draw-vertex((0, vgap1 * 2 + vgap2), "12", [$12$])
-
-      // Transitive edges
-      draw-transitive-edge("1", "4")
-      draw-transitive-edge("1", "6")
-      draw-transitive-edge("1", "12")
-      draw-transitive-edge("2", "12")
-      draw-transitive-edge("3", "12")
-
-      // TODO: Loops
-
-      // Edges
-      draw-edge("1", "2")
-      draw-edge("1", "3")
-      draw-edge("2", "4")
-      draw-edge("2", "6")
-      draw-edge("3", "6")
-      draw-edge("4", "12")
-      draw-edge("6", "12")
-    })
+  #place(right, dx: -1em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1em, 2.5em),
+      node-shape: fletcher.shapes.circle,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      // Vertices:
+      node((0, 0), [$1$], width: 2em, inset: 0pt, name: <1>),
+      node((-1, -0.9), [$2$], width: 2em, inset: 0pt, name: <2>),
+      node((1, -0.9), [$3$], width: 2em, inset: 0pt, name: <3>),
+      node((-1, -2.1), [$4$], width: 2em, inset: 0pt, name: <4>),
+      node((1, -2.1), [$6$], width: 2em, inset: 0pt, name: <6>),
+      node((0, -3), [$12$], width: 2em, inset: 0pt, name: <12>),
+      // Main edges:
+      edge(<1>, <2>, "-}>"),
+      edge(<1>, <3>, "-}>"),
+      edge(<2>, <4>, "-}>"),
+      edge(<2>, <6>, "-}>"),
+      edge(<3>, <6>, "-}>"),
+      edge(<4>, <12>, "-}>"),
+      edge(<6>, <12>, "-}>"),
+      // Transitive edges:
+      edge(<1>, <4>, "--}>", bend: -5deg, stroke: gray),
+      edge(<1>, <6>, "--}>", bend: 5deg, stroke: gray),
+      edge(<1>, <12>, "--}>", bend: 0deg, stroke: gray),
+      edge(<2>, <12>, "--}>", bend: -5deg, stroke: gray),
+      edge(<3>, <12>, "--}>", bend: 5deg, stroke: gray),
+      // Loops:
+      edge(<1>, <1>, "--}>", bend: 120deg, loop-angle: -30deg, stroke: gray),
+      edge(<2>, <2>, "--}>", bend: 120deg, loop-angle: 150deg, stroke: gray),
+      edge(<4>, <4>, "--}>", bend: 120deg, loop-angle: 150deg, stroke: gray),
+      edge(<3>, <3>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
+      edge(<6>, <6>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
+      edge(<12>, <12>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
+    )
   ]
 
   *Order relation properties:*
