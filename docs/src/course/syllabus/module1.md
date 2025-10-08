@@ -43,8 +43,8 @@
 
 By the end of this module, you will be able to:
 
-- ✓ Prove set identities using element arguments or algebraic laws
-- ✓ Construct Venn diagrams for complex expressions
-- ✓ Determine cardinality of finite and infinite sets
-- ✓ Prove sets are countable or uncountable
-- ✓ Apply Cantor's diagonal argument correctly
+- Prove set identities using element arguments or algebraic laws
+- Construct Venn diagrams for complex expressions
+- Determine cardinality of finite and infinite sets
+- Prove sets are countable or uncountable
+- Apply Cantor's diagonal argument correctly
