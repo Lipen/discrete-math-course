@@ -1,44 +1,45 @@
 # Course Materials
 
-## Required Textbook
+## 📘 Textbook
 
 **Discrete Mathematics and Its Applications** by Kenneth Rosen
 
-Covers all course topics with extensive examples and exercises.
+Primary reference covering all course topics with extensive examples and exercises.
 
-## Lecture Materials
+## 📚 Lecture Slides
 
-All slides available as PDFs:
+All lecture materials available as PDFs:
 
-- [Lecture: Set Theory](../lec-set-theory.pdf)
-- [Lecture: Binary Relations](../lec-relations.pdf)
-- [Lecture: Boolean Algebra](../lec-boolean-algebra.pdf)
-- [Lecture: Formal Logic](../lec-logic.pdf)
-- [Lecture: Flow Networks](../lec-flows.pdf)
-- [Lecture: Automata Theory](../lec-automata.pdf)
-- [Lecture: Combinatorics](../lec-combinatorics.pdf)
+- 📄 [Lecture: Set Theory](../lec-set-theory.pdf)
+- 📄 [Lecture: Binary Relations](../lec-relations.pdf)
+- 📄 [Lecture: Boolean Algebra](../lec-boolean-algebra.pdf)
+- 📄 [Lecture: Formal Logic](../lec-logic.pdf)
+- 📄 [Lecture: Flow Networks](../lec-flows.pdf)
+- 📄 [Lecture: Automata Theory](../lec-automata.pdf)
+- 📄 [Lecture: Combinatorics](../lec-combinatorics.pdf)
 
-## Cheatsheets
+## 📋 Quick Reference
 
-Cheatsheets are available for quick reference:
+Cheatsheets for test/exam preparation and quick lookups:
 
-- [Set Theory Cheatsheet](../tex/cheat1.pdf)
-- [Relations Cheatsheet](../tex/cheat2.pdf)
-- [Boolean Algebra Cheatsheet](../tex/cheat3.pdf)
-- [Formal Logic Cheatsheet](../tex/cheat4.pdf)
-- [Graph Theory Cheatsheet](../tex/cheat5.pdf)
-- [Automata Theory Cheatsheet](../tex/cheat6.pdf)
-- [Combinatorics Cheatsheet](../tex/cheat7.pdf)
+- 📋 [Cheatsheet: Set Theory](../tex/cheat1.pdf)
+- 📋 [Cheatsheet: Relations](../tex/cheat2.pdf)
+- 📋 [Cheatsheet: Boolean Algebra](../tex/cheat3.pdf)
+- 📋 [Cheatsheet: Formal Logic](../tex/cheat4.pdf)
+- 📋 [Cheatsheet: Graph Theory](../tex/cheat5.pdf)
+- 📋 [Cheatsheet: Automata Theory](../tex/cheat6.pdf)
+- 📋 [Cheatsheet: Combinatorics](../tex/cheat7.pdf)
 
-## Online Resources
+## Additional Resources
 
-### Recommended
+### Online Courses
 
 - [MIT OpenCourseWare: Mathematics for CS](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-042j-mathematics-for-computer-science-fall-2010/)
-- [Stanford CS103: Mathematical Foundations](http://web.stanford.edu/class/cs103/)
+- [Stanford CS103: Mathematical Foundations of Computing](https://web.stanford.edu/class/cs103/)
+- TODO
 
-### Tools
+### Tools for Homework
 
-- **Typst**: For writing mathematical documents (recommended for homework)
-- **LaTeX**: Alternative for mathematical typesetting
-- **Wolfram Alpha**: Checking computations
+- **Typst** *(recommended)*: Modern mathematical typesetting, easier than LaTeX
+- **LaTeX**: Traditional mathematical document preparation
+- **Wolfram Alpha**: Verify computations and explore mathematical concepts
