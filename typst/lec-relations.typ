@@ -2628,6 +2628,89 @@
   Similarly: $cos: [0, pi] to [-1, 1]$ has inverse $arccos$, and $tan: (-pi/2, pi/2) to RR$ has inverse $arctan$.
 ]
 
+== Characterization of Invertible Functions
+
+#theorem[
+  A function $f: A to B$ has an inverse function $f^(-1): B to A$ _if and only if_ $f$ is bijective.
+]
+
+#proof[
+  We prove both directions.
+
+  *($arrow.r.double$):*
+  If $f$ has an inverse, then $f$ is bijective.
+
+  Assume $f^(-1) : B to A$ is an inverse of $f : A to B$ with the following properties:
+  - $f^(-1)(f(x)) = x$ for all $x in A$
+  - $f(f^(-1)(y)) = y$ for all $y in B$
+
+  We are going to show that $f$ is both injective and surjective.
+
+  + *$f$ is injective:*
+    Let $x_1, x_2 in A$ such that $f(x_1) = f(x_2)$.
+    Applying $f^(-1)$ to both sides, we get:
+    $
+      f^(-1)(f(x_1)) = f^(-1)(f(x_2))
+    $
+    By the property of the inverse, this simplifies to:
+    $
+      x_1 = x_2
+    $
+    Thus, $f$ is injective.
+
+  + *$f$ is surjective:*
+    Let $y in B$.
+    We need to find an $x in A$ such that $f(x) = y$.
+    Take $x = f^(-1)(y)$.
+    Then by the property of the inverse, we have:
+    $
+      f(x) = f(f^(-1)(y)) = y
+    $
+    Hence, $f$ is surjective.
+
+  Therefore, $f$ is bijective.
+  #h(1fr)$qed$
+
+  *($arrow.l.double$):*
+  If $f$ is bijective, then $f$ has an inverse $f^(-1)$.
+
+  Assume $f: A to B$ is bijective.
+  This means:
+  - $f$ is injective: $(f(x_1) = f(x_2)) imply (x_1 = x_2)$
+  - $f$ is surjective: for every $y in B$, there exists $x in A$ such that $f(x) = y$
+
+  We need to construct an inverse function $f^(-1): B to A$, satisfying:
+  $
+    f^(-1)(f(x)) = x
+    quad "and" quad
+    f(f^(-1)(y)) = y
+  $
+
+  *Construction of $f^(-1)$:*
+  For each $y in B$:
+  - Since $f$ is surjective, there exists at least one $x in A$ such that $f(x) = y$.
+  - Since $f$ is injective, this $x$ is unique.
+  We define a function $f^(-1) : B to A$ by:
+  $
+    f^(-1)(y) = "the unique" x in A "such that" f(x) = y
+  $
+
+  *Verification:*
+  + For all $x in A$, by definition of $f^(-1)$:
+    $
+      f^(-1)(f(x)) = x
+    $
+  + For all $y in B$, since $f^(-1)(y)$ is defined as the unique $x$ with $f(x) = y$, we have:
+    $
+      f(f^(-1)(y)) = y
+    $
+
+  Therefore, $f^(-1)$ is indeed the inverse of $f$.
+  #h(1fr)$qed$
+
+  Thus, a function has an inverse _if and only if_ it is bijective.
+]
+
 == Some Properties of Inverse Functions
 
 #theorem[
