@@ -5,17 +5,18 @@
 ### Week 1
 
 - Introduction to sets and notation
-- Set operations: ∪, ∩, \, ⊕, complement
+- Set operations: union, intersection, difference, complement
 - Power sets and subsets
+- Euler diagrams
 - Venn diagrams
 - Cartesian products
 - Russell's paradox
 
 ### Week 2
 
-- Axiomatic foundations (ZFC)
-- Zermelo-Fraenkel axioms overview
-- Axiom of choice
+- Tuples, n-tuples, pairs
+- Kuratowski's definition of ordered pairs
+- Cartesian product and geometric interpretation
 
 ---
 
@@ -25,19 +26,25 @@
 
 - Binary relations: definition and representations
 - Graph and matrix representations
-- Properties: reflexive, symmetric, transitive
-- Equivalence relations and partitions
-- Closures of relations
+- Properties: reflexive, symmetric, transitive and other
+- Equivalence relations
+- Set partitions
+- Quotient sets
+- Composition of relations
+- Powers of relations
+- ~~Closures of relations~~
 
 **📌 Homework 1 due | Test 1**
 
 ### Week 4
 
 - Order relations (partial, linear, well-orders)
+- Partially ordered sets (posets)
 - Hasse diagrams
+- Covering relation
+- Maximal, minimal, greatest, least elements
 - Chains and antichains
 - Dilworth's theorem
-- Composition of relations
 
 ### Week 5
 
@@ -45,7 +52,9 @@
 - Domain, codomain, range
 - Injective, surjective, bijective
 - Function composition and inverses
-- Pigeonhole principle
+- Monotonic functions
+- Characteristic functions
+- Floor and ceiling functions
 
 ### Week 6: Cardinality
 
@@ -57,7 +66,8 @@
 
 ### Week 7
 
-- Partially ordered sets (posets)
+- Upper and lower bounds
+- Supremum and infimum
 - Lattices: meets and joins
 - Modular and distributive lattices
 - Boolean algebras as lattices
