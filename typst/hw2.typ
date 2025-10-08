@@ -128,8 +128,7 @@ Given these specific relations:
   Prove that if $R$ and $S$ are equivalence relations on the same set, then $R inter S$ is also an equivalence relation.
 
 + *Symmetry:*
-  Can combining two symmetric relations destroy symmetry?
-  Find the minimum example of two symmetric relations (on the same set) whose union is not symmetric.
+  Can the union of two symmetric relations not be symmetric?
 
 #block(sticky: true)[*Part (c): Trust Propagation*]
 
