@@ -11,6 +11,13 @@
   // Setup theorems
   show: ctheorems.thmrules.with(qed-symbol: $square$)
 
+  // Show i.e. in italic:
+  show "i.e.": set text(style: "italic")
+  // Show e.g. in italic:
+  show "e.g.": set text(style: "italic")
+  // Shot etc. in italic:
+  show "etc.": set text(style: "italic")
+
   doc
 }
 
