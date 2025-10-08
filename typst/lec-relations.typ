@@ -2604,7 +2604,7 @@
   ]
 ]
 
-#pagebreak()
+== Examples of Inverse Functions
 
 #example[Polynomial with domain restriction][
   Consider $f: RR to RR$ defined by $f(x) = x^2$.
