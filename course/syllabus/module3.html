@@ -183,59 +183,70 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="module-3-boolean-algebra"><a class="header" href="#module-3-boolean-algebra">Module 3: Boolean Algebra</a></h1>
+                        <h1 id="-module-3-boolean-algebra"><a class="header" href="#-module-3-boolean-algebra">⚡ Module 3: Boolean Algebra</a></h1>
 <p><strong>Duration</strong>: Weeks 8-10</p>
-<h2 id="core-topics"><a class="header" href="#core-topics">Core Topics</a></h2>
+<h2 id="-core-topics"><a class="header" href="#-core-topics">📚 Core Topics</a></h2>
 <h3 id="boolean-functions-week-8"><a class="header" href="#boolean-functions-week-8">Boolean Functions (Week 8)</a></h3>
 <ul>
-<li>Truth tables</li>
-<li>Basic operations: AND, OR, NOT, XOR, NAND, NOR</li>
-<li>Boolean laws and duality</li>
-<li>Normal forms: DNF and CNF</li>
-<li>Perfect normal forms</li>
+<li><strong>Truth Tables</strong>: Complete function specification</li>
+<li><strong>Basic Operations</strong>: AND (∧), OR (∨), NOT (¬), XOR (⊕), NAND (↑), NOR (↓)</li>
+<li><strong>Boolean Laws</strong>: Commutative, associative, distributive, De Morgan’s</li>
+<li><strong>Duality Principle</strong>: Swapping ∧↔∨ and 0↔1</li>
+<li><strong>Normal Forms</strong>:
+<ul>
+<li>DNF (Disjunctive): Sum of products</li>
+<li>CNF (Conjunctive): Product of sums</li>
+<li>Perfect/Canonical forms</li>
+</ul>
+</li>
 </ul>
 <h3 id="digital-circuits-week-9"><a class="header" href="#digital-circuits-week-9">Digital Circuits (Week 9)</a></h3>
 <ul>
-<li>Logic gates</li>
-<li>Circuit design and analysis</li>
-<li>Multi-level circuits</li>
-<li>Functional completeness</li>
-<li>Universal gates (NAND, NOR)</li>
+<li><strong>Logic Gates</strong>: Physical implementation of Boolean operations</li>
+<li><strong>Circuit Design</strong>: From truth table to circuit</li>
+<li><strong>Analysis</strong>: From circuit to Boolean expression</li>
+<li><strong>Multi-level Circuits</strong>: Optimization and complexity</li>
+<li><strong>Functional Completeness</strong>: Minimal operation sets</li>
+<li><strong>Universal Gates</strong>: NAND and NOR alone suffice</li>
 </ul>
 <h3 id="minimization-week-10"><a class="header" href="#minimization-week-10">Minimization (Week 10)</a></h3>
 <ul>
-<li>Karnaugh maps (K-maps)</li>
-<li>Don’t care conditions</li>
-<li>Quine-McCluskey algorithm</li>
-<li>Prime implicants</li>
+<li><strong>Karnaugh Maps (K-maps)</strong>: Visual minimization (2-4 variables)</li>
+<li><strong>Don’t Care Conditions</strong>: Flexible outputs for optimization</li>
+<li><strong>Quine-McCluskey</strong>: Algorithmic minimization (any number of variables)</li>
+<li><strong>Prime Implicants</strong>: Essential and non-essential</li>
 </ul>
-<h2 id="key-concepts"><a class="header" href="#key-concepts">Key Concepts</a></h2>
-<p><strong>Boolean Function</strong>: f: {0,1}ⁿ → {0,1}</p>
-<p><strong>Normal Forms</strong>:</p>
+<h2 id="-key-concepts"><a class="header" href="#-key-concepts">🔑 Key Concepts</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Concept</th><th>Definition</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Boolean Function</strong></td><td>f: {0,1}ⁿ → {0,1}</td><td>f(x,y) = x ∧ ¬y</td></tr>
+<tr><td><strong>DNF</strong></td><td>Sum of products (OR of ANDs)</td><td>(x∧y) ∨ (¬x∧z)</td></tr>
+<tr><td><strong>CNF</strong></td><td>Product of sums (AND of ORs)</td><td>(x∨y) ∧ (¬x∨z)</td></tr>
+<tr><td><strong>Functionally Complete</strong></td><td>Can express any Boolean function</td><td>{∧,∨,¬}, {NAND}, {NOR}</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p><strong>💡 De Morgan’s Laws:</strong>
+¬(x ∧ y) = ¬x ∨ ¬y
+¬(x ∨ y) = ¬x ∧ ¬y</p>
+</blockquote>
+<h2 id="-applications"><a class="header" href="#-applications">💡 Applications</a></h2>
+<blockquote>
+<p><strong>Where you’ll use this:</strong></p>
+</blockquote>
 <ul>
-<li><strong>DNF</strong>: Sum of products (OR of ANDs)</li>
-<li><strong>CNF</strong>: Product of sums (AND of ORs)</li>
+<li>💻 Digital circuit design and hardware</li>
+<li>🖥️ Computer architecture (ALU, CPU design)</li>
+<li>🧩 SAT solvers and automated reasoning</li>
 </ul>
-<p><strong>Functionally Complete</strong>: A set of operations that can express any Boolean function</p>
+<h2 id="-learning-outcomes"><a class="header" href="#-learning-outcomes">✅ Learning Outcomes</a></h2>
+<p>By the end of this module, you will be able to:</p>
 <ul>
-<li>Examples: {AND, OR, NOT}, {NAND}, {NOR}</li>
-</ul>
-<p><strong>K-Map</strong>: Visual method for minimizing Boolean expressions (works well for ≤4 variables)</p>
-<h2 id="applications"><a class="header" href="#applications">Applications</a></h2>
-<ul>
-<li>Digital circuit design</li>
-<li>Computer hardware architecture</li>
-<li>Compiler optimization</li>
-<li>SAT solvers</li>
-</ul>
-<h2 id="what-youll-be-able-to-do"><a class="header" href="#what-youll-be-able-to-do">What You’ll Be Able To Do</a></h2>
-<ul>
-<li>Construct truth tables for Boolean expressions</li>
-<li>Convert between DNF, CNF, and arbitrary forms</li>
-<li>Simplify expressions using Boolean laws</li>
-<li>Design circuits using logic gates</li>
-<li>Minimize functions with K-maps</li>
-<li>Prove functional completeness</li>
+<li>Construct and analyze truth tables for Boolean expressions</li>
+<li>Convert between DNF, CNF, and arbitrary Boolean forms</li>
+<li>Simplify expressions using Boolean laws and duality</li>
+<li>Design and analyze digital circuits using logic gates</li>
+<li>Minimize Boolean functions with Karnaugh maps</li>
+<li>Prove sets of operations are functionally complete</li>
 </ul>
 
                     </main>

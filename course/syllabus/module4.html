@@ -183,67 +183,80 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="module-4-formal-logic"><a class="header" href="#module-4-formal-logic">Module 4: Formal Logic</a></h1>
+                        <h1 id="-module-4-formal-logic"><a class="header" href="#-module-4-formal-logic">🧠 Module 4: Formal Logic</a></h1>
 <p><strong>Duration</strong>: Weeks 11-16</p>
-<h2 id="core-topics"><a class="header" href="#core-topics">Core Topics</a></h2>
+<h2 id="-core-topics"><a class="header" href="#-core-topics">📚 Core Topics</a></h2>
 <h3 id="propositional-logic-weeks-11-12"><a class="header" href="#propositional-logic-weeks-11-12">Propositional Logic (Weeks 11-12)</a></h3>
 <ul>
-<li>Syntax: formulas, atoms, connectives</li>
-<li>Semantics: truth tables, models</li>
-<li>Tautologies, contradictions, satisfiability</li>
-<li>Logical equivalence and consequence</li>
-<li>Natural deduction proof system</li>
+<li><strong>Syntax</strong>: Formulas, atoms, connectives (∧, ∨, →, ¬, ↔)</li>
+<li><strong>Semantics</strong>: Truth tables, interpretations, models</li>
+<li><strong>Classification</strong>: Tautologies, contradictions, contingencies</li>
+<li><strong>Relationships</strong>: Logical equivalence (≡) and consequence (⊨)</li>
+<li><strong>Proof System</strong>: Natural deduction rules</li>
 </ul>
 <h3 id="metalogic-week-12"><a class="header" href="#metalogic-week-12">Metalogic (Week 12)</a></h3>
 <ul>
-<li>Soundness theorem</li>
-<li>Completeness theorem</li>
-<li>Compactness theorem</li>
-<li>Decidability</li>
+<li><strong>Soundness Theorem</strong>: Provable → Valid (⊢ ⇒ ⊨)</li>
+<li><strong>Completeness Theorem</strong>: Valid → Provable (⊨ ⇒ ⊢)</li>
+<li><strong>Compactness Theorem</strong>: Infinite satisfiability</li>
+<li><strong>Decidability</strong>: Algorithmic verification</li>
 </ul>
 <h3 id="predicate-logic-week-13"><a class="header" href="#predicate-logic-week-13">Predicate Logic (Week 13)</a></h3>
 <ul>
-<li>Syntax: predicates, quantifiers (∀, ∃), terms</li>
-<li>Bound and free variables</li>
-<li>Interpretations and models</li>
-<li>Prenex normal form</li>
-<li>Gödel’s completeness theorem (overview)</li>
-<li>Gödel’s incompleteness theorems (overview)</li>
+<li><strong>Syntax</strong>: Predicates, quantifiers (∀, ∃), terms, variables</li>
+<li><strong>Scope</strong>: Bound vs free variables</li>
+<li><strong>Semantics</strong>: Interpretations, domains, models</li>
+<li><strong>Normal Forms</strong>: Prenex normal form</li>
+<li><strong>Gödel’s Theorems</strong> (overview):
+<ul>
+<li>Completeness: Every valid formula is provable</li>
+<li>Incompleteness: Arithmetic has unprovable truths</li>
+</ul>
+</li>
 </ul>
 <h3 id="categorical-logic-week-14"><a class="header" href="#categorical-logic-week-14">Categorical Logic (Week 14)</a></h3>
 <ul>
-<li>A, E, I, O statements</li>
-<li>Traditional square of opposition</li>
-<li>Categorical syllogisms</li>
-<li>Validity analysis</li>
-<li>Venn diagram methods</li>
+<li><strong>Statement Types</strong>: A (All), E (No), I (Some), O (Some…not)</li>
+<li><strong>Square of Opposition</strong>: Logical relationships</li>
+<li><strong>Syllogisms</strong>: Three-part arguments</li>
+<li><strong>Validity Analysis</strong>: Rule-based and diagrammatic</li>
+<li><strong>Venn Diagrams</strong>: Visual proof method</li>
 </ul>
-<h2 id="key-concepts"><a class="header" href="#key-concepts">Key Concepts</a></h2>
-<p><strong>Tautology</strong>: Formula true in all interpretations (e.g., P ∨ ¬P)</p>
-<p><strong>Logical Consequence</strong>: Γ ⊨ φ means φ is true in all models where all formulas in Γ are true</p>
-<p><strong>Soundness</strong>: If provable, then valid (⊢ implies ⊨)</p>
-<p><strong>Completeness</strong>: If valid, then provable (⊨ implies ⊢)</p>
-<p><strong>Quantifiers</strong>:</p>
+<h2 id="-key-concepts"><a class="header" href="#-key-concepts">🔑 Key Concepts</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Concept</th><th>Definition</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Tautology</strong></td><td>True in all interpretations</td><td>P ∨ ¬P</td></tr>
+<tr><td><strong>Contradiction</strong></td><td>False in all interpretations</td><td>P ∧ ¬P</td></tr>
+<tr><td><strong>Logical Consequence</strong></td><td>Γ ⊨ φ: φ true when all Γ true</td><td>{P→Q, P} ⊨ Q</td></tr>
+<tr><td><strong>Soundness</strong></td><td>Provable → Valid</td><td>⊢ ⇒ ⊨</td></tr>
+<tr><td><strong>Completeness</strong></td><td>Valid → Provable</td><td>⊨ ⇒ ⊢</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p><strong>💡 Quantifier Semantics:</strong>
+<strong>∀x P(x)</strong>: “For all x in the domain, P(x) holds”
+<strong>∃x P(x)</strong>: “There exists at least one x such that P(x) holds”</p>
+</blockquote>
+<h2 id="-applications"><a class="header" href="#-applications">💡 Applications</a></h2>
+<blockquote>
+<p><strong>Real-world impact:</strong></p>
+</blockquote>
 <ul>
-<li><strong>∀x P(x)</strong>: “For all x, P(x) holds”</li>
-<li><strong>∃x P(x)</strong>: “There exists x such that P(x) holds”</li>
+<li>🤖 Automated theorem proving and AI reasoning</li>
+<li>✅ Program verification and correctness proofs</li>
+<li>🗄️ Database query languages (SQL logic)</li>
+<li>🧩 Knowledge representation systems</li>
+<li>🔬 Formal methods in software engineering</li>
+<li>🎯 Smart contract verification</li>
 </ul>
-<h2 id="applications"><a class="header" href="#applications">Applications</a></h2>
+<h2 id="-learning-outcomes"><a class="header" href="#-learning-outcomes">✅ Learning Outcomes</a></h2>
+<p>By the end of this module, you will be able to:</p>
 <ul>
-<li>Automated theorem proving</li>
-<li>Program verification</li>
-<li>Database query languages</li>
-<li>Knowledge representation</li>
-<li>Formal methods in software engineering</li>
-</ul>
-<h2 id="what-youll-be-able-to-do"><a class="header" href="#what-youll-be-able-to-do">What You’ll Be Able To Do</a></h2>
-<ul>
-<li>Determine if formulas are tautologies/contradictions</li>
-<li>Construct natural deduction proofs</li>
-<li>Show logical equivalence</li>
-<li>Translate between natural and formal languages</li>
-<li>Work with quantifiers</li>
-<li>Analyze validity of syllogisms</li>
+<li>✓ Classify formulas as tautologies/contradictions/contingencies</li>
+<li>✓ Construct rigorous natural deduction proofs</li>
+<li>✓ Prove logical equivalence between formulas</li>
+<li>✓ Translate between natural language and formal logic</li>
+<li>✓ Manipulate quantifiers and work with predicate formulas</li>
+<li>✓ Analyze validity of categorical syllogisms using multiple methods</li>
 </ul>
 
                     </main>
