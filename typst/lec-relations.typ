@@ -2273,7 +2273,8 @@
 == Examples of Injective Functions
 
 #Block(color: yellow)[
-  *Key insight:* An injective function never "collapses" different inputs to the same output.
+  *Key insight:*
+  An injective function never "collapses" different inputs to the same output. \
   Each output has at most one pre-image.
 ]
 
@@ -2365,7 +2366,9 @@
 == Examples of Surjective Functions
 
 #Block(color: yellow)[
-  *Key insight:* A surjective function "covers" the entire codomain. Every possible output is actually achieved by some input.
+  *Key insight:*
+  A surjective function "covers" the entire codomain. \
+  Every possible output is actually achieved by some input.
 ]
 
 #example[
