@@ -32,7 +32,7 @@
 
 ## 💡 Applications
 
-> **Where you'll use this:**
+**Where you'll use this:**
 
 - 🗄️ Database theory and relational algebra
 - 🎲 Probability theory foundations
