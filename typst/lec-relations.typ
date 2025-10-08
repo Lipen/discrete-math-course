@@ -2220,7 +2220,7 @@
 == Injective Functions
 
 #definition[
-  A function $f: A to B$ is _injective_ (or _one-to-one_#footnote[
+  A function $f: A to B$ is _injective_ (_left-unique_ or _one-to-one_#footnote[
     Do not confuse "one-to-one" with "one-to-one correspondence", which refers to a _bijection_ --- another concept!
   ]) if distinct elements in the domain map to distinct elements in the codomain.
   Formally:
