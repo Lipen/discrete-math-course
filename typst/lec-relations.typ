@@ -2703,7 +2703,7 @@
 #example[
   $f: (RR without {0}) to RR$ defined by $f(x) = 1 / x$ is *injective but not monotonic*.
   - If $f(x_1) = f(x_2)$, then $1/x_1 = 1/x_2$ implies $x_1 = x_2$. #YES
-  - However, $f$ is not monotonic since it decreases on $(-infinity, 0)$ and increases on $(0, infinity)$. #NO
+  - However, $f$ is not monotonic since it decreases on $(-infinity, 0)$ and $(0, infinity)$, but $f(-1) < f(1)$. #NO
 ]
 
 == Function Properties Overview
