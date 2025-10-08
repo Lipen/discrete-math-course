@@ -68,7 +68,7 @@
 
 == Problem 1: Relation Properties
 
-For each relation below, determine whether it is _reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, left/right Euclidean, connex_.
+For each relation below, determine whether it is _reflexive, irreflexive, coreflexive, symmetric, antisymmetric, asymmetric, transitive, left/right Euclidean, connected, semi-connected_.
 Organize your findings in a table and provide counterexamples for properties that don't hold.
 
 + *Proximity relation:*
