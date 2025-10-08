@@ -1,51 +1,50 @@
-# Module 1: Set Theory
+# 📐 Module 1: Set Theory
 
 **Duration**: Weeks 1-2 + Week 6
 
-## Core Topics
+## 📚 Core Topics
 
 ### Weeks 1-2: Foundations
 
-- Set operations (∪, ∩, \, ⊕, complement)
-- Power sets and Boolean algebra of sets
-- Venn diagrams
-- Cartesian products
-- Russell's paradox
-- Zermelo-Fraenkel axioms (ZFC)
-- Axiom of choice
+- **Set Operations**: Union, Intersection, Difference, Symmetric Difference, Complement
+- **Power Sets**: Boolean algebra of sets
+- **Venn Diagrams**: Visual representation
+- **Cartesian Products**
+- **Paradoxes & Axioms**: Russell's paradox, Zermelo-Fraenkel axioms (ZFC), Axiom of choice
 
 ### Week 6: Cardinality
 
-- Finite vs infinite sets
-- Countable and uncountable sets
-- Pairing functions and encodings
-- Cantor's diagonal argument
-- Cantor's theorem: |A| < |𝒫(A)|
-- Schroeder-Bernstein theorem
-- Hilbert's hotel paradox
+- **Finite vs Infinite Sets**: Understanding size
+- **Countable & Uncountable Sets**: Different infinities
+- **Pairing Functions**: Encodings
+- **Cantor's Results**: Diagonal argument, Cantor's theorem
+- **Classical Theorems**: Schroeder-Bernstein theorem
+- **Paradoxes**: Hilbert's hotel
 
-## Key Concepts
+## 🔑 Key Concepts
 
-**Set Operations**: Union, intersection, difference, symmetric difference, complement
+| Concept | Definition | Example |
+|---------|------------|---------|
+| **Power Set** | 𝒫(A) = set of all subsets of A | If \|A\| = n, then \|𝒫(A)\| = 2ⁿ |
+| **Finite** | \|A\| = n for some n ∈ ℕ | {1, 2, 3} has cardinality 3 |
+| **Countable** | \|A\| = \|ℕ\| | Integers ℤ, Rationals ℚ |
+| **Uncountable** | \|A\| > \|ℕ\| | Real numbers ℝ |
 
-**Power Set**: 𝒫(A) = set of all subsets of A. If |A| = n, then |𝒫(A)| = 2ⁿ
+## 💡 Applications
 
-**Cardinality**:
+> **Where you'll use this:**
 
-- Finite: |A| = n for some n ∈ ℕ
-- Countable: |A| = |ℕ| (e.g., integers, rationals)
-- Uncountable: |A| > |ℕ| (e.g., real numbers)
+- 🗄️ Database theory and relational algebra
+- 🎲 Probability theory foundations
+- 📝 Formal language theory
+- 🧮 Algorithm analysis and complexity
 
-## Applications
+## ✅ Learning Outcomes
 
-- Database theory and relational algebra
-- Probability theory foundations
-- Formal language theory
+By the end of this module, you will be able to:
 
-## What You'll Be Able To Do
-
-- Prove set identities using element arguments or algebraic laws
-- Construct Venn diagrams for complex expressions
-- Determine cardinality of finite and infinite sets
-- Prove sets are countable or uncountable
-- Apply Cantor's diagonal argument
+- ✓ Prove set identities using element arguments or algebraic laws
+- ✓ Construct Venn diagrams for complex expressions
+- ✓ Determine cardinality of finite and infinite sets
+- ✓ Prove sets are countable or uncountable
+- ✓ Apply Cantor's diagonal argument correctly

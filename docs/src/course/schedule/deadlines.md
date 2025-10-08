@@ -1,55 +1,60 @@
-# Key Deadlines
+# ⏰ Key Deadlines
 
-All times are 23:55 GMT+3 unless otherwise specified.
+> **📍 Timezone**: All times are **23:55 GMT+3** unless otherwise specified.
 
-## Homework Deadlines
+## ✏️ Homework Deadlines
 
-| Assignment | Topic | Due Week |
-|------------|-------|----------|
-| Homework 1 | Set Theory | Week 3 (day before Test 1) |
-| Homework 2 | Binary Relations | Week 7 (day before Test 2) |
-| Homework 3 | Boolean Algebra | Week 10 (day before Test 3) |
-| Homework 4 | Formal Logic | Week 15 (day before Test 4) |
+| Assignment | Topic | Due Week | Deadline |
+|------------|-------|----------|----------|
+| Homework 1 | 📐 Set Theory | Week 3 | Day before Test 1 |
+| Homework 2 | 🔗 Binary Relations | Week 7 | Day before Test 2 |
+| Homework 3 | ⚡ Boolean Algebra | Week 10 | Day before Test 3 |
+| Homework 4 | 🧠 Formal Logic | Week 15 | Day before Test 4 |
 
-## Test Schedule
+> **💡 Submission**: Upload via Dropbox link (shared in Telegram group)
 
-| Test | Coverage | Week |
-|------|----------|------|
-| Test 1 | Set Theory (Weeks 1-2) | 3 |
-| Test 2 | Binary Relations (Weeks 3-7) | 7 |
-| Test 3 | Boolean Algebra (Weeks 8-10) | 10 |
-| Test 4 | Formal Logic (Weeks 11-15) | 15 |
+## 📝 Test Schedule
 
-**Format**: 90 minutes, open book, individual work
+| Test | Coverage | Week | Duration |
+|------|----------|------|----------|
+| Test 1 | 📐 Set Theory (Weeks 1-2) | 3 | 90 min |
+| Test 2 | 🔗 Binary Relations (Weeks 3-7) | 7 | 90 min |
+| Test 3 | ⚡ Boolean Algebra (Weeks 8-10) | 10 | 90 min |
+| Test 4 | 🧠 Formal Logic (Weeks 11-15) | 15 | 90 min |
 
-## Theoretical Minimums
+**Format**: Open book, individual work
 
-| Exam | Coverage | Week | Passing |
-|------|----------|------|---------|
-| TM1 | Set Theory + Binary Relations | 7 | ≥50% |
-| TM2 | Boolean Algebra + Formal Logic | 15 | ≥50% |
+## 🎓 Theoretical Minimums (TM)
 
-**Format**: 120 minutes, closed book, individual work
+| Exam | Coverage | Week | Duration | Passing Score |
+|------|----------|------|----------|---------------|
+| TM1 | 📐 Set Theory + 🔗 Relations | 7 | 120 min | ≥50% |
+| TM2 | ⚡ Boolean Algebra + 🧠 Logic | 15 | 120 min | ≥50% |
 
-**Critical**: Must pass BOTH to receive course credit
+**Format**: Closed book, individual work
 
-## Final Exam
+> **⚠️ Critical**: You must pass **BOTH** TMs to receive course credit, regardless of your total points!
+
+## 🎯 Final Exam
 
 **Coverage**: All modules (Weeks 1-16)
 
-**Components**:
+**Format & Duration**:
 
-- Written (60 min): Problem solving
-- Oral (30 min): Concepts and explanations
-- Practical (30 min): Applications
+| Component | Focus | Time |
+|-----------|-------|------|
+| ✍️ Written | Problem solving and proofs | 60 min |
+| 💬 Oral | Conceptual understanding | 30 min |
+| 🔧 Practical | Applications and examples | 30 min |
 
-**Date**: During university exam period (TBA)
+**Date**: During university exam period (announced later)
 
-## Important Notes
+---
 
-- **Homework**: Submit via Dropbox link (provided in Telegram)
-- **Defense**: All homework requires oral defense (scheduled individually)
-- **Make-ups**: Available only for documented emergencies
-- **Review sessions**: Scheduled before major assessments
+## 📌 Important Policies
 
-> **Pro tip**: Start homework immediately when assigned. Don't wait until the deadline!
+- **Defense Required**: All homework must be defended orally (scheduled individually via Telegram)
+- **Make-ups**: Available only for documented emergencies (medical, family, etc.)
+- **Review Sessions**: Scheduled before TMs and Final Exam
+
+> **💡 Pro Tip**: Start homework immediately when assigned. Cramming before deadlines leads to poor understanding and rushed defenses!

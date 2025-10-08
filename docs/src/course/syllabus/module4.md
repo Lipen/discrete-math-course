@@ -1,69 +1,74 @@
-# Module 4: Formal Logic
+# 🧠 Module 4: Formal Logic
 
 **Duration**: Weeks 11-16
 
-## Core Topics
+## 📚 Core Topics
 
 ### Propositional Logic (Weeks 11-12)
 
-- Syntax: formulas, atoms, connectives
-- Semantics: truth tables, models
-- Tautologies, contradictions, satisfiability
-- Logical equivalence and consequence
-- Natural deduction proof system
+- **Syntax**: Formulas, atoms, connectives (∧, ∨, →, ¬, ↔)
+- **Semantics**: Truth tables, interpretations, models
+- **Classification**: Tautologies, contradictions, contingencies
+- **Relationships**: Logical equivalence (≡) and consequence (⊨)
+- **Proof System**: Natural deduction rules
 
 ### Metalogic (Week 12)
 
-- Soundness theorem
-- Completeness theorem
-- Compactness theorem
-- Decidability
+- **Soundness Theorem**: Provable → Valid (⊢ ⇒ ⊨)
+- **Completeness Theorem**: Valid → Provable (⊨ ⇒ ⊢)
+- **Compactness Theorem**: Infinite satisfiability
+- **Decidability**: Algorithmic verification
 
 ### Predicate Logic (Week 13)
 
-- Syntax: predicates, quantifiers (∀, ∃), terms
-- Bound and free variables
-- Interpretations and models
-- Prenex normal form
-- Gödel's completeness theorem (overview)
-- Gödel's incompleteness theorems (overview)
+- **Syntax**: Predicates, quantifiers (∀, ∃), terms, variables
+- **Scope**: Bound vs free variables
+- **Semantics**: Interpretations, domains, models
+- **Normal Forms**: Prenex normal form
+- **Gödel's Theorems** (overview):
+  - Completeness: Every valid formula is provable
+  - Incompleteness: Arithmetic has unprovable truths
 
 ### Categorical Logic (Week 14)
 
-- A, E, I, O statements
-- Traditional square of opposition
-- Categorical syllogisms
-- Validity analysis
-- Venn diagram methods
+- **Statement Types**: A (All), E (No), I (Some), O (Some...not)
+- **Square of Opposition**: Logical relationships
+- **Syllogisms**: Three-part arguments
+- **Validity Analysis**: Rule-based and diagrammatic
+- **Venn Diagrams**: Visual proof method
 
-## Key Concepts
+## 🔑 Key Concepts
 
-**Tautology**: Formula true in all interpretations (e.g., P ∨ ¬P)
+| Concept | Definition | Example |
+|---------|------------|---------|
+| **Tautology** | True in all interpretations | P ∨ ¬P |
+| **Contradiction** | False in all interpretations | P ∧ ¬P |
+| **Logical Consequence** | Γ ⊨ φ: φ true when all Γ true | {P→Q, P} ⊨ Q |
+| **Soundness** | Provable → Valid | ⊢ ⇒ ⊨ |
+| **Completeness** | Valid → Provable | ⊨ ⇒ ⊢ |
 
-**Logical Consequence**: Γ ⊨ φ means φ is true in all models where all formulas in Γ are true
+> **💡 Quantifier Semantics:**
+> **∀x P(x)**: "For all x in the domain, P(x) holds"
+> **∃x P(x)**: "There exists at least one x such that P(x) holds"
 
-**Soundness**: If provable, then valid (⊢ implies ⊨)
+## 💡 Applications
 
-**Completeness**: If valid, then provable (⊨ implies ⊢)
+> **Real-world impact:**
 
-**Quantifiers**:
+- 🤖 Automated theorem proving and AI reasoning
+- ✅ Program verification and correctness proofs
+- 🗄️ Database query languages (SQL logic)
+- 🧩 Knowledge representation systems
+- 🔬 Formal methods in software engineering
+- 🎯 Smart contract verification
 
-- **∀x P(x)**: "For all x, P(x) holds"
-- **∃x P(x)**: "There exists x such that P(x) holds"
+## ✅ Learning Outcomes
 
-## Applications
+By the end of this module, you will be able to:
 
-- Automated theorem proving
-- Program verification
-- Database query languages
-- Knowledge representation
-- Formal methods in software engineering
-
-## What You'll Be Able To Do
-
-- Determine if formulas are tautologies/contradictions
-- Construct natural deduction proofs
-- Show logical equivalence
-- Translate between natural and formal languages
-- Work with quantifiers
-- Analyze validity of syllogisms
+- ✓ Classify formulas as tautologies/contradictions/contingencies
+- ✓ Construct rigorous natural deduction proofs
+- ✓ Prove logical equivalence between formulas
+- ✓ Translate between natural language and formal logic
+- ✓ Manipulate quantifiers and work with predicate formulas
+- ✓ Analyze validity of categorical syllogisms using multiple methods

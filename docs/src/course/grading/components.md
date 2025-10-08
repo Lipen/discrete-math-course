@@ -1,46 +1,61 @@
-# Grading Components
+# 📊 Grading Components
 
-## Homework Assignments (40 points)
+## ✏️ Homework Assignments (40 points)
 
-- **4 assignments** × 10 points = 40 points total
-- ~10 problems per assignment
-- Mix of basic, medium, and challenge problems
-- Oral defense required
+| Detail | Value |
+|--------|-------|
+| **Number of Assignments** | 4 |
+| **Points Each** | 10 |
+| **Total Points** | 40 |
+| **Problems per HW** | ~10 (basic, medium, challenge mix) |
+| **Defense** | Required (oral) |
 
-**Purpose**: Practice, preparation, feedback
+**Purpose**: Practice concepts, prepare for assessments, receive feedback
 
-[See Homework section for details](../../assessments/homework/index.md)
+> 📖 [See Homework section for complete details](../../assessments/homework/index.md)
 
-## Module Tests (20 points)
+## 📝 Module Tests (20 points)
 
-- **4 tests** × 5 points = 20 points total
-- 90 minutes each
-- Open book
-- Covers one module each
+| Detail | Value |
+|--------|-------|
+| **Number of Tests** | 4 (one per module) |
+| **Points Each** | 5 |
+| **Total Points** | 20 |
+| **Duration** | 90 minutes |
+| **Format** | Open book |
 
-**Purpose**: Computational skills and problem-solving
+**Coverage**: Each test focuses on one module
 
-[See Tests section for details](../../assessments/tests/index.md)
+**Purpose**: Assess computational skills and problem-solving abilities
 
-## Theoretical Minimums (20 points)
+> 📖 [See Tests section for complete details](../../assessments/tests/index.md)
 
-- **2 comprehensive exams** × 10 points = 20 points total
-- TM1: Set Theory + Relations (Week 7)
-- TM2: Boolean Algebra + Logic (Week 15)
-- 120 minutes each
-- Closed book
-- **Must pass both** (≥50%) to receive course credit
+## 🎓 Theoretical Minimums (20 points)
 
-**Purpose**: Deep theoretical understanding and proof skills
+| Detail | TM1 | TM2 |
+|--------|-----|-----|
+| **Coverage** | Set Theory + Relations | Boolean Algebra + Logic |
+| **Week** | 7 | 15 |
+| **Points** | 10 | 10 |
+| **Duration** | 120 minutes | 120 minutes |
+| **Format** | Closed book | Closed book |
+| **Passing** | ≥50% (5/10) | ≥50% (5/10) |
 
-[See Colloquiums section for details](../../assessments/colloquiums/index.md)
+> **⚠️ Critical**: You **must pass both** TMs (≥50% each) to receive course credit, regardless of total points!
 
-## Final Exam (20 points)
+**Purpose**: Evaluate deep theoretical understanding and proof skills
 
-- **1 comprehensive exam** = 20 points
-- Three parts: Written (12), Oral (5), Practical (3)
-- Covers all modules
+> 📖 [See Colloquiums section for complete details](../../assessments/colloquiums/index.md)
 
-**Purpose**: Integration across all topics
+## 🎯 Final Exam (20 points)
 
-[See Final Exam section for details](../../assessments/exam/index.md)
+| Component | Points | Duration | Focus |
+|-----------|--------|----------|-------|
+| ✍️ Written | 12 | 60 min | Problem solving & proofs |
+| 💬 Oral | 5 | 30 min | Conceptual understanding |
+| 🔧 Practical | 3 | 30 min | Applications & examples |
+| **Total** | **20** | **120 min** | **All modules** |
+
+**Purpose**: Integrate knowledge across all course topics
+
+> 📖 [See Final Exam section for complete details](../../assessments/exam/index.md)

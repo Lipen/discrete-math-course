@@ -2,84 +2,116 @@
 
 **ITMO University • Fall 2025 -- Spring 2026 • Instructor: Konstantin Chukharev**
 
-This site contains all course materials, assignments, and resources for the Discrete Mathematics course.
+This is your central hub for lectures, homework, and course resources.
 
-## 🎯 Getting Started
+[![GitHub Repo](https://img.shields.io/badge/GitHub_Repository-blue?style=for-the-badge&logo=github)](https://github.com/Lipen/discrete-math-course)
+
+## 🚀 Quick Start
 
 **New to the course?**
 
-- Start with [Course Overview](./course/overview.md)
-- Review the [Schedule](./course/schedule/index.md)
-- Understand [How You're Graded](./course/grading/index.md)
+- 📖 [Course Overview](./course/overview.md) -- What you'll learn and how
+- 📅 [Schedule](./course/schedule/index.md) -- Weekly topics and deadlines
+- 📊 [Grading System](./course/grading/index.md) -- How you're assessed
 
 **Need help?**
 
-- Check [Support & Office Hours](./resources/support.md)
-- Browse [Course Materials](./resources/materials.md)
+- 💬 [Support & Mentors](./resources/support.md) -- Get help via Telegram
+- 📚 [Course Materials](./resources/materials.md) -- Slides and references
 
 **Working on assignments?**
 
-- [Homework Guidelines](./assessments/homework/index.md)
-- [Test Information](./assessments/tests/index.md)
-- [Colloquium Prep](./assessments/colloquiums/index.md)
+- ✏️ [Homework Guidelines](./assessments/homework/index.md)
+- 📝 [Tests Information](./assessments/tests/index.md)
+- 🎓 [Colloquium Preparation](./assessments/colloquiums/index.md)
 
-## 📚 Lecture Slides (PDFs)
+## 💡 What You'll Learn
 
-All lecture materials are available as downloadable PDFs:
+**Fall Semester:**
 
-| Week | Topic | PDF |
-|------|-------|-----|
-| 1-2 | Set Theory | [lec-sets.pdf](lec-sets.pdf) |
-| 3-5 | Binary Relations | [lec-relations.pdf](lec-relations.pdf) |
-| 5-6 | Functions & Cardinality | [lec-functions.pdf](lec-functions.pdf) |
-| 6-7 | Order Theory | [lec-order.pdf](lec-order.pdf) |
-| 8-10 | Boolean Algebra | [lec-boolean.pdf](lec-boolean.pdf) |
-| 11 | Flow Networks | [lec-flows.pdf](lec-flows.pdf) |
-| 12-13 | Formal Languages | [lec-languages.pdf](lec-languages.pdf) |
-| 13-14 | Automata Theory | [lec-automata.pdf](lec-automata.pdf) |
-| 15-16 | Combinatorics | [lec-combinatorics.pdf](lec-combinatorics.pdf) |
+- **Set Theory** -- Operations, cardinality, axiomatic foundations
+- **Binary Relations** -- Equivalence, order, functions
+- **Boolean Algebra** -- Logic gates, circuit design
+- **Formal Logic** -- Propositional and predicate logic
 
-## 📝 Homework Assignments
+**Spring Semester:**
 
-| Assignment | PDF |
-|------------|-------|
-| Homework 1: Set Theory | [hw1.pdf](hw1.pdf) |
-| Homework 2: Relations | [hw2.pdf](hw2.pdf) |
-| Homework 3: Boolean Algebra | [hw3.pdf](hw3.pdf) |
-| Homework 4: Formal Logic | [hw4.pdf](hw4.pdf) |
-| Homework 5: Graph Theory | [hw5.pdf](hw5.pdf) |
-| Homework 6: Automata Theory | [hw6.pdf](hw6.pdf) |
-| Homework 7: Combinatorics | [hw7.pdf](hw7.pdf) |
-| Homework 8: Recurrences | [hw8.pdf](hw8.pdf) |
+- **Graph Theory** -- Graphs, trees, algorithms
+- **Flow Networks** -- Max flow, min cut
+- **Automata & Languages** -- Regular languages, finite automata
+- **Combinatorics** -- Counting principles, generating functions
 
-## 📄 Legacy Materials
 
-| Material | PDF |
-|------------|-----|
-| Cheatsheet: Set Theory | [cheat1.pdf](tex/cheat1.pdf) |
-| Cheatsheet: Relations | [cheat2.pdf](tex/cheat2.pdf) |
-| Cheatsheet: Boolean Algebra | [cheat3.pdf](tex/cheat3.pdf) |
-| Cheatsheet: Formal Logic | [cheat4.pdf](tex/cheat4.pdf) |
-| Cheatsheet: Graph Theory | [cheat5.pdf](tex/cheat5.pdf) |
-| Cheatsheet: Automata Theory | [cheat6.pdf](tex/cheat6.pdf) |
-| Cheatsheet: Combinatorics | [cheat7.pdf](tex/cheat7.pdf) |
+## 📚 Lecture Slides
 
-## 📋 Course Documents
+All lectures available as PDFs:
 
-- [Full Syllabus (PDF)](syllabus.pdf)
-- [Course Overview (PDF)](overview.pdf)
+<!--
+- 📄 [Lecture: Set Theory](lec-sets.pdf)
+- 📄 [Lecture: Binary Relations](lec-relations.pdf)
+- 📄 [Lecture: Boolean Algebra](lec-boolean-algebra.pdf)
+- 📄 [Lecture: Formal Logic](lec-logic.pdf)
+- 📄 [Lecture: Flow Networks](lec-flow.pdf)
+- 📄 [Lecture: Formal Languages](lec-formal.pdf)
+- 📄 [Lecture: Regular Languages](lec-regular.pdf)
+- 📄 [Lecture: Non-determinism](lec-nfa.pdf)
+- 📄 [Lecture: Combinatorics](lec-combinatorics.pdf)
+-->
 
-## ℹ️ About This Course
+| Topic | PDF |
+|--------|-----|
+| Lecture: Set Theory | [![PDF](https://img.shields.io/badge/Set_Theory-PDF-blue?style=for-the-badge)](lec-sets.pdf) |
+| Lecture: Binary Relations | [![PDF](https://img.shields.io/badge/Binary_Relations-PDF-blue?style=for-the-badge)](lec-relations.pdf) |
+| Lecture: Boolean Algebra | [![PDF](https://img.shields.io/badge/Boolean_Algebra-PDF-blue?style=for-the-badge)](lec-boolean-algebra.pdf) |
+| Lecture: Formal Logic | [![PDF](https://img.shields.io/badge/Formal_Logic-PDF-blue?style=for-the-badge)](lec-logic.pdf) |
+| Lecture: Flow Networks | [![PDF](https://img.shields.io/badge/Flow_Networks-PDF-blue?style=for-the-badge)](lec-flow.pdf) |
+| Lecture: Formal Languages | [![PDF](https://img.shields.io/badge/Formal_Languages-PDF-blue?style=for-the-badge)](lec-formal.pdf) |
+| Lecture: Regular Languages | [![PDF](https://img.shields.io/badge/Regular_Languages-PDF-blue?style=for-the-badge)](lec-regular.pdf) |
+| Lecture: Non-determinism | [![PDF](https://img.shields.io/badge/Non--determinism-PDF-blue?style=for-the-badge)](lec-nfa.pdf) |
+| Lecture: Combinatorics | [![PDF](https://img.shields.io/badge/Combinatorics-PDF-blue?style=for-the-badge)](lec-combinatorics.pdf) |
 
-Discrete Mathematics covers fundamental concepts essential for computer science:
+## ✏️ Homework Assignments
 
-- **Set Theory** - Operations, cardinality, axiomatic foundations
-- **Binary Relations** - Equivalence, order, functions
-- **Boolean Algebra** - Logic gates, circuit design
-- **Formal Logic** - Propositional and predicate logic
-- **Automata & Languages** - Regular languages, finite automata
-- **Combinatorics** - Counting principles, generating functions
+<!--
+- 📝 [Homework 1: Set Theory](hw1.pdf)
+- 📝 [Homework 2: Relations](hw2.pdf)
+- 📝 [Homework 3: Boolean Algebra](hw3.pdf)
+- 📝 [Homework 4: Formal Logic](hw4.pdf)
+- 📝 [Homework 5: Graph Theory](hw5.pdf)
+- 📝 [Homework 6: Automata Theory](hw6.pdf)
+- 📝 [Homework 7: Combinatorics](hw7.pdf)
+- 📝 [Homework 8: Recurrences](hw8.pdf)
+-->
 
----
+| Homework | PDF |
+|----------|-----|
+| Homework 1: Set Theory | [![PDF](https://img.shields.io/badge/Set_Theory-PDF-red?style=for-the-badge)](hw1.pdf) |
+| Homework 2: Relations | [![PDF](https://img.shields.io/badge/Relations-PDF-red?style=for-the-badge)](hw2.pdf) |
+| Homework 3: Boolean Algebra | [![PDF](https://img.shields.io/badge/Boolean_Algebra-PDF-red?style=for-the-badge)](hw3.pdf) |
+| Homework 4: Formal Logic | [![PDF](https://img.shields.io/badge/Formal_Logic-PDF-red?style=for-the-badge)](hw4.pdf) |
+| Homework 5: Graph Theory | [![PDF](https://img.shields.io/badge/Graph_Theory-PDF-red?style=for-the-badge)](hw5.pdf) |
+| Homework 6: Automata Theory | [![PDF](https://img.shields.io/badge/Automata_Theory-PDF-red?style=for-the-badge)](hw6.pdf) |
+| Homework 7: Combinatorics | [![PDF](https://img.shields.io/badge/Combinatorics-PDF-red?style=for-the-badge)](hw7.pdf) |
+| Homework 8: Recurrences | [![PDF](https://img.shields.io/badge/Recurrences-PDF-red?style=for-the-badge)](hw8.pdf) |
 
-**Repository**: [github.com/Lipen/discrete-math-course](https://github.com/Lipen/discrete-math-course)
+## 📑 Quick Reference Cheatsheets
+
+<!--
+- 📋 [Cheatsheet: Set Theory](tex/cheat1.pdf)
+- 📋 [Cheatsheet: Relations](tex/cheat2.pdf)
+- 📋 [Cheatsheet: Boolean Algebra](tex/cheat3.pdf)
+- 📋 [Cheatsheet: Formal Logic](tex/cheat4.pdf)
+- 📋 [Cheatsheet: Graph Theory](tex/cheat5.pdf)
+- 📋 [Cheatsheet: Automata Theory](tex/cheat6.pdf)
+- 📋 [Cheatsheet: Combinatorics](tex/cheat7.pdf)
+-->
+
+| Topic | PDF |
+|--------|-----|
+| Cheatsheet: Set Theory | [![PDF](https://img.shields.io/badge/Set_Theory-PDF-green?style=for-the-badge)](tex/cheat1.pdf) |
+| Cheatsheet: Relations | [![PDF](https://img.shields.io/badge/Relations-PDF-green?style=for-the-badge)](tex/cheat2.pdf) |
+| Cheatsheet: Boolean Algebra | [![PDF](https://img.shields.io/badge/Boolean_Algebra-PDF-green?style=for-the-badge)](tex/cheat3.pdf) |
+| Cheatsheet: Formal Logic | [![PDF](https://img.shields.io/badge/Formal_Logic-PDF-green?style=for-the-badge)](tex/cheat4.pdf) |
+| Cheatsheet: Graph Theory | [![PDF](https://img.shields.io/badge/Graph_Theory-PDF-green?style=for-the-badge)](tex/cheat5.pdf) |
+| Cheatsheet: Automata Theory | [![PDF](https://img.shields.io/badge/Automata_Theory-PDF-green?style=for-the-badge)](tex/cheat6.pdf) |
+| Cheatsheet: Combinatorics | [![PDF](https://img.shields.io/badge/Combinatorics-PDF-green?style=for-the-badge)](tex/cheat7.pdf) |

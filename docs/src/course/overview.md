@@ -12,29 +12,55 @@
 
 By the end of this course, you will be able to:
 
+**🍁 Fall Semester:**
+
 - Work confidently with sets, operations, and cardinality
 - Understand and apply binary relations (equivalence, order, functions)
 - Design and analyze Boolean expressions and digital circuits
 - Construct formal proofs using natural deduction
-- Apply discrete math concepts to computer science problems
+
+**🌱 Spring Semester:**
+
+- Analyze graphs and trees using various algorithms
+- Solve network flow problems
+- Design and analyze finite automata and regular languages
+- Apply combinatorial principles and generating functions
 
 ## 📚 Course Structure
 
-The course has **4 main modules**:
+**Two-semester course covering 8 "modules":**
 
-1. **Set Theory** (Weeks 1-2, 6)
-Sets, operations, cardinality, axioms
+**🍁 Fall Semester:**
 
-2. **Binary Relations** (Weeks 3-7)
-Equivalence, order, functions, lattices
+- **Set Theory** (Weeks 1--2, 6)
+   Sets, operations, cardinality, axioms
 
-3. **Boolean Algebra** (Weeks 8-10)
-Logic gates, circuits, minimization
+- **Binary Relations** (Weeks 3--7)
+   Equivalence, order, functions, lattices
 
-4. **Formal Logic** (Weeks 11-16)
-Propositional and predicate logic, proofs
+- **Boolean Algebra** (Weeks 8--10)
+   Logic gates, circuits, minimization
+
+- **Formal Logic** (Weeks 11--16)
+   Propositional and predicate logic, proofs
+
+**🌱 Spring Semester:**
+
+- **Graph Theory** (Weeks 1--4)
+    Graphs, trees, paths, cycles, algorithms
+
+- **Flow Networks** (Week 5)
+    Max flow, min cut, applications
+
+- **Automata Theory** (Weeks 6--10)
+    Finite automata, regular languages, NFAs
+
+- **Combinatorics** (Weeks 11--16)
+    Counting principles, generating functions, recurrences
 
 ## 📊 Assessment Overview
+
+In each semester, you will complete:
 
 | Component | Count | Points Each | Total |
 |-----------|-------|-------------|-------|
@@ -44,7 +70,7 @@ Propositional and predicate logic, proofs
 | Final Exam | 1 | 20 | 20 |
 | **Total** | | | **100** |
 
-> **⚠️ Important**: You must complete all homework and pass both Theoretical Minimums to receive a passing grade, regardless of total points.
+> **⚠️ Important**: You must complete all homework and pass all Theoretical Minimums to receive a passing grade, regardless of total points.
 
 ## 🎓 Key Success Factors
 

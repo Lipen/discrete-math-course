@@ -1,152 +1,161 @@
-# Weekly Plan
+# 📆 Weekly Plan
 
-## Module 1: Set Theory
+## 📐 Module 1: Set Theory
 
-### Week 1
+### Week 1: Foundations
 
 - Introduction to sets and notation
-- Set operations: union, intersection, difference, complement
+- Set Operations: Union, intersection, difference, complement
 - Power sets and subsets
-- Euler diagrams
-- Venn diagrams
+- Euler diagrams, Venn diagrams
 - Cartesian products
 - Russell's paradox
 
-### Week 2
+### Week 2: Ordered Structures
 
-- Tuples, n-tuples, pairs
-- Kuratowski's definition of ordered pairs
+- Tuples, n-tuples, ordered pairs
+- Kuratowski's definition
 - Cartesian product and geometric interpretation
 
 ---
 
-## Module 2: Binary Relations
+## 🔗 Module 2: Binary Relations
 
-### Week 3
+### Week 3: Relations & Equivalence
 
-- Binary relations: definition and representations
+- Binary relations as sets: definition and representations
 - Graph and matrix representations
-- Properties: reflexive, symmetric, transitive and other
+- Properties: reflexive, symmetric, transitive, etc.
 - Equivalence relations
-- Set partitions
-- Quotient sets
-- Composition of relations
-- Powers of relations
-- ~~Closures of relations~~
+- Set partitions and quotient sets
+- Composition and powers or relations
 
-**📌 Homework 1 due | Test 1**
+> **📌 Homework 1 due | Test 1**
 
-### Week 4
+### Week 4: Order Relations
 
-- Order relations (partial, linear, well-orders)
+- Orders, partial orders, total/linear orders
 - Partially ordered sets (posets)
 - Hasse diagrams
 - Covering relation
 - Maximal, minimal, greatest, least elements
 - Chains and antichains
-- Dilworth's theorem
+- Dilworth's Theorem
 
-### Week 5
+### Week 5: Functions
 
-- Functions as relations
+- Functions as special relations
 - Domain, codomain, range
-- Injective, surjective, bijective
-- Function composition and inverses
+- Injective (1-1), surjective (onto), bijective
+- Composition of functions
+- Inverse functions
 - Monotonic functions
-- Characteristic functions
-- Floor and ceiling functions
+- Characteristic function
 
 ### Week 6: Cardinality
 
 - Finite vs infinite sets
-- Countable and uncountable
+- Cardinality of sets
+- Countable sets
+- Uncountable sets
 - Cantor's diagonal argument
 - Cantor's theorem
 - Schroeder-Bernstein theorem
 
-### Week 7
+### Week 7: Lattices
 
 - Upper and lower bounds
 - Supremum and infimum
-- Lattices: meets and joins
+- Lattices
 - Modular and distributive lattices
 - Boolean algebras as lattices
 
-**📌 Homework 2 due | Test 2 | TM1 (Set Theory + Relations)**
+> **📌 Homework 2 due | Test 2 | TM1 (Set Theory + Relations)**
 
 ---
 
-## Module 3: Boolean Algebra
+## ⚡ Module 3: Boolean Algebra
 
-### Week 8
+### Week 8: Boolean Functions
 
-- Boolean functions and truth tables
-- Normal forms: DNF, CNF
-- Boolean laws and duality
+- Boolean functions
+- Truth tables
+- Normal forms: DNF (sum of products), CNF (product of sums)
+- Boolean laws and duality principle
 
-### Week 9
+### Week 9: Digital Circuits
 
-- Logic gates and digital circuits
+- Logic gates
+- Circuit design and analysis
 - Functional completeness
+- Standard Boolean basis
+- NAND and NOR
+- Post's criterion
 - Multi-level circuits
 
-### Week 10
+### Week 10: Minimization
 
-- Karnaugh maps
-- Circuit minimization
+- Karnaugh maps (K-maps)
+- Don't care conditions
+- Circuit optimization
 - Quine-McCluskey algorithm
 
-**📌 Homework 3 due | Test 3**
+> **📌 Homework 3 due | Test 3**
 
 ---
 
-## Module 4: Formal Logic
+## 🧠 Module 4: Formal Logic
 
-### Week 11
+### Week 11: Propositional Logic
 
-- Propositional logic: syntax and semantics
-- Tautologies, contradictions
+- Syntax: Formulas, atoms, connectives
+- Semantics: Truth tables, models
+- Tautologies, contradictions, contingencies
 - Logical equivalence
 
-### Week 12
+### Week 12: Proof Systems
 
-- Natural deduction proof system
-- Soundness and completeness
-- Proof techniques
+- Natural Deduction: Inference rules
+- Proof techniques and strategies
+- Metalogic: Soundness and completeness theorems
 
-### Week 13
+### Week 13: Predicate Logic
 
-- Predicate logic (first-order logic)
-- Quantifiers: ∀ and ∃
-- Interpretations and models
-- Gödel's theorems (overview)
+- First-Order Logic (FOL)
+- Universal and existential quantifiers
+- Interpretations, domains, models
+- Gödel's Theorems (overview):
+  - Completeness: Valid -> Provable
+  - Incompleteness: Arithmetic has unprovable truths
 
-### Week 14
+### Week 14: Categorical Logic
 
-- Categorical logic
-- A, E, I, O statements
+- Categorical statements: A (All), E (No), I (Some), O (Some...not)
 - Square of opposition
-- Syllogisms and validity
+- Syllogisms: Three-part arguments
+- Validity analysis with Venn diagrams
 
-### Week 15
+### Week 15: Review & Advanced Topics
 
-- Review of formal logic
-- Advanced topics (time permitting)
+- Comprehensive review of formal logic
+- Advanced topics
 
-**📌 Homework 4 due | Test 4 | TM2 (Boolean Algebra + Logic)**
+> **📌 Homework 4 due | Test 4 | TM2 (Boolean Algebra + Logic)**
 
-### Week 16
+### Week 16: Special Topics
 
-- Special topics
 - Ordinals and cardinals
 - Metalogical concepts
+- Course wrap-up
 
 ---
 
-## Exam Period
+## 🎯 Exam Period
 
-**Final Exam**: All course material (Weeks 1-16)
+**Final Exam**: Comprehensive assessment of all course material (Weeks 1-16)
 
-- Written portion: problem solving
-- Oral portion: concepts and explanations
-- Practical portion: applications
+**Format**:
+
+- ✍️ **Written**: Definitions, theorems, consistent notes
+- 🔧 **Practical**: Problem solving and proofs
+- 💬 **Verbal**: Conceptual explanations
