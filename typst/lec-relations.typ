@@ -2628,6 +2628,8 @@
   Similarly: $cos: [0, pi] to [-1, 1]$ has inverse $arccos$, and $tan: (-pi/2, pi/2) to RR$ has inverse $arctan$.
 ]
 
+== Some Properties of Inverse Functions
+
 #theorem[
   If $f: A to B$ is a bijective function with inverse $f^(-1): B to A$:
   - $f^(-1)$ is also bijective.
