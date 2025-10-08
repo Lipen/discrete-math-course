@@ -2654,10 +2654,10 @@
   ]
 ]
 
-#pagebreak()
+== Monotonicity implies Injectivity
 
-#theorem[Monotonicity implies injectivity][
-  If $f: RR to RR$ is *strictly* increasing or *strictly* decreasing, then $f$ is *injective*.
+#theorem[
+  If $f: RR to RR$ is _strictly increasing_ or _strictly decreasing_, then $f$ is _injective_.
 ]
 
 #proof[
@@ -2673,22 +2673,24 @@
 
 #Block(color: yellow)[
   *Key insights:*
-  - Monotonic functions have predictable behavior: they never "change direction"
-  - *Strictly* monotonic functions are always injective (one-to-one)
-  - Non-strict monotonic functions may have "flat" regions (also known as "plateaus") where different inputs map to the same output
-  - Connection to Order Theory: monotonic functions are _order-homomorphisms_ between posets
+  - Monotonic functions have _predictable_ behavior: they never "change direction"
+  - _Strictly monotonic_ functions are _always injective_ (one-to-one)
+  - Non-strict monotonic functions may have "flat" regions (also known as "_plateaus_") where different inputs map to the same output
+  - Fun fact: monotonic functions are _order-homomorphisms_ between posets!
 ]
 
-#example[
-  Examples of *strictly monotonic functions* (which are always injective):
+== Examples of Monotonic Functions
+
+#examples[
+  _Strictly monotonic_ functions (which are always injective):
   - $f(x) = 2x + 1$ is strictly increasing on $RR$, hence injective. #YES
   - $g(x) = -x$ is strictly decreasing on $RR$, hence injective. #YES
   - $h(x) = x^3$ is strictly increasing on $RR$, hence injective. #YES
   - $k(x) = e^x$ is strictly increasing on $RR$, hence injective. #YES
 ]
 
-#example[
-  Examples of *monotonic but NOT strictly monotonic* functions (not necessarily injective):
+#examples[
+  _Monotonic_ but _NOT strictly_ monotonic functions (not necessarily injective):
   - $f(x) = floor(x)$ is monotonic increasing but NOT strictly increasing.
     - For $x in [2, 3)$, we have $f(x) = 2$ (constant on intervals).
     - This is NOT injective: $f(2.1) = f(2.9) = 2$ but $2.1 != 2.9$. #NO
