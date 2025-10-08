@@ -2310,7 +2310,7 @@
 == Surjective Functions
 
 #definition[
-  A function $f: A to B$ is _surjective_ (or _onto_) if every element in the codomain is the image of at least one element in the domain.
+  A function $f: A to B$ is _surjective_ (_right-total_ or _onto_) if every element in the codomain is the image of at least one element in the domain.
   Formally:
   $
     forall b in B. thin
