@@ -1,17 +1,14 @@
 # Course Overview
 
-## Basic Information
+## 📋 Basic Information
 
-| Item | Details |
-|------|---------|
-| **Course** | Discrete Mathematics |
-| **Semester** | Fall 2025 |
-| **Credits** | 6 ECTS |
-| **Prerequisites** | High school mathematics |
-| **Language** | Russian (lectures), English (materials) |
-| **Instructor** | Konstantin Chukharev |
+- **Course**: Discrete Mathematics
+- **Semesters**: Fall 2025 -- Spring 2026
+- **Prerequisites**: High school mathematics
+- **Language**: Russian (lectures), English (materials)
+- **Instructor**: Konstantin Chukharev
 
-## What You'll Learn
+## 🎯 What You'll Learn
 
 By the end of this course, you will be able to:
 
@@ -21,16 +18,23 @@ By the end of this course, you will be able to:
 - Construct formal proofs using natural deduction
 - Apply discrete math concepts to computer science problems
 
-## Course Structure
+## 📚 Course Structure
 
 The course has **4 main modules**:
 
-1. **Set Theory** (Weeks 1-2, 6) - Sets, operations, cardinality, axioms
-2. **Binary Relations** (Weeks 3-7) - Equivalence, order, functions, lattices
-3. **Boolean Algebra** (Weeks 8-10) - Logic gates, circuits, minimization
-4. **Formal Logic** (Weeks 11-16) - Propositional and predicate logic, proofs
+1. **Set Theory** (Weeks 1-2, 6)
+Sets, operations, cardinality, axioms
 
-## Assessment Overview
+2. **Binary Relations** (Weeks 3-7)
+Equivalence, order, functions, lattices
+
+3. **Boolean Algebra** (Weeks 8-10)
+Logic gates, circuits, minimization
+
+4. **Formal Logic** (Weeks 11-16)
+Propositional and predicate logic, proofs
+
+## 📊 Assessment Overview
 
 | Component | Count | Points Each | Total |
 |-----------|-------|-------------|-------|
@@ -40,12 +44,12 @@ The course has **4 main modules**:
 | Final Exam | 1 | 20 | 20 |
 | **Total** | | | **100** |
 
-**Important**: You must complete all homework and pass both Theoretical Minimums to receive a passing grade, regardless of total points.
+> **⚠️ Important**: You must complete all homework and pass both Theoretical Minimums to receive a passing grade, regardless of total points.
 
-## Key Success Factors
+## 🎓 Key Success Factors
 
-- **Attend all lectures** - material builds cumulatively
-- **Start homework early** - give yourself time to think
-- **Form study groups** - explain concepts to each other
-- **Practice regularly** - mathematical skill develops through repetition
-- **Ask questions** - use office hours and Telegram
+- **Attend all lectures** - Material builds cumulatively
+- **Start homework early** - Give yourself time to think and iterate
+- **Form study groups** - Explain concepts to each other
+- **Practice regularly** - Mathematical skill develops through repetition
+- **Ask questions** - Use mentors and Telegram group actively
