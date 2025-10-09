@@ -3126,11 +3126,14 @@ Functions can be characterized by several key properties that determine their ma
   When an infinite set is countable, its cardinality is $aleph_0$ (_"aleph-null"_).
 ]
 
+#Block(color: teal)[
+  *Coming up:* We'll see _different_ ways to characterize countable sets (using bijections, injections, or enumerations).
+  They're all _equivalent_ --- use whichever is most convenient for your proof!
+]
+
 #example[Basic countable sets][
   - $NN_"odd" = {1, 3, 5, 7, ...}$ with bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$
-
   - $NN_"even" = {0, 2, 4, 6, ...}$ with bijection $f: NN to NN_"even"$ defined by $f(n) = 2n$
-
   - Prime numbers ${2, 3, 5, 7, 11, 13, ...}$ are countable (can be enumerated)
 ]
 
@@ -3215,7 +3218,7 @@ Functions can be characterized by several key properties that determine their ma
   This gives us a purely set-theoretic definition of infinity without reference to natural numbers.
 ]
 
-== Another Definition of Countable Sets
+== Alternative Characterization: Injection into $bold(NN)$
 
 If we can "fit" all elements of $S$ into the natural numbers without overlaps, then $S$ is countable.
 
@@ -3226,7 +3229,7 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 ]
 
 #note[
-  This definition works both for _finite_ and countably infinite sets.
+  This characterization works both for _finite_ and countably infinite sets, and is often easier to use than constructing a full bijection!
 ]
 
 == Infinite Subsets of Natural Numbers
@@ -3272,13 +3275,23 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
   Each element of $X$ appears at least once in this list, though some elements might appear multiple times, since the enumeration requires only a _surjection_, not a bijection.
 ]
 
-== Characterization of Enumerable Sets
+== Three Faces of Countability
 
-#theorem[
+The following characterizations of countable sets are all *equivalent*:
+
+#theorem[Equivalent characterizations of countability][
   For any set $X$, the following are equivalent:
-  + $X$ is enumerable (there exists a surjection $e: NN to X$)
-  + $X$ is empty, or there exists an injection $f: X to NN$
-  + $X$ is countable (finite or has a bijection with $NN$)
+  + $X$ is _enumerable_: there exists a surjection $e: NN to X$
+  + $X$ is _empty_, or there exists an injection $f: X to NN$
+  + $X$ is _countable_: $X$ is finite or has a bijection with $NN$
+]
+
+#Block(color: blue)[
+  *What this means:* All three perspectives capture the _same_ concept! You can use whichever characterization is most convenient for your specific proof.
+
+  - *Bijection* (1 $<->$ 1): Perfect pairing, shows exact size
+  - *Injection* (1 $to$ 1): Fitting into $NN$ without collisions
+  - *Surjection* (enumeration): Listing all elements (possibly with repetitions)
 ]
 
 #proof[
@@ -3317,9 +3330,12 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  Being _enumerable_, being _countable_, and having an _injection_ into $NN$ are all equivalent conditions.
-  This gives us multiple ways to prove a set is enumerable/countable.
+  *Practical guide --- when to use which characterization:*
+  - *Bijection* $f: NN to X$: When you want to (or can) show sets have _exactly the same size_ or construct an explicit listing
+  - *Injection* $f: X to NN$: When $X$ is a _subset_ or embeds naturally into $NN$ (often easiest!)
+  - *Surjection* $e: NN to X$: When you can _enumerate_ elements algorithmically (allows repetitions)
+
+  *Key insight:* You can prove countability using _any_ of these three methods, and then freely use properties from _all_ three perspectives in subsequent arguments!
 ]
 
 == Examples of Enumerable Sets
