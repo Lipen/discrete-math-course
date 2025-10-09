@@ -67,11 +67,11 @@
 
 | Type | When to Use | Template | Example |
 |------|-------------|----------|---------|
-| **Direct** | Straightforward implication | Assume P. Show Q follows. | If n even, then n² even |
-| **Contradiction** | Proving impossibility | Assume ¬Q. Derive contradiction. | √2 is irrational |
-| **Contrapositive** | Negation easier than direct | Prove ¬Q → ¬P instead of P → Q | If n² odd, then n odd |
-| **Induction** | Properties of ℕ | Base case + inductive step | ∑ᵢ₌₁ⁿ i = n(n+1)/2 |
-| **Construction** | Existence claims | Build explicit example | Bijection between A and B |
+| **Direct** | Straightforward implication | Assume P. Show Q follows. | If \\(n\\) even, then \\(n^2\\) even |
+| **Contradiction** | Proving impossibility | Assume \\(\lnot Q\\). Derive contradiction. | \\(\sqrt{2}\\) is irrational |
+| **Contrapositive** | Negation easier than direct | Prove \\(\lnot Q \to \lnot P\\) instead of \\(P \to Q\\) | If \\(n^2\\) odd, then \\(n\\) odd |
+| **Induction** | Properties of \\(\mathbb{N}\\) | Base case + inductive step | \\(\sum_{i=1}^{n} i = \frac{n(n+1)}{2}\\) |
+| **Construction** | Existence claims | Build explicit example | Bijection between \\(A\\) and \\(B\\) |
 | **Cases** | Multiple scenarios | Case 1: ..., Case 2: ... | Prove for even and odd separately |
 
 ### Proof Writing Tips
@@ -81,7 +81,7 @@
 > 1. **Opening**: State what you're proving
 > 2. **Setup**: Define variables, state assumptions
 > 3. **Body**: Logical argument with clear steps
-> 4. **Conclusion**: "Therefore, ..." or "Thus, ..." or ∎
+> 4. **Conclusion**: "Therefore, ..." or "Thus, ..." or \\(\square\\)
 >
 > **Bad**: "It's obvious that..."
 > **Good**: "By definition of X, we have... Therefore..."
@@ -92,37 +92,37 @@
 
 | Category | Must Know |
 |----------|-----------|
-| **Set Laws** | Commutative, associative, distributive (3×2=6), De Morgan's (2), identity (2), complement (2), idempotent (2), domination (2), absorption (2), involution (1) = ~19 laws |
-| **Power Set** | 𝒫(A) = {B \| B ⊆ A}, \|𝒫(A)\| = 2^|A| |
-| **Cantor's Theorem** | For any set A, \|A\| < \|𝒫(A)\| (no surjection A → 𝒫(A)) |
-| **Schroeder-Bernstein** | If ∃ injection A → B and ∃ injection B → A, then ∃ bijection A ↔ B |
+| **Set Laws** | Commutative, associative, distributive, De Morgan's, identity, complement, idempotent, domination, absorption, involution |
+| **Power Set** | \\(\mathcal{P}(A) = \\{B \mid B \subseteq A\\}\\), \\(\|\mathcal{P}(A)\| = 2^{\|A\|}\\) |
+| **Cantor's Theorem** | \\(\|A\| < \|\mathcal{P}(A)\|\\) for any set \\(A\\)
+| **Schroeder-Bernstein** | If exists injection \\(A \to B\\) and exists injection \\(B \to A\\), then exists bijection \\(A \leftrightarrow B\\) |
 
 ### 🔗 Relations Essentials
 
 | Category | Must Know |
 |----------|-----------|
-| **Properties** | Reflexive: ∀x (xRx); Symmetric: ∀x,y (xRy → yRx); Transitive: ∀x,y,z (xRy ∧ yRz → xRz); Antisymmetric: ∀x,y (xRy ∧ yRx → x=y) |
-| **Equivalence** | Reflexive + symmetric + transitive ↔ partition |
-| **Functions** | Injective: f(a)=f(b) → a=b; Surjective: ∀y ∃x f(x)=y; Bijective: both |
-| **Composition** | (g ∘ f)(x) = g(f(x)); associative; inverse if bijective |
+| **Properties** | Reflexive: \\(\forall x ~ (xRx)\\); Symmetric: \\(\forall x,y ~ (xRy \to yRx)\\); Transitive: \\(\forall x,y,z ~ (xRy \land yRz \to xRz)\\); Antisymmetric: \\(\forall x,y ~ (xRy \land yRx \to x=y)\\) |
+| **Equivalence** | Reflexive + symmetric + transitive \\(\leftrightarrow\\) partition |
+| **Functions** | Injective: \\(f(a)=f(b) \to a=b\\); Surjective: \\(\forall y ~ \exists x ~ f(x)=y\\); Bijective: both |
+| **Composition** | \\((g \circ f)(x) = g(f(x))\\); associative; inverse if bijective |
 
 ### ⚡ Boolean Algebra Essentials
 
 | Category | Must Know |
 |----------|-----------|
-| **Boolean Laws** | Identity (x∨0=x, x∧1=x), Null (x∨1=1, x∧0=0), Idempotent (x∨x=x, x∧x=x), Complement (x∨¬x=1, x∧¬x=0), De Morgan's (¬(x∨y)=¬x∧¬y, ¬(x∧y)=¬x∨¬y), Absorption (x∨(x∧y)=x, x∧(x∨y)=x) |
-| **Normal Forms** | DNF: OR of ANDs (∨ᵢ(∧ⱼ)); CNF: AND of ORs (∧ᵢ(∨ⱼ)) |
-| **Completeness** | {AND, OR, NOT}, {NAND}, {NOR} are functionally complete |
+| **Boolean Laws** | Identity, Null, Idempotent, Complement, De Morgan's, Absorption |
+| **Normal Forms** | DNF: OR of ANDs; CNF: AND of ORs |
+| **Completeness** | \\(\\{\land, \lor, \lnot\\}\\), \\(\\{\text{NAND}\\}\\), \\(\\{\text{NOR}\\}\\) are functionally complete |
 | **Gate Symbols** | Know circuit symbols for AND, OR, NOT, NAND, NOR, XOR |
 
 ### 🧠 Formal Logic Essentials
 
 | Category | Must Know |
 |----------|-----------|
-| **Truth Tables** | ¬, ∧, ∨, →, ↔ truth values for all combinations |
-| **Natural Deduction** | Modus Ponens (P, P→Q ⊢ Q), Modus Tollens (¬Q, P→Q ⊢ ¬P), ∧-Intro, ∨-Elim, etc. |
-| **Soundness vs Completeness** | Soundness: ⊢ implies ⊨ (no false proofs); Completeness: ⊨ implies ⊢ (can prove all truths) |
-| **Quantifiers** | ¬(∀x P(x)) ≡ ∃x ¬P(x); ¬(∃x P(x)) ≡ ∀x ¬P(x) |
+| **Truth Tables** | \\(\lnot, \land, \lor, \to, \leftrightarrow\\) truth values for all combinations |
+| **Natural Deduction** | Modus Ponens (\\(P, P\to Q \vdash Q\\)), Modus Tollens (\\(\lnot Q, P\to Q \vdash \lnot P\\)), \\(\land\\)-Intro, \\(\lor\\)-Elim, etc. |
+| **Soundness vs Completeness** | Soundness: \\(\vdash\\) implies \\(\models\\) (no false proofs); Completeness: \\(\models\\) implies \\(\vdash\\) (can prove all truths) |
+| **Quantifiers** | \\(\lnot(\forall x ~ P(x)) \equiv \exists x ~ \lnot P(x)\\); \\(\lnot(\exists x ~ P(x)) \equiv \forall x ~ \lnot P(x)\\) |
 
 ## 🧠 Study Strategies
 
@@ -140,6 +140,7 @@
 ### Study Group Best Practices
 
 ✅ **Do This:**
+
 - Meet regularly (2--3 times per week)
 - Quiz each other on definitions/theorems
 - Work through proofs together
@@ -147,6 +148,7 @@
 - Share different solution approaches
 
 ❌ **Don't Do This:**
+
 - Just socialize without studying
 - Let one person do all the explaining
 - Skip individual preparation before meeting
@@ -180,37 +182,40 @@
 
 | Mistake | Why It's Wrong | Fix |
 |---------|---------------|-----|
-| **Circular Reasoning** | Assumes what you're proving | Ensure logical flow: premises → conclusion |
+| **Circular Reasoning** | Assumes what you're proving | Ensure logical flow: premises \\(\to\\) conclusion |
 | **Using "Obvious"** | Skips justification | Provide explicit reasoning |
-| **Confusing Necessary/Sufficient** | P→Q: Q necessary for P, P sufficient for Q | Remember the direction! |
-| **Wrong Quantifier Order** | ∀x∃y P(x,y) ≠ ∃y∀x P(x,y) | Be precise with quantifier scope |
+| **Confusing Necessary/Sufficient** | \\(P\to Q\\): \\(Q\\) necessary for \\(P\\), \\(P\\) sufficient for \\(Q\\) | Remember the direction! |
+| **Wrong Quantifier Order** | \\(\forall x ~ \exists y ~ P(x,y) \neq \exists y ~ \forall x ~ P(x,y)\\) | Be precise with quantifier scope |
 | **Incomplete Cases** | Miss edge cases | Systematically check all scenarios |
 
 ### Proof-Writing Errors
 
 | Mistake | Example | Correction |
 |---------|---------|------------|
-| **No setup** | "Therefore x = 5" | "Let x be arbitrary. Then..." |
-| **Jumping steps** | "Clearly A = B" | Show intermediate steps |
+| **No setup** | "Therefore \\(x = 5\\)" | "Let \\(x\\) be arbitrary. Then..." |
+| **Jumping steps** | "Clearly \\(A = B\\)" | Show intermediate steps |
 | **Poor notation** | Using same variable for different things | Define all variables clearly |
-| **No conclusion** | Proof just stops | End with "Therefore..." or ∎ |
+| **No conclusion** | Proof just stops | End with "Therefore..." or \\(\square\\) |
 
 ## 🌙 Day Before TM
 
 ### What TO DO
 
 ✅ Light review (1 hour max):
+
 - Skim definition flashcards
 - Glance at theorem list
 - Review 1--2 key proofs
 
 ✅ Self-care:
+
 - **8 hours of sleep** (non-negotiable!)
 - Healthy meals throughout the day
 - Light exercise or walk
 - Relaxation techniques (deep breathing, meditation)
 
 ✅ Logistics:
+
 - Confirm exam time and location
 - Prepare ID and any allowed materials
 - Set multiple alarms
