@@ -3567,7 +3567,7 @@ The following characterizations of countable sets are all *equivalent*:
   $
 
   *Key observation:*
-  The diagonal elements #text(fill: red)[$(b_(1 1), b_(2 2), b_(3 3), b_(4 4), dots)$] are highlighted in red.
+  The diagonal elements #text(fill: red)[$(b_(1 1), b_(2 2), b_(3 3), b_(4 4), dots)$] are highlighted in red. \
   The new sequence $Delta$ (shown in #text(fill: blue)[blue]) flips each diagonal element.
 
   *Why $Delta$ is not in the list:*
