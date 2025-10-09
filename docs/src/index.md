@@ -41,7 +41,6 @@ This is your central hub for lectures, homework, and course resources.
 - **Automata & Languages** -- Regular languages, finite automata
 - **Combinatorics** -- Counting principles, generating functions
 
-
 ## 📚 Lecture Slides
 
 All lectures available as PDFs:
