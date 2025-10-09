@@ -11,42 +11,30 @@
 
 ## 📚 Topics Covered
 
-### Core Concepts
-
-- **Relation Properties**: Reflexive, symmetric, transitive, antisymmetric
-- **Equivalence Relations**: Equivalence classes and partitions
-- **Order Relations**: Partial orders, total orders, Hasse diagrams
-- **Functions**: Injective, surjective, bijective properties
-- **Composition**: Composing relations and functions
-- **Cardinality**: Finite, countable, and uncountable sets
-
-### Relation Types Comparison
-
-| Type | Properties Required | Example |
-|------|-------------------|---------|
-| **Equivalence** | Reflexive, symmetric, transitive | Equality (=) |
-| **Partial Order** | Reflexive, antisymmetric, transitive | Subset (⊆) |
-| **Total Order** | Partial order + any two comparable | ≤ on ℝ |
+- Relation properties (reflexive, symmetric, transitive, antisymmetric)
+- Equivalence relations and partitions
+- Order relations and Hasse diagrams
+- Functions (injective, surjective, bijective)
+- Composition of functions
+- Cardinality (finite, countable, uncountable)
 
 ## 🎯 Sample Problem Types
 
-| Type | Example |
-|------|---------|
-| **Properties** | Given R = {(1,1), (2,2), (1,2), (2,1)}, determine which properties R satisfies |
-| **Equivalence Classes** | For relation "same parity" on ℤ, find all equivalence classes |
-| **Hasse Diagrams** | Draw Hasse diagram for divisibility on {1,2,3,4,6,12} |
-| **Functions** | Prove f(x) = 2x + 1 is bijective from ℤ to odd integers |
-| **Composition** | Compute (f ∘ g)(x) for f(x) = x², g(x) = x + 1 |
-| **Cardinality** | Show ℚ (rationals) is countable using diagonalization |
+- **Properties**: Determine which properties a relation \\(R\\) satisfies
+- **Equivalence Classes**: Find equivalence classes for given relation (e.g., "same parity" on \\(\mathbb{Z}\\))
+- **Hasse Diagrams**: Draw diagram for partial order (e.g., divisibility on \\(\{1,2,3,4,6,12\}\\))
+- **Functions**: Prove \\(f(x) = 2x + 1\\) is bijective from \\(\mathbb{Z}\\) to odd integers
+- **Composition**: Compute \\((f \circ g)(x)\\) for given functions
+- **Cardinality**: Show \\(\mathbb{Q}\\) is countable using diagonalization
 
 ## ✅ Key Skills You'll Need
 
-- ✓ **Classifying relations** -- check reflexive, symmetric, transitive, antisymmetric
-- ✓ **Working with equivalence classes** -- partition sets correctly
-- ✓ **Drawing Hasse diagrams** -- represent partial orders visually
-- ✓ **Analyzing functions** -- prove injection, surjection, bijection
-- ✓ **Composing correctly** -- apply (f ∘ g)(x) = f(g(x)) order
-- ✓ **Cardinality arguments** -- countability proofs and diagonalization
+- Classifying relations by their properties
+- Working with equivalence classes and partitions
+- Drawing and interpreting Hasse diagrams
+- Analyzing function properties
+- Computing compositions correctly
+- Understanding cardinality arguments
 
 ## 📖 Preparation Guide
 
@@ -70,11 +58,11 @@
 
 > **⚠️ Watch Out!**
 >
-> - Antisymmetric ≠ "not symmetric" (check definition!)
+> - Antisymmetric \\(\neq\\) "not symmetric" (check definition!)
 > - In Hasse diagrams, don't draw transitive edges
-> - Composition order: (f ∘ g)(x) means "f after g"
+> - Composition order: \\((f \circ g)(x) = f(g(x))\\) means "f after g"
 > - Equivalence classes must partition the set (disjoint and cover all)
-> - Injection ≠ surjection (know the difference!)
+> - Injection \\(\neq\\) surjection (know the difference!)
 
 ## 💡 Pro Tips
 

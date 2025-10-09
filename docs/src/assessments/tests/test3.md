@@ -11,46 +11,30 @@
 
 ## 📚 Topics Covered
 
-### Core Concepts
-
-- **Boolean Functions**: Truth tables and Boolean expressions
-- **Normal Forms**: DNF (Disjunctive), CNF (Conjunctive)
-- **Logic Gates**: AND, OR, NOT, NAND, NOR, XOR
-- **Circuits**: Gate-level design and analysis
-- **Karnaugh Maps**: Visual minimization technique (2--4 variables)
-- **Boolean Simplification**: Using algebraic laws
-- **Functional Completeness**: Universal gate sets
-
-### Essential Boolean Laws
-
-| Law | Formula |
-|-----|---------|
-| **Identity** | x ∨ 0 = x, x ∧ 1 = x |
-| **Null** | x ∨ 1 = 1, x ∧ 0 = 0 |
-| **Idempotent** | x ∨ x = x, x ∧ x = x |
-| **Complement** | x ∨ ¬x = 1, x ∧ ¬x = 0 |
-| **De Morgan's** | ¬(x ∨ y) = ¬x ∧ ¬y, ¬(x ∧ y) = ¬x ∨ ¬y |
-| **Absorption** | x ∨ (x ∧ y) = x, x ∧ (x ∨ y) = x |
+- Boolean functions and truth tables
+- Normal forms (DNF, CNF)
+- Logic gates and circuits
+- Karnaugh maps for minimization
+- Boolean simplification using laws
+- Functional completeness
 
 ## 🎯 Sample Problem Types
 
-| Type | Example |
-|------|---------|
-| **Truth Tables** | Construct truth table for (x ∧ y) ∨ (¬x ∧ z) |
-| **Normal Forms** | Convert f(x,y,z) = (x → y) ∧ z to DNF and CNF |
-| **Simplification** | Simplify x ∧ (¬x ∨ y) using Boolean laws |
-| **Circuits** | Design circuit for majority function (3 inputs) |
-| **K-Maps** | Use K-map to minimize f(w,x,y,z) given minterms |
-| **Completeness** | Prove {NAND} is functionally complete |
+- **Truth Tables**: Construct truth table for \\((x \land y) \lor (\lnot x \land z)\\)
+- **Normal Forms**: Convert \\(f(x,y,z) = (x \to y) \land z\\) to DNF and CNF
+- **Simplification**: Simplify \\(x \land (\lnot x \lor y)\\) using Boolean laws
+- **Circuits**: Design circuit for majority function (3 inputs)
+- **K-Maps**: Use K-map to minimize \\(f(w,x,y,z)\\) given minterms
+- **Completeness**: Prove \\(\{\text{NAND}\}\\) is functionally complete
 
 ## ✅ Key Skills You'll Need
 
-- ✓ **Truth table construction** -- systematic enumeration of all cases
-- ✓ **Normal form conversions** -- DNF from truth table, CNF by negation
-- ✓ **Expression simplification** -- apply Boolean laws correctly
-- ✓ **Circuit design** -- translate Boolean expressions to gates
-- ✓ **K-map technique** -- grouping minterms in powers of 2
-- ✓ **Understanding completeness** -- express all functions with given gates
+- Building truth tables systematically
+- Converting to normal forms
+- Simplifying Boolean expressions
+- Designing logic circuits
+- Using K-map technique for minimization
+- Understanding functional completeness
 
 ## 📖 Preparation Guide
 
@@ -74,9 +58,9 @@
 
 > **⚠️ Watch Out!**
 >
-> - De Morgan's Laws: distribute negation through AND/OR correctly
+> - De Morgan's Laws: \\(\lnot(x \lor y) = \lnot x \land \lnot y\\) and \\(\lnot(x \land y) = \lnot x \lor \lnot y\\)
 > - K-map groupings: must be rectangles with power-of-2 sizes (1, 2, 4, 8...)
-> - Circuit notation: distinguish AND (∧) from OR (∨) symbols
+> - Circuit notation: distinguish AND (\\(\land\\)) from OR (\\(\lor\\)) symbols
 > - DNF vs CNF: DNF is OR of ANDs; CNF is AND of ORs
 > - Don't forget: NOT gate inverts (bubble on circuit diagrams)
 

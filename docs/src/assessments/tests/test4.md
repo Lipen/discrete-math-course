@@ -11,53 +11,30 @@
 
 ## 📚 Topics Covered
 
-### Core Concepts
-
-- **Propositional Logic**: Syntax, semantics, truth tables
-- **Natural Deduction**: Proof systems and inference rules
-- **Logical Equivalence**: Tautologies and contradictions
-- **Logical Consequence**: Validity and entailment
-- **Predicate Logic**: First-order logic with variables
-- **Quantifiers**: Universal (∀) and existential (∃)
-- **Categorical Logic**: Aristotelian syllogisms
-
-### Key Inference Rules
-
-| Rule | Form | Example |
-|------|------|---------|
-| **Modus Ponens** | P, P → Q ⊢ Q | "If raining, wet. Raining. ∴ Wet." |
-| **Modus Tollens** | ¬Q, P → Q ⊢ ¬P | "If raining, wet. Not wet. ∴ Not raining." |
-| **Disjunctive Syllogism** | P ∨ Q, ¬P ⊢ Q | "Coffee or tea. No coffee. ∴ Tea." |
-| **Conjunction** | P, Q ⊢ P ∧ Q | "Raining. Cold. ∴ Raining and cold." |
-| **Simplification** | P ∧ Q ⊢ P | "Raining and cold. ∴ Raining." |
-
-### Quantifier Equivalences
-
-| Equivalence | Formula |
-|-------------|---------|
-| **Negation** | ¬(∀x P(x)) ≡ ∃x ¬P(x) |
-| **Negation** | ¬(∃x P(x)) ≡ ∀x ¬P(x) |
-| **Distribution** | ∀x (P(x) ∧ Q(x)) ≡ (∀x P(x)) ∧ (∀x Q(x)) |
+- Propositional logic (syntax and semantics)
+- Natural deduction proofs
+- Logical equivalence (\\(\equiv\\)) and consequence (\\(\models\\))
+- Predicate logic basics
+- Quantifiers (\\(\forall\\) universal, \\(\exists\\) existential)
+- Categorical logic and syllogisms
 
 ## 🎯 Sample Problem Types
 
-| Type | Example |
-|------|---------|
-| **Tautologies** | Determine if (P → Q) ∨ (Q → P) is a tautology |
-| **Proofs** | Prove P → Q, Q → R ⊢ P → R using natural deduction |
-| **Equivalence** | Show (P → Q) ≡ (¬P ∨ Q) using truth tables |
-| **Translation** | Translate "Every student loves some professor" to predicate logic |
-| **Validity** | Determine if ∀x P(x) → Q(x), P(a) ⊢ Q(a) is valid |
-| **Syllogisms** | Analyze "All men are mortal. Socrates is a man. ∴ Socrates is mortal." |
+- **Tautologies**: Determine if \\((P \to Q) \lor (Q \to P)\\) is a tautology
+- **Proofs**: Prove \\(P \to Q, Q \to R \vdash P \to R\\) using natural deduction
+- **Equivalence**: Show \\((P \to Q) \equiv (\lnot P \lor Q)\\) using truth tables
+- **Translation**: Translate "Every student loves some professor" to predicate logic
+- **Validity**: Determine if \\(\forall x\, (P(x) \to Q(x)), P(a) \vdash Q(a)\\) is valid
+- **Syllogisms**: Analyze "All men are mortal. Socrates is a man. \\(\therefore\\) Socrates is mortal."
 
 ## ✅ Key Skills You'll Need
 
-- ✓ **Semantic analysis** -- use truth tables to check tautologies/contradictions
-- ✓ **Proof construction** -- apply inference rules in natural deduction
-- ✓ **Logical reasoning** -- recognize valid argument forms
-- ✓ **Quantifier manipulation** -- push/pull negations through ∀ and ∃
-- ✓ **Translation skills** -- convert English to formal logic notation
-- ✓ **Syllogistic logic** -- analyze classical argument forms
+- Semantic analysis using truth tables
+- Constructing proofs with natural deduction
+- Logical reasoning with inference rules
+- Manipulating quantifiers correctly
+- Translating between English and formal logic
+- Understanding syllogistic logic
 
 ## 📖 Preparation Guide
 
@@ -81,8 +58,8 @@
 
 > **⚠️ Watch Out!**
 >
-> - Quantifier negation: ¬(∀x P(x)) is ∃x ¬P(x), NOT ∀x ¬P(x)
-> - Scope matters: ∀x (P(x) → Q(x)) ≠ (∀x P(x)) → (∀x Q(x))
+> - Quantifier negation: \\(\lnot(\forall x\, P(x))\\) is \\(\exists x\, \lnot P(x)\\), NOT \\(\forall x\, \lnot P(x)\\)
+> - Scope matters: \\(\forall x\, (P(x) \to Q(x)) \not\equiv (\forall x\, P(x)) \to (\forall x\, Q(x))\\)
 > - In proofs: justify every step with a rule name
 > - Translation: "only" is not the same as "all" (contrapositive!)
 > - Syllogisms: check for fallacies (undistributed middle, etc.)

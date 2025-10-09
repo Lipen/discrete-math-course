@@ -11,43 +11,30 @@
 
 ## 📚 Topics Covered
 
-### Core Concepts
-
-- **Set Operations**: ∪, ∩, \, ⊖, complement
-- **Venn Diagrams**: Visual representation of set relationships
-- **Power Sets**: Sets of all subsets
-- **Cardinality**: Counting elements in finite sets
-- **Cartesian Products**: Ordered pairs and tuples
-- **Set Identities**: Fundamental laws and proofs
-
-### Key Identities to Know
-
-| Identity | Formula |
-|----------|---------|
-| De Morgan's Laws | (A ∪ B)ᶜ = Aᶜ ∩ Bᶜ, (A ∩ B)ᶜ = Aᶜ ∪ Bᶜ |
-| Distributive Laws | A ∪ (B ∩ C) = (A ∪ B) ∩ (A ∪ C) |
-| Difference Law | A \ B = A ∩ Bᶜ |
-| Symmetric Difference | A ⊖ B = (A \ B) ∪ (B \ A) |
+- Set operations (\\(\cup, \cap, \setminus, \oplus, \complement\\))
+- Venn diagrams
+- Power sets and cardinality (\\(|\mathcal{P}(A)| = 2^{|A|}\\))
+- Cartesian products (\\(A \times B\\))
+- Set identities (De Morgan's, distributive, etc.)
+- Basic proofs with sets
 
 ## 🎯 Sample Problem Types
 
-| Type | Example |
-|------|---------|
-| **Operations** | Given sets A = {1,2,3}, B = {2,3,4}, C = {3,4,5}, compute A ∪ (B \ C) |
-| **Venn Diagrams** | Draw and shade the region representing (A ∩ B) ∪ (A ∩ C) |
-| **Proofs** | Prove A \ (B ∪ C) = (A \ B) ∩ (A \ C) using element method |
-| **Power Sets** | Find \|𝒫(A)\| for A = {a, b, c, d} |
-| **Cartesian Products** | Determine A × B for A = {1,2}, B = {x,y,z} |
-| **Cardinality** | Use inclusion-exclusion to find \|A ∪ B ∪ C\| |
+- **Operations**: Compute set expressions like \\(A \cup (B \setminus C)\\)
+- **Venn Diagrams**: Draw and shade regions for \\((A \cap B) \cup (A \cap C)\\)
+- **Proofs**: Prove set identities using element method (e.g., \\(A \setminus (B \cup C) = (A \setminus B) \cap (A \setminus C)\\))
+- **Power Sets**: Calculate \\(|\mathcal{P}(A)|\\) for given \\(A\\)
+- **Cartesian Products**: Find \\(A \times B\\) for specific sets
+- **Cardinality**: Apply inclusion-exclusion principle for \\(|A \cup B \cup C|\\)
 
 ## ✅ Key Skills You'll Need
 
-- ✓ **Fluency with set notation** -- read and write set expressions
-- ✓ **Visual reasoning** -- use Venn diagrams effectively
-- ✓ **Proof techniques** -- element method and double inclusion
-- ✓ **Power set understanding** -- know that \|𝒫(A)\| = 2^|A|
-- ✓ **Cartesian products** -- compute ordered pairs correctly
-- ✓ **Set identities** -- apply laws to simplify expressions
+- Fluency with set notation
+- Visual reasoning with Venn diagrams
+- Proof techniques (element method, double inclusion)
+- Understanding power sets
+- Computing Cartesian products
+- Applying set identities
 
 ## 📖 Preparation Guide
 
@@ -70,9 +57,9 @@
 
 > **⚠️ Watch Out!**
 >
-> - Don't confuse ∈ (element) with ⊆ (subset)
-> - Remember: A \ B ≠ B \ A (set difference is not commutative)
-> - Power set of empty set is {∅}, not ∅
+> - Don't confuse \\(\in\\) (element) with \\(\subseteq\\) (subset)
+> - Remember: \\(A \setminus B \neq B \setminus A\\) (set difference is not commutative)
+> - Power set of empty set is \\(\{\emptyset\}\\), not \\(\emptyset\\)
 > - Venn diagrams: label all regions clearly
 
 ## 💡 Pro Tips
