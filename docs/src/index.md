@@ -69,30 +69,6 @@ All lectures available as PDFs:
 | Lecture: Non-determinism | [![PDF](https://img.shields.io/badge/Non--determinism-PDF-blue?style=for-the-badge)](lec-nfa.pdf) |
 | Lecture: Combinatorics | [![PDF](https://img.shields.io/badge/Combinatorics-PDF-blue?style=for-the-badge)](lec-combinatorics.pdf) |
 
-## ✏️ Homework Assignments
-
-<!--
-- 📝 [Homework 1: Set Theory](hw1.pdf)
-- 📝 [Homework 2: Relations](hw2.pdf)
-- 📝 [Homework 3: Boolean Algebra](hw3.pdf)
-- 📝 [Homework 4: Formal Logic](hw4.pdf)
-- 📝 [Homework 5: Graph Theory](hw5.pdf)
-- 📝 [Homework 6: Automata Theory](hw6.pdf)
-- 📝 [Homework 7: Combinatorics](hw7.pdf)
-- 📝 [Homework 8: Recurrences](hw8.pdf)
--->
-
-| Homework | PDF |
-|----------|-----|
-| Homework 1: Set Theory | [![PDF](https://img.shields.io/badge/Set_Theory-PDF-red?style=for-the-badge)](hw1.pdf) |
-| Homework 2: Relations | [![PDF](https://img.shields.io/badge/Relations-PDF-red?style=for-the-badge)](hw2.pdf) |
-| Homework 3: Boolean Algebra | [![PDF](https://img.shields.io/badge/Boolean_Algebra-PDF-red?style=for-the-badge)](hw3.pdf) |
-| Homework 4: Formal Logic | [![PDF](https://img.shields.io/badge/Formal_Logic-PDF-red?style=for-the-badge)](hw4.pdf) |
-| Homework 5: Graph Theory | [![PDF](https://img.shields.io/badge/Graph_Theory-PDF-red?style=for-the-badge)](hw5.pdf) |
-| Homework 6: Automata Theory | [![PDF](https://img.shields.io/badge/Automata_Theory-PDF-red?style=for-the-badge)](hw6.pdf) |
-| Homework 7: Combinatorics | [![PDF](https://img.shields.io/badge/Combinatorics-PDF-red?style=for-the-badge)](hw7.pdf) |
-| Homework 8: Recurrences | [![PDF](https://img.shields.io/badge/Recurrences-PDF-red?style=for-the-badge)](hw8.pdf) |
-
 ## 📑 Quick Reference Cheatsheets
 
 <!--
