@@ -23,7 +23,7 @@ Latest revisions of homework assignments:
 
 ## 📅 Assignment Schedule
 
-**Fall Semester:**
+**🍁 Fall Semester:**
 
 | Assignment | Topic | Due Week |
 |------------|-------|----------|
@@ -32,7 +32,7 @@ Latest revisions of homework assignments:
 | HW 3 | ⚡ Boolean Algebra | Week 11 |
 | HW 4 | 🧠 Formal Logic | Week 15 |
 
-**Spring Semester:**
+**🌱 Spring Semester:**
 
 | Assignment | Topic | Due Week |
 |------------|-------|----------|

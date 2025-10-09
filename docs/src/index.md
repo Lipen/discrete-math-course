@@ -27,14 +27,14 @@ This is your central hub for lectures, homework, and course resources.
 
 ## 💡 What You'll Learn
 
-**Fall Semester:**
+**🍁 Fall Semester:**
 
 - **Set Theory** -- Operations, cardinality, axiomatic foundations
 - **Binary Relations** -- Equivalence, order, functions
 - **Boolean Algebra** -- Logic gates, circuit design
 - **Formal Logic** -- Propositional and predicate logic
 
-**Spring Semester:**
+**🌱 Spring Semester:**
 
 - **Graph Theory** -- Graphs, trees, algorithms
 - **Flow Networks** -- Max flow, min cut
