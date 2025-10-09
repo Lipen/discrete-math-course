@@ -3887,22 +3887,16 @@ Two key hierarchies help us organize these:
   - We know the _order_ but not exact values
 ]
 
-#Block(color: yellow)[
-  *Key question:* How do these two hierarchies relate? Does $aleph_1 = beth_1$?
-]
-
-== Visualizing the Two Hierarchies
-
 #align(center)[
   #import fletcher: diagram, edge, node
   #diagram(
-    spacing: (2em, 1em),
+    spacing: (2em, 2em),
     node-shape: fletcher.shapes.pill,
     node-stroke: 1pt,
     edge-stroke: 1pt,
 
     // Starting point (both hierarchies agree)
-    node((0, 0), $aleph_0 = beth_0$, stroke: blue, fill: blue.lighten(80%), name: <start>),
+    node((0, 0.5), $aleph_0 = beth_0$, stroke: blue, fill: blue.lighten(80%), name: <start>),
 
     // Aleph chain (top)
     node((2, 1), $aleph_1$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a1>),
@@ -3911,10 +3905,10 @@ Two key hierarchies help us organize these:
     node((7.5, 1), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <adots>),
 
     // Beth chain (bottom)
-    node((2, -1), $beth_1 = 2^(aleph_0)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b1>),
-    node((4, -1), $beth_2 = 2^(beth_1)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b2>),
-    node((6, -1), $beth_3 = 2^(beth_2)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b3>),
-    node((7.5, -1), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <bdots>),
+    node((2, 0), $beth_1 = 2^(aleph_0)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b1>),
+    node((4, 0), $beth_2 = 2^(beth_1)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b2>),
+    node((6, 0), $beth_3 = 2^(beth_2)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b3>),
+    node((7.5, 0), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <bdots>),
 
     // Edges for aleph chain
     edge(<start>, <a1>, "-}>", label: "next cardinal", label-angle: auto, label-side: right, stroke: red.darken(20%)),
@@ -3933,12 +3927,10 @@ Two key hierarchies help us organize these:
   )
 ]
 
-#Block(color: teal)[
+#Block(color: yellow)[
   Both hierarchies start at $aleph_0 = beth_0$, but then _diverge_.
-
   The relationship between them is one of the deepest questions in set theory!
-
-  The key _unknown_: is $aleph_1 = beth_1$?
+  *The key question*: is $aleph_1 = beth_1$?
 ]
 
 == The Continuum Hypothesis (CH)
