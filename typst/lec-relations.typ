@@ -3878,13 +3878,23 @@ Two key hierarchies help us organize these:
   - $aleph_1$ --- the _next_ infinite cardinal after $aleph_0$ (the smallest uncountable cardinal)
   - $aleph_2$ --- the next infinite cardinal after $aleph_1$
   - In general: $aleph_(alpha+1)$ is the smallest cardinal larger than $aleph_alpha$
-    - For limit ordinal $lambda$: $aleph_lambda = sup {aleph_alpha | alpha < lambda}$ (limit case)
 ]
 
 #Block(color: orange)[
   *Warning:*
   Unlike beth numbers (defined by powerset), aleph numbers are defined by _order_ --- each is simply the "next" infinite cardinal.
   This makes them more abstract!
+]
+
+#note[
+  Each cardinal is actually an _initial ordinal_, i.e., the smallest ordinal of that cardinality.
+]
+
+#note[
+  For a limit ordinal $lambda$:
+  $
+    aleph_lambda = union.big_(alpha < lambda) aleph_alpha = sup_(alpha < lambda) aleph_alpha
+  $
 ]
 
 == Aleph vs Beth: Two Different Hierarchies
