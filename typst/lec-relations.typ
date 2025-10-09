@@ -3279,7 +3279,7 @@ If we can "fit" all elements of $S$ into the natural numbers without overlaps, t
 
 The following characterizations of countable sets are all *equivalent*:
 
-#theorem[Equivalent characterizations of countability][
+#theorem[
   For any set $X$, the following are equivalent:
   + $X$ is _enumerable_: there exists a surjection $e: NN to X$
   + $X$ is _empty_, or there exists an injection $f: X to NN$
@@ -3293,6 +3293,8 @@ The following characterizations of countable sets are all *equivalent*:
   - *Injection* (1 $to$ 1): Fitting into $NN$ without collisions
   - *Surjection* (enumeration): Listing all elements (possibly with repetitions)
 ]
+
+#pagebreak()
 
 #proof[
   We prove $(1) => (2) => (3) => (1)$.
