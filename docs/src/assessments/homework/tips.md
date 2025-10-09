@@ -46,29 +46,29 @@ When working on homework assignment, you are _allowed_ and _forbidden_ from the 
 
 ## ❓ Common Questions
 
-**Q: Can I submit handwritten solutions?**
-A: Yes, this is the intended format. Just ensure your handwriting is legible.
+> 🦫 **Q: Can I submit handwritten solutions?** \
+> 👨🏻‍🏫 A: Yes, this is the intended format. Just ensure your handwriting is legible.
 
-**Q: Can I submit electronically typed solutions?**
-A: Typed solutions (LaTeX/Typst) are welcome. Word files are discouraged.
+> 🦫 **Q: Can I submit electronically typed solutions?** \
+> 👨🏻‍🏫 A: Typed solutions (LaTeX/Typst) are welcome. Word files are discouraged.
 
-**Q: What if I'm stuck on a problem?**
-A: Struggle for at least 30 minutes, then ask for hints (not solutions) from mentors or in study groups.
+> 🦫 **Q: What if I'm stuck on a problem?** \
+> 👨🏻‍🏫 A: Struggle for at least 30 minutes, then ask for hints (not solutions) from mentors or in study groups.
 
-**Q: Can I resubmit after the deadline?**
-A: Yes, but late penalties may apply. Better to submit something on time than nothing at all.
+> 🦫 **Q: Can I resubmit after the deadline?** \
+> 👨🏻‍🏫 A: Yes, but late penalties may apply. Better to submit something on time than nothing at all.
 
-**Q: What exactly counts as plagiarism?**
-A: Copying any part of a solution from anyone or anywhere without working it out yourself.
+> 🦫 **Q: What exactly counts as plagiarism?** \
+> 👨🏻‍🏫 A: Copying any part of a solution from anyone or anywhere without working it out yourself.
 
-**Q: What if I miss my defense appointment?**
-A: Zero score until you manage to re-schedule the defense with a mentor.
+> 🦫 **Q: What if I miss my defense appointment?** \
+> 👨🏻‍🏫 A: Zero score until you manage to re-schedule the defense with a mentor.
 
-**Q: How detailed should my solutions be?**
-A: Show enough work that someone could follow your reasoning. Include definitions, justifications, and key steps. During defense, you may be asked to explain any part of your solution. After several defenses, you'll get a sense of how much detail is expected by your instructor.
+> 🦫 **Q: How detailed should my solutions be?** \
+> 👨🏻‍🏫 A: Show enough work that someone could follow your reasoning. Include definitions, justifications, and key steps. During defense, you may be asked to explain any part of your solution. After several defenses, you'll get a sense of how much detail is expected by your instructor.
 
-**Q: Can I submit early?**
-A: Yes! Early submission gives you peace of mind and time to prepare for defense (or do other homeworks...).
+> 🦫 **Q: Can I submit early?** \
+> 👨🏻‍🏫 A: Yes! Early submission gives you peace of mind and time to prepare for defense (or do other homeworks...).
 
 ## ⏰ Time Management Plan
 

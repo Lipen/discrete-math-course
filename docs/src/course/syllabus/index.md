@@ -1,63 +1,91 @@
-# Syllabus
+# 📖 Syllabus
 
-This course covers fundamental discrete mathematics concepts essential for computer science.
+This two-semester course covers fundamental discrete mathematics concepts essential for computer science.
 
-## Course Modules
+## 📚 Course Modules
 
-The course is organized into four main modules. Click each to see detailed topics:
+The course spans two semesters with eight modules total:
 
-- [Module 1: Set Theory](./module1.md) - Weeks 1-2, 6
-- [Module 2: Binary Relations](./module2.md) - Weeks 3-7
-- [Module 3: Boolean Algebra](./module3.md) - Weeks 8-10
-- [Module 4: Formal Logic](./module4.md) - Weeks 11-16
+**Fall Semester:**
 
-## Learning Objectives
+- [📐 Module 1: Set Theory](./module1.md) -- Weeks 1--2, 6
+- [🔗 Module 2: Binary Relations](./module2.md) -- Weeks 3--7
+- [⚡ Module 3: Boolean Algebra](./module3.md) -- Weeks 8--10
+- [🧠 Module 4: Formal Logic](./module4.md) -- Weeks 11--16
 
-Students will develop:
+**Spring Semester:**
 
-- Mathematical reasoning and proof-writing skills
-- Ability to work with abstract mathematical structures
-- Problem-solving techniques for discrete systems
-- Foundations for advanced computer science topics
+- **🕸️ Module 5: Graph Theory** -- Weeks 1--4
+- **🌊 Module 6: Flow Networks** -- Weeks 5--6
+- **🤖 Module 7: Automata Theory** -- Weeks 7--12
+- **🎲 Module 8: Combinatorics** -- Weeks 13--16
 
-## Course Policies
+> Click each module above to see detailed topics, learning outcomes, and applications.
+
+## 🎯 Learning Objectives
+
+By completing this course, students will develop:
+
+- ✓ **Mathematical reasoning** -- Construct and critique formal proofs
+- ✓ **Abstract thinking** -- Work with abstract mathematical structures
+- ✓ **Problem-solving** -- Apply techniques to discrete systems
+- ✓ **CS foundations** -- Build groundwork for algorithms, theory, and beyond
+
+## 📋 Course Policies
 
 ### Attendance
 
-- Lectures are **mandatory**
-- Material covered in lectures is essential for success
+- **Lectures**: Mandatory -- Material covered is essential for success
+- **Tests & Colloquiums**: Attendance required on scheduled dates
+- **Defenses**: Missing homework defense = zero score
 
 ### Academic Integrity
 
-- **Homework**: Discussion encouraged, but write solutions independently
-- **Tests & Exams**: Individual work only
-- **Plagiarism**: Results in zero score and course failure
+| Assessment | Collaboration Policy |
+|------------|---------------------|
+| **Homework** | Discussion encouraged, write solutions independently |
+| **Tests** | Individual work only, open book |
+| **Colloquiums (TMs)** | Individual work only, closed book |
+| **Final Exam** | Individual work only |
+
+> **⚠️ Plagiarism**: Results in zero score, potential course failure, and academic misconduct report.
 
 ### Communication
 
-- **Telegram**: Main channel for announcements
-- **GitHub**: Course materials and issue tracker
-- **Office Hours**: To be announced
-- **Email**: Private matters only
+| Channel | Purpose |
+|---------|---------|
+| ☎️ **Telegram** | Announcements, quick questions, discussions |
+| 🐙 **GitHub** | Course materials, issue tracker |
+| 🎓 **Mentors** | Help sessions, homework guidance |
 
-## Materials
+## 📚 Course Materials
 
-**Primary**:
+### Primary Resources
 
-- Course lecture notes (PDF)
-- Homework assignments
-- Practice problems
+- **Lecture Notes** -- Slides and PDFs for each module
+- **Homework Assignments** -- Practice problems with solutions
+- **Cheatsheets** -- Quick reference for key concepts
 
-**Supplementary**:
+### Recommended Textbooks
 
-- Kenneth Rosen, *Discrete Mathematics and Its Applications*
-- Susanna Epp, *Discrete Mathematics with Applications*
-- Richard Hammack, *Book of Proof* (free online)
+| Book | Author | Notes |
+|------|--------|-------|
+| *Discrete Mathematics and Its Applications* | Kenneth Rosen | Comprehensive reference |
+| *Discrete Mathematics with Applications* | Susanna Epp | Clear explanations |
+| *Book of Proof* | Richard Hammack | Excellent for proofs |
 
-## Important Notes
+## 💡 Important Notes
 
-> **This course requires consistent effort throughout the semester.** Discrete mathematics builds concepts cumulatively—missing lectures or falling behind makes catching up difficult.
+> **⚠️ This course requires consistent effort throughout both semesters.**
+>
+> Discrete mathematics builds concepts cumulatively -- missing lectures or falling behind makes catching up extremely difficult.
 
-Mathematical proof writing is a skill that develops over time. Expect initial difficulty, but persistence leads to mastery.
+**Key Points:**
 
-**Success requires active engagement with the material, not just memorization of formulas.**
+- **Proof writing** is a skill that develops over time -- expect initial difficulty
+- **Persistence** and practice lead to mastery
+- **Active engagement** with material is crucial, not just memorization
+- **Start homework early** -- last-minute work rarely succeeds
+- **Ask questions** -- use Telegram and mentors actively
+
+> **Success = Understanding + Practice + Persistence**

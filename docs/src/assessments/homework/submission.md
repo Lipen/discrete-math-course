@@ -15,7 +15,8 @@
 - Group number
 - ISU identifier
 - Assignment number (e.g., "Homework 3")
-- Submission date
+- Assignment topic (e.g., "Set Theory")
+- Assignment revision (e.g. "v5")
 
 ## 🚀 How to Submit
 

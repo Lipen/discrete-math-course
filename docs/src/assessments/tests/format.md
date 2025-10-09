@@ -1,81 +1,106 @@
-# Test Format & General Topics
+# 📝 Test Format & General Information
 
-## Format
+## ⏰ Test Logistics
 
-### Timing
+| Detail | Information |
+|--------|-------------|
+| **Duration** | 90 minutes |
+| **Location** | Regular classroom |
+| **Timing** | During regular class time |
+| **Format** | Written, individual work |
 
-- **Duration**: 90 minutes
-- **Location**: Regular classroom
-- **When**: During regular class time
+## 📚 Materials Policy
 
-### Materials
+### ✅ Allowed
 
-- **Allowed**: Your notes, textbooks, calculator (if needed)
-- **Prohibited**: Electronic devices, communication, collaboration
+- Your handwritten or typed notes
+- Course textbooks and materials
+- Calculators (if needed for specific tests)
+- Cheatsheets provided by instructor
 
-### Question Structure
+### ❌ Prohibited
 
-- 5-8 problems
-- Multiple parts (a, b, c)
-- Point values clearly marked
-- Mix of question types
+- Electronic devices (phones, laptops, tablets)
+- Communication with others
+- Internet access
+- Collaboration of any kind
 
-## Question Types
+## 📄 Question Structure
 
-1. **Computation**: Perform algorithms and calculations
-2. **Short proofs**: Prove small claims (3-5 lines)
-3. **Examples/counterexamples**: Construct specific instances
-4. **Analysis**: Determine properties or relationships
-5. **Application**: Apply techniques to concrete problems
+- **5--8 problems** per test
+- **Multiple parts** (a, b, c, etc.) for each problem
+- **Point values** clearly marked for each part
+- **Mixed types** -- See below
 
-## Grading Criteria
+## 🎯 Question Types
 
-| Criterion | Weight |
-|-----------|--------|
-| Correctness | ~60% |
-| Method | ~25% |
-| Justification | ~10% |
-| Clarity | ~5% |
+| Type | Description | Example |
+|------|-------------|---------|
+| **Computation** | Perform algorithms and calculations | "Find the power set of {1,2,3}" |
+| **Short Proofs** | Prove claims (3--5 lines) | "Prove A ∩ (B ∪ C) = (A ∩ B) ∪ (A ∩ C)" |
+| **Examples/Counterexamples** | Construct specific instances | "Give a function that is injective but not surjective" |
+| **Analysis** | Determine properties | "Is this relation transitive?" |
+| **Application** | Apply techniques to problems | "Minimize this Boolean function using K-maps" |
 
-**Partial credit**: Awarded generously for valid approaches and correct partial work
+## 📊 Grading Criteria
 
-## Policies
+| Criterion | Weight | What It Means |
+|-----------|--------|---------------|
+| **Correctness** | ~60% | Right answer and valid reasoning |
+| **Method** | ~25% | Appropriate technique and approach |
+| **Justification** | ~10% | Clear explanations of steps |
+| **Clarity** | ~5% | Neat, organized presentation |
 
-### Before Test
+> **💡 Partial Credit**: Awarded generously for valid approaches and correct partial work -- show all your steps!
 
-- Review relevant lectures
-- Complete corresponding homework
-- Practice similar problems
-- Prepare allowed materials
-- Get good sleep
+## 📋 Test-Taking Guidelines
 
-### During Test
+### Before the Test
 
-- Work individually
-- Use only your materials
-- Raise hand for clarifications
-- Show all work
-- Budget time wisely
+- [ ] Review relevant lecture materials
+- [ ] Complete and understand corresponding homework
+- [ ] Practice similar problems from textbook
+- [ ] Organize your allowed materials
+- [ ] Get adequate sleep the night before
 
-### After Test
+### During the Test
 
-- Graded within one week
-- Feedback on common errors
-- Regrade requests within one week
+- [x] Work independently -- no communication
+- [x] Use only your own materials
+- [x] Raise hand for clarifications (not hints!)
+- [x] Show all work clearly
+- [x] Budget time wisely (~12 minutes per problem)
+- [x] Check your answers if time permits
 
-## Make-Up Policy
+### After the Test
 
-**Valid reasons only**:
+- **Grading**: Completed within one week
+- **Feedback**: Common errors and solutions discussed
+- **Regrade requests**: Submit within one week with justification
 
-- Medical emergency (doctor's note)
-- Family emergency (documentation)
-- University-sanctioned activity
+## 🔄 Make-Up Policy
 
-**Not valid**:
+### ✅ Valid Reasons
 
-- Oversleeping
-- Travel plans
-- Other coursework
-- Scheduling conflicts
+| Reason | Required Documentation |
+|--------|----------------------|
+| Medical emergency | Doctor's note with date |
+| Family emergency | Official documentation |
+| University activity | Letter from department/coach |
 
-**Procedure**: Contact instructor ASAP, provide documentation
+### ❌ Invalid Reasons
+
+- Oversleeping or alarm failure
+- Personal travel plans
+- Other coursework deadlines
+- Non-emergency scheduling conflicts
+- "I wasn't prepared"
+
+### Procedure
+
+1. **Contact** instructor/mentor ASAP (before test if possible)
+2. **Provide** documentation within 48 hours
+3. **Schedule** make-up within one week of original test
+4. **Expect** a different (possibly harder) test version
+
+> **⚠️ Warning**: Make-up tests are not guaranteed and may be more challenging than the original.
