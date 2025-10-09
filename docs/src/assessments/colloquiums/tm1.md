@@ -1,24 +1,27 @@
-# 📐🔗 TM1 -- Set Theory + Binary Relations
+# 📐🔗 TM 1 -- Set Theory + Binary Relations
 
 ## 📅 Exam Details
 
 | Detail | Information |
 |--------|-------------|
-| **When** | Week 7 (Fall) -- after Test 2 |
+| **When** | ~ Week 8 (Fall) |
 | **Duration** | 120 minutes |
-| **Format** | Closed book (no notes, no materials) |
-| **Passing** | ≥5.0/10 required |
-| **Retake** | Available if needed (different questions) |
+| **Format** | Closed book (no notes, no materials), no preparation |
+| **Passing** | ≥5/10 required |
 
 ## 📚 Coverage
+
+The first theoretical minimum covers fundamental concepts from the initial modules of the course:
 
 ### 📐 Set Theory (Weeks 1--2, 6)
 
 - Set operations and laws
-- Power sets and cardinality (if \\(|A| = n\\) then \\(|\mathcal{P}(A)| = 2^n\\))
+- Power sets
 - Cartesian products
 - Russell's paradox
 - Axiomatic set theory (ZFC)
+- Cardinality
+- Countable vs uncountable sets
 - Cantor's diagonalization
 - Schroeder-Bernstein theorem
 
@@ -28,7 +31,7 @@
 - Equivalence relations and partitions
 - Order relations and Hasse diagrams
 - Functions (injection, surjection, bijection)
-- Composition and inverses (\\((g \circ f)(x) = g(f(x))\\))
+- Composition and inverses
 - Lattices
 
 ## 📝 Sample Questions
@@ -50,7 +53,7 @@
 
 ### Proofs
 
-- Prove \\(\mathbb{R}\\) is uncountable
+- Prove real numbers are uncountable
 - Show composition of bijections is bijective
 - Prove every finite poset has maximal element
 
@@ -59,18 +62,18 @@
 - Why does Russell's paradox matter?
 - Difference between maximal and greatest element?
 - Example of injective but not surjective function
-- Why is \\(\mathbb{Q}\\) countable but \\(\mathbb{R}\\) not?
+- Why are rationals countable but reals uncountable?
 
 ## ✅ What You Must Know
 
-- Set operations (\\(\cup, \cap, \setminus, \oplus\\)) and laws
+- Set operations (union, intersection, difference, symmetric difference) and laws
 - Relation properties (reflexive, symmetric, transitive, antisymmetric)
 - Equivalence relations and partitions
 - Partial orders, total orders, well-orders
 - Injective, surjective, bijective functions
 - Composition of relations and functions
 - Cardinality (finite, countable, uncountable)
-- Key theorems: Cantor's (\\(|A| < |\mathcal{P}(A)|\\)), Schroeder-Bernstein, equivalence-partition correspondence
+- Key theorems: Cantor's theorem, Schroeder-Bernstein, equivalence-partition correspondence
 - Proof techniques: element method, double inclusion, diagonalization
 
 ## 📖 Preparation Checklist
@@ -91,8 +94,7 @@
 
 ### ✅ Day Before
 
-- [ ] Light review of flashcards
-- [ ] Quick skim of theorem statements
+- [ ] Light review of materials
 - [ ] **Get 8 hours sleep!**
 - [ ] Prepare mentally, stay calm
 
@@ -111,7 +113,7 @@
 - ❌ Confusing "injective" and "surjective"
 - ❌ Writing "obvious" instead of proving rigorously
 - ❌ Circular reasoning in proofs
-- ❌ Mixing up \\(\in\\) (element) and \\(\subseteq\\) (subset)
+- ❌ Mixing up "element of" and "subset of"
 - ❌ Forgetting to check all relation properties
 
 ### What Graders Look For

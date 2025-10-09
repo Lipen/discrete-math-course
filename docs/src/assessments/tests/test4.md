@@ -13,19 +13,19 @@
 
 - Propositional logic (syntax and semantics)
 - Natural deduction proofs
-- Logical equivalence (\\(\equiv\\)) and consequence (\\(\models\\))
+- Logical equivalence and consequence
 - Predicate logic basics
-- Quantifiers (\\(\forall\\) universal, \\(\exists\\) existential)
+- Quantifiers (universal and existential)
 - Categorical logic and syllogisms
 
 ## 🎯 Sample Problem Types
 
-- **Tautologies**: Determine if \\((P \to Q) \lor (Q \to P)\\) is a tautology
-- **Proofs**: Prove \\(P \to Q, Q \to R \vdash P \to R\\) using natural deduction
-- **Equivalence**: Show \\((P \to Q) \equiv (\lnot P \lor Q)\\) using truth tables
-- **Translation**: Translate "Every student loves some professor" to predicate logic
-- **Validity**: Determine if \\(\forall x\, (P(x) \to Q(x)), P(a) \vdash Q(a)\\) is valid
-- **Syllogisms**: Analyze "All men are mortal. Socrates is a man. \\(\therefore\\) Socrates is mortal."
+- **Tautologies**: Determine if given formula is a tautology
+- **Proofs**: Prove arguments using natural deduction
+- **Equivalence**: Show logical equivalences using truth tables
+- **Translation**: Translate English sentences to predicate logic
+- **Validity**: Determine if arguments are valid
+- **Syllogisms**: Analyze classical syllogisms
 
 ## ✅ Key Skills You'll Need
 
@@ -40,10 +40,9 @@
 
 ### Review Materials
 
-1. **Lecture Notes**: Module 4 (Weeks 11--15)
-2. **Homework**: Rework all HW4 problems
-3. **Textbook**: Rosen Ch 1.1--1.5
-4. **Practice**: Natural deduction proofs (10+ examples)
+1. **Lecture Notes**: Module 4 (Formal Logic)
+2. **Homework**: HW 4
+3. **Textbook**: Kenneth Rosen
 
 ### Practice Problems
 
@@ -58,8 +57,8 @@
 
 > **⚠️ Watch Out!**
 >
-> - Quantifier negation: \\(\lnot(\forall x\, P(x))\\) is \\(\exists x\, \lnot P(x)\\), NOT \\(\forall x\, \lnot P(x)\\)
-> - Scope matters: \\(\forall x\, (P(x) \to Q(x)) \not\equiv (\forall x\, P(x)) \to (\forall x\, Q(x))\\)
+> - Quantifier negation: \\( \neg \forall x ~ P(x) \\) means "there exists \\(x\\) such that \\( \neg P(x) \\)"
+> - Scope matters in predicate logic
 > - In proofs: justify every step with a rule name
 > - Translation: "only" is not the same as "all" (contrapositive!)
 > - Syllogisms: check for fallacies (undistributed middle, etc.)

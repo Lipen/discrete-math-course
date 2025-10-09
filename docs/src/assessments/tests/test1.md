@@ -11,21 +11,22 @@
 
 ## 📚 Topics Covered
 
-- Set operations (\\(\cup, \cap, \setminus, \oplus, \complement\\))
+- Set operations (union, intersection, difference, symmetric difference, complement)
 - Venn diagrams
-- Power sets and cardinality (\\(|\mathcal{P}(A)| = 2^{|A|}\\))
-- Cartesian products (\\(A \times B\\))
+- Power sets
+- Cardinality
+- Cartesian products
 - Set identities (De Morgan's, distributive, etc.)
 - Basic proofs with sets
 
 ## 🎯 Sample Problem Types
 
-- **Operations**: Compute set expressions like \\(A \cup (B \setminus C)\\)
-- **Venn Diagrams**: Draw and shade regions for \\((A \cap B) \cup (A \cap C)\\)
-- **Proofs**: Prove set identities using element method (e.g., \\(A \setminus (B \cup C) = (A \setminus B) \cap (A \setminus C)\\))
-- **Power Sets**: Calculate \\(|\mathcal{P}(A)|\\) for given \\(A\\)
-- **Cartesian Products**: Find \\(A \times B\\) for specific sets
-- **Cardinality**: Apply inclusion-exclusion principle for \\(|A \cup B \cup C|\\)
+- **Operations**: Compute set expressions
+- **Venn Diagrams**: Draw and shade regions for given formulas
+- **Proofs**: Prove set identities using element method
+- **Power Sets**: Calculate power set size for given set
+- **Cartesian Products**: Find Cartesian products for specific sets
+- **Cardinality**: Apply inclusion-exclusion principle
 
 ## ✅ Key Skills You'll Need
 
@@ -40,10 +41,9 @@
 
 ### Review Materials
 
-1. **Lecture Notes**: Module 1 (Weeks 1--2)
-2. **Homework**: Rework all HW1 problems
-3. **Textbook**: Rosen Ch 2.1--2.2 exercises
-4. **Cheatsheet**: Create reference with identities
+1. **Lecture Notes**: Module 1 (Set Theory)
+2. **Homework**: HW 1
+3. **Textbook**: Kenneth Rosen
 
 ### Practice Problems
 
@@ -57,15 +57,15 @@
 
 > **⚠️ Watch Out!**
 >
-> - Don't confuse \\(\in\\) (element) with \\(\subseteq\\) (subset)
-> - Remember: \\(A \setminus B \neq B \setminus A\\) (set difference is not commutative)
-> - Power set of empty set is \\(\{\emptyset\}\\), not \\(\emptyset\\)
+> - Don't confuse "element of" with "subset of"
+> - Remember: set difference is not commutative
+> - Power set of empty set has one element (the empty set itself)
 > - Venn diagrams: label all regions clearly
 
 ## 💡 Pro Tips
 
 - **Show all work** -- even for "obvious" set operations
-- **Use element method** -- "let x ∈ A..." is your friend
+- **Use element method** -- "let \\(x \in A\\)..." is your friend
 - **Draw diagrams** -- Venn diagrams help verify your work
 - **Check edge cases** -- test with empty set, singletons
 - **Double-check notation** -- { } vs ( ) matters!

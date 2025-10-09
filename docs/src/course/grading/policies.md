@@ -6,7 +6,7 @@
 
 - 0-24 hours late: -1 point from max (max 9/10 possible)
 - 1-7 days late: -2 points from max (max 8/10 possible)
-- $>$7 days late: max 5/10 possible
+- More than 7 days late: max 5/10 possible
 
 ### Tests & Exams
 
