@@ -41,7 +41,6 @@
   - [Preparation Guide](./assessments/colloquiums/preparation.md)
 - [Final Exam](./assessments/exam/index.md)
   - [Structure](./assessments/exam/structure.md)
-  - [Preparation](./assessments/exam/preparation.md)
 
 ---
 

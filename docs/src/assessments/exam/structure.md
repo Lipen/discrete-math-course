@@ -1,5 +1,9 @@
 # 📋 Exam Structure Details
 
+> ⚠️ **WARNING:** This page is a work in progress.
+>
+> Some details may be incomplete or subject to change!
+
 ## 📝 Written Component (16 points)
 
 ### Format Overview
@@ -51,9 +55,9 @@
 
 > **💡 Partial Credit**: Awarded for correct approach even if final answer is wrong. Show your work!
 
-## 🗣️ Oral Component (8 points)
+## 🗣️ Verbal Component (8 points)
 
-### Oral Format Details
+### Verbal Format Details
 
 | Detail | Information |
 |--------|-------------|
@@ -74,7 +78,7 @@
 
 ### Possible Topics
 
-#### Fall Semester
+#### 🍁 Fall Semester
 
 - Equivalence relations and partitions theorem
 - Cantor's diagonalization argument
@@ -84,7 +88,7 @@
 - Natural deduction rule systems
 - Cardinality comparison methods
 
-#### Spring Semester
+#### 🌱 Spring Semester
 
 - Pumping lemma for regular languages
 - Myhill-Nerode theorem
@@ -98,10 +102,10 @@
 
 | Criterion | Weight | Assessment Questions |
 |-----------|--------|---------------------|
-| **Knowledge** | ~30% | Do you know the definition/theorem/concept? |
-| **Understanding** | ~35% | Can you explain clearly in your own words? |
+| **Knowledge** | ~40% | Do you know the definition/theorem/concept? |
+| **Understanding** | ~30% | Can you explain clearly in your own words? |
 | **Depth** | ~20% | Do you understand beyond surface level? |
-| **Connections** | ~15% | Can you relate to other topics? |
+| **Connections** | ~10% | Can you relate to other topics? |
 
 ### Tips for Success
 
@@ -159,6 +163,7 @@
 | **Analysis** | Time/space complexity if applicable |
 
 ### Practical Evaluation Criteria
+
 |-----------|--------|-----------------|
 | **Correctness** | ~50% | Does it solve the problem correctly? |
 | **Efficiency** | ~20% | Is the approach reasonable? (Not necessarily optimal) |
@@ -190,27 +195,19 @@ Before submitting, verify:
 
 ## 🎯 Strategy for Success
 
-### Time Management
-
-| Component | When to Prepare | Time Investment |
-|-----------|----------------|-----------------|
-| **Written** | Weeks 14--16 | 15--20 hours review |
-| **Oral** | Weeks 15--16 | 5--10 hours practice explaining |
-| **Practical** | Week 15--16 | 10--15 hours implementation |
-
 ### Prioritization
 
 1. **Week 14**: Start reviewing for written exam
-2. **End of Week 15**: Begin practical component immediately when released
-3. **Week 16 (before written)**: Intensive review, finish practical
-4. **Week 16 (after written)**: Prepare for oral, submit practical
-5. **Oral exam day**: Light review, stay calm
+2. **End of semester**: Begin practical component immediately when released
+3. **Before written part**: Intensive review, finish practical
+4. **After written part**: Prepare for verbal part, submit practical
+5. **Verbal exam day**: Light review, stay calm
 
 ### Balance Strategy
 
 - **Don't** neglect practical to study for written
 - **Do** budget time for all three components
-- **Don't** assume oral will be easy
+- **Don't** assume verbal part will be easy
 - **Do** practice explaining concepts aloud
 - **Don't** overcomplicate the practical solution
 - **Do** test thoroughly and document well
