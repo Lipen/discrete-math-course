@@ -3101,6 +3101,8 @@ Functions can be characterized by several key properties that determine their ma
     Suppose that $A equinumerous B$ and $B equinumerous C$, i.e., there are bijections $f: A to B$ and $g: B to C$.
     Then~the composition $g compose f: A to C$ is also a bijection.
     So $A equinumerous C$.
+
+  Therefore, equinumerosity is an equivalence relation.
 ]
 
 // TODO: proposition
