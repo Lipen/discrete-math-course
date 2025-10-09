@@ -3860,6 +3860,7 @@ Two key hierarchies help us organize these:
   - $aleph_1$ --- the _next_ infinite cardinal after $aleph_0$ (the smallest uncountable cardinal)
   - $aleph_2$ --- the next infinite cardinal after $aleph_1$
   - In general: $aleph_(alpha+1)$ is the smallest cardinal larger than $aleph_alpha$
+    - For limit ordinal $lambda$: $aleph_lambda = sup {aleph_alpha | alpha < lambda}$ (limit case)
 ]
 
 #Block(color: orange)[
