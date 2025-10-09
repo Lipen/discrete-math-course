@@ -3114,33 +3114,24 @@ Functions can be characterized by several key properties that determine their ma
   #h(1fr) *YES!*
 ]
 
-#columns(2)[
-  *The solution:*
-
-  Move each guest in room $n$ to room $n + 1$:
-  - Guest in room 1 $arrow.r$ room 2
-  - Guest in room 2 $arrow.r$ room 3
-  - Guest in room 3 $arrow.r$ room 4
-  - $dots$
-
-  Now room 1 is _vacant_ for the new guest!
-
-  #colbreak()
-
-  *Mathematical formulation:*
-
-  Define the _shift map_ $f: NN to NN$ by:
-  $
-    f(n) = n + 1
-  $
-
-  This is an _injection_ but not a surjection:
-  - *Injective:* Different rooms map (shift) to different rooms
-  - *Not surjective:* Room 1 has no pre-image
+#place(right)[
+  #image("assets/grand-hotel.jpg", height: 6cm)
 ]
 
+*The solution:*#h(.2em)
+Move each guest in room $n$ to room $n + 1$.
+- Guest in room 1 moves to room 2
+- Guest in room 2 moves to room 3
+- And so on...
+Now room 1 is _vacant_ for the new guest!
+
+*Formally:* #h(.2em)
+Define the _shift map_ $f: NN to NN$ by $f(n) = n + 1$
+- *Injective:* Different rooms map (shift) to different rooms
+- *Not surjective:* Room 1 has no pre-image
+
 #Block(color: blue)[
-  The hotel can accommodate one more guest even though it was initially "full"!
+  The hotel can accommodate one more guest even though it is "full"!
 ]
 
 == Dedekind-Infinite Sets
