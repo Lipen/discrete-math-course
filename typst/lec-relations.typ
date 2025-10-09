@@ -3062,7 +3062,7 @@ Functions can be characterized by several key properties that determine their ma
   - $abs(power(NN)) = 2^(aleph_0) > aleph_0$ (power set is always "larger")
 ]
 
-== Cardinal Numbers
+== Notes on Cardinal Numbers
 
 #note[
   $abs(X)$ is _not_ just a number, but a _cardinal number_.
@@ -3078,26 +3078,25 @@ Functions can be characterized by several key properties that determine their ma
 
 #definition[
   Two sets $A$ and $B$ have the same _cardinality_ and are called _equinumerous_, denoted $abs(A) = abs(B)$ or $A equinumerous B$, iff there exists a _bijection_ (one-to-one correspondence) between $A$ and $B$.
-
-  #note(title: "Intuition")[
-    If you can pair up every element of $A$ with exactly one element of $B$, with nothing left over on either side, then $A$ and $B$ have the same cardinality.
-  ]
 ]
 
-// TODO: proposition
+#note(title: "Intuition")[
+  If you can pair up every element of $A$ with exactly one element of $B$, with nothing left over on either side, then $A$ and $B$ have the same cardinality.
+]
+
 #theorem[
   Equinumerosity is an equivalence relation.
 ]
 
 #proof[
   Let $A$, $B$, $C$ be sets.
-  - _Reflexivity:_
+  - *Reflexivity:*
     The identity map $id_A: A to A$, where $id_A (x) = x$, is a bijection, so $A equinumerous A$.
-  - _Symmetry:_
+  - *Symmetry:*
     Suppose $A equinumerous B$, then there is a bijection $f: A to B$.
     Since it is a bijection, its inverse $f^(-1)$ exists and is also a bijection.
     Hence, $f^(-1): B to A$ is a bijection, so $B equinumerous A$.
-  - _Transitivity:_
+  - *Transitivity:*
     Suppose that $A equinumerous B$ and $B equinumerous C$, i.e., there are bijections $f: A to B$ and $g: B to C$.
     Then~the composition $g compose f: A to C$ is also a bijection.
     So $A equinumerous C$.
@@ -3105,10 +3104,133 @@ Functions can be characterized by several key properties that determine their ma
   Therefore, equinumerosity is an equivalence relation.
 ]
 
-// TODO: proposition
-// #theorem[
-//   If $A equinumerous B$, then $A$ is countable if and only if $B$ is.
-// ]
+== Hilbert's Grand Hotel
+
+#Block(color: teal)[
+  Imagine a hotel with _infinitely many_ rooms, numbered $1, 2, 3, dots$, and _all rooms are occupied_.
+
+  A new guest arrives.
+  Can we accommodate them?
+  #h(1fr) *YES!*
+]
+
+#columns(2)[
+  *The solution:*
+
+  Move each guest in room $n$ to room $n + 1$:
+  - Guest in room 1 $arrow.r$ room 2
+  - Guest in room 2 $arrow.r$ room 3
+  - Guest in room 3 $arrow.r$ room 4
+  - $dots$
+
+  Now room 1 is _vacant_ for the new guest!
+
+  #colbreak()
+
+  *Mathematical formulation:*
+
+  Define the _shift map_ $f: NN to NN$ by:
+  $
+    f(n) = n + 1
+  $
+
+  This is an _injection_ but not a surjection:
+  - *Injective:* Different rooms map (shift) to different rooms
+  - *Not surjective:* Room 1 has no pre-image
+]
+
+#Block(color: blue)[
+  The hotel can accommodate one more guest even though it was initially "full"!
+]
+
+== Dedekind-Infinite Sets
+
+#definition[
+  A set $X$ is _Dedekind-infinite_ if some proper subset $Y subset X$ is equinumerous to it, i.e., there is a _bijection_ between $X$ and one of its _proper_ subsets.
+
+  Equivalently, $X$ is Dedekind-infinite if there exists an _injective_ but _not surjective_ function $f: X to X$.
+
+  A set that is _not_ Dedekind-infinite is called _Dedekind-finite_.
+]
+
+#note[
+  Intuitively, an "infinite" set can be put in one-to-one correspondence with a part of itself, which is impossible for finite sets.
+]
+
+#example[
+  The set of natural numbers $NN$ is Dedekind-infinite:
+  - Let $Y = {2, 4, 6, 8, ...} = NN_"even" subset NN$ (proper subset)
+  - Define $f: NN to Y$ by $f(n) = 2n$ (bijection)
+  - Since $NN equinumerous NN_"even"$ (equinumerous, bijection exists), the set $NN$ is Dedekind-infinite
+]
+
+== Examples of Dedekind-Infinite Sets
+
+#examples[
+  - $ZZ$ is Dedekind-infinite: bijection with positive integers
+  - $QQ$ is Dedekind-infinite: bijection with positive rationals
+  - $RR$ is Dedekind-infinite: bijection with $(0, 1)$
+]
+
+#Block(color: yellow)[
+  *Key insight:* Being Dedekind-infinite is equivalent to being infinite (assuming the Axiom of Choice).
+
+  This gives us a purely set-theoretic definition of infinity without reference to natural numbers.
+]
+
+== Hilbert's Hotel: Infinitely Many New Guests
+
+#Block(color: orange)[
+  *The Greater Challenge:*
+  Now a _bus_ with infinitely many passengers arrives (numbered $1, 2, 3, dots$).
+  The hotel is still completely full.
+  Can we accommodate all of them?
+  #h(1fr) *YES!*
+]
+
+*The solution:*
+
+Ask each current guest in room $n$ to move to room $2n$:
+$
+  f_"current": NN to NN_"even", quad f_"current" (n) = 2n
+$
+
+This creates infinitely many vacant _odd-numbered_ rooms: ${1, 3, 5, 7, 9, ...}$
+
+Then, assign bus passenger $k$ to room $2k - 1$:
+$
+  f_"new": NN to NN_"odd", quad f_"new" (k) = 2k - 1
+$
+
+#pagebreak()
+
+#align(center)[
+  #table(
+    columns: 5,
+    align: center + horizon,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+    table.header([Original], [Current Guest], [$-->$], [New Room], [New Guest]),
+    [Room 1], [Guest \#1], [], [Room 2], [Guest \#1],
+    [Room 2], [Guest \#2], [], [Room 4], [Guest \#2],
+    [Room 3], [Guest \#3], [], [Room 6], [Guest \#3],
+    // [Room 4], [Guest \#4], [], [Room 8], [Guest \#4],
+    [$dots.v$], [$dots.v$], [], [$dots.v$], [],
+    [], [], [], [Room 1], [Bus passenger \#1],
+    [], [], [], [Room 3], [Bus passenger \#2],
+    [], [], [], [Room 5], [Bus passenger \#3],
+    // [], [], [], [Room 7], [Bus passenger \#4],
+    [], [], [], [$dots.v$], [$dots.v$],
+  )
+]
+
+#Block(color: blue)[
+  This demonstrates that $NN$ (all guests) is equinumerous to $NN_"even"$ (current guests) _and_ $NN_"odd"$ (new guests):
+  $
+    abs(NN) = abs(NN_"even") = abs(NN_"odd") = aleph_0
+  $
+  Moreover, we showed that $NN equinumerous NN_"even" union.sq NN_"odd"$, illustrating that $aleph_0 + aleph_0 = aleph_0$.
+]
 
 == Countable Sets
 
@@ -3182,40 +3304,6 @@ Functions can be characterized by several key properties that determine their ma
   - *Polynomials with integer coefficients*: Can be systematically enumerated
 
   - *Finite subsets of $NN$*: Each finite subset can be encoded as a finite binary string
-]
-
-== Dedekind-Infinite Sets
-
-#definition[
-  A set $X$ is _Dedekind-infinite_ if some proper subset $Y subset X$ is equinumerous to it, i.e., there is a bijection between $X$ and one of its proper subsets.
-
-  A set that is not Dedekind-infinite is called _Dedekind-finite_.
-]
-
-#note[
-  Intuitively, an "infinite" set can be put in one-to-one correspondence with a part of itself.
-  This is impossible for finite sets.
-]
-
-#example[
-  The set of natural numbers $NN$ is Dedekind-infinite:
-  - Let $Y = {2, 4, 6, 8, ...} = NN_"even" subset NN$ (proper subset)
-  - Define $f: NN to Y$ by $f(n) = 2n$ (bijection)
-  - Since $NN equinumerous NN_"even"$, the set $NN$ is Dedekind-infinite
-]
-
-== Examples of Dedekind-Infinite Sets
-
-#examples[
-  - $ZZ$ is Dedekind-infinite: bijection with positive integers
-  - $QQ$ is Dedekind-infinite: bijection with positive rationals
-  - $RR$ is Dedekind-infinite: bijection with $(0, 1)$
-]
-
-#Block(color: yellow)[
-  *Key insight:*
-  Being Dedekind-infinite is equivalent to being infinite (assuming the Axiom of Choice).
-  This gives us a purely set-theoretic definition of infinity without reference to natural numbers.
 ]
 
 == Alternative Characterization: Injection into $bold(NN)$
