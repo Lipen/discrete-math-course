@@ -3383,7 +3383,7 @@ The following characterizations of countable sets are all *equivalent*:
 #pagebreak()
 
 #example[Rational numbers][
-  We can enumerate positive rationals by listing fractions $p/q$ ordered by $p + q$:
+  We can enumerate _positive_ rationals by listing fractions $p/q$ ordered by $p + q$:
 
   #align(center)[
     #table(
