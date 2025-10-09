@@ -223,11 +223,11 @@
 
 ### What NOT TO DO
 
-❌ **Don't cram new material** -- if you don't know it now, won't learn it tonight
-❌ **Don't stay up late studying** -- sleep > cramming
-❌ **Don't drink excessive caffeine** -- disrupts sleep quality
-❌ **Don't panic** -- trust your preparation
-❌ **Don't compare yourself to others** -- focus on your own readiness
+- ❌ **Don't cram new material** -- if you don't know it now, won't learn it tonight
+- ❌ **Don't stay up late studying** -- sleep > cramming
+- ❌ **Don't drink excessive caffeine** -- disrupts sleep quality
+- ❌ **Don't panic** -- trust your preparation
+- ❌ **Don't compare yourself to others** -- focus on your own readiness
 
 ## 💪 Mental Preparation
 
