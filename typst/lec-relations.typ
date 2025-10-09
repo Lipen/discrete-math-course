@@ -3825,7 +3825,7 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 = Large Cardinal Numbers
 #focus-slide()
 
-== Beyond $bold(aleph_0)$: Hierarchies of Infinity
+== Beyond $aleph_0$: Hierarchies of Infinity
 
 We've seen that $aleph_0 = abs(NN)$ is the smallest infinite cardinality.
 But are there _larger_ infinities beyond $aleph_0$?
