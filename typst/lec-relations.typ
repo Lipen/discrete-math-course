@@ -3804,6 +3804,247 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
 ]
 
 
+= Large Cardinal Numbers
+#focus-slide()
+
+== Beyond $bold(aleph_0)$: Hierarchies of Infinity
+
+We've seen that $aleph_0 = abs(NN)$ is the smallest infinite cardinality.
+But are there _larger_ infinities beyond $aleph_0$?
+
+#Block(color: blue)[
+  Cantor showed that there are _infinitely many_ infinite cardinal numbers, forming an endless hierarchy of ever-growing infinities.
+]
+
+Two key hierarchies help us organize these:
+- The *$beth$ (beth) numbers* --- built by repeatedly taking powersets
+- The *$aleph$ (aleph) numbers* --- indexing all infinite cardinals
+
+== Beth Numbers: The Powerset Hierarchy
+
+#definition[
+  The _beth numbers_ are defined recursively using the powerset operation:
+  - $beth_0 = aleph_0 = abs(NN)$ #h(1em) (the first infinite cardinal)
+  - $beth_(n+1) = 2^(beth_n) = abs(power(beth_n))$ #h(1em) (take the powerset)
+  - For limit ordinals $lambda$: $beth_lambda = sup {beth_alpha | alpha < lambda}$
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  Each beth number is the cardinality of the powerset of the previous one.
+
+  This gives us a concrete, constructive hierarchy of infinities.
+]
+
+== Beth Hierarchy: Examples
+
+#example[
+  The first few beth numbers:
+  - $beth_0 = aleph_0 = abs(NN)$ --- countable infinity
+  - $beth_1 = 2^(beth_0) = 2^(aleph_0) = abs(power(NN)) = abs(RR) = frak(c)$ --- the _continuum_
+  - $beth_2 = 2^(beth_1) = 2^frak(c) = abs(power(RR))$ --- cardinality of the set of all functions $RR to RR$
+  - $beth_3 = 2^(beth_2) = abs(power(power(RR)))$ --- even larger!
+]
+
+#Block(color: blue)[
+  *Why this matters:*
+  We know from Cantor's theorem that $beth_0 < beth_1 < beth_2 < beth_3 < dots$ is a strictly increasing sequence.
+  Each step is provably larger than the previous one!
+]
+
+== Aleph Numbers: Indexing All Infinite Cardinals
+
+#definition[
+  The _aleph numbers_ enumerate *all* infinite cardinal numbers in increasing order:
+  - $aleph_0 = abs(NN)$ --- the smallest infinite cardinal
+  - $aleph_1$ --- the _next_ infinite cardinal after $aleph_0$ (the smallest uncountable cardinal)
+  - $aleph_2$ --- the next infinite cardinal after $aleph_1$
+  - In general: $aleph_(alpha+1)$ is the smallest cardinal larger than $aleph_alpha$
+]
+
+#Block(color: orange)[
+  *Warning:*
+  Unlike beth numbers (defined by powerset), aleph numbers are defined by _order_ --- each is simply the "next" infinite cardinal.
+  This makes them more abstract!
+]
+
+== Aleph vs Beth: Two Different Hierarchies
+
+#columns(2)[
+  *Beth hierarchy (concrete):*
+  - Start: $beth_0 = aleph_0$
+  - Rule: $beth_(n+1) = 2^(beth_n)$
+  - Built by taking powersets
+  - We know exactly what each $beth_n$ is
+
+  #colbreak()
+
+  *Aleph hierarchy (ordinal):*
+  - Start: $aleph_0 = beth_0$
+  - Rule: $aleph_(n+1)$ is the _next_ cardinal
+  - Built by well-ordering
+  - We know the _order_ but not exact values
+]
+
+#Block(color: yellow)[
+  *Key question:* How do these two hierarchies relate? Does $aleph_1 = beth_1$?
+]
+
+== Visualizing the Two Hierarchies
+
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (2em, 1em),
+    node-shape: fletcher.shapes.pill,
+    node-stroke: 1pt,
+    edge-stroke: 1pt,
+
+    // Starting point (both hierarchies agree)
+    node((0, 0), $aleph_0 = beth_0$, stroke: blue, fill: blue.lighten(80%), name: <start>),
+
+    // Aleph chain (top)
+    node((2, 1), $aleph_1$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a1>),
+    node((4, 1), $aleph_2$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a2>),
+    node((6, 1), $aleph_3$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a3>),
+    node((7.5, 1), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <adots>),
+
+    // Beth chain (bottom)
+    node((2, -1), $beth_1 = 2^(aleph_0)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b1>),
+    node((4, -1), $beth_2 = 2^(beth_1)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b2>),
+    node((6, -1), $beth_3 = 2^(beth_2)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b3>),
+    node((7.5, -1), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <bdots>),
+
+    // Edges for aleph chain
+    edge(<start>, <a1>, "-}>", label: "next cardinal", label-angle: auto, label-side: right, stroke: red.darken(20%)),
+    edge(<a1>, <a2>, "-}>", label: "next cardinal", label-side: right, stroke: red.darken(20%)),
+    edge(<a2>, <a3>, "-}>", label: "next cardinal", label-side: right, stroke: red.darken(20%)),
+    edge(<a3>, <adots>, "-}>", stroke: red.darken(20%)),
+
+    // Edges for beth chain
+    edge(<start>, <b1>, "-}>", label: "powerset", label-angle: auto, label-side: left, stroke: green.darken(20%)),
+    edge(<b1>, <b2>, "-}>", label: "powerset", stroke: green.darken(20%), label-side: left),
+    edge(<b2>, <b3>, "-}>", label: "powerset", stroke: green.darken(20%), label-side: left),
+    edge(<b3>, <bdots>, "-}>", stroke: green.darken(20%)),
+
+    // Question mark between a1 and b1
+    edge(<a1>, <b1>, stroke: (paint: gray, thickness: 1.5pt, dash: "dashed"), label: [?], label-pos: 0.5),
+  )
+]
+
+#Block(color: teal)[
+  Both hierarchies start at $aleph_0 = beth_0$, but then _diverge_.
+
+  The relationship between them is one of the deepest questions in set theory!
+
+  The key _unknown_: is $aleph_1 = beth_1$?
+]
+
+== The Continuum Hypothesis (CH)
+
+#definition[
+  The _Continuum Hypothesis_ (CH) states that:
+  $
+    aleph_1 = beth_1 = 2^(aleph_0) = frak(c)
+  $
+  In other words: there is _no_ infinite cardinal strictly between $aleph_0$ and $2^(aleph_0)$.
+]
+
+#example[
+  If CH is true:
+  - The continuum $RR$ has cardinality $aleph_1$ (the first uncountable cardinal)
+  - Every uncountable subset of $RR$ has the same cardinality as $RR$
+  - The hierarchies align _at the first step_: $aleph_1 = beth_1$
+]
+
+#Block(color: yellow)[
+  *Cantor's dream:* He believed CH was true and spent years trying to prove it.
+
+  But the truth is far stranger...
+]
+
+== The Generalized Continuum Hypothesis (GCH)
+
+#definition[GCH][
+  For every infinite cardinal $kappa$:
+  $
+    2^kappa = kappa^+
+  $
+  where $kappa^+$ denotes the next cardinal after $kappa$.
+]
+
+This means: $aleph_n = beth_n$ for all $n in NN$ (and beyond).
+
+#Block(color: blue)[
+  *GCH implies:* The two hierarchies completely coincide --- there's only one natural hierarchy of infinite cardinals, and powerset operation always gives you the very next cardinal.
+]
+
+== Cohen's Independence Result
+
+#theorem[Cohen, 1963][
+  The Continuum Hypothesis is _independent_ of ZFC (Zermelo--Fraenkel set theory with Choice):
+  - We cannot _prove_ CH from ZFC
+  - We cannot _disprove_ CH from ZFC
+  - Both "ZFC + CH" and "ZFC + $not$CH" are consistent (if ZFC is)
+]
+
+#Block(color: orange)[
+  *What this means:* Using _forcing_, Cohen showed that $aleph_1$ can be placed _anywhere_ relative to $beth_1 = 2^(aleph_0)$!
+
+  We can have:
+  - $aleph_1 = beth_1$ (CH is true)
+  - $aleph_1 < beth_1$ (there are cardinals between $aleph_0$ and $2^(aleph_0)$)
+  - Even: $aleph_(100) = beth_1$ (the continuum can be made arbitrarily large!)
+]
+
+== The Freedom of Infinity
+
+#Block(color: blue)[
+  *Key insight:* The position of $2^(aleph_0)$ in the aleph hierarchy is _not determined_ by the usual axioms of mathematics!
+]
+
+#columns(2)[
+  *In models where CH holds:*
+  - $aleph_1 = beth_1 = 2^(aleph_0)$
+  - Hierarchies align nicely
+  - Every subset of $RR$ is either countable or has the same cardinality $frak(c)$
+
+  #colbreak()
+
+  *In models where CH fails ($not$CH holds):*
+  - $aleph_1 < 2^(aleph_0)$
+  - There exist "intermediate" infinities
+  - $RR$ can have very large cardinality
+  - The gap can be arbitrarily wide!
+]
+
+#Block(color: teal)[
+  *Historical note:* This was the first major independence result in set theory, opening a new era where we study _which_ mathematical universes are possible, not just what's true in one fixed universe.
+]
+
+== Summary: Large Cardinal Numbers
+
+#Block(color: blue)[
+  *Two infinite hierarchies:*
+  - *Beth numbers:* $beth_0 = aleph_0$, $beth_(n+1) = 2^(beth_n)$ --- concrete, built by powerset
+  - *Aleph numbers:* $aleph_0$ smallest, $aleph_(alpha+1)$ next cardinal --- abstract enumeration by order
+  - Both start at $aleph_0 = beth_0$ but then diverge --- relationship unknown!
+  - *Continuum Hypothesis (CH):* Does $aleph_1 = beth_1 = 2^(aleph_0)$?
+]
+
+#Block(color: orange)[
+  *Cohen (1963):*
+  CH is _independent_ of ZFC --- neither provable nor disprovable!
+  Using forcing, $aleph_1$ can be placed anywhere relative to $beth_1$.
+  The "size" of $RR$ is not determined by standard axioms.
+]
+
+#Block(color: teal)[
+  *Deep insight:*
+  Mathematics doesn't have a _unique_ "reality" --- different axiom systems create different mathematical universes, each equally valid!
+]
+
+
 = Closures of Relations
 #focus-slide()
 
