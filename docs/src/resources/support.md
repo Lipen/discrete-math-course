@@ -1,81 +1,141 @@
 # Getting Help
 
-## Telegram Group
+## 💬 Telegram Group
 
-**Link**: Provided in class
+**Main Communication Channel**
 
-Our main communication hub for:
+The Telegram group is our primary platform for:
 
-- Announcements
-- Quick questions
-- Peer discussion
-- Study groups forming
-- Schedule updates
+- 📢 Course announcements and updates
+- ❓ Quick questions and clarifications
+- 💡 Discussion of concepts and approaches
+- 👥 Finding study partners
+- 📅 Schedule changes and reminders
 
-**Rules**:
+> **Link**: Provided in class or by instructor
 
-- Keep discussions respectful
-- No homework solutions (discuss approaches only)
-- Search before asking
-- Help fellow students
+### Guidelines
 
-## Mentors
+- ✅ Ask conceptual questions, discuss problem-solving strategies
+- ✅ Help classmates understand concepts
+- ✅ Search chat history before asking repeated questions
+- ❌ Don't share complete homework solutions
+- ❌ Don't ask for answers without showing your work
 
-Course mentors are available to help with:
+## 🎓 Mentors & Office Hours
 
-- Homework questions
-- Concept clarification
-- Exam preparation
-- General advice
-- Proof writing
+**When to Seek Help**:
 
-**How to reach**: Contact via Telegram group
+- Understanding homework problems
+- Clarifying lecture material
+- Reviewing proof techniques
+- Preparing for exams
+- Getting feedback on your approach
 
-**Tip**: Come with specific questions prepared.
+**What Mentors Can Do**:
 
-## Study Groups
+- Explain concepts in different ways
+- Point you in the right direction
+- Help debug your reasoning
+- Suggest practice problems
+- Review your proof strategy
 
-### Finding a Group
+**What Mentors Won't Do**:
 
-- Ask in Telegram
-- Form with classmates
-- Post in course channel
+- Solve homework for you
+- Give you exam answers
+- Write proofs for you
 
-### Effective Group Study
+> **Contact**: Via Telegram group or scheduled office hours
 
-- Meet regularly (weekly)
-- Rotate leader
-- Work problems together
-- Explain to each other
-- Review before exams
+## 👥 Study Groups
 
-**Remember**: Collaboration ≠ copying. See [Academic Integrity](../course/grading/policies.md).
+### Why Study Groups Work
 
-## How to Ask for Help
+- Explain concepts to solidify understanding
+- Learn different problem-solving approaches
+- Stay motivated and accountable
+- Practice mathematical communication
+- Catch each other's mistakes
 
-### Effective Questions
+### Finding Study Partners
 
-✅ **Good**: "I don't understand why the proof of Cantor's theorem uses contradiction. Could you explain the key idea?"
+1. Post in Telegram: "Looking for study group for Module X"
+2. Connect with classmates after lectures
+3. Form groups of 3--5 students
 
-❌ **Bad**: "I don't get Cantor's theorem."
+### Running Effective Sessions
+
+**Good practices:**
+
+- Schedule regular meetings (2--3 times per week before deadlines)
+- Work through problems together on a whiteboard
+- Take turns explaining solutions
+- Quiz each other on definitions
+- Prepare individually before meeting
+
+**Avoid:**
+
+- Just copying each other's work
+- Letting one person do all the explaining
+- Only socializing without studying
+- Meeting only right before deadlines
+
+> **Remember**: See [Academic Integrity](../course/grading/policies.md) for collaboration rules
+
+## ❓ How to Ask Good Questions
+
+### Effective Question Structure
+
+**❌ Ineffective**: "I don't understand Cantor's theorem."
+
+**✅ Effective**: "I understand that Cantor's theorem proves \\(|A| < |\mathcal{P}(A)|\\), but I'm confused about why the diagonal argument works. Specifically, how does constructing a set \\(S\\) that differs from every set in the supposed surjection lead to a contradiction?"
 
 ### Include
 
-- What you've tried
-- Specific confusion point
-- Relevant context
-- Your current understanding
+1. **What you know**: Show your current understanding
+2. **What you tried**: Explain your attempts
+3. **Where you're stuck**: Pinpoint the specific confusion
+4. **Relevant context**: Problem statement, theorem, concept
 
-### Homework Questions
+### Homework Question Guidelines
 
-- Allowed: Clarify problem statement, discuss approach
-- Not allowed: Ask for complete solution, share answers
+| Allowed | Not Allowed |
+|---------|-------------|
+| "Can you explain what 'reflexive' means?" | "What's the answer to problem 3?" |
+| "Is this approach correct: ..." | "Can you solve this for me?" |
+| "How do I start this type of problem?" | "What's the full solution?" |
+| "Can you check if my proof strategy works?" | "Can you write the proof?" |
 
-## Feedback
+## 📧 Instructor Contact
 
-Help improve the course:
+**For**:
 
-- Direct feedback to instructor (via Telegram)
-- Share suggestions with mentors
+- Course policy questions
+- Grade concerns
+- Special circumstances (illness, conflicts)
+- Feedback on course content
 
-Your input matters!
+**Best method**: Telegram direct message or as announced in class
+
+## 💡 Self-Help Resources
+
+Before asking, try:
+
+- Re-read lecture notes
+- Check textbook explanations
+- Review similar homework problems
+- Search the Telegram chat history
+- Attempt the problem for at least 30 minutes
+
+## 🔄 Feedback Welcome
+
+Help us improve the course:
+
+- Suggest topics for review sessions
+- Report confusing material
+- Share what's working well
+- Propose alternative explanations
+
+Your input shapes the course!
+

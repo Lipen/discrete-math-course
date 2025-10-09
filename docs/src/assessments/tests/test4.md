@@ -27,15 +27,6 @@
 - **Validity**: Determine if arguments are valid
 - **Syllogisms**: Analyze classical syllogisms
 
-## ✅ Key Skills You'll Need
-
-- Semantic analysis using truth tables
-- Constructing proofs with natural deduction
-- Logical reasoning with inference rules
-- Manipulating quantifiers correctly
-- Translating between English and formal logic
-- Understanding syllogistic logic
-
 ## 📖 Preparation Guide
 
 ### Review Materials

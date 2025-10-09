@@ -82,10 +82,6 @@ By completing this course, students will develop:
 
 **Key Points:**
 
-- **Proof writing** is a skill that develops over time -- expect initial difficulty
-- **Persistence** and practice lead to mastery
-- **Active engagement** with material is crucial, not just memorization
-- **Start homework early** -- last-minute work rarely succeeds
-- **Ask questions** -- use Telegram and mentors actively
-
-> **Success = Understanding + Practice + Persistence**
+- Proof writing develops over time -- expect initial difficulty
+- Start homework early
+- Use Telegram and mentors for questions

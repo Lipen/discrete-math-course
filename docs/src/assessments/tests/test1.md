@@ -28,15 +28,6 @@
 - **Cartesian Products**: Find Cartesian products for specific sets
 - **Cardinality**: Apply inclusion-exclusion principle
 
-## ✅ Key Skills You'll Need
-
-- Fluency with set notation
-- Visual reasoning with Venn diagrams
-- Proof techniques (element method, double inclusion)
-- Understanding power sets
-- Computing Cartesian products
-- Applying set identities
-
 ## 📖 Preparation Guide
 
 ### Review Materials

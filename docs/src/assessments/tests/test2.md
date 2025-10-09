@@ -27,15 +27,6 @@
 - **Composition**: Compute composition of given functions
 - **Cardinality**: Show rationals are countable using diagonalization
 
-## ✅ Key Skills You'll Need
-
-- Classifying relations by their properties
-- Working with equivalence classes and partitions
-- Drawing and interpreting Hasse diagrams
-- Analyzing function properties
-- Computing compositions correctly
-- Understanding cardinality arguments
-
 ## 📖 Preparation Guide
 
 ### Review Materials

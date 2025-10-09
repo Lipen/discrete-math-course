@@ -27,15 +27,6 @@
 - **K-Maps**: Use K-map to minimize given function
 - **Completeness**: Prove {NAND} is functionally complete
 
-## ✅ Key Skills You'll Need
-
-- Building truth tables systematically
-- Converting to normal forms
-- Simplifying Boolean expressions
-- Designing logic circuits
-- Using K-map technique for minimization
-- Understanding functional completeness
-
 ## 📖 Preparation Guide
 
 ### Review Materials
@@ -52,6 +43,16 @@
 - **Circuits**: Draw circuits for common functions (adders, multiplexers)
 - **K-Maps**: Minimize 20+ random functions (including don't cares)
 - **Completeness**: Practice expressing AND, OR, NOT with NAND
+
+### Common Pitfalls
+
+> **⚠️ Watch Out!**
+>
+> - De Morgan's Laws: \\( \overline{x \vee y} = \overline{x} \wedge \overline{y} \\), and \\( \overline{x \wedge y} = \overline{x} \vee \overline{y} \\)
+> - K-map groupings: must be rectangles with power-of-2 sizes (1, 2, 4, 8...)
+> - Circuit notation: distinguish AND from OR gate symbols
+> - DNF vs CNF: DNF is OR of ANDs; CNF is AND of ORs
+> - Don't forget: NOT gate inverts (circles on circuit diagrams)
 
 ## 💡 Pro Tips
 

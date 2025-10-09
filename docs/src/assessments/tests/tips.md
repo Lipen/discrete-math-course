@@ -123,9 +123,6 @@
 | Strategy | Details |
 |----------|---------|
 | **Review feedback** | Understand mistakes when test is returned |
-| **Learn from errors** | Identify patterns in what you got wrong |
-| **Adjust study methods** | Adapt based on what worked/didn't work |
-| **Prepare for next** | Apply lessons to future assessments |
 | **Don't dwell** | One test doesn't define your grade |
 
 ## 🧠 Mental Preparation

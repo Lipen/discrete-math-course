@@ -126,16 +126,13 @@
 
 ## 🧠 Study Strategies
 
-### Active Learning Techniques
+### Effective Techniques
 
-| Technique | How It Works | Why It's Effective |
-|-----------|--------------|-------------------|
-| **Active Recall** | Close notes, write from memory | Strengthens retrieval pathways |
-| **Spaced Repetition** | Review at increasing intervals | Fights forgetting curve |
-| **Teach Others** | Explain concepts to study partner | Best test of understanding |
-| **Practice Exams** | Simulate exam conditions | Builds familiarity, reduces anxiety |
-| **Whiteboard Practice** | Work standing up, large space | Engages different cognitive pathways |
-| **Interleaving** | Mix topics rather than blocking | Improves discrimination and retention |
+- **Active Recall**: Test yourself without looking at notes -- strengthens memory retrieval
+- **Spaced Repetition**: Review material at increasing intervals to fight forgetting
+- **Teach Others**: Explain concepts to study partners -- best test of true understanding
+- **Practice Exams**: Simulate exam conditions to build familiarity and reduce anxiety
+- **Whiteboard Practice**: Work problems standing at a whiteboard -- engages different thinking patterns
 
 ### Study Group Best Practices
 
@@ -157,24 +154,20 @@
 
 ## 📖 Resources to Use
 
-### Primary Resources
-
-| Resource | How to Use | Priority |
-|----------|-----------|----------|
-| **Lecture Slides** | Main source of definitions/theorems | ⭐⭐⭐⭐⭐ |
-| **Textbook** | Detailed explanations and examples | ⭐⭐⭐⭐ |
-| **Homework Solutions** | See proof techniques in action | ⭐⭐⭐⭐ |
-| **Review Sessions** | Clarify confusions, get exam hints | ⭐⭐⭐⭐⭐ |
-| **Mentors/Office Hours** | Personalized help on weak areas | ⭐⭐⭐⭐⭐ |
+| Resource | Priority |
+|----------|----------|
+| **Lecture Slides** | ⭐⭐⭐⭐⭐ |
+| **Textbook** | ⭐⭐⭐⭐ |
+| **Homework Solutions** | ⭐⭐⭐⭐ |
+| **Review Sessions** | ⭐⭐⭐⭐⭐ |
+| **Mentors/Office Hours** | ⭐⭐⭐⭐⭐ |
 
 ### Supplementary Resources
 
-| Resource | Benefit | When to Use |
-|----------|---------|-------------|
-| **Online Videos** | Visual explanations | When reading isn't clicking |
-| **Math StackExchange** | See different proof approaches | For alternative perspectives |
-| **Practice Problems** | Build problem-solving skills | Throughout preparation |
-| **Old Exams** | Know question formats | Final week preparation |
+- **Online Videos**: When reading isn't clicking
+- **Math StackExchange**: For alternative perspectives
+- **Practice Problems**: Throughout preparation
+- **Old Exams**: Final week preparation
 
 ## ⚠️ Common Mistakes
 
