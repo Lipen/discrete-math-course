@@ -7,38 +7,17 @@
   // dark: true,
 )
 
-#show table.cell.where(y: 0): strong
+#show heading.where(level: 1): none
 
-#set quote(block: true)
-#show quote: set par(justify: false)
-#show quote: set align(left)
+#import "common-lec.typ": *
 
-#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
-#let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let Dom = math.op("Dom")
-#let Cod = math.op("Cod")
-#let Range = math.op("Range")
-#let equinumerous = symbol(math.approx, ("not", math.approx.not))
-#let smaller = symbol(math.prec, ("eq", math.prec.eq))
-#let Join = math.or
-#let Meet = math.and
 #let nand = $overline(and)$
 #let nor = $overline(or)$
+#let Join = $or$
+#let Meet = $and$
 
-#let Green(x) = text(green.darken(20%), x)
-#let Red(x) = text(red.darken(20%), x)
-#let Blue(x) = text(blue.darken(20%), x)
-
-#let True = Green(`true`)
-#let False = Red(`false`)
-
-#let YES = Green(sym.checkmark)
-#let NO = Red(sym.crossmark)
-
-#show heading.where(level: 1): none
 
 = Boolean Algebra
 #focus-slide(
@@ -66,6 +45,83 @@
       image: image("assets/Claude_Shannon.jpg"),
     ),
   ),
+)
+
+== From Algebra to Digital Circuits
+
+// Boolean algebra is the mathematical foundation of digital computing, developed by George Boole in 1854 as a way to formalize logical reasoning using algebraic operations.
+
+#Block(color: teal)[
+  #set par(justify: true)
+  *Historical note:* #h(0.2em)
+  George Boole's groundbreaking work _The Laws of Thought_ (1854) created an algebraic system for logic a full century before the first electronic computers.
+  He showed that logical reasoning could be captured by equations, replacing Aristotle's verbal arguments with mathematical symbols.
+  This~insight became the theoretical foundation for the digital age.
+]
+
+#Block(color: yellow)[
+  *Key idea:* Just as ordinary algebra works with numbers and operations like $+$ and $times$, Boolean algebra works with *truth values* ($0$ and $1$, or #False and #True) and operations like AND, OR, and NOT.
+]
+
+#columns(2)[
+  *Historical milestones:*
+  - *1703:* Leibniz describes binary arithmetic
+  - *1854:* Boole publishes algebraic logic
+  - *1937:* Shannon applies it to circuits
+  - *1940s:* First digital computers
+
+  #colbreak()
+
+  *Modern applications:*
+  - Processor design (CPUs, GPUs)
+  - Formal verification (correctness proofs)
+  - Database optimization (queries)
+  - AI reasoning (SAT, planning)
+]
+
+== Boolean Values: 0 and 1
+
+In Boolean algebra, we work with exactly two values:
+- *0* (#False, off, low voltage)
+- *1* (#True, on, high voltage)
+
+#example[
+  In different contexts:
+  - *Mathematics:* "Is $x > 5$?" → #True (1) or #False (0)
+  - *Programming:* `if (x && y)` → evaluates to `true` or `false`
+  - *Circuits:* Wire voltage → high (1) or low (0)
+  - *Sets:* Is element in set? → yes (1) or no (0)
+]
+
+#Block(color: blue)[
+  *Why this matters:*
+  Modern computers represent all information using binary (0s and 1s).
+
+  Boolean algebra is the mathematics that makes digital computation possible.
+]
+
+== What You Will Learn
+
+In this lecture, you'll master Boolean algebra from foundations to applications:
+
++ Build Boolean expressions and evaluate them using *truth tables*
++ Prove identities using the *fundamental laws* (commutativity, De Morgan's laws, distributivity)
++ *Synthesize any Boolean function* from specifications using CNF, DNF, and Karnaugh maps
++ *Simplify complex expressions* through algebraic manipulation and graphical methods
++ Determine which operation sets are *functionally complete* using Post's criterion
++ *Design real digital circuits* with logic gates, flip-flops, and stateful elements
++ Apply Boolean algebra to *modern CS problems*: binary decision diagrams, SAT solving, and formal verification
+
+#Block(color: purple)[
+  *Our goal:*
+  You'll gain both theoretical understanding (algebraic structure, formal proofs) and practical skills (circuit design, expression minimization).
+  By the end, you'll see how the same mathematical framework powers everything from smartphone processors to AI planning algorithms.
+]
+
+
+= Boolean Algebra Structure
+#focus-slide(
+  title: [Boolean Algebra Structure],
 )
 
 == Definition and Basic Properties
