@@ -130,7 +130,7 @@ Just like natural languages have words and grammar rules, Boolean algebra has it
   *Natural Language:*
   - Words: "cat", "dog"
   - Connectors: "and", "or", "not"
-  - Sentences: "The cat is black and the dog is not white"
+  - Sentences: "Cat is black and dog is not white"
 
   #colbreak()
 
