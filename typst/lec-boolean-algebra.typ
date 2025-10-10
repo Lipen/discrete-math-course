@@ -382,79 +382,252 @@ Simple algebraic manipulation can simplify expressions:
 = Boolean Algebra Structure
 #focus-slide()
 
-== Definition and Basic Properties
+== From Expressions to Algebraic Structure
+
+We have seen Boolean expressions as formulas.
+Now we study their _algebraic structure_: the operations and laws that govern how they behave.
+
+#Block(color: blue)[
+  *Why formalize?*
+  Just as group theory abstracts the common structure of numbers, symmetries, and transformations, Boolean algebra abstracts the structure of logic, sets, and circuits.
+]
+
+#columns(2)[
+  *What we already have:*
+  - Variables and constants
+  - Operations: $not$, $and$, $or$
+  - Expressions
+  - Truth tables
+
+  #colbreak()
+
+  *What we'll add:*
+  - Formal axioms
+  - Fundamental laws
+  - Proof techniques
+  - Connection to lattices
+]
+
+== Boolean Algebra: Formal Definition
 
 #definition[
-  A _Boolean algebra_ is a bounded distributive lattice $(B, Join, Meet, bot, top)$ with complement $(dot)': B to B$ such that $x Join x' = top$ and $x Meet x' = bot$.
+  A _Boolean algebra_ is a set $B$ with:
+  - Two binary operations: $or$ (join) and $and$ (meet)
+  - One unary operation: $not$ (complement)
+  - Two special elements: $0$ (bottom) and $1$ (top)
+
+  satisfying the axioms on the next slide.
 ]
 
 #example[
-  $(power(A), union, intersect, emptyset, A)$ with $X' = A setminus X$ is a Boolean algebra.
+  The two-element Boolean algebra ${0, 1}$ with:
+  - $0 or 0 = 0$, $0 or 1 = 1$, $1 or 0 = 1$, $1 or 1 = 1$
+  - $0 and 0 = 0$, $0 and 1 = 0$, $1 and 0 = 0$, $1 and 1 = 1$
+  - $not 0 = 1$, $not 1 = 0$
 ]
 
-#example[Digital Circuit Design][
-  Consider 3-bit binary values as Boolean algebra:
-  - Elements: ${ 000, 001, 010, 011, 100, 101, 110, 111 }$
-  - Order: Bitwise comparison ($001 leq 011$ since $0 leq 0$, $0 leq 1$, $1 leq 1$)
-  - Join: Bitwise OR ($010 Join 101 = 111$)
-  - Meet: Bitwise AND ($110 Meet 101 = 100$)
-  - Complement: Bitwise NOT ($001' = 110$)
+== Boolean Algebra Axioms
 
-  This directly corresponds to logic gates: OR, AND, NOT gates in computer processors.
+
+#definition[Axioms of Boolean Algebra][
+  For all $x, y, z in B$:
+  + *Commutativity:* $x or y = y or x$ and $x and y = y and x$
+  + *Associativity:* $(x or y) or z = x or (y or z)$ and $(x and y) and z = x and (y and z)$
+  + *Distributivity:* $x and (y or z) = (x and y) or (x and z)$ and $x or (y and z) = (x or y) and (x or z)$
+  + *Identity:* $x or 0 = x$ and $x and 1 = x$
+  + *Complement:* $x or not x = 1$ and $x and not x = 0$
 ]
 
 #note[
-  Logical reading: "join" $mapsto or$, "meet" $mapsto and$, "complement" $mapsto not$.
+  Both $and$ and $or$ distribute over each other --- this is special to Boolean algebra (unlike ordinary arithmetic where only $times$ distributes over $+$).
 ]
 
-== Example: Database Query Lattice
+== Examples of Boolean Algebras
 
-#example[
-  A database has tables `Students`, `Courses`, `Enrollments`.
-  - Let $Q_1 =$ "Computer Science students"
-  - Let $Q_2 =$ "Students in Math courses"
-  - Let $Q_3 =$ "Graduate students"
-
-  Consider queries as lattice elements ordered by result size (specificity).
-
-  *Lattice Operations:*
-  - $Q_1 Join Q_2 =$ "Students in CS OR Math courses" (larger result set)
-  - $Q_1 Meet Q_2 =$ "CS students taking Math courses" (smaller result set)
-  - $Q_1 Meet Q_3 =$ "Graduate CS students" (most specific)
-
-  *Why this matters:*
-  Query optimizers use this structure to:
-  + Find equivalent but more efficient queries.
-  + Cache common subqueries.
-  + Predict result set sizes for cost estimation.
+#example[Power Set][
+  For any set $A$, $(power(A), union, intersect, not, emptyset, A)$ is a Boolean algebra:
+  - Join: $union$ (union)
+  - Meet: $intersect$ (intersection)
+  - Complement: $X^c = A setminus X$
+  - Bottom: $emptyset$, Top: $A$
 ]
 
-== Complement is Unique
+#example[Binary Strings][
+  For $n$-bit binary strings with bitwise operations:
+  - Join: bitwise OR
+  - Meet: bitwise AND
+  - Complement: bitwise NOT
+  - Bottom: $000...0$, Top: $111...1$
+]
+
+#Block(color: yellow)[
+  *Key insight:* The same algebraic structure appears in logic, set theory, circuits, and more.
+]
+
+== Fundamental Laws (Derived Properties)
+
+From the axioms, we can prove many useful identities:
+
+#theorem[Basic Laws][
+  For all $x, y in B$:
+  + *Idempotence:* $x or x = x$ and $x and x = x$
+  + *Absorption:* $x or (x and y) = x$ and $x and (x or y) = x$
+  + *Null (Domination):* $x or 1 = 1$ and $x and 0 = 0$
+  + *Double Negation:* $not not x = x$
+  + *Complement of Constants:* $not 0 = 1$ and $not 1 = 0$
+]
+
+#note[
+  These can all be proven from the axioms using algebraic manipulation.
+]
+
+== Proving Identities: Idempotence
 
 #theorem[
-  Complements are unique in a Boolean algebra.
+  $x or x = x$ for all $x$ in a Boolean algebra.
 ]
 
 #proof[
-  Suppose for some element $a$ we have _two_ complements $x$ and $y$.
   $
-    x & = x Meet top                 & #[~] & top "is the identity for" Meet \
-      & = x Meet (a Join y)          & #[~] & "by definition of complement:" top = a Join y \
-      & = (x Meet a) Join (x Meet y) & #[~] & Meet "distributes over" Join \
-      & = bot Join (x Meet y)        & #[~] & "by definition of complement: " x Meet a = bot \
-      & = (a Meet y) Join (x Meet y) & #[~] & "by definition of complement: " bot = a Meet y \
-      & = (a Join x) Meet y          & #[~] & Meet "distributes over" Join \
-      & = top Meet y                 & #[~] & "by definition of complement: " a Join x = top \
-      & = y                          & #[~] & top "is the identity for" Meet
+    x or x & = (x or x) and 1            && "(identity)" \
+           & = (x or x) and (x or not x) && "(complement)" \
+           & = x or (x and not x)        && "(distributivity)" \
+           & = x or 0                    && "(complement)" \
+           & = x                         && "(identity)"
   $
-  That is, $x = y$.
+]
+
+#Block(color: blue)[
+  *Method:* Use axioms strategically --- introduce $1$ or $0$, apply distributivity, then simplify.
+]
+
+== Proving Identities: Absorption
+
+#theorem[
+  $x or (x and y) = x$ for all $x, y$ in a Boolean algebra.
+]
+
+#proof[
+  $
+    x or (x and y) & = (x and 1) or (x and y) && "(identity)" \
+                   & = x and (1 or y)         && "(distributivity)" \
+                   & = x and 1                && "(null law)" \
+                   & = x                      && "(identity)"
+  $
+]
+
+#example[
+  Similarly, $x and (x or y) = x$ by dual reasoning.
+]
+
+== The Duality Principle
+
+#theorem[Duality Principle][
+  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or arrow.l.r and$ and $0 arrow.l.r 1$) also holds.
+]
+
+#example[
+  - Identity law: $x or 0 = x$, and its dual: $x and 1 = x$
+  - Absorption: $x or (x and y) = x$, and its dual: $x and (x or y) = x$
+  - De Morgan: $not (x or y) = not x and not y$, and its dual: $not (x and y) = not x or not y$
+]
+
+#Block(color: yellow)[
+  *Power of duality:* Every theorem you prove gives you _two_ theorems for free!
 ]
 
 == De Morgan's Laws
 
-#theorem[De Morgan][
-  $(x Join y)' = x' Meet y'$ and $(x Meet y)' = x' Join y'$ in any Boolean algebra.
+#theorem[De Morgan's Laws][
+  For all $x, y$ in a Boolean algebra:
+  - $not (x or y) = not x and not y$
+  - $not (x and y) = not x or not y$
 ]
+
+#proof[
+  We prove $not (x or y) = not x and not y$ by showing that $not x and not y$ is the complement of $x or y$.
+
+  Need to verify:
+  + $(x or y) or (not x and not y) = 1$
+  + $(x or y) and (not x and not y) = 0$
+
+  (Full proof left as exercise --- use distributivity and complement laws.)
+]
+
+#Block(color: orange)[
+  *Common application:* Negating complex conditions: `NOT (is_admin OR has_permission)` becomes `NOT is_admin AND NOT has_permission`.
+]
+
+== Connection to Lattices
+
+#definition[
+  A _lattice_ is a partially ordered set where any two elements $x, y$ have:
+  - A _least upper bound_ (join): $x or y$
+  - A _greatest lower bound_ (meet): $x and y$
+]
+
+#definition[
+  A _bounded distributive lattice_ is a lattice with bottom $bot$, top $top$, and distributivity:
+  $
+    x and (y or z) = (x and y) or (x and z)
+  $
+]
+
+#definition[
+  A _complemented lattice_ is a bounded lattice where every element $x$ has a complement $y$ such that $x or y = top$ and $x and y = bot$.
+]
+
+#theorem[
+  Every Boolean algebra is a complemented bounded distributive lattice.
+]
+
+// #Block(color: blue)[
+//   *Why this matters:* Lattice theory provides the geometric intuition (Hasse diagrams, ordering) for Boolean algebra's algebraic structure.
+// ]
+
+== Complement Uniqueness
+
+#theorem[
+  In a Boolean algebra, each element has a _unique_ complement.
+]
+
+#proof[
+  Suppose $y$ and $z$ are both complements of $x$. Then:
+  $
+    y & = y and 1                && "(identity)" \
+      & = y and (x or z)         && "(" z "is complement of" x ")" \
+      & = (y and x) or (y and z) && "(distributivity)" \
+      & = 0 or (y and z)         && "(" y "is complement of" x ")" \
+      & = (x and z) or (y and z) && "(" z "is complement of" x ")" \
+      & = (x or y) and z         && "(distributivity)" \
+      & = 1 and z                && "(" y "is complement of" x ")" \
+      & = z                      && "(identity)"
+  $
+
+  Therefore $y = z$.
+]
+
+== Summary of Boolean Algebra Structure
+
+#Block(color: purple)[
+  *What we've established:*
+
+  + Boolean algebra is an algebraic structure with operations $or$, $and$, $not$ and elements $0$, $1$
+  + Five fundamental axioms govern the structure
+  + Many useful laws (idempotence, absorption, De Morgan's) follow from the axioms
+  + Duality principle: swap $or arrow.l.r and$ and $0 arrow.l.r 1$ to get new theorems
+  + Boolean algebras are complemented bounded distributive lattices
+  + Complements are unique
+]
+
+#Block(color: yellow)[
+  *Next:* #h(0.2em)
+  We'll use this algebraic structure to develop normal forms and minimization techniques.
+]
+
+
+= Digital Circuits
+#focus-slide()
 
 == Digital Logic Circuits
 
@@ -499,17 +672,17 @@ Simple algebraic manipulation can simplify expressions:
   })
 ]
 
-#v(-8pt)
+#v(-6pt)
 #table(
   columns: 3,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  inset: 4pt,
+  inset: (x, y) => if y == 0 { 5pt } else { 3pt },
   table.header([Gate], [Formula], [Description]),
   [AND], $A and B$, [Outputs $1$ only when both inputs are $1$],
   [OR], $A or B$, [Outputs $1$ when at least one input is $1$],
   [NOT], $not A$, [Outputs the opposite of the input],
-  [NAND], $not (A and B)$, [Outputs $0$ only when both inputs are $1$],
-  [NOR], $not (A or B)$, [Outputs $0$ when at least one input is $1$],
+  [NAND], $A nand B$, [Outputs $0$ only when both inputs are $1$],
+  [NOR], $A nor B$, [Outputs $0$ when at least one input is $1$],
   [XOR], $A xor B$, [Outputs $1$ when inputs differ],
   [XNOR], $A equiv B$, [Outputs $1$ when inputs are the same],
 )
