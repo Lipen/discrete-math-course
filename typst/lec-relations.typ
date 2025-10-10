@@ -3927,8 +3927,10 @@ Two key hierarchies help us organize these:
 #definition[
   The _beth numbers_ are defined recursively using the powerset operation:
   - $beth_0 = aleph_0 = abs(NN)$ #h(1em) (the first infinite cardinal)
+
   - $beth_(n+1) = 2^(beth_n) = abs(power(beth_n))$ #h(1em) (take the powerset)
-  - For limit ordinals $lambda$: $beth_lambda = sup {beth_alpha | alpha < lambda}$
+
+  - For limit ordinal $lambda$: $beth_lambda = limits(sup)_(alpha < lambda) beth_alpha$
 ]
 
 #Block(color: yellow)[
