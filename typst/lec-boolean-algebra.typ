@@ -281,6 +281,7 @@ We can build truth tables for complex expressions step by step.
     #table(
       columns: 5,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([$x$], [$y$], [$not (x and y)$], [$not x or not y$], [Equal?]),
       [0], [0], [1], [1], [#YES],
       [0], [1], [1], [1], [#YES],
