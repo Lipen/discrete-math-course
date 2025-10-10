@@ -21,7 +21,7 @@
 
 = Boolean Algebra
 #focus-slide(
-  epigraph: [Мы почитаем всех нулями, \ А единицами — себя.],
+  epigraph: [Мы почитаем всех нулями, \ А единицами --- себя.],
   epigraph-author: [А.С. Пушкин, «Евгений Онегин»],
   scholars: (
     (
@@ -116,6 +116,266 @@ In this lecture, you'll master Boolean algebra from foundations to applications:
   *Our goal:*
   You'll gain both theoretical understanding (algebraic structure, formal proofs) and practical skills (circuit design, expression minimization).
   By the end, you'll see how the same mathematical framework powers everything from smartphone processors to AI planning algorithms.
+]
+
+
+= Variables and Expressions
+#focus-slide()
+
+== The Language of Boolean Logic
+
+Just like natural languages have words and grammar rules, Boolean algebra has its own building blocks and composition rules.
+
+#columns(2)[
+  *Natural Language:*
+  - Words: "cat", "dog"
+  - Connectors: "and", "or", "not"
+  - Sentences: "The cat is black and the dog is not white"
+
+  #colbreak()
+
+  *Boolean Algebra:*
+  - Variables: $x$, $y$
+  - Operations: $and$, $or$, $not$
+  - Expressions: $x and not y$
+]
+
+#Block(color: blue)[
+  *Goal:*
+  Learn the "grammar" of Boolean logic --- how to write and read Boolean expressions that represent logical relationships.
+]
+
+== Boolean Variables: The Atoms
+
+#definition[
+  A _Boolean variable_ is a variable that can take only one of two values: $0$ (false) or $1$ (true).
+]
+
+Think of Boolean variables as yes/no questions:
+
+#example[
+  Real-world Boolean variables (in programming):
+  - `is_logged_in` --- Is the user logged in? (yes/no)
+  - `has_permission` --- Does user have permission? (yes/no)
+  - `sensor_triggered` --- Did the sensor activate? (yes/no)
+  - $x > 5$ --- Is $x$ greater than 5? (true/false)
+]
+
+#Block(color: yellow)[
+  *Why binary?*
+  Digital circuits use voltage levels (high/low), making binary the natural choice for computation.
+  Every piece of data in your computer is ultimately represented as 0s and 1s.
+]
+
+== Boolean Operations: Connecting Ideas
+
+We combine Boolean variables using operations (connectives) to express complex logic:
+
+#definition[Basic Operations][
+  - *NOT* ($not x$ or $overline(x)$) --- _reverses_ the value
+  - *AND* ($x and y$ or $x dot y$) --- true only if _both_ are true
+  - *OR* ($x or y$ or $x + y$) --- true if _at least one_ is true
+]
+
+#example[
+  Access control logic:
+  - `is_admin OR has_permission` --- User needs admin status OR explicit permission
+  - `is_logged_in AND NOT is_banned` --- User must be logged in AND not banned
+  - `NOT (sensor1 AND sensor2)` --- Not both sensors triggered simultaneously
+]
+
+#Block(color: orange)[
+  *Watch out:*
+  "OR" in Boolean logic is _inclusive_ (can be both), unlike everyday speech where "coffee or tea" usually means "pick one."
+]
+
+== Derived Operations: Shortcuts
+
+More complex operations built from basic ones:
+
+#definition[Derived Operations][
+  - *XOR* ($x xor y$): true if _exactly one_ is true
+    - Formula: $(x and not y) or (not x and y)$
+    - Example: "Dessert or coffee" (pick one, not both)
+
+  - *Implication* ($x imply y$): "if $x$ then $y$"
+    - Formula: $not x or y$
+    - Example: "If it rains, bring umbrella"
+
+  - *Equivalence* ($x iff y$): true when values _match_
+    - Formula: $(x imply y) and (y imply x)$
+    - Example: "Light is on if and only if switch is up"
+]
+
+== Building Boolean Expressions
+
+#definition[
+  A _Boolean expression_ is built recursively from variables and operations:
+  + Variables ($x, y, z$) and constants ($0, 1$) are expressions
+  + If $f$ and $g$ are expressions, so are: $not f$, $f and g$, $f or g$, $f xor g$, $f imply g$, $f iff g$
+]
+
+#example[
+  Progressive complexity:
+  + $x$ --- atomic variable
+  + $not x$ --- negation
+  + $x and y$ --- two variables connected
+  + $(x and y) or z$ --- nested expression
+  + $not (x or (y and z))$ --- deeply nested
+  + $(x imply y) and (y imply z)$ --- transitivity pattern
+]
+
+#Block(color: yellow)[
+  *Key idea:*
+  Operations work on _any_ expressions, not just variables.
+  This compositionality lets us build arbitrarily complex formulas.
+]
+
+== Truth Tables
+
+#definition[
+  A _truth table_ is a complete list of all possible input combinations for a Boolean expression and their corresponding output values.
+]
+
+#note[
+  For $n$ Boolean variables, there are $2^n$ possible input combinations.
+]
+
+#example[
+  Truth table for AND operation ($x and y$):
+
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$x$], [$y$], [$x and y$]),
+      [0], [0], [0],
+      [0], [1], [0],
+      [1], [0], [0],
+      [1], [1], [1],
+    )
+  ]
+]
+
+== Truth Tables for Compound Expressions
+
+We can build truth tables for complex expressions step by step.
+
+#example[
+  Truth table for $(x and y) or (not x and z)$:
+
+  // TODO: replace intermediate columns for sub-formulas with a single multi-column expression
+  #align(center)[
+    #table(
+      columns: 6,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([$x$], [$y$], [$z$], [$x and y$], [$not x and z$], [$(x and y) or (not x and z)$]),
+      [0], [0], [0], [0], [0], [0],
+      [0], [0], [1], [0], [1], [1],
+      [0], [1], [0], [0], [0], [0],
+      [0], [1], [1], [0], [1], [1],
+      table.hline(stroke: 0.4pt + gray),
+      [1], [0], [0], [0], [0], [0],
+      [1], [0], [1], [0], [0], [0],
+      [1], [1], [0], [1], [0], [1],
+      [1], [1], [1], [1], [0], [1],
+      table.hline(stroke: 0.4pt + gray),
+    )
+  ]
+]
+
+#Block(color: blue)[
+  *Method:* Build intermediate columns for subexpressions, then combine them for the final result.
+]
+
+== Tautologies, Contradictions, Contingencies
+
+#definition[
+  - A _tautology_ is a Boolean expression that is always true (all 1s in output column)
+  - A _contradiction_ is a Boolean expression that is always false (all 0s in output column)
+  - A _contingency_ is a Boolean expression that is sometimes true and sometimes false
+]
+
+#example[
+  - *Tautology:* $x or not x$ (law of excluded middle)
+  - *Contradiction:* $x and not x$ (law of non-contradiction)
+  - *Contingency:* $x and y$ (depends on values of $x$ and $y$)
+]
+
+#Block(color: orange)[
+  *Warning:* In Boolean algebra, we typically care about expressions that are contingencies---those that represent actual functions. Tautologies and contradictions are constant functions.
+]
+
+== Logical Equivalence
+
+#definition[
+  Two Boolean expressions $f$ and $g$ are _logically equivalent_ (written $f equiv g$) if they have identical truth tables---they produce the same output for every possible input combination.
+]
+
+#example[
+  Show that $not (x and y) equiv not x or not y$ (De Morgan's law):
+
+  #align(center)[
+    #table(
+      columns: 5,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([$x$], [$y$], [$not (x and y)$], [$not x or not y$], [Equal?]),
+      [0], [0], [1], [1], [#YES],
+      [0], [1], [1], [1], [#YES],
+      [1], [0], [1], [1], [#YES],
+      [1], [1], [0], [0], [#YES],
+    )
+  ]
+
+  Since all rows match, $not (x and y) equiv not x or not y$.
+  #h(1fr) $qed$
+]
+
+== Evaluating Boolean Expressions
+
+Given values for all variables, we can evaluate any Boolean expression.
+
+#example[
+  Evaluate $f(x, y, z) = (x or y) and (not x or z)$ when $x = 1, y = 0, z = 1$:
+
+  $
+    f(1, 0, 1) & = (1 or 0) and (not 1 or 1) \
+               & = 1 and (0 or 1) \
+               & = 1 and 1 \
+               & = 1
+  $
+]
+
+#Block(color: yellow)[
+  *Practice skill:* Being able to quickly evaluate Boolean expressions is essential for debugging circuits and verifying logical designs.
+]
+
+== Simplifying Boolean Expressions
+
+Simple algebraic manipulation can simplify expressions:
+
+#example[
+  Simplify $f(x, y) = (x and y) or (x and not y)$:
+
+  $
+    f(x, y) & = (x and y) or (x and not y) \
+            & = x and (y or not y)         && "(distributivity)" \
+            & = x and 1                    && "(excluded middle)" \
+            & = x                          && "(identity)"
+  $
+]
+
+#example[
+  Simplify $g(x, y, z) = (x or y) and (x or not y)$:
+
+  $
+    g(x, y, z) & = (x or y) and (x or not y) \
+               & = x or (y and not y)        && "(distributivity)" \
+               & = x or 0                    && "(contradiction)" \
+               & = x                         && "(identity)"
+  $
 ]
 
 
