@@ -3115,7 +3115,12 @@ Functions can be characterized by several key properties that determine their ma
 ]
 
 #place(right)[
-  #image("assets/grand-hotel.jpg", height: 6cm)
+  #box(
+    image("assets/grand-hotel.jpg", height: 6cm),
+    stroke: 1pt + blue.darken(20%),
+    radius: 5pt,
+    clip: true,
+  )
 ]
 
 *The solution:*#h(.2em)
