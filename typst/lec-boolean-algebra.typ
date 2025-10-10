@@ -321,9 +321,9 @@ Simple algebraic manipulation can simplify expressions:
 
   $
     f(x, y) & = (x and y) or (x and not y) \
-            & = x and (y or not y)  &  "(distributivity)" \
-            & = x and 1             & "(excluded middle)" \
-            & = x                   &        "(identity)"
+            & = x and (y or not y)         &  "(distributivity)" \
+            & = x and 1                    & "(excluded middle)" \
+            & = x                          &        "(identity)"
   $
 ]
 
@@ -332,9 +332,9 @@ Simple algebraic manipulation can simplify expressions:
 
   $
     g(x, y, z) & = (x or y) and (x or not y) \
-               & = x or (y and not y)  & "(distributivity)" \
-               & = x or 0              &  "(contradiction)" \
-               & = x                   &       "(identity)"
+               & = x or (y and not y)        & "(distributivity)" \
+               & = x or 0                    &  "(contradiction)" \
+               & = x                         &       "(identity)"
   $
 ]
 
