@@ -119,6 +119,191 @@ In this lecture, you'll master Boolean algebra from foundations to applications:
 ]
 
 
+= Variables and Expressions
+#focus-slide()
+
+== Boolean Variables
+
+#definition[
+  A _Boolean variable_ is a variable that can take only one of two values: $0$ (false) or $1$ (true).
+]
+
+#example[
+  In programming:
+  ```python
+  is_valid = True      # Boolean variable
+  has_error = False    # Boolean variable
+  count = 5           # NOT a Boolean variable
+  ```
+]
+
+#Block(color: yellow)[
+  *Key insight:* Boolean variables are the atomic building blocks of Boolean expressions. Every complex circuit or logical formula starts with simple Boolean variables.
+]
+
+== Boolean Operations (Connectives)
+
+We combine Boolean variables using _Boolean operations_ (also called _connectives_):
+
+#definition[Basic Operations][
+  - *NOT* (negation): $not x$ or $overline(x)$ — flips the value
+  - *AND* (conjunction): $x and y$ or $x dot y$ — true only if both are true
+  - *OR* (disjunction): $x or y$ or $x + y$ — true if at least one is true
+]
+
+#definition[Derived Operations][
+  - *XOR* (exclusive or): $x xor y$ or $x plus.circle y$ — true if exactly one is true
+  - *Implication*: $x arrow.r y$ — false only when $x$ is true and $y$ is false
+  - *Equivalence* (biconditional): $x arrow.l.r y$ or $x equiv y$ — true when both have the same value
+]
+
+#note[
+  The derived operations can be expressed using basic operations:
+  - $x xor y = (x and not y) or (not x and y)$
+  - $x arrow.r y = not x or y$
+  - $x arrow.l.r y = (x arrow.r y) and (y arrow.r x)$
+]
+
+== Truth Tables
+
+#definition[
+  A _truth table_ is a complete list of all possible input combinations for a Boolean expression and their corresponding output values.
+]
+
+For $n$ Boolean variables, there are $2^n$ possible input combinations.
+
+#example[
+  Truth table for AND operation ($x and y$):
+
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$x$], [$y$], [$x and y$]),
+      [0], [0], [0],
+      [0], [1], [0],
+      [1], [0], [0],
+      [1], [1], [1],
+    )
+  ]
+]
+
+== Truth Tables for Compound Expressions
+
+We can build truth tables for complex expressions step by step.
+
+#example[
+  Truth table for $(x and y) or (not x and z)$:
+
+  #align(center)[
+    #table(
+      columns: 6,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$x$], [$y$], [$z$], [$x and y$], [$not x and z$], [$(x and y) or (not x and z)$]),
+      [0], [0], [0], [0], [0], [0],
+      [0], [0], [1], [0], [1], [1],
+      [0], [1], [0], [0], [0], [0],
+      [0], [1], [1], [0], [1], [1],
+      [1], [0], [0], [0], [0], [0],
+      [1], [0], [1], [0], [0], [0],
+      [1], [1], [0], [1], [0], [1],
+      [1], [1], [1], [1], [0], [1],
+    )
+  ]
+]
+
+#Block(color: blue)[
+  *Method:* Build intermediate columns for subexpressions, then combine them for the final result.
+]
+
+== Tautologies, Contradictions, Contingencies
+
+#definition[
+  - A _tautology_ is a Boolean expression that is always true (all 1s in output column)
+  - A _contradiction_ is a Boolean expression that is always false (all 0s in output column)
+  - A _contingency_ is a Boolean expression that is sometimes true and sometimes false
+]
+
+#example[
+  - *Tautology:* $x or not x$ (law of excluded middle)
+  - *Contradiction:* $x and not x$ (law of non-contradiction)
+  - *Contingency:* $x and y$ (depends on values of $x$ and $y$)
+]
+
+#Block(color: orange)[
+  *Warning:* In Boolean algebra, we typically care about expressions that are contingencies—those that represent actual functions. Tautologies and contradictions are constant functions.
+]
+
+== Logical Equivalence
+
+#definition[
+  Two Boolean expressions $f$ and $g$ are _logically equivalent_ (written $f equiv g$) if they have identical truth tables—they produce the same output for every possible input combination.
+]
+
+#example[
+  Show that $not (x and y) equiv not x or not y$ (De Morgan's law):
+
+  #align(center)[
+    #table(
+      columns: 5,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$x$], [$y$], [$not (x and y)$], [$not x or not y$], [Equal?]),
+      [0], [0], [1], [1], [#YES],
+      [0], [1], [1], [1], [#YES],
+      [1], [0], [1], [1], [#YES],
+      [1], [1], [0], [0], [#YES],
+    )
+  ]
+
+  Since all rows match, $not (x and y) equiv not x or not y$. #h(1fr) $qed$
+]
+
+== Evaluating Boolean Expressions
+
+Given values for all variables, we can evaluate any Boolean expression.
+
+#example[
+  Evaluate $f(x, y, z) = (x or y) and (not x or z)$ when $x = 1, y = 0, z = 1$:
+
+  $
+    f(1, 0, 1) &= (1 or 0) and (not 1 or 1) \
+               &= 1 and (0 or 1) \
+               &= 1 and 1 \
+               &= 1
+  $
+]
+
+#Block(color: yellow)[
+  *Practice skill:* Being able to quickly evaluate Boolean expressions is essential for debugging circuits and verifying logical designs.
+]
+
+== Simplifying Boolean Expressions
+
+Simple algebraic manipulation can simplify expressions:
+
+#example[
+  Simplify $f(x, y) = (x and y) or (x and not y)$:
+
+  $
+    f(x, y) &= (x and y) or (x and not y) \
+            &= x and (y or not y) #h(1em) &"(distributivity)" \
+            &= x and 1            #h(1em) &"(excluded middle)" \
+            &= x                  #h(1em) &"(identity)"
+  $
+]
+
+#example[
+  Simplify $g(x, y, z) = (x or y) and (x or not y)$:
+
+  $
+    g(x, y, z) &= (x or y) and (x or not y) \
+               &= x or (y and not y) #h(1em) &"(distributivity)" \
+               &= x or 0             #h(1em) &"(contradiction)" \
+               &= x                  #h(1em) &"(identity)"
+  $
+]
+
+
 = Boolean Algebra Structure
 #focus-slide(
   title: [Boolean Algebra Structure],
