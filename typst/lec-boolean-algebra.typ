@@ -133,35 +133,63 @@ In this lecture, you'll master Boolean algebra from foundations to applications:
   ```python
   is_valid = True      # Boolean variable
   has_error = False    # Boolean variable
-  count = 5           # NOT a Boolean variable
+  count = 5            # NOT a Boolean variable
   ```
-]
-
-#Block(color: yellow)[
-  *Key insight:* Boolean variables are the atomic building blocks of Boolean expressions. Every complex circuit or logical formula starts with simple Boolean variables.
 ]
 
 == Boolean Operations (Connectives)
 
-We combine Boolean variables using _Boolean operations_ (also called _connectives_):
+We can combine Boolean values using _Boolean operations_ (also called _logical connectives_):
 
-#definition[Basic Operations][
+#definition[
+  Basic operations:
   - *NOT* (negation): $not x$ or $overline(x)$ — flips the value
   - *AND* (conjunction): $x and y$ or $x dot y$ — true only if both are true
   - *OR* (disjunction): $x or y$ or $x + y$ — true if at least one is true
 ]
 
-#definition[Derived Operations][
+#definition[
+  The derived operations can be expressed using basic operations:
   - *XOR* (exclusive or): $x xor y$ or $x plus.circle y$ — true if exactly one is true
-  - *Implication*: $x arrow.r y$ — false only when $x$ is true and $y$ is false
-  - *Equivalence* (biconditional): $x arrow.l.r y$ or $x equiv y$ — true when both have the same value
+    - $x xor y = (x and not y) or (not x and y)$
+  - *Implication*: $x imply y$ — false only when $x$ is true and $y$ is false
+    - $x imply y = not x or y$
+  - *Equivalence* (biconditional): $x iff y$ or $x equiv y$ — true when both have the same value
+    - $x iff y = (x imply y) and (y imply x)$
 ]
 
-#note[
-  The derived operations can be expressed using basic operations:
-  - $x xor y = (x and not y) or (not x and y)$
-  - $x arrow.r y = not x or y$
-  - $x arrow.l.r y = (x arrow.r y) and (y arrow.r x)$
+== Boolean Expressions
+
+Now we can build complex formulas by combining variables using these operations:
+
+#definition[
+  A _Boolean expression_ (or _Boolean formula_) is defined recursively:
+  + A Boolean variable (e.g., $x$, $y$) is a Boolean expression
+  + A Boolean constant ($0$ or $1$) is a Boolean expression
+  + If $f$ and $g$ are Boolean expressions, then so are:
+    - $not f$ (negation)
+    - $f and g$ (conjunction)
+    - $f or g$ (disjunction)
+    - $f xor g$ (exclusive or)
+    - $f imply g$ (implication)
+    - $f iff g$ (equivalence)
+]
+
+== Examples of Boolean Expressions
+
+#example[
+  Building expressions step by step:
+  + *Simple:* $x$ (just a variable)
+  + *Negation:* $not x$ (apply NOT to a variable)
+  + *Two variables:* $x and y$ (combine two variables with AND)
+  + *Nested:* $(x and y) or z$ (combine a subexpression with another variable)
+  + *Complex:* $not (x or (y and z))$ (negation of a compound expression)
+  + *Advanced:* $(x imply y) and (y imply z)$ (chaining implications)
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  Operations allows us build complex formulas from simple parts.
 ]
 
 == Truth Tables
@@ -170,7 +198,9 @@ We combine Boolean variables using _Boolean operations_ (also called _connective
   A _truth table_ is a complete list of all possible input combinations for a Boolean expression and their corresponding output values.
 ]
 
-For $n$ Boolean variables, there are $2^n$ possible input combinations.
+#note[
+  For $n$ Boolean variables, there are $2^n$ possible input combinations.
+]
 
 #example[
   Truth table for AND operation ($x and y$):
@@ -195,19 +225,23 @@ We can build truth tables for complex expressions step by step.
 #example[
   Truth table for $(x and y) or (not x and z)$:
 
+  // TODO: replace intermediate columns for sub-formulas with a single multi-column expression
   #align(center)[
     #table(
       columns: 6,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([$x$], [$y$], [$z$], [$x and y$], [$not x and z$], [$(x and y) or (not x and z)$]),
       [0], [0], [0], [0], [0], [0],
       [0], [0], [1], [0], [1], [1],
       [0], [1], [0], [0], [0], [0],
       [0], [1], [1], [0], [1], [1],
+      table.hline(stroke: 0.4pt + gray),
       [1], [0], [0], [0], [0], [0],
       [1], [0], [1], [0], [0], [0],
       [1], [1], [0], [1], [0], [1],
       [1], [1], [1], [1], [0], [1],
+      table.hline(stroke: 0.4pt + gray),
     )
   ]
 ]
@@ -266,10 +300,10 @@ Given values for all variables, we can evaluate any Boolean expression.
   Evaluate $f(x, y, z) = (x or y) and (not x or z)$ when $x = 1, y = 0, z = 1$:
 
   $
-    f(1, 0, 1) &= (1 or 0) and (not 1 or 1) \
-               &= 1 and (0 or 1) \
-               &= 1 and 1 \
-               &= 1
+    f(1, 0, 1) & = (1 or 0) and (not 1 or 1) \
+               & = 1 and (0 or 1) \
+               & = 1 and 1 \
+               & = 1
   $
 ]
 
@@ -285,10 +319,10 @@ Simple algebraic manipulation can simplify expressions:
   Simplify $f(x, y) = (x and y) or (x and not y)$:
 
   $
-    f(x, y) &= (x and y) or (x and not y) \
-            &= x and (y or not y) #h(1em) &"(distributivity)" \
-            &= x and 1            #h(1em) &"(excluded middle)" \
-            &= x                  #h(1em) &"(identity)"
+    f(x, y) & = (x and y) or (x and not y) \
+            & = x and (y or not y) #h(1em) &  "(distributivity)" \
+            & = x and 1 #h(1em)            & "(excluded middle)" \
+            & = x #h(1em)                  &        "(identity)"
   $
 ]
 
@@ -296,10 +330,10 @@ Simple algebraic manipulation can simplify expressions:
   Simplify $g(x, y, z) = (x or y) and (x or not y)$:
 
   $
-    g(x, y, z) &= (x or y) and (x or not y) \
-               &= x or (y and not y) #h(1em) &"(distributivity)" \
-               &= x or 0             #h(1em) &"(contradiction)" \
-               &= x                  #h(1em) &"(identity)"
+    g(x, y, z) & = (x or y) and (x or not y) \
+               & = x or (y and not y) #h(1em) & "(distributivity)" \
+               & = x or 0 #h(1em)             &  "(contradiction)" \
+               & = x #h(1em)                  &       "(identity)"
   $
 ]
 
