@@ -290,7 +290,8 @@ We can build truth tables for complex expressions step by step.
     )
   ]
 
-  Since all rows match, $not (x and y) equiv not x or not y$. #h(1fr) $qed$
+  Since all rows match, $not (x and y) equiv not x or not y$.
+  #h(1fr) $qed$
 ]
 
 == Evaluating Boolean Expressions
