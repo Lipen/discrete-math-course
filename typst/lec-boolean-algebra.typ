@@ -21,7 +21,7 @@
 
 = Boolean Algebra
 #focus-slide(
-  epigraph: [Мы почитаем всех нулями, \ А единицами — себя.],
+  epigraph: [Мы почитаем всех нулями, \ А единицами --- себя.],
   epigraph-author: [А.С. Пушкин, «Евгений Онегин»],
   scholars: (
     (
@@ -122,74 +122,113 @@ In this lecture, you'll master Boolean algebra from foundations to applications:
 = Variables and Expressions
 #focus-slide()
 
-== Boolean Variables
+== The Language of Boolean Logic
+
+Just like natural languages have words and grammar rules, Boolean algebra has its own building blocks and composition rules.
+
+#columns(2)[
+  *Natural Language:*
+  - Words: "cat", "dog"
+  - Connectors: "and", "or", "not"
+  - Sentences: "The cat is black and the dog is not white"
+
+  #colbreak()
+
+  *Boolean Algebra:*
+  - Variables: $x$, $y$
+  - Operations: $and$, $or$, $not$
+  - Expressions: $x and not y$
+]
+
+#Block(color: blue)[
+  *Goal:*
+  Learn the "grammar" of Boolean logic --- how to write and read Boolean expressions that represent logical relationships.
+]
+
+== Boolean Variables: The Atoms
 
 #definition[
   A _Boolean variable_ is a variable that can take only one of two values: $0$ (false) or $1$ (true).
 ]
 
-#example[
-  In programming:
-  ```python
-  is_valid = True      # Boolean variable
-  has_error = False    # Boolean variable
-  count = 5            # NOT a Boolean variable
-  ```
-]
-
-== Boolean Operations (Connectives)
-
-We can combine Boolean values using _Boolean operations_ (also called _logical connectives_):
-
-#definition[
-  Basic operations:
-  - *NOT* (negation): $not x$ or $overline(x)$ — flips the value
-  - *AND* (conjunction): $x and y$ or $x dot y$ — true only if both are true
-  - *OR* (disjunction): $x or y$ or $x + y$ — true if at least one is true
-]
-
-#definition[
-  The derived operations can be expressed using basic operations:
-  - *XOR* (exclusive or): $x xor y$ or $x plus.circle y$ — true if exactly one is true
-    - $x xor y = (x and not y) or (not x and y)$
-  - *Implication*: $x imply y$ — false only when $x$ is true and $y$ is false
-    - $x imply y = not x or y$
-  - *Equivalence* (biconditional): $x iff y$ or $x equiv y$ — true when both have the same value
-    - $x iff y = (x imply y) and (y imply x)$
-]
-
-== Boolean Expressions
-
-Now we can build complex formulas by combining variables using these operations:
-
-#definition[
-  A _Boolean expression_ (or _Boolean formula_) is defined recursively:
-  + A Boolean variable (e.g., $x$, $y$) is a Boolean expression
-  + A Boolean constant ($0$ or $1$) is a Boolean expression
-  + If $f$ and $g$ are Boolean expressions, then so are:
-    - $not f$ (negation)
-    - $f and g$ (conjunction)
-    - $f or g$ (disjunction)
-    - $f xor g$ (exclusive or)
-    - $f imply g$ (implication)
-    - $f iff g$ (equivalence)
-]
-
-== Examples of Boolean Expressions
+Think of Boolean variables as yes/no questions:
 
 #example[
-  Building expressions step by step:
-  + *Simple:* $x$ (just a variable)
-  + *Negation:* $not x$ (apply NOT to a variable)
-  + *Two variables:* $x and y$ (combine two variables with AND)
-  + *Nested:* $(x and y) or z$ (combine a subexpression with another variable)
-  + *Complex:* $not (x or (y and z))$ (negation of a compound expression)
-  + *Advanced:* $(x imply y) and (y imply z)$ (chaining implications)
+  Real-world Boolean variables (in programming):
+  - `is_logged_in` --- Is the user logged in? (yes/no)
+  - `has_permission` --- Does user have permission? (yes/no)
+  - `sensor_triggered` --- Did the sensor activate? (yes/no)
+  - $x > 5$ --- Is $x$ greater than 5? (true/false)
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  Operations allows us build complex formulas from simple parts.
+  *Why binary?*
+  Digital circuits use voltage levels (high/low), making binary the natural choice for computation.
+  Every piece of data in your computer is ultimately represented as 0s and 1s.
+]
+
+== Boolean Operations: Connecting Ideas
+
+We combine Boolean variables using operations (connectives) to express complex logic:
+
+#definition[Basic Operations][
+  - *NOT* ($not x$ or $overline(x)$) --- _reverses_ the value
+  - *AND* ($x and y$ or $x dot y$) --- true only if _both_ are true
+  - *OR* ($x or y$ or $x + y$) --- true if _at least one_ is true
+]
+
+#example[
+  Access control logic:
+  - `is_admin OR has_permission` --- User needs admin status OR explicit permission
+  - `is_logged_in AND NOT is_banned` --- User must be logged in AND not banned
+  - `NOT (sensor1 AND sensor2)` --- Not both sensors triggered simultaneously
+]
+
+#Block(color: orange)[
+  *Watch out:*
+  "OR" in Boolean logic is _inclusive_ (can be both), unlike everyday speech where "coffee or tea" usually means "pick one."
+]
+
+== Derived Operations: Shortcuts
+
+More complex operations built from basic ones:
+
+#definition[Derived Operations][
+  - *XOR* ($x xor y$): true if _exactly one_ is true
+    - Formula: $(x and not y) or (not x and y)$
+    - Example: "Dessert or coffee" (pick one, not both)
+
+  - *Implication* ($x imply y$): "if $x$ then $y$"
+    - Formula: $not x or y$
+    - Example: "If it rains, bring umbrella"
+
+  - *Equivalence* ($x iff y$): true when values _match_
+    - Formula: $(x imply y) and (y imply x)$
+    - Example: "Light is on if and only if switch is up"
+]
+
+== Building Boolean Expressions
+
+#definition[
+  A _Boolean expression_ is built recursively from variables and operations:
+  + Variables ($x, y, z$) and constants ($0, 1$) are expressions
+  + If $f$ and $g$ are expressions, so are: $not f$, $f and g$, $f or g$, $f xor g$, $f imply g$, $f iff g$
+]
+
+#example[
+  Progressive complexity:
+  + $x$ --- atomic variable
+  + $not x$ --- negation
+  + $x and y$ --- two variables connected
+  + $(x and y) or z$ --- nested expression
+  + $not (x or (y and z))$ --- deeply nested
+  + $(x imply y) and (y imply z)$ --- transitivity pattern
+]
+
+#Block(color: yellow)[
+  *Key idea:*
+  Operations work on _any_ expressions, not just variables.
+  This compositionality lets us build arbitrarily complex formulas.
 ]
 
 == Truth Tables
@@ -265,13 +304,13 @@ We can build truth tables for complex expressions step by step.
 ]
 
 #Block(color: orange)[
-  *Warning:* In Boolean algebra, we typically care about expressions that are contingencies—those that represent actual functions. Tautologies and contradictions are constant functions.
+  *Warning:* In Boolean algebra, we typically care about expressions that are contingencies---those that represent actual functions. Tautologies and contradictions are constant functions.
 ]
 
 == Logical Equivalence
 
 #definition[
-  Two Boolean expressions $f$ and $g$ are _logically equivalent_ (written $f equiv g$) if they have identical truth tables—they produce the same output for every possible input combination.
+  Two Boolean expressions $f$ and $g$ are _logically equivalent_ (written $f equiv g$) if they have identical truth tables---they produce the same output for every possible input combination.
 ]
 
 #example[
