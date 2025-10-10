@@ -626,6 +626,380 @@ From the axioms, we can prove many useful identities:
 ]
 
 
+= Normal Forms
+#focus-slide()
+
+== From Structure to Representation
+
+We've established the algebraic structure of Boolean algebra.
+
+Now: how do we _represent_ any Boolean function systematically?
+
+#Block(color: blue)[
+  *Goal:*
+  Find standard forms that can express _any_ Boolean function.
+  This lets us:
+  + Synthesize circuits from specifications (truth tables)
+  + Compare functions for equivalence
+  + Systematically simplify expressions
+]
+
+#columns(2)[
+  *What we have:*
+  - Boolean algebra axioms
+  - Proof techniques
+  - Specific functions
+
+  #colbreak()
+
+  *What we need:*
+  - Standard representations
+  - Construction algorithms
+  - Completeness guarantees
+]
+
+== Building Blocks: Literals
+
+#definition[
+  A _literal_ is either a Boolean variable or its negation.
+]
+
+Think of literals as the simplest meaningful statements:
+
+#example[
+  For variables $x$, $y$, $z$:
+  - *Positive literals:* $x$, $y$, $z$ --- "is true"
+  - *Negative literals:* $not x$, $not y$, $not z$ --- "is false"
+]
+
+#example[Real-world interpretation][
+  - $x$ might mean "user is logged in"
+  - $not x$ means "user is NOT logged in"
+  - The expression $(x and not y) or z$ combines three literals: $x$, $not y$, and $z$
+]
+
+#Block(color: yellow)[
+  *Key idea:*
+  Literals are the atoms of Boolean logic.
+  Every complex expression is ultimately built from these simple building blocks using $and$ and $or$.
+]
+
+== Terms and Clauses
+
+#definition[
+  - A _term_ (or _product_) is a conjunction (AND) of literals
+  - A _clause_ (or _sum_) is a disjunction (OR) of literals
+]
+
+#columns(2)[
+  *Terms (Products):*
+  - $x and y$
+  - $x and not y and z$
+  - $not x and not y and not z$
+
+  "ALL of these must be true"
+
+  #colbreak()
+
+  *Clauses (Sums):*
+  - $x or y$
+  - $x or not y or z$
+  - $not x or not y or not z$
+
+  "At least ONE must be true"
+]
+
+#example[
+  - Term $x and not y and z$ is true only when: $x = 1$, $y = 0$, $z = 1$
+  - Clause $x or not y or z$ is true when: $x = 1$ OR $y = 0$ OR $z = 1$ (or any combination)
+]
+
+#note[
+  A single literal is both a 1-term and a 1-clause. Constants: $0$ (empty term) and $1$ (empty clause).
+]
+
+== Disjunctive Normal Form (DNF)
+
+#definition[DNF][
+  A Boolean formula is in _Disjunctive Normal Form (DNF)_ if it is a disjunction (OR) of terms.
+
+  General form: $(t_1) or (t_2) or dots or (t_k)$ where each $t_i$ is a term (conjunction of literals).
+]
+
+#example[
+  DNF formulas:
+  - $(x and y) or (not x and z)$ --- "($x$ and $y$) OR ($not x$ and $z$)"
+  - $(x and not y and z) or (not x and y) or z$ --- three alternatives
+  - $x or (y and not z)$ --- still DNF (mixed form)
+]
+
+#example[
+  *NOT* in DNF:
+  - $(x or y) and z$ --- this is CNF (AND of ORs)
+  - $x and (y or z)$ --- OR nested inside AND violates DNF structure
+]
+
+#Block(color: yellow)[
+  *Intuition:*
+  DNF says "the output is 1 if ANY of these scenarios happen," where each scenario is a specific combination of variable values.
+]
+
+== Conjunctive Normal Form (CNF)
+
+#definition[CNF][
+  A Boolean formula is in _Conjunctive Normal Form (CNF)_ if it is a conjunction (AND) of clauses.
+
+  General form: $(c_1) and (c_2) and dots and (c_k)$ where each $c_i$ is a clause (disjunction of literals).
+]
+
+#example[
+  CNF formulas:
+  - $(x or y) and (not x or z)$ --- both constraints must hold
+  - $(x or not y or z) and (not x or y) and z$ --- three constraints
+  - $x and (y or not z)$ --- still CNF (mixed form)
+]
+
+#example[
+  *NOT* in CNF:
+  - $(x and y) or z$ --- this is DNF (OR of ANDs)
+  - $x or (y and z)$ --- AND nested inside OR violates CNF structure
+]
+
+== CNF vs DNF
+
+#Block(color: yellow)[
+  *Intuition:*
+  CNF says "ALL of these constraints must be satisfied," where each constraint offers multiple ways to be true.
+
+  DNF says "the output is 1 if ANY of these scenarios happen," where each scenario is a specific combination of variable values.
+]
+
+#Block(color: blue)[
+  *Duality:*
+  DNF and CNF are _dual_ forms.
+  Swap $and$ and $or$ to convert between them.
+]
+
+== Minterms and Maxterms
+
+#definition[
+  For $n$ variables:
+  - A _minterm_ is a term containing all $n$ variables (each exactly once, positive or negated)
+  - A _maxterm_ is a clause containing all $n$ variables (each exactly once, positive or negated)
+]
+
+#example[
+  For variables $x$, $y$, $z$:
+  - *Minterms:* $x and y and z$, $x and y and not z$, $x and not y and z$, ...
+  - *Maxterms:* $x or y or z$, $x or y or not z$, $x or not y or z$, ...
+
+  There are exactly $2^n = 2^3 = 8$ minterms and $8$ maxterms for $3$ variables.
+]
+
+#Block(color: blue)[
+  *Key property:*
+  - Each minterm is 1 for *exactly ONE* input combination
+  - Each maxterm is 0 for *exactly ONE* input combination
+  - This makes them perfect building blocks for representing any function!
+]
+
+== Minterm and Maxterm Indexing
+
+We can index minterms and maxterms by their binary representations:
+
+#example[
+  For $x, y, z$ (interpreting as bits: $x y z$):
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([Index], [Binary], [Minterm $m_i$], [Maxterm $M_i$]),
+      [0], [000], [$not x and not y and not z$], [$x or y or z$],
+      [1], [001], [$not x and not y and z$], [$x or y or not z$],
+      [2], [010], [$not x and y and not z$], [$x or not y or z$],
+      [3], [011], [$not x and y and z$], [$x or not y or not z$],
+      [4], [100], [$x and not y and not z$], [$not x or y or z$],
+      [5], [101], [$x and not y and z$], [$not x or y or not z$],
+      [6], [110], [$x and y and not z$], [$not x or not y or z$],
+      [7], [111], [$x and y and z$], [$not x or not y or not z$],
+    )
+  ]
+]
+
+== Sum of Products (SoP)
+
+#definition[
+  A _sum of products (SoP)_ (also called _canonical sum of minterms_) is a DNF where each term is a minterm.
+
+  General form: $f(x_1, dots, x_n) = limits(or.big)_(i in I) m_i$ where $I subset.eq {0, 1, dots, 2^n - 1}$
+]
+
+#example[
+  For the function with truth table:
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([$x$], [$y$], [$z$], [$f$]),
+      [0], [0], [0], [0],
+      [0], [0], [1], [*1*],
+      [0], [1], [0], [0],
+      [0], [1], [1], [*1*],
+      [1], [0], [0], [0],
+      [1], [0], [1], [0],
+      [1], [1], [0], [*1*],
+      [1], [1], [1], [*1*],
+    )
+  ]
+
+  *Algorithm:* Pick rows where $f = 1$ (rows 1, 3, 6, 7):
+  $
+    f & = m_1 or m_3 or m_6 or m_7 \
+      & = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)
+  $
+]
+
+#Block(color: yellow)[
+  *Recipe:*
+  To build SoP, take each 1 in the truth table and OR the corresponding minterms.
+]
+
+== Product of Sums (PoS)
+
+#definition[
+  A _product of sums (PoS)_ (also called _canonical product of maxterms_) is a CNF where each clause is a maxterm.
+
+  General form: $f(x_1, dots, x_n) = limits(and.big)_(i in I) M_i$ where $I subset.eq {0, 1, dots, 2^n - 1}$
+]
+
+#example[
+  For the *same function*, use rows where $f = 0$ (rows 0, 2, 4, 5):
+  $
+    f & = M_0 and M_2 and M_4 and M_5 \
+      & = (x or y or z) and (x or not y or z) and (not x or y or z) and (not x or y or not z)
+  $
+]
+
+#grid(
+  columns: (auto, 1fr),
+  column-gutter: 1em,
+  Block(color: blue)[
+    *Two approaches:*
+    - SoP uses 1s in truth table (where function is true)
+    - PoS uses 0s in truth table (where function is false)
+    - Both represent the same function!
+  ],
+  Block(color: orange)[
+    *Why PoS?*
+    Sometimes PoS is more compact than SoP (when function has fewer 0s than 1s).
+  ],
+)
+
+== Completeness of Normal Forms
+
+#theorem[
+  Every Boolean function can be represented in both CNF and DNF.
+]
+
+#proof[Sketch for DNF (SoP)][
+  Given a truth table:
+  + For each row where output is 1, create the corresponding minterm
+  + OR all these minterms together
+  + The result is the function in DNF (SoP form)
+
+  *Why this works:*
+  - Each minterm is 1 for exactly one input combination
+  - ORing them gives 1 exactly when the function should be 1
+  - This construction is always possible and always correct
+]
+
+#Block(color: yellow)[
+  *Power of synthesis:*
+  Any Boolean function can be built from its truth table!
+]
+
+== Shannon Expansion
+
+#theorem[Shannon Expansion][
+  For any Boolean function $f$ and variable $x$:
+  $
+    f(x, y_1, dots, y_n) = (not x and f(0, y_1, dots, y_n)) or (x and f(1, y_1, dots, y_n))
+  $
+
+  $
+    f(x, y_1, dots, y_n) = (x or f(0, y_1, dots, y_n)) and (not x or f(1, y_1, dots, y_n))
+  $
+]
+
+#example[
+  Expand $f(x, y) = x xor y$ by $x$:
+  $
+    f(x, y) & = (not x and f(0, y)) or (x and f(1, y)) \
+            & = (not x and (0 xor y)) or (x and (1 xor y)) \
+            & = (not x and y) or (x and not y)
+  $
+
+  This gives us the standard XOR representation!
+]
+
+// #Block(color: blue)[
+//   *Application:* Shannon expansion is the theoretical foundation for:
+//   - Binary Decision Diagrams (BDDs) in verification
+//   - Recursive circuit design and decomposition
+//   - Divide-and-conquer algorithms for Boolean functions
+// ]
+
+== Converting Between Forms
+
+Converting between DNF and CNF can be tricky:
+
+#example[DNF to CNF using De Morgan's laws][
+  Start with DNF: $(x and y) or (not x and z)$
+
+  *Step-by-step:*
+  + Negate: $not ((x and y) or (not x and z))$
+  + Apply De Morgan: $(not (x and y)) and (not (not x and z))$
+  + Apply De Morgan again: $(not x or not y) and (x or not z)$
+  + Double negate to get back: $not not ((not x or not y) and (x or not z))$
+
+  Result is CNF: $(not x or not y) and (x or not z)$
+]
+
+#Block(color: orange)[
+  *Warning:*
+  Direct algebraic conversion can cause exponential blowup in formula size!
+  For complex functions, use Karnaugh maps or other minimization techniques.
+]
+
+#Block(color: yellow)[
+  *Alternative:*
+  Build CNF/DNF directly from truth table using the SoP/PoS methods.
+]
+
+== Summary: Canonical Forms
+
+#Block(color: purple)[
+  *What we've learned:*
+
+  + Literals, terms, clauses are the building blocks
+  + DNF: OR of terms (conditions that make function true)
+  + CNF: AND of clauses (constraints that must all hold)
+  + Minterms/maxterms: complete terms/clauses with all variables
+  + SoP/PoS: canonical forms using minterms/maxterms
+  + Shannon expansion: recursive decomposition by variables
+  + Every Boolean function has CNF and DNF representations
+]
+
+#Block(color: yellow)[
+  *Next:* #h(0.2em)
+  Minimization techniques to reduce the size of these expressions (K-Maps, Quine-McCluskey).
+]
+
+
 = Digital Circuits
 #focus-slide()
 
@@ -725,152 +1099,6 @@ From the axioms, we can prove many useful identities:
   - *JK Flip-Flop*: Eliminates forbidden state of SR latch.
   - *T Flip-Flop*: Toggle flip-flop for counters.
 ]
-
-== Normal Forms
-
-#definition[
-  A _literal_ is a Boolean variable or its negation (e.g., $x$, $not x$).
-]
-
-// #definition[
-//   A _clause_ is a disjunction (OR) of literals.
-//   For example, $(x or not y)$ is a 2-clause.
-// ]
-
-// #definition[
-//   A _term_ is a conjunction (AND) of literals.
-//   For example, $(x and not y)$ is a 2-term.
-// ]
-
-#definition[DNF][
-  A Boolean formula is in _disjunctive normal form (DNF)_ if it is a disjunction (OR) of _terms_ --- conjunctions (AND) of literals.
-]
-#example[
-  $f(x,y,z) = underbracket((x and y and not z), "term") or underbracket((not x and z), "term") or underbracket((not y and not z), "term") or underbracket(#hide("(") x #hide(")"), "term")$
-]
-
-#definition[CNF][
-  A Boolean formula is in _conjunctive normal form (CNF)_ if it is a conjunction (AND) of _clauses_ --- disjunctions (OR) of literals.
-]
-#example[
-  $f(x,y,z) = underbracket((x or y or not z), "clause") and underbracket((not x or z), "clause") and underbracket((not y or not z), "clause") and underbracket(#hide("(") x #hide(")"), "clause")$
-]
-
-== Minterms and Maxterms
-
-#definition[Minterm and Maxterm][
-  - A _minterm_ is a product (AND) of literals where each variable appears exactly once.
-  - A _maxterm_ is a sum (OR) of literals where each variable appears exactly once.
-]
-
-#note[
-  A minterm (maxterm) is a function that evaluates to 1 (0, respectively) for exactly one combination of variable values.
-]
-
-#example[
-  $f(x,y,z) = x overline(y) z$ is a minterm, and $g(x,y,z) = x + overline(y) + z$ is a maxterm for variables $x, y, z$.
-  - $f(x,y,z) = 1$ only on input $101$, i.e., $x = 1$, $y = 0$, $z = 1$, correspending to the minterm $x overline(y) z$.
-  - $g(x,y,z) = 0$ only on input $010$, i.e., $x = 0$, $y = 1$, $z = 0$, correspending to the maxterm $overline(x) + y + overline(z)$.
-]
-
-== Canonical Forms
-
-#definition[SoP][
-  Every Boolean function can be _uniquely_ expressed as a _sum of minterms_ (SoP, Sum of Products) corresponding to rows where the function evaluates to 1.
-
-  // TODO: example
-]
-
-#definition[PoS][
-  Every Boolean function can be _uniquely_ expressed as a _product of maxterms_ (PoS, Product of Sums) corresponding to rows where the function evaluates to 0.
-
-  // TODO: example
-]
-
-// TODO: Blake canonical form
-
-== Karnaugh Maps
-
-#definition[
-  A _Karnaugh map_ (K-map) is a graphical method for simplifying Boolean expressions by visually identifying adjacent minterms that can be combined.
-]
-
-// #[
-//   #import "karnaugh.typ": karnaugh
-//   #let x = -1
-//   #karnaugh(
-//     ("AB", "CD"),
-//     (
-//       (0, 0, 0, x),
-//       (0, 1, x, 0),
-//       (1, 1, 1, 0),
-//       (x, 1, 0, x),
-//     ),
-//     implicants: (
-//       (1, 1, 2),
-//       (2, 0, 2),
-//     ),
-//   )
-// ]
-
-#[
-  #import "@preview/k-mapper:1.2.0": karnaugh
-
-  #karnaugh(
-    16,
-    x-label: $C D$,
-    y-label: $A B$,
-    manual-terms: range(16),
-    implicants: ((5, 7), (5, 13), (15, 15)),
-    vertical-implicants: ((1, 11),),
-    horizontal-implicants: ((4, 14),),
-    // corner-implicants: true,
-  )
-]
-
-== Zhegalkin Polynomials
-
-#definition[
-  A _Zhegalkin polynomial_ is a representation of a Boolean function as a polynomial over $"GF"(2)$ using XOR ($xor$) and AND ($and$, often omitted) operations.
-]
-
-// TODO: mention "algebraic normal form (ANF)"
-
-#theorem[
-  Every Boolean function has a unique representation as a Zhegalkin polynomial:
-  $
-    f(x_1, dots, x_n) = xor.big_(S subset.eq {1,dots,n}) (a_S product_(i in S) x_i)
-  $
-  where $a_S in {0,1}$ and $xor$ denotes XOR.
-]
-
-#example[
-  $f(x,y) = x or y = x xor y xor x y$
-]
-
-== Binary Decision Diagrams (BDDs)
-
-#definition[BDD][
-  A _binary decision diagram (BDD)_ is a directed acyclic graph representing a Boolean function, where each non-terminal node represents a variable test and edges represent variable assignments.
-]
-
-// TODO: ordered BDD
-
-#definition[ROBDD][
-  A _reduced_ ordered binary decision diagram (ROBDD) is an ordered BDD with a fixed variable ordering where:
-  - No variable appears more than once on any path
-  - No two nodes have identical low and high successors
-  - No node has identical low and high successors
-]
-
-#theorem[
-  // For a fixed variable ordering, every Boolean function has a _unique_ ROBDD.
-  Every Boolean function has a unique reduced ordered binary decision diagram (ROBDD) representation for a given variable ordering.
-]
-
-== TODO
-
-- ...
 
 // == Bibliography
 // #bibliography("refs.yml")
