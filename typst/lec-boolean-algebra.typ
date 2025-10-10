@@ -47,147 +47,75 @@
   ),
 )
 
-== Logic: The Science of Valid Reasoning
+== From Algebra to Digital Circuits
 
-Logic is the systematic study of the principles of valid inference and correct reasoning.
-It provides the foundation for:
-- Mathematical proof and rigor
-- Computer science and algorithms
-- Philosophical argumentation
-- Everyday decision-making
-
-#Block(color: blue)[
-  *Why study logic?*
-  Logic lets us distinguish valid arguments from fallacies, construct provably correct programs, and reason precisely about abstract systems.
-]
-
-== Historical Development of Logic
-
-#columns(2)[
-  *Ancient Period* (384-322 BCE)
-  - *Aristotle*: Syllogistic logic, first formal system
-  - Laws of thought: non-contradiction, excluded middle
-
-  *Modern Period* (1600s-1800s)
-  - *Leibniz* (1646-1716): Symbolic logic, binary arithmetic
-  - *Boole* (1815-1864): _Laws of Thought_ (1854), algebraic approach
-
-  #colbreak()
-
-  *Contemporary Period* (1800s-1900s)
-  - *De Morgan* (1806-1871): Logical laws, duality
-  - *Peirce* (1839-1914): Boolean operations, truth tables
-  - *Shannon* (1916-2001): Digital circuits (1937), information theory
-]
+// Boolean algebra is the mathematical foundation of digital computing, developed by George Boole in 1854 as a way to formalize logical reasoning using algebraic operations.
 
 #Block(color: teal)[
-  *Historical note:*
-  George Boole's _The Laws of Thought_ (1854) unified logic and algebra, creating the foundation for modern digital computing a century before the first computers.
-]
-
-== Statements: The Building Blocks
-
-#definition[
-  A _statement_ (or _proposition_) is a declarative sentence that is either true or false, but not both.
-]
-
-#example[
-  These are statements:
-  - "2 + 2 = 4" (#True)
-  - "Paris is the capital of Germany" (#False)
-  - "Every even number greater than 2 is the sum of two primes" (Goldbach's conjecture, truth unknown but definite)
-  - "`x > 0`" when `x = 5` in a program (#True)
+  #set par(justify: true)
+  *Historical note:* #h(0.2em)
+  George Boole's groundbreaking work _The Laws of Thought_ (1854) created an algebraic system for logic a full century before the first electronic computers.
+  He showed that logical reasoning could be captured by equations, replacing Aristotle's verbal arguments with mathematical symbols.
+  This~insight became the theoretical foundation for the digital age.
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  A statement must have a definite truth value, even if we don't know it yet.
+  *Key idea:* Just as ordinary algebra works with numbers and operations like $+$ and $times$, Boolean algebra works with *truth values* ($0$ and $1$, or #False and #True) and operations like AND, OR, and NOT.
 ]
-
-== What Is NOT a Statement
-
-Not every sentence is a statement:
-
-#example[
-  These are *NOT* statements:
-  - "What time is it?" (question, not declarative)
-  - "Close the door!" (command, not declarative)
-  - "This sentence is false" (paradox, self-referential)
-  - "Let $x$ be a real number" (definition, not assertion)
-  - "She is tall" (ambiguous, depends on context)
-]
-
-#Block(color: orange)[
-  *Warning:*
-  Distinguish statements from definitions, questions, commands, and ambiguous expressions.
-  Only statements can be assigned truth values.
-]
-
-== Truth Values and Classical Logic
-
-#definition[
-  Every statement has exactly one _truth value_: either *true* (often denoted $1$ or $top$) or *false* (often denoted $0$ or $bot$).
-]
-
-The classical (bivalent) logic assumes:
-+ *Law of Identity*:
-  Each statement is identical to itself
-  - $P = P$ is always true
-
-+ *Law of Non-Contradiction*:
-  No statement can be both true and false simultaneously
-  - $not (P and not P)$ is always true
-
-+ *Law of Excluded Middle*:
-  Every statement is either true or false (no third option)
-  - $P or not P$ is always true
-
-#note[
-  These laws form the foundation of classical logic.
-  Alternative logics (intuitionistic, many-valued) relax some of these assumptions, but we focus on classical logic.
-]
-
-== Why Formal Logic?
-
-Logic provides essential tools for modern mathematics and computer science:
 
 #columns(2)[
-  *In Mathematics:*
-  - Rigorous proofs
-  - Axiomatic systems
-  - Set theory foundations
-  - Automated theorem proving
+  *Historical milestones:*
+  - *1703:* Leibniz describes binary arithmetic
+  - *1854:* Boole publishes algebraic logic
+  - *1937:* Shannon applies it to circuits
+  - *1940s:* First digital computers
 
   #colbreak()
 
-  *In Computer Science:*
-  - Program verification
-  - Digital circuit design
-  - Database query optimization
-  - Artificial intelligence reasoning
-  - Compiler optimization
+  *Modern applications:*
+  - Processor design (CPUs, GPUs)
+  - Formal verification (correctness proofs)
+  - Database optimization (queries)
+  - AI reasoning (SAT, planning)
+]
+
+== Boolean Values: 0 and 1
+
+In Boolean algebra, we work with exactly two values:
+- *0* (#False, off, low voltage)
+- *1* (#True, on, high voltage)
+
+#example[
+  In different contexts:
+  - *Mathematics:* "Is $x > 5$?" → #True (1) or #False (0)
+  - *Programming:* `if (x && y)` → evaluates to `true` or `false`
+  - *Circuits:* Wire voltage → high (1) or low (0)
+  - *Sets:* Is element in set? → yes (1) or no (0)
 ]
 
 #Block(color: blue)[
-  *Applications:* Boolean algebra directly powers digital circuits (CPUs, GPUs), SAT solvers (verification, planning), and logic programming (Prolog, answer set programming).
+  *Why this matters:*
+  Modern computers represent all information using binary (0s and 1s).
+
+  Boolean algebra is the mathematics that makes digital computation possible.
 ]
 
 == What You Will Learn
 
-By the end of this lecture, you will be able to:
+In this lecture, you'll master Boolean algebra from foundations to applications:
 
-+ *Construct and evaluate* Boolean expressions using truth tables
-+ *Apply fundamental laws* of Boolean algebra (De Morgan's, distributivity, etc.)
-+ *Synthesize functions* from specifications using CNF, DNF, and Karnaugh maps
-+ *Minimize expressions* using algebraic identities and graphical methods
-+ *Understand functional completeness* via Post's criterion
-+ *Design digital circuits* using logic gates and flip-flops
-+ *Connect to CS applications*: BDDs, SAT solving, verification
-+ *Reason formally* about Boolean functions and their properties
++ Build Boolean expressions and evaluate them using *truth tables*
++ Prove identities using the *fundamental laws* (commutativity, De Morgan's laws, distributivity)
++ *Synthesize any Boolean function* from specifications using CNF, DNF, and Karnaugh maps
++ *Simplify complex expressions* through algebraic manipulation and graphical methods
++ Determine which operation sets are *functionally complete* using Post's criterion
++ *Design real digital circuits* with logic gates, flip-flops, and stateful elements
++ Apply Boolean algebra to *modern CS problems*: binary decision diagrams, SAT solving, and formal verification
 
-#Block(color: blue)[
-  *Goal:*
-  Master both theory (formal proofs, algebraic structure) and practice (circuit design, expression minimization).
+#Block(color: purple)[
+  *Our goal:*
+  You'll gain both theoretical understanding (algebraic structure, formal proofs) and practical skills (circuit design, expression minimization).
+  By the end, you'll see how the same mathematical framework powers everything from smartphone processors to AI planning algorithms.
 ]
 
 
