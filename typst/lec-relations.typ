@@ -4106,7 +4106,7 @@ This means: $aleph_n = beth_n$ for all $n in NN$ (and beyond).
 
 == The Freedom of Infinity
 
-#Block(color: blue)[
+#Block(color: yellow)[
   *Key insight:* The position of $2^(aleph_0)$ in the aleph hierarchy is _not determined_ by the usual axioms of mathematics!
 ]
 
