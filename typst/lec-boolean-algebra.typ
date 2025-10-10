@@ -7,38 +7,17 @@
   // dark: true,
 )
 
-#show table.cell.where(y: 0): strong
+#show heading.where(level: 1): none
 
-#set quote(block: true)
-#show quote: set par(justify: false)
-#show quote: set align(left)
+#import "common-lec.typ": *
 
-#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
-#let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let Dom = math.op("Dom")
-#let Cod = math.op("Cod")
-#let Range = math.op("Range")
-#let equinumerous = symbol(math.approx, ("not", math.approx.not))
-#let smaller = symbol(math.prec, ("eq", math.prec.eq))
-#let Join = math.or
-#let Meet = math.and
 #let nand = $overline(and)$
 #let nor = $overline(or)$
+#let Join = $or$
+#let Meet = $and$
 
-#let Green(x) = text(green.darken(20%), x)
-#let Red(x) = text(red.darken(20%), x)
-#let Blue(x) = text(blue.darken(20%), x)
-
-#let True = Green(`true`)
-#let False = Red(`false`)
-
-#let YES = Green(sym.checkmark)
-#let NO = Red(sym.crossmark)
-
-#show heading.where(level: 1): none
 
 = Boolean Algebra
 #focus-slide(
@@ -66,6 +45,155 @@
       image: image("assets/Claude_Shannon.jpg"),
     ),
   ),
+)
+
+== Logic: The Science of Valid Reasoning
+
+Logic is the systematic study of the principles of valid inference and correct reasoning.
+It provides the foundation for:
+- Mathematical proof and rigor
+- Computer science and algorithms
+- Philosophical argumentation
+- Everyday decision-making
+
+#Block(color: blue)[
+  *Why study logic?*
+  Logic lets us distinguish valid arguments from fallacies, construct provably correct programs, and reason precisely about abstract systems.
+]
+
+== Historical Development of Logic
+
+#columns(2)[
+  *Ancient Period* (384-322 BCE)
+  - *Aristotle*: Syllogistic logic, first formal system
+  - Laws of thought: non-contradiction, excluded middle
+
+  *Modern Period* (1600s-1800s)
+  - *Leibniz* (1646-1716): Symbolic logic, binary arithmetic
+  - *Boole* (1815-1864): _Laws of Thought_ (1854), algebraic approach
+
+  #colbreak()
+
+  *Contemporary Period* (1800s-1900s)
+  - *De Morgan* (1806-1871): Logical laws, duality
+  - *Peirce* (1839-1914): Boolean operations, truth tables
+  - *Shannon* (1916-2001): Digital circuits (1937), information theory
+]
+
+#Block(color: teal)[
+  *Historical note:*
+  George Boole's _The Laws of Thought_ (1854) unified logic and algebra, creating the foundation for modern digital computing a century before the first computers.
+]
+
+== Statements: The Building Blocks
+
+#definition[
+  A _statement_ (or _proposition_) is a declarative sentence that is either true or false, but not both.
+]
+
+#example[
+  These are statements:
+  - "2 + 2 = 4" (#True)
+  - "Paris is the capital of Germany" (#False)
+  - "Every even number greater than 2 is the sum of two primes" (Goldbach's conjecture, truth unknown but definite)
+  - "`x > 0`" when `x = 5` in a program (#True)
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  A statement must have a definite truth value, even if we don't know it yet.
+]
+
+== What Is NOT a Statement
+
+Not every sentence is a statement:
+
+#example[
+  These are *NOT* statements:
+  - "What time is it?" (question, not declarative)
+  - "Close the door!" (command, not declarative)
+  - "This sentence is false" (paradox, self-referential)
+  - "Let $x$ be a real number" (definition, not assertion)
+  - "She is tall" (ambiguous, depends on context)
+]
+
+#Block(color: orange)[
+  *Warning:*
+  Distinguish statements from definitions, questions, commands, and ambiguous expressions.
+  Only statements can be assigned truth values.
+]
+
+== Truth Values and Classical Logic
+
+#definition[
+  Every statement has exactly one _truth value_: either *true* (often denoted $1$ or $top$) or *false* (often denoted $0$ or $bot$).
+]
+
+The classical (bivalent) logic assumes:
++ *Law of Identity*:
+  Each statement is identical to itself
+  - $P = P$ is always true
+
++ *Law of Non-Contradiction*:
+  No statement can be both true and false simultaneously
+  - $not (P and not P)$ is always true
+
++ *Law of Excluded Middle*:
+  Every statement is either true or false (no third option)
+  - $P or not P$ is always true
+
+#note[
+  These laws form the foundation of classical logic.
+  Alternative logics (intuitionistic, many-valued) relax some of these assumptions, but we focus on classical logic.
+]
+
+== Why Formal Logic?
+
+Logic provides essential tools for modern mathematics and computer science:
+
+#columns(2)[
+  *In Mathematics:*
+  - Rigorous proofs
+  - Axiomatic systems
+  - Set theory foundations
+  - Automated theorem proving
+
+  #colbreak()
+
+  *In Computer Science:*
+  - Program verification
+  - Digital circuit design
+  - Database query optimization
+  - Artificial intelligence reasoning
+  - Compiler optimization
+]
+
+#Block(color: blue)[
+  *Applications:* Boolean algebra directly powers digital circuits (CPUs, GPUs), SAT solvers (verification, planning), and logic programming (Prolog, answer set programming).
+]
+
+== What You Will Learn
+
+By the end of this lecture, you will be able to:
+
++ *Construct and evaluate* Boolean expressions using truth tables
++ *Apply fundamental laws* of Boolean algebra (De Morgan's, distributivity, etc.)
++ *Synthesize functions* from specifications using CNF, DNF, and Karnaugh maps
++ *Minimize expressions* using algebraic identities and graphical methods
++ *Understand functional completeness* via Post's criterion
++ *Design digital circuits* using logic gates and flip-flops
++ *Connect to CS applications*: BDDs, SAT solving, verification
++ *Reason formally* about Boolean functions and their properties
+
+#Block(color: blue)[
+  *Goal:*
+  Master both theory (formal proofs, algebraic structure) and practice (circuit design, expression minimization).
+]
+
+
+= Boolean Algebra Structure
+#focus-slide(
+  title: [Boolean Algebra Structure],
 )
 
 == Definition and Basic Properties
