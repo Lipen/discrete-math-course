@@ -380,9 +380,7 @@ Simple algebraic manipulation can simplify expressions:
 
 
 = Boolean Algebra Structure
-#focus-slide(
-  title: [Boolean Algebra Structure],
-)
+#focus-slide()
 
 == Definition and Basic Properties
 
