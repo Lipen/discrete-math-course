@@ -463,7 +463,7 @@ How can we fix this?..
     columns: 3,
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([Criterion], [Naive], [Axiomatic]),
+    table.header([*Criterion*], [*Naive*], [*Axiomatic*]),
     [Set formation], [_Any collection_ of objects], [From _existing_ sets using _axioms_],
     [Comprehension], [Unrestricted: ${x | P(x)}$], [Restricted: ${x in A | P(x)}$],
     [Distinctions], [Simple and intuitive], [Mathematically rigorous],
@@ -839,7 +839,8 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   columns: 4,
   align: (left, right, left, center).map(x => x + horizon),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([Operation], [Notation], [Formal definition], [Venn diagram]),
+
+  table.header([*Operation*], [*Notation*], [*Formal definition*], [*Venn diagram*]),
 
   [Union],
   $A union B$,
@@ -891,7 +892,6 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
       b-fill: purple.transparentize(80%),
     )
   ],
-  // [Power set], [$2^A$ or $power(A)$], ${ S | S subset.eq A }$, [],
 )
 
 == Laws of Set Operations

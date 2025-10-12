@@ -91,7 +91,7 @@
   columns: 3,
   align: (center, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([Language], [Expression], [Description]),
+  table.header([*Language*], [*Expression*], [*Description*]),
   $emptyset$, [], [Empty language],
   ${epsilon}$, $epsilon$, [Language with a single empty word],
   ${"a"}$, $regex("a")$, [Singleton language with a literal character "a"],

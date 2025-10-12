@@ -102,7 +102,7 @@ Your final grade will be calculated as follows:
   columns: 3,
   align: (left, center, right),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([Component], [Points Each], [Total Points]),
+  table.header([*Component*], [*Points Each*], [*Total Points*]),
   [Homework Assignments (4)], [10], [40],
   [Module Tests (4)], [5], [20],
   [Theoretical Minimums (2)], [10], [20],

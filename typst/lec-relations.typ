@@ -619,13 +619,9 @@
     align: (left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Representative*], [*Equivalence Class*], [*Rational Number*]),
-
     [$pair(1, 2)$], [${pair(1, 2), pair(2, 4), pair(3, 6), pair(-1, -2), pair(-2, -4), ...}$], [$1"/"2$],
-
     [$pair(0, 1)$], [${pair(0, 1), pair(0, 2), pair(0, -3), pair(0, 7), ...}$], [$0$],
-
     [$pair(3, 4)$], [${pair(3, 4), pair(6, 8), pair(-3, -4), pair(9, 12), ...}$], [$3"/"4$],
-
     [$pair(-5, 3)$], [${pair(-5, 3), pair(5, -3), pair(-10, 6), pair(10, -6), ...}$], [$-5"/"3$],
   )
 
@@ -2801,23 +2797,14 @@ Functions can be characterized by several key properties that determine their ma
   columns: 2,
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-
-  table.header([Property], [Definition]),
-
+  table.header([*Property*], [*Definition*]),
   [*Functional* (Right-unique)], [Each input maps to _at most one_ output],
-
   [*Total* (Left-total)], [Each input maps to _at least one_ output (defined everywhere)],
-
   [*Partial*], [Functional but not total (may be undefined for some inputs)],
-
   [*Injective* (Left-unique)], [Different inputs $==>$ different outputs],
-
   [*Surjective* (Right-total)], [Every codomain element is covered],
-
   [*Bijective*], [Both injective and surjective (one-to-one correspondence)],
-
   [*Monotonic*], [Preserves or reverses order relationships],
-
   [*Continuous*], [Small input changes $==>$ small output changes],
 )
 
@@ -2964,8 +2951,7 @@ Functions can be characterized by several key properties that determine their ma
     columns: 4,
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-    table.header([$x$], [$floor(x)$], [$ceil(x)$], [Note]),
-
+    table.header([*$x$*], [*$floor(x)$*], [*$ceil(x)$*], [*Note*]),
     [$3.7$], [$3$], [$4$], [Positive non-integer],
     [$-2.3$], [$-3$], [$-2$], [Negative non-integer],
     [$5$], [$5$], [$5$], [Integer (floor = ceiling)],
@@ -3206,7 +3192,7 @@ $
     align: center + horizon,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-    table.header([Original], [Current Guest], [$-->$], [New Room], [New Guest]),
+    table.header([*Original*], [*Current Guest*], [*$-->$*], [*New Room*], [*New Guest*]),
     [Room 1], [Guest \#1], [], [Room 2], [],
     [Room 2], [Guest \#2], [], [Room 4], [],
     [Room 3], [Guest \#3], [], [Room 6], [],
@@ -3473,9 +3459,8 @@ The following characterizations of countable sets are all *equivalent*:
     #table(
       columns: 5,
       align: center,
-      inset: 6pt,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([$p+q$], [Fractions], [Reduced], [Indices], [Count]),
+      table.header([*$p+q$*], [*Fractions*], [*Reduced*], [*Indices*], [*Count*]),
       [$1$], [$0/1$], [---], [---], [0],
       [$2$], [$1/1$], [$1/1$], [0], [1],
       [$3$], [$1/2, 2/1$], [$1/2, 2/1$], [1, 2], [2],
@@ -3506,37 +3491,37 @@ The following characterizations of countable sets are all *equivalent*:
       align: center,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
 
-      table.header([$n arrow.b quad k arrow.r$], [$0$], [$1$], [$2$], [$3$], [$dots$]),
-      [$0$],
+      table.header([*$n arrow.b quad k arrow.r$*], [*$0$*], [*$1$*], [*$2$*], [*$3$*], [*$dots$*]),
 
+      [*$0$*],
       [#text(fill: red.darken(20%))[$pair(0, 0)$] \ #text(size: 0.8em, fill: red.darken(20%))[$#cantor(0, 0)$]],
       [#text(fill: orange.darken(20%))[$pair(0, 1)$] \ #text(size: 0.8em, fill: orange.darken(20%))[$#cantor(0, 1)$]],
       [#text(fill: green.darken(20%))[$pair(0, 2)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(0, 2)$]],
       [#text(fill: blue.darken(20%))[$pair(0, 3)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(0, 3)$]],
       [$dots$],
 
-      [$1$],
+      [*$1$*],
       [#text(fill: orange.darken(20%))[$pair(1, 0)$] \ #text(size: 0.8em, fill: orange.darken(20%))[$#cantor(1, 0)$]],
       [#text(fill: green.darken(20%))[$pair(1, 1)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(1, 1)$]],
       [#text(fill: blue.darken(20%))[$pair(1, 2)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(1, 2)$]],
       [#text(fill: purple.darken(20%))[$pair(1, 3)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(1, 3)$]],
       [$dots$],
 
-      [$2$],
+      [*$2$*],
       [#text(fill: green.darken(20%))[$pair(2, 0)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(2, 0)$]],
       [#text(fill: blue.darken(20%))[$pair(2, 1)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(2, 1)$]],
       [#text(fill: purple.darken(20%))[$pair(2, 2)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(2, 2)$]],
       [#text(fill: teal.darken(20%))[$pair(2, 3)$] \ #text(size: 0.8em, fill: teal.darken(20%))[$#cantor(2, 3)$]],
       [$dots$],
 
-      [$3$],
+      [*$3$*],
       [#text(fill: blue.darken(20%))[$pair(3, 0)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(3, 0)$]],
       [#text(fill: purple.darken(20%))[$pair(3, 1)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(3, 1)$]],
       [#text(fill: teal.darken(20%))[$pair(3, 2)$] \ #text(size: 0.8em, fill: teal.darken(20%))[$#cantor(3, 2)$]],
       [#text(fill: navy.lighten(20%))[$pair(3, 3)$] \ #text(size: 0.8em, fill: navy.lighten(20%))[$#cantor(3, 3)$]],
       [$dots$],
 
-      [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.down$],
+      [*$dots.v$*], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.down$],
     )
   ]
 
@@ -3627,7 +3612,7 @@ The following characterizations of countable sets are all *equivalent*:
       columns: 6,
       align: center,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      table.header([Sequence], [Position 1], [Position 2], [Position 3], [Position 4], [$dots$]),
+      table.header([*Sequence*], [*Position 1*], [*Position 2*], [*Position 3*], [*Position 4*], [*$dots$*]),
       [$x_1$], [#text(fill: red)[*$b_(1 1)$*]], [$b_(1 2)$], [$b_(1 3)$], [$b_(1 4)$], [$dots$],
       [$x_2$], [$b_(2 1)$], [#text(fill: red)[*$b_(2 2)$*]], [$b_(2 3)$], [$b_(2 4)$], [$dots$],
       [$x_3$], [$b_(3 1)$], [$b_(3 2)$], [#text(fill: red)[*$b_(3 3)$*]], [$b_(3 4)$], [$dots$],
@@ -4241,7 +4226,7 @@ This means: $aleph_n = beth_n$ for all $n in NN$ (and beyond).
   #table(
     columns: 3,
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-    table.header([Step], [Description], [Result]),
+    table.header([*Step*], [*Description*], [*Result*]),
     [*Step 1:*],
     [
       Compute $R^1 = R$.
@@ -5471,15 +5456,10 @@ TODO
     columns: 3,
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-
-    table.header([Concept], [Characterization], [Key Property]),
-
+    table.header([*Concept*], [*Characterization*], [*Key Property*]),
     [*Well-ordered*], [Every subset has unique least element], [Stronger than well-founded],
-
     [*Well-founded*], [Every subset has minimal elements], [DCC: no infinite descent],
-
     [*DCC (Artinian)*], [No infinite descending chains], [Same as well-founded],
-
     [*ACC (Noetherian)*], [No infinite ascending chains], [Dual of DCC],
   )
 ]

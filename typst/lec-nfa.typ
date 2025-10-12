@@ -74,7 +74,7 @@
 // #table(
 //   columns: 2,
 //   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-//   table.header[Deterministic (DFA)][Non-Deterministic (NFA)],
+//   table.header([*Deterministic (DFA)*], [*Non-Deterministic (NFA)*]),
 //   [Single transition per symbol], [Multiple possible transitions],
 //   [No $epsilon$-transitions], [May have $epsilon$-transitions],
 //   [Unique computation path], [Multiple parallel paths],

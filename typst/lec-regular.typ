@@ -195,13 +195,13 @@ $
     columns: 2,
     column-gutter: 1em,
     stroke: (x, y) => if y == 0 { (bottom: .8pt) },
-    table.header(Red[Adversary], Green[You]),
+    table.header([*#Red[Adversary]*], [*#Green[You]*]),
     [Maliciously choose \ pumping length $n$], [],
     [], [Cleverly choose a string \ $w in L$, $abs(w) >= n$],
     [Maliciously split \ $w = x y z$, $y != epsilon$], [],
     [], [Cleverly choose an $i$ \ such that $x y^i z notin L$],
     Red[Lose], Green[Win],
-    table.cell(colspan: 2, stroke: (top: 0.4pt))[#Green[${0^n 1^n}$ is not regular]],
+    table.cell(colspan: 2, stroke: (top: 0.4pt))[#Green[${0^n 1^n}$ is *not* regular]],
   )
 ]
 
