@@ -1040,7 +1040,7 @@ But the result is often *not minimal*.
 
 == What Does "Minimal" Mean?
 
-#Block(color: blue)[
+#Block(color: green)[
   Different minimization criteria (goals) exist:
   - *Minimum literals:* Fewest total literal occurrences
   - *Minimum terms:* Fewest product terms (DNF) or clauses (CNF)
@@ -1098,7 +1098,7 @@ But the result is often *not minimal*.
 
 == Converting Binary and Gray Code
 
-#Block(color: blue)[
+#Block(color: green)[
   *Binary to Gray*:
   - Keep MSB (most significant bit)
   - Each next bit: XOR current binary bit with previous binary bit
