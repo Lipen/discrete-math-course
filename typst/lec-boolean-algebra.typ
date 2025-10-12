@@ -1072,7 +1072,7 @@ We can synthesize any Boolean function from its truth table using SoP or PoS. Bu
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-      table.header([Decimal], [Binary], [Gray Code], [Change]),
+      table.header([*Decimal*], [*Binary*], [*Gray Code*], [*Change*]),
       [0], [000], [000], [---],
       [1], [001], [001], [bit 0],
       [2], [010], [011], [bit 1],
@@ -1256,8 +1256,7 @@ For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
     #table(
       columns: 3,
       stroke: 0.8pt,
-      inset: 5pt,
-      table.header([Cell], [Binary $(x y z)$], [Analysis]),
+      table.header([*Cell*], [*Binary $(x y z)$*], [*Analysis*]),
       [_m_#sub[1]], [001], [x=0, y=0, z=1],
       [_m_#sub[3]], [011], [x=0, y=1, z=1],
       [], [], [x=0, z=1, y varies],
@@ -1328,7 +1327,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Group], [Cells], [Pattern], [Term]),
+      table.header([*Group*], [*Cells*], [*Pattern*], [*Term*]),
       [Corners], [0, 3, 12, 15], [$B=0, D=1$, $A, C$ vary], [$overline(B) D$],
       [Vertical], [5, 6], [$A=0, B=1$, $C$ varies], [$overline(A) B overline(D)$],
     )
@@ -1355,7 +1354,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Group Size], [Variables Eliminated], [Literals Left], [Example Term]),
+      table.header([*Group Size*], [*Variables Eliminated*], [*Literals Left*], [*Example Term*]),
       [1 cell], [0], [4], [$A B C D$],
       [2 cells], [1], [3], [$A B C$],
       [4 cells], [2], [2], [$A B$],
@@ -1443,7 +1442,7 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
       columns: 3,
       align: left,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Law], [Sum Form], [Product Form]),
+      table.header([*Law*], [*Sum Form*], [*Product Form*]),
       [Idempotent], [$X + X = X$], [$X dot X = X$],
       [Absorption], [$X + X Y = X$], [$X(X + Y) = X$],
       [Combining], [$X Y + X overline(Y) = X$], [$(X + Y)(X + overline(Y)) = X$],
@@ -1545,7 +1544,7 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
       columns: 3,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       inset: 3pt,
-      table.header([Truth Table], [DNF Terms], [CNF Clauses]),
+      table.header([*Truth Table*], [*DNF Terms*], [*CNF Clauses*]),
       [2 ones, 6 zeros], [2 terms], [6 clauses],
       [6 ones, 2 zeros], [6 terms], [2 clauses],
     )
@@ -1620,7 +1619,7 @@ The algorithm has two phases:
     #table(
       columns: 3,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Group], [Minterm], [Binary]),
+      table.header([*Group*], [*Minterm*], [*Binary*]),
       [0 ones], [], [],
       [1 one], [_m_#sub[1]], [001],
       [2 ones], [_m_#sub[3]], [011],
@@ -1640,7 +1639,7 @@ The algorithm has two phases:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Minterms], [Binary], [Result], [Note]),
+      table.header([*Minterms*], [*Binary*], [*Result*], [*Note*]),
       [1, 3], [001, 011], [0−1], [bit 1 varies],
       [1, 5], [001, 101], [−01], [bit 2 varies],
       [3, 7], [011, 111], [−11], [bit 2 varies],
@@ -1661,7 +1660,7 @@ The algorithm has two phases:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Minterms], [Pattern], [Combine?], [Reason]),
+      table.header([*Minterms*], [*Pattern*], [*Combine?*], [*Reason*]),
       [1, 3, 5, 7], [0−1, −01], [No], [Different dash positions],
       [3, 7], [−11], [✓], [],
       [5, 7], [1−1], [✓], [],
@@ -1682,7 +1681,7 @@ The algorithm has two phases:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([Pattern], [Minterms Covered], [Term], [Status]),
+      table.header([*Pattern*], [*Minterms Covered*], [*Term*], [*Status*]),
       [−01], [1, 5], [$overline(A) C$], [],
       [0−1], [1, 3], [$overline(A) C$], [Duplicate!],
       [11−], [6, 7], [$A B$], [Prime],
@@ -1708,14 +1707,14 @@ The algorithm has two phases:
     #table(
       columns: 6,
       stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
-      table.header([PI], [_m_#sub[1]], [_m_#sub[3]], [_m_#sub[5]], [_m_#sub[6]], [_m_#sub[7]]),
+      table.header([*PI*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
       [$C$ (−−1)], [X], [X], [X], [], [X],
       [$A B$ (11−)], [], [], [], [X], [X],
     )
   ]
 
-  - _m_#sub[6] covered only by $A B$ → *essential*
-  - All others covered by $C$ → *essential*
+  - $m_6$ covered only by $A B$ $==>$ *essential*
+  - All others covered by $C$ $==>$ *essential*
 
   *Minimal solution:* $f = C + A B$
 ]
@@ -1828,7 +1827,7 @@ When multiple prime implicants remain after selecting essentials:
       columns: 7,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       inset: (x, y) => if x == 0 { 5pt } else { 3pt },
-      table.header([Group], [Minterm], [Binary], [→], [Comb 1], [→], [Comb 2]),
+      table.header([*Group*], [*Minterm*], [*Binary*], [*$->$*], [*Comb 1*], [*$->$*], [*Comb 2*]),
       [0], [0], [0000], [], [0,1: 000-], [], [0,1,8,9: -00-],
       [1], [1], [0001], [], [0,2: 00-0], [], [0,2,8,10: -0-0],
       [], [2], [0010], [], [0,8: -000], [], [],
@@ -1860,7 +1859,7 @@ When multiple prime implicants remain after selecting essentials:
     #table(
       columns: 11,
       stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
-      table.header([], [0], [1], [2], [5], [6], [7], [8], [9], [10], [14]),
+      table.header([], [*0*], [*1*], [*2*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*14*]),
       [$P_1$], [X], [X], [], [], [], [], [X], [X], [], [],
       [$P_2$], [X], [], [X], [], [], [], [X], [], [X], [],
       [$P_3$], [], [], [X], [], [X], [], [], [], [X], [X],
