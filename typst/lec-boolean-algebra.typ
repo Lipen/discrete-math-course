@@ -1186,7 +1186,7 @@ But the result is often *not minimal*.
 
 == 3-Variable K-Map Structure
 
-For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
+For 3 variables, we use a 2 $times$ 4 grid (one variable for rows, two for columns):
 
 #align(center)[
   #table(
@@ -1215,31 +1215,42 @@ For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
 #example[
   Minimize $f(x, y, z) = sum m(1, 3, 6, 7)$:
 
-  *Step 1:* Fill K-map
+  *Step 1:* Draw and fill K-map
 
-  #align(center)[
-    #table(
-      columns: 5,
-      rows: 3,
-      stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
-      inset: 5pt,
-      [], [$y z = 00$], [$y z = 01$], [$y z = 11$], [$y z = 10$],
-      [$x=0$], [0], [#text(fill: red)[*1*]], [#text(fill: red)[*1*]], [0],
-      [$x=1$], [0], [0], [#text(fill: blue)[*1*]], [#text(fill: blue)[*1*]],
+  #place(right, dx: -5cm)[
+    #import "@preview/k-mapper:1.2.0": karnaugh
+    #let kcell(i, b) = [#b#sub[#i]]
+    #karnaugh(
+      8,
+      y-label: $x y$,
+      x-label: $z$,
+      manual-terms: (
+        kcell(0, 0),
+        kcell(1, 1),
+        kcell(2, 0),
+        kcell(3, 1),
+        kcell(4, 0),
+        kcell(5, 0),
+        kcell(6, 1),
+        kcell(7, 1),
+      ),
+      implicants: ((1, 3), (6, 7)),
     )
   ]
 
   *Step 2:* Identify groupings
-  - #text(fill: red)[Red group] (top row, columns 01 and 11):
-    - Variables: $x = 0$, $z = 1$ (y varies)
+
+  - #Red[Red group]:
+    - Variables: $x = 0$, $z = 1$, $y$ varies
     - Term: $not x and z$
-  - #text(fill: blue)[Blue group] (bottom row, columns 11 and 10):
-    - Variables: $x = 1$, $y = 1$ (z varies)
+
+  - #Green[Green group]:
+    - Variables: $x = 1$, $y = 1$, $z$ varies
     - Term: $x and y$
 
   *Step 3:* Write minimal DNF
 
-  $f = (not x and z) or (x and y)$
+  $f = (not x and z) or (x and y) = overline(x) z + x y$
 ]
 
 == How K-Map Grouping Works
@@ -1258,19 +1269,19 @@ For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
     #table(
       columns: 3,
       stroke: 0.8pt,
-      table.header([*Cell*], [*Binary $(x y z)$*], [*Analysis*]),
+      table.header([*Cell*], [*$x y z$*], [*Analysis*]),
       [$m_1$], [001], [x=0, y=0, z=1],
       [$m_3$], [011], [x=0, y=1, z=1],
       [], [], [x=0, z=1, y varies],
     )
   ]
 
-  Result: $not x and z$ (y eliminated)
+  *Result:* $not x and z$ ($y$ eliminated)
 ]
 
 == 4-Variable K-Map Structure
 
-For 4 variables, use a 4×4 grid with Gray code on both axes:
+For 4 variables, use a 4 $times$ 4 grid with Gray code on both axes:
 
 // #align(center)[
 //   #table(
