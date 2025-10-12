@@ -1193,8 +1193,8 @@ For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
     stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
     inset: 5pt,
     [], [$y z = 00$], [$y z = 01$], [$y z = 11$], [$y z = 10$],
-    [$x=0$], [_m_#sub[0]], [_m_#sub[1]], [_m_#sub[3]], [_m_#sub[2]],
-    [$x=1$], [_m_#sub[4]], [_m_#sub[5]], [_m_#sub[7]], [_m_#sub[6]],
+    [$x=0$], [$m_0$], [$m_1$], [$m_3$], [$m_2$],
+    [$x=1$], [$m_4$], [$m_5$], [$m_7$], [$m_6$],
   )
 ]
 
@@ -1257,8 +1257,8 @@ For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
       columns: 3,
       stroke: 0.8pt,
       table.header([*Cell*], [*Binary $(x y z)$*], [*Analysis*]),
-      [_m_#sub[1]], [001], [x=0, y=0, z=1],
-      [_m_#sub[3]], [011], [x=0, y=1, z=1],
+      [$m_1$], [001], [x=0, y=0, z=1],
+      [$m_3$], [011], [x=0, y=1, z=1],
       [], [], [x=0, z=1, y varies],
     )
   ]
@@ -1277,10 +1277,10 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 //     stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
 //     inset: 5pt,
 //     [], [$C D = 00$], [$C D = 01$], [$C D = 11$], [$C D = 10$],
-//     [$A B = 00$], [_m_#sub[0]], [_m_#sub[1]], [_m_#sub[3]], [_m_#sub[2]],
-//     [$A B = 01$], [_m_#sub[4]], [_m_#sub[5]], [_m_#sub[7]], [_m_#sub[6]],
-//     [$A B = 11$], [_m_#sub[12]], [_m_#sub[13]], [_m_#sub[15]], [_m_#sub[14]],
-//     [$A B = 10$], [_m_#sub[8]], [_m_#sub[9]], [_m_#sub[11]], [_m_#sub[10]],
+//     [$A B = 00$], [$m_0$], [$m_1$], [$m_3$], [$m_2$],
+//     [$A B = 01$], [$m_4$], [$m_5$], [$m_7$], [$m_6$],
+//     [$A B = 11$], [$m_12$], [$m_13$], [$m_15$], [$m_14$],
+//     [$A B = 10$], [$m_8$], [$m_9$], [$m_11$], [$m_10$],
 //   )
 // ]
 
@@ -1621,11 +1621,11 @@ The algorithm has two phases:
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Group*], [*Minterm*], [*Binary*]),
       [0 ones], [], [],
-      [1 one], [_m_#sub[1]], [001],
-      [2 ones], [_m_#sub[3]], [011],
-      [], [_m_#sub[5]], [101],
-      [], [_m_#sub[6]], [110],
-      [3 ones], [_m_#sub[7]], [111],
+      [1 one], [$m_1$], [001],
+      [2 ones], [$m_3$], [011],
+      [], [$m_5$], [101],
+      [], [$m_6$], [110],
+      [3 ones], [$m_7$], [111],
     )
   ]
 ]
@@ -1742,13 +1742,13 @@ The algorithm has two phases:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
-      [], [_m_#sub[i]], [_m_#sub[j]], [_m_#sub[k]],
-      [_PI_#sub[1]], [X], [X], [],
-      [_PI_#sub[2]], [], [X], [X],
+      [], [$m_i$], [$m_j$], [$m_k$],
+      [$"PI"_1$], [X], [X], [],
+      [$"PI"_2$], [], [X], [X],
     )
   ]
 
-  _PI_#sub[1] is essential (only one covering _m_#sub[i])
+  $"PI"_1$ is essential (only one covering $m_i$)
 ]
 
 == Petrick's Method: Overview
@@ -1776,7 +1776,7 @@ When multiple prime implicants remain after selecting essentials:
     #table(
       columns: 5,
       stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
-      [], [_m_#sub[1]], [_m_#sub[2]], [_m_#sub[3]], [_m_#sub[4]],
+      [], [$m_1$], [$m_2$], [$m_3$], [$m_4$],
       [$P_1$], [X], [X], [], [],
       [$P_2$], [X], [], [X], [],
       [$P_3$], [], [X], [X], [X],
@@ -1785,10 +1785,10 @@ When multiple prime implicants remain after selecting essentials:
   ]
 
   *Coverage formula (CNF):*
-  - _m_#sub[1]: $P_1 + P_2$ (needs $P_1$ OR $P_2$)
-  - _m_#sub[2]: $P_1 + P_3$ (needs $P_1$ OR $P_3$)
-  - _m_#sub[3]: $P_2 + P_3 + P_4$
-  - _m_#sub[4]: $P_3 + P_4$
+  - $m_1$: $P_1 + P_2$ (needs $P_1$ OR $P_2$)
+  - $m_2$: $P_1 + P_3$ (needs $P_1$ OR $P_3$)
+  - $m_3$: $P_2 + P_3 + P_4$
+  - $m_4$: $P_3 + P_4$
 
   Formula: $(P_1 + P_2)(P_1 + P_3)(P_2 + P_3 + P_4)(P_3 + P_4)$
 ]
