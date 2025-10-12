@@ -1000,6 +1000,982 @@ Converting between DNF and CNF can be tricky:
 ]
 
 
+= Minimization
+#focus-slide()
+
+== The Minimization Problem
+
+We can synthesize any Boolean function from its truth table using SoP or PoS. But the result is often *not minimal*.
+
+#example[
+  Consider $f(x, y, z) = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)$
+
+  This has 4 terms with 3 literals each (12 literals total).
+
+  But we can simplify: $f = (not x and z) or (x and y)$ (only 4 literals!)
+]
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+
+  Block(color: blue)[
+    *Why minimize?*
+    - Fewer gates $=>$ cheaper circuits
+    - Less power consumption
+    - Higher speed (fewer gate delays)
+    - Easier to understand and verify
+  ],
+
+  Block(color: orange)[
+    *The challenge:*
+
+    Finding the minimal form is computationally hard (#box[NP-complete] in general).
+
+    We need practical techniques!
+  ],
+)
+
+== What Does "Minimal" Mean?
+
+#Block(color: blue)[
+  Different minimization criteria (goals) exist:
+  - *Minimum literals:* Fewest total literal occurrences
+  - *Minimum terms:* Fewest product terms (DNF) or clauses (CNF)
+  - *Minimum gates:* Fewest logic gates in circuit
+  - *Minimum levels:* Shortest signal propagation path (depth)
+]
+
+#example[
+  Function: $f = A B + A C + B C$
+
+  - Has 6 literals, 3 terms
+  - Can be reduced to: $f = A B + A C$ (using consensus theorem)
+  - Now 4 literals, 2 terms
+]
+
+#Block(color: yellow)[
+  *Usually*, we minimize the number of literals (most common criterion).
+]
+
+== Gray Code: Foundation of K-Maps
+
+#definition[
+  A _Gray code_ is a binary encoding where consecutive values differ in exactly one bit.
+]
+
+#example[
+  3-bit Gray code sequence:
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([Decimal], [Binary], [Gray Code], [Change]),
+      [0], [000], [000], [---],
+      [1], [001], [001], [bit 0],
+      [2], [010], [011], [bit 1],
+      [3], [011], [010], [bit 0],
+      [4], [100], [110], [bit 2],
+      [5], [101], [111], [bit 0],
+      [6], [110], [101], [bit 1],
+      [7], [111], [100], [bit 0],
+    )
+  ]
+
+  #note[
+    Here, bit 0 is LSB, bit 2 is MSB.
+  ]
+]
+
+// #Block(color: yellow)[
+//   *Why Gray code?*
+//   Adjacent cells in a K-map differ by one variable, making groupings correspond to algebraic simplifications.
+// ]
+
+== Converting Binary and Gray Code
+
+#Block(color: blue)[
+  *Binary to Gray*:
+  - Keep MSB (most significant bit)
+  - Each next bit: XOR current binary bit with previous binary bit
+
+  *Gray to Binary*:
+  - Keep MSB
+  - Each next bit: XOR current Gray bit with previous binary bit
+]
+
+#example[
+  Binary $#`1011` _2$ $to$ Gray:
+  - Bit 3: $1$ (keep MSB)
+  - Bit 2: $1 xor 0 = 1$
+  - Bit 1: $0 xor 1 = 1$
+  - Bit 0: $1 xor 1 = 0$
+  - Result: $#`1110` _"Gray"$
+]
+
+== Introduction to Karnaugh Maps
+
+#definition[
+  A _Karnaugh map (K-map)_ is a 2D grid representation of a truth table, arranged using Gray code so that adjacent cells differ in exactly one variable.
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  K-maps visualize the algebraic identity: $(x and y) or (x and not y) = x$
+
+  Adjacent 1s in the map represent terms that can be combined!
+]
+
+#columns(2)[
+  *Advantages:*
+  - Visual and intuitive
+  - Fast for small functions
+  - Shows all simplifications
+  - No complex computation
+
+  #colbreak()
+
+  *Limitations:*
+  - Practical only for $<=$ 5-6 variables
+  - Doesn't scale to large functions
+  - Requires manual grouping skill
+  - Can miss some patterns in 6+ vars
+]
+
+== 2-Variable K-Map: Step by Step
+
+#example[Build K-map for $f(x, y) = x or y$][
+  *Step 1:* Create 2×2 grid with Gray code labels
+
+  #align(center)[
+    #table(
+      columns: 3,
+      rows: 3,
+      stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
+      inset: 5pt,
+      [], [$y=0$], [$y=1$],
+      [$x=0$], [], [],
+      [$x=1$], [], [],
+    )
+  ]
+
+  *Step 2:* Fill in truth values
+
+  #align(center)[
+    #table(
+      columns: 3,
+      rows: 3,
+      stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
+      inset: 5pt,
+      [], [$y=0$], [$y=1$],
+      [$x=0$], [0], [1],
+      [$x=1$], [1], [1],
+    )
+  ]
+
+  *Step 3:* Group adjacent 1s
+  - Horizontal pair (bottom row): $x = 1$ → gives term $x$
+  - Vertical pair (right column): $y = 1$ → gives term $y$
+
+  *Result:* $f = x or y$ ✓
+]
+
+== 3-Variable K-Map Structure
+
+For 3 variables, we use a 2×4 grid (one variable for rows, two for columns):
+
+#align(center)[
+  #table(
+    columns: 5,
+    rows: 3,
+    stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
+    inset: 5pt,
+    [], [$y z = 00$], [$y z = 01$], [$y z = 11$], [$y z = 10$],
+    [$x=0$], [_m_#sub[0]], [_m_#sub[1]], [_m_#sub[3]], [_m_#sub[2]],
+    [$x=1$], [_m_#sub[4]], [_m_#sub[5]], [_m_#sub[7]], [_m_#sub[6]],
+  )
+]
+
+#note[
+  Column order: 00, 01, *11*, 10 (Gray code, NOT binary!)
+
+  This ensures left-right adjacency and wraparound (leftmost ↔ rightmost).
+]
+
+#Block(color: yellow)[
+  *Remember:* The map wraps around --- leftmost and rightmost columns are adjacent!
+]
+
+== 3-Variable K-Map: Complete Example
+
+#example[
+  Minimize $f(x, y, z) = sum m(1, 3, 6, 7)$:
+
+  *Step 1:* Fill K-map
+
+  #align(center)[
+    #table(
+      columns: 5,
+      rows: 3,
+      stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
+      inset: 5pt,
+      [], [$y z = 00$], [$y z = 01$], [$y z = 11$], [$y z = 10$],
+      [$x=0$], [0], [#text(fill: red)[*1*]], [#text(fill: red)[*1*]], [0],
+      [$x=1$], [0], [0], [#text(fill: blue)[*1*]], [#text(fill: blue)[*1*]],
+    )
+  ]
+
+  *Step 2:* Identify groupings
+  - #text(fill: red)[Red group] (top row, columns 01 and 11):
+    - Variables: $x = 0$, $z = 1$ (y varies)
+    - Term: $not x and z$
+  - #text(fill: blue)[Blue group] (bottom row, columns 11 and 10):
+    - Variables: $x = 1$, $y = 1$ (z varies)
+    - Term: $x and y$
+
+  *Step 3:* Write minimal DNF
+
+  $f = (not x and z) or (x and y)$
+]
+
+== How K-Map Grouping Works
+
+#Block(color: blue)[
+  *Grouping principles:*
+  - Variables that _change_ within the group are eliminated
+  - Variables that stay _constant_ remain in the term
+  - Larger groups $=>$ more variables eliminated $=>$ simpler terms
+]
+
+#example[
+  Group of 2 cells in 3-var K-map:
+
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: 0.8pt,
+      inset: 5pt,
+      table.header([Cell], [Binary $(x y z)$], [Analysis]),
+      [_m_#sub[1]], [001], [x=0, y=0, z=1],
+      [_m_#sub[3]], [011], [x=0, y=1, z=1],
+      [], [], [x=0, z=1, y varies],
+    )
+  ]
+
+  Result: $not x and z$ (y eliminated)
+]
+
+== 4-Variable K-Map Structure
+
+For 4 variables, use a 4×4 grid with Gray code on both axes:
+
+// #align(center)[
+//   #table(
+//     columns: 5,
+//     rows: 5,
+//     stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
+//     inset: 5pt,
+//     [], [$C D = 00$], [$C D = 01$], [$C D = 11$], [$C D = 10$],
+//     [$A B = 00$], [_m_#sub[0]], [_m_#sub[1]], [_m_#sub[3]], [_m_#sub[2]],
+//     [$A B = 01$], [_m_#sub[4]], [_m_#sub[5]], [_m_#sub[7]], [_m_#sub[6]],
+//     [$A B = 11$], [_m_#sub[12]], [_m_#sub[13]], [_m_#sub[15]], [_m_#sub[14]],
+//     [$A B = 10$], [_m_#sub[8]], [_m_#sub[9]], [_m_#sub[11]], [_m_#sub[10]],
+//   )
+// ]
+
+#align(center)[
+  #import "@preview/k-mapper:1.2.0": karnaugh
+  #karnaugh(
+    16,
+    x-label: $C D$,
+    y-label: $A B$,
+    manual-terms: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+    // implicants: ((0, 12), (3, 15)),
+    // vertical-implicants: ((5, 6),),
+  )
+]
+
+#Block(color: orange)[
+  *Important:*
+  Both rows and columns wrap around!
+  Treat the map as a _torus_:
+  - Top $<==>$ Bottom are adjacent
+  - Left $<==>$ Right are adjacent
+  - Even corners can be grouped!
+]
+
+== 4-Variable K-Map: Detailed Example
+
+#example[
+  #v(-1em)
+  #align(center)[
+    #import "@preview/k-mapper:1.2.0": karnaugh
+    #karnaugh(
+      16,
+      x-label: $C D$,
+      y-label: $A B$,
+      manual-terms: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
+      // implicants: ((0, 12), (3, 15)),
+      // vertical-implicants: ((5, 6),),
+    )
+  ]
+
+  *Analysis of groupings:*
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Group], [Cells], [Pattern], [Term]),
+      [Corners], [0, 3, 12, 15], [$B=0, D=1$, $A, C$ vary], [$overline(B) D$],
+      [Vertical], [5, 6], [$A=0, B=1$, $C$ varies], [$overline(A) B overline(D)$],
+    )
+  ]
+
+  *Minimal DNF:* $f = overline(B) D + overline(A) B overline(D)$
+]
+
+== K-Map Grouping: Valid Group Sizes
+
+#Block(color: purple)[
+  *Rules for valid groups:*
+
+  + Size must be a power of 2: 1, 2, 4, 8, or 16 cells
+  + Shape must be rectangular (1×2, 2×2, 4×4, 1×8, etc.)
+  + Can wrap around edges (torus topology)
+  + Larger groups are always better (fewer literals)
+]
+
+#example[
+  Relationship between group size and simplification:
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Group Size], [Variables Eliminated], [Literals Left], [Example Term]),
+      [1 cell], [0], [4], [$A B C D$],
+      [2 cells], [1], [3], [$A B C$],
+      [4 cells], [2], [2], [$A B$],
+      [8 cells], [3], [1], [$A$],
+      [16 cells], [4], [0], [$1$ (tautology)],
+    )
+  ]
+]
+
+== K-Map Strategy: Optimal Grouping
+
+#Block(color: yellow)[
+  *Step-by-step grouping strategy:*
+
+  + Mark all 1s in the K-map
+  + Find cells that can *only* be covered by one group (essential)
+  + Group these with largest possible rectangles
+  + Cover remaining 1s with largest possible groups
+  + Minimize overlap (but overlap is allowed!)
+  + Verify all 1s are covered
+]
+
+#Block(color: blue)[
+  *Pro tips:*
+  - Start with isolated 1s (they need their own groups)
+  - Look for groups of 8, then 4, then 2
+  - Remember wraparound on all edges
+  - Corner cells can also form groups ($2 times 2$ block)
+]
+
+== K-Maps with Don't-Care Conditions
+
+#definition[Don't-Care Conditions][
+  Situations where output value doesn't matter (marked as X or d):
+  - Invalid input combinations
+  - Outputs that are never used
+  - Incompletely specified functions
+]
+
+#example[
+  BCD (Binary Coded Decimal) uses only 0-9:
+
+  Inputs 1010-1111 are don't-cares (invalid BCD)
+]
+
+#Block(color: yellow)[
+  *Strategy with don't-cares:*
+  - Treat X as 0 or 1 to maximize group sizes
+  - Include X in groups if it helps
+  - Don't create groups containing only X values
+]
+
+== Don't-Care Example
+
+#example[
+  Function with don't-cares at positions 10, 11, 14, 15:
+
+  #align(center)[
+    #import "@preview/k-mapper:1.2.0": karnaugh
+
+    #karnaugh(
+      16,
+      x-label: $C D$,
+      y-label: $A B$,
+      manual-terms: (0, 1, 1, 0, 1, 1, 0, 0, 1, 0, "X", "X", 0, 1, "X", "X"),
+      implicants: ((1, 5), (8, 13)),
+    )
+  ]
+
+  - Group 1: includes cells 1, 5 (1s) → $overline(A) overline(C) D$
+  - Group 2: includes cells 8, 12, 13 (using X at 12) → $A overline(C)$
+
+  Without don't-cares, would need more terms!
+]
+
+== Algebraic Minimization: Laws Review
+
+Beyond K-maps, we minimize algebraically using Boolean laws:
+
+#Block(color: purple)[
+  *Essential simplification laws:*
+
+  #align(center)[
+    #table(
+      columns: 3,
+      align: left,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Law], [Sum Form], [Product Form]),
+      [Idempotent], [$X + X = X$], [$X dot X = X$],
+      [Absorption], [$X + X Y = X$], [$X(X + Y) = X$],
+      [Combining], [$X Y + X overline(Y) = X$], [$(X + Y)(X + overline(Y)) = X$],
+      [Consensus],
+      [$X Y + overline(X) Z + Y Z$\ $= X Y + overline(X) Z$],
+      [$(X + Y)(overline(X) + Z)(Y + Z)$\ $= (X + Y)(overline(X) + Z)$],
+    )
+  ]
+]
+
+== Algebraic Minimization: Step-by-Step
+
+#example[
+  Minimize $f = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C$:
+
+  *Step 1:* Look for combining opportunities
+  $
+    f & = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C \
+      & = A B (C + overline(C)) + overline(A) B C + overline(A) overline(B) C   && "(factor)" \
+      & = A B + overline(A) B C + overline(A) overline(B) C                     && "(complement)"
+  $
+
+  *Step 2:* Apply more combining
+  $
+    f & = A B + overline(A) C (B + overline(B)) && "(factor)" \
+      & = A B + overline(A) C                   && "(complement)"
+  $
+
+  *Final result:* $f = A B + overline(A) C$ (reduced from 12 to 4 literals!)
+]
+
+== Consensus Theorem in Detail
+
+#theorem[Consensus Theorem][
+  $X Y + overline(X) Z + Y Z = X Y + overline(X) Z$
+
+  The term $Y Z$ is "absorbed" by the other two terms.
+]
+
+#proof[
+  $
+    X Y + overline(X) Z + Y Z & = X Y + overline(X) Z + (X + overline(X)) Y Z   && "(complement)" \
+                              & = X Y + overline(X) Z + X Y Z + overline(X) Y Z && "(distributive)" \
+                              & = X Y (1 + Z) + overline(X) Z (1 + Y)           && "(factor)" \
+                              & = X Y + overline(X) Z                           && "(null: " 1 + X = 1 ")"
+  $
+]
+
+#Block(color: blue)[
+  *Intuition:* If $Y Z$ is true, then either $X Y$ or $overline(X) Z$ must already be true, so $Y Z$ is redundant.
+]
+
+== Multi-Level Minimization
+
+#definition[Multi-Level Logic][
+  Instead of two-level SoP/PoS, use multiple levels of gates to share common subexpressions.
+]
+
+#example[
+  Two-level: $f_1 = A B C + A B D$, $f_2 = A B C + A B E$
+
+  Total: 10 literals (2 × 3 + 2 × 2)
+
+  Multi-level with factoring:
+  - $T = A B$ (common factor)
+  - $f_1 = T (C + D)$
+  - $f_2 = T (C + E)$
+
+  Total: 7 literals + reuse of T
+]
+
+#Block(color: yellow)[
+  *Trade-off:* Multi-level uses fewer gates but has longer delay (more levels).
+]
+
+== When to Use CNF vs DNF
+
+#columns(2)[
+  *DNF (Sum of Products):*
+  - Few 1s in truth table
+  - OR-of-ANDs natural
+  - Most circuit designs
+  - Easy synthesis from minterms
+  - K-map method works well
+
+  #colbreak()
+
+  *CNF (Product of Sums):*
+  - Few 0s in truth table
+  - AND-of-ORs structure
+  - SAT solver input
+  - Constraint representation
+  - Built from maxterms
+]
+
+#example[
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: 3pt,
+      table.header([Truth Table], [DNF Terms], [CNF Clauses]),
+      [2 ones, 6 zeros], [2 terms], [6 clauses],
+      [6 ones, 2 zeros], [6 terms], [2 clauses],
+    )
+  ]
+
+  Choose the form with fewer components!
+]
+
+== Introduction to Quine-McCluskey
+
+#definition[
+  The _Quine-McCluskey algorithm_ is a systematic tabular method for finding all prime implicants, guaranteed to produce a minimal form.
+
+  The Q-M algorithm has two phases:
+  + Generate all prime implicants from minterms
+  + Select a minimal set of prime implicants covering all minterms
+]
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+
+  Block(color: blue)[
+    *When to use Q-M:*
+    - More than 4-5 variables (K-maps impractical)
+    - Need guaranteed minimal solution
+    - Computer-aided design tools
+    - Can be automated (unlike K-maps)
+  ],
+
+  Block(color: orange)[
+    *Limitation:* Complexity grows exponentially with variables --- practical for ≤ 6-8 variables.
+  ],
+)
+
+== Quine-McCluskey: Phase 1 Overview
+
+The algorithm has two phases:
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+
+  Block(color: purple)[
+    *Phase 1: Generate Prime Implicants*
+
+    + List all minterms in binary
+    + Group by number of 1s (Hamming weight)
+    + Combine pairs differing in exactly one bit
+    + Replace differing bit with dash (--)
+    + Repeat until no more combinations
+    + Uncombined terms are prime implicants
+  ],
+
+  Block(color: purple)[
+    *Phase 2: Select Minimal Cover*
+
+    + Build prime implicant chart
+    + Find essential prime implicants
+    + Use Petrick's method or heuristics for rest
+  ],
+)
+
+== Q-M Phase 1: Detailed Example
+
+#example[
+  Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
+
+  *Step 1:* List minterms by number of 1s
+
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Group], [Minterm], [Binary]),
+      [0 ones], [], [],
+      [1 one], [_m_#sub[1]], [001],
+      [2 ones], [_m_#sub[3]], [011],
+      [], [_m_#sub[5]], [101],
+      [], [_m_#sub[6]], [110],
+      [3 ones], [_m_#sub[7]], [111],
+    )
+  ]
+]
+
+== Q-M Phase 1: First Combination
+
+#example[Continued][
+  *Step 2:* Combine adjacent groups (differ by 1 bit)
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Minterms], [Binary], [Result], [Note]),
+      [1, 3], [001, 011], [0−1], [bit 1 varies],
+      [1, 5], [001, 101], [−01], [bit 2 varies],
+      [3, 7], [011, 111], [−11], [bit 2 varies],
+      [5, 7], [101, 111], [1−1], [bit 1 varies],
+      [6, 7], [110, 111], [11−], [bit 0 varies],
+    )
+  ]
+
+  Note: All terms combined (check marks), so continue.
+]
+
+== Q-M Phase 1: Second Combination
+
+#example[Continued][
+  *Step 3:* Try to combine results from Step 2
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Minterms], [Pattern], [Combine?], [Reason]),
+      [1, 3, 5, 7], [0−1, −01], [No], [Different dash positions],
+      [3, 7], [−11], [✓], [],
+      [5, 7], [1−1], [✓], [],
+    )
+  ]
+
+  Items 3,7 and 5,7 can combine: both have pattern XX1 (but different X positions)
+
+  Result: 3, 5, 7 combine to −−1 (only C=1 constant)
+]
+
+== Q-M Phase 1: Finding Prime Implicants
+
+#example[Continued][
+  *Step 4:* Identify prime implicants (uncombined terms)
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([Pattern], [Minterms Covered], [Term], [Status]),
+      [−01], [1, 5], [$overline(A) C$], [],
+      [0−1], [1, 3], [$overline(A) C$], [Duplicate!],
+      [11−], [6, 7], [$A B$], [Prime],
+      [−−1], [3, 5, 7], [$C$], [Prime],
+    )
+  ]
+
+  *Prime implicants:* $C$ and $A B$
+]
+
+== Q-M Phase 2: Prime Implicant Chart
+
+#definition[Prime Implicant Chart][
+  A table showing which prime implicants cover which minterms.
+
+  Goal: Select minimum set of prime implicants covering all minterms.
+]
+
+#example[
+  For our example $sum m(1, 3, 5, 6, 7)$:
+
+  #align(center)[
+    #table(
+      columns: 6,
+      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      table.header([PI], [_m_#sub[1]], [_m_#sub[3]], [_m_#sub[5]], [_m_#sub[6]], [_m_#sub[7]]),
+      [$C$ (−−1)], [X], [X], [X], [], [X],
+      [$A B$ (11−)], [], [], [], [X], [X],
+    )
+  ]
+
+  - _m_#sub[6] covered only by $A B$ → *essential*
+  - All others covered by $C$ → *essential*
+
+  *Minimal solution:* $f = C + A B$
+]
+
+== Essential Prime Implicants
+
+#definition[Essential Prime Implicant][
+  A prime implicant that is the *only* one covering some minterm.
+
+  Must be included in any minimal solution.
+]
+
+#Block(color: yellow)[
+  *Algorithm:*
+  + Look for columns with only one X (essential)
+  + Include those prime implicants
+  + Remove covered minterms
+  + Repeat for remaining minterms
+]
+
+#example[
+  If a column has only one X, that prime implicant is essential:
+
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      [], [_m_#sub[i]], [_m_#sub[j]], [_m_#sub[k]],
+      [_PI_#sub[1]], [X], [X], [],
+      [_PI_#sub[2]], [], [X], [X],
+    )
+  ]
+
+  _PI_#sub[1] is essential (only one covering _m_#sub[i])
+]
+
+== Petrick's Method: Overview
+
+When multiple prime implicants remain after selecting essentials:
+
+#definition[Petrick's Method][
+  + Express "covering all minterms" as a Boolean formula
+  + Each minterm needs at least one of its covering PIs
+  + Formula in CNF (product of sums)
+  + Convert to DNF to see all possible covers
+  + Choose cover with minimum cost
+]
+
+#Block(color: blue)[
+  *Why it works:* The CNF formula is satisfiable if and only if we can cover all minterms. Each satisfying assignment is a valid cover.
+]
+
+== Petrick's Method: Detailed Example
+
+#example[
+  Prime implicants $P_1, P_2, P_3, P_4$ cover minterms as follows:
+
+  #align(center)[
+    #table(
+      columns: 5,
+      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      [], [_m_#sub[1]], [_m_#sub[2]], [_m_#sub[3]], [_m_#sub[4]],
+      [$P_1$], [X], [X], [], [],
+      [$P_2$], [X], [], [X], [],
+      [$P_3$], [], [X], [X], [X],
+      [$P_4$], [], [], [X], [X],
+    )
+  ]
+
+  *Coverage formula (CNF):*
+  - _m_#sub[1]: $P_1 + P_2$ (needs $P_1$ OR $P_2$)
+  - _m_#sub[2]: $P_1 + P_3$ (needs $P_1$ OR $P_3$)
+  - _m_#sub[3]: $P_2 + P_3 + P_4$
+  - _m_#sub[4]: $P_3 + P_4$
+
+  Formula: $(P_1 + P_2)(P_1 + P_3)(P_2 + P_3 + P_4)(P_3 + P_4)$
+]
+
+== Petrick's Method: Solving
+
+#example[Continued][
+  *Expand to DNF:*
+
+  $
+    & (P_1 + P_2)(P_1 + P_3)(P_2 + P_3 + P_4)(P_3 + P_4) \
+    & = (P_1 + P_2 P_3)(P_2 + P_3 + P_4)(P_3 + P_4) \
+    & = P_1 (P_3 + P_4) + P_2 P_3 (P_3 + P_4) \
+    & = P_1 P_3 + P_1 P_4 + P_2 P_3
+  $
+
+  *Possible covers:*
+  + $P_1 P_3$ (2 implicants)
+  + $P_1 P_4$ (2 implicants)
+  + $P_2 P_3$ (2 implicants)
+
+  All have same cost! Choose any: $f = P_1 + P_3$ (for example)
+]
+
+#Block(color: orange)[
+  *Warning:* CNF to DNF expansion can explode exponentially!
+]
+
+== Quine-McCluskey: Complete Example
+
+#example[
+  Minimize $f(A, B, C, D) = sum m(0, 1, 2, 5, 6, 7, 8, 9, 10, 14)$
+
+  #align(center)[
+    #table(
+      columns: 7,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      inset: (x, y) => if x == 0 { 5pt } else { 3pt },
+      table.header([Group], [Minterm], [Binary], [→], [Comb 1], [→], [Comb 2]),
+      [0], [0], [0000], [], [0,1: 000-], [], [0,1,8,9: -00-],
+      [1], [1], [0001], [], [0,2: 00-0], [], [0,2,8,10: -0-0],
+      [], [2], [0010], [], [0,8: -000], [], [],
+      [], [8], [1000], [], [1,9: 100-], [], [],
+      [2], [5], [0101], [], [2,6: 0-10], [], [2,6,10,14: --10],
+      [], [6], [0110], [], [2,10: -010], [], [],
+      [], [9], [1001], [], [5,7: 01-1], [], [],
+      [], [10], [1010], [], [8,9: 100-], [], [],
+      [3], [7], [0111], [], [8,10: 10-0], [], [],
+      [], [14], [1110], [], [6,7: 011-], [], [],
+      [], [], [], [], [6,14: -110], [], [],
+      [], [], [], [], [10,14: 1-10], [], [],
+    )
+  ]
+]
+
+== Q-M Example: Finding Minimal Cover
+
+#example[Continued][
+  *Prime implicants:*
+  - $P_1$: −00− covers {0, 1, 8, 9}
+  - $P_2$: −0−0 covers {0, 2, 8, 10}
+  - $P_3$: −−10 covers {2, 6, 10, 14}
+  - $P_4$: 01−1 covers {5, 7}
+
+  Prime implicant chart:
+
+  #align(center)[
+    #table(
+      columns: 11,
+      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      table.header([], [0], [1], [2], [5], [6], [7], [8], [9], [10], [14]),
+      [$P_1$], [X], [X], [], [], [], [], [X], [X], [], [],
+      [$P_2$], [X], [], [X], [], [], [], [X], [], [X], [],
+      [$P_3$], [], [], [X], [], [X], [], [], [], [X], [X],
+      [$P_4$], [], [], [], [X], [], [X], [], [], [], [],
+    )
+  ]
+
+  - $P_4$ is essential (only covers 5, 7)
+  - After selecting $P_4$, need to cover {0, 1, 2, 6, 8, 9, 10, 14}
+
+  *Minimal solution:* $f = P_1 + P_3 + P_4$ or $f = P_2 + P_3 + P_4$
+]
+
+== Complexity of Minimization
+
+#theorem[
+  Boolean function minimization is *NP-complete*.
+]
+
+#Block(color: purple)[
+  *What this means:*
+  - No polynomial-time algorithm known for optimal minimization
+  - Problem difficulty grows exponentially with function size
+  - For large functions, we must accept suboptimal solutions
+  - Heuristics and approximations are necessary
+]
+
+#Block(color: teal)[
+  *Historical context:*
+  - 1950s-1970s: Minimization critical (gates expensive)
+  - Quine-McCluskey (1956): First systematic method
+  - ESPRESSO (1984): Major breakthrough in heuristics
+  - Modern era: Focus shifted to power/delay over gate count
+]
+
+== Modern Minimization Tools
+
+#Block(color: blue)[
+  *Industrial-strength tools:*
+
+  *ESPRESSO:*
+  - Heuristic multi-level minimizer
+  - Handles 100+ variables
+  - Used in major CAD tools
+
+  *ABC (Berkeley):*
+  - Academic tool for logic synthesis
+  - Advanced algorithms for large designs
+
+  *Commercial tools:*
+  - Synopsys Design Compiler
+  - Cadence Genus
+]
+
+#Block(color: yellow)[
+  *Modern approach:*
+  - Technology mapping (fit to available gates)
+  - Timing-driven optimization
+  - Power minimization
+  - Multi-objective optimization
+]
+
+== Practical Minimization Strategy
+
+#Block(color: yellow)[
+  *Recommended approach by function size:*
+
+  *2-3 variables:*
+  - Use K-maps (instant, visual)
+  - Or simple algebra
+
+  *4 variables:*
+  - K-maps work well
+  - Good for learning and verification
+
+  *5-6 variables:*
+  - K-maps possible but tedious
+  - Q-M algorithm or tools
+
+  *7+ variables:*
+  - Use CAD tools (ESPRESSO, ABC)
+  - Heuristic methods
+  - Accept near-optimal solutions
+
+  *Always:*
+  - Verify by expanding result
+  - Check against original truth table
+  - Test edge cases
+]
+
+== Summary: Minimization Techniques
+
+#Block(color: purple)[
+  *What we've mastered:*
+
+  + *Why minimize:* Cost, power, speed, clarity
+  + *Gray code:* Foundation for K-map adjacency
+  + *K-maps:* Visual method for 2-4 variables
+    - Grouping rules and strategies
+    - Don't-care optimization
+    - Wraparound and corners
+  + *Algebraic methods:* Laws, consensus, multi-level
+  + *Quine-McCluskey:*
+    - Systematic prime implicant generation
+    - Prime implicant chart
+    - Essential implicants
+  + *Petrick's method:* Minimum cover selection
+  + *Complexity:* NP-complete in general
+  + *Practical tools:* ESPRESSO, ABC, commercial CAD
+]
+
+#Block(color: yellow)[
+  *Next:* #h(0.2em)
+  Zhegalkin polynomials (ANF) --- a completely different normal form using XOR!
+]
 = Digital Circuits
 #focus-slide()
 
