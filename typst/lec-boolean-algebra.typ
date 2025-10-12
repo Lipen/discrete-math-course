@@ -1003,6 +1003,8 @@ Converting between DNF and CNF can be tricky:
 = Minimization
 #focus-slide()
 
+// TODO: use "overline" instead of "not" (not *everywhere*, but generally...), since it is easier to read. That way, "and" could be omitted, and "or" could be replaced by "+".
+
 == The Minimization Problem
 
 We can synthesize any Boolean function from its truth table using SoP or PoS.
@@ -1146,6 +1148,8 @@ But the result is often *not minimal*.
   - Can miss some patterns in 6+ vars
 ]
 
+// TODO: mention that K-map produces minimal DNF. It could also be used for min-CNF, if we analyze 0s instead of 1s.
+
 == 2-Variable K-Map: Step by Step
 
 #example[
@@ -1174,12 +1178,12 @@ But the result is often *not minimal*.
   - Horizontal pair (bottom row): $x = 1$ $->$ gives term $x$
   - Vertical pair (right column): $y = 1$ $->$ gives term $y$
 
-  *Result:* $f = x or y$ ✓
+  *Result:* $f = x or y$
 ]
 
 == 3-Variable K-Map Structure
 
-For 3 variables, we use a 2×4 grid (two variables for rows, one for columns):
+For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
 
 #align(center)[
   #import "@preview/k-mapper:1.2.0": karnaugh
@@ -1206,7 +1210,7 @@ For 3 variables, we use a 2×4 grid (two variables for rows, one for columns):
 #example[
   Minimize $f(x, y, z) = sum m(1, 3, 6, 7)$:
 
-  *Step 1:* Draw and fill K-map
+  *Step 1:* Draw 4×2 grid and fill in the truth values
 
   #place(right, dx: -5cm)[
     #import "@preview/k-mapper:1.2.0": karnaugh
@@ -1309,17 +1313,13 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
     )
   ]
 
-  *Analysis of groupings:*
-
-  #align(center)[
-    #table(
-      columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Group*], [*Cells*], [*Pattern*], [*Term*]),
-      [Corners], [0, 2, 8, 10], [$B = 0$, $D = 0$, $A$ and $C$ vary], [$overline(B) overline(D)$],
-      [Vertical], [5, 13], [$B = 1$, $C = 0$, $D = 1$, $A$ varies], [$B overline(C) D$],
-    )
-  ]
+  #table(
+    columns: 4,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Group*], [*Cells*], [*Pattern*], [*Term*]),
+    [Corners], [0, 2, 8, 10], [$B = 0$, $D = 0$, $A$ and $C$ vary], [$overline(B) thin overline(D)$],
+    [Vertical], [5, 13], [$B = 1$, $C = 0$, $D = 1$, $A$ varies], [$B thin overline(C) thin D$],
+  )
 
   *Minimal DNF:* $f = overline(B) thin overline(D) + B thin overline(C) thin D$
 ]
@@ -1342,7 +1342,8 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Group Size*], [*Variables Eliminated*], [*Literals Left*], [*Example Term*]),
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([*Group \ Size*], [*Variables \ Eliminated*], [*Literals \ Left*], [*Example \ Term*]),
       [1 cell], [0], [4], [$A B C D$],
       [2 cells], [1], [3], [$A B C$],
       [4 cells], [2], [2], [$A B$],
