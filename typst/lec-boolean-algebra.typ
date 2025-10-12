@@ -1012,7 +1012,7 @@ But the result is often *not minimal*.
 #example[
   Consider $f(x, y, z) = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)$
 
-  This has 4 terms with 3 literals each (12 literals total).
+  This CDNF has 4 terms with 3 literals each (12 literals total).
 
   But we can simplify: $f = (not x and z) or (x and y)$ (only 4 literals!)
 ]
