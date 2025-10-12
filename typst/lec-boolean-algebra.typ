@@ -1005,7 +1005,9 @@ Converting between DNF and CNF can be tricky:
 
 == The Minimization Problem
 
-We can synthesize any Boolean function from its truth table using SoP or PoS. But the result is often *not minimal*.
+We can synthesize any Boolean function from its truth table using SoP or PoS.
+
+But the result is often *not minimal*.
 
 #example[
   Consider $f(x, y, z) = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)$
