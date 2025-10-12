@@ -1114,7 +1114,7 @@ But the result is often *not minimal*.
   - Bit 2: $1 xor 0 = 1$
   - Bit 1: $0 xor 1 = 1$
   - Bit 0: $1 xor 1 = 0$
-  - Result: $#`1110` _"Gray"$
+  - *Result:* $#`1110` _"Gray"$
 ]
 
 == Introduction to Karnaugh Maps
