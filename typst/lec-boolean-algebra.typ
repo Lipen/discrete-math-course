@@ -1148,66 +1148,57 @@ But the result is often *not minimal*.
 
 == 2-Variable K-Map: Step by Step
 
-#example[Build K-map for $f(x, y) = x or y$][
-  *Step 1:* Create 2×2 grid with Gray code labels
+#example[
+  Build K-map for $f(x, y) = x or y$.
 
-  #align(center)[
-    #table(
-      columns: 3,
-      rows: 3,
-      stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
-      inset: 5pt,
-      [], [$y=0$], [$y=1$],
-      [$x=0$], [], [],
-      [$x=1$], [], [],
+  *Step 1:* Create 2×2 grid and fill in the truth values
+
+  #place(right, dx: -3cm)[
+    #import "@preview/k-mapper:1.2.0": karnaugh
+    #let kcell(i, b) = [#b#sub[#i]]
+    #karnaugh(
+      4,
+      y-label: $x$,
+      x-label: $y$,
+      manual-terms: (
+        kcell(0, 0),
+        kcell(1, 1),
+        kcell(2, 1),
+        kcell(3, 1),
+      ),
+      implicants: ((1, 3), (2, 3)),
     )
   ]
 
-  *Step 2:* Fill in truth values
-
-  #align(center)[
-    #table(
-      columns: 3,
-      rows: 3,
-      stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
-      inset: 5pt,
-      [], [$y=0$], [$y=1$],
-      [$x=0$], [0], [1],
-      [$x=1$], [1], [1],
-    )
-  ]
-
-  *Step 3:* Group adjacent 1s
-  - Horizontal pair (bottom row): $x = 1$ → gives term $x$
-  - Vertical pair (right column): $y = 1$ → gives term $y$
+  *Step 2:* Group adjacent 1s
+  - Horizontal pair (bottom row): $x = 1$ $->$ gives term $x$
+  - Vertical pair (right column): $y = 1$ $->$ gives term $y$
 
   *Result:* $f = x or y$ ✓
 ]
 
 == 3-Variable K-Map Structure
 
-For 3 variables, we use a 2 $times$ 4 grid (one variable for rows, two for columns):
+For 3 variables, we use a 2×4 grid (two variables for rows, one for columns):
 
 #align(center)[
-  #table(
-    columns: 5,
-    rows: 3,
-    stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
-    inset: 5pt,
-    [], [$y z = 00$], [$y z = 01$], [$y z = 11$], [$y z = 10$],
-    [$x=0$], [$m_0$], [$m_1$], [$m_3$], [$m_2$],
-    [$x=1$], [$m_4$], [$m_5$], [$m_7$], [$m_6$],
+  #import "@preview/k-mapper:1.2.0": karnaugh
+  #karnaugh(
+    8,
+    y-label: $x y$,
+    x-label: $z$,
+    manual-terms: (0, 1, 2, 3, 4, 5, 6, 7),
   )
 ]
 
 #note[
-  Column order: 00, 01, *11*, 10 (Gray code, NOT binary!)
+  Row order: 00, 01, *11*, 10 (Gray code, NOT binary!)
 
-  This ensures left-right adjacency and wraparound (leftmost ↔ rightmost).
+  This ensures top-bottom adjacency and wrap-around (torus structure).
 ]
 
 #Block(color: yellow)[
-  *Remember:* The map wraps around --- leftmost and rightmost columns are adjacent!
+  *Remember:* The map wraps around --- top and bottom rows are adjacent!
 ]
 
 == 3-Variable K-Map: Complete Example
@@ -1268,44 +1259,28 @@ For 3 variables, we use a 2 $times$ 4 grid (one variable for rows, two for colum
   #align(center)[
     #table(
       columns: 3,
-      stroke: 0.8pt,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Cell*], [*$x y z$*], [*Analysis*]),
-      [$m_1$], [001], [x=0, y=0, z=1],
-      [$m_3$], [011], [x=0, y=1, z=1],
-      [], [], [x=0, z=1, y varies],
+      [$m_1$], [001], [$x=0$, $y=0$, $z=1$],
+      [$m_3$], [011], [$x=0$, $y=1$, $z=1$],
+      [], [], [$x=0$, $z=1$, $y$ varies],
     )
   ]
 
-  *Result:* $not x and z$ ($y$ eliminated)
+  *Result:* $not x and z$ ~ ($y$ eliminated)
 ]
 
 == 4-Variable K-Map Structure
 
-For 4 variables, use a 4 $times$ 4 grid with Gray code on both axes:
-
-// #align(center)[
-//   #table(
-//     columns: 5,
-//     rows: 5,
-//     stroke: (x, y) => if x == 0 or y == 0 { 0.8pt } else { 0.4pt },
-//     inset: 5pt,
-//     [], [$C D = 00$], [$C D = 01$], [$C D = 11$], [$C D = 10$],
-//     [$A B = 00$], [$m_0$], [$m_1$], [$m_3$], [$m_2$],
-//     [$A B = 01$], [$m_4$], [$m_5$], [$m_7$], [$m_6$],
-//     [$A B = 11$], [$m_12$], [$m_13$], [$m_15$], [$m_14$],
-//     [$A B = 10$], [$m_8$], [$m_9$], [$m_11$], [$m_10$],
-//   )
-// ]
+For 4 variables, use a 4×4 grid with Gray code on both axes:
 
 #align(center)[
   #import "@preview/k-mapper:1.2.0": karnaugh
   #karnaugh(
     16,
-    x-label: $C D$,
     y-label: $A B$,
+    x-label: $C D$,
     manual-terms: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
-    // implicants: ((0, 12), (3, 15)),
-    // vertical-implicants: ((5, 6),),
   )
 ]
 
@@ -1329,8 +1304,8 @@ For 4 variables, use a 4 $times$ 4 grid with Gray code on both axes:
       x-label: $C D$,
       y-label: $A B$,
       manual-terms: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15),
-      // implicants: ((0, 12), (3, 15)),
-      // vertical-implicants: ((5, 6),),
+      implicants: ((5, 13),),
+      corner-implicants: true,
     )
   ]
 
@@ -1341,12 +1316,12 @@ For 4 variables, use a 4 $times$ 4 grid with Gray code on both axes:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Group*], [*Cells*], [*Pattern*], [*Term*]),
-      [Corners], [0, 3, 12, 15], [$B=0, D=1$, $A, C$ vary], [$overline(B) D$],
-      [Vertical], [5, 6], [$A=0, B=1$, $C$ varies], [$overline(A) B overline(D)$],
+      [Corners], [0, 2, 8, 10], [$B = 0$, $D = 0$, $A$ and $C$ vary], [$overline(B) overline(D)$],
+      [Vertical], [5, 13], [$B = 1$, $C = 0$, $D = 1$, $A$ varies], [$B overline(C) D$],
     )
   ]
 
-  *Minimal DNF:* $f = overline(B) D + overline(A) B overline(D)$
+  *Minimal DNF:* $f = overline(B) thin overline(D) + B thin overline(C) thin D$
 ]
 
 == K-Map Grouping: Valid Group Sizes
