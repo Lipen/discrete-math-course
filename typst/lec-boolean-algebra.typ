@@ -1405,24 +1405,46 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 == Don't-Care Example
 
 #example[
-  Function with don't-cares at positions 10, 11, 14, 15:
+  Function with don't-cares at positions 9, 11, 12, 15
 
   #align(center)[
     #import "@preview/k-mapper:1.2.0": karnaugh
-
+    #let kcell(i, b) = [
+      #b
+      #place(bottom + right, dx: 5pt - 2pt, dy: 5pt - 2pt)[
+        #text(size: 0.6em, fill: gray)[#i]
+      ]
+    ]
     #karnaugh(
       16,
       x-label: $C D$,
       y-label: $A B$,
-      manual-terms: (0, 1, 1, 0, 1, 1, 0, 0, 1, 0, cross, cross, 0, 1, cross, cross),
-      implicants: ((1, 5), (8, 13)),
+      manual-terms: (
+        kcell(0, 0),
+        kcell(1, 1),
+        kcell(2, 0),
+        kcell(3, 1),
+        kcell(4, 0),
+        kcell(5, 0),
+        kcell(6, 0),
+        kcell(7, 0),
+        kcell(8, 1),
+        kcell(9, cross),
+        kcell(10, 0),
+        kcell(11, cross),
+        kcell(12, cross),
+        kcell(13, 1),
+        kcell(14, 0),
+        kcell(15, cross),
+      ),
+      implicants: ((1, 3), (8, 13)),
     )
   ]
 
-  - Group 1: includes cells 1, 5 (1s) → $overline(A) overline(C) D$
-  - Group 2: includes cells 8, 12, 13 (using $cross$ at 12) → $A overline(C)$
+  - Group 1: includes cells 1, 3 (filled with 1s) $=>$ gives $overline(A) thin overline(B) thin D$
+  - Group 2: includes cells 8, 9, 12, 13 (uses don't-cares) $=>$ gives $A thin overline(C)$
 
-  Without don't-cares, would need more terms!
+  Without don't-cares, we would need more terms to cover all 1s!
 ]
 
 == Algebraic Minimization
