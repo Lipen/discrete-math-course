@@ -19,6 +19,13 @@
 #let Meet = $and$
 #let cross = $class("normal", times)$
 
+#let kcell(i, b) = [
+  #b
+  #place(bottom + right, dx: 5pt - 2pt, dy: 5pt - 2pt)[
+    #text(size: 0.6em, fill: gray)[#i]
+  ]
+]
+
 
 = Boolean Algebra
 #focus-slide(
@@ -1165,7 +1172,6 @@ But the result is often *not minimal*.
 
   #place(right, dx: -3cm)[
     #import "@preview/k-mapper:1.2.0": karnaugh
-    #let kcell(i, b) = [#b#sub[#i]]
     #karnaugh(
       4,
       y-label: $x$,
@@ -1220,7 +1226,6 @@ For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
 
   #place(right, dx: -5cm)[
     #import "@preview/k-mapper:1.2.0": karnaugh
-    #let kcell(i, b) = [#b#sub[#i]]
     #karnaugh(
       8,
       y-label: $x y$,
@@ -1409,12 +1414,6 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 
   #align(center)[
     #import "@preview/k-mapper:1.2.0": karnaugh
-    #let kcell(i, b) = [
-      #b
-      #place(bottom + right, dx: 5pt - 2pt, dy: 5pt - 2pt)[
-        #text(size: 0.6em, fill: gray)[#i]
-      ]
-    ]
     #karnaugh(
       16,
       x-label: $C D$,
@@ -1632,16 +1631,30 @@ The Q-M algorithm has two phases:
   Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
 ]
 
-*Step 1:* Group minterms by number of 1-bits (Hamming weight)
+#Block[
+  *Step 1:* Group minterms by number of 1-bits (Hamming weight).
+]
 
 #columns(2)[
-  All minterms will be compared with adjacent groups (groups differing by 1 in bit count).
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*Group*], [*Minterm*], [*Binary*]),
+      [1], [$m_1$], [001],
+      table.hline(stroke: 0.4pt),
+      [2], [$m_3$], [011],
+      [], [$m_5$], [101],
+      [], [$m_6$], [110],
+      table.hline(stroke: 0.4pt),
+      [3], [$m_7$], [111],
+    )
+  ]
 
-  If two minterms differ in exactly one bit position, combine them and mark both as "used" (✓).
+  #colbreak()
 
   #align(center)[
     #import "@preview/k-mapper:1.2.0": karnaugh
-    #let kcell(i, b) = [#b#sub[#i]]
     #karnaugh(
       8,
       y-label: $A B$,
@@ -1659,80 +1672,68 @@ The Q-M algorithm has two phases:
       implicants: ((1, 5), (6, 7)),
     )
   ]
-
-  #colbreak()
-
-  #align(center)[
-    #table(
-      columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Group*], [*Minterm*], [*Binary*], [*Used*]),
-      [1], [$m_1$], [001], [$checkmark$],
-      table.hline(stroke: 0.4pt),
-      [2], [$m_3$], [011], [$checkmark$],
-      [], [$m_5$], [101], [$checkmark$],
-      [], [$m_6$], [110], [$checkmark$],
-      table.hline(stroke: 0.4pt),
-      [3], [$m_7$], [111], [$checkmark$],
-    )
-  ]
 ]
 
 == Q-M Phase 1: First Combination
 
-*Step 2:* Combine size 1 implicants (minterms) to get size 2 implicants
-
-Try to combine each minterm in group $i$ with each minterm in group $i+1$:
+#Block[
+  *Step 2:* Try to combine each minterm in group $i$ with each minterm in group $i+1$.
+]
 
 #align(center)[
   #table(
     columns: 4,
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*\# of 1s*], [*Minterm*], [*Cube*], [*Size 2 Implicant*]),
+    table.header([*\# of 1s*], [*Minterm*], [*Cube*], [*Size 2 Implicants*]),
+
     [1],
-    [$m_1$],
+    [$m_1$#YES],
     [001],
     [
-      $m_(1,3)$ ~~ 0−1 \
-      $m_(1,5)$ ~~ −01 \
-      $m_(1,6)$ ~~ #NO (differs in 3 positions)
+      $m_1 + m_3 = m_(1,3)$ #YES 0−1 \
+      $m_1 + m_5 = m_(1,5)$ #YES −01 \
+      $m_1 + m_6$ #NO (differ in 3 positions)
     ],
 
     table.hline(stroke: 0.4pt),
     [2],
-    [$m_3$],
+    [$m_3$#YES],
     [011],
     [
-      $m_(3,7)$ ~~ −11
+      $m_3 + m_7 = m_(3,7)$ #YES −11
     ],
     [],
 
-    [$m_5$],
+    [$m_5$#YES],
     [101],
     [
-      $m_(5,7)$ ~~ 1−1
+      $m_5 + m_7 = m_(5,7)$ #YES 1−1
     ],
     [],
 
-    [$m_6$],
+    [$m_6$#YES],
     [110],
     [
-      $m_(6,7)$ ~~ 11−
+      $m_6 + m_7 = m_(6,7)$ #YES 11−
     ],
 
     table.hline(stroke: 0.4pt),
-    [3], [$m_7$], [111], [ --- ],
+    [3], [$m_7$#YES], [111], [ --- ],
   )
 ]
 
 *Result:* Five size-2 implicants formed: $m_(1,3)$, $m_(1,5)$, $m_(3,7)$, $m_(5,7)$, $m_(6,7)$
 
+#note[
+  Mark all "used" minterms with #YES and all "unused" with #NO
+]
+
 == Q-M Phase 1: Second Combination
 
-*Step 3:* Try to combine size 2 implicants to get size 4 implicants
-
-Try to combine each implicant with others having dashes in the SAME positions:
+#Block[
+  *Step 3:* Try to combine each 2-size implicant with others having dashes in the SAME positions.
+]
 
 #align(center)[
   #table(
@@ -1741,31 +1742,31 @@ Try to combine each implicant with others having dashes in the SAME positions:
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Dash pos.*], [*Implicant*], [*Pattern*], [*Size 4 Implicant*]),
     [pos. 0],
-    [$m_(1,5)$ $checkmark$],
+    [$m_(1,5)$ #YES],
     [−01],
     [
-      $m_(1,5)+m_(3,7) = m_(1,3,5,7)$ ~~ −−1
+      $m_(1,5)+m_(3,7) = m_(1,3,5,7)$ #YES −−1
     ],
     [],
-    [$m_(3,7)$ $checkmark$],
+    [$m_(3,7)$ #YES],
     [−11],
     [---],
 
     table.hline(stroke: 0.4pt),
     [pos. 1],
-    [$m_(1,3)$ $checkmark$],
+    [$m_(1,3)$ #YES],
     [0−1],
     [
-      $m_(1,3) + m_(5,7) = m_(1,3,5,7)$ ~ −−1
+      $m_(1,3) + m_(5,7) = m_(1,3,5,7)$ #YES −−1
     ],
     [],
-    [$m_(5,7)$ $checkmark$],
+    [$m_(5,7)$ #YES],
     [1−1],
     [---],
 
     table.hline(stroke: 0.4pt),
     [pos. 2],
-    [$m_(6,7)$],
+    [$m_(6,7)$ #NO],
     [11−],
     [
       (no other implicant with dash at pos. 2)
@@ -1783,11 +1784,13 @@ Only one size-2 implicant remains uncombined: $m_(6,7)$ (11−).
 
 == Q-M Phase 1: Finding Prime Implicants
 
-*Step 4:* Prime implicants are terms NOT marked with $checkmark$ ("used")
+#Block[
+  *Step 4:* Identify prime implicants (uncombined terms).
+]
 
 From Step 3:
-- Size-4 implicant: $m_(1,3,5,7)$ (−−1) is _prime_ since there are no other size-4 implicants to combine with!
-- Size-2 implicants NOT marked with $checkmark$: $m_(6,7)$ are _prime_
+- Size-4 implicant: $m_(1,3,5,7)$ (−−1) is _prime_ since there are no other size-4 implicants to combine with
+- Size-2 implicants NOT marked with #YES: $m_(6,7)$ are _prime_
 
 #align(center)[
   #table(
@@ -1825,9 +1828,9 @@ These 4 prime implicants cannot be reduced further.
   ]
 
   *Finding essential prime implicants:*
-  - Look for columns with only ONE $checkmark$ → that PI is *essential*
-    - Columns $m_1$, $m_3$, $m_5$: only covered by $C$ $=>$ $C$ is *essential*
-    - Column $m_6$: only covered by $A B$ $=>$ $A B$ is *essential*
+  - Look for columns with only ONE $checkmark$ $=>$ that PI is *essential*
+    - Columns $m_1$, $m_3$, $m_5$ --- only covered by $C$ $=>$ $C$ is *essential*
+    - Column $m_6$ --- only covered by $A B$ $=>$ $A B$ is *essential*
 
   *Selecting minimal cover:*
   - Must include: $C$ (essential), covers ${1, 3, 5, 7}$
