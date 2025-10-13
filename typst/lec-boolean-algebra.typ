@@ -1172,8 +1172,7 @@ But the result is often *not minimal*.
   *Step 1:* Create 2×2 grid and fill in the truth values
 
   #place(right, dx: -3cm)[
-    #import "@preview/k-mapper:1.2.0": karnaugh
-    #karnaugh(
+    #k-mapper.karnaugh(
       4,
       y-label: $x$,
       x-label: $y$,
@@ -1199,8 +1198,7 @@ But the result is often *not minimal*.
 For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
 
 #align(center)[
-  #import "@preview/k-mapper:1.2.0": karnaugh
-  #karnaugh(
+  #k-mapper.karnaugh(
     8,
     y-label: $x y$,
     x-label: $z$,
@@ -1226,8 +1224,7 @@ For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
   *Step 1:* Draw 4×2 grid and fill in the truth values
 
   #place(right, dx: -5cm)[
-    #import "@preview/k-mapper:1.2.0": karnaugh
-    #karnaugh(
+    #k-mapper.karnaugh(
       8,
       y-label: $x y$,
       x-label: $z$,
@@ -1291,8 +1288,7 @@ For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
 For 4 variables, use a 4×4 grid with Gray code on both axes:
 
 #align(center)[
-  #import "@preview/k-mapper:1.2.0": karnaugh
-  #karnaugh(
+  #k-mapper.karnaugh(
     16,
     y-label: $A B$,
     x-label: $C D$,
@@ -1314,8 +1310,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 #example[
   #v(-1em)
   #align(center)[
-    #import "@preview/k-mapper:1.2.0": karnaugh
-    #karnaugh(
+    #k-mapper.karnaugh(
       16,
       x-label: $C D$,
       y-label: $A B$,
@@ -1414,8 +1409,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
   Function with don't-cares at positions 9, 11, 12, 15
 
   #align(center)[
-    #import "@preview/k-mapper:1.2.0": karnaugh
-    #karnaugh(
+    #k-mapper.karnaugh(
       16,
       x-label: $C D$,
       y-label: $A B$,
@@ -1655,8 +1649,7 @@ The Q-M algorithm has two phases:
   #colbreak()
 
   #align(center)[
-    #import "@preview/k-mapper:1.2.0": karnaugh
-    #karnaugh(
+    #k-mapper.karnaugh(
       8,
       y-label: $A B$,
       x-label: $C$,
