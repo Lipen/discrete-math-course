@@ -17,6 +17,7 @@
 #let nor = $overline(or)$
 #let Join = $or$
 #let Meet = $and$
+#let cross = $class("normal", times)$
 
 
 = Boolean Algebra
@@ -1377,7 +1378,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 == K-Maps with Don't-Care Conditions
 
 #definition[Don't-Care Conditions][
-  Situations where output value doesn't matter (marked as X or d):
+  Situations where output value doesn't matter (marked as #cross):
   - Invalid input combinations
   - Outputs that are never used
   - Incompletely specified functions
@@ -1408,7 +1409,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
       16,
       x-label: $C D$,
       y-label: $A B$,
-      manual-terms: (0, 1, 1, 0, 1, 1, 0, 0, 1, 0, "X", "X", 0, 1, "X", "X"),
+      manual-terms: (0, 1, 1, 0, 1, 1, 0, 0, 1, 0, cross, cross, 0, 1, cross, cross),
       implicants: ((1, 5), (8, 13)),
     )
   ]
@@ -1655,13 +1656,13 @@ The Q-M algorithm has two phases:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Minterms*], [*Pattern*], [*Combine?*], [*Reason*]),
-      [1, 3, 5, 7], [0−1, −01], [No], [Different dash positions],
-      [3, 7], [−11], [✓], [],
-      [5, 7], [1−1], [✓], [],
+      [1, 3, 5, 7], [0−1, −01], [#NO], [Different dash positions],
+      [3, 7], [−11], [#YES], [],
+      [5, 7], [1−1], [#YES], [],
     )
   ]
 
-  Items 3,7 and 5,7 can combine: both have pattern XX1 (but different X positions)
+  Items 3,7 and 5,7 can combine: both have pattern $cross cross 1$ (but different $cross$ positions)
 
   Result: 3, 5, 7 combine to −−1 (only $C = 1$ is constant)
 ]
@@ -1705,10 +1706,10 @@ The Q-M algorithm has two phases:
   #align(center)[
     #table(
       columns: 6,
-      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       table.header([*PI*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
-      [$C$ (−−1)], [X], [X], [X], [], [X],
-      [$A B$ (11−)], [], [], [], [X], [X],
+      [$C$ (−−1)], [#cross], [#cross], [#cross], [], [#cross],
+      [$A B$ (11−)], [], [], [], [#cross], [#cross],
     )
   ]
 
@@ -1744,10 +1745,10 @@ The Q-M algorithm has two phases:
   #align(center)[
     #table(
       columns: 4,
-      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       [], [$m_i$], [$m_j$], [$m_k$],
-      [$"PI"_1$], [X], [X], [],
-      [$"PI"_2$], [], [X], [X],
+      [$"PI"_1$], [#cross], [#cross], [],
+      [$"PI"_2$], [], [#cross], [#cross],
     )
   ]
 
@@ -1782,12 +1783,12 @@ When multiple prime implicants remain after selecting essentials:
   #align(center)[
     #table(
       columns: 5,
-      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       [], [$m_1$], [$m_2$], [$m_3$], [$m_4$],
-      [$P_1$], [X], [X], [], [],
-      [$P_2$], [X], [], [X], [],
-      [$P_3$], [], [X], [X], [X],
-      [$P_4$], [], [], [X], [X],
+      [$P_1$], [#cross], [#cross], [], [],
+      [$P_2$], [#cross], [], [#cross], [],
+      [$P_3$], [], [#cross], [#cross], [#cross],
+      [$P_4$], [], [], [#cross], [#cross],
     )
   ]
 
@@ -1860,18 +1861,16 @@ When multiple prime implicants remain after selecting essentials:
   - $P_3$: −−10 covers {2, 6, 10, 14}
   - $P_4$: 01−1 covers {5, 7}
 
-  Prime implicant chart:
-
-  #align(center)[
+  *Prime implicant chart:*
+  #box(baseline: 100% - 1em)[
     #table(
       columns: 11,
-      stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
-      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       table.header([], [*0*], [*1*], [*2*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*14*]),
-      [$P_1$], [X], [X], [], [], [], [], [X], [X], [], [],
-      [$P_2$], [X], [], [X], [], [], [], [X], [], [X], [],
-      [$P_3$], [], [], [X], [], [X], [], [], [], [X], [X],
-      [$P_4$], [], [], [], [X], [], [X], [], [], [], [],
+      [$P_1$], [#cross], [#cross], [], [], [], [], [#cross], [#cross], [], [],
+      [$P_2$], [#cross], [], [#cross], [], [], [], [#cross], [], [#cross], [],
+      [$P_3$], [], [], [#cross], [], [#cross], [], [], [], [#cross], [#cross],
+      [$P_4$], [], [], [], [#cross], [], [#cross], [], [], [], [],
     )
   ]
 
@@ -1905,83 +1904,107 @@ When multiple prime implicants remain after selecting essentials:
 
 == Modern Minimization Tools
 
-#Block(color: blue)[
-  *Industrial-strength tools:*
+#grid(
+  columns: 2,
+  column-gutter: 1em,
 
-  *ESPRESSO:*
-  - Heuristic multi-level minimizer
-  - Handles 100+ variables
-  - Used in major CAD tools
+  Block(color: blue)[
+    *Industrial-strength tools:*
 
-  *ABC (Berkeley):*
-  - Academic tool for logic synthesis
-  - Advanced algorithms for large designs
+    *ESPRESSO:*
+    - Heuristic multi-level minimizer
+    - Handles 100+ variables
+    - Used in major CAD tools
 
-  *Commercial tools:*
-  - Synopsys Design Compiler
-  - Cadence Genus
-]
+    *ABC (Berkeley):*
+    - Academic tool for logic synthesis
+    - Advanced algorithms for large designs
 
-#Block(color: yellow)[
-  *Modern approach:*
-  - Technology mapping (fit to available gates)
-  - Timing-driven optimization
-  - Power minimization
-  - Multi-objective optimization
-]
+    *Commercial tools:*
+    - Synopsys Design Compiler
+    - Cadence Genus
+  ],
+
+  Block(color: yellow)[
+    *Modern approach:*
+    - Technology mapping (fit to available gates)
+    - Timing-driven optimization
+    - Power minimization
+    - Multi-objective optimization
+  ],
+)
 
 == Practical Minimization Strategy
 
-#Block(color: yellow)[
+#Block(color: green)[
   *Recommended approach by function size:*
 
-  *2-3 variables:*
-  - Use K-maps (instant, visual)
-  - Or simple algebra
+  #columns(2)[
+    *2-3 variables:*
+    - Use K-maps (instant, visual)
+    - Or simple algebra
 
-  *4 variables:*
-  - K-maps work well
-  - Good for learning and verification
+    *4 variables:*
+    - K-maps work well
+    - Good for learning and verification
 
-  *5-6 variables:*
-  - K-maps possible but tedious
-  - Q-M algorithm or tools
+    *5-6 variables:*
+    - K-maps possible but tedious
+    - Q-M algorithm or tools
 
-  *7+ variables:*
-  - Use CAD tools (ESPRESSO, ABC)
-  - Heuristic methods
-  - Accept near-optimal solutions
+    #colbreak()
 
-  *Always:*
-  - Verify by expanding result
-  - Check against original truth table
-  - Test edge cases
+    *7+ variables:*
+    - Use CAD tools (ESPRESSO, ABC)
+    - Heuristic methods
+    - Accept near-optimal solutions
+
+    *Always:*
+    - Verify by expanding result
+    - Check against original truth table
+    - Test edge cases
+  ]
 ]
 
 == Summary: Minimization Techniques
 
 #Block(color: purple)[
   *What we've mastered:*
-  + *Why minimize:* Cost, power, speed, clarity
-  + *Gray code:* Foundation for K-map adjacency
-  + *K-maps:* Visual method for 2-5 variables
-    - Grouping rules and strategies
-    - Wraparound and corners
-    - Don't-care optimization
-  + *Algebraic methods:* Laws, consensus, multi-level
-  + *Quine-McCluskey:*
-    - Systematic prime implicant generation
-    - Prime implicant chart
-    - Essential implicants
-  + *Petrick's method:* Minimum cover selection
-  + *Minimization complexity:* NP-complete in general
-  + *Practical tools:* ESPRESSO, BOOM-II, ABC
+
+  #columns(2)[
+    + *Why minimize:* Cost, power, speed, clarity
+
+    + *Gray code:* Foundation for K-map adjacency
+
+    + *K-maps:* Visual method for 2-5 variables
+      - Grouping rules and strategies
+      - Wrap-around and corners
+      - Don't-care optimization
+
+    + *Algebraic methods:* Laws, consensus, #box[multi-level], factoring
+
+    #colbreak()
+    #set enum(start: 5)
+
+    + *Quine-McCluskey:*
+      - Systematic prime implicant generation
+      - Prime implicant chart
+      - Essential implicants
+
+    + *Petrick's method:* Minimum cover selection
+
+    + *Minimization complexity:* NP-complete
+
+    + *Practical tools:* ESPRESSO, ABC
+  ]
 ]
 
 #Block(color: yellow)[
   *Next:* #h(0.2em)
   Zhegalkin polynomials (ANF) --- a completely different normal form using XOR!
 ]
+
+
 = Digital Circuits
 #focus-slide()
 
