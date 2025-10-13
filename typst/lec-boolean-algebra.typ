@@ -1609,113 +1609,175 @@ The Q-M algorithm has two phases:
 #example[
   Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
 
-  #place(left, dx: 1em, dy: 1cm)[
-    #import "@preview/k-mapper:1.2.0": karnaugh
-    #let kcell(i, b) = [#b#sub[#i]]
-    #karnaugh(
-      8,
-      y-label: $A B$,
-      x-label: $C$,
-      manual-terms: (
-        kcell(0, 0),
-        kcell(1, 1),
-        kcell(2, 0),
-        kcell(3, 1),
-        kcell(4, 0),
-        kcell(5, 1),
-        kcell(6, 1),
-        kcell(7, 1),
-      ),
-      implicants: ((1, 5), (6, 7)),
-    )
-  ]
+  *Step 1:* Group minterms by number of 1-bits (Hamming weight)
 
-  *Step 1:* List minterms by number of 1s
+  #columns(2)[
+    All minterms will be compared with adjacent groups (groups differing by 1 in bit count).
 
-  #align(center)[
-    #table(
-      columns: 3,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Group*], [*Minterm*], [*Binary*]),
-      [0 ones], [], [],
-      [1 one], [$m_1$], [001],
-      [2 ones], [$m_3$], [011],
-      [], [$m_5$], [101],
-      [], [$m_6$], [110],
-      [3 ones], [$m_7$], [111],
-    )
-  ]
-]
+    If two minterms differ in exactly one bit position, combine them and mark both as "used" (✓).
 
-== Q-M First Phase: Combining Minterms
+    #align(center)[
+      #import "@preview/k-mapper:1.2.0": karnaugh
+      #let kcell(i, b) = [#b#sub[#i]]
+      #karnaugh(
+        8,
+        y-label: $A B$,
+        x-label: $C$,
+        manual-terms: (
+          kcell(0, 0),
+          kcell(1, 1),
+          kcell(2, 0),
+          kcell(3, 1),
+          kcell(4, 0),
+          kcell(5, 1),
+          kcell(6, 1),
+          kcell(7, 1),
+        ),
+        implicants: ((1, 5), (6, 7)),
+      )
+    ]
 
-#example[
-  _(continued)_
+    #colbreak()
 
-  *Step 2:* Combine adjacent groups (differ by 1 bit)
-
-  #align(center)[
-    #table(
-      columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Minterms*], [*Binary*], [*Result*], [*Note*]),
-      [1, 3], [001, 011], [0−1], [bit 1 varies],
-      [1, 5], [001, 101], [−01], [bit 2 varies],
-      [3, 7], [011, 111], [−11], [bit 2 varies],
-      [5, 7], [101, 111], [1−1], [bit 1 varies],
-      [6, 7], [110, 111], [11−], [bit 0 varies],
-    )
-  ]
-
-  #note[
-    All terms combined (check marks), so continue.
+    #align(center)[
+      #table(
+        columns: 4,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        table.header([*Group*], [*Minterm*], [*Binary*], [*Used*]),
+        [1], [$m_1$], [001], [$checkmark$],
+        table.hline(stroke: 0.4pt),
+        [2], [$m_3$], [011], [$checkmark$],
+        [], [$m_5$], [101], [$checkmark$],
+        [], [$m_6$], [110], [$checkmark$],
+        table.hline(stroke: 0.4pt),
+        [3], [$m_7$], [111], [$checkmark$],
+      )
+    ]
   ]
 ]
 
-== Q-M First Phase: More Combinations
+== Q-M Phase 1: First Combination
 
-#example[
-  _(continued)_
+*Step 2:* Combine size 1 implicants (minterms) to get size 2 implicants
 
-  *Step 3:* Try to combine results from Step 2
+Try to combine each minterm in group $i$ with each minterm in group $i+1$:
 
-  #align(center)[
-    #table(
-      columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Minterms*], [*Pattern*], [*Combine?*], [*Reason*]),
-      [1, 3, 5, 7], [0−1, −01], [#NO], [Different dash positions],
-      [3, 7], [−11], [#YES], [],
-      [5, 7], [1−1], [#YES], [],
-    )
-  ]
+#align(center)[
+  #table(
+    columns: 4,
+    align: (center, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*\# of 1s*], [*Minterm*], [*Cube*], [*Size 2 Implicant*]),
+    [1],
+    [$m_1$],
+    [001],
+    [
+      $m_(1,3)$ ~~ 0−1 \
+      $m_(1,5)$ ~~ −01 \
+      $m_(1,6)$ ~~ #NO (differs in 3 positions)
+    ],
 
-  Items 3,7 and 5,7 can combine: both have pattern $cross cross 1$ (but different $cross$ positions)
+    table.hline(stroke: 0.4pt),
+    [2],
+    [$m_3$],
+    [011],
+    [
+      $m_(3,7)$ ~~ −11
+    ],
+    [],
 
-  Result: 3, 5, 7 combine to −−1 (only $C = 1$ is constant)
+    [$m_5$],
+    [101],
+    [
+      $m_(5,7)$ ~~ 1−1
+    ],
+    [],
+
+    [$m_6$],
+    [110],
+    [
+      $m_(6,7)$ ~~ 11−
+    ],
+
+    table.hline(stroke: 0.4pt),
+    [3], [$m_7$], [111], [ --- ],
+  )
 ]
 
-== Q-M First Phase: Finding Prime Implicants
+*Result:* Five size-2 implicants formed: $m_(1,3)$, $m_(1,5)$, $m_(3,7)$, $m_(5,7)$, $m_(6,7)$
 
-#example[
-  _(continued)_
+== Q-M Phase 1: Second Combination
 
-  *Step 4:* Identify prime implicants (uncombined terms)
+*Step 3:* Try to combine size 2 implicants to get size 4 implicants
 
-  #align(center)[
-    #table(
-      columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Pattern*], [*Minterms Covered*], [*Term*], [*Status*]),
-      [−01], [1, 5], [$overline(B) C$], [Prime],
-      [0−1], [1, 3], [$overline(A) C$], [Prime],
-      [11−], [6, 7], [$A B$], [Prime],
-      [−−1], [3, 5, 7], [$C$], [Prime],
-    )
-  ]
+Try to combine each implicant with others having dashes in the SAME positions:
 
-  *Prime implicants:* $overline(B) C$, $overline(A) C$, $A B$, and $C$
+#align(center)[
+  #table(
+    columns: 4,
+    align: (center, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Dash pos.*], [*Implicant*], [*Pattern*], [*Size 4 Implicant*]),
+    [pos. 0],
+    [$m_(1,5)$ $checkmark$],
+    [−01],
+    [
+      $m_(1,5)+m_(3,7) = m_(1,3,5,7)$ ~~ −−1
+    ],
+    [],
+    [$m_(3,7)$ $checkmark$],
+    [−11],
+    [---],
+
+    table.hline(stroke: 0.4pt),
+    [pos. 1],
+    [$m_(1,3)$ $checkmark$],
+    [0−1],
+    [
+      $m_(1,3) + m_(5,7) = m_(1,3,5,7)$ ~ −−1
+    ],
+    [],
+    [$m_(5,7)$ $checkmark$],
+    [1−1],
+    [---],
+
+    table.hline(stroke: 0.4pt),
+    [pos. 2],
+    [$m_(6,7)$],
+    [11−],
+    [
+      (no other implicant with dash at pos. 2)
+    ],
+  )
 ]
+
+*Explanation:*
+- $m_(1,5)$ (−01) and $m_(3,7)$ (−11): dashes align at pos. 0, differ only in bit 1 $=>$ #YES combine to −−1
+- $m_(1,3)$ (0−1) and $m_(5,7)$ (1−1): dashes align at pos. 1, differ only in bit 0 $=>$ #YES combine to −−1
+- $m_(6,7)$ (11−): alone with dash at pos. 2 $=>$ cannot combine
+
+*Result:* One size-4 implicant formed: $m_(1,3,5,7)$ (−−1). \
+Only one size-2 implicant remains uncombined: $m_(6,7)$ (11−).
+
+== Q-M Phase 1: Finding Prime Implicants
+
+*Step 4:* Prime implicants are terms NOT marked with $checkmark$ ("used")
+
+From Step 3:
+- Size-4 implicant: $m_(1,3,5,7)$ (−−1) is _prime_ since there are no other size-4 implicants to combine with!
+- Size-2 implicants NOT marked with $checkmark$: $m_(6,7)$ are _prime_
+
+#align(center)[
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Pattern*], [*Covers*], [*Boolean Term*]),
+    [−−1], [{1, 3, 5, 7}], [$C$],
+    [11−], [{6, 7}], [$A B$],
+  )
+]
+
+These 4 prime implicants cannot be reduced further.
 
 == Prime Implicant Chart
 
@@ -1730,24 +1792,26 @@ The Q-M algorithm has two phases:
 #example[
   For our example $sum m(1, 3, 5, 6, 7)$:
 
-  #place(right, dx: -2em, dy: -1em)[
-    #set align(center)
+  #align(center)[
     #table(
       columns: 6,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      table.header([*PI*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
-      align(right)[$overline(B) C$ (−01)], [$cross$], [], [$cross$], [], [],
-      align(right)[$overline(A) C$ (0−1)], [$cross$], [$cross$], [], [], [],
-      align(right)[$A B$ (11−)], [], [], [], [$cross$], [$cross$],
-      align(right)[$C$ (−−1)], [], [$cross$], [$cross$], [], [$cross$],
+      table.header([*Prime Implicant*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
+      [$C$ (−−1)], [$checkmark$], [$checkmark$], [$checkmark$], [], [$checkmark$],
+      [$A B$ (11−)], [], [], [], [$checkmark$], [$checkmark$],
     )
   ]
 
-  - $C$ is *essential* (covers $m_3, m_5, m_7$)
-  - $A B$ is *essential* (only one covering $m_6$)
-  - Together $C + A B$ covers all minterms including $m_1$
+  *Finding essential prime implicants:*
+  - Look for columns with only ONE $checkmark$ → that PI is *essential*
+    - Columns $m_1$, $m_3$, $m_5$: only covered by $C$ $=>$ $C$ is *essential*
+    - Column $m_6$: only covered by $A B$ $=>$ $A B$ is *essential*
 
-  *Minimal solution:* $f = C + A B$
+  *Selecting minimal cover:*
+  - Must include: $C$ (essential), covers ${1, 3, 5, 7}$
+  - Must include: $A B$ (essential), covers ${6, 7}$
+
+  *Minimal solution:* $f = C + A B$ (3 literals)
 ]
 
 == Essential Prime Implicants
@@ -1760,31 +1824,35 @@ The Q-M algorithm has two phases:
   EPIs must ("by definition") be included in the final minimal cover.
 ]
 
-#Block(color: yellow)[
-  *Algorithm:*
-  + Look for columns with only one $cross$ (essential)
-  + Include those prime implicants
-  + Remove covered minterms
-  + Repeat for remaining minterms
-]
+#grid(
+  columns: (auto, 1fr),
+  column-gutter: 1em,
 
-#pagebreak()
+  Block(color: yellow)[
+    *Algorithm:*
+    + Look for columns with only one $cross$ (essential)
+    + Include those prime implicants
+    + Remove covered minterms
+    + Repeat for remaining minterms
+  ],
 
-#example[
-  If a column has only one $cross$, that prime implicant is essential:
+  example[
+    If a column has only one $cross$, that prime implicant is essential:
 
-  #align(center)[
-    #table(
-      columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      [], [$m_i$], [$m_j$], [$m_k$],
-      [$"PI"_1$], [$cross$], [$cross$], [],
-      [$"PI"_2$], [], [$cross$], [$cross$],
-    )
-  ]
+    #align(center)[
+      #table(
+        columns: 4,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+        [], [$m_i$], [$m_j$], [$m_k$],
+        [$"PI"_1$], [$cross$], [$cross$], [],
+        [$"PI"_2$], [], [$cross$], [$cross$],
+      )
+    ]
 
-  $"PI"_1$ is essential (only one covering $m_i$)
-]
+    - $"PI"_1$ is essential (only one covering $m_i$)
+    - $"PI"_2$ is essential (only one covering $m_k$)
+  ],
+)
 
 == Petrick's Method
 
