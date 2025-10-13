@@ -1415,7 +1415,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
   ]
 
   - Group 1: includes cells 1, 5 (1s) → $overline(A) overline(C) D$
-  - Group 2: includes cells 8, 12, 13 (using X at 12) → $A overline(C)$
+  - Group 2: includes cells 8, 12, 13 (using $cross$ at 12) → $A overline(C)$
 
   Without don't-cares, would need more terms!
 ]
@@ -1437,8 +1437,8 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
       [Absorption], [$X + X Y = X$], [$X(X + Y) = X$],
       [Combining], [$X Y + X overline(Y) = X$], [$(X + Y)(X + overline(Y)) = X$],
       [Consensus],
-      [$X Y + overline(X) Z + Y Z$\ $= X Y + overline(X) Z$],
-      [$(X + Y)(overline(X) + Z)(Y + Z)$\ $= (X + Y)(overline(X) + Z)$],
+      [$X Y + overline(X) Z + Y Z$ \ $= X Y + overline(X) Z$],
+      [$(X + Y)(overline(X) + Z)(Y + Z)$ \ $= (X + Y)(overline(X) + Z)$],
     )
   ]
 ]
@@ -1733,7 +1733,7 @@ The Q-M algorithm has two phases:
 
 #Block(color: yellow)[
   *Algorithm:*
-  + Look for columns with only one X (essential)
+  + Look for columns with only one $cross$ (essential)
   + Include those prime implicants
   + Remove covered minterms
   + Repeat for remaining minterms
@@ -1742,7 +1742,7 @@ The Q-M algorithm has two phases:
 #pagebreak()
 
 #example[
-  If a column has only one X, that prime implicant is essential:
+  If a column has only one $cross$, that prime implicant is essential:
 
   #align(center)[
     #table(
