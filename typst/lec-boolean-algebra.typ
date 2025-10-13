@@ -822,7 +822,6 @@ We can index minterms and maxterms by their binary representations:
     #table(
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([*Index*], [*Binary*], [*Minterm $m_i$*], [*Maxterm $M_i$*]),
       [0], [000], [$not x and not y and not z$], [$x or y or z$],
       [1], [001], [$not x and not y and z$], [$x or y or not z$],
