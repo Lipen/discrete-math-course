@@ -1609,6 +1609,27 @@ The Q-M algorithm has two phases:
 #example[
   Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
 
+  #place(left, dx: 1em, dy: 1cm)[
+    #import "@preview/k-mapper:1.2.0": karnaugh
+    #let kcell(i, b) = [#b#sub[#i]]
+    #karnaugh(
+      8,
+      y-label: $A B$,
+      x-label: $C$,
+      manual-terms: (
+        kcell(0, 0),
+        kcell(1, 1),
+        kcell(2, 0),
+        kcell(3, 1),
+        kcell(4, 0),
+        kcell(5, 1),
+        kcell(6, 1),
+        kcell(7, 1),
+      ),
+      implicants: ((1, 5), (6, 7)),
+    )
+  ]
+
   *Step 1:* List minterms by number of 1s
 
   #align(center)[
