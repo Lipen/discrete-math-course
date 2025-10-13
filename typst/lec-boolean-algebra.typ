@@ -1529,11 +1529,13 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
 ]
 
 #example[
+  Consider two functions:
+
   #align(center)[
     #table(
       columns: 3,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Truth Table*], [*DNF Terms*], [*CNF Clauses*]),
+      table.header([*Truth Table*], [*SoP Terms*], [*PoS Clauses*]),
       [2 ones, 6 zeros], [2 terms], [6 clauses],
       [6 ones, 2 zeros], [6 terms], [2 clauses],
     )
