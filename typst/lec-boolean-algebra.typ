@@ -1730,15 +1730,16 @@ The Q-M algorithm has two phases:
 #example[
   For our example $sum m(1, 3, 5, 6, 7)$:
 
-  #align(center)[
+  #place(right, dx: -2em, dy: -1em)[
+    #set align(center)
     #table(
       columns: 6,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       table.header([*PI*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
-      [$overline(B) C$ (−01)], [$cross$], [], [$cross$], [], [],
-      [$overline(A) C$ (0−1)], [$cross$], [$cross$], [], [], [],
-      [$A B$ (11−)], [], [], [], [$cross$], [$cross$],
-      [$C$ (−−1)], [], [$cross$], [$cross$], [], [$cross$],
+      align(right)[$overline(B) C$ (−01)], [$cross$], [], [$cross$], [], [],
+      align(right)[$overline(A) C$ (0−1)], [$cross$], [$cross$], [], [], [],
+      align(right)[$A B$ (11−)], [], [], [], [$cross$], [$cross$],
+      align(right)[$C$ (−−1)], [], [$cross$], [$cross$], [], [$cross$],
     )
   ]
 
