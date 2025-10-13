@@ -1419,9 +1419,9 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
   Without don't-cares, would need more terms!
 ]
 
-== Algebraic Minimization: Laws Review
+== Algebraic Minimization
 
-Beyond K-maps, we minimize algebraically using Boolean laws:
+Beyond K-maps, we can minimize algebraically using Boolean laws:
 
 #Block(color: purple)[
   *Essential simplification laws:*
@@ -1442,7 +1442,7 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
   ]
 ]
 
-== Algebraic Minimization: Step-by-Step
+== Step-by-Step Algebraic Minimization
 
 #example[
   Minimize $f = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C$:
@@ -1463,7 +1463,7 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
   *Final result:* $f = A B + overline(A) C$ (reduced from 12 to 4 literals!)
 ]
 
-== Consensus Theorem in Detail
+== Consensus Theorem
 
 #theorem[Consensus Theorem][
   $X Y + overline(X) Z + Y Z = X Y + overline(X) Z$
@@ -1493,14 +1493,14 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
 #example[
   Two-level: $f_1 = A B C + A B D$, $f_2 = A B C + A B E$
 
-  Total: 10 literals (2 × 3 + 2 × 2)
+  Total: $12$ literals ($6 + 6$)
 
   Multi-level with factoring:
   - $T = A B$ (common factor)
   - $f_1 = T (C + D)$
   - $f_2 = T (C + E)$
 
-  Total: 7 literals + reuse of T
+  Total: $6$ literals + reuse of T
 ]
 
 #Block(color: yellow)[
@@ -1532,7 +1532,6 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
     #table(
       columns: 3,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      inset: 3pt,
       table.header([*Truth Table*], [*DNF Terms*], [*CNF Clauses*]),
       [2 ones, 6 zeros], [2 terms], [6 clauses],
       [6 ones, 2 zeros], [6 terms], [2 clauses],
@@ -1569,9 +1568,9 @@ Beyond K-maps, we minimize algebraically using Boolean laws:
   ],
 )
 
-== Quine-McCluskey: Phase 1 Overview
+== Quine-McCluskey Algorithm
 
-The algorithm has two phases:
+The Q-M algorithm has two phases:
 
 #grid(
   columns: 2,
@@ -1597,7 +1596,7 @@ The algorithm has two phases:
   ],
 )
 
-== Q-M Phase 1: Detailed Example
+== Step-by-Step Example of Q-M Phase 1
 
 #example[
   Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
@@ -1619,9 +1618,11 @@ The algorithm has two phases:
   ]
 ]
 
-== Q-M Phase 1: First Combination
+== Q-M First Phase: Combining Minterms
 
-#example[Continued][
+#example[
+  _(continued)_
+
   *Step 2:* Combine adjacent groups (differ by 1 bit)
 
   #align(center)[
@@ -1637,12 +1638,16 @@ The algorithm has two phases:
     )
   ]
 
-  Note: All terms combined (check marks), so continue.
+  #note[
+    All terms combined (check marks), so continue.
+  ]
 ]
 
-== Q-M Phase 1: Second Combination
+== Q-M First Phase: More Combinations
 
-#example[Continued][
+#example[
+  _(continued)_
+
   *Step 3:* Try to combine results from Step 2
 
   #align(center)[
@@ -1658,12 +1663,14 @@ The algorithm has two phases:
 
   Items 3,7 and 5,7 can combine: both have pattern XX1 (but different X positions)
 
-  Result: 3, 5, 7 combine to −−1 (only C=1 constant)
+  Result: 3, 5, 7 combine to −−1 (only $C = 1$ is constant)
 ]
 
-== Q-M Phase 1: Finding Prime Implicants
+== Q-M First Phase: Finding Prime Implicants
 
-#example[Continued][
+#example[
+  _(continued)_
+
   *Step 4:* Identify prime implicants (uncombined terms)
 
   #align(center)[
@@ -1681,12 +1688,15 @@ The algorithm has two phases:
   *Prime implicants:* $C$ and $A B$
 ]
 
-== Q-M Phase 2: Prime Implicant Chart
+== Prime Implicant Chart
 
-#definition[Prime Implicant Chart][
-  A table showing which prime implicants cover which minterms.
+#definition[
+  A _prime implicant chart_ is table showing minterm coverage by prime implicants.
 
-  Goal: Select minimum set of prime implicants covering all minterms.
+]
+
+#note[
+  Our goal in Q-M is to select minimum set of prime implicants covering all minterms.
 ]
 
 #example[
@@ -1710,10 +1720,12 @@ The algorithm has two phases:
 
 == Essential Prime Implicants
 
-#definition[Essential Prime Implicant][
-  A prime implicant that is the *only* one covering some minterm.
+#definition[
+  An _essential prime implicant_ (EPI) is a prime implicant that covers at least one minterm not covered by any other prime implicant.
+]
 
-  Must be included in any minimal solution.
+#note[
+  EPIs must ("by definition") be included in the final minimal cover.
 ]
 
 #Block(color: yellow)[
@@ -1723,6 +1735,8 @@ The algorithm has two phases:
   + Remove covered minterms
   + Repeat for remaining minterms
 ]
+
+#pagebreak()
 
 #example[
   If a column has only one X, that prime implicant is essential:
@@ -1740,11 +1754,13 @@ The algorithm has two phases:
   $"PI"_1$ is essential (only one covering $m_i$)
 ]
 
-== Petrick's Method: Overview
+== Petrick's Method
 
 When multiple prime implicants remain after selecting essentials:
 
-#definition[Petrick's Method][
+#definition[
+  _Petrick's method_ is a systematic way to find all combinations of prime implicants that cover all remaining minterms, allowing selection of the minimal-cost cover.
+
   + Express "covering all minterms" as a Boolean formula
   + Each minterm needs at least one of its covering PIs
   + Formula in CNF (product of sums)
@@ -1753,10 +1769,12 @@ When multiple prime implicants remain after selecting essentials:
 ]
 
 #Block(color: blue)[
-  *Why it works:* The CNF formula is satisfiable if and only if we can cover all minterms. Each satisfying assignment is a valid cover.
+  *Why it works:*
+  The CNF formula is satisfiable if and only if we can cover all minterms. \
+  Each satisfying assignment is a valid cover.
 ]
 
-== Petrick's Method: Detailed Example
+== Petrick's Method: Example
 
 #example[
   Prime implicants $P_1, P_2, P_3, P_4$ cover minterms as follows:
@@ -1784,7 +1802,7 @@ When multiple prime implicants remain after selecting essentials:
 
 == Petrick's Method: Solving
 
-#example[Continued][
+#example[continued][
   *Expand to DNF:*
 
   $
@@ -1848,6 +1866,7 @@ When multiple prime implicants remain after selecting essentials:
     #table(
       columns: 11,
       stroke: (x, y) => if y == 0 or x == 0 { 0.8pt } else { 0.4pt },
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([], [*0*], [*1*], [*2*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*14*]),
       [$P_1$], [X], [X], [], [], [], [], [X], [X], [], [],
       [$P_2$], [X], [], [X], [], [], [], [X], [], [X], [],
@@ -1943,21 +1962,20 @@ When multiple prime implicants remain after selecting essentials:
 
 #Block(color: purple)[
   *What we've mastered:*
-
   + *Why minimize:* Cost, power, speed, clarity
   + *Gray code:* Foundation for K-map adjacency
-  + *K-maps:* Visual method for 2-4 variables
+  + *K-maps:* Visual method for 2-5 variables
     - Grouping rules and strategies
-    - Don't-care optimization
     - Wraparound and corners
+    - Don't-care optimization
   + *Algebraic methods:* Laws, consensus, multi-level
   + *Quine-McCluskey:*
     - Systematic prime implicant generation
     - Prime implicant chart
     - Essential implicants
   + *Petrick's method:* Minimum cover selection
-  + *Complexity:* NP-complete in general
-  + *Practical tools:* ESPRESSO, ABC, commercial CAD
+  + *Minimization complexity:* NP-complete in general
+  + *Practical tools:* ESPRESSO, BOOM-II, ABC
 ]
 
 #Block(color: yellow)[
