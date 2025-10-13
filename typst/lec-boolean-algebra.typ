@@ -1608,51 +1608,51 @@ The Q-M algorithm has two phases:
 
 #example[
   Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
+]
 
-  *Step 1:* Group minterms by number of 1-bits (Hamming weight)
+*Step 1:* Group minterms by number of 1-bits (Hamming weight)
 
-  #columns(2)[
-    All minterms will be compared with adjacent groups (groups differing by 1 in bit count).
+#columns(2)[
+  All minterms will be compared with adjacent groups (groups differing by 1 in bit count).
 
-    If two minterms differ in exactly one bit position, combine them and mark both as "used" (✓).
+  If two minterms differ in exactly one bit position, combine them and mark both as "used" (✓).
 
-    #align(center)[
-      #import "@preview/k-mapper:1.2.0": karnaugh
-      #let kcell(i, b) = [#b#sub[#i]]
-      #karnaugh(
-        8,
-        y-label: $A B$,
-        x-label: $C$,
-        manual-terms: (
-          kcell(0, 0),
-          kcell(1, 1),
-          kcell(2, 0),
-          kcell(3, 1),
-          kcell(4, 0),
-          kcell(5, 1),
-          kcell(6, 1),
-          kcell(7, 1),
-        ),
-        implicants: ((1, 5), (6, 7)),
-      )
-    ]
+  #align(center)[
+    #import "@preview/k-mapper:1.2.0": karnaugh
+    #let kcell(i, b) = [#b#sub[#i]]
+    #karnaugh(
+      8,
+      y-label: $A B$,
+      x-label: $C$,
+      manual-terms: (
+        kcell(0, 0),
+        kcell(1, 1),
+        kcell(2, 0),
+        kcell(3, 1),
+        kcell(4, 0),
+        kcell(5, 1),
+        kcell(6, 1),
+        kcell(7, 1),
+      ),
+      implicants: ((1, 5), (6, 7)),
+    )
+  ]
 
-    #colbreak()
+  #colbreak()
 
-    #align(center)[
-      #table(
-        columns: 4,
-        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-        table.header([*Group*], [*Minterm*], [*Binary*], [*Used*]),
-        [1], [$m_1$], [001], [$checkmark$],
-        table.hline(stroke: 0.4pt),
-        [2], [$m_3$], [011], [$checkmark$],
-        [], [$m_5$], [101], [$checkmark$],
-        [], [$m_6$], [110], [$checkmark$],
-        table.hline(stroke: 0.4pt),
-        [3], [$m_7$], [111], [$checkmark$],
-      )
-    ]
+  #align(center)[
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*Group*], [*Minterm*], [*Binary*], [*Used*]),
+      [1], [$m_1$], [001], [$checkmark$],
+      table.hline(stroke: 0.4pt),
+      [2], [$m_3$], [011], [$checkmark$],
+      [], [$m_5$], [101], [$checkmark$],
+      [], [$m_6$], [110], [$checkmark$],
+      table.hline(stroke: 0.4pt),
+      [3], [$m_7$], [111], [$checkmark$],
+    )
   ]
 ]
 
