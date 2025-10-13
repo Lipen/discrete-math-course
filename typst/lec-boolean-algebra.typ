@@ -2121,6 +2121,657 @@ When multiple prime implicants remain after selecting essentials:
 ]
 
 
+= Algebraic Normal Form
+#focus-slide()
+
+== Algebraic Normal Form
+
+So far, we've worked with Boolean functions using AND ($and$), OR ($or$), and NOT ($overline(x)$).
+
+These led to DNF, CNF, and various minimization techniques.
+
+#Block(color: blue)[
+  *New question:* Can we represent Boolean functions using *only* XOR ($xor$) and AND ($and$)?
+]
+
+#definition[
+  An _Algebraic Normal Form_ (ANF) or _Zhegalkin polynomial_ is a representation of a Boolean function as a polynomial over $FF_2$ (the field with two elements ${0, 1}$) using:
+  - Addition modulo 2 (XOR, $xor$)
+  - Multiplication (AND, $and$)
+  - Constants 0 and 1
+]
+
+== Why ANF?
+
+#Block(color: yellow)[
+  *Different algebraic properties:*
+  - XOR is its own inverse: $x xor x = 0$
+  - No need for negation (NOT)
+  - Linear operations (important in cryptography, coding theory)
+]
+
+#columns(2)[
+  *Applications:*
+  - Cryptography (stream ciphers, S-boxes)
+  - Coding theory (linear codes)
+  - Hardware optimization (XOR gates)
+  - Algebraic attacks on ciphers
+  - Boolean function analysis
+
+  #colbreak()
+
+  *Key properties:*
+  - Unique representation (_canonical_$thin$)
+  - Degree of polynomial = algebraic degree
+  - Linear functions = degree 1
+  - Affine functions = degree $<=$ 1
+]
+
+== ANF Structure
+
+#example[
+  The function $f(x, y, z) = x y xor x z xor y z xor x xor 1$ is in ANF.
+
+  Terms:
+  - $x y$ --- degree 2 (product of 2 variables)
+  - $x z$ --- degree 2
+  - $y z$ --- degree 2
+  - $x$ --- degree 1 (linear term)
+  - $1$ --- degree 0 (constant)
+
+  The function has algebraic degree 2.
+]
+
+#note[
+  In ANF, we write addition (XOR) as $xor$ or simply $+$.
+
+  Multiplication (AND) can be written as $and$, $dot$, or juxtaposition (e.g., $x y$).
+]
+
+== ANF vs DNF
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Property*], [*DNF*], [*ANF*]),
+    [Operations], [AND, OR, NOT], [AND, XOR],
+    [Form], [Sum of products], [XOR of products],
+    [Canonical], [Yes (minterms)], [Yes (unique!)],
+    [Negation], [Explicit ($overline(x)$)], [Using XOR ($x xor 1$)],
+    [Idempotent], [$x or x = x$], [$x xor x = 0$],
+    [Neutrality], [$x or 0 = x$], [$x xor 0 = x$],
+    [Algebraic degree], [Not defined], [Maximum term degree],
+  )
+]
+
+#Block(color: yellow)[
+  *Key difference:* In DNF, $x or x = x$ (idempotent). In ANF, $x xor x = 0$ (self-inverse)!
+]
+
+== Canonicity of ANF
+
+#theorem[
+  Every Boolean function has a _unique_ ANF representation.
+]
+
+#proof[(sketch)][
+  Consider the vector space $FF_2^n arrow.r FF_2$ of all Boolean functions on $n$ variables.
+
+  - There are $2^(2^n)$ Boolean functions on $n$ variables
+  - There are $2^(2^n)$ possible ANF polynomials (one for each subset of monomials)
+  - The mapping from ANF to Boolean function is linear and bijective
+
+  Therefore, each Boolean function has exactly one ANF representation.
+]
+
+#Block(color: yellow)[
+  *Important:* Unlike DNF/CNF (which have minimal and non-minimal forms), ANF is always unique!
+]
+
+== Monomials in ANF
+
+For $n$ variables, possible monomials in ANF:
+
+#example[
+  For $n = 3$ variables $(x, y, z)$:
+
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*Degree*], [*Count*], [*Monomials*]),
+      [0], [1], [$1$],
+      [1], [3], [$x, y, z$],
+      [2], [3], [$x y, x z, y z$],
+      [3], [1], [$x y z$],
+    )
+  ]
+
+  Total: $2^3 = 8$ possible monomials (including constant 1).
+
+  Each monomial either appears in ANF or doesn't → $2^8 = 256$ possible ANFs for 3 variables.
+]
+
+#note[
+  General formula: For $n$ variables, there are $sum_(k=0)^n binom(n, k) = 2^n$ possible monomials.
+]
+
+== Algebraic Degree
+
+#definition[
+  The _algebraic degree_ of a Boolean function in ANF is the maximum number of variables in any monomial with non-zero coefficient.
+]
+
+#example[
+  - $f(x, y) = x y xor x xor 1$ has degree 2
+  - $f(x, y) = x xor y xor 1$ has degree 1 (affine function)
+  - $f(x, y) = x xor y$ has degree 1 (linear function)
+  - $f(x) = x xor 1$ has degree 1
+  - $f(x) = 1$ has degree 0 (constant)
+  - $f(x) = 0$ has degree $-infinity$ or undefined (zero function)
+]
+
+#Block(color: red)[
+  Functions with low algebraic degree are vulnerable to certain cryptographic attacks!
+]
+
+== Computing ANF: Methods
+
+We'll explore three methods to compute ANF from a truth table:
+
+#align(center)[
+  #table(
+    columns: 4,
+    align: (left, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Method*], [*Complexity*], [*Variables*], [*Best for*]),
+    [Direct computation], [$O(2^(2n))$], [1-3], [Understanding],
+    [Pascal's triangle], [$O(2^n)$], [1-4], [Hand calculation],
+    [Karnaugh map], [$O(2^n)$], [2-4], [Visualization],
+  )
+]
+
+We'll demonstrate each method with examples!
+
+== Method 1: Direct Computation
+
+#Block(color: teal)[
+  *Idea:* Solve a system of linear equations over $FF_2$ (arithmetic mod 2).
+]
+
+For function $f: FF_2^n arrow.r FF_2$, we want to find coefficients $a_S$ such that:
+
+$ f(x_1, ..., x_n) = plus.circle.big_(S subset.eq {1,...,n}) a_S product_(i in S) x_i $
+
+where $plus.circle$ denotes XOR and $product$ denotes AND.
+
+Each row of the truth table gives one linear equation!
+
+#Block(color: orange)[
+  *Remember:* In $FF_2$, addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$, $0 + 0 = 0$
+]
+
+#example[
+  Find ANF for $f(x, y)$ with truth table:
+
+  #align(center)[
+    #table(
+      columns: 3,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$x$], [$y$], [$f(x,y)$]),
+      [0], [0], [1],
+      [0], [1], [1],
+      [1], [0], [1],
+      [1], [1], [0],
+    )
+  ]
+
+  _(Solution on next slide)_
+]
+
+== Direct Computation Example (cont.)
+
+Let ANF be: $f(x, y) = a_0 xor a_1 x xor a_2 y xor a_3 x y$
+
+From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
+
+#align(center)[
+  #table(
+    columns: 4,
+    align: (center, left, center, center),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*$(x,y)$*], [*Substituted equation*], [], [*$f$*]),
+    [(0,0)], [$a_0 dot 1 xor a_1 dot 0 xor a_2 dot 0 xor a_3 dot 0 dot 0 = a_0$], [$=$], [1],
+    [(0,1)], [$a_0 dot 1 xor a_1 dot 0 xor a_2 dot 1 xor a_3 dot 0 dot 1 = a_0 xor a_2$], [$=$], [1],
+    [(1,0)], [$a_0 dot 1 xor a_1 dot 1 xor a_2 dot 0 xor a_3 dot 1 dot 0 = a_0 xor a_1$], [$=$], [1],
+    [(1,1)], [$a_0 xor a_1 xor a_2 xor a_3$], [$=$], [0],
+  )
+]
+
+*Solving step-by-step:*
+- Equation 1: $a_0 = 1$
+- Equation 2: $a_0 xor a_2 = 1 => 1 xor a_2 = 1 => a_2 = 0$
+- Equation 3: $a_0 xor a_1 = 1 => 1 xor a_1 = 1 => a_1 = 0$
+- Equation 4: $1 xor 0 xor 0 xor a_3 = 0 => 1 xor a_3 = 0 => a_3 = 1$
+
+*Result:*~ $f(x, y) = 1 xor x y$
+
+== Method 2: Pascal's Triangle Method
+
+#Block(color: yellow)[
+  *Fast systematic method* using a butterfly/pyramid pattern!
+]
+
+*Algorithm:*
+1. Write function values $f$ in a column (in binary order: 000, 001, 010, ...)
+2. Create next column: XOR each adjacent pair $(f_i xor f_(i+1))$
+3. Repeat step 2 until only one value remains
+4. The *first value* of each column is an ANF coefficient
+
+#note[
+  Also called the _Butterfly method_ or _ANF transform_.
+]
+
+#Block(color: teal)[
+  *Pattern:* Coefficients appear in binary order: constant, $z$, $y$, $y z$, $x$, $x z$, $x y$, $x y z$, ...
+]
+
+== Pascal's Triangle Method: Example
+
+Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$:
+
+#align(center)[
+  #table(
+    columns: 9,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([$x y z$], [$f$], [], [$f_(xor)$], [], [$f_(xor xor)$], [], [$f_(xor xor xor)$], [*Coefficient*]),
+    [000], [#text(fill: red)[1]], [$xor$], [0], [$xor$], [0], [$xor$], [0], [$a_emptyset = 1$],
+    [001], [#text(fill: red)[1]], [$xor$], [0], [$xor$], [1], [], [], [$a_z = 1$],
+    [010], [0], [$xor$], [1], [$xor$], [1], [$xor$], [1], [$a_y = 0$],
+    [011], [#text(fill: red)[1]], [$xor$], [0], [], [], [], [], [$a_(y z) = 1$],
+    [100], [0], [$xor$], [0], [$xor$], [0], [], [], [$a_x = 0$],
+    [101], [0], [$xor$], [0], [], [], [], [], [$a_(x z) = 0$],
+    [110], [0], [$xor$], [1], [], [], [], [], [$a_(x y) = 0$],
+    [111], [#text(fill: red)[1]], [], [], [], [], [], [], [$a_(x y z) = 1$],
+  )
+]
+
+*ANF:*~ $f = 1 xor z xor y z xor x y z$
+
+#Block(color: orange)[
+  *Pattern:* First values of columns (red) correspond to monomials in binary order!
+]
+
+== Pascal's Triangle: Why It Works
+
+The transformation computes the _Möbius transform_ over the Boolean lattice:
+
+$ a_S = plus.circle.big_(T subset.eq S) f(T) $
+
+Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.eq S$.
+
+#example[
+  For $a_(x y)$ (corresponding to input 110 = {$x, y$}):
+
+  $ a_(x y) = f(00) xor f(01) xor f(10) xor f(11) $
+  $ = 1 xor 1 xor 0 xor 0 = 0 $
+]
+
+#Block(color: teal)[
+  *Historical note:*~
+  Related to Reed-Muller codes and Fast Walsh-Hadamard Transform!
+]
+
+== Method 3: Karnaugh Map Method
+
+#Block(color: blue)[
+  *Intuitive visual method* for 2-4 variables using K-maps!
+]
+
+*Algorithm:*
++ Fill K-map with function values
++ For each possible monomial (including constant 1):
+  - Identify its rectangular region in K-map
+  - Check if upper-left cell of region is 1
+  - If yes, include monomial in ANF (with XOR)
++ Combine all included monomials with XOR
+
+#note[
+  *Key difference from minimization:*
+  We check ALL possible groups (not just largest), and combine with XOR (not OR)!
+]
+
+== K-Map Method: Example
+
+Find ANF for $f(x, y) = sum m(1, 2)$:
+
+#grid(
+  columns: (auto, 2cm, auto),
+  column-gutter: 1em,
+  [
+    *K-map:*
+
+    #align(center)[
+      #table(
+        columns: 3,
+        stroke: 0.5pt,
+        align: center,
+        [], [$y=0$], [$y=1$],
+        [$x=0$], [0], [1],
+        [$x=1$], [1], [0],
+      )
+    ]
+  ],
+  [],
+  [
+    *Monomials to check:*
+
+    + *Constant 1* (all 4 cells): \
+      Top-left (0,0) = 0 $=>$ No
+    + *$x$* (bottom row, cells $x=1$): \
+      Top-left at (1,0) = 1 $=>$ *Include $x$*
+    + *$y$* (right column, cells $y=1$): \
+      Top-left at (0,1) = 1 $=>$ *Include $y$*
+    + *$x y$* (single cell at $x=1$, $y=1$): \
+      Value = 0 $=>$ No
+
+    *ANF:* $f = x xor y$
+  ],
+)
+
+#Block(color: yellow)[
+  This is the XOR function!
+  Notice: only linear terms, degree = 1.
+]
+
+== K-Map Method: Another Example
+
+#example[
+  Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$
+]
+
+#align(center)[
+  TODO
+  //   #table(
+  //     columns: 5,
+  //     stroke: 0.5pt,
+  //     align: center,
+  //     [], [], [*$y z$*], [], [],
+  //     [], [], [$00$], [$01$], [$11$],
+  //     [$10$], [*$x$*], [0], [1], [1],
+  //     [1], [0], [], [1], [0],
+  //     [0], [1], [0],
+  //   )
+]
+
+*Groups to check:*
++ *Constant* (all 8 cells): $1 xor 1 xor 1 xor 0 xor 0 xor 0 xor 1 xor 0 = 0$ $=>$ No constant term
++ *$z$* (columns 01, 11): Top-left at (0, 01) is 1 $=>$ Include $z$
++ *$y$* (columns 10, 11): Top-left at (0, 10) is 0 $=>$ No
++ *$x$* (bottom row): Top-left at (1, 00) is 0 $=>$ No
++ *$y z$* (column 11): Top-left at (0, 11) is 1 $=>$ Include $y z$
++ *$x y z$* (cell at x=1, yz=11): Value is 1 $=>$ Include $x y z$
+
+*Result:*~ $f = 1 xor z xor y z xor x y z$ ✓
+
+== Comparison of ANF Methods
+
+#align(center)[
+  #table(
+    columns: 4,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Method*], [*Pros*], [*Cons*], [*Best for*]),
+    [
+      Direct \
+      computation
+    ],
+    [
+      - Systematic \
+      - _Always works_ \
+      - Clear math
+    ],
+    [
+      - Tedious \
+      - Many equations \
+      - Error-prone
+    ],
+    [
+      1-2 variables, \
+      learning
+    ],
+
+    table.hline(stroke: 0.4pt + gray),
+    [
+      Pascal's \
+      triangle
+    ],
+    [
+      - _Fast_ \
+      - Mechanical \
+      - Scales well
+    ],
+    [
+      - Less intuitive \
+      - Needs practice \
+      - Easy to miscount
+    ],
+    [
+      3-5 variables, \
+      computation
+    ],
+
+    table.hline(stroke: 0.4pt + gray),
+    [
+      K-map \
+      method
+    ],
+    [
+      - Visual \
+      - _Intuitive_ \
+      - Good for patterns
+    ],
+    [
+      - Only 2-4 variables \
+      - Can miss groups \
+      - Needs care
+    ],
+    [
+      2-4 variables, \
+      understanding
+    ],
+  )
+]
+
+#Block(color: yellow)[
+  *Recommendation:* Learn all three! Use Pascal's triangle for exams, K-map for intuition.
+]
+
+== Summary of ANF Properties
+
+#Block(color: purple)[
+  *Key properties of ANF:*
+
+  + *Uniqueness:* Every Boolean function has exactly one ANF
+  + *Completeness:* ANF can represent any Boolean function
+  + *Operations:* Uses only XOR and AND (no NOT needed)
+  + *Algebraic degree:* Maximum degree of monomials
+  + *Self-inverse:* $x xor x = 0$ (unlike $x or x = x$)
+  + *Linearity:* XOR is linear over $FF_2$
+]
+
+== ANF in Cryptography
+
+#Block(color: blue)[
+  *Why cryptographers care about ANF?*
+]
+
+#columns(2)[
+  *Algebraic attacks:*
+  - Express cipher as polynomial system
+  - Solve over $FF_2$ (Gröbner bases)
+  - Low degree = vulnerable!
+
+  *S-box design:*
+  - Need high algebraic degree
+  - Balanced nonlinearity
+  - Resistance to linear cryptanalysis
+
+  #colbreak()
+
+  *Stream ciphers:*
+  - Boolean functions in LFSRs
+  - Combining functions
+  - Filter functions
+
+  *Important classes:*
+  - Bent functions (max nonlinearity)
+  - Balanced functions
+  - Correlation-immune functions
+]
+
+#Block(color: orange)[
+  *Example:* AES S-box has algebraic degree 7 (near maximum of 8).
+]
+
+== Converting Between ANF and DNF
+
+Two approaches for conversion:
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Method*], [*Pros*], [*Cons*]),
+    [
+      *Algebraic* \
+      Apply identities directly
+    ],
+    [
+      - Direct \
+      - Insightful
+    ],
+    [
+      - Complex expansions \
+      - Error-prone \
+      - Gets messy quickly
+    ],
+
+    table.hline(stroke: 0.4pt + gray),
+    [
+      *Via truth table* \
+      Use table as intermediate
+    ],
+    [
+      - _Systematic_ \
+      - _Always works_ \
+      - Clear steps
+    ],
+    [
+      - Requires table \
+      - Extra step
+    ],
+  )
+]
+
+#Block(color: yellow)[
+  *Recommendation:*
+  Use truth table as intermediate step!
+  It's systematic and reliable.
+]
+
+== Converting ANF to DNF
+
+#example[
+  Convert $f = x xor y xor x y$ (ANF) to DNF
+]
+
+*Step 1:* Build truth table by evaluating ANF:
+
+#align(center)[
+  #v(-.5em)
+  #table(
+    columns: 4,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([$x$], [$y$], [$f = x xor y xor x y$], [*Minterm*]),
+    [0], [0], [$0 xor 0 xor 0 = 0$], [---],
+    [0], [1], [$0 xor 1 xor 0 = 1$], [$overline(x) y$],
+    [1], [0], [$1 xor 0 xor 0 = 1$], [$x overline(y)$],
+    [1], [1], [$1 xor 1 xor 1 = 1$], [$x y$],
+  )
+]
+
+*Step 2:* Read minterms where $f = 1$:
+
+*DNF:* $f = overline(x) y or x overline(y) or x y = sum m(1, 2, 3)$
+
+== Converting DNF to ANF
+
+#example[
+  Convert $f = overline(x) y or x overline(y)$ ~(DNF) to ANF
+]
+
+*Step 1:* Build truth table by evaluating DNF:
+
+#align(center)[
+  #v(-1em)
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+    table.header([$x$], [$y$], [$f = overline(x) y or x overline(y)$]),
+    [0], [0], [0],
+    [0], [1], [1],
+    [1], [0], [1],
+    [1], [1], [0],
+  )
+]
+
+*Step 2:* Apply Pascal's triangle method to get ANF:
+
+#align(center)[
+  #v(-1em)
+  #table(
+    columns: 5,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+    table.header([$x y$], [$f$], [], [$f_(xor)$], [*Coefficient*]),
+    [00], [#text(fill: red)[0]], [$xor$], [1], [$a_emptyset = 0$],
+    [01], [#text(fill: red)[1]], [$xor$], [0], [$a_y = 1$],
+    [10], [1], [$xor$], [1], [$a_x = 1$],
+    [11], [0], [], [], [$a_(x y) = 0$],
+  )
+]
+
+*ANF:* $f = x xor y$ ~(the XOR function!)
+
+
+
+== Summary: Algebraic Normal Form
+
+#Block(color: purple)[
+  *What we've learned?*
+
+  + *ANF:* Polynomials over $FF_2$ using XOR and AND
+  + *Canonicity:* Unique representation for each Boolean function
+  + *Algebraic degree:* Maximum monomial size (important in crypto!)
+  + *Three ANF construction methods:*
+    - Direct computation (solving linear system)
+    - Pascal's triangle (fast, systematic)
+    - K-map method (visual, intuitive)
+  + *Applications:* Cryptography, coding theory, algebraic attacks
+  + *Key difference from DNF/CNF:* Self-inverse property ($x xor x = 0$)
+]
+
+#Block(color: yellow)[
+  *Next:*~
+  Functional completeness --- how to build _any_ Boolean function with a minimal set of gates!
+]
+
+
 = Digital Circuits
 #focus-slide()
 
