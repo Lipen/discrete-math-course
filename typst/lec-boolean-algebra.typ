@@ -1378,7 +1378,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 == K-Maps with Don't-Care Conditions
 
 #definition[Don't-Care Conditions][
-  Situations where output value doesn't matter (marked as #cross):
+  Situations where output value doesn't matter (marked as $cross$):
   - Invalid input combinations
   - Outputs that are never used
   - Incompletely specified functions
@@ -1392,9 +1392,9 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 
 #Block(color: yellow)[
   *Strategy with don't-cares:*
-  - Treat X as 0 or 1 to maximize group sizes
-  - Include X in groups if it helps
-  - Don't create groups containing only X values
+  - Treat $cross$ as 0 or 1 to maximize group sizes
+  - Include $cross$ in groups if it helps
+  - Don't create groups containing only $cross$ values
 ]
 
 == Don't-Care Example
@@ -1710,8 +1710,8 @@ The Q-M algorithm has two phases:
       columns: 6,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       table.header([*PI*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
-      [$C$ (−−1)], [#cross], [#cross], [#cross], [], [#cross],
-      [$A B$ (11−)], [], [], [], [#cross], [#cross],
+      [$C$ (−−1)], [$cross$], [$cross$], [$cross$], [], [$cross$],
+      [$A B$ (11−)], [], [], [], [$cross$], [$cross$],
     )
   ]
 
@@ -1749,8 +1749,8 @@ The Q-M algorithm has two phases:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       [], [$m_i$], [$m_j$], [$m_k$],
-      [$"PI"_1$], [#cross], [#cross], [],
-      [$"PI"_2$], [], [#cross], [#cross],
+      [$"PI"_1$], [$cross$], [$cross$], [],
+      [$"PI"_2$], [], [$cross$], [$cross$],
     )
   ]
 
@@ -1787,10 +1787,10 @@ When multiple prime implicants remain after selecting essentials:
       columns: 5,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       [], [$m_1$], [$m_2$], [$m_3$], [$m_4$],
-      [$P_1$], [#cross], [#cross], [], [],
-      [$P_2$], [#cross], [], [#cross], [],
-      [$P_3$], [], [#cross], [#cross], [#cross],
-      [$P_4$], [], [], [#cross], [#cross],
+      [$P_1$], [$cross$], [$cross$], [], [],
+      [$P_2$], [$cross$], [], [$cross$], [],
+      [$P_3$], [], [$cross$], [$cross$], [$cross$],
+      [$P_4$], [], [], [$cross$], [$cross$],
     )
   ]
 
@@ -1869,10 +1869,10 @@ When multiple prime implicants remain after selecting essentials:
       columns: 11,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       table.header([], [*0*], [*1*], [*2*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*14*]),
-      [$P_1$], [#cross], [#cross], [], [], [], [], [#cross], [#cross], [], [],
-      [$P_2$], [#cross], [], [#cross], [], [], [], [#cross], [], [#cross], [],
-      [$P_3$], [], [], [#cross], [], [#cross], [], [], [], [#cross], [#cross],
-      [$P_4$], [], [], [], [#cross], [], [#cross], [], [], [], [],
+      [$P_1$], [$cross$], [$cross$], [], [], [], [], [$cross$], [$cross$], [], [],
+      [$P_2$], [$cross$], [], [$cross$], [], [], [], [$cross$], [], [$cross$], [],
+      [$P_3$], [], [], [$cross$], [], [$cross$], [], [], [], [$cross$], [$cross$],
+      [$P_4$], [], [], [], [$cross$], [], [$cross$], [], [], [], [],
     )
   ]
 
