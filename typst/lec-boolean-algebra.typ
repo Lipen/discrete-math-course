@@ -2512,7 +2512,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 + *$y$* (columns 10, 11): Top-left at (0, 10) is 0 $=>$ No
 + *$x$* (bottom row): Top-left at (1, 00) is 0 $=>$ No
 + *$y z$* (column 11): Top-left at (0, 11) is 1 $=>$ Include $y z$
-+ *$x y z$* (cell at x=1, yz=11): Value is 1 $=>$ Include $x y z$
++ *$x y z$* (cell at $x = 1$, $y z = 11$): Value is 1 $=>$ Include $x y z$
 
 *Result:*~ $f = 1 xor z xor y z xor x y z$ ✓
 
