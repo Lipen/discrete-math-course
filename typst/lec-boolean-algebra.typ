@@ -1298,7 +1298,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
   - Even corners can be grouped!
 ]
 
-== 4-Variable K-Map: Detailed Example
+== 4-Variable K-Map: Complete Example
 
 #example[
   #v(-1em)
