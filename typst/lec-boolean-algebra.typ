@@ -179,7 +179,8 @@ Think of Boolean variables as yes/no questions:
 
 We combine Boolean variables using operations (connectives) to express complex logic:
 
-#definition[Basic Operations][
+#definition[
+  Basic Boolean operations:
   - *NOT* ($not x$ or $overline(x)$) --- _reverses_ the value
   - *AND* ($x and y$ or $x dot y$) --- true only if _both_ are true
   - *OR* ($x or y$ or $x + y$) --- true if _at least one_ is true
@@ -201,7 +202,8 @@ We combine Boolean variables using operations (connectives) to express complex l
 
 More complex operations built from basic ones:
 
-#definition[Derived Operations][
+#definition[
+  Derived Boolean operations:
   - *XOR* ($x xor y$): true if _exactly one_ is true
     - Formula: $(x and not y) or (not x and y)$
     - Example: "Dessert or coffee" (pick one, not both)
