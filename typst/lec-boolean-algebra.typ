@@ -1707,25 +1707,24 @@ The Q-M algorithm has two phases:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Pattern*], [*Minterms Covered*], [*Term*], [*Status*]),
-      [−01], [1, 5], [$overline(A) C$], [],
-      [0−1], [1, 3], [$overline(A) C$], [Duplicate!],
+      [−01], [1, 5], [$overline(B) C$], [Prime],
+      [0−1], [1, 3], [$overline(A) C$], [Prime],
       [11−], [6, 7], [$A B$], [Prime],
       [−−1], [3, 5, 7], [$C$], [Prime],
     )
   ]
 
-  *Prime implicants:* $C$ and $A B$
+  *Prime implicants:* $overline(B) C$, $overline(A) C$, $A B$, and $C$
 ]
 
 == Prime Implicant Chart
 
 #definition[
-  A _prime implicant chart_ is table showing minterm coverage by prime implicants.
-
+  A _prime implicant chart_ is a table showing which minterms are covered by each prime implicant.
 ]
 
 #note[
-  Our goal in Q-M is to select minimum set of prime implicants covering all minterms.
+  Our goal in Q-M is to select a minimum set of prime implicants covering all minterms.
 ]
 
 #example[
@@ -1736,13 +1735,16 @@ The Q-M algorithm has two phases:
       columns: 6,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
       table.header([*PI*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
-      [$C$ (−−1)], [$cross$], [$cross$], [$cross$], [], [$cross$],
+      [$overline(B) C$ (−01)], [$cross$], [], [$cross$], [], [],
+      [$overline(A) C$ (0−1)], [$cross$], [$cross$], [], [], [],
       [$A B$ (11−)], [], [], [], [$cross$], [$cross$],
+      [$C$ (−−1)], [], [$cross$], [$cross$], [], [$cross$],
     )
   ]
 
-  - $m_6$ covered only by $A B$ $==>$ *essential*
-  - All others covered by $C$ $==>$ *essential*
+  - $C$ is *essential* (covers $m_3, m_5, m_7$)
+  - $A B$ is *essential* (only one covering $m_6$)
+  - Together $C + A B$ covers all minterms including $m_1$
 
   *Minimal solution:* $f = C + A B$
 ]
