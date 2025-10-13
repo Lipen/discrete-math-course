@@ -1501,7 +1501,7 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
   - $f_1 = T (C + D)$
   - $f_2 = T (C + E)$
 
-  Total: $6$ literals + reuse of T
+  Total: $6$ literals + reuse of $T$
 ]
 
 #Block(color: yellow)[
