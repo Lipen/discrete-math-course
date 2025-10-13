@@ -1150,6 +1150,11 @@ But the result is often *not minimal*.
 ]
 
 // TODO: mention that K-map produces minimal DNF. It could also be used for min-CNF, if we analyze 0s instead of 1s.
+//
+// #Block[
+//   K-maps produce minimal *DNF* by grouping 1s. \
+//   For minimal *CNF*, group 0s instead and apply De Morgan's laws.
+// ]
 
 == 2-Variable K-Map: Step by Step
 
