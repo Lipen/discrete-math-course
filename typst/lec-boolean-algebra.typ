@@ -2416,9 +2416,10 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 
 #example[
   For $a_(x y)$ (corresponding to input 110 = {$x, y$}):
-
-  $ a_(x y) = f(00) xor f(01) xor f(10) xor f(11) $
-  $ = 1 xor 1 xor 0 xor 0 = 0 $
+  $
+    a_(x y) & = f(00) xor f(01) xor f(10) xor f(11) \
+            & = 1 xor 1 xor 0 xor 0 = 0
+  $
 ]
 
 #Block(color: teal)[
