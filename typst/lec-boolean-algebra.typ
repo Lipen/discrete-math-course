@@ -2493,10 +2493,10 @@ $ a_S = xor.big_(T subset.eq S) f(T) $
 Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.eq S$.
 
 #example[
-  For $a_(x y)$ (corresponding to input 110 = {$x, y$}):
+  For $a_(x y)$, corresponding to input 110 = ${x, y}$:
   $
-    a_(x y) & = f(00) xor f(01) xor f(10) xor f(11) \
-            & = 1 xor 1 xor 0 xor 0 = 0
+    a_(x y) & = f(000) xor f(010) xor f(100) xor f(110) \
+            & = 1 xor 0 xor 0 xor 0 = 1
   $
 ]
 
