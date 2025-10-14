@@ -2198,7 +2198,8 @@ These differences enable important applications:
 )
 
 #note[
-  In $FF_2$, XOR corresponds to addition and AND to multiplication. ANF treats Boolean functions as polynomials over this field.
+  In $FF_2$, XOR corresponds to addition and AND to multiplication. \
+  ANF treats Boolean functions as polynomials over this field.
 ]
 
 == ANF Structure
