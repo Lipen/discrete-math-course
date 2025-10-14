@@ -2313,7 +2313,7 @@ Each row of the truth table gives one linear equation!
   *Remember:* In $FF_2$, addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$, $0 + 0 = 0$
 ]
 
-== Example of Direct Computation
+== Direct Computation: Example
 
 #example[
   Find ANF for $f(x, y)$ with truth table:
