@@ -2367,10 +2367,10 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
 ]
 
 *Algorithm:*
-1. Write function values $f$ in a column (in binary order: 000, 001, 010, ...)
-2. Create next column: XOR each adjacent pair $(f_i xor f_(i+1))$
-3. Repeat step 2 until only one value remains
-4. The *first value* of each column is an ANF coefficient
++ Write function values $f$ in a column (in binary order: 000, 001, 010, ...)
++ Create next column: XOR each adjacent pair $(f_i xor f_(i+1))$
++ Repeat step 2 until only one value remains
++ The *first value* of each column is an ANF coefficient
 
 #note[
   Also called the _Butterfly method_ or _ANF transform_.
