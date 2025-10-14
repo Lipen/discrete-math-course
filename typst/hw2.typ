@@ -179,10 +179,13 @@ For example, $"abc" sim "bca"$ and $"aab" sim "aba"$, but $"abc" sim.not "ab"$ a
 Academic researchers often collaborate when they share common expertise areas.
 We model this collaboration potential using the _#box[$theta$-similarity] relation_ $R_theta$, where $theta in [0,1] subset.eq RR$ is a similarity threshold parameter.
 Two researchers $A$ and $B$ are _$theta$-similar_ (denoted $A rel(R_theta) B$) if their Jaccard similarity coefficient satisfies:
+#v(-0.3em)
 $
   Jaccard(A, B) = frac(card(A inter B), card(A union B)) >= theta
 $
-where $A$ and $B$ represent the sets of expertise areas for each researcher.
+where $A$ and $B$ represent the finite sets#footnote[
+  Either consider only non-empty sets, or define $Jaccard(emptyset, emptyset) = 1$.
+] of expertise areas for each researcher.
 
 Consider six researchers with expertise in the following areas:
 #align(center, table(
