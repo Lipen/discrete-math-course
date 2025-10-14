@@ -3199,8 +3199,8 @@ This involves:
 #example[
   *Is ${and, or}$ complete?*
 
-  - AND $in T_0$: $"AND"(0,0) = 0$ #YES
-  - OR $in T_0$: $"OR"(0,0) = 0$ #YES
+  - AND $in T_0$: $"AND"(0,0) = 0$
+  - OR $in T_0$: $"OR"(0,0) = 0$
   - All functions in closure stay in $T_0$
   - Cannot escape $T_0$ (need function with $f(0,...,0) = 1$)
 
@@ -3212,8 +3212,8 @@ This involves:
 #example[
   *Is ${xor, not}$ complete?*
 
-  - XOR $in L$: degree 1 #YES
-  - NOT $in L$: $not x = x xor 1$, degree 1 #YES
+  - XOR $in L$: degree 1
+  - NOT $in L$: $not x = x xor 1$, degree 1
   - All functions in closure stay in $L$
   - Cannot escape $L$ (need nonlinear function like AND)
 
@@ -3224,9 +3224,9 @@ This involves:
 //   *Is ${and, or, xor}$ complete?*
 //
 //   Check classes:
-//   - AND $in T_0$: $"AND"(0,0) = 0$ #YES
-//   - OR $in T_0$: $"OR"(0,0) = 0$ #YES
-//   - XOR $in T_0$: $"XOR"(0,0) = 0$ #YES
+//   - AND $in T_0$: $"AND"(0,0) = 0$
+//   - OR $in T_0$: $"OR"(0,0) = 0$
+//   - XOR $in T_0$: $"XOR"(0,0) = 0$
 //   - All functions in closure stay in $T_0$
 //   - Cannot escape $T_0$ (need NOT or constant 1)
 //
