@@ -3137,8 +3137,8 @@ Define the _shift map_ $f: NN to NN$ by $f(n) = n + 1$
 
 #example[
   *Integers* $ZZ$ are Dedekind-infinite:
-  - Define $f: ZZ to 2ZZ$ (even integers) by $f(n) = 2n$
-  - This is a bijection: $ZZ equinumerous 2ZZ subset ZZ$
+  - Define $f: ZZ to ZZ_"even"$ by $f(n) = 2n$
+  - This is a bijection: $ZZ equinumerous ZZ_"even" subset ZZ$
 ]
 
 #example[
