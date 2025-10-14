@@ -2313,7 +2313,7 @@ Each row of the truth table gives one linear equation!
   *Remember:* In $FF_2$, addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$, $0 + 0 = 0$
 ]
 
-#pagebreak()
+== Example of Direct Computation
 
 #example[
   Find ANF for $f(x, y)$ with truth table:
@@ -2333,7 +2333,7 @@ Each row of the truth table gives one linear equation!
   _(Solution on next slide)_
 ]
 
-== Direct Computation Example (cont.)
+#pagebreak()
 
 Let ANF be: $f(x, y) = a_0 xor a_1 x xor a_2 y xor a_3 x y$
 
@@ -2345,20 +2345,20 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
     align: (center, left, center, center),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*$(x,y)$*], [*Substituted equation*], [], [*$f$*]),
-    [(0,0)], [$a_0 dot 1 xor a_1 dot 0 xor a_2 dot 0 xor a_3 dot 0 dot 0 = a_0$], [$=$], [1],
-    [(0,1)], [$a_0 dot 1 xor a_1 dot 0 xor a_2 dot 1 xor a_3 dot 0 dot 1 = a_0 xor a_2$], [$=$], [1],
-    [(1,0)], [$a_0 dot 1 xor a_1 dot 1 xor a_2 dot 0 xor a_3 dot 1 dot 0 = a_0 xor a_1$], [$=$], [1],
+    [(0,0)], [$a_0 xor (a_1 dot 0) xor (a_2 dot 0) xor (a_3 dot 0 dot 0) = a_0$], [$=$], [1],
+    [(0,1)], [$a_0 xor (a_1 dot 0) xor (a_2 dot 1) xor (a_3 dot 0 dot 1) = a_0 xor a_2$], [$=$], [1],
+    [(1,0)], [$a_0 xor (a_1 dot 1) xor (a_2 dot 0) xor (a_3 dot 1 dot 0) = a_0 xor a_1$], [$=$], [1],
     [(1,1)], [$a_0 xor a_1 xor a_2 xor a_3$], [$=$], [0],
   )
 ]
 
 *Solving step-by-step:*
 - Equation 1: $a_0 = 1$
-- Equation 2: $a_0 xor a_2 = 1 => 1 xor a_2 = 1 => a_2 = 0$
-- Equation 3: $a_0 xor a_1 = 1 => 1 xor a_1 = 1 => a_1 = 0$
-- Equation 4: $1 xor 0 xor 0 xor a_3 = 0 => 1 xor a_3 = 0 => a_3 = 1$
+- Equation 2: $(a_0 xor a_2 = 1) => (1 xor a_2 = 1) => a_2 = 0$
+- Equation 3: $(a_0 xor a_1 = 1) => (1 xor a_1 = 1) => a_1 = 0$
+- Equation 4: $(1 xor 0 xor 0 xor a_3 = 0) => (1 xor a_3 = 0) => a_3 = 1$
 
-*Result:*~ $f(x, y) = 1 xor x y$
+*Result:*~ $f(x, y) = 1 xor x y$, which is equivalent to $f = x nand y$.
 
 == Method 2: Pascal's Triangle Method
 
