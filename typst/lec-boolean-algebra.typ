@@ -2385,7 +2385,9 @@ where $xor$ denotes XOR and $product$ denotes AND.
 Each row of the truth table gives one linear equation!
 
 #Block(color: orange)[
-  *Remember:* In $FF_2$, addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$, $0 + 0 = 0$
+  *Remember:* In $FF_2$, addition is XOR:
+  - $1 xor 1 = 0 xor 0 = 0$
+  - $1 xor 0 = 0 xor 1 = 1$
 ]
 
 == Direct Computation: Example
