@@ -3555,7 +3555,7 @@ $
 == Application: Line and Square Have Same Cardinality
 
 #theorem[
-  The unit line $L = [0, 1]$ and unit square $S = [0, 1]^2$ are equinumerous.
+  The unit line $L = [0; 1]$ and unit square $S = [0; 1]^2$ are equinumerous.
 ]
 
 #grid(
@@ -3586,8 +3586,8 @@ $
   We show $L smaller.eq S$ and $S smaller.eq L$, then apply Schröder--Bernstein.
 
   *Step 1:*
-  Injection $f: L to S$ by $f(x) = (x, x)$ (diagonal).
-  - If $f(a) = f(b)$, then $(a,a) = (b,b)$, so $a = b$.
+  Injection $f: L to S$ by $f(x) = pair(x, x)$ (diagonal).
+  - If $f(a) = f(b)$, then $pair(a, a) = pair(b, b)$, so $a = b$.
     Thus $L smaller.eq S$. #YES
 
   *Step 2:*
@@ -3601,9 +3601,11 @@ $
     quad
     g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
   $
-  - If $g(a,b) = g(c,d)$, then digits match, so $(a,b) = (c,d)$. Thus $S smaller.eq L$. #YES
+  - If $g(a,b) = g(c,d)$, then digits match, so $pair(a, b) = pair(c, d)$.
+    Thus $S smaller.eq L$. #YES
 
-  *Step 3:* By Schröder--Bernstein (@schroder-bernstein), $L equinumerous S$.
+  *Step 3:*
+  By Schröder--Bernstein (@schroder-bernstein), $L equinumerous S$.
 ]
 
 == Summary: Cardinality & Infinity
