@@ -3552,7 +3552,7 @@ $
   We'll see it in a dedicated section later.
 ]
 
-== Application: Line and Square Have Same Cardinality
+== Unit Line vs. Unit Square
 
 #theorem[
   The unit line $L = [0; 1]$ and unit square $S = [0; 1]^2$ are equinumerous.
