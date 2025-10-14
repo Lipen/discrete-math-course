@@ -2156,7 +2156,6 @@ These led to DNF, CNF, and various minimization techniques.
   - Coding theory (linear codes)
   - Hardware optimization (XOR gates)
   - Algebraic attacks on ciphers
-  - Boolean function analysis
 
   #colbreak()
 
