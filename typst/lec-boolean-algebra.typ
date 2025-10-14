@@ -2328,8 +2328,10 @@ These differences enable important applications:
   )
 ]
 
+== Cryptographic Significance of Algebraic Degree
+
 #Block(color: red)[
-  *Cryptographic significance:* Low algebraic degree indicates vulnerability to attacks.
+  *Low algebraic degree indicates vulnerability to attacks.*
 
   Functions with degree $d < n/2$ are susceptible to:
   - Linearization attacks
