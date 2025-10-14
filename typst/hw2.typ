@@ -412,8 +412,8 @@ The complete pipeline is their _function composition_ $g compose f: R -> F$, and
   If the complete pipeline preserves customer uniqueness, can we conclude the cleaning step never merges customers?
 + *Error isolation:*
   If the complete pipeline preserves customer uniqueness, can we conclude the feature extraction never merges records?
-+ *Input coverage analysis:*
-  If the complete pipeline produces all possible feature vectors, can we conclude the cleaning step handles all possible raw data types?
++ *Intermediate coverage analysis:*
+  If the complete pipeline produces all possible feature vectors, can we conclude the cleaning step produces all possible clean record types?
 + *Output coverage analysis:*
   If the complete pipeline produces all possible feature vectors, can we conclude the extraction step produces all possible features from clean data?
 
