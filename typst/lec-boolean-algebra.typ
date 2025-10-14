@@ -2458,13 +2458,18 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
     *K-map:*
 
     #align(center)[
-      #table(
-        columns: 3,
-        stroke: 0.5pt,
-        align: center,
-        [], [$y=0$], [$y=1$],
-        [$x=0$], [0], [1],
-        [$x=1$], [1], [0],
+      #k-mapper.karnaugh(
+        4,
+        y-label: $x$,
+        x-label: $y$,
+        manual-terms: (
+          kcell(0, 0),
+          kcell(1, 1),
+          kcell(2, 1),
+          kcell(3, 0),
+        ),
+        implicants: ((2, 3), (1, 3)),
+        colors: (gray.transparentize(80%),),
       )
     ]
   ],
