@@ -2302,9 +2302,9 @@ We'll demonstrate each method with examples!
 
 For function $f: FF_2^n arrow.r FF_2$, we want to find coefficients $a_S$ such that:
 
-$ f(x_1, ..., x_n) = plus.circle.big_(S subset.eq {1,...,n}) a_S product_(i in S) x_i $
+$ f(x_1, ..., x_n) = xor.big_(S subset.eq {1,...,n}) a_S product_(i in S) x_i $
 
-where $plus.circle$ denotes XOR and $product$ denotes AND.
+where $xor$ denotes XOR and $product$ denotes AND.
 
 Each row of the truth table gives one linear equation!
 
@@ -2410,7 +2410,7 @@ Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$:
 
 The transformation computes the _Möbius transform_ over the Boolean lattice:
 
-$ a_S = plus.circle.big_(T subset.eq S) f(T) $
+$ a_S = xor.big_(T subset.eq S) f(T) $
 
 Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.eq S$.
 
