@@ -3572,7 +3572,7 @@ $
       translate((w, 0))
       content((gap / 2, w / 2))[$equinumerous$]
       translate((gap, 0))
-      rect((0, 0), (w, w), fill: luma(80%))
+      rect((0, 0), (w, w), fill: luma(90%))
       content((w / 2, w / 2))[$S$]
     })
   ],
