@@ -2753,13 +2753,16 @@ Two approaches for conversion:
   *What we've learned?*
 
   + *ANF:* Polynomials over $FF_2$ using XOR and AND
+
   + *Canonicity:* Unique representation for each Boolean function
-  + *Algebraic degree:* Maximum monomial size (important in crypto!)
+
   + *Three ANF construction methods:*
     - Direct computation (solving linear system)
     - Pascal's triangle (fast, systematic)
     - K-map method (visual, intuitive)
+
   + *Applications:* Cryptography, coding theory, algebraic attacks
+
   + *Key difference from DNF/CNF:* Self-inverse property ($x xor x = 0$)
 ]
 
