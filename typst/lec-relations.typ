@@ -3631,7 +3631,7 @@ $
 
   - $abs(NN) = abs(ZZ) = abs(QQ) = aleph_0$ ~ (integers and rationals are "same size" as naturals!)
   - $abs(NN times NN) = abs(NN)$ ~ (2D grid has same size as 1D line)
-  - $abs([0;1]) = abs([0;1]^2)$ ~ (line segment equals square)
+  - $[0;1] equinumerous [0;1]^2$ ~ (unit line equals unit square!)
   - $abs(NN) < abs(power(NN)) < abs(power(power(NN))) < dots$ ~ (infinitely many infinities!)
   - Most real numbers are _not_ algebraic (computable reals are countable, but all reals are uncountable)
 ]
