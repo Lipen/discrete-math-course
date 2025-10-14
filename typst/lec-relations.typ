@@ -3536,7 +3536,7 @@ $
 ] <schroder-bernstein>
 
 #Block(color: blue)[
-  *What this means:* If each set "fits inside" the other, they have the same size!
+  *What this means:* If each set "fits inside" the other, they have the same size! \
   This powerful result lets us prove equality of cardinalities without constructing explicit bijections.
 ]
 
