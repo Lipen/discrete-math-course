@@ -3586,7 +3586,7 @@ $
   See https://math.stackexchange.com/a/183383 for more detailed analysis.
 ]][
   *Step 1:*
-  Injection $f: L to S$ by $f(x) = pair(x, x)$ gives $L smaller.eq S$. #YES
+  Injection $f: L to S$ by $f(x) = pair(x, x)$ gives $L smaller.eq S$.
   - If $f(a) = f(b)$, then $pair(a, a) = pair(b, b)$, so $a = b$
 
   *Step 2:*
@@ -3598,12 +3598,12 @@ $
       y & = 0.#Green($y_1 y_2 y_3 dots$),
     )
     quad
-    g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
+    g(x, y) = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
   $
-  - If $g(a,b) = g(c,d)$, then digits match, so $pair(a, b) = pair(c, d)$
+  - If $g(a,b) = g(c,d)$, then all digits match, so $pair(a, b) = pair(c, d)$
 
   *Step 3:*
-  By Schröder--Bernstein (@schroder-bernstein), $L equinumerous S$.
+  By Schröder--Bernstein (@schroder-bernstein), we conclude $L equinumerous S$.
 ]
 
 == Summary: Cardinality & Infinity
