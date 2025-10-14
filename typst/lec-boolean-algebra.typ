@@ -2301,8 +2301,9 @@ We'll demonstrate each method with examples!
 ]
 
 For function $f: FF_2^n arrow.r FF_2$, we want to find coefficients $a_S$ such that:
-
-$ f(x_1, ..., x_n) = xor.big_(S subset.eq {1,...,n}) a_S product_(i in S) x_i $
+$
+  f(x_1, ..., x_n) = xor.big_(S subset.eq {1,...,n}) (a_S product_(i in S) x_i)
+$
 
 where $xor$ denotes XOR and $product$ denotes AND.
 
