@@ -2714,41 +2714,26 @@ Two approaches for conversion:
   Convert $f = overline(x) y or x overline(y)$ ~(DNF) to ANF
 ]
 
-*Step 1:* Build truth table by evaluating DNF:
-
-#align(center)[
-  #v(-1em)
-  #table(
-    columns: 3,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-    table.header([$x$], [$y$], [$f = overline(x) y or x overline(y)$]),
-    [0], [0], [0],
-    [0], [1], [1],
-    [1], [0], [1],
-    [1], [1], [0],
-  )
-]
+*Step 1:* Build truth table by evaluating DNF
 
 *Step 2:* Apply Pascal's triangle method to get ANF:
 
 #align(center)[
-  #v(-1em)
+  #let bb(it) = {
+    box(stroke: red, outset: 3pt, radius: 2pt)[#it]
+  }
   #table(
-    columns: 5,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-    table.header([$x y$], [$f$], [], [$f_(xor)$], [*Coefficient*]),
-    [00], [#text(fill: red)[0]], [$xor$], [1], [$a_emptyset = 0$],
-    [01], [#text(fill: red)[1]], [$xor$], [0], [$a_y = 1$],
-    [10], [1], [$xor$], [1], [$a_x = 1$],
-    [11], [0], [], [], [$a_(x y) = 0$],
+    columns: 6,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
+    table.header([$x y$], [$f$], [$a_1$], [$a_x$], [$a_y$], [$a_(x y)$]),
+    [00], [0], [0], bb[1], bb[1], [0],
+    [01], [1], [1], [0], [1], [ ],
+    [10], [1], [1], [1], [ ], [ ],
+    [11], [0], [0], [ ], [ ], [ ],
   )
 ]
 
 *ANF:* $f = x xor y$ ~(the XOR function!)
-
-
 
 == Summary: Algebraic Normal Form
 
