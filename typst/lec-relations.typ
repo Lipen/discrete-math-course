@@ -3011,54 +3011,41 @@ Functions can be characterized by several key properties that determine their ma
   ),
 )
 
-== Size of Sets
-
-#definition[
-  The _size_ of a _finite_ set $X$, denoted $abs(X)$, is the number of elements it contains.
-]
-
-#examples[
-  - Let $A = {#emoji.planet, #emoji.dino, #emoji.violin}$, then $abs(A) = 3$, since $A$ contains _exactly 3_ elements.
-  - Let $B = {#emoji.kiwi, #emoji.kiwi, #emoji.kiwi}$, then $abs(B) = 1$, since $B$ contains _only one unique_ element (the kiwi).
-  - $abs(power({1,2,#emoji.cat})) = 2^3 = 8$, since the power set consists of _all 8 possible subsets_ of ${1, 2, #emoji.cat}$.
-  - $abs(emptyset) = 0$, since the _empty_ set contains _no elements_.
-  - $abs(NN) = infinity$, since there are _infinitely many_ natural numbers.
-  - $abs(RR) = infinity$, since there are _infinitely many_ real numbers.
-]
-
 == Cardinality of Sets
 
 #definition[
   The _cardinality_ of a set $X$, denoted $abs(X)$, is a measure of its "size".
-  - For _finite_ sets, cardinality $abs(X)$ is the same as _size_, i.e., the number of elements in $X$.
-  - For _infinite_ sets, cardinality $abs(X)$ describes the "type" of infinity, distinguishing between _countable_ (like $NN$) and _uncountable_ (like $RR$) infinities.
+  - For _finite_ sets, cardinality equals the number of elements: $abs({a, b, c}) = 3$.
+  - For _infinite_ sets, cardinality describes the "type" of infinity, distinguishing between _countable_ (like $NN$) and _uncountable_ (like $RR$) infinities.
 ]
 
-#example[Finite sets][
-  - $abs({a, b, c}) = 3$ (three distinct elements)
-  - $abs(emptyset) = 0$ (empty set has no elements)
-  - $abs(power({1,2})) = abs({emptyset, {1}, {2}, {1,2}}) = 4 = 2^2$
+#Block(color: yellow)[
+  *Key insight:* Not all infinities are equal!
+  Some infinite sets are "larger" than others in a precise mathematical sense.
 ]
 
-#example[Infinite sets][
-  - $abs(NN) = aleph_0$ ("aleph-null" --- smallest infinite cardinal, denoting _countable_ infinity)
-  - $abs(ZZ) = aleph_0$ (same size as natural numbers!)
-  - $abs(QQ) = aleph_0$ (rationals are also _countably_ infinite)
-  - $abs(RR) = 2^(aleph_0) = frak(c)$ ("continuum" --- _uncountably_ infinite)
-  - $abs(power(NN)) = 2^(aleph_0) > aleph_0$ (power set is always "larger")
+#example[
+  - $abs(NN) = aleph_0$ (_"aleph-null"_ --- the smallest infinite cardinal, denoting _countable_ infinity)
+  - $abs(ZZ) = aleph_0$ (surprisingly, same size as $NN$!)
+  - $abs(QQ) = aleph_0$ (rationals are also countably infinite)
+  - $abs(RR) = 2^(aleph_0) = frak(c)$ (_"continuum"_ --- _uncountably_ infinite)
+  - $abs(power(NN)) = 2^(aleph_0) > aleph_0$ (power set is always larger than the original set)
 ]
 
-== Notes on Cardinal Numbers
+== Cardinal Numbers
 
 #note[
-  $abs(X)$ is _not_ just a number, but a _cardinal number_.
-  - Cardinal numbers extend natural numbers to describe sizes of infinite sets.
-  - The _finite_ cardinal numbers are just natural numbers: $0, 1, 2, 3, dots$.
-  - The first (smallest) _infinite_ cardinal is $aleph_0$ (the cardinality of $NN$).
-  - _Arithmetic_ operations on cardinal numbers _differ_ from those on natural numbers.
-    - For example, $aleph_0 + 1 = aleph_0$ and $aleph_0 dot 2 = aleph_0$.
+  $abs(X)$ is not just a number, but a _cardinal number_.
+  - Cardinal numbers extend natural numbers to describe sizes of infinite sets
+  - The finite cardinals are: $0, 1, 2, 3, dots$
+  - The first infinite cardinal is $aleph_0 = abs(NN)$
+  - Arithmetic on infinite cardinals behaves differently: $aleph_0 + 1 = aleph_0$ and $aleph_0 dot 2 = aleph_0$
 ]
-// TODO: extend cardinal numbers
+
+#Block(color: blue)[
+  *Cantor's revolutionary insight (1874):*
+  We can compare sizes of infinite sets using bijections, just as we compare finite sets by counting!
+]
 
 == Equinumerosity
 
@@ -3148,16 +3135,28 @@ Define the _shift map_ $f: NN to NN$ by $f(n) = n + 1$
 
 == Examples of Dedekind-Infinite Sets
 
-#examples[
-  - $ZZ$ is Dedekind-infinite: bijection with positive integers
-  - $QQ$ is Dedekind-infinite: bijection with positive rationals
-  - $RR$ is Dedekind-infinite: bijection with $(0, 1)$
+#example[
+  *Integers* $ZZ$ are Dedekind-infinite:
+  - Define $f: ZZ to 2ZZ$ (even integers) by $f(n) = 2n$
+  - This is a bijection: $ZZ equinumerous 2ZZ subset ZZ$
+]
+
+#example[
+  *Rationals* $QQ$ are Dedekind-infinite:
+  - Define $f: QQ to QQ^+$ (positive rationals) by shifting: map negatives and zero to positives
+  - Thus $QQ equinumerous QQ^+ subset QQ$
+]
+
+#example[
+  *Real numbers* $(0; 1)$ are Dedekind-infinite:
+  - Define $f: (0; 1) to (0; 1/2)$ by $f(x) = x/2$
+  - This is a bijection: $(0; 1) equinumerous (0; 1/2) subset (0; 1)$
 ]
 
 #Block(color: yellow)[
   *Key insight:* Being Dedekind-infinite is equivalent to being infinite (assuming the Axiom of Choice).
 
-  This gives us a purely set-theoretic definition of infinity without reference to natural numbers.
+  This gives us a purely set-theoretic definition of infinity without counting!
 ]
 
 == Hilbert's Hotel: Infinitely Many New Guests
@@ -3217,272 +3216,80 @@ $
 == Countable Sets
 
 #definition[
-  A set is _countable_ if it is either:
-  + _Finite_, or
-  + Has the same cardinality as $NN$ (i.e., there exists a _bijection_ with $NN$)
-]
+  A set is _countable_ if it is either finite, or has the same cardinality as $NN$ (i.e., there exists a bijection with $NN$).
 
-#note(title: "Intuition")[
-  A countable set is one whose elements can be "listed" or "enumerated" in a sequence.
+  An infinite countable set has cardinality $aleph_0$.
 ]
-
-#note[
-  When an infinite set is countable, its cardinality is $aleph_0$ (_"aleph-null"_).
-]
-
-#Block(color: teal)[
-  *Coming up:* We'll see _different_ ways to characterize countable sets (using bijections, injections, or enumerations).
-  They're all _equivalent_ --- use whichever is most convenient for your proof!
-]
-
-#example[Basic countable sets][
-  - $NN_"odd" = {1, 3, 5, 7, ...}$ with bijection $f: NN to NN_"odd"$ defined by $f(n) = 2n + 1$
-  - $NN_"even" = {0, 2, 4, 6, ...}$ with bijection $f: NN to NN_"even"$ defined by $f(n) = 2n$
-  - Prime numbers ${2, 3, 5, 7, 11, 13, ...}$ are countable (can be enumerated)
-]
-
-== Examples of Countable Sets
 
 #Block(color: yellow)[
-  *Key insight:* Two sets have the same cardinality if we can pair up their elements perfectly --- establishing a one-to-one correspondence (bijection) between them.
+  *Key insight:* A countable set is one whose elements can be "listed" in a sequence $a_0, a_1, a_2, dots$, pairing each with a natural number.
 ]
 
 #example[
-  The set of _integers_ $ZZ = {..., -2, -1, 0, 1, 2, ...}$ is _countable_: $abs(ZZ) = aleph_0$
+  *Integers* $ZZ = {..., -2, -1, 0, 1, 2, ...}$ are countable: $abs(ZZ) = aleph_0$
 
-  *Bijection* $f: NN to ZZ$ is defined by:
-  #align(center)[
-    $
-      f(n) = cases(
-        n / 2 & "if" n "is even",
-        -(n+1) / 2 & "if" n "is odd"
-      )
-      wide
-      natrix.bnat(
-        row-gap: #0.5em,
-        NN":", 0, 1, 2, 3, 4, 5, 6, 7, dots;
-        ZZ":", 0, -1, 1, -2, 2, -3, 3, -4, dots
-      )
-    $
-  ]
+  Bijection $f: NN to ZZ$:
+  $
+    f(n) = cases(
+      n / 2 & "if" n "is even",
+      -(n+1) / 2 & "if" n "is odd"
+    )
+    wide
+    natrix.bnat(
+      row-gap: #0.5em,
+      NN":", 0, 1, 2, 3, 4, 5, 6, 7, dots;
+      ZZ":", 0, -1, 1, -2, 2, -3, 3, -4, dots
+    )
+  $
 
-  This systematically pairs each natural number with exactly one integer, covering all integers exactly once.
+  This systematically pairs each natural number with exactly one integer.
 ]
 
 == Properties of Countable Sets
 
-#theorem[Properties of countable sets][
+#theorem[
   + Any subset of a countable set is countable
   + The union of countably many countable sets is countable
-  + The Cartesian product of two countable sets is countable ($NN times NN$ is countable)
+  + The Cartesian product of two countable sets is countable
   + The set of finite sequences over a countable alphabet is countable
 ]
 
-#example[More countable sets][
-  - *Rational numbers* $QQ$: Can be enumerated by listing fractions $p/q$ systematically
+// #Block(color: blue)[
+//   These closure properties let us build complex countable structures from simple ones!
+// ]
 
-  - *Finite binary strings* ${0, 1, 00, 01, 10, 11, 000, ...}$: Countably infinite
+== Examples of Countable Sets
 
-  - *Polynomials with integer coefficients*: Can be systematically enumerated
-
-  - *Finite subsets of $NN$*: Each finite subset can be encoded as a finite binary string
+#example[
+  *Finite binary strings* $Sigma^* = {epsilon, 0, 1, 00, 01, 10, 11, 000, ...}$ over $Sigma = {0, 1}$:
+  - List by length, then lexicographically: $epsilon$ (length 0), then $0, 1$ (length 1), then $00, 01, 10, 11$ (length 2), etc.
+  - Since each length class is finite and there are countably many lengths, $Sigma^*$ is countable
 ]
 
-== Alternative Characterization: Injection into $bold(NN)$
-
-If we can "fit" all elements of $S$ into the natural numbers without overlaps, then $S$ is countable.
-
-#definition[
-  A set $S$ is _countable_ if there exists an _injection_ $f: S to NN$.
-
-  This means each element of $S$ can be assigned a unique natural number.
+#example[
+  *Polynomials* with integer coefficients $ZZ[x]$:
+  - Group by degree and coefficient sum, enumerate systematically
+  - Countable because expressible as finite sequences over $ZZ$
 ]
 
-#note[
-  This characterization works both for _finite_ and countably infinite sets, and is often easier to use than constructing a full bijection!
+#example[
+  *Algebraic numbers* (roots of polynomials with integer coefficients):
+  - Each polynomial has finitely many roots
+  - "Countably many polynomials" $times$ "finitely many roots each" $=$ countable
 ]
 
-== Infinite Subsets of Natural Numbers
+== Zig-Zag Enumeration: $NN^2$ is Countable
 
 #theorem[
-  Any infinite subset $A subset.eq NN$ has a bijection with $NN$.
-] <infinite-subset-bijection>
-
-#proof[
-  Let $A subset.eq NN$ be infinite.
-  We construct a bijection $f: NN to A$ recursively as follows:
-  - $f(0) = a_0 = min A$
-  - $f(n+1) = min(A setminus {f(0), f(1), ..., f(n)})$
-
-  By well-ordering principle, each subset of $NN$, has a least element.
-  At each step, $A setminus {f(0), ..., f(n)}$ is still infinite (otherwise $A$ would be finite), so it has a minimum element, making the construction well-defined.
-
-  *Properties of $f$:*
-  - *Injective:* By construction, $f(i) != f(j)$ for $i != j$, since we explicitly exclude previous values.
-  - *Surjective:* Every $a in A$ eventually becomes the minimum of a remaining set, so $a = f(n)$ for some $n$.
-
-  Therefore, $f$ is a bijection between $NN$ and $A$.
-  Thus $A equinumerous NN$, meaning $abs(A) = aleph_0$.
+  $NN times NN$ is countable.
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  There is essentially only "one size" of countably infinite sets, namely $aleph_0$.
-]
-
-== Enumerable Sets
-
-#definition[
-  A set $X$ is _enumerable_ if there is a surjection $e: NN to X$.
-
-  The function $e$ is called an _enumeration_ of $X$, and we say that $e$ _enumerates_ $X$.
-]
-
-#note(title: "Intuition")[
-  An enumerable set is one whose elements can be "listed" (possibly with repetitions) by a function from natural numbers: $e(0), e(1), e(2), e(3), dots$
-]
-#note[
-  Each element of $X$ appears at least once in this list, though some elements might appear multiple times, since the enumeration requires only a _surjection_, not a bijection.
-]
-
-== Three Faces of Countability
-
-The following characterizations of countable sets are all *equivalent*:
-
-#theorem[
-  For any set $X$, the following are equivalent:
-  + $X$ is _enumerable_: there exists a surjection $e: NN to X$
-  + $X$ is _empty_, or there exists an injection $f: X to NN$
-  + $X$ is _countable_: $X$ is finite or has a bijection with $NN$
-]
-
-#Block(color: blue)[
-  *What this means:* All three perspectives capture the _same_ concept! You can use whichever characterization is most convenient for your specific proof.
-
-  - *Bijection* (1 $<->$ 1): Perfect pairing, shows exact size
-  - *Injection* (1 $to$ 1): Fitting into $NN$ without collisions
-  - *Surjection* (enumeration): Listing all elements (possibly with repetitions)
-]
-
-#pagebreak()
-
-#proof[
-  We prove $(1) => (2) => (3) => (1)$.
-
-  *$(1) => (2)$:*
-  Suppose $e: NN to X$ is a surjection.
-
-  If $X = emptyset$, we're done.
-  Otherwise, $X$ is non-empty.
-
-  For each $x in X$, define $f(x) = min{n in NN | e(n) = x}$ (the first index where $x$ appears in the enumeration).
-  This is well-defined because $e$ is surjective, so every $x$ has at least one preimage.
-
-  $f$ is injective: if $f(x) = f(y) = n$, then $e(n) = x$ and $e(n) = y$, so $x = y$.
-
-  *$(2) => (3)$:* Suppose $X = emptyset$ or there exists an injection $f: X to NN$.
-
-  - If $X = emptyset$, then $X$ is finite (hence countable).
-  - Otherwise, $f$ maps $X$ injectively into $NN$, so $X equinumerous "Im"(f) subset.eq NN$, where $"Im"(f) = f(X)$.
-  - By @infinite-subset-bijection about infinite subsets of $NN$, either $"Im"(f)$ is finite or $"Im"(f) equinumerous NN$.
-  - In either case, $X$ is countable.
-
-  *$(3) => (1)$:* Suppose $X$ is countable.
-  - If $X$ is finite with $n$ elements, list them as $x_0, x_1, ..., x_(n-1)$, and define:
-    $
-      e(k) = cases(
-        x_k & "if" k < n,
-        x_0 & "if" k >= n
-      )
-    $
-    This is a surjection from $NN$ to $X$ (repeating $x_0$ for all $k >= n$).
-  - If $X equinumerous NN$, let $g: NN to X$ be a bijection. Then $g$ is also a surjection.
-
-  In both cases, we have constructed a surjection $e: NN to X$.
-]
-
-#Block(color: yellow)[
-  *Practical guide --- when to use which characterization:*
-  - *Bijection* $f: NN to X$: When you want to (or can) show sets have _exactly the same size_ or construct an explicit listing
-  - *Injection* $f: X to NN$: When $X$ is a _subset_ or embeds naturally into $NN$ (often easiest!)
-  - *Surjection* $e: NN to X$: When you can _enumerate_ elements algorithmically (allows repetitions)
-
-  *Key insight:* You can prove countability using _any_ of these three methods, and then freely use properties from _all_ three perspectives in subsequent arguments!
-]
-
-== Examples of Enumerable Sets
-
-#example[Explicit enumerations][
-
-  *Even numbers:* $e(n) = 2n$ gives enumeration $0, 2, 4, 6, 8, ...$
-
-  *Odd numbers:* $e(n) = 2n + 1$ gives enumeration $1, 3, 5, 7, 9, ...$
-
-  *Perfect squares:* $e(n) = n^2$ gives enumeration $0, 1, 4, 9, 16, 25, ...$
-
-  *Prime numbers:* $e(0) = 2, e(1) = 3, e(2) = 5, e(3) = 7, e(4) = 11, dots$
-  - *Note:* while we don't have a closed formula, we can enumerate primes algorithmically (e.g., using the Sieve of Eratosthenes).
-]
-
-#pagebreak()
-
-#example[Integers enumeration][
-  The enumeration $e: NN to ZZ$ defined by:
-  $
-    e(n) = cases(
-      n / 2 & "if" n "is even",
-      -(n+1) / 2 & "if" n "is odd"
-    )
-  $
-
-  produces the sequence: $0, -1, 1, -2, 2, -3, 3, -4, 4, -5, 5, dots$
-
-  This systematically alternates between non-negative and negative integers.
-]
-
-#example[Finite strings][
-  The set $Sigma^*$ of all finite strings over alphabet $Sigma = {a, b}$ can be enumerated by:
-  - First, list strings by length
-  - Within each length, use lexicographic order
-
-  Enumeration: $epsilon, a, b, a a, a b, b a, b b, a a a, a a b, a b a, a b b, b a a, dots$
-
-  This shows $Sigma^*$ is countable for any finite alphabet $Sigma$.
-]
-
-#pagebreak()
-
-#example[Rational numbers][
-  We can enumerate _positive_ rationals by listing fractions $p/q$ ordered by $p + q$:
-
-  #align(center)[
-    #table(
-      columns: 5,
-      align: center,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*$p+q$*], [*Fractions*], [*Reduced*], [*Indices*], [*Count*]),
-      [$1$], [$0/1$], [---], [---], [0],
-      [$2$], [$1/1$], [$1/1$], [0], [1],
-      [$3$], [$1/2, 2/1$], [$1/2, 2/1$], [1, 2], [2],
-      [$4$], [$1/3, 2/2, 3/1$], [$1/3, 3/1$], [3, 4], [2],
-      [$5$], [$1/4, 2/3, 3/2, 4/1$], [$1/4, 2/3, 3/2, 4/1$], [5, 6, 7, 8], [4],
-      [$dots$], [$dots$], [$dots$], [$dots$], [$dots$],
-    )
-  ]
-
-  Skip non-reduced fractions (like $2/2$) and enumerate: $1/1, 1/2, 2/1, 1/3, 3/1, 1/4, 2/3, 3/2, 4/1, dots$
-
-  Adding zero and negative rationals by interleaving gives full enumeration of $QQ$.
-]
-
-== Zig-Zag Enumeration
-
-#theorem[
-  $NN^2$ is countable.
+  *Strategy:* Traverse diagonals of constant sum, systematically visiting every pair exactly once.
 ]
 
 #proof[
-  We enumerate all pairs in $NN^2$ by traversing diagonals of constant sum $n + k$.
+  We enumerate pairs by diagonals where $n + k = s$ for $s = 0, 1, 2, dots$
 
   #align(center)[
     #let cantor(n, k) = (n + k) * (n + k + 1) / 2 + k
@@ -3525,94 +3332,86 @@ The following characterizations of countable sets are all *equivalent*:
     )
   ]
 
-  *Enumeration order:* We traverse (upward) diagonals where $n + k = s$ for $s = 0, 1, 2, dots$:
-  - Diagonal $s=0$: $pair(0, 0)$ #text(fill: red.darken(20%))[(index 0)]
-  - Diagonal $s=1$: $pair(1, 0), pair(0, 1)$ #text(fill: orange.darken(20%))[(indices 1--2)]
-  - Diagonal $s=2$: $pair(2, 0), pair(1, 1), pair(0, 2)$ #text(fill: green.darken(20%))[(indices 3--5)]
-  - Diagonal $s=3$: $pair(3, 0), pair(2, 1), pair(1, 2), pair(0, 3)$ #text(fill: blue.darken(20%))[(indices 6--9)]
-  - And so on...
-
-  *Bijection formula:* The pair $pair(n, k)$ maps to index:
+  The _Cantor pairing function_ gives an explicit bijection $f: NN^2 to NN$:
   $
     f(n, k) = underbrace(frac((n+k)(n+k+1), 2), "pairs before diagonal" n+k) + underbrace(k, "position within diagonal")
   $
 
-  This is the _Cantor pairing function_, which gives a bijection $f: NN^2 to NN$.
-
-  Since we have an explicit bijection, $NN^2 equinumerous NN$, so $abs(NN^2) = aleph_0$.
-]
-
-#Block(color: yellow)[
-  *Key insight:*
-  The _zig-zag method_ systematically visits every pair exactly once.
-  Each diagonal is finite, and we process diagonals in order, ensuring every pair eventually appears.
+  Therefore $NN^2 equinumerous NN$, so $abs(NN^2) = aleph_0$.
 ]
 
 #Block(color: blue)[
   *Why this matters:*
-  This construction shows that "2-dimensional infinity" ($NN^2$) is the same size as "#box[1-dimensional] infinity" ($NN$).
+  "2-dimensional infinity" is the same size as "1-dimensional infinity"!
   More generally, $NN^n$ is countable for any finite $n$.
 ]
+
+== Rationals are Countable
 
 #theorem[
   $QQ$ is countable.
 ]
 
-// TODO: remove this theorem, since it relies on "enumeration"...
+#place(bottom + right, dx: 1em, dy: -3em)[
+  #set align(left)
+  #Block(color: yellow, width: 60%)[
+    #set par(justify: true)
+    *Surprising fact:*
+    There are "as many" rationals as integers, even though rationals are _dense_ (between any two, there is another) while integers are _discrete_!
+  ]
+]
+
+// TODO: check
 #proof[
-  Enumerate positive reduced fractions $p "/" q$ ordered by $p+q$ and increasing $p$; skip non-reduced.
-  Interleave $0$ and negatives.
-  This yields _enumeration_, hence $QQ equinumerous NN$.
+  *Step 1:* Show $QQ^+ times QQ^+$ (positive pairs) is countable.
+  - Since $QQ^+ subset.eq NN times NN$ via numerator-denominator pairs, and $NN times NN$ is countable, $QQ^+ times QQ^+$ is countable
+
+  *Step 2:* Show $QQ^+$ (positive rationals) is countable.
+  - Map each $p/q in QQ^+$ to the pair $(p, q) in NN times NN$
+  - This is an injection (ignoring non-reduced fractions doesn't matter)
+  - By previous slide, $NN times NN$ is countable, so $QQ^+$ is countable
+
+  *Step 3:* Show $QQ$ is countable.
+  - $QQ = {0} union QQ^+ union QQ^-$
+  - $QQ^- equinumerous QQ^+$ (via negation map)
+  - Union of three countable sets is countable
 ]
 
-== Pairing Functions
+== Uncountable Sets: Cantor's Diagonal Argument
 
 #definition[
-  A function $f: A times B to NN$ is an arithmetical _pairing function_ if it is injective.
-
-  We say that $f$ _encodes_ $A times B$, and that $f(a, b)$ is the _code_ of the pair $pair(a, b)$.
-]
-
-#example[
-  The _Cantor pairing function_ $g: NN^2 to NN$ is defined as:
-  $
-    g(n, k) = frac((n+k+1)(n+k), 2) + n
-  $
-]
-
-// TODO: other pairing functions
-// TODO: perfect hash functions
-
-== Uncountable Sets
-
-#definition[
-  A set is _uncountable_ if it is infinite but not countable.
-
-  In other words, there is _no_ bijection between the set and $NN$.
+  A set is _uncountable_ if it is infinite but not countable (no bijection with $NN$ exists).
 ]
 
 #Block(color: orange)[
-  *Strategy for proving uncountability:* _Cantor's diagonal argument_.
-
-  Given a list of elements, say $x_1, x_2, dots$ (enumerated by natural numbers), we construct a _new_ element that _differs_ from each $x_i$, showing that the list is incomplete.
+  *Cantor's strategy:* Given any proposed "list" of all elements, construct a _new_ element that differs from each item in the list, proving the list is incomplete.
 ]
 
+// == Diagonal Argument: $BB^omega$ is Uncountable
+
 #theorem[
-  The set $BB^omega$ of all infinite binary sequences is _uncountable_.
+  The set $BB^omega$ of all infinite binary sequences is uncountable.
+]
+
+#Block(color: yellow)[
+  *Why $BB^omega$?*
+  It's simpler than $RR$ but has the same cardinality: $abs(BB^omega) = abs(RR) = 2^(aleph_0) = frak(c)$. \
+  Binary sequences can represent real numbers via binary expansions!
 ]
 
 #proof[
-  $BB^omega$ contains sequences like $000000...$, $010101...$, $111000...$, etc.
-
   Suppose for contradiction that $BB^omega$ is countable.
-  Then we can _enumerate_ its elements as $x_1, x_2, x_3, dots$, where each $x_i$ is an infinite sequence of bits.
+  Then we can enumerate its elements as $x_1, x_2, x_3, dots$, where $x_i = (b_(i 1), b_(i 2), b_(i 3), dots)$ is an infinite bit sequence.
+
+  We can represent this enumeration as an infinite table, where each row corresponds to a (supposedly countable) sequence $x_i$ and each column corresponds to a bit position (natural numbers):
 
   #align(center)[
     #table(
       columns: 6,
       align: center,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      table.header([*Sequence*], [*Position 1*], [*Position 2*], [*Position 3*], [*Position 4*], [*$dots$*]),
+      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+      table.header([*Seq*], [*Bit 1*], [*Bit 2*], [*Bit 3*], [*Bit 4*], [*$dots$*]),
       [$x_1$], [#text(fill: red)[*$b_(1 1)$*]], [$b_(1 2)$], [$b_(1 3)$], [$b_(1 4)$], [$dots$],
       [$x_2$], [$b_(2 1)$], [#text(fill: red)[*$b_(2 2)$*]], [$b_(2 3)$], [$b_(2 4)$], [$dots$],
       [$x_3$], [$b_(3 1)$], [$b_(3 2)$], [#text(fill: red)[*$b_(3 3)$*]], [$b_(3 4)$], [$dots$],
@@ -3627,7 +3426,7 @@ The following characterizations of countable sets are all *equivalent*:
     )
   ]
 
-  We construct a new sequence $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), overline(b)_(4 4), dots)$ where:
+  Construct $Delta = (overline(b)_(1 1), overline(b)_(2 2), overline(b)_(3 3), dots)$ by flipping each diagonal bit:
   $
     overline(b)_(i i) = cases(
       1 & "if" b_(i i) = 0,
@@ -3635,77 +3434,77 @@ The following characterizations of countable sets are all *equivalent*:
     )
   $
 
-  *Key observation:*
-  The diagonal elements #text(fill: red)[$(b_(1 1), b_(2 2), b_(3 3), b_(4 4), dots)$] are highlighted in red. \
-  The new sequence $Delta$ (shown in #text(fill: blue)[blue]) flips each diagonal element.
+  #colbreak()
 
-  *Why $Delta$ is not in the list:*
-  - $Delta != x_1$ because they differ at position 1: $overline(b)_(1 1) != b_(1 1)$
-  - $Delta != x_2$ because they differ at position 2: $overline(b)_(2 2) != b_(2 2)$
-  - ...
-  - In general, $Delta != x_i$ for any $i$ because they differ at position $i$
+  *Key observation:* $Delta != x_i$ for any $i$, because they differ at position $i$: $overline(b)_(i i) != b_(i i)$.
 
-  Since $Delta in BB^omega$ but $Delta$ is not in our supposedly complete enumeration, we have reached a contradiction.
+  But $Delta in BB^omega$, since it is an infinite binary sequence, so it _should_ appear in our enumeration.
+  Contradiction!
 
-  Therefore, $BB^omega$ is _uncountable_.
+  Therefore, $BB^omega$ is uncountable.
 ]
 
 #Block(color: yellow)[
-  Notice the similarity to the zig-zag enumeration!
-  Both use a 2D table structure:
-  - *Zig-zag:* Systematically visits all pairs $(n,k)$ to show $NN^2$ is countable.
-  - *Diagonal argument:* Shows we _cannot_ systematically visit all infinite sequences.
-
-  *The key difference:* zig-zag works because each diagonal is _finite_, while the diagonal argument shows that infinite sequences cannot be fully enumerated.
+  *Connection to zig-zag:*
+  - *Zig-zag* (for $NN^2$): Each diagonal is _finite_, we can list all pairs
+  - *Diagonal argument* (for $BB^omega$): Sequences are _infinite_, impossible to list completely!
 ]
 
-== Examples of Uncountable Sets
+== More Uncountable Sets
 
-#example[Important uncountable sets][
-  - *Real numbers* $RR$: Can be put in bijection with $BB^omega$ via binary expansions
-  - *Power set* $power(NN)$: By Cantor's theorem, always larger than the original set
-  - *Irrational numbers* $II = RR setminus QQ$: Since $QQ$ is countable but $RR$ is not
-  - *Transcendental numbers*: Numbers like $pi, e$ that are not algebraic
-  - *Function spaces* $RR^RR$: All functions from reals to reals
-  - *Infinite binary strings* $BB^omega$: As proved above
+#example[
+  *Real numbers* $RR$ are uncountable:
+  - Map each $x in (0; 1)$ to its binary expansion sequence in $BB^omega$
+  - Since $BB^omega$ is uncountable and $(0, 1) equinumerous RR$, we have $abs(RR) = 2^(aleph_0) = frak(c)$
+]
+
+#example[
+  *Power set* $power(NN)$ is uncountable:
+  - Map each $S subset.eq NN$ to its characteristic sequence $(chi_S (0), chi_S (1), chi_S (2), dots) in BB^omega$
+  - This is a bijection: $power(NN) equinumerous BB^omega$
+  - Therefore $abs(power(NN)) = 2^(aleph_0)$ (matches Cantor's theorem!)
+]
+
+#pagebreak()
+
+#example[
+  *Irrational numbers* $II = RR setminus QQ$ are uncountable:
+  - If $II$ were countable, then $RR = QQ union II$ would be a union of two countable sets, hence countable
+  - But $RR$ is uncountable, contradiction!
+  - Most real numbers are irrational (in a measure-theoretic sense)
 ]
 
 #example[Computer science connections][
-  - *Undecidable problems*: There are uncountably many languages, but only countably many algorithms
-  - *Real computation*: Continuous functions vs discrete algorithms
-  - *Cryptographic keys*: Key spaces can be countable or uncountable depending on the system
-  - *Information theory*: Continuous vs discrete information sources
+  - *Undecidable problems:*
+    There are uncountably many _languages_ over any alphabet, but only countably many _algorithms_ (finite strings).
+    Most languages have no decision algorithm!
+
+  - *Real computation:*
+    Real numbers are uncountable, but computable reals are countable
+
+  - *Cryptography:*
+    Security often relies on the vastness of uncountable key spaces
 ]
 
-== Sets of Different Sizes
+== Comparing Cardinalities
 
 #definition[
-  The cardinality of a set $A$ is _less than or the same_ as the cardinality of a set $B$, denoted $abs(A) <= abs(B)$ or $A smaller.eq B$, if there is an _injection_ (one-to-one function) from $A$ to $B$.
-  // Set $A$ is _no larger than_ $B$, denoted $A smaller.eq B$, iff there is an _injection_ from $A$ to $B$.
+  The cardinality of $A$ is _less than or equal to_ that of $B$, denoted $abs(A) <= abs(B)$ or $A smaller.eq B$, if~there exists an _injection_ $f: A to B$.
 ]
 
 #definition[
-  Set $A$ is _smaller_ than $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, iff there is an _injection_, but _no~bijection_ from $A$ to $B$, i.e., $A smaller.eq B$ and $A equinumerous.not B$.
+  The cardinality of $A$ is _strictly less than_ that of $B$, denoted $abs(A) < abs(B)$ or $A smaller B$, if~#box[$A smaller.eq B$] and $A equinumerous.not B$ (injection exists, but no bijection).
 ]
 
-#note[
-  Using this notation, we can say that a set $X$ is _countable_ iff $X smaller.eq NN$, and _uncountable_ iff $NN smaller X$.
-]
-
-#example[
-  ${1, 2} smaller {a, b, c}$, since there is an injection $f: {1, 2} to {a, b, c}$ defined by $f(1) = a$ and $f(2) = b$, but no bijection exists.
+#Block(color: yellow)[
+  *Key insight:* Injections let us compare sizes without needing full bijections!
 ]
 
 #example[
-  $NN smaller.eq ZZ$, since there is bijection (and thus an injection) $f: NN to ZZ$.
-]
-
-#example[
-  $ZZ smaller.eq NN$, since there is bijection (and thus an injection) $f: ZZ to NN$.
-]
-
-#example[
-  $NN smaller power(NN)$, since there is an injection $f(x) = {x}$, but no bijection exists.
+  - $abs({1, 2}) < abs({a, b, c})$ because $f(1)=a, f(2)=b$ is injective, but no bijection exists
+  - $abs(NN) <= abs(ZZ)$ and $abs(ZZ) <= abs(NN)$ (both have bijections, so $abs(NN) = abs(ZZ)$)
+  - $abs(NN) < abs(power(NN))$ because $f(n) = {n}$ is injective, but Cantor's theorem says no bijection exists
+  - $abs(NN) < abs(RR)$ because $f: NN to RR$ via $f(n)=n$ is injective, but diagonal argument shows no bijection
 ]
 
 == Cantor's Theorem
@@ -3737,101 +3536,40 @@ The following characterizations of countable sets are all *equivalent*:
 
 == Schröder--Bernstein Theorem
 
-#theorem[
+#theorem[Schröder--Bernstein][
   If $A smaller.eq B$ and $B smaller.eq A$, then $A equinumerous B$.
 
-  Equivalently, if there are injections $f: A to B$ and $g: B to A$, then there exists a bijection $h: A to B$.
-] <shroder-bernstein>
+  Equivalently: if injections $f: A to B$ and $g: B to A$ both exist, then a bijection $h: A to B$ exists.
+] <schroder-bernstein>
 
-#proof[
-  Let $f : A to B$ and $g : B to A$ be injections.
-
-  We write $g^(-1)$ to denote the inverse map defined on the image $g(B)$, i.e., $g^(-1) : g(B) to B$, where $g^(-1)(a)$ denotes the unique $b in B$ such that $g(b) = a$.
-
-  // TODO: visualize
-
-  *Step 1:*
-  Define inductively the sets $A_n subset.eq A$ and $B_n subset.eq B$ as follows:
-  - $A_0 := A setminus g(B)$ (elements of $A$ not in the image of $g$)
-  - $B_n := f(A_n)$ for $n >= 0$ (images of $A_n$ under $f$)
-  - $A_(n+1) := g(B_n)$ for $n >= 0$ (images of $B_n$ under $g$)
-
-  Define $A_infinity subset.eq A$ as the union of all $A_n$:
-  $
-    A_infinity = union.big_(n >= 0) A_n
-  $
-
-  *Step 2:*
-  Define the candidate bijection $h: A to B$ by:
-  $
-    h(a) = cases(
-      f(a) & "if" a in A_infinity,
-      g^(-1)(a) & "if" a in A without A_infinity
-    )
-  $
-
-  *Step 3:*
-  Check that $h$ is well-defined.
-  - If $a in A_infinity$, then $h(a) = f(a)$ is well-defined since $f$ is defined on all of $A$.
-  - If $a in A setminus A_infinity$, then $a notin A_0$ (since $A_0 subset.eq A_infinity$), so $a in g(B)$.
-    Thus, $h(a) = g^(-1)(a)$ exists and is unique
-
-  We also need to check the two cases map into disjoint subsets of $B$.
-  Observe:
-  $
-    f(A_infinity) = union.big_(n >= 0) f(A_n) = union.big_(n >= 0) B_n
-  $
-  If $a notin A_infinity$ and $b = g^(-1)(a)$, then $b notin union.big_(n >= 0) B_n$, since if $b in B_n$ for some $n$, then $a = g(b) in g(B_n) = A_(n+1) subset.eq A_infinity$, contradicting $a notin A_infinity$.
-  Hence $g^(-1)(A without A_infinity) subset.eq B without f(A_infinity)$.
-  So two image-sets $f(A_infinity)$ and $g^(-1)(A without A_infinity)$ are disjoint.
-  That prevents ambiguity across the two cases.
-
-  #colbreak()
-
-  *Step 4:*
-  Show that $h$ is injective.
-
-  Take $a, a' in A$ with $h(a) = h(a')$.
-  Consider cases:
-  - *Both* $a, a' in A_infinity$, then $f(a) = f(a')$.
-    Since $f$ is injective, $a = a'$.
-  - *Both* $a, a' notin A_infinity$, then $g^(-1)(a) = g^(-1)(a')$.
-    Since $g$ is injective, $a = a'$.
-  - *One* in $A_infinity$ and the *other is not*.
-    Suppose $a in A_infinity$ and $a' notin A_infinity$.
-    Then $h(a) = f(a) in f(A_infinity)$, but $h(a') = g^(-1)(a') in B without f(A_infinity)$.
-    These cannot be equal, so this case is impossible.
-  // Thus, $h$ is injective.
-
-  *Step 5:*
-  Show that $h$ is surjective.
-
-  Let $b in B$.
-  Consider two cases:
-  - If $b in f(A_infinity)$, then $b = f(a)$ for some $a in A_infinity$, and then $h(a) = f(a) = b$.
-  - If $b notin f(A_infinity)$, then $a = g(b) in A$.
-    We claim that $a notin A_infinity$.
-    Otherwise, $b in B_n$ for some $n$, contradicting $b notin f(A_infinity)$.
-    Thus $a in A without A_infinity$, so $h(a) = g^(-1)(a) = b$.
-  // Therefore, $h$ is surjective.
-
-  *Conclusion:*
-  Since $h$ is both injective and surjective, $h$ is a bijection, so $A equinumerous B$.
+#Block(color: blue)[
+  *What this means:* If each set "fits inside" the other, they have the same size!
+  This powerful result lets us prove equality of cardinalities without constructing explicit bijections.
 ]
 
-== Another Cantor's Theorem
+#example[
+  $(0; 1) equinumerous [0; 1]$ (open interval equals closed interval):
+  - Injection $f: (0; 1) to [0; 1]$ by $f(x) = x$ (identity)
+  - Injection $g: [0; 1] to (0; 1)$ by $g(x) = x/2 + 1/4$ (shrink and shift to $(1/4; 3/4)$)
+  - By Schröder--Bernstein, there exists a bijection between them!
+]
 
-Let $L$ be the unit line, i.e., the set of points $[0; 1]$.
-Let $S$ be the unit square, i.e., the set of points $L times L$.
+#note[
+  The proof is non-trivial and constructive.
+  We'll see it in a dedicated section later.
+]
 
-#columns(2)[
-  #theorem[
-    $L equinumerous S$.
-  ]
+== Application: Line and Square Have Same Cardinality
 
-  #colbreak()
+#theorem[
+  The unit line $L = [0, 1]$ and unit square $S = [0, 1]^2$ are equinumerous.
+]
 
-  #align(center)[
+#grid(
+  columns: (1fr, auto),
+  gutter: 1em,
+
+  align(center)[
     #cetz.canvas({
       import cetz.draw: *
       let w = 1
@@ -3844,50 +3582,224 @@ Let $S$ be the unit square, i.e., the set of points $L times L$.
       rect((0, 0), (w, w), fill: luma(80%))
       content((w / 2, w / 2))[$S$]
     })
-  ]
-]
+  ],
 
-#proof[#footnote[
-  See https://math.stackexchange.com/a/183383 for more detailed analysis.
-]][
-  Consider the function $f: L to S$ defined by $f(x) = pair(x, x)$.
-  This is an injection, since if #box[$f(a) = f(b)$], then $pair(a, a) = pair(b, b)$, so $a = b$.
-  Thus, $L smaller.eq S$.
+  Block(color: yellow)[
+    *Surprise!* A 1D object has the same cardinality as a 2D object!
+  ],
+)
 
-  Now consider the function $g: S to L$ that maps $pair(x, y)$ to the real number obtained by _interleaving_ the decimal expansions of $x$ and $y$.
-  #v(-.5em)
+#proof[
+  We show $L smaller.eq S$ and $S smaller.eq L$, then apply Schröder--Bernstein.
+
+  *Step 1:*
+  Injection $f: L to S$ by $f(x) = (x, x)$ (diagonal).
+  - If $f(a) = f(b)$, then $(a,a) = (b,b)$, so $a = b$.
+    Thus $L smaller.eq S$. #YES
+
+  *Step 2:*
+  Injection $g: S to L$ by _interleaving_ decimal digits:
   $
     cases(
       reverse: #true,
       x & = 0.#Blue($x_1 x_2 x_3 dots$),
       y & = 0.#Green($y_1 y_2 y_3 dots$),
     )
-    #h(1em)
+    quad
     g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
   $
-  #v(-.5em)
-  This is an injection, since if $g(a, b) = g(c, d)$, then $a_n = c_n$ and $b_n = d_n$ for all $n in NN$, so $pair(a, b) = pair(c, d)$.
-  Thus, $S smaller.eq L$.
+  - If $g(a,b) = g(c,d)$, then digits match, so $(a,b) = (c,d)$. Thus $S smaller.eq L$. #YES
 
-  By Schröder--Bernstein (@shroder-bernstein), we have that $L equinumerous S$.
+  *Step 3:* By Schröder--Bernstein (@schroder-bernstein), $L equinumerous S$.
 ]
 
 == Summary: Cardinality & Infinity
 
 #Block(color: blue)[
-  *Cardinality* measures set "size," revealing surprising facts about infinity:
-  - _Finite sets:_ Count elements normally
-  - _Countable_ infinity ($aleph_0$): Sets like $NN$, $ZZ$, $QQ$ that can be "listed" (enumerated)
-  - _Uncountable_ infinity: Sets like $RR$, $power(NN)$ that are "too big" to list (enumerate with $NN$)
-  - *Cantor's insight:* $abs(A) < abs(power(A))$ always --- there's no "largest" infinity!
+  *Cardinality* measures set "size," with surprising distinctions among infinities:
+  - _Finite sets:_ Cardinality $=$ element count
+  - _Countable infinity_ ($aleph_0$): Sets like $NN, ZZ, QQ$ that can be listed (bijection with $NN$)
+  - _Uncountable infinity_: Sets like $RR$ and $power(NN)$ too large to enumerate (e.g., $abs(RR) = 2^(aleph_0) = frak(c)$)
 ]
 
 #Block(color: green)[
   *Key techniques:*
-  - _Bijections_ show equal cardinality
-  - _Injections_ show one set is no larger than another
-  - _Cantor's diagonal argument_ proves uncountability
-  - _Schröder--Bernstein theorem_ combines injections to yield bijections
+
+  - _Equinumerosity:_ Sets have equal cardinality iff a bijection exists between them
+  - _Injections:_ Prove $abs(A) <= abs(B)$ by constructing a one-to-one map
+  - _Diagonal argument:_ Prove uncountability by showing no enumeration can be complete
+  - _Schröder--Bernstein:_ Two injections (both ways) yield a bijection
+]
+
+#pagebreak()
+
+#Block(color: orange)[
+  *Mind-bending facts:*
+
+  - $abs(NN) = abs(ZZ) = abs(QQ) = aleph_0$ ~ (integers and rationals are "same size" as naturals!)
+  - $abs(NN times NN) = abs(NN)$ ~ (2D grid has same size as 1D line)
+  - $abs([0;1]) = abs([0;1]^2)$ ~ (line segment equals square)
+  - $abs(NN) < abs(power(NN)) < abs(power(power(NN))) < dots$ ~ (infinitely many infinities!)
+  - Most real numbers are _not_ algebraic (computable reals are countable, but all reals are uncountable)
+]
+
+
+= Enumerations and Countability
+#focus-slide()
+
+== Enumerable Sets
+
+#definition[
+  A set $X$ is _enumerable_ if there exists a surjection $e: NN to X$.
+
+  The function $e$ is called an _enumeration_ of $X$.
+]
+
+#note(title: "Intuition")[
+  An enumerable set can be "listed" as $e(0), e(1), e(2), dots$ (possibly with repetitions).
+]
+
+#note[
+  Elements may appear multiple times since we only require a _surjection_, not a bijection.
+]
+
+#example[
+  *Even numbers:* $e(n) = 2n$ gives $0, 2, 4, 6, 8, dots$
+]
+#example[
+  *Perfect squares:* $e(n) = n^2$ gives $0, 1, 4, 9, 16, 25, dots$
+]
+#example[
+  *Prime numbers:* $e(0)=2, e(1)=3, e(2)=5, e(3)=7, dots$ (via Sieve of Eratosthenes)
+]
+
+== Three Equivalent Characterizations
+
+#theorem[
+  For any set $X$, the following are equivalent:
+  + $X$ is _countable_: $X$ is finite or has a bijection with $NN$
+  + $X$ is _enumerable_: there exists a surjection $e: NN to X$
+  + $X$ is _embeddable in $NN$_: $X = emptyset$ or there exists an injection $f: X to NN$
+]
+
+#Block(color: blue)[
+  *Practical guide:*
+  - Use _bijection_ when you can construct an explicit 1-1 correspondence
+  - Use _surjection_ (enumeration) when you can algorithmically list elements
+  - Use _injection_ when $X$ embeds naturally into $NN$ (often easiest!)
+]
+
+== Proof of Equivalence
+
+#proof[
+  We prove $(1) => (2) => (3) => (1)$.
+
+  *$(1) => (2)$:* Suppose $X$ is countable.
+  - If $X$ is finite: $X = {x_0, ..., x_(n-1)}$, define $e(k) = cases(x_k "if" k < n, x_0 "if" k >= n)$ (surjection)
+  - If $X equinumerous NN$: any bijection $g: NN to X$ is also a surjection
+
+  *$(2) => (3)$:* Suppose $e: NN to X$ is a surjection.
+  - If $X = emptyset$, done
+  - Otherwise, for each $x in X$, define $f(x) = min{n in NN | e(n) = x}$ (first occurrence)
+  - This is injective: if $f(x) = f(y) = n$, then $e(n) = x$ and $e(n) = y$, so $x = y$
+
+  *$(3) => (1)$:* Suppose $X = emptyset$ or $f: X to NN$ is injective.
+  - If $X = emptyset$, then $X$ is finite (countable)
+  - Otherwise, $X equinumerous f(X) subset.eq NN$
+  - Since any subset of $NN$ is countable, $X$ is countable
+]
+
+== Infinite Subsets of $NN$
+
+#theorem[
+  Any infinite subset $A subset.eq NN$ is equinumerous to $NN$.
+]
+
+#proof[
+  Construct a bijection $f: NN to A$ recursively:
+  - $f(0) = min A$ ~ ($NN$ is well-ordered $=>$ any $A subset.eq NN$ has a least element)
+  - $f(n+1) = min(A setminus {f(0), f(1), ..., f(n)})$
+
+  Since $A$ is infinite, $A setminus {f(0), ..., f(n)}$ is always non-empty and has a minimum.
+
+  *Injective:* By construction, all $f(i)$ are distinct.
+
+  *Surjective:* Every $a in A$ eventually becomes the minimum of a remaining set.
+
+  Therefore $f$ is a bijection, so $abs(A) = aleph_0$.
+]
+
+#Block(color: yellow)[
+  *Key insight:* There's only "one size" of countably infinite set: $aleph_0$.
+]
+
+== Enumeration Examples
+
+#example[Finite strings over $Sigma = {a, b}$][
+  Enumerate $Sigma^*$ by length, then lexicographically:
+  $
+    epsilon, a, b, a a, a b, b a, b b, a a a, a a b, dots
+  $
+  - Length 0: $epsilon$ (1 string)
+  - Length 1: $a, b$ (2 strings)
+  - Length 2: $a a, a b, b a, b b$ (4 strings)
+  - Length $n$: $2^n$ strings
+
+  Since $union.big_(n=0)^infinity 2^n$ is a countable union of finite sets, $Sigma^*$ is countable.
+]
+
+#example[Rational numbers][
+  List positive fractions $p/q$ by increasing $p + q$, skip non-reduced:
+
+  $1/1, 1/2, 2/1, 1/3, 3/1, 1/4, 2/3, 3/2, 4/1, dots$
+
+  Include $0$ and negatives by interleaving: $0, 1/1, -1/1, 1/2, -1/2, 2/1, -2/1, dots$
+]
+
+
+= Schröder--Bernstein
+#focus-slide()
+
+== Schröder--Bernstein Theorem: Proof
+
+#theorem[
+  If injections $f: A to B$ and $g: B to A$ exist, then a bijection $h: A to B$ exists.
+]
+
+#proof[
+  Let $g^(-1)$ denote the inverse on $g(B)$: for $a in g(B)$, $g^(-1)(a)$ is the unique $b$ with $g(b) = a$.
+
+  *Step 1:* Define sets inductively:
+  - $A_0 = A setminus g(B)$ (elements in $A$ not reached by $g$)
+  - $B_n = f(A_n)$ for $n >= 0$
+  - $A_(n+1) = g(B_n)$ for $n >= 0$
+  - $A_infinity = union.big_(n >= 0) A_n$
+
+  *Step 2:* Define $h: A to B$ by:
+  $
+    h(a) = cases(
+      f(a) & "if" a in A_infinity,
+      g^(-1)(a) & "if" a notin A_infinity
+    )
+  $
+
+  *Step 3:* Verify $h$ is well-defined:
+  - If $a in A_infinity$: use $f(a)$
+  - If $a notin A_infinity$: then $a notin A_0$, so $a in g(B)$, thus $g^(-1)(a)$ exists
+
+  The ranges $f(A_infinity) = union.big_(n >= 0) B_n$ and $g^(-1)(A setminus A_infinity)$ are disjoint.
+
+  *Step 4:* Show $h$ is injective:
+  - Both in $A_infinity$: $f(a) = f(a') => a = a'$ (since $f$ injective)
+  - Both outside: $g^(-1)(a) = g^(-1)(a') => a = a'$ (since $g$ injective)
+  - Mixed case: impossible (disjoint ranges)
+
+  *Step 5:* Show $h$ is surjective:
+  - If $b in f(A_infinity)$: $b = f(a)$ for some $a in A_infinity$, so $h(a) = b$
+  - If $b notin f(A_infinity)$: let $a = g(b)$.
+    Then $a notin A_infinity$, so $h(a) = g^(-1)(a) = b$
+
+  Therefore $h$ is a bijection.
 ]
 
 
