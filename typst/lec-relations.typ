@@ -3582,16 +3582,15 @@ $
   ],
 )
 
-#proof[
-  We show $L smaller.eq S$ and $S smaller.eq L$, then apply Schröder--Bernstein.
-
+#proof[#footnote[
+  See https://math.stackexchange.com/a/183383 for more detailed analysis.
+]][
   *Step 1:*
-  Injection $f: L to S$ by $f(x) = pair(x, x)$ (diagonal).
-  - If $f(a) = f(b)$, then $pair(a, a) = pair(b, b)$, so $a = b$.
-    Thus $L smaller.eq S$. #YES
+  Injection $f: L to S$ by $f(x) = pair(x, x)$ gives $L smaller.eq S$. #YES
+  - If $f(a) = f(b)$, then $pair(a, a) = pair(b, b)$, so $a = b$
 
   *Step 2:*
-  Injection $g: S to L$ by _interleaving_ decimal digits:
+  Injection $g: S to L$ by _interleaving_ decimal digits gives $S smaller.eq L$:
   $
     cases(
       reverse: #true,
@@ -3601,8 +3600,7 @@ $
     quad
     g(x, y) & = 0.#Blue($x_1$) #Green($y_1$) #Blue($x_2$) #Green($y_2$) #Blue($x_3$) #Green($y_3$) dots
   $
-  - If $g(a,b) = g(c,d)$, then digits match, so $pair(a, b) = pair(c, d)$.
-    Thus $S smaller.eq L$. #YES
+  - If $g(a,b) = g(c,d)$, then digits match, so $pair(a, b) = pair(c, d)$
 
   *Step 3:*
   By Schröder--Bernstein (@schroder-bernstein), $L equinumerous S$.
