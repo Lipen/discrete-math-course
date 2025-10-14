@@ -533,7 +533,7 @@ From the axioms, we can prove many useful identities:
 == The Duality Principle
 
 #theorem[Duality Principle][
-  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or arrow.l.r and$ and $0 arrow.l.r 1$) also holds.
+  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or <=> and$ and $0 <=> 1$) also holds.
 ]
 
 #example[
@@ -625,7 +625,7 @@ From the axioms, we can prove many useful identities:
   + Boolean algebra is an algebraic structure with operations $or$, $and$, $not$ and elements $0$, $1$
   + Five fundamental axioms govern the structure
   + Many useful laws (idempotence, absorption, De Morgan's) follow from the axioms
-  + Duality principle: swap $or arrow.l.r and$ and $0 arrow.l.r 1$ to get new theorems
+  + Duality principle: swap $or <=> and$ and $0 <=> 1$ to get new theorems
   + Boolean algebras are complemented bounded distributive lattices
   + Complements are unique
 ]
@@ -2122,48 +2122,87 @@ When multiple prime implicants remain after selecting essentials:
 
 
 = Algebraic Normal Form
-#focus-slide()
+#focus-slide(
+  epigraph: [In mathematics, the art of asking questions is more valuable than solving problems.],
+  epigraph-author: "Georg Cantor",
+)
 
-== Algebraic Normal Form
+== Motivation: A Different Representation
 
-So far, we've worked with Boolean functions using AND ($and$), OR ($or$), and NOT ($overline(x)$).
+So far, we've built Boolean functions using AND ($and$), OR ($or$), and NOT ($overline(x)$).
 
-These led to DNF, CNF, and various minimization techniques.
+This led us to:
+- DNF and CNF (canonical forms)
+- K-maps and Quine-McCluskey (minimization)
+- Circuit design with standard gates
 
 #Block(color: blue)[
-  *New question:* Can we represent Boolean functions using *only* XOR ($xor$) and AND ($and$)?
+  *Question:* Can we represent Boolean functions using only AND ($and$) and XOR ($xor$)?
+
+  That is, without OR and NOT operations?
 ]
 
+The answer is yes, and this leads to a completely different algebraic structure with important theoretical and practical applications.
+
+== Introducing Algebraic Normal Form
+
 #definition[
-  An _Algebraic Normal Form_ (ANF) or _Zhegalkin polynomial_ is a representation of a Boolean function as a polynomial over $FF_2$ (the field with two elements ${0, 1}$) using:
-  - Addition modulo 2 (XOR, $xor$)
-  - Multiplication (AND, $and$)
+  An _Algebraic Normal Form_ (ANF), also called a _Zhegalkin polynomial_, represents a Boolean function as a polynomial over $FF_2$ (the field {0, 1}) using:
+  - XOR ($xor$) for addition (modulo 2)
+  - AND ($and$) for multiplication
   - Constants 0 and 1
 ]
 
-== Why ANF?
+#example[
+  The function $f(x, y, z) = x y xor x z xor y z xor x xor 1$ is in ANF.
 
-#Block(color: yellow)[
-  *Different algebraic properties:*
-  - XOR is its own inverse: $x xor x = 0$
-  - No need for negation (NOT)
-  - Linear operations (important in cryptography, coding theory)
+  Term structure:
+  - $x y$, $x z$, $y z$ are degree-2 terms (quadratic)
+  - $x$ is a degree-1 term (linear)
+  - $1$ is a degree-0 term (constant)
+
+  The algebraic degree of this function is 2.
 ]
 
-#columns(2)[
-  *Applications:*
-  - Cryptography (stream ciphers, S-boxes)
-  - Coding theory (linear codes)
-  - Hardware optimization (XOR gates)
-  - Algebraic attacks on ciphers
+#note(title: "Notation")[
+  We write XOR as $xor$ or $+$, and AND as $and$, $dot$, or by juxtaposition ($x y$).
+]
 
-  #colbreak()
+== Properties of XOR
 
-  *Key properties:*
-  - Unique representation (_canonical_$thin$)
-  - Degree of polynomial = algebraic degree
-  - Linear functions = degree 1
-  - Affine functions = degree $<=$ 1
+#table(
+  columns: 3,
+  align: left,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  [*Property*], [*OR*], [*XOR*],
+  [Idempotent], [#YES $x or x = x$], [#NO $x xor x = 0$],
+  [Self-inverse], [No #NO], [Yes #YES],
+  [Negation], [Requires NOT], [$overline(x) = x xor 1$],
+)
+
+These differences enable important applications:
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Cryptography* 🔐
+    - Stream cipher design
+    - S-box analysis (DES, AES)
+    - Algebraic attacks
+    - Linear cryptanalysis resistance
+  ],
+  [
+    *Coding Theory* 📡
+    - Error-correcting codes
+    - Reed-Muller codes
+    - Parity check matrices
+    - LDPC codes
+  ],
+)
+
+#note[
+  In $FF_2$, XOR corresponds to addition and AND to multiplication. ANF treats Boolean functions as polynomials over this field.
 ]
 
 == ANF Structure
@@ -2187,51 +2226,62 @@ These led to DNF, CNF, and various minimization techniques.
   Multiplication (AND) can be written as $and$, $dot$, or juxtaposition (e.g., $x y$).
 ]
 
-== ANF vs DNF
+== Comparing ANF and DNF
 
 #align(center)[
   #table(
     columns: 3,
-    align: left,
+    align: (left, right, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Property*], [*DNF*], [*ANF*]),
-    [Operations], [AND, OR, NOT], [AND, XOR],
-    [Form], [Sum of products], [XOR of products],
-    [Canonical], [Yes (minterms)], [Yes (unique!)],
-    [Negation], [Explicit ($overline(x)$)], [Using XOR ($x xor 1$)],
-    [Idempotent], [$x or x = x$], [$x xor x = 0$],
-    [Neutrality], [$x or 0 = x$], [$x xor 0 = x$],
-    [Algebraic degree], [Not defined], [Maximum term degree],
+    [*Operations*], [AND, OR, NOT], [AND, XOR only],
+    [*Structure*], [OR of AND-terms], [XOR of AND-terms],
+    [*Example*], [$x y or overline(x) z$], [$x y xor x z xor 1$],
+    table.hline(stroke: 0.4pt + gray),
+    [*Canonical form*], [Yes (via minterms)], [Yes (unique)],
+    [*Representations*], [Many variants possible], [Exactly one],
+    table.hline(stroke: 0.4pt + gray),
+    [*Negation*], [Explicit ($overline(x)$)], [$x xor 1$],
+    [*$x + x =$*], [$x$ (idempotent)], [$0$ (self-inverse)],
+    [*Identity element*], [$x or 0 = x$], [$x xor 0 = x$],
+    table.hline(stroke: 0.4pt + gray),
+    [*Degree notion*], [Not applicable], [Max monomial size],
+    [*Primary use*], [Circuit synthesis], [Cryptographic analysis],
   )
 ]
 
-#Block(color: yellow)[
-  *Key difference:* In DNF, $x or x = x$ (idempotent). In ANF, $x xor x = 0$ (self-inverse)!
-]
+// #Block(color: orange)[
+//   *Key observation:* The self-inverse property $(x xor x = 0)$ fundamentally distinguishes ANF from DNF, leading to different algebraic structures and applications.
+// ]
 
-== Canonicity of ANF
+== Uniqueness of ANF Representation
 
 #theorem[
-  Every Boolean function has a _unique_ ANF representation.
+  Every Boolean function $f: {0,1}^n to {0,1}$ has _exactly one_ ANF representation.
 ]
 
-#proof[(sketch)][
-  Consider the vector space $FF_2^n arrow.r FF_2$ of all Boolean functions on $n$ variables.
+#proof[
+  Consider Boolean functions as a vector space over $FF_2$:
 
-  - There are $2^(2^n)$ Boolean functions on $n$ variables
-  - There are $2^(2^n)$ possible ANF polynomials (one for each subset of monomials)
-  - The mapping from ANF to Boolean function is linear and bijective
+  + There are $2^(2^n)$ Boolean functions on $n$ variables
+  + There are $2^n$ possible monomials, giving $2^(2^n)$ possible ANFs
+  + The mapping $"ANF" to "Boolean function"$ is a linear bijection over $FF_2$
 
-  Therefore, each Boolean function has exactly one ANF representation.
+  Therefore, each function has exactly one ANF representation.
 ]
 
 #Block(color: yellow)[
-  *Important:* Unlike DNF/CNF (which have minimal and non-minimal forms), ANF is always unique!
+  *Significance:* Unlike DNF/CNF (which have multiple equivalent forms), ANF is always canonical.
+
+  This eliminates the need for minimization in the ANF context.
+]
+
+#note[
+  The uniqueness follows from the linear algebra structure over $FF_2$. \
+  The Möbius transform (used in Pascal's triangle method) provides an explicit bijection.
 ]
 
 == Monomials in ANF
-
-For $n$ variables, possible monomials in ANF:
 
 #example[
   For $n = 3$ variables $(x, y, z)$:
@@ -2260,39 +2310,61 @@ For $n$ variables, possible monomials in ANF:
 == Algebraic Degree
 
 #definition[
-  The _algebraic degree_ of a Boolean function in ANF is the maximum number of variables in any monomial with non-zero coefficient.
+  The _algebraic degree_ of a Boolean function in ANF is the maximum number of variables in any monomial with coefficient 1.
 ]
 
 #example[
-  - $f(x, y) = x y xor x xor 1$ has degree 2
-  - $f(x, y) = x xor y xor 1$ has degree 1 (affine function)
-  - $f(x, y) = x xor y$ has degree 1 (linear function)
-  - $f(x) = x xor 1$ has degree 1
-  - $f(x) = 1$ has degree 0 (constant)
-  - $f(x) = 0$ has degree $-infinity$ or undefined (zero function)
-]
-
-#Block(color: red)[
-  Functions with low algebraic degree are vulnerable to certain cryptographic attacks!
-]
-
-== Computing ANF: Methods
-
-We'll explore three methods to compute ANF from a truth table:
-
-#align(center)[
   #table(
-    columns: 4,
-    align: (left, center, center, left),
+    columns: 3,
+    align: (left, left, center),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Method*], [*Complexity*], [*Variables*], [*Best for*]),
-    [Direct computation], [$O(2^(2n))$], [1-3], [Understanding],
-    [Pascal's triangle], [$O(2^n)$], [1-4], [Hand calculation],
-    [Karnaugh map], [$O(2^n)$], [2-4], [Visualization],
+    table.header([*Function*], [*ANF*], [*Degree*]),
+    [NOT], [$f(x) = x xor 1$], [1],
+    [XOR], [$f(x,y) = x xor y$], [1],
+    [AND], [$f(x,y) = x y$], [2],
+    [NAND], [$f(x,y) = x y xor 1$], [2],
+    [Majority], [$f(x,y,z) = x y xor x z xor y z$], [2],
+    [Full ANF], [$f(x,y,z) = x y z xor x y xor dots.h xor 1$], [3],
   )
 ]
 
-We'll demonstrate each method with examples!
+#Block(color: red)[
+  *Cryptographic significance:* Low algebraic degree indicates vulnerability to attacks.
+
+  Functions with degree $d < n/2$ are susceptible to:
+  - Linearization attacks
+  - Cube attacks
+  - Higher-order differential cryptanalysis
+]
+
+#note[
+  The AES S-box has algebraic degree 7 (approaching the maximum of 8 for 8-bit functions). This high degree provides resistance to algebraic attacks.
+]
+
+== Methods for Computing ANF
+
+We will examine three methods for computing ANF from truth tables:
+
+#align(center)[
+  #table(
+    columns: 5,
+    align: (left, center, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Method*], [*Complexity*], [*Variables*], [*Difficulty*], [*Best suited for*]),
+    [Direct computation], [$O(2^(2n))$], [1-3], [High], [Theoretical understanding],
+    [Pascal's triangle], [$O(2^n)$], [1-5], [Medium], [Hand calculations],
+    [Karnaugh map], [$O(2^n)$], [2-4], [Low], [Visual intuition],
+  )
+]
+
+#Block(color: blue)[
+  *Learning approach:*
+  + Begin with K-map method (most intuitive)
+  + Master Pascal's triangle (most practical)
+  + Understand direct method (theoretical foundation)
+]
+
+Each method provides different insights into the structure of ANF.
 
 == Method 1: Direct Computation
 
@@ -2300,7 +2372,7 @@ We'll demonstrate each method with examples!
   *Idea:* Solve a system of linear equations over $FF_2$ (arithmetic mod 2).
 ]
 
-For function $f: FF_2^n arrow.r FF_2$, we want to find coefficients $a_S$ such that:
+For function $f: FF_2^n to FF_2$, we want to find coefficients $a_S$ such that:
 $
   f(x_1, ..., x_n) = xor.big_(S subset.eq {1,...,n}) (a_S product_(i in S) x_i)
 $
@@ -2431,68 +2503,59 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 == Method 3: Karnaugh Map Method
 
 #Block(color: blue)[
-  *Intuitive visual method* for 2-4 variables using K-maps!
+  Use K-map regions to identify monomials in ANF.
 ]
 
 *Algorithm:*
 + Fill K-map with function values
-+ For each possible monomial (including constant 1):
-  - Identify its rectangular region in K-map
-  - Check if upper-left cell of region is 1
-  - If yes, include monomial in ANF (with XOR)
-+ Combine all included monomials with XOR
++ For each possible monomial:
+  - Identify its rectangular region in the K-map
+  - If the top-left cell equals 1, include the monomial
++ Combine all selected monomials using XOR
 
-#note[
-  *Key difference from minimization:*
-  We check ALL possible groups (not just largest), and combine with XOR (not OR)!
+#Block(color: orange)[
+  *Key differences from minimization:*
+  - Check _all_ rectangular regions, not just maximal ones
+  - Combine terms with XOR instead of OR
+  - Top-left cell determines inclusion
 ]
 
 == K-Map Method: Example
 
-Find ANF for $f(x, y) = sum m(1, 2)$:
+#example[
+  Find ANF for $f(x,y) = sum m(1,2)$:
 
-#grid(
-  columns: (auto, 2cm, auto),
-  column-gutter: 1em,
-  [
-    *K-map:*
+  #grid(
+    columns: (1fr, 1fr),
+    gutter: 1em,
+    [
+      *K-map:*
+      #align(center)[
+        #k-mapper.karnaugh(
+          4,
+          y-label: $x$,
+          x-label: $y$,
+          manual-terms: (
+            kcell(0, 0),
+            kcell(1, 1),
+            kcell(2, 1),
+            kcell(3, 0),
+          ),
+          implicants: ((2, 3), (1, 3)),
+          colors: (gray.transparentize(80%),),
+        )
+      ]
+    ],
+    [
+      *Monomial analysis:*
+      + Constant (all cells): top-left = 0 $=>$ exclude
+      + $x$ (row $x=1$): top-left = 1 $=>$ include
+      + $y$ (column $y=1$): top-left = 1 $=>$ include
+      + $x y$ (cell at 11): value = 0 $=>$ exclude
 
-    #align(center)[
-      #k-mapper.karnaugh(
-        4,
-        y-label: $x$,
-        x-label: $y$,
-        manual-terms: (
-          kcell(0, 0),
-          kcell(1, 1),
-          kcell(2, 1),
-          kcell(3, 0),
-        ),
-        implicants: ((2, 3), (1, 3)),
-        colors: (gray.transparentize(80%),),
-      )
-    ]
-  ],
-  [],
-  [
-    *Monomials to check:*
-
-    + *Constant 1* (all 4 cells): \
-      Top-left (0,0) = 0 $=>$ No
-    + *$x$* (bottom row, cells $x=1$): \
-      Top-left at (1,0) = 1 $=>$ *Include $x$*
-    + *$y$* (right column, cells $y=1$): \
-      Top-left at (0,1) = 1 $=>$ *Include $y$*
-    + *$x y$* (single cell at $x=1$, $y=1$): \
-      Value = 0 $=>$ No
-
-    *ANF:* $f = x xor y$
-  ],
-)
-
-#Block(color: yellow)[
-  This is the XOR function!
-  Notice: only linear terms, degree = 1.
+      *Result ANF:* $f = x xor y$
+    ],
+  )
 ]
 
 == K-Map Method: Another Example
@@ -2523,7 +2586,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 + *$y z$* (column 11): Top-left at (0, 11) is 1 $=>$ Include $y z$
 + *$x y z$* (cell at $x = 1$, $y z = 11$): Value is 1 $=>$ Include $x y z$
 
-*Result:*~ $f = 1 xor z xor y z xor x y z$ ✓
+*Result:*~ $f = 1 xor z xor y z xor x y z$
 
 == Comparison of ANF Construction Methods
 
@@ -2534,7 +2597,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Method*], [*Pros*], [*Cons*], [*Best for*]),
     [
-      *Direct computation*
+      📐*Direct computation*
     ],
     [
       - Systematic \
@@ -2553,7 +2616,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 
     table.hline(stroke: 0.4pt + gray),
     [
-      *Pascal's triangle*
+      🔺*Pascal's triangle*
     ],
     [
       - _Fast_ \
@@ -2572,7 +2635,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 
     table.hline(stroke: 0.4pt + gray),
     [
-      *K-map method*
+      🗺️*K-map method*
     ],
     [
       - Visual \
@@ -2610,83 +2673,120 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 
 == ANF in Cryptography
 
-#Block(color: blue)[
+#Block[
   *Why cryptographers care about ANF?*
 ]
 
-#columns(2)[
-  *Algebraic attacks:*
-  - Express cipher as polynomial system
-  - Solve over $FF_2$ (Gröbner bases)
-  - Low degree = vulnerable!
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Algebraic Attacks*
 
-  *S-box design:*
-  - Need high algebraic degree
-  - Balanced nonlinearity
-  - Resistance to linear cryptanalysis
+    Express cipher as polynomial system over $FF_2$:
+    - Each round forms polynomial equations
+    - Solve using Gröbner basis algorithms
+    - Low degree enables efficient attacks
 
-  #colbreak()
+    #note[
+      If an S-box has degree 2, attackers can linearize the system and solve in polynomial time.
+    ]
+  ],
+  [
+    *S-Box Design Criteria*
 
-  *Stream ciphers:*
-  - Boolean functions in LFSRs
-  - Combining functions
-  - Filter functions
+    Secure S-boxes require:
+    - High algebraic degree (nonlinearity)
+    - Balanced output distribution
+    - Absence of linear structures
 
-  *Important classes:*
-  - Bent functions (max nonlinearity)
-  - Balanced functions
-  - Correlation-immune functions
-]
+    #note[
+      The AES S-box has degree 7 (near maximum of 8), providing resistance to algebraic attacks.
+    ]
+  ],
+)
 
-#Block(color: orange)[
-  *Example:* AES S-box has algebraic degree 7 (near maximum of 8).
+#pagebreak()
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Stream Cipher Design*
+
+    Boolean functions in stream ciphers:
+    - Filter functions for LFSRs
+    - Combining functions
+    - Must resist correlation and algebraic attacks
+
+    Degree requirements depend on cipher structure.
+  ],
+  [
+    *Important Function Classes*
+
+    - *Bent functions:* Maximum nonlinearity
+    - *Balanced functions:* Equal 0s and 1s in output
+    - *Correlation-immune:* Statistical attack resistance
+    - *Resilient:* Balanced and correlation-immune
+  ],
+)
+
+#Block(color: red)[
+  *Case study:*
+  The E0 stream cipher (used in Bluetooth) was cryptanalyzed due to insufficient algebraic degree in its combining function.
 ]
 
 == Converting Between ANF and DNF
 
-Two approaches for conversion:
+Two approaches for converting between representations:
 
 #align(center)[
   #table(
     columns: 3,
-    align: left,
+    align: (left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Method*], [*Pros*], [*Cons*]),
+    table.header([*Method*], [*Advantages*], [*Disadvantages*]),
     [
       *Algebraic* \
-      Apply identities directly
+      Direct application \
+      of identities
     ],
     [
-      - Direct \
-      - Insightful
+      - Direct transformation \
+      - Shows structural relationships
     ],
     [
-      - Complex expansions \
-      - Error-prone \
-      - Gets messy quickly
+      - Complex algebraic expansions \
+      - Error-prone for large functions \
+      - Exponential term growth
     ],
 
-    table.hline(stroke: 0.4pt + gray),
+    table.hline(stroke: 0.4pt),
     [
       *Via truth table* \
-      Use table as intermediate
+      Truth table as \
+      intermediate form
     ],
     [
-      - _Systematic_ \
-      - _Always works_ \
-      - Clear steps
+      - Systematic procedure \
+      - Always succeeds \
+      - Clear verification steps
     ],
     [
-      - Requires table \
-      - Extra step
+      - Requires complete enumeration \
+      - Additional computational step
     ],
   )
 ]
 
 #Block(color: yellow)[
-  *Recommendation:*
-  Use truth table as intermediate step!
-  It's systematic and reliable.
+  *Recommended approach:* Use truth table as intermediate representation.
+
+  This method is systematic, reliable, and suitable for examination contexts.
+]
+
+#note[
+  Direct algebraic conversion requires expanding $x xor y = (x and overline(y)) or (overline(x) and y)$, which becomes complex for multi-variable functions.
 ]
 
 == Converting ANF to DNF
@@ -2744,25 +2844,36 @@ Two approaches for conversion:
 == Summary: Algebraic Normal Form
 
 #Block(color: purple)[
-  *What we've learned?*
+  *Key concepts covered:*
 
-  + *ANF:* Polynomials over $FF_2$ using XOR and AND
+  #grid(
+    columns: 2,
+    gutter: 1em,
+    [
+      *Theoretical foundations*
+      + ANF as polynomials over $FF_2$
+      + Representation using XOR and AND
+      + Unique canonical form
+      + Algebraic degree as security parameter
+    ],
+    [
+      *Computational methods*
+      + Pascal's triangle (efficient)
+      + Karnaugh map (intuitive)
+      + Direct computation (theoretical)
+      + Conversion via truth tables
+    ],
+  )
 
-  + *Canonicity:* Unique representation for each Boolean function
-
-  + *Three ANF construction methods:*
-    - Direct computation (solving linear system)
-    - Pascal's triangle (fast, systematic)
-    - K-map method (visual, intuitive)
-
-  + *Applications:* Cryptography, coding theory, algebraic attacks
-
-  + *Key difference from DNF/CNF:* Self-inverse property ($x xor x = 0$)
+  *Applications*
+  - Cryptographic analysis: S-box evaluation, algebraic attacks
+  - Coding theory: Reed-Muller codes, error correction
+  - Hardware optimization: XOR-based circuit design
 ]
 
-#Block(color: yellow)[
-  *Next:*~
-  Functional completeness --- how to build _any_ Boolean function with a minimal set of gates!
+#Block(color: teal)[
+  *Looking ahead:*~
+  Which sets of operations are sufficient to express all Boolean functions?
 ]
 
 
