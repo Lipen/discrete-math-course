@@ -2254,7 +2254,7 @@ For $n$ variables, possible monomials in ANF:
 ]
 
 #note[
-  General formula: For $n$ variables, there are $sum_(k=0)^n binom(n, k) = 2^n$ possible monomials.
+  For $n$ variables, there are $sum_(k=0)^n binom(n, k) = 2^n$ possible monomials.
 ]
 
 == Algebraic Degree
