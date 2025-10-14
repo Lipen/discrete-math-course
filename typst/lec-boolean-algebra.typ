@@ -2172,8 +2172,7 @@ The answer is yes, and this leads to a completely different algebraic structure 
   align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   [*Property*], [*OR*], [*XOR*],
-  [Idempotent], [#YES $x or x = x$], [#NO $x xor x = 0$],
-  [Self-inverse], [No #NO], [Yes #YES],
+  [Characteristic], [Idempotent \ $x or x = x$], [Self-inverse \ $x xor x = 0$],
   [Negation], [Requires NOT], [$overline(x) = x xor 1$],
 )
 
