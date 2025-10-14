@@ -2122,10 +2122,7 @@ When multiple prime implicants remain after selecting essentials:
 
 
 = Algebraic Normal Form
-#focus-slide(
-  epigraph: [In mathematics, the art of asking questions is more valuable than solving problems.],
-  epigraph-author: "Georg Cantor",
-)
+#focus-slide()
 
 == Motivation: A Different Representation
 
