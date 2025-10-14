@@ -2313,6 +2313,8 @@ Each row of the truth table gives one linear equation!
   *Remember:* In $FF_2$, addition is XOR: $1 + 1 = 0$, $1 + 0 = 1$, $0 + 0 = 0$
 ]
 
+#pagebreak()
+
 #example[
   Find ANF for $f(x, y)$ with truth table:
 
@@ -2360,7 +2362,7 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
 
 == Method 2: Pascal's Triangle Method
 
-#Block(color: yellow)[
+#Block[
   *Fast systematic method* using a butterfly/pyramid pattern!
 ]
 
@@ -2374,8 +2376,8 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
   Also called the _Butterfly method_ or _ANF transform_.
 ]
 
-#Block(color: teal)[
-  *Pattern:* Coefficients appear in binary order: constant, $z$, $y$, $y z$, $x$, $x z$, $x y$, $x y z$, ...
+#Block(color: yellow)[
+  *Pattern:* Coefficients appear in binary order: $1$, $z$, $y$, $y z$, $x$, $x z$, $x y$, $x y z$
 ]
 
 == Pascal's Triangle Method: Example
@@ -2404,10 +2406,6 @@ Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$:
 ]
 
 *ANF:*~ $f = 1 xor y xor y z xor x xor x y$
-
-#Block(color: orange)[
-  *Pattern:* First values of columns (red) correspond to monomials in binary order!
-]
 
 == Pascal's Triangle: Why It Works
 
