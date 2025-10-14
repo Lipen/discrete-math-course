@@ -2234,13 +2234,16 @@ These differences enable important applications:
     [*Operations*], [AND, OR, NOT], [AND, XOR only],
     [*Structure*], [OR of AND-terms], [XOR of AND-terms],
     [*Example*], [$x y or overline(x) z$], [$x y xor x z xor 1$],
+
     table.hline(stroke: 0.4pt + gray),
     [*Canonical form*], [Yes (via minterms)], [Yes (unique)],
     [*Representations*], [Many variants possible], [Exactly one],
+
     table.hline(stroke: 0.4pt + gray),
     [*Negation*], [Explicit ($overline(x)$)], [$x xor 1$],
     [*$x + x =$*], [$x$ (idempotent)], [$0$ (self-inverse)],
     [*Identity element*], [$x or 0 = x$], [$x xor 0 = x$],
+
     table.hline(stroke: 0.4pt + gray),
     [*Degree notion*], [Not applicable], [Max monomial size],
     [*Primary use*], [Circuit synthesis], [Cryptographic analysis],
