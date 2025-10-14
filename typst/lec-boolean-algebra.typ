@@ -2383,22 +2383,27 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
 Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$:
 
 #align(center)[
+  #let bb(it) = {
+    box(stroke: red, outset: 3pt, radius: 2pt)[#it]
+  }
   #table(
-    columns: 9,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([$x y z$], [$f$], [], [$f_(xor)$], [], [$f_(xor xor)$], [], [$f_(xor xor xor)$], [*Coefficient*]),
-    [000], [#text(fill: red)[1]], [$xor$], [0], [$xor$], [0], [$xor$], [0], [$a_emptyset = 1$],
-    [001], [#text(fill: red)[1]], [$xor$], [0], [$xor$], [1], [], [], [$a_z = 1$],
-    [010], [0], [$xor$], [1], [$xor$], [1], [$xor$], [1], [$a_y = 0$],
-    [011], [#text(fill: red)[1]], [$xor$], [0], [], [], [], [], [$a_(y z) = 1$],
-    [100], [0], [$xor$], [0], [$xor$], [0], [], [], [$a_x = 0$],
-    [101], [0], [$xor$], [0], [], [], [], [], [$a_(x z) = 0$],
-    [110], [0], [$xor$], [1], [], [], [], [], [$a_(x y) = 0$],
-    [111], [#text(fill: red)[1]], [], [], [], [], [], [], [$a_(x y z) = 1$],
+    columns: 10,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
+    table.header(
+      [$x y z$], [$f$], [$a_1$], [$a_z$], [$a_y$], [$a_(y z)$], [$a_x$], [$a_(x z)$], [$a_(x y)$], [$a_(x y z)$]
+    ),
+    [000], [1], bb[1], [0], bb[1], bb[1], bb[1], [0], bb[1], [0],
+    [001], [1], [1], [1], [0], [0], [1], [1], [1], [ ],
+    [010], [0], [0], [1], [0], [1], [0], [0], [ ], [ ],
+    [011], [1], [1], [1], [1], [1], [0], [ ], [ ], [ ],
+    [100], [0], [0], [0], [0], [1], [ ], [ ], [ ], [ ],
+    [101], [0], [0], [0], [1], [ ], [ ], [ ], [ ], [ ],
+    [110], [0], [0], [1], [ ], [ ], [ ], [ ], [ ], [ ],
+    [111], [1], [1], [ ], [ ], [ ], [ ], [ ], [ ], [ ],
   )
 ]
 
-*ANF:*~ $f = 1 xor z xor y z xor x y z$
+*ANF:*~ $f = 1 xor y xor y z xor x xor x y$
 
 #Block(color: orange)[
   *Pattern:* First values of columns (red) correspond to monomials in binary order!
