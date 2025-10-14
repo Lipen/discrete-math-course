@@ -3352,29 +3352,22 @@ $
   $QQ$ is countable.
 ]
 
-#place(bottom + right, dx: 1em, dy: -3em)[
-  #set align(left)
-  #Block(color: yellow, width: 60%)[
-    #set par(justify: true)
-    *Surprising fact:*
-    There are "as many" rationals as integers, even though rationals are _dense_ (between any two, there is another) while integers are _discrete_!
-  ]
+#proof[
+  We construct an injection from $QQ$ into $NN times NN$, which is countable.
+
+  *Step 1:* Map each positive rational $p/q$ (as a reduced fraction) to $(p, q) in NN times NN$.
+  - This is injective: different reduced fractions have different $(p,q)$ pairs
+  - Since $NN times NN$ is countable, $QQ^+ smaller.eq NN times NN$ implies $QQ^+$ is countable
+
+  *Step 2:* Decompose $QQ = QQ^- union {0} union QQ^+$ (union of three disjoint sets).
+  - $QQ^- equinumerous QQ^+$ via $f(x) = -x$, ~ ${0}$ is finite, ~ $QQ^+$ is countable (Step 1)
+
+  *Step 3:* Union of three countable sets is countable, so $QQ$ is countable.
 ]
 
-// TODO: check
-#proof[
-  *Step 1:* Show $QQ^+ times QQ^+$ (positive pairs) is countable.
-  - Since $QQ^+ subset.eq NN times NN$ via numerator-denominator pairs, and $NN times NN$ is countable, $QQ^+ times QQ^+$ is countable
-
-  *Step 2:* Show $QQ^+$ (positive rationals) is countable.
-  - Map each $p/q in QQ^+$ to the pair $(p, q) in NN times NN$
-  - This is an injection (ignoring non-reduced fractions doesn't matter)
-  - By previous slide, $NN times NN$ is countable, so $QQ^+$ is countable
-
-  *Step 3:* Show $QQ$ is countable.
-  - $QQ = {0} union QQ^+ union QQ^-$
-  - $QQ^- equinumerous QQ^+$ (via negation map)
-  - Union of three countable sets is countable
+#Block(color: yellow)[
+  *Surprising fact:*
+  There are "as many" rationals as integers, even though rationals are _dense_ (between any two, there's another) while integers are _discrete_!
 ]
 
 == Uncountable Sets: Cantor's Diagonal Argument
