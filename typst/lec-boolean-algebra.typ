@@ -2516,7 +2516,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 
 *Result:*~ $f = 1 xor z xor y z xor x y z$ ✓
 
-== Comparison of ANF Methods
+== Comparison of ANF Construction Methods
 
 #align(center)[
   #table(
@@ -2525,8 +2525,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Method*], [*Pros*], [*Cons*], [*Best for*]),
     [
-      Direct \
-      computation
+      *Direct computation*
     ],
     [
       - Systematic \
@@ -2545,8 +2544,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 
     table.hline(stroke: 0.4pt + gray),
     [
-      Pascal's \
-      triangle
+      *Pascal's triangle*
     ],
     [
       - _Fast_ \
@@ -2565,8 +2563,7 @@ Find ANF for $f(x, y) = sum m(1, 2)$:
 
     table.hline(stroke: 0.4pt + gray),
     [
-      K-map \
-      method
+      *K-map method*
     ],
     [
       - Visual \
