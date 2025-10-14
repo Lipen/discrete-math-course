@@ -2337,8 +2337,9 @@ These differences enable important applications:
   - Higher-order differential cryptanalysis
 ]
 
-#note[
-  The AES S-box has algebraic degree 7 (approaching the maximum of 8 for 8-bit functions). This high degree provides resistance to algebraic attacks.
+#example[
+  The AES S-box is a nonlinear bijection $FF_2^8 to FF_2^8$ with algebraic degree 7 (approaching the maximum of 8 for 8-bit functions).
+  This high degree provides resistance to algebraic attacks.
 ]
 
 == Methods for Computing ANF
