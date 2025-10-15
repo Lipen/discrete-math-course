@@ -3356,8 +3356,8 @@ $
   - This is injective: different reduced fractions have different $(p,q)$ pairs
   - Since $NN times NN$ is countable, $QQ^+ smaller.eq NN times NN$ implies $QQ^+$ is countable
 
-  *Step 2:* Decompose $QQ = QQ^- union {0} union QQ^+$ (union of three disjoint sets).
-  - $QQ^- equinumerous QQ^+$ via $f(x) = -x$, ~ ${0}$ is finite, ~ $QQ^+$ is countable (Step 1)
+  *Step 2:* Decompose $QQ = QQ^+ union {0} union QQ^-$ (union of three disjoint sets).
+  - $QQ^+$ is countable (Step 1), ~ ${0}$ is finite, ~ $QQ^- equinumerous QQ^+$ via $f(x) = -x$
 
   *Step 3:* Union of three countable sets is countable, so $QQ$ is countable.
 ]
