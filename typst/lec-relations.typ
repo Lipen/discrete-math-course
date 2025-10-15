@@ -3400,7 +3400,6 @@ $
       columns: 6,
       align: center,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([*Seq*], [*Bit 1*], [*Bit 2*], [*Bit 3*], [*Bit 4*], [*$dots$*]),
       [$x_1$], [#text(fill: red)[*$b_(1 1)$*]], [$b_(1 2)$], [$b_(1 3)$], [$b_(1 4)$], [$dots$],
       [$x_2$], [$b_(2 1)$], [#text(fill: red)[*$b_(2 2)$*]], [$b_(2 3)$], [$b_(2 4)$], [$dots$],
