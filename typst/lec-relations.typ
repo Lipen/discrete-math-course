@@ -3284,12 +3284,8 @@ $
   $NN times NN$ is countable.
 ]
 
-#Block(color: yellow)[
-  *Strategy:* Traverse diagonals of constant sum, systematically visiting every pair exactly once.
-]
-
 #proof[
-  We enumerate pairs by diagonals where $n + k = s$ for $s = 0, 1, 2, dots$
+  We enumerate pairs by diagonals of constant sum $s = n + k$ for $s = 0, 1, 2, dots$
 
   #align(center)[
     #let cantor(n, k) = (n + k) * (n + k + 1) / 2 + k
