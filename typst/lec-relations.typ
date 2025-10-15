@@ -3143,8 +3143,8 @@ Define the _shift map_ $f: NN to NN$ by $f(n) = n + 1$
 
 #example[
   *Rationals* $QQ$ are Dedekind-infinite:
-  - Define $f: QQ to QQ^+$ (positive rationals) by shifting: map negatives and zero to positives
-  - Thus $QQ equinumerous QQ^+ subset QQ$
+  - Define $f: QQ to QQ without [0; 1)$ by $f(x) = cases(x &"if" x < 0, x + 1 &"if" x >= 0)$
+  - This "skips" the interval $[0; 1)$, giving a bijection onto $QQ without [0, 1) subset QQ$
 ]
 
 #example[
