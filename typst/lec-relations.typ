@@ -3354,7 +3354,7 @@ $
 
   *Step 1:* Map each positive rational $p/q$ (as a reduced fraction) to $(p, q) in NN times NN$.
   - This is injective: different reduced fractions have different $(p,q)$ pairs
-  - Since $NN times NN$ is countable, $QQ^+ smaller.eq NN times NN$ implies $QQ^+$ is countable
+  - Since $NN times NN$ is countable, $QQ^+ smaller.eq NN times NN$ (injection) implies $QQ^+$ is countable
 
   *Step 2:* Decompose $QQ = QQ^+ union {0} union QQ^-$ (union of three disjoint sets).
   - $QQ^+$ is countable (Step 1), ~ ${0}$ is finite, ~ $QQ^- equinumerous QQ^+$ via $f(x) = -x$
