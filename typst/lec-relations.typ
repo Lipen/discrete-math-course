@@ -3339,6 +3339,7 @@ $
 #Block(color: blue)[
   *Why this matters:*
   "2-dimensional infinity" is the same size as "1-dimensional infinity"!
+
   More generally, $NN^n$ is countable for any finite $n$.
 ]
 
