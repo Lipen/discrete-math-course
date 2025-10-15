@@ -219,7 +219,7 @@ For a similarity threshold of $theta = 0.25$:
 + Identify all research _clusters_ (the connected components) in the graph $G_(0.25)$.
 + As $theta$ increases from 0 to 1, the collaboration network $R_theta$ loses edges.
   Find all _critical_ values of $theta$ at which the number of connected components in the network changes.
-+ What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected?
++ What is the maximum value of $theta$ for which the collaboration network of our six researchers remains connected (i.e., is a single connected component)?
 
 #block(sticky: true)[*Part (d): Researcher Impact Analysis*]
 
