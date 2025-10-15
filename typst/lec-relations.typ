@@ -3758,21 +3758,22 @@ $
 #proof[
   Let $f : A to B$ and $g : B to A$ be injections.
 
-  We write $g^(-1)$ to denote the inverse map defined on the image $g(B)$, i.e., $g^(-1) : g(B) to B$, where $g^(-1)(a)$ denotes the unique $b in B$ such that $g(b) = a$.
+  We use $g^(-1)$ to denote the inverse of $g$ restricted to its image: for any $a in g(B)$, we write $g^(-1)(a)$ for the unique $b in B$ satisfying $g(b) = a$.
 
   // TODO: visualize
 
   *Step 1: Construct auxiliary sets*
 
-  Define inductively the sets $A_n subset.eq A$ and $B_n subset.eq B$ as follows:
-  - $A_0 := A setminus g(B)$ (elements of $A$ not in the image of $g$)
-  - $B_n := f(A_n)$ for $n >= 0$ (images of $A_n$ under $f$)
-  - $A_(n+1) := g(B_n)$ for $n >= 0$ (images of $B_n$ under $g$)
+  Define inductively the sets $A_n subset.eq A$ and $B_n subset.eq B$ for $n >= 0$ by:
+  $
+        A_0 & := A without g(B) \
+        B_n & := f(A_n) quad    & "for" n >= 0 \
+    A_(n+1) & := g(B_n) quad    & "for" n >= 0
+  $
 
-  Define $A_infinity subset.eq A$ as the union of all $A_n$:
-  $
-    A_infinity = union.big_(n >= 0) A_n
-  $
+  Define $A_infinity subset.eq A$ as the union of all $A_n$: $A_infinity := display(union.big_(n >= 0)) A_n$.
+
+  #colbreak()
 
   *Step 2: Define the candidate bijection*
 
@@ -3780,36 +3781,39 @@ $
   $
     h(a) = cases(
       f(a) & "if" a in A_infinity,
-      g^(-1)(a) & "if" a in A without A_infinity
+      g^(-1)(a) & "if" a notin A_infinity
     )
   $
 
   *Step 3: Verify $h$ is well-defined*
 
-  We need to check that $h(a)$ is defined for all $a in A$.
+  For all $a in A$, we need $h(a)$ to be defined:
 
-  - If $a in A_infinity$, then $h(a) = f(a)$ is well-defined since $f$ is defined on all of $A$.
-  - If $a in A setminus A_infinity$, then $a notin A_0$ (since $A_0 subset.eq A_infinity$), so $a in g(B)$.
-    Thus, $h(a) = g^(-1)(a)$ exists and is unique.
+  - *$a in A_infinity$:* Then $h(a) = f(a)$ is well-defined (since $f: A to B$).
+
+  - *$a notin A_infinity$:* Then $a notin A_0$ (as $A_0 subset.eq A_infinity$), so $a in g(B)$.
+    Thus $g^(-1)(a)$ exists and is unique.
 
   #colbreak()
 
   *Step 4: Prove the ranges are disjoint*
 
-  We verify that the two cases of $h$ map into disjoint subsets of $B$.
-  Observe:
+  We show that $f(A_infinity)$ and $g^(-1)(A without A_infinity)$ are disjoint.
+
+  First, observe that:
   $
-    f(A_infinity) = union.big_(n >= 0) f(A_n) = union.big_(n >= 0) B_n
+    f(A_infinity) = f(union.big_(n >= 0) A_n) = union.big_(n >= 0) f(A_n) = union.big_(n >= 0) B_n
   $
 
-  Now consider $a notin A_infinity$ and $b = g^(-1)(a)$. We claim $b notin union.big_(n >= 0) B_n$:
+  Now take $a notin A_infinity$ and let $b = g^(-1)(a)$.
+  We claim $b notin union.big_(n >= 0) B_n$:
   - Suppose for contradiction that $b in B_n$ for some $n$
   - Then $a = g(b) in g(B_n) = A_(n+1) subset.eq A_infinity$
   - This contradicts $a notin A_infinity$
 
-  Hence $g^(-1)(A without A_infinity) subset.eq B without f(A_infinity)$.
+  Hence $g^(-1)(A without A_infinity) subset.eq B without union.big_(n >= 0) B_n = B without f(A_infinity)$.
 
-  Therefore, the two image sets $f(A_infinity)$ and $g^(-1)(A without A_infinity)$ are disjoint.
+  Therefore, the ranges $f(A_infinity)$ and $g^(-1)(A without A_infinity)$ are disjoint.
 
   #colbreak()
 
@@ -3844,8 +3848,9 @@ $
     Let $a = g(b) in A$.
     We claim $a notin A_infinity$:
     - Suppose for contradiction that $a in A_infinity$
-    - Then $a in A_n$ for some $n >= 0$
-    - So $b = g^(-1)(a) in g^(-1)(A_n) = B_(n-1) subset.eq f(A_infinity)$
+    - Then $a in A_n$ for some $n >= 1$ (as $a = g(b) in g(B)$, but $A_0 = A without g(B)$)
+    - So $a in A_n = g(B_(n-1))$, meaning $a = g(b')$ for some $b' in B_(n-1)$
+    - Since $g$ is injective and $a = g(b) = g(b')$, we have $b = b' in B_(n-1) subset.eq f(A_infinity)$
     - This contradicts $b notin f(A_infinity)$
 
     Therefore $a notin A_infinity$, and $h(a) = g^(-1)(a) = g^(-1)(g(b)) = b$.
