@@ -3756,39 +3756,104 @@ $
 ]
 
 #proof[
-  Let $g^(-1)$ denote the inverse on $g(B)$: for $a in g(B)$, $g^(-1)(a)$ is the unique $b$ with $g(b) = a$.
+  Let $f : A to B$ and $g : B to A$ be injections.
 
-  *Step 1:* Define sets inductively:
-  - $A_0 = A setminus g(B)$ (elements in $A$ not reached by $g$)
-  - $B_n = f(A_n)$ for $n >= 0$
-  - $A_(n+1) = g(B_n)$ for $n >= 0$
-  - $A_infinity = union.big_(n >= 0) A_n$
+  We write $g^(-1)$ to denote the inverse map defined on the image $g(B)$, i.e., $g^(-1) : g(B) to B$, where $g^(-1)(a)$ denotes the unique $b in B$ such that $g(b) = a$.
 
-  *Step 2:* Define $h: A to B$ by:
+  // TODO: visualize
+
+  *Step 1: Construct auxiliary sets*
+
+  Define inductively the sets $A_n subset.eq A$ and $B_n subset.eq B$ as follows:
+  - $A_0 := A setminus g(B)$ (elements of $A$ not in the image of $g$)
+  - $B_n := f(A_n)$ for $n >= 0$ (images of $A_n$ under $f$)
+  - $A_(n+1) := g(B_n)$ for $n >= 0$ (images of $B_n$ under $g$)
+
+  Define $A_infinity subset.eq A$ as the union of all $A_n$:
+  $
+    A_infinity = union.big_(n >= 0) A_n
+  $
+
+  *Step 2: Define the candidate bijection*
+
+  Define $h: A to B$ by:
   $
     h(a) = cases(
       f(a) & "if" a in A_infinity,
-      g^(-1)(a) & "if" a notin A_infinity
+      g^(-1)(a) & "if" a in A without A_infinity
     )
   $
 
-  *Step 3:* Verify $h$ is well-defined:
-  - If $a in A_infinity$: use $f(a)$
-  - If $a notin A_infinity$: then $a notin A_0$, so $a in g(B)$, thus $g^(-1)(a)$ exists
+  *Step 3: Verify $h$ is well-defined*
 
-  The ranges $f(A_infinity) = union.big_(n >= 0) B_n$ and $g^(-1)(A setminus A_infinity)$ are disjoint.
+  We need to check that $h(a)$ is defined for all $a in A$.
 
-  *Step 4:* Show $h$ is injective:
-  - Both in $A_infinity$: $f(a) = f(a') => a = a'$ (since $f$ injective)
-  - Both outside: $g^(-1)(a) = g^(-1)(a') => a = a'$ (since $g$ injective)
-  - Mixed case: impossible (disjoint ranges)
+  - If $a in A_infinity$, then $h(a) = f(a)$ is well-defined since $f$ is defined on all of $A$.
+  - If $a in A setminus A_infinity$, then $a notin A_0$ (since $A_0 subset.eq A_infinity$), so $a in g(B)$.
+    Thus, $h(a) = g^(-1)(a)$ exists and is unique.
 
-  *Step 5:* Show $h$ is surjective:
-  - If $b in f(A_infinity)$: $b = f(a)$ for some $a in A_infinity$, so $h(a) = b$
-  - If $b notin f(A_infinity)$: let $a = g(b)$.
-    Then $a notin A_infinity$, so $h(a) = g^(-1)(a) = b$
+  #colbreak()
 
-  Therefore $h$ is a bijection.
+  *Step 4: Prove the ranges are disjoint*
+
+  We verify that the two cases of $h$ map into disjoint subsets of $B$.
+  Observe:
+  $
+    f(A_infinity) = union.big_(n >= 0) f(A_n) = union.big_(n >= 0) B_n
+  $
+
+  Now consider $a notin A_infinity$ and $b = g^(-1)(a)$. We claim $b notin union.big_(n >= 0) B_n$:
+  - Suppose for contradiction that $b in B_n$ for some $n$
+  - Then $a = g(b) in g(B_n) = A_(n+1) subset.eq A_infinity$
+  - This contradicts $a notin A_infinity$
+
+  Hence $g^(-1)(A without A_infinity) subset.eq B without f(A_infinity)$.
+
+  Therefore, the two image sets $f(A_infinity)$ and $g^(-1)(A without A_infinity)$ are disjoint.
+
+  #colbreak()
+
+  *Step 5: Prove $h$ is injective*
+
+  Take $a, a' in A$ with $h(a) = h(a')$.
+  Consider the cases:
+
+  - *Both in $A_infinity$:*
+    Then $f(a) = f(a')$, so $a = a'$ (since $f$ is injective).
+
+  - *Both outside $A_infinity$:*
+    Then $g^(-1)(a) = g^(-1)(a')$, so $a = a'$ (since $g$ is injective).
+
+  - *Mixed case* (say $a in A_infinity$, $a' notin A_infinity$):
+    Then $h(a) = f(a) in f(A_infinity)$ but $h(a') = g^(-1)(a') in B without f(A_infinity)$.
+    By Step 4, these sets are disjoint, contradicting $h(a) = h(a')$.
+
+  Therefore $h$ is injective.
+
+  #colbreak()
+
+  *Step 6: Prove $h$ is surjective*
+
+  Let $b in B$.
+  Consider the cases:
+
+  - *$b in f(A_infinity)$:*
+    Then $b = f(a)$ for some $a in A_infinity$, so $h(a) = f(a) = b$.
+
+  - *$b notin f(A_infinity)$:*
+    Let $a = g(b) in A$.
+    We claim $a notin A_infinity$:
+    - Suppose for contradiction that $a in A_infinity$
+    - Then $a in A_n$ for some $n >= 0$
+    - So $b = g^(-1)(a) in g^(-1)(A_n) = B_(n-1) subset.eq f(A_infinity)$
+    - This contradicts $b notin f(A_infinity)$
+
+    Therefore $a notin A_infinity$, and $h(a) = g^(-1)(a) = g^(-1)(g(b)) = b$.
+
+  Therefore $h$ is surjective.
+
+  *Conclusion:*
+  Since $h$ is both injective and surjective, $h$ is a bijection, so $A equinumerous B$.
 ]
 
 
