@@ -4138,7 +4138,7 @@ TODO
 
   Equivalently: every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually _stabilizes_.
 
-  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
+  // Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
 ]
 
 #Block(color: blue)[
