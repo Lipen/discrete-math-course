@@ -5073,10 +5073,14 @@ $
 
 #example[Rational numbers][
   List positive fractions $p/q$ by increasing $p + q$, skip non-reduced:
+  $
+    1/1, 1/2, 2/1, 1/3, 3/1, 1/4, 2/3, 3/2, 4/1, dots
+  $
 
-  $1/1, 1/2, 2/1, 1/3, 3/1, 1/4, 2/3, 3/2, 4/1, dots$
-
-  Include $0$ and negatives by interleaving: $0, 1/1, -1/1, 1/2, -1/2, 2/1, -2/1, dots$
+  Include $0$ and negatives by interleaving:
+  $
+    0, 1/1, -1/1, 1/2, -1/2, 2/1, -2/1, dots
+  $
 ]
 
 
