@@ -4186,69 +4186,65 @@ Different models of ZFC can have wildly different cardinal structures!
 == What Is Mathematical Truth?
 
 #Block(color: purple)[
-  *The nature of mathematical reality:*
-
-  If CH can be neither proved nor disproved, what does it _mean_ to ask "Is CH true?"
+  If CH can be neither proved nor disproved, what does it even _mean_ to ask "Is CH true?"
 ]
+
+Two philosophical perspectives:
 
 #columns(2)[
   *Platonist view:*
   - Mathematical objects exist independently
-  - CH has a definite truth value
-  - We just haven't found the "right" axioms
-  - Need stronger axioms to decide CH
-  - _Response:_ Search for new axioms based on mathematical intuition (large cardinal axioms, determinacy axioms)
+  - CH _is_ either true or false in reality
+  - We just haven't found the "right" axioms yet
+  - _Approach:_ Search for natural axioms beyond ZFC (like large cardinal axioms)
 
   #colbreak()
 
   *Formalist view:*
   - Mathematics is just symbol manipulation
-  - CH has no absolute truth value
-  - Truth is relative to axiom systems
-  - Different models are equally valid
-  - _Response:_ Study the "multiverse" of set-theoretic universes
+  - "Truth" depends on which axioms you choose
+  - CH is true in some models, false in others
+  - _Approach:_ Study all possible models ("multiverse") and their properties
 ]
 
 == Modern Perspectives on CH
 
+Most mathematicians today take a pragmatic approach:
+
 #Block(color: blue)[
-  *Modern perspective (Multiverse view):*
-  Rather than asking "Is CH true?", we ask:
-  - In _which_ models does CH hold?
-  - What are the _consequences_ of CH or $not$CH?
-  - Which axioms lead to "better" mathematics?
-  - Are there _natural_ models where CH has a definite value?
+  Instead of asking "Is CH absolutely true?", modern set theory asks more productive questions:
+  - In which models of ZFC does CH hold?
+  - What interesting mathematics follows from CH? From $not$CH?
+  - Do certain "natural" axioms beyond ZFC settle CH?
+  - Which axiom systems are most useful for specific areas of mathematics?
 ]
 
 #note[
-  Similar issues arise in physics: Is string theory "true"?
-  Or are there multiple consistent physical theories describing reality?
+  This shift mirrors similar debates in physics: rather than asking if _string theory_ is "The True Theory," physicists ask what predictions it makes and whether it's useful for understanding nature.
 ]
 
-== Summary: Large Cardinal Number
+== Summary: Large Cardinal Numbers
 
 #Block(color: blue)[
-  // *Two infinite hierarchies with fundamentally different natures:*
-  // - *Beth numbers ($beth_0, beth_1, beth_2, dots$)* --- constructive: $beth_0 = aleph_0$, $beth_(n+1) = 2^(beth_n)$
-  // - *Aleph numbers ($aleph_0, aleph_1, aleph_2, dots$)* --- ordinal: $aleph_(alpha+1)$ is the next cardinal after $aleph_alpha$
-  // - Both start at $aleph_0 = beth_0$, but their relationship afterward is _undetermined_!
-  *Two infinite hierarchies:*
-  - *Beth numbers:* $beth_0 = aleph_0$, $beth_(n+1) = 2^(beth_n)$ --- constructive, built by powerset
-  - *Aleph numbers:* $aleph_0$ smallest, $aleph_(alpha+1)$ next cardinal --- abstract enumeration by order
-  - Both start at $aleph_0 = beth_0$ but then diverge --- relationship is _undetermined_!
+  *Two infinite hierarchies with different constructions:*
+  - *Beth numbers:* $beth_0 = aleph_0$, $beth_(n+1) = 2^(beth_n)$ --- built step-by-step using powersets
+  - *Aleph numbers:* $aleph_0, aleph_1, aleph_2, dots$ --- enumerate all infinite cardinals in order
+
+  Both start at $aleph_0 = beth_0$, but their relationship afterward is _not fixed by ZFC axioms_.
 ]
 
 #Block(color: orange)[
-  *The Continuum Hypothesis (CH):* Does $aleph_1 = beth_1 = 2^(aleph_0)$?
-  - *Gödel (1940):* Proved CH is _consistent_ with ZFC (if ZFC is consistent)
-  - *Cohen (1963):* Proved $not$CH is also _consistent_ with ZFC
+  *The Continuum Hypothesis:* Does $aleph_1 = 2^(aleph_0)$?
+  - *Gödel (1940):* Showed ZFC + CH is consistent
+  - *Cohen (1963):* Showed ZFC + $not$CH is also consistent
 
-  *Conclusion:* CH is _independent_ of ZFC --- unprovable and undisprovable!
+  *Conclusion:* CH is _independent_ of ZFC.
+  The "size" of $RR$ depends on which axioms you choose.
 ]
 
 #Block(color: teal)[
-  *Deep insight:*
-  Mathematics doesn't have a _unique_ "reality" --- different axiom systems create different mathematical universes, each equally valid!
+  *What we learned:*
+  Mathematics does not have a unique "reality" --- different axiom systems can give different answers to the same question, yet remain equally consistent.
 ]
 
 
