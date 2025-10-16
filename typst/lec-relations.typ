@@ -3020,7 +3020,7 @@ Functions can be characterized by several key properties that determine their ma
 ]
 
 #Block(color: yellow)[
-  *Key insight:* Not all infinities are equal!
+  *Key insight:* Not all infinities are equal! \
   Some infinite sets are "larger" than others in a precise mathematical sense.
 ]
 
