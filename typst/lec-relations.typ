@@ -4124,7 +4124,8 @@ TODO
 ]
 
 #Block(color: yellow)[
-  *Why this matters:* Chains and descending/ascending sequences are naturally expressed with strict orders $lt$ and $gt$.
+  *Why care about strict orders?*
+  Chains and descending/ascending sequences are naturally expressed with strict orders $lt$ and $gt$.
 ]
 
 == Descending Chain Condition (DCC)
