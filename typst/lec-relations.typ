@@ -1061,924 +1061,504 @@
 ]
 
 
-= Order Theory
-#focus-slide(
-  epigraph: [Order is heaven's first law.],
-  epigraph-author: "Alexander Pope",
-  scholars: (
-    (
-      name: "Helmut Hasse",
-      image: image("assets/Helmut_Hasse.jpg"),
-    ),
-    (
-      name: "Felix Hausdorff",
-      image: image("assets/Felix_Hausdorff.jpg"),
-    ),
-    (
-      name: "Henri Poincaré",
-      image: image("assets/Henri_Poincare.jpg"),
-    ),
-    (
-      name: "Robert Floyd",
-      image: image("assets/Robert_Floyd.jpg"),
-    ),
-    (
-      name: "Stephen Warshall",
-      image: image("assets/Stephen_Warshall.jpg"),
-    ),
-    (
-      name: "Stephen Kleene",
-      image: image("assets/Stephen_Kleene.jpg"),
-    ),
-  ),
-)
+= Closures of Relations
+#focus-slide()
 
-== Orders
+== Closures of Relations
 
-// Preorder
 #definition[
-  A relation $R subset.eq M^2$ is called a _preorder_ if it is reflexive and transitive.
+  The _closure_ of a relation $R subset.eq M^2$ with respect to a property $P$ is the smallest relation containing $R$ that satisfies property $P$.
+  - _Reflexive closure_: $r(R) = R union I_M$ (smallest reflexive relation containing $R$)
+  - _Symmetric closure_: $s(R) = R union R^(-1)$ (smallest symmetric relation containing $R$)
+  - _Transitive closure_: $t(R)$ is the smallest transitive relation containing $R$
 ]
 
-// Partial order
-#definition[
-  A _partial order_ is a relation $R subset.eq M^2$ that is reflexive, antisymmetric, and transitive.
+#Block(color: yellow)[
+  *Key insight:* closure operations _add the minimum_ number of pairs needed to achieve the desired property, while preserving all existing pairs in the original relation.
 ]
 
+// TODO: visualize the extension of sets as blobs
+
+== Reflexive Closure
+
 #definition[
-  A _linear order_ is a partial order $R subset.eq M^2$ where every pair of elements is _comparable_:
+  The _reflexive closure_ $r(R)$ of a relation $R subset.eq M^2$ is defined as:
   $
-    forall x, y in M. thin (x rel(R) y or y rel(R) x)
+    r(R) = R union I_M = R union { pair(x, x) | x in M }
   $
 ]
-
-#note[
-  The above condition is called _strong connectivity_.
-  The similar property with the $x != y$ condition is called _semi-connectivity_.
-  The corresponding relations are called _connex_ and _semi-connex_.
-]
-
-#note[
-  Hereinafter, we mainly study the "non-strict" orders (e.g., $<=$, $subset.eq$), which require the _reflexivity_.
-  The~"strict" orders (e.g., $<$, $subset$) require _irreflexivity_ instead, and are defined similarly.
-]
-
-#note[
-  Strict linear orders require _semi-connectivity_ instead, since connectivity alone implies reflexivity!
-]
-
-== Examples of Orders
 
 #example[
-  The relation $leq$ on real numbers $RR$ is a _total order_:
-  - *Reflexive:* $x leq x$ for all $x in RR$ #YES
-  - *Antisymmetric:* If $x leq y$ and $y leq x$, then $x = y$ #YES
-  - *Transitive:* If $x leq y$ and $y leq z$, then $x leq z$ #YES
-  - *Connected:* For any $x, y in RR$, either $x leq y$ or $y leq x$ #YES
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 2), pair(2, 3)}$.
 
-  This is the most familiar example of an order relation.
-  Similarly, $NN$, $ZZ$, and $QQ$ with $leq$ are all total orders.
+  The identity relation is $I_M = {pair(1, 1), pair(2, 2), pair(3, 3)}$.
+
+  The reflexive closure is:
+  $
+    r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)}
+  $
 ]
 
-#align(center)[
-  #cetz.canvas(length: 1cm, {
-    import cetz.draw: *
+== Symmetric Closure
 
-    // Custom function for curvy edges
-    let curvy-edge(from, to, height: 0.5, color: blue, label: none) = {
-      let mid-x = (from + to) / 2
-      let control1 = (from + 0.3 * (to - from), height)
-      let control2 = (to - 0.3 * (to - from), height)
+#definition[
+  The _symmetric closure_ $s(R)$ of a relation $R subset.eq M^2$ is defined as:
+  $
+    s(R) = R union R^(-1) = R union { pair(b, a) | pair(a, b) in R }
+  $
+]
 
-      // Control points for the Bézier curve
-      let p0 = (from, 0)
-      let p1 = (from + 0.3 * (to - from), height)
-      let p2 = (to - 0.3 * (to - from), height)
-      let p3 = (to, 0)
+#example[
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$.
 
-      bezier(p0, p3, p1, p2, stroke: 1.5pt + color, mark: (end: ">", fill: color))
+  The converse relation is:
+  $
+    R^(-1) = {pair(2, 1), pair(3, 2), pair(3, 1)}
+  $
 
-      // Function to calculate point on Bézier curve at parameter t
-      // Cubic Bézier formula: B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
-      let point-on-bezier(t) = {
-        let t1 = 1 - t
-        cetz.vector.add(
-          cetz.vector.add(
-            cetz.vector.scale(p0, calc.pow(t1, 3)),
-            cetz.vector.scale(p1, 3 * calc.pow(t1, 2) * t),
-          ),
-          cetz.vector.add(
-            cetz.vector.scale(p2, 3 * t1 * calc.pow(t, 2)),
-            cetz.vector.scale(p3, calc.pow(t, 3)),
-          ),
-        )
-      }
+  The symmetric closure is:
+  $
+    s(R) = R union R^(-1) = {pair(1, 2), pair(2, 3), pair(1, 3), pair(2, 1), pair(3, 2), pair(3, 1)}
+  $
+]
 
-      if label != none {
-        // Use midpoint of the curve (t=0.5) for label positioning
-        let label-pos = point-on-bezier(0.5)
-        content(
-          label-pos,
-          text(10pt, fill: color)[#label],
-          anchor: if height > 0 { "south" } else { "north" },
-          padding: 0.1,
-        )
-      }
-    }
+== Transitive Closure
 
-    // Draw main number line
-    line((-5, 0), (5, 0), stroke: 2pt + black, mark: (symbol: ">", fill: black))
+#definition[
+  The _transitive closure_ $t(R)$ of a relation $R subset.eq M^2$ is the smallest transitive relation containing $R$.
+]
 
-    // Draw ticks and numbers
-    for i in range(-4, 5) {
-      line((i, -0.1), (i, 0.1), stroke: 1pt + black)
-      content((i, 0), text(10pt, str(i)), anchor: "north", padding: 0.2)
-    }
+#theorem[
+  The transitive closure can be computed as:
+  $
+    t(R) = union.big_(n=1)^infinity R^n
+    quad "where" R^n = underbrace(R compose R compose dots compose R, n "times")
+  $
 
-    // Add infinity labels
-    content((-5, 0), anchor: "north", padding: 0.2, [$-infinity$])
-    content((5, 0), anchor: "north", padding: 0.2, [$+infinity$])
+  For finite sets with $abs(M) = k$, we have $t(R) = R^1 union R^2 union dots union R^k$.
+]
 
-    // Draw some curvy order edges
-    curvy-edge(-3, -1, height: 0.6, color: blue, label: $-3 leq -1$)
-    curvy-edge(-1, 2, height: 0.9, color: red, label: $-1 leq 2$)
-    curvy-edge(0, 3, height: -0.9, color: green, label: $0 leq 3$)
-    curvy-edge(-2, 1, height: -0.9, color: purple, label: $-2 leq 1$)
-
-    // Add title
-    content((0, -1.6))[Linear order $leq$ on real numbers $RR$]
-  })
+#proof[
+  Since $M$ is finite, any path of length greater than $abs(M)$ must repeat vertices, so we only need to consider paths of length at most $abs(M)$.
 ]
 
 #pagebreak()
 
-#example[
-  The _subset relation_ $subset.eq$ on the power set $power(A)$ is a *partial order*.
+#example[Step-by-step transitive closure computation][
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
 
-  *Verification:*
-  - *Reflexive:* $X subset.eq X$ for all $X subset.eq A$ #YES
-    - Every set is a subset of itself by definition
-  - *Antisymmetric:* If $X subset.eq Y$ and $Y subset.eq X$, then $X = Y$ #YES
-    - If every element of $X$ is in $Y$, and every element of $Y$ is in $X$, then $X$ and $Y$ have the same elements
-  - *Transitive:* If $X subset.eq Y$ and $Y subset.eq Z$, then $X subset.eq Z$ #YES
-    - If every element of $X$ is in $Y$, and every element of $Y$ is in $Z$, then every element of $X$ is in $Z$
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([*Step*], [*Description*], [*Result*]),
+    [*Step 1:*],
+    [
+      Compute $R^1 = R$.
+    ],
+    [$R^1 = {pair(1, 2), pair(2, 3)}$],
 
-  For $A = {1, 2}$, we have $power(A) = {emptyset, {1}, {2}, {1,2}}$ with:
-  - $emptyset subset.eq {1} subset.eq {1,2}$ (this is a chain)
-  - $emptyset subset.eq {2} subset.eq {1,2}$ (another chain)
-  - But ${1}$ and ${2}$ are _incomparable_ (neither is a subset of the other)
+    [*Step 2:*],
+    [
+      Compute $R^2 = R compose R$.
 
-  This is _not_ a total order because not all pairs are comparable.
-]
-// TODO: visualize
+      For $pair(a, c) in R^2$, we need $exists b: pair(a, b) in R and pair(b, c) in R$.
+      - $pair(1, 3) in R^2$ since $pair(1, 2) in R$ and $pair(2, 3) in R$
+    ],
+    [$R^2 = {pair(1, 3)}$],
 
-#pagebreak()
+    [*Step 3:*],
+    [
+      Compute $R^3 = R^2 compose R$.
 
-#example[
-  #let nolonger = $prec.curly.eq$
-  Consider the _no longer than_ relation $nolonger$ on binary strings $BB^*$:
-  $
-    x nolonger y quad "iff" quad "len"(x) <= "len"(y)
-  $
+      For $pair(a, c) in R^3$, we need $exists b: pair(a, b) in R^2 and pair(b, c) in R$.
+      - No such pairs exist.
+    ],
+    [$R^3 = emptyset$],
 
-  *Verification:*
-  - *Reflexive:* $x nolonger x$ for all $x in BB^*$ #YES
-    - $"len"(x) <= "len"(x)$ is always true
-  - *Transitive:* If $x nolonger y$ and $y nolonger z$, then $x nolonger z$ #YES
-    - If $"len"(x) <= "len"(y)$ and $"len"(y) <= "len"(z)$, then $"len"(x) <= "len"(z)$ by transitivity of $<=$
-  - *Antisymmetric:* #NO
-    - Counter-example: $01 nolonger 10$ and $10 nolonger 01$ (since both have length 2), but $01 neq 10$
-  - *Connected:* For any $x, y in BB^*$, either $x nolonger y$ or $y nolonger x$ #YES
-    - Either $"len"(x) <= "len"(y)$ or $"len"(y) <= "len"(x)$ (or both)
-
-  This is a _preorder_ (reflexive and transitive), and even connected, but _not a partial order_ due to lack of antisymmetry.
-  Different strings of the same length are all "equivalent" under this relation, but they're not actually equal.
-]
-// TODO: visualize
-
-#pagebreak()
-
-#example[
-  _Divisibility_ $|$ on positive integers $NN^+$ is a *partial order*.
-
-  *Verification:*
-  - *Reflexive:* $n | n$ for all $n in NN^+$ (every number divides itself) #YES
-  - *Antisymmetric:* If $a | b$ and $b | a$, then $a = b$ #YES
-    - If $a$ divides $b$, then $b = a k$ for some positive integer $k$
-    - If $b$ divides $a$, then $a = b ell$ for some positive integer $ell$
-    - Substituting: $b = a k = (b ell) k = b k ell$, so $k ell = 1$
-    - Since $k, ell in NN^+$, we must have $k = ell = 1$, hence $a = b$
-  - *Transitive:* If $a | b$ and $b | c$, then $a | c$ #YES
-    - If $a | b$, then $b = a k$ for some integer $k$
-    - If $b | c$, then $c = b ell$ for some integer $ell$
-    - Therefore: $c = b ell = (a k) ell = a (k ell)$, so $a | c$
-  - *Connected:* #NO
-    - Counter-example: $2$ does not divide $3$, and $3$ does not divide $2$
-
-  This is a _partial order_ but not a total order because some pairs are incomparable.
-]
-// TODO: visualize
-
-#pagebreak()
-
-#example[
-  _Lexicographic order_ on strings $A^n$ (like dictionary order) is a *total order*.
-
-  *Verification:*
-  - *Reflexive:* $s lexleq s$ for all strings $s$ #YES
-    - A string is lexicographically equal to itself
-  - *Antisymmetric:* If $s lexleq t$ and $t lexleq s$, then $s = t$ #YES
-    - If $s$ comes before or equals $t$ AND $t$ comes before or equals $s$, then $s = t$
-  - *Transitive:* If $s lexleq t$ and $t lexleq u$, then $s lexleq u$ #YES
-    - Lexicographic comparison preserves transitivity through character-by-character comparison
-  - *Connected:* For any strings $s, t$, either $s lexleq t$ or $t lexleq s$ #YES
-    - We can always compare strings lexicographically by comparing character by character
-
-  For binary strings of length 2: $00 lexlt 01 lexlt 10 lexlt 11$
-
-  // *Lexicographic Comparison Algorithm:*
-  // - Compare strings character by character from left to right
-  // - The first differing position determines the order
-  // - If one string is a prefix of another, the shorter one comes first
-
-  *Key property:* Every pair of strings is _comparable_, making this a _total order_.
-]
-
-// TODO: strict orders!
-
-== Partially Ordered Sets
-
-// Poset
-#definition[
-  A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
-]
-
-#example[
-  Consider the poset $pair(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
-
-  #place(right, dx: -1em)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (1em, 2.5em),
-      node-shape: fletcher.shapes.circle,
-      node-stroke: 1pt,
-      edge-stroke: 1pt,
-      // Vertices:
-      node((0, 0), [$1$], width: 2em, inset: 0pt, name: <1>),
-      node((-1, -0.9), [$2$], width: 2em, inset: 0pt, name: <2>),
-      node((1, -0.9), [$3$], width: 2em, inset: 0pt, name: <3>),
-      node((-1, -2.1), [$4$], width: 2em, inset: 0pt, name: <4>),
-      node((1, -2.1), [$6$], width: 2em, inset: 0pt, name: <6>),
-      node((0, -3), [$12$], width: 2em, inset: 0pt, name: <12>),
-      // Main edges:
-      edge(<1>, <2>, "-}>"),
-      edge(<1>, <3>, "-}>"),
-      edge(<2>, <4>, "-}>"),
-      edge(<2>, <6>, "-}>"),
-      edge(<3>, <6>, "-}>"),
-      edge(<4>, <12>, "-}>"),
-      edge(<6>, <12>, "-}>"),
-      // Transitive edges:
-      edge(<1>, <4>, "--}>", bend: -5deg, stroke: gray),
-      edge(<1>, <6>, "--}>", bend: 5deg, stroke: gray),
-      edge(<1>, <12>, "--}>", bend: 0deg, stroke: gray),
-      edge(<2>, <12>, "--}>", bend: -5deg, stroke: gray),
-      edge(<3>, <12>, "--}>", bend: 5deg, stroke: gray),
-      // Loops:
-      edge(<1>, <1>, "--}>", bend: 120deg, loop-angle: -30deg, stroke: gray),
-      edge(<2>, <2>, "--}>", bend: 120deg, loop-angle: 150deg, stroke: gray),
-      edge(<4>, <4>, "--}>", bend: 120deg, loop-angle: 150deg, stroke: gray),
-      edge(<3>, <3>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
-      edge(<6>, <6>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
-      edge(<12>, <12>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
-    )
-  ]
-
-  *Order relation properties:*
-  - Reflexive: $n | n$ for all $n in D$
-  - Antisymmetric: If $a | b$ and $b | a$, then $a = b$
-  - Transitive: If $a | b$ and $b | c$, then $a | c$
-
-  *Special elements:*
-  - Least element: $1$ (divides all others)
-  - Greatest element: $12$ (divisible by all others)
-  - Minimal elements: just $1$
-  - Maximal elements: just $12$
-
-  #note[
-    This poset forms a _lattice_ since every pair has a supremum (LCM) and infimum (GCD).
-  ]
-]
-
-// TODO: linearly ordered set
-
-== Hasse Diagrams
-
-// Hasse diagram
-#definition[
-  A _Hasse diagram_ is a visual representation of a poset where:
-  - Each element is represented as a vertex.
-  - If $x < y$ and there is no $z$ with $x < z < y$, draw an edge from $x$ to $y$.
-  - Elements are arranged vertically by the order relation.
-  - Transitive connections are omitted (implied by transitivity of the partial order).
-]
-
-#place(right)[
-  #cetz.canvas({
-    import cetz.draw: *
-
-    let hgap = 1.6
-    let vgap = 1.2
-
-    let draw-vertex((x, y), name, label) = {
-      circle((x, y), radius: 0.3, fill: white, stroke: 1pt, name: name)
-      content(name, [#label])
-    }
-    let draw-edge(start, end) = {
-      line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
-    }
-
-    // Level 0 (bottom): 1
-    draw-vertex((0, 0), "1", [$1$])
-
-    // Level 1: primes 2, 3, 5
-    draw-vertex((-hgap, vgap), "2", [$2$])
-    draw-vertex((0, vgap), "3", [$3$])
-    draw-vertex((hgap, vgap), "5", [$5$])
-
-    // Level 2: composite numbers
-    draw-vertex((-hgap, vgap * 2), "4", [$4$])
-    draw-vertex((0, vgap * 2), "10", [$10$])
-    draw-vertex((hgap, vgap * 2), "35", [$35$])
-
-    // Level 3: maximal elements
-    draw-vertex((0, vgap * 3), "20", [$20$])
-
-    // Edges from 1 to primes
-    draw-edge("1", "2")
-    draw-edge("1", "3")
-    draw-edge("1", "5")
-
-    // Other edges
-    draw-edge("2", "4") // 2|4
-    draw-edge("2", "10") // 2|10
-    draw-edge("5", "10") // 5|10
-    draw-edge("4", "20") // 4|20
-    draw-edge("10", "20") // 10|20
-    draw-edge("5", "35") // 5|35
-  })
-]
-
-#example[
-  For $D = {1, 2, 3, 4, 5, 10, 20, 35}$ with divisibility $|$.
-
-  *Reading the diagram:*
-  - $1$ divides everything (least element at bottom)
-  - Multiple _maximal_ elements: $3$, $20$, $35$ (no single greatest element)
-  - Some _chains_ (not necessarily maximal, can skip elements):
-    - Chain: $1 | 2 | 4$ (powers of 2)
-    - Chain: $1 | 10 | 20$ (multiples of 10)
-    - Chain: $5 | 35$ (multiples of 5)
-  - Primes $2$, $3$, $5$ are _incomparable_ to each other
-]
-
-== Subset Poset
-
-#example[
-  For $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion $subset.eq$:
-
-  #align(center)[
-    #cetz.canvas({
-      import cetz.draw: *
-
-      let w = 1.4
-      let h = 1
-      let hgap = 1.5
-      let vgap = 2
-
-      let draw-vertex((x, y), name, label) = {
-        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
-        content(name, [#label])
-      }
-      let draw-edge(start, end) = {
-        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
-      }
-
-      // Vertices
-      draw-vertex((0, 0), "empty", [$emptyset$])
-      draw-vertex((-hgap, vgap), "a", [${a}$])
-      draw-vertex((hgap, vgap), "b", [${b}$])
-      draw-vertex((0, vgap * 2), "ab", [${a,b}$])
-
-      // Edges
-      draw-edge("empty", "a")
-      draw-edge("empty", "b")
-      draw-edge("a", "ab")
-      draw-edge("b", "ab")
-    })
-  ]
-
-  #note[
-    This is the classic "diamond" shape characteristic of Boolean algebras.
-  ]
-  #note[
-    $pair(power(A), subset.eq)$ is also called the _Boolean lattice_.
-  ]
-]
-
-== Covering Relation
-
-// Covering relation
-#definition[
-  In a poset $pair(S, leq)$, an element $y in S$ _covers_ $x in S$, denoted $x covers y$, if there is no other element in between them:
-  $
-    x covers y
-    quad "iff" quad
-    (x < y) and exists.not z in S. thin (x < z < y)
-  $
-]
-
-#note[
-  "$lt$" denotes the _induced strict order_:
-  $
-    x < y quad "iff" quad (x leq y) and (x neq y)
-  $
-]
-
-#note[
-  Hasse diagram is just a graph of a covering relation!
-]
-
-== Maximal and Minimal Elements
-
-// Maximal element
-#definition[
-  An element $m in S$ is called a _maximal element_ of a poset $pair(S, leq)$ if it is not less than any other element, i.e., there is no even greater element.
-  $
-    forall x != m. thin not (m leq x)
-    quad iff quad
-    exists.not x != m. thin (m leq x)
-  $
-  Equivelently, $forall x in S. thin (m leq x) imply (m = x)$
-]
-
-// Minimal element
-#definition[
-  An element $m in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if it is not greater than any other element, i.e., there is no even smaller element.
-  $
-    forall x != m. thin not (x leq m)
-    quad iff quad
-    exists.not x != m. thin (x leq m)
-  $
-  Equivelently, $forall x in S. thin (x leq m) imply (x = m)$
-]
-
-#note[
-  There may be multiple maximal (or minimal) elements.
-]
-
-== Example of Maximal and Minimal Elements
-
-#example[
-  Consider the divisibility poset on $S = {2, 3, 4, 6, 8, 12}$:
-
-  #columns(2)[
-    *Maximal elements:* $8$ and $12$
-    - $8$ divides nothing else in $S$ except itself
-    - $12$ divides nothing else in $S$ except itself
-
-    #colbreak()
-
-    *Minimal elements:* $2$ and $3$
-    - Nothing in $S$ properly divides $2$ (since $1 notin S$)
-    - Nothing in $S$ properly divides $3$
-  ]
-
-  #note[
-    This poset has no greatest or least element, but multiple minimal/maximal elements.
-  ]
-]
-
-#place(right, dx: -5em)[
-  #import fletcher: diagram, edge, node
-  #diagram(
-    spacing: 3em,
-    node-shape: fletcher.shapes.circle,
-    node-inset: 0pt,
-    edge-stroke: 1pt + navy,
-    blob((0, 0), [$2$], width: 1.5em, tint: blue, name: <2>),
-    blob((1, 0), [$3$], width: 1.5em, tint: blue, name: <3>),
-    blob((0, -1), [$4$], width: 1.5em, stroke: navy, name: <4>),
-    blob((1, -1), [$6$], width: 1.5em, stroke: navy, name: <6>),
-    blob((0, -2), [$8$], width: 1.5em, tint: red, name: <8>),
-    blob((1, -2), [$12$], width: 1.5em, tint: red, name: <12>),
-    edge(<2>, <4>, "-}>"),
-    edge(<2>, <6>, "-}>"),
-    edge(<3>, <6>, "-}>"),
-    edge(<4>, <8>, "-}>"),
-    edge(<4>, <12>, "-}>"),
-    edge(<6>, <12>, "-}>"),
+    [*Step 4:*],
+    [
+      Form the transitive closure:
+      $t(R) = R^1 union R^2 union R^3$.
+    ],
+    [$t(R) = {pair(1, 2), pair(2, 3), pair(1, 3)}$],
   )
 ]
 
-*Hasse diagram:*
-- #Red[Maximal elements] (8, 12) --- they divide nothing else in $S$
-- #Blue[Minimal elements] (2, 3) --- nothing in $S$ divides them
-- Two separate chains: $2 | 4 | 8$ and $3 | 6 | 12$
+// #example[Transitive closure of a more complex relation][
+//   Let $M = {a, b, c, d}$ and $R = {pair(a, b), pair(b, c), pair(c, d), pair(a, d)}$.
 
-#pagebreak()
+//   *Computing powers:*
 
-#example[
-  #let prefix = $lt.dot$
-  Let $S = {"ab", "abc", "abd", "ac", "b", "bc"}$ ordered by the _prefix_ relation $prefix$:
+//   $R^1 = {pair(a, b), pair(b, c), pair(c, d), pair(a, d)}$
+
+//   $R^2$: Look for 2-step paths
+//   - $pair(a, c)$: $a to b to c$
+//   - $pair(b, d)$: $b to c to d$
+
+//   $R^2 = {pair(a, c), pair(b, d)}$
+
+//   $R^3$: Look for 3-step paths
+//   - $pair(a, d)$: $a to b to c to d$ (but $pair(a, d)$ already in $R^1$)
+
+//   $R^3 = emptyset$ (no new pairs)
+
+//   *Transitive closure:*
+//   $ t(R) = R^1 union R^2 = {pair(a, b), pair(b, c), pair(c, d), pair(a, d), pair(a, c), pair(b, d)} $
+// ]
+
+== Combined Closures
+
+#definition[
+  Closure operations can be combined to create relations with multiple properties:
+  - _Reflexive-symmetric closure_: $r s(R) = s r(R) = r(R) union s(R) union I_M$
+  - _Reflexive-transitive closure_: $r t(R) = t r(R) = t(R) union I_M$
+  - _Equivalence closure_: $r s t(R) = t s r(R)$ (reflexive, symmetric, and transitive)
+]
+
+#theorem[Commutativity of closure operations][
+  - Reflexive and symmetric closures commute: $r s(R) = s r(R)$
+  - Reflexive and transitive closures commute: $r t(R) = t r(R)$
+  - All three closures commute when applied together
+]
+
+== Reflexive-Symmetric Closure
+
+#example[Reflexive-symmetric closure][
+  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
+
+  *Method 1:* Apply reflexive closure first, then symmetric:
   $
-    x prefix y "iff" x "is a prefix of" y
+    r(R) = & R union I_M \
+         = & {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} \
+           & slash.double s r(R) = r(R) union r(R)^(-1) \
+         = & {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3), pair(2, 1), pair(3, 2)}
   $
 
-  *Maximal elements:* $"abc"$, $"abd"$, #underline[$"ac"$], $"bc"$
-  - These strings are not prefixes of any other string in $S$
+  *Method 2:* Apply symmetric closure first, then reflexive:
+  $
+    s(R) = & R union R^(-1) \
+         = & {pair(1, 2), pair(2, 3), pair(2, 1), pair(3, 2)} \
+           & slash.double r s(R) = s(R) union I_M \
+         = & {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)}
+  $
 
-  *Minimal elements:* $"ab"$, #underline[$"ac"$], $"b"$
-  - These strings have no other string in $S$ that is a proper prefix of them
-
-  The Hasse diagram shows three separate "trees" rooted at the minimal elements, with:
-  - $"ab" prefix "abc"$ and $"ab" prefix "abd"$
-  - $"b" prefix "bc"$
-  - $"ac"$ stands alone (no other string extends it in $S$)
+  Both methods yield the same result, confirming _commutativity_.
 ]
 
-#place(right + bottom, dx: -1em, dy: -1em)[
-  #cetz.canvas({
-    import cetz.draw: *
+== Reflexive-Transitive Closure
 
-    let w = 1.2
-    let h = 0.8
-    let hgap = 2.2
-    let vgap = 1.8
+#example[Reflexive-transitive closure (Kleene star)][
+  Let $M = {a, b, c}$ and $R = {pair(a, b), pair(b, c)}$.
 
-    let draw-vertex((x, y), name, label, color: white) = {
-      rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, fill: color, name: name)
-      content(name, [#label], anchor: "center")
-    }
+  First, compute the transitive closure:
+  $ t(R) = R union R^2 = {pair(a, b), pair(b, c), pair(a, c)} $
 
-    let draw-edge(start, end, color: black) = {
-      line(start, end, stroke: 1pt + color, mark: (end: "stealth", fill: color))
-    }
+  Then add reflexivity:
+  $ r t(R) = t(R) union I_M = {pair(a, a), pair(a, b), pair(a, c), pair(b, b), pair(b, c), pair(c, c)} $
 
-    // Tree 1: "ab" -> "abc", "abd"
-    draw-vertex((0, 0), "ab", ["ab"], color: blue.lighten(80%))
-    draw-vertex((-0.8, vgap), "abc", ["abc"], color: green.lighten(80%))
-    draw-vertex((0.8, vgap), "abd", ["abd"], color: green.lighten(80%))
-
-    draw-edge("ab", "abc", color: blue)
-    draw-edge("ab", "abd", color: blue)
-
-    // Tree 2: "b" -> "bc"
-    draw-vertex((hgap, 0), "b", ["b"], color: blue.lighten(80%))
-    draw-vertex((hgap, vgap), "bc", ["bc"], color: green.lighten(80%))
-
-    draw-edge("b", "bc", color: blue)
-
-    // Tree 3: "ac" (standalone)
-    draw-vertex((-hgap, vgap / 2), "ac", ["ac"], color: orange.lighten(80%))
-
-    // Labels
-    // content((0, -1), text(fill: blue)[Tree 1], anchor: "center")
-    // content((hgap, -1), text(fill: blue)[Tree 2], anchor: "center")
-    // content((-hgap, -0.5), text(fill: orange.darken(30%))[Tree 3], anchor: "center")
-
-    // Legend
-    content((-6, 0.4), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
-    content((-6, 0), text(size: 0.9em, fill: blue)[Minimal elements], anchor: "west")
-    content((-6, -0.4), text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal], anchor: "west")
-  })
+  This is equivalent to the _reflexive-transitive closure_, often denoted $R^*$ (Kleene star).
 ]
 
-== Greatest and Least Elements
-
-// Greatest element
-#definition[
-  The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
-]
-
-// Least element
-#definition[
-  A _least element_ (bottom) $b$ satisfies $b leq x$ for all $x in S$.
-]
-
-#note[
-  Greatest (top) and least (bottom) elements are _unique_ when they exist.
-]
-
-#examples[
-  - $pair(power(A), subset.eq)$: least $emptyset$ (contained in every set), greatest $A$ (contains every subset).
-
-  - $pair(NN^+, |)$: least $1$ (divides every positive integer), no greatest element (no integer is divisible by all others).
-
-  - $pair(ZZ, <=)$: no least or greatest element (integers extend infinitely in both directions).
-
-  - $pair({1,2,3,4,5,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$ (prime powers and primes that don't divide anything else in the given set).
-]
-
-== Converse Orders
-
-#definition[
-  The _dual_ (or _converse_) of a poset $pair(S, leq)$ is the poset $pair(S, geq)$ where $x geq y$ iff $y leq x$.
-]
+== Equivalence Closure
 
 #example[
-  Consider the $NN^+$ ordered naturally.
-  - For $leq$ order:
-    - The _$leq$-least_ element is $1$, since it is _$leq$-smaller_ than all others.
-    - $1$ is also $leq$-minimal, since there are no other element which is $leq$-smaller than $1$.
-    - There are _no $leq$-maximal_ elements, since the set is unbounded above.
-    - On the Hasse diagram, $1$ is at the bottom, and the diagram extends infinitely _upwards_.
+  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(3, 4)}$.
 
-  - For $geq$ order, minimal and maximal elements "flip":
-    - There are _no $geq$-minimal_ elements.
-      A $geq$-minimal element would be an element $m$ such that there is no other ($geq$-smaller) element $n != m$ with $n geq m$.
-      However, for any $m in NN^+$, there exists $n = m + 1$ which is $n geq m$, so no such $geq$-minimal element exists.
-    - The _$geq$-greatest_ element is $1$, since all elements are _$geq$-smaller_ than it.
-    // - $1$ is also $geq$-maximal, since there are no other element which is $geq$-greater than $1$.
-    - On the Hasse diagram, $1$ is at the top, and the diagram extends infinitely _downwards_.
-]
+  *Step 1:* Make it reflexive:
+  $
+    r(R) = R union I_M
+    = {pair(1, 1), pair(1, 2), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 4)}
+  $
 
-== Notes on Converse Orders
+  *Step 2:* Make it symmetric:
+  $
+    s r(R) = & r(R) union r(R)^(-1) \
+           = & {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 3), pair(4, 4)}
+  $
 
-#note[
-  - Maximal elements in $pair(S, leq)$ become minimal in $pair(S, geq)$ and vice versa.
-  - Greatest element in $pair(S, leq)$ becomes least in $pair(S, geq)$ and vice versa.
-  - Chains and antichains remain the same in both orders.
-  - The Hasse diagram is flipped vertically when taking the dual order.
-    - For $pair(NN^+, leq)$:
-      - The _least_ element $1$ is at the bottom.
-      - The diagram of $pair(NN^+, leq)$ extends infinitely _upwards_.
-    - In the dual $pair(NN^+, geq)$:
-      - $1$ becomes the _greatest_ element at the top.
-      - The diagram of $pair(NN^+, geq)$ extends infinitely _downwards_.
-]
+  *Step 3:* Make it transitive:
+  - Since $pair(1, 2), pair(2, 1) in s r(R)$, transitivity requires $pair(1, 1)$ (already present).
+  - Since $pair(3, 4), pair(4, 3) in s r(R)$, transitivity requires $pair(3, 3)$ (already present).
 
-== Chains and Antichains
+  $ t s r(R) = s r(R) quad "(no new pairs needed)" $
 
-// Chain and Antichain
-#definition[
-  In a partially ordered set $pair(M, leq)$:
-
-  - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
-    Formally:
-    $
-      forall x, y in C. thin (x leq y "or" y leq x)
-    $
-
-  - An _antichain_ is a subset $A subset.eq M$ where no two distinct elements are comparable.
-    Formally:
-    $
-      forall x, y in A. thin
-      (x != y) imply (x leq.not y "and" y leq.not x)
-    $
-]
-
-#note[
-  - Chains correspond to arbitrary paths or sub-sequences in the Hasse diagram.
-  - A _maximal chain_ is a chain that cannot be extended by including any other elements from $M$.
-  - A _maximum chain_ is a chain of the largest possible size in $M$.
-  - A chain is a _totally ordered subset_ of the poset.
-  - An antichain consists of _pairwise incomparable elements_.
-  - Any singleton set is both a chain and an antichain.
-]
-
-== Examples of Chains and Antichains
-
-#example[
-  Consider the divisibility poset $pair(D, |)$ where $D = {1, 2, 3, 4, 5, 6, 10, 20, 35}$.
-
-  #place(right, dx: -4em, dy: 0.5em)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (3em, 2.5em),
-      node-shape: fletcher.shapes.circle,
-      node-inset: 0pt,
-      node-stroke: 1pt,
-      edge-stroke: 1pt,
-      mark-scale: 50%,
-      node((0, 0), [1], width: 1.5em, name: <1>),
-      node((-0.5, -1), [2], width: 1.5em, name: <2>),
-      node((-0.5, -2), [4], width: 1.5em, name: <4>, fill: red.lighten(80%)),
-      node((0.5, -1), [5], width: 1.5em, name: <5>),
-      node((0.5, -2), [10], width: 1.5em, name: <10>, fill: red.lighten(80%)),
-      node((0, -3), [20], width: 1.5em, name: <20>),
-      node((1.5, -2), [35], width: 1.5em, name: <35>, fill: red.lighten(80%)),
-      node((-1.5, -2), [3], width: 1.5em, name: <3>, fill: red.lighten(80%)),
-      edge(<1>, <2>, "-}>", bend: 30deg, stroke: 2pt + blue),
-      edge(<1>, <5>, "-}>", bend: -30deg),
-      edge(<2>, <4>, "-}>", stroke: 2pt + blue),
-      edge(<2>, <10>, "-}>"),
-      edge(<5>, <10>, "-}>"),
-      edge(<5>, <35>, "-}>", bend: -30deg),
-      edge(<4>, <20>, "-}>", bend: 30deg, stroke: 2pt + blue),
-      edge(<10>, <20>, "-}>", bend: -30deg),
-      edge(<1>, <3>, "-}>", bend: 30deg),
-    )
-  ]
-
-  *Chains:* (totally ordered subsets)
-  - Maximal chain: #Blue[${1, 2, 4, 20}$] --- longest path
-  - Not maximal: ${5, 10}$
-  - Can _skip_ elements: ${1, 5, 20}$
-
-  *Maximal elements:* $3$, $20$, $35$
-
-  *Antichains:* (pairwise incomparable elements)
-  - Maximal antichain: #Red[${3, 4, 10, 35}$]
-  - Incomparable on the same level: ${2, 5}$
-  - Incomparable from different levels: ${3, 2, 35}$
-
-  *Dilworth's theorem:*
-  Maximum antichain size (4) = minimum chains needed to cover (4).
+  The equivalence closure partitions $M$ into equivalence classes ${1, 2}$ and ${3, 4}$.
 ]
 
 #pagebreak()
 
 #example[
-  In a Git repository, commits form a poset under the "ancestor" relation:
-  - *Chain:* A sequence of commits on a single branch (linear history).
-  - *Antichain:* Commits on different branches that have diverged (no ancestry relation).
+  Let $M = {a, b, c, d, e}$ and $R = {pair(a, b), pair(b, c), pair(d, e)}$.
 
-  *Practical insight:* Merge commits combine multiple antichains back into a single chain.
+  *Reflexive closure:*
+  $ r(R) = R union {pair(a, a), pair(b, b), pair(c, c), pair(d, d), pair(e, e)} $
+
+  *Symmetric closure:*
+  $ s r(R) = r(R) union {pair(b, a), pair(c, b), pair(e, d)} $
+
+  *Transitive closure:*
+  We need to add pairs to ensure transitivity:
+  - From $pair(a, b), pair(b, c)$: add $pair(a, c)$
+  - From $pair(c, b), pair(b, a)$: add $pair(c, a)$
+
+  $ t s r(R) = s r(R) union {pair(a, c), pair(c, a)} $
+
+  The final equivalence relation has equivalence classes ${a, b, c}$ and ${d, e}$.
 ]
 
-== Chains and Antichains in Scheduling
+== Warshall's Algorithm for Transitive Closure
+
+#definition[
+  _Warshall's algorithm_ computes the transitive closure of a relation using dynamic programming with time complexity $O(n^3)$.
+
+  Given an $n times n$ matrix $M = matrel(R)$ representing relation $R$:
+  ```
+  M = matrix(R)
+  for k = 1 to n:
+      for i = 1 to n:
+          for j = 1 to n:
+              M[i,j] := M[i,j] OR (M[i,k] AND M[k,j])
+  ```
+]
+
+#example[Warshall's algorithm step-by-step][
+  Let $X = {1, 2, 3, 4}$ and relation $R$ with matrix $matrel(R)$:
+  $
+    M^((0)) = matrel(R) = natrix.bnat(
+      0, 1, 0, 0;
+      0, 0, 1, 0;
+      0, 0, 0, 1;
+      1, 0, 0, 0
+    )
+  $
+
+  #block(sticky: true)[
+    *Iteration $k = 1$:* Consider paths through vertex 1.
+  ]
+  $
+    M^((1)) = natrix.bnat(
+      0, 1, 0, 0;
+      0, 0, 1, 0;
+      0, 0, 0, 1;
+      1, 1, 0, 0
+    )
+  $
+  (Added $pair(4, 2)$: path $4 to 1 to 2$)
+
+  #block(sticky: true)[
+    *Iteration $k = 2$:* Consider paths through vertex 2.
+  ]
+  $
+    M^((2)) = natrix.bnat(
+      0, 1, 1, 0;
+      0, 0, 1, 0;
+      0, 0, 0, 1;
+      1, 1, 1, 0
+    )
+  $
+  (Added $pair(1, 3)$ and $pair(4, 3)$)
+
+  #block(sticky: true)[
+    *Iteration $k = 3$:* Consider paths through vertex 3.]
+  $
+    M^((3)) = natrix.bnat(
+      0, 1, 1, 1;
+      0, 0, 1, 1;
+      0, 0, 0, 1;
+      1, 1, 1, 1
+    )
+  $
+  (Added $pair(1, 4)$, $pair(2, 4)$, and $pair(4, 4)$)
+
+  #block(sticky: true)[
+    *Iteration $k = 4$:* Consider paths through vertex 4.
+  ]
+  $
+    M^((4)) = natrix.bnat(
+      1, 1, 1, 1;
+      1, 1, 1, 1;
+      1, 1, 1, 1;
+      1, 1, 1, 1
+    )
+  $
+  (The relation becomes universal since there's a cycle)
+]
+
+#pagebreak()
+
+#example[Reachability in graphs][
+
+  Consider a social network where $R$ represents "follows" relationships:
+  $
+    R = {pair(A, B), pair(B, C), pair(C, D), pair(A, E)}
+  $
+
+  Using Warshall's algorithm, we can determine _indirect influence_:
+  - $A$ can influence $C$ through $B$
+  - $A$ can influence $D$ through $B$ and $C$
+  - The transitive closure shows all possible influence paths
+
+  This is crucial for analyzing _information propagation_ in social networks, _dependency resolution_ in software systems, and _route planning_ in transportation networks.
+]
+
+== Properties of Closures
+
+#theorem[
+  For any relation $R subset.eq M^2$:
+  + _Idempotency_: $r(r(R)) = r(R)$, $s(s(R)) = s(R)$, $t(t(R)) = t(R)$
+  + _Monotonicity_: If $R_1 subset.eq R_2$, then $r(R_1) subset.eq r(R_2)$, etc.
+  + _Extensivity_: $R subset.eq r(R)$, $R subset.eq s(R)$, $R subset.eq t(R)$
+  + _Distributivity over union_: $r(R_1 union R_2) = r(R_1) union r(R_2)$, etc.
+]
+
+== Examples of Closures
+
+#example[Closure of the empty relation][
+
+  Let $M = {a, b, c}$ and $R = emptyset$.
+
+  - $r(emptyset) = emptyset union I_M = I_M = {pair(a, a), pair(b, b), pair(c, c)}$
+  - $s(emptyset) = emptyset union emptyset^(-1) = emptyset$
+  - $t(emptyset) = emptyset$ (since $emptyset^n = emptyset$ for all $n >= 1$)
+
+  The reflexive closure of the _empty_ relation is the _identity_ relation.
+]
+
+#pagebreak()
+
+#example[Closure of the universal relation][
+
+  Let $M = {1, 2}$ and $R = M times M = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2)}$.
+
+  - $r(R) = R union I_M = R$ (since $I_M subset.eq R$)
+  - $s(R) = R union R^(-1) = R$ (since $R = R^(-1)$ for universal relation)
+  - $t(R) = R$ (universal relation is already transitive)
+
+  The universal relation is its own closure under all three operations.
+]
+
+#pagebreak()
+
+#example[Non-commutativity with other operations][
+
+  Let $M = {1, 2, 3}$, $R_1 = {pair(1, 2)}$, and $R_2 = {pair(2, 3)}$.
+
+  Consider $t(R_1 union R_2)$ vs $t(R_1) union t(R_2)$:
+  - $R_1 union R_2 = {pair(1, 2), pair(2, 3)}$
+  - $t(R_1 union R_2) = {pair(1, 2), pair(2, 3), pair(1, 3)}$
+  - $t(R_1) = {pair(1, 2)}$
+  - $t(R_2) = {pair(2, 3)}$
+  - $t(R_1) union t(R_2) = {pair(1, 2), pair(2, 3)}$
+
+  Since $pair(1, 3) in t(R_1 union R_2)$ but $pair(1, 3) notin t(R_1) union t(R_2)$, we have:
+  $ t(R_1 union R_2) != t(R_1) union t(R_2) $
+
+  However: $t(R_1) union t(R_2) subset.eq t(R_1 union R_2)$ always holds.
+]
+
+#pagebreak()
+
+#example[Computing equivalence classes from closure][
+
+  Let $M = {1, 2, 3, 4, 5}$ and $R = {pair(1, 3), pair(2, 4), pair(4, 5)}$.
+
+  The equivalence closure gives us:
+  $
+    "equiv"(R) = & r s t(R) \
+               = & {pair(1, 1), pair(1, 3), pair(2, 2), pair(2, 4), pair(2, 5), pair(3, 1), \
+                 & quad pair(3, 3), pair(4, 2), pair(4, 4), pair(4, 5), pair(5, 2), pair(5, 4), pair(5, 5)}
+  $
+
+  The equivalence classes are:
+  - $eqclass(1, R) = {1, 3}$
+  - $eqclass(2, R) = {2, 4, 5}$
+
+  This partitions $M$ into ${{1, 3}, {2, 4, 5}}$.
+]
+
+#pagebreak()
 
 #example[
-  In project management, tasks form a scheduling poset under the "_prerequisite_" relation.
-
-  Consider web development tasks: Design, Backend, Frontend, Testing, Deploy, Documentation.
-
-  #place(right, dx: -3em)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (2em, 2em),
-      node-shape: fletcher.shapes.rect,
-      node-corner-radius: 0.2em,
-      node-stroke: 1pt,
-      node-outset: 1pt,
-      edge-stroke: 1pt,
-      node((0, 0), [Design], name: <Des>),
-      node((1, -1), [Backend], name: <Back>),
-      node((1, 1), [Frontend], name: <Front>),
-      node((2, 0), [Testing], name: <Test>),
-      node((3, 0), [Deploy], name: <Deploy>),
-      node((0, -1), [Documentation], name: <Doc>),
-      edge(<Des>, <Back>, "-}>", stroke: 2pt + red, mark-scale: 50%),
-      edge(<Des>, <Front>, "-}>"),
-      edge(<Back>, <Test>, "-}>", stroke: 2pt + red, mark-scale: 50%),
-      edge(<Front>, <Test>, "-}>"),
-      edge(<Test>, <Deploy>, "-}>", stroke: 2pt + red, mark-scale: 50%),
-      edge(<Des>, <Doc>, "-}>"),
-    )
+  Consider a directed acyclic graph (DAG) where $R$ represents _"depends on"_ relationships:
+  $
+    R = {pair(A, B), pair(B, C), pair(A, D), pair(D, C)}
+  $
+  #place(right)[
+    #cetz.canvas({
+      import cetz.draw: *
+      let w = 1
+      let h = 1
+      let hgap = 1
+      let vgap = 1.6
+      let draw-rect((x, y), name) = {
+        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
+        content(name, [#name], anchor: "center")
+      }
+      let draw-edge(from, to) = {
+        line(from, to, stroke: 1pt, mark: (end: "stealth", fill: black))
+      }
+      draw-rect((0, 0), "A")
+      draw-rect((-hgap, vgap), "B")
+      draw-rect((hgap, vgap), "D")
+      draw-rect((0, 2 * vgap), "C")
+      draw-edge("A", "B")
+      draw-edge("A", "D")
+      draw-edge("B", "C")
+      draw-edge("D", "C")
+    })
   ]
+  For example, component $A$ depends on $B$ and $D$, which both depend on $C$.
 
-  *Dependencies:*
-  - $"Design" prec "Back", "Front"$
-  - $"Back", "Front" prec "Test"$
-  - $"Test" prec "Deploy" prec "Doc"$
+  The transitive closure reveals all _indirect_ dependencies:
+  $ t(R) = R union {pair(A, C)} $
 
-  *Antichain analysis:*
-  - ${"Back", "Front"}$ can run in parallel after Design
-  - ${"Deploy", "Doc"}$ can run in parallel (final tasks)
+  This shows that component $A$ _transitively depends_ on $C$ through two paths:
+  - $A to B to C$
+  - $A to D to C$
 
-  #Red[*Critical path*]: $"Design" to "Back" to "Test" to "Deploy"$ (length 3 max chain)
-
-  *Practical insights:*
-  - Chains = sequential dependencies (critical path)
-  - Antichains = tasks for parallel execution (resource allocation)
-  - Project duration = length of longest chain
+  In software build systems, this helps determine the complete dependency tree.
 ]
 
-== Dilworth's Theorem
+== Applications of Relation Closures
 
-#theorem[Dilworth][
-  In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
+#example[*Graph Reachability*][
+  In directed graphs, transitive closure determines reachability:
+  - *Social networks:* Finding mutual connections and influence propagation
+  - *Transportation:* Computing all possible routes between cities
+  - *Citation networks:* Tracking intellectual dependencies in research
+  - *Web crawling:* Discovering linked pages and site connectivity
 ]
 
-#example[
-  Consider the divisibility poset on $P = {2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60}$.
-
-  #place(right, dy: -1em)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (1.8em, 1.4em),
-      node-shape: fletcher.shapes.circle,
-      node-stroke: 1pt,
-      edge-stroke: 0.8pt,
-      // Level 0: primes 2, 3, 5 (minimal elements)
-      node((-1.5, 0), [2], width: 1.1em, name: <2>),
-      node((0, 0), [3], width: 1.1em, name: <3>),
-      node((1.5, 0), [5], width: 1.1em, name: <5>),
-      // Level 1: products of two primes (antichain)
-      node((-2, -1), [4], width: 1.1em, name: <4>, fill: red.lighten(80%)),
-      node((-1, -1), [6], width: 1.1em, name: <6>, fill: red.lighten(80%)),
-      node((0, -1), [10], width: 1.1em, name: <10>, fill: red.lighten(80%)),
-      node((1.5, -1), [15], width: 1.1em, name: <15>, fill: red.lighten(80%)),
-      // Level 2: products of three prime factors
-      node((-1.5, -2), [12], width: 1.1em, name: <12>),
-      node((0, -2), [20], width: 1.1em, name: <20>),
-      node((1.5, -2), [30], width: 1.1em, name: <30>),
-      // Level 3: 60
-      node((0, -3), [60], width: 1.1em, name: <60>),
-
-      // Edges to level 1
-      edge(<2>, <4>, "-}>"),
-      edge(<2>, <6>, "-}>"),
-      edge(<2>, <10>, "-}>"),
-      edge(<3>, <6>, "-}>"),
-      edge(<3>, <15>, "-}>"),
-      edge(<5>, <10>, "-}>"),
-      edge(<5>, <15>, "-}>"),
-      // Edges to level 2
-      edge(<4>, <12>, "-}>"),
-      edge(<6>, <12>, "-}>"),
-      edge(<4>, <20>, "-}>"),
-      edge(<10>, <20>, "-}>"),
-      edge(<6>, <30>, "-}>"),
-      edge(<10>, <30>, "-}>"),
-      edge(<15>, <30>, "-}>"),
-      // Edges to 60
-      edge(<12>, <60>, "-}>"),
-      edge(<20>, <60>, "-}>"),
-      edge(<30>, <60>, "-}>"),
-    )
-  ]
-
-  *Maximum antichain:* ${4, 6, 10, 15}$ (size 4)
-  - These elements are pairwise _incomparable_ (none divides another).
-
-  *Minimum chain decomposition:* We need exactly 4 chains that _cover_ $P$:
-  - Chain 1: $2 | 4 | 12 | 60$
-  - Chain 2: $3 | 6 | 30$
-  - Chain 3: $5 | 10 | 20$
-  - Chain 4: $15$ (singleton chain)
-
-  Each element appears in exactly one chain, forming a _partition_ of $P$.
-
-  *Dilworth's theorem:* Maximum _antichain_ size (4) = Minimum number of _disjoint chains_ (4). #YES
+#example[*Program Analysis*][
+  Closure operations enable sophisticated program optimization:
+  - *Data flow analysis:* Transitive closure computes variable dependencies
+  - *Call graph construction:* Finding all possible function invocations
+  - *Alias analysis:* Determining which pointers may reference the same memory
+  - *Taint analysis:* Tracking information flow and potential vulnerabilities
 ]
 
-== Proof of Dilworth's Theorem
-
-#proof[
-  Let $pair(P, leq)$ be a finite poset.
-  Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
-  We prove $alpha = beta$ by showing $alpha <= beta$ and $alpha >= beta$.
-
-  *Easy part ($alpha <= beta$):*
-  Suppose $P$ can be partitioned into $k$ chains $C_1, dots, C_k$.
-  Let $A$ be any antichain in $P$.
-  Since elements in an antichain are pairwise incomparable, each chain contains at most one element of $A$.
-  Therefore $abs(A) <= k$.
-  Taking the maximum over all antichains gives $alpha <= k$.
-  Since this holds for any chain partition, we have $alpha <= beta$.
-  #h(1fr) $qed$
-
-  #colbreak()
-
-  *Hard part ($alpha >= beta$):*
-  Let $A subset.eq P$ be a maximal antichain of size $alpha$.
-
-  We construct a chain partition of $P$ of size $alpha$ as follows:
-  - Initialize $cal(C) := emptyset$.
-  - While $P != emptyset$:
-    + Choose a maximal element $x in P$ (no element above $x$ in the remaining poset).
-    + Build a chain $C$ ending at $x$:
-      - Start with $C := { x }$.
-      - Repeatedly add a maximal _predecessor_ element $y in P setminus C$ such that $y < "current bottom of" C$.
-    + Add $C$ to $cal(C)$ and remove all elements of $C$ from $P$.
-
-  By construction:
-  - Each $C in cal(C)$ is a chain (elements are added only below the current bottom).
-  - Chains in $cal(C)$ cover all elements of $P$.
-  - Each chain contains exactly one element of the maximal antichain $A$, so $abs(cal(C)) = alpha$.
-
-  Therefore $P$ can be covered by $alpha$ chains, giving $beta <= alpha$.
+#example[*Database Systems*][
+  Relational databases extensively use closure computations:
+  - *Recursive queries:* Computing organizational hierarchies and bill-of-materials
+  - *Join optimization:* Finding efficient query execution plans
+  - *Integrity constraints:* Ensuring referential consistency across tables
+  - *Data lineage:* Tracking data provenance and transformation chains
 ]
 
-== Summary: Orders
+== Complexity of Closure Computations
 
-#Block(color: orange)[
-  *Orders* provide structured ways to compare and rank elements:
-  - _Preorders:_ Basic comparison (reflexive, transitive)
-  - _Partial orders:_ Add antisymmetry for unique comparisons
-  - _Total orders:_ Every pair of elements is comparable
-
-  *Visualization:* Hasse diagrams clearly show structure and hierarchy by omitting redundant transitive edges, revealing _chains_ (ordered sequences) and _antichains_ (incomparable elements).
+#theorem[
+  For a relation $R$ on $n$ elements, the time complexities are:
+  - *Reflexive closure:* $O(n)$ time
+  - *Symmetric closure:* $O(|R|)$ time
+  - *Transitive closure:* $O(n^3)$ time (Floyd-Warshall algorithm)
 ]
 
-#Block(color: teal)[
-  *Applications:* Task scheduling • Git version control • Database indexing • Type hierarchies • Boolean algebra • Concurrent systems • Build systems (dependency resolution) • Social networks • File system permissions • Web page ranking • Package managers • Distributed systems
+#note[
+  The transitive closure bottleneck drives many algorithmic design decisions in practice.
 ]
 
-
-// TODO: add intermediate slide to explain the abrupt transition from orders to functions: we need to cover cardinality, which requires bijections, which are special kinds of functions. After that, we are going to return back to cover well orders.
+// TODO: mention FO+TC = NL, FO+LFP = P, etc.
 
 
 = Functions
@@ -2976,6 +2556,1760 @@ Functions can be characterized by several key properties that determine their ma
   - *Cryptography:* Bijective functions enable encryption/decryption
   - *Type systems:* Function signatures and type hierarchies
   - *Data structures:* Mappings, hashing, and uniqueness constraints
+]
+
+
+= Order Theory
+#focus-slide(
+  epigraph: [Order is heaven's first law.],
+  epigraph-author: "Alexander Pope",
+  scholars: (
+    (
+      name: "Helmut Hasse",
+      image: image("assets/Helmut_Hasse.jpg"),
+    ),
+    (
+      name: "Felix Hausdorff",
+      image: image("assets/Felix_Hausdorff.jpg"),
+    ),
+    (
+      name: "Henri Poincaré",
+      image: image("assets/Henri_Poincare.jpg"),
+    ),
+    (
+      name: "Robert Floyd",
+      image: image("assets/Robert_Floyd.jpg"),
+    ),
+    (
+      name: "Stephen Warshall",
+      image: image("assets/Stephen_Warshall.jpg"),
+    ),
+    (
+      name: "Stephen Kleene",
+      image: image("assets/Stephen_Kleene.jpg"),
+    ),
+  ),
+)
+
+== Orders
+
+// Preorder
+#definition[
+  A relation $R subset.eq M^2$ is called a _preorder_ if it is reflexive and transitive.
+]
+
+// Partial order
+#definition[
+  A _partial order_ is a relation $R subset.eq M^2$ that is reflexive, antisymmetric, and transitive.
+]
+
+#definition[
+  A _linear order_ is a partial order $R subset.eq M^2$ where every pair of elements is _comparable_:
+  $
+    forall x, y in M. thin (x rel(R) y or y rel(R) x)
+  $
+]
+
+#note[
+  The above condition is called _strong connectivity_.
+  The similar property with the $x != y$ condition is called _semi-connectivity_.
+  The corresponding relations are called _connex_ and _semi-connex_.
+]
+
+#note[
+  Hereinafter, we mainly study the "non-strict" orders (e.g., $<=$, $subset.eq$), which require the _reflexivity_.
+  The~"strict" orders (e.g., $<$, $subset$) require _irreflexivity_ instead, and are defined similarly.
+]
+
+#note[
+  Strict linear orders require _semi-connectivity_ instead, since connectivity alone implies reflexivity!
+]
+
+== Examples of Orders
+
+#example[
+  The relation $leq$ on real numbers $RR$ is a _total order_:
+  - *Reflexive:* $x leq x$ for all $x in RR$ #YES
+  - *Antisymmetric:* If $x leq y$ and $y leq x$, then $x = y$ #YES
+  - *Transitive:* If $x leq y$ and $y leq z$, then $x leq z$ #YES
+  - *Connected:* For any $x, y in RR$, either $x leq y$ or $y leq x$ #YES
+
+  This is the most familiar example of an order relation.
+  Similarly, $NN$, $ZZ$, and $QQ$ with $leq$ are all total orders.
+]
+
+#align(center)[
+  #cetz.canvas(length: 1cm, {
+    import cetz.draw: *
+
+    // Custom function for curvy edges
+    let curvy-edge(from, to, height: 0.5, color: blue, label: none) = {
+      let mid-x = (from + to) / 2
+      let control1 = (from + 0.3 * (to - from), height)
+      let control2 = (to - 0.3 * (to - from), height)
+
+      // Control points for the Bézier curve
+      let p0 = (from, 0)
+      let p1 = (from + 0.3 * (to - from), height)
+      let p2 = (to - 0.3 * (to - from), height)
+      let p3 = (to, 0)
+
+      bezier(p0, p3, p1, p2, stroke: 1.5pt + color, mark: (end: ">", fill: color))
+
+      // Function to calculate point on Bézier curve at parameter t
+      // Cubic Bézier formula: B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
+      let point-on-bezier(t) = {
+        let t1 = 1 - t
+        cetz.vector.add(
+          cetz.vector.add(
+            cetz.vector.scale(p0, calc.pow(t1, 3)),
+            cetz.vector.scale(p1, 3 * calc.pow(t1, 2) * t),
+          ),
+          cetz.vector.add(
+            cetz.vector.scale(p2, 3 * t1 * calc.pow(t, 2)),
+            cetz.vector.scale(p3, calc.pow(t, 3)),
+          ),
+        )
+      }
+
+      if label != none {
+        // Use midpoint of the curve (t=0.5) for label positioning
+        let label-pos = point-on-bezier(0.5)
+        content(
+          label-pos,
+          text(10pt, fill: color)[#label],
+          anchor: if height > 0 { "south" } else { "north" },
+          padding: 0.1,
+        )
+      }
+    }
+
+    // Draw main number line
+    line((-5, 0), (5, 0), stroke: 2pt + black, mark: (symbol: ">", fill: black))
+
+    // Draw ticks and numbers
+    for i in range(-4, 5) {
+      line((i, -0.1), (i, 0.1), stroke: 1pt + black)
+      content((i, 0), text(10pt, str(i)), anchor: "north", padding: 0.2)
+    }
+
+    // Add infinity labels
+    content((-5, 0), anchor: "north", padding: 0.2, [$-infinity$])
+    content((5, 0), anchor: "north", padding: 0.2, [$+infinity$])
+
+    // Draw some curvy order edges
+    curvy-edge(-3, -1, height: 0.6, color: blue, label: $-3 leq -1$)
+    curvy-edge(-1, 2, height: 0.9, color: red, label: $-1 leq 2$)
+    curvy-edge(0, 3, height: -0.9, color: green, label: $0 leq 3$)
+    curvy-edge(-2, 1, height: -0.9, color: purple, label: $-2 leq 1$)
+
+    // Add title
+    content((0, -1.6))[Linear order $leq$ on real numbers $RR$]
+  })
+]
+
+#pagebreak()
+
+#example[
+  The _subset relation_ $subset.eq$ on the power set $power(A)$ is a *partial order*.
+
+  *Verification:*
+  - *Reflexive:* $X subset.eq X$ for all $X subset.eq A$ #YES
+    - Every set is a subset of itself by definition
+  - *Antisymmetric:* If $X subset.eq Y$ and $Y subset.eq X$, then $X = Y$ #YES
+    - If every element of $X$ is in $Y$, and every element of $Y$ is in $X$, then $X$ and $Y$ have the same elements
+  - *Transitive:* If $X subset.eq Y$ and $Y subset.eq Z$, then $X subset.eq Z$ #YES
+    - If every element of $X$ is in $Y$, and every element of $Y$ is in $Z$, then every element of $X$ is in $Z$
+
+  For $A = {1, 2}$, we have $power(A) = {emptyset, {1}, {2}, {1,2}}$ with:
+  - $emptyset subset.eq {1} subset.eq {1,2}$ (this is a chain)
+  - $emptyset subset.eq {2} subset.eq {1,2}$ (another chain)
+  - But ${1}$ and ${2}$ are _incomparable_ (neither is a subset of the other)
+
+  This is _not_ a total order because not all pairs are comparable.
+]
+// TODO: visualize
+
+#pagebreak()
+
+#example[
+  #let nolonger = $prec.curly.eq$
+  Consider the _no longer than_ relation $nolonger$ on binary strings $BB^*$:
+  $
+    x nolonger y quad "iff" quad "len"(x) <= "len"(y)
+  $
+
+  *Verification:*
+  - *Reflexive:* $x nolonger x$ for all $x in BB^*$ #YES
+    - $"len"(x) <= "len"(x)$ is always true
+  - *Transitive:* If $x nolonger y$ and $y nolonger z$, then $x nolonger z$ #YES
+    - If $"len"(x) <= "len"(y)$ and $"len"(y) <= "len"(z)$, then $"len"(x) <= "len"(z)$ by transitivity of $<=$
+  - *Antisymmetric:* #NO
+    - Counter-example: $01 nolonger 10$ and $10 nolonger 01$ (since both have length 2), but $01 neq 10$
+  - *Connected:* For any $x, y in BB^*$, either $x nolonger y$ or $y nolonger x$ #YES
+    - Either $"len"(x) <= "len"(y)$ or $"len"(y) <= "len"(x)$ (or both)
+
+  This is a _preorder_ (reflexive and transitive), and even connected, but _not a partial order_ due to lack of antisymmetry.
+  Different strings of the same length are all "equivalent" under this relation, but they're not actually equal.
+]
+// TODO: visualize
+
+#pagebreak()
+
+#example[
+  _Divisibility_ $|$ on positive integers $NN^+$ is a *partial order*.
+
+  *Verification:*
+  - *Reflexive:* $n | n$ for all $n in NN^+$ (every number divides itself) #YES
+  - *Antisymmetric:* If $a | b$ and $b | a$, then $a = b$ #YES
+    - If $a$ divides $b$, then $b = a k$ for some positive integer $k$
+    - If $b$ divides $a$, then $a = b ell$ for some positive integer $ell$
+    - Substituting: $b = a k = (b ell) k = b k ell$, so $k ell = 1$
+    - Since $k, ell in NN^+$, we must have $k = ell = 1$, hence $a = b$
+  - *Transitive:* If $a | b$ and $b | c$, then $a | c$ #YES
+    - If $a | b$, then $b = a k$ for some integer $k$
+    - If $b | c$, then $c = b ell$ for some integer $ell$
+    - Therefore: $c = b ell = (a k) ell = a (k ell)$, so $a | c$
+  - *Connected:* #NO
+    - Counter-example: $2$ does not divide $3$, and $3$ does not divide $2$
+
+  This is a _partial order_ but not a total order because some pairs are incomparable.
+]
+// TODO: visualize
+
+#pagebreak()
+
+#example[
+  _Lexicographic order_ on strings $A^n$ (like dictionary order) is a *total order*.
+
+  *Verification:*
+  - *Reflexive:* $s lexleq s$ for all strings $s$ #YES
+    - A string is lexicographically equal to itself
+  - *Antisymmetric:* If $s lexleq t$ and $t lexleq s$, then $s = t$ #YES
+    - If $s$ comes before or equals $t$ AND $t$ comes before or equals $s$, then $s = t$
+  - *Transitive:* If $s lexleq t$ and $t lexleq u$, then $s lexleq u$ #YES
+    - Lexicographic comparison preserves transitivity through character-by-character comparison
+  - *Connected:* For any strings $s, t$, either $s lexleq t$ or $t lexleq s$ #YES
+    - We can always compare strings lexicographically by comparing character by character
+
+  For binary strings of length 2: $00 lexlt 01 lexlt 10 lexlt 11$
+
+  // *Lexicographic Comparison Algorithm:*
+  // - Compare strings character by character from left to right
+  // - The first differing position determines the order
+  // - If one string is a prefix of another, the shorter one comes first
+
+  *Key property:* Every pair of strings is _comparable_, making this a _total order_.
+]
+
+// TODO: strict orders!
+
+== Partially Ordered Sets
+
+// Poset
+#definition[
+  A _partially ordered set_ (or _poset_) $pair(S, leq)$ is a set $S$ equipped with a partial order $leq$.
+]
+
+#example[
+  Consider the poset $pair(D, |)$ where $D = {1, 2, 3, 4, 6, 12}$ and $|$ is divisibility.
+
+  #place(right, dx: -1em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1em, 2.5em),
+      node-shape: fletcher.shapes.circle,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      // Vertices:
+      node((0, 0), [$1$], width: 2em, inset: 0pt, name: <1>),
+      node((-1, -0.9), [$2$], width: 2em, inset: 0pt, name: <2>),
+      node((1, -0.9), [$3$], width: 2em, inset: 0pt, name: <3>),
+      node((-1, -2.1), [$4$], width: 2em, inset: 0pt, name: <4>),
+      node((1, -2.1), [$6$], width: 2em, inset: 0pt, name: <6>),
+      node((0, -3), [$12$], width: 2em, inset: 0pt, name: <12>),
+      // Main edges:
+      edge(<1>, <2>, "-}>"),
+      edge(<1>, <3>, "-}>"),
+      edge(<2>, <4>, "-}>"),
+      edge(<2>, <6>, "-}>"),
+      edge(<3>, <6>, "-}>"),
+      edge(<4>, <12>, "-}>"),
+      edge(<6>, <12>, "-}>"),
+      // Transitive edges:
+      edge(<1>, <4>, "--}>", bend: -5deg, stroke: gray),
+      edge(<1>, <6>, "--}>", bend: 5deg, stroke: gray),
+      edge(<1>, <12>, "--}>", bend: 0deg, stroke: gray),
+      edge(<2>, <12>, "--}>", bend: -5deg, stroke: gray),
+      edge(<3>, <12>, "--}>", bend: 5deg, stroke: gray),
+      // Loops:
+      edge(<1>, <1>, "--}>", bend: 120deg, loop-angle: -30deg, stroke: gray),
+      edge(<2>, <2>, "--}>", bend: 120deg, loop-angle: 150deg, stroke: gray),
+      edge(<4>, <4>, "--}>", bend: 120deg, loop-angle: 150deg, stroke: gray),
+      edge(<3>, <3>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
+      edge(<6>, <6>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
+      edge(<12>, <12>, "--}>", bend: 120deg, loop-angle: 30deg, stroke: gray),
+    )
+  ]
+
+  *Order relation properties:*
+  - Reflexive: $n | n$ for all $n in D$
+  - Antisymmetric: If $a | b$ and $b | a$, then $a = b$
+  - Transitive: If $a | b$ and $b | c$, then $a | c$
+
+  *Special elements:*
+  - Least element: $1$ (divides all others)
+  - Greatest element: $12$ (divisible by all others)
+  - Minimal elements: just $1$
+  - Maximal elements: just $12$
+
+  #note[
+    This poset forms a _lattice_ since every pair has a supremum (LCM) and infimum (GCD).
+  ]
+]
+
+// TODO: linearly ordered set
+
+== Hasse Diagrams
+
+// Hasse diagram
+#definition[
+  A _Hasse diagram_ is a visual representation of a poset where:
+  - Each element is represented as a vertex.
+  - If $x < y$ and there is no $z$ with $x < z < y$, draw an edge from $x$ to $y$.
+  - Elements are arranged vertically by the order relation.
+  - Transitive connections are omitted (implied by transitivity of the partial order).
+]
+
+#place(right)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    let hgap = 1.6
+    let vgap = 1.2
+
+    let draw-vertex((x, y), name, label) = {
+      circle((x, y), radius: 0.3, fill: white, stroke: 1pt, name: name)
+      content(name, [#label])
+    }
+    let draw-edge(start, end) = {
+      line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+    }
+
+    // Level 0 (bottom): 1
+    draw-vertex((0, 0), "1", [$1$])
+
+    // Level 1: primes 2, 3, 5
+    draw-vertex((-hgap, vgap), "2", [$2$])
+    draw-vertex((0, vgap), "3", [$3$])
+    draw-vertex((hgap, vgap), "5", [$5$])
+
+    // Level 2: composite numbers
+    draw-vertex((-hgap, vgap * 2), "4", [$4$])
+    draw-vertex((0, vgap * 2), "10", [$10$])
+    draw-vertex((hgap, vgap * 2), "35", [$35$])
+
+    // Level 3: maximal elements
+    draw-vertex((0, vgap * 3), "20", [$20$])
+
+    // Edges from 1 to primes
+    draw-edge("1", "2")
+    draw-edge("1", "3")
+    draw-edge("1", "5")
+
+    // Other edges
+    draw-edge("2", "4") // 2|4
+    draw-edge("2", "10") // 2|10
+    draw-edge("5", "10") // 5|10
+    draw-edge("4", "20") // 4|20
+    draw-edge("10", "20") // 10|20
+    draw-edge("5", "35") // 5|35
+  })
+]
+
+#example[
+  For $D = {1, 2, 3, 4, 5, 10, 20, 35}$ with divisibility $|$.
+
+  *Reading the diagram:*
+  - $1$ divides everything (least element at bottom)
+  - Multiple _maximal_ elements: $3$, $20$, $35$ (no single greatest element)
+  - Some _chains_ (not necessarily maximal, can skip elements):
+    - Chain: $1 | 2 | 4$ (powers of 2)
+    - Chain: $1 | 10 | 20$ (multiples of 10)
+    - Chain: $5 | 35$ (multiples of 5)
+  - Primes $2$, $3$, $5$ are _incomparable_ to each other
+]
+
+== Subset Poset
+
+#example[
+  For $power({a, b}) = {emptyset, {a}, {b}, {a,b}}$ with inclusion $subset.eq$:
+
+  #align(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+
+      let w = 1.4
+      let h = 1
+      let hgap = 1.5
+      let vgap = 2
+
+      let draw-vertex((x, y), name, label) = {
+        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
+        content(name, [#label])
+      }
+      let draw-edge(start, end) = {
+        line(start, end, stroke: 1pt, mark: (end: "stealth", fill: black))
+      }
+
+      // Vertices
+      draw-vertex((0, 0), "empty", [$emptyset$])
+      draw-vertex((-hgap, vgap), "a", [${a}$])
+      draw-vertex((hgap, vgap), "b", [${b}$])
+      draw-vertex((0, vgap * 2), "ab", [${a,b}$])
+
+      // Edges
+      draw-edge("empty", "a")
+      draw-edge("empty", "b")
+      draw-edge("a", "ab")
+      draw-edge("b", "ab")
+    })
+  ]
+
+  #note[
+    This is the classic "diamond" shape characteristic of Boolean algebras.
+  ]
+  #note[
+    $pair(power(A), subset.eq)$ is also called the _Boolean lattice_.
+  ]
+]
+
+== Covering Relation
+
+// Covering relation
+#definition[
+  In a poset $pair(S, leq)$, an element $y in S$ _covers_ $x in S$, denoted $x covers y$, if there is no other element in between them:
+  $
+    x covers y
+    quad "iff" quad
+    (x < y) and exists.not z in S. thin (x < z < y)
+  $
+]
+
+#note[
+  "$lt$" denotes the _induced strict order_:
+  $
+    x < y quad "iff" quad (x leq y) and (x neq y)
+  $
+]
+
+#note[
+  Hasse diagram is just a graph of a covering relation!
+]
+
+== Maximal and Minimal Elements
+
+// Maximal element
+#definition[
+  An element $m in S$ is called a _maximal element_ of a poset $pair(S, leq)$ if it is not less than any other element, i.e., there is no even greater element.
+  $
+    forall x != m. thin not (m leq x)
+    quad iff quad
+    exists.not x != m. thin (m leq x)
+  $
+  Equivelently, $forall x in S. thin (m leq x) imply (m = x)$
+]
+
+// Minimal element
+#definition[
+  An element $m in S$ is called a _minimal element_ of a poset $pair(S, leq)$ if it is not greater than any other element, i.e., there is no even smaller element.
+  $
+    forall x != m. thin not (x leq m)
+    quad iff quad
+    exists.not x != m. thin (x leq m)
+  $
+  Equivelently, $forall x in S. thin (x leq m) imply (x = m)$
+]
+
+#note[
+  There may be multiple maximal (or minimal) elements.
+]
+
+== Example of Maximal and Minimal Elements
+
+#example[
+  Consider the divisibility poset on $S = {2, 3, 4, 6, 8, 12}$:
+
+  #columns(2)[
+    *Maximal elements:* $8$ and $12$
+    - $8$ divides nothing else in $S$ except itself
+    - $12$ divides nothing else in $S$ except itself
+
+    #colbreak()
+
+    *Minimal elements:* $2$ and $3$
+    - Nothing in $S$ properly divides $2$ (since $1 notin S$)
+    - Nothing in $S$ properly divides $3$
+  ]
+
+  #note[
+    This poset has no greatest or least element, but multiple minimal/maximal elements.
+  ]
+]
+
+#place(right, dx: -5em)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 3em,
+    node-shape: fletcher.shapes.circle,
+    node-inset: 0pt,
+    edge-stroke: 1pt + navy,
+    blob((0, 0), [$2$], width: 1.5em, tint: blue, name: <2>),
+    blob((1, 0), [$3$], width: 1.5em, tint: blue, name: <3>),
+    blob((0, -1), [$4$], width: 1.5em, stroke: navy, name: <4>),
+    blob((1, -1), [$6$], width: 1.5em, stroke: navy, name: <6>),
+    blob((0, -2), [$8$], width: 1.5em, tint: red, name: <8>),
+    blob((1, -2), [$12$], width: 1.5em, tint: red, name: <12>),
+    edge(<2>, <4>, "-}>"),
+    edge(<2>, <6>, "-}>"),
+    edge(<3>, <6>, "-}>"),
+    edge(<4>, <8>, "-}>"),
+    edge(<4>, <12>, "-}>"),
+    edge(<6>, <12>, "-}>"),
+  )
+]
+
+*Hasse diagram:*
+- #Red[Maximal elements] (8, 12) --- they divide nothing else in $S$
+- #Blue[Minimal elements] (2, 3) --- nothing in $S$ divides them
+- Two separate chains: $2 | 4 | 8$ and $3 | 6 | 12$
+
+#pagebreak()
+
+#example[
+  #let prefix = $lt.dot$
+  Let $S = {"ab", "abc", "abd", "ac", "b", "bc"}$ ordered by the _prefix_ relation $prefix$:
+  $
+    x prefix y "iff" x "is a prefix of" y
+  $
+
+  *Maximal elements:* $"abc"$, $"abd"$, #underline[$"ac"$], $"bc"$
+  - These strings are not prefixes of any other string in $S$
+
+  *Minimal elements:* $"ab"$, #underline[$"ac"$], $"b"$
+  - These strings have no other string in $S$ that is a proper prefix of them
+
+  The Hasse diagram shows three separate "trees" rooted at the minimal elements, with:
+  - $"ab" prefix "abc"$ and $"ab" prefix "abd"$
+  - $"b" prefix "bc"$
+  - $"ac"$ stands alone (no other string extends it in $S$)
+]
+
+#place(right + bottom, dx: -1em, dy: -1em)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    let w = 1.2
+    let h = 0.8
+    let hgap = 2.2
+    let vgap = 1.8
+
+    let draw-vertex((x, y), name, label, color: white) = {
+      rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, fill: color, name: name)
+      content(name, [#label], anchor: "center")
+    }
+
+    let draw-edge(start, end, color: black) = {
+      line(start, end, stroke: 1pt + color, mark: (end: "stealth", fill: color))
+    }
+
+    // Tree 1: "ab" -> "abc", "abd"
+    draw-vertex((0, 0), "ab", ["ab"], color: blue.lighten(80%))
+    draw-vertex((-0.8, vgap), "abc", ["abc"], color: green.lighten(80%))
+    draw-vertex((0.8, vgap), "abd", ["abd"], color: green.lighten(80%))
+
+    draw-edge("ab", "abc", color: blue)
+    draw-edge("ab", "abd", color: blue)
+
+    // Tree 2: "b" -> "bc"
+    draw-vertex((hgap, 0), "b", ["b"], color: blue.lighten(80%))
+    draw-vertex((hgap, vgap), "bc", ["bc"], color: green.lighten(80%))
+
+    draw-edge("b", "bc", color: blue)
+
+    // Tree 3: "ac" (standalone)
+    draw-vertex((-hgap, vgap / 2), "ac", ["ac"], color: orange.lighten(80%))
+
+    // Labels
+    // content((0, -1), text(fill: blue)[Tree 1], anchor: "center")
+    // content((hgap, -1), text(fill: blue)[Tree 2], anchor: "center")
+    // content((-hgap, -0.5), text(fill: orange.darken(30%))[Tree 3], anchor: "center")
+
+    // Legend
+    content((-6, 0.4), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
+    content((-6, 0), text(size: 0.9em, fill: blue)[Minimal elements], anchor: "west")
+    content((-6, -0.4), text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal], anchor: "west")
+  })
+]
+
+== Greatest and Least Elements
+
+// Greatest element
+#definition[
+  The _greatest element_ of a poset $pair(S, leq)$ is an element $g in S$ that is greater than or equal to every other element in $S$, i.e., for all $x in S$, $x leq g$.
+]
+
+// Least element
+#definition[
+  A _least element_ (bottom) $b$ satisfies $b leq x$ for all $x in S$.
+]
+
+#note[
+  Greatest (top) and least (bottom) elements are _unique_ when they exist.
+]
+
+#examples[
+  - $pair(power(A), subset.eq)$: least $emptyset$ (contained in every set), greatest $A$ (contains every subset).
+
+  - $pair(NN^+, |)$: least $1$ (divides every positive integer), no greatest element (no integer is divisible by all others).
+
+  - $pair(ZZ, <=)$: no least or greatest element (integers extend infinitely in both directions).
+
+  - $pair({1,2,3,4,5,6}, |)$: least $1$, no greatest element, maximal elements are $4$, $5$, $6$ (prime powers and primes that don't divide anything else in the given set).
+]
+
+== Converse Orders
+
+#definition[
+  The _dual_ (or _converse_) of a poset $pair(S, leq)$ is the poset $pair(S, geq)$ where $x geq y$ iff $y leq x$.
+]
+
+#example[
+  Consider the $NN^+$ ordered naturally.
+  - For $leq$ order:
+    - The _$leq$-least_ element is $1$, since it is _$leq$-smaller_ than all others.
+    - $1$ is also $leq$-minimal, since there are no other element which is $leq$-smaller than $1$.
+    - There are _no $leq$-maximal_ elements, since the set is unbounded above.
+    - On the Hasse diagram, $1$ is at the bottom, and the diagram extends infinitely _upwards_.
+
+  - For $geq$ order, minimal and maximal elements "flip":
+    - There are _no $geq$-minimal_ elements.
+      A $geq$-minimal element would be an element $m$ such that there is no other ($geq$-smaller) element $n != m$ with $n geq m$.
+      However, for any $m in NN^+$, there exists $n = m + 1$ which is $n geq m$, so no such $geq$-minimal element exists.
+    - The _$geq$-greatest_ element is $1$, since all elements are _$geq$-smaller_ than it.
+    // - $1$ is also $geq$-maximal, since there are no other element which is $geq$-greater than $1$.
+    - On the Hasse diagram, $1$ is at the top, and the diagram extends infinitely _downwards_.
+]
+
+== Notes on Converse Orders
+
+#note[
+  - Maximal elements in $pair(S, leq)$ become minimal in $pair(S, geq)$ and vice versa.
+  - Greatest element in $pair(S, leq)$ becomes least in $pair(S, geq)$ and vice versa.
+  - Chains and antichains remain the same in both orders.
+  - The Hasse diagram is flipped vertically when taking the dual order.
+    - For $pair(NN^+, leq)$:
+      - The _least_ element $1$ is at the bottom.
+      - The diagram of $pair(NN^+, leq)$ extends infinitely _upwards_.
+    - In the dual $pair(NN^+, geq)$:
+      - $1$ becomes the _greatest_ element at the top.
+      - The diagram of $pair(NN^+, geq)$ extends infinitely _downwards_.
+]
+
+== Chains and Antichains
+
+// Chain and Antichain
+#definition[
+  In a partially ordered set $pair(M, leq)$:
+
+  - A _chain_ is a subset $C subset.eq M$ where every two elements are comparable.
+    Formally:
+    $
+      forall x, y in C. thin (x leq y "or" y leq x)
+    $
+
+  - An _antichain_ is a subset $A subset.eq M$ where no two distinct elements are comparable.
+    Formally:
+    $
+      forall x, y in A. thin
+      (x != y) imply (x leq.not y "and" y leq.not x)
+    $
+]
+
+#note[
+  - Chains correspond to arbitrary paths or sub-sequences in the Hasse diagram.
+  - A _maximal chain_ is a chain that cannot be extended by including any other elements from $M$.
+  - A _maximum chain_ is a chain of the largest possible size in $M$.
+  - A chain is a _totally ordered subset_ of the poset.
+  - An antichain consists of _pairwise incomparable elements_.
+  - Any singleton set is both a chain and an antichain.
+]
+
+== Examples of Chains and Antichains
+
+#example[
+  Consider the divisibility poset $pair(D, |)$ where $D = {1, 2, 3, 4, 5, 6, 10, 20, 35}$.
+
+  #place(right, dx: -4em, dy: 0.5em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (3em, 2.5em),
+      node-shape: fletcher.shapes.circle,
+      node-inset: 0pt,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      mark-scale: 50%,
+      node((0, 0), [1], width: 1.5em, name: <1>),
+      node((-0.5, -1), [2], width: 1.5em, name: <2>),
+      node((-0.5, -2), [4], width: 1.5em, name: <4>, fill: red.lighten(80%)),
+      node((0.5, -1), [5], width: 1.5em, name: <5>),
+      node((0.5, -2), [10], width: 1.5em, name: <10>, fill: red.lighten(80%)),
+      node((0, -3), [20], width: 1.5em, name: <20>),
+      node((1.5, -2), [35], width: 1.5em, name: <35>, fill: red.lighten(80%)),
+      node((-1.5, -2), [3], width: 1.5em, name: <3>, fill: red.lighten(80%)),
+      edge(<1>, <2>, "-}>", bend: 30deg, stroke: 2pt + blue),
+      edge(<1>, <5>, "-}>", bend: -30deg),
+      edge(<2>, <4>, "-}>", stroke: 2pt + blue),
+      edge(<2>, <10>, "-}>"),
+      edge(<5>, <10>, "-}>"),
+      edge(<5>, <35>, "-}>", bend: -30deg),
+      edge(<4>, <20>, "-}>", bend: 30deg, stroke: 2pt + blue),
+      edge(<10>, <20>, "-}>", bend: -30deg),
+      edge(<1>, <3>, "-}>", bend: 30deg),
+    )
+  ]
+
+  *Chains:* (totally ordered subsets)
+  - Maximal chain: #Blue[${1, 2, 4, 20}$] --- longest path
+  - Not maximal: ${5, 10}$
+  - Can _skip_ elements: ${1, 5, 20}$
+
+  *Maximal elements:* $3$, $20$, $35$
+
+  *Antichains:* (pairwise incomparable elements)
+  - Maximal antichain: #Red[${3, 4, 10, 35}$]
+  - Incomparable on the same level: ${2, 5}$
+  - Incomparable from different levels: ${3, 2, 35}$
+
+  *Dilworth's theorem:*
+  Maximum antichain size (4) = minimum chains needed to cover (4).
+]
+
+#pagebreak()
+
+#example[
+  In a Git repository, commits form a poset under the "ancestor" relation:
+  - *Chain:* A sequence of commits on a single branch (linear history).
+  - *Antichain:* Commits on different branches that have diverged (no ancestry relation).
+
+  *Practical insight:* Merge commits combine multiple antichains back into a single chain.
+]
+
+== Chains and Antichains in Scheduling
+
+#example[
+  In project management, tasks form a scheduling poset under the "_prerequisite_" relation.
+
+  Consider web development tasks: Design, Backend, Frontend, Testing, Deploy, Documentation.
+
+  #place(right, dx: -3em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (2em, 2em),
+      node-shape: fletcher.shapes.rect,
+      node-corner-radius: 0.2em,
+      node-stroke: 1pt,
+      node-outset: 1pt,
+      edge-stroke: 1pt,
+      node((0, 0), [Design], name: <Des>),
+      node((1, -1), [Backend], name: <Back>),
+      node((1, 1), [Frontend], name: <Front>),
+      node((2, 0), [Testing], name: <Test>),
+      node((3, 0), [Deploy], name: <Deploy>),
+      node((0, -1), [Documentation], name: <Doc>),
+      edge(<Des>, <Back>, "-}>", stroke: 2pt + red, mark-scale: 50%),
+      edge(<Des>, <Front>, "-}>"),
+      edge(<Back>, <Test>, "-}>", stroke: 2pt + red, mark-scale: 50%),
+      edge(<Front>, <Test>, "-}>"),
+      edge(<Test>, <Deploy>, "-}>", stroke: 2pt + red, mark-scale: 50%),
+      edge(<Des>, <Doc>, "-}>"),
+    )
+  ]
+
+  *Dependencies:*
+  - $"Design" prec "Back", "Front"$
+  - $"Back", "Front" prec "Test"$
+  - $"Test" prec "Deploy" prec "Doc"$
+
+  *Antichain analysis:*
+  - ${"Back", "Front"}$ can run in parallel after Design
+  - ${"Deploy", "Doc"}$ can run in parallel (final tasks)
+
+  #Red[*Critical path*]: $"Design" to "Back" to "Test" to "Deploy"$ (length 3 max chain)
+
+  *Practical insights:*
+  - Chains = sequential dependencies (critical path)
+  - Antichains = tasks for parallel execution (resource allocation)
+  - Project duration = length of longest chain
+]
+
+== Dilworth's Theorem
+
+#theorem[Dilworth][
+  In any finite partially ordered set, the maximum size of an antichain equals the minimum number of chains needed to cover the entire set.
+]
+
+#example[
+  Consider the divisibility poset on $P = {2, 3, 4, 5, 6, 10, 12, 15, 20, 30, 60}$.
+
+  #place(right, dy: -1em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1.8em, 1.4em),
+      node-shape: fletcher.shapes.circle,
+      node-stroke: 1pt,
+      edge-stroke: 0.8pt,
+      // Level 0: primes 2, 3, 5 (minimal elements)
+      node((-1.5, 0), [2], width: 1.1em, name: <2>),
+      node((0, 0), [3], width: 1.1em, name: <3>),
+      node((1.5, 0), [5], width: 1.1em, name: <5>),
+      // Level 1: products of two primes (antichain)
+      node((-2, -1), [4], width: 1.1em, name: <4>, fill: red.lighten(80%)),
+      node((-1, -1), [6], width: 1.1em, name: <6>, fill: red.lighten(80%)),
+      node((0, -1), [10], width: 1.1em, name: <10>, fill: red.lighten(80%)),
+      node((1.5, -1), [15], width: 1.1em, name: <15>, fill: red.lighten(80%)),
+      // Level 2: products of three prime factors
+      node((-1.5, -2), [12], width: 1.1em, name: <12>),
+      node((0, -2), [20], width: 1.1em, name: <20>),
+      node((1.5, -2), [30], width: 1.1em, name: <30>),
+      // Level 3: 60
+      node((0, -3), [60], width: 1.1em, name: <60>),
+
+      // Edges to level 1
+      edge(<2>, <4>, "-}>"),
+      edge(<2>, <6>, "-}>"),
+      edge(<2>, <10>, "-}>"),
+      edge(<3>, <6>, "-}>"),
+      edge(<3>, <15>, "-}>"),
+      edge(<5>, <10>, "-}>"),
+      edge(<5>, <15>, "-}>"),
+      // Edges to level 2
+      edge(<4>, <12>, "-}>"),
+      edge(<6>, <12>, "-}>"),
+      edge(<4>, <20>, "-}>"),
+      edge(<10>, <20>, "-}>"),
+      edge(<6>, <30>, "-}>"),
+      edge(<10>, <30>, "-}>"),
+      edge(<15>, <30>, "-}>"),
+      // Edges to 60
+      edge(<12>, <60>, "-}>"),
+      edge(<20>, <60>, "-}>"),
+      edge(<30>, <60>, "-}>"),
+    )
+  ]
+
+  *Maximum antichain:* ${4, 6, 10, 15}$ (size 4)
+  - These elements are pairwise _incomparable_ (none divides another).
+
+  *Minimum chain decomposition:* We need exactly 4 chains that _cover_ $P$:
+  - Chain 1: $2 | 4 | 12 | 60$
+  - Chain 2: $3 | 6 | 30$
+  - Chain 3: $5 | 10 | 20$
+  - Chain 4: $15$ (singleton chain)
+
+  Each element appears in exactly one chain, forming a _partition_ of $P$.
+
+  *Dilworth's theorem:* Maximum _antichain_ size (4) = Minimum number of _disjoint chains_ (4). #YES
+]
+
+== Proof of Dilworth's Theorem
+
+#proof[
+  Let $pair(P, leq)$ be a finite poset.
+  Let $alpha$ denote the maximum size of an antichain in $P$, and let $beta$ denote the minimum number of chains needed to cover $P$.
+  We prove $alpha = beta$ by showing $alpha <= beta$ and $alpha >= beta$.
+
+  *Easy part ($alpha <= beta$):*
+  Suppose $P$ can be partitioned into $k$ chains $C_1, dots, C_k$.
+  Let $A$ be any antichain in $P$.
+  Since elements in an antichain are pairwise incomparable, each chain contains at most one element of $A$.
+  Therefore $abs(A) <= k$.
+  Taking the maximum over all antichains gives $alpha <= k$.
+  Since this holds for any chain partition, we have $alpha <= beta$.
+  #h(1fr) $qed$
+
+  #colbreak()
+
+  *Hard part ($alpha >= beta$):*
+  Let $A subset.eq P$ be a maximal antichain of size $alpha$.
+
+  We construct a chain partition of $P$ of size $alpha$ as follows:
+  - Initialize $cal(C) := emptyset$.
+  - While $P != emptyset$:
+    + Choose a maximal element $x in P$ (no element above $x$ in the remaining poset).
+    + Build a chain $C$ ending at $x$:
+      - Start with $C := { x }$.
+      - Repeatedly add a maximal _predecessor_ element $y in P setminus C$ such that $y < "current bottom of" C$.
+    + Add $C$ to $cal(C)$ and remove all elements of $C$ from $P$.
+
+  By construction:
+  - Each $C in cal(C)$ is a chain (elements are added only below the current bottom).
+  - Chains in $cal(C)$ cover all elements of $P$.
+  - Each chain contains exactly one element of the maximal antichain $A$, so $abs(cal(C)) = alpha$.
+
+  Therefore $P$ can be covered by $alpha$ chains, giving $beta <= alpha$.
+]
+
+== Summary: Orders
+
+#Block(color: orange)[
+  *Orders* provide structured ways to compare and rank elements:
+  - _Preorders:_ Basic comparison (reflexive, transitive)
+  - _Partial orders:_ Add antisymmetry for unique comparisons
+  - _Total orders:_ Every pair of elements is comparable
+
+  *Visualization:* Hasse diagrams clearly show structure and hierarchy by omitting redundant transitive edges, revealing _chains_ (ordered sequences) and _antichains_ (incomparable elements).
+]
+
+#Block(color: teal)[
+  *Applications:* Task scheduling • Git version control • Database indexing • Type hierarchies • Boolean algebra • Concurrent systems • Build systems (dependency resolution) • Social networks • File system permissions • Web page ranking • Package managers • Distributed systems
+]
+
+
+= Lattices
+#focus-slide(
+  epigraph: [Order is the shape upon which beauty depends.],
+  epigraph-author: "Pearl S. Buck",
+  scholars: (
+    (
+      name: "Alfred Tarski",
+      image: image("assets/Alfred_Tarski.jpg"),
+    ),
+    (
+      name: "Garrett Birkhoff",
+      image: image("assets/Garrett_Birkhoff.jpg"),
+    ),
+    (
+      name: "Dana Scott",
+      image: image("assets/Dana_Scott.jpg"),
+    ),
+    (
+      name: "Emmy Noether",
+      image: image("assets/Emmy_Noether.jpg"),
+    ),
+    (
+      name: "Marshall Stone",
+      image: image("assets/Marshall_Stone.jpg"),
+    ),
+  ),
+)
+
+== Upper and Lower Bounds
+
+// Upper bound
+#definition[
+  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
+]
+
+// Lower bound
+#definition[
+  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
+]
+
+#example[
+  In $pair(RR, <=)$ for interval $C = (0;1)$:
+  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
+  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
+  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
+]
+
+== Examples of Bounds
+
+#example[
+  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
+  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
+  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
+  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
+  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
+]
+
+#example[
+  In divisibility poset for $C = {4,6}$:
+  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
+  - *Lower bounds:* common divisors, i.e., ${1, 2}$
+  - *Least upper bound:* $12 = "lcm"(4,6)$
+  - *Greatest lower bound:* $2 = "gcd"(4,6)$
+]
+
+== Suprema and Infima
+
+// Supremum
+#definition[
+  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
+
+  #note[
+    If it exists, the least upper bound is _unique_.
+  ]
+]
+
+// Infimum
+#definition[
+  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
+
+  #note[
+    If it exists, the greatest lower bound is _unique_.
+  ]
+]
+
+#example[
+  $pair(RR, <=)$:
+  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
+  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
+]
+
+== Examples of Suprema and Infima
+
+#example[
+  $pair(power(A), subset.eq)$:
+  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
+  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
+  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
+  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
+]
+
+#example[
+  Divisibility on $NN^+$:
+  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
+  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
+  - $sup {6, 10} = 30$
+  - $inf {6, 10} = 2$
+]
+
+== Lattices
+
+// Upper semilattice
+#definition[
+  A poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a join (supremum) is called an _upper semilattice_ (or _join-semilattice_) and denoted $pair(S, Join)$.
+]
+
+// Lower semilattice
+#definition[
+  A poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a meet (infimum) is called a _lower semilattice_ (or _meet-semilattice_) and denoted $pair(S, Meet)$.
+]
+
+// Lattice
+#definition[
+  A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
+]
+
+// == Examples of Lattices
+//
+// #example[Type Systems and Subtyping][
+//   Types form a lattice under the subtyping relation $subset.eq$:
+//   - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
+//   - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
+//   - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
+//   - $sup{#`number`, #`string`} = #`number | string`$ (union types)
+// ]
+//
+// #example[Access Control and Security Lattices][
+//   Permissions form a lattice under the "includes" relation:
+//   - $sup{"read", "write"} = "read-write"$ (union of capabilities)
+//   - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
+//   - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
+//   - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
+// ]
+//
+// #example[Program Analysis and Abstract Interpretation][
+//   Abstract values form lattices for static analysis:
+//   - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
+//   - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
+//   - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
+// ]
+
+== Why Lattices?
+
+#Block(color: yellow)[
+  *Why study lattices?*
+  Whenever you have:
+  - Elements that can be _compared_ (ordered)
+  - Ways to _combine_ elements (join, meet)
+  - Consistent behavior under combination
+
+  ...you likely have a lattice!
+  This structure appears in programming languages, databases, security systems, logic circuits, and many other areas of computer science and mathematics.
+]
+
+== Properties of Lattices
+
+#definition[
+  A lattice is _bounded_ if it has a greatest element $top$ and a least element $bot$.
+]
+
+#definition[
+  A lattice is _distributive_ if $x Meet (y Join z) = (x Meet y) Join (x Meet z)$ (and dually).
+]
+
+#definition[
+  A lattice is _modular_ if $x leq z$ implies $x Join (y Meet z) = (x Join y) Meet z$.
+
+  #note[
+    Distributive $=>$ modular.
+  ]
+]
+
+#example[Powerset Lattice][
+  $pair(power(A), subset.eq)$ is a bounded distributive lattice with $Join = union$, $Meet = intersect$, $top = A$, $bot = emptyset$.
+
+  #place(right)[
+    #box(
+      radius: 5pt,
+      clip: true,
+      stroke: 1pt + blue.darken(20%),
+      image("assets/base.jpg", height: 2.5cm),
+    )
+  ]
+
+  *Why this matters:*
+  This is the foundation of set-based reasoning in:
+  - Database theory (relational algebra)
+  - Formal specification languages (Z, B-method)
+  - Model checking and verification
+]
+
+== Examples of Lattices
+
+// #example[
+//   Subspaces of a vector space (ordered by inclusion) form a modular (not always distributive) lattice.
+
+//   *Application:* Linear algebra, quantum mechanics (state spaces), signal processing (subspace methods).
+// ]
+
+#example[Divisibility Lattice][
+  For positive integers, $a leq b$ iff $a$ divides $b$.
+  - *Join (LCM):* $6 Join 10 = "lcm"(6,10) = 30$
+  - *Meet (GCD):* $6 Meet 10 = "gcd"(6,10) = 2$
+  - *Bottom element:* $1$ (divides everything)
+  - *No top element:* No integer is divisible by all others
+
+  *Applications:*
+  - Number theory and cryptography (RSA key generation)
+  - Computer algebra systems (polynomial GCD algorithms)
+  - Scheduling problems (finding common time periods)
+]
+
+#pagebreak()
+
+#example[File System Permissions][
+  Unix file permissions form a lattice under inclusion:
+  - Elements: Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
+  - Order: $P_1 leq P_2$ if $P_1 subset.eq P_2$ (fewer permissions $=>$ more restrictive)
+  - Join: Union of permissions (less restrictive)
+    - For example: ${"read"} Join {"execute"} = {"read", "execute"}$
+  - Meet: Intersection of permissions (more restrictive)
+    - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
+]
+// TODO: visualize
+
+#pagebreak()
+
+#example[Partition Lattice][
+  All partitions of a set $S$, ordered by refinement.
+  - $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
+  - Join: Finest common coarsening
+    - For example: $(1 2 | 3) Join (1 | 2 3) = (1 2 3)$
+  - Meet: Coarsest common refinement
+    - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
+  - Applications: Clustering, database normalization
+]
+// TODO: visualize
+
+#v(1fr)
+#Block(color: blue)[
+  Lattices aren't just abstract algebra --- they appear everywhere in computer science and mathematics.
+
+  The _join_ and _meet_ operations capture fundamental patterns of _combination_ and _interaction_.
+]
+#v(1fr)
+
+== Why Lattices Matter: Information Security Levels
+
+#place(top + right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: 16pt,
+    edge-stroke: 1pt + navy,
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 2pt,
+    blob((0, 0), [Public], tint: green, name: <public>),
+    edge("-}>"),
+    blob((0, -1), [Internal], tint: yellow, name: <internal>),
+    edge("-}>"),
+    blob((0, -2), [Confidential], tint: orange, name: <confidential>),
+    edge("-}>"),
+    blob((0, -3), [Secret], tint: red, name: <secret>),
+    edge("-}>"),
+    blob((0, -4), [Top Secret], tint: purple, name: <top-secret>),
+  )
+]
+
+#example[
+  In computer security, information has _classification levels_ forming a lattice:
+
+  - Elements: ${"Public", "Internal", "Confidential", "Secret", "Top Secret"}$
+  - Order: $"Public" leq "Internal" leq "Confidential" leq "Secret" leq "Top Secret"$
+  - Join ($Join$): Higher classification needed to combine information
+  - Meet ($Meet$): Lower classification that both pieces can be declassified to
+
+  For instance:
+  - $"Internal" Join "Confidential" = "Confidential"$ (combination needs higher level)
+  - $"Secret" Meet "Confidential" = "Confidential"$ (both can be declassified to this level)
+]
+
+== Why Lattices Matter: Type Systems
+
+#place(top + right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (2em, 1.5em),
+    edge-stroke: 1pt + blue,
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 3pt,
+    node-fill: blue.lighten(90%),
+    node-stroke: 0.8pt + blue,
+
+    // Top level
+    node((1, 0), [`any`], name: <any>),
+
+    // Second level
+    node((0, 1), [`number`], name: <number>),
+    node((2, 1), [`string`], name: <string>),
+
+    // Third level
+    node((-0.5, 2), [`int`], name: <int>),
+    node((0.5, 2), [`float`], name: <float>),
+
+    // Bottom level
+    node((0, 3), [`never`], name: <never>),
+
+    // Edges (subtype relations)
+    edge(<int>, <number>, "-}>"),
+    edge(<float>, <number>, "-}>"),
+    edge(<number>, <any>, "-}>"),
+    edge(<string>, <any>, "-}>"),
+    edge(<never>, <int>, "-}>"),
+    edge(<never>, <float>, "-}>"),
+  )
+
+  #block[
+    #set align(left)
+    #set text(size: 0.9em)
+    *Type Lattice*
+    - Arrows show subtype relation $subtype$
+    - Join: Move up to common parent
+    - Meet: Move down to common child
+  ]
+]
+
+In programming language theory, _types_ form lattices.
+
+```typescript
+let x: int = 42;
+let y: string = "hello";
+let z = condition ? x : y;
+// z has type: int ∨ string = any
+```
+
+*Subtyping Lattice:*
+- Order: $#`int` subtype #`number` subtype #`any`$, ~$#`string` subtype #`any`$
+- Join ($Join$): Most general common supertype (union type)
+  - For example: $#`int` Join #`string` = #`any`$
+- Meet ($Meet$): Most specific common subtype (intersection type)
+  - Let $A = #`{ name: string }`$
+  - Let $B = #`{ age: int }`$
+  - Then $A Meet B = #`{ name: string, age: int }`$
+
+== Why Lattices Matter: Program Analysis
+
+TODO
+
+*Control Flow Analysis:*
+- Elements: Sets of possible program states
+- Order: Subset inclusion ($subset.eq$)
+- Join: Union of possible states (at merge points)
+- Meet: Intersection of guaranteed properties
+
+== Why Lattices Matter: Database Query Optimization
+
+#example[
+  _Query execution plans_ form a lattice:
+
+  - Elements: Different ways to execute a query
+  - Order: "Plan A $leq$ Plan B" if A is more efficient than B
+  - Join: Combine optimization strategies
+  - Meet: Find common optimizations
+
+  This structure helps database optimizers systematically explore the space of possible query plans.
+]
+
+== Why Lattices Matter: Concept Hierarchies and Ontologies
+
+#example[
+  Knowledge representation uses _concept lattices_.
+
+  For example, consider a biological taxonomy:
+  #block[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1em, 2em),
+      node-shape: fletcher.shapes.rect,
+      node-fill: luma(240),
+      node-stroke: 0.5pt,
+      edge-stroke: 1pt,
+      node((.5, 0), [Animal], name: <animal>),
+      node((0, 1), [Mammal], name: <mammal>),
+      node((1, 1), [Bird], name: <bird>),
+      node((0, 2), [Dog], name: <dog>),
+      node((1, 2), [Eagle], name: <eagle>),
+      edge(<mammal>, <animal>, "-}>"),
+      edge(<bird>, <animal>, "-}>"),
+      edge(<dog>, <mammal>, "-}>"),
+      edge(<eagle>, <bird>, "-}>"),
+    )
+  ]
+
+  - Elements: Biological concepts (e.g., Animal, Mammal, Dog)
+  - Order: "Concept A $leq$ Concept B" if A is a more specific type of B, e.g., "Dog $leq$ Mammal"
+  - Join: Most specific common ancestor, e.g., "Mammal $Join$ Bird $=$ Animal"
+  - Meet: Most general common descendant, e.g., "Bird $Meet$ Eagle $=$ Eagle"
+]
+
+== Why Lattices Matter: Distributed Systems and Causality
+
+#example[
+  In distributed systems, _events_ form a lattice _under causality_:
+
+  - Elements: System events with vector timestamps
+  - Order: "Event A $leq$ Event B" if A causally precedes B
+  - Join: Latest information from both events
+  - Meet: Common causal history
+
+  This structure is crucial for:
+  - Consistent distributed databases
+  - Version control systems (Git DAG)
+  - Blockchain consensus algorithms
+]
+
+== Why Lattices Matter: Logic and Boolean Reasoning
+
+#example[
+  _Propositional formulas_ form lattices:
+
+  - Elements: Boolean formulas over variables
+  - Order: $phi leq psi$ if $phi$ implies $psi$ (semantic entailment)
+  - Join: Disjunction ($or$) --- weaker condition
+  - Meet: Conjunction ($and$) --- stronger condition
+
+  Special case: _Boolean algebra_ $(True, False, or, and, not)$ used in:
+  - Digital circuit design
+  - Database query languages (SQL WHERE clauses)
+  - Search engines (Boolean search)
+]
+
+
+= Well Orders
+#focus-slide()
+
+== Well-Ordered Sets
+
+#definition[
+  A poset $pair(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
+]
+
+#note[
+  A well-ordered set is automatically a _total order_ (linear order) since comparability follows from the well-ordering property.
+]
+
+#example[
+  The natural numbers $NN = {0, 1, 2, 3, dots}$ with the usual order $leq$ form a well-ordered set:
+  - Any non-empty subset has a smallest element.
+  - For instance, the subset ${5, 17, 23, 100}$ has least element $5$.
+  - Even infinite subsets like ${2, 4, 6, 8, dots}$ (even numbers) have a least element ($2$).
+]
+
+#example[
+  The integers $ZZ$ with the usual order are _not_ well-ordered:
+  - The subset ${-1, -2, -3, dots}$ (negative integers) has no least element.
+  - Any infinite descending sequence has no minimum.
+]
+
+== Examples of Well-Ordered Sets
+
+// TODO: check/refine
+#example[
+  _Lexicographic order_ on finite strings over an alphabet is well-ordered:
+  - Given any non-empty set of strings, there is always a lexicographically smallest one.
+  - For example, in ${"cat", "dog", "apple", "zebra"}$, the least element is "$"apple"$".
+
+  // TODO: add another example with set of "all" finite strings: {b, ab, aab, aaab, ...} has no least element
+
+  // TODO: fix this incorrect (or unclear) example...
+  // For infinite $omega$-strings, lexicographic order is _not_ well-ordered:
+  // - The set of all infinite binary strings has no least element.
+  // - For example, the subset of strings starting with "1" has no least element.
+]
+
+// TODO: add more lex orders (e.g. shortlex)
+
+// TODO: add more examples of well-ordered sets
+
+== Well-Ordered Induction
+
+TODO
+
+== Well-Founded Relations
+
+#definition[
+  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
+]
+
+// TODO: add example with (NN, leq)
+
+#note[
+  _Well-founded_ $!=$ _well-ordered_:
+  - Well-ordered requires a _least_ element (unique minimum)
+  - Well-founded only requires _minimal_ elements (no element below them)
+  - Every well-ordered set is well-founded, but not vice versa
+]
+
+== Examples of Well-Founded Relations
+
+#example[
+  Consider the _proper subset_ relation $subset$ on finite sets.
+  Let $M = {emptyset, {a}, {b}, {a,b}}$.
+  // with $A subset B$ meaning "$A$ is a proper subset of $B$", i.e. $A subset.eq B$, but $A != B$.
+
+  *Well-founded:* #YES Every subset of $M$ has minimal elements.
+  - _Example:_ The subset ${{a}, {b}, {a,b}}$ has minimal elements ${a}$ and ${b}$
+    - Neither ${a} subset {b}$ nor ${b} subset {a}$ (they're incomparable)
+    - Both are minimal since no set in the subset is a proper subset of them
+
+  *Well-ordered:* #NO Some subsets lack a unique least element.
+  - _Same example:_ ${{a}, {b}, {a,b}}$ has no "$subset$-least" element
+    - For "$subset$-least", we'd need a set $L$ such that $L subset X$ for all other $X$
+    - But ${a} subset.not {b}$ and ${b} subset.not {a}$, so neither can be least
+    - No single set is a proper subset of all others in this collection
+
+  #Block(color: yellow)[
+    *Key insight:* Well-founded $!=$ well-ordered:
+    - _Multiple minimal_ elements are allowed in well-founded relations.
+    - Well-ordered relations require a _unique_ least element in every subset.
+  ]
+]
+
+// #pagebreak()
+//
+// TODO: fix this BROKEN example
+//
+// #example[Comparing $pair(NN, leq)$ vs $pair(NN, >=)$][
+//   Same set, different relations show how direction affects properties:
+
+//   *$pair(NN, leq)$ --- standard "less than or equal":*
+//   - *Well-ordered:* #YES Every subset has a least (smallest) element.
+//   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
+//   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
+
+//   *$pair(NN, >=)$ --- "greater than or equal":*
+//   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
+//     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
+//     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
+//   - *Well-founded:* #NO Has infinite descending chains like $10 >= 9 >= 8 >= dots$
+
+//   #Block(color: yellow)[
+//     *Key insight:* The same mathematical structure can be well-ordered under one relation but not under its "reverse"!
+//   ]
+// ]
+
+#pagebreak()
+
+#example[
+  The _divisibility_ relation $pair(NN^+, |)$ is well-founded:
+  - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
+  - For example, in ${6, 12, 18, 4, 8}$:
+    - $4$ is minimal because no other number in the set divides $4$
+    - $6$ is minimal because no other number in the set divides $6$
+    - Note: $6$ divides both $12$ and $18$, but that doesn't affect minimality
+  - In ${2, 4, 8, 16}$: only $2$ is minimal (it divides all others, but nothing else divides it)
+]
+
+#pagebreak()
+
+#example[
+  Consider the relation _"properly contains"_ ($supset$) on finite sets.
+
+  Let $S = {{1}, {2}, {1,2}, {1,2,3}}$.
+
+  *Well-founded:* #YES Every subset has minimal elements.
+  - The subset ${{1}, {2}, {1,2,3}}$ has minimal elements ${1}$ and ${2}$
+    - Neither ${1} supset {2}$ nor ${2} supset {1}$ (they're incomparable)
+    - ${1,2,3} supset {1}$ and ${1,2,3} supset {2}$, but they remain minimal in this subset
+  - Any collection always has sets that contain no others in that collection
+]
+
+#pagebreak()
+
+#example[
+  _Program termination analysis_ uses well-founded relations:
+  - Define a measure that decreases with each recursive call
+  - If the measure forms a well-founded order, the program terminates
+  - Example: factorial function decreases argument from $n$ to $n-1$
+]
+// TODO: add Dafny example
+
+== Well-Founded Induction
+
+TODO
+
+== Induced Strict Order
+
+#definition[
+  Given a partial order $leq$, the _induced strict order_ $lt$ is defined as:
+  $
+    x lt y "iff" (x leq y "and" x != y)
+  $
+]
+
+#note[
+  Given a poset $pair(S, leq)$, we can use $lt$ to denote its associated strict order.
+]
+
+#note[
+  $gt$ is the converse of $lt$, so we can write $b > a$ instead of $a < b$.
+]
+
+#note[
+  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $pair(S, leq)$.
+]
+
+== Descending Chain Condition
+
+#definition[
+  A poset $pair(S, leq)$ is said to satisfy the _descending chain condition (DCC)_ if no strict descending sequence $x_1 > x_2 > x_3 > dots$ of elements of $S$ exists.
+
+  Equivalently, every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually stabilizes.
+
+  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
+]
+
+#note[
+  The term "_sequence_" does not mean we must list all elements consequently or uniquely.
+  It simply means we have a function from $NN$ to $S$.
+  Elements can repeat, and we can skip elements in $S$.
+  However, when we say "_descending sequence_," we mean that each new element is less than the previous one.
+]
+
+#example[
+  The natural numbers $pair(NN, leq)$ satisfy DCC:
+  - Since natural numbers are bounded below by $0$, infinite descent is impossible.
+  - Any (weakly) descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize.
+  - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
+]
+
+== Well-Founded Posets
+
+#definition[
+  A poset $pair(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
+
+  In other words, every non-empty subset of $S$ has $lt$-minimal elements.
+]
+
+// #note[
+//   A relation $R$ is called _Artinian_ if it is well-founded (equivalently, satisfies DCC when $R$ is a partial order).
+//   This is the "dual" concept to Noetherian relations.
+// ]
+
+== DCC and Well-Foundedness
+
+#theorem[
+  For any poset $pair(S, leq)$, the following are _equivalent_:
+  + $pair(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
+  + $pair(S, leq)$ satisfies _DCC_ (no infinite descending chains)
+]
+
+#note[
+  Here, we again use "$lt$" (and its converse "$gt$") to denote the strict order induced by "$leq$".
+]
+
+#proof[($==>$)][
+  *Well-founded implies DCC*
+
+  Suppose $pair(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
+  Consider the set $T = {x_0, x_1, x_2, dots}$.
+  Since $pair(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
+  But then $x_k > x_(k+1)$, contradicting the minimality of $x_k$.
+]
+
+#proof[($<==$)][
+  *DCC implies well-founded*
+
+  Suppose $pair(S, leq)$ satisfies DCC.
+  Let $T subset.eq S$ be any non-empty subset.
+  If $T$ had no minimal elements, then for any $x_0 in T$, there would exist $x_1 in T$ with $x_0 > x_1$.
+  Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
+]
+
+== Ascending Chain Condition
+
+#definition[
+  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if no strict ascending sequence $x_1 < x_2 < x_3 < dots$ of elements of $S$ exists.
+
+  Equivalently, every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually stabilizes.
+]
+
+#example[
+  $pair(NN, leq)$ does _not_ satisfy ACC since infinite ascending chains like $2 < 3 < 5 < 7 < dots$ exist.
+]
+
+#example[
+  Consider the poset $pair(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
+  - *ACC fails:* #NO \
+    The ascending chain $emptyset subset.eq {1} subset.eq {1,2} subset.eq {1,2,3} subset.eq dots$ never stabilizes.
+  - *DCC fails:* #NO \
+    The descending chain $NN supset.eq (NN without {1}) supset.eq (NN without {1,2}) supset.eq dots$ never stabilizes.
+]
+
+== Noetherian Relations
+
+#definition[
+  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if the converse relation $R^(-1)$ is well-founded.
+
+  Equivalently, $R subset.eq M^2$ is Noetherian if every non-empty subset of $M$ has $R$-maximal elements.
+]
+
+#note[
+  This means no infinite ascending chains $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$ exist.
+]
+
+#example[
+  The usual order $leq$ on $NN$ is NOT Noetherian:
+  - We can construct infinite ascending chains like $1 < 2 < 3 < 4 < dots$
+  - However, its converse $geq$ would be well-founded (DCC holds for $leq$)
+]
+
+#pagebreak()
+
+#example[
+  In ring theory, a _Noetherian ring_ has the property that every ascending chain of ideals stabilizes:
+  $I_1 subset.eq I_2 subset.eq I_3 subset.eq dots$ eventually becomes constant.
+]
+
+#example[
+  In rewriting systems and lambda calculus:
+  - A _reduction relation_ $to$ is Noetherian if all reduction sequences terminate
+  - For example, $beta$-reduction in simply typed lambda calculus is Noetherian
+  - This guarantees that programs always terminate (no infinite loops)
+]
+
+== Noetherian Relations and ACC
+
+#theorem[
+  For any poset $pair(S, leq)$, the following are equivalent:
+  - $pair(S, leq)$ is Noetherian (coverse well-founded)
+  - $pair(S, leq)$ satisfies ACC (no infinite ascending chains)
+]
+
+#proof[
+  By definition, $pair(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
+  By the earlier theorem, this is equivalent to $geq$ satisfying DCC, which is exactly the same as $leq$ satisfying ACC.
+]
+
+== Relationships Between Chain Conditions
+
+#theorem[
+  For a poset $pair(S, leq)$:
+  - *DCC* $iff$ the relation $leq$ is well-founded $iff$ no infinite descending chains.
+  - *ACC* $iff$ the _dual_ relation $geq$ is well-founded $iff$ no infinite ascending chains.
+]
+
+#proof[
+  The first equivalence (DCC $iff$ well-founded) was proved earlier.
+  The second equivalence for ACC follows by applying the same reasoning to the dual relation $geq$.
+]
+
+== Examples of ACC and DCC
+
+#example[
+  Consider the poset $pair(power({1,2,3}), subset.eq)$ of subsets ordered by inclusion:
+  - *ACC holds:* #YES
+    Any ascending chain $A_1 subset.eq A_2 subset.eq A_3 subset.eq dots$ must stabilize since we can't keep adding elements indefinitely.
+  - *DCC holds:* #YES
+    Any descending chain $B_1 supset.eq B_2 supset.eq B_3 supset.eq dots$ must stabilize since we can't keep removing elements indefinitely.
+  - Both conditions hold because the set is finite.
+]
+
+#example[
+  In the natural numbers $pair(NN, leq)$:
+  - *DCC holds:* #YES
+    Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
+  - *ACC fails:* #NO
+    The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
+  - This shows that DCC and ACC are independent conditions.
+]
+
+#examples[Applications in algebra][
+  - *Noetherian rings:* Satisfy ACC for ideals (every ascending chain of ideals stabilizes).
+  - *Artinian rings:* Satisfy DCC for ideals (every descending chain of ideals stabilizes).
+  - *Principal ideal domains:* Both conditions hold, enabling algorithms like Euclidean division.
+]
+
+== Connections and Applications
+
+#theorem[Well-ordering principle][
+  Every well-ordered set admits _transfinite induction_: to prove $P(x)$ for all $x in S$, it suffices to show:
+  $forall x in S. thin (forall y < x. thin P(y)) imply P(x)$
+]
+
+#example[
+  _Mathematical induction_ on $NN$ is a special case of transfinite induction using the well-ordering of natural numbers.
+]
+
+#examples[Computer science applications][
+  - *Termination analysis:* Prove programs terminate by finding well-founded measures.
+  - *Parsing algorithms:* Use well-founded recursion on parse tree depth.
+  - *Datalog evaluation:* Stratified negation ensures termination via well-founded semantics.
+  - *Model checking:* Well-founded relations ensure finite state exploration.
+]
+
+#Block(color: blue)[
+  These concepts provide the mathematical foundation for reasoning about _termination_, _finiteness_, and _algorithmic complexity_ in computer science and mathematics.
+]
+
+== Summary: Well-Founded Relations and Chain Conditions
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Concept*], [*Characterization*], [*Key Property*]),
+    [*Well-ordered*], [Every subset has unique least element], [Stronger than well-founded],
+    [*Well-founded*], [Every subset has minimal elements], [DCC: no infinite descent],
+    [*DCC (Artinian)*], [No infinite descending chains], [Same as well-founded],
+    [*ACC (Noetherian)*], [No infinite ascending chains], [Dual of DCC],
+  )
+]
+
+#Block[
+  *Key relationships:*
+  - Well-ordered $==>$ Total order (least elements imply comparability)
+  - Well-ordered $==>$ Well-founded (every least element is minimal)
+  - Well-founded $<=>$ Noetherian $<=>$ DCC (equivalent characterizations)
+  - ACC is independent of DCC (a structure can satisfy one but not the other)
+  - These concepts are fundamental for proving termination and finiteness properties
 ]
 
 
@@ -4245,1343 +5579,6 @@ Most mathematicians today take a pragmatic approach:
 #Block(color: teal)[
   *What we learned:*
   Mathematics does not have a unique "reality" --- different axiom systems can give different answers to the same question, yet remain equally consistent.
-]
-
-
-= Closures of Relations
-#focus-slide()
-
-== Closures of Relations
-
-#definition[
-  The _closure_ of a relation $R subset.eq M^2$ with respect to a property $P$ is the smallest relation containing $R$ that satisfies property $P$.
-  - _Reflexive closure_: $r(R) = R union I_M$ (smallest reflexive relation containing $R$)
-  - _Symmetric closure_: $s(R) = R union R^(-1)$ (smallest symmetric relation containing $R$)
-  - _Transitive closure_: $t(R)$ is the smallest transitive relation containing $R$
-]
-
-#Block(color: yellow)[
-  *Key insight:* closure operations _add the minimum_ number of pairs needed to achieve the desired property, while preserving all existing pairs in the original relation.
-]
-
-// TODO: visualize the extension of sets as blobs
-
-== Reflexive Closure
-
-#definition[
-  The _reflexive closure_ $r(R)$ of a relation $R subset.eq M^2$ is defined as:
-  $
-    r(R) = R union I_M = R union { pair(x, x) | x in M }
-  $
-]
-
-#example[
-  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 2), pair(2, 3)}$.
-
-  The identity relation is $I_M = {pair(1, 1), pair(2, 2), pair(3, 3)}$.
-
-  The reflexive closure is:
-  $
-    r(R) = R union I_M = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)}
-  $
-]
-
-== Symmetric Closure
-
-#definition[
-  The _symmetric closure_ $s(R)$ of a relation $R subset.eq M^2$ is defined as:
-  $
-    s(R) = R union R^(-1) = R union { pair(b, a) | pair(a, b) in R }
-  $
-]
-
-#example[
-  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$.
-
-  The converse relation is:
-  $
-    R^(-1) = {pair(2, 1), pair(3, 2), pair(3, 1)}
-  $
-
-  The symmetric closure is:
-  $
-    s(R) = R union R^(-1) = {pair(1, 2), pair(2, 3), pair(1, 3), pair(2, 1), pair(3, 2), pair(3, 1)}
-  $
-]
-
-== Transitive Closure
-
-#definition[
-  The _transitive closure_ $t(R)$ of a relation $R subset.eq M^2$ is the smallest transitive relation containing $R$.
-]
-
-#theorem[
-  The transitive closure can be computed as:
-  $
-    t(R) = union.big_(n=1)^infinity R^n
-    quad "where" R^n = underbrace(R compose R compose dots compose R, n "times")
-  $
-
-  For finite sets with $abs(M) = k$, we have $t(R) = R^1 union R^2 union dots union R^k$.
-]
-
-#proof[
-  Since $M$ is finite, any path of length greater than $abs(M)$ must repeat vertices, so we only need to consider paths of length at most $abs(M)$.
-]
-
-#pagebreak()
-
-#example[Step-by-step transitive closure computation][
-  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
-
-  #table(
-    columns: 3,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-    table.header([*Step*], [*Description*], [*Result*]),
-    [*Step 1:*],
-    [
-      Compute $R^1 = R$.
-    ],
-    [$R^1 = {pair(1, 2), pair(2, 3)}$],
-
-    [*Step 2:*],
-    [
-      Compute $R^2 = R compose R$.
-
-      For $pair(a, c) in R^2$, we need $exists b: pair(a, b) in R and pair(b, c) in R$.
-      - $pair(1, 3) in R^2$ since $pair(1, 2) in R$ and $pair(2, 3) in R$
-    ],
-    [$R^2 = {pair(1, 3)}$],
-
-    [*Step 3:*],
-    [
-      Compute $R^3 = R^2 compose R$.
-
-      For $pair(a, c) in R^3$, we need $exists b: pair(a, b) in R^2 and pair(b, c) in R$.
-      - No such pairs exist.
-    ],
-    [$R^3 = emptyset$],
-
-    [*Step 4:*],
-    [
-      Form the transitive closure:
-      $t(R) = R^1 union R^2 union R^3$.
-    ],
-    [$t(R) = {pair(1, 2), pair(2, 3), pair(1, 3)}$],
-  )
-]
-
-// #example[Transitive closure of a more complex relation][
-//   Let $M = {a, b, c, d}$ and $R = {pair(a, b), pair(b, c), pair(c, d), pair(a, d)}$.
-
-//   *Computing powers:*
-
-//   $R^1 = {pair(a, b), pair(b, c), pair(c, d), pair(a, d)}$
-
-//   $R^2$: Look for 2-step paths
-//   - $pair(a, c)$: $a to b to c$
-//   - $pair(b, d)$: $b to c to d$
-
-//   $R^2 = {pair(a, c), pair(b, d)}$
-
-//   $R^3$: Look for 3-step paths
-//   - $pair(a, d)$: $a to b to c to d$ (but $pair(a, d)$ already in $R^1$)
-
-//   $R^3 = emptyset$ (no new pairs)
-
-//   *Transitive closure:*
-//   $ t(R) = R^1 union R^2 = {pair(a, b), pair(b, c), pair(c, d), pair(a, d), pair(a, c), pair(b, d)} $
-// ]
-
-== Combined Closures
-
-#definition[
-  Closure operations can be combined to create relations with multiple properties:
-  - _Reflexive-symmetric closure_: $r s(R) = s r(R) = r(R) union s(R) union I_M$
-  - _Reflexive-transitive closure_: $r t(R) = t r(R) = t(R) union I_M$
-  - _Equivalence closure_: $r s t(R) = t s r(R)$ (reflexive, symmetric, and transitive)
-]
-
-#theorem[Commutativity of closure operations][
-  - Reflexive and symmetric closures commute: $r s(R) = s r(R)$
-  - Reflexive and transitive closures commute: $r t(R) = t r(R)$
-  - All three closures commute when applied together
-]
-
-== Reflexive-Symmetric Closure
-
-#example[Reflexive-symmetric closure][
-  Let $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3)}$.
-
-  *Method 1:* Apply reflexive closure first, then symmetric:
-  $
-    r(R) = & R union I_M \
-         = & {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} \
-           & slash.double s r(R) = r(R) union r(R)^(-1) \
-         = & {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3), pair(2, 1), pair(3, 2)}
-  $
-
-  *Method 2:* Apply symmetric closure first, then reflexive:
-  $
-    s(R) = & R union R^(-1) \
-         = & {pair(1, 2), pair(2, 3), pair(2, 1), pair(3, 2)} \
-           & slash.double r s(R) = s(R) union I_M \
-         = & {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)}
-  $
-
-  Both methods yield the same result, confirming _commutativity_.
-]
-
-== Reflexive-Transitive Closure
-
-#example[Reflexive-transitive closure (Kleene star)][
-  Let $M = {a, b, c}$ and $R = {pair(a, b), pair(b, c)}$.
-
-  First, compute the transitive closure:
-  $ t(R) = R union R^2 = {pair(a, b), pair(b, c), pair(a, c)} $
-
-  Then add reflexivity:
-  $ r t(R) = t(R) union I_M = {pair(a, a), pair(a, b), pair(a, c), pair(b, b), pair(b, c), pair(c, c)} $
-
-  This is equivalent to the _reflexive-transitive closure_, often denoted $R^*$ (Kleene star).
-]
-
-== Equivalence Closure
-
-#example[
-  Let $M = {1, 2, 3, 4}$ and $R = {pair(1, 2), pair(3, 4)}$.
-
-  *Step 1:* Make it reflexive:
-  $
-    r(R) = R union I_M
-    = {pair(1, 1), pair(1, 2), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 4)}
-  $
-
-  *Step 2:* Make it symmetric:
-  $
-    s r(R) = & r(R) union r(R)^(-1) \
-           = & {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(3, 3), pair(3, 4), pair(4, 3), pair(4, 4)}
-  $
-
-  *Step 3:* Make it transitive:
-  - Since $pair(1, 2), pair(2, 1) in s r(R)$, transitivity requires $pair(1, 1)$ (already present).
-  - Since $pair(3, 4), pair(4, 3) in s r(R)$, transitivity requires $pair(3, 3)$ (already present).
-
-  $ t s r(R) = s r(R) quad "(no new pairs needed)" $
-
-  The equivalence closure partitions $M$ into equivalence classes ${1, 2}$ and ${3, 4}$.
-]
-
-#pagebreak()
-
-#example[
-  Let $M = {a, b, c, d, e}$ and $R = {pair(a, b), pair(b, c), pair(d, e)}$.
-
-  *Reflexive closure:*
-  $ r(R) = R union {pair(a, a), pair(b, b), pair(c, c), pair(d, d), pair(e, e)} $
-
-  *Symmetric closure:*
-  $ s r(R) = r(R) union {pair(b, a), pair(c, b), pair(e, d)} $
-
-  *Transitive closure:*
-  We need to add pairs to ensure transitivity:
-  - From $pair(a, b), pair(b, c)$: add $pair(a, c)$
-  - From $pair(c, b), pair(b, a)$: add $pair(c, a)$
-
-  $ t s r(R) = s r(R) union {pair(a, c), pair(c, a)} $
-
-  The final equivalence relation has equivalence classes ${a, b, c}$ and ${d, e}$.
-]
-
-== Warshall's Algorithm for Transitive Closure
-
-#definition[
-  _Warshall's algorithm_ computes the transitive closure of a relation using dynamic programming with time complexity $O(n^3)$.
-
-  Given an $n times n$ matrix $M = matrel(R)$ representing relation $R$:
-  ```
-  M = matrix(R)
-  for k = 1 to n:
-      for i = 1 to n:
-          for j = 1 to n:
-              M[i,j] := M[i,j] OR (M[i,k] AND M[k,j])
-  ```
-]
-
-#example[Warshall's algorithm step-by-step][
-  Let $X = {1, 2, 3, 4}$ and relation $R$ with matrix $matrel(R)$:
-  $
-    M^((0)) = matrel(R) = natrix.bnat(
-      0, 1, 0, 0;
-      0, 0, 1, 0;
-      0, 0, 0, 1;
-      1, 0, 0, 0
-    )
-  $
-
-  #block(sticky: true)[
-    *Iteration $k = 1$:* Consider paths through vertex 1.
-  ]
-  $
-    M^((1)) = natrix.bnat(
-      0, 1, 0, 0;
-      0, 0, 1, 0;
-      0, 0, 0, 1;
-      1, 1, 0, 0
-    )
-  $
-  (Added $pair(4, 2)$: path $4 to 1 to 2$)
-
-  #block(sticky: true)[
-    *Iteration $k = 2$:* Consider paths through vertex 2.
-  ]
-  $
-    M^((2)) = natrix.bnat(
-      0, 1, 1, 0;
-      0, 0, 1, 0;
-      0, 0, 0, 1;
-      1, 1, 1, 0
-    )
-  $
-  (Added $pair(1, 3)$ and $pair(4, 3)$)
-
-  #block(sticky: true)[
-    *Iteration $k = 3$:* Consider paths through vertex 3.]
-  $
-    M^((3)) = natrix.bnat(
-      0, 1, 1, 1;
-      0, 0, 1, 1;
-      0, 0, 0, 1;
-      1, 1, 1, 1
-    )
-  $
-  (Added $pair(1, 4)$, $pair(2, 4)$, and $pair(4, 4)$)
-
-  #block(sticky: true)[
-    *Iteration $k = 4$:* Consider paths through vertex 4.
-  ]
-  $
-    M^((4)) = natrix.bnat(
-      1, 1, 1, 1;
-      1, 1, 1, 1;
-      1, 1, 1, 1;
-      1, 1, 1, 1
-    )
-  $
-  (The relation becomes universal since there's a cycle)
-]
-
-#pagebreak()
-
-#example[Reachability in graphs][
-
-  Consider a social network where $R$ represents "follows" relationships:
-  $
-    R = {pair(A, B), pair(B, C), pair(C, D), pair(A, E)}
-  $
-
-  Using Warshall's algorithm, we can determine _indirect influence_:
-  - $A$ can influence $C$ through $B$
-  - $A$ can influence $D$ through $B$ and $C$
-  - The transitive closure shows all possible influence paths
-
-  This is crucial for analyzing _information propagation_ in social networks, _dependency resolution_ in software systems, and _route planning_ in transportation networks.
-]
-
-== Properties of Closures
-
-#theorem[
-  For any relation $R subset.eq M^2$:
-  + _Idempotency_: $r(r(R)) = r(R)$, $s(s(R)) = s(R)$, $t(t(R)) = t(R)$
-  + _Monotonicity_: If $R_1 subset.eq R_2$, then $r(R_1) subset.eq r(R_2)$, etc.
-  + _Extensivity_: $R subset.eq r(R)$, $R subset.eq s(R)$, $R subset.eq t(R)$
-  + _Distributivity over union_: $r(R_1 union R_2) = r(R_1) union r(R_2)$, etc.
-]
-
-== Examples of Closures
-
-#example[Closure of the empty relation][
-
-  Let $M = {a, b, c}$ and $R = emptyset$.
-
-  - $r(emptyset) = emptyset union I_M = I_M = {pair(a, a), pair(b, b), pair(c, c)}$
-  - $s(emptyset) = emptyset union emptyset^(-1) = emptyset$
-  - $t(emptyset) = emptyset$ (since $emptyset^n = emptyset$ for all $n >= 1$)
-
-  The reflexive closure of the _empty_ relation is the _identity_ relation.
-]
-
-#pagebreak()
-
-#example[Closure of the universal relation][
-
-  Let $M = {1, 2}$ and $R = M times M = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2)}$.
-
-  - $r(R) = R union I_M = R$ (since $I_M subset.eq R$)
-  - $s(R) = R union R^(-1) = R$ (since $R = R^(-1)$ for universal relation)
-  - $t(R) = R$ (universal relation is already transitive)
-
-  The universal relation is its own closure under all three operations.
-]
-
-#pagebreak()
-
-#example[Non-commutativity with other operations][
-
-  Let $M = {1, 2, 3}$, $R_1 = {pair(1, 2)}$, and $R_2 = {pair(2, 3)}$.
-
-  Consider $t(R_1 union R_2)$ vs $t(R_1) union t(R_2)$:
-  - $R_1 union R_2 = {pair(1, 2), pair(2, 3)}$
-  - $t(R_1 union R_2) = {pair(1, 2), pair(2, 3), pair(1, 3)}$
-  - $t(R_1) = {pair(1, 2)}$
-  - $t(R_2) = {pair(2, 3)}$
-  - $t(R_1) union t(R_2) = {pair(1, 2), pair(2, 3)}$
-
-  Since $pair(1, 3) in t(R_1 union R_2)$ but $pair(1, 3) notin t(R_1) union t(R_2)$, we have:
-  $ t(R_1 union R_2) != t(R_1) union t(R_2) $
-
-  However: $t(R_1) union t(R_2) subset.eq t(R_1 union R_2)$ always holds.
-]
-
-#pagebreak()
-
-#example[Computing equivalence classes from closure][
-
-  Let $M = {1, 2, 3, 4, 5}$ and $R = {pair(1, 3), pair(2, 4), pair(4, 5)}$.
-
-  The equivalence closure gives us:
-  $
-    "equiv"(R) = & r s t(R) \
-               = & {pair(1, 1), pair(1, 3), pair(2, 2), pair(2, 4), pair(2, 5), pair(3, 1), \
-                 & quad pair(3, 3), pair(4, 2), pair(4, 4), pair(4, 5), pair(5, 2), pair(5, 4), pair(5, 5)}
-  $
-
-  The equivalence classes are:
-  - $eqclass(1, R) = {1, 3}$
-  - $eqclass(2, R) = {2, 4, 5}$
-
-  This partitions $M$ into ${{1, 3}, {2, 4, 5}}$.
-]
-
-#pagebreak()
-
-#example[
-  Consider a directed acyclic graph (DAG) where $R$ represents _"depends on"_ relationships:
-  $
-    R = {pair(A, B), pair(B, C), pair(A, D), pair(D, C)}
-  $
-  #place(right)[
-    #cetz.canvas({
-      import cetz.draw: *
-      let w = 1
-      let h = 1
-      let hgap = 1
-      let vgap = 1.6
-      let draw-rect((x, y), name) = {
-        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
-        content(name, [#name], anchor: "center")
-      }
-      let draw-edge(from, to) = {
-        line(from, to, stroke: 1pt, mark: (end: "stealth", fill: black))
-      }
-      draw-rect((0, 0), "A")
-      draw-rect((-hgap, vgap), "B")
-      draw-rect((hgap, vgap), "D")
-      draw-rect((0, 2 * vgap), "C")
-      draw-edge("A", "B")
-      draw-edge("A", "D")
-      draw-edge("B", "C")
-      draw-edge("D", "C")
-    })
-  ]
-  For example, component $A$ depends on $B$ and $D$, which both depend on $C$.
-
-  The transitive closure reveals all _indirect_ dependencies:
-  $ t(R) = R union {pair(A, C)} $
-
-  This shows that component $A$ _transitively depends_ on $C$ through two paths:
-  - $A to B to C$
-  - $A to D to C$
-
-  In software build systems, this helps determine the complete dependency tree.
-]
-
-== Applications of Relation Closures
-
-#example[*Graph Reachability*][
-  In directed graphs, transitive closure determines reachability:
-  - *Social networks:* Finding mutual connections and influence propagation
-  - *Transportation:* Computing all possible routes between cities
-  - *Citation networks:* Tracking intellectual dependencies in research
-  - *Web crawling:* Discovering linked pages and site connectivity
-]
-
-#example[*Program Analysis*][
-  Closure operations enable sophisticated program optimization:
-  - *Data flow analysis:* Transitive closure computes variable dependencies
-  - *Call graph construction:* Finding all possible function invocations
-  - *Alias analysis:* Determining which pointers may reference the same memory
-  - *Taint analysis:* Tracking information flow and potential vulnerabilities
-]
-
-#example[*Database Systems*][
-  Relational databases extensively use closure computations:
-  - *Recursive queries:* Computing organizational hierarchies and bill-of-materials
-  - *Join optimization:* Finding efficient query execution plans
-  - *Integrity constraints:* Ensuring referential consistency across tables
-  - *Data lineage:* Tracking data provenance and transformation chains
-]
-
-== Complexity of Closure Computations
-
-#theorem[
-  For a relation $R$ on $n$ elements, the time complexities are:
-  - *Reflexive closure:* $O(n)$ time
-  - *Symmetric closure:* $O(|R|)$ time
-  - *Transitive closure:* $O(n^3)$ time (Floyd-Warshall algorithm)
-]
-
-#note[
-  The transitive closure bottleneck drives many algorithmic design decisions in practice.
-]
-
-// TODO: mention FO+TC = NL, FO+LFP = P, etc.
-
-
-= Lattices
-#focus-slide(
-  epigraph: [Order is the shape upon which beauty depends.],
-  epigraph-author: "Pearl S. Buck",
-  scholars: (
-    (
-      name: "Alfred Tarski",
-      image: image("assets/Alfred_Tarski.jpg"),
-    ),
-    (
-      name: "Garrett Birkhoff",
-      image: image("assets/Garrett_Birkhoff.jpg"),
-    ),
-    (
-      name: "Dana Scott",
-      image: image("assets/Dana_Scott.jpg"),
-    ),
-    (
-      name: "Emmy Noether",
-      image: image("assets/Emmy_Noether.jpg"),
-    ),
-    (
-      name: "Marshall Stone",
-      image: image("assets/Marshall_Stone.jpg"),
-    ),
-  ),
-)
-
-== Upper and Lower Bounds
-
-// Upper bound
-#definition[
-  In a poset $pair(S, leq)$, an element $u in S$ is called an _upper bound_ of a subset $C subset.eq S$ if it is greater than or equal to every element in $C$, i.e., for all $x in C$, $x leq u$.
-]
-
-// Lower bound
-#definition[
-  In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
-]
-
-#example[
-  In $pair(RR, <=)$ for interval $C = (0;1)$:
-  - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
-  - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
-  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
-]
-
-== Examples of Bounds
-
-#example[
-  In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
-  - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
-  - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
-  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
-  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
-]
-
-#example[
-  In divisibility poset for $C = {4,6}$:
-  - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
-  - *Lower bounds:* common divisors, i.e., ${1, 2}$
-  - *Least upper bound:* $12 = "lcm"(4,6)$
-  - *Greatest lower bound:* $2 = "gcd"(4,6)$
-]
-
-== Suprema and Infima
-
-// Supremum
-#definition[
-  In a poset $pair(S, leq)$, the _supremum_ (or _join_) of a subset $C subset.eq S$, denoted $sup(C)$ or $Join.big C$, is the _least upper bound_ of $C$, i.e., an upper bound $u in S$ s.t. for any other upper bound $v in S$, $u leq v$.
-
-  #note[
-    If it exists, the least upper bound is _unique_.
-  ]
-]
-
-// Infimum
-#definition[
-  In a poset $pair(S, leq)$, the _infimum_ (or _meet_) of a subset $C subset.eq S$, denoted $inf(C)$ or $Meet.big C$, is the _greatest lower bound_ of $C$, i.e., a lower bound $l in S$ s.t. for any other lower bound $m in S$, $m leq l$.
-
-  #note[
-    If it exists, the greatest lower bound is _unique_.
-  ]
-]
-
-#example[
-  $pair(RR, <=)$:
-  - For finite subsets, $sup(C) = max(C)$ and $inf(C) = min(C)$.
-  - For infinite subsets: $sup((0;1)) = 1$ and $inf((0;1)) = 0$ (even though $0, 1 notin (0;1)$)
-]
-
-== Examples of Suprema and Infima
-
-#example[
-  $pair(power(A), subset.eq)$:
-  - *Join:* $sup(cal(C)) = union.big_(X in cal(C)) X$ (union of all sets)
-  - *Meet:* $inf(cal(C)) = inter.big_(X in cal(C)) X$ (intersection of all sets)
-  - $sup {{1,2}, {2,3}, {3,4}} = {1,2,3,4}$
-  - $inf {{1,2,3}, {2,3,4}, {3,4,5}} = {3}$
-]
-
-#example[
-  Divisibility on $NN^+$:
-  - *Join:* $sup{a, b} = "lcm"(a, b)$ (least common multiple)
-  - *Meet:* $inf{a, b} = "gcd"(a, b)$ (greatest common divisor)
-  - $sup {6, 10} = 30$
-  - $inf {6, 10} = 2$
-]
-
-== Lattices
-
-// Upper semilattice
-#definition[
-  A poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a join (supremum) is called an _upper semilattice_ (or _join-semilattice_) and denoted $pair(S, Join)$.
-]
-
-// Lower semilattice
-#definition[
-  A poset $pair(S, leq)$ where every non-empty finite subset $C subset.eq S$ has a meet (infimum) is called a _lower semilattice_ (or _meet-semilattice_) and denoted $pair(S, Meet)$.
-]
-
-// Lattice
-#definition[
-  A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
-]
-
-// == Examples of Lattices
-//
-// #example[Type Systems and Subtyping][
-//   Types form a lattice under the subtyping relation $subset.eq$:
-//   - $sup{#`int`, #`string`} = #`Object`$ or $#`any`$ (most general common supertype)
-//   - $inf{#`Number`, #`int`} = #`int`$ (most specific common subtype)
-//   - $sup{#`List<int>`, #`List<string>`} = #`List<Object>`$ (covariant generics)
-//   - $sup{#`number`, #`string`} = #`number | string`$ (union types)
-// ]
-//
-// #example[Access Control and Security Lattices][
-//   Permissions form a lattice under the "includes" relation:
-//   - $sup{"read", "write"} = "read-write"$ (union of capabilities)
-//   - $inf{"admin", "read-write"} = "read-write"$ (intersection of permissions)
-//   - $sup{"secret", "top-secret"} = "top-secret"$ (higher classification level)
-//   - Bell-LaPadula model: $inf{"confidential", "public"} = "public"$ (lower bound for security)
-// ]
-//
-// #example[Program Analysis and Abstract Interpretation][
-//   Abstract values form lattices for static analysis:
-//   - Value ranges: $sup{[1;5], [3;8]} = [1;8]$ (conservative approximation via union)
-//   - Interval analysis: $inf{[−infinity;10], [5;infinity]} = [5;10]$ (intersection of constraints)
-//   - Points-to analysis: $sup{{"x" maps "a"}, {"x" maps "b"}} = {"x" maps {"a","b"}}$ (may-alias)
-// ]
-
-== Why Lattices?
-
-#Block(color: yellow)[
-  *Why study lattices?*
-  Whenever you have:
-  - Elements that can be _compared_ (ordered)
-  - Ways to _combine_ elements (join, meet)
-  - Consistent behavior under combination
-
-  ...you likely have a lattice!
-  This structure appears in programming languages, databases, security systems, logic circuits, and many other areas of computer science and mathematics.
-]
-
-== Properties of Lattices
-
-#definition[
-  A lattice is _bounded_ if it has a greatest element $top$ and a least element $bot$.
-]
-
-#definition[
-  A lattice is _distributive_ if $x Meet (y Join z) = (x Meet y) Join (x Meet z)$ (and dually).
-]
-
-#definition[
-  A lattice is _modular_ if $x leq z$ implies $x Join (y Meet z) = (x Join y) Meet z$.
-
-  #note[
-    Distributive $=>$ modular.
-  ]
-]
-
-#example[Powerset Lattice][
-  $pair(power(A), subset.eq)$ is a bounded distributive lattice with $Join = union$, $Meet = intersect$, $top = A$, $bot = emptyset$.
-
-  #place(right)[
-    #box(
-      radius: 5pt,
-      clip: true,
-      stroke: 1pt + blue.darken(20%),
-      image("assets/base.jpg", height: 2.5cm),
-    )
-  ]
-
-  *Why this matters:*
-  This is the foundation of set-based reasoning in:
-  - Database theory (relational algebra)
-  - Formal specification languages (Z, B-method)
-  - Model checking and verification
-]
-
-== Examples of Lattices
-
-// #example[
-//   Subspaces of a vector space (ordered by inclusion) form a modular (not always distributive) lattice.
-
-//   *Application:* Linear algebra, quantum mechanics (state spaces), signal processing (subspace methods).
-// ]
-
-#example[Divisibility Lattice][
-  For positive integers, $a leq b$ iff $a$ divides $b$.
-  - *Join (LCM):* $6 Join 10 = "lcm"(6,10) = 30$
-  - *Meet (GCD):* $6 Meet 10 = "gcd"(6,10) = 2$
-  - *Bottom element:* $1$ (divides everything)
-  - *No top element:* No integer is divisible by all others
-
-  *Applications:*
-  - Number theory and cryptography (RSA key generation)
-  - Computer algebra systems (polynomial GCD algorithms)
-  - Scheduling problems (finding common time periods)
-]
-
-#pagebreak()
-
-#example[File System Permissions][
-  Unix file permissions form a lattice under inclusion:
-  - Elements: Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
-  - Order: $P_1 leq P_2$ if $P_1 subset.eq P_2$ (fewer permissions $=>$ more restrictive)
-  - Join: Union of permissions (less restrictive)
-    - For example: ${"read"} Join {"execute"} = {"read", "execute"}$
-  - Meet: Intersection of permissions (more restrictive)
-    - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
-]
-// TODO: visualize
-
-#pagebreak()
-
-#example[Partition Lattice][
-  All partitions of a set $S$, ordered by refinement.
-  - $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
-  - Join: Finest common coarsening
-    - For example: $(1 2 | 3) Join (1 | 2 3) = (1 2 3)$
-  - Meet: Coarsest common refinement
-    - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
-  - Applications: Clustering, database normalization
-]
-// TODO: visualize
-
-#v(1fr)
-#Block(color: blue)[
-  Lattices aren't just abstract algebra --- they appear everywhere in computer science and mathematics.
-
-  The _join_ and _meet_ operations capture fundamental patterns of _combination_ and _interaction_.
-]
-#v(1fr)
-
-== Why Lattices Matter: Information Security Levels
-
-#place(top + right)[
-  #import fletcher: diagram, edge, node
-  #diagram(
-    spacing: 16pt,
-    edge-stroke: 1pt + navy,
-    node-shape: fletcher.shapes.rect,
-    node-corner-radius: 2pt,
-    blob((0, 0), [Public], tint: green, name: <public>),
-    edge("-}>"),
-    blob((0, -1), [Internal], tint: yellow, name: <internal>),
-    edge("-}>"),
-    blob((0, -2), [Confidential], tint: orange, name: <confidential>),
-    edge("-}>"),
-    blob((0, -3), [Secret], tint: red, name: <secret>),
-    edge("-}>"),
-    blob((0, -4), [Top Secret], tint: purple, name: <top-secret>),
-  )
-]
-
-#example[
-  In computer security, information has _classification levels_ forming a lattice:
-
-  - Elements: ${"Public", "Internal", "Confidential", "Secret", "Top Secret"}$
-  - Order: $"Public" leq "Internal" leq "Confidential" leq "Secret" leq "Top Secret"$
-  - Join ($Join$): Higher classification needed to combine information
-  - Meet ($Meet$): Lower classification that both pieces can be declassified to
-
-  For instance:
-  - $"Internal" Join "Confidential" = "Confidential"$ (combination needs higher level)
-  - $"Secret" Meet "Confidential" = "Confidential"$ (both can be declassified to this level)
-]
-
-== Why Lattices Matter: Type Systems
-
-#place(top + right)[
-  #import fletcher: diagram, edge, node
-  #diagram(
-    spacing: (2em, 1.5em),
-    edge-stroke: 1pt + blue,
-    node-shape: fletcher.shapes.rect,
-    node-corner-radius: 3pt,
-    node-fill: blue.lighten(90%),
-    node-stroke: 0.8pt + blue,
-
-    // Top level
-    node((1, 0), [`any`], name: <any>),
-
-    // Second level
-    node((0, 1), [`number`], name: <number>),
-    node((2, 1), [`string`], name: <string>),
-
-    // Third level
-    node((-0.5, 2), [`int`], name: <int>),
-    node((0.5, 2), [`float`], name: <float>),
-
-    // Bottom level
-    node((0, 3), [`never`], name: <never>),
-
-    // Edges (subtype relations)
-    edge(<int>, <number>, "-}>"),
-    edge(<float>, <number>, "-}>"),
-    edge(<number>, <any>, "-}>"),
-    edge(<string>, <any>, "-}>"),
-    edge(<never>, <int>, "-}>"),
-    edge(<never>, <float>, "-}>"),
-  )
-
-  #block[
-    #set align(left)
-    #set text(size: 0.9em)
-    *Type Lattice*
-    - Arrows show subtype relation $subtype$
-    - Join: Move up to common parent
-    - Meet: Move down to common child
-  ]
-]
-
-In programming language theory, _types_ form lattices.
-
-```typescript
-let x: int = 42;
-let y: string = "hello";
-let z = condition ? x : y;
-// z has type: int ∨ string = any
-```
-
-*Subtyping Lattice:*
-- Order: $#`int` subtype #`number` subtype #`any`$, ~$#`string` subtype #`any`$
-- Join ($Join$): Most general common supertype (union type)
-  - For example: $#`int` Join #`string` = #`any`$
-- Meet ($Meet$): Most specific common subtype (intersection type)
-  - Let $A = #`{ name: string }`$
-  - Let $B = #`{ age: int }`$
-  - Then $A Meet B = #`{ name: string, age: int }`$
-
-== Why Lattices Matter: Program Analysis
-
-TODO
-
-*Control Flow Analysis:*
-- Elements: Sets of possible program states
-- Order: Subset inclusion ($subset.eq$)
-- Join: Union of possible states (at merge points)
-- Meet: Intersection of guaranteed properties
-
-== Why Lattices Matter: Database Query Optimization
-
-#example[
-  _Query execution plans_ form a lattice:
-
-  - Elements: Different ways to execute a query
-  - Order: "Plan A $leq$ Plan B" if A is more efficient than B
-  - Join: Combine optimization strategies
-  - Meet: Find common optimizations
-
-  This structure helps database optimizers systematically explore the space of possible query plans.
-]
-
-== Why Lattices Matter: Concept Hierarchies and Ontologies
-
-#example[
-  Knowledge representation uses _concept lattices_.
-
-  For example, consider a biological taxonomy:
-  #block[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (1em, 2em),
-      node-shape: fletcher.shapes.rect,
-      node-fill: luma(240),
-      node-stroke: 0.5pt,
-      edge-stroke: 1pt,
-      node((.5, 0), [Animal], name: <animal>),
-      node((0, 1), [Mammal], name: <mammal>),
-      node((1, 1), [Bird], name: <bird>),
-      node((0, 2), [Dog], name: <dog>),
-      node((1, 2), [Eagle], name: <eagle>),
-      edge(<mammal>, <animal>, "-}>"),
-      edge(<bird>, <animal>, "-}>"),
-      edge(<dog>, <mammal>, "-}>"),
-      edge(<eagle>, <bird>, "-}>"),
-    )
-  ]
-
-  - Elements: Biological concepts (e.g., Animal, Mammal, Dog)
-  - Order: "Concept A $leq$ Concept B" if A is a more specific type of B, e.g., "Dog $leq$ Mammal"
-  - Join: Most specific common ancestor, e.g., "Mammal $Join$ Bird $=$ Animal"
-  - Meet: Most general common descendant, e.g., "Bird $Meet$ Eagle $=$ Eagle"
-]
-
-== Why Lattices Matter: Distributed Systems and Causality
-
-#example[
-  In distributed systems, _events_ form a lattice _under causality_:
-
-  - Elements: System events with vector timestamps
-  - Order: "Event A $leq$ Event B" if A causally precedes B
-  - Join: Latest information from both events
-  - Meet: Common causal history
-
-  This structure is crucial for:
-  - Consistent distributed databases
-  - Version control systems (Git DAG)
-  - Blockchain consensus algorithms
-]
-
-== Why Lattices Matter: Logic and Boolean Reasoning
-
-#example[
-  _Propositional formulas_ form lattices:
-
-  - Elements: Boolean formulas over variables
-  - Order: $phi leq psi$ if $phi$ implies $psi$ (semantic entailment)
-  - Join: Disjunction ($or$) --- weaker condition
-  - Meet: Conjunction ($and$) --- stronger condition
-
-  Special case: _Boolean algebra_ $(True, False, or, and, not)$ used in:
-  - Digital circuit design
-  - Database query languages (SQL WHERE clauses)
-  - Search engines (Boolean search)
-]
-
-
-= Well Orders
-#focus-slide()
-
-== Well-Ordered Sets
-
-#definition[
-  A poset $pair(M, leq)$ is _well-ordered_ if every non-empty subset $S subset.eq M$ has a _least element_.
-
-  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
-]
-
-#note[
-  A well-ordered set is automatically a _total order_ (linear order) since comparability follows from the well-ordering property.
-]
-
-#example[
-  The natural numbers $NN = {0, 1, 2, 3, dots}$ with the usual order $leq$ form a well-ordered set:
-  - Any non-empty subset has a smallest element.
-  - For instance, the subset ${5, 17, 23, 100}$ has least element $5$.
-  - Even infinite subsets like ${2, 4, 6, 8, dots}$ (even numbers) have a least element ($2$).
-]
-
-#example[
-  The integers $ZZ$ with the usual order are _not_ well-ordered:
-  - The subset ${-1, -2, -3, dots}$ (negative integers) has no least element.
-  - Any infinite descending sequence has no minimum.
-]
-
-== Examples of Well-Ordered Sets
-
-// TODO: check/refine
-#example[
-  _Lexicographic order_ on finite strings over an alphabet is well-ordered:
-  - Given any non-empty set of strings, there is always a lexicographically smallest one.
-  - For example, in ${"cat", "dog", "apple", "zebra"}$, the least element is "$"apple"$".
-
-  // TODO: add another example with set of "all" finite strings: {b, ab, aab, aaab, ...} has no least element
-
-  // TODO: fix this incorrect (or unclear) example...
-  // For infinite $omega$-strings, lexicographic order is _not_ well-ordered:
-  // - The set of all infinite binary strings has no least element.
-  // - For example, the subset of strings starting with "1" has no least element.
-]
-
-// TODO: add more lex orders (e.g. shortlex)
-
-// TODO: add more examples of well-ordered sets
-
-== Well-Ordered Induction
-
-TODO
-
-== Well-Founded Relations
-
-#definition[
-  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
-
-  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
-]
-
-// TODO: add example with (NN, leq)
-
-#note[
-  _Well-founded_ $!=$ _well-ordered_:
-  - Well-ordered requires a _least_ element (unique minimum)
-  - Well-founded only requires _minimal_ elements (no element below them)
-  - Every well-ordered set is well-founded, but not vice versa
-]
-
-== Examples of Well-Founded Relations
-
-#example[
-  Consider the _proper subset_ relation $subset$ on finite sets.
-  Let $M = {emptyset, {a}, {b}, {a,b}}$.
-  // with $A subset B$ meaning "$A$ is a proper subset of $B$", i.e. $A subset.eq B$, but $A != B$.
-
-  *Well-founded:* #YES Every subset of $M$ has minimal elements.
-  - _Example:_ The subset ${{a}, {b}, {a,b}}$ has minimal elements ${a}$ and ${b}$
-    - Neither ${a} subset {b}$ nor ${b} subset {a}$ (they're incomparable)
-    - Both are minimal since no set in the subset is a proper subset of them
-
-  *Well-ordered:* #NO Some subsets lack a unique least element.
-  - _Same example:_ ${{a}, {b}, {a,b}}$ has no "$subset$-least" element
-    - For "$subset$-least", we'd need a set $L$ such that $L subset X$ for all other $X$
-    - But ${a} subset.not {b}$ and ${b} subset.not {a}$, so neither can be least
-    - No single set is a proper subset of all others in this collection
-
-  #Block(color: yellow)[
-    *Key insight:* Well-founded $!=$ well-ordered:
-    - _Multiple minimal_ elements are allowed in well-founded relations.
-    - Well-ordered relations require a _unique_ least element in every subset.
-  ]
-]
-
-// #pagebreak()
-//
-// TODO: fix this BROKEN example
-//
-// #example[Comparing $pair(NN, leq)$ vs $pair(NN, >=)$][
-//   Same set, different relations show how direction affects properties:
-
-//   *$pair(NN, leq)$ --- standard "less than or equal":*
-//   - *Well-ordered:* #YES Every subset has a least (smallest) element.
-//   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
-//   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
-
-//   *$pair(NN, >=)$ --- "greater than or equal":*
-//   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
-//     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
-//     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
-//   - *Well-founded:* #NO Has infinite descending chains like $10 >= 9 >= 8 >= dots$
-
-//   #Block(color: yellow)[
-//     *Key insight:* The same mathematical structure can be well-ordered under one relation but not under its "reverse"!
-//   ]
-// ]
-
-#pagebreak()
-
-#example[
-  The _divisibility_ relation $pair(NN^+, |)$ is well-founded:
-  - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
-  - For example, in ${6, 12, 18, 4, 8}$:
-    - $4$ is minimal because no other number in the set divides $4$
-    - $6$ is minimal because no other number in the set divides $6$
-    - Note: $6$ divides both $12$ and $18$, but that doesn't affect minimality
-  - In ${2, 4, 8, 16}$: only $2$ is minimal (it divides all others, but nothing else divides it)
-]
-
-#pagebreak()
-
-#example[
-  Consider the relation _"properly contains"_ ($supset$) on finite sets.
-
-  Let $S = {{1}, {2}, {1,2}, {1,2,3}}$.
-
-  *Well-founded:* #YES Every subset has minimal elements.
-  - The subset ${{1}, {2}, {1,2,3}}$ has minimal elements ${1}$ and ${2}$
-    - Neither ${1} supset {2}$ nor ${2} supset {1}$ (they're incomparable)
-    - ${1,2,3} supset {1}$ and ${1,2,3} supset {2}$, but they remain minimal in this subset
-  - Any collection always has sets that contain no others in that collection
-]
-
-#pagebreak()
-
-#example[
-  _Program termination analysis_ uses well-founded relations:
-  - Define a measure that decreases with each recursive call
-  - If the measure forms a well-founded order, the program terminates
-  - Example: factorial function decreases argument from $n$ to $n-1$
-]
-// TODO: add Dafny example
-
-== Well-Founded Induction
-
-TODO
-
-== Induced Strict Order
-
-#definition[
-  Given a partial order $leq$, the _induced strict order_ $lt$ is defined as:
-  $
-    x lt y "iff" (x leq y "and" x != y)
-  $
-]
-
-#note[
-  Given a poset $pair(S, leq)$, we can use $lt$ to denote its associated strict order.
-]
-
-#note[
-  $gt$ is the converse of $lt$, so we can write $b > a$ instead of $a < b$.
-]
-
-#note[
-  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $pair(S, leq)$.
-]
-
-== Descending Chain Condition
-
-#definition[
-  A poset $pair(S, leq)$ is said to satisfy the _descending chain condition (DCC)_ if no strict descending sequence $x_1 > x_2 > x_3 > dots$ of elements of $S$ exists.
-
-  Equivalently, every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually stabilizes.
-
-  Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
-]
-
-#note[
-  The term "_sequence_" does not mean we must list all elements consequently or uniquely.
-  It simply means we have a function from $NN$ to $S$.
-  Elements can repeat, and we can skip elements in $S$.
-  However, when we say "_descending sequence_," we mean that each new element is less than the previous one.
-]
-
-#example[
-  The natural numbers $pair(NN, leq)$ satisfy DCC:
-  - Since natural numbers are bounded below by $0$, infinite descent is impossible.
-  - Any (weakly) descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize.
-  - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
-]
-
-== Well-Founded Posets
-
-#definition[
-  A poset $pair(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
-
-  In other words, every non-empty subset of $S$ has $lt$-minimal elements.
-]
-
-// #note[
-//   A relation $R$ is called _Artinian_ if it is well-founded (equivalently, satisfies DCC when $R$ is a partial order).
-//   This is the "dual" concept to Noetherian relations.
-// ]
-
-== DCC and Well-Foundedness
-
-#theorem[
-  For any poset $pair(S, leq)$, the following are _equivalent_:
-  + $pair(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
-  + $pair(S, leq)$ satisfies _DCC_ (no infinite descending chains)
-]
-
-#note[
-  Here, we again use "$lt$" (and its converse "$gt$") to denote the strict order induced by "$leq$".
-]
-
-#proof[($==>$)][
-  *Well-founded implies DCC*
-
-  Suppose $pair(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
-  Consider the set $T = {x_0, x_1, x_2, dots}$.
-  Since $pair(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
-  But then $x_k > x_(k+1)$, contradicting the minimality of $x_k$.
-]
-
-#proof[($<==$)][
-  *DCC implies well-founded*
-
-  Suppose $pair(S, leq)$ satisfies DCC.
-  Let $T subset.eq S$ be any non-empty subset.
-  If $T$ had no minimal elements, then for any $x_0 in T$, there would exist $x_1 in T$ with $x_0 > x_1$.
-  Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
-]
-
-== Ascending Chain Condition
-
-#definition[
-  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if no strict ascending sequence $x_1 < x_2 < x_3 < dots$ of elements of $S$ exists.
-
-  Equivalently, every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually stabilizes.
-]
-
-#example[
-  $pair(NN, leq)$ does _not_ satisfy ACC since infinite ascending chains like $2 < 3 < 5 < 7 < dots$ exist.
-]
-
-#example[
-  Consider the poset $pair(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
-  - *ACC fails:* #NO \
-    The ascending chain $emptyset subset.eq {1} subset.eq {1,2} subset.eq {1,2,3} subset.eq dots$ never stabilizes.
-  - *DCC fails:* #NO \
-    The descending chain $NN supset.eq (NN without {1}) supset.eq (NN without {1,2}) supset.eq dots$ never stabilizes.
-]
-
-== Noetherian Relations
-
-#definition[
-  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if the converse relation $R^(-1)$ is well-founded.
-
-  Equivalently, $R subset.eq M^2$ is Noetherian if every non-empty subset of $M$ has $R$-maximal elements.
-]
-
-#note[
-  This means no infinite ascending chains $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$ exist.
-]
-
-#example[
-  The usual order $leq$ on $NN$ is NOT Noetherian:
-  - We can construct infinite ascending chains like $1 < 2 < 3 < 4 < dots$
-  - However, its converse $geq$ would be well-founded (DCC holds for $leq$)
-]
-
-#pagebreak()
-
-#example[
-  In ring theory, a _Noetherian ring_ has the property that every ascending chain of ideals stabilizes:
-  $I_1 subset.eq I_2 subset.eq I_3 subset.eq dots$ eventually becomes constant.
-]
-
-#example[
-  In rewriting systems and lambda calculus:
-  - A _reduction relation_ $to$ is Noetherian if all reduction sequences terminate
-  - For example, $beta$-reduction in simply typed lambda calculus is Noetherian
-  - This guarantees that programs always terminate (no infinite loops)
-]
-
-== Noetherian Relations and ACC
-
-#theorem[
-  For any poset $pair(S, leq)$, the following are equivalent:
-  - $pair(S, leq)$ is Noetherian (coverse well-founded)
-  - $pair(S, leq)$ satisfies ACC (no infinite ascending chains)
-]
-
-#proof[
-  By definition, $pair(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
-  By the earlier theorem, this is equivalent to $geq$ satisfying DCC, which is exactly the same as $leq$ satisfying ACC.
-]
-
-== Relationships Between Chain Conditions
-
-#theorem[
-  For a poset $pair(S, leq)$:
-  - *DCC* $iff$ the relation $leq$ is well-founded $iff$ no infinite descending chains.
-  - *ACC* $iff$ the _dual_ relation $geq$ is well-founded $iff$ no infinite ascending chains.
-]
-
-#proof[
-  The first equivalence (DCC $iff$ well-founded) was proved earlier.
-  The second equivalence for ACC follows by applying the same reasoning to the dual relation $geq$.
-]
-
-== Examples of ACC and DCC
-
-#example[
-  Consider the poset $pair(power({1,2,3}), subset.eq)$ of subsets ordered by inclusion:
-  - *ACC holds:* #YES
-    Any ascending chain $A_1 subset.eq A_2 subset.eq A_3 subset.eq dots$ must stabilize since we can't keep adding elements indefinitely.
-  - *DCC holds:* #YES
-    Any descending chain $B_1 supset.eq B_2 supset.eq B_3 supset.eq dots$ must stabilize since we can't keep removing elements indefinitely.
-  - Both conditions hold because the set is finite.
-]
-
-#example[
-  In the natural numbers $pair(NN, leq)$:
-  - *DCC holds:* #YES
-    Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
-  - *ACC fails:* #NO
-    The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
-  - This shows that DCC and ACC are independent conditions.
-]
-
-#examples[Applications in algebra][
-  - *Noetherian rings:* Satisfy ACC for ideals (every ascending chain of ideals stabilizes).
-  - *Artinian rings:* Satisfy DCC for ideals (every descending chain of ideals stabilizes).
-  - *Principal ideal domains:* Both conditions hold, enabling algorithms like Euclidean division.
-]
-
-== Connections and Applications
-
-#theorem[Well-ordering principle][
-  Every well-ordered set admits _transfinite induction_: to prove $P(x)$ for all $x in S$, it suffices to show:
-  $forall x in S. thin (forall y < x. thin P(y)) imply P(x)$
-]
-
-#example[
-  _Mathematical induction_ on $NN$ is a special case of transfinite induction using the well-ordering of natural numbers.
-]
-
-#examples[Computer science applications][
-  - *Termination analysis:* Prove programs terminate by finding well-founded measures.
-  - *Parsing algorithms:* Use well-founded recursion on parse tree depth.
-  - *Datalog evaluation:* Stratified negation ensures termination via well-founded semantics.
-  - *Model checking:* Well-founded relations ensure finite state exploration.
-]
-
-#Block(color: blue)[
-  These concepts provide the mathematical foundation for reasoning about _termination_, _finiteness_, and _algorithmic complexity_ in computer science and mathematics.
-]
-
-== Summary: Well-Founded Relations and Chain Conditions
-
-#align(center)[
-  #table(
-    columns: 3,
-    align: left,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Concept*], [*Characterization*], [*Key Property*]),
-    [*Well-ordered*], [Every subset has unique least element], [Stronger than well-founded],
-    [*Well-founded*], [Every subset has minimal elements], [DCC: no infinite descent],
-    [*DCC (Artinian)*], [No infinite descending chains], [Same as well-founded],
-    [*ACC (Noetherian)*], [No infinite ascending chains], [Dual of DCC],
-  )
-]
-
-#Block[
-  *Key relationships:*
-  - Well-ordered $==>$ Total order (least elements imply comparability)
-  - Well-ordered $==>$ Well-founded (every least element is minimal)
-  - Well-founded $<=>$ Noetherian $<=>$ DCC (equivalent characterizations)
-  - ACC is independent of DCC (a structure can satisfy one but not the other)
-  - These concepts are fundamental for proving termination and finiteness properties
 ]
 
 
