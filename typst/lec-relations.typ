@@ -4056,8 +4056,8 @@ This means: $aleph_n = beth_n$ for all $n in NN$ (and beyond).
 
   We can have:
   - $aleph_1 = beth_1$ (CH is true)
-  - $aleph_1 < beth_1$ (there are cardinals between $aleph_0$ and $2^(aleph_0)$)
-  - Even: $aleph_(100) = beth_1$ (the continuum can be made arbitrarily large!)
+  - $aleph_1 < beth_1$ (CH is false, there are cardinals between $aleph_0$ and $2^(aleph_0)$)
+  - Even: $aleph_(100) = beth_1$ (the continuum $frak(c) = beth_1$ can be made arbitrarily large!)
 ]
 
 == The Freedom of Infinity
