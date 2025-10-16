@@ -3918,7 +3918,10 @@ TODO
 
 
 = Well Orders
-#focus-slide()
+#focus-slide(
+  epigraph: [Every set can be well-ordered.],
+  epigraph-author: "Ernst Zermelo (Axiom of Choice)",
+)
 
 == Well-Ordered Sets
 
@@ -3928,48 +3931,93 @@ TODO
   Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin m leq x)$
 ]
 
+#Block(color: yellow)[
+  *The key property:* No matter how you pick elements from a well-ordered set, there's always a "first" one in any selected subset.
+
+  This is stronger than just having a minimum --- well-ordering means you can't descend infinitely!
+]
+
 #note[
-  A well-ordered set is automatically a _total order_ (linear order) since comparability follows from the well-ordering property.
+  A well-ordered set is automatically a _total order_ (any two elements are comparable).
 ]
 
-#example[
-  The natural numbers $NN = {0, 1, 2, 3, dots}$ with the usual order $leq$ form a well-ordered set:
-  - Any non-empty subset has a smallest element.
-  - For instance, the subset ${5, 17, 23, 100}$ has least element $5$.
-  - Even infinite subsets like ${2, 4, 6, 8, dots}$ (even numbers) have a least element ($2$).
+== Examples: Well-Ordered vs Not
+
+#example[The natural numbers][
+  $NN = {0, 1, 2, 3, dots}$ with $leq$ is _well-ordered_:
+  - ${5, 17, 23, 100}$ has least element $5$
+  - ${2, 4, 6, 8, dots}$ has least element $2$
+  - Even ${n in NN | n >= 1000}$ has least element $1000$
+
+  *Why this matters:* You can always find a "starting point" in any subset!
 ]
 
-#example[
-  The integers $ZZ$ with the usual order are _not_ well-ordered:
-  - The subset ${-1, -2, -3, dots}$ (negative integers) has no least element.
-  - Any infinite descending sequence has no minimum.
+#example[The integers][
+  $ZZ$ with $leq$ is _NOT well-ordered_:
+  - ${-1, -2, -3, dots}$ has no minimum
+  - $ZZ$ itself has no least element
+  - Can descend forever: $0 > -1 > -2 > -3 > dots$
+
+  *The problem:* Negative numbers allow infinite descent.
 ]
 
-== Examples of Well-Ordered Sets
-
-// TODO: check/refine
-#example[
-  _Lexicographic order_ on finite strings over an alphabet is well-ordered:
-  - Given any non-empty set of strings, there is always a lexicographically smallest one.
-  - For example, in ${"cat", "dog", "apple", "zebra"}$, the least element is "$"apple"$".
-
-  // TODO: add another example with set of "all" finite strings: {b, ab, aab, aaab, ...} has no least element
-
-  // TODO: fix this incorrect (or unclear) example...
-  // For infinite $omega$-strings, lexicographic order is _not_ well-ordered:
-  // - The set of all infinite binary strings has no least element.
-  // - For example, the subset of strings starting with "1" has no least element.
+#Block(color: blue)[
+  *Intuition:*
+  Well-ordering prevents "falling forever."
+  Every subset has a floor you can't go below.
 ]
 
-// TODO: add more lex orders (e.g. shortlex)
+== More Examples of Well-Orders
 
-// TODO: add more examples of well-ordered sets
+#example[Ordinals (preview)][
+  Ordinal numbers extend natural numbers into the transfinite:
+  - $omega$ = all natural numbers: $0, 1, 2, 3, dots$
+  - $omega + 1$ = natural numbers plus one more element "at the end"
+  - $omega + 2, omega dot 2, omega^2, omega^omega, dots$
 
-== Well-Ordered Induction
+  Each ordinal is well-ordered, and ordinals themselves are well-ordered!
+]
 
-TODO
+#example[Lexicographic order][
+  Finite strings with _shortlex order_ (shorter first, then alphabetically):
+  - $epsilon < "a" < "b" < dots < "aa" < "ab" < dots < "aaa" < dots$
+  - Any set of finite strings has a shortest, and among equals, an alphabetically first
+  - Example: ${"cat", "dog", "amoeba", "zebra"}$ has least element "$"amoeba"$"
 
-== Well-Founded Relations
+  #note[
+    _Pure_ lexicographic order (alphabetical only) is _NOT_ well-ordered:
+    - ${"b", "ab", "aab", "aaab", dots}$ has no least element -- we can always prefix more $"a"$'s!
+  ]
+]
+
+#Block(color: purple)[
+  Well-orders are perfect for defining "first," "next," and ensuring that processes terminate.
+]
+
+== Well-Founded Induction
+
+#theorem[Induction Principle for Well-Orders][
+  If $pair(W, leq)$ is well-ordered and $P$ is a property such that:
+  - For every $x in W$: if $P(y)$ holds for all $y < x$, then $P(x)$ holds
+
+  Then $P(x)$ holds for _all_ $x in W$.
+]
+
+#Block(color: blue)[
+  *Why this works:*
+  If $P$ failed somewhere, there would be a _least_ counterexample (by well-ordering).
+  But then $P$ holds for all smaller elements, so $P$ should hold at the counterexample --- contradiction!
+]
+
+#example[Application: Strong induction on $NN$][
+  Standard induction on naturals is a special case:
+  - Base: $P(0)$ holds
+  - Step: $P(0), dots, P(n) ==> P(n+1)$
+
+  This is exactly well-founded induction for $pair(NN, leq)$!
+]
+
+== Well-Founded Relations: A Weaker Notion
 
 #definition[
   A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
@@ -3977,32 +4025,33 @@ TODO
   Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
 ]
 
-// TODO: add example with (NN, leq)
-
-#note[
+#Block(color: yellow)[
   _Well-founded_ $!=$ _well-ordered_:
-  - Well-ordered requires a _least_ element (unique minimum)
-  - Well-founded only requires _minimal_ elements (no element below them)
-  - Every well-ordered set is well-founded, but not vice versa
+  - *Well-ordered:* Every subset has a _unique least_ element (global minimum)
+  - *Well-founded:* Every subset has _minimal_ elements (nothing strictly below)
+  - Every well-ordered set is well-founded, but not vice versa!
 ]
 
-== Examples of Well-Founded Relations
+// #note[
+//   Well-founded relations prevent infinite descending chains: $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$
 
-#example[
-  Consider the _proper subset_ relation $subset$ on finite sets.
-  Let $M = {emptyset, {a}, {b}, {a,b}}$.
-  // with $A subset B$ meaning "$A$ is a proper subset of $B$", i.e. $A subset.eq B$, but $A != B$.
+//   This makes them perfect for proving termination!
+// ]
 
-  *Well-founded:* #YES Every subset of $M$ has minimal elements.
-  - _Example:_ The subset ${{a}, {b}, {a,b}}$ has minimal elements ${a}$ and ${b}$
-    - Neither ${a} subset {b}$ nor ${b} subset {a}$ (they're incomparable)
-    - Both are minimal since no set in the subset is a proper subset of them
+== Example: Well-Founded but Not Well-Ordered
 
-  *Well-ordered:* #NO Some subsets lack a unique least element.
-  - _Same example:_ ${{a}, {b}, {a,b}}$ has no "$subset$-least" element
-    - For "$subset$-least", we'd need a set $L$ such that $L subset X$ for all other $X$
-    - But ${a} subset.not {b}$ and ${b} subset.not {a}$, so neither can be least
-    - No single set is a proper subset of all others in this collection
+#example[Proper subset relation][
+  Consider $subset$ on $M = {emptyset, {a}, {b}, {a,b}}$.
+
+  *Well-founded?* #YES Every subset has minimal elements.
+  - Take ${{a}, {b}, {a,b}}$:
+    - Minimals: ${a}$ and ${b}$ (nothing is properly contained in them)
+    - Note: ${a,b}$ is not minimal (${a} subset {a,b}$)
+
+  *Well-ordered?* #NO Some subsets lack a unique least.
+  - Same subset ${{a}, {b}, {a,b}}$:
+    - ${a}$ and ${b}$ are incomparable (neither contains the other)
+    - No single "smallest" set exists!
 
   #Block(color: yellow)[
     *Key insight:* Well-founded $!=$ well-ordered:
@@ -4034,52 +4083,37 @@ TODO
 //   ]
 // ]
 
-#pagebreak()
-
-#example[
-  The _divisibility_ relation $pair(NN^+, |)$ is well-founded:
-  - Every non-empty subset has minimal elements (numbers that divide no others in the subset)
-  - For example, in ${6, 12, 18, 4, 8}$:
-    - $4$ is minimal because no other number in the set divides $4$
-    - $6$ is minimal because no other number in the set divides $6$
-    - Note: $6$ divides both $12$ and $18$, but that doesn't affect minimality
-  - In ${2, 4, 8, 16}$: only $2$ is minimal (it divides all others, but nothing else divides it)
+#example[Divisibility relation][
+  $pair(NN^+, |)$ is well-founded:
+  - In ${6, 12, 18, 4, 8} subset.eq NN$:
+    - Minimals: $4$ and $6$ (no smaller divisors in the set)
+  // - Note: $6 | 12$ and $6 | 18$, but $6$ is still minimal!
+  - In ${2, 4, 8, 16} subset.eq NN$:
+    - Only minimal: $2$ (divides all others, but $1 notin$ set)
 ]
 
-#pagebreak()
+#example[Program termination][
+  Well-founded relations prove programs terminate:
+  ```python
+  def factorial(n):
+      if n == 0: return 1
+      return n * factorial(n-1)
+  ```
 
-#example[
-  Consider the relation _"properly contains"_ ($supset$) on finite sets.
+  *Termination proof:* Arguments form decreasing sequence $n > n-1 > n-2 > dots > 0$. \
+  Since $pair(NN, >)$ is well-founded, this chain must end!
 
-  Let $S = {{1}, {2}, {1,2}, {1,2,3}}$.
-
-  *Well-founded:* #YES Every subset has minimal elements.
-  - The subset ${{1}, {2}, {1,2,3}}$ has minimal elements ${1}$ and ${2}$
-    - Neither ${1} supset {2}$ nor ${2} supset {1}$ (they're incomparable)
-    - ${1,2,3} supset {1}$ and ${1,2,3} supset {2}$, but they remain minimal in this subset
-  - Any collection always has sets that contain no others in that collection
+  #Block(color: purple)[
+    Well-founded relations are the foundation (pun intended) of _termination analysis_ in Dafny, Coq, and other verification tools.
+  ]
 ]
-
-#pagebreak()
-
-#example[
-  _Program termination analysis_ uses well-founded relations:
-  - Define a measure that decreases with each recursive call
-  - If the measure forms a well-founded order, the program terminates
-  - Example: factorial function decreases argument from $n$ to $n-1$
-]
-// TODO: add Dafny example
-
-== Well-Founded Induction
-
-TODO
 
 == Induced Strict Order
 
 #definition[
   Given a partial order $leq$, the _induced strict order_ $lt$ is defined as:
   $
-    x lt y "iff" (x leq y "and" x != y)
+    x lt y quad "iff" quad (x leq y "and" x != y)
   $
 ]
 
@@ -4092,57 +4126,50 @@ TODO
 ]
 
 #note[
-  _Hereinafter_, we will freely use $lt$ and $gt$ when given any poset $pair(S, leq)$.
+  Hereinafter, we will freely use $lt$ and $gt$ when given any poset $pair(S, leq)$.
 ]
 
-== Descending Chain Condition
+#Block(color: yellow)[
+  *Why this matters:* Chains and descending/ascending sequences are naturally expressed with strict orders $lt$ and $gt$.
+]
+
+== Descending Chain Condition (DCC)
 
 #definition[
-  A poset $pair(S, leq)$ is said to satisfy the _descending chain condition (DCC)_ if no strict descending sequence $x_1 > x_2 > x_3 > dots$ of elements of $S$ exists.
+  A poset $pair(S, leq)$ satisfies the _descending chain condition (DCC)_ if there are no infinite strictly descending sequences:
+  $
+    x_1 > x_2 > x_3 > dots
+  $
 
-  Equivalently, every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually stabilizes.
+  Equivalently: every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually _stabilizes_.
 
   Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
 ]
 
-#note[
-  The term "_sequence_" does not mean we must list all elements consequently or uniquely.
-  It simply means we have a function from $NN$ to $S$.
-  Elements can repeat, and we can skip elements in $S$.
-  However, when we say "_descending sequence_," we mean that each new element is less than the previous one.
+#Block(color: blue)[
+  *Intuition:* "You can't fall forever"---every descending path eventually hits bottom.
 ]
 
-#example[
-  The natural numbers $pair(NN, leq)$ satisfy DCC:
-  - Since natural numbers are bounded below by $0$, infinite descent is impossible.
-  - Any (weakly) descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize.
-  - Eventually, some $n_k = n_(k+1) = n_(k+2) = dots$
+#example[Natural numbers][
+  $pair(NN, leq)$ satisfies DCC:
+  - Any descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize
+  - Why? Natural numbers are bounded below by $0$
+  - Example: $100 >= 50 >= 25 >= 12 >= 6 >= 3 >= 1 >= 0 >= 0 >= 0 >= dots$
+
+  Eventually you hit $0$ and can't go lower!
 ]
 
-== Well-Founded Posets
+== The Fundamental Equivalence
 
-#definition[
-  A poset $pair(S, leq)$ is _well-founded_ if its associated strict order $lt$ is a well-founded relation.
-
-  In other words, every non-empty subset of $S$ has $lt$-minimal elements.
-]
-
-// #note[
-//   A relation $R$ is called _Artinian_ if it is well-founded (equivalently, satisfies DCC when $R$ is a partial order).
-//   This is the "dual" concept to Noetherian relations.
-// ]
-
-== DCC and Well-Foundedness
-
-#theorem[
+#theorem[Well-Founded $iff$ DCC][
   For any poset $pair(S, leq)$, the following are _equivalent_:
-  + $pair(S, leq)$ is _well-founded_ (every non-empty subset has $lt$-minimal elements)
+  + $pair(S, leq)$ is _well-founded_ (every non-empty subset has minimal elements)
   + $pair(S, leq)$ satisfies _DCC_ (no infinite descending chains)
 ]
 
-#note[
-  Here, we again use "$lt$" (and its converse "$gt$") to denote the strict order induced by "$leq$".
-]
+// #Block(color: purple)[
+//   "Every subset has a floor" $iff$ "You can't fall forever"
+// ]
 
 #proof[($==>$)][
   *Well-founded implies DCC*
@@ -4162,69 +4189,74 @@ TODO
   Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
 ]
 
-== Ascending Chain Condition
+== Ascending Chain Condition (ACC)
 
 #definition[
-  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if no strict ascending sequence $x_1 < x_2 < x_3 < dots$ of elements of $S$ exists.
+  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if there are no infinite strictly ascending sequences:
+  $
+    x_1 < x_2 < x_3 < x_4 < dots
+  $
 
-  Equivalently, every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually stabilizes.
+  Equivalently: every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually _stabilizes_.
 ]
 
-#example[
-  $pair(NN, leq)$ does _not_ satisfy ACC since infinite ascending chains like $2 < 3 < 5 < 7 < dots$ exist.
+#Block(color: blue)[
+  *Intuition:* "You can't climb forever" --- every ascending path eventually reaches a ceiling.
 ]
 
-#example[
-  Consider the poset $pair(power(NN), subset.eq)$ of all subsets of natural numbers ordered by inclusion.
-  - *ACC fails:* #NO \
-    The ascending chain $emptyset subset.eq {1} subset.eq {1,2} subset.eq {1,2,3} subset.eq dots$ never stabilizes.
-  - *DCC fails:* #NO \
-    The descending chain $NN supset.eq (NN without {1}) supset.eq (NN without {1,2}) supset.eq dots$ never stabilizes.
+#example[Natural numbers][
+  $pair(NN, leq)$ does _NOT_ satisfy ACC:
+  - Can climb forever: $0 < 1 < 2 < 3 < 4 < dots$
+  - No upper bound stops the ascent!
 ]
 
-== Noetherian Relations
+#example[Powerset of naturals][
+  $pair(power(NN), subset.eq)$ satisfies _neither_ ACC nor DCC:
+  - *ACC fails:* $emptyset subset {1} subset {1,2} subset {1,2,3} subset dots$ (can climb forever)
+  - *DCC fails:* $NN supset (NN without {1}) supset (NN without {1,2}) supset dots$ (can fall forever)
+]
+
+== Noetherian Relations: The Dual Concept
 
 #definition[
-  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if the converse relation $R^(-1)$ is well-founded.
+  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if its converse $R^(-1)$ is well-founded.
 
-  Equivalently, $R subset.eq M^2$ is Noetherian if every non-empty subset of $M$ has $R$-maximal elements.
+  Equivalently: every non-empty subset has $R$-maximal elements (nothing strictly above).
 ]
 
-#note[
-  This means no infinite ascending chains $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$ exist.
+#Block(color: yellow)[
+  *Noetherian vs Well-founded:*
+  - Well-founded: prevents infinite _descent_ (DCC)
+  - Noetherian: prevents infinite _ascent_ (ACC)
+  - They're duals: flip the order!
 ]
-
-#example[
-  The usual order $leq$ on $NN$ is NOT Noetherian:
-  - We can construct infinite ascending chains like $1 < 2 < 3 < 4 < dots$
-  - However, its converse $geq$ would be well-founded (DCC holds for $leq$)
-]
-
-#pagebreak()
-
-#example[
-  In ring theory, a _Noetherian ring_ has the property that every ascending chain of ideals stabilizes:
-  $I_1 subset.eq I_2 subset.eq I_3 subset.eq dots$ eventually becomes constant.
-]
-
-#example[
-  In rewriting systems and lambda calculus:
-  - A _reduction relation_ $to$ is Noetherian if all reduction sequences terminate
-  - For example, $beta$-reduction in simply typed lambda calculus is Noetherian
-  - This guarantees that programs always terminate (no infinite loops)
-]
-
-== Noetherian Relations and ACC
 
 #theorem[
-  For any poset $pair(S, leq)$, the following are equivalent:
-  - $pair(S, leq)$ is Noetherian (coverse well-founded)
-  - $pair(S, leq)$ satisfies ACC (no infinite ascending chains)
+  For any poset $pair(S, leq)$, being Noetherian is equivalent to satisfying ACC.
 ]
 
 #proof[
-  By definition, $pair(S, leq)$ is Noetherian iff its converse $geq$ is well-founded.
-  By the earlier theorem, this is equivalent to $geq$ satisfying DCC, which is exactly the same as $leq$ satisfying ACC.
+  $pair(S, leq)$ is Noetherian $<=>$ $pair(S, geq)$ is well-founded $<=>$ $pair(S, geq)$ satisfies DCC $<=>$ $pair(S, leq)$ satisfies ACC.
+]
+
+== Applications of Noetherian Relations
+
+#example[Ring theory][
+  A _Noetherian ring_ has ascending chains of ideals that stabilize:
+  $
+    I_1 subset.eq I_2 subset.eq I_3 subset.eq dots
+  $
+  eventually becomes constant. This is fundamental in commutative algebra!
+]
+
+#example[Lambda calculus][
+  A term-rewriting relation $->$ is Noetherian if all reductions terminate:
+  - Simply-typed lambda calculus: $beta$-reduction is Noetherian
+  - Guarantees: no infinite loops, all programs halt!
+
+  #Block(color: blue)[
+    *Termination checking:* Find a Noetherian measure that decreases with each step.
+  ]
 ]
 
 == Relationships Between Chain Conditions
