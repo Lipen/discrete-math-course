@@ -4032,12 +4032,6 @@ TODO
   - Every well-ordered set is well-founded, but not vice versa!
 ]
 
-// #note[
-//   Well-founded relations prevent infinite descending chains: $x_0 rel(R) x_1 rel(R) x_2 rel(R) dots$
-
-//   This makes them perfect for proving termination!
-// ]
-
 == Example: Well-Founded but Not Well-Ordered
 
 #example[Proper subset relation][
