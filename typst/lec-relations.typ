@@ -4389,15 +4389,14 @@ Just as well-founded relations prevent infinite descent, _Noetherian_ relations 
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Poset*], [*DCC?*], [*ACC?*]),
     [$pair(NN, leq)$], [#YES], [#NO],
+    [$pair(ZZ^-, leq)$ (negative integers)], [#NO], [#YES],
     [$pair(power({1,2,3}), subset.eq)$ (finite)], [#YES], [#YES],
     [$pair(power(NN), subset.eq)$ (infinite)], [#NO], [#NO],
-    [$pair(ZZ, |)$ (divisibility)], [#NO], [#NO],
   )
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  DCC and ACC are _independent_ --- a structure can satisfy one, both, or neither!
+  *Key observation:* DCC and ACC are _independent_ --- a structure can satisfy one, both, or neither!
 ]
 
 == Applications: From Theory to Practice
