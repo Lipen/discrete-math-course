@@ -4134,7 +4134,7 @@ Let's see how different forms of induction work on $NN$, then generalize to arbi
 Well-founded relations enable a powerful generalization of mathematical induction.
 Instead of working just with $NN$, we can prove properties about *any* well-founded relation.
 
-#theorem[
+#definition[
   Let $pair(S, <)$ be a well-founded relation, and let $P(x)$ be a property.
 
   _Well-founded induction_ (also called _Noetherian induction_) states that if
