@@ -4218,208 +4218,223 @@ Well-founded induction goes by different names depending on the structure being 
 
 == Induced Strict Order
 
+From any partial order $leq$, we automatically get a strict order:
+
 #definition[
-  Given a partial order $leq$, the _induced strict order_ $lt$ is defined as:
+  The _induced strict order_ from $leq$ is:
   $
-    x lt y quad "iff" quad (x leq y "and" x != y)
+    x lt y quad iff quad x leq y and x != y
   $
-]
-
-#note[
-  Given a poset $pair(S, leq)$, we can use $lt$ to denote its associated strict order.
-]
-
-#note[
-  $gt$ is the converse of $lt$, so we can write $b > a$ instead of $a < b$.
-]
-
-#note[
-  Hereinafter, we will freely use $lt$ and $gt$ when given any poset $pair(S, leq)$.
+  Similarly, $x > y$ means $y < x$ (converse relation).
 ]
 
 #Block(color: yellow)[
-  *Why care about strict orders?*
-  Chains and descending/ascending sequences are naturally expressed with strict orders $lt$ and $gt$.
+  *Convention:* Given any poset $pair(S, leq)$, we'll freely use $lt$ and $gt$ for the induced strict orders.
+
+  *Why care?* Chain conditions (ascending/descending sequences) are naturally expressed with strict inequalities: $x_1 < x_2 < x_3 < dots$
 ]
 
 == Descending Chain Condition (DCC)
 
 #definition[
-  A poset $pair(S, leq)$ satisfies the _descending chain condition (DCC)_ if there are no infinite strictly descending sequences:
+  A poset $pair(S, leq)$ satisfies the _descending chain condition (DCC)_ if there are no infinite strictly descending chains:
   $
-    x_1 > x_2 > x_3 > dots
+    x_1 > x_2 > x_3 > x_4 > dots
   $
 
-  Equivalently: every weakly descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually _stabilizes_.
-
-  // Formally: $forall (x_i)_(i in NN) in S^NN. thin (forall i in NN. thin x_i >= x_(i+1)) imply (exists N in NN. thin forall n >= N. thin x_n = x_(n+1))$
+  Equivalently: every descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually _stabilizes_ (becomes constant).
 ]
 
 #Block(color: blue)[
-  *Intuition:* "You can't fall forever"---every descending path eventually hits bottom.
+  *Intuition:* "You can't fall forever" --- every descending path eventually hits bottom or levels off.
 ]
 
-#example[Natural numbers][
+#example[
   $pair(NN, leq)$ satisfies DCC:
-  - Any descending sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize
-  - Why? Natural numbers are bounded below by $0$
-  - Example: $100 >= 50 >= 25 >= 12 >= 6 >= 3 >= 1 >= 0 >= 0 >= 0 >= dots$
 
-  Eventually you hit $0$ and can't go lower!
+  Any descending sequence must stabilize: $100 >= 50 >= 25 >= 12 >= 6 >= 3 >= 1 >= 0 >= 0 >= 0 >= dots$
+
+  Why? Natural numbers are bounded below by $0$, so you eventually hit the bottom and can't go lower!
 ]
 
 == The Fundamental Equivalence
 
-#theorem[Well-Founded $iff$ DCC][
-  For any poset $pair(S, leq)$, the following are _equivalent_:
-  + $pair(S, leq)$ is _well-founded_ (every non-empty subset has minimal elements)
-  + $pair(S, leq)$ satisfies _DCC_ (no infinite descending chains)
+#theorem[
+  For any poset $pair(S, leq)$:
+  $
+    "well-founded" quad <==> quad "satisfies DCC"
+  $
 ]
 
-// #Block(color: purple)[
-//   "Every subset has a floor" $iff$ "You can't fall forever"
-// ]
+#Block(color: purple)[
+  "Every subset has a floor" $iff$ "You can't fall forever"
+]
 
 #proof[($==>$)][
   *Well-founded implies DCC*
 
-  Suppose $pair(S, leq)$ is well-founded but there exists an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$.
+  Suppose there's an infinite descending chain $x_0 > x_1 > x_2 > dots$.
+
   Consider the set $T = {x_0, x_1, x_2, dots}$.
-  Since $pair(S, leq)$ is well-founded, $T$ must have a minimal element $x_k$ for some $k$.
-  But then $x_k > x_(k+1)$, contradicting the minimality of $x_k$.
+
+  By well-foundedness, $T$ has a minimal element $x_k$.
+  But $x_k > x_(k+1)$, so $x_(k+1)$ is smaller than $x_k$ --- contradicting minimality!
 ]
+
+#pagebreak()
 
 #proof[($<==$)][
   *DCC implies well-founded*
 
-  Suppose $pair(S, leq)$ satisfies DCC.
-  Let $T subset.eq S$ be any non-empty subset.
-  If $T$ had no minimal elements, then for any $x_0 in T$, there would exist $x_1 in T$ with $x_0 > x_1$.
-  Continuing this process, we could construct an infinite strict descending sequence $x_0 > x_1 > x_2 > dots$, contradicting DCC.
+  Let $T subset.eq S$ be non-empty.
+  Pick any $x_0 in T$.
+  - If $x_0$ is not minimal, pick $x_1 in T$ with $x_1 < x_0$.
+  - If $x_1$ is not minimal, pick $x_2 in T$ with $x_2 < x_1$.
+  - And so on...
+
+  If this process never stops, we get an infinite descending chain $x_0 > x_1 > x_2 > dots$, contradicting DCC!
+
+  Therefore, we must eventually find a minimal element.
 ]
 
 == Ascending Chain Condition (ACC)
 
 #definition[
-  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if there are no infinite strictly ascending sequences:
+  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if there are no infinite strictly ascending chains:
   $
     x_1 < x_2 < x_3 < x_4 < dots
   $
 
-  Equivalently: every weakly ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually _stabilizes_.
+  Equivalently: every ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually _stabilizes_ (becomes constant).
 ]
 
 #Block(color: blue)[
-  *Intuition:* "You can't climb forever" --- every ascending path eventually reaches a ceiling.
+  *Intuition:* "You can't climb forever" --- every ascending path eventually reaches a ceiling or levels off.
 ]
 
-#example[Natural numbers][
+#example[
   $pair(NN, leq)$ does _NOT_ satisfy ACC:
-  - Can climb forever: $0 < 1 < 2 < 3 < 4 < dots$
-  - No upper bound stops the ascent!
+
+  The sequence $0 < 1 < 2 < 3 < 4 < dots$ never stabilizes --- no upper bound stops the ascent!
 ]
 
-#example[Powerset of naturals][
+#example[
   $pair(power(NN), subset.eq)$ satisfies _neither_ ACC nor DCC:
   - *ACC fails:* $emptyset subset {1} subset {1,2} subset {1,2,3} subset dots$ (can climb forever)
-  - *DCC fails:* $NN supset (NN without {1}) supset (NN without {1,2}) supset dots$ (can fall forever)
+  - *DCC fails:* $NN supset.eq NN without {1} supset.eq NN without {1,2} supset.eq dots$ (can fall forever)
 ]
 
 == Noetherian Relations: The Dual Concept
 
-#definition[
-  A relation $R$ is _Noetherian_ (or _converse well-founded_, or _upwards well-founded_) if its converse $R^(-1)$ is well-founded.
+Just as well-founded relations prevent infinite descent, _Noetherian_ relations prevent infinite ascent.
 
-  Equivalently: every non-empty subset has $R$-maximal elements (nothing strictly above).
+#definition[
+  A relation $R$ is _Noetherian_ if its converse $R^(-1)$ is well-founded.
+
+  Equivalently: every non-empty subset has _maximal_ elements (nothing strictly above them).
 ]
 
 #Block(color: yellow)[
-  *Noetherian vs Well-founded:*
-  - Well-founded: prevents infinite _descent_ (DCC)
-  - Noetherian: prevents infinite _ascent_ (ACC)
-  - They're duals: flip the order!
+  *Well-founded vs Noetherian:*
+  - Well-founded: every subset has _minimal_ elements → DCC (can't fall forever)
+  - Noetherian: every subset has _maximal_ elements → ACC (can't climb forever)
+  - They're perfect duals: flip the order and swap the roles!
 ]
 
+#pagebreak()
+
 #theorem[
-  For any poset $pair(S, leq)$, being Noetherian is equivalent to satisfying ACC.
+  For any poset $pair(S, leq)$:
+  $
+    "Noetherian" quad <==> quad "satisfies ACC"
+  $
 ]
 
 #proof[
-  $pair(S, leq)$ is Noetherian $<=>$ $pair(S, geq)$ is well-founded $<=>$ $pair(S, geq)$ satisfies DCC $<=>$ $pair(S, leq)$ satisfies ACC.
+  Chain of equivalences:
+  $
+    pair(S, leq) "is Noetherian" & iff pair(S, geq) "is well-founded" \
+                                 & iff pair(S, geq) "satisfies DCC" \
+                                 & iff pair(S, leq) "satisfies ACC"
+  $
+  Each step follows from definitions and the well-founded $iff$ DCC equivalence.
 ]
 
 == Applications of Noetherian Relations
 
-#example[Ring theory][
-  A _Noetherian ring_ has ascending chains of ideals that stabilize:
+#examples[Algebra][
+  A ring is _Noetherian_ if every ascending chain of ideals stabilizes:
   $
-    I_1 subset.eq I_2 subset.eq I_3 subset.eq dots
+    I_1 subset.eq I_2 subset.eq I_3 subset.eq dots quad "eventually becomes constant"
   $
-  eventually becomes constant. This is fundamental in commutative algebra!
+
+  Examples: $ZZ$, polynomial rings $k[x_1, dots, x_n]$ over fields.
+
+  This is fundamental in commutative algebra --- the Hilbert basis theorem guarantees that polynomial rings over Noetherian rings are Noetherian!
 ]
 
-#example[Lambda calculus][
-  A term-rewriting relation $->$ is Noetherian if all reductions terminate:
-  - Simply-typed lambda calculus: $beta$-reduction is Noetherian
-  - Guarantees: no infinite loops, all programs halt!
+#example[Computer science][
+  A term-rewriting system terminates if the reduction relation is Noetherian.
+
+  - In simply-typed lambda calculus, $beta$-reduction is Noetherian, thus terminates.
+    - Every reduction decreases a complexity measure
+    - No infinite reduction sequences exist
+    - Therefore: all well-typed programs halt!
 
   #Block(color: blue)[
-    *Termination checking:* Find a Noetherian measure that decreases with each step.
+    *General technique:* Find a Noetherian measure that strictly decreases with each computation step, proving termination.
   ]
 ]
 
-== Relationships Between Chain Conditions
+== Chain Conditions: Key Examples
 
-#theorem[
-  For a poset $pair(S, leq)$:
-  - *DCC* $iff$ the relation $leq$ is well-founded $iff$ no infinite descending chains.
-  - *ACC* $iff$ the _dual_ relation $geq$ is well-founded $iff$ no infinite ascending chains.
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, center, center),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Poset*], [*DCC?*], [*ACC?*]),
+    [$pair(NN, leq)$], [#YES], [#NO],
+    [$pair(power({1,2,3}), subset.eq)$ (finite)], [#YES], [#YES],
+    [$pair(power(NN), subset.eq)$ (infinite)], [#NO], [#NO],
+    [$pair(ZZ, |)$ (divisibility)], [#NO], [#NO],
+  )
 ]
 
-#proof[
-  The first equivalence (DCC $iff$ well-founded) was proved earlier.
-  The second equivalence for ACC follows by applying the same reasoning to the dual relation $geq$.
+#Block(color: purple)[
+  *Key insight:* DCC and ACC are _independent_ --- a structure can satisfy one, both, or neither!
 ]
 
-== Examples of ACC and DCC
+== Applications: From Theory to Practice
 
-#example[
-  Consider the poset $pair(power({1,2,3}), subset.eq)$ of subsets ordered by inclusion:
-  - *ACC holds:* #YES
-    Any ascending chain $A_1 subset.eq A_2 subset.eq A_3 subset.eq dots$ must stabilize since we can't keep adding elements indefinitely.
-  - *DCC holds:* #YES
-    Any descending chain $B_1 supset.eq B_2 supset.eq B_3 supset.eq dots$ must stabilize since we can't keep removing elements indefinitely.
-  - Both conditions hold because the set is finite.
+These abstract concepts --- well-orders, well-founded relations, and chain conditions --- are powerful tools for proving _termination_, reasoning about _infinity_, and establishing _finiteness_ properties.
+
+#Block(color: yellow)[
+  *The unifying principle:*
+  All capture variants of _"no infinite regress"_ --- essential for proving processes terminate and structures are well-behaved.
 ]
 
-#example[
-  In the natural numbers $pair(NN, leq)$:
-  - *DCC holds:* #YES
-    Any sequence $n_1 >= n_2 >= n_3 >= dots$ must stabilize (well-founded).
-  - *ACC fails:* #NO
-    The sequence $1 < 2 < 3 < 4 < dots$ never stabilizes.
-  - This shows that DCC and ACC are independent conditions.
+#examples[Computer science][
+  - *Model checking:* Well-founded relations guarantee finite state-space exploration
+  - *Database systems:* Datalog uses well-founded semantics for recursive queries
+  - *Compiler optimization:* Prove termination of optimization passes via well-founded metrics
+  - *Graph algorithms:* DFS/BFS termination follows from well-founded visit ordering
 ]
 
-#examples[Applications in algebra][
-  - *Noetherian rings:* Satisfy ACC for ideals (every ascending chain of ideals stabilizes).
-  - *Artinian rings:* Satisfy DCC for ideals (every descending chain of ideals stabilizes).
-  - *Principal ideal domains:* Both conditions hold, enabling algorithms like Euclidean division.
+#pagebreak()
+
+#examples[Mathematics & logic][
+  - *Transfinite induction:* Well-ordering enables proofs about infinite ordinals
+  - *Set theory:* Von Neumann ordinals constructed as well-ordered sets
+  - *Rewriting systems:* Confluence and termination via Noetherian orderings (Knuth-Bendix)
+  - *Combinatorics:* Dickson's lemma uses well-quasi-orders for finiteness results
 ]
 
-== Connections and Applications
-
-These foundational concepts --- well-orders, well-founded relations, chain conditions, and induction principles --- have profound applications across mathematics and computer science.
-
-#examples[Computer science applications][
-  - *Termination analysis:* Prove programs terminate by finding well-founded measures.
-  - *Parsing algorithms:* Use well-founded recursion on parse tree depth.
-  - *Datalog evaluation:* Stratified negation ensures termination via well-founded semantics.
-  - *Model checking:* Well-founded relations ensure finite state exploration.
-]
-
-#Block(color: blue)[
-  These concepts provide the mathematical foundation for reasoning about _termination_, _finiteness_, and _algorithmic complexity_ in computer science and mathematics.
+#examples[Software engineering][
+  - *Scheduling algorithms:* Priority queues maintain well-founded task ordering
+  - *Garbage collection:* Reachability analysis uses well-founded heap traversal
+  - *Distributed systems:* Lamport clocks establish well-founded event causality
+  - *Version control:* Commit DAGs form well-founded partial orders
 ]
 
 == Summary: Well-Founded Relations and Chain Conditions
@@ -4429,21 +4444,21 @@ These foundational concepts --- well-orders, well-founded relations, chain condi
     columns: 3,
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Concept*], [*Characterization*], [*Key Property*]),
-    [*Well-ordered*], [Every subset has unique least element], [Stronger than well-founded],
-    [*Well-founded*], [Every subset has minimal elements], [DCC: no infinite descent],
-    [*DCC (Artinian)*], [No infinite descending chains], [Same as well-founded],
-    [*ACC (Noetherian)*], [No infinite ascending chains], [Dual of DCC],
+    table.header([*Concept*], [*Definition*], [*Equivalent to*]),
+    [*Well-ordered*], [Every subset has _unique least_ element], [Total + well-founded],
+    [*Well-founded*], [Every subset has _minimal_ elements], [DCC],
+    [*Noetherian*], [Every subset has _maximal_ elements], [ACC],
+    [*DCC (Artinian)*], [No infinite descending chains], [Well-founded],
+    [*ACC (Noetherian)*], [No infinite ascending chains], [Noetherian],
   )
 ]
 
-#Block[
+#Block(color: purple)[
   *Key relationships:*
-  - Well-ordered $==>$ Total order (least elements imply comparability)
-  - Well-ordered $==>$ Well-founded (every least element is minimal)
-  - Well-founded $<=>$ Noetherian $<=>$ DCC (equivalent characterizations)
-  - ACC is independent of DCC (a structure can satisfy one but not the other)
-  - These concepts are fundamental for proving termination and finiteness properties
+  - Well-ordered $imply$ well-founded (least $imply$ minimal)
+  - Well-ordered $imply$ total order (least elements force comparability)
+  - Well-founded $iff$ DCC (equivalent characterizations)
+  - Noetherian $iff$ ACC (equivalent characterizations)
 ]
 
 
