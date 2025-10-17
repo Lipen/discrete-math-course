@@ -4175,22 +4175,28 @@ Instead of working just with $NN$, we can prove properties about *any* well-foun
 
 == Example: Proving Termination with Well-Founded Induction
 
-#example[
-  Proving that `factorial` terminates (formally):
+```python
+def process(S):
+    if S == ∅: return "done"
+    x = S.pop()  # Remove arbitrary element
+    return process(S)
+```
 
-  *Property:* $P(n) :=$ "`factorial(n)` terminates"
+*Claim:* `process(S)` terminates for all finite sets $S$.
 
-  *Proof:* Use well-founded induction on $pair(NN, >)$.
-  - *Inductive step:* Assume $P(k)$ for all $k < n$.
-  - If $n = 0$: terminates immediately (base case implicit).
-  - If $n > 0$: calls `factorial(n-1)`, which terminates by $P(n-1)$.
-  - Therefore $P(n)$ holds.
-]
+*Proof:*
+Well-founded induction on $pair(cal(P)_("fin")(X), subset)$.
 
-#Block(color: blue)[
-  *Connection to strong induction:*
-  When $<$ is the usual ordering on $NN$, well-founded induction *is* strong induction!
-  The general principle works for any well-founded relation, not just $pair(NN, >)$.
+For any $S$, assume termination for all $T subset S$.
+- If $S = emptyset$: returns immediately.
+- If $S != emptyset$: recursive call uses $S without {x} subset S$, which terminates by hypothesis.
+
+Therefore, `process(S)` terminates for all finite sets $S$!
+
+#Block(color: purple)[
+  The relation $subset$ on finite sets is well-founded but _not_ well-ordered (sets ${1}$ and ${2}$ are incomparable).
+
+  This shows well-founded induction works even without total comparability.
 ]
 
 == Special Cases of Well-Founded Induction
