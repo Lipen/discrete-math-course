@@ -4356,29 +4356,49 @@ Just as well-founded relations prevent infinite descent, _Noetherian_ relations 
 
 == Applications of Noetherian Relations
 
-#examples[Algebra][
+#definition[
   A ring is _Noetherian_ if every ascending chain of ideals stabilizes:
   $
     I_1 subset.eq I_2 subset.eq I_3 subset.eq dots quad "eventually becomes constant"
   $
-
-  Examples: $ZZ$, polynomial rings $k[x_1, dots, x_n]$ over fields.
-
-  This is fundamental in commutative algebra --- the Hilbert basis theorem guarantees that polynomial rings over Noetherian rings are Noetherian!
 ]
 
-#example[Computer science][
-  A term-rewriting system terminates if the reduction relation is Noetherian.
-
-  - In simply-typed lambda calculus, $beta$-reduction is Noetherian, thus terminates.
-    - Every reduction decreases a complexity measure
-    - No infinite reduction sequences exist
-    - Therefore: all well-typed programs halt!
-
-  #Block(color: blue)[
-    *General technique:* Find a Noetherian measure that strictly decreases with each computation step, proving termination.
-  ]
+#example[
+  The ring $ZZ$ is Noetherian.
+  - Every ideal in $ZZ$ has the form $n ZZ = { n dot k | k in ZZ }$ for some $n in NN$ (all multiples of $n$).
+  - For an ascending chain $n_1 ZZ subset.eq n_2 ZZ subset.eq n_3 ZZ subset.eq dots$, we have $n_2 | n_1$, $n_3 | n_2$, etc.
+  - Thus, $n_1 >= n_2 >= n_3 >= dots$ (descending sequence in $NN$)
+  - Since $NN$ has no infinite descending chains, the sequence stabilizes!
 ]
+
+#example[
+  Polynomial rings $k[x_1, dots, x_n]$ over fields are Noetherian (_Hilbert's Basis Theorem_).
+  - Proof uses induction: $k[x_1]$ is Noetherian (similar to $ZZ$), then $k[x_1, dots, x_(n+1)] = k[x_1, dots, x_n][x_(n+1)]$ inherits the property.
+  - Key idea: Every ideal has a _finite_ generating set (no infinite chains of strictly growing ideals).
+  - This is fundamental in algebraic geometry and commutative algebra!
+]
+
+#pagebreak()
+
+#example[Dickson's Lemma][
+  The poset $pair(NN^n, leq)$ with componentwise ordering is Noetherian:
+  $
+    (a_1, dots, a_n) leq (b_1, dots, b_n)
+    quad iff quad
+    a_i leq b_i "for all" i
+  $
+
+  *Proof idea:* Any infinite sequence in $NN^n$ must have an infinite ascending subsequence (by induction on dimension).
+
+  *Application:* Used in proving termination of multivariate polynomial rewriting systems and in computational algebra.
+]
+
+#Block(color: blue)[
+  *Why Noetherian matters:*
+  In many algorithms, we build increasingly complex structures. \
+  ACC guarantees this process eventually stabilizes or can't continue indefinitely!
+]
+
 
 == Chain Conditions: Key Examples
 
