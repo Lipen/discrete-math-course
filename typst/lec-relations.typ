@@ -4401,15 +4401,16 @@ Just as well-founded relations prevent infinite descent, _Noetherian_ relations 
   )
 ]
 
-#Block(color: purple)[
-  *Key insight:* DCC and ACC are _independent_ --- a structure can satisfy one, both, or neither!
+#Block(color: yellow)[
+  *Key insight:*
+  DCC and ACC are _independent_ --- a structure can satisfy one, both, or neither!
 ]
 
 == Applications: From Theory to Practice
 
 These abstract concepts --- well-orders, well-founded relations, and chain conditions --- are powerful tools for proving _termination_, reasoning about _infinity_, and establishing _finiteness_ properties.
 
-#Block(color: yellow)[
+#Block(color: purple)[
   *The unifying principle:*
   All capture variants of _"no infinite regress"_ --- essential for proving processes terminate and structures are well-behaved.
 ]
