@@ -4193,35 +4193,28 @@ Instead of working just with $NN$, we can prove properties about *any* well-foun
   The general principle works for any well-founded relation, not just $pair(NN, >)$.
 ]
 
-== Transfinite Induction
+== Special Cases of Well-Founded Induction
 
-For *well-ordered* sets (well-founded total orders), induction takes a special form --- _transfinite induction_.
+Well-founded induction goes by different names depending on the structure being used:
 
-#theorem[Transfinite Induction][
-  Let $pair(S, <)$ be a well-ordered set, and let $P(x)$ be a property. If:
-  $
-    forall x in S. thin (forall y < x. thin P(y)) imply P(x)
-  $
-  then $P(x)$ holds for all $x in S$.
-]
-
-#note[
-  This is identical to well-founded induction!
-  The difference is conceptual: transfinite induction works with *ordinals* and total orders, while well-founded induction works with *any* well-founded relation (not necessarily total).
+#Block(color: green)[
+  - *Strong induction* on $NN$: well-founded induction on $pair(NN, >)$
+  - *Transfinite induction*: well-founded induction on well-ordered sets (ordinals)
+  - *Structural induction*: well-founded induction on syntax trees or inductively-defined structures
 ]
 
 #example[
-  Mathematical induction on $NN$ is transfinite induction for the first infinite ordinal $omega$:
-  - *Base case* $(n = 0)$: Prove $P(0)$ (no predecessors).
-  - *Successor case* $(n = k+1)$: Assume $P(k)$, prove $P(k+1)$.
-  - *Limit case:* Not needed for $NN$, but required for infinite ordinals!
+  Structural induction on lists:
+  - To prove $P(L)$ for all lists $L$, assume $P(L')$ for all _shorter_ lists $L'$
+  - List length defines a well-founded relation: can't have infinitely descending chains
 ]
 
-// #Block(color: teal)[
-//   *Historical note:*
-//   Cantor developed transfinite induction to reason about infinite ordinals beyond $omega$.
-//   For larger ordinals like $omega + omega$ or $omega^omega$, the limit case becomes essential.
-// ]
+#Block(color: purple)[
+  *The unifying principle:*
+  All these are the *same* proof technique, just applied to different well-founded relations.
+  The key is always: assume the property for all "smaller" elements, then prove it for the current element.
+  From this, we conclude the property holds for all elements in the structure!
+]
 
 == Induced Strict Order
 
