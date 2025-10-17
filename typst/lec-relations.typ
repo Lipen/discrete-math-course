@@ -3990,31 +3990,59 @@ TODO
   ]
 ]
 
-#Block(color: purple)[
-  Well-orders are perfect for defining "first," "next," and ensuring that processes terminate.
+== Induction on Well-Ordered Sets
+
+The well-ordering property is the foundation of mathematical induction.
+
+Let's see how different forms of induction work on $NN$, then generalize to arbitrary well-ordered sets.
+
+#Block(color: yellow)[
+  *Key insight:* Well-ordering means every non-empty set has a _first_ element.
+
+  This is why induction works --- if a property fails somewhere, there must be a _smallest_ counterexample, which leads to contradiction!
 ]
 
-== Well-Founded Induction
-
-#theorem[Induction Principle for Well-Orders][
-  If $pair(W, leq)$ is well-ordered and $P$ is a property such that:
-  - For every $x in W$: if $P(y)$ holds for all $y < x$, then $P(x)$ holds
-
-  Then $P(x)$ holds for _all_ $x in W$.
-]
+== Two Forms of Induction on $NN$
 
 #Block(color: blue)[
-  *Why this works:*
-  If $P$ failed somewhere, there would be a _least_ counterexample (by well-ordering).
-  But then $P$ holds for all smaller elements, so $P$ should hold at the counterexample --- contradiction!
+  *1. Weak (Standard) Induction:*
+  - Base: Prove $P(0)$
+  - Step: Prove $P(n) ==> P(n+1)$ for all $n$
+  - Conclusion: $P(n)$ holds for all $n in NN$
+
+  *2. Strong Induction* (also called _complete induction_ or _course-of-values induction_):
+  - For all $n$: assume $P(k)$ holds for all $k < n$, then prove $P(n)$
+  - Equivalently: Prove $(P(0) and P(1) and dots and P(n)) ==> P(n+1)$
+  - Conclusion: $P(n)$ holds for all $n in NN$
 ]
 
-#example[Application: Strong induction on $NN$][
-  Standard induction on naturals is a special case:
-  - Base: $P(0)$ holds
-  - Step: $P(0), dots, P(n) ==> P(n+1)$
+#note[
+  These are _equivalent_ for $NN$!
 
-  This is exactly well-founded induction for $pair(NN, leq)$!
+  Strong induction is more flexible --- you can use _any_ previous case, not just the immediate predecessor.
+]
+
+== Well-Ordering Principle
+
+#theorem[Well-Ordering Principle for $NN$][
+  Every non-empty subset of $NN$ has a least element.
+]
+
+#theorem[
+  The following are equivalent:
+  + Well-Ordering Principle (WOP)
+  + Mathematical Induction (weak or strong form)
+]
+
+#Block(color: yellow)[
+  *Why induction works:*
+
+  - Suppose $P$ fails somewhere.
+    Let $S = {n in NN | not P(n)}$ (counterexamples).
+
+  - By WOP, $S$ has a least element $m$.
+
+  - But then $P(k)$ holds for all $k < m$ (since $m$ is least), so by the induction step, $P(m)$ must hold --- contradiction!
 ]
 
 == Well-Founded Relations: A Weaker Notion
@@ -4079,11 +4107,8 @@ TODO
 
 #example[Divisibility relation][
   $pair(NN^+, |)$ is well-founded:
-  - In ${6, 12, 18, 4, 8} subset.eq NN$:
-    - Minimals: $4$ and $6$ (no smaller divisors in the set)
-  // - Note: $6 | 12$ and $6 | 18$, but $6$ is still minimal!
-  - In ${2, 4, 8, 16} subset.eq NN$:
-    - Only minimal: $2$ (divides all others, but $1 notin$ set)
+  - In ${6, 12, 18, 4, 8}$, minimal elements are $4$ and $6$ (no smaller divisors in the set)
+  - In ${2, 4, 8, 16}$, the only minimal is $2$ (divides all others in the set)
 ]
 
 #example[Program termination][
@@ -4094,13 +4119,109 @@ TODO
       return n * factorial(n-1)
   ```
 
-  *Termination proof:* Arguments form decreasing sequence $n > n-1 > n-2 > dots > 0$. \
+  *Termination proof:*
+  Arguments form decreasing sequence $n > n-1 > n-2 > dots > 0$.
+
   Since $pair(NN, >)$ is well-founded, this chain must end!
 
   #Block(color: purple)[
     Well-founded relations are the foundation (pun intended) of _termination analysis_ in Dafny, Coq, and other verification tools.
   ]
 ]
+
+== Well-Founded Induction
+
+Well-founded relations enable a powerful generalization of mathematical induction.
+Instead of working just with $NN$, we can prove properties about *any* well-founded relation.
+
+#theorem[
+  Let $pair(S, <)$ be a well-founded relation, and let $P(x)$ be a property.
+
+  _Well-founded induction_ (also called _Noetherian induction_) states that if
+  $
+    forall x in S. thin (forall y < x. thin P(y)) imply P(x)
+  $
+  then $P(x)$ holds for all $x in S$.
+]
+
+#Block(color: yellow)[
+  *Key insight:*
+  To prove $P(x)$, assume $P(y)$ holds for all $y$ that are _smaller_ than $x$.
+
+  This is like strong induction, but with "smaller" defined by your well-founded relation $<$!
+]
+
+== Proof of Well-Founded Induction
+
+#proof[
+  We prove by contradiction. Suppose the property $P$ _fails_ for some elements.
+
+  Let $S' = {x in S | not P(x)}$ be the set of "bad" elements where $P$ fails.
+
+  By assumption, $S' != emptyset$. Since $pair(S, <)$ is well-founded, $S'$ must have a _minimal_ element --- call it $x_0$.
+
+  Now consider any $y < x_0$:
+  - Since $x_0$ is minimal in $S'$, we have $y in.not S'$
+  - Therefore $P(y)$ holds for all $y < x_0$
+
+  But by our hypothesis, $(forall y < x_0. thin P(y)) imply P(x_0)$.
+
+  So $P(x_0)$ must hold --- contradicting the fact that $x_0 in S'$!
+]
+
+#Block(color: purple)[
+  *The key:* Well-foundedness guarantees a _minimal_ counterexample, and the inductive hypothesis forces that minimal element to satisfy $P$ --- contradiction!
+]
+
+== Example: Proving Termination with Well-Founded Induction
+
+#example[
+  Proving that `factorial` terminates (formally):
+
+  *Property:* $P(n) :=$ "`factorial(n)` terminates"
+
+  *Proof:* Use well-founded induction on $pair(NN, >)$.
+  - *Inductive step:* Assume $P(k)$ for all $k < n$.
+  - If $n = 0$: terminates immediately (base case implicit).
+  - If $n > 0$: calls `factorial(n-1)`, which terminates by $P(n-1)$.
+  - Therefore $P(n)$ holds.
+]
+
+#Block(color: blue)[
+  *Connection to strong induction:*
+  When $<$ is the usual ordering on $NN$, well-founded induction *is* strong induction!
+  The general principle works for any well-founded relation, not just $pair(NN, >)$.
+]
+
+== Transfinite Induction
+
+For *well-ordered* sets (well-founded total orders), induction takes a special form --- _transfinite induction_.
+
+#theorem[Transfinite Induction][
+  Let $pair(S, <)$ be a well-ordered set, and let $P(x)$ be a property. If:
+  $
+    forall x in S. thin (forall y < x. thin P(y)) imply P(x)
+  $
+  then $P(x)$ holds for all $x in S$.
+]
+
+#note[
+  This is identical to well-founded induction!
+  The difference is conceptual: transfinite induction works with *ordinals* and total orders, while well-founded induction works with *any* well-founded relation (not necessarily total).
+]
+
+#example[
+  Mathematical induction on $NN$ is transfinite induction for the first infinite ordinal $omega$:
+  - *Base case* $(n = 0)$: Prove $P(0)$ (no predecessors).
+  - *Successor case* $(n = k+1)$: Assume $P(k)$, prove $P(k+1)$.
+  - *Limit case:* Not needed for $NN$, but required for infinite ordinals!
+]
+
+// #Block(color: teal)[
+//   *Historical note:*
+//   Cantor developed transfinite induction to reason about infinite ordinals beyond $omega$.
+//   For larger ordinals like $omega + omega$ or $omega^omega$, the limit case becomes essential.
+// ]
 
 == Induced Strict Order
 
@@ -4295,14 +4416,7 @@ TODO
 
 == Connections and Applications
 
-#theorem[Well-ordering principle][
-  Every well-ordered set admits _transfinite induction_: to prove $P(x)$ for all $x in S$, it suffices to show:
-  $forall x in S. thin (forall y < x. thin P(y)) imply P(x)$
-]
-
-#example[
-  _Mathematical induction_ on $NN$ is a special case of transfinite induction using the well-ordering of natural numbers.
-]
+These foundational concepts --- well-orders, well-founded relations, chain conditions, and induction principles --- have profound applications across mathematics and computer science.
 
 #examples[Computer science applications][
   - *Termination analysis:* Prove programs terminate by finding well-founded measures.
