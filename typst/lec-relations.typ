@@ -3981,7 +3981,7 @@ TODO
 #example[Lexicographic order][
   Finite strings with _shortlex order_ (shorter first, then alphabetically):
   - $epsilon prec "a" prec "b" prec dots prec "aa" prec "ab" prec dots prec "aaa" prec dots$
-  - Any set of finite strings has a shortest, and among equals, an alphabetically first
+  - Any set of _finite_ strings has a shortest, and among equals, an alphabetically first
   - Example: ${"cat" #emoji.cat, "dog" #emoji.dog, "ox" #emoji.ox, "zebra" #emoji.zebra}$ has least element "$"ox"$" $#emoji.ox$
 
   #note[
