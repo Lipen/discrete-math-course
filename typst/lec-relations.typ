@@ -4089,29 +4089,6 @@ Let's see how different forms of induction work on $NN$, then generalize to arbi
   ]
 ]
 
-// #pagebreak()
-//
-// TODO: fix this BROKEN example
-//
-// #example[Comparing $pair(NN, leq)$ vs $pair(NN, >=)$][
-//   Same set, different relations show how direction affects properties:
-
-//   *$pair(NN, leq)$ --- standard "less than or equal":*
-//   - *Well-ordered:* #YES Every subset has a least (smallest) element.
-//   - *Well-founded:* #YES Every subset has minimal elements (same as least here).
-//   - For example: ${3, 7, 12}$ has least element $3$, minimal element is also $3$.
-
-//   *$pair(NN, >=)$ --- "greater than or equal":*
-//   - *Well-ordered:* #NO Subsets like ${3, 7, 12}$ have no "$>=$-least" element
-//     - The "$>=$-least" would be the element that is "$>=$-smallest", i.e., the largest!
-//     - But ${3, 7, 12}$ has $>=$-least element $12$, while ${2, 4, 6, dots}$ has no $>=$-least element.
-//   - *Well-founded:* #NO Has infinite descending chains like $10 >= 9 >= 8 >= dots$
-
-//   #Block(color: yellow)[
-//     *Key insight:* The same mathematical structure can be well-ordered under one relation but not under its "reverse"!
-//   ]
-// ]
-
 #example[Divisibility relation][
   $pair(NN^+, |)$ is well-founded:
   - In ${6, 12, 18, 4, 8}$, minimal elements are $4$ and $6$ (no smaller divisors in the set)
