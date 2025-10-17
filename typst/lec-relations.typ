@@ -3982,7 +3982,7 @@ TODO
   Finite strings with _shortlex order_ (shorter first, then alphabetically):
   - $epsilon < "a" < "b" < dots < "aa" < "ab" < dots < "aaa" < dots$
   - Any set of finite strings has a shortest, and among equals, an alphabetically first
-  - Example: ${"cat", "dog", "amoeba", "zebra"}$ has least element "$"amoeba"$"
+  - Example: ${"cat", "dog", "ox", "zebra"}$ has least element "$"ox"$"
 
   #note[
     _Pure_ lexicographic order (alphabetical only) is _NOT_ well-ordered:
