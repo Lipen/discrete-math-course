@@ -4357,25 +4357,19 @@ Just as well-founded relations prevent infinite descent, _Noetherian_ relations 
 == Applications of Noetherian Relations
 
 #definition[
-  A ring is _Noetherian_ if every ascending chain of ideals stabilizes:
+  A ring is _Noetherian_ if every ascending chain of ideals
   $
-    I_1 subset.eq I_2 subset.eq I_3 subset.eq dots quad "eventually becomes constant"
+    I_1 subset.eq I_2 subset.eq I_3 subset.eq dots
   $
+  eventually stabilizes (becomes constant), i.e., there exists $N$ such that $I_N = I_(N+1) = ...$
 ]
 
 #example[
   The ring $ZZ$ is Noetherian.
-  - Every ideal in $ZZ$ has the form $n ZZ = { n dot k | k in ZZ }$ for some $n in NN$ (all multiples of $n$).
+  - Every ideal in $ZZ$ has the form $n ZZ = { n dot k | k in ZZ }$ for some $n in NN$ (all multiples of $n$)
   - For an ascending chain $n_1 ZZ subset.eq n_2 ZZ subset.eq n_3 ZZ subset.eq dots$, we have $n_2 | n_1$, $n_3 | n_2$, etc.
   - Thus, $n_1 >= n_2 >= n_3 >= dots$ (descending sequence in $NN$)
   - Since $NN$ has no infinite descending chains, the sequence stabilizes!
-]
-
-#example[
-  Polynomial rings $k[x_1, dots, x_n]$ over fields are Noetherian (_Hilbert's Basis Theorem_).
-  - Proof uses induction: $k[x_1]$ is Noetherian (similar to $ZZ$), then $k[x_1, dots, x_(n+1)] = k[x_1, dots, x_n][x_(n+1)]$ inherits the property.
-  - Key idea: Every ideal has a _finite_ generating set (no infinite chains of strictly growing ideals).
-  - This is fundamental in algebraic geometry and commutative algebra!
 ]
 
 #pagebreak()
