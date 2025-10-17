@@ -4271,7 +4271,7 @@ From any partial order $leq$, we automatically get a strict order:
 
   Consider the set $T = {x_0, x_1, x_2, dots}$.
 
-  By well-foundedness, $T$ has a minimal element $x_k$.
+  By well-foundedness, $T$ has a minimal element $x_k$. \
   But $x_k > x_(k+1)$, so $x_(k+1)$ is smaller than $x_k$ --- contradicting minimality!
 ]
 
