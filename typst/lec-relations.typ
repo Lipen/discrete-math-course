@@ -4024,25 +4024,32 @@ Let's see how different forms of induction work on $NN$, then generalize to arbi
 
 == Well-Ordering Principle
 
-#theorem[Well-Ordering Principle for $NN$][
+#definition[Well-Ordering Principle][
   Every non-empty subset of $NN$ has a least element.
 ]
 
-#theorem[
-  The following are equivalent:
-  + Well-Ordering Principle (WOP)
-  + Mathematical Induction (weak or strong form)
+#note[
+  WOP is an _axiom_ in standard formulations of arithmetic (Peano axioms). \
+  It cannot be proven from more basic principles --- we take it as a starting point.
 ]
 
-#Block(color: yellow)[
-  *Why induction works:*
+#theorem[
+  The following are _equivalent_:
+  + Well-Ordering Principle (WOP)
+  + Mathematical Induction
+]
 
-  - Suppose $P$ fails somewhere.
-    Let $S = {n in NN | not P(n)}$ (counterexamples).
-
+#proof[(WOP $==>$ Induction)][
+  To prove $forall n in NN. thin P(n)$, assume for contradiction that $P$ fails somewhere.
+  - Let $S = { n in NN | not P(n) }$ be the set of counterexamples.
   - By WOP, $S$ has a least element $m$.
+    Then $P(k)$ holds for all $k < m$ (since $m$ is least).
+  - But by the induction hypothesis $(forall k < m. thin P(k)) imply P(m)$, we have $P(m)$ holds --- contradiction! #qedhere
+]
 
-  - But then $P(k)$ holds for all $k < m$ (since $m$ is least), so by the induction step, $P(m)$ must hold --- contradiction!
+#note[
+  The other direction (Induction $==>$ WOP) can also be proven, but is more involved.
+  Since both are foundational axioms, we can take either as a starting point and derive the other.
 ]
 
 == Well-Founded Relations: A Weaker Notion
