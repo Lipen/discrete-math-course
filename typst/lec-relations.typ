@@ -3987,7 +3987,7 @@ TODO
   #note[
     _Pure_ lexicographic order (alphabetical only) is _NOT_ well-ordered:
     - ${"b", "ab", "aab", "aaab", dots}$ has no least element --- we can always prefix more $"a"$'s!
-    - $"b" succ "ab" succ "aab" succ "aaab" succ dots$ --- an infinite descending chain of strings!
+    - $"b" succ "ab" succ "aab" succ "aaab" succ dots$ --- an _infinite descending_ chain of _finite_ strings!
   ]
 ]
 
