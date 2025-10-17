@@ -3980,14 +3980,14 @@ TODO
 
 #example[Lexicographic order][
   Finite strings with _shortlex order_ (shorter first, then alphabetically):
-  - $epsilon < "a" < "b" < dots < "aa" < "ab" < dots < "aaa" < dots$
+  - $epsilon prec "a" prec "b" prec dots prec "aa" prec "ab" prec dots prec "aaa" prec dots$
   - Any set of finite strings has a shortest, and among equals, an alphabetically first
   - Example: ${"cat" #emoji.cat, "dog" #emoji.dog, "ox" #emoji.ox, "zebra" #emoji.zebra}$ has least element "$"ox"$" $#emoji.ox$
 
   #note[
     _Pure_ lexicographic order (alphabetical only) is _NOT_ well-ordered:
     - ${"b", "ab", "aab", "aaab", dots}$ has no least element --- we can always prefix more $"a"$'s!
-    - $"b" > "ab" > "aab" > "aaab" > dots$ --- an infinite descending chain of strings!
+    - $"b" succ "ab" succ "aab" succ "aaab" succ dots$ --- an infinite descending chain of strings!
   ]
 ]
 
