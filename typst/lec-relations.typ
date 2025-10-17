@@ -4201,25 +4201,29 @@ Therefore, `process(S)` terminates for all finite sets $S$!
 
 == Special Cases of Well-Founded Induction
 
-Well-founded induction goes by different names depending on the structure being used:
+Well-founded induction goes by different names depending on the structure:
 
 #Block(color: green)[
-  - *Strong induction* on $NN$: well-founded induction on $pair(NN, >)$
-  - *Transfinite induction*: well-founded induction on well-ordered sets (ordinals)
-  - *Structural induction*: well-founded induction on syntax trees or inductively-defined structures
+  - *Strong induction* (or *complete induction*): well-founded induction on $pair(NN, >)$
+  - *Transfinite induction*: well-founded induction on well-ordered sets (arbitrary ordinals)
+  - *Structural induction*: well-founded induction on inductively-defined structures (trees, lists, terms)
+]
+
+#note[
+  Strong induction on $NN$ is transfinite induction on the ordinal $omega$ (since $pair(NN, >)$ is well-ordered).
 ]
 
 #example[
   Structural induction on lists:
-  - To prove $P(L)$ for all lists $L$, assume $P(L')$ for all _shorter_ lists $L'$
-  - List length defines a well-founded relation: can't have infinitely descending chains
+  - To prove $P(L)$ for all lists, assume $P(L')$ for all _shorter_ lists $L'$
+  - "Shorter" means the sublist relation is well-founded (no infinite descending chains)
 ]
 
 #Block(color: purple)[
-  *The unifying principle:*
-  All these are the *same* proof technique, just applied to different well-founded relations.
-  The key is always: assume the property for all "smaller" elements, then prove it for the current element.
-  From this, we conclude the property holds for all elements in the structure!
+  *The pattern:*
+  All these variants follow the same approach --- assume the property for all "smaller" elements, then prove it for the current element.
+
+  The only difference is the notion of "smaller" (ordinals, set sizes, tree depths, etc.).
 ]
 
 == Induced Strict Order
