@@ -4372,27 +4372,11 @@ Just as well-founded relations prevent infinite descent, _Noetherian_ relations 
   - Since $NN$ has no infinite descending chains, the sequence stabilizes!
 ]
 
-#pagebreak()
-
-#example[Dickson's Lemma][
-  The poset $pair(NN^n, leq)$ with componentwise ordering is Noetherian:
-  $
-    (a_1, dots, a_n) leq (b_1, dots, b_n)
-    quad iff quad
-    a_i leq b_i "for all" i
-  $
-
-  *Proof idea:* Any infinite sequence in $NN^n$ must have an infinite ascending subsequence (by induction on dimension).
-
-  *Application:* Used in proving termination of multivariate polynomial rewriting systems and in computational algebra.
-]
-
 #Block(color: blue)[
   *Why Noetherian matters:*
   In many algorithms, we build increasingly complex structures. \
   ACC guarantees this process eventually stabilizes or can't continue indefinitely!
 ]
-
 
 == Chain Conditions: Key Examples
 
