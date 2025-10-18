@@ -3624,8 +3624,11 @@ Functions can be characterized by several key properties that determine their ma
   A poset $pair(S, leq)$ that is both an upper semilattice and a lower semilattice, i.e., every non-empty finite subset has both a join and a meet, is called a _lattice_, denoted $(S, Join, Meet)$.
 ]
 
-#example[
-  $({0, 1}, and, or)$ is a lattice, where ${0, 1}$ are truth values, $and$ is a conjuction, and $or$ is a disjunction.
+#example[Boolean Lattice][
+  $pair(power(X), subset.eq)$ is a bounded distributive lattice $(power(X), union, intersect)$:
+  - Elements are subsets of $X$, ordered by inclusion ($subset.eq$)
+  - Join is union ($Join = union$), meet is intersection ($Meet = intersect$)
+  - Top element is $X$ (greatest element), bottom is $emptyset$ (least element)
 ]
 
 == Examples: Small Lattices
@@ -3830,6 +3833,15 @@ Functions can be characterized by several key properties that determine their ma
 
   ...you likely have a _lattice_!
 
+  #place(top + right)[
+    #box(
+      radius: 5pt,
+      clip: true,
+      stroke: 1pt + blue.darken(20%),
+      image("assets/base.jpg", height: 2.4cm),
+    )
+  ]
+
   This structure appears in programming languages, databases, security systems, logic circuits, and many other areas of computer science and mathematics.
 ]
 
@@ -3881,13 +3893,13 @@ Functions can be characterized by several key properties that determine their ma
   - $0 = 0$ #YES
   - Similarly for dual law
 
-  *All Boolean lattices are distributive.*
+  *All Boolean algebras are distributive.*
 ]
 
 == Non-Distributive Lattices
 
-#place(right, dx: -2cm, dy: 1em)[
-  #cetz.canvas(length: 0.7cm, {
+#place(right, dx: -2cm)[
+  #cetz.canvas(length: 0.8cm, {
     import cetz.draw: *
 
     // Nodes
@@ -3927,17 +3939,19 @@ Functions can be characterized by several key properties that determine their ma
 #example[
   In compiler optimization, _interprocedural dataflow analysis_ uses distributive lattices:
 
-  - *Elements:* Sets of dataflow facts (e.g., "variable $x$ is constant", "pointer $p$ may be null")
+  - *Elements:* Sets of dataflow _facts_ (e.g., "variable $x$ is constant", "pointer $p$ may be null")
   - *Order:* $S_1 leq S_2$ if $S_1 subset.eq S_2$ (subset of facts)
   - *Join:* $S_1 Join S_2 = S_1 union S_2$ (merge facts from different paths)
   - *Meet:* $S_1 Meet S_2 = S_1 intersect S_2$ (common facts)
 
-  *Why distributivity matters:*
-  - Distributivity ensures that $f(x Join y) = f(x) Join f(y)$ for flow functions $f$.
+  #Block[
+    *Why distributivity matters?*
+    - Distributivity ensures that $f(x Join y) = f(x) Join f(y)$ for flow functions $f$.
 
-  - This allows _separate analysis_ of different execution paths with guaranteed precision when _merged_.
+    - This allows _separate analysis_ of different execution paths with guaranteed precision when _merged_.
 
-  - IFDS (Interprocedural, Finite, Distributive, Subset) problems (e.g., reachability, _taint analysis_) are solvable in polynomial time precisely because the lattice is distributive!
+    - IFDS (Interprocedural, Finite, Distributive, Subset) problems (e.g., reachability, _taint analysis_) are solvable in polynomial time precisely because the lattice is distributive!
+  ]
 ]
 
 == Modular Lattices
@@ -3949,33 +3963,33 @@ Functions can be characterized by several key properties that determine their ma
   $
 
   #note[
-    Every distributive lattice is modular.
+    Every distributive lattice is modular, but not vice versa.
   ]
 ]
 
-#place(right, dx: -5cm)[
-  #cetz.canvas(length: 0.8cm, {
-    import cetz.draw: *
-
-    // Nodes
-    draw-node((0, 0), "bot", $0$, right)
-    draw-node((-1, 1.5), "a", $a$, left)
-    draw-node((0, 1.5), "b", $b$, right)
-    draw-node((1, 1.5), "c", $c$, right)
-    draw-node((0, 3), "top", $1$, right)
-
-    // Edges
-    line("bot", "a")
-    line("bot", "b")
-    line("bot", "c")
-    line("a", "top")
-    line("b", "top")
-    line("c", "top")
-  })
-]
-
 #example[
-  $M_3$ is modular
+  Diamond lattice $M_3$ is modular.
+
+  #place(right, dx: -5cm, dy: -1em)[
+    #cetz.canvas(length: 0.8cm, {
+      import cetz.draw: *
+
+      // Nodes
+      draw-node((0, 0), "bot", $0$, right)
+      draw-node((-1, 1.5), "a", $a$, left)
+      draw-node((0, 1.5), "b", $b$, right)
+      draw-node((1, 1.5), "c", $c$, right)
+      draw-node((0, 3), "top", $1$, right)
+
+      // Edges
+      line("bot", "a")
+      line("bot", "b")
+      line("bot", "c")
+      line("a", "top")
+      line("b", "top")
+      line("c", "top")
+    })
+  ]
 
   For $a leq 1$:
   - $a Join (b Meet 1) = a Join b = 1$
@@ -3989,28 +4003,28 @@ Functions can be characterized by several key properties that determine their ma
 
 == Non-Modular Lattices
 
-#place(right, dx: -3cm)[
-  #cetz.canvas(length: 0.8cm, {
-    import cetz.draw: *
-
-    // Nodes
-    draw-node((0, 0), "bot", $0$, left)
-    draw-node((-1, 1.5), "a", $a$, left)
-    draw-node((1, 1), "b", $b$, right)
-    draw-node((1, 2), "c", $c$, right)
-    draw-node((0, 3), "top", $1$, left)
-
-    // Edges
-    line("bot", "a")
-    line("bot", "b")
-    line("b", "c")
-    line("a", "top")
-    line("c", "top")
-  })
-]
-
 #example[
-  $N_5$ is _not_ modular
+  Pentagon lattice $N_5$ is _not_ modular.
+
+  #place(right, dx: -3cm, dy: -1em)[
+    #cetz.canvas(length: 0.8cm, {
+      import cetz.draw: *
+
+      // Nodes
+      draw-node((0, 0), "bot", $0$, left)
+      draw-node((-1, 1.5), "a", $a$, left)
+      draw-node((1, 1), "b", $b$, right)
+      draw-node((1, 2), "c", $c$, right)
+      draw-node((0, 3), "top", $1$, left)
+
+      // Edges
+      line("bot", "a")
+      line("bot", "b")
+      line("b", "c")
+      line("a", "top")
+      line("c", "top")
+    })
+  ]
 
   For $b leq c$:
   - $b Join (a Meet c) = b Join 0 = b$
@@ -4027,48 +4041,30 @@ Functions can be characterized by several key properties that determine their ma
 == Modular Lattices: Applications
 
 #example[
-  The set of all subspaces of a vector space $V$, ordered by inclusion, forms a _modular lattice_:
-
-  - *Elements:* Subspaces $U, W subset.eq V$
-  - *Order:* $U leq W$ if $U subset.eq W$
-  - *Join:* $U Join W = U + W$ (sum of subspaces: ${ u + w : u in U, w in W }$)
-  - *Meet:* $U Meet W = U inter W$ (intersection of subspaces)
-
-  *Dimension formula:* $dim(U + W) = dim(U) + dim(W) - dim(U inter W)$
-
-  _This is exactly the modular law in disguise!_
-
-  *Applications:*
-  - Quantum mechanics (state spaces are subspaces of Hilbert space)
-  - Signal processing (subspace methods for filtering)
-  - Coding theory (linear codes are subspaces)
+  The set of all _subspaces_ of a vector space $V$, ordered by inclusion, forms a _modular lattice_.
 ]
 
-#pagebreak()
+//   The set of all subspaces of a vector space $V$, ordered by inclusion, forms a _modular lattice_:
+//
+//   - *Elements:* Subspaces $U, W subset.eq V$
+//   - *Order:* $U leq W$ if $U subset.eq W$
+//   - *Join:* $U Join W = U + W$ (sum of subspaces: ${ u + w : u in U, w in W }$)
+//   - *Meet:* $U Meet W = U inter W$ (intersection of subspaces)
+//
+//   *Dimension formula:* $dim(U + W) = dim(U) + dim(W) - dim(U inter W)$
+//
+//   _This is exactly the modular law in disguise!_
+//
+//   *Applications:*
+//   - Quantum mechanics (state spaces are subspaces of Hilbert space)
+//   - Signal processing (subspace methods for filtering)
+//   - Coding theory (linear codes are subspaces)
+// ]
 
 #Block(color: yellow)[
   *Hierarchy:* Lattice $=>$ Modular $=>$ Distributive
 
   Each level adds structure and enables different applications.
-]
-
-#example[Powerset Lattice][
-  $pair(power(A), subset.eq)$ is a bounded distributive lattice with $Join = union$, $Meet = intersect$, $top = A$, $bot = emptyset$.
-
-  #place(right)[
-    #box(
-      radius: 5pt,
-      clip: true,
-      stroke: 1pt + blue.darken(20%),
-      image("assets/base.jpg", width: 4cm),
-    )
-  ]
-
-  *Why this matters:*
-  This is the foundation of set-based reasoning in:
-  - Database theory (relational algebra)
-  - Formal specification languages (Z, B-method)
-  - Model checking and verification
 ]
 
 == Examples of Lattices
@@ -4086,14 +4082,20 @@ Functions can be characterized by several key properties that determine their ma
   - Scheduling problems (finding common time periods)
 ]
 
+// TODO: visualize the complete infinite divisibility lattice for all natural numbers
+
 #pagebreak()
 
 #example[File System Permissions][
   Unix file permissions form a lattice under inclusion:
+
   - Elements: Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
+
   - Order: $P_1 leq P_2$ if $P_1 subset.eq P_2$ (fewer permissions $=>$ more restrictive)
+
   - Join: Union of permissions (less restrictive)
     - For example: ${"read"} Join {"execute"} = {"read", "execute"}$
+
   - Meet: Intersection of permissions (more restrictive)
     - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
 ]
@@ -4103,11 +4105,17 @@ Functions can be characterized by several key properties that determine their ma
 
 #example[Partition Lattice][
   All partitions of a set $S$, ordered by refinement.
-  - $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
+
+  - Elements: Partitions like $(1 2 | 3)$, $(1 | 2 3)$, $(1 | 2 | 3)$, etc.
+
+  - Order: $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
+
   - Join: Finest common coarsening
     - For example: $(1 2 | 3) Join (1 | 2 3) = (1 2 3)$
+
   - Meet: Coarsest common refinement
     - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
+
   - Applications: Clustering, database normalization
 ]
 // TODO: visualize
@@ -4183,74 +4191,115 @@ let z = condition ? x : y;
   - For object types: $#`{ name: string }` Meet #`{ age: int }` = #`{ name: string, age: int }`$
   - For disjoint types: $#`int` Meet #`string` = #`never`$ (bottom type)
 
-// *Applications:*
-// - Type inference in TypeScript, Scala, Kotlin
-// - Static analysis and program verification
-// - Generic programming with bounded quantification
+== Complemented Lattices
 
-== Boolean Algebras
-
-// TODO: intruduce a separate definition of complemented lattice
-// TODO: refine the BA definition to just combine all presented properties
 #definition[
-  A _Boolean algebra_ is a complemented distributive lattice: a bounded distributive lattice $(B, Join, Meet, bot, top)$ with a unary operation $not$ (complement) satisfying:
-
-  For all $x in B$:
+  A lattice is _complemented_ if for every element $x$ there exists an element $y$ (called the _complement_ of $x$) such that:
   $
-    x Join not x & = top \
-    x Meet not x & = bot
+    x Join y & = top \
+    x Meet y & = bot
   $
 
   #note[
-    The complement $not x$ is unique for each $x$ in a Boolean algebra.
+    Complements may not be unique in general!
   ]
 ]
 
-#place(right, dx: -5cm)[
-  #table(
-    columns: 5,
-    align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*$x$*], [*$y$*], [*$x Join y$*], [*$x Meet y$*], [*$not x$*]),
-    [0], [0], [0], [0], [1],
-    [0], [1], [1], [0], [1],
-    [1], [0], [1], [0], [0],
-    [1], [1], [1], [1], [0],
-  )
+== Boolean Algebras
+
+#definition[
+  A _Boolean algebra_ is a complemented distributive lattice $(B, Join, Meet, not, top, bot)$:
+  - a set $B$
+  - with two binary operations $Join$ (join) and $Meet$ (meet),
+  - a unary operation $not$ (complement),
+  - and two distinguished elements $top$ (top) and $bot$ (bottom).
+]
+
+#note[
+  The complement $not x$ is _unique_ for each $x$ in a Boolean algebras!
 ]
 
 #example[
-  $B_2 = {0, 1}$
+  $B_1 = bold(2) = ({0,1}, Join, Meet, not, 1, 0)$ is the two-element Boolean algebra ($0 = #False$, $1 = #True$).
 
-  Isomorphic to:
-  - $({"true", "false"}, or, and, not)$
-  - $({0, 1}, max, min, 1 - x)$
-  - $(power({star}), union, intersect, complement)$
+  #place(right, dx: -3cm)[
+    #table(
+      columns: 5,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.4pt) },
+      table.header([*$x$*], [*$y$*], [*$x Join y$*], [*$x Meet y$*], [*$not x$*]),
+      [0], [0], [0], [0], [1],
+      [0], [1], [1], [0], [1],
+      [1], [0], [1], [0], [0],
+      [1], [1], [1], [1], [0],
+    )
+  ]
+
+  Isomorphic to (same structure up to renaming):
+  - Classical semantics: $({0, 1}, max, min, 1 - x)$
+  - Algebra on sets: $(power({star}), union, intersect, complement)$
+  - GF(2) algebra: $({0, 1}, xor, and, 1 xor x)$
 ]
 
-#pagebreak()
+== Boolean Lattices as Boolean Algebras
 
 #example[
-  $B_3 = power({a, b, c})$
+  Boolean lattice $B_3 = (power({a,b,c}), union, intersect, overline(X))$ is a Boolean algebra.
 
-  Elements: $emptyset, {a}, {b}, {c}, {a,b}, {a,c}, {b,c}, {a,b,c}$
+  #place(right, dx: -2cm)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (2em, 1.5em),
+      node-shape: fletcher.shapes.rect,
+      node-corner-radius: 3pt,
+      node-fill: blue.lighten(90%),
+      node-stroke: 0.8pt + blue,
+      edge-stroke: 1pt + blue,
+      mark-scale: 80%,
+      // Top level
+      node((0, 0), [${a, b, c}$], name: <abc>),
+      // Second level
+      node((-1, 1), [${a, b}$], name: <ab>),
+      node((0, 1), [${a, c}$], name: <ac>),
+      node((1, 1), [${b, c}$], name: <bc>),
+      // Third level
+      node((-1, 2), [${a}$], name: <a>),
+      node((0, 2), [${b}$], name: <b>),
+      node((1, 2), [${c}$], name: <c>),
+      // Bottom level
+      node((0, 3), [$emptyset$], name: <empty>),
+      // Edges
+      edge(<empty>, <a>, "-}>"),
+      edge(<empty>, <b>, "-}>"),
+      edge(<empty>, <c>, "-}>"),
+      edge(<a>, <ab>, "-}>"),
+      edge(<a>, <ac>, "-}>"),
+      edge(<b>, <ab>, "-}>"),
+      edge(<b>, <bc>, "-}>"),
+      edge(<c>, <ac>, "-}>"),
+      edge(<c>, <bc>, "-}>"),
+      edge(<ab>, <abc>, "-}>"),
+      edge(<ac>, <abc>, "-}>"),
+      edge(<bc>, <abc>, "-}>"),
+    )
+  ]
+
+  Elements: Subsets of ${a,b,c}$ ordered by inclusion ($subset.eq$)
 
   Operations:
   - Join: $A Join B = A union B$
   - Meet: $A Meet B = A intersect B$
-  - Complement: $not A = {a,b,c} without A$
+  - Complement: $not A = overline(A) = {a,b,c} without A$
   - Top: ${a, b, c}$
   - Bottom: $emptyset$
 
   Check: ${a} Join not{a} = {a} union {b,c} = {a,b,c} = top$ #YES
 ]
 
-// TODO: theorem block
-#Block(color: blue)[
-  *Stone's Representation Theorem:* \
-  Every Boolean algebra is isomorphic to a powerset algebra $power(S)$ for some set $S$.
-
-  This means all Boolean algebras are essentially "algebras of sets"!
+#v(1em)
+#Block(color: purple)[
+  *Stone's Representation Theorem:*
+  Every Boolean algebra is isomorphic to a Boolean algebra of sets.
 ]
 
 == Boolean Algebras: Applications
@@ -4260,18 +4309,16 @@ let z = condition ? x : y;
 
   Boolean algebras model logic gates:
   - Variables: Input signals (0/1, false/true)
-  - Join ($or$): OR gate
-  - Meet ($and$): AND gate
-  - Complement ($not$): NOT gate
-  - Laws: Circuit simplification rules
-
-  Example simplification:
-  $
-    x and (x or y) & = x              && " (Absorption)" \
-     not (x and y) & = not x or not y && " (De Morgan)"
-  $
-
-  #v(0.3em)
+  - Join: OR gate ($or$)
+  - Meet: AND gate ($and$)
+  - Complement: NOT gate ($not$)
+  // - Laws: Circuit simplification rules
+  //
+  // Example simplification:
+  // $
+  //   x and (x or y) & = x              && " (Absorption)" \
+  //    not (x and y) & = not x or not y && " (De Morgan)"
+  // $
 
   *Applications:* CPU design, memory circuits, FPGA programming
 
@@ -4292,6 +4339,8 @@ let z = condition ? x : y;
 
   *Applications:* SAT solvers, theorem provers, formal verification
 ]
+
+#pagebreak()
 
 #Block(color: yellow)[
   *Key insight:* Boolean algebras unify:
@@ -4337,11 +4386,11 @@ let z = condition ? x : y;
   [
     *Key Examples of Lattices:*
 
-    - *$power(S)$:* Powerset
-      - Boolean algebra
+    - *$B_n = power({x_1, dots, x_n})$:* Boolean lattice
+      - Boolean algebra of sets
       - Universal model (by Stone's theorem)
 
-    - *$bold(B_2)$:* Boolean lattice ${0, 1}$
+    - *$bold(2) = B_1$:* Two-element Boolean algebra
       - Distributive #YES
       - Models: logic, circuits, sets
 
