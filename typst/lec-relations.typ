@@ -4040,31 +4040,52 @@ Functions can be characterized by several key properties that determine their ma
 
 == Modular Lattices: Applications
 
-#example[
-  The set of all _subspaces_ of a vector space $V$, ordered by inclusion, forms a _modular lattice_.
-]
-
-//   The set of all subspaces of a vector space $V$, ordered by inclusion, forms a _modular lattice_:
-//
-//   - *Elements:* Subspaces $U, W subset.eq V$
-//   - *Order:* $U leq W$ if $U subset.eq W$
-//   - *Join:* $U Join W = U + W$ (sum of subspaces: ${ u + w : u in U, w in W }$)
-//   - *Meet:* $U Meet W = U inter W$ (intersection of subspaces)
-//
-//   *Dimension formula:* $dim(U + W) = dim(U) + dim(W) - dim(U inter W)$
-//
-//   _This is exactly the modular law in disguise!_
-//
-//   *Applications:*
-//   - Quantum mechanics (state spaces are subspaces of Hilbert space)
-//   - Signal processing (subspace methods for filtering)
-//   - Coding theory (linear codes are subspaces)
-// ]
-
 #Block(color: yellow)[
   *Hierarchy:* Lattice $=>$ Modular $=>$ Distributive
 
   Each level adds structure and enables different applications.
+]
+
+#example[
+  The subspaces of a vector space $V$, ordered by inclusion, form a modular lattice.
+
+  - *Elements:* subspaces $U, W, Z subset.eq V$
+  - *Join:* $U Join W = U + W$ (sum / span of $U union W$)
+  - *Meet:* $U Meet W = U inter W$
+
+  For any two subspaces $U, W$ of $V$, we have the _dimension formula_:
+  $
+    dim(U + W) = dim(U) + dim(W) - dim(U inter W)
+  $
+  This expresses how dimensions "add up" when combining subspaces.
+
+  _This is exactly the modular law in disguise!_
+
+  The modular law governs how join ($+$) and meet ($inter$) interact when one subspace is contained in another.
+
+  *Modular law:*
+  Whenever $U subset.eq Z$, we have: $U Join (W Meet Z) = (U Join W) Meet Z$
+
+  *Proof:*
+  We show both inclusions of the equality: $U + (W inter Z) = (U + W) inter Z$
+
+  *Step 1 ($subset.eq$):*
+  - Suppose $x in U + (W inter Z)$.
+  - Then $x = u + w'$ for some $u in U$, $w' in W inter Z$.
+  - Since $u in U subset.eq Z$ and $w' in Z$, we have $x in Z$.
+  - Also $x in U + W$, hence $x in (U + W) inter Z$.
+
+  *Step 2 ($supset.eq$):*
+  - Suppose $x in (U + W) inter Z$.
+  - Then $x = u + w$ for some $u in U$, $w in W$, and $x in Z$.
+  - Because $U subset.eq Z$, we have $u in Z$, so $w = x - u in Z$.
+  - Thus $w in W inter Z$, and therefore $x = u + w in U + (W inter Z)$.
+
+  Combining both directions, we conclude:
+  $U + (W inter Z) = (U + W) inter Z$.
+
+  *Interpretation:*
+  "Joining $U$ and $W$, then cutting by $Z$" equals "cutting $W$ by $Z$, then joining with $U$".
 ]
 
 == Examples of Lattices
