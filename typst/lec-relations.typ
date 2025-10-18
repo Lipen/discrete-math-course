@@ -4108,7 +4108,47 @@ Functions can be characterized by several key properties that determine their ma
 #pagebreak()
 
 #example[File System Permissions][
-  Unix file permissions form a lattice under inclusion:
+  Unix file permissions form a lattice under inclusion.
+
+  #place(right)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (2em, 2em),
+      node-shape: fletcher.shapes.rect,
+      node-corner-radius: 3pt,
+      node-fill: blue.lighten(90%),
+      node-stroke: 1pt + blue,
+      edge-stroke: 1pt + blue,
+
+      // Top level
+      node((0, -2), [7: `rwx`], name: <rwx>),
+      // Level 2
+      node((-1, -1), [6: `rw-`], name: <rw>),
+      node((0, -1), [5: `r-x`], name: <rx>),
+      node((1, -1), [3: `-wx`], name: <wx>),
+      // Level 1
+      node((-1, 0), [4: `r--`], name: <r>),
+      node((0, 0), [2: `-w-`], name: <w>),
+      node((1, 0), [1: `--x`], name: <x>),
+      // Bottom level
+      node((0, 1.2), [0: `---`], name: <empty>),
+
+      edge(<empty>, <r>, "-}>"),
+      edge(<empty>, <w>, "-}>"),
+      edge(<empty>, <x>, "-}>"),
+
+      edge(<r>, <rw>, "-}>"),
+      edge(<r>, <rx>, "-}>"),
+      edge(<w>, <rw>, "-}>"),
+      edge(<w>, <wx>, "-}>"),
+      edge(<x>, <rx>, "-}>"),
+      edge(<x>, <wx>, "-}>"),
+
+      edge(<rw>, <rwx>, "-}>"),
+      edge(<rx>, <rwx>, "-}>"),
+      edge(<wx>, <rwx>, "-}>"),
+    )
+  ]
 
   - Elements: Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
 
@@ -4120,7 +4160,6 @@ Functions can be characterized by several key properties that determine their ma
   - Meet: Intersection of permissions (more restrictive)
     - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
 ]
-// TODO: visualize
 
 #pagebreak()
 
