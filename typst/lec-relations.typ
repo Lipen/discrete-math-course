@@ -4172,9 +4172,9 @@ Functions can be characterized by several key properties that determine their ma
       spacing: (1em, 3em),
       node-shape: fletcher.shapes.rect,
       node-corner-radius: 3pt,
-      node-fill: blue.lighten(90%),
-      node-stroke: 1pt + blue,
-      edge-stroke: 1pt + blue,
+      node-fill: purple.lighten(90%),
+      node-stroke: 1pt + purple.darken(20%),
+      edge-stroke: 1pt + purple.darken(20%),
       // Bottom level
       node((0, 0), [${1}, {2}, {3}$], name: <1-2-3>),
       // Middle level
