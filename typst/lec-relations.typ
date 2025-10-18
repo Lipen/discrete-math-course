@@ -3991,7 +3991,7 @@ Functions can be characterized by several key properties that determine their ma
     })
   ]
 
-  For $a leq 1$:
+  For $a <= 1$:
   - $a Join (b Meet 1) = a Join b = 1$
   - $(a Join b) Meet 1 = 1 Meet 1 = 1$
   - $1 = 1$ #YES
