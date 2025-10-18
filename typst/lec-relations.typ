@@ -4312,15 +4312,15 @@ let z = condition ? x : y;
   - Join: OR gate ($or$)
   - Meet: AND gate ($and$)
   - Complement: NOT gate ($not$)
-  // - Laws: Circuit simplification rules
-  //
-  // Example simplification:
-  // $
-  //   x and (x or y) & = x              && " (Absorption)" \
-  //    not (x and y) & = not x or not y && " (De Morgan)"
-  // $
 
   *Applications:* CPU design, memory circuits, FPGA programming
+
+  #Block(color: yellow)[
+    *Key insight:* Boolean algebras unify:
+    - Set theory (powerset operations)
+    - Logic (propositional calculus)
+    - Circuits (digital hardware)
+  ]
 
   #colbreak()
 
@@ -4339,30 +4339,11 @@ let z = condition ? x : y;
 
   *Applications:* SAT solvers, theorem provers, formal verification
 ]
-
-#pagebreak()
-
-#Block(color: yellow)[
-  *Key insight:* Boolean algebras unify:
-  - Set theory (powerset operations)
-  - Logic (propositional calculus)
-  - Circuits (digital hardware)
-
-  They are complemented distributive lattices with elegant algebraic laws.
-]
-
-#example[Binary Decision Diagrams (BDDs)][
-  BDDs are canonical representations of Boolean functions based on Boolean algebra:
-
-  - Used in: Model checking, circuit verification, AI planning
-  - Operations: Compute $f Join g$, $f Meet g$, $not f$ efficiently on DAG structures
-  - Key property: Reduced BDDs are unique for each Boolean function
-]
-
 == Summary: Lattice Theory
 
-#Block(color: yellow)[
-  *Core Definitions:*
+#Block(color: green)[
+  *Core definitions:*
+
   - *Lattice:* Poset where every pair has a unique join (sup) and meet (inf)
   - *Bounded lattice:* Has top ($top$) and bottom ($bot$) elements
   - *Distributive lattice:* Satisfies $x Meet (y Join z) = (x Meet y) Join (x Meet z)$
@@ -4371,7 +4352,8 @@ let z = condition ? x : y;
 ]
 
 #Block(color: orange)[
-  *Key Characterizations:*
+  *Key properties:*
+
   - Distributive lattice $iff$ no $M_3$ or $N_5$ sublattice
   - Modular lattice $iff$ no $N_5$ sublattice
   - *Stone's theorem:* Every Boolean algebra is isomorphic to some powerset $power(S)$
@@ -4431,8 +4413,9 @@ let z = condition ? x : y;
 
 == Summary: Applications of Lattices
 
-#Block(color: blue)[
-  *Main Applications:*
+#Block(color: purple)[
+  *Main applications:*
+
   - *Program analysis:* Dataflow analysis (IFDS framework), abstract interpretation
   - *Type systems:* Subtyping, type inference, generic programming
   - *Digital circuits:* Logic gate design, circuit optimization, BDDs
@@ -4441,7 +4424,8 @@ let z = condition ? x : y;
 ]
 
 #Block(color: teal)[
-  *Connection to Next Topics:*
+  *Connection to next topics:*
+
   - *Well Orders:* Special total orders where every subset has a minimum
   - *Cardinality:* Comparing sizes of infinite sets using bijections
   - *Boolean Algebra:* Deep dive into axioms, laws, circuits, and applications
