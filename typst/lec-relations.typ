@@ -4127,6 +4127,92 @@ Functions can be characterized by several key properties that determine their ma
 #example[Partition Lattice][
   All partitions of a set $S$, ordered by refinement.
 
+  #place(right)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1em, 3em),
+      node-shape: fletcher.shapes.rect,
+      node-corner-radius: 3pt,
+      node-fill: blue.lighten(90%),
+      node-stroke: 1pt + blue,
+      edge-stroke: 1pt + blue,
+      // Bottom level
+      node((0, 0), [${1}, {2}, {3}$], name: <1-2-3>),
+      // Middle level
+      node((-1, -1), [${1, 2}, {3}$], name: <12-3>),
+      node((0, -1), [${1, 3}, {2}$], name: <13-2>),
+      node((1, -1), [${1}, {2, 3}$], name: <1-23>),
+      // Top level
+      node((0, -2), [${1, 2, 3}$], name: <123>),
+      // Edges
+      edge(<1-2-3>, <12-3>, "-}>"),
+      edge(<1-2-3>, <13-2>, "-}>"),
+      edge(<1-2-3>, <1-23>, "-}>"),
+      edge(<12-3>, <123>, "-}>"),
+      edge(<13-2>, <123>, "-}>"),
+      edge(<1-23>, <123>, "-}>"),
+    )
+    // #diagram(
+    //   spacing: (2em, 2em),
+    //   node-shape: fletcher.shapes.rect,
+    //   node-corner-radius: 3pt,
+    //   node-fill: blue.lighten(90%),
+    //   node-stroke: 1pt + blue,
+    //   edge-stroke: 1pt + blue,
+    //   // Bottom level
+    //   node((0, 0), [$1 | 2 | 3 | 4$], name: <1-2-3-4>),
+    //   // Second level
+    //   node((-2.5, -1), [$1 | 2 3 | 4$], name: <1-23-4>),
+    //   node((-1.5, -1), [$1 4 | 2 | 3$], name: <14-2-3>),
+    //   node((-0.5, -1), [$1 | 2 4 | 3$], name: <1-24-3>),
+    //   node((0.5, -1), [$1 3 | 2 | 4$], name: <13-2-4>),
+    //   node((1.5, -1), [$1 2 | 3 | 4$], name: <12-3-4>),
+    //   node((2.5, -1), [$1 | 2 | 3 4$], name: <1-2-34>),
+    //   // Third level
+    //   node((-3, -2), [$1 4 | 2 3$], name: <14-23>),
+    //   node((-2, -2), [$1 | 2 3 4$], name: <1-234>),
+    //   node((-1, -2), [$1 2 4 | 3$], name: <124-3>),
+    //   node((0, -2), [$1 3 | 2 4$], name: <13-24>),
+    //   node((1, -2), [$1 2 3 | 4$], name: <123-4>),
+    //   node((2, -2), [$1 3 4 | 2$], name: <134-2>),
+    //   node((3, -2), [$1 2 | 3 4$], name: <12-34>),
+    //   // Top level
+    //   node((0, -3), [$1 2 3 4$], name: <1234>),
+    //   // Edges
+    //   edge(<1-2-3-4>, <1-23-4>, "-}>"),
+    //   edge(<1-2-3-4>, <14-2-3>, "-}>"),
+    //   edge(<1-2-3-4>, <1-24-3>, "-}>"),
+    //   edge(<1-2-3-4>, <13-2-4>, "-}>"),
+    //   edge(<1-2-3-4>, <12-3-4>, "-}>"),
+    //   edge(<1-2-3-4>, <1-2-34>, "-}>"),
+    //   edge(<1-23-4>, <14-23>, "-}>"),
+    //   edge(<1-23-4>, <1-234>, "-}>"),
+    //   edge(<1-23-4>, <123-4>, "-}>"),
+    //   edge(<14-2-3>, <14-23>, "-}>"),
+    //   edge(<14-2-3>, <124-3>, "-}>"),
+    //   edge(<14-2-3>, <134-2>, "-}>"),
+    //   edge(<1-24-3>, <1-234>, "-}>"),
+    //   edge(<1-24-3>, <124-3>, "-}>"),
+    //   edge(<1-24-3>, <13-24>, "-}>"),
+    //   edge(<13-2-4>, <13-24>, "-}>"),
+    //   edge(<13-2-4>, <123-4>, "-}>"),
+    //   edge(<13-2-4>, <134-2>, "-}>"),
+    //   edge(<12-3-4>, <124-3>, "-}>"),
+    //   edge(<12-3-4>, <123-4>, "-}>"),
+    //   edge(<12-3-4>, <12-34>, "-}>"),
+    //   edge(<1-2-34>, <1-234>, "-}>"),
+    //   edge(<1-2-34>, <134-2>, "-}>"),
+    //   edge(<1-2-34>, <12-34>, "-}>"),
+    //   edge(<14-23>, <1234>, "-}>"),
+    //   edge(<1-234>, <1234>, "-}>"),
+    //   edge(<124-3>, <1234>, "-}>"),
+    //   edge(<13-24>, <1234>, "-}>"),
+    //   edge(<123-4>, <1234>, "-}>"),
+    //   edge(<134-2>, <1234>, "-}>"),
+    //   edge(<12-34>, <1234>, "-}>"),
+    // )
+  ]
+
   - Elements: Partitions like $(1 2 | 3)$, $(1 | 2 3)$, $(1 | 2 | 3)$, etc.
 
   - Order: $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
@@ -4139,7 +4225,6 @@ Functions can be characterized by several key properties that determine their ma
 
   - Applications: Clustering, database normalization
 ]
-// TODO: visualize
 
 #v(1fr)
 #Block(color: blue)[
