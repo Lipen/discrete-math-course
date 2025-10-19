@@ -237,8 +237,8 @@ Heterogeneous relations connect elements from two different sets.
   #cetz.canvas({
     import cetz: draw
 
-    let draw-vertex(pos, name, label, fill: none) = {
-      draw.circle(pos, radius: 0.4, stroke: 1pt, fill: fill, name: name)
+    let draw-vertex(pos, name, label, ..args) = {
+      draw.circle(pos, radius: 0.4, stroke: 1pt, name: name, ..args)
       draw.content(pos, text(size: 1.2em)[#label], anchor: "center")
     }
 
@@ -260,13 +260,13 @@ Heterogeneous relations connect elements from two different sets.
     }
 
     // Left partition (animals)
-    draw-vertex((-2, 1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
-    draw-vertex((-2, 0), "cat", [$#emoji.cat$], fill: green.lighten(80%))
-    draw-vertex((-2, -1), "dog", [$#emoji.dog$], fill: green.lighten(80%))
+    draw-vertex((-2, 1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%), stroke: 1pt + green.darken(20%))
+    draw-vertex((-2, 0), "cat", [$#emoji.cat$], fill: green.lighten(80%), stroke: 1pt + green.darken(20%))
+    draw-vertex((-2, -1), "dog", [$#emoji.dog$], fill: green.lighten(80%), stroke: 1pt + green.darken(20%))
 
     // Right partition (food)
-    draw-vertex((2, 0.5), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
-    draw-vertex((2, -0.5), "fish", [$#emoji.fish$], fill: orange.lighten(80%))
+    draw-vertex((2, 0.5), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%), stroke: 1pt + orange.darken(20%))
+    draw-vertex((2, -0.5), "fish", [$#emoji.fish$], fill: orange.lighten(80%), stroke: 1pt + orange.darken(20%))
 
     // Edges representing the "likes to eat" relation
     draw-edge("cat", "fish")
@@ -301,144 +301,286 @@ Heterogeneous relations connect elements from two different sets.
 == Matrix Representation
 
 #definition[
-  A binary relation $R subset.eq A times B$ can be represented as a _matrix_ $M_R = matrel(R)$ where:
-  - Rows correspond to elements of $A$
-  - Columns correspond to elements of $B$
-  - $M_R [i,j] = 1$ if $a_i rel(R) b_j$, and $M_R [i,j] = 0$ otherwise
+  A relation $R subset.eq A times B$ with $A = {a_1, ..., a_m}$ and $B = {b_1, ..., b_n}$ is represented by an $m times n$ _boolean matrix_ $matrel(R)$:
+  $
+    matrel(R)[i,j] = cases(
+      1 "if" a_i rel(R) b_j,
+      0 "if" a_i nrel(R) b_j
+    )
+  $
 ]
 
 #example[
-  Let $A = {a, b, c}$, $B = {x, y}$, and $R = {pair(a, x), pair(b, x), pair(c, y)}$.
-  The matrix representation is:
+  Let $A = {a, b, c}$, $B = {x, y}$, and $R = { pair(a, x), pair(b, x), pair(c, y) }$.
+
+  Matrix representation with rows = $A$ and columns = $B$:
   $
     matrel(R) = natrix.bnat(
       1, 0;
       1, 0;
       0, 1
-    ) quad "where rows are" {a, b, c} "and columns are" {x, y}
+    )
+    quad <==> quad
+    cases(
+      a rel(R) x\, space a nrel(R) y,
+      b rel(R) x\, space b nrel(R) y,
+      c nrel(R) x\, space c rel(R) y
+    )
   $
+]
+
+#Block(color: yellow)[
+  *Why matrices?* Matrix operations (multiply, transpose) match relation operations (compose, inverse).
 ]
 
 == Special Relations
 
 #definition[
-  For any set $M$, we define these special relations:
-  - _Empty relation_: $emptyset subset.eq M^2$ (no elements are related)
-  - _Identity relation_: $I_M = {pair(x, x) | x in M}$ (each element related only to itself)
-  - _Universal relation_: $U_M = M^2$ (every element related to every element)
+  For any set $M$, we have:
+
+  - _Empty relation_: $emptyset subset.eq M^2$ --- No pairs at all; nothing is related to anything.
+
+  - _Identity relation_: $I_M = {pair(x, x) | x in M}$ --- Each element is related only to itself.
+
+  - _Universal relation_: $U_M = M^2$ --- All possible pairs; everything is related to everything.
 ]
 
 #example[
   For $M = {a, b, c}$:
-  - Empty: $emptyset$
-  - Identity: ${pair(a, a), pair(b, b), (c,c)}$
-  - Universal: ${pair(a, a), pair(a, b), pair(a, c) pair(b, a), pair(b, b), pair(b, c), pair(c, a), pair(c, b), pair(c, c)}$ (all 9 pairs)
+  - _Empty_: $emptyset$ (no relations)
+  - _Identity_: $I_M = {pair(a, a), pair(b, b), pair(c, c)}$ (3 pairs on diagonal)
+  - _Universal_: $U_M = {pair(a, a), pair(a, b), pair(a, c), pair(b, a), pair(b, b), pair(b, c), pair(c, a), pair(c, b), pair(c, c)}$ (all $3^2 = 9$ pairs)
+
+  Matrix representations:
+  $
+    matrel(emptyset) = natrix.bnat(0, 0, 0; 0, 0, 0; 0, 0, 0)
+    wide
+    matrel(I_M) = natrix.bnat(1, 0, 0; 0, 1, 0; 0, 0, 1)
+    wide
+    matrel(U_M) = natrix.bnat(1, 1, 1; 1, 1, 1; 1, 1, 1)
+  $
 ]
 
-== Operations on Relations
+== Set Operations on Relations
+
+Since relations are sets of pairs, we can apply standard set operations.
 
 #definition[
   For relations $R, S subset.eq A times B$:
-  - _Union_: $R union S = {pair(a, b) | pair(a, b) in R "or" pair(a, b) in S}$
-  - _Intersection_: $R intersect S = {pair(a, b) | pair(a, b) in R "and" pair(a, b) in S}$
-  - _Complement_: $overline(R) = (A times B) setminus R$
+
+  - _Union_: $R union S = {pair(a, b) | pair(a, b) in R or pair(a, b) in S}$
+
+  - _Intersection_: $R intersect S = {pair(a, b) | pair(a, b) in R and pair(a, b) in S}$
+
+  - _Complement_: $overline(R) = (A times B) setminus R = {pair(a, b) | pair(a, b) notin R}$
 ]
 
+#example[
+  Let $R = {pair(1, 2), pair(2, 3)}$ and $S = {pair(1, 2), pair(3, 4)}$ on $NN$.
+
+  - $R union S = {pair(1, 2), pair(2, 3), pair(3, 4)}$ (all pairs from either relation)
+  - $R intersect S = {pair(1, 2)}$ (only common pairs)
+  - If we restrict to $M = {1, 2, 3}$, then $overline(R) = {pair(1, 1), pair(1, 3), pair(2, 1), pair(2, 2), pair(3, 1), pair(3, 2), pair(3, 3)}$
+]
+
+#Block(color: yellow)[
+  *Matrix view:* Union = OR, Intersection = AND, Complement = NOT (element-wise on matrices).
+]
+
+== Inverse Relation
+
 #definition[
-  For a relation $R subset.eq A times B$, the _inverse_ (or _converse_, or _dual_) relation is:
+  For $R subset.eq A times B$, the _inverse_ (or _converse_, or _dual_) relation is:
   $
     R^(-1) = {pair(b, a) | pair(a, b) in R} subset.eq B times A
   $
 
   #note[
-    Other notations include $R^T$ (transpose), $R^C$ (converse), $R^circle.small$ (reciprocal).
+    $R^(-1)$ reverses all connections.
+    If $a rel(R) b$, then $b rel(R^(-1)) a$.
   ]
 ]
 
-#example[
-  If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
+#note[
+  Other notations: $R^T$ (transpose), $R^complement$ (converse), $R^circle.small$ (reciprocal).
 ]
 
 #example[
-  For the usual order relations, the converse is the naively "opposite" order:
-  - The converse of "less" is "greater": $class("normal", scripts(<)^T) = class("normal", >)$
-  - The converse of "less or equal" is "greater or equal": $class("normal", scripts(<=)^T) = class("normal", >=)$
+  - If $R = {pair(1, x), pair(2, y), pair(2, z)}$, then $R^(-1) = {pair(x, 1), pair(y, 2), pair(z, 2)}$.
+  - For order relations:
+    - $(<)^(-1) = (>)$ (inverse of "less than" is "greater than")
+    - $(<=)^(-1) = (>=)$ (inverse of "less or equal" is "greater or equal")
+  - For the "parent of" relation: $("parent of")^(-1) =$ "child of"
+]
+
+#Block(color: yellow)[
+  *Matrix view:* $matrel(R^(-1))$ is the transpose of $matrel(R)$.
 ]
 
 
 = Properties of Relations
 #focus-slide()
 
-== Properties of Homogeneous Relations
+== Reflexivity
+
+A relation is reflexive if every element is related to itself.
 
 #definition[
-  A relation $R subset.eq M^2$ is _reflexive_ if every element is related to itself:
-  $ forall x in M. thin (x rel(R) x) $
+  $R subset.eq M^2$ is _reflexive_ if:
+  $ forall x in M. thin x rel(R) x $
 ]
+
+#examples[
+  - _Reflexive:_ $<=$, $=$, "is the same age as"
+  - _Not reflexive:_ $<$, $!=$, "is parent of"
+]
+
+#Block(color: yellow)[
+  *Graph view:* Every vertex has a self-loop.
+
+  *Matrix view:* All diagonal entries are 1.
+]
+
+== Symmetry
+
+A relation is symmetric if the relation goes both ways.
+
 #definition[
-  A relation $R subset.eq M^2$ is _symmetric_ if for every pair of elements, if one is related to the other, then the reverse is also true:
+  $R subset.eq M^2$ is _symmetric_ if:
   $ forall x, y in M. thin (x rel(R) y) imply (y rel(R) x) $
 ]
+
+#example[
+  - _Symmetric:_ $=$, "is sibling of", "is married to"
+  - _Not symmetric:_ $<=$, "is parent of", "likes"
+]
+
+#Block(color: yellow)[
+  *Graph view:* If there's an edge $x -> y$, there's also $y -> x$. *Matrix view:* Matrix equals its transpose.
+]
+
+== Transitivity
+
+A relation is transitive if connections chain together.
+
 #definition[
-  A relation $R subset.eq M^2$ is _transitive_ if for every three elements, if the first is related to the second, and the second is related to the third, then the first is also related to the third:
+  $R subset.eq M^2$ is _transitive_ if:
   $ forall x, y, z in M. thin (x rel(R) y and y rel(R) z) imply (x rel(R) z) $
 ]
 
-== More Properties
+#example[
+  - _Transitive:_ $<=$, $=$, "is ancestor of"
+  - _Not transitive:_ "is parent of" (parent of parent is grandparent, not parent)
+]
+
+#Block(color: yellow)[
+  *Intuition:* If you can reach $z$ from $x$ through $y$, you can reach $z$ directly from $x$.
+]
+
+== Irreflexivity
+
+A relation is irreflexive if no element is related to itself.
 
 #definition[
-  A relation $R subset.eq M^2$ is _irreflexive_ if no element is related to itself:
-  $ forall x in M. thin (x nrel(R) x) $
+  $R subset.eq M^2$ is _irreflexive_ if:
+  $ forall x in M. thin x nrel(R) x $
 ]
-#definition[
-  A relation $R subset.eq M^2$ is _antisymmetric_ if for every pair of elements, if both are related to each other, then they must be equal:
-  $ forall x, y in M. thin (x rel(R) y and y rel(R) x) imply (x = y) $
-]
-#definition[
-  A relation $R subset.eq M^2$ is _asymmetric_ if for every pair of elements, if one is related to the other, then the reverse is not true:
-  $ forall x, y in M. thin (x rel(R) y) imply (y nrel(R) x) $
+
+#example[
+  - _Irreflexive:_ $<$, $!=$, "is parent of"
+  - _Not irreflexive:_ $<=$, $=$
 ]
 
 #note[
-  _irreflexive_ + _antisymmetric_ = _asymmetric_.
+  Irreflexive is _not_ the same as "not reflexive"!
+  A relation can be neither reflexive nor irreflexive.
 ]
 
-== Notes on Properties
+== Antisymmetry
 
-- Reflexivity and irreflexivity are _not_ mutually exclusive if $M = emptyset$ (both are _vacuously_#footnote[
-    A statement "for all $x$ in emptyset, $P(x)$" is considered #True because there are _no counterexamples_ in the empty set.
-  ] #True).
+A relation is antisymmetric if different elements can't be mutually related.
 
-- Symmetry and antisymmetry are _not_ mutually exclusive (e.g. identity relation).
+#definition[
+  $R subset.eq M^2$ is _antisymmetric_ if:
+  $ forall x, y in M. thin (x rel(R) y and y rel(R) x) imply (x = y) $
+]
 
-- Asymmetry implies irreflexivity and antisymmetry.
+#note[
+  Alternative definition:
+  $
+    forall x, y in M. thin (x neq y) imply (x rel(R) y implies y nrel(R) x)
+  $
+]
+
+#example[
+  - _Antisymmetric:_ $<=$, $subset.eq$, "divides" (on positive integers)
+  - _Not antisymmetric:_ "is sibling of", "is friend of"
+]
+
+#Block(color: yellow)[
+  *Intuition:* At most one direction exists between distinct elements.
+]
+
+== Asymmetry
+
+A relation is asymmetric if it never goes both ways.
+
+#definition[
+  $R subset.eq M^2$ is _asymmetric_ if:
+  $ forall x, y in M. thin (x rel(R) y) imply (y nrel(R) x) $
+]
+
+#example[
+  - _Asymmetric:_ $<$, "is parent of"
+  - _Not asymmetric:_ $<=$, $=$
+]
+
+#note[
+  Asymmetric = irreflexive + antisymmetric.
+  Asymmetry is the strongest directional property.
+]
+
+== Properties: Important Notes
+
+#note[
+  Properties are _not always opposites_:
+  - Reflexive vs irreflexive: A relation can be neither (e.g., $R = {pair(1, 1), pair(1, 2)}$ on $M = {1,2}$)
+  - Symmetric vs antisymmetric: A relation can be both (e.g., identity $I_M$)
+]
+
+#note[
+  _Empty set edge case:_ On $M = emptyset$, the empty relation is vacuously#footnote[
+    A universal statement "$forall x in emptyset, P(x)$" is true because there are no counterexamples.
+  ] reflexive, irreflexive, symmetric, antisymmetric, asymmetric, and transitive!
+]
+
+#example[Combining properties][
+  Common combinations:
+  - _Equivalence relation:_ reflexive + symmetric + transitive (e.g., $=$)
+  - _Partial order:_ reflexive + antisymmetric + transitive (e.g., $<=$)
+  - _Strict order:_ irreflexive + antisymmetric + transitive (e.g., $<$)
+]
 
 == Additional Properties
 
 #definition[
   A relation $R subset.eq M^2$ is:
+  - _Coreflexive_: If $R subset.eq I_M$ (only self-loops are allowed).
+    $ forall x, y in M. thin (x rel(R) y) imply (x = y) $
 
-  - _Coreflexive_ if $R subset.eq I_M$ (only related to themselves, if at all):
-    $
-      forall x, y in M. thin (x rel(R) y) imply (x = y)
-    $
+  - _Right Euclidean_:
+    If $x$ relates to both $y$ and $z$, then $y$ and $z$ are related.
+    $ forall x, y, z in M. thin (x rel(R) y and x rel(R) z) imply (y rel(R) z) $
 
-  - _Right Euclidean_ if whenever an element is related to two others, those two are related:
-    $
-      forall x, y, z in M. thin (x rel(R) y and x rel(R) z) imply (y rel(R) z)
-    $
-
-  - _Left Euclidean_ if whenever two elements are both related to a third, they are related to each other:
-    $
-      forall x, y, z in M. thin (y rel(R) x and z rel(R) x) imply (y rel(R) z)
-    $
+  - _Left Euclidean_:
+    If both $y$ and $z$ relate to $x$, then they relate to each other.
+    $ forall x, y, z in M. thin (y rel(R) x and z rel(R) x) imply (y rel(R) z) $
 ]
 
-#examples[
-  - Identity relation $I_M$ is coreflexive.
-    Any subset of $I_M$ is also coreflexive.
-  - Equality relation "$=$" is left and right Euclidean.
-  - "Being in the same equivalence class" is Euclidean in both directions.
+#example[
+  - Identity relation $I_M$ is coreflexive (and any subset of $I_M$)
+  - Equality "$=$" is both left and right Euclidean
+  - Equivalence relations are Euclidean in both directions
 ]
 
 
