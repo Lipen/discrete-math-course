@@ -94,32 +94,28 @@
 ]
 
 #note(title: "Notation")[
-  If $R subset.eq A times B$, we write "$a rel(R) b$" to mean that element $a in A$ is _related_ to element $b in B$.
-]
-
-#Block(
-  color: yellow,
-  inset: 0pt,
-  outset: .5em,
-)[
-  Formally, $a rel(R) b$ iff $pair(a, b) in R$.
+  Let $R subset.eq A times B$. We write:
+  - $a rel(R) b$ to mean that element $a in A$ is _related_ to element $b in B$, a shortcut for $pair(a, b) in R$.
+  - $a nrel(R) b$ to mean that element $a in A$ is _not related_ to element $b in B$, a shortcut for $pair(a, b) notin R$.
 ]
 
 #note[
-  $R$ is used to denote both the relation itself ($a rel(R) b$) _and_ the set of pairs ($R subset.eq A times B$).
+  Symbol $R$ denotes both the relation as a concept ($a rel(R) b$) and the set of ordered pairs ($R subset.eq A times B$).
 ]
 
 #note[
-  The _order_ of elements in the pair _matters_: $pair(a, b) in R$ denotes that $a$ is related to $b$, not the other way around, unless there is _another_ pair $pair(b, a)$ in the relation.
-]
-
-#example[
-  $R = { pair(n, k) | n, k in NN "and" n < k }$
+  Order of elements matters: $a rel(R) b$ is _not the same_ as $b rel(R) a$.
 ]
 
 #definition[
   - A binary relation $R subset.eq A times B$ on two different sets $A$ and $B$ is called _heterogeneous_.
   - A binary relation $R subset.eq M^2$ on the same set $M$ is called _homogeneous_.
+]
+
+#example[
+  $R = { pair(n, k) | n, k in NN "and" n < k } subset.eq NN^2$ --- a homogeneous relation "less than" for naturals.
+
+  You can, for instance, write $2 rel(R) 3$ and $3 nrel(R) 2$, since $2 < 3$ and not $3 < 2$.
 ]
 
 == Graph Representation
