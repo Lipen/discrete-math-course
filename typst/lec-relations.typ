@@ -4092,6 +4092,69 @@ Functions can be characterized by several key properties that determine their ma
 
 #example[Divisibility Lattice][
   For positive integers, $a leq b$ iff $a$ divides $b$.
+
+  #place(right, dx: -1cm)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1.5em, 2em),
+      node-shape: (node, extrude) => fletcher.draw.circle((0, 0), radius: 0.3),
+      node-inset: 5pt,
+      node-stroke: .6pt + blue.darken(20%),
+      edge-stroke: .6pt + blue.darken(20%),
+
+      // Level 0
+      node((2.5, 0), [1], name: <1>, radius: 0.3cm),
+      // Level 1
+      node((1, -1), [2], name: <2>),
+      node((2, -1), [3], name: <3>),
+      node((3, -1), [5], name: <5>),
+      node((4, -1), [...], name: <l1>),
+      // Level 2
+      node((1, -2), [4], name: <4>),
+      node((2, -2), [6], name: <6>),
+      node((3, -2), [10], name: <10>),
+      node((4, -2), [...], name: <l2>),
+      // Level 3
+      node((1, -3), [8], name: <8>),
+      node((2, -3), [12], name: <12>),
+      node((3, -3), [20], name: <20>),
+      node((4, -3), [...], name: <l3>),
+      // Level 4
+      node((2.5, -4), [0], name: <0>),
+
+      // Edges
+      edge(<1>, <l1>, "..", stroke: 0.8pt),
+      edge(<2>, <l2>, "..", stroke: 0.8pt),
+      edge(<3>, <l2>, "..", stroke: 0.8pt),
+      edge(<5>, <l2>, "..", stroke: 0.8pt),
+      edge(<4>, <l3>, "..", stroke: 0.8pt),
+      edge(<6>, <l3>, "..", stroke: 0.8pt),
+      edge(<10>, <l3>, "..", stroke: 0.8pt),
+      edge(<8>, <0>, "..", stroke: 0.8pt),
+      edge(<12>, <0>, "..", stroke: 0.8pt),
+      edge(<20>, <0>, "..", stroke: 0.8pt),
+      edge(<l1>, <l2>, "..", stroke: 0.8pt),
+      edge(<l2>, <l3>, "..", stroke: 0.8pt),
+      edge(<l3>, <0>, "..", stroke: 0.8pt),
+
+      edge(<4>, <8>, "crossing"),
+      edge(<4>, <12>, "crossing"),
+      edge(<4>, <20>, "crossing"),
+      edge(<6>, <12>, "crossing"),
+      edge(<10>, <20>, "crossing"),
+
+      edge(<2>, <4>, "crossing"),
+      edge(<2>, <6>, "crossing"),
+      edge(<2>, <10>, "crossing"),
+      edge(<3>, <6>, "crossing"),
+      edge(<5>, <10>, "crossing"),
+
+      edge(<1>, <2>, "crossing"),
+      edge(<1>, <3>, "crossing"),
+      edge(<1>, <5>, "crossing"),
+    )
+  ]
+
   - *Join (LCM):* $6 Join 10 = "lcm"(6,10) = 30$
   - *Meet (GCD):* $6 Meet 10 = "gcd"(6,10) = 2$
   - *Bottom element:* $1$ (divides everything)
