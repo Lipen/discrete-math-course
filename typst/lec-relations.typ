@@ -4274,66 +4274,102 @@ All partitions of a set $S$, ordered by refinement, form a lattice.
 
 == Example: Type Systems as Lattices
 
-#place(top + right)[
+In programming language theory, _types_ form a lattice under the _subtyping_ relation $subtype$.
+
+#Block(color: green)[
+  The subtyping relation $tau_1 subtype tau_2$ means "$tau_1$ is more specific than $tau_2$" (values of type $tau_1$ can be safely used where type $tau_2$ is expected).
+
+  Join and meet operations solve type inference problems of finding common supertypes and subtypes.
+]
+
+#columns(2)[
+  Consider a type system with numeric, boolean, and collection types:
+
   #import fletcher: diagram, edge, node
   #diagram(
-    spacing: (3em, 1.5em),
-    edge-stroke: 1pt + blue,
+    spacing: (2em, 1.5em),
     node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
+    node-outset: 1pt,
     node-fill: blue.lighten(90%),
-    node-stroke: 0.8pt + blue,
+    node-stroke: 1pt + blue.darken(20%),
+    edge-stroke: 1pt + blue.darken(20%),
 
-    // Top level
-    node((1, 0), [`any`], name: <any>),
+    // Top level (top element)
+    node((0, 0), [`any`], name: <any>),
 
     // Second level
-    node((0, 1), [`number`], name: <number>),
-    node((2, 1), [`string`], name: <string>),
+    node((-1, 1), [`number`], name: <number>),
+    node((0, 1), [`bool`], name: <bool>),
+    node((1, 1), [`collection`], name: <collection>),
 
     // Third level
-    node((-0.5, 2), [`int`], name: <int>),
-    node((0.5, 2), [`float`], name: <float>),
+    node((-1.5, 2), [`int`], name: <int>),
+    node((-0.5, 2), [`float`], name: <float>),
+    node((0.5, 2), [`array`], name: <array>),
+    node((1.5, 2), [`map`], name: <map>),
 
-    // Bottom level
-    node((0, 3), [`never`], name: <never>),
-
-    // Edges (subtype relations)
+    // Edges representing subtyping relation
     edge(<int>, <number>, "-}>"),
     edge(<float>, <number>, "-}>"),
     edge(<number>, <any>, "-}>"),
-    edge(<string>, <any>, "-}>"),
-    edge(<never>, <int>, "-}>"),
-    edge(<never>, <float>, "-}>"),
+    edge(<bool>, <any>, "-}>"),
+    edge(<collection>, <any>, "-}>"),
+    edge(<array>, <collection>, "-}>"),
+    edge(<map>, <collection>, "-}>"),
   )
 
-  #place(right + bottom, dx: 1em)[
-    #set align(left)
-    #set text(size: 0.8em)
-    *Type Lattice*
-    - Arrows: subtype relation $subtype$
-    - Join: Common supertype
-    - Meet: Common subtype
-  ]
+  #colbreak()
+
+  *Lattice operations:*
+
+  *Join* ($Join$): most specific common supertype
+  - $#`int` Join #`float` = #`number`$
+  - $#`int` Join #`bool` = #`any`$
+  - $#`array` Join #`map` = #`collection`$
+
+  *Meet* ($Meet$): most general common subtype
+  - $#`number` Meet #`collection` = bot$ (bottom type)
+  - $#`int` Meet #`number` = #`int`$
 ]
 
-In programming language theory, _types_ form lattices under the subtyping relation.
+#pagebreak()
 
-```typescript
-let x: int = 42;
-let y: string = "hello";
-let z = condition ? x : y;
-// z has type: int ∨ string = any
-```
+#example[Type inference in conditionals][
+  The code snippet below shows how join operations automatically compute types in conditional expressions:
 
-*Subtyping Lattice Structure:*
-- *Order:* $#`int` subtype #`number` subtype #`any`$,~ $#`string` subtype #`any`$
-- *Join ($Join$):* Most general common supertype (union type)
-  - $#`int` Join #`string` = #`any`$
-  - $#`int` Join #`float` = #`number`$
-- *Meet ($Meet$):* Most specific common subtype (intersection type)
-  - For object types: $#`{ name: string }` Meet #`{ age: int }` = #`{ name: string, age: int }`$
-  - For disjoint types: $#`int` Meet #`string` = #`never`$ (bottom type)
+  #align(center)[
+    ```ts
+    let x = cond ? 42 : 3.14    // type: int ∨ float = number`
+    let y = cond ? x : true     // type: number ∨ bool = any`
+    ```
+  ]
+
+  The join operation gives the least upper bound type.
+]
+
+#v(1em)
+
+#example[Generic function bounds][
+  Bounds in generic functions constrain what types can be passed:
+
+  #pad(left: 1em)[
+    ```java
+    <T extends Number> void process(T x) // Java
+    ```
+
+    ```scala
+    def f[T <: Number](x: T) // Scala
+    ```
+  ]
+
+  The type checker verifies that $T subtype "Number"$ by checking lattice relationships.
+]
+
+#note[
+  Lattice-based type systems enable _gradual typing_ (mixing typed and untyped code) and sophisticated _type inference_.
+  Examples: TypeScript, Flow, Dart, Cython, mypy.
+]
 
 == Complemented Lattices
 
