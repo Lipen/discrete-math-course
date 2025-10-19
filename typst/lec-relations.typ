@@ -4088,253 +4088,189 @@ Functions can be characterized by several key properties that determine their ma
   "Joining $U$ and $W$, then cutting by $Z$" equals "cutting $W$ by $Z$, then joining with $U$".
 ]
 
-== Examples of Lattices
+== Example: Divisibility Lattice
 
-#example[Divisibility Lattice][
-  For positive integers, $a leq b$ iff $a$ divides $b$.
+#place(right, dx: -1cm)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (1.5em, 2em),
+    node-shape: (node, extrude) => fletcher.draw.circle((0, 0), radius: 0.3),
+    node-inset: 5pt,
+    node-fill: blue.lighten(90%),
+    node-stroke: .6pt + blue.darken(20%),
+    edge-stroke: .6pt + blue.darken(20%),
 
-  #place(right, dx: -1cm)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (1.5em, 2em),
-      node-shape: (node, extrude) => fletcher.draw.circle((0, 0), radius: 0.3),
-      node-inset: 5pt,
-      node-stroke: .6pt + blue.darken(20%),
-      edge-stroke: .6pt + blue.darken(20%),
+    // Level 0
+    node((2.5, 0), [1], name: <1>, radius: 0.3cm),
+    // Level 1
+    node((1, -1), [2], name: <2>),
+    node((2, -1), [3], name: <3>),
+    node((3, -1), [5], name: <5>),
+    node((4, -1), [$dots.c$], name: <l1>),
+    // Level 2
+    node((1, -2), [4], name: <4>),
+    node((2, -2), [6], name: <6>),
+    node((3, -2), [10], name: <10>),
+    node((4, -2), [$dots.c$], name: <l2>),
+    // Level 3
+    node((1, -3), [8], name: <8>),
+    node((2, -3), [12], name: <12>),
+    node((3, -3), [20], name: <20>),
+    node((4, -3), [$dots.c$], name: <l3>),
+    // Level 4
+    node((2.5, -4), [0], name: <0>, shape: fletcher.shapes.rect, corner-radius: 3pt),
 
-      // Level 0
-      node((2.5, 0), [1], name: <1>, radius: 0.3cm),
-      // Level 1
-      node((1, -1), [2], name: <2>),
-      node((2, -1), [3], name: <3>),
-      node((3, -1), [5], name: <5>),
-      node((4, -1), [...], name: <l1>),
-      // Level 2
-      node((1, -2), [4], name: <4>),
-      node((2, -2), [6], name: <6>),
-      node((3, -2), [10], name: <10>),
-      node((4, -2), [...], name: <l2>),
-      // Level 3
-      node((1, -3), [8], name: <8>),
-      node((2, -3), [12], name: <12>),
-      node((3, -3), [20], name: <20>),
-      node((4, -3), [...], name: <l3>),
-      // Level 4
-      node((2.5, -4), [0], name: <0>),
+    // Edges
+    edge(<1>, <l1>, "..", stroke: 0.8pt),
+    edge(<2>, <l2>, "..", stroke: 0.8pt),
+    edge(<3>, <l2>, "..", stroke: 0.8pt),
+    edge(<5>, <l2>, "..", stroke: 0.8pt),
+    edge(<4>, <l3>, "..", stroke: 0.8pt),
+    edge(<6>, <l3>, "..", stroke: 0.8pt),
+    edge(<10>, <l3>, "..", stroke: 0.8pt),
+    edge(<8>, <0>, "..", stroke: 0.8pt),
+    edge(<12>, <0>, "..", stroke: 0.8pt),
+    edge(<20>, <0>, "..", stroke: 0.8pt),
+    edge(<l1>, <l2>, "..", stroke: 0.8pt),
+    edge(<l2>, <l3>, "..", stroke: 0.8pt),
+    edge(<l3>, <0>, "..", stroke: 0.8pt),
 
-      // Edges
-      edge(<1>, <l1>, "..", stroke: 0.8pt),
-      edge(<2>, <l2>, "..", stroke: 0.8pt),
-      edge(<3>, <l2>, "..", stroke: 0.8pt),
-      edge(<5>, <l2>, "..", stroke: 0.8pt),
-      edge(<4>, <l3>, "..", stroke: 0.8pt),
-      edge(<6>, <l3>, "..", stroke: 0.8pt),
-      edge(<10>, <l3>, "..", stroke: 0.8pt),
-      edge(<8>, <0>, "..", stroke: 0.8pt),
-      edge(<12>, <0>, "..", stroke: 0.8pt),
-      edge(<20>, <0>, "..", stroke: 0.8pt),
-      edge(<l1>, <l2>, "..", stroke: 0.8pt),
-      edge(<l2>, <l3>, "..", stroke: 0.8pt),
-      edge(<l3>, <0>, "..", stroke: 0.8pt),
+    edge(<4>, <8>, "crossing"),
+    edge(<4>, <12>, "crossing"),
+    edge(<4>, <20>, "crossing"),
+    edge(<6>, <12>, "crossing"),
+    edge(<10>, <20>, "crossing"),
 
-      edge(<4>, <8>, "crossing"),
-      edge(<4>, <12>, "crossing"),
-      edge(<4>, <20>, "crossing"),
-      edge(<6>, <12>, "crossing"),
-      edge(<10>, <20>, "crossing"),
+    edge(<2>, <4>, "crossing"),
+    edge(<2>, <6>, "crossing"),
+    edge(<2>, <10>, "crossing"),
+    edge(<3>, <6>, "crossing"),
+    edge(<5>, <10>, "crossing"),
 
-      edge(<2>, <4>, "crossing"),
-      edge(<2>, <6>, "crossing"),
-      edge(<2>, <10>, "crossing"),
-      edge(<3>, <6>, "crossing"),
-      edge(<5>, <10>, "crossing"),
-
-      edge(<1>, <2>, "crossing"),
-      edge(<1>, <3>, "crossing"),
-      edge(<1>, <5>, "crossing"),
-    )
-  ]
-
-  - *Join (LCM):* $6 Join 10 = "lcm"(6,10) = 30$
-  - *Meet (GCD):* $6 Meet 10 = "gcd"(6,10) = 2$
-  - *Bottom element:* $1$ (divides everything)
-  - *No top element:* No integer is divisible by all others
-
-  *Applications:*
-  - Number theory and cryptography (RSA key generation)
-  - Computer algebra systems (polynomial GCD algorithms)
-  - Scheduling problems (finding common time periods)
+    edge(<1>, <2>, "crossing"),
+    edge(<1>, <3>, "crossing"),
+    edge(<1>, <5>, "crossing"),
+  )
 ]
 
-// TODO: visualize the complete infinite divisibility lattice for all natural numbers
+Positive integers form a lattice under divisibility relation: $a <= b$ iff $a$ divides $b$.
 
-#pagebreak()
+- *Join (LCM):* $6 Join 10 = "lcm"(6,10) = 30$
+- *Meet (GCD):* $6 Meet 10 = "gcd"(6,10) = 2$
+- *Bottom element:* $1$ (divides everything)
+- *No top element:* No positive integer is divisible by all others
+  - *If we include $0$:* then $0$ is the top (divisible by all!)
 
-#example[File System Permissions][
-  Unix file permissions form a lattice under inclusion.
-
-  #place(right)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (2em, 2em),
-      node-shape: fletcher.shapes.rect,
-      node-corner-radius: 3pt,
-      node-fill: blue.lighten(90%),
-      node-stroke: 1pt + blue,
-      edge-stroke: 1pt + blue,
-
-      // Top level
-      node((0, -2), [7: `rwx`], name: <rwx>),
-      // Level 2
-      node((-1, -1), [6: `rw-`], name: <rw>),
-      node((0, -1), [5: `r-x`], name: <rx>),
-      node((1, -1), [3: `-wx`], name: <wx>),
-      // Level 1
-      node((-1, 0), [4: `r--`], name: <r>),
-      node((0, 0), [2: `-w-`], name: <w>),
-      node((1, 0), [1: `--x`], name: <x>),
-      // Bottom level
-      node((0, 1.2), [0: `---`], name: <empty>),
-
-      edge(<empty>, <r>, "-}>"),
-      edge(<empty>, <w>, "-}>"),
-      edge(<empty>, <x>, "-}>"),
-
-      edge(<r>, <rw>, "-}>"),
-      edge(<r>, <rx>, "-}>"),
-      edge(<w>, <rw>, "-}>"),
-      edge(<w>, <wx>, "-}>"),
-      edge(<x>, <rx>, "-}>"),
-      edge(<x>, <wx>, "-}>"),
-
-      edge(<rw>, <rwx>, "-}>"),
-      edge(<rx>, <rwx>, "-}>"),
-      edge(<wx>, <rwx>, "-}>"),
-    )
-  ]
-
-  - Elements: Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
-
-  - Order: $P_1 leq P_2$ if $P_1 subset.eq P_2$ (fewer permissions $=>$ more restrictive)
-
-  - Join: Union of permissions (less restrictive)
-    - For example: ${"read"} Join {"execute"} = {"read", "execute"}$
-
-  - Meet: Intersection of permissions (more restrictive)
-    - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
-]
-
-#pagebreak()
-
-#example[Partition Lattice][
-  All partitions of a set $S$, ordered by refinement.
-
-  #place(right)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      spacing: (1em, 3em),
-      node-shape: fletcher.shapes.rect,
-      node-corner-radius: 3pt,
-      node-fill: purple.lighten(90%),
-      node-stroke: 1pt + purple.darken(20%),
-      edge-stroke: 1pt + purple.darken(20%),
-      // Bottom level
-      node((0, 0), [${1}, {2}, {3}$], name: <1-2-3>),
-      // Middle level
-      node((-1, -1), [${1, 2}, {3}$], name: <12-3>),
-      node((0, -1), [${1, 3}, {2}$], name: <13-2>),
-      node((1, -1), [${1}, {2, 3}$], name: <1-23>),
-      // Top level
-      node((0, -2), [${1, 2, 3}$], name: <123>),
-      // Edges
-      edge(<1-2-3>, <12-3>, "-}>"),
-      edge(<1-2-3>, <13-2>, "-}>"),
-      edge(<1-2-3>, <1-23>, "-}>"),
-      edge(<12-3>, <123>, "-}>"),
-      edge(<13-2>, <123>, "-}>"),
-      edge(<1-23>, <123>, "-}>"),
-    )
-    // #diagram(
-    //   spacing: (2em, 2em),
-    //   node-shape: fletcher.shapes.rect,
-    //   node-corner-radius: 3pt,
-    //   node-fill: blue.lighten(90%),
-    //   node-stroke: 1pt + blue,
-    //   edge-stroke: 1pt + blue,
-    //   // Bottom level
-    //   node((0, 0), [$1 | 2 | 3 | 4$], name: <1-2-3-4>),
-    //   // Second level
-    //   node((-2.5, -1), [$1 | 2 3 | 4$], name: <1-23-4>),
-    //   node((-1.5, -1), [$1 4 | 2 | 3$], name: <14-2-3>),
-    //   node((-0.5, -1), [$1 | 2 4 | 3$], name: <1-24-3>),
-    //   node((0.5, -1), [$1 3 | 2 | 4$], name: <13-2-4>),
-    //   node((1.5, -1), [$1 2 | 3 | 4$], name: <12-3-4>),
-    //   node((2.5, -1), [$1 | 2 | 3 4$], name: <1-2-34>),
-    //   // Third level
-    //   node((-3, -2), [$1 4 | 2 3$], name: <14-23>),
-    //   node((-2, -2), [$1 | 2 3 4$], name: <1-234>),
-    //   node((-1, -2), [$1 2 4 | 3$], name: <124-3>),
-    //   node((0, -2), [$1 3 | 2 4$], name: <13-24>),
-    //   node((1, -2), [$1 2 3 | 4$], name: <123-4>),
-    //   node((2, -2), [$1 3 4 | 2$], name: <134-2>),
-    //   node((3, -2), [$1 2 | 3 4$], name: <12-34>),
-    //   // Top level
-    //   node((0, -3), [$1 2 3 4$], name: <1234>),
-    //   // Edges
-    //   edge(<1-2-3-4>, <1-23-4>, "-}>"),
-    //   edge(<1-2-3-4>, <14-2-3>, "-}>"),
-    //   edge(<1-2-3-4>, <1-24-3>, "-}>"),
-    //   edge(<1-2-3-4>, <13-2-4>, "-}>"),
-    //   edge(<1-2-3-4>, <12-3-4>, "-}>"),
-    //   edge(<1-2-3-4>, <1-2-34>, "-}>"),
-    //   edge(<1-23-4>, <14-23>, "-}>"),
-    //   edge(<1-23-4>, <1-234>, "-}>"),
-    //   edge(<1-23-4>, <123-4>, "-}>"),
-    //   edge(<14-2-3>, <14-23>, "-}>"),
-    //   edge(<14-2-3>, <124-3>, "-}>"),
-    //   edge(<14-2-3>, <134-2>, "-}>"),
-    //   edge(<1-24-3>, <1-234>, "-}>"),
-    //   edge(<1-24-3>, <124-3>, "-}>"),
-    //   edge(<1-24-3>, <13-24>, "-}>"),
-    //   edge(<13-2-4>, <13-24>, "-}>"),
-    //   edge(<13-2-4>, <123-4>, "-}>"),
-    //   edge(<13-2-4>, <134-2>, "-}>"),
-    //   edge(<12-3-4>, <124-3>, "-}>"),
-    //   edge(<12-3-4>, <123-4>, "-}>"),
-    //   edge(<12-3-4>, <12-34>, "-}>"),
-    //   edge(<1-2-34>, <1-234>, "-}>"),
-    //   edge(<1-2-34>, <134-2>, "-}>"),
-    //   edge(<1-2-34>, <12-34>, "-}>"),
-    //   edge(<14-23>, <1234>, "-}>"),
-    //   edge(<1-234>, <1234>, "-}>"),
-    //   edge(<124-3>, <1234>, "-}>"),
-    //   edge(<13-24>, <1234>, "-}>"),
-    //   edge(<123-4>, <1234>, "-}>"),
-    //   edge(<134-2>, <1234>, "-}>"),
-    //   edge(<12-34>, <1234>, "-}>"),
-    // )
-  ]
-
-  - Elements: Partitions like $(1 2 | 3)$, $(1 | 2 3)$, $(1 | 2 | 3)$, etc.
-
-  - Order: $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
-
-  - Join: Finest common coarsening
-    - For example: $(1 2 | 3) Join (1 | 2 3) = (1 2 3)$
-
-  - Meet: Coarsest common refinement
-    - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
-
-  - Applications: Clustering, database normalization
-]
+*Applications:*
+- Number theory and cryptography (RSA key generation)
+- Computer algebra systems (polynomial GCD algorithms)
+- Scheduling problems (finding common time periods)
 
 #v(1fr)
-#Block(color: blue)[
+#Block(color: purple)[
   Lattices aren't just abstract algebra --- they appear everywhere in computer science and mathematics.
 
   The _join_ and _meet_ operations capture fundamental patterns of _combination_ and _interaction_.
 ]
-#v(1fr)
+
+== Example: File System Permissions
+
+Unix file permissions form a lattice under inclusion.
+
+#place(right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (2em, 2em),
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 3pt,
+    node-fill: blue.lighten(90%),
+    node-stroke: 1pt + blue.darken(20%),
+    edge-stroke: 1pt + blue.darken(20%),
+
+    // Top level
+    node((0, -2), [7: `rwx`], name: <rwx>),
+    // Level 2
+    node((-1, -1), [6: `rw-`], name: <rw>),
+    node((0, -1), [5: `r-x`], name: <rx>),
+    node((1, -1), [3: `-wx`], name: <wx>),
+    // Level 1
+    node((-1, 0), [4: `r--`], name: <r>),
+    node((0, 0), [2: `-w-`], name: <w>),
+    node((1, 0), [1: `--x`], name: <x>),
+    // Bottom level
+    node((0, 1.2), [0: `---`], name: <empty>),
+
+    edge(<empty>, <r>),
+    edge(<empty>, <w>),
+    edge(<empty>, <x>),
+
+    edge(<r>, <rw>),
+    edge(<r>, <rx>),
+    edge(<w>, <rw>),
+    edge(<w>, <wx>),
+    edge(<x>, <rx>),
+    edge(<x>, <wx>),
+
+    edge(<rw>, <rwx>),
+    edge(<rx>, <rwx>),
+    edge(<wx>, <rwx>),
+  )
+]
+
+- *Elements:* Sets of permissions like ${r, w, x}$, ${r, x}$, ${w}$, etc.
+
+- *Order:* $P_1 leq P_2$ if $P_1 subset.eq P_2$ (fewer permissions $=>$ more restrictive)
+
+- *Join:* Union of permissions (less restrictive)
+  - For example: ${"read"} Join {"execute"} = {"read", "execute"}$
+
+- *Meet:* Intersection of permissions (more restrictive)
+  - For example: ${"read", "write"} Meet {"write", "execute"} = {"write"}$
+
+== Example: Partition Lattice
+
+All partitions of a set $S$, ordered by refinement, form a lattice.
+
+#place(right)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (1em, 3em),
+    node-shape: fletcher.shapes.rect,
+    node-corner-radius: 3pt,
+    node-fill: blue.lighten(90%),
+    node-stroke: 1pt + blue.darken(20%),
+    edge-stroke: 1pt + blue.darken(20%),
+
+    // Bottom level
+    node((0, 0), [${1}, {2}, {3}$], name: <1-2-3>),
+    // Middle level
+    node((-1, -1), [${1, 2}, {3}$], name: <12-3>),
+    node((0, -1), [${1, 3}, {2}$], name: <13-2>),
+    node((1, -1), [${1}, {2, 3}$], name: <1-23>),
+    // Top level
+    node((0, -2), [${1, 2, 3}$], name: <123>),
+
+    // Edges
+    edge(<1-2-3>, <12-3>, "-}>", bend: 20deg),
+    edge(<1-2-3>, <13-2>, "-}>"),
+    edge(<1-2-3>, <1-23>, "-}>", bend: -20deg),
+    edge(<12-3>, <123>, "-}>", bend: 20deg),
+    edge(<13-2>, <123>, "-}>"),
+    edge(<1-23>, <123>, "-}>", bend: -20deg),
+  )
+]
+
+- *Elements:* Partitions like $(1 2 | 3)$, $(1 | 2 3)$, $(1 | 2 | 3)$, etc.
+
+- *Order:* $pi_1 leq pi_2$ if $pi_1$ is a refinement of $pi_2$ (smaller blocks)
+
+- *Join:* Finest common coarsening
+  - For example: $(1 2 | 3) Join (1 | 2 3) = (1 2 3)$
+
+- *Meet:* Coarsest common refinement
+  - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
+
+- *Applications:* Clustering, database normalization
 
 == Example: Type Systems as Lattices
 
