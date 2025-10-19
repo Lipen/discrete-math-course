@@ -87,47 +87,81 @@
   ),
 )
 
-== Relations as Sets
+== What is a Relation?
+
+Relations capture connections between elements of sets.
+
+#example[Everyday examples][
+  - "is less than" relates _numbers_: $3$ is _related to_ $5$ because $3 < 5$
+  - "is a parent of" relates _people_: Alice is _related to_ Bob if Alice is Bob's parent
+  - "divides" relates _integers_: $2$ is _related to_ $6$ because $2 | 6$
+]
+
+#Block(color: yellow)[
+  *Intuition:* A relation tells us which pairs of elements are connected.
+]
 
 #definition[
-  A _binary relation_ $R$ on sets $A$ and $B$ is a subset of the Cartesian product $A times B$.
+  A _binary relation_ $R$ from set $A$ to set $B$ is a subset of the Cartesian product:
+  $ R subset.eq A times B $
+  Each ordered pair $pair(a, b) in R$ means "$a$ is related to $b$."
 ]
+
+== Notation for Relations
 
 #note(title: "Notation")[
-  Let $R subset.eq A times B$. We write:
-  - $a rel(R) b$ to mean that element $a in A$ is _related_ to element $b in B$, a shortcut for $pair(a, b) in R$.
-  - $a nrel(R) b$ to mean that element $a in A$ is _not related_ to element $b in B$, a shortcut for $pair(a, b) notin R$.
-]
-
-#note[
-  Symbol $R$ denotes both the relation as a concept ($a rel(R) b$) and the set of ordered pairs ($R subset.eq A times B$).
-]
-
-#note[
-  Order of elements matters: $a rel(R) b$ is _not the same_ as $b rel(R) a$.
-]
-
-#definition[
-  - A binary relation $R subset.eq A times B$ on two different sets $A$ and $B$ is called _heterogeneous_.
-  - A binary relation $R subset.eq M^2$ on the same set $M$ is called _homogeneous_.
+  If $R subset.eq A times B$, we write:
+  - $a rel(R) b$ to mean $pair(a, b) in R$ (element $a$ is related to element $b$)
+  - $a nrel(R) b$ to mean $pair(a, b) notin R$ (element $a$ is not related to element $b$)
 ]
 
 #example[
-  $R = { pair(n, k) | n, k in NN "and" n < k } subset.eq NN^2$ --- a homogeneous relation "less than" for naturals.
-
-  You can, for instance, write $2 rel(R) 3$ and $3 nrel(R) 2$, since $2 < 3$ and not $3 < 2$.
+  Let $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$ be a relation on naturals.
+  - We can write $1 rel(R) 2$ instead of $pair(1, 2) in R$
+  - We can write $2 nrel(R) 1$ instead of $pair(2, 1) notin R$
 ]
 
-== Graph Representation
+#Block(color: yellow)[
+  *Key insight:* Order matters!
+  $a rel(R) b$ and $b rel(R) a$ are different statements.
+]
+
+== Types of Relations
 
 #definition[
-  A homogeneous relation $R subset.eq M^2$ can be represented as a _directed graph_ where:
-  - Vertices correspond to elements of $M$
-  - There is a directed edge from $x$ to $y$ if $x rel(R) y$, i.e. $pair(x, y) in R$
+  A binary relation $R subset.eq A times B$ is:
+  - _Heterogeneous_ if $A$ and $B$ are different sets
+  - _Homogeneous_ if $A = B$ (we write $R subset.eq M^2$)
+]
+
+#example[Heterogeneous relation][
+  Let $"Students" = {"Alice", "Bob"}$ and $"Subjects" = {"Math", "Algorithms"}$.
+
+  The relation "likes" (between students and subjects) might be:
+  $ R = {pair("Alice", "Math"), pair("Alice", "Algorithms"), pair("Bob", "Algorithms")} $
+
+  We write "Alice $rel(R)$ Math" to denote that "Alice likes Math".
+]
+
+#example[Homogeneous relation][
+  The "less than" relation on $NN$:
+  $ R = { pair(n, k) | n, k in NN "and" n < k } subset.eq NN^2 $
+
+  For instance: $2 rel(R) 3$ (since $2 < 3$) and $3 nrel(R) 2$ (since not $3 < 2$).
+]
+
+== Visualizing Relations: Directed Graphs
+
+Relations can be visualized as graphs, making their structure easier to understand.
+
+#definition[
+  A homogeneous relation $R subset.eq M^2$ is represented as a _directed graph_:
+  - Each element of $M$ becomes a vertex
+  - Draw edge $x -> y$ whenever $x rel(R) y$ (i.e., $pair(x, y) in R$)
 ]
 
 #example[
-  For $M = {1, 2, 3}$ and $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$, the graph has vertices ${1, 2, 3}$ and directed edges $1 to 2$, $2 to 3$, and $1 to 3$.
+  Relation $R = {pair(1, 2), pair(2, 3), pair(1, 3)}$ on $M = {1, 2, 3}$:
 ]
 
 #align(center)[
@@ -183,15 +217,20 @@
 
 #pagebreak()
 
+== Visualizing Relations: Bipartite Graphs
+
+Heterogeneous relations connect elements from two different sets.
+
 #definition[
-  A heterogeneous relation $R subset.eq A times B$ can be represented as a _bipartite graph_ where:
-  - Vertices in one partition correspond to elements of $A$
-  - Vertices in the other partition correspond to elements of $B$
-  - There is a directed edge from $a in A$ to $b in B$ if $a rel(R) b$, i.e. $pair(a, b) in R$
+  A heterogeneous relation $R subset.eq A times B$ can be represented as a _bipartite graph_:
+  - Left partition: vertices for elements of $A$
+  - Right partition: vertices for elements of $B$
+  - Draw edge $a -> b$ whenever $a rel(R) b$ (i.e., $pair(a, b) in R$)
 ]
 
 #example[
-  For animals $A = {#emoji.rabbit, #emoji.cat, #emoji.dog}$, food $B = {#emoji.carrot, #emoji.fish}$, and relation $R$ = "likes to eat", we have the bipartite graph with animal vertices on the left side and food vertices on the right side with four edges.
+  Animals $A = {#emoji.rabbit, #emoji.cat, #emoji.dog}$ and food $B = {#emoji.carrot, #emoji.fish}$.
+  Relation $R$: "likes to eat".
 ]
 
 #align(center)[
@@ -221,13 +260,13 @@
     }
 
     // Left partition (animals)
-    draw-vertex((-2.5, 1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
-    draw-vertex((-2.5, 0), "cat", [$#emoji.cat$], fill: green.lighten(80%))
-    draw-vertex((-2.5, -1), "dog", [$#emoji.dog$], fill: green.lighten(80%))
+    draw-vertex((-2, 1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%))
+    draw-vertex((-2, 0), "cat", [$#emoji.cat$], fill: green.lighten(80%))
+    draw-vertex((-2, -1), "dog", [$#emoji.dog$], fill: green.lighten(80%))
 
     // Right partition (food)
-    draw-vertex((2.5, 0.7), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
-    draw-vertex((2.5, -0.7), "fish", [$#emoji.fish$], fill: orange.lighten(80%))
+    draw-vertex((2, 0.5), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%))
+    draw-vertex((2, -0.5), "fish", [$#emoji.fish$], fill: orange.lighten(80%))
 
     // Edges representing the "likes to eat" relation
     draw-edge("cat", "fish")
@@ -237,15 +276,23 @@
 
     // Set labels
     draw.content(
-      (-2.5, 1.5),
+      (-2, -1.4),
       text(fill: green.darken(20%))[Animals ($A$)],
-      anchor: "south",
+      anchor: "north",
       padding: 0.2,
     )
     draw.content(
-      (2.5, 1.2),
+      (2, -1.4),
       text(fill: orange.darken(20%))[Food ($B$)],
-      anchor: "south",
+      anchor: "north",
+      padding: 0.2,
+    )
+
+    // Relation label
+    draw.content(
+      (0, -0.9),
+      text(fill: blue.darken(20%))[$R subset.eq A times B$],
+      anchor: "north",
       padding: 0.2,
     )
   })
