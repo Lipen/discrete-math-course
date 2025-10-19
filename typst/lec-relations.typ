@@ -4093,12 +4093,12 @@ Functions can be characterized by several key properties that determine their ma
 #place(right, dx: -1cm)[
   #import fletcher: diagram, edge, node
   #diagram(
-    spacing: (1.5em, 2em),
+    spacing: (1.5em, 1.8em),
     node-shape: (node, extrude) => fletcher.draw.circle((0, 0), radius: 0.3),
     node-inset: 5pt,
     node-fill: blue.lighten(90%),
-    node-stroke: .6pt + blue.darken(20%),
-    edge-stroke: .6pt + blue.darken(20%),
+    node-stroke: .6pt + blue,
+    edge-stroke: .6pt + blue,
 
     // Level 0
     node((2.5, 0), [1], name: <1>, radius: 0.3cm),
@@ -4184,8 +4184,8 @@ Unix file permissions form a lattice under inclusion.
     node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
     node-fill: blue.lighten(90%),
-    node-stroke: 1pt + blue.darken(20%),
-    edge-stroke: 1pt + blue.darken(20%),
+    node-stroke: 1pt + blue,
+    edge-stroke: 1pt + blue,
 
     // Top level
     node((0, -2), [7: `rwx`], name: <rwx>),
@@ -4238,8 +4238,8 @@ All partitions of a set $S$, ordered by refinement, form a lattice.
     node-shape: fletcher.shapes.rect,
     node-corner-radius: 3pt,
     node-fill: blue.lighten(90%),
-    node-stroke: 1pt + blue.darken(20%),
-    edge-stroke: 1pt + blue.darken(20%),
+    node-stroke: 1pt + blue,
+    edge-stroke: 1pt + blue,
 
     // Bottom level
     node((0, 0), [${1}, {2}, {3}$], name: <1-2-3>),
@@ -4292,8 +4292,8 @@ In programming language theory, _types_ form a lattice under the _subtyping_ rel
     node-corner-radius: 3pt,
     node-outset: 1pt,
     node-fill: blue.lighten(90%),
-    node-stroke: 1pt + blue.darken(20%),
-    edge-stroke: 1pt + blue.darken(20%),
+    node-stroke: 1pt + blue,
+    edge-stroke: 1pt + blue,
 
     // Top level (top element)
     node((0, 0), [`any`], name: <any>),
@@ -4571,8 +4571,8 @@ In programming language theory, _types_ form a lattice under the _subtyping_ rel
       spacing: 1.4em,
       node-shape: fletcher.shapes.rect,
       node-corner-radius: 3pt,
-      node-stroke: 0.8pt + blue,
       node-fill: blue.lighten(90%),
+      node-stroke: 1pt + blue,
       edge-stroke: 1pt + blue,
       node((0, 0), [Poset], name: <poset>),
       edge("-}>"),
