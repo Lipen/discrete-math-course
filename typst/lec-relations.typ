@@ -3709,17 +3709,17 @@ Functions can be characterized by several key properties that determine their ma
       })
     ]
 
-    - Smallest non-modular: for $b <= c$:
-      $
-        cases(
-          reverse: #true,
-          b Join (a Meet c) = b,
-          (b Join a) Meet c = c,
-        )
-        quad
-        b != c
-        #[~#NO]
-      $
+    Smallest non-modular: for $b <= c$:
+    $
+      cases(
+        reverse: #true,
+        b Join (a Meet c) = b,
+        (b Join a) Meet c = c,
+      )
+      quad
+      b != c
+      #[~#NO]
+    $
   ],
 )
 
