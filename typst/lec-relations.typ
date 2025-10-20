@@ -1736,10 +1736,10 @@ Closures satisfy important mathematical properties.
   #place(right)[
     #cetz.canvas({
       import cetz.draw: *
-      let w = .8
-      let h = .8
-      let hgap = 0.8
-      let vgap = 1.4
+      let w = .6
+      let h = .6
+      let hgap = 0.9
+      let vgap = 1.2
       let draw-rect((x, y), name) = {
         rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 3pt, stroke: 1pt, name: name)
         content(name, [#name], anchor: "center")
