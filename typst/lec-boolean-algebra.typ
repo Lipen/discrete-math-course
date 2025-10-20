@@ -3340,104 +3340,805 @@ Since ${"NAND"} = {nand}$ is complete, we can build any function using only NAND
 
 
 = Digital Circuits
-#focus-slide()
+#focus-slide(
+  epigraph: [It is software that gives form and purpose to a programmable machine,\ much as a sculptor shapes clay],
+  epigraph-author: "Alan Key",
+)
 
-== Digital Logic Circuits
+== From Boolean Algebra to Hardware
 
-#definition[
-  A _logic gate_ is a physical device that implements a Boolean function, taking binary inputs and producing a binary output.
+Boolean algebra provides the mathematical foundation for digital circuits:
+
+#Block(color: blue)[
+  *Connection:* Boolean functions $=>$ Logic gates $=>$ Physical circuits
 ]
 
-#place(right, dy: 1.5em)[
+#grid(
+  columns: 2,
+  gutter: 1.5em,
+  [
+    *Abstract Level*
+    - Boolean variables: $x, y, z$
+    - Operations: $and, or, not, xor$
+    - Functions: $f(x,y,z)$
+    - Truth tables and expressions
+
+    Laws and transformations are purely algebraic.
+  ],
+  [
+    *Physical Level*
+    - Voltage levels: HIGH (1), LOW (0)
+    - Transistor circuits
+    - Propagation delays
+    - Power consumption, heat
+
+    Real constraints: timing, noise, fanout.
+  ],
+)
+
+#Block(color: yellow)[
+  This section bridges theory and practice: how to realize Boolean functions as actual hardware.
+]
+
+== Logic Gate Standards
+
+Two main notation standards for logic gates:
+
+#definition[
+  *ANSI/IEEE Std 91-1984* and *IEC 60617* define standardized symbols for logic gates used in circuit diagrams.
+]
+
+#Block(color: teal)[
+  *Two symbol styles:*
+  - *Distinctive shapes* (American): AND = D-shape, OR = shield, etc.
+  - *Rectangular* (IEC): All gates use rectangles with symbols inside
+
+  We primarily use distinctive shapes (more intuitive for learning).
+]
+
+#note[
+  Both standards are widely used in industry. Engineers must recognize both notations.
+]
+
+== Standard Logic Gates: Visual Symbols
+
+#align(center + horizon)[
   #import "@preview/circuiteria:0.2.0"
   #circuiteria.circuit({
     import circuiteria: *
     import "@preview/cetz:0.3.2": draw
-    draw.scale(80%)
+    draw.scale(75%)
 
-    let label(s) = text(size: 10pt)[#s]
+    let label(s) = text(size: 10pt, weight: "bold")[#s]
 
+    // Top row
     element.gate-and(id: "and", x: 0, y: 0, w: 2, h: 2)
     draw.content("and", label[AND])
 
-    element.gate-or(id: "or", x: 3.5, y: 0, w: 2, h: 2)
+    element.gate-or(id: "or", x: 4, y: 0, w: 2, h: 2)
     draw.content("or", label[OR])
 
-    element.gate-not(id: "not", x: 7, y: 0, w: 2, h: 2)
+    element.gate-not(id: "not", x: 8, y: 0, w: 2, h: 2)
     draw.content((rel: (-5pt, 0), to: "not"), label[NOT])
 
-    element.gate-nand(id: "nand", x: 0, y: -3, w: 2, h: 2)
+    // Bottom row
+    element.gate-nand(id: "nand", x: 0, y: -3.5, w: 2, h: 2)
     draw.content("nand", label[NAND])
 
-    element.gate-nor(id: "nor", x: 3.5, y: -3, w: 2, h: 2)
+    element.gate-nor(id: "nor", x: 4, y: -3.5, w: 2, h: 2)
     draw.content((rel: (3pt, 0), to: "nor"), label[NOR])
 
-    element.gate-xor(id: "xor", x: 7, y: -3, w: 2, h: 2)
+    element.gate-xor(id: "xor", x: 8, y: -3.5, w: 2, h: 2)
     draw.content((rel: (5pt, 0), to: "xor"), label[XOR])
 
+    // Add stubs for all gates
     for id in ("and", "or", "not", "nand", "nor", "xor") {
-      wire.stub(id + "-port-in0", "west")
+      wire.stub(id + "-port-in0", "west", length: 0.5)
       if id != "not" {
-        wire.stub(id + "-port-in1", "west")
+        wire.stub(id + "-port-in1", "west", length: 0.5)
       }
-      wire.stub(id + "-port-out", "east")
+      wire.stub(id + "-port-out", "east", length: 0.5)
     }
   })
 ]
 
-#v(-6pt)
-#table(
-  columns: 3,
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-  table.header([*Gate*], [*Formula*], [*Description*]),
-  [AND], $A and B$, [Outputs $1$ only when both inputs are $1$],
-  [OR], $A or B$, [Outputs $1$ when at least one input is $1$],
-  [NOT], $not A$, [Outputs the opposite of the input],
-  [NAND], $A nand B$, [Outputs $0$ only when both inputs are $1$],
-  [NOR], $A nor B$, [Outputs $0$ when at least one input is $1$],
-  [XOR], $A xor B$, [Outputs $1$ when inputs differ],
-  [XNOR], $A equiv B$, [Outputs $1$ when inputs are the same],
+#v(1em)
+#Block(color: orange)[
+  *Bubble notation:* Small circle (bubble) on gate input/output indicates logical negation.
+]
+
+== Basic Logic Gates
+
+#align(center)[
+  #table(
+    columns: 4,
+    align: (left, center, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    inset: 5pt,
+    table.header([*Gate*], [*Symbol*], [*Expression*], [*Truth Pattern*]),
+    [AND], [D-shape], [$A and B$], [Output 1 only when all inputs are 1],
+    [OR], [Shield], [$A or B$], [Output 1 when any input is 1],
+    [NOT], [Triangle + bubble], [$overline(A)$], [Inverts the input],
+    [NAND], [D-shape + bubble], [$overline(A and B)$], [NOT-AND],
+    [NOR], [Shield + bubble], [$overline(A or B)$], [NOT-OR],
+    [XOR], [Shield + curve], [$A xor B$], [Output 1 when inputs differ],
+    [XNOR], [Shield + curve + bubble], [$overline(A xor B)$], [Output 1 when inputs match],
+  )
+]
+
+#note[
+  XNOR is also called equivalence gate: outputs 1 when inputs are equivalent.
+]
+
+== Universal Gates
+
+#theorem[
+  NAND and NOR gates are _functionally complete_ --- any Boolean function can be implemented using only NAND gates (or only NOR gates).
+]
+
+#example[Building basic gates from NAND][
+  - NOT: $overline(A) = A nand A$
+  - AND: $A and B = overline(A nand B) = (A nand B) nand (A nand B)$
+  - OR: $A or B = overline(A) nand overline(B) = (A nand A) nand (B nand B)$
+]
+
+#Block(color: blue)[
+  *Why this matters:* Manufacturing circuits with a single gate type (NAND) simplifies:
+  - Design complexity
+  - Testing procedures
+  - Production costs
+  - Inventory management
+]
+
+#note[
+  In practice, designers use mixed gates for optimization _despite_ this theoretical result.
+]
+
+== Constructing Circuits from Boolean Expressions
+
+*General procedure:*
+
++ *Start with Boolean expression:* Obtain from truth table (DNF/CNF) or specifications
++ *Minimize if desired:* Use K-maps, Quine-McCluskey, or algebraic methods
++ *Identify gate structure:* Break expression into hierarchical operations
++ *Draw circuit:* Connect gates according to expression structure
++ *Verify:* Check truth table matches specification
+
+#Block(color: yellow)[
+  *Key principle:* Expression evaluation order determines circuit topology (depth and gates).
+]
+
+== Circuit Construction: Example
+
+#example[
+  Build circuit for $f(A, B, C) = A and B or overline(A) and C$
+]
+
+*Step 1:* Identify operations:
+- Two AND gates: $A and B$ and $overline(A) and C$
+- One NOT gate: $overline(A)$
+- One OR gate: combining the AND results
+
+*Step 2:* Determine levels:
++ Level 0 (inputs): $A, B, C$
++ Level 1: $overline(A)$ ~(NOT gate)
++ Level 2: $A and B$ and $overline(A) and C$ ~(AND gates)
++ Level 3: Final OR gate
+
+*Circuit depth:* 3 levels (excluding inputs)
+
+#note[
+  Depth affects propagation delay --- critical for circuit speed.
+]
+
+== Multi-Output Circuits
+
+Often need to compute multiple functions simultaneously:
+
+#example[Half Adder][
+  Adds two bits $A, B$, produces sum and carry:
+
+  #grid(
+    columns: 2,
+    gutter: 1em,
+    [
+      *Outputs:*
+      - Sum: $S = A xor B$
+      - Carry: $C = A and B$
+
+      #v(1em)
+      *Truth table:*
+      #v(-.5em)
+      #table(
+        columns: 4,
+        align: center,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        inset: (x, y) => if y == 0 { 5pt } else { 3pt },
+        table.header([$A$], [$B$], [$S$], [$C$]),
+        [0], [0], [0], [0],
+        [0], [1], [1], [0],
+        [1], [0], [1], [0],
+        [1], [1], [0], [1],
+      )
+    ],
+    [
+      *Circuit:*
+      #import "@preview/circuiteria:0.2.0"
+      #circuiteria.circuit({
+        import circuiteria: *
+        import "@preview/cetz:0.3.2": draw
+        draw.scale(70%)
+
+        // XOR gate for Sum
+        element.gate-xor(id: "xor", x: 2, y: 0, w: 1.8, h: 1.8)
+        wire.stub("xor-port-in0", "west", length: 1, name: "A")
+        wire.stub("xor-port-in1", "west", length: 1, name: "B")
+        wire.stub("xor-port-out", "east", length: 1, name: "Sum")
+
+        // AND gate for Carry
+        element.gate-and(id: "and", x: 2, y: -3, w: 1.8, h: 1.8)
+        wire.stub("and-port-in0", "west", length: 1, name: "A")
+        wire.stub("and-port-in1", "west", length: 1, name: "B")
+        wire.stub("and-port-out", "east", length: 1, name: "Carry")
+      })
+
+      *Gates needed:* 1 XOR, 1 AND
+    ],
+  )
+]
+
+#Block(color: purple)[
+  Multi-output circuits can share gates between functions, reducing total gate count.
+]
+
+== Full Adder
+
+#example[
+  Adds three bits $A, B, C_"in"$ (two inputs plus carry-in):
+
+  #grid(
+    columns: 2,
+    gutter: 1em,
+    [
+      *Outputs:*
+      - Sum: $S = A xor B xor C_"in"$
+      - Carry-out: $C_"out" = (A and B) or (C_"in" and (A xor B))$
+
+      Alternative carry expression: \
+      $C_"out" = (A and B) or (A and C_"in") or (B and C_"in")$
+    ],
+    [
+      *Construction:*
+      - Chain two half adders
+      - OR the carry outputs
+      - Used for multi-bit addition
+
+      *Application:* Building n-bit adders (ripple-carry, carry-lookahead)
+    ],
+  )
+]
+
+#Block(color: blue)[
+  Full adders are fundamental building blocks for arithmetic logic units (ALUs) in processors.
+]
+
+== Other Arithmetic Circuits
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Circuit*], [*Function*], [*Key Components*]),
+    [Subtractor], [Compute $A - B$], [Use 2's complement, add with negation],
+    [Comparator], [Test $A < B$, $A = B$, $A > B$], [XOR for equality, cascaded logic],
+    [Multiplexer], [Select one of $n$ inputs], [$log_2 n$ select lines, AND-OR structure],
+    [Demultiplexer], [Route input to one of $n$ outputs], [Inverse of multiplexer],
+    [Encoder], [Convert $2^n$ inputs to $n$-bit code], [Priority encoding],
+    [Decoder], [Convert $n$-bit code to $2^n$ outputs], [Minterm generation],
+  )
+]
+
+#note[
+  Decoders are particularly useful: an n-to-$2^n$ decoder generates all minterms for n variables, enabling direct DNF implementation.
+]
+
+== Sequential Circuits: The Need for Memory
+
+#Block(color: red)[
+  *Limitation of combinational logic:* Cannot store information or maintain state.
+]
+
+#definition[
+  A _sequential circuit_ has outputs that depend on:
+  + Current inputs (like combinational circuits)
+  + *Previous state* (memory)
+
+  This requires _feedback_ --- outputs feed back to inputs.
+]
+
+#example[
+  - *Combinational:* ALU, multiplexer, decoder (no memory)
+  - *Sequential:* Registers, counters, state machines (with memory)
+]
+
+#Block(color: yellow)[
+  *Key distinction:* Truth tables are insufficient for sequential circuits --- need _state diagrams_ or _state tables_.
+]
+
+== Latches: Basic Memory Elements
+
+#definition[
+  A _latch_ is a bistable circuit with two stable states, used to store one bit.
+]
+
+#example[SR Latch (Set-Reset)][
+  *Inputs:* $S$ (set), $R$ (reset)
+
+  *Outputs:* $Q$ (state), $overline(Q)$ (complementary)
+
+  *Behavior:*
+  - $S = 1, R = 0$: Set $Q = 1$
+  - $S = 0, R = 1$: Reset $Q = 0$
+  - $S = 0, R = 0$: Hold current state (memory!)
+  - $S = 1, R = 1$: *Forbidden* (both outputs would be 0)
+
+  *Implementation:* Two cross-coupled NOR gates (or NAND gates)
+]
+
+#Block(color: orange)[
+  *Warning:* SR latch has a forbidden state $(S=1, R=1)$ that must be avoided by circuit design.
+]
+
+== SR Latch: Circuit and Behavior
+
+*NOR-based SR Latch:*
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
+  [
+    *Circuit structure:*
+    #v(0.5em)
+    #import "@preview/circuiteria:0.2.0"
+    #circuiteria.circuit({
+      import circuiteria: *
+      import "@preview/cetz:0.3.2": draw
+      draw.scale(65%)
+
+      // Top NOR gate
+      element.gate-nor(id: "nor1", x: 2, y: 0, w: 1.8, h: 1.8)
+      wire.stub("nor1-port-in0", "west", length: 1.5, name: "S")
+
+      // Bottom NOR gate
+      element.gate-nor(id: "nor2", x: 2, y: -3, w: 1.8, h: 1.8)
+      wire.stub("nor2-port-in1", "west", length: 1.5, name: "R")
+
+      // Output Q
+      wire.stub("nor1-port-out", "east", length: 1.5, name: "Q")
+
+      // Output Q-bar
+      wire.stub("nor2-port-out", "east", length: 1.5, name: $overline(Q)$)
+
+      // Feedback wires (conceptual - simplified)
+      draw.line(
+        "nor1-port-out",
+        (rel: (0.5, 0)),
+        (rel: (0, -2.2)),
+        "nor2-port-in0",
+        stroke: (dash: "dashed", paint: red),
+      )
+      draw.line(
+        "nor2-port-out",
+        (rel: (0.5, 0)),
+        (rel: (0, 2.2)),
+        "nor1-port-in1",
+        stroke: (dash: "dashed", paint: red),
+      )
+    })
+
+    #v(0.5em)
+    Feedback creates memory!
+  ],
+  [
+    *State table:*
+    #table(
+      columns: 5,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([$S$], [$R$], [$Q_t$], [$Q_(t+1)$], [Action]),
+      [0], [0], [0], [0], [Hold],
+      [0], [0], [1], [1], [Hold],
+      [0], [1], [0/1], [0], [Reset],
+      [1], [0], [0/1], [1], [Set],
+      [1], [1], [?], [?], [Forbidden],
+    )
+
+    #v(1em)
+    *Equations:*
+    - $Q = overline(S or overline(Q))$
+    - $overline(Q) = overline(R or Q)$
+  ],
 )
 
 #note[
-  NAND and NOR gates are _universal_ --- any Boolean function can be implemented using only NAND gates (or only NOR gates).
-  For example, to implement AND using NAND:
-  $
-    A and B = not not (A and B) = not (A nand B) = (A nand B) nand (A nand B)
-  $
+  $Q_t$ = current state, $Q_(t+1)$ = next state. The latch "remembers" when $S = R = 0$.
 ]
 
-== Combinational Logic
+== Why Truth Tables Fail for Latches
+
+#Block(color: red)[
+  *Critical insight:* SR latch cannot be described by a simple Boolean function $Q = f(S, R)$!
+]
+
+#place(right)[
+  #set align(left)
+  #Block(color: yellow)[
+    *Sequential circuits require:*
+    - State tables (not truth tables)
+    - Temporal logic (next-state functions)
+    - Timing diagrams showing state transitions over time
+  ]
+]
+
+*Reason:* The output $Q$ depends on:
+- Current inputs $S, R$
+- *Previous output* $Q_t$ (feedback)
+
+This is a _state-dependent_ behavior:
+- $(S, R) = (0, 0)$ with $Q_t = 0 => Q_(t+1) = 0$
+- $(S, R) = (0, 0)$ with $Q_t = 1 => Q_(t+1) = 1$
+
+Same inputs, different outputs! Violates functional definition.
+
+== Flip-Flops: Clocked Memory
 
 #definition[
-  A _combinational circuit_ is a circuit where the output depends only on the current input values, without any memory or state.
+  A _flip-flop_ is an edge-triggered memory element that changes state only on clock transitions (rising or falling edge).
 ]
 
-#example[Half Adder][
-  Adds two single bits:
-  - Sum: $S = A xor B$
-  - Carry: $C = A and B$
+#Block(color: blue)[
+  *Key difference from latches:*
+  - *Latches:* Level-sensitive (transparent when enabled)
+  - *Flip-flops:* Edge-triggered (change only on clock edge)
+
+  Flip-flops are more predictable and easier to synchronize in complex systems.
 ]
 
-#example[Full Adder][
-  Adds two bits plus a carry-in:
-  - Sum: $S = A xor B xor C_"in"$
-  - Carry-out: $C_"out" = (A and B) or (C_"in" and (A xor B))$
+== D Flip-Flop
+
+#example[D (Data) Flip-Flop][
+  *Input:* $D$ (data), $"CLK"$ (clock)
+
+  *Output:* $Q$
+
+  *Behavior:* On clock edge (e.g., rising edge $arrow.t$):
+  - $Q_(t+1) = D_t$ ~(capture and store $D$ value)
+
+  Between clock edges: $Q$ holds value (ignores $D$ changes)
 ]
 
-== Sequential Logic and Memory
+*Characteristic equation:* $Q_(t+1) = D$
+
+#Block(color: green)[
+  *Use cases:* Registers, memory buffers, pipeline stages
+
+  D flip-flops eliminate the forbidden state problem of SR latches.
+]
+
+== JK Flip-Flop
+
+#example[JK Flip-Flop][
+  *Inputs:* $J$ (set), $K$ (reset), $"CLK"$
+
+  *Output:* $Q$
+
+  *Behavior on clock edge:*
+  - $J = 0, K = 0$: Hold state
+  - $J = 0, K = 1$: Reset $(Q = 0)$
+  - $J = 1, K = 0$: Set $(Q = 1)$
+  - $J = 1, K = 1$: *Toggle* $(Q = overline(Q))$
+
+  No forbidden state!
+]
+
+*Characteristic equation:* $Q_(t+1) = J overline(Q_t) or overline(K) Q_t$
+
+#Block(color: purple)[
+  The toggle mode $(J=K=1)$ makes JK flip-flops ideal for frequency dividers and counters.
+]
+
+== T Flip-Flop
+
+#example[T (Toggle) Flip-Flop][
+  *Input:* $T$ (toggle), $"CLK"$
+
+  *Output:* $Q$
+
+  *Behavior on clock edge:*
+  - $T = 0$: Hold state
+  - $T = 1$: Toggle $(Q_(t+1) = overline(Q_t))$
+]
+
+*Characteristic equation:* $Q_(t+1) = T xor Q_t$
+
+*Implementation:* Can be built from JK flip-flop with $J = K = T$
+
+#Block(color: blue)[
+  *Applications:*
+  - Binary counters (each flip-flop divides frequency by 2)
+  - Frequency dividers
+  - Clock generation circuits
+]
+
+== Master-Slave Flip-Flops
 
 #definition[
-  A _sequential circuit_ is a circuit where the output depends on both current inputs and previous state (memory).
+  A _master-slave flip-flop_ uses two latches in series:
+  - *Master latch:* Captures input during one clock phase
+  - *Slave latch:* Outputs captured value during opposite phase
+
+  This prevents timing issues and race conditions.
 ]
 
-#example[Flip-Flops][
-  - *SR Latch*: Set-Reset memory element.
-  - *D Flip-Flop*: Data storage triggered by clock edge.
-  - *JK Flip-Flop*: Eliminates forbidden state of SR latch.
-  - *T Flip-Flop*: Toggle flip-flop for counters.
+#Block(color: teal)[
+  *Advantage:* Eliminates transparency --- output changes only after input is fully captured.
+
+  *Timing:* Master captures on clock high, slave outputs on clock low (or vice versa).
 ]
+
+#note[
+  Modern edge-triggered flip-flops internally use master-slave or similar techniques to achieve clean edge-triggering.
+]
+
+== Clock Signals and Synchronization
+
+#definition[
+  A _clock signal_ is a periodic square wave that synchronizes state changes across a sequential circuit.
+]
+
+*Key clock parameters:*
+- *Frequency:* Clock cycles per second (Hz)
+- *Period:* Time for one complete cycle
+- *Duty cycle:* Fraction of period when clock is HIGH
+- *Rising edge* ($arrow.t$) or *Falling edge* ($arrow.b$): Transition points
+
+#Block(color: yellow)[
+  *Synchronous design:* All flip-flops share the same clock signal, ensuring coordinated state updates.
+
+  *Asynchronous design:* No global clock (more complex timing analysis).
+]
+
+#note[
+  Most digital systems use synchronous design for predictability and easier verification.
+]
+
+== Real Circuit Issues: Hazards
+
+#definition[
+  A _hazard_ (or _glitch_) is an unwanted transient change in circuit output due to:
+  - Unequal propagation delays in different paths
+  - Race conditions between signals
+]
+
+#example[Static-1 Hazard][
+  Circuit $f = A and overline(B) or B and C$ with $A = 1, C = 1$, $B$ transitions $1 -> 0$:
+
+  - Expected: $f$ stays 1 (both terms can be 1)
+  - Actual: Brief glitch to 0 if delays differ
+
+  *Fix:* Add redundant term $(A and C)$ to cover the transition.
+]
+
+#Block(color: orange)[
+  *Types of hazards:*
+  - *Static hazards:* Output should stay constant but glitches
+  - *Dynamic hazards:* Multiple transitions during single input change
+]
+
+== Race Conditions and Metastability
+
+#definition[
+  A _race condition_ occurs when circuit behavior depends on the relative timing of multiple signals, leading to unpredictable outcomes.
+]
+
+#definition[
+  _Metastability_ occurs when a flip-flop input changes too close to the clock edge, causing the output to hover in an undefined state before settling.
+]
+
+#Block(color: red)[
+  *Setup time* ($t_"setup"$): Minimum time input must be stable before clock edge
+
+  *Hold time* ($t_"hold"$): Minimum time input must remain stable after clock edge
+
+  Violating these timing constraints causes metastability!
+]
+
+#note[
+  Metastability cannot be completely eliminated but can be made arbitrarily rare with proper synchronizer design (multi-stage flip-flops).
+]
+
+== Limitations of Boolean Algebra for Sequential Circuits
+
+#Block(color: purple)[
+  *Fundamental limitation:* Pure Boolean functions describe only _combinational_ logic.
+]
+
+#place(right)[
+  #set align(left)
+  #Block(color: yellow)[
+    *Need additional formalisms:*
+    - Finite state machines (FSMs)
+    - Temporal logic
+    - Timing diagrams
+    - Hardware description languages (Verilog, VHDL)
+  ]
+]
+
+*What Boolean algebra captures:*
+- Static input-output relationships
+- Combinational circuit behavior
+- Functional completeness
+
+*What it cannot capture:*
+- Time-dependent behavior (state transitions)
+- Memory and feedback loops
+- Clocked synchronization
+- Timing constraints (setup, hold, propagation delays)
+
+== Circuit Minimization Goals
+
+*Minimization objectives:*
+
++ *Gate count:* Fewer gates $=>$ lower cost, smaller chip area
++ *Circuit depth:* Fewer levels $=>$ faster operation (less delay)
++ *Fanout:* Number of gates driven by one output (affects loading)
++ *Power consumption:* Fewer transitions $=>$ less energy
+
+#Block(color: blue)[
+  These objectives often conflict! Minimization requires trade-offs.
+]
+
+#example[
+  DNF for $f = A B or A C or B C$ (3 terms, 3 gates):
+  - Algebraic identity: $A B or A C or B C = A B or A C$ when $A = 1$
+  - But for all cases, adding redundant term $B C$ eliminates hazards!
+  - *Trade-off:* More gates for reliable behavior
+]
+
+== Circuit Minimization Techniques
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Technique*], [*Best For*], [*Limitations*]),
+    [Algebraic laws], [Small expressions, manual], [Error-prone, no guarantee],
+    [K-maps], [2-4 variables, visualization], [Does not scale beyond 6 variables],
+    [Quine-McCluskey], [Exact minimization, automation], [Exponential complexity],
+    [Espresso], [Multi-output, heuristic], [May not find optimal solution],
+    [Technology mapping], [Gate libraries, ASIC/FPGA], [Requires EDA tools],
+  )
+]
+
+#note[
+  Modern synthesis tools (e.g., Synopsys Design Compiler, Cadence Genus) combine multiple techniques and optimize for specific target technologies.
+]
+
+== Two-Level vs Multi-Level Logic
+
+#grid(
+  columns: 2,
+  gutter: 1.5em,
+  [
+    *Two-Level Logic*
+
+    Form: SOP (AND-OR) or POS (OR-AND)
+
+    *Advantages:*
+    - Fast (minimal depth = 2)
+    - Easy to minimize (K-maps)
+    - Predictable timing
+
+    *Disadvantages:*
+    - More gates (exponential growth)
+    - Large chip area
+  ],
+  [
+    *Multi-Level Logic*
+
+    Form: Factored expressions, nested gates
+
+    *Advantages:*
+    - Fewer gates (shared sub-expressions)
+    - Smaller area
+    - Lower power
+
+    *Disadvantages:*
+    - Slower (deeper paths)
+    - Harder to minimize
+    - Complex timing analysis
+  ],
+)
+
+#Block(color: yellow)[
+  *Modern approach:* Use multi-level logic for area/power optimization, then optimize critical paths for speed.
+]
+
+== Arithmetic Logic Unit (ALU) Overview
+
+#definition[
+  An _Arithmetic Logic Unit (ALU)_ is a combinational circuit that performs arithmetic and logical operations on integer operands.
+]
+
+*Typical ALU operations:*
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Arithmetic:*
+    - Addition, Subtraction
+    - Increment, Decrement
+    - Multiplication (in some ALUs)
+    - Comparison
+  ],
+  [
+    *Logical:*
+    - AND, OR, XOR, NOT
+    - Shift left, Shift right
+    - Rotate operations
+    - Bit manipulation
+  ],
+)
+
+*Control:* Operation select lines determine which function the ALU performs.
+
+#note[
+  ALUs are central components of CPUs, performing the bulk of computational work.
+]
+
+== Summary: Digital Circuits
+
+#Block(color: purple)[
+  *Key concepts covered:*
+
+  #grid(
+    columns: 2,
+    gutter: 1em,
+    [
+      *Combinational Logic*
+      + Logic gates and standards (ANSI/IEC)
+      + Circuit construction from Boolean expressions
+      + Arithmetic circuits (adders, subtractors, comparators)
+      + Multi-level vs two-level logic
+      + Circuit minimization techniques
+    ],
+    [
+      *Sequential Logic*
+      + Latches (SR latch, forbidden states)
+      + Flip-flops (D, JK, T, master-slave)
+      + Clock signals and edge-triggering
+      + State-dependent behavior
+      + Timing constraints and hazards
+    ],
+  )
+]
+
+#Block(color: blue)[
+  *Critical insights:*
+  - Boolean algebra describes combinational circuits perfectly
+  - Sequential circuits require state machines and temporal logic
+  - Real hardware has timing, power, and reliability constraints
+  - Minimization involves trade-offs between speed, area, and power
+]
+
+// #Block(color: teal)[
+//   *Looking ahead:* How do we apply Boolean algebra to solve complex computational problems?
+//
+//   Next: Computer Science applications of Boolean logic.
+// ]
+
 
 // == Bibliography
 // #bibliography("refs.yml")
