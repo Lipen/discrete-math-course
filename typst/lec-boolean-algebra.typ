@@ -3546,13 +3546,12 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
       - Sum: $S = A xor B$
       - Carry: $C = A and B$
 
-      #v(1em)
       *Truth table:*
       #v(-.5em)
       #table(
         columns: 4,
         align: center,
-        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.4pt) },
         inset: (x, y) => if y == 0 { 5pt } else { 3pt },
         table.header([$A$], [$B$], [$S$], [$C$]),
         [0], [0], [0], [0],
@@ -3995,7 +3994,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
     #table(
       columns: 5,
       align: (center, center, center, center, left),
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 or x == 3 { (right: 0.4pt) },
       table.header([$S$], [$R$], [$Q_t$], [$Q_(t+1)$], [Action]),
       [0], [0], [0], [0], [Hold],
       [0], [0], [1], [1], [Hold],
