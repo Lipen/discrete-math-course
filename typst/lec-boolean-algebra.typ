@@ -3563,25 +3563,125 @@ Often need to compute multiple functions simultaneously:
     ],
     [
       *Circuit:*
+
       #import "@preview/circuiteria:0.2.0"
       #circuiteria.circuit({
         import circuiteria: *
         import "@preview/cetz:0.3.2": draw
-        draw.scale(70%)
 
-        // XOR gate for Sum
-        element.gate-xor(id: "xor", x: 2, y: 0, w: 1.8, h: 1.8)
-        wire.stub("xor-port-in0", "west", length: 1, name: "A")
-        wire.stub("xor-port-in1", "west", length: 1, name: "B")
-        wire.stub("xor-port-out", "east", length: 1, name: "Sum")
+        let w = 1.2
+        let h = w
 
-        // AND gate for Carry
-        element.gate-and(id: "and", x: 2, y: -3, w: 1.8, h: 1.8)
-        wire.stub("and-port-in0", "west", length: 1, name: "A")
-        wire.stub("and-port-in1", "west", length: 1, name: "B")
-        wire.stub("and-port-out", "east", length: 1, name: "Carry")
+        element.group(
+          id: "half-adder",
+          name: "Half Adder",
+          padding: 1em,
+          stroke: (dash: "dashed"),
+          {
+            // XOR gate for Sum
+            element.gate-xor(id: "xor", x: 0, y: 0, w: w, h: h)
+
+            // AND gate for Carry
+            element.gate-and(id: "and", x: 0, y: -2, w: w, h: h)
+
+            // Offset for XOR-0
+            draw.hide(
+              draw.line(name: "l1", "xor-port-in0", (rel: (-1, 0), to: ())),
+            )
+            let a = "l1.end"
+
+            // Offset for XOR-1
+            draw.hide(
+              draw.line(name: "l2", "xor-port-in1", (rel: (-1.5, 0), to: ())),
+            )
+            let b = "l2.end"
+
+            // Wires to XOR
+            wire.wire(
+              "wX0",
+              (a, "xor-port-in0"),
+            )
+            wire.intersection(a)
+            wire.wire(
+              "wX1",
+              (a, "and-port-in0"),
+              style: "zigzag",
+              zigzag-ratio: 0%,
+            )
+
+            // Wires to AND
+            wire.wire(
+              "wA0",
+              (b, "xor-port-in1"),
+            )
+            wire.intersection(b)
+            wire.wire(
+              "wA1",
+              (b, "and-port-in1"),
+              style: "zigzag",
+              zigzag-ratio: 0%,
+            )
+          },
+        )
+
+        // Input A
+        let a = "l1.end"
+        draw.line(
+          name: "in-a",
+          a,
+          (
+            rel: (-0.5, 0),
+            to: (horizontal: "half-adder.west", vertical: ()),
+          ),
+        )
+        draw.content("in-a.end", [A], anchor: "east", padding: 0.2)
+
+        // Input B
+        let b = "l2.end"
+        draw.line(
+          name: "in-b",
+          b,
+          (
+            rel: (-0.5, 0),
+            to: (horizontal: "half-adder.west", vertical: ()),
+          ),
+        )
+        draw.content("in-b.end", [B], anchor: "east", padding: 0.2)
+
+        // Output Sum
+        draw.line(
+          name: "w-sum",
+          "xor-port-out",
+          (
+            rel: (0.5, 0),
+            to: (horizontal: "half-adder.east", vertical: ()),
+          ),
+        )
+        draw.content(
+          "w-sum.end",
+          [Sum],
+          anchor: "west",
+          padding: 0.2,
+        )
+
+        // Output Carry
+        draw.line(
+          name: "w-carry",
+          "and-port-out",
+          (
+            rel: (0.5, 0),
+            to: (horizontal: "half-adder.east", vertical: ()),
+          ),
+        )
+        draw.content(
+          "w-carry.end",
+          [Carry],
+          anchor: "west",
+          padding: 0.2,
+        )
       })
 
+      #v(-.5em)
       *Gates needed:* 1 XOR, 1 AND
     ],
   )
