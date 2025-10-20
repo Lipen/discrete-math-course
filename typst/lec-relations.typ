@@ -552,7 +552,7 @@ A relation is asymmetric if it never goes both ways.
 
 #note[
   _Empty set edge case:_ On $M = emptyset$, the empty relation is vacuously#footnote[
-    A universal statement "$forall x in emptyset, P(x)$" is true because there are no counterexamples.
+    A universal statement "$forall x in emptyset. thin P(x)$" is true because there are no counterexamples.
   ] reflexive, irreflexive, symmetric, antisymmetric, asymmetric, and transitive!
 ]
 
