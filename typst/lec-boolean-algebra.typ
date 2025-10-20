@@ -3726,125 +3726,126 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
 
 == Full Adder: Circuit Implementation
 
-#align(center)[
-  #import "@preview/circuiteria:0.2.0"
-  #circuiteria.circuit({
-    import circuiteria: *
-    import "@preview/cetz:0.3.2": draw
-
-    let w = 1.2
-    let h = w
-
-    element.group(
-      id: "full-adder",
-      name: "Full Adder",
-      padding: 1.2em,
-      stroke: (dash: "dashed"),
-      {
-        // First Half Adder
-        element.group(
-          id: "ha1",
-          name: [$"HA"_1$],
-          padding: 0.8em,
-          stroke: (paint: blue, thickness: 1.5pt),
-          {
-            element.gate-xor(id: "xor1", x: 0, y: 0, w: w, h: h)
-            element.gate-and(id: "and1", x: 0, y: -2, w: w, h: h)
-          },
-        )
-
-        // Second Half Adder
-        element.group(
-          id: "ha2",
-          name: [$"HA"_2$],
-          padding: 0.8em,
-          stroke: (paint: blue, thickness: 1.5pt),
-          {
-            element.gate-xor(id: "xor2", x: 3.5, y: 0, w: w, h: h)
-            element.gate-and(id: "and2", x: 3.5, y: -2, w: w, h: h)
-          },
-        )
-
-        // OR gate for carries
-        element.gate-or(
-          id: "or",
-          x: 6,
-          y: -1.2,
-          w: w,
-          h: h,
-        )
-
-        // Wire from HA1 to HA2: XOR1 to XOR2 (Sum)
-        wire.wire("w-s1", ("xor1-port-out", "xor2-port-in0"), style: "zigzag", zigzag-ratio: 30%)
-
-        // Wire from HA1 to HA2: XOR1 to AND2 (S1 shared)
-        wire.intersection("w-s1.zig")
-        wire.wire("w-s1-and", ("w-s1.zig", "and2-port-in0"), style: "zigzag", zigzag-ratio: 0%)
-
-        // Wires from carries to OR
-        wire.wire("w-c1", ("and1-port-out", "or-port-in0"), style: "zigzag", zigzag-ratio: 30%)
-        wire.wire("w-c2", ("and2-port-out", "or-port-in1"), style: "zigzag")
-
-        // Input offsets
-        draw.hide(draw.line(name: "l1", "xor1-port-in0", (rel: (-1, 0), to: ())))
-        draw.hide(draw.line(name: "l2", "xor1-port-in1", (rel: (-1.5, 0), to: ())))
-
-        let a = "l1.end"
-        let b = "l2.end"
-        let cin = (a, 200%, b)
-
-        // A to HA1
-        wire.wire("wA1", (a, "xor1-port-in0"))
-        wire.intersection(a)
-        wire.wire("wA2", (a, "and1-port-in0"), style: "zigzag", zigzag-ratio: 0%)
-
-        // B to HA1
-        wire.wire("wB1", (b, "xor1-port-in1"))
-        wire.intersection(b)
-        wire.wire("wB2", (b, "and1-port-in1"), style: "zigzag", zigzag-ratio: 0%)
-
-        // Cin to HA2
-        wire.wire("wC1", (cin, "xor2-port-in1"), style: "zigzag", zigzag-ratio: 75%)
-        wire.intersection(cin)
-        wire.wire("wC2", (cin, "and2-port-in1"), style: "dodge", dodge-y: -7em, dodge-margins: (0, 1))
-      },
-    )
-
-    let a = "l1.end"
-    let b = "l2.end"
-    let cin = (a, 200%, b)
-
-    // Input labels
-    draw.line(name: "in-a", a, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
-    draw.content("in-a.end", [A], anchor: "east", padding: 0.2)
-
-    draw.line(name: "in-b", b, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
-    draw.content("in-b.end", [B], anchor: "east", padding: 0.2)
-
-    draw.line(name: "in-cin", cin, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
-    draw.content("in-cin.end", [$C_"in"$], anchor: "east", padding: 0.2)
-
-    // Output Sum
-    draw.line(name: "w-sum", "xor2-port-out", (rel: (0.5, 0), to: (horizontal: "full-adder.east", vertical: ())))
-    draw.content("w-sum.end", [Sum], anchor: "west", padding: 0.2)
-
-    // Output Carry
-    draw.line(name: "w-cout", "or-port-out", (rel: (0.5, 0), to: (horizontal: "full-adder.east", vertical: ())))
-    draw.content("w-cout.end", [$C_"out"$], anchor: "west", padding: 0.2)
-  })
-]
-
 #grid(
   columns: 2,
-  gutter: 1.5em,
+  align: (center, left),
+  gutter: 1em,
+  [
+    #import "@preview/circuiteria:0.2.0"
+    #circuiteria.circuit({
+      import circuiteria: *
+      import "@preview/cetz:0.3.2": draw
+
+      let w = 1.2
+      let h = w
+
+      element.group(
+        id: "full-adder",
+        name: "Full Adder",
+        padding: (0.5em, 1em),
+        stroke: (dash: "dashed"),
+        {
+          // First Half Adder
+          element.group(
+            id: "ha1",
+            name: [$"HA"_1$],
+            padding: .8em,
+            stroke: (paint: blue, thickness: 1.5pt),
+            fill: blue.lighten(90%),
+            {
+              element.gate-xor(id: "xor1", x: 0, y: 0, w: w, h: h)
+              element.gate-and(id: "and1", x: 0, y: -2, w: w, h: h)
+            },
+          )
+
+          // Second Half Adder
+          element.group(
+            id: "ha2",
+            name: [$"HA"_2$],
+            padding: .8em,
+            stroke: (paint: blue, thickness: 1.5pt),
+            fill: blue.lighten(90%),
+            {
+              element.gate-xor(id: "xor2", x: 3.5, y: 0, w: w, h: h)
+              element.gate-and(id: "and2", x: 3.5, y: -2, w: w, h: h)
+            },
+          )
+
+          // OR gate for carries
+          element.gate-or(
+            id: "or",
+            x: 6,
+            y: -1.2,
+            w: w,
+            h: h,
+          )
+
+          // Wire from HA1 to HA2: XOR1 to XOR2 (Sum)
+          wire.wire("w-s1", ("xor1-port-out", "xor2-port-in0"), style: "zigzag", zigzag-ratio: 30%)
+
+          // Wire from HA1 to HA2: XOR1 to AND2 (S1 shared)
+          wire.intersection("w-s1.zig")
+          wire.wire("w-s1-and", ("w-s1.zig", "and2-port-in0"), style: "zigzag", zigzag-ratio: 0%)
+
+          // Wires from carries to OR
+          wire.wire("w-c1", ("and1-port-out", "or-port-in0"), style: "zigzag", zigzag-ratio: 30%)
+          wire.wire("w-c2", ("and2-port-out", "or-port-in1"), style: "zigzag")
+
+          // Input offsets
+          draw.hide(draw.line(name: "l1", "xor1-port-in0", (rel: (-1, 0), to: ())))
+          draw.hide(draw.line(name: "l2", "xor1-port-in1", (rel: (-1.5, 0), to: ())))
+
+          let a = "l1.end"
+          let b = "l2.end"
+          let cin = (a, 200%, b)
+
+          // A to HA1
+          wire.wire("wA1", (a, "xor1-port-in0"))
+          wire.intersection(a)
+          wire.wire("wA2", (a, "and1-port-in0"), style: "zigzag", zigzag-ratio: 0%)
+
+          // B to HA1
+          wire.wire("wB1", (b, "xor1-port-in1"))
+          wire.intersection(b)
+          wire.wire("wB2", (b, "and1-port-in1"), style: "zigzag", zigzag-ratio: 0%)
+
+          // Cin to HA2
+          wire.wire("wC1", (cin, "xor2-port-in1"), style: "zigzag", zigzag-ratio: 75%)
+          wire.intersection(cin)
+          wire.wire("wC2", (cin, "and2-port-in1"), style: "dodge", dodge-y: -6.6em, dodge-margins: (0, 1))
+        },
+      )
+
+      let a = "l1.end"
+      let b = "l2.end"
+      let cin = (a, 200%, b)
+
+      // Input labels
+      draw.line(name: "in-a", a, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
+      draw.content("in-a.end", [$A$], anchor: "east", padding: 0.2)
+
+      draw.line(name: "in-b", b, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
+      draw.content("in-b.end", [$B$], anchor: "east", padding: 0.2)
+
+      draw.line(name: "in-cin", cin, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
+      draw.content("in-cin.end", [$C_"in"$], anchor: "east", padding: 0.2)
+
+      // Output Sum
+      draw.line(name: "w-sum", "xor2-port-out", (rel: (0.5, 0), to: (horizontal: "full-adder.east", vertical: ())))
+      draw.content("w-sum.end", [$S$], anchor: "west", padding: 0.2)
+
+      // Output Carry
+      draw.line(name: "w-cout", "or-port-out", (rel: (0.5, 0), to: (horizontal: "full-adder.east", vertical: ())))
+      draw.content("w-cout.end", [$C_"out"$], anchor: "west", padding: 0.2)
+    })
+  ],
   [
     *Physical implementation:*
     - 2 XOR gates
     - 2 AND gates
     - 1 OR gate
     - Total: 5 gates
-  ],
-  [
+
     *Logical structure:*
     - Two half adders (blue boxes)
     - One OR gate for carry combining
@@ -3860,12 +3861,12 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   The blue boxes show how the gates naturally group into half adders!
 ]
 
-#Block(color: blue)[
-  *Application:* Full adders chain to build n-bit adders:
-  - *Ripple-carry:* Simple but slow (carry ripples through all bits)
-  - *Carry-lookahead:* Faster but more complex (parallel carry computation)
-  - *Used in:* ALUs, processors, digital signal processors
-]
+// #Block(color: blue)[
+//   *Application:* Full adders chain to build n-bit adders:
+//   - *Ripple-carry:* Simple but slow (carry ripples through all bits)
+//   - *Carry-lookahead:* Faster but more complex (parallel carry computation)
+//   - *Used in:* ALUs, processors, digital signal processors
+// ]
 
 == Other Arithmetic Circuits
 
