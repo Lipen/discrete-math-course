@@ -3945,7 +3945,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   gutter: 1.5em,
   [
     *Circuit structure:*
-    #v(0.5em)
+
     #import "@preview/circuiteria:0.2.0"
     #circuiteria.circuit({
       import circuiteria: *
@@ -3966,20 +3966,24 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
       // Output Q-bar
       wire.stub("nor2-port-out", "east", length: 1.5, name: $overline(Q)$)
 
-      // Feedback wires (conceptual - simplified)
+      // Feedback wires
       draw.line(
         "nor1-port-out",
-        (rel: (0.5, 0)),
-        (rel: (0, -2.2)),
+        (rel: (.5, 0)),
+        (rel: (0, -1)),
+        (rel: (-1, 0.5), to: "nor2-port-in0"),
+        (rel: (0, -0.5)),
         "nor2-port-in0",
-        stroke: (dash: "dashed", paint: red),
+        stroke: red,
       )
       draw.line(
         "nor2-port-out",
         (rel: (0.5, 0)),
-        (rel: (0, 2.2)),
+        (rel: (0, 1)),
+        (rel: (-1, -0.5), to: "nor1-port-in1"),
+        (rel: (0, 0.5)),
         "nor1-port-in1",
-        stroke: (dash: "dashed", paint: red),
+        stroke: red,
       )
     })
 
@@ -3990,6 +3994,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
     *State table:*
     #table(
       columns: 5,
+      align: (center, center, center, center, left),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([$S$], [$R$], [$Q_t$], [$Q_(t+1)$], [Action]),
       [0], [0], [0], [0], [Hold],
@@ -3999,7 +4004,6 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
       [1], [1], [?], [?], [Forbidden],
     )
 
-    #v(1em)
     *Equations:*
     - $Q = overline(S or overline(Q))$
     - $overline(Q) = overline(R or Q)$
