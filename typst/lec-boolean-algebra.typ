@@ -3631,7 +3631,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
             to: (horizontal: "half-adder.west", vertical: ()),
           ),
         )
-        draw.content("in-a.end", [A], anchor: "east", padding: 0.2)
+        draw.content("in-a.end", [$A$], anchor: "east", padding: 0.2)
 
         // Input B
         let b = "l2.end"
@@ -3643,7 +3643,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
             to: (horizontal: "half-adder.west", vertical: ()),
           ),
         )
-        draw.content("in-b.end", [B], anchor: "east", padding: 0.2)
+        draw.content("in-b.end", [$B$], anchor: "east", padding: 0.2)
 
         // Output Sum
         draw.line(
@@ -3656,7 +3656,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
         )
         draw.content(
           "w-sum.end",
-          [Sum],
+          [$S$ (sum)],
           anchor: "west",
           padding: 0.2,
         )
@@ -3672,7 +3672,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
         )
         draw.content(
           "w-carry.end",
-          [Carry],
+          [$C$ (carry)],
           anchor: "west",
           padding: 0.2,
         )
