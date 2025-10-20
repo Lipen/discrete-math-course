@@ -2882,6 +2882,463 @@ Two approaches for converting between representations:
 ]
 
 
+= Functional Completeness
+#focus-slide()
+
+== The Fundamental Question
+
+We've seen many Boolean operations: AND, OR, NOT, XOR, NAND, NOR, implication, equivalence...
+
+#Block(color: blue)[
+  *Central question:* Which sets of operations can express _every_ Boolean function?
+]
+
+For example:
+- Can we build everything using only ${and, or, not}$? #YES
+- Can we build everything using only ${"NAND"}$? #YES
+- Can we build everything using only ${and, or}$? #NO
+
+#Block(color: yellow)[
+  This leads to the concept of _functional completeness_ --- a cornerstone of Boolean algebra and digital circuit design.
+]
+
+== Functional Closure
+
+#definition[
+  Let $F$ be a set of Boolean functions.
+  The _functional closure_ $[F]$ is the smallest set containing $F$ and closed under:
+  + *Composition:* If $f, g in [F]$, then $h(x) = f(g(x)) in [F]$
+  + *Identification:* If $f(x_1, ..., x_n) in [F]$, then $f(x, x, x_3, ..., x_n) in [F]$
+  + *Permutation:* If $f(x_1, ..., x_n) in [F]$, then $f(x_(sigma(1)), ..., x_(sigma(n))) in [F]$ for any permutation $sigma$
+  + *Introduction of fictitious variables:* If $f(x_1, ..., x_n) in [F]$, then $f(x_1, ..., x_n, x_(n+1)) in [F]$
+]
+
+Informally, $[F]$ contains all functions you can build by _combining_ functions from $F$.
+
+#note[
+  The closure operations preserve the essential structure while allowing arbitrary combinations and rearrangements.
+]
+
+== Functional Completeness
+
+#definition[
+  A set $F$ of Boolean functions is _functionally complete_ (or _universal_) if its closure $[F]$ contains all possible Boolean functions.
+
+  Equivalently: every Boolean function can be expressed using only operations from $F$.
+]
+
+#example[
+  *Complete sets:*
+  - ${and, or, not}$ --- the classical basis
+  - ${and, not}$ --- AND with negation
+  - ${or, not}$ --- OR with negation
+  - ${"NAND"}$ --- NAND alone (Sheffer stroke)
+  - ${"NOR"}$ --- NOR alone (Peirce arrow)
+
+  *Incomplete sets:*
+  - ${and, or}$ --- cannot produce NOT
+  - ${xor}$ --- only produces linear functions
+  - ${not}$ --- only produces constants and negations
+]
+
+== Why Functional Completeness Matters
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
+  [
+    *Circuit Design*
+
+    Functionally complete sets determine which gates are sufficient to build any digital circuit.
+
+    #note[
+      NAND and NOR gates are universal --- entire processors can be built using only NAND gates!
+    ]
+  ],
+  [
+    *Programming Languages*
+
+    Programming languages must provide functionally complete sets of operators.
+
+    #example[
+      C provides: `&&`, `||`, `!`, `^` \
+      Each subset {`&&`, `!`} or {`||`, `!`} is complete.
+    ]
+  ],
+)
+
+#Block(color: red)[
+  *Practical constraint:* Manufacturing circuits with a single gate type (NAND or NOR) simplifies design, testing, and production.
+]
+
+== Post's Five Classes
+
+Emil Post (1941) identified five classes of Boolean functions that restrict expressiveness:
+
+#definition[
+  A Boolean function $f: {0,1}^n arrow.r {0,1}$ is:
+
+  + *$T_0$ (preserves 0):* $f(0, 0, ..., 0) = 0$
+
+  + *$T_1$ (preserves 1):* $f(1, 1, ..., 1) = 1$
+
+  + *$S$ (self-dual):* $f(overline(x)_1, ..., overline(x)_n) = overline(f(x_1, ..., x_n))$
+
+  + *$M$ (monotone):* $x <= y => f(x) <= f(y)$ ~(bitwise comparison)
+
+  + *$L$ (linear):* $f$ has ANF of degree $<= 1$ ~(no AND terms)
+]
+
+#note[
+  These classes form a complete classification: if $F$ is fully contained ($subset.eq$) in any class, then $[F]$ cannot contain _all_ Boolean functions.
+]
+
+== Post's Classes: Examples
+
+#align(center)[
+  #table(
+    columns: 6,
+    align: (right, center, center, center, center, center),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.4pt) },
+    inset: (x, y) => if x == 0 { 5pt } else { 3pt },
+    table.header([*Function*], [$T_0$], [$T_1$], [$S$], [$M$], [$L$]),
+    [Constant 0], [#YES], [#NO], [#NO], [#YES], [#YES],
+    [Constant 1], [#NO], [#YES], [#NO], [#YES], [#YES],
+    [Identity $x$], [#YES], [#YES], [#YES], [#YES], [#YES],
+    [NOT $overline(x)$], [#NO], [#NO], [#YES], [#NO], [#YES],
+    [AND $x and y$], [#YES], [#YES], [#NO], [#YES], [#NO],
+    [OR $x or y$], [#YES], [#YES], [#NO], [#YES], [#NO],
+    [XOR $x xor y$], [#YES], [#NO], [#NO], [#NO], [#YES],
+    [NAND $overline(x and y)$], [#NO], [#NO], [#NO], [#NO], [#NO],
+    [NOR $overline(x or y)$], [#NO], [#NO], [#NO], [#NO], [#NO],
+    [Implication $x imply y$], [#NO], [#YES], [#NO], [#NO], [#NO],
+  )
+]
+
+#place(bottom + center)[
+  #Block(color: yellow)[
+    *Observation:* NAND and NOR belong to _none_ of the five Post classes!
+  ]
+]
+
+== Understanding Post's Classes
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *$T_0$ and $T_1$ (Preserving Constants)*
+
+    Functions that map all-0s to 0 ($T_0$) or all-1s to 1 ($T_1$).
+
+    - AND, OR are in both $T_0$ and $T_1$
+    - XOR is in $T_0$ but not $T_1$
+    - NOT is in neither
+
+    #note[
+      If all functions preserve 0, closure cannot produce constants.
+    ]
+  ],
+  [
+    *$S$ (Self-Dual Functions)*
+
+    Swapping inputs and output gives the same function.
+
+    $f(overline(x)) = overline(f(x))$
+
+    - NOT is self-dual: $overline(overline(x)) = x$
+    - Median: $"med"(x,y,z) = x y + y z + x z$
+
+    #note[
+      Self-dual functions satisfy $f = overline(f) compose not$
+    ]
+  ],
+)
+
+#pagebreak()
+
+#grid(
+  columns: 2,
+  gutter: 1.5em,
+  [
+    *$M$ (Monotone Functions)*
+
+    Increasing inputs never decrease output.
+
+    If $x_i <= y_i$ for all $i$, then $f(x) <= f(y)$.
+
+    - AND, OR are monotone
+    - NOT, XOR are not monotone
+
+    #example[
+      For function OR:
+      - $(0,0) < (0,1)$ and $"OR"(0,0) < "OR"(0,1)$ #YES
+    ]
+  ],
+  [
+    *$L$ (Linear Functions)*
+
+    ANF has degree $<= 1$ (only XOR and constants).
+
+    $f = a_0 xor a_1 x_1 xor ... xor a_n x_n$
+
+    - Constants, NOT, XOR are linear
+    - AND, OR are not linear (degree 2)
+
+    #note[
+      Linear functions form a vector space over~$FF_2$.
+    ]
+  ],
+)
+
+#Block(color: purple)[
+  *Key insight:* Each Post class is _closed under composition_ --- combining functions from a class stays within that class.
+]
+
+== Post's Criterion
+
+#theorem[
+  A set $F$ of Boolean functions is functionally complete if and only if $F$ contains at least one function that does _not_ belong to each of the five Post classes:
+
+  $
+    F "is complete" <==> cases(
+      exists f in F : f in.not T_0,
+      exists f in F : f in.not T_1,
+      exists f in F : f in.not S,
+      exists f in F : f in.not M,
+      exists f in F : f in.not L
+    )
+  $
+
+  #note[
+    Each $f$ can be different, or the _same_ function can escape multiple classes.
+  ]
+]
+
+Equivalently: $F$ is complete $iff$ $F$ is not contained in any Post class.
+
+#Block(color: blue)[
+  *Practical test:* To prove $F$ is complete, find five functions (possibly the same) escaping each class.
+]
+
+== Post's Criterion: Intuition
+
+Why does escaping all five classes guarantee completeness?
+
+#Block(color: teal)[
+  *Idea:* Each Post class represents a "weakness" --- _inability to express_ certain functions:
+
+  - *$T_0$:* Cannot create constant 1 from all-0 input
+  - *$T_1$:* Cannot create constant 0 from all-1 input
+  - *$S$:* Cannot break symmetry between $x$ and $overline(x)$
+  - *$M$:* Cannot decrease output when input increases
+  - *$L$:* Cannot create nonlinear interactions (AND-like)
+]
+
+#Block[
+  If $F$ escapes all restrictions, it has enough "power" to build any function.
+]
+
+#note[
+  The proof constructs NOT, AND, and OR from functions escaping the five classes, establishing completeness via a known complete set --- Standard Boolean basis ${and, or, not}$.
+]
+
+== Post's Criterion: Proof Sketch
+
+The full proof is technical, but the key steps are:
+
+*Step 1:* Show that if $F subset.eq T_0$, then $[F] subset.eq T_0$ ~(similarly for $T_1, S, M, L$).
+
+*Proof:* Composition preserves each class. For example, if $f, g in T_0$, then:
+$
+  h(0, ..., 0) = f(g(0, ..., 0), ...) = f(0, ..., 0) = 0
+$
+
+*Step 2:* If $F$ escapes all five classes, construct ${and, not}$ from $F$.
+
+This involves:
+- Using non-$T_0$ and non-$T_1$ to create constants
+- Using non-$S$ to break self-duality
+- Using non-$M$ to enable decreasing behavior
+- Using non-$L$ to create nonlinear terms
+
+*Step 3:* Since ${and, not}$ is complete, $[F]$ contains all functions. $qed$
+
+== Verifying Completeness: Examples
+
+#example[
+  *Is ${and, or, not}$ complete?*
+
+  Check each class:
+  - NOT $in.not T_0$: NOT(0) = 1 ≠ 0 #YES
+  - NOT $in.not T_1$: NOT(1) = 0 ≠ 1 #YES
+  - AND $in.not S$: non-self-dual #YES
+  - NOT $in.not M$: NOT is not monotone #YES
+  - AND $in.not L$: AND has degree 2 #YES
+
+  *Conclusion:* Complete! #YES
+]
+
+#pagebreak()
+
+#example[
+  *Is ${"NAND"}$ complete?*
+
+  NAND(x, y) = $overline(x and y)$:
+  - NAND(0,0) = 1 ≠ 0 $=>$ $in.not T_0$ #YES
+  - NAND(1,1) = 0 ≠ 1 $=>$ $in.not T_1$ #YES
+  - NAND($overline(x), overline(y)$) ≠ $overline("NAND"(x,y))$ $=>$ $in.not S$ #YES
+  - NAND(0,1) = 1 > NAND(1,1) = 0 $=>$ $in.not M$ #YES
+  - ANF has degree 2 $=>$ $in.not L$ #YES
+
+  *Conclusion:* Complete! #YES
+]
+
+== Incomplete Sets: Examples
+
+#example[
+  *Is ${and, or}$ complete?*
+
+  - AND $in T_0$: $"AND"(0,0) = 0$
+  - OR $in T_0$: $"OR"(0,0) = 0$
+  - All functions in closure stay in $T_0$
+  - Cannot escape $T_0$ (need function with $f(0,...,0) = 1$)
+
+  *Conclusion:* Incomplete. Stuck in $T_0$. #NO
+]
+
+#line(length: 50%, stroke: 0.4pt + gray)
+
+#example[
+  *Is ${xor, not}$ complete?*
+
+  - XOR $in L$: degree 1
+  - NOT $in L$: $not x = x xor 1$, degree 1
+  - All functions in closure stay in $L$
+  - Cannot escape $L$ (need nonlinear function like AND)
+
+  *Conclusion:* Incomplete. Stuck in $L$. #NO
+]
+
+// #example[
+//   *Is ${and, or, xor}$ complete?*
+//
+//   Check classes:
+//   - AND $in T_0$: $"AND"(0,0) = 0$
+//   - OR $in T_0$: $"OR"(0,0) = 0$
+//   - XOR $in T_0$: $"XOR"(0,0) = 0$
+//   - All functions in closure stay in $T_0$
+//   - Cannot escape $T_0$ (need NOT or constant 1)
+//
+//   *Conclusion:* Incomplete. Stuck in $T_0$. #NO
+// ]
+
+== Complete Sets in Practice
+
+Common functionally complete sets:
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Set*], [*Applications*], [*Notes*]),
+    [${and, or, not}$], [Textbooks, theory], [Classical basis],
+    [${and, not}$], [TTL logic families], [Two-level logic],
+    [${or, not}$], [Alternative basis], [Dual to {AND, NOT}],
+    [${not, arrow.r.double}$], [Logic programming], [Implication-based],
+    [${"NAND"}$], [Digital circuits], [Single gate type],
+    [${"NOR"}$], [Digital circuits], [Single gate type],
+    [${xor, and, 1}$], [ANF synthesis], [Algebraic forms],
+  )
+]
+
+#Block(color: blue)[
+  *Design principle:* Minimal complete sets reduce hardware complexity and manufacturing costs.
+]
+
+== Definability and Applications
+
+#definition[
+  A function $f$ is _definable_ from set $F$ if $f in [F]$.
+]
+
+- XOR is definable from {AND, OR, NOT}: \
+  $x xor y = (x and overline(y)) or (overline(x) and y)$
+
+- NOT is definable from {NAND}: \
+  $overline(x) = "NAND"(x, x)$
+
+- AND is definable from {NAND}: \
+  $x and y = overline("NAND"(x, y)) = "NAND"("NAND"(x,y), "NAND"(x,y))$
+
+*Applications:*
++ *Circuit synthesis:* Convert expressions to available gate types
++ *Gate minimization:* Replace complex gates with universal gates
++ *Hardware verification:* Ensure gate library is sufficient
++ *Compiler optimization:* Transform logical expressions efficiently
+
+== Building Functions from NAND
+
+Since ${"NAND"} = {nand}$ is complete, we can build any function using only NAND gates.
+
+#example[
+  *Construct basic gates from NAND:*
+
+  #align(center)[
+    #table(
+      columns: 3,
+      align: left,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*Gate*], [*Formula*], [*NAND equivalent*]),
+      [NOT], [$not x$], [$x nand x$],
+      [AND], [$x and y = not (x nand y)$], [$(x nand y) nand (x nand y)$],
+      [OR], [$x or y = not (not x and not y)$], [$(x nand x) nand (y nand y)$],
+      [XOR], [$x xor y = (x and not y) or (not x and not y)$], [$(x nand (x nand y)) nand (y nand (x nand y))$],
+    )
+  ]
+]
+
+#Block(color: yellow)[
+  *Trade-off:* Using only NAND gates may increase circuit depth and gate count compared to mixed-gate designs.
+]
+
+#note[
+  Similar constructions exist for NOR gates, providing alternative universal implementations.
+]
+
+== Summary: Functional Completeness
+
+#Block(color: purple)[
+  *Key concepts:*
+
+  + *Functional closure* $[F]$: all functions expressible using $F$
+  + *Functional completeness*: $[F]$ contains all Boolean functions
+  + *Post's five classes*: $T_0$, $T_1$, $S$, $M$, $L$ (each closed under composition)
+  + *Post's criterion*: $F$ is complete $<=>$ $F$ escapes all five classes
+  + *Universal gates*: NAND and NOR are individually complete
+]
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+
+  Block(color: blue)[
+    *Practical applications:*
+    - Circuit design with minimal gate types
+    - Optimization of Boolean expressions
+    - Hardware verification and gate library design
+    - Understanding expressiveness limits
+  ],
+
+  Block(color: teal)[
+    *Looking ahead:* How do we implement these Boolean functions in actual hardware?
+
+    *Next:* Digital circuits, gates, and flip-flops.
+  ],
+)
+
+
 = Digital Circuits
 #focus-slide()
 
