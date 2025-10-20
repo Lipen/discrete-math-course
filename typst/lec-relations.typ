@@ -3873,7 +3873,7 @@ Functions can be characterized by several key properties that determine their ma
   gutter: 3em,
 
   [
-    *Boolean Lattice $B_2$*
+    *Boolean Lattice $B_1$*
 
     #align(center)[
       #cetz.canvas(length: 0.7cm, {
@@ -4120,7 +4120,7 @@ Functions can be characterized by several key properties that determine their ma
 ]
 
 #example[
-  $B_2$ is distributive
+  $B_1$ is distributive
 
   Check:
   - $0 Meet (0 Join 1) = 0 Meet 1 = 0$
