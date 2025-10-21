@@ -3741,7 +3741,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
       element.group(
         id: "full-adder",
         name: "Full Adder",
-        padding: (0.5em, 1em),
+        padding: (0.7em, 1em), // (vertical, horizontal)
         stroke: (dash: "dashed"),
         {
           // First Half Adder
@@ -3852,12 +3852,14 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   ],
 )
 
-#Block(color: purple)[
-  *Key insight:* The same circuit can be viewed two ways:
-  - *Gate-level view:* 5 individual gates with wire sharing
-  - *Module-level view:* 2 half-adder components + OR combiner
+#place(bottom)[
+  #Block(color: purple)[
+    *Key insight:* The same circuit can be viewed two ways:
+    - *Gate-level view:* 5 individual gates with wire sharing
+    - *Module-level view:* 2 half-adder components + OR combiner
 
-  The blue boxes show how the gates naturally group into half adders!
+    The blue boxes show how the gates naturally group into half adders!
+  ]
 ]
 
 // #Block(color: blue)[
@@ -3884,15 +3886,138 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   )
 ]
 
+== Multiplexers and Demultiplexers
+
+#example[4-to-1 Multiplexer][
+
+  *Function:* Select one of 4 inputs $(I_0, I_1, I_2, I_3)$ based on 2 select lines $(S_1, S_0)$
+
+  *Truth:* If $(S_1 S_0) = 01_2$, then $"Out" = I_1$
+
+  *Implementation:*
+  - 4 AND gates (each enabled by specific select combination)
+  - 1 OR gate (combines all enabled inputs)
+  - $"Out" = overline(S_1) overline(S_0) I_0 or overline(S_1) S_0 I_1 or S_1 overline(S_0) I_2 or S_1 S_0 I_3$
+]
+
 #note[
-  Decoders are particularly useful: an n-to-$2^n$ decoder generates all minterms for n variables, enabling direct DNF implementation.
+  Decoders are useful because they generate all possible minterms. An $n$-to-$2^n$ decoder produces all minterms for $n$ variables, so you can build any Boolean function by just connecting the right outputs with OR gates.
+]
+
+== Circuit Minimization Goals
+
+Now that we've seen various combinational circuits, let's consider: *How do we make them efficient?*
+
+*Minimization objectives:*
+
++ *Gate count:* Fewer gates $=>$ lower cost, smaller chip area
++ *Circuit depth:* Fewer levels $=>$ faster operation (less delay)
++ *Fanout:* Number of gates driven by one output (affects loading)
++ *Power consumption:* Fewer transitions $=>$ less energy
+
+#Block(color: blue)[
+  These objectives often conflict! Minimization requires trade-offs.
+]
+
+#example[
+  DNF for $f = A B or A C or B C$ (3 terms, 3 gates):
+  - Algebraic identity: $A B or A C or B C = A B or A C$ when $A = 1$
+  - But for all cases, adding redundant term $B C$ eliminates hazards!
+  - *Trade-off:* More gates for reliable behavior
+]
+
+== Circuit Minimization Techniques
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Technique*], [*Best For*], [*Limitations*]),
+    [Algebraic laws], [Small expressions, manual], [Error-prone, no guarantee],
+    [K-maps], [2-4 variables, visualization], [Does not scale beyond 6 variables],
+    [Quine-McCluskey], [Exact minimization, automation], [Exponential complexity],
+    [Espresso], [Multi-output, heuristic], [May not find optimal solution],
+    [Technology mapping], [Gate libraries, ASIC/FPGA], [Requires EDA tools],
+  )
+]
+
+#note[
+  Modern synthesis tools (e.g., Synopsys Design Compiler, Cadence Genus) combine multiple techniques and optimize for specific target technologies.
+]
+
+== Two-Level vs Multi-Level Logic
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Aspect*], [*Two-Level Logic*], [*Multi-Level Logic*]),
+    [*Form*], [SoP or PoS], [Factored expressions, nested gates],
+
+    [*Advantages*],
+    [
+      #set list(marker: Green[*+*])
+      - Fast (minimal depth = 2)
+      - Easy to minimize (K-maps)
+      - Predictable timing
+    ],
+    [
+      #set list(marker: Green[*+*])
+      - Fewer gates (shared sub-expressions)
+      - Smaller area
+      - Lower power
+    ],
+
+    [*Disadvantages*],
+    [
+      #set list(marker: Red[*–*])
+      - More gates (exponential growth)
+      - Large chip area
+    ],
+    [
+      #set list(marker: Red[*–*])
+      - Slower (deeper paths)
+      - Harder to minimize
+      - Complex timing analysis
+    ],
+  )
+]
+
+#Block(color: yellow)[
+  *Modern approach:* Use multi-level logic for area/power optimization, then optimize critical paths for speed.
 ]
 
 == Sequential Circuits: The Need for Memory
 
 #Block(color: red)[
-  *Limitation of combinational logic:* Cannot store information or maintain state.
+  *Everything we've built so far has one big problem:* No memory!
 ]
+
+#columns(2)[
+  *What combinational circuits CAN do:*
+  - Compute functions of current inputs #YES
+  - Process data in one pass #YES
+  - Adders, comparators, multiplexers, ALUs #YES
+
+  #colbreak()
+
+  *What combinational circuits CANNOT do:*
+  - Remember past inputs or results #NO
+  - Count events over time #NO
+  - Implement algorithms with loops or state #NO
+  - Build registers, counters, or processors #NO
+]
+
+#v(1em)
+#Block(color: yellow)[
+  *To build real computers, we need circuits that "remember"!*
+
+  This needs a completely different approach than what we've seen so far.
+]
+
+== Combinational vs Sequential Circuits
 
 #definition[
   A _sequential circuit_ has outputs that depend on:
@@ -3907,8 +4032,8 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   - *Sequential:* Registers, counters, state machines (with memory)
 ]
 
-#Block(color: yellow)[
-  *Key distinction:* Truth tables are insufficient for sequential circuits --- need _state diagrams_ or _state tables_.
+#note[
+  Truth tables don't work for sequential circuits --- we need _state diagrams_ or _state tables_ instead.
 ]
 
 == Latches: Basic Memory Elements
@@ -3918,6 +4043,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
 ]
 
 #example[SR Latch (Set-Reset)][
+
   *Inputs:* $S$ (set), $R$ (reset)
 
   *Outputs:* $Q$ (state), $overline(Q)$ (complementary)
@@ -3991,6 +4117,7 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   ],
   [
     *State table:*
+    #v(-0.5em)
     #table(
       columns: 5,
       align: (center, center, center, center, left),
@@ -4013,23 +4140,24 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
   $Q_t$ = current state, $Q_(t+1)$ = next state. The latch "remembers" when $S = R = 0$.
 ]
 
-== Why Truth Tables Fail for Latches
+== Why Truth Tables Fail for Sequential Circuits
 
 #Block(color: red)[
-  *Critical insight:* SR latch cannot be described by a simple Boolean function $Q = f(S, R)$!
+  *Here's the key point:* An SR latch cannot be described by a simple Boolean function $Q = f(S, R)$!
 ]
 
 #place(right)[
   #set align(left)
   #Block(color: yellow)[
-    *Sequential circuits require:*
+    *Sequential circuits need:*
     - State tables (not truth tables)
+    - Finite state machines (FSMs)
     - Temporal logic (next-state functions)
-    - Timing diagrams showing state transitions over time
+    - Timing diagrams showing state transitions
   ]
 ]
 
-*Reason:* The output $Q$ depends on:
+*Why not?* The output $Q$ depends on:
 - Current inputs $S, R$
 - *Previous output* $Q_t$ (feedback)
 
@@ -4037,7 +4165,11 @@ This is a _state-dependent_ behavior:
 - $(S, R) = (0, 0)$ with $Q_t = 0 => Q_(t+1) = 0$
 - $(S, R) = (0, 0)$ with $Q_t = 1 => Q_(t+1) = 1$
 
-Same inputs, different outputs! Violates functional definition.
+Same inputs, different outputs! This violates the basic idea of a function.
+
+#Block(color: purple)[
+  *Bottom line:* Pure Boolean functions can only describe _combinational_ logic.
+]
 
 == Flip-Flops: Clocked Memory
 
@@ -4055,88 +4187,124 @@ Same inputs, different outputs! Violates functional definition.
 
 == D Flip-Flop
 
-#example[D (Data) Flip-Flop][
-  *Input:* $D$ (data), $"CLK"$ (clock)
+*Input:* $D$ (data), $"CLK"$ (clock),~ *Output:* $Q$ \
+*Behavior:*
+- On clock edge (e.g., rising edge $arrow.t$):~ $Q_(t+1) = D_t$ ~(capture and store $D$ value)
+- Between clock edges: $Q$ holds value (ignores $D$ changes)
+- *Characteristic equation:* $Q_(t+1) = D$
 
-  *Output:* $Q$
+*Timing diagram:*
 
-  *Behavior:* On clock edge (e.g., rising edge $arrow.t$):
-  - $Q_(t+1) = D_t$ ~(capture and store $D$ value)
+#v(-2em)
+#align(center)[
+  #cetz.canvas({
+    import cetz.draw: *
+    scale(70%)
 
-  Between clock edges: $Q$ holds value (ignores $D$ changes)
+    let y-clk = 2.5
+    let y-d = 1.5
+    let y-q = 0.5
+    let y-time = 0
+    let sig-height = 0.4
+
+    // Labels
+    content((-1, y-clk), anchor: "east", [$"CLK"$])
+    content((-1, y-d), anchor: "east", [$D$])
+    content((-1, y-q), anchor: "east", [$Q$])
+
+    // Clock signal (5 periods)
+    for i in range(5) {
+      let x = i * 2
+      line(
+        (x, y-clk),
+        (x, y-clk + sig-height),
+        (x + 1, y-clk + sig-height),
+        (x + 1, y-clk),
+        (x + 2, y-clk),
+        stroke: red + 1.5pt,
+      )
+      // Mark rising edge with arrow
+      line((x, y-clk - 0.2), (x, y-clk + sig-height + 0.2), stroke: green + 1pt, mark: (end: ">"))
+    }
+
+    // D input signal
+    line((0, y-d), (1.5, y-d), stroke: blue + 1.5pt)
+    line((1.5, y-d), (1.5, y-d + sig-height), stroke: blue + 1.5pt)
+    line((1.5, y-d + sig-height), (3.5, y-d + sig-height), stroke: blue + 1.5pt)
+    line((3.5, y-d + sig-height), (3.5, y-d), stroke: blue + 1.5pt)
+    line((3.5, y-d), (5.5, y-d), stroke: blue + 1.5pt)
+    line((5.5, y-d), (5.5, y-d + sig-height), stroke: blue + 1.5pt)
+    line((5.5, y-d + sig-height), (10, y-d + sig-height), stroke: blue + 1.5pt)
+
+    // Q output signal (changes at rising edges: 0, 2, 4, 6, 8)
+    line((0, y-q), (2, y-q), stroke: purple + 1.5pt)
+    line((2, y-q), (2, y-q + sig-height), stroke: purple + 1.5pt)
+    line((2, y-q + sig-height), (4, y-q + sig-height), stroke: purple + 1.5pt)
+    line((4, y-q + sig-height), (4, y-q), stroke: purple + 1.5pt)
+    line((4, y-q), (6, y-q), stroke: purple + 1.5pt)
+    line((6, y-q), (6, y-q + sig-height), stroke: purple + 1.5pt)
+    line((6, y-q + sig-height), (10, y-q + sig-height), stroke: purple + 1.5pt)
+
+    // Time axis
+    line((0, y-time), (10, y-time), stroke: gray + 0.5pt, mark: (end: ">"))
+    content((10.5, y-time), anchor: "west", [time])
+  })
+]
+#v(-.5em)
+
+#note[
+  Notice $Q$ changes _only_ at rising edges ($arrow.t$), capturing $D$'s value at that instant, regardless of $D$ changes between edges.
 ]
 
-*Characteristic equation:* $Q_(t+1) = D$
-
+#v(-.5em)
 #Block(color: green)[
   *Use cases:* Registers, memory buffers, pipeline stages
 
   D flip-flops eliminate the forbidden state problem of SR latches.
 ]
 
-== JK Flip-Flop
+== Other Flip-Flop Types
 
-#example[JK Flip-Flop][
-  *Inputs:* $J$ (set), $K$ (reset), $"CLK"$
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #Block(color: green)[*JK Flip-Flop*]
 
-  *Output:* $Q$
+    *Inputs:* $J$ (set), $K$ (reset), $"CLK"$
 
-  *Behavior on clock edge:*
-  - $J = 0, K = 0$: Hold state
-  - $J = 0, K = 1$: Reset $(Q = 0)$
-  - $J = 1, K = 0$: Set $(Q = 1)$
-  - $J = 1, K = 1$: *Toggle* $(Q = overline(Q))$
+    *Behavior on clock edge:*
+    - $(J, K) = (0, 0)$: Hold state
+    - $(J, K) = (0, 1)$: Reset $(Q = 0)$
+    - $(J, K) = (1, 0)$: Set $(Q = 1)$
+    - $(J, K) = (1, 1)$: Toggle $(Q = overline(Q))$
 
-  No forbidden state!
-]
+    *Equation:* $Q_(t+1) = J overline(Q)_t or overline(K) Q_t$
+  ],
+  [
+    #Block(color: blue)[*T (Toggle) Flip-Flop*]
 
-*Characteristic equation:* $Q_(t+1) = J overline(Q_t) or overline(K) Q_t$
+    *Input:* $T$ (toggle), $"CLK"$
 
-#Block(color: purple)[
-  The toggle mode $(J=K=1)$ makes JK flip-flops ideal for frequency dividers and counters.
-]
+    *Behavior on clock edge:*
+    - $T = 0$: Hold state
+    - $T = 1$: Toggle $(Q_(t+1) = overline(Q)_t)$
 
-== T Flip-Flop
+    *Equation:* $Q_(t+1) = T xor Q_t$
 
-#example[T (Toggle) Flip-Flop][
-  *Input:* $T$ (toggle), $"CLK"$
+    *Implementation:* JK with $J = K = T$
+  ],
 
-  *Output:* $Q$
-
-  *Behavior on clock edge:*
-  - $T = 0$: Hold state
-  - $T = 1$: Toggle $(Q_(t+1) = overline(Q_t))$
-]
-
-*Characteristic equation:* $Q_(t+1) = T xor Q_t$
-
-*Implementation:* Can be built from JK flip-flop with $J = K = T$
-
-#Block(color: blue)[
-  *Applications:*
-  - Binary counters (each flip-flop divides frequency by 2)
-  - Frequency dividers
-  - Clock generation circuits
-]
-
-== Master-Slave Flip-Flops
-
-#definition[
-  A _master-slave flip-flop_ uses two latches in series:
-  - *Master latch:* Captures input during one clock phase
-  - *Slave latch:* Outputs captured value during opposite phase
-
-  This prevents timing issues and race conditions.
-]
-
-#Block(color: teal)[
-  *Advantage:* Eliminates transparency --- output changes only after input is fully captured.
-
-  *Timing:* Master captures on clock high, slave outputs on clock low (or vice versa).
-]
+  Block(color: green)[
+    Toggle mode $(J=K=1)$ ideal for counters and frequency dividers.
+  ],
+  Block(color: blue)[
+    Common in binary counters (each stage divides frequency by 2).
+  ],
+)
 
 #note[
-  Modern edge-triggered flip-flops internally use master-slave or similar techniques to achieve clean edge-triggering.
+  In practice, however, most designs use _D flip-flops_ because they're _simpler_ and more _predictable_.
 ]
 
 == Clock Signals and Synchronization
@@ -4152,13 +4320,13 @@ Same inputs, different outputs! Violates functional definition.
 - *Rising edge* ($arrow.t$) or *Falling edge* ($arrow.b$): Transition points
 
 #Block(color: yellow)[
-  *Synchronous design:* All flip-flops share the same clock signal, ensuring coordinated state updates.
+  *Synchronous design:* All flip-flops share the same clock signal, so state updates happen together.
 
-  *Asynchronous design:* No global clock (more complex timing analysis).
+  *Asynchronous design:* No global clock (timing analysis is much harder).
 ]
 
 #note[
-  Most digital systems use synchronous design for predictability and easier verification.
+  Most digital systems use _synchronous_ design because it's more predictable and _easier to verify_.
 ]
 
 == Real Circuit Issues: Hazards
@@ -4170,12 +4338,66 @@ Same inputs, different outputs! Violates functional definition.
 ]
 
 #example[Static-1 Hazard][
-  Circuit $f = A and overline(B) or B and C$ with $A = 1, C = 1$, $B$ transitions $1 -> 0$:
+  Circuit: $f = A overline(B) or B C$ with $A = 1, C = 1$, while $B$ transitions $1 -> 0$
+
+  #grid(
+    columns: 2,
+    gutter: 1.5em,
+    [
+      *K-map analysis:*
+
+      #v(-1em)
+      #align(center)[
+        #k-mapper.karnaugh(
+          8,
+          y-label: $A B$,
+          x-label: move(dy: .5em, $C$),
+          manual-terms: (
+            kcell(0, 0),
+            kcell(1, 0),
+            kcell(2, 1),
+            kcell(3, 1),
+            kcell(4, 0),
+            kcell(5, 0),
+            kcell(6, 0),
+            kcell(7, 1),
+          ),
+          implicants: ((2, 3), (3, 7)),
+        )
+      ]
+
+      Gap between rectangles causes hazard at transition!
+    ],
+    [
+      *Fix:* Add redundant term $(A C)$
+
+      #v(-1em)
+      #align(center)[
+        #k-mapper.karnaugh(
+          8,
+          y-label: $A B$,
+          x-label: move(dy: .5em, $C$),
+          manual-terms: (
+            kcell(0, 0),
+            kcell(1, 0),
+            kcell(2, 1),
+            kcell(3, 1),
+            kcell(4, 0),
+            kcell(5, 0),
+            kcell(6, 1),
+            kcell(7, 1),
+          ),
+          implicants: ((2, 3), (3, 7), (2, 6)),
+        )
+      ]
+
+      Now the transition is covered by the new rectangle.
+    ],
+  )
 
   - Expected: $f$ stays 1 (both terms can be 1)
-  - Actual: Brief glitch to 0 if delays differ
-
-  *Fix:* Add redundant term $(A and C)$ to cover the transition.
+  - Actual (without fix): Brief glitch to 0 if delays differ
+  - Solution: Redundant term eliminates the gap
 ]
 
 #Block(color: orange)[
@@ -4204,114 +4426,6 @@ Same inputs, different outputs! Violates functional definition.
 
 #note[
   Metastability cannot be completely eliminated but can be made arbitrarily rare with proper synchronizer design (multi-stage flip-flops).
-]
-
-== Limitations of Boolean Algebra for Sequential Circuits
-
-#Block(color: purple)[
-  *Fundamental limitation:* Pure Boolean functions describe only _combinational_ logic.
-]
-
-#place(right)[
-  #set align(left)
-  #Block(color: yellow)[
-    *Need additional formalisms:*
-    - Finite state machines (FSMs)
-    - Temporal logic
-    - Timing diagrams
-    - Hardware description languages (Verilog, VHDL)
-  ]
-]
-
-*What Boolean algebra captures:*
-- Static input-output relationships
-- Combinational circuit behavior
-- Functional completeness
-
-*What it cannot capture:*
-- Time-dependent behavior (state transitions)
-- Memory and feedback loops
-- Clocked synchronization
-- Timing constraints (setup, hold, propagation delays)
-
-== Circuit Minimization Goals
-
-*Minimization objectives:*
-
-+ *Gate count:* Fewer gates $=>$ lower cost, smaller chip area
-+ *Circuit depth:* Fewer levels $=>$ faster operation (less delay)
-+ *Fanout:* Number of gates driven by one output (affects loading)
-+ *Power consumption:* Fewer transitions $=>$ less energy
-
-#Block(color: blue)[
-  These objectives often conflict! Minimization requires trade-offs.
-]
-
-#example[
-  DNF for $f = A B or A C or B C$ (3 terms, 3 gates):
-  - Algebraic identity: $A B or A C or B C = A B or A C$ when $A = 1$
-  - But for all cases, adding redundant term $B C$ eliminates hazards!
-  - *Trade-off:* More gates for reliable behavior
-]
-
-== Circuit Minimization Techniques
-
-#align(center)[
-  #table(
-    columns: 3,
-    align: left,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Technique*], [*Best For*], [*Limitations*]),
-    [Algebraic laws], [Small expressions, manual], [Error-prone, no guarantee],
-    [K-maps], [2-4 variables, visualization], [Does not scale beyond 6 variables],
-    [Quine-McCluskey], [Exact minimization, automation], [Exponential complexity],
-    [Espresso], [Multi-output, heuristic], [May not find optimal solution],
-    [Technology mapping], [Gate libraries, ASIC/FPGA], [Requires EDA tools],
-  )
-]
-
-#note[
-  Modern synthesis tools (e.g., Synopsys Design Compiler, Cadence Genus) combine multiple techniques and optimize for specific target technologies.
-]
-
-== Two-Level vs Multi-Level Logic
-
-#grid(
-  columns: 2,
-  gutter: 1.5em,
-  [
-    *Two-Level Logic*
-
-    Form: SOP (AND-OR) or POS (OR-AND)
-
-    *Advantages:*
-    - Fast (minimal depth = 2)
-    - Easy to minimize (K-maps)
-    - Predictable timing
-
-    *Disadvantages:*
-    - More gates (exponential growth)
-    - Large chip area
-  ],
-  [
-    *Multi-Level Logic*
-
-    Form: Factored expressions, nested gates
-
-    *Advantages:*
-    - Fewer gates (shared sub-expressions)
-    - Smaller area
-    - Lower power
-
-    *Disadvantages:*
-    - Slower (deeper paths)
-    - Harder to minimize
-    - Complex timing analysis
-  ],
-)
-
-#Block(color: yellow)[
-  *Modern approach:* Use multi-level logic for area/power optimization, then optimize critical paths for speed.
 ]
 
 == Arithmetic Logic Unit (ALU) Overview
