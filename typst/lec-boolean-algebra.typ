@@ -4187,16 +4187,18 @@ Same inputs, different outputs! This violates the basic idea of a function.
 
 == D Flip-Flop
 
-*Input:* $D$ (data), $"CLK"$ (clock),~ *Output:* $Q$ \
-*Behavior:*
-- On clock edge (e.g., rising edge $arrow.t$):~ $Q_(t+1) = D_t$ ~(capture and store $D$ value)
-- Between clock edges: $Q$ holds value (ignores $D$ changes)
-- *Characteristic equation:* $Q_(t+1) = D$
+#example[D (Data) Flip-Flop][
+  *Input:* $D$ (data), $"CLK"$ (clock),~ *Output:* $Q$
+
+  *Behavior:*
+  - On clock edge (e.g., rising edge $arrow.t$):~ $Q_(t+1) = D_t$ ~(capture and store $D$ value)
+  - Between clock edges: $Q$ holds value (ignores $D$ changes)
+
+  *Characteristic equation:* $Q_(t+1) = D$
+]
 
 *Timing diagram:*
-
-#v(-2em)
-#align(center)[
+#place(right, dx: -1em, dy: -3.5em)[
   #cetz.canvas({
     import cetz.draw: *
     scale(70%)
@@ -4250,13 +4252,12 @@ Same inputs, different outputs! This violates the basic idea of a function.
     content((10.5, y-time), anchor: "west", [time])
   })
 ]
-#v(-.5em)
+#v(3em)
 
 #note[
   Notice $Q$ changes _only_ at rising edges ($arrow.t$), capturing $D$'s value at that instant, regardless of $D$ changes between edges.
 ]
 
-#v(-.5em)
 #Block(color: green)[
   *Use cases:* Registers, memory buffers, pipeline stages
 
