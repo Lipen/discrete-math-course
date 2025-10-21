@@ -1974,10 +1974,10 @@ When multiple prime implicants remain after selecting essentials:
 == Q-M Example: Finding Minimal Cover
 
 *Prime implicants:*
-- $P_1$: −00− covers {0, 1, 8, 9}
-- $P_2$: −0−0 covers {0, 2, 8, 10}
-- $P_3$: −−10 covers {2, 6, 10, 14}
-- $P_4$: 01−1 covers {5, 7}
+- $P_1$: −00− covers ${0, 1, 8, 9}$
+- $P_2$: −0−0 covers ${0, 2, 8, 10}$
+- $P_3$: −−10 covers ${2, 6, 10, 14}$
+- $P_4$: 01−1 covers ${5, 7}$
 
 *Prime implicant chart:*
 #box(baseline: 100% - 1em)[
@@ -1992,8 +1992,8 @@ When multiple prime implicants remain after selecting essentials:
   )
 ]
 
-- $P_4$ is essential (only covers 5, 7)
-- After selecting $P_4$, need to cover {0, 1, 2, 6, 8, 9, 10, 14}
+- $P_4$ is essential (only covers ${5, 7}$)
+- After selecting $P_4$, need to cover ${0, 1, 2, 6, 8, 9, 10, 14}$
 
 *Minimal solution:* $f = P_1 + P_3 + P_4$ or $f = P_2 + P_3 + P_4$
 
