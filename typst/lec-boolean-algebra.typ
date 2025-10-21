@@ -1952,6 +1952,7 @@ When multiple prime implicants remain after selecting essentials:
 #align(center)[
   #table(
     columns: 7,
+    align: horizon,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     inset: (x, y) => if x == 0 { 5pt } else { 3pt },
     table.header([*Group*], [*Minterm*], [*Binary*], [*$->$*], [*Comb 1*], [*$->$*], [*Comb 2*]),
