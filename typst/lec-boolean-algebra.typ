@@ -2229,7 +2229,7 @@ These differences enable important applications:
 #align(center)[
   #table(
     columns: 3,
-    align: (left, right, left),
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Property*], [*DNF*], [*ANF*]),
     [*Operations*], [AND, OR, NOT], [AND, XOR only],
