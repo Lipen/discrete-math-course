@@ -1847,19 +1847,11 @@ These 4 prime implicants cannot be reduced further.
 ]
 
 #grid(
-  columns: (auto, 1fr),
+  columns: (1fr, auto),
   column-gutter: 1em,
 
-  Block(color: yellow)[
-    *Algorithm:*
-    + Look for columns with only one $cross$ (essential)
-    + Include those prime implicants
-    + Remove covered minterms
-    + Repeat for remaining minterms
-  ],
-
   example[
-    If a column has only one $cross$, that prime implicant is essential:
+    If a column has only one $cross$, that prime implicant is essential and must be included.
 
     #align(center)[
       #table(
@@ -1868,11 +1860,20 @@ These 4 prime implicants cannot be reduced further.
         [], [$m_i$], [$m_j$], [$m_k$],
         [$"PI"_1$], [$cross$], [$cross$], [],
         [$"PI"_2$], [], [$cross$], [$cross$],
+        [$"PI"_3$], [], [], [$cross$],
       )
     ]
 
-    - $"PI"_1$ is essential (only one covering $m_i$)
-    - $"PI"_2$ is essential (only one covering $m_k$)
+    - $"PI"_1$ is _essential_ (only one covering $m_i$)
+    - $"PI"_2$ and $"PI"_3$ are _not_ essential
+  ],
+
+  Block(color: yellow)[
+    *Algorithm:*
+    + Find columns with _single_ $cross$
+    + Include the corresponding essential \ prime implicant in the solution
+    + Remove covered minterms
+    + Repeat for remaining minterms
   ],
 )
 
