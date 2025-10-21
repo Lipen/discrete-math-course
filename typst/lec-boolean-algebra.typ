@@ -3467,7 +3467,7 @@ Two main notation standards for logic gates:
 ]
 
 #note[
-  XNOR is also called equivalence gate: outputs 1 when inputs are equivalent.
+  XNOR is also called _equivalence_ gate: outputs 1 when inputs are equivalent.
 ]
 
 == Universal Gates
