@@ -1878,7 +1878,7 @@ These 4 prime implicants cannot be reduced further.
 When multiple prime implicants remain after selecting essentials:
 
 #definition[
-  _Petrick's method_ is a systematic way to find all combinations of prime implicants that cover all remaining minterms, allowing selection of the minimal-cost cover.
+  _Petrick's method_ finds all combinations of prime implicants that cover the remaining minterms, so you can pick the one with the lowest cost.
 
   + Express "covering all minterms" as a Boolean formula
   + Each minterm needs at least one of its covering PIs
@@ -2917,7 +2917,7 @@ For example:
 Informally, $[F]$ contains all functions you can build by _combining_ functions from $F$.
 
 #note[
-  The closure operations preserve the essential structure while allowing arbitrary combinations and rearrangements.
+  The closure operations keep the important structure while allowing you combine functions freely.
 ]
 
 == Functional Completeness
