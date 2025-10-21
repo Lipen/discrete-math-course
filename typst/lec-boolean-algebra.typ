@@ -1995,7 +1995,7 @@ When multiple prime implicants remain after selecting essentials:
 - $P_4$ is essential (only covers ${5, 7}$)
 - After selecting $P_4$, need to cover ${0, 1, 2, 6, 8, 9, 10, 14}$
 
-*Minimal solution:* $f = P_1 + P_3 + P_4$ or $f = P_2 + P_3 + P_4$
+*Minimal solution:* $f = P_1 + P_3 + P_4$ ~_or_~ $f = P_2 + P_3 + P_4$
 
 == Complexity of Minimization
 
