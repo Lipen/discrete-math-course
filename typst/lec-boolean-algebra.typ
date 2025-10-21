@@ -1842,16 +1842,12 @@ These 4 prime implicants cannot be reduced further.
   An _essential prime implicant_ (EPI) is a prime implicant that covers at least one minterm not covered by any other prime implicant.
 ]
 
-#note[
-  EPIs must ("by definition") be included in the final minimal cover.
-]
-
 #grid(
-  columns: (1fr, auto),
-  column-gutter: 1em,
+  columns: 2,
+  gutter: 1em,
 
   example[
-    If a column has only one $cross$, that prime implicant is essential and must be included.
+    Consider this prime implicant chart:
 
     #align(center)[
       #table(
@@ -1863,19 +1859,19 @@ These 4 prime implicants cannot be reduced further.
         [$"PI"_3$], [], [], [$cross$],
       )
     ]
-
-    - $"PI"_1$ is _essential_ (only one covering $m_i$)
-    - $"PI"_2$ and $"PI"_3$ are _not_ essential
   ],
 
   Block(color: yellow)[
-    *Algorithm:*
-    + Find columns with _single_ $cross$
-    + Include the corresponding essential \ prime implicant in the solution
-    + Remove covered minterms
-    + Repeat for remaining minterms
+    *Key insight:*
+    If a minterm has _only one_ $cross$, the~corresponding prime implicant is _essential_ and must be included in any minimal cover.
   ],
 )
+
+- Minterm $m_i$ is covered only by $"PI"_1$ $=>$ $"PI"_1$ is _essential_ $=>$ it _must_ be included
+- Minterm $m_j$ is covered by both $"PI"_1$ and $"PI"_2$ $=>$ no EPI
+- Minterm $m_k$ is covered by both $"PI"_2$ and $"PI"_3$ $=>$ no EPI
+
+*Conclusion:* $"PI"_1$ _must_ be included. For remaining minterms, choose either $"PI"_2$ or $"PI"_3$.
 
 == Petrick's Method
 
