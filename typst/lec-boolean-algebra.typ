@@ -371,9 +371,9 @@ Simple algebraic manipulation can simplify expressions:
 
   $
     f(x, y) & = (x and y) or (x and not y) \
-            & = x and (y or not y)         && "(distributivity)" \
-            & = x and 1                    && "(excluded middle)" \
-            & = x                          && "(identity)"
+            & = x and (y or not y)         & quad & "(distributivity)" \
+            & = x and 1                    & quad & "(excluded middle)" \
+            & = x                          & quad & "(identity)"
   $
 ]
 
@@ -382,9 +382,9 @@ Simple algebraic manipulation can simplify expressions:
 
   $
     g(x, y, z) & = (x or y) and (x or not y) \
-               & = x or (y and not y)        && "(distributivity)" \
-               & = x or 0                    && "(contradiction)" \
-               & = x                         && "(identity)"
+               & = x or (y and not y)        & quad & "(distributivity)" \
+               & = x or 0                    & quad & "(contradiction)" \
+               & = x                         & quad & "(identity)"
   $
 ]
 
@@ -499,11 +499,11 @@ From the axioms, we can prove many useful identities:
 
 #proof[
   $
-    x or x & = (x or x) and 1            && "(identity)" \
-           & = (x or x) and (x or not x) && "(complement)" \
-           & = x or (x and not x)        && "(distributivity)" \
-           & = x or 0                    && "(complement)" \
-           & = x                         && "(identity)"
+    x or x & = (x or x) and 1            & quad & "(identity)" \
+           & = (x or x) and (x or not x) & quad & "(complement)" \
+           & = x or (x and not x)        & quad & "(distributivity)" \
+           & = x or 0                    & quad & "(complement)" \
+           & = x                         & quad & "(identity)"
   $
 ]
 
@@ -519,10 +519,10 @@ From the axioms, we can prove many useful identities:
 
 #proof[
   $
-    x or (x and y) & = (x and 1) or (x and y) && "(identity)" \
-                   & = x and (1 or y)         && "(distributivity)" \
-                   & = x and 1                && "(null law)" \
-                   & = x                      && "(identity)"
+    x or (x and y) & = (x and 1) or (x and y) & quad & "(identity)" \
+                   & = x and (1 or y)         & quad & "(distributivity)" \
+                   & = x and 1                & quad & "(null law)" \
+                   & = x                      & quad & "(identity)"
   $
 ]
 
@@ -604,14 +604,14 @@ From the axioms, we can prove many useful identities:
 #proof[
   Suppose $y$ and $z$ are both complements of $x$. Then:
   $
-    y & = y and 1                && "(identity)" \
-      & = y and (x or z)         && "(" z "is complement of" x ")" \
-      & = (y and x) or (y and z) && "(distributivity)" \
-      & = 0 or (y and z)         && "(" y "is complement of" x ")" \
-      & = (x and z) or (y and z) && "(" z "is complement of" x ")" \
-      & = (x or y) and z         && "(distributivity)" \
-      & = 1 and z                && "(" y "is complement of" x ")" \
-      & = z                      && "(identity)"
+    y & = y and 1                & quad & "(identity)" \
+      & = y and (x or z)         & quad & "(" z "is complement of" x ")" \
+      & = (y and x) or (y and z) & quad & "(distributivity)" \
+      & = 0 or (y and z)         & quad & "(" y "is complement of" x ")" \
+      & = (x and z) or (y and z) & quad & "(" z "is complement of" x ")" \
+      & = (x or y) and z         & quad & "(distributivity)" \
+      & = 1 and z                & quad & "(" y "is complement of" x ")" \
+      & = z                      & quad & "(identity)"
   $
 
   Therefore $y = z$.
@@ -1472,14 +1472,14 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
   *Step 1:* Look for combining opportunities
   $
     f & = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C \
-      & = A B (C + overline(C)) + overline(A) B C + overline(A) overline(B) C   && "(factor)" \
-      & = A B + overline(A) B C + overline(A) overline(B) C                     && "(complement)"
+      & = A B (C + overline(C)) + overline(A) B C + overline(A) overline(B) C   & quad & "(factor)" \
+      & = A B + overline(A) B C + overline(A) overline(B) C                     & quad & "(complement)"
   $
 
   *Step 2:* Apply more combining
   $
-    f & = A B + overline(A) C (B + overline(B)) && "(factor)" \
-      & = A B + overline(A) C                   && "(complement)"
+    f & = A B + overline(A) C (B + overline(B)) & quad & "(factor)" \
+      & = A B + overline(A) C                   & quad & "(complement)"
   $
 
   *Final result:* $f = A B + overline(A) C$ (reduced from 12 to 4 literals!)
@@ -1495,10 +1495,10 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
 
 #proof[
   $
-    X Y + overline(X) Z + Y Z & = X Y + overline(X) Z + (X + overline(X)) Y Z   && "(complement)" \
-                              & = X Y + overline(X) Z + X Y Z + overline(X) Y Z && "(distributive)" \
-                              & = X Y (1 + Z) + overline(X) Z (1 + Y)           && "(factor)" \
-                              & = X Y + overline(X) Z                           && "(null: " 1 + X = 1 ")"
+    X Y + overline(X) Z + Y Z & = X Y + overline(X) Z + (X + overline(X)) Y Z   & quad & "(complement)" \
+                              & = X Y + overline(X) Z + X Y Z + overline(X) Y Z & quad & "(distributive)" \
+                              & = X Y (1 + Z) + overline(X) Z (1 + Y)           & quad & "(factor)" \
+                              & = X Y + overline(X) Z                           & quad & "(null: " 1 + X = 1 ")"
   $
 ]
 
