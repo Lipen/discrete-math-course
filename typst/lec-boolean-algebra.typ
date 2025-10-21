@@ -1729,6 +1729,7 @@ The Q-M algorithm has two phases:
   *Step 3:* Try to combine each 2-size implicant with others having dashes in the SAME positions.
 ]
 
+#v(-0.5em)
 #align(center)[
   #table(
     columns: 4,
@@ -1767,14 +1768,16 @@ The Q-M algorithm has two phases:
     ],
   )
 ]
+#v(-0.5em)
 
 *Explanation:*
-- $m_(1,5)$ (−01) and $m_(3,7)$ (−11): dashes align at pos. 0, differ only in bit 1 $=>$ #YES combine to −−1
-- $m_(1,3)$ (0−1) and $m_(5,7)$ (1−1): dashes align at pos. 1, differ only in bit 0 $=>$ #YES combine to −−1
-- $m_(6,7)$ (11−): alone with dash at pos. 2 $=>$ cannot combine
+- $m_(1,5)$ (−01) and $m_(3,7)$ (−11): dashes align at pos. 0, differ only in bit 1 $=>$ combine to $m_(1,3,5,7)$ (−−1) #YES
+- $m_(1,3)$ (0−1) and $m_(5,7)$ (1−1): dashes align at pos. 1, differ only in bit 0 $=>$ combine to $m_(1,3,5,7)$ (−−1) #YES
+- $m_(6,7)$ (11−): alone with dash at pos. 2 $=>$ cannot combine #NO
 
-*Result:* One size-4 implicant formed: $m_(1,3,5,7)$ (−−1). \
-Only one size-2 implicant remains uncombined: $m_(6,7)$ (11−).
+*Result:*
+One size-4 implicant formed: $m_(1,3,5,7)$ (−−1).
+One size-2 implicant remains uncombined: $m_(6,7)$ (11−).
 
 == Q-M Phase 1: Finding Prime Implicants
 
