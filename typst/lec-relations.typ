@@ -5137,6 +5137,41 @@ Can we relax this?
   - Well-ordered: no unique least #NO
 ]
 
+== Example: Set Membership $in$
+
+#definition[
+  In ZFC set theory, the _Axiom of Regularity_ (also called _Foundation_) states:
+  $
+    forall S != emptyset. thin
+    exists x in S. thin
+    (x intersect S = emptyset)
+  $
+
+  Every non-empty set contains an element disjoint from itself.
+
+  Equivalently, every non-empty set has an _$in$-minimal element_.
+]
+
+#place(right)[
+  #set align(left)
+  #Block[
+    *Key properties of $in$:*
+    - *Well-founded?* #YES (by Regularity)
+    - *Well-ordered?* #NO (e.g. ${1} notin {2}$ and ${2} notin {1}$)
+    - *No* infinite descent ($dots in x_2 in x_1 in x_0$)
+    - *No* self-membership ($x in x$)
+    - *No* cycles ($x in y in x$)
+    - $in$-induction!
+  ]
+]
+
+#examples[
+  - ${emptyset}$ has minimal $emptyset$
+  - ${ {emptyset}, { {emptyset} } }$ has minimal ${emptyset}$
+  - ${{1}, {2}}$ has two minimals: ${1}$ and ${2}$
+  - ${ 1, 2, 3 }$ has minimal $1$ (since $1 in 2$ and $1 in 3$)
+]
+
 == Example: Program Termination
 
 ```python
