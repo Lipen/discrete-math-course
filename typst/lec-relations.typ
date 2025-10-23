@@ -5313,7 +5313,7 @@ To discuss chain conditions, we need _strict_ orders derived from _partial_ orde
 #definition[
   A poset $pair(S, leq)$ satisfies DCC if there are no infinite strictly descending chains:
   $
-    x_1 > x_2 > x_3 > x_4 > dots.h.c
+    x_1 > x_2 > x_3 > x_4 > dots
   $
 ]
 
@@ -5334,7 +5334,7 @@ To discuss chain conditions, we need _strict_ orders derived from _partial_ orde
 ]
 
 #proof[(Well-founded $==>$ DCC)][
-  Suppose infinite descending chain $x_0 > x_1 > x_2 > dots.h.c$ exists.
+  Suppose infinite descending chain $x_0 > x_1 > x_2 > dots$ exists.
 
   Let $T = {x_0, x_1, x_2, dots}$. By well-foundedness, $T$ has minimal $x_k$.
 
@@ -5355,15 +5355,15 @@ To discuss chain conditions, we need _strict_ orders derived from _partial_ orde
 #definition[
   A poset satisfies ACC if no infinite strictly ascending chains exist:
   $
-    x_1 < x_2 < x_3 < x_4 < dots.h.c
+    x_1 < x_2 < x_3 < x_4 < dots
   $
 ]
 
 #example[
-  - $pair(NN, leq)$ does NOT satisfy ACC: $0 < 1 < 2 < 3 < dots.h.c$
+  - $pair(NN, leq)$ does NOT satisfy ACC: $0 < 1 < 2 < 3 < dots$
   - $pair(power(NN), subset.eq)$ satisfies neither ACC nor DCC:
-    - ACC fails: $emptyset subset {1} subset {1,2} subset dots.h.c$
-    - DCC fails: $NN supset NN without {1} supset NN without {1,2} supset dots.c$
+    - ACC fails: $emptyset subset {1} subset {1,2} subset dots$
+    - DCC fails: $NN supset NN without {1} supset NN without {1,2} supset dots$
 ]
 
 #Block(color: blue)[
