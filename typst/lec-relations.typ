@@ -3778,29 +3778,30 @@ Functions can be characterized by several key properties that determine their ma
   In a more general case, upper/lower bounds must be comparable to _all_ elements in $C$.
 ]
 
+== Examples of Bounds
+
+#example[
+  In $pair(ZZ, <=)$ for $C = {-2, 3, 7}$:
+  - *Lower bounds:* all integers $<= -2$, i.e., ${dots, -4, -3, -2}$
+  - *Upper bounds:* all integers $>= 7$, i.e., ${7, 8, 9, dots}$
+]
+
 #example[
   In $pair(RR, <=)$ for interval $C = (0;1)$:
   - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
   - *Upper bounds:* every $x >= 1$ (including $1, 2, +infinity$)
-  - *No* greatest lower bound or least upper bound _in_ $C$ (since $(0;1)$ is open)
 ]
-
-== Examples of Bounds
 
 #example[
   In $pair(power({1,2,3}), subset.eq)$ for $C = {{1,2},{1,3}}$:
   - *Lower bounds:* $emptyset$, ${1}$ (subsets of both sets in $C$)
   - *Upper bounds:* ${1,2,3}$ (supersets of both sets in $C$)
-  - *Greatest lower bound:* ${1} = {1,2} intersect {1,3}$
-  - *Least upper bound:* ${1,2,3} = {1,2} union {1,3}$
 ]
 
 #example[
   In divisibility poset for $C = {4,6}$:
   - *Upper bounds:* multiples of $"lcm"(4,6) = 12$, i.e., ${12, 24, 36, dots}$
   - *Lower bounds:* common divisors, i.e., ${1, 2}$
-  - *Least upper bound:* $12 = "lcm"(4,6)$
-  - *Greatest lower bound:* $2 = "gcd"(4,6)$
 ]
 
 == Suprema and Infima
