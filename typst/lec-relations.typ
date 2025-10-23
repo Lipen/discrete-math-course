@@ -6535,13 +6535,14 @@ Two key hierarchies help us organize these infinities:
 ]
 
 #Block(color: teal)[
-  *Cantor's lifelong quest (1878--1918):*
   Georg Cantor formulated CH in 1878 and believed it to be true.
-  He spent decades trying to prove it, writing:
+  He spent decades trying to prove it.
 
-  _"The question whether there exists a transfinite number between $aleph_0$ and $2^(aleph_0)$ has tormented me."_
+  _"The question whether there exists a transfinite number between $aleph_0$ and $2^(aleph_0)$ has tormented me."_~#footnote[
+    Not a real quote, but captures his sentiment!
+  ]
 
-  Despite discovering the transfinite numbers, Cantor could neither prove nor disprove CH. \
+  Despite geniously discovering the transfinite numbers, Cantor could neither prove nor disprove CH.
   This struggle contributed to his mental health difficulties in later life.
 ]
 
