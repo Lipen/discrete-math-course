@@ -4512,8 +4512,6 @@ All partitions of a set $S$, ordered by refinement, form a lattice.
 - *Meet:* Coarsest common refinement
   - For example: $(1 2 | 3) Meet (1 | 2 3) = (1 | 2 | 3)$
 
-- *Applications:* Clustering, database normalization
-
 == Example: Type Systems as Lattices
 
 In programming language theory, _types_ form a lattice under the _subtyping_ relation $subtype$.
