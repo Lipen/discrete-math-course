@@ -6519,9 +6519,11 @@ Two key hierarchies help us organize these infinities:
 ]
 
 #Block(color: yellow)[
-  Both hierarchies start at $aleph_0 = beth_0$, but then _diverge_. \
-  The relationship between them is one of the deepest "unsolved" questions in mathematics! \
-  *Central question:* Is $aleph_1 = beth_1$? This is the _Continuum Hypothesis_.
+  How these two _diverging_ hierarchies relate is one of deepest "unsolved" questions in mathematics.
+
+  *Central question:*
+  Is $aleph_1 = beth_1 = frak(c)$?
+  This is the _Continuum Hypothesis_.
 ]
 
 == The Continuum Hypothesis (CH): Cantor's Great Question
