@@ -6548,14 +6548,26 @@ Two key hierarchies help us organize these infinities:
   This struggle contributed to his mental health difficulties in later life.
 ]
 
-#pagebreak()
+== What CH Implies?
 
-#example[if CH is true][
+#examples[if CH is true][
   - The real numbers $RR$ have cardinality $aleph_1$ (first uncountable cardinal)
   - Every uncountable subset of $RR$ is equinumerous to $RR$
   - There are "no infinities between" countable and continuum
   - The hierarchies align at the first step: $aleph_1 = beth_1$
   - All "naturally occurring" uncountable sets in analysis have the same size
+]
+
+#examples[if CH is false][
+  - The real numbers $RR$ have cardinality strictly larger than $aleph_1$ (e.g., $frak(c) = aleph_2$ or higher)
+  - There exist uncountable subsets of $RR$ with cardinalities between $aleph_0$ and $abs(RR)$
+  - The hierarchies diverge: $aleph_1 < beth_1$
+  - A richer structure of infinite cardinalities exists
+  - Some "naturally occurring" sets in analysis may have different sizes
+]
+
+#Block(color: orange)[
+  Are there hidden infinities between countable and continuum, or just these two?
 ]
 
 == The Generalized Continuum Hypothesis (GCH)
@@ -6579,20 +6591,26 @@ Two key hierarchies help us organize these infinities:
   There is only _one_ natural hierarchy of infinite cardinals, and the powerset operation always produces the very next cardinal in the sequence.
 ]
 
-#pagebreak()
+== What GCH Implies?
 
-#example[
-  Under GCH, we would have:
-  - $2^(aleph_0) = aleph_1$ (this is just CH)
-  - $2^(aleph_1) = aleph_2$ (powerset gives next cardinal)
-  - $2^(aleph_2) = aleph_3$
-  - $2^(aleph_omega) = aleph_(omega+1)$
-  - And so on for all infinite cardinals...
+#examples[if GCH is true][
+  - Every aleph is a beth: $aleph_n = beth_n$ for all ordinals $n$
+  - Powerset always gives the next cardinal: $2^(aleph_alpha) = aleph_(alpha+1)$
+  - No "gaps" in the cardinal hierarchy --- maximally simple structure
+  - All questions about cardinal arithmetic have definite answers
+  - The universe of sets is "neat" and predictable
 ]
 
-#note[
-  GCH provides a "maximally simple" picture of the cardinal hierarchy.
-  But is this simplicity true, or is reality more complex?
+#examples[if GCH is false][
+  - The hierarchies diverge at some level: $aleph_alpha < beth_alpha$ for some $alpha$
+  - Powerset can "jump" multiple levels: $2^(aleph_alpha) > aleph_(alpha+1)$
+  - Cardinal arithmetic has complex, unpredictable behavior
+  - The universe of sets is "wild" with hidden structure
+  - Different models can have vastly different cardinal behaviors
+]
+
+#Block(color: orange)[
+  Is the cardinal hierarchy maximally simple or is reality more complex?..
 ]
 
 == Hilbert's First Problem
