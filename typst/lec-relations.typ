@@ -4903,28 +4903,47 @@ In programming language theory, _types_ form a lattice under the _subtyping_ rel
   Every subset has a floor you can't go below.
 ]
 
-== More Examples of Well-Orders
+== Example: Ordinals
 
-#example[Ordinals (preview)][
-  Ordinal numbers extend natural numbers into the transfinite:
+#example[Ordinal numbers][
+  Ordinals extend natural numbers into the transfinite:
   - $omega$ = all natural numbers: $0, 1, 2, 3, dots$
   - $omega + 1$ = natural numbers plus one more element "at the end"
-  - $omega + 2, omega dot 2, omega^2, omega^omega, dots$
+  - $omega + 2$ = $omega + 1$ plus another element
+  - $omega dot 2$ = two copies of $omega$ in sequence
+  - $omega^2, omega^3, dots, omega^omega, dots$
 
   Each ordinal is well-ordered, and ordinals themselves are well-ordered!
 ]
 
-#example[Lexicographic order][
-  Finite strings with _shortlex order_ (shorter first, then alphabetically):
-  - $epsilon prec "a" prec "b" prec dots prec "aa" prec "ab" prec dots prec "aaa" prec dots$
-  - Any set of _finite_ strings has a shortest, and among equals, an alphabetically first
-  - Example: ${"cat" #emoji.cat, "dog" #emoji.dog, "ox" #emoji.ox, "zebra" #emoji.zebra}$ has least element "$"ox"$" $#emoji.ox$
+#Block(color: yellow)[
+  *Key insight:* Ordinals provide a canonical way to label positions in well-ordered sets.
+]
 
-  #note[
-    _Pure_ lexicographic order (alphabetical only) is _NOT_ well-ordered:
-    - ${"b", "ab", "aab", "aaab", dots}$ has no least element --- we can always prefix more $"a"$'s!
-    - $"b" succ "ab" succ "aab" succ "aaab" succ dots$ --- an _infinite descending_ chain of _finite_ strings!
-  ]
+== Example: String Orderings
+
+Two common ways to order _finite_ strings over an alphabet:
+
+#definition[Shortlex order][
+  Compare by length first, then alphabetically:
+  $
+    epsilon prec "a" prec "b" prec dots prec "aa" prec "ab" prec dots
+  $
+
+  *Well-ordered:* Every set has a shortest string, ties broken alphabetically.
+
+  Example: ${"cat", "dog", "ox", "zebra"}$ has minimum "$"ox"$" (shortest).
+]
+
+#definition[Dictionary order][
+  Compare alphabetically only, ignoring length:
+  $
+    "a" prec "aa" prec "aaa" prec dots prec "b" prec "ba" prec dots
+  $
+
+  *NOT well-ordered:* ${"b", "ab", "aab", "aaab", dots}$ has no minimum!
+
+  Infinite descent: $"b" succ "ab" succ "aab" succ dots$ (because $"a" < "b"$ alphabetically).
 ]
 
 == Well-Ordering Enables Induction
