@@ -5115,20 +5115,19 @@ Can we relax this?
 
 == Example: Program Termination
 
-#example[
-  ```python
-  def factorial(n):
-      if n == 0: return 1
-      return n * factorial(n-1)
-  ```
+```python
+def factorial(n):
+    if n == 0: return 1
+    return n * factorial(n-1)
+```
 
-  *Claim:* `factorial` terminates for all $n in NN$.
+*Claim:* `factorial` terminates for all $n in NN$.
 
-  *Proof:*
+#proof[
   - Recursive calls form a chain: $n -> (n-1) -> (n-2) -> dots -> 1 -> 0$
   - This is a _descending chain_ in $pair(NN, <)$
   - Since $pair(NN, <)$ is well-founded, no _infinite_ descent
-  - Therefore, recursion terminates!
+  - Therefore, recursion terminates! #qedhere
 ]
 
 #Block(color: purple)[
