@@ -3773,6 +3773,11 @@ Functions can be characterized by several key properties that determine their ma
   In a poset $pair(S, leq)$, an element $l in S$ is called a _lower bound_ of a subset $C subset.eq S$ if it is less~than or equal to every element in $C$, i.e., for all $x in C$, $l leq x$.
 ]
 
+#note[
+  In the simplest case, we consider a single-element subset: the upper/lower bounds of $C = {c}$ are just all elements greater/less than $c$ (including $c$ itself, since $c <= c$).
+  In a more general case, upper/lower bounds must be comparable to _all_ elements in $C$.
+]
+
 #example[
   In $pair(RR, <=)$ for interval $C = (0;1)$:
   - *Lower bounds:* every $x <= 0$ (including $-infinity, -1, 0$)
