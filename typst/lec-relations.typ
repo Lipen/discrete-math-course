@@ -6539,7 +6539,7 @@ Two key hierarchies help us organize these infinities:
   Georg Cantor formulated CH in 1878 and believed it to be true.
   He spent decades trying to prove it, writing:
 
-  _"The question whether there exists a transfinite number that is neither $aleph_0$ nor $2^(aleph_0)$ has tormented me."_
+  _"The question whether there exists a transfinite number between $aleph_0$ and $2^(aleph_0)$ has tormented me."_
 
   Despite his genius in discovering the transfinite numbers, Cantor could neither prove nor disprove CH.
   This struggle contributed to his mental health difficulties in later life.
