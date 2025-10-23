@@ -4922,392 +4922,462 @@ In programming language theory, _types_ form a lattice under the _subtyping_ rel
   ]
 ]
 
-== Induction on Well-Ordered Sets
-
-The well-ordering property is the foundation of mathematical induction.
-
-Let's see how different forms of induction work on $NN$, then generalize to arbitrary well-ordered sets.
-
-#Block(color: yellow)[
-  *Key insight:* Well-ordering means every non-empty set has a _first_ element.
-
-  This is why induction works --- if a property fails somewhere, there must be a _smallest_ counterexample, which leads to contradiction!
-]
-
-== Two Forms of Induction on $NN$
-
-#Block(color: blue)[
-  *1. Weak (Standard) Induction:*
-  - Base: Prove $P(0)$
-  - Step: Prove $P(n) ==> P(n+1)$ for all $n$
-  - Conclusion: $P(n)$ holds for all $n in NN$
-
-  *2. Strong Induction* (also called _complete induction_ or _course-of-values induction_):
-  - For all $n$: assume $P(k)$ holds for all $k < n$, then prove $P(n)$
-  - Equivalently: Prove $(P(0) and P(1) and dots and P(n)) ==> P(n+1)$
-  - Conclusion: $P(n)$ holds for all $n in NN$
-]
-
-#note[
-  These are _equivalent_ for $NN$!
-
-  Strong induction is more flexible --- you can use _any_ previous case, not just the immediate predecessor.
-]
-
-== Well-Ordering Principle
-
-#definition[Well-Ordering Principle][
-  Every non-empty subset of $NN$ has a least element.
-]
-
-#note[
-  WOP is an _axiom_ in standard formulations of arithmetic (Peano axioms). \
-  It cannot be proven from more basic principles --- we take it as a starting point.
-]
+== Well-Ordering Enables Induction
 
 #theorem[
-  The following are _equivalent_:
-  + Well-Ordering Principle (WOP)
-  + Mathematical Induction
-]
-
-#proof[(WOP $==>$ Induction)][
-  To prove $forall n in NN. thin P(n)$, assume for contradiction that $P$ fails somewhere.
-  - Let $S = { n in NN | not P(n) }$ be the set of counterexamples.
-  - By WOP, $S$ has a least element $m$.
-    Then $P(k)$ holds for all $k < m$ (since $m$ is least).
-  - But by the induction hypothesis $(forall k < m. thin P(k)) imply P(m)$, we have $P(m)$ holds --- contradiction! #qedhere
-]
-
-#note[
-  The other direction (Induction $==>$ WOP) can also be proven, but is more involved.
-  Since both are foundational axioms, we can take either as a starting point and derive the other.
-]
-
-== Well-Founded Relations: A Weaker Notion
-
-#definition[
-  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset $S subset.eq M$ has at least one _minimal element_ with respect to $R$.
-
-  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
-]
-
-#Block(color: yellow)[
-  _Well-founded_ $!=$ _well-ordered_:
-  - *Well-ordered:* Every subset has a _unique least_ element (global minimum)
-  - *Well-founded:* Every subset has _minimal_ elements (nothing strictly below)
-  - Every well-ordered set is well-founded, but not vice versa!
-]
-
-== Example: Well-Founded but Not Well-Ordered
-
-#example[Proper subset relation][
-  Consider $subset$ on $M = {emptyset, {a}, {b}, {a,b}}$.
-
-  *Well-founded?* #YES Every subset has minimal elements.
-  - Take ${{a}, {b}, {a,b}}$:
-    - Minimals: ${a}$ and ${b}$ (nothing is properly contained in them)
-    - Note: ${a,b}$ is not minimal (${a} subset {a,b}$)
-
-  *Well-ordered?* #NO Some subsets lack a unique least.
-  - Same subset ${{a}, {b}, {a,b}}$:
-    - ${a}$ and ${b}$ are incomparable (neither contains the other)
-    - No single "smallest" set exists!
-
-  #Block(color: yellow)[
-    *Key insight:* Well-founded $!=$ well-ordered:
-    - _Multiple minimal_ elements are allowed in well-founded relations.
-    - Well-ordered relations require a _unique_ least element in every subset.
-  ]
-]
-
-#example[Divisibility relation][
-  $pair(NN^+, |)$ is well-founded:
-  - In ${6, 12, 18, 4, 8}$, minimal elements are $4$ and $6$ (no smaller divisors in the set)
-  - In ${2, 4, 8, 16}$, the only minimal is $2$ (divides all others in the set)
-]
-
-#example[Program termination][
-  Well-founded relations prove programs terminate:
-  ```python
-  def factorial(n):
-      if n == 0: return 1
-      return n * factorial(n-1)
-  ```
-
-  *Termination proof:*
-  Arguments form decreasing sequence $n > n-1 > n-2 > dots > 0$.
-
-  Since $pair(NN, >)$ is well-founded, this chain must end!
-
-  #Block(color: purple)[
-    Well-founded relations are the foundation (pun intended) of _termination analysis_ in Dafny, Coq, and other verification tools.
-  ]
-]
-
-== Well-Founded Induction
-
-Well-founded relations enable a powerful generalization of mathematical induction.
-Instead of working just with $NN$, we can prove properties about *any* well-founded relation.
-
-#definition[
-  Let $pair(S, <)$ be a well-founded relation, and let $P(x)$ be a property.
-
-  _Well-founded induction_ (also called _Noetherian induction_) states that if
+  Let $pair(S, leq)$ be a well-ordered set.
+  For any property $P$, if
   $
     forall x in S. thin (forall y < x. thin P(y)) imply P(x)
   $
   then $P(x)$ holds for all $x in S$.
 ]
 
-#Block(color: yellow)[
-  *Key insight:*
-  To prove $P(x)$, assume $P(y)$ holds for all $y$ that are _smaller_ than $x$.
+#proof[
+  Assume the hypothesis holds but $P$ fails for some elements.
 
-  This is like strong induction, but with "smaller" defined by your well-founded relation $<$!
+  Let $T = { x in S | not P(x) }$ be the set of counterexamples.
+
+  Since $S$ is well-ordered, $T$ has a _least element_ $m$.
+  This element $m$ is the _smallest counterexample_ to $P$.
+
+  Then $P(k)$ holds for all $k < m$ (otherwise $m$ wouldn't be least).
+
+  By hypothesis, this implies $P(m)$ holds --- contradicting $m in T$!
+
+  Therefore $T = emptyset$.
+]
+
+== Two Forms of Induction on $NN$
+
+#definition[Weak Induction][
+  To prove $forall n in NN. thin P(n)$:
+  - *Base:* Prove $P(0)$
+  - *Step:* For any $n$, prove $P(n) imply P(n+1)$
+]
+
+#definition[Strong Induction][
+  To prove $forall n in NN. thin P(n)$:
+  - For any $n$, assume $P(k)$ for _all_ $k < n$, then prove $P(n)$
+]
+
+#note[
+  These are _equivalent_ for $NN$.
+  The difference is convenience:
+  - Weak: uses only $P(n-1)$ to prove $P(n)$
+  - Strong: can use any $P(k)$ with $k < n$ to prove $P(n)$
+]
+
+#example[
+  - *Weak:* Proving $sum_(i=0)^n i = n(n+1)/2$ (only need $P(n)$ for $P(n+1)$)
+  - *Strong:* Proving Fibonacci formula (need $P(n-1)$ and $P(n-2)$ for $P(n)$)
+]
+
+== Well-Ordering Principle
+
+#definition[Well-Ordering Principle (WOP)][
+  Every non-empty subset of $NN$ has a least element.
+]
+
+#example[
+  - ${5, 10, 15, 20, dots}$ has least element $5$
+  - ${n in NN | n^2 > 100}$ has least element $11$
+  - ${n in NN | n "is prime"}$ has least element $2$
+]
+
+#note[
+  WOP is an axiom in Peano arithmetic, not provable from simpler principles.
+]
+
+#Block(color: yellow)[
+  *Key:* If a property fails, there's a _smallest_ counterexample --- this makes proof by contradiction work.
+]
+
+== WOP $=$ Induction
+
+#theorem[
+  Well-Ordering Principle $iff$ Mathematical Induction
+]
+
+#proof[(WOP $==>$ Induction)][
+  Suppose WOP holds. To prove $forall n in NN. thin P(n)$, assume $P$ fails.
+
+  Let $S = { n in NN | not P(n) }$.
+  By WOP, $S$ has a least element $m$.
+
+  Then $P(k)$ holds for all $k < m$ (since $m$ is least in $S$).
+
+  By the induction hypothesis, $P(m)$ holds --- contradicting $m in S$!
+]
+
+#note[
+  The reverse (Induction $==>$ WOP) can be proven similarly.
+]
+
+== Well-Founded Relations
+
+Well-ordering requires total comparability.
+Can we relax this?
+
+#definition[
+  A relation $R subset.eq M^2$ is _well-founded_ if every non-empty subset has a _minimal element_.
+
+  Formally: $forall S subset.eq M. thin (S != emptyset) imply (exists m in S. thin forall x in S. thin x nrel(R) m)$
+]
+
+#note[
+  *Well-ordered $!=$ Well-founded*
+  - Well-ordered: unique _least_ element (total order)
+  - Well-founded: one or more _minimal_ elements (may be incomparable)
+  - Every well-ordered set is well-founded, but not vice versa.
+]
+
+#Block(color: yellow)[
+  *Key insight:* Both prevent infinite descent, but well-founded allows _incomparable_ elements.
+]
+
+== Example: Well-Founded but Not Well-Ordered
+
+#example[
+  Proper subset ($subset$) relation on $M = {emptyset, {a}, {b}, {a,b}}$
+
+  #place(right, dx: -2em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (1em, 2em),
+      node-shape: fletcher.shapes.rect,
+      node-corner-radius: 3pt,
+      node-inset: 0pt,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      blob((0, 0), [${a,b}$], width: 3em, height: 2em, name: <ab>),
+      blob((-1, 1), [${a}$], width: 2em, height: 2em, tint: blue, name: <a>),
+      blob((1, 1), [${b}$], width: 2em, height: 2em, tint: blue, name: <b>),
+      blob((0, 2), [$emptyset$], width: 2em, height: 2em, name: <empty>),
+      edge(<empty>, <a>, "-}>"),
+      edge(<empty>, <b>, "-}>"),
+      edge(<a>, <ab>, "-}>"),
+      edge(<b>, <ab>, "-}>"),
+    )
+  ]
+
+  *Is it well-founded?* #YES
+  - Consider $S = {{a}, {b}, {a,b}}$
+  - Minimal elements: #Blue[${a}$] and #Blue[${b}$] (nothing in $S$ is a proper subset of both)
+  - Note: ${a,b}$ is _not_ minimal
+
+  *Is it well-ordered?* #NO
+  - ${a}$ and ${b}$ are _incomparable_
+  - No unique least element in $S$
+]
+
+#v(1em)
+#Block(color: yellow)[
+  *Difference:*
+  Well-founded allows _multiple_ incomparable minimals; well-ordered requires _unique_ least.
+]
+
+== Example: Divisibility Poset
+
+#example[
+  Consider $pair(NN^+, |)$ with the divisibility relation.
+
+  Take the subset ${4, 6, 8, 12, 18}$:
+
+  #place(right, dx: -4em)[
+    #import fletcher: diagram, edge, node
+    #diagram(
+      spacing: (2em, 3em),
+      node-shape: fletcher.shapes.circle,
+      node-inset: 0pt,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      blob((0.5, 0), [$4$], tint: blue, width: 2em, name: <4>),
+      blob((1.5, 0), [$6$], tint: blue, width: 2em, name: <6>),
+      blob((0, -1), [$8$], width: 2em, name: <8>),
+      blob((1, -1), [$12$], width: 2em, name: <12>),
+      blob((2, -1), [$18$], width: 2em, name: <18>),
+      edge(<4>, <8>, "-}>"),
+      edge(<4>, <12>, "-}>"),
+      edge(<6>, <12>, "-}>"),
+      edge(<6>, <18>, "-}>"),
+    )
+  ]
+
+  *Minimal elements:* #Blue[$4$] and #Blue[$6$]
+  - No divisors of $4$ or $6$ in this set
+  - They're _incomparable_: $4 divides.not 6$ and $6 divides.not 4$
+
+  *Conclusion:*
+  - Well-founded: every subset has minimals #YES
+  - Well-ordered: no unique least #NO
+]
+
+== Example: Program Termination
+
+#example[
+  ```python
+  def factorial(n):
+      if n == 0: return 1
+      return n * factorial(n-1)
+  ```
+
+  *Claim:* `factorial` terminates for all $n in NN$.
+
+  *Proof:*
+  - Recursive calls form a chain: $n -> (n-1) -> (n-2) -> dots -> 1 -> 0$
+  - This is a _descending chain_ in $pair(NN, <)$
+  - Since $pair(NN, <)$ is well-founded, no _infinite_ descent
+  - Therefore, recursion terminates!
+]
+
+#Block(color: purple)[
+  *Application:* Verification tools (Dafny, Coq, Agda, Lean) use well-founded relations to prove termination of recursive functions.
+]
+
+== Well-Founded Induction
+
+#definition[
+  Let $pair(S, prec)$ be well-founded. To prove $forall x in S. thin P(x)$, show:
+  $
+    forall x in S. thin (forall y prec x. thin P(y)) imply P(x)
+  $
+]
+
+#Block(color: yellow)[
+  *Key insight:* Assume $P(y)$ for all $y$ "smaller" than $x$, then prove $P(x)$.
+
+  This _generalizes_ strong induction --- "smaller" is defined by $prec$ instead of $<$.
+]
+
+#note[
+  Also called: Noetherian induction, transfinite induction (on ordinals).
 ]
 
 == Proof of Well-Founded Induction
 
 #proof[
-  We prove by contradiction. Suppose the property $P$ _fails_ for some elements.
+  Assume the hypothesis but suppose $P$ fails.
 
-  Let $S' = {x in S | not P(x)}$ be the set of "bad" elements where $P$ fails.
+  Let $S' = {x in S | not P(x)}$. Since $pair(S, prec)$ is well-founded, $S'$ has a minimal element $x_0$.
 
-  By assumption, $S' != emptyset$. Since $pair(S, <)$ is well-founded, $S'$ must have a _minimal_ element --- call it $x_0$.
+  For any $y prec x_0$: since $x_0$ is minimal, $y in.not S'$, so $P(y)$ holds.
 
-  Now consider any $y < x_0$:
-  - Since $x_0$ is minimal in $S'$, we have $y in.not S'$
-  - Therefore $P(y)$ holds for all $y < x_0$
+  By hypothesis: $(forall y prec x_0. thin P(y)) imply P(x_0)$.
 
-  But by our hypothesis, $(forall y < x_0. thin P(y)) imply P(x_0)$.
-
-  So $P(x_0)$ must hold --- contradicting the fact that $x_0 in S'$!
+  So $P(x_0)$ holds --- contradicting $x_0 in S'$!
 ]
 
-#Block(color: purple)[
-  *The key:* Well-foundedness guarantees a _minimal_ counterexample, and the inductive hypothesis forces that minimal element to satisfy $P$ --- contradiction!
+#Block(color: yellow)[
+  *Pattern:*
+  - Well-foundedness gives minimal counterexample
+  - $=>$ minimality makes hypothesis applicable
+  - $=>$ contradiction
 ]
 
-== Example: Proving Termination with Well-Founded Induction
+== Example: Termination via Well-Founded Induction
 
 ```python
 def process(S):
     if S == ∅: return "done"
-    x = S.pop()  # Remove arbitrary element
+    x = S.pop()
     return process(S)
 ```
 
-*Claim:* `process(S)` terminates for all finite sets $S$.
+*Claim:* `process(S)` terminates for all finite $S$.
 
-*Proof:*
-Well-founded induction on $pair(cal(P)_("fin")(X), subset)$.
+#proof[
+  Use well-founded induction on $pair(cal(P)_("fin"), subset)$ (finite sets ordered by proper inclusion).
 
-For any $S$, assume termination for all $T subset S$.
-- If $S = emptyset$: returns immediately.
-- If $S != emptyset$: recursive call uses $S without {x} subset S$, which terminates by hypothesis.
+  Assume `process(T)` terminates for all $T subset S$ (strictly smaller sets).
 
-Therefore, `process(S)` terminates for all finite sets $S$!
+  - If $S = emptyset$: returns immediately #YES
+  - If $S != emptyset$: recursive call uses $S without {x} subset S$, which terminates by hypothesis #YES
 
-#Block(color: purple)[
-  The relation $subset$ on finite sets is well-founded but _not_ well-ordered (sets ${1}$ and ${2}$ are incomparable).
+  Therefore `process(S)` terminates for all finite $S$.
+]
 
-  This shows well-founded induction works even without total comparability.
+#note[
+  The relation $subset$ on finite sets is well-founded but not well-ordered (sets ${1}$ and ${2}$ are incomparable).
 ]
 
 == Special Cases of Well-Founded Induction
 
-Well-founded induction goes by different names depending on the structure:
-
-#Block(color: green)[
-  - *Strong induction* (or *complete induction*): well-founded induction on $pair(NN, >)$
-  - *Transfinite induction*: well-founded induction on well-ordered sets (arbitrary ordinals)
-  - *Structural induction*: well-founded induction on inductively-defined structures (trees, lists, terms)
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Name*], [*Structure*], [*"Smaller" means*]),
+    [Strong induction], [$pair(NN, >)$], [Numerically less],
+    [Transfinite induction], [Ordinals], [Earlier in order],
+    [Structural induction], [Trees, lists], [Proper substructure],
+  )
 ]
 
-#note[
-  Strong induction on $NN$ is transfinite induction on the ordinal $omega$ (since $pair(NN, >)$ is well-ordered).
+#example[Structural induction on trees][
+  ```haskell
+  data Tree a = Empty | Node (Tree a) a (Tree a)
+  ```
+
+  To prove $P("tree")$ for all trees:
+  - Base: Prove $P("Empty")$ (empty tree)
+  - Step: Assume $P(L)$ and $P(R)$, prove $P("Node"(L, v, R))$
+
+  The "subtree" relation is well-founded.
+]
+
+== Induced Strict Orders
+
+To discuss chain conditions, we need _strict_ orders derived from _partial_ orders.
+
+#definition[Induced Strict Order][
+  From any partial order $leq$, we _induce_ a strict order:
+  $
+    x < y quad "iff" quad x <= y "and" x != y
+  $
+  Similarly, $x > y$ means $y < x$ (the converse).
+]
+
+#note(title: "Convetion")[
+  For any poset $pair(S, leq)$, we freely use $<$ and $>$ for induced strict orders.
+
+  This lets us express strictly ascending/descending sequences: $x_1 < x_2 < x_3 < dots$
 ]
 
 #example[
-  Structural induction on lists:
-  - To prove $P(L)$ for all lists, assume $P(L')$ for all _shorter_ lists $L'$
-  - "Shorter" means the sublist relation is well-founded (no infinite descending chains)
-]
-
-#Block(color: purple)[
-  *The pattern:*
-  All these variants follow the same approach --- assume the property for all "smaller" elements, then prove it for the current element.
-
-  The only difference is the notion of "smaller" (ordinals, set sizes, tree depths, etc.).
-]
-
-== Induced Strict Order
-
-From any partial order $leq$, we automatically get a strict order:
-
-#definition[
-  The _induced strict order_ from $leq$ is:
-  $
-    x lt y quad iff quad x leq y and x != y
-  $
-  Similarly, $x > y$ means $y < x$ (converse relation).
-]
-
-#Block(color: yellow)[
-  *Convention:* Given any poset $pair(S, leq)$, we'll freely use $lt$ and $gt$ for the induced strict orders.
-
-  *Why care?* Chain conditions (ascending/descending sequences) are naturally expressed with strict inequalities: $x_1 < x_2 < x_3 < dots$
+  - In $pair(NN, leq)$: $3 < 5$ means $3 leq 5$ and $3 != 5$
+  - In $pair(power(M), subset.eq)$: ${a} < {a,b}$ means ${a} subset.eq {a,b}$ and ${a} != {a,b}$
 ]
 
 == Descending Chain Condition (DCC)
 
 #definition[
-  A poset $pair(S, leq)$ satisfies the _descending chain condition (DCC)_ if there are no infinite strictly descending chains:
+  A poset $pair(S, leq)$ satisfies DCC if there are no infinite strictly descending chains:
   $
-    x_1 > x_2 > x_3 > x_4 > dots
+    x_1 > x_2 > x_3 > x_4 > dots.h.c
   $
-
-  Equivalently: every descending sequence $x_1 >= x_2 >= x_3 >= dots$ eventually _stabilizes_ (becomes constant).
-]
-
-#Block(color: blue)[
-  *Intuition:* "You can't fall forever" --- every descending path eventually hits bottom or levels off.
 ]
 
 #example[
   $pair(NN, leq)$ satisfies DCC:
 
-  Any descending sequence must stabilize: $100 >= 50 >= 25 >= 12 >= 6 >= 3 >= 1 >= 0 >= 0 >= 0 >= dots$
-
-  Why? Natural numbers are bounded below by $0$, so you eventually hit the bottom and can't go lower!
+  Any descending sequence eventually stabilizes at $0$.
 ]
 
-== The Fundamental Equivalence
+#Block(color: blue)[
+  *Intuition:* "Can't fall forever" --- every descent hits bottom or stabilizes.
+]
+
+== Well-Founded $iff$ DCC
 
 #theorem[
-  For any poset $pair(S, leq)$:
-  $
-    "well-founded" quad <==> quad "satisfies DCC"
-  $
+  $R$ is well-founded $iff$ $R$ satisfies DCC
 ]
 
-#Block(color: purple)[
-  "Every subset has a floor" $iff$ "You can't fall forever"
+#proof[(Well-founded $==>$ DCC)][
+  Suppose infinite descending chain $x_0 > x_1 > x_2 > dots.h.c$ exists.
+
+  Let $T = {x_0, x_1, x_2, dots}$. By well-foundedness, $T$ has minimal $x_k$.
+
+  But $x_k > x_(k+1)$ contradicts minimality!
 ]
 
-#proof[($==>$)][
-  *Well-founded implies DCC*
+#proof[(DCC $==>$ Well-founded)][
+  Let $T subset.eq S$ be non-empty. Pick $x_0 in T$.
 
-  Suppose there's an infinite descending chain $x_0 > x_1 > x_2 > dots$.
+  If $x_0$ is not minimal, pick $x_1 in T$ with $x_1 < x_0$.
+  Repeat.
 
-  Consider the set $T = {x_0, x_1, x_2, dots}$.
-
-  By well-foundedness, $T$ has a minimal element $x_k$. \
-  But $x_k > x_(k+1)$, so $x_(k+1)$ is smaller than $x_k$ --- contradicting minimality!
-]
-
-#pagebreak()
-
-#proof[($<==$)][
-  *DCC implies well-founded*
-
-  Let $T subset.eq S$ be non-empty.
-  Pick any $x_0 in T$.
-  - If $x_0$ is not minimal, pick $x_1 in T$ with $x_1 < x_0$.
-  - If $x_1$ is not minimal, pick $x_2 in T$ with $x_2 < x_1$.
-  - And so on...
-
-  If this process never stops, we get an infinite descending chain $x_0 > x_1 > x_2 > dots$, contradicting DCC!
-
-  Therefore, we must eventually find a minimal element.
+  If this continues forever, we get infinite descent $x_0 > x_1 > x_2 > dots$, contradicting DCC.
 ]
 
 == Ascending Chain Condition (ACC)
 
 #definition[
-  A poset $pair(S, leq)$ satisfies the _ascending chain condition (ACC)_ if there are no infinite strictly ascending chains:
+  A poset satisfies ACC if no infinite strictly ascending chains exist:
   $
-    x_1 < x_2 < x_3 < x_4 < dots
+    x_1 < x_2 < x_3 < x_4 < dots.h.c
   $
+]
 
-  Equivalently: every ascending sequence $x_1 <= x_2 <= x_3 <= dots$ eventually _stabilizes_ (becomes constant).
+#example[
+  - $pair(NN, leq)$ does NOT satisfy ACC: $0 < 1 < 2 < 3 < dots.h.c$
+  - $pair(power(NN), subset.eq)$ satisfies neither ACC nor DCC:
+    - ACC fails: $emptyset subset {1} subset {1,2} subset dots.h.c$
+    - DCC fails: $NN supset NN without {1} supset NN without {1,2} supset dots.c$
 ]
 
 #Block(color: blue)[
-  *Intuition:* "You can't climb forever" --- every ascending path eventually reaches a ceiling or levels off.
+  *Intuition:* "Can't climb forever" --- every ascent hits ceiling or stabilizes.
 ]
 
-#example[
-  $pair(NN, leq)$ does _NOT_ satisfy ACC:
-
-  The sequence $0 < 1 < 2 < 3 < 4 < dots$ never stabilizes --- no upper bound stops the ascent!
-]
-
-#example[
-  $pair(power(NN), subset.eq)$ satisfies _neither_ ACC nor DCC:
-  - *ACC fails:* $emptyset subset {1} subset {1,2} subset {1,2,3} subset dots$ (can climb forever)
-  - *DCC fails:* $NN supset.eq NN without {1} supset.eq NN without {1,2} supset.eq dots$ (can fall forever)
-]
-
-== Noetherian Relations: The Dual Concept
-
-Just as well-founded relations prevent infinite descent, _Noetherian_ relations prevent infinite ascent.
+== Noetherian Relations
 
 #definition[
-  A relation $R$ is _Noetherian_ if its converse $R^(-1)$ is well-founded.
+  $R$ is _Noetherian_ if $R^(-1)$ is well-founded.
 
-  Equivalently: every non-empty subset has _maximal_ elements (nothing strictly above them).
+  Equivalently: every non-empty subset has a _maximal_ element.
 ]
-
-#Block(color: yellow)[
-  *Well-founded vs Noetherian:*
-  - Well-founded: every subset has _minimal_ elements → DCC (can't fall forever)
-  - Noetherian: every subset has _maximal_ elements → ACC (can't climb forever)
-  - They're perfect duals: flip the order and swap the roles!
-]
-
-#pagebreak()
 
 #theorem[
-  For any poset $pair(S, leq)$:
-  $
-    "Noetherian" quad <==> quad "satisfies ACC"
-  $
+  Noetherian $iff$ ACC
 ]
 
 #proof[
   Chain of equivalences:
   $
-    pair(S, leq) "is Noetherian" & iff pair(S, geq) "is well-founded" \
-                                 & iff pair(S, geq) "satisfies DCC" \
-                                 & iff pair(S, leq) "satisfies ACC"
+    R "is Noetherian" & iff R^(-1) "is well-founded" \
+                      & iff R^(-1) "satisfies DCC" \
+                      & iff R "satisfies ACC"
   $
-  Each step follows from definitions and the well-founded $iff$ DCC equivalence.
 ]
 
-== Applications of Noetherian Relations
+#Block(color: yellow)[
+  *Duality:* Well-founded has minimals + DCC; Noetherian has maximals + ACC.
+]
+
+== Summary: Equivalences
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: center + horizon,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Concept*], [*Definition*], [*Equivalent*]),
+
+    [Well-ordered], [Unique least in every subset], [Total + Well-founded],
+
+    [Well-founded], [Minimal(s) in every subset], [DCC],
+
+    [Noetherian], [Maximal(s) in every subset], [ACC],
+  )
+]
+
+#Block(color: yellow)[
+  *Key:*
+  - Well-ordered $imply$ well-founded
+  - Well-founded $iff$ DCC
+  - Noetherian $iff$ ACC
+  - Well-founded and Noetherian are duals
+]
+
+== Application: Noetherian Rings
 
 #definition[
-  A ring is _Noetherian_ if every ascending chain of ideals
+  A ring is _Noetherian_ if every ascending chain of ideals stabilizes:
   $
     I_1 subset.eq I_2 subset.eq I_3 subset.eq dots
   $
-  eventually stabilizes (becomes constant), i.e., there exists $N$ such that $I_N = I_(N+1) = ...$
 ]
 
-#example[
-  The ring $ZZ$ is Noetherian.
-  - Every ideal in $ZZ$ has the form $n ZZ = { n dot k | k in ZZ }$ for some $n in NN$ (all multiples of $n$)
-  - For an ascending chain $n_1 ZZ subset.eq n_2 ZZ subset.eq n_3 ZZ subset.eq dots$, we have $n_2 | n_1$, $n_3 | n_2$, etc.
-  - Thus, $n_1 >= n_2 >= n_3 >= dots$ (descending sequence in $NN$)
-  - Since $NN$ has no infinite descending chains, the sequence stabilizes!
-]
+#example[$ZZ$ is Noetherian][
+  Ideals in $ZZ$ have form $n ZZ = { n k | k in ZZ }$ for $n in NN$.
 
-#Block(color: blue)[
-  *Why Noetherian matters:*
-  In many algorithms, we build increasingly complex structures. \
-  ACC guarantees this process eventually stabilizes or can't continue indefinitely!
+  For chain $n_1 ZZ subset.eq n_2 ZZ subset.eq dots$:
+  - Inclusion means $n_2 | n_1$, so $n_1 >= n_2 >= dots$ in $NN$
+  - By DCC, this sequence stabilizes
+  - Therefore the ideal chain stabilizes
 ]
 
 == Chain Conditions: Key Examples
