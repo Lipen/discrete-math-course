@@ -6230,7 +6230,7 @@ $
 = Schröder--Bernstein
 #focus-slide()
 
-== Schröder--Bernstein Theorem: Proof
+== Proof of Schröder--Bernstein Theorem
 
 #theorem[
   If injections $f: A to B$ and $g: B to A$ exist, then a bijection $h: A to B$ exists.
