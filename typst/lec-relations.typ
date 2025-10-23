@@ -6541,7 +6541,7 @@ Two key hierarchies help us organize these infinities:
 
   _"The question whether there exists a transfinite number between $aleph_0$ and $2^(aleph_0)$ has tormented me."_
 
-  Despite his genius in discovering the transfinite numbers, Cantor could neither prove nor disprove CH.
+  Despite discovering the transfinite numbers, Cantor could neither prove nor disprove CH. \
   This struggle contributed to his mental health difficulties in later life.
 ]
 
