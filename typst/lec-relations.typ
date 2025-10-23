@@ -4307,23 +4307,24 @@ Functions can be characterized by several key properties that determine their ma
   *Modular law:*
   Whenever $U subset.eq Z$, we have: $U Join (W Meet Z) = (U Join W) Meet Z$
 
-  *Proof:*
-  We show both inclusions of the equality: $U + (W inter Z) = (U + W) inter Z$
+  #proof[
+    We show both inclusions of the equality: $U + (W inter Z) = (U + W) inter Z$
 
-  *Step 1 ($subset.eq$):*
-  - Suppose $x in U + (W inter Z)$.
-  - Then $x = u + w'$ for some $u in U$, $w' in W inter Z$.
-  - Since $u in U subset.eq Z$ and $w' in Z$, we have $x in Z$.
-  - Also $x in U + W$, hence $x in (U + W) inter Z$.
+    *Step 1 ($subset.eq$):*
+    - Suppose $x in U + (W inter Z)$.
+    - Then $x = u + w'$ for some $u in U$, $w' in W inter Z$.
+    - Since $u in U subset.eq Z$ and $w' in Z$, we have $x in Z$.
+    - Also $x in U + W$, hence $x in (U + W) inter Z$.
 
-  *Step 2 ($supset.eq$):*
-  - Suppose $x in (U + W) inter Z$.
-  - Then $x = u + w$ for some $u in U$, $w in W$, and $x in Z$.
-  - Because $U subset.eq Z$, we have $u in Z$, so $w = x - u in Z$.
-  - Thus $w in W inter Z$, and therefore $x = u + w in U + (W inter Z)$.
+    *Step 2 ($supset.eq$):*
+    - Suppose $x in (U + W) inter Z$.
+    - Then $x = u + w$ for some $u in U$, $w in W$, and $x in Z$.
+    - Because $U subset.eq Z$, we have $u in Z$, so $w = x - u in Z$.
+    - Thus $w in W inter Z$, and therefore $x = u + w in U + (W inter Z)$.
 
-  Combining both directions, we conclude:
-  $U + (W inter Z) = (U + W) inter Z$.
+    Combining both directions, we conclude:
+    $U + (W inter Z) = (U + W) inter Z$.
+  ]
 
   *Interpretation:*
   "Joining $U$ and $W$, then cutting by $Z$" equals "cutting $W$ by $Z$, then joining with $U$".
