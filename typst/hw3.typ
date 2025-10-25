@@ -91,7 +91,7 @@ The 32-bit value $w = (w_1 w_2 dots.c w_(32))$ defines a Boolean function $f(A, 
 - The most significant bit (MSB) $w_1$ corresponds to $f(0,0,0,0,0)$
 - The least significant bit (LSB) $w_(32)$ corresponds to $f(1,1,1,1,1)$
 
-Draw a Karnaugh map for this function using the template structure below (you may use the CeTZ diagram or draw by hand):
+Draw a Karnaugh map for this function using the template below:
 
 #align(center)[
   #import cetz: canvas, draw
