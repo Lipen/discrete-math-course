@@ -59,69 +59,71 @@
 
 #Block(color: teal)[
   #set par(justify: true)
-  *Historical note:* #h(0.2em)
-  George Boole's groundbreaking work _The Laws of Thought_ (1854) created an algebraic system for logic a full century before the first electronic computers.
-  He showed that logical reasoning could be captured by equations, replacing Aristotle's verbal arguments with mathematical symbols.
-  This~insight became the theoretical foundation for the digital age.
+  *Historical context:* #h(0.2em)
+  George Boole's _Laws of Thought_ (1854) created an algebraic system for logic a century before electronic computers.
+  In 1937, Claude Shannon's Master's thesis demonstrated that Boolean algebra could systematically design switching circuits.
+  This connection became the theoretical foundation for all digital computation.
 ]
 
 #Block(color: yellow)[
-  *Key idea:* Just as ordinary algebra works with numbers and operations like $+$ and $times$, Boolean algebra works with *truth values* ($0$ and $1$, or #False and #True) and operations like AND, OR, and NOT.
+  *Core principle:* Boolean algebra operates on truth values ($0$ and $1$) using operations like AND, OR, and NOT.
+  This binary structure maps directly to physical switches, voltage levels, and logical decisions.
 ]
 
 #columns(2)[
-  *Historical milestones:*
-  - *1703:* Leibniz describes binary arithmetic
-  - *1854:* Boole publishes algebraic logic
-  - *1937:* Shannon applies it to circuits
-  - *1940s:* First digital computers
+  *Timeline:*
+  - *1703:* Leibniz --- binary arithmetic
+  - *1854:* Boole --- algebraic logic
+  - *1937:* Shannon --- circuit theory
+  - *Today:* 100+ billion transistors per chip
 
   #colbreak()
 
-  *Modern applications:*
+  *Applications:*
   - Processor design (CPUs, GPUs)
-  - Formal verification (correctness proofs)
-  - Database optimization (queries)
-  - AI reasoning (SAT, planning)
+  - Database queries and optimization
+  - SAT solving and formal verification
+  - Cryptographic algorithms
+  - AI reasoning systems
 ]
 
 == Boolean Values: 0 and 1
 
 In Boolean algebra, we work with exactly two values:
-- *0* (#False, off, low voltage)
-- *1* (#True, on, high voltage)
+- *0* (#False, off, low voltage, empty, ⊥)
+- *1* (#True, on, high voltage, full, ⊤)
 
 #example[
   In different contexts:
-  - *Mathematics:* "Is $x > 5$?" → #True (1) or #False (0)
-  - *Programming:* `if (x && y)` → evaluates to `true` or `false`
-  - *Circuits:* Wire voltage → high (1) or low (0)
-  - *Sets:* Is element in set? → yes (1) or no (0)
+  - *Mathematics:* Predicate evaluation: "Is $x > 5$?" → 0 or 1
+  - *Programming:* `if (user.isLoggedIn && user.hasPermission)` → boolean value
+  - *Digital circuits:* Wire voltage → LOW (≈0V) or HIGH (≈3.3V)
+  - *Set theory:* Characteristic function: $chi_A (x) = cases(1 "if" x in A, 0 "if" x in.not A)$
 ]
 
 #Block(color: blue)[
-  *Why this matters:*
-  Modern computers represent all information using binary (0s and 1s).
-
-  Boolean algebra is the mathematics that makes digital computation possible.
+  *Physical realization:*
+  Modern computers represent all data using binary encoding.
+  The two-valued logic maps naturally to physical systems: transistor states (on/off), voltage levels (high/low), magnetic orientation (north/south).
+  Boolean algebra provides the mathematics for manipulating these binary representations.
 ]
 
-== What You Will Learn
+== What You Will Master
 
-In this lecture, you'll master Boolean algebra from foundations to applications:
+In this lecture, you'll journey from abstract algebra to circuit implementation:
 
-+ Build Boolean expressions and evaluate them using *truth tables*
-+ Prove identities using the *fundamental laws* (commutativity, De Morgan's laws, distributivity)
-+ *Synthesize any Boolean function* from specifications using CNF, DNF, and Karnaugh maps
-+ *Simplify complex expressions* through algebraic manipulation and graphical methods
-+ Determine which operation sets are *functionally complete* using Post's criterion
-+ *Design real digital circuits* with logic gates, flip-flops, and stateful elements
-+ Investigate *modern CS problems*: binary decision diagrams, SAT solving, and formal verification
++ *Foundations:* Build Boolean expressions and evaluate them using truth tables
++ *Algebraic structure:* Master fundamental laws and prove identities
++ *Synthesis:* Construct any Boolean function from specifications (DNF, CNF)
++ *Optimization:* Minimize expressions using K-maps and Quine-McCluskey
++ *Completeness:* Determine which operation sets are functionally complete
++ *Implementation:* Design digital circuits with gates and memory elements
++ *Advanced topics:* Explore ANF, BDDs, and applications in cryptography
 
 #Block(color: purple)[
-  *Our goal:*
-  You'll gain both theoretical understanding (algebraic structure, formal proofs) and practical skills (circuit design, expression minimization).
-  By the end, you'll see how the same mathematical framework powers everything from smartphone processors to AI planning algorithms.
+  *Learning objective:*
+  You'll gain theoretical understanding (algebraic structure, formal proofs) and practical skills (circuit design, expression optimization).
+  By the end, you'll see how a simple logical question connects to abstract algebra, hardware design, cryptanalysis, and automated reasoning.
 ]
 
 
@@ -179,40 +181,53 @@ We combine Boolean variables using operations (connectives) to express complex l
 
 #definition[
   Basic Boolean operations:
-  - *NOT* ($not x$ or $overline(x)$) --- _reverses_ the value
-  - *AND* ($x and y$ or $x dot y$) --- true only if _both_ are true
-  - *OR* ($x or y$ or $x + y$) --- true if _at least one_ is true
+  - *NOT* ($not x$ or $overline(x)$) --- negation (reverses the value)
+  - *AND* ($x and y$ or $x dot y$) --- conjunction (true only if both are true)
+  - *OR* ($x or y$ or $x + y$) --- disjunction (true if at least one is true)
 ]
 
-#example[
-  Access control logic:
-  - `is_admin OR has_permission` --- User needs admin status OR explicit permission
-  - `is_logged_in AND NOT is_banned` --- User must be logged in AND not banned
-  - `NOT (sensor1 AND sensor2)` --- Not both sensors triggered simultaneously
+#example[Access control policy][
+  Database query: `SELECT * FROM users WHERE (is_admin OR has_permission) AND NOT is_banned`
+
+  Boolean expression: $(x or y) and not z$
+
+  This pattern appears in:
+  - Authentication systems (checking multiple credentials)
+  - File permissions (read AND write access)
+  - Network firewalls (allow/deny rules)
+  - Compiler optimization (conditional evaluation)
 ]
 
 #Block(color: orange)[
-  *Watch out:*
-  "OR" in Boolean logic is _inclusive_ (can be both), unlike everyday speech where "coffee or tea" usually means "pick one."
+  *Note:* In Boolean logic, OR is _inclusive_ (allows both to be true).
+  The expression $x or y$ means "at least one," possibly both.
 ]
 
-== Derived Operations: Shortcuts
+== Derived Operations: Building Blocks
 
-More complex operations built from basic ones:
+More complex operations built from the basic three:
 
 #definition[
   Derived Boolean operations:
-  - *XOR* ($x xor y$): true if _exactly one_ is true
+  - *XOR* ($x xor y$): exclusive OR (true if exactly one is true)
     - Formula: $(x and not y) or (not x and y)$
-    - Example: "Dessert or coffee" (pick one, not both)
+    - Applications: error detection, encryption, bit manipulation
 
   - *Implication* ($x imply y$): "if $x$ then $y$"
     - Formula: $not x or y$
-    - Example: "If it rains, bring umbrella"
+    - Applications: formal logic, theorem proving, constraint solving
 
-  - *Equivalence* ($x iff y$): true when values _match_
+  - *Equivalence* ($x iff y$): biconditional (true when values match)
     - Formula: $(x imply y) and (y imply x)$
-    - Example: "Light is on if and only if switch is up"
+    - Applications: equality testing, synchronization
+]
+
+#example[
+  XOR in computing:
+  - Parity checking: $p = x_1 xor x_2 xor dots.h.c xor x_n$
+  - Encryption: $c = m xor k$ (message XOR key)
+  - Variable swap: `x ^= y; y ^= x; x ^= y`
+  - Hash functions: mixing bits without bias
 ]
 
 == Building Boolean Expressions
@@ -535,13 +550,23 @@ From the axioms, we can prove many useful identities:
 ]
 
 #example[
-  - Identity law: $x or 0 = x$, and its dual: $x and 1 = x$
-  - Absorption: $x or (x and y) = x$, and its dual: $x and (x or y) = x$
-  - De Morgan: $not (x or y) = not x and not y$, and its dual: $not (x and y) = not x or not y$
+  #align(center)[
+    #table(
+      columns: 3,
+      align: (left, center, left),
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*Original Identity*], [*$<=>$*], [*Dual Identity*]),
+      [$x or 0 = x$], [], [$x and 1 = x$],
+      [$x or (x and y) = x$], [], [$x and (x or y) = x$],
+      [$not (x or y) = not x and not y$], [], [$not (x and y) = not x or not y$],
+      [$x or 1 = 1$], [], [$x and 0 = 0$],
+    )
+  ]
 ]
 
 #Block(color: yellow)[
-  *Power of duality:* Every theorem you prove gives you _two_ theorems for free!
+  *Practical consequence:* Every theorem proved gives two results.
+  This symmetry reflects the dual structure of Boolean algebra axioms.
 ]
 
 == De Morgan's Laws
@@ -559,11 +584,17 @@ From the axioms, we can prove many useful identities:
   + $(x or y) or (not x and not y) = 1$
   + $(x or y) and (not x and not y) = 0$
 
-  (Full proof left as exercise --- use distributivity and complement laws.)
+  (Full proof uses distributivity and complement laws.)
 ]
 
-#Block(color: orange)[
-  *Common application:* Negating complex conditions: `NOT (is_admin OR has_permission)` becomes `NOT is_admin AND NOT has_permission`.
+#example[
+  Negating compound conditions:
+  - `!(is_admin || has_permission)` $equiv$ `!is_admin && !has_permission`
+  - `!(x > 5 || y < 0)` $equiv$ `(x <= 5 && y >= 0)`
+]
+
+#Block(color: blue)[
+  *Application in code optimization:* De Morgan's laws enable simplification of conditional expressions and boolean circuit minimization.
 ]
 
 == Connection to Lattices
@@ -1014,16 +1045,18 @@ Converting between DNF and CNF can be tricky:
 
 == The Minimization Problem
 
-We can synthesize any Boolean function from its truth table using SoP or PoS.
+We can express _any_ Boolean function from its truth table using SoP or PoS.
 
 But the result is often *not minimal*.
 
 #example[
   Consider $f(x, y, z) = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)$
 
-  This CDNF has 4 terms with 3 literals each (12 literals total).
+  Canonical DNF: 4 terms, 12 literals total (7 gates needed).
 
-  But we can simplify: $f = (not x and z) or (x and y)$ (only 4 literals!)
+  After minimization: $f = (not x and z) or (x and y)$ --- only 4 literals (3 gates).
+
+  *Result:* 57% fewer gates, less power, faster operation.
 ]
 
 #grid(
@@ -1032,20 +1065,28 @@ But the result is often *not minimal*.
 
   Block(color: blue)[
     *Why minimize?*
-    - Fewer gates $=>$ cheaper circuits
-    - Less power consumption
-    - Higher speed (fewer gate delays)
-    - Easier to understand and verify
+    - Cheaper: Fewer gates = lower cost
+    - Power: Each gate consumes energy
+    - Speed: Fewer delays = faster
+    - Yield: Fewer components = fewer defects
+    - Verification: Simpler = easier to test
   ],
 
   Block(color: orange)[
     *The challenge:*
+    Minimization is NP-complete.
 
-    Finding the minimal form is computationally hard (#box[NP-complete] in general).
-
-    We need practical techniques!
+    Practical techniques:
+    - K-maps (2-5 vars)
+    - Quine-McCluskey (6-8 vars)
+    - ESPRESSO heuristics (100+ vars)
   ],
 )
+
+// #note[
+//   - 1950s-70s: gates expensive, minimize for cost.
+//   - Today: power expensive (battery, cooling), minimize for efficiency.
+// ]
 
 == What Does "Minimal" Mean?
 
@@ -1073,6 +1114,7 @@ But the result is often *not minimal*.
 
 #definition[
   A _Gray code_ is a binary encoding where consecutive values differ in exactly one bit.
+  This single-distance property eliminates transition errors in electromechanical systems.
 ]
 
 #example[
@@ -1083,8 +1125,8 @@ But the result is often *not minimal*.
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-      table.header([*Decimal*], [*Binary*], [*Gray Code*], [*Change*]),
-      [0], [000], [000], [---],
+      table.header([*Decimal*], [*Binary*], [*Gray Code*], [*Bit Changed*]),
+      [0], [000], [000], [(bit 1)],
       [1], [001], [001], [bit 0],
       [2], [010], [011], [bit 1],
       [3], [011], [010], [bit 0],
@@ -1094,16 +1136,15 @@ But the result is often *not minimal*.
       [7], [111], [100], [bit 0],
     )
   ]
-
-  #note[
-    Here, bit 0 is LSB, bit 2 is MSB.
-  ]
 ]
 
-// #Block(color: yellow)[
-//   *Why Gray code?*
-//   Adjacent cells in a K-map differ by one variable, making groupings correspond to algebraic simplifications.
-// ]
+#Block(color: yellow)[
+  *K-map connection:*
+  Adjacent cells in Karnaugh maps use Gray code ordering.
+  This ensures neighboring cells differ in exactly one variable, making algebraic simplification patterns visually apparent.
+
+  *The key identity:* $(x and y) or (x and not y) = x$ #h(1em) (variable $y$ cancels out)
+]
 
 == Converting Binary and Gray Code
 
@@ -1129,30 +1170,28 @@ But the result is often *not minimal*.
 == Introduction to Karnaugh Maps
 
 #definition[
-  A _Karnaugh map (K-map)_ is a 2D grid representation of a truth table, arranged using Gray code so that adjacent cells differ in exactly one variable.
+  A _Karnaugh map (K-map)_ is a 2D grid representation of a truth table, arranged using Gray code so that adjacent cells (including wraparound) differ in exactly one variable.
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  K-maps visualize the algebraic identity: $(x and y) or (x and not y) = x$
-
-  Adjacent 1s in the map represent terms that can be combined!
+  *Core idea:* K-maps transform algebraic minimization into visual pattern recognition.
+  Adjacent groups of 1s correspond to terms that can be simplified by eliminating variables.
 ]
 
 #columns(2)[
   *Advantages:*
-  - Visual and intuitive
-  - Fast for small functions
-  - Shows all simplifications
-  - No complex computation
+  - Visual pattern recognition
+  - Fast for small functions (2-5 variables)
+  - Shows all simplification opportunities
+  - Educational value
 
   #colbreak()
 
   *Limitations:*
-  - Practical only for $<=$ 5-6 variables
+  - Practical only for ≤6 variables
+  - Manual grouping required
   - Doesn't scale to large functions
-  - Requires manual grouping skill
-  - Can miss some patterns in 6+ vars
+  - Use Quine-McCluskey or ESPRESSO for 6+ variables
 ]
 
 // TODO: mention that K-map produces minimal DNF. It could also be used for min-CNF, if we analyze 0s instead of 1s.
@@ -2125,6 +2164,33 @@ When multiple prime implicants remain after selecting essentials:
 
 == Motivation: A Different Representation
 
+#Block(color: red)[
+  *Everything we've done so far has a problem:*
+
+  We've been using AND ($and$), OR ($or$), and NOT ($overline(x)$) to build Boolean functions.
+  This works great for circuit design.
+  But it has a weakness: the same function can be written in infinitely many equivalent ways!
+
+  *Example:* These are all the SAME function:
+  - $f = (x and y) or (x and not y)$
+  - $f = x and (y or not y)$
+  - $f = x and 1$
+  - $f = x$
+
+  For circuits, this flexibility is good (we can optimize).
+  But for _cryptography_ and _formal verification_, we want ONE canonical form --- a unique fingerprint for each function.
+]
+
+#Block(color: purple)[
+  *The radical idea:* What if we use ONLY two operations?
+  - XOR ($xor$) instead of OR
+  - AND ($and$) for multiplication
+
+  No NOT operator at all! (We can write $overline(x)$ as $x xor 1$)
+
+  This gives us _Algebraic Normal Form (ANF)_ --- also called _Zhegalkin polynomials_ after the Russian mathematician who developed them in 1927.
+]
+
 So far, we've built Boolean functions using AND ($and$), OR ($or$), and NOT ($overline(x)$).
 
 This led us to:
@@ -2139,6 +2205,14 @@ This led us to:
 ]
 
 The answer is yes, and this leads to a completely different algebraic structure with important theoretical and practical applications.
+
+#Block(color: yellow)[
+  *Why ANF matters:*
+  - *Cryptography:* Analyze security of encryption algorithms (AES S-boxes)
+  - *Coding theory:* Design error-correcting codes (Reed-Muller codes)
+  - *Formal verification:* Unique canonical form simplifies equivalence checking
+  - *Quantum computing:* XOR gates are easier to implement than OR gates
+]
 
 == Introducing Algebraic Normal Form
 
@@ -2330,17 +2404,52 @@ These differences enable important applications:
 == Cryptographic Significance of Algebraic Degree
 
 #Block(color: red)[
+  *Why cryptographers obsess over algebraic degree:*
+
+  Imagine you're designing a secure encryption system (like AES, which protects most of the internet).
+  The "secret sauce" is a nonlinear transformation called an S-box.
+
+  *The attacker's strategy:* Express your S-box as an ANF, then solve the resulting polynomial equations.
+  - If degree is LOW (2-3): Attacker can _linearize_ the system and break it in minutes
+  - If degree is HIGH (7-8): Equations are too complex, attack fails
+
+  *Real-world example:* The DES cipher (1970s) had degree 6.
+  Cryptographers didn't fully understand algebraic attacks back then.
+  Today we know: degree 6 is vulnerable!
+  Modern AES has degree 7 (for 8-bit functions, 8 is maximum) --- much safer.
+]
+
+#pagebreak()
+
+#Block(color: orange)[
   *Low algebraic degree indicates vulnerability to attacks.*
 
   Functions with degree $d < n/2$ are susceptible to:
-  - Linearization attacks
-  - Cube attacks
-  - Higher-order differential cryptanalysis
+  - *Linearization attacks:* Treat high-degree terms as new variables, solve linear system
+  - *Cube attacks:* Exploit low-degree structure in specific "cubes" of the input space
+  - *Higher-order differential cryptanalysis:* Find patterns in how outputs change with inputs
 ]
 
-#example[
-  The AES S-box is a nonlinear bijection $FF_2^8 to FF_2^8$ with algebraic degree 7 (approaching the maximum of 8 for 8-bit functions).
+#example[The AES S-box (the encryption that protects the internet)][
+  AES uses a carefully designed S-box: a nonlinear bijection $FF_2^8 to FF_2^8$.
+
+  *Design requirement:* Maximum algebraic degree!
+  - For 8-bit functions, the absolute maximum degree is 8
+  - But degree-8 functions have special structure (too simple in other ways)
+  - AES S-box has degree 7 --- the highest "safe" degree
+
   This high degree provides resistance to algebraic attacks.
+  Without it, your online banking would be insecure!
+]
+
+#Block(color: blue)[
+  *The arms race:*
+  - 1970s: DES designed, algebraic attacks unknown $=>$ degree 6 seemed fine
+  - 1990s: Algebraic attacks discovered $=>$ panic!
+  - 2000: AES designed with degree 7 $=>$ safe (so far)
+  - Today: Quantum computers on horizon $=>$ new cryptographic designs needed
+
+  Algebraic degree is just ONE of many security criteria, but it's crucial!
 ]
 
 == Methods for Computing ANF
@@ -2888,17 +2997,39 @@ Two approaches for converting between representations:
 
 We've seen many Boolean operations: AND, OR, NOT, XOR, NAND, NOR, implication, equivalence...
 
+#Block(color: purple)[
+  *The million-dollar question:*
+
+  Imagine you're designing a new computer chip.
+  Manufacturing costs depend on how many _different types_ of gates you need.
+  Each gate type requires different masks, testing procedures, and inventory.
+
+  *Question:* What's the _minimum_ set of operations needed to build _everything_?
+
+  Can we manufacture chips with just ONE type of gate?
+  Or do we absolutely need three types (AND, OR, NOT)?
+
+  This isn't just theoretical --- Intel, AMD, and ARM face this question for every new processor!
+]
+
 #Block(color: blue)[
   *Central question:* Which sets of operations can express _every_ Boolean function?
 ]
 
+#pagebreak()
+
 For example:
 - Can we build everything using only ${and, or, not}$? #YES
-- Can we build everything using only ${"NAND"}$? #YES
-- Can we build everything using only ${and, or}$? #NO
+- Can we build everything using only ${"NAND"}$? #YES (just one gate type!)
+- Can we build everything using only ${and, or}$? #NO (can't make NOT)
+- Can we build everything using only ${xor}$? #NO (only linear functions)
 
 #Block(color: yellow)[
   This leads to the concept of _functional completeness_ --- a cornerstone of Boolean algebra and digital circuit design.
+
+  *The stunning discovery (Post, 1941):* There are exactly FIVE "weaknesses" a set of operations can have.
+  If your set avoids all five weaknesses, it can build _anything_.
+  If it has even one weakness, there are functions it can never express!
 ]
 
 == Functional Closure
@@ -2972,24 +3103,19 @@ Informally, $[F]$ contains all functions you can build by _combining_ functions 
 
 == Post's Five Classes
 
-Emil Post (1941) identified five classes of Boolean functions that restrict expressiveness:
-
 #definition[
-  A Boolean function $f: {0,1}^n arrow.r {0,1}$ is:
+  A Boolean function $f: {0,1}^n arrow.r {0,1}$ belongs to class:
 
   + *$T_0$ (preserves 0):* $f(0, 0, ..., 0) = 0$
-
   + *$T_1$ (preserves 1):* $f(1, 1, ..., 1) = 1$
-
   + *$S$ (self-dual):* $f(overline(x)_1, ..., overline(x)_n) = overline(f(x_1, ..., x_n))$
-
   + *$M$ (monotone):* $x <= y => f(x) <= f(y)$ ~(bitwise comparison)
-
   + *$L$ (linear):* $f$ has ANF of degree $<= 1$ ~(no AND terms)
 ]
 
 #note[
-  These classes form a complete classification: if $F$ is fully contained ($subset.eq$) in any class, then $[F]$ cannot contain _all_ Boolean functions.
+  These classes are _closed under composition_: combining functions from a class stays within that class.
+  If all operations in $F$ belong to one class, $[F]$ cannot contain all Boolean functions.
 ]
 
 == Post's Classes: Examples
@@ -3014,10 +3140,8 @@ Emil Post (1941) identified five classes of Boolean functions that restrict expr
   )
 ]
 
-#place(bottom + center)[
-  #Block(color: yellow)[
-    *Observation:* NAND and NOR belong to _none_ of the five Post classes!
-  ]
+#note[
+  NAND and NOR belong to _none_ of the five classes --- this is why they are universal.
 ]
 
 == Understanding Post's Classes
@@ -3026,72 +3150,46 @@ Emil Post (1941) identified five classes of Boolean functions that restrict expr
   columns: 2,
   gutter: 1em,
   [
-    *$T_0$ and $T_1$ (Preserving Constants)*
+    *$T_0$ and $T_1$ (Constants)*
 
-    Functions that map all-0s to 0 ($T_0$) or all-1s to 1 ($T_1$).
+    $T_0$: maps all-0s to 0; $T_1$: maps all-1s to 1
 
-    - AND, OR are in both $T_0$ and $T_1$
-    - XOR is in $T_0$ but not $T_1$
-    - NOT is in neither
-
-    #note[
-      If all functions preserve 0, closure cannot produce constants.
-    ]
+    - AND, OR: both $T_0$ and $T_1$
+    - XOR: $T_0$ only
+    - NOT: neither
   ],
   [
-    *$S$ (Self-Dual Functions)*
+    *$L$ (Linear)*
 
-    Swapping inputs and output gives the same function.
+    ANF degree $<= 1$:~
+    $f = a_0 xor a_1 x_1 xor dots.h.c xor a_n x_n$
+
+    - Constants, NOT, XOR: linear
+    - AND, OR: not linear
+  ],
+
+  [
+    *$M$ (Monotone)*
+
+    $x <= y => f(x) <= f(y)$
+
+    - AND, OR: monotone
+    - NOT, XOR: not monotone
+  ],
+  [
+    *$S$ (Self-Dual)*
 
     $f(overline(x)) = overline(f(x))$
 
-    - NOT is self-dual: $overline(overline(x)) = x$
-    - Median: $"med"(x,y,z) = x y + y z + x z$
-
-    #note[
-      Self-dual functions satisfy $f = overline(f) compose not$
-    ]
+    - NOT: self-dual
+    - Median: $x y + y z + x z$
   ],
 )
 
-#pagebreak()
+#Block(color: yellow)[
+  *Key property:* Each class is closed under composition.
 
-#grid(
-  columns: 2,
-  gutter: 1.5em,
-  [
-    *$M$ (Monotone Functions)*
-
-    Increasing inputs never decrease output.
-
-    If $x_i <= y_i$ for all $i$, then $f(x) <= f(y)$.
-
-    - AND, OR are monotone
-    - NOT, XOR are not monotone
-
-    #example[
-      For function OR:
-      - $(0,0) < (0,1)$ and $"OR"(0,0) < "OR"(0,1)$ #YES
-    ]
-  ],
-  [
-    *$L$ (Linear Functions)*
-
-    ANF has degree $<= 1$ (only XOR and constants).
-
-    $f = a_0 xor a_1 x_1 xor ... xor a_n x_n$
-
-    - Constants, NOT, XOR are linear
-    - AND, OR are not linear (degree 2)
-
-    #note[
-      Linear functions form a vector space over~$FF_2$.
-    ]
-  ],
-)
-
-#Block(color: purple)[
-  *Key insight:* Each Post class is _closed under composition_ --- combining functions from a class stays within that class.
+  If $F subset.eq C$ for some class $C$, then $[F] subset.eq C$, preventing completeness.
 ]
 
 == Post's Criterion
@@ -3122,24 +3220,16 @@ Equivalently: $F$ is complete $iff$ $F$ is not contained in any Post class.
 
 == Post's Criterion: Intuition
 
-Why does escaping all five classes guarantee completeness?
-
 #Block(color: teal)[
-  *Idea:* Each Post class represents a "weakness" --- _inability to express_ certain functions:
+  Each Post class represents a "weakness":
 
   - *$T_0$:* Cannot create constant 1 from all-0 input
   - *$T_1$:* Cannot create constant 0 from all-1 input
   - *$S$:* Cannot break symmetry between $x$ and $overline(x)$
   - *$M$:* Cannot decrease output when input increases
   - *$L$:* Cannot create nonlinear interactions (AND-like)
-]
 
-#Block[
-  If $F$ escapes all restrictions, it has enough "power" to build any function.
-]
-
-#note[
-  The proof constructs NOT, AND, and OR from functions escaping the five classes, establishing completeness via a known complete set --- Standard Boolean basis ${and, or, not}$.
+  Escaping all five weaknesses provides power to build any function.
 ]
 
 == Post's Criterion: Proof Sketch
@@ -3346,37 +3436,32 @@ Since ${"NAND"} = {nand}$ is complete, we can build any function using only NAND
 
 == From Boolean Algebra to Hardware
 
-Boolean algebra provides the mathematical foundation for digital circuits:
-
-#Block(color: blue)[
-  *Connection:* Boolean functions $=>$ Logic gates $=>$ Physical circuits
-]
+Boolean algebra provides the mathematical foundation for digital circuit design.
 
 #grid(
   columns: 2,
   gutter: 1.5em,
   [
-    *Abstract Level*
+    *Mathematical abstraction:*
     - Boolean variables: $x, y, z$
     - Operations: $and, or, not, xor$
     - Functions: $f(x,y,z)$
     - Truth tables and expressions
-
-    Laws and transformations are purely algebraic.
+    - Algebraic laws and transformations
   ],
   [
-    *Physical Level*
+    *Physical implementation:*
     - Voltage levels: HIGH (1), LOW (0)
-    - Transistor circuits
+    - Transistor circuits (CMOS logic)
     - Propagation delays
-    - Power consumption, heat
-
-    Real constraints: timing, noise, fanout.
+    - Power consumption
+    - Real constraints: noise, timing, fanout
   ],
 )
 
-#Block(color: yellow)[
-  This section bridges theory and practice: how to realize Boolean functions as actual hardware.
+#Block(color: blue)[
+  *Connection:* Boolean expressions translate directly to logic gate networks.
+  Circuit optimization uses the same algebraic laws we've studied.
 ]
 
 == Logic Gate Standards
@@ -3469,28 +3554,62 @@ Two main notation standards for logic gates:
   XNOR is also called _equivalence_ gate: outputs 1 when inputs are equivalent.
 ]
 
-== Universal Gates
+== Universal Gates: The Ultimate Minimalism
+
+#Block(color: green)[
+  *The manufacturing dream:*
+
+  In the early days of computing (1950s-60s), every different gate type required:
+  - Different design specifications
+  - Different testing procedures
+  - Different inventory management
+  - Different failure modes to diagnose
+
+  Engineers wondered: "What if we could build EVERYTHING with just ONE gate type?"
+
+  *The answer:* NAND and NOR are _universal_ --- you can build any circuit using only NAND gates (or only NOR gates)!
+
+  This revolutionized chip manufacturing.
+  Today, while modern chips use mixed gates for optimization, the NAND-only design philosophy still influences architecture.
+]
 
 #theorem[
   NAND and NOR gates are _functionally complete_ --- any Boolean function can be implemented using only NAND gates (or only NOR gates).
 ]
 
-#example[Building basic gates from NAND][
-  - NOT: $overline(A) = A nand A$
-  - AND: $A and B = overline(A nand B) = (A nand B) nand (A nand B)$
-  - OR: $A or B = overline(A) nand overline(B) = (A nand A) nand (B nand B)$
+#example[Building the basic gates from NAND (the "construction kit")][
+  Starting with ONLY the NAND gate, we can build everything:
+
+  *Step 1 --- Build NOT:*
+  $overline(A) = A nand A$ #h(2em) "NAND a signal with itself to invert it"
+
+  *Step 2 --- Build AND:*
+  $A and B = overline(A nand B) = (A nand B) nand (A nand B)$ \
+  "Do NAND, then invert the result with another NAND"
+
+  *Step 3 --- Build OR:*
+  $A or B = overline(A) nand overline(B) = (A nand A) nand (B nand B)$ \
+  "Invert both inputs, then NAND them" (De Morgan's law in action!)
+
+  *Step 4 --- Build anything:*
+  Since ${and, or, not}$ is complete, and we can build all three from NAND, we're done! #text(green)[✓]
 ]
 
 #Block(color: blue)[
-  *Why this matters:* Manufacturing circuits with a single gate type (NAND) simplifies:
-  - Design complexity
-  - Testing procedures
-  - Production costs
-  - Inventory management
+  *Why this matters in practice:*
+  - *Modern FPGA chips:* Built primarily from lookup tables (LUTs) that can implement any function
+  - *ASIC design:* Standard cell libraries often emphasize NAND/NOR for uniformity
+  - *Fault testing:* Easier to test one gate type comprehensively
+  - *Academic value:* Proves minimality --- you can't do better than one operation!
 ]
 
 #note[
-  In practice, designers use mixed gates for optimization _despite_ this theoretical result.
+  In reality, modern chip designers use mixed gates (AND, OR, NOT, XOR, etc.) because:
+  - Lower power consumption
+  - Faster operation (fewer gate delays)
+  - Smaller area (1 AND gate vs. 2 NANDs)
+
+  But NAND-only designs prove what's _possible_ and provide fallback when needed!
 ]
 
 == Constructing Circuits from Boolean Expressions
@@ -4496,11 +4615,147 @@ Same inputs, different outputs! This violates the basic idea of a function.
   - Minimization involves trade-offs between speed, area, and power
 ]
 
-// #Block(color: teal)[
-//   *Looking ahead:* How do we apply Boolean algebra to solve complex computational problems?
-//
-//   Next: Computer Science applications of Boolean logic.
-// ]
+
+= The Journey Complete
+#focus-slide()
+
+== From Zero to Hero: What You've Mastered
+
+#Block(color: green)[
+  *Congratulations!* You've journeyed from abstract algebra to real silicon.
+
+  Let's appreciate what you can now do that seemed impossible at the start:
+]
+
+#grid(
+  columns: 2,
+  gutter: 1.5em,
+  [
+    *Theoretical Mastery:*
+    - Design ANY Boolean function from scratch
+    - Prove algebraic identities rigorously
+    - Understand Post's completeness criterion
+    - Analyze cryptographic security via ANF
+    - Recognize lattice structure in Boolean algebra
+  ],
+  [
+    *Practical Skills:*
+    - Minimize circuits using K-maps
+    - Build hardware from NAND gates alone
+    - Optimize expressions algebraically
+    - Design adders and arithmetic circuits
+    - Understand sequential logic and timing
+  ],
+)
+
+#Block(color: red)[
+  *The Big Picture:*
+
+  When you write `if (user.isLoggedIn && !user.isBanned)` in your code, you now understand the ENTIRE chain:
+  - Boolean algebra: $x and (not y)$
+  - Truth tables: evaluating all $2^2 = 4$ cases
+  - Circuit synthesis: AND gate + NOT gate
+  - Physical implementation: transistors switching at GHz speeds
+  - Optimization: Can we use fewer gates?
+  - Cryptographic perspective: What's the algebraic degree?
+
+  You understand it ALL --- from philosophy (Boole, 1854) to physics (transistors, 2024)!
+]
+
+== The Unreasonable Effectiveness of Simple Ideas
+
+#Block(color: purple)[
+  *The miracle of Boolean algebra:*
+
+  Just TWO values: 0 and 1. \
+  Just THREE operations: AND, OR, NOT. \
+  From this simplicity comes _infinite complexity._
+
+  Your smartphone has ~100 billion transistors. \
+  Every single one follows Boolean logic. \
+  Together, they run:
+  - AI models with trillions of parameters
+  - Graphics rendering at 120 FPS
+  - Secure communications protecting billions of users
+  - All while fitting in your pocket
+
+  *This is the power of mathematical abstraction.*
+]
+
+== Where Boolean Algebra Lives Today
+
+#Block(color: yellow)[
+  *You now have the foundation to understand:*
+
+  - *CPU Architecture:* How processors execute billions of instructions/second
+  - *Cryptography:* Why AES is secure (algebraic degree 7!)
+  - *Formal Verification:* Proving software correctness with SAT solvers
+  - *AI Hardware:* TPUs optimizing matrix operations in Boolean circuits
+  - *Quantum Computing:* Quantum gates as unitary operations (next-level Boolean algebra!)
+  - *Database Systems:* Query optimization using Boolean predicate logic
+  - *Compilers:* Transforming high-level code to optimized machine instructions
+]
+
+#Block(color: blue)[
+  *The tools you've mastered:*
+  - Truth tables (brute force enumeration)
+  - Algebraic manipulation (laws and identities)
+  - K-maps (visual optimization for small functions)
+  - Quine-McCluskey (systematic minimization)
+  - ANF (cryptographic analysis and unique representation)
+  - Post's criterion (theoretical completeness testing)
+  - Circuit design (from abstraction to silicon)
+
+  Each tool has its place. Master them all, use the right one for each problem!
+]
+
+== The Road Ahead
+
+#Block(color: teal)[
+  *What's next in your Boolean journey:*
+
+  *Immediate applications:*
+  - Design your own processor (take a computer architecture course!)
+  - Implement cryptographic algorithms (learn about AES, RSA)
+  - Build formal verification tools (SAT/SMT solvers)
+  - Optimize database queries (Boolean predicate logic)
+
+  *Advanced topics:*
+  - Binary Decision Diagrams (BDDs): Canonical graph representation
+  - Model checking: Automated verification of hardware/software
+  - Hardware description languages: Verilog, VHDL
+  - Quantum circuits: Extending Boolean logic to quantum mechanics
+]
+
+== Final Words: The Beauty of Simplicity
+
+#Block(color: red)[
+  *Remember George Boole* (1815-1864):
+
+  He died thinking his work was "mere philosophy" with no practical value.
+
+  *Remember Claude Shannon* (1916-2001):
+
+  At age 21, he connected Boole's algebra to circuits and changed the world forever.
+
+  *Remember yourself today*:
+
+  You've learned the mathematics that powers _literally everything_ in modern computing.
+  From the phone in your pocket to the supercomputers simulating the universe.
+  From encrypted messages to AI making decisions.
+  It's ALL Boolean algebra.
+
+  When people ask "why study abstract math?" show them this:
+  The most practical technology in human history is built on the "useless" philosophy of a 19th-century mathematician.
+
+  *That's the beauty and power of mathematics.*
+]
+
+#align(center)[
+  #text(size: 1.5em, fill: gradient.linear(..color.map.rainbow))[
+    *Now go build something amazing!*
+  ]
+]
 
 
 // == Bibliography
