@@ -57,8 +57,6 @@
 
 == From Algebra to Digital Circuits
 
-// Boolean algebra is the mathematical foundation of digital computing, developed by George Boole in 1854 as a way to formalize logical reasoning using algebraic operations.
-
 #Block(color: teal)[
   #set par(justify: true)
   *Historical note:* #h(0.2em)
@@ -118,7 +116,7 @@ In this lecture, you'll master Boolean algebra from foundations to applications:
 + *Simplify complex expressions* through algebraic manipulation and graphical methods
 + Determine which operation sets are *functionally complete* using Post's criterion
 + *Design real digital circuits* with logic gates, flip-flops, and stateful elements
-+ Apply Boolean algebra to *modern CS problems*: binary decision diagrams, SAT solving, and formal verification
++ Investigate *modern CS problems*: binary decision diagrams, SAT solving, and formal verification
 
 #Block(color: purple)[
   *Our goal:*
