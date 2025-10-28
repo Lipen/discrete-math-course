@@ -120,12 +120,6 @@ In this lecture, you'll journey from abstract algebra to circuit implementation:
 + *Implementation:* Design digital circuits with gates and memory elements
 + *Advanced topics:* Explore ANF, BDDs, and applications in cryptography
 
-#Block(color: purple)[
-  *Learning objective:*
-  You'll gain theoretical understanding (algebraic structure, formal proofs) and practical skills (circuit design, expression optimization).
-  By the end, you'll see how a simple logical question connects to abstract algebra, hardware design, cryptanalysis, and automated reasoning.
-]
-
 
 = Variables and Expressions
 #focus-slide()
@@ -649,19 +643,25 @@ From the axioms, we can prove many useful identities:
 == Summary of Boolean Algebra Structure
 
 #Block(color: purple)[
-  *What we've established:*
+  *What we've established in this section:*
 
-  + Boolean algebra is an algebraic structure with operations $or$, $and$, $not$ and elements $0$, $1$
-  + Five fundamental axioms govern the structure
-  + Many useful laws (idempotence, absorption, De Morgan's) follow from the axioms
-  + Duality principle: swap $or <=> and$ and $0 <=> 1$ to get new theorems
-  + Boolean algebras are complemented bounded distributive lattices
-  + Complements are unique
+  + *Algebraic structure:* Boolean algebra $angle.l B, or, and, not, 0, 1 angle.r$ with five fundamental axioms
+  + *Fundamental laws:* Idempotence, absorption, De Morgan's laws all follow from axioms
+  + *Duality principle:* Swap $or <=> and$ and $0 <=> 1$ to get new theorems for free
+  + *Connection to lattices:* Boolean algebras are complemented bounded distributive lattices
+  + *Complement uniqueness:* Each element has exactly one complement
 ]
 
 #Block(color: yellow)[
-  *Next:* #h(0.2em)
-  We'll use this algebraic structure to develop normal forms and minimization techniques.
+  *Key insight:*
+  The same algebraic structure appears in logic (AND/OR/NOT), set theory ($union$, $inter$, $overline(x)$), and circuits (gates).
+  This universality is why Boolean algebra is the foundation of computer science.
+]
+
+#Block(color: blue)[
+  *What's next:*
+  Now that we have the algebraic structure, we need systematic ways to _represent_ any Boolean function.
+  This leads to normal forms (DNF, CNF) and minimization techniques (K-maps).
 ]
 
 
@@ -674,27 +674,32 @@ We've established the algebraic structure of Boolean algebra.
 
 Now: how do we _represent_ any Boolean function systematically?
 
-#Block(color: blue)[
-  *Goal:*
-  Find standard forms that can express _any_ Boolean function.
-  This lets us:
-  + Synthesize circuits from specifications (truth tables)
-  + Compare functions for equivalence
-  + Systematically simplify expressions
-]
+*The challenge:*
+- There are $2^(2^n)$ different Boolean functions of $n$ variables
+- For $n=3$: already 256 different functions!
+- We need _canonical forms_ that work for ALL of them
 
-#columns(2)[
-  *What we have:*
-  - Boolean algebra axioms
-  - Proof techniques
-  - Specific functions
+*What we'll learn:*
 
-  #colbreak()
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Normal Forms*
+    - DNF (Disjunctive Normal Form)
+    - CNF (Conjunctive Normal Form)
+    - Canonical forms (minterms/maxterms)
+  ],
+  [
+    *Why they matter*
+    - Circuit synthesis
+    - Equivalence checking
+    - Systematic simplification and minimization
+  ],
+)
 
-  *What we need:*
-  - Standard representations
-  - Construction algorithms
-  - Completeness guarantees
+#Block(color: yellow)[
+  *Goal:* Express ANY Boolean function as a combination of simple building blocks.
 ]
 
 == Building Blocks: Literals
@@ -726,12 +731,17 @@ Think of literals as the simplest meaningful statements:
 == Terms and Clauses
 
 #definition[
-  - A _term_ (or _product_) is a conjunction (AND) of literals
+  - A _term_ (or _product_, or _cube_) is a conjunction (AND) of literals
   - A _clause_ (or _sum_) is a disjunction (OR) of literals
 ]
 
+#note[
+  The term "cube" is commonly used in scientific literature for DNF components. \
+  We use "term" and "cube" interchangeably, but "cube" provides a unique geometric interpretation!
+]
+
 #columns(2)[
-  *Terms (Products):*
+  *Terms/Cubes (Products):*
   - $x and y$
   - $x and not y and z$
   - $not x and not y and not z$
@@ -749,27 +759,31 @@ Think of literals as the simplest meaningful statements:
 ]
 
 #example[
-  - Term $x and not y and z$ is true only when: $x = 1$, $y = 0$, $z = 1$
+  - Cube $x and not y and z$ is true only when: $x = 1$, $y = 0$, $z = 1$
   - Clause $x or not y or z$ is true when: $x = 1$ OR $y = 0$ OR $z = 1$ (or any combination)
 ]
 
 #note[
-  A single literal is both a 1-term and a 1-clause. Constants: $0$ (empty term) and $1$ (empty clause).
+  A single literal is both a 1-cube and a 1-clause. Constants: $0$ (empty cube) and $1$ (empty clause).
 ]
 
 == Disjunctive Normal Form (DNF)
 
 #definition[DNF][
-  A Boolean formula is in _Disjunctive Normal Form (DNF)_ if it is a disjunction (OR) of terms.
+  A Boolean formula is in _Disjunctive Normal Form (DNF)_ if it is a disjunction (OR) of cubes.
 
-  General form: $(t_1) or (t_2) or dots or (t_k)$ where each $t_i$ is a term (conjunction of literals).
+  General form: $(c_1) or (c_2) or dots or (c_k)$ where each $c_i$ is a cube (conjunction of literals).
+]
+
+#note[
+  In DNF, we use "cube" to refer to each AND-component. This terminology emphasizes the geometric interpretation and aligns with scientific literature on minimization.
 ]
 
 #example[
   DNF formulas:
-  - $(x and y) or (not x and z)$ --- "($x$ and $y$) OR ($not x$ and $z$)"
-  - $(x and not y and z) or (not x and y) or z$ --- three alternatives
-  - $x or (y and not z)$ --- still DNF (mixed form)
+  - $(x and y) or (not x and z)$ --- "($x$ and $y$) OR ($not x$ and $z$)" ~(2 cubes)
+  - $(x and not y and z) or (not x and y) or z$ --- three alternatives ~(3 cubes)
+  - $x or (y and not z)$ --- still DNF (mixed form) ~(2 cubes: $x$ and $y and not z$)
 ]
 
 #example[
@@ -823,8 +837,8 @@ Think of literals as the simplest meaningful statements:
 
 #definition[
   For $n$ variables:
-  - A _minterm_ is a term containing all $n$ variables (each exactly once, positive or negated)
-  - A _maxterm_ is a clause containing all $n$ variables (each exactly once, positive or negated)
+  - A _minterm_ is a maximal cube containing all $n$ variables (each exactly once, positive or negated)
+  - A _maxterm_ is a maximal clause containing all $n$ variables (each exactly once, positive or negated)
 ]
 
 #example[
@@ -869,18 +883,33 @@ We can index minterms and maxterms by their binary representations:
 == Sum of Products (SoP)
 
 #definition[
-  A _sum of products (SoP)_ (also called _canonical sum of minterms_) is a DNF where each term is a minterm.
+  A _sum of products (SoP)_ (also called _canonical sum of minterms_) is a DNF where each cube is a minterm.
 
   General form: $f(x_1, dots, x_n) = limits(or.big)_(i in I) m_i$ where $I subset.eq {0, 1, dots, 2^n - 1}$
 ]
 
-#example[
-  For the function with truth table:
+#note[
+  In SoP, each cube is _maximal_ (contains all variables). This form is unique for any given function!
+]
 
-  #align(center)[
+#Block(color: yellow)[
+  *Recipe:* Find rows where $f = 1$ $=>$ write minterms $m_i$ $=>$ OR them together.
+]
+
+#Block(color: blue)[
+  *Why it works:* Each minterm is 1 for exactly one row $arrow.r$ OR gives 1 when ANY minterm is 1.
+]
+
+== SoP: Example
+
+#example[
+  For the function $f$ with truth table:
+
+  #place(right, dx: -5cm, dy: -2em)[
     #table(
       columns: 4,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.4pt) },
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([*$x$*], [*$y$*], [*$z$*], [*$f$*]),
       [0], [0], [0], [0],
@@ -894,16 +923,20 @@ We can index minterms and maxterms by their binary representations:
     )
   ]
 
-  *Algorithm:* Pick rows where $f = 1$ (rows 1, 3, 6, 7):
-  $
-    f & = m_1 or m_3 or m_6 or m_7 \
-      & = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)
-  $
-]
+  *Step 1:* Identify rows where $f = 1$: rows 1, 3, 6, 7
 
-#Block(color: yellow)[
-  *Recipe:*
-  To build SoP, take each 1 in the truth table and OR the corresponding minterms.
+  *Step 2:* Write corresponding minterms:
+  - Row 1 (001): $m_1 = not x and not y and z$
+  - Row 3 (011): $m_3 = not x and y and z$
+  - Row 6 (110): $m_6 = x and y and not z$
+  - Row 7 (111): $m_7 = x and y and z$
+
+  *Step 3:* OR them together:
+  $
+    f & = m_1 or m_3 or m_6 or m_7 = \
+      & = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z) = \
+      & = overline(x) thin overline(y) z + overline(x) y z + x y overline(z) + x y z
+  $
 ]
 
 == Product of Sums (PoS)
@@ -1021,21 +1054,32 @@ Converting between DNF and CNF can be tricky:
 == Summary: Canonical Forms
 
 #Block(color: purple)[
-  *What we've learned:*
+  *What we've learned about normal forms:*
 
-  + Literals, terms, clauses are the building blocks
-  + DNF: OR of terms (conditions that make function true)
-  + CNF: AND of clauses (constraints that must all hold)
-  + Minterms/maxterms: complete terms/clauses with all variables
-  + SoP/PoS: canonical forms using minterms/maxterms
-  + Shannon expansion: recursive decomposition by variables
-  + Every Boolean function has CNF and DNF representations
+  + *Building blocks:* Literals, cubes (AND of literals), clauses (OR of literals)
+  + *DNF (Disjunctive Normal Form):* OR of cubes --- "output is 1 if ANY scenario holds"
+  + *CNF (Conjunctive Normal Form):* AND of clauses --- "ALL constraints must be satisfied"
+  + *Minterms/Maxterms:* Maximal cubes/clauses containing all variables
+  + *SoP/PoS (Canonical forms):* Unique representation using all minterms/maxterms
+  + *Shannon expansion:* Recursive decomposition by cofactors
+  + *Universality:* Every Boolean function has both DNF and CNF representations
+]
+
+#note(title: "Terminology")[
+  "Cube" and "term" are interchangeable for DNF components, but "cube" provides unique geometric interpretation and aligns with minimization literature.
 ]
 
 #Block(color: yellow)[
-  *Next:* #h(0.2em)
-  Minimization techniques to reduce the size of these expressions (K-Maps, Quine-McCluskey).
+  *Key insight:*
+  Normal forms let us synthesize ANY circuit from a truth table.
+  But canonical forms are often huge --- we need minimization techniques!
 ]
+
+// #Block(color: blue)[
+//   *What's next:*
+//   Canonical SoP/PoS work but are wasteful (many redundant gates).
+//   We'll learn minimization techniques: algebraic manipulation, K-maps (visual), and Quine-McCluskey (systematic).
+// ]
 
 
 = Minimization
@@ -1309,6 +1353,7 @@ For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
   #align(center)[
     #table(
       columns: 3,
+      align: (center, center, left),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Cell*], [*$x y z$*], [*Analysis*]),
       [$m_1$], [001], [$x=0$, $y=0$, $z=1$],
@@ -1399,24 +1444,12 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
 
 == K-Map Strategy: Optimal Grouping
 
-#Block(color: yellow)[
-  *Step-by-step grouping strategy:*
-
-  + Mark all 1s in the K-map
-  + Find cells that can *only* be covered by one group (essential)
-  + Group these with largest possible rectangles
-  + Cover remaining 1s with largest possible groups
-  + Minimize overlap (but overlap is allowed!)
-  + Verify all 1s are covered
-]
-
-#Block(color: blue)[
-  *Pro tips:*
-  - Start with isolated 1s (they need their own groups)
-  - Look for groups of 8, then 4, then 2
-  - Remember wraparound on all edges
-  - Corner cells can also form groups ($2 times 2$ block)
-]
+*Grouping rules:*
+1. Mark all 1s in the K-map
+2. Find essential groups (cells covered by only one group)
+3. Cover remaining 1s with largest rectangles (8, 4, 2, 1)
+4. Use wraparound on edges and corners
+5. Minimize overlap but allow if needed
 
 == K-Maps with Don't-Care Conditions
 
@@ -1539,8 +1572,8 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
   $
 ]
 
-#Block(color: blue)[
-  *Intuition:* If $Y Z$ is true, then either $X Y$ or $overline(X) Z$ must already be true, so $Y Z$ is redundant.
+#note[
+  *Intuition:* If $Y Z$ is true, then either $X Y$ or $overline(X) Z$ must be true, so $Y Z$ is redundant.
 ]
 
 == Multi-Level Minimization
@@ -2040,20 +2073,8 @@ When multiple prime implicants remain after selecting essentials:
   Boolean function minimization is *NP-complete*.
 ]
 
-#Block(color: purple)[
-  *What this means:*
-  - No polynomial-time algorithm known for optimal minimization
-  - Problem difficulty grows exponentially with function size
-  - For large functions, we must accept suboptimal solutions
-  - Heuristics and approximations are necessary
-]
-
-#Block(color: teal)[
-  *Historical context:*
-  - 1950s-1970s: Minimization critical (gates expensive)
-  - Quine-McCluskey (1956): First systematic method
-  - ESPRESSO (1984): Major breakthrough in heuristics
-  - Modern era: Focus shifted to power/delay over gate count
+#note[
+  *Consequence:* For large functions, we use heuristics (ESPRESSO, ABC) instead of exact methods. Modern CAD tools focus on technology mapping and multi-objective optimization (timing, power, area).
 ]
 
 == Modern Minimization Tools
@@ -2154,8 +2175,14 @@ When multiple prime implicants remain after selecting essentials:
 ]
 
 #Block(color: yellow)[
-  *Next:* #h(0.2em)
-  Zhegalkin polynomials (ANF) --- a completely different normal form using XOR!
+  *Key insight:*
+  Minimization transforms algebraic simplification into visual pattern recognition (K-maps) or systematic algorithms (Q-M).
+  For small functions (≤5 vars), K-maps are instant. For large functions, we use heuristics and accept near-optimal solutions.
+]
+
+#Block(color: blue)[
+  *What's next:*
+  All our techniques (DNF, CNF, minimization) use AND/OR/NOT. But there's a completely different approach using only XOR and AND --- Algebraic Normal Form (ANF). This gives us _unique_ canonical representation, crucial for cryptography.
 ]
 
 
@@ -2164,32 +2191,23 @@ When multiple prime implicants remain after selecting essentials:
 
 == Motivation: A Different Representation
 
-#Block(color: red)[
-  *Everything we've done so far has a problem:*
+All our normal forms (DNF, CNF) use AND, OR, NOT. They work great for circuits but have redundancy: the same function has infinitely many equivalent representations.
 
-  We've been using AND ($and$), OR ($or$), and NOT ($overline(x)$) to build Boolean functions.
-  This works great for circuit design.
-  But it has a weakness: the same function can be written in infinitely many equivalent ways!
-
-  *Example:* These are all the SAME function:
-  - $f = (x and y) or (x and not y)$
-  - $f = x and (y or not y)$
-  - $f = x and 1$
-  - $f = x$
-
-  For circuits, this flexibility is good (we can optimize).
-  But for _cryptography_ and _formal verification_, we want ONE canonical form --- a unique fingerprint for each function.
+#example[
+  $f = (x and y) or (x and not y) = x and (y or not y) = x and 1 = x$
 ]
 
-#Block(color: purple)[
-  *The radical idea:* What if we use ONLY two operations?
-  - XOR ($xor$) instead of OR
-  - AND ($and$) for multiplication
+*For cryptography and formal verification, we need a _unique_ canonical form.*
 
-  No NOT operator at all! (We can write $overline(x)$ as $x xor 1$)
+#Block(color: blue)[
+  *ANF (Algebraic Normal Form):* Use only XOR ($xor$) and AND ($and$).
 
-  This gives us _Algebraic Normal Form (ANF)_ --- also called _Zhegalkin polynomials_ after the Russian mathematician who developed them in 1927.
+  Result: Every Boolean function has a _unique_ polynomial representation over $"GF"(2)$.
+
+  Note: $overline(x) = x xor 1$, so NOT is not needed.
 ]
+
+== Why ANF? Applications and Advantages
 
 So far, we've built Boolean functions using AND ($and$), OR ($or$), and NOT ($overline(x)$).
 
@@ -2401,55 +2419,60 @@ These differences enable important applications:
   )
 ]
 
-== Cryptographic Significance of Algebraic Degree
+== Why Algebraic Degree Matters
 
-#Block(color: red)[
-  *Why cryptographers obsess over algebraic degree:*
+*Application:* Cryptography and security
 
-  Imagine you're designing a secure encryption system (like AES, which protects most of the internet).
-  The "secret sauce" is a nonlinear transformation called an S-box.
+In encryption systems, functions transform data to hide it from attackers.
+The algebraic degree determines how _complex_ these transformations are.
 
-  *The attacker's strategy:* Express your S-box as an ANF, then solve the resulting polynomial equations.
-  - If degree is LOW (2-3): Attacker can _linearize_ the system and break it in minutes
-  - If degree is HIGH (7-8): Equations are too complex, attack fails
+#Block(color: yellow)[
+  *Key insight:* Low-degree functions can be broken using linear algebra!
 
-  *Real-world example:* The DES cipher (1970s) had degree 6.
-  Cryptographers didn't fully understand algebraic attacks back then.
-  Today we know: degree 6 is vulnerable!
-  Modern AES has degree 7 (for 8-bit functions, 8 is maximum) --- much safer.
+  If a function has degree 2-3, an attacker can:
+  1. Express it as ANF (polynomial over $FF_2$)
+  2. Treat each product term (like $x y z$) as a _new variable_
+  3. Solve the resulting _linear_ system of equations
+
+  This is called *linearization attack*.
 ]
 
-#pagebreak()
+== Example: Breaking a Low-Degree Function
+
+#example[
+  Suppose an encryption system uses $f(x, y, z) = x xor y z$ (degree 2).
+
+  *Linearization attack:*
+  - *Step 1:* ANF has nonlinear term $y z$ $=>$ introduce variable $w = y z$
+  - *Step 2:* Rewrite as $f = x xor w$ $=>$ now linear in $x, w$!
+  - *Step 3:* Collect pairs $(x_i, y_i, z_i) maps f_i$ $=>$ equations $x_i xor w_i = f_i$ where $w_i = y_i z_i$
+  - *Step 4:* Solve linear system over $FF_2$ $=>$ recover secret values $=>$ encryption broken!
+
+  *Why it works:* Only 1 nonlinear term $=>$ only 1 new variable $=>$ system stays small and solvable.
+]
 
 #Block(color: orange)[
-  *Low algebraic degree indicates vulnerability to attacks.*
-
-  Functions with degree $d < n/2$ are susceptible to:
-  - *Linearization attacks:* Treat high-degree terms as new variables, solve linear system
-  - *Cube attacks:* Exploit low-degree structure in specific "cubes" of the input space
-  - *Higher-order differential cryptanalysis:* Find patterns in how outputs change with inputs
+  *Defense:* High-degree function (7-8) has many nonlinear terms $=>$ too many new variables $=>$ system becomes huge and unsolvable.
 ]
 
-#example[The AES S-box (the encryption that protects the internet)][
-  AES uses a carefully designed S-box: a nonlinear bijection $FF_2^8 to FF_2^8$.
+== Degree in Real Encryption Systems
 
-  *Design requirement:* Maximum algebraic degree!
-  - For 8-bit functions, the absolute maximum degree is 8
-  - But degree-8 functions have special structure (too simple in other ways)
-  - AES S-box has degree 7 --- the highest "safe" degree
+#Block(color: green)[
+  *Why encryption functions need high degree:*
 
-  This high degree provides resistance to algebraic attacks.
-  Without it, your online banking would be insecure!
+  Modern encryption (like AES, used in HTTPS, WiFi, banking) uses special functions called _S-boxes_.
+  These are Boolean functions $FF_2^8 to FF_2^8$ (8 input bits $to$ 8 output bits).
+
+  *Design requirement:* Degree must be close to maximum!
+  - Maximum possible degree for 8 variables: 8
+  - But degree-8 has special mathematical structure (too predictable)
+  - *AES uses degree 7* --- highest practical degree
+
+  If degree were 2-3, attackers could solve the system and break encryption.
 ]
 
-#Block(color: blue)[
-  *The arms race:*
-  - 1970s: DES designed, algebraic attacks unknown $=>$ degree 6 seemed fine
-  - 1990s: Algebraic attacks discovered $=>$ panic!
-  - 2000: AES designed with degree 7 $=>$ safe (so far)
-  - Today: Quantum computers on horizon $=>$ new cryptographic designs needed
-
-  Algebraic degree is just ONE of many security criteria, but it's crucial!
+#Block(color: teal)[
+  *Historical context:* Older encryption (DES, 1970s) used degree 6. Later discovered vulnerable to algebraic attacks. Modern systems learned from this mistake.
 ]
 
 == Methods for Computing ANF
@@ -2498,7 +2521,7 @@ Each row of the truth table gives one linear equation!
   - $1 xor 0 = 0 xor 1 = 1$
 ]
 
-== Direct Computation: Example
+== Direct Computation: Example (Setup)
 
 #example[
   Find ANF for $f(x, y)$ with truth table:
@@ -2514,11 +2537,7 @@ Each row of the truth table gives one linear equation!
       [1], [1], [0],
     )
   ]
-
-  _(Solution on next slide)_
 ]
-
-#pagebreak()
 
 Let ANF be: $f(x, y) = a_0 xor a_1 x xor a_2 y xor a_3 x y$
 
@@ -2537,13 +2556,22 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
   )
 ]
 
-*Solving step-by-step:*
+== Direct Computation: Solution
+
+*Solving the system step-by-step:*
 - Equation 1: $a_0 = 1$
 - Equation 2: $(a_0 xor a_2 = 1) => (1 xor a_2 = 1) => a_2 = 0$
 - Equation 3: $(a_0 xor a_1 = 1) => (1 xor a_1 = 1) => a_1 = 0$
 - Equation 4: $(1 xor 0 xor 0 xor a_3 = 0) => (1 xor a_3 = 0) => a_3 = 1$
 
 *Result:*~ $f(x, y) = 1 xor x y$, which is equivalent to $f = x nand y$.
+
+#Block(color: yellow)[
+  *Key insight:* Each row in the truth table gives exactly one linear equation over $FF_2$.
+  - With $n$ variables, we get $2^n$ equations in $2^n$ unknowns (the ANF coefficients)
+  - The system is always solvable (ANF exists and is unique)
+  - But for $n > 4$, solving $2^n$ equations manually becomes impractical!
+]
 
 == Method 2: Pascal's Triangle Method
 
@@ -2776,18 +2804,31 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 #Block(color: purple)[
   *Key properties of ANF:*
 
-  + *Uniqueness:* Every Boolean function has exactly one ANF
+  + *Uniqueness:* Every Boolean function has exactly one ANF representation
   + *Completeness:* ANF can represent any Boolean function
-  + *Operations:* Uses only XOR and AND (no NOT needed)
-  + *Algebraic degree:* Maximum degree of monomials
+  + *Operations:* Uses only XOR ($xor$) and AND --- no NOT needed
+  + *Algebraic degree:* Maximum degree of monomials (crucial for cryptography)
   + *Self-inverse:* $x xor x = 0$ (unlike $x or x = x$)
-  + *Linearity:* XOR is linear over $FF_2$
+  + *Linearity:* XOR is linear over $FF_2$, making polynomial algebra work
 ]
 
-== ANF in Cryptography
+#Block(color: yellow)[
+  *Key insight:*
+  ANF trades circuit efficiency (uses more gates than DNF/CNF) for mathematical uniqueness.
+  In cryptography, the algebraic degree in ANF is a direct measure of security against algebraic attacks.
+]
 
-#Block[
+#note[
+  *Computational efficiency:* Pascal's triangle method is the fastest way to compute ANF from truth tables. K-map method is more intuitive but limited to small functions.
+]
+
+== ANF in Cryptography: Why It Matters
+
+#Block(color: purple)[
   *Why cryptographers care about ANF?*
+
+  ANF reveals the _algebraic structure_ of cryptographic functions.
+  This structure determines vulnerability to algebraic attacks!
 ]
 
 #grid(
@@ -2819,7 +2860,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   ],
 )
 
-#pagebreak()
+== ANF in Cryptographic Primitives
 
 #grid(
   columns: 2,
@@ -2844,7 +2885,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   ],
 )
 
-#Block(color: red)[
+#Block(color: orange)[
   *Case study:*
   The E0 stream cipher (used in Bluetooth) was cryptanalyzed due to insufficient algebraic degree in its combining function.
 ]
@@ -2984,9 +3025,16 @@ Two approaches for converting between representations:
   - Hardware optimization: XOR-based circuit design
 ]
 
-#Block(color: teal)[
-  *Looking ahead:*~
-  Which sets of operations are sufficient to express all Boolean functions?
+#Block(color: yellow)[
+  *Key insight:*
+  ANF provides a _unique_ canonical form (unlike DNF/CNF which have infinite equivalent representations).
+  The algebraic degree in ANF directly measures cryptographic security --- higher degree means more resistance to attacks.
+]
+
+#Block(color: blue)[
+  *What's next:*
+  We've seen many operation sets: {AND, OR, NOT}, {XOR, AND, 1}, {NAND}, etc.
+  Which sets can express _every_ Boolean function? This leads to functional completeness and Post's criterion.
 ]
 
 
@@ -3012,11 +3060,7 @@ We've seen many Boolean operations: AND, OR, NOT, XOR, NAND, NOR, implication, e
   This isn't just theoretical --- Intel, AMD, and ARM face this question for every new processor!
 ]
 
-#Block(color: blue)[
-  *Central question:* Which sets of operations can express _every_ Boolean function?
-]
-
-#pagebreak()
+*Central question:* Which sets of operations can express _every_ Boolean function?
 
 For example:
 - Can we build everything using only ${and, or, not}$? #YES
@@ -3024,12 +3068,8 @@ For example:
 - Can we build everything using only ${and, or}$? #NO (can't make NOT)
 - Can we build everything using only ${xor}$? #NO (only linear functions)
 
-#Block(color: yellow)[
-  This leads to the concept of _functional completeness_ --- a cornerstone of Boolean algebra and digital circuit design.
-
-  *The stunning discovery (Post, 1941):* There are exactly FIVE "weaknesses" a set of operations can have.
-  If your set avoids all five weaknesses, it can build _anything_.
-  If it has even one weakness, there are functions it can never express!
+#note[
+  *Post's theorem (1941):* There are exactly FIVE "weaknesses" a set can have. If a set avoids all five, it's functionally complete. Having even one weakness means some functions cannot be expressed.
 ]
 
 == Functional Closure
@@ -3097,14 +3137,14 @@ Informally, $[F]$ contains all functions you can build by _combining_ functions 
   ],
 )
 
-#Block(color: red)[
+#note[
   *Practical constraint:* Manufacturing circuits with a single gate type (NAND or NOR) simplifies design, testing, and production.
 ]
 
 == Post's Five Classes
 
 #definition[
-  A Boolean function $f: {0,1}^n arrow.r {0,1}$ belongs to class:
+  A Boolean function $f: {0,1}^n to {0,1}$ belongs to class:
 
   + *$T_0$ (preserves 0):* $f(0, 0, ..., 0) = 0$
   + *$T_1$ (preserves 1):* $f(1, 1, ..., 1) = 1$
@@ -3186,10 +3226,8 @@ Informally, $[F]$ contains all functions you can build by _combining_ functions 
   ],
 )
 
-#Block(color: yellow)[
-  *Key property:* Each class is closed under composition.
-
-  If $F subset.eq C$ for some class $C$, then $[F] subset.eq C$, preventing completeness.
+#note[
+  Each class is closed under composition. If $F subset.eq C$ for some class $C$, then $[F] subset.eq C$, preventing completeness.
 ]
 
 == Post's Criterion
@@ -3214,23 +3252,20 @@ Informally, $[F]$ contains all functions you can build by _combining_ functions 
 
 Equivalently: $F$ is complete $iff$ $F$ is not contained in any Post class.
 
-#Block(color: blue)[
+#note[
   *Practical test:* To prove $F$ is complete, find five functions (possibly the same) escaping each class.
 ]
 
 == Post's Criterion: Intuition
 
-#Block(color: teal)[
-  Each Post class represents a "weakness":
+Each Post class represents a "weakness":
+- *$T_0$:* Cannot create constant 1 from all-0 input
+- *$T_1$:* Cannot create constant 0 from all-1 input
+- *$S$:* Cannot break symmetry between $x$ and $overline(x)$
+- *$M$:* Cannot decrease output when input increases
+- *$L$:* Cannot create nonlinear interactions (AND-like)
 
-  - *$T_0$:* Cannot create constant 1 from all-0 input
-  - *$T_1$:* Cannot create constant 0 from all-1 input
-  - *$S$:* Cannot break symmetry between $x$ and $overline(x)$
-  - *$M$:* Cannot decrease output when input increases
-  - *$L$:* Cannot create nonlinear interactions (AND-like)
-
-  Escaping all five weaknesses provides power to build any function.
-]
+Escaping all five weaknesses provides power to build any function.
 
 == Post's Criterion: Proof Sketch
 
@@ -3253,7 +3288,7 @@ This involves:
 
 *Step 3:* Since ${and, not}$ is complete, $[F]$ contains all functions. $qed$
 
-== Verifying Completeness: Examples
+== Verifying Completeness: Positive Examples
 
 #example[
   *Is ${and, or, not}$ complete?*
@@ -3267,8 +3302,6 @@ This involves:
 
   *Conclusion:* Complete! #YES
 ]
-
-#pagebreak()
 
 #example[
   *Is ${"NAND"}$ complete?*
@@ -3335,14 +3368,14 @@ Common functionally complete sets:
     [${and, or, not}$], [Textbooks, theory], [Classical basis],
     [${and, not}$], [TTL logic families], [Two-level logic],
     [${or, not}$], [Alternative basis], [Dual to {AND, NOT}],
-    [${not, arrow.r.double}$], [Logic programming], [Implication-based],
+    [${not, imply}$], [Logic programming], [Implication-based],
     [${"NAND"}$], [Digital circuits], [Single gate type],
     [${"NOR"}$], [Digital circuits], [Single gate type],
     [${xor, and, 1}$], [ANF synthesis], [Algebraic forms],
   )
 ]
 
-#Block(color: blue)[
+#note[
   *Design principle:* Minimal complete sets reduce hardware complexity and manufacturing costs.
 ]
 
@@ -3408,6 +3441,13 @@ Since ${"NAND"} = {nand}$ is complete, we can build any function using only NAND
   + *Universal gates*: NAND and NOR are individually complete
 ]
 
+#Block(color: yellow)[
+  *Key insight:*
+  Post's theorem gives us a _complete characterization_ of functional completeness.
+  To check if a set is complete, just verify it has one function escaping each of the five classes.
+  This is why NAND alone is universal --- it escapes all five classes.
+]
+
 #grid(
   columns: 2,
   gutter: 1em,
@@ -3420,10 +3460,10 @@ Since ${"NAND"} = {nand}$ is complete, we can build any function using only NAND
     - Understanding expressiveness limits
   ],
 
-  Block(color: teal)[
-    *Looking ahead:* How do we implement these Boolean functions in actual hardware?
-
-    *Next:* Digital circuits, gates, and flip-flops.
+  Block(color: blue)[
+    *What's next:*
+    We've mastered the _theory_: Boolean algebra, normal forms, minimization, ANF, completeness.
+    Now we implement these ideas in _hardware_: logic gates, combinational circuits, sequential circuits.
   ],
 )
 
@@ -3459,10 +3499,7 @@ Boolean algebra provides the mathematical foundation for digital circuit design.
   ],
 )
 
-#Block(color: blue)[
-  *Connection:* Boolean expressions translate directly to logic gate networks.
-  Circuit optimization uses the same algebraic laws we've studied.
-]
+*Connection:* Boolean expressions translate directly to logic gate networks. Circuit optimization uses the algebraic laws we've studied.
 
 == Logic Gate Standards
 
@@ -3472,16 +3509,8 @@ Two main notation standards for logic gates:
   *ANSI/IEEE Std 91-1984* and *IEC 60617* define standardized symbols for logic gates used in circuit diagrams.
 ]
 
-#Block(color: teal)[
-  *Two symbol styles:*
-  - *Distinctive shapes* (American): AND = D-shape, OR = shield, etc.
-  - *Rectangular* (IEC): All gates use rectangles with symbols inside
-
-  We primarily use distinctive shapes (more intuitive for learning).
-]
-
 #note[
-  Both standards are widely used in industry. Engineers must recognize both notations.
+  Two styles exist: *Distinctive shapes* (American: AND = D-shape, OR = shield) and *Rectangular* (IEC: rectangles with symbols). We use distinctive shapes. Both are widely used in industry.
 ]
 
 == Standard Logic Gates: Visual Symbols
@@ -3556,7 +3585,7 @@ Two main notation standards for logic gates:
 
 == Universal Gates: The Ultimate Minimalism
 
-#Block(color: green)[
+#Block(color: teal)[
   *The manufacturing dream:*
 
   In the early days of computing (1950s-60s), every different gate type required:
@@ -4033,7 +4062,7 @@ Now that we've seen various combinational circuits, let's consider: *How do we m
 + *Fanout:* Number of gates driven by one output (affects loading)
 + *Power consumption:* Fewer transitions $=>$ less energy
 
-#Block(color: blue)[
+#note[
   These objectives often conflict! Minimization requires trade-offs.
 ]
 
@@ -4109,8 +4138,8 @@ Now that we've seen various combinational circuits, let's consider: *How do we m
 
 == Sequential Circuits: The Need for Memory
 
-#Block(color: red)[
-  *Everything we've built so far has one big problem:* No memory!
+#Block(color: purple)[
+  *Limitation of combinational circuits:* No memory!
 ]
 
 #columns(2)[
@@ -4260,8 +4289,8 @@ Now that we've seen various combinational circuits, let's consider: *How do we m
 
 == Why Truth Tables Fail for Sequential Circuits
 
-#Block(color: red)[
-  *Here's the key point:* An SR latch cannot be described by a simple Boolean function $Q = f(S, R)$!
+#Block(color: yellow)[
+  *Key insight:* An SR latch cannot be described by a simple Boolean function $Q = f(S, R)$ because it depends on _previous state_.
 ]
 
 #place(right)[
@@ -4535,16 +4564,8 @@ Same inputs, different outputs! This violates the basic idea of a function.
   _Metastability_ occurs when a flip-flop input changes too close to the clock edge, causing the output to hover in an undefined state before settling.
 ]
 
-#Block(color: red)[
-  *Setup time* ($t_"setup"$): Minimum time input must be stable before clock edge
-
-  *Hold time* ($t_"hold"$): Minimum time input must remain stable after clock edge
-
-  Violating these timing constraints causes metastability!
-]
-
 #note[
-  Metastability cannot be completely eliminated but can be made arbitrarily rare with proper synchronizer design (multi-stage flip-flops).
+  *Timing constraints:* Setup time ($t_"setup"$): input stable before clock; Hold time ($t_"hold"$): input stable after clock. Violating these causes metastability. Proper synchronizer design (multi-stage flip-flops) reduces risk.
 ]
 
 == Arithmetic Logic Unit (ALU) Overview
@@ -4607,25 +4628,24 @@ Same inputs, different outputs! This violates the basic idea of a function.
   )
 ]
 
+#Block(color: yellow)[
+  *Key insight:*
+  Boolean algebra provides the _perfect mathematical model_ for combinational circuits.
+  Every gate, every circuit, every processor follows these algebraic laws.
+  Sequential circuits add time and state, requiring flip-flops and temporal reasoning.
+]
+
 #Block(color: blue)[
-  *Critical insights:*
-  - Boolean algebra describes combinational circuits perfectly
-  - Sequential circuits require state machines and temporal logic
-  - Real hardware has timing, power, and reliability constraints
-  - Minimization involves trade-offs between speed, area, and power
+  *From theory to silicon:*
+  We've seen how abstract Boolean algebra (1854) connects to physical circuits (transistors, gates, propagation delays).
+  This is the bridge from mathematics to the processors running everything in the digital world.
 ]
 
 
 = The Journey Complete
 #focus-slide()
 
-== From Zero to Hero: What You've Mastered
-
-#Block(color: green)[
-  *Congratulations!* You've journeyed from abstract algebra to real silicon.
-
-  Let's appreciate what you can now do that seemed impossible at the start:
-]
+== What You've Mastered
 
 #grid(
   columns: 2,
@@ -4648,8 +4668,8 @@ Same inputs, different outputs! This violates the basic idea of a function.
   ],
 )
 
-#Block(color: red)[
-  *The Big Picture:*
+#Block(color: blue)[
+  *The complete picture:*
 
   When you write `if (user.isLoggedIn && !user.isBanned)` in your code, you now understand the ENTIRE chain:
   - Boolean algebra: $x and (not y)$
@@ -4662,99 +4682,64 @@ Same inputs, different outputs! This violates the basic idea of a function.
   You understand it ALL --- from philosophy (Boole, 1854) to physics (transistors, 2024)!
 ]
 
-== The Unreasonable Effectiveness of Simple Ideas
+== Applications of Boolean Algebra
 
-#Block(color: purple)[
-  *The miracle of Boolean algebra:*
+#Block(color: green)[
+  *Where Boolean algebra lives in the real world:*
 
-  Just TWO values: 0 and 1. \
-  Just THREE operations: AND, OR, NOT. \
-  From this simplicity comes _infinite complexity._
+  #columns(2)[
+    *Computing & Hardware:*
+    - CPU architecture and processor design
+    - FPGA programming and digital circuit synthesis
+    - Memory systems (cache, RAM)
+    - ALU design and arithmetic circuits
 
-  Your smartphone has ~100 billion transistors. \
-  Every single one follows Boolean logic. \
-  Together, they run:
-  - AI models with trillions of parameters
-  - Graphics rendering at 120 FPS
-  - Secure communications protecting billions of users
-  - All while fitting in your pocket
+    *Security & Verification:*
+    - Cryptography (AES S-boxes, stream ciphers)
+    - Algebraic cryptanalysis and attacks
+    - Formal verification (SAT/SMT solvers)
+    - Hardware security modules
 
-  *This is the power of mathematical abstraction.*
+    #colbreak()
+
+    *Software & Optimization:*
+    - Compiler optimization (Boolean expression simplification)
+    - Database query optimization
+    - AI hardware accelerators (TPUs, GPUs)
+    - Model checking and program analysis
+
+    *Algorithms & Theory:*
+    - Satisfiability problems (3-SAT, NP-completeness)
+    - Binary decision diagrams (BDDs)
+    - Coding theory (Reed-Muller codes)
+    - Error detection and correction
+  ]
 ]
 
-== Where Boolean Algebra Lives Today
+== Summary: The Complete Journey
+
+From George Boole's 1854 "Laws of Thought" to Claude Shannon's 1937 breakthrough connecting algebra to circuits, Boolean algebra became the foundation of digital computing.
+
+#Block(color: purple)[
+  *What we've mastered:*
+
+  + *Algebraic structure:* Axioms, laws, duality, lattices
+  + *Normal forms:* DNF/CNF, minterms/maxterms, SoP/PoS, Shannon expansion
+  + *Minimization:* K-maps (visual), Quine-McCluskey (systematic), algebraic methods
+  + *ANF:* Unique canonical form, algebraic degree, cryptographic applications
+  + *Functional completeness:* Post's five classes, universal gates (NAND/NOR)
+  + *Digital circuits:* Combinational (gates, adders) and sequential (latches, flip-flops)
+]
 
 #Block(color: yellow)[
-  *You now have the foundation to understand:*
-
-  - *CPU Architecture:* How processors execute billions of instructions/second
-  - *Cryptography:* Why AES is secure (algebraic degree 7!)
-  - *Formal Verification:* Proving software correctness with SAT solvers
-  - *AI Hardware:* TPUs optimizing matrix operations in Boolean circuits
-  - *Quantum Computing:* Quantum gates as unitary operations (next-level Boolean algebra!)
-  - *Database Systems:* Query optimization using Boolean predicate logic
-  - *Compilers:* Transforming high-level code to optimized machine instructions
+  *Core insight:*
+  Simple operations ($and$, $or$, $not$) on two values (0, 1) generate the entire computational universe.
+  Boolean algebra provides the _perfect mathematical model_ for digital computation --- every gate, every circuit, every processor follows these algebraic laws.
 ]
 
 #Block(color: blue)[
-  *The tools you've mastered:*
-  - Truth tables (brute force enumeration)
-  - Algebraic manipulation (laws and identities)
-  - K-maps (visual optimization for small functions)
-  - Quine-McCluskey (systematic minimization)
-  - ANF (cryptographic analysis and unique representation)
-  - Post's criterion (theoretical completeness testing)
-  - Circuit design (from abstraction to silicon)
-
-  Each tool has its place. Master them all, use the right one for each problem!
-]
-
-== The Road Ahead
-
-#Block(color: teal)[
-  *What's next in your Boolean journey:*
-
-  *Immediate applications:*
-  - Design your own processor (take a computer architecture course!)
-  - Implement cryptographic algorithms (learn about AES, RSA)
-  - Build formal verification tools (SAT/SMT solvers)
-  - Optimize database queries (Boolean predicate logic)
-
-  *Advanced topics:*
-  - Binary Decision Diagrams (BDDs): Canonical graph representation
-  - Model checking: Automated verification of hardware/software
-  - Hardware description languages: Verilog, VHDL
-  - Quantum circuits: Extending Boolean logic to quantum mechanics
-]
-
-== Final Words: The Beauty of Simplicity
-
-#Block(color: red)[
-  *Remember George Boole* (1815-1864):
-
-  He died thinking his work was "mere philosophy" with no practical value.
-
-  *Remember Claude Shannon* (1916-2001):
-
-  At age 21, he connected Boole's algebra to circuits and changed the world forever.
-
-  *Remember yourself today*:
-
-  You've learned the mathematics that powers _literally everything_ in modern computing.
-  From the phone in your pocket to the supercomputers simulating the universe.
-  From encrypted messages to AI making decisions.
-  It's ALL Boolean algebra.
-
-  When people ask "why study abstract math?" show them this:
-  The most practical technology in human history is built on the "useless" philosophy of a 19th-century mathematician.
-
-  *That's the beauty and power of mathematics.*
-]
-
-#align(center)[
-  #text(size: 1.5em, fill: gradient.linear(..color.map.rainbow))[
-    *Now go build something amazing!*
-  ]
+  *Tools you can now use:*
+  Truth tables (enumeration), algebraic manipulation (laws), K-maps (visual optimization), Quine-McCluskey (systematic), ANF (cryptanalysis), Post's criterion (completeness), circuit design (from abstraction to silicon).
 ]
 
 
