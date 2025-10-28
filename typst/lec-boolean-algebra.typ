@@ -543,23 +543,22 @@ From the axioms, we can prove many useful identities:
   If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or <=> and$ and $0 <=> 1$) also holds.
 ]
 
-#example[
-  #align(center)[
-    #table(
-      columns: 3,
-      align: (left, center, left),
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Original Identity*], [*$<=>$*], [*Dual Identity*]),
-      [$x or 0 = x$], [], [$x and 1 = x$],
-      [$x or (x and y) = x$], [], [$x and (x or y) = x$],
-      [$not (x or y) = not x and not y$], [], [$not (x and y) = not x or not y$],
-      [$x or 1 = 1$], [], [$x and 0 = 0$],
-    )
-  ]
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Original Identity*], [*$<=>$*], [*Dual Identity*]),
+    [$x or 0 = x$], [], [$x and 1 = x$],
+    [$x or (x and y) = x$], [], [$x and (x or y) = x$],
+    [$not (x or y) = not x and not y$], [], [$not (x and y) = not x or not y$],
+    [$x or 1 = 1$], [], [$x and 0 = 0$],
+  )
 ]
 
 #Block(color: yellow)[
   *Practical consequence:* Every theorem proved gives two results.
+
   This symmetry reflects the dual structure of Boolean algebra axioms.
 ]
 
@@ -567,56 +566,57 @@ From the axioms, we can prove many useful identities:
 
 #theorem[De Morgan's Laws][
   For all $x, y$ in a Boolean algebra:
-  - $not (x or y) = not x and not y$
-  - $not (x and y) = not x or not y$
+  $
+     not (x or y) & = not x and not y \
+    not (x and y) & = not x or not y
+  $
 ]
 
-#proof[
-  We prove $not (x or y) = not x and not y$ by showing that $not x and not y$ is the complement of $x or y$.
-
-  Need to verify:
-  + $(x or y) or (not x and not y) = 1$
-  + $(x or y) and (not x and not y) = 0$
-
-  (Full proof uses distributivity and complement laws.)
+#Block(color: yellow)[
+  *Intuition:* "NOT flips everything" --- negation distributes by _swapping_ AND $<=>$ OR!
 ]
 
-#example[
-  Negating compound conditions:
-  - `!(is_admin || has_permission)` $equiv$ `!is_admin && !has_permission`
-  - `!(x > 5 || y < 0)` $equiv$ `(x <= 5 && y >= 0)`
-]
+#grid(
+  columns: 2,
+  gutter: 1em,
+  example[
+    Code conditionals
 
-#Block(color: blue)[
-  *Application in code optimization:* De Morgan's laws enable simplification of conditional expressions and boolean circuit minimization.
-]
+    `!(admin || vip)` $equiv$ `!admin && !vip`
+
+    "Neither admin nor VIP"
+  ],
+  example[
+    Circuit optimization
+
+    $overline(A + B) = overline(A) dot overline(B)$
+
+    NAND gate $equiv$ AND + NOT
+  ],
+)
 
 == Connection to Lattices
 
 #definition[
   A _lattice_ is a partially ordered set where any two elements $x, y$ have:
-  - A _least upper bound_ (join): $x or y$
-  - A _greatest lower bound_ (meet): $x and y$
+  - A _least upper bound_ (join): $x Join y$
+  - A _greatest lower bound_ (meet): $x Meet y$
 ]
 
 #definition[
   A _bounded distributive lattice_ is a lattice with bottom $bot$, top $top$, and distributivity:
   $
-    x and (y or z) = (x and y) or (x and z)
+    x Meet (y Join z) = (x Meet y) Join (x Meet z)
   $
 ]
 
 #definition[
-  A _complemented lattice_ is a bounded lattice where every element $x$ has a complement $y$ such that $x or y = top$ and $x and y = bot$.
+  A _complemented lattice_ is a bounded lattice where every element $x$ has a complement $y$ such that $x Join y = top$ and $x Meet y = bot$.
 ]
 
 #theorem[
   Every Boolean algebra is a complemented bounded distributive lattice.
 ]
-
-// #Block(color: blue)[
-//   *Why this matters:* Lattice theory provides the geometric intuition (Hasse diagrams, ordering) for Boolean algebra's algebraic structure.
-// ]
 
 == Complement Uniqueness
 
@@ -897,7 +897,7 @@ We can index minterms and maxterms by their binary representations:
 ]
 
 #Block(color: blue)[
-  *Why it works:* Each minterm is 1 for exactly one row $arrow.r$ OR gives 1 when ANY minterm is 1.
+  *Why it works:* Each minterm is 1 for exactly one row $=>$ OR gives 1 when ANY minterm is 1.
 ]
 
 == SoP: Example
