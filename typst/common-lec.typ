@@ -73,35 +73,34 @@
   #grid(
     columns: 4,
     panel(color: blue)[Set \ Theory][
-      - Basic operations
-      - Venn diagrams
+      - Operations & laws
       - Power sets
-      - Cardinality
       - Russell's paradox
       - ZFC axioms
+      - Cartesian products
+      - Cardinality
     ],
     panel(color: green)[Binary \ Relations][
       - Relation properties
-      - Equivalence classes
-      - Partial orders
+      - Equivalence relations
       - Functions
-      - Composition
+      - Partial orders
       - Lattices
+      - Well-orders
     ],
     panel(color: purple)[Boolean \ Algebra][
-      - Truth tables
+      - Truth tables & laws
       - Logic circuits
       - Normal forms
       - Karnaugh maps
-      - Binary decision diagrams (BDDs)
+      - Binary Decision Diagrams (BDDs)
     ],
     panel(color: orange)[Formal \ Logic][
-      - Propositional logic
+      - Syntax & semantics
       - Natural deduction
-      - Predicate logic
+      - Soundness & completeness
       - Categorical logic
-      - Gödel's theorems
-      - Automated reasoning
+      - First-order logic
     ],
   )
 ]
