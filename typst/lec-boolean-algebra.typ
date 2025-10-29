@@ -95,9 +95,9 @@ In Boolean algebra, we work with exactly two values:
 
 #example[
   In different contexts:
-  - *Mathematics:* Predicate evaluation: "Is $x > 5$?" → 0 or 1
-  - *Programming:* `if (user.isLoggedIn && user.hasPermission)` → boolean value
-  - *Digital circuits:* Wire voltage → LOW (≈0V) or HIGH (≈3.3V)
+  - *Mathematics:* Predicate evaluation: "Is $x > 5$?" $=>$ 0 or 1
+  - *Programming:* `if (user.isLoggedIn && user.hasPermission)` $=>$ boolean value
+  - *Digital circuits:* Wire voltage $=>$ LOW (≈0V) or HIGH (≈3.3V)
   - *Set theory:* Characteristic function: $chi_A (x) = cases(1 "if" x in A, 0 "if" x in.not A)$
 ]
 
@@ -2378,7 +2378,7 @@ These differences enable important applications:
 
   Total: $2^3 = 8$ possible monomials (including constant 1).
 
-  Each monomial either appears in ANF or doesn't → $2^8 = 256$ possible ANFs for 3 variables.
+  Each monomial either appears in ANF or doesn't $=>$ $2^8 = 256$ possible ANFs for 3 variables.
 ]
 
 #note[
