@@ -284,7 +284,7 @@ We can build truth tables for complex expressions step by step.
   #align(center)[
     #table(
       columns: 6,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.8pt) },
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([*$x$*], [*$y$*], [*$z$*], [*$x and y$*], [*$not x and z$*], [*$(x and y) or (not x and z)$*]),
       [0], [0], [0], [0], [0], [0],
@@ -296,7 +296,6 @@ We can build truth tables for complex expressions step by step.
       [1], [0], [1], [0], [0], [0],
       [1], [1], [0], [1], [0], [1],
       [1], [1], [1], [1], [0], [1],
-      table.hline(stroke: 0.4pt + gray),
     )
   ]
 ]
