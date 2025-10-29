@@ -856,14 +856,14 @@ We can index minterms and maxterms by their binary representations:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Index*], [*Binary*], [*Minterm $m_i$*], [*Maxterm $M_i$*]),
-      [0], [000], [$not x and not y and not z$], [$x or y or z$],
-      [1], [001], [$not x and not y and z$], [$x or y or not z$],
-      [2], [010], [$not x and y and not z$], [$x or not y or z$],
-      [3], [011], [$not x and y and z$], [$x or not y or not z$],
-      [4], [100], [$x and not y and not z$], [$not x or y or z$],
-      [5], [101], [$x and not y and z$], [$not x or y or not z$],
-      [6], [110], [$x and y and not z$], [$not x or not y or z$],
-      [7], [111], [$x and y and z$], [$not x or not y or not z$],
+      [0], [000], [$overline(x) thin overline(y) thin overline(z)$], [$x + y + z$],
+      [1], [001], [$overline(x) thin overline(y) z$], [$x + y + overline(z)$],
+      [2], [010], [$overline(x) y thin overline(z)$], [$x + overline(y) + z$],
+      [3], [011], [$overline(x) y z$], [$x + overline(y) + overline(z)$],
+      [4], [100], [$x thin overline(y) thin overline(z)$], [$overline(x) + y + z$],
+      [5], [101], [$x thin overline(y) z$], [$overline(x) + y + overline(z)$],
+      [6], [110], [$x y thin overline(z)$], [$overline(x) + overline(y) + z$],
+      [7], [111], [$x y z$], [$overline(x) + overline(y) + overline(z)$],
     )
   ]
 ]
@@ -914,15 +914,14 @@ We can index minterms and maxterms by their binary representations:
   *Step 1:* Identify rows where $f = 1$: rows 1, 3, 6, 7
 
   *Step 2:* Write corresponding minterms:
-  - Row 1 (001): $m_1 = not x and not y and z$
-  - Row 3 (011): $m_3 = not x and y and z$
-  - Row 6 (110): $m_6 = x and y and not z$
-  - Row 7 (111): $m_7 = x and y and z$
+  - Row 1 (001): $m_1 = overline(x) thin overline(y) z$
+  - Row 3 (011): $m_3 = overline(x) y z$
+  - Row 6 (110): $m_6 = x y overline(z)$
+  - Row 7 (111): $m_7 = x y z$
 
   *Step 3:* OR them together:
   $
     f & = m_1 or m_3 or m_6 or m_7 = \
-      & = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z) = \
       & = overline(x) thin overline(y) z + overline(x) y z + x y overline(z) + x y z
   $
 ]
@@ -939,7 +938,7 @@ We can index minterms and maxterms by their binary representations:
   For the *same function*, use rows where $f = 0$ (rows 0, 2, 4, 5):
   $
     f & = M_0 and M_2 and M_4 and M_5 \
-      & = (x or y or z) and (x or not y or z) and (not x or y or z) and (not x or y or not z)
+      & = (x + y + z) dot (x + overline(y) + z) dot (overline(x) + y + z) dot (overline(x) + y + overline(z))
   $
 ]
 
