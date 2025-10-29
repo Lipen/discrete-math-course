@@ -782,7 +782,7 @@ Think of literals as the simplest meaningful statements:
 
 #Block(color: yellow)[
   *Intuition:*
-  DNF says "the output is 1 if ANY of these scenarios happen," where each scenario is a specific combination of variable values.
+  DNF says "the output is 1 if ANY of these scenarios (combinations) happen."
 ]
 
 == Conjunctive Normal Form (CNF)
