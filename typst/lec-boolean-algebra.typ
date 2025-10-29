@@ -67,7 +67,7 @@
 
 #Block(color: yellow)[
   *Core principle:* Boolean algebra operates on truth values ($0$ and $1$) using operations like AND, OR, and NOT.
-  This binary structure maps directly to physical switches, voltage levels, and logical decisions.
+  This binary structure maps directly to voltage levels and logical decisions.
 ]
 
 #columns(2)[
