@@ -181,20 +181,17 @@ We combine Boolean variables using operations (connectives) to express complex l
 ]
 
 #example[Access control policy][
-  Database query: `SELECT * FROM users WHERE (is_admin OR has_permission) AND NOT is_banned`
+  Database query:
 
-  Boolean expression: $(x or y) and not z$
+  `SELECT * FROM users WHERE (is_admin OR has_permission) AND NOT is_banned;`
 
-  This pattern appears in:
-  - Authentication systems (checking multiple credentials)
-  - File permissions (read AND write access)
-  - Network firewalls (allow/deny rules)
-  - Compiler optimization (conditional evaluation)
+  Formula: $(#`admin` or #`permission`) and not #`banned`$
+  - admin=#True, permission=#False, banned=#False $=>$ access granted #YES
+  - admin=#False, permission=#True, banned=#True $=>$ access denied #NO
 ]
 
 #Block(color: orange)[
-  *Note:* In Boolean logic, OR is _inclusive_ (allows both to be true).
-  The expression $x or y$ means "at least one," possibly both.
+  *Note:* OR is _inclusive_ --- $x or y$ means "at least one," possibly both!
 ]
 
 == Derived Operations: Building Blocks
