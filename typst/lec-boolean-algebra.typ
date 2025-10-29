@@ -57,121 +57,141 @@
 
 == From Algebra to Digital Circuits
 
-#Block(color: teal)[
-  #set par(justify: true)
-  *Historical context:* #h(0.2em)
-  George Boole's _Laws of Thought_ (1854) created an algebraic system for logic a century before electronic computers.
-  In 1937, Claude Shannon's Master's thesis demonstrated that Boolean algebra could systematically design switching circuits.
-  This connection became the theoretical foundation for all digital computation.
-]
+#grid(
+  columns: (1.2fr, 1fr),
+  gutter: 1.5em,
+  [
+    #Block(color: teal)[
+      *1854:* George Boole publishes _Laws of Thought_ --- treats logic as algebra with operations on {0,1}
+
+      *1937:* Claude Shannon's Master's thesis proves Boolean algebra can systematically design relay circuits
+
+      *1948:* Transistor invented → Boolean algebra becomes foundation of digital electronics
+
+      *Today:* Every processor, memory chip, network router built on Boolean algebra principles
+    ]
+  ],
+  [
+    *Where you'll see this:*
+    - SAT solvers (NP-complete!)
+    - Hardware synthesis tools
+    - Cryptographic S-boxes
+    - Model checkers (NuSMV)
+    - Database query planners
+    - Circuit optimizers (ABC)
+  ],
+)
 
 #Block(color: yellow)[
-  *Core principle:* Boolean algebra operates on truth values ($0$ and $1$) using operations like AND, OR, and NOT.
-  This binary structure maps directly to voltage levels and logical decisions.
+  *The bridge:* Abstract algebra (0, 1, AND, OR, NOT) $arrow.r.double$ Physical reality (voltages, transistors, gates)
 ]
 
-#columns(2)[
-  *Timeline:*
-  - *1703:* Leibniz --- binary arithmetic
-  - *1854:* Boole --- algebraic logic
-  - *1937:* Shannon --- circuit theory
-  - *Today:* 100+ billion transistors per chip
+== Lecture Overview
 
-  #colbreak()
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
+  [
+    *Foundations:*
+    - Variables, operations, expressions
+    - Truth tables & equivalence
+    - Algebraic laws (with proofs!)
+    - Duality principle
+  ],
+  [
+    *Representations:*
+    - Normal forms: DNF, CNF, ANF
+    - Canonical forms (minterms/maxterms)
+    - Shannon expansion
+    - Functional completeness (Post's theorem)
+  ],
+)
 
-  *Applications:*
-  - Processor design (CPUs, GPUs)
-  - Database queries and optimization
-  - SAT solving and formal verification
-  - Cryptographic algorithms
-  - AI reasoning systems
-]
-
-== Boolean Values: 0 and 1
-
-In Boolean algebra, we work with exactly two values:
-- *0* (#False, off, low voltage, empty, ⊥)
-- *1* (#True, on, high voltage, full, ⊤)
-
-#example[
-  In different contexts:
-  - *Mathematics:* Predicate evaluation: "Is $x > 5$?" $=>$ 0 or 1
-  - *Programming:* `if (user.isLoggedIn && user.hasPermission)` $=>$ boolean value
-  - *Digital circuits:* Wire voltage $=>$ LOW (≈0V) or HIGH (≈3.3V)
-  - *Set theory:* Characteristic function: $chi_A (x) = cases(1 "if" x in A, 0 "if" x in.not A)$
-]
-
-#Block(color: blue)[
-  *Physical realization:*
-  Modern computers represent all data using binary encoding.
-  The two-valued logic maps naturally to physical systems: transistor states (on/off), voltage levels (high/low), magnetic orientation (north/south).
-  Boolean algebra provides the mathematics for manipulating these binary representations.
-]
-
-== What You Will Master
-
-In this lecture, you'll journey from abstract algebra to circuit implementation:
-
-+ *Foundations:* Build Boolean expressions and evaluate them using truth tables
-+ *Algebraic structure:* Master fundamental laws and prove identities
-+ *Synthesis:* Construct any Boolean function from specifications (DNF, CNF)
-+ *Optimization:* Minimize expressions using K-maps and Quine-McCluskey
-+ *Completeness:* Determine which operation sets are functionally complete
-+ *Implementation:* Design digital circuits with gates and memory elements
-+ *Advanced topics:* Explore ANF, BDDs, and applications in cryptography
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
+  [
+    *Minimization:*
+    - K-maps (visual method)
+    - Quine-McCluskey (systematic)
+    - Prime implicants & covers
+    - Don't-care optimization
+  ],
+  [
+    *Implementation:*
+    - Logic gates & circuits
+    - Sequential logic (latches, flip-flops)
+    - Hazards & timing
+    - Real hardware considerations
+  ],
+)
 
 
 = Variables and Expressions
 #focus-slide()
 
-== The Language of Boolean Logic
-
-Just like natural languages have words and grammar rules, Boolean algebra has its own building blocks and composition rules.
-
-#columns(2)[
-  *Natural Language:*
-  - Words: "cat", "dog"
-  - Connectors: "and", "or", "not"
-  - Sentences: "Cat is black and dog is not white"
-
-  #colbreak()
-
-  *Boolean Algebra:*
-  - Variables: $x$, $y$
-  - Operations: $and$, $or$, $not$
-  - Expressions: $x and not y$
-]
-
-#Block(color: blue)[
-  *Goal:*
-  Learn the "grammar" of Boolean logic --- how to write and read Boolean expressions that represent logical relationships.
-]
-
-== Boolean Variables: The Atoms
+== Syntax: Building Blocks
 
 #definition[
-  A _Boolean variable_ is a variable that can take only one of two values: $0$ (false) or $1$ (true).
+  *Boolean variable:* $x in {0, 1}$ --- represents a binary value
+
+  *Boolean constant:* $0$ (false) or $1$ (true)
+
+  *Boolean operations:*
+  - $not x$ --- negation (NOT)
+  - $x and y$ --- conjunction (AND)
+  - $x or y$ --- disjunction (OR)
+
+  *Boolean expression:* Built recursively from variables, constants, and operations
 ]
 
-Think of Boolean variables as yes/no questions:
-
 #example[
-  Real-world Boolean variables (in programming):
-  - `is_logged_in` --- Is the user logged in? (yes/no)
-  - `has_permission` --- Does user have permission? (yes/no)
-  - `sensor_triggered` --- Did the sensor activate? (yes/no)
-  - $x > 5$ --- Is $x$ greater than 5? (true/false)
+  Valid expressions:
+  - $x$ --- just a variable
+  - $not (x and y)$ --- negation of conjunction
+  - $(x or y) and (not z or w)$ --- complex nesting
+  - $((not x) or y) and ((not y) or x)$ --- equivalent to $x iff y$
+]
+
+== Semantics: What Expressions Mean
+
+Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arrow {0,1}$
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
+  [
+    *Mathematical perspective:*
+    - Expression: $(x > 5) and (y <= 10)$
+    - Function: Maps pairs $(x,y)$ to true/false
+    - Domain: All real number pairs
+    - Codomain: ${0, 1}$
+  ],
+  [
+    *Hardware perspective:*
+    - Expression: $"Enable" and not "Reset"$
+    - Circuit: AND gate + NOT gate
+    - Input: Two voltage signals
+    - Output: High/Low voltage
+  ],
+)
+
+#Block(color: purple)[
+  *Model checking application:*
+  Given system with $n$ Boolean state variables, model checker explores transition graph with $2^n$ nodes.
+  For $n=30$ variables, that's around 1 billion states!
+  Symbolic methods (BDDs) represent state sets compactly using Boolean formulas.
 ]
 
 #Block(color: yellow)[
   *Why binary?*
-  Digital circuits use voltage levels (high/low), making binary the natural choice for computation.
-  Every piece of data in your computer is ultimately represented as 0s and 1s.
+  Digital circuits naturally operate on two voltage levels.
+  Every computation, every piece of data in your computer ultimately reduces to sequences of 0s and 1s.
 ]
 
 == Boolean Operations: Connecting Ideas
 
-We combine Boolean variables using operations (connectives) to express complex logic:
+We can combine Boolean variables using operations (connectives) to express complex logic:
 
 #definition[
   Basic Boolean operations:
@@ -196,13 +216,10 @@ We combine Boolean variables using operations (connectives) to express complex l
 
 == Derived Operations: Building Blocks
 
-More complex operations built from the basic three:
+More complex operations can be built from the basic ones:
 
 #definition[
   Derived Boolean operations:
-  - *XOR* ($x xor y$): exclusive OR (true if exactly one is true)
-    - Formula: $(x and not y) or (not x and y)$
-    - Applications: error detection, encryption, bit manipulation
 
   - *Implication* ($x imply y$): "if $x$ then $y$"
     - Formula: $not x or y$
@@ -211,17 +228,57 @@ More complex operations built from the basic three:
   - *Equivalence* ($x iff y$): biconditional (true when values match)
     - Formula: $(x imply y) and (y imply x)$
     - Applications: equality testing, synchronization
+
+  - *XOR* ($x xor y$): exclusive OR (true if exactly one is true)
+    - Formula: $(x and not y) or (not x and y)$
+    - Applications: error detection, encryption, bit manipulation
 ]
 
-== Example: XOR Operation
+== XOR: The Troublemaker in SAT Solving
 
-#example[
-  XOR in computing:
-  - Parity checking: $p = x_1 xor x_2 xor dots.h.c xor x_n$
-  - Encryption: $c = m xor k$ (message XOR key)
-  - Variable swap: `x ^= y; y ^= x; x ^= y`
-  - Hash functions: mixing bits without bias
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  [
+    #example[SAT problem][
+      - Formula: $(x or y) and (not x or z)$
+      - CNF: 2 clauses, easy!
+      - DPLL solver: Unit propagation works beautifully
+      - Complexity: Polynomial propagation
+    ]
+  ],
+  [
+    #example[XOR constraint][
+      - Formula: $x xor y xor z = 0$
+      - CNF: $(x or y or z) and (x or not y or not z) and ...$
+      - Expansion: 4 clauses needed!
+      - Problem: Exponential blowup
+    ]
+  ],
+)
+
+#Block(color: orange)[
+  *Why this matters for cryptanalysis:* Modern ciphers (AES, SHA-256) use heavy XOR operations. Converting to CNF creates millions of clauses! Specialized XOR-SAT solvers (CryptoMiniSat) handle this with Gaussian elimination on $FF_2$ instead of clause learning.
 ]
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  [
+    *Other XOR applications:*
+    - Parity bits: $p = x_1 xor dots.h.c xor x_n$
+    - One-time pad: $c = m xor k$
+    - Variable swap: `x ^= y; y ^= x; x ^= y`
+    - CRC checksums
+  ],
+  [
+    *XOR properties:*
+    - $x xor 0 = x$ (identity)
+    - $x xor x = 0$ (self-inverse)
+    - $x xor y = y xor x$ (commutative)
+    - $(x xor y) xor z = x xor (y xor z)$ (associative)
+  ],
+)
 
 == Building Boolean Expressions
 
