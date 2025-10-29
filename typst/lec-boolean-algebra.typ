@@ -462,7 +462,7 @@ Now we study their _algebraic structure_: the operations and laws that govern ho
   For any set $A$, $(power(A), union, intersect, not, emptyset, A)$ is a Boolean algebra:
   - Join: $union$ (union)
   - Meet: $intersect$ (intersection)
-  - Complement: $X^c = A setminus X$
+  - Complement: $overline(X) = A setminus X$
   - Bottom: $emptyset$, Top: $A$
 ]
 
