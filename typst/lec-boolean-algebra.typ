@@ -728,13 +728,8 @@ Think of literals as the simplest meaningful statements:
 == Terms and Clauses
 
 #definition[
-  - A _term_ (or _product_, or _cube_) is a conjunction (AND) of literals
+  - A _cube_ (or _product_) is a conjunction (AND) of literals
   - A _clause_ (or _sum_) is a disjunction (OR) of literals
-]
-
-#note[
-  The term "cube" is commonly used in scientific literature for DNF components. \
-  We use "term" and "cube" interchangeably, but "cube" provides a unique geometric interpretation!
 ]
 
 #columns(2)[
@@ -770,10 +765,6 @@ Think of literals as the simplest meaningful statements:
   A Boolean formula is in _Disjunctive Normal Form (DNF)_ if it is a disjunction (OR) of cubes.
 
   General form: $(c_1) or (c_2) or dots or (c_k)$ where each $c_i$ is a cube (conjunction of literals).
-]
-
-#note[
-  In DNF, we use "cube" to refer to each AND-component. This terminology emphasizes the geometric interpretation and aligns with scientific literature on minimization.
 ]
 
 #example[
