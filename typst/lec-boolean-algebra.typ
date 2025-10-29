@@ -213,6 +213,8 @@ More complex operations built from the basic three:
     - Applications: equality testing, synchronization
 ]
 
+== Example: XOR Operation
+
 #example[
   XOR in computing:
   - Parity checking: $p = x_1 xor x_2 xor dots.h.c xor x_n$
