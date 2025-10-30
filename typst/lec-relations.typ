@@ -3438,7 +3438,7 @@ Functions can be characterized by several key properties that determine their ma
 == Converse Orders
 
 #definition[
-  The _dual_ (or _converse_) of a poset $pair(S, leq)$ is the poset $pair(S, geq)$ where $x geq y$ iff $y leq x$.
+  The _dual_ (or _converse_) of a poset $pair(S, leq)$ is the poset $pair(S, geq)$ where $x geq y$ iff $x leq y$.
 ]
 
 #example[
