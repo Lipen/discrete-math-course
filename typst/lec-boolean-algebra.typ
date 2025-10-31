@@ -143,7 +143,7 @@ Where Boolean algebra appears in computer science:
 #definition[
   *Boolean variable:* $x in {0, 1}$ --- represents a binary value
 
-  *Boolean constant:* $0$ (false) or $1$ (true)
+  *Boolean constants:* $0$ (false) and $1$ (true)
 
   *Boolean operations:*
   - $not x$ --- negation (NOT)
