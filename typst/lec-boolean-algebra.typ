@@ -393,7 +393,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
   #align(center)[
     #table(
       columns: 3,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
       table.header([*$x$*], [*$y$*], [*$x and y$*]),
       [0], [0], [0],
       [0], [1], [0],
