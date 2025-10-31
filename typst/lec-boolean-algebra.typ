@@ -1290,21 +1290,11 @@ We can index minterms and maxterms by their binary representations:
   + *Universality:* Every Boolean function has both DNF and CNF representations
 ]
 
-#note(title: "Terminology")[
-  "Cube" and "term" are interchangeable for DNF components, but "cube" provides unique geometric interpretation and aligns with minimization literature.
-]
-
 #Block(color: yellow)[
   *Key insight:*
   Normal forms let us synthesize ANY circuit from a truth table.
-  But canonical forms are often huge --- we need minimization techniques!
+  But _canonical_ forms are often huge --- we need _minimization_ techniques!
 ]
-
-// #Block(color: blue)[
-//   *What's next:*
-//   Canonical SoP/PoS work but are wasteful (many redundant gates).
-//   We'll learn minimization techniques: algebraic manipulation, K-maps (visual), and Quine-McCluskey (systematic).
-// ]
 
 
 = Minimization
