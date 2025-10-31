@@ -217,7 +217,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
     draw.content((rel: (-5pt, 0), to: "not"), label[NOT])
 
     // AND gate
-    element.gate-and(id: "and", x: 3, y: 0, w: 1.5, h: 1.5)
+    element.gate-and(id: "and", x: 3.5, y: 0, w: 1.5, h: 1.5)
     draw.content("and", label[AND])
 
     // OR gate
