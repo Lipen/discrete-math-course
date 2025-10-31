@@ -1257,6 +1257,8 @@ We can index minterms and maxterms by their binary representations:
 
 == Converting Between Forms
 
+// TODO: add the proper "algorithm", mention first converting equivalences to implications, expanding implications into OR, etc., and then pushing negation downwards, eliminating double negations, pushing OR/AND (for CNF/DNF) downwards, eliminating top/bot. Also probably mention NNF.
+
 #example[DNF to CNF using distribution][
   Given DNF: $(x and y) or (not x and z)$
 
