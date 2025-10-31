@@ -764,7 +764,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 #Block(color: blue)[
   Similarly, $x and (x or y) = x$ by dual reasoning.
 
-  Duality: swap $and$ ↔ $or$, $0$ ↔ $1$.
+  *Duality:* swap $and <=> or$ and $0 <=> 1$.
 ]
 
 == Circuit Optimization via Absorption
