@@ -964,13 +964,15 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
   - *Clause (sum):* disjunction (OR) of literals
 ]
 
-#example[
-  Cubes:
+#columns(2)[
+  Example _cubes_:
   - $x and y$
   - $x and not y and z$
   - $not x and not y and not z$
 
-  Clauses:
+  #colbreak()
+
+  Example _clauses_:
   - $x or y$
   - $x or not y or z$
   - $not x or not y or not z$
