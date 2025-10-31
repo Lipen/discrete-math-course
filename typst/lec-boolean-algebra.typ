@@ -1194,7 +1194,7 @@ We can index minterms and maxterms by their binary representations:
   Every Boolean function can be represented in both CNF and DNF.
 ]
 
-#proof[Sketch for DNF (SoP)][
+#proof[(sketch) for DNF (SoP)][
   Given a truth table:
   + For each row where output is 1, create the corresponding minterm
   + OR all these minterms together
@@ -1204,11 +1204,7 @@ We can index minterms and maxterms by their binary representations:
   - Each minterm is 1 for exactly one input combination
   - ORing them gives 1 exactly when the function should be 1
   - This construction is always possible and always correct
-]
-
-#Block(color: yellow)[
-  *Power of synthesis:*
-  Any Boolean function can be built from its truth table!
+    #qedhere
 ]
 
 == Shannon Expansion
