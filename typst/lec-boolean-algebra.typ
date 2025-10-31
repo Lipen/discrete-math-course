@@ -1851,9 +1851,9 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
     #table(
       columns: 3,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Truth Table*], [*SoP Terms*], [*PoS Clauses*]),
-      [2 ones, 6 zeros], [2 terms], [6 clauses],
-      [6 ones, 2 zeros], [6 terms], [2 clauses],
+      table.header([*Truth table*], [*SoP cubes*], [*PoS clauses*]),
+      [2 ones, 6 zeros], [2 minterms], [6 maxterms],
+      [6 ones, 2 zeros], [6 minterms], [2 maxterms],
     )
   ]
 
