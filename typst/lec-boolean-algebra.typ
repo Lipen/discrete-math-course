@@ -419,7 +419,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
   - Algebraic laws (rewriting)
   - Normal forms (DNF, CNF)
   - Symbolic methods (BDDs)
-  - SAT solvers (implicit representation)
+  - SAT solvers (work with CNF formulas, not truth tables)
 ]
 
 == Building Complex Truth Tables
