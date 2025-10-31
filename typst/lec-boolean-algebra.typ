@@ -1244,29 +1244,23 @@ We can index minterms and maxterms by their binary representations:
 
 == Converting Between Forms
 
-Converting between DNF and CNF can be tricky:
+#example[DNF to CNF using distribution][
+  Given DNF: $(x and y) or (not x and z)$
 
-#example[DNF to CNF using De Morgan's laws][
-  Start with DNF: $(x and y) or (not x and z)$
+  Convert to CNF by viewing as $(A or B)$ where $A = x and y$, $B = not x and z$:
+  $
+    f &= (x and y) or (not x and z) \
+      &= (x or (not x and z)) and (y or (not x and z)) \
+      &= (x or not x) and (x or z) and (y or not x) and (y or z) \
+      &= 1 and (x or z) and (y or not x) and (y or z) \
+      &= (x or z) and (not x or y) and (y or z)
+  $
 
-  *Step-by-step:*
-  + Negate: $not ((x and y) or (not x and z))$
-  + Apply De Morgan: $(not (x and y)) and (not (not x and z))$
-  + Apply De Morgan again: $(not x or not y) and (x or not z)$
-  + Double negate to get back: $not not ((not x or not y) and (x or not z))$
-
-  Result is CNF: $(not x or not y) and (x or not z)$
+  Result: CNF with 3 clauses (from DNF with 2 cubes).
 ]
 
 #Block(color: orange)[
-  *Warning:*
-  Direct algebraic conversion can cause exponential blowup in formula size!
-  For complex functions, use Karnaugh maps or other minimization techniques.
-]
-
-#Block(color: yellow)[
-  *Alternative:*
-  Build CNF/DNF directly from truth table using the SoP/PoS methods.
+  *Warning:* Conversion can cause exponential blowup --- DNF with $n$ cubes may need $2^n$ clauses in CNF!
 ]
 
 == Summary: Canonical Forms
