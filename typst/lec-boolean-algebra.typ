@@ -796,26 +796,29 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 == The Duality Principle
 
 #theorem[
-  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or arrow.l.r and$ and $0 arrow.l.r 1$) also holds.
+  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or <=> and$ and $0 <=> 1$) also holds.
 ]
 
-#example[
-  | Original | Dual |
-  |----------|------|
-  | $x or 0 = x$ | $x and 1 = x$ |
-  | $x or (x and y) = x$ | $x and (x or y) = x$ |
-  | $not (x or y) = not x and not y$ | $not (x and y) = not x or not y$ |
+#align(center)[
+  #table(
+    columns: 2,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Original*], [*Dual*]),
+    [$x or 0 = x$], [$x and 1 = x$],
+    [$x or (x and y) = x$], [$x and (x or y) = x$],
+    [$overline(x or y) = overline(x) and overline(y)$], [$overline(x and y) = overline(x) or overline(y)$],
+  )
 ]
 
 #Block(color: yellow)[
   *Free theorems:* Every proof gives TWO results!
-
-  This symmetry reflects dual structure of axioms.
 ]
 
 #Block(color: purple)[
-  *Deep connection:* Duality in Boolean algebra mirrors duality in category theory and order theory.
-  It's an instance of a universal mathematical pattern --- whenever you have two symmetric operations, you get dual theorems for free!
+  *Duality is built into the axioms:* AND and OR appear symmetrically in all five axiom groups.
+
+  This structural symmetry makes duality automatic, not a coincidence.
 ]
 
 == De Morgan's Laws
