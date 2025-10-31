@@ -217,7 +217,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
     draw.content((rel: (-5pt, 0), to: "not"), label[NOT])
 
     // AND gate
-    element.gate-and(id: "and", x: 3.5, y: 0, w: 1.5, h: 1.5)
+    element.gate-and(id: "and", x: 3, y: 0, w: 1.5, h: 1.5)
     draw.content("and", label[AND])
 
     // OR gate
@@ -226,11 +226,11 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 
     // Add stubs for all gates
     for id in ("not", "and", "or") {
-      wire.stub(id + "-port-in0", "west", length: 0.5)
+      wire.stub(id + "-port-in0", "west")
       if id != "not" {
-        wire.stub(id + "-port-in1", "west", length: 0.5)
+        wire.stub(id + "-port-in1", "west")
       }
-      wire.stub(id + "-port-out", "east", length: 0.5)
+      wire.stub(id + "-port-out", "east")
     }
   })
 ]
@@ -242,13 +242,61 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 == Derived Operations
 
 #definition[
+  - *XOR:* $x xor y equiv (x and not y) or (not x and y)$
   - *Implication:* $x imply y equiv not x or y$
   - *Equivalence:* $x iff y equiv (x imply y) and (y imply x)$
-  - *XOR:* $x xor y equiv (x and not y) or (not x and y)$
+]
+
+#align(center)[
+  #import "@preview/circuiteria:0.2.0"
+  #circuiteria.circuit({
+    import circuiteria: *
+    import "@preview/cetz:0.3.2": draw
+
+    let label(s) = text(size: 10pt, weight: "bold")[#s]
+
+    // XOR gate
+    element.gate-xor(id: "xor", x: 0, y: 0, w: 1.5, h: 1.5)
+    draw.content((rel: (0, -1.2), to: "xor"), label[XOR])
+
+    // Implication (no standard gate)
+    element.block(
+      x: 3.5,
+      y: 0,
+      w: 2,
+      h: 1.5,
+      id: "impl",
+      ports: (
+        west: ((id: "in0", name: "A"), (id: "in1", name: "B")),
+        east: ((id: "out"),),
+      ),
+    )
+    draw.content("impl", label[$imply$])
+    draw.content((rel: (0, -1.2), to: "impl"), label[IMPLY])
+
+    // Equivalence (XNOR gate)
+    element.gate-xnor(id: "xnor", x: 7.5, y: 0, w: 1.5, h: 1.5)
+    draw.content((rel: (0, -1.2), to: "xnor"), label[XNOR])
+
+    // Add stubs for all gates
+    wire.stub("impl-port-in0", "west")
+    wire.stub("impl-port-in1", "west")
+    wire.stub("impl-port-out", "east")
+
+    wire.stub("xnor-port-in0", "west")
+    wire.stub("xnor-port-in1", "west")
+    wire.stub("xnor-port-out", "east")
+
+    wire.stub("xor-port-in0", "west")
+    wire.stub("xor-port-in1", "west")
+    wire.stub("xor-port-out", "east")
+  })
 ]
 
 #Block(color: blue)[
-  All derived operations can be expressed using just NOT, AND, OR.
+  XOR and XNOR (equivalence) have dedicated gate symbols.
+
+  Implication has no standard gate — shown as a block and decomposed into NOT/AND/OR.
 ]
 
 == XOR in SAT Solving
@@ -3738,11 +3786,11 @@ Two main notation standards for logic gates:
 
     // Add stubs for all gates
     for id in ("and", "or", "not", "nand", "nor", "xor") {
-      wire.stub(id + "-port-in0", "west", length: 0.5)
+      wire.stub(id + "-port-in0", "west")
       if id != "not" {
-        wire.stub(id + "-port-in1", "west", length: 0.5)
+        wire.stub(id + "-port-in1", "west")
       }
-      wire.stub(id + "-port-out", "east", length: 0.5)
+      wire.stub(id + "-port-out", "east")
     }
   })
 ]
