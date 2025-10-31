@@ -1273,7 +1273,7 @@ We can index minterms and maxterms by their binary representations:
 ]
 
 #Block(color: orange)[
-  *Warning:* Conversion can cause exponential blowup --- DNF with $n$ cubes may need $2^n$ clauses in CNF!
+  *Warning:* Conversion can cause _exponential blowup_ --- DNF with $n$ cubes may need $2^n$ clauses in CNF!
 ]
 
 == Summary: Canonical Forms
