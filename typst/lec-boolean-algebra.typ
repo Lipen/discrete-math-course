@@ -1311,7 +1311,7 @@ But the result is often *not minimal*.
 #example[
   Consider $f(x, y, z) = (not x and not y and z) or (not x and y and z) or (x and y and not z) or (x and y and z)$
 
-  Canonical DNF: 4 terms, 12 literals total (7 gates needed).
+  Canonical DNF: 4 cubes, 12 literals total (7 gates needed).
 
   After minimization: $f = (not x and z) or (x and y)$ --- only 4 literals (3 gates).
 
@@ -1352,7 +1352,7 @@ But the result is often *not minimal*.
 #Block(color: green)[
   Different minimization criteria (goals) exist:
   - *Minimum literals:* Fewest total literal occurrences
-  - *Minimum terms:* Fewest product terms (DNF) or clauses (CNF)
+  - *Minimum terms:* Fewest cubes (DNF) or clauses (CNF)
   - *Minimum gates:* Fewest logic gates in circuit
   - *Minimum levels:* Shortest signal propagation path (depth)
 ]
@@ -1360,9 +1360,9 @@ But the result is often *not minimal*.
 #example[
   Function: $f = A B + A C + B C$
 
-  - Has 6 literals, 3 terms
+  - Has 6 literals, 3 cubes
   - Can be reduced to: $f = A B + A C$ (using consensus theorem)
-  - Now 4 literals, 2 terms
+  - Now 4 literals, 2 cubes
 ]
 
 #Block(color: yellow)[
@@ -1441,7 +1441,7 @@ But the result is often *not minimal*.
 
 #Block(color: yellow)[
   *Core idea:* K-maps transform algebraic minimization into visual pattern recognition.
-  Adjacent groups of 1s correspond to terms that can be simplified by eliminating variables.
+  Adjacent groups of 1s correspond to cubes that can be simplified by eliminating variables.
 ]
 
 #columns(2)[
