@@ -1112,7 +1112,7 @@ We can index minterms and maxterms by their binary representations:
 ]
 
 #Block(color: yellow)[
-  *Recipe:* Find rows where $f = 1$ $=>$ write minterms $m_i$ $=>$ OR them together.
+  *Recipe:* Find rows where $f = 1$ $==>$ write minterms $m_i$ $==>$ OR them together.
 ]
 
 #Block(color: blue)[
