@@ -57,34 +57,42 @@
 
 == From Algebra to Digital Circuits
 
-#grid(
-  columns: (1.2fr, 1fr),
-  gutter: 1.5em,
-  [
-    #Block(color: teal)[
-      *1854:* George Boole publishes _Laws of Thought_ --- treats logic as algebra with operations on {0,1}
+#Block(color: teal)[
+  *1854:* George Boole publishes _Laws of Thought_ --- treats logic as algebra with operations on {0,1}
 
-      *1937:* Claude Shannon's Master's thesis proves Boolean algebra can systematically design relay circuits
+  *1937:* Claude Shannon's Master's thesis proves Boolean algebra can systematically design relay circuits
 
-      *1948:* Transistor invented → Boolean algebra becomes foundation of digital electronics
+  *1948:* Transistor invented $=>$ Boolean algebra becomes foundation of digital electronics
 
-      *Today:* Every processor, memory chip, network router built on Boolean algebra principles
-    ]
-  ],
-  [
-    *Where you'll see this:*
-    - SAT solvers (NP-complete!)
-    - Hardware synthesis tools
-    - Cryptographic S-boxes
-    - Model checkers (NuSMV)
-    - Database query planners
-    - Circuit optimizers (ABC)
-  ],
-)
+  *Today:* Every processor, memory chip, network router built on Boolean algebra principles
+]
 
 #Block(color: yellow)[
-  *The bridge:* Abstract algebra (0, 1, AND, OR, NOT) $arrow.r.double$ Physical reality (voltages, transistors, gates)
+  *The bridge:* Abstract algebra (0, 1, AND, OR, NOT) $=>$ Physical reality (voltages, transistors, gates)
 ]
+
+== Modern Applications
+
+Where Boolean algebra appears in computer science:
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
+  [
+    *Theory:*
+    - SAT solvers (NP-complete!)
+    - Model checkers (NuSMV)
+    - Formal verification
+    - Complexity theory
+  ],
+  [
+    *Practice:*
+    - Hardware synthesis tools
+    - Circuit optimizers (ABC)
+    - Cryptographic S-boxes
+    - Database query planners
+  ],
+)
 
 == Lecture Overview
 
@@ -157,165 +165,188 @@
 
 Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arrow {0,1}$
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 1.5em,
-  [
-    *Mathematical perspective:*
-    - Expression: $(x > 5) and (y <= 10)$
-    - Function: Maps pairs $(x,y)$ to true/false
-    - Domain: All real number pairs
-    - Codomain: ${0, 1}$
-  ],
-  [
-    *Hardware perspective:*
-    - Expression: $"Enable" and not "Reset"$
-    - Circuit: AND gate + NOT gate
-    - Input: Two voltage signals
-    - Output: High/Low voltage
-  ],
-)
+#example[
+  Expression: $(x > 5) and (y <= 10)$
+
+  This defines a function that maps pairs $(x,y)$ to true or false.
+]
+
+#Block(color: blue)[
+  The same syntax can represent:
+  - Mathematical predicates
+  - Hardware circuits
+  - Program conditions
+  - Database queries
+]
+
+== Model Checking Application
 
 #Block(color: purple)[
-  *Model checking application:*
-  Given system with $n$ Boolean state variables, model checker explores transition graph with $2^n$ nodes.
-  For $n=30$ variables, that's around 1 billion states!
-  Symbolic methods (BDDs) represent state sets compactly using Boolean formulas.
+  *The state explosion problem:*
+
+  System with $n$ Boolean state variables has $2^n$ possible states.
+
+  For $n=30$ variables: approximately 1 billion states!
+
+  For $n=100$ variables: $2^100 approx 10^30$ states (more than atoms in human body!)
 ]
 
 #Block(color: yellow)[
-  *Why binary?*
-  Digital circuits naturally operate on two voltage levels.
-  Every computation, every piece of data in your computer ultimately reduces to sequences of 0s and 1s.
+  *Solution:* Symbolic methods (BDDs) represent state sets compactly using Boolean formulas instead of enumerating all states.
 ]
 
-== Boolean Operations: Connecting Ideas
-
-We can combine Boolean variables using operations (connectives) to express complex logic:
+== Boolean Operations
 
 #definition[
   Basic Boolean operations:
-  - *NOT* ($not x$ or $overline(x)$) --- negation (reverses the value)
-  - *AND* ($x and y$ or $x dot y$) --- conjunction (true only if both are true)
-  - *OR* ($x or y$ or $x + y$) --- disjunction (true if at least one is true)
+  - *NOT* ($not x$) --- negation
+  - *AND* ($x and y$) --- conjunction
+  - *OR* ($x or y$) --- disjunction
 ]
 
-#example[Access control policy][
-  Database query:
+#align(center)[
+  #cetz.canvas(length: 0.8cm, {
+    import cetz.draw: *
 
-  `SELECT * FROM users WHERE (is_admin OR has_permission) AND NOT is_banned;`
+    // NOT gate
+    set-style(stroke: 1pt)
+    line((-1, 2), (0, 2), name: "not-in")
+    merge-path(close: false, {
+      line((0, 1.5), (0, 2.5))
+      line((0, 1.5), (1.5, 2))
+      line((0, 2.5), (1.5, 2))
+    })
+    circle((1.7, 2), radius: 0.2, stroke: 1pt, fill: white)
+    line((1.9, 2), (3, 2), name: "not-out")
+    content((-1.5, 2), [NOT])
 
-  Formula: $(#`admin` or #`permission`) and not #`banned`$
-  - admin=#True, permission=#False, banned=#False $=>$ access granted #YES
-  - admin=#False, permission=#True, banned=#True $=>$ access denied #NO
+    // AND gate
+    merge-path(close: false, {
+      line((4, 0.5), (4, 2.5))
+      line((4, 0.5), (5, 0.5))
+      arc((5, 1.5), start: -90deg, stop: 90deg, radius: 1)
+      line((6, 2.5), (4, 2.5))
+    })
+    line((3, 1), (4, 1))
+    line((3, 2), (4, 2))
+    line((6, 1.5), (7, 1.5))
+    content((3.5, 0), [AND])
+
+    // OR gate
+    merge-path(close: false, {
+      arc((9, 1.5), start: 165deg, stop: -165deg, radius: 1.8)
+      arc((8.2, 0.5), start: 0deg, stop: 60deg, radius: 1.73)
+      arc((8.2, 2.5), start: 0deg, stop: -60deg, radius: 1.73)
+    })
+    line((7.5, 1), (8.5, 1))
+    line((7.5, 2), (8.5, 2))
+    line((10.3, 1.5), (11.3, 1.5))
+    content((8, 0), [OR])
+  })
+]
+
+== Derived Operations
+
+#definition[
+  - *Implication:* $x imply y equiv not x or y$
+  - *Equivalence:* $x iff y equiv (x imply y) and (y imply x)$
+  - *XOR:* $x xor y equiv (x and not y) or (not x and y)$
+]
+
+#Block(color: blue)[
+  All derived operations can be expressed using just NOT, AND, OR.
+]
+
+== XOR in SAT Solving
+
+#example[Classical SAT clause][
+  $(x or y) and (not x or z)$
+
+  CNF: 2 clauses
+
+  DPLL solver uses unit propagation
+]
+
+#example[XOR constraint][
+  $x xor y xor z = 0$
+
+  CNF expansion: $(x or y or z) and (x or not y or not z) and ...$
+
+  Requires 4 clauses!
 ]
 
 #Block(color: orange)[
-  *Note:* OR is _inclusive_ --- $x or y$ means "at least one," possibly both!
+  *Cryptanalysis problem:* Modern ciphers (AES, SHA-256) heavily use XOR.
+  Converting to CNF creates millions of clauses!
+
+  *Solution:* Specialized solvers (CryptoMiniSat) use Gaussian elimination on $FF_2$.
 ]
 
-== Derived Operations: Building Blocks
-
-More complex operations can be built from the basic ones:
+== Recursive Structure of Expressions
 
 #definition[
-  Derived Boolean operations:
+  A _Boolean expression_ is defined recursively:
 
-  - *Implication* ($x imply y$): "if $x$ then $y$"
-    - Formula: $not x or y$
-    - Applications: formal logic, theorem proving, constraint solving
+  *Base case:* Variables ($x, y, z, ...$) and constants ($0, 1$) are expressions
 
-  - *Equivalence* ($x iff y$): biconditional (true when values match)
-    - Formula: $(x imply y) and (y imply x)$
-    - Applications: equality testing, synchronization
-
-  - *XOR* ($x xor y$): exclusive OR (true if exactly one is true)
-    - Formula: $(x and not y) or (not x and y)$
-    - Applications: error detection, encryption, bit manipulation
+  *Inductive case:* If $f$ and $g$ are expressions, then so are:
+  - $not f$ (negation)
+  - $f and g$ (conjunction)
+  - $f or g$ (disjunction)
 ]
 
-== XOR: The Troublemaker in SAT Solving
+#Block(color: purple)[
+  *Structural induction:* To prove property $P$ for all expressions:
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 1em,
-  [
-    #example[SAT problem][
-      - Formula: $(x or y) and (not x or z)$
-      - CNF: 2 clauses, easy!
-      - DPLL solver: Unit propagation works beautifully
-      - Complexity: Polynomial propagation
-    ]
-  ],
-  [
-    #example[XOR constraint][
-      - Formula: $x xor y xor z = 0$
-      - CNF: $(x or y or z) and (x or not y or not z) and ...$
-      - Expansion: 4 clauses needed!
-      - Problem: Exponential blowup
-    ]
-  ],
-)
+  1. Prove $P$ holds for variables and constants
+  2. Prove: if $P$ holds for $f$ and $g$, then $P$ holds for $not f$, $f and g$, $f or g$
 
-#Block(color: orange)[
-  *Why this matters for cryptanalysis:* Modern ciphers (AES, SHA-256) use heavy XOR operations. Converting to CNF creates millions of clauses! Specialized XOR-SAT solvers (CryptoMiniSat) handle this with Gaussian elimination on $FF_2$ instead of clause learning.
+  This is THE proof technique for Boolean algebra!
 ]
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 1em,
-  [
-    *Other XOR applications:*
-    - Parity bits: $p = x_1 xor dots.h.c xor x_n$
-    - One-time pad: $c = m xor k$
-    - Variable swap: `x ^= y; y ^= x; x ^= y`
-    - CRC checksums
-  ],
-  [
-    *XOR properties:*
-    - $x xor 0 = x$ (identity)
-    - $x xor x = 0$ (self-inverse)
-    - $x xor y = y xor x$ (commutative)
-    - $(x xor y) xor z = x xor (y xor z)$ (associative)
-  ],
-)
+== Expression as Syntax Tree
 
-== Building Boolean Expressions
+#example[
+  Expression: $(x imply y) and (y imply z)$
+]
+
+#align(center)[
+  #fletcher.diagram(
+    node-stroke: 1pt,
+    edge-stroke: 1pt,
+    spacing: (2cm, 1.5cm),
+    {
+      let blob = fletcher.node
+      let edge = fletcher.edge
+
+      blob((0, 0), $and$, stroke: 1pt, shape: fletcher.shapes.rect)
+      blob((-1, 1), $imply$, stroke: 1pt, shape: fletcher.shapes.rect)
+      blob((1, 1), $imply$, stroke: 1pt, shape: fletcher.shapes.rect)
+      blob((-1.5, 2), $x$, stroke: 1pt)
+      blob((-0.5, 2), $y$, stroke: 1pt)
+      blob((0.5, 2), $y$, stroke: 1pt)
+      blob((1.5, 2), $z$, stroke: 1pt)
+
+      edge((0, 0), (-1, 1), "-}>")
+      edge((0, 0), (1, 1), "-}>")
+      edge((-1, 1), (-1.5, 2), "-}>")
+      edge((-1, 1), (-0.5, 2), "-}>")
+      edge((1, 1), (0.5, 2), "-}>")
+      edge((1, 1), (1.5, 2), "-}>")
+    },
+  )
+]
+
+== Truth Tables: Complete Function Specification
 
 #definition[
-  A _Boolean expression_ is built recursively from variables and operations:
-  + Variables ($x, y, z$) and constants ($0, 1$) are expressions
-  + If $f$ and $g$ are expressions, so are: $not f$, $f and g$, $f or g$, $f xor g$, $f imply g$, $f iff g$
+  A _truth table_ completely specifies a Boolean function $f: {0,1}^n arrow {0,1}$ by listing output for every input combination.
+
+  *Size:* $n$ variables $arrow.r.double$ $2^n$ rows
 ]
 
 #example[
-  Progressive complexity:
-  + $x$ --- atomic variable
-  + $not x$ --- negation
-  + $x and y$ --- two variables connected
-  + $(x and y) or z$ --- nested expression
-  + $not (x or (y and z))$ --- deeply nested
-  + $(x imply y) and (y imply z)$ --- transitivity pattern
-]
-
-#Block(color: yellow)[
-  *Key idea:*
-  Operations work on _any_ expressions, not just variables.
-  This compositionality lets us build arbitrarily complex formulas.
-]
-
-== Truth Tables
-
-#definition[
-  A _truth table_ is a complete list of all possible input combinations for a Boolean expression and their corresponding output values.
-]
-
-#note[
-  For $n$ Boolean variables, there are $2^n$ possible input combinations.
-]
-
-#example[
-  Truth table for AND operation ($x and y$):
+  AND operation ($x and y$):
 
   #align(center)[
     #table(
@@ -330,20 +361,36 @@ More complex operations can be built from the basic ones:
   ]
 ]
 
-== Truth Tables for Compound Expressions
+== The Exponential Explosion
 
-We can build truth tables for complex expressions step by step.
+#Block(color: yellow)[
+  *Problem:* Truth tables grow exponentially!
+
+  - 3 variables: 8 rows (manageable)
+  - 10 variables: 1,024 rows (tedious)
+  - 32 variables: 4 billion rows (impossible!)
+]
+
+#Block(color: green)[
+  *Solution:* Compact representations
+
+  - Algebraic laws (rewriting)
+  - Normal forms (DNF, CNF)
+  - Symbolic methods (BDDs)
+  - SAT solvers (implicit representation)
+]
+
+== Building Complex Truth Tables
 
 #example[
-  Truth table for $(x and y) or (not x and z)$:
+  Formula: $(x and y) or (not x and z)$
 
-  // TODO: replace intermediate columns for sub-formulas with a single multi-column expression
   #align(center)[
     #table(
       columns: 6,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.8pt) },
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-      table.header([*$x$*], [*$y$*], [*$z$*], [*$x and y$*], [*$not x and z$*], [*$(x and y) or (not x and z)$*]),
+      table.header([*$x$*], [*$y$*], [*$z$*], [*$x and y$*], [*$not x and z$*], [*Result ($or$)*]),
       [0], [0], [0], [0], [0], [0],
       [0], [0], [1], [0], [1], [1],
       [0], [1], [0], [0], [0], [0],
@@ -358,35 +405,61 @@ We can build truth tables for complex expressions step by step.
 ]
 
 #Block(color: blue)[
-  *Method:* Build intermediate columns for subexpressions, then combine them for the final result.
+  *Strategy:* Evaluate subexpressions first, then combine.
+
+  *Pattern:* Result has 1s at rows 1, 3, 6, 7 (0-based) $=>$ sum of minterms (we'll formalize this later!)
 ]
 
-== Tautologies, Contradictions, Contingencies
+== Tautologies and Contradictions
 
 #definition[
-  - A _tautology_ is a Boolean expression that is always true (all 1s in output column)
-  - A _contradiction_ is a Boolean expression that is always false (all 0s in output column)
-  - A _contingency_ is a Boolean expression that is sometimes true and sometimes false
+  - *Tautology:* $f equiv 1$ (always true)
+  - *Contradiction:* $f equiv 0$ (always false)
+  - *Contingency:* Sometimes true, sometimes false
 ]
 
 #example[
-  - *Tautology:* $x or not x$ (law of excluded middle)
-  - *Contradiction:* $x and not x$ (law of non-contradiction)
-  - *Contingency:* $x and y$ (depends on values of $x$ and $y$)
+  - Tautology: $x or not x$ (law of excluded middle)
+  - Contradiction: $x and not x$ (see Aristotel's non-contradiction law)
+  - Contingency: $x and y$ (depends on values)
 ]
 
-#Block(color: orange)[
-  *Warning:* In Boolean algebra, we typically care about expressions that are contingencies---those that represent actual functions. Tautologies and contradictions are constant functions.
+== SAT Solving Connection
+
+#Block(color: purple)[
+  A formula $f$ is:
+
+  - *Satisfiable (SAT):* has at least one solution
+  - *Unsatisfiable (UNSAT):* has no solutions (contradiction!)
+  - *Valid:* all assignments satisfy it (tautology!)
+]
+
+#Block(color: yellow)[
+  *Complexity:*
+
+  - "Is $f$ satisfiable?" is NP-complete!
+  - "Is $f$ valid?" is co-NP-complete (check if $not f$ is UNSAT)
 ]
 
 == Logical Equivalence
 
 #definition[
-  Two Boolean expressions $f$ and $g$ are _logically equivalent_ (written $f equiv g$) if they have identical truth tables---they produce the same output for every possible input combination.
+  Two expressions $f$ and $g$ are _logically equivalent_ ($f equiv g$) if they have identical truth tables:
+
+  $ forall x_1, ..., x_n in {0,1}: quad f(x_1, ..., x_n) = g(x_1, ..., x_n) $
 ]
 
+#Block(color: yellow)[
+  *Why this matters:*
+  - Optimization: simpler equivalent formula
+  - Verification: check if circuits compute same function
+  - Rewriting: transform to desired form (CNF, DNF)
+]
+
+== Verifying Equivalence: De Morgan's Law
+
 #example[
-  Show that $not (x and y) equiv not x or not y$ (De Morgan's law):
+  Claim: $not (x and y) equiv not x or not y$
 
   #align(center)[
     #table(
@@ -401,15 +474,13 @@ We can build truth tables for complex expressions step by step.
     )
   ]
 
-  Since all rows match, $not (x and y) equiv not x or not y$.
+  All rows match $=>$ formulas are equivalent!
 ]
 
-== Evaluating Boolean Expressions
-
-Given values for all variables, we can evaluate any Boolean expression.
+== Expression Evaluation
 
 #example[
-  Evaluate $f(x, y, z) = (x or y) and (not x or z)$ when $x = 1, y = 0, z = 1$:
+  Formula: $f(x, y, z) = (x or y) and (not x or z)$ with $x = 1, y = 0, z = 1$
 
   $
     f(1, 0, 1) & = (1 or 0) and (not 1 or 1) \
@@ -419,140 +490,200 @@ Given values for all variables, we can evaluate any Boolean expression.
   $
 ]
 
-#Block(color: yellow)[
-  *Practice skill:* Being able to quickly evaluate Boolean expressions is essential for debugging circuits and verifying logical designs.
+#Block(color: blue)[
+  Substitute values, then evaluate step-by-step from innermost operations outward.
 ]
 
-== Simplifying Boolean Expressions
-
-Simple algebraic manipulation can simplify expressions:
+== Algebraic Simplification
 
 #example[
   Simplify $f(x, y) = (x and y) or (x and not y)$:
 
   $
     f(x, y) & = (x and y) or (x and not y) \
-            & = x and (y or not y)         & quad & "(distributivity)" \
-            & = x and 1                    & quad & "(excluded middle)" \
-            & = x                          & quad & "(identity)"
+            & = x and (y or not y)         & quad & "distributivity" \
+            & = x and 1                    & quad & "excluded middle" \
+            & = x                          & quad & "identity"
+  $
+
+  Reduced from 3 operations to 0!
+]
+
+#Block(color: yellow)[
+  *Hardware impact:* Fewer operations = fewer gates = lower cost, power, and delay.
+]
+
+== Dual Form Simplification
+
+#example[
+  Simplify $g(x, y) = (x or y) and (x or not y)$:
+
+  $
+    g(x, y) & = (x or y) and (x or not y) \
+            & = x or (y and not y)        & quad & "distributivity (dual)" \
+            & = x or 0                    & quad & "contradiction" \
+            & = x                         & quad & "identity"
   $
 ]
 
-#example[
-  Simplify $g(x, y, z) = (x or y) and (x or not y)$:
+#Block(color: purple)[
+  *Complexity:* Checking equivalence is co-NP-complete!
+  Finding shortest formula is even harder --- no polynomial algorithm known.
 
-  $
-    g(x, y, z) & = (x or y) and (x or not y) \
-               & = x or (y and not y)        & quad & "(distributivity)" \
-               & = x or 0                    & quad & "(contradiction)" \
-               & = x                         & quad & "(identity)"
-  $
+  This is why circuit minimization uses heuristics (K-maps, Espresso, ABC).
 ]
 
 
 = Boolean Algebra Structure
-#focus-slide()
+#focus-slide(
+  epigraph: [An algebra is a collection of elements with operations that satisfy certain laws.],
+  epigraph-author: "Abstract Algebra",
+)
 
-== From Expressions to Algebraic Structure
+== The Power of Abstraction
 
-We have seen Boolean expressions as formulas.
-Now we study their _algebraic structure_: the operations and laws that govern how they behave.
+#Block(color: yellow)[
+  *One proof, many applications!*
 
-#Block(color: blue)[
-  *Why formalize?*
-  Just as group theory abstracts the common structure of numbers, symmetries, and transformations, Boolean algebra abstracts the structure of logic, sets, and circuits.
+  Once we prove a law in Boolean algebra, it applies to:
+  - Logical propositions ($and$ = "and", $or$ = "or")
+  - Set operations ($and$ = $inter$, $or$ = $union$)
+  - Switching circuits ($and$ = series, $or$ = parallel)
+  - Binary arithmetic (GF(2): $and$ = $times$, $xor$ = $+$)
 ]
 
-#columns(2)[
-  *What we already have:*
-  - Variables and constants
-  - Operations: $not$, $and$, $or$
-  - Expressions
-  - Truth tables
+#Block(color: teal)[
+  *1854:* George Boole creates algebra of logic
 
-  #colbreak()
+  *1880s:* Augustus De Morgan discovers duality laws
 
-  *What we'll add:*
-  - Formal axioms
-  - Fundamental laws
-  - Proof techniques
-  - Connection to lattices
+  *1937:* Claude Shannon applies to switching circuits
+
+  *Today:* Foundation of AI, databases, hardware synthesis
 ]
 
-== Boolean Algebra: Formal Definition
+== Boolean Algebra: The Axiomatic Definition
 
 #definition[
-  A _Boolean algebra_ is a set $B$ with:
-  - Two binary operations: $or$ (join) and $and$ (meet)
-  - One unary operation: $not$ (complement)
-  - Two special elements: $0$ (bottom) and $1$ (top)
+  A _Boolean algebra_ is $angle.l B, or, and, not, 0, 1 angle.r$ where:
+  - $or$ (join), $and$ (meet) --- binary operations
+  - $not$ (complement) --- unary operation
+  - $0$ (bottom), $1$ (top) --- constants
 
-  satisfying the axioms on the next slide.
+  satisfying 5 axiom groups.
 ]
 
-#example[
-  The two-element Boolean algebra ${0, 1}$ with:
-  - $0 or 0 = 0$, $0 or 1 = 1$, $1 or 0 = 1$, $1 or 1 = 1$
-  - $0 and 0 = 0$, $0 and 1 = 0$, $1 and 0 = 0$, $1 and 1 = 1$
+#example[The prototypical Boolean algebra][
+  $B = {0, 1}$ with standard operations:
+
+  - $or$ = OR, $quad and$ = AND, $quad not$ = NOT
   - $not 0 = 1$, $not 1 = 0$
+
+  This is THE Boolean algebra for computing!
 ]
 
-== Boolean Algebra Axioms
+#Block(color: purple)[
+  *Stone's representation theorem (1936):* Every Boolean algebra is isomorphic to a field of sets! So set theory and Boolean algebra are "the same" mathematically. This deep connection lets us use geometric/topological methods in logic.
+]
 
+== The Five Axiom Groups
 
-#definition[Axioms of Boolean Algebra][
+#definition[
   For all $x, y, z in B$:
-  + *Commutativity:* $x or y = y or x$ and $x and y = y and x$
-  + *Associativity:* $(x or y) or z = x or (y or z)$ and $(x and y) and z = x and (y and z)$
-  + *Distributivity:* $x and (y or z) = (x and y) or (x and z)$ and $x or (y and z) = (x or y) and (x or z)$
-  + *Identity:* $x or 0 = x$ and $x and 1 = x$
-  + *Complement:* $x or not x = 1$ and $x and not x = 0$
+
+  1. *Commutativity:* $x or y = y or x$, $quad x and y = y and x$
+
+  2. *Associativity:* $(x or y) or z = x or (y or z)$, $quad (x and y) and z = x and (y and z)$
+
+  3. *Distributivity:* $x and (y or z) = (x and y) or (x and z)$, $quad x or (y and z) = (x or y) and (x or z)$
+
+  4. *Identity:* $x or 0 = x$, $quad x and 1 = x$
+
+  5. *Complement:* $x or not x = 1$, $quad x and not x = 0$
 ]
 
-#note[
-  Both $and$ and $or$ distribute over each other --- this is special to Boolean algebra (unlike ordinary arithmetic where only $times$ distributes over $+$).
-]
+== Distributivity: The Key Property
 
-== Examples of Boolean Algebras
+#Block(color: orange)[
+  *Crucial difference from arithmetic:*
 
-#example[Power Set][
-  For any set $A$, $(power(A), union, intersect, not, emptyset, A)$ is a Boolean algebra:
-  - Join: $union$ (union)
-  - Meet: $intersect$ (intersection)
-  - Complement: $overline(X) = A setminus X$
-  - Bottom: $emptyset$, Top: $A$
-]
+  In $RR$: only $times$ distributes over $+$
 
-#example[Binary Strings][
-  For $n$-bit binary strings with bitwise operations:
-  - Join: bitwise OR
-  - Meet: bitwise AND
-  - Complement: bitwise NOT
-  - Bottom: $000...0$, Top: $111...1$
+  $ a times (b + c) = a b + a c $
+
+  But $+$ does NOT distribute over $times$:
+
+  $ a + (b times c) eq (a+b) times (a+c) $
 ]
 
 #Block(color: yellow)[
-  *Key insight:* The same algebraic structure appears in logic, set theory, circuits, and more.
+  In Boolean algebra, BOTH operations distribute over each other!
+
+  This symmetry is what makes duality possible.
 ]
 
-== Fundamental Laws (Derived Properties)
+== Binary Strings Boolean Algebra
 
-From the axioms, we can prove many useful identities:
+#example[
+  $BB_n$ = $n$-bit strings with bitwise operations:
 
-#theorem[Basic Laws][
-  For all $x, y in B$:
-  + *Idempotence:* $x or x = x$ and $x and x = x$
-  + *Absorption:* $x or (x and y) = x$ and $x and (x or y) = x$
-  + *Null (Domination):* $x or 1 = 1$ and $x and 0 = 0$
-  + *Double Negation:* $not not x = x$
-  + *Complement of Constants:* $not 0 = 1$ and $not 1 = 0$
+  - $B = {0,1}^n$ (all $2^n$ bit-vectors)
+  - Join: bitwise OR --- `0101 OR 0011 = 0111`
+  - Meet: bitwise AND --- `0101 AND 0011 = 0001`
+  - Complement: bitwise NOT --- `NOT 0101 = 1010`
+  - $0 = underbrace(00...0, n "bits")$, $quad 1 = underbrace(11...1, n "bits")$
 ]
 
-#note[
-  These can all be proven from the axioms using algebraic manipulation.
+#Block(color: purple)[
+  This Boolean algebra has $2^n$ elements!
+
+  For $n=8$: 256 elements (bytes)
+
+  For $n=64$: $2^64 approx 10^19$ elements
 ]
 
-== Proving Identities: Idempotence
+== Surprising Boolean Algebras
+
+#example[Divisors of 30][
+  $B = {1, 2, 3, 5, 6, 10, 15, 30}$
+
+  - $a or b = "lcm"(a,b)$
+  - $a and b = "gcd"(a,b)$
+  - $not a = 30 \/ a$
+  - $0 = 1$, $quad 1 = 30$
+
+  Example: $6 or 10 = 30$, $quad 6 and 10 = 2$
+]
+
+#Block(color: blue)[
+  Check axioms yourself!
+
+  Commutativity, associativity work because gcd/lcm have these properties.
+
+  Distributivity: $"gcd"(a, "lcm"(b,c)) = "lcm"("gcd"(a,b), "gcd"(a,c))$
+]
+
+== Derived Laws
+
+#theorem[
+  From the 5 axioms, we can prove:
+
+  1. *Idempotence:* $x or x = x$, $quad x and x = x$
+
+  2. *Absorption:* $x or (x and y) = x$, $quad x and (x or y) = x$
+
+  3. *Domination:* $x or 1 = 1$, $quad x and 0 = 0$
+
+  4. *Involution:* $not not x = x$
+]
+
+#Block(color: blue)[
+  These are NOT axioms --- they are consequences!
+
+  We prove them using only the 5 axiom groups.
+]
+
+== Proving Idempotence
 
 #theorem[
   $x or x = x$ for all $x$ in a Boolean algebra.
@@ -560,19 +691,19 @@ From the axioms, we can prove many useful identities:
 
 #proof[
   $
-    x or x & = (x or x) and 1            & quad & "(identity)" \
-           & = (x or x) and (x or not x) & quad & "(complement)" \
-           & = x or (x and not x)        & quad & "(distributivity)" \
-           & = x or 0                    & quad & "(complement)" \
-           & = x                         & quad & "(identity)"
+    x or x & = (x or x) and 1            & quad & "identity axiom" \
+           & = (x or x) and (x or not x) & quad & "complement axiom" \
+           & = x or (x and not x)        & quad & "distributivity" \
+           & = x or 0                    & quad & "complement axiom" \
+           & = x                         & quad & "identity axiom"
   $
 ]
 
-#Block(color: blue)[
-  *Method:* Use axioms strategically --- introduce $1$ or $0$, apply distributivity, then simplify.
+#Block(color: yellow)[
+  *Standard technique:* Introduce $1$ or $0$, apply distributivity, eliminate with complements.
 ]
 
-== Proving Identities: Absorption
+== Proving Absorption
 
 #theorem[
   $x or (x and y) = x$ for all $x, y$ in a Boolean algebra.
@@ -580,46 +711,73 @@ From the axioms, we can prove many useful identities:
 
 #proof[
   $
-    x or (x and y) & = (x and 1) or (x and y) & quad & "(identity)" \
-                   & = x and (1 or y)         & quad & "(distributivity)" \
-                   & = x and 1                & quad & "(null law)" \
-                   & = x                      & quad & "(identity)"
+    x or (x and y) & = (x and 1) or (x and y) & quad & "identity" \
+                   & = x and (1 or y)         & quad & "distributivity" \
+                   & = x and 1                & quad & "domination" \
+                   & = x                      & quad & "identity"
   $
 ]
 
-#example[
+#Block(color: blue)[
   Similarly, $x and (x or y) = x$ by dual reasoning.
+
+  Duality: swap $and$ ↔ $or$, $0$ ↔ $1$.
 ]
+
+== Circuit Optimization via Absorption
+
+#example[
+  Expression: `enable OR (enable AND ready)`
+
+  Simplify using absorption law:
+
+  $ "enable" or ("enable" and "ready") = "enable" $
+
+  Result: just `enable`!
+]
+
+#Block(color: green)[
+  *Hardware impact:*
+
+  Before: 1 AND gate + 1 OR gate = 2 gates
+
+  After: 0 gates (direct wire)
+
+  Saved: chip area, power consumption, propagation delay
+]
+
+
+= Algebraic Laws and Duality
+#focus-slide()
 
 == The Duality Principle
 
-#theorem[Duality Principle][
-  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or <=> and$ and $0 <=> 1$) also holds.
+#theorem[
+  If an identity holds in any Boolean algebra, then the _dual_ identity (obtained by swapping $or arrow.l.r and$ and $0 arrow.l.r 1$) also holds.
 ]
 
-#align(center)[
-  #table(
-    columns: 3,
-    align: (left, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Original Identity*], [*$<=>$*], [*Dual Identity*]),
-    [$x or 0 = x$], [], [$x and 1 = x$],
-    [$x or (x and y) = x$], [], [$x and (x or y) = x$],
-    [$not (x or y) = not x and not y$], [], [$not (x and y) = not x or not y$],
-    [$x or 1 = 1$], [], [$x and 0 = 0$],
-  )
+#example[
+  | Original | Dual |
+  |----------|------|
+  | $x or 0 = x$ | $x and 1 = x$ |
+  | $x or (x and y) = x$ | $x and (x or y) = x$ |
+  | $not (x or y) = not x and not y$ | $not (x and y) = not x or not y$ |
 ]
 
 #Block(color: yellow)[
-  *Practical consequence:* Every theorem proved gives two results.
+  *Free theorems:* Every proof gives TWO results!
 
-  This symmetry reflects the dual structure of Boolean algebra axioms.
+  This symmetry reflects dual structure of axioms.
+]
+
+#Block(color: purple)[
+  *Deep connection:* Duality in Boolean algebra mirrors duality in category theory and order theory.
+  It's an instance of a universal mathematical pattern --- whenever you have two symmetric operations, you get dual theorems for free!
 ]
 
 == De Morgan's Laws
 
-#theorem[De Morgan's Laws][
-  For all $x, y$ in a Boolean algebra:
+#theorem[
   $
      not (x or y) & = not x and not y \
     not (x and y) & = not x or not y
@@ -627,27 +785,16 @@ From the axioms, we can prove many useful identities:
 ]
 
 #Block(color: yellow)[
-  *Intuition:* "NOT flips everything" --- negation distributes by _swapping_ AND $<=>$ OR!
+  *Intuition:* Negation "flips" everything --- distributes by swapping AND ↔ OR!
 ]
 
-#grid(
-  columns: 2,
-  gutter: 1em,
-  example[
-    Code conditionals
+#example[
+  Database query:
 
-    `!(admin || vip)` $equiv$ `!admin && !vip`
+  `NOT (admin OR vip)` $equiv$ `NOT admin AND NOT vip`
 
-    "Neither admin nor VIP"
-  ],
-  example[
-    Circuit optimization
-
-    $overline(A + B) = overline(A) dot overline(B)$
-
-    NAND gate $equiv$ AND + NOT
-  ],
-)
+  "Neither admin nor VIP"
+]
 
 == Connection to Lattices
 
@@ -656,6 +803,14 @@ From the axioms, we can prove many useful identities:
   - A _least upper bound_ (join): $x Join y$
   - A _greatest lower bound_ (meet): $x Meet y$
 ]
+
+#example[
+  Power set $power({a, b})$ ordered by $subset.eq$:
+  - Join = union: ${a} Join {b} = {a, b}$
+  - Meet = intersection: ${a} Join {b} Meet {a,b} = {a}$
+]
+
+== Boolean Algebras Are Special Lattices
 
 #definition[
   A _bounded distributive lattice_ is a lattice with bottom $bot$, top $top$, and distributivity:
@@ -672,6 +827,12 @@ From the axioms, we can prove many useful identities:
   Every Boolean algebra is a complemented bounded distributive lattice.
 ]
 
+#Block(color: blue)[
+  *Translation:* $and => Meet$ (meet), $quad or => Join$ (join), $quad 0 => bot$ (bot), $quad 1 => top$ (top).
+
+  Boolean algebras add complement uniqueness + extra structure.
+]
+
 == Complement Uniqueness
 
 #theorem[
@@ -679,149 +840,120 @@ From the axioms, we can prove many useful identities:
 ]
 
 #proof[
-  Suppose $y$ and $z$ are both complements of $x$. Then:
+  Suppose $y$ and $z$ are both complements of $x$.
+  Then:
   $
-    y & = y and 1                & quad & "(identity)" \
-      & = y and (x or z)         & quad & "(" z "is complement of" x ")" \
-      & = (y and x) or (y and z) & quad & "(distributivity)" \
-      & = 0 or (y and z)         & quad & "(" y "is complement of" x ")" \
-      & = (x and z) or (y and z) & quad & "(" z "is complement of" x ")" \
-      & = (x or y) and z         & quad & "(distributivity)" \
-      & = 1 and z                & quad & "(" y "is complement of" x ")" \
-      & = z                      & quad & "(identity)"
+    y & = y and 1                & quad & "identity" \
+      & = y and (x or z)         & quad & z "is complement" \
+      & = (y and x) or (y and z) & quad & "distributivity" \
+      & = 0 or (y and z)         & quad & y "is complement" \
+      & = (x and z) or (y and z) & quad & z "is complement" \
+      & = (x or y) and z         & quad & "distributivity" \
+      & = 1 and z                & quad & y "is complement" \
+      & = z                      & quad & "identity"
   $
 
   Therefore $y = z$.
 ]
 
-== Summary of Boolean Algebra Structure
+== Summary: Boolean Algebra Structure
 
 #Block(color: purple)[
-  *What we've established in this section:*
+  *Core points:*
 
-  + *Algebraic structure:* Boolean algebra $angle.l B, or, and, not, 0, 1 angle.r$ with five fundamental axioms
-  + *Fundamental laws:* Idempotence, absorption, De Morgan's laws all follow from axioms
-  + *Duality principle:* Swap $or <=> and$ and $0 <=> 1$ to get new theorems for free
-  + *Connection to lattices:* Boolean algebras are complemented bounded distributive lattices
-  + *Complement uniqueness:* Each element has exactly one complement
+  - A Boolean algebra is an algebraic structure $(B, or, and, not, 0, 1)$ satisfying five axiom groups.
+  - From the axioms follow the essential laws used in practice: De Morgan, idempotence, absorption.
+  - Duality: every valid identity yields a dual identity (swap OR $<=>$ AND, 0 $<=>$ 1).
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  The same algebraic structure appears in logic (AND/OR/NOT), set theory ($union$, $inter$, $overline(x)$), and circuits (gates).
-  This universality is why Boolean algebra is the foundation of computer science.
-]
+  *Normal forms are situation-dependent:*
 
-#Block(color: blue)[
-  *What's next:*
-  Now that we have the algebraic structure, we need systematic ways to _represent_ any Boolean function.
-  This leads to normal forms (DNF, CNF) and minimization techniques (K-maps).
+  - DNF and CNF are universal but can explode in size.
+  - ANF is unique and useful in cryptography.
+  - Choose the form that fits your goal: synthesis, verification, or analysis.
 ]
 
 
 = Normal Forms
 #focus-slide()
 
-== From Structure to Representation
-
-We've established the algebraic structure of Boolean algebra.
-
-Now: how do we _represent_ any Boolean function systematically?
-
-*The challenge:*
-- There are $2^(2^n)$ different Boolean functions of $n$ variables
-- For $n=3$: already 256 different functions!
-- We need _canonical forms_ that work for ALL of them
-
-*What we'll learn:*
-
-#grid(
-  columns: 2,
-  gutter: 1em,
-  [
-    *Normal Forms*
-    - DNF (Disjunctive Normal Form)
-    - CNF (Conjunctive Normal Form)
-    - Canonical forms (minterms/maxterms)
-  ],
-  [
-    *Why they matter*
-    - Circuit synthesis
-    - Equivalence checking
-    - Systematic simplification and minimization
-  ],
-)
+== The Representation Problem
 
 #Block(color: yellow)[
-  *Goal:* Express ANY Boolean function as a combination of simple building blocks.
+  *Challenge:* How to represent ANY Boolean function systematically?
+
+  For $n$ variables: $2^(2^n)$ different functions!
+
+  Example: $n=3$ gives 256 different functions.
+]
+
+#Block(color: blue)[
+  *Solution:* Canonical forms
+
+  - DNF (Disjunctive Normal Form)
+  - CNF (Conjunctive Normal Form)
+  - Minterms and maxterms
 ]
 
 == Building Blocks: Literals
 
 #definition[
-  A _literal_ is either a Boolean variable or its negation.
+  A _literal_ is a variable or its negation.
 ]
-
-Think of literals as the simplest meaningful statements:
 
 #example[
-  For variables $x$, $y$, $z$:
-  - *Positive literals:* $x$, $y$, $z$ --- "is true"
-  - *Negative literals:* $not x$, $not y$, $not z$ --- "is false"
-]
+  Variables $x, y, z$ give literals:
 
-#example[Real-world interpretation][
-  - $x$ might mean "user is logged in"
-  - $not x$ means "user is NOT logged in"
-  - The expression $(x and not y) or z$ combines three literals: $x$, $not y$, and $z$
+  - Positive: $x$, $y$, $z$
+  - Negative: $not x$, $not y$, $not z$
 ]
 
 #Block(color: yellow)[
-  *Key idea:*
   Literals are the atoms of Boolean logic.
-  Every complex expression is ultimately built from these simple building blocks using $and$ and $or$.
+
+  Every expression is built from literals using $and$ and $or$.
 ]
 
-== Terms and Clauses
+== Cubes and Clauses
 
 #definition[
-  - A _cube_ (or _product_) is a conjunction (AND) of literals
-  - A _clause_ (or _sum_) is a disjunction (OR) of literals
+  - *Cube (product):* conjunction (AND) of literals
+  - *Clause (sum):* disjunction (OR) of literals
 ]
 
-#columns(2)[
-  *Terms/Cubes (Products):*
+#example[
+  Cubes:
   - $x and y$
   - $x and not y and z$
   - $not x and not y and not z$
 
-  "ALL of these must be true"
-
-  #colbreak()
-
-  *Clauses (Sums):*
+  Clauses:
   - $x or y$
   - $x or not y or z$
   - $not x or not y or not z$
-
-  "At least ONE must be true"
 ]
 
-#example[
-  - Cube $x and not y and z$ is true only when: $x = 1$, $y = 0$, $z = 1$
-  - Clause $x or not y or z$ is true when: $x = 1$ OR $y = 0$ OR $z = 1$ (or any combination)
-]
+#Block(color: blue)[
+  *Cube:* ALL literals must be true
 
-#note[
-  A single literal is both a 1-cube and a 1-clause. Constants: $0$ (empty cube) and $1$ (empty clause).
+  *Clause:* at least ONE literal must be true
 ]
 
 == Disjunctive Normal Form (DNF)
 
-#definition[DNF][
-  A Boolean formula is in _Disjunctive Normal Form (DNF)_ if it is a disjunction (OR) of cubes.
+#definition[
+  _DNF_ is a disjunction (OR) of cubes:
 
-  General form: $(c_1) or (c_2) or dots or (c_k)$ where each $c_i$ is a cube (conjunction of literals).
+  $ (c_1) or (c_2) or dots or (c_k) $
+
+  where each $c_i$ is a cube (AND of literals).
+]
+
+#example[
+  $ f(x,y,z) = (x and y) or (not x and z) or (y and not z) $
+
+  This is DNF: OR of three cubes.
 ]
 
 #example[
@@ -1061,12 +1193,12 @@ We can index minterms and maxterms by their binary representations:
   This gives us the standard XOR representation!
 ]
 
-// #Block(color: blue)[
-//   *Application:* Shannon expansion is the theoretical foundation for:
-//   - Binary Decision Diagrams (BDDs) in verification
-//   - Recursive circuit design and decomposition
-//   - Divide-and-conquer algorithms for Boolean functions
-// ]
+#Block(color: green)[
+  *Modern application:* Shannon expansion is the foundation for:
+  - *Binary Decision Diagrams (BDDs):* Graph-based representation used in hardware verification (Intel, AMD chips verified using BDDs!)
+  - *Recursive circuit decomposition:* Breaking large circuits into smaller sub-circuits
+  - *Divide-and-conquer SAT solving:* Modern CDCL solvers use Shannon-style case splitting
+]
 
 == Converting Between Forms
 
@@ -1203,6 +1335,13 @@ But the result is often *not minimal*.
 #definition[
   A _Gray code_ is a binary encoding where consecutive values differ in exactly one bit.
   This single-distance property eliminates transition errors in electromechanical systems.
+]
+
+#Block(color: teal)[
+  *Historical note:*
+  - Invented by Frank Gray (Bell Labs, 1947) for shaft encoders
+  - Prevents spurious signals when multiple bits change simultaneously
+  - Still used today in rotary encoders, genetics (binary gene representation), puzzle solving (Hamiltonian paths on hypercubes)
 ]
 
 #example[
@@ -2117,8 +2256,23 @@ When multiple prime implicants remain after selecting essentials:
   Boolean function minimization is *NP-complete*.
 ]
 
+#Block(color: orange)[
+  *What this means in practice:*
+  - No known polynomial-time algorithm for exact minimization
+  - As variables increase, exhaustive search becomes impossible
+  - For $n$ variables: up to $2^(2^n)$ possible functions!
+]
+
+#example[
+  *The scale of the problem:*
+  - 4 variables: $2^16 = 65536$ functions
+  - 5 variables: $2^32 approx 4.3 times 10^9$ functions
+  - 10 variables: $2^1024$ functions (more than atoms in universe!)
+]
+
 #note[
-  *Consequence:* For large functions, we use heuristics (ESPRESSO, ABC) instead of exact methods. Modern CAD tools focus on technology mapping and multi-objective optimization (timing, power, area).
+  *Consequence:* For large functions, we use heuristics (ESPRESSO, ABC) instead of exact methods.
+  Modern CAD tools focus on technology mapping and multi-objective optimization (timing, power, area).
 ]
 
 == Modern Minimization Tools
