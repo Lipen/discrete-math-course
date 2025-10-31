@@ -1350,11 +1350,6 @@ But the result is often *not minimal*.
   ],
 )
 
-// #note[
-//   - 1950s-70s: gates expensive, minimize for cost.
-//   - Today: power expensive (battery, cooling), minimize for efficiency.
-// ]
-
 == What Does "Minimal" Mean?
 
 #Block(color: green)[
