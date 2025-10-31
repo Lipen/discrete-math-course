@@ -1262,11 +1262,11 @@ We can index minterms and maxterms by their binary representations:
 
   Convert to CNF by viewing as $(A or B)$ where $A = x and y$, $B = not x and z$:
   $
-    f &= (x and y) or (not x and z) \
-      &= (x or (not x and z)) and (y or (not x and z)) \
-      &= (x or not x) and (x or z) and (y or not x) and (y or z) \
-      &= 1 and (x or z) and (y or not x) and (y or z) \
-      &= (x or z) and (not x or y) and (y or z)
+    f & = (x and y) or (not x and z) \
+      & = (x or (not x and z)) and (y or (not x and z)) \
+      & = (x or not x) and (x or z) and (y or not x) and (y or z) \
+      & = 1 and (x or z) and (y or not x) and (y or z) \
+      & = (x or z) and (not x or y) and (y or z)
   $
 
   Result: CNF with 3 clauses (from DNF with 2 cubes).
