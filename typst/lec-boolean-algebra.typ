@@ -753,10 +753,11 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 
 #proof[
   $
-    x or (x and y) & = (x and 1) or (x and y) & quad & "identity" \
-                   & = x and (1 or y)         & quad & "distributivity" \
-                   & = x and 1                & quad & "domination" \
-                   & = x                      & quad & "identity"
+    x or (x and y) & = (x and 1) or (x and y) & quad & "(identity)" \
+                   & = x and (1 or y)         & quad & "(distributivity)" \
+                   & = x and 1                & quad & "(domination)" \
+                   & = x                      & quad & "(identity)" \
+           qedhere
   $
 ]
 
