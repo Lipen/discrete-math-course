@@ -205,44 +205,38 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 ]
 
 #align(center)[
-  #cetz.canvas(length: 0.8cm, {
-    import cetz.draw: *
+  #import "@preview/circuiteria:0.2.0"
+  #circuiteria.circuit({
+    import circuiteria: *
+    import "@preview/cetz:0.3.2": draw
+
+    let label(s) = text(size: 10pt, weight: "bold")[#s]
 
     // NOT gate
-    set-style(stroke: 1pt)
-    line((-1, 2), (0, 2), name: "not-in")
-    merge-path(close: false, {
-      line((0, 1.5), (0, 2.5))
-      line((0, 1.5), (1.5, 2))
-      line((0, 2.5), (1.5, 2))
-    })
-    circle((1.7, 2), radius: 0.2, stroke: 1pt, fill: white)
-    line((1.9, 2), (3, 2), name: "not-out")
-    content((-1.5, 2), [NOT])
+    element.gate-not(id: "not", x: 0, y: 0, w: 1.5, h: 1.5)
+    draw.content((rel: (-5pt, 0), to: "not"), label[NOT])
 
     // AND gate
-    merge-path(close: false, {
-      line((4, 0.5), (4, 2.5))
-      line((4, 0.5), (5, 0.5))
-      arc((5, 1.5), start: -90deg, stop: 90deg, radius: 1)
-      line((6, 2.5), (4, 2.5))
-    })
-    line((3, 1), (4, 1))
-    line((3, 2), (4, 2))
-    line((6, 1.5), (7, 1.5))
-    content((3.5, 0), [AND])
+    element.gate-and(id: "and", x: 3.5, y: 0, w: 1.5, h: 1.5)
+    draw.content("and", label[AND])
 
     // OR gate
-    merge-path(close: false, {
-      arc((9, 1.5), start: 165deg, stop: -165deg, radius: 1.8)
-      arc((8.2, 0.5), start: 0deg, stop: 60deg, radius: 1.73)
-      arc((8.2, 2.5), start: 0deg, stop: -60deg, radius: 1.73)
-    })
-    line((7.5, 1), (8.5, 1))
-    line((7.5, 2), (8.5, 2))
-    line((10.3, 1.5), (11.3, 1.5))
-    content((8, 0), [OR])
+    element.gate-or(id: "or", x: 7, y: 0, w: 1.5, h: 1.5)
+    draw.content("or", label[OR])
+
+    // Add stubs for all gates
+    for id in ("not", "and", "or") {
+      wire.stub(id + "-port-in0", "west", length: 0.5)
+      if id != "not" {
+        wire.stub(id + "-port-in1", "west", length: 0.5)
+      }
+      wire.stub(id + "-port-out", "east", length: 0.5)
+    }
   })
+]
+
+#Block(color: orange)[
+  *Bubble notation:* A small circle (bubble) on a gate input or output indicates logical negation.
 ]
 
 == Derived Operations
