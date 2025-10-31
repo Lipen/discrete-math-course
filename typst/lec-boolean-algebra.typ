@@ -1515,11 +1515,11 @@ For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
 #note[
   Row order: 00, 01, *11*, 10 (Gray code, NOT binary!)
 
-  This ensures top-bottom adjacency and wrap-around (torus structure).
+  This ensures top-bottom adjacency and wrap-around (_torus_ structure).
 ]
 
 #Block(color: yellow)[
-  *Remember:* The map wraps around --- top and bottom rows are adjacent!
+  *Remember:* The map _wraps around_ --- top and bottom rows are adjacent!
 ]
 
 == 3-Variable K-Map: Complete Example
