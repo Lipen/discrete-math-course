@@ -1212,30 +1212,47 @@ We can index minterms and maxterms by their binary representations:
 #theorem[Shannon Expansion][
   For any Boolean function $f$ and variable $x$:
   $
-    f(x, y_1, dots, y_n) = (not x and f(0, y_1, dots, y_n)) or (x and f(1, y_1, dots, y_n))
-  $
-
-  $
-    f(x, y_1, dots, y_n) = (x or f(0, y_1, dots, y_n)) and (not x or f(1, y_1, dots, y_n))
+    f(x, y_1, dots, y_n) = overline(x) f(0, y_1, dots, y_n) + x f(1, y_1, dots, y_n) \
+    f(x, y_1, dots, y_n) = (x + f(0, y_1, dots, y_n))(overline(x) + f(1, y_1, dots, y_n))
   $
 ]
 
 #example[
-  Expand $f(x, y) = x xor y$ by $x$:
+  Expand $f(x, y) = x xor y$ by variable $x$:
   $
-    f(x, y) & = (not x and f(0, y)) or (x and f(1, y)) \
-            & = (not x and (0 xor y)) or (x and (1 xor y)) \
-            & = (not x and y) or (x and not y)
+    f(x, y) & = overline(x) f(0, y) + x f(1, y) \
+            & = overline(x) (0 xor y) + x (1 xor y) \
+            & = overline(x) y + x overline(y)
   $
 
-  This gives us the standard XOR representation!
+  // This gives the standard XOR representation!
+]
+
+#Block(color: blue)[
+  *Key idea:* Decompose function by fixing one variable to 0 and 1, then combine results.
+
+  The _cofactors_ $f(0, y_1, dots, y_n)$ and $f(1, y_1, dots, y_n)$ are simpler subfunctions.
+]
+
+== Shannon Expansion: Applications
+
+#Block(color: green)[
+  *Binary Decision Diagrams (BDDs):*
+
+  Apply Shannon expansion recursively to build a _decision tree_.
+  With variable ordering and reduction, this becomes a _canonical_ graph representation.
+
+  BDDs are used by Intel/AMD to verify chip designs with billions of gates.
 ]
 
 #Block(color: green)[
-  *Modern application:* Shannon expansion is the foundation for:
-  - *Binary Decision Diagrams (BDDs):* Graph-based representation used in hardware verification (Intel, AMD chips verified using BDDs!)
-  - *Recursive circuit decomposition:* Breaking large circuits into smaller sub-circuits
-  - *Divide-and-conquer SAT solving:* Modern CDCL solvers use Shannon-style case splitting
+  *SAT Solving (DPLL Algorithm):*
+
+  DPLL uses Shannon-style case splitting: pick $x$, solve $f[x arrow 0]$ and $f[x arrow 1]$.
+]
+
+#Block(color: blue)[
+  *Circuit decomposition:* Break large circuits into blocks for hierarchical synthesis (EDA tools).
 ]
 
 == Converting Between Forms
