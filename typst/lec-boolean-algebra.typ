@@ -58,17 +58,17 @@
 == From Algebra to Digital Circuits
 
 #Block(color: teal)[
-  *1854:* George Boole publishes _Laws of Thought_ --- treats logic as algebra with operations on {0,1}
+  *1854:* George Boole publishes _Laws of Thought_ --- treats logic as algebra with operations on {0,1}.
 
-  *1937:* Claude Shannon's Master's thesis proves Boolean algebra can systematically design relay circuits
+  *1937:* Claude Shannon's Master's thesis proves Boolean algebra can systematically design relay circuits.
 
-  *1948:* Transistor invented $=>$ Boolean algebra becomes foundation of digital electronics
+  *1948:* Transistor invented $=>$ Boolean algebra becomes foundation of digital electronics.
 
-  *Today:* Every processor, memory chip, network router built on Boolean algebra principles
+  *Today:* Every processor, memory chip, network router built on Boolean algebra principles.
 ]
 
 #Block(color: yellow)[
-  *The bridge:* Abstract algebra (0, 1, AND, OR, NOT) $=>$ Physical reality (voltages, transistors, gates)
+  *The bridge:* Abstract algebra (0, 1, AND, OR, NOT) $=>$ Physical reality (voltages, transistors, gates).
 ]
 
 == Modern Applications
@@ -141,16 +141,16 @@ Where Boolean algebra appears in computer science:
 == Syntax: Building Blocks
 
 #definition[
-  *Boolean variable:* $x in {0, 1}$ --- represents a binary value
+  *Boolean variable:* $x in {0, 1}$ --- represents a binary value.
 
-  *Boolean constants:* $0$ (false) and $1$ (true)
+  *Boolean constants:* $0$ (false) and $1$ (true).
 
   *Boolean operations:*
   - $not x$ --- negation (NOT)
   - $x and y$ --- conjunction (AND)
   - $x or y$ --- disjunction (OR)
 
-  *Boolean expression:* Built recursively from variables, constants, and operations
+  *Boolean expression:* Built recursively from variables, constants, and operations.
 ]
 
 #example[
@@ -163,7 +163,7 @@ Where Boolean algebra appears in computer science:
 
 == Semantics: What Expressions Mean
 
-Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arrow {0,1}$
+Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arrow {0,1}$.
 
 #example[
   Expression: $(x > 5) and (y <= 10)$
@@ -172,7 +172,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 ]
 
 #Block(color: blue)[
-  The same syntax can represent:
+  The same syntax can represent different things:
   - Mathematical predicates
   - Hardware circuits
   - Program conditions
@@ -181,7 +181,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 
 == Model Checking Application
 
-#Block(color: purple)[
+#Block(color: green)[
   *The state explosion problem:*
 
   System with $n$ Boolean state variables has $2^n$ possible states.
@@ -242,9 +242,9 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 == Derived Operations
 
 #definition[
-  - *XOR:* $x xor y equiv (x and not y) or (not x and y)$
   - *Implication:* $x imply y equiv not x or y$
   - *Equivalence:* $x iff y equiv (x imply y) and (y imply x)$
+  - *XOR:* $x xor y equiv (x and not y) or (not x and y)$
 ]
 
 #align(center)[
@@ -255,13 +255,9 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 
     let label(s) = text(size: 10pt, weight: "bold")[#s]
 
-    // XOR gate
-    element.gate-xor(id: "xor", x: 0, y: 0, w: 1.5, h: 1.5)
-    draw.content((rel: (0, -1.2), to: "xor"), label[XOR])
-
-    // Implication (no standard gate)
+    // Implication (no standard gate) - LEFT
     element.block(
-      x: 3.5,
+      x: 0,
       y: 0,
       w: 2,
       h: 1.5,
@@ -274,9 +270,13 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
     draw.content("impl", label[$imply$])
     draw.content((rel: (0, -1.2), to: "impl"), label[IMPLY])
 
-    // Equivalence (XNOR gate)
-    element.gate-xnor(id: "xnor", x: 7.5, y: 0, w: 1.5, h: 1.5)
+    // XNOR gate (equivalence) - MIDDLE
+    element.gate-xnor(id: "xnor", x: 4, y: 0, w: 1.5, h: 1.5)
     draw.content((rel: (0, -1.2), to: "xnor"), label[XNOR])
+
+    // XOR gate - RIGHT
+    element.gate-xor(id: "xor", x: 7.5, y: 0, w: 1.5, h: 1.5)
+    draw.content((rel: (0, -1.2), to: "xor"), label[XOR])
 
     // Add stubs for all gates
     wire.stub("impl-port-in0", "west")
@@ -294,9 +294,9 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 ]
 
 #Block(color: blue)[
-  XOR and XNOR (equivalence) have dedicated gate symbols.
+  Implication has no standard gate --- shown as a block and can be decomposed into NOT/AND/OR.
 
-  Implication has no standard gate — shown as a block and decomposed into NOT/AND/OR.
+  XOR and XNOR (equivalence) have dedicated gate symbols.
 ]
 
 == XOR in SAT Solving
@@ -913,11 +913,16 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 ]
 
 #Block(color: yellow)[
-  *Normal forms are situation-dependent:*
+  *Key insight:*
+  The duality principle is built into the axioms --- AND and OR appear symmetrically.
 
-  - DNF and CNF are universal but can explode in size.
-  - ANF is unique and useful in cryptography.
-  - Choose the form that fits your goal: synthesis, verification, or analysis.
+  This structural symmetry gives us free theorems: every proof yields TWO results!
+]
+
+#Block(color: blue)[
+  *What's next?*
+  We've mastered the algebra!
+  Now we'll see how to _represent_ any function systematically using normal forms (DNF, CNF, ANF).
 ]
 
 
@@ -983,9 +988,9 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 ]
 
 #Block(color: blue)[
-  *Cube:* ALL literals must be true
+  *Cube:* ALL literals must be true.
 
-  *Clause:* at least ONE literal must be true
+  *Clause:* at least ONE literal must be true.
 ]
 
 == Disjunctive Normal Form (DNF)
@@ -999,20 +1004,22 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 ]
 
 #example[
+  DNF formula --- OR of three cubes:
   $ f(x,y,z) = (x and y) or (not x and z) or (y and not z) $
-
-  This is DNF: OR of three cubes.
 ]
 
+// TODO: fit positive/negative examples into one slide, or move to a separate slide
 #example[
   DNF formulas:
-  - $(x and y) or (not x and z)$ --- "($x$ and $y$) OR ($not x$ and $z$)" ~(2 cubes)
-  - $(x and not y and z) or (not x and y) or z$ --- three alternatives ~(3 cubes)
-  - $x or (y and not z)$ --- still DNF (mixed form) ~(2 cubes: $x$ and $y and not z$)
+  - $(x and y) or (not x and z)$ --- "($x$ and $y$) OR ($not x$ and $z$)" ~ (2 cubes)
+  - $(x and not y and z) or (not x and y) or z$ --- three alternatives ~ (3 cubes)
+  - $x or (y and not z)$ --- still DNF (mixed form) ~ (2 cubes: $x$ and $y and not z$)
 ]
 
+#pagebreak()
+
 #example[
-  *NOT* in DNF:
+  Formulas *NOT* in DNF:
   - $(x or y) and z$ --- this is CNF (AND of ORs)
   - $x and (y or z)$ --- OR nested inside AND violates DNF structure
 ]
@@ -1047,14 +1054,18 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arr
 
 #Block(color: yellow)[
   *Intuition:*
-  CNF says "ALL of these constraints must be satisfied," where each constraint offers multiple ways to be true.
 
-  DNF says "the output is 1 if ANY of these scenarios happen," where each scenario is a specific combination of variable values.
+  - *CNF* says "ALL of these constraints must be satisfied."
+    - Each constraint (clause) offers multiple ways to be true.
+
+  - *DNF* says "ANY of these scenarios can make it true."
+    - Each scenario (cube) is a specific combination (product) of variable values.
 ]
 
 #Block(color: blue)[
   *Duality:*
   DNF and CNF are _dual_ forms.
+
   Swap $and$ and $or$ to convert between them.
 ]
 
@@ -1218,26 +1229,38 @@ We can index minterms and maxterms by their binary representations:
 #theorem[Shannon Expansion][
   For any Boolean function $f$ and variable $x$:
   $
-    f(x, y_1, dots, y_n) = overline(x) f(0, y_1, dots, y_n) + x f(1, y_1, dots, y_n) \
-    f(x, y_1, dots, y_n) = (x + f(0, y_1, dots, y_n))(overline(x) + f(1, y_1, dots, y_n))
+    f(x, y_1, dots, y_n) = overline(x) dot f_0 (y_1, dots, y_n) + x dot f_1 (y_1, dots, y_n)
+  $
+  where $f_0 = f(0, y_1, dots, y_n)$ and $f_1 = f(1, y_1, dots, y_n)$ are the _cofactors_ of $f$ with respect to $x$.
+
+  Dual form:
+  $
+    f(x, y_1, dots, y_n) = (x + f_0)(overline(x) + f_1)
   $
 ]
 
+== Shannon Expansion: Example
+
 #example[
   Expand $f(x, y) = x xor y$ by variable $x$:
+
+  *Step 1:* Compute cofactors:
+  - $f_0 = f(0, y) = 0 xor y = y$
+  - $f_1 = f(1, y) = 1 xor y = overline(y)$
+
+  *Step 2:* Apply Shannon expansion:
   $
-    f(x, y) & = overline(x) f(0, y) + x f(1, y) \
-            & = overline(x) (0 xor y) + x (1 xor y) \
+    f(x, y) & = overline(x) dot f_0 + x dot f_1 \
             & = overline(x) y + x overline(y)
   $
 
-  // This gives the standard XOR representation!
+  This gives the standard XOR representation!
 ]
 
 #Block(color: blue)[
   *Key idea:* Decompose function by fixing one variable to 0 and 1, then combine results.
 
-  The _cofactors_ $f(0, y_1, dots, y_n)$ and $f(1, y_1, dots, y_n)$ are simpler subfunctions.
+  The _cofactors_ $f_0$ and $f_1$ are simpler subfunctions.
 ]
 
 == Shannon Expansion: Applications
@@ -1246,6 +1269,7 @@ We can index minterms and maxterms by their binary representations:
   *Binary Decision Diagrams (BDDs):*
 
   Apply Shannon expansion recursively to build a _decision tree_.
+
   With variable ordering and reduction, this becomes a _canonical_ graph representation.
 
   BDDs are used by Intel/AMD to verify chip designs with billions of gates.
@@ -1265,15 +1289,15 @@ We can index minterms and maxterms by their binary representations:
 
 // TODO: add the proper "algorithm", mention first converting equivalences to implications, expanding implications into OR, etc., and then pushing negation downwards, eliminating double negations, pushing OR/AND (for CNF/DNF) downwards, eliminating top/bot. Also probably mention NNF.
 
-#example[DNF to CNF using distribution][
+#example[DNF to CNF][
   Given DNF: $(x and y) or (not x and z)$
 
-  Convert to CNF by viewing as $(A or B)$ where $A = x and y$, $B = not x and z$:
+  Convert to CNF by distributing:
   $
     f & = (x and y) or (not x and z) \
       & = (x or (not x and z)) and (y or (not x and z)) \
-      & = (x or not x) and (x or z) and (y or not x) and (y or z) \
-      & = 1 and (x or z) and (y or not x) and (y or z) \
+      & = ((x or not x) and (x or z)) and ((y or not x) and (y or z)) \
+      & = (1 and (x or z)) and ((not x or y) and (y or z)) \
       & = (x or z) and (not x or y) and (y or z)
   $
 
@@ -1289,18 +1313,19 @@ We can index minterms and maxterms by their binary representations:
 #Block(color: purple)[
   *What we've learned about normal forms:*
 
-  + *Building blocks:* Literals, cubes (AND of literals), clauses (OR of literals)
-  + *DNF (Disjunctive Normal Form):* OR of cubes --- "output is 1 if ANY scenario holds"
-  + *CNF (Conjunctive Normal Form):* AND of clauses --- "ALL constraints must be satisfied"
-  + *Minterms/Maxterms:* Maximal cubes/clauses containing all variables
-  + *SoP/PoS (Canonical forms):* Unique representation using all minterms/maxterms
-  + *Shannon expansion:* Recursive decomposition by cofactors
-  + *Universality:* Every Boolean function has both DNF and CNF representations
+  + *Building blocks:* Literals, cubes (AND of literals), clauses (OR of literals).
+  + *DNF (Disjunctive Normal Form):* OR of cubes --- "output is 1 if ANY scenario holds".
+  + *CNF (Conjunctive Normal Form):* AND of clauses --- "ALL constraints must be satisfied".
+  + *Minterms/Maxterms:* Maximal cubes/clauses containing all variables.
+  + *SoP/PoS (Canonical forms):* Unique representation using all minterms/maxterms.
+  + *Shannon expansion:* Recursive decomposition by cofactors.
+  + *Universality:* Every Boolean function has both DNF and CNF representations.
 ]
 
 #Block(color: yellow)[
   *Key insight:*
   Normal forms let us synthesize ANY circuit from a truth table.
+
   But _canonical_ forms are often huge --- we need _minimization_ techniques!
 ]
 
@@ -2387,16 +2412,16 @@ When multiple prime implicants remain after selecting essentials:
   *What we've mastered:*
 
   #columns(2)[
-    + *Why minimize:* Cost, power, speed, clarity
+    + *Why minimize:* Cost, power, speed, clarity.
 
-    + *Gray code:* Foundation for K-map adjacency
+    + *Gray code:* Foundation for K-map adjacency.
 
-    + *K-maps:* Visual method for 2-5 variables
+    + *K-maps:* Visual method for 2-5 variables.
       - Grouping rules and strategies
       - Wrap-around and corners
       - Don't-care optimization
 
-    + *Algebraic methods:* Laws, consensus, #box[multi-level], factoring
+    + *Algebraic methods:* Laws, consensus, multi-level, factoring.
 
     #colbreak()
     #set enum(start: 5)
@@ -2406,23 +2431,33 @@ When multiple prime implicants remain after selecting essentials:
       - Prime implicant chart
       - Essential implicants
 
-    + *Petrick's method:* Minimum cover selection
+    + *Petrick's method:* Minimum cover selection.
 
-    + *Minimization complexity:* NP-complete
+    + *Minimization complexity:* NP-complete.
 
-    + *Practical tools:* ESPRESSO, ABC
+    + *Practical tools:* ESPRESSO, ABC.
   ]
 ]
 
+#pagebreak()
+
 #Block(color: yellow)[
   *Key insight:*
+
   Minimization transforms algebraic simplification into visual pattern recognition (K-maps) or systematic algorithms (Q-M).
-  For small functions (≤5 vars), K-maps are instant. For large functions, we use heuristics and accept near-optimal solutions.
+
+  For small functions ($<= 5$ vars), K-maps are instant.
+
+  For large functions, we use heuristics and accept near-optimal solutions.
 ]
 
 #Block(color: blue)[
   *What's next:*
-  All our techniques (DNF, CNF, minimization) use AND/OR/NOT. But there's a completely different approach using only XOR and AND --- Algebraic Normal Form (ANF). This gives us _unique_ canonical representation, crucial for cryptography.
+
+  All our techniques (DNF, CNF, minimization) use AND/OR/NOT.
+
+  But there's a completely different approach using only XOR and AND --- Algebraic Normal Form (ANF).
+  This gives us _unique_ canonical representation, crucial for cryptography.
 ]
 
 
