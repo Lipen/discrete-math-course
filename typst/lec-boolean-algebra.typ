@@ -163,7 +163,7 @@ Where Boolean algebra appears in computer science:
 
 == Semantics: What Expressions Mean
 
-Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n arrow {0,1}$.
+Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to {0,1}$.
 
 #example[
   Expression: $(x > 5) and (y <= 10)$
