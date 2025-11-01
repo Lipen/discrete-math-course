@@ -1278,55 +1278,193 @@ We can index minterms and maxterms by their binary representations:
 #Block(color: green)[
   *SAT Solving (DPLL Algorithm):*
 
-  DPLL uses Shannon-style case splitting: pick $x$, solve $f[x arrow 0]$ and $f[x arrow 1]$.
+  DPLL uses Shannon expansion for systematic case-split reasoning: pick variable $x$, recursively solve $f[x = 0]$ and $f[x = 1]$, exploring the solution space via cofactor decomposition.
 ]
 
 #Block(color: blue)[
-  *Circuit decomposition:* Break large circuits into blocks for hierarchical synthesis (EDA tools).
+  *Circuit decomposition:*
+  Break large circuits into blocks for hierarchical synthesis (EDA tools).
 ]
 
-== Converting Between Forms
+== Converting Arbitrary Formulas to Normal Forms
 
-// TODO: add the proper "algorithm", mention first converting equivalences to implications, expanding implications into OR, etc., and then pushing negation downwards, eliminating double negations, pushing OR/AND (for CNF/DNF) downwards, eliminating top/bot. Also probably mention NNF.
+#Block(color: blue)[
+  *General algorithm for converting ANY Boolean formula to DNF or CNF:*
 
-#example[DNF to CNF][
-  Given DNF: $(x and y) or (not x and z)$
+  + *Eliminate "non-standard" operations (rewrite in terms of $and$, $or$, $not$):*
+    - $x iff y ~~> (x and y) or (overline(x) and overline(y))$
+    - $x imply y ~~> overline(x) or y$
 
-  Convert to CNF by distributing:
+  + *Push negations inward (resulting in NNF --- Negation Normal Form):*
+    - $overline(x and y) ~~> overline(x) or overline(y)$
+    - $overline(x or y) ~~> overline(x) and overline(y)$
+    - Eliminate double negations: $overline(overline(x)) ~~> x$
+
+  + *Distribute to desired form:*
+    - For DNF: $(x or y) and z ~~>_"DNF" (x and z) or (y and z)$
+    - For CNF: $(x and y) or z ~~>_"CNF" (x or z) and (y or z)$
+
+  + *Simplify:* Apply $x or overline(x) = 1$,~ $x and overline(x) = 0$,~ $x or 0 = x$,~ $x and 1 = x$
+]
+
+// #note[
+//   After step 2, formula is in _Negation Normal Form (NNF)_: only literals are negated, no $imply$ or $iff$.
+// ]
+
+== Converting to DNF: Example
+
+#example[
+  Convert $(x imply y) and (y iff z)$ to DNF
+]
+
+*Step 1:* Eliminate $imply$ and $iff$:
+$
+  f & = (overline(x) or y) and ((y and z) or (overline(y) and overline(z)))
+$
+
+*Step 2:* Already in NNF (negations only on literals)
+
+*Step 3:* Distribute AND over OR to get DNF:
+$
+  f & = ((overline(x) or y) and (y and z)) or ((overline(x) or y) and (overline(y) and overline(z))) \
+  & = (overline(x) and y and z) or (y and y and z) or (overline(x) and overline(y) and overline(z)) or (y and overline(y) and overline(z))
+$
+
+*Step 4:* Simplify:
+$
+  f & = (overline(x) and y and z) or (y and z) or (overline(x) and overline(y) and overline(z)) or 0 \
+    & = (overline(x) and y and z) or (y and z) or (overline(x) and overline(y) and overline(z))
+$
+
+#pagebreak()
+
+Further simplification (absorption): $(overline(x) and y and z)$ is absorbed by $(y and z)$:
+$
+  f = (y and z) or (overline(x) and overline(y) and overline(z))
+$
+
+*Result:* DNF with 2 cubes
+
+== Converting to CNF: Example
+
+#example[
+  Convert $(x imply y) or z$ to CNF
+]
+
+*Step 1:* Eliminate $imply$:
+$
+  f = (overline(x) or y) or z = overline(x) or y or z
+$
+
+*Step 2:* Already in NNF
+
+*Step 3:* Already in CNF (single clause!)
+
+*Result:* CNF with 1 clause $(overline(x) or y or z)$
+
+#Block(color: yellow)[
+  *Key insight:*
+  Some formulas are naturally close to one normal form.
+  Choose the form that results in simpler representation.
+]
+
+== DNF to CNF: Manageable Case
+
+Now consider converting _between_ DNF and CNF (not from arbitrary formulas).
+
+#example[DNF to CNF with modest growth][
+  Given DNF: $(x and y) or (overline(x) and z)$
+
+  // *Step 1:* Distribute OR over AND using $(A and B) or C = (A or C) and (B or C)$:
+  // $
+  //   f & = (x and y) or (overline(x) and z) \
+  //     & = (x or (overline(x) and z)) and (y or (overline(x) and z))
+  // $
+
+  // *Step 2:* Distribute OR over inner ANDs:
+  // $
+  //   f & = ((x or overline(x)) and (x or z)) and ((y or overline(x)) and (y or z))
+  // $
+
+  // *Step 3:* Simplify using $x or overline(x) = 1$:
+  // $
+  //   f & = (1 and (x or z)) and ((overline(x) or y) and (y or z))
+  // $
+
+  // *Step 4:* Apply identity $1 and x = x$:
+  // $
+  //   f = (x or z) and (overline(x) or y) and (y or z)
+  // $
+
+  #table(
+    columns: 2,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Step*], [*Expression*]),
+    [*Step 1*: Distribute OR over AND], [$f = (x or (overline(x) and z)) and (y or (overline(x) and z))$],
+    [*Step 2*: Distribute inner ORs], [$f = ((x or overline(x)) and (x or z)) and ((y or overline(x)) and (y or z))$],
+    [*Step 3*: Simplify complements], [$f = (1 and (x or z)) and ((overline(x) or y) and (y or z))$],
+    [*Step 4*: Apply identity], [$f = (x or z) and (overline(x) or y) and (y or z)$],
+  )
+
+  *Result:* 2 cubes $=>$ 3 clauses (modest growth)
+]
+
+== DNF to CNF: Exponential Blowup
+
+#example[DNF to CNF with exponential explosion][
+  Consider DNF with 4 cubes:
   $
-    f & = (x and y) or (not x and z) \
-      & = (x or (not x and z)) and (y or (not x and z)) \
-      & = ((x or not x) and (x or z)) and ((y or not x) and (y or z)) \
-      & = (1 and (x or z)) and ((not x or y) and (y or z)) \
-      & = (x or z) and (not x or y) and (y or z)
+    f = (a and b) or (c and d) or (e and f) or (g and h)
   $
 
-  Result: CNF with 3 clauses (from DNF with 2 cubes).
+  Converting to CNF requires distributing OR over all ANDs:
+  $
+    f = (a or c or e or g) and (a or c or e or h) and (a or c or f or g) and dots.h.c
+  $
+
+  *Count the clauses:*
+  Each cube contributes 2 literals, giving $2^4 = 16$ possible combinations.
+
+  *Result:* 4 cubes $=>$ 16 clauses (exponential blowup!)
 ]
 
 #Block(color: orange)[
-  *Warning:* Conversion can cause _exponential blowup_ --- DNF with $n$ cubes may need $2^n$ clauses in CNF!
+  *Warning:*
+  DNF with $n$ cubes, each having $k$ literals, can produce up to $k^n$ clauses in CNF.
+
+  For $n = 10$ cubes with $k = 2$ literals each: $2^10 = 1024$ clauses!
 ]
 
 == Summary: Canonical Forms
 
-#Block(color: purple)[
-  *What we've learned about normal forms:*
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: purple)[
+    *Core concepts:*
 
-  + *Building blocks:* Literals, cubes (AND of literals), clauses (OR of literals).
-  + *DNF (Disjunctive Normal Form):* OR of cubes --- "output is 1 if ANY scenario holds".
-  + *CNF (Conjunctive Normal Form):* AND of clauses --- "ALL constraints must be satisfied".
-  + *Minterms/Maxterms:* Maximal cubes/clauses containing all variables.
-  + *SoP/PoS (Canonical forms):* Unique representation using all minterms/maxterms.
-  + *Shannon expansion:* Recursive decomposition by cofactors.
-  + *Universality:* Every Boolean function has both DNF and CNF representations.
-]
+    - Literals, cubes (AND), clauses (OR)
+    - DNF: OR of cubes (ANY scenario)
+    - CNF: AND of clauses (ALL constraints)
+    - Minterms/maxterms: all variables
+    - SoP/PoS: unique canonical forms
+    - Shannon expansion: cofactor decomposition
+  ],
+  Block(color: yellow)[
+    *Key properties:*
 
-#Block(color: yellow)[
-  *Key insight:*
-  Normal forms let us synthesize ANY circuit from a truth table.
+    - Every function has both DNF and CNF
+    - Truth table $=>$ circuit via SoP/PoS
+    - NNF: intermediate for conversion
+    - DNF $<=>$ CNF can explode exponentially
+    - Canonical forms are often huge $=>$ minimization needed
+  ],
+)
 
-  But _canonical_ forms are often huge --- we need _minimization_ techniques!
+#Block(color: blue)[
+  *What's next:*
+  Minimization techniques to reduce circuit size, cost, and power consumption.
 ]
 
 
