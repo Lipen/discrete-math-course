@@ -3168,7 +3168,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Method*], [*Pros*], [*Cons*], [*Best for*]),
     [
-      📐*Direct computation*
+      *Direct computation*
     ],
     [
       - Systematic \
@@ -3187,7 +3187,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 
     table.hline(stroke: 0.4pt + gray),
     [
-      🔺*Pascal's triangle*
+      *Pascal's triangle*
     ],
     [
       - _Fast_ \
@@ -3206,7 +3206,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 
     table.hline(stroke: 0.4pt + gray),
     [
-      🗺️*K-map method*
+      *K-map method*
     ],
     [
       - Visual \
