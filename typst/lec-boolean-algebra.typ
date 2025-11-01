@@ -3114,29 +3114,50 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$
 ]
 
-#align(center)[
-  TODO
-  //   #table(
-  //     columns: 5,
-  //     stroke: 0.5pt,
-  //     align: center,
-  //     [], [], [*$y z$*], [], [],
-  //     [], [], [$00$], [$01$], [$11$],
-  //     [$10$], [*$x$*], [0], [1], [1],
-  //     [1], [0], [], [1], [0],
-  //     [0], [1], [0],
-  //   )
+#grid(
+  columns: 2,
+  gutter: 3em,
+  [
+    *K-map:*
+
+    #align(center)[
+      #k-mapper.karnaugh(
+        8,
+        y-label: $x y$,
+        x-label: $z$,
+        manual-terms: (
+          kcell(0, 1),
+          kcell(1, 1),
+          kcell(2, 0),
+          kcell(3, 1),
+          kcell(4, 0),
+          kcell(5, 0),
+          kcell(6, 0),
+          kcell(7, 1),
+        ),
+      )
+    ]
+  ],
+  [
+    *Monomial analysis (check top-left of each region):*
+
+    #set enum(numbering: "1.")
+    + Constant (all cells): top-left = 1 $=>$ *include* $1$
+    + $z$ (right column): top-left = 1 $=>$ exclude
+    + $y$ (middle rows 01,11): top-left = 0 $=>$ *include* $y$
+    + $x$ (bottom rows 10,11): top-left = 0 $=>$ *include* $x$
+    + $y z$ (cells 3, 7): top-left = 1 $=>$ *include* $y z$
+    + $x z$ (cells 5, 7): top-left = 0 $=>$ exclude
+    + $x y$ (cells 6, 7): top-left = 0 $=>$ *include* $x y$
+    + $x y z$ (cell 7): value = 1 $=>$ exclude
+  ],
+)
+
+*Result ANF:*~ $f = 1 xor y xor y z xor x xor x y$
+
+#note[
+  This matches the result from Pascal's triangle method!
 ]
-
-*Groups to check:*
-+ *Constant* (all 8 cells): $1 xor 1 xor 1 xor 0 xor 0 xor 0 xor 1 xor 0 = 0$ $=>$ No constant term
-+ *$z$* (columns 01, 11): Top-left at (0, 01) is 1 $=>$ Include $z$
-+ *$y$* (columns 10, 11): Top-left at (0, 10) is 0 $=>$ No
-+ *$x$* (bottom row): Top-left at (1, 00) is 0 $=>$ No
-+ *$y z$* (column 11): Top-left at (0, 11) is 1 $=>$ Include $y z$
-+ *$x y z$* (cell at $x = 1$, $y z = 11$): Value is 1 $=>$ Include $x y z$
-
-*Result:*~ $f = 1 xor z xor y z xor x y z$
 
 == Comparison of ANF Construction Methods
 
