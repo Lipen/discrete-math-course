@@ -3332,32 +3332,30 @@ Two approaches for converting between representations:
     table.header([*Method*], [*Advantages*], [*Disadvantages*]),
     [
       *Algebraic* \
-      Direct application \
-      of identities
+      Direct application of identities
     ],
     [
-      - Direct transformation \
+      - Direct transformation
       - Shows structural relationships
     ],
     [
-      - Complex algebraic expansions \
-      - Error-prone for large functions \
+      - Complex algebraic expansions
+      - Error-prone for large functions
       - Exponential term growth
     ],
 
     table.hline(stroke: 0.4pt),
     [
       *Via truth table* \
-      Truth table as \
-      intermediate form
+      Truth table as intermediate form
     ],
     [
-      - Systematic procedure \
-      - Always succeeds \
+      - Systematic procedure
+      - Always succeeds
       - Clear verification steps
     ],
     [
-      - Requires complete enumeration \
+      - Requires complete enumeration
       - Additional computational step
     ],
   )
