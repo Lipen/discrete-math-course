@@ -1614,7 +1614,6 @@ But the result is often *not minimal*.
   *Advantages:*
   - Visual pattern recognition
   - Fast for small functions (2-5 variables)
-  - Shows all simplification opportunities
   - Educational value
 
   #colbreak()
@@ -1622,16 +1621,13 @@ But the result is often *not minimal*.
   *Limitations:*
   - Practical only for ≤6 variables
   - Manual grouping required
-  - Doesn't scale to large functions
-  - Use Quine-McCluskey or ESPRESSO for 6+ variables
+  - Does not scale to large functions
 ]
 
-// TODO: mention that K-map produces minimal DNF. It could also be used for min-CNF, if we analyze 0s instead of 1s.
-//
-// #Block[
-//   K-maps produce minimal *DNF* by grouping 1s. \
-//   For minimal *CNF*, group 0s instead and apply De Morgan's laws.
-// ]
+#Block[
+  K-maps produce minimal *DNF* by grouping 1s. \
+  For minimal *CNF*, group 0s instead and apply De Morgan's laws to the result.
+]
 
 == 2-Variable K-Map: Step by Step
 
