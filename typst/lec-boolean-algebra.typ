@@ -3425,44 +3425,38 @@ Two approaches for converting between representations:
 
 == Summary: Algebraic Normal Form
 
-#Block(color: purple)[
-  *Key concepts covered:*
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: purple)[
+    *Core concepts:*
+    - ANF uses only XOR and AND (no OR, no NOT)
+    - Every function has _unique_ ANF representation
+    - Algebraic degree = max monomial size
+    - Monomials: products of variables ($1, x, x y, x y z, ...$)
+    - XOR is self-inverse: $x xor x = 0$
+    - Negation via XOR: $overline(x) = x xor 1$
+    - Linear functions: degree $<= 1$ (no AND terms)
+  ],
+  Block(color: green)[
+    *ANF construction methods:*
+    - Pascal's triangle (systematic, $O(2^n)$)
+    - K-map regions (visual, intuitive)
+    - Direct computation (linear system)
 
-  #grid(
-    columns: 2,
-    gutter: 1em,
-    [
-      *Theoretical foundations*
-      + ANF as polynomials over $FF_2$
-      + Representation using XOR and AND
-      + Unique canonical form
-      + Algebraic degree as security parameter
-    ],
-    [
-      *Computational methods*
-      + Pascal's triangle (efficient)
-      + Karnaugh map (intuitive)
-      + Direct computation (theoretical)
-      + Conversion via truth tables
-    ],
-  )
-
-  *Applications*
-  - Cryptographic analysis: S-box evaluation, algebraic attacks
-  - Coding theory: Reed-Muller codes, error correction
-  - Hardware optimization: XOR-based circuit design
-]
-
-#Block(color: yellow)[
-  *Key insight:*
-  ANF provides a _unique_ canonical form (unlike DNF/CNF which have infinite equivalent representations).
-  The algebraic degree in ANF directly measures cryptographic security --- higher degree means more resistance to attacks.
-]
+    *Applications:*
+    - Cryptanalysis of S-boxes
+    - Algebraic attacks on ciphers
+    - Reed-Muller codes
+  ],
+)
 
 #Block(color: blue)[
   *What's next:*
-  We've seen many operation sets: {AND, OR, NOT}, {XOR, AND, 1}, {NAND}, etc.
-  Which sets can express _every_ Boolean function? This leads to functional completeness and Post's criterion.
+  We've seen many ways to express Boolean functions, e.g., using ${and, or, not}$ or ${xor, and, 1}$.
+
+  Which sets of operations can express _all_ Boolean functions?
+  This leads us to _functional completeness_.
 ]
 
 
