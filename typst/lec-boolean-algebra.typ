@@ -346,7 +346,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
 #example[XOR constraint][
   $x xor y xor z = 0$
 
-  CNF expansion: $(x or y or z) and (x or not y or not z) and (not x or y or not z) and (not x or not y or z)$
+  CNF expansion: $(x or y or not z) and (x or not y or z) and (not x or y or z) and (not x or not y or not z)$
 
   Requires 4 clauses!
 ]
