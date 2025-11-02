@@ -349,14 +349,14 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
 == Expression as Syntax Tree
 
 #example[
-  Expression: $(x imply y) and (y imply z)$
+  Expression: $(x imply not y) and (y imply z)$
 ]
 
 #align(center)[
   #fletcher.diagram(
     node-stroke: 1pt,
     edge-stroke: 1pt,
-    spacing: (2cm, 1.5cm),
+    spacing: (1.5cm, 1cm),
     {
       let blob = fletcher.node
       let edge = fletcher.edge
@@ -365,7 +365,8 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
       blob((-1, 1), $imply$, stroke: 1pt, shape: fletcher.shapes.rect)
       blob((1, 1), $imply$, stroke: 1pt, shape: fletcher.shapes.rect)
       blob((-1.5, 2), $x$, stroke: 1pt)
-      blob((-0.5, 2), $y$, stroke: 1pt)
+      blob((-0.5, 2), $not$, stroke: 1pt, shape: fletcher.shapes.rect)
+      blob((-0.5, 3), $y$, stroke: 1pt)
       blob((0.5, 2), $y$, stroke: 1pt)
       blob((1.5, 2), $z$, stroke: 1pt)
 
@@ -375,6 +376,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
       edge((-1, 1), (-0.5, 2), "-}>")
       edge((1, 1), (0.5, 2), "-}>")
       edge((1, 1), (1.5, 2), "-}>")
+      edge((-0.5, 2), (-0.5, 3), "-}>")
     },
   )
 ]
