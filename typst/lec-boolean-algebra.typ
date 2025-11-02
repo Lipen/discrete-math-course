@@ -333,29 +333,55 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
   XOR and XNOR (equivalence) have dedicated gate symbols.
 ]
 
-== XOR in SAT Solving
+== CNF and SAT Solvers
 
-#example[Classical SAT clause][
-  $(x or y) and (not x or z)$
+#Block(color: blue)[
+  *Why SAT solvers prefer CNF:*
 
-  CNF: 2 clauses
+  CNF formulas enable _unit propagation_ --- a fast inference rule:
 
-  DPLL solver uses unit propagation
+  If clause $(x or y or z)$ and we know $x = 0, y = 0$, then immediately deduce $z = 1$.
+
+  This simple rule drives efficient search in DPLL and CDCL algorithms.
 ]
 
-#example[XOR constraint][
-  $x xor y xor z = 0$
+#example[
+  Formula: $(x or y) and (not x or z)$
 
-  CNF expansion: $(x or y or not z) and (x or not y or z) and (not x or y or z) and (not x or not y or not z)$
+  If we set $x = 1$: first clause satisfied, second forces $z = 1$ (unit propagation!)
+]
 
-  Requires 4 clauses!
+#Block(color: yellow)[
+  *Consequence:*
+  To use modern SAT solvers, prepare to convert your formulas to CNF.
+
+  But note that some operations (XOR, majority) convert poorly!
+]
+
+== The XOR Problem in SAT Solving
+
+#example[XOR constraint expansion][
+  Single constraint: $x xor y xor z = 1$ (odd parity)
+
+  CNF expansion requires 4 clauses:
+  $
+    (x or y or z) and (x or not y or not z) and (not x or y or not z) and (not x or not y or z)
+  $
 ]
 
 #Block(color: orange)[
-  *Cryptanalysis problem:* Modern ciphers (AES, SHA-256) heavily use XOR. \
-  Converting to CNF creates millions of clauses!
+  *The explosion:*
 
-  *Solution:* Specialized solvers (CryptoMiniSat) use Gaussian elimination on $FF_2$.
+  Cryptographic circuits (AES, SHA-256) use _thousands_ of XOR gates.
+
+  Converting to pure CNF creates _millions_ of clauses.
+
+  Standard SAT solvers become impossibly slow!
+]
+
+#Block(color: green)[
+  *Modern solution:*
+  Specialized solvers (CryptoMiniSat) handle XOR constraints natively using Gaussian elimination over $FF_2$.
 ]
 
 == Recursive Structure of Expressions
