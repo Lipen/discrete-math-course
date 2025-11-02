@@ -58,19 +58,21 @@
 == From Algebra to Digital Circuits
 
 #Block(color: teal)[
-  *1854:* George Boole publishes _Laws of Thought_: treat logic as _algebra_ with operations on ${0,1}$.
+  *1854:* George Boole publishes _Laws of Thought_.
+  - Radical idea: treat logic as _algebra_ with operations on ${0,1}$.
 
-  *1937:* Claude Shannon's Master's thesis shows Boolean algebra can _systematically design_ relay circuits.
-  No more trial-and-error engineering!
+  *1937:* Claude Shannon's Master's thesis:
+  - Shows Boolean algebra can _systematically design_ relay circuits.
+  - No more trial-and-error engineering!
 
   *1948:* Transistor invented.
-  Boolean algebra becomes the foundation of digital electronics.
+  - Boolean algebra becomes the foundation of digital electronics.
 
-  *Today:* Every processor in your pocket runs on 200+ billion transistors --- _all_ following Boolean algebra rules.
+  *Today:* Every processor runs on 200+ billion transistors, all following Boolean algebra rules.
 ]
 
 #Block(color: yellow)[
-  *Key insight:* Abstract symbols (${0, 1, and, or, not}$) $==>$ Physical reality (5V, 0V, silicon gates).
+  Abstract symbols ($0, 1, and, or, not$) $==>$ Physical reality (voltages, silicon gates).
 ]
 
 == Modern Applications: Where Boolean Algebra Rules
@@ -336,52 +338,61 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
 == CNF and SAT Solvers
 
 #Block(color: blue)[
-  *Why SAT solvers prefer CNF:*
+  SAT solvers (DPLL, CDCL) work exclusively with CNF formulas.
 
-  CNF formulas enable _unit propagation_ --- a fast inference rule:
-
-  If clause $(x or y or z)$ and we know $x = 0, y = 0$, then immediately deduce $z = 1$.
-
-  This simple rule drives efficient search in DPLL and CDCL algorithms.
+  Why CNF? It enables _unit propagation_ --- a fast inference rule.
 ]
 
-#example[
-  Formula: $(x or y) and (not x or z)$
+*Unit propagation rule:*
+When a clause has only one unassigned literal, that literal must be true.
 
-  If we set $x = 1$: first clause satisfied, second forces $z = 1$ (unit propagation!)
+#example[
+  Clause: $(x or y or z)$ with assignments $x = 0, y = 0$
+
+  Only $z$ remains unassigned $=>$ must set $z = 1$ to satisfy the clause.
 ]
 
 #Block(color: yellow)[
-  *Consequence:*
-  To use modern SAT solvers, prepare to convert your formulas to CNF.
+  To use modern SAT solvers, express your problem in CNF!
+]
 
-  But note that some operations (XOR, majority) convert poorly!
+#Block(color: orange)[
+  *Caveat:* Some operations (XOR, majority) cause exponential blowup when converted to CNF.
 ]
 
 == The XOR Problem in SAT Solving
 
-#example[XOR constraint expansion][
-  Single constraint: $x xor y xor z = 1$ (odd parity)
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: green)[
+    *Easy case: AND/OR*
 
-  CNF expansion requires 4 clauses:
-  $
-    (x or y or z) and (x or not y or not z) and (not x or y or not z) and (not x or not y or z)
-  $
-]
+    Formula: $(x or y) and z$
+
+    Already in CNF: 2 clauses
+
+    Solver handles it efficiently
+  ],
+  Block(color: yellow)[
+    *Hard case: XOR*
+
+    Constraint: $x xor y xor z = 1$ (odd parity)
+
+    CNF: 4 clauses!
+    $
+      (x or y or z) and (x or not y or not z) and (not x or y or not z) and (not x or not y or z)
+    $
+  ],
+)
 
 #Block(color: orange)[
   *The explosion:*
-
-  Cryptographic circuits (AES, SHA-256) use _thousands_ of XOR gates.
-
-  Converting to pure CNF creates _millions_ of clauses.
-
-  Standard SAT solvers become impossibly slow!
+  AES cipher: 1000+ XOR gates $=>$ millions of CNF clauses $=>$ SAT solver is confused!
 ]
 
-#Block(color: green)[
-  *Modern solution:*
-  Specialized solvers (CryptoMiniSat) handle XOR constraints natively using Gaussian elimination over $FF_2$.
+#Block[
+  *Solution:* CryptoMiniSat handles XOR natively via Gaussian elimination over $FF_2$.
 ]
 
 == Recursive Structure of Expressions
@@ -980,10 +991,9 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
 ]
 
 #Block(color: yellow)[
-  *Key insight:*
-  The duality principle is built into the axioms --- AND and OR appear symmetrically.
+  Duality is built into the axioms --- AND and OR appear symmetrically.
 
-  This structural symmetry gives us free theorems: every proof yields TWO results!
+  Every proof yields TWO results automatically!
 ]
 
 #Block(color: blue)[
@@ -2897,58 +2907,36 @@ These differences enable important applications:
 
 == Why Algebraic Degree Matters
 
-*Application:* Cryptography and security
+#grid(
+  columns: 2,
+  gutter: 1.5em,
+  Block(color: orange)[
+    *Weak: Degree 2-3*
 
-In encryption systems, functions transform data to hide it from attackers.
-The algebraic degree determines how _complex_ these transformations are.
+    $f(x,y,z) = x xor y z$
+
+    Linearization attack:
+    + Set $w = y z$
+    + Now: $f = x xor w$ (linear!)
+    + Solve system $=>$ broken! #NO
+  ],
+  Block(color: green)[
+    *Strong: Degree 7-8*
+
+    AES S-box: degree 7
+
+    Many nonlinear terms
+
+    Linearization $=>$ huge system
+
+    Computationally infeasible #YES
+  ],
+)
 
 #Block(color: yellow)[
-  *Key insight:* Low-degree functions can be broken using linear algebra!
+  Cryptography lesson: Low degree = vulnerable to algebraic attacks!
 
-  If a function has degree 2-3, an attacker can:
-  1. Express it as ANF (polynomial over $FF_2$)
-  2. Treat each product term (like $x y z$) as a _new variable_
-  3. Solve the resulting _linear_ system of equations
-
-  This is called *linearization attack*.
-]
-
-== Example: Breaking a Low-Degree Function
-
-#example[
-  Suppose an encryption system uses $f(x, y, z) = x xor y z$ (degree 2).
-
-  *Linearization attack:*
-  - *Step 1:* ANF has nonlinear term $y z$ $=>$ introduce variable $w = y z$
-  - *Step 2:* Rewrite as $f = x xor w$ $=>$ now linear in $x, w$!
-  - *Step 3:* Collect pairs $(x_i, y_i, z_i) maps f_i$ $=>$ equations $x_i xor w_i = f_i$ where $w_i = y_i z_i$
-  - *Step 4:* Solve linear system over $FF_2$ $=>$ recover secret values $=>$ encryption broken!
-
-  *Why it works:* Only 1 nonlinear term $=>$ only 1 new variable $=>$ system stays small and solvable.
-]
-
-#Block(color: orange)[
-  *Defense:* High-degree function (7-8) has many nonlinear terms $=>$ too many new variables $=>$ system becomes huge and unsolvable.
-]
-
-== Degree in Real Encryption Systems
-
-#Block(color: green)[
-  *Why encryption functions need high degree:*
-
-  Modern encryption (like AES, used in HTTPS, WiFi, banking) uses special functions called _S-boxes_.
-  These are Boolean functions $FF_2^8 to FF_2^8$ (8 input bits $to$ 8 output bits).
-
-  *Design requirement:* Degree must be close to maximum!
-  - Maximum possible degree for 8 variables: 8
-  - But degree-8 has special mathematical structure (too predictable)
-  - *AES uses degree 7* --- highest practical degree
-
-  If degree were 2-3, attackers could solve the system and break encryption.
-]
-
-#Block(color: teal)[
-  *Historical context:* Older encryption (DES, 1970s) used degree 6. Later discovered vulnerable to algebraic attacks. Modern systems learned from this mistake.
+  Modern ciphers (AES, SHA-256) use maximum practical degree.
 ]
 
 == Methods for Computing ANF
@@ -3043,10 +3031,11 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
 *Result:*~ $f(x, y) = 1 xor x y$, which is equivalent to $f = x nand y$.
 
 #Block(color: yellow)[
-  *Key insight:* Each row in the truth table gives exactly one linear equation over $FF_2$.
-  - With $n$ variables, we get $2^n$ equations in $2^n$ unknowns (the ANF coefficients)
-  - The system is always solvable (ANF exists and is unique)
-  - But for $n > 4$, solving $2^n$ equations manually becomes impractical!
+  Each row in the truth table gives one linear equation over $FF_2$.
+
+  With $n$ variables: $2^n$ equations in $2^n$ unknowns (ANF coefficients).
+
+  System is always solvable, but for $n > 4$ becomes impractical manually!
 ]
 
 == Method 2: Pascal's Triangle Method
