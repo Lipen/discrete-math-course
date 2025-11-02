@@ -58,41 +58,51 @@
 == From Algebra to Digital Circuits
 
 #Block(color: teal)[
-  *1854:* George Boole publishes _Laws of Thought_ --- treats logic as algebra with operations on {0,1}.
+  *1854:* George Boole publishes _Laws of Thought_: treat logic as _algebra_ with operations on ${0,1}$.
 
-  *1937:* Claude Shannon's Master's thesis proves Boolean algebra can systematically design relay circuits.
+  *1937:* Claude Shannon's Master's thesis shows Boolean algebra can _systematically design_ relay circuits.
+  No more trial-and-error engineering!
 
-  *1948:* Transistor invented $=>$ Boolean algebra becomes foundation of digital electronics.
+  *1948:* Transistor invented.
+  Boolean algebra becomes the foundation of digital electronics.
 
-  *Today:* Every processor, memory chip, network router built on Boolean algebra principles.
+  *Today:* Every processor in your pocket runs on 200+ billion transistors --- _all_ following Boolean algebra rules.
 ]
 
 #Block(color: yellow)[
-  *The bridge:* Abstract algebra (0, 1, AND, OR, NOT) $=>$ Physical reality (voltages, transistors, gates).
+  *Key insight:* Abstract symbols (${0, 1, and, or, not}$) $==>$ Physical reality (5V, 0V, silicon gates).
 ]
 
-== Modern Applications
+== Modern Applications: Where Boolean Algebra Rules
 
-Where Boolean algebra appears in computer science:
+#Block(color: orange)[
+  *Why it matters:* Boolean algebra isn't just theory --- it's the foundation of the industry.
+]
 
 #grid(
   columns: (1fr, 1fr),
-  gutter: 1.5em,
+  gutter: 1em,
   [
-    *Theory:*
-    - SAT solvers (NP-complete!)
-    - Model checkers (NuSMV)
-    - Formal verification
-    - Complexity theory
+    *Proving Program Correctness:*
+    - SAT solvers decide NP-complete problems
+    - Model checkers verify Intel/AMD CPUs
+    - Formal methods prevent rocket crashes
+    - Automated theorem proving
   ],
   [
-    *Practice:*
-    - Hardware synthesis tools
-    - Circuit optimizers (ABC)
-    - Cryptographic S-boxes
-    - Database query planners
+    *Building Verified Hardware:*
+    - Synthesis tools: RTL $=>$ 10 billion gates
+    - Circuit optimizers save millions in silicon area
+    - AES encryption (S-box)
+    - Google TPUs: optimized integrated circuits
   ],
 )
+
+#Block(color: yellow)[
+  *Scale:*
+  Apple M3 chip has 25 _billion_ transistors.
+  Every single gate was designed using Boolean minimization algorithms.
+]
 
 == Lecture Overview
 
@@ -113,11 +123,7 @@ Where Boolean algebra appears in computer science:
     - Shannon expansion
     - Functional completeness (Post's theorem)
   ],
-)
 
-#grid(
-  columns: (1fr, 1fr),
-  gutter: 1.5em,
   [
     *Minimization:*
     - K-maps (visual method)
@@ -140,8 +146,8 @@ Where Boolean algebra appears in computer science:
 
 == Syntax: Building Blocks
 
-#definition[
-  *Boolean variable:* $x in {0, 1}$ --- represents a binary value.
+#Block(color: green)[
+  *Boolean variables:* $x, y, z, dots$ --- represents a binary value (0 or 1).
 
   *Boolean constants:* $0$ (false) and $1$ (true).
 
@@ -150,49 +156,77 @@ Where Boolean algebra appears in computer science:
   - $x and y$ --- conjunction (AND)
   - $x or y$ --- disjunction (OR)
 
-  *Boolean expression:* Built recursively from variables, constants, and operations.
+  *Boolean expressions:* Built recursively from variables, constants, and operations.
+]
+
+#place(right)[
+  #set align(left)
+  #Block(width: 50%)[
+    With just 3 operations ($and, or, not$), you can express _any_ Boolean function.
+    We'll prove this later!
+  ]
 ]
 
 #example[
-  Valid expressions:
-  - $x$ --- just a variable
-  - $not (x and y)$ --- negation of conjunction
-  - $(x or y) and (not z or w)$ --- complex nesting
-  - $((not x) or y) and ((not y) or x)$ --- equivalent to $x iff y$
+  Simple but powerful:
+  - $x and not x$ --- _always_ 0 (contradiction)
+  - $x or not x$ --- _always_ 1 (tautology)
+  - $not (x and y)$ --- NAND gate (universal!)
+  - $(x or y) and (not z or w)$ --- typical circuit logic
+  // - $xor.big_(i=1)^n x_i$ --- parity check (error detection!)
 ]
 
 == Semantics: What Expressions Mean
 
 Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to {0,1}$.
 
-#example[
-  Expression: $(x > 5) and (y <= 10)$
+#example[Access control system][
+  Expression: $"admin" and ("weekday" or "emergency")$ with 3 variables.
 
-  This defines a function that maps pairs $(x,y)$ to true or false.
+  Truth table with $2^3 = 8$ rows determines when door unlocks.
 ]
 
 #Block(color: blue)[
-  The same syntax can represent different things:
-  - Mathematical predicates
-  - Hardware circuits
-  - Program conditions
-  - Database queries
+  *Interpretations:*
+  - *Logic:* predicates, propositions, proofs
+  - *Hardware:* voltages ($approx 0"V"$ vs $approx 5"V"$), transistor states
+  - *Programming:* `if (x && y)`, branch prediction
+  - *Databases:* `WHERE admin=1 AND (weekday=1 OR emergency=1)`
+  - *Cryptography:* S-box substitutions, linear approximations
 ]
 
-== Model Checking Application
+#Block(color: orange)[
+  *Warning:* With $n$ variables, there are $2^(2^n)$ possible Boolean functions.
+  For $n=4$: already 65,536 functions!
+  We need _structure_ to navigate this explosion.
+]
+
+== The State Explosion Crisis
+
+#Block(color: orange)[
+  *The problem:*
+  System with $n$ Boolean state variables has $2^n$ reachable states.
+  - Real Intel CPU verification: $approx 2^(10^9)$ states (more than you can imagine!).
+  - Per-component verification: from $10^50$ to $10^10000$ states (more than atoms in the _universe!_).
+
+  Explicit enumeration: _physically impossible_.
+]
 
 #Block(color: green)[
-  *The state explosion problem:*
+  *The solution:*
+  Symbolic model checking represents state sets as _Boolean formulas_ (in BDDs).
 
-  System with $n$ Boolean state variables has $2^n$ possible states.
+  - Instead of listing 1 billion states, store the formula, e.g., $x_1 and (x_2 or not x_3)$.
 
-  For $n=30$ variables: approximately 1 billion states!
-
-  For $n=100$ variables: $2^100 approx 10^30$ states (more than atoms in human body!)
+  - Ken McMillan's SMV verified hardware with $10^20$ states in 1992.
+    Major breakthrough in verification!
 ]
 
 #Block(color: yellow)[
-  *Solution:* Symbolic methods (BDDs) represent state sets compactly using Boolean formulas instead of enumerating all states.
+  *Real impact:*
+  Intel's Pentium FDIV bug (1994): \$475 million loss.
+
+  Modern CPUs are _exhaustively verified_ using Boolean methods before fabrication.
 ]
 
 == Boolean Operations
@@ -312,13 +346,13 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
 #example[XOR constraint][
   $x xor y xor z = 0$
 
-  CNF expansion: $(x or y or z) and (x or not y or not z) and ...$
+  CNF expansion: $(x or y or z) and (x or not y or not z) and (not x or y or not z) and (not x or not y or z)$
 
   Requires 4 clauses!
 ]
 
 #Block(color: orange)[
-  *Cryptanalysis problem:* Modern ciphers (AES, SHA-256) heavily use XOR.
+  *Cryptanalysis problem:* Modern ciphers (AES, SHA-256) heavily use XOR. \
   Converting to CNF creates millions of clauses!
 
   *Solution:* Specialized solvers (CryptoMiniSat) use Gaussian elimination on $FF_2$.
@@ -329,12 +363,17 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
 #definition[
   A _Boolean expression_ is defined recursively:
 
-  *Base case:* Variables ($x, y, z, ...$) and constants ($0, 1$) are expressions
+  - *Base case:* Variables ($x, y, z, ...$) and constants ($0, 1$) are expressions
 
-  *Inductive case:* If $f$ and $g$ are expressions, then so are:
-  - $not f$ (negation)
-  - $f and g$ (conjunction)
-  - $f or g$ (disjunction)
+  - *Inductive case:* If $f$ and $g$ are expressions, then so are $not f$, $(f and g)$, $(f or g)$.
+]
+
+#note[
+  We could also include $(f imply g)$, $(f iff g)$, $(f xor g)$ and many other operations, but these can be built from the basic three, so we keep the definition simple.
+]
+
+#note[
+  The braces in binary expression are mandatory, except when there is no ambiguity.
 ]
 
 #Block(color: purple)[
