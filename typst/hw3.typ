@@ -120,8 +120,8 @@ Construct a 5-variable Karnaugh map for your function using the template below:
     // Side annotations for variables
     line((-0.7, 0), (-0.7, 2))
     content((-0.7, 1), std.rotate(-90deg)[$A$], anchor: "east", padding: 0.2)
-    line((8.2, 2), (8.2, 4))
-    content((8.2, 3), std.rotate(-90deg)[$B$], anchor: "west", padding: 0.2)
+    line((8.2, 1), (8.2, 3))
+    content((8.2, 2), std.rotate(-90deg)[$B$], anchor: "west", padding: 0.2)
     line((4, -0.6), (8, -0.6))
     content((6, -0.6), [$C$], anchor: "north", padding: 0.2)
     line((2, -0.3), (6, -0.3))
