@@ -80,7 +80,7 @@ Organize your findings in a table and provide counterexamples for properties tha
 + *Communication flow:*
   For users ${a,b,c,d}$, relation $R$ has adjacency matrix:
   $
-    relmat(R) = natrix.bnat(
+    relmat(R) = bmat(
       0, 1, 0, 1;
       0, 0, 0, 1;
       1, 1, 0, 0;
@@ -248,13 +248,13 @@ The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 
 + Compute the Boolean product:
   $
-    natrix.bnat(
+    bmat(
       1, 0, 1;
       0, 1, 0;
       1, 1, 0
     )
     boolprod
-    natrix.bnat(
+    bmat(
       0, 1, 1;
       1, 0, 1;
       0, 1, 0
@@ -263,7 +263,7 @@ The _Boolean product_ of two matrices $A boolprod B = [c_(i j)]$ is defined as: 
 + For the Boolean matrix $M$ below, compute its Boolean square $M boolprod M$ and cube $M boolprod M boolprod M$.
   Interpret these results in terms of paths in the corresponding directed graph.
   $
-    M = natrix.bnat(
+    M = bmat(
       1, 1, 0;
       0, 1, 1;
       1, 0, 1

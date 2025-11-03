@@ -315,7 +315,7 @@ Heterogeneous relations connect elements from two different sets.
 
   Matrix representation with rows = $A$ and columns = $B$:
   $
-    matrel(R) = natrix.bnat(
+    matrel(R) = bmat(
       1, 0;
       1, 0;
       0, 1
@@ -353,11 +353,11 @@ Heterogeneous relations connect elements from two different sets.
 
   Matrix representations:
   $
-    matrel(emptyset) = natrix.bnat(0, 0, 0; 0, 0, 0; 0, 0, 0)
+    matrel(emptyset) = bmat(0, 0, 0; 0, 0, 0; 0, 0, 0)
     wide
-    matrel(I_M) = natrix.bnat(1, 0, 0; 0, 1, 0; 0, 0, 1)
+    matrel(I_M) = bmat(1, 0, 0; 0, 1, 0; 0, 0, 1)
     wide
-    matrel(U_M) = natrix.bnat(1, 1, 1; 1, 1, 1; 1, 1, 1)
+    matrel(U_M) = bmat(1, 1, 1; 1, 1, 1; 1, 1, 1)
   $
 ]
 
@@ -1135,16 +1135,16 @@ A relation is asymmetric if it never goes both ways.
 
   Given $R subset.eq {1,2} times {a,b}$ and $S subset.eq {a,b} times {x,y}$:
   $
-    matrel(R) = natrix.bnat(1, 0; 1, 1) quad
-    matrel(S) = natrix.bnat(1, 1; 0, 1)
+    matrel(R) = bmat(1, 0; 1, 1) quad
+    matrel(S) = bmat(1, 1; 0, 1)
   $
 
   The composition $matrel(R relcomp S) = matrel(R) boolprod matrel(S)$ using Boolean matrix multiplication:
   $
-    matrel(R relcomp S) = natrix.bnat(
+    matrel(R relcomp S) = bmat(
       (1 and 1) or (0 and 0), (1 and 1) or (0 and 1);
       (1 and 1) or (1 and 0), (1 and 1) or (1 and 1)
-    ) = natrix.bnat(1, 1; 1, 1)
+    ) = bmat(1, 1; 1, 1)
   $
 
   This means $R relcomp S = {pair(1, x), pair(1, y), pair(2, x), pair(2, y)}$ (the universal relation).
@@ -1550,7 +1550,7 @@ An efficient algorithm to compute transitive closure using dynamic programming.
 
   Initial matrix:
   $
-    M^((0)) = natrix.bnat(
+    M^((0)) = bmat(
       0, 1, 0, 0;
       0, 0, 1, 0;
       0, 0, 0, 1;
@@ -1560,7 +1560,7 @@ An efficient algorithm to compute transitive closure using dynamic programming.
 
   *$k = 1$:* Paths through vertex 1 as intermediate
   $
-    M^((1)) = natrix.bnat(
+    M^((1)) = bmat(
       0, 1, 0, 0;
       0, 0, 1, 0;
       0, 0, 0, 1;
@@ -1573,7 +1573,7 @@ An efficient algorithm to compute transitive closure using dynamic programming.
 
   *$k = 2$:* Paths through vertex 2
   $
-    M^((2)) = natrix.bnat(
+    M^((2)) = bmat(
       0, 1, 1, 0;
       0, 0, 1, 0;
       0, 0, 0, 1;
@@ -1584,7 +1584,7 @@ An efficient algorithm to compute transitive closure using dynamic programming.
 
   *$k = 3$:* Paths through vertex 3
   $
-    M^((3)) = natrix.bnat(
+    M^((3)) = bmat(
       0, 1, 1, 1;
       0, 0, 1, 1;
       0, 0, 0, 1;
@@ -1597,7 +1597,7 @@ An efficient algorithm to compute transitive closure using dynamic programming.
 
   *$k = 4$:* Paths through vertex 4 (closes cycle!)
   $
-    M^((4)) = natrix.bnat(
+    M^((4)) = bmat(
       1, 1, 1, 1;
       1, 1, 1, 1;
       1, 1, 1, 1;
@@ -5770,7 +5770,7 @@ $
       -(n+1) / 2 & "if" n "is odd"
     )
     wide
-    natrix.bnat(
+    bmat(
       row-gap: #0.5em,
       NN":", 0, 1, 2, 3, 4, 5, 6, 7, dots;
       ZZ":", 0, -1, 1, -2, 2, -3, 3, -4, dots

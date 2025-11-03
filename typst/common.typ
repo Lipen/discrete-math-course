@@ -18,6 +18,9 @@
   // Shot etc. in italic:
   show "etc.": set text(style: "italic")
 
+  // Matrix setup
+  set math.mat(column-gap: 1em)
+
   doc
 }
 
@@ -78,6 +81,10 @@
 #let intersect = sym.inter
 #let symdiff = sym.triangle
 #let sim = sym.tilde
+#let bmat = math.mat.with(delim: "[")
+#let Bmat = math.mat.with(delim: "{")
+#let vmat = math.mat.with(delim: "|")
+#let Vmat = math.mat.with(delim: "||")
 
 #import ctheorems: *
 
