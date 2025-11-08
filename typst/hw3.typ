@@ -528,6 +528,121 @@ Find the variable ordering minimizing ROBDD size for each function in Part (b).
 + Explain why variable ordering matters more for some functions than others.
 
 
+#pagebreak()
+
+== Problem 10: Reed–Muller Codes
+
+In 1954, David Muller proposed using Boolean functions for error correction, and Irving Reed discovered an efficient decoding method.
+#link("https://w.wiki/FwR7")[_Reed–Muller (RM) codes_] became fundamental in space communications --- most famously, Mariner 9 used RM codes to transmit the first close-up images of Mars in 1971.
+The key insight: Boolean functions with restricted algebraic degree have built-in redundancy that enables error correction.
+
+#block(sticky: true)[*Basic Construction*]
+
+Recall that any Boolean function $f: FF_2^m to FF_2$ has a unique ANF representation:
+$
+  f(v_1, dots, v_m) = a_0 xor a_1 v_1 xor a_2 v_2 xor dots.c xor a_(i_1,i_2) v_(i_1) v_(i_2) xor dots.c
+$
+
+The _degree_ of $f$ is the size of the largest monomial (product term) with non-zero coefficient.
+
+The _Reed–Muller code_ $op("RM")(r, m)$ consists of all Boolean functions on $m$ variables whose ANF has degree at most $r$:
+$
+  op("RM")(r, m) = { f: FF_2^m to FF_2 | deg(f) <= r }
+$
+
+*Code Parameters:*
+- _Length_: $n = 2^m$ (number of truth table entries)
+- _Dimension_: $k = sum_(i=0)^r binom(m, i)$ (one bit per monomial of degree $<= r$)
+- _Minimum distance_: $d = 2^(m-r)$ (enables error correction)
+
+The code can correct up to $t = floor((d-1)/2)$ errors with certainty.
+
+#block(sticky: true)[*Encoding Process*]
+
+To encode a message as a codeword:
+
++ List all monomials of degree $<= r$ in lexicographic order: \
+  $1, v_1, v_2, dots, v_m, v_1 v_2, v_1 v_3, dots$
+
++ For each monomial, evaluate it on all $2^m$ binary input vectors $(v_1, dots, v_m) in FF_2^m$ (in standard binary order). This gives a row of the _generator matrix_ $bold(G)$.
+
++ A message $bold(u) = (a_0, a_1, dots, a_(k-1))$ represents the ANF coefficients for these monomials.
+
++ The codeword is $bold(c) = bold(u) bold(G)$ (matrix multiplication over $FF_2$).
+
+#example[
+  For $op("RM")(1, 2)$, the monomials are: $1, v_1, v_2$ (degree $<= 1$).
+
+  Generator matrix rows come from evaluating each on ${00, 01, 10, 11}$:
+  $
+    bold(G) = mat(
+      1, 1, 1, 1;
+      0, 0, 1, 1;
+      0, 1, 0, 1;
+    )
+  $
+
+  Message $bold(u) = (1, 0, 1)$ encodes to: $bold(c) = (1, 0, 1)$, $bold(G) = (1, 0, 1, 0)$.
+]
+
+#block(sticky: true)[*Recursive Structure*]
+
+Reed–Muller codes have elegant recursive properties:
+$
+  op("RM")(r, m) = { (bold(u), bold(u) xor bold(v)) | bold(u) in op("RM")(r, m-1), bold(v) in op("RM")(r-1, m-1) }
+$
+
+This structure enables _majority-logic decoding_:
+
++ Each ANF coefficient can be determined by XORing pairs of received bits that differ only in the corresponding variable.
++ Each such XOR is a "vote" for that coefficient.
++ Taking the majority of votes gives the most likely coefficient value.
++ After determining higher-degree terms, XOR them out and recursively decode lower-degree terms.
+
+This algorithm corrects up to $t$ errors with certainty, and sometimes corrects more due to the voting mechanism.
+
+#block(sticky: true)[*Part (a): Code Construction*]
+
+Consider the Reed–Muller code $op("RM")(1, 3)$.
+
++ Calculate the length $n$, dimension $k$, and minimum distance $d$.
++ How many errors can this code correct with certainty?
++ List all monomials of degree $<= 1$ in lexicographic order.
++ Construct the generator matrix $bold(G)$ by evaluating each monomial on all 8 input vectors.
++ Encode the message vector $bold(u) = (1, 0, 1, 1)$ into a codeword $bold(c)$.
+
+#block(sticky: true)[*Part (b): Single-Error Correction*]
+
+Simulate a transmission error in your codeword from Part (a):
+
++ Flip _any one bit_ of $bold(c)$ to obtain a received vector $bold(r)$.
++ Apply majority-logic decoding:
+  - For each ANF coefficient, compute all relevant XOR pairs from $bold(r)$.
+  - Take the majority vote to determine each coefficient.
+  - Start with higher-degree terms and work down.
++ Verify that you recover the original message $bold(u)$.
++ Explain which bit you flipped and trace through the voting process for at least one coefficient.
+
+#block(sticky: true)[*Part (c): Double-Error Correction*]
+
+Now simulate a more severe error:
+
++ Flip _any two bits_ of $bold(c)$ to obtain a received vector $bold(r)$.
++ Apply majority-logic decoding as in Part (b).
++ Does the algorithm successfully recover $bold(u)$?
++ Explain why the majority-logic method sometimes succeeds on 2 errors even though $op("RM")(1, 3)$ only guarantees correction of $t = floor((2^(3-1) - 1)/2) = 1$ error.
+
+#note[
+  The voting mechanism provides soft error correction: if errors are distributed favorably, more votes remain correct than incorrect, allowing the majority to prevail even beyond the guaranteed threshold.
+]
+
+#block(sticky: true)[*Part (d): Comparison with Other Codes*]
+
++ Compare the rate $k\/n$ of $op("RM")(1, 3)$ with a simple repetition code that corrects 1 error by repeating each bit 3 times. Which is more efficient?
++ Explain the trade-off between $r$ and $m$: How does increasing $r$ affect the code's error-correction capability and rate?
++ Research one modern application of Reed–Muller codes (space communications, 5G polar codes, quantum error correction, etc.) and briefly describe how the recursive structure is exploited.
+
+
 #line(length: 100%, stroke: 0.4pt)
 
 *Submission Guidelines:*
