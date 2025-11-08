@@ -362,7 +362,7 @@ For each complete basis from Part (a):
 
 == Problem 6: Zhegalkin Polynomials
 
-The Zhegalkin basis ${xor, and, 1}$ provides an algebraic view of Boolean functions over the field $bb(F)_2$.
+The Zhegalkin basis ${xor, and, 1}$ provides an algebraic view of Boolean functions over the field $FF_2$.
 
 #block(sticky: true)[*Part (a): Prove Completeness*]
 
