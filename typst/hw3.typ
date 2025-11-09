@@ -408,6 +408,8 @@ For each _complete_ basis from Part (a):
 + Compare gate count for $majority(A, B, C)$ vs NAND implementation.
 
 
+#pagebreak()
+
 == Problem 6: Zhegalkin Polynomials
 
 Every Boolean function has a unique polynomial representation over $FF_2$ using XOR and AND.
