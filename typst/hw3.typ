@@ -146,10 +146,7 @@ Construct a 5-variable Karnaugh map for your function using the template below:
   Explain why they become impractical beyond 5-6 variables.
   What is the size of a 6-variable K-map?
   How would you visualize a 7-variable function?
-+ For functions with many variables, what alternative minimization methods exist?
 
-
-#pagebreak()
 
 == Problem 2: Circuit Analysis
 
