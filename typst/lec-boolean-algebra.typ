@@ -685,7 +685,7 @@ When a clause has only one unassigned literal, that literal must be true.
 == Boolean Algebra: The Axiomatic Definition
 
 #definition[
-  A _Boolean algebra_ is $angle.l B, or, and, not, 0, 1 angle.r$ where:
+  A _Boolean algebra_ is $chevron.l B, or, and, not, 0, 1 chevron.r$ where:
   - $or$ (join), $and$ (meet) --- binary operations
   - $not$ (complement) --- unary operation
   - $0$ (bottom), $1$ (top) --- constants

@@ -2,7 +2,7 @@
 
 #let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
 #let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
+#let pair(a, b) = $chevron.l #a, #b chevron.r$
 
 #let Green(x) = text(green.darken(20%), x)
 #let Red(x) = text(red.darken(20%), x)

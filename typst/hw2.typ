@@ -29,17 +29,17 @@
 #show emph: set text(fill: blue.darken(20%))
 
 #let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
+#let pair(a, b) = $chevron.l #a, #b chevron.r$
 #let card(x) = $abs(#x)$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let relmat(x) = $bracket.double.l #x bracket.double.r$
+#let relmat(x) = $bracket.stroked.l #x bracket.stroked.r$
 #let eqclass(x, R) = $bracket.l #x bracket.r_#R$
 #let quotient(M, R) = $#M slash_(#R)$
 #let congruent(a, b, n) = $#a equiv #b space (mod #n)$
-#let boolprod = $dot.circle$
+#let boolprod = $dot.o$
 #let equinumerous = $approx$
 #let finer = $lt.tri.eq$
 #let consonance = $rel(triangle.l)$

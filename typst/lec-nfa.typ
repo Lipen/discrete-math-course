@@ -13,7 +13,7 @@
 
 #let power(x) = $cal(P)(#x)$
 #let regex(s) = raw(s)
-#let conf(q, s) = $angle.l #q, #s angle.r$
+#let conf(q, s) = $chevron.l #q, #s chevron.r$
 
 = Non-determinism
 
@@ -237,11 +237,11 @@ $
 
 Any NFA can be converted to a DFA using _Rabin--Scott subset construction_.
 
-$cal(A)_"N" = angle.l Sigma, Q_"N", delta_"N", q_0, F_"N" angle.r$
+$cal(A)_"N" = chevron.l Sigma, Q_"N", delta_"N", q_0, F_"N" chevron.r$
 - $Q_"N" = {q_1, q_2, ..., q_n}$
 - $delta_"N" : Q_"N" times Sigma to power(Q_"N")$
 
-$cal(A)_"D" = angle.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" angle.r$
+$cal(A)_"D" = chevron.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" chevron.r$
 - $Q_"D" = power(Q_"N") = {emptyset, {q_1}, dots, {q_2, q_4, q_5}, dots, Q_"N"}$
 - $delta_"D" : Q_"D" times Sigma to Q_"D"$
 - $delta_"D" : (A, c) maps { r | exists q in A. thin r in delta_"N" (q, c) }$

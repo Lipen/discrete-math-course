@@ -102,7 +102,7 @@
 //   An _interpretation_ $nu : V to BB$ assigns truth values ($BB = {0,1} = {#false, #true}$) to propositional variables (atoms) $V$.
 // ]
 
-#let EvalWith(phi, inter) = $bracket.double.l phi bracket.double.r_(inter)$
+#let EvalWith(phi, inter) = $bracket.stroked.l phi bracket.stroked.r_(inter)$
 #let Eval(phi) = EvalWith(phi, $nu$)
 
 #definition[
@@ -1495,7 +1495,7 @@
 
 #definition[Truth in a Structure][
   For structure $cal(M)$ and assignment $sigma$:
-  - $cal(M), sigma models P(t_1, dots, t_n)$ iff $angle.l cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma angle.r in cal(I)(P)$
+  - $cal(M), sigma models P(t_1, dots, t_n)$ iff $chevron.l cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma chevron.r in cal(I)(P)$
   - $cal(M), sigma models forall x. thin phi$ iff $cal(M), sigma' models phi$ for all $sigma'$ that differ from $sigma$ at most on $x$
   - $cal(M), sigma models exists x. thin phi$ iff $cal(M), sigma' models phi$ for some $sigma'$ that differs from $sigma$ at most on $x$
 ]
@@ -1516,7 +1516,7 @@
   - (Identity) $exists e. forall x. thin (x dot e = x) and (e dot x = x)$
   - (Inverses) $forall x. exists y. thin (x dot y = e) and (y dot x = e)$
 
-  Models include $angle.l ZZ, + angle.r$, $angle.l RR setminus {0}, dot angle.r$, etc.
+  Models include $chevron.l ZZ, + chevron.r$, $chevron.l RR setminus {0}, dot chevron.r$, etc.
 ]
 
 == First-Order Natural Deduction

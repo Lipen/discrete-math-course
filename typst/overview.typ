@@ -17,7 +17,7 @@
 
 #let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
 #let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
+#let pair(a, b) = $chevron.l #a, #b chevron.r$
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
 #let matrel(x) = $bracket.double.l #x bracket.double.r$

@@ -13,7 +13,7 @@
 
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
-#let matrel(x) = $bracket.double.l #x bracket.double.r$
+#let matrel(x) = $bracket.stroked.l #x bracket.stroked.r$
 #let eqclass(x, R) = $bracket.l #x bracket.r_#R$
 #let quotient(M, R) = $#M slash_(#R)$
 #let congruent(a, b, n) = $#a equiv #b space (mod #n)$
@@ -31,7 +31,7 @@
 #let Meet = math.and
 #let nand = $overline(and)$
 #let nor = $overline(or)$
-#let boolprod = $dot.circle$
+#let boolprod = $dot.o$
 
 
 #let align2anchor(align) = {

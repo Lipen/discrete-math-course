@@ -29,10 +29,9 @@
 #show emph: set text(fill: blue.darken(20%))
 
 // Custom operators and notation
-#let Bool = math.bb("B")
 #let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
-#let triple(a, b, c) = $angle.l #a, #b, #c angle.r$
+#let pair(a, b) = $chevron.l #a, #b chevron.r$
+#let triple(a, b, c) = $chevron.l #a, #b, #c chevron.r$
 #let card(x) = $abs(#x)$
 #let DNF = math.op("DNF")
 #let CNF = math.op("CNF")
@@ -40,8 +39,7 @@
 #let ANF = math.op("ANF")
 #let ITE = math.op("ITE")
 #let majority = math.op("majority")
-
-// Boolean function notation
+#let RM = math.op("RM")
 #let bfunc(n, k) = $f^((#n))_#k$
 
 // Color helpers
@@ -444,11 +442,11 @@ Find the ANF using different methods:
 
 #block(sticky: true)[*Part (d): Cryptographic S-Box*]
 
-S-box $S: Bool^3 to Bool$ has truth table $(0,1,1,0,1,0,0,1)$.
+S-box $S: BB^3 to BB$ has truth table $(0,1,1,0,1,0,0,1)$.
 
 + Find ANF and degree.
 + Is $S$ balanced? Affine?
-+ Construct a different function $T: Bool^3 to Bool$ that is balanced and has degree 3.
++ Construct a different function $T: BB^3 to BB$ that is balanced and has degree 3.
 + For both $S$ and $T$, compute distance to the nearest affine function.
 
 
@@ -599,7 +597,7 @@ For each function from Part (b):
 In 1971, Mariner 9 transmitted the first close-up Mars images using Reed–Muller codes.
 These error-correcting codes are built from Boolean functions with restricted algebraic degree.
 
-The Reed–Muller code $op("RM")(r, m)$ consists of all Boolean functions $f: FF_2^m to FF_2$ with $deg(f) <= r$.
+The Reed–Muller code $RM(r, m)$ consists of all Boolean functions $f: FF_2^m to FF_2$ with $deg(f) <= r$.
 
 *Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum Hamming distance $d = 2^(m-r)$.
 
@@ -609,7 +607,7 @@ Columns correspond to inputs $(x_1, dots, x_m) in FF_2^m$ in lexicographic order
 Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 
 #example[
-  $op("RM")(1, 2)$ has monomials ${1, x_1, x_2}$ and inputs ${(0,0), (0,1), (1,0), (1,1)}$:
+  $RM(1, 2)$ has monomials ${1, x_1, x_2}$ and inputs ${(0,0), (0,1), (1,0), (1,1)}$:
   $
     bold(G) = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)
   $
@@ -619,7 +617,7 @@ Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 
 #block(sticky: true)[*Part (a): Code Construction*]
 
-Consider $op("RM")(1, 3)$:
+Consider $RM(1, 3)$:
 
 + Compute the code parameters: length $n$, dimension $k$, minimum distance $d$, and error correction capability $t = floor((d-1)/2)$.
 + Construct the $4 times 8$ generator matrix $bold(G)$.
@@ -654,10 +652,10 @@ Each XOR result "votes" for that coefficient's value; the majority vote wins.
 The _rate_ of a code is $k"/"n$: the ratio of message bits to transmitted bits.
 Higher rate means less redundancy but weaker error correction.
 
-+ Calculate the rate $k"/"n$ for $op("RM")(1, 3)$.
++ Calculate the rate $k"/"n$ for $RM(1, 3)$.
 + A repetition code encodes each bit by repeating it: for example, the 3-repetition code maps each bit $0 to 000$ and $1 to 111$, giving rate $1"/"3$.
-  Compare with $op("RM")(1, 3)$: which is more efficient?
-+ For general $op("RM")(r, m)$: as $r$ increases from $0$ to $m$, what happens to $k$ (dimension) and $d$ (distance)?
+  Compare with $RM(1, 3)$: which is more efficient?
++ For general $RM(r, m)$: as $r$ increases from $0$ to $m$, what happens to $k$ (dimension) and $d$ (distance)?
   Explain the fundamental trade-off between rate and error correction capability.
 
 

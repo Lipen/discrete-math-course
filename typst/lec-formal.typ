@@ -10,7 +10,7 @@
 #show table.cell.where(y: 0): strong
 
 #let regex(s) = raw(s)
-#let conf(q, s) = $angle.l #q, #s angle.r$
+#let conf(q, s) = $chevron.l #q, #s chevron.r$
 
 = Formal Languages
 
@@ -269,7 +269,7 @@ _Examples_:
 - $L = { a^n | n geq 0 }$ is regular.
 - $L = { a^n b^n | n geq 0 }$ is context-free.
 - $L = { a^n b^n c^n | n geq 0 }$ is context-sensitive.
-- $L = { angle.l M, w angle.r | M "is a TM that halts on input" w }$ is recursively enumerable.
+- $L = { chevron.l M, w chevron.r | M "is a TM that halts on input" w }$ is recursively enumerable.
 
 #place(horizon + center, dx: 1.8cm, dy: .5cm)[
   #cetz.canvas({

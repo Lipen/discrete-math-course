@@ -29,7 +29,7 @@
 #show emph: set text(fill: blue.darken(20%))
 
 #let power(x) = $cal(P)(#x)$
-#let pair(a, b) = $angle.l #a, #b angle.r$
+#let pair(a, b) = $chevron.l #a, #b chevron.r$
 #let card(x) = $abs(#x)$
 #let Jaccard = $cal(J)$
 #let JaccardDist = $d_cal(J)$

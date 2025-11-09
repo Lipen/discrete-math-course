@@ -21,12 +21,12 @@ TODO: a picture with a graph and a question about the flow in it
 == Flow Network
 
 #definition[
-  A _flow network_ is a directed graph $G = angle.l V, E angle.r$ with:
+  A _flow network_ is a directed graph $G = chevron.l V, E chevron.r$ with:
   - a _source_ $s in V$, a vertex without incoming edges,
   - a _sink_ $t in V$, a vertex without outgoing edges,
   - a _capacity_ function $c: E to RR_+$ that assigns a non-negative capacity to each edge $e in E$.
 
-  The flow network is denoted as $N = angle.l V, E, s, t, c angle.r$.
+  The flow network is denoted as $N = chevron.l V, E, s, t, c chevron.r$.
 ]
 
 #note[

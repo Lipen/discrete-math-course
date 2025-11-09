@@ -13,7 +13,7 @@
 
 #let power(x) = $cal(P)(#x)$
 #let regex(s) = raw(s)
-#let conf(q, s) = $angle.l #q, #s angle.r$
+#let conf(q, s) = $chevron.l #q, #s chevron.r$
 #let lang(x) = $cal(L)(#x)$
 
 #let Green(x) = {
@@ -528,9 +528,9 @@ We can then show that $y$ cannot be pumped arbitrarily many times.
   For $L intersect M$, we construct the automaton $A$ that simulates both $A_L$ and $A_M$.
   The states of $A$ are the product of the states of $A_L$ and $A_M$.
   The initial state is $(q_L, q_M)$, and the accepting states are $F_L times F_M$.
-  The transitions are defined as $delta(angle.l p, q angle.r, c) = angle.l delta_L (p, c), delta_M (q, c) angle.r$.
+  The transitions are defined as $delta(chevron.l p, q chevron.r, c) = chevron.l delta_L (p, c), delta_M (q, c) chevron.r$.
 
-  To see why $lang(A) = lang(A_L) intersect lang(A_M)$, first observe that $hat(delta) (angle.l q_L, q_M angle.r, w) = angle.l hat(delta)_L (q_L, w), hat(delta)_M (q_M, w) angle.r$.
+  To see why $lang(A) = lang(A_L) intersect lang(A_M)$, first observe that $hat(delta) (chevron.l q_L, q_M chevron.r, w) = chevron.l hat(delta)_L (q_L, w), hat(delta)_M (q_M, w) chevron.r$.
   But $A$ accepts $w$ if and only if $hat(delta) (q_0, w)$ is in $F_L times F_M$, which occurs if and only if $hat(delta)_L (q_L, w)$ is in $F_L$ and $hat(delta)_M (q_M, w)$ is in $F_M$.
   Or rather, $A$ accepts $w$ if and only if both $A_L$ and $A_M$ accept $w$.
   Thus, $A$ accepts the intersection of $L$ and $M$.

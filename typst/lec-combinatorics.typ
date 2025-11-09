@@ -366,7 +366,7 @@ TODO: circular permutations
 == Unordered Arrangements
 
 #definition[
-  An _unordered arrangement_ of $k$ elements of $X$ is a _multiset_ $S = angle.l X, r angle.r$ of size $k$.
+  An _unordered arrangement_ of $k$ elements of $X$ is a _multiset_ $S = chevron.l X, r chevron.r$ of size $k$.
 
   In a multiset, $X$ is the set of _types_, and for each type $x in X$, $r_x$ is its _repetition number_.
 ]
@@ -422,7 +422,7 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
 
 #definition[
   A _multiset_ is a modification of the concept of a set that allows for _repetitions_ of its elements.
-  Formally, it is denoted as a pair $M = angle.l X, r angle.r$, where $X$ is the _groundset_ (the set of _types_) and $r : X to NN_0$ is the _multiplicity function_.
+  Formally, it is denoted as a pair $M = chevron.l X, r chevron.r$, where $X$ is the _groundset_ (the set of _types_) and $r : X to NN_0$ is the _multiplicity function_.
 ]
 
 #example[
@@ -439,8 +439,8 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
 == $k$-Combinations of a Multiset
 
 #definition[
-  Let $X$ be a finite set of types, and let $M = angle.l X, r angle.r$ be a finite multiset with repetition numbers $r_1, dots, r_abs(X)$.
-  A _$k$-combination of $M$_ is a multiset $S = angle.l X, s angle.r$ with types in $X$ and repetition numbers $s_1, dots, s_abs(X)$ such that #box[$s_i <= r_i$] for all #box[$1 <= i <= abs(X)$], and $sum_(i = 1)^abs(X) s_i = k$.
+  Let $X$ be a finite set of types, and let $M = chevron.l X, r chevron.r$ be a finite multiset with repetition numbers $r_1, dots, r_abs(X)$.
+  A _$k$-combination of $M$_ is a multiset $S = chevron.l X, s chevron.r$ with types in $X$ and repetition numbers $s_1, dots, s_abs(X)$ such that #box[$s_i <= r_i$] for all #box[$1 <= i <= abs(X)$], and $sum_(i = 1)^abs(X) s_i = k$.
 ]
 
 #example[
@@ -549,7 +549,7 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 ]
 
 #proof[
-  Let $S = angle.l X, r_infinity angle.r = { infinity #emoji.banana, infinity #emoji.apple.red, infinity #emoji.pear }$ with $r_x = infinity$ and $abs(X) = s = 3$.
+  Let $S = chevron.l X, r_infinity chevron.r = { infinity #emoji.banana, infinity #emoji.apple.red, infinity #emoji.pear }$ with $r_x = infinity$ and $abs(X) = s = 3$.
   - Let $k = 5$ (as an example). Consider a 5-combination of $S$: ${ #emoji.banana, #emoji.apple.red, #emoji.banana, #emoji.pear, #emoji.pear }$.
   - Reorder and group: ${ #emoji.banana #emoji.banana | #emoji.apple.red | #emoji.pear #emoji.pear }$.
   - Convert to _dots_ and _bars_: #h(1em) $bullet bullet bar bullet bar bullet bullet$
