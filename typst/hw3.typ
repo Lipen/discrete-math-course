@@ -551,87 +551,51 @@ Consider an S-box function $S: BB^3 to BB$ with truth table $(0,1,1,0,1,0,0,1)$.
 
 == Problem 7: Gray Code Circuits
 
-Gray code is a binary encoding where consecutive values differ in exactly one bit.
-This property eliminates glitches in digital circuits and mechanical encoders, making Gray code useful in rotary encoders, error correction, and analog-to-digital conversion.
-
-Frank Gray patented this encoding in 1953 for use in shaft encoders, though the principle was known earlier.
-Understanding Gray code conversion deepens intuition about Boolean function design and circuit optimization.
+Gray code is a binary encoding where consecutive values differ in exactly one bit, preventing glitches in digital circuits.
+Frank Gray patented it in 1953 for shaft encoders, though the principle was known earlier.
 
 #example[
-  4-bit Gray code sequence:
-  - $0 to #`0000` _"Gray"$
-  - $1 to #`0001` _"Gray"$
-  - $2 to #`0011` _"Gray"$
-  - $3 to #`0010` _"Gray"$
-  - $dots.c$
-  - $9 to #`1101` _"Gray"$
-  - $dots.c$
-  - $15 to #`1000` _"Gray"$
-
-  Note: Each value differs from the next in exactly one bit position.
+  4-bit Gray code: $0 to #`0000`, 1 to #`0001`, 2 to #`0011`, 3 to #`0010`, dots, 15 to #`1000`$
 ]
 
-#block(sticky: true)[*Part (a): Truth Table Construction*]
+#block(sticky: true)[*Part (a): Binary-to-Gray Conversion*]
 
-+ Build the complete 4-bit binary-to-Gray conversion truth table:
-  - List all 16 binary inputs $(b_3 b_2 b_1 b_0)_2$ from 0000 to 1111.
-  - For each, compute the Gray code output $(g_3 g_2 g_1 g_0)_"Gray"$.
-  - Present in a clear table with columns for binary input and Gray output.
++ Build the complete 4-bit binary-to-Gray truth table for inputs $(b_3 b_2 b_1 b_0)_2$ and outputs $(g_3 g_2 g_1 g_0)_"Gray"$.
++ Verify the single-bit-change property: show that consecutive pairs differ in exactly one bit.
++ Derive the conversion formula: express each $g_i$ in terms of binary bits $b_3, dots, b_0$.
 
-+ Verify the single-bit-change property:
-  - Show that the Gray codes for consecutive binary inputs differ in exactly one bit.
-  - Identify which bit position changes for each transition.
+#block(sticky: true)[*Part (b): Gray-to-Binary Conversion*]
 
-+ Pattern observation:
-  - What is the relationship between $g_3$ and $b_3$?
-  - Find a formula for $g_i$ in terms of binary bits $b_3, dots, b_0$.
++ Derive the inverse formula: express each $b_i$ in terms of $g_3, dots, g_0$.
++ Prove correctness: show that "binary $->$ Gray $->$ binary" is the identity.
++ Test your formulas with at least two examples (e.g., $#`1001`$ and $#`0110`$).
 
-#block(sticky: true)[*Part (b): Binary-to-Gray Circuit*]
+#block(sticky: true)[*Part (c): Circuit Implementation*]
 
-+ Derive minimal Boolean expressions for each Gray bit $g_3, g_2, g_1, g_0$.
-// - Use K-maps or algebraic simplification.
-// - Look for patterns that simplify the expressions.
++ Design both conversion circuits using only XOR gates (the natural choice given your formulas).
++ For each circuit, count gates and compute maximum propagation delay.
++ Compare complexity: which direction requires more gates?
+  Which has longer delay?
+  Explain why from the Boolean structure.
 
-+ Design a binary-to-Gray circuit using _only_ NAND and/or NOR gates.
-// - Draw a clear circuit diagram.
-// - Label all inputs, outputs, and intermediate wires.
-// - Minimize the total gate count.
+#block(sticky: true)[*Part (d): Universal Gate Implementation*]
 
-+ Count the resources:
-  - Total number of gates.
-  - Number of gate inputs (fan-in).
-  - Maximum propagation delay from any input to any output.
+Redesign the binary-to-Gray circuit using _only_ NAND gates.
+Compare gate count and delay with the XOR-based design.
+Which is more practical for actual hardware implementation and why?
 
-#block(sticky: true)[*Part (c): Reverse Conversion*]
+#block(sticky: true)[*Part (e): Timing Analysis*]
 
-The Gray-to-binary conversion performs the inverse transformation.
+A 4-bit rotary encoder outputs Gray code at up to 10,000 steps/second.
+Your Gray-to-binary converter feeds a microcontroller.
+Assuming 10ns per gate delay, is your circuit fast enough?
+What~is the maximum step rate your design can handle?
 
-+ Derive the Gray-to-binary conversion formula:
-  - Express each binary bit $b_i$ in terms of Gray bits $g_3, dots, g_0$.
-  - Start with the MSB: what is $b_3$ in terms of Gray bits?
-  - Find recursive relationships for remaining bits.
+#block(sticky: true)[*Part (f): Error Prevention*]
 
-+ Prove correctness by composition:
-  - Show that applying "binary $to$ Gray $to$ binary" returns the original binary value.
-  - Pick at least two test cases (e.g., $#`1001`$ and $#`0110`$) and trace through both conversions.
-  - Argue why this holds for all 16 values.
-
-+ Design a Gray-to-binary circuit using _only_ NAND gates:
-  - Draw the circuit diagram.
-  - Count gates and compare with the binary-to-Gray circuit.
-
-+ Analyze the complexity:
-  - Which direction (binary $to$ Gray or Gray $to$ binary) requires more gates?
-  - Which has longer propagation delay?
-  - Explain why from the structure of the Boolean functions.
-
-#block(sticky: true)[*Part (d): Applications*]
-
-+ A rotary encoder with 4 bits needs to convert its Gray code output to binary for a microcontroller. If the encoder can change position at up to 10,000 steps per second and each gate has 10ns delay, is your circuit fast enough? Justify.
-
-+ Explain why Gray code prevents errors in mechanical encoders: What problem occurs with pure binary encoding when the shaft is between positions?
-
-+ Research: How is Gray code used in Karnaugh maps? Why does the single-bit-change property matter for identifying adjacent cells?
+Explain why Gray code prevents read errors in mechanical encoders.
+What specific problem occurs with binary encoding when the shaft position is between two values?
+Give a concrete example showing how multiple bits changing simultaneously causes errors.
 
 
 == Problem 8: Arithmetic Circuits
