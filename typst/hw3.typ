@@ -594,59 +594,69 @@ For each function from Part (b):
 == Problem 10: Reed–Muller Codes
 
 In 1971, Mariner 9 transmitted the first close-up Mars images using Reed–Muller codes.
-These error-correcting codes use Boolean functions with restricted algebraic degree and employ elegant majority-logic decoding: ANF coefficients are recovered by voting among XOR combinations of received bits.
+These error-correcting codes are built from Boolean functions with restricted algebraic degree.
 
-Formally, the Reed–Muller code of order $r$ in $m$ variables is:
-$
-  op("RM")(r, m) = { f: FF_2^m to FF_2 | deg(f) <= r }
-$
+The Reed–Muller code $op("RM")(r, m)$ consists of all Boolean functions $f: FF_2^m to FF_2$ with $deg(f) <= r$.
 
-*Parameters:*
-$n = 2^m$, $k = sum_(i=0)^r binom(m, i)$, $d = 2^(m-r)$, corrects $t = floor((d-1)/2)$ errors.
+*Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum distance $d = 2^(m-r)$.
 
-*Encoding:*
-List monomials of degree $<= r$ lexicographically, evaluate on all $2^m$ inputs for generator matrix $bold(G)$.
-Message $bold(u)$ encodes to $bold(c) = bold(u) bold(G)$.
+*Generator matrix construction:*
+Rows correspond to monomials of degree $<= r$ in lexicographic order.
+Columns correspond to inputs $(x_1, dots, x_m) in FF_2^m$ in lexicographic order.
+Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 
 #example[
-  $op("RM")(1, 2)$:
-  $bold(G) = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)$,
-  $(1, 0, 1)$ encodes to $(1, 0, 1, 0)$.
-]
+  $op("RM")(1, 2)$ has monomials ${1, x_1, x_2}$ and inputs ${(0,0), (0,1), (1,0), (1,1)}$:
+  $
+    bold(G) = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)
+  $
 
-*Majority-logic decoding:*
-For each ANF coefficient, XOR pairs differing in one variable position.
-Each XOR votes; majority determines the coefficient.
+  Message $(1, 0, 1)$ encodes to $(1, 0, 1, 0)$ via $bold(c) = bold(u) bold(G)$.
+]
 
 #block(sticky: true)[*Part (a): Code Construction*]
 
-Consider the Reed–Muller code of order 1 in 3 variables: $"RM"(1, 3)$.
+Work with $op("RM")(1, 3)$:
 
-+ Calculate $n$, $k$, $d$. How many errors are correctable?
-+ List monomials of degree $<= 1$.
-+ Construct $bold(G)$ (8 input vectors).
-+ Encode $bold(u) = (1, 0, 1, 1)$.
++ Calculate $n$, $k$, $d$ using the formulas. Compute $t = floor((d-1)/2)$.
++ Construct the $4 times 8$ generator matrix $bold(G)$.
+  Rows correspond to monomials ${1, x_1, x_2, x_3}$.
+  Columns are ordered naturally: $(0,0,0), (0,0,1), dots, (1,1,1)$.
++ Encode message $bold(u) = (1, 0, 1, 1)$ to get codeword $bold(c) = bold(u) bold(G)$.
 
 #block(sticky: true)[*Part (b): Single-Error Correction*]
 
-+ Flip one bit of $bold(c)$, producing $bold(r)$.
-+ Apply majority-logic decoding.
-+ Verify recovery of $bold(u)$. Trace voting for one coefficient.
+Reed–Muller codes support _majority-logic decoding_: each ANF coefficient is determined by XORing pairs of received bits that differ in the corresponding variable position.
+Each XOR result "votes" for that coefficient's value; the majority vote wins.
 
-#block(sticky: true)[*Part (c): Beyond Guaranteed Correction*]
++ Choose _one_ position $i in {1, dots, 8}$ and flip bit $c_i$ to get received word $bold(r) = (r_1, dots, r_8)$.
 
-+ Flip two bits of $bold(c)$, producing $bold(r)$.
-+ Apply decoding. Success?
-+ Explain why voting sometimes succeeds beyond guaranteed threshold.
++ Decode using majority logic to recover the ANF coefficients $(a_0, a_1, a_2, a_3)$:
+  - For $a_j$ where $j > 0$: Consider all pairs of positions $(p, q)$ whose input vectors differ only in variable $x_j$. Compute each vote: $v = r_p xor r_q$. Then $a_j = majority(v_1, v_2, dots)$.
+  - For $a_0$: After finding $a_1, a_2, a_3$, compute $a_0$ by evaluating the remaining constant term.
+
++ The decoded message is $bold(u) = (a_0, a_1, a_2, a_3)$. Verify it equals $(1, 0, 1, 1)$.
+
++ Show detailed computation for one coefficient (e.g., $a_1$): list all pairs differing in $x_1$, compute each XOR vote, and take majority.
+
+#block(sticky: true)[*Part (c): Multiple-Error Decoding*]
+
++ Flip bits at _two_ positions $i$ and $j$ (where $i eq.not j$) in $bold(c)$ to get $bold(r)$.
++ Apply the majority-logic decoding algorithm from Part (b).
++ Does decoding succeed? If yes, explain why. If no, show which coefficients are incorrect.
++ Explain: since $d = 4$, the code guarantees correction of $t = 1$ error. Why might it sometimes correct 2 errors?
 
 #block(sticky: true)[*Part (d): Code Efficiency*]
 
-+ Compare rate $k\/n$ of $op("RM")(1, 3)$ vs 3-repetition code. Which is more efficient?
-+ Explain trade-off: how does $r$ affect correction capability and rate?
+The _rate_ of a code is $k"/"n$: the ratio of message bits to transmitted bits.
+Higher rate means less redundancy but weaker error correction.
+
++ Calculate the rate $k"/"n$ for $op("RM")(1, 3)$.
++ A repetition code encodes each bit by repeating it: for example, the 3-repetition code maps $0 -> 000$ and $1 -> 111$, giving rate $1"/"3$. Compare with $op("RM")(1, 3)$: which is more efficient (higher rate)?
++ For general $op("RM")(r, m)$: as $r$ increases from $0$ to $m$, what happens to $k$ (dimension) and $d$ (distance)? Explain the fundamental trade-off between rate and error correction capability.
 
 
-// #line(length: 100%, stroke: 0.4pt)
-#pagebreak()
+#line(length: 100%, stroke: 0.4pt)
 
 *Submission Guidelines:*
 - Organize solutions clearly with problem numbers and parts.
