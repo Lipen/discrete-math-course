@@ -70,7 +70,7 @@
 
 == Problem 1: Karnaugh Maps
 
-Analyze a 5-variable Boolean function using Karnaugh maps.
+Karnaugh maps exploit geometric patterns in truth tables to visually minimize Boolean functions. You'll work with a personalized 5-variable function, exploring both standard minimization and optimization with don't-care conditions.
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
@@ -145,9 +145,10 @@ Construct a 5-variable Karnaugh map for your function using the template below:
 
 == Problem 2: Circuit Analysis
 
-Reverse-engineer a combinational circuit: derive Boolean functions, identify redundancies, and analyze timing.
+Real-world digital circuits often contain redundancies from design iterations or automated synthesis.
+Your task is to reverse-engineer a given circuit to understand its logical behavior and performance characteristics.
 
-Given a circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2)$:
+Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2)$:
 
 #align(center)[
   #import "@preview/circuiteria:0.2.0"
@@ -246,11 +247,12 @@ Build the truth table mapping $triple(A, B, C) |-> pair(f_1, f_2)$ for all 8 inp
 
 == Problem 3: Boolean Function Analysis
 
-Analyze functions
+This problem explores multiple representations of Boolean functions that reveal different properties: K-maps show groupings, DNF/CNF expose clause structure, ANF reveals algebraic degree.
+
+Consider the following four functions
 #footnote[
   Notation: $bfunc(n, k)$ is the $k$-th Boolean function of $n$ variables, where $k$ is the decimal truth table value with MSB = $f(0,dots,0)$, LSB = $f(1,dots,1)$.
-]
-in multiple representations: truth tables, DNF, CNF, ANF, and K-maps.
+]:
 
 #tasklist("prob3", cols: 2)[
   + $f_1 = bfunc(4, 47541)$
@@ -299,7 +301,8 @@ Construct the ANF for each function using any of the methods below:
 
 == Problem 4: CNF Conversion
 
-Explore direct CNF conversion and Tseitin transformation.
+CNF is essential for SAT solvers and theorem provers.
+Direct conversion often causes exponential blow-up, while the Tseitin transformation trades formula size for auxiliary variables to keep complexity linear.
 
 #block(sticky: true)[*Part (a): Basic Conversions*]
 
@@ -350,7 +353,8 @@ A system manages five resources ${R_1, R_2, R_3, R_4, R_5}$ with constraints:
 
 == Problem 5: Functional Completeness
 
-Determine which sets of Boolean operations are functionally complete using Post's criterion.
+Not all operator sets can express every Boolean function --- some are fundamentally limited.
+Post's criterion systematically determines completeness by checking preservation of closed classes.
 
 #block(sticky: true)[*Part (a): Apply Post's Criterion*]
 
@@ -367,9 +371,10 @@ For each system, check Post classes ($T_0$, $T_1$, $S$, $M$, $L$) and determine 
 
   + $F_4 = {1, iff, and}$
 ]
+
 - Determine if the class is preserved under composition.
-+ Conclude whether the system is functionally complete.
-+ If not complete, identify which Post class(es) prevent completeness.
+- Conclude whether the system is functionally complete.
+- If not complete, identify which Post class(es) prevent completeness.
 
 *Hint:* A system is complete iff it does not preserve each of the five Post classes.
 
@@ -402,8 +407,8 @@ For each _complete_ basis from Part (a):
 
 == Problem 6: Zhegalkin Polynomials
 
-The Zhegalkin basis ${xor, and, 1}$ represents Boolean functions as polynomials over $FF_2$.
-Every function has a unique ANF (Algebraic Normal Form) revealing its algebraic degree --- critical in cryptography.
+Every Boolean function has a unique polynomial representation over $FF_2$ using XOR and AND.
+The algebraic degree of this polynomial measures cryptographic strength: low-degree functions are vulnerable to linear attacks, while high-degree functions resist algebraic cryptanalysis.
 
 #block(sticky: true)[*Part (a): Functional Completeness*]
 
@@ -444,7 +449,8 @@ S-box $S: Bool^3 to Bool$ has truth table $(0,1,1,0,1,0,0,1)$.
 
 == Problem 7: Gray Code Circuits
 
-Gray code ensures consecutive values differ in exactly one bit.
+When a rotary encoder transitions from 3 (011) to 4 (100) in binary, all three bits flip --- the sensor might read _anything_ during the transition.
+Gray code solves this: consecutive values differ in exactly one bit, eliminating ambiguous readings.
 
 #example[
   4-bit: $0 to #`0000`, 1 to #`0001`, 2 to #`0011`, 3 to #`0010`, dots, 15 to #`1000`$
@@ -488,26 +494,30 @@ Show a concrete example: pick two consecutive binary values where multiple bits 
 
 == Problem 8: Arithmetic Circuits
 
-Design circuits for subtraction, comparison, and multiplication.
+In this problem, you will design and analyze subtraction and comparison circuits.
+Unlike addition, subtraction requires careful borrow handling, flowing backward through bit positions.
 
 #block(sticky: true)[*Part (a): Half Subtractor*]
 
 Design a half subtractor for $x - y$ (outputs: difference $d$, borrow $b$).
-Build truth table, derive expressions, construct circuit with AND/OR/NOT.
-Relate to XOR.
+Build truth table, derive expressions for outputs, construct circuit using AND/OR/NOT gates.
+Show how the difference output can be expressed using XOR.
 
 #block(sticky: true)[*Part (b): Full Subtractor*]
+
+A full subtractor handles three inputs: minuend $x$, subtrahend $y$, and borrow-in $b_("in")$.
 
 + Build truth table for $x - y - b_("in")$.
 + Design using two half subtractors. Explain borrow propagation.
 + Calculate critical path delay.
-+ Verify: $(0,1,1)$ and $(1,0,1)$.
++ Verify on $(0,1,1)$ and $(1,0,1)$.
 
 #block(sticky: true)[*Part (c): 4-bit Saturating Subtractor*]
 
 A saturating subtractor computes $d = max(0, x - y)$, clamping negatives to zero.
 
-+ Design using four full subtractors plus saturation logic. Which signal detects $x < y$?
++ Design using four full subtractors plus saturation logic.
+  Which signal detects $x < y$?
 + Test: $5 - 3$, $3 - 5$ (saturates to 0), $15 - 8$.
 
 #block(sticky: true)[*Part (d): 2-bit Comparator*]
@@ -526,15 +536,18 @@ A saturating subtractor computes $d = max(0, x - y)$, clamping negatives to zero
 
 == Problem 9: Binary Decision Diagrams
 
-BDDs represent Boolean functions as DAGs, providing canonical forms for efficient manipulation. Variable ordering can exponentially affect size.
+BDDs provide canonical representations enabling efficient equivalence checking, but size varies exponentially with variable ordering.
+The same function might need 10 nodes with one ordering and 1000 with another.
+Finding optimal orderings is NP-complete, but good heuristics exist.
 
 #block(sticky: true)[*Part (a): If-Then-Else Function*]
 
-$ITE(c, x, y)$ returns $x$ when $c=0$, otherwise $y$.
+$ITE(c, x, y)$ returns $x$ when $c = 0$, otherwise $y$.
 
 + Express $ITE$ using ${and, or, not}$. Verify with truth table.
 + Prove ${ITE}$ alone is functionally complete via Post's criterion.
-+ Express $x xor y$ and $majority(x, y, z)$ using only $ITE$. Count $ITE$ calls.
++ Express $x xor y$ and $majority(x, y, z)$ using only $ITE$.
+  Count $ITE$ calls.
 
 #block(sticky: true)[*Part (b): Construct ROBDDs with Natural Ordering*]
 
@@ -555,7 +568,7 @@ Use natural order $x_1 prec x_2 prec x_3 prec dots.c$ for:
 For each function:
 
 + Build the complete decision tree (dashed edges = 0, solid = 1).
-+ Reduce: (1) merge isomorphic subtrees, (2) eliminate redundant tests.
++ Apply reduction rules to get the ROBDD: eliminate duplicate terminals, merge isomorphic subgraphs, remove redundant nodes.
 + Draw final ROBDD with node count. Compare to unreduced size $2^(n+1) - 1$.
 + Verify by tracing two sample inputs to terminal values.
 
@@ -564,51 +577,52 @@ For each function:
 For each function from Part (b):
 
 + Find an ordering producing smaller ROBDD than natural order.
-+ Construct and count nodes.
-+ Report reduction for each function.
++ Construct the smaller ROBDD and count nodes.
 + For $f_4$, explain why interleaving paired variables helps.
+  For others, discuss patterns leading to size reduction, or why the order does not matter at all.
 
-#block(sticky: true)[*Part (d): Detailed Analysis of $f_4$*]
-
-$f_4(x_1, dots, x_6) = x_1 x_4 + x_2 x_5 + x_3 x_6$:
-
-+ Draw ROBDD with natural order $x_1 prec x_2 prec x_3 prec x_4 prec x_5 prec x_6$. Count nodes.
-+ Draw ROBDD with interleaved order $x_1 prec x_4 prec x_2 prec x_5 prec x_3 prec x_6$. Count nodes.
-+ Explain structural reduction. What sharing patterns emerge?
-+ Give a function with ordering-invariant ROBDD size.
-
-#block(sticky: true)[*Part (e): BDD Operations*]
+#block(sticky: true)[*Part (f): BDD Operations*]
 
 + Construct ROBDD for $f_1 and f_3$ (from Part b) using natural ordering.
 + Describe the _apply algorithm_: how to combine two ROBDDs without enumerating truth tables.
 + Compare the resulting BDD size to the sum of individual sizes.
++ What is the worst case for BDD size when combining two functions?
 
 
 #pagebreak()
 
 == Problem 10: Reed–Muller Codes
 
-Reed–Muller codes use Boolean functions with restricted degree for error correction. Mariner 9 used RM codes to transmit Mars images in 1971.
+In 1971, Mariner 9 transmitted the first close-up Mars images using Reed–Muller codes.
+These error-correcting codes use Boolean functions with restricted algebraic degree and employ elegant majority-logic decoding: ANF coefficients are recovered by voting among XOR combinations of received bits.
 
-$op("RM")(r, m) = { f: FF_2^m to FF_2 | deg(f) <= r }$
+Formally, the Reed–Muller code of order $r$ in $m$ variables is:
+$
+  op("RM")(r, m) = { f: FF_2^m to FF_2 | deg(f) <= r }
+$
 
-*Parameters:* $n = 2^m$, $k = sum_(i=0)^r binom(m, i)$, $d = 2^(m-r)$, corrects $t = floor((d-1)/2)$ errors.
+*Parameters:*
+$n = 2^m$, $k = sum_(i=0)^r binom(m, i)$, $d = 2^(m-r)$, corrects $t = floor((d-1)/2)$ errors.
 
-*Encoding:* List monomials of degree $<= r$ lexicographically, evaluate on all $2^m$ inputs for generator matrix $bold(G)$. Message $bold(u)$ encodes to $bold(c) = bold(u) bold(G)$.
+*Encoding:*
+List monomials of degree $<= r$ lexicographically, evaluate on all $2^m$ inputs for generator matrix $bold(G)$.
+Message $bold(u)$ encodes to $bold(c) = bold(u) bold(G)$.
 
 #example[
-  $op("RM")(1, 2)$: $bold(G) = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)$
-
+  $op("RM")(1, 2)$:
+  $bold(G) = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)$,
   $(1, 0, 1)$ encodes to $(1, 0, 1, 0)$.
 ]
 
-*Majority-logic decoding:* For each ANF coefficient, XOR pairs differing in one variable position. Each XOR votes; majority determines the coefficient.
+*Majority-logic decoding:*
+For each ANF coefficient, XOR pairs differing in one variable position.
+Each XOR votes; majority determines the coefficient.
 
 #block(sticky: true)[*Part (a): Code Construction*]
 
-$op("RM")(1, 3)$:
+Consider the Reed–Muller code of order 1 in 3 variables: $"RM"(1, 3)$.
 
-+ Calculate $n$, $k$, $d$. How many errors correctable?
++ Calculate $n$, $k$, $d$. How many errors are correctable?
 + List monomials of degree $<= 1$.
 + Construct $bold(G)$ (8 input vectors).
 + Encode $bold(u) = (1, 0, 1, 1)$.
@@ -631,7 +645,8 @@ $op("RM")(1, 3)$:
 + Explain trade-off: how does $r$ affect correction capability and rate?
 
 
-#line(length: 100%, stroke: 0.4pt)
+// #line(length: 100%, stroke: 0.4pt)
+#pagebreak()
 
 *Submission Guidelines:*
 - Organize solutions clearly with problem numbers and parts.
