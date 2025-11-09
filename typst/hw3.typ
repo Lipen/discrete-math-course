@@ -74,11 +74,14 @@ In this problem, you'll work with a 5-variable function, exploring both standard
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
-Hash the string `"DM Fall 2025 HW3"` using SHA-256, split into eight 32-bit blocks, XOR them together, and finally XOR with the mask `0x71be8976` to get $w = (w_0 w_1 dots w_31)_2$.
++ Compute the SHA-256 hash: $h = "SHA-256"($`"DM Fall 2025 HW3"`$)$.
++ Split $h$ into eight 32-bit blocks: $h = h_0 || h_1 || dots || h_7$ where each $h_i$ is 32 bits.
++ XOR all blocks together: $d = h_0 xor h_1 xor dots.c xor h_7$.
++ Apply the mask: $w = d xor #`0x71be8976`$, giving the 32-bit result $w = (w_0 w_1 dots w_(31))_2$.
 
-This 32-bit string encodes $f^((5))$: bit $w_0$ (MSB) is $f(0,0,0,0,0)$, bit $w_31$ (LSB) is $f(1,1,1,1,1)$.
+The resulting bit string $w$ encodes the 5-variable Boolean function $f^((5))$: bit $w_0$ (MSB) represents $f(0,0,0,0,0)$, and bit $w_(31)$ (LSB) represents $f(1,1,1,1,1)$.
 
-*Check:* Hash ends with $dots#`00010101`$; result after XORing blocks (before mask) starts with $#`0110`dots$
+*Check:* Hash $h$ ends with $dots#`00010101`$; the value $d$ (before masking) begins with $#`0110`dots$
 
 #block(sticky: true)[*Part (b): Draw the K-Map*]
 
