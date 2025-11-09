@@ -154,6 +154,10 @@ Using your K-map:
 
 == Problem 2: Circuit Analysis
 
+Digital circuits transform input signals into outputs through interconnected logic gates.
+Understanding how to analyze existing circuits --- deriving their Boolean functions, identifying redundancies, and computing timing --- is important for hardware design and verification.
+In this problem, you'll reverse-engineer a combinational circuit to understand its behavior.
+
 Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2)$:
 
 #align(center)[
@@ -170,10 +174,10 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
     element.gate-nor(id: "g3", x: 5, y: -0.5, w: 1.8, h: 1.8)
     element.gate-and(id: "g4", x: 5, y: 2, w: 1.8, h: 1.8)
     element.gate-nor(id: "g5", x: 8, y: 0.8, w: 1.8, h: 1.8)
-    element.gate-and(id: "g6", x: 11, y: 3, w: 1.8, h: 1.8)
-    element.gate-or(id: "g1", x: 11, y: 0.5, w: 1.8, h: 1.8)
-    element.gate-nand(id: "g7", x: 11, y: -1.5, w: 1.8, h: 1.8)
-    element.gate-nand(id: "g8", x: 14, y: -0.5, w: 1.8, h: 1.8)
+    element.gate-and(id: "g6", x: 11, y: 2.5, w: 1.8, h: 1.8)
+    element.gate-or(id: "g7", x: 11, y: 0.35, w: 1.8, h: 1.8)
+    element.gate-nand(id: "g1", x: 11, y: -1.8, w: 1.8, h: 1.8)
+    element.gate-nand(id: "g8", x: 14, y: -0.6, w: 1.8, h: 1.8)
 
     // Input stubs
     wire.stub("g2-port-in0", "west") // A
@@ -181,23 +185,25 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
     wire.stub("g1-port-in0", "west") // A
     wire.stub("g2-port-in1", "west") // B
     wire.stub("g1-port-in1", "west") // B
-    wire.stub("g7-port-in0", "west") // B
+    wire.stub("g7-port-in1", "west") // B
     wire.stub("g3-port-in1", "west") // C
-    wire.stub("g4-port-in1", "west") // C
+    wire.stub("g4-port-in0", "west") // C
 
     // Output stubs
     wire.stub("g6-port-out", "east")
     wire.stub("g8-port-out", "east")
 
     // Gate-to-gate connections
-    wire.wire("w1", ("g2-port-out", "g3-port-in0"))
-    wire.wire("w2", ("g2-port-out", "g4-port-in0"))
-    wire.wire("w3", ("g4-port-out", "g5-port-in0"))
-    wire.wire("w4", ("g3-port-out", "g5-port-in1"))
-    wire.wire("w5", ("g5-port-out", "g6-port-in1"))
-    wire.wire("w6", ("g5-port-out", "g7-port-in1"))
-    wire.wire("w7", ("g1-port-out", "g8-port-in0"))
-    wire.wire("w8", ("g7-port-out", "g8-port-in1"))
+    wire.wire("w1", ("g2-port-out", "g3-port-in0"), style: "zigzag")
+    wire.intersection("w1.zig")
+    wire.wire("w2", ("w1.zig", "g4-port-in1"), style: "zigzag", zigzag-ratio: 0%)
+    wire.wire("w3", ("g4-port-out", "g5-port-in0"), style: "zigzag")
+    wire.wire("w4", ("g3-port-out", "g5-port-in1"), style: "zigzag")
+    wire.wire("w5", ("g5-port-out", "g6-port-in1"), style: "zigzag")
+    wire.intersection("w5.zig")
+    wire.wire("w6", ("w5.zig", "g7-port-in0"))
+    wire.wire("w7", ("g7-port-out", "g8-port-in0"), style: "zigzag")
+    wire.wire("w8", ("g1-port-out", "g8-port-in1"), style: "zigzag")
 
     // Labels for inputs
     draw.content((rel: (-0.5, 0), to: "g2-port-in0"), anchor: "east", label[$A$], padding: .2)
@@ -205,9 +211,9 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
     draw.content((rel: (-0.5, 0), to: "g1-port-in0"), anchor: "east", label[$A$], padding: .2)
     draw.content((rel: (-0.5, 0), to: "g2-port-in1"), anchor: "east", label[$B$], padding: .2)
     draw.content((rel: (-0.5, 0), to: "g1-port-in1"), anchor: "east", label[$B$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g7-port-in0"), anchor: "east", label[$B$], padding: .2)
+    draw.content((rel: (-0.5, 0), to: "g7-port-in1"), anchor: "east", label[$B$], padding: .2)
     draw.content((rel: (-0.5, 0), to: "g3-port-in1"), anchor: "east", label[$C$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g4-port-in1"), anchor: "east", label[$C$], padding: .2)
+    draw.content((rel: (-0.5, 0), to: "g4-port-in0"), anchor: "east", label[$C$], padding: .2)
 
     // Labels for outputs
     draw.content((rel: (0.5, 0), to: "g6-port-out"), anchor: "west", label[$f_1$], padding: .2)
@@ -225,22 +231,49 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
   })
 ]
 
-+ Compute the truth table for $f: Bool^3 to Bool^2$ where $triple(A, B, C) maps.bar pair(f_1, f_2)$.
-+ Express $f_1$ and $f_2$ in minimal DNF.
-+ Identify redundant gates and simplify the circuit if possible.
-+ What is the maximum propagation delay (in gate delays)?
-+ Analyze the critical path: Which sequence of gates determines the overall delay?
+#block(sticky: true)[*Part (a): Truth Table*]
 
+Build the complete truth table by tracing signal flow through the circuit.
+Present your results as a table mapping $triple(A, B, C) |-> pair(f_1, f_2)$ for all 8 input combinations.
+
+#block(sticky: true)[*Part (b): Boolean Expressions*]
+
++ Derive minimal DNF expressions for both $f_1$ and $f_2$.
+  Use K-maps or algebraic simplification.
++ Verify your expressions produce the same truth table from Part (a).
++ Count the number of literals in each expression.
+  Which output function is more complex?
+
+#block(sticky: true)[*Part (c): Optimization*]
+
+Real circuits often contain redundancies from iterative design or automated synthesis.
+
++ Identify all redundant gates (gates whose removal doesn't change the output).
++ Draw a simplified circuit with all redundancies eliminated.
++ Verify that your optimized circuit produces identical outputs for all 8 input combinations.
+
+#block(sticky: true)[*Part (d): Timing Analysis*]
+
++ Assuming unit delay per gate, compute the maximum delay to each output.
++ For each output, identify its critical path (the longest path determining delay).
+// TODO: more?
+
+
+#pagebreak()
 
 == Problem 3: Boolean Function Analysis
 
-Analyze the following 4-variable functions using multiple representation methods.
+Boolean functions can be represented in many equivalent forms --- truth tables, DNF, CNF, ANF, K-maps, and more.
+Each representation offers different insights and advantages for analysis, simplification, or implementation.
+Understanding conversions between these forms is important for both theory and practice.
+
+Analyze the following functions:
 #footnote[
   Notation: $bfunc(n, k)$ is the $k$-th Boolean function of $n$ variables, where $k$ is the decimal value of the truth table with MSB = $f(0,dots,0)$ and LSB = $f(1,dots,1)$.
-  For example, $bfunc(2, 11) = (1011)$.
+  For example, $bfunc(2, 11) = (1011)_2$, so the truth table is $(1,0,1,1)$.
 ]
 
-#tasklist("prob2", cols: 2)[
+#tasklist("prob3", cols: 2)[
   + $f_1 = bfunc(4, 47541)$
 
   + $f_2 = sum m(1, 4, 5, 6, 8, 12, 13)$
@@ -252,28 +285,59 @@ Analyze the following 4-variable functions using multiple representation methods
   + $f_4 = A overline(B) D + overline(A) thin overline(C) D + overline(B) C overline(D) + A overline(C) D$
 ]
 
-For each function:
-- Draw the K-map.
-- Find all prime implicants (Blake Canonical Form).
-- Find the minimal DNF and minimal CNF.
-- Construct the ANF using the K-map method, tabular method, or Pascal's triangle method. \
-  Use each ANF construction method at least once.
+#block(sticky: true)[*Part (a): Karnaugh Maps*]
+
+For each function, draw and fill the K-map.
+
+#block(sticky: true)[*Part (b): Prime Implicants*]
+
++ Find _all_ prime implicants for each function (Blake Canonical Form).
++ For each prime implicant, show the corresponding group on your K-map.
++ Identify which prime implicants are _essential_ (must be included in any minimal cover).
+
+#block(sticky: true)[*Part (c): Minimal DNF and CNF*]
+
++ Derive the minimal DNF using the prime implicants from Part (b).
++ Derive the minimal CNF using either dual K-map analysis or algebraic methods.
++ For each function, state whether the DNF or CNF is more compact (fewer literals).
+
+#block(sticky: true)[*Part (d): Algebraic Normal Form*]
+
+Construct the ANF for each function using one of these methods:
+- _K-map method_: Group minterms and use XOR relationships
+- _Tabular method_: Build Pascal's triangle-like structure
+- _Shannon decomposition_: Recursively decompose by variables
+
+*Requirement:*
+Use each method at least once across all four functions.
+Clearly state which method you're using for each function.
 
 #note[
-  WolframAlpha reverses the bit order for "$n$-th Boolean function of $k$ variables". \
-  For $bfunc(2, 10) = (1010)$, query "5th Boolean function of 2 vars" since $op("rev")(1010_2) = 0101_2 = 5$.
+  WolframAlpha reverses bit order for Boolean function indexing! \
+  For $bfunc(2, 10) = (1010)_2$, query "5th Boolean function of 2 vars" since $op("rev")(1010_2) = 0101_2 = 5$.
 ]
 
+// #block(sticky: true)[*Part (e): Analysis and Comparison*]
+//
+// + Which function has the highest algebraic degree (in ANF)?
+// + Which representation (DNF, CNF, or ANF) is most compact for each function?
+// + Identify any special properties: Is any function linear, affine, symmetric, or self-dual?
+
+
+#pagebreak()
 
 == Problem 4: CNF Conversion
 
-Converting Boolean formulae to CNF is fundamental for SAT solving and automated reasoning.
+// Conjunctive Normal Form (CNF) is the standard input format for SAT solvers --- the workhorses of modern verification, AI planning, and constraint solving.
+// Converting arbitrary Boolean formulae to CNF has direct applications in automated reasoning, formal verification, and optimization.
+
+This problem explores both direct CNF conversion and the Tseitin transformation, a powerful technique that trades formula size for satisfiability equivalence.
 
 #block(sticky: true)[*Part (a): Basic Conversions*]
 
-Convert each formula to CNF:
+Convert each formula to CNF using truth tables, distribution laws, or equivalence transformations:
 
-#tasklist("prob3a", cols: 3)[
+#tasklist("prob4a", cols: 3)[
   + $X iff (A and B)$
 
   + $Z iff or.big_i C_i$
@@ -284,7 +348,7 @@ Convert each formula to CNF:
 
   + $majority(X_1, X_2, X_3)$
     #footnote[
-      Majority function returns 1 iff more than half of its inputs are 1.
+      Majority function returns 1 iff at least 2 of its 3 inputs are 1.
     ]
 
   #colbreak()
@@ -294,42 +358,79 @@ Convert each formula to CNF:
   + $M imply (H iff or.big_i D_i)$
 ]
 
+// For each:
+// - Show all intermediate steps clearly.
+// - Count the number of clauses and total literals in your final CNF.
+
 #block(sticky: true)[*Part (b): Tseitin Transformation*]
 
-The Tseitin transformation converts any formula to equisatisfiable CNF by introducing auxiliary variables for subformulae.
+The Tseitin transformation produces _equisatisfiable_ CNF by introducing auxiliary variables for subformulae.
+While the resulting formula isn't logically equivalent to the original, both have satisfying assignments that correspond naturally.
 
-+ Apply Tseitin to: $(A or B) and (C or (D and E))$
-+ Prove equisatisfiability of your CNF with the original.
-+ Compare the size (clauses and variables) with direct CNF conversion.
+Consider the formula: $(A or B) and (C or (D and E))$
+
++ Apply the Tseitin transformation:
+  // - Identify all subformulae (compound expressions).
+  - Introduce a fresh auxiliary variable for each subformula.
+  - Write the CNF encoding for each auxiliary variable's definition.
+  - Combine all clauses and add a unit clause asserting the top-level variable.
+
++ Prove equisatisfiability:
+  - Show that if the original formula is satisfiable, the Tseitin CNF is satisfiable.
+  - Show the converse: if the Tseitin CNF is satisfiable, the original formula is satisfiable.
+  - Explain why logical equivalence doesn't hold.
+
++ Compare with direct CNF:
+  - Convert the original formula to CNF using distribution laws.
+  - Count clauses, variables, and total literals for both approaches.
+  - Which is smaller? When would you prefer each method?
 
 #block(sticky: true)[*Part (c): Resource Allocation*]
 
-A system has five resources ${R_1, R_2, R_3, R_4, R_5}$ and must satisfy:
-- Either $R_1$ or both $R_2$ and $R_3$
-- If $R_1$, then $R_4$ or $R_5$
-- Not both $R_2$ and $R_4$
-- At least two of ${R_1, R_2, R_3}$
+A distributed system manages five resources ${R_1, R_2, R_3, R_4, R_5}$ with constraints:
 
-+ Encode these constraints as Boolean formulae.
-+ Convert to CNF.
-+ Find all satisfying assignments.
+- Either $R_1$ is allocated, or both $R_2$ and $R_3$ are allocated
+- If $R_1$ is allocated, then at least one of $R_4$ or $R_5$ must be allocated
+- Resources $R_2$ and $R_4$ cannot be allocated simultaneously
+- At least two of ${R_1, R_2, R_3}$ must be allocated
 
-#block(sticky: true)[*Part (d): Optimization Analysis*]
+*Tasks:*
++ Encode each constraint as a Boolean formula using variables $R_1, dots, R_5$.
++ Convert each constraint to CNF.
++ Combine all CNF clauses into a single constraint system.
++ Find _all_ satisfying assignments (valid resource allocations).
++ Which resources are allocated in the maximum number of valid configurations?
 
-+ For the formula in Part (b), compute the exact clause count for both Tseitin and direct CNF.
-+ Explain the trade-off: Tseitin uses more variables but fewer/shorter clauses. When is each approach preferable?
-+ For a formula of size $n$ (number of connectives), what is the worst-case clause count for direct CNF vs Tseitin?
+// #block(sticky: true)[*Part (d): Complexity and Trade-offs*]
+//
+// + For the formula in Part (b), compute exact counts:
+//   - Direct CNF: number of clauses, number of literals
+//   - Tseitin CNF: number of clauses, number of literals, number of auxiliary variables
+//
+// + Explain the trade-off: Tseitin uses more variables but produces shorter, simpler clauses. When is each approach preferable? Consider:
+//   - Formula size and structure
+//   - SAT solver performance characteristics
+//   - Memory constraints
+//
+// + Theoretical analysis: For a formula with $n$ binary connectives:
+//   - What is the worst-case number of clauses from direct CNF conversion?
+//   - What is the clause count from Tseitin transformation?
+//   - At what formula size does Tseitin become preferable?
 
 
 == Problem 5: Functional Completeness
 
-A set of Boolean functions is _functionally complete_ if it can express any Boolean function. \
+A set of Boolean operations is _functionally complete_ if every Boolean function can be expressed using only those operations.
+This concept is central to circuit design: a complete basis allows building any digital logic circuit from a single gate type (like NAND or NOR).
+
+Post's criterion provides a systematic method to determine functional completeness by checking which classes of Boolean functions are _not_ preserved by the operations.
 
 #block(sticky: true)[*Part (a): Apply Post's Criterion*]
 
-Determine whether each system is functionally complete using Post's criterion:
+Determine whether each system is functionally complete using Post's criterion.
+Check closure under all five Post classes: $T_0$, $T_1$, $S$ (self-dual), $M$ (monotone), and $L$ (linear).
 
-#tasklist("prob4a", cols: 2)[
+#tasklist("prob5a", cols: 2)[
   + $F_1 = {and, or, not}$
 
   + $F_2 = \{ bfunc(2, 14) \}$
@@ -338,154 +439,342 @@ Determine whether each system is functionally complete using Post's criterion:
 
   + $F_3 = {imply, imply.not}$
     #footnote[
-      $(A imply.not B) equiv (A and not B)$
+      $(A imply.not B) equiv not (A imply B) equiv (A and not B)$
     ]
 
   + $F_4 = {1, iff, and}$
 ]
 
+For each system:
+
++ Build the truth table for any unfamiliar operations.
++ Check each Post class:
+  - List which functions in the basis belong to each class.
+  - Determine if the class is preserved under composition.
++ Conclude whether the system is functionally complete.
++ If not complete, identify which Post class(es) prevent completeness.
+
+*Hint:* A system is complete iff it fails to preserve at least one class from each of the five Post classes.
+
 #block(sticky: true)[*Part (b): Express Majority*]
 
-For each complete basis from Part (a):
+The majority function $majority(A, B, C)$ outputs 1 when at least two inputs are 1.
 
-+ Express $majority(A, B, C)$ using only that basis.
-+ Draw the corresponding circuit.
-+ Count the gates.
+For each _complete_ basis from Part (a):
 
-// #block(sticky: true)[*Part (c): NAND Complexity*]
-//
-// + Which complete basis yields the smallest circuit for $majority(A, B, C)$?
-// + Prove that any NAND-only circuit for $majority(A, B, C)$ needs at least 9 gates.
++ Express $majority(A, B, C)$ using only operations from that basis.
++ Draw the corresponding circuit diagram with clearly labeled gates.
++ Count the total number of gates required.
++ Verify your expression by checking the test cases: $(0,0,0)$, $(1,1,0)$, and $(1,1,1)$.
+
+#block(sticky: true)[*Part (c): Efficiency Analysis*]
+
++ Which complete basis from Part (a) yields the smallest circuit for $majority(A, B, C)$?
++ The NAND gate is considered universal.
+  Express $not A$, $A and B$, and $A or B$ using only NAND gates.
++ Build a NAND-only circuit for $majority(A, B, C)$.
+  How many NAND gates it requires?
++ Research: Why do hardware designers often prefer NAND or NOR over mixed gate types?
+
+#block(sticky: true)[*Part (d): Custom Basis*]
+
++ Design a single 3-input Boolean function that is by itself functionally complete.
++ Prove its completeness using Post's criterion.
++ Express $not A$ and $A and B$ using only your custom function.
++ Compare the gate count for $majority(A, B, C)$ using your function versus using NAND.
 
 
 #pagebreak()
 
 == Problem 6: Zhegalkin Polynomials
 
-The Zhegalkin basis ${xor, and, 1}$ provides an algebraic view of Boolean functions over the field $FF_2$.
+The Zhegalkin basis ${xor, and, 1}$ represents Boolean functions as polynomials over $FF_2$ (Algebraic Normal Form).
+Every Boolean function has a _unique_ ANF, which reveals its algebraic degree --- a~critical property in cryptography and complexity theory.
 
-#block(sticky: true)[*Part (a): Prove Completeness*]
+#block(sticky: true)[*Part (a): Functional Completeness*]
 
-Prove that ${xor, and, 1}$ is functionally complete _without_ using Post's criterion.
++ Prove that ${xor, and, 1}$ is functionally complete by expressing $not x$ and $x or y$ using only operations from the basis.
++ Express $majority(x, y, z)$ using only ${xor, and, 1}$. Count the number of operations required.
 
-+ Express $not x$ using ${xor, 1}$.
-+ Express $x or y$ using ${and, xor, 1}$.
-+ Explain why this establishes completeness.
+#block(sticky: true)[*Part (b): Computing ANF*]
 
-#block(sticky: true)[*Part (b): Polynomial Degree*]
+For each function below, find its ANF using _different_ methods (use each method at least once):
 
-The _degree_ of a Zhegalkin polynomial is the size of the largest monomial.
+#tasklist("prob6b", cols: 2)[
+  + $f_1 (a, b, c) = a b or b c or a c$
 
-+ Apply _Shannon decomposition_ to $f(x_1, x_2, x_3) = x_1 x_2 or x_2 x_3 or x_1 x_3$ with respect to $x_1$. \
-  Verify: $f = x_1 f_(x_1=1) xor overline(x)_1 f_(x_1=0)$ where $overline(x)_1 = 1 xor x_1$.
-+ Show how Shannon decomposition can be used to derive the ANF recursively.
-+ Prove that every Boolean function has a unique Zhegalkin representation.
-+ Find the Zhegalkin polynomial of $majority(x_1, x_2, x_3)$ using Shannon decomposition.
+  + $f_2 (a, b, c, d) = sum m(1, 4, 6, 7, 10, 13, 15)$
 
-#block(sticky: true)[*Part (c): Algebraic Degree in Cryptography*]
+  #colbreak()
 
-High algebraic degree is important for cryptographic security.
+  + $f_3 (a, b, c) = (a imply b) xor (b imply c)$
 
-+ An S-box function $S: Bool^3 to Bool$ has truth table $(0,1,1,0,1,0,0,1)$. Find its ANF and degree.
-+ Why do cryptographers prefer functions with high algebraic degree?
-+ Construct a balanced 3-variable function of degree 3 with no linear terms.
-  #footnote[
-    A function is _balanced_ if it outputs 0 and 1 equally often.
-  ]
+  + $f_4 (a, b, c, d) = (a xor b)(c xor d)$
+]
+
+*Available methods:*
+- _Tabular (Pascal's triangle)_: Build XOR-sum table row by row
+- _Shannon decomposition_: Recursively decompose $f = x f_(x=1) xor overline(x) f_(x=0)$ where $overline(x) = 1 xor x$
+- _K-map with XOR groups_: Identify XOR patterns in the K-map
+- _Algebraic manipulation_: Expand using $x or y = x xor y xor x y$ and simplify
+
+For each function, state which method you're using and show all steps.
+
+#block(sticky: true)[*Part (c): Algebraic Degree*]
+
+The _algebraic degree_ is the maximum monomial size in the ANF.
+
++ For each function in Part (b), identify its algebraic degree.
++ Which function has the highest degree? Is this the maximum possible degree for its number of variables?
++ Prove that $deg(f xor g) <= max(deg(f), deg(g))$. Find an example where the inequality is strict.
+
+#block(sticky: true)[*Part (d): Cryptographic S-Box Analysis*]
+
+Consider an S-box function $S: BB^3 to BB$ with truth table $(0,1,1,0,1,0,0,1)$.
+
++ Find the ANF and determine the algebraic degree.
++ Is $S$ balanced (equal number of 0s and 1s)?
+  Is it affine (degree $<= 1$)?
++ Construct a different 3-variable Boolean function $T: BB^3 to BB$ that is:
+  - Balanced (outputs 0 and 1 exactly 4 times each)
+  - Degree exactly 3
++ Compare the two functions: Which has better cryptographic properties and why?
+
+// #block(sticky: true)[*Part (e): Uniqueness and Operations*]
+//
+// + Prove that the ANF representation is unique:
+//   If two different ANFs produce the same truth table for all inputs, show they must be syntactically identical.
+//
+// + Prove that if $f$ and $g$ have ANFs, then $f xor g$ has ANF equal to the XOR of their individual ANFs (over $FF_2$).
+//   Why does this not hold for $f and g$?
 
 
 == Problem 7: Gray Code Circuits
 
-Gray code encodes integers so consecutive values differ in exactly one bit.
+Gray code is a binary encoding where consecutive values differ in exactly one bit.
+This property eliminates glitches in digital circuits and mechanical encoders, making Gray code useful in rotary encoders, error correction, and analog-to-digital conversion.
+
+Frank Gray patented this encoding in 1953 for use in shaft encoders, though the principle was known earlier.
+Understanding Gray code conversion deepens intuition about Boolean function design and circuit optimization.
 
 #example[
-  - $#`0000` _2 to #`0000` _"Gray"$
-  - $#`1001` _2 to #`1101` _"Gray"$
-  - $#`1111` _2 to #`1000` _"Gray"$
+  4-bit Gray code sequence:
+  - $0 to #`0000` _"Gray"$
+  - $1 to #`0001` _"Gray"$
+  - $2 to #`0011` _"Gray"$
+  - $3 to #`0010` _"Gray"$
+  - $dots.c$
+  - $9 to #`1101` _"Gray"$
+  - $dots.c$
+  - $15 to #`1000` _"Gray"$
+
+  Note: Each value differs from the next in exactly one bit position.
 ]
 
-// For 4-bit binary $(b_3 b_2 b_1 b_0)_2$ to Gray $(g_3 g_2 g_1 g_0)_"Gray"$:
-// $
-//   g_i = cases(
-//     b_i & "if" i = 3,
-//     b_i xor b_(i+1) & "if" i < 3
-//   )
-// $
+#block(sticky: true)[*Part (a): Truth Table Construction*]
 
-#block(sticky: true)[*Part (a): Truth Table*]
++ Build the complete 4-bit binary-to-Gray conversion truth table:
+  - List all 16 binary inputs $(b_3 b_2 b_1 b_0)_2$ from 0000 to 1111.
+  - For each, compute the Gray code output $(g_3 g_2 g_1 g_0)_"Gray"$.
+  - Present in a clear table with columns for binary input and Gray output.
 
-+ Build the complete 4-bit binary-to-Gray truth table.
-+ Verify that consecutive binary numbers map to Gray codes differing by one bit.
++ Verify the single-bit-change property:
+  - Show that the Gray codes for consecutive binary inputs differ in exactly one bit.
+  - Identify which bit position changes for each transition.
 
-#block(sticky: true)[*Part (b): Circuit Design*]
++ Pattern observation:
+  - What is the relationship between $g_3$ and $b_3$?
+  - Find a formula for $g_i$ in terms of binary bits $b_3, dots, b_0$.
 
-+ Find minimal Boolean expressions for each $g_i$.
-+ Design a binary-to-Gray circuit using only NAND and/or NOR gates.
-+ Count the gates.
+#block(sticky: true)[*Part (b): Binary-to-Gray Circuit*]
+
++ Derive minimal Boolean expressions for each Gray bit $g_3, g_2, g_1, g_0$.
+// - Use K-maps or algebraic simplification.
+// - Look for patterns that simplify the expressions.
+
++ Design a binary-to-Gray circuit using _only_ NAND and/or NOR gates.
+// - Draw a clear circuit diagram.
+// - Label all inputs, outputs, and intermediate wires.
+// - Minimize the total gate count.
+
++ Count the resources:
+  - Total number of gates.
+  - Number of gate inputs (fan-in).
+  - Maximum propagation delay from any input to any output.
 
 #block(sticky: true)[*Part (c): Reverse Conversion*]
 
-+ Derive the Gray-to-binary conversion formula.
-+ Prove that composing "binary $to$ Gray $to$ binary" yields the identity function.
-+ Design a Gray-to-binary circuit using only NAND gates.
-+ Compare circuit complexity for both directions.
+The Gray-to-binary conversion performs the inverse transformation.
+
++ Derive the Gray-to-binary conversion formula:
+  - Express each binary bit $b_i$ in terms of Gray bits $g_3, dots, g_0$.
+  - Start with the MSB: what is $b_3$ in terms of Gray bits?
+  - Find recursive relationships for remaining bits.
+
++ Prove correctness by composition:
+  - Show that applying "binary $to$ Gray $to$ binary" returns the original binary value.
+  - Pick at least two test cases (e.g., $#`1001`$ and $#`0110`$) and trace through both conversions.
+  - Argue why this holds for all 16 values.
+
++ Design a Gray-to-binary circuit using _only_ NAND gates:
+  - Draw the circuit diagram.
+  - Count gates and compare with the binary-to-Gray circuit.
+
++ Analyze the complexity:
+  - Which direction (binary $to$ Gray or Gray $to$ binary) requires more gates?
+  - Which has longer propagation delay?
+  - Explain why from the structure of the Boolean functions.
+
+#block(sticky: true)[*Part (d): Applications*]
+
++ A rotary encoder with 4 bits needs to convert its Gray code output to binary for a microcontroller. If the encoder can change position at up to 10,000 steps per second and each gate has 10ns delay, is your circuit fast enough? Justify.
+
++ Explain why Gray code prevents errors in mechanical encoders: What problem occurs with pure binary encoding when the shaft is between positions?
+
++ Research: How is Gray code used in Karnaugh maps? Why does the single-bit-change property matter for identifying adjacent cells?
 
 
 == Problem 8: Arithmetic Circuits
 
-Build fundamental arithmetic building blocks and combine them into more complex circuits.
+Arithmetic circuits implement mathematical operations in hardware. From simple half adders to complex floating-point units, all arithmetic in digital computers reduces to Boolean logic. This problem explores subtraction, comparison, and multiplication---building blocks of modern processors and FPGAs.
+
+You'll design these circuits from scratch, understanding the Boolean algebra behind computer arithmetic.
 
 #block(sticky: true)[*Part (a): Half Subtractor*]
 
-+ Derive Boolean expressions for the difference $d$ and borrow $b$ outputs of a half subtractor.
-+ Construct the circuit using AND, OR, and NOT gates.
-+ Verify with a truth table.
+A half subtractor computes $x - y$ for single bits, producing a difference $d$ and borrow-out $b$.
+
++ Build the truth table for inputs $x, y$ and outputs $d, b$:
+  - When does $d = 1$?
+  - When does $b = 1$ (need to borrow)?
+
++ Derive minimal Boolean expressions for $d$ and $b$:
+  - Use K-maps or algebraic methods.
+  - Simplify fully.
+
++ Construct the circuit using AND, OR, and NOT gates:
+  - Draw a clear diagram.
+  - Identify any relationship to familiar functions (XOR, etc.).
+
++ Verify correctness: Test all four input combinations $(0,0), (0,1), (1,0), (1,1)$ and confirm outputs match expected subtraction results.
 
 #block(sticky: true)[*Part (b): Full Subtractor*]
 
-+ Build a full subtractor using two half subtractors and NAND gates.
-+ Draw the circuit.
-+ Calculate propagation delay.
+A full subtractor computes $x - y - b_("in")$, handling borrow propagation in multi-bit subtraction.
 
-#block(sticky: true)[*Part (c): Saturating Subtractor*]
++ Build the truth table for inputs $x, y, b_("in")$ and outputs $d, b_("out")$.
 
-Design a 4-bit saturating subtractor that computes $d = max(0, x - y)$:
-- If $x >= y$: output $d = x - y$
-- If $x < y$: output $#`0000`$ (saturate to zero)
++ Design using half subtractors:
+  - Show how to combine two half subtractors and additional gates to create a full subtractor.
+  - Draw the complete circuit.
+  - Explain the logic: how do borrows propagate?
 
-+ Design the circuit using subtractors and basic gates.
-+ Explain how your circuit detects $x < y$.
-+ Test with: $5 - 3$, $3 - 5$, and $15 - 8$.
++ Calculate propagation delay:
+  - Assume each basic gate (AND, OR, NOT) has unit delay.
+  - What is the worst-case delay from inputs to outputs?
+  - Identify the critical path.
+
++ Verify with test cases: $(x, y, b_("in")) = (0,1,1)$ and $(1,0,1)$.
+
+#block(sticky: true)[*Part (c): 4-bit Saturating Subtractor*]
+
+A saturating subtractor computes $d = max(0, x - y)$ for 4-bit unsigned integers, clamping negative results to zero.
+
++ Design the circuit:
+  - Use four full subtractors to compute $x - y$.
+  - Detect when the result is negative (how?).
+  - Add logic to output zero when negative, otherwise output the difference.
+  - Draw the complete circuit diagram.
+
++ Explain the negative detection logic:
+  - Which signal indicates $x < y$?
+  - How does your circuit select between the difference and zero?
+
++ Test with examples:
+  - $5 - 3 = ?$
+  - $3 - 5 = ?$ (should saturate to 0)
+  - $15 - 8 = ?$
+
+  Show the bit-level computations and intermediate signals.
+
++ Gate count: How many gates total? Can you identify any optimizations?
 
 #block(sticky: true)[*Part (d): 2-bit Comparator*]
 
-Design a circuit comparing 2-bit integers $(x_1 x_0)_2$ and $(y_1 y_0)_2$.
+Design a circuit comparing 2-bit unsigned integers $x = (x_1 x_0)_2$ and $y = (y_1 y_0)_2$.
 
-+ Derive Boolean expressions for three outputs: $x > y$, $x = y$, and $x < y$.
-+ Build the circuit using AND, OR, NOT gates.
-+ Verify with test cases: $(3, 2)$, $(2, 2)$, $(1, 3)$.
++ Derive Boolean expressions for three outputs:
+  - $gt$: equals 1 when $x > y$
+  - $eq$: equals 1 when $x = y$
+  - $lt$: equals 1 when $x < y$
+
+  Use algebraic reasoning about when each condition holds.
+
++ Build the circuit using AND, OR, NOT gates:
+  - Draw a clear diagram with all three outputs.
+  - Look for opportunities to share logic between outputs.
+
++ Verify with test cases:
+  - $(3, 2)$: expect $(gt, eq, lt) = (1, 0, 0)$
+  - $(2, 2)$: expect $(gt, eq, lt) = (0, 1, 0)$
+  - $(1, 3)$: expect $(gt, eq, lt) = (0, 0, 1)$
+
++ Extension: How would you chain multiple 2-bit comparators to build a 4-bit comparator?
 
 #block(sticky: true)[*Part (e): 2-bit Multiplier*]
 
-Design a circuit computing $p = x dot y$ for 2-bit integers, giving a 4-bit result $(p_3 p_2 p_1 p_0)_2$.
+Design a circuit computing $p = x times y$ for 2-bit unsigned integers, producing a 4-bit result $p = (p_3 p_2 p_1 p_0)_2$.
 
-+ Create the truth table.
-+ Find minimal expressions for each $p_i$.
-+ Draw the circuit.
-+ Verify: $3 times 2 = 6$, $3 times 3 = 9$, $1 times 1 = 1$.
++ Create the complete truth table:
+  - All 16 combinations of $(x_1, x_0, y_1, y_0)$.
+  - Compute $x times y$ for each row.
+  - Express result as 4 bits.
+
++ Find minimal expressions for each output bit $p_3, p_2, p_1, p_0$:
+  - Use K-maps for each output.
+  - Identify prime implicants.
+  - Minimize fully.
+
++ Draw the circuit:
+  - Show all gates clearly.
+  - Label intermediate signals if helpful.
+
++ Verify with multiplication examples:
+  - $3 times 2 = 6$: $(11)_2 times (10)_2 = (0110)_2$
+  - $3 times 3 = 9$: $(11)_2 times (11)_2 = (1001)_2$
+  - $1 times 1 = 1$: $(01)_2 times (01)_2 = (0001)_2$
+
+  Trace through your circuit for at least one example.
 
 #block(sticky: true)[*Part (f): Analysis and Optimization*]
 
-+ For the multiplier, identify any shared sub-expressions to reduce gate count.
-+ Design a circuit that detects overflow in 2-bit addition (when sum requires more than 2 bits).
-+ Compare the gate count of your multiplier with a repeated-addition approach.
++ For the multiplier, identify shared sub-expressions:
+  - Can any intermediate results be reused across multiple outputs?
+  - Redraw the circuit to minimize gate count by sharing logic.
+  - Count the gate savings.
+
++ Design an overflow detector for 2-bit addition:
+  - Inputs: two 2-bit numbers and their 3-bit sum.
+  - Output: 1 if the sum exceeds 3 (maximum 2-bit value).
+  - Derive the Boolean expression and circuit.
+
++ Compare multiplication approaches:
+  - Your optimized multiplier: gate count?
+  - Repeated addition (add $x$ to itself $y$ times): What circuit complexity?
+  - Which is better for hardware? For what range of bit widths?
+
++ Real-world consideration: Modern CPUs use Booth's algorithm or Wallace trees for fast multiplication. Research one method and briefly explain how it improves upon naive multiplication.
 
 
 == Problem 9: Conditional Logic and BDDs
 
+Binary Decision Diagrams (BDDs) are a powerful data structure for representing and manipulating Boolean functions. Used widely in formal verification, model checking, and symbolic computation, BDDs can compactly represent functions that would have exponentially large truth tables or DNF/CNF expressions.
+
+The key insight: represent a Boolean function as a directed acyclic graph where each path from root to leaf encodes one assignment to variables. Variable ordering dramatically affects BDD size---choosing wisely can mean the difference between polynomial and exponential representation.
+
 #block(sticky: true)[*Part (a): If-Then-Else Function*]
 
-The ternary function $ITE: Bool^3 to Bool$ is defined as:
+The ternary _if-then-else_ function forms the basis of BDD construction:
 $
   ITE(c, x, y) = cases(
     x & "if" c = 0,
@@ -493,18 +782,30 @@ $
   )
 $
 
-This is the Boolean equivalent of `c ? y : x`.
+This is the Boolean equivalent of the ternary operator `c ? y : x`.
 
-+ Express $ITE(c, x, y)$ using ${and, or, not}$.
-+ Is ${ITE}$ functionally complete?
-  Identify which Post classes it belongs to.
-+ Express $x xor y$ using only $ITE$.
++ Express $ITE(c, x, y)$ using ${and, or, not}$:
+  - Derive the formula logically: when does each branch activate?
+  - Verify with a complete truth table.
+  - Simplify the expression if possible.
 
-#block(sticky: true)[*Part (b): Binary Decision Diagrams*]
++ Analyze functional completeness of ${ITE}$:
+  - Check which Post classes $ITE$ belongs to.
+  - Determine if ${ITE}$ alone is functionally complete.
+  - If not, what operations must be added to achieve completeness?
 
-Construct a Reduced Ordered BDD (ROBDD) for each function using natural variable order $x_1 prec x_2 prec dots.c$:
++ Express $x xor y$ using only $ITE$:
+  - Build the expression step by step.
+  - Test with truth table to verify.
+  - Count the number of $ITE$ operations required.
 
-#tasklist("prob10b", cols: 2)[
++ Express $majority(x, y, z)$ using only $ITE$. Compare the complexity with DNF representation.
+
+#block(sticky: true)[*Part (b): Construct ROBDDs*]
+
+A Reduced Ordered BDD (ROBDD) uses Shannon decomposition with a fixed variable order, eliminating redundant nodes. For each function, use the natural variable order $x_1 prec x_2 prec x_3 prec dots.c$
+
+#tasklist("prob9b", cols: 2)[
   + $f_1(x_1, x_2, x_3, x_4) = x_1 xor x_2 xor x_3 xor x_4$
 
   + $f_2(x_1, dots, x_5) = majority(x_1, dots, x_5)$
@@ -516,16 +817,72 @@ Construct a Reduced Ordered BDD (ROBDD) for each function using natural variable
   + $f_4(x_1, dots, x_6) = x_1 x_4 + x_2 x_5 + x_3 x_6$
 ]
 
-#block(sticky: true)[*Part (c): Variable Ordering*]
+For each function:
 
-Find the variable ordering minimizing ROBDD size for each function in Part (b).
++ Build the full binary decision tree:
+  - Start with the root labeled $x_1$.
+  - Each node branches on its variable (solid edge = 1, dashed = 0).
+  - Label leaves with 0 or 1.
+
++ Apply reduction rules:
+  - _Merge_ isomorphic subtrees (identical structure and labels).
+  - _Eliminate_ redundant nodes where both children point to the same node.
+  - Show intermediate steps.
+
++ Count nodes in the final ROBDD and compare with the truth table size ($2^n$ entries).
+
++ Verify correctness: Trace at least two paths from root to leaf and confirm they produce correct function values.
+
+#block(sticky: true)[*Part (c): Optimal Variable Ordering*]
+
+For each function in Part (b), find a variable ordering that minimizes ROBDD size.
+
++ Experiment with different orderings:
+  - Try at least 3 different orderings for each function.
+  - Construct the ROBDD for each ordering.
+  - Count nodes.
+
++ Identify the optimal ordering:
+  - Which ordering yields the smallest BDD?
+  - By how much does it improve over natural ordering?
+
++ Explain your strategy:
+  - What properties of the function suggest good orderings?
+  - For $f_4$, why might interleaving related variables help?
 
 #block(sticky: true)[*Part (d): Variable Ordering Impact*]
 
-+ For $f_4(x_1, dots, x_6) = x_1 x_4 + x_2 x_5 + x_3 x_6$, construct the ROBDD with natural ordering: #box[$x_1 prec x_2 prec x_3 prec x_4 prec x_5 prec x_6$].
-+ Construct the ROBDD with interleaving ordering: $x_1 prec x_4 prec x_2 prec x_5 prec x_3 prec x_6$.
-+ Compare the BDD sizes. Prove that the second ordering yields a smaller BDD by counting nodes.
-+ Explain why variable ordering matters more for some functions than others.
+Focus on $f_4(x_1, dots, x_6) = x_1 x_4 + x_2 x_5 + x_3 x_6$:
+
++ Construct ROBDD with natural ordering:
+  $x_1 prec x_2 prec x_3 prec x_4 prec x_5 prec x_6$
+  - Draw the complete reduced BDD.
+  - Count nodes at each level.
+  - Total node count?
+
++ Construct ROBDD with interleaved ordering:
+  $x_1 prec x_4 prec x_2 prec x_5 prec x_3 prec x_6$
+  - Draw the complete reduced BDD.
+  - Count nodes at each level.
+  - Total node count?
+
++ Prove the size difference:
+  - Show mathematically why the interleaved ordering produces fewer nodes.
+  - Identify structural patterns that enable better sharing.
+  - Calculate the exact node count ratio.
+
++ General principles:
+  - Why does variable ordering matter more for some functions than others?
+  - Give an example of a function whose BDD size is _invariant_ to variable ordering.
+  - Research: What is the complexity of finding optimal variable ordering? (Hint: It's an NP-hard problem!)
+
+#block(sticky: true)[*Part (e): BDD Operations*]
+
++ Apply operation: Construct the ROBDD for $f_1 and f_3$ (both from Part (b)) using the same variable ordering.
+
++ Explain the _apply algorithm_: How can two ROBDDs be combined to compute logical operations without expanding to truth tables?
+
++ Size analysis: Is the BDD for $f_1 and f_3$ larger, smaller, or equal to the sum of sizes of individual BDDs? Explain.
 
 
 #pagebreak()
@@ -533,7 +890,7 @@ Find the variable ordering minimizing ROBDD size for each function in Part (b).
 == Problem 10: Reed–Muller Codes
 
 In 1954, David Muller proposed using Boolean functions for error correction, and Irving Reed discovered an efficient decoding method.
-#link("https://w.wiki/FwR7")[_Reed–Muller (RM) codes_] became fundamental in space communications --- most famously, Mariner 9 used RM codes to transmit the first close-up images of Mars in 1971.
+#link("https://w.wiki/FwR7")[_Reed–Muller (RM) codes_] became important in space communications --- most famously, Mariner 9 used RM codes to transmit the first close-up images of Mars in 1971.
 The key insight: Boolean functions with restricted algebraic degree have built-in redundancy that enables error correction.
 
 #block(sticky: true)[*Basic Construction*]
