@@ -256,7 +256,7 @@ This problem explores multiple representations of Boolean functions that reveal 
 
 Consider the following four functions
 #footnote[
-  Notation: $bfunc(n, k)$ is the $k$-th Boolean function of $n$ variables, where $k$ is the decimal truth table value with MSB = $f(0,dots,0)$, LSB = $f(1,dots,1)$.
+  Notation: $bfunc(n, k)$ is the $k$-th Boolean function of $n$ variables, where $k$ is the decimal truth table value, which, represented in binary as $(f_0 f_1 dots f_(2^n-1))_2$, corresponds to values of $f$: MSB $f_0$ is $f(0,dots,0)$, LSB $f_(2^n-1)$ is $f(1,dots,1)$.
 ]:
 
 #tasklist("prob3", cols: 2)[
