@@ -172,8 +172,8 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
     element.gate-and(id: "g4", x: 5, y: 2, w: 1.8, h: 1.8)
     element.gate-nor(id: "g5", x: 8, y: 0.8, w: 1.8, h: 1.8)
     element.gate-and(id: "g6", x: 11, y: 2.5, w: 1.8, h: 1.8)
-    element.gate-or(id: "g7", x: 11, y: 0.35, w: 1.8, h: 1.8)
-    element.gate-nand(id: "g1", x: 11, y: -1.8, w: 1.8, h: 1.8)
+    element.gate-nand(id: "g7", x: 11, y: 0.35, w: 1.8, h: 1.8)
+    element.gate-or(id: "g1", x: 11, y: -1.8, w: 1.8, h: 1.8)
     element.gate-nand(id: "g8", x: 14, y: -0.6, w: 1.8, h: 1.8)
 
     // Input stubs
