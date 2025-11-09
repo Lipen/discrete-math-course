@@ -74,9 +74,9 @@ Karnaugh maps exploit geometric patterns in truth tables to visually minimize Bo
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
-Hash the string `"DM Fall 2025 HW3"` (UTF-8) using SHA-256, split into eight 32-bit blocks, XOR them together, then XOR with mask `0x71be8976` to get $w = (w_1 w_2 dots.c w_(32))_2$.
+Hash the string `"DM Fall 2025 HW3"` using SHA-256, split into eight 32-bit blocks, XOR them together, and finally XOR with the mask `0x71be8976` to get $w = (w_0 w_1 dots w_31)_2$.
 
-This 32-bit string encodes $f(A,B,C,D,E)$: bit $w_1$ (MSB) is $f(0,0,0,0,0)$, bit $w_(32)$ (LSB) is $f(1,1,1,1,1)$.
+This 32-bit string encodes $f^((5))$: bit $w_0$ (MSB) is $f(0,0,0,0,0)$, bit $w_31$ (LSB) is $f(1,1,1,1,1)$.
 
 *Check:* Hash ends with $dots#`00010101`$; after XORing blocks, result starts with $#`0110`dots$
 
