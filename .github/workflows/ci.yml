@@ -28,7 +28,7 @@ jobs:
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
-          typst-version: ^0.13
+          typst-version: ^0.14
           cache-dependency-path: typst/requirements.typ
 
       - run: rm -f typst/requirements.pdf
