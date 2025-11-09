@@ -74,7 +74,7 @@ In this problem, you'll work with a 5-variable function, exploring both standard
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
-+ Compute the SHA-256 hash: $h = "SHA-256"($`"DM Fall 2025 HW3"`$)$.
++ Compute the SHA-256 hash $h$ of string $s =$ "DM Fall 2025 HW3" (without quotes).
 + Split $h$ into eight 32-bit blocks: $h = h_0 || h_1 || dots || h_7$ where each $h_i$ is 32 bits.
 + XOR all blocks together: $d = h_0 xor h_1 xor dots.c xor h_7$.
 + Apply the mask: $w = d xor #`0x71be8976`$, giving the 32-bit result $w = (w_0 w_1 dots w_(31))_2$.
