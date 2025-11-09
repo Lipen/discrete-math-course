@@ -243,8 +243,6 @@ Build the truth table mapping $triple(A, B, C) |-> pair(f_1, f_2)$ for all 8 inp
 + Identify the critical path for each output.
 
 
-#pagebreak()
-
 == Problem 3: Boolean Function Analysis
 
 This problem explores multiple representations of Boolean functions that reveal different properties: K-maps show groupings, DNF/CNF expose clause structure, ANF reveals algebraic degree.
@@ -296,8 +294,6 @@ Construct the ANF for each function using any of the methods below:
   For $bfunc(2, 10) = (1010)_2$, query "5th Boolean function of 2 vars" since $op("rev")(1010_2) = 0101_2 = 5$.
 ]
 
-
-#pagebreak()
 
 == Problem 4: CNF Conversion
 
@@ -402,8 +398,6 @@ For each _complete_ basis from Part (a):
 + Express $not A$ and $A and B$ using only your function.
 + Compare gate count for $majority(A, B, C)$ vs NAND implementation.
 
-
-#pagebreak()
 
 == Problem 6: Zhegalkin Polynomials
 
@@ -589,8 +583,6 @@ For each function from Part (b):
 + What is the worst case for BDD size when combining two functions?
 
 
-#pagebreak()
-
 == Problem 10: Reed–Muller Codes
 
 In 1971, Mariner 9 transmitted the first close-up Mars images using Reed–Muller codes.
@@ -598,7 +590,7 @@ These error-correcting codes are built from Boolean functions with restricted al
 
 The Reed–Muller code $op("RM")(r, m)$ consists of all Boolean functions $f: FF_2^m to FF_2$ with $deg(f) <= r$.
 
-*Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum distance $d = 2^(m-r)$.
+*Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum Hamming distance $d = 2^(m-r)$.
 
 *Generator matrix construction:*
 Rows correspond to monomials of degree $<= r$ in lexicographic order.
@@ -616,44 +608,46 @@ Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 
 #block(sticky: true)[*Part (a): Code Construction*]
 
-Work with $op("RM")(1, 3)$:
+Consider $op("RM")(1, 3)$:
 
-+ Calculate $n$, $k$, $d$ using the formulas. Compute $t = floor((d-1)/2)$.
++ Compute the code parameters: length $n$, dimension $k$, minimum distance $d$, and error correction capability $t = floor((d-1)/2)$.
 + Construct the $4 times 8$ generator matrix $bold(G)$.
   Rows correspond to monomials ${1, x_1, x_2, x_3}$.
-  Columns are ordered naturally: $(0,0,0), (0,0,1), dots, (1,1,1)$.
-+ Encode message $bold(u) = (1, 0, 1, 1)$ to get codeword $bold(c) = bold(u) bold(G)$.
+  Columns are ordered: $(0,0,0), (0,0,1), dots, (1,1,1)$.
++ Encode the message $bold(u) = (1, 0, 1, 1)$ into codeword $bold(c) = bold(u) bold(G)$.
 
 #block(sticky: true)[*Part (b): Single-Error Correction*]
 
 Reed–Muller codes support _majority-logic decoding_: each ANF coefficient is determined by XORing pairs of received bits that differ in the corresponding variable position.
 Each XOR result "votes" for that coefficient's value; the majority vote wins.
 
-+ Choose _one_ position $i in {1, dots, 8}$ and flip bit $c_i$ to get received word $bold(r) = (r_1, dots, r_8)$.
++ Flip _one_ bit at position $i in {1, dots, 8}$ of your codeword $bold(c)$ to simulate a transmission error, obtaining received word $bold(r) = (r_1, dots, r_8)$.
 
-+ Decode using majority logic to recover the ANF coefficients $(a_0, a_1, a_2, a_3)$:
-  - For $a_j$ where $j > 0$: Consider all pairs of positions $(p, q)$ whose input vectors differ only in variable $x_j$. Compute each vote: $v = r_p xor r_q$. Then $a_j = majority(v_1, v_2, dots)$.
-  - For $a_0$: After finding $a_1, a_2, a_3$, compute $a_0$ by evaluating the remaining constant term.
++ Apply majority-logic decoding to recover the ANF coefficients $(a_0, a_1, a_2, a_3)$:
+  - For each $a_j$ where $j > 0$: identify all pairs of positions $(p, q)$ whose input vectors differ only in variable $x_j$. Each pair gives a vote $v = r_p xor r_q$. Set $a_j = majority(v_1, v_2, dots)$.
+  - For $a_0$: after determining $a_1, a_2, a_3$, compute $a_0$ from the remaining constant term.
 
-+ The decoded message is $bold(u) = (a_0, a_1, a_2, a_3)$. Verify it equals $(1, 0, 1, 1)$.
++ Verify that the decoded message $(a_0, a_1, a_2, a_3)$ equals your original $bold(u) = (1, 0, 1, 1)$.
 
-+ Show detailed computation for one coefficient (e.g., $a_1$): list all pairs differing in $x_1$, compute each XOR vote, and take majority.
++ Show the detailed computation for coefficient $a_1$: list all pairs differing in $x_1$, compute each XOR vote, and determine the majority.
 
-#block(sticky: true)[*Part (c): Multiple-Error Decoding*]
+#block(sticky: true)[*Part (c): Beyond Guaranteed Correction*]
 
-+ Flip bits at _two_ positions $i$ and $j$ (where $i eq.not j$) in $bold(c)$ to get $bold(r)$.
-+ Apply the majority-logic decoding algorithm from Part (b).
-+ Does decoding succeed? If yes, explain why. If no, show which coefficients are incorrect.
-+ Explain: since $d = 4$, the code guarantees correction of $t = 1$ error. Why might it sometimes correct 2 errors?
++ Flip _two_ bits at positions $i$ and $j$ (where $i eq.not j$) of your original codeword $bold(c)$ to simulate two transmission errors, obtaining received word $bold(r)$.
++ Apply the same majority-logic decoding algorithm from Part (b).
++ Does decoding recover the correct message? If yes, explain why it succeeded despite exceeding the guaranteed correction capability. If no, identify which coefficients were decoded incorrectly.
++ Since $d = 4$, the code guarantees correction of only $t = 1$ error. Explain why majority-logic decoding might sometimes successfully correct 2 errors, and under what conditions it would fail.
 
-#block(sticky: true)[*Part (d): Code Efficiency*]
+#block(sticky: true)[*Part (d): Rate and Efficiency*]
 
 The _rate_ of a code is $k"/"n$: the ratio of message bits to transmitted bits.
 Higher rate means less redundancy but weaker error correction.
 
 + Calculate the rate $k"/"n$ for $op("RM")(1, 3)$.
-+ A repetition code encodes each bit by repeating it: for example, the 3-repetition code maps $0 -> 000$ and $1 -> 111$, giving rate $1"/"3$. Compare with $op("RM")(1, 3)$: which is more efficient (higher rate)?
-+ For general $op("RM")(r, m)$: as $r$ increases from $0$ to $m$, what happens to $k$ (dimension) and $d$ (distance)? Explain the fundamental trade-off between rate and error correction capability.
++ A repetition code encodes each bit by repeating it: for example, the 3-repetition code maps each bit $0 to 000$ and $1 to 111$, giving rate $1"/"3$.
+  Compare with $op("RM")(1, 3)$: which is more efficient?
++ For general $op("RM")(r, m)$: as $r$ increases from $0$ to $m$, what happens to $k$ (dimension) and $d$ (distance)?
+  Explain the fundamental trade-off between rate and error correction capability.
 
 
 #line(length: 100%, stroke: 0.4pt)
