@@ -70,7 +70,9 @@
 
 == Problem 1: Karnaugh Maps
 
-Karnaugh maps exploit geometric patterns in truth tables to visually minimize Boolean functions. You'll work with a personalized 5-variable function, exploring both standard minimization and optimization with don't-care conditions.
+Karnaugh maps exploit geometric patterns in truth tables to visually minimize Boolean functions.
+Adjacent cells differ by exactly one variable, enabling efficient grouping of minterms into simpler product terms.
+In this problem, you'll work with a 5-variable function, exploring both standard minimization and optimization with don't-care conditions.
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
@@ -134,11 +136,16 @@ Construct a 5-variable Karnaugh map for your function using the template below:
 + Count all prime implicants.
 + If inputs where $A and B and C = 1$ are don't-care conditions, how do the minimal forms change?
 
-#block(sticky: true)[*Part (d): Analysis*]
+#block(sticky: true)[*Part (d): Analysis and Limitations*]
 
-+ Compare your minimal DNF size to the full minterm expansion.
-+ Which is smaller: minimal DNF or minimal CNF?
-+ Why do K-maps become impractical beyond 5-6 variables?
++ Compute the size reduction: how many fewer literals does your minimal DNF use compared to the full minterm expansion?
++ Compare minimal forms: which representation is more compact for your function --- DNF or CNF?
+  Explain why one might be smaller based on the number of 1s vs 0s in the truth table.
++ Scalability analysis: K-maps rely on visual pattern recognition in 2D grids.
+  Explain why they become impractical beyond 5-6 variables.
+  What is the size of a 6-variable K-map?
+  How would you visualize a 7-variable function?
++ For functions with many variables, what alternative minimization methods exist?
 
 
 #pagebreak()
