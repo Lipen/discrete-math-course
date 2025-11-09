@@ -78,7 +78,7 @@ Hash the string `"DM Fall 2025 HW3"` using SHA-256, split into eight 32-bit bloc
 
 This 32-bit string encodes $f^((5))$: bit $w_0$ (MSB) is $f(0,0,0,0,0)$, bit $w_31$ (LSB) is $f(1,1,1,1,1)$.
 
-*Check:* Hash ends with $dots#`00010101`$; after XORing blocks, result starts with $#`0110`dots$
+*Check:* Hash ends with $dots#`00010101`$; result after XORing blocks (before mask) starts with $#`0110`dots$
 
 #block(sticky: true)[*Part (b): Draw the K-Map*]
 
