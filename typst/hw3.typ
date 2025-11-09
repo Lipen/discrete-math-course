@@ -297,15 +297,15 @@ Construct the ANF for each function using any of the methods below:
 *Requirement:* Use each method at least once across the four functions.
 
 #note[
-  WolframAlpha reverses bit order! \
-  For $bfunc(2, 10) = (1010)_2$, query "5th Boolean function of 2 vars" since $op("rev")(1010_2) = 0101_2 = 5$.
+  WolframAlpha reverses bit order!
+  For $bfunc(2, 10) = (1010)_2$, query "5th Boolean function of 2 vars", since $"rev"(1010_2) = 0101_2 = 5$.
 ]
 
 
 == Problem 4: CNF Conversion
 
 CNF is essential for SAT solvers and theorem provers.
-Direct conversion often causes exponential blow-up, while the Tseitin transformation trades formula size for auxiliary variables to keep complexity linear.
+Direct conversion often causes exponential blow-up, while the Tseitin transformation introduces auxiliary variables to keep complexity linear.
 
 #block(sticky: true)[*Part (a): Basic Conversions*]
 
@@ -337,8 +337,10 @@ The transformed formula has different models, but they naturally correspond to t
 Consider $(A or B) and (C or (D and E))$:
 
 + Apply Tseitin: introduce variables for subformulae, encode each as CNF clauses.
-+ Prove equisatisfiability both ways. Explain why logical equivalence fails.
-+ Compare sizes (clauses, variables, literals) with direct CNF. When is each method better?
++ Prove equisatisfiability both ways.
+  Explain why logical equivalence does not hold.
++ Compare sizes (clauses, variables, literals) with direct CNF.
+  When each method is better?
 
 #block(sticky: true)[*Part (c): Resource Allocation*]
 
