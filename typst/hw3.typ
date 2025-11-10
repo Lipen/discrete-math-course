@@ -534,16 +534,16 @@ A saturating subtractor computes $d = max(0, x - y)$, clamping negatives to zero
 
 #block(sticky: true)[*Part (d): 2-bit Comparator*]
 
-+ Design for $x, y in {0,1,2,3}$ with outputs $gt, eq, lt$.
-+ Verify: $(3,2)$, $(2,2)$, $(1,3)$.
++ Design a 2-bit comparator for inputs $x, y in {0,1,2,3}$ with three binary outputs: $gt, eq, lt$.
++ Verify on test inputs: $(3,2)$, $(2,2)$, $(1,3)$.
 + Explain cascading for 4-bit comparator.
 
 #block(sticky: true)[*Part (e): 2-bit Multiplier*]
 
-Design a multiplier for 2-bit integers.
+Design a multiplier for 2-bit integers $x, y in {0,1,2,3}$ producing 4-bit product $p = x times y$.
 
-+ Build 16-row truth table for $p = x times y$ where $x, y in {0, 1, 2, 3}$.
-+ Find minimal expressions for output bits $p_3, p_2, p_1, p_0$ using K-maps.
++ Build 16-row truth table for inputs $(x_1, x_0, y_1, y_0)$ and outputs $(p_3, p_2, p_1, p_0)$.
++ Find minimal expressions for output bits $(p_3, p_2, p_1, p_0)$ using K-maps.
 + Draw optimized circuit exploiting shared sub-expressions.
 + Verify: $3 times 2 = 6$, $3 times 3 = 9$, $1 times 1 = 1$.
 
