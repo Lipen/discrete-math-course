@@ -74,7 +74,11 @@ In this problem, you'll work with a 5-variable function, exploring both standard
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
-+ Compute the SHA-256 hash $h$ of string $s =$ "DM Fall 2025 HW3" (without quotes).
++ Compute
+  #footnote[
+    You can use any programming language, tool or online service to compute SHA-256 hashes.
+  ]
+  the SHA-256 hash $h$ of string $s =$ "DM Fall 2025 HW3" (without quotes).
 + Split $h$ into eight 32-bit blocks: $h = h_0 || h_1 || dots || h_7$ where each $h_i$ is 32 bits.
 + XOR all blocks together: $d = h_0 xor h_1 xor dots.c xor h_7$.
 + Apply the mask: $w = d xor #`0x71be8976`$, giving the 32-bit result $w = (w_0 w_1 dots w_(31))_2$.
@@ -139,12 +143,10 @@ Construct a 5-variable Karnaugh map for your function using the template below:
 
 #block(sticky: true)[*Part (d): Analysis and Limitations*]
 
-+ Compute the size reduction: how many fewer literals does your minimal DNF use compared to the full minterm expansion?
-+ Compare minimal forms: which representation is more compact for your function --- DNF or CNF?
-  Explain why one might be smaller based on the number of 1s vs 0s in the truth table.
-+ Scalability analysis: K-maps rely on visual pattern recognition in 2D grids.
-  Explain why they become impractical beyond 5-6 variables.
-  What is the size of a 6-variable K-map?
++ How many fewer literals does your minimal DNF use compared to full minterm expansion?
++ Which is more compact for your function: DNF or CNF? Why?
++ What is the size of a 6-variable K-map?
+  Why do K-maps become impractical beyond 5-6 variables?
   How would you visualize a 7-variable function?
 
 
@@ -238,13 +240,19 @@ Build the truth table mapping $triple(A, B, C) |-> pair(f_1, f_2)$ for all 8 inp
 
 #block(sticky: true)[*Part (c): Optimization*]
 
-+ Identify all redundant gates.
-+ Draw the simplified circuit.
-+ Verify identical outputs for all 8 inputs.
++ Identify all redundant gates that can be removed without changing the circuit's functionality.
++ Draw the simplified circuit with redundant gates eliminated.
 
 #block(sticky: true)[*Part (d): Timing Analysis*]
 
-+ Compute maximum delay to each output (assume unit delay per gate).
+The _delay_ of a gate is the time between input change and output stabilization.
+The _critical path_ is the longest path from any input to any output, determining the circuit's maximum operating frequency.
+
++ Compute the maximum delay from inputs to each output, assuming unit delay per gate.
+  #footnote[
+    In reality, gate delays vary based on fan-in (number of inputs), fan-out (load), and implementation technology.
+    NAND and NOR gates are typically faster than AND and OR gates.
+  ]
 + Identify the critical path for each output.
 
 
@@ -312,7 +320,7 @@ Convert to CNF:
 #tasklist("prob4a", cols: 3)[
   + $X iff (A and B)$
 
-  + $Z iff or.big_i C_i$
+  + $Z iff or.big_(i=1)^n C_i$
 
   #colbreak()
 
@@ -322,9 +330,9 @@ Convert to CNF:
 
   #colbreak()
 
-  + $R imply (S imply (T imply and.big_i F_i))$
+  + #box(width: 100cm)[$R imply (S imply (T imply and.big_(i=1)^n F_i))$]
 
-  + $M imply (H iff or.big_i D_i)$
+  + $M imply (H iff or.big_(i=1)^n D_i)$
 ]
 
 #block(sticky: true)[*Part (b): Tseitin Transformation*]
@@ -335,16 +343,16 @@ The transformed formula has different models, but they naturally correspond to t
 Consider $(A or B) and (C or (D and E))$:
 
 + Apply Tseitin: introduce variables for subformulae, encode each as CNF clauses.
-+ Prove equisatisfiability both ways.
-  Explain why logical equivalence does not hold.
-+ Compare sizes (clauses, variables, literals) with direct CNF.
-  When each method is better?
++ Show that:
+  (i)~if the original formula is satisfiable, then the CNF has a satisfying assignment, and
+  (ii)~if the CNF is satisfiable, then the original formula is satisfiable.
++ Compare sizes (clauses, variables, literals) with direct CNF. When is each method better?
 
 #block(sticky: true)[*Part (c): Resource Allocation*]
 
 A system manages five resources ${R_1, R_2, R_3, R_4, R_5}$ with constraints:
-- Either $R_1$ or both $R_2$ and $R_3$
-- If $R_1$, then $R_4$ or $R_5$
+- Either $R_1$, or (exclusive) both $R_2$ and $R_3$
+- If $R_1$, then $R_4$ or $R_5$ (inclusive)
 - Not both $R_2$ and $R_4$
 - At least two of ${R_1, R_2, R_3}$
 
@@ -396,7 +404,7 @@ For each _complete_ basis from Part (a):
 
 + Express $not A$, $A and B$, and $A or B$ using only NAND.
 + Build a NAND-only circuit for $majority(A, B, C)$. Count gates.
-+ Which complete basis from Part (a) yields the smallest $majority$ circuit?
++ Find a complete basis from Part (a) that yields the smallest majority circuit.
 
 #block(sticky: true)[*Part (d): Custom Basis*]
 
@@ -462,7 +470,7 @@ Gray code solves this: consecutive values differ in exactly one bit, eliminating
 #block(sticky: true)[*Part (a): Binary-to-Gray Conversion*]
 
 + Build the 4-bit binary-to-Gray truth table.
-+ Verify consecutive pairs differ in exactly one bit.
++ Prove that for your conversion formula, consecutive binary values always produce Gray codes differing in exactly one bit.
 + Derive the conversion formula for each $g_i$ in terms of $(b_3, b_2, b_1, b_0)$.
 
 #block(sticky: true)[*Part (b): Gray-to-Binary Conversion*]
@@ -485,14 +493,15 @@ Which is more practical?
 
 #block(sticky: true)[*Part (e): Timing Analysis*]
 
-A 4-bit rotary encoder outputs Gray at 10,000 steps/second.
-With 10ns gate delay, is your Gray-to-binary converter circuit fast enough?
-What is the maximum step rate your circuit can handle?
+A 4-bit rotary encoder outputs Gray code at 10 MHz (10 million steps/second).
+With 10ps gate delay, is your Gray-to-binary converter fast enough?
+What is the maximum step rate it can handle?
 
-#block(sticky: true)[*Part (f): Error Analysis*]
+#block(sticky: true)[*Part (f): Glitch Analysis*]
 
-Why does Gray code eliminate glitches during mechanical transitions?
-Show a concrete example: pick two consecutive binary values where multiple bits change, and demonstrate the incorrect intermediate value that could be read during transition.
+Mechanical encoders don't switch bits _atomically_.
+During transitions where multiple binary bits change (e.g., $3 to 4$), different bits flip at different times, creating intermediate glitch states.
+Demonstrate this with a concrete example and explain why Gray code eliminates this problem.
 
 
 == Problem 8: Arithmetic Circuits
@@ -531,8 +540,10 @@ A saturating subtractor computes $d = max(0, x - y)$, clamping negatives to zero
 
 #block(sticky: true)[*Part (e): 2-bit Multiplier*]
 
-+ Build 16-row truth table for $p = x times y$.
-+ Find minimal expressions for $p_3, p_2, p_1, p_0$ using K-maps.
+Design a multiplier for 2-bit integers.
+
++ Build 16-row truth table for $p = x times y$ where $x, y in {0, 1, 2, 3}$.
++ Find minimal expressions for output bits $p_3, p_2, p_1, p_0$ using K-maps.
 + Draw optimized circuit exploiting shared sub-expressions.
 + Verify: $3 times 2 = 6$, $3 times 3 = 9$, $1 times 1 = 1$.
 
@@ -545,7 +556,7 @@ Finding optimal orderings is NP-complete, but good heuristics exist.
 
 #block(sticky: true)[*Part (a): If-Then-Else Function*]
 
-$ITE(c, x, y)$ returns $x$ when $c = 0$, otherwise $y$.
+$ITE(c, x, y)$ returns $x$ when $c = 1$, and $y$ when $c = 0$.
 
 + Express $ITE$ using ${and, or, not}$. Verify with truth table.
 + Prove ${ITE}$ alone is functionally complete via Post's criterion.
@@ -584,7 +595,7 @@ For each function from Part (b):
 + For $f_4$, explain why interleaving paired variables helps.
   For others, discuss patterns leading to size reduction, or why the order does not matter at all.
 
-#block(sticky: true)[*Part (f): BDD Operations*]
+#block(sticky: true)[*Part (d): BDD Operations*]
 
 + Construct ROBDD for $f_1 and f_3$ (from Part b) using natural ordering.
 + Describe the _apply algorithm_: how to combine two ROBDDs without enumerating truth tables.
