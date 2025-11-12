@@ -4964,7 +4964,7 @@ Same inputs, different outputs! This violates the basic idea of a function.
 ]
 
 #example[Static-1 Hazard][
-  Circuit: $f = A overline(B) or B C$ with $A = 1, C = 1$, while $B$ transitions $1 -> 0$
+  Circuit: $f = A overline(B) + B C$ with $A = 1, C = 1$, while $B$ transitions $1 -> 0$
 
   #grid(
     columns: 2,
@@ -4981,14 +4981,14 @@ Same inputs, different outputs! This violates the basic idea of a function.
           manual-terms: (
             kcell(0, 0),
             kcell(1, 0),
-            kcell(2, 1),
+            kcell(2, 0),
             kcell(3, 1),
-            kcell(4, 0),
-            kcell(5, 0),
+            kcell(4, 1),
+            kcell(5, 1),
             kcell(6, 0),
             kcell(7, 1),
           ),
-          implicants: ((2, 3), (3, 7)),
+          implicants: ((4, 5), (3, 7)),
         )
       ]
 
@@ -5006,14 +5006,14 @@ Same inputs, different outputs! This violates the basic idea of a function.
           manual-terms: (
             kcell(0, 0),
             kcell(1, 0),
-            kcell(2, 1),
+            kcell(2, 0),
             kcell(3, 1),
-            kcell(4, 0),
-            kcell(5, 0),
-            kcell(6, 1),
+            kcell(4, 1),
+            kcell(5, 1),
+            kcell(6, 0),
             kcell(7, 1),
           ),
-          implicants: ((2, 3), (3, 7), (2, 6)),
+          implicants: ((4, 5), (3, 7), (5, 7)),
         )
       ]
 
@@ -5024,6 +5024,12 @@ Same inputs, different outputs! This violates the basic idea of a function.
   - Expected: $f$ stays 1 (both terms can be 1)
   - Actual (without fix): Brief glitch to 0 if delays differ
   - Solution: Redundant term eliminates the gap
+
+  *Hazard explanation:* When $A=1, C=1$ and $B$ transitions from 1 to 0:
+  - Initially ($B=1$): $f = 1 dot 0 + 1 dot 1 = 1$ (via $B C$)
+  - Finally ($B=0$): $f = 1 dot 1 + 0 dot 1 = 1$ (via $A overline(B)$)
+  - *Problem:* If $B overline(B)$ turns off before $A overline(B)$ turns on, $f$ briefly becomes 0
+  - *Fix:* Add $A C$ term, which stays 1 throughout: $f = A overline(B) + B C + A C$
 ]
 
 #Block(color: orange)[
