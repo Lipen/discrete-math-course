@@ -617,10 +617,11 @@ For each function from Part (b):
 
 + Find an ordering producing smaller ROBDD than natural order.
 + Construct the smaller ROBDD and count nodes.
-+ For $f_4$, explain why _interleaving_ paired variables helps.
++ For $f_4$, explain why _interleaving_
   #footnote[
     _Interleaving_ means alternating between related variable groups (e.g., $x_1, x_4, x_2, x_5, x_3, x_6$ instead of $x_1, x_2, x_3, x_4, x_5, x_6$), which can dramatically reduce BDD size for functions with structural dependencies.
   ]
+  paired variables helps.
   For others, discuss patterns leading to size reduction, or why the order does not matter at all.
 
 #block(sticky: true)[*Part (d): BDD Operations*]
@@ -643,6 +644,7 @@ The Reed–Muller code $RM(r, m)$ consists of all Boolean functions $f: FF_2^m t
 *Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum _Hamming distance_
 #footnote[
   The _Hamming distance_ between two codewords is the number of positions in which they differ.
+  // The minimum distance of a code is the smallest Hamming distance between any two distinct codewords, determining error correction capability: a code with minimum distance $d$ can detect up to $d-1$ errors and correct up to #box[$t = floor((d-1)"/"2)$] errors.
 ]
 $d = 2^(m-r)$.
 
@@ -667,7 +669,7 @@ Consider $RM(1, 3)$:
 + Compute the code parameters: length $n$, dimension $k$, minimum distance $d$, and error correction capability $t = floor((d-1)/2)$.
 + Construct the $4 times 8$ generator matrix $G$.
   Rows correspond to monomials ${1, x_1, x_2, x_3}$.
-  Columns are ordered: $(0,0,0), (0,0,1), dots, (1,1,1)$.
+  Columns are ordered: $(0,0,0), (0,0,1), dots, (1,1,1)$, where column $i$ (for $i = 1, dots, 8$) corresponds to the binary representation of $i-1$.
 + Encode the message $bold(u) = (1, 0, 1, 1)$ into codeword $bold(c) = bold(u) G$.
 
 #block(sticky: true)[*Part (b): Single-Error Correction*]
@@ -679,7 +681,11 @@ Each XOR result "votes" for that coefficient's value; the majority vote wins.
 
 + Apply majority-logic decoding to recover the ANF coefficients $(a_0, a_1, a_2, a_3)$:
   - For each $a_j$ where $j > 0$: identify all pairs of positions $(p, q)$ whose input vectors differ only in variable $x_j$. Each pair gives a vote $v = r_p xor r_q$. Set $a_j = majority(v_1, v_2, dots)$.
-  - For $a_0$: after determining $a_1, a_2, a_3$, compute $a_0$ from the remaining constant term.
+  - For $a_0$: after determining $a_1, a_2, a_3$, compute $a_0 = r_1 xor (a_1 dot 0) xor (a_2 dot 0) xor (a_3 dot 0) = r_1$, since position 1 corresponds to input $(0,0,0)$.
+    #footnote[
+      In case of tied votes, choose 0 as the default value.
+      Note that with a single error, ties should not occur for $RM(1, 3)$.
+    ]
 
 + Verify that the decoded message $(a_0, a_1, a_2, a_3)$ equals your original $bold(u) = (1, 0, 1, 1)$.
 
@@ -689,8 +695,13 @@ Each XOR result "votes" for that coefficient's value; the majority vote wins.
 
 + Flip _two_ bits at positions $i$ and $j$ (where $i eq.not j$) of your original codeword $bold(c)$ to simulate two transmission errors, obtaining received word $bold(r)$.
 + Apply the same majority-logic decoding algorithm from Part (b).
-+ Does decoding recover the correct message? If yes, explain why it succeeded despite exceeding the guaranteed correction capability. If no, identify which coefficients were decoded incorrectly.
-+ Since $d = 4$, the code guarantees correction of only $t = 1$ error. Explain why majority-logic decoding might sometimes successfully correct 2 errors, and under what conditions it would fail.
++ Does decoding recover the correct message?
+  If yes, explain why it succeeded despite exceeding the guaranteed correction capability.
+  If no, identify which coefficients were decoded incorrectly.
++ Since $d = 4$, the code guarantees correction of only $t = 1$ error.
+  Explain why majority-logic decoding might sometimes successfully correct 2 errors, and under what conditions it would fail.
+
+// _Hint:_ Consider how errors in different positions affect the vote pairs. If both errors corrupt votes for the same coefficient, the majority may be incorrect.
 
 #block(sticky: true)[*Part (d): Rate and Efficiency*]
 
