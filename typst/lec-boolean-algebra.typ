@@ -4988,7 +4988,7 @@ Same inputs, different outputs! This violates the basic idea of a function.
             kcell(6, 0),
             kcell(7, 1),
           ),
-          implicants: ((2, 3), (3, 7)),
+          implicants: ((4, 5), (3, 7)),
         )
       ]
 
@@ -5013,7 +5013,7 @@ Same inputs, different outputs! This violates the basic idea of a function.
             kcell(6, 1),
             kcell(7, 1),
           ),
-          implicants: ((2, 3), (3, 7), (2, 6)),
+          implicants: ((4, 5), (3, 7), (5, 7)),
         )
       ]
 
