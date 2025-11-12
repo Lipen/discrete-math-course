@@ -69,8 +69,8 @@
 == Problem 1: Karnaugh Maps
 
 Karnaugh maps exploit geometric patterns in truth tables to visually minimize Boolean functions.
-Adjacent cells differ by exactly one variable, enabling efficient grouping of minterms into simpler product terms.
-In this problem, you'll work with a 5-variable function, exploring both standard minimization and optimization with don't-care conditions.
+Adjacent cells differ by exactly one variable, enabling efficient grouping of _minterms_ into simpler _product terms_.
+In this problem, you'll work with a 5-variable function, exploring both standard minimization and optimization with _don't-care conditions_.
 
 #block(sticky: true)[*Part (a): Generate the Function*]
 
@@ -138,12 +138,15 @@ Construct a 5-variable Karnaugh map for your function using the template below:
 #block(sticky: true)[*Part (c): Find Minimal Forms*]
 
 + Find minimal DNF and CNF for $f$ using your K-map.
-+ Count all prime implicants.
-+ If inputs where $A and B and C = 1$ are don't-care conditions, how do the minimal forms change?
++ Count all _prime implicants_.
++ If inputs where $A and B and C = 1$ are _don't-care conditions_, how do the minimal forms change?
+  #footnote[
+    _Don't-care conditions_ are input combinations whose output values don't matter, allowing flexibility in minimization. They can be treated as either 0 or 1 to produce smaller expressions.
+  ]
 
 #block(sticky: true)[*Part (d): Analysis and Limitations*]
 
-+ How many fewer literals does your minimal DNF use compared to full minterm expansion?
++ How many fewer _literals_ does your minimal DNF use compared to full minterm expansion?
 + Which is more compact for your function: DNF or CNF? Why?
 + What is the size of a 6-variable K-map?
   Why do K-maps become impractical beyond 5-6 variables?
@@ -239,7 +242,7 @@ Build the truth table mapping $triple(A, B, C) |-> pair(f_1, f_2)$ for all 8 inp
 
 #block(sticky: true)[*Part (c): Optimization*]
 
-+ Identify all redundant gates that can be removed without changing the circuit's functionality.
++ Identify all _redundant gates_ that can be removed without changing the circuit's functionality.
 + Draw the simplified circuit with redundant gates eliminated.
 
 #block(sticky: true)[*Part (d): Timing Analysis*]
@@ -282,15 +285,15 @@ Draw and fill the K-map for each function.
 
 #block(sticky: true)[*Part (b): Prime Implicants*]
 
-+ Find _all_ prime implicants for each function (Blake Canonical Form).
-+ Show each prime implicant as a maximal rectangle on your K-map.
++ Find _all_ _prime implicants_ for each function (Blake Canonical Form).
++ Show each prime implicant as a _maximal rectangle_ on your K-map.
 + Identify which are _essential_ (cover at least one minterm no other prime implicant covers).
 
 #block(sticky: true)[*Part (c): Minimal DNF and CNF*]
 
 + Derive the minimal DNF using the prime implicants from Part (b).
 + Derive the minimal CNF using either dual K-map analysis or algebraic methods.
-+ For each function, state whether the DNF or CNF is more compact (fewer literals).
++ For each function, state whether the DNF or CNF is more _compact_ (fewer literals).
 
 #block(sticky: true)[*Part (d): Algebraic Normal Form*]
 
@@ -339,7 +342,7 @@ Convert to CNF:
 
 #block(sticky: true)[*Part (b): Tseitin Transformation*]
 
-The Tseitin transformation produces _equisatisfiable_ CNF by introducing auxiliary variables.
+The Tseitin transformation produces _equisatisfiable_ CNF by introducing _auxiliary variables_.
 The transformed formula has different models, but they naturally correspond to the original's.
 
 Consider $(A or B) and (C or (D and E))$:
@@ -349,6 +352,9 @@ Consider $(A or B) and (C or (D and E))$:
   (i)~if the original formula is satisfiable, then the CNF has a satisfying assignment, and
   (ii)~if the CNF is satisfiable, then the original formula is satisfiable.
 + Compare sizes (clauses, variables, literals) with direct CNF. When is each method better?
+  #footnote[
+    Direct CNF conversion can cause exponential blow-up for nested formulas, while Tseitin transformation keeps size linear but introduces auxiliary variables.
+  ]
 
 #block(sticky: true)[*Part (c): Resource Allocation*]
 
@@ -367,11 +373,15 @@ A system manages five resources ${R_1, R_2, R_3, R_4, R_5}$ with constraints:
 == Problem 5: Functional Completeness
 
 Not all operator sets can express every Boolean function --- some are fundamentally limited.
-Post's criterion systematically determines completeness by checking preservation of closed classes.
+Post's criterion systematically determines _functional completeness_ by checking preservation of _closed classes_.
 
 #block(sticky: true)[*Part (a): Apply Post's Criterion*]
 
-For each system, check Post classes ($T_0$, $T_1$, $S$, $M$, $L$) and determine functional completeness:
+For each system, check Post classes ($T_0$, $T_1$, $S$, $M$, $L$)
+#footnote[
+  $T_0$ --- functions preserving 0; $T_1$ --- preserving 1; $S$ --- self-dual; $M$ --- monotone; $L$ --- linear (affine).
+]
+and determine functional completeness:
 
 #tasklist("prob5a", cols: 2)[
   + $F_1 = {and, or, not}$
@@ -414,8 +424,8 @@ For each _complete_ basis from Part (a):
 
 == Problem 6: Zhegalkin Polynomials
 
-Every Boolean function has a unique polynomial representation over $FF_2$ using XOR and AND, called the Algebraic Normal Form (ANF) or Zhegalkin polynomial.
-The algebraic degree of this polynomial measures cryptographic strength: low-degree functions are vulnerable to linear attacks, while high-degree functions resist algebraic cryptanalysis.
+Every Boolean function has a unique polynomial representation over $FF_2$ using XOR and AND, called the Algebraic Normal Form (ANF) or _Zhegalkin polynomial_.
+The _algebraic degree_ of this polynomial measures cryptographic strength: low-degree functions are vulnerable to linear attacks, while high-degree functions resist algebraic cryptanalysis.
 
 #block(sticky: true)[*Part (a): Functional Completeness*]
 
@@ -441,7 +451,7 @@ Find the ANF for each function (using any construction method):
 #block(sticky: true)[*Part (c): Algebraic Degree*]
 
 + Identify the algebraic degree of each function from Part (b).
-+ Which has highest degree? Is it maximal for that number of variables?
++ Which has highest degree? Is it _maximal_ for that number of variables?
 + Prove $deg(f xor g) <= max(deg(f), deg(g))$. Find an example with strict inequality.
 
 #block(sticky: true)[*Part (d): Cryptographic S-Box*]
@@ -449,7 +459,14 @@ Find the ANF for each function (using any construction method):
 S-box $S: BB^3 to BB$ has truth table $(0,1,1,0,1,0,0,1)$.
 
 + Find ANF and degree.
-+ Is $S$ balanced? Affine?
++ Is $S$ _balanced_?
+  #footnote[
+    A function is _balanced_ if it outputs 0 and 1 equally often.
+  ]
+  _Affine_?
+  #footnote[
+    A function is _affine_ if it has degree $<= 1$.
+  ]
 + Construct a different function $T: BB^3 to BB$ that is balanced and has degree 3.
 + For both $S$ and $T$, compute distance to the nearest affine function.
 
@@ -457,7 +474,7 @@ S-box $S: BB^3 to BB$ has truth table $(0,1,1,0,1,0,0,1)$.
 == Problem 7: Gray Code Circuits
 
 When a rotary encoder transitions from 3 (011) to 4 (100) in binary, all three bits flip --- the sensor might read _anything_ during the transition.
-Gray code solves this: consecutive values differ in exactly one bit, eliminating ambiguous readings.
+_Gray code_ solves this: consecutive values differ in exactly one bit, eliminating ambiguous readings.
 
 #example[
   4-bit: $0 to #`0000`, 1 to #`0001`, 2 to #`0011`, 3 to #`0010`, dots, 15 to #`1000`$
@@ -478,7 +495,7 @@ Gray code solves this: consecutive values differ in exactly one bit, eliminating
 #block(sticky: true)[*Part (c): Circuit Implementation*]
 
 + Design both converters using XOR gates.
-+ Count gates and compute propagation delay for each.
++ Count gates and compute _propagation delay_ for each.
 + Compare complexity and explain structural differences.
 
 #block(sticky: true)[*Part (d): NAND Implementation*]
@@ -490,39 +507,46 @@ Which is more practical?
 #block(sticky: true)[*Part (e): Timing Analysis*]
 
 A 4-bit rotary encoder outputs Gray code at 10 MHz (10 million steps/second).
-With 10ps gate delay, is your Gray-to-binary converter fast enough?
+With 10ps gate delay
+#footnote[
+  1 picosecond (ps) = $10^(-12)$ seconds.
+  Modern gates have delays in the range 10-100 ps depending on technology.
+], is your Gray-to-binary converter fast enough?
 What is the maximum step rate it can handle?
 
 #block(sticky: true)[*Part (f): Glitch Analysis*]
 
 Mechanical encoders don't switch bits _atomically_.
-During transitions where multiple binary bits change (e.g., $3 to 4$), different bits flip at different times, creating intermediate glitch states.
+During transitions where multiple binary bits change (e.g., $3 to 4$), different bits flip at different times, creating intermediate _glitch states_.
 Demonstrate this with a concrete example and explain why Gray code eliminates this problem.
 
 
 == Problem 8: Arithmetic Circuits
 
 In this problem, you will design and analyze subtraction and comparison circuits.
-Unlike addition, subtraction requires careful borrow handling, flowing backward through bit positions.
+Unlike addition, subtraction requires careful _borrow_ handling, flowing backward through bit positions.
 
 #block(sticky: true)[*Part (a): Half Subtractor*]
 
-Design a half subtractor for $x - y$ (outputs: difference $d$, borrow $b$).
+Design a half subtractor for $x - y$ (outputs: difference $d$, borrow $b_("out")$).
 Build truth table, derive expressions for outputs, construct circuit using AND/OR/NOT gates.
 Show how the difference output can be expressed using XOR.
 
 #block(sticky: true)[*Part (b): Full Subtractor*]
 
-A full subtractor handles three inputs: minuend $x$, subtrahend $y$, and borrow-in $b_("in")$.
+A full subtractor handles three inputs: _minuend_ $x$, _subtrahend_ $y$, and borrow-in $b_("in")$.
+#footnote[
+  The _minuend_ is the number being subtracted from, and the _subtrahend_ is the number being subtracted.
+]
 
 + Build truth table for $x - y - b_("in")$.
-+ Design using two half subtractors. Explain borrow propagation.
-+ Calculate critical path delay.
++ Design using two half subtractors. Explain _borrow propagation_.
++ Calculate _critical path delay_.
 + Verify on $(0,1,1)$ and $(1,0,1)$.
 
 #block(sticky: true)[*Part (c): 4-bit Saturating Subtractor*]
 
-A saturating subtractor computes $d = max(0, x - y)$, clamping negatives to zero.
+A _saturating subtractor_ computes $d = max(0, x - y)$, clamping negatives to zero.
 
 + Design using four full subtractors plus saturation logic.
   Which signal detects $x < y$?
@@ -532,7 +556,10 @@ A saturating subtractor computes $d = max(0, x - y)$, clamping negatives to zero
 
 + Design a 2-bit comparator for inputs $x, y in {0,1,2,3}$ with three binary outputs: $gt, eq, lt$.
 + Verify on test inputs: $(3,2)$, $(2,2)$, $(1,3)$.
-+ Explain cascading for 4-bit comparator.
++ Explain _cascading_ for 4-bit comparator.
+  #footnote[
+    _Cascading_ means connecting multiple smaller comparators to build larger ones, using the outputs of one stage as inputs to the next.
+  ]
 
 #block(sticky: true)[*Part (e): 2-bit Multiplier*]
 
@@ -540,13 +567,16 @@ Design a multiplier for 2-bit integers $x, y in {0,1,2,3}$ producing 4-bit produ
 
 + Build 16-row truth table for inputs $(x_1, x_0, y_1, y_0)$ and outputs $(p_3, p_2, p_1, p_0)$.
 + Find minimal expressions for output bits $(p_3, p_2, p_1, p_0)$ using K-maps.
-+ Draw optimized circuit exploiting shared sub-expressions.
++ Draw optimized circuit exploiting _shared sub-expressions_.
+  #footnote[
+    _Shared sub-expressions_ are intermediate computations used by multiple outputs, reducing total gate count.
+  ]
 + Verify: $3 times 2 = 6$, $3 times 3 = 9$, $1 times 1 = 1$.
 
 
 == Problem 9: Binary Decision Diagrams
 
-BDDs provide canonical representations enabling efficient equivalence checking, but size varies exponentially with variable ordering.
+BDDs provide _canonical representations_ enabling efficient equivalence checking, but size varies exponentially with variable ordering.
 The same function might need 10 nodes with one ordering and 1000 with another.
 Finding optimal orderings is NP-complete, but good heuristics exist.
 
@@ -576,8 +606,8 @@ Use natural order $x_1 prec x_2 prec x_3 prec dots.c$ for:
 ]
 
 For each function:
-+ Build the complete binary decision tree.
-+ Apply reduction rules to get the ROBDD: eliminate duplicate terminals, merge isomorphic subgraphs, remove redundant nodes.
++ Build the complete _binary decision tree_.
++ Apply _reduction rules_ to get the ROBDD: eliminate duplicate terminals, merge _isomorphic subgraphs_, remove redundant nodes.
 + Draw the final ROBDD. Count nodes and compare to unreduced tree size.
 + Verify correctness by tracing two test inputs through your ROBDD.
 
@@ -587,7 +617,10 @@ For each function from Part (b):
 
 + Find an ordering producing smaller ROBDD than natural order.
 + Construct the smaller ROBDD and count nodes.
-+ For $f_4$, explain why interleaving paired variables helps.
++ For $f_4$, explain why _interleaving_ paired variables helps.
+  #footnote[
+    _Interleaving_ means alternating between related variable groups (e.g., $x_1, x_4, x_2, x_5, x_3, x_6$ instead of $x_1, x_2, x_3, x_4, x_5, x_6$), which can dramatically reduce BDD size for functions with structural dependencies.
+  ]
   For others, discuss patterns leading to size reduction, or why the order does not matter at all.
 
 #block(sticky: true)[*Part (d): BDD Operations*]
@@ -607,10 +640,14 @@ These error-correcting codes are built from Boolean functions with restricted al
 
 The Reed–Muller code $RM(r, m)$ consists of all Boolean functions $f: FF_2^m to FF_2$ with $deg(f) <= r$.
 
-*Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum Hamming distance $d = 2^(m-r)$.
+*Parameters:* length $n = 2^m$, dimension $k = sum_(i=0)^r binom(m, i)$, minimum _Hamming distance_
+#footnote[
+  The _Hamming distance_ between two codewords is the number of positions in which they differ.
+]
+$d = 2^(m-r)$.
 
 *Generator matrix construction:*
-Rows correspond to monomials of degree $<= r$ in lexicographic order.
+Rows correspond to _monomials_ of degree $<= r$ in lexicographic order.
 Columns correspond to inputs $(x_1, dots, x_m) in FF_2^m$ in lexicographic order.
 Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 
@@ -658,10 +695,10 @@ Each XOR result "votes" for that coefficient's value; the majority vote wins.
 #block(sticky: true)[*Part (d): Rate and Efficiency*]
 
 The _rate_ of a code is $k"/"n$: the ratio of message bits to transmitted bits.
-Higher rate means less redundancy but weaker error correction.
+Higher rate means less _redundancy_ but weaker error correction.
 
 + Calculate the rate $k"/"n$ for $RM(1, 3)$.
-+ A repetition code encodes each bit by repeating it: for example, the 3-repetition code maps each bit $0 to 000$ and $1 to 111$, giving rate $1"/"3$.
++ A _repetition code_ encodes each bit by repeating it: for example, the 3-repetition code maps each bit $0 to 000$ and $1 to 111$, giving rate $1"/"3$.
   Compare with $RM(1, 3)$: which is more efficient?
 + For general $RM(r, m)$: as $r$ increases from $0$ to $m$, what happens to $k$ (dimension) and $d$ (distance)?
   Explain the fundamental trade-off between rate and error correction capability.
