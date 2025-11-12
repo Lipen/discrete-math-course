@@ -617,10 +617,10 @@ Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 #example[
   $RM(1, 2)$ has monomials ${1, x_1, x_2}$ and inputs ${(0,0), (0,1), (1,0), (1,1)}$:
   $
-    bold(G) = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)
+    G = mat(1, 1, 1, 1; 0, 0, 1, 1; 0, 1, 0, 1)
   $
 
-  Message $(1, 0, 1)$ encodes to $(1, 0, 1, 0)$ via $bold(c) = bold(u) bold(G)$.
+  Message $(1, 0, 1)$ encodes to $(1, 0, 1, 0)$ via $bold(c) = bold(u) G$.
 ]
 
 #block(sticky: true)[*Part (a): Code Construction*]
@@ -628,10 +628,10 @@ Entry $(i,j)$ is the value of monomial $i$ evaluated at input $j$.
 Consider $RM(1, 3)$:
 
 + Compute the code parameters: length $n$, dimension $k$, minimum distance $d$, and error correction capability $t = floor((d-1)/2)$.
-+ Construct the $4 times 8$ generator matrix $bold(G)$.
++ Construct the $4 times 8$ generator matrix $G$.
   Rows correspond to monomials ${1, x_1, x_2, x_3}$.
   Columns are ordered: $(0,0,0), (0,0,1), dots, (1,1,1)$.
-+ Encode the message $bold(u) = (1, 0, 1, 1)$ into codeword $bold(c) = bold(u) bold(G)$.
++ Encode the message $bold(u) = (1, 0, 1, 1)$ into codeword $bold(c) = bold(u) G$.
 
 #block(sticky: true)[*Part (b): Single-Error Correction*]
 
