@@ -1181,14 +1181,14 @@ We can index minterms and maxterms by their binary representations:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Index*], [*Binary*], [*Minterm $m_i$*], [*Maxterm $M_i$*]),
-      [0], [000], [$overline(x) thin overline(y) thin overline(z)$], [$x + y + z$],
-      [1], [001], [$overline(x) thin overline(y) z$], [$x + y + overline(z)$],
-      [2], [010], [$overline(x) y thin overline(z)$], [$x + overline(y) + z$],
-      [3], [011], [$overline(x) y z$], [$x + overline(y) + overline(z)$],
-      [4], [100], [$x thin overline(y) thin overline(z)$], [$overline(x) + y + z$],
-      [5], [101], [$x thin overline(y) z$], [$overline(x) + y + overline(z)$],
-      [6], [110], [$x y thin overline(z)$], [$overline(x) + overline(y) + z$],
-      [7], [111], [$x y z$], [$overline(x) + overline(y) + overline(z)$],
+      [0], [000], [$overline(x) thin overline(y) thin overline(z)$], [$x or y or z$],
+      [1], [001], [$overline(x) thin overline(y) z$], [$x or y or overline(z)$],
+      [2], [010], [$overline(x) y thin overline(z)$], [$x or overline(y) or z$],
+      [3], [011], [$overline(x) y z$], [$x or overline(y) or overline(z)$],
+      [4], [100], [$x thin overline(y) thin overline(z)$], [$overline(x) or y or z$],
+      [5], [101], [$x thin overline(y) z$], [$overline(x) or y or overline(z)$],
+      [6], [110], [$x y thin overline(z)$], [$overline(x) or overline(y) or z$],
+      [7], [111], [$x y z$], [$overline(x) or overline(y) or overline(z)$],
     )
   ]
 ]
@@ -1263,7 +1263,7 @@ We can index minterms and maxterms by their binary representations:
   For the *same function*, use rows where $f = 0$ (rows 0, 2, 4, 5):
   $
     f & = M_0 and M_2 and M_4 and M_5 \
-      & = (x + y + z) dot (x + overline(y) + z) dot (overline(x) + y + z) dot (overline(x) + y + overline(z))
+      & = (x or y or z) dot (x or overline(y) or z) dot (overline(x) or y or z) dot (overline(x) or y or overline(z))
   $
 ]
 
@@ -1327,8 +1327,8 @@ We can index minterms and maxterms by their binary representations:
 
   *Step 2:* Apply Shannon expansion:
   $
-    f(x, y) & = overline(x) dot f_0 + x dot f_1 \
-            & = overline(x) y + x overline(y)
+    f(x, y) & = overline(x) dot f_0 or x dot f_1 \
+            & = overline(x) y or x overline(y)
   $
 
   This gives the standard XOR representation!
@@ -1601,10 +1601,10 @@ But the result is often *not minimal*.
 ]
 
 #example[
-  Function: $f = A B + A C + B C$
+  Function: $f = A B or A C or B C$
 
   - Has 6 literals, 3 cubes
-  - Can be reduced to: $f = A B + A C$ (using consensus theorem)
+  - Can be reduced to: $f = A B or A C$ (using consensus theorem)
   - Now 4 literals, 2 cubes
 ]
 
@@ -1761,7 +1761,7 @@ For 3 variables, we use a 4×2 grid (two variables for rows, one for columns):
 == 3-Variable K-Map: Complete Example
 
 #example[
-  Minimize $f(x, y, z) = sum m(1, 3, 6, 7)$:
+  Minimize $f(x, y, z) = or.big m(1, 3, 6, 7)$:
 
   *Step 1:* Draw 4×2 grid and fill in the truth values
 
@@ -1871,7 +1871,7 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
     [Vertical], [5, 13], [$B = 1$, $C = 0$, $D = 1$, $A$ varies], [$B thin overline(C) thin D$],
   )
 
-  *Minimal DNF:* $f = overline(B) thin overline(D) + B thin overline(C) thin D$
+  *Minimal DNF:* $f = overline(B) thin overline(D) or B thin overline(C) thin D$
 ]
 
 == K-Map Grouping: Valid Group Sizes
@@ -1985,12 +1985,12 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
       align: left,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Law*], [*Sum Form*], [*Product Form*]),
-      [Idempotent], [$X + X = X$], [$X dot X = X$],
-      [Absorption], [$X + X Y = X$], [$X(X + Y) = X$],
-      [Combining], [$X Y + X overline(Y) = X$], [$(X + Y)(X + overline(Y)) = X$],
+      [Idempotent], [$X or X = X$], [$X dot X = X$],
+      [Absorption], [$X or X Y = X$], [$X(X or Y) = X$],
+      [Combining], [$X Y or X overline(Y) = X$], [$(X or Y)(X or overline(Y)) = X$],
       [Consensus],
-      [$X Y + overline(X) Z + Y Z$ \ $= X Y + overline(X) Z$],
-      [$(X + Y)(overline(X) + Z)(Y + Z)$ \ $= (X + Y)(overline(X) + Z)$],
+      [$X Y or overline(X) Z or Y Z$ \ $= X Y or overline(X) Z$],
+      [$(X or Y)(overline(X) or Z)(Y or Z)$ \ $= (X or Y)(overline(X) or Z)$],
     )
   ]
 ]
@@ -1998,38 +1998,38 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
 == Step-by-Step Algebraic Minimization
 
 #example[
-  Minimize $f = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C$:
+  Minimize $f = A B C or A B overline(C) or overline(A) B C or overline(A) overline(B) C$:
 
   *Step 1:* Look for combining opportunities
   $
-    f & = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C \
-      & = A B (C + overline(C)) + overline(A) B C + overline(A) overline(B) C   & quad & "(factor)" \
-      & = A B + overline(A) B C + overline(A) overline(B) C                     & quad & "(complement)"
+    f & = A B C or A B overline(C) or overline(A) B C or overline(A) overline(B) C \
+      & = A B (C or overline(C)) or overline(A) B C or overline(A) overline(B) C   & quad & "(factor)" \
+      & = A B or overline(A) B C or overline(A) overline(B) C                     & quad & "(complement)"
   $
 
   *Step 2:* Apply more combining
   $
-    f & = A B + overline(A) C (B + overline(B)) & quad & "(factor)" \
-      & = A B + overline(A) C                   & quad & "(complement)"
+    f & = A B or overline(A) C (B or overline(B)) & quad & "(factor)" \
+      & = A B or overline(A) C                   & quad & "(complement)"
   $
 
-  *Final result:* $f = A B + overline(A) C$ (reduced from 12 to 4 literals!)
+  *Final result:* $f = A B or overline(A) C$ (reduced from 12 to 4 literals!)
 ]
 
 == Consensus Theorem
 
 #theorem[Consensus Theorem][
-  $X Y + overline(X) Z + Y Z = X Y + overline(X) Z$
+  $X Y or overline(X) Z or Y Z = X Y or overline(X) Z$
 
   The term $Y Z$ is "absorbed" by the other two terms.
 ]
 
 #proof[
   $
-    X Y + overline(X) Z + Y Z & = X Y + overline(X) Z + (X + overline(X)) Y Z   & quad & "(complement)" \
-                              & = X Y + overline(X) Z + X Y Z + overline(X) Y Z & quad & "(distributive)" \
-                              & = X Y (1 + Z) + overline(X) Z (1 + Y)           & quad & "(factor)" \
-                              & = X Y + overline(X) Z                           & quad & "(null: " 1 + X = 1 ")"
+    X Y or overline(X) Z or Y Z & = X Y or overline(X) Z or (X or overline(X)) Y Z   & quad & "(complement)" \
+                              & = X Y or overline(X) Z or X Y Z or overline(X) Y Z & quad & "(distributive)" \
+                              & = X Y (1 or Z) or overline(X) Z (1 or Y)           & quad & "(factor)" \
+                              & = X Y or overline(X) Z                           & quad & "(null: " 1 or X = 1 ")"
   $
 ]
 
@@ -2044,14 +2044,14 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
 ]
 
 #example[
-  Two-level: $f_1 = A B C + A B D$, $f_2 = A B C + A B E$
+  Two-level: $f_1 = A B C or A B D$, $f_2 = A B C or A B E$
 
   Total: $12$ literals ($6 + 6$)
 
   Multi-level with factoring:
   - $T = A B$ (common factor)
-  - $f_1 = T (C + D)$
-  - $f_2 = T (C + E)$
+  - $f_1 = T (C or D)$
+  - $f_2 = T (C or E)$
 
   Total: $6$ literals + reuse of $T$
 ]
@@ -2154,7 +2154,7 @@ The Q-M algorithm has two phases:
 == Step-by-Step Example of Q-M Phase 1
 
 #example[
-  Minimize $f(A, B, C) = sum m(1, 3, 5, 6, 7)$
+  Minimize $f(A, B, C) = or.big m(1, 3, 5, 6, 7)$
 ]
 
 #Block[
@@ -2216,9 +2216,9 @@ The Q-M algorithm has two phases:
     [$m_1$#YES],
     [001],
     [
-      $m_1 + m_3 = m_(1,3)$ #YES 0−1 \
-      $m_1 + m_5 = m_(1,5)$ #YES −01 \
-      $m_1 + m_6$ #NO (differ in 3 positions)
+      $m_1 or m_3 = m_(1,3)$ #YES 0−1 \
+      $m_1 or m_5 = m_(1,5)$ #YES −01 \
+      $m_1 or m_6$ #NO (differ in 3 positions)
     ],
 
     table.hline(stroke: 0.4pt),
@@ -2226,21 +2226,21 @@ The Q-M algorithm has two phases:
     [$m_3$#YES],
     [011],
     [
-      $m_3 + m_7 = m_(3,7)$ #YES −11
+      $m_3 or m_7 = m_(3,7)$ #YES −11
     ],
     [],
 
     [$m_5$#YES],
     [101],
     [
-      $m_5 + m_7 = m_(5,7)$ #YES 1−1
+      $m_5 or m_7 = m_(5,7)$ #YES 1−1
     ],
     [],
 
     [$m_6$#YES],
     [110],
     [
-      $m_6 + m_7 = m_(6,7)$ #YES 11−
+      $m_6 or m_7 = m_(6,7)$ #YES 11−
     ],
 
     table.hline(stroke: 0.4pt),
@@ -2271,7 +2271,7 @@ The Q-M algorithm has two phases:
     [$m_(1,5)$ #YES],
     [−01],
     [
-      $m_(1,5)+m_(3,7) = m_(1,3,5,7)$ #YES −−1
+      $m_(1,5) or m_(3,7) = m_(1,3,5,7)$ #YES −−1
     ],
     [],
     [$m_(3,7)$ #YES],
@@ -2283,7 +2283,7 @@ The Q-M algorithm has two phases:
     [$m_(1,3)$ #YES],
     [0−1],
     [
-      $m_(1,3) + m_(5,7) = m_(1,3,5,7)$ #YES −−1
+      $m_(1,3) or m_(5,7) = m_(1,3,5,7)$ #YES −−1
     ],
     [],
     [$m_(5,7)$ #YES],
@@ -2343,7 +2343,7 @@ These 4 prime implicants cannot be reduced further.
 ]
 
 #example[
-  For our example $sum m(1, 3, 5, 6, 7)$:
+  For our example $or.big m(1, 3, 5, 6, 7)$:
 
   #align(center)[
     #table(
@@ -2364,7 +2364,7 @@ These 4 prime implicants cannot be reduced further.
   - Must include: $C$ (essential), covers ${1, 3, 5, 7}$
   - Must include: $A B$ (essential), covers ${6, 7}$
 
-  *Minimal solution:* $f = C + A B$ (3 literals)
+  *Minimal solution:* $f = C or A B$ (3 literals)
 ]
 
 == Essential Prime Implicants
@@ -2442,12 +2442,12 @@ When multiple prime implicants remain after selecting essentials:
   ]
 
   *Coverage formula (CNF):*
-  - $m_1$: $P_1 + P_2$ (needs $P_1$ OR $P_2$)
-  - $m_2$: $P_1 + P_3$ (needs $P_1$ OR $P_3$)
-  - $m_3$: $P_2 + P_3 + P_4$
-  - $m_4$: $P_3 + P_4$
+  - $m_1$: $P_1 or P_2$ (needs $P_1$ OR $P_2$)
+  - $m_2$: $P_1 or P_3$ (needs $P_1$ OR $P_3$)
+  - $m_3$: $P_2 or P_3 + P_4$
+  - $m_4$: $P_3 or P_4$
 
-  Formula: $(P_1 + P_2)(P_1 + P_3)(P_2 + P_3 + P_4)(P_3 + P_4)$
+  Formula: $(P_1 or P_2)(P_1 or P_3)(P_2 or P_3 or P_4)(P_3 or P_4)$
 ]
 
 == Petrick's Method: Solving
@@ -2456,10 +2456,10 @@ When multiple prime implicants remain after selecting essentials:
   *Expand to DNF:*
 
   $
-    & (P_1 + P_2)(P_1 + P_3)(P_2 + P_3 + P_4)(P_3 + P_4) \
-    & = (P_1 + P_2 P_3)(P_2 + P_3 + P_4)(P_3 + P_4) \
-    & = P_1 (P_3 + P_4) + P_2 P_3 (P_3 + P_4) \
-    & = P_1 P_3 + P_1 P_4 + P_2 P_3
+    & (P_1 or P_2)(P_1 or P_3)(P_2 or P_3 or P_4)(P_3 or P_4) \
+    & = (P_1 or P_2 P_3)(P_2 or P_3 or P_4)(P_3 or P_4) \
+    & = P_1 (P_3 or P_4) or P_2 P_3 (P_3 or P_4) \
+    & = P_1 P_3 or P_1 P_4 or P_2 P_3
   $
 
   *Possible covers:*
@@ -2467,7 +2467,7 @@ When multiple prime implicants remain after selecting essentials:
   + $P_1 P_4$ (2 implicants)
   + $P_2 P_3$ (2 implicants)
 
-  All have same cost! Choose any: $f = P_1 + P_3$ (for example)
+  All have same cost! Choose any: $f = P_1 or P_3$ (for example)
 ]
 
 #Block(color: orange)[
@@ -2477,7 +2477,7 @@ When multiple prime implicants remain after selecting essentials:
 == Quine-McCluskey: Complete Example
 
 #example[
-  Minimize $f(A, B, C, D) = sum m(0, 1, 2, 5, 6, 7, 8, 9, 10, 14)$
+  Minimize $f(A, B, C, D) = or.big m(0, 1, 2, 5, 6, 7, 8, 9, 10, 14)$
 ]
 
 #align(center)[
@@ -2526,7 +2526,7 @@ When multiple prime implicants remain after selecting essentials:
 - $P_4$ is essential (only covers ${5, 7}$)
 - After selecting $P_4$, need to cover ${0, 1, 2, 6, 8, 9, 10, 14}$
 
-*Minimal solution:* $f = P_1 + P_3 + P_4$ ~_or_~ $f = P_2 + P_3 + P_4$
+*Minimal solution:* $f = P_1 or P_3 or P_4$ ~_or_~ $f = P_2 or P_3 or P_4$
 
 == Complexity of Minimization
 
@@ -2818,7 +2818,7 @@ These differences enable important applications:
 
     table.hline(stroke: 0.4pt + gray),
     [*Negation*], [Explicit ($overline(x)$)], [$x xor 1$],
-    [*$x + x =$*], [$x$ (idempotent)], [$0$ (self-inverse)],
+    [*$x or x =$*], [$x$ (idempotent)], [$0$ (self-inverse)],
     [*Identity element*], [$x or 0 = x$], [$x xor 0 = x$],
 
     table.hline(stroke: 0.4pt + gray),
@@ -3060,7 +3060,7 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
 
 == Pascal's Triangle Method: Example
 
-Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$:
+Find ANF for $f(x, y, z) = or.big m(0, 1, 3, 7)$:
 
 #align(center)[
   #let bb(it) = {
@@ -3129,7 +3129,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 == K-Map Method: Example
 
 #example[
-  Find ANF for $f(x,y) = sum m(1,2)$:
+  Find ANF for $f(x,y) = or.big m(1,2)$:
 
   #grid(
     columns: (1fr, 1fr),
@@ -3167,7 +3167,7 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 == K-Map Method: Another Example
 
 #example[
-  Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$
+  Find ANF for $f(x, y, z) = or.big m(0, 1, 3, 7)$
 ]
 
 #grid(
@@ -3450,7 +3450,7 @@ Two approaches for converting between representations:
 
 *Step 2:* Read minterms where $f = 1$:
 
-*DNF:* $f = overline(x) y or x overline(y) or x y = sum m(1, 2, 3)$
+*DNF:* $f = overline(x) y or x overline(y) or x y = or.big m(1, 2, 3)$
 
 == Converting DNF to ANF
 
