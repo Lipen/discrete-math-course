@@ -141,7 +141,8 @@ Construct a 5-variable Karnaugh map for your function using the template below:
 + Count all _prime implicants_.
 + If inputs where $A and B and C = 1$ are _don't-care conditions_, how do the minimal forms change?
   #footnote[
-    _Don't-care conditions_ are input combinations whose output values don't matter, allowing flexibility in minimization. They can be treated as either 0 or 1 to produce smaller expressions.
+    _Don't-care conditions_ are input combinations whose output values don't matter, allowing flexibility in minimization.
+    They can be treated as either 0 or 1 to produce smaller expressions.
   ]
 
 #block(sticky: true)[*Part (d): Analysis and Limitations*]
@@ -238,7 +239,8 @@ Build the truth table mapping $triple(A, B, C) |-> pair(f_1, f_2)$ for all 8 inp
 
 + Derive minimal DNF for both $f_1$ and $f_2$.
 + Verify against your truth table.
-+ Count literals in each expression. Which output is more complex?
++ Count literals in each expression.
+  Which output is more complex?
 
 #block(sticky: true)[*Part (c): Optimization*]
 
@@ -351,7 +353,8 @@ Consider $(A or B) and (C or (D and E))$:
 + Show that:
   (i)~if the original formula is satisfiable, then the CNF has a satisfying assignment, and
   (ii)~if the CNF is satisfiable, then the original formula is satisfiable.
-+ Compare sizes (clauses, variables, literals) with direct CNF. When is each method better?
++ Compare sizes (clauses, variables, literals) with direct CNF.
+  When is each method better?
   #footnote[
     Direct CNF conversion can cause exponential blow-up for nested formulas, while Tseitin transformation keeps size linear but introduces auxiliary variables.
   ]
@@ -409,7 +412,8 @@ For each _complete_ basis from Part (a):
 #block(sticky: true)[*Part (c): NAND Gates*]
 
 + Express $not A$, $A and B$, and $A or B$ using only NAND.
-+ Build a NAND-only circuit for $majority(A, B, C)$. Count gates.
++ Build a NAND-only circuit for $majority(A, B, C)$.
+  Count gates.
 + Find a complete basis from Part (a) that yields the smallest majority circuit.
 
 #block(sticky: true)[*Part (d): Custom Basis*]
@@ -430,7 +434,8 @@ The _algebraic degree_ of this polynomial measures cryptographic strength: low-d
 #block(sticky: true)[*Part (a): Functional Completeness*]
 
 + Prove ${xor, and, 1}$ is functionally complete by expressing $not x$ and $x or y$.
-+ Express $majority(x, y, z)$ using only ${xor, and, 1}$. Count operations.
++ Express $majority(x, y, z)$ using only ${xor, and, 1}$.
+  Count operations.
 
 #block(sticky: true)[*Part (b): Computing ANF*]
 
@@ -452,7 +457,8 @@ Find the ANF for each function (using any construction method):
 
 + Identify the algebraic degree of each function from Part (b).
 + Which has highest degree? Is it _maximal_ for that number of variables?
-+ Prove $deg(f xor g) <= max(deg(f), deg(g))$. Find an example with strict inequality.
++ Prove $deg(f xor g) <= max(deg(f), deg(g))$.
+  Find an example with strict inequality.
 
 #block(sticky: true)[*Part (d): Cryptographic S-Box*]
 
@@ -540,7 +546,8 @@ A full subtractor handles three inputs: _minuend_ $x$, _subtrahend_ $y$, and bor
 ]
 
 + Build truth table for $x - y - b_("in")$.
-+ Design using two half subtractors. Explain _borrow propagation_.
++ Design using two half subtractors.
+  Explain _borrow propagation_.
 + Calculate _critical path delay_.
 + Verify on $(0,1,1)$ and $(1,0,1)$.
 
@@ -584,7 +591,8 @@ Finding optimal orderings is NP-complete, but good heuristics exist.
 
 $ITE(c, x, y)$ returns $x$ when $c = 1$, and $y$ when $c = 0$.
 
-+ Express $ITE$ using ${and, or, not}$. Verify with truth table.
++ Express $ITE$ using ${and, or, not}$.
+  Verify with truth table.
 + Prove ${ITE}$ alone is functionally complete via Post's criterion.
 + Express $x xor y$ and $majority(x, y, z)$ using only $ITE$.
   Count $ITE$ calls.
@@ -608,7 +616,8 @@ Use natural order $x_1 prec x_2 prec x_3 prec dots.c$ for:
 For each function:
 + Build the complete _binary decision tree_.
 + Apply _reduction rules_ to get the ROBDD: eliminate duplicate terminals, merge _isomorphic subgraphs_, remove redundant nodes.
-+ Draw the final ROBDD. Count nodes and compare to unreduced tree size.
++ Draw the final ROBDD.
+  Count nodes and compare to unreduced tree size.
 + Verify correctness by tracing two test inputs through your ROBDD.
 
 #block(sticky: true)[*Part (c): Variable Ordering Impact*]
@@ -630,7 +639,8 @@ Using the ROBDDs for $f_1$ and $f_3$ from Part (b):
 
 + Construct the ROBDD for $f_1 and f_3$ using the _apply algorithm_.
   Describe how this algorithm combines two ROBDDs without enumerating truth tables.
-+ Draw the resulting ROBDD and count its nodes. Compare to the sum of individual ROBDD sizes.
++ Draw the resulting ROBDD and count its nodes.
+  Compare to the sum of individual ROBDD sizes.
 + What is the worst-case size for the resulting BDD when combining two ROBDDs?
 
 
@@ -680,7 +690,9 @@ Each XOR result "votes" for that coefficient's value; the majority vote wins.
 + Flip _one_ bit at position $i in {1, dots, 8}$ of your codeword $bold(c)$ to simulate a transmission error, obtaining received word $bold(r) = (r_1, dots, r_8)$.
 
 + Apply majority-logic decoding to recover the ANF coefficients $(a_0, a_1, a_2, a_3)$:
-  - For each $a_j$ where $j > 0$: identify all pairs of positions $(p, q)$ whose input vectors differ only in variable $x_j$. Each pair gives a vote $v = r_p xor r_q$. Set $a_j = majority(v_1, v_2, dots)$.
+  - For each $a_j$ where $j > 0$: identify all pairs of positions $(p, q)$ whose input vectors differ only in variable $x_j$
+    Each pair gives a vote $v = r_p xor r_q$.
+    Set $a_j = majority(v_1, v_2, dots)$.
   - For $a_0$: after determining $a_1, a_2, a_3$, compute $a_0 = r_1 xor (a_1 dot 0) xor (a_2 dot 0) xor (a_3 dot 0) = r_1$, since position 1 corresponds to input $(0,0,0)$.
     #footnote[
       In case of tied votes, choose 0 as the default value.
