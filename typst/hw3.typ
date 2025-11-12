@@ -147,7 +147,6 @@ Construct a 5-variable Karnaugh map for your function using the template below:
 + Which is more compact for your function: DNF or CNF? Why?
 + What is the size of a 6-variable K-map?
   Why do K-maps become impractical beyond 5-6 variables?
-  How would you visualize a 7-variable function?
 
 
 == Problem 2: Circuit Analysis
@@ -327,6 +326,9 @@ Convert to CNF:
   + $D_1 xor D_2 xor dots.c xor D_n$
 
   + $majority(X_1, X_2, X_3)$
+    #footnote[
+      The majority function outputs 1 if more than half (e.g., 2 of 3) of its inputs are 1.
+    ]
 
   #colbreak()
 
@@ -369,7 +371,7 @@ Post's criterion systematically determines completeness by checking preservation
 
 #block(sticky: true)[*Part (a): Apply Post's Criterion*]
 
-For each system, check Post classes ($T_0$, $T_1$, $S$, $M$, $L$) and determine completeness:
+For each system, check Post classes ($T_0$, $T_1$, $S$, $M$, $L$) and determine functional completeness:
 
 #tasklist("prob5a", cols: 2)[
   + $F_1 = {and, or, not}$
@@ -382,12 +384,6 @@ For each system, check Post classes ($T_0$, $T_1$, $S$, $M$, $L$) and determine 
 
   + $F_4 = {1, iff, and}$
 ]
-
-- Determine if the class is preserved under composition.
-- Conclude whether the system is functionally complete.
-- If not complete, identify which Post class(es) prevent completeness.
-
-*Hint:* A system is complete iff it does not preserve each of the five Post classes.
 
 #block(sticky: true)[*Part (b): Express Majority*]
 
@@ -418,7 +414,7 @@ For each _complete_ basis from Part (a):
 
 == Problem 6: Zhegalkin Polynomials
 
-Every Boolean function has a unique polynomial representation over $FF_2$ using XOR and AND.
+Every Boolean function has a unique polynomial representation over $FF_2$ using XOR and AND, called the Algebraic Normal Form (ANF) or Zhegalkin polynomial.
 The algebraic degree of this polynomial measures cryptographic strength: low-degree functions are vulnerable to linear attacks, while high-degree functions resist algebraic cryptanalysis.
 
 #block(sticky: true)[*Part (a): Functional Completeness*]
@@ -428,7 +424,7 @@ The algebraic degree of this polynomial measures cryptographic strength: low-deg
 
 #block(sticky: true)[*Part (b): Computing ANF*]
 
-Find the ANF using different methods:
+Find the ANF for each function (using any construction method):
 
 #tasklist("prob6b", cols: 2)[
   + $f_1 (a, b, c) = a b or b c or a c$
@@ -580,11 +576,10 @@ Use natural order $x_1 prec x_2 prec x_3 prec dots.c$ for:
 ]
 
 For each function:
-
-+ Build the complete decision tree (dashed edges = 0, solid = 1).
++ Build the complete binary decision tree.
 + Apply reduction rules to get the ROBDD: eliminate duplicate terminals, merge isomorphic subgraphs, remove redundant nodes.
-+ Draw final ROBDD with node count. Compare to unreduced size $2^(n+1) - 1$.
-+ Verify by tracing two sample inputs to terminal values.
++ Draw the final ROBDD. Count nodes and compare to unreduced tree size.
++ Verify correctness by tracing two test inputs through your ROBDD.
 
 #block(sticky: true)[*Part (c): Variable Ordering Impact*]
 
@@ -597,10 +592,12 @@ For each function from Part (b):
 
 #block(sticky: true)[*Part (d): BDD Operations*]
 
-+ Construct ROBDD for $f_1 and f_3$ (from Part b) using natural ordering.
-+ Describe the _apply algorithm_: how to combine two ROBDDs without enumerating truth tables.
-+ Compare the resulting BDD size to the sum of individual sizes.
-+ What is the worst case for BDD size when combining two functions?
+Using the ROBDDs for $f_1$ and $f_3$ from Part (b):
+
++ Construct the ROBDD for $f_1 and f_3$ using the _apply algorithm_.
+  Describe how this algorithm combines two ROBDDs without enumerating truth tables.
++ Draw the resulting ROBDD and count its nodes. Compare to the sum of individual ROBDD sizes.
++ What is the worst-case size for the resulting BDD when combining two ROBDDs?
 
 
 == Problem 10: Reed–Muller Codes
