@@ -93,7 +93,7 @@
 }
 
 #let kmap3(
-  values, // array of 8 values
+  values, // array of 8 values: indices 0-7 correspond to (x,y,z) = 000,001,010,011,100,101,110,111
   highlights: (),
   current: none,
 ) = {
@@ -103,6 +103,20 @@
     let cell-size = 1.0
     let offset-x = 1.2
     let offset-y = 0.8
+
+    // Map index to Gray code position
+    // Binary index: 0=000, 1=001, 2=010, 3=011, 4=100, 5=101, 6=110, 7=111
+    // Visual rows (Gray code for y): (0,0), (0,1), (1,1), (1,0) = rows 0,1,2,3
+    let idx-to-row(idx) = {
+      let x = calc.quo(idx, 4)  // x = idx >> 2
+      let y = calc.quo(calc.rem(idx, 4), 2)  // y = (idx >> 1) & 1
+      if x == 0 and y == 0 { 0 }
+      else if x == 0 and y == 1 { 1 }
+      else if x == 1 and y == 1 { 2 }
+      else { 3 }  // x == 1 and y == 0
+    }
+
+    let idx-to-col(idx) = calc.rem(idx, 2)  // z = idx & 1
 
     // Draw grid (4 rows × 2 cols)
     for i in range(5) {
@@ -115,8 +129,8 @@
     // Draw highlights
     for (cells, color) in highlights {
       for idx in cells {
-        let row = calc.quo(idx, 2)
-        let col = calc.rem(idx, 2)
+        let row = idx-to-row(idx)
+        let col = idx-to-col(idx)
         rect(
           (offset-x + col * cell-size, offset-y + (3 - row) * cell-size),
           (offset-x + (col + 1) * cell-size, offset-y + (4 - row) * cell-size),
@@ -128,8 +142,8 @@
 
     // Draw values
     for (idx, val) in values.enumerate() {
-      let row = calc.quo(idx, 2)
-      let col = calc.rem(idx, 2)
+      let row = idx-to-row(idx)
+      let col = idx-to-col(idx)
       content(
         (offset-x + (col + 0.5) * cell-size, offset-y + (3.5 - row) * cell-size),
         [#val],
@@ -139,8 +153,8 @@
 
     // Draw current cell - красный кружок
     if current != none {
-      let row = calc.quo(current, 2)
-      let col = calc.rem(current, 2)
+      let row = idx-to-row(current)
+      let col = idx-to-col(current)
       circle(
         (offset-x + (col + 0.5) * cell-size, offset-y + (3.5 - row) * cell-size),
         radius: 0.38,
@@ -149,11 +163,11 @@
       )
     }
 
-    // Labels
+    // Labels (Gray code order: 00, 01, 11, 10)
     content((offset-x - 0.4, offset-y + 3.5 * cell-size), [$x=0, y=0$], anchor: "east")
     content((offset-x - 0.4, offset-y + 2.5 * cell-size), [$x=0, y=1$], anchor: "east")
-    content((offset-x - 0.4, offset-y + 1.5 * cell-size), [$x=1, y=0$], anchor: "east")
-    content((offset-x - 0.4, offset-y + 0.5 * cell-size), [$x=1, y=1$], anchor: "east")
+    content((offset-x - 0.4, offset-y + 1.5 * cell-size), [$x=1, y=1$], anchor: "east")
+    content((offset-x - 0.4, offset-y + 0.5 * cell-size), [$x=1, y=0$], anchor: "east")
     content((offset-x + 0.5 * cell-size, offset-y + 4 * cell-size + 0.3), [$z=0$], anchor: "south")
     content((offset-x + 1.5 * cell-size, offset-y + 4 * cell-size + 0.3), [$z=1$], anchor: "south")
   })
