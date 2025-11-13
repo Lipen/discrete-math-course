@@ -2168,7 +2168,7 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
       [Idempotent], [$X + X = X$], [$X dot X = X$],
       [Absorption], [$X + X Y = X$], [$X(X + Y) = X$],
       [Combining], [$X Y + X overline(Y) = X$], [$(X + Y)(X + overline(Y)) = X$],
-      [Consensus],
+      [Consensus \ theorem],
       [$X Y + overline(X) Z + Y Z$ \ $= X Y + overline(X) Z$],
       [$(X + Y)(overline(X) + Z)(Y + Z)$ \ $= (X + Y)(overline(X) + Z)$],
     )
