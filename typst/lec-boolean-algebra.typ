@@ -1338,7 +1338,7 @@ We transition from _formal logical notation_ to _algebraic notation_ (standard i
 
 #Block(color: orange)[
   *Critical:* Use notation _consistently!_
-  Never mix $or$, $+$, $and$, $dot$, $neg$, $overline(x)$ in the same formula.
+  Never mix $+$, $or$, $dot$, $and$ in the same formula.
 ]
 
 == Minterm and Maxterm Indexing
