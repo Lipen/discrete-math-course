@@ -844,15 +844,15 @@ When a clause has only one unassigned literal, that literal must be true.
 
 #example[The prototypical Boolean algebra][
   $B = {0, 1}$ with standard operations:
-
   - $or$ = OR, $quad and$ = AND, $quad not$ = NOT
   - $not 0 = 1$, $not 1 = 0$
-
-  This is THE Boolean algebra for computing!
 ]
 
 #Block(color: purple)[
-  *Stone's representation theorem (1936):* Every Boolean algebra is isomorphic to a field of sets! So set theory and Boolean algebra are "the same" mathematically. This deep connection lets us use geometric/topological methods in logic.
+  *Stone's representation theorem (1936):*
+  Every Boolean algebra is isomorphic to a field of sets!
+
+  So, set theory and Boolean algebra are "the same" mathematically.
 ]
 
 == The Five Axiom Groups
