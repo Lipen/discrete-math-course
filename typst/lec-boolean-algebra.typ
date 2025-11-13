@@ -4517,56 +4517,62 @@ This involves:
 
 == Verifying Completeness: Positive Examples
 
-#example[
-  *Is ${and, or, not}$ complete?*
+#columns(2)[
+  #example[
+    *Is ${and, or, not}$ complete?*
 
-  Check each class:
-  - NOT $in.not T_0$: NOT(0) = 1 ≠ 0 #YES
-  - NOT $in.not T_1$: NOT(1) = 0 ≠ 1 #YES
-  - AND $in.not S$: non-self-dual #YES
-  - NOT $in.not M$: NOT is not monotone #YES
-  - AND $in.not L$: AND has degree 2 #YES
+    Check each class:
+    - NOT $in.not T_0$: NOT(0) = 1 ≠ 0 #YES
+    - NOT $in.not T_1$: NOT(1) = 0 ≠ 1 #YES
+    - AND $in.not S$: non-self-dual #YES
+    - NOT $in.not M$: NOT is not monotone #YES
+    - AND $in.not L$: AND has degree 2 #YES
 
-  *Conclusion:* Complete! #YES
-]
+    *Conclusion:* Complete! #YES
+  ]
 
-#example[
-  *Is ${"NAND"}$ complete?*
+  #colbreak()
 
-  NAND(x, y) = $overline(x and y)$:
-  - NAND(0,0) = 1 ≠ 0 $=>$ $in.not T_0$ #YES
-  - NAND(1,1) = 0 ≠ 1 $=>$ $in.not T_1$ #YES
-  - NAND($overline(x), overline(y)$) ≠ $overline("NAND"(x,y))$ $=>$ $in.not S$ #YES
-  - NAND(0,1) = 1 > NAND(1,1) = 0 $=>$ $in.not M$ #YES
-  - ANF has degree 2 $=>$ $in.not L$ #YES
+  #example[
+    *Is ${"NAND"}$ complete?*
 
-  *Conclusion:* Complete! #YES
+    NAND(x, y) = $overline(x and y)$:
+    - NAND(0,0) = 1 ≠ 0 $=>$ $in.not T_0$ #YES
+    - NAND(1,1) = 0 ≠ 1 $=>$ $in.not T_1$ #YES
+    - NAND($overline(x), overline(y)$) ≠ $overline("NAND"(x,y))$ $=>$ $in.not S$ #YES
+    - NAND(0,1) = 1 > NAND(1,1) = 0 $=>$ $in.not M$ #YES
+    - ANF has degree 2 $=>$ $in.not L$ #YES
+
+    *Conclusion:* Complete! #YES
+  ]
 ]
 
 == Incomplete Sets: Examples
 
-#example[
-  *Is ${and, or}$ complete?*
+#columns(2)[
+  #example[
+    *Is ${and, or}$ complete?*
 
-  - AND $in T_0$: $"AND"(0,0) = 0$
-  - OR $in T_0$: $"OR"(0,0) = 0$
-  - All functions in closure stay in $T_0$
-  - Cannot escape $T_0$ (need function with $f(0,...,0) = 1$)
+    - AND $in T_0$: $"AND"(0,0) = 0$
+    - OR $in T_0$: $"OR"(0,0) = 0$
+    - All functions in closure stay in $T_0$
+    - Cannot escape $T_0$ (need function with $f(0,...,0) = 1$)
 
-  *Conclusion:* Incomplete. Stuck in $T_0$. #NO
-]
+    *Conclusion:* Incomplete. Stuck in $T_0$. #NO
+  ]
 
-#line(length: 50%, stroke: 0.4pt + gray)
+  #colbreak()
 
-#example[
-  *Is ${xor, not}$ complete?*
+  #example[
+    *Is ${xor, not}$ complete?*
 
-  - XOR $in L$: degree 1
-  - NOT $in L$: $not x = x xor 1$, degree 1
-  - All functions in closure stay in $L$
-  - Cannot escape $L$ (need nonlinear function like AND)
+    - XOR $in L$: degree 1
+    - NOT $in L$: $not x = x xor 1$, degree 1
+    - All functions in closure stay in $L$
+    - Cannot escape $L$ (need nonlinear function like AND)
 
-  *Conclusion:* Incomplete. Stuck in $L$. #NO
+    *Conclusion:* Incomplete. Stuck in $L$. #NO
+  ]
 ]
 
 // #example[
