@@ -1081,8 +1081,8 @@ When a clause has only one unassigned literal, that literal must be true.
 
 #example[
   Power set $power({a, b})$ ordered by $subset.eq$:
-  - Join = union: ${a} Join {b} = {a, b}$
-  - Meet = intersection: ${a} Join {b} Meet {a,b} = {a}$
+  - Join = union: ${a} Join {b} = {a} union {b} = {a, b}$
+  - Meet = intersection: ${a} Meet {a, b} = {a} inter {a, b} = {a}$
 ]
 
 == Boolean Algebras Are Special Lattices
