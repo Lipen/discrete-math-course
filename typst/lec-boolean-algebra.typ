@@ -355,7 +355,7 @@ Every Boolean expression $f(x_1, ..., x_n)$ defines a _function_ $f: {0,1}^n to 
   We need _structure_ to navigate this explosion.
 ]
 
-== The State Explosion Crisis
+== The State Explosion Problem
 
 #Block(color: orange)[
   *The problem:*
