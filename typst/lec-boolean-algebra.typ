@@ -1224,11 +1224,11 @@ When a clause has only one unassigned literal, that literal must be true.
 == Disjunctive Normal Form (DNF)
 
 #definition[
-  _DNF_ is a disjunction (OR) of cubes:
-
-  $ (c_1) or (c_2) or dots or (c_k) $
-
-  where each $c_i$ is a cube (AND of literals).
+  A formula is in _Disjunctive Normal Form (DNF)_ if it is a disjunction (OR) of cubes:
+  $
+    f(x_1, x_2, ..., x_n) = (c_1) or (c_2) or dots or (c_k)
+  $
+  where each $c_i$ is a cube (conjunction of literals).
 ]
 
 #example[
@@ -1259,10 +1259,13 @@ When a clause has only one unassigned literal, that literal must be true.
 
 == Conjunctive Normal Form (CNF)
 
-#definition[CNF][
-  A Boolean formula is in _Conjunctive Normal Form (CNF)_ if it is a conjunction (AND) of clauses.
+#definition[
+  A formula is in _Conjunctive Normal Form (CNF)_ if it is a conjunction (AND) of clauses:
+  $
+    f(x_1, x_2, ..., x_n) = (c_1) and (c_2) and dots and (c_k)
+  $
 
-  General form: $(c_1) and (c_2) and dots and (c_k)$ where each $c_i$ is a clause (disjunction of literals).
+  where each $c_i$ is a clause (disjunction of literals).
 ]
 
 #example[
