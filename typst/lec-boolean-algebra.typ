@@ -1601,10 +1601,10 @@ But the result is often *not minimal*.
 ]
 
 #example[
-  Function: $f = A B + A C + B C$
+  Function: $f = overline(A) B + A C + B C$
 
   - Has 6 literals, 3 cubes
-  - Can be reduced to: $f = A B + A C$ (using consensus theorem)
+  - Can be reduced to: $f = overline(A) B + A C$ (using consensus theorem)
   - Now 4 literals, 2 cubes
 ]
 
