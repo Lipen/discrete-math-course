@@ -108,15 +108,20 @@
     // Binary index: 0=000, 1=001, 2=010, 3=011, 4=100, 5=101, 6=110, 7=111
     // Visual rows (Gray code for y): (0,0), (0,1), (1,1), (1,0) = rows 0,1,2,3
     let idx-to-row(idx) = {
-      let x = calc.quo(idx, 4)  // x = idx >> 2
-      let y = calc.quo(calc.rem(idx, 4), 2)  // y = (idx >> 1) & 1
-      if x == 0 and y == 0 { 0 }
-      else if x == 0 and y == 1 { 1 }
-      else if x == 1 and y == 1 { 2 }
-      else { 3 }  // x == 1 and y == 0
+      let x = calc.quo(idx, 4) // x = idx >> 2
+      let y = calc.quo(calc.rem(idx, 4), 2) // y = (idx >> 1) & 1
+      if x == 0 and y == 0 {
+        0
+      } else if x == 0 and y == 1 {
+        1
+      } else if x == 1 and y == 1 {
+        2
+      } else {
+        3 // x == 1 and y == 0
+      }
     }
 
-    let idx-to-col(idx) = calc.rem(idx, 2)  // z = idx & 1
+    let idx-to-col(idx) = calc.rem(idx, 2) // z = idx & 1
 
     // Draw grid (4 rows × 2 cols)
     for i in range(5) {
