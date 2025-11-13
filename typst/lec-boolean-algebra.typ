@@ -916,10 +916,11 @@ When a clause has only one unassigned literal, that literal must be true.
 #example[Divisors of 30][
   $B = {1, 2, 3, 5, 6, 10, 15, 30}$
 
-  - $a or b = "lcm"(a,b)$
-  - $a and b = "gcd"(a,b)$
-  - $not a = 30 \/ a$
-  - $0 = 1$, $quad 1 = 30$
+  - Join: $a or b = "lcm"(a,b)$
+  - Meet: $a and b = "gcd"(a,b)$
+  - Complement: $not a = 30 "/" a$
+  - Bottom: $bot = 1$
+  - Top: $top = 30$
 
   Example: $6 or 10 = 30$, $quad 6 and 10 = 2$
 ]
