@@ -1752,11 +1752,11 @@ But the result is often *not minimal*.
 
   Block(color: blue)[
     *Why minimize?*
-    - Cheaper: Fewer gates = lower cost
-    - Power: Each gate consumes energy
-    - Speed: Fewer delays = faster
-    - Yield: Fewer components = fewer defects
-    - Verification: Simpler = easier to test
+    - *Cheaper:* Fewer gates = lower cost
+    - *Power:* Each gate consumes energy
+    - *Speed:* Fewer delays = faster
+    - *Yield:* Fewer components = fewer defects
+    - *Verification:* Simpler = easier to test
   ],
 
   Block(color: orange)[
