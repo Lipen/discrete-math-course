@@ -1323,8 +1323,8 @@ We transition from _formal logical notation_ to _algebraic notation_ (standard i
 
 #definition[
   For $n$ variables:
-  - A _minterm_ is a maximal cube containing all $n$ variables (each exactly once, positive or negated)
-  - A _maxterm_ is a maximal clause containing all $n$ variables (each exactly once, positive or negated)
+  - A _minterm_ is a maximal cube containing all $n$ variables
+  - A _maxterm_ is a maximal clause containing all $n$ variables
 ]
 
 #example[
@@ -1332,14 +1332,13 @@ We transition from _formal logical notation_ to _algebraic notation_ (standard i
   - *Minterms:* $(x and y and z)$, $(x and y and not z)$, $(x and not y and z)$, ...
   - *Maxterms:* $(x or y or z)$, $(x or y or not z)$, $(x or not y or z)$, ...
 
-  There are exactly $2^n = 2^3 = 8$ minterms and $8$ maxterms for $3$ variables.
+  There are exactly $2^n = 2^3 = 8$ minterms and $8$ maxterms for $n = 3$ variables.
 ]
 
 #Block(color: blue)[
   *Key property:*
   - Each minterm is 1 for *exactly ONE* input combination
   - Each maxterm is 0 for *exactly ONE* input combination
-  - This makes them perfect building blocks for representing any function!
 ]
 
 == Minterm and Maxterm Indexing
@@ -1366,6 +1365,11 @@ We can index minterms and maxterms by their binary representations:
   ]
 ]
 
+#note[
+  Why $M_0 = x + y + z$?
+  Because $M_0 = 0$ only when $x = 0, y = 0, z = 0$.
+]
+
 == Sum of Products (SoP)
 
 #definition[
@@ -1375,7 +1379,8 @@ We can index minterms and maxterms by their binary representations:
 ]
 
 #note[
-  In SoP, each cube is _maximal_ (contains all variables). This form is unique for any given function!
+  In SoP, each cube is _maximal_ (contains all variables).
+  This form is _unique_ for any given function!
 ]
 
 #Block(color: yellow)[
