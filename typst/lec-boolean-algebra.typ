@@ -1279,6 +1279,46 @@ When a clause has only one unassigned literal, that literal must be true.
   Swap $and$ and $or$ to convert between them.
 ]
 
+== Notation: From Formal to Algebraic
+
+We transition from _formal logical notation_ to _algebraic notation_ (standard in Boolean algebra):
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  [
+    *Formal notation:*
+    - Conjunction: $and$
+    - Disjunction: $or$
+    - Negation: $not$
+    - Requires parentheses
+    - Used in _formal logic_ where syntax matters
+
+    Example: $(x and y) or (not x and z)$
+  ],
+  [
+    *Algebraic notation:*
+    - Conjunction: juxtaposition $x y$
+    - Disjunction: plus $x + y$
+    - Negation: overline $overline(x)$
+    - Precedence: NOT > AND > OR
+    - Standard in _Boolean algebra_ applications
+
+    Example: $x y + overline(x) z$
+  ],
+)
+
+#Block(color: yellow)[
+  *Why algebraic?* More compact, easier to manipulate algebraically, matches circuit notation.
+
+  _Precedence_ rules allow omitting many parentheses: $x + y z$ instead of $(x or (y and z))$.
+]
+
+#Block(color: orange)[
+  *Critical:* Use notation _consistently!_
+  Never mix $or$, $+$, $and$, $dot$, $neg$, $overline(x)$ in the same formula.
+]
+
 == Minterms and Maxterms
 
 #definition[
