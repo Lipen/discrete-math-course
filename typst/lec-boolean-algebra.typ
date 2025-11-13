@@ -807,10 +807,7 @@ When a clause has only one unassigned literal, that literal must be true.
 
 
 = Boolean Algebra Structure
-#focus-slide(
-  epigraph: [An algebra is a collection of elements with operations that satisfy certain laws.],
-  epigraph-author: "Abstract Algebra",
-)
+#focus-slide()
 
 == The Power of Abstraction
 
