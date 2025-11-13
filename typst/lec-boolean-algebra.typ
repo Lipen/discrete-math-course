@@ -938,13 +938,13 @@ When a clause has only one unassigned literal, that literal must be true.
 #theorem[
   From the 5 axioms, we can prove:
 
-  1. *Idempotence:* $x or x = x$, $quad x and x = x$
+  + *Idempotence:* $x or x = x$, $quad x and x = x$
 
-  2. *Absorption:* $x or (x and y) = x$, $quad x and (x or y) = x$
+  + *Absorption:* $x or (x and y) = x$, $quad x and (x or y) = x$
 
-  3. *Domination:* $x or 1 = 1$, $quad x and 0 = 0$
+  + *Domination:* $x or 1 = 1$, $quad x and 0 = 0$
 
-  4. *Involution:* $not not x = x$
+  + *Involution:* $not not x = x$
 ]
 
 #Block(color: blue)[
