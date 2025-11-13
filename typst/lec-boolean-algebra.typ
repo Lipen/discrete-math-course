@@ -886,7 +886,7 @@ When a clause has only one unassigned literal, that literal must be true.
 ]
 
 #Block(color: yellow)[
-  In Boolean algebra, BOTH operations distribute over each other!
+  In Boolean algebra, BOTH operations ($and$ and $or$) distribute over each other!
 
   This symmetry is what makes duality possible.
 ]
