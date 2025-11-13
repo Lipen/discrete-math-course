@@ -998,13 +998,13 @@ When a clause has only one unassigned literal, that literal must be true.
 == Circuit Optimization via Absorption
 
 #example[
-  Expression: `enable OR (enable AND ready)`
+  Expression: "enable OR (enable AND ready)"
 
   Simplify using absorption law:
 
   $ "enable" or ("enable" and "ready") = "enable" $
 
-  Result: just `enable`!
+  Result: just "enable"!
 ]
 
 #Block(color: green)[
