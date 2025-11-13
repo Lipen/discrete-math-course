@@ -3938,8 +3938,8 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 
 == K-map Method: Summary
 
-#Block(color: yellow)[
-  *Algorithm key points:*
+#Block(color: blue)[
+  *Algorithm:*
 
   + *Order:* Process cells by Hamming weight (0 → 1 → 2 → $dots$ → $n$)
   + *Decision:* For each cell:
@@ -3949,14 +3949,14 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   + *Result:* ANF = XOR of all added monomials
 ]
 
-#Block(color: teal)[
-  *Why this works:*
-
-  Processing by weight ensures lower-degree terms are handled first. Each inversion removes that term's contribution via XOR. Since ANF is linear over $bb(F)_2$, systematic removal isolates each monomial's independent effect.
+#Block(color: yellow)[
+  *Key:* Processing by weight ensures each monomial's contribution is isolated via XOR over $bb(F)_2$.
 ]
 
-#note[
-  Reference: #link("https://en.wikipedia.org/wiki/Zhegalkin_polynomial#Using_a_Karnaugh_map")[Wikipedia: Zhegalkin polynomial § Using a Karnaugh map]
+#note(title: "Reference")[
+  #link(
+    "https://en.wikipedia.org/wiki/Zhegalkin_polynomial#Using_a_Karnaugh_map",
+  )[Wikipedia: Zhegalkin polynomial § Using a Karnaugh map]
 ]
 
 == Comparison of ANF Construction Methods
