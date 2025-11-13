@@ -1279,6 +1279,28 @@ When a clause has only one unassigned literal, that literal must be true.
   Swap $and$ and $or$ to convert between them.
 ]
 
+== Minterms and Maxterms
+
+#definition[
+  For $n$ variables:
+  - A _minterm_ is a maximal cube containing all $n$ variables
+  - A _maxterm_ is a maximal clause containing all $n$ variables
+]
+
+#example[
+  For variables $x$, $y$, $z$:
+  - *Minterms:* $(x and y and z)$, $(x and y and not z)$, $(x and not y and z)$, ...
+  - *Maxterms:* $(x or y or z)$, $(x or y or not z)$, $(x or not y or z)$, ...
+
+  There are exactly $2^n = 2^3 = 8$ minterms and $8$ maxterms for $n = 3$ variables.
+]
+
+#Block(color: blue)[
+  *Key property:*
+  - Each minterm is 1 for *exactly ONE* input combination
+  - Each maxterm is 0 for *exactly ONE* input combination
+]
+
 == Notation: From Formal to Algebraic
 
 We transition from _formal logical notation_ to _algebraic notation_ (standard in Boolean algebra):
@@ -1317,28 +1339,6 @@ We transition from _formal logical notation_ to _algebraic notation_ (standard i
 #Block(color: orange)[
   *Critical:* Use notation _consistently!_
   Never mix $or$, $+$, $and$, $dot$, $neg$, $overline(x)$ in the same formula.
-]
-
-== Minterms and Maxterms
-
-#definition[
-  For $n$ variables:
-  - A _minterm_ is a maximal cube containing all $n$ variables
-  - A _maxterm_ is a maximal clause containing all $n$ variables
-]
-
-#example[
-  For variables $x$, $y$, $z$:
-  - *Minterms:* $(x and y and z)$, $(x and y and not z)$, $(x and not y and z)$, ...
-  - *Maxterms:* $(x or y or z)$, $(x or y or not z)$, $(x or not y or z)$, ...
-
-  There are exactly $2^n = 2^3 = 8$ minterms and $8$ maxterms for $n = 3$ variables.
-]
-
-#Block(color: blue)[
-  *Key property:*
-  - Each minterm is 1 for *exactly ONE* input combination
-  - Each maxterm is 0 for *exactly ONE* input combination
 ]
 
 == Minterm and Maxterm Indexing
