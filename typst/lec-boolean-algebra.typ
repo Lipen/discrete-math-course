@@ -552,9 +552,9 @@ When a clause has only one unassigned literal, that literal must be true.
 #definition[
   A _Boolean expression_ is defined recursively:
 
-  - *Base case:* Variables ($x, y, z, ...$) and constants ($0, 1$) are expressions
+  - Variables ($x, y, z, ...$) and constants ($0, 1$) are expressions
 
-  - *Inductive case:* If $f$ and $g$ are expressions, then so are $not f$, $(f and g)$, $(f or g)$.
+  - If $f$ and $g$ are expressions, then so are $not f$, $(f and g)$, $(f or g)$
 ]
 
 #note[
