@@ -26,6 +26,139 @@
   ]
 ]
 
+// K-map drawing functions using CeTZ
+#let kmap2(
+  values, // array of 4 values: [top-left, top-right, bottom-left, bottom-right]
+  highlights: (), // array of (cells, color) where cells is array of indices
+  current: none, // current cell index to highlight with border
+) = {
+  cetz.canvas({
+    import cetz.draw: *
+
+    let cell-size = 1.2
+    let offset-x = 1.0
+    let offset-y = 0.8
+
+    // Draw grid
+    for i in range(3) {
+      line((offset-x, offset-y + i * cell-size), (offset-x + 2 * cell-size, offset-y + i * cell-size), stroke: 0.5pt)
+    }
+    for i in range(3) {
+      line((offset-x + i * cell-size, offset-y), (offset-x + i * cell-size, offset-y + 2 * cell-size), stroke: 0.5pt)
+    }
+
+    // Draw highlights (regions)
+    for (cells, color) in highlights {
+      for idx in cells {
+        let row = if idx < 2 { 0 } else { 1 }
+        let col = calc.rem(idx, 2)
+        rect(
+          (offset-x + col * cell-size, offset-y + (1 - row) * cell-size),
+          (offset-x + (col + 1) * cell-size, offset-y + (2 - row) * cell-size),
+          fill: color.transparentize(70%),
+          stroke: none,
+        )
+      }
+    }
+
+    // Draw values
+    for (idx, val) in values.enumerate() {
+      let row = if idx < 2 { 0 } else { 1 }
+      let col = calc.rem(idx, 2)
+      content(
+        (offset-x + (col + 0.5) * cell-size, offset-y + (1.5 - row) * cell-size),
+        [#val],
+        anchor: "center",
+      )
+    }
+
+    // Draw current cell highlight - красный кружок
+    if current != none {
+      let row = if current < 2 { 0 } else { 1 }
+      let col = calc.rem(current, 2)
+      circle(
+        (offset-x + (col + 0.5) * cell-size, offset-y + (1.5 - row) * cell-size),
+        radius: 0.45,
+        stroke: 3pt + red,
+        fill: none,
+      )
+    }
+
+    // Labels
+    content((offset-x - 0.4, offset-y + 1.5 * cell-size), [$x=0$], anchor: "east")
+    content((offset-x - 0.4, offset-y + 0.5 * cell-size), [$x=1$], anchor: "east")
+    content((offset-x + 0.5 * cell-size, offset-y + 2 * cell-size + 0.3), [$y=0$], anchor: "south")
+    content((offset-x + 1.5 * cell-size, offset-y + 2 * cell-size + 0.3), [$y=1$], anchor: "south")
+  })
+}
+
+#let kmap3(
+  values, // array of 8 values
+  highlights: (),
+  current: none,
+) = {
+  cetz.canvas({
+    import cetz.draw: *
+
+    let cell-size = 1.0
+    let offset-x = 1.2
+    let offset-y = 0.8
+
+    // Draw grid (4 rows × 2 cols)
+    for i in range(5) {
+      line((offset-x, offset-y + i * cell-size), (offset-x + 2 * cell-size, offset-y + i * cell-size), stroke: 0.5pt)
+    }
+    for i in range(3) {
+      line((offset-x + i * cell-size, offset-y), (offset-x + i * cell-size, offset-y + 4 * cell-size), stroke: 0.5pt)
+    }
+
+    // Draw highlights
+    for (cells, color) in highlights {
+      for idx in cells {
+        let row = calc.quo(idx, 2)
+        let col = calc.rem(idx, 2)
+        rect(
+          (offset-x + col * cell-size, offset-y + (3 - row) * cell-size),
+          (offset-x + (col + 1) * cell-size, offset-y + (4 - row) * cell-size),
+          fill: color.transparentize(70%),
+          stroke: none,
+        )
+      }
+    }
+
+    // Draw values
+    for (idx, val) in values.enumerate() {
+      let row = calc.quo(idx, 2)
+      let col = calc.rem(idx, 2)
+      content(
+        (offset-x + (col + 0.5) * cell-size, offset-y + (3.5 - row) * cell-size),
+        [#val],
+        anchor: "center",
+      )
+    }
+
+    // Draw current cell - красный кружок
+    if current != none {
+      let row = calc.quo(current, 2)
+      let col = calc.rem(current, 2)
+      circle(
+        (offset-x + (col + 0.5) * cell-size, offset-y + (3.5 - row) * cell-size),
+        radius: 0.38,
+        stroke: 3pt + red,
+        fill: none,
+      )
+    }
+
+    // Labels
+    content((offset-x - 0.4, offset-y + 3.5 * cell-size), [$x=0, y=0$], anchor: "east")
+    content((offset-x - 0.4, offset-y + 2.5 * cell-size), [$x=0, y=1$], anchor: "east")
+    content((offset-x - 0.4, offset-y + 1.5 * cell-size), [$x=1, y=0$], anchor: "east")
+    content((offset-x - 0.4, offset-y + 0.5 * cell-size), [$x=1, y=1$], anchor: "east")
+    content((offset-x + 0.5 * cell-size, offset-y + 4 * cell-size + 0.3), [$z=0$], anchor: "south")
+    content((offset-x + 1.5 * cell-size, offset-y + 4 * cell-size + 0.3), [$z=1$], anchor: "south")
+  })
+}
+
 
 = Boolean Algebra
 #focus-slide(
@@ -3109,110 +3242,660 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
 == Method 3: Karnaugh Map Method
 
 #Block(color: blue)[
-  Use K-map regions to identify monomials in ANF.
+  *Idea:* Process K-map cells by _Hamming weight_ (degree). For each cell with value 1, add corresponding monomial to ANF and invert its region.
 ]
 
 *Algorithm:*
+
 + Fill K-map with function values
-+ For each possible monomial:
-  - Identify its rectangular region in the K-map
-  - If the top-left cell equals 1, include the monomial
-+ Combine all selected monomials using XOR
++ Order cells by Hamming weight: e.g., 000 $->$ 001, 010, 100 $->$ 011, 101, 110 $->$ 111
++ For each cell in order:
+  - If value = 0: skip
+  - If value = 1: add monomial, invert its region (where monomial = 1)
++ Result: ANF = XOR of added monomials
 
 #Block(color: orange)[
-  *Key differences from minimization:*
-  - Check _all_ rectangular regions, not just maximal ones
-  - Combine terms with XOR instead of OR
-  - Top-left cell determines inclusion
+  *Key:* Processing by weight isolates each term's contribution via successive inversions.
 ]
 
-== K-Map Method: Example
+== Example: $f(x,y) = x xor y$ --- Initial State
 
 #example[
-  Find ANF for $f(x,y) = sum m(1,2)$:
-
-  #grid(
-    columns: (1fr, 1fr),
-    gutter: 1em,
-    [
-      *K-map:*
-      #align(center)[
-        #k-mapper.karnaugh(
-          4,
-          y-label: $x$,
-          x-label: $y$,
-          manual-terms: (
-            kcell(0, 0),
-            kcell(1, 1),
-            kcell(2, 1),
-            kcell(3, 0),
-          ),
-          implicants: ((2, 3), (1, 3)),
-          colors: (gray.transparentize(80%),),
-        )
-      ]
-    ],
-    [
-      *Monomial analysis:*
-      + Constant (all cells): top-left = 0 $=>$ exclude
-      + $x$ (row $x=1$): top-left = 1 $=>$ include
-      + $y$ (column $y=1$): top-left = 1 $=>$ include
-      + $x y$ (cell at 11): value = 0 $=>$ exclude
-
-      *Result ANF:* $f = x xor y$
-    ],
-  )
-]
-
-== K-Map Method: Another Example
-
-#example[
-  Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$
+  Find ANF for $f(x,y) = x xor y = sum m(1,2)$
 ]
 
 #grid(
-  columns: 2,
-  gutter: 3em,
+  columns: (1fr, 1fr),
+  gutter: 2em,
   [
-    *K-map:*
-
     #align(center)[
-      #k-mapper.karnaugh(
-        8,
-        y-label: $x y$,
-        x-label: $z$,
-        manual-terms: (
-          kcell(0, 1),
-          kcell(1, 1),
-          kcell(2, 0),
-          kcell(3, 1),
-          kcell(4, 0),
-          kcell(5, 0),
-          kcell(6, 0),
-          kcell(7, 1),
-        ),
-      )
+      #kmap2((0, 1, 1, 0))
     ]
   ],
   [
-    *Monomial analysis (check top-left of each region):*
+    *Processing order:*
 
-    #set enum(numbering: "1.")
-    + Constant (all cells): top-left = 1 $=>$ *include* $1$
-    + $z$ (right column): top-left = 1 $=>$ exclude
-    + $y$ (middle rows 01,11): top-left = 0 $=>$ *include* $y$
-    + $x$ (bottom rows 10,11): top-left = 0 $=>$ *include* $x$
-    + $y z$ (cells 3, 7): top-left = 1 $=>$ *include* $y z$
-    + $x z$ (cells 5, 7): top-left = 0 $=>$ exclude
-    + $x y$ (cells 6, 7): top-left = 0 $=>$ *include* $x y$
-    + $x y z$ (cell 7): value = 1 $=>$ exclude
+    + $(0,0)$ --- weight 0
+    + $(1,0)$ --- weight 1
+    + $(0,1)$ --- weight 1
+    + $(1,1)$ --- weight 2
+
+    *Current ANF:* (empty)
   ],
 )
 
-*Result ANF:*~ $f = 1 xor y xor y z xor x xor x y$
+== Step 1: Process $(0,0)$ --- Constant
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap2((0, 1, 1, 0), current: 0, highlights: (((0, 1, 2, 3), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 1em, y: 0.8em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(0,0) = 0$ \
+        Monomial: $1$ \
+        Region: all cells
+
+        #v(0.4em)
+        #align(center)[
+          #text(1.3em, fill: gray.darken(30%))[*Skip*]
+        ]
+        #v(0.4em)
+
+        ANF: (empty)
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap2((0, 1, 1, 0))
+    ]
+  ],
+)
+
+== Step 2: Process $(1,0)$ --- Variable $x$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap2((0, 1, 1, 0), current: 2, highlights: (((2, 3), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 1em, y: 0.8em),
+        radius: 1em,
+        fill: green.lighten(80%),
+        stroke: 2pt + green.darken(20%),
+      )[
+        #set align(left)
+
+        Cell $(1,0) = 1$ \
+        Monomial: $x$ \
+        Region: $x=1$
+
+        #v(0.4em)
+        #align(center)[
+          #text(1.4em, fill: green.darken(40%))[*Add $x$*]
+
+          $arrow.b.double$
+
+          Invert region $x=1$
+        ]
+        #v(0.4em)
+
+        ANF: $x$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap2((0, 1, [#text(red)[*0*]], [#text(red)[*1*]]))
+    ]
+  ],
+)
+
+== Step 3: Process $(0,1)$ --- Variable $y$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap2((0, 1, 0, 1), current: 1, highlights: (((1, 3), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 1em, y: 0.8em),
+        radius: 1em,
+        fill: green.lighten(80%),
+        stroke: 2pt + green.darken(20%),
+      )[
+        #set align(left)
+
+        Cell $(0,1) = 1$ \
+        Monomial: $y$ \
+        Region: $y=1$
+
+        #v(0.4em)
+        #align(center)[
+          #text(1.4em, fill: green.darken(40%))[*Add $y$*]
+
+          $arrow.b.double$
+
+          Invert region $y=1$
+        ]
+        #v(0.4em)
+
+        ANF: $x xor y$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap2((0, [#text(red)[*0*]], 0, [#text(red)[*0*]]))
+    ]
+  ],
+)
+
+== Step 4: Process $(1,1)$ --- Product $x y$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap2((0, 0, 0, 0), current: 3, highlights: (((3,), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 1em, y: 0.8em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(1,1) = 0$ \
+        Monomial: $x y$ \
+        Region: one cell
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: gray.darken(30%))[*Skip*]
+
+          #text(1.2em, fill: green.darken(20%))[#YES *Done!*]
+        ]
+        #v(0.3em)
+
+        ANF: $x xor y$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap2((0, 0, 0, 0))
+    ]
+  ],
+)
+
+== Example 2: Three Variables --- Initial
+
+#example[
+  Find ANF for $f(x,y,z) = sum m(3,5,6,7)$
+]
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 2em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1))
+    ]
+  ],
+  [
+    *Processing order:*
+
+    Weight 0: $(0,0,0)$
+
+    Weight 1: $(1,0,0), (0,1,0), (0,0,1)$
+
+    Weight 2: $(1,1,0), (1,0,1), (0,1,1)$
+
+    Weight 3: $(1,1,1)$
+
+    *ANF:* (empty)
+  ],
+)
+
+== Step 1: $(0,0,0)$ --- Constant 1
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 0, highlights: (((0, 1, 2, 3, 4, 5, 6, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 85%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(0,0,0) = 0$ \
+        Monomial: $1$ \
+        Region: all cells
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: gray.darken(30%))[*Skip*]
+        ]
+        #v(0.3em)
+
+        ANF: (empty)
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1))
+    ]
+  ],
+)
+
+== Step 2: $(1,0,0)$ --- Variable $x$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 4, highlights: (((4, 5, 6, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 85%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(1,0,0) = 0$ \
+        Monomial: $x$ \
+        Region: $x=1$
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: gray.darken(30%))[*Skip*]
+        ]
+        #v(0.3em)
+
+        ANF: (empty)
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1))
+    ]
+  ],
+)
+
+== Step 3: $(0,1,0)$ --- Variable $y$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 2, highlights: (((2, 3, 6, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 85%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(0,1,0) = 0$ \
+        Monomial: $y$ \
+        Region: $y=1$
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: gray.darken(30%))[*Skip*]
+        ]
+        #v(0.3em)
+
+        ANF: (empty)
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1))
+    ]
+  ],
+)
+
+== Step 4: $(0,0,1)$ --- Variable $z$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 1, highlights: (((1, 3, 5, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 85%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(0,0,1) = 0$ \
+        Monomial: $z$ \
+        Region: $z=1$
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: gray.darken(30%))[*Skip*]
+        ]
+        #v(0.3em)
+
+        ANF: (empty)
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1))
+    ]
+  ],
+)
+
+== Step 5: $(1,1,0)$ --- Product $x y$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 6, highlights: (((6, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: green.lighten(80%),
+        stroke: 2pt + green.darken(20%),
+      )[
+        #set align(left)
+
+        Cell $(1,1,0) = 1$ \
+        Monomial: $x y$ \
+        Region: $x=1, y=1$
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: green.darken(40%))[*Add $x y$*]
+
+          $arrow.b.double$
+
+          Invert region
+        ]
+        #v(0.3em)
+
+        ANF: $x y$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, [#text(blue)[*0*]], [#text(blue)[*0*]]))
+    ]
+  ],
+)
+
+== Step 6: $(1,0,1)$ --- Product $x z$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 1, 0, 0), current: 5, highlights: (((5, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: green.lighten(80%),
+        stroke: 2pt + green.darken(20%),
+      )[
+        #set align(left)
+
+        Cell $(1,0,1) = 1$ \
+        Monomial: $x z$ \
+        Region: $x=1, z=1$
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: green.darken(40%))[*Add $x z$*]
+
+          $arrow.b.double$
+
+          Invert region
+        ]
+        #v(0.3em)
+
+        ANF: $x y xor x z$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, [#text(blue)[*0*]], 0, [#text(blue)[*1*]]))
+    ]
+  ],
+)
+
+== Step 7: $(0,1,1)$ --- Product $y z$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 1, 0, 0, 0, 1), current: 3, highlights: (((3, 7), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 90%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: green.lighten(80%),
+        stroke: 2pt + green.darken(20%),
+      )[
+        #set align(left)
+
+        Cell $(0,1,1) = 1$ \
+        Monomial: $y z$ \
+        Region: $y=1, z=1$
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: green.darken(40%))[*Add $y z$*]
+
+          $arrow.b.double$
+
+          Invert region
+        ]
+        #v(0.3em)
+
+        ANF: $x y xor x z xor y z$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, [#text(blue)[*0*]], 0, 0, 0, [#text(blue)[*0*]]))
+    ]
+  ],
+)
+
+== Step 8: $(1,1,1)$ --- Product $x y z$
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 1em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 0, 0, 0, 0, 0), current: 7, highlights: (((7,), blue),))
+    ]
+  ],
+  [
+    #align(center)[
+      #block(
+        width: 85%,
+        inset: (x: 0.9em, y: 0.7em),
+        radius: 1em,
+        fill: gray.lighten(80%),
+        stroke: 2pt + gray,
+      )[
+        #set align(left)
+
+        Cell $(1,1,1) = 0$ \
+        Monomial: $x y z$ \
+        Region: one cell
+
+        #v(0.3em)
+        #align(center)[
+          #text(1.2em, fill: gray.darken(30%))[*Skip*]
+
+          #v(0.3em)
+
+          #text(1.1em, fill: green.darken(20%))[#YES *Done!*]
+        ]
+        #v(0.3em)
+
+        ANF: $x y xor x z xor y z$
+      ]
+    ]
+  ],
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 0, 0, 0, 0, 0))
+    ]
+  ],
+)
+
+== Final Result
+
+#grid(
+  columns: (1fr, 1.2fr),
+  gutter: 2em,
+  [
+    #align(center)[
+      #kmap3((0, 0, 0, 0, 0, 0, 0, 0))
+    ]
+
+    #v(1em)
+
+    All zeros $=>$ complete!
+  ],
+  [
+    *ANF:* $x y xor x z xor y z$
+
+    #v(1em)
+
+    *Verification:*
+
+    $
+      f(0,1,1) = 0 xor 0 xor 1 = 1 quad YES \
+      f(1,0,1) = 0 xor 1 xor 0 = 1 quad YES \
+      f(1,1,0) = 1 xor 0 xor 0 = 1 quad YES \
+      f(1,1,1) = 1 xor 1 xor 1 = 1 quad YES \
+    $
+
+    Matches $sum m(3,5,6,7)$ #YES
+  ],
+)
+
+== K-map Method: Summary
+
+#Block(color: yellow)[
+  *Algorithm key points:*
+
+  + *Order:* Process cells by Hamming weight (0 → 1 → 2 → $dots$ → $n$)
+  + *Decision:* For each cell:
+    - Value = 0 $=>$ Skip
+    - Value = 1 $=>$ Add monomial, invert its region
+  + *Region:* All cells where the monomial equals 1
+  + *Result:* ANF = XOR of all added monomials
+]
+
+#Block(color: teal)[
+  *Why this works:*
+
+  Processing by weight ensures lower-degree terms are handled first. Each inversion removes that term's contribution via XOR. Since ANF is linear over $bb(F)_2$, systematic removal isolates each monomial's independent effect.
+]
 
 #note[
-  This matches the result from Pascal's triangle method!
+  Reference: #link("https://en.wikipedia.org/wiki/Zhegalkin_polynomial#Using_a_Karnaugh_map")[Wikipedia: Zhegalkin polynomial § Using a Karnaugh map]
 ]
 
 == Comparison of ANF Construction Methods
