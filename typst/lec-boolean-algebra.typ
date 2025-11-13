@@ -1482,6 +1482,7 @@ We can index minterms and maxterms by their binary representations:
 
 == Shannon Expansion
 
+// TODO: consider either "proving" this "theorem" or replacing with "definition"
 #theorem[Shannon Expansion][
   For any Boolean function $f$ and variable $x$:
   $
