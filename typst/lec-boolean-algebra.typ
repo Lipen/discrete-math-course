@@ -1232,19 +1232,11 @@ When a clause has only one unassigned literal, that literal must be true.
 ]
 
 #example[
-  DNF formula --- OR of three cubes:
-  $ f(x,y,z) = (x and y) or (not x and z) or (y and not z) $
-]
-
-// TODO: fit positive/negative examples into one slide, or move to a separate slide
-#example[
   DNF formulas:
   - $(x and y) or (not x and z)$ --- "($x$ and $y$) OR ($not x$ and $z$)" ~ (2 cubes)
   - $(x and not y and z) or (not x and y) or z$ --- three alternatives ~ (3 cubes)
   - $x or (y and not z)$ --- still DNF (mixed form) ~ (2 cubes: $x$ and $y and not z$)
 ]
-
-#pagebreak()
 
 #example[
   Formulas *NOT* in DNF:
@@ -1279,6 +1271,11 @@ When a clause has only one unassigned literal, that literal must be true.
   *NOT* in CNF:
   - $(x and y) or z$ --- this is DNF (OR of ANDs)
   - $x or (y and z)$ --- AND nested inside OR violates CNF structure
+]
+
+#Block(color: yellow)[
+  *Intuition:*
+  CNF says "the output is 1 only if ALL of these constraints are satisfied."
 ]
 
 == CNF vs DNF
