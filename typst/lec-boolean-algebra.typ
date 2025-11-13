@@ -4854,7 +4854,7 @@ Two main notation standards for logic gates:
   "Invert both inputs, then NAND them" (De Morgan's law in action!)
 
   *Step 4 --- Build anything:*
-  Since ${and, or, not}$ is complete, and we can build all three from NAND, we're done! #text(green)[✓]
+  Since ${and, or, not}$ is complete, and we can build all three from NAND, we can build _any_ Boolean function using only NAND gates! #YES
 ]
 
 #Block(color: blue)[
