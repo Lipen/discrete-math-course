@@ -1538,7 +1538,7 @@ We can index minterms and maxterms by their binary representations:
   DPLL uses Shannon expansion for systematic case-split reasoning: pick variable $x$, recursively solve $f[x = 0]$ and $f[x = 1]$, exploring the solution space via cofactor decomposition.
 ]
 
-#Block(color: blue)[
+#Block(color: green)[
   *Circuit decomposition:*
   Break large circuits into blocks for hierarchical synthesis (EDA tools).
 ]
