@@ -1456,6 +1456,7 @@ We can index minterms and maxterms by their binary representations:
   ],
   Block(color: orange)[
     *Why PoS?*
+
     Sometimes PoS is more compact than SoP (when function has fewer 0s than 1s).
   ],
 )
