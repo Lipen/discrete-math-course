@@ -1060,7 +1060,7 @@ When a clause has only one unassigned literal, that literal must be true.
 ]
 
 #Block(color: yellow)[
-  *Intuition:* Negation "flips" everything --- distributes by swapping AND ↔ OR!
+  *Intuition:* Negation "flips" everything --- distributes by swapping AND $<=>$ OR!
 ]
 
 #example[
