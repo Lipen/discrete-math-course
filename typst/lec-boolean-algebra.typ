@@ -1051,7 +1051,8 @@ When a clause has only one unassigned literal, that literal must be true.
 
 == De Morgan's Laws
 
-#theorem[
+#theorem[De Morgan][
+  For all $x, y$ in a Boolean algebra:
   $
      not (x or y) & = not x and not y \
     not (x and y) & = not x or not y
