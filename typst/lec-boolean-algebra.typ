@@ -2729,7 +2729,7 @@ When multiple prime implicants remain after selecting essentials:
 ]
 
 #note[
-  *Consequence:* For large functions, we use heuristics (ESPRESSO, ABC) instead of exact methods.
+  For large functions, we use heuristics (ESPRESSO, ABC) instead of exact methods.
   Modern CAD tools focus on technology mapping and multi-objective optimization (timing, power, area).
 ]
 
