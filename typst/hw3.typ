@@ -473,7 +473,7 @@ S-box $S: BB^3 to BB$ has truth table $(0,1,1,0,1,0,0,1)$.
   #footnote[
     A function is _affine_ if it has degree $<= 1$.
   ]
-+ Construct a different function $T: BB^3 to BB$ that is balanced and has degree 3.
++ Construct a different function $T: BB^3 to BB$ that is balanced and has degree 2.
 + For both $S$ and $T$, compute distance to the nearest affine function.
 
 
