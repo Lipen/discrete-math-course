@@ -46,219 +46,419 @@
   ),
 )
 
-== The Quest for Automated Reasoning
+== A Puzzle to Start
 
-#Block(color: teal)[
-  *1928:* David Hilbert poses the _Entscheidungsproblem_ --- can we algorithmically decide if a mathematical statement is true?
+#align(center, text(size: 1.2em)[
+  *You're given a formula. Can you make it true?*
+])
 
-  *1936:* Turing and Church independently prove: *No!* General mathematical truth is _undecidable_.
+#v(0.5em)
 
-  *But:* For _propositional logic_ (Boolean formulas), the question remains meaningful...
+#align(center)[
+  #box(stroke: 2pt + blue, inset: 1em, radius: 5pt)[
+    $ (x or y) and (not x or z) and (not y or not z) $
+  ]
 ]
 
-#definition[The Satisfiability Problem][
-  Given a propositional formula $phi$, determine whether there exists an assignment of truth values to its variables that makes $phi$ true.
-]
+#v(0.5em)
 
-#Block(color: yellow)[
-  *SAT is decidable* (we can always check all $2^n$ assignments), but *how efficiently?*
+#columns(2)[
+  Try $x = 1, y = 1, z = 1$:
+  - $(1 or 1)$ #YES
+  - $(0 or 1)$ #YES
+  - $(0 or 0)$ #NO
 
-  This question launched the field of computational complexity theory.
-]
+  #colbreak()
 
-== What is Satisfiability?
-
-Given a Boolean formula, can we find values for its variables that make it _true_?
-
-#definition[Satisfiability (SAT)][
-  A Boolean formula $phi$ is _satisfiable_ if there exists an assignment $sigma: "Vars"(phi) -> {0,1}$ such that $phi$ evaluates to _true_ under $sigma$.
-  $ "SAT"(phi) <==> exists sigma. thin sigma models phi $
-]
-
-#example[
-  The formula $(x or y) and (not x or z)$ is satisfiable.
-
-  Setting $x = 1$, $y = 0$, $z = 1$ gives $(1 or 0) and (0 or 1) = 1 and 1 = 1$ #YES
-]
-
-#example[
-  The formula $(x and not x)$ is _unsatisfiable_ (UNSAT) --- a contradiction.
-]
-
-#definition[Validity (TAUT)][
-  A formula $phi$ is _valid_ (a tautology) if it is true under _all_ assignments.
-  $ "TAUT"(phi) <==> forall sigma. thin sigma models phi $
+  Try $x = 1, y = 0, z = 1$:
+  - $(1 or 0)$ #YES
+  - $(0 or 1)$ #YES
+  - $(1 or 0)$ #YES #h(1em) *Found it!*
 ]
 
 #Block(color: yellow)[
-  *Key relationship:* $phi$ is valid $<==>$ $not phi$ is unsatisfiable.
+  This is the *Boolean Satisfiability Problem* (SAT) --- _the_ central problem in computer science.
 ]
 
-== Why SAT Matters
-
-#Block(color: blue)[
-  *SAT is the canonical hard problem in computer science.*
-
-  - First problem proven NP-complete (Cook, 1971)
-  - _Universal:_ any NP problem can be reduced to SAT
-  - _Practical:_ modern SAT solvers handle $10^6$+ variables
-]
+== Why Should You Care?
 
 #grid(
   columns: 2,
-  gutter: 1em,
-  [
-    *Theory:*
-    - Foundation of complexity theory
-    - Basis for NP-completeness proofs
-    - Gateway to P vs NP question
-    - Proof complexity research
+  gutter: 1.5em,
+  Block(color: blue)[
+    *\$475 million bug*
+
+    In 1994, Intel's Pentium had a floating-point division bug.
+
+    _Now:_ Every Intel CPU is verified using SAT solvers.
   ],
-  [
-    *Practice:*
-    - Hardware verification (Intel, AMD, ARM)
-    - Software testing & bug finding
-    - AI planning & scheduling
-    - Cryptanalysis & security
-    - Electronic design automation
-    - Bioinformatics
+  Block(color: green)[
+    *1/3 of security bugs*
+
+    Microsoft's SAGE tool found 1/3 of all Windows 7 security vulnerabilities.
+
+    _How?_ By encoding programs as SAT formulas.
   ],
 )
 
-#Block(color: yellow)[
-  *The SAT revolution:* Problems once thought intractable are now routinely solved!
-
-  Understanding SAT connects _theory_ (complexity) with _practice_ (solvers, applications).
-]
-
-== The Scale of Modern SAT Solving
-
-#Block(color: teal)[
-  *Industrial reality:*
-  - CPU verification: formulas with _billions_ of clauses
-  - Typical industrial instance: $10^5$ -- $10^7$ variables
-  - Solving time: milliseconds to days
-]
-
-#grid(
-  columns: 2,
-  gutter: 1em,
-  [
-    *Success stories:*
-    - Intel: all CPUs formally verified since Pentium FDIV bug (\$475M, 1994)
-    - AMD, ARM, NVIDIA: SAT-based verification
-    - Amazon: automated reasoning for AWS security
-    - Microsoft: SAGE found 1/3 of all Windows 7 security bugs
-  ],
-  [
-    *SAT Competition (since 2002):*
-    - Annual benchmark competition
-    - Drives solver improvements
-    - Categories: random, crafted, industrial
-    - Best solvers: CaDiCaL, Kissat, Glucose
-  ],
-)
+#v(0.5em)
 
 #Block(color: orange)[
-  *Paradox:* SAT is NP-complete (worst-case exponential), yet solvers routinely solve huge instances. _Why?_ Structured problems are easier than random ones!
+  *The paradox:* SAT is proven to be "computationally hard" (NP-complete), yet modern solvers routinely handle formulas with _millions_ of variables!
 ]
 
-== Quick Review: Normal Forms
+== The SAT Problem
 
-#definition[Literal][
-  A _literal_ is a variable ($x$) or its negation ($not x$).
+#definition[
+  A formula $phi$ is _satisfiable_ if:
+  $ exists (x_1, ..., x_n) in {0,1}^n : thin phi(x_1, ..., x_n) = 1 $
 ]
 
-#definition[Clause][
-  A _clause_ is a disjunction (OR) of literals: $thin (l_1 or l_2 or dots or l_k)$.
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: green)[
+    #align(center)[*Satisfiable (SAT)*]
+
+    $(x or y) and (not x or z) and (not y or not z)$
+
+    $x = 1, y = 0, z = 1$ #YES
+  ],
+  Block(color: red)[
+    #align(center)[*Unsatisfiable (UNSAT)*]
+
+    $(x or y) and (not x or y) and (not y)$
+
+    No assignment works. #NO
+  ],
+)
+
+== Validity (TAUT)
+
+#definition[
+  A formula $phi$ is _valid_ (a _tautology_) if:
+  $ forall (x_1, ..., x_n) in {0,1}^n : thin phi(x_1, ..., x_n) = 1 $
 ]
 
-#definition[Conjunctive Normal Form (CNF)][
-  A formula is in _CNF_ if it is a conjunction (AND) of clauses:
-  $ (l_(1,1) or dots or l_(1,k_1)) and (l_(2,1) or dots or l_(2,k_2)) and dots and (l_(m,1) or dots or l_(m,k_m)) $
-]
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: green)[
+    #align(center)[*Valid*]
 
-#example[
-  $(x or y or not z) and (not x or y) and (z)$ is in CNF with 3 clauses.
-]
+    $(x or y) or (not x and not y)$
 
-#Block(color: yellow)[
-  *Why CNF?* SAT solvers work exclusively with CNF formulas.
-  Any formula can be converted to CNF (possibly with auxiliary variables).
-]
+    True for all $x, y$. #YES
+  ],
+  Block(color: red)[
+    #align(center)[*Not valid*]
 
-== CNF vs DNF: A Tale of Two Forms
+    $(x or y) and (not x or z)$
+
+    False when $x = 0, y = 0$. #NO
+  ],
+)
+
+== SAT vs TAUT
 
 #grid(
   columns: 2,
   gutter: 1em,
   Block(color: blue)[
-    *CNF (Conjunctive Normal Form):*
-    - AND of ORs: $(l_1 or l_2) and (l_3 or l_4)$
-    - *SAT is hard* (NP-complete)
-    - *TAUT is easy* (check each clause)
-    - Used by SAT solvers
+    #align(center)[*SAT*]
+
+    $ exists X : phi(X) = 1 thin ? $
+
+    At least one satisfying assignment?
   ],
-  Block(color: green)[
-    *DNF (Disjunctive Normal Form):*
-    - OR of ANDs: $(l_1 and l_2) or (l_3 and l_4)$
-    - *SAT is easy* (check each term)
-    - *TAUT is hard* (co-NP-complete)
-    - Less common in practice
+  Block(color: purple)[
+    #align(center)[*TAUT*]
+
+    $ forall X : phi(X) = 1 thin ? $
+
+    All assignments satisfying?
+  ],
+  grid.cell(colspan: 2, align: center)[
+    #cetz.canvas({
+      import cetz.draw: *
+
+      rect((-4, -1.5), (4, 1), fill: gray.transparentize(90%), stroke: 1pt, radius: 5pt)
+      content((0, -1.5), [All $2^n$ assignments], anchor: "north", padding: 0.2)
+
+      circle((-2.5, 0), radius: 0.4, fill: green.transparentize(50%), stroke: 1pt + green)
+      content((-2.5, -0.9), text(fill: green.darken(20%))[SAT: $exists$ one])
+
+      for x in range(-1, 4) {
+        circle((0.8 * x + 1, 0), radius: 0.3, fill: green.transparentize(50%), stroke: 1pt + green)
+      }
+      content((1.6, -0.9), text(fill: purple.darken(20%))[TAUT: $forall$ all])
+    })
   ],
 )
 
+== SAT-TAUT Duality
+
+#theorem[
+  $phi$ is valid iff $not phi$ is unsatisfiable.
+
+  $
+    "TAUT"(phi) equiv not "SAT"(not phi)
+  $
+]
+
+#example[
+  Is $(x and y) -> (x or y)$ a tautology?
+
+  Check if $not((x and y) -> (x or y))$ is unsatisfiable:
+  $ not((x and y) -> (x or y)) = (x and y) and not(x or y) = (x and y) and (not x and not y) $
+
+  Requires $x = 1$ and $x = 0$ simultaneously --- contradiction! UNSAT.
+
+  Therefore, $(x and y) -> (x or y)$ is a tautology. #YES
+]
+
+A SAT solver can check both satisfiability and validity.
+
+== Applications
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Hardware Verification*
+    - CPU correctness (Intel, AMD)
+    - Circuit equivalence checking
+
+    *Software Analysis*
+    - Bug finding, test generation
+    - Program verification
+  ],
+  [
+    *Artificial Intelligence*
+    - Planning, scheduling
+    - Constraint satisfaction
+
+    *Cryptography*
+    - Cipher analysis
+    - Hash function attacks
+  ],
+)
+
+*SAT Competition* (since 2002): CaDiCaL, Kissat, Glucose, CryptoMiniSat.
+
+== Historical Notes
+
+- *1928:* Hilbert's _Entscheidungsproblem_ --- can we decide mathematical truth?
+- *1936:* Turing & Church: No (for general mathematics).
+- *1971:* Cook--Levin theorem: SAT is NP-complete.
+
+For Boolean formulas:
+- SAT _is_ decidable (try all $2^n$ assignments)
+- Question: can we do better than $O(2^n)$?
+
+#Block(color: blue)[
+  *P vs NP problem:* Is there a polynomial-time algorithm for SAT?
+
+  Most believe: *no*. But no proof exists.
+]
+
+
+= CNF: The Language of SAT Solvers
+#focus-slide()
+
+== Building Blocks: Literals
+
+#definition[
+  A _literal_ is a variable or its negation.
+]
+
+#example[
+  - $x$ is a _positive literal_
+  - $not x$ (also written $overline(x)$ or $dash.en x$) is a _negative literal_
+]
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: green)[
+    *Positive literal $x$:*
+
+    True when $x = 1$
+
+    False when $x = 0$
+  ],
+  Block(color: red)[
+    *Negative literal $not x$:*
+
+    True when $x = 0$
+
+    False when $x = 1$
+  ],
+)
+
+We denote the _complement_ of literal $l$ as $overline(l)$: if $l = x$, then $overline(l) = not x$, and vice versa.
+
+== Building Blocks: Clauses
+
+#definition[
+  A _clause_ is a disjunction (OR) of literals:
+  $ C = (l_1 or l_2 or dots or l_k) $
+]
+
+#example[
+  $(x or not y or z)$ is a clause with 3 literals.
+]
+
+#Block(color: yellow)[
+  *To satisfy a clause:* At least one literal must be true.
+]
+
+#example[
+  Clause $(x or not y or z)$ is satisfied by:
+  - $x = 1$ (any $y, z$) #YES
+  - $y = 0$ (any $x, z$) #YES
+  - $z = 1$ (any $x, y$) #YES
+  - $x = 0, y = 1, z = 0$ #NO --- all literals false!
+]
+
+== Conjunctive Normal Form (CNF)
+
+#definition[
+  A formula is in *CNF* if it is a conjunction (AND) of clauses:
+  $ F = C_1 and C_2 and dots and C_m $
+]
+
+#example[
+  $ (x or y) and (not x or z) and (not y or not z) $
+  This CNF has 3 clauses over 3 variables.
+]
+
+#Block(color: yellow)[
+  *To satisfy a CNF:* Every clause must have at least one true literal.
+
+  *CNF is unsatisfiable if:* Any clause has all literals false.
+]
+
+== Special Cases
+
+#definition[
+  A *unit clause* has exactly one literal: $(x)$ or $(not y)$.
+]
+
+#definition[
+  The *empty clause* $square$ has no literals --- it's always false!
+]
+
+#example[
+  - Unit clause $(x)$ forces $x = 1$
+  - Unit clause $(not y)$ forces $y = 0$
+  - Empty clause $square$ means the formula is *UNSAT*
+]
+
 #Block(color: orange)[
-  *Problem:* Converting arbitrary formulas to CNF can cause _exponential blowup!_
+  *Key insight:* Unit clauses force variable assignments.
 
-  Example: $(x_1 and y_1) or (x_2 and y_2) or dots or (x_n and y_n)$
-
-  Direct CNF conversion: $2^n$ clauses!
+  This is the foundation of the *Unit Propagation* algorithm!
 ]
 
-== Tseitin Transformation: Avoiding Blowup
+== CNF vs DNF
 
-#definition[Tseitin Transformation (1968)][
-  Convert any formula to CNF with only _linear_ size increase by introducing auxiliary variables.
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: blue)[
+    *CNF* (AND of ORs)
+
+    $(a or b) and (c or d)$
+
+    #v(0.5em)
+    - *SAT is hard* (NP-complete)
+    - *TAUT is easy* (P)
+    - Check: any clause all-false?
+  ],
+  Block(color: green)[
+    *DNF* (OR of ANDs)
+
+    $(a and b) or (c and d)$
+
+    #v(0.5em)
+    - *SAT is easy* (P)
+    - *TAUT is hard* (co-NP)
+    - Check: any term all-true?
+  ],
+)
+
+#Block(color: yellow)[
+  *Why the asymmetry?*
+
+  CNF SAT: Must satisfy _all_ clauses simultaneously --- hard constraint.
+
+  DNF SAT: Just find _one_ satisfiable term --- easy search.
 ]
 
-*Idea:* For each subformula $psi$, introduce a fresh variable $t_psi$ and add clauses encoding $t_psi <-> psi$.
+== The Conversion Problem
+
+*Problem:* How do we convert an arbitrary formula to CNF?
+
+#Block(color: orange)[
+  *Naive conversion can explode!*
+
+  $(x_1 and y_1) or (x_2 and y_2) or dots or (x_n and y_n)$
+
+  Direct CNF: $2^n$ clauses (exponential blowup!)
+]
+
+#example[
+  $(a and b) or (c and d)$ converts to:
+  $ (a or c) and (a or d) and (b or c) and (b or d) $
+  4 clauses for 2 terms. With $n$ terms: $2^n$ clauses!
+]
+
+We need a smarter approach...
+
+== Tseitin Transformation
+
+#definition[
+  Tseitin transformation is a method to convert any formula $phi$ into an _equisatisfiable_ CNF formula $F$ of size $O(|phi|)$ (instead of exponential) by introducing _auxiliary variables_ for subformulas.
+]
+
+*Idea:* For each subformula $psi$, introduce a fresh variable $t$ and encode $t <-> psi$.
 
 #example[
   Formula: $(a and b) or c$
 
-  Introduce $t = (a and b)$. Encode $t <-> (a and b)$:
-  - $(not t or a) and (not t or b) and (t or not a or not b)$
+  Introduce $t$ for $(a and b)$:
+  - $t <-> (a and b)$ encodes as: $(not t or a) and (not t or b) and (t or not a or not b)$
 
   Final CNF: $(t or c) and (not t or a) and (not t or b) and (t or not a or not b)$
 ]
 
 #Block(color: yellow)[
-  *Key insight:* The Tseitin CNF is _equisatisfiable_ (not equivalent!) to the original formula.
+  *Key:* Tseitin CNF is _equisatisfiable_ (same SAT/UNSAT status), not equivalent.
 
-  SAT/UNSAT status is preserved --- that's all we need for SAT solving!
+  That's all we need for SAT solving!
 ]
 
-== Special Clauses
+== Tseitin Encodings for Gates
 
-#definition[Unit clause][
-  A _unit clause_ is a clause with a single literal, e.g., $(x)$ or $(not y)$.
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Gate*], [*Meaning*], [*CNF clauses*]),
+    [$t <-> not a$], [$t = not a$], [$(t or a) and (not t or not a)$],
+    [$t <-> a and b$], [$t = a and b$], [$(not t or a) and (not t or b) and (t or not a or not b)$],
+    [$t <-> a or b$], [$t = a or b$], [$(t or not a) and (t or not b) and (not t or a or b)$],
+    [$t <-> a -> b$], [$t = not a or b$], [$(t or a) and (t or not b) and (not t or not a or b)$],
+    [$t <-> a <-> b$], [$t = (a equiv b)$], [$(not t or not a or b) and (not t or a or not b) and ...$],
+  )
 ]
 
-#definition[Empty clause][
-  An _empty clause_ (denoted $square$) has no literals.
+#Block(color: blue)[
+  *Each gate adds a constant number of clauses.*
 
-  *Key fact:* An empty clause is _always false_ (unsatisfiable).
-]
-
-#example[
-  - $(x)$ is a unit clause --- forces $x = 1$
-  - $(not y)$ is a unit clause --- forces $y = 0$
-  - $square$ (empty clause) --- contradiction, formula is UNSAT
-]
-
-#Block(color: orange)[
-  *If a CNF contains an empty clause, the entire formula is unsatisfiable.*
+  Total CNF size: $O(|phi|)$ --- linear in formula size!
 ]
 
 == Satisfying a CNF Formula
@@ -423,44 +623,58 @@ Given a Boolean formula, can we find values for its variables that make it _true
   This result means SAT is a "universal" problem --- all of NP reduces to it.
 ]
 
-== Karp's 21 NP-Complete Problems
+== Karp's 21 NP-Complete Problems (1972)
 
-After Cook's theorem, Richard Karp (1972) showed 21 classic problems are NP-complete by reducing SAT to them.
+Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 
 #align(center)[
-  #cetz.canvas(length: 0.9cm, {
-    import cetz.draw: *
-
-    // Central SAT node
-    circle((0, 0), radius: 0.8, fill: red.lighten(70%), stroke: 1pt + red.darken(20%), name: "sat")
-    content("sat", [*SAT*])
-
-    // First level reductions
-    let problems1 = (
-      (angle: 90deg, name: "3sat", label: "3-SAT"),
-      (angle: 30deg, name: "clique", label: "Clique"),
-      (angle: -30deg, name: "vc", label: [Vertex\ Cover]),
-      (angle: -90deg, name: "hc", label: [Hamiltonian\ Cycle]),
-      (angle: -150deg, name: "color", label: [Graph\ Coloring]),
-      (angle: 150deg, name: "ip", label: [Integer\ Program]),
-    )
-
-    for p in problems1 {
-      let pos = (calc.cos(p.angle) * 3, calc.sin(p.angle) * 3)
-      circle(pos, radius: 0.8, fill: blue.lighten(80%), stroke: 1pt + blue.darken(20%), name: p.name)
-      content(p.name, text(size: 0.7em)[#p.label])
-      line("sat", p.name, stroke: 1pt, mark: (end: ">"))
-    }
-  })
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (12mm, 10mm),
+    node-stroke: 1pt,
+    node-corner-radius: 3pt,
+    edge-stroke: 1pt,
+    // Level 0: SAT
+    blob((0, 0), [*SAT*], tint: red, name: <sat>),
+    // Level 1: 3-SAT
+    blob((0, 1), [3-SAT], tint: orange, name: <3sat>),
+    edge(<sat>, <3sat>, "-|>"),
+    // Level 2: branching from 3-SAT
+    blob((-2.5, 2), [Clique], tint: blue, name: <clique>),
+    blob((-1.5, 2), [3-Coloring], tint: blue, name: <3col>),
+    blob((-0.5, 2), [Vertex Cover], tint: blue, name: <vc>),
+    blob((0.5, 2), [Subset Sum], tint: blue, name: <ss>),
+    blob((1.5, 2), [Ham. Cycle], tint: blue, name: <hc>),
+    blob((2.5, 2), [Partition], tint: blue, name: <part>),
+    edge(<3sat>, <clique>, "-|>", bend: -20deg),
+    edge(<3sat>, <3col>, "-|>", bend: -15deg),
+    edge(<3sat>, <vc>, "-|>", bend: -10deg),
+    edge(<3sat>, <ss>, "-|>", bend: 10deg),
+    edge(<3sat>, <hc>, "-|>", bend: 15deg),
+    edge(<3sat>, <part>, "-|>", bend: 20deg),
+    // Level 3: further reductions
+    blob((-2.5, 3), [Indep. Set], tint: green, name: <is>),
+    blob((-1.5, 3), [Chromatic], tint: green, name: <chrom>),
+    blob((-0.5, 3), [Set Cover], tint: green, name: <setcov>),
+    blob((0.5, 3), [Knapsack], tint: green, name: <knap>),
+    blob((1.5, 3), [TSP], tint: green, name: <tsp>),
+    blob((2.5, 3), [Bin Packing], tint: green, name: <binp>),
+    edge(<clique>, <is>, "-|>"),
+    edge(<3col>, <chrom>, "-|>"),
+    edge(<vc>, <setcov>, "-|>"),
+    edge(<ss>, <knap>, "-|>"),
+    edge(<hc>, <tsp>, "-|>"),
+    edge(<part>, <binp>, "-|>"),
+  )
 ]
 
 #Block(color: yellow)[
-  *Key insight:* SAT reductions let us prove hardness of many problems automatically.
+  To prove that problem $X$ is NP-complete: _reduce_ a known NP-complete problem (e.g., 3-SAT) to $X$.
 ]
 
 == SAT Variants: The Complexity Landscape
 
-#definition[k-SAT][
+#definition[$k$-SAT][
   SAT restricted to formulas where each clause has _exactly $k$ literals_.
 ]
 
@@ -477,7 +691,7 @@ After Cook's theorem, Richard Karp (1972) showed 21 classic problems are NP-comp
   Block(color: red.lighten(50%))[
     *NP-complete:*
     - *3-SAT:* The "minimal" hard case
-    - *k-SAT* for all $k >= 3$
+    - *$k$-SAT* for all $k >= 3$
     - *NAE-SAT:* Not-all-equal SAT
     - *1-in-3 SAT:* Exactly one true per clause
   ],
@@ -503,23 +717,23 @@ After Cook's theorem, Richard Karp (1972) showed 21 classic problems are NP-comp
   #align(center)[
     #import fletcher: diagram, edge, node
     #diagram(
-      spacing: 2.5em,
+      spacing: 3em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       // Row 0: positive literals
-      node((0, 0), $x$, fill: blue.lighten(80%), stroke: blue.darken(20%), name: <x>),
-      node((1, 0), $y$, fill: blue.lighten(80%), stroke: blue.darken(20%), name: <y>),
-      node((2, 0), $z$, fill: blue.lighten(80%), stroke: blue.darken(20%), name: <z>),
+      blob((0, 0), $x$, tint: blue, name: <x>),
+      blob((1, 0), $y$, tint: blue, name: <y>),
+      blob((2, 0), $z$, tint: blue, name: <z>),
       // Row 1: negative literals
-      node((0, 1), $overline(x)$, fill: orange.lighten(80%), stroke: orange.darken(20%), name: <nx>),
-      node((1, 1), $overline(y)$, fill: orange.lighten(80%), stroke: orange.darken(20%), name: <ny>),
-      node((2, 1), $overline(z)$, fill: orange.lighten(80%), stroke: orange.darken(20%), name: <nz>),
+      blob((0, 1), $overline(x)$, tint: orange, name: <nx>),
+      blob((1, 1), $overline(y)$, tint: orange, name: <ny>),
+      blob((2, 1), $overline(z)$, tint: orange, name: <nz>),
       // From (x or y): ¬x → y, ¬y → x
-      edge(<nx>, <y>, "-|>", bend: 25deg),
-      edge(<ny>, <x>, "-|>", bend: -25deg),
+      edge(<nx>, <y>, "-|>"),
+      edge(<ny>, <x>, "-|>"),
       // From (¬x or z): x → z, ¬z → ¬x
-      edge(<x>, <z>, "-|>"),
-      edge(<nz>, <nx>, "-|>"),
+      edge(<x>, <z>, "-|>", bend: 30deg),
+      edge(<nz>, <nx>, "-|>", bend: 30deg),
     )
   ]
 
@@ -691,16 +905,18 @@ After Cook's theorem, Richard Karp (1972) showed 21 classic problems are NP-comp
   Modern SAT solvers use CDCL --- an enhanced version of DPLL.
 
   *Key insight:* When we hit a conflict, _learn from it_!
+
+  Analyze _why_ the conflict occurred, and add a new clause to prevent repeating the same "mistake".
 ]
 
-#definition[Clause learning][
-  When a conflict occurs, analyze _why_ it happened and add a new clause that prevents the same conflict pattern in the future.
-]
+// #definition[Clause learning][
+//   When a conflict occurs, analyze _why_ it happened and add a new clause that prevents the same conflict pattern in the future.
+// ]
 
 #align(center)[
   #import fletcher: diagram, edge, node
   #diagram(
-    spacing: (2.5em, 2em),
+    spacing: (4em, 2em),
     node-corner-radius: 3pt,
     edge-stroke: 1pt,
     edge-corner-radius: 5pt,
@@ -731,7 +947,15 @@ After Cook's theorem, Richard Karp (1972) showed 21 classic problems are NP-comp
       [All vars\ assigned?],
       tint: yellow,
       shape: fletcher.shapes.diamond,
-      name: <done>,
+      name: <check>,
+    ),
+    blob(
+      (2, 1),
+      [SAT],
+      tint: green,
+      shape: fletcher.shapes.pill,
+      inset: 1em,
+      name: <sat>,
     ),
     blob(
       (0, 1),
@@ -741,11 +965,12 @@ After Cook's theorem, Richard Karp (1972) showed 21 classic problems are NP-comp
       name: <decide>,
     ),
     edge(<propagate>, "-|>", <conflict>),
-    edge(<conflict>, "-|>", <learn>)[yes],
-    edge(<conflict>, "-|>", <done>)[no],
-    edge(<done>, "-|>", <decide>)[no],
+    edge(<conflict>, "-|>", <learn>, label-side: right)[yes],
+    edge(<conflict>, "-|>", <check>)[no],
+    edge(<check>, "-|>", <sat>)[yes],
+    edge(<check>, "-|>", <decide>)[no],
     edge(<decide>, "-|>", <propagate>),
-    edge(<learn>, <propagate>, "-|>", bend: 40deg),
+    edge(<learn>, <propagate>, "-|>", bend: -20deg, floating: true),
   )
 ]
 
