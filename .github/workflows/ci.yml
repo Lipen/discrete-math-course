@@ -41,6 +41,7 @@ jobs:
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-set-theory.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-relations.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-boolean-algebra.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/lec-sat.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-logic.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-flow.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/lec-formal.typ
