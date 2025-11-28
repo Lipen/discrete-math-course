@@ -222,27 +222,44 @@ A SAT solver can check both satisfiability and validity.
 #grid(
   columns: 2,
   gutter: 1em,
-  [
-    *Hardware Verification*
-    - CPU correctness (Intel, AMD)
-    - Circuit equivalence checking
+  Block(color: blue)[
+    *Hardware & Software*
 
-    *Software Analysis*
-    - Bug finding, test generation
-    - Program verification
+    - CPU verification (Intel, AMD)
+    - Circuit equivalence
+    - Bug finding (Microsoft SAGE)
+    - Test generation
   ],
-  [
-    *Artificial Intelligence*
-    - Planning, scheduling
-    - Constraint satisfaction
+  Block(color: green)[
+    *AI & Optimization*
 
-    *Cryptography*
-    - Cipher analysis
-    - Hash function attacks
+    - Planning & scheduling
+    - Constraint satisfaction
+    - Combinatorial puzzles
+    - Configuration problems
   ],
 )
 
-*SAT Competition* (since 2002): CaDiCaL, Kissat, Glucose, CryptoMiniSat.
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: orange)[
+    *Cryptography*
+
+    - Cipher analysis
+    - Hash collisions
+    - Key recovery attacks
+  ],
+  Block(color: purple)[
+    *Mathematics*
+
+    - Ramsey theory bounds
+    - Pythagorean triples
+    - Graph coloring proofs
+  ],
+)
+
+*SAT Competition* (annual since 2002): CaDiCaL, Kissat, Glucose, CryptoMiniSat...
 
 == Historical Notes
 
@@ -267,56 +284,80 @@ For Boolean formulas:
 == Building Blocks: Literals
 
 #definition[
-  A _literal_ is a variable or its negation.
-]
-
-#example[
-  - $x$ is a _positive literal_
-  - $not x$ (also written $overline(x)$ or $dash.en x$) is a _negative literal_
+  A _literal_ is a variable or its negation: $x$ or $not x$.
 ]
 
 #grid(
-  columns: 2,
-  gutter: 1em,
+  columns: (1fr, 1fr),
+  gutter: 1.5em,
   Block(color: green)[
-    *Positive literal $x$:*
+    *Positive literal $x$*
 
-    True when $x = 1$
-
-    False when $x = 0$
+    #align(center)[
+      #table(
+        columns: 2,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        table.header([*$x$*], [*value*]),
+        [0], [#False],
+        [1], [#True],
+      )
+    ]
   ],
   Block(color: red)[
-    *Negative literal $not x$:*
+    *Negative literal $not x$*
 
-    True when $x = 0$
-
-    False when $x = 1$
+    #align(center)[
+      #table(
+        columns: 2,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        table.header([*$x$*], [*value*]),
+        [0], [#True],
+        [1], [#False],
+      )
+    ]
   ],
 )
 
-We denote the _complement_ of literal $l$ as $overline(l)$: if $l = x$, then $overline(l) = not x$, and vice versa.
+#Block(color: yellow)[
+  The _complement_ of literal $l$ is $overline(l)$:
+  #h(1em) $overline(x) = not x$ #h(2em) $overline(not x) = x$
+]
 
 == Building Blocks: Clauses
 
 #definition[
-  A _clause_ is a disjunction (OR) of literals:
-  $ C = (l_1 or l_2 or dots or l_k) $
+  A _clause_ is a disjunction (OR) of literals: $C = (l_1 or l_2 or dots or l_k)$
 ]
 
-#example[
-  $(x or not y or z)$ is a clause with 3 literals.
-]
+#grid(
+  columns: (5fr, 4fr),
+  align: (left, center),
+  gutter: 1em,
+  [
+    #example[
+      $(x or not y or z)$ --- a clause with 3 literals.
 
-#Block(color: yellow)[
-  *To satisfy a clause:* At least one literal must be true.
-]
+      A clause is satisfied when _at least one_ literal is true.
 
-#example[
-  Clause $(x or not y or z)$ is satisfied by:
-  - $x = 1$ (any $y, z$) #YES
-  - $y = 0$ (any $x, z$) #YES
-  - $z = 1$ (any $x, y$) #YES
-  - $x = 0, y = 1, z = 0$ #NO --- all literals false!
+      Here: 7 out of 8 assignments satisfy it!
+    ]
+  ],
+  [
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header($x$, $y$, $z$, [clause]),
+      [0], [0], [0], [#YES ($not y$)],
+      [0], [0], [1], [#YES],
+      [0], [1], [0], [#NO],
+      [0], [1], [1], [#YES ($z$)],
+      [1], [$ast$], [$ast$], [#YES ($x$)],
+    )
+  ],
+)
+
+#Block(color: orange)[
+  *The only way to falsify a clause:* Make _all_ its literals false simultaneously.
 ]
 
 == Conjunctive Normal Form (CNF)
@@ -339,24 +380,39 @@ We denote the _complement_ of literal $l$ as $overline(l)$: if $l = x$, then $ov
 
 == Special Cases
 
-#definition[
-  A *unit clause* has exactly one literal: $(x)$ or $(not y)$.
-]
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: blue)[
+    *Unit clause* --- exactly one literal
 
-#definition[
-  The *empty clause* $square$ has no literals --- it's always false!
-]
+    $(x)$ forces $x = 1$
+
+    $(not y)$ forces $y = 0$
+
+    _No choice!_ Must satisfy it.
+  ],
+  Block(color: red)[
+    *Empty clause* $square$ --- no literals
+
+    Cannot be satisfied!
+
+    $square$ in formula $=>$ *UNSAT*
+
+    _Contradiction detected._
+  ],
+)
 
 #example[
-  - Unit clause $(x)$ forces $x = 1$
-  - Unit clause $(not y)$ forces $y = 0$
-  - Empty clause $square$ means the formula is *UNSAT*
+  Formula: $(x or y) and (not x) and (y or z)$
+
+  Unit clause $(not x)$ forces $x = 0$. After simplification:
+  - $(x or y)$ becomes $(y)$ --- another unit clause!
+  - Continue: $y = 1$ satisfies everything.
 ]
 
-#Block(color: orange)[
-  *Key insight:* Unit clauses force variable assignments.
-
-  This is the foundation of the *Unit Propagation* algorithm!
+#Block(color: yellow)[
+  *Unit Propagation:* Repeatedly apply forced assignments until no unit clauses remain.
 ]
 
 == CNF vs DNF
@@ -367,31 +423,51 @@ We denote the _complement_ of literal $l$ as $overline(l)$: if $l = x$, then $ov
   Block(color: blue)[
     *CNF* (AND of ORs)
 
-    $(a or b) and (c or d)$
+    $ underbracket((a or b), "clause") and underbracket((c or d), "clause") $
 
-    #v(0.5em)
-    - *SAT is hard* (NP-complete)
-    - *TAUT is easy* (P)
-    - Check: any clause all-false?
+    #v(0.3em)
+    #align(center)[
+      #import fletcher: diagram, edge, node
+      #diagram(
+        spacing: (1em, 1em),
+        node-stroke: none,
+        node((0, 0), $and$, name: <and>),
+        node((-0.7, 1), $(a or b)$, name: <c1>),
+        node((0.7, 1), $(c or d)$, name: <c2>),
+        edge(<and>, <c1>, stroke: 0.8pt),
+        edge(<and>, <c2>, stroke: 0.8pt),
+      )
+    ]
+
+    SAT: *hard* #h(1em) TAUT: *easy*
   ],
   Block(color: green)[
     *DNF* (OR of ANDs)
 
-    $(a and b) or (c and d)$
+    $ underbracket((a and b), "cube") or underbracket((c and d), "cube") $
 
-    #v(0.5em)
-    - *SAT is easy* (P)
-    - *TAUT is hard* (co-NP)
-    - Check: any term all-true?
+    #v(0.3em)
+    #align(center)[
+      #import fletcher: diagram, edge, node
+      #diagram(
+        spacing: (1em, 1em),
+        node-stroke: none,
+        node((0, 0), $or$, name: <or>),
+        node((-0.7, 1), $(a and b)$, name: <t1>),
+        node((0.7, 1), $(c and d)$, name: <t2>),
+        edge(<or>, <t1>, stroke: 0.8pt),
+        edge(<or>, <t2>, stroke: 0.8pt),
+      )
+    ]
+
+    SAT: *easy* #h(1em) TAUT: *hard*
   ],
 )
 
 #Block(color: yellow)[
-  *Why the asymmetry?*
-
-  CNF SAT: Must satisfy _all_ clauses simultaneously --- hard constraint.
-
-  DNF SAT: Just find _one_ satisfiable term --- easy search.
+  *The key insight:*
+  - CNF-SAT: Must satisfy _all_ clauses $=>$ hard global constraint
+  - DNF-SAT: Just find _one_ satisfiable cube $=>$ easy local check
 ]
 
 == The Conversion Problem
@@ -409,7 +485,8 @@ We denote the _complement_ of literal $l$ as $overline(l)$: if $l = x$, then $ov
 #example[
   $(a and b) or (c and d)$ converts to:
   $ (a or c) and (a or d) and (b or c) and (b or d) $
-  4 clauses for 2 terms. With $n$ terms: $2^n$ clauses!
+  4 clauses for 2 cubes.
+  With $n$ cubes: $2^n$ clauses, each of size $n$.
 ]
 
 We need a smarter approach...
@@ -459,53 +536,184 @@ We need a smarter approach...
   Total CNF size: $O(|phi|)$ --- linear in formula size!
 ]
 
-== Satisfying a CNF Formula
-
-#Block(color: blue)[
-  *To satisfy a CNF formula:*
-  - Each clause must have _at least one_ true literal.
-  - All clauses must be satisfied _simultaneously_.
-]
+== Tseitin Transformation: Step-by-Step
 
 #example[
-  Formula: $(x or y) and (not x or z) and (not y or not z)$
+  Convert $phi = (a -> b) and (b -> c)$ to CNF using Tseitin transformation.
+]
 
-  Try $x = 1, y = 1, z = 0$:
-  - Clause 1: $(1 or 1) = 1$ #YES
-  - Clause 2: $(0 or 0) = 0$ #NO
+#grid(
+  columns: (1fr, 1.2fr),
+  gutter: 1em,
+  [
+    *Step 1:* Build the formula tree.
 
-  Try $x = 1, y = 0, z = 1$:
-  - Clause 1: $(1 or 0) = 1$ #YES
-  - Clause 2: $(0 or 1) = 1$ #YES
-  - Clause 3: $(1 or 0) = 1$ #YES
+    #align(center)[
+      #import fletcher: diagram, edge, node
+      #diagram(
+        spacing: (2em, 1.5em),
+        node-stroke: 0.8pt,
+        node-corner-radius: 3pt,
+        edge-stroke: 0.8pt,
+        // Root AND
+        blob((0, 0), $and$, tint: purple, name: <root>),
+        // Left implication
+        blob((-1, 1), $->$, tint: blue, name: <imp1>),
+        blob((-1.5, 2), $a$, shape: fletcher.shapes.rect, name: <a>),
+        blob((-0.5, 2), $b$, shape: fletcher.shapes.rect, name: <b1>),
+        // Right implication
+        blob((1, 1), $->$, tint: blue, name: <imp2>),
+        blob((0.5, 2), $b$, shape: fletcher.shapes.rect, name: <b2>),
+        blob((1.5, 2), $c$, shape: fletcher.shapes.rect, name: <c>),
+        // Edges
+        edge(<root>, <imp1>, "-}>"),
+        edge(<root>, <imp2>, "-}>"),
+        edge(<imp1>, <a>, "-}>"),
+        edge(<imp1>, <b1>, "-}>"),
+        edge(<imp2>, <b2>, "-}>"),
+        edge(<imp2>, <c>, "-}>"),
+      )
+    ]
+  ],
+  [
+    *Step 2:* Introduce auxiliary variables.
 
-  Found satisfying assignment!
+    - $t_1 <-> (a -> b)$
+    - $t_2 <-> (b -> c)$
+    - $t_3 <-> (t_1 and t_2)$ #h(1em) _(root)_
+
+    *Step 3:* Encode each gate.
+
+    $t_1 <-> (a -> b)$: #h(0.5em) $(t_1 or a)(t_1 or not b)(not t_1 or not a or b)$
+
+    $t_2 <-> (b -> c)$: #h(0.5em) $(t_2 or b)(t_2 or not c)(not t_2 or not b or c)$
+
+    $t_3 <-> (t_1 and t_2)$: #h(0.5em) $(not t_3 or t_1)(not t_3 or t_2)(t_3 or not t_1 or not t_2)$
+
+    *Step 4:* Assert root is true: $(t_3)$
+  ],
+)
+
+== Why SAT is Hard: Conflicting Constraints
+
+#Block(color: orange)[
+  *The challenge:* Each clause is easy to satisfy alone, but clauses _interact_ through shared variables.
+]
+
+#grid(
+  columns: (1fr, 1fr),
+  gutter: 1em,
+  [
+    #example[
+      $(x or y) and (not x or z) and (not y or not z)$
+
+      - C1 wants $x$ or $y$ true
+      - C2 wants $not x$ or $z$ true
+      - C3 wants $not y$ or $not z$ true
+
+      Setting $x = 1$ satisfies C1, but now C2 needs $z = 1$.
+
+      Setting $z = 1$ means C3 needs $not y$, so $y = 0$.
+
+      Check: $x = 1, y = 0, z = 1$ --- all satisfied! #YES
+    ]
+  ],
+  [
+    #example[
+      $(x) and (not x or y) and (not y)$
+
+      - C1 forces $x = 1$
+      - C2 with $x = 1$ forces $y = 1$
+      - C3 forces $y = 0$
+
+      Contradiction! #NO
+
+      _The constraints propagate and eventually clash._
+    ]
+  ],
+)
+
+#Block(color: yellow)[
+  SAT solvers exploit this: propagate forced assignments, detect conflicts early.
+]
+
+== Models and Satisfying Assignments
+
+#definition[
+  A _model_ of a formula $phi$ is an assignment that makes $phi$ true.
+
+  Notation: $sigma models phi$ means "$sigma$ is a model of $phi$" or "$sigma$ satisfies $phi$".
+]
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    #example[
+      $phi = (x or y) and (not x or z)$
+
+      $sigma_1 = {x = 1, y = 0, z = 1}$: #h(0.5em) $sigma_1 models phi$ #YES
+
+      $sigma_2 = {x = 1, y = 0, z = 0}$: #h(0.5em) $sigma_2 models.not phi$ #NO
+    ]
+  ],
+  Block(color: blue)[
+    *Terminology:*
+    - "model" = "satisfying assignment"
+    - $phi$ is SAT iff $phi$ has a model
+    - $phi$ is UNSAT iff $phi$ has no models
+  ],
+)
+
+#Block(color: teal)[
+  *Broader context:* In logic, a _model_ is a structure that makes a set of formulas true.
+
+  - For propositional logic: model = truth assignment.
+  - For first-order logic: model = domain + interpretation of symbols.
+
+  The study of models is called _model theory_ --- a major branch of mathematical logic.
 ]
 
 == Decision vs Search
 
-#definition[
-  _Decision SAT_ is the problem: given a CNF formula $F$, determine whether $F$ is satisfiable (Yes/No).
-]
+#grid(
+  columns: 2,
+  gutter: 1em,
+  Block(color: blue)[
+    *Decision SAT*
 
-#definition[
-  _Search SAT_ (or _functional SAT_) is the problem: given a satisfiable CNF formula $F$, find a satisfying assignment.
-]
+    _Input:_ CNF formula $F$
+
+    _Output:_ SAT or UNSAT
+
+    "Does $F$ have a model?"
+  ],
+  Block(color: green)[
+    *Search SAT* (Functional SAT)
+
+    _Input:_ Satisfiable CNF formula $F$
+
+    _Output:_ A model $sigma models F$
+
+    "Find me a model!"
+  ],
+)
 
 #Block(color: yellow)[
-  *In practice:*
-  - Decision and search have the same complexity (both NP-complete)
-  - Modern SAT solvers do both: return SAT + model, or UNSAT
+  *Surprising fact:* These problems are _equally hard_ (both NP-complete).
+
+  If you can decide SAT in polynomial time, you can also _find_ models in polynomial time (by self-reduction).
 ]
 
 #example[
-  Input: $(x or y) and (not x or y) and (not y or z)$
+  $F = (x or y) and (not x or y) and (not y or z)$
+  #h(1em)
+  Decision: *SAT*
+  #h(1em)
+  Model: $sigma = {x = 0, y = 1, z = 1} models F$
 
-  Decision answer: *SAT*
-
-  Search answer: $x = 0, y = 1, z = 1$
+  Modern solvers return both: `SAT` with a model, or `UNSAT` (sometimes with a proof).
 ]
-
 
 = Complexity of SAT
 #focus-slide()
