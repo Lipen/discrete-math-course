@@ -12,6 +12,7 @@ files := """
     lec-set-theory.typ
     lec-relations.typ
     lec-boolean-algebra.typ
+    lec-sat.typ
     lec-logic.typ
     lec-flow.typ
     lec-formal.typ
