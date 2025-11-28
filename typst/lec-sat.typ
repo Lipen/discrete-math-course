@@ -11,8 +11,6 @@
 #import "common-lec.typ": *
 #import "@preview/oxifmt:1.0.0": strfmt
 
-#let rewrite = $arrow.double.long$
-
 
 = Boolean Satisfiability
 #focus-slide(
@@ -486,12 +484,12 @@ We need a smarter approach...
 
 == Decision vs Search
 
-#definition[Decision SAT][
-  Given a CNF formula $F$, determine: Is $F$ satisfiable? (Yes/No)
+#definition[
+  _Decision SAT_ is the problem: given a CNF formula $F$, determine whether $F$ is satisfiable (Yes/No).
 ]
 
-#definition[Search SAT (Functional SAT)][
-  Given a satisfiable CNF formula $F$, _find_ a satisfying assignment.
+#definition[
+  _Search SAT_ (or _functional SAT_) is the problem: given a satisfiable CNF formula $F$, find a satisfying assignment.
 ]
 
 #Block(color: yellow)[
@@ -537,14 +535,14 @@ We need a smarter approach...
 
 == Complexity Classes: P and NP
 
-#definition[Class P][
-  Problems solvable in _polynomial time_ by a deterministic algorithm.
+#definition[
+  The _complexity class $P$_ consists of problems solvable in polynomial time by a deterministic algorithm.
 
   Examples: sorting, shortest path, linear programming.
 ]
 
-#definition[Class NP][
-  Problems where a "yes" answer can be _verified_ in polynomial time.
+#definition[
+  The _complexity class $"NP"$_ consists of problems where a "yes" answer can be _verified_ in polynomial time.
 
   Equivalently: solvable in polynomial time by a _nondeterministic_ algorithm.
 ]
@@ -554,19 +552,13 @@ We need a smarter approach...
   Given a satisfying assignment (certificate), we can verify it in $O(n + m)$ time by evaluating each clause.
 ]
 
-#Block(color: yellow)[
-  *The million-dollar question:* Is P = NP?
-
-  Most experts believe P $eq.not$ NP, but no proof exists!
-]
-
 == NP-Completeness
 
-#definition[NP-hard][
+#definition[
   A problem $X$ is _NP-hard_ if every problem in NP can be _reduced_ to $X$ in polynomial time.
 ]
 
-#definition[NP-complete][
+#definition[
   A problem is _NP-complete_ if it is both in NP and NP-hard.
 
   NP-complete problems are the "hardest" problems in NP.
@@ -674,8 +666,8 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 
 == SAT Variants: The Complexity Landscape
 
-#definition[$k$-SAT][
-  SAT restricted to formulas where each clause has _exactly $k$ literals_.
+#definition[
+  _$k$-SAT_ is SAT restricted to formulas where each clause has exactly $k$ literals.
 ]
 
 #grid(
@@ -705,8 +697,8 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 
 == 2-SAT: A Polynomial Algorithm
 
-#definition[Implication Graph][
-  For 2-SAT formula $phi$, construct directed graph $G_phi$:
+#definition[
+  The _implication graph_ for a 2-SAT formula $phi$ is a directed graph $G_phi$ where:
   - Nodes: literals $x$ and $not x$ for each variable
   - Edges: $(not a, b)$ and $(not b, a)$ for each clause $(a or b)$
 ]
@@ -784,11 +776,18 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 
 == Unit Propagation
 
-#definition[Unit propagation][
-  If a CNF formula contains a _unit clause_ $(l)$, then:
+#definition[
+  _Unit propagation_ is the following simplification rule: if a CNF formula contains a _unit clause_ $(l)$, then:
   + Set the literal $l$ to true
   + Remove all clauses containing $l$ (they are satisfied)
   + Remove $overline(l)$ from all remaining clauses
+]
+
+#place(right)[
+  #set align(left)
+  #Block(color: yellow)[
+    Unit propagation is the _workhorse_ of \ SAT solvers --- fast and effective!
+  ]
 ]
 
 #example[
@@ -803,18 +802,14 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
   Continue: $z = 1$, formula simplifies to $top$, i.e., the formula is _satisfied_.
 ]
 
-#Block(color: yellow)[
-  Unit propagation is the _workhorse_ of SAT solvers --- fast and effective!
-]
-
 == Pure Literal Elimination
 
-#definition[Pure literal][
+#definition[
   A literal $l$ is _pure_ if it appears in the formula but $overline(l)$ does not.
 ]
 
-#definition[Pure literal rule][
-  If a literal $l$ is pure:
+#definition[
+  The _pure literal rule_ states: if a literal $l$ is pure, then:
   + Set $l$ to true
   + Remove all clauses containing $l$
 ]
@@ -835,8 +830,8 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 
 == The DPLL Algorithm
 
-#definition[DPLL (Davis--Putnam--Logemann--Loveland, 1962)][
-  A complete backtracking algorithm for SAT:
+#definition[
+  _DPLL_ (Davis--Putnam--Logemann--Loveland, 1962) is a complete backtracking algorithm for SAT:
 
   + *Simplify:* Apply unit propagation and pure literal elimination
   + *Check:* If no clauses remain, return SAT; if empty clause exists, return UNSAT
@@ -855,48 +850,48 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 == DPLL: Visual Example
 
 #example[
-  Formula: $(x or y) and (not x or y) and (not y or z) and (not z)$
+  #grid(
+    columns: (1fr, auto),
+    gutter: 1em,
+    [
+      Formula: $(x or y) and (not x or y) and (not y or z) and (not z)$
 
-  #align(center)[
-    #cetz.canvas(length: 0.8cm, {
-      import cetz.draw: *
+      DPLL explores:
+      - Branch $x = 1$: unit prop gives $y = 1$, then $z = 1$ --- conflict with $(not z)$!
+      - Backtrack, try $x = 0$: unit prop gives $y = 1$, then $z = 1$ --- same conflict!
 
-      // Root
-      content((0, 0), $F$, name: "root")
-
-      // Level 1: choose x
-      content((-3, -2), [$x = 1$], name: "x1")
-      content((3, -2), [$x = 0$], name: "x0")
-
-      line("root", "x1", stroke: 1pt)
-      line("root", "x0", stroke: 1pt)
-
-      // From x=1: unit prop gives y=1
-      content((-3, -4), [$y = 1$\ (unit prop)], name: "y1")
-      line("x1", "y1", stroke: 1pt)
-
-      // From y=1: unit prop gives z=1
-      content((-3, -6), [$z = 1$], name: "z1")
-      line("y1", "z1", stroke: 1pt)
-
-      // Conflict with (not z)
-      content((-3, -8), text(fill: red)[*Conflict!*\ $z and not z$], name: "conf1")
-      line("z1", "conf1", stroke: 1pt + red)
-
-      // From x=0: unit prop on (x or y) gives y=1
-      content((3, -4), [$y = 1$\ (unit prop)], name: "y1b")
-      line("x0", "y1b", stroke: 1pt)
-
-      // From y=1: same conflict
-      content((3, -6), [$z = 1$], name: "z1b")
-      line("y1b", "z1b", stroke: 1pt)
-
-      content((3, -8), text(fill: red)[*Conflict!*], name: "conf2")
-      line("z1b", "conf2", stroke: 1pt + red)
-    })
-  ]
-
-  Both branches lead to conflict $=>$ Formula is *UNSAT*.
+      Both branches lead to conflict $=>$ *UNSAT*.
+    ],
+    [
+      #import fletcher: diagram, edge, node
+      #diagram(
+        spacing: (1em, 2em),
+        node-stroke: none,
+        edge-stroke: 0.8pt,
+        // Root
+        node((0, 0), $phi$, name: <root>),
+        // Level 1: branch on x
+        node((-1, 1), $x = 1$, name: <x1>),
+        node((1, 1), $x = 0$, name: <x0>),
+        edge(<root>, <x1>, "-}>"),
+        edge(<root>, <x0>, "-}>"),
+        // Left branch: x=1
+        node((-1, 2), $y = 1$, name: <y1>),
+        node((-1, 3), $z = 1$, name: <z1>),
+        node((-1, 4), text(fill: red)[$bot$], name: <c1>),
+        edge(<x1>, <y1>, "-}>"),
+        edge(<y1>, <z1>, "-}>"),
+        edge(<z1>, <c1>, "-}>", stroke: red),
+        // Right branch: x=0
+        node((1, 2), $y = 1$, name: <y0>),
+        node((1, 3), $z = 1$, name: <z0>),
+        node((1, 4), text(fill: red)[$bot$], name: <c0>),
+        edge(<x0>, <y0>, "-}>"),
+        edge(<y0>, <z0>, "-}>"),
+        edge(<z0>, <c0>, "-}>", stroke: red),
+      )
+    ],
+  )
 ]
 
 == Conflict-Driven Clause Learning (CDCL)
@@ -980,8 +975,8 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 
 == Implication Graphs & Conflict Analysis
 
-#definition[Implication Graph][
-  A DAG tracking why each literal was assigned:
+#definition[
+  An _implication graph_ is a DAG tracking why each literal was assigned:
   - Decision nodes: literals chosen by branching
   - Propagation nodes: literals forced by unit propagation
   - Edges: from antecedent literals to implied literal
@@ -1065,11 +1060,8 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
 #pagebreak()
 
 Clauses correspond to implications, visualized as edges in the graph:
-// - $(not x or not y) equiv (x imply not y)$
-// - $(not x or z) equiv (x imply z)$
-// - $(y or not z or not w) equiv (y and z imply not w)$
-// - $(w or not z) equiv (not w and z imply bot)$
 
+#v(-0.5em)
 #align(center)[
   #table(
     columns: 2,
@@ -1082,12 +1074,15 @@ Clauses correspond to implications, visualized as edges in the graph:
     $(w or not z)$, $(not w and z) imply bot$,
   )
 ]
+#v(-0.5em)
 
-#definition[First UIP (Unique Implication Point)][
-  The _conflict clause_ is derived by finding a cut in the implication graph that separates the conflict from the last decision.
+#definition[
+  The _first UIP_ (unique implication point) scheme derives the conflict clause by finding a cut in the implication graph that separates the conflict from the last decision.
 
-  The *1st UIP* scheme finds the closest such cut --- most effective in practice!
+  The *1st UIP* finds the closest such cut --- most effective in practice!
 ]
+
+#v(-0.5em)
 
 #Block(color: orange)[
   *Non-chronological backtracking:* Jump back to the decision level of the _second-highest_ literal in the learned clause --- can skip many levels!
@@ -1104,17 +1099,17 @@ Clauses correspond to implications, visualized as edges in the graph:
 ]
 
 #theorem[1st UIP Optimality][
-  1st UIP produces _shortest_ asserting clause at the current decision level.
+  1st UIP produces _shortest_ asserting clause at the current level.
 ]
 
 #Block(color: yellow)[
-  *Empirical result:* 1st UIP dominates in practice, but combining schemes can help on specific instances.
+  *Empirical result:* 1st UIP dominates in practice, but combining different learning schemas can help on specific instances.
 ]
 
 == Lookahead Solvers
 
-#definition[Lookahead Solver][
-  Before branching, _look ahead_ by probing each variable:
+#definition[
+  A _lookahead solver_ probes each variable before branching:
   - Temporarily set $x = 0$, propagate, measure effects
   - Temporarily set $x = 1$, propagate, measure effects
   - Choose variable that maximizes some criterion
@@ -1139,13 +1134,13 @@ Clauses correspond to implications, visualized as edges in the graph:
 )
 
 #Block(color: yellow)[
-  *Best of both worlds:* Use lookahead for cube generation, CDCL for solving (cube-and-conquer).
+  *Best of both worlds:* Use lookahead for cube generation, CDCL for solving --- _cube-and-conquer_.
 ]
 
 == Phase Saving
 
-#definition[Phase Saving][
-  Remember the _last assignment_ of each variable.
+#definition[
+  _Phase saving_ is a heuristic that remembers the last assignment of each variable.
 
   When branching on $x$, first try $x$'s previous value.
 ]
@@ -1169,25 +1164,30 @@ Clauses correspond to implications, visualized as edges in the graph:
   *The bottleneck:* Unit propagation happens millions of times --- must be FAST!
 ]
 
-#definition[Two-Watched Literals][
-  For each clause, maintain pointers to exactly _two_ unassigned literals ("watches").
+#definition[
+  The _two-watched literals_ scheme maintains pointers to exactly two unassigned literals ("watches") for each clause.
 
   *Key property:* Only check a clause when one of its watched literals becomes false.
 ]
 
-#Block(color: blue)[
-  *Why it works:*
-  - If both watches are unassigned or true $=>$ clause is not unit
-  - When a watch becomes false, search for a new unassigned literal
-  - If none found and other watch is unassigned $=>$ unit clause!
-  - If none found and other watch is false $=>$ conflict!
-]
+#grid(
+  columns: (auto, 1fr),
+  gutter: 1em,
 
-#Block(color: yellow)[
-  *Impact:* Chaff (2001) introduced this, achieving 10--100× speedup!
+  Block(color: blue)[
+    *Why it works:*
+    - If both watches are unassigned or true $=>$ clause is not unit
+    - When a watch becomes false, search for a new unassigned literal
+    - If none found and other watch is unassigned $=>$ unit clause!
+    - If none found and other watch is false $=>$ conflict!
+  ],
 
-  Two-watched literals is the _standard_ in all modern SAT solvers.
-]
+  Block(color: yellow)[
+    *Impact:* Chaff (2001) introduced this, achieving 10--100× speedup!
+
+    Two-watched literals is the _standard_ in all modern SAT solvers.
+  ],
+)
 
 == Variable Selection Heuristics
 
@@ -1228,21 +1228,26 @@ Clauses correspond to implications, visualized as edges in the graph:
   *Solution:* Periodically _restart_ the search from scratch!
 ]
 
-#definition[Restart Policy][
-  After $k$ conflicts, restart: undo all decisions, keep learned clauses.
+#definition[
+  A _restart policy_ specifies when to restart the search: after $k$ conflicts, undo all decisions but keep learned clauses.
 ]
 
-*Common policies:*
-- *Luby sequence:* 1, 1, 2, 1, 1, 2, 4, 1, 1, 2, 1, 1, 2, 4, 8, ... (optimal for Las Vegas algorithms)
-- *Geometric:* $k, k dot r, k dot r^2, ...$ (e.g., $k = 100$, $r = 1.5$)
-- *Glucose-style:* Restart when recent learned clauses have high LBD
-
-#Block(color: blue)[
-  *Why restarts help:*
-  - Escape from bad variable orderings
-  - Learned clauses persist $=>$ progress is not lost
-  - Combines exploration with exploitation
-]
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    *Common policies:*
+    - *Luby sequence:* 1, 1, 2, 1, 1, 2, 4, 1, 1, 2, 1, 1, 2,~4,~8,~... \ (optimal for Las Vegas algorithms)
+    - *Geometric:* $k, k dot r, k dot r^2, ...$ (e.g., $k = 100$, $r = 1.5$)
+    - *Glucose-style:* Restart when recent learned clauses have high LBD
+  ],
+  Block(color: blue)[
+    *Why restarts help:*
+    - Escape from bad variable orderings
+    - Learned clauses persist $=>$ \ progress is not lost
+    - Combines exploration with exploitation
+  ],
+)
 
 
 = Encoding Problems as SAT
@@ -1272,8 +1277,8 @@ Clauses correspond to implications, visualized as edges in the graph:
 
 == Example: Graph Coloring
 
-#definition[Graph $k$-coloring][
-  Given a graph $G = (V, E)$ and $k$ colors, assign a color to each vertex such that adjacent vertices have different colors.
+#definition[
+  A _graph $k$-coloring_ is an assignment of one of $k$ colors to each vertex of a graph $G = (V, E)$ such that adjacent vertices have different colors.
 ]
 
 #Block(color: blue)[
@@ -1324,16 +1329,18 @@ Clauses correspond to implications, visualized as edges in the graph:
 
 *Step 1: Variables* --- $t_(X,s)$ = "task $X$ in slot $s$"
 
+#v(-0.5em)
 #align(center)[
   #table(
     columns: 3,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([], [Slot 1], [Slot 2]),
+    table.header([], [*Slot 1*], [*Slot 2*]),
     [$A$], [$t_(A,1)$], [$t_(A,2)$],
     [$B$], [$t_(B,1)$], [$t_(B,2)$],
     [$C$], [$t_(C,1)$], [$t_(C,2)$],
   )
 ]
+#v(-1em)
 
 *Step 2: Clauses*
 - Each task in some slot: $(t_(A,1) or t_(A,2))$, $(t_(B,1) or t_(B,2))$, $(t_(C,1) or t_(C,2))$
@@ -1345,14 +1352,14 @@ Clauses correspond to implications, visualized as edges in the graph:
 
 == Example: Ramsey Numbers
 
-#definition[Ramsey number $R(r, s)$][
-  The smallest $n$ such that any 2-coloring of edges of $K_n$ contains either a red $K_r$ or a blue $K_s$.
+#definition[Ramsey Number][
+  The _Ramsey number_ $R(r, s)$ is the smallest $n$ such that any 2-coloring of edges of $K_n$ contains either a red $K_r$ or a blue $K_s$.
 ]
 
 #example[Finding $R(3,3) = 6$][
   Can we 2-color edges of $K_5$ without monochromatic triangles?
 
-  #place(right, dy: -3em)[
+  #place(right, dx: -3em)[
     #import fletcher: diagram, edge, node
     #diagram(
       node-stroke: 1pt,
@@ -1360,9 +1367,10 @@ Clauses correspond to implications, visualized as edges in the graph:
       {
         // Pentagon with colored edges
         let n = 5
+        let r = 1.2cm
         for i in range(1, n + 1) {
-          let angle = 18deg + i * 72deg
-          node((angle, 0.8cm), str(i), outset: 1pt, name: label(str(i)))
+          let angle = 90deg + (i - 1) * (360deg / n)
+          node((angle, r), str(i), outset: 1pt, name: label(str(i)))
         }
         // Edges: outer pentagon in red, inner star in blue
         for i in range(1, n + 1) {
@@ -1416,8 +1424,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == SAT Encoding: Exactly-One Constraint
 
-#definition[Exactly-one constraint][
-  Exactly one of $x_1, ..., x_n$ must be true.
+#definition[
+  An _exactly-one constraint_ requires that exactly one of $x_1, ..., x_n$ is true.
 ]
 
 #Block(color: blue)[
@@ -1443,8 +1451,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == XOR Constraints and Gaussian Elimination
 
-#definition[XOR Clause][
-  Constraint that odd number of literals are true:
+#definition[
+  An _XOR clause_ is a constraint requiring an odd number of literals to be true:
   $ x_1 xor x_2 xor dots xor x_n = 1 $
 ]
 
@@ -1471,20 +1479,30 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Parity Reasoning
 
-#definition[XOR-SAT][
-  SAT restricted to XOR clauses only.
+#definition[
+  _XOR-SAT_ is SAT restricted to XOR clauses only.
 
   *Solvable in polynomial time* via Gaussian elimination!
 ]
 
-#Block(color: blue)[
-  *Hybrid formulas:* CNF + XOR
+#grid(
+  columns: 2,
+  gutter: 1em,
 
-  Modern approach:
-  - Maintain XOR constraints separately
-  - Propagate between CNF and XOR systems
-  - Use Gaussian elimination for XOR part
-]
+  Block(color: blue)[
+    *Hybrid solving:*
+    - Maintain CNF and XOR parts separately
+    - Propagate assignments between them
+    - Use Gaussian elimination for XOR part
+  ],
+
+  Block(color: yellow)[
+    *Applications:*
+    - Cryptanalysis (breaking ciphers)
+    - Error-correcting codes (decoding)
+    - Randomness testing (analyzing sequences)
+  ],
+)
 
 #theorem[XOR Reasoning Power][
   Resolution cannot efficiently simulate XOR reasoning.
@@ -1492,16 +1510,14 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
   Some formulas need exponential resolution proofs but have polynomial XOR proofs.
 ]
 
-#Block(color: yellow)[
-  *Applications:* Cryptanalysis, error-correcting codes, randomness testing.
-]
-
 == Cardinality Constraints
 
-#definition[Cardinality constraint][
-  Restrict how many of $x_1, ..., x_n$ can be true:
+#definition[
+  A _cardinality constraint_ restricts how many of $x_1, ..., x_n$ can be true:
   - *At-most-$k$:* $sum_(i=1)^n x_i <= k$
+
   - *At-least-$k$:* $sum_(i=1)^n x_i >= k$
+
   - *Exactly-$k$:* $sum_(i=1)^n x_i = k$
 ]
 
@@ -1511,30 +1527,41 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
   For $n = 100$, $k = 3$: over 160,000 clauses.
 ]
 
+#place(right)[
+  #set align(center)
+  #Block(color: yellow)[
+    Choice of encoding dramatically \ affects solver performance!
+  ]
+]
+
 *Better encodings:*
 - *Sequential counter:* $O(n dot k)$ clauses and variables
 - *Parallel counter:* $O(n dot log k)$ clauses
 - *Sorting networks:* $O(n dot log^2 n)$ clauses
 - *BDD-based:* Often optimal in practice
 
-#Block(color: yellow)[
-  Choice of encoding dramatically affects solver performance!
-]
-
 == Sequential Counter Encoding
 
-#definition[Sequential Counter (Sinz, 2005)][
-  Introduce auxiliary variables $s_(i,j)$ meaning "at least $j$ of $x_1, ..., x_i$ are true."
+#definition[
+  The _sequential counter_ encoding (Sinz, 2005) introduces auxiliary variables $s_(i,j)$ meaning "at least $j$ of $x_1, ..., x_i$ are true."
 ]
 
-#align(center)[
+
+#place(right)[
+  #set align(left)
+  #Block(color: blue)[
+    *Advantage:* UP achieves _arc consistency_
+  ]
+]
+
+#align(left)[
   #table(
     columns: 5,
     align: center,
     stroke: none,
-    [], [$x_1$], [$x_2$], [$x_3$], [$x_4$],
-    [count $>= 1$], [$s_(1,1)$], [$s_(2,1)$], [$s_(3,1)$], [$s_(4,1)$],
-    [count $>= 2$], [], [$s_(2,2)$], [$s_(3,2)$], [$s_(4,2)$],
+    table.header([], [*$x_1$*], [*$x_2$*], [*$x_3$*], [*$x_4$*]),
+    [*count $>= 1$*], [$s_(1,1)$], [$s_(2,1)$], [$s_(3,1)$], [$s_(4,1)$],
+    [*count $>= 2$*], [], [$s_(2,2)$], [$s_(3,2)$], [$s_(4,2)$],
   )
 ]
 
@@ -1550,14 +1577,10 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
   If $x_1 = x_2 = x_3 = 1$, propagation sets $s_(3,3) = 1$ $=>$ conflict!
 ]
 
-#Block(color: blue)[
-  *Advantage:* Unit propagation achieves _arc consistency_ --- very efficient!
-]
-
 == Arithmetic in SAT: Bit-Blasting
 
-#definition[Bit-blasting][
-  Encode integer variables as bit-vectors and arithmetic operations as Boolean circuits.
+#definition[
+  _Bit-blasting_ encodes integer variables as bit-vectors and arithmetic operations as Boolean circuits.
 ]
 
 #example[Integer addition][
@@ -1579,8 +1602,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Pseudo-Boolean Constraints
 
-#definition[Pseudo-Boolean (PB) constraint][
-  Linear inequality over Boolean variables:
+#definition[
+  A _pseudo-Boolean (PB) constraint_ is a linear inequality over Boolean variables:
   $ sum_(i=1)^n a_i dot x_i <= k quad "where" a_i, k in ZZ $
 ]
 
@@ -1606,8 +1629,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Incremental SAT Solving
 
-#definition[Incremental SAT][
-  Solve a sequence of related SAT problems, reusing information from previous solves.
+#definition[
+  _Incremental SAT_ is the task of solving a sequence of related SAT problems, reusing information from previous solves.
 ]
 
 #Block(color: blue)[
@@ -1626,8 +1649,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Assumption-Based Solving
 
-#definition[Assumptions][
-  Temporary unit clauses that can be "retracted" between solves.
+#definition[
+  _Assumptions_ are temporary unit clauses that can be "retracted" between solves.
 
   `solve(assumptions = [x, ¬y])` acts like adding $(x)$ and $(not y)$, but only for this call.
 ]
@@ -1653,16 +1676,14 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Unsat Cores via Assumptions
 
-#definition[Unsatisfiable Core][
-  A subset of clauses that is still unsatisfiable.
+#definition[
+  An _unsatisfiable core_ is a subset of clauses that is still unsatisfiable.
 ]
 
 #Block(color: blue)[
-  *With assumptions:*
+  If `solve(assumptions = [a1, a2, a3, ...])` returns UNSAT, solver can report which assumptions are in the conflict.
 
-  If `solve([a1, a2, a3, ...])` returns UNSAT, solver can report which assumptions are in the conflict.
-
-  These form an _assumption core_ --- subset of assumptions sufficient for UNSAT.
+  These form an _unsatisfiable core_ --- subset of assumptions sufficient for UNSAT.
 ]
 
 #example[
@@ -1681,31 +1702,36 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Push/Pop Interface
 
-#definition[Context Stack][
-  Add and remove clauses in a stack-like manner:
+#definition[
+  A _context stack_ allows adding and removing clauses in a stack-like manner:
   - `push()`: Save current state
   - `pop()`: Restore to last pushed state, removing added clauses
 ]
 
-#Block(color: blue)[
-  *Example:*
-  ```
-  solver.add(base_clauses)
-  solver.push()
-  solver.add(additional_clauses)
-  result1 = solver.solve()
-  solver.pop()                    // Removes additional_clauses
-  solver.push()
-  solver.add(other_clauses)
-  result2 = solver.solve()
-  ```
-]
+#grid(
+  columns: (auto, 1fr),
+  gutter: 1em,
 
-#Block(color: yellow)[
-  *Limitation:* Less efficient than assumptions --- learned clauses may become invalid.
+  Block(color: blue)[
+    *Example:*
+    ```
+    solver.add(base_clauses)
+    solver.push()
+    solver.add(additional_clauses)
+    result1 = solver.solve()
+    solver.pop()  // Removes additional_clauses
+    solver.push()
+    solver.add(other_clauses)
+    result2 = solver.solve()
+    ```
+  ],
 
-  Use assumptions when possible, push/pop for clause structure changes.
-]
+  Block(color: yellow)[
+    *Limitation:* Less efficient than assumptions --- learned clauses may become invalid.
+
+    Use assumptions when possible, push/pop for clause structure changes.
+  ],
+)
 
 
 = SMT: Advanced Topics
@@ -1721,8 +1747,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
   Uses: Linear arithmetic (LIA) + Uninterpreted functions (UF)
 ]
 
-#definition[Nelson-Oppen Combination][
-  Combine theory solvers for _disjoint signature_ theories:
+#definition[
+  The _Nelson-Oppen method_ combines theory solvers for _disjoint signature_ theories:
   + Purify: separate theory-specific parts
   + Share equalities between shared variables
   + Iterate until fixed point or conflict
@@ -1749,16 +1775,16 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
   - *Theory $->$ SAT:* "Conflict!" (theory lemma) or "These literals are implied"
 ]
 
-#definition[Theory Propagation][
-  Theory solver deduces new facts from assigned literals.
+#definition[
+  _Theory propagation_ is when the theory solver deduces new facts from assigned literals.
 
   Example: From $x <= y$ and $y <= z$, deduce $x <= z$.
 ]
 
-#definition[Theory Conflict][
-  Theory solver finds assignment is theory-inconsistent.
+#definition[
+  A _theory conflict_ occurs when the theory solver finds that an assignment is theory-inconsistent.
 
-  Returns a _theory lemma_ explaining the conflict.
+  It returns a _theory lemma_ explaining the conflict.
 ]
 
 #example[
@@ -1774,7 +1800,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 #grid(
   columns: 2,
   gutter: 1em,
-  Block(color: blue)[
+
+  Block(color: blue, width: 100%)[
     *Lazy approach (DPLL(T)):*
     - Boolean skeleton to SAT solver
     - Theory solver checks consistency
@@ -1784,7 +1811,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
     *Cons:* Many theory calls
   ],
-  Block(color: green)[
+
+  Block(color: green, width: 100%)[
     *Eager approach (bit-blasting):*
     - Compile entire formula to SAT
     - Run pure SAT solver
@@ -1794,15 +1822,18 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
     *Cons:* Huge formulas, loses structure
   ],
-)
 
-#Block(color: yellow)[
-  *Modern SMT:* Hybrid approaches --- eager for bit-vectors, lazy for arithmetic/arrays.
-]
+  grid.cell(colspan: 2)[
+    #Block(color: yellow, width: 100%)[
+      *Modern SMT:* Hybrid approaches --- eager for bit-vectors, lazy for arithmetic/arrays.
+    ]
+  ],
+)
 
 == SMT Theories: Details
 
-#definition[Theory of Arrays][
+#definition[
+  The _theory of arrays_ provides:
   - *Read:* $"read"(a, i)$ returns element at index $i$
   - *Write:* $"write"(a, i, v)$ returns array with $a[i] = v$
 
@@ -1811,7 +1842,8 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
   - $i eq.not j imply "read"("write"(a, i, v), j) = "read"(a, j)$
 ]
 
-#definition[Theory of Strings][
+#definition[
+  The _theory of strings_ includes:
   - Concatenation: $x dot y$
   - Length: $|x|$
   - Contains: $x in y$
@@ -1833,12 +1865,12 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Fixed-Parameter Tractability
 
-#definition[Parameterized Problem][
-  Instance $(x, k)$ where $x$ is input and $k$ is a _parameter_.
+#definition[
+  A _parameterized problem_ is an instance $(x, k)$ where $x$ is the input and $k$ is a _parameter_.
 ]
 
-#definition[Fixed-Parameter Tractable (FPT)][
-  Solvable in time $f(k) dot |x|^(O(1))$ for some computable $f$.
+#definition[
+  A problem is _fixed-parameter tractable (FPT)_ if it is solvable in time $f(k) dot |x|^(O(1))$ for some computable $f$.
 
   Exponential in parameter $k$, but _polynomial_ in input size!
 ]
@@ -1873,10 +1905,10 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == Kernelization
 
-#definition[Kernelization][
-  Polynomial-time reduction $(x, k) -> (x', k')$ where $|x'|, k' <= f(k)$.
+#definition[
+  _Kernelization_ is a polynomial-time reduction $(x, k) -> (x', k')$ where $|x'|, k' <= f(k)$.
 
-  Produces a _kernel_ of size depending only on parameter.
+  It produces a _kernel_ of size depending only on the parameter.
 ]
 
 #Block(color: orange)[
@@ -1897,15 +1929,16 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
 == MaxSAT: Optimization over SAT
 
-#definition[MaxSAT][
-  Given a CNF formula, find an assignment that _maximizes_ the number of satisfied clauses.
+#definition[
+  _MaxSAT_ is the optimization problem: given a CNF formula, find an assignment that _maximizes_ the number of satisfied clauses.
 ]
 
-#definition[Weighted MaxSAT][
-  Each clause has a _weight_; maximize total weight of satisfied clauses.
+#definition[
+  _Weighted MaxSAT_ assigns a weight to each clause; the goal is to maximize the total weight of satisfied clauses.
 ]
 
-#definition[Partial MaxSAT][
+#definition[
+  _Partial MaxSAT_ distinguishes two types of clauses:
   - *Hard clauses:* Must be satisfied (weight = $infinity$)
   - *Soft clauses:* Want to satisfy, but not required
 ]
