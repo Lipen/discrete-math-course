@@ -22,6 +22,9 @@ image:https://img.shields.io/badge/Course Syllabus-Discrete Math-blue?style=soci
 |image:https://img.shields.io/badge/Lecture-Boolean Algebra-blue?style=social&logo=gitbook["Lecture: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/lec-boolean-algebra.pdf"]
 |image:https://img.shields.io/badge/Homework 3-Boolean Algebra-blue?style=social&logo=gitbook["Homework 3: Boolean Algebra", link="https://lipen.github.io/discrete-math-course/hw3.pdf"]
 
+|image:https://img.shields.io/badge/Lecture-SAT-blue?style=social&logo=gitbook["Lecture: SAT", link="https://lipen.github.io/discrete-math-course/lec-sat.pdf"]
+|
+
 |image:https://img.shields.io/badge/Lecture-Formal Logic-blue?style=social&logo=gitbook["Lecture: Formal Logic", link="https://lipen.github.io/discrete-math-course/lec-logic.pdf"]
 |image:https://img.shields.io/badge/Homework 4-Formal Logic-blue?style=social&logo=gitbook["Homework 4: Formal Logic", link="https://lipen.github.io/discrete-math-course/hw4.pdf"]
 
