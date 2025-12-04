@@ -156,6 +156,11 @@
 
       // Epigraph
       if epigraph != none {
+        if type(epigraph) == function {
+          epigraph = epigraph()
+        } else {
+          epigraph = ["#epigraph"]
+        }
         block(
           width: epigraph-width,
           inset: (top: epigraph-inset),
@@ -165,7 +170,7 @@
             epigraph-font-size,
             style: "italic",
           )
-          "#epigraph"
+          #epigraph
 
           #if epigraph-author != none [
             #align(right)[
