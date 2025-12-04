@@ -64,16 +64,16 @@
   *From Boolean Algebra to Formal Reasoning*
 
   In Boolean Algebra, we studied _truth values_ and _operations_ on them.
-  Now we ask: _how do we reason correctly about truth?_
+  Now we ask: how do we _reason correctly_ about truth?
 
   - Boolean algebra: "What is the value of $(P and Q) or not P$?"
-  - Formal logic: "If $P imply Q$ and $P$ are true, _must_ $Q$ be true?"
+  - Formal logic: "If $P imply Q$ and $P$ hold, _must_ $Q$ hold?"
 ]
 
 #Block(color: yellow)[
   *Logic answers fundamental questions:*
-  - What does it mean for an argument to be _valid_?
-  - Can we _mechanically verify_ that a proof is correct?
+  - What makes an argument _valid_?
+  - Can we _mechanically check_ that a proof is correct?
   - What can (and cannot) be proven?
 ]
 
@@ -614,16 +614,16 @@
 == Why Logic Puzzles?
 
 #Block(color: teal)[
-  *Logic puzzles* demonstrate the power of formal reasoning in action.
+  *Logic puzzles* are more than entertainment --- they demonstrate formal reasoning in action.
 
-  They show how systematic application of logical rules can solve problems that seem impossible at first glance --- and reveal common traps in informal reasoning.
+  Systematic application of logical rules can crack problems that seem impossible at first glance, while revealing pitfalls in informal intuition.
 ]
 
 #Block(color: yellow)[
-  *What we'll see:*
-  - How to _formalize_ puzzle constraints as logical formulas
-  - How _systematic reasoning_ leads to unique solutions
-  - Why _informal intuition_ often fails where logic succeeds
+  *In this section:*
+  - Formalizing puzzle constraints as propositional formulas
+  - Solving puzzles via systematic reasoning
+  - Connecting puzzles to SAT solving
 ]
 
 == Knights and Knaves: The Setup
@@ -731,32 +731,32 @@
 ]
 
 #Block(color: green)[
-  *The magic question:* "If I asked you 'Does the left path lead to treasure?', would you say yes?"
+  *The key question:* "If I asked you 'Does the left path lead to treasure?', would you say yes?"
 
-  Let $L$ = "left path leads to treasure". Inner question: "Is $L$ true?"
+  Let $L$ = "left path leads to treasure".
 
-  - *Knight answers about his answer:* He would say "yes" to $L$ iff $L$ is true. So he says "yes" to our question iff $L$ is true.
+  - *Knight:* Would truthfully answer the inner question. Says "yes" to our question iff $L$ is true.
 
-  - *Knave answers about his answer:* He would say "yes" to $L$ iff $L$ is false (lying). Asked if he'd say yes, he lies again: says "yes" iff he'd actually say "no" iff $L$ is true.
+  - *Knave:* Would lie about the inner question, saying "yes" iff $L$ is false. But asked _whether_ he'd say yes, he lies again --- says "yes" iff he'd actually say "no" iff $L$ is true.
 
-  *Result:* Both types say "yes" iff left leads to treasure!
+  *Result:* Both types answer "yes" exactly when left leads to treasure!
 ]
 
-#Block(color: purple)[
-  *The double-negation trick:* Asking a liar what they _would_ say inverts their lie, producing truth.
+#Block(color: yellow)[
+  *The double-negation trick:* Asking a liar what they _would_ say inverts the lie, yielding truth.
 ]
 
 == From Puzzles to SAT
 
 #Block(color: blue)[
-  *These puzzles are SAT problems in disguise!*
+  *Knights and Knaves puzzles are SAT problems in disguise!*
 
-  Each puzzle translates to a Boolean formula:
-  - Variables: $K_A, K_B, dots$ (one per person)
-  - Constraints: Statement $iff$ Speaker is knight
-  - Solution: Find a satisfying assignment
+  The translation is direct:
+  - *Variables:* $K_A, K_B, dots$ (one per person: true = knight)
+  - *Constraints:* For each statement $S$ by person $X$: add clause $K_X iff S$
+  - *Solution:* Find a satisfying assignment
 
-  Modern SAT solvers can solve puzzles with _thousands_ of inhabitants!
+  Modern SAT solvers handle puzzles with _thousands_ of inhabitants.
 ]
 
 #example[Puzzle 2 as CNF][
@@ -773,25 +773,23 @@
 == The Hardest Logic Puzzle Ever
 
 #Block(color: orange)[
-  *Boolos's puzzle (1996):* Three gods A, B, C are called True, False, and Random.
-  - True always speaks truly
-  - False always speaks falsely
+  *Boolos's puzzle (1996):* Three gods --- True, False, and Random --- stand before you.
+  - True always speaks truly; False always lies
   - Random answers randomly
+  - They respond with "da" or "ja" (you don't know which means yes/no)
 
-  They answer "da" or "ja" (you don't know which means yes/no).
-
-  *Determine their identities with three yes/no questions.*
+  *Challenge:* Determine each god's identity using exactly three yes/no questions.
 ]
 
-#Block(color: purple)[
+#Block(color: yellow)[
   This puzzle combines:
   - Knights and Knaves logic
   - Unknown language mapping
-  - Random behavior
+  - Non-deterministic behavior
 
-  It was solved and shown to require _exactly_ three questions!
+  It was proven that three questions are both _necessary_ and _sufficient_!
 
-  _See: G. Boolos, "The Hardest Logic Puzzle Ever", Harvard Review of Philosophy, 1996._
+  _Reference: G. Boolos, "The Hardest Logic Puzzle Ever", Harvard Review of Philosophy, 1996._
 ]
 
 == Self-Reference Puzzles
@@ -820,22 +818,7 @@
 
 == Logic Puzzle Strategies
 
-#Block(color: blue)[
-  *Systematic approach to logic puzzles:*
-
-  + *Formalize:* Assign propositional variables to unknowns
-  + *Translate:* Convert statements to logical formulas
-  + *Constrain:* Apply the "speaker constraint": $(text("statement")) iff (text("speaker is truthful"))$
-  + *Simplify:* Use equivalences to reduce the formula
-  + *Solve:* Find satisfying assignments (or prove none exist)
-  + *Verify:* Check the solution against all original constraints
-]
-
-#example[Verification habit][
-  Always check your answer! In Puzzle 2:
-  - A (knave) says "We are both knaves" --- this is false (B is a knight). #sym.checkmark Knaves lie.
-  - No contradiction with B's behavior. #sym.checkmark
-]
+#Block(color: blue)[\n  *Systematic approach:*\n\n  + *Formalize:* Assign a propositional variable to each unknown\n  + *Translate:* Convert each statement to a logical formula\n  + *Constrain:* Add $(italic("statement")) iff (italic("speaker is truthful"))$ for each statement\n  + *Simplify:* Apply logical equivalences\n  + *Solve:* Find satisfying assignments (or prove none exist)\n  + *Verify:* Check the solution against all original constraints\n]\n\n#example[\n  *Always verify!* In Puzzle 2:\n  - A (knave) says \"We are both knaves\" --- this is false since B is a knight. #sym.checkmark\n  - The assignment $K_A = 0, K_B = 1$ satisfies all constraints. #sym.checkmark\n]
 
 
 = Normal Forms
@@ -1688,18 +1671,18 @@
 == Why Study Fallacies?
 
 #Block(color: teal)[
-  *Logical fallacies* are patterns of reasoning that _appear_ valid but are _actually_ invalid.
+  *Logical fallacies* are reasoning patterns that _look_ valid but _aren't_.
 
-  They are common in everyday arguments, politics, advertising, and even academic discourse.
+  They appear everywhere: everyday arguments, politics, advertising, even academic papers.
 
-  Formal logic gives us the tools to _precisely identify_ and _definitively refute_ fallacies.
+  Formal logic gives us precise tools to _identify_ and _refute_ them.
 ]
 
 #Block(color: yellow)[
   *Our approach:*
   + Present the fallacy pattern
-  + Show a concrete example
-  + *Prove formally* why it fails (counterexample or derivation failure)
+  + Give a concrete example
+  + *Prove formally* why it fails (via countermodel)
 ]
 
 == Fallacy 1: Affirming the Consequent
@@ -1946,23 +1929,23 @@
   Premises true, conclusion false $imply$ inference invalid. $qed$
 ]
 
-== Summary: Valid vs Invalid Patterns
+== Valid vs. Invalid Inference Patterns
 
 #table(
   columns: 3,
   align: (left, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Pattern*], [*Status*], [*Why*]),
-  [$P imply Q, P therefore Q$], [#text(fill: green)[VALID]], [Modus Ponens],
-  [$P imply Q, not Q therefore not P$], [#text(fill: green)[VALID]], [Modus Tollens],
-  [$P imply Q, Q therefore P$], [#text(fill: red)[INVALID]], [Affirming Consequent],
-  [$P imply Q, not P therefore not Q$], [#text(fill: red)[INVALID]], [Denying Antecedent],
-  [$P or Q, not P therefore Q$], [#text(fill: green)[VALID]], [Disjunctive Syllogism],
-  [$P and Q therefore P$], [#text(fill: green)[VALID]], [Simplification],
+  table.header([*Pattern*], [*Valid?*], [*Name*]),
+  [$P imply Q, P therefore Q$], [#text(fill: green)[#sym.checkmark]], [Modus Ponens],
+  [$P imply Q, not Q therefore not P$], [#text(fill: green)[#sym.checkmark]], [Modus Tollens],
+  [$P imply Q, Q therefore P$], [#text(fill: red)[#sym.crossmark]], [Affirming Consequent],
+  [$P imply Q, not P therefore not Q$], [#text(fill: red)[#sym.crossmark]], [Denying Antecedent],
+  [$P or Q, not P therefore Q$], [#text(fill: green)[#sym.checkmark]], [Disjunctive Syllogism],
+  [$P and Q therefore P$], [#text(fill: green)[#sym.checkmark]], [Simplification],
 )
 
 #Block(color: yellow)[
-  *Critical thinking skill:* When encountering an argument, identify its logical form and check if it matches a valid or invalid pattern.
+  *Critical thinking:* Identify the logical form of an argument, then check whether it matches a valid or invalid pattern.
 ]
 
 
@@ -1975,7 +1958,7 @@
 == The Central Question
 
 #Block(color: blue)[
-  We have developed two completely different ways to think about "logical truth":
+  We have two different ways to characterize "logical truth":
   - *Semantic* ($models$): True in all interpretations (truth tables)
   - *Syntactic* ($proves$): Derivable using inference rules (proofs)
 
@@ -3089,14 +3072,14 @@
   *Propositional logic* deals with statements that are simply _true_ or _false_.
 
   But natural reasoning involves _modes_ of truth:
-  - "It is *necessary* that 2 + 2 = 4" (couldn't be otherwise)
-  - "It is *possible* that it will rain tomorrow" (might happen)
-  - "John *knows* that the door is locked" (epistemic)
-  - "It *ought to be* that promises are kept" (deontic)
+  - "2 + 2 = 4" is *necessarily* true (couldn't be otherwise)
+  - "It will rain tomorrow" is *possibly* true (might happen)
+  - "John knows the door is locked" involves *knowledge* (epistemic)
+  - "Promises ought to be kept" involves *obligation* (deontic)
 ]
 
 #Block(color: yellow)[
-  *Modal logic* extends classical logic with operators that express these _modalities_.
+  *Modal logic* extends classical logic with operators for these _modalities_.
 ]
 
 == The Modal Operators
@@ -3342,12 +3325,10 @@
   "At all reachable states, both processes are never in the critical section simultaneously."
 ]
 
-#Block(color: purple)[
+#Block(color: yellow)[
   *Model checking* is the algorithmic verification of modal/temporal formulas over finite-state systems.
 
-  Tools: SPIN, NuSMV, Alloy use modal/temporal logic for specification.
-
-  _This connects directly to our SAT lecture --- many model checkers use SAT solvers internally!_
+  Tools like SPIN, NuSMV, and Alloy use these logics for specification --- and many rely on SAT solvers internally!
 ]
 
 
@@ -3361,18 +3342,19 @@
 == The Curry--Howard Correspondence
 
 #Block(color: teal)[
-  *A remarkable discovery:* There is a deep connection between:
-  - *Logic* (propositions, proofs, inference rules)
-  - *Computation* (types, programs, evaluation rules)
+  *A deep discovery:* Proofs and programs are the _same thing_ viewed differently!
 
-  This is the _Curry--Howard correspondence_ (also called "propositions as types" or "proofs as programs").
+  - *Logic:* propositions, proofs, inference rules
+  - *Computation:* types, programs, evaluation rules
+
+  This is the _Curry--Howard correspondence_ --- also known as "propositions as types."
 ]
 
 #Block(color: yellow)[
-  *Historical development:*
-  - 1934: Curry observes connection between combinatory logic and types
+  *Historical milestones:*
+  - 1934: Curry notices connection between combinatory logic and types
   - 1969: Howard formalizes the correspondence for intuitionistic logic
-  - 1980s--present: Foundation of modern type theory and proof assistants
+  - 1980s--now: Foundation of modern type theory and proof assistants (Coq, Lean, Agda)
 ]
 
 == The Dictionary
@@ -3399,11 +3381,13 @@
 == Implication as Function Type
 
 #Block(color: green)[
-  *The key insight:* A proof of $phi imply psi$ is a _method_ to transform any proof of $phi$ into a proof of $psi$.
+  *The core insight:*
 
-  In programming: a function of type $tau arrow.r sigma$ takes an input of type $tau$ and produces an output of type $sigma$.
+  A proof of $phi imply psi$ is a _method_ that transforms any proof of $phi$ into a proof of $psi$.
 
-  *They are the same thing!*
+  A function of type $A arrow.r B$ is a _program_ that transforms any value of type $A$ into a value of type $B$.
+
+  *These are the same concept!*
 ]
 
 #example[
@@ -3575,12 +3559,12 @@
 == Why Curry--Howard Matters
 
 #Block(color: blue)[
-  *Practical implications:*
+  *Practical applications:*
 
-  + *Verified software:* Write programs that are _proven correct_ by construction
-  + *Proof automation:* Use programming techniques to find proofs
-  + *Extraction:* Compile proofs into executable programs
-  + *Dependent types:* Types can depend on values, enabling rich specifications
+  + *Verified software:* Programs proven correct _by construction_
+  + *Proof automation:* Programming techniques applied to theorem proving
+  + *Proof extraction:* Compile proofs into executable code
+  + *Dependent types:* Types that depend on values, enabling rich specifications
 ]
 
 #example[
@@ -3594,17 +3578,24 @@
 
 == Looking Forward
 
-*Next topics in advanced logic:*
-- Temporal logic (time, concurrency, reactive systems)
-- Intuitionistic logic (constructive mathematics)
-- Linear logic (resource-aware reasoning)
-- Description logics (knowledge representation, semantic web)
-
-*Connections to other areas:*
-- Computability theory and complexity
-- Category theory and type theory
-- Model theory and set theory
-- Philosophical logic and foundations of mathematics
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *Advanced logic topics:*
+    - Temporal logic (time, concurrency)
+    - Intuitionistic logic (constructive math)
+    - Linear logic (resource-aware reasoning)
+    - Description logics (semantic web)
+  ],
+  [
+    *Connections to other areas:*
+    - Computability and complexity theory
+    - Category theory and type theory
+    - Model theory and set theory
+    - Philosophical logic
+  ],
+)
 
 // == Bibliography
 // #bibliography("refs.yml")
