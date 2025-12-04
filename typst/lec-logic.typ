@@ -15,6 +15,9 @@
 #let nrel(x) = rel(math.cancel(x))
 #let proves = entails
 
+#let EvalWith(phi, inter) = $bracket.stroked.l phi bracket.stroked.r_(inter)$
+#let Eval(phi) = EvalWith(phi, $nu$)
+
 
 #CourseOverviewPage()
 
@@ -25,6 +28,10 @@
   epigraph-author: [John Locke],
   scholars: (
     (
+      name: "Gottfried Wilhelm Leibniz",
+      image: image("assets/Gottfried_Wilhelm_Leibniz.jpg"),
+    ),
+    (
       name: "Kurt Gödel",
       image: image("assets/Kurt_Godel.jpg"),
     ),
@@ -32,36 +39,87 @@
       name: "Alfred Tarski",
       image: image("assets/Alfred_Tarski.jpg"),
     ),
-    "TODO",
   ),
 )
 
-== Propositional Logic
+== Why Formal Logic?
 
-#definition[
-  Logic is the study of valid reasoning.
+#Block(color: teal)[
+  *From Boolean Algebra to Formal Reasoning*
+
+  In Boolean Algebra, we studied _truth values_ and _operations_ on them.
+  Now we ask: _how do we reason correctly about truth?_
+
+  - Boolean algebra: "What is the value of $(P and Q) or not P$?"
+  - Formal logic: "If $P imply Q$ and $P$ are true, _must_ $Q$ be true?"
 ]
 
-#definition[
-  Formal logic is the study of deductively valid inferences or logical truths.
+#Block(color: yellow)[
+  *Logic answers fundamental questions:*
+  - What does it mean for an argument to be _valid_?
+  - Can we _mechanically verify_ that a proof is correct?
+  - What can (and cannot) be proven?
 ]
+
+== Applications of Formal Logic
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  Block[
+    *Computer Science:*
+    - Program verification ("this code never crashes")
+    - Type systems (Curry--Howard correspondence)
+    - Database queries (SQL WHERE clauses)
+    - Hardware design (circuit correctness)
+    - AI reasoning (knowledge bases, planners)
+  ],
+  Block[
+    *Mathematics:*
+    - Foundations of mathematics
+    - Automated theorem proving
+    - Proof assistants (Lean, Coq, Isabelle)
+    - Decidability questions
+    - Model theory
+  ],
+)
 
 #example[
-  _Modus ponens_ inference rule:
-  #grid(
-    columns: 1,
-    inset: 5pt,
-    $P$,
-    $P arrow.r Q$,
-    grid.hline(stroke: .8pt),
-    $therefore Q$,
-  )
+  _Modus ponens_ --- the fundamental inference rule:
+
+  #align(center)[
+    #grid(
+      columns: 1,
+      align: left,
+      inset: 5pt,
+      $P$,
+      $P imply Q$,
+      grid.hline(stroke: .8pt),
+      $therefore Q$,
+    )
+  ]
+
+  If "it rains" ($P$) and "if it rains, the ground is wet" ($P imply Q$), then ($therefore$) "the ground is wet" ($Q$).
 ]
 
-#definition[Propositional Logic][
-  The simplest form of logic, dealing with whole statements (_propositions_) that can be either #True or #False.
+== What is Propositional Logic?
 
-  Also known as _sentential logic_ or _zeroth-order logic_.
+#definition[
+  _Logic_ is the study of valid reasoning --- distinguishing correct arguments from fallacies.
+]
+
+#definition[
+  _Formal logic_ studies reasoning using precise symbolic notation, enabling mechanical verification of arguments.
+]
+
+#definition[
+  _Propositional logic_ is the simplest formal logic, dealing with whole statements (_propositions_) that are either #True or #False.
+
+  Also known as _sentential logic_, _statement logic_, or _zeroth-order logic_.
+]
+
+#Block(color: purple)[
+  Propositional logic is the _foundation_ for more expressive logics (first-order, modal, temporal) that we'll explore later.
 ]
 
 == Syntax: The Language of Logic
@@ -71,290 +129,849 @@
 ]
 
 #definition[
-  A propositional _language_ consists of:
-  - _Propositional variables_: $P, Q, R, dots$ (atomic propositions)
-  - _Logical connectives_: $not, and, or, imply, iff$
-  - _Punctuation_: parentheses for grouping
+  A _propositional language_ $cal(L)$ consists of:
+  - _Propositional variables_ (atoms): $P, Q, R, dots$ or $p_1, p_2, p_3, dots$
+  - _Logical connectives_: $not$ (negation), $and$ (conjunction), $or$ (disjunction), $imply$ (implication), $iff$ (biconditional)
+  - _Punctuation_: parentheses $($ and $)$ for grouping
+  - _Constants_ (optional): $top$ (true), $bot$ (false)
 ]
 
 #definition[
-  A _well-formed formula_ (WFF) in propositional logic is defined recursively:
-  - Every propositional variable is a WFF.
-  - If $alpha$ is a WFF, then $not alpha$ is a WFF.
-  - If $alpha$ and $beta$ are WFFs, then $(alpha and beta)$, $(alpha or beta)$, $(alpha imply beta)$, $(alpha iff beta)$ are WFFs.
-  - Nothing else is a WFF.
+  A _well-formed formula_ (WFF) is defined inductively:
+  + Every propositional variable $P, Q, R, dots$ is a WFF.
+  + The constants $top$ and $bot$ are WFFs.
+  + If $phi$ is a WFF, then $(not phi)$ is a WFF.
+  + If $phi$ and $psi$ are WFFs, then $(phi and psi)$, $(phi or psi)$, $(phi imply psi)$, $(phi iff psi)$ are WFFs.
+  + Nothing else is a WFF.
+]
+
+#note[
+  Outer parentheses can be omitted for readability, e.g., $P and Q$ instead of $(P and Q)$.
+]
+
+#example[
+  - $P$, $Q$, $(P and Q)$, $((P and Q) imply R)$ are WFFs.
+
+  - $P and$, $imply Q R$, $P Q and$ are _not_ WFFs (malformed).
+]
+
+== Operator Precedence
+
+#Block(color: yellow)[
+  To reduce parentheses, we adopt _precedence conventions_ (highest to lowest):
+
+  #align(center)[
+    #table(
+      columns: 5,
+      align: (center, center, left, center, left),
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*Priority*], [*Connective*], [*Name*], [*Associativity*], [*Example*]),
+      [1 (highest)], [$not$], [Negation], [Right], [$not not P and Q equiv (not (not P)) and Q$],
+      [2], [$and$], [Conjunction], [Left], [$P and Q and R equiv (P and Q) and R$],
+      [3], [$or$], [Disjunction], [Left], [$P or Q or R equiv (P or Q) or R$],
+      [4], [$imply$], [Implication], [Right], [$P imply Q imply R equiv P imply (Q imply R)$],
+      [5 (lowest)], [$iff$], [Biconditional], [Left], [$P iff Q iff R equiv (P iff Q) iff R$],
+    )
+  ]
+]
+
+#example[
+  Using precedence rules:
+  - $not P and Q$ means $(not P) and Q$
+  - $P or Q and R$ means $P or (Q and R)$
+  - $P imply Q or R$ means $P imply (Q or R)$
+  - $P iff Q imply R or S$ means $P iff (Q imply (R or S))$
+    $quad$
+    (*Note:* not in all real systems! See NuSMV)
+]
+
+== The Logical Connectives
+
+#grid(
+  columns: 2,
+  column-gutter: 1.5em,
+  row-gutter: 1em,
+  [
+    *Negation* ($not$): "not"
+    - $not P$ is true iff $P$ is false
+    - Flips the truth value
+  ],
+  [
+    *Conjunction* ($and$): "and"
+    - $P and Q$ is true iff _both_ are true
+    - Like multiplication: $1 dot 1 = 1$, else $0$
+  ],
+
+  [
+    *Disjunction* ($or$): "or" (inclusive)
+    - $P or Q$ is true iff _at least one_ is true
+    - Like bounded addition: $max(P, Q)$
+  ],
+  [
+    *Biconditional* ($iff$): "if and only if"
+    - $P iff Q$ is true iff $P$ and $Q$ have _same_ value
+    - Equivalence test: $(P imply Q) and (Q imply P)$
+  ],
+)
+
+#pagebreak(weak: true)
+
+== Understanding Implication
+
+#Block(color: orange)[
+  *The implication* $P imply Q$ ("if $P$ then $Q$") is the _most confusing_ connective!
+
+  $P imply Q$ is false _only_ when $P$ is true and $Q$ is false.
+]
+
+#definition[
+  _Material implication_ is defined as: $P imply Q equiv not P or Q$
+
+  Read: "either $P$ is false, or $Q$ is true (or both)."
+]
+
+#example[Why is "false implies anything" true?][
+  Consider: "If pigs fly, then I'm the Queen of England."
+
+  - Pigs don't fly ($P$ is false)
+  - The statement is _vacuously true_ --- it makes no false claims!
+  - There's no counterexample: we never have $P$ true and $Q$ false.
+]
+
+== Vacuous Truth
+
+#Block[
+  When $P$ is false, $P imply Q$ is true _regardless_ of $Q$.
+
+  Think of implication as a _promise_: "If $P$, then $Q$."
+  - $P$ true, $Q$ true: promise kept
+  - $P$ true, $Q$ false: promise broken
+  - $P$ false: promise untested --- not broken!
+]
+
+#example[
+  - "All unicorns are purple" --- #True (no unicorns)
+  - "Every element of $emptyset$ is a dragon" --- #True
+  - "If $2 + 2 = 5$, then I can fly" --- #True
+]
+
+#Block(color: orange)[
+  *Warning:* "All bugs in this code are fixed" is true if the code has no bugs!
 ]
 
 == Semantics: The Meaning of Logic
 
 #Block[
-  *Semantics* concerns the _meaning_ (or _interpretation_) of logical expressions --- how they relate to _truth_ values and the world.
+  *Semantics* concerns the _meaning_ (or _interpretation_) of logical expressions --- how they relate to _truth_ values.
+
+  While syntax asks "Is this formula well-formed?", semantics asks "Is this formula _true_?"
 ]
 
-// #definition[
-//   An _interpretation_ assigns meaning to the symbols of a logical language, determining truth values for formulas.
-// ]
+#definition[
+  An _interpretation_ (also called _truth assignment_ or _valuation_) is a function
+  $ nu : V to BB $
+  that assigns a truth value to each propositional variable, where $V$ is the set of variables and $BB = {0, 1} = {False, True}$.
+]
 
-- Each propositional variable is assigned a truth value: #True or #False.
-- More formally, an _interpretation_ $nu : V to BB$ assigns truth values ($BB = {0,1}$) to variables (atoms) $V$.
-
-// #definition[
-//   An _interpretation_ $nu : V to BB$ assigns truth values ($BB = {0,1} = {#false, #true}$) to propositional variables (atoms) $V$.
-// ]
-
-#let EvalWith(phi, inter) = $bracket.stroked.l phi bracket.stroked.r_(inter)$
-#let Eval(phi) = EvalWith(phi, $nu$)
+#example[
+  For variables $V = {P, Q, R}$, one interpretation is:
+  $ nu(P) = True, quad nu(Q) = False, quad nu(R) = True $
+]
 
 #definition[
-  The truth value (_evaluation_) of complex formulas is determined recursively:
+  The _evaluation_ (or _truth value_) of a formula $phi$ under interpretation $nu$, written $Eval(phi)$, is~defined recursively:
+
   $
-           Eval(not alpha) & = True  && "iff" Eval(alpha) = False \
-      Eval(alpha and beta) & = True  && "iff" Eval(alpha) = True "and" Eval(beta) = True \
-       Eval(alpha or beta) & = True  && "iff" Eval(alpha) = True "or" Eval(beta) = True "(or both)" \
-    Eval(alpha imply beta) & = False && "iff" Eval(alpha) = True "and" Eval(beta) = False \
-      Eval(alpha iff beta) & = True  && "iff" Eval(alpha) = Eval(beta)
+                   Eval(P) & = nu(P) && "for propositional variable" P \
+                 Eval(top) & = True \
+                 Eval(bot) & = False \
+           Eval(not alpha) & = True  && iff Eval(alpha) = False \
+      Eval(alpha and beta) & = True  && iff Eval(alpha) = True "and" Eval(beta) = True \
+       Eval(alpha or beta) & = True  && iff Eval(alpha) = True "or" Eval(beta) = True \
+    Eval(alpha imply beta) & = False && iff Eval(alpha) = True "and" Eval(beta) = False \
+      Eval(alpha iff beta) & = True  && iff Eval(alpha) = Eval(beta)
   $
+]
+
+#note[
+  The evaluation function extends the interpretation from atoms to all formulas, using the _compositional_ (truth-functional) nature of propositional logic.
 ]
 
 == Truth Tables
 
 #definition[
-  A _truth table_ systematically lists all possible truth value assignments to propositional variables and shows the resulting truth values of complex formulas.
+  A _truth table_ systematically lists all possible interpretations (truth value assignments) and shows the resulting truth values of formulas.
 ]
 
-#example[Truth Tables for Basic Connectives][
-  #grid(
-    columns: 3,
-    column-gutter: 2em,
-    // Negation
-    table(
-      columns: 2,
-      align: center,
-      stroke: none,
-      table.header([*$P$*], [*$not P$*]),
-      table.hline(),
-      [#True], [#False],
-      [#False], [#True],
-    ),
-    // Conjunction and Disjunction
-    table(
-      columns: 4,
-      align: center,
-      stroke: none,
-      table.header([*$P$*], [*$Q$*], [*$P and Q$*], [*$P or Q$*]),
-      table.hline(),
-      [#True], [#True], [#True], [#True],
-      [#True], [#False], [#False], [#True],
-      [#False], [#True], [#False], [#True],
-      [#False], [#False], [#False], [#False],
-    ),
-    // Implication and Biconditional
-    table(
-      columns: 4,
-      align: center,
-      stroke: none,
-      table.header([*$P$*], [*$Q$*], [*$P imply Q$*], [*$P iff Q$*]),
-      table.hline(),
-      [#True], [#True], [#True], [#True],
-      [#True], [#False], [#False], [#False],
-      [#False], [#True], [#True], [#False],
-      [#False], [#False], [#True], [#True],
-    ),
-  )
+#Block(color: blue)[
+  *Constructing a Truth Table:*
+  + List all propositional variables: $P_1, P_2, dots, P_n$
+  + Create $2^n$ rows for all possible combinations of truth values
+  + For each subformula, compute its value column-by-column
+  + The final column gives the formula's truth value for each interpretation
 ]
 
-== Semantic Concepts
+== Truth Tables for Basic Connectives
+
+#grid(
+  columns: 3,
+  column-gutter: 2em,
+
+  // Negation
+  table(
+    columns: 2,
+    align: center,
+    stroke: none,
+    table.header([*$P$*], [*$not P$*]),
+    table.hline(),
+    [#True], [#False],
+    [#False], [#True],
+  ),
+
+  // Conjunction and Disjunction
+  table(
+    columns: 4,
+    align: center,
+    stroke: none,
+    table.header([*$P$*], [*$Q$*], [*$P and Q$*], [*$P or Q$*]),
+    table.hline(),
+    [#True], [#True], [#True], [#True],
+    [#True], [#False], [#False], [#True],
+    [#False], [#True], [#False], [#True],
+    [#False], [#False], [#False], [#False],
+  ),
+
+  // Implication and Biconditional
+  table(
+    columns: 4,
+    align: center,
+    stroke: none,
+    table.header([*$P$*], [*$Q$*], [*$P imply Q$*], [*$P iff Q$*]),
+    table.hline(),
+    [#True], [#True], [#True], [#True],
+    [#True], [#False], [#False], [#False],
+    [#False], [#True], [#True], [#False],
+    [#False], [#False], [#True], [#True],
+  ),
+)
+
+#note[
+  Truth tables connect directly to Boolean algebra: $and$ is multiplication, $or$ is (bounded) addition, $not$~is~complement.
+  See the Boolean Algebra lecture for optimization techniques like Karnaugh maps.
+]
+
+== Semantic Classification of Formulas
 
 #definition[
-  A formula $phi$ is _satisfiable_ if there exists an interpretation $nu$ such that $EvalWith(phi, nu) = True$.
+  Formulas are classified by their truth behavior across _all_ interpretations:
 
-  A formula is _unsatisfiable_ if no such interpretation exists.
+  - *Tautology* (valid): True under _every_ interpretation. Notation: $models phi$
+  - *Contradiction*: False under _every_ interpretation.
+  - *Contingent*: True under _some_ interpretations, false under others.
+  - *Satisfiable*: True under _at least one_ interpretation (includes tautologies and contingent formulas).
 ]
 
-#definition[
-  A formula $phi$ is a _tautology_ (or _valid_) if $EvalWith(phi, nu) = True$ for every interpretation $nu$.
+#align(center)[
+  #cetz.canvas({
+    import cetz: draw
 
-  Notation: $models phi$ (read: "$phi$ is valid").
+    // All formulas
+    draw.rect(
+      (0, 0),
+      (9, 4),
+      stroke: 1pt + blue,
+      fill: blue.lighten(85%),
+      radius: 3pt,
+      name: "all",
+    )
+    draw.content(
+      "all.north",
+      [*All formulas*],
+      anchor: "north",
+      padding: 0.2,
+    )
+
+    // Satisfiable region
+    draw.rect(
+      (0.2, 0.2),
+      (6, 3.2),
+      stroke: 1pt + green,
+      fill: green.lighten(85%),
+      radius: 5pt,
+      name: "sat",
+    )
+    draw.content(
+      "sat.north",
+      [*Satisfiable*],
+      anchor: "north",
+      padding: 0.2,
+    )
+
+    // Tautologies
+    draw.circle(
+      (1.6, 1.4),
+      radius: (1.2, 0.8),
+      stroke: 1pt + purple,
+      fill: purple.lighten(85%),
+      name: "tautologies",
+    )
+    draw.content("tautologies", [Tautologies])
+
+    // Contingent
+    draw.rect(
+      (3, 0.4),
+      (5.8, 2.4),
+      stroke: 1pt + orange,
+      fill: orange.lighten(85%),
+      radius: 3pt,
+      name: "contingent",
+    )
+    draw.content("contingent", [Contingent])
+
+    // Contradictions
+    draw.circle(
+      (7.5, 1.4),
+      radius: (1.2, 0.8),
+      stroke: 1pt + red,
+      fill: red.lighten(85%),
+      name: "contradictions",
+    )
+    draw.content("contradictions", [Contra-\ dictions])
+  })
 ]
 
-#definition[
-  A formula $phi$ is a _contradiction_ if $EvalWith(phi, nu) = False$ for every interpretation $nu$.
-]
+== Examples of Classifications
 
-#example[
-  - $P or not P$ is a tautology (Law of Excluded Middle)
-  - $P and not P$ is a contradiction
-  - $P or Q$ is satisfiable but not a tautology
-]
+#table(
+  columns: 3,
+  align: left,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Formula*], [*Classification*], [*Reason*]),
+  [$P or not P$], [Tautology], [Law of Excluded Middle],
+  [$P and not P$], [Contradiction], [Law of Non-Contradiction],
+  [$P imply P$], [Tautology], [Reflexivity of implication],
+  [$P or Q$], [Contingent], [Depends on values of $P$ and $Q$],
+  [$P and Q imply P$], [Tautology], [Simplification],
+  [$(P imply Q) and (Q imply P)$], [Contingent], [Same as $P iff Q$],
+)
 
 == Logical Equivalence
 
 #definition[
-  Two formulas $alpha$ and $beta$ are _logically equivalent_, written $alpha equiv beta$, if they have the same truth value under every interpretation:
+  Two formulas $phi$ and $psi$ are _logically equivalent_, written $phi equiv psi$, if they have the same truth value under _every_ interpretation:
   $
-    alpha equiv beta
+    phi equiv psi
     quad "iff" quad
-    forall nu. thin EvalWith(alpha, nu) = EvalWith(beta, nu)
+    forall nu. thin Eval(phi) = Eval(psi)
+    quad "iff" quad
+    models phi iff psi
   $
 ]
 
-#example[Important Equivalences][
-  #grid(
-    columns: 2,
-    column-gutter: 1em,
-    [
-      *De Morgan's Laws:*
-      - $not (P and Q) equiv not P or not Q$
-      - $not (P or Q) equiv not P and not Q$
+#theorem[
+  $phi equiv psi$ if and only if $phi iff psi$ is a tautology.
+]
 
-      *Double Negation:*
-      - $not not P equiv P$
+#proof[
+  By definition, $phi equiv psi$ means $Eval(phi) = Eval(psi)$ for all interpretations $nu$.
 
-      *Implication:*
-      - $P imply Q equiv (not P) or Q$
-    ],
-    [
-      *Associativity:*
-      - $(P and Q) and R equiv P and (Q and R)$
-      - $(P or Q) or R equiv P or (Q or R)$
+  The biconditional $phi iff psi$ is true exactly when $Eval(phi) = Eval(psi)$.
 
-      *Commutativity:*
-      - $P and Q equiv Q and P$
-      - $P or Q equiv Q or P$
+  Therefore, $phi iff psi$ is true under all interpretations (a tautology) if and only if $phi equiv psi$.
+]
 
-      *Distributivity:*
-      - $P and (Q or R) equiv (P and Q) or (P and R)$
-    ],
-  )
+== Fundamental Equivalence Laws
+
+#Block(color: green)[
+  These laws form the _algebra of propositions_ (compare with Boolean algebra!)
+]
+
+#grid(
+  columns: 3,
+  column-gutter: 2em,
+  row-gutter: 1em,
+  [
+    *Identity:*
+    - $P and top equiv P$
+    - $P or bot equiv P$
+
+    *Complement:*
+    - $P and not P equiv bot$
+    - $P or not P equiv top$
+
+    *Double Negation:*
+    - $not not P equiv P$
+
+    *De Morgan's Laws:*
+    - $not (P and Q) equiv not P or not Q$
+    - $not (P or Q) equiv not P and not Q$
+  ],
+  [
+    *Domination:*
+    - $P or top equiv top$
+    - $P and bot equiv bot$
+
+    *Idempotence:*
+    - $P and P equiv P$
+    - $P or P equiv P$
+
+    *Absorption:*
+    - $P and (P or Q) equiv P$
+    - $P or (P and Q) equiv P$
+  ],
+  [
+    *Commutativity:*
+    - $P and Q equiv Q and P$
+    - $P or Q equiv Q or P$
+
+    *Associativity:*
+    - $(P and Q) and R equiv P and (Q and R)$
+    - $(P or Q) or R equiv P or (Q or R)$
+
+    *Distributivity:*
+    - $P and (Q or R) equiv (P and Q) or (P and R)$
+    - $P or (Q and R) equiv (P or Q) and (P or R)$
+  ],
+)
+
+== Implication and Biconditional Laws
+
+#grid(
+  columns: 2,
+  column-gutter: 1.5em,
+  [
+    *Implication Elimination:*
+    - $P imply Q equiv not P or Q$
+    - $not (P imply Q) equiv P and not Q$
+
+    *Contrapositive:*
+    - $P imply Q equiv not Q imply not P$
+  ],
+  [
+    *Biconditional:*
+    - $P iff Q equiv (P imply Q) and (Q imply P)$
+    - $P iff Q equiv (P and Q) or (not P and not Q)$
+
+    *Exportation:*
+    - $(P and Q) imply R equiv P imply (Q imply R)$
+  ],
+)
+
+#note[
+  These equivalences can be verified by truth tables or used to _simplify_ formulas algebraically --- exactly like simplifying Boolean expressions for circuit optimization.
 ]
 
 == Semantic Entailment
 
 #definition[
-  A set of formulas $Gamma$ _semantically entails_ a formula $alpha$, written $Gamma models alpha$, if every interpretation that makes all formulas in $Gamma$ true also makes $alpha$ true:
+  A set of formulas $Gamma$ _semantically entails_ (or _logically implies_) a formula $phi$, written $Gamma models phi$, if every interpretation that satisfies all formulas in $Gamma$ also satisfies $phi$:
   $
-    Gamma models alpha
+    Gamma models phi
     quad "iff" quad
-    forall nu. thin (forall beta in Gamma. thin EvalWith(beta, nu) = True) imply EvalWith(alpha, nu) = True
+    forall nu. thin (forall psi in Gamma. thin Eval(psi) = True) imply Eval(phi) = True
   $
 ]
 
 #example[
-  ${P imply Q, P} models Q$ (this captures modus ponens semantically)
+  - ${P, P imply Q} models Q$ (modus ponens, semantically)
+  - ${P imply Q, Q imply R} models P imply R$ (hypothetical syllogism)
+  - ${P or Q, not P} models Q$ (disjunctive syllogism)
 ]
 
 #theorem[Semantic Deduction Theorem][
-  For any formulas $alpha$ and $beta$:
-  $
-    {alpha} models beta
-    quad "iff" quad
-    models alpha imply beta
-  $
+  $Gamma union {phi} models psi$ if and only if $Gamma models phi imply psi$
+
+  _Special case:_ ${phi} models psi$ iff $models phi imply psi$
 ]
 
-== Normal Forms
-
-#definition[
-  A _literal_ is either a propositional variable $P$ or its negation $not P$.
+#note[
+  The deduction theorem connects entailment with implication: to show that premises entail a conclusion, we can equivalently show that the conjunction of premises implies the conclusion.
 ]
 
-#definition[
-  A formula is in _conjunctive normal form_ (CNF) if it is a conjunction of disjunctions of literals:
-  $
-    (L_(1,1) or dots or L_(1,k_1)) and dots and (L_(n,1) or dots or L_(n,k_n))
-  $
+= Normal Forms
+#focus-slide()
 
-  Each disjunction $(L_(i,1) or dots or L_(i,k_i))$ is called a _clause_.
+== Literals, Clauses, Cubes, and Normal Forms
+
+#definition[
+  A _literal_ is a propositional variable or its negation:
+  - _Positive literal_: $P$
+  - _Negative literal_: $not P$
 ]
 
 #definition[
-  A formula is in _disjunctive normal form_ (DNF) if it is a disjunction of conjunctions of literals:
+  A _clause_ is a disjunction of literals: $(L_1 or L_2 or dots or L_k)$
+]
+
+// #definition[
+//   A _cube_ is a conjunction of literals: $(L_1 and L_2 and dots and L_k)$
+// ]
+
+#definition[
+  A formula is in _conjunctive normal form_ (CNF) if it is a conjunction of clauses:
   $
-    (L_(1,1) and dots and L_(1,k_1)) or dots or (L_(n,1) and dots and L_(n,k_n))
+    underbrace((L_(1,1) or dots or L_(1,k_1)), "clause 1") and dots and underbrace((L_(n,1) or dots or L_(n,k_n)), "clause n")
   $
+]
+
+// #definition[
+//   A formula is in _disjunctive normal form_ (DNF) if it is a disjunction of cubes:
+//   $
+//     underbrace((L_(1,1) and dots and L_(1,k_1)), "cube 1") or dots or underbrace((L_(m,1) and dots and L_(m,k_m)), "cube m")
+//   $
+// ]
+
+== CNF Conversion Algorithm
+
+#Block(color: blue)[
+  *Algorithm to convert any formula to CNF:*
+
+  + *Eliminate biconditionals:* $phi iff psi ~> (phi imply psi) and (psi imply phi)$
+  + *Eliminate implications:* $phi imply psi ~> not phi or psi$
+  + *Push negations inward* (De Morgan + double negation):
+    - $not (phi and psi) ~> not phi or not psi$
+    - $not (phi or psi) ~> not phi and not psi$
+    - $not not phi ~> phi$
+  + *Distribute* $or$ over $and$:
+    - $phi or (psi and chi) ~> (phi or psi) and (phi or chi)$
+]
+
+#pagebreak(weak: true)
+
+#example[Converting to CNF][
+  Convert $(P imply Q) imply R$ to CNF:
+
+  + Eliminate outer implication: $not (P imply Q) or R$
+  + Eliminate inner implication: $not (not P or Q) or R$
+  + Push negation inward: $(not not P and not Q) or R$
+  + Double negation: $(P and not Q) or R$
+  + Distribute $or$ over $and$: $(P or R) and (not Q or R)$
+
+  Final CNF: $(P or R) and (not Q or R)$
 ]
 
 #theorem[Normal Form Existence][
   Every propositional formula is logically equivalent to a formula in CNF and to a formula in DNF.
 ]
 
-// TODO: add complete conversion algorithm steps
-#example[
-  $(P imply Q) and R$
-
-  Converting to CNF:
-  1. Eliminate implications: $(not P or Q) and R$
-  2. Already in CNF: $(not P or Q) and R$
-
-  Converting to DNF:
-  1. Distribute: $(not P and R) or (Q and R)$
+#note[
+  - *CNF* is preferred for SAT solvers (clause-based reasoning)
+  - *DNF* is useful for model enumeration and some verification tasks
+  - Conversion may cause _exponential blowup_ in formula size
 ]
 
-// TODO: Mention that CNF is preferred for SAT solvers, and DNF is better for some model checking applications.
+== Connection to SAT
 
-== Boolean Satisfiability Problem (SAT)
-
-#definition[SAT Problem][
-  Given a propositional formula $phi$, determine whether $phi$ is satisfiable.
+#definition[
+  The _satisfiability problem_ (SAT): given a propositional formula $phi$ (usually in CNF), determine whether $phi$ is satisfiable.
 ]
 
-#theorem[Cook-Levin Theorem][
-  SAT is NP-complete.
+#theorem[Cook--Levin][
+  SAT is *NP-complete* --- the canonical NP-complete problem.
 ]
-// TODO: proof
+
+#Block(color: teal)[
+  *Why SAT matters:*
+  - Foundation of computational complexity theory
+  - Practical SAT solvers handle formulas with _millions_ of variables
+  - Applications: verification, planning, cryptanalysis, scheduling
+
+  #v(0.5em)
+  _See the dedicated lecture on SAT for DPLL algorithm, CDCL, and applications._
+]
+
+= Proof Systems
+#focus-slide(
+  epigraph: [Mathematics is not about numbers, equations, or algorithms: \ it is about understanding.],
+  epigraph-author: [William Paul Thurston],
+)
 
 == From Semantics to Syntax
-
-// TODO: Emphasize that we want syntactic methods that match semantic truths.
 
 #Block[
   So far we've studied _semantics_ --- what formulas _mean_ in terms of truth values.
 
-  Now we turn to _syntax_ --- how to _prove_ formulas using purely symbolic manipulation, without reference to truth values.
+  Now we turn to _syntax_ --- how to _prove_ formulas using purely symbolic manipulation.
+]
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *Semantic approach:*
+    - Check all $2^n$ interpretations
+    - Exponential in number of variables
+    - "Brute force" verification
+    - Answers: "_Is_ this true?"
+  ],
+  [
+    *Syntactic approach:*
+    - Apply inference rules step-by-step
+    - Polynomial-sized proofs (sometimes)
+    - "Reasoned" derivation
+    - Answers: "_Why_ is this true?"
+  ],
+)
+
+#Block(color: yellow)[
+  *The fundamental question:* Can syntactic proofs capture exactly the semantic truths?
+
+  If $models phi$ (semantically valid), can we always _prove_ $phi$ syntactically?
+]
+
+== What is a Proof System?
+
+#Block[
+  A _proof system_ is a formal method for deriving conclusions from premises using explicit rules.
+
+  But what exactly are the components?
 ]
 
 #definition[
-  A _proof system_ consists of:
-  - _Axioms_: formulas assumed to be true
-  - _Inference rules_: patterns for deriving new formulas from existing ones
-
-  A _proof_ of $phi$ is a sequence of formulas ending with $phi$, where each formula is either an axiom or follows from previous formulas by an inference rule.
+  An _axiom_ is a formula that we accept as true without proof --- a starting point for reasoning.
 ]
 
-#definition[Syntactic Derivability][
-  We write $Gamma proves phi$ (read: "$Gamma$ proves $phi$") if there exists a proof of $phi$ using axioms and formulas from $Gamma$ as premises.
+#definition[
+  An _inference rule_ is a pattern that allows us to derive a new formula (the _conclusion_) from one or more existing formulas (the _premises_).
 ]
 
-// TODO: The goal is to make syntactic derivability ($proves$) match semantic entailment ($models$).
+#example[
+  The most famous inference rule is _modus ponens_:
 
-== Natural Deduction
+  #align(center)[
+    #grid(
+      columns: 1,
+      align: left,
+      inset: 5pt,
+      [$phi$],
+      [$phi imply psi$],
+      grid.hline(stroke: .8pt),
+      [$psi$],
+    )
+  ]
 
-#definition[Natural Deduction][
-  A proof system where formulas are derived using _introduction_ and _elimination_ rules for each logical connective.
+  "If we have $phi$ and we have $phi imply psi$, then we may conclude $psi$."
+]
 
-  Proofs are typically presented in _Fitch notation_ --- a structured format showing the logical dependencies.
+#note[
+  Inference rules are written with premises above the line and conclusion below. This notation goes back to Frege and Gentzen.
+]
+
+== What is a Proof?
+
+#definition[
+  A _proof_ (or _derivation_) of formula $phi$ from a set of premises $Gamma$ is a finite sequence of formulas $phi_1, phi_2, dots, phi_n$ where:
+  - The final formula $phi_n = phi$ (the thing we want to prove)
+  - Each $phi_i$ in the sequence is justified by one of:
+    + It is an axiom of the system
+    + It is a premise (a formula from $Gamma$)
+    + It follows from earlier formulas by an inference rule
+]
+
+#example[
+  A simple proof of $Q$ from premises ${P, thick P imply Q}$:
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$P$], [Premise],
+    [2.], [$P imply Q$], [Premise],
+    [3.], [$Q$], [Modus ponens from 1, 2],
+  )
+]
+
+== Derivability Notation
+
+#definition[
+  We write $Gamma proves phi$ (read: "$Gamma$ proves $phi$" or "$phi$ is derivable from $Gamma$") when there exists a proof of $phi$ from the premises in $Gamma$.
+]
+
+#example[
+  - ${P, thin P imply Q} proves Q$ --- we just showed this proof above
+  - ${P imply Q, thin Q imply R} proves P imply R$ --- hypothetical syllogism
+  - ${P and Q} proves P$ --- conjunction elimination
+]
+
+#note[
+  We ofter _drop_ the curly braces for the set of premises, e.g., writing $P, P imply Q proves Q$.
+]
+
+#definition[
+  When $Gamma = emptyset$ (no premises), we write $proves phi$ and say "$phi$ is a _theorem_" --- provable from the axioms alone.
+]
+
+== Semantic vs. Syntactic Entailment
+
+#Block(color: yellow)[
+  *Compare the two turnstiles:*
+  - $Gamma models phi$ --- semantic: $phi$ is true whenever all of $Gamma$ is true
+  - $Gamma proves phi$ --- syntactic: $phi$ can be derived from $Gamma$ using rules
+
+  Are they the same? This is the central question of metalogic!
+]
+
+== Types of Proof Systems
+
+#Block(color: yellow)[
+  There are many different proof systems for propositional logic. They differ in:
+  - How many axioms they have (many vs. few vs. none)
+  - What inference rules they use
+  - How proofs are structured
+]
+
+#v(1fr, weak: true)
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  Block(color: blue)[
+    *Hilbert-style systems:*
+    - Many axiom _schemas_
+    - Few inference rules (e.g. just modus ponens)
+    - Proofs are linear sequences
+    - Historically important but hard to use
+  ],
+  Block(color: green)[
+    *Natural deduction:*
+    - No axioms
+    - Many inference rules (intro/elim)
+    - Tree-structured or Fitch-style proofs
+    - Mirrors human reasoning
+  ],
+)
+
+#v(1fr, weak: true)
+
+#Block(color: orange)[
+  Other systems include: _sequent calculus_ (Gentzen), _tableaux_ (semantic trees), _resolution_ (SAT).
+
+  Different systems are useful for different purposes!
+]
+
+== Hilbert Systems: An Example
+
+#Block[
+  Hilbert systems have many axiom _schemas_ (patterns that generate infinitely many axioms) but typically only _modus ponens_ as an inference rule.
+]
+
+#example[A Classic Hilbert System][
+  *Axiom schemas* (where $phi, psi, chi$ are any formulas):
+  + $phi imply (psi imply phi)$
+  + $(phi imply (psi imply chi)) imply ((phi imply psi) imply (phi imply chi))$
+  + $(not phi imply not psi) imply (psi imply phi)$
+
+  *Inference rule:* Modus ponens only.
+]
+
+#Block(color: orange)[
+  *Problem:* Hilbert proofs are often long and unintuitive.
+
+  Even proving $P imply P$ (identity) requires several steps --- try it!
+]
+
+#note[
+  Hilbert systems are important for metamathematics (proving things _about_ proof systems) but impractical for everyday reasoning.
+]
+
+== Natural Deduction: The Idea
+
+#Block(color: teal)[
+  _Natural deduction_ was invented by Gerhard Gentzen (1934) to formalize how mathematicians _actually_ reason.
+
+  *The key insight:* instead of many axioms, we have _rules_ for each logical connective.
+]
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    #definition[
+      An _introduction rule_ shows how to *prove* a formula with a given connective as main operator.
+    ]
+
+    #example[
+      *Conjunction ($and$):*
+      - _Introduction:_ From $phi$ and $psi$, conclude $phi and psi$
+      - _Elimination:_ From $phi and psi$, conclude $phi$ (or $psi$)
+    ]
+  ],
+  [
+    #definition[
+      An _elimination rule_ shows how to *use* a formula with a given connective to derive new formulas.
+    ]
+
+    #example[
+      *Implication ($imply$):*
+      - _Introduction:_ Assume $phi$, derive $psi$, conclude $phi imply psi$
+      - _Elimination:_ From $phi imply psi$ and $phi$, conclude $psi$ (modus~ponens)
+    ]
+  ],
+)
+
+== Hypothetical Reasoning
+
+#Block[
+  A crucial feature of natural deduction is _hypothetical reasoning_:
+  - We can temporarily *assume* a formula
+  - Derive consequences from that assumption
+  - Then *discharge* the assumption to get a conditional result
+]
+
+#example[Proving $P imply P$][
+  + Assume $P$ #h(2em) _(assumption)_
+  + We have $P$ #h(2em) _(from 1)_
+  + Therefore $P imply P$ #h(1em) _($imply$I, discharge 1)_
+]
+
+#Block(color: yellow)[
+  *This is how mathematicians reason:*
+
+  "Suppose $n$ is even. Then... Therefore, _if_ $n$ is even, _then_ $n^2$ is even."
 ]
 
 == Fitch Notation
 
 #Block[
-  Fitch notation uses vertical lines and indentation to show proof structure:
-  - Vertical lines indicate scope of assumptions
-  - Horizontal lines separate assumptions from conclusions
-  - Each step is numbered and justified
+  _Fitch notation_ is a structured format for writing natural deduction proofs:
+  - *Vertical lines* show the _scope_ of assumptions
+  - *Indentation* indicates subproofs (nested assumptions)
+  - Each line is *numbered* and *justified* by a rule
 ]
 
-// Visualization suggestion: Show a simple Fitch proof with boxes and lines
-// Use actual Fitch diagram format with numbered steps, assumptions in boxes
+#example[
+  Simple proof using _Modus Ponens_ ($imply$E rule):
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$P imply Q$], [_Premise_],
+    [2.], [$P$], [_Premise_],
+    grid.hline(stroke: 0.8pt),
+    [3.], [$Q$], [$imply$E 1, 2],
+  )
 
-#example[Fitch Proof Structure][
-  ```
-  1  | P → Q        Premise
-  2  | P            Premise
-     |____________
-  3  | Q            Modus Ponens 1,2
-  ```
+  From premises $P imply Q$ and $P$, we derive $Q$ by modus ponens.
 ]
+
+== Inference Rules: Overview
+
+#Block(color: green)[
+  For each connective, we have:
+  - *Introduction rule* (I): How to _prove_ a formula with that connective
+  - *Elimination rule* (E): How to _use_ a formula with that connective
+]
+
+#table(
+  columns: 4,
+  align: (center, left, left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Connective*], [*Introduction*], [*Elimination*], [*Intuition*]),
+  [$and$], [Combine two proofs], [Extract component], ["Both"],
+  [$or$], [Provide one proof], [Case analysis], ["Either"],
+  [$imply$], [Assume, derive], [Modus ponens], ["If...then"],
+  [$not$], [Assume, derive $bot$], [Derive $bot$], ["Not"],
+  [$bot$], [---], [Derive anything], ["Absurdity"],
+)
 
 == Inference Rules for Conjunction
 
@@ -431,7 +1048,7 @@
   ],
   [
     *Disjunction Elimination ($or$E):*
-    #Block(color: yellow.lighten(60%))[
+    #Block(color: yellow)[
       #grid(
         columns: 1,
         inset: 5pt,
@@ -454,7 +1071,7 @@
   column-gutter: 2em,
   [
     *Implication Introduction ($imply$I):*
-    #Block(color: yellow.lighten(60%))[
+    #Block(color: yellow)[
       #grid(
         columns: 1,
         inset: 5pt,
@@ -490,7 +1107,7 @@
   column-gutter: 2em,
   [
     *Negation Introduction ($not$I):*
-    #Block(color: yellow.lighten(60%))[
+    #Block(color: yellow)[
       #grid(
         columns: 1,
         inset: 5pt,
@@ -518,13 +1135,10 @@
 )
 
 #definition[
-  _Contradiction_ ($bot$) is special formula that represents logical inconsistency.
-
-  From $bot$, anything can be derived (_ex falso quodlibet_).
+  _Contradiction_ ($bot$) represents logical inconsistency --- a situation that cannot occur.
 ]
 
-// TODO: remove this section and fit all negation rules into one slide
-== Additional Rules
+#pagebreak()
 
 #grid(
   columns: 2,
@@ -539,10 +1153,11 @@
       $phi$,
     )
 
-    From contradiction, anything follows.
+    From contradiction, _anything_ follows.
+    (Latin: "from falsehood, anything")
   ],
   [
-    *Double Negation Elimination:*
+    *Double Negation Elimination (DNE):*
     #grid(
       columns: 1,
       inset: 5pt,
@@ -551,88 +1166,201 @@
       $phi$,
     )
 
-    (Classical logic only)
+    This rule is _classical_ (not valid in intuitionistic logic).
   ],
 )
 
-// TODO: Double negation elimination distinguishes classical from intuitionistic logic. In constructive mathematics, we can't always eliminate double negation.
+#note(title: "Classical vs Intuitionistic")[
+  Double negation elimination distinguishes _classical_ from _intuitionistic_ logic.
+  In constructive mathematics, proving $not not phi$ doesn't automatically give us $phi$ --- we need a _witness_.
+]
 
-== Example: Fitch Proof
+== Proof Strategies
 
-#example[Proving Contrapositive][
-  $(P imply Q) therefore ((not Q) imply (not P))$
-  ```
-  1  | P → Q                     Premise
-     |________________________
-  2  | | ¬Q                     Assumption
-     | |______________________
-  3  | | | P                   Assumption
-  4  | | | Q                   →E 1,3
-  5  | | | ⊥                   ¬E 2,4
-     | | |____________________
-  6  | | ¬P                    ¬I 3-5
-     | |______________________
-  7  | ¬Q → ¬P                 →I 2-6
-     |________________________
-  8  | (P → Q) → (¬Q → ¬P)      →I 1-7
-  ```
+#Block(color: blue)[
+  *Common proof patterns in natural deduction:*
+
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    [
+      *Direct Proof:*
+      - Start from premises
+      - Apply rules step-by-step
+      - Derive conclusion directly
+    ],
+    [
+      *Proof by Contradiction:*
+      - Assume negation of goal
+      - Derive contradiction ($bot$)
+      - Conclude original goal
+    ],
+  )
+
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    [
+      *Conditional Proof:*
+      - To prove $phi imply psi$
+      - Assume $phi$
+      - Derive $psi$, discharge assumption
+    ],
+    [
+      *Proof by Cases:*
+      - Given $phi or psi$
+      - Show goal follows from $phi$
+      - Show goal follows from $psi$
+    ],
+  )
+]
+
+== Worked Example: Contrapositive
+
+// TODO: indent assumption scope (lines 1-7) !!!
+#example[
+  Proving $(P imply Q) imply (not Q imply not P)$:
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$P imply Q$], [_Assumption_],
+    [2.], [$not Q$], [_Assumption_],
+    [3.], [$P$], [_Assumption_],
+    grid.hline(stroke: 0.8pt),
+    [4.], [$Q$], [$imply$E 1, 3],
+    [5.], [$bot$], [$not$E 2, 4],
+    [6.], [$not P$], [$not$I 3--5],
+    [7.], [$not Q imply not P$], [$imply$I 2--6],
+    [8], [$(P imply Q) imply (not Q imply not P)$], [$imply$I 1--7],
+  )
 ]
 
 == Derived Rules
 
 #definition[
-  _Derived rules_ are complex inference patterns that can be proven from basic rules, used as _shortcuts_ in proofs.
+  _Derived rules_ are complex inference patterns provable from basic rules, used as shortcuts.
 ]
 
-#example[Useful derived rules][
-  #grid(
-    columns: 3,
-    column-gutter: 1em,
-    [
-      *Modus Tollens:*
+#grid(
+  columns: 3,
+  column-gutter: 2em,
+  [
+    *Modus Tollens:*
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $phi imply psi$,
+      $not psi$,
+      grid.hline(stroke: .8pt),
+      $not phi$,
+    )
+  ],
+  [
+    *Hypothetical Syllogism:*
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $phi imply psi$,
+      $psi imply chi$,
+      grid.hline(stroke: .8pt),
+      $phi imply chi$,
+    )
+  ],
+  [
+    *Disjunctive Syllogism:*
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $phi or psi$,
+      $not phi$,
+      grid.hline(stroke: .8pt),
+      $psi$,
+    )
+  ],
+)
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *Proof by Contradiction (RAA):*
+    #Block(color: yellow)[
       #grid(
-        columns: 1,
-        inset: 5pt,
-        $alpha imply beta$,
-        $not beta$,
-        grid.hline(stroke: .8pt),
-        $not alpha$,
+        columns: 2,
+        column-gutter: 2em,
+        [
+          #grid(
+            columns: 1,
+            inset: 5pt,
+            $[not phi] dots bot$,
+            grid.hline(stroke: .8pt),
+            $phi$,
+          )
+        ],
+        [
+          Assume negation, \ derive absurdity, \ conclude original.
+        ],
       )
-    ],
-    [
-      *Hypothetical Syllogism:*
-      #grid(
-        columns: 1,
-        inset: 5pt,
-        $alpha imply beta$,
-        $beta imply gamma$,
-        grid.hline(stroke: .8pt),
-        $alpha imply gamma$,
-      )
-    ],
-    [
-      *Proof by Contradiction (Reductio ad Absurdum):*
-      #Block(color: yellow.lighten(60%))[
-        #grid(
-          columns: 1,
-          inset: 5pt,
-          $[not phi] dots bot$,
-          grid.hline(stroke: .8pt),
-          $phi$,
-        )
-      ]
-    ],
-  )
-]
+    ]
+  ],
+  [
+    *Constructive Dilemma:*
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $(phi imply chi) and (psi imply chi)$,
+      $phi or psi$,
+      grid.hline(stroke: .8pt),
+      $chi$,
+    )
+  ],
+)
 
 = Soundness and Completeness
-#focus-slide()
+#focus-slide(
+  epigraph: [The rules of logic are to mathematics \ what those of structure are to architecture.],
+  epigraph-author: [Bertrand Russell],
+)
 
-== Soundness of Natural Deduction
+== The Central Question
 
-#definition[Soundness][
-  A proof system is _sound_ if every syntactically derivable formula is semantically valid.
-  $ "If" Gamma proves phi "then" Gamma models phi $
+#Block(color: blue)[
+  We have developed two completely different ways to think about "logical truth":
+  - *Semantic* ($models$): True in all interpretations (truth tables)
+  - *Syntactic* ($proves$): Derivable using inference rules (proofs)
+
+  *Do they coincide?* This is the fundamental question of metalogic.
+]
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  Block(color: orange)[
+    *If they don't match:*
+    - Some truths are _unprovable_ (bad!)
+    - Some "proofs" lead to _falsehoods_ (worse!)
+    - We couldn't trust either method
+  ],
+  Block(color: green)[
+    *If they do match:*
+    - Proofs and truth tables give _same answers_
+    - We can choose whichever method is easier
+    - Formal reasoning is _reliable_
+  ],
+)
+
+#Block(color: teal)[
+  *Historical importance:* This question drove 20th century logic. Answering it required developing precise definitions of "proof" and "truth" --- the birth of mathematical logic as we know it.
+]
+
+== Soundness: Proofs Never Lie
+
+#definition[
+  A proof system is _sound_ if every derivable formula is semantically valid:
+  $ Gamma proves phi quad imply quad Gamma models phi $
+
+  In other words: "You can't prove anything false."
 ]
 
 #theorem[
@@ -640,33 +1368,43 @@
 ]
 
 #proof[(sketch)][
-  By induction on proof structure:
+  By induction on the length of derivations:
+  - *Base case*: Premises and axioms are valid by assumption.
+  - *Inductive step*: Each inference rule preserves validity.
 
-  *Base case:* Axioms and premises are semantically valid by assumption.
-
-  *Inductive step:* Show each inference rule preserves semantic validity:
-  - If premises are true under interpretation $nu$, then conclusion is also true under $nu$
-  - For example, for $and$I: if $Eval(alpha) = True$ and $Eval(beta) = True$, then $Eval(alpha and beta) = True$
-
-  The proof requires checking all inference rules systematically.
+  For example, $and$-Introduction: if $Eval(phi) = True$ and $Eval(psi) = True$, then $Eval(phi and psi) = True$.
 ]
 
-// TODO: Emphasize that soundness guarantees we never prove false statements
+#pagebreak()
 
-== Completeness Preview
-
-#definition[Completeness][
-  A proof system is _complete_ if every semantically valid formula is syntactically derivable.
-  $ "If" Gamma models phi "then" Gamma proves phi $
+#Block(color: yellow)[
+  *Why soundness matters:*
+  - Proofs are _reliable_ --- they never lead to false conclusions
+  - Automated provers can be _trusted_
+  - If $proves bot$, the system is _inconsistent_ (useless)
 ]
 
-#theorem[Gödel][
+== Completeness: All Truths Are Provable
+
+#definition[
+  A proof system is _complete_ if every semantically valid formula is derivable:
+  $ Gamma models phi quad imply quad Gamma proves phi $
+
+  In other words: "Everything true can be proven."
+]
+
+#theorem[Gödel, 1929][
   Natural deduction for propositional logic is complete.
 ]
 
-// TODO: Emphasize that this is one of the most important results in logic. It shows that syntactic proof captures exactly the semantically valid formulas.
+#Block(color: yellow)[
+  *Why completeness matters:*
+  - Proof search is _exhaustive_ --- if it's true, you can find a proof
+  - No "unreachable truths" in propositional logic
+  - Truth tables and proofs are _equivalent_ methods
+]
 
-#Block(color: green.lighten(60%))[
+#Block(color: green)[
   *Soundness + Completeness* = syntactic derivability ($proves$) exactly matches semantic entailment ($models$).
   $
     Gamma proves phi
@@ -700,39 +1438,48 @@
   Therefore $Gamma models.not alpha$.
 ]
 
-== The Completeness Result
+== The Completeness Theorem
 
 #theorem[
-  For any set of formulas $Gamma$ and formula $phi$:
+  In _propositional logic_, for any set of formulas $Gamma$ and formula $phi$:
   $
     Gamma models phi
     quad "iff" quad
     Gamma proves phi
   $
-
-  // - Natural deduction is sound: $Gamma proves phi implies Gamma models phi$
-  // - Natural deduction is complete: $Gamma models phi implies Gamma proves phi$
 ]
 
-#Block(color: blue.lighten(60%))[
-  This establishes the _harmony_ between semantics and syntax in propositional logic.
-
+#Block(color: blue)[
   *Practical implications:*
-  - Automated theorem provers are theoretically sound.
-  - Truth table methods and proof methods are equivalent.
-  - Proof search is as hard as SAT.
+  - Automated theorem provers are _theoretically sound_
+  - Truth table methods and proof methods are _equivalent_
+  - Proof search is _as hard as SAT_ (NP-complete)
 ]
 
-// TODO: Emphasize that this is only valid in PL. FOL is complete but undecidable; HOL is incomplete.
+#note(title: "Beyond Propositional Logic")[
+  This perfect correspondence doesn't always hold:
+  - *First-order logic*: Complete (Gödel 1929) but undecidable (Church 1936)
+  - *Second-order logic*: Incomplete (no proof system captures all valid formulas)
+  - *Arithmetic*: Incomplete (Gödel's Incompleteness Theorems, 1931)
+]
 
 = Categorical Logic
 #focus-slide(
   epigraph: [All men are mortal. Socrates is a man. Therefore, Socrates is mortal.],
   epigraph-author: [Classical syllogism],
   scholars: (
-    "Aristotle",
-    "Socrates",
-    "George Boole",
+    (
+      name: "Aristotle",
+      image: image("assets/Aristotle.jpg"),
+    ),
+    (
+      name: "Socrates",
+      image: image("assets/Socrates.jpg"),
+    ),
+    (
+      name: "George Boole",
+      image: image("assets/George_Boole.jpg"),
+    ),
   ),
 )
 
@@ -786,8 +1533,6 @@
   )
 ]
 
-// TODO: The letters A, E, I, O come from latin words "affirmo" and "nego".
-
 == Examples of Categorical Propositions
 
 #grid(
@@ -823,7 +1568,7 @@
   A _square of opposition_ is a diagram showing the logical relationships between A, E, I, and O propositions with the same subject and predicate terms.
 ]
 
-// #Block(color: yellow.lighten(60%))[
+// #Block(color: yellow)[
 //   *Square Structure:*
 //   ```
 //         A ←—————— contraries —————→ E
@@ -933,7 +1678,9 @@
 
 == Logical Relationships in the Square
 
-#definition[The Four Relationships][
+#Block[
+  The square captures _four fundamental relationships_:
+
   #grid(
     columns: 2,
     column-gutter: 1em,
@@ -974,7 +1721,7 @@
 
 == Translation Between Traditional and Modern Logic
 
-#definition[
+#Block[
   Categorical propositions can be translated into first-order logic:
 
   #table(
@@ -1003,7 +1750,7 @@
   A proposition "$S$ is $P$" has _existential import_ if it implies the existence of objects (at~least one) in its subject class $S$.
 ]
 
-#Block(color: orange.lighten(50%))[
+#Block(color: orange)[
   *The Problem:*
 
   Traditional logic (Aristotle) assumes all categorical propositions have existential import.
@@ -1066,358 +1813,50 @@
   )
 ]
 
-== Figures and Moods of Syllogisms
-
-#definition[
-  The _figure_ of a syllogism is determined by the position of the middle term:
-
-  #align(center)[
-    #table(
-      columns: 4,
-      align: center,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Figure 1*], [*Figure 2*], [*Figure 3*], [*Figure 4*]),
-      grid(
-        columns: 1,
-        inset: 5pt,
-        [*M* — P],
-        [S — *M*],
-        grid.hline(stroke: .8pt),
-        [S — P],
-      ),
-      grid(
-        columns: 1,
-        inset: 5pt,
-        [P — *M*],
-        [S — *M*],
-        grid.hline(stroke: .8pt),
-        [S — P],
-      ),
-      grid(
-        columns: 1,
-        inset: 5pt,
-        [*M* — P],
-        [*M* — S],
-        grid.hline(stroke: .8pt),
-        [S — P],
-      ),
-      grid(
-        columns: 1,
-        inset: 5pt,
-        [P — *M*],
-        [*M* — S],
-        grid.hline(stroke: .8pt),
-        [S — P],
-      ),
-    )
-  ]
-]
-
-#definition[
-  The _mood_ of a syllogism is the 3-letter sequence of categorical forms (A, E, I, O) of its three propositions, in order: major premise, minor premise, conclusion.
-]
-
-#example[Barbara (AAA-1)][
-  #grid(
-    columns: 1,
-    inset: 5pt,
-    [All M are P *(A)*],
-    [All S are M *(A)*],
-    grid.hline(stroke: .8pt),
-    [All S are P *(A)*],
-  )
-
-  This arguments has mood AAA in figure 1, called "Barbara" — a valid syllogistic form.
-]
-
-== Valid Syllogistic Forms
+== Syllogistic Forms and Validity
 
 #Block[
-  Traditional logic identified 24 valid syllogistic forms across the four figures.
+  Traditional logic identified *24 valid syllogistic forms* across four figures.
 
-  Each valid form has a traditional Latin name that encodes its mood:
-  - Vowels indicate the categorical forms (A, E, I, O)
-  - Some consonants indicate required operations for reduction
+  Each valid form has a traditional Latin name encoding its mood (vowels = A, E, I, O):
 ]
 
-// TODO: re-check
 #example[Famous Valid Forms][
-  #v(-0.5em)
-  #table(
-    columns: 4,
-    align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Figure 1*], [*Figure 2*], [*Figure 3*], [*Figure 4*]),
-    [Barbara (AAA)], [Cesare (EAE)], [Darapti (AAI)], [Bramantip (AAI)],
-    [Celarent (EAE)], [Camestres (AEE)], [Disamis (IAI)], [Camenes (AEE)],
-    [Darii (AII)], [Festino (EIO)], [Datisi (AII)], [Dimaris (IAI)],
-    [Ferio (EIO)], [Baroco (AOO)], [Felapton (EAO)], [Fesapo (EAO)],
-    [], [], [Bocardo (OAO)], [Fresison (EIO)],
-    [], [], [Ferison (EIO)], [],
-  )
+  - *Barbara* (AAA-1): All M are P, All S are M $therefore$ All S are P
+  - *Celarent* (EAE-1): No M are P, All S are M $therefore$ No S are P
+  - *Darii* (AII-1): All M are P, Some S are M $therefore$ Some S are P
 ]
 
-== Syllogistic Fallacies
-
-#Block(color: orange.lighten(50%))[
-  *Common syllogistic fallacies:*
-  #grid(
-    columns: 2,
-    column-gutter: 1em,
-    [
-      *Fallacy of Four Terms:* \
-      Using more than three distinct terms
-
-      #example[
-        - All banks are financial institutions
-        - The river bank is muddy
-        - Therefore, some financial institutions are muddy
-
-        (Equivocates on "bank")
-      ]
-    ],
-    [
-      *Undistributed Middle:* \
-      Middle term not distributed in either premise
-
-      #example[
-        - All cats are mammals
-        - All dogs are mammals
-        - Therefore, all cats are dogs
-
-        ("Mammals" not distributed)
-      ]
-    ],
-  )
+#Block(color: orange)[
+  *Common Fallacies:*
+  - *Undistributed Middle*: "All A are B, All C are B $therefore$ All A are C"
+  - *Four Terms*: Equivocation on word meaning
+  - *Existential Fallacy*: Particular conclusion from universal premises
 ]
 
-#definition[More Fallacies][
-  #grid(
-    columns: 2,
-    column-gutter: 1em,
-    [
-      *Illicit Major:*
-      Major term distributed in conclusion but not in major premise
-
-      *Illicit Minor:*
-      Minor term distributed in conclusion but not in minor premise
-    ],
-    [
-      *Fallacy of Exclusive Premises:*
-      Both premises negative
-
-      *Existential Fallacy:*
-      Particular conclusion from universal premises (when subject class may be empty)
-    ],
-  )
+#note[
+  The names A, E, I, O come from Latin vowels in _affirmo_ (I affirm) and _nego_ (I deny).
 ]
 
-== Distribution of Terms
+== From Categorical Logic to First-Order Logic
 
-#definition[
-  A term is _distributed_ in a proposition if the proposition says something about _all_ members of the class denoted by that term.
-
-  - Only _universal_ propositions (A, E) distribute their _subject_ term.
-  - Only _negative_ propositions (E, O) distribute their _predicate_ term.
-
-  #table(
-    columns: 3,
-    align: (left, center, center),
-    stroke: (x, y) => if (x == 0 and y == 0) or (x > 0 and y == 1) { (bottom: 0.8pt) } else if x > 0 and y == 0 {
-      (bottom: 0.4pt)
-    },
-    table.header(
-      table.cell(rowspan: 2, align: bottom)[*Form*],
-      table.cell(colspan: 2, align: center)[*Distribution*],
-      [*Subject*],
-      [*Predicate*],
-    ),
-    [*A*: All S are P], [#YES], [#NO],
-    [*E*: No S are P], [#YES], [#YES],
-    [*I*: Some S are P], [#NO], [#NO],
-    [*O*: Some S are not P], [#NO], [#YES],
-  )
-]
-
-== Why Distribution Matters
-
-// TODO: introduce Venn diagrams earlier
-#example[
-  Consider the terms in these propositions:
-
-  #place(right)[
-    #cetz.canvas({
-      import cetz: draw
-      import "@preview/cetz-venn:0.1.4"
-
-      draw.scale(60%)
-
-      cetz-venn.venn2(
-        name: "venn",
-        a-fill: red.lighten(80%),
-        not-ab-stroke: none,
-        padding: 0,
-      )
-
-      draw.content("venn.a", [S])
-      draw.content("venn.b", [P])
-    })
-  ]
-
-  - "All cats are mammals" (_A-form_)
-    - Says something about ALL cats (subject distributed)
-    - Says nothing about ALL mammals (predicate not distributed)
-
-  #place(right)[
-    #cetz.canvas({
-      import cetz: draw
-      import "@preview/cetz-venn:0.1.4"
-
-      draw.scale(60%)
-
-      cetz-venn.venn2(
-        name: "venn",
-        ab-fill: red.lighten(80%),
-        not-ab-stroke: none,
-        padding: 0,
-      )
-
-      draw.content("venn.a", [S])
-      draw.content("venn.b", [P])
-    })
-  ]
-
-  - "No reptiles are mammals" (_E-form_)
-    - Says something about ALL reptiles (subject distributed)
-    - Says something about ALL mammals (predicate distributed)
-
-  #place(right)[
-    #cetz.canvas({
-      import cetz: draw
-      import "@preview/cetz-venn:0.1.4"
-
-      draw.scale(60%)
-
-      cetz-venn.venn2(
-        name: "venn",
-        not-ab-stroke: none,
-        padding: 0,
-      )
-
-      draw.content("venn.a", [S])
-      draw.content("venn.b", [P])
-      draw.content("venn.ab", text(fill: red.darken(20%))[#sym.crossmark])
-    })
-  ]
-
-  - "Some birds are flightless" (_I-form_)
-    - Says something about SOME birds (subject not distributed)
-    - Says something about SOME flightless creatures (predicate not distributed)
-
-  #place(right)[
-    #cetz.canvas({
-      import cetz: draw
-      import "@preview/cetz-venn:0.1.4"
-
-      draw.scale(60%)
-
-      cetz-venn.venn2(
-        name: "venn",
-        not-ab-stroke: none,
-        padding: 0,
-      )
-
-      draw.content("venn.a", text(fill: red.darken(20%))[#sym.crossmark])
-      draw.content("venn.b", [P])
-    })
-  ]
-
-  - "Some animals are not vertebrates" (_O-form_)
-    - Says something about SOME animals (subject not distributed)
-    - Says something about ALL vertebrates (predicate distributed)
-]
-
-== Rules for Valid Syllogisms
-
-#definition[Validity Rules][
-  A categorical syllogism is valid if and only if it satisfies all these rules:
-
-  1. *Exactly three terms* (no equivocation)
-  2. *Middle term distributed at least once*
-  3. *No term distributed in conclusion unless distributed in premise*
-  4. *No conclusion from two negative premises*
-  5. *Negative conclusion if and only if exactly one negative premise*
-  6. *No particular conclusion from two universal premises* (if existential import assumed)
-]
-
-== Venn Diagrams for Categorical Logic
-
-#definition[Venn Diagram Method][
-  Categorical propositions can be represented using Venn diagrams with two or three circles.
-
-  - Shaded regions represent empty classes
-  - #NO marks represent existing individuals
-  - Overlap patterns show relationships between categories
-]
-
-// TODO: Show Venn diagrams for each categorical form.
-
-#example[Venn Diagram for Syllogism][
-  Testing Barbara (AAA-1):
-  - All M are P: Shade M outside P
-  - All S are M: Shade S outside M
-  - Conclusion: All S are P
-
-  The diagrams show that S must be entirely within P, validating the syllogism.
-]
-
-== Modern Developments
-
-#Block[
-  Traditional categorical logic has evolved in several directions:
-
-  - *Set theory*: Categories become sets, relations become set operations
-  - *Formal semantics*: Precise treatment of quantification and scope
-  - *Knowledge representation*: Description logics in AI and semantic web
-  - *Natural language processing*: Computational linguistics and parsing
-  - *Database theory*: Query languages and constraint systems
-]
-
-// TODO: Traditional logic isn't obsolete - it's foundational
-
-== Limitations of Traditional Logic
-
-#Block(color: yellow.lighten(40%))[
+#Block(color: yellow)[
   Traditional categorical logic has important _limitations_:
-  + Only handles simple quantification (all, some, no)
-  + Cannot express complex relationships (between more than two categories)
-  + Limited to categorical structure (subject--predicate form)
-  + Struggles with relational statements ("John is taller than Mary")
-  + No systematic treatment of compound statements
-  + Existential import controversies
+  + Only handles *simple quantification* (all, some, no)
+  + *Cannot express relations*: "John is taller than Mary"
+  + *Limited to two categories* per proposition
+  + *No nested quantifiers*: "Every student likes some professor"
+  + *Existential import* controversies
 ]
 
-#example[What traditional logic cannot express][
-  - "Every student likes some professor" (multiple quantifiers)
-  - "If John is happy, then Mary is happy" (conditional with individuals)
-  - "All numbers between 5 and 10 are prime" (complex domain restrictions)
-  - "Most birds can fly" (non-standard quantifiers)
-  - "Students who study hard usually succeed" (statistical generalizations)
+#example[What categorical logic cannot express][
+  - $forall x. exists y. R(x, y)$ --- "Everyone has someone who loves them"
+  - $forall x. (P(x) imply exists y. Q(x, y))$ --- "Every problem has a solution"
+  - Transitive closure, recursion, arithmetic
 ]
 
-== The Legacy of Traditional Logic
-
-#Block(color: blue.lighten(60%))[
-  *Enduring Contributions:*
-  - Systematic study of quantification and categorical reasoning
-  - Recognition of logical form vs. content
-  - Analysis of validity in natural language arguments
-  - Foundation for formal semantics and knowledge representation
-  - Critical thinking tools for evaluating everyday reasoning
-
-  #set par(justify: true)
-  *Modern Relevance:*
-  Traditional logic remains important for understanding human reasoning patterns, developing AI systems that interact naturally with humans, and teaching critical thinking skills.
+#Block(color: blue)[
+  These limitations motivate *first-order logic* (predicate logic), which we study next.
 ]
 
 = First-Order Logic
@@ -1451,21 +1890,21 @@
 
 == First-Order Syntax
 
-#definition[Terms][
-  _Terms_ are expressions denoting objects:
+#definition[
+  A _term_ is an expression denoting an object:
   - Variables: $x, y, z$
   - Constants: $a, b, c$
   - Function applications: $f(t_1, dots, t_n)$ where $t_i$ are terms
 ]
 
-#definition[Atomic Formulas][
-  _Atomic formulas_ are basic statements:
-  - Predicate applications: $P(t_1, dots, t_n)$ where $t_i$ are terms
+#definition[
+  An _atomic formula_ is a basic statement:
+  - Predicate application: $P(t_1, dots, t_n)$ where $t_i$ are terms
   - Equality: $t_1 = t_2$ where $t_1, t_2$ are terms
 ]
 
-#definition[First-Order Formulas][
-  Built recursively from atomic formulas using:
+#definition[
+  A _first-order formula_ is built recursively from atomic formulas using:
   - Propositional connectives: $not, and, or, imply, iff$
   - Quantifiers: $forall x. phi$, $exists x. phi$
 ]
@@ -1478,10 +1917,93 @@
   - $forall x. exists y. thin R(x,y)$ — "For every $x$, there exists a $y$ such that $R(x,y)$"
 ]
 
+== Free and Bound Variables
+
+#definition[
+  An occurrence of variable $x$ in formula $phi$ is:
+  - _Bound_ if it occurs within the scope of a quantifier $forall x$ or $exists x$
+  - _Free_ if it is not bound
+
+  The _scope_ of quantifier $Q x.$ in formula $Q x. thin phi$ is the formula $phi$.
+]
+
+#example[
+  In the formula $underbrace(P(x), "free") and forall x. thin underbrace(Q(x), "bound")$:
+  - The first $x$ is *free* (not under any quantifier)
+  - The second $x$ is *bound* by $forall x$
+]
+
+#Block(color: yellow)[
+  *Key insight:* The same variable name can be both free and bound in one formula! The two $x$'s above are _different_ --- one refers to an external value, the other is quantified.
+]
+
+#definition[
+  A formula with no free variables is called _closed_ or a _sentence_.
+
+  Only sentences can be evaluated as simply true or false in a structure.
+]
+
+#example[Closed vs. Open Formulas][
+  #table(
+    columns: 3,
+    align: (left, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Formula*], [*Status*], [*Why*]),
+    [$forall x. thin P(x) imply Q(x)$], [Closed], [No free variables],
+    [$P(x) and Q(y)$], [Open], [Both $x$ and $y$ are free],
+    [$exists x. thin P(x) and Q(y)$], [Open], [$y$ is free],
+    [$forall x. exists y. thin R(x,y)$], [Closed], [All variables bound],
+  )
+]
+
+#Block(color: orange)[
+  *Warning:* Be careful with nested quantifiers and variable shadowing!
+
+  $forall x. thin (P(x) and exists x. thin Q(x))$ --- the inner $exists x$ _shadows_ the outer $forall x$.
+]
+
+== Translating English to FOL
+
+#Block[
+  Formalization requires choosing an appropriate _vocabulary_ (predicates, constants, functions) and expressing the logical structure precisely.
+]
+
+#example[Common Translation Patterns][
+  Let: $H(x)$ = "$x$ is human", $M(x)$ = "$x$ is mortal", $s$ = Socrates
+
+  #table(
+    columns: 2,
+    align: (left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*English*], [*FOL*]),
+    [All humans are mortal], [$forall x. thin (H(x) imply M(x))$],
+    [Some humans are mortal], [$exists x. thin (H(x) and M(x))$],
+    [No humans are immortal], [$forall x. thin (H(x) imply M(x))$],
+    [Socrates is human], [$H(s)$],
+    [Only humans are rational], [$forall x. thin (R(x) imply H(x))$],
+  )
+]
+
+#pagebreak()
+
+#Block(color: yellow)[
+  *Key pattern:*
+  - "All A are B" $arrow.r$ $forall x. thin (A(x) imply B(x))$ #h(1em) (use $imply$)
+  - "Some A are B" $arrow.r$ $exists x. thin (A(x) and B(x))$ #h(1em) (use $and$)
+
+  These patterns mirror the categorical forms A and I!
+]
+
+#Block(color: orange)[
+  *Common mistake:* Writing $forall x. thin (H(x) and M(x))$ for "all humans are mortal".
+
+  This actually says "everything is both human and mortal" --- wrong!
+]
+
 == First-Order Semantics
 
 #definition[
-  A _structure_ $cal(M) = pair(D, cal(I))$ consists of:
+  A _structure_ (or _model_) $cal(M) = pair(D, cal(I))$ consists of:
   - _Domain_ $D$: non-empty set of objects
   - _Interpretation function_ $cal(I)$:
     - Maps constants to elements of $D$
@@ -1493,8 +2015,8 @@
   A _variable assignment_ $sigma : V to D$ maps variables to domain elements.
 ]
 
-#definition[Truth in a Structure][
-  For structure $cal(M)$ and assignment $sigma$:
+#Block[
+  _Truth in a structure:_ For structure $cal(M)$ and assignment $sigma$:
   - $cal(M), sigma models P(t_1, dots, t_n)$ iff $chevron.l cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma chevron.r in cal(I)(P)$
   - $cal(M), sigma models forall x. thin phi$ iff $cal(M), sigma' models phi$ for all $sigma'$ that differ from $sigma$ at most on $x$
   - $cal(M), sigma models exists x. thin phi$ iff $cal(M), sigma' models phi$ for some $sigma'$ that differs from $sigma$ at most on $x$
@@ -1528,7 +2050,7 @@
     column-gutter: 2em,
     [
       *Universal Introduction ($forall$I):*
-      #Block(color: yellow.lighten(60%))[
+      #Block(color: yellow)[
         #grid(
           columns: 1,
           inset: 5pt,
@@ -1560,7 +2082,7 @@
       )
 
       *Existential Elimination ($exists$E):*
-      #Block(color: yellow.lighten(60%))[
+      #Block(color: yellow)[
         #grid(
           columns: 1,
           inset: 5pt,
@@ -1625,16 +2147,22 @@
   First-order logic is undecidable: there is no algorithm that determines whether an arbitrary first-order formula is valid.
 ]
 
-// TODO: incompleteness theorem for arithmetic
+#Block(color: yellow)[
+  *Gödel's Incompleteness (for arithmetic):*
 
-#Block(color: orange.lighten(50%))[
-  *The trade-off:*
+  Any consistent formal system strong enough to express arithmetic contains statements that are _true but unprovable_ within the system. This is different from (un)decidability --- it concerns the limits of _any_ proof system, not just algorithmic validity checking.
+]
+
+#pagebreak()
+
+#Block(color: orange)[
+  *The expressiveness--decidability trade-off:*
   - Propositional logic: decidable (SAT-solvable) but has _limited expressiveness_
   - First-order logic: highly expressive but _undecidable_
   - Higher-order logic: even more expressive but _incomplete_
-]
 
-// TODO: Emphasize that this illustrates fundamental limitations in automated reasoning: we gain expressiveness at the cost of decidability.
+  This illustrates fundamental limitations in automated reasoning: we gain expressiveness at the cost of decidability.
+]
 
 == Applications and Connections
 
@@ -1681,7 +2209,7 @@
   [Higher-Order], [Maximum], [#NO], [#NO],
 )
 
-#Block(color: blue.lighten(60%))[
+#Block(color: blue)[
   *Key insights:*
   - Syntax and semantics can be perfectly aligned (completeness)
   - Expressiveness comes at the cost of decidability
@@ -1703,10 +2231,6 @@
 - Category theory and type theory
 - Model theory and set theory
 - Philosophical logic and foundations of mathematics
-
-== TODO
-
-- ...
 
 // == Bibliography
 // #bibliography("refs.yml")
