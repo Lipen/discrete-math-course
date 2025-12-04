@@ -63,17 +63,16 @@
 #Block(color: teal)[
   *From Boolean Algebra to Formal Reasoning*
 
-  In Boolean Algebra, we studied _truth values_ and _operations_ on them.
-  Now we ask: how do we _reason correctly_ about truth?
+  Boolean algebra computes truth values; formal logic asks _which formulas are always true_.
 
   - Boolean algebra: "What is the value of $(P and Q) or not P$?"
-  - Formal logic: "If $P imply Q$ and $P$ hold, _must_ $Q$ hold?"
+  - Formal logic: "If $P imply Q$ and $P$ hold, must $Q$ hold?"
 ]
 
 #Block(color: yellow)[
-  *Logic answers fundamental questions:*
+  *Logic answers:*
   - What makes an argument _valid_?
-  - Can we _mechanically check_ that a proof is correct?
+  - Can we _mechanically check_ proofs?
   - What can (and cannot) be proven?
 ]
 
@@ -101,7 +100,7 @@
 )
 
 #example[
-  _Modus ponens_ --- the fundamental inference rule:
+  _Modus ponens_ --- the basic inference rule:
 
   #align(center)[
     #grid(
@@ -235,7 +234,7 @@
 == Understanding Implication
 
 #Block(color: orange)[
-  *The implication* $P imply Q$ ("if $P$ then $Q$") is the _most confusing_ connective!
+  *Material implication* $P imply Q$ ("if $P$ then $Q$") often trips people up.
 
   $P imply Q$ is false _only_ when $P$ is true and $Q$ is false.
 ]
@@ -278,9 +277,9 @@
 == Semantics: The Meaning of Logic
 
 #Block[
-  *Semantics* concerns the _meaning_ (or _interpretation_) of logical expressions --- how they relate to _truth_ values.
+  *Semantics* assigns meaning to formulas --- how they relate to truth values.
 
-  While syntax asks "Is this formula well-formed?", semantics asks "Is this formula _true_?"
+  Syntax: "Is this well-formed?" $quad$ Semantics: "Is this true?"
 ]
 
 #definition[
@@ -316,15 +315,15 @@
 == Truth Tables
 
 #definition[
-  A _truth table_ systematically lists all possible interpretations (truth value assignments) and shows the resulting truth values of formulas.
+  A _truth table_ lists all possible interpretations and the resulting truth values of formulas.
 ]
 
 #Block(color: blue)[
   *Constructing a Truth Table:*
-  + List all propositional variables: $P_1, P_2, dots, P_n$
-  + Create $2^n$ rows for all possible combinations of truth values
-  + For each subformula, compute its value column-by-column
-  + The final column gives the formula's truth value for each interpretation
+  + List variables $P_1, dots, P_n$
+  + Create $2^n$ rows for all truth value combinations
+  + Compute each subformula column-by-column
+  + The final column gives the formula's value for each interpretation
 ]
 
 == Truth Tables for Basic Connectives
@@ -614,16 +613,14 @@
 == Why Logic Puzzles?
 
 #Block(color: teal)[
-  *Logic puzzles* are more than entertainment --- they demonstrate formal reasoning in action.
-
-  Systematic application of logical rules can crack problems that seem impossible at first glance, while revealing pitfalls in informal intuition.
+  Logic puzzles put formal reasoning into action. Systematic application of rules solves problems that seem impossible at first --- and reveals pitfalls in informal intuition.
 ]
 
 #Block(color: yellow)[
   *In this section:*
-  - Formalizing puzzle constraints as propositional formulas
-  - Solving puzzles via systematic reasoning
-  - Connecting puzzles to SAT solving
+  - Formalizing puzzle constraints as formulas
+  - Systematic solving techniques
+  - Connection to SAT solvers
 ]
 
 == Knights and Knaves: The Setup
@@ -666,10 +663,6 @@
   *This is a contradiction!* No consistent assignment exists.
 
   $therefore$ This situation _cannot occur_ on the island --- A cannot make this statement.
-]
-
-#Block(color: orange)[
-  *Lesson:* Some puzzles reveal _impossibilities_, not solutions!
 ]
 
 == Puzzle 2: Two Inhabitants
@@ -723,23 +716,23 @@
 == Puzzle 4: The Fork in the Road
 
 #example[The Classic Puzzle][
-  You reach a fork in the road. One path leads to treasure, the other to doom.
+  You reach a fork. One path leads to treasure, the other to doom.
 
   A single inhabitant stands there. You may ask *one yes/no question*.
 
-  *What do you ask to find the treasure path?*
+  *What question finds the treasure?*
 ]
 
 #Block(color: green)[
   *The key question:* "If I asked you 'Does the left path lead to treasure?', would you say yes?"
 
-  Let $L$ = "left path leads to treasure".
+  Let $L$ = "left leads to treasure".
 
-  - *Knight:* Would truthfully answer the inner question. Says "yes" to our question iff $L$ is true.
+  - *Knight:* Answers the inner question truthfully. Says "yes" iff $L$.
 
-  - *Knave:* Would lie about the inner question, saying "yes" iff $L$ is false. But asked _whether_ he'd say yes, he lies again --- says "yes" iff he'd actually say "no" iff $L$ is true.
+  - *Knave:* Would lie about the inner question. But asked _whether_ he'd say yes, he lies _again_ --- double negation! Says "yes" iff $L$.
 
-  *Result:* Both types answer "yes" exactly when left leads to treasure!
+  *Both types answer "yes" exactly when left leads to treasure.*
 ]
 
 #Block(color: yellow)[
@@ -818,7 +811,22 @@
 
 == Logic Puzzle Strategies
 
-#Block(color: blue)[\n  *Systematic approach:*\n\n  + *Formalize:* Assign a propositional variable to each unknown\n  + *Translate:* Convert each statement to a logical formula\n  + *Constrain:* Add $(italic("statement")) iff (italic("speaker is truthful"))$ for each statement\n  + *Simplify:* Apply logical equivalences\n  + *Solve:* Find satisfying assignments (or prove none exist)\n  + *Verify:* Check the solution against all original constraints\n]\n\n#example[\n  *Always verify!* In Puzzle 2:\n  - A (knave) says \"We are both knaves\" --- this is false since B is a knight. #sym.checkmark\n  - The assignment $K_A = 0, K_B = 1$ satisfies all constraints. #sym.checkmark\n]
+#Block(color: blue)[
+  *Systematic approach:*
+
+  + *Formalize:* Assign a variable to each unknown
+  + *Translate:* Convert each statement to a formula
+  + *Constrain:* Add $(italic("statement")) iff (italic("speaker is truthful"))$
+  + *Simplify:* Apply logical equivalences
+  + *Solve:* Find satisfying assignments (or prove none exist)
+  + *Verify:* Check against all constraints
+]
+
+#example[
+  *Always verify!* In Puzzle 2:
+  - A (knave) says "We are both knaves" --- false since B is a knight. #sym.checkmark
+  - $K_A = 0, K_B = 1$ satisfies all constraints. #sym.checkmark
+]
 
 
 = Normal Forms
@@ -947,7 +955,7 @@
 )
 
 #Block(color: yellow)[
-  *The fundamental question:* Can syntactic proofs capture exactly the semantic truths?
+  *Central question:* Can syntactic proofs capture exactly the semantic truths?
 
   If $models phi$ (semantically valid), can we always _prove_ $phi$ syntactically?
 ]
@@ -1111,7 +1119,7 @@
 #Block(color: teal)[
   _Natural deduction_ was invented by Gerhard Gentzen (1934) to formalize how mathematicians _actually_ reason.
 
-  *The key insight:* instead of many axioms, we have _rules_ for each logical connective.
+  *Core idea:* Instead of many axioms, we have _rules_ for each connective.
 ]
 
 #grid(
@@ -1144,7 +1152,7 @@
 == Hypothetical Reasoning
 
 #Block[
-  A crucial feature of natural deduction is _hypothetical reasoning_:
+  Natural deduction supports _hypothetical reasoning_:
   - We can temporarily *assume* a formula
   - Derive consequences from that assumption
   - Then *discharge* the assumption to get a conditional result
@@ -1165,9 +1173,9 @@
 == Fitch Notation
 
 #Block[
-  _Fitch notation_ is a structured format for writing natural deduction proofs:
-  - *Vertical lines* show the _scope_ of assumptions
-  - *Indentation* indicates subproofs (nested assumptions)
+  _Fitch notation_ is a structured format for natural deduction proofs:
+  - *Horizontal lines* separate premises from derived formulas
+  - *Indentation* (in full Fitch style) shows subproof scope
   - Each line is *numbered* and *justified* by a rule
 ]
 
@@ -1183,7 +1191,7 @@
     [3.], [$Q$], [$imply$E 1, 2],
   )
 
-  From premises $P imply Q$ and $P$, we derive $Q$ by modus ponens.
+  From $P imply Q$ and $P$, we derive $Q$.
 ]
 
 == Inference Rules: Overview
@@ -1329,7 +1337,7 @@
       $beta$,
     )
 
-    This is _modus ponens_ --- the fundamental rule of reasoning.
+    This is _modus ponens_.
   ],
 )
 
@@ -1671,18 +1679,16 @@
 == Why Study Fallacies?
 
 #Block(color: teal)[
-  *Logical fallacies* are reasoning patterns that _look_ valid but _aren't_.
+  *Fallacies* are reasoning patterns that _look_ valid but _aren't_.
 
-  They appear everywhere: everyday arguments, politics, advertising, even academic papers.
-
-  Formal logic gives us precise tools to _identify_ and _refute_ them.
+  They appear in everyday arguments, politics, advertising, even academic papers. Formal logic gives precise tools to identify and refute them.
 ]
 
 #Block(color: yellow)[
   *Our approach:*
   + Present the fallacy pattern
   + Give a concrete example
-  + *Prove formally* why it fails (via countermodel)
+  + Prove formally why it fails (via countermodel)
 ]
 
 == Fallacy 1: Affirming the Consequent
@@ -1808,7 +1814,7 @@
 #example[
   "All cats are mammals. All dogs are mammals. Therefore, all cats are dogs."
 
-  Obviously wrong! But the _form_ looks like valid syllogistic reasoning.
+  Wrong! Yet the _form_ looks like valid syllogistic reasoning.
 ]
 
 #Block(color: green)[
@@ -1841,13 +1847,13 @@
 #example[
   "You're either with us or against us. You're not with us. Therefore, you're against us."
 
-  *Problem:* The premise is false --- one can be neutral, undecided, or have a nuanced position.
+  *Problem:* One can be neutral, undecided, or have a nuanced position.
 ]
 
 #Block(color: orange)[
-  *Key insight:* Some fallacies aren't about _invalid inference_ but about _false premises_.
+  Some fallacies aren't about _invalid inference_ but about _false premises_.
 
-  The logical form is valid, but the argument is _unsound_ because a premise doesn't hold.
+  The form is valid, but the argument is _unsound_ because a premise doesn't hold.
 ]
 
 == Fallacy 5: Begging the Question
@@ -1857,23 +1863,23 @@
 ]
 
 #example[
-  "God exists because the Bible says so, and the Bible is true because it's the word of God."
+  "This medicine works because it's effective, and we know it's effective because it works."
 
-  Formally: Premise $P imply Q$ and $Q imply P$ don't establish either $P$ or $Q$ without assuming one.
+  Formally: $P imply Q$ and $Q imply P$ don't establish either $P$ or $Q$ without assuming one.
 ]
 
 #Block(color: green)[
   *Formal analysis:*
 
-  Given only $P imply Q$ and $Q imply P$ (equivalently, $P iff Q$):
-  - If $P = Q = True$: consistent #sym.checkmark
-  - If $P = Q = False$: consistent #sym.checkmark
+  Given only $P iff Q$:
+  - $P = Q = True$: consistent #sym.checkmark
+  - $P = Q = False$: consistent #sym.checkmark
 
-  Neither $P$ nor $Q$ follows! We have $proves P iff Q$ but $proves.not P$ and $proves.not Q$.
+  Neither follows! We have $proves P iff Q$ but $proves.not P$ and $proves.not Q$.
 ]
 
 #Block(color: yellow)[
-  *Detection:* Check if removing the conclusion from premises makes them unable to support it.
+  *Detection:* Remove the conclusion from premises --- can they still support it?
 ]
 
 == Fallacy 6: Existential Fallacy
@@ -1945,7 +1951,7 @@
 )
 
 #Block(color: yellow)[
-  *Critical thinking:* Identify the logical form of an argument, then check whether it matches a valid or invalid pattern.
+  *Critical thinking:* Identify the logical form, then check if it matches a valid or invalid pattern.
 ]
 
 
@@ -1962,7 +1968,7 @@
   - *Semantic* ($models$): True in all interpretations (truth tables)
   - *Syntactic* ($proves$): Derivable using inference rules (proofs)
 
-  *Do they coincide?* This is the fundamental question of metalogic.
+  *Do they coincide?* This is the central question of metalogic.
 ]
 
 #grid(
@@ -1983,7 +1989,7 @@
 )
 
 #Block(color: teal)[
-  *Historical importance:* This question drove 20th century logic. Answering it required developing precise definitions of "proof" and "truth" --- the birth of mathematical logic as we know it.
+  This question drove 20th century logic, requiring precise definitions of "proof" and "truth" --- the birth of modern mathematical logic.
 ]
 
 == Soundness: Proofs Never Lie
@@ -2157,7 +2163,7 @@
 
   If $Gamma proves.not phi$, then $Gamma models.not phi$.
 
-  The key insight: if we _cannot_ prove $phi$, we can construct a _countermodel_ --- an interpretation where all of $Gamma$ is true but $phi$ is false.
+  The idea: if we _cannot_ prove $phi$, we can construct a _countermodel_ --- an interpretation where all of $Gamma$ is true but $phi$ is false.
 ]
 
 == Completeness Proof: Key Concepts
@@ -2176,7 +2182,7 @@
 ]
 
 #Block(color: yellow)[
-  *Key insight:* A maximal consistent set "decides" every formula --- it contains exactly one of $phi$ or $not phi$ for each $phi$.
+  *Note:* A maximal consistent set "decides" every formula --- it contains exactly one of $phi$ or $not phi$ for each $phi$.
 
   This lets us define a canonical interpretation directly from $Delta$!
 ]
@@ -2521,7 +2527,7 @@
 == Logical Relationships in the Square
 
 #Block[
-  The square captures _four fundamental relationships_:
+  The square captures four relationships:
 
   #grid(
     columns: 2,
@@ -2571,19 +2577,19 @@
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Traditional*], [*Modern Logic*], [*Reading*]),
-    [All S are P], [$forall x (S(x) → P(x))$], ["For all x, if x is S then x is P"],
-    [No S are P], [$forall x (S(x) → ¬P(x))$], ["For all x, if x is S then x is not P"],
-    [Some S are P], [$exists x (S(x) ∧ P(x))$], ["There exists x such that x is S and x is P"],
-    [Some S are not P], [$exists x (S(x) ∧ ¬P(x))$], ["There exists x such that x is S and x is not P"],
+    [All S are P], [$forall x (S(x) imply P(x))$], ["For all x, if x is S then x is P"],
+    [No S are P], [$forall x (S(x) imply not P(x))$], ["For all x, if x is S then x is not P"],
+    [Some S are P], [$exists x (S(x) and P(x))$], ["There exists x such that x is S and x is P"],
+    [Some S are not P], [$exists x (S(x) and not P(x))$], ["There exists x such that x is S and x is not P"],
   )
 ]
 
 #example[
   "All students are hardworking" becomes:
-  $forall x (text("Student")(x) → text("Hardworking")(x))$
+  $forall x ("Student"(x) imply "Hardworking"(x))$
 
   "Some politicians are not honest" becomes:
-  $exists x (text("Politician")(x) ∧ ¬text("Honest")(x))$
+  $exists x ("Politician"(x) and not "Honest"(x))$
 ]
 
 == The Existential Import Problem
@@ -2776,7 +2782,7 @@
 ]
 
 #Block(color: yellow)[
-  *Key insight:* The same variable name can be both free and bound in one formula! The two $x$'s above are _different_ --- one refers to an external value, the other is quantified.
+  *Note:* The same variable name can be both free and bound in one formula! The two $x$'s above are _different_ --- one refers to an external value, the other is quantified.
 ]
 
 #definition[
@@ -2859,7 +2865,7 @@
 
 #Block[
   _Truth in a structure:_ For structure $cal(M)$ and assignment $sigma$:
-  - $cal(M), sigma models P(t_1, dots, t_n)$ iff $chevron.l cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma chevron.r in cal(I)(P)$
+  - $cal(M), sigma models P(t_1, dots, t_n)$ iff $(cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma) in cal(I)(P)$
   - $cal(M), sigma models forall x. thin phi$ iff $cal(M), sigma' models phi$ for all $sigma'$ that differ from $sigma$ at most on $x$
   - $cal(M), sigma models exists x. thin phi$ iff $cal(M), sigma' models phi$ for some $sigma'$ that differs from $sigma$ at most on $x$
 ]
@@ -2880,7 +2886,7 @@
   - (Identity) $exists e. forall x. thin (x dot e = x) and (e dot x = x)$
   - (Inverses) $forall x. exists y. thin (x dot y = e) and (y dot x = e)$
 
-  Models include $chevron.l ZZ, + chevron.r$, $chevron.l RR setminus {0}, dot chevron.r$, etc.
+  Models include $pair(ZZ, +)$, $pair(RR without {0}, dot)$, etc.
 ]
 
 == First-Order Natural Deduction
@@ -3003,7 +3009,7 @@
   - First-order logic: highly expressive but _undecidable_
   - Higher-order logic: even more expressive but _incomplete_
 
-  This illustrates fundamental limitations in automated reasoning: we gain expressiveness at the cost of decidability.
+  This illustrates a trade-off: we gain expressiveness at the cost of decidability.
 ]
 
 == Applications and Connections
@@ -3052,7 +3058,7 @@
 )
 
 #Block(color: blue)[
-  *Key insights:*
+  *Takeaways:*
   - Syntax and semantics can be perfectly aligned (completeness)
   - Expressiveness comes at the cost of decidability
   - Formal logic provides foundations for mathematical reasoning and computation
@@ -3508,7 +3514,7 @@
 ]
 
 #Block(color: yellow)[
-  *Classical proofs* (using RAA or LEM) correspond to programs with _control operators_ (like exceptions or continuations). This is Curry--Howard for classical logic!
+  *Classical proofs* (using RAA or LEM) correspond to programs with _control operators_ like `call/cc` (call-with-current-continuation) or exceptions. The continuation captures "what happens next" --- exactly like assuming a negation in RAA!
 ]
 
 == Proof Assistants and Type Theory
@@ -3553,7 +3559,7 @@
 ]
 
 #Block(color: teal)[
-  This unification of logic, computation, and algebra is one of the most beautiful discoveries in foundations of mathematics!
+  This three-way correspondence --- logic, computation, algebra --- is a deep unification at the heart of theoretical computer science.
 ]
 
 == Why Curry--Howard Matters
@@ -3578,21 +3584,30 @@
 
 == Looking Forward
 
+#Block(color: teal)[
+  From truth tables to type theory, we've seen that formal logic is not just about validity --- it's about the structure of reasoning itself.
+
+  Key connections:
+  - *Proofs = programs* (Curry--Howard)
+  - *Semantics = syntax* (soundness and completeness)
+  - *Necessity = all accessible worlds* (Kripke)
+]
+
 #grid(
   columns: 2,
   column-gutter: 2em,
   [
-    *Advanced logic topics:*
-    - Temporal logic (time, concurrency)
-    - Intuitionistic logic (constructive math)
-    - Linear logic (resource-aware reasoning)
-    - Description logics (semantic web)
+    *Topics to explore:*
+    - Temporal logic (LTL, CTL)
+    - Intuitionistic logic
+    - Linear logic
+    - Description logics (OWL)
   ],
   [
-    *Connections to other areas:*
-    - Computability and complexity theory
-    - Category theory and type theory
-    - Model theory and set theory
+    *Connections:*
+    - Computability theory
+    - Category theory
+    - Model theory
     - Philosophical logic
   ],
 )
