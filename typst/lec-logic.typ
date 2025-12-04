@@ -63,10 +63,9 @@
 #Block(color: teal)[
   *From Boolean Algebra to Formal Reasoning*
 
-  Boolean algebra computes truth values; formal logic asks _which formulas are always true_.
+  In Boolean Algebra, we studied how to _compute_ with truth values --- evaluating expressions like $(P and Q) or not P$ given specific values for $P$ and $Q$.
 
-  - Boolean algebra: "What is the value of $(P and Q) or not P$?"
-  - Formal logic: "If $P imply Q$ and $P$ hold, must $Q$ hold?"
+  Now we ask a deeper question: which formulas are _always_ true, regardless of the values we plug in? And how do we _prove_ that an argument is valid?
 ]
 
 #Block(color: yellow)[
@@ -140,7 +139,9 @@
 == Syntax: The Language of Logic
 
 #Block[
-  *Syntax* concerns the formal _structure_ of logical expressions --- how symbols are arranged according to grammatical rules, _independent of meaning_.
+  Before we can ask whether a formula is _true_, we need to specify what counts as a valid formula. This is the job of *syntax*: defining the grammar of our logical language.
+
+  Syntax is purely about structure --- it says nothing about meaning.
 ]
 
 #definition[
@@ -277,9 +278,9 @@
 == Semantics: The Meaning of Logic
 
 #Block[
-  *Semantics* assigns meaning to formulas --- how they relate to truth values.
+  So far we've discussed _syntax_ --- the grammar of logical formulas.
 
-  Syntax: "Is this well-formed?" $quad$ Semantics: "Is this true?"
+  *Semantics* is about _meaning_: when is a formula true? The answer depends on what truth values we assign to the variables.
 ]
 
 #definition[
@@ -498,7 +499,7 @@
 == Fundamental Equivalence Laws
 
 #Block(color: green)[
-  These laws form the _algebra of propositions_ (compare with Boolean algebra!)
+  Just as Boolean algebra has laws for simplifying expressions, propositional logic has equivalence laws. In fact, they're the same laws! Here's a reference:
 ]
 
 #grid(
@@ -613,7 +614,9 @@
 == Why Logic Puzzles?
 
 #Block(color: teal)[
-  Logic puzzles put formal reasoning into action. Systematic application of rules solves problems that seem impossible at first --- and reveals pitfalls in informal intuition.
+  Logic puzzles are a playground for formal reasoning. They look like entertainment, but solving them requires exactly the same techniques we use for serious applications: formalizing constraints, applying inference rules, and checking for consistency.
+
+  What makes them valuable is that they reveal how easily informal intuition can go wrong.
 ]
 
 #Block(color: yellow)[
@@ -1054,10 +1057,10 @@
 == Types of Proof Systems
 
 #Block(color: yellow)[
-  There are many different proof systems for propositional logic. They differ in:
-  - How many axioms they have (many vs. few vs. none)
-  - What inference rules they use
-  - How proofs are structured
+  There are many different proof systems for propositional logic. They all prove the same theorems, but differ in style:
+  - How many axioms they start with (many vs. few vs. none)
+  - What inference rules they allow
+  - How proofs are structured (linear, tree, etc.)
 ]
 
 #v(1fr, weak: true)
@@ -1068,23 +1071,23 @@
   Block(color: blue)[
     *Hilbert-style systems:*
     - Many axiom _schemas_
-    - Few inference rules (e.g. just modus ponens)
+    - Few inference rules (often just modus ponens)
     - Proofs are linear sequences
-    - Historically important but hard to use
+    - Historically important but tedious to use
   ],
   Block(color: green)[
     *Natural deduction:*
-    - No axioms
-    - Many inference rules (intro/elim)
+    - No axioms at all
+    - Many inference rules (intro/elim for each connective)
     - Tree-structured or Fitch-style proofs
-    - Mirrors human reasoning
+    - Closer to how mathematicians actually reason
   ],
 )
 
 #v(1fr, weak: true)
 
 #Block(color: orange)[
-  Other systems include: _sequent calculus_ (Gentzen), _tableaux_ (semantic trees), _resolution_ (SAT).
+  Other systems: _sequent calculus_ (Gentzen), _tableaux_ (semantic trees), _resolution_ (used in SAT solvers).
 
   Different systems are useful for different purposes!
 ]
@@ -1152,10 +1155,12 @@
 == Hypothetical Reasoning
 
 #Block[
-  Natural deduction supports _hypothetical reasoning_:
+  One of the most powerful features of natural deduction is _hypothetical reasoning_:
   - We can temporarily *assume* a formula
   - Derive consequences from that assumption
   - Then *discharge* the assumption to get a conditional result
+
+  This mirrors how mathematicians actually argue: "Suppose $P$ holds. Then... Therefore, if $P$ then $Q$."
 ]
 
 #example[Proving $P imply P$][
@@ -1681,7 +1686,9 @@
 #Block(color: teal)[
   *Fallacies* are reasoning patterns that _look_ valid but _aren't_.
 
-  They appear in everyday arguments, politics, advertising, even academic papers. Formal logic gives precise tools to identify and refute them.
+  They appear everywhere: everyday arguments, political debates, advertising, even academic papers. The trouble is that they can be quite persuasive until you analyze them carefully.
+
+  Formal logic gives us precise tools to identify and refute fallacious reasoning.
 ]
 
 #Block(color: yellow)[
@@ -2171,7 +2178,7 @@
 #definition[
   A set of formulas $Gamma$ is _consistent_ if $Gamma proves.not bot$.
 
-  Equivalently: there is no derivation of $bot$ from $Gamma$.
+  Equivalently: there is no derivation of a contradiction from $Gamma$.
 ]
 
 #definition[
@@ -2182,9 +2189,9 @@
 ]
 
 #Block(color: yellow)[
-  *Note:* A maximal consistent set "decides" every formula --- it contains exactly one of $phi$ or $not phi$ for each $phi$.
+  A maximal consistent set "decides" every formula --- it contains exactly one of $phi$ or $not phi$ for each $phi$.
 
-  This lets us define a canonical interpretation directly from $Delta$!
+  This is powerful: we can define an interpretation directly from membership in $Delta$!
 ]
 
 == Completeness Proof: Lindenbaum's Lemma
@@ -2713,13 +2720,13 @@
 == Transition to First-Order Logic
 
 #Block[
-  Propositional logic can only reason about _whole statements_.
+  Propositional logic treats statements as atomic units --- we can't look _inside_ them.
 
-  To reason about _objects_ and their _properties_, we need _first-order logic_ (FOL).
+  But many arguments depend on the _internal structure_ of statements: the objects they mention and the properties those objects have.
 ]
 
 #example[Limitations of Propositional Logic][
-  Cannot express:
+  Consider the classic syllogism:
   - "All humans are mortal"
   - "Socrates is human"
   - "Therefore, Socrates is mortal"
@@ -2998,18 +3005,22 @@
 #Block(color: yellow)[
   *Gödel's Incompleteness (for arithmetic):*
 
-  Any consistent formal system strong enough to express arithmetic contains statements that are _true but unprovable_ within the system. This is different from (un)decidability --- it concerns the limits of _any_ proof system, not just algorithmic validity checking.
+  Any consistent formal system strong enough to express arithmetic contains true statements that are unprovable within that system.
+
+  This is different from undecidability --- incompleteness says that _no_ proof system can capture all mathematical truths about arithmetic.
 ]
 
 #pagebreak()
 
 #Block(color: orange)[
   *The expressiveness--decidability trade-off:*
-  - Propositional logic: decidable (SAT-solvable) but has _limited expressiveness_
-  - First-order logic: highly expressive but _undecidable_
-  - Higher-order logic: even more expressive but _incomplete_
 
-  This illustrates a trade-off: we gain expressiveness at the cost of decidability.
+  There's a pattern here:
+  - Propositional logic: decidable but limited in what it can express
+  - First-order logic: very expressive but undecidable
+  - Higher-order logic: even more expressive but incomplete
+
+  We gain expressive power at the cost of decidability. This is a theme throughout theoretical computer science.
 ]
 
 == Applications and Connections
@@ -3075,13 +3086,15 @@
 == Beyond Truth: Modes of Truth
 
 #Block(color: teal)[
-  *Propositional logic* deals with statements that are simply _true_ or _false_.
+  In propositional logic, statements are simply _true_ or _false_.
 
-  But natural reasoning involves _modes_ of truth:
-  - "2 + 2 = 4" is *necessarily* true (couldn't be otherwise)
-  - "It will rain tomorrow" is *possibly* true (might happen)
-  - "John knows the door is locked" involves *knowledge* (epistemic)
-  - "Promises ought to be kept" involves *obligation* (deontic)
+  But when we reason in everyday life, we often care about _how_ something is true:
+  - "2 + 2 = 4" is *necessarily* true --- it couldn't be otherwise
+  - "It will rain tomorrow" is *possibly* true --- it might happen
+  - "John knows the door is locked" involves *knowledge*
+  - "Promises ought to be kept" involves *obligation*
+
+  These are different _modes_ of truth, and classical logic can't express them.
 ]
 
 #Block(color: yellow)[
@@ -3387,13 +3400,13 @@
 == Implication as Function Type
 
 #Block(color: green)[
-  *The core insight:*
+  The heart of the correspondence:
 
   A proof of $phi imply psi$ is a _method_ that transforms any proof of $phi$ into a proof of $psi$.
 
   A function of type $A arrow.r B$ is a _program_ that transforms any value of type $A$ into a value of type $B$.
 
-  *These are the same concept!*
+  These are the same concept viewed from different angles!
 ]
 
 #example[
@@ -3585,12 +3598,15 @@
 == Looking Forward
 
 #Block(color: teal)[
-  From truth tables to type theory, we've seen that formal logic is not just about validity --- it's about the structure of reasoning itself.
+  We've traveled from truth tables to type theory, covering a lot of ground:
 
-  Key connections:
-  - *Proofs = programs* (Curry--Howard)
-  - *Semantics = syntax* (soundness and completeness)
-  - *Necessity = all accessible worlds* (Kripke)
+  - *Propositional logic* gave us the basics: connectives, truth tables, proofs
+  - *Soundness and completeness* showed that semantic and syntactic truth coincide
+  - *First-order logic* let us reason about objects and their properties
+  - *Modal logic* added necessity, possibility, and beyond
+  - *Curry--Howard* revealed that proofs and programs are two views of the same thing
+
+  This is just the beginning --- logic connects to almost every area of computer science and mathematics.
 ]
 
 #grid(
