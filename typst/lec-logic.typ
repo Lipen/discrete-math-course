@@ -65,7 +65,8 @@
 
   In Boolean Algebra, we studied how to _compute_ with truth values --- evaluating expressions like $(P and Q) or not P$ given specific values for $P$ and $Q$.
 
-  Now we ask a deeper question: which formulas are _always_ true, regardless of the values we plug in? And how do we _prove_ that an argument is valid?
+  Now we ask a deeper question: which formulas are _always_ true, regardless of the values we plug in?
+  And how do we _prove_ that an argument is valid?
 ]
 
 #Block(color: yellow)[
@@ -139,7 +140,8 @@
 == Syntax: The Language of Logic
 
 #Block[
-  Before we can ask whether a formula is _true_, we need to specify what counts as a valid formula. This is the job of *syntax*: defining the grammar of our logical language.
+  Before we can ask whether a formula is _true_, we need to specify what counts as a valid formula.
+  This is the job of *syntax*: defining the grammar of our logical language.
 
   Syntax is purely about structure --- it says nothing about meaning.
 ]
@@ -280,7 +282,8 @@
 #Block[
   So far we've discussed _syntax_ --- the grammar of logical formulas.
 
-  *Semantics* is about _meaning_: when is a formula true? The answer depends on what truth values we assign to the variables.
+  *Semantics* is about _meaning_: when is a formula true?
+  The answer depends on what truth values we assign to the variables.
 ]
 
 #definition[
@@ -499,7 +502,9 @@
 == Fundamental Equivalence Laws
 
 #Block(color: green)[
-  Just as Boolean algebra has laws for simplifying expressions, propositional logic has equivalence laws. In fact, they're the same laws! Here's a reference:
+  Just as Boolean algebra has laws for simplifying expressions, propositional logic has equivalence laws.
+  In fact, they're the same laws!
+  Here's a reference:
 ]
 
 #grid(
@@ -554,7 +559,7 @@
 
 #grid(
   columns: 2,
-  column-gutter: 1.5em,
+  column-gutter: 2em,
   [
     *Implication Elimination:*
     - $P imply Q equiv not P or Q$
@@ -602,233 +607,6 @@
 
 #note[
   The deduction theorem connects entailment with implication: to show that premises entail a conclusion, we can equivalently show that the conjunction of premises implies the conclusion.
-]
-
-
-= Logic Puzzles
-#focus-slide(
-  epigraph: [A knight would never say that he is a knave.],
-  epigraph-author: [Raymond Smullyan],
-)
-
-== Why Logic Puzzles?
-
-#Block(color: teal)[
-  Logic puzzles are a playground for formal reasoning. They look like entertainment, but solving them requires exactly the same techniques we use for serious applications: formalizing constraints, applying inference rules, and checking for consistency.
-
-  What makes them valuable is that they reveal how easily informal intuition can go wrong.
-]
-
-#Block(color: yellow)[
-  *In this section:*
-  - Formalizing puzzle constraints as formulas
-  - Systematic solving techniques
-  - Connection to SAT solvers
-]
-
-== Knights and Knaves: The Setup
-
-#definition[
-  On the _Island of Knights and Knaves_:
-  - *Knights* always tell the truth
-  - *Knaves* always lie
-  - Every inhabitant is either a knight or a knave
-
-  Your task: determine who is what from their statements.
-]
-
-#Block(color: blue)[
-  *Formalization:* For each person $X$, let $K_X$ mean "$X$ is a knight."
-
-  A statement $S$ made by $X$ translates to: $K_X iff S$
-
-  _Why?_ If $X$ is a knight, $S$ is true. If $X$ is a knave, $S$ is false.
-]
-
-== Puzzle 1: A Simple Start
-
-#example[
-  *Person A says:* "I am a knave."
-
-  *Is A a knight or a knave?*
-]
-
-#Block(color: green)[
-  *Solution:*
-
-  Let $K_A$ = "A is a knight". A's statement is $not K_A$ ("I am a knave").
-
-  The constraint: $K_A iff not K_A$
-
-  - If $K_A$ is true: then $not K_A$ must be true (contradiction!)
-  - If $K_A$ is false: then $not K_A$ must be false, so $K_A$ is true (contradiction!)
-
-  *This is a contradiction!* No consistent assignment exists.
-
-  $therefore$ This situation _cannot occur_ on the island --- A cannot make this statement.
-]
-
-== Puzzle 2: Two Inhabitants
-
-#example[
-  *Person A says:* "We are both knaves."
-
-  *Determine the types of A and B.*
-]
-
-#Block(color: green)[
-  *Formalization:*
-  - $K_A$ = "A is a knight", $K_B$ = "B is a knight"
-  - A's statement: $not K_A and not K_B$
-  - Constraint: $K_A iff (not K_A and not K_B)$
-
-  *Analysis:*
-  - If $K_A$ (A is a knight): Then $not K_A and not K_B$ is true, so $not K_A$ is true. Contradiction!
-  - So $not K_A$ (A is a knave): Then $not K_A and not K_B$ is false.
-    Since $not K_A$ is true, we need $not K_B$ to be false, so $K_B$ is true.
-
-  *Answer:* A is a knave, B is a knight.
-]
-
-== Puzzle 3: Mutual Accusations
-
-#example[
-  *A says:* "B is a knave."
-
-  *B says:* "A and I are of different types."
-
-  *What are A and B?*
-]
-
-#Block(color: green)[
-  *Formalization:*
-  - A's statement: $not K_B$ $quad$ Constraint: $K_A iff not K_B$
-  - B's statement: $K_A iff.not K_B$ (different types) $quad$ Constraint: $K_B iff (K_A iff.not K_B)$
-
-  From constraint 1: $K_A$ and $K_B$ have opposite values.
-
-  Substituting into constraint 2: $K_B iff top$ (since $K_A iff.not K_B$ is always true given constraint 1)
-
-  So $K_B$ is true (B is a knight), hence $K_A$ is false (A is a knave).
-
-  *Answer:* A is a knave, B is a knight.
-
-  *Check:* A (knave) lies about B being a knave. B (knight) truthfully says they're different. #sym.checkmark
-]
-
-== Puzzle 4: The Fork in the Road
-
-#example[The Classic Puzzle][
-  You reach a fork. One path leads to treasure, the other to doom.
-
-  A single inhabitant stands there. You may ask *one yes/no question*.
-
-  *What question finds the treasure?*
-]
-
-#Block(color: green)[
-  *The key question:* "If I asked you 'Does the left path lead to treasure?', would you say yes?"
-
-  Let $L$ = "left leads to treasure".
-
-  - *Knight:* Answers the inner question truthfully. Says "yes" iff $L$.
-
-  - *Knave:* Would lie about the inner question. But asked _whether_ he'd say yes, he lies _again_ --- double negation! Says "yes" iff $L$.
-
-  *Both types answer "yes" exactly when left leads to treasure.*
-]
-
-#Block(color: yellow)[
-  *The double-negation trick:* Asking a liar what they _would_ say inverts the lie, yielding truth.
-]
-
-== From Puzzles to SAT
-
-#Block(color: blue)[
-  *Knights and Knaves puzzles are SAT problems in disguise!*
-
-  The translation is direct:
-  - *Variables:* $K_A, K_B, dots$ (one per person: true = knight)
-  - *Constraints:* For each statement $S$ by person $X$: add clause $K_X iff S$
-  - *Solution:* Find a satisfying assignment
-
-  Modern SAT solvers handle puzzles with _thousands_ of inhabitants.
-]
-
-#example[Puzzle 2 as CNF][
-  Constraint: $K_A iff (not K_A and not K_B)$
-
-  Converting to CNF (eliminate $iff$, distribute):
-  $ (not K_A or not K_A) and (not K_A or not K_B) and (K_A or K_A or K_B) $
-  $ equiv not K_A and (not K_A or not K_B) and (K_A or K_B) $
-  $ equiv not K_A and K_B $
-
-  SAT solver immediately returns: $K_A = 0, K_B = 1$
-]
-
-== The Hardest Logic Puzzle Ever
-
-#Block(color: orange)[
-  *Boolos's puzzle (1996):* Three gods --- True, False, and Random --- stand before you.
-  - True always speaks truly; False always lies
-  - Random answers randomly
-  - They respond with "da" or "ja" (you don't know which means yes/no)
-
-  *Challenge:* Determine each god's identity using exactly three yes/no questions.
-]
-
-#Block(color: yellow)[
-  This puzzle combines:
-  - Knights and Knaves logic
-  - Unknown language mapping
-  - Non-deterministic behavior
-
-  It was proven that three questions are both _necessary_ and _sufficient_!
-
-  _Reference: G. Boolos, "The Hardest Logic Puzzle Ever", Harvard Review of Philosophy, 1996._
-]
-
-== Self-Reference Puzzles
-
-#example[The Liar's Paradox][
-  Consider the statement: "This statement is false."
-
-  - If it's true, then what it says holds, so it's false. Contradiction!
-  - If it's false, then what it says doesn't hold, so it's not false, i.e., true. Contradiction!
-]
-
-#Block(color: orange)[
-  *This is not a puzzle to solve --- it's a _paradox_!*
-
-  Unlike Knights and Knaves, there's no consistent truth assignment.
-
-  Paradoxes like this motivated:
-  - Tarski's hierarchy of truth predicates
-  - Gödel's incompleteness theorems
-  - Careful treatment of self-reference in formal systems
-]
-
-#Block(color: yellow)[
-  *Takeaway:* Formal logic helps us distinguish _solvable puzzles_ from _genuine paradoxes_.
-]
-
-== Logic Puzzle Strategies
-
-#Block(color: blue)[
-  *Systematic approach:*
-
-  + *Formalize:* Assign a variable to each unknown
-  + *Translate:* Convert each statement to a formula
-  + *Constrain:* Add $(italic("statement")) iff (italic("speaker is truthful"))$
-  + *Simplify:* Apply logical equivalences
-  + *Solve:* Find satisfying assignments (or prove none exist)
-  + *Verify:* Check against all constraints
-]
-
-#example[
-  *Always verify!* In Puzzle 2:
-  - A (knave) says "We are both knaves" --- false since B is a knight. #sym.checkmark
-  - $K_A = 0, K_B = 1$ satisfies all constraints. #sym.checkmark
 ]
 
 
@@ -924,6 +702,243 @@
   _See the dedicated lecture on SAT for DPLL algorithm, CDCL, and applications._
 ]
 
+
+= Logic Puzzles
+#focus-slide(
+  epigraph: () => align(left)[
+    "What's the sense of a question without an answer?" asked Alice. \
+    "Ah, that's the kind that makes you think!" he replied. \
+    "Think about what?" asked Alice. \
+    "About what the answer could be," he replied.
+  ],
+  epigraph-author: [Raymond Smullyan],
+)
+
+== Why Logic Puzzles?
+
+#Block(color: teal)[
+  Logic puzzles are a playground for formal reasoning.
+  They look like entertainment, but solving them requires exactly the same techniques we use for serious applications: formalizing constraints, applying inference rules, and checking for consistency.
+
+  What makes them valuable is that they reveal how easily informal intuition can go wrong.
+]
+
+#Block(color: yellow)[
+  *In this section:*
+  - Formalizing puzzle constraints as formulas
+  - Systematic solving techniques
+  - Connection to SAT solvers
+]
+
+== Knights and Knaves: The Setup
+
+#definition[
+  On the _Island of Knights and Knaves_:
+  - *Knights* always tell the truth
+  - *Knaves* always lie
+  - Every inhabitant is either a knight or a knave
+
+  Your task: determine who is what from their statements.
+]
+
+#Block(color: blue)[
+  *Formalization:* For each person $X$, let $K_X$ mean "$X$ is a knight."
+
+  A statement $S$ made by $X$ translates to: $K_X iff S$
+
+  _Why?_ If $X$ is a knight, $S$ is true. If $X$ is a knave, $S$ is false.
+]
+
+== Puzzle 1: A Simple Start
+
+#example[
+  *Person A says:* "I am a knave."
+
+  *Is A a knight or a knave?*
+]
+
+#Block(color: green)[
+  *Solution:*
+
+  Let $K_A$ = "A is a knight". A's statement is $not K_A$ ("I am a knave").
+
+  The constraint: $K_A iff not K_A$
+
+  - If $K_A$ is true: then $not K_A$ must be true (contradiction!)
+  - If $K_A$ is false: then $not K_A$ must be false, so $K_A$ is true (contradiction!)
+
+  *This is a contradiction!* No consistent assignment exists.
+
+  $therefore$ This situation _cannot occur_ on the island --- A cannot make this statement.
+]
+
+== Puzzle 2: Two Inhabitants
+
+#example[
+  *Person A says:* "We are both knaves."
+
+  *Determine the types of A and B.*
+]
+
+#Block(color: green)[
+  *Formalization:*
+  - $K_A$ = "A is a knight", $K_B$ = "B is a knight"
+  - A's statement: $not K_A and not K_B$
+  - Constraint: $K_A iff (not K_A and not K_B)$
+
+  *Analysis:*
+  - If $K_A$ (A is a knight): Then $not K_A and not K_B$ is true, so $not K_A$ is true. Contradiction!
+  - So $not K_A$ (A is a knave): Then $not K_A and not K_B$ is false.
+    Since $not K_A$ is true, we need $not K_B$ to be false, so $K_B$ is true.
+
+  *Answer:* A is a knave, B is a knight.
+]
+
+== Puzzle 3: Mutual Accusations
+
+*A says:* "B is a knave."
+
+*B says:* "Me and A are of different types."
+
+*What are A and B?*
+
+#Block(color: green)[
+  *Formalization:*
+  - A's statement: $not K_B$ $quad$ Constraint: $K_A iff not K_B$
+  - B's statement: $K_A iff.not K_B$ (different types) $quad$ Constraint: $K_B iff (K_A iff.not K_B)$
+
+  From constraint 1: $K_A$ and $K_B$ have opposite values.
+
+  Substituting into constraint 2: $K_B iff top$ (since $K_A iff.not K_B$ is always true given constraint 1)
+
+  So $K_B$ is true (B is a knight), hence $K_A$ is false (A is a knave).
+
+  *Answer:* A is a knave, B is a knight.
+
+  *Check:* A (knave) lies about B being a knave. B (knight) truthfully says they're different. #YES
+]
+
+== Puzzle 4: The Fork in the Road
+
+You reach a fork.
+One path leads to treasure, the other to doom.
+
+A single inhabitant stands there. You may ask *one yes/no question*.
+
+*What question finds the treasure?*
+
+#Block(color: green)[
+  *The key question:* "If I asked you 'Does the left path lead to treasure?', would you say yes?"
+
+  Let $L$ = "left leads to treasure".
+
+  - *Knight:* Answers the inner question truthfully.
+    Says "yes" iff $L$.
+
+  - *Knave:* Would lie about the inner question.
+    But asked _whether_ he'd say yes, he lies _again_ --- double negation!
+    Says "yes" iff $L$.
+
+  *Both types answer "yes" exactly when left leads to treasure.*
+]
+
+#v(1fr, weak: true)
+
+#Block(color: yellow)[
+  *The double-negation trick:* Asking a liar what they _would_ say inverts the lie, yielding truth.
+]
+
+== From Puzzles to SAT
+
+#Block(color: blue)[
+  *Knights and Knaves puzzles are SAT problems in disguise!*
+
+  The translation is direct:
+  - *Variables:* $K_A, K_B, dots$ (one per person: true = knight)
+  - *Constraints:* For each statement $S$ by person $X$: add clause $K_X iff S$
+  - *Solution:* Find a satisfying assignment
+
+  Modern SAT solvers handle puzzles with _thousands_ of inhabitants.
+]
+
+#example[Puzzle 2 as CNF][
+  Constraint: $K_A iff (not K_A and not K_B)$.
+  Converting to CNF:
+  $
+    & (not K_A or not K_A) and (not K_A or not K_B) and (K_A or K_A or K_B) \
+    & quad equiv not K_A and (not K_A or not K_B) and (K_A or K_B) \
+    & quad equiv not K_A and K_B
+  $
+
+  SAT solver immediately finds a solution: $K_A = 0, K_B = 1$
+]
+
+== The Hardest Logic Puzzle Ever
+
+#Block(color: orange)[
+  *Boolos's puzzle (1996):* Three gods --- True, False, and Random --- stand before you.
+  - True always speaks truly; False always lies
+  - Random answers randomly
+  - They respond with "da" or "ja" (you don't know which means yes/no)
+
+  *Challenge:* Determine each god's identity using exactly three yes/no questions.
+]
+
+#Block(color: yellow)[
+  This puzzle combines:
+  - Knights and Knaves logic
+  - Unknown language mapping
+  - Non-deterministic behavior
+
+  It was proven that three questions are both _necessary_ and _sufficient_!
+
+  Reference: _G. Boolos, "The Hardest Logic Puzzle Ever", 1996._
+]
+
+== Self-Reference Puzzles
+
+#example[The Liar's Paradox][
+  Consider the statement: "This statement is false."
+
+  - If it's true, then what it says holds, so it's false. Contradiction!
+  - If it's false, then what it says doesn't hold, so it's not false, i.e., true. Contradiction!
+]
+
+#Block(color: orange)[
+  *This is not a puzzle to solve --- it's a _paradox_!*
+
+  Unlike Knights and Knaves, there's no consistent truth assignment.
+
+  Paradoxes like this motivated:
+  - Tarski's hierarchy of truth predicates
+  - Gödel's incompleteness theorems
+  - Careful treatment of self-reference in formal systems
+]
+
+#Block(color: yellow)[
+  *Takeaway:* Formal logic helps us distinguish _solvable puzzles_ from _genuine paradoxes_.
+]
+
+== Logic Puzzle Strategies
+
+#Block(color: blue)[
+  *Systematic approach:*
+
+  + *Formalize:* Assign a variable to each unknown
+  + *Translate:* Convert each statement to a formula
+  + *Constrain:* Add $(italic("statement")) iff (italic("speaker is truthful"))$
+  + *Simplify:* Apply logical equivalences
+  + *Solve:* Find satisfying assignments (or prove none exist)
+  + *Verify:* Check against all constraints
+]
+
+#example[
+  *Always verify!* In Puzzle 2:
+  - A (knave) says "We are both knaves" --- false since B is a knight. #YES
+  - $K_A = 0, K_B = 1$ satisfies all constraints. #YES
+]
+
+
 = Proof Systems
 #focus-slide(
   epigraph: [Mathematics is not about numbers, equations, or algorithms: \ it is about understanding.],
@@ -998,7 +1013,8 @@
 ]
 
 #note[
-  Inference rules are written with premises above the line and conclusion below. This notation goes back to Frege and Gentzen.
+  Inference rules are written with premises above the line and conclusion below.
+  This notation goes back to Frege and Gentzen.
 ]
 
 == What is a Proof?
@@ -1057,7 +1073,8 @@
 == Types of Proof Systems
 
 #Block(color: yellow)[
-  There are many different proof systems for propositional logic. They all prove the same theorems, but differ in style:
+  There are many different proof systems for propositional logic.
+  They all prove the same theorems, but differ in style:
   - How many axioms they start with (many vs. few vs. none)
   - What inference rules they allow
   - How proofs are structured (linear, tree, etc.)
@@ -1160,7 +1177,9 @@
   - Derive consequences from that assumption
   - Then *discharge* the assumption to get a conditional result
 
-  This mirrors how mathematicians actually argue: "Suppose $P$ holds. Then... Therefore, if $P$ then $Q$."
+  This mirrors how mathematicians actually argue: "Suppose $P$ holds.
+  Then...
+  Therefore, if $P$ then $Q$."
 ]
 
 #example[Proving $P imply P$][
@@ -1502,7 +1521,8 @@
 ]
 
 #Block(color: yellow)[
-  *Key technique:* We assumed $not (P or not P)$ and derived $bot$. By RAA, we conclude $P or not P$.
+  *Key technique:* We assumed $not (P or not P)$ and derived $bot$.
+  By RAA, we conclude $P or not P$.
 
   This is a *classical* proof --- it relies on double negation elimination and is not valid in intuitionistic logic!
 ]
@@ -1590,7 +1610,9 @@
 ]
 
 #Block(color: orange)[
-  *Peirce's Law* is another purely classical theorem. It's equivalent to excluded middle and cannot be proven constructively. It's named after Charles Sanders Peirce (1839--1914).
+  *Peirce's Law* is another purely classical theorem.
+  It's equivalent to excluded middle and cannot be proven constructively.
+  It's named after Charles Sanders Peirce (1839--1914).
 ]
 
 == Derived Rules
@@ -1686,7 +1708,8 @@
 #Block(color: teal)[
   *Fallacies* are reasoning patterns that _look_ valid but _aren't_.
 
-  They appear everywhere: everyday arguments, political debates, advertising, even academic papers. The trouble is that they can be quite persuasive until you analyze them carefully.
+  They appear everywhere: everyday arguments, political debates, advertising, even academic papers.
+  The trouble is that they can be quite persuasive until you analyze them carefully.
 
   Formal logic gives us precise tools to identify and refute fallacious reasoning.
 ]
@@ -1725,9 +1748,9 @@
 
   Find an interpretation where premises are true but conclusion is false:
   - Let $nu(P) = False$, $nu(Q) = True$
-  - Then $P imply Q = False imply True = True$ #sym.checkmark
-  - And $Q = True$ #sym.checkmark
-  - But $P = False$ #sym.crossmark
+  - Then $P imply Q = False imply True = True$ #YES
+  - And $Q = True$ #YES
+  - But $P = False$ #NO
 
   The premises don't entail the conclusion: ${P imply Q, Q} models.not P$
 ]
@@ -1743,7 +1766,7 @@
       $P imply Q$,
       $not P$,
       grid.hline(stroke: .8pt),
-      [$not Q$ #h(2em) #text(fill: red)[*✗ INVALID*]],
+      [$not Q$ #h(2em) #Red[#NO *INVALID*]],
     )
   ]
 ]
@@ -1758,9 +1781,9 @@
   *Formal proof of invalidity:*
 
   - Let $nu(P) = False$, $nu(Q) = True$
-  - Then $P imply Q = True$ #sym.checkmark
-  - And $not P = True$ #sym.checkmark
-  - But $not Q = False$ #sym.crossmark
+  - Then $P imply Q = True$ #YES
+  - And $not P = True$ #YES
+  - But $not Q = False$ #NO
 
   The conclusion $not Q$ is false while premises are true!
 ]
@@ -1778,7 +1801,7 @@
       $P imply Q$,
       $P$,
       grid.hline(stroke: .8pt),
-      [$Q$ #h(1em) #sym.checkmark],
+      [$Q$ #h(1em) #YES],
     )
     "If $P$ then $Q$; $P$; so $Q$."
   ],
@@ -1790,7 +1813,7 @@
       $P imply Q$,
       $not Q$,
       grid.hline(stroke: .8pt),
-      [$not P$ #h(1em) #sym.checkmark],
+      [$not P$ #h(1em) #YES],
     )
     "If $P$ then $Q$; not $Q$; so not $P$."
   ],
@@ -1813,7 +1836,7 @@
       [All A are B],
       [All C are B],
       grid.hline(stroke: .8pt),
-      [All A are C #h(2em) #text(fill: red)[*✗ INVALID*]],
+      [All A are C #h(2em) #Red[#NO *INVALID*]],
     )
   ]
 ]
@@ -1831,7 +1854,7 @@
 
   *Countermodel:* Let domain $= {a, c}$, with $A(a) = T$, $C(c) = T$, $B(a) = B(c) = T$, and $A(c) = C(a) = F$.
 
-  Both premises hold, but $A(a) imply C(a)$ is $T imply F = F$. #sym.crossmark
+  Both premises hold, but $A(a) imply C(a)$ is $T imply F = F$. #NO
 ]
 
 == Fallacy 4: False Dilemma
@@ -1879,8 +1902,8 @@
   *Formal analysis:*
 
   Given only $P iff Q$:
-  - $P = Q = True$: consistent #sym.checkmark
-  - $P = Q = False$: consistent #sym.checkmark
+  - $P = Q = True$: consistent #YES
+  - $P = Q = False$: consistent #YES
 
   Neither follows! We have $proves P iff Q$ but $proves.not P$ and $proves.not Q$.
 ]
@@ -1899,7 +1922,7 @@
       inset: 5pt,
       [All S are P],
       grid.hline(stroke: .8pt),
-      [Some S are P #h(2em) #text(fill: red)[*✗ INVALID*]],
+      [Some S are P #h(2em) #Red[#NO *INVALID*]],
     )
   ]
 ]
@@ -1935,9 +1958,9 @@
 
   *Countermodel construction:*
   - Choose $nu(P) = 0$, $nu(Q) = 1$
-  - Check premise 1: $nu(P imply Q) = nu(not P or Q) = max(1, 1) = 1$ #sym.checkmark
-  - Check premise 2: $nu(Q) = 1$ #sym.checkmark
-  - Check conclusion: $nu(P) = 0$ #sym.crossmark
+  - Check premise 1: $nu(P imply Q) = nu(not P or Q) = max(1, 1) = 1$ #YES
+  - Check premise 2: $nu(Q) = 1$ #YES
+  - Check conclusion: $nu(P) = 0$ #NO
 
   Premises true, conclusion false $imply$ inference invalid. $qed$
 ]
@@ -1949,12 +1972,12 @@
   align: (left, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Pattern*], [*Valid?*], [*Name*]),
-  [$P imply Q, P therefore Q$], [#text(fill: green)[#sym.checkmark]], [Modus Ponens],
-  [$P imply Q, not Q therefore not P$], [#text(fill: green)[#sym.checkmark]], [Modus Tollens],
-  [$P imply Q, Q therefore P$], [#text(fill: red)[#sym.crossmark]], [Affirming Consequent],
-  [$P imply Q, not P therefore not Q$], [#text(fill: red)[#sym.crossmark]], [Denying Antecedent],
-  [$P or Q, not P therefore Q$], [#text(fill: green)[#sym.checkmark]], [Disjunctive Syllogism],
-  [$P and Q therefore P$], [#text(fill: green)[#sym.checkmark]], [Simplification],
+  [$P imply Q, P therefore Q$], [#YES], [Modus Ponens],
+  [$P imply Q, not Q therefore not P$], [#YES], [Modus Tollens],
+  [$P imply Q, Q therefore P$], [#NO], [Affirming Consequent],
+  [$P imply Q, not P therefore not Q$], [#NO], [Denying Antecedent],
+  [$P or Q, not P therefore Q$], [#YES], [Disjunctive Syllogism],
+  [$P and Q therefore P$], [#YES], [Simplification],
 )
 
 #Block(color: yellow)[
@@ -1975,7 +1998,8 @@
   - *Semantic* ($models$): True in all interpretations (truth tables)
   - *Syntactic* ($proves$): Derivable using inference rules (proofs)
 
-  *Do they coincide?* This is the central question of metalogic.
+  *Do they coincide?*
+  This is the central question of metalogic.
 ]
 
 #grid(
@@ -2043,7 +2067,7 @@
   Then $Eval(phi) = True$ and $Eval(psi) = True$.
   By definition of $and$: $Eval(phi and psi) = True$.
 
-  Therefore $Gamma models phi and psi$. #sym.checkmark
+  Therefore $Gamma models phi and psi$. #YES
 
   *($and$E) Conjunction Elimination:*
 
@@ -2052,7 +2076,7 @@
   Let $nu$ satisfy all of $Gamma$. Then $Eval(phi and psi) = True$.
   By definition: $Eval(phi) = True$ and $Eval(psi) = True$.
 
-  Therefore $Gamma models phi$ and $Gamma models psi$. #sym.checkmark
+  Therefore $Gamma models phi$ and $Gamma models psi$. #YES
 ]
 
 == Soundness Proof: Disjunction Rules
@@ -2062,7 +2086,7 @@
 
   Suppose $Gamma models phi$ (by IH). Let $nu$ satisfy $Gamma$.
   Then $Eval(phi) = True$, so $Eval(phi or psi) = True$.
-  Similarly for the other direction. #sym.checkmark
+  Similarly for the other direction. #YES
 
   *($or$E) Disjunction Elimination:*
 
@@ -2074,7 +2098,7 @@
 
   *Case 2:* $Eval(psi) = True$. Then $nu$ satisfies $Gamma union {psi}$, so $Eval(chi) = True$.
 
-  In both cases, $Eval(chi) = True$. Therefore $Gamma models chi$. #sym.checkmark
+  In both cases, $Eval(chi) = True$. Therefore $Gamma models chi$. #YES
 ]
 
 == Soundness Proof: Implication Rules
@@ -2090,7 +2114,7 @@
 
   *Case 2:* $Eval(phi) = True$. Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(psi) = True$. So $Eval(phi imply psi) = True$.
 
-  In both cases, $Gamma models phi imply psi$. #sym.checkmark
+  In both cases, $Gamma models phi imply psi$. #YES
 
   *($imply$E) Implication Elimination (Modus Ponens):*
 
@@ -2100,7 +2124,7 @@
 
   If $Eval(psi) = False$, then $Eval(phi imply psi) = Eval(not phi or psi) = False$. Contradiction.
 
-  Therefore $Eval(psi) = True$, and $Gamma models psi$. #sym.checkmark
+  Therefore $Eval(psi) = True$, and $Gamma models psi$. #YES
 ]
 
 == Soundness Proof: Negation Rules
@@ -2114,7 +2138,7 @@
 
   Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(bot) = True$. But $bot$ is always false! Contradiction.
 
-  Therefore no such $nu$ exists, so $Gamma models not phi$. #sym.checkmark
+  Therefore no such $nu$ exists, so $Gamma models not phi$. #YES
 
   *($not$E) Negation Elimination:*
 
@@ -2123,12 +2147,12 @@
   Let $nu$ satisfy $Gamma$. Then $Eval(phi) = True$ and $Eval(not phi) = True$.
   But $Eval(not phi) = not Eval(phi) = False$. Contradiction.
 
-  Therefore no $nu$ satisfies $Gamma$, so $Gamma models bot$ vacuously. #sym.checkmark
+  Therefore no $nu$ satisfies $Gamma$, so $Gamma models bot$ vacuously. #YES
 
   *($bot$E) Ex Falso Quodlibet:*
 
   Suppose $Gamma models bot$. Then no interpretation satisfies $Gamma$.
-  Therefore $Gamma models phi$ holds vacuously for any $phi$. #sym.checkmark
+  Therefore $Gamma models phi$ holds vacuously for any $phi$. #YES
 ]
 
 == Soundness: Summary
@@ -2239,7 +2263,8 @@
 ]
 
 #Block(color: blue)[
-  This is the heart of the completeness proof! It says the canonical interpretation "agrees" with membership in $Delta$ for _all_ formulas, not just atoms.
+  This is the heart of the completeness proof!
+  It says the canonical interpretation "agrees" with membership in $Delta$ for _all_ formulas, not just atoms.
 ]
 
 == Completeness Proof: Truth Lemma
@@ -2247,14 +2272,14 @@
 #proof[
   By structural induction on $phi$.
 
-  *Base case:* $phi = P$ (atomic). By definition of $nu_Delta$. #sym.checkmark
+  *Base case:* $phi = P$ (atomic). By definition of $nu_Delta$. #YES
 
   *Case $phi = not psi$:*
-  $Eval(not psi) = True$ iff $Eval(psi) = False$ iff $psi in.not Delta$ (IH) iff $not psi in Delta$ (maximality). #sym.checkmark
+  $Eval(not psi) = True$ iff $Eval(psi) = False$ iff $psi in.not Delta$ (IH) iff $not psi in Delta$ (maximality). #YES
 
   *Case $phi = psi and chi$:*
   - ($arrow.r.double$) If $psi and chi in Delta$, then $psi in Delta$ and $chi in Delta$ (by $and$E being sound and $Delta$ being maximal consistent). By IH, $Eval(psi) = Eval(chi) = True$, so $Eval(psi and chi) = True$.
-  - ($arrow.l.double$) If $Eval(psi and chi) = True$, then $Eval(psi) = Eval(chi) = True$. By IH, $psi, chi in Delta$. Since $Delta$ is closed under derivability and $psi, chi proves psi and chi$, we have $psi and chi in Delta$. #sym.checkmark
+  - ($arrow.l.double$) If $Eval(psi and chi) = True$, then $Eval(psi) = Eval(chi) = True$. By IH, $psi, chi in Delta$. Since $Delta$ is closed under derivability and $psi, chi proves psi and chi$, we have $psi and chi in Delta$. #YES
 ]
 
 #pagebreak()
@@ -2262,11 +2287,11 @@
 #proof[Truth Lemma (continued)][
   *Case $phi = psi or chi$:*
   - ($arrow.r.double$) If $psi or chi in Delta$, suppose for contradiction that $psi in.not Delta$ and $chi in.not Delta$. By maximality, $not psi in Delta$ and $not chi in Delta$. But then $Delta proves psi or chi$ and $Delta proves not psi$ and $Delta proves not chi$, which by $or$E gives $Delta proves bot$. Contradiction with consistency!
-  - ($arrow.l.double$) If $Eval(psi or chi) = True$, then $Eval(psi) = True$ or $Eval(chi) = True$. By IH, $psi in Delta$ or $chi in Delta$. By $or$I, $psi or chi in Delta$. #sym.checkmark
+  - ($arrow.l.double$) If $Eval(psi or chi) = True$, then $Eval(psi) = True$ or $Eval(chi) = True$. By IH, $psi in Delta$ or $chi in Delta$. By $or$I, $psi or chi in Delta$. #YES
 
   *Case $phi = psi imply chi$:*
   - ($arrow.r.double$) If $psi imply chi in Delta$ and $Eval(psi) = True$, then by IH $psi in Delta$. By $imply$E, $chi in Delta$, so $Eval(chi) = True$.
-  - ($arrow.l.double$) If $Eval(psi imply chi) = True$: either $Eval(psi) = False$ or $Eval(chi) = True$. In either case, by maximality and closure under derivability, $psi imply chi in Delta$. #sym.checkmark
+  - ($arrow.l.double$) If $Eval(psi imply chi) = True$: either $Eval(psi) = False$ or $Eval(chi) = True$. In either case, by maximality and closure under derivability, $psi imply chi in Delta$. #YES
 ]
 
 == Completeness Proof: Main Argument
@@ -2789,7 +2814,8 @@
 ]
 
 #Block(color: yellow)[
-  *Note:* The same variable name can be both free and bound in one formula! The two $x$'s above are _different_ --- one refers to an external value, the other is quantified.
+  *Note:* The same variable name can be both free and bound in one formula!
+  The two $x$'s above are _different_ --- one refers to an external value, the other is quantified.
 ]
 
 #definition[
@@ -3020,7 +3046,8 @@
   - First-order logic: very expressive but undecidable
   - Higher-order logic: even more expressive but incomplete
 
-  We gain expressive power at the cost of decidability. This is a theme throughout theoretical computer science.
+  We gain expressive power at the cost of decidability.
+  This is a theme throughout theoretical computer science.
 ]
 
 == Applications and Connections
@@ -3354,7 +3381,7 @@
 = Proofs as Programs
 #focus-slide(
   epigraph: [The formulas-as-types notion is not just an analogy \
-  --- it is an isomorphism.],
+    --- it is an isomorphism.],
   epigraph-author: [William Howard],
 )
 
@@ -3527,7 +3554,8 @@
 ]
 
 #Block(color: yellow)[
-  *Classical proofs* (using RAA or LEM) correspond to programs with _control operators_ like `call/cc` (call-with-current-continuation) or exceptions. The continuation captures "what happens next" --- exactly like assuming a negation in RAA!
+  *Classical proofs* (using RAA or LEM) correspond to programs with _control operators_ like `call/cc` (call-with-current-continuation) or exceptions.
+  The continuation captures "what happens next" --- exactly like assuming a negation in RAA!
 ]
 
 == Proof Assistants and Type Theory
