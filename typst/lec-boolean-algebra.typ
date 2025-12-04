@@ -5782,7 +5782,7 @@ Same inputs, different outputs! This violates the basic idea of a function.
   *Hazard explanation:* When $A=1, C=1$ and $B$ transitions from 1 to 0:
   - Initially ($B=1$): $f = 1 dot 0 + 1 dot 1 = 1$ (via $B C$)
   - Finally ($B=0$): $f = 1 dot 1 + 0 dot 1 = 1$ (via $A overline(B)$)
-  - *Problem:* If $B overline(B)$ turns off before $A overline(B)$ turns on, $f$ briefly becomes 0
+  - *Problem:* If $B C$ turns off before $A overline(B)$ turns on, $f$ briefly becomes 0
   - *Fix:* Add $A C$ term, which stays 1 throughout: $f = A overline(B) + B C + A C$
 ]
 
