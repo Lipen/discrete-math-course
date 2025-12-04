@@ -32,12 +32,28 @@
       image: image("assets/Gottfried_Wilhelm_Leibniz.jpg"),
     ),
     (
+      name: "Gottlob Frege",
+      image: image("assets/Gottlob_Frege.jpg"),
+    ),
+    (
       name: "Kurt Gödel",
       image: image("assets/Kurt_Godel.jpg"),
     ),
     (
       name: "Alfred Tarski",
       image: image("assets/Alfred_Tarski.jpg"),
+    ),
+    (
+      name: "Gerhard Gentzen",
+      image: image("assets/Gerhard_Gentzen.jpg"),
+    ),
+    (
+      name: "Jacques Herbrand",
+      image: image("assets/Jacques_Herbrand.jpg"),
+    ),
+    (
+      name: "Per Martin-Löf",
+      image: image("assets/Per_Martin-Lof.jpg"),
     ),
   ),
 )
