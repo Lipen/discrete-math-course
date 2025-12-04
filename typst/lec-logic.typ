@@ -604,6 +604,240 @@
   The deduction theorem connects entailment with implication: to show that premises entail a conclusion, we can equivalently show that the conjunction of premises implies the conclusion.
 ]
 
+
+= Logic Puzzles
+#focus-slide(
+  epigraph: [A knight would never say that he is a knave.],
+  epigraph-author: [Raymond Smullyan],
+)
+
+== Why Logic Puzzles?
+
+#Block(color: teal)[
+  *Logic puzzles* demonstrate the power of formal reasoning in action.
+
+  They show how systematic application of logical rules can solve problems that seem impossible at first glance --- and reveal common traps in informal reasoning.
+]
+
+#Block(color: yellow)[
+  *What we'll see:*
+  - How to _formalize_ puzzle constraints as logical formulas
+  - How _systematic reasoning_ leads to unique solutions
+  - Why _informal intuition_ often fails where logic succeeds
+]
+
+== Knights and Knaves: The Setup
+
+#definition[
+  On the _Island of Knights and Knaves_:
+  - *Knights* always tell the truth
+  - *Knaves* always lie
+  - Every inhabitant is either a knight or a knave
+
+  Your task: determine who is what from their statements.
+]
+
+#Block(color: blue)[
+  *Formalization:* For each person $X$, let $K_X$ mean "$X$ is a knight."
+
+  A statement $S$ made by $X$ translates to: $K_X iff S$
+
+  _Why?_ If $X$ is a knight, $S$ is true. If $X$ is a knave, $S$ is false.
+]
+
+== Puzzle 1: A Simple Start
+
+#example[
+  *Person A says:* "I am a knave."
+
+  *Is A a knight or a knave?*
+]
+
+#Block(color: green)[
+  *Solution:*
+
+  Let $K_A$ = "A is a knight". A's statement is $not K_A$ ("I am a knave").
+
+  The constraint: $K_A iff not K_A$
+
+  - If $K_A$ is true: then $not K_A$ must be true (contradiction!)
+  - If $K_A$ is false: then $not K_A$ must be false, so $K_A$ is true (contradiction!)
+
+  *This is a contradiction!* No consistent assignment exists.
+
+  $therefore$ This situation _cannot occur_ on the island --- A cannot make this statement.
+]
+
+#Block(color: orange)[
+  *Lesson:* Some puzzles reveal _impossibilities_, not solutions!
+]
+
+== Puzzle 2: Two Inhabitants
+
+#example[
+  *Person A says:* "We are both knaves."
+
+  *Determine the types of A and B.*
+]
+
+#Block(color: green)[
+  *Formalization:*
+  - $K_A$ = "A is a knight", $K_B$ = "B is a knight"
+  - A's statement: $not K_A and not K_B$
+  - Constraint: $K_A iff (not K_A and not K_B)$
+
+  *Analysis:*
+  - If $K_A$ (A is a knight): Then $not K_A and not K_B$ is true, so $not K_A$ is true. Contradiction!
+  - So $not K_A$ (A is a knave): Then $not K_A and not K_B$ is false.
+    Since $not K_A$ is true, we need $not K_B$ to be false, so $K_B$ is true.
+
+  *Answer:* A is a knave, B is a knight.
+]
+
+== Puzzle 3: Mutual Accusations
+
+#example[
+  *A says:* "B is a knave."
+
+  *B says:* "A and I are of different types."
+
+  *What are A and B?*
+]
+
+#Block(color: green)[
+  *Formalization:*
+  - A's statement: $not K_B$ $quad$ Constraint: $K_A iff not K_B$
+  - B's statement: $K_A iff.not K_B$ (different types) $quad$ Constraint: $K_B iff (K_A iff.not K_B)$
+
+  From constraint 1: $K_A$ and $K_B$ have opposite values.
+
+  Substituting into constraint 2: $K_B iff top$ (since $K_A iff.not K_B$ is always true given constraint 1)
+
+  So $K_B$ is true (B is a knight), hence $K_A$ is false (A is a knave).
+
+  *Answer:* A is a knave, B is a knight.
+
+  *Check:* A (knave) lies about B being a knave. B (knight) truthfully says they're different. #sym.checkmark
+]
+
+== Puzzle 4: The Fork in the Road
+
+#example[The Classic Puzzle][
+  You reach a fork in the road. One path leads to treasure, the other to doom.
+
+  A single inhabitant stands there. You may ask *one yes/no question*.
+
+  *What do you ask to find the treasure path?*
+]
+
+#Block(color: green)[
+  *The magic question:* "If I asked you 'Does the left path lead to treasure?', would you say yes?"
+
+  Let $L$ = "left path leads to treasure". Inner question: "Is $L$ true?"
+
+  - *Knight answers about his answer:* He would say "yes" to $L$ iff $L$ is true. So he says "yes" to our question iff $L$ is true.
+
+  - *Knave answers about his answer:* He would say "yes" to $L$ iff $L$ is false (lying). Asked if he'd say yes, he lies again: says "yes" iff he'd actually say "no" iff $L$ is true.
+
+  *Result:* Both types say "yes" iff left leads to treasure!
+]
+
+#Block(color: purple)[
+  *The double-negation trick:* Asking a liar what they _would_ say inverts their lie, producing truth.
+]
+
+== From Puzzles to SAT
+
+#Block(color: blue)[
+  *These puzzles are SAT problems in disguise!*
+
+  Each puzzle translates to a Boolean formula:
+  - Variables: $K_A, K_B, dots$ (one per person)
+  - Constraints: Statement $iff$ Speaker is knight
+  - Solution: Find a satisfying assignment
+
+  Modern SAT solvers can solve puzzles with _thousands_ of inhabitants!
+]
+
+#example[Puzzle 2 as CNF][
+  Constraint: $K_A iff (not K_A and not K_B)$
+
+  Converting to CNF (eliminate $iff$, distribute):
+  $ (not K_A or not K_A) and (not K_A or not K_B) and (K_A or K_A or K_B) $
+  $ equiv not K_A and (not K_A or not K_B) and (K_A or K_B) $
+  $ equiv not K_A and K_B $
+
+  SAT solver immediately returns: $K_A = 0, K_B = 1$
+]
+
+== The Hardest Logic Puzzle Ever
+
+#Block(color: orange)[
+  *Boolos's puzzle (1996):* Three gods A, B, C are called True, False, and Random.
+  - True always speaks truly
+  - False always speaks falsely
+  - Random answers randomly
+
+  They answer "da" or "ja" (you don't know which means yes/no).
+
+  *Determine their identities with three yes/no questions.*
+]
+
+#Block(color: purple)[
+  This puzzle combines:
+  - Knights and Knaves logic
+  - Unknown language mapping
+  - Random behavior
+
+  It was solved and shown to require _exactly_ three questions!
+
+  _See: G. Boolos, "The Hardest Logic Puzzle Ever", Harvard Review of Philosophy, 1996._
+]
+
+== Self-Reference Puzzles
+
+#example[The Liar's Paradox][
+  Consider the statement: "This statement is false."
+
+  - If it's true, then what it says holds, so it's false. Contradiction!
+  - If it's false, then what it says doesn't hold, so it's not false, i.e., true. Contradiction!
+]
+
+#Block(color: orange)[
+  *This is not a puzzle to solve --- it's a _paradox_!*
+
+  Unlike Knights and Knaves, there's no consistent truth assignment.
+
+  Paradoxes like this motivated:
+  - Tarski's hierarchy of truth predicates
+  - Gödel's incompleteness theorems
+  - Careful treatment of self-reference in formal systems
+]
+
+#Block(color: yellow)[
+  *Takeaway:* Formal logic helps us distinguish _solvable puzzles_ from _genuine paradoxes_.
+]
+
+== Logic Puzzle Strategies
+
+#Block(color: blue)[
+  *Systematic approach to logic puzzles:*
+
+  + *Formalize:* Assign propositional variables to unknowns
+  + *Translate:* Convert statements to logical formulas
+  + *Constrain:* Apply the "speaker constraint": $(text("statement")) iff (text("speaker is truthful"))$
+  + *Simplify:* Use equivalences to reduce the formula
+  + *Solve:* Find satisfying assignments (or prove none exist)
+  + *Verify:* Check the solution against all original constraints
+]
+
+#example[Verification habit][
+  Always check your answer! In Puzzle 2:
+  - A (knave) says "We are both knaves" --- this is false (B is a knight). #sym.checkmark Knaves lie.
+  - No contradiction with B's behavior. #sym.checkmark
+]
+
+
 = Normal Forms
 #focus-slide()
 
@@ -1233,7 +1467,6 @@
 
 == Worked Example: Contrapositive
 
-// TODO: indent assumption scope (lines 1-7) !!!
 #example[
   Proving $(P imply Q) imply (not Q imply not P)$:
   #grid(
@@ -1241,15 +1474,127 @@
     align: left,
     inset: 5pt,
     [1.], [$P imply Q$], [_Assumption_],
-    [2.], [$not Q$], [_Assumption_],
-    [3.], [$P$], [_Assumption_],
+    [2.], [$thick not Q$], [_Assumption_],
+    [3.], [$thick thick P$], [_Assumption_],
     grid.hline(stroke: 0.8pt),
-    [4.], [$Q$], [$imply$E 1, 3],
-    [5.], [$bot$], [$not$E 2, 4],
-    [6.], [$not P$], [$not$I 3--5],
+    [4.], [$thick thick Q$], [$imply$E 1, 3],
+    [5.], [$thick thick bot$], [$not$E 2, 4],
+    [6.], [$thick not P$], [$not$I 3--5],
     [7.], [$not Q imply not P$], [$imply$I 2--6],
-    [8], [$(P imply Q) imply (not Q imply not P)$], [$imply$I 1--7],
+    [8.], [$(P imply Q) imply (not Q imply not P)$], [$imply$I 1--7],
   )
+]
+
+== Worked Example: Proof by Contradiction (RAA)
+
+#example[Law of Excluded Middle][
+  Proving $P or not P$ using _reductio ad absurdum_ (proof by contradiction):
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$not (P or not P)$], [_Assumption (for RAA)_],
+    [2.], [$thick P$], [_Assumption_],
+    grid.hline(stroke: 0.8pt),
+    [3.], [$thick P or not P$], [$or$I 2],
+    [4.], [$thick bot$], [$not$E 1, 3],
+    [5.], [$not P$], [$not$I 2--4],
+    [6.], [$P or not P$], [$or$I 5],
+    [7.], [$bot$], [$not$E 1, 6],
+    [8.], [$P or not P$], [RAA 1--7],
+  )
+]
+
+#Block(color: yellow)[
+  *Key technique:* We assumed $not (P or not P)$ and derived $bot$. By RAA, we conclude $P or not P$.
+
+  This is a *classical* proof --- it relies on double negation elimination and is not valid in intuitionistic logic!
+]
+
+== Worked Example: Double Negation
+
+#example[Double Negation Introduction][
+  Proving $P imply not not P$:
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$P$], [_Assumption_],
+    [2.], [$thick not P$], [_Assumption (for RAA)_],
+    grid.hline(stroke: 0.8pt),
+    [3.], [$thick bot$], [$not$E 1, 2],
+    [4.], [$not not P$], [$not$I 2--3],
+    [5.], [$P imply not not P$], [$imply$I 1--4],
+  )
+]
+
+#example[Double Negation Elimination][
+  Proving $not not P imply P$ (requires classical logic):
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$not not P$], [_Assumption_],
+    [2.], [$thick not P$], [_Assumption (for RAA)_],
+    grid.hline(stroke: 0.8pt),
+    [3.], [$thick bot$], [$not$E 1, 2],
+    [4.], [$P$], [RAA 2--3],
+    [5.], [$not not P imply P$], [$imply$I 1--4],
+  )
+]
+
+== Worked Example: Disjunctive Syllogism
+
+#example[
+  Proving $(P or Q) imply (not P imply Q)$:
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$P or Q$], [_Assumption_],
+    [2.], [$thick not P$], [_Assumption_],
+    [3.], [$thick thick P$], [_Assumption (for case 1)_],
+    grid.hline(stroke: 0.8pt),
+    [4.], [$thick thick bot$], [$not$E 2, 3],
+    [5.], [$thick thick Q$], [$bot$E 4],
+    [6.], [$thick thick Q$], [_Assumption (for case 2)_],
+    [7.], [$thick Q$], [$or$E 1, 3--5, 6--6],
+    [8.], [$not P imply Q$], [$imply$I 2--7],
+    [9.], [$(P or Q) imply (not P imply Q)$], [$imply$I 1--8],
+  )
+]
+
+#Block(color: blue)[
+  *This proof combines:*
+  - Nested assumptions (subproofs within subproofs)
+  - Case analysis ($or$E)
+  - Ex falso quodlibet ($bot$E) for the impossible case
+]
+
+== Worked Example: Peirce's Law
+
+#example[Peirce's Law --- A Classic Challenge][
+  Proving $((P imply Q) imply P) imply P$:
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    [1.], [$(P imply Q) imply P$], [_Assumption_],
+    [2.], [$thick not P$], [_Assumption (for RAA)_],
+    [3.], [$thick thick P$], [_Assumption_],
+    grid.hline(stroke: 0.8pt),
+    [4.], [$thick thick bot$], [$not$E 2, 3],
+    [5.], [$thick thick Q$], [$bot$E 4],
+    [6.], [$thick P imply Q$], [$imply$I 3--5],
+    [7.], [$thick P$], [$imply$E 1, 6],
+    [8.], [$thick bot$], [$not$E 2, 7],
+    [9.], [$P$], [RAA 2--8],
+    [10.], [$((P imply Q) imply P) imply P$], [$imply$I 1--9],
+  )
+]
+
+#Block(color: orange)[
+  *Peirce's Law* is another purely classical theorem. It's equivalent to excluded middle and cannot be proven constructively. It's named after Charles Sanders Peirce (1839--1914).
 ]
 
 == Derived Rules
@@ -1333,6 +1678,294 @@
   ],
 )
 
+
+= Logical Fallacies
+#focus-slide(
+  epigraph: [The first principle is that you must not fool yourself --- \ and you are the easiest person to fool.],
+  epigraph-author: [Richard Feynman],
+)
+
+== Why Study Fallacies?
+
+#Block(color: teal)[
+  *Logical fallacies* are patterns of reasoning that _appear_ valid but are _actually_ invalid.
+
+  They are common in everyday arguments, politics, advertising, and even academic discourse.
+
+  Formal logic gives us the tools to _precisely identify_ and _definitively refute_ fallacies.
+]
+
+#Block(color: yellow)[
+  *Our approach:*
+  + Present the fallacy pattern
+  + Show a concrete example
+  + *Prove formally* why it fails (counterexample or derivation failure)
+]
+
+== Fallacy 1: Affirming the Consequent
+
+#definition[
+  *Affirming the Consequent* is the invalid inference:
+  #align(center)[
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $P imply Q$,
+      $Q$,
+      grid.hline(stroke: .8pt),
+      [$P$ #h(2em) #text(fill: red)[*✗ INVALID*]],
+    )
+  ]
+]
+
+#example[
+  "If it rains, the ground is wet. The ground is wet. Therefore, it rained."
+
+  *Counterexample:* Someone could have watered the garden!
+]
+
+#Block(color: green)[
+  *Formal proof of invalidity:*
+
+  Find an interpretation where premises are true but conclusion is false:
+  - Let $nu(P) = False$, $nu(Q) = True$
+  - Then $P imply Q = False imply True = True$ #sym.checkmark
+  - And $Q = True$ #sym.checkmark
+  - But $P = False$ #sym.crossmark
+
+  The premises don't entail the conclusion: ${P imply Q, Q} models.not P$
+]
+
+== Fallacy 2: Denying the Antecedent
+
+#definition[
+  *Denying the Antecedent* is the invalid inference:
+  #align(center)[
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $P imply Q$,
+      $not P$,
+      grid.hline(stroke: .8pt),
+      [$not Q$ #h(2em) #text(fill: red)[*✗ INVALID*]],
+    )
+  ]
+]
+
+#example[
+  "If you study hard, you will pass. You didn't study hard. Therefore, you won't pass."
+
+  *Counterexample:* You might be naturally talented, or the exam was easy!
+]
+
+#Block(color: green)[
+  *Formal proof of invalidity:*
+
+  - Let $nu(P) = False$, $nu(Q) = True$
+  - Then $P imply Q = True$ #sym.checkmark
+  - And $not P = True$ #sym.checkmark
+  - But $not Q = False$ #sym.crossmark
+
+  The conclusion $not Q$ is false while premises are true!
+]
+
+== Compare with Valid Forms
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  Block(color: green)[
+    *Modus Ponens (VALID):*
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $P imply Q$,
+      $P$,
+      grid.hline(stroke: .8pt),
+      [$Q$ #h(1em) #sym.checkmark],
+    )
+    "If $P$ then $Q$; $P$; so $Q$."
+  ],
+  Block(color: green)[
+    *Modus Tollens (VALID):*
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $P imply Q$,
+      $not Q$,
+      grid.hline(stroke: .8pt),
+      [$not P$ #h(1em) #sym.checkmark],
+    )
+    "If $P$ then $Q$; not $Q$; so not $P$."
+  ],
+)
+
+#Block(color: yellow)[
+  *Pattern recognition:*
+  - *Valid:* Work with the antecedent ($P$) directly, or contrapose using the consequent ($not Q$)
+  - *Invalid:* Affirm the consequent ($Q$) or deny the antecedent ($not P$)
+]
+
+== Fallacy 3: Undistributed Middle
+
+#definition[
+  *Undistributed Middle* (in syllogistic reasoning):
+  #align(center)[
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      [All A are B],
+      [All C are B],
+      grid.hline(stroke: .8pt),
+      [All A are C #h(2em) #text(fill: red)[*✗ INVALID*]],
+    )
+  ]
+]
+
+#example[
+  "All cats are mammals. All dogs are mammals. Therefore, all cats are dogs."
+
+  Obviously wrong! But the _form_ looks like valid syllogistic reasoning.
+]
+
+#Block(color: green)[
+  *Formal analysis in FOL:*
+
+  Premises: $forall x.(A(x) imply B(x))$ and $forall x.(C(x) imply B(x))$
+
+  *Countermodel:* Let domain $= {a, c}$, with $A(a) = T$, $C(c) = T$, $B(a) = B(c) = T$, and $A(c) = C(a) = F$.
+
+  Both premises hold, but $A(a) imply C(a)$ is $T imply F = F$. #sym.crossmark
+]
+
+== Fallacy 4: False Dilemma
+
+#definition[
+  *False Dilemma* (or False Dichotomy): Presenting only two options when more exist.
+  #align(center)[
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      $P or Q$,
+      $not P$,
+      grid.hline(stroke: .8pt),
+      $Q$,
+    )
+  ]
+  The inference _is_ valid (disjunctive syllogism), but the premise $P or Q$ may be _false_!
+]
+
+#example[
+  "You're either with us or against us. You're not with us. Therefore, you're against us."
+
+  *Problem:* The premise is false --- one can be neutral, undecided, or have a nuanced position.
+]
+
+#Block(color: orange)[
+  *Key insight:* Some fallacies aren't about _invalid inference_ but about _false premises_.
+
+  The logical form is valid, but the argument is _unsound_ because a premise doesn't hold.
+]
+
+== Fallacy 5: Begging the Question
+
+#definition[
+  *Begging the Question* (circular reasoning): The conclusion is assumed in the premises.
+]
+
+#example[
+  "God exists because the Bible says so, and the Bible is true because it's the word of God."
+
+  Formally: Premise $P imply Q$ and $Q imply P$ don't establish either $P$ or $Q$ without assuming one.
+]
+
+#Block(color: green)[
+  *Formal analysis:*
+
+  Given only $P imply Q$ and $Q imply P$ (equivalently, $P iff Q$):
+  - If $P = Q = True$: consistent #sym.checkmark
+  - If $P = Q = False$: consistent #sym.checkmark
+
+  Neither $P$ nor $Q$ follows! We have $proves P iff Q$ but $proves.not P$ and $proves.not Q$.
+]
+
+#Block(color: yellow)[
+  *Detection:* Check if removing the conclusion from premises makes them unable to support it.
+]
+
+== Fallacy 6: Existential Fallacy
+
+#definition[
+  *Existential Fallacy*: Concluding existence from universal statements about possibly empty classes.
+  #align(center)[
+    #grid(
+      columns: 1,
+      inset: 5pt,
+      [All S are P],
+      grid.hline(stroke: .8pt),
+      [Some S are P #h(2em) #text(fill: red)[*✗ INVALID*]],
+    )
+  ]
+]
+
+#example[
+  "All unicorns are magical. Therefore, some unicorns are magical."
+
+  If there are no unicorns, the premise is vacuously true but the conclusion is false!
+]
+
+#Block(color: green)[
+  *FOL analysis:*
+  - Premise: $forall x.(S(x) imply P(x))$ --- true if $S$ is empty
+  - Conclusion: $exists x.(S(x) and P(x))$ --- false if $S$ is empty
+
+  *Countermodel:* Domain $= {a}$, $S(a) = False$, $P(a) = True$.
+
+  Premise: $forall x. (F imply T) = T$. Conclusion: $exists x. (F and T) = F$.
+]
+
+== Proof by Contradiction: Showing Invalidity
+
+#Block(color: blue)[
+  *General method to prove an inference is invalid:*
+
+  + Assume the inference $Gamma models phi$ is valid
+  + Construct a _countermodel_: an interpretation where all premises in $Gamma$ are true, but $phi$ is false
+  + The existence of such a countermodel disproves validity
+]
+
+#example[Affirming the Consequent --- Detailed][
+  *Claim:* ${P imply Q, Q} models P$ is *invalid*.
+
+  *Countermodel construction:*
+  - Choose $nu(P) = 0$, $nu(Q) = 1$
+  - Check premise 1: $nu(P imply Q) = nu(not P or Q) = max(1, 1) = 1$ #sym.checkmark
+  - Check premise 2: $nu(Q) = 1$ #sym.checkmark
+  - Check conclusion: $nu(P) = 0$ #sym.crossmark
+
+  Premises true, conclusion false $imply$ inference invalid. $qed$
+]
+
+== Summary: Valid vs Invalid Patterns
+
+#table(
+  columns: 3,
+  align: (left, center, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Pattern*], [*Status*], [*Why*]),
+  [$P imply Q, P therefore Q$], [#text(fill: green)[VALID]], [Modus Ponens],
+  [$P imply Q, not Q therefore not P$], [#text(fill: green)[VALID]], [Modus Tollens],
+  [$P imply Q, Q therefore P$], [#text(fill: red)[INVALID]], [Affirming Consequent],
+  [$P imply Q, not P therefore not Q$], [#text(fill: red)[INVALID]], [Denying Antecedent],
+  [$P or Q, not P therefore Q$], [#text(fill: green)[VALID]], [Disjunctive Syllogism],
+  [$P and Q therefore P$], [#text(fill: green)[VALID]], [Simplification],
+)
+
+#Block(color: yellow)[
+  *Critical thinking skill:* When encountering an argument, identify its logical form and check if it matches a valid or invalid pattern.
+]
+
+
 = Soundness and Completeness
 #focus-slide(
   epigraph: [The rules of logic are to mathematics \ what those of structure are to architecture.],
@@ -1379,25 +2012,148 @@
   In other words: "You can't prove anything false."
 ]
 
-#theorem[
-  Natural deduction for propositional logic is sound.
+#theorem[Soundness of Natural Deduction][
+  Natural deduction for propositional logic is sound: if $Gamma proves phi$, then $Gamma models phi$.
 ]
 
-#proof[(sketch)][
-  By induction on the length of derivations:
-  - *Base case*: Premises and axioms are valid by assumption.
-  - *Inductive step*: Each inference rule preserves validity.
+#Block(color: blue)[
+  *Proof strategy:* Induction on the _structure of derivations_.
 
-  For example, $and$-Introduction: if $Eval(phi) = True$ and $Eval(psi) = True$, then $Eval(phi and psi) = True$.
+  We show that every inference rule _preserves validity_: if the premises of a rule are true under some interpretation, then the conclusion is also true under that interpretation.
 ]
 
-#pagebreak()
+== Soundness Proof: Base Cases
+
+#proof[Part 1: Base Cases][
+  The derivation uses only a premise or an axiom.
+
+  *Case: Premise*
+
+  If $phi in Gamma$ appears as a line in the derivation, then trivially $Gamma models phi$: any interpretation satisfying all of $Gamma$ satisfies $phi$ in particular.
+
+  *Case: Axiom (if any)*
+
+  In natural deduction, we have no axioms in the usual sense (only rules). In Hilbert systems, axioms are tautologies, which are valid by definition.
+]
+
+== Soundness Proof: Conjunction Rules
+
+#proof[Part 2: Conjunction][
+  *($and$I) Conjunction Introduction:*
+
+  Suppose we have derivations of $phi$ and $psi$ from $Gamma$, and by IH, $Gamma models phi$ and $Gamma models psi$.
+
+  Let $nu$ be any interpretation satisfying all formulas in $Gamma$.
+  Then $Eval(phi) = True$ and $Eval(psi) = True$.
+  By definition of $and$: $Eval(phi and psi) = True$.
+
+  Therefore $Gamma models phi and psi$. #sym.checkmark
+
+  *($and$E) Conjunction Elimination:*
+
+  Suppose we have a derivation of $phi and psi$ from $Gamma$, and by IH, $Gamma models phi and psi$.
+
+  Let $nu$ satisfy all of $Gamma$. Then $Eval(phi and psi) = True$.
+  By definition: $Eval(phi) = True$ and $Eval(psi) = True$.
+
+  Therefore $Gamma models phi$ and $Gamma models psi$. #sym.checkmark
+]
+
+== Soundness Proof: Disjunction Rules
+
+#proof[Part 3: Disjunction][
+  *($or$I) Disjunction Introduction:*
+
+  Suppose $Gamma models phi$ (by IH). Let $nu$ satisfy $Gamma$.
+  Then $Eval(phi) = True$, so $Eval(phi or psi) = True$.
+  Similarly for the other direction. #sym.checkmark
+
+  *($or$E) Disjunction Elimination:*
+
+  Suppose $Gamma models phi or psi$, and $Gamma union {phi} models chi$, and $Gamma union {psi} models chi$ (by IH).
+
+  Let $nu$ satisfy $Gamma$. Then $Eval(phi or psi) = True$.
+
+  *Case 1:* $Eval(phi) = True$. Then $nu$ satisfies $Gamma union {phi}$, so $Eval(chi) = True$.
+
+  *Case 2:* $Eval(psi) = True$. Then $nu$ satisfies $Gamma union {psi}$, so $Eval(chi) = True$.
+
+  In both cases, $Eval(chi) = True$. Therefore $Gamma models chi$. #sym.checkmark
+]
+
+== Soundness Proof: Implication Rules
+
+#proof[Part 4: Implication][
+  *($imply$I) Implication Introduction:*
+
+  Suppose $Gamma union {phi} models psi$ (by IH). We need to show $Gamma models phi imply psi$.
+
+  Let $nu$ satisfy $Gamma$. We consider two cases:
+
+  *Case 1:* $Eval(phi) = False$. Then $Eval(phi imply psi) = True$ (false implies anything).
+
+  *Case 2:* $Eval(phi) = True$. Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(psi) = True$. So $Eval(phi imply psi) = True$.
+
+  In both cases, $Gamma models phi imply psi$. #sym.checkmark
+
+  *($imply$E) Implication Elimination (Modus Ponens):*
+
+  Suppose $Gamma models phi imply psi$ and $Gamma models phi$ (by IH).
+
+  Let $nu$ satisfy $Gamma$. Then $Eval(phi imply psi) = True$ and $Eval(phi) = True$.
+
+  If $Eval(psi) = False$, then $Eval(phi imply psi) = Eval(not phi or psi) = False$. Contradiction.
+
+  Therefore $Eval(psi) = True$, and $Gamma models psi$. #sym.checkmark
+]
+
+== Soundness Proof: Negation Rules
+
+#proof[Part 5: Negation][
+  *($not$I) Negation Introduction:*
+
+  Suppose $Gamma union {phi} models bot$ (by IH). We show $Gamma models not phi$.
+
+  Assume for contradiction that some $nu$ satisfies $Gamma$ but $Eval(not phi) = False$, i.e., $Eval(phi) = True$.
+
+  Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(bot) = True$. But $bot$ is always false! Contradiction.
+
+  Therefore no such $nu$ exists, so $Gamma models not phi$. #sym.checkmark
+
+  *($not$E) Negation Elimination:*
+
+  Suppose $Gamma models phi$ and $Gamma models not phi$ (by IH).
+
+  Let $nu$ satisfy $Gamma$. Then $Eval(phi) = True$ and $Eval(not phi) = True$.
+  But $Eval(not phi) = not Eval(phi) = False$. Contradiction.
+
+  Therefore no $nu$ satisfies $Gamma$, so $Gamma models bot$ vacuously. #sym.checkmark
+
+  *($bot$E) Ex Falso Quodlibet:*
+
+  Suppose $Gamma models bot$. Then no interpretation satisfies $Gamma$.
+  Therefore $Gamma models phi$ holds vacuously for any $phi$. #sym.checkmark
+]
+
+== Soundness: Summary
+
+#Block(color: green)[
+  *We have shown:* Every inference rule of natural deduction preserves semantic validity.
+
+  By induction on derivation structure, if $Gamma proves phi$, then $Gamma models phi$.
+
+  $therefore$ *Natural deduction is sound.* $qed$
+]
 
 #Block(color: yellow)[
   *Why soundness matters:*
   - Proofs are _reliable_ --- they never lead to false conclusions
   - Automated provers can be _trusted_
   - If $proves bot$, the system is _inconsistent_ (useless)
+]
+
+#Block(color: orange)[
+  *Exam tip:* You may be asked to prove soundness of a specific rule. Follow the pattern: assume premises are valid, show conclusion is valid under any interpretation.
 ]
 
 == Completeness: All Truths Are Provable
@@ -1409,52 +2165,139 @@
   In other words: "Everything true can be proven."
 ]
 
-#theorem[Gödel, 1929][
-  Natural deduction for propositional logic is complete.
+#theorem[Completeness of Propositional Logic][
+  Natural deduction for propositional logic is complete: if $Gamma models phi$, then $Gamma proves phi$.
+]
+
+#Block(color: blue)[
+  *Proof strategy:* We prove the _contrapositive_:
+
+  If $Gamma proves.not phi$, then $Gamma models.not phi$.
+
+  The key insight: if we _cannot_ prove $phi$, we can construct a _countermodel_ --- an interpretation where all of $Gamma$ is true but $phi$ is false.
+]
+
+== Completeness Proof: Key Concepts
+
+#definition[
+  A set of formulas $Gamma$ is _consistent_ if $Gamma proves.not bot$.
+
+  Equivalently: there is no derivation of $bot$ from $Gamma$.
+]
+
+#definition[
+  A set of formulas $Delta$ is _maximal consistent_ if:
+  + $Delta$ is consistent
+  + For every formula $phi$: either $phi in Delta$ or $not phi in Delta$ (completeness)
+  + Adding any formula not in $Delta$ makes it inconsistent (maximality)
 ]
 
 #Block(color: yellow)[
-  *Why completeness matters:*
-  - Proof search is _exhaustive_ --- if it's true, you can find a proof
-  - No "unreachable truths" in propositional logic
-  - Truth tables and proofs are _equivalent_ methods
+  *Key insight:* A maximal consistent set "decides" every formula --- it contains exactly one of $phi$ or $not phi$ for each $phi$.
+
+  This lets us define a canonical interpretation directly from $Delta$!
 ]
 
-#Block(color: green)[
-  *Soundness + Completeness* = syntactic derivability ($proves$) exactly matches semantic entailment ($models$).
+== Completeness Proof: Lindenbaum's Lemma
+
+#theorem[Lindenbaum's Lemma][
+  Every consistent set $Gamma$ can be extended to a maximal consistent set $Delta supset.eq Gamma$.
+]
+
+#proof[(constructive)][
+  Let $phi_1, phi_2, phi_3, dots$ be an enumeration of all formulas.
+
+  Define a sequence of sets:
+  - $Gamma_0 = Gamma$
+  - $Gamma_(n+1) = cases(
+      Gamma_n union {phi_(n+1)} & "if this is consistent",
+      Gamma_n union {not phi_(n+1)} & "otherwise"
+    )$
+  - $Delta = union.big_(n=0)^oo Gamma_n$
+
+  *Claim 1:* Each $Gamma_n$ is consistent (by induction).
+
+  *Claim 2:* $Delta$ is consistent (a derivation uses only finitely many formulas).
+
+  *Claim 3:* $Delta$ is maximal (every $phi_n$ or $not phi_n$ was added at step $n$).
+]
+
+== Completeness Proof: Canonical Model
+
+#definition[
+  Given a maximal consistent set $Delta$, define the _canonical interpretation_ $nu_Delta$:
   $
-    Gamma proves phi
-    quad "iff" quad
-    Gamma models phi
+    nu_Delta (P) = cases(
+      True & "if" P in Delta,
+      False & "if" P in.not Delta
+    )
+  $
+  for each propositional variable $P$.
+]
+
+#theorem[Truth Lemma][
+  For any formula $phi$ and maximal consistent set $Delta$:
+  $
+    Eval(phi) = True quad "iff" quad phi in Delta
   $
 ]
 
-== Proof of Completeness
+#Block(color: blue)[
+  This is the heart of the completeness proof! It says the canonical interpretation "agrees" with membership in $Delta$ for _all_ formulas, not just atoms.
+]
+
+== Completeness Proof: Truth Lemma
 
 #proof[
-  We prove the contrapositive: if $Gamma proves.not alpha$, then $Gamma models.not alpha$.
+  By structural induction on $phi$.
 
-  The _strategy_ is to construct a model (interpretation) that satisfies all formulas in $Gamma$, but falsifies $alpha$.
+  *Base case:* $phi = P$ (atomic). By definition of $nu_Delta$. #sym.checkmark
 
-  #[
-    #set enum(numbering: it => [*Step #it:*])
+  *Case $phi = not psi$:*
+  $Eval(not psi) = True$ iff $Eval(psi) = False$ iff $psi in.not Delta$ (IH) iff $not psi in Delta$ (maximality). #sym.checkmark
 
-    + If $Gamma proves.not alpha$, then $Gamma union {not alpha}$ is consistent (cannot derive $bot$).
-    + Extend $Gamma union {not alpha}$ to a _maximal consistent set_ $Delta$:
-      - $Delta$ is consistent (cannot derive $bot$)
-      - For every formula $beta$, either $beta in Delta$ or $not beta in Delta$
-    + Define interpretation $nu$ for atomic propositions $P$ by:
-      $ nu(P) = True iff P in Delta $
-    + Show by induction that for all formulas $beta$:
-      $ Eval(beta) = True iff beta in Delta $
-    + Since $not alpha in Delta$, we have $Eval(alpha) = False$.
-      Since $Gamma subset.eq Delta$, we have $Eval(gamma) = True$ for all $gamma in Gamma$.
-  ]
-
-  Therefore $Gamma models.not alpha$.
+  *Case $phi = psi and chi$:*
+  - ($arrow.r.double$) If $psi and chi in Delta$, then $psi in Delta$ and $chi in Delta$ (by $and$E being sound and $Delta$ being maximal consistent). By IH, $Eval(psi) = Eval(chi) = True$, so $Eval(psi and chi) = True$.
+  - ($arrow.l.double$) If $Eval(psi and chi) = True$, then $Eval(psi) = Eval(chi) = True$. By IH, $psi, chi in Delta$. Since $Delta$ is closed under derivability and $psi, chi proves psi and chi$, we have $psi and chi in Delta$. #sym.checkmark
 ]
 
-== The Completeness Theorem
+#pagebreak()
+
+#proof[Truth Lemma (continued)][
+  *Case $phi = psi or chi$:*
+  - ($arrow.r.double$) If $psi or chi in Delta$, suppose for contradiction that $psi in.not Delta$ and $chi in.not Delta$. By maximality, $not psi in Delta$ and $not chi in Delta$. But then $Delta proves psi or chi$ and $Delta proves not psi$ and $Delta proves not chi$, which by $or$E gives $Delta proves bot$. Contradiction with consistency!
+  - ($arrow.l.double$) If $Eval(psi or chi) = True$, then $Eval(psi) = True$ or $Eval(chi) = True$. By IH, $psi in Delta$ or $chi in Delta$. By $or$I, $psi or chi in Delta$. #sym.checkmark
+
+  *Case $phi = psi imply chi$:*
+  - ($arrow.r.double$) If $psi imply chi in Delta$ and $Eval(psi) = True$, then by IH $psi in Delta$. By $imply$E, $chi in Delta$, so $Eval(chi) = True$.
+  - ($arrow.l.double$) If $Eval(psi imply chi) = True$: either $Eval(psi) = False$ or $Eval(chi) = True$. In either case, by maximality and closure under derivability, $psi imply chi in Delta$. #sym.checkmark
+]
+
+== Completeness Proof: Main Argument
+
+#theorem[Completeness][
+  If $Gamma models phi$, then $Gamma proves phi$.
+]
+
+#proof[
+  We prove the contrapositive: if $Gamma proves.not phi$, then $Gamma models.not phi$.
+
+  Assume $Gamma proves.not phi$. Then $Gamma union {not phi}$ is consistent (if not, we could derive $phi$ by RAA).
+
+  By Lindenbaum's Lemma, extend $Gamma union {not phi}$ to a maximal consistent set $Delta$.
+
+  Define the canonical interpretation $nu_Delta$.
+
+  By the Truth Lemma:
+  - For each $gamma in Gamma$: since $gamma in Delta$, we have $Eval(gamma) = True$
+  - Since $not phi in Delta$, we have $Eval(not phi) = True$, i.e., $Eval(phi) = False$
+
+  Therefore $nu_Delta$ satisfies $Gamma$ but falsifies $phi$.
+
+  This means $Gamma models.not phi$. $qed$
+]
+
+== The Completeness Theorem: Full Statement
 
 #theorem[
   In _propositional logic_, for any set of formulas $Gamma$ and formula $phi$:
@@ -1928,9 +2771,9 @@
 #pagebreak(weak: true)
 
 #examples[
-  - $forall x. thin (P(x) imply Q(x))$ — "For all $x$, if $P(x)$ then $Q(x)$"
-  - $exists x. thin (P(x) and not Q(x))$ — "There exists an $x$ such that $P(x)$ and not $Q(x)$"
-  - $forall x. exists y. thin R(x,y)$ — "For every $x$, there exists a $y$ such that $R(x,y)$"
+  - $forall x. thin (P(x) imply Q(x))$ --- "For all $x$, if $P(x)$ then $Q(x)$"
+  - $exists x. thin (P(x) and not Q(x))$ --- "There exists an $x$ such that $P(x)$ and not $Q(x)$"
+  - $forall x. exists y. thin R(x,y)$ --- "For every $x$, there exists a $y$ such that $R(x,y)$"
 ]
 
 == Free and Bound Variables
@@ -2117,7 +2960,7 @@
 == Interactive Theorem Provers
 
 #Block[
-  Modern mathematics increasingly uses _interactive theorem provers_ — computer systems that assist in constructing and verifying formal proofs.
+  Modern mathematics increasingly uses _interactive theorem provers_ --- computer systems that assist in constructing and verifying formal proofs.
 ]
 
 #examples[Major Systems][
@@ -2233,10 +3076,525 @@
   - Interactive theorem provers make formal logic practically useful
 ]
 
+
+= Modal Logic
+#focus-slide(
+  epigraph: [A truth is necessary when its negation implies a contradiction.],
+  epigraph-author: [Gottfried Wilhelm Leibniz],
+)
+
+== Beyond Truth: Modes of Truth
+
+#Block(color: teal)[
+  *Propositional logic* deals with statements that are simply _true_ or _false_.
+
+  But natural reasoning involves _modes_ of truth:
+  - "It is *necessary* that 2 + 2 = 4" (couldn't be otherwise)
+  - "It is *possible* that it will rain tomorrow" (might happen)
+  - "John *knows* that the door is locked" (epistemic)
+  - "It *ought to be* that promises are kept" (deontic)
+]
+
+#Block(color: yellow)[
+  *Modal logic* extends classical logic with operators that express these _modalities_.
+]
+
+== The Modal Operators
+
+#definition[
+  _Modal logic_ extends propositional logic with two dual operators:
+  - $square phi$ --- "necessarily $phi$" (box)
+  - $diamond phi$ --- "possibly $phi$" (diamond)
+
+  These are related by duality:
+  $ diamond phi equiv not square not phi $
+  $ square phi equiv not diamond not phi $
+]
+
+#example[
+  - $square (2 + 2 = 4)$ --- "Necessarily, 2 + 2 = 4" (mathematical truth)
+  - $diamond ("rain tomorrow")$ --- "It's possible it will rain tomorrow"
+  - $square (P imply P)$ --- "Necessarily, if $P$ then $P$" (logical truth)
+]
+
+== Modal Syntax
+
+#definition[
+  The syntax of basic modal logic extends propositional logic:
+  - If $phi$ is a formula, then $square phi$ and $diamond phi$ are formulas
+  - All propositional connectives ($not$, $and$, $or$, $imply$, $iff$) apply
+
+  _Precedence:_ $square$ and $diamond$ bind tighter than binary connectives.
+]
+
+#example[Formulas in modal logic][
+  - $square P imply P$ --- "If necessarily $P$, then $P$"
+  - $square (P imply Q) imply (square P imply square Q)$ --- Distribution axiom (K)
+  - $square P imply square square P$ --- Positive introspection (4)
+  - $P imply square diamond P$ --- Brouwer axiom (B)
+]
+
+== Kripke Semantics: The Key Idea
+
+#Block(color: blue)[
+  *Classical semantics* assigns truth values to propositions.
+
+  *Kripke semantics* (1959, 1963) adds _structure_:
+  - Multiple "possible worlds"
+  - An _accessibility relation_ between worlds
+  - Truth is evaluated _at a world_
+]
+
+#definition[
+  A _Kripke frame_ is a pair $cal(F) = pair(W, R)$ where:
+  - $W$ is a non-empty set of _possible worlds_
+  - $R subset.eq W times W$ is the _accessibility relation_
+
+  We write $w R v$ to mean "world $v$ is accessible from world $w$."
+]
+
+== Kripke Models
+
+#definition[
+  A _Kripke model_ is a triple $cal(M) = (W, R, V)$ where:
+  - $pair(W, R)$ is a Kripke frame
+  - $V : "Prop" to cal(P)(W)$ is a _valuation_ function assigning to each proposition the set of worlds where it is true
+]
+
+#definition[
+  _Truth at a world_ $w$, written $cal(M), w models phi$, is defined:
+  - $cal(M), w models P$ iff $w in V(P)$ #h(2em) (for atomic $P$)
+  - $cal(M), w models not phi$ iff $cal(M), w models.not phi$
+  - $cal(M), w models phi and psi$ iff $cal(M), w models phi$ and $cal(M), w models psi$
+  - $cal(M), w models square phi$ iff *for all* $v$ with $w R v$: $cal(M), v models phi$
+  - $cal(M), w models diamond phi$ iff *there exists* $v$ with $w R v$: $cal(M), v models phi$
+]
+
+== Understanding the Semantics
+
+#Block(color: yellow)[
+  *Intuition for $square$ and $diamond$:*
+
+  - $square phi$ is true at $w$ if $phi$ is true in _all_ worlds accessible from $w$
+  - $diamond phi$ is true at $w$ if $phi$ is true in _some_ world accessible from $w$
+
+  The accessibility relation $R$ determines "what counts as possible" from each world.
+]
+
+#align(center)[
+  #cetz.canvas({
+    import cetz: draw
+
+    // Worlds
+    draw.circle((0, 0), radius: 0.4, fill: blue.lighten(70%), stroke: 1pt, name: "w")
+    draw.content("w", $w$)
+
+    draw.circle((2.5, 1), radius: 0.4, fill: green.lighten(70%), stroke: 1pt, name: "v1")
+    draw.content("v1", $v_1$)
+
+    draw.circle((2.5, -1), radius: 0.4, fill: green.lighten(70%), stroke: 1pt, name: "v2")
+    draw.content("v2", $v_2$)
+
+    draw.circle((5, 0), radius: 0.4, fill: orange.lighten(70%), stroke: 1pt, name: "u")
+    draw.content("u", $u$)
+
+    // Arrows
+    draw.line("w", "v1", mark: (end: "stealth", fill: black))
+    draw.line("w", "v2", mark: (end: "stealth", fill: black))
+    draw.line("v1", "u", mark: (end: "stealth", fill: black))
+
+    // Labels
+    draw.content((1.2, 1.3), text(size: 0.8em)[accessible])
+    draw.content((3.8, 0.8), text(size: 0.8em)[accessible])
+  })
+]
+
+#Block(color: green)[
+  At $w$: $square P$ means "$P$ holds at both $v_1$ and $v_2$"
+
+  At $w$: $diamond P$ means "$P$ holds at $v_1$ or $v_2$ (or both)"
+]
+
+== Example: A Simple Kripke Model
+
+#example[
+  Consider a model with worlds $W = {w_1, w_2, w_3}$:
+  - $R = {(w_1, w_2), (w_1, w_3), (w_2, w_3)}$
+  - $V(P) = {w_2, w_3}$ (P is true at $w_2$ and $w_3$)
+  - $V(Q) = {w_1, w_2}$ (Q is true at $w_1$ and $w_2$)
+
+  *Evaluate at $w_1$:*
+  - $cal(M), w_1 models P$? No, $w_1 in.not V(P)$
+  - $cal(M), w_1 models square P$? Yes! From $w_1$, we access $w_2$ and $w_3$, both in $V(P)$
+  - $cal(M), w_1 models diamond Q$? Yes! $w_2$ is accessible and $w_2 in V(Q)$
+]
+
+#Block(color: orange)[
+  *Key observation:* $P$ is _false_ at $w_1$, but $square P$ is _true_ at $w_1$!
+
+  "Necessarily $P$" doesn't require $P$ to hold at the current world --- only at all accessible worlds.
+]
+
+== Modal Axiom Systems
+
+#Block(color: blue)[
+  Different axiom systems capture different interpretations of necessity.
+
+  The base system *K* (after Kripke) contains:
+  - All propositional tautologies
+  - *K axiom:* $square (phi imply psi) imply (square phi imply square psi)$
+  - *Necessitation rule:* If $proves phi$, then $proves square phi$
+]
+
+#definition[
+  Common additional axioms and their frame conditions:
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Axiom*], [*Name*], [*Frame Condition*]),
+    [$square phi imply phi$], [T], [Reflexive: $forall w. thick w R w$],
+    [$square phi imply square square phi$], [4], [Transitive: $w R v and v R u imply w R u$],
+    [$phi imply square diamond phi$], [B], [Symmetric: $w R v imply v R w$],
+    [$diamond phi imply square diamond phi$], [5], [Euclidean: $w R v and w R u imply v R u$],
+  )
+]
+
+== Important Modal Systems
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *System K:*
+    - Base modal logic
+    - No conditions on $R$
+    - Weakest normal modal logic
+
+    *System T (= K + T):*
+    - Adds $square phi imply phi$
+    - Reflexive frames
+    - "What is necessary is actual"
+  ],
+  [
+    *System S4 (= T + 4):*
+    - Adds transitivity
+    - Reflexive + transitive = preorder
+    - Common for knowledge logic
+
+    *System S5 (= S4 + B = S4 + 5):*
+    - Full equivalence relation
+    - "All worlds see all worlds"
+    - Strongest normal system
+  ],
+)
+
+#Block(color: yellow)[
+  *S5* captures the idea that possibility and necessity are "absolute" --- if something is possible, it's necessarily possible.
+]
+
+== Applications of Modal Logic
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  Block(color: blue)[
+    *Epistemic Logic:*
+
+    $square_a phi$ = "Agent $a$ knows $phi$"
+
+    - $square_a phi imply phi$ (knowledge is true)
+    - $square_a phi imply square_a square_a phi$ (positive introspection)
+
+    Used in: AI, game theory, security protocols
+  ],
+  Block(color: green)[
+    *Deontic Logic:*
+
+    $square phi$ = "It ought to be that $phi$"
+
+    - Models obligations, permissions
+    - $square phi imply diamond phi$ (ought implies can)
+
+    Used in: Legal AI, normative systems
+  ],
+)
+
+#Block(color: orange)[
+  *Temporal Logic:*
+
+  - $square phi$ = "$phi$ holds at all future times"
+  - $diamond phi$ = "$phi$ holds at some future time"
+  - $circle.small phi$ = "$phi$ holds at the next time step"
+  - $phi thin cal(U) thin psi$ = "$phi$ holds until $psi$"
+
+  Used in: Verification of reactive systems (LTL, CTL)
+]
+
+== Modal Logic in Computer Science
+
+#example[Verifying a Mutex Property][
+  Consider two processes $P_1$ and $P_2$ competing for a critical section.
+
+  Let $"crit"_i$ = "process $i$ is in critical section"
+
+  *Mutual exclusion:* $square not ("crit"_1 and "crit"_2)$
+
+  "At all reachable states, both processes are never in the critical section simultaneously."
+]
+
+#Block(color: purple)[
+  *Model checking* is the algorithmic verification of modal/temporal formulas over finite-state systems.
+
+  Tools: SPIN, NuSMV, Alloy use modal/temporal logic for specification.
+
+  _This connects directly to our SAT lecture --- many model checkers use SAT solvers internally!_
+]
+
+
+= Proofs as Programs
+#focus-slide(
+  epigraph: [The formulas-as-types notion is not just an analogy \
+  --- it is an isomorphism.],
+  epigraph-author: [William Howard],
+)
+
+== The Curry--Howard Correspondence
+
+#Block(color: teal)[
+  *A remarkable discovery:* There is a deep connection between:
+  - *Logic* (propositions, proofs, inference rules)
+  - *Computation* (types, programs, evaluation rules)
+
+  This is the _Curry--Howard correspondence_ (also called "propositions as types" or "proofs as programs").
+]
+
+#Block(color: yellow)[
+  *Historical development:*
+  - 1934: Curry observes connection between combinatory logic and types
+  - 1969: Howard formalizes the correspondence for intuitionistic logic
+  - 1980s--present: Foundation of modern type theory and proof assistants
+]
+
+== The Dictionary
+
+#definition[
+  The Curry--Howard correspondence establishes:
+
+  #table(
+    columns: 2,
+    align: (center, center),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Logic*], [*Computation*]),
+    [Proposition $phi$], [Type $tau$],
+    [Proof of $phi$], [Program of type $tau$],
+    [Proposition $phi$ is provable], [Type $tau$ is inhabited],
+    [$phi and psi$], [Product type $tau times sigma$],
+    [$phi or psi$], [Sum type $tau + sigma$],
+    [$phi imply psi$], [Function type $tau arrow.r sigma$],
+    [$bot$ (falsehood)], [Empty type (no elements)],
+    [$top$ (truth)], [Unit type (one element)],
+  )
+]
+
+== Implication as Function Type
+
+#Block(color: green)[
+  *The key insight:* A proof of $phi imply psi$ is a _method_ to transform any proof of $phi$ into a proof of $psi$.
+
+  In programming: a function of type $tau arrow.r sigma$ takes an input of type $tau$ and produces an output of type $sigma$.
+
+  *They are the same thing!*
+]
+
+#example[
+  The identity proof $proves P imply P$:
+  #grid(
+    columns: 2,
+    column-gutter: 2em,
+    [
+      *Proof:*
+      + Assume $P$ #h(1em) _(hypothesis)_
+      + We have $P$ #h(1em) _(from 1)_
+      + Therefore $P imply P$ #h(0.5em) _($imply$I)_
+    ],
+    [
+      *Program:*
+      ```python
+      def identity(x: A) -> A:
+          return x
+      ```
+      Type: $A arrow.r A$
+    ],
+  )
+]
+
+== Conjunction as Product Type
+
+#example[Conjunction and Pairs][
+  Proof of $P and Q imply Q and P$:
+  #grid(
+    columns: 2,
+    column-gutter: 2em,
+    [
+      *Proof:*
+      + Assume $P and Q$
+      + $P$ by $and$E from 1
+      + $Q$ by $and$E from 1
+      + $Q and P$ by $and$I from 3, 2
+    ],
+    [
+      *Program:*
+      ```python
+      def swap(pair: (A, B)) -> (B, A):
+          (a, b) = pair
+          return (b, a)
+      ```
+      Type: $(A times B) arrow.r (B times A)$
+    ],
+  )
+]
+
+#Block(color: yellow)[
+  - $and$-Introduction = constructing a pair
+  - $and$-Elimination = projecting from a pair
+]
+
+== Disjunction as Sum Type
+
+#example[Disjunction and Tagged Unions][
+  Proof of $(P imply R) imply (Q imply R) imply (P or Q imply R)$:
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    [
+      *Proof structure:*
+
+      Given a proof of $P imply R$ and a proof of $Q imply R$, and given $P or Q$, do case analysis: if~$P$, use first; if~$Q$, use second.
+    ],
+    [
+      *Program:*
+      ```python
+      def handle(f: A -> C,
+                 g: B -> C,
+                 x: A | B) -> C:
+          match x:
+              case Left(a): return f(a)
+              case Right(b): return g(b)
+      ```
+    ],
+  )
+]
+
+== Negation and Empty Types
+
+#Block(color: orange)[
+  *Negation* $not phi$ is defined as $phi imply bot$.
+
+  Computationally: a function that takes a value of type $phi$ and produces a value of the empty type (which is impossible --- the function can never return!).
+]
+
+#example[
+  A proof of $not (P and not P)$ corresponds to:
+  ```python
+  def no_contradiction(x: (A, A -> Empty)) -> Empty:
+      (a, not_a) = x
+      return not_a(a)  # Calls a function that "never returns"
+  ```
+]
+
+#Block(color: purple)[
+  *Ex falso quodlibet* ($bot imply phi$) corresponds to a function from the empty type to any type --- which trivially exists because it's never called!
+]
+
+== Classical vs. Intuitionistic Logic
+
+#Block(color: blue)[
+  The Curry--Howard correspondence works best with *intuitionistic logic*.
+
+  In intuitionistic logic:
+  - $not not phi imply phi$ is _not_ provable
+  - $phi or not phi$ (excluded middle) is _not_ provable
+  - Every proof is _constructive_ --- it provides a witness
+]
+
+#example[Why excluded middle is non-constructive][
+  Consider $P or not P$. In intuitionistic logic, to prove a disjunction we must prove one of the disjuncts.
+
+  But $P or not P$ claims this _without specifying which_! It's not a program that computes anything --- it's just an assertion.
+]
+
+#Block(color: yellow)[
+  *Classical proofs* (using RAA or LEM) correspond to programs with _control operators_ (like exceptions or continuations). This is Curry--Howard for classical logic!
+]
+
+== Proof Assistants and Type Theory
+
+#Block(color: green)[
+  Modern proof assistants implement the Curry--Howard correspondence:
+  - Proofs are programs
+  - Type checking = proof verification
+  - Programming = proving theorems
+]
+
+#example[Lean 4 Syntax][
+  ```lean
+  -- Proposition (type)
+  theorem and_comm : P ∧ Q → Q ∧ P := by
+    intro ⟨hp, hq⟩  -- assume P ∧ Q, destruct
+    exact ⟨hq, hp⟩  -- construct Q ∧ P
+
+  -- Same as:
+  def and_comm' : P ∧ Q → Q ∧ P :=
+    fun ⟨hp, hq⟩ => ⟨hq, hp⟩
+  ```
+]
+
+== The Deep Correspondence
+
+#Block(color: purple)[
+  *The Curry--Howard--Lambek correspondence* extends to:
+
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Logic*], [*Type Theory*], [*Category Theory*]),
+    [Propositions], [Types], [Objects],
+    [Proofs], [Terms], [Morphisms],
+    [Implication], [Function space], [Exponential],
+    [Conjunction], [Product], [Product],
+    [Disjunction], [Coproduct], [Coproduct],
+    [True], [Unit], [Terminal object],
+    [False], [Empty], [Initial object],
+  )
+]
+
+#Block(color: teal)[
+  This unification of logic, computation, and algebra is one of the most beautiful discoveries in foundations of mathematics!
+]
+
+== Why Curry--Howard Matters
+
+#Block(color: blue)[
+  *Practical implications:*
+
+  + *Verified software:* Write programs that are _proven correct_ by construction
+  + *Proof automation:* Use programming techniques to find proofs
+  + *Extraction:* Compile proofs into executable programs
+  + *Dependent types:* Types can depend on values, enabling rich specifications
+]
+
+#example[
+  A function with type $"List"(A) arrow.r "NonEmpty"("List"(A)) + "Unit"$
+
+  The _type_ guarantees: "Returns either a non-empty list or indicates the input was empty."
+
+  No runtime checks needed --- it's enforced by the type system!
+]
+
+
 == Looking Forward
 
 *Next topics in advanced logic:*
-- Modal logic (necessity, possibility, knowledge, belief)
 - Temporal logic (time, concurrency, reactive systems)
 - Intuitionistic logic (constructive mathematics)
 - Linear logic (resource-aware reasoning)
