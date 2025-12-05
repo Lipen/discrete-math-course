@@ -1614,6 +1614,8 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   )
 ]
 
+#pagebreak()
+
 #example[Double Negation Elimination][
   Proving $not not P imply P$ (requires classical logic):
   #grid(
@@ -1798,6 +1800,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   #align(center)[
     #grid(
       columns: 1,
+      align: left,
       inset: 5pt,
       $P imply Q$,
       $Q$,
@@ -1813,7 +1816,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   *Counterexample:* Someone could have watered the garden!
 ]
 
-#Block(color: green)[
+#Block(color: blue)[
   *Formal proof of invalidity:*
 
   Find an interpretation where premises are true but conclusion is false:
@@ -1832,6 +1835,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   #align(center)[
     #grid(
       columns: 1,
+      align: left,
       inset: 5pt,
       $P imply Q$,
       $not P$,
@@ -2232,7 +2236,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   By induction on derivation structure, if $Gamma proves phi$, then $Gamma models phi$.
 
-  $therefore$ *Natural deduction is sound.* $qed$
+  $therefore$ *Natural deduction is sound.*
 ]
 
 #Block(color: yellow)[
@@ -2349,19 +2353,24 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   *Case $phi = psi and chi$:*
   - ($arrow.r.double$) If $psi and chi in Delta$, then $psi in Delta$ and $chi in Delta$ (by $and$E being sound and $Delta$ being maximal consistent). By IH, $Eval(psi) = Eval(chi) = True$, so $Eval(psi and chi) = True$.
+
   - ($arrow.l.double$) If $Eval(psi and chi) = True$, then $Eval(psi) = Eval(chi) = True$. By IH, $psi, chi in Delta$. Since $Delta$ is closed under derivability and $psi, chi proves psi and chi$, we have $psi and chi in Delta$. #YES
-]
 
-#pagebreak()
+  _(see next page)_
 
-#proof[Truth Lemma (continued)][
+  #colbreak()
+
   *Case $phi = psi or chi$:*
   - ($arrow.r.double$) If $psi or chi in Delta$, suppose for contradiction that $psi in.not Delta$ and $chi in.not Delta$. By maximality, $not psi in Delta$ and $not chi in Delta$. But then $Delta proves psi or chi$ and $Delta proves not psi$ and $Delta proves not chi$, which by $or$E gives $Delta proves bot$. Contradiction with consistency!
+
   - ($arrow.l.double$) If $Eval(psi or chi) = True$, then $Eval(psi) = True$ or $Eval(chi) = True$. By IH, $psi in Delta$ or $chi in Delta$. By $or$I, $psi or chi in Delta$. #YES
 
   *Case $phi = psi imply chi$:*
   - ($arrow.r.double$) If $psi imply chi in Delta$ and $Eval(psi) = True$, then by IH $psi in Delta$. By $imply$E, $chi in Delta$, so $Eval(chi) = True$.
+
   - ($arrow.l.double$) If $Eval(psi imply chi) = True$: either $Eval(psi) = False$ or $Eval(chi) = True$. In either case, by maximality and closure under derivability, $psi imply chi in Delta$. #YES
+
+  All cases complete.
 ]
 
 == Completeness Proof: Main Argument
