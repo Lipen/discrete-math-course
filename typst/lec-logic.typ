@@ -955,49 +955,91 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #grid(
   columns: 2,
-  column-gutter: 2em,
-  [
+  column-gutter: 1.5em,
+  Block(color: green)[
     *Semantic approach:*
-    - Check all $2^n$ interpretations
-    - Exponential in number of variables
-    - "Brute force" verification
-    - Answers: "_Is_ this true?"
+    - Assign truth values to variables
+    - Evaluate formula under each interpretation
+    - Check all $2^n$ rows of truth table
+    - Answers: "Is $phi$ true everywhere?"
   ],
-  [
+  Block(color: purple)[
     *Syntactic approach:*
+    - Start from axioms or premises
     - Apply inference rules step-by-step
-    - Polynomial-sized proofs (sometimes)
-    - "Reasoned" derivation
-    - Answers: "_Why_ is this true?"
+    - Build a derivation (proof)
+    - Answers: "Can we derive $phi$?"
   ],
 )
 
 #Block(color: yellow)[
-  *Central question:* Can syntactic proofs capture exactly the semantic truths?
-
-  If $models phi$ (semantically valid), can we always _prove_ $phi$ syntactically?
+  *The key shift:*
+  A proof system derives formulas _without mentioning truth_.
+  It manipulates symbols according to rules --- a purely mechanical process.
 ]
 
 == What is a Proof System?
 
+#Block(color: blue)[
+  A _proof system_ is a precise, formal game with strict rules.
+
+  Think of it as a machine: you feed in some formulas (premises), turn the crank (apply rules), and out comes a conclusion.
+  The machine doesn't "understand" the formulas --- it just manipulates symbols according to patterns.
+]
+
+#definition[
+  A *proof system* for a logic consists of:
+  + A set of *axioms* --- formulas accepted without justification
+  + A set of *inference rules* --- patterns for deriving new formulas from existing ones
+]
+
+#note[
+  Every step in a proof is _mechanically checkable_.
+  A computer can verify any proof by pattern-matching alone, without understanding what the formulas "mean."
+]
+
+== Axioms: Starting Points
+
+#definition[
+  An _axiom_ is a formula we accept as true without proof --- a starting point for all derivations.
+]
+
 #Block[
-  A _proof system_ is a formal method for deriving conclusions from premises using explicit rules.
-
-  But what exactly are the components?
+  Different proof systems make different choices about axioms:
+  - *Many axioms:* Hilbert systems have infinitely many axiom _schemas_
+  - *Few axioms:* Some systems minimize axioms for elegance
+  - *No axioms:* Natural deduction needs _no axioms at all_!
 ]
 
-#definition[
-  An _axiom_ is a formula that we accept as true without proof --- a starting point for reasoning.
+#Block(color: orange)[
+  *The problem with axioms:* We must accept them without justification.
+  Axiom-heavy systems require us to "believe" certain formulas are valid before we can prove anything else.
 ]
 
+== Inference Rules: The Heart of Proof
+
 #definition[
-  An _inference rule_ is a pattern that allows us to derive a new formula (the _conclusion_) from one or more existing formulas (the _premises_).
+  An _inference rule_ specifies a pattern:
+  - *Premises* (above the line): formulas we already have
+  - *Conclusion* (below the line): formula we may derive
+
+  #align(center)[
+    #grid(
+      columns: 1,
+      align: center,
+      inset: 5pt,
+      [premises],
+      grid.hline(stroke: .8pt),
+      [conclusion],
+    )
+  ]
 ]
 
 #example[
-  The most famous inference rule is _modus ponens_:
+  The most famous inference rule is _modus ponens_: \
+  "If we have $phi$ and we have $phi imply psi$, then we may write down $psi$."
 
-  #align(center)[
+  #place(top + right, dx: -3cm, dy: -.5em)[
     #grid(
       columns: 1,
       align: left,
@@ -1008,76 +1050,47 @@ A single inhabitant stands there. You may ask *one yes/no question*.
       [$psi$],
     )
   ]
-
-  "If we have $phi$ and we have $phi imply psi$, then we may conclude $psi$."
 ]
 
-#note[
-  Inference rules are written with premises above the line and conclusion below.
-  This notation goes back to Frege and Gentzen.
+#v(1fr)
+
+#Block(color: yellow)[
+  *Rules are purely syntactic:* We match patterns in formulas, not meanings.
+  The rule doesn't care _what_ $phi$ and $psi$ say --- only that they have the right shape.
 ]
 
-== What is a Proof?
+== Proofs and Derivability
 
 #definition[
-  A _proof_ (or _derivation_) of formula $phi$ from a set of premises $Gamma$ is a finite sequence of formulas $phi_1, phi_2, dots, phi_n$ where:
-  - The final formula $phi_n = phi$ (the thing we want to prove)
-  - Each $phi_i$ in the sequence is justified by one of:
-    + It is an axiom of the system
-    + It is a premise (a formula from $Gamma$)
-    + It follows from earlier formulas by an inference rule
+  A _proof_ (or _derivation_) of $phi$ from premises $Gamma$ is a finite sequence of formulas where:
+  - The final formula is $phi$
+  - Each formula is justified as an axiom, a premise from $Gamma$, or follows from earlier formulas by an inference rule
+]
+
+#definition[
+  We write $Gamma proves phi$ (read: "$Gamma$ proves $phi$") when such a derivation exists.
+
+  When $Gamma = emptyset$, we write $proves phi$ and call $phi$ a *theorem*.
 ]
 
 #example[
-  A simple proof of $Q$ from premises ${P, thick P imply Q}$:
+  A proof showing $P, thin P imply Q proves Q$:
   #grid(
     columns: 3,
     align: left,
     inset: 5pt,
     [1.], [$P$], [Premise],
     [2.], [$P imply Q$], [Premise],
-    [3.], [$Q$], [Modus ponens from 1, 2],
+    [3.], [$Q$], [Modus ponens on 1, 2],
   )
-]
-
-== Derivability Notation
-
-#definition[
-  We write $Gamma proves phi$ (read: "$Gamma$ proves $phi$" or "$phi$ is derivable from $Gamma$") when there exists a proof of $phi$ from the premises in $Gamma$.
-]
-
-#example[
-  - ${P, thin P imply Q} proves Q$ --- we just showed this proof above
-  - ${P imply Q, thin Q imply R} proves P imply R$ --- hypothetical syllogism
-  - ${P and Q} proves P$ --- conjunction elimination
-]
-
-#note[
-  We ofter _drop_ the curly braces for the set of premises, e.g., writing $P, P imply Q proves Q$.
-]
-
-#definition[
-  When $Gamma = emptyset$ (no premises), we write $proves phi$ and say "$phi$ is a _theorem_" --- provable from the axioms alone.
 ]
 
 == Semantic vs. Syntactic Entailment
 
-#Block(color: yellow)[
-  *Compare the two turnstiles:*
-  - $Gamma models phi$ --- semantic: $phi$ is true whenever all of $Gamma$ is true
-  - $Gamma proves phi$ --- syntactic: $phi$ can be derived from $Gamma$ using rules
-
-  Are they the same? This is the central question of metalogic!
-]
-
-== Types of Proof Systems
-
-#Block(color: yellow)[
-  There are many different proof systems for propositional logic.
-  They all prove the same theorems, but differ in style:
-  - How many axioms they start with (many vs. few vs. none)
-  - What inference rules they allow
-  - How proofs are structured (linear, tree, etc.)
+#Block(color: blue)[
+  We now have *two turnstile symbols* with very different meanings:
+  - $Gamma models phi$ is _about meaning_: every interpretation satisfying $Gamma$ also satisfies $phi$.
+  - $Gamma proves phi$ is _about derivation_: there exists a proof of $phi$ from $Gamma$ using rules.
 ]
 
 #v(1fr, weak: true)
@@ -1085,69 +1098,111 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 #grid(
   columns: 2,
   column-gutter: 1em,
-  Block(color: blue)[
-    *Hilbert-style systems:*
-    - Many axiom _schemas_
-    - Few inference rules (often just modus ponens)
-    - Proofs are linear sequences
-    - Historically important but tedious to use
-  ],
   Block(color: green)[
-    *Natural deduction:*
-    - No axioms at all
-    - Many inference rules (intro/elim for each connective)
-    - Tree-structured or Fitch-style proofs
-    - Closer to how mathematicians actually reason
+    *Semantic ($models$):*
+
+    - About _truth_ and _meaning_
+    - Requires checking interpretations
+    - "What _is_ true?"
+    - Exponential in worst case ($2^n$ rows)
+    - External: refers to the world
+  ],
+  Block(color: purple)[
+    *Syntactic ($proves$):*
+
+    - About _derivation_ and _symbols_
+    - Requires applying rules
+    - "What can we _derive_?"
+    - Proof size varies (can be short!)
+    - Internal: stays within the system
   ],
 )
 
 #v(1fr, weak: true)
 
-#Block(color: orange)[
-  Other systems: _sequent calculus_ (Gentzen), _tableaux_ (semantic trees), _resolution_ (used in SAT solvers).
+#Block(color: yellow)[
+  *The central question:* Do $models$ and $proves$ coincide?
 
-  Different systems are useful for different purposes!
+  If $Gamma models phi$ implies $Gamma proves phi$ (and vice versa), we can use whichever method is more convenient.
 ]
 
-== Hilbert Systems: An Example
+== Types of Proof Systems
 
 #Block[
-  Hilbert systems have many axiom _schemas_ (patterns that generate infinitely many axioms) but typically only _modus ponens_ as an inference rule.
+  Many proof systems exist for propositional logic.
+
+  They all prove the _same theorems_, but differ in their design:
 ]
 
-#example[A Classic Hilbert System][
-  *Axiom schemas* (where $phi, psi, chi$ are any formulas):
-  + $phi imply (psi imply phi)$
-  + $(phi imply (psi imply chi)) imply ((phi imply psi) imply (phi imply chi))$
-  + $(not phi imply not psi) imply (psi imply phi)$
-
-  *Inference rule:* Modus ponens only.
-]
-
-#Block(color: orange)[
-  *Problem:* Hilbert proofs are often long and unintuitive.
-
-  Even proving $P imply P$ (identity) requires several steps --- try it!
-]
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  Block(color: purple)[
+    *Hilbert-style systems:*
+    - Many axiom _schemas_
+    - Few rules (often just modus ponens)
+    - Proofs are linear sequences
+    - Historically important, but tedious
+  ],
+  Block(color: green)[
+    *Natural deduction:*
+    - *No axioms at all!*
+    - Many rules (intro/elim per connective)
+    - Tree-structured or Fitch-style proofs
+    - Mirrors how mathematicians reason
+  ],
+)
 
 #note[
-  Hilbert systems are important for metamathematics (proving things _about_ proof systems) but impractical for everyday reasoning.
+  Other systems: _sequent calculus_ (Gentzen), _tableaux_ (semantic trees), _resolution_ (SAT solvers).
 ]
 
-== Natural Deduction: The Idea
+== Hilbert Systems: Axiom-Heavy Approach
 
-#Block(color: teal)[
-  _Natural deduction_ was invented by Gerhard Gentzen (1934) to formalize how mathematicians _actually_ reason.
-
-  *Core idea:* Instead of many axioms, we have _rules_ for each connective.
+#Block[
+  Hilbert systems have many axiom _schemas_ (patterns generating infinitely many axioms) but typically only modus ponens as inference rule.
 ]
+
+*Axiom schemas* (for any formulas $phi, psi, chi$):
++ $phi imply (psi imply phi)$
++ $(phi imply (psi imply chi)) imply ((phi imply psi) imply (phi imply chi))$
++ $(not phi imply not psi) imply (psi imply phi)$
+
+*Inference rule:* Modus ponens only.
+
+#Block(color: orange)[
+  Hilbert proofs are long and unintuitive --- even proving $P imply P$ requires several non-obvious steps.
+
+  And we must accept those axiom schemas as valid before we can prove anything.
+]
+
+== Natural Deduction: The Axiom-Free Alternative
+
+#Block(color: green)[
+  _Natural deduction_ (Gentzen, 1934) takes a radical approach: *no axioms*.
+
+  Instead, we have _rules_ for each logical connective --- ways to _introduce_ and _eliminate_ it.
+]
+
+#Block(color: yellow)[
+  *Why no axioms?*
+
+  Each rule is self-evident: it just says what a connective _means_.
+
+  - To prove $phi and psi$, prove both $phi$ and $psi$
+  - To use $phi and psi$, extract $phi$ or $psi$
+
+  The rules _define_ the connectives through their behavior.
+]
+
+== Natural Deduction: Introduction and Elimination
 
 #grid(
   columns: 2,
   column-gutter: 1em,
   [
     #definition[
-      An _introduction rule_ shows how to *prove* a formula with a given connective as main operator.
+      An _introduction rule_ shows how to *prove* a formula with a given connective as its main operator.
     ]
 
     #example[
@@ -1158,7 +1213,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   ],
   [
     #definition[
-      An _elimination rule_ shows how to *use* a formula with a given connective to derive new formulas.
+      An _elimination rule_ shows how to *use* a formula with a given connective to derive something new.
     ]
 
     #example[
@@ -1168,6 +1223,10 @@ A single inhabitant stands there. You may ask *one yes/no question*.
     ]
   ],
 )
+
+#note[
+  Each connective gets exactly two rules: one to _build_ formulas, one to _use_ them.
+]
 
 == Hypothetical Reasoning
 
@@ -1182,17 +1241,28 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   Therefore, if $P$ then $Q$."
 ]
 
-#example[Proving $P imply P$][
-  + Assume $P$ #h(2em) _(assumption)_
-  + We have $P$ #h(2em) _(from 1)_
-  + Therefore $P imply P$ #h(1em) _($imply$I, discharge 1)_
-]
+#grid(
+  columns: (1fr, auto),
+  gutter: 2em,
+  example[Proving $P imply P$][
+    #v(-0.5em)
+    #grid(
+      columns: 3,
+      align: left,
+      inset: 5pt,
+      [1.], [$P$], [_Assumption_],
+      grid.hline(stroke: 0.8pt),
+      [2.], [$P$], [From 1],
+      [3.], [$P imply P$], [$imply$I 1],
+    )
+    #v(-0.5em)
+  ],
+  Block(color: yellow)[
+    *This is how mathematicians reason:*
 
-#Block(color: yellow)[
-  *This is how mathematicians reason:*
-
-  "Suppose $n$ is even. Then... Therefore, _if_ $n$ is even, _then_ $n^2$ is even."
-]
+    "Suppose $n$ is even. Then... Therefore, _if_ $n$ is even, _then_ $n^2$ is even."
+  ],
+)
 
 == Fitch Notation
 
