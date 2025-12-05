@@ -2014,7 +2014,8 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   *Countermodel:* Domain $= {a}$, $S(a) = False$, $P(a) = True$.
 
-  Premise: $forall x. (F imply T) = T$. Conclusion: $exists x. (F and T) = F$.
+  Premise: $forall x. (F imply T) = T$.
+  Conclusion: $exists x. (F and T) = F$.
 ]
 
 == Proof by Contradiction: Showing Invalidity
@@ -2036,7 +2037,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   - Check premise 2: $nu(Q) = 1$ #YES
   - Check conclusion: $nu(P) = 0$ #NO
 
-  Premises true, conclusion false $imply$ inference invalid. $qed$
+  Premises true, conclusion false $imply$ inference invalid.
 ]
 
 == Valid vs. Invalid Inference Patterns
@@ -2118,7 +2119,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 == Soundness Proof: Base Cases
 
-#proof[Part 1: Base Cases][
+#proof[(Part 1: Base Cases)][
   The derivation uses only a premise or an axiom.
 
   *Case: Premise*
@@ -2127,12 +2128,13 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   *Case: Axiom (if any)*
 
-  In natural deduction, we have no axioms in the usual sense (only rules). In Hilbert systems, axioms are tautologies, which are valid by definition.
+  In natural deduction, we have no axioms in the usual sense (only rules).
+  In Hilbert systems, axioms are tautologies, which are valid by definition.
 ]
 
 == Soundness Proof: Conjunction Rules
 
-#proof[Part 2: Conjunction][
+#proof[(Part 2: Conjunction)][
   *($and$I) Conjunction Introduction:*
 
   Suppose we have derivations of $phi$ and $psi$ from $Gamma$, and by IH, $Gamma models phi$ and $Gamma models psi$.
@@ -2155,7 +2157,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 == Soundness Proof: Disjunction Rules
 
-#proof[Part 3: Disjunction][
+#proof[(Part 3: Disjunction)][
   *($or$I) Disjunction Introduction:*
 
   Suppose $Gamma models phi$ (by IH). Let $nu$ satisfy $Gamma$.
@@ -2168,25 +2170,33 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   Let $nu$ satisfy $Gamma$. Then $Eval(phi or psi) = True$.
 
-  *Case 1:* $Eval(phi) = True$. Then $nu$ satisfies $Gamma union {phi}$, so $Eval(chi) = True$.
+  *Case 1:* $Eval(phi) = True$.
+  Then $nu$ satisfies $Gamma union {phi}$, so $Eval(chi) = True$.
 
-  *Case 2:* $Eval(psi) = True$. Then $nu$ satisfies $Gamma union {psi}$, so $Eval(chi) = True$.
+  *Case 2:* $Eval(psi) = True$.
+  Then $nu$ satisfies $Gamma union {psi}$, so $Eval(chi) = True$.
 
   In both cases, $Eval(chi) = True$. Therefore $Gamma models chi$. #YES
 ]
 
 == Soundness Proof: Implication Rules
 
-#proof[Part 4: Implication][
+#proof[(Part 4: Implication)][
   *($imply$I) Implication Introduction:*
 
-  Suppose $Gamma union {phi} models psi$ (by IH). We need to show $Gamma models phi imply psi$.
+  Suppose $Gamma union {phi} models psi$ (by IH).
+  We need to show $Gamma models phi imply psi$.
 
-  Let $nu$ satisfy $Gamma$. We consider two cases:
+  Let $nu$ satisfy $Gamma$.
+  We consider two cases:
 
-  *Case 1:* $Eval(phi) = False$. Then $Eval(phi imply psi) = True$ (false implies anything).
+  *Case 1:* $Eval(phi) = False$.
+  Then $Eval(phi imply psi) = True$ (false implies anything).
 
-  *Case 2:* $Eval(phi) = True$. Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(psi) = True$. So $Eval(phi imply psi) = True$.
+  *Case 2:* $Eval(phi) = True$.
+  Then $nu$ satisfies $Gamma union {phi}$.
+  By IH, $Eval(psi) = True$.
+  So $Eval(phi imply psi) = True$.
 
   In both cases, $Gamma models phi imply psi$. #YES
 
@@ -2194,23 +2204,27 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   Suppose $Gamma models phi imply psi$ and $Gamma models phi$ (by IH).
 
-  Let $nu$ satisfy $Gamma$. Then $Eval(phi imply psi) = True$ and $Eval(phi) = True$.
+  Let $nu$ satisfy $Gamma$.
+  Then $Eval(phi imply psi) = True$ and $Eval(phi) = True$.
 
-  If $Eval(psi) = False$, then $Eval(phi imply psi) = Eval(not phi or psi) = False$. Contradiction.
+  If $Eval(psi) = False$, then $Eval(phi imply psi) = Eval(not phi or psi) = False$.
+  Contradiction.
 
   Therefore $Eval(psi) = True$, and $Gamma models psi$. #YES
 ]
 
 == Soundness Proof: Negation Rules
 
-#proof[Part 5: Negation][
+#proof[(Part 5: Negation)][
   *($not$I) Negation Introduction:*
 
-  Suppose $Gamma union {phi} models bot$ (by IH). We show $Gamma models not phi$.
+  Suppose $Gamma union {phi} models bot$ (by IH).
+  We show $Gamma models not phi$.
 
   Assume for contradiction that some $nu$ satisfies $Gamma$ but $Eval(not phi) = False$, i.e., $Eval(phi) = True$.
 
-  Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(bot) = True$. But $bot$ is always false! Contradiction.
+  Then $nu$ satisfies $Gamma union {phi}$. By IH, $Eval(bot) = True$.
+  But $bot$ is always false! Contradiction.
 
   Therefore no such $nu$ exists, so $Gamma models not phi$. #YES
 
@@ -2218,14 +2232,16 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   Suppose $Gamma models phi$ and $Gamma models not phi$ (by IH).
 
-  Let $nu$ satisfy $Gamma$. Then $Eval(phi) = True$ and $Eval(not phi) = True$.
+  Let $nu$ satisfy $Gamma$.
+  Then $Eval(phi) = True$ and $Eval(not phi) = True$.
   But $Eval(not phi) = not Eval(phi) = False$. Contradiction.
 
   Therefore no $nu$ satisfies $Gamma$, so $Gamma models bot$ vacuously. #YES
 
   *($bot$E) Ex Falso Quodlibet:*
 
-  Suppose $Gamma models bot$. Then no interpretation satisfies $Gamma$.
+  Suppose $Gamma models bot$.
+  Then no interpretation satisfies $Gamma$.
   Therefore $Gamma models phi$ holds vacuously for any $phi$. #YES
 ]
 
@@ -2247,7 +2263,8 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 ]
 
 #Block(color: orange)[
-  *Exam tip:* You may be asked to prove soundness of a specific rule. Follow the pattern: assume premises are valid, show conclusion is valid under any interpretation.
+  *Exam tip:* You may be asked to prove soundness of a specific rule.
+  Follow the pattern: assume premises are valid, show conclusion is valid under any interpretation.
 ]
 
 == Completeness: All Truths Are Provable
@@ -2361,14 +2378,25 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   #colbreak()
 
   *Case $phi = psi or chi$:*
-  - ($arrow.r.double$) If $psi or chi in Delta$, suppose for contradiction that $psi in.not Delta$ and $chi in.not Delta$. By maximality, $not psi in Delta$ and $not chi in Delta$. But then $Delta proves psi or chi$ and $Delta proves not psi$ and $Delta proves not chi$, which by $or$E gives $Delta proves bot$. Contradiction with consistency!
+  - ($arrow.r.double$)
+    If $psi or chi in Delta$, suppose for contradiction that $psi in.not Delta$ and $chi in.not Delta$.
+    By maximality, $not psi in Delta$ and #box[$not chi in Delta$].
+    But then $Delta proves psi or chi$ and $Delta proves not psi$ and $Delta proves not chi$, which by $or$E gives $Delta proves bot$.
+    Contradiction with consistency!
 
-  - ($arrow.l.double$) If $Eval(psi or chi) = True$, then $Eval(psi) = True$ or $Eval(chi) = True$. By IH, $psi in Delta$ or $chi in Delta$. By $or$I, $psi or chi in Delta$. #YES
+  - ($arrow.l.double$)
+    If $Eval(psi or chi) = True$, then $Eval(psi) = True$ or $Eval(chi) = True$.
+    By IH, $psi in Delta$ or $chi in Delta$.
+    By $or$I, $psi or chi in Delta$.
 
   *Case $phi = psi imply chi$:*
-  - ($arrow.r.double$) If $psi imply chi in Delta$ and $Eval(psi) = True$, then by IH $psi in Delta$. By $imply$E, $chi in Delta$, so $Eval(chi) = True$.
+  - ($arrow.r.double$)
+    If $psi imply chi in Delta$ and $Eval(psi) = True$, then by IH $psi in Delta$.
+    By $imply$E, $chi in Delta$, so $Eval(chi) = True$.
 
-  - ($arrow.l.double$) If $Eval(psi imply chi) = True$: either $Eval(psi) = False$ or $Eval(chi) = True$. In either case, by maximality and closure under derivability, $psi imply chi in Delta$. #YES
+  - ($arrow.l.double$)
+    If $Eval(psi imply chi) = True$: either $Eval(psi) = False$ or $Eval(chi) = True$.
+    In either case, by maximality and closure under derivability, $psi imply chi in Delta$.
 
   All cases complete.
 ]
@@ -2382,7 +2410,8 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 #proof[
   We prove the contrapositive: if $Gamma proves.not phi$, then $Gamma models.not phi$.
 
-  Assume $Gamma proves.not phi$. Then $Gamma union {not phi}$ is consistent (if not, we could derive $phi$ by RAA).
+  Assume $Gamma proves.not phi$.
+  Then $Gamma union {not phi}$ is consistent (if not, we could derive $phi$ by RAA).
 
   By Lindenbaum's Lemma, extend $Gamma union {not phi}$ to a maximal consistent set $Delta$.
 
@@ -2394,7 +2423,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   Therefore $nu_Delta$ satisfies $Gamma$ but falsifies $phi$.
 
-  This means $Gamma models.not phi$. $qed$
+  This means $Gamma models.not phi$.
 ]
 
 == The Completeness Theorem: Full Statement
