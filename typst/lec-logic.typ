@@ -1049,7 +1049,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   - *Premises* (above the line): formulas we already have
   - *Conclusion* (below the line): formula we may derive
 
-  #align(center)[
+  #place(top + right, dx: -2cm)[
     #grid(
       columns: 1,
       align: center,
@@ -1065,7 +1065,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   The most famous inference rule is _modus ponens_: \
   "If we have $phi$ and we have $phi imply psi$, then we may write down $psi$."
 
-  #place(top + right, dx: -3cm, dy: -.5em)[
+  #place(top + right, dx: -3cm)[
     #grid(
       columns: 1,
       align: left,
