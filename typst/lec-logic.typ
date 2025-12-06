@@ -1044,28 +1044,39 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 == Inference Rules: The Heart of Proof
 
-#definition[
-  An _inference rule_ specifies a pattern:
-  - *Premises* (above the line): formulas we already have
-  - *Conclusion* (below the line): formula we may derive
+#Block[
+  An _inference rule_ is a template for deriving new formulas.
+  It specifies:
 
-  #place(top + right, dx: -2cm)[
+  - *Premises* (input formulas we already have)
+  - *Conclusion* (output formula we can _derive_)
+
+  Rules are notated with premises above a horizontal line and conclusion below.
+]
+
+#definition[
+  An inference rule has the general form:
+
+  #align(center)[
     #grid(
       columns: 1,
       align: center,
       inset: 5pt,
-      [premises],
+      [$phi_1 quad phi_2 quad dots quad phi_n$],
       grid.hline(stroke: .8pt),
-      [conclusion],
+      [$psi$],
     )
   ]
+
+  Read: "If we have _premises_ $phi_1, phi_2, dots, phi_n$, then we may derive the _conclusion_ $psi$."
 ]
 
-#example[
-  The most famous inference rule is _modus ponens_: \
-  "If we have $phi$ and we have $phi imply psi$, then we may write down $psi$."
+== Modus Ponens
 
-  #place(top + right, dx: -3cm)[
+#example[
+  The most famous inference rule --- _modus ponens_:
+
+  #align(center)[
     #grid(
       columns: 1,
       align: left,
@@ -1076,13 +1087,13 @@ A single inhabitant stands there. You may ask *one yes/no question*.
       [$psi$],
     )
   ]
+
+  Interpretation: "From $phi$ and the conditional $phi imply psi$, we derive $psi$."
 ]
 
-#v(1fr)
-
-#Block(color: yellow)[
-  *Rules are purely syntactic:* We match patterns in formulas, not meanings.
-  The rule doesn't care _what_ $phi$ and $psi$ say --- only that they have the right shape.
+#note[
+  Rules are _syntactic_ --- they match patterns in formulas.
+  The rule doesn't care what $phi$ and $psi$ _mean_, only that they have the right form.
 ]
 
 == Proofs and Derivability
