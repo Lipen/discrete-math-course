@@ -63,7 +63,7 @@
 #Block(color: teal)[
   *From Boolean Algebra to Formal Reasoning*
 
-  In Boolean Algebra, we studied how to _compute_ with truth values --- evaluating expressions like $(P and Q) or not P$ given specific values for $P$ and $Q$.
+  In Boolean Algebra, we studied how to _compute_ with truth values --- evaluating expressions like #box[$(P and Q) or not P$] given specific values for $P$ and $Q$.
 
   Now we ask a deeper question: which formulas are _always_ true, regardless of the values we plug in?
   And how do we _prove_ that an argument is valid?
@@ -140,7 +140,7 @@
 == Syntax: The Language of Logic
 
 #Block[
-  Before we can ask whether a formula is _true_, we need to specify what counts as a valid formula.
+  Before we can ask whether a formula is _true_, we need to specify what counts as a valid formula. \
   This is the job of *syntax*: defining the grammar of our logical language.
 
   Syntax is purely about structure --- it says nothing about meaning.
@@ -148,9 +148,13 @@
 
 #definition[
   A _propositional language_ $cal(L)$ consists of:
+
   - _Propositional variables_ (atoms): $P, Q, R, dots$ or $p_1, p_2, p_3, dots$
-  - _Logical connectives_: $not$ (negation), $and$ (conjunction), $or$ (disjunction), $imply$ (implication), $iff$ (biconditional)
+
+  - _Logical connectives_: $not$ (negation), $and$ (conjunction), $or$ (disjunction), $imply$ (implication), $iff$~(biconditional)
+
   - _Punctuation_: parentheses $($ and $)$ for grouping
+
   - _Constants_ (optional): $top$ (true), $bot$ (false)
 ]
 
