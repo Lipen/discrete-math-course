@@ -283,6 +283,14 @@ $
 $
 
 
+== Problem 11: Resolution Rule
+
+Use the Resolution inference rule to prove that the set of clauses is unsatisfiable:
+$
+  {P or Q, not P or R, not Q or S, not R, not S}
+$
+
+
 // == Problem 6: Reduction to Boolean Satisfiability (SAT)
 
 // Reduce _any three_ of the following problems to the Boolean satisfiability problem ($SAT$).
