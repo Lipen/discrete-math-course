@@ -52,6 +52,7 @@ jobs:
       - run: typst compile --font-path ~/.fontist/fonts typst/hw1-ru.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/hw2.typ
       - run: typst compile --font-path ~/.fontist/fonts typst/hw3.typ
+      - run: typst compile --font-path ~/.fontist/fonts typst/hw4.typ
 
       - name: List generated PDFs
         run: ls -lh typst/*.pdf
