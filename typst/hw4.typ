@@ -29,7 +29,7 @@
 #show emph: set text(fill: blue.darken(20%))
 
 // Custom operators and notation
-// ...
+#let proves = entails
 
 // Color helpers
 #let Green(x) = text(green.darken(20%), x)
@@ -55,358 +55,520 @@
 }
 
 
-== Problem 1: Logical Consistency
-
-For each given set of sentences, determine whether it is logically consistent (jointly satisfiable).
-
-#tasklist("prob1", cols: 2)[
-  + $not D$, $(D or F)$, $not F$
-
-  + $(T imply K)$, $not K$, $(K or not T)$
-
-  #colbreak()
-
-  + $not(A imply (not C imply B))$, $((B or C) and A)$
 
-  + $(C imply B)$, $(D or C)$, $not B$, $(D imply B)$
-]
-
-
-== Problem 2: Formal Proofs with Missing Steps
-
-Complete the following deductive formal proofs by filling in missing formulae and justifications.
+== Problem 1: The Emporium of Lonely Automatons
 
-#note[
-  These proofs use natural deduction in Fitch notation.
-  You can verify your proofs at
-  #link("https://proofs.openlogicproject.org")[`proofs.openlogicproject.org`].
-  Note that some inference rules may be missing (e.g., contraposition and commutativity) ---
-  nevertheless, you are still allowed to use them in this task.
-]
+Minik, a small selling automaton, and his maker Mestorf argue in Ijon Tichy's presence about a tiny shopping decision.
+Minik warns: "If you buy *exactly one* of the Giraffoid or the Elephandroid, you must also buy a Simianoid --- solitary units become melancholic.
+But Minik also repeats an older rule: neither the Elephandroid nor the Simianoid may be bought unless the Giraffoid is bought as well.
+Mestorf answers: "Very well --- we will take the Giraffoid, the Elephandroid, and the Simianoid."
+Minik adds, almost to please himself: "Then let us buy either the Elephandroid or the Giraffoid."
 
-For each proof below, fill in the missing steps (marked with $square$ boxes) to complete the derivation.
+You need to resolve the exchange for Tichy's notes:
+- Introduce propositional variables for the three toys and formalize Minik's rules and Mestorf's declaration.
+- Decide which combinations of toys are consistent and which follow from these claims.
+- State succinctly how many toys were bought and why.
 
-#let BOX = {
-  move(dy: 2pt, box(stroke: 1pt, width: 2em, height: 1em))
-}
-#let BOXM = {
-  move(dy: 0pt, box(stroke: 1pt, width: 2em, height: 1em))
-}
 
-*Proof 1:* Modus Tollens
+== Problem 2: Galactic Cadets and the Quantum Cheat-Leaf
 
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $H imply (R and C)$, "Premise"),
-    (0, $not R or not C$, "Premise"),
-    (0, $not(R and C)$, BOX),
-    (0, $BOXM$, "MT 1, 3"),
-  ))
-]
+// Ijon interviews three cadets after an exam.
+// A forbidden Quantum Cheat-Leaf is found.
 
-*Proof 2:* Contradiction
+// Three cadets of the Interstellar Navigation Academy --- Ivanko, Petryn and Sidorik --- draw the same exam question on "Navigating Topologically Impossible Nebulae."
+// A banned Quantum Cheat-Leaf is later found.
+// Ijon Tichy, summoned as the curious pedagogical inspector, interrogates the three cadets separately.
 
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $K and S$, "Premise"),
-    (0, $not K$, "Premise"),
-    (0, $BOXM$, BOX),
-    (0, $BOXM$, BOX),
-    (0, $not S$, BOX),
-  ))
-]
+At the Interstellar Navigation Academy a minor scandal flutters: a *banned Quantum Cheat-Leaf* was found near the exam hall.
+Ijon Tichy, summoned as the curious pedagogical inspector, questions three cadets who each drew the same impossible nebula problem.
+Cadets answer in curt bursts of cosmic hygiene and blame.
 
-*Proof 3:* Proof by Cases (Law of Excluded Middle)
+- Ivanko says: "I didn't use it. Sidorik used it. Petryn used it too."
+- Petryn says: "Ivanko used it. I didn't. I cannot say anything about Sidorik."
+- Sidorik says nothing publicly.
 
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $A imply not A$, "Premise"),
-    (0, $BOXM$, "(multiple lines)"),
-    (0, $not A$, [LEM $#BOXM$]),
-  ))
-]
+Later the three whisper to Tichy: "One of us told only the truth. One of us told exactly one truth. One of us lied in everything."
+They refuse to specify who.
 
-*Proof 4:* Disjunctive Elimination
+// Later they confess: one of the three cadets’ three statements was entirely true, another cadet told exactly one true statement among his three, and the third cadet told no true statements. They refuse to say who was who.
 
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $(P and Q) or (P and R)$, "Premise"),
-    (1, $BOXM$, "Assume"),
-    (1, $P$, BOX),
-    (0, $...$, "empty line"), // TODO: remove this line, but keep assumption scopes separated somehow...
-    (1, $BOXM$, "Assume"),
-    (1, $P$, BOX),
-    (0, $P$, BOX),
-  ))
-]
+// Questions:
+// a) Can one deduce who—if anyone—consulted the cheat-leaf?
+// b) Is it guaranteed that someone used it?
+// c) Can we determine whether Ivanov or Petrov was the reliable one?
 
+Help Tichy reconstruct the event by formalizing their claims.
++ Can we deduce who used the Cheat-Leaf?
++ Is it certain that someone used it?
++ Can we identify the truthful cadet?
 
-== Problem 3: Argument Symbolization and Validity
 
-Symbolize the given arguments with well-formed formulae (WFFs) of propositional logic.
-For each argument, determine its validity using a truth table.
-For each _valid_ argument, provide a deductive formal proof in Fitch notation.
-For each _invalid_ argument, provide a counterexample valuation.
+== Problem 3: The Case of the Contradictory Cosmonauts
 
-#tasklist("prob3")[
-  // Symbolization: $(P imply Q)$, $(not Q or R)$, $P$ and $R$ (conclusion)
-  + If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
-    Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality (or both).
-    Philosophers do ponder profound problems.
-    Therefore, right reasoning reveals reality.
+After a small reactor incident, Tichy collects testimonies from three cosmonauts:
+- Knyazev gives an initial testimony.
+- Faraonov replies: "Knyazev's first testimony is false."
+- Tsaryov says: "Faraonov is lying."
+- Called back, Knyazev now states: "Both Faraonov and Tsaryov lied"
 
-  // Symbolization: $A imply (not B or not C)$, $B$, $not A or not C$; Conclusion: $not A$
-  + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras (or both).
-    Baby baboons beat bongos.
-    Aardvarks aren't adorable unless crocodiles can't consume cute capybaras.
-    Therefore, aardvarks aren't adorable.
+Tichy asks you to:
++ List all consistent truth-value assignments for the three utterances.
++ Point out which statements are determinately true or false in every consistent assignment, and which depend on the initial truth of Knyazev's first testimony.
 
-  // Symbolization: $not D imply G$, $D imply H$; Conclusion: $G or H$
-  + If discipline doesn't defeat deficiency, then geniuses generally get good grades.
-    If discipline defeats deficiency, then homework has harmed humanity.
-    Therefore, geniuses generally get good grades unless homework has harmed humanity.
 
+== Problem 4: Border Bots --- Knight, Knave, Spy
 
-  // Symbolization: $C imply not I$, $(M and D) or C$, $I$; Conclusion: $M iff D$
-  + Crocodiles can consume cute capybaras only if incarcerating iguanas isn't illegal.
-    Mad monkeys make mayhem and dinosaurs do disco dance, unless crocodiles consume cute capybaras.
-    It is known that incarcerating iguanas is illegal.
-    Therefore, dinosaurs do disco dance if and only if mad monkeys make mayhem.
-]
+At a border booth Tichy meets three bots: Aster, Boron, and Circe.
+One always tells the truth (Knight), one always lies (Knave), one answers arbitrarily (Spy).
+They proclaim:
+- Aster: "I am the Knight."
+- Boron: "Aster is the Spy."
+- Circe: "I am the Spy."
 
+Tichy asks you to identify their roles:
++ Determine who is Knight, Knave, and Spy, with a short case analysis.
++ If Circe's statement were instead "Aster is the Knave," indicate how the identification changes.
 
-== Problem 4: Deductive Proofs with Basic Rules
 
-For each given argument, construct a deductive proof in Fitch notation using only basic inference rules.
+== Problem 5: The Metallurgical Vaults
 
-#tasklist("prob4", cols: 1)[
-  + *Double negation elimination:*
-    $not not A therefore A$
+Ijon examines three museum vaults.
+Inscriptions read:
+- Gold: "The treasure is not here."
+- Silver: "The treasure is in the Gold chest."
+- Lead: "The treasure is here."
 
-  + *Peirce's law:*
-    $(A imply B) imply A therefore A$
+Tichy requests two solutions:
++ Loose reading: at least one inscription is true and at least one false --- find which vault(s) may contain the treasure.
++ Classic reading: exactly one inscription is true --- find the unique vault and prove it.
 
-  + *Contraposition:*
-    $not B imply not A therefore A imply B$
+State each answer clearly and justify it.
 
 
-  + *De Morgan's law:*
-    $not(A or B) therefore not A and not B$
+== Problem 6: Tri-Constellation Agent Communications
 
-  + *De Morgan's law:*
-    $not A and not B therefore not(A or B)$
+Central Command sends Tichy a decrypted fragment about last week's contacts among Bilion, Stevok, Tomix, and Johnon.
+The deciphered memo reads: "If Bilion contacted Stevok then Tomix did not; and Bilion contacting Stevok holds exactly when Johnon contacted at least one of them. Also, if Johnon contacted Stevok then Bilion did not contact Stevok."
 
-  + *Proof by cases:*
-    $(A imply B) and (not A imply B) therefore B$
+Tichy asks you to:
+// TODO: "reasonable formal parsing" is confusing
+// + Choose a reasonable formal parsing and write the corresponding propositional formulas.
+// + Under that parsing, determine which agent pairs definitely contacted, which definitely did not, and whether any agent must have contacted someone.
+// + Briefly explain how an alternative natural-language parse could change conclusions.
 
-  + *Modus Tollens:*
-    $A imply B and not B therefore not A$
+// **Questions:**
++ Identify a pair of agents who definitely communicated.
++ Identify a pair who definitely did not.
++ Determine whether there exists an agent who certainly communicated with at least one other.
 
-  + *Disjunctive syllogism:*
-    $A or B and not A therefore B$
 
-  + *Hypothetical syllogism:*
-    $A imply B and B imply C therefore A imply C$
+== Problem 7: Resolution in the Clause Factory
 
-  + *The "Law of Clavius":*
-    $not A imply A therefore A$
-]
+A noisy clause-batcher prints a small set that worries the engineers.
+Ijon brings it to class:
+$
+  { P or Q, not P or R, not Q or S, not R, not S }
+$
 
+Tichy asks for a crisp proof.
+You must:
+- Use the Resolution rule step by step to derive the empty clause.
+- Show each resolved pair and the resolvent.
+- Conclude unsatisfiability.
 
-== Problem 5: Tautology Proofs
 
-For each given tautology, construct a deductive proof in Fitch notation.
+== Problem 8: Quantifier Negation --- The Printer's Slip
 
-+ $(A imply B) or (B imply A)$
+The theorem-printer produced:
+$
+  forall x exists y . thin (P(x) imply Q(x,y))
+$
 
-+ $A imply (B imply A)$
+Tichy asks students to check its negation.
++ Write the negation and push negation to atoms.
++ Present the final quantifier prefix and the quantifier-free matrix.
 
-+ $(not B imply not A) imply ((not B imply A) imply B)$
 
-+ $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
+== Problem 9: FOL Translations in the Grand Repository
 
+Ijon catalogs software.
+Predicates: $O(x)$ = "$x$ is open-source", $B(x)$ = "$x$ is buggy", $U(x,y)$ = "$x$ uses $y$".
 
-== Problem 6: The Island of Knights, Knaves, and Spies
-
-You meet three inhabitants: Alice, Bob, and Charlie.
-
-- Knights always tell the truth.
-- Knaves always lie.
-- Spies can lie or tell the truth arbitrarily.
-- There is one of each.
-
-Alice says: "I am the Knight."
-Bob says: "Alice is the Spy."
-Charlie says: "I am the Spy."
-
-Determine who is who.
-
-
-== Problem 7: The Treasure Chests
-
-You face three chests: Gold, Silver, and Lead. One contains the treasure.
-
-- Gold Chest inscription: "The treasure is not here."
-- Silver Chest inscription: "The treasure is in the Gold Chest."
-- Lead Chest inscription: "The treasure is here."
-
-At least one inscription is true, and at least one is false.
-Where is the treasure?
-
-
-== Problem 8: Database Queries
-
-Translate the following English sentences into First-Order Logic. Let the domain be "all software".
-Predicates: $B(x)$ = "$x$ is buggy", $O(x)$ = "$x$ is open-source", $U(x, y)$ = "$x$ uses $y$".
-
+Translate and exemplify:
 + "Some open-source software is not buggy."
 + "All buggy software uses some open-source software."
-+ "There is a piece of software that uses all open-source software."
++ "There exists a piece of software that uses all open-source software."
+
+For each:
+- Give a precise first-order formula.
+- Provide a small finite model that satisfies it.
+- State which formula requires an existential witness that cannot be removed when the domain is expanded.
 
 
-== Problem 9: The Lady or the Tiger
+== Problem 10: Forall and Or --- Theorem-Machine Check
 
-You are presented with two rooms with inscribed signs:
-
-- Room I: "In this room there is a lady, and in the other room there is a tiger."
-- Room II: "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
-
-One sign is true, the other is false.
-Behind which door is the lady?
-
-
-== Problem 10: Negation of Quantifiers
-
-Find the negation of the following sentence and simplify it:
+Theorem-Printer asserts:
 $
-  forall x exists y . thin P(x) imply Q(x, y)
+  forall x . thin (P(x) or Q(x))
+  quad proves quad
+  (forall x . thin P(x)) or (forall x . thin Q(x))
 $
 
-
-== Problem 11: Resolution Rule
-
-Use the Resolution inference rule to prove that the set of clauses is unsatisfiable:
-$
-  {P or Q, not P or R, not Q or S, not R, not S}
-$
+Tichy asks for a verdict.
+You must:
++ Decide whether the entailment is valid.
++ If invalid, produce a concrete countermodel (domain and interpretation) satisfying the left side but falsifying the right.
++ Give a one-sentence semantic explanation.
 
 
-// == Problem 6: Reduction to Boolean Satisfiability (SAT)
+== Problem 11: Martians and Venusians on Natural-Number Street
 
-// Reduce _any three_ of the following problems to the Boolean satisfiability problem ($SAT$).
-// Collaborate with your classmates to cover distinct problems from different domains.
+// On Natural-Number Street each house $n >= 1$ holds either $M_n$ (Martian) or $V_n$ (Venusian).
+// The rules are:
+// - Martians: no Martian has both neighbors Martian.
+// - Venusians: each Venusian has at least one Martian neighbor.
+// - Martian broadcast: $M_3 imply forall k . thin (3 | k imply M_k)$.
+// - The implication $(M_5 imply exists k . thin (3 | k and M_k))$ is #False in the world.
 
-// Provide a detailed encoding of each chosen problem into logical variables and propositional constraints.
-// While your encoding does not have to be in CNF, explain how high-level constraints (such as arithmetic conditions) translate into propositional logic.
-// Additionally, discuss possible extensions or variations for each problem.
+// Tichy wants the pattern:
+// - Explain the logical consequence of that implication being false.
+// - If exactly five Martians live on the street, determine their positions and prove uniqueness.
+// - Decide whether $M_1$ must hold.
+// - Give a short rule describing who lives at a general position $n$.
 
-// #block(width: 100%)[
-//   *Available Problems:*
+On the infinite Arithmetic Axis, every natural point ($n >= 1$) houses either a Martian or Venusian.
 
-//   0. _*(Do not pick this one!)*_ *Graph Coloring:*
-//   Determine if a given graph $G = (V, E)$ can be properly colored with $k$ colors so that no two adjacent vertices share the same color.
+A xenopsychologist publishes:
+- "No Martian endures having both neighbors also Martians."
+- "Every Venusian demands at least one Martian neighbor."
 
-//   1. *Sudoku Puzzle:*
-//   Determine if a partially filled $9 times 9$ Sudoku grid can be completed so that each row, column, and $3 times 3$ sub-grid contains each digit from 1 to 9 exactly once.
+Martians send an encrypted addendum:
+- If point 3 houses a Martian, then every point divisible by 3 houses a Martian.
 
-//   2. *N-Queens Problem:*
-//   Place $N$ queens on an $N times N$ chessboard so that no two queens threaten each other (no shared row, column, or diagonal).
+Additionally, the following statement is declared false:
+- "If point 5 houses a Martian, then there exists a point divisible by 3 that houses a Martian."
 
-//   3. *Hamiltonian Cycle:*
-//   Determine if a given directed graph $G = (V, E)$ contains a Hamiltonian cycle that visits each vertex exactly once and returns to the starting point.
+Tichy tasks you with:
++ If exactly five Martians live on the axis, determining their unique positions.
++ Deciding whether point 1 must house a Martian.
++ Formulating a general rule for the inhabitant at any point $n$.
 
-//   4. *Clique:*
-//   Determine if a graph $G = (V, E)$ has a $k$-clique: a complete subgraph on $k$ vertices.
 
-//   5. *Vertex Cover:*
-//   Determine if a graph $G = (V, E)$ has a vertex cover of size $k$: a set of vertices touching all edges.
+== Problem 12: Modal Lamps at the Observatory
 
-//   6. *Tiling Problem:*
-//   Determine if a given rectangular region can be tiled (without gaps or overlaps) using a specified set of shapes (e.g., dominoes or tetrominoes).
+The Observatory presents four worlds with accessibility relations:
+- $w_1 -> w_2$, $w_1 -> w_3$; $w_2 -> w_4$, $w_3 -> w_4$; $w_4 -> w_4$.
 
-//   7. *3D Packing Problem:*
-//   Determine if a set of 3D rectangular objects can fit into a container of fixed dimensions without overlapping, possibly rotating the objects as necessary.
+Proposition $P$ is #True in $w_2$ and $w_4$, and #False in $w_1$ and $w_3$.
 
-//   8. *Exact Cover Problem:*
-//   Given a universe $U$ and a collection of subsets, determine if there exists a sub-collection of these subsets that covers each element of $U$ exactly once.
+Tichy asks:
+- At $w_1$ evaluate: $diamond P$, $square P$, $square diamond P$, and $diamond square P$.
+- In one sentence explain why $square diamond P$ differs from $diamond square P$ here.
+- If all worlds become reflexive, state which evaluations change.
 
-//   9. *Cryptarithm Solver:*
-//   Given a cryptarithm (e.g., `SEND` + `MORE` = `MONEY`), assign a unique digit to each letter so that the resulting arithmetic equation holds true.
 
-//   10. *Boolean Formula Synthesis:*
-//   Given a Boolean function $f: {0,1}^n to {0,1}$, construct a Boolean formula in a form of a parse tree with $k$ nodes (logic connectives and variables) that computes $f$.
+== Problem 13: Short Fitch Proofs
 
-//   11. *Boolean Circuit Synthesis:*
-//   Given a Boolean function $f: {0,1}^n to {0,1}^m$, construct a Boolean circuit with $k$ logic gates that computes $f$.
+Tichy needs compact natural-deduction (Fitch) proofs for these formulas:
+1. $(A imply B) or (B imply A)$
+2. $A imply (B imply A)$
+3. $(not B imply not A) imply ((not B imply A) imply B)$
+4. $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
 
-//   12. *Logical Equivalence Check:*
-//   Determine if two given Boolean circuits are equivalent (i.e., they compute the same Boolean function).
+For each:
+- Provide a concise Fitch-style derivation and mark rules used.
+- For (1), note briefly whether the formula is intuitionistically derivable or requires classical logic.
 
-//   13. *Scheduling Problem:*
-//   Assign $n$ tasks to $m$ time slots and $k$ processors. Each task should be scheduled exactly once, precedence constraints must be satisfied, tasks sharing a resource cannot overlap, and tasks requiring multiple time slots must be scheduled contiguously.
 
-//   14. *Pancake Sorting:*
-//   Given a stack of pancakes of varying sizes, determine a sequence of flips (each flip reverses the order of the top portion of the stack) to sort the stack with the largest pancake at the bottom.
+== Problem 14: Da, Ja, and the Three Algorithmic Gods
 
-//   15. *Latin Square:*
-//   Determine if a partially filled $n times n$ grid can be completed so that each row and column contains each of $n$ distinct symbols exactly once.
+On a tiny isle three gods answer only "da" or "ja."
+One always tells truth, one always lies, one answers randomly.
+Tichy can ask three yes/no questions total.
 
-//   16. *Bin Packing Problem:*
-//   Given a set of items with sizes and a fixed number of bins with given capacities, determine if all items can be placed into the bins without exceeding any bin's capacity.
+Produce:
++ Three explicit questions (text) that identify each god regardless of the da/ja mapping and Random's coin flips.
++ A short explanation of the trick that makes the questions robust to the unknown language.
 
-//   17. *Betweenness Problem:*
-//   Given a set of elements and constraints of the form $(a,b,c)$, meaning that in any acceptable linear ordering of these elements, $b$ must lie between $a$ and $c$, determine if there exists such an ordering that satisfies all betweenness constraints.
+
+== Problem 15: The Rooms of Probabilistic Doom
+
+Tichy finds two quantum rooms.
+Each bears an inscription and exactly one inscription is true.
+One room hides a Lady, the other a Tiger.
+
+Inscriptions:
+- Room I: "Here is the Lady, and in the other room the Tiger."
+- Room II: "Exactly one room contains a Lady and the other a Tiger."
+
+Help Tichy to:
+- Formalize both inscriptions briefly.
+- Determine which room contains the Lady and justify in one short paragraph.
+- If Room II instead read "At least one room contains a Lady and at least one a Tiger," explain whether the answer changes.
+
+
+
+////////////////////////////////////////////////////////
+
+
+// == Problem 1: Logical Consistency
+
+// For each given set of sentences, determine whether it is logically consistent (jointly satisfiable).
+
+// #tasklist("prob1", cols: 2)[
+//   + $not D$, $(D or F)$, $not F$
+
+//   + $(T imply K)$, $not K$, $(K or not T)$
+
+//   #colbreak()
+
+//   + $not(A imply (not C imply B))$, $((B or C) and A)$
+
+//   + $(C imply B)$, $(D or C)$, $not B$, $(D imply B)$
 // ]
 
-// #block(width: 100%, sticky: true)[
-//   *Guidelines for the reduction:*
-//   - Define logical variables to represent key properties of the problem (e.g., whether a vertex is assigned a specific color, whether an item is placed in a particular bin, etc.).
-//   - Formulate constraints that enforce the rules of the problem in propositional logic.
-//   - Show how a solution to the SAT instance corresponds to a solution of the original problem.
-//   - Verify that your reduction captures all valid solutions of the original problem.
+
+// == Problem 2: Formal Proofs with Missing Steps
+
+// Complete the following deductive formal proofs by filling in missing formulae and justifications.
+
+// #note[
+//   These proofs use natural deduction in Fitch notation.
+//   You can verify your proofs at
+//   #link("https://proofs.openlogicproject.org")[`proofs.openlogicproject.org`].
+//   Note that some inference rules may be missing (e.g., contraposition and commutativity) ---
+//   nevertheless, you are still allowed to use them in this task.
 // ]
 
-// #block(width: 100%)[
-//   *Example Solution: Graph Coloring*
+// For each proof below, fill in the missing steps (marked with $square$ boxes) to complete the derivation.
 
-//   + Define variables $x_{v,c}$ for each vertex $v in V$ and color $c in {1, dots, k}$, where $x_{v,c}=1$ if vertex $v$ is assigned color $c$.
+// #let BOX = {
+//   move(dy: 2pt, box(stroke: 1pt, width: 2em, height: 1em))
+// }
+// #let BOXM = {
+//   move(dy: 0pt, box(stroke: 1pt, width: 2em, height: 1em))
+// }
 
-//   + Add constraints ensuring each vertex is assigned exactly one color:
+// *Proof 1:* Modus Tollens
 
-//     $ or.big_(c=1)^k x_{v,c} quad "for all" v in V $
-
-//     $ not(x_{v,c} and x_{v,c'}) quad "for all" v in V, c eq.not c' $
-
-//   + Add constraints ensuring no two adjacent vertices share the same color:
-
-//     $ not(x_{u,c} and x_{v,c}) quad "for all" (u,v) in E, c in {1, dots, k} $
-
-//   + Optionally, fix a specific vertex and color to reduce symmetries:
-
-//     $ x_(1,1) = 1 $
-
-//   + *Possible extensions and variations:*
-//     - _Bounded coloring:_ Require each color to be used at least $t_("min")$ and at most $t_("max")$ times.
-//     - _Exact coloring:_ Ensure every pair of colors appears on exactly one pair of adjacent vertices.
+// #align(center)[
+//   #derive-it.ded-nat(stcolor: black, arr: (
+//     (0, $H imply (R and C)$, "Premise"),
+//     (0, $not R or not C$, "Premise"),
+//     (0, $not(R and C)$, BOX),
+//     (0, $BOXM$, "MT 1, 3"),
+//   ))
 // ]
 
-// #block(width: 100%)[
-//   *Example Solution: Knapsack Problem*
+// *Proof 2:* Contradiction
 
-//   + Define variables $x_i$ for each item $i$, where $x_i = 1$ if item $i$ is included.
-
-//   + Add constraints to ensure the total weight does not exceed the limit $W$:
-
-//     $ sum_i w_i x_i <= W $
-
-//   + Formulate the objective (though SAT is a decision problem, you can encode the optimization problem as a series of checks):
-
-//     $ sum_i v_i x_i >= V_"target" $
-
-//   + *Possible extensions and variations:*
-//     - _Fractional knapsack:_ Allow items to be broken into smaller pieces.
-//     - _Multiple knapsacks:_ Consider multiple knapsacks with different weight limits.
+// #align(center)[
+//   #derive-it.ded-nat(stcolor: black, arr: (
+//     (0, $K and S$, "Premise"),
+//     (0, $not K$, "Premise"),
+//     (0, $BOXM$, BOX),
+//     (0, $BOXM$, BOX),
+//     (0, $not S$, BOX),
+//   ))
 // ]
+
+// *Proof 3:* Proof by Cases (Law of Excluded Middle)
+
+// #align(center)[
+//   #derive-it.ded-nat(stcolor: black, arr: (
+//     (0, $A imply not A$, "Premise"),
+//     (0, $BOXM$, "(multiple lines)"),
+//     (0, $not A$, [LEM $#BOXM$]),
+//   ))
+// ]
+
+// *Proof 4:* Disjunctive Elimination
+
+// #align(center)[
+//   #derive-it.ded-nat(stcolor: black, arr: (
+//     (0, $(P and Q) or (P and R)$, "Premise"),
+//     (1, $BOXM$, "Assume"),
+//     (1, $P$, BOX),
+//     (0, $...$, "empty line"), // TODO: remove this line, but keep assumption scopes separated somehow...
+//     (1, $BOXM$, "Assume"),
+//     (1, $P$, BOX),
+//     (0, $P$, BOX),
+//   ))
+// ]
+
+
+// == Problem 3: Argument Symbolization and Validity
+
+// Symbolize the given arguments with well-formed formulae (WFFs) of propositional logic.
+// For each argument, determine its validity using a truth table.
+// For each _valid_ argument, provide a deductive formal proof in Fitch notation.
+// For each _invalid_ argument, provide a counterexample valuation.
+
+// #tasklist("prob3")[
+//   // Symbolization: $(P imply Q)$, $(not Q or R)$, $P$ and $R$ (conclusion)
+//   + If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
+//     Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality (or both).
+//     Philosophers do ponder profound problems.
+//     Therefore, right reasoning reveals reality.
+
+//   // Symbolization: $A imply (not B or not C)$, $B$, $not A or not C$; Conclusion: $not A$
+//   + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras (or both).
+//     Baby baboons beat bongos.
+//     Aardvarks aren't adorable unless crocodiles can't consume cute capybaras.
+//     Therefore, aardvarks aren't adorable.
+
+//   // Symbolization: $not D imply G$, $D imply H$; Conclusion: $G or H$
+//   + If discipline doesn't defeat deficiency, then geniuses generally get good grades.
+//     If discipline defeats deficiency, then homework has harmed humanity.
+//     Therefore, geniuses generally get good grades unless homework has harmed humanity.
+
+
+//   // Symbolization: $C imply not I$, $(M and D) or C$, $I$; Conclusion: $M iff D$
+//   + Crocodiles can consume cute capybaras only if incarcerating iguanas isn't illegal.
+//     Mad monkeys make mayhem and dinosaurs do disco dance, unless crocodiles consume cute capybaras.
+//     It is known that incarcerating iguanas is illegal.
+//     Therefore, dinosaurs do disco dance if and only if mad monkeys make mayhem.
+// ]
+
+
+// == Problem 4: Deductive Proofs with Basic Rules
+
+// For each given argument, construct a deductive proof in Fitch notation using only basic inference rules.
+
+// #tasklist("prob4", cols: 1)[
+//   + *Double negation elimination:*
+//     $not not A therefore A$
+
+//   + *Peirce's law:*
+//     $(A imply B) imply A therefore A$
+
+//   + *Contraposition:*
+//     $not B imply not A therefore A imply B$
+
+
+//   + *De Morgan's law:*
+//     $not(A or B) therefore not A and not B$
+
+//   + *De Morgan's law:*
+//     $not A and not B therefore not(A or B)$
+
+//   + *Proof by cases:*
+//     $(A imply B) and (not A imply B) therefore B$
+
+//   + *Modus Tollens:*
+//     $A imply B and not B therefore not A$
+
+//   + *Disjunctive syllogism:*
+//     $A or B and not A therefore B$
+
+//   + *Hypothetical syllogism:*
+//     $A imply B and B imply C therefore A imply C$
+
+//   + *The "Law of Clavius":*
+//     $not A imply A therefore A$
+// ]
+
+
+// == Problem 5: Tautology Proofs
+
+// For each given tautology, construct a deductive proof in Fitch notation.
+
+// + $(A imply B) or (B imply A)$
+
+// + $A imply (B imply A)$
+
+// + $(not B imply not A) imply ((not B imply A) imply B)$
+
+// + $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
+
+
+// == Problem 6: The Island of Knights, Knaves, and Spies
+
+// You meet three inhabitants: Alice, Bob, and Charlie.
+
+// - Knights always tell the truth.
+// - Knaves always lie.
+// - Spies can lie or tell the truth arbitrarily.
+// - There is one of each.
+
+// Alice says: "I am the Knight."
+// Bob says: "Alice is the Spy."
+// Charlie says: "I am the Spy."
+
+// Determine who is who.
+
+
+// == Problem 7: The Treasure Chests
+
+// You face three chests: Gold, Silver, and Lead. One contains the treasure.
+
+// - Gold Chest inscription: "The treasure is not here."
+// - Silver Chest inscription: "The treasure is in the Gold Chest."
+// - Lead Chest inscription: "The treasure is here."
+
+// At least one inscription is true, and at least one is false.
+// Where is the treasure?
+
+
+// == Problem 8: Database Queries
+
+// Translate the following English sentences into First-Order Logic. Let the domain be "all software".
+// Predicates: $B(x)$ = "$x$ is buggy", $O(x)$ = "$x$ is open-source", $U(x, y)$ = "$x$ uses $y$".
+
+// + "Some open-source software is not buggy."
+// + "All buggy software uses some open-source software."
+// + "There is a piece of software that uses all open-source software."
+
+
+// == Problem 9: The Lady or the Tiger
+
+// You are presented with two rooms with inscribed signs:
+
+// - Room I: "In this room there is a lady, and in the other room there is a tiger."
+// - Room II: "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
+
+// One sign is true, the other is false.
+// Behind which door is the lady?
+
+
+// == Problem 10: Negation of Quantifiers
+
+// Find the negation of the following sentence and simplify it:
+// $
+//   forall x exists y . thin P(x) imply Q(x, y)
+// $
+
+
+// == Problem 11: Resolution Rule
+
+// Use the Resolution inference rule to prove that the set of clauses is unsatisfiable:
+// $
+//   {P or Q, not P or R, not Q or S, not R, not S}
+// $
+
+
+// == Problem 12: Validity Check
+
+// Is the following argument valid?
+// $
+//   forall x . thin (P(x) or Q(x))
+//   quad proves quad
+//   (forall x . thin P(x)) or (forall x . thin Q(x))
+// $
+
+// If yes, prove it.
+// If no, provide a countermodel.
+
+
+// == Problem 13: Kripke Semantics
+
+// Consider a Kripke model with 3 worlds: $w_1, w_2, w_3$.
+
+// - $w_1 -> w_2$, $w_2 -> w_3$, $w_3 -> w_3$ (reflexive).
+// - $P$ is true in $w_2$ and $w_3$.
+//   $P$ is false in $w_1$.
+
+// Evaluate the truth of $square P$ and $diamond P$ at world $w_1$.
 
 
 #line(length: 100%, stroke: 0.4pt)
