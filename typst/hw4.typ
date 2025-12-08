@@ -76,9 +76,9 @@
 
 = Part I: Propositional Foundations
 
-// #Box[
-//   TODO
-// ]
+#Box[
+  Logic is the art of going wrong with confidence.
+]
 
 == Problem 1: The Council of Contradictory Decrees
 
@@ -133,7 +133,11 @@ Tichy must symbolize each argument, determine validity via truth table, and for 
 At Orbital Station Cygnus-7, the *Emporium of Synthetic Companions* sells robotic pets to lonely cosmonauts.
 The proprietor, a small automaton named Minik, explains the regulations to Tichy with bureaucratic zeal:
 
-#quote(block: true)[
+#block(
+  inset: (x: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
   "Regulation 1: If you purchase *exactly one* of the Giraffoid or the Elephandroid, you must also purchase a Simianoid.
   Solitary mega-fauna units develop existential melancholy --- they contemplate the void and cease functioning."
 
@@ -154,6 +158,8 @@ Tichy observes the exchange with puzzlement.
 + State succinctly: how many toys were bought, and why?
 
 
+#pagebreak()
+
 = Part II: The Liar's Archipelago
 
 #Box[
@@ -173,13 +179,18 @@ Ijon Tichy, summoned as an impartial investigator, interrogates three cadets who
 *Sidorik* remains silent --- invoking the Fifth Amendment of Cosmic Self-Incrimination.
 
 After the official hearing, the three cadets whisper a confession to Tichy in private:
-#quote(block: true)[
-  "One of us told the complete truth. One of us told exactly one true statement among the three. One of us lied in every statement."
+#block(
+  inset: (x: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  "One of us told the complete truth.
+  One of us told exactly one true statement among the three.
+  One of us lied in every statement."
 ]
 They refuse to specify who is who.
 
 *Your task:*
-
 Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf" respectively.
 + Formalize the statements of Ivanko and Petryn.
 + Using the meta-constraint about truth-telling, determine all consistent scenarios.
@@ -248,9 +259,9 @@ One room contains the Lady of Lyra (a benevolent hologram); the other contains a
 *Room II*: "Exactly one room contains a Lady and the other a Tiger."
 
 *Your task:*
-+ Formalize both inscriptions using propositions $L_1$, $L_2$ (Lady in Room I/II).
-+ Determine which room contains the Lady. Justify in one paragraph.
-+ *Variant*: If Room II instead read "_At least one room contains a Lady and at least one a Tiger_," does the answer change? Explain.
++ Formalize both inscriptions using propositional logic.
++ Determine which room contains the Lady.
++ If Room II instead read "_At least one room contains a Lady and at least one a Tiger_," does the answer change? Explain.
 
 
 = Part III: First-Order Logic
@@ -414,7 +425,7 @@ Central Command transmits a decrypted intelligence fragment to Tichy regarding l
 
 The deciphered memo reads:
 #block(
-  inset: (left: 1em),
+  inset: (x: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
@@ -447,7 +458,8 @@ Martians transmit an encrypted addendum:
   (Formally: $M_3 imply forall k. thin (3 | k imply M_k)$)
 
 Additionally, the following statement is declared *false* in this world:
-- "If point 5 houses a Martian, then there exists a point divisible by 3 that houses a Martian."
+- "If point 5 houses a Martian, then there exists a point divisible by 3 that houses a Martian." \
+  (Formally: $not(M_5 imply exists k. thin (3 | k and M_k))$)
 
 *Your task:*
 + Explain the logical consequence of the fourth constraint being false.
@@ -456,25 +468,8 @@ Additionally, the following statement is declared *false* in this world:
 + Formulate a general rule for the inhabitant at any point $n$.
 
 
-== Problem 17: Modal Lamps at the Observatory
 
-At the Interstellar Observatory, Tichy examines a Kripke frame with four possible worlds: $w_1, w_2, w_3, w_4$.
-
-*Accessibility relations:*
-- $w_1 -> w_2$, #h(1em) $w_1 -> w_3$
-- $w_2 -> w_4$, #h(1em) $w_3 -> w_4$
-- $w_4 -> w_4$ (reflexive)
-
-*Valuation:*
-Proposition $P$ is #True in $w_2$ and $w_4$, and #False in $w_1$ and $w_3$.
-
-*Your task:*
-+ At $w_1$, evaluate: $diamond P$, $square P$, $square diamond P$, and $diamond square P$.
-+ In one sentence, explain why $square diamond P$ differs from $diamond square P$ in this model.
-+ If all worlds become reflexive, which of the four evaluations change?
-
-
-== Problem 18: Da, Ja, and the Three Algorithmic Gods
+== Problem 17: Da, Ja, and the Three Algorithmic Gods
 
 On a forgotten island, Tichy encounters three ancient AIs who answer only *"da"* or *"ja"* --- one word means _yes_, the other _no_, but Tichy doesn't know which is which.
 
@@ -487,6 +482,7 @@ Tichy may ask exactly *three yes/no questions*, each directed to one AI of his c
 *Your task:*
 + Devise three explicit questions (in natural language) that allow Tichy to identify each AI --- regardless of which word means what and regardless of Random's coin flips.
 + Provide a short explanation of the trick that makes the questions robust to the unknown language.
++ Identify which AI is which based on your questions' responses.
 
 _Hint:_ Consider questions that yield the same observable response whether "da" means yes or no.
 
