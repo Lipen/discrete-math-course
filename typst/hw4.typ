@@ -77,7 +77,8 @@ For each given set of sentences, determine whether it is logically consistent (j
 Complete the following deductive formal proofs by filling in missing formulae and justifications.
 
 #note[
-  These proofs use natural deduction in Fitch notation. You can verify your proofs at
+  These proofs use natural deduction in Fitch notation.
+  You can verify your proofs at
   #link("https://proofs.openlogicproject.org")[`proofs.openlogicproject.org`].
   Note that some inference rules may be missing (e.g., contraposition and commutativity) ---
   nevertheless, you are still allowed to use them in this task.
@@ -85,14 +86,21 @@ Complete the following deductive formal proofs by filling in missing formulae an
 
 For each proof below, fill in the missing steps (marked with $square$ boxes) to complete the derivation.
 
+#let BOX = {
+  move(dy: 2pt, box(stroke: 1pt, width: 2em, height: 1em))
+}
+#let BOXM = {
+  move(dy: 0pt, box(stroke: 1pt, width: 2em, height: 1em))
+}
+
 *Proof 1:* Modus Tollens
 
 #align(center)[
   #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $H imply (R and C)$, "PR"),
-    (0, $not R or not C$, "PR"),
-    (0, $not(R and C)$, "DM 2"),
-    (0, $not H$, "MT 1, 3"),
+    (0, $H imply (R and C)$, "Premise"),
+    (0, $not R or not C$, "Premise"),
+    (0, $not(R and C)$, BOX),
+    (0, $BOXM$, "MT 1, 3"),
   ))
 ]
 
@@ -100,11 +108,11 @@ For each proof below, fill in the missing steps (marked with $square$ boxes) to 
 
 #align(center)[
   #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $K and S$, "PR"),
-    (0, $not K$, "PR"),
-    (0, $K$, "Simp 1"),
-    (0, $K and not K$, "Conj 3, 2"),
-    (0, $not S$, "RAA 2-4"),
+    (0, $K and S$, "Premise"),
+    (0, $not K$, "Premise"),
+    (0, $BOXM$, BOX),
+    (0, $BOXM$, BOX),
+    (0, $not S$, BOX),
   ))
 ]
 
@@ -112,11 +120,9 @@ For each proof below, fill in the missing steps (marked with $square$ boxes) to 
 
 #align(center)[
   #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $A imply not A$, "PR"),
-    (1, $A$, "Sup. Proof by cases"),
-    (1, $not A$, "MP 1, 2"),
-    (1, $A and not A$, "Conj 2, 3"),
-    (0, $not A$, "Proof by cases"),
+    (0, $A imply not A$, "Premise"),
+    (0, $BOXM$, "(multiple lines)"),
+    (0, $not A$, [LEM $#BOXM$]),
   ))
 ]
 
@@ -124,49 +130,48 @@ For each proof below, fill in the missing steps (marked with $square$ boxes) to 
 
 #align(center)[
   #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $(P and Q) or (P and R)$, "PR"),
-    (1, $P and Q$, "Sup. Case 1"),
-    (1, $P$, "Simp 2"),
-    (1, $P and Q imply P$, "PC"),
-    (1, $P and R$, "Sup. Case 2"),
-    (1, $P$, "Simp 4"),
-    (1, $P and R imply P$, "PC"),
-    (0, $P$, "Disj elim 1, PC, PC"),
+    (0, $(P and Q) or (P and R)$, "Premise"),
+    (1, $BOXM$, "Assume"),
+    (1, $P$, BOX),
+    (0, $...$, "empty line"), // TODO: remove this line, but keep assumption scopes separated somehow...
+    (1, $BOXM$, "Assume"),
+    (1, $P$, BOX),
+    (0, $P$, BOX),
   ))
 ]
 
 
 == Problem 3: Argument Symbolization and Validity
 
-Symbolize the given arguments with well-formed formulae (_WFFs_) of propositional logic.
+Symbolize the given arguments with well-formed formulae (WFFs) of propositional logic.
 For each argument, determine its validity using a truth table.
 For each _valid_ argument, provide a deductive formal proof in Fitch notation.
 For each _invalid_ argument, provide a counterexample valuation.
 
 #tasklist("prob3")[
   // Symbolization: $(P imply Q)$, $(not Q or R)$, $P$ and $R$ (conclusion)
-  + _If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
+  + If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
     Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality (or both).
     Philosophers do ponder profound problems.
-    Therefore, right reasoning reveals reality._
+    Therefore, right reasoning reveals reality.
 
   // Symbolization: $A imply (not B or not C)$, $B$, $not A or not C$; Conclusion: $not A$
-  + _If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras (or both).
+  + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras (or both).
     Baby baboons beat bongos.
     Aardvarks aren't adorable unless crocodiles can't consume cute capybaras.
-    Therefore, aardvarks aren't adorable._
+    Therefore, aardvarks aren't adorable.
 
   // Symbolization: $not D imply G$, $D imply H$; Conclusion: $G or H$
-  + _If discipline doesn't defeat deficiency, then geniuses generally get good grades.
+  + If discipline doesn't defeat deficiency, then geniuses generally get good grades.
     If discipline defeats deficiency, then homework has harmed humanity.
-    Therefore, geniuses generally get good grades unless homework has harmed humanity._
+    Therefore, geniuses generally get good grades unless homework has harmed humanity.
 
 
   // Symbolization: $C imply not I$, $(M and D) or C$, $I$; Conclusion: $M iff D$
-  + _Crocodiles can consume cute capybaras only if incarcerating iguanas isn't illegal.
+  + Crocodiles can consume cute capybaras only if incarcerating iguanas isn't illegal.
     Mad monkeys make mayhem and dinosaurs do disco dance, unless crocodiles consume cute capybaras.
     It is known that incarcerating iguanas is illegal.
-    Therefore, dinosaurs do disco dance if and only if mad monkeys make mayhem._
+    Therefore, dinosaurs do disco dance if and only if mad monkeys make mayhem.
 ]
 
 
@@ -175,23 +180,36 @@ For each _invalid_ argument, provide a counterexample valuation.
 For each given argument, construct a deductive proof in Fitch notation using only basic inference rules.
 
 #tasklist("prob4", cols: 1)[
-  + $not not A$ (conclusion: $A$)
-    (Double negation elimination)
+  + *Double negation elimination:*
+    $not not A therefore A$
 
-  + $((A imply B) imply A)$ (conclusion: $A$)
-    (Peirce's law)
+  + *Peirce's law:*
+    $(A imply B) imply A therefore A$
 
-  + $(not B imply not A)$ (conclusion: $A imply B$)
-    (Contraposition)
+  + *Contraposition:*
+    $not B imply not A therefore A imply B$
 
-  + $not(A or B)$ (conclusion: $not A and not B$)
-    (De Morgan's law)
 
-  + $(not A and not B)$ (conclusion: $not(A or B)$)
-    (De Morgan's law, converse)
+  + *De Morgan's law:*
+    $not(A or B) therefore not A and not B$
 
-  + $(A imply B) and (not A imply B)$ (conclusion: $B$)
-    (Proof by cases)
+  + *De Morgan's law:*
+    $not A and not B therefore not(A or B)$
+
+  + *Proof by cases:*
+    $(A imply B) and (not A imply B) therefore B$
+
+  + *Modus Tollens:*
+    $A imply B and not B therefore not A$
+
+  + *Disjunctive syllogism:*
+    $A or B and not A therefore B$
+
+  + *Hypothetical syllogism:*
+    $A imply B and B imply C therefore A imply C$
+
+  + *The "Law of Clavius":*
+    $not A imply A therefore A$
 ]
 
 
@@ -199,17 +217,70 @@ For each given argument, construct a deductive proof in Fitch notation using onl
 
 For each given tautology, construct a deductive proof in Fitch notation.
 
-#tasklist("prob5", cols: 2)[
-  + $(A imply B) or (B imply A)$
++ $(A imply B) or (B imply A)$
 
-  + $A imply (B imply A)$
++ $A imply (B imply A)$
 
-  #colbreak()
++ $(not B imply not A) imply ((not B imply A) imply B)$
 
-  + $(not B imply not A) imply ((not B imply A) imply B)$
++ $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
 
-  + $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
-]
+
+== Problem 6: The Island of Knights, Knaves, and Spies
+
+You meet three inhabitants: Alice, Bob, and Charlie.
+
+- Knights always tell the truth.
+- Knaves always lie.
+- Spies can lie or tell the truth arbitrarily.
+- There is one of each.
+
+Alice says: "I am the Knight."
+Bob says: "Alice is the Spy."
+Charlie says: "I am the Spy."
+
+Determine who is who.
+
+
+== Problem 7: The Treasure Chests
+
+You face three chests: Gold, Silver, and Lead. One contains the treasure.
+
+- Gold Chest inscription: "The treasure is not here."
+- Silver Chest inscription: "The treasure is in the Gold Chest."
+- Lead Chest inscription: "The treasure is here."
+
+At least one inscription is true, and at least one is false.
+Where is the treasure?
+
+
+== Problem 8: Database Queries
+
+Translate the following English sentences into First-Order Logic. Let the domain be "all software".
+Predicates: $B(x)$ = "$x$ is buggy", $O(x)$ = "$x$ is open-source", $U(x, y)$ = "$x$ uses $y$".
+
++ "Some open-source software is not buggy."
++ "All buggy software uses some open-source software."
++ "There is a piece of software that uses all open-source software."
+
+
+== Problem 9: The Lady or the Tiger
+
+You are presented with two rooms with inscribed signs:
+
+- Room I: "In this room there is a lady, and in the other room there is a tiger."
+- Room II: "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
+
+One sign is true, the other is false.
+Behind which door is the lady?
+
+
+== Problem 10: Negation of Quantifiers
+
+Find the negation of the following sentence and simplify it:
+$
+  forall x exists y . thin P(x) imply Q(x, y)
+$
 
 
 // == Problem 6: Reduction to Boolean Satisfiability (SAT)
