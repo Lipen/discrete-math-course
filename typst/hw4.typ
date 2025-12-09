@@ -575,28 +575,35 @@ Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 
 == Problem 19: Martians and Venusians on the Arithmetic Axis
 
-Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Martian* ($M_n$) or a *Venusian* ($V_n$), never both.
+Astronaut Marek lands on a peculiar asteroid belt stretched along an infinite arithmetic axis.
+Each integer position $n >= 1$ is inhabited by exactly one being: either a Martian or a Venusian.
+Through careful observation, Marek discovers strict cohabitation rules governing this society.
 
-#block(
-  inset: (x: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
-  *Observation 1:* No Martian has both neighbors as Martians.
-  $ forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1)) $
+Let $M_n$ and $V_n$ denote "position $n$ is inhabited by a Martian/Venusian."
 
-  *Observation 2:* Every Venusian has at least one Martian neighbor.
-  $ forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1) $
+*Observation 1 (Martian isolation):* No Martian tolerates having Martians as both neighbors.
+$
+  forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1))
+$
 
-  *Constraint 3:* If point 3 is Martian, all multiples of 3 are Martian.
-  $ M_3 imply forall k. thin ((3 divides k) imply M_k) $
+*Observation 2 (Venusian dependence):* Every Venusian requires at least one Martian neighbor.
+$
+  forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1))
+$
 
-  *Constraint 4 (#False in this world):* If point 5 is Martian, some multiple of 3 is Martian.
-  $ not(M_5 imply exists k. thin ((3 divides k) and M_k)) $
-]
+*Observation 3 (Divisibility cascade):* If position 3 houses a Martian, then all multiples of 3 must also house Martians.
+$
+  M_3 imply forall k. thin (3 divides k imply M_k)
+$
 
-+ What does negating Constraint 4 logically entail?
-+ If exactly five Martians exist, determine their positions.
-+ Must point 1 be Martian?
-+ Formulate a general rule for inhabitant type at point $n$.
-+ What global structure emerges from local constraints?
+*Observation 4 (#False):* Marek verifies that the following implication does *not* hold in this world.
+$
+  not(M_5 imply exists k. thin (3 divides k and M_k))
+$
+
++ What does the negation of Observation 4 logically entail about positions 3 and 5?
++ Suppose exactly five Martians inhabit the entire axis.
+  Determine their positions.
++ Must position 1 be inhabited by a Martian? Prove your answer.
++ Derive a general rule determining the inhabitant type at any position $n$.
++ Describe the global pattern that emerges from these local cohabitation rules.
