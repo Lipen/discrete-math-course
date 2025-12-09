@@ -176,13 +176,13 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
   Formalize and encode "at most 1 world votes no" in CNF.
   Count the resulting clauses.
 
-+ *Alderan's veto with override:* Alderan (the elder civilization) holds conditional veto power: a proposal passes if (at least 3 approve) AND (Alderan either votes yes, OR dissents but all other 4 worlds unanimously consent).
-  Formalize this composite constraint and convert to CNF.
++ *Alderan's privilege:* Alderan (the elder civilization) enjoys special status: a proposal passes if either (at least 3 worlds approve) OR (Alderan approves alone, with or without support).
+  Formalize this rule and convert to CNF.
 
-+ *Efficient cardinality encoding:* The verification system struggles with clause explosion.
-  Design a more compact encoding for "at least 3 of 5 and at most 4 of 5" (allowing 3 or 4 approvals, but rejecting unanimous or near-unanimous votes) using auxiliary variables.
-  Count the clauses in your method and compare to naive encoding.
-  What trade-off emerges between encoding size and expressiveness?
++ *Efficient cardinality encoding:* The verification system struggles with the growing number of clauses from the encodings above.
+  Generalize: design a compact encoding for "at least $k$ of $n$ variables are true, and at most $m$ are true" (where $k <= m$) using auxiliary variables. \
+  For the Council case ($n=5, k=3, m=4$), count your encoding's clauses versus naive CNF.
+  What architectural trade-off emerges between encoding size and solver efficiency?
 
 
 #pagebreak()
