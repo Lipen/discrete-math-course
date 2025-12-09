@@ -299,8 +299,7 @@ Design your three questions, specify whom you would ask each one, and show (via 
   Quantifiers are how machines learn to speak of infinity.
 ]
 
-
-== Problem 11: Cataloging the Galactic Software Archive
+== Problem 10: Cataloging the Galactic Software Archive
 
 Trurl and Klapaucius build a cataloging system for the Galactic Archives.
 They define predicates over the domain of _all software_: $O(x)$ means "$x$ is open-source", $B(x)$ means "$x$ is buggy", and $U(x,y)$ means "$x$ uses $y$."
@@ -313,6 +312,72 @@ They define predicates over the domain of _all software_: $O(x)$ means "$x$ is o
 + For each formula:
   - Construct a small finite model satisfying it.
   - Which formula(s) require an existential witness that persists when the domain expands?
+
+
+== Problem 11: The Census of Echoworld
+
+Tichy arrives at Echoworld, a planet of perfect symmetry where every fact about visitation is precisely documented.
+A vast archive records which travelers have visited which worlds.
+Tichy must decode the archive's formal notation.
+
+*Predicates over the domain "all planets and travelers":*
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  - $P(x)$: "$x$ is a planet"
+  - $I(x)$: "$x$ is inhabited"
+  - $V(x, y)$: "$x$ has visited $y$"
+  - $W(x)$: "$x$ is worth visiting"
+  - Constant $t$: Tichy
+]
+
+=== Part 1: Encoding wisdom
+
+Translate each English statement into FOL.
+
++ "Tichy has visited every inhabited planet."
++ "Some planet has never been visited by anyone."
++ "Every planet that Tichy visited is inhabited."
++ "There exists a planet that all travelers have visited."
++ "No single traveler has visited all planets."
+
+=== Part 2: The Ambiguous Decree
+
+The archive contains two interpretations of "Only inhabited planets are worth visiting."
+
+The Archive Keeper and her assistant disagree on which is correct:
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  *Keeper:* $forall x . thin (I(x) imply W(x))$
+
+  *Assistant:* $forall x . thin (W(x) imply I(x))$
+]
+
+Determine which translation captures the intended meaning.
+Then construct a concrete countermodel (specific planets with specific properties) that shows the other translation is wrong.
+Explain why the difference matters in practice.
+
+=== Part 3: The Mystery of Quantifier Scope
+
+Two ancient inscriptions appear in the archive, each describing a different visitation pattern.
+Translate them to English, paying close attention to how quantifier order changes the meaning:
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  *Inscription A:* $exists x forall y . thin V(y, x)$
+
+  *Inscription B:* $forall x exists y . thin V(y, x)$
+]
+
+Which inscription describes a planet so famous that *all* travelers have visited it?
+Which describes a weaker property: that each traveler has visited *at least one* planet?
 
 
 == Problem 12: The Theorem-Printer's Corruption
