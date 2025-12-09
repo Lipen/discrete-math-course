@@ -369,13 +369,12 @@ Factory engineers fear the batch is defective (unsatisfiable).
 
 At the *Celestial Navigation Academy*, Klapaucius teaches: "Every star-navigator must master Fitch-style natural deduction."
 
-Prove each tautology:
+For each tautology below, provide a Fitch-style derivation, marking all assumptions and rules.
 + $(A imply B) or (B imply A)$
 + $A imply (B imply A)$
 + $(not B imply not A) imply ((not B imply A) imply B)$
 + $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
 
-For each proof, provide a Fitch-style derivation, marking all assumptions and rules.
 
 
 == Problem 16: Restoring the Corrupted Proof Archive
