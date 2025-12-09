@@ -345,8 +345,9 @@ $
 
 Klapaucius is skeptical: "Universal quantification distributes over disjunction?"
 
-+ Determine whether this entailment is valid.
-+ If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
+Determine whether this entailment is valid.
+- If valid, provide a formal proof.
+- If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
 
 
 #pagebreak()
