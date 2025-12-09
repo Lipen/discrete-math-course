@@ -87,7 +87,7 @@
   In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal reasoning challenges that challenge even the ingenious constructors Trurl and Klapaucius.
 ]
 
-= Part I: Propositional Foundations
+= Chapter I: Propositional Foundations
 
 #Box[
   Logic is the art of going wrong with confidence.
@@ -194,7 +194,7 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
 #pagebreak()
 
-= Part II: Truth-Tellers and Liars
+= Chapter II: Truth-Tellers and Liars
 
 #Box[
   Identity and consistency are two different constraints.
@@ -293,7 +293,7 @@ Design your three questions, specify whom you would ask each one, and show (via 
 
 #pagebreak()
 
-= Part III: First-Order Logic
+= Chapter III: First-Order Logic
 
 #Box[
   Quantifiers are how machines learn to speak of infinity.
@@ -409,7 +409,7 @@ Determine whether this entailment is valid.
 
 #pagebreak()
 
-= Part IV: Proof Theory
+= Chapter IV: Proof Theory
 
 #Box[
   A proof is a path; elegance lies in taking the shortest one.
@@ -491,7 +491,7 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
 )
 
 
-= Part V: Advanced Challenges
+= Chapter V: Advanced Challenges
 
 #Box[
   The hardest puzzles reveal the deepest logical truths.
