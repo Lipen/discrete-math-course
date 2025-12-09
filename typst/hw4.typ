@@ -429,11 +429,11 @@ $
 + Explain why deriving the empty clause confirms unsatisfiability.
 
 
-== Problem 15: Navigator Training --- Natural Deduction
+== Problem 15: The Proof Certification Academy
 
-At the *Celestial Navigation Academy*, Klapaucius teaches: "Every star-navigator must master Fitch-style natural deduction."
+Every star-navigator must master Fitch-style natural deduction to validate ship systems and critical decisions in deep space.
+Prove each tautology below using natural deduction.
 
-For each tautology below, provide a Fitch-style derivation, marking all assumptions and rules.
 + $(A imply B) or (B imply A)$
 + $A imply (B imply A)$
 + $(not B imply not A) imply ((not B imply A) imply B)$
