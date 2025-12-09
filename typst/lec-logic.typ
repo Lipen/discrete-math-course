@@ -598,9 +598,22 @@
 ]
 
 #example[
-  - ${P, P imply Q} models Q$ (modus ponens, semantically)
-  - ${P imply Q, Q imply R} models P imply R$ (hypothetical syllogism)
-  - ${P or Q, not P} models Q$ (disjunctive syllogism)
+  To check if ${P, P imply Q} models Q$ (modus ponens):
+
+  + Find all interpretations that satisfy all formulas in $Gamma = {P, P imply Q}$:
+    - $Eval(P) = #True$ and $Eval(P imply Q) = #True$
+    - There is only one such interpretation: $nu = {P mapsto #True, Q mapsto #True}$
+
+  + These interpretations must have $Eval(Q) = #True$ for $Gamma models Q$ to hold.
+    - Indeed, $Eval(Q) = #True$ under this interpretation.
+]
+
+#example[
+  ${P imply Q, Q imply R} models P imply R$ (hypothetical syllogism)
+]
+
+#example[
+  ${P or Q, not P} models Q$ (disjunctive syllogism)
 ]
 
 == Semantic Deduction Theorem
