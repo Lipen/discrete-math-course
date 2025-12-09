@@ -589,7 +589,7 @@
 == Semantic Entailment
 
 #definition[
-  A set of formulas $Gamma$ _semantically entails_ (or _logically implies_) a formula $phi$, written $Gamma models phi$, if every interpretation that satisfies all formulas in $Gamma$ also satisfies $phi$:
+  A set of formulas $Gamma$ _semantically entails_ (or _logically implies_) a formula $phi$, written #box[$Gamma models phi$], if every interpretation that satisfies all formulas in $Gamma$ also satisfies $phi$:
   $
     Gamma models phi
     quad "iff" quad
