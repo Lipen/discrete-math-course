@@ -253,10 +253,11 @@ Let $L_1$, $L_2$ denote the Lady's presence in each chamber.
 + Why does this puzzle feel like a logical trap?
 
 
+#pagebreak()
+
 = Part III: First-Order Logic
 
 #Box[
-  Trurl and Klapaucius build machines that reason. \
   Quantifiers are how machines learn to speak of infinity.
 ]
 
@@ -317,11 +318,12 @@ Klapaucius is skeptical: "Universal quantification distributes over disjunction?
 + If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
 
 
+#pagebreak()
+
 = Part IV: Proof Theory
 
 #Box[
-  Trurl and Klapaucius engineer proof systems. \
-  A proof is a path; the shortest path reveals elegance.
+  A proof is a path; elegance lies in taking the shortest one.
 ]
 
 
@@ -349,10 +351,7 @@ Prove each tautology:
 + $(not B imply not A) imply ((not B imply A) imply B)$
 + $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
 
-For each proof:
-- Provide a Fitch-style derivation, marking all assumptions and rules.
-- For (1): Is it derivable intuitionistically, or does it require classical logic?
-- For (4): This is the _exportation law_ --- why is its derivability essential?
+For each proof, provide a Fitch-style derivation, marking all assumptions and rules.
 
 
 == Problem 14: Restoring the Corrupted Proof Archive
@@ -366,55 +365,49 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
   move(dy: 0pt, box(stroke: 1pt, width: 2em, height: 1em))
 }
 
-*Proof 1 --- Modus Tollens:*
+#grid(
+  columns: 2,
+  column-gutter: 3cm,
+  [
+    #derive-it.ded-nat(stcolor: black, arr: (
+      (0, $H imply (R and C)$, "Premise"),
+      (0, $not R or not C$, "Premise"),
+      (0, $not(R and C)$, BOX),
+      (0, $BOXM$, "MT 1, 3"),
+    ))
 
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $H imply (R and C)$, "Premise"),
-    (0, $not R or not C$, "Premise"),
-    (0, $not(R and C)$, BOX),
-    (0, $BOXM$, "MT 1, 3"),
-  ))
-]
+    #derive-it.ded-nat(stcolor: black, arr: (
+      (0, $K and S$, "Premise"),
+      (0, $not K$, "Premise"),
+      (0, $BOXM$, BOX),
+      (0, $BOXM$, BOX),
+      (0, $not S$, BOX),
+    ))
+  ],
+  [
+    #derive-it.ded-nat(stcolor: black, arr: (
+      (0, $A imply not A$, "Premise"),
+      (0, $BOXM$, "(multiple lines)"),
+      (0, $not A$, [LEM $BOXM$]),
+    ))
 
-Line 3 converts disjunction to negation. Line 4 applies modus tollens. What formula appears at step 4?
-
-*Proof 2 --- Contradiction and Negation:*
-
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $K and S$, "Premise"),
-    (0, $not K$, "Premise"),
-    (0, $BOXM$, BOX),
-    (0, $BOXM$, BOX),
-    (0, $not S$, BOX),
-  ))
-]
-
-Steps 3--4 derive contradictions; step 5 concludes a negation. Reconstruct the flow.
-
-*Proof 3 --- Disjunctive Elimination:*
-
-#align(center)[
-  #derive-it.ded-nat(stcolor: black, arr: (
-    (0, $(P and Q) or (P and R)$, "Premise"),
-    (1, $BOXM$, "Assume"),
-    (1, $P$, BOX),
-    (0, $...$, []),
-    (1, $BOXM$, "Assume"),
-    (1, $P$, BOX),
-    (0, $P$, BOX),
-  ))
-]
-
-Disjunctive elimination: assume each disjunct (steps 2, 5), derive $P$ from each, conclude $P$. What formulas are assumed?
+    #derive-it.ded-nat(stcolor: black, arr: (
+      (0, $(P and Q) or (P and R)$, "Premise"),
+      (1, $BOXM$, "Assume"),
+      (1, $P$, BOX),
+      (0, $...$, [empty line]), // TODO: remove this empty line, but keep the assumption scopes separated
+      (1, $BOXM$, "Assume"),
+      (1, $P$, BOX),
+      (0, $P$, BOX),
+    ))
+  ],
+)
 
 
 = Part V: Advanced Challenges
 
 #Box[
-  Tichy, Pirx, and the constructors face their most demanding puzzles. \
-  Extra credit awaits those who venture beyond.
+  The hardest puzzles reveal the deepest logical truths.
 ]
 
 
@@ -439,7 +432,6 @@ Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 + Identify a pair who *must* have communicated.
 + Identify a pair who *definitively did not* communicate.
 + Is there an agent who *necessarily* communicated with at least one other?
-+ Construct a truth-table or case analysis supporting your conclusions.
 
 
 == Problem 16: Martians and Venusians on the Arithmetic Axis
@@ -474,6 +466,7 @@ Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Ma
 == Problem 17: The Three Algorithmic Gods
 
 On a forgotten island, Tichy discovers three AIs from a lost civilization.
+
 They answer only *"da"* or *"ja"* --- one means yes, one means no, but the encoding is unknown.
 
 - *Truth*: always speaks truthfully
