@@ -77,8 +77,15 @@
   ]
 ]
 
-The cosmos, as Stanisław Lem's heroes have discovered, is full of logical puzzles.
-In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal reasoning challenges that challenge even the ingenious constructors Trurl and Klapaucius.
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  The cosmos, as Stanisław Lem's heroes have discovered, is full of logical puzzles.
+
+  In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal reasoning challenges that challenge even the ingenious constructors Trurl and Klapaucius.
+]
 
 = Part I: Propositional Foundations
 
@@ -109,7 +116,7 @@ If consistent, provide a satisfying truth assignment; if not, identify the contr
 
 == Problem 2: Diplomatic Dispatches in Alliterative Cipher
 
-Pirx's next stop is Fomalhaut Station, where intercepted transmissions arrive encrypted in *Alliterative Cipher* --- a Byzantine technique encoding logical relationships beneath elaborate linguistic symmetry.
+Pirx's next stop is Fomalhaut Station, where intercepted transmissions arrive encrypted in *Alliterative Cipher* --- a technique encoding logical relationships beneath elaborate linguistic symmetry.
 
 For each dispatch: symbolize the argument, determine validity via truth table, and provide either a Fitch-style derivation (if valid) or a counterexample valuation (if invalid).
 
@@ -140,7 +147,7 @@ For each dispatch: symbolize the argument, determine validity via truth table, a
 At Orbital Station Cygnus-7, Ijon Tichy visits the *Emporium of Synthetic Companions*, where the proprietor Minik enforces strict regulations on robotic pet purchases:
 
 #block(
-  inset: (x: 1em),
+  inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
@@ -198,11 +205,17 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 At the Interstellar Navigation Academy, a scandal erupts: a *Quantum Cheat-Leaf* (a banned mnemonic device) is discovered near the examination hall.
 Tichy interrogates three cadets who took the same exam.
 
-*Ivanko:* "I didn't use it. Sidorik used it. Petryn used it too."
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  *Ivanko:* "I didn't use it. Sidorik used it. Petryn used it too."
 
-*Petryn:* "Ivanko used it. I didn't use it. About Sidorik, I cannot say."
+  *Petryn:* "Ivanko used it. I didn't use it. About Sidorik, I cannot say."
 
-*Sidorik:* Remains silent.
+  *Sidorik:* Remains silent.
+]
 
 Later, the cadets confess privately: "One of us told the complete truth. One made exactly one true statement. One lied in every statement."
 
@@ -218,10 +231,16 @@ Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
 
 Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by interviewing three crew members.
 
-- *Knyazev* gives an initial testimony (truth value $K$, unknown).
-- *Faraonov* says: "Knyazev's testimony is false."
-- *Tsaryov* says: "Faraonov is lying."
-- *Knyazev* (recalled) adds: "Both Faraonov and Tsaryov lied."
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  - *Knyazev* gives an initial testimony (truth value $K$, unknown).
+  - *Faraonov* says: "Knyazev's testimony is false."
+  - *Tsaryov* says: "Faraonov is lying."
+  - *Knyazev* (recalled) adds: "Both Faraonov and Tsaryov lied."
+]
 
 + Formalize all four statements.
 + List all consistent truth-value assignments.
@@ -301,17 +320,7 @@ Design your three questions, specify whom you would ask each one, and show (via 
 == Problem 11: Cataloging the Galactic Software Archive
 
 Trurl and Klapaucius build a cataloging system for the Galactic Archives.
-They define predicates over the domain of _all software_:
-
-#block(
-  inset: (x: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
-  - $O(x)$ --- "$x$ is open-source"
-  - $B(x)$ --- "$x$ is buggy"
-  - $U(x,y)$ --- "$x$ uses $y$"
-]
+They define predicates over the domain of _all software_: $O(x)$ means "$x$ is open-source", $B(x)$ means "$x$ is buggy", and $U(x,y)$ means "$x$ uses $y$."
 
 + Translate into first-order logic:
   - "Some open-source software is not buggy."
