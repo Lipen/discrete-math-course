@@ -169,18 +169,20 @@ Their automated legal verification system accepts only CNF formulas for constrai
 
 Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
-+ *Majority support:* Encode "at least 3 of 5 voted yes" in CNF.
++ *Majority support:* The Council's charter requires majority support: encode "at least 3 of 5 voted yes" in CNF.
   Count the resulting clauses.
 
-+ *Qualified majority:* Encode "exactly 3 of 5 voted yes" in CNF.
-  Count the resulting clauses and compare to part (1).
-  What pattern emerges?
++ *Opposition safeguard:* To prevent tyranny by dissenters, the Council imposes a stricter constraint: no *single world* may block a proposal.
+  Formalize and encode "at most 1 world votes no" in CNF.
+  Count the resulting clauses.
 
-+ *Veto with override:* A proposal passes iff (at least 3 approve) AND (if Alderan votes no, all other 4 must vote yes).
-  Convert to CNF.
++ *Alderan's veto with override:* Alderan (the elder civilization) holds conditional veto power: a proposal passes if (at least 3 approve) AND (Alderan either votes yes, OR dissents but all other 4 worlds unanimously consent).
+  Formalize this composite constraint and convert to CNF.
 
-+ *Optimization:* Propose a more compact encoding for "exactly 3 of 5" using auxiliary variables.
-  Count the clauses in your method and compare to the naive approach.
++ *Efficient cardinality encoding:* The verification system struggles with clause explosion.
+  Design a more compact encoding for "at least 3 of 5 and at most 4 of 5" (allowing 3 or 4 approvals, but rejecting unanimous or near-unanimous votes) using auxiliary variables.
+  Count the clauses in your method and compare to naive encoding.
+  What trade-off emerges between encoding size and expressiveness?
 
 
 #pagebreak()
