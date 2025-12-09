@@ -160,7 +160,27 @@ Let $G$, $E$, $S$ denote purchasing each companion.
 + Which propositions are logical consequences of the system?
 + How many companions are actually purchased, and why?
 
-// TODO: one more small problem here
+
+== Problem 4: Voting Protocol
+
+Ijon Tichy mediates a constitutional crisis on the *Galactic Council*.
+Five member worlds --- Alderan, Betelgeuse, Centauri, Deneb, and Eridani --- must adopt a new voting protocol.
+Their automated legal verification system accepts only CNF formulas for constraint checking.
+
+Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
+
++ *Majority support:* Encode "at least 3 of 5 voted yes" in CNF.
+  Count the resulting clauses.
+
++ *Qualified majority:* Encode "exactly 3 of 5 voted yes" in CNF.
+  Count the resulting clauses and compare to part (1).
+  What pattern emerges?
+
++ *Veto with override:* A proposal passes iff (at least 3 approve) AND (if Alderan votes no, all other 4 must vote yes).
+  Convert to CNF.
+
++ *Optimization:* Propose a more compact encoding for "exactly 3 of 5" using auxiliary variables.
+  Count the clauses in your method and compare to the naive approach.
 
 
 #pagebreak()
