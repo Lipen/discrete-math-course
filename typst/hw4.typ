@@ -262,6 +262,7 @@ Ancient texts warn: _"Trust neither all inscriptions nor none."_
 
 In the Museum of Possible Futures, Tichy faces two sealed chambers.
 One contains the *Lady of Lyra* (safe passage); the other, a *Tiger-construct*.
+
 The placard states: *"Exactly one inscription is true."*
 
 - *Chamber I*: "Here is the Lady, and in the other chamber the Tiger."
@@ -272,7 +273,17 @@ Let $L_1$, $L_2$ denote the Lady's presence in each chamber.
 + Formalize both inscriptions.
 + Under the constraint that exactly one is true, which chamber contains the Lady?
 + If Chamber II instead read: "At least one chamber has a Lady and at least one has a Tiger" --- how does the answer change?
-+ Why does this puzzle feel like a logical trap?
+
+
+== Problem 10: The Three Archived Minds
+
+Tichy arrives at the *Interstellar Bureau of Statistics* on Drabno, where three archivists guard the vault containing all census data.
+Three archivists: Arkas, Bronda, and Carpus --- one always tells the truth, one always lies, and one answers randomly.
+
+They respond in an ancient language: *da* and *ja* mean yes and no --- but which is which? Unknown.
+
+Tichy has exactly three yes/no questions (one per archivist) to identify which archivist is which, and to decode the language.
+Design your three questions, specify whom you would ask each one, and show (via case analysis or decision tree) that your questions uniquely determine all identities and the meaning of *da* and *ja*.
 
 
 #pagebreak()
@@ -284,7 +295,7 @@ Let $L_1$, $L_2$ denote the Lady's presence in each chamber.
 ]
 
 
-== Problem 10: Cataloging the Galactic Software Archive
+== Problem 11: Cataloging the Galactic Software Archive
 
 Trurl and Klapaucius build a cataloging system for the Galactic Archives.
 They define predicates over the domain of _all software_:
@@ -309,7 +320,7 @@ They define predicates over the domain of _all software_:
   - Which formula(s) require an existential witness that persists when the domain expands?
 
 
-== Problem 11: The Theorem-Printer's Corruption
+== Problem 12: The Theorem-Printer's Corruption
 
 A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
 Before failure, it logged this formula as a fundamental truth:
@@ -325,7 +336,7 @@ The machine demands verification by computing its negation in canonical form.
 + What does the negated formula reveal about when the original claim can be falsified?
 
 
-== Problem 12: Challenging the Theorem-Printer
+== Problem 13: Challenging the Theorem-Printer
 
 Once restored, the Theorem-Printer outputs an entailment:
 $
@@ -349,7 +360,7 @@ Klapaucius is skeptical: "Universal quantification distributes over disjunction?
 ]
 
 
-== Problem 13: The Clause Factory on Titan
+== Problem 14: The Clause Factory on Titan
 
 At Titan's *Clause Factory*, a batcher produces a clause-set flagged as "suspicious":
 $
@@ -363,7 +374,7 @@ Factory engineers fear the batch is defective (unsatisfiable).
 - Why does deriving $square$ prove unsatisfiability?
 
 
-== Problem 14: Navigator Training --- Natural Deduction
+== Problem 15: Navigator Training --- Natural Deduction
 
 At the *Celestial Navigation Academy*, Klapaucius teaches: "Every star-navigator must master Fitch-style natural deduction."
 
@@ -376,7 +387,7 @@ Prove each tautology:
 For each proof, provide a Fitch-style derivation, marking all assumptions and rules.
 
 
-== Problem 15: Restoring the Corrupted Proof Archive
+== Problem 16: Restoring the Corrupted Proof Archive
 
 The *Galactic Archive's* proof repository suffered data corruption. Several Fitch-style proofs have gaps marked with $square$ boxes. Fill in the missing formulae and justifications.
 
@@ -433,7 +444,7 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
 ]
 
 
-== Problem 16: Tri-Constellation Agent Communications
+== Problem 17: Tri-Constellation Agent Communications
 
 Captain Pirx analyzes communications among four field agents: *Bilion*, *Stevok*, *Tomix*, *Johnon*.
 Cryptanalysts reconstructed these constraints:
@@ -456,7 +467,7 @@ Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 + Is there an agent who *necessarily* communicated with at least one other?
 
 
-== Problem 17: Martians and Venusians on the Arithmetic Axis
+== Problem 18: Martians and Venusians on the Arithmetic Axis
 
 Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Martian* ($M_n$) or a *Venusian* ($V_n$), never both.
 
@@ -483,29 +494,6 @@ Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Ma
 + Must point 1 be Martian?
 + Formulate a general rule for inhabitant type at point $n$.
 + What global structure emerges from local constraints?
-
-
-== Problem 18: The Three Algorithmic Gods
-
-On a forgotten island, Tichy discovers three AIs from a lost civilization.
-
-They answer only *"da"* or *"ja"* --- one means yes, one means no, but the encoding is unknown.
-
-- *Truth*: always speaks truthfully
-- *Falsehood*: always lies
-- *Random*: responds probabilistically
-
-Tichy may ask exactly *three yes/no questions*, each to one AI. He must identify all three.
-
-+ Design three questions that identify each AI regardless of which word means "yes" and regardless of Random's choices.
-
-+ Explain the logical principle making your strategy robust.
-
-+ Construct a decision tree showing response patterns and unique identification.
-
-+ What does this puzzle reveal about self-reference, negation, and logical identification?
-
-_Hint:_ Design questions whose truth-value is independent of what "da" means --- yielding consistent answers across both interpretations.
 
 
 #line(length: 100%, stroke: 0.4pt)
