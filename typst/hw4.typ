@@ -571,39 +571,3 @@ Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 + Identify a pair who *must* have communicated.
 + Identify a pair who *definitively did not* communicate.
 + Is there an agent who *necessarily* communicated with at least one other?
-
-
-== Problem 19: Martians and Venusians on the Arithmetic Axis
-
-Astronaut Marek lands on a peculiar asteroid belt stretched along an infinite arithmetic axis.
-Each integer position $n >= 1$ is inhabited by exactly one being: either a Martian or a Venusian.
-Through careful observation, Marek discovers strict cohabitation rules governing this society.
-
-Let $M_n$ and $V_n$ denote "position $n$ is inhabited by a Martian/Venusian."
-
-*Observation 1 (Martian isolation):* No Martian tolerates having Martians as both neighbors.
-$
-  forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1))
-$
-
-*Observation 2 (Venusian dependence):* Every Venusian requires at least one Martian neighbor.
-$
-  forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1))
-$
-
-*Observation 3 (Divisibility cascade):* If position 3 houses a Martian, then all multiples of 3 must also house Martians.
-$
-  M_3 imply forall k. thin (3 divides k imply M_k)
-$
-
-*Observation 4 (#False):* Marek verifies that the following implication does *not* hold in this world.
-$
-  not(M_5 imply exists k. thin (3 divides k and M_k))
-$
-
-+ What does the negation of Observation 4 logically entail about positions 3 and 5?
-+ Suppose exactly five Martians inhabit the entire axis.
-  Determine their positions.
-+ Must position 1 be inhabited by a Martian? Prove your answer.
-+ Derive a general rule determining the inhabitant type at any position $n$.
-+ Describe the global pattern that emerges from these local cohabitation rules.
