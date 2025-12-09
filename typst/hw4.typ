@@ -497,74 +497,66 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
   The hardest puzzles reveal the deepest logical truths.
 ]
 
-== Problem 17: The Museum of Possible Futures --- Lady or Tiger?
+== Problem 17: The Logician's Vault --- Lady or Tiger?
 
-In the Museum of Possible Futures, Ijon Tichy encounters a series of logical trials set by an eccentric curator.
-In each trial, two sealed rooms await: each contains either a *Lady of Lyra* or a *Tiger-construct*.
-Both rooms might contain ladies, both might contain tigers, or one might contain each.
-Tichy does not know in advance.
+Ijon Tichy has infiltrated the *Logician's Vault*, an automated security complex guarding three sequential chambers.
+To escape, he must pass each trial by deducing what lies behind sealed doors.
+Behind any door waits either a lady or a tiger.
+Each door bears an inscription --- a logical statement claiming facts about the contents of both doors.
+The vault announces a constraint specifying the relationship between the truth values of these two inscriptions.
 
-Each room displays an inscription.
-The curator also specifies a constraint relating the truth values of the inscriptions.
-Tichy must reason logically to determine what the rooms contain.
-Crucially, Tichy never guesses: every answer must be justified from the logical constraints.
+For each chamber, Tichy must: translate the inscriptions into propositional logic, apply the constraint, and determine definitively what lies behind each door.
 
-=== Trial 1: The Basic Paradox
+=== Chamber 1: The Disjunction
 
-The curator explains: "Exactly one of these inscriptions is true, and exactly one is false."
+_Constraint:_ Exactly one inscription is true, and exactly one is false.
 
 #block(
   inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  *Room I:* "In this room there is a lady, and in the other room there is a tiger."
+  *Door A:* "In this room there is a lady, and in the other room there is a tiger."
 
-  *Room II:* "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
+  *Door B:* "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
 ]
 
-+ Formalize both inscriptions.
-  Let $L_1$, $L_2$ denote "Room I / Room II contains a lady."
-+ Determine which room contains the lady.
-  Justify your answer using the constraint.
++ Translate both inscriptions into propositional formulas.
++ Determine what lies behind each door.
 
-=== Trial 2: The Both-True-or-Both-False Paradox
+=== Chamber 2: The Conjunction
 
-The curator changes the signs. Now the constraint shifts: "These statements are either both true or both false."
+_Constraint:_ Both inscriptions have the same truth value (either both true or both false).
 
 #block(
   inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  *Room I:* "At least one of these rooms contains a lady."
+  *Door A:* "At least one of these rooms contains a lady."
 
-  *Room II:* "A tiger is in the other room."
+  *Door B:* "A tiger is behind the other room."
 ]
 
-+ Formalize both inscriptions in terms of $L_1$ and $L_2$.
-+ Determine what the rooms contain.
-  Justify your answer using the constraint.
++ Translate both inscriptions into propositional formulas.
++ Determine what lies behind each door.
 
-=== Trial 3: The Conditional Challenge
+=== Chamber 3: The Implication
 
-The curator presents a final, subtler pair of signs. The constraint remains: "These statements are either both true or both false."
+_Constraint:_ Both inscriptions have the same truth value (either both true or both false).
 
 #block(
   inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  *Room I:* "Either a tiger is in this room or a lady is in the other room."
+  *Door A:* "If there is no tiger in this room, then there is a lady in the other room."
 
-  *Room II:* "A lady is in the other room."
+  *Door B:* "A lady is in the other room."
 ]
 
-+ Formalize both inscriptions.
-+ Determine the contents of both rooms.
-  Justify your answer.
-+ Compare this trial's logical structure to Trial 2.
-  What differs, and why does it affect the solution?
++ Translate both inscriptions into propositional formulas.
++ Determine what lies behind each door.
 
 
 == Problem 18: Tri-Constellation Agent Communications
