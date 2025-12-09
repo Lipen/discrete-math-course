@@ -482,7 +482,7 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
       (0, $(P and Q) or (P and R)$, "Premise"),
       (1, $BOXM$, "Assume"),
       (1, $P$, BOX),
-      (0, $...$, [empty line]), // TODO: remove this empty line, but keep the assumption scopes separated
+      (0, $...$, text(gray)[empty line]), // TODO: remove this empty line, but keep the assumption scopes separated
       (1, $BOXM$, "Assume"),
       (1, $P$, BOX),
       (0, $P$, BOX),
