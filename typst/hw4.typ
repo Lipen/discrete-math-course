@@ -238,13 +238,13 @@ Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by
 )[
   - *Knyazev* gives an initial testimony (truth value $K$, unknown).
   - *Faraonov* says: "Knyazev's testimony is false."
-  - *Tsaryov* says: "Faraonov is lying."
-  - *Knyazev* (recalled) adds: "Both Faraonov and Tsaryov lied."
+  - *Tsaryov* states: "Faraonov is lying."
+  - *Knyazev* (called again) adds: "Both Faraonov and Tsaryov lied."
 ]
 
 + Formalize all four statements.
-+ List all consistent truth-value assignments.
-+ Which statements are determinately true/false in every assignment? Which depend on $K$?
++ Find all consistent truth assignments.
++ Which statements are forced to be true or false? Which remain undetermined?
 
 
 == Problem 7: The Council Chamber Paradox
