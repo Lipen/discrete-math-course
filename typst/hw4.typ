@@ -193,7 +193,7 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
   Identity and consistency are two different constraints.
 ]
 
-== Problem 4: The Quantum Cheat-Leaf Affair
+== Problem 5: The Quantum Cheat-Leaf Affair
 
 At the Interstellar Navigation Academy, a scandal erupts: a *Quantum Cheat-Leaf* (a banned mnemonic device) is discovered near the examination hall.
 Tichy interrogates three cadets who took the same exam.
@@ -214,7 +214,7 @@ Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
 + Which cadet told the complete truth?
 
 
-== Problem 5: The Contradictory Cosmonauts
+== Problem 6: The Contradictory Cosmonauts
 
 Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by interviewing three crew members.
 
@@ -228,7 +228,7 @@ Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by
 + Which statements are determinately true/false in every assignment? Which depend on $K$?
 
 
-== Problem 6: Checkpoint Omega --- Knight, Knave, Spy
+== Problem 7: Checkpoint Omega --- Knight, Knave, Spy
 
 At Checkpoint Omega, three customs bots process Tichy's credentials: one Knight (always truthful), one Knave (always lying), one Spy (random responses).
 
@@ -241,7 +241,7 @@ At Checkpoint Omega, three customs bots process Tichy's credentials: one Knight 
 + Why can't the Spy make either declaration with certainty about its own identity?
 
 
-== Problem 7: Arkonada and the Solaric Vaults
+== Problem 8: Arkonada and the Solaric Vaults
 
 Dr. Arkonada discovers three vaults in the Solaric Archives --- Gold, Silver, and Lead.
 One contains the legendary *Crystallized Theorem*.
@@ -258,7 +258,7 @@ Ancient texts warn: _"Trust neither all inscriptions nor none."_
 + What does this puzzle structure reveal about the Solarians' approach to meta-truth?
 
 
-== Problem 8: The Museum of Possible Futures --- Lady or Tiger?
+== Problem 9: The Museum of Possible Futures --- Lady or Tiger?
 
 In the Museum of Possible Futures, Tichy faces two sealed chambers.
 One contains the *Lady of Lyra* (safe passage); the other, a *Tiger-construct*.
@@ -284,7 +284,7 @@ Let $L_1$, $L_2$ denote the Lady's presence in each chamber.
 ]
 
 
-== Problem 9: Cataloging the Galactic Software Archive
+== Problem 10: Cataloging the Galactic Software Archive
 
 Trurl and Klapaucius build a cataloging system for the Galactic Archives.
 They define predicates over the domain of _all software_:
@@ -309,7 +309,7 @@ They define predicates over the domain of _all software_:
   - Which formula(s) require an existential witness that persists when the domain expands?
 
 
-== Problem 10: The Theorem-Printer's Corruption
+== Problem 11: The Theorem-Printer's Corruption
 
 A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
 Before failure, it logged this formula as a fundamental truth:
@@ -325,7 +325,7 @@ The machine demands verification by computing its negation in canonical form.
 + What does the negated formula reveal about when the original claim can be falsified?
 
 
-== Problem 11: Challenging the Theorem-Printer
+== Problem 12: Challenging the Theorem-Printer
 
 Once restored, the Theorem-Printer outputs an entailment:
 $
@@ -349,7 +349,7 @@ Klapaucius is skeptical: "Universal quantification distributes over disjunction?
 ]
 
 
-== Problem 12: The Clause Factory on Titan
+== Problem 13: The Clause Factory on Titan
 
 At Titan's *Clause Factory*, a batcher produces a clause-set flagged as "suspicious":
 $
@@ -363,7 +363,7 @@ Factory engineers fear the batch is defective (unsatisfiable).
 - Why does deriving $square$ prove unsatisfiability?
 
 
-== Problem 13: Navigator Training --- Natural Deduction
+== Problem 14: Navigator Training --- Natural Deduction
 
 At the *Celestial Navigation Academy*, Klapaucius teaches: "Every star-navigator must master Fitch-style natural deduction."
 
@@ -376,7 +376,7 @@ Prove each tautology:
 For each proof, provide a Fitch-style derivation, marking all assumptions and rules.
 
 
-== Problem 14: Restoring the Corrupted Proof Archive
+== Problem 15: Restoring the Corrupted Proof Archive
 
 The *Galactic Archive's* proof repository suffered data corruption. Several Fitch-style proofs have gaps marked with $square$ boxes. Fill in the missing formulae and justifications.
 
@@ -433,7 +433,7 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
 ]
 
 
-== Problem 15: Tri-Constellation Agent Communications
+== Problem 16: Tri-Constellation Agent Communications
 
 Captain Pirx analyzes communications among four field agents: *Bilion*, *Stevok*, *Tomix*, *Johnon*.
 Cryptanalysts reconstructed these constraints:
@@ -456,7 +456,7 @@ Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 + Is there an agent who *necessarily* communicated with at least one other?
 
 
-== Problem 16: Martians and Venusians on the Arithmetic Axis
+== Problem 17: Martians and Venusians on the Arithmetic Axis
 
 Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Martian* ($M_n$) or a *Venusian* ($V_n$), never both.
 
@@ -485,7 +485,7 @@ Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Ma
 + What global structure emerges from local constraints?
 
 
-== Problem 17: The Three Algorithmic Gods
+== Problem 18: The Three Algorithmic Gods
 
 On a forgotten island, Tichy discovers three AIs from a lost civilization.
 
