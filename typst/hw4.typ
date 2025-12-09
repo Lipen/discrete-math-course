@@ -331,12 +331,7 @@ $
   forall x exists y . thin (P(x) imply Q(x,y))
 $
 
-The machine demands verification by computing its negation in canonical form.
-
-+ Compute the negation: $not (forall x exists y . thin (P(x) imply Q(x,y)))$.
-+ Apply De Morgan and quantifier negation rules to push $not$ inward.
-+ Present the result: quantifier prefix first, then quantifier-free matrix.
-+ What does the negated formula reveal about when the original claim can be falsified?
+To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim --- i.e., compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
 
 
 == Problem 13: Challenging the Theorem-Printer
