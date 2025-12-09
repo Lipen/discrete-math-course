@@ -456,37 +456,99 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
   columns: 2,
   column-gutter: 3cm,
   [
-    #derive-it.ded-nat(stcolor: black, arr: (
-      (0, $H imply (R and C)$, "Premise"),
-      (0, $not R or not C$, "Premise"),
-      (0, $not(R and C)$, BOX),
-      (0, $BOXM$, "MT 1, 3"),
-    ))
+    // #derive-it.ded-nat(stcolor: black, arr: (
+    //   (0, $H imply (R and C)$, "Premise"),
+    //   (0, $not R or not C$, "Premise"),
+    //   (0, $not(R and C)$, BOX),
+    //   (0, $BOXM$, "MT 1, 3"),
+    // ))
+    #grid(
+      columns: 3,
+      align: left,
+      stroke: (x, y) => if x == 0 { (right: 0.8pt) },
+      inset: 5pt,
+      [1.], [$H imply (R and C)$], [Premise],
+      grid.hline(stroke: .8pt, start: 1),
+      [2.], [$not R or not C$], [Premise],
+      [3.], [$not (R and C)$], [#BOXM],
+      [4.], [#BOXM], [MT 1, 3],
+    )
 
-    #derive-it.ded-nat(stcolor: black, arr: (
-      (0, $K and S$, "Premise"),
-      (0, $not K$, "Premise"),
-      (0, $BOXM$, BOX),
-      (0, $BOXM$, BOX),
-      (0, $not S$, BOX),
-    ))
+    // #derive-it.ded-nat(stcolor: black, arr: (
+    //   (0, $K and S$, "Premise"),
+    //   (0, $not K$, "Premise"),
+    //   (0, $BOXM$, BOX),
+    //   (0, $BOXM$, BOX),
+    //   (0, $not S$, BOX),
+    // ))
+    #grid(
+      columns: 3,
+      align: left,
+      stroke: (x, y) => if x == 0 { (right: 0.8pt) },
+      inset: 5pt,
+      [1.], [$K and S$], [Premise],
+      grid.hline(stroke: .8pt, start: 1),
+      [2.], [$not K$], [Premise],
+      [3.], [#BOXM], [#BOXM],
+      [4.], [#BOXM], [#BOXM],
+      [5.], [$not S$], [#BOXM],
+    )
   ],
   [
-    #derive-it.ded-nat(stcolor: black, arr: (
-      (0, $A imply not A$, "Premise"),
-      (0, $BOXM$, "(multiple lines)"),
-      (0, $not A$, [LEM $BOXM$]),
-    ))
+    // #derive-it.ded-nat(stcolor: black, arr: (
+    //   (0, $A imply not A$, "Premise"),
+    //   (0, $BOXM$, "(multiple lines)"),
+    //   (0, $not A$, [LEM $BOXM$]),
+    // ))
+    #grid(
+      columns: 3,
+      align: left,
+      stroke: (x, y) => if x == 0 { (right: 0.8pt) },
+      inset: 5pt,
+      [1.], [$A imply not A$], [Premise],
+      grid.hline(stroke: .8pt, start: 1),
+      [2.], [#BOXM], [(multiple lines)],
+      [3.], [$not A$], [LEM $#BOXM$],
+    )
 
-    #derive-it.ded-nat(stcolor: black, arr: (
-      (0, $(P and Q) or (P and R)$, "Premise"),
-      (1, $BOXM$, "Assume"),
-      (1, $P$, BOX),
-      (0, $...$, text(gray)[empty line]), // TODO: remove this empty line, but keep the assumption scopes separated
-      (1, $BOXM$, "Assume"),
-      (1, $P$, BOX),
-      (0, $P$, BOX),
-    ))
+    // #derive-it.ded-nat(stcolor: black, arr: (
+    //   (0, $(P and Q) or (P and R)$, "Premise"),
+    //   (1, $BOXM$, "Assume"),
+    //   (1, $P$, BOX),
+    //   (0, $...$, text(gray)[empty line]), // TODO: remove this empty line, but keep the assumption scopes separated
+    //   (1, $BOXM$, "Assume"),
+    //   (1, $P$, BOX),
+    //   (0, $P$, BOX),
+    // ))
+    #grid(
+      columns: 3,
+      align: left,
+      stroke: (x, y) => if x == 0 { (right: 0.8pt) },
+      inset: 5pt,
+      [1.], [$(P and Q) or (P and R)$], [Premise],
+      grid.hline(stroke: .8pt, start: 1),
+      [2.], grid.cell(rowspan: 2, inset: (left: 1em, rest: 0pt))[
+        #grid(
+          inset: 4pt,
+          stroke: (left: 1pt),
+          [#BOXM],
+          grid.hline(stroke: .8pt),
+          $P$,
+        )
+      ], [Assume],
+      [3.], /**/ [#BOXM],
+      [4.], grid.cell(rowspan: 2, inset: (left: 1em, rest: 0pt))[
+        #grid(
+          inset: 4pt,
+          stroke: (left: 1pt),
+          [#BOXM],
+          grid.hline(stroke: .8pt),
+          $P$,
+        )
+      ], [Assume],
+      [5.], /**/ [#BOXM],
+      [6.], [$P$], [#BOXM],
+    )
   ],
 )
 
