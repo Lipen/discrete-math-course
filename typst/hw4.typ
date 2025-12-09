@@ -415,7 +415,6 @@ Determine whether this entailment is valid.
   A proof is a path; elegance lies in taking the shortest one.
 ]
 
-
 == Problem 14: The Clause Factory on Titan
 
 At Titan's *Clause Factory*, a batcher produces a clause-set flagged as "suspicious":
@@ -618,10 +617,3 @@ Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Ma
 + Must point 1 be Martian?
 + Formulate a general rule for inhabitant type at point $n$.
 + What global structure emerges from local constraints?
-
-
-#line(length: 100%, stroke: 0.4pt)
-
-*Submission:* Organize solutions clearly. State assumptions, show steps, mark conclusions.
-
-*Grading:* Correctness 50% · Logical rigor 30% · Completeness 20%
