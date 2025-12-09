@@ -240,19 +240,25 @@ Can you identify which person (if any) is a knight?
 
 == Problem 8: Arkonada and the Solaric Vaults
 
-Dr. Arkonada discovers three vaults in the Solaric Archives --- Gold, Silver, and Lead.
-One contains the legendary *Crystallized Theorem*.
+Dr. Arkonada discovers three vaults in the Solaric Archives: Gold, Silver, and Lead.
+One contains the legendary *Crystallized Theorem*, the others are empty.
 Each vault bears an inscription:
 
-- *Gold*: "The Theorem is not here."
-- *Silver*: "The Theorem is in the Gold vault."
-- *Lead*: "The Theorem is here."
+- *Gold vault*: "The Theorem is not here."
+- *Silver vault*: "The Theorem is in the Gold vault."
+- *Lead vault*: "The Theorem is here."
 
-Ancient texts warn: _"Trust neither all inscriptions nor none."_
+Ancient texts warn: "You cannot trust all the inscriptions, nor can you dismiss them entirely."
 
-+ *Loose interpretation*: At least one inscription is true, at least one false. Which vault(s) might contain the Theorem?
-+ *Classical interpretation*: Exactly one inscription is true. Which vault contains the Theorem? Prove it.
-+ What does this puzzle structure reveal about the Solarians' approach to meta-truth?
++ *Loose interpretation:*
+  The Solarians were pragmatic.
+  They required that at least one inscription be truthful and at least one be false.
+  Under this constraint, determine which vault(s) could contain the Theorem, and prove your answer.
+
++ *Classical interpretation:*
+  The ancients were more precise.
+  They decreed that exactly one inscription must be true.
+  Under this constraint, determine which vault must contain the Theorem, and prove your answer.
 
 
 == Problem 9: The Museum of Possible Futures --- Lady or Tiger?
