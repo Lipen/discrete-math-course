@@ -280,24 +280,7 @@ Ancient texts warn: "You cannot trust all the inscriptions, nor can you dismiss 
   Under this constraint, determine which vault must contain the Theorem, and prove your answer.
 
 
-== Problem 9: The Museum of Possible Futures --- Lady or Tiger?
-
-In the Museum of Possible Futures, Tichy faces two sealed chambers.
-One contains the *Lady of Lyra* (safe passage); the other, a *Tiger-construct*.
-
-The placard states: *"Exactly one inscription is true."*
-
-- *Chamber I*: "Here is the Lady, and in the other chamber the Tiger."
-- *Chamber II*: "Exactly one chamber contains a Lady and the other a Tiger."
-
-Let $L_1$, $L_2$ denote the Lady's presence in each chamber.
-
-+ Formalize both inscriptions.
-+ Under the constraint that exactly one is true, which chamber contains the Lady?
-+ If Chamber II instead read: "At least one chamber has a Lady and at least one has a Tiger" --- how does the answer change?
-
-
-== Problem 10: The Three Archived Minds
+== Problem 9: The Three Archived Minds
 
 Tichy arrives at the *Interstellar Bureau of Statistics* on Drabno, where three archivists guard the vault containing all census data.
 Three archivists: Arkas, Bronda, and Carpus --- one always tells the truth, one always lies, and one answers randomly.
@@ -451,8 +434,77 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
   The hardest puzzles reveal the deepest logical truths.
 ]
 
+== Problem 17: The Museum of Possible Futures --- Lady or Tiger?
 
-== Problem 17: Tri-Constellation Agent Communications
+In the Museum of Possible Futures, Ijon Tichy encounters a series of logical trials set by an eccentric curator.
+In each trial, two sealed rooms await: each contains either a *Lady of Lyra* or a *Tiger-construct*.
+Both rooms might contain ladies, both might contain tigers, or one might contain each.
+Tichy does not know in advance.
+
+Each room displays an inscription.
+The curator also specifies a constraint relating the truth values of the inscriptions.
+Tichy must reason logically to determine what the rooms contain.
+Crucially, Tichy never guesses: every answer must be justified from the logical constraints.
+
+=== Trial 1: The Basic Paradox
+
+The curator explains: "Exactly one of these inscriptions is true, and exactly one is false."
+
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  *Room I:* "In this room there is a lady, and in the other room there is a tiger."
+
+  *Room II:* "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
+]
+
++ Formalize both inscriptions.
+  Let $L_1$, $L_2$ denote "Room I / Room II contains a lady."
++ Determine which room contains the lady.
+  Justify your answer using the constraint.
+
+=== Trial 2: The Both-True-or-Both-False Paradox
+
+The curator changes the signs. Now the constraint shifts: "These statements are either both true or both false."
+
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  *Room I:* "At least one of these rooms contains a lady."
+
+  *Room II:* "A tiger is in the other room."
+]
+
++ Formalize both inscriptions in terms of $L_1$ and $L_2$.
++ Determine what the rooms contain.
+  Justify your answer using the constraint.
+
+=== Trial 3: The Conditional Challenge
+
+The curator presents a final, subtler pair of signs. The constraint remains: "These statements are either both true or both false."
+
+#block(
+  inset: (left: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  *Room I:* "Either a tiger is in this room or a lady is in the other room."
+
+  *Room II:* "A lady is in the other room."
+]
+
++ Formalize both inscriptions.
++ Determine the contents of both rooms.
+  Justify your answer.
++ Compare this trial's logical structure to Trial 2.
+  What differs, and why does it affect the solution?
+
+
+== Problem 18: Tri-Constellation Agent Communications
 
 Captain Pirx analyzes communications among four field agents: *Bilion*, *Stevok*, *Tomix*, *Johnon*.
 Cryptanalysts reconstructed these constraints:
@@ -475,7 +527,7 @@ Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 + Is there an agent who *necessarily* communicated with at least one other?
 
 
-== Problem 18: Martians and Venusians on the Arithmetic Axis
+== Problem 19: Martians and Venusians on the Arithmetic Axis
 
 Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Martian* ($M_n$) or a *Venusian* ($V_n$), never both.
 
