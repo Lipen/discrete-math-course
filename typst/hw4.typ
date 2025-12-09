@@ -236,7 +236,7 @@ Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  - *Knyazev* gives an initial testimony (truth value $K$, unknown).
+  - *Knyazev* gives an initial testimony.
   - *Faraonov* says: "Knyazev's testimony is false."
   - *Tsaryov* states: "Faraonov is lying."
   - *Knyazev* (called again) adds: "Both Faraonov and Tsaryov lied."
