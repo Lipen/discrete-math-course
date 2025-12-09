@@ -228,17 +228,14 @@ Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by
 + Which statements are determinately true/false in every assignment? Which depend on $K$?
 
 
-== Problem 7: Checkpoint Omega --- Knight, Knave, Spy
+== Problem 7: The Council Chamber Paradox
 
-At Checkpoint Omega, three customs bots process Tichy's credentials: one Knight (always truthful), one Knave (always lying), one Spy (random responses).
+Ijon Tichy arrives at an island where inhabitants belong to two castes: *Knights* who always speak truth, and *Knaves* who always lie.
+In a council chamber, someone stands up and says: "Everyone else in this chamber is a knave."
+Immediately, each other person in the room repeats the exact same statement: "Everyone else in this chamber is a knave."
 
-- *Aster*: "I am the Knight."
-- *Boron*: "Aster is the Spy."
-- *Circe*: "I am the Spy."
-
-+ Determine which bot is which. Show your reasoning.
-+ If Circe instead said "Aster is the Knave," how would the solution change?
-+ Why can't the Spy make either declaration with certainty about its own identity?
+How many knights are in the chamber?
+Can you identify which person (if any) is a knight?
 
 
 == Problem 8: Arkonada and the Solaric Vaults
