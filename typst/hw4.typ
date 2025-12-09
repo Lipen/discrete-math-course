@@ -56,7 +56,11 @@
 
 // Fancy box
 #let Box(body, align: left, inset: 0.8em) = std.align(align)[
-  #box(stroke: 0.4pt + gray, inset: inset, radius: 3pt)[
+  #box(
+    stroke: 0.4pt + gray,
+    inset: inset,
+    radius: 3pt,
+  )[
     #set std.align(left)
     #set text(size: 10pt, style: "italic")
     #body
@@ -64,7 +68,7 @@
 ]
 
 
-#Box(align: right, inset: 1em)[
+#Box(align: right)[
   #set text(fill: blue.darken(20%))
   "The universe is not only queerer than we suppose, but queerer than we *can* suppose."
 
@@ -73,9 +77,8 @@
   ]
 ]
 
-
-Ijon Tichy's wanderings across the cosmos have accumulated, as if by gravitational attraction, a~collection of logical tangles and philosophical snares.
-The following problems emerge from his investigations: some are mere technical puzzles, others carry implications for understanding truth, proof, and the nature of reasoning itself.
+The cosmos, as Stanisław Lem's heroes have discovered, is full of logical puzzles.
+In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal reasoning challenges that challenge even the ingenious constructors Trurl and Klapaucius.
 
 = Part I: Propositional Foundations
 
@@ -85,11 +88,11 @@ The following problems emerge from his investigations: some are mere technical p
 
 == Problem 1: The Council of Contradictory Decrees
 
-On the planet Enteropia, the High Council has accumulated the peculiar habit of issuing decrees that must remain logically consistent at all times --- lest the underlying fabric of bureaucratic reality begin to unravel, taking the Council with it.
-Tichy, appointed as Logical Auditor by circumstance and resigned to the role by experience, must examine each batch of proclamations to determine whether they can coexist without logical contradiction.
+Captain Pirx is dispatched to Enteropia, where the High Council governs through bureaucratic proclamations that must remain logically consistent --- lest reality itself unravel.
+The Council needs Pirx to verify four batches of decrees before they become law.
 
-For each set of decrees below, establish whether they are *jointly satisfiable* (logically consistent).
-If consistent, exhibit a satisfying assignment of truth values; if not, expose the logical contradiction that makes them mutually incompatible.
+For each set, determine whether the decrees are *jointly satisfiable*.
+If consistent, provide a satisfying truth assignment; if not, identify the contradiction.
 
 #tasklist("prob1", cols: 2)[
   + ${ not D, (D or F), not F }$
@@ -106,17 +109,17 @@ If consistent, exhibit a satisfying assignment of truth values; if not, expose t
 
 == Problem 2: Diplomatic Dispatches in Alliterative Cipher
 
-Intercepted transmissions from the Fomalhaut Confederation arrive encrypted in what cryptographers call the *Alliterative Cipher* --- a Byzantine obfuscation technique that encodes logical relationships beneath elaborate patterns of linguistic symmetry.
-Tichy must recover the underlying logical structure from each dispatch: symbolize the argument, determine its validity via truth table, and furnish either a Fitch-style derivation (for valid inferences) or a counterexample valuation (for invalid ones).
-The elegance of this cipher lies in its redundancy; only careful logical analysis can separate signal from noise.
+Pirx's next stop is Fomalhaut Station, where intercepted transmissions arrive encrypted in *Alliterative Cipher* --- a Byzantine technique encoding logical relationships beneath elaborate linguistic symmetry.
+
+For each dispatch: symbolize the argument, determine validity via truth table, and provide either a Fitch-style derivation (if valid) or a counterexample valuation (if invalid).
 
 #tasklist("prob2")[
   + If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
-    Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality (or both).
+    Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality.
     Philosophers do ponder profound problems.
     _Therefore_, right reasoning reveals reality.
 
-  + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras (or both).
+  + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras.
     Baby baboons beat bongos.
     Aardvarks aren't adorable unless crocodiles can't consume cute capybaras.
     _Therefore_, aardvarks aren't adorable.
@@ -127,271 +130,234 @@ The elegance of this cipher lies in its redundancy; only careful logical analysi
 
   + Crocodiles can consume cute capybaras only if incarcerating iguanas isn't illegal.
     Mad monkeys make mayhem and dinosaurs do disco dance, unless crocodiles consume cute capybaras.
-    It is known that incarcerating iguanas is illegal.
+    Incarcerating iguanas is illegal.
     _Therefore_, dinosaurs do disco dance if and only if mad monkeys make mayhem.
 ]
 
 
-// #pagebreak()
-
 == Problem 3: The Emporium of Synthetic Companions
 
-At Orbital Station Cygnus-7, deep within the commercial quarter, stands the *Emporium of Synthetic Companions* --- a modest establishment that sells robotic pets to lonely cosmonauts stationed in remote outposts.
-Its proprietor, a small automaton named Minik, has developed an elaborate set of regulations governing what combinations of companions may be purchased together.
-The regulations arise from genuine concern: Minik has observed that certain machines, deprived of social interaction, develop a form of existential despondence that leads them into malfunction and silence.
-
-Minik explains the regulations to Tichy with meticulous bureaucratic precision:
+At Orbital Station Cygnus-7, Ijon Tichy visits the *Emporium of Synthetic Companions*, where the proprietor Minik enforces strict regulations on robotic pet purchases:
 
 #block(
   inset: (x: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  *Regulation 1:* #h(.3em)
-  If you purchase exactly one of the Giraffoid or the Elephandroid, you must also purchase a Simianoid.
-  Solitary mega-fauna units develop a form of existential melancholy --- they contemplate their isolation and gradually cease functioning.
+  *Regulation 1:* If you purchase exactly one of the Giraffoid or Elephandroid, you must also purchase a Simianoid. (Solitary mega-fauna develop existential melancholy.)
 
-  *Regulation 2:* #h(.3em)
-  Neither the Elephandroid nor the Simianoid may be purchased unless the Giraffoid is purchased as well.
-  The Giraffoid, it seems, serves as social anchor for the entire collection.
+  *Regulation 2:* Neither the Elephandroid nor the Simianoid may be purchased unless the Giraffoid is also purchased. (The Giraffoid serves as social anchor.)
 ]
 
-One day, a visiting engineer named Mestorf arrives and announces: "We shall take _all three_ --- the Giraffoid, the Elephandroid, and the Simianoid."
+A customer named Mestorf announces: "We'll take all three."
 
-Minik, consulting its regulatory database, replies with evident satisfaction: "Excellent. Then we shall certainly sell you either the Elephandroid or the Giraffoid."
+Minik replies: "Excellent. Then we shall certainly sell you either the Elephandroid or the Giraffoid."
 
-Tichy observes this exchange with the weary skepticism of one accustomed to bureaucratic contradictions.
+Let $G$, $E$, $S$ denote purchasing each companion.
 
-*Your task:*
-+ Introduce propositional variables $G$, $E$, $S$ for the purchase of each companion. Formalize all of Minik's regulations and both declarations (Mestorf's announcement and Minik's reply).
-+ Determine which combinations of purchases are logically consistent with these constraints.
-+ Identify which of the stated propositions are logical consequences of the regulatory system.
-+ Determine succinctly: which companions were actually purchased, and why does the regulatory logic force this outcome?
++ Formalize the regulations and both declarations.
++ Which purchase combinations are consistent with these constraints?
++ Which propositions are logical consequences of the system?
++ How many companions are actually purchased, and why?
+
+// TODO: one more small problem here
+
+
 #pagebreak()
 
-= Part II: The Liar's Archipelago
+= Part II: Truth-Tellers and Liars
 
 #Box[
-  On certain planets, truth and falsehood intertwine like binary stars. \
-  Ijon Tichy has learned to navigate these treacherous waters.
+  Identity and consistency are two different constraints.
 ]
 
 == Problem 4: The Quantum Cheat-Leaf Affair
 
-At the prestigious Interstellar Navigation Academy, an unprecedented scandal erupts when a *Quantum Cheat-Leaf* --- a banned mnemonic device derived from the restricted planet Mnemonikos --- is discovered concealed near the examination hall.
-The device is contraband not merely because it confers unfair advantage, but because its quantum-entangled nature renders its use nearly undetectable by conventional means.
+At the Interstellar Navigation Academy, a scandal erupts: a *Quantum Cheat-Leaf* (a banned mnemonic device) is discovered near the examination hall.
+Tichy interrogates three cadets who took the same exam.
 
-Ijon Tichy is summoned by the Academy's Director to investigate. Three cadets --- all of whom drew the identical examination problem ("Navigating Topologically Impossible Nebulae") --- are brought for interrogation.
+*Ivanko:* "I didn't use it. Sidorik used it. Petryn used it too."
 
-*Ivanko's testimony:* "I did not use the Cheat-Leaf. Sidorik used it. Petryn used it too."
+*Petryn:* "Ivanko used it. I didn't use it. About Sidorik, I cannot say."
 
-*Petryn's testimony:* "Ivanko used it. I did not use it. As for Sidorik, I cannot speak with certainty."
+*Sidorik:* Remains silent.
 
-*Sidorik:* Invokes silence, claiming constitutional protection against self-incrimination.
+Later, the cadets confess privately: "One of us told the complete truth. One made exactly one true statement. One lied in every statement."
 
-Later, in a private corridor, all three cadets approach Tichy and whisper a collective confession:
+Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
 
-#block(
-  inset: (x: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
-  "Understand this: One of us has spoken nothing but truth. One of us has made exactly one true statement. One of us has lied in every statement we gave."
-]
-
-They refuse to specify which cadet belongs to which category.
-
-*Your task:*
-Let $I$, $P$, $S$ denote the propositions "Ivanko / Petryn / Sidorik used the Cheat-Leaf" respectively.
-+ Formalize the testimonies of Ivanko and Petryn as propositional formulas.
-+ Using the meta-constraint about the distribution of truth-telling among the three cadets, determine all logically consistent scenarios.
-+ Can we definitively determine who used the Cheat-Leaf?
-+ Is it certain that _someone_ used it?
-+ Can we identify which cadet is the complete truth-teller?
++ Formalize Ivanko's and Petryn's testimonies.
++ Using the meta-constraint, determine all consistent scenarios.
++ Who used the Cheat-Leaf? Is it certain someone did?
++ Which cadet told the complete truth?
 
 
-== Problem 5: The Case of the Contradictory Cosmonauts
+== Problem 5: The Contradictory Cosmonauts
 
-Aboard the research vessel _Asymptote_, a minor but consequential incident involving the reactor has occurred.
-To establish what transpired, Tichy interviews three crew members, only to discover that their accounts intertwine in a web of meta-logical assertion and denial.
+Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by interviewing three crew members.
 
-- *Knyazev* gives an initial testimony regarding the incident.
-- *Faraonov* responds: "Knyazev's first testimony is _false_."
-- *Tsaryov* interjects: "Faraonov is lying."
-- When recalled for clarification, *Knyazev* adds: "Both Faraonov and Tsaryov have lied."
+- *Knyazev* gives an initial testimony (truth value $K$, unknown).
+- *Faraonov* says: "Knyazev's testimony is false."
+- *Tsaryov* says: "Faraonov is lying."
+- *Knyazev* (recalled) adds: "Both Faraonov and Tsaryov lied."
 
-Tichy, familiar with such self-referential tangles from his years of investigation, begins to analyze the structure of their claims.
-
-*Your task:*
-+ Let $K$ be the truth value of Knyazev's initial testimony. Formalize all four statements as propositional formulas.
-+ Construct a truth table and list all consistent truth-value assignments for $K$, the other testimonies, and any derived propositions.
-+ Identify which statements are *determinately* true or false in every consistent assignment, and which depend on the unknown value of $K$.
-+ If possible, deduce the truth value of $K$ from the structure of the testimonies alone.
++ Formalize all four statements.
++ List all consistent truth-value assignments.
++ Which statements are determinately true/false in every assignment? Which depend on $K$?
 
 
 == Problem 6: Checkpoint Omega --- Knight, Knave, Spy
 
-At Checkpoint Omega, the highly sensitive border station between the Galactic Core and the Outer Rim, sophisticated security protocols employ three categories of customs-inspection bots.
-The regulations are exacting: one Knight-bot (programmed to always speak truthfully, used to verify passenger claims), one Knave-bot (deliberately programmed to always lie, used to stress-test security procedures), and one Spy-bot (its response protocol randomized for infiltration detection).
-
-Tichy presents himself for inspection. The three bots respond to his status inquiry with simultaneous declarations:
+At Checkpoint Omega, three customs bots process Tichy's credentials: one Knight (always truthful), one Knave (always lying), one Spy (random responses).
 
 - *Aster*: "I am the Knight."
 - *Boron*: "Aster is the Spy."
 - *Circe*: "I am the Spy."
 
-The contradiction is immediate and unnerving.
-
-*Your task:*
-+ Determine which bot is Knight, which is Knave, and which is Spy.
-+ If Circe's statement were instead "_Aster is the Knave_," how would the identification change?
-+ Why is it impossible for the Spy-bot to make either of these declarations with certainty?
++ Determine which bot is which. Show your reasoning.
++ If Circe instead said "Aster is the Knave," how would the solution change?
++ Why can't the Spy make either declaration with certainty about its own identity?
 
 
-== Problem 7: The Metallurgical Vaults of Solaris
+== Problem 7: Arkonada and the Solaric Vaults
 
-Deep within the Solaric Archives --- a vast repository of artifacts from a civilization long extinct --- Tichy discovers three monumental vaults constructed from mysterious alloys: one of Gold, one of Silver, one of Lead.
-According to cryptic historical records, one vault contains the *Crystallized Theorem* --- a legendary mathematical artifact so refined and powerful that it allegedly glows with logical coherence.
-Finding it would revolutionize our understanding of mathematics itself.
+Dr. Arkonada discovers three vaults in the Solaric Archives --- Gold, Silver, and Lead.
+One contains the legendary *Crystallized Theorem*.
+Each vault bears an inscription:
 
-Each vault bears an inscription, aged but legible:
+- *Gold*: "The Theorem is not here."
+- *Silver*: "The Theorem is in the Gold vault."
+- *Lead*: "The Theorem is here."
 
-- *Gold vault*: "The Crystallized Theorem is not here."
-- *Silver vault*: "The Crystallized Theorem is in the Gold vault."
-- *Lead vault*: "The Crystallized Theorem is here."
+Ancient texts warn: _"Trust neither all inscriptions nor none."_
 
-Tichy recalls a Solaric scholarly warning, repeated in fragmentary historical documents: _"Trust neither all inscriptions nor none; the ancients encoded truth and falsehood in deliberate tension."_
-
-*Your task:*
-+ *Loose interpretation*: Assume at least one inscription is true and at least one is false. Under these constraints, which vault(s) _might_ contain the Theorem? Enumerate all possibilities.
-+ *Classical interpretation*: Assume exactly one inscription is true. Determine which vault uniquely contains the Theorem and provide a rigorous proof.
-+ What does the logical structure of these inscriptions tell us about the ancients' understanding of meta-truth?
++ *Loose interpretation*: At least one inscription is true, at least one false. Which vault(s) might contain the Theorem?
++ *Classical interpretation*: Exactly one inscription is true. Which vault contains the Theorem? Prove it.
++ What does this puzzle structure reveal about the Solarians' approach to meta-truth?
 
 
-== Problem 8: The Rooms of Probabilistic Doom
+== Problem 8: The Museum of Possible Futures --- Lady or Tiger?
 
-In the quantum-probabilistic wing of the Museum of Possible Futures, Tichy encounters an installation designed as both logical puzzle and philosophical provocation. He stands before two sealed chambers, each bearing an inscription.
-One chamber contains the *Lady of Lyra* --- a benevolent holographic entity whose presence assures safe passage. The other contains a *Tiger-construct* --- a decidedly less benevolent automaton engineered to enforce certain epistemic rigors.
+In the Museum of Possible Futures, Tichy faces two sealed chambers.
+One contains the *Lady of Lyra* (safe passage); the other, a *Tiger-construct*.
+The placard states: *"Exactly one inscription is true."*
 
-Only one of the two inscriptions is true; the other is false. This constraint is guaranteed by the museum's logical assurance mechanism.
+- *Chamber I*: "Here is the Lady, and in the other chamber the Tiger."
+- *Chamber II*: "Exactly one chamber contains a Lady and the other a Tiger."
 
-*Chamber I* bears: "Here is the Lady, and in the other chamber the Tiger."
+Let $L_1$, $L_2$ denote the Lady's presence in each chamber.
 
-*Chamber II* bears: "Exactly one chamber contains a Lady and the other a Tiger."
-
-*Your task:*
-+ Formalize both inscriptions as propositional formulas. Let $L_1$, $L_2$ denote the presence of the Lady in each chamber.
-+ Using the constraint that exactly one inscription is true, determine which chamber contains the Lady. Show all logical steps.
-+ If Chamber II's inscription were instead "_At least one chamber contains a Lady and at least one a Tiger_," how would the answer change? Provide a complete analysis of the new logical scenario.
++ Formalize both inscriptions.
++ Under the constraint that exactly one is true, which chamber contains the Lady?
++ If Chamber II instead read: "At least one chamber has a Lady and at least one has a Tiger" --- how does the answer change?
++ Why does this puzzle feel like a logical trap?
 
 
 = Part III: First-Order Logic
 
 #Box[
-  Quantifiers give us the power to speak of all and some. \
-  But with great power comes the risk of great confusion.
+  Trurl and Klapaucius build machines that reason. \
+  Quantifiers are how machines learn to speak of infinity.
 ]
 
 
-== Problem 9: The Grand Repository of Galactic Software
+== Problem 9: Cataloging the Galactic Software Archive
 
-Ijon undertakes the monumental task of cataloging software artifacts recovered from abandoned research stations scattered across the galaxy.
-The Galactic Archives maintain an exhaustive collection spanning millennia of computational history.
-He must codify relationships among these artifacts using first-order logic, creating a formal taxonomy.
+Trurl and Klapaucius build a cataloging system for the Galactic Archives.
+They define predicates over the domain of _all software_:
 
-The domain is _all software_. The predicates are:
-- $O(x)$ --- "$x$ is open-source"
-- $B(x)$ --- "$x$ is buggy"
-- $U(x,y)$ --- "$x$ uses $y$"
+#block(
+  inset: (x: 1em),
+  stroke: (left: 3pt + gray),
+  outset: (y: 3pt, left: -3pt),
+)[
+  - $O(x)$ --- "$x$ is open-source"
+  - $B(x)$ --- "$x$ is buggy"
+  - $U(x,y)$ --- "$x$ uses $y$"
+]
 
-*Your task:*
-+ Translate each of the following statements into first-order logic:
++ Translate into first-order logic:
   - "Some open-source software is not buggy."
   - "All buggy software uses some open-source software."
   - "There exists a piece of software that uses all open-source software."
 
-+ For each formula above:
-  - Construct a small finite model (specifying domain, truth values) that satisfies the formula.
-  - Identify which formula(s) require an existential witness that cannot be universally quantified even when the domain is expanded. Why is this significant?
++ For each formula:
+  - Construct a small finite model satisfying it.
+  - Which formula(s) require an existential witness that persists when the domain expands?
 
 
-== Problem 10: The Printer's Slip --- Quantifier Negation
+== Problem 10: The Theorem-Printer's Corruption
 
-The *Theorem-Printer* --- a sophisticated self-aware logical inference machine aboard the _Asymptote_ --- has produced the following formula, asserting it as a fundamental mathematical truth:
+A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
+Before failure, it logged this formula as a fundamental truth:
 $
   forall x exists y . thin (P(x) imply Q(x,y))
 $
 
-Before the assertion can be logged, a power surge strikes the system, corrupting its memory.
-The machine now demands verification by computing the negation of this formula and reducing it to a canonical form.
+The machine demands verification by computing its negation in canonical form.
 
-*Your task:*
-+ Compute the negation using De Morgan's laws and quantifier negation rules.
-+ Present the final result in canonical form: quantifier prefix, then quantifier-free matrix.
++ Compute the negation: $not (forall x exists y . thin (P(x) imply Q(x,y)))$.
++ Apply De Morgan and quantifier negation rules to push $not$ inward.
++ Present the result: quantifier prefix first, then quantifier-free matrix.
++ What does the negated formula reveal about when the original claim can be falsified?
 
 
-== Problem 11: Theorem-Machine Validation
+== Problem 11: Challenging the Theorem-Printer
 
-The Theorem-Printer, once restored to operational status, outputs a new entailment claim:
+Once restored, the Theorem-Printer outputs an entailment:
 $
   forall x . thin (P(x) or Q(x))
   quad proves quad
   (forall x . thin P(x)) or (forall x . thin Q(x))
 $
 
-Tichy, bearing the scars of experience with automated systems that conflate intuition with rigor, approaches this claim with skepticism and demands rigorous verification.
+Klapaucius is skeptical: "Universal quantification distributes over disjunction?"
 
-*Your task:*
-+ Determine whether the entailment is valid. Justify your answer with precise logical reasoning.
-+ If invalid, construct a concrete countermodel: specify a domain $D$ and interpretations of $P$ and~$Q$ such that the left-hand side is true but the right-hand side is false.
-+ Provide a one-sentence semantic explanation: Why does this entailment hold or fail?
++ Determine whether this entailment is valid.
++ If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
 
 
 = Part IV: Proof Theory
 
 #Box[
-  A proof is a path through the forest of logic. \
-  Find the shortest path, and you find elegance.
+  Trurl and Klapaucius engineer proof systems. \
+  A proof is a path; the shortest path reveals elegance.
 ]
 
 
-== Problem 12: Resolution in the Clause Factory
+== Problem 12: The Clause Factory on Titan
 
-On Titan's automated *Clause Factory* --- a vast industrial facility dedicated to satisfiability analysis --- a noisy batcher has produced a clause-set flagged as "suspicious" by preliminary screening.
-The batch is forwarded to Tichy's desk for expert verification:
+At Titan's *Clause Factory*, a batcher produces a clause-set flagged as "suspicious":
 $
   { thin P or Q, quad not P or R, quad not Q or S, quad not R, quad not S thin }
 $
 
-The factory engineers fear the entire batch is defective (unsatisfiable), which would trigger a production halt and investigation into equipment calibration.
+Factory engineers fear the batch is defective (unsatisfiable).
 
-*Your task:*
-- Apply the Resolution rule iteratively to this clause-set, deriving the empty clause $square$.
-- Document each step: show the two parent clauses and the resulting resolvent.
-- Conclude and explain: Why does the derivation of the empty clause prove unsatisfiability?
+- Apply Resolution iteratively to derive the empty clause $square$.
+- Document each step: parent clauses → resolvent.
+- Why does deriving $square$ prove unsatisfiability?
 
 
-== Problem 13: Navigator's Fitch Drills
+== Problem 13: Navigator Training --- Natural Deduction
 
-The *Celestial Navigation Academy* requires all star-navigators to demonstrate mastery of formal propositional proof techniques. Tichy, as guest instructor, assigns the following tautologies for Fitch-style natural deduction.
-Each formula requires careful reasoning about implication, negation, and logical equivalence.
+At the *Celestial Navigation Academy*, Klapaucius teaches: "Every star-navigator must master Fitch-style natural deduction."
 
-For each formula:
+Prove each tautology:
 + $(A imply B) or (B imply A)$
 + $A imply (B imply A)$
 + $(not B imply not A) imply ((not B imply A) imply B)$
 + $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
 
-*Your task:*
-- Provide a concise Fitch-style natural deduction derivation for each formula, clearly marking all assumptions and inference rules.
-- For formula (1): Briefly analyze whether it is derivable intuitionistically, or whether it requires classical logic (e.g., Law of Excluded Middle).
-- For formula (4): This is the exportation law. Explain its significance.
+For each proof:
+- Provide a Fitch-style derivation, marking all assumptions and rules.
+- For (1): Is it derivable intuitionistically, or does it require classical logic?
+- For (4): This is the _exportation law_ --- why is its derivability essential?
 
 
-== Problem 14: Corrupted Proofs from the Archive
+== Problem 14: Restoring the Corrupted Proof Archive
 
-The *Galactic Archive's* proof repository has suffered catastrophic data corruption from a systems failure. Several historically important Fitch-style natural deduction proofs have been partially reconstructed, but gaps remain marked with $square$ boxes throughout the derivations.
-Your task is to restore these proofs to canonical form by identifying the missing formulae and justifications.
+The *Galactic Archive's* proof repository suffered data corruption. Several Fitch-style proofs have gaps marked with $square$ boxes. Fill in the missing formulae and justifications.
 
 #let BOX = {
   move(dy: 2pt, box(stroke: 1pt, width: 2em, height: 1em))
@@ -411,6 +377,8 @@ Your task is to restore these proofs to canonical form by identifying the missin
   ))
 ]
 
+Line 3 converts disjunction to negation. Line 4 applies modus tollens. What formula appears at step 4?
+
 *Proof 2 --- Contradiction and Negation:*
 
 #align(center)[
@@ -422,6 +390,8 @@ Your task is to restore these proofs to canonical form by identifying the missin
     (0, $not S$, BOX),
   ))
 ]
+
+Steps 3--4 derive contradictions; step 5 concludes a negation. Reconstruct the flow.
 
 *Proof 3 --- Disjunctive Elimination:*
 
@@ -437,108 +407,94 @@ Your task is to restore these proofs to canonical form by identifying the missin
   ))
 ]
 
+Disjunctive elimination: assume each disjunct (steps 2, 5), derive $P$ from each, conclude $P$. What formulas are assumed?
+
 
 = Part V: Advanced Challenges
 
 #Box[
-  For those who dare to venture beyond the curriculum. \
-  Extra credit awaits the bold.
+  Tichy, Pirx, and the constructors face their most demanding puzzles. \
+  Extra credit awaits those who venture beyond.
 ]
 
 
 == Problem 15: Tri-Constellation Agent Communications
 
-*Central Command* transmits to Tichy an intelligence summary concerning last week's communications among four field agents operating in the remote regions between the Tri-Constellation colonies: *Bilion*, *Stevok*, *Tomix*, and *Johnon*.
-Communications logs were partially encrypted and subsequently corrupted, but the following constraints were reconstructed by cryptanalysts:
+Captain Pirx analyzes communications among four field agents: *Bilion*, *Stevok*, *Tomix*, *Johnon*.
+Cryptanalysts reconstructed these constraints:
 
 #block(
   inset: (x: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  "If Bilion contacted Stevok, then Tomix did not contact Stevok.
-
-  Furthermore, Bilion contacted Stevok if and only if Johnon contacted at least one of them (Bilion or Stevok).
-
-  Additionally, if Johnon contacted Stevok, then Bilion did not contact Stevok."
+  - If Bilion contacted Stevok, then Tomix did not contact Stevok.
+  - Bilion contacted Stevok iff Johnon contacted at least one of them (Bilion or Stevok).
+  - If Johnon contacted Stevok, then Bilion did not contact Stevok.
 ]
 
-Let $C(x,y)$ denote the proposition "$x$ contacted $y$" (directional; not necessarily symmetric).
+Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
 
-*Your task:*
-+ Formalize all three constraints as propositional formulas using variables $C(x,y)$.
-+ Through logical analysis, identify a pair of agents who *must* have communicated (in at least one direction).
++ Formalize all three constraints.
++ Identify a pair who *must* have communicated.
 + Identify a pair who *definitively did not* communicate.
-+ Determine: Is there an agent who *necessarily* communicated with at least one other? Justify.
-+ Construct a truth-table or case analysis to support your conclusions.
++ Is there an agent who *necessarily* communicated with at least one other?
++ Construct a truth-table or case analysis supporting your conclusions.
 
 
 == Problem 16: Martians and Venusians on the Arithmetic Axis
 
-On the infinite *Arithmetic Axis* --- extending unbroken from point 1 to infinity --- every natural coordinate $n >= 1$ houses either a *Martian* or a *Venusian*, but never both.
-A renowned xenopsychologist, after decades of observation from orbital stations, publishes the following formal constraints on the population distribution:
+Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Martian* ($M_n$) or a *Venusian* ($V_n$), never both.
 
 #block(
   inset: (x: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  *Observation 1:* "No Martian tolerates having both neighbors also as Martians." \
-  (Formally: $forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1))$)
+  *Observation 1:* No Martian has both neighbors as Martians. \
+  ($forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1))$)
 
-  *Observation 2:* "Every Venusian demands at least one Martian neighbor." \
-  (Formally: $forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1))$)
+  *Observation 2:* Every Venusian has at least one Martian neighbor. \
+  ($forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1))$)
+
+  *Constraint 3:* If point 3 is Martian, all multiples of 3 are Martian. \
+  ($M_3 imply forall k. thin (3 | k imply M_k)$)
+
+  *Constraint 4 (false in this world):* If point 5 is Martian, some multiple of 3 is Martian. \
+  ($not(M_5 imply exists k. thin (3 | k and M_k))$)
 ]
 
-A subsequent transmission from the Martian political councils provides an encrypted addendum:
-- *Constraint 3:* "If point 3 houses a Martian, then every point divisible by 3 houses a Martian." \
-  (Formally: $M_3 imply forall k. thin (3 | k imply M_k)$)
-
-Finally, xenopsychologists intercept a statement and determine definitively that it is *false* within this world:
-- *Constraint 4 (negated):* "If point 5 houses a Martian, then there exists a point divisible by 3 that houses a Martian." \
-  (Formally: $not(M_5 imply exists k. thin (3 | k and M_k))$)
-
-*Your task:*
-+ Explain: What does the negation of Constraint 4 logically entail?
-+ Given that exactly five Martians inhabit the axis, determine their positions uniquely.
-+ Must point 1 house a Martian? Provide rigorous justification.
-+ Formulate a general descriptive rule governing the inhabitant type at any point $n$.
++ What does negating Constraint 4 logically entail?
++ If exactly five Martians exist, determine their positions.
++ Must point 1 be Martian?
++ Formulate a general rule for inhabitant type at point $n$.
++ What global structure emerges from local constraints?
 
 
-== Problem 17: Da, Ja, and the Three Algorithmic Gods
+== Problem 17: The Three Algorithmic Gods
 
-On a forgotten island shrouded in gravitational anomalies, Tichy discovers three ancient AIs — monuments to a civilization's attempt to encode pure reason into physical substrate.
-These entities communicate only through two utterances: *"da"* and *"ja"* --- one signifies affirmation, the other negation, but the encoding is deliberately obscured.
+On a forgotten island, Tichy discovers three AIs from a lost civilization.
+They answer only *"da"* or *"ja"* --- one means yes, one means no, but the encoding is unknown.
 
-*Specification:*
-- One AI is programmed to always speak truthfully (*Truth*).
-- One is programmed to always lie (*Falsehood*).
-- One operates under a randomization protocol (*Random*), responding affirmatively or negatively with equal probability.
+- *Truth*: always speaks truthfully
+- *Falsehood*: always lies
+- *Random*: responds probabilistically
 
-Tichy is granted exactly *three yes/no questions*, each directed to one AI of his choosing. Based solely on the pattern of responses, he must identify which AI is which.
-The challenge is compounded: he does not know which language maps to which truth value.
+Tichy may ask exactly *three yes/no questions*, each to one AI. He must identify all three.
 
-*Your task:*
-+ Design three concrete yes/no questions (state them in natural language) such that Tichy can uniquely identify each AI's role, regardless of which word means "yes" and regardless of Random's probabilistic choices.
++ Design three questions that identify each AI regardless of which word means "yes" and regardless of Random's choices.
 
-+ Provide a detailed explanation of the logical principle that makes these questions robust.
-  Why~does your strategy succeed despite the language ambiguity and randomness?
++ Explain the logical principle making your strategy robust.
 
-+ For your three questions, construct an exhaustive decision tree or truth table showing:
-  - The response pattern (da or ja) from each AI for each question.
-  - How the response patterns uniquely identify Truth, Falsehood, and Random.
-  - Why no other configuration of AIs could produce the same response sequence.
++ Construct a decision tree showing response patterns and unique identification.
 
-_Hint:_ Consider designing questions where the truth-value of the statement is independent of what "da" means --- i.e., questions that yield consistent answers across both language interpretations. Also consider questions about the other AIs' characteristics.
++ What does this puzzle reveal about self-reference, negation, and logical identification?
+
+_Hint:_ Design questions whose truth-value is independent of what "da" means --- yielding consistent answers across both interpretations.
 
 
 #line(length: 100%, stroke: 0.4pt)
 
-*Submission Guidelines:*
-- Organize solutions clearly with problem numbers and parts.
-- For proofs: State assumptions, show logical steps, and clearly mark conclusions.
+*Submission:* Organize solutions clearly. State assumptions, show steps, mark conclusions.
 
-*Grading Rubric:*
-- Correctness of symbolizations and proofs: 50%
-- Logical rigor and clarity of reasoning: 30%
-- Completeness and attention to detail: 20%
+*Grading:* Correctness 50% · Logical rigor 30% · Completeness 20%
