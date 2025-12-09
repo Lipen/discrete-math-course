@@ -603,36 +603,32 @@
   - ${P or Q, not P} models Q$ (disjunctive syllogism)
 ]
 
-#theorem[Semantic Deduction Theorem][
+== Semantic Deduction Theorem
+
+#theorem[
   $Gamma union {phi} models psi$ if and only if $Gamma models phi imply psi$
 
-  _Special case:_ ${phi} models psi$ iff $models phi imply psi$
+  *Special case:* ${phi} models psi$ $thin$ iff $thin$ $models phi imply psi$
 ]
 
 #note[
-  The deduction theorem connects entailment with implication: to show that premises entail a conclusion, we can equivalently show that the conjunction of premises implies the conclusion.
+  The deduction theorem connects _entailment_ with _implication_: to show that premises entail a conclusion, we can equivalently show that the conjunction of premises implies the conclusion.
 ]
-
-== Proof of Deduction Theorem
 
 #proof[($arrow.r.double$)][
   Assume $Gamma union {phi} models psi$.
 
-  For any interpretation $nu$, if $Eval(chi) = True$ for all $chi in Gamma$ and $Eval(phi) = True$, then $Eval(psi) = True$.
-
-  Therefore, if $Eval(chi) = True$ for all $chi in Gamma$, then whenever $Eval(phi) = True$, we have $Eval(psi) = True$.
-
-  This means $Eval(phi imply psi) = True$ under all interpretations satisfying $Gamma$, so $Gamma models phi imply psi$.
+  - For any interpretation $nu$, if $Eval(chi) = True$ for all $chi in Gamma$ and $Eval(phi) = True$, then $Eval(psi) = True$.
+  - Therefore, if $Eval(chi) = True$ for all $chi in Gamma$, then whenever $Eval(phi) = True$, we have $Eval(psi) = True$.
+  - This means $Eval(phi imply psi) = True$ under all interpretations satisfying $Gamma$, so $Gamma models phi imply psi$. #qedhere
 ]
 
 #proof[($arrow.l.double$)][
   Assume $Gamma models phi imply psi$.
 
-  For any interpretation $nu$, if $Eval(chi) = True$ for all $chi in Gamma$, then $Eval(phi imply psi) = True$.
-
-  If also $Eval(phi) = True$, then by the definition of implication, $Eval(psi) = True$.
-
-  Thus, whenever all formulas in $Gamma union {phi}$ are true, so is $psi$, hence $Gamma union {phi} models psi$.
+  - For any interpretation $nu$, if $Eval(chi) = True$ for all $chi in Gamma$, then $Eval(phi imply psi) = True$.
+  - If also $Eval(phi) = True$, then by the definition of implication, $Eval(psi) = True$.
+  - Thus, whenever all formulas in $Gamma union {phi}$ are true, so is $psi$, hence $Gamma union {phi} models psi$. #qedhere
 ]
 
 
