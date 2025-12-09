@@ -553,6 +553,8 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
 )
 
 
+#pagebreak()
+
 = Chapter V: Advanced Challenges
 
 #Box[
