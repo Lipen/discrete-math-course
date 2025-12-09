@@ -67,6 +67,17 @@
   ]
 ]
 
+// Fancy block
+#let Block(body, ..args) = {
+  block(
+    body,
+    inset: (x: 1em),
+    stroke: (left: 3pt + gray),
+    outset: (y: 3pt, left: -3pt),
+    ..args,
+  )
+}
+
 
 #Box(align: right)[
   #set text(fill: blue.darken(20%))
@@ -77,11 +88,7 @@
   ]
 ]
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   The cosmos, as Stanisław Lem's heroes have discovered, is full of logical puzzles.
 
   In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal reasoning challenges that challenge even the ingenious constructors Trurl and Klapaucius.
@@ -146,11 +153,7 @@ For each dispatch: symbolize the argument, determine validity via truth table, a
 
 At Orbital Station Cygnus-7, Ijon Tichy visits the *Emporium of Synthetic Companions*, where the proprietor Minik enforces strict regulations on robotic pet purchases:
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   *Regulation 1:* If you purchase exactly one of the Giraffoid or Elephandroid, you must also purchase a Simianoid. (Solitary mega-fauna develop existential melancholy.)
 
   *Regulation 2:* Neither the Elephandroid nor the Simianoid may be purchased unless the Giraffoid is also purchased. (The Giraffoid serves as social anchor.)
@@ -205,11 +208,7 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 At the Interstellar Navigation Academy, a scandal erupts: a *Quantum Cheat-Leaf* (a banned mnemonic device) is discovered near the examination hall.
 Tichy interrogates three cadets who took the same exam.
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   *Ivanko:* "I didn't use it. Sidorik used it. Petryn used it too."
 
   *Petryn:* "Ivanko used it. I didn't use it. About Sidorik, I cannot say."
@@ -231,11 +230,7 @@ Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
 
 Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by interviewing three crew members.
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   - *Knyazev* gives an initial testimony.
   - *Faraonov* says: "Knyazev's testimony is false."
   - *Tsaryov* states: "Faraonov is lying."
@@ -262,10 +257,13 @@ Can you identify which person (if any) is a knight?
 Dr. Arkonada discovers three vaults in the Solaric Archives: Gold, Silver, and Lead.
 One contains the legendary *Crystallized Theorem*, the others are empty.
 Each vault bears an inscription:
+#Block[
+  *Gold vault*: "The Theorem is not here."
 
-- *Gold vault*: "The Theorem is not here."
-- *Silver vault*: "The Theorem is in the Gold vault."
-- *Lead vault*: "The Theorem is here."
+  *Silver vault*: "The Theorem is in the Gold vault."
+
+  *Lead vault*: "The Theorem is here."
+]
 
 Ancient texts warn: "You cannot trust all the inscriptions, nor can you dismiss them entirely."
 
@@ -320,12 +318,8 @@ Tichy arrives at Echoworld, a planet of perfect symmetry where every fact about 
 A vast archive records which travelers have visited which worlds.
 Tichy must decode the archive's formal notation.
 
-*Predicates over the domain "all planets and travelers":*
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+Predicates over the domain "all planets and travelers":
+#Block[
   - $P(x)$: "$x$ is a planet"
   - $I(x)$: "$x$ is inhabited"
   - $V(x, y)$: "$x$ has visited $y$"
@@ -348,11 +342,7 @@ Translate each English statement into FOL.
 The archive contains two interpretations of "Only inhabited planets are worth visiting."
 
 The Archive Keeper and her assistant disagree on which is correct:
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   *Keeper:* $forall x . thin (I(x) imply W(x))$
 
   *Assistant:* $forall x . thin (W(x) imply I(x))$
@@ -366,11 +356,7 @@ Explain why the difference matters in practice.
 
 Two ancient inscriptions appear in the archive, each describing a different visitation pattern.
 Translate them to English, paying close attention to how quantifier order changes the meaning:
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   *Inscription A:* $exists x forall y . thin V(y, x)$
 
   *Inscription B:* $forall x exists y . thin V(y, x)$
@@ -573,11 +559,7 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 
 === Chamber 1: The Disjunction
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   _Constraint:_ Exactly one inscription is true, and exactly one is false.
 
   *Door A:* "In this room there is a lady, and in the other room there is a tiger."
@@ -587,11 +569,7 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 
 === Chamber 2: The Conjunction
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
 
   *Door A:* "At least one of these rooms contains a lady."
@@ -601,11 +579,7 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 
 === Chamber 3: The Implication
 
-#block(
-  inset: (left: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
 
   *Door A:* "If there is no tiger in this room, then there is a lady in the other room."
@@ -619,11 +593,7 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 Captain Pirx analyzes communications among four field agents: *Bilion*, *Stevok*, *Tomix*, *Johnon*.
 Cryptanalysts reconstructed these constraints:
 
-#block(
-  inset: (x: 1em),
-  stroke: (left: 3pt + gray),
-  outset: (y: 3pt, left: -3pt),
-)[
+#Block[
   - If Bilion contacted Stevok, then Tomix did not contact Stevok.
   - Bilion contacted Stevok iff Johnon contacted at least one of them (Bilion or Stevok).
   - If Johnon contacted Stevok, then Bilion did not contact Stevok.
