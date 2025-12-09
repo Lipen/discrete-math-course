@@ -582,17 +582,17 @@ Astronaut Marek observes a lattice where each point $n >= 1$ houses either a *Ma
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
-  *Observation 1:* No Martian has both neighbors as Martians. \
-  ($forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1))$)
+  *Observation 1:* No Martian has both neighbors as Martians.
+  $ forall n >= 2. thin M_n imply not(M_(n-1) and M_(n+1)) $
 
-  *Observation 2:* Every Venusian has at least one Martian neighbor. \
-  ($forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1))$)
+  *Observation 2:* Every Venusian has at least one Martian neighbor.
+  $ forall n >= 2. thin V_n imply (M_(n-1) or M_(n+1) $
 
-  *Constraint 3:* If point 3 is Martian, all multiples of 3 are Martian. \
-  ($M_3 imply forall k. thin (3 | k imply M_k)$)
+  *Constraint 3:* If point 3 is Martian, all multiples of 3 are Martian.
+  $ M_3 imply forall k. thin ((3 divides k) imply M_k) $
 
-  *Constraint 4 (false in this world):* If point 5 is Martian, some multiple of 3 is Martian. \
-  ($not(M_5 imply exists k. thin (3 | k and M_k))$)
+  *Constraint 4 (#False in this world):* If point 5 is Martian, some multiple of 3 is Martian.
+  $ not(M_5 imply exists k. thin ((3 divides k) and M_k)) $
 ]
 
 + What does negating Constraint 4 logically entail?
