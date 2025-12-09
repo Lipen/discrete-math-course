@@ -417,16 +417,16 @@ Determine whether this entailment is valid.
 
 == Problem 14: The Clause Factory on Titan
 
-At Titan's *Clause Factory*, a batcher produces a clause-set flagged as "suspicious":
+At Titan's *Clause Factory*, a massive automated production facility manufactures logical proofs by resolution.
+The factory's quality control system has flagged a batch of clauses as "suspicious" --- the engineers suspect the batch may be *unsatisfiable*.
+
 $
   { thin P or Q, quad not P or R, quad not Q or S, quad not R, quad not S thin }
 $
 
-Factory engineers fear the batch is defective (unsatisfiable).
-
-- Apply Resolution iteratively to derive the empty clause $square$.
-- Document each step: parent clauses → resolvent.
-- Why does deriving $square$ prove unsatisfiability?
++ Apply the resolution rule iteratively and derive the empty clause $square$.
++ Present your derivation as a proof tree.
++ Explain why deriving the empty clause confirms unsatisfiability.
 
 
 == Problem 15: Navigator Training --- Natural Deduction
