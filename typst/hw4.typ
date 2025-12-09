@@ -509,54 +509,45 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 
 === Chamber 1: The Disjunction
 
-_Constraint:_ Exactly one inscription is true, and exactly one is false.
-
 #block(
   inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
+  _Constraint:_ Exactly one inscription is true, and exactly one is false.
+
   *Door A:* "In this room there is a lady, and in the other room there is a tiger."
 
   *Door B:* "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
 ]
 
-+ Translate both inscriptions into propositional formulas.
-+ Determine what lies behind each door.
-
 === Chamber 2: The Conjunction
-
-_Constraint:_ Both inscriptions have the same truth value (either both true or both false).
 
 #block(
   inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
+  _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
+
   *Door A:* "At least one of these rooms contains a lady."
 
   *Door B:* "A tiger is behind the other room."
 ]
 
-+ Translate both inscriptions into propositional formulas.
-+ Determine what lies behind each door.
-
 === Chamber 3: The Implication
-
-_Constraint:_ Both inscriptions have the same truth value (either both true or both false).
 
 #block(
   inset: (left: 1em),
   stroke: (left: 3pt + gray),
   outset: (y: 3pt, left: -3pt),
 )[
+  _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
+
   *Door A:* "If there is no tiger in this room, then there is a lady in the other room."
 
   *Door B:* "A lady is in the other room."
 ]
-
-+ Translate both inscriptions into propositional formulas.
-+ Determine what lies behind each door.
 
 
 == Problem 18: Tri-Constellation Agent Communications
