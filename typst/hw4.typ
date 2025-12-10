@@ -332,14 +332,12 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 Trurl and Klapaucius build a cataloging system for the Galactic Archives.
 They define predicates over the domain of _all software_: $O(x)$ means "$x$ is open-source", $B(x)$ means "$x$ is buggy", and $U(x,y)$ means "$x$ uses $y$."
 
-+ Translate into first-order logic:
-  - "Some open-source software is not buggy."
-  - "All buggy software uses some open-source software."
-  - "There exists a piece of software that uses all open-source software."
+Translate into first-order logic:
++ "Some open-source software is not buggy."
++ "All buggy software uses some open-source software."
++ "There exists a piece of software that uses all open-source software."
 
-+ For each formula:
-  - Construct a small finite model satisfying it.
-  - Which formula(s) require an existential witness that persists when the domain expands?
+For each formula, construct a small finite model satisfying it.
 
 
 == Problem 11: The Theorem-Printer's Corruption
@@ -350,7 +348,18 @@ $
   forall x exists y . thin (P(x) imply Q(x,y))
 $
 
-To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim --- i.e., compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
+=== Part 1: Negation and Prenex Form
+
+To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim.
+Compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
+
+=== Part 2: Satisfiability Analysis
+
++ Is the original formula satisfiable?
+  Provide a model, or argue why none exists.
++ Is its negation satisfiable?
+  Provide a model, or argue why none exists.
++ What does this tell you about the relationship between the two formulas?
 
 
 == Problem 12: Challenging the Theorem-Printer
@@ -367,6 +376,7 @@ Klapaucius is skeptical: "Universal quantification distributes over disjunction?
 Determine whether this entailment is valid.
 - If valid, provide a formal proof.
 - If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
+
 
 #pagebreak()
 
