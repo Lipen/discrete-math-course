@@ -278,18 +278,46 @@ Ancient texts warn: "You cannot trust all the inscriptions, nor can you dismiss 
   Under this constraint, determine which vault must contain the Theorem, and prove your answer.
 
 
-== Problem 9: The Three Archived Minds
+== Problem 9: The Logician's Vault --- Lady or Tiger?
 
-Tichy arrives at the *Interstellar Bureau of Statistics* on Drabno, where three archivists guard the vault containing all census data.
-Three archivists: Arkas, Bronda, and Carpus --- one always tells the truth, one always lies, and one answers randomly.
+Ijon Tichy has infiltrated the *Logician's Vault*, an automated security complex guarding three sequential chambers.
+To escape, he must pass each trial by deducing what lies behind sealed doors.
+Behind any door waits either a lady or a tiger.
+Each door bears an inscription --- a logical statement claiming facts about the contents of both doors.
+The vault announces a constraint specifying the relationship between the truth values of these two inscriptions.
 
-They respond in an ancient language: *da* and *ja* mean yes and no --- but which is which? Unknown.
+For each chamber, Tichy must: translate the inscriptions into propositional logic, apply the constraint, and determine definitively what lies behind each door.
 
-Tichy has exactly three yes/no questions (one per archivist) to identify which archivist is which, and to decode the language.
-Design your three questions, specify whom you would ask each one, and show (via case analysis or decision tree) that your questions uniquely determine all identities and the meaning of *da* and *ja*.
+=== Chamber 1: The Disjunction
 
+#Block[
+  _Constraint:_ Exactly one inscription is true, and exactly one is false.
 
-#pagebreak()
+  *Door A:* "In this room there is a lady, and in the other room there is a tiger."
+
+  *Door B:* "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
+]
+
+=== Chamber 2: The Conjunction
+
+#Block[
+  _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
+
+  *Door A:* "At least one of these rooms contains a lady."
+
+  *Door B:* "A tiger is behind the other room."
+]
+
+=== Chamber 3: The Implication
+
+#Block[
+  _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
+
+  *Door A:* "If there is no tiger in this room, then there is a lady in the other room."
+
+  *Door B:* "A lady is in the other room."
+]
+
 
 = Chapter III: First-Order Logic
 
@@ -537,52 +565,3 @@ The *Galactic Archive's* proof repository suffered data corruption. Several Fitc
     )
   ],
 )
-
-
-#pagebreak()
-
-= Chapter V: Advanced Challenges
-
-#Box[
-  The hardest puzzles reveal the deepest logical truths.
-]
-
-== Problem 17: The Logician's Vault --- Lady or Tiger?
-
-Ijon Tichy has infiltrated the *Logician's Vault*, an automated security complex guarding three sequential chambers.
-To escape, he must pass each trial by deducing what lies behind sealed doors.
-Behind any door waits either a lady or a tiger.
-Each door bears an inscription --- a logical statement claiming facts about the contents of both doors.
-The vault announces a constraint specifying the relationship between the truth values of these two inscriptions.
-
-For each chamber, Tichy must: translate the inscriptions into propositional logic, apply the constraint, and determine definitively what lies behind each door.
-
-=== Chamber 1: The Disjunction
-
-#Block[
-  _Constraint:_ Exactly one inscription is true, and exactly one is false.
-
-  *Door A:* "In this room there is a lady, and in the other room there is a tiger."
-
-  *Door B:* "In one of these rooms there is a lady, and in one of these rooms there is a tiger."
-]
-
-=== Chamber 2: The Conjunction
-
-#Block[
-  _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
-
-  *Door A:* "At least one of these rooms contains a lady."
-
-  *Door B:* "A tiger is behind the other room."
-]
-
-=== Chamber 3: The Implication
-
-#Block[
-  _Constraint:_ Both inscriptions have the same truth value (either both true or both false).
-
-  *Door A:* "If there is no tiger in this room, then there is a lady in the other room."
-
-  *Door B:* "A lady is in the other room."
-]
