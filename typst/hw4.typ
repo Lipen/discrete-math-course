@@ -170,7 +170,7 @@ Minik replies: "Excellent. Then we shall certainly sell you either the Elephandr
 
 Ijon Tichy mediates a constitutional crisis on the *Galactic Council*.
 Five member worlds --- Alderan, Betelgeuse, Centauri, Deneb, and Eridani --- must adopt a new voting protocol.
-Their automated legal verification system accepts only CNF formulas for constraint checking.
+Their automated legal verification system uses symbolic constraint solving: all political rules must be expressed in CNF (conjunctive normal form) so the system can check whether any legal configuration is possible.
 
 Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
@@ -204,8 +204,10 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
 == Problem 5: The Quantum Cheat-Leaf Affair
 
-At the Interstellar Navigation Academy, a scandal erupts: a *Quantum Cheat-Leaf* (a banned mnemonic device) is discovered near the examination hall.
-Tichy interrogates three cadets who took the same exam.
+A *Quantum Cheat-Leaf* is discovered near the exam hall at the Interstellar Navigation Academy.
+Tichy must identify the cheater by logical deduction alone: the Academy forbids punishment without proof, yet allowing cheaters to graduate is equally fatal.
+
+Three cadets were interrogated:
 
 #Block[
   *Ivanko:* "I didn't use it. Sidorik used it. Petryn used it too."
@@ -216,41 +218,40 @@ Tichy interrogates three cadets who took the same exam.
 ]
 
 Later, the cadets confess privately: "One of us told the complete truth. One made exactly one true statement. One lied in every statement."
+They refused to reveal who was who.
 
-Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
-
-+ Formalize Ivanko's and Petryn's testimonies.
-+ Is it certain that someone used the Cheat-Leaf?
-  Can you identify who?
++ Formalize each cadet's statements in propositional logic.
++ Can you identify who used Cheat-Leaf?
 + Which cadet told the complete truth?
 
 
 == Problem 6: The Contradictory Cosmonauts
 
-Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by interviewing three crew members.
+The *Asymptote* suffered a catastrophic reactor failure.
+Three crew members --- Knyazev (engineer), Faraonov (chief technician), and Tsaryov (safety officer) --- were on duty.
+Tichy interrogates them to reconstruct the events leading to the disaster.
 
 #Block[
-  - *Knyazev* gives an initial testimony $K$.
-  - *Faraonov* says: "Knyazev's testimony is false."
-  - *Tsaryov* states: "Faraonov is lying."
-  - *Knyazev* (called back) adds: "Both Faraonov and Tsaryov lied."
+  - *Knyazev* gives an initial testimony $K$ (content unknown)
+  - *Faraonov* responds: "Knyazev's testimony is false."
+  - *Tsaryov* adds: "Faraonov is lying."
+  - *Knyazev* (called again) asserts: "Both Faraonov and Tsaryov lied."
 ]
 
-_Note:_ The content of $K$ is unknown --- treat it as a propositional variable.
+_Note:_ Treat $K$ as an atomic propositional variable whose truth value is unspecified.
 
-+ Formalize all four statements.
-+ Find all consistent truth assignments.
-+ Which statements are forced to be true or false? Which remain undetermined?
++ Formalize all four statements as propositional formulas.
++ Find _all_ consistent truth assignments (valuations) for the four claims.
++ Identify which statements are _logically forced_ (must have a fixed truth value in every consistent assignment), and which remain _undetermined_.
 
 
 == Problem 7: The Council Chamber Paradox
 
-Ijon Tichy arrives at an island where inhabitants belong to two castes: *Knights* who always speak truth, and *Knaves* who always lie.
-In a council chamber, someone stands up and says: "Everyone else in this chamber is a knave."
-Immediately, each other person in the room repeats the exact same statement: "Everyone else in this chamber is a knave."
+Tichy arrives on Barbaria, a planet where inhabitants are born into two castes: *Knights* (who always speak truth) and *Knaves* (who always lie).
+In a high council chamber, where delegates debate critical trade agreements, one member rises and declares: _"Everyone else in this chamber is a knave!"_
+Immediately, each other person repeats the same: "Everyone else in this chamber is a knave."
 
-How many knights are in the chamber?
-Can you identify which person (if any) is a knight?
+Tichy is genuinely puzzled: *How many knights are in the chamber?*
 
 
 == Problem 8: Arkonada and the Solaric Vaults
