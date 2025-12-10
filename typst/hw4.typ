@@ -105,7 +105,7 @@
 Captain Pirx is dispatched to Enteropia, where the High Council governs through bureaucratic proclamations that must remain logically consistent --- lest reality itself unravel.
 The Council needs Pirx to verify four batches of decrees before they become law.
 
-For each set, determine whether the decrees are *jointly satisfiable*.
+For each set, determine whether the decrees are _jointly satisfiable_.
 If consistent, provide a satisfying truth assignment; if not, identify the contradiction.
 
 #tasklist("prob1", cols: 2)[
@@ -179,7 +179,7 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
   Count the resulting clauses.
 
 + *Opposition safeguard:*
-  To prevent tyranny by dissenters, the Council imposes a stricter constraint: no *single world* may block a proposal.
+  To prevent tyranny by dissenters, the Council imposes a stricter constraint: _no single world_ may block a proposal.
   Formalize and encode "at most 1 world votes no" in CNF.
   Count the resulting clauses.
 
@@ -498,8 +498,8 @@ $
 
 === Part 1: Negation and Prenex Form
 
-To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim.
-Compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
+To reconstruct the machine's reasoning system, engineers need to understand what would _refute_ this claim.
+Compute its *logical negation* in _prenex normal form_ (quantifier prefix first, then quantifier-free matrix).
 
 === Part 2: Satisfiability Analysis
 
