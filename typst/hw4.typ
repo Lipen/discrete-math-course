@@ -106,7 +106,7 @@ Captain Pirx is dispatched to Enteropia, where the High Council governs through 
 The Council needs Pirx to verify four batches of decrees before they become law.
 
 For each set, determine whether the decrees are _jointly satisfiable_.
-If consistent, provide a satisfying truth assignment; if not, identify the contradiction.
+If so, provide a satisfying truth assignment; if not, identify the contradiction.
 
 #tasklist("prob1", cols: 2)[
   + ${ not D, (D or F), not F }$
@@ -154,16 +154,20 @@ For each dispatch: symbolize the argument, determine validity via truth table, a
 At Orbital Station Cygnus-7, Ijon Tichy visits the *Emporium of Synthetic Companions*, where the proprietor Minik enforces strict regulations on robotic pet purchases:
 
 #Block[
-  *Regulation 1:* If you purchase exactly one of the Giraffoid or Elephandroid, you must also purchase a Simianoid. (Solitary mega-fauna develop existential melancholy.)
+  *Regulation 1:*
+  If you purchase exactly one of the Giraffoid or Elephandroid, you must also purchase a Simianoid.
+  (Solitary mega-fauna develop existential melancholy.)
 
-  *Regulation 2:* Neither the Elephandroid nor the Simianoid may be purchased unless the Giraffoid is also purchased. (The Giraffoid serves as social anchor.)
+  *Regulation 2:*
+  Neither the Elephandroid nor the Simianoid may be purchased unless the Giraffoid is also purchased.
+  (The Giraffoid serves as social anchor.)
 ]
 
 A customer named Mestorf announces: "We'll take all three."
 
 Minik replies: "Excellent. Then we shall certainly sell you either the Elephandroid or the Giraffoid."
 
-*Question:* How many companions were actually purchased?
+How many companions were actually purchased?
 
 
 == Problem 4: Voting Protocol
@@ -179,7 +183,7 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
   Count the resulting clauses.
 
 + *Opposition safeguard:*
-  To prevent tyranny by dissenters, the Council imposes a stricter constraint: _no single world_ may block a proposal.
+  To prevent tyranny by dissenters, the Council imposes a stricter constraint: no _single world_ may block a proposal.
   Formalize and encode "at most 1 world votes no" in CNF.
   Count the resulting clauses.
 
@@ -189,7 +193,8 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
 + *Efficient cardinality encoding:*
   The verification system struggles with the growing number of clauses from the encodings above.
-  Generalize: design a compact encoding for "at least $k$ of $n$ variables are true, and at most $m$ are true" (where $k <= m$) using auxiliary variables. \
+  Generalize: design a compact encoding for "at least $k$ of $n$ variables are true, and at most $m$ are true" (where $k <= m$) using auxiliary variables.
+
   For the Council case ($n=5, k=3, m=4$), count your encoding's clauses versus naive CNF.
   What architectural trade-off emerges between encoding size and solver efficiency?
 
@@ -260,11 +265,11 @@ Dr. Arkonada discovers three vaults in the Solaric Archives: Gold, Silver, and L
 One contains the legendary *Crystallized Theorem*, the others are empty.
 Each vault bears an inscription:
 #Block[
-  *Gold vault*: "The Theorem is not here."
+  *Gold vault:* "The Theorem is not here."
 
-  *Silver vault*: "The Theorem is in the Gold vault."
+  *Silver vault:* "The Theorem is in the Gold vault."
 
-  *Lead vault*: "The Theorem is here."
+  *Lead vault:* "The Theorem is here."
 ]
 
 Ancient texts warn: "You cannot trust all the inscriptions, nor can you dismiss them entirely."
@@ -332,7 +337,7 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 == Problem 10: The Clause Factory on Titan
 
 At Titan's *Clause Factory*, a massive automated production facility manufactures logical proofs by resolution.
-The factory's quality control system has flagged a batch of clauses as "suspicious" --- the engineers suspect the batch may be *unsatisfiable*.
+The factory's quality control system has flagged a batch of clauses as "suspicious" --- the engineers suspect the batch may be _unsatisfiable_.
 
 $
   { thin P or Q, quad not P or R, quad not Q or S, quad not R, quad not S thin }
@@ -499,7 +504,7 @@ $
 === Part 1: Negation and Prenex Form
 
 To reconstruct the machine's reasoning system, engineers need to understand what would _refute_ this claim.
-Compute its *logical negation* in _prenex normal form_ (quantifier prefix first, then quantifier-free matrix).
+Compute its _logical negation_ in _prenex normal form_ (quantifier prefix first, then quantifier-free matrix).
 
 === Part 2: Satisfiability Analysis
 
@@ -578,6 +583,6 @@ Translate them to English, paying close attention to how quantifier order change
   *Inscription B:* $forall x exists y . thin V(y, x)$
 ]
 
-Which inscription describes a planet so famous that *all* travelers have visited it?
-Which describes a weaker property: that every traveler has visited *at least one* planet?
-Prove that one logically implies the other, but not vice versa.
++ Which inscription describes a planet so famous that _all_ travelers have visited it?
++ Which describes a weaker property: that every traveler has visited _at least one_ planet?
++ Prove that one logically implies the other, but not vice versa.
