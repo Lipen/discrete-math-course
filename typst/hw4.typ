@@ -342,7 +342,35 @@ They define predicates over the domain of _all software_: $O(x)$ means "$x$ is o
   - Which formula(s) require an existential witness that persists when the domain expands?
 
 
-== Problem 11: The Census of Echoworld
+== Problem 11: The Theorem-Printer's Corruption
+
+A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
+Before failure, it logged this formula as a fundamental truth:
+$
+  forall x exists y . thin (P(x) imply Q(x,y))
+$
+
+To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim --- i.e., compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
+
+
+== Problem 12: Challenging the Theorem-Printer
+
+Once restored, the Theorem-Printer outputs an entailment:
+$
+  forall x . thin (P(x) or Q(x))
+  quad proves quad
+  (forall x . thin P(x)) or (forall x . thin Q(x))
+$
+
+Klapaucius is skeptical: "Universal quantification distributes over disjunction?"
+
+Determine whether this entailment is valid.
+- If valid, provide a formal proof.
+- If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
+
+#pagebreak()
+
+== Problem 13: The Census of Echoworld
 
 Tichy arrives at Echoworld, a planet of perfect symmetry where every fact about visitation is precisely documented.
 A vast archive records which travelers have visited which worlds.
@@ -395,33 +423,6 @@ Translate them to English, paying close attention to how quantifier order change
 Which inscription describes a planet so famous that *all* travelers have visited it?
 Which describes a weaker property: that every traveler has visited *at least one* planet?
 Prove that one logically implies the other, but not vice versa.
-
-
-== Problem 12: The Theorem-Printer's Corruption
-
-A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
-Before failure, it logged this formula as a fundamental truth:
-$
-  forall x exists y . thin (P(x) imply Q(x,y))
-$
-
-To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim --- i.e., compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
-
-
-== Problem 13: Challenging the Theorem-Printer
-
-Once restored, the Theorem-Printer outputs an entailment:
-$
-  forall x . thin (P(x) or Q(x))
-  quad proves quad
-  (forall x . thin P(x)) or (forall x . thin Q(x))
-$
-
-Klapaucius is skeptical: "Universal quantification distributes over disjunction?"
-
-Determine whether this entailment is valid.
-- If valid, provide a formal proof.
-- If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
 
 
 #pagebreak()
