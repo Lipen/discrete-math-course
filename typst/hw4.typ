@@ -91,7 +91,7 @@
 #Block[
   The cosmos, as Stanisław Lem's heroes have discovered, is full of logical puzzles.
 
-  In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal reasoning challenges that challenge even the ingenious constructors Trurl and Klapaucius.
+  In this assignment, you encounter problems that arise from their adventures: logical contradictions that plague Captain Pirx, truth-telling paradoxes that confound Ijon Tichy, and formal conundrums that perplex even the ingenious constructors Trurl and Klapaucius.
 ]
 
 = Chapter I: Propositional Foundations
@@ -200,7 +200,7 @@ Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 = Chapter II: Truth-Tellers and Liars
 
 #Box[
-  Identity and consistency are two different constraints.
+  A liar who claims to lie speaks truth --- and therein lies the trap.
 ]
 
 == Problem 5: The Quantum Cheat-Leaf Affair
@@ -231,11 +231,13 @@ Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
 Aboard the research vessel *Asymptote*, Tichy investigates a reactor incident by interviewing three crew members.
 
 #Block[
-  - *Knyazev* gives an initial testimony.
+  - *Knyazev* gives an initial testimony $K$.
   - *Faraonov* says: "Knyazev's testimony is false."
   - *Tsaryov* states: "Faraonov is lying."
-  - *Knyazev* (called again) adds: "Both Faraonov and Tsaryov lied."
+  - *Knyazev* (called back) adds: "Both Faraonov and Tsaryov lied."
 ]
+
+_Note:_ The content of $K$ is unknown --- treat it as a propositional variable.
 
 + Formalize all four statements.
 + Find all consistent truth assignments.
@@ -391,7 +393,8 @@ Translate them to English, paying close attention to how quantifier order change
 ]
 
 Which inscription describes a planet so famous that *all* travelers have visited it?
-Which describes a weaker property: that each traveler has visited *at least one* planet?
+Which describes a weaker property: that every traveler has visited *at least one* planet?
+Prove that one logically implies the other, but not vice versa.
 
 
 == Problem 12: The Theorem-Printer's Corruption
@@ -445,7 +448,8 @@ $
 
 == Problem 15: The Proof Certification Academy
 
-Every star-navigator must master Fitch-style natural deduction to validate ship systems and critical decisions in deep space.
+At the *Proof Certification Academy*, every star-navigator must master Fitch-style natural deduction before being licensed to validate ship systems.
+"A navigator who cannot prove," the instructors intone, "cannot navigate."
 Prove each tautology below using natural deduction.
 
 + $(A imply B) or (B imply A)$
@@ -457,7 +461,9 @@ Prove each tautology below using natural deduction.
 
 == Problem 16: Restoring the Corrupted Proof Archive
 
-The *Galactic Archive's* proof repository suffered data corruption. Several Fitch-style proofs have gaps marked with $square$ boxes. Fill in the missing formulae and justifications.
+A cosmic ray has struck the *Galactic Archive's* proof repository, corrupting several derivations mid-flight.
+The archivists have recovered partial proofs with gaps marked by $square$ boxes.
+Fill in the missing formulae and justifications to restore each proof to its former glory.
 
 #let BOX = {
   move(dy: 2pt, box(stroke: 1pt, width: 2em, height: 1em))
