@@ -985,7 +985,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 #Block[
   So far we've studied _semantics_ --- what formulas _mean_ in terms of truth values.
 
-  Now we turn to _syntax_ --- how to _prove_ formulas using purely symbolic manipulation.
+  Now we turn back to _syntax_ --- how to _prove_ formulas using purely symbolic manipulation.
 ]
 
 #grid(
@@ -996,20 +996,21 @@ A single inhabitant stands there. You may ask *one yes/no question*.
     - Assign truth values to variables
     - Evaluate formula under each interpretation
     - Check all $2^n$ rows of truth table
-    - Answers: "Is $phi$ true everywhere?"
+    - *Answers:* "Is $phi$ true everywhere?"
   ],
   Block(color: purple)[
     *Syntactic approach:*
     - Start from axioms or premises
     - Apply inference rules step-by-step
     - Build a derivation (proof)
-    - Answers: "Can we derive $phi$?"
+    - *Answers:* "Can we derive $phi$?"
   ],
 )
 
 #Block(color: yellow)[
-  *The key shift:*
+  *Key insight:*
   A proof system derives formulas _without mentioning truth_.
+
   It manipulates symbols according to rules --- a purely mechanical process.
 ]
 
