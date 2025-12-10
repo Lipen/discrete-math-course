@@ -163,12 +163,7 @@ A customer named Mestorf announces: "We'll take all three."
 
 Minik replies: "Excellent. Then we shall certainly sell you either the Elephandroid or the Giraffoid."
 
-Let $G$, $E$, $S$ denote purchasing each companion.
-
-+ Formalize the regulations and both declarations.
-+ Which purchase combinations are consistent with these constraints?
-+ Which propositions are logical consequences of the system?
-+ How many companions are actually purchased, and why?
+*Question:* How many companions were actually purchased?
 
 
 == Problem 4: Voting Protocol
@@ -179,17 +174,21 @@ Their automated legal verification system accepts only CNF formulas for constrai
 
 Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
-+ *Majority support:* The Council's charter requires majority support: encode "at least 3 of 5 voted yes" in CNF.
++ *Majority support:*
+  The Council's charter requires majority support: encode "at least 3 of 5 voted yes" in CNF.
   Count the resulting clauses.
 
-+ *Opposition safeguard:* To prevent tyranny by dissenters, the Council imposes a stricter constraint: no *single world* may block a proposal.
++ *Opposition safeguard:*
+  To prevent tyranny by dissenters, the Council imposes a stricter constraint: no *single world* may block a proposal.
   Formalize and encode "at most 1 world votes no" in CNF.
   Count the resulting clauses.
 
-+ *Alderan's privilege:* Alderan (the elder civilization) enjoys special status: a proposal passes if either (at least 3 worlds approve) OR (Alderan approves alone, with or without support).
++ *Alderan's privilege:*
+  Alderan (the elder civilization) enjoys special status: a proposal passes if either (at least 3 worlds approve) OR (Alderan approves alone, with or without support).
   Formalize this rule and convert to CNF.
 
-+ *Efficient cardinality encoding:* The verification system struggles with the growing number of clauses from the encodings above.
++ *Efficient cardinality encoding:*
+  The verification system struggles with the growing number of clauses from the encodings above.
   Generalize: design a compact encoding for "at least $k$ of $n$ variables are true, and at most $m$ are true" (where $k <= m$) using auxiliary variables. \
   For the Council case ($n=5, k=3, m=4$), count your encoding's clauses versus naive CNF.
   What architectural trade-off emerges between encoding size and solver efficiency?
@@ -221,8 +220,8 @@ Later, the cadets confess privately: "One of us told the complete truth. One mad
 Let $I$, $P$, $S$ denote "Ivanko / Petryn / Sidorik used the Cheat-Leaf."
 
 + Formalize Ivanko's and Petryn's testimonies.
-+ Using the meta-constraint, determine all consistent scenarios.
-+ Who used the Cheat-Leaf? Is it certain someone did?
++ Is it certain that someone used the Cheat-Leaf?
+  Can you identify who?
 + Which cadet told the complete truth?
 
 
@@ -321,129 +320,15 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 ]
 
 
-= Chapter III: First-Order Logic
-
-#Box[
-  Quantifiers are how machines learn to speak of infinity.
-]
-
-== Problem 10: Cataloging the Galactic Software Archive
-
-Trurl and Klapaucius build a cataloging system for the Galactic Archives.
-They define predicates over the domain of _all software_: $O(x)$ means "$x$ is open-source", $B(x)$ means "$x$ is buggy", and $U(x,y)$ means "$x$ uses $y$."
-
-Translate into first-order logic:
-+ "Some open-source software is not buggy."
-+ "All buggy software uses some open-source software."
-+ "There exists a piece of software that uses all open-source software."
-
-For each formula, construct a small finite model satisfying it.
-
-
-== Problem 11: The Theorem-Printer's Corruption
-
-A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
-Before failure, it logged this formula as a fundamental truth:
-$
-  forall x exists y . thin (P(x) imply Q(x,y))
-$
-
-=== Part 1: Negation and Prenex Form
-
-To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim.
-Compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
-
-=== Part 2: Satisfiability Analysis
-
-+ Is the original formula satisfiable?
-  Provide a model, or argue why none exists.
-+ Is its negation satisfiable?
-  Provide a model, or argue why none exists.
-+ What does this tell you about the relationship between the two formulas?
-
-
-== Problem 12: Challenging the Theorem-Printer
-
-Once restored, the Theorem-Printer outputs an entailment:
-$
-  forall x . thin (P(x) or Q(x))
-  quad proves quad
-  (forall x . thin P(x)) or (forall x . thin Q(x))
-$
-
-Klapaucius is skeptical: "Universal quantification distributes over disjunction?"
-
-Determine whether this entailment is valid.
-- If valid, provide a formal proof.
-- If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
-
-
 #pagebreak()
 
-== Problem 13: The Census of Echoworld
-
-Tichy arrives at Echoworld, a planet of perfect symmetry where every fact about visitation is precisely documented.
-A vast archive records which travelers have visited which worlds.
-Tichy must decode the archive's formal notation.
-
-Predicates over the domain "all planets and travelers":
-#Block[
-  - $P(x)$: "$x$ is a planet"
-  - $I(x)$: "$x$ is inhabited"
-  - $V(x, y)$: "$x$ has visited $y$"
-  - $W(x)$: "$x$ is worth visiting"
-  - Constant $t$: Tichy
-]
-
-=== Part 1: Encoding wisdom
-
-Translate each English statement into FOL.
-
-+ "Tichy has visited every inhabited planet."
-+ "Some planet has never been visited by anyone."
-+ "Every planet that Tichy visited is inhabited."
-+ "There exists a planet that all travelers have visited."
-+ "No single traveler has visited all planets."
-
-=== Part 2: The Ambiguous Decree
-
-The archive contains two interpretations of "Only inhabited planets are worth visiting."
-
-The Archive Keeper and her assistant disagree on which is correct:
-#Block[
-  *Keeper:* $forall x . thin (I(x) imply W(x))$
-
-  *Assistant:* $forall x . thin (W(x) imply I(x))$
-]
-
-Determine which translation captures the intended meaning.
-Then construct a concrete countermodel (specific planets with specific properties) that shows the other translation is wrong.
-Explain why the difference matters in practice.
-
-=== Part 3: The Mystery of Quantifier Scope
-
-Two ancient inscriptions appear in the archive, each describing a different visitation pattern.
-Translate them to English, paying close attention to how quantifier order changes the meaning:
-#Block[
-  *Inscription A:* $exists x forall y . thin V(y, x)$
-
-  *Inscription B:* $forall x exists y . thin V(y, x)$
-]
-
-Which inscription describes a planet so famous that *all* travelers have visited it?
-Which describes a weaker property: that every traveler has visited *at least one* planet?
-Prove that one logically implies the other, but not vice versa.
-
-
-#pagebreak()
-
-= Chapter IV: Proof Theory
+= Chapter III: Proof Theory
 
 #Box[
   A proof is a path; elegance lies in taking the shortest one.
 ]
 
-== Problem 14: The Clause Factory on Titan
+== Problem 10: The Clause Factory on Titan
 
 At Titan's *Clause Factory*, a massive automated production facility manufactures logical proofs by resolution.
 The factory's quality control system has flagged a batch of clauses as "suspicious" --- the engineers suspect the batch may be *unsatisfiable*.
@@ -457,7 +342,7 @@ $
 + Explain why deriving the empty clause confirms unsatisfiability.
 
 
-== Problem 15: The Proof Certification Academy
+== Problem 11: The Proof Certification Academy
 
 At the *Proof Certification Academy*, every star-navigator must master Fitch-style natural deduction before being licensed to validate ship systems.
 "A navigator who cannot prove," the instructors intone, "cannot navigate."
@@ -469,8 +354,7 @@ Prove each tautology below using natural deduction.
 + $(A imply (B imply C)) imply ((A imply B) imply (A imply C))$
 
 
-
-== Problem 16: Restoring the Corrupted Proof Archive
+== Problem 12: Restoring the Corrupted Proof Archive
 
 A cosmic ray has struck the *Galactic Archive's* proof repository, corrupting several derivations mid-flight.
 The archivists have recovered partial proofs with gaps marked by $square$ boxes.
@@ -582,3 +466,117 @@ Fill in the missing formulae and justifications to restore each proof to its for
     )
   ],
 )
+
+
+= Chapter IV: First-Order Logic
+
+#Box[
+  Quantifiers are how machines learn to speak of infinity.
+]
+
+== Problem 13: Cataloging the Galactic Software Archive
+
+Trurl and Klapaucius build a cataloging system for the Galactic Archives.
+They define predicates over the domain of _all software_: $O(x)$ means "$x$ is open-source", $B(x)$ means "$x$ is buggy", and $U(x,y)$ means "$x$ uses $y$."
+
+Translate into first-order logic:
++ "Some open-source software is not buggy."
++ "All buggy software uses some open-source software."
++ "There exists a piece of software that uses all open-source software."
+
+For each formula, construct a small finite model satisfying it.
+
+
+== Problem 14: The Theorem-Printer's Corruption
+
+A power surge corrupts the *Theorem-Printer* aboard the *Asymptote*.
+Before failure, it logged this formula as a fundamental truth:
+$
+  forall x exists y . thin (P(x) imply Q(x,y))
+$
+
+=== Part 1: Negation and Prenex Form
+
+To reconstruct the machine's reasoning system, engineers need to understand what would *refute* this claim.
+Compute its *logical negation* in prenex normal form (quantifier prefix first, then quantifier-free matrix).
+
+=== Part 2: Satisfiability Analysis
+
++ Is the original formula satisfiable?
+  Provide a model, or argue why none exists.
++ Is its negation satisfiable?
+  Provide a model, or argue why none exists.
++ What does this tell you about the relationship between the two formulas?
+
+
+== Problem 15: Challenging the Theorem-Printer
+
+Once restored, the Theorem-Printer outputs an entailment:
+$
+  forall x . thin (P(x) or Q(x))
+  quad proves quad
+  (forall x . thin P(x)) or (forall x . thin Q(x))
+$
+
+Klapaucius is skeptical: "Universal quantification distributes over disjunction?"
+
+Determine whether this entailment is valid.
+- If valid, provide a formal proof.
+- If invalid, construct a countermodel: domain $D$ and interpretations of $P$, $Q$ where the premise holds but conclusion fails.
+
+
+#pagebreak()
+
+== Problem 16: The Census of Echoworld
+
+Tichy arrives at Echoworld, a planet of perfect symmetry where every fact about visitation is precisely documented.
+A vast archive records which travelers have visited which worlds.
+Tichy must decode the archive's formal notation.
+
+Predicates over the domain "all planets and travelers":
+#Block[
+  - $P(x)$: "$x$ is a planet"
+  - $I(x)$: "$x$ is inhabited"
+  - $V(x, y)$: "$x$ has visited $y$"
+  - $W(x)$: "$x$ is worth visiting"
+  - Constant $t$: Tichy
+]
+
+=== Part 1: Encoding wisdom
+
+Translate each English statement into FOL.
+
++ "Tichy has visited every inhabited planet."
++ "Some planet has never been visited by anyone."
++ "Every planet that Tichy visited is inhabited."
++ "There exists a planet that all travelers have visited."
++ "No single traveler has visited all planets."
+
+=== Part 2: The Ambiguous Decree
+
+The archive contains two interpretations of "Only inhabited planets are worth visiting."
+
+The Archive Keeper and her assistant disagree on which is correct:
+#Block[
+  *Keeper:* $forall x . thin (I(x) imply W(x))$
+
+  *Assistant:* $forall x . thin (W(x) imply I(x))$
+]
+
+Determine which translation captures the intended meaning.
+Then construct a concrete countermodel (specific planets with specific properties) that shows the other translation is wrong.
+Explain why the difference matters in practice.
+
+=== Part 3: The Mystery of Quantifier Scope
+
+Two ancient inscriptions appear in the archive, each describing a different visitation pattern.
+Translate them to English, paying close attention to how quantifier order changes the meaning:
+#Block[
+  *Inscription A:* $exists x forall y . thin V(y, x)$
+
+  *Inscription B:* $forall x exists y . thin V(y, x)$
+]
+
+Which inscription describes a planet so famous that *all* travelers have visited it?
+Which describes a weaker property: that every traveler has visited *at least one* planet?
+Prove that one logically implies the other, but not vice versa.
