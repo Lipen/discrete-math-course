@@ -586,22 +586,3 @@ For each chamber, Tichy must: translate the inscriptions into propositional logi
 
   *Door B:* "A lady is in the other room."
 ]
-
-
-== Problem 18: Tri-Constellation Agent Communications
-
-Captain Pirx analyzes communications among four field agents: *Bilion*, *Stevok*, *Tomix*, *Johnon*.
-Cryptanalysts reconstructed these constraints:
-
-#Block[
-  - If Bilion contacted Stevok, then Tomix did not contact Stevok.
-  - Bilion contacted Stevok iff Johnon contacted at least one of them (Bilion or Stevok).
-  - If Johnon contacted Stevok, then Bilion did not contact Stevok.
-]
-
-Let $C(x,y)$ denote "$x$ contacted $y$" (directional).
-
-+ Formalize all three constraints.
-+ Identify a pair who *must* have communicated.
-+ Identify a pair who *definitively did not* communicate.
-+ Is there an agent who *necessarily* communicated with at least one other?
