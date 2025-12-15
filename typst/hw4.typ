@@ -170,33 +170,31 @@ Minik replies: "Excellent. Then we shall certainly sell you either the Elephandr
 How many companions were actually purchased?
 
 
-== Problem 4: Voting Protocol
+== Problem 4: The Consensus Engine
 
-Ijon Tichy mediates a constitutional crisis on the *Galactic Council*.
-Five member worlds --- Alderan, Betelgeuse, Centauri, Deneb, and Eridani --- must adopt a new voting protocol.
-Their automated legal verification system uses symbolic constraint solving: all political rules must be expressed in CNF (conjunctive normal form) so the system can check whether any legal configuration is possible.
+The Galactic Council's legal automation system requires all voting rules in Conjunctive Normal Form --- "to reason about politics," the engineers say, "one must encode it."
+Tichy must formalize five worlds' fractious voting protocol, lest deadlock becomes constitutional.
 
 Let $A$, $B$, $C$, $D$, $E$ denote "member world voted yes."
 
-+ *Majority support:*
-  The Council's charter requires majority support: encode "at least 3 of 5 voted yes" in CNF.
-  Count the resulting clauses.
++ *Supermajority:*
+  Democracy requires quorum: encode _"at least 3 worlds vote yes"_ in CNF.
 
-+ *Opposition safeguard:*
-  To prevent tyranny by dissenters, the Council imposes a stricter constraint: no _single world_ may block a proposal.
-  Formalize and encode "at most 1 world votes no" in CNF.
-  Count the resulting clauses.
++ *Tyranny safeguard:*
+  Ancient law forbids unanimous approval.
+  Encode _"at most 4 worlds vote yes"_ in CNF.
 
 + *Alderan's privilege:*
-  Alderan (the elder civilization) enjoys special status: a proposal passes if either (at least 3 worlds approve) OR (Alderan approves alone, with or without support).
-  Formalize this rule and convert to CNF.
+  The elder Alderan civilization bypasses the quorum: a proposal passes if either _at least 3 worlds approve_ *or* _Alderan approves (regardless of others)_.
+  Formalize this in CNF.
 
-+ *Efficient cardinality encoding:*
-  The verification system struggles with the growing number of clauses from the encodings above.
-  Generalize: design a compact encoding for "at least $k$ of $n$ variables are true, and at most $m$ are true" (where $k <= m$) using auxiliary variables.
++ *Efficient encoding:*
+  Naive cardinality constraints explode into clauses exponentially --- impractical for real councils.
+  Design a compact CNF encoding for the general constraint _"at least $k$ and at most $m$ of $n$ variables are true"_ (where $k <= m$) using _auxiliary variables_.
 
-  For the Council case ($n=5, k=3, m=4$), count your encoding's clauses versus naive CNF.
-  What architectural trade-off emerges between encoding size and solver efficiency?
+  For the Council case ($n=5, k=3, m=4$), compare your encoding's clause count against the naive approach.
+
+  What trade-off between encoding complexity and solver efficiency does this illustrate?
 
 
 #pagebreak()
