@@ -129,11 +129,11 @@ For each dispatch: symbolize the argument, determine validity via truth table, a
 
 #tasklist("prob2")[
   + If philosophers ponder profound problems, their quandaries quell quotidian quibbles.
-    Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality.
-    Philosophers do ponder profound problems.
+    Either their quandaries don't quell quotidian quibbles or right reasoning reveals reality (or both).
+    #box[Philosophers] do ponder profound problems.
     _Therefore_, right reasoning reveals reality.
 
-  + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras.
+  + If aardvarks are adorable, then either baby baboons don't beat bongos or crocodiles can't consume cute capybaras (or both).
     Baby baboons beat bongos.
     Aardvarks aren't adorable unless crocodiles can't consume cute capybaras.
     _Therefore_, aardvarks aren't adorable.
@@ -165,7 +165,7 @@ At Orbital Station Cygnus-7, Ijon Tichy visits the *Emporium of Synthetic Compan
 
 A customer named Mestorf announces: "We'll take all three."
 
-Minik replies: "Excellent. Then we shall certainly sell you either the Elephandroid or the Giraffoid."
+Minik replies: "Excellent. Then we shall certainly sell you at least the Elephandroid or the Giraffoid."
 
 How many companions were actually purchased?
 
