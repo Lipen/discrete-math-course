@@ -211,7 +211,7 @@
 
 #grid(
   columns: 2,
-  column-gutter: 1.5em,
+  column-gutter: 2em,
   row-gutter: 1em,
   [
     *Negation* ($not$): "not"
@@ -2498,6 +2498,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   - *Arithmetic*: Incomplete (Gödel's Incompleteness Theorems, 1931)
 ]
 
+
 = Categorical Logic
 #focus-slide(
   epigraph: [All men are mortal. Socrates is a man. Therefore, Socrates is mortal.],
@@ -2894,368 +2895,879 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   These limitations motivate *first-order logic* (predicate logic), which we study next.
 ]
 
+
 = First-Order Logic
-#focus-slide()
+#focus-slide(
+  epigraph: [The limits of my language mean the limits of my world.],
+  epigraph-author: [Ludwig Wittgenstein],
+)
 
-== Transition to First-Order Logic
+== Limitations of Propositional Logic
 
-#Block[
-  Propositional logic treats statements as atomic units --- we can't look _inside_ them.
+Propositional logic treats statements as _atomic units_ --- we cannot analyze their internal structure.
 
-  But many arguments depend on the _internal structure_ of statements: the objects they mention and the properties those objects have.
+#example[
+  The syllogism below is valid, yet propositional logic cannot capture _why_:
+
+  #align(center)[
+    #grid(
+      columns: 1,
+      align: left,
+      inset: 5pt,
+      [All humans are mortal.],
+      [Socrates is human.],
+      grid.hline(stroke: .8pt),
+      [$therefore$ Socrates is mortal.],
+    )
+  ]
+
+  In propositional logic, these are just unrelated atoms $P$, $Q$, $R$.
 ]
 
-#example[Limitations of Propositional Logic][
-  Consider the classic syllogism:
-  - "All humans are mortal"
-  - "Socrates is human"
-  - "Therefore, Socrates is mortal"
-
-  In propositional logic, these would be _unrelated_ atomic propositions $P$, $Q$, $R$, without any structure connecting them.
+#Block(color: yellow)[
+  The validity depends on the _internal structure_: objects (Socrates), properties (human, mortal), and quantification (all).
 ]
+
+== What Propositional Logic Cannot Express
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *Objects and naming:*
+    - "Socrates"
+    - "the number 7"
+    - "the empty set"
+
+    *Properties of objects:*
+    - "$x$ is prime"
+    - "$x$ is human"
+  ],
+  [
+    *Relations between objects:*
+    - "$x$ is greater than $y$"
+    - "$x$ divides $y$"
+
+    *Quantification:*
+    - "all", "some", "none"
+    - "there exists exactly one"
+  ],
+)
 
 #definition[
-  First-order logic extends propositional logic with:
-  - _Variables_: $x, y, z, dots$
-  - _Predicates_: $P(x), R(x,y), dots$
-  - _Quantifiers_: $forall x$ (for all), $exists x$ (there exists)
-  - _Functions_: $f(x), g(x,y), dots$
-  - _Constants_: $a, b, c, dots$
+  _First-order logic_ (FOL), also called _predicate logic_, extends propositional logic with variables, predicates, functions, and quantifiers.
 ]
 
-== First-Order Syntax
+== First-Order Logic: Components
 
 #definition[
-  A _term_ is an expression denoting an object:
-  - Variables: $x, y, z$
-  - Constants: $a, b, c$
-  - Function applications: $f(t_1, dots, t_n)$ where $t_i$ are terms
+  A _first-order language_ consists of:
+
+  - *Variables*: $x, y, z, dots$ --- range over objects in a domain
+  - *Constants*: $a, b, c, dots$ --- name specific objects
+  - *Predicate symbols*: $P, Q, R, dots$ --- express properties and relations
+  - *Function symbols*: $f, g, h, dots$ --- map objects to objects
+  - *Quantifiers*: $forall$ (universal) and $exists$ (existential)
+  - *Logical connectives*: $not, and, or, imply, iff$ (as in propositional logic)
 ]
+
+#note[
+  _Why "first-order"?_ Variables range over _objects_ (first-order entities).
+
+  In second-order logic, we can also quantify over properties and relations.
+]
+
+== Terms
+
+#definition[
+  A _term_ is an expression denoting an object, defined recursively:
+  + Every variable $x, y, z, dots$ is a term
+  + Every constant $a, b, c, dots$ is a term
+  + If $f$ is an $n$-ary function symbol and $t_1, dots, t_n$ are terms, then $f(t_1, dots, t_n)$ is a term
+]
+
+#example[
+  In arithmetic with constants $0, 1$, function $S$, and variables $x, y$:
+
+  - $0$, $1$, $x$, $y$ are terms (constants and variables)
+  - $S(0)$, $S(x)$ are terms (function application)
+  - $S(S(0))$ is a term (nested application)
+]
+
+#note[
+  Terms denote _objects_, not truth values.
+  The term $S(x)$ is an object, not a statement.
+]
+
+== Functions vs. Predicates
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *Functions* ($f, g, h$):
+    - Map objects to _objects_
+    - Used inside terms
+    - Example: $"fatherOf"(x)$, $x + y$
+    - "The father of Alice" is an _object_.
+  ],
+  [
+    *Predicates* ($P, Q, R$):
+    - Map objects to _truth values_
+    - Used to build formulas
+    - Example: $"IsHuman"(x)$, $x < y$
+    - "Alice is human" is a _statement_ (T/F).
+  ],
+)
+
+#note[
+  A function $f(x) = y$ can always be represented as a predicate $R(x, y)$ with an additional uniqueness axiom: $forall x. exists! y. thin R(x, y)$.
+]
+
+== Atomic Formulas
 
 #definition[
   An _atomic formula_ is a basic statement:
-  - Predicate application: $P(t_1, dots, t_n)$ where $t_i$ are terms
-  - Equality: $t_1 = t_2$ where $t_1, t_2$ are terms
+  + *Predicate application*: $P(t_1, dots, t_n)$ where $P$ is an $n$-ary predicate and $t_i$ are terms
+  + *Equality*: $t_1 = t_2$ where $t_1, t_2$ are terms
 ]
+
+#example[
+  - $"Human"("socrates")$ #h(1em) --- #h(0.5em) "Socrates is human"
+  - $"Less"(x, y)$ #h(1em) --- #h(0.5em) "$x$ is less than $y$"
+  - $"Prime"(S(S(0)))$ #h(1em) --- #h(0.5em) "2 is prime"
+  - $"father"(x) = y$ #h(1em) --- #h(0.5em) "The father of $x$ is $y$"
+]
+
+== Equality and its Properties
+
+In FOL, equality ($=$) is a special predicate with fixed meaning: "is the same object as".
+
+#theorem[Axioms of Equality][
+  + *Reflexivity*: $forall x. thin (x = x)$
+  + *Symmetry*: $forall x, y. thin (x = y) imply (y = x)$
+  + *Transitivity*: $forall x, y, z. thin (x = y) and (y = z) imply (x = z)$
+  + *Substitution*: $forall x, y. thin (x = y) imply (phi(x) iff phi(y))$
+]
+
+#note[
+  Substitution means if two objects are equal, they share all properties.
+  This is _Leibniz's Law_.
+]
+
+== First-Order Formulas
 
 #definition[
-  A _first-order formula_ is built recursively from atomic formulas using:
-  - Propositional connectives: $not, and, or, imply, iff$
-  - Quantifiers: $forall x. phi$, $exists x. phi$
+  A _first-order formula_ is defined recursively:
+  + Every atomic formula is a formula
+  + If $phi$ is a formula, then $(not phi)$ is a formula
+  + If $phi, psi$ are formulas, then $(phi and psi)$, $(phi or psi)$, $(phi imply psi)$, $(phi iff psi)$ are formulas
+  + If $phi$ is a formula and $x$ is a variable, then $(forall x. thin phi)$ and $(exists x. thin phi)$ are formulas
 ]
 
-#pagebreak(weak: true)
+#example[
+  - $forall x. thin "Human"(x) imply "Mortal"(x)$ --- "All humans are mortal"
+  - $exists x. thin "Prime"(x) and (x > 100)$ --- "Some prime is greater than 100"
+  - $forall x. exists y. thin (y > x)$ --- "For every number, there is a greater one"
+]
 
-#examples[
-  - $forall x. thin (P(x) imply Q(x))$ --- "For all $x$, if $P(x)$ then $Q(x)$"
-  - $exists x. thin (P(x) and not Q(x))$ --- "There exists an $x$ such that $P(x)$ and not $Q(x)$"
-  - $forall x. exists y. thin R(x,y)$ --- "For every $x$, there exists a $y$ such that $R(x,y)$"
+== The Quantifiers
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    #definition[
+      The _universal quantifier_ $forall x. thin phi(x)$ asserts that $phi(x)$ holds for _every_ object $x$ in the domain.
+    ]
+
+    Semantically equivalent to a (possibly infinite) conjunction:
+    $ forall x. thin P(x) thin approx thin P(a_1) and P(a_2) and P(a_3) and dots $
+  ],
+  [
+    #definition[
+      The _existential quantifier_ $exists x. thin phi(x)$ asserts that $phi(x)$ holds for _at least one_ object $x$ in the domain.
+    ]
+
+    Semantically equivalent to a (possibly infinite) disjunction:
+    $ exists x. thin P(x) thin approx thin P(a_1) or P(a_2) or P(a_3) or dots $
+  ],
+)
+
+== Quantifier Examples
+
+#example[
+  Let domain $D = {1, 2, 3}$ and $"Even"(x)$ mean "$x$ is even".
+
+  - $forall x. thin "Even"(x)$ means $"Even"(1) and "Even"(2) and "Even"(3)$ --- *False*
+  - $exists x. thin "Even"(x)$ means $"Even"(1) or "Even"(2) or "Even"(3)$ --- *True*
+]
+
+#example[
+  In the domain of natural numbers $NN$:
+
+  - $forall x. exists y. thin (y > x)$ --- "Every number has a greater one" --- *True*
+  - $exists y. forall x. thin (y > x)$ --- "Some number is greater than all" --- *False*
+]
+
+#Block(color: orange)[
+  *The order of quantifiers matters!* Swapping $forall$ and $exists$ changes the meaning.
+]
+
+== Nested Quantifiers
+
+#Block[
+  The pattern $forall x. exists y. thin R(x, y)$ vs. $exists y. forall x. thin R(x, y)$ is fundamental.
+]
+
+#example[
+  Let $L(x, y)$ mean "$x$ loves $y$".
+
+  #table(
+    columns: 2,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Formula*], [*Meaning*]),
+    [$forall x. exists y. thin L(x, y)$], [Everyone loves someone (possibly different)],
+    [$exists y. forall x. thin L(x, y)$], [Someone is loved by everyone (same person)],
+  )
+]
+
+#note[
+  $exists y. forall x. thin R(x,y)$ implies $forall x. exists y. thin R(x,y)$, but not conversely.
 ]
 
 == Free and Bound Variables
 
 #definition[
   An occurrence of variable $x$ in formula $phi$ is:
-  - _Bound_ if it occurs within the scope of a quantifier $forall x$ or $exists x$
-  - _Free_ if it is not bound
+  - *Bound* if it is in the scope of a quantifier $forall x$ or $exists x$
+  - *Free* if it is not bound
 
-  The _scope_ of quantifier $Q x.$ in formula $Q x. thin phi$ is the formula $phi$.
+  The _scope_ of $forall x$ (or $exists x$) in $forall x. thin phi$ is the subformula $phi$.
 ]
 
 #example[
-  In the formula $underbrace(P(x), "free") and forall x. thin underbrace(Q(x), "bound")$:
-  - The first $x$ is *free* (not under any quantifier)
-  - The second $x$ is *bound* by $forall x$
+  In the formula $P(x) and forall x. thin Q(x)$:
+
+  - The $x$ in $P(x)$ is *free* (not under any quantifier)
+  - The $x$ in $Q(x)$ is *bound* by $forall x$
+
+  These are _different_ occurrences --- the same name, different roles.
 ]
 
-#Block(color: yellow)[
-  *Note:* The same variable name can be both free and bound in one formula!
-  The two $x$'s above are _different_ --- one refers to an external value, the other is quantified.
-]
+== Sentences and Open Formulas
 
 #definition[
-  A formula with no free variables is called _closed_ or a _sentence_.
-
-  Only sentences can be evaluated as simply true or false in a structure.
+  - A _sentence_ (closed formula) has no free variables
+  - An _open formula_ has at least one free variable
 ]
 
-#example[Closed vs. Open Formulas][
+#example[
   #table(
     columns: 3,
-    align: (left, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Formula*], [*Status*], [*Why*]),
-    [$forall x. thin P(x) imply Q(x)$], [Closed], [No free variables],
-    [$P(x) and Q(y)$], [Open], [Both $x$ and $y$ are free],
-    [$exists x. thin P(x) and Q(y)$], [Open], [$y$ is free],
-    [$forall x. exists y. thin R(x,y)$], [Closed], [All variables bound],
+    table.header([*Formula*], [*Free vars*], [*Type*]),
+    [$forall x. thin (P(x) imply Q(x))$], [none], [Sentence],
+    [$P(x) and Q(y)$], [$x, y$], [Open],
+    [$exists x. thin R(x, y)$], [$y$], [Open],
+    [$forall x. exists y. thin R(x, y)$], [none], [Sentence],
+  )
+]
+
+#note[
+  Only sentences have definite truth values in a structure. Open formulas require a variable assignment.]
+
+== Formalization: Vocabulary
+
+To translate natural language into FOL, we must first define a _vocabulary_ (or _signature_) that captures the relevant objects and relations.
+
+#definition[
+  A _vocabulary_ $Sigma$ consists of:
+  - *Constant symbols*: Names for specific objects (e.g., $a, b, c$)
+  - *Predicate symbols*: Properties or relations (e.g., $P, Q, R$)
+  - *Function symbols*: Operations that return objects (e.g., $f, g, h$)
+]
+
+#note[
+  Each predicate and function symbol has a fixed _arity_ (number of arguments).
+]
+
+== Example: Choosing a Vocabulary
+
+#example[Social Network][
+  - *Constants*: $"alice"$, $"bob"$, $"carol"$
+  - *Predicates*: $"Person"(x)$, $"Friends"(x, y)$, $"Posted"(x, p)$
+  - *Functions*: $"profileOf"(x)$ returns the profile of person $x$
+]
+
+#example[Arithmetic][
+  - *Constants*: $0, 1$
+  - *Predicates*: $x < y$, $x = y$
+  - *Functions*: $x + y$, $x times y$, $S(x)$ (successor)
+]
+
+== The Two Key Translation Patterns
+
+#Block(color: yellow)[
+  *The Golden Rules:*
+
+  #grid(
+    columns: 2,
+    column-gutter: 2em,
+    [
+      *"All A are B"* uses $imply$:
+      $ forall x. thin A(x) imply B(x) $
+
+      _Read:_ "For anything, _if_ it's an A, _then_ it's a B."
+    ],
+    [
+      *"Some A are B"* uses $and$:
+      $ exists x. thin A(x) and B(x) $
+
+      _Read:_ "There's something that's _both_ an A _and_ a B."
+    ],
   )
 ]
 
 #Block(color: orange)[
-  *Warning:* Be careful with nested quantifiers and variable shadowing!
+  *Common Pitfall:* $forall x. thin A(x) and B(x)$ means "Everything in the universe is both A and B."
 
-  $forall x. thin (P(x) and exists x. thin Q(x))$ --- the inner $exists x$ _shadows_ the outer $forall x$.
+  *Example:* $forall x. thin "Cat"(x) and "Mammal"(x)$ would mean "Everything is a cat and a mammal" (including the moon, numbers, and this slide).
 ]
 
-== Translating English to FOL
+== Translation Examples
 
-#Block[
-  Formalization requires choosing an appropriate _vocabulary_ (predicates, constants, functions) and expressing the logical structure precisely.
-]
-
-#example[Common Translation Patterns][
-  Let: $H(x)$ = "$x$ is human", $M(x)$ = "$x$ is mortal", $s$ = Socrates
+#example[
+  Let $H(x)$ = "$x$ is human", $M(x)$ = "$x$ is mortal", $s$ = Socrates
 
   #table(
     columns: 2,
-    align: (left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*English*], [*FOL*]),
-    [All humans are mortal], [$forall x. thin (H(x) imply M(x))$],
-    [Some humans are mortal], [$exists x. thin (H(x) and M(x))$],
-    [No humans are immortal], [$forall x. thin (H(x) imply M(x))$],
+    [All humans are mortal], [$forall x. thin [H(x) imply M(x)]$],
+    [Some humans are mortal], [$exists x. thin [H(x) and M(x)]$],
+    [No humans are immortal], [$forall x. thin [H(x) imply M(x)]$ or $not exists x. thin [H(x) and not M(x)]$],
     [Socrates is human], [$H(s)$],
-    [Only humans are rational], [$forall x. thin (R(x) imply H(x))$],
+    [Not all humans are mortal], [$exists x. thin [H(x) and not M(x)]$],
   )
 ]
 
-#pagebreak()
+== Translation: "Only" and Uniqueness
 
-#Block(color: yellow)[
-  *Key pattern:*
-  - "All A are B" $arrow.r$ $forall x. thin (A(x) imply B(x))$ #h(1em) (use $imply$)
-  - "Some A are B" $arrow.r$ $exists x. thin (A(x) and B(x))$ #h(1em) (use $and$)
+#example[
+  #table(
+    columns: 2,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*English*], [*FOL*]),
+    [Only humans are rational], [$forall x. thin [R(x) imply H(x)]$],
+    [At least one student passed], [$exists x. thin [S(x) and P(x)]$],
+    [At most one student passed], [$forall x, y. thin [(S(x) and P(x) and S(y) and P(y)) imply x = y]$],
+  )
+]
 
-  These patterns mirror the categorical forms A and I!
+#note[
+  *"Only A are B"* = *"All B are A"* --- the direction reverses!
+
+  "Only dogs bark" means "if it barks, it's a dog" (not "all dogs bark").
+]
+
+#definition[
+  The _uniqueness quantifier_ $exists! x. thin phi(x)$ means "exactly one $x$ satisfies $phi$":
+  $
+    exists! x. thin phi(x)
+    quad equiv quad
+    exists x. thin (phi(x) and forall y. thin [phi(y) imply (y = x)])
+  $
+]
+
+== Translation: Complex Examples
+
+#example[
+  Let $M(x, y)$ mean "$x$ is the mother of $y$".
+
+  #table(
+    columns: 2,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*English*], [*FOL*]),
+    [Everyone has a mother], [$forall x. exists y. thin M(y, x)$],
+    [Everyone has exactly one mother], [$forall x. exists! y. thin M(y, x)$],
+    [Some people are mothers], [$exists x. exists y. thin M(x, y)$],
+    [Mothers are not their own mothers], [$forall x. forall y. thin [M(x, y) imply (x != y)]$],
+    [Grandmother is mother's mother], [$G(x, z) iff exists y. thin [M(x, y) and M(y, z)]$],
+  )
+]
+
+== The Socrates Syllogism in FOL
+
+Now we can formalize the syllogism that propositional logic could not handle:
+
+#example[
+  #grid(
+    columns: 2,
+    column-gutter: 2em,
+    [
+      *Natural language:*
+      #grid(
+        columns: 1,
+        inset: 5pt,
+        [All humans are mortal.],
+        [Socrates is human.],
+        grid.hline(stroke: .8pt),
+        [$therefore$ Socrates is mortal.],
+      )
+    ],
+    [
+      *First-order logic:*
+      #grid(
+        columns: 1,
+        inset: 5pt,
+        [$forall x. thin [H(x) imply M(x)]$],
+        [$H(s)$],
+        grid.hline(stroke: .8pt),
+        [$therefore M(s)$],
+      )
+    ],
+  )
+]
+
+*Derivation:* Instantiate the universal with $x = s$ to get $H(s) imply M(s)$. Apply modus ponens with $H(s)$. #YES
+
+== Structures (Interpretations)
+
+#definition[
+  A _structure_ $cal(M) = chevron.l D, cal(I) chevron.r$ consists of:
+
+  - *Domain* $D$: a non-empty set of objects
+  - *Interpretation* $cal(I)$ assigns meaning to symbols:
+    - Each constant $c$ maps to an element $cal(I)(c) in D$
+    - Each $n$-ary predicate $P$ maps to a relation $cal(I)(P) subset.eq D^n$
+    - Each $n$-ary function $f$ maps to a function $cal(I)(f): D^n to D$
+]
+
+#example[
+  Structure for arithmetic: $D = NN$, $cal(I)(0) = 0$, $cal(I)(S)(n) = n+1$, $cal(I)("Even") = {0, 2, 4, dots}$
+]
+
+== Variable Assignments and Satisfaction
+
+#definition[
+  A _variable assignment_ $sigma: "Var" to D$ maps variables to domain elements.
+
+  Notation: $sigma[x mapsto d]$ is like $sigma$ but maps $x$ to $d$.
+]
+
+#definition[
+  The _satisfaction relation_ $cal(M), sigma models phi$ is defined recursively:
+
+  - $cal(M), sigma models P(t_1, dots, t_n)$ iff $(Eval(t_1), dots, Eval(t_n)) in cal(I)(P)$
+
+  - $cal(M), sigma models forall x. thin phi$ iff $cal(M), sigma[x mapsto d] models phi$ for _all_ $d in D$
+
+  - $cal(M), sigma models exists x. thin phi$ iff $cal(M), sigma[x mapsto d] models phi$ for _some_ $d in D$
+]
+
+== Example: Evaluating Formulas
+
+#example[
+  Let $D = {1, 2, 3}$ and $cal(I)("Even") = {2}$.
+
+  *Is $exists x. thin "Even"(x)$ true?*
+  - Try $x = 1$: $1 in {2}$? #NO
+  - Try $x = 2$: $2 in {2}$? #YES --- witness found!
+
+  Result: $cal(M) models exists x. thin "Even"(x)$ #YES
+]
+
+#example[
+  *Is $forall x. thin "Even"(x)$ true?*
+  - Try $x = 1$: $1 in {2}$? #NO --- counterexample found!
+
+  Result: $cal(M) models.not forall x. thin "Even"(x)$ #NO
+]
+
+== Validity and Satisfiability
+
+#definition[
+  - $phi$ is _valid_ if $cal(M) models phi$ for every structure $cal(M)$
+  - $phi$ is _satisfiable_ if $cal(M) models phi$ for some structure $cal(M)$
+  - $phi$ is _unsatisfiable_ if no structure satisfies it
+]
+
+#example[Valid FOL Formulas][
+  - $forall x. thin P(x) imply P(a)$ #h(1em) (universal instantiation)
+  - $P(a) imply exists x. thin P(x)$ #h(1em) (existential generalization)
+  - $forall x. thin P(x) imply exists x. thin P(x)$ #h(1em) (non-empty domain)
+]
+
+== Quantifier Laws: Negation
+
+#theorem[De Morgan Laws for Quantifiers][
+  $
+    not forall x. thin phi(x) quad & equiv quad exists x. thin not phi(x) \
+    not exists x. thin phi(x) quad & equiv quad forall x. thin not phi(x)
+  $
+]
+
+#example[
+  - "Not everyone passed" $equiv$ "Someone didn't pass"
+  - "Nobody passed" $equiv$ "Everyone didn't pass"
+]
+
+== Quantifier Laws: Distribution
+
+#theorem[
+  $
+    forall x. thin (phi(x) and psi(x)) quad & equiv quad (forall x. thin phi(x)) and (forall x. thin psi(x)) \
+     exists x. thin (phi(x) or psi(x)) quad & equiv quad (exists x. thin phi(x)) or (exists x. thin psi(x))
+  $
 ]
 
 #Block(color: orange)[
-  *Common mistake:* Writing $forall x. thin (H(x) and M(x))$ for "all humans are mortal".
-
-  This actually says "everything is both human and mortal" --- wrong!
+  *Warning:* These do _not_ hold in general:
+  $
+     forall x. thin (phi(x) or psi(x)) quad & equiv.not quad (forall x. thin phi(x)) or (forall x. thin psi(x)) \
+    exists x. thin (phi(x) and psi(x)) quad & equiv.not quad (exists x. thin phi(x)) and (exists x. thin psi(x))
+  $
 ]
 
-== First-Order Semantics
+== Quantifier Laws: Moving Quantifiers
+
+If $x$ is _not free_ in $psi$, we can move the quantifier:
+
+#theorem[
+  $
+    (forall x. thin phi(x)) and psi quad & equiv quad forall x. thin (phi(x) and psi) \
+    (exists x. thin phi(x)) and psi quad & equiv quad exists x. thin (phi(x) and psi) \
+     (forall x. thin phi(x)) or psi quad & equiv quad forall x. thin (phi(x) or psi) \
+     (exists x. thin phi(x)) or psi quad & equiv quad exists x. thin (phi(x) or psi)
+  $
+]
+
+#note[
+  This is the basis for converting formulas to *Prenex Normal Form*.
+]
+
+== Prenex Normal Form
 
 #definition[
-  A _structure_ (or _model_) $cal(M) = pair(D, cal(I))$ consists of:
-  - _Domain_ $D$: non-empty set of objects
-  - _Interpretation function_ $cal(I)$:
-    - Maps constants to elements of $D$
-    - Maps $n$-ary predicates to $n$-ary relations on $D$
-    - Maps $n$-ary functions to $n$-ary functions on $D$
+  A formula is in _prenex normal form_ (PNF) if all quantifiers appear at the front:
+  $ Q_1 x_1. thin Q_2 x_2. thin dots thin Q_n x_n. thin psi $
+  where each $Q_i in {forall, exists}$ and $psi$ is a quantifier-free _matrix_.
 ]
 
-#definition[
-  A _variable assignment_ $sigma : V to D$ maps variables to domain elements.
+#theorem[
+  Every FOL formula is equivalent to one in prenex normal form.
 ]
 
-#Block[
-  _Truth in a structure:_ For structure $cal(M)$ and assignment $sigma$:
-  - $cal(M), sigma models P(t_1, dots, t_n)$ iff $(cal(I)(t_1)^sigma, dots, cal(I)(t_n)^sigma) in cal(I)(P)$
-  - $cal(M), sigma models forall x. thin phi$ iff $cal(M), sigma' models phi$ for all $sigma'$ that differ from $sigma$ at most on $x$
-  - $cal(M), sigma models exists x. thin phi$ iff $cal(M), sigma' models phi$ for some $sigma'$ that differs from $sigma$ at most on $x$
+#example[
+  $
+    & forall x. thin P(x) imply exists y. thin Q(y) \
+    & equiv not forall x. thin P(x) or exists y. thin Q(y) \
+    & equiv exists x. thin not P(x) or exists y. thin Q(y) \
+    & equiv exists x. exists y. thin (not P(x) or Q(y))
+  $
 ]
 
 == Theories and Models
 
 #definition[
-  A _theory_ $T$ is a set of first-order formulas (axioms).
+  A _theory_ $T$ is a set of FOL sentences (axioms).
+
+  A structure $cal(M)$ is a _model_ of $T$ if $cal(M) models phi$ for all $phi in T$.
 ]
 
-#definition[
-  A structure $cal(M)$ is a _model_ of theory $T$ if $cal(M) models phi$ for every formula $phi in T$.
+#example[The Theory of Groups][
+  Vocabulary: binary function $dot$, constant $e$
+
+  Axioms:
+  + $forall x, y, z. thin (x dot (y dot z)) = ((x dot y) dot z)$ #h(1em) (associativity)
+  + $forall x. thin (x dot e = x) and (e dot x = x)$ #h(1em) (identity)
+  + $forall x. exists y. thin (x dot y = e) and (y dot x = e)$ #h(1em) (inverses)
+
+  *Models*: $(ZZ, +, 0)$, $(RR without {0}, times, 1)$, symmetry groups, ...
 ]
 
-#example[Group Theory][
-  The theory of groups has axioms:
-  - (Associativity) $forall x, y, z. thin (x dot (y dot z)) = ((x dot y) dot z)$
-  - (Identity) $exists e. forall x. thin (x dot e = x) and (e dot x = x)$
-  - (Inverses) $forall x. exists y. thin (x dot y = e) and (y dot x = e)$
-
-  Models include $pair(ZZ, +)$, $pair(RR without {0}, dot)$, etc.
-]
-
-== First-Order Natural Deduction
-
-#definition[
-  Additional rules for quantifiers:
-  #grid(
-    columns: 2,
-    column-gutter: 2em,
-    [
-      *Universal Introduction ($forall$I):*
-      #Block(color: yellow)[
-        #grid(
-          columns: 1,
-          inset: 5pt,
-          $phi(a)$,
-          grid.hline(stroke: .8pt),
-          $forall x. thin phi(x)$,
-        )
-
-        Where $a$ is arbitrary (fresh).
-      ]
-
-      *Universal Elimination ($forall$E):*
-      #grid(
-        columns: 1,
-        inset: 5pt,
-        $forall x. thin phi(x)$,
-        grid.hline(stroke: .8pt),
-        $phi(t)$,
-      )
-    ],
-    [
-      *Existential Introduction ($exists$I):*
-      #grid(
-        columns: 1,
-        inset: 5pt,
-        $phi(t)$,
-        grid.hline(stroke: .8pt),
-        $exists x. thin phi(x)$,
-      )
-
-      *Existential Elimination ($exists$E):*
-      #Block(color: yellow)[
-        #grid(
-          columns: 1,
-          inset: 5pt,
-          $exists x. thin phi(x)$,
-          $[phi(a)] dots psi$,
-          grid.hline(stroke: .8pt),
-          $psi$,
-        )
-
-        Where $a$ is fresh and doesn't occur in $psi$.
-      ]
-    ],
-  )
-]
-
-== Interactive Theorem Provers
-
-#Block[
-  Modern mathematics increasingly uses _interactive theorem provers_ --- computer systems that assist in constructing and verifying formal proofs.
-]
-
-#examples[Major Systems][
-  #grid(
-    columns: 3,
-    column-gutter: 1em,
-    [
-      *Lean 4:*
-      - Functional programming
-      - Dependent types
-      - Growing math library
-    ],
-    [
-      *Coq:*
-      - Constructive logic
-      - Curry-Howard correspondence
-      - Machine-checked proofs
-    ],
-    [
-      *Isabelle/HOL:*
-      - Higher-order logic
-      - Automated tactics
-      - Large formalizations
-    ],
-  )
-]
+== Example: Peano Arithmetic (PA)
 
 #example[
-  Major theorems _proven_ in interactive systems:
-  - Four Color Theorem (Coq)
-  - Odd Order Theorem (Coq)
-  - Kepler Conjecture (Isabelle/HOL)
-  - Liquid Tensor Experiment (Lean)
+  Vocabulary: $0, S, +, times$
+
+  Axioms:
+  + $forall x. thin S(x) neq 0$
+  + $forall x, y. thin (S(x) = S(y) imply x = y)$
+  + $forall x. thin x + 0 = x$
+  + $forall x, y. thin x + S(y) = S(x + y)$
+  + *Induction Schema*: For any formula $phi$:
+    $(phi(0) and forall x. thin (phi(x) imply phi(S(x)))) imply forall x. thin phi(x)$
 ]
 
-== Completeness and Decidability
-
-#theorem[Gödel][
-  First-order logic is complete: every semantically valid formula is provable.
+#note[
+  PA is the standard theory for natural numbers. Gödel's Incompleteness Theorem shows that PA cannot prove all true statements about $NN$.
 ]
 
-#theorem[Church][
-  First-order logic is undecidable: there is no algorithm that determines whether an arbitrary first-order formula is valid.
+== Natural Deduction for FOL
+
+Natural deduction extends to FOL with rules for quantifiers:
+
+#grid(
+  columns: 2,
+  column-gutter: 2em,
+  [
+    *Universal Introduction ($forall$I):*
+    #align(center)[
+      #grid(
+        columns: 1,
+        inset: 5pt,
+        [$phi(a)$ #h(0.5em) _($a$ fresh)_],
+        grid.hline(stroke: .8pt),
+        [$forall x. thin phi(x)$],
+      )
+    ]
+
+    *Universal Elimination ($forall$E):*
+    #align(center)[
+      #grid(
+        columns: 1,
+        inset: 5pt,
+        [$forall x. thin phi(x)$],
+        grid.hline(stroke: .8pt),
+        [$phi(t)$ #h(0.5em) _(any term $t$)_],
+      )
+    ]
+  ],
+  [
+    *Existential Introduction ($exists$I):*
+    #align(center)[
+      #grid(
+        columns: 1,
+        inset: 5pt,
+        [$phi(t)$ #h(0.5em) _(witness $t$)_],
+        grid.hline(stroke: .8pt),
+        [$exists x. thin phi(x)$],
+      )
+    ]
+
+    *Existential Elimination ($exists$E):*
+    #align(center)[
+      #grid(
+        columns: 1,
+        inset: 5pt,
+        [$exists x. thin phi(x)$, #h(0.3em) $[phi(a)] dots psi$],
+        grid.hline(stroke: .8pt),
+        [$psi$ #h(0.5em) _($a$ fresh)_],
+      )
+    ]
+  ],
+)
+
+== Proof Example
+
+#example[
+  *Prove:* ${forall x. thin (H(x) imply M(x)), thin H(s)} proves M(s)$
+
+  #grid(
+    columns: 3,
+    align: left,
+    inset: 5pt,
+    stroke: (x, y) => if x == 0 { (right: 0.8pt) },
+    [1.], [$forall x. thin (H(x) imply M(x))$], [Premise],
+    [2.], [$H(s)$], [Premise],
+    grid.hline(start: 1, stroke: .8pt),
+    [3.], [$H(s) imply M(s)$], [$forall$E on 1],
+    [4.], [$M(s)$], [$imply$E on 2, 3],
+  )
+]
+
+== Soundness and Completeness
+
+#theorem[Soundness][
+  If $Gamma proves phi$, then $Gamma models phi$.
+]
+
+#theorem[Completeness (Gödel, 1929)][
+  If $Gamma models phi$, then $Gamma proves phi$.
 ]
 
 #Block(color: yellow)[
-  *Gödel's Incompleteness (for arithmetic):*
+  *Significance:* Semantic truth ($models$) and syntactic proof ($proves$) are perfectly aligned in FOL.
 
-  Any consistent formal system strong enough to express arithmetic contains true statements that are unprovable within that system.
-
-  This is different from undecidability --- incompleteness says that _no_ proof system can capture all mathematical truths about arithmetic.
+  Every provable statement is true, and every true statement is provable.
 ]
 
-#pagebreak()
+== Compactness Theorem
+
+#theorem[Compactness][
+  A set of sentences $Gamma$ is satisfiable if and only if every _finite_ subset of $Gamma$ is satisfiable.
+]
+
+The Compactness Theorem implies that First-Order Logic *cannot* distinguish between "arbitrarily large finite" and "infinite".
+
+#columns(2)[
+  *Finite to Infinite*:
+  If a property holds for all finite graphs, it may fail for infinite ones.
+
+  #example[
+    "Every node has exactly one successor $=>$ there is a cycle."
+    - _Finite_: Always true.
+    - _Infinite_: False for $(bb(Z), n |-> n+1)$.
+  ]
+
+  #colbreak()
+
+  *Infinite to Finite*:
+  If a property holds for all infinite graphs, it may fail for finite ones.
+
+  #example[
+    "There is no maximum element."
+    - _Infinite_: True for $(bb(Z), <)$.
+    - _Finite_: Always false (every finite linear order has a max).
+  ]
+]
+
+#Block(color: yellow)[
+  *Key Insight:* If a set of sentences has arbitrarily large finite models, it *must* have an infinite model.
+]
+
+== Example: $k$-Colorability
+
+Compactness is often used to extend properties from finite to infinite structures.
+
+#theorem[De Bruijn--Erdős][
+  An infinite graph $G$ is $k$-colorable if and only if every _finite_ subgraph of $G$ is $k$-colorable.
+]
+
+#proof[
+  + Let $Gamma$ be a set of sentences describing $G$ and assigning a color ${1, dots, k}$ to each vertex such that adjacent vertices have different colors.
+  + Any _finite_ subset of $Gamma$ only involves a finite number of vertices and edges.
+  + This finite subgraph is $k$-colorable by assumption.
+  + By Compactness, the entire set $Gamma$ is satisfiable.
+  + Thus, the infinite graph $G$ is $k$-colorable.
+]
+
+== Löwenheim--Skolem Theorem
+
+#theorem[Löwenheim--Skolem][
+  If a countable theory has an infinite model, then it has models of _every_ infinite cardinality.
+]
 
 #Block(color: orange)[
-  *The expressiveness--decidability trade-off:*
-
-  There's a pattern here:
-  - Propositional logic: decidable but limited in what it can express
-  - First-order logic: very expressive but undecidable
-  - Higher-order logic: even more expressive but incomplete
-
-  We gain expressive power at the cost of decidability.
-  This is a theme throughout theoretical computer science.
+  *The Skolem Paradox:*
+  Set theory (ZFC) can be expressed in FOL and has a countable model, even though it proves the existence of uncountable sets!
 ]
 
-== Applications and Connections
+== Church--Turing Undecidability
 
-#example[Logic in Computer Science][
-  #grid(
-    columns: 2,
-    column-gutter: 1em,
-    [
-      *Verification:*
-      - Program correctness
-      - Hardware verification
-      - Protocol analysis
-      - Security properties
-
-      *Databases:*
-      - Query languages (SQL)
-      - Integrity constraints
-      - Deductive databases
-    ],
-    [
-      *AI and Knowledge Representation:*
-      - Expert systems
-      - Automated planning
-      - Semantic web (RDF, OWL)
-      - Natural language processing
-
-      *Programming Languages:*
-      - Type systems
-      - Specification languages
-      - Logic programming (Prolog)
-    ],
-  )
+#theorem[Undecidability (Church, Turing, 1936)][
+  First-order logic is _undecidable_: there is no algorithm that determines whether an arbitrary FOL sentence is valid.
 ]
 
-== Summary: The Logical Landscape
+#Block(color: orange)[
+  This is a fundamental limit, not a matter of finding better algorithms.
+
+  However, many useful _fragments_ remain decidable (propositional, monadic, EPR, ...).
+]
+
+== Decidable Fragments
 
 #table(
   columns: 4,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Logic*], [*Expressiveness*], [*Decidability*], [*Completeness*]),
-  [Propositional], [Basic], [#YES], [#YES],
-  [First-Order], [High], [#NO], [#YES],
-  [Second-Order], [Very High], [#NO], [#NO],
-  [Higher-Order], [Maximum], [#NO], [#NO],
+  table.header([*Fragment*], [*Restriction*], [*Decidable?*], [*Complexity*]),
+  [Propositional], [No quantifiers], [#YES], [NP-complete],
+  [Monadic FOL], [Unary predicates only], [#YES], [NEXPTIME],
+  [Two-variable FOL], [$<= 2$ variables], [#YES], [NEXPTIME],
+  [EPR], [$exists^* forall^*$, no functions], [#YES], [NEXPTIME],
+  [Full FOL], [Unrestricted], [#NO], [Undecidable],
 )
 
-#Block(color: blue)[
-  *Takeaways:*
-  - Syntax and semantics can be perfectly aligned (completeness)
-  - Expressiveness comes at the cost of decidability
-  - Formal logic provides foundations for mathematical reasoning and computation
-  - Interactive theorem provers make formal logic practically useful
+#note[
+  SAT/SMT solvers exploit decidable fragments for verification, planning, and constraint solving.
+]
+
+== Gödel's Incompleteness (Preview)
+
+#theorem[First Incompleteness (Gödel, 1931)][
+  Any consistent formal system capable of expressing arithmetic is _incomplete_: some true statements are unprovable.
+]
+
+#Block(color: orange)[
+  *Incompleteness $neq$ Undecidability:*
+  - Undecidability: no algorithm for validity
+  - Incompleteness: no proof system proves all truths about arithmetic
+]
+
+== The Expressiveness--Decidability Trade-off
+
+#align(center)[
+  #cetz.canvas({
+    import cetz: draw
+
+    draw.line((0, 0), (7, 0), stroke: 1pt, mark: (end: "stealth"))
+    draw.line((0, 0), (0, 4.5), stroke: 1pt, mark: (end: "stealth"))
+    draw.content((7, 0), [Expressiveness], anchor: "west", padding: 0.15)
+    draw.content((0, 4.5), [Decidability], anchor: "south", padding: 0.15)
+
+    let pts = (
+      (1, 3.5, [Prop], green),
+      (2.5, 2.5, [Monadic], blue),
+      (4, 1.5, [Full FOL], orange),
+      (5.5, 0.5, [2nd-order], red),
+    )
+    for (x, y, lbl, col) in pts {
+      draw.circle((x, y), radius: 0.12, fill: col, stroke: none)
+      draw.content((x, y + 0.3), text(size: 0.8em)[#lbl], anchor: "south")
+    }
+    draw.bezier((0.5, 4), (6, 0.3), (2.5, 3.5), (4.5, 1), stroke: (dash: "dashed", paint: gray))
+  })
+]
+
+More expressive logics are harder (or impossible) to decide.
+
+== Applications of FOL
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    *Program Verification:*
+    - Hoare logic: ${P} class("relation", C) {Q}$
+    - Loop invariants
+    - Tools: Dafny, Frama-C
+
+    *Databases:*
+    - SQL WHERE $approx$ FOL
+    - Relational algebra
+  ],
+  [
+    *AI and Knowledge Representation:*
+    - Semantic web (OWL)
+    - Expert systems
+    - Planning (PDDL)
+
+    *Foundations:*
+    - Axiomatic set theory
+    - Model theory
+  ],
+)
+
+== FOL Summary
+
+#table(
+  columns: 4,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Logic*], [*Expressiveness*], [*Decidable*], [*Complete*]),
+  [Propositional], [Low], [#YES], [#YES],
+  [First-Order], [High], [#NO], [#YES],
+  [Second-Order], [Very High], [#NO], [#NO],
+)
+
+#Block(color: yellow)[
+  *Key points:*
+  - FOL adds objects, predicates, functions, and quantifiers to propositional logic
+  - *Translation:* "All A are B" uses $imply$; "Some A are B" uses $and$
+  - *Semantics:* Structures interpret symbols; assignments handle variables
+  - *Meta-theory:* FOL is complete (valid $=$ provable) but undecidable
+  - *Trade-off:* More expressiveness leads to higher complexity/undecidability
 ]
 
 
@@ -3347,7 +3859,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #definition[
   _Truth at a world_ $w$, written $cal(M), w models phi$, is defined:
-  - $cal(M), w models P$ iff $w in V(P)$ #h(2em) (for atomic $P$)
+  - $cal(M), w models P$ iff $w in V(P)$ #h(1em) (for atomic $P$)
   - $cal(M), w models not phi$ iff $cal(M), w models.not phi$
   - $cal(M), w models phi and psi$ iff $cal(M), w models phi$ and $cal(M), w models psi$
   - $cal(M), w models square phi$ iff *for all* $v$ with $w R v$: $cal(M), v models phi$
