@@ -578,7 +578,7 @@ Translate them to English, paying close attention to how quantifier order change
 #Block[
   *Inscription A:* $exists x forall y . thin V(y, x)$
 
-  *Inscription B:* $forall x exists y . thin V(y, x)$
+  *Inscription B:* $forall y exists x . thin V(y, x)$
 ]
 
 + Which inscription describes a planet so famous that _all_ travelers have visited it?
