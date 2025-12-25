@@ -12,7 +12,7 @@
     \
     *Теория множеств*
     #h(1fr)
-    *$#emoji.leaf.maple$Осень 2025*
+    *$#emoji.leaf.maple$ Осень 2025*
     #place(bottom, dy: 0.4em)[
       #line(length: 100%, stroke: 0.6pt)
     ]
