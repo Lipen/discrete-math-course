@@ -12,7 +12,7 @@
     \
     *Formal Logic*
     #h(1fr)
-    *$#emoji.snowflake$ Winter 2025*
+    *$#emoji.leaf$ Fall 2025*
     #place(bottom, dy: 0.4em)[
       #line(length: 100%, stroke: 0.6pt)
     ]
