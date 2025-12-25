@@ -918,7 +918,10 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
   *Challenge:* Determine the identities of A, B, and C by asking three yes/no questions; _each question must be put to exactly one god._
 
-  *Clarifications:* A single god may be asked more than one question, questions are permitted to depend on the answers to earlier questions, and Random's response should be thought of as depending on the flip of a fair coin hidden in his brain: if the coin comes down heads, he speaks truly; if tails, falsely.
+  *Clarifications:*
+  - A single god may be asked more than one question
+  - Questions are permitted to depend on the answers to earlier questions
+  - Random's response depends on the flip of a fair coin hidden in his brain: if the coin comes down heads, he speaks truly; if tails, falsely
 ]
 
 #Block(color: yellow)[
