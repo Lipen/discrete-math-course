@@ -911,12 +911,17 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == The Hardest Logic Puzzle Ever
 
 #Block(color: orange)[
-  *Boolos's puzzle (1996):* Three gods --- True, False, and Random --- stand before you.
+  *Boolos's puzzle (1996):* Three gods A, B, and C are called, in no particular order, True, False, and Random.
   - True always speaks truly; False always lies
-  - Random answers randomly
+  - Random speaks truly or falsely randomly (as if by a coin flip)
   - They respond with "da" or "ja" (you don't know which means yes/no)
 
-  *Challenge:* Determine each god's identity using exactly three yes/no questions.
+  *Challenge:* Determine the identities of A, B, and C by asking three yes/no questions; _each question must be put to exactly one god._
+
+  *Clarifications:*
+  - A single god may be asked more than one question
+  - Questions are permitted to depend on the answers to earlier questions
+  - Random's response depends on the flip of a fair coin hidden in his brain: if the coin comes down heads, he speaks truly; if tails, falsely
 ]
 
 #Block(color: yellow)[
