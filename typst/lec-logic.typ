@@ -10,7 +10,6 @@
 #show heading.where(level: 1): none
 
 #import "common-lec.typ": *
-#import "@preview/fitch:0.1.0"
 
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
@@ -1322,11 +1321,13 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 ]
 
 #example[
+  #import "@preview/fitch:0.1.0": *
+
   Simple proof using _Modus Ponens_ ($imply$E rule):
-  #fitch.proof(
-    fitch.premise(1, $P -> Q$, rule: [_Premise_]),
-    fitch.premise(2, $P$, rule: [_Premise_]),
-    fitch.step(3, $Q$, rule: [$->$E 1, 2]),
+  #proof(
+    premise(1, $P -> Q$, rule: [_Premise_]),
+    premise(2, $P$, rule: [_Premise_]),
+    step(3, $Q$, rule: [$->$E 1, 2]),
   )
 
   From $P imply Q$ and $P$, we derive $Q$.
@@ -1597,42 +1598,46 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Contrapositive
 
 #example[
+  #import "@preview/fitch:0.1.0": *
+
   Proving $(P imply Q) imply (not Q imply not P)$:
-  #fitch.proof(
-    fitch.subproof(
-      fitch.assume(1, $P -> Q$, rule: [_Assumption_]),
-      fitch.subproof(
-        fitch.assume(2, $not Q$, rule: [_Assumption_]),
-        fitch.subproof(
-          fitch.assume(3, $P$, rule: [_Assumption_]),
-          fitch.step(4, $Q$, rule: [$->$E 1, 3]),
-          fitch.step(5, $bot$, rule: [$not$E 2, 4]),
+  #proof(
+    subproof(
+      assume(1, $P -> Q$, rule: [_Assumption_]),
+      subproof(
+        assume(2, $not Q$, rule: [_Assumption_]),
+        subproof(
+          assume(3, $P$, rule: [_Assumption_]),
+          step(4, $Q$, rule: [$->$E 1, 3]),
+          step(5, $bot$, rule: [$not$E 2, 4]),
         ),
-        fitch.step(6, $not P$, rule: [$not$I 3-5]),
+        step(6, $not P$, rule: [$not$I 3-5]),
       ),
-      fitch.step(7, $not Q -> not P$, rule: [$->$I 2-6]),
+      step(7, $not Q -> not P$, rule: [$->$I 2-6]),
     ),
-    fitch.step(8, $(P -> Q) -> (not Q -> not P)$, rule: [$->$I 1-7]),
+    step(8, $(P -> Q) -> (not Q -> not P)$, rule: [$->$I 1-7]),
   )
 ]
 
 == Worked Example: Proof by Contradiction (RAA)
 
 #example[Law of Excluded Middle][
+  #import "@preview/fitch:0.1.0": *
+
   Proving $P or not P$ using _reductio ad absurdum_ (proof by contradiction):
-  #fitch.proof(
-    fitch.subproof(
-      fitch.assume(1, $not (P or not P)$, rule: [_Assumption (for RAA)_]),
-      fitch.subproof(
-        fitch.assume(2, $P$, rule: [_Assumption_]),
-        fitch.step(3, $P or not P$, rule: [$or$I 2]),
-        fitch.step(4, $bot$, rule: [$not$E 1, 3]),
+  #proof(
+    subproof(
+      assume(1, $not (P or not P)$, rule: [_Assumption (for RAA)_]),
+      subproof(
+        assume(2, $P$, rule: [_Assumption_]),
+        step(3, $P or not P$, rule: [$or$I 2]),
+        step(4, $bot$, rule: [$not$E 1, 3]),
       ),
-      fitch.step(5, $not P$, rule: [$not$I 2-4]),
-      fitch.step(6, $P or not P$, rule: [$or$I 5]),
-      fitch.step(7, $bot$, rule: [$not$E 1, 6]),
+      step(5, $not P$, rule: [$not$I 2-4]),
+      step(6, $P or not P$, rule: [$or$I 5]),
+      step(7, $bot$, rule: [$not$E 1, 6]),
     ),
-    fitch.step(8, $P or not P$, rule: [RAA 1-7]),
+    step(8, $P or not P$, rule: [RAA 1-7]),
   )
 ]
 
@@ -1646,60 +1651,66 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Double Negation
 
 #example[Double Negation Introduction][
+  #import "@preview/fitch:0.1.0": *
+
   Proving $P imply not not P$:
-  #fitch.proof(
-    fitch.subproof(
-      fitch.assume(1, $P$, rule: [_Assumption_]),
-      fitch.subproof(
-        fitch.assume(2, $not P$, rule: [_Assumption (for RAA)_]),
-        fitch.step(3, $bot$, rule: [$not$E 1, 2]),
+  #proof(
+    subproof(
+      assume(1, $P$, rule: [_Assumption_]),
+      subproof(
+        assume(2, $not P$, rule: [_Assumption (for RAA)_]),
+        step(3, $bot$, rule: [$not$E 1, 2]),
       ),
-      fitch.step(4, $not not P$, rule: [$not$I 2-3]),
+      step(4, $not not P$, rule: [$not$I 2-3]),
     ),
-    fitch.step(5, $P -> not not P$, rule: [$->$I 1-4]),
+    step(5, $P -> not not P$, rule: [$->$I 1-4]),
   )
 ]
 
 #pagebreak()
 
 #example[Double Negation Elimination][
+  #import "@preview/fitch:0.1.0": *
+
   Proving $not not P imply P$ (requires classical logic):
-  #fitch.proof(
-    fitch.subproof(
-      fitch.assume(1, $not not P$, rule: [_Assumption_]),
-      fitch.subproof(
-        fitch.assume(2, $not P$, rule: [_Assumption (for RAA)_]),
-        fitch.step(3, $bot$, rule: [$not$E 1, 2]),
+  #proof(
+    subproof(
+      assume(1, $not not P$, rule: [_Assumption_]),
+      subproof(
+        assume(2, $not P$, rule: [_Assumption (for RAA)_]),
+        step(3, $bot$, rule: [$not$E 1, 2]),
       ),
-      fitch.step(4, $P$, rule: [RAA 2-3]),
+      step(4, $P$, rule: [RAA 2-3]),
     ),
-    fitch.step(5, $not not P -> P$, rule: [$->$I 1-4]),
+    step(5, $not not P -> P$, rule: [$->$I 1-4]),
   )
 ]
 
 == Worked Example: Disjunctive Syllogism
 
 #example[
+  #import "@preview/fitch:0.1.0": *
+
   Proving $(P or Q) imply (not P imply Q)$:
-  #fitch.proof(
-    fitch.subproof(
-      fitch.assume(1, $P or Q$, rule: [_Assumption_]),
-      fitch.subproof(
-        fitch.assume(2, $not P$, rule: [_Assumption_]),
-        fitch.subproof(
-          fitch.assume(3, $P$, rule: [_Assumption (for case 1)_]),
-          fitch.step(4, $bot$, rule: [$not$E 2, 3]),
-          fitch.step(5, $Q$, rule: [$bot$E 4]),
+  #proof(
+    subproof(
+      assume(1, $P or Q$, rule: [_Assumption_]),
+      subproof(
+        assume(2, $not P$, rule: [_Assumption_]),
+        subproof(
+          assume(3, $P$, rule: [_Assumption (for case 1)_]),
+          step(4, $bot$, rule: [$not$E 2, 3]),
+          step(5, $Q$, rule: [$bot$E 4]),
         ),
-        fitch.subproof(
-          fitch.assume(6, $Q$, rule: [_Assumption (for case 2)_]),
-          fitch.step(7, $Q$, rule: [R 6]),
+        subproof(
+          assume(6, $Q$, rule: [_Assumption (for case 2)_]),
+          step(7, $Q$, rule: [R 6]),
         ),
-        fitch.step(8, $Q$, rule: [$or$E 1, 3-5, 6-7]),
+        step(8, $Q$, rule: [$or$E 1, 3-5, 6-7]),
       ),
-      fitch.step(9, $not P -> Q$, rule: [$->$I 2-8]),
+      step(9, $not P -> Q$, rule: [$->$I 2-8]),
     ),
-    fitch.step(10, $(P or Q) -> (not P -> Q)$, rule: [$->$I 1-9]),
+    step(10, $(P or Q) -> (not P -> Q)$, rule: [$->$I 1-9]),
     style: (pad: 5pt),
   )
 ]
@@ -1714,24 +1725,26 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Peirce's Law
 
 #example[Peirce's Law --- A Classic Challenge][
+  #import "@preview/fitch:0.1.0": *
+
   Proving $((P imply Q) imply P) imply P$:
-  #fitch.proof(
-    fitch.subproof(
-      fitch.assume(1, $(P -> Q) -> P$, rule: [_Assumption_]),
-      fitch.subproof(
-        fitch.assume(2, $not P$, rule: [_Assumption (for RAA)_]),
-        fitch.subproof(
-          fitch.assume(3, $P$, rule: [_Assumption (for RAA)_]),
-          fitch.step(4, $bot$, rule: [$not$E 2, 3]),
-          fitch.step(5, $Q$, rule: [$bot$E 4]),
+  #proof(
+    subproof(
+      assume(1, $(P -> Q) -> P$, rule: [_Assumption_]),
+      subproof(
+        assume(2, $not P$, rule: [_Assumption (for RAA)_]),
+        subproof(
+          assume(3, $P$, rule: [_Assumption (for RAA)_]),
+          step(4, $bot$, rule: [$not$E 2, 3]),
+          step(5, $Q$, rule: [$bot$E 4]),
         ),
-        fitch.step(6, $P -> Q$, rule: [$->$I 3-5]),
-        fitch.step(7, $P$, rule: [$->$E 1, 6]),
-        fitch.step(8, $bot$, rule: [$not$E 2, 7]),
+        step(6, $P -> Q$, rule: [$->$I 3-5]),
+        step(7, $P$, rule: [$->$E 1, 6]),
+        step(8, $bot$, rule: [$not$E 2, 7]),
       ),
-      fitch.step(9, $P$, rule: [RAA 2-8]),
+      step(9, $P$, rule: [RAA 2-8]),
     ),
-    fitch.step(10, $((P -> Q) -> P) -> P$, rule: [$->$I 1-9]),
+    step(10, $((P -> Q) -> P) -> P$, rule: [$->$I 1-9]),
     style: (pad: 5pt),
   )
 ]
