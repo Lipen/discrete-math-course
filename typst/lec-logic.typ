@@ -1322,11 +1322,10 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[
   #import "@preview/fitch:0.1.0": *
-
   Simple proof using _Modus Ponens_ ($imply$E rule):
   #proof(
-    premise(1, $P -> Q$, rule: [_Premise_]),
-    premise(2, $P$, rule: [_Premise_]),
+    premise(1, $P -> Q$),
+    premise(2, $P$),
     step(3, $Q$, rule: [$->$E 1, 2]),
   )
 
@@ -1599,15 +1598,14 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[
   #import "@preview/fitch:0.1.0": *
-
   Proving $(P imply Q) imply (not Q imply not P)$:
   #proof(
     subproof(
-      assume(1, $P -> Q$, rule: [_Assumption_]),
+      assume(1, $P -> Q$),
       subproof(
-        assume(2, $not Q$, rule: [_Assumption_]),
+        assume(2, $not Q$),
         subproof(
-          assume(3, $P$, rule: [_Assumption_]),
+          assume(3, $P$),
           step(4, $Q$, rule: [$->$E 1, 3]),
           step(5, $bot$, rule: [$not$E 2, 4]),
         ),
@@ -1623,13 +1621,12 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[Law of Excluded Middle][
   #import "@preview/fitch:0.1.0": *
-
   Proving $P or not P$ using _reductio ad absurdum_ (proof by contradiction):
   #proof(
     subproof(
-      assume(1, $not (P or not P)$, rule: [_Assumption (for RAA)_]),
+      assume(1, $not (P or not P)$, rule: [Assumption (for RAA)]),
       subproof(
-        assume(2, $P$, rule: [_Assumption_]),
+        assume(2, $P$),
         step(3, $P or not P$, rule: [$or$I 2]),
         step(4, $bot$, rule: [$not$E 1, 3]),
       ),
@@ -1652,13 +1649,12 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[Double Negation Introduction][
   #import "@preview/fitch:0.1.0": *
-
   Proving $P imply not not P$:
   #proof(
     subproof(
-      assume(1, $P$, rule: [_Assumption_]),
+      assume(1, $P$),
       subproof(
-        assume(2, $not P$, rule: [_Assumption (for RAA)_]),
+        assume(2, $not P$, rule: [Assumption (for RAA)]),
         step(3, $bot$, rule: [$not$E 1, 2]),
       ),
       step(4, $not not P$, rule: [$not$I 2-3]),
@@ -1671,13 +1667,12 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[Double Negation Elimination][
   #import "@preview/fitch:0.1.0": *
-
   Proving $not not P imply P$ (requires classical logic):
   #proof(
     subproof(
-      assume(1, $not not P$, rule: [_Assumption_]),
+      assume(1, $not not P$),
       subproof(
-        assume(2, $not P$, rule: [_Assumption (for RAA)_]),
+        assume(2, $not P$, rule: [Assumption (for RAA)]),
         step(3, $bot$, rule: [$not$E 1, 2]),
       ),
       step(4, $P$, rule: [RAA 2-3]),
@@ -1690,20 +1685,19 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[
   #import "@preview/fitch:0.1.0": *
-
   Proving $(P or Q) imply (not P imply Q)$:
   #proof(
     subproof(
-      assume(1, $P or Q$, rule: [_Assumption_]),
+      assume(1, $P or Q$),
       subproof(
-        assume(2, $not P$, rule: [_Assumption_]),
+        assume(2, $not P$),
         subproof(
-          assume(3, $P$, rule: [_Assumption (for case 1)_]),
+          assume(3, $P$, rule: [Assumption (for case 1)]),
           step(4, $bot$, rule: [$not$E 2, 3]),
           step(5, $Q$, rule: [$bot$E 4]),
         ),
         subproof(
-          assume(6, $Q$, rule: [_Assumption (for case 2)_]),
+          assume(6, $Q$, rule: [Assumption (for case 2)]),
           step(7, $Q$, rule: [R 6]),
         ),
         step(8, $Q$, rule: [$or$E 1, 3-5, 6-7]),
@@ -1726,15 +1720,14 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 
 #example[Peirce's Law --- A Classic Challenge][
   #import "@preview/fitch:0.1.0": *
-
   Proving $((P imply Q) imply P) imply P$:
   #proof(
     subproof(
-      assume(1, $(P -> Q) -> P$, rule: [_Assumption_]),
+      assume(1, $(P -> Q) -> P$),
       subproof(
-        assume(2, $not P$, rule: [_Assumption (for RAA)_]),
+        assume(2, $not P$, rule: [Assumption (for RAA)]),
         subproof(
-          assume(3, $P$, rule: [_Assumption (for RAA)_]),
+          assume(3, $P$, rule: [Assumption (for RAA)]),
           step(4, $bot$, rule: [$not$E 2, 3]),
           step(5, $Q$, rule: [$bot$E 4]),
         ),
