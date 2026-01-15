@@ -7,6 +7,7 @@
 #import "@preview/derive-it:1.1.0"
 #import "@preview/diagraph:0.3.5"
 #import "@preview/finite:0.5.0"
+#import "@preview/fitch:0.1.0"
 #import "@preview/fletcher:0.5.8"
 #import "@preview/fontawesome:0.6.0"
 #import "@preview/k-mapper:1.2.0"

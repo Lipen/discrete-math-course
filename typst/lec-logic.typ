@@ -1321,7 +1321,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 ]
 
 #example[
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Simple proof using _Modus Ponens_ ($imply$E rule):
   #proof(
     premise(1, $P -> Q$),
@@ -1597,7 +1597,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Contrapositive
 
 #example[
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Proving $(P imply Q) imply (not Q imply not P)$:
   #proof(
     subproof(
@@ -1620,7 +1620,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Proof by Contradiction (RAA)
 
 #example[Law of Excluded Middle][
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Proving $P or not P$ using _reductio ad absurdum_ (proof by contradiction):
   #proof(
     subproof(
@@ -1648,7 +1648,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Double Negation
 
 #example[Double Negation Introduction][
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Proving $P imply not not P$:
   #proof(
     subproof(
@@ -1666,7 +1666,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 #pagebreak()
 
 #example[Double Negation Elimination][
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Proving $not not P imply P$ (requires classical logic):
   #proof(
     subproof(
@@ -1684,7 +1684,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Disjunctive Syllogism
 
 #example[
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Proving $(P or Q) imply (not P imply Q)$:
   #proof(
     subproof(
@@ -1719,7 +1719,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Peirce's Law
 
 #example[Peirce's Law --- A Classic Challenge][
-  #import "@preview/fitch:0.1.0": *
+  #import fitch: *
   Proving $((P imply Q) imply P) imply P$:
   #proof(
     subproof(
