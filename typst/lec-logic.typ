@@ -10,7 +10,7 @@
 #show heading.where(level: 1): none
 
 #import "common-lec.typ": *
-#import "@local/fitch:0.1.0" // TODO: replace with @preview when published
+#import "@preview/fitch:0.1.0"
 
 #let rel(x) = math.class("relation", x)
 #let nrel(x) = rel(math.cancel(x))
