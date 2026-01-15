@@ -1654,7 +1654,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
         fitch.assume(2, $not P$, rule: [_Assumption (for RAA)_]),
         fitch.step(3, $bot$, rule: [$not$E 1, 2]),
       ),
-      fitch.step(4, $not not P$, rule: [$not$I 1-4]),
+      fitch.step(4, $not not P$, rule: [$not$I 2-3]),
     ),
     fitch.step(5, $P -> not not P$, rule: [$->$I 1-4]),
   )
@@ -1695,7 +1695,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
           fitch.assume(6, $Q$, rule: [_Assumption (for case 2)_]),
           fitch.step(7, $Q$, rule: [R 6]),
         ),
-        fitch.step(8, $Q$, rule: [$or$E 1, 3-4, 6-7]),
+        fitch.step(8, $Q$, rule: [$or$E 1, 3-5, 6-7]),
       ),
       fitch.step(9, $not P -> Q$, rule: [$->$I 2-8]),
     ),
