@@ -1326,7 +1326,7 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   #fitch.proof(
     fitch.premise(1, $P -> Q$, rule: [_Premise_]),
     fitch.premise(2, $P$, rule: [_Premise_]),
-    fitch.step(3, $Q$, rule: [_Premise_]),
+    fitch.step(3, $Q$, rule: [$->$E 1, 2]),
   )
 
   From $P imply Q$ and $P$, we derive $Q$.
