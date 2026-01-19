@@ -20,12 +20,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Libertinus
+      - name: Install Libertinus fonts
         run: |
           curl -sSL https://github.com/alerque/libertinus/releases/download/v7.051/Libertinus-7.051.zip -o libertinus.zip
           unzip libertinus.zip
           mkdir -p ~/.fonts
           cp Libertinus-7.051/static/OTF/*.otf ~/.fonts/
+
+      - name: Install Source fonts
+        run: |
+          curl -sSL https://github.com/fontist/source-fonts/releases/download/v1.2/source-fonts-latn-1.2.zip -o source.zip
+          unzip source.zip
+          mkdir -p ~/.fonts
+          cp fonts-latn/*.ttf ~/.fonts/
 
       - run: ls -lh ~/.fonts
       - run: echo "TYPST_FONT_PATHS=$HOME/.fonts" >> $GITHUB_ENV
