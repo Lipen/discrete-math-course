@@ -27,6 +27,13 @@ jobs:
           mkdir -p ~/.fonts
           cp Libertinus-7.051/static/OTF/*.otf ~/.fonts/
 
+      - name: Install Font Awesome fonts
+        run: |
+          curl -sSL https://github.com/FortAwesome/Font-Awesome/releases/download/7.1.0/fontawesome-free-7.1.0-desktop.zip -o fa.zip
+          unzip fa.zip
+          mkdir -p ~/.fonts
+          cp fontawesome-free-7.1.0-desktop/otfs/*.otf ~/.fonts/
+
       - name: Install Source fonts
         run: |
           curl -sSL https://github.com/fontist/source-fonts/releases/download/v1.2/source-fonts-latn-1.2.zip -o source.zip
