@@ -1321,15 +1321,12 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 ]
 
 #example[
+  #import frederic: *
   Simple proof using _Modus Ponens_ ($imply$E rule):
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$P imply Q$], [_Premise_],
-    [2.], [$P$], [_Premise_],
-    grid.hline(stroke: 0.8pt),
-    [3.], [$Q$], [$imply$E 1, 2],
+  #proof(
+    premise(1, $P -> Q$),
+    premise(2, $P$),
+    step(3, $Q$, rule: [$->$E 1, 2]),
   )
 
   From $P imply Q$ and $P$, we derive $Q$.
@@ -1600,40 +1597,44 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Contrapositive
 
 #example[
+  #import frederic: *
   Proving $(P imply Q) imply (not Q imply not P)$:
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$P imply Q$], [_Assumption_],
-    [2.], [$thick not Q$], [_Assumption_],
-    [3.], [$thick thick P$], [_Assumption_],
-    grid.hline(stroke: 0.8pt),
-    [4.], [$thick thick Q$], [$imply$E 1, 3],
-    [5.], [$thick thick bot$], [$not$E 2, 4],
-    [6.], [$thick not P$], [$not$I 3--5],
-    [7.], [$not Q imply not P$], [$imply$I 2--6],
-    [8.], [$(P imply Q) imply (not Q imply not P)$], [$imply$I 1--7],
+  #proof(
+    subproof(
+      assume(1, $P -> Q$),
+      subproof(
+        assume(2, $not Q$),
+        subproof(
+          assume(3, $P$),
+          step(4, $Q$, rule: [$->$E 1, 3]),
+          step(5, $bot$, rule: [$not$E 2, 4]),
+        ),
+        step(6, $not P$, rule: [$not$I 3-5]),
+      ),
+      step(7, $not Q -> not P$, rule: [$->$I 2-6]),
+    ),
+    step(8, $(P -> Q) -> (not Q -> not P)$, rule: [$->$I 1-7]),
   )
 ]
 
 == Worked Example: Proof by Contradiction (RAA)
 
 #example[Law of Excluded Middle][
+  #import frederic: *
   Proving $P or not P$ using _reductio ad absurdum_ (proof by contradiction):
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$not (P or not P)$], [_Assumption (for RAA)_],
-    [2.], [$thick P$], [_Assumption_],
-    grid.hline(stroke: 0.8pt),
-    [3.], [$thick P or not P$], [$or$I 2],
-    [4.], [$thick bot$], [$not$E 1, 3],
-    [5.], [$not P$], [$not$I 2--4],
-    [6.], [$P or not P$], [$or$I 5],
-    [7.], [$bot$], [$not$E 1, 6],
-    [8.], [$P or not P$], [RAA 1--7],
+  #proof(
+    subproof(
+      assume(1, $not (P or not P)$, rule: [Assumption (for RAA)]),
+      subproof(
+        assume(2, $P$),
+        step(3, $P or not P$, rule: [$or$I 2]),
+        step(4, $bot$, rule: [$not$E 1, 3]),
+      ),
+      step(5, $not P$, rule: [$not$I 2-4]),
+      step(6, $P or not P$, rule: [$or$I 5]),
+      step(7, $bot$, rule: [$not$E 1, 6]),
+    ),
+    step(8, $P or not P$, rule: [RAA 1-7]),
   )
 ]
 
@@ -1647,55 +1648,64 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Double Negation
 
 #example[Double Negation Introduction][
+  #import frederic: *
   Proving $P imply not not P$:
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$P$], [_Assumption_],
-    [2.], [$thick not P$], [_Assumption (for RAA)_],
-    grid.hline(stroke: 0.8pt),
-    [3.], [$thick bot$], [$not$E 1, 2],
-    [4.], [$not not P$], [$not$I 2--3],
-    [5.], [$P imply not not P$], [$imply$I 1--4],
+  #proof(
+    subproof(
+      assume(1, $P$),
+      subproof(
+        assume(2, $not P$, rule: [Assumption (for RAA)]),
+        step(3, $bot$, rule: [$not$E 1, 2]),
+      ),
+      step(4, $not not P$, rule: [$not$I 2-3]),
+    ),
+    step(5, $P -> not not P$, rule: [$->$I 1-4]),
   )
 ]
 
 #pagebreak()
 
 #example[Double Negation Elimination][
+  #import frederic: *
   Proving $not not P imply P$ (requires classical logic):
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$not not P$], [_Assumption_],
-    [2.], [$thick not P$], [_Assumption (for RAA)_],
-    grid.hline(stroke: 0.8pt),
-    [3.], [$thick bot$], [$not$E 1, 2],
-    [4.], [$P$], [RAA 2--3],
-    [5.], [$not not P imply P$], [$imply$I 1--4],
+  #proof(
+    subproof(
+      assume(1, $not not P$),
+      subproof(
+        assume(2, $not P$, rule: [Assumption (for RAA)]),
+        step(3, $bot$, rule: [$not$E 1, 2]),
+      ),
+      step(4, $P$, rule: [RAA 2-3]),
+    ),
+    step(5, $not not P -> P$, rule: [$->$I 1-4]),
   )
 ]
 
 == Worked Example: Disjunctive Syllogism
 
 #example[
+  #import frederic: *
   Proving $(P or Q) imply (not P imply Q)$:
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$P or Q$], [_Assumption_],
-    [2.], [$thick not P$], [_Assumption_],
-    [3.], [$thick thick P$], [_Assumption (for case 1)_],
-    grid.hline(stroke: 0.8pt),
-    [4.], [$thick thick bot$], [$not$E 2, 3],
-    [5.], [$thick thick Q$], [$bot$E 4],
-    [6.], [$thick thick Q$], [_Assumption (for case 2)_],
-    [7.], [$thick Q$], [$or$E 1, 3--5, 6--6],
-    [8.], [$not P imply Q$], [$imply$I 2--7],
-    [9.], [$(P or Q) imply (not P imply Q)$], [$imply$I 1--8],
+  #proof(
+    subproof(
+      assume(1, $P or Q$),
+      subproof(
+        assume(2, $not P$),
+        subproof(
+          assume(3, $P$, rule: [Assumption (for case 1)]),
+          step(4, $bot$, rule: [$not$E 2, 3]),
+          step(5, $Q$, rule: [$bot$E 4]),
+        ),
+        subproof(
+          assume(6, $Q$, rule: [Assumption (for case 2)]),
+          step(7, $Q$, rule: [R 6]),
+        ),
+        step(8, $Q$, rule: [$or$E 1, 3-5, 6-7]),
+      ),
+      step(9, $not P -> Q$, rule: [$->$I 2-8]),
+    ),
+    step(10, $(P or Q) -> (not P -> Q)$, rule: [$->$I 1-9]),
+    style: (pad: 5pt),
   )
 ]
 
@@ -1709,22 +1719,26 @@ A single inhabitant stands there. You may ask *one yes/no question*.
 == Worked Example: Peirce's Law
 
 #example[Peirce's Law --- A Classic Challenge][
+  #import frederic: *
   Proving $((P imply Q) imply P) imply P$:
-  #grid(
-    columns: 3,
-    align: left,
-    inset: 5pt,
-    [1.], [$(P imply Q) imply P$], [_Assumption_],
-    [2.], [$thick not P$], [_Assumption (for RAA)_],
-    [3.], [$thick thick P$], [_Assumption_],
-    grid.hline(stroke: 0.8pt),
-    [4.], [$thick thick bot$], [$not$E 2, 3],
-    [5.], [$thick thick Q$], [$bot$E 4],
-    [6.], [$thick P imply Q$], [$imply$I 3--5],
-    [7.], [$thick P$], [$imply$E 1, 6],
-    [8.], [$thick bot$], [$not$E 2, 7],
-    [9.], [$P$], [RAA 2--8],
-    [10.], [$((P imply Q) imply P) imply P$], [$imply$I 1--9],
+  #proof(
+    subproof(
+      assume(1, $(P -> Q) -> P$),
+      subproof(
+        assume(2, $not P$, rule: [Assumption (for RAA)]),
+        subproof(
+          assume(3, $P$, rule: [Assumption (for RAA)]),
+          step(4, $bot$, rule: [$not$E 2, 3]),
+          step(5, $Q$, rule: [$bot$E 4]),
+        ),
+        step(6, $P -> Q$, rule: [$->$I 3-5]),
+        step(7, $P$, rule: [$->$E 1, 6]),
+        step(8, $bot$, rule: [$not$E 2, 7]),
+      ),
+      step(9, $P$, rule: [RAA 2-8]),
+    ),
+    step(10, $((P -> Q) -> P) -> P$, rule: [$->$I 1-9]),
+    style: (pad: 5pt),
   )
 ]
 
