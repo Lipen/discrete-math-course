@@ -81,6 +81,7 @@
 #let intersect = sym.inter
 #let symdiff = sym.triangle
 #let sim = sym.tilde
+#let angle = sym.chevron
 #let bmat = math.mat.with(delim: "[")
 #let Bmat = math.mat.with(delim: "{")
 #let vmat = math.mat.with(delim: "|")
