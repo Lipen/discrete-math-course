@@ -12,7 +12,6 @@
 #import "common-lec.typ": *
 
 // Custom operators for graph theory
-#let deg = math.op("deg")
 #let dist = math.op("dist")
 #let diam = math.op("diam")
 #let rad = math.op("rad")
@@ -20,9 +19,6 @@
 #let Center = math.op("center")
 #let ecc = math.op("ecc")
 #let Adj = math.op("Adj")
-#let kappa = sym.kappa
-#let lambda = sym.lambda
-#let angle = sym.chevron
 
 
 = Graph Theory
@@ -79,7 +75,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 )
 
 #Block(color: yellow)[
-  *Key insight:* Graph theory provides a _universal language_ for describing discrete structures and their properties.
+  *The power of abstraction:* By stripping away irrelevant details, graphs let us see the _structure_ of a problem. The same algorithm that finds the shortest route between cities also finds the fastest path in a game tree or the most efficient way to schedule tasks.
 ]
 
 == The Seven Bridges of Königsberg
@@ -127,7 +123,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 == What is a Graph?
 
 #definition[
-  A _graph_ is an ordered pair $G = angle.l V, E angle.r$, where:
+  A _graph_ is an ordered pair $G = pair(V, E)$, where:
   - $V$ is a finite set of _vertices_ (also called _nodes_)
   - $E$ is a set of _edges_ connecting pairs of vertices
 ]
@@ -140,9 +136,9 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
-  $G = angle.l {a, b, c, d}, {{a,b}, {b,c}, {c,d}, {d,a}} angle.r$
+  $G = pair({a, b, c, d}, {{a,b}, {b,c}, {c,d}, {d,a}})$
 
-  This graph has 4 vertices and 4 edges forming a cycle.
+  This graph has 4 vertices and 4 edges forming a cycle $C_4$.
 ]
 
 == Undirected vs Directed Graphs
@@ -317,8 +313,8 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #theorem[Handshaking Lemma][
-  For any graph $G = angle.l V, E angle.r$:
-  $ sum_(v in V) deg(v) = 2|E| $
+  For any graph $G = pair(V, E)$:
+  $ sum_(v in V) deg(v) = 2 |E| $
 ]
 
 #proof[
@@ -626,7 +622,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 == Subgraphs
 
 #definition[
-  A graph $H = angle.l V', E' angle.r$ is a _subgraph_ of $G = angle.l V, E angle.r$ if $V' subset.eq V$ and $E' subset.eq E$.
+  A graph $H = pair(V', E')$ is a _subgraph_ of $G = pair(V, E)$ if $V' subset.eq V$ and $E' subset.eq E$.
   We write $H subset.eq G$.
 ]
 
@@ -695,9 +691,12 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 == Graph Isomorphism
 
 #definition[
-  Two graphs $G_1 = angle.l V_1, E_1 angle.r$ and $G_2 = angle.l V_2, E_2 angle.r$ are _isomorphic_, written $G_1 tilde.eq G_2$, if there exists a bijection $f: V_1 -> V_2$ such that:
-  $ {u, v} in E_1 <==> {f(u), f(v)} in E_2 $
+  Graphs $G_1 = pair(V_1, E_1)$ and $G_2 = pair(V_2, E_2)$ are _isomorphic_, written $G_1 tilde.eq G_2$, if there exists a bijection $phi: V_1 -> V_2$ that _preserves adjacency_:
+  $ {u, v} in E_1 <==> {phi(u), phi(v)} in E_2 $
 ]
+
+#Block(color: blue)[
+  *Intuition:* Isomorphic graphs are \"the same graph\" with different vertex labels. They have identical structure.\n]
 
 #example[
   #align(center)[
@@ -737,10 +736,10 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   ]
 ]
 
-Both graphs are isomorphic to $C_4$. The bijection $f(1) = a, f(2) = b, f(3) = c, f(4) = d$ preserves adjacency.
+Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |-> c, 4 |-> d$ preserves adjacency.
 
 #Block(color: orange)[
-  *Warning:* Checking graph isomorphism is computationally difficult! (In NP, not known to be NP-complete or in P)
+  *Computational mystery:* Graph isomorphism is in NP but _not known_ to be NP-complete or in P. In 2015, Babai showed it's in _quasipolynomial time_ --- a major breakthrough, but the exact complexity remains open.
 ]
 
 
@@ -1026,15 +1025,19 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 #theorem[
   For a graph $G$ with $n$ vertices, the following are equivalent:
   + $G$ is a tree (connected and acyclic)
-  + $G$ is connected and has exactly $n - 1$ edges
-  + $G$ is acyclic and has exactly $n - 1$ edges
-  + There is a _unique path_ between any two vertices
-  + $G$ is _minimally connected_: removing any edge disconnects $G$
+  + $G$ is connected with exactly $n - 1$ edges
+  + $G$ is acyclic with exactly $n - 1$ edges
+  + Any two vertices are connected by a _unique path_
+  + $G$ is _minimally connected_: removing any edge disconnects it
   + $G$ is _maximally acyclic_: adding any edge creates a cycle
 ]
 
 #Block(color: yellow)[
-  *Key insight:* Trees are the "minimal" connected graphs --- they have exactly the edges needed to connect all vertices.
+  *Structural insight:* Trees live at the boundary between \"too few edges\" (disconnected) and \"too many edges\" (cycles). With $n$ vertices, the magic number is exactly $n-1$ edges.
+]
+
+#Block(color: blue)[
+  *Why trees matter:* Trees appear everywhere --- file systems, parse trees, decision trees, spanning trees for network design. Their simple structure makes them amenable to recursive algorithms.
 ]
 
 == Rooted Trees
@@ -1135,17 +1138,22 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 == Cayley's Formula
 
 #theorem[Cayley's Formula][
-  The number of labeled trees on $n$ vertices is $n^(n-2)$.
+  The number of _labeled_ trees on $n$ vertices is exactly $n^(n-2)$.
 ]
 
 #example[
-  - $n = 2$: $2^0 = 1$ tree
-  - $n = 3$: $3^1 = 3$ trees
+  - $n = 2$: $2^0 = 1$ tree (just one edge)
+  - $n = 3$: $3^1 = 3$ trees (three ways to pick the center)
   - $n = 4$: $4^2 = 16$ trees
+  - $n = 5$: $5^3 = 125$ trees
 ]
 
 #Block(color: teal)[
-  *Historical note:* This beautiful formula can be proved using Prüfer sequences --- a bijection between labeled trees and sequences of length $n-2$.
+  *Proof insight:* Cayley's formula has many beautiful proofs. The most constructive uses _Prüfer sequences_ --- a bijection between labeled trees on $[n]$ and sequences in $[n]^(n-2)$.
+]
+
+#Block(color: yellow)[
+  *Why $n^(n-2)$?* Each of the $n-2$ positions in a Prüfer sequence can be any of $n$ vertices. The encoding is reversible, establishing the bijection.
 ]
 
 == Prüfer Sequences
@@ -1177,9 +1185,9 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 == Definition of Bipartite Graphs
 
 #definition[
-  A graph $G = angle.l V, E angle.r$ is _bipartite_ if its vertices can be partitioned into two disjoint sets $V = X union.sq Y$ such that every edge connects a vertex in $X$ to a vertex in $Y$.
+  A graph $G = pair(V, E)$ is _bipartite_ if its vertices can be partitioned into two disjoint sets $V = X union.sq Y$ such that every edge connects a vertex in $X$ to a vertex in $Y$.
 
-  We write $G = angle.l X, Y, E angle.r$.
+  We write $G = pair(X union Y, E)$.
 ]
 
 #example[
@@ -1233,13 +1241,17 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #proof[(Sketch)][
-  ($arrow.r.double$) In a bipartite graph, any cycle must alternate between $X$ and $Y$, so it has even length.
+  ($arrow.r.double$) In a bipartite graph, any walk alternates between $X$ and $Y$, so every cycle has even length.
 
-  ($arrow.l.double$) If no odd cycles, we can 2-color the graph by BFS: start at any vertex, color it blue, color neighbors green, etc.
+  ($arrow.l.double$) If no odd cycles exist, 2-color by BFS: pick any vertex, color it blue, color all neighbors green, color their neighbors blue, etc. No conflicts arise.
 ]
 
 #Block(color: yellow)[
-  *Algorithm:* Check bipartiteness using BFS/DFS in $O(n + m)$ time.
+  *Algorithmic insight:* Bipartiteness can be checked in $O(n + m)$ time using BFS/DFS. This is one of the few natural graph properties that admits efficient recognition.
+]
+
+#Block(color: blue)[
+  *Contrast:* Checking if a graph is _3-colorable_ is NP-complete, yet _2-colorable_ (bipartite) is linear time! The jump from 2 to 3 is one of the most dramatic complexity cliffs in combinatorics.
 ]
 
 == Complete Bipartite Graphs
@@ -1399,9 +1411,9 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 == Hall's Marriage Theorem
 
 #theorem[Hall's Marriage Theorem][
-  A bipartite graph $G = angle.l X, Y, E angle.r$ has a matching that covers $X$ (saturates all vertices in $X$) if and only if for every subset $S subset.eq X$:
+  A bipartite graph $G = pair(X union Y, E)$ has a matching that _saturates_ $X$ (covers all vertices in $X$) if and only if *Hall's condition* holds: for every subset $S subset.eq X$,
   $ |N(S)| >= |S| $
-  where $N(S)$ is the set of neighbors of vertices in $S$.
+  where $N(S) = { y in Y | exists x in S: {x, y} in E }$ is the set of neighbors of $S$.
 ]
 
 #Block(color: blue)[
@@ -1492,11 +1504,17 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 == König's Theorem
 
 #theorem[König's Theorem][
-  In a bipartite graph, the size of a _maximum matching_ equals the size of a _minimum vertex cover_.
+  In a bipartite graph:
+  $ nu(G) = tau(G) $
+  where $nu(G)$ is the size of a _maximum matching_ and $tau(G)$ is the size of a _minimum vertex cover_.
 ]
 
 #Block(color: yellow)[
-  *Note:* This equality does _not_ hold for general graphs!
+  *Key insight:* This equality does _not_ hold for general graphs! In a triangle $K_3$: $nu = 1$ but $tau = 2$.
+]
+
+#Block(color: blue)[
+  *Connection:* König's theorem follows from the LP duality of matching and vertex cover. It also follows from the Max-Flow Min-Cut theorem on the associated network.
 ]
 
 #theorem[
@@ -1600,20 +1618,22 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
 
 == Menger's Theorem
 
-#theorem[Menger's Theorem (Vertex Version)][
-  Let $G$ be a graph and $u, v$ be non-adjacent vertices. The minimum number of vertices whose removal destroys all $u$-$v$ paths equals the maximum number of _internally vertex-disjoint_ $u$-$v$ paths.
+#theorem[Menger's Theorem (Vertex Form)][
+  Let $u, v$ be non-adjacent vertices in $G$. Then:
+  $ max{"internally vertex-disjoint" u-v "paths"} = min{|S| : S "is a" u-v "separator"} $
 ]
 
-#theorem[Menger's Theorem (Edge Version)][
-  The minimum number of edges whose removal destroys all $u$-$v$ paths equals the maximum number of _edge-disjoint_ $u$-$v$ paths.
+#theorem[Menger's Theorem (Edge Form)][
+  For any vertices $u, v$ in $G$:
+  $ max{"edge-disjoint" u-v "paths"} = min{|F| : F "is a" u-v "edge cut"} $
 ]
 
 #Block(color: yellow)[
-  *Corollary:* A graph is $k$-vertex-connected iff any two vertices are connected by $k$ internally vertex-disjoint paths.
+  *Key insight:* A graph is $k$-connected iff any two vertices are connected by $k$ internally vertex-disjoint paths.
 ]
 
 #Block(color: blue)[
-  *Connection to flows:* Menger's theorem is equivalent to the Max-Flow Min-Cut theorem for unit capacities!
+  *The Deep Connection:* Menger's theorem is equivalent to the Max-Flow Min-Cut theorem with unit capacities. This duality between "flow" (disjoint paths) and "cut" (separators) is one of the most profound ideas in combinatorics.
 ]
 
 == Blocks and 2-Connected Components
@@ -1826,12 +1846,16 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
 == Faces and Euler's Formula
 
 #definition[
-  A _face_ of a plane graph is a connected region bounded by edges. The unbounded region is the _outer face_.
+  A _face_ of a plane graph is a connected region bounded by edges. The unbounded region is the _outer face_ (or _infinite face_).
 ]
 
-#theorem[Euler's Formula][
-  For any connected plane graph with $v$ vertices, $e$ edges, and $f$ faces:
-  $ v - e + f = 2 $
+#theorem[Euler's Polyhedron Formula][
+  For any connected plane graph with $n$ vertices, $m$ edges, and $f$ faces:
+  $ n - m + f = 2 $
+]
+
+#Block(color: teal)[
+  *Deep insight:* The quantity $n - m + f$ is called the _Euler characteristic_. It equals 2 for any surface homeomorphic to a sphere. For a torus, it equals 0. This connects graph theory to topology!
 ]
 
 #example[
@@ -1855,8 +1879,8 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
 
     #colbreak()
 
-    - Vertices: $v = 4$
-    - Edges: $e = 5$
+    - Vertices: $n = 4$
+    - Edges: $m = 5$
     - Faces: $f = 3$ (2 inner + 1 outer)
 
     Check: $4 - 5 + 3 = 2$ ✓
@@ -1866,26 +1890,26 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
 == Consequences of Euler's Formula
 
 #theorem[
-  For any simple planar graph with $v >= 3$ vertices and $e$ edges:
-  $ e <= 3v - 6 $
+  For any simple planar graph with $n >= 3$ vertices and $m$ edges:
+  $ m <= 3n - 6 $
 ]
 
 #proof[
-  Each face has at least 3 edges on its boundary, and each edge borders at most 2 faces.
-  So $3f <= 2e$, giving $f <= 2e/3$.
+  Each face has $>= 3$ edges on its boundary, and each edge borders at most 2 faces.
+  So $3f <= 2m$, giving $f <= (2m)/3$.
 
-  By Euler's formula: $2 = v - e + f <= v - e + 2e/3 = v - e/3$.
+  By Euler's formula: $2 = n - m + f <= n - m + (2m)/3 = n - m/3$.
 
-  Therefore $e <= 3v - 6$.
+  Therefore $m <= 3n - 6$.
 ]
 
 #theorem[
-  For any simple planar bipartite graph with $v >= 3$ vertices:
-  $ e <= 2v - 4 $
+  For any simple planar _bipartite_ graph with $n >= 3$ vertices:
+  $ m <= 2n - 4 $
 ]
 
 #Block(color: yellow)[
-  *Corollary:* $K_5$ and $K_(3,3)$ are _not_ planar.
+  *Corollary:* $K_5$ (with 10 edges but $3 dot 5 - 6 = 9$) and $K_(3,3)$ (with 9 edges but $2 dot 6 - 4 = 8$) are _not_ planar.
 ]
 
 == Kuratowski's Theorem
@@ -1999,8 +2023,10 @@ This graph is 3-colorable. Is $chi(G) = 3$?
 #theorem[
   For any graph $G$:
   $ omega(G) <= chi(G) <= Delta(G) + 1 $
-  where $omega(G)$ is the size of the largest clique and $Delta(G)$ is the maximum degree.
+  where $omega(G)$ is the _clique number_ and $Delta(G)$ is the maximum degree.
 ]
+
+#proof[(Lower bound)][ A clique of size $k$ needs $k$ different colors.]
 
 #theorem[Brooks' Theorem][
   For any connected graph $G$ that is not a complete graph or an odd cycle:
@@ -2008,26 +2034,26 @@ This graph is 3-colorable. Is $chi(G) = 3$?
 ]
 
 #Block(color: yellow)[
-  *Note:* Computing $chi(G)$ is NP-hard, but 2-colorability (bipartiteness) can be checked in polynomial time.
+  *Complexity cliff:* Computing $chi(G)$ is NP-hard, but checking 2-colorability is $O(n+m)$. The jump from \"Is $chi(G) <= 2$?\" to \"Is $chi(G) <= 3$?\" is where tractability ends.
 ]
 
 == The Four Color Theorem
 
 #theorem[Four Color Theorem][
-  Every planar graph is 4-colorable.
+  Every planar graph is 4-colorable: $chi(G) <= 4$ for all planar $G$.
 ]
 
 #Block(color: teal)[
-  *Historical note:*
+  *A controversial proof:*
   - Conjectured in 1852 by Francis Guthrie
-  - Proved in 1976 by Appel and Haken using a computer
-  - First major theorem proved with computer assistance
-  - The proof checked ~1,500 configurations!
+  - Proved in 1976 by Appel and Haken _using a computer_
+  - First major theorem requiring computational verification
+  - Checked ~1,500 \"unavoidable\" configurations
+  - Sparked debates: Is a computer-assisted proof a \"real\" proof?
 ]
 
 #Block(color: blue)[
-  *Application:* Any map can be colored with 4 colors such that no adjacent regions share a color.
-]
+  *The dual view:* Coloring vertices of a planar graph = coloring regions of a map so adjacent regions differ. Every map needs at most 4 colors!\n]
 
 == Edge Coloring
 
@@ -2115,7 +2141,7 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
 #Block(color: orange)[
   *Warning:* Computing Ramsey numbers is extremely hard. We know $R(3,3) = 6$, $R(4,4) = 18$, but $R(5,5)$ is unknown!
 
-  Famous quote by Erdős: "Suppose aliens invade the earth and threaten to obliterate it in a year's time unless human beings can find $R(5,5)$. We could marshal the world's best minds and fastest computers, and within a year we could probably calculate the value. If they digit$R(6,6)$, we would have no choice but to launch a preemptive attack."
+  Famous quote by Erdős: "Suppose aliens invade the earth and threaten to obliterate it in a year's time unless human beings can find $R(5,5)$. We could marshal the world's best minds and fastest computers, and within a year we could probably calculate the value. If they digit $R(6,6)$, we would have no choice but to launch a preemptive attack."
 ]
 
 
@@ -2128,46 +2154,47 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
   columns: (1fr, 1fr),
   gutter: 1em,
   [
-    *Structural properties:*
-    - Degree, adjacency, incidence
+    *Structural concepts:*
+    - Degree, adjacency, neighborhoods
     - Paths, cycles, connectivity
-    - Trees, spanning trees
-    - Bipartiteness
-    - Planarity
+    - Trees, spanning trees, forests
+    - Bipartiteness (2-colorability)
+    - Planarity (Euler's formula)
   ],
   [
     *Optimization problems:*
     - Matchings (Hall, König)
     - Vertex/edge covers
-    - Coloring (chromatic number)
+    - Graph coloring ($chi$, $chi'$)
     - Cliques and stable sets
     - Connectivity (Menger)
   ],
 )
 
 #Block(color: yellow)[
-  *Key theorems to remember:*
-  - Handshaking lemma: $sum deg(v) = 2|E|$
-  - Euler's formula: $v - e + f = 2$
-  - Hall's marriage theorem
-  - Menger's theorem
-  - Four color theorem
+  *Foundational theorems:*
+  - Handshaking: $sum deg(v) = 2m$
+  - Euler's formula: $n - m + f = 2$
+  - Hall's marriage theorem (matchings $<->$ neighborhoods)
+  - Menger's theorem (paths $<->$ cuts)
+  - Four color theorem (planarity $->$ 4-colorability)
 ]
 
 == What's Next: Flow Networks
 
 #Block(color: blue)[
-  *Coming up:* Network flows generalize many graph concepts:
-  - Maximum matchings $arrow.r$ maximum flow
-  - Menger's theorem $arrow.r$ max-flow min-cut
-  - Hall's theorem $arrow.r$ flow feasibility
+  *Coming up:* Network flows unify and generalize graph theory:
+  - Maximum bipartite matching $=$ max flow in unit network
+  - Menger's theorem $=$ max-flow min-cut with unit capacities
+  - Hall's condition $=$ flow feasibility check
+  - König's theorem $=$ LP duality for bipartite matching
 ]
 
 Graph theory provides the foundation for:
-- Algorithms (BFS, DFS, shortest paths)
+- Algorithms (BFS, DFS, shortest paths, MST)
 - Network design and optimization
-- Formal language theory (automata are labeled graphs!)
-- Combinatorics and counting
+- Formal language theory (automata are directed labeled graphs!)
+- Combinatorics, counting, and probabilistic methods
 
 
 == Exercises
