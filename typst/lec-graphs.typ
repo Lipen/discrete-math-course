@@ -143,28 +143,32 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
 == Undirected vs Directed Graphs
 
-#columns(2)[
-  #definition[Undirected Graph][
-    In an _undirected graph_, edges are _unordered pairs_:
-    $ E subset.eq binom(V, 2) = { {u, v} | u, v in V, u != v } $
-  ]
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  row-gutter: 1em,
+  [
+    #definition[Undirected Graph][
+      In an _undirected graph_, edges are _unordered pairs_:
+      $ E subset.eq binom(V, 2) = { {u, v} | u, v in V, u != v } $
+    ]
 
-  The edge ${u, v}$ connects $u$ and $v$ symmetrically.
+    The edge ${u, v}$ connects $u$ and $v$ symmetrically.
+  ],
+  [
+    #definition[Directed Graph][
+      In a _directed graph_ (digraph), edges are _ordered pairs_:
+      $ E subset.eq V times V $
+    ]
 
-  #colbreak()
-
-  #definition[Directed Graph][
-    In a _directed graph_ (digraph), edges are _ordered pairs_:
-    $ E subset.eq V times V $
-  ]
-
-  The edge $(u, v)$ goes _from_ $u$ _to_ $v$.
-]
+    The edge $(u, v)$ goes _from_ $u$ _to_ $v$.
+  ],
+)
 
 #v(1em)
 
 #align(center)[
-  #import fletcher: diagram, edge, node
+  #import fletcher: diagram, edge, node, shapes
   #grid(
     columns: 2,
     gutter: 3cm,
@@ -172,10 +176,10 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((0, 1), $c$, tint: blue, name: <c>),
-        blob((1, 1), $d$, tint: blue, name: <d>),
+        blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
+        blob((1, 0), $b$, tint: blue, shape: shapes.circle, name: <b>),
+        blob((0, 1), $c$, tint: blue, shape: shapes.circle, name: <c>),
+        blob((1, 1), $d$, tint: blue, shape: shapes.circle, name: <d>),
         edge(<a>, <b>),
         edge(<b>, <d>),
         edge(<d>, <c>),
@@ -188,10 +192,10 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((0, 1), $c$, tint: blue, name: <c>),
-        blob((1, 1), $d$, tint: blue, name: <d>),
+        blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
+        blob((1, 0), $b$, tint: blue, shape: shapes.circle, name: <b>),
+        blob((0, 1), $c$, tint: blue, shape: shapes.circle, name: <c>),
+        blob((1, 1), $d$, tint: blue, shape: shapes.circle, name: <d>),
         edge(<a>, <b>, "->"),
         edge(<b>, <d>, "->"),
         edge(<d>, <c>, "->"),
@@ -212,7 +216,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #align(center)[
-  #import fletcher: diagram, edge, node
+  #import fletcher: diagram, edge, node, shapes
   #grid(
     columns: 3,
     gutter: 2cm,
@@ -220,9 +224,9 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((0.5, 0.8), $c$, tint: blue, name: <c>),
+        blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
+        blob((1, 0), $b$, tint: blue, shape: shapes.circle, name: <b>),
+        blob((0.5, 0.8), $c$, tint: blue, shape: shapes.circle, name: <c>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <a>),
@@ -234,9 +238,9 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((0.5, 0.8), $c$, tint: blue, name: <c>),
+        blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
+        blob((1, 0), $b$, tint: blue, shape: shapes.circle, name: <b>),
+        blob((0.5, 0.8), $c$, tint: blue, shape: shapes.circle, name: <c>),
         edge(<a>, <b>, bend: 20deg),
         edge(<a>, <b>, bend: -20deg),
         edge(<b>, <c>),
@@ -249,9 +253,9 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((0.5, 0.8), $c$, tint: blue, name: <c>),
+        blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
+        blob((1, 0), $b$, tint: blue, shape: shapes.circle, name: <b>),
+        blob((0.5, 0.8), $c$, tint: blue, shape: shapes.circle, name: <c>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <a>),
@@ -277,16 +281,16 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
 #example[
   #columns(2)[
-    #import fletcher: diagram, edge, node
+    #import fletcher: diagram, edge, node, shapes
     #align(center)[
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: green, name: <b>),
-        blob((2, 0), $c$, tint: blue, name: <c>),
-        blob((0.5, 0.8), $d$, tint: green, name: <d>),
-        blob((1.5, 0.8), $e$, tint: green, name: <e>),
+        blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
+        blob((1, 0), $b$, tint: green, shape: shapes.circle, name: <b>),
+        blob((2, 0), $c$, tint: blue, shape: shapes.circle, name: <c>),
+        blob((0.5, 0.8), $d$, tint: green, shape: shapes.circle, name: <d>),
+        blob((1.5, 0.8), $e$, tint: green, shape: shapes.circle, name: <e>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<b>, <d>),
@@ -332,35 +336,44 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
-  #columns(2)[
-    #import fletcher: diagram, edge, node
-    #align(center)[
-      #diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((2, 0), $c$, tint: blue, name: <c>),
-        blob((0.5, 0.8), $d$, tint: blue, name: <d>),
-        blob((1.5, 0.8), $e$, tint: blue, name: <e>),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<b>, <d>),
-        edge(<b>, <e>),
-        edge(<d>, <e>),
-      )
-    ]
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
+  #grid(
+    columns: 2,
+    column-gutter: 2em,
+    row-gutter: 1em,
+    diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), $a$, <a>),
+      vertex((1, 0), $b$, <b>),
+      vertex((2, 0), $c$, <c>),
+      vertex((0.5, 0.8), $d$, <d>),
+      vertex((1.5, 0.8), $e$, <e>),
+      edge(<a>, <b>),
+      edge(<b>, <c>),
+      edge(<b>, <d>),
+      edge(<b>, <e>),
+      edge(<d>, <e>),
+    ),
+    [
+      Degrees: $deg(a) = 1$, $deg(b) = 4$, $deg(c) = 1$, $deg(d) = 2$, $deg(e) = 2$
 
-    #colbreak()
-
-    Degrees: $deg(a) = 1$, $deg(b) = 4$, $deg(c) = 1$, $deg(d) = 2$, $deg(e) = 2$
-
-    Degree sequence: $(4, 2, 2, 1, 1)$
-  ]
+      Degree sequence: $(4, 2, 2, 1, 1)$
+    ],
+  )
 ]
 
 #Block(color: blue)[
   *Question:* Given a sequence of integers, can we determine if it's the degree sequence of some graph?
+
   This is the _graph realization problem_.
 ]
 
@@ -372,77 +385,90 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name, ..args) = blob(
+    pos,
+    [],
+    tint: blue,
+    shape: shapes.circle,
+    radius: 4pt,
+    name: name,
+    ..args,
+  )
+  #let h = 1
+  #let tr = h * 2 / 3
+  #let pr = h / (1 + calc.cos(calc.pi / 5))
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((0, h), <b>),
+        vertex((h, h), <c>),
+        vertex((h, 0), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
+      [*2-regular* \ (cycle $C_4$)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((0, h), <b>),
+        vertex((h, h), <c>),
+        vertex((h, 0), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+        edge(<a>, <c>),
+        edge(<b>, <d>),
+      ),
+      [*3-regular* \ (complete $K_4$)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((-90deg + 360deg / 5 * 0, pr), <a>),
+        vertex((-90deg + 360deg / 5 * 1, pr), <b>),
+        vertex((-90deg + 360deg / 5 * 2, pr), <c>),
+        vertex((-90deg + 360deg / 5 * 3, pr), <d>),
+        vertex((-90deg + 360deg / 5 * 4, pr), <e>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <e>),
+        edge(<e>, <a>),
+      ),
+      [*2-regular* \ (cycle $C_5$)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((-90deg + 360deg / 3 * 0, tr), <a>),
+        vertex((-90deg + 360deg / 3 * 1, tr), <b>),
+        vertex((-90deg + 360deg / 3 * 2, tr), <c>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <a>),
+      ),
+      [*2-regular* \ (complete $K_3$)],
+    ),
+  )
   #align(center)[
-    #import fletcher: diagram, edge, node
     #grid(
-      columns: 4,
-      gutter: 1.5cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((1, 1), [], tint: blue, name: <c>),
-          blob((0, 1), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-        )
-        #v(0.3em)
-        *2-regular* \ (cycle $C_4$)
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((1, 1), [], tint: blue, name: <c>),
-          blob((0, 1), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-          edge(<a>, <c>),
-          edge(<b>, <d>),
-        )
-        #v(0.3em)
-        *3-regular* \ (complete $K_4$)
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          node((0, 0), [], stroke: 1pt, shape: circle, fill: blue.lighten(80%), name: <a>),
-          node((1, 0), [], stroke: 1pt, shape: circle, fill: blue.lighten(80%), name: <b>),
-          node((1.3, 0.8), [], stroke: 1pt, shape: circle, fill: blue.lighten(80%), name: <c>),
-          node((0.5, 1.2), [], stroke: 1pt, shape: circle, fill: blue.lighten(80%), name: <d>),
-          node((-0.3, 0.8), [], stroke: 1pt, shape: circle, fill: blue.lighten(80%), name: <e>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <e>),
-          edge(<e>, <a>),
-        )
-        #v(0.3em)
-        *2-regular* \ (cycle $C_5$)
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((0.5, 0.87), [], tint: blue, name: <c>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <a>),
-        )
-        #v(0.3em)
-        *2-regular* \ (complete $K_3$)
-      ],
+      columns: data.len(),
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      column-gutter: 2em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
     )
   ]
 ]
@@ -459,72 +485,82 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name, ..args) = blob(
+    pos,
+    [],
+    tint: blue,
+    shape: shapes.circle,
+    radius: 4pt,
+    name: name,
+    ..args,
+  )
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((0, 1), <c>),
+        vertex((1, 1), <d>),
+      ),
+      [$overline(K)_4$ (empty)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((1, 1), <c>),
+        vertex((0, 1), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+        edge(<a>, <c>),
+        edge(<b>, <d>),
+      ),
+      [$K_4$ (complete)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((1, 1), <c>),
+        vertex((0, 1), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
+      [$C_4$ (cycle)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((0.7, 0), <b>),
+        vertex((1.4, 0), <c>),
+        vertex((2.1, 0), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+      ),
+      [$P_4$ (path)],
+    ),
+  )
   #align(center)[
-    #import fletcher: diagram, edge, node
     #grid(
-      columns: 4,
-      gutter: 1.5cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((0.7, 0), [], tint: blue, name: <b>),
-          blob((1.4, 0), [], tint: blue, name: <c>),
-          blob((2.1, 0), [], tint: blue, name: <d>),
-        )
-        #v(0.3em)
-        $overline(K_4)$ (empty)
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((1, 1), [], tint: blue, name: <c>),
-          blob((0, 1), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-          edge(<a>, <c>),
-          edge(<b>, <d>),
-        )
-        #v(0.3em)
-        $K_4$ (complete)
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((1, 1), [], tint: blue, name: <c>),
-          blob((0, 1), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-        )
-        #v(0.3em)
-        $C_4$ (cycle)
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((0.7, 0), [], tint: blue, name: <b>),
-          blob((1.4, 0), [], tint: blue, name: <c>),
-          blob((2.1, 0), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-        )
-        #v(0.3em)
-        $P_4$ (path)
-      ],
+      columns: data.len(),
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      column-gutter: 3em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
     )
   ]
 ]
@@ -541,34 +577,43 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
-  #columns(2)[
-    #import fletcher: diagram, edge, node
-    #align(center)[
-      #diagram(
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #let h = 1.5cm
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: center + horizon,
+      column-gutter: 4em,
+      diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $1$, tint: blue, name: <1>),
-        blob((1, 0), $2$, tint: blue, name: <2>),
-        blob((1, 1), $3$, tint: blue, name: <3>),
-        blob((0, 1), $4$, tint: blue, name: <4>),
+        vertex((0cm, 0cm), $1$, <1>),
+        vertex((h, 0cm), $2$, <2>),
+        vertex((h, h), $3$, <3>),
+        vertex((0cm, h), $4$, <4>),
         edge(<1>, <2>),
         edge(<2>, <3>),
         edge(<3>, <4>),
         edge(<4>, <1>),
         edge(<1>, <3>),
-      )
-    ]
-
-    #colbreak()
-
-    $
-      A = mat(
-        0, 1, 1, 1;
-        1, 0, 1, 0;
-        1, 1, 0, 1;
-        1, 0, 1, 0;
-      )
-    $
+      ),
+      $
+        A = mat(
+          0, 1, 1, 1;
+          1, 0, 1, 0;
+          1, 1, 0, 1;
+          1, 0, 1, 0;
+        )
+      $,
+    )
   ]
 ]
 
@@ -583,34 +628,42 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
-  #columns(2)[
-    #import fletcher: diagram, edge, node
-    #align(center)[
-      #diagram(
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: center + horizon,
+      column-gutter: 4em,
+      diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $1$, tint: blue, name: <1>),
-        blob((1, 0), $2$, tint: blue, name: <2>),
-        blob((1, 1), $3$, tint: blue, name: <3>),
-        blob((0, 1), $4$, tint: blue, name: <4>),
+        vertex((0, 0), $1$, <1>),
+        vertex((1, 0), $2$, <2>),
+        vertex((1, 1), $3$, <3>),
+        vertex((0, 1), $4$, <4>),
         edge(<1>, <2>),
         edge(<2>, <3>),
         edge(<3>, <4>),
         edge(<4>, <1>),
         edge(<1>, <3>),
-      )
-    ]
-
-    #colbreak()
-
-    #table(
-      columns: 2,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      [*Vertex*], [*Neighbors*],
-      [$1$], [$2, 3, 4$],
-      [$2$], [$1, 3$],
-      [$3$], [$1, 2, 4$],
-      [$4$], [$1, 3$],
+      ),
+      table(
+        columns: 2,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        [*Vertex*], [*Neighbors*],
+        [$1$], [$2, 3, 4$],
+        [$2$], [$1, 3$],
+        [$3$], [$1, 2, 4$],
+        [$4$], [$1, 3$],
+      ),
     )
   ]
 ]
@@ -622,8 +675,10 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 == Subgraphs
 
 #definition[
-  A graph $H = pair(V', E')$ is a _subgraph_ of $G = pair(V, E)$ if $V' subset.eq V$ and $E' subset.eq E$.
-  We write $H subset.eq G$.
+  A graph $H = pair(V', E')$ is a _subgraph_ of $G = pair(V, E)$, denoted $H subset.eq G$, if
+  $
+    V' subset.eq V quad "and" quad E' subset.eq E
+  $
 ]
 
 #definition[
@@ -633,57 +688,68 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
-  #align(center)[
-    #import fletcher: diagram, edge, node
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #let h = 1.5cm
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), $a$, <a>),
+        vertex((h, 0cm), $b$, <b>),
+        vertex((h, h), $c$, <c>),
+        vertex((0cm, h), $d$, <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+        edge(<a>, <c>),
+      ),
+      [*Original $G$*],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), $a$, <a>),
+        vertex((h, 0cm), $b$, <b>),
+        vertex((h, h), $c$, <c>),
+        vertex((0cm, h), $d$, <d>),
+        edge(<a>, <b>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
+      [*Spanning subgraph*],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), $a$, <a>),
+        vertex((h, 0cm), $b$, <b>),
+        vertex((h, h), $c$, <c>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<a>, <c>),
+      ),
+      [*Induced $G[{a,b,c}]$*],
+    ),
+  )
+  #place(center)[
     #grid(
-      columns: 3,
-      gutter: 2cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), $a$, tint: blue, name: <a>),
-          blob((1, 0), $b$, tint: blue, name: <b>),
-          blob((1, 1), $c$, tint: blue, name: <c>),
-          blob((0, 1), $d$, tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-          edge(<a>, <c>),
-        )
-        #v(0.3em)
-        *Original $G$*
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), $a$, tint: blue, name: <a>),
-          blob((1, 0), $b$, tint: blue, name: <b>),
-          blob((1, 1), $c$, tint: blue, name: <c>),
-          blob((0, 1), $d$, tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-        )
-        #v(0.3em)
-        *Spanning subgraph*
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), $a$, tint: green, name: <a>),
-          blob((1, 0), $b$, tint: green, name: <b>),
-          blob((1, 1), $c$, tint: green, name: <c>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<a>, <c>),
-        )
-        #v(0.3em)
-        *Induced $G[{a,b,c}]$*
-      ],
+      columns: data.len(),
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      column-gutter: 4em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
     )
   ]
 ]
@@ -692,46 +758,57 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
 #definition[
   Graphs $G_1 = pair(V_1, E_1)$ and $G_2 = pair(V_2, E_2)$ are _isomorphic_, written $G_1 tilde.eq G_2$, if there exists a bijection $phi: V_1 -> V_2$ that _preserves adjacency_:
-  $ {u, v} in E_1 <==> {phi(u), phi(v)} in E_2 $
+  $
+    {u, v} in E_1 quad iff quad {phi(u), phi(v)} in E_2
+  $
 ]
 
 #Block(color: blue)[
-  *Intuition:* Isomorphic graphs are \"the same graph\" with different vertex labels. They have identical structure.\n]
+  *Intuition:*
+  Isomorphic graphs are "the same graph" with different vertex labels.
+  They have identical structure.
+]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
+  #let h = 1.5cm
+  #let hh = h / 2
   #align(center)[
-    #import fletcher: diagram, edge, node
     #grid(
       columns: 2,
       gutter: 3cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), $1$, tint: blue, name: <1>),
-          blob((1, 0), $2$, tint: blue, name: <2>),
-          blob((1, 1), $3$, tint: blue, name: <3>),
-          blob((0, 1), $4$, tint: blue, name: <4>),
-          edge(<1>, <2>),
-          edge(<2>, <3>),
-          edge(<3>, <4>),
-          edge(<4>, <1>),
-        )
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0.5), $a$, tint: green, name: <a>),
-          blob((0.5, 0), $b$, tint: green, name: <b>),
-          blob((1, 0.5), $c$, tint: green, name: <c>),
-          blob((0.5, 1), $d$, tint: green, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-        )
-      ],
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), $1$, <1>),
+        vertex((h, 0cm), $2$, <2>),
+        vertex((h, h), $3$, <3>),
+        vertex((0cm, h), $4$, <4>),
+        edge(<1>, <2>),
+        edge(<2>, <3>),
+        edge(<3>, <4>),
+        edge(<4>, <1>),
+      ),
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((-hh, 0cm), $a$, <a>),
+        vertex((0cm, -hh), $b$, <b>),
+        vertex((hh, 0cm), $c$, <c>),
+        vertex((0cm, hh), $d$, <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
     )
   ]
 ]
@@ -739,7 +816,9 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |-> c, 4 |-> d$ preserves adjacency.
 
 #Block(color: orange)[
-  *Computational mystery:* Graph isomorphism is in NP but _not known_ to be NP-complete or in P. In 2015, Babai showed it's in _quasipolynomial time_ --- a major breakthrough, but the exact complexity remains open.
+  *Computational mystery:*
+  Graph isomorphism is in NP but _not known_ to be NP-complete or in P.
+  In~2015, Babai showed it's in _quasipolynomial time_ --- a major breakthrough, but the exact complexity remains open.
 ]
 
 
@@ -762,9 +841,9 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
     columns: 4,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     [*Type*], [*Vertices repeat?*], [*Edges repeat?*], [*Closed version*],
-    [Walk], [Yes], [Yes], [Closed walk],
-    [Trail], [Yes], [No], [Circuit],
-    [Path], [No], [No], [Cycle],
+    [Walk], [Yes #YES], [Yes #YES], [Closed walk],
+    [Trail], [Yes #YES], [No #NO], [Circuit],
+    [Path], [No #NO], [No #NO], [Cycle],
   )
 ]
 
@@ -785,33 +864,43 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
 ]
 
 #example[
-  #columns(2)[
-    #import fletcher: diagram, edge, node
-    #align(center)[
-      #diagram(
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 2em,
+      diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: blue, name: <b>),
-        blob((2, 0), $c$, tint: blue, name: <c>),
-        blob((0.5, 0.8), $d$, tint: blue, name: <d>),
-        blob((1.5, 0.8), $e$, tint: blue, name: <e>),
+        vertex((0, 0), $a$, <a>),
+        vertex((1, 0), $b$, <b>),
+        vertex((2, 0), $c$, <c>),
+        vertex((0.5, 0.8), $d$, <d>),
+        vertex((1.5, 0.8), $e$, <e>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<a>, <d>),
         edge(<d>, <e>),
         edge(<e>, <c>),
         edge(<b>, <d>),
-      )
-    ]
-
-    #colbreak()
-
-    - $dist(a, b) = 1$
-    - $dist(a, c) = 2$
-    - $dist(a, e) = 2$
-    - Path $a$-$b$-$c$ has length 2
-    - Trail $a$-$d$-$b$-$c$-$e$-$d$ has length 5
+      ),
+      [
+        - $dist(a, b) = 1$
+        - $dist(a, c) = 2$
+        - $dist(a, e) = 2$
+        - Path $a$-$b$-$c$ has length 2
+        - Trail $a$-$d$-$b$-$c$-$e$-$d$ has length 5
+      ],
+    )
   ]
 ]
 
@@ -825,29 +914,38 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
 ]
 
 #example[
-  #columns(2)[
-    #import fletcher: diagram, edge, node
-    #align(center)[
-      #diagram(
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, ..args) = blob(
+    pos,
+    label,
+    radius: .9em,
+    name: name,
+    ..args,
+  )
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 2em,
+      diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        blob((0, 0), $a$, tint: blue, name: <a>),
-        blob((1, 0), $b$, tint: green, name: <b>),
-        blob((2, 0), $c$, tint: green, name: <c>),
-        blob((3, 0), $d$, tint: blue, name: <d>),
+        vertex((0, 0), $a$, <a>, tint: blue),
+        vertex((1, 0), $b$, <b>, tint: green),
+        vertex((2, 0), $c$, <c>, tint: green),
+        vertex((3, 0), $d$, <d>, tint: blue),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <d>),
-      )
-    ]
-
-    #colbreak()
-
-    Path graph $P_4$:
-    - $ecc(a) = ecc(d) = 3$
-    - $ecc(b) = ecc(c) = 2$
-    - $rad(G) = 2$, $diam(G) = 3$
-    - $Center(G) = {b, c}$
+      ),
+      [
+        Path graph $P_4$:
+        - $ecc(a) = ecc(d) = 3$
+        - $ecc(b) = ecc(c) = 2$
+        - $rad(G) = 2$, $diam(G) = 3$
+        - $Center(G) = {b, c}$
+      ],
+    )
   ]
 ]
 
@@ -866,24 +964,32 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
 ]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
   #align(center)[
-    #import fletcher: diagram, edge, node
     #diagram(
       node-stroke: 1pt,
       edge-stroke: 1pt,
       // Component 1
-      blob((0, 0), $a$, tint: blue, name: <a>),
-      blob((1, 0), $b$, tint: blue, name: <b>),
-      blob((0.5, 0.8), $c$, tint: blue, name: <c>),
+      vertex((0, 0), $a$, <a>, blue),
+      vertex((1, 0), $b$, <b>, blue),
+      vertex((0.5, calc.cos(30deg)), $c$, <c>, blue),
       edge(<a>, <b>),
       edge(<b>, <c>),
       edge(<c>, <a>),
       // Component 2
-      blob((2.5, 0), $d$, tint: green, name: <d>),
-      blob((3.5, 0), $e$, tint: green, name: <e>),
+      vertex((2.5, calc.cos(30deg) / 2), $d$, <d>, green),
+      vertex((3.5, calc.cos(30deg) / 2), $e$, <e>, green),
       edge(<d>, <e>),
       // Component 3
-      blob((5, 0.4), $f$, tint: orange, name: <f>),
+      vertex((5, calc.cos(30deg) / 2), $f$, <f>, orange),
     )
   ]
 ]
@@ -903,56 +1009,66 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name) = blob(
+    pos,
+    [],
+    tint: blue,
+    shape: shapes.circle,
+    radius: 5pt,
+    name: name,
+  )
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((0.5, calc.cos(30deg)), <b>),
+        vertex((1, 0), <c>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <a>),
+      ),
+      [*$girth(K_3) = 3$*],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((1, 1), <c>),
+        vertex((0, 1), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
+      [*$girth(C_4) = 4$*],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((0.7, 0), <b>),
+        vertex((1.4, 0), <c>),
+        vertex((2.1, 0), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+      ),
+      [*$girth(P_4) = infinity$*],
+    ),
+  )
   #align(center)[
-    #import fletcher: diagram, edge, node
     #grid(
       columns: 3,
-      gutter: 2cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((0.5, 0.87), [], tint: blue, name: <b>),
-          blob((1, 0), [], tint: blue, name: <c>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <a>),
-        )
-        #v(0.3em)
-        $girth = 3$
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((1, 1), [], tint: blue, name: <c>),
-          blob((0, 1), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-        )
-        #v(0.3em)
-        $girth = 4$
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((1, 0), [], tint: blue, name: <b>),
-          blob((2, 0), [], tint: blue, name: <c>),
-          blob((3, 0), [], tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-        )
-        #v(0.3em)
-        $girth = infinity$
-      ],
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      column-gutter: 4em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
     )
   ]
 ]
@@ -970,52 +1086,62 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name) = blob(
+    pos,
+    [],
+    tint: blue,
+    shape: shapes.circle,
+    radius: 5pt,
+    name: name,
+  )
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((1, 0), <root>),
+        vertex((0, 1), <l>),
+        vertex((2, 1), <r>),
+        vertex((-0.3, 2), <ll>),
+        vertex((0.5, 2), <lr>),
+        vertex((1.7, 2), <rl>),
+        vertex((2.3, 2), <rr>),
+        edge(<root>, <l>),
+        edge(<root>, <r>),
+        edge(<l>, <ll>),
+        edge(<l>, <lr>),
+        edge(<r>, <rl>),
+        edge(<r>, <rr>),
+      ),
+      [*A tree*],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        // Tree 1
+        vertex((0, 0), <a>),
+        vertex((-0.4, 1), <b>),
+        vertex((0.4, 1), <c>),
+        edge(<a>, <b>),
+        edge(<a>, <c>),
+        // Tree 2
+        vertex((1.5, 0.5), <d>),
+        vertex((2, 0.5), <e>),
+        edge(<d>, <e>),
+        // Tree 3
+        vertex((3, 0.5), <f>),
+      ),
+      [*A forest (3 trees)*],
+    ),
+  )
   #align(center)[
-    #import fletcher: diagram, edge, node
     #grid(
       columns: 2,
-      gutter: 3cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((1, 0), [], tint: blue, name: <root>),
-          blob((0, 1), [], tint: blue, name: <l>),
-          blob((2, 1), [], tint: blue, name: <r>),
-          blob((-0.3, 2), [], tint: blue, name: <ll>),
-          blob((0.5, 2), [], tint: blue, name: <lr>),
-          blob((1.7, 2), [], tint: blue, name: <rl>),
-          blob((2.3, 2), [], tint: blue, name: <rr>),
-          edge(<root>, <l>),
-          edge(<root>, <r>),
-          edge(<l>, <ll>),
-          edge(<l>, <lr>),
-          edge(<r>, <rl>),
-          edge(<r>, <rr>),
-        )
-        #v(0.3em)
-        *A tree*
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          // Tree 1
-          blob((0, 0), [], tint: blue, name: <a>),
-          blob((-0.4, 1), [], tint: blue, name: <b>),
-          blob((0.4, 1), [], tint: blue, name: <c>),
-          edge(<a>, <b>),
-          edge(<a>, <c>),
-          // Tree 2
-          blob((1.5, 0.5), [], tint: green, name: <d>),
-          blob((2, 0.5), [], tint: green, name: <e>),
-          edge(<d>, <e>),
-          // Tree 3
-          blob((3, 0.5), [], tint: orange, name: <f>),
-        )
-        #v(0.3em)
-        *A forest* \ (3 trees)
-      ],
+      column-gutter: 3em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
     )
   ]
 ]
@@ -1053,29 +1179,45 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #example[
-  #align(center)[
-    #import fletcher: diagram, edge, node
-    #diagram(
-      node-stroke: 1pt,
-      edge-stroke: 1pt,
-      blob((1, 0), [root], tint: red, name: <root>),
-      blob((0, 1), $a$, tint: blue, name: <a>),
-      blob((2, 1), $b$, tint: blue, name: <b>),
-      blob((-0.3, 2), $c$, tint: green, name: <c>),
-      blob((0.5, 2), $d$, tint: green, name: <d>),
-      blob((2, 2), $e$, tint: green, name: <e>),
-      edge(<root>, <a>),
-      edge(<root>, <b>),
-      edge(<a>, <c>),
-      edge(<a>, <d>),
-      edge(<b>, <e>),
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint, ..args) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+    ..args,
+  )
+  #place(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 2em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        spacing: (2em, 1.5em),
+        vertex((1, 0), [root], <root>, red, shape: shapes.rect, width: 2.5em, radius: auto),
+        vertex((0, 1), $a$, <a>, blue),
+        vertex((2, 1), $b$, <b>, blue),
+        vertex((-0.5, 2), $c$, <c>, green),
+        vertex((0.5, 2), $d$, <d>, green),
+        vertex((2, 2), $e$, <e>, green),
+        edge(<root>, <a>),
+        edge(<root>, <b>),
+        edge(<a>, <c>),
+        edge(<a>, <d>),
+        edge(<b>, <e>),
+      ),
+      [
+        - #Red[Root] has children $a, b$
+        - #Green[Leaves]: $c, d, e$
+        - #Blue[Internal] vertices: root, $a, b$
+      ],
     )
   ]
 ]
-
-- Root has children $a, b$
-- Leaves: $c, d, e$ (shown in green)
-- Internal vertices: root, $a, b$
 
 == Spanning Trees
 
@@ -1088,45 +1230,54 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: 0.9em,
+    name: name,
+  )
+  #let h = 1.5cm
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), $a$, <a>),
+        vertex((h, 0cm), $b$, <b>),
+        vertex((h, h), $c$, <c>),
+        vertex((0cm, h), $d$, <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+        edge(<a>, <c>),
+      ),
+      [*Original graph*],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), $a$, <a>),
+        vertex((h, 0cm), $b$, <b>),
+        vertex((h, h), $c$, <c>),
+        vertex((0cm, h), $d$, <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+      ),
+      [*A spanning tree*],
+    ),
+  )
   #align(center)[
-    #import fletcher: diagram, edge, node
     #grid(
       columns: 2,
-      gutter: 3cm,
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), $a$, tint: blue, name: <a>),
-          blob((1, 0), $b$, tint: blue, name: <b>),
-          blob((1, 1), $c$, tint: blue, name: <c>),
-          blob((0, 1), $d$, tint: blue, name: <d>),
-          edge(<a>, <b>),
-          edge(<b>, <c>),
-          edge(<c>, <d>),
-          edge(<d>, <a>),
-          edge(<a>, <c>),
-        )
-        #v(0.3em)
-        *Original graph*
-      ],
-      [
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          blob((0, 0), $a$, tint: blue, name: <a>),
-          blob((1, 0), $b$, tint: blue, name: <b>),
-          blob((1, 1), $c$, tint: blue, name: <c>),
-          blob((0, 1), $d$, tint: blue, name: <d>),
-          edge(<a>, <b>, stroke: 2pt + green),
-          edge(<b>, <c>, stroke: 2pt + green),
-          edge(<c>, <d>, stroke: 2pt + green),
-          edge(<d>, <a>, stroke: gray + 0.5pt),
-          edge(<a>, <c>, stroke: gray + 0.5pt),
-        )
-        #v(0.3em)
-        *A spanning tree*
-      ],
+      column-gutter: 3em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
     )
   ]
 ]
@@ -1153,7 +1304,9 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #Block(color: yellow)[
-  *Why $n^(n-2)$?* Each of the $n-2$ positions in a Prüfer sequence can be any of $n$ vertices. The encoding is reversible, establishing the bijection.
+  *Why $n^(n-2)$?*
+  Each of the $n-2$ positions in a Prüfer sequence can be any of $n$ vertices. \
+  The encoding is reversible, establishing the bijection.
 ]
 
 == Prüfer Sequences
