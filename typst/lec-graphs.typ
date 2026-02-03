@@ -36,19 +36,19 @@
     ),
     (
       name: "Arthur Cayley",
-      image: image("assets/base.jpg"), // TODO: add proper image
+      image: image("assets/Arthur_Cayley.jpg"),
     ),
     (
       name: "William Rowan Hamilton",
-      image: image("assets/base.jpg"), // TODO: add proper image
+      image: image("assets/William_Rowan_Hamilton.jpg"),
     ),
     (
       name: "Karl Menger",
-      image: image("assets/base.jpg"), // TODO: add proper image
+      image: image("assets/Karl_Menger.jpg"),
     ),
     (
       name: "Philip Hall",
-      image: image("assets/base.jpg"), // TODO: add proper image
+      image: image("assets/Philip_Hall.jpg"),
     ),
   ),
 )
