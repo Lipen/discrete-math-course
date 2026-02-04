@@ -2365,26 +2365,28 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
     name: name,
   )
   #align(center)[
+    #v(-1em)
     #diagram(
       node-stroke: 1pt,
       edge-stroke: 1pt,
       // Block 1 (triangle)
       vertex((0, 0), <a>, blue),
-      vertex((0.5, 0.8), <b>, blue),
+      vertex((0.5, calc.cos(30deg)), <b>, blue),
       vertex((1, 0), <c>, purple),
       edge(<a>, <b>, stroke: blue),
       edge(<b>, <c>, stroke: blue),
       edge(<c>, <a>, stroke: blue),
       // Block 2 (pentagon)
-      vertex((2, 0), <d>, green),
-      vertex((2, 1), <e>, green),
-      vertex((3, 1), <f>, green),
+      vertex((2, -0.5), <d>, green),
+      vertex((1.5, 1), <e>, green),
+      vertex((2.5, 1), <f>, green),
       vertex((3, 0), <g>, purple),
       edge(<c>, <d>, stroke: green),
-      edge(<d>, <e>, stroke: green),
-      edge(<e>, <f>, stroke: green),
+      edge(<d>, <g>, stroke: green),
+      edge(<e>, <c>, stroke: green),
       edge(<f>, <g>, stroke: green),
-      edge(<g>, <c>, stroke: green),
+      edge(<e>, <f>, stroke: green),
+      edge(<e>, <d>, stroke: green),
       // Block 3 (single edge = bridge)
       vertex((4, 0.5), <h>, orange),
       edge(<g>, <h>, stroke: orange),
@@ -2405,61 +2407,82 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 
 #example[
   #import fletcher: diagram, edge, node, shapes
-  #grid(
-    columns: 2,
-    column-gutter: 2em,
-    align: center + horizon,
-    [
-      #let vertex(pos, label, name, tint) = blob(pos, label, tint: tint, shape: shapes.circle, radius: .7em, name: name)
-      #diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        // Block 1
-        vertex((0, 0), $a$, <a>, blue),
-        vertex((0.7, 0), $b$, <b>, purple),
-        edge(<a>, <b>, stroke: blue),
-        // Block 2 (triangle)
-        vertex((1.2, 0.5), $c$, <c>, green),
-        vertex((1.2, -0.5), $d$, <d>, green),
-        edge(<b>, <c>, stroke: green),
-        edge(<b>, <d>, stroke: green),
-        edge(<c>, <d>, stroke: green),
-        // Block 3
-        vertex((2, 0), $e$, <e>, purple),
-        vertex((2.7, 0), $f$, <f>, orange),
-        edge(<c>, <e>, stroke: orange),
-        edge(<e>, <f>, stroke: orange),
-      )
+  #align(center)[
+    #v(-1em)
+    #grid(
+      columns: 2,
+      align: horizon,
+      column-gutter: 4em,
+      [
+        #let vertex(pos, label, name, tint) = blob(
+          pos,
+          label,
+          tint: tint,
+          shape: shapes.circle,
+          radius: .7em,
+          name: name,
+        )
+        #diagram(
+          spacing: 2em,
+          node-stroke: 1pt,
+          edge-stroke: 1pt,
+          // Block 1
+          vertex((0, 0), $a$, <a>, blue),
+          vertex((1, 0), $b$, <b>, purple),
+          edge(<a>, <b>, stroke: blue),
+          // Block 2 (triangle)
+          vertex((2, 0.5), $c$, <c>, purple),
+          vertex((2, -0.5), $d$, <d>, green),
+          edge(<b>, <c>, stroke: green),
+          edge(<b>, <d>, stroke: green),
+          edge(<c>, <d>, stroke: green),
+          // Block 3
+          vertex((3, 0), $e$, <e>, orange),
+          edge(<c>, <e>, stroke: orange),
+        )
 
-      *Graph $G$*
-    ],
-    [
-      #let bnode(pos, label, name, tint) = blob(pos, label, tint: tint, shape: shapes.rect, radius: .6em, name: name)
-      #let cnode(pos, label, name) = blob(pos, label, tint: purple, shape: shapes.circle, radius: .6em, name: name)
-      #diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        bnode((0, 0), $B_1$, <B1>, blue),
-        cnode((1, 0), $b$, <b>),
-        bnode((2, 0), $B_2$, <B2>, green),
-        cnode((3, 0.5), $c$, <c>),
-        cnode((3, -0.5), $e$, <e>),
-        bnode((4, 0), $B_3$, <B3>, orange),
-        edge(<B1>, <b>),
-        edge(<b>, <B2>),
-        edge(<B2>, <c>),
-        edge(<B2>, <e>),
-        edge(<c>, <B3>),
-        edge(<e>, <B3>),
-      )
+        *Graph $G$*
+      ],
+      [
+        #let bnode(pos, label, name, tint) = blob(
+          pos,
+          label,
+          tint: tint,
+          shape: shapes.rect,
+          name: name,
+        )
+        #let cnode(pos, label, name) = blob(
+          pos,
+          label,
+          tint: purple,
+          shape: shapes.circle,
+          radius: 0.9em,
+          name: name,
+        )
+        #diagram(
+          node-stroke: 1pt,
+          edge-stroke: 1pt,
+          bnode((0, 0), $B_1$, <B1>, blue),
+          cnode((1, 0), $b$, <b>),
+          bnode((2, 0), $B_2$, <B2>, green),
+          cnode((3, 0), $c$, <c>),
+          bnode((4, 0), $B_3$, <B3>, orange),
+          edge(<B1>, <b>),
+          edge(<b>, <B2>),
+          edge(<B2>, <c>),
+          edge(<c>, <B3>),
+        )
 
-      *Block-Cut Tree*
-    ],
-  )
+        *Block-Cut Tree*
+      ],
+    )
+  ]
 ]
 
 #Block(color: yellow)[
-  *Applications:* The block-cut tree decomposes $G$ into 2-connected pieces. Many problems can be solved by dynamic programming on this tree.
+  *Applications:*
+  The block-cut tree decomposes $G$ into 2-connected pieces.
+  Many problems can be solved by dynamic programming on this tree.
 ]
 
 == Islands (2-Edge-Connected Components)
