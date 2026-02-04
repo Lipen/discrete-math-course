@@ -62,6 +62,7 @@ jobs:
       - run: typst compile typst/lec-boolean-algebra.typ
       - run: typst compile typst/lec-sat.typ
       - run: typst compile typst/lec-logic.typ
+      - run: typst compile typst/lec-graphs.typ
       - run: typst compile typst/lec-flow.typ
       - run: typst compile typst/lec-formal.typ
       - run: typst compile typst/lec-nfa.typ
