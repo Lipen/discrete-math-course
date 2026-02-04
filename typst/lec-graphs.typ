@@ -516,7 +516,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 #definition[
   - _Null graph_: no vertices ($V = emptyset$)
   - _Trivial graph_: single vertex, no edges ($|V| = 1$, $E = emptyset$)
-  - _Empty graph_ $overline(K_n)$: $n$ vertices, no edges
+  - _Empty graph_ $overline(K)_n$: $n$ vertices, no edges
   - _Complete graph_ $K_n$: $n$ vertices, all pairs connected
   - _Cycle_ $C_n$: $n$ vertices in a cycle
   - _Path_ $P_n$: $n$ vertices in a line
