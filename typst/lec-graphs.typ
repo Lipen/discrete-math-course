@@ -133,10 +133,24 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
 == What is a Graph?
 
-#definition[
-  A _graph_ is an ordered pair $G = pair(V, E)$, where:
-  - $V$ is a finite set of _vertices_ (also called _nodes_)
-  - $E$ is a set of _edges_ connecting pairs of vertices
+#Block(color: yellow)[
+  *Graphs as models:* Graphs are _mathematical abstractions_ for modeling relationships, connections, and structures. Different kinds of relationships lead to different types of graphs.
+]
+
+#definition[Abstract Approach][
+  A _graph_ is fundamentally a triple $G = (V, E, F)$, where:
+  - $V = {v_1, v_2, ...}$ is a finite set of _abstract vertices_ (unique objects)
+  - $E = {e_1, e_2, ...}$ is a finite set of _abstract edges_ (connections)
+  - $F$ is a collection of _functions_ that capture the graph's structure and semantics
+]
+
+#Block(color: blue)[
+  *The power of abstraction:* Vertices and edges are just _labels_ --- the functions $F$ define _all_ the meaning:
+  - For _undirected_ graphs: $F = {"ends": E to binom(V, 2)}$ maps each edge to its two endpoints
+  - For _directed_ graphs: $F = {"begin": E to V, "end": E to V}$ specify source and target
+  - For _weighted_ graphs: add $"weight": E to RR$
+  - For _hypergraphs:_ $"incidence": E to 2^V$ maps edges to _subsets_ of vertices
+  - For _vertex-labeled_ graphs: add $"label": V to Sigma$ for some alphabet $Sigma$
 ]
 
 #note(title: "Notation")[
@@ -146,10 +160,32 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   - $|E(G)|$ is the _size_ of $G$ (number of edges)
 ]
 
-#example[
-  $G = pair({a, b, c, d}, {{a,b}, {b,c}, {c,d}, {d,a}})$
+#Block(color: teal)[
+  *Bonus:* This abstract approach handles _multigraphs_ (parallel edges) and _loops_ naturally --- multiple edges in $E$ can map to the same endpoint pair, and a loop edge maps to a singleton set ${v}$ or has $"begin"(e) = "end"(e) = v$.
+]
 
-  This graph has 4 vertices and 4 edges forming a cycle $C_4$.
+== Structural Representation (Alternative Approach)
+
+#definition[Structural Approach][
+  Instead of abstract edges + functions, we can _encode structure directly_ into the edge definition:
+  - _Undirected:_ $E subset.eq binom(V, 2)$ (unordered pairs ${u, v}$)
+  - _Directed:_ $E subset.eq V times V$ (ordered pairs $(u, v)$)
+  - _Weighted:_ $E subset.eq V times V times RR$ (triples $(u, v, w)$)
+  - _Loops:_ Include singletons ${v}$ in $E$ or allow $(v, v)$
+]
+
+#v(1fr, weak: true)
+
+#Block(color: orange)[
+  *Trade-offs:*
+  - _Pros:_ Simpler for basic graphs; closer to programming impl (edge lists, adjacency matrices)
+  - _Cons:_ Less flexible; need ad-hoc extensions for weighted graphs, hypergraphs, attributes; mixing structure with semantics
+]
+
+#v(1fr, weak: true)
+
+#Block(color: green)[
+  *In practice:* For this course, we'll mostly use the _structural representation_ for simplicity, but keep the _abstract view_ in mind --- it explains why we can freely add weights, directions, labels, etc.
 ]
 
 == Undirected vs Directed Graphs
@@ -179,10 +215,12 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
       #align(center)[
         #grid(
-          columns: 1,
-          column-gutter: 2em,
+          columns: 2,
+          align: horizon,
+          column-gutter: 1.5em,
           row-gutter: 1em,
           diagram(
+            spacing: 2em,
             node-stroke: 1pt,
             edge-stroke: 1pt,
             vertex((0, 0), $a$, <a>),
@@ -197,6 +235,10 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
           [*Undirected*],
         )
       ]
+
+      #Block(color: blue)[
+        *Models:* Mutual relationships (friendships, two-way roads, chemical bonds)
+      ]
     ],
     [
       #definition[Directed Graph][
@@ -208,10 +250,12 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
       #align(center)[
         #grid(
-          columns: 1,
+          columns: 2,
+          align: horizon,
           column-gutter: 2em,
           row-gutter: 1em,
           diagram(
+            spacing: 2em,
             node-stroke: 1pt,
             edge-stroke: 1pt,
             vertex((0, 0), $a$, <a>),
@@ -220,11 +264,15 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
             vertex((1, 1), $d$, <d>),
             edge(<a>, <b>, "-}>"),
             edge(<b>, <d>, "-}>"),
-            edge(<d>, <c>, "-}>"),
+            edge(<c>, <d>, "-}>"),
             edge(<c>, <a>, "-}>"),
           ),
           [*Directed*],
         )
+      ]
+
+      #Block(color: blue)[
+        *Models:* One-way relationships (follows, #box[one-way] streets, dependencies, function calls)
       ]
     ],
   )
@@ -236,6 +284,13 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   - A _simple graph_ has no _loops_ (edges from a vertex to itself) and no _multi-edges_ (multiple edges between the same pair of vertices).
   - A _multigraph_ allows _multi-edges_ but no loops.
   - A _pseudograph_ allows both loops and multi-edges.
+]
+
+#Block(color: teal)[
+  *Abstract view:* In the function-based approach, these distinctions are natural:
+  - _Simple:_ the "ends" function is _injective_ (different edges → different endpoint pairs)
+  - _Multigraph:_ "ends" can be non-injective; multiple edges map to the same ${u, v}$
+  - _Loops:_ "ends" can map an edge to a singleton ${v}$ (or begin$(e)$ = end$(e)$)
 ]
 
 #align(center)[
@@ -251,11 +306,12 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   #let data = (
     (
       diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
         vertex((1, 0), $b$, <b>),
-        vertex((0.5, 0.8), $c$, <c>),
+        vertex((0.5, calc.cos(30deg)), $c$, <c>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <a>),
@@ -264,11 +320,12 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
         vertex((1, 0), $b$, <b>),
-        vertex((0.5, 0.8), $c$, <c>),
+        vertex((0.5, calc.cos(30deg)), $c$, <c>),
         edge(<a>, <b>, bend: 30deg),
         edge(<a>, <b>, bend: -30deg),
         edge(<b>, <c>),
@@ -278,11 +335,12 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
         vertex((1, 0), $b$, <b>),
-        vertex((0.5, 0.8), $c$, <c>),
+        vertex((0.5, calc.cos(30deg)), $c$, <c>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <a>),
@@ -325,8 +383,8 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
         blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
         blob((1, 0), $b$, tint: green, shape: shapes.circle, name: <b>),
         blob((2, 0), $c$, tint: blue, shape: shapes.circle, name: <c>),
-        blob((0.5, 0.8), $d$, tint: green, shape: shapes.circle, name: <d>),
-        blob((1.5, 0.8), $e$, tint: green, shape: shapes.circle, name: <e>),
+        blob((0.5, calc.cos(30deg)), $d$, tint: green, shape: shapes.circle, name: <d>),
+        blob((1.5, calc.cos(30deg)), $e$, tint: green, shape: shapes.circle, name: <e>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<b>, <d>),
@@ -387,13 +445,14 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       column-gutter: 2em,
       row-gutter: 1em,
       diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
         vertex((1, 0), $b$, <b>),
         vertex((2, 0), $c$, <c>),
-        vertex((0.5, 0.8), $d$, <d>),
-        vertex((1.5, 0.8), $e$, <e>),
+        vertex((0.5, calc.cos(30deg)), $d$, <d>),
+        vertex((1.5, calc.cos(30deg)), $e$, <e>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<b>, <d>),
@@ -439,6 +498,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   #let data = (
     (
       diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), <a>),
@@ -454,6 +514,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), <a>),
@@ -471,6 +532,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((-90deg + 360deg / 5 * 0, pr), <a>),
@@ -488,6 +550,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((-90deg + 360deg / 3 * 0, tr), <a>),
@@ -536,7 +599,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   #let data = (
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), <a>),
@@ -548,7 +611,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), <a>),
@@ -566,7 +629,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), <a>),
@@ -582,7 +645,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), <a>),
@@ -636,6 +699,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       align: center + horizon,
       column-gutter: 4em,
       diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $1$, <1>),
@@ -686,6 +750,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       align: center + horizon,
       column-gutter: 4em,
       diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $1$, <1>),
@@ -743,7 +808,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   #let data = (
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
@@ -760,7 +825,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
@@ -775,7 +840,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
     (
       diagram(
-        spacing: 0.8cm,
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>),
@@ -832,7 +897,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       align: horizon,
       column-gutter: 2cm,
       diagram(
-        spacing: 1cm,
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $1$, <1>),
@@ -845,7 +910,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
         edge(<4>, <1>),
       ),
       diagram(
-        spacing: 0.2cm,
+        spacing: 1em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((-1, 0), $a$, <a>),
