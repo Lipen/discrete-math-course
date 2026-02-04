@@ -368,6 +368,108 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   ],
 )
 
+== Special Graphs
+
+#definition[
+  - _Null graph_: no vertices ($V = emptyset$)
+  - _Trivial graph_: single vertex, no edges ($|V| = 1$, $E = emptyset$)
+  - _Empty graph_ $overline(K)_n$: $n$ vertices, no edges
+  - _Complete graph_ $K_n$: $n$ vertices, all pairs connected
+  - _Cycle_ $C_n$: $n$ vertices in a cycle
+  - _Path_ $P_n$: $n$ vertices in a line
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name, ..args) = blob(
+    pos,
+    [],
+    tint: blue,
+    shape: shapes.circle,
+    radius: 4pt,
+    name: name,
+    ..args,
+  )
+  #let data = (
+    (
+      diagram(
+        spacing: 2em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((0, 1), <c>),
+        vertex((1, 1), <d>),
+      ),
+      [$overline(K)_4$ (empty)],
+    ),
+    (
+      diagram(
+        spacing: 2em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((1, 1), <c>),
+        vertex((0, 1), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+        edge(<a>, <c>),
+        edge(<b>, <d>),
+      ),
+      [$K_4$ (complete)],
+    ),
+    (
+      diagram(
+        spacing: 2em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((1, 0), <b>),
+        vertex((1, 1), <c>),
+        vertex((0, 1), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
+      [$C_4$ (cycle)],
+    ),
+    (
+      diagram(
+        spacing: 2em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), <a>),
+        vertex((0.8, 0), <b>),
+        vertex((1.6, 0), <c>),
+        vertex((2.4, 0), <d>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+      ),
+      [$P_4$ (path)],
+    ),
+  )
+  #align(center)[
+    #v(-2em)
+    #grid(
+      columns: data.len(),
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      column-gutter: 3em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
+    )
+    #v(-.5em)
+  ]
+]
+
+#theorem[
+  The complete graph $K_n$ has exactly $binom(n, 2) = (n(n-1))/2$ edges.
+]
+
 == Adjacency and Incidence
 
 #definition[
@@ -579,108 +681,6 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       ..array.zip(..data).flatten()
     )
   ]
-]
-
-== Special Graphs
-
-#definition[
-  - _Null graph_: no vertices ($V = emptyset$)
-  - _Trivial graph_: single vertex, no edges ($|V| = 1$, $E = emptyset$)
-  - _Empty graph_ $overline(K)_n$: $n$ vertices, no edges
-  - _Complete graph_ $K_n$: $n$ vertices, all pairs connected
-  - _Cycle_ $C_n$: $n$ vertices in a cycle
-  - _Path_ $P_n$: $n$ vertices in a line
-]
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, name, ..args) = blob(
-    pos,
-    [],
-    tint: blue,
-    shape: shapes.circle,
-    radius: 4pt,
-    name: name,
-    ..args,
-  )
-  #let data = (
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), <a>),
-        vertex((1, 0), <b>),
-        vertex((0, 1), <c>),
-        vertex((1, 1), <d>),
-      ),
-      [$overline(K)_4$ (empty)],
-    ),
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), <a>),
-        vertex((1, 0), <b>),
-        vertex((1, 1), <c>),
-        vertex((0, 1), <d>),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <d>),
-        edge(<d>, <a>),
-        edge(<a>, <c>),
-        edge(<b>, <d>),
-      ),
-      [$K_4$ (complete)],
-    ),
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), <a>),
-        vertex((1, 0), <b>),
-        vertex((1, 1), <c>),
-        vertex((0, 1), <d>),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <d>),
-        edge(<d>, <a>),
-      ),
-      [$C_4$ (cycle)],
-    ),
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), <a>),
-        vertex((0.8, 0), <b>),
-        vertex((1.6, 0), <c>),
-        vertex((2.4, 0), <d>),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <d>),
-      ),
-      [$P_4$ (path)],
-    ),
-  )
-  #align(center)[
-    #v(-2em)
-    #grid(
-      columns: data.len(),
-      align: (x, y) => center + if y == 0 { horizon } else { top },
-      column-gutter: 3em,
-      row-gutter: 1em,
-      ..array.zip(..data).flatten()
-    )
-    #v(-.5em)
-  ]
-]
-
-#theorem[
-  The complete graph $K_n$ has exactly $binom(n, 2) = (n(n-1))/2$ edges.
 ]
 
 == Graph Representations: Adjacency Matrix
