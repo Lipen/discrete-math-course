@@ -98,7 +98,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       label,
       tint: blue,
       shape: shapes.circle,
-      radius: .9em,
+      radius: 1em,
       name: name,
     )
     #diagram(
@@ -151,74 +151,78 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
 == Undirected vs Directed Graphs
 
-#grid(
-  columns: 2,
-  column-gutter: 1em,
-  row-gutter: 1em,
-  [
-    #definition[Undirected Graph][
-      In an _undirected graph_, edges are _unordered pairs_:
-      $ E subset.eq binom(V, 2) = { {u, v} | u, v in V, u != v } $
-    ]
-
-    The edge ${u, v}$ connects $u$ and $v$ symmetrically.
-  ],
-  [
-    #definition[Directed Graph][
-      In a _directed graph_ (digraph), edges are _ordered pairs_:
-      $ E subset.eq V times V $
-    ]
-
-    The edge $(u, v)$ goes _from_ $u$ _to_ $v$.
-  ],
-)
-
-#v(1em)
-
-#align(center)[
+#[
   #import fletcher: diagram, edge, node, shapes
   #let vertex(pos, label, name) = blob(
     pos,
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
+
   #grid(
     columns: 2,
-    column-gutter: 6em,
+    column-gutter: 1em,
+    row-gutter: 1em,
     [
-      #diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>),
-        vertex((1, 0), $b$, <b>),
-        vertex((0, 1), $c$, <c>),
-        vertex((1, 1), $d$, <d>),
-        edge(<a>, <b>),
-        edge(<b>, <d>),
-        edge(<d>, <c>),
-        edge(<c>, <a>),
-      )
-      #v(0.5em)
-      Undirected
+      #definition[Undirected Graph][
+        In an _undirected graph_, edges are _unordered pairs_:
+        $ E subset.eq binom(V, 2) = { {u, v} | u, v in V, u != v } $
+      ]
+
+      The edge ${u, v}$ connects $u$ and $v$ symmetrically.
+
+      #align(center)[
+        #grid(
+          columns: 1,
+          column-gutter: 2em,
+          row-gutter: 1em,
+          diagram(
+            node-stroke: 1pt,
+            edge-stroke: 1pt,
+            vertex((0, 0), $a$, <a>),
+            vertex((1, 0), $b$, <b>),
+            vertex((0, 1), $c$, <c>),
+            vertex((1, 1), $d$, <d>),
+            edge(<a>, <b>),
+            edge(<b>, <d>),
+            edge(<d>, <c>),
+            edge(<c>, <a>),
+          ),
+          [*Undirected*],
+        )
+      ]
     ],
     [
-      #diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>),
-        vertex((1, 0), $b$, <b>),
-        vertex((0, 1), $c$, <c>),
-        vertex((1, 1), $d$, <d>),
-        edge(<a>, <b>, "->"),
-        edge(<b>, <d>, "->"),
-        edge(<d>, <c>, "->"),
-        edge(<c>, <a>, "->"),
-      )
-      #v(0.5em)
-      Directed
+      #definition[Directed Graph][
+        In a _directed graph_ (digraph), edges are _ordered pairs_:
+        $ E subset.eq V times V $
+      ]
+
+      The edge $(u, v)$ goes _from_ $u$ _to_ $v$.
+
+      #align(center)[
+        #grid(
+          columns: 1,
+          column-gutter: 2em,
+          row-gutter: 1em,
+          diagram(
+            node-stroke: 1pt,
+            edge-stroke: 1pt,
+            vertex((0, 0), $a$, <a>),
+            vertex((1, 0), $b$, <b>),
+            vertex((0, 1), $c$, <c>),
+            vertex((1, 1), $d$, <d>),
+            edge(<a>, <b>, "-}>"),
+            edge(<b>, <d>, "-}>"),
+            edge(<d>, <c>, "-}>"),
+            edge(<c>, <a>, "-}>"),
+          ),
+          [*Directed*],
+        )
+      ]
     ],
   )
 ]
@@ -238,7 +242,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #let data = (
@@ -305,10 +309,14 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 ]
 
 #example[
-  #columns(2)[
-    #import fletcher: diagram, edge, node, shapes
-    #align(center)[
-      #diagram(
+  #import fletcher: diagram, edge, node, shapes
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 4em,
+      row-gutter: 1em,
+      diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
         blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
@@ -321,15 +329,14 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
         edge(<b>, <d>),
         edge(<b>, <e>),
         edge(<d>, <e>),
-      )
-    ]
-
-    #colbreak()
-
-    - $a$ and $b$ are _adjacent_
-    - $a$ and $c$ are _not adjacent_
-    - Edge ${a, b}$ is _incident_ to $a$ and $b$
-    - $N(b) = {a, c, d, e}$
+      ),
+      [
+        - $a$ and $b$ are _adjacent_
+        - $a$ and $c$ are _not adjacent_
+        - Edge ${a, b}$ is _incident_ to $a$ and $b$
+        - $N(b) = {a, c, d, e}$
+      ],
+    )
   ]
 ]
 
@@ -370,30 +377,33 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     radius: .9em,
     name: name,
   )
-  #grid(
-    columns: 2,
-    column-gutter: 2em,
-    row-gutter: 1em,
-    diagram(
-      node-stroke: 1pt,
-      edge-stroke: 1pt,
-      vertex((0, 0), $a$, <a>),
-      vertex((1, 0), $b$, <b>),
-      vertex((2, 0), $c$, <c>),
-      vertex((0.5, 0.8), $d$, <d>),
-      vertex((1.5, 0.8), $e$, <e>),
-      edge(<a>, <b>),
-      edge(<b>, <c>),
-      edge(<b>, <d>),
-      edge(<b>, <e>),
-      edge(<d>, <e>),
-    ),
-    [
-      Degrees: $deg(a) = 1$, $deg(b) = 4$, $deg(c) = 1$, $deg(d) = 2$, $deg(e) = 2$
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 2em,
+      row-gutter: 1em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>),
+        vertex((1, 0), $b$, <b>),
+        vertex((2, 0), $c$, <c>),
+        vertex((0.5, 0.8), $d$, <d>),
+        vertex((1.5, 0.8), $e$, <e>),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<b>, <d>),
+        edge(<b>, <e>),
+        edge(<d>, <e>),
+      ),
+      [
+        Degrees: $deg(a) = 1$, $deg(b) = 4$, $deg(c) = 1$, $deg(d) = 2$, $deg(e) = 2$
 
-      Degree sequence: $(4, 2, 2, 1, 1)$
-    ],
-  )
+        Degree sequence: $(4, 2, 2, 1, 1)$
+      ],
+    )
+  ]
 ]
 
 #Block(color: blue)[
@@ -617,7 +627,6 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     radius: .8em,
     name: name,
   )
-  #let h = 1.5cm
   #align(center)[
     #grid(
       columns: 2,
@@ -626,10 +635,10 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((0cm, 0cm), $1$, <1>),
-        vertex((h, 0cm), $2$, <2>),
-        vertex((h, h), $3$, <3>),
-        vertex((0cm, h), $4$, <4>),
+        vertex((0, 0), $1$, <1>),
+        vertex((1, 0), $2$, <2>),
+        vertex((1, 1), $3$, <3>),
+        vertex((0, 1), $4$, <4>),
         edge(<1>, <2>),
         edge(<2>, <3>),
         edge(<3>, <4>),
@@ -665,7 +674,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -802,6 +811,8 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
   They have identical structure.
 ]
 
+#pagebreak()
+
 #example[
   #import fletcher: diagram, edge, node, shapes
   #let vertex(pos, label, name) = blob(
@@ -809,34 +820,35 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
-  #let h = 1.5cm
-  #let hh = h / 2
   #align(center)[
     #grid(
       columns: 2,
-      gutter: 3cm,
+      align: horizon,
+      column-gutter: 2cm,
       diagram(
+        spacing: 1cm,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((0cm, 0cm), $1$, <1>),
-        vertex((h, 0cm), $2$, <2>),
-        vertex((h, h), $3$, <3>),
-        vertex((0cm, h), $4$, <4>),
+        vertex((0, 0), $1$, <1>),
+        vertex((1, 0), $2$, <2>),
+        vertex((1, 1), $3$, <3>),
+        vertex((0, 1), $4$, <4>),
         edge(<1>, <2>),
         edge(<2>, <3>),
         edge(<3>, <4>),
         edge(<4>, <1>),
       ),
       diagram(
+        spacing: 0.2cm,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((-hh, 0cm), $a$, <a>),
-        vertex((0cm, -hh), $b$, <b>),
-        vertex((hh, 0cm), $c$, <c>),
-        vertex((0cm, hh), $d$, <d>),
+        vertex((-1, 0), $a$, <a>),
+        vertex((0, -1), $b$, <b>),
+        vertex((1, 0), $c$, <c>),
+        vertex((0, 1), $d$, <d>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <d>),
@@ -851,6 +863,7 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
 #Block(color: orange)[
   *Computational mystery:*
   Graph isomorphism is in NP but _not known_ to be NP-complete or in P.
+
   In~2015, Babai showed it's in _quasipolynomial time_ --- a major breakthrough, but the exact complexity remains open.
 ]
 
@@ -903,7 +916,7 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -951,7 +964,7 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   #let vertex(pos, label, name, ..args) = blob(
     pos,
     label,
-    radius: .9em,
+    radius: 1em,
     name: name,
     ..args,
   )
@@ -1003,7 +1016,7 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -1218,7 +1231,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
     ..args,
   )
@@ -1270,7 +1283,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: 0.9em,
+    radius: 0.8em,
     name: name,
   )
   #let h = 1.5cm
@@ -1385,7 +1398,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #let small(pos, name, tint) = blob(
@@ -1638,50 +1651,173 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 
 == Hall's Marriage Theorem
 
-#theorem[Hall's Marriage Theorem][
-  A bipartite graph $G = pair(X union Y, E)$ has a matching that _saturates_ $X$ (covers all vertices in $X$) if and only if *Hall's condition* holds: for every subset $S subset.eq X$,
-  $ |N(S)| >= |S| $
-  where $N(S) = { y in Y | exists x in S: {x, y} in E }$ is the set of neighbors of $S$.
+#definition[
+  Let $G = pair(X union Y, E)$ be a bipartite graph. For a subset $S subset.eq X$, define the _neighborhood_ of $S$:
+  $ N(S) = { y in Y | exists x in S: {x,y} in E } $
 ]
+
+#theorem[Hall's Marriage Theorem (Hall, 1935)][
+  A bipartite graph $G = pair(X union Y, E)$ has a matching that _saturates_ $X$ (i.e., every vertex in $X$ is matched) if and only if:
+  $ forall S subset.eq X: |N(S)| >= |S| $
+  This is called *Hall's condition* or the _marriage condition_.
+]
+
+== Examples: Hall's Condition
 
 #Block(color: blue)[
-  *Intuition:* For every subset of people in $X$, there must be enough potential partners in $Y$.
+  *Why "Marriage"?*
+  Think of $X$ as people seeking partners and $Y$ as potential partners.
+  Each person in $X$ knows some people in $Y$ (edges).
+  Can everyone in $X$ find a distinct partner?
+  Only if no group of $k$ people collectively knows fewer than $k$ partners.
 ]
 
-#[
+#example[
   #import fletcher: diagram, edge, node, shapes
   #let vertex(pos, label, name, tint) = blob(
     pos,
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: 1em,
     name: name,
   )
-  #grid(
-    columns: 2,
-    column-gutter: 2em,
-    [
-      Consider jobs $X = {j_1, j_2, j_3}$ and workers $Y = {w_1, w_2, w_3}$ with edges showing who can do which job.
-
-      Hall's condition: every subset of jobs must have at least as many qualified workers.
-    ],
-    align(center)[
-      #diagram(
+  #let data = (
+    (
+      diagram(
+        spacing: 1.5em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((0, 0), $j_1$, <j1>, blue),
-        vertex((1, 0), $j_2$, <j2>, blue),
-        vertex((2, 0), $j_3$, <j3>, blue),
-        vertex((0.5, 1), $w_1$, <w1>, green),
-        vertex((1.5, 1), $w_2$, <w2>, green),
-        edge(<j1>, <w1>),
-        edge(<j2>, <w1>),
-        edge(<j2>, <w2>),
-        edge(<j3>, <w2>),
-      )
-    ],
+        vertex((0, 0), $x_1$, <x1>, blue),
+        vertex((1, 0), $x_2$, <x2>, blue),
+        vertex((2, 0), $x_3$, <x3>, blue),
+        vertex((0, 1), $y_1$, <y1>, green),
+        vertex((1, 1), $y_2$, <y2>, green),
+        vertex((2, 1), $y_3$, <y3>, green),
+        edge(<x1>, <y1>),
+        edge(<x1>, <y2>),
+        edge(<x2>, <y2>),
+        edge(<x2>, <y3>),
+        edge(<x3>, <y3>),
+      ),
+      [
+        *Satisfies Hall's Condition* \
+        Every subset $S$ has $|N(S)| >= |S|$. \
+        Perfect matching exists.],
+    ),
+    (
+      diagram(
+        spacing: 1.5em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $x_1$, <x1>, blue),
+        vertex((1, 0), $x_2$, <x2>, blue),
+        vertex((2, 0), $x_3$, <x3>, blue),
+        vertex((0.5, 1), $y_1$, <y1>, green),
+        vertex((1.5, 1), $y_2$, <y2>, green),
+        edge(<x1>, <y1>),
+        edge(<x2>, <y1>),
+        edge(<x2>, <y2>),
+        edge(<x3>, <y2>),
+      ),
+      [
+        *Violates Hall's Condition* \
+        $S = {x_1, x_2, x_3}$ has $N(S) = {y_1, y_2}$. \
+        Since $|N(S)| = 2 < 3 = |S|$, no matching saturates $X$.
+      ],
+    ),
   )
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (x, y) => center + if y == 0 { bottom } else { top },
+      column-gutter: 3em,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
+    )
+  ]
+]
+
+== Proof of Hall's Theorem
+
+We prove both directions.
+
+*Direction ($arrow.r.double$):*
+If a matching saturating $X$ exists, then Hall's condition holds.
+
+#proof[
+  Let $M$ be a matching that saturates $X$.
+  For any $S subset.eq X$:
+  - Each vertex in $S$ is matched to a distinct vertex in $Y$ (by definition of matching).
+  - Let $M(S)$ be the set of partners of $S$ under $M$.
+    Then $|M(S)| = |S|$.
+  - Since every partner is a neighbor, $M(S) subset.eq N(S)$.
+  - Therefore: $|N(S)| >= |M(S)| = |S|$. #h(1fr) $qed$
+]
+
+*Direction ($arrow.l.double$):*
+If Hall's condition holds, then a matching saturating $X$ exists.
+
+This is the interesting direction.
+We use *strong induction* on $n = |X|$.
+
+== Proof (Sufficiency): Base & Strategy
+
+#proof[
+  *Base Case* ($n = 1$):
+  If $X = {x}$, Hall's condition gives $|N({x})| >= 1$, so $x$ has a neighbor $y$. The edge ${x,y}$ is a matching.
+
+  *Inductive Hypothesis*:
+  Assume the theorem holds for all bipartite graphs with $|X| < n$.
+
+  *Inductive Step*:
+  Consider $G$ with $|X| = n >= 2$. We split into two cases:
+  - *Case 1:* Every proper subset $S$ has _surplus_ neighbors: $|N(S)| >= |S| + 1$.
+  - *Case 2:* Some proper subset $S$ is _tight_: $|N(S)| = |S|$. #qedhere
+]
+
+== Proof: Case 1 (Surplus)
+
+#proof[
+  *Case 1:* For all $emptyset != S subset.neq X$, we have $|N(S)| >= |S| + 1$.
+
+  _Strategy:_ Match an arbitrary edge, then use induction on the smaller graph.
+
+  + Pick any edge ${x, y} in E$ (exists because $X != emptyset$ and Hall's condition ensures connectivity).
+  + Remove both endpoints: let $G' = G - {x, y}$ and $X' = X without x$.
+  + *Verify Hall's condition in $G'$:* Let $S' subset.eq X'$ be arbitrary.
+    - In $G$, we have $|N_G(S')| >= |S'| + 1$ (since $S' subset.neq X$).
+    - Removing $y$ from $Y$ reduces $|N(S')|$ by at most 1.
+    - So $|N_{G'}(S')| >= |N_G(S')| - 1 >= (|S'| + 1) - 1 = |S'|$.
+  + By induction, $G'$ has a matching $M'$ saturating $X'$.
+  + Then $M = M' union {{x, y}}$ saturates $X$. #qedhere
+]
+
+== Proof: Case 2 (Tight Subset)
+
+#proof[
+  *Case 2:* There exists $emptyset != S_0 subset.neq X$ such that $|N(S_0)| = |S_0|$.
+
+  _Strategy:_ Match $S_0$ independently, then match the rest.
+
+  + *Match $S_0$:*
+    The induced subgraph $G[S_0 union N(S_0)]$ satisfies Hall's condition (inherited from $G$).
+    Since $|S_0| < n$, by induction there exists a matching $M_1$ saturating $S_0$.
+
+  + *Match the remainder:*
+    Let $G' = G - S_0 - N(S_0)$ and $X' = X without S_0$.
+    We verify Hall's condition for $G'$.
+    Let $A subset.eq X'$ be arbitrary.
+    - In $G$: $|N_G(A union S_0)| >= |A union S_0| = |A| + |S_0|$ (Hall's condition).
+    - But $N_G(A union S_0) = N_G(A) union N_G(S_0) = N_G(A) union N(S_0)$ (disjoint by construction).
+    - So $|N_G(A)| + |N(S_0)| >= |A| + |S_0|$.
+    - Since $|N(S_0)| = |S_0|$, we get $|N_G(A)| >= |A|$.
+    - In $G'$, the neighbors of $A$ are $N_{G'}(A) = N_G(A) without N(S_0)$, but vertices in $N_G(A)$ were not in $N(S_0)$ (otherwise contradiction).
+      So $|N_{G'}(A)| = |N_G(A)| >= |A|$.
+
+  + By induction, $G'$ has a matching $M_2$ saturating $X'$.
+
+  + Then $M = M_1 union M_2$ saturates $X$. #qedhere
 ]
 
 == Vertex and Edge Covers
@@ -1836,7 +1972,7 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: 1em,
     name: name,
   )
   #align(center)[
@@ -2179,7 +2315,6 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
     radius: 5pt,
     name: name,
   )
-  #let h = 1cm
   #place(center, dy: -.5em)[
     #grid(
       columns: 2,
@@ -2189,10 +2324,10 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
         #diagram(
           node-stroke: 1pt,
           edge-stroke: 1pt,
-          vertex((0cm, 0cm), <a>),
-          vertex((h, 0cm), <b>),
-          vertex((h, h), <c>),
-          vertex((0cm, h), <d>),
+          vertex((0, 0), <a>),
+          vertex((1, 0), <b>),
+          vertex((1, 1), <c>),
+          vertex((0, 1), <d>),
           edge(<a>, <b>),
           edge(<b>, <c>),
           edge(<c>, <d>),
@@ -2223,7 +2358,6 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
   So $3f <= 2m$, giving $f <= (2m)/3$.
 
   By Euler's formula: $2 = n - m + f <= n - m + (2m)/3 = n - m/3$.
-
   Therefore $m <= 3n - 6$.
 ]
 
@@ -2261,11 +2395,11 @@ Three blocks: blue triangle, green pentagon, orange edge. Cut vertices shown in 
       diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((0.5, 0), <a>, red),
-        vertex((0, 0.75), <b>, red),
-        vertex((0.25, 1.5), <c>, red),
-        vertex((0.75, 1.5), <d>, red),
-        vertex((1, 0.75), <e>, red),
+        vertex((-90deg + 360deg / 5 * 0, 1), <a>, red),
+        vertex((-90deg + 360deg / 5 * 1, 1), <b>, red),
+        vertex((-90deg + 360deg / 5 * 2, 1), <c>, red),
+        vertex((-90deg + 360deg / 5 * 3, 1), <d>, red),
+        vertex((-90deg + 360deg / 5 * 4, 1), <e>, red),
         edge(<a>, <b>),
         edge(<a>, <c>),
         edge(<a>, <d>),
@@ -2369,7 +2503,9 @@ This graph is 3-colorable. Is $chi(G) = 3$?
   where $omega(G)$ is the _clique number_ and $Delta(G)$ is the maximum degree.
 ]
 
-#proof[(Lower bound)][ A clique of size $k$ needs $k$ different colors.]
+#proof[(Lower bound)][
+  A clique of size $k$ needs $k$ different colors.
+]
 
 #theorem[Brooks' Theorem][
   For any connected graph $G$ that is not a complete graph or an odd cycle:
@@ -2377,7 +2513,7 @@ This graph is 3-colorable. Is $chi(G) = 3$?
 ]
 
 #Block(color: yellow)[
-  *Complexity cliff:* Computing $chi(G)$ is NP-hard, but checking 2-colorability is $O(n+m)$. The jump from "Is $chi(G) <= 2$?" to "Is $chi(G) <= 3$?" is where tractability ends.
+  Computing $chi(G)$ is NP-hard, but checking 2-colorability is $cal(O)(n+m)$.
 ]
 
 == The Four Color Theorem
