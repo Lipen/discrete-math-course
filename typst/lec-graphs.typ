@@ -1955,7 +1955,7 @@ If a matching saturating $X$ exists, then Hall's condition holds.
   - Let $M(S)$ be the set of partners of $S$ under $M$.
     Then $|M(S)| = |S|$.
   - Since every partner is a neighbor, $M(S) subset.eq N(S)$.
-  - Therefore: $|N(S)| >= |M(S)| = |S|$. #h(1fr) $qed$
+  - Therefore: $|N(S)| >= |M(S)| = |S|$. #h(1fr) #qedhere
 ]
 
 *Direction ($arrow.l.double$):*
@@ -1966,62 +1966,56 @@ We use *strong induction* on $n = |X|$.
 
 == Proof (Sufficiency): Base & Strategy
 
-#proof[
-  *Base Case* ($n = 1$):
-  If $X = {x}$, Hall's condition gives $|N({x})| >= 1$, so $x$ has a neighbor $y$. The edge ${x,y}$ is a matching.
+*Base Case* ($n = 1$):
+If $X = {x}$, Hall's condition gives $|N({x})| >= 1$, so $x$ has a neighbor $y$. The edge ${x,y}$ is a matching.
 
-  *Inductive Hypothesis*:
-  Assume the theorem holds for all bipartite graphs with $|X| < n$.
+*Inductive Hypothesis*:
+Assume the theorem holds for all bipartite graphs with $|X| < n$.
 
-  *Inductive Step*:
-  Consider $G$ with $|X| = n >= 2$. We split into two cases:
-  - *Case 1:* Every proper subset $S$ has _surplus_ neighbors: $|N(S)| >= |S| + 1$.
-  - *Case 2:* Some proper subset $S$ is _tight_: $|N(S)| = |S|$. #qedhere
-]
+*Inductive Step*:
+Consider $G$ with $|X| = n >= 2$. We split into two cases:
+- *Case 1:* Every proper subset $S$ has _surplus_ neighbors: $|N(S)| >= |S| + 1$.
+- *Case 2:* Some proper subset $S$ is _tight_: $|N(S)| = |S|$.
 
 == Proof: Case 1 (Surplus)
 
-#proof[
-  *Case 1:* For all $emptyset != S subset.neq X$, we have $|N(S)| >= |S| + 1$.
+*Case 1:* For all $emptyset != S subset.neq X$, we have $|N(S)| >= |S| + 1$.
 
-  _Strategy:_ Match an arbitrary edge, then use induction on the smaller graph.
+_Strategy:_ Match an arbitrary edge, then use induction on the smaller graph.
 
-  + Pick any edge ${x, y} in E$ (exists because $X != emptyset$ and Hall's condition ensures connectivity).
-  + Remove both endpoints: let $G' = G - {x, y}$ and $X' = X without x$.
-  + *Verify Hall's condition in $G'$:* Let $S' subset.eq X'$ be arbitrary.
-    - In $G$, we have $|N_G(S')| >= |S'| + 1$ (since $S' subset.neq X$).
-    - Removing $y$ from $Y$ reduces $|N(S')|$ by at most 1.
-    - So $|N_{G'}(S')| >= |N_G(S')| - 1 >= (|S'| + 1) - 1 = |S'|$.
-  + By induction, $G'$ has a matching $M'$ saturating $X'$.
-  + Then $M = M' union {{x, y}}$ saturates $X$. #qedhere
-]
++ Pick any edge ${x, y} in E$ (exists because $X != emptyset$ and Hall's condition ensures connectivity).
++ Remove both endpoints: let $G' = G - {x, y}$ and $X' = X without x$.
++ *Verify Hall's condition in $G'$:* Let $S' subset.eq X'$ be arbitrary.
+  - In $G$, we have $|N_G(S')| >= |S'| + 1$ (since $S' subset.neq X$).
+  - Removing $y$ from $Y$ reduces $|N(S')|$ by at most 1.
+  - So $|N_{G'}(S')| >= |N_G(S')| - 1 >= (|S'| + 1) - 1 = |S'|$.
++ By induction, $G'$ has a matching $M'$ saturating $X'$.
++ Then $M = M' union {{x, y}}$ saturates $X$.
 
 == Proof: Case 2 (Tight Subset)
 
-#proof[
-  *Case 2:* There exists $emptyset != S_0 subset.neq X$ such that $|N(S_0)| = |S_0|$.
+*Case 2:* There exists $emptyset != S_0 subset.neq X$ such that $|N(S_0)| = |S_0|$.
 
-  _Strategy:_ Match $S_0$ independently, then match the rest.
+_Strategy:_ Match $S_0$ independently, then match the rest.
 
-  + *Match $S_0$:*
-    The induced subgraph $G[S_0 union N(S_0)]$ satisfies Hall's condition (inherited from $G$).
-    Since $|S_0| < n$, by induction there exists a matching $M_1$ saturating $S_0$.
++ *Match $S_0$:*
+  The induced subgraph $G[S_0 union N(S_0)]$ satisfies Hall's condition (inherited from $G$).
+  Since $|S_0| < n$, by induction there exists a matching $M_1$ saturating $S_0$.
 
-  + *Match the remainder:*
-    Let $G' = G - S_0 - N(S_0)$ and $X' = X without S_0$.
-    We verify Hall's condition for $G'$.
-    Let $A subset.eq X'$ be arbitrary.
-    - In $G$: $|N_G(A union S_0)| >= |A union S_0| = |A| + |S_0|$ (Hall's condition).
-    - But $N_G(A union S_0) = N_G(A) union N_G(S_0) = N_G(A) union N(S_0)$ (disjoint by construction).
-    - So $|N_G(A)| + |N(S_0)| >= |A| + |S_0|$.
-    - Since $|N(S_0)| = |S_0|$, we get $|N_G(A)| >= |A|$.
-    - In $G'$, the neighbors of $A$ are $N_{G'}(A) = N_G(A) without N(S_0)$, but vertices in $N_G(A)$ were not in $N(S_0)$ (otherwise contradiction).
-      So $|N_{G'}(A)| = |N_G(A)| >= |A|$.
++ *Match the remainder:*
+  Let $G' = G - S_0 - N(S_0)$ and $X' = X without S_0$.
+  We verify Hall's condition for $G'$.
+  Let $A subset.eq X'$ be arbitrary.
+  - In $G$: $|N_G(A union S_0)| >= |A union S_0| = |A| + |S_0|$ (Hall's condition).
+  - But $N_G(A union S_0) = N_G(A) union N_G(S_0) = N_G(A) union N(S_0)$ (disjoint by construction).
+  - So $|N_G(A)| + |N(S_0)| >= |A| + |S_0|$.
+  - Since $|N(S_0)| = |S_0|$, we get $|N_G(A)| >= |A|$.
+  - In $G'$, the neighbors of $A$ are $N_{G'}(A) = N_G(A) without N(S_0)$, but vertices in $N_G(A)$ were not in $N(S_0)$ (otherwise contradiction).
+    So $|N_{G'}(A)| = |N_G(A)| >= |A|$.
 
-  + By induction, $G'$ has a matching $M_2$ saturating $X'$.
++ By induction, $G'$ has a matching $M_2$ saturating $X'$.
 
-  + Then $M = M_1 union M_2$ saturates $X$. #qedhere
-]
++ Then $M = M_1 union M_2$ saturates $X$.
 
 == Vertex and Edge Covers
 
