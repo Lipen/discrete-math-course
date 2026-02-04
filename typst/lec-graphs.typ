@@ -21,6 +21,9 @@
 #let Adj = math.op("Adj")
 
 
+#CourseOverviewPage2()
+
+
 = Graph Theory
 #focus-slide(
   epigraph: [The origins of graph theory are humble, even frivolous.],

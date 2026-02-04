@@ -104,3 +104,76 @@
     ],
   )
 ]
+
+#let CourseOverviewPage2() = page(margin: 0pt)[
+  #let panel(
+    color: white,
+    title,
+    body,
+  ) = block(
+    height: 100%,
+    width: 100%,
+    fill: gradient.linear(
+      dir: ttb,
+      color.lighten(80%),
+      color.lighten(95%),
+    ),
+  )[
+    #stack(
+      // Top part:
+      box(
+        width: 100%,
+        height: 40%,
+        inset: 1em,
+      )[
+        #set align(bottom + center)
+        #set text(size: 1.4em)
+        #box(
+          outset: .5em,
+          stroke: (bottom: 1pt + color.darken(20%).transparentize(50%)),
+        )[
+          *#title*
+        ]
+      ],
+      // Bottom part:
+      box(
+        width: 100%,
+        inset: (right: .5em, rest: 1em),
+      )[
+        #body
+      ],
+    )
+  ]
+
+  #grid(
+    columns: (4fr, 5fr, 4fr),
+    panel(color: green)[Graph \ Theory][
+      - Graphs & digraphs
+      - Paths & connectivity
+      - Trees & spanning trees
+      - Bipartite graphs
+      - Matchings & Hall's theorem
+      - Planarity & coloring
+      - Network flows
+    ],
+    panel(color: purple)[Languages & \ Computation][
+      - Alphabets & formal languages
+      - Regular expressions
+      - Finite automata (DFA, NFA)
+      - Pumping lemma
+      - Context-free grammars
+      - Pushdown automata
+      - Turing machines
+      - Decidability & complexity
+    ],
+    panel(color: orange)[Combinatorics \ & Recurrences][
+      - Counting principles
+      - Permutations & combinations
+      - Inclusion--exclusion
+      - Partitions & Stirling numbers
+      - Generating functions
+      - Recurrence relations
+      - Asymptotic analysis
+    ],
+  )
+]
