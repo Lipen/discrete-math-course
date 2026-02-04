@@ -870,6 +870,38 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   In~2015, Babai showed it's in _quasipolynomial time_ --- a major breakthrough, but the exact complexity remains open.
 ]
 
+== Summary: Graph Basics
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  row-gutter: 1em,
+  [
+    #Block(color: blue, width: 100%)[
+      *Core concepts:*
+      - A _graph_ $G = (V, E)$ is a pair of vertices and edges connecting them
+      - _Directed_ vs _undirected_; _simple_ graphs vs _multigraphs_ vs _pseudographs_
+      - _Degree_ $deg(v)$ counts edges incident to $v$; Handshaking Lemma: $sum deg(v) = 2|E|$
+      - _Special graphs:_ Complete $K_n$, cycle $C_n$, path~$P_n$, bipartite $K_(m,n)$, hypercube $Q_n$
+    ]
+    #Block(color: teal, width: 100%)[
+      *Coming up:* Paths, connectivity, trees, bipartite graphs, matchings, Eulerian and Hamiltonian cycles, planarity, and coloring.
+    ]
+  ],
+  [
+    #Block(color: green, width: 100%)[
+      *Graph representations:*
+      - _Adjacency matrix:_ $n times n$ matrix, good for dense graphs, $O(n^2)$ space
+      - _Adjacency list:_ list of neighbors per vertex, good for sparse graphs, $O(n + m)$ space
+    ]
+    #Block(color: yellow, width: 100%)[
+      *Structural concepts:*
+      - _Subgraph:_ subset of vertices/edges; _induced subgraph:_ includes all edges between chosen vertices
+      - _Graph isomorphism:_ bijection preserving adjacency --- graphs are "the same" up to relabeling
+    ]
+  ],
+)
+
 
 = Paths and Connectivity
 #focus-slide()
