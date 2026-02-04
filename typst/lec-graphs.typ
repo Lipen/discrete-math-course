@@ -280,86 +280,93 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
 
 == Simple Graphs, Multigraphs, and Pseudographs
 
-#definition[
-  - A _simple graph_ has no _loops_ (edges from a vertex to itself) and no _multi-edges_ (multiple edges between the same pair of vertices).
-  - A _multigraph_ allows _multi-edges_ but no loops.
-  - A _pseudograph_ allows both loops and multi-edges.
-]
+#grid(
+  columns: 2,
+  align: (left, center),
+  column-gutter: 1em,
+  [
+    #definition[
+      - A _simple graph_ has no _loops_ (edges from a vertex to itself) and no _multi-edges_ (multiple edges between the same pair of vertices).
+      - A _multigraph_ allows _multi-edges_ but no loops.
+      - A _pseudograph_ allows both loops and multi-edges.
+    ]
 
-#Block(color: teal)[
-  *Abstract view:* In the function-based approach, these distinctions are natural:
-  - _Simple:_ the "ends" function is _injective_ (different edges → different endpoint pairs)
-  - _Multigraph:_ "ends" can be non-injective; multiple edges map to the same ${u, v}$
-  - _Loops:_ "ends" can map an edge to a singleton ${v}$ (or begin$(e)$ = end$(e)$)
-]
+    #Block(color: teal)[
+      *Abstract view:* In the function-based approach, these distinctions are natural:
+      - _Simple:_ the "ends" function is _injective_ (different edges → different endpoint pairs)
+      - _Multigraph:_ "ends" can be non-injective; multiple edges map to the same ${u, v}$
+      - _Loops:_ "ends" can map an edge to a singleton ${v}$ (or begin$(e)$ = end$(e)$)
+    ]
 
-#align(center)[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, label, name) = blob(
-    pos,
-    label,
-    tint: blue,
-    shape: shapes.circle,
-    radius: .8em,
-    name: name,
-  )
-  #let data = (
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>),
-        vertex((1, 0), $b$, <b>),
-        vertex((0.5, calc.cos(30deg)), $c$, <c>),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <a>),
-      ),
-      [*Simple*],
-    ),
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>),
-        vertex((1, 0), $b$, <b>),
-        vertex((0.5, calc.cos(30deg)), $c$, <c>),
-        edge(<a>, <b>, bend: 30deg),
-        edge(<a>, <b>, bend: -30deg),
-        edge(<b>, <c>),
-        edge(<c>, <a>),
-      ),
-      [*Multigraph*],
-    ),
-    (
-      diagram(
-        spacing: 2em,
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>),
-        vertex((1, 0), $b$, <b>),
-        vertex((0.5, calc.cos(30deg)), $c$, <c>),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <a>),
-        edge(<c>, <c>, "-}>", bend: 130deg, loop-angle: 0deg),
-      ),
-      [*Pseudograph*],
-    ),
-  )
-  #grid(
-    columns: 3,
-    column-gutter: 2cm,
-    row-gutter: 1em,
-    ..array.zip(..data).flatten()
-  )
-]
-
-#note[
-  Unless otherwise stated, "graph" means _simple undirected graph_ in this course.
-]
+    #note[
+      Unless otherwise stated, "graph" means _simple undirected graph_ in this course.
+    ]
+  ],
+  [
+    #align(center)[
+      #import fletcher: diagram, edge, node, shapes
+      #let vertex(pos, label, name) = blob(
+        pos,
+        label,
+        tint: blue,
+        shape: shapes.circle,
+        radius: .8em,
+        name: name,
+      )
+      #let data = (
+        (
+          diagram(
+            spacing: 1.5em,
+            node-stroke: 1pt,
+            edge-stroke: 1pt,
+            vertex((0, 0), $a$, <a>),
+            vertex((1, 0), $b$, <b>),
+            vertex((0.5, calc.cos(30deg)), $c$, <c>),
+            edge(<a>, <b>),
+            edge(<b>, <c>),
+            edge(<c>, <a>),
+          ),
+          [*Simple*],
+        ),
+        (
+          diagram(
+            spacing: 1.5em,
+            node-stroke: 1pt,
+            edge-stroke: 1pt,
+            vertex((0, 0), $a$, <a>),
+            vertex((1, 0), $b$, <b>),
+            vertex((0.5, calc.cos(30deg)), $c$, <c>),
+            edge(<a>, <b>, bend: 30deg),
+            edge(<a>, <b>, bend: -30deg),
+            edge(<b>, <c>),
+            edge(<c>, <a>),
+          ),
+          [*Multigraph*],
+        ),
+        (
+          diagram(
+            spacing: 1.5em,
+            node-stroke: 1pt,
+            edge-stroke: 1pt,
+            vertex((0, 0), $a$, <a>),
+            vertex((1, 0), $b$, <b>),
+            vertex((0.5, calc.cos(30deg)), $c$, <c>),
+            edge(<a>, <b>),
+            edge(<b>, <c>),
+            edge(<c>, <a>),
+            edge(<c>, <c>, "-}>", bend: 130deg, loop-angle: 0deg),
+          ),
+          [*Pseudograph*],
+        ),
+      )
+      #grid(
+        columns: 1,
+        row-gutter: 1em,
+        ..data.flatten()
+      )
+    ]
+  ],
+)
 
 == Adjacency and Incidence
 
