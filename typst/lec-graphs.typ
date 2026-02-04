@@ -454,7 +454,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     ),
   )
   #align(center)[
-    #v(-2em)
+    #v(-1.5em)
     #grid(
       columns: data.len(),
       align: (x, y) => center + if y == 0 { horizon } else { top },
@@ -462,7 +462,6 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
       row-gutter: 1em,
       ..array.zip(..data).flatten()
     )
-    #v(-.5em)
   ]
 ]
 
