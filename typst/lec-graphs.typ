@@ -1616,6 +1616,575 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 
+= Connectivity Theory
+#focus-slide()
+
+== Cut Vertices and Bridges
+
+#definition[
+  A _cut vertex_ (or _articulation point_) is a vertex whose removal increases the number of connected components.
+]
+
+#definition[
+  A _bridge_ (or _cut edge_) is an edge whose removal increases the number of connected components.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: 1em,
+    name: name,
+  )
+  #place(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 2em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((1, 0), $b$, <b>, red),
+        vertex((1.5, 0.8), $c$, <c>, blue),
+        vertex((1.5, -0.8), $d$, <d>, blue),
+        vertex((2.5, 0), $e$, <e>, red),
+        vertex((3.5, 0), $f$, <f>, blue),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<b>, <d>),
+        edge(<c>, <d>),
+        edge(<c>, <e>),
+        edge(<d>, <e>),
+        edge(<e>, <f>, stroke: 4pt + orange),
+      ),
+      [
+        - #Red[Cut vertices]: $b$, $e$
+        - #text(fill: orange)[Bridge]: edge ${e, f}$
+      ],
+    )
+  ]
+]
+
+// #Block(color: yellow)[
+//   *Observation:* A vertex $v$ is a cut vertex iff it lies on _every_ path between some pair of vertices.
+//   A bridge $e$ lies on _every_ path between its endpoints' "sides".
+// ]
+
+== Separators and Cuts
+
+#definition[
+  For vertices $u, v in V$, a _$u$-$v$ separator_ (or _$u$-$v$ vertex cut_) is a set $S subset.eq V without {u,v}$ such that $u$ and $v$ are in different components of $G - S$.
+]
+
+#definition[
+  A _$u$-$v$ edge cut_ is a set $F subset.eq E$ such that $u$ and $v$ are in different components of $G - F$.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
+  #align(center)[
+    #diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), $u$, <u>, blue),
+      vertex((1, 0.5), $a$, <a>, red),
+      vertex((1, -0.5), $b$, <b>, red),
+      vertex((2, 0.5), $c$, <c>, green),
+      vertex((2, -0.5), $d$, <d>, green),
+      vertex((3, 0), $v$, <v>, blue),
+      edge(<u>, <a>),
+      edge(<u>, <b>),
+      edge(<a>, <c>),
+      edge(<b>, <d>),
+      edge(<a>, <b>),
+      edge(<c>, <d>),
+      edge(<c>, <v>),
+      edge(<d>, <v>),
+    )
+  ]
+]
+
+#Red[$S = {a, b}$] is a $u$-$v$ separator.
+#Green[$S' = {c, d}$] is also a $u$-$v$ separator.
+
+== Vertex and Edge Connectivity
+
+#definition[
+  The _vertex connectivity_ $kappa(G)$ is the minimum size of a vertex set $S$ whose removal disconnects $G$ or makes it trivial (single vertex).
+
+  Equivalently: $kappa(G) = min_(u,v) {"minimum" u"-"v "separator size"}$ over all non-adjacent $u, v$.
+]
+
+#definition[
+  The _edge connectivity_ $lambda(G)$ is the minimum size of an edge set $F$ whose removal disconnects $G$.
+
+  Equivalently: $lambda(G) = min_(u,v) {"minimum" u"-"v "edge cut size"}$ over all $u != v$.
+]
+
+#Block(color: blue)[
+  For complete graphs $K_n$: we define $kappa(K_n) = n - 1$ (need to remove all but one vertex).
+]
+
+== $k$-Connectivity
+
+#definition[
+  A graph $G$ is *$k$-vertex-connected* (or simply _$k$-connected_) if $kappa(G) >= k$.
+
+  Equivalently: $G$ has more than $k$ vertices, and $G - S$ is connected for every set $S$ with $|S| < k$.
+]
+
+#definition[
+  A graph $G$ is *$k$-edge-connected* if $lambda(G) >= k$.
+
+  Equivalently: $G - F$ is connected for every edge set $F$ with $|F| < k$.
+]
+
+#example[
+  - $K_n$ is $(n-1)$-connected (both vertex and edge).
+  - $C_n$ (cycle) is 2-connected and 2-edge-connected.
+  - A tree with $n >= 2$ vertices has $kappa = lambda = 1$ (every edge is a bridge).
+]
+
+== Whitney's Inequality
+
+#theorem[Whitney's Inequality][
+  For any graph $G$:
+  $ kappa(G) <= lambda(G) <= delta(G) $
+  where $delta(G)$ is the minimum degree.
+]
+
+#proof[
+  - $lambda(G) <= delta(G)$:
+    Removing all edges incident to a minimum-degree vertex disconnects it.
+  - $kappa(G) <= lambda(G)$:
+    Given a minimum edge cut $F$, for each edge in $F$ pick one endpoint on the "smaller side".
+    This gives a vertex separator of size $<= |F|$. #qedhere
+]
+
+#Block(color: yellow)[
+  *When are they equal?* For $k$-regular graphs with high girth, often $kappa = lambda = k$. For example, the Petersen graph has $kappa = lambda = delta = 3$.
+]
+
+== Menger's Theorem
+
+#theorem[Menger's Theorem (Vertex Form)][
+  Let $u, v$ be non-adjacent vertices in $G$. Then:
+  $ max{"number of internally vertex-disjoint" u"-"v "paths"} = min{|S| : S "is a" u"-"v "separator"} $
+]
+
+#theorem[Menger's Theorem (Edge Form)][
+  For any distinct vertices $u, v$ in $G$:
+  $ max{"number of edge-disjoint" u"-"v "paths"} = min{|F| : F "is a" u"-"v "edge cut"} $
+]
+
+#Block(color: green)[
+  Menger's theorem is equivalent to the Max-Flow Min-Cut theorem with unit capacities.
+
+  The _"flow"_ (disjoint paths) and _"cut"_ (separators) are _dual_ notions.
+]
+
+== Menger's Theorem: Corollaries
+
+#theorem[Global Vertex Connectivity][
+  A graph $G$ is $k$-connected if and only if every pair of distinct vertices is connected by at least $k$ internally vertex-disjoint paths.
+]
+
+#theorem[Global Edge Connectivity][
+  A graph $G$ is $k$-edge-connected if and only if every pair of distinct vertices is connected by at least $k$ edge-disjoint paths.
+]
+
+#Block(color: yellow)[
+  *Intuition:* High connectivity means many "independent routes" between any two vertices. Failure of a few vertices/edges cannot disconnect the graph.
+]
+
+== Blocks (2-Connected Components)
+
+#definition[
+  A _block_ of a graph $G$ is a maximal connected subgraph with no cut vertex (i.e., maximal 2-connected subgraph, or a bridge, or an isolated vertex).
+]
+
+#note[
+  - A 2-connected graph is its own single block.
+  - Every edge belongs to exactly one block.
+  - Blocks can share at most one vertex --- and that vertex is a cut vertex.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name, tint) = blob(
+    pos,
+    [],
+    tint: tint,
+    shape: shapes.circle,
+    radius: 5pt,
+    name: name,
+  )
+  #align(center)[
+    #v(-1em)
+    #diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      // Block 1 (triangle)
+      vertex((0, 0), <a>, blue),
+      vertex((0.5, calc.cos(30deg)), <b>, blue),
+      vertex((1, 0), <c>, purple),
+      edge(<a>, <b>, stroke: blue),
+      edge(<b>, <c>, stroke: blue),
+      edge(<c>, <a>, stroke: blue),
+      // Block 2 (pentagon)
+      vertex((2, -0.5), <d>, green),
+      vertex((1.5, 1), <e>, green),
+      vertex((2.5, 1), <f>, green),
+      vertex((3, 0), <g>, purple),
+      edge(<c>, <d>, stroke: green),
+      edge(<d>, <g>, stroke: green),
+      edge(<e>, <c>, stroke: green),
+      edge(<f>, <g>, stroke: green),
+      edge(<e>, <f>, stroke: green),
+      edge(<e>, <d>, stroke: green),
+      // Block 3 (single edge = bridge)
+      vertex((4, 0.5), <h>, orange),
+      edge(<g>, <h>, stroke: orange),
+    )
+  ]
+]
+
+Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[green pentagon], #text(fill: orange)[orange bridge]. #text(fill: purple)[Purple] = cut vertices.
+
+== Block-Cut Tree
+
+#definition[
+  The _block-cut tree_ (or _BC-tree_) of a connected graph $G$ is a bipartite tree $T$ where:
+  - One part contains a node for each _block_ of $G$.
+  - The other part contains a node for each _cut vertex_ of $G$.
+  - A block-node $B$ is adjacent to a cut-vertex-node $v$ iff $v in B$.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #align(center)[
+    #v(-1em)
+    #grid(
+      columns: 2,
+      align: horizon,
+      column-gutter: 4em,
+      [
+        #let vertex(pos, label, name, tint) = blob(
+          pos,
+          label,
+          tint: tint,
+          shape: shapes.circle,
+          radius: .7em,
+          name: name,
+        )
+        #diagram(
+          spacing: 2em,
+          node-stroke: 1pt,
+          edge-stroke: 1pt,
+          // Block 1
+          vertex((0, 0), $a$, <a>, blue),
+          vertex((1, 0), $b$, <b>, purple),
+          edge(<a>, <b>, stroke: blue),
+          // Block 2 (triangle)
+          vertex((2, 0.5), $c$, <c>, purple),
+          vertex((2, -0.5), $d$, <d>, green),
+          edge(<b>, <c>, stroke: green),
+          edge(<b>, <d>, stroke: green),
+          edge(<c>, <d>, stroke: green),
+          // Block 3
+          vertex((3, 0), $e$, <e>, orange),
+          edge(<c>, <e>, stroke: orange),
+        )
+
+        *Graph $G$*
+      ],
+      [
+        #let bnode(pos, label, name, tint) = blob(
+          pos,
+          label,
+          tint: tint,
+          shape: shapes.rect,
+          name: name,
+        )
+        #let cnode(pos, label, name) = blob(
+          pos,
+          label,
+          tint: purple,
+          shape: shapes.circle,
+          radius: 0.9em,
+          name: name,
+        )
+        #diagram(
+          node-stroke: 1pt,
+          edge-stroke: 1pt,
+          bnode((0, 0), $B_1$, <B1>, blue),
+          cnode((1, 0), $b$, <b>),
+          bnode((2, 0), $B_2$, <B2>, green),
+          cnode((3, 0), $c$, <c>),
+          bnode((4, 0), $B_3$, <B3>, orange),
+          edge(<B1>, <b>),
+          edge(<b>, <B2>),
+          edge(<B2>, <c>),
+          edge(<c>, <B3>),
+        )
+
+        *Block-Cut Tree*
+      ],
+    )
+  ]
+]
+
+#Block(color: yellow)[
+  *Applications:*
+  The block-cut tree decomposes $G$ into 2-connected pieces.
+  Many problems can be solved by dynamic programming on this tree.
+]
+
+== Islands (2-Edge-Connected Components)
+
+#definition[
+  An _island_ (or _2-edge-connected component_) is a maximal subgraph with no bridges.
+
+  Equivalently: vertices $u$ and $v$ are in the same island iff they lie on a common cycle.
+]
+
+#note[
+  - Islands are separated by bridges.
+  - Every vertex belongs to exactly one island.
+  - Unlike blocks, islands partition the vertex set (not just edges).
+]
+
+== Blocks vs Islands
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((0.8, 0), $b$, <b>, blue),
+        vertex((0.4, 0.7), $c$, <c>, blue),
+        vertex((1.6, 0), $d$, <d>, green),
+        vertex((2.4, 0), $e$, <e>, green),
+        vertex((2, 0.7), $f$, <f>, green),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <a>),
+        edge(<b>, <d>, stroke: 3pt + orange),
+        edge(<d>, <e>),
+        edge(<e>, <f>),
+        edge(<f>, <d>),
+      ),
+      [
+        *Islands* \
+        #text(fill: blue)[Blue] and #text(fill: green.darken(20%))[green] are 2-edge-connected components. \
+        #text(fill: orange)[Orange] = bridge.
+      ],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((0.8, 0), $b$, <b>, purple),
+        vertex((0.4, 0.7), $c$, <c>, blue),
+        vertex((1.6, 0), $d$, <d>, purple),
+        vertex((2.4, 0), $e$, <e>, green),
+        vertex((2, 0.7), $f$, <f>, green),
+        edge(<a>, <b>, stroke: blue),
+        edge(<b>, <c>, stroke: blue),
+        edge(<c>, <a>, stroke: blue),
+        edge(<b>, <d>, stroke: orange),
+        edge(<d>, <e>, stroke: green),
+        edge(<e>, <f>, stroke: green),
+        edge(<f>, <d>, stroke: green),
+      ),
+      [
+        *Blocks* \
+        #text(fill: blue)[Blue triangle], #text(fill: green.darken(20%))[green triangle], #text(fill: orange)[orange bridge]. \
+        #text(fill: purple)[Purple] = cut vertices $b$ and $d$.
+      ],
+    ),
+  )
+  #align(center)[
+    #grid(
+      columns: 2,
+      column-gutter: 2em,
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
+    )
+  ]
+]
+
+#Block(color: yellow)[
+  *Key difference:*
+  - *Blocks* = 2-vertex-connectivity: no cut vertices within a block.
+  - *Islands* = 2-edge-connectivity: no bridges within an island.
+
+  Blocks may share cut vertices; islands partition vertices.
+]
+
+== Bridge Tree
+
+#definition[
+  The _bridge tree_ (or _island tree_) of a connected graph $G$ is obtained by contracting each island to a single vertex. The edges of this tree are exactly the bridges of $G$.
+]
+
+#Block(color: blue)[
+  *Analogy:*
+  - Block-cut tree: decomposition by _cut vertices_ into _blocks_.
+  - Bridge tree: decomposition by _bridges_ into _islands_.
+]
+
+#theorem[
+  A graph is 2-edge-connected iff its bridge tree is a single vertex (no bridges).
+
+  A graph is 2-vertex-connected iff its block-cut tree has a single block node.
+]
+
+
+= Eulerian and Hamiltonian Graphs
+#focus-slide()
+
+== Eulerian Paths and Circuits
+
+#definition[
+  - An _Eulerian trail_ is a trail that visits every edge exactly once.
+  - An _Eulerian circuit_ is a closed Eulerian trail.
+  - A graph is _Eulerian_ if it has an Eulerian circuit.
+]
+
+#theorem[Euler's Theorem][
+  A connected graph has an Eulerian circuit if and only if every vertex has _even degree_.
+
+  A connected graph has an Eulerian trail (but not circuit) if and only if exactly _two vertices_ have odd degree.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name, tint) = blob(
+    pos,
+    [],
+    tint: tint,
+    shape: shapes.circle,
+    radius: 5pt,
+    name: name,
+  )
+  #let h = 1cm
+  #let data = (
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), <a>, blue),
+        vertex((h, 0cm), <b>, blue),
+        vertex((h, h), <c>, blue),
+        vertex((0cm, h), <d>, blue),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+      ),
+      [*Eulerian* \ (all degrees even)],
+    ),
+    (
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0cm, 0cm), <a>, red),
+        vertex((h, 0cm), <b>, blue),
+        vertex((h, h), <c>, blue),
+        vertex((0cm, h), <d>, red),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <a>),
+        edge(<a>, <c>),
+      ),
+      [*Has Eulerian trail* \ (2 odd vertices)],
+    ),
+  )
+  #place(center, dy: -.5em)[
+    #grid(
+      columns: 2,
+      align: (x, y) => center + if y == 0 { horizon } else { top },
+      column-gutter: 3cm,
+      row-gutter: 1em,
+      ..array.zip(..data).flatten()
+    )
+  ]
+]
+
+== Hamiltonian Paths and Cycles
+
+#definition[
+  - A _Hamiltonian path_ visits every vertex exactly once.
+  - A _Hamiltonian cycle_ is a cycle that visits every vertex exactly once.
+  - A graph is _Hamiltonian_ if it has a Hamiltonian cycle.
+]
+
+#Block(color: orange)[
+  *Warning:* Unlike Eulerian graphs, there is _no simple characterization_ of Hamiltonian graphs!
+
+  Determining if a graph is Hamiltonian is NP-complete.
+]
+
+== Sufficient Conditions for Hamiltonicity
+
+#theorem[Ore's Theorem][
+  If $G$ has $n >= 3$ vertices and for every pair of non-adjacent vertices $u, v$:
+  $ deg(u) + deg(v) >= n $
+  then $G$ is Hamiltonian.
+]
+
+#theorem[Dirac's Theorem][
+  If $G$ has $n >= 3$ vertices and $delta(G) >= n/2$, then $G$ is Hamiltonian.
+]
+
+== Eulerian vs Hamiltonian: Summary
+
+#align(center)[
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    [], [*Eulerian*], [*Hamiltonian*],
+    [Visits], [Every _edge_ once], [Every _vertex_ once],
+    [Characterization], [Degree condition], [NP-complete to decide],
+    [Algorithm], [$O(m)$ --- Hierholzer's], [Exponential (backtracking)],
+    [Named after], [Euler (1736)], [Hamilton (1857)],
+  )
+]
+
+#Block(color: teal)[
+  *Historical note:* Hamilton sold a puzzle ("Icosian game") based on finding Hamiltonian cycles on a dodecahedron graph.
+
+  The dodecahedral graph has exactly 30 distinct Hamiltonian cycles.
+]
+
+
 = Bipartite Graphs and Matchings
 #focus-slide(
   // TODO: epigraph
@@ -2199,575 +2768,6 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
 
 #Block(color: blue)[
   *Complement relationship:* $S$ is a stable set in $G$ $<==>$ $S$ is a clique in $overline(G)$.
-]
-
-
-= Connectivity Theory
-#focus-slide()
-
-== Cut Vertices and Bridges
-
-#definition[
-  A _cut vertex_ (or _articulation point_) is a vertex whose removal increases the number of connected components.
-]
-
-#definition[
-  A _bridge_ (or _cut edge_) is an edge whose removal increases the number of connected components.
-]
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, label, name, tint) = blob(
-    pos,
-    label,
-    tint: tint,
-    shape: shapes.circle,
-    radius: 1em,
-    name: name,
-  )
-  #place(center)[
-    #grid(
-      columns: 2,
-      align: (center + horizon, left + top),
-      column-gutter: 2em,
-      diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>, blue),
-        vertex((1, 0), $b$, <b>, red),
-        vertex((1.5, 0.8), $c$, <c>, blue),
-        vertex((1.5, -0.8), $d$, <d>, blue),
-        vertex((2.5, 0), $e$, <e>, red),
-        vertex((3.5, 0), $f$, <f>, blue),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<b>, <d>),
-        edge(<c>, <d>),
-        edge(<c>, <e>),
-        edge(<d>, <e>),
-        edge(<e>, <f>, stroke: 4pt + orange),
-      ),
-      [
-        - #Red[Cut vertices]: $b$, $e$
-        - #text(fill: orange)[Bridge]: edge ${e, f}$
-      ],
-    )
-  ]
-]
-
-// #Block(color: yellow)[
-//   *Observation:* A vertex $v$ is a cut vertex iff it lies on _every_ path between some pair of vertices.
-//   A bridge $e$ lies on _every_ path between its endpoints' "sides".
-// ]
-
-== Separators and Cuts
-
-#definition[
-  For vertices $u, v in V$, a _$u$-$v$ separator_ (or _$u$-$v$ vertex cut_) is a set $S subset.eq V without {u,v}$ such that $u$ and $v$ are in different components of $G - S$.
-]
-
-#definition[
-  A _$u$-$v$ edge cut_ is a set $F subset.eq E$ such that $u$ and $v$ are in different components of $G - F$.
-]
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, label, name, tint) = blob(
-    pos,
-    label,
-    tint: tint,
-    shape: shapes.circle,
-    radius: .9em,
-    name: name,
-  )
-  #align(center)[
-    #diagram(
-      node-stroke: 1pt,
-      edge-stroke: 1pt,
-      vertex((0, 0), $u$, <u>, blue),
-      vertex((1, 0.5), $a$, <a>, red),
-      vertex((1, -0.5), $b$, <b>, red),
-      vertex((2, 0.5), $c$, <c>, green),
-      vertex((2, -0.5), $d$, <d>, green),
-      vertex((3, 0), $v$, <v>, blue),
-      edge(<u>, <a>),
-      edge(<u>, <b>),
-      edge(<a>, <c>),
-      edge(<b>, <d>),
-      edge(<a>, <b>),
-      edge(<c>, <d>),
-      edge(<c>, <v>),
-      edge(<d>, <v>),
-    )
-  ]
-]
-
-#Red[$S = {a, b}$] is a $u$-$v$ separator.
-#Green[$S' = {c, d}$] is also a $u$-$v$ separator.
-
-== Vertex and Edge Connectivity
-
-#definition[
-  The _vertex connectivity_ $kappa(G)$ is the minimum size of a vertex set $S$ whose removal disconnects $G$ or makes it trivial (single vertex).
-
-  Equivalently: $kappa(G) = min_(u,v) {"minimum" u"-"v "separator size"}$ over all non-adjacent $u, v$.
-]
-
-#definition[
-  The _edge connectivity_ $lambda(G)$ is the minimum size of an edge set $F$ whose removal disconnects $G$.
-
-  Equivalently: $lambda(G) = min_(u,v) {"minimum" u"-"v "edge cut size"}$ over all $u != v$.
-]
-
-#Block(color: blue)[
-  For complete graphs $K_n$: we define $kappa(K_n) = n - 1$ (need to remove all but one vertex).
-]
-
-== $k$-Connectivity
-
-#definition[
-  A graph $G$ is *$k$-vertex-connected* (or simply _$k$-connected_) if $kappa(G) >= k$.
-
-  Equivalently: $G$ has more than $k$ vertices, and $G - S$ is connected for every set $S$ with $|S| < k$.
-]
-
-#definition[
-  A graph $G$ is *$k$-edge-connected* if $lambda(G) >= k$.
-
-  Equivalently: $G - F$ is connected for every edge set $F$ with $|F| < k$.
-]
-
-#example[
-  - $K_n$ is $(n-1)$-connected (both vertex and edge).
-  - $C_n$ (cycle) is 2-connected and 2-edge-connected.
-  - A tree with $n >= 2$ vertices has $kappa = lambda = 1$ (every edge is a bridge).
-]
-
-== Whitney's Inequality
-
-#theorem[Whitney's Inequality][
-  For any graph $G$:
-  $ kappa(G) <= lambda(G) <= delta(G) $
-  where $delta(G)$ is the minimum degree.
-]
-
-#proof[
-  - $lambda(G) <= delta(G)$:
-    Removing all edges incident to a minimum-degree vertex disconnects it.
-  - $kappa(G) <= lambda(G)$:
-    Given a minimum edge cut $F$, for each edge in $F$ pick one endpoint on the "smaller side".
-    This gives a vertex separator of size $<= |F|$. #qedhere
-]
-
-#Block(color: yellow)[
-  *When are they equal?* For $k$-regular graphs with high girth, often $kappa = lambda = k$. For example, the Petersen graph has $kappa = lambda = delta = 3$.
-]
-
-== Menger's Theorem
-
-#theorem[Menger's Theorem (Vertex Form)][
-  Let $u, v$ be non-adjacent vertices in $G$. Then:
-  $ max{"number of internally vertex-disjoint" u"-"v "paths"} = min{|S| : S "is a" u"-"v "separator"} $
-]
-
-#theorem[Menger's Theorem (Edge Form)][
-  For any distinct vertices $u, v$ in $G$:
-  $ max{"number of edge-disjoint" u"-"v "paths"} = min{|F| : F "is a" u"-"v "edge cut"} $
-]
-
-#Block(color: green)[
-  Menger's theorem is equivalent to the Max-Flow Min-Cut theorem with unit capacities.
-
-  The _"flow"_ (disjoint paths) and _"cut"_ (separators) are _dual_ notions.
-]
-
-== Menger's Theorem: Corollaries
-
-#theorem[Global Vertex Connectivity][
-  A graph $G$ is $k$-connected if and only if every pair of distinct vertices is connected by at least $k$ internally vertex-disjoint paths.
-]
-
-#theorem[Global Edge Connectivity][
-  A graph $G$ is $k$-edge-connected if and only if every pair of distinct vertices is connected by at least $k$ edge-disjoint paths.
-]
-
-#Block(color: yellow)[
-  *Intuition:* High connectivity means many "independent routes" between any two vertices. Failure of a few vertices/edges cannot disconnect the graph.
-]
-
-== Blocks (2-Connected Components)
-
-#definition[
-  A _block_ of a graph $G$ is a maximal connected subgraph with no cut vertex (i.e., maximal 2-connected subgraph, or a bridge, or an isolated vertex).
-]
-
-#note[
-  - A 2-connected graph is its own single block.
-  - Every edge belongs to exactly one block.
-  - Blocks can share at most one vertex --- and that vertex is a cut vertex.
-]
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, name, tint) = blob(
-    pos,
-    [],
-    tint: tint,
-    shape: shapes.circle,
-    radius: 5pt,
-    name: name,
-  )
-  #align(center)[
-    #v(-1em)
-    #diagram(
-      node-stroke: 1pt,
-      edge-stroke: 1pt,
-      // Block 1 (triangle)
-      vertex((0, 0), <a>, blue),
-      vertex((0.5, calc.cos(30deg)), <b>, blue),
-      vertex((1, 0), <c>, purple),
-      edge(<a>, <b>, stroke: blue),
-      edge(<b>, <c>, stroke: blue),
-      edge(<c>, <a>, stroke: blue),
-      // Block 2 (pentagon)
-      vertex((2, -0.5), <d>, green),
-      vertex((1.5, 1), <e>, green),
-      vertex((2.5, 1), <f>, green),
-      vertex((3, 0), <g>, purple),
-      edge(<c>, <d>, stroke: green),
-      edge(<d>, <g>, stroke: green),
-      edge(<e>, <c>, stroke: green),
-      edge(<f>, <g>, stroke: green),
-      edge(<e>, <f>, stroke: green),
-      edge(<e>, <d>, stroke: green),
-      // Block 3 (single edge = bridge)
-      vertex((4, 0.5), <h>, orange),
-      edge(<g>, <h>, stroke: orange),
-    )
-  ]
-]
-
-Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[green pentagon], #text(fill: orange)[orange bridge]. #text(fill: purple)[Purple] = cut vertices.
-
-== Block-Cut Tree
-
-#definition[
-  The _block-cut tree_ (or _BC-tree_) of a connected graph $G$ is a bipartite tree $T$ where:
-  - One part contains a node for each _block_ of $G$.
-  - The other part contains a node for each _cut vertex_ of $G$.
-  - A block-node $B$ is adjacent to a cut-vertex-node $v$ iff $v in B$.
-]
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #align(center)[
-    #v(-1em)
-    #grid(
-      columns: 2,
-      align: horizon,
-      column-gutter: 4em,
-      [
-        #let vertex(pos, label, name, tint) = blob(
-          pos,
-          label,
-          tint: tint,
-          shape: shapes.circle,
-          radius: .7em,
-          name: name,
-        )
-        #diagram(
-          spacing: 2em,
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          // Block 1
-          vertex((0, 0), $a$, <a>, blue),
-          vertex((1, 0), $b$, <b>, purple),
-          edge(<a>, <b>, stroke: blue),
-          // Block 2 (triangle)
-          vertex((2, 0.5), $c$, <c>, purple),
-          vertex((2, -0.5), $d$, <d>, green),
-          edge(<b>, <c>, stroke: green),
-          edge(<b>, <d>, stroke: green),
-          edge(<c>, <d>, stroke: green),
-          // Block 3
-          vertex((3, 0), $e$, <e>, orange),
-          edge(<c>, <e>, stroke: orange),
-        )
-
-        *Graph $G$*
-      ],
-      [
-        #let bnode(pos, label, name, tint) = blob(
-          pos,
-          label,
-          tint: tint,
-          shape: shapes.rect,
-          name: name,
-        )
-        #let cnode(pos, label, name) = blob(
-          pos,
-          label,
-          tint: purple,
-          shape: shapes.circle,
-          radius: 0.9em,
-          name: name,
-        )
-        #diagram(
-          node-stroke: 1pt,
-          edge-stroke: 1pt,
-          bnode((0, 0), $B_1$, <B1>, blue),
-          cnode((1, 0), $b$, <b>),
-          bnode((2, 0), $B_2$, <B2>, green),
-          cnode((3, 0), $c$, <c>),
-          bnode((4, 0), $B_3$, <B3>, orange),
-          edge(<B1>, <b>),
-          edge(<b>, <B2>),
-          edge(<B2>, <c>),
-          edge(<c>, <B3>),
-        )
-
-        *Block-Cut Tree*
-      ],
-    )
-  ]
-]
-
-#Block(color: yellow)[
-  *Applications:*
-  The block-cut tree decomposes $G$ into 2-connected pieces.
-  Many problems can be solved by dynamic programming on this tree.
-]
-
-== Islands (2-Edge-Connected Components)
-
-#definition[
-  An _island_ (or _2-edge-connected component_) is a maximal subgraph with no bridges.
-
-  Equivalently: vertices $u$ and $v$ are in the same island iff they lie on a common cycle.
-]
-
-#note[
-  - Islands are separated by bridges.
-  - Every vertex belongs to exactly one island.
-  - Unlike blocks, islands partition the vertex set (not just edges).
-]
-
-== Blocks vs Islands
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, label, name, tint) = blob(
-    pos,
-    label,
-    tint: tint,
-    shape: shapes.circle,
-    radius: .8em,
-    name: name,
-  )
-  #let data = (
-    (
-      diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>, blue),
-        vertex((0.8, 0), $b$, <b>, blue),
-        vertex((0.4, 0.7), $c$, <c>, blue),
-        vertex((1.6, 0), $d$, <d>, green),
-        vertex((2.4, 0), $e$, <e>, green),
-        vertex((2, 0.7), $f$, <f>, green),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <a>),
-        edge(<b>, <d>, stroke: 3pt + orange),
-        edge(<d>, <e>),
-        edge(<e>, <f>),
-        edge(<f>, <d>),
-      ),
-      [
-        *Islands* \
-        #text(fill: blue)[Blue] and #text(fill: green.darken(20%))[green] are 2-edge-connected components. \
-        #text(fill: orange)[Orange] = bridge.
-      ],
-    ),
-    (
-      diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>, blue),
-        vertex((0.8, 0), $b$, <b>, purple),
-        vertex((0.4, 0.7), $c$, <c>, blue),
-        vertex((1.6, 0), $d$, <d>, purple),
-        vertex((2.4, 0), $e$, <e>, green),
-        vertex((2, 0.7), $f$, <f>, green),
-        edge(<a>, <b>, stroke: blue),
-        edge(<b>, <c>, stroke: blue),
-        edge(<c>, <a>, stroke: blue),
-        edge(<b>, <d>, stroke: orange),
-        edge(<d>, <e>, stroke: green),
-        edge(<e>, <f>, stroke: green),
-        edge(<f>, <d>, stroke: green),
-      ),
-      [
-        *Blocks* \
-        #text(fill: blue)[Blue triangle], #text(fill: green.darken(20%))[green triangle], #text(fill: orange)[orange bridge]. \
-        #text(fill: purple)[Purple] = cut vertices $b$ and $d$.
-      ],
-    ),
-  )
-  #align(center)[
-    #grid(
-      columns: 2,
-      column-gutter: 2em,
-      align: (x, y) => center + if y == 0 { horizon } else { top },
-      row-gutter: 1em,
-      ..array.zip(..data).flatten()
-    )
-  ]
-]
-
-#Block(color: yellow)[
-  *Key difference:*
-  - *Blocks* = 2-vertex-connectivity: no cut vertices within a block.
-  - *Islands* = 2-edge-connectivity: no bridges within an island.
-
-  Blocks may share cut vertices; islands partition vertices.
-]
-
-== Bridge Tree
-
-#definition[
-  The _bridge tree_ (or _island tree_) of a connected graph $G$ is obtained by contracting each island to a single vertex. The edges of this tree are exactly the bridges of $G$.
-]
-
-#Block(color: blue)[
-  *Analogy:*
-  - Block-cut tree: decomposition by _cut vertices_ into _blocks_.
-  - Bridge tree: decomposition by _bridges_ into _islands_.
-]
-
-#theorem[
-  A graph is 2-edge-connected iff its bridge tree is a single vertex (no bridges).
-
-  A graph is 2-vertex-connected iff its block-cut tree has a single block node.
-]
-
-
-= Eulerian and Hamiltonian Graphs
-#focus-slide()
-
-== Eulerian Paths and Circuits
-
-#definition[
-  - An _Eulerian trail_ is a trail that visits every edge exactly once.
-  - An _Eulerian circuit_ is a closed Eulerian trail.
-  - A graph is _Eulerian_ if it has an Eulerian circuit.
-]
-
-#theorem[Euler's Theorem][
-  A connected graph has an Eulerian circuit if and only if every vertex has _even degree_.
-
-  A connected graph has an Eulerian trail (but not circuit) if and only if exactly _two vertices_ have odd degree.
-]
-
-#example[
-  #import fletcher: diagram, edge, node, shapes
-  #let vertex(pos, name, tint) = blob(
-    pos,
-    [],
-    tint: tint,
-    shape: shapes.circle,
-    radius: 5pt,
-    name: name,
-  )
-  #let h = 1cm
-  #let data = (
-    (
-      diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0cm, 0cm), <a>, blue),
-        vertex((h, 0cm), <b>, blue),
-        vertex((h, h), <c>, blue),
-        vertex((0cm, h), <d>, blue),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <d>),
-        edge(<d>, <a>),
-      ),
-      [*Eulerian* \ (all degrees even)],
-    ),
-    (
-      diagram(
-        node-stroke: 1pt,
-        edge-stroke: 1pt,
-        vertex((0cm, 0cm), <a>, red),
-        vertex((h, 0cm), <b>, blue),
-        vertex((h, h), <c>, blue),
-        vertex((0cm, h), <d>, red),
-        edge(<a>, <b>),
-        edge(<b>, <c>),
-        edge(<c>, <d>),
-        edge(<d>, <a>),
-        edge(<a>, <c>),
-      ),
-      [*Has Eulerian trail* \ (2 odd vertices)],
-    ),
-  )
-  #place(center, dy: -.5em)[
-    #grid(
-      columns: 2,
-      align: (x, y) => center + if y == 0 { horizon } else { top },
-      column-gutter: 3cm,
-      row-gutter: 1em,
-      ..array.zip(..data).flatten()
-    )
-  ]
-]
-
-== Hamiltonian Paths and Cycles
-
-#definition[
-  - A _Hamiltonian path_ visits every vertex exactly once.
-  - A _Hamiltonian cycle_ is a cycle that visits every vertex exactly once.
-  - A graph is _Hamiltonian_ if it has a Hamiltonian cycle.
-]
-
-#Block(color: orange)[
-  *Warning:* Unlike Eulerian graphs, there is _no simple characterization_ of Hamiltonian graphs!
-
-  Determining if a graph is Hamiltonian is NP-complete.
-]
-
-== Sufficient Conditions for Hamiltonicity
-
-#theorem[Ore's Theorem][
-  If $G$ has $n >= 3$ vertices and for every pair of non-adjacent vertices $u, v$:
-  $ deg(u) + deg(v) >= n $
-  then $G$ is Hamiltonian.
-]
-
-#theorem[Dirac's Theorem][
-  If $G$ has $n >= 3$ vertices and $delta(G) >= n/2$, then $G$ is Hamiltonian.
-]
-
-== Eulerian vs Hamiltonian: Summary
-
-#align(center)[
-  #table(
-    columns: 3,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    [], [*Eulerian*], [*Hamiltonian*],
-    [Visits], [Every _edge_ once], [Every _vertex_ once],
-    [Characterization], [Degree condition], [NP-complete to decide],
-    [Algorithm], [$O(m)$ --- Hierholzer's], [Exponential (backtracking)],
-    [Named after], [Euler (1736)], [Hamilton (1857)],
-  )
-]
-
-#Block(color: teal)[
-  *Historical note:* Hamilton sold a puzzle ("Icosian game") based on finding Hamiltonian cycles on a dodecahedron graph.
-
-  The dodecahedral graph has exactly 30 distinct Hamiltonian cycles.
 ]
 
 
