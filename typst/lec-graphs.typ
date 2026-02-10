@@ -34,20 +34,24 @@
       image: image("assets/Leonhard_Euler.jpg"),
     ),
     (
-      name: "Arthur Cayley",
-      image: image("assets/Arthur_Cayley.jpg"),
-    ),
-    (
       name: "William Rowan Hamilton",
       image: image("assets/William_Rowan_Hamilton.jpg"),
     ),
     (
-      name: "Karl Menger",
-      image: image("assets/Karl_Menger.jpg"),
+      name: "Paul Erdős",
+      image: image("assets/Paul_Erdos.jpg"),
     ),
     (
-      name: "Philip Hall",
-      image: image("assets/Philip_Hall.jpg"),
+      name: "Paul Turán",
+      image: image("assets/Paul_Turan.jpg"),
+    ),
+    (
+      name: "Frank Ramsey",
+      image: image("assets/Frank_Ramsey.jpg"),
+    ),
+    (
+      name: "Frank Harary",
+      image: image("assets/Frank_Harary.jpg"),
     ),
   ),
 )
@@ -975,7 +979,36 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
 
 
 = Paths and Connectivity
-#focus-slide()
+#focus-slide(
+  epigraph: [All paths are not equal; if they were, they wouldn’t be paths \ but rather the points at each end.],
+  epigraph-author: "H.E. Huntley",
+  scholars: (
+    (
+      name: "Edsger Dijkstra",
+      image: image("assets/Edsger_Dijkstra.jpg"),
+    ),
+    (
+      name: "Robert Tarjan",
+      image: image("assets/Robert_Tarjan.jpg"),
+    ),
+    (
+      name: "Arthur Cayley",
+      image: image("assets/Arthur_Cayley.jpg"),
+    ),
+    (
+      name: "Heinz Prüfer",
+      image: image("assets/Heinz_Prufer.jpg"),
+    ),
+    (
+      name: "Øystein Ore",
+      image: image("assets/Oystein_Ore.jpg"),
+    ),
+    (
+      name: "Karl Menger",
+      image: image("assets/Karl_Menger.jpg"),
+    ),
+  ),
+)
 
 == Walks, Trails, and Paths
 
@@ -1583,8 +1616,32 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 
-= Bipartite Graphs
-#focus-slide()
+= Bipartite Graphs and Matchings
+#focus-slide(
+  // TODO: epigraph
+  scholars: (
+    (
+      name: "Dénes Kőnig",
+      image: image("assets/Denes_Konig.jpg"),
+    ),
+    (
+      name: "Philip Hall",
+      image: image("assets/Philip_Hall.jpg"),
+    ),
+    (
+      name: "Jack Edmonds",
+      image: image("assets/Jack_Edmonds.jpg"),
+    ),
+    (
+      name: "Harold Kuhn",
+      image: image("assets/Harold_Kuhn.jpg"),
+    ),
+    (
+      name: "Leonid Mirsky",
+      image: image("assets/Leonid_Mirsky.jpg"),
+    ),
+  ),
+)
 
 == Definition of Bipartite Graphs
 
@@ -1755,10 +1812,6 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 #note[
   $K_(m,n)$ has $m + n$ vertices and $m dot n$ edges.
 ]
-
-
-= Matchings and Covers
-#focus-slide()
 
 == Matchings
 
