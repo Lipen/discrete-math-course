@@ -1036,6 +1036,52 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   A walk/trail/path is _closed_ if it starts and ends at the same vertex.
 ]
 
+== Walks, Trails, and Paths: Visual Example
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  Consider the graph:
+  #align(center)[
+    #v(-1em)
+    #diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), $a$, <a>),
+      vertex((1, 0), $b$, <b>),
+      vertex((2, 0), $c$, <c>),
+      vertex((0.5, 0.8), $d$, <d>),
+      vertex((1.5, 0.8), $e$, <e>),
+      edge(<a>, <b>),
+      edge(<b>, <c>),
+      edge(<a>, <d>),
+      edge(<d>, <e>),
+      edge(<e>, <c>),
+      edge(<b>, <d>),
+      edge(<b>, <e>),
+    )
+  ]
+
+  - *Walk:* $a, b, d, b, c$ --- vertex $b$ is repeated #YES
+  - *Trail:* $a, d, b, e, c, b$ --- all edges distinct, but vertex $b$ repeats #YES
+  - *Path:* $a, d, e, c, b$ --- all vertices distinct #YES
+  - *Cycle:* $b, d, e, b$ --- closed path of length 3
+]
+
+#Block(color: yellow)[
+  *Why distinguish these?* The distinction is essential in algorithms:
+  - DFS/BFS naturally find _paths_.
+  - Euler's algorithm finds _trails_ (visiting every edge).
+  - Many proofs require transforming a walk into a path.
+]
+
 == Length and Distance
 
 #definition[
@@ -1089,6 +1135,17 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   ]
 ]
 
+#theorem[Distance is a Metric][
+  For a connected graph $G$, the distance function satisfies:
+  + _Non-negativity:_ $dist(u, v) >= 0$, and $dist(u, v) = 0$ iff $u = v$
+  + _Symmetry:_ $dist(u, v) = dist(v, u)$
+  + _Triangle inequality:_ $dist(u, w) <= dist(u, v) + dist(v, w)$
+]
+
+#Block(color: blue)[
+  *Algorithm:* Breadth-first search (BFS) computes $dist(s, v)$ for all $v$ from a source $s$ in $O(n + m)$ time.
+]
+
 == Eccentricity, Radius, and Diameter
 
 #definition[
@@ -1134,8 +1191,62 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   ]
 ]
 
+#pagebreak()
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, ..args) = blob(
+    pos,
+    label,
+    radius: 1em,
+    name: name,
+    ..args,
+  )
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 2em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0.5), $a$, <a>, tint: green),
+        vertex((0.95, 0), $b$, <b>, tint: green),
+        vertex((0.59, 0.95), $c$, <c>, tint: green),
+        vertex((-0.59, 0.95), $d$, <d>, tint: green),
+        vertex((-0.95, 0), $e$, <e>, tint: green),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <d>),
+        edge(<d>, <e>),
+        edge(<e>, <a>),
+      ),
+      [
+        Cycle graph $C_5$:
+        - $ecc(v) = 2$ for all $v$
+        - $rad(G) = diam(G) = 2$
+        - All vertices are central!
+      ],
+    )
+  ]
+]
+
+== Radius and Diameter: Bounds
+
 #theorem[
   For any connected graph $G$: $rad(G) <= diam(G) <= 2 dot rad(G)$
+]
+
+#proof[
+  Left inequality: $min <= max$ (by definition).
+
+  Right inequality: Let $u, v$ achieve $diam(G) = dist(u, v)$, and let $w in Center(G)$. By triangle inequality:
+  $ diam(G) = dist(u, v) <= dist(u, w) + dist(w, v) <= 2 dot ecc(w) = 2 dot rad(G) $
+  #qedhere
+]
+
+#Block(color: blue)[
+  *Application:* The center minimizes the _worst-case_ distance to any vertex --- optimal for facility placement (servers, hospitals, emergency services).
 ]
 
 == Connectivity
@@ -1150,9 +1261,68 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   A graph that is not connected is called _disconnected_.
 ]
 
-#note[
-  - A graph with a single vertex is connected (vacuously).
-  - An edgeless graph with two or more vertices is disconnected.
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #align(center)[
+    #v(-1em)
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 3em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, green),
+        vertex((1, 0), $b$, <b>, green),
+        vertex((0.5, 0.8), $c$, <c>, green),
+        vertex((2, 0.4), $d$, <d>, green),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <a>),
+        edge(<b>, <d>),
+      ),
+      [
+        *Connected:* path exists between every pair.
+      ],
+    )
+  ]
+
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, left + top),
+      column-gutter: 3em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((0.8, 0), $b$, <b>, blue),
+        vertex((2, 0), $c$, <c>, red),
+        vertex((2.8, 0), $d$, <d>, red),
+        edge(<a>, <b>),
+        edge(<c>, <d>),
+      ),
+      [
+        *Disconnected:* no path $a$ to $c$.
+      ],
+    )
+  ]
+]
+
+#theorem[Walk implies Path][
+  If there exists a walk from $u$ to $v$, then there exists a _path_ from $u$ to $v$.
+]
+
+#proof[
+  Take a shortest walk. If any vertex repeats, shortcut between occurrences to get a shorter walk --- contradiction. #qedhere
 ]
 
 == Connected Components
@@ -1274,12 +1444,85 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   A _strongly connected component_ (SCC) of a digraph is a maximal strongly connected subgraph.
 ]
 
-#Block(color: blue)[
-  *Condensation graph:* If we contract each SCC to a single vertex, the result is a DAG (directed acyclic graph). This is called the _condensation_ of $G$.
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #let bnode(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.rect,
+    name: name,
+  )
+  #align(center)[
+    #v(-2em)
+    #grid(
+      columns: 2,
+      align: (center + horizon, center + top),
+      column-gutter: 3em,
+      row-gutter: 1em,
+      [
+        #diagram(
+          spacing: 2em,
+          node-stroke: 1pt,
+          edge-stroke: 1pt,
+          // SCC 1
+          vertex((0, 0), $a$, <a>, blue),
+          vertex((1, 0), $b$, <b>, blue),
+          vertex((0.5, 0.8), $c$, <c>, blue),
+          edge(<a>, <b>, "-}>"),
+          edge(<b>, <c>, "-}>"),
+          edge(<c>, <a>, "-}>"),
+          // SCC 2
+          vertex((2.5, 0), $d$, <d>, green),
+          vertex((3.5, 0), $e$, <e>, green),
+          edge(<d>, <e>, "-}>"),
+          edge(<e>, <d>, "-}>"),
+          // SCC 3
+          vertex((3, 1), $f$, <f>, orange),
+          // Edges between SCCs
+          edge(<b>, <d>, "-}>"),
+          edge(<c>, <f>, "-}>"),
+          edge(<f>, <e>, "-}>"),
+        )
+      ],
+      [
+        #diagram(
+          spacing: 2em,
+          node-stroke: 1pt,
+          edge-stroke: 1pt,
+          bnode((0, 0), $S_1$, <S1>, blue),
+          bnode((1.5, 0), $S_2$, <S2>, green),
+          bnode((1.5, 1), $S_3$, <S3>, orange),
+          edge(<S1>, <S2>, "-}>"),
+          edge(<S1>, <S3>, "-}>"),
+          edge(<S3>, <S2>, "-}>"),
+        )
+      ],
+
+      [*Digraph $G$*], [*Condensation (DAG)*],
+    )
+  ]
+
+  Three SCCs: #text(fill: blue)[${a, b, c}$], #text(fill: green.darken(20%))[${d, e}$], #text(fill: orange)[${f}$]. Contracting each gives a DAG.
 ]
 
-#Block(color: teal)[
-  *Algorithms:* SCCs can be found in $O(n + m)$ time using Kosaraju's algorithm or Tarjan's algorithm (both based on DFS).
+#Block(color: blue)[
+  *Condensation:* Contracting each SCC to a vertex always gives a DAG.
+]
+
+#place[
+  #v(1em)
+  #Block(color: teal)[
+    *Algorithms:* SCCs in $O(n + m)$ via Kosaraju's or Tarjan's algorithm.
+  ]
 ]
 
 == Girth
@@ -1353,6 +1596,12 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
       ..array.zip(..data).flatten()
     )
   ]
+]
+
+#Block(color: yellow)[
+  *Why girth matters:*
+  Graphs with large girth are "locally tree-like" --- they behave like trees in a neighborhood of each vertex.
+  This property is exploited in coding theory (LDPC codes) and extremal graph theory.
 ]
 
 
@@ -1443,9 +1692,64 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #Block(color: yellow)[
-  *Why trees matter?*
-  Trees appear everywhere --- file systems, parse trees, decision trees, spanning trees for network design.
-  Their simple structure makes them amenable to recursive algorithms.
+  *Why trees matter?* Ubiquitous structure (file systems, parse trees, network design) with simple recursive algorithms.
+]
+
+== Characterizations of Trees: Visual Proof
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+
+  *Maximally acyclic:* adding _any_ edge to a tree creates exactly one cycle.
+
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, center + top),
+      column-gutter: 3em,
+      row-gutter: 1em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((1, 0), $b$, <b>, blue),
+        vertex((2, 0), $c$, <c>, blue),
+        vertex((1, 0.8), $d$, <d>, blue),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<b>, <d>),
+      ),
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((1, 0), $b$, <b>, blue),
+        vertex((2, 0), $c$, <c>, blue),
+        vertex((1, 0.8), $d$, <d>, blue),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<b>, <d>),
+        edge(<a>, <c>, stroke: 2pt + red, bend: -30deg),
+      ),
+
+      [*Tree* (4 vertices, 3 edges)], [*Adding edge ${a,c}$* creates cycle $a$-$b$-$c$-$a$],
+    )
+  ]
+]
+
+#proof[
+  _Why does this happen?_ In a tree, there is a _unique path_ $P$ between any two vertices $u, v$. Adding edge ${u, v}$ creates a cycle: traverse $P$ from $u$ to $v$, then return via the new edge.
+
+  Conversely, if there were two distinct $u$-$v$ paths, their union would contain a cycle --- contradicting acyclicity.
+  #qedhere
 ]
 
 == Rooted Trees
@@ -1556,6 +1860,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     ),
   )
   #align(center)[
+    #v(-1em)
     #grid(
       columns: 2,
       column-gutter: 3em,
@@ -1566,8 +1871,57 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #Block(color: blue)[
-  *Application:* Finding minimum spanning trees (MST) is fundamental in network design.
+  *Application:* Finding minimum spanning trees (MST) is fundamental in network design --- Kruskal's and Prim's algorithms solve this in $O(m log n)$.
 ]
+
+== Fundamental Cycles
+
+#definition[
+  Let $T$ be a spanning tree of $G$. For each edge $e in E(G) without E(T)$ (a _non-tree edge_), the graph $T + e$ contains exactly one cycle, called the _fundamental cycle_ of $e$ with respect to $T$.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name) = blob(
+    pos,
+    label,
+    tint: blue,
+    shape: shapes.circle,
+    radius: 0.8em,
+    name: name,
+  )
+  #let h = 1.5cm
+  #align(center)[
+    #v(-2em)
+    #diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0cm, 0cm), $a$, <a>),
+      vertex((h, 0cm), $b$, <b>),
+      vertex((h, h), $c$, <c>),
+      vertex((0cm, h), $d$, <d>),
+      // Tree edges
+      edge(<a>, <b>),
+      edge(<b>, <c>),
+      edge(<c>, <d>),
+      // Non-tree edges
+      edge(<d>, <a>, stroke: 2pt + red),
+      edge(<a>, <c>, stroke: 2pt + orange, bend: 20deg),
+    )
+  ]
+
+  Spanning tree: $a$-$b$-$c$-$d$ (black edges).
+
+  - #text(fill: red)[Adding ${a, d}$] creates fundamental cycle $a$-$b$-$c$-$d$-$a$.
+  - #text(fill: orange)[Adding ${a, c}$] creates fundamental cycle $a$-$b$-$c$-$a$.
+]
+
+#Block(color: yellow)[
+  *Key insight:* Each non-tree edge generates exactly one cycle. For a graph with $n$ vertices and $m$ edges: $m - n + 1$ fundamental cycles (the _cycle rank_).
+]
+
+// NOTE: Cayley's Formula and Prüfer Sequences are candidates for practice session.
+// They enrich the tree theory but are not essential for the connectivity narrative.
 
 == Cayley's Formula
 
@@ -1583,14 +1937,11 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #Block(color: teal)[
-  Cayley's formula has many beautiful proofs.
-  The most constructive uses _Prüfer sequences_ --- a bijection between labeled trees on $[n]$ and sequences in $[n]^(n-2)$.
+  *Historical note:* Cayley proved this in 1889. The formula counts _labeled_ trees, i.e., trees on the vertex set ${1, 2, ..., n}$. The number of _unlabeled_ (non-isomorphic) trees grows much slower.
 ]
 
 #Block(color: yellow)[
-  *Why $n^(n-2)$?*
-  Each of the $n-2$ positions in a Prüfer sequence can be any of $n$ vertices. \
-  The encoding is reversible, establishing the bijection.
+  *Why $n^(n-2)$?* Prüfer sequences give a bijection between labeled trees on $[n]$ and sequences in $[n]^(n-2)$.
 ]
 
 == Prüfer Sequences
@@ -1609,15 +1960,20 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 
 #example[
   Tree: $1$-$3$-$4$-$2$, $3$-$5$
+  - Encoding: Remove 1 (neighbor 3), remove 2 (neighbor 4), remove 5 (neighbor 3).
+  - Prüfer sequence: $(3, 4, 3)$
+]
 
-  Encoding: Remove 1 (neighbor 3), remove 2 (neighbor 4), remove 5 (neighbor 3).
-
-  Prüfer sequence: $(3, 4, 3)$
+#note(title: "Observation")[
+  A vertex appears in the Prüfer sequence exactly $deg(v) - 1$ times.
+  In particular, _leaves never appear_ in the sequence (they have degree 1).
 ]
 
 
 = Connectivity Theory
-#focus-slide()
+#focus-slide(
+  epigraph: [The question is not whether a graph is connected, \ but _how well_ it is connected.],
+)
 
 == Cut Vertices and Bridges
 
@@ -1639,10 +1995,11 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     radius: 1em,
     name: name,
   )
-  #place(center)[
+  #align(center)[
+    #v(-2em)
     #grid(
       columns: 2,
-      align: (center + horizon, left + top),
+      align: left + horizon,
       column-gutter: 2em,
       diagram(
         node-stroke: 1pt,
@@ -1669,10 +2026,15 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   ]
 ]
 
-// #Block(color: yellow)[
-//   *Observation:* A vertex $v$ is a cut vertex iff it lies on _every_ path between some pair of vertices.
-//   A bridge $e$ lies on _every_ path between its endpoints' "sides".
-// ]
+#Block(color: yellow)[
+  *Characterization:*
+  - Cut vertex $v$: lies on every path between some pair.
+  - Bridge $e$: lies on no cycle.
+]
+
+#note[
+  Every bridge has an endpoint that is either a leaf or a cut vertex.
+]
 
 == Separators and Cuts
 
@@ -1695,6 +2057,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     name: name,
   )
   #align(center)[
+    #v(-1em)
     #diagram(
       node-stroke: 1pt,
       edge-stroke: 1pt,
@@ -1716,25 +2079,82 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   ]
 ]
 
-#Red[$S = {a, b}$] is a $u$-$v$ separator.
-#Green[$S' = {c, d}$] is also a $u$-$v$ separator.
+#Red[$S = {a, b}$] is a $u$-$v$ separator (minimum: size 2).
+#Green[$S' = {c, d}$] is also a $u$-$v$ separator (also size 2).
+
+#note[
+  A _minimum_ $u$-$v$ separator is one of smallest size.
+  Its size determines how "well-connected" $u$ and $v$ are.
+]
+
+== Internally Disjoint Paths
+
+#definition[
+  Two $u$-$v$ paths are _internally vertex-disjoint_ if they share no vertices other than $u$ and $v$.
+
+  Two $u$-$v$ paths are _edge-disjoint_ if they share no edges.
+]
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .9em,
+    name: name,
+  )
+  #align(center)[
+    #v(-2em)
+    #diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), $u$, <u>, blue),
+      vertex((1, 0.6), $a$, <a>, blue),
+      vertex((1, -0.6), $b$, <b>, blue),
+      vertex((2, 0), $v$, <v>, blue),
+      edge(<u>, <a>, stroke: 2pt + red),
+      edge(<a>, <v>, stroke: 2pt + red),
+      edge(<u>, <b>, stroke: 2pt + green),
+      edge(<b>, <v>, stroke: 2pt + green),
+    )
+  ]
+
+  #text(fill: red)[Path 1: $u$-$a$-$v$] and #text(fill: green.darken(20%))[Path 2: $u$-$b$-$v$] are both _internally vertex-disjoint_ and _edge-disjoint_.
+]
+
+#Block(color: yellow)[
+  *Key duality:* Separators _block_ paths; disjoint paths _survive_ removal of a few vertices/edges.
+
+  _Menger's theorem quantifies this duality precisely._
+]
 
 == Vertex and Edge Connectivity
 
 #definition[
-  The _vertex connectivity_ $kappa(G)$ is the minimum size of a vertex set $S$ whose removal disconnects $G$ or makes it trivial (single vertex).
-
-  Equivalently: $kappa(G) = min_(u,v) {"minimum" u"-"v "separator size"}$ over all non-adjacent $u, v$.
+  The _vertex connectivity_ $kappa(G)$ is the minimum size of a vertex set whose removal disconnects $G$ (or reduces it to one vertex).
 ]
 
 #definition[
-  The _edge connectivity_ $lambda(G)$ is the minimum size of an edge set $F$ whose removal disconnects $G$.
-
-  Equivalently: $lambda(G) = min_(u,v) {"minimum" u"-"v "edge cut size"}$ over all $u != v$.
+  The _edge connectivity_ $lambda(G)$ is the minimum size of an edge set whose removal disconnects $G$.
 ]
 
-#Block(color: blue)[
-  For complete graphs $K_n$: we define $kappa(K_n) = n - 1$ (need to remove all but one vertex).
+#example[
+  #align(center)[
+    #v(-2em)
+    #table(
+      columns: 4,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      [*Graph*], [*$kappa$*], [*$lambda$*], [*$delta$*],
+      [$K_5$], [4], [4], [4],
+      [$C_6$], [2], [2], [2],
+      [Tree], [1], [1], [1],
+      [Petersen], [3], [3], [3],
+    )
+  ]
+
+  For $K_n$, we define $kappa(K_n) = n - 1$ (need to remove all but one vertex).
 ]
 
 == $k$-Connectivity
@@ -1757,6 +2177,10 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   - A tree with $n >= 2$ vertices has $kappa = lambda = 1$ (every edge is a bridge).
 ]
 
+#Block(color: blue)[
+  *Fault tolerance:* A $k$-connected network survives any $k - 1$ node failures.
+]
+
 == Whitney's Inequality
 
 #theorem[Whitney's Inequality][
@@ -1767,32 +2191,160 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 
 #proof[
   - $lambda(G) <= delta(G)$:
-    Removing all edges incident to a minimum-degree vertex disconnects it.
+    Let $v$ be a vertex of minimum degree.
+    The set of all edges incident to $v$ is an edge cut of size $delta(G)$ (removing them isolates $v$).
+
   - $kappa(G) <= lambda(G)$:
-    Given a minimum edge cut $F$, for each edge in $F$ pick one endpoint on the "smaller side".
-    This gives a vertex separator of size $<= |F|$. #qedhere
+    Let $F$ be a minimum edge cut separating $G$ into parts $A$ and $B$.
+    We construct a vertex separator $S$ of size $<= |F|$: for each edge $e = {a, b}$ in $F$ with $a in A$ and $b in B$, include $b$ in $S$ (choosing the endpoint on one fixed side).
+    Then $S$ separates any remaining vertex in $A$ from any remaining vertex in $B$, and $|S| <= |F|$. #qedhere
 ]
 
 #Block(color: yellow)[
-  *When are they equal?* For $k$-regular graphs with high girth, often $kappa = lambda = k$. For example, the Petersen graph has $kappa = lambda = delta = 3$.
+  *When equal?*
+  Petersen graph: $kappa = lambda = delta = 3$.
+
+  *When strict inequality?*
+  Two $K_4$'s sharing an edge have $delta = 3$ but $kappa = 2$.
 ]
 
-== Menger's Theorem
+// TODO: visualize Petersen graph and the $K_4$-joined-by-edge example.
 
-#theorem[Menger's Theorem (Vertex Form)][
+== Menger's Theorem (Vertex Form)
+
+#theorem[Menger][
   Let $u, v$ be non-adjacent vertices in $G$. Then:
   $ max{"number of internally vertex-disjoint" u"-"v "paths"} = min{|S| : S "is a" u"-"v "separator"} $
 ]
 
-#theorem[Menger's Theorem (Edge Form)][
+In other words: the maximum number of paths from $u$ to $v$ that share _no internal vertices_ equals the minimum number of vertices needed to separate $u$ from $v$.
+
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #align(center)[
+    #v(-2em)
+    #grid(
+      columns: 2,
+      align: (center + horizon, center + top),
+      column-gutter: 3em,
+      row-gutter: 1em,
+      diagram(
+        spacing: (2em, 2em),
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((-0.3, 0.5), $u$, <u>, blue),
+        vertex((1, 1), $a$, <a>, blue),
+        vertex((1, 0), $b$, <b>, blue),
+        vertex((2.3, 0.5), $v$, <v>, blue),
+        edge(<u>, <a>, stroke: 2pt + red),
+        edge(<a>, <v>, stroke: 2pt + red),
+        edge(<u>, <b>, stroke: 2pt + green),
+        edge(<b>, <v>, stroke: 2pt + green),
+        edge(<a>, <b>),
+      ),
+      diagram(
+        spacing: (2em, 2em),
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((-0.3, 0.5), $u$, <u>, blue),
+        vertex((1, 1), $a$, <a>, red),
+        vertex((1, 0), $b$, <b>, blue),
+        vertex((2.3, 0.5), $v$, <v>, blue),
+        edge(<u>, <a>),
+        edge(<a>, <v>),
+        edge(<u>, <b>),
+        edge(<b>, <v>),
+        edge(<a>, <b>),
+      ),
+
+      [*2 disjoint paths* (max)], [*Separator ${a}$* has size 1... \ but can we do better?],
+    )
+  ]
+
+  Two disjoint $u$-$v$ paths exist (max = 2). Removing only $a$ leaves $u$-$b$-$v$ connected. Need $S = {a, b}$ to separate $=>$ min separator = 2.
+]
+
+== Menger's Theorem (Edge Form)
+
+#theorem[Menger][
   For any distinct vertices $u, v$ in $G$:
   $ max{"number of edge-disjoint" u"-"v "paths"} = min{|F| : F "is a" u"-"v "edge cut"} $
 ]
 
-#Block(color: green)[
-  Menger's theorem is equivalent to the Max-Flow Min-Cut theorem with unit capacities.
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #align(center)[
+    #grid(
+      columns: 2,
+      align: (center + horizon, center + top),
+      column-gutter: 3em,
+      row-gutter: 1em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0.5), $u$, <u>, blue),
+        vertex((1, 1), $a$, <a>, blue),
+        vertex((1, 0), $b$, <b>, blue),
+        vertex((2, 0.5), $c$, <c>, blue),
+        vertex((3, 0.5), $v$, <v>, blue),
+        edge(<u>, <a>, stroke: 2pt + red),
+        edge(<a>, <c>, stroke: 2pt + red),
+        edge(<c>, <v>, stroke: 2pt + red),
+        edge(<u>, <b>, stroke: 2pt + green),
+        edge(<b>, <c>, stroke: 2pt + green),
+        edge(<a>, <b>),
+      ),
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        vertex((0, 0.5), $u$, <u>, blue),
+        vertex((1, 1), $a$, <a>, blue),
+        vertex((1, 0), $b$, <b>, blue),
+        vertex((2, 0.5), $c$, <c>, blue),
+        vertex((3, 0.5), $v$, <v>, blue),
+        edge(<u>, <a>),
+        edge(<a>, <c>, stroke: 3pt + orange),
+        edge(<c>, <v>, stroke: 3pt + orange),
+        edge(<u>, <b>),
+        edge(<b>, <c>),
+        edge(<a>, <b>),
+      ),
 
-  The _"flow"_ (disjoint paths) and _"cut"_ (separators) are _dual_ notions.
+      [*2 edge-disjoint paths* (max)], [*Min edge cut* of size 2],
+    )
+  ]
+
+  Two edge-disjoint paths (may share vertices like $c$, but no edges). Min edge cut = 2.
+]
+
+== Menger's Theorem: Significance
+
+#Block(color: green)[
+  *Max-Flow Min-Cut duality:* Menger's theorem (1927) is equivalent to the Max-Flow Min-Cut theorem (Ford–Fulkerson, 1956) with unit capacities.
+]
+
+#Block(color: blue)[
+  *Why this matters:*
+  - _Network reliability:_ Independent routes between nodes
+  - _Routing:_ Parallel data streams
+  - _VLSI:_ Non-overlapping wire paths
+  - _Algorithmic foundation:_ Connectivity decomposition
 ]
 
 == Menger's Theorem: Corollaries
@@ -1805,8 +2357,17 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   A graph $G$ is $k$-edge-connected if and only if every pair of distinct vertices is connected by at least $k$ edge-disjoint paths.
 ]
 
+#example[
+  The cycle $C_5$ is 2-connected. For any two vertices, there are exactly 2 internally vertex-disjoint paths (the two arcs of the cycle). Removing any single vertex leaves a path --- still connected.
+]
+
+#example[
+  $K_4$ is 3-connected. Between any two vertices, there are 3 internally disjoint paths (each through one of the three remaining vertices). Removing any 2 vertices leaves at least one edge --- still connected.
+]
+
 #Block(color: yellow)[
-  *Intuition:* High connectivity means many "independent routes" between any two vertices. Failure of a few vertices/edges cannot disconnect the graph.
+  *Intuition:* High connectivity = many independent routes. Menger explains Whitney's inequality:
+  $kappa(G) <= lambda(G) <= delta(G)$.
 ]
 
 == Blocks (2-Connected Components)
@@ -1816,9 +2377,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #note[
-  - A 2-connected graph is its own single block.
-  - Every edge belongs to exactly one block.
-  - Blocks can share at most one vertex --- and that vertex is a cut vertex.
+  Every edge belongs to exactly one block. Blocks share at most one vertex (a cut vertex).
 ]
 
 #example[
@@ -1862,6 +2421,23 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[green pentagon], #text(fill: orange)[orange bridge]. #text(fill: purple)[Purple] = cut vertices.
+
+== Whitney's Characterization of 2-Connectivity
+
+#theorem[Whitney, 1932][
+  A graph $G$ with at least 3 vertices is 2-connected if and only if every pair of vertices lies on a common cycle.
+]
+
+#proof[
+  ($arrow.double.r$) If $G$ is 2-connected, Menger gives 2 internally disjoint $u$-$v$ paths forming a cycle.
+
+  ($arrow.double.l$) If every pair lies on a cycle, then removing any vertex $v$ leaves at least one path between any $u, w$ (via the cycle not passing through $v$). Hence no cut vertex exists.
+  #qedhere
+]
+
+#Block(color: yellow)[
+  *Insight:* Blocks are the "robust cores" --- any two vertices in a block lie on a common cycle.
+]
 
 == Block-Cut Tree
 
@@ -1947,9 +2523,7 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 ]
 
 #Block(color: yellow)[
-  *Applications:*
-  The block-cut tree decomposes $G$ into 2-connected pieces.
-  Many problems can be solved by dynamic programming on this tree.
+  *Applications:* Dynamic programming on the block-cut tree solves many problems on general graphs.
 ]
 
 == Islands (2-Edge-Connected Components)
@@ -1960,10 +2534,48 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
   Equivalently: vertices $u$ and $v$ are in the same island iff they lie on a common cycle.
 ]
 
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #align(center)[
+    #diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      // Island 1
+      vertex((0, 0), $a$, <a>, blue),
+      vertex((0.8, 0), $b$, <b>, blue),
+      vertex((0.4, 0.7), $c$, <c>, blue),
+      edge(<a>, <b>),
+      edge(<b>, <c>),
+      edge(<c>, <a>),
+      // Bridge
+      edge(<b>, (1.6, 0.35), stroke: 3pt + orange),
+      // Island 2
+      vertex((1.6, 0), $d$, <d>, green),
+      vertex((2.4, 0), $e$, <e>, green),
+      vertex((2, 0.7), $f$, <f>, green),
+      edge(<b>, <d>, stroke: 3pt + orange),
+      edge(<d>, <e>),
+      edge(<e>, <f>),
+      edge(<f>, <d>),
+      // Bridge
+      vertex((3.2, 0.35), $g$, <g>, red),
+      edge(<e>, <g>, stroke: 3pt + orange),
+    )
+  ]
+
+  Three islands: #text(fill: blue)[${a,b,c}$], #text(fill: green.darken(20%))[${d,e,f}$], #text(fill: red)[${g}$]. The #text(fill: orange)[orange edges] are bridges.
+]
+
 #note[
-  - Islands are separated by bridges.
-  - Every vertex belongs to exactly one island.
-  - Unlike blocks, islands partition the vertex set (not just edges).
+  Islands partition vertices (no sharing). Separated by bridges.
 ]
 
 == Blocks vs Islands
@@ -2053,16 +2665,108 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
   The _bridge tree_ (or _island tree_) of a connected graph $G$ is obtained by contracting each island to a single vertex. The edges of this tree are exactly the bridges of $G$.
 ]
 
+#example[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #let bnode(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.rect,
+    name: name,
+  )
+  #align(center)[
+    #v(-2em)
+    #grid(
+      columns: 2,
+      align: (center + horizon, center + top),
+      column-gutter: 3em,
+      row-gutter: 1em,
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        // Island 1
+        vertex((0, 0), $a$, <a>, blue),
+        vertex((0.8, 0), $b$, <b>, blue),
+        vertex((0.4, 0.7), $c$, <c>, blue),
+        edge(<a>, <b>),
+        edge(<b>, <c>),
+        edge(<c>, <a>),
+        // Bridge
+        edge(<b>, <d>, stroke: 2pt + orange),
+        // Island 2
+        vertex((1.6, 0), $d$, <d>, green),
+        vertex((2.4, 0), $e$, <e>, green),
+        vertex((2, 0.7), $f$, <f>, green),
+        edge(<d>, <e>),
+        edge(<e>, <f>),
+        edge(<f>, <d>),
+        // Bridge
+        vertex((3.2, 0.35), $g$, <g>, red),
+        edge(<e>, <g>, stroke: 2pt + orange),
+      ),
+      diagram(
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+        bnode((0, 0), $I_1$, <I1>, blue),
+        bnode((1.5, 0), $I_2$, <I2>, green),
+        bnode((3, 0), $I_3$, <I3>, red),
+        edge(<I1>, <I2>),
+        edge(<I2>, <I3>),
+      ),
+
+      [*Graph $G$*], [*Bridge Tree*],
+    )
+  ]
+]
+
+#v(-0.3em)
 #Block(color: blue)[
-  *Analogy:*
+  // *Analogy:*
   - Block-cut tree: decomposition by _cut vertices_ into _blocks_.
   - Bridge tree: decomposition by _bridges_ into _islands_.
 ]
+#v(-.7em)
 
 #theorem[
   A graph is 2-edge-connected iff its bridge tree is a single vertex (no bridges).
 
   A graph is 2-vertex-connected iff its block-cut tree has a single block node.
+]
+
+== Summary: Paths, Trees, and Connectivity
+
+#columns(2)[
+  *Paths & Distance*
+  - Walk → Trail → Path
+  - $dist(u, v)$: shortest path (metric)
+  - Eccentricity, radius, diameter, center
+
+  *Trees*
+  - Connected + acyclic
+  - $n$ vertices, $n-1$ edges
+  - Spanning trees
+  - Fundamental cycles: $m - n + 1$
+
+  #colbreak()
+
+  *Connectivity*
+  - Cut vertices, bridges
+  - $kappa(G) <= lambda(G) <= delta(G)$
+  - *Menger:* max disjoint paths = min separator
+  - Blocks: 2-connected components
+  - Islands: 2-edge-connected
+]
+
+#Block(color: yellow)[
+  *The big picture:* Menger's theorem reveals the fundamental duality between _independent routes_ and _bottlenecks_. This forms the foundation for network flow theory.
 ]
 
 
