@@ -2,7 +2,7 @@
 #show: slides.with(
   title: [Graph Theory],
   subtitle: "Discrete Math",
-  date: "Spring 2025",
+  date: "Spring 2026",
   authors: "Konstantin Chukharev",
   // dark: true,
 )
