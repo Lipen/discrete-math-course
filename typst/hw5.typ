@@ -463,9 +463,9 @@ An internet service provider models their network as a graph where vertices repr
 ]
 
 #tasklist("prob5")[
-  + Identify all _cut vertices_ (articulation points) and all _bridges_ in this network. Explain the practical significance of each.
+  + Identify all _cut vertices_ (articulation points) and all _bridges_ in this network.
 
-  + Find all _blocks_ (maximal biconnected components) and all maximal 2-edge-connected components. Are they the same? Why or why not?
+  + Find all _blocks_ (maximal biconnected components) and all _islands_ (maximal 2-edge-connected components).
 
   + Draw the _block-cut tree_ and the _bridge tree_ for this graph.
 
