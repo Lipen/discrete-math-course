@@ -702,7 +702,7 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 #v(1em)
 
 
-== Optional Problem A: Find the Error
+== Problem A: Find the Error
 
 The following "proof" contains a subtle error.
 Identify the error and explain why the conclusion is false.
@@ -723,7 +723,7 @@ Identify the error and explain why the conclusion is false.
 ]
 
 
-== Optional Problem B: Ramsey Theory
+== Problem B: Ramsey Theory
 
 The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the edges of $K_n$ (complete graph) contains either a red $K_r$ or a blue $K_s$.
 
@@ -741,7 +741,7 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 ]
 
 
-== Optional Problem C: The Friendship Theorem
+== Problem C: The Friendship Theorem
 
 The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 
@@ -758,7 +758,7 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 ]
 
 
-== Optional Problem D: Programming Project
+== Problem D: Programming Project
 
 Implement a graph theory library in your preferred programming language with the following functionality:
 
@@ -773,12 +773,5 @@ Implement a graph theory library in your preferred programming language with the
 
   + *Testing:* Test your implementation on the graphs from Problem 1. Generate a report comparing your results with manual calculations.
 
-  + *(Bonus)* Implement Floyd--Warshall for all-pairs shortest paths, Prim's or Kruskal's MST algorithm, or a graph isomorphism checker.
-]
-
-#v(1em)
-#align(center)[
-  #text(size: 11pt, style: "italic")[
-    End of Homework Assignment \#5
-  ]
+  + *(Bonus)* Implement Floyd--Warshall for all-pairs shortest paths, Prim's or Kruskal's MST algorithm, and a graph isomorphism checker.
 ]
