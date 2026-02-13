@@ -73,6 +73,7 @@ jobs:
       - run: typst compile typst/hw2.typ
       - run: typst compile typst/hw3.typ
       - run: typst compile typst/hw4.typ
+      - run: typst compile typst/hw5.typ
 
       - name: List generated PDFs
         run: ls -lh typst/*.pdf
