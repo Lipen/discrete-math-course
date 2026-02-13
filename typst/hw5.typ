@@ -99,7 +99,7 @@ For each of the following graphs, compute the requested metrics and properties.
 Show your reasoning clearly.
 
 #import fletcher: diagram, edge, node, shapes
-#let dot(pos, lbl, name, ..args) = blob(
+#let vertex(pos, lbl, name, ..args) = blob(
   pos,
   lbl,
   shape: shapes.circle,
@@ -111,21 +111,20 @@ Show your reasoning clearly.
 #grid(
   columns: 3,
   column-gutter: 2em,
-  row-gutter: 2em,
   [
     *(a)* #align(center)[
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        dot((0, 0), $a$, <a>, tint: blue),
-        dot((1, 0), $b$, <b>, tint: blue),
-        dot((2, 0), $c$, <c>, tint: blue),
-        dot((0, 1), $d$, <d>, tint: blue),
-        dot((1, 1), $e$, <e>, tint: blue),
-        dot((2, 1), $f$, <f>, tint: blue),
-        dot((0, 2), $g$, <g>, tint: blue),
-        dot((1, 2), $h$, <h>, tint: blue),
-        dot((2, 2), $i$, <i>, tint: blue),
+        vertex((0, 0), $a$, <a>, tint: blue),
+        vertex((1, 0), $b$, <b>, tint: blue),
+        vertex((2, 0), $c$, <c>, tint: blue),
+        vertex((0, 1), $d$, <d>, tint: blue),
+        vertex((1, 1), $e$, <e>, tint: blue),
+        vertex((2, 1), $f$, <f>, tint: blue),
+        vertex((0, 2), $g$, <g>, tint: blue),
+        vertex((1, 2), $h$, <h>, tint: blue),
+        vertex((2, 2), $i$, <i>, tint: blue),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<d>, <e>),
@@ -151,14 +150,14 @@ Show your reasoning clearly.
         node-stroke: 1pt,
         edge-stroke: 1pt,
         spacing: (13mm, 13mm),
-        dot((1, 1.5), $a$, <a>, tint: blue),
-        dot((0, 1), $b$, <b>, tint: blue),
-        dot((2, 1), $c$, <c>, tint: blue),
-        dot((0, 0), $d$, <d>, tint: blue),
-        dot((1, 0), $e$, <e>, tint: blue),
-        dot((2, 0), $f$, <f>, tint: blue),
-        dot((3, 1), $g$, <g>, tint: blue),
-        dot((3, 0), $h$, <h>, tint: blue),
+        vertex((1, 1.5), $a$, <a>, tint: blue),
+        vertex((0, 1), $b$, <b>, tint: blue),
+        vertex((2, 1), $c$, <c>, tint: blue),
+        vertex((0, 0), $d$, <d>, tint: blue),
+        vertex((1, 0), $e$, <e>, tint: blue),
+        vertex((2, 0), $f$, <f>, tint: blue),
+        vertex((3, 1), $g$, <g>, tint: blue),
+        vertex((3, 0), $h$, <h>, tint: blue),
         edge(<a>, <b>, bend: 20deg),
         edge(<a>, <c>, bend: -20deg),
         edge(<b>, <d>),
@@ -180,14 +179,14 @@ Show your reasoning clearly.
         node-stroke: 1pt,
         edge-stroke: 1pt,
         spacing: (12mm, 12mm),
-        dot((-90deg + 360deg / 8 * 0, 1.3), $a$, tint: blue, <a>),
-        dot((-90deg + 360deg / 8 * 1, 1.3), $b$, tint: blue, <b>),
-        dot((-90deg + 360deg / 8 * 2, 1.3), $c$, tint: blue, <c>),
-        dot((-90deg + 360deg / 8 * 3, 1.3), $d$, tint: blue, <d>),
-        dot((-90deg + 360deg / 8 * 4, 1.3), $e$, tint: blue, <e>),
-        dot((-90deg + 360deg / 8 * 5, 1.3), $f$, tint: blue, <f>),
-        dot((-90deg + 360deg / 8 * 6, 1.3), $g$, tint: blue, <g>),
-        dot((-90deg + 360deg / 8 * 7, 1.3), $h$, tint: blue, <h>),
+        vertex((-90deg + 360deg / 8 * 0, 1.3), $a$, tint: blue, <a>),
+        vertex((-90deg + 360deg / 8 * 1, 1.3), $b$, tint: blue, <b>),
+        vertex((-90deg + 360deg / 8 * 2, 1.3), $c$, tint: blue, <c>),
+        vertex((-90deg + 360deg / 8 * 3, 1.3), $d$, tint: blue, <d>),
+        vertex((-90deg + 360deg / 8 * 4, 1.3), $e$, tint: blue, <e>),
+        vertex((-90deg + 360deg / 8 * 5, 1.3), $f$, tint: blue, <f>),
+        vertex((-90deg + 360deg / 8 * 6, 1.3), $g$, tint: blue, <g>),
+        vertex((-90deg + 360deg / 8 * 7, 1.3), $h$, tint: blue, <h>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <d>),
@@ -211,7 +210,7 @@ Show your reasoning clearly.
   + *Basic connectivity metrics:*
     - Minimum degree $delta(G)$, maximum degree $Delta(G)$
     - Vertex connectivity $kappa(G)$, edge connectivity $lam(G)$
-    - All cut vertices (articulation points) and bridges
+    - All cut vertices (articulation points), bridges, blocks, islands
     - Verify Whitney's inequality: $kappa(G) <= lam(G) <= delta(G)$
 
   + *Distance metrics:*
@@ -234,15 +233,22 @@ A sequence $d = (d_1, d_2, dots, d_n)$ with $d_1 >= d_2 >= dots >= d_n >= 0$ is 
   + For each sequence below, determine whether it is graphical.
     If yes, construct a graph realizing it.
     If no, explain why (cite the Erdős--Gallai criterion or parity/sum arguments).
-    - $(5, 4, 3, 2, 2, 2)$
-    - $(3, 3, 3, 3, 3, 3)$
-    - $(4, 4, 3, 2, 1)$
-    - $(6, 3, 3, 3, 3, 2, 2)$
-    - $(1, 1, 1, 1, 1, 1)$
+    #[
+      #set enum(numbering: "(a)")
+      + $(5, 4, 3, 2, 2, 2)$
+      + $(3, 3, 3, 3, 3, 3)$
+      + $(4, 4, 3, 2, 1)$
+      + $(6, 3, 3, 3, 3, 2, 2)$
+      + $(1, 1, 1, 1, 1, 1)$
+    ]
 
-  + Prove the _parity lemma_: The sum of all degrees in any graph is even.
+  // + Prove the _parity lemma_: The sum of all degrees in any graph is even.
 
-  + Prove or disprove: If $G$ has degree sequence $d_1 >= d_2 >= dots >= d_n$ with $d_i >= i$ for some $i < n$, then $G$ contains a clique of size at least $i + 1$.
+  // + Prove or disprove: If $G$ has degree sequence $d_1 >= d_2 >= dots >= d_n$ with $d_i >= i$ for some $i < n$, then $G$ contains a clique of size at least $i + 1$.
+
+  + The total number of non-isomorphic simple undirected graphs on $n$ vertices is given by the sequence $(1, 2, 4, 11, 34, 156, ...)$ (#link("https://oeis.org/A000088")[OEIS A000088]).
+    The number of distinct degree sequences of length $n$ is given by the sequence $(1, 2, 4, 11, 31, 102, ...)$ (#link("https://oeis.org/A004251")[OEIS A004251]).
+    Explain why the second sequence grows more slowly than the first, and determine which degree sequences of length $n = 5$ are reliazable by more than one graph.
 ]
 
 
@@ -252,25 +258,24 @@ Determine which pairs of graphs below are isomorphic.
 For each isomorphic pair, exhibit an explicit bijection $f: V(G) to V(H)$ that preserves adjacency.
 For each non-isomorphic pair, identify a distinguishing invariant (degree sequence, girth, number of triangles, etc.).
 
-*The following four graphs all have 7 vertices and 9 edges:*
-
 #grid(
   columns: 2,
+  align: left,
   column-gutter: 2em,
   row-gutter: 2em,
   [
-    *Graph $H_1$:*
-    #align(center)[
+    *Graph $H_1$:* #align(center)[
       #diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        dot((-90deg + 360deg / 7 * 0, 1.3), $1$, tint: blue, <1>),
-        dot((-90deg + 360deg / 7 * 1, 1.3), $2$, tint: blue, <2>),
-        dot((-90deg + 360deg / 7 * 2, 1.3), $3$, tint: blue, <3>),
-        dot((-90deg + 360deg / 7 * 3, 1.3), $4$, tint: blue, <4>),
-        dot((-90deg + 360deg / 7 * 4, 1.3), $5$, tint: blue, <5>),
-        dot((-90deg + 360deg / 7 * 5, 1.3), $6$, tint: blue, <6>),
-        dot((-90deg + 360deg / 7 * 6, 1.3), $7$, tint: blue, <7>),
+        vertex((-90deg + 360deg / 7 * 0, 1.3), $1$, tint: blue, <1>),
+        vertex((-90deg + 360deg / 7 * 1, 1.3), $2$, tint: blue, <2>),
+        vertex((-90deg + 360deg / 7 * 2, 1.3), $3$, tint: blue, <3>),
+        vertex((-90deg + 360deg / 7 * 3, 1.3), $4$, tint: blue, <4>),
+        vertex((-90deg + 360deg / 7 * 4, 1.3), $5$, tint: blue, <5>),
+        vertex((-90deg + 360deg / 7 * 5, 1.3), $6$, tint: blue, <6>),
+        vertex((-90deg + 360deg / 7 * 6, 1.3), $7$, tint: blue, <7>),
         edge(<1>, <2>),
         edge(<2>, <3>),
         edge(<3>, <4>),
@@ -282,20 +287,19 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
         edge(<2>, <5>),
       )
     ]
-  ],
-  [
-    *Graph $H_2$:*
-    #align(center)[
+
+    *Graph $H_3$:* #align(center)[
       #diagram(
+        spacing: 3em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        dot((0, 0), $a$, tint: green, <a>),
-        dot((1, 0), $b$, tint: green, <b>),
-        dot((2, 0), $c$, tint: green, <c>),
-        dot((3, 0), $d$, tint: green, <d>),
-        dot((0.5, 1), $e$, tint: green, <e>),
-        dot((1.5, 1), $f$, tint: green, <f>),
-        dot((2.5, 1), $g$, tint: green, <g>),
+        vertex((0, 0), $a$, tint: green, <a>),
+        vertex((1, 0), $b$, tint: green, <b>),
+        vertex((2, 0), $c$, tint: green, <c>),
+        vertex((3, 0), $d$, tint: green, <d>),
+        vertex((0.5, 1), $e$, tint: green, <e>),
+        vertex((1.5, 1), $f$, tint: green, <f>),
+        vertex((2.5, 1), $g$, tint: green, <g>),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<c>, <d>),
@@ -308,20 +312,19 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
       )
     ]
   ],
-
   [
-    *Graph $H_3$:*
-    #align(center)[
+    *Graph $H_2$:* #align(center)[
       #diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        dot((1, 1), $p$, tint: orange, <p>),
-        dot((0, 0.5), $q$, tint: orange, <q>),
-        dot((0.5, -0.3), $r$, tint: orange, <r>),
-        dot((1.5, -0.3), $s$, tint: orange, <s>),
-        dot((2, 0.5), $t$, tint: orange, <t>),
-        dot((2, 1.5), $u$, tint: orange, <u>),
-        dot((0, 1.5), $v$, tint: orange, <v>),
+        vertex((1, 1), $p$, tint: orange, <p>),
+        vertex((0, 0.5), $q$, tint: orange, <q>),
+        vertex((0.5, -0.3), $r$, tint: orange, <r>),
+        vertex((1.5, -0.3), $s$, tint: orange, <s>),
+        vertex((2, 0.5), $t$, tint: orange, <t>),
+        vertex((2, 1.5), $u$, tint: orange, <u>),
+        vertex((0, 1.5), $v$, tint: orange, <v>),
         edge(<p>, <q>),
         edge(<p>, <v>),
         edge(<p>, <t>),
@@ -333,20 +336,19 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
         edge(<q>, <v>),
       )
     ]
-  ],
-  [
-    *Graph $H_4$:*
-    #align(center)[
+
+    *Graph $H_4$:* #align(center)[
       #diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        dot((0, 1), $w$, tint: purple, <w>),
-        dot((1, 0), $x$, tint: purple, <x>),
-        dot((1, 2), $y$, tint: purple, <y>),
-        dot((2, 0.5), $z$, tint: purple, <z>),
-        dot((2, 1.5), $alpha$, tint: purple, <alpha>),
-        dot((3, 1), $beta$, tint: purple, <beta>),
-        dot((1.5, 1), $gamma$, tint: purple, <gamma>),
+        vertex((0, 1), $w$, tint: purple, <w>),
+        vertex((1, 0), $x$, tint: purple, <x>),
+        vertex((1, 2), $y$, tint: purple, <y>),
+        vertex((2, 0.5), $z$, tint: purple, <z>),
+        vertex((2, 1.5), $alpha$, tint: purple, <alpha>),
+        vertex((3, 1), $beta$, tint: purple, <beta>),
+        vertex((1.5, 1), $gamma$, tint: purple, <gamma>),
         edge(<w>, <x>, bend: 30deg),
         edge(<w>, <y>, bend: -30deg),
         edge(<w>, <gamma>),
@@ -361,7 +363,6 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
   ],
 )
 
-
 == Problem 4: Dijkstra's Shortest Path Algorithm
 
 Apply *Dijkstra's algorithm* to find a shortest path from $a$ to $z$ in the weighted graph below.
@@ -371,19 +372,19 @@ Apply *Dijkstra's algorithm* to find a shortest path from $a$ to $z$ in the weig
     node-stroke: 1pt,
     edge-stroke: 1pt,
     spacing: (15mm, 12mm),
-    dot((0, 1), $a$, tint: green, <a>),
-    dot((1, 0), $b$, tint: blue, <b>),
-    dot((1, 1), $c$, tint: blue, <c>),
-    dot((1, 2), $d$, tint: blue, <d>),
-    dot((2, 0), $e$, tint: blue, <e>),
-    dot((2, 1), $f$, tint: blue, <f>),
-    dot((2, 2), $g$, tint: blue, <g>),
-    dot((3, 0), $h$, tint: blue, <h>),
-    dot((3, 1), $i$, tint: blue, <i>),
-    dot((3, 2), $j$, tint: blue, <j>),
-    dot((4, 0.5), $k$, tint: blue, <k>),
-    dot((4, 1.5), $l$, tint: blue, <l>),
-    dot((5, 1), $z$, tint: red, <z>),
+    vertex((0, 1), $a$, tint: green, <a>),
+    vertex((1, 0), $b$, tint: blue, <b>),
+    vertex((1, 1), $c$, tint: blue, <c>),
+    vertex((1, 2), $d$, tint: blue, <d>),
+    vertex((2, 0), $e$, tint: blue, <e>),
+    vertex((2, 1), $f$, tint: blue, <f>),
+    vertex((2, 2), $g$, tint: blue, <g>),
+    vertex((3, 0), $h$, tint: blue, <h>),
+    vertex((3, 1), $i$, tint: blue, <i>),
+    vertex((3, 2), $j$, tint: blue, <j>),
+    vertex((4, 0.5), $k$, tint: blue, <k>),
+    vertex((4, 1.5), $l$, tint: blue, <l>),
+    vertex((5, 1), $z$, tint: red, <z>),
     edge(<a>, <b>, [2], label-angle: auto, label-side: center),
     edge(<a>, <c>, [5], label-angle: auto, label-side: center),
     edge(<a>, <d>, [1], label-angle: auto, label-side: center),
@@ -431,17 +432,17 @@ An internet service provider models their network as a graph where vertices repr
     node-stroke: 1pt,
     edge-stroke: 1pt,
     spacing: (15mm, 14mm),
-    dot((0, 1), $R_1$, tint: blue, <r1>),
-    dot((1, 0), $R_2$, tint: blue, <r2>),
-    dot((1, 2), $R_3$, tint: blue, <r3>),
-    dot((2, 0.5), $R_4$, tint: blue, <r4>),
-    dot((2, 1.5), $R_5$, tint: blue, <r5>),
-    dot((3, 1), $R_6$, tint: blue, <r6>),
-    dot((4, 0), $R_7$, tint: blue, <r7>),
-    dot((4, 2), $R_8$, tint: blue, <r8>),
-    dot((5, 0.5), $R_9$, tint: blue, <r9>),
-    dot((5, 1.5), $R_10$, tint: blue, <r10>),
-    dot((6, 1), $R_11$, tint: blue, <r11>),
+    vertex((0, 1), $R_1$, tint: blue, <r1>),
+    vertex((1, 0), $R_2$, tint: blue, <r2>),
+    vertex((1, 2), $R_3$, tint: blue, <r3>),
+    vertex((2, 0.5), $R_4$, tint: blue, <r4>),
+    vertex((2, 1.5), $R_5$, tint: blue, <r5>),
+    vertex((3, 1), $R_6$, tint: blue, <r6>),
+    vertex((4, 0), $R_7$, tint: blue, <r7>),
+    vertex((4, 2), $R_8$, tint: blue, <r8>),
+    vertex((5, 0.5), $R_9$, tint: blue, <r9>),
+    vertex((5, 1.5), $R_10$, tint: blue, <r10>),
+    vertex((6, 1), $R_11$, tint: blue, <r11>),
     edge(<r1>, <r2>),
     edge(<r1>, <r3>),
     edge(<r2>, <r4>),
@@ -502,18 +503,18 @@ The Prüfer sequence provides a bijection between labeled trees on $n$ vertices 
     node-stroke: 1pt,
     edge-stroke: 1pt,
     spacing: (14mm, 14mm),
-    dot((1, 2), $1$, tint: blue, <1>),
-    dot((2, 2), $2$, tint: blue, <2>),
-    dot((3, 2), $3$, tint: blue, <3>),
-    dot((1, 1), $4$, tint: blue, <4>),
-    dot((2, 1), $5$, tint: blue, <5>),
-    dot((3, 1), $6$, tint: blue, <6>),
-    dot((4, 1), $7$, tint: blue, <7>),
-    dot((0, 0), $8$, tint: blue, <8>),
-    dot((1.5, 0), $9$, tint: blue, <9>),
-    dot((2.5, 0), $10$, tint: blue, <10>),
-    dot((3.5, 0), $11$, tint: blue, <11>),
-    dot((4.5, 0), $12$, tint: blue, <12>),
+    vertex((1, 2), $1$, tint: blue, <1>),
+    vertex((2, 2), $2$, tint: blue, <2>),
+    vertex((3, 2), $3$, tint: blue, <3>),
+    vertex((1, 1), $4$, tint: blue, <4>),
+    vertex((2, 1), $5$, tint: blue, <5>),
+    vertex((3, 1), $6$, tint: blue, <6>),
+    vertex((4, 1), $7$, tint: blue, <7>),
+    vertex((0, 0), $8$, tint: blue, <8>),
+    vertex((1.5, 0), $9$, tint: blue, <9>),
+    vertex((2.5, 0), $10$, tint: blue, <10>),
+    vertex((3.5, 0), $11$, tint: blue, <11>),
+    vertex((4.5, 0), $12$, tint: blue, <12>),
     edge(<5>, <1>),
     edge(<5>, <2>),
     edge(<5>, <3>),
@@ -596,7 +597,7 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 #align(center)[
   #table(
     columns: 7,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
     table.header([], [*$F_1$*], [*$F_2$*], [*$F_3$*], [*$F_4$*], [*$F_5$*], [*$F_6$*]),
     [*$L_1$*], [$times$], [$times$], [], [], [], [$times$],
     [*$L_2$*], [$times$], [], [$times$], [], [], [],
@@ -608,11 +609,14 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 ]
 
 #tasklist("prob12")[
-  + Does a perfect matching exist? To answer this, verify Hall's condition: For every subset $S subset.eq {L_1, dots, L_6}$, check whether $|N(S)| >= |S|$.
+  + Does a perfect matching exist?
+    To answer this, verify Hall's condition: For every subset #box[$S subset.eq {L_1, dots, L_6}$], check whether $|N(S)| >= |S|$.
 
   + Find a maximum matching. Is it perfect?
 
-  + Now suppose $L_2$ becomes more selective and will _only_ dance with $F_1$. Does a perfect matching still exist? If Hall's condition fails, identify the violating subset $S$ and explain why no perfect matching exists.
+  + Now suppose $L_2$ becomes more selective and will _only_ dance with $F_1$.
+    Does a perfect matching still exist?
+    If Hall's condition fails, identify the violating subset $S$ and explain why no perfect matching exists.
 
   + State and prove _Hall's Marriage Theorem_ in full generality.
 ]
@@ -627,7 +631,7 @@ For each graph below, determine whether it is planar.
   + $K_5$ (complete graph on 5 vertices)
   #colbreak()
   + $Q_3$ (3-dimensional hypercube)
-  + The Petersen graph (see Problem 10.3)
+  + The Petersen graph
 ]
 
 For each planar graph, draw a planar embedding and verify Euler's formula: $n - m + f = 2$, where $n$ is the number of vertices, $m$ is the number of edges, and $f$ is the number of faces.
@@ -640,7 +644,8 @@ For each non-planar graph, prove non-planarity using one of:
 == Problem 14: Graph Coloring
 
 #tasklist("prob14")[
-  + Determine the chromatic number $chi(G)$ for each graph in Problem 1. For each graph, prove that $chi(G) - 1$ colors are insufficient by exhibiting an appropriate subgraph structure.
+  + Determine the chromatic number $chi(G)$ for each graph in Problem 1.
+    For each graph, prove that $chi(G) - 1$ colors are insufficient by exhibiting an appropriate subgraph structure.
 
   + Find the chromatic number of each graph family below, and prove your answers:
     - $C_n$ (cycle on $n >= 3$ vertices)
