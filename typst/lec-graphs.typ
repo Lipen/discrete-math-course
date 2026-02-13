@@ -2531,7 +2531,7 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 #definition[
   An _island_ (or _2-edge-connected component_) is a maximal subgraph with no bridges.
 
-  Equivalently: vertices $u$ and $v$ are in the same island iff they lie on a common cycle.
+  Equivalently: vertices $u$ and $v$ are in the same island iff they lie on a common circuit.
 ]
 
 #example[
