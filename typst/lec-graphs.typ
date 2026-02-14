@@ -2555,12 +2555,11 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
       edge(<a>, <b>),
       edge(<b>, <c>),
       edge(<c>, <a>),
-      // Bridge
-      edge(<b>, (1.6, 0.35), stroke: 3pt + orange),
       // Island 2
       vertex((1.6, 0), $d$, <d>, green),
       vertex((2.4, 0), $e$, <e>, green),
       vertex((2, 0.7), $f$, <f>, green),
+      // Bridge
       edge(<b>, <d>, stroke: 3pt + orange),
       edge(<d>, <e>),
       edge(<e>, <f>),
