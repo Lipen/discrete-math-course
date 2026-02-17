@@ -37,8 +37,6 @@
 #let ecc = math.op("ecc")
 #let deg = math.op("deg")
 #let Adj = math.op("Adj")
-#let kappa = sym.kappa
-#let lam = sym.lambda
 
 #let pair(a, b) = $angle.l #a, #b angle.r$
 
@@ -83,21 +81,7 @@
   )
 }
 
-// #Box(align: right)[
-//   #set text(fill: blue.darken(20%))
-//   "A mathematician is a device for turning coffee into theorems."
-
-//   #align(right)[
-//     --- Paul Erdős
-//   ]
-// ]
-
-
-== Problem 1: Graph Invariants Analysis
-
-For each of the following graphs, compute the requested metrics and properties.
-Show your reasoning clearly.
-
+// Graph drawing helpers
 #import fletcher: diagram, edge, node, shapes
 #let vertex(pos, lbl, name, ..args) = blob(
   pos,
@@ -107,6 +91,11 @@ Show your reasoning clearly.
   name: name,
   ..args,
 )
+
+
+== Problem 1: Graph Invariants Analysis
+
+For each of the following graphs, compute the requested metrics and properties.
 
 #grid(
   columns: 3,
@@ -175,6 +164,7 @@ Show your reasoning clearly.
   ],
   [
     *(c)* #align(center)[
+      #v(-1em)
       #diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
@@ -209,19 +199,22 @@ Show your reasoning clearly.
 #tasklist("prob1")[
   + *Basic connectivity metrics:*
     - Minimum degree $delta(G)$, maximum degree $Delta(G)$
-    - Vertex connectivity $kappa(G)$, edge connectivity $lam(G)$
-    - All cut vertices (articulation points), bridges, blocks, islands
-    - Verify Whitney's inequality: $kappa(G) <= lam(G) <= delta(G)$
+    - Vertex connectivity $kappa(G)$, edge connectivity $lambda(G)$
+    - All $(kappa - 1)$-connected components, $(lambda - 1)$-edge-connected components
+    - Verify Whitney's inequality: $kappa(G) <= lambda(G) <= delta(G)$
 
   + *Distance metrics:*
-    - Eccentricity $ecc(v)$ for every vertex $v in V(G)$
-    - Radius $rad(G)$, diameter $diam(G)$, center $Center(G)$
+    - $ecc(v)$ for every vertex $v in V(G)$
+    - $rad(G)$, $diam(G)$, $Center(G)$, $girth(G)$
     - Verify the bounds: $rad(G) <= diam(G) <= 2 dot rad(G)$
 
   + *Structural properties:*
     - Is the graph Eulerian? Hamiltonian? Bipartite? Justify each answer.
-    - Find: maximum clique $Q subset.eq V$, maximum stable set $S subset.eq V$
-    - Find: maximum matching $M subset.eq E$, minimum vertex cover $R subset.eq V$
+    - Find: maximum clique $Q subset.eq V$, maximum stable set $S subset.eq V$, minimum dominating set $D subset.eq V$
+    - Find: maximum matching $M subset.eq E$. Is $M$ perfect?
+    - Find: minimum vertex cover $R subset.eq V$, minimum edge cover $F subset.eq E$
+    - Find: minimum vertex coloring $C : V to {1, 2, dots, chi(G)}$
+    - Find: minimum edge coloring $C : E to {1, 2, dots, chi'(G)}$
 ]
 
 
