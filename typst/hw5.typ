@@ -423,54 +423,75 @@ Apply *Dijkstra's algorithm* to find a shortest path from $a$ to $z$ in the weig
 ]
 
 
-== Problem 5: Network Connectivity Analysis
+== Problem 5: Find the Error
 
-An internet service provider models their network as a graph where vertices represent routers and edges represent physical links.
+The following "proof" contains a subtle error.
+Identify the error and explain why the conclusion is false and the claim is not valid.
 
-#align(center)[
-  #diagram(
-    node-stroke: 1pt,
-    edge-stroke: 1pt,
-    spacing: (15mm, 14mm),
-    vertex((0, 1), $R_1$, tint: blue, <r1>),
-    vertex((1, 0), $R_2$, tint: blue, <r2>),
-    vertex((1, 2), $R_3$, tint: blue, <r3>),
-    vertex((2, 0.5), $R_4$, tint: blue, <r4>),
-    vertex((2, 1.5), $R_5$, tint: blue, <r5>),
-    vertex((3, 1), $R_6$, tint: blue, <r6>),
-    vertex((4, 0), $R_7$, tint: blue, <r7>),
-    vertex((4, 2), $R_8$, tint: blue, <r8>),
-    vertex((5, 0.5), $R_9$, tint: blue, <r9>),
-    vertex((5, 1.5), $R_10$, tint: blue, <r10>),
-    vertex((6, 1), $R_11$, tint: blue, <r11>),
-    edge(<r1>, <r2>),
-    edge(<r1>, <r3>),
-    edge(<r2>, <r4>),
-    edge(<r3>, <r5>),
-    edge(<r2>, <r3>),
-    edge(<r4>, <r5>),
-    edge(<r4>, <r6>),
-    edge(<r5>, <r6>),
-    edge(<r6>, <r7>),
-    edge(<r6>, <r8>),
-    edge(<r7>, <r9>),
-    edge(<r8>, <r10>),
-    edge(<r7>, <r8>),
-    edge(<r9>, <r10>),
-    edge(<r9>, <r11>),
-    edge(<r10>, <r11>),
-  )
+#Block[
+  *False Claim:* Every tree with $n$ vertices has a path of length $n - 1$.
+
+  *"Proof."*
+
+  _Base case:_ A tree with one vertex clearly has a path of length $0 = 1 - 1$. $checkmark$
+
+  _Inductive step:_
+  Assume that every tree with $n$ vertices has a path of length $n - 1$.
+  Consider a tree $T$ with $n + 1$ vertices.
+  This path must terminate at some leaf $u$.
+  Add a new vertex $v$ and connect it to $u$ with an edge.
+  The resulting tree has $n + 1$ vertices and contains a path of length $n$, which is $(n+1) - 1$. $qed$
 ]
 
-#tasklist("prob5")[
-  + Identify all _cut vertices_ (articulation points) and all _bridges_ in this network.
 
-  + Find all _blocks_ (maximal biconnected components) and all _islands_ (maximal 2-edge-connected components).
+// == Problem 5: Network Connectivity Analysis
 
-  + Draw the _block-cut tree_ and the _bridge tree_ for this graph.
+// An internet service provider models their network as a graph where vertices represent routers and edges represent physical links.
 
-  + Compute $kappa(G)$ (vertex connectivity) and $lam(G)$ (edge connectivity). Verify Whitney's inequality: $kappa(G) <= lam(G) <= delta(G)$.
-]
+// #align(center)[
+//   #diagram(
+//     node-stroke: 1pt,
+//     edge-stroke: 1pt,
+//     spacing: (15mm, 14mm),
+//     vertex((0, 1), $R_1$, tint: blue, <r1>),
+//     vertex((1, 0), $R_2$, tint: blue, <r2>),
+//     vertex((1, 2), $R_3$, tint: blue, <r3>),
+//     vertex((2, 0.5), $R_4$, tint: blue, <r4>),
+//     vertex((2, 1.5), $R_5$, tint: blue, <r5>),
+//     vertex((3, 1), $R_6$, tint: blue, <r6>),
+//     vertex((4, 0), $R_7$, tint: blue, <r7>),
+//     vertex((4, 2), $R_8$, tint: blue, <r8>),
+//     vertex((5, 0.5), $R_9$, tint: blue, <r9>),
+//     vertex((5, 1.5), $R_10$, tint: blue, <r10>),
+//     vertex((6, 1), $R_11$, tint: blue, <r11>),
+//     edge(<r1>, <r2>),
+//     edge(<r1>, <r3>),
+//     edge(<r2>, <r4>),
+//     edge(<r3>, <r5>),
+//     edge(<r2>, <r3>),
+//     edge(<r4>, <r5>),
+//     edge(<r4>, <r6>),
+//     edge(<r5>, <r6>),
+//     edge(<r6>, <r7>),
+//     edge(<r6>, <r8>),
+//     edge(<r7>, <r9>),
+//     edge(<r8>, <r10>),
+//     edge(<r7>, <r8>),
+//     edge(<r9>, <r10>),
+//     edge(<r9>, <r11>),
+//     edge(<r10>, <r11>),
+//   )
+// ]
+
+// #tasklist("prob5")[
+//   + Identify all _cut vertices_ (articulation points) and all _bridges_ in this network.
+
+//   + Find all _blocks_ (maximal biconnected components) and all _islands_ (maximal 2-edge-connected components).
+
+//   + Draw the _block-cut tree_ and the _bridge tree_ for this graph.
+
+//   + Compute $kappa(G)$ (vertex connectivity) and $lambda(G)$ (edge connectivity). Verify Whitney's inequality: $kappa(G) <= lambda(G) <= delta(G)$.
+// ]
 
 
 == Problem 6: Tree Characterizations
@@ -670,8 +691,8 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
     $ rad(G) <= diam(G) <= 2 dot rad(G) $
 
   + *Whitney's Inequality.* For any graph $G$:
-    $ kappa(G) <= lam(G) <= delta(G) $
-    where $kappa(G)$ is the vertex connectivity, $lam(G)$ is the edge connectivity, and $delta(G)$ is the minimum degree.
+    $ kappa(G) <= lambda(G) <= delta(G) $
+    where $kappa(G)$ is the vertex connectivity, $lambda(G)$ is the edge connectivity, and $delta(G)$ is the minimum degree.
 
   + *Handshaking Lemma.* In any graph $G = pair(V, E)$:
     $ sum_(v in V) deg(v) = 2|E| $
@@ -702,28 +723,7 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 #v(1em)
 
 
-== Problem A: Find the Error
-
-The following "proof" contains a subtle error.
-Identify the error and explain why the conclusion is false.
-
-#Block[
-  *False Claim:* Every tree with $n$ vertices has a path of length $n - 1$.
-
-  *"Proof."*
-
-  _Base case:_ A tree with one vertex clearly has a path of length $0 = 1 - 1$. $checkmark$
-
-  _Inductive step:_
-  Assume that every tree with $n$ vertices has a path of length $n - 1$.
-  Consider a tree $T$ with $n + 1$ vertices.
-  This path must terminate at some leaf $u$.
-  Add a new vertex $v$ and connect it to $u$ with an edge.
-  The resulting tree has $n + 1$ vertices and contains a path of length $n$, which is $(n+1) - 1$. $qed$
-]
-
-
-== Problem B: Ramsey Theory
+== Problem A: Ramsey Theory
 
 The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the edges of $K_n$ (complete graph) contains either a red $K_r$ or a blue $K_s$.
 
@@ -741,7 +741,7 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 ]
 
 
-== Problem C: The Friendship Theorem
+== Problem B: The Friendship Theorem
 
 The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 
@@ -758,7 +758,7 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 ]
 
 
-== Problem D: Programming Project
+== Problem C: Programming Project
 
 Implement a graph theory library in your preferred programming language with the following functionality:
 
