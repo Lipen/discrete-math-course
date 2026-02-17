@@ -1692,12 +1692,82 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 ]
 
 #Block(color: yellow)[
-  *Why trees matter?* Ubiquitous structure (file systems, parse trees, network design) with simple recursive algorithms.
+  Trees are _ubiquitous_ structures with simple recursive algorithms:
+  - file systems
+  - parse trees
+  - network design
 ]
 
-== Characterizations of Trees: Visual Proof
+== Characterizations of Trees: Unique Path
 
-#example[
+#theorem[
+  A connected graph is acyclic if and only if every pair of vertices is joined by a unique path.
+]<thm:unique-path>
+
+#proof[
+  _($arrow.r.double$)_ Suppose $G$ is connected and acyclic. If there were two distinct $u$-$v$ paths, their union would contain a cycle, contradiction.
+
+  _($arrow.l.double$)_ Suppose every pair of vertices has a unique path. If a cycle existed, choose distinct vertices $u, v$ on that cycle.
+  Traversing the cycle in opposite directions gives two distinct $u$-$v$ paths, contradiction.
+]
+
+#align(center)[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #grid(
+    columns: 2,
+    align: (center + horizon, left + top),
+    column-gutter: 3em,
+    row-gutter: 1em,
+    diagram(
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), $u$, <u>, blue),
+      vertex((1, 0), $x$, <x>, blue),
+      vertex((2, 0), $v$, <v>, blue),
+      vertex((1, 0.9), $y$, <y>, blue),
+      edge(<u>, <x>, stroke: 2pt + red),
+      edge(<x>, <v>, stroke: 2pt + red),
+      edge(<u>, <y>, stroke: 2pt + green, bend: -30deg),
+      edge(<y>, <v>, stroke: 2pt + green, bend: -30deg),
+    ),
+    [
+      Cycle gives two distinct $u$-$v$ paths:
+      - #Red[$u$-$x$-$v$]
+      - #Green[$u$-$y$-$v$]
+
+      Therefore uniqueness fails whenever a cycle exists.
+    ],
+  )
+]
+
+== Characterizations of Trees: Maximally Acyclic
+
+#theorem[
+  Let $T$ be a tree and let $u, v in V(T)$ be non-adjacent.
+  Then the graph $T + {u, v}$ contains exactly one cycle.
+]
+
+#proof[
+  Since $T$ is a tree, there is a unique $u$-$v$ path $P$ in $T$ (see @thm:unique-path).
+
+  After adding the edge ${u, v}$, we obtain a cycle by going from $u$ to $v$ along $P$ and returning via ${u, v}$.
+
+  Why is it the _only_ cycle?
+  Any cycle in $T + {u, v}$ must use the new edge ${u, v}$.
+  Otherwise that cycle would already exist in $T$, contradicting acyclicity of $T$.
+  Removing ${u, v}$ from such a cycle leaves a $u$-$v$ path in $T$, and uniqueness of $P$ forces that path to be exactly $P$.
+  Therefore the cycle is unique.
+]
+
+#[
   #import fletcher: diagram, edge, node, shapes
   #let vertex(pos, label, name, tint) = blob(
     pos,
@@ -1708,14 +1778,12 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     name: name,
   )
 
-  *Maximally acyclic:* adding _any_ edge to a tree creates exactly one cycle.
-
   #align(center)[
     #grid(
       columns: 2,
-      align: (center + horizon, center + top),
       column-gutter: 3em,
       row-gutter: 1em,
+
       diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
@@ -1740,16 +1808,9 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge(<a>, <c>, stroke: 2pt + red, bend: -30deg),
       ),
 
-      [*Tree* (4 vertices, 3 edges)], [*Adding edge ${a,c}$* creates cycle $a$-$b$-$c$-$a$],
+      [*Before:* tree $T$], [*After:* $T + {a,c}$ has exactly one cycle $a$-$b$-$c$-$a$],
     )
   ]
-]
-
-#proof[
-  _Why does this happen?_ In a tree, there is a _unique path_ $P$ between any two vertices $u, v$. Adding edge ${u, v}$ creates a cycle: traverse $P$ from $u$ to $v$, then return via the new edge.
-
-  Conversely, if there were two distinct $u$-$v$ paths, their union would contain a cycle --- contradicting acyclicity.
-  #qedhere
 ]
 
 == Rooted Trees
