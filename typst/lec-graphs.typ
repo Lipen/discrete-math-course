@@ -53,6 +53,10 @@
       name: "Frank Harary",
       image: image("assets/Frank_Harary.jpg"),
     ),
+    (
+      name: "Béla Bollobás",
+      image: image("assets/Bela_Bollobas.jpg"),
+    ),
   ),
 )
 
