@@ -2529,7 +2529,7 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 == Islands (2-Edge-Connected Components)
 
 #definition[
-  An _island_ (or _2-edge-connected component_) is a maximal subgraph with no bridges.
+  An _island_ (or _2-edge-connected component_) is a maximal connected subgraph with no bridges.
 
   Equivalently: vertices $u$ and $v$ are in the same island iff they lie on a common circuit.
 ]
