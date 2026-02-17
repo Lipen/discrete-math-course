@@ -2057,7 +2057,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     name: name,
   )
   #align(center)[
-    #v(-2em)
+    #v(-1em)
     #grid(
       columns: 2,
       align: left + horizon,
@@ -2087,15 +2087,15 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   ]
 ]
 
-#Block(color: yellow)[
-  *Characterization:*
-  - Cut vertex $v$: lies on every path between some pair.
-  - Bridge $e$: lies on no cycle.
-]
+// #Block(color: yellow)[
+//   *Characterization:*
+//   - Cut vertex $v$: lies on every path between some pair.
+//   - Bridge $e$: lies on no cycle.
+// ]
 
-#note[
-  Every bridge has an endpoint that is either a leaf or a cut vertex.
-]
+// #note[
+//   Every bridge has an endpoint that is either a leaf or a cut vertex.
+// ]
 
 == Separators and Cuts
 
