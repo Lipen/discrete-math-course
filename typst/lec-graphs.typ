@@ -3530,9 +3530,9 @@ _Strategy:_ Match an arbitrary edge, then use induction on the smaller graph.
 + Pick any edge ${x, y} in E$ (exists because $X != emptyset$ and Hall's condition ensures connectivity).
 + Remove both endpoints: let $G' = G - {x, y}$ and $X' = X without x$.
 + *Verify Hall's condition in $G'$:* Let $S' subset.eq X'$ be arbitrary.
-  - In $G$, we have $|N_G(S')| >= |S'| + 1$ (since $S' subset.neq X$).
+  - In $G$, we have $|N_G (S')| >= |S'| + 1$ (since $S' subset.neq X$).
   - Removing $y$ from $Y$ reduces $|N(S')|$ by at most 1.
-  - So $|N_{G'}(S')| >= |N_G(S')| - 1 >= (|S'| + 1) - 1 = |S'|$.
+  - So $|N_G' (S')| >= |N_G (S')| - 1 >= (|S'| + 1) - 1 = |S'|$.
 + By induction, $G'$ has a matching $M'$ saturating $X'$.
 + Then $M = M' union {{x, y}}$ saturates $X$.
 
@@ -3550,12 +3550,12 @@ _Strategy:_ Match $S_0$ independently, then match the rest.
   Let $G' = G - S_0 - N(S_0)$ and $X' = X without S_0$.
   We verify Hall's condition for $G'$.
   Let $A subset.eq X'$ be arbitrary.
-  - In $G$: $|N_G(A union S_0)| >= |A union S_0| = |A| + |S_0|$ (Hall's condition).
-  - But $N_G(A union S_0) = N_G(A) union N_G(S_0) = N_G(A) union N(S_0)$ (disjoint by construction).
-  - So $|N_G(A)| + |N(S_0)| >= |A| + |S_0|$.
-  - Since $|N(S_0)| = |S_0|$, we get $|N_G(A)| >= |A|$.
-  - In $G'$, the neighbors of $A$ are $N_{G'}(A) = N_G(A) without N(S_0)$, but vertices in $N_G(A)$ were not in $N(S_0)$ (otherwise contradiction).
-    So $|N_{G'}(A)| = |N_G(A)| >= |A|$.
+  - In $G$: $|N_G (A union S_0)| >= |A union S_0| = |A| + |S_0|$ (Hall's condition).
+  - But $N_G (A union S_0) = N_G (A) union N_G (S_0) = N_G (A) union N(S_0)$ (disjoint by construction).
+  - So $|N_G (A)| + |N(S_0)| >= |A| + |S_0|$.
+  - Since $|N(S_0)| = |S_0|$, we get $|N_G (A)| >= |A|$.
+  - In $G'$, the neighbors of $A$ are $N_G' (A) = N_G (A) without N(S_0)$, but vertices in $N_G (A)$ were not in $N(S_0)$ (otherwise contradiction).
+    So $|N_G' (A)| = |N_G (A)| >= |A|$.
 
 + By induction, $G'$ has a matching $M_2$ saturating $X'$.
 
