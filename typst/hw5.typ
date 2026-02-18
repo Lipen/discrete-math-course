@@ -502,7 +502,8 @@ The following are six fundamental characterizations of trees. Prove that they ar
 ]
 
 #tasklist("prob6")[
-  + Prove the equivalence by establishing a cycle of implications: $(1) => (2) => (3) => (4) => (5) => (6) => (1)$.
+  + Prove the equivalence by establishing a cycle of implications:
+    $ (1) => (2) => (3) => (4) => (5) => (6) => (1) $
 
   + Which characterization(s) generalize to forests (graphs where every connected component is a tree)? State and prove the generalization.
 ]
