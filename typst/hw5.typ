@@ -696,6 +696,63 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 ]
 
 
+== Problem 16: Network Flows
+
+Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and sink $t$.
+Edge labels denote capacities.
+
+#align(center)[
+  #diagram(
+    node-stroke: 1pt,
+    edge-stroke: 1pt,
+    spacing: (4em, 3em),
+    vertex((0, 1), $s$, tint: green, <s>),
+    vertex((1, 2), $a$, tint: blue, <a>),
+    vertex((1, 0), $b$, tint: blue, <b>),
+    vertex((2, 2), $c$, tint: blue, <c>),
+    vertex((2, 1), $d$, tint: blue, <d>),
+    vertex((2, 0), $e$, tint: blue, <e>),
+    vertex((3, 1), $t$, tint: red, <t>),
+    edge(<s>, <a>, [10], label-angle: auto, label-side: center),
+    edge(<s>, <b>, [8], label-angle: auto, label-side: center),
+    edge(<b>, <a>, [3], label-angle: auto, label-side: center),
+    edge(<a>, <c>, [5], label-angle: auto, label-side: center),
+    edge(<a>, <d>, [4], label-angle: auto, label-side: center),
+    edge(<b>, <d>, [10], label-angle: auto, label-side: center),
+    edge(<b>, <e>, [3], label-angle: auto, label-side: center),
+    edge(<d>, <c>, [3], label-angle: auto, label-side: center),
+    edge(<e>, <d>, [9.], label-angle: auto, label-side: center),
+    edge(<c>, <t>, [8], label-angle: auto, label-side: center),
+    edge(<d>, <t>, [7], label-angle: auto, label-side: center),
+    edge(<e>, <t>, [10], label-angle: auto, label-side: center),
+  )
+]
+
+#tasklist("prob16")[
+  + *Ford--Fulkerson execution.* Starting from zero flow, perform augmentations until no augmenting path exists.
+    - At each iteration, specify the chosen augmenting path and its bottleneck.
+    - Give the updated flow value $|f|$ and describe all changed residual capacities.
+    - Your solution must include at least one iteration that uses a backward residual edge.
+
+  + *Max-flow/min-cut certificate.*
+    - Compute a maximum flow value.
+    - Extract one minimum $s$-$t$ cut $(S, T)$ from the final residual network.
+    - Verify numerically that $|f| = c(S, T)$.
+
+  + *Sensitivity analysis.*
+    - Increase capacity of edge $(d, t)$ by 2 and recompute the new maximum flow value.
+    - Identify one edge whose +1 capacity increase does *not* change the maximum flow, and justify via minimum cuts.
+
+  + *Theoretic proof task.*
+    Prove the *integrality theorem*: if all capacities are integers, then there exists a maximum flow with integer values on all edges.
+    Your proof should explicitly use the residual-network update rule.
+
+  + *Theory-to-graph connection (unit capacities).*
+    Let all capacities be 1 in a directed graph with source $s$ and sink $t$.
+    Prove that the maximum flow value equals the maximum number of pairwise edge-disjoint $s$-$t$ paths.
+]
+
+
 // ============================================================================
 // OPTIONAL PROBLEMS
 // ============================================================================
