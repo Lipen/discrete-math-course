@@ -2069,23 +2069,26 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
       diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((0, 0), $a$, <a>, blue),
-        vertex((1, 0), $b$, <b>, red),
-        vertex((1.5, 0.8), $c$, <c>, blue),
-        vertex((1.5, -0.8), $d$, <d>, blue),
-        vertex((2.5, 0), $e$, <e>, red),
-        vertex((3.5, 0), $f$, <f>, blue),
+        vertex((0, 0.5), $a$, <a>, blue),
+        vertex((0, -0.5), $b$, <b>, blue),
+        vertex((1, 0), $c$, <c>, red),
+        vertex((2, 0.8), $d$, <d>, blue),
+        vertex((2, -0.8), $e$, <e>, blue),
+        vertex((3, 0), $f$, <f>, red),
+        vertex((4, 0), $g$, <g>, blue),
         edge(<a>, <b>),
+        edge(<a>, <c>),
         edge(<b>, <c>),
-        edge(<b>, <d>),
         edge(<c>, <d>),
         edge(<c>, <e>),
         edge(<d>, <e>),
-        edge(<e>, <f>, stroke: 4pt + orange),
+        edge(<d>, <f>),
+        edge(<e>, <f>),
+        edge(<f>, <g>, stroke: 4pt + orange),
       ),
       [
-        - #Red[Cut vertices]: $b$, $e$
-        - #text(fill: orange)[Bridge]: edge ${e, f}$
+        - #Red[Cut vertices]: $c$, $f$
+        - #text(fill: orange)[Bridge]: edge ${f, g}$
       ],
     )
   ]
