@@ -431,7 +431,7 @@ Identify the error and explain why the conclusion is false and the claim is not 
 
   *"Proof:"*
 
-  _Base case:_ A tree with one vertex clearly has a path of length $0 = 1 - 1$. $checkmark$
+  _Base case:_ A tree with one vertex clearly has a path of length $0 = 1 - 1$.
 
   _Inductive step:_
   Assume that every tree with $n$ vertices has a path of length $n - 1$.
@@ -460,7 +460,8 @@ The following are six fundamental characterizations of trees. Prove that they ar
   + Prove the equivalence by establishing a cycle of implications:
     $ (1) => (2) => (3) => (4) => (5) => (6) => (1) $
 
-  + Which characterization(s) generalize to forests (graphs where every connected component is a tree)? State and prove the generalization.
+  + Which characterization(s) generalize to forests?
+    State and prove.
 ]
 
 
@@ -502,7 +503,7 @@ The Prüfer sequence provides a bijection between labeled trees on $n$ vertices 
 #tasklist("prob7")[
   + Encode the labeled tree above into its Prüfer sequence.
 
-  + Decode the Prüfer sequence $(3, 3, 3, 7, 7, 5)$ back into a labeled tree on 8 vertices. Draw the result.
+  + Decode the Prüfer sequence $(3, 3, 3, 7, 7, 5)$ back into a labeled tree. Draw the result.
 
   + Prove: In the Prüfer sequence of a labeled tree on $n$ vertices, vertex $v$ appears exactly #box[$deg(v) - 1$] times.
 
