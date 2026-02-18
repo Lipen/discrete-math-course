@@ -748,20 +748,19 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 == Problem 15: Network Flows
 
 Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and sink $t$.
-Edge labels denote capacities.
 
 #align(center)[
   #diagram(
+    spacing: 2em,
     node-stroke: 1pt,
     edge-stroke: 1pt,
-    spacing: (4em, 3em),
     vertex((0, 1), $s$, tint: green, <s>),
     vertex((1, 2), $a$, tint: blue, <a>),
     vertex((1, 0), $b$, tint: blue, <b>),
-    vertex((2, 2), $c$, tint: blue, <c>),
+    vertex((3, 2), $c$, tint: blue, <c>),
     vertex((2, 1), $d$, tint: blue, <d>),
-    vertex((2, 0), $e$, tint: blue, <e>),
-    vertex((3, 1), $t$, tint: red, <t>),
+    vertex((3, 0), $e$, tint: blue, <e>),
+    vertex((4, 1), $t$, tint: red, <t>),
     edge(<s>, <a>, [10], label-angle: auto, label-side: center),
     edge(<s>, <b>, [8], label-angle: auto, label-side: center),
     edge(<b>, <a>, [3], label-angle: auto, label-side: center),
@@ -792,13 +791,11 @@ Edge labels denote capacities.
     - Increase the capacity of edge $(d, t)$ by 2 and recompute the new maximum flow value.
     - Identify one edge whose +1 capacity increase does *not* change the maximum flow, and justify via minimum cuts.
 
-  + *Theoretic proof task.*
-    Prove the *integrality theorem*: if all capacities are integers, then there exists a maximum flow with integer values on all edges.
-    Your proof should explicitly use the residual-network update rule.
+  + Prove the *integrality theorem*: if all capacities are integers, then there exists a maximum flow with integer values on all edges.
 
-  + *Theory-to-graph connection (unit capacities).*
-    Let all capacities be 1 in a directed graph with source $s$ and sink $t$.
-    Prove that the maximum flow value equals the maximum number of pairwise edge-disjoint $s$-$t$ paths.
+  // + *Theory-to-graph connection (unit capacities).*
+  //   Let all capacities be 1 in a directed graph with source $s$ and sink $t$.
+  //   Prove that the maximum flow value equals the maximum number of pairwise edge-disjoint $s$-$t$ paths.
 ]
 
 
