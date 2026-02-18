@@ -465,6 +465,8 @@ The following are six fundamental characterizations of trees. Prove that they ar
 ]
 
 
+#pagebreak()
+
 == Problem 7: Prüfer Sequences and Cayley's Formula
 
 The Prüfer sequence provides a bijection between labeled trees on $n$ vertices and sequences of length $n - 2$ with entries in ${1, 2, dots, n}$.
@@ -550,10 +552,10 @@ Consider the weighted graph from Problem 4.
 ]
 
 
-== Problem 11: Bipartite Graphs and BFS
+== Problem 11: Bipartite Graphs
 
 #tasklist("prob11")[
-  + Prove the _bipartite characterization theorem_: A graph $G$ is bipartite if and only if it contains no odd cycle.
+  + Prove that a graph $G$ is bipartite if and only if it contains no odd cycle.
 
   + Describe an algorithm based on BFS (breadth-first search) that determines whether a given graph is bipartite in $O(|V| + |E|)$ time. If the graph is bipartite, your algorithm should also produce a valid 2-coloring.
 
@@ -593,45 +595,153 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 ]
 
 
-== Problem 13: Planarity Testing
+== Problem 13: Graceful Graphs
 
-For each graph below, determine whether it is planar.
+A _graceful labeling_ of a graph $G$ with $m$ edges is an injective function $f: V(G) to {0, 1, 2, ..., m}$ such that the induced edge labels $|f(u) - f(v)|$ for each edge $(u, v) in E(G)$ are distinct and cover the set ${1, 2, ..., m}$.
+In other words, the absolute differences of the labels of adjacent vertices are all different and cover the integers from 1 to $m$.
+A graph is called _graceful_ if it has a graceful labeling.
 
-#tasklist("prob13", cols: 2)[
-  + $K_4$ (complete graph on 4 vertices)
-  + $K_5$ (complete graph on 5 vertices)
+Show that the following graphs are graceful (by explicitly constructing a graceful labeling for each).
+
+#tasklist("prob13", cols: 3, format: "(a)")[
+  #let vertex(pos, name, tint, ..args) = blob(
+    pos,
+    [],
+    tint: tint,
+    shape: shapes.circle,
+    radius: 5pt,
+    name: name,
+    ..args,
+  )
+
+  + #diagram(
+      spacing: 1em,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), <v1>, blue),
+      vertex((1, 0), <v2>, blue),
+      vertex((2, 0), <v3>, blue),
+      vertex((3, 0), <v4>, blue),
+      vertex((4, 0), <v5>, blue),
+      edge(<v1>, <v2>),
+      edge(<v1>, <v2>),
+      edge(<v2>, <v3>),
+      edge(<v3>, <v4>),
+      edge(<v4>, <v5>),
+    )
+
+  + #diagram(
+      spacing: 1em,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), <v1>, blue),
+      vertex((1, 0), <v2>, blue),
+      vertex((2, 0), <v3>, blue),
+      vertex((3, 0), <v4>, blue),
+      vertex((4, 0), <v5>, blue),
+      vertex((2, -1), <v6>, blue),
+      vertex((2, -2), <v7>, blue),
+      edge(<v1>, <v2>),
+      edge(<v2>, <v3>),
+      edge(<v3>, <v4>),
+      edge(<v4>, <v5>),
+      edge(<v3>, <v6>),
+      edge(<v6>, <v7>),
+    )
+
   #colbreak()
-  + $Q_3$ (3-dimensional hypercube)
-  + The Petersen graph
+
+  + #diagram(
+      spacing: 1em,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), <v1>, blue),
+      vertex((1, 0), <v2>, blue),
+      vertex((2, 0), <v3>, blue),
+      vertex((3, 0), <v4>, blue),
+      vertex((1, -1), <v5>, blue),
+      edge(<v1>, <v2>),
+      edge(<v2>, <v3>),
+      edge(<v3>, <v4>),
+      edge(<v2>, <v5>),
+    )
+
+  + #diagram(
+      spacing: 1em,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), <v1>, blue),
+      vertex((1, 0), <v2>, blue),
+      vertex((2, 0), <v3>, blue),
+      vertex((3, 0), <v4>, blue),
+      vertex((1, -1), <v5>, blue),
+      vertex((2, -1), <v6>, blue),
+      edge(<v1>, <v2>),
+      edge(<v2>, <v3>),
+      edge(<v3>, <v4>),
+      edge(<v2>, <v5>),
+      edge(<v3>, <v6>),
+    )
+
+  #colbreak()
+
+  + #diagram(
+      spacing: 1em,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), <v1>, blue),
+      vertex((1, 0), <v2>, blue),
+      vertex((2, 0), <v3>, blue),
+      vertex((0, 1), <v4>, blue),
+      vertex((1, 1), <v5>, blue),
+      vertex((2, 1), <v6>, blue),
+      edge(<v1>, <v4>),
+      edge(<v1>, <v5>),
+      edge(<v1>, <v6>),
+      edge(<v2>, <v4>),
+      edge(<v2>, <v5>),
+      edge(<v2>, <v6>),
+      edge(<v3>, <v4>),
+      edge(<v3>, <v5>),
+      edge(<v3>, <v6>),
+    )
+
+  + #diagram(
+      spacing: 1em,
+      node-stroke: 1pt,
+      edge-stroke: 1pt,
+      vertex((0, 0), <v1>, blue),
+      vertex((1, 0), <v2>, blue),
+      vertex((0, 1), <v3>, blue),
+      vertex((1, 1), <v4>, blue),
+      edge(<v1>, <v2>),
+      edge(<v1>, <v3>),
+      edge(<v1>, <v4>),
+      edge(<v2>, <v3>),
+      edge(<v2>, <v4>),
+      edge(<v3>, <v4>),
+    )
 ]
 
-For each planar graph, draw a planar embedding and verify Euler's formula: $n - m + f = 2$, where $n$ is the number of vertices, $m$ is the number of edges, and $f$ is the number of faces.
-
-For each non-planar graph, prove non-planarity using one of:
-- Kuratowski's theorem (find a $K_5$ or $K_(3,3)$ subdivision), or
-- The inequality $m <= 3n - 6$ for simple planar graphs with $n >= 3$.
-
-
-== Problem 14: Fundamental Theorems in Graph Theory
+== Problem 14: Fundamental Theorems
 
 Prove each of the following theorems rigorously. Your proofs should be complete and clearly written.
 
 #tasklist("prob14")[
-  + *Triangle Inequality for Distances.* For any connected graph $G = pair(V, E)$ and any three vertices $x, y, z in V$:
-    $ dist(x, z) <= dist(x, y) + dist(y, z) $
+  + *(Triangle inequality)* For any graph $G$ and any three vertices $u, v, w in V(G)$, we have:
+    $ d(u, w) <= d(u, v) + d(v, w) $
 
-  + *Radius--Diameter Bounds.* For any connected graph $G$:
-    $ rad(G) <= diam(G) <= 2 dot rad(G) $
+  // + *(Whitney)* For any graph $G$, $kappa(G) <= lambda(G) <= delta(G)$.
 
-  + *Whitney's Inequality.* For any graph $G$:
-    $ kappa(G) <= lambda(G) <= delta(G) $
-    where $kappa(G)$ is the vertex connectivity, $lambda(G)$ is the edge connectivity, and $delta(G)$ is the minimum degree.
+  // + *(Dirac)* If a graph $G$ on $n >= 3$ vertices has minimum degree $delta(G) >= n/2$, then $G$ is Hamiltonian.
 
-  + *Handshaking Lemma.* In any graph $G = pair(V, E)$:
-    $ sum_(v in V) deg(v) = 2|E| $
-    Conclude that the number of vertices with odd degree is even.
+  + *(Harary)* Every block of a block graph is a clique.
 
-  + *König's Theorem.* In any bipartite graph, the size of a maximum matching equals the size of a minimum vertex cover.
+    A _block graph_ $H = B(G)$ is an intersection graph of all blocks (biconnected components) of $G$, i.e. each vertex $v in V(H)$ corresponds to a block of $G$, and there is an edge ${u,v} in E(H)$ iff "blocks" $u$ and $v$ share a cut vertex.
+
+  + *(König)* In any bipartite graph, the size of a maximum matching equals the size of a minimum vertex cover.
+
+    _Hint:_ Use Hall's Theorem or construct a matching--cover correspondence via residual networks.
 ]
 
 
