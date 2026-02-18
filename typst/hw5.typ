@@ -404,15 +404,20 @@ Apply *Dijkstra's algorithm* to find a shortest path from $a$ to $z$ in the weig
 ]
 
 #tasklist("prob4")[
-  + Present your solution clearly:
-    - List the order in which vertices are added to the "visited" set
-    - Show the distance labels $d(v)$ and predecessor pointers $pi(v)$ after each iteration
-    - Reconstruct the shortest path from $a$ to $z$ and give its total weight
+  + *Trace the algorithm* step-by-step:
+    - Maintain a table showing, after each iteration: the visited set $V_"visited"$, the current distance labels $d(v)$ for all $v in V$, and the predecessor pointers $pi(v)$.
+    - From the final predecessor pointers, reconstruct a shortest path from $a$ to $z$, and report its total weight.
 
-  + What is the time complexity of Dijkstra's algorithm when implemented with:
-    - An unsorted array for the priority queue?
-    - A binary heap?
-    - A Fibonacci heap?
+  + *Correctness & Structure*:
+    #[
+      #set enum(numbering: "(a)")
+      + State the key _invariant_ that Dijkstra maintains during execution: what is guaranteed to be true about the distances $d(v)$ for vertices in $V_"visited"$ and the distances for vertices not yet visited?
+      + In a graph where some shortest paths are not unique, the predecessor pointers form a *shortest path DAG* rooted at $a$.
+        Draw this DAG (include only edges corresponding to some $pi(v)$, and mark vertex $z$).
+        How many different shortest paths from $a$ to $z$ are represented in this DAG?
+      + Dijkstra fails on graphs with negative-weight edges.
+        Give a small example (3--4 vertices, one negative edge) where the algorithm produces an incorrect result, and explain _why_ the invariant from _(a)_ is violated.
+    ]
 ]
 
 
