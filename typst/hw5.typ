@@ -424,7 +424,7 @@ Identify the error and explain why the conclusion is false and the claim is not 
 #Block[
   *False Claim:* Every tree with $n$ vertices has a path of length $n - 1$.
 
-  *"Proof."*
+  *"Proof:"*
 
   _Base case:_ A tree with one vertex clearly has a path of length $0 = 1 - 1$. $checkmark$
 
@@ -435,56 +435,6 @@ Identify the error and explain why the conclusion is false and the claim is not 
   Add a new vertex $v$ and connect it to $u$ with an edge.
   The resulting tree has $n + 1$ vertices and contains a path of length $n$, which is $(n+1) - 1$. $qed$
 ]
-
-
-// == Problem 5: Network Connectivity Analysis
-
-// An internet service provider models their network as a graph where vertices represent routers and edges represent physical links.
-
-// #align(center)[
-//   #diagram(
-//     node-stroke: 1pt,
-//     edge-stroke: 1pt,
-//     spacing: (15mm, 14mm),
-//     vertex((0, 1), $R_1$, tint: blue, <r1>),
-//     vertex((1, 0), $R_2$, tint: blue, <r2>),
-//     vertex((1, 2), $R_3$, tint: blue, <r3>),
-//     vertex((2, 0.5), $R_4$, tint: blue, <r4>),
-//     vertex((2, 1.5), $R_5$, tint: blue, <r5>),
-//     vertex((3, 1), $R_6$, tint: blue, <r6>),
-//     vertex((4, 0), $R_7$, tint: blue, <r7>),
-//     vertex((4, 2), $R_8$, tint: blue, <r8>),
-//     vertex((5, 0.5), $R_9$, tint: blue, <r9>),
-//     vertex((5, 1.5), $R_10$, tint: blue, <r10>),
-//     vertex((6, 1), $R_11$, tint: blue, <r11>),
-//     edge(<r1>, <r2>),
-//     edge(<r1>, <r3>),
-//     edge(<r2>, <r4>),
-//     edge(<r3>, <r5>),
-//     edge(<r2>, <r3>),
-//     edge(<r4>, <r5>),
-//     edge(<r4>, <r6>),
-//     edge(<r5>, <r6>),
-//     edge(<r6>, <r7>),
-//     edge(<r6>, <r8>),
-//     edge(<r7>, <r9>),
-//     edge(<r8>, <r10>),
-//     edge(<r7>, <r8>),
-//     edge(<r9>, <r10>),
-//     edge(<r9>, <r11>),
-//     edge(<r10>, <r11>),
-//   )
-// ]
-
-// #tasklist("prob5")[
-//   + Identify all _cut vertices_ (articulation points) and all _bridges_ in this network.
-
-//   + Find all _blocks_ (maximal biconnected components) and all _islands_ (maximal 2-edge-connected components).
-
-//   + Draw the _block-cut tree_ and the _bridge tree_ for this graph.
-
-//   + Compute $kappa(G)$ (vertex connectivity) and $lambda(G)$ (edge connectivity). Verify Whitney's inequality: $kappa(G) <= lambda(G) <= delta(G)$.
-// ]
 
 
 == Problem 6: Tree Characterizations
@@ -515,9 +465,9 @@ The Prüfer sequence provides a bijection between labeled trees on $n$ vertices 
 
 #align(center)[
   #diagram(
+    spacing: 2em,
     node-stroke: 1pt,
     edge-stroke: 1pt,
-    spacing: (14mm, 14mm),
     vertex((1, 2), $1$, tint: blue, <1>),
     vertex((2, 2), $2$, tint: blue, <2>),
     vertex((3, 2), $3$, tint: blue, <3>),
@@ -656,28 +606,11 @@ For each non-planar graph, prove non-planarity using one of:
 - The inequality $m <= 3n - 6$ for simple planar graphs with $n >= 3$.
 
 
-== Problem 14: Graph Coloring
-
-#tasklist("prob14")[
-  + Determine the chromatic number $chi(G)$ for each graph in Problem 1.
-    For each graph, prove that $chi(G) - 1$ colors are insufficient by exhibiting an appropriate subgraph structure.
-
-  + Find the chromatic number of each graph family below, and prove your answers:
-    - $C_n$ (cycle on $n >= 3$ vertices)
-    - $K_(m,n)$ (complete bipartite graph)
-    - $W_n$ (wheel graph: $C_(n-1)$ plus one central vertex connected to all vertices of the cycle)
-
-  + Prove the _greedy coloring bound_: If $G$ has maximum degree $Delta$, then $chi(G) <= Delta + 1$.
-
-  + Construct a family of graphs demonstrating that the bound in part (c) is tight.
-]
-
-
-== Problem 15: Fundamental Theorems in Graph Theory
+== Problem 14: Fundamental Theorems in Graph Theory
 
 Prove each of the following theorems rigorously. Your proofs should be complete and clearly written.
 
-#tasklist("prob15")[
+#tasklist("prob14")[
   + *Triangle Inequality for Distances.* For any connected graph $G = pair(V, E)$ and any three vertices $x, y, z in V$:
     $ dist(x, z) <= dist(x, y) + dist(y, z) $
 
@@ -696,7 +629,7 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 ]
 
 
-== Problem 16: Network Flows
+== Problem 15: Network Flows
 
 Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and sink $t$.
 Edge labels denote capacities.
@@ -728,7 +661,7 @@ Edge labels denote capacities.
   )
 ]
 
-#tasklist("prob16")[
+#tasklist("prob15")[
   + *Ford--Fulkerson execution.* Starting from zero flow, perform augmentations until no augmenting path exists.
     - At each iteration, specify the chosen augmenting path and its bottleneck.
     - Give the updated flow value $|f|$ and describe all changed residual capacities.
@@ -740,7 +673,7 @@ Edge labels denote capacities.
     - Verify numerically that $|f| = c(S, T)$.
 
   + *Sensitivity analysis.*
-    - Increase capacity of edge $(d, t)$ by 2 and recompute the new maximum flow value.
+    - Increase the capacity of edge $(d, t)$ by 2 and recompute the new maximum flow value.
     - Identify one edge whose +1 capacity increase does *not* change the maximum flow, and justify via minimum cuts.
 
   + *Theoretic proof task.*
@@ -809,45 +742,37 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 ]
 
 
-== Problem C: Programming Project
+== Problem C: Network Flows
 
-Implement a graph theory library in your preferred programming language with the following functionality:
+Design and implement a production-quality max-flow solver.
 
 #tasklist("probC")[
-  + *Data structures:* Implement both adjacency matrix and adjacency list representations. Support conversion between them.
+  + Implement *Edmonds--Karp* (BFS-based Ford–Fulkerson) for directed graphs with non-negative integer edge capacities.
 
-  + *Basic algorithms:* Implement DFS, BFS, connected components, bipartiteness testing, and topological sorting (for directed graphs).
+    Your code must produce three deliverables per run:
+    - (1) *Maximum flow value* $|f^*|$ from source $s$ to sink $t$
+    - (2) *One minimum cut* $(S, T)$ extracted from the residual network
+    - (3) *Flow decomposition:* express the solution as a sum of edge-disjoint $s$-$t$ paths (with multiplicities) and identify any residual cycles
 
-  + *Shortest paths:* Implement Dijkstra's algorithm for weighted graphs and BFS for unweighted graphs.
+  + Test on three progressively complex instances:
+    - The flow network from Problem 15
+    - Random sparse network: $|V| = 30, |E| approx 60$ with random integer capacities $c(e) in [1..20]$
+    - Random dense network: $|V| = 30, |E| approx 300$ with same capacity distribution
 
-  + *Properties:* Compute degree sequence, check if Eulerian, find eccentricities/radius/diameter/center.
+    For each test, verify the _max-flow/min-cut duality_: $|f^*| = c(S, T)$ numerically.
 
-  + *Testing:* Test your implementation on the graphs from Problem 1. Generate a report comparing your results with manual calculations.
+  + Across varying sizes ($|V| in {10, 20, ..., 100}$), measure and report:
+    - *Execution time* (wall-clock seconds, average of 3 runs per size)
+    - *Iteration count:* number of augmenting paths found until termination
+    - *Empirical scaling:* does runtime grow as $cal(O)(|V| dot |E|^2)$ or faster? Compare fit quality to theoretical bound.
+    - *Runtime plots:* present as a figure (runtime vs $|V|$ with fitted curve)
 
-  + *(Bonus)* Implement Floyd--Warshall for all-pairs shortest paths, Prim's or Kruskal's MST algorithm, and a graph isomorphism checker.
-]
+  + *(Bonus):*
+    Implement *Dinic's algorithm* (blocking flows; theoretical bound $O(|V|^2 |E|)$) and benchmark against Edmonds–Karp on the same test suite.
+    Which dominates on sparse vs dense graphs?
+    Explain the observed crossover point.
 
-
-== Problem D: Max-Flow Toolkit
-
-Implement a max-flow toolkit and evaluate it experimentally.
-
-#tasklist("probD")[
-  + Implement *Edmonds--Karp* (BFS-based Ford--Fulkerson) for directed graphs with non-negative integer capacities.
-
-  + Your implementation must output:
-    - maximum flow value,
-    - one minimum cut $(S, T)$,
-    - a decomposition of the final flow into $s$-$t$ path-flows and cycle-flows.
-
-  + Validate your code on:
-    - the network from Problem 16,
-    - one random sparse instance and one random dense instance with $|V| >= 20$.
-
-  + Provide a short empirical report:
-    - runtime versus $|V|, |E|$,
-    - number of augmenting iterations,
-    - whether observations are consistent with the $O(|V||E|^2)$ bound.
-
-  + *(Bonus)* Implement Dinic's algorithm and compare it with Edmonds--Karp on the same test suite.
+  + *(Bonus):*
+    Formulate one real-world problem (e.g., airline crew scheduling, data routing, bipartite matching) as a max-flow instance with 20+ vertices.
+    Solve it using your implementation and interpret the flow decomposition.
 ]
