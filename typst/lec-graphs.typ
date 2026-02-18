@@ -3211,19 +3211,19 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
   A graph is bipartite if and only if it contains no odd-length cycles.
 ]
 
-#proof[(Sketch)][
-  ($arrow.r.double$) In a bipartite graph, any walk alternates between $X$ and $Y$, so every cycle has even length.
+#proof[(sketch)][
+  _($arrow.r.double$)_
+  If $G = pair(X union.sq Y, E)$ is bipartite, every edge goes from $X$ to $Y$.
+  Hence, along any cycle, vertices must alternate between the two parts.
+  Therefore every cycle has even length.
 
-  ($arrow.l.double$) If no odd cycles exist, 2-color by BFS: pick any vertex, color it blue, color all neighbors green, color their neighbors blue, etc. No conflicts arise.
-]
-
-#Block(color: yellow)[
-  Bipartiteness can be checked in $O(n + m)$ time using BFS/DFS. \
-  This is one of the few natural graph properties that admits efficient recognition.
-]
-
-#Block(color: orange)[
-  *Note:* Checking if a graph is _3-colorable_ is NP-complete, yet _2-colorable_ (bipartite) is linear time!
+  _($arrow.l.double$)_
+  Assume $G$ has no odd cycle.
+  In each connected component, pick a root $r$ and partition the vertices by _parity_ of distance from $r$:
+  $X = {v | dist(r, v) "is even"}$ and $Y = {v | dist(r, v) "is odd"}$.
+  Suppose an edge joined two vertices of the same parity.
+  Together with shortest root-paths, this gives a closed walk of odd length, so $G$ contains an odd cycle --- contradiction.
+  So all edges go between $X$ and $Y$, and $G$ is bipartite.
 ]
 
 == Complete Bipartite Graphs
