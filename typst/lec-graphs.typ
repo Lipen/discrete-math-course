@@ -2436,6 +2436,61 @@ In other words: the maximum number of paths from $u$ to $v$ that share _no inter
   Two disjoint $u$-$v$ paths exist (max = 2). Removing only $a$ leaves $u$-$b$-$v$ connected. Need $S = {a, b}$ to separate $=>$ min separator = 2.
 ]
 
+== Menger's Theorem Visualized
+
+#align(center + horizon)[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .8em,
+    name: name,
+  )
+  #diagram(
+    spacing: 2em,
+    node-stroke: 1pt,
+    edge-stroke: 1pt,
+    vertex((-1, 0), $a$, <a>, blue),
+    vertex((1.2, -0.5), $b$, <b>, blue),
+    vertex((1, -2), $c$, <c>, blue),
+    vertex((1.5, 1), $d$, <d>, blue),
+    vertex((3.5, 3), $e$, <e>, blue),
+    vertex((3.5, 0), $f$, <f>, blue),
+    vertex((4, -2), $g$, <g>, blue),
+    vertex((4.5, 0.5), $h$, <h>, blue),
+    vertex((4, 1.5), $k$, <k>, blue),
+    vertex((5, -0.5), $m$, <m>, blue),
+    vertex((8, 0), $z$, <z>, blue),
+    edge(<a>, <b>),
+    edge(<a>, <c>, bend: 30deg),
+    edge(<a>, <e>, bend: -30deg),
+    edge(<a>, <d>),
+    edge(<a>, <f>),
+    edge(<b>, <c>),
+    edge(<b>, <g>),
+    edge(<c>, <g>),
+    edge(<c>, <f>),
+    edge(<d>, <e>),
+    edge(<d>, <f>),
+    edge(<e>, <k>),
+    edge(<e>, <z>, bend: -30deg),
+    edge(<f>, <k>),
+    edge(<f>, <h>),
+    edge(<f>, <m>),
+    edge(<f>, <g>),
+    edge(<g>, <d>),
+    edge(<g>, <h>),
+    edge(<g>, <m>),
+    edge(<g>, <z>, bend: 30deg),
+    edge(<h>, <k>),
+    edge(<h>, <z>),
+    edge(<k>, <z>, bend: -20deg),
+    edge(<m>, <z>),
+  )
+]
+
 == Menger's Theorem (Edge Form)
 
 #theorem[Menger][
