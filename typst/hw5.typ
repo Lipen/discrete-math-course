@@ -721,7 +721,7 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 
 The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the edges of $K_n$ (complete graph) contains either a red $K_r$ or a blue $K_s$.
 
-#tasklist("probR")[
+#tasklist("probA")[
   + Prove that $R(3, 3) = 6$ by showing:
     - Any edge-coloring of $K_5$ with two colors can avoid monochromatic triangles (construct an example).
     - Any edge-coloring of $K_6$ with two colors must contain a monochromatic triangle.
@@ -743,7 +743,7 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
   If $G$ is a finite simple graph in which every pair of _distinct_ vertices has _exactly one_ common neighbor, then $G$ is a _windmill graph_: $n$ triangles all sharing a single common vertex.
 ]
 
-#tasklist("probF")[
+#tasklist("probB")[
   + Verify the theorem for small cases. Try to construct non-windmill graphs satisfying the friendship condition with $n <= 8$ vertices.
 
   + Prove that any graph $G$ satisfying the friendship condition must be regular (all vertices have the same degree).
@@ -756,7 +756,7 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 
 Implement a graph theory library in your preferred programming language with the following functionality:
 
-#tasklist("probP")[
+#tasklist("probC")[
   + *Data structures:* Implement both adjacency matrix and adjacency list representations. Support conversion between them.
 
   + *Basic algorithms:* Implement DFS, BFS, connected components, bipartiteness testing, and topological sorting (for directed graphs).
@@ -768,4 +768,29 @@ Implement a graph theory library in your preferred programming language with the
   + *Testing:* Test your implementation on the graphs from Problem 1. Generate a report comparing your results with manual calculations.
 
   + *(Bonus)* Implement Floyd--Warshall for all-pairs shortest paths, Prim's or Kruskal's MST algorithm, and a graph isomorphism checker.
+]
+
+
+== Problem D: Max-Flow Toolkit
+
+Implement a max-flow toolkit and evaluate it experimentally.
+
+#tasklist("probD")[
+  + Implement *Edmonds--Karp* (BFS-based Ford--Fulkerson) for directed graphs with non-negative integer capacities.
+
+  + Your implementation must output:
+    - maximum flow value,
+    - one minimum cut $(S, T)$,
+    - a decomposition of the final flow into $s$-$t$ path-flows and cycle-flows.
+
+  + Validate your code on:
+    - the network from Problem 16,
+    - one random sparse instance and one random dense instance with $|V| >= 20$.
+
+  + Provide a short empirical report:
+    - runtime versus $|V|, |E|$,
+    - number of augmenting iterations,
+    - whether observations are consistent with the $O(|V||E|^2)$ bound.
+
+  + *(Bonus)* Implement Dinic's algorithm and compare it with Edmonds--Karp on the same test suite.
 ]
