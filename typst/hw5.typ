@@ -483,7 +483,7 @@ The Prüfer sequence provides a bijection between labeled trees on $n$ vertices 
     vertex((2, 1), $5$, tint: blue, <5>),
     vertex((3, 1), $6$, tint: blue, <6>),
     vertex((4, 1), $7$, tint: blue, <7>),
-    vertex((0, 0), $8$, tint: blue, <8>),
+    vertex((0.5, 0), $8$, tint: blue, <8>),
     vertex((1.5, 0), $9$, tint: blue, <9>),
     vertex((2.5, 0), $10$, tint: blue, <10>),
     vertex((3.5, 0), $11$, tint: blue, <11>),
