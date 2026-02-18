@@ -2268,15 +2268,111 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     Then $S$ separates any remaining vertex in $A$ from any remaining vertex in $B$, and $|S| <= |F|$. #qedhere
 ]
 
-#Block(color: yellow)[
-  *When equal?*
-  Petersen graph: $kappa = lambda = delta = 3$.
+#pagebreak()
 
-  *When strict inequality?*
-  Two $K_4$'s sharing an edge have $delta = 3$ but $kappa = 2$.
+#align(center)[
+  #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, label, name, tint: blue) = blob(
+    pos,
+    label,
+    tint: tint,
+    shape: shapes.circle,
+    radius: .72em,
+    name: name,
+  )
+
+  #grid(
+    columns: 2,
+    align: horizon,
+    column-gutter: 2em,
+    row-gutter: 1em,
+    [
+      #diagram(
+        spacing: 2em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+
+        // Outer cycle
+        vertex((-90deg + 360deg / 5 * 0, 2), $1$, <p1>),
+        vertex((-90deg + 360deg / 5 * 1, 2), $2$, <p2>),
+        vertex((-90deg + 360deg / 5 * 2, 2), $3$, <p3>),
+        vertex((-90deg + 360deg / 5 * 3, 2), $4$, <p4>),
+        vertex((-90deg + 360deg / 5 * 4, 2), $5$, <p5>),
+
+        // Inner star
+        vertex((-90deg + 360deg / 5 * 0, 0.8), $1'$, <q1>, tint: green),
+        vertex((-90deg + 360deg / 5 * 1, 0.8), $2'$, <q2>, tint: green),
+        vertex((-90deg + 360deg / 5 * 2, 0.8), $3'$, <q3>, tint: green),
+        vertex((-90deg + 360deg / 5 * 3, 0.8), $4'$, <q4>, tint: green),
+        vertex((-90deg + 360deg / 5 * 4, 0.8), $5'$, <q5>, tint: green),
+
+        edge(<p1>, <p2>),
+        edge(<p2>, <p3>),
+        edge(<p3>, <p4>),
+        edge(<p4>, <p5>),
+        edge(<p5>, <p1>),
+
+        edge(<q1>, <q3>),
+        edge(<q3>, <q5>),
+        edge(<q5>, <q2>),
+        edge(<q2>, <q4>),
+        edge(<q4>, <q1>),
+
+        edge(<p1>, <q1>),
+        edge(<p2>, <q2>),
+        edge(<p3>, <q3>),
+        edge(<p4>, <q4>),
+        edge(<p5>, <q5>),
+      )
+
+      *Petersen graph:* \
+      $kappa = lambda = delta = 3$
+    ],
+    [
+      #diagram(
+        spacing: 2em,
+        node-stroke: 1pt,
+        edge-stroke: 1pt,
+
+        vertex((-3, 1), $a$, <a>),
+        vertex((-3, -1), $b$, <b>),
+        vertex((-1, 1), $c$, <c>),
+        vertex((-1, -1), $d$, <d>),
+        vertex((1, 1), $e$, <e>),
+        vertex((1, -1), $f$, <f>),
+        vertex((3, 1), $g$, <g>),
+        vertex((3, -1), $h$, <h>),
+        vertex((0, 0), $v$, <v>, tint: red),
+
+        // Left K4
+        edge(<a>, <b>),
+        edge(<a>, <c>),
+        edge(<a>, <d>),
+        edge(<b>, <c>),
+        edge(<b>, <d>),
+        edge(<c>, <d>),
+
+        // Right K4
+        edge(<e>, <f>),
+        edge(<e>, <g>),
+        edge(<e>, <h>),
+        edge(<f>, <g>),
+        edge(<f>, <h>),
+        edge(<g>, <h>),
+
+        // Attachments through v
+        edge(<v>, <c>, stroke: 2pt + red),
+        edge(<v>, <d>, stroke: 2pt + red),
+        edge(<v>, <e>),
+        edge(<v>, <f>),
+        edge(<v>, <g>, bend: 10deg),
+      )
+
+      *Strict inequality example:* \
+      $delta = 3$, $kappa = 1$, $lambda = 2$
+    ],
+  )
 ]
-
-// TODO: visualize Petersen graph and the $K_4$-joined-by-edge example.
 
 == Menger's Theorem (Vertex Form)
 
