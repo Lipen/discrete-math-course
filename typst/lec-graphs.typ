@@ -3399,7 +3399,7 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 == Hall's Marriage Theorem
 
 #definition[
-  Let $G = pair(X union Y, E)$ be a bipartite graph. For a subset $S subset.eq X$, define the _neighborhood_ of $S$:
+  Let $G = pair(X union Y, E)$ be a bipartite graph. For a subset $S subset.eq X$, define its _neighborhood_:
   $ N(S) = { y in Y | exists x in S: {x,y} in E } $
 ]
 
