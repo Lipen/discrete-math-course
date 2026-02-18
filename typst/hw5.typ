@@ -47,12 +47,12 @@
 #let Orange(x) = text(orange.darken(20%), x)
 
 // Task list helper
-#let tasklist(id, cols: 1, body) = {
+#let tasklist(id, cols: 1, format: "1.", body) = {
   let s = counter(id)
   s.update(1)
   set enum(numbering: _ => context {
     s.step()
-    s.display("1.")
+    s.display(format)
   })
   columns(cols, gutter: 1em)[#body]
 }
