@@ -538,15 +538,17 @@ Consider the weighted graph from Problem 4.
 == Problem 10: Hamiltonian Graphs and Hypercubes
 
 #tasklist("prob10")[
-  + Does $K_(2,3)$ have a Hamiltonian path? A Hamiltonian cycle? Prove your answers.
+  + Determine whether $K_(2,3)$ has a Hamiltonian path and a Hamiltonian cycle.
 
   + The $n$-dimensional _hypercube graph_ $Q_n$ has vertex set ${0,1}^n$ (all binary strings of length $n$), and two vertices are adjacent iff they differ in exactly one coordinate.
-
     Prove that $Q_n$ has a Hamiltonian cycle for all $n >= 2$.
 
   + Give an example of a graph that is:
-    - 2-connected but not Hamiltonian
-    - 3-regular but not Hamiltonian
+    #[
+      #set enum(numbering: "(a)")
+      + 2-connected but not Hamiltonian
+      + 3-regular but not Hamiltonian
+    ]
 ]
 
 
