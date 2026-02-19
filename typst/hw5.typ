@@ -444,7 +444,8 @@ Identify the error and explain why the conclusion is false and the claim is not 
 
 == Problem 6: Tree Characterizations
 
-The following are six fundamental characterizations of trees. Prove that they are all equivalent for a graph $G = pair(V, E)$ with $n = |V|$ vertices and $m = |E|$ edges.
+The following are six fundamental characterizations of trees.
+Prove that they are all equivalent for a graph $G = pair(V, E)$ with $n = |V|$ vertices and $m = |E|$ edges.
 
 #Block[
   *Theorem.* The following are equivalent:
