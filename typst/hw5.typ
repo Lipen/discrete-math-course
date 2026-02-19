@@ -97,12 +97,14 @@
 
 For each of the following graphs, compute the requested metrics and properties.
 
-#grid(
-  columns: 3,
-  column-gutter: 2em,
-  [
-    *(a)* #align(center)[
+#align(center)[
+  #grid(
+    columns: 3,
+    align: horizon,
+    column-gutter: 2em,
+    [
       #diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, <a>, tint: blue),
@@ -131,14 +133,12 @@ For each of the following graphs, compute the requested metrics and properties.
         edge(<c>, <e>),
         edge(<e>, <g>),
       )
-    ]
-  ],
-  [
-    *(b)* #align(center)[
+    ],
+    [
       #diagram(
+        spacing: 2em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        spacing: (13mm, 13mm),
         vertex((1, 1.5), $a$, <a>, tint: blue),
         vertex((0, 1), $b$, <b>, tint: blue),
         vertex((2, 1), $c$, <c>, tint: blue),
@@ -160,15 +160,12 @@ For each of the following graphs, compute the requested metrics and properties.
         edge(<g>, <h>),
         edge(<b>, <c>),
       )
-    ]
-  ],
-  [
-    *(c)* #align(center)[
-      #v(-1em)
+    ],
+    [
       #diagram(
+        spacing: 1.5em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        spacing: (12mm, 12mm),
         vertex((-90deg + 360deg / 8 * 0, 1.3), $a$, tint: blue, <a>),
         vertex((-90deg + 360deg / 8 * 1, 1.3), $b$, tint: blue, <b>),
         vertex((-90deg + 360deg / 8 * 2, 1.3), $c$, tint: blue, <c>),
@@ -192,9 +189,9 @@ For each of the following graphs, compute the requested metrics and properties.
         edge(<e>, <g>, bend: -30deg),
         edge(<f>, <h>, bend: -30deg),
       )
-    ]
-  ],
-)
+    ],
+  )
+]
 
 #tasklist("prob1")[
   + *Basic connectivity metrics:*
@@ -247,19 +244,19 @@ A sequence $d = (d_1, d_2, dots, d_n)$ with $d_1 >= d_2 >= dots >= d_n >= 0$ is 
 
 == Problem 3: Graph Isomorphism
 
-Determine which pairs of graphs below are isomorphic.
-For each isomorphic pair, exhibit an explicit bijection $f: V(G) to V(H)$ that preserves adjacency.
+Determine which pairs of graphs below are _isomorphic_.
+For each isomorphic pair $(G, H)$, exhibit an explicit bijection $f: V(G) to V(H)$ that preserves adjacency.
 For each non-isomorphic pair, identify a distinguishing invariant (degree sequence, girth, number of triangles, etc.).
 
-#grid(
-  columns: 2,
-  align: left,
-  column-gutter: 2em,
-  row-gutter: 2em,
-  [
-    *Graph $H_1$:* #align(center)[
+#align(center)[
+  #grid(
+    columns: 4,
+    align: left,
+    column-gutter: 2em,
+    row-gutter: 2em,
+    [
       #diagram(
-        spacing: 2em,
+        spacing: 1em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((-90deg + 360deg / 7 * 0, 1.3), $1$, tint: blue, <1>),
@@ -279,11 +276,10 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
         edge(<1>, <3>, bend: -30deg),
         edge(<2>, <5>),
       )
-    ]
-
-    *Graph $H_3$:* #align(center)[
+    ],
+    [
       #diagram(
-        spacing: 3em,
+        spacing: 1.5em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0), $a$, tint: green, <a>),
@@ -303,12 +299,10 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
         edge(<c>, <g>),
         edge(<d>, <g>),
       )
-    ]
-  ],
-  [
-    *Graph $H_2$:* #align(center)[
+    ],
+    [
       #diagram(
-        spacing: 2em,
+        spacing: 1.5em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((1, 1), $p$, tint: orange, <p>),
@@ -328,11 +322,10 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
         edge(<t>, <u>),
         edge(<q>, <v>),
       )
-    ]
-
-    *Graph $H_4$:* #align(center)[
+    ],
+    [
       #diagram(
-        spacing: 2em,
+        spacing: 1em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 1), $w$, tint: purple, <w>),
@@ -352,9 +345,9 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
         edge(<z>, <gamma>),
         edge(<alpha>, <gamma>),
       )
-    ]
-  ],
-)
+    ],
+  )
+]
 
 == Problem 4: Dijkstra's Shortest Path Algorithm
 
@@ -465,8 +458,6 @@ Prove that they are all equivalent for a graph $G = pair(V, E)$ with $n = |V|$ v
     State and prove.
 ]
 
-
-#pagebreak()
 
 == Problem 7: Prüfer Code
 
@@ -615,7 +606,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   )
 
   + #diagram(
-      spacing: 1.5em,
+      spacing: 1em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -631,7 +622,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1.5em,
+      spacing: 1em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -652,7 +643,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   #colbreak()
 
   + #diagram(
-      spacing: 1.5em,
+      spacing: 1em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -667,7 +658,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1.5em,
+      spacing: 1em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -686,7 +677,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   #colbreak()
 
   + #diagram(
-      spacing: 1.5em,
+      spacing: 1em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -707,7 +698,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1.5em,
+      spacing: 1em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
