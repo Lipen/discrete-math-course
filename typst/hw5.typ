@@ -741,6 +741,12 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
   + *(König)* In any bipartite graph, the size of a maximum matching equals the size of a minimum vertex cover.
 
     _Hint:_ Use Hall's Theorem or construct a matching--cover correspondence via residual networks.
+
+  + *(Gallai)* For every finite graph $G$:
+    $ alpha(G) + tau(G) = |V| $
+    where $alpha(G)$ is the size of a maximum independent set and $tau(G)$ is the size of a minimum vertex cover.
+
+  + *(Erdős–Gallai)* The sequence $d_1 >= d_2 >= ... >= d_n >= 0$ is _graphical_ iff $d_1 + ... + d_n$ is even and $ sum_(i=1)^k d_i <= k (k - 1) + sum_(j = k+1)^n min(d_j, k) $ holds for every $k$ in $1 <= k <= n$.
 ]
 
 
