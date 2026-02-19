@@ -539,12 +539,15 @@ Consider the weighted graph from Problem 4.
 
 == Problem 11: Bipartite Graphs
 
+Prove the following fundamental properties of bipartite graphs.
+
 #tasklist("prob11")[
-  + Prove that a graph $G$ is bipartite if and only if it contains no odd cycle.
+  + A graph $G$ is bipartite if and only if it contains no odd cycle.
 
-  + Describe an algorithm based on BFS (breadth-first search) that determines whether a given graph is bipartite in $O(|V| + |E|)$ time. If the graph is bipartite, your algorithm should also produce a valid 2-coloring.
+  + If $G$ is bipartite and $d$-regular with $d >= 1$, then $G$ has a perfect matching.
 
-  + Prove: If $G$ is bipartite and $d$-regular with $d >= 1$, then $G$ has a perfect matching.
+  // Kőnig's theorem
+  + In any bipartite graph, the size of a maximum matching equals the size of a minimum vertex cover.
 ]
 
 
