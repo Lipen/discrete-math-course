@@ -467,18 +467,18 @@ The following are six fundamental characterizations of trees. Prove that they ar
 
 #pagebreak()
 
-== Problem 7: Prüfer Sequences and Cayley's Formula
+== Problem 7: Prüfer Code
 
 The Prüfer sequence provides a bijection between labeled trees on $n$ vertices and sequences of length $n - 2$ with entries in ${1, 2, dots, n}$.
 
 #align(center)[
   #diagram(
-    spacing: 2em,
+    spacing: (2em, 1.5em),
     node-stroke: 1pt,
     edge-stroke: 1pt,
-    vertex((1, 2), $1$, tint: blue, <1>),
+    vertex((1.3, 2), $1$, tint: blue, <1>),
     vertex((2, 2), $2$, tint: blue, <2>),
-    vertex((3, 2), $3$, tint: blue, <3>),
+    vertex((2.7, 2), $3$, tint: blue, <3>),
     vertex((1, 1), $4$, tint: blue, <4>),
     vertex((2, 1), $5$, tint: blue, <5>),
     vertex((3, 1), $6$, tint: blue, <6>),
@@ -507,9 +507,7 @@ The Prüfer sequence provides a bijection between labeled trees on $n$ vertices 
 
   + Decode the Prüfer sequence $(3, 3, 3, 7, 7, 5)$ back into a labeled tree. Draw the result.
 
-  + Prove: In the Prüfer sequence of a labeled tree on $n$ vertices, vertex $v$ appears exactly #box[$deg(v) - 1$] times.
-
-  + Use the bijection to prove _Cayley's formula_: There are exactly $n^(n-2)$ labeled trees on $n$ vertices.
+  + Prove that in the Prüfer sequence the number $i$ appears exactly $deg(i) - 1$ times.
 ]
 
 
