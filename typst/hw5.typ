@@ -81,6 +81,22 @@
   )
 }
 
+// Fancy tag
+#let Tag(label, color) = {
+  set text(size: 0.8em)
+  box(
+    label,
+    radius: 5pt,
+    inset: (x: 0.4em),
+    outset: (y: 0.4em),
+    stroke: 0.6pt + color.darken(20%),
+    fill: color.lighten(80%),
+  )
+}
+#let TagCore = Tag("Core", green)
+#let TagEssential = Tag("Essential", blue)
+#let TagChallenge = Tag("Challenge", purple)
+
 // Graph drawing helpers
 #import fletcher: diagram, edge, node, shapes
 #let vertex(pos, lbl, name, ..args) = blob(
@@ -93,7 +109,7 @@
 )
 
 
-== Problem 1: Graph Invariants Analysis
+== Problem 1: Graph Invariants Analysis #h(1fr)#TagCore
 
 For each of the following graphs, compute the requested metrics and properties.
 
@@ -215,7 +231,7 @@ For each of the following graphs, compute the requested metrics and properties.
 ]
 
 
-== Problem 2: Degree Sequences and Graphical Realization
+== Problem 2: Degree Sequences and Graphical Realization #h(1fr)#TagCore
 
 A sequence $d = (d_1, d_2, dots, d_n)$ with $d_1 >= d_2 >= dots >= d_n >= 0$ is _graphical_ if there exists a simple graph $G$ with this degree sequence.
 
@@ -242,7 +258,7 @@ A sequence $d = (d_1, d_2, dots, d_n)$ with $d_1 >= d_2 >= dots >= d_n >= 0$ is 
 ]
 
 
-== Problem 3: Graph Isomorphism
+== Problem 3: Graph Isomorphism #h(1fr)#TagCore
 
 Determine which pairs of graphs below are _isomorphic_.
 For each isomorphic pair $(G, H)$, exhibit an explicit bijection $f: V(G) to V(H)$ that preserves adjacency.
@@ -349,7 +365,7 @@ For each non-isomorphic pair, identify a distinguishing invariant (degree sequen
   )
 ]
 
-== Problem 4: Dijkstra's Shortest Path Algorithm
+== Problem 4: Dijkstra's Shortest Path Algorithm #h(1fr)#TagEssential
 
 Apply *Dijkstra's algorithm* to find a shortest path from $a$ to $z$ in the weighted graph below.
 
@@ -414,7 +430,7 @@ Apply *Dijkstra's algorithm* to find a shortest path from $a$ to $z$ in the weig
 ]
 
 
-== Problem 5: Find the Error
+== Problem 5: Find the Error #h(1fr)#TagCore
 
 The following "proof" contains a subtle error.
 Identify the error and explain why the conclusion is false and the claim is not valid.
@@ -435,7 +451,7 @@ Identify the error and explain why the conclusion is false and the claim is not 
 ]
 
 
-== Problem 6: Trees
+== Problem 6: Trees #h(1fr)#TagEssential
 
 The following are six fundamental characterizations of trees.
 Prove that they are all equivalent for a graph $G = pair(V, E)$ with $n = |V|$ vertices and $m = |E|$ edges by establishing a cycle of implications:
@@ -452,7 +468,7 @@ $ (1) => (2) => (3) => (4) => (5) => (6) => (1) $
 ]
 
 
-== Problem 7: Prüfer Code
+== Problem 7: Prüfer Code #h(1fr)#TagCore
 
 The Prüfer sequence provides a bijection between labeled trees on $n$ vertices and sequences of length $n - 2$ with entries in ${1, 2, dots, n}$.
 
@@ -496,7 +512,7 @@ The Prüfer sequence provides a bijection between labeled trees on $n$ vertices 
 ]
 
 
-== Problem 8: Minimum Spanning Trees
+== Problem 8: Minimum Spanning Trees #h(1fr)#TagEssential
 
 Consider the weighted graph from Problem 4.
 
@@ -509,7 +525,7 @@ Consider the weighted graph from Problem 4.
 ]
 
 
-== Problem 9: Eulerian Graphs
+== Problem 9: Eulerian Graphs #h(1fr)#TagEssential
 
 #tasklist("prob9")[
   + For which values of $n >= 3$ does the complete graph $K_n$ have an Euler circuit? An Euler path (but not a circuit)? Prove your answers.
@@ -520,7 +536,7 @@ Consider the weighted graph from Problem 4.
 ]
 
 
-== Problem 10: Hamiltonian Graphs and Hypercubes
+== Problem 10: Hamiltonian Graphs #h(1fr)#TagEssential
 
 #tasklist("prob10")[
   + Determine whether $K_(2,3)$ has a Hamiltonian path and a Hamiltonian cycle.
@@ -537,7 +553,7 @@ Consider the weighted graph from Problem 4.
 ]
 
 
-== Problem 11: Bipartite Graphs
+== Problem 11: Bipartite Graphs #h(1fr)#TagEssential
 
 Prove the following fundamental properties of bipartite graphs.
 
@@ -551,7 +567,7 @@ Prove the following fundamental properties of bipartite graphs.
 ]
 
 
-== Problem 12: Hall's Marriage Theorem
+== Problem 12: Hall's Marriage Theorem #h(1fr)#TagEssential
 
 A dance school has 6 leaders and 6 followers. Each leader is willing to dance with certain followers, as shown in the table below ($times$ indicates willingness).
 
@@ -579,7 +595,7 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 ]
 
 
-== Problem 13: Graceful Graphs
+== Problem 13: Graceful Graphs #h(1fr)#TagChallenge
 
 A _graceful labeling_ of a graph $G$ with $m$ edges is an injective function $f: V(G) to {0, 1, 2, ..., m}$ such that the induced edge labels $|f(u) - f(v)|$ for each edge $(u, v) in E(G)$ are distinct and cover the set ${1, 2, ..., m}$.
 In other words, the absolute differences of the labels of adjacent vertices are all different and cover the integers from 1 to $m$.
@@ -707,7 +723,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 ]
 
-== Problem 14: Fundamental Theorems
+== Problem 14: Fundamental Theorems #h(1fr)#TagChallenge
 
 Prove each of the following theorems _rigorously_.
 
@@ -731,7 +747,7 @@ Prove each of the following theorems _rigorously_.
 ]
 
 
-== Problem 15: Network Flows
+== Problem 15: Network Flows #h(1fr)#TagEssential
 
 Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and sink $t$.
 
@@ -785,20 +801,15 @@ Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and si
 ]
 
 
-// ============================================================================
-// OPTIONAL PROBLEMS
-// ============================================================================
-
 #pagebreak()
 
-#v(1em)
 #align(center)[
-  #text(size: 14pt, weight: "bold")[Optional Challenge Problems]
+  #set text(1.2em, weight: "bold")
+  Optional Challenge Problems
 ]
-#v(0.5em)
 
 #Block[
-  The following problems are optional.
+  The following problems are _"optional"_.
   They are more challenging and are intended for students who wish to explore deeper topics in graph theory.
   These problems will _not_ count toward your grade but may earn bonus points.
 ]
@@ -806,7 +817,7 @@ Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and si
 #v(1em)
 
 
-== Problem A: Ramsey Theory
+== Problem A: Ramsey Theory #h(1fr)#TagChallenge
 
 The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the edges of $K_n$ (complete graph) contains either a red $K_r$ or a blue $K_s$.
 
@@ -824,7 +835,7 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 ]
 
 
-== Problem B: The Friendship Theorem
+== Problem B: The Friendship Theorem #h(1fr)#TagChallenge
 
 The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 
@@ -841,7 +852,7 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 ]
 
 
-== Problem C: Network Flows
+== Problem C: Max-Flow Solver #h(1fr)#TagChallenge
 
 Design and implement a production-quality max-flow solver.
 
