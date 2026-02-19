@@ -435,27 +435,20 @@ Identify the error and explain why the conclusion is false and the claim is not 
 ]
 
 
-== Problem 6: Tree Characterizations
+== Problem 6: Trees
 
 The following are six fundamental characterizations of trees.
-Prove that they are all equivalent for a graph $G = pair(V, E)$ with $n = |V|$ vertices and $m = |E|$ edges.
+Prove that they are all equivalent for a graph $G = pair(V, E)$ with $n = |V|$ vertices and $m = |E|$ edges by establishing a cycle of implications:
+$ (1) => (2) => (3) => (4) => (5) => (6) => (1) $
 
 #Block[
-  *Theorem.* The following are equivalent:
+  *Theorem:* The following are equivalent:
   + $G$ is a tree (connected and acyclic).
   + $G$ is connected and $m = n - 1$.
   + $G$ is acyclic and $m = n - 1$.
   + For every pair of vertices $u, v in V$, there exists a _unique_ path from $u$ to $v$.
   + $G$ is connected, but removing any edge disconnects it.
   + $G$ is acyclic, but adding any new edge creates exactly one cycle.
-]
-
-#tasklist("prob6")[
-  + Prove the equivalence by establishing a cycle of implications:
-    $ (1) => (2) => (3) => (4) => (5) => (6) => (1) $
-
-  + Which characterization(s) generalize to forests?
-    State and prove.
 ]
 
 
