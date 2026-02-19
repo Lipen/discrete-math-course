@@ -238,7 +238,7 @@ A sequence $d = (d_1, d_2, dots, d_n)$ with $d_1 >= d_2 >= dots >= d_n >= 0$ is 
 
   + The total number of non-isomorphic simple undirected graphs on $n$ vertices is given by the sequence $(1, 2, 4, 11, 34, 156, ...)$ (#link("https://oeis.org/A000088")[OEIS A000088]).
     The number of distinct degree sequences of length $n$ is given by the sequence $(1, 2, 4, 11, 31, 102, ...)$ (#link("https://oeis.org/A004251")[OEIS A004251]).
-    Explain why the second sequence grows more slowly than the first, and determine which degree sequences of length $n = 5$ are reliazable by more than one graph.
+    Explain why the second sequence grows more slowly than the first, and determine which degree sequences of length $n = 5$ are realizable by more than one graph.
 ]
 
 
