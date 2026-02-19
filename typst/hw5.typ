@@ -582,8 +582,7 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 ]
 
 #tasklist("prob12")[
-  + Does a perfect matching exist?
-    To answer this, verify Hall's condition: For every subset #box[$S subset.eq {L_1, dots, L_6}$], check whether $|N(S)| >= |S|$.
+  + Determine whether a perfect matching exists by verifying Hall's condition.
 
   + Find a maximum matching. Is it perfect?
 
