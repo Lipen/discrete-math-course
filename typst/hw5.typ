@@ -614,7 +614,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -630,7 +630,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -651,7 +651,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   #colbreak()
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -666,7 +666,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -685,7 +685,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   #colbreak()
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -706,7 +706,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
