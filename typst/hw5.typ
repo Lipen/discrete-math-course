@@ -571,14 +571,11 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 
 #tasklist("prob12")[
   + Determine whether a perfect matching exists by verifying Hall's condition.
-
   + Find a maximum matching. Is it perfect?
-
   + Now suppose $L_2$ becomes more selective and will _only_ dance with $F_1$.
     Does a perfect matching still exist?
     If Hall's condition fails, identify the violating subset $S$ and explain why no perfect matching exists.
-
-  + State and prove _Hall's Marriage Theorem_ in full generality.
+  // + State and prove _Hall's Marriage Theorem_ in full generality.
 ]
 
 
@@ -602,7 +599,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -618,7 +615,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -639,7 +636,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   #colbreak()
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -654,7 +651,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -673,7 +670,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
   #colbreak()
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -694,7 +691,7 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
     )
 
   + #diagram(
-      spacing: 1em,
+      spacing: 1.5em,
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), <v1>, blue),
@@ -712,11 +709,11 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
 
 == Problem 14: Fundamental Theorems
 
-Prove each of the following theorems rigorously. Your proofs should be complete and clearly written.
+Prove each of the following theorems _rigorously_.
 
 #tasklist("prob14")[
-  + *(Triangle inequality)* For any graph $G$ and any three vertices $u, v, w in V(G)$, we have:
-    $ d(u, w) <= d(u, v) + d(v, w) $
+  // + *(Triangle inequality)* For any graph $G$ and any three vertices $u, v, w in V(G)$, we have:
+  //   $ d(u, w) <= d(u, v) + d(v, w) $
 
   // + *(Whitney)* For any graph $G$, $kappa(G) <= lambda(G) <= delta(G)$.
 
@@ -726,13 +723,9 @@ Prove each of the following theorems rigorously. Your proofs should be complete 
 
     A _block graph_ $H = B(G)$ is an intersection graph of all blocks (biconnected components) of $G$, i.e. each vertex $v in V(H)$ corresponds to a block of $G$, and there is an edge ${u,v} in E(H)$ iff "blocks" $u$ and $v$ share a cut vertex.
 
-  + *(König)* In any bipartite graph, the size of a maximum matching equals the size of a minimum vertex cover.
-
-    _Hint:_ Use Hall's Theorem or construct a matching--cover correspondence via residual networks.
-
-  + *(Gallai)* For every finite graph $G$:
-    $ alpha(G) + tau(G) = |V| $
-    where $alpha(G)$ is the size of a maximum independent set and $tau(G)$ is the size of a minimum vertex cover.
+  + *(Gallai)* For every finite graph $G$, we have:
+    $ alpha(G) + tau(G) = |V(G)| $
+    where $alpha(G)$ is the size of a maximum independent set and $tau(G)$ is the minimum vertex cover size.
 
   + *(Erdős–Gallai)* The sequence $d_1 >= d_2 >= ... >= d_n >= 0$ is _graphical_ iff $d_1 + ... + d_n$ is even and $ sum_(i=1)^k d_i <= k (k - 1) + sum_(j = k+1)^n min(d_j, k) $ holds for every $k$ in $1 <= k <= n$.
 ]
