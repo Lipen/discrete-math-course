@@ -814,8 +814,6 @@ Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and si
   These problems will _not_ count toward your grade but may earn bonus points.
 ]
 
-#v(1em)
-
 
 == Problem A: Ramsey Theory #h(1fr)#TagChallenge
 
