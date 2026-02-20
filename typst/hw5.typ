@@ -231,7 +231,7 @@ For each of the following graphs, compute the requested metrics and properties.
 ]
 
 
-== Problem 2: Degree Sequences and Graphical Realization #h(1fr)#TagCore
+== Problem 2: Degree Sequences #h(1fr)#TagCore
 
 A sequence $d = (d_1, d_2, dots, d_n)$ with $d_1 >= d_2 >= dots >= d_n >= 0$ is _graphical_ if there exists a simple graph $G$ with this degree sequence.
 
