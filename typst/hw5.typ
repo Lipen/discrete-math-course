@@ -822,6 +822,8 @@ The problems in this assignment are _tagged_ with three levels of difficulty:
   These problems will _not_ count toward your grade but may earn bonus points.
 ]
 
+#v(.5em)
+
 
 == Problem A: Ramsey Theory #h(1fr)#TagChallenge
 
@@ -841,6 +843,8 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 ]
 
 
+#v(.5em)
+
 == Problem B: The Friendship Theorem #h(1fr)#TagChallenge
 
 The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
@@ -857,6 +861,8 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
   + Using regularity, show that if $G$ is $r$-regular and satisfies the friendship condition, then either $r = 2$ or there exists a universal vertex (a vertex adjacent to all others).
 ]
 
+
+#v(.5em)
 
 == Problem C: Max-Flow Solver #h(1fr)#TagChallenge
 
