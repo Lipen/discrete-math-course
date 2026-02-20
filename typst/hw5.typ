@@ -829,7 +829,7 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 
 #tasklist("probA")[
   + Prove that $R(3, 3) = 6$ by showing:
-    - Any edge-coloring of $K_5$ with two colors can avoid monochromatic triangles (construct an example).
+    - Any edge-coloring of $K_5$ with two colors can avoid monochromatic triangles.
     - Any edge-coloring of $K_6$ with two colors must contain a monochromatic triangle.
 
   + Show that $R(3, 4) <= 10$ by using a similar argument.
