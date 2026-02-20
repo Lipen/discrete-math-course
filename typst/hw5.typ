@@ -801,6 +801,19 @@ Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and si
 ]
 
 
+#line(length: 100%, stroke: 0.4pt)
+
+== Notes on Tags System
+
+The problems in this assignment are _tagged_ with three levels of difficulty:
+
+#TagCore are mandatory problems that must be completed _before the test_.
+
+#TagEssential are main problems that have to be submitted _before the announced deadline_.
+
+#TagChallenge are slightly more challenging problems with _a flexible deadline_.
+
+
 #pagebreak()
 
 #align(center)[
