@@ -536,20 +536,15 @@ Consider the weighted graph from Problem 4.
 ]
 
 
-== Problem 10: Hamiltonian Graphs #h(1fr)#TagEssential
+== Problem 10: Hamiltonian Graphs #h(1fr)#TagChallenge
 
 #tasklist("prob10")[
-  + Determine whether $K_(2,3)$ has a Hamiltonian path and a Hamiltonian cycle.
+  + Prove that $K_(m,n)$ is Hamiltonian if and only if $m = n >= 2$.
 
   + The $n$-dimensional _hypercube graph_ $Q_n$ has vertex set ${0,1}^n$ (all binary strings of length $n$), and two vertices are adjacent iff they differ in exactly one coordinate.
     Prove that $Q_n$ has a Hamiltonian cycle for all $n >= 2$.
 
-  + Give an example of a graph that is:
-    #[
-      #set enum(numbering: "(a)")
-      + 2-connected but not Hamiltonian
-      + 3-regular but not Hamiltonian
-    ]
+  + Construct a 2-connected non-Hamiltonian graph with at least 6 vertices.
 ]
 
 
