@@ -443,9 +443,7 @@ Identify the error and explain why the conclusion is false and the claim is not 
   _Base case:_ A tree with one vertex clearly has a path of length $0 = 1 - 1$.
 
   _Inductive step:_
-  Assume that every tree with $n$ vertices has a path of length $n - 1$.
-  Consider a tree $T$ with $n + 1$ vertices.
-  This path must terminate at some leaf $u$.
+  Assume that every tree with $n$ vertices has a path of length $n - 1$, which terminate at some leaf $u$.
   Add a new vertex $v$ and connect it to $u$ with an edge.
   The resulting tree has $n + 1$ vertices and contains a path of length $n$, which is $(n+1) - 1$. $qed$
 ]
