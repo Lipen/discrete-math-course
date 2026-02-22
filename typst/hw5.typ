@@ -213,7 +213,7 @@ For each of the following graphs, compute the requested metrics and properties.
   + *Basic connectivity metrics:*
     - Minimum degree $delta(G)$, maximum degree $Delta(G)$
     - Vertex connectivity $kappa(G)$, edge connectivity $lambda(G)$
-    - All $(kappa - 1)$-connected components, $(lambda - 1)$-edge-connected components
+    - All $(kappa + 1)$-connected components, $(lambda + 1)$-edge-connected components
     - Verify Whitney's inequality: $kappa(G) <= lambda(G) <= delta(G)$
 
   + *Distance metrics:*
