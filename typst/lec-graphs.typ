@@ -4925,19 +4925,19 @@ Construct a flow network:
 
 == Application 2: König's Theorem via Max-Flow
 
-#theorem[König's Theorem][
+#theorem[König][
   In a bipartite graph, the size of the maximum matching equals the size of the minimum vertex cover.
 ]
 
 #proof[(via max-flow)][
   Let the max-flow (= max matching) have value $k$.
 
-  By Max-Flow Min-Cut, there exists a cut $(A, B)$ with $c(A, B) = k$.
-  In this unit-capacity bipartite network, every finite-capacity cut edge corresponds to exactly one vertex: a $s$-side cut edge $s arrow x$ (capacity 1) to some $x in X$, or a $t$-side cut edge $y arrow t$ (capacity 1) to some $y in Y$.
-  The set of these vertices forms a vertex cover of size $k$ (every original edge $x y in E$ must be covered, for otherwise the path $s arrow x arrow y arrow t$ would cross the cut at zero cost, yielding $c(A,B) < k$).
+  - By Max-Flow Min-Cut, there exists a cut $(A, B)$ with $c(A, B) = k$.
+  - In this unit-capacity bipartite network, every finite-capacity cut edge corresponds to exactly one vertex: a $s$-side cut edge $s arrow x$ (capacity 1) to some $x in X$, or a $t$-side cut edge $y arrow t$ (capacity 1) to some $y in Y$.
+  - The set of these vertices forms a vertex cover of size $k$ (every original edge $x y in E$ must be covered, for otherwise the path $s arrow x arrow y arrow t$ would cross the cut at zero cost, yielding $c(A,B) < k$).
 
-  Conversely, any vertex cover of size $k$ defines a cut of capacity $k$.
-  Hence $"max matching" = k = "min vertex cover"$.
+  Conversely, any vertex cover of size $k$ defines a cut of capacity $k$. \
+  Hence, $"max matching" = k = "min vertex cover"$.
 ]
 
 #Block(color: yellow)[
@@ -4952,8 +4952,6 @@ Construct a flow network:
 Replace each undirected edge $\{u,v\}$ with two directed edges $(u,v)$ and $(v,u)$, each of capacity 1.
 The max flow from $s$ to $t$ equals the maximum number of edge-disjoint $s$-$t$ paths.
 The min cut equals the minimum edge separator --- this is precisely *Menger's theorem (edge form)*.
-
----
 
 *Vertex-disjoint paths:*
 Replace each internal vertex $v$ with a pair $v_"in", v_"out"$ connected by an edge of capacity 1.
@@ -4981,7 +4979,7 @@ All original edges become arcs from $u_"out"$ to $v_"in"$ with capacity $infinit
   )
 ]
 
-The max flow in this network equals the maximum number of internally vertex-disjoint $s$-$t$ paths.
+The max flow in this network equals the maximum number of internally vertex-disjoint $s$-$t$ paths. \
 The min cut equals the minimum vertex separator --- this is *Menger's theorem (vertex form)*.
 
 == Application 4: Project Selection (Closure Problem)
@@ -5184,7 +5182,6 @@ Graph theory provides the foundation for:
 - Algorithms (BFS, DFS, shortest paths, MST, max-flow)
 - Network design and optimization
 - Formal language theory (automata are directed labeled graphs!)
-- Combinatorics, counting, and probabilistic methods
 
 
 == Exercises
