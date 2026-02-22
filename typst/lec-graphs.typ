@@ -4882,6 +4882,8 @@ Construct a flow network:
 - Keep original edges $X times Y$ with capacity 1.
 - Run max-flow on this network.
 
+#pagebreak()
+
 #theorem[
   The maximum flow in this network equals the size of the maximum matching in $G$.
 ]
@@ -4893,10 +4895,10 @@ Construct a flow network:
   By the Integrality Theorem, a maximum integer flow exists and equals the maximum matching.
 ]
 
-#import fletcher: diagram, edge, node
 #align(center)[
+  #import fletcher: diagram, edge, node
   #diagram(
-    spacing: (1.5cm, 0.7cm),
+    spacing: (4em, 2em),
     node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
     blob((0, 0), $s$, tint: green, name: <s>),
@@ -4907,17 +4909,17 @@ Construct a flow network:
     blob((3, 0), $y_2$, tint: blue, name: <y2>),
     blob((3, 1), $y_3$, tint: blue, name: <y3>),
     blob((4.5, 0), $t$, tint: red, name: <t>),
-    edge(<s>, <x1>, "-}>")[$1$],
-    edge(<s>, <x2>, "-}>")[$1$],
-    edge(<s>, <x3>, "-}>")[$1$],
-    edge(<x1>, <y1>, "-}>")[$1$],
-    edge(<x1>, <y2>, "-}>")[$1$],
-    edge(<x2>, <y2>, "-}>")[$1$],
-    edge(<x3>, <y2>, "-}>")[$1$],
-    edge(<x3>, <y3>, "-}>")[$1$],
-    edge(<y1>, <t>, "-}>")[$1$],
-    edge(<y2>, <t>, "-}>")[$1$],
-    edge(<y3>, <t>, "-}>")[$1$],
+    edge(<s>, <x1>, "-}>", $1$, label-side: center, label-angle: auto, bend: 30deg),
+    edge(<s>, <x2>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<s>, <x3>, "-}>", $1$, label-side: center, label-angle: auto, bend: -30deg),
+    edge(<x1>, <y1>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<x1>, <y2>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<x2>, <y2>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<x3>, <y2>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<x3>, <y3>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<y1>, <t>, "-}>", $1$, label-side: center, label-angle: auto, bend: 30deg),
+    edge(<y2>, <t>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<y3>, <t>, "-}>", $1$, label-side: center, label-angle: auto, bend: -30deg),
   )
 ]
 
