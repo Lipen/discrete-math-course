@@ -4121,8 +4121,7 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
 
 = Network Flows
 #focus-slide(
-  epigraph: [The whole is more than the sum of its parts --- but the flow is limited by the narrowest channel.],
-  epigraph-author: "Folk theorem of network design",
+  epigraph: [The whole is more than the sum of its parts --- \ but the flow is limited by the narrowest channel.],
 )
 
 == Motivation: Moving Things Through Networks
@@ -4130,31 +4129,32 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
 Many _real-world_ problems ask: _"how much can move from A to B through a network?"_
 
 #grid(
-  columns: (1fr, 1fr, 1fr),
-  gutter: 0.8em,
+  columns: 3,
+  gutter: 2em,
   [
     *Water networks* \
-    Pipes with limited diameter connect a reservoir to a city. \
-    #v(0.3em)
-    _How much water per second can flow?_
+    Pipes with limited diameter \ connect a reservoir to a city.
+
+    _How much water \ per second can flow?_
   ],
   [
     *Internet routing* \
-    Routers connected by links with limited bandwidth. \
-    #v(0.3em)
-    _How much data can be transferred?_
+    Routers connected by links \ with limited bandwidth.
+
+    _How much data \ can be transferred?_
   ],
   [
     *Supply chains* \
-    Factories, warehouses, trucks with limited capacity. \
-    #v(0.3em)
-    _How many goods can be shipped?_
+    Factories, warehouses, trucks \ with limited capacity.
+
+    _How many goods \ can be shipped?_
   ],
 )
 
 #v(0.5em)
 #Block(color: yellow)[
-  *The abstraction:* All three are instances of the same mathematical structure --- a _flow network_. Once we solve the abstract problem, all concrete instances are solved.
+  *The abstraction:* All three are instances of the same mathematical structure --- a _flow network_.
+  Once we solve the abstract problem, all concrete instances are solved.
 ]
 
 #Block(color: blue)[
@@ -4167,9 +4167,9 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
   A _flow network_ is a tuple $N = angle.l V, E, s, t, c angle.r$ where:
   - $G = angle.l V, E angle.r$ is a directed graph,
   - $s in V$ is the _source_ and $t in V$ is the _sink_ (with $s != t$),
-  - $c : E to RR_(>=0)$ is the _capacity_ function assigning a non-negative capacity to each edge.
+  - $c : E to RR_(>=0)$ is the _capacity_ function assigning a non-negative real number to each edge.
 
-  We extend $c$ to all pairs: $c(u, v) = 0$ if $(u, v) notin E$.
+  We extend $c$ to all pairs: $c(u, v) = 0$ whenever $(u, v) notin E$.
 ]
 
 #import fletcher: diagram, edge, node
@@ -4209,15 +4209,13 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
     $
       underbrace(sum_(e in fIn(v)) f(e), "flow into" v) = underbrace(sum_(e in fOut(v)) f(e), "flow out of" v)
     $
-    where $fIn(v)$ and $fOut(v)$ denote the incoming and outgoing edges of $v$.
+    where $fIn(v)$ and $fOut(v)$ denote the sets of incoming and outgoing edges of $v$.
 ]
 
 #Block(color: yellow)[
-  *Intuition:* Flow conservation is "what goes in must come out" --- no vertex stores or creates flow. Only $s$ produces flow and $t$ absorbs it.
-]
+  Flow conservation embodies _"what goes in must come out"_ --- no vertex stores or creates flow.
 
-#example[
-  With the network above, a valid flow satisfies: every edge carries between 0 and its capacity, and at every intermediate node, inflow equals outflow.
+  Only $s$ _produces_ flow and $t$ _absorbs_ it.
 ]
 
 == Flow Value
@@ -4225,7 +4223,8 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 #definition[
   The _value_ of a flow $f$, denoted $|f|$, is the net flow out of the source:
   $
-    |f| = underbrace(sum_(e in fOut(s)) f(e), "out of" s) - underbrace(sum_(e in fIn(s)) f(e), "into" s "(" = 0 "if no back-edges)")
+    |f| = underbrace(sum_(e in fOut(s)) f(e), "out of" s)
+    - underbrace(sum_(e in fIn(s)) f(e), "into" s "(= 0 if no back-edges)")
   $
 ]
 
@@ -4234,28 +4233,32 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 ]
 
 #theorem[
-  For any feasible flow $f$: the net flow out of $s$ equals the net flow into $t$.
+  For any feasible flow $f$, the net flow out of $s$ equals the net flow into $t$:
   $
     |f| = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e)
   $
 ]
 
 #proof[
-  Sum the conservation equation over all internal vertices $v in V setminus {s,t}$:
+  Add the conservation equation $f^"in"(v) - f^"out"(v) = 0$ for every $v in V setminus {s, t}$ to both sides of $|f| = f^"out"(s) - f^"in"(s)$:
   $
-    0 = sum_(v != s,t) [ f^"in"(v) - f^"out"(v) ]
-    = sum_((u,v): u != s, v != t) f(u,v) - ..
+    |f| & = f^"out"(s) - f^"in"(s) + sum_(v in V setminus {s,t}) overbrace([f^"in"(v) - f^"out"(v)], = 0) \
+        & = sum_(v in V setminus {t}) f^"out"(v) - sum_(v in V setminus {t}) f^"in"(v) \
+        & = sum_((u,v): v = t) f(u,v) - sum_((u,v): u = t) f(u,v)
+          = f^"in"(t) - f^"out"(t)
   $
-  Each edge $(u,v)$ with $u,v in V setminus {s,t}$ cancels. What remains:
-  the edges leaving $s$ (counted positively) and edges entering $t$ (counted negatively), giving $|f| = f^"in"(t) - f^"out"(t)$.
+  (Every edge $(u,v)$ with both $u,v in V setminus {s,t}$ appears once with each sign and cancels.)
 ]
 
 == A Feasible Flow: Example
 
+Each edge is labelled $f slash c$ (flow / capacity).
+Edges carrying strictly less than capacity are shown normally; _saturated_ edges ($f = c$) are red.
+
 #import fletcher: diagram, edge, node
 #align(center)[
   #diagram(
-    spacing: (2.2cm, 1.1cm),
+    spacing: (4em, 2em),
     node-shape: fletcher.shapes.circle,
     edge-stroke: 1pt,
     blob((0, 0), $s$, tint: green, name: <s>),
@@ -4264,60 +4267,71 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
     blob((1, 1), $b$, tint: blue, name: <nb>),
     blob((2, -1), $c$, tint: blue, name: <nc>),
     blob((2, 1), $d$, tint: blue, name: <nd>),
-    edge(<s>, <na>, "-}>", [$11 slash 16$], label-side: center, label-angle: auto, bend: 30deg, extrude: (
-      -2.5,
-      0,
-      2.5,
-    )),
-    edge(<s>, <nb>, "-}>", [$12 slash 13$], label-side: center, label-angle: auto, bend: -30deg, extrude: (
-      -2.5,
-      0,
-      2.5,
-    )),
-    edge(<na>, <nc>, "-}>", [$12 slash 12$], label-side: center, label-angle: auto, extrude: (-2.5, 0, 2.5)),
+    edge(<s>, <na>, "-}>", [$12 slash 16$], label-side: center, label-angle: auto, bend: 30deg),
+    edge(<s>, <nb>, "-}>", [$11 slash 13$], label-side: center, label-angle: auto, bend: -30deg),
+    edge(<na>, <nc>, "-}>", [$12 slash 12$], label-side: center, label-angle: auto, stroke: 2pt + red),
     edge(<nb>, <na>, "-}>", [$0 slash 4$], label-side: center),
-    edge(<nb>, <nd>, "-}>", [$11 slash 14$], label-side: center, label-angle: auto, extrude: (-2.5, 0, 2.5)),
+    edge(<nb>, <nd>, "-}>", [$11 slash 14$], label-side: center, label-angle: auto),
     edge(<nc>, <nb>, "-}>", [$0 slash 9$], label-side: center, label-angle: auto),
-    edge(<nc>, <t>, "-}>", [$19 slash 20$], label-side: center, label-angle: auto, bend: 30deg, extrude: (
-      -2.5,
-      0,
-      2.5,
-    )),
-    edge(<nd>, <nc>, "-}>", [$7 slash 7$], label-side: center),
-    edge(<nd>, <t>, "-}>", [$0 slash 4$], label-side: center, label-angle: auto, bend: -30deg),
+    edge(<nc>, <t>, "-}>", [$19 slash 20$], label-side: center, label-angle: auto, bend: 30deg),
+    edge(<nd>, <nc>, "-}>", [$7 slash 7$], label-side: center, stroke: 2pt + red),
+    edge(<nd>, <t>, "-}>", [$4 slash 4$], label-side: center, label-angle: auto, bend: -30deg, stroke: 2pt + red),
   )
 ]
 
-#v(0.5em)
-- At $a$: $fIn = 11$, $fOut = 12$ --- *conservation violated!*
-- This is _not_ a valid flow (just an illustration of the $f slash c$ notation).
 
-#Block(color: orange)[
-  *Exercise:* Find a valid flow with value $|f| = 23$ in this network. Verify conservation at every internal vertex.
-]
+*Flow value:* $|f| = 12 + 11 = 23$.
+
+This flow turns out to be _maximum_ --- we will prove this shortly using the Min-Cut Theorem.
 
 == Cuts
 
-#definition[
-  An _$s$-$t$ cut_ in a flow network $N$ is a partition of $V$ into two disjoint sets $A$ and $B = V setminus A$ such that $s in A$ and $t in B$.
+#definition[\
+  An _$s$-$t$ cut_ in a flow network $N$ is a partition of $V$ into two disjoint sets
+  $A$ and $B = V setminus A$ such that $s in A$ and $t in B$.
 
   The _capacity_ of a cut $(A, B)$ is the total capacity of edges crossing from $A$ to $B$:
   $
-    c(A, B) = sum_(u in A, v in B, (u,v) in E) c(u, v)
+    c(A, B) = sum_((u,v) in E,\ u in A,\ v in B) c(u, v)
   $
 ]
 
 #note[
-  Only edges _from $A$ to $B$_ count --- edges from $B$ to $A$ do not contribute to the cut capacity.
+  Only edges _from $A$ to $B$_ count --- edges from $B$ to $A$ do not contribute to cut capacity.
 ]
 
-#example[
-  In the network above, the cut $A = {s, a, b}$, $B = {c, d, t}$ has capacity:
-  $c(A, B) = c(a, c) + c(b, d) = 12 + 14 = 26$.
+#import fletcher: diagram, edge, node
+#align(center)[
+  #diagram(
+    spacing: (4em, 2em),
+    node-shape: fletcher.shapes.circle,
+    edge-stroke: 1pt,
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((3, 0), $t$, tint: red, name: <t>),
+    blob((1, -1), $a$, tint: green, name: <na>),
+    blob((1, 1), $b$, tint: green, name: <nb>),
+    blob((2, -1), $c$, tint: red, name: <nc>),
+    blob((2, 1), $d$, tint: red, name: <nd>),
+    edge(<s>, <na>, "-}>", [$16$], label-side: center, label-angle: auto, bend: 30deg),
+    edge(<s>, <nb>, "-}>", [$13$], label-side: center, label-angle: auto, bend: -30deg),
+    edge(<na>, <nc>, "-}>", [$12$], label-side: center, label-angle: auto, stroke: 2pt + red),
+    edge(<nb>, <na>, "-}>", [$4$], label-side: center),
+    edge(<nb>, <nd>, "-}>", [$14$], label-side: center, label-angle: auto, stroke: 2pt + red),
+    edge(<nc>, <nb>, "-}>", [$9$], label-side: center, label-angle: auto, stroke: gray),
+    edge(<nc>, <t>, "-}>", [$20$], label-side: center, label-angle: auto, bend: 30deg),
+    edge(<nd>, <nc>, "-}>", [$7$], label-side: center),
+    edge(<nd>, <t>, "-}>", [$4$], label-side: center, label-angle: auto, bend: -30deg),
+  )
 ]
+
+- Cut $(A, B)$ with $A = {#Green[$s, a, b$]}$, $B = {#Red[$c, d, t$]}$.
+- Red edges cross #text(green.darken(15%))[$A$]~$arrow$~#text(red.darken(15%))[$B$]: capacity $12 + 14 = 26$.
+- The gray back-edge $c arrow b$ (from $B$ to $A$) does _not_ count.
 
 #Block(color: blue)[
-  *Intuition:* Remove all edges from $A$ to $B$ and the network is "severed" --- no flow can reach $t$ from $s$. The cut capacity is the total "pipe capacity" you must destroy to stop the flow.
+  Removing all $A to B$ edges _severs_ the network --- no flow can reach $t$ from $s$.
+
+  The _cut capacity_ is the total pipe capacity you must cut to stop all flow.
 ]
 
 == Net Flow Across a Cut
@@ -4325,7 +4339,8 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 #definition[
   Given a flow $f$ and a cut $(A, B)$, the _net flow across the cut_ is:
   $
-    f(A, B) = sum_(u in A, v in B) f(u, v) - sum_(u in B, v in A) f(u, v)
+    f(A, B) = sum_((u,v) in E,\ u in A,\ v in B) f(u, v)
+    - sum_((u,v) in E,\ u in B,\ v in A) f(u, v)
   $
 ]
 
@@ -4337,144 +4352,141 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 ]
 
 #proof[
-  Expand the definition and use flow conservation. Let $A' = A setminus {s}$:
+  Let $A' = A setminus {s}$.
+  Start from $|f| = f^"out"(s) - f^"in"(s)$ and add zero (conservation at each $v in A'$):
   $
-    |f| & = f^"out"(s) - f^"in"(s) \
-        & = f^"out"(s) - f^"in"(s) + sum_(v in A') [f^"in"(v) - f^"out"(v)] quad ("conservation: each term" = 0) \
-        & = sum_(v in A) [f^"out"(v) - f^"in"(v)] \
-        & = sum_(v in A) sum_(u in V) [f(v,u) - f(u,v)] \
-        & = sum_(v in A, u in B) f(v,u) - sum_(v in A, u in B) f(u,v) = f(A,B)
+    |f| & = f^"out"(s) - f^"in"(s) + sum_(v in A') underbrace([f^"in"(v) - f^"out"(v)], = 0) = ...
   $
-  (The terms with both endpoints in $A$ cancel by skew-symmetry.)
+  $
+    & = sum_(v in A) [f^"out"(v) - f^"in"(v)] \
+    & = sum_(v in A) [sum_(u in V) f(v,u) - sum_(u in V) f(u,v)]
+  $
+  Every edge $(v, u)$ with both $v, u in A$ contributes $+f(v,u)$ in one row and $-f(v,u)$ in another, so it cancels.
+  Only edges crossing the cut remain:
+  $
+    |f| = sum_(v in A, u in B) f(v,u) - sum_(v in A, u in B) f(u,v) = f(A, B)
+    #qedhere
+  $
 ]
 
 #Block(color: yellow)[
   *Key corollary:* For any flow $f$ and any cut $(A,B)$:
-  $|f| = f(A,B) <= c(A,B)$.
-  So _every cut is an upper bound on the maximum flow!_
+  $
+    |f| = f(A,B) <= c(A,B)
+  $
+  Every cut gives an _upper bound_ on the maximum flow value.
 ]
 
 == Minimum Cut
 
 #definition[
-  The _minimum $s$-$t$ cut_ is the cut $(A, B)$ with the smallest capacity:
+  The _minimum $s$-$t$ cut_ is the $s$-$t$ cut with the smallest capacity:
   $
-    "min-cut" = min_((A,B): s in A, t in B) c(A, B)
+    c^* = min_((A,B):, s in A,, t in B) c(A, B)
   $
 ]
 
 #Block(color: blue)[
-  *Consequence of the upper bound:* $max |f| <= "min-cut capacity"$.
+  *Consequence of the upper bound:*
+  Every flow $f$ satisfies $|f| <= c(A,B)$ for every cut $(A,B)$.
 
-  The central question: *can we always achieve equality?* \
+  In particular, $|f| <= c^*$ --- no flow can exceed the minimum cut capacity.
+
+  *The central question:* can we always achieve equality? \
+
   --- Yes! This is the *Max-Flow Min-Cut Theorem*.
 ]
 
-#import fletcher: diagram, edge, node
-#align(center)[
-  #diagram(
-    spacing: (2.2cm, 1.1cm),
-    node-shape: fletcher.shapes.circle,
-    edge-stroke: 1pt,
-    blob((0, 0), $s$, tint: green, name: <s>),
-    blob((3, 0), $t$, tint: red, name: <t>),
-    blob((1, -1), $a$, tint: green, name: <na>),
-    blob((1, 1), $b$, tint: green, name: <nb>),
-    blob((2, -1), $c$, tint: red, name: <nc>),
-    blob((2, 1), $d$, tint: red, name: <nd>),
-    edge(<s>, <na>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$16$],
-    edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$13$],
-    edge(<na>, <nc>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red)[$12$],
-    edge(<nb>, <na>, "-}>", label-side: center)[$4$],
-    edge(<nb>, <nd>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red)[$14$],
-    edge(<nc>, <nb>, "-}>", label-side: center, label-angle: auto)[$9$],
-    edge(<nc>, <t>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$20$],
-    edge(<nd>, <nc>, "-}>", label-side: center)[$7$],
-    edge(<nd>, <t>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$4$],
-  )
-]
-Cut $A = {s, a, b}$, $B = {c, d, t}$: capacity $= 12 + 14 = 26$.
-
 == Residual Network
 
-To find maximum flows, we need to know: _"where can we still push more flow?"_
+To find maximum flows, we need to answer: _"where can we still push more flow?"_
 
-#definition[Residual Capacity][
-  Given flow $f$, the _residual capacity_ of an edge $(u,v)$ is:
+#definition[
+  Given a flow $f$ in network $N$, the _residual capacity_ of a pair $(u, v)$ is:
   $
     c_f (u, v) = c(u, v) - f(u, v)
   $
-  If $(u,v) notin E$ but $(v,u) in E$, then $c_f(u,v) = f(v,u)$ (we can "cancel" existing flow).
+  This covers both directions: if $(u,v) in E$ then $c_f$ is the remaining room; if $(v,u) in E$ but $(u,v) notin E$, then $c_f(u,v) = f(v,u)$ (the flow we can "cancel").
 ]
 
-#definition[Residual Network][
-  The _residual network_ $N_f$ has:
-  - _Forward edge_ $(u,v)$ with capacity $c(u,v) - f(u,v)$, whenever $f(u,v) < c(u,v)$.
-  - _Backward edge_ $(v,u)$ with capacity $f(u,v)$, whenever $f(u,v) > 0$.
+#v(-0.5em)
 
-  Only edges with strictly positive residual capacity appear in $N_f$.
+#definition[
+  The _residual network_ $N_f$ consists of all pairs $(u,v)$ with $c_f(u,v) > 0$:
+  - _Forward edge_ $(u,v)$: present when $f(u,v) < c(u,v)$, with capacity $c(u,v) - f(u,v)$.
+  - _Backward edge_ $(v,u)$: present when $f(u,v) > 0$, with capacity $f(u,v)$.
 ]
 
 #Block(color: yellow)[
-  *Intuition:* A _forward_ edge means "I can send more flow this way." A _backward_ edge means "I can reduce the flow on this edge" (equivalent to routing around it).
+  *Intuition:*
+  A _forward_ edge says "I can send more flow this way."
+  A _backward_ edge says "I can reduce the flow on this edge"
+  --- equivalent to rerouting that flow elsewhere.
 ]
 
 == Residual Network: Example
 
-#import fletcher: diagram, edge, node
-#grid(
-  columns: (1fr, 1fr),
-  column-gutter: 1em,
-  [
-    *Network with flow $f$*
-    #align(center)[
-      #diagram(
-        spacing: (1.8cm, 1cm),
-        node-shape: fletcher.shapes.circle,
-        edge-stroke: 1pt,
-        blob((0, 0), $s$, tint: green, name: <s>),
-        blob((2, 0), $t$, tint: red, name: <t>),
-        blob((1, -1), $a$, tint: blue, name: <na>),
-        blob((1, 1), $b$, tint: blue, name: <nb>),
-        edge(<s>, <na>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: 15deg)[$20 slash 20$],
-        edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$0 slash 10$],
-        edge(<na>, <nb>, "-}>", label-side: center)[$10 slash 30$],
-        edge(<na>, <t>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$0 slash 10$],
-        edge(<nb>, <t>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: -15deg)[$20 slash 20$],
-      )
-    ]
-    $|f| = 20$; saturated edges in _red_.
-  ],
-  [
-    *Residual network $N_f$*
-    #align(center)[
-      #diagram(
-        spacing: (1.8cm, 1cm),
-        node-shape: fletcher.shapes.circle,
-        edge-stroke: 1pt,
-        blob((0, 0), $s$, tint: green, name: <s>),
-        blob((2, 0), $t$, tint: red, name: <t>),
-        blob((1, -1), $a$, tint: blue, name: <na>),
-        blob((1, 1), $b$, tint: blue, name: <nb>),
-        edge(<na>, <s>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: 15deg)[$20$],
-        edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$10$],
-        edge(<na>, <nb>, "-}>", label-side: center, bend: 20deg)[$10$],
-        edge(<nb>, <na>, "<{-", label-side: center, bend: 20deg)[$20$],
-        edge(<na>, <t>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$10$],
-        edge(<t>, <nb>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: -15deg)[$20$],
-      )
-    ]
-    Red backward edges: "undo" capacity. \
-    $s arrow.r b arrow.r a arrow.r t$: an augmenting path!
-  ],
-)
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #grid(
+    columns: 2,
+    align: left,
+    column-gutter: 2em,
+    [
+      #align(center)[
+        *Network with flow $f$* \
+        #diagram(
+          spacing: (1.8cm, 1cm),
+          node-shape: fletcher.shapes.circle,
+          edge-stroke: 1pt,
+          blob((0, 0), $s$, tint: green, name: <s>),
+          blob((2, 0), $t$, tint: red, name: <t>),
+          blob((1, -1), $a$, tint: blue, name: <na>),
+          blob((1, 1), $b$, tint: blue, name: <nb>),
+          edge(<s>, <na>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: 30deg)[$20 slash 20$],
+          edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -30deg)[$0 slash 10$],
+          edge(<na>, <nb>, "-}>", label-side: center)[$10 slash 30$],
+          edge(<na>, <t>, "-}>", label-side: center, label-angle: auto, bend: 30deg)[$0 slash 10$],
+          edge(<nb>, <t>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: -30deg)[$20 slash 20$],
+        )
+      ]
+
+      $|f| = 20$; saturated edges are #Red[red].
+    ],
+    [
+      #align(center)[
+        *Residual network $N_f$* \
+        #diagram(
+          spacing: (1.8cm, 1cm),
+          node-shape: fletcher.shapes.circle,
+          edge-stroke: 1pt,
+          blob((0, 0), $s$, tint: green, name: <s>),
+          blob((2, 0), $t$, tint: red, name: <t>),
+          blob((1, -1), $a$, tint: blue, name: <na>),
+          blob((1, 1), $b$, tint: blue, name: <nb>),
+          edge(<na>, <s>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: -30deg)[$20$],
+          edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -30deg)[$10$],
+          edge(<na>, <nb>, "-}>", label-side: center, bend: 30deg)[$10$],
+          edge(<nb>, <na>, "<{-", label-side: center, bend: 30deg)[$20$],
+          edge(<na>, <t>, "-}>", label-side: center, label-angle: auto, bend: 30deg)[$10$],
+          edge(<t>, <nb>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: 30deg)[$20$],
+        )
+      ]
+
+      #Red[Red] backward edges: "undo" capacity.
+
+      Path $s -> b -> a -> t$ exists in $N_f$: \
+      an *augmenting path* with bottleneck 10!
+    ],
+  )
+]
 
 == Augmenting Paths
 
 #definition[
-  An _augmenting path_ is an $s$-$t$ path in the residual network $N_f$ (every edge has positive residual capacity).
+  An _augmenting path_ is an $s$-$t$ path $P$ in the residual network $N_f$ (every edge in $P$ has positive residual capacity).
 
-  The _bottleneck_ of the path is $Delta = min_(e in P) c_f(e)$.
+  The _bottleneck_ of $P$ is $Delta = min_(e in P) c_f(e) > 0$.
 ]
 
 #theorem[
@@ -4489,11 +4501,17 @@ To find maximum flows, we need to know: _"where can we still push more flow?"_
 ]
 
 #proof[
-  *Capacity:* For forward edges in $P$: $f'(u,v) = f(u,v) + Delta <= f(u,v) + c_f(u,v) = c(u,v)$. \ For backward edges: $f'(u,v) = f(u,v) - Delta >= 0$. Both bounds hold.
+  *Capacity:*
+  For a forward path edge $(u,v)$:
+  $f'(u,v) = f(u,v) + Delta <= f(u,v) + c_f(u,v) = c(u,v)$ and $f'(u,v) >= 0$.
+  For a backward path edge $(v,u) in P$ (i.e., $(u,v)$ is a real edge used in reverse): $f'(u,v) = f(u,v) - Delta >= 0$ since $Delta <= c_f(v,u) = f(u,v)$.
 
-  *Conservation:* Each internal vertex of $P$ has one edge entering and one leaving in $P$ --- the $+Delta$ and $-Delta$ contributions cancel. Other vertices are unchanged.
+  *Conservation:*
+  Each internal vertex $v$ of $P$ has exactly one edge of $P$ entering and one leaving.
+  The $+Delta$ and $-Delta$ contributions cancel, so conservation is preserved.
 
-  *Value:* The path starts at $s$ with a forward edge, so $|f'| = |f| + Delta$.
+  *Value:*
+  The first edge of $P$ out of $s$ is a forward edge (since $s$ has no incoming path edges), so $|f'| = |f| + Delta$.
 ]
 
 == Ford-Fulkerson Algorithm
@@ -4514,29 +4532,30 @@ To find maximum flows, we need to know: _"where can we still push more flow?"_
   + *return* $f$
 ]
 
-#note[
-  _Termination:_ For integer capacities, each iteration increases $|f|$ by at least 1, so the algorithm terminates in at most $|f^*|$ steps (where $f^*$ is the optimal flow).
+#note(title: "Termination condition")[
+  For integer capacities, each iteration increases $|f|$ by at least 1, so the algorithm terminates in at most $|f^*|$ steps.
 ]
 
 #Block(color: orange)[
-  *Warning:* With real-valued capacities, Ford-Fulkerson may not terminate! Bad path choices can loop forever (Zwick's example). This motivates Edmonds-Karp.
+  *Warning:*
+  With irrational capacities, Ford-Fulkerson may not terminate --- augmenting paths can reduce flow along one edge while increasing along another in an infinite cycle. \
+  This motivates Edmonds-Karp (always use BFS).
 ]
 
 == Ford-Fulkerson: Worked Example
 
-#import fletcher: diagram, edge, node
-
 #align(center)[
+  #import fletcher: diagram, edge, node, shapes
   #grid(
-    columns: (auto, auto),
-    column-gutter: 2em,
-    align: left,
+    columns: 3,
+    column-gutter: 1.5em,
+    align: top,
     [
-      *Step 0 --- Initial network* (all flows = 0)
+      *Step 0: $|f| = 0$*
 
       #diagram(
-        spacing: (1.5cm, 0.6cm),
-        node-shape: fletcher.shapes.circle,
+        spacing: (2em, 2em),
+        node-shape: shapes.circle,
         edge-stroke: 1pt,
         blob((0, 0), $s$, tint: green, name: <s>),
         blob((3, 0), $t$, tint: red, name: <t>),
@@ -4544,22 +4563,22 @@ To find maximum flows, we need to know: _"where can we still push more flow?"_
         blob((1, 1), $b$, tint: blue, name: <nb>),
         blob((2, -1), $c$, tint: blue, name: <nc>),
         blob((2, 1), $d$, tint: blue, name: <nd>),
-        edge(<s>, <na>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$4$],
-        edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$2$],
-        edge(<na>, <nc>, "-}>", label-side: center, label-angle: auto)[$3$],
-        edge(<nb>, <nd>, "-}>", label-side: center, label-angle: auto)[$3$],
-        edge(<nb>, <nc>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$2$],
-        edge(<nc>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$1$],
-        edge(<nc>, <t>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$2$],
-        edge(<nd>, <t>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$4$],
+        edge(<s>, <na>, "-}>", [$4$], label-side: center, label-angle: auto, bend: 20deg),
+        edge(<s>, <nb>, "-}>", [$2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(<na>, <nc>, "-}>", [$3$], label-side: center, label-angle: auto),
+        edge(<nb>, <nd>, "-}>", [$3$], label-side: center, label-angle: auto),
+        edge(<nb>, <nc>, "-}>", [$2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(<nc>, <nb>, "-}>", [$1$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(<nc>, <t>, "-}>", [$2$], label-side: center, label-angle: auto, bend: 20deg),
+        edge(<nd>, <t>, "-}>", [$4$], label-side: center, label-angle: auto, bend: -20deg),
       )
     ],
     [
-      *Step 1* --- path $s arrow.r b arrow.r c arrow.r t$ ($Delta = 2$)
+      *Step 1: $s -> b -> c -> t$, $Delta = 2$*
 
       #diagram(
-        spacing: (1.5cm, 0.6cm),
-        node-shape: fletcher.shapes.circle,
+        spacing: (2em, 2em),
+        node-shape: shapes.circle,
         edge-stroke: 1pt,
         blob((0, 0), $s$, tint: green, name: <s>),
         blob((3, 0), $t$, tint: red, name: <t>),
@@ -4567,38 +4586,106 @@ To find maximum flows, we need to know: _"where can we still push more flow?"_
         blob((1, 1), $b$, tint: blue, name: <nb>),
         blob((2, -1), $c$, tint: blue, name: <nc>),
         blob((2, 1), $d$, tint: blue, name: <nd>),
-        edge(<s>, <na>, "-}>", label-side: center, label-angle: auto, bend: 15deg)[$0 slash 4$],
-        edge(<s>, <nb>, "-}>", label-side: center, stroke: green + 1.5pt, label-angle: auto, bend: -15deg)[$2 slash 2$],
-        edge(<na>, <nc>, "-}>", label-side: center, label-angle: auto)[$0 slash 3$],
-        edge(<nb>, <nd>, "-}>", label-side: center, label-angle: auto)[$0 slash 3$],
+        edge(<s>, <na>, "-}>", [$0 slash 4$], label-side: center, label-angle: auto, bend: 20deg),
+        edge(
+          <s>,
+          <nb>,
+          "-}>",
+          [$2 slash 2$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+          bend: -20deg,
+        ),
+        edge(<na>, <nc>, "-}>", [$0 slash 3$], label-side: center, label-angle: auto),
+        edge(<nb>, <nd>, "-}>", [$0 slash 3$], label-side: center, label-angle: auto),
         edge(
           <nb>,
           <nc>,
           "-}>",
+          [$2 slash 2$],
           label-side: center,
           stroke: green + 1.5pt,
           label-angle: auto,
-          bend: -15deg,
-        )[$2 slash 2$],
-        edge(<nc>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$0 slash 1$],
-        edge(<nc>, <t>, "-}>", label-side: center, stroke: green + 1.5pt, label-angle: auto, bend: 15deg)[$2 slash 2$],
-        edge(<nd>, <t>, "-}>", label-side: center, label-angle: auto, bend: -15deg)[$0 slash 4$],
+          bend: -20deg,
+        ),
+        edge(<nc>, <nb>, "-}>", [$0 slash 1$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <nc>,
+          <t>,
+          "-}>",
+          [$2 slash 2$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+          bend: 20deg,
+        ),
+        edge(<nd>, <t>, "-}>", [$0 slash 4$], label-side: center, label-angle: auto, bend: -20deg),
       )
     ],
-  )
-]
+    [
+      *Step 2: $s -> a -> c -> b -> d -> t$, $Delta = 3$*
 
-*Step 2* --- path $s arrow.r a arrow.r c arrow.r b arrow.r d arrow.r t$ ($Delta = 3$) --- pushes 3 more units
+      #diagram(
+        spacing: (2em, 2em),
+        node-shape: shapes.circle,
+        edge-stroke: 1pt,
+        blob((0, 0), $s$, tint: green, name: <s>),
+        blob((3, 0), $t$, tint: red, name: <t>),
+        blob((1, -1), $a$, tint: blue, name: <na>),
+        blob((1, 1), $b$, tint: blue, name: <nb>),
+        blob((2, -1), $c$, tint: blue, name: <nc>),
+        blob((2, 1), $d$, tint: blue, name: <nd>),
+        edge(
+          <s>,
+          <na>,
+          "-}>",
+          [$3 slash 4$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+          bend: 20deg,
+        ),
+        edge(<s>, <nb>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(<na>, <nc>, "-}>", [$3 slash 3$], label-side: center, stroke: green + 1.5pt, label-angle: auto),
+        edge(<nb>, <nd>, "-}>", [$3 slash 3$], label-side: center, stroke: green + 1.5pt, label-angle: auto),
+        edge(<nb>, <nc>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <nc>,
+          <nb>,
+          "-}>",
+          [$1 slash 1$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+          bend: -20deg,
+        ),
+        edge(<nc>, <t>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: 20deg),
+        edge(
+          <nd>,
+          <t>,
+          "-}>",
+          [$3 slash 4$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+          bend: -20deg,
+        ),
+      )
+    ],
+  )]
 
-*After step 2:* $|f| = 5$, and no more augmenting paths exist. Maximum flow achieved!
+*After step 2:* $|f| = 5$.
+No augmenting path exists in the residual network --- the algorithm terminates.
 
 #Block(color: yellow)[
-  *Observation:* In step 2, the path uses backward edge $c arrow.r b$ --- "cancelling" 1 unit of flow from $b arrow.r c$.
+  Step 2 uses the _backward_ edge $c arrow b$ in the residual network (cancelling 1 unit of the $b arrow c$ flow from step 1) and then routes through $d$.
+  Without backward edges, this path would not be possible.
 ]
 
 == Max-Flow Min-Cut Theorem
 
-#theorem[Ford-Fulkerson][
+#theorem[
   In any flow network $N$, the following three conditions are _equivalent_:
   + $f$ is a _maximum flow_.
   + There is _no augmenting path_ in the residual network $N_f$.
@@ -4607,31 +4694,38 @@ To find maximum flows, we need to know: _"where can we still push more flow?"_
   Moreover, when these hold, $(A, B)$ is a _minimum cut_.
 ]
 
-This is one of the deepest results in combinatorics --- it equates two seemingly unrelated quantities.
+This is one of the deepest results in combinatorics --- it equates two seemingly unrelated quantities: the maximum achievable flow and the minimum bottleneck capacity.
 
 == Max-Flow Min-Cut: Proof
 
-#proof[(1 $imply$ 2)][
-  _Contrapositive:_ if there is an augmenting path, its bottleneck is positive, so we can increase $|f|$ --- contradicting maximality.
+#proof[(1 $imply$ 2) Contrapositive][
+  If an augmenting path $P$ exists, its bottleneck $Delta > 0$, so we can increase $|f|$.
+  Hence $f$ was not maximum.
 ]
 
 #proof[(3 $imply$ 1)][
-  Since $|f| = f(A,B) <= c(A,B)$ for _every_ cut (proved earlier), and $|f| = c(A,B)$ for this specific cut, no flow can be larger. So $f$ is maximum.
+  For _any_ flow $f'$ and _any_ cut $(A,B)$ we showed $|f'| <= c(A,B)$.
+  Since $|f| = c(A,B)$ for this particular cut, no flow can exceed $|f|$.
+  So $f$ is maximum.
 ]
 
 #proof[(2 $imply$ 3)][
-  Define $A = { v in V | exists "path" s arrow.squiggly v "in" N_f}$.
-  Since there is no augmenting path, $t notin A$. Set $B = V setminus A$.
+  Define $A = { v in V mid exists "path" s arrow.squiggly v "in" N_f }$.
+  Since no augmenting path exists, $t notin A$.
+  Set $B = V setminus A$.
 
-  For any $u in A$, $v in B$ with $(u,v) in E$:
-  - $c_f(u,v) = 0$ (otherwise $v$ would be reachable, contradicting $v in B$).
-  - So $f(u,v) = c(u,v)$: all edges from $A$ to $B$ are _saturated_.
+  _All $A to B$ edges are saturated:_ if $(u,v) in E$ with $u in A$, $v in B$ had $c_f(u,v) > 0$, then $v$ would be reachable from $s$, contradicting $v in B$.
+  Hence $f(u,v) = c(u,v)$ for all such edges.
 
-  For any $u in B$, $v in A$ with $(u,v) in E$:
-  - $c_f(v,u) = f(u,v)$ must be 0 (otherwise $v$ would reach $u$, but $u in B$... actually, since $v in A$, the backward edge $u to v$ in $N_f$ would have extended the reachability --- contradiction).
-  - So $f(u,v) = 0$: all edges from $B$ to $A$ carry _zero_ flow.
+  _All $B to A$ edges carry zero flow:_ if $(u,v) in E$ with $u in B$, $v in A$ had $f(u,v) > 0$, then $c_f(v,u) = f(u,v) > 0$, so the backward edge $v to u$ would be in $N_f$, making $u$ reachable --- contradicting $u in B$.
 
-  Therefore: $|f| = f(A,B) = c(A,B)$.
+  Therefore:
+  $
+    |f| = f(A,B) = sum_((u,v): u in A, v in B) underbrace(f(u,v), = c(u,v))
+    - sum_((u,v): u in B, v in A) underbrace(f(u,v), = 0)
+    = c(A,B)
+    #qedhere
+  $
 ]
 
 == Max-Flow Min-Cut: Visualization
@@ -4679,19 +4773,22 @@ This is one of the deepest results in combinatorics --- it equates two seemingly
 
 == Edmonds-Karp Algorithm
 
-Ford-Fulkerson doesn't specify _which_ augmenting path to use. A bad choice can lead to:
-- Non-termination with real capacities
-- $O(|f^*| \cdot E)$ complexity with integer capacities --- slow for large $|f^*|$
+Ford-Fulkerson leaves the choice of augmenting path _unspecified_.
+A poor choice can lead to:
+- Non-termination with irrational capacities.
+- $O(|f^*| dot E)$ iterations with integer capacities --- slow when $|f^*|$ is large.
 
 #Block(color: blue)[
   *Edmonds-Karp (1972):* Always choose the _shortest_ augmenting path (fewest edges), found by BFS.
 ]
 
 #theorem[
-  Edmonds-Karp runs in $O(V E^2)$ time --- independent of capacity values.
+  Edmonds-Karp runs in $O(V E^2)$ time --- independent of the capacity values.
 ]
 
-The key insight: with BFS, the length of the shortest augmenting path is _non-decreasing_ across iterations, and each edge can become a bottleneck at most $O(V)$ times.
+The key insight: with BFS shortest paths, the distance from $s$ to every vertex is non-decreasing across iterations.
+Each edge can become a bottleneck at most $O(V)$ times.
+Hence the total number of augmentations is $O(V E)$, and each BFS costs $O(E)$.
 
 #pagebreak()
 
@@ -4702,9 +4799,9 @@ The key insight: with BFS, the length of the shortest augmenting path is _non-de
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Algorithm*], [*Time complexity*], [*Key idea*]),
     [Ford-Fulkerson], [$O(|f^*| dot E)$], [Any augmenting path],
-    [Edmonds-Karp], [$O(V E^2)$], [BFS (shortest path)],
+    [Edmonds-Karp], [$O(V E^2)$], [BFS shortest augmenting path],
     [Dinic's], [$O(V^2 E)$], [Blocking flows in level graph],
-    [Push-relabel], [$O(V^2 sqrt(E))$], [Local height-based pushes],
+    [Push-relabel], [$O(V^2 sqrt(E))$], [Height-based local pushes],
   )
 ]
 
@@ -4715,26 +4812,29 @@ The key insight: with BFS, the length of the shortest augmenting path is _non-de
 ]
 
 #proof[
-  Ford-Fulkerson initialized with $f = 0$ (integer).
+  Ford-Fulkerson starts with $f = 0$ (integer).
   At each step, the bottleneck $Delta$ is the minimum of integer residual capacities --- hence an integer.
-  Flow is updated by adding integers. By induction, the final flow is integer-valued.
+  Augmenting adds $Delta$ to each edge on the path.
+  By induction, every flow value remains an integer throughout, so the final flow is integer-valued.
 ]
 
 #Block(color: yellow)[
-  *Why this matters:* Many combinatorial problems (matchings, disjoint paths) naturally have integer optimal solutions --- the Integrality Theorem guarantees this rigorously via max-flow.
+  *Why this matters:* Many combinatorial problems (matchings, disjoint paths, covers) naturally have integer optimal solutions.
+  The Integrality Theorem guarantees this rigorously: run max-flow on the right network to get an integer solution.
 ]
 
 
 = Applications of Max-Flow
 #focus-slide(
-  epigraph: [A good algorithm is one that solves a hard problem by reducing it to an easy one.],
-  epigraph-author: "Algorithmic folklore",
+  epigraph: [A good algorithm is one that solves a hard problem \ by reducing it to an easy one.],
 )
 
 == Overview: Max-Flow as a Meta-Theorem
 
 #Block(color: blue)[
-  *The power of reduction:* Many combinatorial problems can be formulated as max-flow problems. Solving them becomes: _"construct the right network, then run Edmonds-Karp."_
+  *The power of reduction:* Many combinatorial optimization problems can be formulated as max-flow instances.
+  Solving them reduces to: _"construct the right network, then run Edmonds-Karp."_
+  Correctness follows from Max-Flow Min-Cut; efficiency is $O(V E^2)$.
 ]
 
 #grid(
@@ -4772,20 +4872,25 @@ The key insight: with BFS, the length of the shortest augmenting path is _non-de
 
 == Application 1: Maximum Bipartite Matching
 
-*Problem:* Given bipartite graph $G = (X union Y, E)$, find the largest matching.
+*Problem:*
+Given bipartite graph $G = (X union Y, E)$, find the largest matching.
 
-*Reduction:* Construct flow network:
+*Reduction:*
+Construct a flow network:
 - Add super-source $s$ with edge $s arrow x$ of capacity 1 for all $x in X$.
 - Add super-sink $t$ with edge $y arrow t$ of capacity 1 for all $y in Y$.
 - Keep original edges $X times Y$ with capacity 1.
 - Run max-flow on this network.
 
 #theorem[
-  The maximum flow in this network equals the maximum matching in $G$.
+  The maximum flow in this network equals the size of the maximum matching in $G$.
 ]
 
 #proof[
-  Any integer flow of value $k$ picks $k$ unit-flow paths $s arrow x_i arrow y_i arrow t$ --- these correspond to $k$ matching edges, all distinct (since each $x_i$ and $y_j$ has degree 1 toward $s$/$t$). Conversely, any matching gives a unit flow. By integrality, optimal.
+  Any integer flow of value $k$ consists of $k$ unit-flow paths $s arrow x_i arrow y_i arrow t$.
+  These correspond to $k$ matching edges, pairwise distinct (each $x_i$ and $y_j$ has unit capacity toward $s$/$t$, so no two paths share an endpoint).
+  Conversely, any matching of size $k$ gives a feasible integer flow of value $k$.
+  By the Integrality Theorem, a maximum integer flow exists and equals the maximum matching.
 ]
 
 #import fletcher: diagram, edge, node
@@ -4825,22 +4930,32 @@ The key insight: with BFS, the length of the shortest augmenting path is _non-de
 #proof[(via max-flow)][
   Let the max-flow (= max matching) have value $k$.
 
-  By Max-Flow Min-Cut, there is a cut $(A, B)$ with $c(A, B) = k$. In the unit-capacity bipartite network, each cut edge corresponds to one vertex ($s$-side edges to $x \in X$, $t$-side edges to $y \in Y$). These vertices form a vertex cover of size $k$.
+  By Max-Flow Min-Cut, there exists a cut $(A, B)$ with $c(A, B) = k$.
+  In this unit-capacity bipartite network, every finite-capacity cut edge corresponds to exactly one vertex: a $s$-side cut edge $s arrow x$ (capacity 1) to some $x in X$, or a $t$-side cut edge $y arrow t$ (capacity 1) to some $y in Y$.
+  The set of these vertices forms a vertex cover of size $k$ (every original edge $x y in E$ must be covered, for otherwise the path $s arrow x arrow y arrow t$ would cross the cut at zero cost, yielding $c(A,B) < k$).
 
-  Conversely, any vertex cover gives a cut of the same size.
+  Conversely, any vertex cover of size $k$ defines a cut of capacity $k$.
+  Hence $"max matching" = k = "min vertex cover"$.
 ]
 
 #Block(color: yellow)[
-  *Deeper:* This is an instance of _LP duality_ --- the LP relaxation of max matching and min cover are dual programs, and integrality means the LP optimum equals the integer optimum for bipartite graphs.
+  *Deeper:* König's theorem is an instance of _LP duality_.
+  The LP relaxations of max matching and min vertex cover are dual programs.
+  For bipartite graphs, both LPs have integer optimal solutions, so the LP optimum equals the integer optimum --- and the two coincide.
 ]
 
 == Application 3: Menger's Theorem via Max-Flow
 
-*Edge-disjoint paths:* Replace each undirected edge $\{u,v\}$ with two directed edges $(u,v)$ and $(v,u)$, each with capacity 1. Max flow from $s$ to $t$ = maximum number of edge-disjoint $s$-$t$ paths. *Min cut* = minimum edge separator --- this is exactly *Menger's theorem (edge form)*.
+*Edge-disjoint paths:*
+Replace each undirected edge $\{u,v\}$ with two directed edges $(u,v)$ and $(v,u)$, each of capacity 1.
+The max flow from $s$ to $t$ equals the maximum number of edge-disjoint $s$-$t$ paths.
+The min cut equals the minimum edge separator --- this is precisely *Menger's theorem (edge form)*.
 
 ---
 
-*Vertex-disjoint paths:* Replace each internal vertex $v$ with two vertices $v_"in"$ and $v_"out"$ connected by an edge of capacity 1. Keep original edges unchanged (capacity $infinity$).
+*Vertex-disjoint paths:*
+Replace each internal vertex $v$ with a pair $v_"in", v_"out"$ connected by an edge of capacity 1.
+All original edges become arcs from $u_"out"$ to $v_"in"$ with capacity $infinity$.
 
 #import fletcher: diagram, edge, node
 #align(center)[
@@ -4864,24 +4979,32 @@ The key insight: with BFS, the length of the shortest augmenting path is _non-de
   )
 ]
 
-Max flow in this network = max vertex-disjoint $s$-$t$ paths. Min cut = minimum vertex separator = *Menger's theorem (vertex form)*.
+The max flow in this network equals the maximum number of internally vertex-disjoint $s$-$t$ paths.
+The min cut equals the minimum vertex separator --- this is *Menger's theorem (vertex form)*.
 
 == Application 4: Project Selection (Closure Problem)
 
-*Problem:* You have a set of _projects_ $P$, each with a profit $p_i$ (positive or negative). Some projects _depend on_ others: if you select $i$, you must also select $j$ for each dependency $i arrow j$. Find a feasible set $S subset.eq P$ maximizing $sum_(i in S) p_i$.
+*Problem:*
+You have a set of _projects_ $P$, each with a profit $p_i$ (which may be negative).
+Some projects _depend on_ others: selecting $i$ forces you to also select $j$ for each dependency $i arrow j$.
+Find a feasible set $S subset.eq P$ maximizing $sum_(i in S) p_i$.
 
 *Reduction to min-cut:*
 - Source $s$, sink $t$.
-- For profitable project $i$ ($p_i > 0$): edge $s arrow i$ with capacity $p_i$.
-- For costly project $i$ ($p_i < 0$): edge $i arrow t$ with capacity $|p_i|$.
-- For dependency $i arrow j$: edge $i arrow j$ with capacity $infinity$.
+- For each profitable project $i$ ($p_i > 0$): add edge $s arrow i$ with capacity $p_i$.
+- For each costly project $i$ ($p_i < 0$): add edge $i arrow t$ with capacity $|p_i|$.
+- For each dependency $i arrow j$: add edge $i arrow j$ with capacity $infinity$.
 
 #theorem[
-  Max profit $= (sum_(p_i > 0) p_i) - "min cut"(s, t)$.
+  $"Max profit" = (sum_(p_i > 0) p_i) - "min cut"(s, t)$.
 ]
 
 #Block(color: blue)[
-  *Intuition:* The min cut separates "selected" ($A$) from "not selected" ($B$). Cutting an $s arrow i$ edge means including project $i$ creates no profit (we "give up" $p_i$). Cutting $j arrow t$ means project $j$ is in $B$ (unselected): costs $|p_j|$. Infinite edges can't be cut, enforcing dependencies.
+  *Intuition:*
+  The min cut separates _selected_ ($A$, containing $s$) from _not selected_ ($B$, containing $t$).
+  Cutting $s arrow i$ means forgoing the profit of project $i$.
+  Cutting $j arrow t$ means project $j$ is excluded at cost $|p_j|$.
+  Infinite-capacity dependency edges cannot be cut, enforcing the selection constraints.
 ]
 
 == Real-World Applications
@@ -4905,16 +5028,19 @@ Max flow in this network = max vertex-disjoint $s$-$t$ paths. Min cut = minimum 
 
 #v(0.5em)
 #Block(color: teal)[
-  *Historical note:* The max-flow min-cut theorem was proved independently by Ford & Fulkerson (1956) and Elias, Feinstein & Shannon (1956) --- the latter motivated by information theory. It connects graph theory, linear programming, and combinatorial optimization.
+  *Historical note:* The Max-Flow Min-Cut theorem was proved independently by Ford & Fulkerson (1956) and by Elias, Feinstein & Shannon (1956) --- the latter motivated by information theory.
+  It is one of the landmark results connecting graph theory, linear programming, and combinatorics.
 ]
 
 #Block(color: yellow)[
-  *Baseball elimination:* Team $i$ is _eliminated_ from winning iff the max flow in a specific network is less than a threshold. This surprised many baseball fans who thought the standings were trivial to analyze!
+  *Baseball elimination (Schwartz 1966):* Team $i$ is _eliminated_ from winning if and only if the max flow in a specific network falls below a threshold.
+  This surprised many sports analysts who assumed playoff standings were easy to compute by hand!
 ]
 
 == Edmonds-Karp: Implementation
 
-The key insight for implementation: use BFS to find shortest augmenting paths, store the _residual graph_ as an adjacency structure with explicit reverse edges.
+The implementation follows directly from the algorithm: use BFS to find the shortest augmenting path, then update the residual graph by augmenting along it.
+Store the residual graph as an adjacency structure with explicit reverse edges.
 
 ```python
 from collections import deque
@@ -4957,7 +5083,9 @@ def max_flow(cap, s, t):
 ```
 
 #note[
-  `cap` is a dictionary of dictionaries. Initialize with `cap[v][u] = 0` for all reverse edges. The `+= path_flow` on line 27 creates the backward edge automatically.
+  `cap` is a dictionary of dictionaries.
+  Initialize `cap[v][u] = 0` for every reverse edge before running.
+  The `cap[v][u] += path_flow` line automatically maintains the residual backward capacity.
 ]
 
 == Summary: Network Flow Landscape
@@ -4979,7 +5107,8 @@ def max_flow(cap, s, t):
 
 #v(0.3em)
 #Block(color: yellow)[
-  *Meta-theorem:* Max-Flow Min-Cut is a special case of _LP duality_ (strong duality of linear programming). Many "maximum equals minimum" theorems in combinatorics (Hall, König, Menger, Dilworth) are instances of this single principle.
+  *Meta-theorem:* Max-Flow Min-Cut is a special case of _LP strong duality_.
+  Many "maximum equals minimum" results in combinatorics --- Hall, König, Menger, Dilworth --- are all instances of this single unifying principle.
 ]
 
 == Network Flows: Exercises
