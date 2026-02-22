@@ -31,9 +31,6 @@ image:https://img.shields.io/badge/Course Syllabus-Discrete Math-blue?style=soci
 |image:https://img.shields.io/badge/Lecture-Graph Theory-blue?style=social&logo=gitbook["Lecture: Graph Theory", link="https://lipen.github.io/discrete-math-course/lec-graphs.pdf"]
 |image:https://img.shields.io/badge/Homework 5-Graph Theory-blue?style=social&logo=gitbook["Homework 5: Graph Theory", link="https://lipen.github.io/discrete-math-course/hw5.pdf"]
 
-|image:https://img.shields.io/badge/Lecture-Flow Networks-blue?style=social&logo=gitbook["Lecture: Flow Networks", link="https://lipen.github.io/discrete-math-course/lec-flow.pdf"]
-|
-
 |image:https://img.shields.io/badge/Lecture-Formal Languages-blue?style=social&logo=gitbook["Lecture: Formal Languages", link="https://lipen.github.io/discrete-math-course/lec-formal.pdf"]
 |image:https://img.shields.io/badge/Homework 6-Automata Theory-blue?style=social&logo=gitbook["Homework 6: Automata Theory", link="https://lipen.github.io/discrete-math-course/hw6.pdf"]
 
@@ -88,7 +85,7 @@ To compile PFDs, use link:https://typst.app/[Typst]:
 
 [source]
 ----
-typst compile typst/lec-flow.typ
+typst compile typst/lec-logic.typ
 ----
 
 

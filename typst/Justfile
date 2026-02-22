@@ -17,7 +17,6 @@ files := """
     lec-sat.typ
     lec-logic.typ
     lec-graphs.typ
-    lec-flow.typ
     lec-formal.typ
     lec-nfa.typ
     lec-regular.typ
