@@ -96,6 +96,7 @@
 #let TagCore = Tag("Core", green)
 #let TagEssential = Tag("Essential", blue)
 #let TagChallenge = Tag("Challenge", purple)
+#let TagBonus = Tag("Bonus", yellow)
 
 // Graph drawing helpers
 #import fletcher: diagram, edge, node, shapes
@@ -811,7 +812,7 @@ The problems in this assignment are _tagged_ with three levels of difficulty:
 
 #align(center)[
   #set text(1.2em, weight: "bold")
-  Optional Challenge Problems
+  Optional Bonus Problems
 ]
 
 #Block[
@@ -823,7 +824,7 @@ The problems in this assignment are _tagged_ with three levels of difficulty:
 #v(.5em)
 
 
-== Problem A: Ramsey Theory #h(1fr)#TagChallenge
+== Problem A: Ramsey Theory #h(1fr)#TagBonus
 
 The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the edges of $K_n$ (complete graph) contains either a red $K_r$ or a blue $K_s$.
 
@@ -843,7 +844,7 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 
 #v(.5em)
 
-== Problem B: The Friendship Theorem #h(1fr)#TagChallenge
+== Problem B: The Friendship Theorem #h(1fr)#TagBonus
 
 The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 
@@ -862,7 +863,7 @@ The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
 
 #v(.5em)
 
-== Problem C: Max-Flow Solver #h(1fr)#TagChallenge
+== Problem C: Max-Flow Solver #h(1fr)#TagBonus
 
 Design and implement a production-quality max-flow solver.
 
@@ -884,15 +885,14 @@ Design and implement a production-quality max-flow solver.
   + Across varying sizes ($|V| in {10, 20, ..., 100}$), measure and report:
     - *Execution time* (wall-clock seconds, average of 3 runs per size)
     - *Iteration count:* number of augmenting paths found until termination
-    - *Empirical scaling:* does runtime grow as $cal(O)(|V| dot |E|^2)$ or faster? Compare fit quality to theoretical bound.
+    - *Empirical scaling:* does runtime grow as $cal(O)(|V| dot |E|^2)$ or faster? \
+      Compare fit quality to theoretical bound.
     - *Runtime plots:* present as a figure (runtime vs $|V|$ with fitted curve)
 
-  + *(Bonus):*
-    Implement *Dinic's algorithm* (blocking flows; theoretical bound $O(|V|^2 |E|)$) and benchmark against Edmonds–Karp on the same test suite.
+  + Implement *Dinic's algorithm* (blocking flows; theoretical bound $O(|V|^2 |E|)$) and benchmark against Edmonds–Karp on the same test suite.
     Which dominates on sparse vs dense graphs?
     Explain the observed crossover point.
 
-  + *(Bonus):*
-    Formulate one real-world problem (e.g., airline crew scheduling, data routing, bipartite matching) as a max-flow instance with 20+ vertices.
+  + Formulate one real-world problem (e.g., airline crew scheduling, data routing, bipartite matching) as a max-flow instance with 20+ vertices.
     Solve it using your implementation and interpret the flow decomposition.
 ]
