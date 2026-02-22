@@ -5184,13 +5184,13 @@ Graph theory provides the foundation for:
 - Formal language theory (automata are directed labeled graphs!)
 
 
-== Exercises
-
-+ Prove that every tree with $n >= 2$ vertices has at least 2 leaves.
-+ Show that the Petersen graph is not planar.
-+ Find the chromatic number of $C_n$ for all $n >= 3$.
-+ Prove König's theorem using Hall's theorem.
-+ For which values of $n$ does $K_n$ have an Eulerian circuit?
-+ Find all graphs $G$ with $kappa(G) = lambda(G) = delta(G)$.
-+ Prove that every 2-connected graph has no cut vertices.
-+ Show that a graph is bipartite iff it has no odd cycles.
+// == Exercises
+//
+// + Prove that every tree with $n >= 2$ vertices has at least 2 leaves.
+// + Show that the Petersen graph is not planar.
+// + Find the chromatic number of $C_n$ for all $n >= 3$.
+// + Prove König's theorem using Hall's theorem.
+// + For which values of $n$ does $K_n$ have an Eulerian circuit?
+// + Find all graphs $G$ with $kappa(G) = lambda(G) = delta(G)$.
+// + Prove that every 2-connected graph has no cut vertices.
+// + Show that a graph is bipartite iff it has no odd cycles.
