@@ -4151,7 +4151,7 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 
 #v(0.5em)
 #Block(color: yellow)[
-  *The abstraction:* All three are instances of the same mathematical structure --- a _flow network_.
+  *The abstraction:* All three are instances of the same mathematical structure --- a _flow network_. \
   Once we solve the abstract problem, all concrete instances are solved.
 ]
 
