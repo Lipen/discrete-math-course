@@ -4436,18 +4436,36 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
       #align(center)[
         *Network with flow $f$* \
         #diagram(
-          spacing: (1.8cm, 1cm),
+          spacing: (5em, 3em),
           node-shape: fletcher.shapes.circle,
           edge-stroke: 1pt,
           blob((0, 0), $s$, tint: green, name: <s>),
           blob((2, 0), $t$, tint: red, name: <t>),
           blob((1, -1), $a$, tint: blue, name: <na>),
           blob((1, 1), $b$, tint: blue, name: <nb>),
-          edge(<s>, <na>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: 30deg)[$20 slash 20$],
-          edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -30deg)[$0 slash 10$],
-          edge(<na>, <nb>, "-}>", label-side: center)[$10 slash 30$],
-          edge(<na>, <t>, "-}>", label-side: center, label-angle: auto, bend: 30deg)[$0 slash 10$],
-          edge(<nb>, <t>, "-}>", label-side: center, label-angle: auto, stroke: 2pt + red, bend: -30deg)[$20 slash 20$],
+          edge(
+            <s>,
+            <na>,
+            "-}>",
+            [$20 slash 20$],
+            label-side: center,
+            label-angle: auto,
+            stroke: 2pt + red,
+            bend: 30deg,
+          ),
+          edge(<s>, <nb>, "-}>", [$0 slash 10$], label-side: center, label-angle: auto, bend: -30deg),
+          edge(<na>, <nb>, "-}>", [$20 slash 30$], label-side: center),
+          edge(<na>, <t>, "-}>", [$0 slash 10$], label-side: center, label-angle: auto, bend: 30deg),
+          edge(
+            <nb>,
+            <t>,
+            "-}>",
+            [$20 slash 20$],
+            label-side: center,
+            label-angle: auto,
+            stroke: 2pt + red,
+            bend: -30deg,
+          ),
         )
       ]
 
@@ -4457,19 +4475,19 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
       #align(center)[
         *Residual network $N_f$* \
         #diagram(
-          spacing: (1.8cm, 1cm),
+          spacing: (5em, 3em),
           node-shape: fletcher.shapes.circle,
           edge-stroke: 1pt,
           blob((0, 0), $s$, tint: green, name: <s>),
           blob((2, 0), $t$, tint: red, name: <t>),
           blob((1, -1), $a$, tint: blue, name: <na>),
           blob((1, 1), $b$, tint: blue, name: <nb>),
-          edge(<na>, <s>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: -30deg)[$20$],
-          edge(<s>, <nb>, "-}>", label-side: center, label-angle: auto, bend: -30deg)[$10$],
-          edge(<na>, <nb>, "-}>", label-side: center, bend: 30deg)[$10$],
-          edge(<nb>, <na>, "<{-", label-side: center, bend: 30deg)[$20$],
-          edge(<na>, <t>, "-}>", label-side: center, label-angle: auto, bend: 30deg)[$10$],
-          edge(<t>, <nb>, "<{-", label-side: center, label-angle: auto, stroke: red, bend: 30deg)[$20$],
+          edge(<s>, <na>, "<{-", [$20$], label-side: center, label-angle: auto, stroke: red, bend: 30deg),
+          edge(<s>, <nb>, "-}>", [$10$], label-side: center, label-angle: auto, bend: -30deg),
+          edge(<na>, <nb>, "-}>", [$10$], label-side: center, bend: -30deg),
+          edge(<na>, <nb>, "<{-", [$20$], label-side: center, stroke: red, bend: 30deg),
+          edge(<na>, <t>, "-}>", [$10$], label-side: center, label-angle: auto, bend: 30deg),
+          edge(<nb>, <t>, "<{-", [$20$], label-side: center, label-angle: auto, stroke: red, bend: -30deg),
         )
       ]
 
