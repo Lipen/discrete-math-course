@@ -4564,9 +4564,17 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 
 #align(center)[
   #import fletcher: diagram, edge, node, shapes
+  #let vertex(pos, name, label, color, ..args) = blob(
+    pos,
+    label,
+    name: name,
+    tint: color,
+    radius: 8pt,
+    ..args,
+  )
   #grid(
     columns: 3,
-    column-gutter: 1.5em,
+    column-gutter: 1em,
     align: top,
     [
       *Step 0: $|f| = 0$*
@@ -4575,12 +4583,12 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
         spacing: (2em, 2em),
         node-shape: shapes.circle,
         edge-stroke: 1pt,
-        blob((0, 0), $s$, tint: green, name: <s>),
-        blob((3, 0), $t$, tint: red, name: <t>),
-        blob((1, -1), $a$, tint: blue, name: <na>),
-        blob((1, 1), $b$, tint: blue, name: <nb>),
-        blob((2, -1), $c$, tint: blue, name: <nc>),
-        blob((2, 1), $d$, tint: blue, name: <nd>),
+        vertex((0, 0), <s>, $s$, green),
+        vertex((3, 0), <t>, $t$, red),
+        vertex((1, -1), <na>, $a$, blue),
+        vertex((1, 1), <nb>, $b$, blue),
+        vertex((2, -1), <nc>, $c$, blue),
+        vertex((2, 1), <nd>, $d$, blue),
         edge(<s>, <na>, "-}>", [$4$], label-side: center, label-angle: auto, bend: 20deg),
         edge(<s>, <nb>, "-}>", [$2$], label-side: center, label-angle: auto, bend: -20deg),
         edge(<na>, <nc>, "-}>", [$3$], label-side: center, label-angle: auto),
@@ -4595,15 +4603,15 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
       *Step 1: $s -> b -> c -> t$, $Delta = 2$*
 
       #diagram(
-        spacing: (2em, 2em),
+        spacing: (3em, 2em),
         node-shape: shapes.circle,
         edge-stroke: 1pt,
-        blob((0, 0), $s$, tint: green, name: <s>),
-        blob((3, 0), $t$, tint: red, name: <t>),
-        blob((1, -1), $a$, tint: blue, name: <na>),
-        blob((1, 1), $b$, tint: blue, name: <nb>),
-        blob((2, -1), $c$, tint: blue, name: <nc>),
-        blob((2, 1), $d$, tint: blue, name: <nd>),
+        vertex((0, 0), <s>, $s$, green),
+        vertex((3, 0), <t>, $t$, red),
+        vertex((1, -1), <na>, $a$, blue),
+        vertex((1, 1), <nb>, $b$, blue),
+        vertex((2, -1), <nc>, $c$, blue),
+        vertex((2, 1), <nd>, $d$, blue),
         edge(<s>, <na>, "-}>", [$0 slash 4$], label-side: center, label-angle: auto, bend: 20deg),
         edge(
           <s>,
@@ -4645,15 +4653,15 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
       *Step 2: $s -> a -> c -> b -> d -> t$, $Delta = 3$*
 
       #diagram(
-        spacing: (2em, 2em),
+        spacing: (3em, 2em),
         node-shape: shapes.circle,
         edge-stroke: 1pt,
-        blob((0, 0), $s$, tint: green, name: <s>),
-        blob((3, 0), $t$, tint: red, name: <t>),
-        blob((1, -1), $a$, tint: blue, name: <na>),
-        blob((1, 1), $b$, tint: blue, name: <nb>),
-        blob((2, -1), $c$, tint: blue, name: <nc>),
-        blob((2, 1), $d$, tint: blue, name: <nd>),
+        vertex((0, 0), <s>, $s$, green),
+        vertex((3, 0), <t>, $t$, red),
+        vertex((1, -1), <na>, $a$, blue),
+        vertex((1, 1), <nb>, $b$, blue),
+        vertex((2, -1), <nc>, $c$, blue),
+        vertex((2, 1), <nd>, $d$, blue),
         edge(
           <s>,
           <na>,
