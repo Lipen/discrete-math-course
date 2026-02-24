@@ -4428,17 +4428,17 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 
 == Residual Network: Example
 
-#align(center)[
+#align(center + horizon)[
   #import fletcher: diagram, edge, node
   #grid(
     columns: 2,
-    align: left,
-    column-gutter: 2em,
+    align: left + top,
+    column-gutter: 4em,
     [
       #align(center)[
         *Network with flow $f$* \
         #diagram(
-          spacing: (5em, 3em),
+          spacing: (5em, 2em),
           node-shape: fletcher.shapes.circle,
           edge-stroke: 1pt,
           blob((0, 0), $s$, tint: green, name: <s>),
@@ -4499,7 +4499,7 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
       #align(center)[
         *Residual network $N_f$* \
         #diagram(
-          spacing: (5em, 3em),
+          spacing: (5em, 2em),
           node-shape: fletcher.shapes.circle,
           edge-stroke: 1pt,
           blob((0, 0), $s$, tint: green, name: <s>),
