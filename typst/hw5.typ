@@ -527,9 +527,9 @@ Consider the weighted graph from Problem 4.
 == Problem 9: Eulerian Graphs #h(1fr)#TagEssential
 
 #tasklist("prob9")[
-  + For which values of $n >= 3$ does the complete graph $K_n$ have an Euler circuit? An Euler path (but not a circuit)? Prove your answers.
+  + For which values of $n >= 3$ does the complete graph $K_n$ have an Euler circuit? An Euler trail (but not a circuit)? Prove your answers.
 
-  + For which pairs $(m, n)$ with $m, n >= 1$ does the complete bipartite graph $K_(m,n)$ have an Euler circuit? An Euler path?
+  + For which pairs $(m, n)$ with $m, n >= 1$ does the complete bipartite graph $K_(m,n)$ have an Euler circuit? An Euler trail?
 
   + State and prove Euler's criterion: A connected graph has an Euler circuit if and only if every vertex has even degree.
 ]
