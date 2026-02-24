@@ -4572,13 +4572,23 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 == Augmenting Paths
 
 #definition[
-  An _augmenting path_ is an $s$-$t$ path $P$ in the residual network $N_f$ (every edge in $P$ has positive residual capacity).
-
-  The _bottleneck_ of $P$ is $Delta = min_(e in P) c_f(e) > 0$.
+  An _augmenting path_ is an $s$-$t$ path $P$ in the residual network $N_f$.
 ]
 
+#note[
+  Every edge in $P$ has positive residual capacity.
+]
+
+#definition[
+  The _bottleneck_ of $P$ is $Delta = limits(min)_(e in P) c_f(e) > 0$.
+]
+
+// TODO: visualize augmenting path and bottleneck
+
+#pagebreak()
+
 #theorem[
-  If $P$ is an augmenting path with bottleneck $Delta > 0$, then the _augmented flow_ $f'$ (defined below) is a valid flow in $N$ with $|f'| = |f| + Delta$.
+  If $P$ is an augmenting path with _positive bottleneck_ $Delta > 0$, then the _augmented flow_ $f'$ (defined below) is a valid flow in $N$ with $|f'| = |f| + Delta$.
   $
     f'(u,v) = cases(
       f(u,v) + Delta & "if" (u,v) in P,
