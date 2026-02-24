@@ -4588,19 +4588,18 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
   $
 ]
 
-#proof[
-  *Capacity:*
+*Proof:*
+- *Capacity:*
   For a forward path edge $(u,v)$:
   $f'(u,v) = f(u,v) + Delta <= f(u,v) + c_f(u,v) = c(u,v)$ and $f'(u,v) >= 0$.
   For a backward path edge $(v,u) in P$ (i.e., $(u,v)$ is a real edge used in reverse): $f'(u,v) = f(u,v) - Delta >= 0$ since $Delta <= c_f(v,u) = f(u,v)$.
 
-  *Conservation:*
+- *Conservation:*
   Each internal vertex $v$ of $P$ has exactly one edge of $P$ entering and one leaving.
   The $+Delta$ and $-Delta$ contributions cancel, so conservation is preserved.
 
-  *Value:*
-  The first edge of $P$ out of $s$ is a forward edge (since $s$ has no incoming path edges), so $|f'| = |f| + Delta$.
-]
+- *Value:*
+  The first edge of $P$ out of $s$ is a forward edge (since $s$ has no incoming edges), so $|f'| = |f| + Delta$.
 
 == Ford-Fulkerson Algorithm
 
