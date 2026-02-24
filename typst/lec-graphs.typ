@@ -4401,12 +4401,14 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 
 To find maximum flows, we need to answer: _"where can we still push more flow?"_
 
+#v(-0.5em)
+
 #definition[
   Given a flow $f$ in network $N$, the _residual capacity_ of a pair $(u, v)$ is:
-  $
-    c_f (u, v) = c(u, v) - f(u, v)
-  $
-  This covers both directions: if $(u,v) in E$ then $c_f$ is the remaining room; if $(v,u) in E$ but $(u,v) notin E$, then $c_f(u,v) = f(v,u)$ (the flow we can "cancel").
+  $ c_f (u, v) = c(u, v) - f(u, v) $
+  This covers both directions:
+  - if $(u,v) in E$ then $c_f$ is the _remaining_ room (non-filled capacity);
+  - if $(v,u) in E$ but $(u,v) notin E$, then $c_f(u,v) = f(v,u)$ (the flow we can "_cancel_" or "_undo_").
 ]
 
 #v(-0.5em)
@@ -4417,10 +4419,11 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
   - _Backward edge_ $(v,u)$: present when $f(u,v) > 0$, with capacity $f(u,v)$.
 ]
 
-#Block(color: yellow)[
-  *Intuition:*
-  A _forward_ edge says "I can send more flow this way."
-  A _backward_ edge says "I can reduce the flow on this edge" --- equivalent to rerouting that flow elsewhere.
+#place(dy: 1em)[
+  #Block(color: yellow)[
+    - A _forward_ edge says "I can send more flow this way."
+    - A _backward_ edge says "I can reduce the flow on this edge."
+  ]
 ]
 
 == Residual Network: Example
