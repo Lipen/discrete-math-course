@@ -4804,7 +4804,7 @@ No augmenting path exists in the residual network --- the algorithm terminates.
 
 This is one of the deepest results in combinatorics --- it equates two seemingly unrelated quantities: the maximum achievable flow and the minimum bottleneck capacity.
 
-== Max-Flow Min-Cut: Proof
+== Proof of Max-Flow Min-Cut
 
 #proof[(1 $imply$ 2) Contrapositive][
   If an augmenting path $P$ exists, its bottleneck $Delta > 0$, so we can increase $|f|$.
@@ -4837,7 +4837,7 @@ This is one of the deepest results in combinatorics --- it equates two seemingly
   $
 ]
 
-== Max-Flow Min-Cut: Visualization
+== Visualization of Max-Flow Min-Cut
 
 #align(center)[
   #import fletcher: diagram, edge, node
