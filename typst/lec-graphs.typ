@@ -4102,7 +4102,7 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
 
 == Ramsey Theory: A Taste
 
-#theorem[Ramsey's Theorem (simplified)][
+#theorem[Ramsey's Theorem][
   For any positive integers $r$ and $s$, there exists a number $R(r, s)$ such that any 2-coloring of the edges of $K_n$ (with $n >= R(r, s)$) contains either a red $K_r$ or a blue $K_s$.
 ]
 
