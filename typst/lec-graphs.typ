@@ -19,8 +19,6 @@
 #let Center = math.op("center")
 #let ecc = math.op("ecc")
 #let Adj = math.op("Adj")
-
-// Custom operators for network flows
 #let fIn = math.op("in")
 #let fOut = math.op("out")
 
