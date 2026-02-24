@@ -4408,13 +4408,13 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
   $ c_f (u, v) = c(u, v) - f(u, v) $
   This covers both directions:
   - if $(u,v) in E$ then $c_f$ is the _remaining_ room (non-filled capacity);
-  - if $(v,u) in E$ but $(u,v) notin E$, then $c_f(u,v) = f(v,u)$ (the flow we can "_cancel_" or "_undo_").
+  - if $(v,u) in E$ but $(u,v) notin E$, then $c_f (u,v) = f(v,u)$ (the flow we can "_cancel_" or "_undo_").
 ]
 
 #v(-0.5em)
 
 #definition[
-  The _residual network_ $N_f$ consists of all pairs $(u,v)$ with $c_f(u,v) > 0$:
+  The _residual network_ $N_f$ consists of all pairs $(u,v)$ with $c_f (u,v) > 0$:
   - _Forward edge_ $(u,v)$: present when $f(u,v) < c(u,v)$, with capacity $c(u,v) - f(u,v)$.
   - _Backward edge_ $(v,u)$: present when $f(u,v) > 0$, with capacity $f(u,v)$.
 ]
@@ -4583,7 +4583,7 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 ]
 
 #definition[
-  The _bottleneck_ of $P$ is $Delta = limits(min)_(e in P) c_f(e) > 0$.
+  The _bottleneck_ of $P$ is $Delta = limits(min)_(e in P) c_f (e) > 0$.
 ]
 
 // TODO: visualize augmenting path and bottleneck
@@ -4604,8 +4604,8 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 *Proof:*
 - *Capacity:*
   For a forward path edge $(u,v)$:
-  $f'(u,v) = f(u,v) + Delta <= f(u,v) + c_f(u,v) = c(u,v)$ and $f'(u,v) >= 0$.
-  For a backward path edge $(v,u) in P$ (i.e., $(u,v)$ is a real edge used in reverse): $f'(u,v) = f(u,v) - Delta >= 0$ since $Delta <= c_f(v,u) = f(u,v)$.
+  $f'(u,v) = f(u,v) + Delta <= f(u,v) + c_f (u,v) = c(u,v)$ and $f'(u,v) >= 0$.
+  For a backward path edge $(v,u) in P$ (i.e., $(u,v)$ is a real edge used in reverse): $f'(u,v) = f(u,v) - Delta >= 0$ since $Delta <= c_f (v,u) = f(u,v)$.
 
 - *Conservation:*
   Each internal vertex $v$ of $P$ has exactly one edge of $P$ entering and one leaving.
@@ -4625,7 +4625,7 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
   - *Output:* Maximum flow $f$
   + Set $f(e) = 0$ for all $e in E$
   + *while* there exists an $s$-$t$ path $P$ in residual network $N_f$ *do*
-    + Let $Delta = min_(e in P) c_f(e)$ #h(1em) _(bottleneck)_
+    + Let $Delta = min_(e in P) c_f (e)$ #h(1em) _(bottleneck)_
     + *for each* edge $(u,v) in P$ *do*
       + $f(u,v) := f(u,v) + Delta$
       + $f(v,u) := f(v,u) - Delta$ #h(1em) _(skew-symmetry)_
@@ -4822,15 +4822,16 @@ This is one of the deepest results in combinatorics --- it equates two seemingly
   Since no augmenting path exists, $t notin A$.
   Set $B = V setminus A$.
 
-  _All $A to B$ edges are saturated:_ if $(u,v) in E$ with $u in A$, $v in B$ had $c_f(u,v) > 0$, then $v$ would be reachable from $s$, contradicting $v in B$.
+  _All $A to B$ edges are saturated:_ if $(u,v) in E$ with $u in A$, $v in B$ had $c_f (u,v) > 0$, then $v$ would be reachable from $s$, contradicting $v in B$.
   Hence $f(u,v) = c(u,v)$ for all such edges.
 
-  _All $B to A$ edges carry zero flow:_ if $(u,v) in E$ with $u in B$, $v in A$ had $f(u,v) > 0$, then $c_f(v,u) = f(u,v) > 0$, so the backward edge $v to u$ would be in $N_f$, making $u$ reachable --- contradicting $u in B$.
+  _All $B to A$ edges carry zero flow:_ if $(u,v) in E$ with $u in B$, $v in A$ had $f(u,v) > 0$, then $c_f (v,u) = f(u,v) > 0$, so the backward edge $v to u$ would be in $N_f$, making $u$ reachable --- contradicting $u in B$.
 
   Therefore:
   $
-    |f| = f(A,B) = sum_((u,v): u in A, v in B) underbrace(f(u,v), = c(u,v))
-    - sum_((u,v): u in B, v in A) underbrace(f(u,v), = 0)
+    |f| = f(A,B)
+    = sum_(u in A,\ v in B) underbrace(f(u,v), = c(u,v))
+    - sum_(u in B,\ v in A) underbrace(f(u,v), = 0)
     = c(A,B)
     #qedhere
   $
