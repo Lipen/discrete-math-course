@@ -4230,6 +4230,8 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
   Given a flow network $N$, find a flow $f$ that _maximizes_ $|f|$.
 ]
 
+== Net Flow Theorem
+
 #theorem[
   For any feasible flow $f$, the net flow out of $s$ equals the net flow into $t$:
   $
@@ -4238,7 +4240,7 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 ]
 
 #proof[
-  Add the conservation equation $f^"in"(v) - f^"out"(v) = 0$ for every $v in V setminus {s, t}$ to both sides of $|f| = f^"out"(s) - f^"in"(s)$:
+  Add the conservation equation $f^"in"(v) - f^"out"(v) = 0$ for every $v in V setminus {s, t}$:
   $
     |f| & = f^"out"(s) - f^"in"(s) + sum_(v in V setminus {s,t}) overbrace([f^"in"(v) - f^"out"(v)], = 0) \
         & = sum_(v in V setminus {t}) f^"out"(v) - sum_(v in V setminus {t}) f^"in"(v) \
