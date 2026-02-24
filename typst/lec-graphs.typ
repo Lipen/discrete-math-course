@@ -4211,9 +4211,9 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 ]
 
 #Block(color: yellow)[
-  Flow conservation embodies _"what goes in must come out"_ --- no vertex stores or creates flow.
-
-  Only $s$ _produces_ flow and $t$ _absorbs_ it.
+  Flow conservation embodies _"what goes in --- must come out"_.
+  - No _internal_ vertex stores or creates flow.
+  - Only $s$ _produces_ flow and $t$ _absorbs_ it.
 ]
 
 == Flow Value
