@@ -4420,8 +4420,7 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 #Block(color: yellow)[
   *Intuition:*
   A _forward_ edge says "I can send more flow this way."
-  A _backward_ edge says "I can reduce the flow on this edge"
-  --- equivalent to rerouting that flow elsewhere.
+  A _backward_ edge says "I can reduce the flow on this edge" --- equivalent to rerouting that flow elsewhere.
 ]
 
 == Residual Network: Example
