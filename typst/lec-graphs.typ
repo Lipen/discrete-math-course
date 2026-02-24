@@ -4613,10 +4613,10 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
   - *Output:* Maximum flow $f$
   + Set $f(e) = 0$ for all $e in E$
   + *while* there exists an $s$-$t$ path $P$ in residual network $N_f$ *do*
-    + Let $Delta = min_(e in P) c_f(e)$ #h(1fr) _(bottleneck)_
+    + Let $Delta = min_(e in P) c_f(e)$ #h(1em) _(bottleneck)_
     + *for each* edge $(u,v) in P$ *do*
       + $f(u,v) := f(u,v) + Delta$
-      + $f(v,u) := f(v,u) - Delta$ #h(1fr) _(skew-symmetry)_
+      + $f(v,u) := f(v,u) - Delta$ #h(1em) _(skew-symmetry)_
   + *return* $f$
 ]
 
