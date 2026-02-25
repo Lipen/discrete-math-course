@@ -3748,7 +3748,7 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
         edge(<c>, <d>),
         edge(<d>, <a>),
         edge(<a>, <c>),
-        edge(<b>, <d>),
+        edge(<b>, <d>, bend: -100deg),
       ),
       [$K_4$ planar embedding],
     ),
