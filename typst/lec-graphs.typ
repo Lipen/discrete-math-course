@@ -19,8 +19,8 @@
 #let Center = math.op("center")
 #let ecc = math.op("ecc")
 #let Adj = math.op("Adj")
-#let fIn = math.op("in")
-#let fOut = math.op("out")
+// #let fIn = $f^"in"$ // obsolete
+// #let fOut = $f^"out"$ // obsolete
 #let net = math.op("net")
 
 
@@ -4206,9 +4206,9 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
   + *Capacity constraint:* $0 <= f(e) <= c(e)$ for every edge $e in E$.
   + *Flow conservation:* For every internal vertex $v in V setminus {s, t}$:
     $
-      underbrace(sum_(e in fIn(v)) f(e), "flow into" v) = underbrace(sum_(e in fOut(v)) f(e), "flow out of" v)
+      underbrace(sum_(e in "in"(v)) f(e), "flow into" v) = underbrace(sum_(e in "out"(v)) f(e), "flow out of" v)
     $
-    where $fIn(v)$ and $fOut(v)$ denote the sets of incoming and outgoing edges of $v$.
+    where $"in"(v)$ and $"out"(v)$ denote the sets of incoming and outgoing edges of $v$.
 ]
 
 #Block(color: yellow)[
@@ -4219,11 +4219,17 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 
 == Flow Value
 
+// #definition[Local notation][
+//   For a vertex $v$:
+//   - $"out"(v)$ is the set of edges directed out of $v$;
+//   - $"in"(v)$ is the set of edges directed into $v$.
+// ]
+
 #definition[
   The _value_ of a flow $f$, denoted $|f|$, is the net flow out of the source:
   $
-    |f| = underbrace(sum_(e in fOut(s)) f(e), "out of" s)
-    - underbrace(sum_(e in fIn(s)) f(e), "into" s "(= 0 if no back-edges)")
+    |f| = underbrace(sum_(e in "out"(s)) f(e), "out of" s)
+    - underbrace(sum_(e in "in"(s)) f(e), "into" s "(= 0 if no back-edges)")
   $
 ]
 
@@ -4236,20 +4242,21 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 #theorem[
   For any feasible flow $f$, the net flow out of $s$ equals the net flow into $t$:
   $
-    |f| = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e)
+    |f| = sum_(e in "in"(t)) f(e) - sum_(e in "out"(t)) f(e)
   $
 ]
 
 #proof[
   First, define the _net flow_ at a vertex $v$:
   $
-    net(v) = sum_(e in fOut(v)) f(e) - sum_(e in fIn(v)) f(e)
+    net(v) = sum_(e in "out"(v)) f(e) - sum_(e in "in"(v)) f(e)
   $
 
   Summing over all vertices gives zero:
   $
     sum_(v in V) net(v)
-    = sum_(v in V) sum_(e in fOut(v)) f(e) - sum_(v in V) sum_(e in fIn(v)) f(e)
+    = sum_(v in V) sum_(e in "out"(v)) f(e)
+    - sum_(v in V) sum_(e in "in"(v)) f(e)
     = 0,
   $
   because each edge $e=(u,w)$ appears once with $+f(e)$ (as outgoing from $u$) and once with $-f(e)$ (as incoming to $w$).
@@ -4260,12 +4267,12 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
   $
   Therefore $net(s) + net(t) = 0$, i.e.
   $
-    sum_(e in fOut(s)) f(e) - sum_(e in fIn(s)) f(e)
-    = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e).
+    sum_(e in "out"(s)) f(e) - sum_(e in "in"(s)) f(e)
+    = sum_(e in "in"(t)) f(e) - sum_(e in "out"(t)) f(e).
   $
   The left side is $|f|$ by definition, so
   $
-    |f| = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e).
+    |f| = sum_(e in "in"(t)) f(e) - sum_(e in "out"(t)) f(e).
   $
 ]
 
@@ -4305,13 +4312,37 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 
 == Cuts
 
-#definition[\
-  An _$s$-$t$ cut_ in a flow network $N$ is a partition of $V$ into two disjoint sets
-  $A$ and $B = V setminus A$ such that $s in A$ and $t in B$.
+#definition[
+  Let $N = (V,E,s,t,c)$ be a flow network.
 
-  The _capacity_ of a cut $(A, B)$ is the total capacity of edges crossing from $A$ to $B$:
+  An _$s$-$t$ cut_ is an ordered pair $(A,B)$ such that
   $
-    c(A, B) = sum_((u,v) in E,\ u in A,\ v in B) c(u, v)
+    A union B = V,
+    quad
+    A inter B = emptyset,
+    quad
+    s in A, quad t in B.
+  $
+]
+
+#definition[
+  For a cut $(A,B)$, define the directed boundary edge sets:
+  $
+    delta^+(A) & := { (u,v) in E | u in A, v in B }, \
+    delta^-(A) & := { (u,v) in E | u in B, v in A }.
+  $
+]
+
+== Cut Capacity
+
+#definition[
+  The _capacity_ of an $s$-$t$ cut $(A,B)$ is
+  $
+    c(A,B) := sum_((u,v) in delta^+(A)) c(u,v).
+  $
+  Equivalently,
+  $
+    c(A,B) = sum_((u,v) in E,\ u in A,\ v in B) c(u,v).
   $
 ]
 
@@ -4356,35 +4387,48 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 == Net Flow Across a Cut
 
 #definition[
-  Given a flow $f$ and a cut $(A, B)$, the _net flow across the cut_ is:
+  Given a flow $f$ and a cut $(A,B)$, the _net flow across the cut_ is
   $
-    f(A, B)
-    = sum_((u,v) in E,\ u in A,\ v in B) f(u, v)
-    - sum_((u,v) in E,\ u in B,\ v in A) f(u, v)
+    f(A,B) := sum_(e in delta^+(A)) f(e) - sum_(e in delta^-(A)) f(e)
   $
 ]
 
 #theorem[
-  For any flow $f$ and any $s$-$t$ cut $(A, B)$:
+  For any feasible flow $f$ and any $s$-$t$ cut $(A,B)$:
   $
-    f(A, B) = |f|
+    f(A,B) = |f|
   $
 ]
 
 #proof[
-  Let $A' = A setminus {s}$.
-  Start from $|f| = f^"out"(s) - f^"in"(s)$ and add zero (conservation at each $v in A'$):
+  Let $S := sum_(v in A) [limits(sum)_(e in "out"(v)) f(e) - limits(sum)_(e in "in"(v)) f(e)]$.
+
+  Expanding by edges, all terms from edges with both endpoints in $A$ cancel, hence:
   $
-    |f| & = f^"out"(s) - f^"in"(s) + sum_(v in A') underbrace([f^"in"(v) - f^"out"(v)], = 0) = ...
+    S = sum_((u,v) in delta^+(A)) f(u,v) - sum_((u,v) in delta^-(A)) f(u,v)
+    = f(A,B).
   $
+
+  #colbreak()
+
+  Also,
   $
-    & = sum_(v in A) [f^"out"(v) - f^"in"(v)] \
-    & = sum_(v in A) [sum_(u in V) f(v,u) - sum_(u in V) f(u,v)]
+    S = [sum_(e in "out"(s)) f(e) - sum_(e in "in"(s)) f(e)]
+    + sum_(v in A setminus {s}) [sum_(e in "out"(v)) f(e) - sum_(e in "in"(v)) f(e)].
   $
-  Every edge $(v, u)$ with both $v, u in A$ contributes $+f(v,u)$ in one row and $-f(v,u)$ in another, so it cancels.
-  Only edges crossing the cut remain:
+  Since $t in B$, every $v in A setminus {s}$ is internal.
+  By flow conservation:
   $
-    |f| = sum_(v in A,\ u in B) f(v,u) - sum_(v in A,\ u in B) f(u,v) = f(A, B)
+    sum_(e in "out"(v)) f(e) - sum_(e in "in"(v)) f(e) = 0
+  $
+  Therefore,
+  $
+    S = sum_(e in "out"(s)) f(e) - sum_(e in "in"(s)) f(e) = |f|.
+  $
+
+  Thus $f(A,B) = S = |f|$
+  $
+    f(A,B) = |f|
     #qedhere
   $
 ]
