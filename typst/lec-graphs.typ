@@ -4010,7 +4010,8 @@ This graph is 3-colorable. Is $chi(G) = 3$?
 ]
 
 #Block(color: blue)[
-  *The dual view:* Coloring vertices of a planar graph = coloring regions of a map so adjacent regions differ. Every map needs at most 4 colors!\n]
+  *The dual view:* Coloring vertices of a planar graph = coloring regions of a map so adjacent regions differ. Every map needs at most 4 colors!
+]
 
 == Edge Coloring
 
