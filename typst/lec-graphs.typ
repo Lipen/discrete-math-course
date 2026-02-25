@@ -4246,23 +4246,27 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
     net(v) = sum_(e in fOut(v)) f(e) - sum_(e in fIn(v)) f(e)
   $
 
-  Consider the sum over _all_ vertices. By double counting: each edge $e = (u, v)$ contributes $f(e)$ when we count the outgoing flow at $u$, and $-f(e)$ when we count the incoming flow at $v$. Thus:
+  Summing over all vertices gives zero:
   $
-    sum_(v in V) net(v) = sum_(v in V) [ sum_(e in fOut(v)) f(e) - sum_(e in fIn(v)) f(e) ]
+    sum_(v in V) net(v)
+    = sum_(v in V) sum_(e in fOut(v)) f(e) - sum_(v in V) sum_(e in fIn(v)) f(e)
+    = 0,
   $
+  because each edge $e=(u,w)$ appears once with $+f(e)$ (as outgoing from $u$) and once with $-f(e)$ (as incoming to $w$).
 
-  For internal vertices (those in $V setminus {s, t}$), by flow conservation, $net(v) = 0$.
-  The only non-zero contributions come from $s$ and $t$:
+  For every internal vertex $v in V setminus {s,t}$, flow conservation implies $net(v)=0$, hence
   $
-    sum_(v in V) net(v) = net(s) + net(t) = [ sum_(e in fOut(s)) f(e) - sum_(e in fIn(s)) f(e) ] + [ sum_(e in fOut(t)) f(e) - sum_(e in fIn(t)) f(e) ]
+    sum_(v in V) net(v) = net(s) + net(t).
   $
-
-  But we also know that $limits(sum)_(v in V) net(v) = 0$ (by telescoping the double count).
-  Therefore:
+  Therefore $net(s) + net(t) = 0$, i.e.
   $
-    |f| = sum_(e in fOut(s)) f(e) - sum_(e in fIn(s)) f(e) = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e)
+    sum_(e in fOut(s)) f(e) - sum_(e in fIn(s)) f(e)
+    = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e).
   $
-  which is the desired equality.
+  The left side is $|f|$ by definition, so
+  $
+    |f| = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e).
+  $
 ]
 
 == A Feasible Flow: Example
