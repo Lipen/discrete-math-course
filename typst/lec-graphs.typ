@@ -21,6 +21,7 @@
 #let Adj = math.op("Adj")
 #let fIn = math.op("in")
 #let fOut = math.op("out")
+#let net = math.op("net")
 
 
 #CourseOverviewPage2()
@@ -4230,7 +4231,7 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
   Given a flow network $N$, find a flow $f$ that _maximizes_ $|f|$.
 ]
 
-== Net Flow Theorem
+== Flow Conservation Theorem
 
 #theorem[
   For any feasible flow $f$, the net flow out of $s$ equals the net flow into $t$:
@@ -4240,14 +4241,28 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
 ]
 
 #proof[
-  Add the conservation equation $f^"in"(v) - f^"out"(v) = 0$ for every $v in V setminus {s, t}$:
+  First, define the _net flow_ at a vertex $v$:
   $
-    |f| & = f^"out"(s) - f^"in"(s) + sum_(v in V setminus {s,t}) overbrace([f^"in"(v) - f^"out"(v)], = 0) \
-        & = sum_(v in V setminus {t}) f^"out"(v) - sum_(v in V setminus {t}) f^"in"(v) \
-        & = sum_((u,v): v = t) f(u,v) - sum_((u,v): u = t) f(u,v)
-          = f^"in"(t) - f^"out"(t)
+    net(v) = sum_(e in fOut(v)) f(e) - sum_(e in fIn(v)) f(e)
   $
-  (Every edge $(u,v)$ with both $u,v in V setminus {s,t}$ appears once with each sign and cancels.)
+
+  Consider the sum over _all_ vertices. By double counting: each edge $e = (u, v)$ contributes $f(e)$ when we count the outgoing flow at $u$, and $-f(e)$ when we count the incoming flow at $v$. Thus:
+  $
+    sum_(v in V) net(v) = sum_(v in V) [ sum_(e in fOut(v)) f(e) - sum_(e in fIn(v)) f(e) ]
+  $
+
+  For internal vertices (those in $V setminus {s, t}$), by flow conservation, $net(v) = 0$.
+  The only non-zero contributions come from $s$ and $t$:
+  $
+    sum_(v in V) net(v) = net(s) + net(t) = [ sum_(e in fOut(s)) f(e) - sum_(e in fIn(s)) f(e) ] + [ sum_(e in fOut(t)) f(e) - sum_(e in fIn(t)) f(e) ]
+  $
+
+  But we also know that $limits(sum)_(v in V) net(v) = 0$ (by telescoping the double count).
+  Therefore:
+  $
+    |f| = sum_(e in fOut(s)) f(e) - sum_(e in fIn(s)) f(e) = sum_(e in fIn(t)) f(e) - sum_(e in fOut(t)) f(e)
+  $
+  which is the desired equality.
 ]
 
 == A Feasible Flow: Example
