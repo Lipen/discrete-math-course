@@ -4358,7 +4358,8 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 #definition[
   Given a flow $f$ and a cut $(A, B)$, the _net flow across the cut_ is:
   $
-    f(A, B) = sum_((u,v) in E,\ u in A,\ v in B) f(u, v)
+    f(A, B)
+    = sum_((u,v) in E,\ u in A,\ v in B) f(u, v)
     - sum_((u,v) in E,\ u in B,\ v in A) f(u, v)
   $
 ]
@@ -4383,7 +4384,7 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
   Every edge $(v, u)$ with both $v, u in A$ contributes $+f(v,u)$ in one row and $-f(v,u)$ in another, so it cancels.
   Only edges crossing the cut remain:
   $
-    |f| = sum_(v in A, u in B) f(v,u) - sum_(v in A, u in B) f(u,v) = f(A, B)
+    |f| = sum_(v in A,\ u in B) f(v,u) - sum_(v in A,\ u in B) f(u,v) = f(A, B)
     #qedhere
   $
 ]
