@@ -3648,11 +3648,14 @@ Consider $G$ with $|X| = n >= 2$. We split into two cases:
 ]
 
 #Block(color: yellow)[
-  *Key insight:* This equality does _not_ hold for general graphs! In a triangle $K_3$: $nu = 1$ but $tau = 2$.
+  *Key insight:* This equality does _not_ hold for general graphs!
+  In a triangle $K_3$: $nu = 1$ but $tau = 2$.
 ]
 
 #Block(color: blue)[
-  *Connection:* König's theorem follows from the LP duality of matching and vertex cover. It also follows from the Max-Flow Min-Cut theorem on the associated network.
+  König's theorem follows from the LP duality of matching and vertex cover.
+
+  It also follows from the Max-Flow Min-Cut theorem on the associated network.
 ]
 
 #theorem[
