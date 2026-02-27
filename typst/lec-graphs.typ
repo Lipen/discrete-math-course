@@ -3983,13 +3983,14 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
   )
   #align(center)[
     #diagram(
+      spacing: (3em, 2em),
       node-stroke: 1pt,
       edge-stroke: 1pt,
-      vertex((0, 0), <a>, red),
+      vertex((0, 0), <a>, green),
       vertex((1, 0), <b>, blue),
       vertex((2, 0), <c>, red),
-      vertex((0.5, 0.8), <d>, green),
-      vertex((1.5, 0.8), <e>, green),
+      vertex((0.5, 1), <d>, red),
+      vertex((1.5, 1), <e>, green),
       edge(<a>, <b>),
       edge(<b>, <c>),
       edge(<a>, <d>),
@@ -4001,7 +4002,8 @@ The green vertices ${a, c}$ form a stable set --- no edges between them.
   ]
 ]
 
-This graph is 3-colorable. Is $chi(G) = 3$?
+This graph is 3-colorable.
+Is $chi(G) = 3$?
 
 == Chromatic Number: Bounds
 
