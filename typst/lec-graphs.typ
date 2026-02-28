@@ -4037,7 +4037,7 @@ Is $chi(G) = 3$?
   - Conjectured in 1852 by Francis Guthrie
   - Proved in 1976 by Appel and Haken _using a computer_
   - First major theorem requiring computational verification
-  - Checked ~1,500 "unavoidable" configurations
+  - Checked \~1,500 "unavoidable" configurations
   - Sparked debates: Is a computer-assisted proof a "real" proof?
 ]
 
