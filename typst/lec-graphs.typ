@@ -3443,11 +3443,9 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 == Examples: Hall's Condition
 
 #Block(color: blue)[
-  *Why "Marriage"?*
-  Think of $X$ as people seeking partners and $Y$ as potential partners.
-  Each person in~$X$ knows some people in $Y$ (edges).
-  Can everyone in $X$ find a distinct partner?
-  Only if no group of $k$ people collectively knows fewer than $k$ partners.
+  *How to read Hall's condition:*
+  For every subset $S subset.eq X$, compare the demand $|S|$ with the available partners $|N(S)|$.
+  A matching saturating $X$ exists exactly when every group $S$ has _enough_ distinct choices: $|N(S)| >= |S|$.
 ]
 
 #example[
@@ -3457,7 +3455,7 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: 1em,
+    radius: .8em,
     name: name,
   )
   #let data = (
@@ -3472,36 +3470,38 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
         vertex((0, 1), $y_1$, <y1>, green),
         vertex((1, 1), $y_2$, <y2>, green),
         vertex((2, 1), $y_3$, <y3>, green),
-        edge(<x1>, <y1>),
+        edge(<x1>, <y1>, stroke: 2pt + blue),
         edge(<x1>, <y2>),
-        edge(<x2>, <y2>),
+        edge(<x2>, <y2>, stroke: 2pt + blue),
         edge(<x2>, <y3>),
-        edge(<x3>, <y3>),
+        edge(<x3>, <y3>, stroke: 2pt + blue),
       ),
       [
-        *Satisfies Hall's Condition* \
-        Every subset $S$ has $|N(S)| >= |S|$. \
-        Perfect matching exists.],
+        *Hall holds* \
+        Matching: ${x_1y_1, x_2y_2, x_3y_3}$. \
+        So $X$ is saturated.
+      ],
     ),
     (
       diagram(
         spacing: 1.5em,
         node-stroke: 1pt,
         edge-stroke: 1pt,
-        vertex((0, 0), $x_1$, <x1>, blue),
-        vertex((1, 0), $x_2$, <x2>, blue),
+        vertex((0, 0), $x_1$, <x1>, orange),
+        vertex((1, 0), $x_2$, <x2>, orange),
         vertex((2, 0), $x_3$, <x3>, blue),
-        vertex((0.5, 1), $y_1$, <y1>, green),
-        vertex((1.5, 1), $y_2$, <y2>, green),
-        edge(<x1>, <y1>),
-        edge(<x2>, <y1>),
-        edge(<x2>, <y2>),
+        vertex((0, 1), $y_1$, <y1>, orange),
+        vertex((1, 1), $y_2$, <y2>, green),
+        vertex((2, 1), $y_3$, <y3>, green),
+        edge(<x1>, <y1>, stroke: 2pt + orange),
+        edge(<x2>, <y1>, stroke: 2pt + orange),
         edge(<x3>, <y2>),
+        edge(<x3>, <y3>),
       ),
       [
-        *Violates Hall's Condition* \
-        $S = {x_1, x_2, x_3}$ has $N(S) = {y_1, y_2}$. \
-        Since $|N(S)| = 2 < 3 = |S|$, no matching saturates $X$.
+        *Hall fails* \
+        Here $|X| = |Y| = 3$, but for $S = {x_1, x_2}$ we have $N(S) = {y_1}$. \
+        Hence $|N(S)| = 1 < 2 = |S|$, so no matching can saturate $X$.
       ],
     ),
   )
@@ -3509,7 +3509,7 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
     #grid(
       columns: 2,
       align: (x, y) => center + if y == 0 { bottom } else { top },
-      column-gutter: 3em,
+      column-gutter: 2em,
       row-gutter: 1em,
       ..array.zip(..data).flatten()
     )
