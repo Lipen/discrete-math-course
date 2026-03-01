@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>TM2: Boolean Algebra &amp; Logic - Discrete Mathematics</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Course materials for Discrete Mathematics at ITMO University">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Discrete Mathematics</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course/edit/master/docs/src/assessments/colloquiums/tm2.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="-tm2--boolean-algebra--formal-logic"><a class="header" href="#-tm2--boolean-algebra--formal-logic">⚡🧠 TM2 – Boolean Algebra + Formal Logic</a></h1>
+<h2 id="-exam-details"><a class="header" href="#-exam-details">📅 Exam Details</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Detail</th><th>Information</th></tr></thead><tbody>
+<tr><td><strong>When</strong></td><td>~ Week 15 (Fall)</td></tr>
+<tr><td><strong>Duration</strong></td><td>120 minutes</td></tr>
+<tr><td><strong>Format</strong></td><td>Closed book (no notes, no materials), no preparation</td></tr>
+<tr><td><strong>Passing</strong></td><td>≥5/10 required</td></tr>
+</tbody></table>
+</div>
+<h2 id="-coverage"><a class="header" href="#-coverage">📚 Coverage</a></h2>
+<p>The second theoretical minimum covers key concepts from the latter modules of the course:</p>
+<h3 id="-boolean-algebra-weeks-810"><a class="header" href="#-boolean-algebra-weeks-810">⚡ Boolean Algebra (Weeks 8–10)</a></h3>
+<ul>
+<li>Boolean functions and truth tables</li>
+<li>Boolean laws and duality principle</li>
+<li>Normal forms (DNF, CNF)</li>
+<li>Logic gates (AND, OR, NOT, NAND, NOR, XOR)</li>
+<li>Functional completeness</li>
+<li>Karnaugh maps</li>
+<li>Quine-McCluskey algorithm</li>
+</ul>
+<h3 id="-formal-logic-weeks-1115"><a class="header" href="#-formal-logic-weeks-1115">🧠 Formal Logic (Weeks 11–15)</a></h3>
+<ul>
+<li>Propositional logic (syntax and semantics)</li>
+<li>Tautologies, contradictions, contingencies</li>
+<li>Logical equivalence and consequence</li>
+<li>Natural deduction proof systems</li>
+<li>Soundness and completeness</li>
+<li>Predicate logic with quantifiers</li>
+<li>Categorical logic and syllogisms</li>
+</ul>
+<h2 id="-sample-questions"><a class="header" href="#-sample-questions">📝 Sample Questions</a></h2>
+<h3 id="definitions"><a class="header" href="#definitions">Definitions</a></h3>
+<ul>
+<li>Define tautology, contradiction, contingency</li>
+<li>What is functional completeness?</li>
+<li>Define logical consequence</li>
+<li>What is DNF? What is CNF?</li>
+<li>Define soundness vs completeness</li>
+</ul>
+<h3 id="theorems"><a class="header" href="#theorems">Theorems</a></h3>
+<ul>
+<li>State the completeness theorem</li>
+<li>Show {NAND} is functionally complete</li>
+<li>Every Boolean function has DNF representation</li>
+<li>De Morgan’s laws</li>
+</ul>
+<h3 id="proofs"><a class="header" href="#proofs">Proofs</a></h3>
+<ul>
+<li>Prove transitivity of implication using natural deduction</li>
+<li>Show De Morgan’s law using truth table or Boolean algebra</li>
+<li>Prove a tautology is valid in all interpretations</li>
+<li>Show {NAND} can express AND, OR, NOT</li>
+</ul>
+<h3 id="conceptual"><a class="header" href="#conceptual">Conceptual</a></h3>
+<ul>
+<li>Relationship between Boolean algebra and logic?</li>
+<li>Difference between soundness and completeness?</li>
+<li>Why can’t we use truth tables for predicate logic?</li>
+<li>What makes a gate set universal?</li>
+</ul>
+<h2 id="-what-you-must-know"><a class="header" href="#-what-you-must-know">✅ What You Must Know</a></h2>
+<ul>
+<li>Boolean operations (AND, OR, NOT) and laws</li>
+<li>DNF and CNF normal forms</li>
+<li>Functional completeness concept</li>
+<li>Tautologies, contradictions, contingencies</li>
+<li>Logical equivalence and consequence</li>
+<li>Soundness vs completeness distinction</li>
+<li>Natural deduction inference rules (modus ponens, modus tollens, etc.)</li>
+<li>Quantifier negation rules</li>
+<li>Key theorems: Completeness theorem, De Morgan’s laws, functional completeness proofs</li>
+<li>Proof techniques: truth tables, Boolean algebra, natural deduction, gate construction</li>
+</ul>
+<h2 id="-preparation-checklist"><a class="header" href="#-preparation-checklist">📖 Preparation Checklist</a></h2>
+<h3 id="-week-14-2-weeks-before"><a class="header" href="#-week-14-2-weeks-before">✅ Week 14 (2 weeks before)</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Review all lecture notes from Weeks 8–15</li>
+<li><input disabled="" type="checkbox"/>
+Memorize all Boolean laws</li>
+<li><input disabled="" type="checkbox"/>
+List all natural deduction rules</li>
+<li><input disabled="" type="checkbox"/>
+Practice proofs in natural deduction</li>
+</ul>
+<h3 id="-week-15-1-week-before"><a class="header" href="#-week-15-1-week-before">✅ Week 15 (1 week before)</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Can recite all definitions precisely?</li>
+<li><input disabled="" type="checkbox"/>
+Practice functional completeness proofs</li>
+<li><input disabled="" type="checkbox"/>
+Join study group, quiz on theorems</li>
+<li><input disabled="" type="checkbox"/>
+Attend review session</li>
+</ul>
+<h3 id="-day-before"><a class="header" href="#-day-before">✅ Day Before</a></h3>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Review materials once</li>
+<li><input disabled="" type="checkbox"/>
+<strong>Get 8 hours sleep!</strong></li>
+<li><input disabled="" type="checkbox"/>
+Stay calm and confident</li>
+</ul>
+<h2 id="-pro-tips"><a class="header" href="#-pro-tips">💡 Pro Tips</a></h2>
+<blockquote>
+<p><strong>🎯 Success Strategy</strong></p>
+<ul>
+<li><strong>Laws are your tools</strong>: Memorize Boolean laws cold</li>
+<li><strong>Name your inference rules</strong>: In proofs, cite “Modus Ponens”, “∧-Intro”, etc.</li>
+<li><strong>Truth tables work</strong>: When stuck, build truth table</li>
+<li><strong>K-maps are visual</strong>: Practice grouping patterns</li>
+<li><strong>Quantifiers are tricky</strong>: Double-check negations</li>
+</ul>
+</blockquote>
+<h3 id="common-pitfalls-to-avoid"><a class="header" href="#common-pitfalls-to-avoid">Common Pitfalls to Avoid</a></h3>
+<ul>
+<li>❌ Confusing semantic consequence and syntactic provability</li>
+<li>❌ Wrong quantifier negation (negating “for all” gives “there exists…not”, not “for all…not”)</li>
+<li>❌ Forgetting to justify proof steps</li>
+<li>❌ K-map groups not power-of-2 sizes</li>
+<li>❌ Mixing up soundness and completeness</li>
+</ul>
+<h3 id="what-graders-look-for"><a class="header" href="#what-graders-look-for">What Graders Look For</a></h3>
+<ul>
+<li>✓ Exact definitions (word-for-word accuracy)</li>
+<li>✓ Named inference rules in proofs</li>
+<li>✓ Clear step-by-step Boolean simplifications</li>
+<li>✓ Correct gate constructions for completeness</li>
+<li>✓ Proper quantifier manipulation</li>
+<li>✓ Understanding of soundness/completeness distinction</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../assessments/colloquiums/tm1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../assessments/colloquiums/preparation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../assessments/colloquiums/tm1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../assessments/colloquiums/preparation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
