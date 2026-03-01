@@ -554,7 +554,7 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
     label,
     tint: blue,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -1167,7 +1167,7 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   #let vertex(pos, label, name, ..args) = blob(
     pos,
     label,
-    radius: 1em,
+    radius: .8em,
     name: name,
     ..args,
   )
@@ -1205,7 +1205,7 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   #let vertex(pos, label, name, ..args) = blob(
     pos,
     label,
-    radius: 1em,
+    radius: .8em,
     name: name,
     ..args,
   )
@@ -1740,14 +1740,14 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
       vertex((1, 0), $x$, <x>, blue),
       vertex((2, 0), $v$, <v>, blue),
       vertex((1, 0.9), $y$, <y>, blue),
-      edge(<u>, <x>, stroke: 2pt + red),
-      edge(<x>, <v>, stroke: 2pt + red),
+      edge(<u>, <x>, stroke: 2pt + blue),
+      edge(<x>, <v>, stroke: 2pt + blue),
       edge(<u>, <y>, stroke: 2pt + green, bend: -30deg),
       edge(<y>, <v>, stroke: 2pt + green, bend: -30deg),
     ),
     [
       Cycle gives two distinct $u$-$v$ paths:
-      - #Red[$u$-$x$-$v$]
+      - #Blue[$u$-$x$-$v$]
       - #Green[$u$-$y$-$v$]
 
       Therefore uniqueness fails whenever a cycle exists.
@@ -1812,7 +1812,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<b>, <d>),
-        edge(<a>, <c>, stroke: 2pt + red, bend: -30deg),
+        edge(<a>, <c>, stroke: 2pt + orange, bend: -30deg),
       ),
 
       [*Before:* tree $T$], [*After:* $T + {a,c}$ has exactly one cycle $a$-$b$-$c$-$a$],
@@ -1853,7 +1853,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         node-stroke: 1pt,
         edge-stroke: 1pt,
         node-corner-radius: 3pt,
-        vertex((1, 0), [root], <root>, red, shape: shapes.rect, width: 2.5em, radius: auto),
+        vertex((1, 0), [root], <root>, orange, shape: shapes.rect, width: 2.5em, radius: auto),
         vertex((0, 1), $a$, <a>, blue),
         vertex((2, 1), $b$, <b>, blue),
         vertex((-0.5, 2), $c$, <c>, green),
@@ -1866,7 +1866,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge(<b>, <e>),
       ),
       [
-        - #Red[Root] has children $a, b$
+        - #text(fill: orange)[Root] has children $a, b$
         - #Green[Leaves]: $c, d, e$
         - #Blue[Internal] vertices: root, $a, b$
       ],
@@ -1973,14 +1973,14 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
       edge(<b>, <c>),
       edge(<c>, <d>),
       // Non-tree edges
-      edge(<d>, <a>, stroke: 2pt + red),
+      edge(<d>, <a>, stroke: 2pt + blue),
       edge(<a>, <c>, stroke: 2pt + orange, bend: 20deg),
     )
   ]
 
   Spanning tree: $a$-$b$-$c$-$d$ (black edges).
 
-  - #text(fill: red)[Adding ${a, d}$] creates fundamental cycle $a$-$b$-$c$-$d$-$a$.
+  - #Blue[Adding ${a, d}$] creates fundamental cycle $a$-$b$-$c$-$d$-$a$.
   - #text(fill: orange)[Adding ${a, c}$] creates fundamental cycle $a$-$b$-$c$-$a$.
 ]
 
@@ -2060,7 +2060,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: 1em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -2074,10 +2074,10 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge-stroke: 1pt,
         vertex((0, 0.5), $a$, <a>, blue),
         vertex((0, -0.5), $b$, <b>, blue),
-        vertex((1, 0), $c$, <c>, red),
+        vertex((1, 0), $c$, <c>, orange),
         vertex((2, 0.8), $d$, <d>, blue),
         vertex((2, -0.8), $e$, <e>, blue),
-        vertex((3, 0), $f$, <f>, red),
+        vertex((3, 0), $f$, <f>, orange),
         vertex((4, 0), $g$, <g>, blue),
         edge(<a>, <b>),
         edge(<a>, <c>),
@@ -2090,7 +2090,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge(<f>, <g>, stroke: 4pt + orange),
       ),
       [
-        - #Red[Cut vertices]: $c$, $f$
+        - #text(fill: orange)[Cut vertices]: $c$, $f$
         - #text(fill: orange)[Bridge]: edge ${f, g}$
       ],
     )
@@ -2124,7 +2124,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -2133,10 +2133,10 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
       node-stroke: 1pt,
       edge-stroke: 1pt,
       vertex((0, 0), $u$, <u>, blue),
-      vertex((1, 0.5), $a$, <a>, red),
-      vertex((1, -0.5), $b$, <b>, red),
-      vertex((2, 0.5), $c$, <c>, green),
-      vertex((2, -0.5), $d$, <d>, green),
+      vertex((1, 0.5), $a$, <a>, orange),
+      vertex((1, -0.5), $b$, <b>, orange),
+      vertex((2, 0.5), $c$, <c>, blue),
+      vertex((2, -0.5), $d$, <d>, blue),
       vertex((3, 0), $v$, <v>, blue),
       edge(<u>, <a>),
       edge(<u>, <b>),
@@ -2150,12 +2150,12 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
   ]
 ]
 
-#Red[$S = {a, b}$] is a $u$-$v$ separator (minimum: size 2).
-#Green[$S' = {c, d}$] is also a $u$-$v$ separator (also size 2).
+#text(fill: orange)[$S = {a, b}$] is a minimum $u$-$v$ separator (size 2).
+#Blue[$S' = {c, d}$] is another minimum separator (same size).
 
 #note[
-  A _minimum_ $u$-$v$ separator is one of smallest size.
-  Its size determines how "well-connected" $u$ and $v$ are.
+  A _minimum_ $u$-$v$ separator has the smallest possible cardinality.
+  Its size is the local vertex-connectivity between $u$ and $v$.
 ]
 
 == Internally Disjoint Paths
@@ -2173,7 +2173,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .9em,
+    radius: .8em,
     name: name,
   )
   #align(center)[
@@ -2185,14 +2185,14 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
       vertex((1, 0.6), $a$, <a>, blue),
       vertex((1, -0.6), $b$, <b>, blue),
       vertex((2, 0), $v$, <v>, blue),
-      edge(<u>, <a>, stroke: 2pt + red),
-      edge(<a>, <v>, stroke: 2pt + red),
-      edge(<u>, <b>, stroke: 2pt + green),
-      edge(<b>, <v>, stroke: 2pt + green),
+      edge(<u>, <a>, stroke: 2pt + green),
+      edge(<a>, <v>, stroke: 2pt + green),
+      edge(<u>, <b>, stroke: 2pt + blue),
+      edge(<b>, <v>, stroke: 2pt + blue),
     )
   ]
 
-  #text(fill: red)[Path 1: $u$-$a$-$v$] and #text(fill: green.darken(20%))[Path 2: $u$-$b$-$v$] are both _internally vertex-disjoint_ and _edge-disjoint_.
+  Path 1 (#Green[$u$-$a$-$v$]) and Path 2 (#Blue[$u$-$b$-$v$]) are both _internally vertex-disjoint_ and _edge-disjoint_.
 ]
 
 #Block(color: yellow)[
@@ -2280,7 +2280,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
     label,
     tint: tint,
     shape: shapes.circle,
-    radius: .72em,
+    radius: .8em,
     name: name,
   )
 
@@ -2345,7 +2345,7 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         vertex((1, -1), $f$, <f>),
         vertex((3, 1), $g$, <g>),
         vertex((3, -1), $h$, <h>),
-        vertex((0, 0), $v$, <v>, tint: red),
+        vertex((0, 0), $v$, <v>, tint: orange),
 
         // Left K4
         edge(<a>, <b>),
@@ -2364,15 +2364,15 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge(<g>, <h>),
 
         // Attachments through v
-        edge(<v>, <c>, stroke: 2pt + red),
-        edge(<v>, <d>, stroke: 2pt + red),
+        edge(<v>, <c>, stroke: 2pt + orange),
+        edge(<v>, <d>, stroke: 2pt + orange),
         edge(<v>, <e>),
         edge(<v>, <f>),
         edge(<v>, <g>, bend: 10deg),
       )
 
       *Strict inequality example:* \
-      $delta = 3$, $kappa = 1$, $lambda = 2$
+      $kappa = 1$, $lambda = 2$, $delta = 3$
     ],
   )
 ]
@@ -2666,7 +2666,7 @@ In other words: the maximum number of paths from $u$ to $v$ that share _no inter
   ]
 ]
 
-Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[green pentagon], #text(fill: orange)[orange bridge]. #text(fill: purple)[Purple] = cut vertices.
+Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[green pentagon], #text(fill: orange)[orange bridge]. #text(fill: purple)[Purple cut vertices].
 
 == Whitney's Characterization of 2-Connectivity
 
@@ -2675,9 +2675,12 @@ Three blocks: #text(fill: blue)[blue triangle], #text(fill: green.darken(20%))[g
 ]
 
 #proof[
-  ($arrow.double.r$) If $G$ is 2-connected, Menger gives 2 internally disjoint $u$-$v$ paths forming a cycle.
+  ($arrow.double.r$)
+  If $G$ is 2-connected, Menger gives 2 internally disjoint $u$-$v$ paths forming a cycle.
 
-  ($arrow.double.l$) If every pair lies on a cycle, then removing any vertex $v$ leaves at least one path between any $u, w$ (via the cycle not passing through $v$). Hence no cut vertex exists.
+  ($arrow.double.l$)
+  If every pair lies on a cycle, then removing any vertex $v$ leaves at least one path between any $u, w$ (via~the cycle not passing through $v$).
+  Hence no cut vertex exists.
   #qedhere
 ]
 
