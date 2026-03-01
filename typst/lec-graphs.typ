@@ -2521,38 +2521,48 @@ In other words: the maximum number of paths from $u$ to $v$ that share _no inter
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0.5), $u$, <u>, blue),
-        vertex((1, 1), $a$, <a>, blue),
-        vertex((1, 0), $b$, <b>, blue),
-        vertex((2, 0.5), $c$, <c>, blue),
+        vertex((1, 0), $a$, <a>, blue),
+        vertex((1, 1), $b$, <b>, blue),
+        vertex((2, 0), $c$, <c>, blue),
+        vertex((2, 1), $d$, <d>, blue),
         vertex((3, 0.5), $v$, <v>, blue),
-        edge(<u>, <a>, stroke: 2pt + red),
-        edge(<a>, <c>, stroke: 2pt + red),
-        edge(<c>, <v>, stroke: 2pt + red),
-        edge(<u>, <b>, stroke: 2pt + green),
-        edge(<b>, <c>, stroke: 2pt + green),
-        edge(<a>, <b>),
+        edge(<u>, <a>, stroke: 2pt + green),
+        edge(<a>, <c>, stroke: 2pt + green),
+        edge(<c>, <v>, stroke: 2pt + green),
+        edge(<u>, <b>, stroke: 2pt + blue),
+        edge(<b>, <d>, stroke: 2pt + blue),
+        edge(<d>, <v>, stroke: 2pt + blue),
+        edge(<a>, <d>, stroke: gray),
+        edge(<b>, <c>, stroke: gray),
+        edge(<c>, <d>, stroke: gray),
       ),
       diagram(
         node-stroke: 1pt,
         edge-stroke: 1pt,
         vertex((0, 0.5), $u$, <u>, blue),
-        vertex((1, 1), $a$, <a>, blue),
-        vertex((1, 0), $b$, <b>, blue),
-        vertex((2, 0.5), $c$, <c>, blue),
+        vertex((1, 0), $a$, <a>, blue),
+        vertex((1, 1), $b$, <b>, blue),
+        vertex((2, 0), $c$, <c>, blue),
+        vertex((2, 1), $d$, <d>, blue),
         vertex((3, 0.5), $v$, <v>, blue),
-        edge(<u>, <a>),
-        edge(<a>, <c>, stroke: 3pt + orange),
+        edge(<u>, <a>, stroke: gray),
+        edge(<a>, <c>, stroke: gray),
         edge(<c>, <v>, stroke: 3pt + orange),
-        edge(<u>, <b>),
-        edge(<b>, <c>),
-        edge(<a>, <b>),
+        edge(<u>, <b>, stroke: gray),
+        edge(<b>, <d>, stroke: gray),
+        edge(<d>, <v>, stroke: 3pt + orange),
+        edge(<a>, <d>, stroke: gray),
+        edge(<b>, <c>, stroke: gray),
+        edge(<c>, <d>, stroke: gray),
       ),
 
-      [*2 edge-disjoint paths* (max)], [*Min edge cut* of size 2],
+      [*2 edge-disjoint paths* (max)], [*Min edge cut:* ${(c,v), (d,v)}$ of size 2],
     )
   ]
 
-  Two edge-disjoint paths (may share vertices like $c$, but no edges). Min edge cut = 2.
+  Highlighted paths (#Green[$u$-$a$-$c$-$v$] and #Blue[$u$-$b$-$d$-$v$]) are _edge-disjoint_.
+
+  In the same graph, removing $(c,v)$ and $(d,v)$ disconnects $u$ from $v$, so a _minimum edge cut_ has size 2.
 ]
 
 == Menger's Theorem: Significance
