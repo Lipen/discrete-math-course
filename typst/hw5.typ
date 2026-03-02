@@ -852,18 +852,26 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 
 == Problem B: The Friendship Theorem #h(1fr)#TagBonus
 
-The _Friendship Theorem_ (Erdős, Rényi, Sós, 1966) states:
+The *Friendship Theorem* (Erdős--Rényi--Sós, 1966) states:
 
 #Block[
-  If $G$ is a finite simple graph in which every pair of _distinct_ vertices has _exactly one_ common neighbor, then $G$ is a _windmill graph_: $n$ triangles all sharing a single common vertex.
+  Let $G$ be a finite simple graph in which every pair of distinct vertices has exactly one common neighbor (the *friendship condition*).
+  Then $G$ is a _friendship graph_ (also called a _windmill graph_ $W_(3,k)$), consisting of $k$ triangles that share exactly one common vertex.
 ]
 
 #tasklist("probB")[
-  + Verify the theorem for small cases. Try to construct non-windmill graphs satisfying the friendship condition with $n <= 8$ vertices.
+  + Verify the theorem for small cases.
+    Try to construct non-windmill graphs satisfying the friendship condition with $n <= 8$ vertices.
 
-  + Prove that any graph $G$ satisfying the friendship condition must be regular (all vertices have the same degree).
+  + Consider the claim:
+    "Every graph satisfying the friendship condition is regular."
+    Decide whether this statement is #True or #False, and justify your answer by a proof or a counterexample.
 
-  + Using regularity, show that if $G$ is $r$-regular and satisfies the friendship condition, then either $r = 2$ or there exists a universal vertex (a vertex adjacent to all others).
+  + Prove the *corrected lemma*:
+    If a graph $G$ satisfies the friendship condition and has _no_ universal vertex (that is, no vertex adjacent to all other vertices), then $G$ is regular.
+
+  + Using the corrected lemma, complete the proof of the theorem.
+    Show that a finite graph satisfying the friendship condition must have a universal vertex, and therefore is a windmill graph $W_(3,k)$.
 ]
 
 
