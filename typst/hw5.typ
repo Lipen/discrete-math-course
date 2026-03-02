@@ -770,7 +770,7 @@ Consider the following flow network $N = (V, E, s, t, c)$ with source $s$ and si
     edge(<b>, <d>, "-}>", [10], label-angle: auto, label-side: center),
     edge(<b>, <e>, "-}>", [3], label-angle: auto, label-side: center),
     edge(<d>, <c>, "-}>", [3], label-angle: auto, label-side: center),
-    edge(<e>, <d>, "-}>", [9.], label-angle: auto, label-side: center),
+    edge(<e>, <d>, "-}>", [8], label-angle: auto, label-side: center),
     edge(<c>, <t>, "-}>", [8], label-angle: auto, label-side: center),
     edge(<d>, <t>, "-}>", [7], label-angle: auto, label-side: center),
     edge(<e>, <t>, "-}>", [10], label-angle: auto, label-side: center),
