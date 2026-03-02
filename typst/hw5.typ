@@ -46,6 +46,12 @@
 #let Blue(x) = text(blue.darken(20%), x)
 #let Orange(x) = text(orange.darken(20%), x)
 
+#let True = Green(`true`)
+#let False = Red(`false`)
+
+#let YES = Green(sym.checkmark)
+#let NO = Red(sym.crossmark)
+
 // Task list helper
 #let tasklist(id, cols: 1, format: "1.", body) = {
   let s = counter(id)
