@@ -827,7 +827,7 @@ The problems in this assignment are _tagged_ with three levels of difficulty:
   These problems will _not_ count toward your grade but may earn bonus points.
 ]
 
-#v(.5em)
+#v(1em)
 
 
 == Problem A: Ramsey Theory #h(1fr)#TagBonus
@@ -848,7 +848,7 @@ The _Ramsey number_ $R(r, s)$ is the minimum $n$ such that any 2-coloring of the
 ]
 
 
-#v(.5em)
+#v(1em)
 
 == Problem B: The Friendship Theorem #h(1fr)#TagBonus
 
