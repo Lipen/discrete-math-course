@@ -624,7 +624,6 @@ Show that the following graphs are graceful (by explicitly constructing a gracef
       vertex((3, 0), <v4>, blue),
       vertex((4, 0), <v5>, blue),
       edge(<v1>, <v2>),
-      edge(<v1>, <v2>),
       edge(<v2>, <v3>),
       edge(<v3>, <v4>),
       edge(<v4>, <v5>),
