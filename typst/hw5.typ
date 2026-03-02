@@ -875,7 +875,7 @@ The *Friendship Theorem* (Erdős--Rényi--Sós, 1966) states:
 ]
 
 
-#v(.5em)
+#pagebreak()
 
 == Problem C: Max-Flow Solver #h(1fr)#TagBonus
 
