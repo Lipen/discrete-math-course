@@ -4181,6 +4181,16 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
 = Network Flows
 #focus-slide(
   epigraph: [The whole is more than the sum of its parts --- \ but the flow is limited by the narrowest channel.],
+  scholars: (
+    (
+      name: "Lester Ford Jr.",
+      image: image("assets/Lester_Randolph_Ford_Jr.jpg"),
+    ),
+    (
+      name: "Delbert Fulkerson",
+      image: image("assets/Delbert_Ray_Fulkerson.jpg"),
+    )
+  )
 )
 
 == Motivation: Moving Things Through Networks
