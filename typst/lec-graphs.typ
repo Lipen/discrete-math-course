@@ -4465,7 +4465,7 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 
   Expanding by edges, all terms from edges with both endpoints in $A$ cancel, hence:
   $
-    S = sum_((u,v) in delta^+(A)) f(u,v) - sum_((u,v) in delta^-(A)) f(u,v)
+    S = sum_(e in delta^+(A)) f(e) - sum_(e in delta^-(A)) f(e)
     = f(A,B).
   $
 
@@ -4506,7 +4506,7 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 #definition[
   The _minimum $s$-$t$ cut_ is the $s$-$t$ cut with the smallest capacity:
   $
-    c^* = min_((A,B):, s in A,, t in B) c(A, B)
+    c^* = min_((A,B):\ s in A,\ t in B) c(A, B)
   $
 ]
 
@@ -4942,9 +4942,9 @@ This is one of the deepest results in combinatorics --- it equates two seemingly
 ]
 
 #proof[(2 $imply$ 3)][
-  Define $A = { v in V mid exists "path" s arrow.squiggly v "in" N_f }$.
+  Define $A = { v in V mid(|) exists "path" s arrow.squiggly v "in" N_f }$.
   Since no augmenting path exists, $t notin A$.
-  Set $B = V setminus A$.
+  Set~$B = V setminus A$.
 
   _All $A to B$ edges are saturated:_ if $(u,v) in E$ with $u in A$, $v in B$ had $c_f (u,v) > 0$, then $v$ would be reachable from $s$, contradicting $v in B$.
   Hence $f(u,v) = c(u,v)$ for all such edges.
@@ -5019,8 +5019,8 @@ A poor choice can lead to:
   Edmonds-Karp runs in $O(V E^2)$ time --- independent of the capacity values.
 ]
 
-The key insight: with BFS shortest paths, the distance from $s$ to every vertex is non-decreasing across iterations.
-Each edge can become a bottleneck at most $O(V)$ times.
+With BFS shortest paths, the distance from $s$ to every vertex is non-decreasing across iterations. \
+Each edge can become a bottleneck at most $O(V)$ times. \
 Hence the total number of augmentations is $O(V E)$, and each BFS costs $O(E)$.
 
 #pagebreak()
