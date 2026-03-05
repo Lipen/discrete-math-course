@@ -60,6 +60,7 @@ The theory of formal languages gives us a _mathematical framework_ for answering
 
 #Block(color: yellow)[
   *Key insight:* The study of formal languages is not just about strings --- it is the foundation of the _theory of computation_.
+
   Every computational problem can be phrased as: "Given a string $w$, does $w$ belong to language $L$?"
 ]
 
@@ -742,6 +743,96 @@ $cal(A)_"D" = chevron.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" chevron.r$
   In practice, many of these states are unreachable and can be pruned.
 ]
 
+== NFA to DFA: Worked Example
+
+Let's walk through a complete example of converting an NFA to a DFA using the powerset construction.
+
+#example[
+  Consider the NFA $cal(N)$ over alphabet $Sigma = {0, 1}$ that accepts strings ending with $01$:
+
+  #let nfa-aut = (
+    q0: (q0: 1, q1: 0),
+    q1: (q2: 1),
+    q2: (),
+  )
+  #let nfa-example = finite.automaton(nfa-aut, final: ("q2",))
+
+  #align(center)[
+    #nfa-example
+  ]
+
+  Formally, $cal(N) = (Sigma, Q, delta, q_0, F)$ where:
+  - $Q = {q_0, q_1, q_2}$
+  - $delta(q_0, 0) = {q_0, q_1}$, $delta(q_0, 1) = {q_0}$, $delta(q_1, 1) = {q_2}$, all other transitions go to $emptyset$
+  - $q_0$ is start state
+  - $F = {q_2}$
+]
+
+== Step 1: Determine Reachable States
+
+We begin with the start state of the DFA: ${q_0}$.
+
+Compute transitions from ${q_0}$:
+- On $0$: $delta_D({q_0}, 0) = delta_N(q_0, 0) = {q_0, q_1}$
+- On $1$: $delta_D({q_0}, 1) = delta_N(q_0, 1) = {q_0}$
+
+Now we have new states ${q_0, q_1}$ and ${q_0}$. ${q_0}$ is already known.
+
+== Step 2: Compute Transitions for New States
+
+From ${q_0, q_1}$:
+- On $0$: $delta_N(q_0, 0) union delta_N(q_1, 0) = {q_0, q_1} union emptyset = {q_0, q_1}$
+- On $1$: $delta_N(q_0, 1) union delta_N(q_1, 1) = {q_0} union {q_2} = {q_0, q_2}$
+
+New state: ${q_0, q_2}$
+
+From ${q_0, q_2}$:
+- On $0$: $delta_N(q_0, 0) union delta_N(q_2, 0) = {q_0, q_1} union emptyset = {q_0, q_1}$
+- On $1$: $delta_N(q_0, 1) union delta_N(q_2, 1) = {q_0} union emptyset = {q_0}$
+
+No new states.
+
+== Step 3: Identify Accepting States
+
+A DFA state is accepting if it contains any NFA accepting state:
+- ${q_0}$: contains $q_0$? No ($q_0 notin F$). Not accepting.
+- ${q_0, q_1}$: contains $q_2$? No. Not accepting.
+- ${q_0, q_2}$: contains $q_2$? Yes ($q_2 in F$). Accepting.
+
+== Step 4: Construct the DFA
+
+We have three reachable states: $A = {q_0}$, $B = {q_0, q_1}$, $C = {q_0, q_2}$.
+
+Transition table:
+#table(
+  columns: 4,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*State*], [$0$], [$1$], [Accepting?]),
+  [$A = {q_0}$], [$B$], [$A$], [$NO$],
+  [$B = {q_0, q_1}$], [$B$], [$C$], [$NO$],
+  [$C = {q_0, q_2}$], [$B$], [$A$], [$YES$],
+)
+
+#let dfa-aut = (
+  A: (B: 0, A: 1),
+  B: (B: 0, C: 1),
+  C: (B: 0, A: 1),
+)
+#let dfa-example = finite.automaton(dfa-aut, final: ("C",))
+
+#align(center)[
+  #dfa-example
+]
+
+== Step 5: Verify Equivalence
+
+Both automata accept the same language: strings ending with $01$.
+- The NFA has 3 states, the DFA has 3 reachable states (out of possible $2^3 = 8$).
+- Unreachable states like ${q_1}$, ${q_2}$, ${q_1, q_2}$, ${q_0, q_1, q_2}$, $emptyset$ were never generated.
+
+#Block(color: green)[
+  *Key observation:* Although the powerset construction can produce exponentially many states, in practice many states are unreachable. This example shows that sometimes the resulting DFA can be as small as the original NFA.
+]
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SECTION 5: Kleene's Theorem
@@ -1176,9 +1267,257 @@ For example:
   The constraint $abs(x y) <= n$ from the full version is essential.
 ]
 
+== More Non-Regular Language Proofs
+
+Let's apply the pumping lemma to a few more interesting languages.
+
+== Palindromes Over {0,1}
+
+#definition[
+  A _palindrome_ is a string that reads the same forwards and backwards.
+  Let $"PAL" = { w in {0,1}^* | w = w^R }$ where $w^R$ is the reversal of $w$.
+]
+
+#theorem[
+  $"PAL"$ is not regular.
+]
+
+#proof[
+  Assume $"PAL"$ is regular. Let $n$ be the pumping length.
+  Consider $w = 0^n 1 0^n$. Note $w in "PAL"$ and $abs(w) = 2n+1 >= n$.
+  By the pumping lemma, $w = x y z$ with $y != epsilon$, $abs(x y) <= n$, and $x y^i z in "PAL"$ for all $i$.
+
+  Since $abs(x y) <= n$, $y$ consists only of $0$s from the first block.
+  Pumping $y$ (say $i=2$) gives $x y^2 z = 0^(n+k) 1 0^n$ where $k = abs(y) > 0$.
+  This string is not a palindrome because the first block has $n+k$ zeros while the last block has $n$ zeros.
+  Contradiction.
+]
+
+== Strings with More 0s than 1s
+
+#definition[
+  Let $"MORE0" = { w in {0,1}^* | w "has more 0s than 1s" }$.
+]
+
+#theorem[
+  $"MORE0"$ is not regular.
+]
+
+#proof[
+  Assume regularity. Let $n$ be pumping length.
+  Consider $w = 0^n 1^n$. Note $w notin "MORE0"$ (equal counts). Wait, we need a string *in* the language.
+  Instead, use $w = 0^(n+1) 1^n$, which is in $"MORE0"$ and has length $2n+1 >= n$.
+  By pumping lemma, $w = x y z$ with $abs(x y) <= n$, $y$ consists of $0$s only.
+  Pumping down ($i=0$) gives $x z = 0^(n+1-abs(y)) 1^n$. Since $abs(y) > 0$, the number of $0$s becomes $<= n$, so not more than $1$s.
+  Contradiction.
+]
+
+== Strings with Unequal Counts
+
+#definition[
+  Let $"UNEQUAL" = { w in {0,1}^* | w "has different number of 0s and 1s" }$.
+]
+
+#theorem[
+  $"UNEQUAL"$ is not regular.
+]
+
+#proof[
+  Note that $"UNEQUAL" = overline("EQUAL")$, the complement of the language of strings with equal 0s and 1s.
+  Since $"EQUAL"$ is not regular (proved earlier), and regular languages are closed under complement, $"UNEQUAL"$ cannot be regular either.
+  (If $"UNEQUAL"$ were regular, its complement $"EQUAL"$ would also be regular — contradiction.)
+]
+
+== Contrast: A Regular Language That Seems Complex
+
+#definition[
+  Let $"DIV7" = { w in {0,1}^* | w "interpreted as binary number is divisible by 7" }$.
+]
+
+#theorem[
+  $"DIV7"$ is regular.
+]
+
+#proof[
+  Construct a DFA with 7 states representing the remainder modulo 7.
+  As we read each bit $b in {0,1}$, update the remainder: $r_"new" = (2 * r_"old" + b) mod 7$.
+  Accept if final remainder is 0.
+  This DFA has exactly 7 states, so $"DIV7"$ is regular.
+]
+
+#Block(color: green)[
+  *Key insight:* The pumping lemma helps prove non-regularity, but some languages that seem complex (like binary numbers divisible by 7) are actually regular because they only require *bounded memory* (the remainder).
+]
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 7: Closure and Decision Properties
+// SECTION 7: Myhill-Nerode Theorem
+// ═══════════════════════════════════════════════════════════════════════════════
+
+== Myhill-Nerode Theorem: A Fundamental Characterization
+
+While the pumping lemma gives a _necessary_ condition for regularity, the Myhill-Nerode theorem provides a _necessary and sufficient_ condition. It connects regular languages to equivalence relations with finite index.
+
+#definition[
+  Given a language $L subset.eq Sigma^*$, define the _Myhill-Nerode equivalence relation_ $equiv_L$ on $Sigma^*$ as:
+  $
+    x equiv_L y quad "iff" quad forall z in Sigma^*. (x z in L iff y z in L)
+  $
+
+  That is, two strings $x$ and $y$ are equivalent if _no distinguishing extension_ $z$ can tell them apart with respect to $L$.
+]
+
+#example[
+  Let $L = { w in {0,1}^* | w "ends with 01" }$.
+  - Strings $"001"$ and $"101"$ are equivalent: for any $z$, both $"001"z$ and $"101"z$ end with 01 iff $z$ is empty.
+  - Strings $"00"$ and $"0"$ are _not_ equivalent: take $z = "1"$, then $"00""1" = "001" in L$ but $"0""1" = "01" notin L$.
+]
+
+#theorem[Myhill-Nerode Theorem][
+  A language $L$ is regular if and only if $equiv_L$ has _finite index_ (finitely many equivalence classes).
+
+  Moreover, the number of equivalence classes equals the number of states in the _minimal DFA_ for $L$.
+]
+
+#proof[(Intuition)][
+  - ($=>$) If $L$ is regular, accepted by DFA $M$ with states $Q$. Define $f: Sigma^* to Q$ by $f(w) = hat(delta)(q_0, w)$. Then $f(x) = f(y)$ implies $x equiv_L y$, so index is at most $|Q|$.
+  - ($<=$) If $equiv_L$ has finite index $n$, construct DFA with states = equivalence classes. Transition on symbol $a$: $[x] ->^a [x a]$. Accepting: classes $[w]$ with $w in L$.
+]
+
+== Connection to Minimal DFAs
+
+The Myhill-Nerode theorem provides a direct way to construct the _unique minimal DFA_ for a regular language:
+
+#definition[
+  To build minimal DFA for $L$:
+  1. Compute equivalence classes of $equiv_L$
+  2. States = these classes
+  3. Start state = $[epsilon]$
+  4. Accepting states = ${[w] | w in L}$
+  5. Transitions on symbol $a$: $[x] ->^a [x a]$
+]
+
+#example[
+  For $L = { w | w "has odd number of 1s" }$ over ${0,1}$:
+  - Two equivalence classes: $C_0$ = strings with even \# of 1s, $C_1$ = strings with odd \# of 1s
+  - Minimal DFA: 2 states, toggling on 1
+]
+
+== Proving Non-regularity with Myhill-Nerode
+
+To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of pairwise distinguishable strings_.
+
+#definition[
+  Strings $x_1, x_2, ...$ are _pairwise $L$-distinguishable_ if for all $i != j$, there exists $z$ such that exactly one of $x_i z$, $x_j z$ is in $L$.
+]
+
+#theorem[
+  If there exists an infinite set of pairwise $L$-distinguishable strings, then $equiv_L$ has infinite index, so $L$ is not regular.
+]
+
+#example[${0^n 1^n | n >= 0}$ is not regular][
+  Consider strings $x_i = 0^i$ for $i = 0, 1, 2, ...$
+
+  For $i < j$, take $z = 1^i$. Then:
+  - $x_i z = 0^i 1^i in L$
+  - $x_j z = 0^j 1^i notin L$ (since $j > i$)
+
+  Thus ${0^i}$ is infinite and pairwise distinguishable, so $L$ is not regular.
+]
+
+#example[${w w | w in {0,1}^*}$ is not regular][
+  Consider strings $x_i = 0^i 1$ for $i = 0, 1, 2, ...$
+
+  For $i < j$, take $z = 0^i 1$. Then:
+  - $x_i z = 0^i 1 0^i 1 = (0^i 1)(0^i 1) in L$
+  - $x_j z = 0^j 1 0^i 1 notin L$ (can't be written as $w w$)
+
+  Infinite pairwise distinguishable set, so not regular.
+]
+
+== Comparison: Pumping Lemma vs Myhill-Nerode
+
+#align(center)[
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Method*], [*Strength*], [*Application*]),
+    [Pumping Lemma], [Necessary condition only], [Can disprove regularity, cannot prove it],
+    [Myhill-Nerode], [Necessary and sufficient], [Can both prove and disprove regularity],
+    [Pumping Lemma], [Constructive counterexample], [Game: adversary chooses split, you choose pump],
+    [Myhill-Nerode], [Structural characterization], [Exhibit infinite distinguishable set],
+    [Pumping Lemma], [Based on pigeonhole principle], [Focuses on long strings in the language],
+    [Myhill-Nerode], [Based on equivalence relations], [Focuses on distinguishing extensions],
+  )
+]
+
+#Block(color: blue)[
+  *Key insight:* While the pumping lemma is often taught first due to its simpler game-like structure, the Myhill-Nerode theorem provides a deeper understanding of _why_ some languages aren't regular and directly connects to the minimal automaton.
+]
+
+== Visualizing Equivalence Classes
+
+For a regular language, the equivalence classes correspond to states in the minimal DFA:
+
+#align(center)[
+  #cetz.canvas({
+    import cetz.draw: *
+
+    // Diagram showing equivalence classes merging into DFA states
+    set-style(fill: none)
+
+    // Equivalence classes as circles
+    circle((0, 0), radius: 0.8, stroke: blue.darken(30%))
+    circle((2, 0), radius: 0.8, stroke: blue.darken(30%))
+    circle((4, 0), radius: 0.8, stroke: blue.darken(30%))
+    circle((6, 0), radius: 0.8, stroke: blue.darken(30%))
+
+    content((0, 0))[$[epsilon]$]
+    content((2, 0))[$[0]$]
+    content((4, 0))[$[00]$]
+    content((6, 0))[$dots$]
+
+    // Arrows showing transitions
+    line((0.8, 0), (1.2, 0), stroke: 1pt, mark: (end: ">"))
+    line((2.8, 0), (3.2, 0), stroke: 1pt, mark: (end: ">"))
+    line((4.8, 0), (5.2, 0), stroke: 1pt, mark: (end: ">"))
+
+    content((1, -0.7))[0]
+    content((3, -0.7))[0]
+    content((5, -0.7))[0]
+
+    // DFA on the bottom
+    translate((0, -3))
+
+    circle((1, 0), radius: 0.5, stroke: green.darken(40%), fill: green.lighten(90%))
+    circle((3, 0), radius: 0.5, stroke: green.darken(40%), fill: green.lighten(90%))
+    circle((5, 0), radius: 0.5, stroke: green.darken(40%), fill: green.lighten(90%))
+
+    content((1, 0))[$q_0$]
+    content((3, 0))[$q_1$]
+    content((5, 0))[$q_2$]
+
+    line((1.5, 0), (2.5, 0), stroke: 1pt, mark: (end: ">"))
+    line((3.5, 0), (4.5, 0), stroke: 1pt, mark: (end: ">"))
+    line((5.3, 0), (5.7, 0), stroke: 1pt, mark: (end: ">"))
+    line((5.7, 0), (5.3, 0), stroke: 1pt, mark: (end: ">"))
+
+    content((2, -0.7))[0]
+    content((4, -0.7))[0]
+    content((5.5, 0.7))[0]
+
+    // Labels
+    content((0, 1.2))[Equivalence Classes]
+    content((1, -1.7))[Minimal DFA States]
+  })
+]
+
+#Block(color: yellow)[
+  *Historical note:* The theorem is named after John Myhill and Anil Nerode, who independently discovered it in the late 1950s. It provides one of the most elegant characterizations of regular languages.
+]
+
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SECTION 8: Closure and Decision Properties
 // ═══════════════════════════════════════════════════════════════════════════════
 
 = Closure and Decision Properties
@@ -1412,7 +1751,7 @@ For example:
 #proof[
   Structural induction on the regular expression $E$ defining $L$:
   - _Basis:_ If $E$ is $epsilon$, $emptyset$, or $regex("a")$, then $E^R = E$.
-  - _Induction:_ $E = E_1 + E_2 => E^R = E_1^R + E_2^R$; $quad E = E_1 E_2 => E^R = E_2^R E_1^R$; $quad E = E_1^* => E^R = (E_1^R)^*$.
+  - _Induction:_ $E = E_1 + E_2 => E^R = E_1^R + E_2^R$; $quad E = E_1 E_2 => E^R = E_2^R E_1^R$; $quad E = E_1^* => E^R = (E_1^R)^*$. #qedhere
 ]
 
 == Decision Properties
@@ -1445,7 +1784,7 @@ For example:
 
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 8: Beyond Regular Languages
+// SECTION 9: Beyond Regular Languages
 // ═══════════════════════════════════════════════════════════════════════════════
 
 = Beyond Regular Languages
@@ -1497,7 +1836,7 @@ To recognize languages like ${ a^n b^n | n >= 0 }$, we need more power: a _stack
 ]
 
 #Block(color: blue)[
-  *Connection:* Context-free grammars are the foundation of _programming language syntax_.
+  Context-free grammars are the foundation of _programming language syntax_.
   Every compiler uses a CFG (or a variant) to parse source code.
   BNF notation used in language specifications _is_ a CFG.
 ]
@@ -1554,7 +1893,7 @@ However, context-free languages still have limits:
 
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 9: Turing Machines
+// SECTION 10: Turing Machines
 // ═══════════════════════════════════════════════════════════════════════════════
 
 = Turing Machines
@@ -1702,10 +2041,147 @@ At each step:
   + Move the head back to the left end of the tape.
   + Repeat from step 1.
 
-  Trace on input $0011$: \
+  === Step-by-Step Visualization for Input $0011$
+
+  Let's trace the computation visually. Each diagram shows the tape contents (with $Blank$ symbols omitted for clarity) and the head position (marked with state $q_i$ above the cell).
+
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    row-gutter: 1em,
+    // Step 1: Initial configuration
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 1: Initial*], [], [], [], []),
+      [$q_0$], [], [], [], [],
+      [$0$], [$0$], [$1$], [$1$], [$Blank$],
+      [↑], [], [], [], [],
+    ),
+    // Step 2: After crossing off first 0
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 2*], [], [], [], []),
+      [], [$q_1$], [], [], [],
+      [$times$], [$0$], [$1$], [$1$], [$Blank$],
+      [], [↑], [], [], [],
+    ),
+    // Step 3: Scanning right to first 1
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 3*], [], [], [], []),
+      [], [], [$q_1$], [], [],
+      [$times$], [$0$], [$1$], [$1$], [$Blank$],
+      [], [], [↑], [], [],
+    ),
+    // Step 4: Crossing off first 1
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 4*], [], [], [], []),
+      [], [], [], [$q_2$], [],
+      [$times$], [$0$], [$times$], [$1$], [$Blank$],
+      [], [], [], [↑], [],
+    ),
+    // Step 5: Moving head left
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 5*], [], [], [], []),
+      [], [$q_3$], [], [], [],
+      [$times$], [$0$], [$times$], [$1$], [$Blank$],
+      [], [↑], [], [], [],
+    ),
+    // Step 6: Back to start
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 6*], [], [], [], []),
+      [$q_3$], [], [], [], [],
+      [$times$], [$0$], [$times$], [$1$], [$Blank$],
+      [↑], [], [], [], [],
+    ),
+    // Step 7: Start second pass
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 7*], [], [], [], []),
+      [], [$q_0$], [], [], [],
+      [$times$], [$0$], [$times$], [$1$], [$Blank$],
+      [], [↑], [], [], [],
+    ),
+    // Step 8: Cross off second 0
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 8*], [], [], [], []),
+      [], [], [$q_1$], [], [],
+      [$times$], [$times$], [$times$], [$1$], [$Blank$],
+      [], [], [↑], [], [],
+    ),
+    // Step 9: Scan to second 1
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 9*], [], [], [], []),
+      [], [], [], [$q_1$], [],
+      [$times$], [$times$], [$times$], [$1$], [$Blank$],
+      [], [], [], [↑], [],
+    ),
+    // Step 10: Cross off second 1
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 10*], [], [], [], []),
+      [], [], [], [], [$q_2$],
+      [$times$], [$times$], [$times$], [$times$], [$Blank$],
+      [], [], [], [], [↑],
+    ),
+    // Step 11: Move left and accept
+    table(
+      columns: 5,
+      stroke: 0.5pt,
+      align: center,
+      table.header([*Step 11: Accept*], [], [], [], []),
+      [], [], [], [$q_3$], [],
+      [$times$], [$times$], [$times$], [$times$], [$Blank$],
+      [], [], [], [↑], [],
+    ),
+  )
+
+  *Explanation:*
+  1. Start with tape $0011$, head at leftmost cell, state $q_0$.
+  2. Replace first $0$ with $times$, move right, state $q_1$.
+  3. Scan right past $0$ to first $1$.
+  4. Replace that $1$ with $times$, move right, state $q_2$.
+  5. Move head left to previous cell, state $q_3$.
+  6. Move head left again to start.
+  7. Start second pass: scan right for uncrossed $0$, find it at position 2.
+  8. Cross off that $0$.
+  9. Scan right for uncrossed $1$, find it at position 4.
+  10. Cross off that $1$.
+  11. Move left, check for remaining $1$s (none), transition to accept.
+
+  Formal trace (same as above): \
   $
     q_0 thin 0011 => times q_1 thin 011 => times 0 q_1 thin 11 => times 0 times q_2 thin 1 => times q_3 thin 0 times 1 => q_3 thin times 0 times 1 => times q_0 thin 0 times 1 => dots.c => "accept"
   $
+
+  #Block(color: blue)[
+    *Visual insight:* The TM uses the tape as a _scratch space_ to mark processed symbols. Each pass reduces the problem size until all symbols are crossed off, showing the count of $0$s equals count of $1$s.
+  ]
 ]
 
 == TM vs DFA vs PDA --- Comparison
