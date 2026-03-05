@@ -4891,7 +4891,7 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
         edge(<s>, <nb>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
         edge(<na>, <nc>, "-}>", [$3 slash 3$], label-side: center, stroke: green + 1.5pt, label-angle: auto),
         edge(<nb>, <nd>, "-}>", [$3 slash 3$], label-side: center, stroke: green + 1.5pt, label-angle: auto),
-        edge(<nb>, <nc>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(<nb>, <nc>, "-}>", [$0 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
         edge(
           <nc>,
           <nb>,
