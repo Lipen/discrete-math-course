@@ -141,8 +141,8 @@ Formal languages are classified by _Chomsky hierarchy_ --- a nested family of in
     circle((0, 1.8), radius: (2.5, 2.4))
     content((0, 0))[Regular]
     content((0, 1.1))[Context-Free]
-    content((0, 2.4))[Context-\ Sensitive]
-    content((0, 3.5))[Recursively \ Enumerable]
+    content((0, 2.4))[Context-Sensitive]
+    content((0, 3.5))[Recursively Enumerable]
   })
 ]
 
@@ -251,6 +251,8 @@ Regular languages can be composed from "smaller" regular languages.
   )
 ]
 
+== Regular Expressions --- Quick Reading
+
 #example[
   $regex("(a|bc)*") = {epsilon, "a", "aa", "aaa", dots, "bc", "bcbc", "bcbcbc", dots, "abc", "bca", "abca", "abcbc", "bcabc", dots}$
 ]
@@ -358,8 +360,8 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
     )),
     [Here, $q_0$ is the _start_ (denoted by an arrow) and also the _accepting_ (denoted by double circle) state.
 
-    On input $1$, the machine stays. \
-    On input $0$, the machine toggles.],
+      On input $1$, the machine stays. \
+      On input $0$, the machine toggles.],
   )
 ]
 
@@ -537,7 +539,7 @@ Each symbol read causes a transition on every currently active state.
     q5: (),
   )
   #grid(
-    columns: (1fr, 1fr),
+    columns: (3fr, 1fr),
     align: center,
     column-gutter: 1em,
     [
@@ -564,54 +566,68 @@ Each symbol read causes a transition on every currently active state.
           q5: (5, 2),
         )),
       )
-      #box(stroke: 1pt, inset: 1em, radius: .5em, fill: blue.lighten(80%))[
-        $
-          w = "a b a b a"
-        $
-      ]
     ],
     [
-      #import cetz.tree
-      #let r = 0.3
-      #let data = (
-        $0$,
-        (
-          $1$,
-          (
-            $4$,
-            (
-              $4$,
-              (
-                $4$,
-                $4$,
-                $5$,
-              ),
-            ),
-            $5$,
-          ),
-          $2$,
-        ),
-      )
-      #cetz.canvas({
-        tree.tree(data, draw-node: (node, ..) => {
-          if node.children.len() == 0 {
-            if node.content == $5$ and node.depth == 5 {
-              cetz.draw.circle((), radius: r, fill: green.lighten(80%))
-            } else {
-              cetz.draw.circle((), radius: r, fill: red.lighten(80%))
-            }
-          } else {
-            cetz.draw.circle((), radius: r, fill: yellow.lighten(80%))
-          }
-          cetz.draw.content((), node.content)
-        })
-      })
+      #box(stroke: 1pt, inset: 1em, radius: .5em, fill: blue.lighten(80%))[
+        *Input:* \
+        $w = "a b a b a"$
+      ]
     ],
   )
 ]
 
+#Block(color: yellow)[
+  *How to read this:* each time there are multiple outgoing transitions, the NFA branches into multiple active computations.
+]
+
+== Tree Computation --- Accepting Branch
+
+#[
+  #import cetz.tree
+  #let r = 0.3
+  #let data = (
+    $0$,
+    (
+      $1$,
+      (
+        $4$,
+        (
+          $4$,
+          (
+            $4$,
+            $4$,
+            $5$,
+          ),
+        ),
+        $5$,
+      ),
+      $2$,
+    ),
+  )
+  #align(center)[
+    #cetz.canvas({
+      tree.tree(data, draw-node: (node, ..) => {
+        if node.children.len() == 0 {
+          if node.content == $5$ and node.depth == 5 {
+            cetz.draw.circle((), radius: r, fill: green.lighten(80%))
+          } else {
+            cetz.draw.circle((), radius: r, fill: red.lighten(80%))
+          }
+        } else {
+          cetz.draw.circle((), radius: r, fill: yellow.lighten(80%))
+        }
+        cetz.draw.content((), node.content)
+      })
+    })
+  ]
+]
+
 - At each _decision point_, the automaton _clones_ itself for each possible decision.
 - At the end, if _any_ active accepting (#text(green.darken(20%))[green]) states remain, we _accept_.
+
+#Block(color: blue)[
+  *Lecture note:* NFA acceptance is existential --- one successful branch is enough.
+]
 
 == NFA Computation Model
 
@@ -691,23 +707,25 @@ An _$epsilon$-NFA_ extends NFAs with $epsilon$-transitions --- transitions that 
   $q in epsilon"-clo"(q)$ since each state has an _implicit_ $epsilon$-loop.
 ]
 
+== $epsilon$-NFA --- Example
+
 #example[
   For the following NFA, epsilon closure of $q$ is $epsilon"-clo"(q) = {q, r, s}$.
 
   #align(center)[
-  #cetz.canvas({
-    import cetz.draw: *
-    import finite.draw: state, transition
+    #cetz.canvas({
+      import cetz.draw: *
+      import finite.draw: state, transition
 
-    set-style(state: (radius: 0.3))
+      set-style(state: (radius: 0.3))
 
-    state((0, 0), "q", label: $q$)
-    state((1.5, 0), "r", label: $r$)
-    state((3, 0), "s", label: $s$)
+      state((0, 0), "q", label: $q$)
+      state((1.5, 0), "r", label: $r$)
+      state((3, 0), "s", label: $s$)
 
-    transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
-    transition("r", "s", inputs: "eps", label: $epsilon$, curve: 0.001)
-  })
+      transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
+      transition("r", "s", inputs: "eps", label: $epsilon$, curve: 0.001)
+    })
   ]
 ]
 
@@ -1013,14 +1031,12 @@ Informally:
 == Weak Pumping Lemma
 
 #theorem[Weak Pumping Lemma for Regular Languages][
-  - For any regular language $L$,
-    - There exists a positive natural number $n$ (also called _pumping length_) such that
-      - For any $w in L$ with $abs(w) >= n$,
-        - There exist strings $x$, $y$, $z$ such that
-          - For any natural number $i$,
-            - $w = x y z$ ($w$ can be broken into three pieces)
-            - $y != epsilon$ (the middle part is not empty)
-            - $x y^i z in L$ (the middle part can be repeated any number of times)
+  Let $L$ be regular.
+  Then there exists $n in NN$, $n > 0$, such that for every $w in L$ with $abs(w) >= n$,
+  there are strings $x, y, z$ with:
+  - $w = x y z$,
+  - $y != epsilon$,
+  - and for every $i in NN$, $x y^i z in L$.
 ]
 
 #example[
@@ -1049,6 +1065,12 @@ Informally:
 
   *Question:* Is $"EQUAL"$ a _regular_ language?
 ]
+
+#Block(color: orange)[
+  *Strategy:* Assume regularity, choose $w = 0^n "#" 0^n$, then pump to destroy equality.
+]
+
+== Non-regularity: The Equality Language --- Proof
 
 #theorem[
   $"EQUAL"$ is not a regular language.
@@ -1190,6 +1212,12 @@ $
   abs(x y) <= n
 $
 This restriction means that the "pump" $y$ must occur _within the first $n$_ characters of $w$.
+
+#Block(color: yellow)[
+  *Lecture note:* The full pumping lemma is stronger than the weak version precisely because of the prefix bound $abs(x y) <= n$.
+]
+
+== The Full Pumping Lemma --- DFA Revisit
 
 #align(center)[
   #cetz.canvas({
@@ -1466,10 +1494,10 @@ For a regular language, the equivalence classes correspond to states in the mini
     set-style(fill: none)
 
     // Equivalence classes as circles
-    circle((0, 0), radius: 0.8, stroke: blue.darken(30%))
-    circle((2, 0), radius: 0.8, stroke: blue.darken(30%))
-    circle((4, 0), radius: 0.8, stroke: blue.darken(30%))
-    circle((6, 0), radius: 0.8, stroke: blue.darken(30%))
+    circle((0, 0), radius: 0.5, stroke: blue.darken(20%))
+    circle((2, 0), radius: 0.5, stroke: blue.darken(20%))
+    circle((4, 0), radius: 0.5, stroke: blue.darken(20%))
+    circle((6, 0), radius: 0.5, stroke: blue.darken(20%))
 
     content((0, 0))[$[epsilon]$]
     content((2, 0))[$[0]$]
@@ -1481,9 +1509,9 @@ For a regular language, the equivalence classes correspond to states in the mini
     line((2.8, 0), (3.2, 0), stroke: 1pt, mark: (end: ">"))
     line((4.8, 0), (5.2, 0), stroke: 1pt, mark: (end: ">"))
 
-    content((1, -0.7))[0]
-    content((3, -0.7))[0]
-    content((5, -0.7))[0]
+    content((1, 0.7))[0]
+    content((3, 0.7))[0]
+    content((5, 0.7))[0]
 
     // DFA on the bottom
     translate((0, -3))
@@ -1511,6 +1539,21 @@ For a regular language, the equivalence classes correspond to states in the mini
   })
 ]
 
+== Visualizing Equivalence Classes --- Reading Guide
+
+#table(
+  columns: 2,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Diagram Part*], [*Meaning*]),
+  [Top row: $[epsilon], [0], [00], dots$], [Myhill-Nerode equivalence classes of prefixes],
+  [Bottom row: $q_0, q_1, q_2$], [States of the minimal DFA],
+  [Arrows labeled 0], [Appending symbol $0$ and moving to the class of the extended prefix],
+)
+
+#note[
+  The same principle works for every symbol in the alphabet; only symbol $0$ is drawn to keep the picture readable.
+]
+
 #Block(color: yellow)[
   *Historical note:* The theorem is named after John Myhill and Anil Nerode, who independently discovered it in the late 1950s. It provides one of the most elegant characterizations of regular languages.
 ]
@@ -1528,15 +1571,15 @@ For a regular language, the equivalence classes correspond to states in the mini
 
 #theorem[
   The class $"REG"$ is closed under all the following operations:
-+ The _union_ of two regular languages is regular.
-+ The _intersection_ of two regular languages is regular.
-+ The _complement_ of a regular language is regular.
-+ The _difference_ of two regular languages is regular.
-+ The _reversal_ of a regular language is regular.
-+ The _Kleene star_ of a regular language is regular.
-+ The _concatenation_ of regular languages is regular.
-+ A _homomorphism_ (substitution of strings for symbols) of a regular language is regular.
-+ The _inverse homomorphism_ of a regular language is regular.
+  + The _union_ of two regular languages is regular.
+  + The _intersection_ of two regular languages is regular.
+  + The _complement_ of a regular language is regular.
+  + The _difference_ of two regular languages is regular.
+  + The _reversal_ of a regular language is regular.
+  + The _Kleene star_ of a regular language is regular.
+  + The _concatenation_ of regular languages is regular.
+  + A _homomorphism_ (substitution of strings for symbols) of a regular language is regular.
+  + The _inverse homomorphism_ of a regular language is regular.
 ]
 
 #Block(color: yellow)[
@@ -1555,6 +1598,12 @@ For a regular language, the equivalence classes correspond to states in the mini
 
   Then $L union M = lang(R + S)$ by the definition of the union ($+$) operator for regular expressions.
 ]
+
+#note[
+  This proof is algebraic (via regular expressions). The next slide gives the automata-construction intuition.
+]
+
+== Closure under Union --- Construction Picture
 
 #v(1em)
 #align(center)[
@@ -1635,7 +1684,6 @@ For a regular language, the equivalence classes correspond to states in the mini
         state((0.566, 0), "q0", label: $q_0$, initial: true, final: complement)
         state((2, 0), "q1", label: $q_1$, final: complement)
         state((4, 0), "q2", label: $q_2$, final: not complement)
-
         transition("q0", "q1", inputs: 0, curve: 0)
         transition("q0", "q0", inputs: 1, curve: 0.5)
         transition("q1", "q1", inputs: 0, curve: 0.5)
@@ -1672,6 +1720,12 @@ For a regular language, the equivalence classes correspond to states in the mini
 
   $A$ accepts $w$ iff both $A_L$ and $A_M$ accept $w$.
 ]
+
+#note[
+  De Morgan's identity gives a short proof; the product construction gives an explicit algorithm.
+]
+
+== Closure under Intersection --- Product Example
 
 #example[
   The first automaton accepts all strings that _have a 0_.
@@ -1756,23 +1810,27 @@ For a regular language, the equivalence classes correspond to states in the mini
 
 == Decision Properties
 
-#columns(2)[
-  *Converting among representations*
-  - $epsilon$-closure: $O(n^3)$
-  - $epsilon$-NFA to DFA: $n^3 2^n$
-  - DFA to $epsilon$-NFA: $O(n)$
-  - $epsilon$-NFA to RegEx: $O(n^3 4^n)$
-  - RegEx to $epsilon$-NFA: $O(n)$
+*Converting among representations*
+- $epsilon$-closure: $O(n^3)$
+- $epsilon$-NFA to DFA: $n^3 2^n$
+- DFA to $epsilon$-NFA: $O(n)$
+- $epsilon$-NFA to RegEx: $O(n^3 4^n)$
+- RegEx to $epsilon$-NFA: $O(n)$
 
-  #colbreak()
-
-  *Decidable questions about $"REG"$*
-  + Is the language _empty_? $O(n^2)$
-  + Is the language _finite_? $O(n^2)$
-  + Is $w$ _in_ the language? $O(abs(w))$ for DFAs
-  + Is $L subset.eq M$? Decidable
-  + Is $L = M$? Decidable
+#Block(color: yellow)[
+  *Takeaway:* representation changes are computable but can be exponentially expensive in the worst case.
 ]
+
+== Decision Properties --- Decidable Questions
+
+*Decidable questions about $"REG"$*
++ Is the language _empty_? $O(n^2)$
++ Is the language _finite_? $O(n^2)$
++ Is $w$ _in_ the language? $O(abs(w))$ for DFAs
++ Is $L subset.eq M$? Decidable
++ Is $L = M$? Decidable
+
+== Decision Properties --- Threshold Theorems
 
 #theorem[
   The language $L$ accepted by a finite automaton with $n$ states is _non-empty_ iff the finite automaton accepts a word of length less than $n$.
@@ -1985,13 +2043,20 @@ A Turing machine operates on an infinite tape divided into cells, each containin
     line((head-pos, -0.2), (head-pos, -0.6), stroke: 1pt, mark: (start: ">", fill: black))
 
     // State label
-    content((head-pos, -0.9), text(fill: blue.darken(30%))[State $q_3$])
+    content((head-pos, -0.9), text(fill: blue.darken(20%))[State $q_3$])
 
     // Annotation: input region
-    line((2 * cell-size, cell-size + 0.2), (7 * cell-size, cell-size + 0.2), stroke: 0.5pt + blue.darken(20%), mark: (start: "|", end: "|"))
+    line(
+      (2 * cell-size, cell-size + 0.2),
+      (7 * cell-size, cell-size + 0.2),
+      stroke: 0.5pt + blue.darken(20%),
+      mark: (start: "|", end: "|"),
+    )
     content((4.5 * cell-size, cell-size + 0.5), text(size: 0.8em, fill: blue.darken(20%))[Input $w$])
   })
 ]
+
+== Turing Machine --- One Step Rule
 
 The machine starts with the input $w$ written on the tape, the head on the leftmost symbol, in state $q_0$.
 At each step:
@@ -2040,148 +2105,164 @@ At each step:
   + Cross off this $1$ (replace with $times$).
   + Move the head back to the left end of the tape.
   + Repeat from step 1.
+]
 
-  === Step-by-Step Visualization for Input $0011$
+#Block(color: yellow)[
+  *Checkpoint:* each full pass removes one matching pair $(0,1)$. If counts are equal and ordered as $0^n 1^n$, the machine eventually reaches all $times$ and accepts.
+]
 
-  Let's trace the computation visually. Each diagram shows the tape contents (with $Blank$ symbols omitted for clarity) and the head position (marked with state $q_i$ above the cell).
+== Turing Machine --- Example Trace (Input $0011$), Part 1A
 
-  #grid(
-    columns: 2,
-    column-gutter: 1em,
-    row-gutter: 1em,
-    // Step 1: Initial configuration
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 1: Initial*], [], [], [], []),
-      [$q_0$], [], [], [], [],
-      [$0$], [$0$], [$1$], [$1$], [$Blank$],
-      [↑], [], [], [], [],
-    ),
-    // Step 2: After crossing off first 0
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 2*], [], [], [], []),
-      [], [$q_1$], [], [], [],
-      [$times$], [$0$], [$1$], [$1$], [$Blank$],
-      [], [↑], [], [], [],
-    ),
-    // Step 3: Scanning right to first 1
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 3*], [], [], [], []),
-      [], [], [$q_1$], [], [],
-      [$times$], [$0$], [$1$], [$1$], [$Blank$],
-      [], [], [↑], [], [],
-    ),
-    // Step 4: Crossing off first 1
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 4*], [], [], [], []),
-      [], [], [], [$q_2$], [],
-      [$times$], [$0$], [$times$], [$1$], [$Blank$],
-      [], [], [], [↑], [],
-    ),
-    // Step 5: Moving head left
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 5*], [], [], [], []),
-      [], [$q_3$], [], [], [],
-      [$times$], [$0$], [$times$], [$1$], [$Blank$],
-      [], [↑], [], [], [],
-    ),
-    // Step 6: Back to start
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 6*], [], [], [], []),
-      [$q_3$], [], [], [], [],
-      [$times$], [$0$], [$times$], [$1$], [$Blank$],
-      [↑], [], [], [], [],
-    ),
-    // Step 7: Start second pass
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 7*], [], [], [], []),
-      [], [$q_0$], [], [], [],
-      [$times$], [$0$], [$times$], [$1$], [$Blank$],
-      [], [↑], [], [], [],
-    ),
-    // Step 8: Cross off second 0
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 8*], [], [], [], []),
-      [], [], [$q_1$], [], [],
-      [$times$], [$times$], [$times$], [$1$], [$Blank$],
-      [], [], [↑], [], [],
-    ),
-    // Step 9: Scan to second 1
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 9*], [], [], [], []),
-      [], [], [], [$q_1$], [],
-      [$times$], [$times$], [$times$], [$1$], [$Blank$],
-      [], [], [], [↑], [],
-    ),
-    // Step 10: Cross off second 1
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 10*], [], [], [], []),
-      [], [], [], [], [$q_2$],
-      [$times$], [$times$], [$times$], [$times$], [$Blank$],
-      [], [], [], [], [↑],
-    ),
-    // Step 11: Move left and accept
-    table(
-      columns: 5,
-      stroke: 0.5pt,
-      align: center,
-      table.header([*Step 11: Accept*], [], [], [], []),
-      [], [], [], [$q_3$], [],
-      [$times$], [$times$], [$times$], [$times$], [$Blank$],
-      [], [], [], [↑], [],
-    ),
-  )
+Let's trace configurations on tape (omitting trailing $Blank$ cells for readability).
 
-  *Explanation:*
-  1. Start with tape $0011$, head at leftmost cell, state $q_0$.
-  2. Replace first $0$ with $times$, move right, state $q_1$.
-  3. Scan right past $0$ to first $1$.
-  4. Replace that $1$ with $times$, move right, state $q_2$.
-  5. Move head left to previous cell, state $q_3$.
-  6. Move head left again to start.
-  7. Start second pass: scan right for uncrossed $0$, find it at position 2.
-  8. Cross off that $0$.
-  9. Scan right for uncrossed $1$, find it at position 4.
-  10. Cross off that $1$.
-  11. Move left, check for remaining $1$s (none), transition to accept.
+#grid(
+  columns: 3,
+  column-gutter: 1em,
+  row-gutter: 1em,
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 1: Initial*], [], [], [], []),
+    [$q_0$], [], [], [], [],
+    [$0$], [$0$], [$1$], [$1$], [$Blank$],
+    [↑], [], [], [], [],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 2*], [], [], [], []),
+    [], [$q_1$], [], [], [],
+    [$times$], [$0$], [$1$], [$1$], [$Blank$],
+    [], [↑], [], [], [],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 3*], [], [], [], []),
+    [], [], [$q_1$], [], [],
+    [$times$], [$0$], [$1$], [$1$], [$Blank$],
+    [], [], [↑], [], [],
+  ),
+)
 
-  Formal trace (same as above): \
-  $
-    q_0 thin 0011 => times q_1 thin 011 => times 0 q_1 thin 11 => times 0 times q_2 thin 1 => times q_3 thin 0 times 1 => q_3 thin times 0 times 1 => times q_0 thin 0 times 1 => dots.c => "accept"
-  $
+#note[
+  After Step 3, the first uncrossed $1$ is located.
+]
 
-  #Block(color: blue)[
-    *Visual insight:* The TM uses the tape as a _scratch space_ to mark processed symbols. Each pass reduces the problem size until all symbols are crossed off, showing the count of $0$s equals count of $1$s.
-  ]
+== Turing Machine --- Example Trace (Input $0011$), Part 1B
+
+#grid(
+  columns: 3,
+  column-gutter: 1em,
+  row-gutter: 1em,
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 4*], [], [], [], []),
+    [], [], [], [$q_2$], [],
+    [$times$], [$0$], [$times$], [$1$], [$Blank$],
+    [], [], [], [↑], [],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 5*], [], [], [], []),
+    [], [$q_3$], [], [], [],
+    [$times$], [$0$], [$times$], [$1$], [$Blank$],
+    [], [↑], [], [], [],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 6*], [], [], [], []),
+    [$q_3$], [], [], [], [],
+    [$times$], [$0$], [$times$], [$1$], [$Blank$],
+    [↑], [], [], [], [],
+  ),
+)
+
+#note[
+  After Step 6, one pair has been removed and the head is back on the left, ready for the second pass.
+]
+
+== Turing Machine --- Example Trace (Input $0011$), Part 2A
+
+#grid(
+  columns: 3,
+  column-gutter: 1em,
+  row-gutter: 1em,
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 7*], [], [], [], []),
+    [], [$q_0$], [], [], [],
+    [$times$], [$0$], [$times$], [$1$], [$Blank$],
+    [], [↑], [], [], [],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 8*], [], [], [], []),
+    [], [], [$q_1$], [], [],
+    [$times$], [$times$], [$times$], [$1$], [$Blank$],
+    [], [], [↑], [], [],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 9*], [], [], [], []),
+    [], [], [], [$q_1$], [],
+    [$times$], [$times$], [$times$], [$1$], [$Blank$],
+    [], [], [], [↑], [],
+  ),
+)
+
+#note[
+  The second pass mirrors the first one: find the remaining $0$, then the remaining $1$.
+]
+
+== Turing Machine --- Example Trace (Input $0011$), Part 2B
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  row-gutter: 1em,
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 10*], [], [], [], []),
+    [], [], [], [], [$q_2$],
+    [$times$], [$times$], [$times$], [$times$], [$Blank$],
+    [], [], [], [], [↑],
+  ),
+  table(
+    columns: 5,
+    stroke: 0.5pt,
+    align: center,
+    table.header([*Step 11: Accept*], [], [], [], []),
+    [], [], [], [$q_3$], [],
+    [$times$], [$times$], [$times$], [$times$], [$Blank$],
+    [], [], [], [↑], [],
+  ),
+)
+
+Formal trace (abbreviated):
+$
+  q_0 thin 0011 => times q_1 thin 011 => dots.c => times q_0 thin 0 times 1 => dots.c => "accept"
+$
+
+#Block(color: blue)[
+  *Visual insight:* The tape acts as writable memory. Crossing symbols out lets the machine remember progress without storing large counters in finite control.
 ]
 
 == TM vs DFA vs PDA --- Comparison
@@ -2268,6 +2349,12 @@ However, every formal model of computation ever proposed has turned out to be _e
 #theorem[
   A language $L$ is decidable iff $L in "RE"$ and $L in "co-RE"$, i.e., $"R" = "RE" intersect "co-RE"$.
 ]
+
+#Block(color: yellow)[
+  *Reading tip:* recognize = "accept yes-instances, maybe loop on no"; decide = "always halt with yes/no".
+]
+
+== Decidability and Recognizability --- Map
 
 #columns(2)[
   #cetz.canvas({
@@ -2443,5 +2530,4 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 + *Rice's Theorem:* every non-trivial semantic property of TM behavior is undecidable.
 
 + The _language hierarchy_ organizes classes as: $"R" = "RE" intersect "co-RE"$, and
-$
-  "Regular" subset.neq "Context-Free" subset.neq "Decidable" subset.neq "RE" subset.neq "All Languages"$
+$"Regular" subset.neq "Context-Free" subset.neq "Decidable" subset.neq "RE" subset.neq "All Languages"$
