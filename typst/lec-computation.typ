@@ -1383,7 +1383,8 @@ Let's apply the pumping lemma to a few more interesting languages.
 
 == Myhill-Nerode Theorem: A Fundamental Characterization
 
-While the pumping lemma gives a _necessary_ condition for regularity, the Myhill-Nerode theorem provides a _necessary and sufficient_ condition. It connects regular languages to equivalence relations with finite index.
+While the pumping lemma gives a _necessary_ condition for regularity, the Myhill-Nerode theorem provides a _necessary and sufficient_ condition.
+It connects regular languages to equivalence relations with finite index.
 
 #definition[
   Given a language $L subset.eq Sigma^*$, define the _Myhill-Nerode equivalence relation_ $equiv_L$ on $Sigma^*$ as:
