@@ -24,10 +24,6 @@
 #CourseOverviewPage2()
 
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 1: Formal Languages
-// ═══════════════════════════════════════════════════════════════════════════════
-
 = Formal Languages
 
 #focus-slide(
@@ -185,10 +181,6 @@ The language encodes all inputs for which the answer is "yes".
 ]
 
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 2: Regular Languages
-// ═══════════════════════════════════════════════════════════════════════════════
-
 = Regular Languages
 
 #focus-slide(
@@ -264,10 +256,6 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
   This is not obvious --- it takes Kleene's Theorem (stated later) to prove it.
 ]
 
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 3: Finite Automata
-// ═══════════════════════════════════════════════════════════════════════════════
 
 = Finite Automata
 
@@ -421,10 +409,6 @@ For each language below (over the alphabet $Sigma = {0, 1}$), draw a DFA recogni
 + $L_4 = {"110"}^* = {epsilon, "110", "110110", "110110110", dots}$
 + $L_5 = {w | w "contains 110 as a substring"}$
 
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 4: Non-determinism
-// ═══════════════════════════════════════════════════════════════════════════════
 
 = Non-determinism
 
@@ -852,9 +836,6 @@ Both automata accept the same language: strings ending with $01$.
   *Key observation:* Although the powerset construction can produce exponentially many states, in practice many states are unreachable. This example shows that sometimes the resulting DFA can be as small as the original NFA.
 ]
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 5: Kleene's Theorem
-// ═══════════════════════════════════════════════════════════════════════════════
 
 = Kleene's Theorem
 
@@ -984,10 +965,6 @@ $
   Both use dynamic programming with "allowed intermediate nodes up to $k$".
 ]
 
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 6: Limits of Finite Automata
-// ═══════════════════════════════════════════════════════════════════════════════
 
 = Limits of Finite Automata
 
@@ -1377,9 +1354,6 @@ Let's apply the pumping lemma to a few more interesting languages.
   *Key insight:* The pumping lemma helps prove non-regularity, but some languages that seem complex (like binary numbers divisible by 7) are actually regular because they only require *bounded memory* (the remainder).
 ]
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 7: Myhill-Nerode Theorem
-// ═══════════════════════════════════════════════════════════════════════════════
 
 == Myhill-Nerode Theorem: A Fundamental Characterization
 
@@ -1559,10 +1533,6 @@ For a regular language, the equivalence classes correspond to states in the mini
   *Historical note:* The theorem is named after John Myhill and Anil Nerode, who independently discovered it in the late 1950s. It provides one of the most elegant characterizations of regular languages.
 ]
 
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 8: Closure and Decision Properties
-// ═══════════════════════════════════════════════════════════════════════════════
 
 = Closure and Decision Properties
 
@@ -1842,10 +1812,6 @@ For a regular language, the equivalence classes correspond to states in the mini
 ]
 
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 9: Beyond Regular Languages
-// ═══════════════════════════════════════════════════════════════════════════════
-
 = Beyond Regular Languages
 
 #focus-slide(
@@ -1950,10 +1916,6 @@ However, context-free languages still have limits:
   })
 ]
 
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// SECTION 10: Turing Machines
-// ═══════════════════════════════════════════════════════════════════════════════
 
 = Turing Machines
 
