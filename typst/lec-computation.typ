@@ -35,8 +35,12 @@
       image: image("assets/Noam_Chomsky.jpg"),
     ),
     (
-      name: "Stephen Kleene",
-      image: image("assets/Stephen_Kleene.jpg"),
+      name: "Claude Shannon",
+      image: image("assets/Claude_Shannon.jpg"),
+    ),
+    (
+      name: [Yehoshua\ Bar-Hillel],
+      image: image("assets/Yehoshua_Bar-Hillel.jpg"),
     ),
   ),
 )
@@ -182,10 +186,35 @@ The language encodes all inputs for which the answer is "yes".
 
 
 = Regular Languages
-
 #focus-slide(
-  epigraph: [A language that doesn't affect the way you think about programming is not worth knowing.],
+  epigraph: [A language that doesn't affect the way you think about programming, \ is not worth knowing.],
   epigraph-author: "Alan Perlis",
+  scholars: (
+    (
+      name: "Ken Thompson",
+      image: image("assets/Ken_Thompson.jpg"),
+    ),
+    (
+      name: "Stephen Kleene",
+      image: image("assets/Stephen_Kleene.jpg"),
+    ),
+    (
+      name: "Marcel-Paul Schützenberger",
+      image: image("assets/Marcel-Paul_Schutzenberger.jpg"),
+    ),
+    (
+      name: "Alfred Aho",
+      image: image("assets/Alfred_Aho.jpg"),
+    ),
+    (
+      name: "John Hopcroft",
+      image: image("assets/John_Hopcroft.jpg"),
+    ),
+    (
+      name: "Jeffrey Ullman",
+      image: image("assets/Jeffrey_Ullman.jpg"),
+    ),
+  ),
 )
 
 == Regular Languages
@@ -258,14 +287,25 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
 
 
 = Finite Automata
-
 #focus-slide(
-  epigraph: [We may hope that machines will eventually compete with men in all purely intellectual fields.],
+  epigraph: [We may hope that machines will eventually compete with men \ in all purely intellectual fields.],
   epigraph-author: "Alan Turing",
   scholars: (
     (
-      name: "Stephen Kleene",
-      image: image("assets/Stephen_Kleene.jpg"),
+      name: "Warren McCulloch",
+      image: image("assets/Warren_McCulloch.jpg"),
+    ),
+    (
+      name: "Walter Pitts",
+      image: image("assets/Walter_Pitts.jpg"),
+    ),
+    (
+      name: "Victor Glushkov",
+      image: image("assets/Victor_Glushkov.jpg"),
+    ),
+    (
+      name: "Janusz Brzozowski",
+      image: image("assets/Janusz_Brzozowski.jpg"),
     ),
     (
       name: "Michael Rabin",
@@ -275,6 +315,14 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
       name: "Dana Scott",
       image: image("assets/Dana_Scott.jpg"),
     ),
+    // (
+    //   name: "George Mealy",
+    //   image: image("assets/George_Mealy.jpg"),
+    // ),
+    // (
+    //   name: "Edward Moore",
+    //   image: image("assets/Edward_Moore.jpg"),
+    // ),
   ),
 )
 
@@ -411,21 +459,7 @@ For each language below (over the alphabet $Sigma = {0, 1}$), draw a DFA recogni
 
 
 = Non-determinism
-
-#focus-slide(
-  epigraph: [A language is recognized by some NFA if and only if it is recognized by some DFA.],
-  epigraph-author: "Michael Rabin & Dana Scott, 1959",
-  scholars: (
-    (
-      name: "Michael Rabin",
-      image: image("assets/Michael_Rabin.jpg"),
-    ),
-    (
-      name: "Dana Scott",
-      image: image("assets/Dana_Scott.jpg"),
-    ),
-  ),
-)
+#focus-slide()
 
 == Non-deterministic Finite Automata
 
@@ -838,17 +872,7 @@ Both automata accept the same language: strings ending with $01$.
 
 
 = Kleene's Theorem
-
-#focus-slide(
-  epigraph: [Representation of events in nerve nets and finite automata.],
-  epigraph-author: "Stephen Kleene, 1956",
-  scholars: (
-    (
-      name: "Stephen Kleene",
-      image: image("assets/Stephen_Kleene.jpg"),
-    ),
-  ),
-)
+#focus-slide()
 
 == Kleene's Theorem
 
@@ -1918,14 +1942,33 @@ However, context-free languages still have limits:
 
 
 = Turing Machines
-
 #focus-slide(
   epigraph: [We may compare a man in the process of computing ...to a machine.],
   epigraph-author: "Alan Turing, 1936",
   scholars: (
     (
+      name: "Alan Turing",
+      image: image("assets/Alan_Turing.jpg"),
+    ),
+    (
+      name: "Alonzo Church",
+      image: image("assets/Alonzo_Church.jpg"),
+    ),
+    (
+      name: "Emil Post",
+      image: image("assets/Emil_Post.jpg"),
+    ),
+    (
+      name: "Kurt Gödel",
+      image: image("assets/Kurt_Godel.jpg"),
+    ),
+    (
       name: "Stephen Cook",
       image: image("assets/Stephen_Cook.jpg"),
+    ),
+    (
+      name: "Richard Karp",
+      image: image("assets/Richard_Karp.jpg"),
     ),
   ),
 )
