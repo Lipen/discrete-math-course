@@ -5228,13 +5228,13 @@ Now it falls out as a _one-line corollary_ of König's theorem --- and hence of 
   A bipartite graph $G = (X union Y, E)$ has a _matching saturating~$X$_ if and only if for every $S subset.eq X$: $|N(S)| >= |S|$.
 ]
 
-#proof[(via König's theorem)][
-  $(=>)$ Any matching saturating $X$ maps $S$ injectively into $N(S)$, giving $|N(S)| >= |S|$.
+#proof[
+  _$(arrow.r.double)$_ Any matching saturating $X$ maps $S$ injectively into $N(S)$, giving $|N(S)| >= |S|$.
 
-  $(arrow.l.double)$ We show every vertex cover $C$ satisfies $|C| >= |X|$; König ($nu = tau$) then gives $nu = |X|$.
+  _$(arrow.l.double)$_ We show every vertex cover $C$ satisfies $|C| >= |X|$; König ($nu = tau$) then gives $nu = |X|$.
   Let $S = X setminus C$.
   Since $S inter C = emptyset$, all $S$-edges are covered from $Y$: $N(S) subset.eq C inter Y$.
-  Hall's condition gives $|C inter Y| >= |S|$, so $|C| = |C inter X| + |C inter Y| >= (|X| - |S|) + |S| = |X|$.
+  Hall's condition gives $|C inter Y| >= |S|$, so~$|C| = |C inter X| + |C inter Y| >= (|X| - |S|) + |S| = |X|$.
 ]
 
 #Block(color: yellow)[
@@ -5245,22 +5245,122 @@ Now it falls out as a _one-line corollary_ of König's theorem --- and hence of 
 == Application 3: König's Theorem via Max-Flow
 
 #theorem[König][
-  In a bipartite graph, the size of the _maximum matching_ $nu(G)$ equals the size of the _minimum vertex cover_ $tau(G)$.
+  In a bipartite graph $G = (X union Y, E)$, maximum matching $=$ minimum vertex cover:
+  $nu(G) = tau(G)$.
 ]
+
+*Flow network* (variant of Application~1 --- bipartite edges now carry $infinity$ capacity):
+
+#align(center)[
+  #table(
+    columns: (auto, auto, auto),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Edge*], [*Direction*], [*Capacity*]),
+    [$s -> x$ for all $x in X$], [source $->$ left], [$1$],
+    [$x -> y$ for all $x y in E$], [bipartite], [$infinity$],
+    [$y -> t$ for all $y in Y$], [right $->$ sink], [$1$],
+  )
+]
+
+The $infinity$ capacity on bipartite edges does not change the max flow --- unit source/sink edges remain the bottleneck --- so $"max flow" = nu(G)$ (same as Application~1).
+
+By Max-Flow--Min-Cut: $"min cut" = "max flow" = nu(G)$.
+
+*Goal:* extract a vertex cover of size $=$ min cut from _any_ min cut, proving $tau(G) <= nu(G)$.
+
+#pagebreak()
 
 #proof[(via max-flow)][
-  Let max-flow $=$ max matching $= k$.
-  By Max-Flow--Min-Cut, there exists a cut $(A, B)$ with capacity $c(A, B) = k$.
-  Each finite-capacity cut edge is either $s -> x$ (capacity~1, some #box[$x in X$]) or $y -> t$ (capacity~1, some #box[$y in Y$]).
-  Set $C = (X setminus A) union (B inter Y)$ (the corresponding vertices).
-  Then $|C| = k$ and $C$ is a vertex cover: if edge $x y in E$ were uncovered, the path $s -> x -> y -> t$ would cross the cut for free, contradicting $c(A,B) = k$.
-  Thus $tau(G) <= k = nu(G)$.
-  Since always $tau(G) >= nu(G)$, equality follows.
+  Let $(A, B)$ be a minimum $(s, t)$-cut ($s in A$, $t in B$). Partition the interior vertices:
+  // TODO: replace X_0 with X_A, Y_1 with Y_B, etc.
+  $
+    X_0 = X inter A, quad X_1 = X inter B, quad
+    Y_0 = Y inter A, quad Y_1 = Y inter B.
+  $
+
+  *Step 1. No bipartite edge crosses the cut.*
+  If $x in X_0$ had a neighbor $y in Y_1$, the forward edge $x -> y$ (capacity $infinity$) would cross from $A$ to $B$, making the cut infinite --- contradiction.
+  Therefore:
+  $
+    forall x in X_0 : quad "every neighbor of" x "in" G "lies in" Y_0. quad (star.filled)
+  $
+
+  *Step 2. Identify all cut edges.*
+  By Step~1, no bipartite edge is cut. The only forward edges crossing the partition have finite capacity:
+  $
+    c(A,B) = underbrace(|X_1|, s -> X_1 \ "edges") + underbrace(|Y_0|, Y_0 -> t \ "edges").
+  $
+
+  #colbreak()
+
+  *Step 3. Construct the vertex cover.*
+  Set $C = X_1 union Y_0$. Then $|C| = |X_1| + |Y_0| = "min cut" = nu(G)$.
+
+  $C$ covers every edge $x y in E$:
+  - If $x in X_1$, then $x in C$.
+  - If $x in X_0$, then by $(star.filled)$: $y in Y_0 subset.eq C$.
+
+  So $tau(G) <= |C| = nu(G)$. Since $tau(G) >= nu(G)$ always (a cover must include at least one endpoint of every matching edge), we conclude $nu(G) = tau(G)$.
 ]
 
+#pagebreak()
+
+*Worked example.* $X = {x_1, x_2, x_3}$, $Y = {y_1, y_2}$, edges $x_1 y_1$, $x_2 y_2$, $x_3 y_2$.
+
+Max matching: $nu = 2$ (e.g., ${ x_1 y_1, x_3 y_2 }$). König predicts minimum vertex cover $tau = 2$.
+
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    spacing: (4em, 2.2em),
+    node-shape: fletcher.shapes.circle,
+    edge-stroke: 1pt,
+    // Source-side nodes: s, x2, x3 (blue), y2 (orange = in Y₀ = cover)
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((1.5, -1), $x_1$, tint: orange, name: <x1>),
+    blob((1.5, 0), $x_2$, tint: blue, name: <x2>),
+    blob((1.5, 1), $x_3$, tint: blue, name: <x3>),
+    blob((3, -0.5), $y_1$, tint: blue, name: <y1>),
+    blob((3, 0.5), $y_2$, tint: orange, name: <y2>),
+    blob((4.5, 0), $t$, tint: red, name: <t>),
+    // Non-cut source edges
+    edge(<s>, <x2>, "-}>"),
+    edge(<s>, <x3>, "-}>"),
+    // Cut edge s → x₁ (thick red)
+    edge(<s>, <x1>, "-}>", stroke: 2pt + red.darken(10%)),
+    // Bipartite edges (capacity ∞)
+    edge(<x1>, <y1>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<x2>, <y2>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<x3>, <y2>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    // Non-cut sink edge
+    edge(<y1>, <t>, "-}>"),
+    // Cut edge y₂ → t (thick red)
+    edge(<y2>, <t>, "-}>", stroke: 2pt + red.darken(10%)),
+  )
+]
+
+#grid(
+  columns: 2,
+  gutter: 1em,
+  [
+    Min cut (red): ${ s -> x_1, thin y_2 -> t }$, capacity $1 + 1 = 2$.
+    - $A = {s, x_2, x_3, y_2}$, $quad B = {x_1, y_1, t}$.
+    - $X_1 = {x_1}$, $Y_0 = {y_2}$ (both orange).
+  ],
+  [
+    Vertex cover: $C = X_1 union Y_0 = {x_1, y_2}$, $|C| = 2$.
+    - $x_1 y_1$: covered by $x_1 in C$ #YES
+    - $x_2 y_2$, $x_3 y_2$: covered by $y_2 in C$ #YES
+  ],
+)
+
 #Block(color: yellow)[
-  In bipartite graphs, max matching and min vertex cover are both polynomial and their optima coincide.
-  For general graphs this fails: in $K_3$, $nu = 1$ but $tau = 2$.
+  *Intuition.*
+  Each unit of max flow takes a path $s -> x -> y -> t$.
+  The min cut blocks these paths either at the entry edge $s -> x$ (then $x in X_1 subset.eq C$) or at the exit edge $y -> t$ (then $y in Y_0 subset.eq C$).
+  The~"blockers" are exactly the minimum vertex cover.
+
+  *Note:* In general graphs this fails: in $K_3$, $nu = 1$ but $tau = 2$ --- no max-flow reduction exists.
 ]
 
 == LP Duality: The Algebra Behind "Max = Min"
@@ -5411,29 +5511,46 @@ If $W_k < w_i$ for some team $i$ already: $k$ cannot catch up.
 - From each team node $i in T'$: edge $i -> t$ with capacity $W_k - w_i$ (budget for $i$).
 
 #theorem[
-  Team $k$ is _not eliminated_ iff all edges out of $s$ are saturated (max flow $= sum_(i < j,\ i,j in T') r_(i j)$). \
-  Team $k$ _is eliminated_ iff max flow $< sum r_(i j)$ (some games cannot be assigned without pushing a team over $W_k$).
+  Team $k$ is _not eliminated_ iff all edges out of $s$ are saturated:
+  $
+    "max flow" = sum_(i < j,\ i,j in T') r_(i j)
+  $
+
+  Team $k$ _is eliminated_ iff max flow $< sum r_(i j)$, that is, some games cannot be assigned without pushing a team over $W_k$.
 ]
 
 #pagebreak()
 
-*Example with 4 teams* (checking if team $D$ is eliminated):
+*Example:* 4 teams, checking if $D$ is _non-trivially_ eliminated.
+
 #align(center)[
   #table(
     columns: (auto, auto, auto, auto, auto),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Team*], [*Wins*], [vs $A$], [vs $B$], [vs $C$]),
-    [$A$], [$5$], [---], [$1$], [$2$],
+    [$A$], [$5$], [---], [$1$], [$1$],
     [$B$], [$4$], [$1$], [---], [$1$],
-    [$C$], [$3$], [$2$], [$1$], [---],
-    [$D$], [$2$], [$0$], [$0$], [$0$],
+    [$C$], [$4$], [$1$], [$1$], [---],
+    [$D$], [$5$], [$0$], [$0$], [$0$],
   )
 ]
 
-$D$ has $W_D = 2 + 0 = 2$ max wins. Games among $A$, $B$, $C$: $r_(A B) = 1$, $r_(A C) = 2$, $r_(B C) = 1$.
-Team budgets: $A -> t$ cap $= 2-5 < 0$ --- $D$ is _trivially eliminated_ since $A$ already exceeds $W_D$.
+$W_D = 5 + 0 = 5$.
+Trivial check: $W_D = 5 >= max(5, 4, 4)$ --- *$D$ is not trivially eliminated.*
 
-#pagebreak()
+Games among $T' = {A, B, C}$: $r_(A B) = r_(A C) = r_(B C) = 1$, total 3 games.
+Team budgets: $A -> t$ cap $= 0$, $B -> t$ cap $= 1$, $C -> t$ cap $= 1$.
+
+*Flow analysis.* The 3 games require 3 units of flow, but $A -> t$ has capacity 0 --- wins from games involving $A$ must be routed entirely to $B$ or $C$:
+- $g_(A B)$: must flow to $B$ (1 unit), filling $B$'s budget.
+- $g_(A C)$: must flow to $C$ (1 unit), filling $C$'s budget.
+- $g_(B C)$: both $B$ and $C$ are full --- this game cannot be assigned without exceeding $W_D$.
+
+Max flow $= 2 < 3$ --- *$D$ is eliminated*, even though $D$ is tied for the lead right now.
+
+*Non-trivial certificate:* $S = {A, B, C}$, $quad sum r_(i j) = 3 > |S| dot W_D - sum w_i = 3 dot 5 - 13 = 2$.
+
+// #pagebreak()
 
 #Block(color: blue)[
   *The min-cut certificate:*
@@ -5442,7 +5559,7 @@ Team budgets: $A -> t$ cap $= 2-5 < 0$ --- $D$ is _trivially eliminated_ since $
     sum_(i, j in S) r_(i j) > |S| dot W_k - sum_(i in S) w_i
   $
   i.e., the $|S|$ teams in $S$ collectively have too many guaranteed wins to _all_ stay at or below $W_k$.
-  This certificate is an _explicit mathematical proof_ of elimination --- not a heuristic.
+  This~certificate is an _explicit mathematical proof_ of elimination --- not a heuristic.
 ]
 
 = Summary and Connections
@@ -5454,7 +5571,8 @@ Team budgets: $A -> t$ cap $= 2-5 < 0$ --- $D$ is _trivially eliminated_ since $
 
 #align(center)[
   #table(
-    columns: (2.2fr, 2fr, 2fr),
+    columns: 3,
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Theorem*], [*Max side*], [*Min side*]),
     [Max-Flow Min-Cut], [flow value $|f|$], [cut capacity $c(A,B)$],
