@@ -5088,19 +5088,22 @@ Hence the total number of augmentations is $O(V E)$, and each BFS costs $O(E)$.
 
 == Summary: Network Flow Theory
 
-#columns(2)[
-  - *Flow $f$:* $0 <= f(e) <= c(e)$; conservation at every internal vertex
-  - *Residual $N_f$:* forward (spare capacity) + backward (undoable) edges
-  - *Cut $(A,B)$:* $s in A$, $t in B$; capacity $= sum_(u in A,\ v in B) c(u,v)$
-  - Net flow across _every_ cut equals $|f|$, so $|f| <= c(A,B)$ always.
-
-  #colbreak()
-
-  - *$f$ is maximum* $iff$ no augmenting path in $N_f$
-  - *Integrality:* integer capacities $=>$ integer max flow exists
-  - *Ford-Fulkerson:* any augmenting path; $O(|f^*| dot E)$
-  - *Edmonds-Karp:* BFS (shortest) path; $O(V E^2)$, capacity-independent
-]
+#grid(
+  columns: 2,
+  column-gutter: .5em,
+  [
+    - *Flow $f$:* $0 <= f(e) <= c(e)$; conservation \ at every internal vertex
+    - *Residual $N_f$:* forward (spare capacity) + backward (undoable) edges
+    - *Cut $(A,B)$:* $s in A$, $t in B$; capacity $= limits(sum)_(u in A,\ v in B) c(u,v)$
+    - Net flow across _every_ cut equals $|f|$, so #box[$|f| <= c(A,B)$] always.
+  ],
+  [
+    - *$f$ is maximum* $iff$ no augmenting path in $N_f$
+    - *Integrality:* integer capacities $=>$ integer max flow exists
+    - *Ford-Fulkerson:* any augmenting path; #box[$O(|f^*| dot E)$]
+    - *Edmonds-Karp:* BFS (shortest) path; $O(V E^2)$, capacity-independent
+  ],
+)
 
 #v(0.3em)
 
@@ -5247,8 +5250,8 @@ Now it falls out as a _one-line corollary_ of König's theorem --- and hence of 
 
 #proof[(via max-flow)][
   Let max-flow $=$ max matching $= k$.
-  By Max-Flow Min-Cut: there exists a minimum cut $(A, B)$ with capacity $c(A, B) = k$.
-  Each finite-capacity cut edge is either $s -> x$ (capacity 1, some $x in X$) or $y -> t$ (capacity 1, some $y in Y$).
+  By Max-Flow--Min-Cut, there exists a cut $(A, B)$ with capacity $c(A, B) = k$.
+  Each finite-capacity cut edge is either $s -> x$ (capacity~1, some #box[$x in X$]) or $y -> t$ (capacity~1, some #box[$y in Y$]).
   Set $C = (X setminus A) union (B inter Y)$ (the corresponding vertices).
   Then $|C| = k$ and $C$ is a vertex cover: if edge $x y in E$ were uncovered, the path $s -> x -> y -> t$ would cross the cut for free, contradicting $c(A,B) = k$.
   Thus $tau(G) <= k = nu(G)$.
@@ -5262,14 +5265,14 @@ Now it falls out as a _one-line corollary_ of König's theorem --- and hence of 
 
 == LP Duality: The Algebra Behind "Max = Min"
 
-König's theorem is a special case of _LP strong duality_ --- the unifying algebraic principle behind all "max = min" combinatorial results.
+König's theorem is a special case of _LP strong duality_ --- the unifying algebraic principle behind all #box["max = min"] combinatorial results.
 
 #columns(2)[
   *Primal --- maximum matching:*
   $
     max sum_(e in E) x_e
   $
-  $sum_(e in.rev v) x_e <= 1$ for all $v in V$; $x_e >= 0$.
+  $limits(sum)_(e in.rev v) x_e <= 1$ for all $v in V$; $x_e >= 0$.
 
   #colbreak()
 
@@ -5280,8 +5283,9 @@ König's theorem is a special case of _LP strong duality_ --- the unifying algeb
   $y_u + y_v >= 1$ for all $(u,v) in E$; $y_v >= 0$.
 ]
 
-_Weak duality:_ every feasible cover bounds every matching: $sum y_v >= sum x_e$. \
-_Strong duality:_ the optima are equal over $RR$.
+- _Weak duality:_ every feasible cover bounds every matching: $sum y_v >= sum x_e$.
+
+- _Strong duality:_ the optima are equal over $RR$.
 
 #Block(color: yellow)[
   For bipartite graphs, the LP optimal solution is integer-valued: LP optimum $=$ integer optimum, giving König's theorem as a purely algebraic fact.
@@ -5350,7 +5354,7 @@ Find $S subset.eq P$ maximizing $sum_(i in S) p_i$.
 - Dependency $i -> j$: edge $i -> j$, capacity $infinity$.
 
 #theorem[
-  $"max profit" = (sum_(p_i > 0) p_i) - "min cut"(s, t)$.
+  $"max profit" = \( limits(sum)_(p_i > 0) p_i \) - "min cut"(s, t)$.
 ]
 
 #pagebreak()
@@ -5362,6 +5366,7 @@ Dependencies: $A -> C$, $B -> C$, $B -> D$.
   #import fletcher: diagram, edge, node
   #diagram(
     node-shape: fletcher.shapes.circle,
+    spacing: 1.5em,
     edge-stroke: 1pt,
     blob((0, 0), $s$, tint: green, name: <s>),
     blob((2, 0.9), $A$, tint: blue, name: <A>),
@@ -5428,6 +5433,8 @@ If $W_k < w_i$ for some team $i$ already: $k$ cannot catch up.
 $D$ has $W_D = 2 + 0 = 2$ max wins. Games among $A$, $B$, $C$: $r_(A B) = 1$, $r_(A C) = 2$, $r_(B C) = 1$.
 Team budgets: $A -> t$ cap $= 2-5 < 0$ --- $D$ is _trivially eliminated_ since $A$ already exceeds $W_D$.
 
+#pagebreak()
+
 #Block(color: blue)[
   *The min-cut certificate:*
   When eliminated non-trivially, the min cut reveals a subset $S subset.eq T'$ such that:
@@ -5437,33 +5444,6 @@ Team budgets: $A -> t$ cap $= 2-5 < 0$ --- $D$ is _trivially eliminated_ since $
   i.e., the $|S|$ teams in $S$ collectively have too many guaranteed wins to _all_ stay at or below $W_k$.
   This certificate is an _explicit mathematical proof_ of elimination --- not a heuristic.
 ]
-
-== Beyond This Lecture: Further Applications
-
-The max-flow framework extends far beyond what we have covered.
-
-#columns(2)[
-  *From this lecture:*
-  - Bipartite matching + Hall + König
-  - Menger's theorem (disjoint paths)
-  - Project selection / closure
-  - Baseball elimination
-
-  #colbreak()
-
-  *Rich further territory:*
-  - *Image segmentation* (pixels: foreground vs.\ background via min-cut)
-  - *Survey design* (bipartite feasibility with range constraints)
-  - *Open-pit mining* (project dependencies, geological costs)
-  - *Crew scheduling* (airlines, railways --- time-expanded networks)
-]
-
-#v(0.3em)
-#Block(color: teal)[
-  Max-Flow Min-Cut was proved independently by Ford & Fulkerson (1956) from combinatorics and by Elias, Feinstein & Shannon (1956) from information theory.
-  Baseball elimination as a max-flow problem was first analyzed by Schwartz (1966).
-]
-
 
 = Summary and Connections
 #focus-slide(
@@ -5519,7 +5499,7 @@ To _solve_ any of these: construct the right flow network, run max-flow, read of
 
 + *König's min cover:* Using the min-cut construction from the König proof, find an explicit minimum vertex cover in the graph from Exercise 3. Verify $|"cover"| = |"max matching"|$.
 
-+ *Menger via flow:* Apply vertex splitting to the graph $G = ({s, a, b, t},\ {s a, s b, a b, a t, b t})$.
++ *Menger via flow:* Apply vertex splitting to the graph $G = ({s, a, b, t}, {s a, s b, a b, a t, b t})$.
   Find the maximum number of internally vertex-disjoint $s$-$t$ paths and the minimum vertex separator.
 
 + *Project selection:* Projects $P = {A, B, C}$, profits $p_A = 10$, $p_B = -5$, $p_C = 8$, dependency $A -> B$.
