@@ -4189,8 +4189,8 @@ Maximum clique ${a, b, c}$ shown in green. $omega(G) = 3$.
     (
       name: "Delbert Fulkerson",
       image: image("assets/Delbert_Ray_Fulkerson.jpg"),
-    )
-  )
+    ),
+  ),
 )
 
 == Motivation: Moving Things Through Networks
@@ -4446,7 +4446,7 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
 
 - Cut $(A, B)$ with $A = {#Green[$s, a, b$]}$, $B = {#Red[$c, d, t$]}$.
 - Red edges cross #text(green.darken(15%))[$A$]~$arrow$~#text(red.darken(15%))[$B$]: capacity $12 + 14 = 26$.
-- The gray back-edge $c arrow b$ (from $B$ to $A$) does _not_ count.
+- The gray back-edge $c -> b$ (from $B$ to $A$) does _not_ count.
 
 #Block(color: blue)[
   Removing all $A to B$ edges _severs_ the network --- no flow can reach $t$ from $s$.
@@ -4921,7 +4921,7 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
 No augmenting path exists in the residual network --- the algorithm terminates.
 
 #Block(color: yellow)[
-  Step 2 uses the _backward_ edge $c arrow b$ in the residual network (cancelling 1 unit of the $b arrow c$ flow from step 1) and then routes through $d$.
+  Step 2 uses the _backward_ edge $c -> b$ in the residual network (cancelling 1 unit of the $b -> c$ flow from step 1) and then routes through $d$.
   Without backward edges, this path would not be possible.
 ]
 
@@ -5035,6 +5035,26 @@ Hence the total number of augmentations is $O(V E)$, and each BFS costs $O(E)$.
 
 #pagebreak()
 
+#lovelace.pseudocode-list(hooks: 0.5em)[
+  - *Input:* Flow network $N = angle.l V, E, s, t, c angle.r$
+  - *Output:* Maximum flow $f$
+  + Set $f(e) = 0$ for all $e in E$
+  + *while* BFS finds an $s$-$t$ path $P$ in residual network $N_f$ *do*
+    + $Delta := min_(e in P) c_f (e)$ #h(1em) _(bottleneck of $P$)_
+    + *for each* edge $(u,v) in P$ *do*
+      + $c_f (u,v) := c_f (u,v) - Delta$ #h(1em) _(reduce forward residual capacity)_
+      + $c_f (v,u) := c_f (v,u) + Delta$ #h(1em) _(increase backward residual capacity)_
+  + *return* $f$
+]
+
+#note[
+  The only difference from Ford-Fulkerson is "BFS" in line 2.
+  BFS guarantees _shortest_ augmenting paths (fewest edges).
+  This bounds augmentations to $O(V E)$ and each BFS costs $O(E)$, giving $O(V E^2)$ total.
+]
+
+#pagebreak()
+
 #Block(color: yellow)[
   *Comparison of max-flow algorithms:*
   #table(
@@ -5062,8 +5082,35 @@ Hence the total number of augmentations is $O(V E)$, and each BFS costs $O(E)$.
 ]
 
 #Block(color: yellow)[
-  *Why this matters:* Many combinatorial problems (matchings, disjoint paths, covers) naturally have integer optimal solutions.
-  The Integrality Theorem guarantees this rigorously: run max-flow on the right network to get an integer solution.
+  Many combinatorial problems --- matchings, disjoint paths, vertex covers --- have natural integer formulations.
+  The Integrality Theorem guarantees an integer optimal solution whenever all capacities are integer: run max-flow on the right network.
+]
+
+== Summary: Network Flow Theory
+
+#columns(2)[
+  - *Flow $f$:* $0 <= f(e) <= c(e)$; conservation at every internal vertex
+  - *Residual $N_f$:* forward (spare capacity) + backward (undoable) edges
+  - *Cut $(A,B)$:* $s in A$, $t in B$; capacity $= sum_(u in A,\ v in B) c(u,v)$
+  - Net flow across _every_ cut equals $|f|$, so $|f| <= c(A,B)$ always.
+
+  #colbreak()
+
+  - *$f$ is maximum* $iff$ no augmenting path in $N_f$
+  - *Integrality:* integer capacities $=>$ integer max flow exists
+  - *Ford-Fulkerson:* any augmenting path; $O(|f^*| dot E)$
+  - *Edmonds-Karp:* BFS (shortest) path; $O(V E^2)$, capacity-independent
+]
+
+#v(0.3em)
+
+#Block(color: yellow)[
+  $
+    max |f| = min c(A,B)
+  $
+  Maximum achievable flow $=$ minimum cut capacity.
+  Each is an optimality certificate for the other.
+  Tomorrow: this equation drives Hall, König, Menger, and more.
 ]
 
 
@@ -5075,41 +5122,39 @@ Hence the total number of augmentations is $O(V E)$, and each BFS costs $O(E)$.
 == Overview: Max-Flow as a Meta-Theorem
 
 #Block(color: blue)[
-  *The power of reduction:* Many combinatorial optimization problems can be formulated as max-flow instances.
-  Solving them reduces to: _"construct the right network, then run Edmonds-Karp."_
-  Correctness follows from Max-Flow Min-Cut; efficiency is $O(V E^2)$.
+  Many classical combinatorial theorems (Hall, König, Menger) and optimization problems (project selection, baseball elimination) _reduce_ directly to max-flow.
+  Once the reduction is constructed, correctness follows from Max-Flow Min-Cut and the Integrality Theorem supplies an integer certificate.
 ]
 
 #grid(
   columns: (1fr, 1fr),
   gutter: 1em,
   [
-    *Matching & assignment:*
+    *Matching & covering:*
     - Maximum bipartite matching
-    - Weighted bipartite assignment
-    - Project-student assignment
+    - Hall's marriage theorem
+    - König's theorem ($nu = tau$)
+    - Minimum vertex cover
   ],
   [
     *Connectivity:*
     - Maximum edge-disjoint paths
     - Maximum vertex-disjoint paths
-    - Menger's theorem (revisited)
+    - Menger's theorem
   ],
 )
 #grid(
   columns: (1fr, 1fr),
   gutter: 1em,
   [
-    *Covering & duality:*
-    - König's theorem
-    - Minimum vertex cover
-    - LP duality interpretation
+    *Algebra behind it all:*
+    - LP strong duality
+    - "max = min" as a unifying principle
   ],
   [
     *Optimization with constraints:*
-    - Project selection (closure)
-    - Survey design
-    - Image segmentation
+    - Project selection (closure problem)
+    - Baseball elimination
   ],
 )
 
@@ -5120,23 +5165,22 @@ Given bipartite graph $G = (X union Y, E)$, find the largest matching.
 
 *Reduction:*
 Construct a flow network:
-- Add super-source $s$ with edge $s arrow x$ of capacity 1 for all $x in X$.
-- Add super-sink $t$ with edge $y arrow t$ of capacity 1 for all $y in Y$.
+- Add super-source $s$ with edge $s -> x$ of capacity 1 for all $x in X$.
+- Add super-sink $t$ with edge $y -> t$ of capacity 1 for all $y in Y$.
 - Keep original edges $X times Y$ with capacity 1.
-- Run max-flow on this network.
-
-#pagebreak()
+- Run max-flow; the Integrality Theorem gives an integer solution.
 
 #theorem[
   The maximum flow in this network equals the size of the maximum matching in $G$.
 ]
 
 #proof[
-  Any integer flow of value $k$ consists of $k$ unit-flow paths $s arrow x_i arrow y_i arrow t$.
-  These correspond to $k$ matching edges, pairwise distinct (each $x_i$ and $y_j$ has unit capacity toward $s$/$t$, so no two paths share an endpoint).
-  Conversely, any matching of size $k$ gives a feasible integer flow of value $k$.
-  By the Integrality Theorem, a maximum integer flow exists and equals the maximum matching.
+  Any integer flow of value $k$ consists of $k$ unit-flow paths $s -> x_i -> y_i -> t$.
+  These correspond to $k$ distinct matching edges (unit source/sink capacities prevent vertex reuse).
+  Conversely, any matching of size $k$ yields a feasible integer flow of value $k$.
 ]
+
+#pagebreak()
 
 #align(center)[
   #import fletcher: diagram, edge, node
@@ -5152,53 +5196,119 @@ Construct a flow network:
     blob((3, 0), $y_2$, tint: blue, name: <y2>),
     blob((3, 1), $y_3$, tint: blue, name: <y3>),
     blob((4.5, 0), $t$, tint: red, name: <t>),
-    edge(<s>, <x1>, "-}>", $1$, label-side: center, label-angle: auto, bend: 30deg),
-    edge(<s>, <x2>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<s>, <x3>, "-}>", $1$, label-side: center, label-angle: auto, bend: -30deg),
-    edge(<x1>, <y1>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<x1>, <y2>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<x2>, <y2>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<x3>, <y2>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<x3>, <y3>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<y1>, <t>, "-}>", $1$, label-side: center, label-angle: auto, bend: 30deg),
-    edge(<y2>, <t>, "-}>", $1$, label-side: center, label-angle: auto),
-    edge(<y3>, <t>, "-}>", $1$, label-side: center, label-angle: auto, bend: -30deg),
+    edge(<s>, <x1>, "-}>", bend: 30deg),
+    edge(<s>, <x2>, "-}>"),
+    edge(<s>, <x3>, "-}>", bend: -30deg),
+    edge(<x1>, <y1>, "-}>", stroke: 2pt + red.darken(10%)),
+    edge(<x1>, <y2>, "-}>"),
+    edge(<x2>, <y2>, "-}>", stroke: 2pt + red.darken(10%)),
+    edge(<x3>, <y2>, "-}>"),
+    edge(<x3>, <y3>, "-}>", stroke: 2pt + red.darken(10%)),
+    edge(<y1>, <t>, "-}>", bend: 30deg),
+    edge(<y2>, <t>, "-}>"),
+    edge(<y3>, <t>, "-}>", bend: -30deg),
   )
 ]
 
-== Application 2: König's Theorem via Max-Flow
+#Block(color: yellow)[
+  *Maximum matching* (red edges): ${ x_1 y_1, x_2 y_2, x_3 y_3 }$, size 3.
 
-#theorem[König][
-  In a bipartite graph, the size of the maximum matching equals the size of the minimum vertex cover.
+  Each red edge is one unit-flow path $s -> x_i -> y_i -> t$ in the max-flow solution.
 ]
 
-#proof[(via max-flow)][
-  Let the max-flow (= max matching) have value $k$.
+== Application 2: Hall's Theorem via Max-Flow
 
-  - By Max-Flow Min-Cut, there exists a cut $(A, B)$ with $c(A, B) = k$.
-  - In this unit-capacity bipartite network, every finite-capacity cut edge corresponds to exactly one vertex: a $s$-side cut edge $s arrow x$ (capacity 1) to some $x in X$, or a $t$-side cut edge $y arrow t$ (capacity 1) to some $y in Y$.
-  - The set of these vertices forms a vertex cover of size $k$ (every original edge $x y in E$ must be covered, for otherwise the path $s arrow x arrow y arrow t$ would cross the cut at zero cost, yielding $c(A,B) < k$).
+We proved Hall's theorem earlier by a direct inductive argument.
+Now it falls out as a _one-line corollary_ of König's theorem --- and hence of max-flow.
 
-  Conversely, any vertex cover of size $k$ defines a cut of capacity $k$. \
-  Hence, $"max matching" = k = "min vertex cover"$.
+#theorem[Hall][
+  A bipartite graph $G = (X union Y, E)$ has a _matching saturating~$X$_ if and only if for every $S subset.eq X$: $|N(S)| >= |S|$.
+]
+
+#proof[(via König's theorem)][
+  $(=>)$ Any matching saturating $X$ maps $S$ injectively into $N(S)$, giving $|N(S)| >= |S|$.
+
+  $(arrow.l.double)$ We show every vertex cover $C$ satisfies $|C| >= |X|$; König ($nu = tau$) then gives $nu = |X|$.
+  Let $S = X setminus C$.
+  Since $S inter C = emptyset$, all $S$-edges are covered from $Y$: $N(S) subset.eq C inter Y$.
+  Hall's condition gives $|C inter Y| >= |S|$, so $|C| = |C inter X| + |C inter Y| >= (|X| - |S|) + |S| = |X|$.
 ]
 
 #Block(color: yellow)[
-  *Deeper:* König's theorem is an instance of _LP duality_.
-  The LP relaxations of max matching and min vertex cover are dual programs.
-  For bipartite graphs, both LPs have integer optimal solutions, so the LP optimum equals the integer optimum --- and the two coincide.
+  Hall (1935) and König (1916) are not independent theorems --- they are the same result in different guises, each a consequence of Max-Flow Min-Cut.
+  *Hall $iff$ König $iff$ Max-Flow Min-Cut.*
 ]
 
-== Application 3: Menger's Theorem via Max-Flow
+== Application 3: König's Theorem via Max-Flow
 
-*Edge-disjoint paths:*
-Replace each undirected edge $\{u,v\}$ with two directed edges $(u,v)$ and $(v,u)$, each of capacity 1.
-The max flow from $s$ to $t$ equals the maximum number of edge-disjoint $s$-$t$ paths.
-The min cut equals the minimum edge separator --- this is precisely *Menger's theorem (edge form)*.
+#theorem[König][
+  In a bipartite graph, the size of the _maximum matching_ $nu(G)$ equals the size of the _minimum vertex cover_ $tau(G)$.
+]
 
-*Vertex-disjoint paths:*
-Replace each internal vertex $v$ with a pair $v_"in", v_"out"$ connected by an edge of capacity 1.
-All original edges become arcs from $u_"out"$ to $v_"in"$ with capacity $infinity$.
+#proof[(via max-flow)][
+  Let max-flow $=$ max matching $= k$.
+  By Max-Flow Min-Cut: there exists a minimum cut $(A, B)$ with capacity $c(A, B) = k$.
+  Each finite-capacity cut edge is either $s -> x$ (capacity 1, some $x in X$) or $y -> t$ (capacity 1, some $y in Y$).
+  Set $C = (X setminus A) union (B inter Y)$ (the corresponding vertices).
+  Then $|C| = k$ and $C$ is a vertex cover: if edge $x y in E$ were uncovered, the path $s -> x -> y -> t$ would cross the cut for free, contradicting $c(A,B) = k$.
+  Thus $tau(G) <= k = nu(G)$.
+  Since always $tau(G) >= nu(G)$, equality follows.
+]
+
+#Block(color: yellow)[
+  In bipartite graphs, max matching and min vertex cover are both polynomial and their optima coincide.
+  For general graphs this fails: in $K_3$, $nu = 1$ but $tau = 2$.
+]
+
+== LP Duality: The Algebra Behind "Max = Min"
+
+König's theorem is a special case of _LP strong duality_ --- the unifying algebraic principle behind all "max = min" combinatorial results.
+
+#columns(2)[
+  *Primal --- maximum matching:*
+  $
+    max sum_(e in E) x_e
+  $
+  $sum_(e in.rev v) x_e <= 1$ for all $v in V$; $x_e >= 0$.
+
+  #colbreak()
+
+  *Dual --- minimum vertex cover:*
+  $
+    min sum_(v in V) y_v
+  $
+  $y_u + y_v >= 1$ for all $(u,v) in E$; $y_v >= 0$.
+]
+
+_Weak duality:_ every feasible cover bounds every matching: $sum y_v >= sum x_e$. \
+_Strong duality:_ the optima are equal over $RR$.
+
+#Block(color: yellow)[
+  For bipartite graphs, the LP optimal solution is integer-valued: LP optimum $=$ integer optimum, giving König's theorem as a purely algebraic fact.
+  For general graphs, the LP relaxation can have fractional optima (half-integer matchings).
+]
+
+== Application 4: Menger's Theorem via Max-Flow
+
+We proved Menger's theorem earlier as a connectivity result.
+The max-flow reduction makes both the theorem and the certificate _computable_.
+
+#theorem[Menger's Theorem (edge form)][
+  The _maximum_ number of edge-disjoint $s$-$t$ paths equals the _minimum_ number of edges whose removal disconnects $s$ from $t$.
+]
+
+#theorem[Menger's Theorem (vertex form)][
+  The _maximum_ number of internally vertex-disjoint $s$-$t$ paths equals the _minimum_ number of internal vertices whose removal disconnects $s$ from $t$.
+]
+
+*Reduction (edge form):* Orient each undirected edge both ways with capacity 1.
+Max-flow $=$ max edge-disjoint paths; min cut $=$ min edge separator.
+
+*Reduction (vertex form) --- vertex splitting:*
+Replace each internal $v$ with $v_"in" ->^1 v_"out"$ (capacity 1 edge).
+Original edges become $u_"out" -> v_"in"$ with capacity $infinity$.
+
+#pagebreak()
 
 #import fletcher: diagram, edge, node
 #align(center)[
@@ -5212,228 +5322,245 @@ All original edges become arcs from $u_"out"$ to $v_"in"$ with capacity $infinit
     blob((1.5, -0.8), $b_"in"$, tint: blue, name: <bin>, inset: 3pt),
     blob((3, -0.8), $b_"out"$, tint: blue, name: <bout>, inset: 3pt),
     blob((4.5, 0), $t$, tint: red, name: <t>),
-    edge(<s>, <ain>, "-}>")[$infinity$],
-    edge(<s>, <bin>, "-}>")[$infinity$],
-    edge(<ain>, <aout>, "-}>")[$1$],
-    edge(<bin>, <bout>, "-}>")[$1$],
-    edge(<aout>, <t>, "-}>")[$infinity$],
-    edge(<bout>, <t>, "-}>")[$infinity$],
-    edge(<aout>, <bin>, "-}>")[$infinity$],
+    edge(<s>, <ain>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<s>, <bin>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<ain>, <aout>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<bin>, <bout>, "-}>", $1$, label-side: center, label-angle: auto),
+    edge(<aout>, <t>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<bout>, <t>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<aout>, <bin>, "-}>", $infinity$, label-side: center, label-angle: auto),
   )
 ]
 
-The max flow in this network equals the maximum number of internally vertex-disjoint $s$-$t$ paths. \
-The min cut equals the minimum vertex separator --- this is *Menger's theorem (vertex form)*.
+#Block(color: yellow)[
+  The capacity-1 edges $a_"in" -> a_"out"$ and $b_"in" -> b_"out"$ enforce: each vertex is used by _at most one path_.
+  Cutting them in the min-cut corresponds directly to removing those vertices --- the min cut is the min vertex separator.
+]
 
-== Application 4: Project Selection (Closure Problem)
+== Application 5: Project Selection (Closure Problem)
 
 *Problem:*
-You have a set of _projects_ $P$, each with a profit $p_i$ (which may be negative).
-Some projects _depend on_ others: selecting $i$ forces you to also select $j$ for each dependency $i arrow j$.
-Find a feasible set $S subset.eq P$ maximizing $sum_(i in S) p_i$.
+Projects $P = {1, dots, n}$, each with profit $p_i$ (negative $=$ cost).
+Dependency $i -> j$: selecting $i$ forces selecting $j$.
+Find $S subset.eq P$ maximizing $sum_(i in S) p_i$.
 
-*Reduction to min-cut:*
-- Source $s$, sink $t$.
-- For each profitable project $i$ ($p_i > 0$): add edge $s arrow i$ with capacity $p_i$.
-- For each costly project $i$ ($p_i < 0$): add edge $i arrow t$ with capacity $|p_i|$.
-- For each dependency $i arrow j$: add edge $i arrow j$ with capacity $infinity$.
+*Reduction:* Source $s$, sink $t$.
+- Profitable project ($p_i > 0$): edge $s -> i$, capacity $p_i$.
+- Costly project ($p_i < 0$): edge $i -> t$, capacity $|p_i|$.
+- Dependency $i -> j$: edge $i -> j$, capacity $infinity$.
 
 #theorem[
-  $"Max profit" = (sum_(p_i > 0) p_i) - "min cut"(s, t)$.
+  $"max profit" = (sum_(p_i > 0) p_i) - "min cut"(s, t)$.
 ]
+
+#pagebreak()
+
+*Worked example:* $p_A = 10, p_B = 8, p_C = -3, p_D = -6$.
+Dependencies: $A -> C$, $B -> C$, $B -> D$.
+
+#align(center)[
+  #import fletcher: diagram, edge, node
+  #diagram(
+    node-shape: fletcher.shapes.circle,
+    edge-stroke: 1pt,
+    blob((0, 0), $s$, tint: green, name: <s>),
+    blob((2, 0.9), $A$, tint: blue, name: <A>),
+    blob((2, -0.9), $B$, tint: blue, name: <B>),
+    blob((4, 0.4), $C$, tint: orange, name: <C>),
+    blob((4, -1.6), $D$, tint: orange, name: <D>),
+    blob((6, -0.5), $t$, tint: red, name: <t>),
+    edge(<s>, <A>, "-}>", $10$, label-side: center, label-angle: auto),
+    edge(<s>, <B>, "-}>", $8$, label-side: center, label-angle: auto),
+    edge(<A>, <C>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<B>, <C>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<B>, <D>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(<C>, <t>, "-}>", $3$, label-side: center, label-angle: auto),
+    edge(<D>, <t>, "-}>", $6$, label-side: center, label-angle: auto),
+  )
+]
+
+Total positive profit $= 18$.
+Min cut: ${C -> t, D -> t}$, capacity $3 + 6 = 9$.
+
+*Optimal selection:* ${A, B, C, D}$ with profit $10 + 8 - 3 - 6 = 9 = 18 - 9$. #YES
 
 #Block(color: blue)[
-  *Intuition:*
-  The min cut separates _selected_ ($A$, containing $s$) from _not selected_ ($B$, containing $t$).
-  Cutting $s arrow i$ means forgoing the profit of project $i$.
-  Cutting $j arrow t$ means project $j$ is excluded at cost $|p_j|$.
-  Infinite-capacity dependency edges cannot be cut, enforcing the selection constraints.
+  The dependency $B -> D$ carries $infinity$ capacity and cannot be cut.
+  If $B$ is selected ($s$-side), then $D$ must also be ($s$-side), paying cost 6.
+  Infinite-capacity edges encode hard selection dependencies.
 ]
 
-== Real-World Applications
+== Application 6: Baseball Elimination
+
+*Problem:* $n$ teams in a league. Team $i$ has $w_i$ wins, $r_(i j)$ remaining games against team $j$.
+Is team $k$ _mathematically eliminated_ from finishing with the most wins?
+
+*Trivial elimination:* Let $W_k = w_k + sum_j r_(k j)$ (max wins $k$ can achieve).
+If $W_k < w_i$ for some team $i$ already: $k$ cannot catch up.
+
+*Non-trivial elimination:* Even if $W_k$ is large, the remaining games among the _other_ teams may force one of them above $W_k$ --- regardless of how $k$'s games are played.
+
+*Reduction:* Build a network checking whether the games among $T' = T setminus {k}$ can be arranged so no team exceeds $W_k$:
+- Game node $g_(i j)$ for each pair $i, j in T'$: edge $s -> g_(i j)$ with capacity $r_(i j)$.
+- From $g_(i j)$: edges to team nodes $i$ and $j$ with capacity $infinity$ (the winner takes a win).
+- From each team node $i in T'$: edge $i -> t$ with capacity $W_k - w_i$ (budget for $i$).
+
+#theorem[
+  Team $k$ is _not eliminated_ iff all edges out of $s$ are saturated (max flow $= sum_(i < j,\ i,j in T') r_(i j)$). \
+  Team $k$ _is eliminated_ iff max flow $< sum r_(i j)$ (some games cannot be assigned without pushing a team over $W_k$).
+]
+
+#pagebreak()
+
+*Example with 4 teams* (checking if team $D$ is eliminated):
+#align(center)[
+  #table(
+    columns: (auto, auto, auto, auto, auto),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Team*], [*Wins*], [vs $A$], [vs $B$], [vs $C$]),
+    [$A$], [$5$], [---], [$1$], [$2$],
+    [$B$], [$4$], [$1$], [---], [$1$],
+    [$C$], [$3$], [$2$], [$1$], [---],
+    [$D$], [$2$], [$0$], [$0$], [$0$],
+  )
+]
+
+$D$ has $W_D = 2 + 0 = 2$ max wins. Games among $A$, $B$, $C$: $r_(A B) = 1$, $r_(A C) = 2$, $r_(B C) = 1$.
+Team budgets: $A -> t$ cap $= 2-5 < 0$ --- $D$ is _trivially eliminated_ since $A$ already exceeds $W_D$.
+
+#Block(color: blue)[
+  *The min-cut certificate:*
+  When eliminated non-trivially, the min cut reveals a subset $S subset.eq T'$ such that:
+  $
+    sum_(i, j in S) r_(i j) > |S| dot W_k - sum_(i in S) w_i
+  $
+  i.e., the $|S|$ teams in $S$ collectively have too many guaranteed wins to _all_ stay at or below $W_k$.
+  This certificate is an _explicit mathematical proof_ of elimination --- not a heuristic.
+]
+
+== Beyond This Lecture: Further Applications
+
+The max-flow framework extends far beyond what we have covered.
 
 #columns(2)[
-  *Direct flow problems:*
-  - Pipeline throughput (oil, gas, water)
-  - Internet bandwidth allocation
-  - Airline scheduling (crew assignment)
-  - Traffic flow optimization
+  *From this lecture:*
+  - Bipartite matching + Hall + König
+  - Menger's theorem (disjoint paths)
+  - Project selection / closure
+  - Baseball elimination
 
   #colbreak()
 
-  *Combinatorial optimization:*
-  - Job scheduling on machines
-  - Hospital-patient matching
-  - Image segmentation (min-cut)
-  - Baseball elimination (Schwartz 1966)
-  - Open-pit mining (project selection)
-]
-
-#v(0.5em)
-#Block(color: teal)[
-  *Historical note:* The Max-Flow Min-Cut theorem was proved independently by Ford & Fulkerson (1956) and by Elias, Feinstein & Shannon (1956) --- the latter motivated by information theory.
-  It is one of the landmark results connecting graph theory, linear programming, and combinatorics.
-]
-
-#Block(color: yellow)[
-  *Baseball elimination (Schwartz 1966):* Team $i$ is _eliminated_ from winning if and only if the max flow in a specific network falls below a threshold.
-  This surprised many sports analysts who assumed playoff standings were easy to compute by hand!
-]
-
-== Edmonds-Karp: Implementation
-
-The implementation follows directly from the algorithm: use BFS to find the shortest augmenting path, then update the residual graph by augmenting along it.
-Store the residual graph as an adjacency structure with explicit reverse edges.
-
-```python
-from collections import deque
-
-def bfs(cap, s, t, parent):
-    visited = {s}
-    queue = deque([s])
-    while queue:
-        u = queue.popleft()
-        for v, c in cap[u].items():
-            if v not in visited and c > 0:
-                visited.add(v)
-                parent[v] = u
-                if v == t:
-                    return True
-                queue.append(v)
-    return False
-
-def max_flow(cap, s, t):
-    flow = 0
-    while True:
-        parent = {}
-        if not bfs(cap, s, t, parent):
-            break  # No augmenting path
-        # Find bottleneck along BFS path
-        path_flow, v = float('inf'), t
-        while v != s:
-            u = parent[v]
-            path_flow = min(path_flow, cap[u][v])
-            v = u
-        # Augment (update residual capacities)
-        v = t
-        while v != s:
-            u = parent[v]
-            cap[u][v] -= path_flow
-            cap[v][u] += path_flow  # reverse edge
-            v = u
-        flow += path_flow
-    return flow
-```
-
-#note[
-  `cap` is a dictionary of dictionaries.
-  Initialize `cap[v][u] = 0` for every reverse edge before running.
-  The `cap[v][u] += path_flow` line automatically maintains the residual backward capacity.
-]
-
-== Summary: Network Flow Landscape
-
-#align(center)[
-  #table(
-    columns: (2fr, 2fr, 1.5fr),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Problem*], [*Reduction*], [*Complexity*]),
-    [Max bipartite matching], [Unit network], [$O(E sqrt(V))$],
-    [Max edge-disjoint $s$-$t$ paths], [Direct (unit caps)], [$O(E^2)$],
-    [Max vertex-disjoint $s$-$t$ paths], [Vertex splitting], [$O(V dot E)$],
-    [Menger's theorem], [Unit network], [Follows from above],
-    [Hall's theorem], [Unit bipartite net], [Follows from matching],
-    [König's theorem], [Min-cut duality], [Follows from matching],
-    [Project selection], [Closure via min-cut], [$O(V^2 E)$],
-  )
+  *Rich further territory:*
+  - *Image segmentation* (pixels: foreground vs.\ background via min-cut)
+  - *Survey design* (bipartite feasibility with range constraints)
+  - *Open-pit mining* (project dependencies, geological costs)
+  - *Crew scheduling* (airlines, railways --- time-expanded networks)
 ]
 
 #v(0.3em)
-#Block(color: yellow)[
-  *Meta-theorem:* Max-Flow Min-Cut is a special case of _LP strong duality_.
-  Many "maximum equals minimum" results in combinatorics --- Hall, König, Menger, Dilworth --- are all instances of this single unifying principle.
+#Block(color: teal)[
+  Max-Flow Min-Cut was proved independently by Ford & Fulkerson (1956) from combinatorics and by Elias, Feinstein & Shannon (1956) from information theory.
+  Baseball elimination as a max-flow problem was first analyzed by Schwartz (1966).
 ]
-
-== Network Flows: Exercises
-
-+ Trace Ford-Fulkerson on the network from the "Worked Example" slide and verify $|f^*| = 5$.
-+ Find the minimum $s$-$t$ cut in the network and confirm its capacity equals the max flow.
-+ Reduce the following bipartite matching to a max-flow problem and find the answer: $X = {1,2,3}$, $Y = {a,b,c}$, edges: $1$-$a$, $1$-$b$, $2$-$b$, $3$-$b$, $3$-$c$.
-+ Apply vertex splitting to find the maximum number of internally vertex-disjoint $s$-$t$ paths in your favourite small graph.
-+ Three projects $P = {A, B, C}$ with profits $p_A = 10$, $p_B = -5$, $p_C = 8$, dependencies $A arrow B$. Set up the min-cut network and determine the optimal selection.
-+ Prove that the minimum cut $(A, B)$ found by the proof of Max-Flow Min-Cut satisfies $c(A,B) = |f|$ without using the theorem itself.
 
 
 = Summary and Connections
-#focus-slide()
-
-== Graph Theory: Key Concepts
-
-#grid(
-  columns: (1fr, 1fr, 1fr),
-  gutter: 1em,
-  [
-    *Structural concepts:*
-    - Degree, adjacency, neighborhoods
-    - Paths, cycles, connectivity
-    - Trees, spanning trees, forests
-    - Bipartiteness (2-colorability)
-    - Planarity (Euler's formula)
-  ],
-  [
-    *Optimization problems:*
-    - Matchings (Hall, König)
-    - Vertex/edge covers
-    - Graph coloring ($chi$, $chi'$)
-    - Cliques and stable sets
-    - Connectivity (Menger)
-  ],
-  [
-    *Network flows:*
-    - Flow networks (capacity, conservation)
-    - Max-flow min-cut theorem
-    - Ford-Fulkerson / Edmonds-Karp
-    - Applications (matching, paths)
-    - Integrality theorem
-  ],
+#focus-slide(
+  epigraph: [Behind every combinatorial "max $=$ min" result \ lies a single algebraic truth: LP strong duality.],
 )
 
+== Network Flows: The Big Picture
+
+#align(center)[
+  #table(
+    columns: (2.2fr, 2fr, 2fr),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Theorem*], [*Max side*], [*Min side*]),
+    [Max-Flow Min-Cut], [flow value $|f|$], [cut capacity $c(A,B)$],
+    [Menger (edge form)], [edge-disjoint $s$-$t$ paths], [min edge separator],
+    [Menger (vertex form)], [vertex-disjoint $s$-$t$ paths], [min vertex separator],
+    [König's theorem], [max matching $nu(G)$], [min vertex cover $tau(G)$],
+    [Hall's theorem], [matching saturating $X$], [Hall condition $|N(S)| >= |S|$],
+  )
+]
+
+#v(0.4em)
+
+Every row is an instance of *LP strong duality*: the primal (max) and dual (min) programs always have equal optima, and for these combinatorial problems both optima are integers.
+
+To _solve_ any of these: construct the right flow network, run max-flow, read off an integer answer.
+
+#v(0.3em)
+
 #Block(color: yellow)[
-  *Foundational theorems:*
-  - Handshaking: $sum deg(v) = 2m$
-  - Euler's formula: $n - m + f = 2$
-  - Hall's marriage theorem (matchings $<->$ neighborhoods)
-  - Menger's theorem (paths $<->$ cuts)
-  - Max-Flow Min-Cut theorem ($max |f| = min c(A,B)$)
+  Graph theory provides the language: paths, cuts, matchings, connectivity.
+  Network flows provide a single computational tool that solves all of them.
 ]
 
-== Graph Theory & Flows: The Big Picture
+== Exercises
 
-#Block(color: blue)[
-  *Network flows unify graph theory:*
-  - Maximum bipartite matching $=$ max flow in a unit network
-  - Menger's theorem $=$ max-flow min-cut with unit capacities
-  - Hall's condition $=$ feasibility of a flow in a bipartite network
-  - König's theorem $=$ strong LP duality for bipartite matching
-]
+*Core: Network Flow Theory*
 
-#Block(color: yellow)[
-  *One theorem rules them all:* Max-Flow $=$ Min-Cut is an instance of _LP strong duality_. The combinatorial "max $=$ min" theorems of Hall, König, Menger, and Dilworth are all special cases of this single algebraic principle.
-]
++ *Max-flow trace:* Trace Ford-Fulkerson on the "Worked Example" network and verify $|f^*| = 5$.
+  Then find a minimum $s$-$t$ cut and confirm its capacity equals the max flow.
 
-Graph theory provides the foundation for:
-- Algorithms (BFS, DFS, shortest paths, MST, max-flow)
-- Network design and optimization
-- Formal language theory (automata are directed labeled graphs!)
++ *Residual network:* In the same network after one augmentation, draw the residual network $N_f$ and identify all remaining augmenting paths.
 
+#v(0.5em)
 
-// == Exercises
+*Extra: Applications*
+
++ *Bipartite matching:* Reduce to max-flow and solve: $X = {1,2,3}$, $Y = {a,b,c}$, edges: $1$-$a$, $1$-$b$, $2$-$b$, $3$-$b$, $3$-$c$.
+  Draw the flow network, run max-flow, and read off the maximum matching.
+
++ *Hall's condition:* For the graph in Exercise 3, verify Hall's condition for every $S subset.eq X$.
+  Remove one edge to make Hall's condition fail --- which set $S$ is violated?
+
++ *König's min cover:* Using the min-cut construction from the König proof, find an explicit minimum vertex cover in the graph from Exercise 3. Verify $|"cover"| = |"max matching"|$.
+
++ *Menger via flow:* Apply vertex splitting to the graph $G = ({s, a, b, t},\ {s a, s b, a b, a t, b t})$.
+  Find the maximum number of internally vertex-disjoint $s$-$t$ paths and the minimum vertex separator.
+
++ *Project selection:* Projects $P = {A, B, C}$, profits $p_A = 10$, $p_B = -5$, $p_C = 8$, dependency $A -> B$.
+  Draw the min-cut network, compute the maximum profit, and describe the optimal selection.
+
++ *LP duality (challenge):* Write the LP for maximum matching in the graph from Exercise 3 and its dual LP.
+  Verify that the optimal primal and dual solutions are both integer-valued and satisfy strong duality.
+
+// == Appendix: Edmonds-Karp Implementation
 //
-// + Prove that every tree with $n >= 2$ vertices has at least 2 leaves.
-// + Show that the Petersen graph is not planar.
-// + Find the chromatic number of $C_n$ for all $n >= 3$.
-// + Prove König's theorem using Hall's theorem.
-// + For which values of $n$ does $K_n$ have an Eulerian circuit?
-// + Find all graphs $G$ with $kappa(G) = lambda(G) = delta(G)$.
-// + Prove that every 2-connected graph has no cut vertices.
-// + Show that a graph is bipartite iff it has no odd cycles.
+// Store the residual graph as adjacency dicts with explicit reverse edges.
+// Use BFS to find shortest augmenting path; augment; repeat until no path exists.
+//
+// ```python
+// from collections import deque
+//
+// def bfs(cap, s, t, parent):
+//     visited = {s}
+//     queue = deque([s])
+//     while queue:
+//         u = queue.popleft()
+//         for v, c in cap[u].items():
+//             if v not in visited and c > 0:
+//                 visited.add(v); parent[v] = u
+//                 if v == t: return True
+//                 queue.append(v)
+//     return False
+//
+// def max_flow(cap, s, t):
+//     flow = 0
+//     while True:
+//         parent = {}
+//         if not bfs(cap, s, t, parent): break
+//         path_flow, v = float('inf'), t
+//         while v != s:
+//             u = parent[v]; path_flow = min(path_flow, cap[u][v]); v = u
+//         v = t
+//         while v != s:
+//             u = parent[v]; cap[u][v] -= path_flow; cap[v][u] += path_flow; v = u
+//         flow += path_flow
+//     return flow
+// ```
+//
+// Initialize cap[v][u] = 0 for every reverse edge before running.
