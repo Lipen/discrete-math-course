@@ -136,13 +136,13 @@ Formal languages are classified by _Chomsky hierarchy_ --- a nested family of in
   #cetz.canvas({
     import cetz.draw: *
     circle((0, 0), radius: (1, 0.6))
-    circle((0, 0.6), radius: (1.5, 1.2))
-    circle((0, 1.2), radius: (2, 1.8))
-    circle((0, 1.8), radius: (2.5, 2.4))
+    circle((0, 0.6), radius: (1.6, 1.2))
+    circle((0, 1.2), radius: (2.4, 1.8))
+    circle((0, 1.8), radius: (3, 2.4))
     content((0, 0))[Regular]
     content((0, 1.1))[Context-Free]
-    content((0, 2.4))[Context-Sensitive]
-    content((0, 3.5))[Recursively Enumerable]
+    content((0, 2.3))[Context-Sensitive]
+    content((0, 3.4))[Recursively Enumerable]
   })
 ]
 
