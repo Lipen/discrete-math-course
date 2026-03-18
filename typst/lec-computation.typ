@@ -105,13 +105,13 @@ The theory of formal languages gives us a _mathematical framework_ for answering
   - a _formal grammar_, e.g. $L tilde.equiv G$
 
 - _Set-theoretic_ operations:
-  - $L_1 union L_2 = {w | w in L_1 or w in L_2}$, the _union_ of $L_1$ and $L_2$
-  - $overline(L) = {w | w notin L} = Sigma^* setminus L$, the _complement_ of $L$
+  - $L_1 union L_2 = {w mid(|) w in L_1 or w in L_2}$, the _union_ of $L_1$ and $L_2$
+  - $overline(L) = {w mid(|) w notin L} = Sigma^* setminus L$, the _complement_ of $L$
   - $abs(L)$ is the _cardinality_ of $L$
 
 - _Concatenation_:
-  - $L_1 dot L_2 = {a b | a in L_1, b in L_2}$, where $a b$ is the concatenation of words $a$ and $b$.
-  - $L^k = underbrace(L dot dots dot L, k "times") = \{ underbrace(w w dots w, k "words") | w in L \}$
+  - $L_1 dot L_2 = {a b mid(|) a in L_1, b in L_2}$, where $a b$ is the concatenation of words $a$ and $b$.
+  - $L^k = underbrace(L dot dots dot L, k "times") = { w_1 w_2 dots w_k mid(|) w_i in L }$
   - $L^0 = {epsilon}$
 
 - _Kleene star_: $L^* = limits(union.big)_(k = 0)^infinity L^k$
@@ -125,10 +125,10 @@ Formal languages are classified by _Chomsky hierarchy_ --- a nested family of in
     columns: 4,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Type*], [*Class*], [*Machine*], [*Example*]),
-    [3], [Regular], [Finite Automata], [${ a^n | n >= 0 }$],
-    [2], [Context-Free], [Pushdown Automata], [${ a^n b^n | n >= 0 }$],
-    [1], [Context-Sensitive], [Linear-Bounded TMs], [${ a^n b^n c^n | n >= 0 }$],
-    [0], [Recursively Enumerable], [Turing Machines], [${ angle.l M, w angle.r | M "halts on" w }$],
+    [3], [Regular], [Finite Automata], [${ a^n mid(|) n >= 0 }$],
+    [2], [Context-Free], [Pushdown Automata], [${ a^n b^n mid(|) n >= 0 }$],
+    [1], [Context-Sensitive], [Linear-Bounded TMs], [${ a^n b^n c^n mid(|) n >= 0 }$],
+    [0], [Recursively Enumerable], [Turing Machines], [${ angle.l M, w angle.r mid(|) M "halts on" w }$],
   )
 ]
 
@@ -168,13 +168,13 @@ The language encodes all inputs for which the answer is "yes".
 #place[
   #block(width: 100%)[
     *Satisfiability (SAT):* Given a Boolean formula $phi$, is it satisfiable?
-    $ "SAT" = { phi | phi "is a satisfiable Boolean formula" } $
+    $ "SAT" = { phi mid(|) phi "is a satisfiable Boolean formula" } $
 
     *Validity (VALID):* Given a Boolean formula $phi$, is it a tautology?
-    $ "VALID" = { phi | phi "is a valid (universally true) formula" } $
+    $ "VALID" = { phi mid(|) phi "is a valid (universally true) formula" } $
 
     *Halting Problem (HALT):* Given a TM $M$ and input $w$, does $M$ halt on $w$?
-    $ "HALT" = { angle.l M, w angle.r | "TM" thin M "halts on input" thin w } $
+    $ "HALT" = { angle.l M, w angle.r mid(|) "TM" thin M "halts on input" thin w } $
   ]
 ]
 #pagebreak()
@@ -222,8 +222,8 @@ The language encodes all inputs for which the answer is "yes".
 
 #definition[
   A class of regular languages $"REG"$ is defined inductively:
-  - $"Reg"_0 = { emptyset, {epsilon} } union { {a} | a in Sigma }$, the _empty_ and _singleton_ languages.
-  - $"Reg"_(i+1) = "Reg"_i union { A union B | A, B in "Reg"_i } union { A dot B | A, B in "Reg"_i } union { A^* | A in "Reg"_i }$, \ the inductively extended $(i+1)$-th _generation_ of regular languages.
+  - $"Reg"_0 = { emptyset, {epsilon} } union { {a} mid(|) a in Sigma }$, the _empty_ and _singleton_ languages.
+  - $"Reg"_(i+1) = "Reg"_i union { A union B mid(|) A, B in "Reg"_i } union { A dot B mid(|) A, B in "Reg"_i } union { A^* mid(|) A in "Reg"_i }$, \ the inductively extended $(i+1)$-th _generation_ of regular languages.
   - $"REG" = limits(union.big)_(k = 0)^infinity "Reg"_k$, the _class_ of all regular languages.
 ]
 
@@ -385,7 +385,7 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
 == DFA --- Example
 
 #example[
-  Automaton $cal(A)$ recognizing strings with an even number of 0s, $lang(cal(A)) = { w in {0,1}^* | w "has even number of 0s" }$.
+  Automaton $cal(A)$ recognizing strings with an even number of 0s, $lang(cal(A)) = { w in {0,1}^* mid(|) w "has even number of 0s" }$.
 
   #let aut = (
     q0: (q0: 1, q1: 0),
@@ -442,14 +442,14 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
 #definition[
   The language _recognized_ by an automaton $cal(A)$ is a set of all words accepted by $cal(A)$.
   $
-    lang(cal(A)) = { w in Sigma^* | conf(q_0, w) scripts(tack)^* conf(f, epsilon) "where" f in F }
+    lang(cal(A)) = { w in Sigma^* mid(|) conf(q_0, w) scripts(tack)^* conf(f, epsilon) "where" f in F }
   $
 ]
 
 #definition[
   The class of _automaton languages_ recognized by DFAs is denoted $"AUT"$.
   $
-    "AUT" = { X | exists cal(A) "such that" lang(cal(A)) = X }
+    "AUT" = { X mid(|) exists cal(A) "such that" lang(cal(A)) = X }
   $
 ]
 
@@ -458,9 +458,9 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
 For each language below (over the alphabet $Sigma = {0, 1}$), draw a DFA recognizing it:
 + $L_1 = {"101", "110"}$
 + $L_2 = Sigma^* setminus {"101", "110"}$
-+ $L_3 = {w | w "starts and ends with the same bit"}$
++ $L_3 = {w mid(|) w "starts and ends with the same bit"}$
 + $L_4 = {"110"}^* = {epsilon, "110", "110110", "110110110", dots}$
-+ $L_5 = {w | w "contains 110 as a substring"}$
++ $L_5 = {w mid(|) w "contains 110 as a substring"}$
 
 
 = Non-determinism
@@ -485,8 +485,9 @@ The key difference from a DFA: the transition function returns a _set_ of possib
 
 == NFA --- Example
 
+The following NFA recognizes $lang(cal(A)) = Sigma^* (110^*)^+$ --- strings containing at least one `11` followed by any number of `0`s:
+
 #[
-  // .* (110*)+
   #let aut = (
     q0: (q0: (0, 1), q1: 1),
     q1: (q2: 1),
@@ -671,7 +672,7 @@ $
 #definition[
   A language _recognized_ by an NFA is a set of all words accepted by the NFA.
   $
-    lang(cal(A)) = { w in Sigma^* | conf(q_0, w) scripts(tack)^* conf(f, epsilon), f in F }
+    lang(cal(A)) = { w in Sigma^* mid(|) conf(q_0, w) scripts(tack)^* conf(f, epsilon), f in F }
   $
 ]
 
@@ -702,7 +703,13 @@ $
 
 == $epsilon$-NFA
 
-An _$epsilon$-NFA_ extends NFAs with $epsilon$-transitions --- transitions that consume _no input_.
+#definition[
+  An _$epsilon$-NFA_ is a 5-tuple $(Q, Sigma, delta, q_0, F)$ with the same components as an NFA, but with a modified transition function:
+  $
+    delta: Q times (Sigma union {epsilon}) to power(Q)
+  $
+  From any state the machine may follow _$epsilon$-transitions_ without consuming any input symbol.
+]
 
 #definition[
   _Epsilon closure_ of a state $q$, denoted $E(q)$ or $epsilon"-clo"(q)$, is a set of states reachable from $q$ by $epsilon$-transitions.
@@ -719,7 +726,7 @@ An _$epsilon$-NFA_ extends NFAs with $epsilon$-transitions --- transitions that 
   })
   #v(-.5em)
   $
-    E(q) = epsilon"-clo"(q) = { r in Q | #clo-aut }
+    E(q) = epsilon"-clo"(q) = { r in Q mid(|) #clo-aut }
   $
   This definition can be extended to the _sets of states_. For $P subset.eq Q$:
   $
@@ -767,15 +774,15 @@ To construct an NFA from an $epsilon$-NFA:
 
 Any NFA can be converted to a DFA using _Rabin--Scott subset construction_.
 
-$cal(A)_"N" = chevron.l Sigma, Q_"N", delta_"N", q_0, F_"N" chevron.r$
+$cal(A)_"N" = (Q_"N", Sigma, delta_"N", q_0, F_"N")$
 - $Q_"N" = {q_1, q_2, ..., q_n}$
 - $delta_"N" : Q_"N" times Sigma to power(Q_"N")$
 
-$cal(A)_"D" = chevron.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" chevron.r$
+$cal(A)_"D" = (Q_"D", Sigma, delta_"D", {q_0}, F_"D")$
 - $Q_"D" = power(Q_"N") = {emptyset, {q_1}, dots, {q_2, q_4, q_5}, dots, Q_"N"}$
 - $delta_"D" : Q_"D" times Sigma to Q_"D"$
-- $delta_"D" : (A, c) maps { r | exists q in A. thin r in delta_"N" (q, c) }$
-- $F_"D" = { A | A intersect F_"N" != emptyset }$
+- $delta_"D" : (A, c) maps { r mid(|) exists q in A. thin r in delta_"N" (q, c) }$
+- $F_"D" = { A mid(|) A intersect F_"N" != emptyset }$
 
 #Block(color: orange)[
   *Warning:* The powerset construction can produce _exponentially many_ states.
@@ -803,7 +810,7 @@ Let's walk through a complete example of converting an NFA to a DFA using the po
     #nfa-example
   ]
 
-  Formally, $cal(N) = (Sigma, Q, delta, q_0, F)$ where:
+  Formally, $cal(N) = (Q, Sigma, delta, q_0, F)$ where:
   - $Q = {q_0, q_1, q_2}$
   - $delta(q_0, 0) = {q_0, q_1}$, $delta(q_0, 1) = {q_0}$, $delta(q_1, 1) = {q_2}$, all other transitions go to $emptyset$
   - $q_0$ is start state
@@ -988,8 +995,8 @@ We can define $R_(i j)^k$ recursively:
 $
   R_(i j)^k & = R_(i j)^(k-1) union R_(i k)^(k-1) (R_(k k)^(k-1))^* R_(k j)^(k - 1) \
   R_(i j)^0 & = cases(
-                {a | delta(q_i, a) = q_j} & "if" i != j,
-                {a | delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
+                {a mid(|) delta(q_i, a) = q_j} & "if" i != j,
+                {a mid(|) delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
               )
 $
 
@@ -1050,7 +1057,7 @@ Informally:
 ]
 
 #example[
-  Let $Sigma = {0, 1}$ and $L = { w in Sigma^* | w "contains" 00 "as a substring" }$.
+  Let $Sigma = {0, 1}$ and $L = { w in Sigma^* mid(|) w "contains" 00 "as a substring" }$.
   Any string of length 3 or greater can be split into three parts, the second of which can be "pumped".
 ]
 
@@ -1071,7 +1078,7 @@ Informally:
   - "Is _001_ equal to _110_ ?" would be _$001 "#" 110$_.
   - "Is _11_ equal to _11_ ?" would be _$11 "#" 11$_.
 
-  Let $"EQUAL" = { w "#" w | w in {0, 1}^* }$.
+  Let $"EQUAL" = { w "#" w mid(|) w in {0, 1}^* }$.
 
   *Question:* Is $"EQUAL"$ a _regular_ language?
 ]
@@ -1119,7 +1126,7 @@ Informally:
 == The Classic Non-regular Language
 
 #example[
-  Consider the language $L = {0^n 1^n | n in NN}$.
+  Consider the language $L = {0^n 1^n mid(|) n in NN}$.
   - $L = {epsilon, 01, 0011, 000111, 00001111, ...}$
   - $L$ is a classic example of a non-regular language.
   - *Intuitively:* if you have _only finitely many states_ in a DFA, you cannot _"remember"_ an arbitrary number of $0$s to match _the same_ number of $1$s.
@@ -1146,7 +1153,7 @@ The game goes as follows:
 #pagebreak()
 
 $
-  L = { 0^n 1^n | n in NN }
+  L = { 0^n 1^n mid(|) n in NN }
 $
 
 #align(center)[
@@ -1167,7 +1174,7 @@ $
 == Formal Proof: $0^n 1^n$ is Not Regular
 
 #theorem[
-  $L = { 0^n 1^n | n in NN }$ is not regular.
+  $L = { 0^n 1^n mid(|) n in NN }$ is not regular.
 ]
 
 #proof[
@@ -1284,7 +1291,7 @@ Consider the language $L$ over $Sigma = {0, 1}$ of strings $w in Sigma^*$ that c
 For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in $L$.
 
 #theorem[
-  $L = { w in {0,1}^* | w "has an equal number of 0s and 1s" }$ is _not regular_.
+  $L = { w in {0,1}^* mid(|) w "has an equal number of 0s and 1s" }$ is _not regular_.
 ]
 
 #proof[
@@ -1310,7 +1317,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 == Strings with Unequal Counts
 
 #definition[
-  Let $"UNEQUAL" = { w in {0,1}^* | w "has different number of 0s and 1s" }$.
+  Let $"UNEQUAL" = { w in {0,1}^* mid(|) w "has different number of 0s and 1s" }$.
 ]
 
 #theorem[
@@ -1327,7 +1334,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 
 #definition[
   A _palindrome_ is a string that reads the same forwards and backwards.
-  Let $"PAL" = { w in {0,1}^* | w = w^R }$ where $w^R$ is the reversal of $w$.
+  Let $"PAL" = { w in {0,1}^* mid(|) w = w^R }$ where $w^R$ is the reversal of $w$.
 ]
 
 #theorem[
@@ -1357,7 +1364,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 == Strings with More 0s than 1s
 
 #definition[
-  Let $"MORE0" = { w in {0,1}^* | w "has more 0s than 1s" }$.
+  Let $"MORE0" = { w in {0,1}^* mid(|) w "has more 0s than 1s" }$.
 ]
 
 #theorem[
@@ -1377,7 +1384,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 == Strings with Unequal Counts
 
 #definition[
-  Let $"UNEQUAL" = { w in {0,1}^* | w "has different number of 0s and 1s" }$.
+  Let $"UNEQUAL" = { w in {0,1}^* mid(|) w "has different number of 0s and 1s" }$.
 ]
 
 #theorem[
@@ -1393,7 +1400,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 == Contrast: A Regular Language That Seems Complex
 
 #definition[
-  Let $"DIV7" = { w in {0,1}^* | w "interpreted as binary number is divisible by 7" }$.
+  Let $"DIV7" = { w in {0,1}^* mid(|) w "interpreted as binary number is divisible by 7" }$.
 ]
 
 #theorem[
@@ -1427,7 +1434,7 @@ It connects regular languages to equivalence relations with finite index.
 ]
 
 #example[
-  Let $L = { w in {0,1}^* | w "ends with 01" }$.
+  Let $L = { w in {0,1}^* mid(|) w "ends with 01" }$.
   - Strings $"001"$ and $"101"$ are equivalent: for any $z$, both $"001"z$ and $"101"z$ end with 01 iff $z$ is empty.
   - Strings $"00"$ and $"0"$ are _not_ equivalent: take $z = "1"$, then $"00""1" = "001" in L$ but $"0""1" = "01" notin L$.
 ]
@@ -1452,12 +1459,12 @@ The Myhill-Nerode theorem provides a direct way to construct the _unique minimal
   1. Compute equivalence classes of $equiv_L$
   2. States = these classes
   3. Start state = $[epsilon]$
-  4. Accepting states = ${[w] | w in L}$
+  4. Accepting states = ${[w] mid(|) w in L}$
   5. Transitions on symbol $a$: $[x] ->^a [x a]$
 ]
 
 #example[
-  For $L = { w | w "has odd number of 1s" }$ over ${0,1}$:
+  For $L = { w mid(|) w "has odd number of 1s" }$ over ${0,1}$:
   - Two equivalence classes: $C_0$ = strings with even \# of 1s, $C_1$ = strings with odd \# of 1s
   - Minimal DFA: 2 states, toggling on 1
 ]
@@ -1474,7 +1481,7 @@ To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of p
   If there exists an infinite set of pairwise $L$-distinguishable strings, then $equiv_L$ has infinite index, so $L$ is not regular.
 ]
 
-#example[${0^n 1^n | n >= 0}$ is not regular][
+#example[${0^n 1^n mid(|) n >= 0}$ is not regular][
   Consider strings $x_i = 0^i$ for $i = 0, 1, 2, ...$
 
   For $i < j$, take $z = 1^i$. Then:
@@ -1486,7 +1493,7 @@ To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of p
 
 #pagebreak()
 
-#example[${w w | w in {0,1}^*}$ is not regular][
+#example[${w w mid(|) w in {0,1}^*}$ is not regular][
   Consider strings $x_i = 0^i 1$ for $i = 0, 1, 2, ...$
 
   For $i < j$, take $z = 0^i 1$. Then:
@@ -1544,9 +1551,9 @@ For a regular language, the equivalence classes correspond to states in the mini
     line((2.5, 0), (3.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
     line((4.5, 0), (5.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
 
-    content((1-0.1, 0.4))[0]
-    content((3-0.1, 0.4))[0]
-    content((5-0.1, 0.4))[0]
+    content((1 - 0.1, 0.4))[0]
+    content((3 - 0.1, 0.4))[0]
+    content((5 - 0.1, 0.4))[0]
 
     // DFA on the bottom
     translate((0, -3))
@@ -1563,9 +1570,9 @@ For a regular language, the equivalence classes correspond to states in the mini
     line((3.5, 0), (4.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
     line((5.5, 0), (6.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
 
-    content((2-0.1, 0.4))[0]
-    content((4-0.1, 0.4))[0]
-    content((6-0.1, 0.4))[0]
+    content((2 - 0.1, 0.4))[0]
+    content((4 - 0.1, 0.4))[0]
+    content((6 - 0.1, 0.4))[0]
 
     // Labels
     content((3, 2))[Equivalence Classes]
@@ -1576,15 +1583,15 @@ For a regular language, the equivalence classes correspond to states in the mini
 #pagebreak()
 
 #align(center)[
-#table(
-  columns: 2,
-  align: left,
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Diagram Part*], [*Meaning*]),
-  [Top row: $[epsilon], [0], [00], dots$], [Myhill-Nerode equivalence classes of prefixes],
-  [Bottom row: $q_0, q_1, q_2$], [States of the minimal DFA],
-  [Arrows labeled 0], [Appending symbol $0$ and moving to the class of the extended prefix],
-)
+  #table(
+    columns: 2,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Diagram Part*], [*Meaning*]),
+    [Top row: $[epsilon], [0], [00], dots$], [Myhill-Nerode equivalence classes of prefixes],
+    [Bottom row: $q_0, q_1, q_2$], [States of the minimal DFA],
+    [Arrows labeled 0], [Appending symbol $0$ and moving to the class of the extended prefix],
+  )
 ]
 
 #note[
@@ -1825,7 +1832,7 @@ For a regular language, the equivalence classes correspond to states in the mini
 ]
 
 #definition[
-  The _reversal_ of a language $L$ is the language $L^R = { w^R | w in L }$.
+  The _reversal_ of a language $L$ is the language $L^R = { w^R mid(|) w in L }$.
 ]
 
 #theorem[
@@ -1880,9 +1887,9 @@ For a regular language, the equivalence classes correspond to states in the mini
 == What Regular Languages Cannot Do
 
 We have seen several non-regular languages:
-- $L = { 0^n 1^n | n in NN }$ --- requires _counting_ to match $0$s and $1$s.
-- $"EQUAL" = { w "#" w | w in {0,1}^* }$ --- requires _remembering_ an entire string.
-- $L = { w in {0,1}^* | w "has equal number of 0s and 1s" }$ --- requires a _counter_.
+- $L = { 0^n 1^n mid(|) n in NN }$ --- requires _counting_ to match $0$s and $1$s.
+- $"EQUAL" = { w "#" w mid(|) w in {0,1}^* }$ --- requires _remembering_ an entire string.
+- $L = { w in {0,1}^* mid(|) w "has equal number of 0s and 1s" }$ --- requires a _counter_.
 
 The common pattern: regular languages cannot _count_ beyond a bounded amount.
 A DFA has only _finitely many states_, so it cannot track _unbounded_ quantities.
@@ -1894,7 +1901,7 @@ A DFA has only _finitely many states_, so it cannot track _unbounded_ quantities
 
 == Context-Free Languages
 
-To recognize languages like ${ a^n b^n | n >= 0 }$, we need more power: a _stack_.
+To recognize languages like ${ a^n b^n mid(|) n >= 0 }$, we need more power: a _stack_.
 
 #definition[
   A _context-free grammar_ (CFG) is a 4-tuple $G = (V, Sigma, R, S)$ where:
@@ -1905,7 +1912,7 @@ To recognize languages like ${ a^n b^n | n >= 0 }$, we need more power: a _stack
 ]
 
 #example[
-  The CFG $G$ with rules $S -> 0 S 1 | epsilon$ generates $L = { 0^n 1^n | n >= 0 }$.
+  The CFG $G$ with rules $S -> 0 S 1 mid(|) epsilon$ generates $L = { 0^n 1^n mid(|) n >= 0 }$.
 
   Derivation of $000111$:
   $
@@ -1940,7 +1947,7 @@ A PDA is like an NFA with an additional _stack_ that it can push to and pop from
 ]
 
 #example[
-  A PDA for $L = { 0^n 1^n | n >= 0 }$:
+  A PDA for $L = { 0^n 1^n mid(|) n >= 0 }$:
   - On reading $0$: push a marker onto the stack.
   - On reading $1$: pop a marker from the stack.
   - Accept if the stack is empty when the input is exhausted.
@@ -1954,10 +1961,10 @@ A PDA is like an NFA with an additional _stack_ that it can push to and pop from
 
 Context-free languages are _strictly more powerful_ than regular languages:
 - Every regular language is context-free (a DFA is a PDA that ignores its stack).
-- ${ a^n b^n | n >= 0 }$ is context-free but not regular.
+- ${ a^n b^n mid(|) n >= 0 }$ is context-free but not regular.
 
 However, context-free languages still have limits:
-- ${ a^n b^n c^n | n >= 0 }$ is _not_ context-free (can be shown via a pumping lemma for CFLs).
+- ${ a^n b^n c^n mid(|) n >= 0 }$ is _not_ context-free (can be shown via a pumping lemma for CFLs).
 
 #align(center)[
   #cetz.canvas({
@@ -1969,7 +1976,7 @@ However, context-free languages still have limits:
   })
 ]
 
-Even context-free languages hit a ceiling: they still cannot express languages like ${ a^n b^n c^n | n >= 0 }$ that require _multiple independent_ counters.
+Even context-free languages hit a ceiling: they still cannot express languages like ${ a^n b^n c^n mid(|) n >= 0 }$ that require _multiple independent_ counters.
 We need a fundamentally more powerful model --- one with unrestricted memory and full read/write access to a tape.
 This leads us to the _Turing machine_, the most general computational model we will study.
 
@@ -2121,7 +2128,7 @@ At each step:
 #definition[
   The language _recognized_ by $cal(M)$ is:
   $
-    lang(cal(M)) = { w in Sigma^* | cal(M) "accepts" w }
+    lang(cal(M)) = { w in Sigma^* mid(|) cal(M) "accepts" w }
   $
 ]
 
@@ -2133,7 +2140,7 @@ At each step:
 == Turing Machine --- Example
 
 #example[
-  A TM that recognizes $L = { 0^n 1^n | n >= 0 }$:
+  A TM that recognizes $L = { 0^n 1^n mid(|) n >= 0 }$:
 
   *Idea:* Repeatedly scan the tape, crossing off one $0$ and one $1$ in each pass.
 
@@ -2443,7 +2450,7 @@ However, every formal model of computation ever proposed has turned out to be _e
   Given a TM $cal(M)$ and an input $w$, does $cal(M)$ halt on $w$?
 
   $
-    "HALT" = { angle.l cal(M), w angle.r | cal(M) "is a TM that halts on input" w }
+    "HALT" = { angle.l cal(M), w angle.r mid(|) cal(M) "is a TM that halts on input" w }
   $
 ]
 
@@ -2494,7 +2501,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 
 #theorem[Rice's Theorem][
   Every non-trivial semantic property of TMs is undecidable.
-  That is, if $P$ is non-trivial and semantic, then ${ angle.l M angle.r | P(M) }$ is undecidable.
+  That is, if $P$ is non-trivial and semantic, then ${ angle.l M angle.r mid(|) P(M) }$ is undecidable.
 ]
 
 #proof[
