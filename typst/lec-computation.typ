@@ -1946,6 +1946,8 @@ A PDA is like an NFA with an additional _stack_ that it can push to and pop from
   It then transitions to a new state and _replaces_ the top stack symbol with a string of stack symbols.
 ]
 
+#pagebreak()
+
 #example[
   A PDA for $L = { 0^n 1^n mid(|) n >= 0 }$:
   - On reading $0$: push a marker onto the stack.
