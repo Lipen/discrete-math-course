@@ -164,24 +164,25 @@ The language encodes all inputs for which the answer is "yes".
   _Deciding_ the problem is equivalent to _recognizing_ the language $L$.
 ]
 
-#example[
-  *Satisfiability (SAT):* Given a Boolean formula $phi$, is it satisfiable?
-  $ "SAT" = { phi | phi "is a satisfiable Boolean formula" } $
-]
+#v(1em)
+#place[
+  #block(width: 100%)[
+    *Satisfiability (SAT):* Given a Boolean formula $phi$, is it satisfiable?
+    $ "SAT" = { phi | phi "is a satisfiable Boolean formula" } $
 
-#example[
-  *Validity (VALID):* Given a Boolean formula $phi$, is it a tautology?
-  $ "VALID" = { phi | phi "is a valid (universally true) formula" } $
-]
+    *Validity (VALID):* Given a Boolean formula $phi$, is it a tautology?
+    $ "VALID" = { phi | phi "is a valid (universally true) formula" } $
 
-#example[
-  *Halting Problem (HALT):* Given a TM $M$ and input $w$, does $M$ halt on $w$?
-  $ "HALT" = { angle.l M, w angle.r | "TM" thin M "halts on input" thin w } $
+    *Halting Problem (HALT):* Given a TM $M$ and input $w$, does $M$ halt on $w$?
+    $ "HALT" = { angle.l M, w angle.r | "TM" thin M "halts on input" thin w } $
+  ]
 ]
+#pagebreak()
 
 #Block(color: yellow)[
-  *Key insight:* Asking "is $w$ in $L$?" and asking "does the algorithm say yes on input $w$?" are _the same question_.
-  This lets us use the theory of formal languages to study the limits of computation.
+  Asking "is $w$ in $L$?" and asking "does the algorithm say yes on input $w$?" are _the same question_.
+
+  This lets us use the theory of _formal languages_ to study the limits of _computation_.
 ]
 
 
@@ -276,6 +277,10 @@ Regular languages can be composed from "smaller" regular languages.
 
 #example[
   $regex("(a|bc)*") = {epsilon, "a", "aa", "aaa", dots, "bc", "bcbc", "bcbcbc", dots, "abc", "bca", "abca", "abcbc", "bcabc", dots}$
+]
+
+#example[
+  $regex("0(10)*1") = {"01", "0101", "010101", dots}$
 ]
 
 See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expressions")
@@ -643,10 +648,6 @@ Each symbol read causes a transition on every currently active state.
 - At each _decision point_, the automaton _clones_ itself for each possible decision.
 - At the end, if _any_ active accepting (#text(green.darken(20%))[green]) states remain, we _accept_.
 
-#Block(color: blue)[
-  *Lecture note:* NFA acceptance is existential --- one successful branch is enough.
-]
-
 == NFA Computation Model
 
 Reachability relation for NFA is very similar to DFA's:
@@ -679,6 +680,7 @@ $
 #align(center)[
   #table(
     columns: 2,
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Deterministic (DFA)*], [*Non-Deterministic (NFA)*]),
     [Single transition per symbol], [Multiple possible transitions],
@@ -691,8 +693,11 @@ $
 ]
 
 #Block(color: blue)[
-  *Why NFAs?* Despite having the same expressive power as DFAs, NFAs are often _exponentially more concise_.
-  They are also the natural output of many constructions (e.g., Thompson's construction from regular expressions).
+  *Why NFAs?*
+
+  Despite having the same expressive power as DFAs, NFAs are often _exponentially more concise_.
+
+  They are also the natural output of many constructions (e.g., Thompson's construction).
 ]
 
 == $epsilon$-NFA
@@ -712,6 +717,7 @@ An _$epsilon$-NFA_ extends NFAs with $epsilon$-transitions --- transitions that 
 
     transition("q", "r", inputs: "eps", label: $epsilon$, curve: 0.001)
   })
+  #v(-.5em)
   $
     E(q) = epsilon"-clo"(q) = { r in Q | #clo-aut }
   $
@@ -724,8 +730,6 @@ An _$epsilon$-NFA_ extends NFAs with $epsilon$-transitions --- transitions that 
 #note[
   $q in epsilon"-clo"(q)$ since each state has an _implicit_ $epsilon$-loop.
 ]
-
-== $epsilon$-NFA --- Example
 
 #example[
   For the following NFA, epsilon closure of $q$ is $epsilon"-clo"(q) = {q, r, s}$.
@@ -775,7 +779,9 @@ $cal(A)_"D" = chevron.l Sigma, Q_"D", delta_"D", {q_0}, F_"D" chevron.r$
 
 #Block(color: orange)[
   *Warning:* The powerset construction can produce _exponentially many_ states.
+
   An NFA with $n$ states can require a DFA with up to $2^n$ states.
+
   In practice, many of these states are unreachable and can be pruned.
 ]
 
@@ -870,6 +876,9 @@ Both automata accept the same language: strings ending with $01$.
   *Key observation:* Although the powerset construction can produce exponentially many states, in practice many states are unreachable. This example shows that sometimes the resulting DFA can be as small as the original NFA.
 ]
 
+So far, we have studied three different _representations_ of languages: regular expressions, DFAs, and NFAs.
+A natural question arises: Are these representations equivalent? Can they express the same set of languages?
+Kleene's theorem answers this definitively.
 
 = Kleene's Theorem
 #focus-slide()
@@ -918,21 +927,21 @@ Each arrow represents a _constructive_ conversion algorithm.
 ]
 
 #Block(color: yellow)[
-  *Key insight:* All four representations --- DFA, NFA, $epsilon$-NFA, and regular expressions --- are _equally powerful_.
+  All four representations --- DFA, NFA, $epsilon$-NFA, and regular expressions --- are _equally powerful_.
+
   They describe exactly the same class of languages: the _regular languages_.
 ]
 
 == Thompson's Construction
 
-#definition[
-  _Thompson's construction_ is a method of constructing an $epsilon$-NFA from a regular expression.
-]
+_Thompson's construction_ is a method of constructing an $epsilon$-NFA from a regular expression.
 
 Prove $"REG" subset.eq "AUT"$ by induction over the _generation index $k$_.
 Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
 
 *Base:* $k = 0$, construct automata for $"Reg"_0 = { emptyset, {epsilon}, {c} "for" c in Sigma }$.
 
+#v(-0.5em)
 #align(center)[
   #cetz.canvas({
     import cetz.draw: *
@@ -984,8 +993,8 @@ $
               )
 $
 
-#Block(color: blue)[
-  *Connection to other topics:* Kleene's algorithm is structurally identical to the _Floyd--Warshall_ algorithm for shortest paths in graphs.
+#Block(color: teal)[
+  Kleene's algorithm is structurally identical to the _Floyd--Warshall_ algorithm for shortest paths in graphs.
   Both use dynamic programming with "allowed intermediate nodes up to $k$".
 ]
 
@@ -1096,7 +1105,7 @@ Informally:
     Then $x y^2 z = 0^(n+k) "#" 0^n notin "EQUAL"$, contradicting the weak pumping lemma.
   ][
     $y$ is to the right of $"#"$.
-    Then $x y^2 z = 0^n "#" 0^(n+k) notin "EQUAL"$, contradicting the weak pumping lemma.
+    Then $x y^2 z = 0^n "#" 0^(n+k) notin "EQUAL"$, contradicting the lemma.
   ]
   In either case we reach a contradiction, so our assumption was wrong.
   Thus, $"EQUAL"$ _is not regular_.
@@ -1118,7 +1127,7 @@ Informally:
   How would we prove that $L$ is non-regular?
 ]
 
-#fancy-box[
+#Block[
   Use the Pumping Lemma to show that $L$ _cannot_ be regular.
 ]
 
@@ -1185,37 +1194,39 @@ $
 
 == A Word of Caution
 
-- The weak and full pumping lemmas describe a _necessary_ condition of regular languages.
+- The pumping lemma describes a _necessary_ condition of regular languages.
   - If $L$ is _regular_, then it _passes_ the conditions of the pumping lemma.
   - If a language _fails_ the pumping lemma, it is _definitely not regular_.
 
-- The weak and full pumping lemmas are _not sufficient_ conditions for regularity.
+- The pumping lemma is _not a sufficient_ condition for regularity.
   - If $L$ is _not regular_, it still _may pass_ the conditions of the pumping lemma.
   - If a language _passes_ the pumping lemma, we _learn nothing_ about whether it is regular.
 
 #Block(color: orange)[
   *Common mistake:* "The language satisfies the pumping lemma, therefore it is regular."
+
   This is _invalid_ reasoning!
   The pumping lemma is a _one-way_ test: it can only _disprove_ regularity, never _prove_ it.
+  For an exact characterization, use the Myhill-Nerode theorem (introduced later).
 ]
 
 == The Full Pumping Lemma
 
-For the intuition behind the "full" pumping lemma, let's revisit our original observation.
-- Let $D$ be a DFA with $n$ states.
-- Any string $w$ accepted by $D$ of length at least $n$ must visit some state twice _within its first $n$_ symbols.
-  - The number of visited states is equal to $n + 1$.
-  - By the pigeonhole principle, some state is _duplicated_.
-- The substring of $w$ between those _revisited states_ can be removed, duplicated, tripled, etc. without changing the fact that $D$ accepts $w$.
+By the pigeonhole principle: any accepting path visiting $n+1$ states must revisit some state --- and this state repeat occurs _within the first $n$ steps_.
 
-This gives us an _additional constraint_:
-$
-  abs(x y) <= n
-$
-This restriction means that the "pump" $y$ must occur _within the first $n$_ characters of $w$.
+#theorem[Full Pumping Lemma for Regular Languages][
+  Let $L$ be a regular language.
+  Then there exists $n in NN$, $n > 0$, such that for every $w in L$ with $abs(w) >= n$,
+  there exist strings $x, y, z$ with:
+  - $w = x y z$,
+  - $y != epsilon$,
+  - $abs(x y) <= n$, and
+  - for every $i in NN$, $x y^i z in L$.
+]
 
 #Block(color: yellow)[
-  *Lecture note:* The full pumping lemma is stronger than the weak version precisely because of the prefix bound $abs(x y) <= n$.
+  *Upgrade from the weak version:* the additional constraint $abs(x y) <= n$ forces the pump $y$ to lie within the first $n$ characters of $w$.
+  This closes a loophole: some non-regular languages (such as #box[${ w mid(|) w "has equal 0s and 1s" }$)] pass the _weak_ lemma, but are caught by the _full_ version.
 ]
 
 == The Full Pumping Lemma --- DFA Revisit
@@ -1227,7 +1238,7 @@ This restriction means that the "pump" $y$ must occur _within the first $n$_ cha
 
     set-style(state: (radius: 0.5, extrude: 0.8))
 
-    state((.565, 0), "q0", initial: true, label: $q_0$)
+    state((0, 0), "q0", initial: true, label: $q_0$)
     state((2, 0), "q1", label: $q_1$)
     state((3, 2), "q2", label: $q_2$)
     state((4, 0), "q3", label: $q_3$)
@@ -1245,32 +1256,32 @@ This restriction means that the "pump" $y$ must occur _within the first $n$_ cha
     transition("q4", "q5", inputs: (0, 1), curve: -1.2, stroke: (dash: "dashed"))
     transition("q5", "q5", inputs: (0, 1), curve: 0.5, stroke: (dash: "dashed"))
   })
-  $
-    q_0
-    to^0 q_1
-    to^1 q_2
-    to^1 q_3
-    to^0 q_1
-    to^1 q_2
-    to^1 q_3
-    to^0 q_1
-    to^1 q_2
-    to^1 q_3
-    to^0 q_1
-    to^1 q_2
-    to^1 q_3
-    to^1 q_4
-  $
+]
+
+$
+  underbrace(q_0 to^0, x) underbrace(q_1 to^1 q_2 to^1 q_3 to^0, y) q_1
+  to^1 q_2
+  to^1 q_3
+  to^0 q_1
+  to^1 q_2
+  to^1 q_3
+  to^0 q_1
+  to^1 q_2
+  to^1 q_3
+  to^1 q_4
+$
+
+#note[
+  State $q_1$ is revisited on the 4th step --- well within the first $n = 6$ states.
+  The substring between the two visits to $q_1$ is $y = 110$; it can be pumped ($i = 0, 1, 2, ...$) and the DFA still accepts.
+  Here $x = 0$ (reaches $q_1$ the first time) and $z$ is the suffix that reaches $q_4$.
 ]
 
 == Formal Proof: Equal 0s and 1s
 
 Consider the language $L$ over $Sigma = {0, 1}$ of strings $w in Sigma^*$ that contain _an equal number_ of $0$s and $1$s.
 
-For example:
-- #Green[`01`] in $L$
-- #Red[`11011`] not in $L$
-- #Green[`110010`] in $L$
+For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in $L$.
 
 #theorem[
   $L = { w in {0,1}^* | w "has an equal number of 0s and 1s" }$ is _not regular_.
@@ -1296,11 +1307,23 @@ For example:
   The constraint $abs(x y) <= n$ from the full version is essential.
 ]
 
-== More Non-Regular Language Proofs
+== Strings with Unequal Counts
 
-Let's apply the pumping lemma to a few more interesting languages.
+#definition[
+  Let $"UNEQUAL" = { w in {0,1}^* | w "has different number of 0s and 1s" }$.
+]
 
-== Palindromes Over {0,1}
+#theorem[
+  $"UNEQUAL"$ is not regular.
+]
+
+#proof[
+  Note that $"UNEQUAL" = overline("EQUAL")$, the complement of the EQUAL language.
+  Since EQUAL is not regular (proved earlier), and regular languages are closed under complement, if $"UNEQUAL"$ were regular, then $overline("UNEQUAL") = "EQUAL"$ would also be regular --- contradiction.
+  Therefore, $"UNEQUAL"$ is not regular.
+]
+
+== Palindromes Over *${0,1}$*
 
 #definition[
   A _palindrome_ is a string that reads the same forwards and backwards.
@@ -1322,6 +1345,15 @@ Let's apply the pumping lemma to a few more interesting languages.
   Contradiction.
 ]
 
+#pagebreak()
+
+#example[
+  For $n = 3$: the string $000100$ is a palindrome. The pumping lemma gives us $x y z$ with $abs(x y) <= 3$.
+  The $y$ part is some prefix of $000$, say $y = 00$. Then:
+  - $x y z$ (original): $000100$ #YES (palindrome)
+  - $x y^2 z$ (pumped): $00000100$ #NO (not a palindrome: 5 leading zeros but only 2 trailing zeros)
+]
+
 == Strings with More 0s than 1s
 
 #definition[
@@ -1333,11 +1365,12 @@ Let's apply the pumping lemma to a few more interesting languages.
 ]
 
 #proof[
-  Assume regularity. Let $n$ be pumping length.
-  Consider $w = 0^n 1^n$. Note $w notin "MORE0"$ (equal counts). Wait, we need a string *in* the language.
-  Instead, use $w = 0^(n+1) 1^n$, which is in $"MORE0"$ and has length $2n+1 >= n$.
+  Assume regularity.
+  Let $n$ be pumping length.
+  Consider $w = 0^(n+1) 1^n$, which is in $"MORE0"$ and has length $2n+1 >= n$.
   By pumping lemma, $w = x y z$ with $abs(x y) <= n$, $y$ consists of $0$s only.
-  Pumping down ($i=0$) gives $x z = 0^(n+1-abs(y)) 1^n$. Since $abs(y) > 0$, the number of $0$s becomes $<= n$, so not more than $1$s.
+  Pumping down ($i=0$) gives $x z = 0^(n+1-k) 1^n$ where $k = abs(y) > 0$.
+  Since $k >= 1$, the number of $0$s becomes $<= n$, which equals or is less than the number of $1$s.
   Contradiction.
 ]
 
@@ -1369,13 +1402,13 @@ Let's apply the pumping lemma to a few more interesting languages.
 
 #proof[
   Construct a DFA with 7 states representing the remainder modulo 7.
-  As we read each bit $b in {0,1}$, update the remainder: $r_"new" = (2 * r_"old" + b) mod 7$.
+  As we read each bit #box[$b in {0,1}$], update the remainder: $r_"new" = (2 dot r_"old" + b) mod 7$.
   Accept if final remainder is 0.
-  This DFA has exactly 7 states, so $"DIV7"$ is regular.
 ]
 
-#Block(color: green)[
-  *Key insight:* The pumping lemma helps prove non-regularity, but some languages that seem complex (like binary numbers divisible by 7) are actually regular because they only require *bounded memory* (the remainder).
+#Block(color: yellow)[
+  *Key insight:* The pumping lemma proves non-regularity. Some languages that seem complex are actually regular because they require only _bounded memory_.
+  Here, the 7 states encode the remainder --- that's enough. EQUAL requires _unbounded_ memory (count of 0s), so it cannot be regular.
 ]
 
 
@@ -1451,6 +1484,8 @@ To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of p
   Thus ${0^i}$ is infinite and pairwise distinguishable, so $L$ is not regular.
 ]
 
+#pagebreak()
+
 #example[${w w | w in {0,1}^*}$ is not regular][
   Consider strings $x_i = 0^i 1$ for $i = 0, 1, 2, ...$
 
@@ -1466,11 +1501,12 @@ To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of p
 #align(center)[
   #table(
     columns: 3,
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Method*], [*Strength*], [*Application*]),
     [Pumping Lemma], [Necessary condition only], [Can disprove regularity, cannot prove it],
     [Myhill-Nerode], [Necessary and sufficient], [Can both prove and disprove regularity],
-    [Pumping Lemma], [Constructive counterexample], [Game: adversary chooses split, you choose pump],
+    [Pumping Lemma], [Constructive counterexample], [Adversary splits, you choose pump value],
     [Myhill-Nerode], [Structural characterization], [Exhibit infinite distinguishable set],
     [Pumping Lemma], [Based on pigeonhole principle], [Focuses on long strings in the language],
     [Myhill-Nerode], [Based on equivalence relations], [Focuses on distinguishing extensions],
@@ -1478,7 +1514,7 @@ To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of p
 ]
 
 #Block(color: blue)[
-  *Key insight:* While the pumping lemma is often taught first due to its simpler game-like structure, the Myhill-Nerode theorem provides a deeper understanding of _why_ some languages aren't regular and directly connects to the minimal automaton.
+  *Why this matters:* While the pumping lemma is taught first due to its simpler structure, Myhill-Nerode provides deeper insight into _why_ some languages aren't regular and connects directly to the minimal automaton structure.
 ]
 
 == Visualizing Equivalence Classes
@@ -1493,10 +1529,10 @@ For a regular language, the equivalence classes correspond to states in the mini
     set-style(fill: none)
 
     // Equivalence classes as circles
-    circle((0, 0), radius: 0.5, stroke: blue.darken(20%))
-    circle((2, 0), radius: 0.5, stroke: blue.darken(20%))
-    circle((4, 0), radius: 0.5, stroke: blue.darken(20%))
-    circle((6, 0), radius: 0.5, stroke: blue.darken(20%))
+    circle((0, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
+    circle((2, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
+    circle((4, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
+    circle((6, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
 
     content((0, 0))[$[epsilon]$]
     content((2, 0))[$[0]$]
@@ -1504,57 +1540,55 @@ For a regular language, the equivalence classes correspond to states in the mini
     content((6, 0))[$dots$]
 
     // Arrows showing transitions
-    line((0.8, 0), (1.2, 0), stroke: 1pt, mark: (end: ">"))
-    line((2.8, 0), (3.2, 0), stroke: 1pt, mark: (end: ">"))
-    line((4.8, 0), (5.2, 0), stroke: 1pt, mark: (end: ">"))
+    line((0.5, 0), (1.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
+    line((2.5, 0), (3.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
+    line((4.5, 0), (5.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
 
-    content((1, 0.7))[0]
-    content((3, 0.7))[0]
-    content((5, 0.7))[0]
+    content((1-0.1, 0.4))[0]
+    content((3-0.1, 0.4))[0]
+    content((5-0.1, 0.4))[0]
 
     // DFA on the bottom
     translate((0, -3))
 
-    circle((1, 0), radius: 0.5, stroke: green.darken(40%), fill: green.lighten(90%))
-    circle((3, 0), radius: 0.5, stroke: green.darken(40%), fill: green.lighten(90%))
-    circle((5, 0), radius: 0.5, stroke: green.darken(40%), fill: green.lighten(90%))
+    circle((1, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
+    circle((3, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
+    circle((5, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
 
     content((1, 0))[$q_0$]
     content((3, 0))[$q_1$]
     content((5, 0))[$q_2$]
 
-    line((1.5, 0), (2.5, 0), stroke: 1pt, mark: (end: ">"))
-    line((3.5, 0), (4.5, 0), stroke: 1pt, mark: (end: ">"))
-    line((5.3, 0), (5.7, 0), stroke: 1pt, mark: (end: ">"))
-    line((5.7, 0), (5.3, 0), stroke: 1pt, mark: (end: ">"))
+    line((1.5, 0), (2.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
+    line((3.5, 0), (4.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
+    line((5.5, 0), (6.5, 0), stroke: 1pt, mark: (end: ">", fill: black))
 
-    content((2, -0.7))[0]
-    content((4, -0.7))[0]
-    content((5.5, 0.7))[0]
+    content((2-0.1, 0.4))[0]
+    content((4-0.1, 0.4))[0]
+    content((6-0.1, 0.4))[0]
 
     // Labels
-    content((0, 1.2))[Equivalence Classes]
-    content((1, -1.7))[Minimal DFA States]
+    content((3, 2))[Equivalence Classes]
+    content((3, -1.2))[Minimal DFA States]
   })
 ]
 
-== Visualizing Equivalence Classes --- Reading Guide
+#pagebreak()
 
+#align(center)[
 #table(
   columns: 2,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Diagram Part*], [*Meaning*]),
   [Top row: $[epsilon], [0], [00], dots$], [Myhill-Nerode equivalence classes of prefixes],
   [Bottom row: $q_0, q_1, q_2$], [States of the minimal DFA],
   [Arrows labeled 0], [Appending symbol $0$ and moving to the class of the extended prefix],
 )
+]
 
 #note[
   The same principle works for every symbol in the alphabet; only symbol $0$ is drawn to keep the picture readable.
-]
-
-#Block(color: yellow)[
-  *Historical note:* The theorem is named after John Myhill and Anil Nerode, who independently discovered it in the late 1950s. It provides one of the most elegant characterizations of regular languages.
 ]
 
 
@@ -1595,7 +1629,8 @@ For a regular language, the equivalence classes correspond to states in the mini
 ]
 
 #note[
-  This proof is algebraic (via regular expressions). The next slide gives the automata-construction intuition.
+  This proof is algebraic (via regular expressions).
+  The next slide gives the automata-construction intuition.
 ]
 
 == Closure under Union --- Construction Picture
@@ -1840,12 +1875,6 @@ For a regular language, the equivalence classes correspond to states in the mini
 
 #focus-slide(
   epigraph: [The good thing about regular languages is everything is decidable. \ The bad thing is they can't express much.],
-  scholars: (
-    (
-      name: "Noam Chomsky",
-      image: image("assets/Noam_Chomsky.jpg"),
-    ),
-  ),
 )
 
 == What Regular Languages Cannot Do
@@ -1940,6 +1969,9 @@ However, context-free languages still have limits:
   })
 ]
 
+Even context-free languages hit a ceiling: they still cannot express languages like ${ a^n b^n c^n | n >= 0 }$ that require _multiple independent_ counters.
+We need a fundamentally more powerful model --- one with unrestricted memory and full read/write access to a tape.
+This leads us to the _Turing machine_, the most general computational model we will study.
 
 = Turing Machines
 #focus-slide(
@@ -2523,7 +2555,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 
 + *Regular languages* (DFA $=$ NFA $=$ RegExp) are the simplest class --- powerful enough for pattern matching, too weak for counting.
 
-+ *The Pumping Lemma* is the primary tool for proving languages are _not_ regular.
++ *The Pumping Lemma* gives a _necessary_ condition for regularity. *Myhill-Nerode* gives a _necessary and sufficient_ one: $L$ is regular iff its right-congruence $equiv_L$ has finite index.
 
 + *Context-free languages* (CFG $=$ PDA) add a stack, enabling matching and nesting.
 
