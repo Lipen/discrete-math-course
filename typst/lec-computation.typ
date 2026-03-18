@@ -2527,6 +2527,8 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
   A decider for $P$ would decide HALT --- contradiction.
 ]
 
+#pagebreak()
+
 #Block(color: orange)[
   *Consequence:* No algorithm can answer any of these questions about an arbitrary program:
   - _"Does this program terminate on all inputs?"_
