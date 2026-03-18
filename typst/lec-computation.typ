@@ -1959,22 +1959,22 @@ A PDA is like an NFA with an additional _stack_ that it can push to and pop from
   A language is context-free if and only if it is recognized by some pushdown automaton.
 ]
 
+#place(right)[
+  #cetz.canvas({
+    import cetz.draw: *
+    circle((0, 0), radius: (1, .6), fill: green.transparentize(90%), stroke: green.darken(20%))
+    circle((0, 0.5), radius: (1.5, 1.2), fill: blue.transparentize(90%), stroke: blue.darken(20%))
+    content((0, 0), [Regular])
+    content((0, 1), [Context-Free])
+  })
+]
+
 Context-free languages are _strictly more powerful_ than regular languages:
 - Every regular language is context-free (a DFA is a PDA that ignores its stack).
 - ${ a^n b^n mid(|) n >= 0 }$ is context-free but not regular.
 
 However, context-free languages still have limits:
 - ${ a^n b^n c^n mid(|) n >= 0 }$ is _not_ context-free (can be shown via a pumping lemma for CFLs).
-
-#align(center)[
-  #cetz.canvas({
-    import cetz.draw: *
-    circle((0, 0), radius: (1, .6), fill: green.transparentize(90%), stroke: green.darken(20%))
-    circle((0, 0.5), radius: (1.5, 1.2), fill: blue.transparentize(90%), stroke: blue.darken(20%))
-    content((0, 0), text(size: 0.8em)[Regular])
-    content((0, 1.1), text(size: 0.8em)[Context-Free])
-  })
-]
 
 Even context-free languages hit a ceiling: they still cannot express languages like ${ a^n b^n c^n mid(|) n >= 0 }$ that require _multiple independent_ counters.
 We need a fundamentally more powerful model --- one with unrestricted memory and full read/write access to a tape.
