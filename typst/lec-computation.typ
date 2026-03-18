@@ -1636,14 +1636,11 @@ For a regular language, the equivalence classes correspond to states in the mini
 ]
 
 #note[
-  This proof is algebraic (via regular expressions).
-  The next slide gives the automata-construction intuition.
+  This proof is "algebraic" (via regular expressions).
+  The picture below gives the automata-construction intuition.
 ]
 
-== Closure under Union --- Construction Picture
-
-#v(1em)
-#align(center)[
+#place(center)[
   #cetz.canvas({
     import cetz.draw: *
     import finite.draw: state, transition
