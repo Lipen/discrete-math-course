@@ -123,6 +123,7 @@ Formal languages are classified by _Chomsky hierarchy_ --- a nested family of in
 #align(center)[
   #table(
     columns: 4,
+    align: (center, left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Type*], [*Class*], [*Machine*], [*Example*]),
     [3], [Regular], [Finite Automata], [${ a^n mid(|) n >= 0 }$],
@@ -855,6 +856,7 @@ We have three reachable states: $A = {q_0}$, $B = {q_0, q_1}$, $C = {q_0, q_2}$.
 Transition table:
 #table(
   columns: 4,
+  align: (left, center, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*State*], [$0$], [$1$], [Accepting?]),
   [$A = {q_0}$], [$B$], [$A$], [$NO$],
@@ -1159,6 +1161,7 @@ $
 #align(center)[
   #table(
     columns: 2,
+    align: center,
     column-gutter: 1em,
     stroke: (x, y) => if y == 0 { (bottom: .8pt) },
     table.header([*#Red[Adversary]*], [*#Green[You]*]),
@@ -2314,6 +2317,7 @@ $
 #align(center)[
   #table(
     columns: 4,
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Feature*], [*DFA*], [*PDA*], [*TM*]),
     [Memory], [Finite (states only)], [Stack (LIFO)], [Infinite tape],
@@ -2553,6 +2557,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 #align(center)[
   #table(
     columns: 3,
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Language Class*], [*Machine*], [*Closure*]),
     [Regular], [DFA/NFA], [All Boolean operations],
