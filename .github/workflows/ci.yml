@@ -29,10 +29,10 @@ jobs:
 
       - name: Install Font Awesome fonts
         run: |
-          curl -sSL https://github.com/FortAwesome/Font-Awesome/releases/download/7.1.0/fontawesome-free-7.1.0-desktop.zip -o fa.zip
+          curl -sSL https://github.com/FortAwesome/Font-Awesome/releases/download/7.2.0/fontawesome-free-7.2.0-desktop.zip -o fa.zip
           unzip fa.zip
           mkdir -p ~/.fonts
-          cp fontawesome-free-7.1.0-desktop/otfs/*.otf ~/.fonts/
+          cp fontawesome-free-7.2.0-desktop/otfs/*.otf ~/.fonts/
 
       - name: Install Source fonts
         run: |
