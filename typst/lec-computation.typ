@@ -2409,15 +2409,18 @@ However, every formal model of computation ever proposed has turned out to be _e
   *Decide* = "_always halt_ with yes/no".
 ]
 
-== Decidability and Recognizability --- Map
+== Map of Decidability and Recognizability
 
-#columns(2)[
-  #cetz.canvas({
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+
+  cetz.canvas({
     import cetz.draw: *
     // RE circle (blue, upper)
-    circle((0, 2.4), radius: (4, 2.8), stroke: blue.darken(20%))
+    circle((0, 1.6), radius: (3.4, 2.1), stroke: blue.darken(20%))
     // co-RE circle (red, lower)
-    circle((0, 1.2), radius: (4, 2.8), stroke: red.darken(20%))
+    circle((0, 0.6), radius: (3.4, 2.1), stroke: red.darken(20%))
     // Chomsky hierarchy nested inside intersection
     circle((0, 0), radius: (0.8, 0.4))
     circle((0, 0.4), radius: (1.4, 0.8))
@@ -2426,32 +2429,32 @@ However, every formal model of computation ever proposed has turned out to be _e
     content((0, 0), text(size: .7em)[Regular])
     content((0, 0.8), text(size: .7em)[CF])
     content((0, 1.6), text(size: .7em)[CS])
-    content((0, 3), text(size: .65em, fill: purple)[R = RE $intersect$ co-RE])
-    content((0, 4.8), text(size: .7em, fill: blue.darken(20%))[RE])
-    content((0, -0.9), text(size: .7em, fill: red.darken(20%))[co-RE])
+    content((0, 2.4), text(size: .65em, fill: purple)[R = RE $intersect$ co-RE])
+    content((0, 3.4), text(size: .7em, fill: blue.darken(20%))[RE])
+    content((0, -1.2), text(size: .7em, fill: red.darken(20%))[co-RE])
     // Problem instances
-    circle((2.5, 2.5), radius: 3pt, fill: yellow.darken(10%))
-    content((2.5, 2.5), anchor: "north-west", padding: 4pt, text(size: .7em)[SAT])
-    circle((1, 4.3), radius: 3pt, fill: yellow.darken(10%))
-    content((1, 4.3), anchor: "south-west", padding: 4pt, text(size: .7em)[HALT])
-    circle((2.5, 5.4), radius: 3pt, fill: yellow.darken(10%))
-    content((2.5, 5.4), anchor: "south-west", padding: 4pt, text(size: .7em)[REGULAR])
-  })
+    circle((2.2, 1.5), radius: 3pt, fill: yellow.darken(10%))
+    content((2.2, 1.5), anchor: "north-west", padding: 4pt, text(size: .7em)[SAT])
+    circle((1, 3), radius: 3pt, fill: yellow.darken(10%))
+    content((1, 3), anchor: "south-west", padding: 4pt, text(size: .7em)[HALT])
+    circle((2.5, 3.5), radius: 3pt, fill: yellow.darken(10%))
+    content((2.5, 3.5), anchor: "south-west", padding: 4pt, text(size: .7em)[REGULAR])
+  }),
 
-  #colbreak()
-
-  *Class overview:*
-  - *Regular* $subset$ *CF* $subset$ *CS* $subset$ *R* $subset$ *RE* --- the Chomsky hierarchy
-  - *R* = *RE* $intersect$ *co-RE* --- decidable languages
-  - *HALT* $in$ *RE* $setminus$ *R* --- recognizable but _not_ decidable; TM accepts but may loop
-  - *SAT* $in$ *R* --- decidable (exhaustive search); NP-complete
-  - *REGULAR* $in$ {"neither RE nor co-RE"} --- no TM can even confirm or deny it
-]
+  [
+    *Classes overview:*
+    $ "Regular" subset "CF" subset "CS" subset "R" subset "RE" $
+    - *R* = *RE* $intersect$ *co-RE* --- decidable languages
+    - *HALT* $in$ *RE* $setminus$ *R* --- recognizable but _not_ decidable; TM~accepts but may loop
+    - *SAT* $in$ *R* --- decidable (exhaustive search); #box[NP-complete]
+    - *REGULAR* $in$ {"neither RE nor co-RE"} --- no TM can even confirm or deny it
+  ],
+)
 
 #Block(color: orange)[
   *Warning:* Decidable $subset.neq$ Recognizable.
-  There exist languages that are recognizable but _not_ decidable (e.g., HALT).
-  There also exist languages that are _not even recognizable_ (e.g., $overline("HALT")$, $"REGULAR"_"TM"$).
+  - There exist languages that are recognizable but _not_ decidable (e.g., HALT).
+  - There also exist languages that are _not even recognizable_ (e.g., $overline("HALT")$, $"REGULAR"_"TM"$).
 ]
 
 == The Halting Problem
