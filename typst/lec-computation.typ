@@ -2342,6 +2342,7 @@ Several variants of TMs exist, all _equivalent in power_:
 #theorem[
   Every multi-tape TM can be simulated by a single-tape TM.
 ]
+#v(-1em)
 #theorem[
   Every non-deterministic TM can be simulated by a deterministic TM.
 ]
@@ -2350,9 +2351,13 @@ Several variants of TMs exist, all _equivalent in power_:
   These simulations may involve a _polynomial_ (multi-tape) or _exponential_ (non-deterministic) slowdown, but they always terminate.
 ]
 
-#Block(color: blue)[
-  *Connection:* The equivalence of deterministic and non-deterministic TMs is _not_ about efficiency.
-  Whether they can solve the same problems _efficiently_ is the famous *P vs NP* problem --- one of the most important open questions in mathematics and computer science.
+#place[
+  #v(1em)
+  #Block(color: blue)[
+    The equivalence of deterministic and non-deterministic TMs is _not_ about efficiency.
+
+    Whether they can solve the same problems _efficiently_ is the famous *P vs NP* problem --- one of the most important open questions in mathematics and computer science.
+  ]
 ]
 
 == Church--Turing Thesis
@@ -2396,7 +2401,9 @@ However, every formal model of computation ever proposed has turned out to be _e
 ]
 
 #Block(color: yellow)[
-  *Reading tip:* recognize = "accept yes-instances, maybe loop on no"; decide = "always halt with yes/no".
+  *Recognize* = "_accept yes_-instances, maybe loop on no".
+  #h(1fr)
+  *Decide* = "_always halt_ with yes/no".
 ]
 
 == Decidability and Recognizability --- Map
