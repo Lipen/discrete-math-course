@@ -793,7 +793,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
   *Turing Machine.*
   A TM $cal(M) = (Q, Sigma, Gamma, delta, q_0, q_"acc", q_"rej")$ reads and writes on an infinite tape.
   At each step, based on the current state and tape symbol, it: transitions to a new state,
-  writes a symbol, and moves the head left ($L$) or right ($R$).
+  writes a symbol, and moves the head left ($L$) or right~($R$).
   It _accepts_ if it reaches $q_"acc"$, _rejects_ if it reaches $q_"rej"$, and may _loop_ forever.
   A language is _decidable_ if some TM always halts; _recognizable_ (RE) if some TM accepts every word in the language (but may loop on other inputs).
 ]
