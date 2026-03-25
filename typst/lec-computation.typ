@@ -809,7 +809,17 @@ Let's walk through a complete example of converting an NFA to a DFA using the po
     q1: (q2: 1),
     q2: (),
   )
-  #let nfa-example = finite.automaton(nfa-aut, final: ("q2",))
+  #let nfa-example = finite.automaton(
+    nfa-aut,
+    final: ("q2",),
+    style: (
+      state: (radius: 0.5, extrude: 0.8),
+      transition: (curve: 0.5),
+      q0: (label: $q_0$),
+      q1: (label: $q_1$),
+      q2: (label: $q_2$),
+    ),
+  )
 
   #align(center)[
     #nfa-example
