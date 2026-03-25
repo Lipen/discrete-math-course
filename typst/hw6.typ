@@ -183,7 +183,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 == Problem 2: Regular Expressions #h(1fr)#TagCore
 
 #tasklist("prob2")[
-  + For each regular expression over $Sigma = {a, b, c, d}$, (i) describe the language in plain English and (ii) count the _exact number of words of length $<= 4$_ it accepts.
+  + For each regular expression over $Sigma = {a, b, c, d}$, describe the formal language in plain natural language, and count the _exact number of words of length $<= 4$_ it accepts.
 
     #[
       #set enum(numbering: "(a)")
@@ -223,7 +223,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     #grid(
       columns: 3,
       column-gutter: 2em,
-      row-gutter: 1.5em,
+      row-gutter: 1em,
       align: center + horizon,
       // ── Beatles (2 × 2, Beginner) ──────────────────────────────────
       crw(
@@ -481,7 +481,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + ${ w in {0,1}^* mid(|) hash_0(w) eq.not hash_1(w) }$ (unequal counts)
       + ${ w w mid(|) w in {0,1}^* }$
       + ${ 1^(n^2) mid(|) n >= 0 }$ (perfect-square lengths)
-      + ${ w in {a,b}^* mid(|) w "has more" a"s than" b"s" }$
+      + ${ w in {a,b}^* mid(|) w "has more" a"'s than" b"'s" }$
     ]
 
   + *(Weak vs. full pumping lemma.)*
@@ -508,9 +508,9 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 #Box[
   *Myhill--Nerode Theorem.*
-  A language $L subset.eq Sigma^*$ is _regular_ if and only if the relation $equiv_L$ defined by
+  A language $L subset.eq Sigma^*$ is _regular_ if and only if the relation $scripts(equiv)_L$ defined by
   $
-    x equiv_L y quad iff quad forall z in Sigma^*. (x z in L iff y z in L)
+    x scripts(equiv)_L y quad iff quad forall z in Sigma^*. (x z in L iff y z in L)
   $
   has _finite index_ (finitely many equivalence classes).
   Moreover, the number of classes equals the number of states in the _minimal DFA_ for $L$.
@@ -620,14 +620,25 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
     #Box[
       *EBNF quick reference:*
-      `<name> ::= ...` defines a non-terminal.
-      `"x"` is a literal character.
-      Juxtaposition = concatenation.
-      `A | B` = alternation.
-      `A?` = optional (0 or 1 occurrences).
-      `A+` = one or more.
-      `A*` = zero or more.
-      `(...)` = grouping.
+      #v(-0.5em)
+      #grid(
+        columns: 3,
+        column-gutter: 1em,
+        [
+          - `<name> ::= ...` defines a non-terminal.
+          - `"x"` is a literal character.
+          - Juxtaposition `A`$thin$`B` = concatenation.
+        ],
+        [
+          - `A | B` = alternation.
+          - `(...)` = grouping.
+        ],
+        [
+          - `A?` = optional (0 or 1).
+          - `A+` = one or more.
+          - `A*` = zero or more.
+        ],
+      )
     ]
 
     For each EBNF grammar, (i)~describe the language in _plain English_, (ii)~give a _regular expression_ defining the same language (if possible), and (iii)~argue whether the language is _regular_ or not.
@@ -649,7 +660,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         <letter> ::= "a" | ... | "z" | "A" | ... | "Z"
         <digit>  ::= "0" | ... | "9"
         ```
-        _(This is the token grammar for identifiers in most programming languages.)_
+        _(This is the simplified token grammar for identifiers in most programming languages.)_
     ]
 
   + For each CFG, describe $cal(L)(G)$ (in English and set-builder notation)
@@ -717,7 +728,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     State whether $cal(M)$ _accepts_, _rejects_, or _loops_.
     #[
       #set enum(numbering: "(a)")
-      + Input $0011$ #h(1fr) _(already traced in lectures --- reproduce it)_
+      + Input $0011$
       + Input $001$
       + Input $epsilon$ (empty input)
       + Input $10$
