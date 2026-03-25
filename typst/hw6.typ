@@ -103,34 +103,35 @@
 #let crw(rpats, cpats, title: none) = {
   let sz = 1.05cm
   let lw = 3.0cm
-  let lh = 2.6cm  // header row height for rotated labels
+  let lh = 2.6cm // header row height for rotated labels
   let nr = rpats.len()
   let nc = cpats.len()
 
   let header-row = (
     box(width: lw, height: lh)[],
-    ..cpats.map(p =>
-      box(width: sz, height: lh, clip: true)[
-        #place(bottom + center, dy: 6pt)[
-          #rotate(-58deg, box(width: 2.5cm, align(left, text(7.5pt, raw(p)))))
-        ]
+    ..cpats.map(p => box(width: sz, height: lh, clip: true)[
+      #place(bottom + center, dy: 6pt)[
+        #rotate(-58deg, box(width: 2.5cm, align(left, text(7.5pt, raw(p)))))
       ]
-    ),
+    ]),
   )
 
-  let data-rows = rpats.enumerate().map(((i, p)) => (
-    box(width: lw, height: sz)[
-      #align(right + horizon, pad(right: 0.4em, text(7.5pt, raw(p))))
-    ],
-    ..range(nc).map(_ => box(width: sz, height: sz, stroke: 0.6pt)[]),
-  ))
+  let data-rows = rpats
+    .enumerate()
+    .map(((i, p)) => (
+      box(width: lw, height: sz)[
+        #align(right + horizon, pad(right: 0.4em, text(7.5pt, raw(p))))
+      ],
+      ..range(nc).map(_ => box(width: sz, height: sz, stroke: 0.6pt)[]),
+    ))
 
   align(center)[
     #if title != none [ #emph(text(9pt, title)) #v(0.3em) ]
-    #stack(dir: ttb, spacing: 0pt,
-      stack(dir: ltr, spacing: 0pt, ..header-row),
-      ..data-rows.map(r => stack(dir: ltr, spacing: 0pt, ..r)),
-    )
+    #stack(dir: ttb, spacing: 0pt, stack(dir: ltr, spacing: 0pt, ..header-row), ..data-rows.map(r => stack(
+      dir: ltr,
+      spacing: 0pt,
+      ..r,
+    )))
   ]
 }
 
@@ -147,7 +148,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     #[
       #set enum(numbering: "(a)")
       + $L_1 = { w in {0,1}^* mid(|) w "contains" mono("010") "as a substring" }$
-      + $L_2 = { a^n b^m mid(|) n >= 1,\, m >= 0 }$ over $Sigma = {a, b}$
+      + $L_2 = { a^n b^m mid(|) n >= 1, m >= 0 }$ over $Sigma = {a, b}$
       + $L_3 = { w in {a,b}^* mid(|) abs(w) "is prime" }$
       + $L_4 = { w \# w mid(|) w in {0,1}^* }$ over $Sigma = {0, 1, \#}$
     ]
@@ -213,12 +214,10 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     Every _column_, read top to bottom, must match the regex shown above it.
 
     #Block[
-      *Note on notation:* Character classes like `[^SPEAK]` match any character
-      _except_ those listed. Dot `.` matches any single character.
-      The pattern `\1` refers back to the first capturing group --- a PCRE
-      backreference, not a classical regex feature
-      (it makes the language non-regular!). Treat it concretely: if group 1
-      matched `X`, then `\1` matches exactly `X`.
+      *Note on notation:* Character classes like `[^SPEAK]` match any character _except_ those listed.
+      Dot `.` matches any single character.
+      The pattern `\1` refers back to the first capturing group --- a PCRE backreference, not a classical regex feature (it makes the language non-regular!).
+      Treat it concretely: if group 1 matched `X`, then `\1` matches exactly `X`.
     ]
 
     #grid(
@@ -330,7 +329,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
             columns: 4,
             align: center,
             stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-            table.header([*State*], [$delta(-,mono("0"))$], [$delta(-,mono("1"))$], [*Accepting?*]),
+            table.header([*State*], [$delta(-, mono("0"))$], [$delta(-, mono("1"))$], [*Accepting?*]),
             [$q_0$], [${ q_0, q_1 }$], [${ q_0 }$], [],
             [$q_1$], [$emptyset$], [${ q_2 }$], [],
             [$q_2$], [${ q_3 }$], [$emptyset$], [],
@@ -372,7 +371,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     Then argue that _any DFA_ for $L$ requires _at least 3 states_.
 
     #Block[
-      *Hint:* Exhibit three strings $u, v, x \in {0,1}^*$ that are pairwise $L$-distinguishable:
+      *Hint:* Exhibit three strings $u, v, x in {0,1}^*$ that are pairwise $L$-distinguishable:
       for each pair $(u,v)$, find $z$ such that exactly one of $u z$, $v z$ is in $L$.
       This shows the minimal DFA needs at least 3 states.
     ]
@@ -485,7 +484,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + ${ w in {a,b}^* mid(|) w "has more" a"s than" b"s" }$
     ]
 
-  + *(Weak vs.\ full pumping lemma.)*
+  + *(Weak vs. full pumping lemma.)*
     Consider $L = { w in {0,1}^* mid(|) hash_0(w) = hash_1(w) }$
     (strings with _equal_ numbers of $0$s and $1$s).
     #[
@@ -631,7 +630,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       `(...)` = grouping.
     ]
 
-    For each EBNF grammar, (i) describe the language in _plain English_, (ii) give a _regular expression_ defining the same language (if possible), and (iii) argue whether the language is _regular_ or not.
+    For each EBNF grammar, (i)~describe the language in _plain English_, (ii)~give a _regular expression_ defining the same language (if possible), and (iii)~argue whether the language is _regular_ or not.
     #[
       #set enum(numbering: "(a)")
       +
@@ -669,7 +668,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       #set enum(numbering: "(a)")
       + ${ a^i b^j c^k mid(|) i = j space "or" space j = k }$
 
-        #Block[*Hint:* Use the union: design $G'$ for $\{a^n b^n c^k\}$ and $G''$ for $\{a^i b^n c^n\}$, then combine with $S \to S' \mid S''$.]
+        #Block[*Hint:* Use the union: design $G'$ for ${a^n b^n c^k}$ and $G''$ for ${a^i b^n c^n}$, then combine with $S to S' mid(|) S''$.]
 
       + ${ w in {a,b}^* mid(|) hash_a(w) = 2 dot.op hash_b(w) }$
         (strings where \#$a$s $= 2 dot$ \#$b$s)
@@ -713,7 +712,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     crossing off one $mono("0")$ and one $mono("1")$ per pass.
 
     For each input, show the computation as a sequence of _configurations_
-    (using the notation $alpha \, q \, beta$ where $q$ is the current state,
+    (using the notation $angle.l alpha; q; beta angle.r$ where $q$ is the current state,
     $alpha$ is the tape to the left of the head, $beta$ is the tape at and to the right of the head).
     State whether $cal(M)$ _accepts_, _rejects_, or _loops_.
     #[
@@ -733,12 +732,12 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $L = { 0^(2^n) mid(|) n >= 0 }$, strings whose length is a _power of 2_.
 
         #Block[*Hint:* Repeatedly halve the tape: cross off every other $0$.
-        Accept if exactly 1 unmarked $0$ remains; reject if an odd number $> 1$ remains.]
+          Accept if exactly 1 unmarked $0$ remains; reject if an odd number $> 1$ remains.]
 
       + $L = { w \# w mid(|) w in {0,1}^* }$, the _equality language_.
 
         #Block[*Hint:* Match the $k$-th symbol on the left of $\#$ with the $k$-th symbol on the right.
-        Use crossing-off and left-right zigzagging.]
+          Use crossing-off and left-right zigzagging.]
     ]
 
   + *Decidability classification.*
@@ -796,10 +795,10 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + Consider $L = { a^p mid(|) p "is prime" }$.
         Show that $L$ satisfies the weak pumping lemma:
         for any long enough $a^p in L$, exhibit a split $a^p = x y z$ with $y != epsilon$
-        such that all $x y^i z \in L$.
+        such that all $x y^i z in L$.
 
         #Block[*Hint:* Let $abs(x) = 0$, $abs(y) = j$ for a suitable $j$ dividing the pump.
-        Recall: the weak lemma does NOT require $abs(x y) <= n$, so the adversary can place $y$ anywhere in $w$.]
+          Recall: the weak lemma does NOT require $abs(x y) <= n$, so the adversary can place $y$ anywhere in $w$.]
 
       + Prove that ${ a^p mid(|) p "is prime" }$ is _not_ regular using the _full_ pumping lemma
         or the Myhill--Nerode theorem.
@@ -894,7 +893,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     construct an explicit TM reduction $f$ such that
     $angle.l M, w angle.r in "HALT" iff f(angle.l M, w angle.r) in A_"TM"$.
 
-    #[ #set enum(numbering: "(a)")
+    #[
+      #set enum(numbering: "(a)")
       + Describe the reduction $f$ explicitly:
         given $angle.l M, w angle.r$, how do you build a new TM $M'$ such that
         $M'$ accepts its input iff $M$ halts on $w$?
@@ -1023,8 +1023,8 @@ Implement the _table-filling_ algorithm for DFA minimization.
   + *Benchmark (harder).*
     Implement _Hopcroft's algorithm_ (time $O(n log n)$).
     Randomly generate DFAs over $Sigma = {0, 1}$ with $n in {10, 50, 100, 500, 1000}$ states.
-    Compare runtimes of table-filling ($O(n^2 abs(Sigma))$) vs.\ Hopcroft.
-    Include a plot of runtime vs.\ $n$.
+    Compare runtimes of table-filling ($O(n^2 abs(Sigma))$) vs. Hopcroft.
+    Include a plot of runtime vs. $n$.
 ]
 
 
@@ -1067,6 +1067,6 @@ Implement the _Cocke--Younger--Kasami_ (CYK) algorithm for context-free grammar 
     ]
 
   + *Benchmark.*
-    Measure parsing time vs.\ string length $n$ for $n = 10, 20, 50, 100, 200$.
-    Verify the $O(n^3)$ scaling empirically (plot time vs.\ $n^3$; the line should be approximately linear).
+    Measure parsing time vs. string length $n$ for $n = 10, 20, 50, 100, 200$.
+    Verify the $O(n^3)$ scaling empirically (plot time vs. $n^3$; the line should be approximately linear).
 ]
