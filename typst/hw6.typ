@@ -96,42 +96,98 @@
 #let TagBonus = Tag("Bonus", yellow)
 
 
-// Regex crossword renderer
-// rpats: array of row-pattern strings (left side, read left-to-right)
-// cpats: array of column-pattern strings (read top-to-bottom)
-// title: optional puzzle title
-#let crw(rpats, cpats, title: none) = {
-  let sz = 1.05cm
-  let lw = 3.0cm
-  let lh = 2.6cm // header row height for rotated labels
-  let nr = rpats.len()
-  let nc = cpats.len()
+// Import CeTZ for the crossword renderer
+#import "@preview/cetz:0.4.2"
 
-  let header-row = (
-    box(width: lw, height: lh)[],
-    ..cpats.map(p => box(width: sz, height: lh, clip: true)[
-      #place(bottom + center, dy: 6pt)[
-        #rotate(-58deg, box(width: 2.5cm, align(left, text(7.5pt, raw(p)))))
-      ]
-    ]),
-  )
+// Regex crossword renderer using CeTZ
+//
+// rpats-left:  row patterns shown to the LEFT  (required, one per row)
+// cpats-top:   column patterns shown on TOP     (required, one per column)
+// rpats-right: row patterns shown to the RIGHT  (optional)
+// cpats-bot:   column patterns shown on BOTTOM  (optional)
+// title:       optional title shown above
+//
+// Grid is drawn in CeTZ coordinates: origin = top-left of cell (0,0),
+// x increases right, y increases down (we negate y internally).
+#let crw(
+  rpats-left,
+  cpats-top,
+  rpats-right: (),
+  cpats-bot: (),
+  title: none,
+) = {
+  let sz = 1.0 // cell size in cm
+  let lpad = 0.25 // padding between label and cell edge
+  let nr = rpats-left.len()
+  let nc = cpats-top.len()
 
-  let data-rows = rpats
-    .enumerate()
-    .map(((i, p)) => (
-      box(width: lw, height: sz)[
-        #align(right + horizon, pad(right: 0.4em, text(7.5pt, raw(p))))
-      ],
-      ..range(nc).map(_ => box(width: sz, height: sz, stroke: 0.6pt)[]),
-    ))
+  // Label style helpers
+  // ltext: monospace label at 7 pt
+  // col-label: +90° (clockwise) with reflow: true so CeTZ measures the actual rotated bbox.
+  //   Defined OUTSIDE the canvas lambda → captures Typst's `rotate`, not cetz.draw's.
+  //   +90° makes text read top-to-bottom:
+  //     word-start → north,  word-end → south
+  //     top labels:    "south" anchor → word-end touches the cell top
+  //     bottom labels: "north" anchor → word-start touches the cell bottom
+  let ltext(s) = text(7pt, raw(s))
+  let col-label(s) = rotate(90deg, reflow: true, ltext(s))
+
+  let has-right = rpats-right.len() > 0
+  let has-bot   = cpats-bot.len() > 0
+
+  let grid-w = nc * sz
+  let grid-h = nr * sz
+  let left-w  = 3.0
+  let right-w = if has-right { 3.0 } else { 0.0 }
+  let top-h   = 3.0  // headroom for rotated labels
+  let bot-h   = if has-bot { 3.0 } else { 0.0 }
 
   align(center)[
-    #if title != none [ #emph(text(9pt, title)) #v(0.3em) ]
-    #stack(dir: ttb, spacing: 0pt, stack(dir: ltr, spacing: 0pt, ..header-row), ..data-rows.map(r => stack(
-      dir: ltr,
-      spacing: 0pt,
-      ..r,
-    )))
+    #cetz.canvas(length: 1cm, {
+      import cetz.draw: *
+
+      // ── Title: top-left corner of the canvas ────────────────────────
+      if title != none {
+        content((lpad, -lpad), anchor: "north-west", text(8pt, emph(title)))
+      }
+
+      // ── Grid cells ──────────────────────────────────────────────────
+      for row in range(nr) {
+        for col in range(nc) {
+          let x = left-w + col * sz
+          let y = -(top-h + row * sz)
+          rect((x, y), (x + sz, y - sz), stroke: 0.6pt)
+        }
+      }
+
+      // ── Top column labels ────────────────────────────────────────────
+      for (col, pat) in cpats-top.enumerate() {
+        let cx = left-w + col * sz + sz / 2
+        content((cx, -top-h + lpad), anchor: "south", col-label(pat))
+      }
+
+      // ── Bottom column labels ─────────────────────────────────────────
+      if has-bot {
+        for (col, pat) in cpats-bot.enumerate() {
+          let cx = left-w + col * sz + sz / 2
+          content((cx, -(top-h + grid-h) - lpad), anchor: "north", col-label(pat))
+        }
+      }
+
+      // ── Left row labels ──────────────────────────────────────────────
+      for (row, pat) in rpats-left.enumerate() {
+        let cy = -(top-h + row * sz + sz / 2)
+        content((left-w - lpad, cy), anchor: "east", ltext(pat))
+      }
+
+      // ── Right row labels ─────────────────────────────────────────────
+      if has-right {
+        for (row, pat) in rpats-right.enumerate() {
+          let cy = -(top-h + row * sz + sz / 2)
+          content((left-w + grid-w + lpad, cy), anchor: "west", ltext(pat))
+        }
+      }
+    })
   ]
 }
 
@@ -208,36 +264,64 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
   + Prove that $regex("(a*)* = a*")$ by showing both set inclusions.
     That is, show $lang(regex("(a*)* ")) = lang(regex("a*"))$ directly from the definitions of Kleene star and concatenation.
 
-  + *(Regex Crosswords)*
+  + *(Regex Crosswords)*#footnote[Puzzles adapted from #link("https://regexcrossword.com"). Visit for hundreds of crosswords at all difficulty levels.]
     Fill each cell with a _single ASCII character_ (uppercase letter, digit, punctuation, or space).
-    Every _row_, read left to right, must match the regex shown to its left.
-    Every _column_, read top to bottom, must match the regex shown above it.
+    Every _row_, read left to right, must match the regex shown to its left (and right, if given).
+    Every _column_, read top to bottom, must match the regex shown above it (and below, if given).
 
     #Block[
-      *Note on notation:* Character classes like `[^SPEAK]` match any character _except_ those listed.
-      Dot `.` matches any single character.
-      The pattern `\1` refers back to the first capturing group --- a PCRE backreference, not a classical regex feature (it makes the language non-regular!).
-      Treat it concretely: if group 1 matched `X`, then `\1` matches exactly `X`.
+      *Notation:* `[^SPEAK]` matches any character _except_ those listed.
+      `.` matches any single character.
+      `\1` is a PCRE backreference to the first capturing group --- not a classical regex feature, but treat it concretely: if group 1 matched `X`, then `\1` must also match `X`.
     ]
 
+    #v(0.5em)
     #grid(
-      columns: 3,
-      column-gutter: 2em,
-      row-gutter: 1em,
+      columns: 2,
+      column-gutter: 3em,
+      row-gutter: 1.5em,
       align: center + horizon,
+
       // ── Beatles (2 × 2, Beginner) ──────────────────────────────────
       crw(
         ("HE|LL|O+", "[PLEASE]+"),
         ("[^SPEAK]+", "EP|IP|EF"),
         title: [The Beatles (2 × 2)],
       ),
+
+      // ── Royal Dinner (5 × 3, Experienced) ─────────────────────────
+      crw(
+        ("(Y|F)(.)\\ \\2[DAF]\\1", "(U|O|I)*T[FRO]+", "[KANE]*[GIN]*"),
+        ("(FI|A)+", "(YE|OT)K", "(.)[IF]+", "[NODE]+", "(FY|F|RG)+"),
+        title: [Royal Dinner (5 × 3)],
+      ),
+
       // ── Technology (4 × 3, Intermediate) ───────────────────────────
       crw(
         ("[RUNT]*", "O.*[HAT]", "(.)*DO\\1"),
         ("[^NRU](NO|ON)", "(D|FU|UF)+", "(FO|A|R)*", "(N|A)*"),
         title: [Technology (4 × 3) #sym.dagger],
       ),
-      // ── Time Walker (4 × 4, Hard) ───────────────────────────────────
+
+      // ── GMC Vandura (3 × 2, Double Cross) ──────────────────────────
+      crw(
+        ("(CAT|A-T)+", "[MA\\-\\sE]+"),
+        ("[^MCI]+", ".A", "(TM|BF)"),
+        rpats-right: ("[^KI\\sP]+", "(M|APS|EA)*"),
+        cpats-bot: ("[AI][E\\s]", "[A\\-Z]+", "[\\sT\\-M]+"),
+        title: [GMC Vandura (3 × 2)],
+      ),
+
+      // ── Big Mac (3 × 4, Double Cross) ──────────────────────────────
+      crw(
+        (".[LUH]+", "(P|K)[^U]+", ".*C+[TIF]", "(NO|ONE|ION)*"),
+        ("(.)\\ \\1(.)\\ \\2", "[C\\sOU]+", "[^PU\\sH]+"),
+        rpats-right: (".*L+", "[PUF\\s]*", "[TIC]*", "[NOI\\sE]+"),
+        cpats-bot: ("[PIF]+", ".*[OWE]*", "(TN|LF|TF)*"),
+        title: [Big Mac (3 × 4)],
+      ),
+
+      // ── Time Walker (4 × 4, Palindromeda) ──────────────────────────
       crw(
         ("(EP|ST)*", "T[A-Z]*", ".M.T", ".*P.[S-X]+"),
         (".*E.*", "[^P]I(IT|ME)", "(EM|FE)(IT|IP)", "(TS|PE|KE)*"),
@@ -245,10 +329,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       ),
     )
 
-    #v(0.3em)
     _#sym.dagger Row 3 of Technology uses `(.)*DO\1` (a backreference). See the note above._
-
-    For more crosswords of all difficulty levels: #link("https://regexcrossword.com").
 ]
 
 
