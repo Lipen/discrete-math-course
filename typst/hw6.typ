@@ -357,7 +357,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     ]
 
   + The DFA $cal(A)$ below has states $Q = {q_0, q_1, q_2}$ over $Sigma = {a, b}$.
-    #v(0.5em)
+
     #align(center)[
       #let aut-given = (
         q0: (q0: "a", q1: "b"),
@@ -398,7 +398,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 #tasklist("prob4")[
   + Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2, q_3}$,
     start state $q_0$, accepting state $q_3$, and the transition table below.
-    #v(0.5em)
+
     #align(center)[
       #let nfa-010 = (
         q0: (q0: ("0", "1"), q1: "0"),
@@ -491,7 +491,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
   + *Kleene's algorithm.*
     Consider the DFA $cal(D)$ with states ${ A, B, C }$ over $Sigma = {0, 1}$:
 
-    #v(0.5em)
     #align(center)[
       #let dfa-kleene = (
         A: (B: "0", A: "1"),
@@ -706,7 +705,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
     #Box[
       *EBNF quick reference:*
-      #v(-0.5em)
+
       #grid(
         columns: 3,
         column-gutter: 1em,
