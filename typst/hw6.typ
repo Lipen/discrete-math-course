@@ -372,12 +372,14 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         finite.automaton(aut-given, final: ("q2",), style: (
           state: (radius: 0.5, extrude: 0.8),
           transition: (curve: 0.5),
+          q2-q1: (curve: 0.2),
+          q2-q0: (curve: 1.5),
         )),
       )
     ]
     #[
       #set enum(numbering: "(a)")
-      + What language does $cal(A)$ recognize? Give a concise English description _and_ a regular expression.
+      + What language does $cal(A)$ recognize? Give a concise description _and_ a regular expression.
       + Trace the computation on each input: $epsilon$, $mono("ba")$, $mono("aba")$, $mono("bbba")$.
         Does $cal(A)$ accept or reject each?
       + Is $lang(cal(A))$ finite or infinite?
@@ -505,6 +507,8 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         finite.automaton(dfa-kleene, final: ("C",), style: (
           state: (radius: 0.5, extrude: 0.8),
           transition: (curve: 0.5),
+          C-B: (curve: 0.2),
+          C-A: (curve: 1.5),
         )),
       )
     ]
