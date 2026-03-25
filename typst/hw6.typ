@@ -148,7 +148,7 @@
 
       // ── Title: top-left corner of the canvas ────────────────────────
       if title != none {
-        content((-lpad, lpad), anchor: "south-east", text(8pt, emph(title)))
+        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(8pt, emph(title))))
       }
 
       // ── Grid cells ──────────────────────────────────────────────────
@@ -200,7 +200,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 #tasklist("prob1")[
   + For each language below, list _three words in $L$_ and _three words not in $L$_:
-    #v(0.3em)
     #[
       #set enum(numbering: "(a)")
       + $L_1 = { w in {0,1}^* mid(|) w "contains" mono("010") "as a substring" }$
@@ -264,7 +263,9 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
   + Prove that $regex("(a*)* = a*")$ by showing both set inclusions.
     That is, show $lang(regex("(a*)* ")) = lang(regex("a*"))$ directly from the definitions of Kleene star and concatenation.
 
-  + *(Regex Crosswords)*#footnote[Puzzles adapted from #link("https://regexcrossword.com"). Visit for hundreds of crosswords at all difficulty levels.]
+  #colbreak()
+
+  + *(Regex Crosswords)*
     Fill each cell with a _single ASCII character_ (uppercase letter, digit, punctuation, or space).
     Every _row_, read left to right, must match the regex shown to its left (and right, if given).
     Every _column_, read top to bottom, must match the regex shown above it (and below, if given).
@@ -275,7 +276,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       `\1` is a PCRE backreference to the first capturing group --- not a classical regex feature, but treat it concretely: if group 1 matched `X`, then `\1` must also match `X`.
     ]
 
-    #v(0.5em)
     #grid(
       columns: 2,
       column-gutter: 3em,
@@ -286,21 +286,21 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       crw(
         ("HE|LL|O+", "[PLEASE]+"),
         ("[^SPEAK]+", "EP|IP|EF"),
-        title: [The Beatles (2 × 2)],
+        title: [The Beatles \ (2 × 2)],
       ),
 
       // ── Royal Dinner (5 × 3, Experienced) ─────────────────────────
       crw(
         ("(Y|F)(.)\\ \\2[DAF]\\1", "(U|O|I)*T[FRO]+", "[KANE]*[GIN]*"),
         ("(FI|A)+", "(YE|OT)K", "(.)[IF]+", "[NODE]+", "(FY|F|RG)+"),
-        title: [Royal Dinner (5 × 3)],
+        title: [Royal Dinner \ (5 × 3)],
       ),
 
       // ── Technology (4 × 3, Intermediate) ───────────────────────────
       crw(
         ("[RUNT]*", "O.*[HAT]", "(.)*DO\\1"),
         ("[^NRU](NO|ON)", "(D|FU|UF)+", "(FO|A|R)*", "(N|A)*"),
-        title: [Technology (4 × 3) #sym.dagger],
+        title: [Technology #sym.dagger \ (4 × 3)],
       ),
 
       // ── GMC Vandura (3 × 2, Double Cross) ──────────────────────────
@@ -309,7 +309,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         ("[^MCI]+", ".A", "(TM|BF)"),
         rpats-right: ("[^KI\\sP]+", "(M|APS|EA)*"),
         cpats-bot: ("[AI][E\\s]", "[A\\-Z]+", "[\\sT\\-M]+"),
-        title: [GMC Vandura (3 × 2)],
+        title: [GMC Vandura \ (3 × 2)],
       ),
 
       // ── Big Mac (3 × 4, Double Cross) ──────────────────────────────
@@ -318,18 +318,23 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         ("(.)\\ \\1(.)\\ \\2", "[C\\sOU]+", "[^PU\\sH]+"),
         rpats-right: (".*L+", "[PUF\\s]*", "[TIC]*", "[NOI\\sE]+"),
         cpats-bot: ("[PIF]+", ".*[OWE]*", "(TN|LF|TF)*"),
-        title: [Big Mac (3 × 4)],
+        title: [Big Mac \ (3 × 4)],
       ),
 
       // ── Time Walker (4 × 4, Palindromeda) ──────────────────────────
       crw(
         ("(EP|ST)*", "T[A-Z]*", ".M.T", ".*P.[S-X]+"),
         (".*E.*", "[^P]I(IT|ME)", "(EM|FE)(IT|IP)", "(TS|PE|KE)*"),
-        title: [Time Walker (4 × 4)],
+        title: [Time Walker \ (4 × 4)],
       ),
     )
 
     _#sym.dagger Row 3 of Technology uses `\1` (a backreference). See the note above._
+
+    #Block[
+      Puzzles adapted from #link("https://regexcrossword.com"). \
+      Visit for hundreds of crosswords at all difficulty levels!
+    ]
 ]
 
 
