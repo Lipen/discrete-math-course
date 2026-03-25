@@ -995,7 +995,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + Conclude: if $A_"TM"$ were decidable, then $"HALT"$ would also be decidable --- contradiction.
     ]
 
-  + *(Diagonalization intuition.)*
+  + *(Diagonalization.)*
     A student proposes the following "algorithm" $H$ for the halting problem:
     #Box[
       _Simulate $M$ on $w$ step by step.
