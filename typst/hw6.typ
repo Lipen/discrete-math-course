@@ -951,8 +951,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 == Problem 13: Undecidability from First Principles #h(1fr)#TagChallenge
 
 #tasklist("prob13")[
-  + *(Rice's Theorem.)*
-    Rice's Theorem states: any non-trivial property of the _language_ of a TM is undecidable.
+  + *Rice's Theorem* states: any non-trivial property of the _language_ of a TM is undecidable.
 
     #Box[
       *Rice's Theorem.*
