@@ -12,7 +12,7 @@
     \
     *Languages and Computation*
     #h(1fr)
-    *$#emoji.snowflake$ Spring 2026*
+    *$#emoji.seedling$ Spring 2026*
     #place(bottom, dy: 0.4em)[
       #line(length: 100%, stroke: 0.6pt)
     ]
