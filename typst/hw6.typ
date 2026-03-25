@@ -117,7 +117,7 @@
   title: none,
 ) = {
   let sz = 1.0 // cell size in cm
-  let lpad = 0.25 // padding between label and cell edge
+  let lpad = 0.2 // padding between label and cell edge
   let nr = rpats-left.len()
   let nc = cpats-top.len()
 
@@ -133,14 +133,14 @@
   let col-label(s) = rotate(90deg, reflow: true, ltext(s))
 
   let has-right = rpats-right.len() > 0
-  let has-bot   = cpats-bot.len() > 0
+  let has-bot = cpats-bot.len() > 0
 
   let grid-w = nc * sz
   let grid-h = nr * sz
-  let left-w  = 3.0
+  let left-w = 0.0
   let right-w = if has-right { 3.0 } else { 0.0 }
-  let top-h   = 3.0  // headroom for rotated labels
-  let bot-h   = if has-bot { 3.0 } else { 0.0 }
+  let top-h = 0.0 // headroom for rotated labels
+  let bot-h = if has-bot { 3.0 } else { 0.0 }
 
   align(center)[
     #cetz.canvas(length: 1cm, {
@@ -148,7 +148,7 @@
 
       // ── Title: top-left corner of the canvas ────────────────────────
       if title != none {
-        content((lpad, -lpad), anchor: "north-west", text(8pt, emph(title)))
+        content((-lpad, lpad), anchor: "south-east", text(8pt, emph(title)))
       }
 
       // ── Grid cells ──────────────────────────────────────────────────
@@ -329,7 +329,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       ),
     )
 
-    _#sym.dagger Row 3 of Technology uses `(.)*DO\1` (a backreference). See the note above._
+    _#sym.dagger Row 3 of Technology uses `\1` (a backreference). See the note above._
 ]
 
 
