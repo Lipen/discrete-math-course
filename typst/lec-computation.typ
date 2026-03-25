@@ -1364,6 +1364,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 
 #definition[
   A _palindrome_ is a string that reads the same forwards and backwards.
+
   Let $"PAL" = { w in {0,1}^* mid(|) w = w^R }$ where $w^R$ is the reversal of $w$.
 ]
 
