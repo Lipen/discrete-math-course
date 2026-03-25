@@ -221,7 +221,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     ]
 
   + Classify each language by the _lowest_ level of the Chomsky hierarchy it belongs to.
-    Justify each answer briefly (one sentence).
+    Justify each answer briefly.
     Use the Chomsky hierarchy table from lectures for reference.
     #[
       #set enum(numbering: "(a)")
