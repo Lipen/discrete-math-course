@@ -974,7 +974,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $P$: "$cal(L)(M)$ contains at least one palindrome."
     ]
 
-  + *(Reduction: $"HALT" <=_m A_"TM"$.)*
+  + *(Reduction: $"HALT" scripts(<=)_m A_"TM"$.)*
     Recall:
     $
       A_"TM" = { angle.l M, w angle.r mid(|) M "accepts" w }, quad
