@@ -1055,8 +1055,6 @@ The problems in this assignment are _tagged_:
   They will _not_ count toward your grade but may earn bonus points and --- more importantly --- genuine understanding.
 ]
 
-#v(1em)
-
 
 // ─────────────────────────────────────────────────────────────────────────────
 
