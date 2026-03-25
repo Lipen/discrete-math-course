@@ -888,7 +888,15 @@ Transition table:
   B: (B: 0, C: 1),
   C: (B: 0, A: 1),
 )
-#let dfa-example = finite.automaton(dfa-aut, final: ("C",))
+#let dfa-example = finite.automaton(dfa-aut, final: ("C",), style: (
+  state: (radius: 0.5, extrude: 0.8),
+  transition: (curve: 0.5),
+  A: (label: $A$),
+  B: (label: $B$),
+  C: (label: $C$),
+  A-A: (curve: 0.5, loop: true),
+  C-A: (curve: 2),
+))
 
 #align(center)[
   #dfa-example
