@@ -762,12 +762,16 @@ $
 == From $epsilon$-NFA to NFA
 
 To construct an NFA from an $epsilon$-NFA:
+
 + Perform a _transitive closure_ of $epsilon$-transitions.
   - After that, accepted words contain _no two consecutive_ $epsilon$-transitions.
+
 + _Back-propagate_ accepting states over $epsilon$-transitions.
   - After that, accepted words _do not end_ with $epsilon$.
+
 + Perform _symbol-transition back-closure_ over $epsilon$-transitions.
   - After that, accepted words _do not contain_ $epsilon$-transitions.
+
 + _Remove_ $epsilon$-transitions.
   - After that, you get a plain NFA.
 
