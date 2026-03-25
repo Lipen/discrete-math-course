@@ -213,11 +213,11 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     Explicitly describe or list each of the following languages:
     #[
       #set enum(numbering: "(a)")
-      + $L^2 = L dot L$ (all words formed by concatenating two words from $L$)
+      + $L^2 = L dot L$
       + $L^3$
-      + $L^*$ and $L^+$ (describe the pattern in words)
-      + $overline(L) = Sigma^* setminus L$ (complement of $L$ in $Sigma^*$)
-      + $L dot {0, 1}$ (each word of $L$ followed by one symbol from $Sigma$)
+      + $L^*$ and $L^+$
+      + $overline(L) = Sigma^* setminus L$
+      + $L dot {0, 1}$
     ]
 
   + Classify each language by the _lowest_ level of the Chomsky hierarchy it belongs to.
