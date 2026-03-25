@@ -480,10 +480,10 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + Build the automaton for $regex("(a|b)*")$ (Kleene star).
       + Concatenate the above with automata for $regex("a")$ and $regex("b")$ in sequence.
       + Draw the final $epsilon$-NFA.
-        Label every state $q_1, q_2, dots$ and every transition (including $epsilon$-transitions).
+        Label every state $q_1, q_2, dots$ and every transition with $Sigma union {epsilon}$.
     ]
 
-  + *Kleene's algorithm (DFA $arrow.r$ regex).*
+  + *Kleene's algorithm.*
     Consider the DFA $cal(D)$ with states ${ A, B, C }$ over $Sigma = {0, 1}$:
 
     #v(0.5em)
