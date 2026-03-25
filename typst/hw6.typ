@@ -961,7 +961,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     ]
 
     For each property $P$, determine whether ${ angle.l M angle.r mid(|) cal(L)(M) in P }$ is decidable or undecidable.
-    If undecidable, cite Rice's theorem and verify that $P$ is non-trivial.
+    If~undecidable, cite Rice's theorem and verify that $P$ is non-trivial.
     If decidable, explain why.
     #[
       #set enum(numbering: "(a)")
