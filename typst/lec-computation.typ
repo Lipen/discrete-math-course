@@ -554,7 +554,7 @@ Each symbol read causes a transition on every currently active state.
 
 == Tree Computation --- Example
 
-#[
+#align(center)[
   #let aut = (
     q0: (q1: "a", q3: "b"),
     q1: (q2: "b", q4: "b"),
@@ -564,9 +564,9 @@ Each symbol read causes a transition on every currently active state.
     q5: (),
   )
   #grid(
-    columns: (3fr, 1fr),
-    align: center,
-    column-gutter: 1em,
+    columns: 2,
+    align: center + horizon,
+    column-gutter: 4em,
     [
       #finite.automaton(
         aut,
