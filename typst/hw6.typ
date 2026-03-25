@@ -855,6 +855,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 // ─────────────────────────────────────────────────────────────────────────────
 // ─── CHALLENGE SECTION ───────────────────────────────────────────────────────
 
+#pagebreak()
+
 == Problem 11: The Full Pumping Lemma and Its Limits #h(1fr)#TagChallenge
 
 #tasklist("prob11")[
@@ -934,6 +936,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       Prove each case that is possible, and disprove each case that is not.
     ]
 
+  #colbreak()
+
   + *(Half-language.)*
     Define $"HALF"(L) = { x mid(|) exists y in Sigma^*. abs(y) = abs(x) "and" x y in L }$
     (the first half of strings in $L$).
@@ -998,6 +1002,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         If $M$ does not halt on $w$, does $M'$ reject (or loop)?
       + Conclude: if $A_"TM"$ were decidable, then $"HALT"$ would also be decidable --- contradiction.
     ]
+
+  #colbreak()
 
   + *(Diagonalization.)*
     A student proposes the following "algorithm" $H$ for the halting problem:
