@@ -1122,11 +1122,11 @@ Implement the _table-filling_ algorithm for DFA minimization.
     Prove that the table-filling algorithm marks $(p, q)$ if and only if $p$ and $q$ are
     distinguishable (belong to different Myhill--Nerode equivalence classes).
 
-  + *Benchmark (harder).*
+  + *Benchmark.*
     Implement _Hopcroft's algorithm_ (time $O(n log n)$).
-    Randomly generate DFAs over $Sigma = {0, 1}$ with $n in {10, 50, 100, 500, 1000}$ states.
-    Compare runtimes of table-filling ($O(n^2 abs(Sigma))$) vs. Hopcroft.
-    Include a plot of runtime vs. $n$.
+    - Randomly generate DFAs over $Sigma = {0, 1}$ with $n in {10, 50, 100, 500, 1000}$ states.
+    - Compare runtimes of table-filling ($O(n^2 abs(Sigma))$) vs. Hopcroft.
+    - Include a plot of "runtime vs. $n$".
 ]
 
 
