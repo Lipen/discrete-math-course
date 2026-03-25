@@ -1476,9 +1476,10 @@ It connects regular languages to equivalence relations with finite index.
   Moreover, the number of equivalence classes equals the number of states in the _minimal DFA_ for $L$.
 ]
 
-#proof[(Intuition)][
-  - ($=>$) If $L$ is regular, accepted by DFA $M$ with states $Q$. Define $f: Sigma^* to Q$ by $f(w) = hat(delta)(q_0, w)$. Then $f(x) = f(y)$ implies $x equiv_L y$, so index is at most $|Q|$.
-  - ($<=$) If $equiv_L$ has finite index $n$, construct DFA with states = equivalence classes. Transition on symbol $a$: $[x] ->^a [x a]$. Accepting: classes $[w]$ with $w in L$.
+#proof[(sketch)][
+  _($arrow.r.double$)_ If $L$ is regular, accepted by DFA $M$ with states $Q$. Define $f: Sigma^* to Q$ by $f(w) = hat(delta)(q_0, w)$. Then $f(x) = f(y)$ implies $x equiv_L y$, so index is at most $|Q|$.
+
+  _($arrow.l.double$)_ If $equiv_L$ has finite index $n$, construct DFA with states = equivalence classes. Transition on symbol $a$: $[x] ->^a [x a]$. Accepting: classes $[w]$ with $w in L$.
 ]
 
 == Connection to Minimal DFAs
