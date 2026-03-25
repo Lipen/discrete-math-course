@@ -410,7 +410,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       )
       #grid(
         columns: 2,
-        column-gutter: 3em,
+        column-gutter: 1em,
         align: center + horizon,
         [
           #table(
