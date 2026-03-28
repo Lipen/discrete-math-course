@@ -11,6 +11,7 @@ files := """
     hw3.typ
     hw4.typ
     hw5.typ
+    hw6.typ
     lec-set-theory.typ
     lec-relations.typ
     lec-boolean-algebra.typ
