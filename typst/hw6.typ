@@ -541,7 +541,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
   Then there exists $n in NN$, $n > 0$, such that for every $w in L$ with $abs(w) >= n$, there exist strings $x, y, z$ satisfying:
   - $w = x y z$,
   - $y != epsilon$,
-  - $abs(x y) <= n$, and
+  - $abs(x y) <= n$,
   - $x y^i z in L$ for every $i in NN$.
 ]
 
