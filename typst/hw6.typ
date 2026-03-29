@@ -979,24 +979,15 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $cal(L)(M)$ contains at least one palindrome.
     ]
 
-  + *Reduction: $A_"TM" scripts(<=)_m "HALT"$.*
+  + *Reduction.*
     Recall:
     $
       A_"TM" & = { angle.l M, w angle.r mid(|) M "accepts" w }, \
       "HALT" & = { angle.l M, w angle.r mid(|) M "halts on" w }.
     $
 
-    Using the undecidability of $A_"TM"$ (established by diagonalization in the next problem), prove that $"HALT"$ is also undecidable.
-    Construct a many-one reduction $A_"TM" scripts(<=)_m "HALT"$:
-    a computable function $f$ such that $angle.l M, w angle.r in A_"TM" iff f(angle.l M, w angle.r) in "HALT"$.
-
-    #tasklist("prob13b", format: "(a)")[
-      + Describe $f$ explicitly: given $angle.l M, w angle.r$, build a new TM $M'$ such that $M'$ _halts_ on every input if $M$ _accepts_ $w$, and $M'$ _loops_ on every input if $M$ does not accept $w$. \
-        _(Hint: modify $M$ so that its reject state loops instead of rejecting.)_
-      + Verify correctness: if $M$ accepts $w$, does $M'$ halt on its input?
-        If $M$ rejects or loops on $w$, does $M'$ loop forever?
-      + Conclude: if $"HALT"$ were decidable, then $A_"TM"$ would also be decidable.
-    ]
+    Using the undecidability of $"HALT"$, prove that $A_"TM"$ is also undecidable.
+    Construct a many-one reduction $"HALT" scripts(<=)_m A_"TM"$ and argue why it establishes this result.
 
   + *Diagonalization.*
     A student proposes the following "algorithm" $H$ for the halting problem:
