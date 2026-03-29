@@ -924,12 +924,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     Prove: if $L$ is _regular_, then $"HALF"(L)$ is also _regular_.
 
     #Block[
-      *Strategy:*
-      Let $cal(A) = (Q, Sigma, delta, q_0, F)$ be a DFA for $L$ with $n$ states.
-      Use $cal(A)$ to build a DFA for $"HALF"(L)$ as follows:
-      - State $q in Q$ is in the DFA for $"HALF"(L)$ iff there exists some string $y$ of length exactly $n - abs(x)$ (relative to the current position) that leads from $q$ to a state in $F$.
-      - For each candidate start state $q$, precompute which states are reachable in _exactly $k$ steps_ from $q$, for each $k$.
-      - Use the Myhill--Nerode theorem to bound the number of equivalence classes.
+      *Hint:* Start from a DFA for $L$.
+      Think about what information about a prefix $x$ is enough to decide whether there exists a suffix $y$ with $abs(y) = abs(x)$ and $x y in L$.
     ]
 
   + *(Homomorphisms and inverse homomorphisms.)*
