@@ -995,7 +995,10 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     $
 
     Using the undecidability of $"HALT"$, prove that $A_"TM"$ is also undecidable.
-    Construct a many-one reduction $"HALT" scripts(<=)_m A_"TM"$ and argue why it establishes this result.
+    Construct a many-one reduction $"HALT" scripts(<=)_m A_"TM"$: a computable function $f$ such that for every input $angle.l M, w angle.r$:
+    $
+      angle.l M, w angle.r in "HALT" quad iff quad f(angle.l M, w angle.r) in A_"TM".
+    $
 ]
 
 
