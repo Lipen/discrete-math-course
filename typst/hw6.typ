@@ -747,7 +747,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + ${ a^i b^j c^k mid(|) i = j space "or" space j = k }$
 
         #Block[
-          *Hint:* Use the union: design $G'$ for ${a^n b^n c^k}$ and $G''$ for ${a^i b^n c^n}$, then combine with $S to S' mid(|) S''$.
+          *Hint:* Design $G'$ for ${a^n b^n c^k}$ and $G''$ for ${a^i b^n c^n}$, then combine with $S to S' mid(|) S''$.
         ]
 
       + ${ w in {a,b}^* mid(|) hash_a (w) = 2 dot.op hash_b (w) }$
