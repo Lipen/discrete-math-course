@@ -970,7 +970,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     If decidable, explain why.
 
     #tasklist("prob13a", cols: 2, format: "(a)")[
-      + $cal(L)(M)$ contain s at least one string.
+      + $cal(L)(M)$ contains at least one string.
       + $cal(L)(M)$ is empty.
       + $cal(L)(M)$ is a regular language.
       #colbreak()
