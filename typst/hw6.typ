@@ -220,8 +220,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     ]
 
   + Classify each language by the _lowest_ level of the Chomsky hierarchy it belongs to.
-    Justify each answer briefly.
-    Use the Chomsky hierarchy table from lectures for reference.
     #[
       #set enum(numbering: "(a)")
       + ${ a^n mid(|) n >= 0 }$
@@ -480,15 +478,12 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 #tasklist("prob5")[
   + *Thompson's construction.*
     Convert the regular expression $regex("(a|b)*ab")$ to an $epsilon$-NFA step by step.
-    #[
-      #set enum(numbering: "(a)")
-      + Build automata for the _atomic_ expressions: $regex("a")$ and $regex("b")$.
-      + Build the automaton for $regex("a|b")$ (union).
-      + Build the automaton for $regex("(a|b)*")$ (Kleene star).
-      + Concatenate the above with automata for $regex("a")$ and $regex("b")$ in sequence.
-      + Draw the final $epsilon$-NFA.
-        Label every state $q_1, q_2, dots$ and every transition with $Sigma union {epsilon}$.
-    ]
+    - Build automata for the _atomic_ expressions: $regex("a")$ and $regex("b")$.
+    - Build the automaton for $regex("a|b")$ (union).
+    - Build the automaton for $regex("(a|b)*")$ (Kleene star).
+    - Starting from your automaton for $regex("(a|b)*")$, concatenate it with fresh automata for $regex("a")$ and then $regex("b")$.
+    - Draw the final $epsilon$-NFA.
+      Label every state $q_1, q_2, dots$ and every transition with $Sigma union {epsilon}$.
 
   + *Kleene's algorithm.*
     Consider the DFA $cal(D)$ with states ${ A, B, C }$ over $Sigma = {0, 1}$:
@@ -517,8 +512,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + What language does $cal(D)$ accept?
         Give an informal English description.
       + Define the base cases $R_(i j)^0$ for all pairs of states $(A, B, C)$ numbered $1, 2, 3$.
-      + Compute $R_(i j)^1$, $R_(i j)^2$, and finally $R_(i j)^3$ for the pair $(i,j) = (1, 3)$,
-        i.e. extract the regex for words that take $A$ to $C$.
+      + Compute $R_(i j)^1$, $R_(i j)^2$, and finally $R_(i j)^3$ for the pair $(i,j) = (1, 3)$, i.e. extract the regex for words that take $A$ to $C$.
         Show all intermediate steps.
     ]
 
@@ -531,7 +525,8 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + Convert the $epsilon$-NFA to a DFA using the powerset construction.
       + Convert the DFA back to a regex using Kleene's algorithm.
       + Is the resulting regex syntactically identical to $R$?
-        Do the two regexes describe the same language? Explain briefly.
+        Do the two regexes describe the same language?
+        Explain briefly.
     ]
 ]
 
@@ -565,14 +560,14 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + ${ 0^(2n) mid(|) n >= 0 }$
       + ${ 0^n 1^(2n) mid(|) n >= 0 }$
       + ${ w in {0,1}^* mid(|) w = w^R }$ (binary palindromes)
-      + ${ w in {0,1}^* mid(|) hash_0(w) eq.not hash_1(w) }$ (unequal counts)
+      + ${ w in {0,1}^* mid(|) hash_0 (w) eq.not hash_1 (w) }$ (unequal counts)
       + ${ w w mid(|) w in {0,1}^* }$
       + ${ 1^(n^2) mid(|) n >= 0 }$ (perfect-square lengths)
       + ${ w in {a,b}^* mid(|) w "has more" a"'s than" b"'s" }$
     ]
 
   + *(Weak vs. full pumping lemma.)*
-    Consider $L = { w in {0,1}^* mid(|) hash_0(w) = hash_1(w) }$
+    Consider $L = { w in {0,1}^* mid(|) hash_0 (w) = hash_1 (w) }$
     (strings with _equal_ numbers of $0$s and $1$s).
     #[
       #set enum(numbering: "(a)")
@@ -768,7 +763,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
         #Block[*Hint:* Use the union: design $G'$ for ${a^n b^n c^k}$ and $G''$ for ${a^i b^n c^n}$, then combine with $S to S' mid(|) S''$.]
 
-      + ${ w in {a,b}^* mid(|) hash_a(w) = 2 dot.op hash_b(w) }$
+      + ${ w in {a,b}^* mid(|) hash_a (w) = 2 dot.op hash_b (w) }$
         (strings where \#$a$s $= 2 dot$ \#$b$s)
 
         #Block[*Hint:* Each "$a$" must be "balanced" by two "$b$"s. Think of productions that introduce two $b$s for every $a$.]
@@ -782,9 +777,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
     #[
       #set enum(numbering: "(a)")
-      + Convert the grammar $G_1$ from part (2) into CNF.
-        Show each step of the conversion: add new start symbol, eliminate $epsilon$-productions,
-        then binarize rules.
+      + Convert the grammar $S -> mono("0") S mono("1") mid(|) epsilon$ into CNF.
+        Show each step of the conversion: add new start symbol, eliminate $epsilon$-productions, then binarize rules.
       + Why is CNF useful?
         Name one algorithm that requires the grammar to be in CNF.
     ]
@@ -806,8 +800,10 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 #tasklist("prob10")[
   + *Tracing.*
-    The TM $cal(M)$ from lectures decides ${ 0^n 1^n mid(|) n >= 0 }$ by scanning back and forth,
-    crossing off one $mono("0")$ and one $mono("1")$ per pass.
+    Consider a Turing machine $cal(M)$ for ${ 0^n 1^n mid(|) n >= 0 }$ that works as follows:
+    repeatedly find the leftmost uncrossed $mono("0")$, mark it, move right to find the leftmost uncrossed $mono("1")$,
+    mark it, and return to the left; if it ever sees a $mono("1")$ before an unmatched $mono("0")$, it rejects;
+    if all symbols are matched, it accepts.
 
     For each input, show the computation as a sequence of _configurations_
     (using the notation $angle.l alpha; q; beta angle.r$ where $q$ is the current state,
@@ -858,50 +854,39 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 #pagebreak()
 
-== Problem 11: The Full Pumping Lemma and Its Limits #h(1fr)#TagChallenge
+== Problem 11: Exact Counting vs Modular Counting #h(1fr)#TagChallenge
 
 #tasklist("prob11")[
-  + *A language that needs the full constraint.*
+  + *(Closure instead of pumping.)*
     Consider $L = { 0^i 1^j mid(|) i != j }$.
     #[
       #set enum(numbering: "(a)")
-      + Show that $L$ _passes the weak pumping lemma_.
-        That is, for any $n$ and the adversary's choice of $w = 0^(n+1) 1^n in L$ (with $abs(w) = 2n+1 >= n$),
-        show that the adversary can _always_ find a split $w = x y z$ (without $abs(x y) <= n$)
-        such that all pumpings $x y^i z$ land in $L$.
-      + Prove that $L$ is _not regular_ using the _full_ pumping lemma.
-        Now the constraint $abs(x y) <= n$ forces $y$ to lie in the $0$-prefix,
-        and you can derive a contradiction.
-      + Explain in one sentence why this example is instructive:
-        what does it demonstrate about the weak pumping lemma as a tool?
+      + Prove that $L$ is _not regular_ using _closure properties_, not the pumping lemma.
+
+      + Explain briefly why closure is the natural tool here.
+        What structure of the language does the closure argument expose?
     ]
 
   + *(Regularity from similarity.)*
-    The language $L = { w in {a,b}^* mid(|) hash_a(w) = hash_b(w) }$ is not regular
-    (requires unbounded counting).
-    Now consider $L' = { w in {a,b}^* mid(|) hash_a(w) equiv hash_b(w) thin (mod thin 2) }$.
+    The language $L_(a=b) = { w in {a,b}^* mid(|) hash_a (w) = hash_b (w) }$, where $hash_a (w)$ and $hash_b (w)$ are the number of $a$'s and $b$'s in~$w$ respectively, is not regular (it requires unbounded counting).
+    Now consider $L' = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thick (mod thin 2) }$.
     #[
       #set enum(numbering: "(a)")
-      + Is $L'$ regular? Prove your answer (DFA/regex if yes, pumping lemma if no).
-      + Does this surprise you?
-        Explain intuitively why modular counting is "easier" for a DFA than exact counting.
+      + Is $L'$ regular?
+        Prove your answer (build DFA/regex if yes, apply pumping lemma if no).
+      + Explain intuitively why modular counting is "easier" for a DFA than exact counting.
     ]
 
-  + *The weak pumping lemma is not sufficient for regularity.*
-    Construct a language $L$ that:
-    (i) is _not_ regular, and (ii) _does satisfy_ the weak pumping lemma.
+  + *(Generalization.)*
+    Fix an integer $m >= 2$ and define the language:
+    $ L_m = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thick (mod thin m) } $
     #[
       #set enum(numbering: "(a)")
-      + Consider $L = { a^p mid(|) p "is prime" }$.
-        Show that $L$ satisfies the weak pumping lemma:
-        for any long enough $a^p in L$, exhibit a split $a^p = x y z$ with $y != epsilon$
-        such that all $x y^i z in L$.
-
-        #Block[*Hint:* Let $abs(x) = 0$, $abs(y) = j$ for a suitable $j$ dividing the pump.
-          Recall: the weak lemma does NOT require $abs(x y) <= n$, so the adversary can place $y$ anywhere in $w$.]
-
-      + Prove that ${ a^p mid(|) p "is prime" }$ is _not_ regular using the _full_ pumping lemma
-        or the Myhill--Nerode theorem.
+      + Construct a DFA with exactly $m$ states for $L_m$.
+        Describe the meaning of each state and the transition rule on input $a$ and $b$.
+      + Which states are accepting?
+        Justify your answer using a state invariant.
+      + Why does the regularity of every $L_m$ _not_ contradict the non-regularity of $L_(a=b)$?
     ]
 ]
 
@@ -1114,8 +1099,9 @@ Implement the _table-filling_ algorithm for DFA minimization.
         Merge them into single states.
     ]
 
-  + Apply your implementation to the DFAs produced by Problem A's powerset construction.
-    Report the number of states before and after minimization.
+  + Test your implementation on at least three nontrivial DFAs.
+    At least one of them should come from applying the powerset construction to an NFA of your choice.
+    Report the number of states before and after minimization in each case.
 
   + *Correctness.*
     Prove that the table-filling algorithm marks $(p, q)$ if and only if $p$ and $q$ are
@@ -1146,7 +1132,8 @@ Implement the _Cocke--Younger--Kasami_ (CYK) algorithm for context-free grammar 
       + Eliminate _unit productions_ ($A -> B$).
       + _Binarize_ all remaining productions of length $>= 3$.
     ]
-    Verify on $G_1$ from Problem 9.
+    Verify your converter on the grammar
+    $S -> mono("0") S mono("1") mid(|) epsilon$.
 
   + *CYK algorithm.*
     Implement CYK: given a CFG $G$ in CNF and a string $w = a_1 dots a_n$,
@@ -1160,7 +1147,7 @@ Implement the _Cocke--Younger--Kasami_ (CYK) algorithm for context-free grammar 
     Test on:
     #[
       #set enum(numbering: "(a)")
-      + Grammar $G_1$ from Problem 9: verify all $0^n 1^n$ for $n = 1, dots, 8$ are accepted;
+      + The grammar $S -> mono("0") S mono("1") mid(|) epsilon$: verify all $0^n 1^n$ for $n = 1, dots, 8$ are accepted;
         verify $0^n 1^m$ for $n != m$ are rejected.
       + A small arithmetic expression grammar:
         $E -> E + T mid(|) T$, $T -> T * F mid(|) F$, $F -> mono("(")E mono(")") mid(|) "num"$.
