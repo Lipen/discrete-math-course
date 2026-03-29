@@ -798,6 +798,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + Input $10$
     ]
 
+  #colbreak()
+
   + *Design.*
     Describe --- in clear informal pseudocode or numbered steps, _not_ a full state table ---
     a Turing machine for each language.
