@@ -724,7 +724,6 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         ]
 
       + ${ w in {a,b}^* mid(|) hash_a (w) = 2 dot.op hash_b (w) }$
-        (strings where \#$a$s $= 2 dot$ \#$b$s)
 
         #Block[
           *Hint:* Each "$a$" must be "balanced" by two "$b$"s.
