@@ -969,12 +969,12 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     If~undecidable, cite Rice's theorem and verify that $P$ is non-trivial.
     If decidable, explain why.
 
-    #tasklist("prob13a", format: "(a)")[
+    #tasklist("prob13a", cols: 2, format: "(a)")[
       + $cal(L)(M)$ contain s at least one string.
       + $cal(L)(M)$ is empty.
       + $cal(L)(M)$ is a regular language.
-      + $M$ has fewer than 100 states.
-        #h(1fr)_(Is this a property of the language?..)_
+      #colbreak()
+      + $M$ has fewer than 100 states. // #h(1fr)_(Is this a property of the language?..)_
       + $M$ halts on all inputs.
       + $cal(L)(M)$ contains at least one palindrome.
     ]
