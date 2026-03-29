@@ -121,15 +121,7 @@
   let nr = rpats-left.len()
   let nc = cpats-top.len()
 
-  // Label style helpers
-  // ltext: monospace label at 7 pt
-  // col-label: +90° (clockwise) with reflow: true so CeTZ measures the actual rotated bbox.
-  //   Defined OUTSIDE the canvas lambda → captures Typst's `rotate`, not cetz.draw's.
-  //   +90° makes text read top-to-bottom:
-  //     word-start → north,  word-end → south
-  //     top labels:    "south" anchor → word-end touches the cell top
-  //     bottom labels: "north" anchor → word-start touches the cell bottom
-  let ltext(s) = text(.7em, raw(s))
+  let ltext(s) = text(.8em, raw(s))
   let col-label(s) = rotate(90deg, reflow: true, ltext(s))
 
   let has-right = rpats-right.len() > 0
@@ -268,7 +260,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       Visit for hundreds of crosswords at all difficulty levels!
     ]
     Fill each cell with a _single ASCII character_ (uppercase letter, digit, punctuation, or space).
-    Every row and column must match the corresponding regex pattern.
+    Every row and column must match the corresponding regex pattern (read from left to right and top to bottom, respectively).
 
     #Block[
       // *Notation:*
@@ -279,7 +271,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
     #grid(
       columns: 2,
-      column-gutter: 3em,
+      column-gutter: 1em,
       row-gutter: 1em,
       align: center + horizon,
 
@@ -333,6 +325,8 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 
 // ─────────────────────────────────────────────────────────────────────────────
+
+#pagebreak()
 
 == Problem 3: DFA Construction #h(1fr)#TagCore
 
