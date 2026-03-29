@@ -877,16 +877,20 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + Explain intuitively why modular counting is "easier" for a DFA than exact counting.
     ]
 
-  + *(Generalization.)*
-    Fix an integer $m >= 2$ and define the language:
-    $ L_m = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thick (mod thin m) } $
+  + *(Minimal automata for modular counting.)*
+    Fix an integer $m >= 2$ and define the language
+    $ L_m = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thin (mod thin m) } $
+
     #[
       #set enum(numbering: "(a)")
-      + Construct a DFA with exactly $m$ states for $L_m$.
-        Describe the meaning of each state and the transition rule on input $a$ and $b$.
-      + Which states are accepting?
-        Justify your answer using a state invariant.
-      + Why does the regularity of every $L_m$ _not_ contradict the non-regularity of $L_(a=b)$?
+      + Construct a DFA $cal(A)_m$ for $L_m$ with $m$ states.
+        Prove that your DFA recognizes exactly $L_m$.
+      + Describe the meaning of each state and the transition rule on input $a$ and $b$.
+        State a precise invariant of the form "after reading $w$, the automaton is in state $q_k$ iff ..." and prove it.
+      + Prove that no DFA with fewer than $m$ states can recognize $L_m$.
+        #Block[
+          *Hint:* Show that the strings $epsilon, a, a^2, dots, a^(m-1)$ are pairwise distinguishable w.r.t. $L_m$.
+        ]
     ]
 ]
 
