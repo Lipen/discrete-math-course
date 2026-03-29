@@ -385,72 +385,53 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-== Problem 4: Non-determinism and Powerset Construction #h(1fr)#TagCore
+== Problem 4: Powerset Construction #h(1fr)#TagCore
 
-#tasklist("prob4")[
-  + Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2, q_3}$, start state $q_0$, accepting state $q_3$, and the transition table below.
+Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2, q_3}$, start state $q_0$, accepting state~$q_3$, and the transition table below.
 
-    #align(center)[
-      #let nfa-010 = (
-        q0: (q0: ("0", "1"), q1: "0"),
-        q1: (q2: "1"),
-        q2: (q3: "0"),
-        q3: (q3: ("0", "1")),
+#align(center)[
+  #let nfa-010 = (
+    q0: (q0: ("0", "1"), q1: "0"),
+    q1: (q2: "1"),
+    q2: (q3: "0"),
+    q3: (q3: ("0", "1")),
+  )
+  #grid(
+    columns: 2,
+    column-gutter: 1em,
+    align: center + horizon,
+    [
+      #table(
+        columns: 4,
+        align: center,
+        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+        table.header([*State*], [$delta(-, mono("0"))$], [$delta(-, mono("1"))$], [*Accepting?*]),
+        [$q_0$], [${ q_0, q_1 }$], [${ q_0 }$], [],
+        [$q_1$], [$emptyset$], [${ q_2 }$], [],
+        [$q_2$], [${ q_3 }$], [$emptyset$], [],
+        [$q_3$], [${ q_3 }$], [${ q_3 }$], [#YES],
       )
-      #grid(
-        columns: 2,
-        column-gutter: 1em,
-        align: center + horizon,
-        [
-          #table(
-            columns: 4,
-            align: center,
-            stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-            table.header([*State*], [$delta(-, mono("0"))$], [$delta(-, mono("1"))$], [*Accepting?*]),
-            [$q_0$], [${ q_0, q_1 }$], [${ q_0 }$], [],
-            [$q_1$], [$emptyset$], [${ q_2 }$], [],
-            [$q_2$], [${ q_3 }$], [$emptyset$], [],
-            [$q_3$], [${ q_3 }$], [${ q_3 }$], [#YES],
-          )
-        ],
-        finite.automaton(nfa-010, final: ("q3",), style: (
-          state: (radius: 0.5, extrude: 0.8),
-          transition: (curve: 0.5),
-        )),
-      )
-    ]
-    #[
-      #set enum(numbering: "(a)")
-      + What language does $cal(N)$ recognize?
-        Argue informally (what pattern must $w$ satisfy to be accepted?) and give a regular expression.
-      + Apply the _Rabin--Scott powerset construction_ to convert $cal(N)$ to a DFA $cal(D)$.
-        Enumerate all _reachable_ DFA states (as subsets of $Q$) and compute the transition table.
-        Mark which states are accepting.
-      + Draw $cal(D)$.
-        How many reachable states does it have?
-        How does this compare to the $2^4 = 16$ states that the powerset construction could in principle produce?
-    ]
-
-  + A language $L$ over $Sigma = {0, 1}$ is given by the $epsilon$-NFA $cal(E)$ that models the regular expression $regex("(0|01)*1")$.
-    #[
-      #set enum(numbering: "(a)")
-      + Draw $cal(E)$ using Thompson's construction.
-        Label all states and $epsilon$-transitions explicitly.
-      + Compute $epsilon$-closure for each state of $cal(E)$.
-      + Eliminate $epsilon$-transitions to obtain a plain NFA.
-        Test your NFA on inputs $mono("1")$, $mono("01")$, $mono("001")$, $mono("011")$.
-    ]
-
-  + Give an NFA with _at most 3 states_ that accepts
-    $L = { w in {0,1}^* mid(|) w "ends with" mono("01") }$.
-
-    Then argue that _any DFA_ for $L$ requires _at least 3 states_.
-
-    #Block[
-      *Hint:* Exhibit three strings $u, v, x in {0,1}^*$ that are pairwise $L$-distinguishable:
-      for each pair $(u,v)$, find $z$ such that exactly one of $u z$, $v z$ is in $L$.
-      This shows the minimal DFA needs at least 3 states.
-    ]
+    ],
+    finite.automaton(nfa-010, final: ("q3",), style: (
+      state: (radius: 0.5, extrude: 0.8),
+      transition: (curve: 0.5),
+      q0: (label: $q_0$),
+      q1: (label: $q_1$),
+      q2: (label: $q_2$),
+      q3: (label: $q_3$),
+    )),
+  )
+]
+#[
+  #set enum(numbering: "(a)")
+  + What language does $cal(N)$ recognize?
+    Argue informally (what pattern must $w$ satisfy to be accepted?) and give a regular expression.
+  + Apply the _Rabin--Scott powerset construction_ to convert $cal(N)$ to a DFA $cal(D)$.
+    Enumerate all _reachable_ DFA states (as subsets of $Q$) and compute the transition table.
+    Mark which states are accepting.
+  + Draw $cal(D)$.
+    How many reachable states does it have?
+    How does this compare to the $2^4 = 16$ states that the powerset construction could in principle produce?
 ]
 
 
@@ -467,13 +448,14 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 #tasklist("prob5")[
   + *Thompson's construction.*
-    Convert the regular expression $regex("(a|b)*ab")$ to an $epsilon$-NFA step by step.
-    - Build automata for the _atomic_ expressions: $regex("a")$ and $regex("b")$.
-    - Build the automaton for $regex("a|b")$ (union).
-    - Build the automaton for $regex("(a|b)*")$ (Kleene star).
-    - Starting from your automaton for $regex("(a|b)*")$, concatenate it with fresh automata for $regex("a")$ and then $regex("b")$.
-    - Draw the final $epsilon$-NFA.
-      Label every state $q_1, q_2, dots$ and every transition with $Sigma union {epsilon}$.
+    Consider the regular expression $regex("(0|01)*1")$ over $Sigma = {0, 1}$.
+    #[
+      #set enum(numbering: "(a)")
+      + Construct an $epsilon$-NFA for this language using Thompson's construction.
+      + Compute the $epsilon$-closure of each state.
+      + Eliminate the $epsilon$-transitions to obtain a plain NFA.
+        Test your NFA on the inputs $mono("1")$, $mono("01")$, $mono("001")$, $mono("011")$.
+    ]
 
   + *Kleene's algorithm.*
     Consider the DFA $cal(D)$ with states ${ A, B, C }$ over $Sigma = {0, 1}$:
@@ -540,7 +522,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
   + For each language, determine whether it is _regular_ or not.
     For regular languages, exhibit a DFA or regular expression.
     For non-regular languages, prove non-regularity using the pumping lemma.
-    A complete proof must:
     - Fix an arbitrary pumping length $n >= 1$.
     - Exhibit a specific $w in L$ with $abs(w) >= n$, expressed as a function of $n$.
     - Show that every valid split $w = x y z$ with $y != epsilon$ and $abs(x y) <= n$ leads to a contradiction: produce an explicit $i >= 0$ such that $x y^i z notin L$.
@@ -661,19 +642,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         What is the language $L_1 intersect L_2$ in plain English?
     ]
 
-  + *(Homomorphism.)*
-    A _string homomorphism_ $h : Sigma_1^* to Sigma_2^*$ replaces each symbol $a in Sigma_1$ by a fixed string $h(a) in Sigma_2^*$.
-    Define $h : {a, b}^* to {0, 1}^*$ via $h(a) = mono("01")$ and $h(b) = mono("10")$.
-    #[
-      #set enum(numbering: "(a)")
-      + If $L = { w in {0,1}^* mid(|) w "starts with" mono("01") }$,
-        describe $h^(-1)(L) = { x in {a,b}^* mid(|) h(x) in L }$.
-        Is $h^(-1)(L)$ regular?
-      + If $L' = { w w^R mid(|) w in {a,b}^* }$ (even-length palindromes),
-        is the image $h(L')$ regular? Justify your answer.
-      + State the theorem: if $L subset.eq Sigma_2^*$ is regular, then $h^(-1)(L)$ is also regular.
-        Sketch the proof (how do you build the DFA for $h^(-1)(L)$ from a DFA for $L$?).
-    ]
 ]
 
 
@@ -842,7 +810,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 // ─────────────────────────────────────────────────────────────────────────────
 // ─── CHALLENGE SECTION ───────────────────────────────────────────────────────
 
-#pagebreak()
+// #pagebreak()
 
 == Problem 11: Exact Counting vs Modular Counting #h(1fr)#TagChallenge
 
@@ -886,6 +854,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 
 // ─────────────────────────────────────────────────────────────────────────────
+
+#pagebreak()
 
 == Problem 12: Non-Regular Languages and the Closure Game #h(1fr)#TagChallenge
 
@@ -931,6 +901,27 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       - State $q in Q$ is in the DFA for $"HALF"(L)$ iff there exists some string $y$ of length exactly $n - abs(x)$ (relative to the current position) that leads from $q$ to a state in $F$.
       - For each candidate start state $q$, precompute which states are reachable in _exactly $k$ steps_ from $q$, for each $k$.
       - Use the Myhill--Nerode theorem to bound the number of equivalence classes.
+    ]
+
+  + *(Homomorphisms and inverse homomorphisms.)*
+    A _string homomorphism_ $h : Sigma_1^* to Sigma_2^*$ replaces each symbol $a in Sigma_1$
+    by a fixed string $h(a) in Sigma_2^*$.
+    Define $h : {a, b}^* to {0, 1}^*$ by $h(a) = mono("01")$ and $h(b) = mono("10")$.
+
+    #[
+      #set enum(numbering: "(a)")
+      + Let $L = { w in {0,1}^* mid(|) w "starts with" mono("01") }$.
+        Describe the inverse image
+        $h^(-1)(L) = { x in {a,b}^* mid(|) h(x) in L }$,
+        and determine whether it is regular.
+
+      + Let $P = { w w^R mid(|) w in {a,b}^* }$ be the language of even-length palindromes over $\{a,b\}$.
+        Is~the~image $h(P)$ regular?
+        Justify your answer carefully.
+
+      + State and prove the theorem:
+        if $L subset.eq Sigma_2^*$ is regular, then $h^(-1)(L)$ is regular.
+        Your proof should explain how to build a finite automaton for $h^(-1)(L)$ from a finite automaton for $L$.
     ]
 ]
 
@@ -982,8 +973,6 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         If $M$ does not halt on $w$, does $M'$ reject (or loop)?
       + Conclude: if $A_"TM"$ were decidable, then $"HALT"$ would also be decidable --- contradiction.
     ]
-
-  #colbreak()
 
   + *(Diagonalization.)*
     A student proposes the following "algorithm" $H$ for the halting problem:
