@@ -682,12 +682,12 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     #[
       #set enum(numbering: "(a)")
       + If $L = { w in {0,1}^* mid(|) w "starts with" mono("01") }$,
-        describe $h^{-1}(L) = { x in {a,b}^* mid(|) h(x) in L }$.
-        Is $h^{-1}(L)$ regular?
+        describe $h^(-1)(L) = { x in {a,b}^* mid(|) h(x) in L }$.
+        Is $h^(-1)(L)$ regular?
       + If $L' = { w w^R mid(|) w in {a,b}^* }$ (even-length palindromes),
         is the image $h(L')$ regular? Justify your answer.
-      + State the theorem: if $L subset.eq Sigma_2^*$ is regular, then $h^{-1}(L)$ is also regular.
-        Sketch the proof (how do you build the DFA for $h^{-1}(L)$ from a DFA for $L$?).
+      + State the theorem: if $L subset.eq Sigma_2^*$ is regular, then $h^(-1)(L)$ is also regular.
+        Sketch the proof (how do you build the DFA for $h^(-1)(L)$ from a DFA for $L$?).
     ]
 ]
 
