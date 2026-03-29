@@ -928,7 +928,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       Think about what information about a prefix $x$ is enough to decide whether there exists a suffix $y$ with $abs(y) = abs(x)$ and $x y in L$.
     ]
 
-  + *(Homomorphisms and inverse homomorphisms.)*
+  + *(Homomorphisms.)*
     A _string homomorphism_ $h : Sigma_1^* to Sigma_2^*$ replaces each symbol $a in Sigma_1$
     by a fixed string $h(a) in Sigma_2^*$.
     Define $h : {a, b}^* to {0, 1}^*$ by $h(a) = mono("01")$ and $h(b) = mono("10")$.
