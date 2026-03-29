@@ -719,15 +719,20 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       #set enum(numbering: "(a)")
       + ${ a^i b^j c^k mid(|) i = j space "or" space j = k }$
 
-        #Block[*Hint:* Use the union: design $G'$ for ${a^n b^n c^k}$ and $G''$ for ${a^i b^n c^n}$, then combine with $S to S' mid(|) S''$.]
+        #Block[
+          *Hint:* Use the union: design $G'$ for ${a^n b^n c^k}$ and $G''$ for ${a^i b^n c^n}$, then combine with $S to S' mid(|) S''$.
+        ]
 
       + ${ w in {a,b}^* mid(|) hash_a (w) = 2 dot.op hash_b (w) }$
         (strings where \#$a$s $= 2 dot$ \#$b$s)
 
-        #Block[*Hint:* Each "$a$" must be "balanced" by two "$b$"s. Think of productions that introduce two $b$s for every $a$.]
+        #Block[
+          *Hint:* Each "$a$" must be "balanced" by two "$b$"s.
+          Think of productions that introduce two $b$'s for every $a$.
+        ]
 
-      + The set of all properly matched bracket strings over $Sigma = {mono("("), mono(")")}$
-        (e.g., $epsilon$, $mono("()")$, $mono("(())")$, $mono("()()")$ are in; $mono(")(")$ and $mono("(()")$ are not).
+      + The set of all properly matched bracket strings over $Sigma = {mono("("), mono(")")}$. \
+        For example, $mono("()")$, $mono("(())")$, $mono("()()")$ are properly matched; $mono(")(")$ and $mono("(()")$ are not.
     ]
 
   + *Chomsky Normal Form.*
@@ -878,15 +883,12 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     - $L_1 intersect L_2 = { a^n b^n mid(|) n >= 0 }$ (#emph[non-regular]).
 
     What can you conclude about $L_1$ and $L_2$?
-    Address each case:
-    can _both_ be regular?
+    Can _both_ be regular?
     Can _exactly one_ be regular?
     Can _both_ be non-regular?
-    #[
-      Prove each case that is possible, and disprove each case that is not.
-    ]
+    Prove each case that is possible, and disprove each case that is not.
 
-  #colbreak()
+  // #colbreak()
 
   + *(Half-language.)*
     Define $"HALF"(L) = { x mid(|) exists y in Sigma^*. abs(y) = abs(x) "and" x y in L }$
