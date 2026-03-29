@@ -998,9 +998,10 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
   + *(Diagonalization.)*
     A student proposes the following "algorithm" $H$ for the halting problem:
     #Box[
-      _Simulate $M$ on $w$ step by step.
-      After each step, check if $M$ has halted.
-      If $M$ halts, output_ YES. _If $M$ has not halted after $k$ steps, output_ NO.
+      Simulate $M$ on $w$ step by step.
+      After each step, check if $M$ has halted.\
+      If $M$ halts, output _YES_.
+      If $M$ has not halted after $k$ steps, output _NO_.
     ]
     #[
       #set enum(numbering: "(a)")
