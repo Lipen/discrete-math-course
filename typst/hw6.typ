@@ -733,8 +733,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
       +
         ```
-        <id>  ::= <letter> <rest>*
-        <rest>::= <letter> | <digit> | "_"
+        <id>     ::= <letter> <rest>*
+        <rest>   ::= <letter> | <digit> | "_"
         <letter> ::= "a" | ... | "z" | "A" | ... | "Z"
         <digit>  ::= "0" | ... | "9"
         ```
