@@ -979,16 +979,6 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $cal(L)(M)$ contains at least one palindrome.
     ]
 
-  + *Reduction.*
-    Recall:
-    $
-      A_"TM" & = { angle.l M, w angle.r mid(|) M "accepts" w }, \
-      "HALT" & = { angle.l M, w angle.r mid(|) M "halts on" w }.
-    $
-
-    Using the undecidability of $"HALT"$, prove that $A_"TM"$ is also undecidable.
-    Construct a many-one reduction $"HALT" scripts(<=)_m A_"TM"$ and argue why it establishes this result.
-
   + *Diagonalization.*
     A student proposes the following "algorithm" $H$ for the halting problem:
     #Box[
@@ -1005,6 +995,16 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         What happens when we run $D$ on $angle.l D angle.r$?
         Describe the contradiction that arises.
     ]
+
+  + *Reduction.*
+    Recall:
+    $
+      A_"TM" & = { angle.l M, w angle.r mid(|) M "accepts" w }, \
+      "HALT" & = { angle.l M, w angle.r mid(|) M "halts on" w }.
+    $
+
+    Using the undecidability of $"HALT"$, prove that $A_"TM"$ is also undecidable.
+    Construct a many-one reduction $"HALT" scripts(<=)_m A_"TM"$ and argue why it establishes this result.
 ]
 
 
