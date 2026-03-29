@@ -26,6 +26,8 @@
 #show heading.where(level: 2): set block(below: 1em, above: 1.4em)
 #show emph: set text(fill: blue.darken(20%))
 
+#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
+
 // Custom operators for formal language theory
 #let lang(x) = $cal(L)(#x)$
 #let power(x) = $cal(P)(#x)$
@@ -360,8 +362,8 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 #tasklist("prob3")[
   + For each language over $Sigma = {0, 1}$, design a DFA (draw a state diagram _and_ write the transition table).
     Indicate the start state and all accepting states.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob3a", format: "(a)")[
       + $L_A = { w mid(|) w "ends with" mono("101") }$
       + $L_B = { w mid(|) w "has an odd number of" mono("1")s "and an even number of" mono("0")s }$ \
         _(Hint: track parities of both counts --- 4 states suffice.)_
@@ -395,8 +397,8 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         )),
       )
     ]
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob3b", format: "(a)")[
       + What language does $cal(A)$ recognize? Give a concise description _and_ a regular expression.
       + Trace the computation on each input: $epsilon$, $mono("ba")$, $mono("aba")$, $mono("bbba")$.
         Does $cal(A)$ accept or reject each?
@@ -449,8 +451,8 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
     )),
   )
 ]
-#[
-  #set enum(numbering: "(a)")
+
+#tasklist("prob4_", format: "(a)")[
   + What language does $cal(N)$ recognize?
     Argue informally (what pattern must $w$ satisfy to be accepted?) and give a regular expression.
   + Apply the _Rabin--Scott powerset construction_ to convert $cal(N)$ to a DFA $cal(D)$.
@@ -476,8 +478,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
 #tasklist("prob5")[
   + *Thompson's construction.*
     Consider the regular expression $regex("(0|01)*1")$ over $Sigma = {0, 1}$.
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob5a", format: "(a)")[
       + Construct an $epsilon$-NFA for this language using Thompson's construction.
       + Compute the $epsilon$-closure of each state.
       + Eliminate the $epsilon$-transitions to obtain a plain NFA.
@@ -506,8 +507,8 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
         )),
       )
     ]
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob5b", format: "(a)")[
       + What language does $cal(D)$ accept?
         Give an informal English description.
       + Define the base cases $R_(i j)^0$ for all pairs of states $(A, B, C)$ numbered $1, 2, 3$.
@@ -517,8 +518,8 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
 
   + *Conversion cycle.*
     Let $L = { w in {0,1}^* mid(|) abs(w) equiv 0 thin (mod thin 2) }$ (strings of _even length_).
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob5c", format: "(a)")[
       + Write a regular expression $R$ for $L$.
       + Convert $R$ to an $epsilon$-NFA using Thompson's construction.
       + Convert the $epsilon$-NFA to a DFA using the powerset construction.
@@ -553,22 +554,23 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
     - Exhibit a specific $w in L$ with $abs(w) >= n$, expressed as a function of $n$.
     - Show that every valid split $w = x y z$ with $y != epsilon$ and $abs(x y) <= n$ leads to a contradiction: produce an explicit $i >= 0$ such that $x y^i z notin L$.
 
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob6a", cols: 2, format: "(a)")[
       + ${ 0^(2n) mid(|) n >= 0 }$
       + ${ 0^n 1^(2n) mid(|) n >= 0 }$
-      + ${ w in {0,1}^* mid(|) w = w^R }$ (binary palindromes)
-      + ${ w in {0,1}^* mid(|) hash_0 (w) eq.not hash_1 (w) }$ (unequal counts)
+      + ${ w in {0,1}^* mid(|) w = w^R }$
+      + ${ w in {0,1}^* mid(|) hash_0 (w) != hash_1 (w) }$
+      #colbreak()
       + ${ w w mid(|) w in {0,1}^* }$
-      + ${ 1^(n^2) mid(|) n >= 0 }$ (perfect-square lengths)
-      + ${ w in {a,b}^* mid(|) w "has more" a"'s than" b"'s" }$
+      + ${ 1^(n^2) mid(|) n >= 0 }$
+      // TODO: one more
+      + ${ w in {a,b}^* mid(|) hash_a (w) > hash_b (w) }$
     ]
 
-  + *(Weak vs. full pumping lemma.)*
+  + *Weak vs. full pumping lemma.*
     Consider $L = { w in {0,1}^* mid(|) hash_0 (w) = hash_1 (w) }$
     (strings with _equal_ numbers of $0$s and $1$s).
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob5b", format: "(a)")[
       + Show that $L$ _passes the weak pumping lemma_:
         for any $n$ and any $w = 0^n 1^n$, the adversary can always find a split $w = x y z$
         (without the constraint $abs(x y) <= n$) such that all pumpings stay in $L$.
@@ -590,7 +592,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
   *Myhill--Nerode Theorem.*
   A language $L subset.eq Sigma^*$ is _regular_ if and only if the relation $scripts(equiv)_L$ defined by
   $
-    x scripts(equiv)_L y quad iff quad forall z in Sigma^*. (x z in L iff y z in L)
+    x scripts(equiv)_L y quad iff quad forall z in Sigma^* . thick (x z in L iff y z in L)
   $
   has _finite index_ (finitely many equivalence classes).
   Moreover, the number of classes equals the number of states in the _minimal DFA_ for $L$.
@@ -603,8 +605,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
     An infinite set of pairwise distinguishable strings implies $L$ is not regular.
 
     For each language, exhibit an _infinite_ set of pairwise $L$-distinguishable strings:
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob7a", format: "(a)")[
       + $L = { 0^n 1^n mid(|) n >= 0 }$.
         _(Use the strings $0^0, 0^1, 0^2, dots$ and find the right $z$ for each pair.)_
       + $L = { w w mid(|) w in {0,1}^* }$.
@@ -617,8 +618,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
     Identify the Myhill--Nerode equivalence classes of each language over $Sigma = {0,1}$,
     and draw the corresponding minimal DFA.
     Verify that the number of classes equals the number of DFA states.
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob7b", format: "(a)")[
       + $L = { w mid(|) w "ends with" mono("01") }$. _(Claim: exactly 3 classes.)_
       + $L = { w mid(|) w "has an odd number of" mono("1")s }$. _(Claim: exactly 2 classes.)_
       + $L = { w mid(|) w "has length divisible by 3" }$. _(Claim: exactly 3 classes.)_
@@ -626,8 +626,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
 
   + *Conceptual question.*
     Explain in your own words:
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob7c", format: "(a)")[
       + Why does the number of Myhill--Nerode classes equal the number of states in the _minimal_ DFA?
         What is the role of the transition function $delta([x], a) = [x a]$?
       + What goes wrong (specifically, what does the DFA fail to do) if we try to _merge_
@@ -641,12 +640,12 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
 == Problem 8: Closure Properties #h(1fr)#TagCore
 
 #tasklist("prob8")[
-  + *(True / False / Depends.)*
+  + *True / False / Depends.*
     For each statement, decide whether it is _always true_, _always false_,
     or _depends on the choice of languages_.
     For each answer, give a brief _proof_ (if always true/false) or a _counterexample_ (if depends).
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob8a", format: "(a)")[
       + If $L$ is regular, then $L^R = { w^R mid(|) w in L }$ is regular.
       + If $L_1$ and $L_2$ are both non-regular, then $L_1 union L_2$ is non-regular.
       + If $L_1 union L_2$ is regular and $L_1$ is regular, then $L_2$ is regular.
@@ -654,12 +653,12 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
       + If $L$ is regular, then ${ w mid(|) w w in L }$ is regular.
     ]
 
-  + *(Product construction.)*
+  + *Product construction.*
     Let $L_1 = { w in {0,1}^* mid(|) w "contains" mono("00") }$
     and $L_2 = { w in {0,1}^* mid(|) w "contains" mono("11") }$.
     Both are regular.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob8b", format: "(a)")[
       + Construct a DFA $cal(A)_1$ for $L_1$ (3 states) and a DFA $cal(A)_2$ for $L_2$ (3 states).
         Draw both automata.
       + Construct the _product automaton_ $cal(A)_1 times cal(A)_2$ for $L_1 intersect L_2$.
@@ -681,9 +680,8 @@ _productions_ $R$, and a _start variable_ $S$.
 The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 #tasklist("prob9")[
-  + *Reading grammar notation (warm-up).*
-    Each grammar below is written in _EBNF_ (Extended Backus--Naur Form),
-    a compact notation widely used in language specifications (Python grammar, JSON RFC, SQL standard).
+  + *Reading grammar notation.*
+    Each grammar below is written in _EBNF_ (Extended Backus--Naur Form), a compact notation widely used in language specifications.
 
     #Box[
       *EBNF quick reference:*
@@ -709,8 +707,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     ]
 
     For each EBNF grammar, (i)~describe the language in _plain English_, (ii)~give a _regular expression_ defining the same language (if possible), and (iii)~argue whether the language is _regular_ or not.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob9a", format: "(a)")[
       +
         ```
         <integer> ::= <sign>? <nonzero> <digit>*
@@ -733,8 +731,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
   + For each CFG, describe $cal(L)(G)$ (in English and set-builder notation)
     and show 4--5 example derivations to confirm your answer.
     Also exhibit _one string not in the language_ and briefly argue why no derivation of it exists.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob9b", format: "(a)")[
       + $G_1$: $quad S -> mono("0") S mono("1") mid(|) epsilon$
       + $G_2$: $quad S -> a S b mid(|) b S a mid(|) S S mid(|) epsilon$
       + $G_3$: $quad S -> A B, quad A -> a A mid(|) a, quad B -> b B mid(|) b$
@@ -742,8 +740,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     ]
 
   + Design a CFG for each of the following languages:
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob9c", format: "(a)")[
       + ${ a^i b^j c^k mid(|) i = j space "or" space j = k }$
 
         #Block[
@@ -765,8 +763,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
   + *Chomsky Normal Form.*
     A CFG is in _Chomsky Normal Form_ (CNF) if every production has the form $A -> B C$ (two variables) or $A -> a$ (one terminal).
 
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob9d", format: "(a)")[
       + Convert the grammar $S -> mono("0") S mono("1") mid(|) epsilon$ into CNF.
         Show each step of the conversion: add new start symbol, eliminate $epsilon$-productions, then binarize rules.
       + Why is CNF useful?
@@ -799,10 +796,11 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     (using the notation $angle.l alpha; q; beta angle.r$ where $q$ is the current state,
     $alpha$ is the tape to the left of the head, $beta$ is the tape at and to the right of the head).
     State whether $cal(M)$ _accepts_, _rejects_, or _loops_.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob10a", cols: 2, format: "(a)")[
       + Input $0011$
       + Input $001$
+      #colbreak()
       + Input $epsilon$ (empty input)
       + Input $10$
     ]
@@ -811,8 +809,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     Describe --- in clear informal pseudocode or numbered steps, _not_ a full state table ---
     a Turing machine for each language.
     For each, argue briefly why the machine _always halts_.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob10b", format: "(a)")[
       + $L = { 0^(2^n) mid(|) n >= 0 }$, strings whose length is a _power of 2_.
 
         #Block[*Hint:* Repeatedly halve the tape: cross off every other $0$.
@@ -828,8 +826,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     For each language, classify it as:
     *(R)* decidable, *(RE $setminus$ R)* recognizable but undecidable, or *(co-RE)* / *(neither)* as applicable.
     Justify briefly (cite Rice's theorem, known reductions, or direct arguments).
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob10c", format: "(a)")[
       + ${ angle.l M angle.r mid(|) M "is a TM with exactly 5 states" }$
       + ${ angle.l M, w angle.r mid(|) M "accepts" w "within 1000 steps" }$
       + ${ angle.l M angle.r mid(|) M "accepts the empty string" epsilon }$
@@ -847,32 +845,30 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 == Problem 11: Exact Counting vs Modular Counting #h(1fr)#TagChallenge
 
 #tasklist("prob11")[
-  + *(Closure instead of pumping.)*
+  + *Closure instead of pumping.*
     Consider $L = { 0^i 1^j mid(|) i != j }$.
-    #[
-      #set enum(numbering: "(a)")
-      + Prove that $L$ is _not regular_ using _closure properties_, not the pumping lemma.
 
+    #tasklist("prob11a", format: "(a)")[
+      + Prove that $L$ is _not regular_ using _closure properties_, not the pumping lemma.
       + Explain briefly why closure is the natural tool here.
         What structure of the language does the closure argument expose?
     ]
 
-  + *(Regularity from similarity.)*
+  + *Regularity from similarity.*
     The language $L_(a=b) = { w in {a,b}^* mid(|) hash_a (w) = hash_b (w) }$, where $hash_a (w)$ and $hash_b (w)$ are the number of $a$'s and $b$'s in~$w$ respectively, is not regular (it requires unbounded counting).
     Now consider $L' = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thick (mod thin 2) }$.
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("prob11b", format: "(a)")[
       + Is $L'$ regular?
         Prove your answer (build DFA/regex if yes, apply pumping lemma if no).
       + Explain intuitively why modular counting is "easier" for a DFA than exact counting.
     ]
 
-  + *(Minimal automata for modular counting.)*
+  + *Minimal automata for modular counting.*
     Fix an integer $m >= 2$ and define the language
     $ L_m = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thin (mod thin m) } $
 
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob11c", format: "(a)")[
       + Construct a DFA $cal(A)_m$ for $L_m$ with $m$ states.
         Prove that your DFA recognizes exactly $L_m$.
       + Describe the meaning of each state and the transition rule on input $a$ and $b$.
@@ -1089,8 +1085,8 @@ Implement the _table-filling_ algorithm for DFA minimization.
 #tasklist("probB")[
   + *Table-filling algorithm.*
     Given a complete DFA $(Q, Sigma, delta, q_0, F)$:
-    #[
-      #set enum(numbering: "(a)")
+
+    #tasklist("probBa", format: "(a)")[
       + Mark all pairs $(p, q)$ where exactly one of $p, q$ is accepting.
       + Repeat: for each unmarked pair $(p, q)$, if there exists $a in Sigma$ such that
         $( delta(p, a), delta(q, a) )$ is already marked, mark $(p, q)$ as well.
@@ -1124,16 +1120,12 @@ Implement the _Cocke--Younger--Kasami_ (CYK) algorithm for context-free grammar 
 #tasklist("probC")[
   + *CNF conversion.*
     Implement a general CFG to Chomsky Normal Form converter.
-    Your algorithm should:
-    #[
-      #set enum(numbering: "(a)")
-      + Add a new start symbol $S'$ with $S' -> S$.
-      + Eliminate $epsilon$-productions (nullable variables).
-      + Eliminate _unit productions_ ($A -> B$).
-      + _Binarize_ all remaining productions of length $>= 3$.
-    ]
-    Verify your converter on the grammar
-    $S -> mono("0") S mono("1") mid(|) epsilon$.
+    - Add a new start symbol $S'$ with $S' -> S$.
+    - Eliminate $epsilon$-productions (nullable variables).
+    - Eliminate _unit productions_ ($A -> B$).
+    - _Binarize_ all remaining productions of length $>= 3$.
+
+    Verify your converter on the grammar $S -> mono("0") S mono("1") mid(|) epsilon$.
 
   + *CYK algorithm.*
     Implement CYK: given a CFG $G$ in CNF and a string $w = a_1 dots a_n$,
@@ -1145,10 +1137,9 @@ Implement the _Cocke--Younger--Kasami_ (CYK) algorithm for context-free grammar 
 
   + *Testing.*
     Test on:
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("probCd", format: "(a)")[
       + The grammar $S -> mono("0") S mono("1") mid(|) epsilon$: verify all $0^n 1^n$ for $n = 1, dots, 8$ are accepted;
-        verify $0^n 1^m$ for $n != m$ are rejected.
+        verify $0^n 1^m$ for #box[$n != m$] are rejected.
       + A small arithmetic expression grammar:
         $E -> E + T mid(|) T$, $T -> T * F mid(|) F$, $F -> mono("(")E mono(")") mid(|) "num"$.
         Test on `num + num * num` and `(num + num) * num`.
