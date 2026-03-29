@@ -271,16 +271,17 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 ]
 
 #tasklist("prob2")[
-  + For each regular expression over $Sigma = {a, b, c, d}$, describe the formal language in plain natural language, and count the _exact number of words of length $<= 4$_ it accepts.
+  + For each regular expression over $Sigma = {a, b, c, d}$, describe the formal language in plain natural language, and count the _exact number of words of length $<= 5$_ it accepts.
 
     #tasklist("prob2a", cols: 3, format: "(a)")[
       + #regex("ab*")
-      + #regex("(a|b)+c?")
+      + #regex("a+b?c")
       #colbreak()
-      + #regex("(ab|ba){2}")
-      + #regex("[^ab]+(a|b)")
+      + #regex("[abc]*[cd]*")
+      + #regex("[^a]+[ab]")
       #colbreak()
-      + #regex("d(a|bc)*d")
+      + #regex("d(a|bc)*")
+      + #regex("((a|ab)[cd])+")
     ]
 
   + Write a regular expression for each of the following languages over $Sigma = {0, 1}$:
