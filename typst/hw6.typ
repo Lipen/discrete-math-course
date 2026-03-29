@@ -556,12 +556,10 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     For regular languages, exhibit a DFA or regular expression.
     For non-regular languages, prove non-regularity using the pumping lemma.
     A complete proof must:
-    #[
-      #set list(marker: "---")
-      - Fix an arbitrary pumping length $n >= 1$.
-      - Exhibit a specific $w in L$ with $abs(w) >= n$, expressed as a function of $n$.
-      - Show that every valid split $w = x y z$ with $y != epsilon$ and $abs(x y) <= n$ leads to a contradiction: produce an explicit $i >= 0$ such that $x y^i z notin L$.
-    ]
+    - Fix an arbitrary pumping length $n >= 1$.
+    - Exhibit a specific $w in L$ with $abs(w) >= n$, expressed as a function of $n$.
+    - Show that every valid split $w = x y z$ with $y != epsilon$ and $abs(x y) <= n$ leads to a contradiction: produce an explicit $i >= 0$ such that $x y^i z notin L$.
+
     #[
       #set enum(numbering: "(a)")
       + ${ 0^(2n) mid(|) n >= 0 }$
