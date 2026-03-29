@@ -705,7 +705,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
       #grid(
         columns: 3,
-        column-gutter: 1em,
+        column-gutter: 2em,
         [
           - `<name> ::= ...` defines a non-terminal.
           - `"x"` is a literal character.
