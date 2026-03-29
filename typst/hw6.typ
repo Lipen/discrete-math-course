@@ -753,8 +753,9 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + ${ w in {a,b}^* mid(|) hash_a (w) = 2 dot.op hash_b (w) }$
 
         #Block[
-          *Hint:* Each "$a$" must be "balanced" by two "$b$"s.
-          Think of productions that introduce two $b$'s for every $a$.
+          *Hint:* Each $b$ must be paired with two $a$'s.
+          Think of productions that introduce two $a$'s alongside each $b$:
+          for example, $S -> a a S b S mid(|) a S a S b mid(|) S a a S b mid(|) dots$
         ]
 
       + The set of all properly matched bracket strings over $Sigma = {mono("("), mono(")")}$. \
