@@ -510,7 +510,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
 
     #tasklist("prob5b", format: "(a)")[
       + What language does $cal(D)$ accept?
-        Give an informal English description.
+        Give an informal description.
       + Define the base cases $R_(i j)^0$ for all pairs of states $(A, B, C)$ numbered $1, 2, 3$.
       + Compute $R_(i j)^1$, $R_(i j)^2$, and finally $R_(i j)^3$ for the pair $(i,j) = (1, 3)$, i.e. extract the regex for words that take $A$ to $C$.
         Show all intermediate steps.
@@ -660,10 +660,8 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
       + Construct the _product automaton_ $cal(A)_1 times cal(A)_2$ for $L_1 intersect L_2$.
         The product state space is $Q_1 times Q_2$; mark the initial and accepting states.
       + Which states of the product automaton are accepting for $L_1 union L_2$?
-      + Draw the resulting product DFA (after removing unreachable states).
-        What is the language $L_1 intersect L_2$ in plain English?
+      + Draw the resulting product DFA (without unreachable states).
     ]
-
 ]
 
 
@@ -702,7 +700,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       )
     ]
 
-    For each EBNF grammar, (i)~describe the language in _plain English_, (ii)~give a _regular expression_ defining the same language (if possible), and (iii)~argue whether the language is _regular_ or not.
+    For each EBNF grammar, (i)~describe the language in _plain natural language_, (ii)~give a _regular expression_ defining the same language (if possible), and (iii)~argue whether the language is _regular_.
 
     #tasklist("prob9a", format: "(a)")[
       +
@@ -724,8 +722,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         _(This is the simplified token grammar for identifiers in most programming languages.)_
     ]
 
-  + For each CFG, describe $cal(L)(G)$ (in English and set-builder notation)
-    and show 4--5 example derivations to confirm your answer.
+  + For each CFG, describe $cal(L)(G)$ and show few example derivations to confirm your answer.
     Also exhibit _one string not in the language_ and briefly argue why no derivation of it exists.
 
     #tasklist("prob9b", format: "(a)")[
