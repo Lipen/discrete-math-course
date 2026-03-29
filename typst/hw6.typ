@@ -502,8 +502,8 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
         finite.automaton(dfa-kleene, final: ("C",), style: (
           state: (radius: 0.5, extrude: 0.8),
           transition: (curve: 0.5),
-          C-B: (curve: 0.2),
-          C-A: (curve: 1.5),
+          C-B: (curve: 0.1),
+          C-A: (curve: 1.2),
         )),
       )
     ]
@@ -544,6 +544,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
   - $abs(x y) <= n$,
   - $x y^i z in L$ for every $i in NN$.
 ]
+#v(-0.5em)
 
 #tasklist("prob6")[
   + For each language, determine whether it is _regular_ or not.
