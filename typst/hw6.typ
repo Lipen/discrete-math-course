@@ -385,8 +385,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
     ]
 
   + *Prove* that the DFA you constructed for $L_C$ is correct.
-    Specifically, show by induction on $abs(w)$ that after reading prefix $w$,
-    the automaton is in state $r_i$ if and only if $w equiv i thin (mod thin 3)$ (treating $w$ as a binary number).
+    Specifically, show by induction on $abs(w)$ that after reading prefix $w$, the automaton is in state $r_i$ if and only if $w equiv i thin (mod thin 3)$ (treating $w$ as a binary number).
     _(Remark: the empty string $epsilon$ represents the value $0$, so the machine starts in $r_0$.)_
 ]
 
@@ -396,8 +395,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 == Problem 4: Non-determinism and Powerset Construction #h(1fr)#TagCore
 
 #tasklist("prob4")[
-  + Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2, q_3}$,
-    start state $q_0$, accepting state $q_3$, and the transition table below.
+  + Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2, q_3}$, start state $q_0$, accepting state $q_3$, and the transition table below.
 
     #align(center)[
       #let nfa-010 = (
@@ -440,8 +438,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         How does this compare to the $2^4 = 16$ states that the powerset construction could in principle produce?
     ]
 
-  + A language $L$ over $Sigma = {0, 1}$ is given by the $epsilon$-NFA $cal(E)$
-    that models the regular expression $regex("(0|01)*1")$.
+  + A language $L$ over $Sigma = {0, 1}$ is given by the $epsilon$-NFA $cal(E)$ that models the regular expression $regex("(0|01)*1")$.
     #[
       #set enum(numbering: "(a)")
       + Draw $cal(E)$ using Thompson's construction.
