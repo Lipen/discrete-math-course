@@ -555,15 +555,11 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
     - Show that every valid split $w = x y z$ with $y != epsilon$ and $abs(x y) <= n$ leads to a contradiction: produce an explicit $i >= 0$ such that $x y^i z notin L$.
 
     #tasklist("prob6a", cols: 2, format: "(a)")[
-      + ${ 0^(2n) mid(|) n >= 0 }$
       + ${ 0^n 1^(2n) mid(|) n >= 0 }$
       + ${ w in {0,1}^* mid(|) w = w^R }$
-      + ${ w in {0,1}^* mid(|) hash_0 (w) != hash_1 (w) }$
       #colbreak()
       + ${ w w mid(|) w in {0,1}^* }$
       + ${ 1^(n^2) mid(|) n >= 0 }$
-      // TODO: one more
-      + ${ w in {a,b}^* mid(|) hash_a (w) > hash_b (w) }$
     ]
 
   + *Weak vs. full pumping lemma.*
