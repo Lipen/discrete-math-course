@@ -953,26 +953,30 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 == Problem 13: Undecidability from First Principles #h(1fr)#TagChallenge
 
+#Box[
+  *Rice's Theorem.*
+  Any non-trivial property of the language recognized by a Turing machine is _undecidable_.
+
+  Let $P$ be a property of languages such that:
+  - $P$ is _semantic_: it refers only to the language, not to the specific TM that recognizes it;
+  - $P$ is _non-trivial_: there exist TMs $M_1, M_2$ with $cal(L)(M_1) in P$ and $cal(L)(M_2) notin P$.
+  Then ${ angle.l M angle.r mid(|) cal(L)(M) in P }$ is _undecidable_.
+]
+
 #tasklist("prob13")[
-  + *Rice's Theorem* states: any non-trivial semantic property of the _language_ of a TM is undecidable.
-
-    #Box[
-      *Rice's Theorem.*
-      Let $P$ be a property of languages such that:
-      - $P$ is _non-trivial_: there exist TMs $M_1, M_2$ with $cal(L)(M_1) in P$ and $cal(L)(M_2) notin P$.
-      Then ${ angle.l M angle.r mid(|) cal(L)(M) in P }$ is _undecidable_.
-    ]
-
-    For each property $P$, determine whether ${ angle.l M angle.r mid(|) cal(L)(M) in P }$ is decidable or undecidable.
+  + *Rice's theorem.*
+    For each property $P$, determine whether ${ angle.l M angle.r mid(|) cal(L)(M) in P }$ is decidable.
     If~undecidable, cite Rice's theorem and verify that $P$ is non-trivial.
     If decidable, explain why.
+
     #tasklist("prob13a", format: "(a)")[
-      + $P$: "$cal(L)(M)$ contain s at least one string."
-      + $P$: "$cal(L)(M)$ is empty."
-      + $P$: "$cal(L)(M)$ is a regular language."
-      + $P$: "$M$ has fewer than 100 states." _(Careful: is this a property of the language or the machine?)_
-      + $P$: "$M$ halts on all inputs."
-      + $P$: "$cal(L)(M)$ contains at least one palindrome."
+      + $cal(L)(M)$ contain s at least one string.
+      + $cal(L)(M)$ is empty.
+      + $cal(L)(M)$ is a regular language.
+      + $M$ has fewer than 100 states.
+        #h(1fr)_(Is this a property of the language?..)_
+      + $M$ halts on all inputs.
+      + $cal(L)(M)$ contains at least one palindrome.
     ]
 
   + *(Reduction: $A_"TM" scripts(<=)_m "HALT"$.)*
