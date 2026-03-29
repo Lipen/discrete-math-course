@@ -350,7 +350,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         _(Hint: the "last symbol seen" determines the state.)_
     ]
 
-  + The DFA $cal(A)$ below has states $Q = {q_0, q_1, q_2}$ over $Sigma = {a, b}$.
+  + The DFA $cal(A)$ below has states $Q = {q_0, q_1, q_2}$ over $Sigma = {"a", "b"}$.
 
     #align(center)[
       #let aut-given = (
@@ -366,6 +366,9 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         finite.automaton(aut-given, final: ("q2",), style: (
           state: (radius: 0.5, extrude: 0.8),
           transition: (curve: 0.5),
+          q0: (label: $q_0$),
+          q1: (label: $q_1$),
+          q2: (label: $q_2$),
           q2-q1: (curve: 0.2),
           q2-q0: (curve: 1.5),
         )),
