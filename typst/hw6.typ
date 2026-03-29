@@ -192,8 +192,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 #tasklist("prob1")[
   + For each language below, list _three words in $L$_ and _three words not in $L$_:
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob1a", format: "(a)")[
       + $L_1 = { w in {0,1}^* mid(|) w "contains" mono("010") "as a substring" }$
       + $L_2 = { a^n b^m mid(|) n >= 1, m >= 0 }$ over $Sigma = {a, b}$
       + $L_3 = { w in {a,b}^* mid(|) abs(w) "is prime" }$
@@ -202,18 +201,18 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
   + Let $L = {mono("01"), mono("10")}$ over $Sigma = {0,1}$.
     Explicitly describe or list each of the following languages:
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob1b", cols: 3, format: "(a)")[
       + $L^2 = L dot L$
       + $L^3$
+      #colbreak()
       + $L^*$ and $L^+$
       + $overline(L) = Sigma^* setminus L$
+      #colbreak()
       + $L dot {0, 1}$
     ]
 
   + Classify each language by the _lowest_ level of the Chomsky hierarchy it belongs to.
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob1c", format: "(a)")[
       + ${ a^n mid(|) n >= 0 }$
       + ${ a^n b^n mid(|) n >= 0 }$
       + ${ a^n b^n c^n mid(|) n >= 0 }$
@@ -227,21 +226,50 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
 == Problem 2: Regular Expressions #h(1fr)#TagCore
 
+#Box[
+  *Regex quick reference:*
+
+  #grid(
+    columns: 3,
+    column-gutter: 2em,
+    [
+      - `ab` = concatenation.
+      - `a|b` = alternation.
+      - `(...)` = grouping.
+    ],
+    [
+      - `a*` = zero or more.
+      - `a+` = one or more.
+      - `a?` = optional (0 or 1).
+    ],
+    [
+      - `a{n}` = exactly $n$ times.
+      - `[abc]` = any of the listed characters.
+      - `[^abc]` = any character _except_ those listed.
+    ],
+  )
+
+  // *PCRE extensions*:
+  // - `.` = any single character.
+  // - `\s` = whitespace (space, tab, ...).
+  // - `\1` = backreference to group 1 (if group 1 matched `X`, then `\1` must also match `X`).
+]
+
 #tasklist("prob2")[
   + For each regular expression over $Sigma = {a, b, c, d}$, describe the formal language in plain natural language, and count the _exact number of words of length $<= 4$_ it accepts.
 
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob2a", cols: 3, format: "(a)")[
       + #regex("ab*")
       + #regex("(a|b)+c?")
+      #colbreak()
       + #regex("(ab|ba){2}")
       + #regex("[^ab]+(a|b)")
+      #colbreak()
       + #regex("d(a|bc)*d")
     ]
 
   + Write a regular expression for each of the following languages over $Sigma = {0, 1}$:
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob2b", format: "(a)")[
       + All strings that _start and end with the same symbol_.
       + All strings _with no two consecutive_ $mono("1")$s.
       + All strings of _even length_.
@@ -250,10 +278,9 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + All strings where _every_ $mono("1")$ is _immediately followed by_ a $mono("0")$.
     ]
 
-  + Prove that $regex("(a*)* = a*")$ by showing both set inclusions.
-    That is, show $lang(regex("(a*)* ")) = lang(regex("a*"))$ directly from the definitions of Kleene star and concatenation.
+  + Prove that $regex("(a*)* = a*")$.
 
-  #colbreak()
+  // #colbreak()
 
   + *(Regex Crosswords)*#footnote[
       Puzzles adapted from #link("https://regexcrossword.com").
@@ -264,7 +291,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
     #Block[
       // *Notation:*
-      - `[^SPEAK]` matches any character _except_ those listed.
+      - `[^ABC]` matches any character _except_ those listed.
       - "`.`" matches _any_ single character (unless escaped!).
       - `\1` is a PCRE _backreference_ to the first capturing group --- not a classical regex feature, but treat it concretely: if group 1 matched `X`, then `\1` must also match `X`.
     ]
