@@ -705,9 +705,9 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
         [
           - `<name> ::= ...` defines a non-terminal.
           - `"x"` is a literal character.
-          - Juxtaposition `A`$thin$`B` = concatenation.
         ],
         [
+          - `AB` = concatenation.
           - `A | B` = alternation.
           - `(...)` = grouping.
         ],
