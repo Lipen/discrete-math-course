@@ -123,7 +123,7 @@
   let nr = rpats-left.len()
   let nc = cpats-top.len()
 
-  let ltext(s) = text(0.9em, raw(s))
+  let ltext(s) = text(0.8em, raw(s))
   let col-label(s) = rotate(90deg, reflow: true, ltext(s))
 
   let has-right = rpats-right.len() > 0
@@ -142,7 +142,7 @@
 
       // ── Title: top-left corner of the canvas ────────────────────────
       if title != none {
-        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(0.9em, emph(title))))
+        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(1em, emph(title))))
       }
 
       // ── Grid cells ──────────────────────────────────────────────────
@@ -185,6 +185,19 @@
   ]
 }
 
+
+// ─────────────────────────────────────────────────────────────────────────────
+
+#Block[
+  The problems in this assignment are _tagged_:
+
+  #TagCore are essential problems that you _must solve_ to pass the assignment.
+
+  #TagChallenge are _non-mandatory_ problems that could be _skipped_ for a passing grade.
+
+  #TagBonus are _optional_ problems for _memorable experience_.
+  They won't be graded.
+]
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -280,7 +293,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       + All strings where _every_ $mono("1")$ is _immediately followed by_ a $mono("0")$.
     ]
 
-  + Prove that $regex("(a*)* = a*")$.
+  // + Prove that $regex("(a*)* = a*")$.
 
   // #colbreak()
 
@@ -999,24 +1012,6 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     $
       angle.l M, w angle.r in "HALT" quad iff quad f(angle.l M, w angle.r) in A_"TM".
     $
-]
-
-
-// ─────────────────────────────────────────────────────────────────────────────
-
-#line(length: 100%, stroke: 0.4pt)
-
-== Notes on Tag System
-
-#Block[
-  The problems in this assignment are _tagged_:
-
-  #TagCore are essential problems that you _must solve_ to pass the assignment.
-
-  #TagChallenge are _non-mandatory_ problems that could be _skipped_ for a passing grade.
-
-  #TagBonus are _optional_ problems for _memorable experience_.
-  They won't be graded.
 ]
 
 
