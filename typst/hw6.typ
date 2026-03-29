@@ -123,7 +123,7 @@
   let nr = rpats-left.len()
   let nc = cpats-top.len()
 
-  let ltext(s) = text(.8em, raw(s))
+  let ltext(s) = text(0.9em, raw(s))
   let col-label(s) = rotate(90deg, reflow: true, ltext(s))
 
   let has-right = rpats-right.len() > 0
@@ -142,7 +142,7 @@
 
       // ── Title: top-left corner of the canvas ────────────────────────
       if title != none {
-        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(8pt, emph(title))))
+        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(0.9em, emph(title))))
       }
 
       // ── Grid cells ──────────────────────────────────────────────────
