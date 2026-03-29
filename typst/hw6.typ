@@ -129,7 +129,7 @@
   //     word-start → north,  word-end → south
   //     top labels:    "south" anchor → word-end touches the cell top
   //     bottom labels: "north" anchor → word-start touches the cell bottom
-  let ltext(s) = text(7pt, raw(s))
+  let ltext(s) = text(.7em, raw(s))
   let col-label(s) = rotate(90deg, reflow: true, ltext(s))
 
   let has-right = rpats-right.len() > 0
@@ -263,21 +263,24 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
   #colbreak()
 
-  + *(Regex Crosswords)*
+  + *(Regex Crosswords)*#footnote[
+      Puzzles adapted from #link("https://regexcrossword.com").
+      Visit for hundreds of crosswords at all difficulty levels!
+    ]
     Fill each cell with a _single ASCII character_ (uppercase letter, digit, punctuation, or space).
-    Every _row_, read left to right, must match the regex shown to its left (and right, if given).
-    Every _column_, read top to bottom, must match the regex shown above it (and below, if given).
+    Every row and column must match the corresponding regex pattern.
 
     #Block[
-      *Notation:* `[^SPEAK]` matches any character _except_ those listed.
-      `.` matches any single character.
-      `\1` is a PCRE backreference to the first capturing group --- not a classical regex feature, but treat it concretely: if group 1 matched `X`, then `\1` must also match `X`.
+      // *Notation:*
+      - `[^SPEAK]` matches any character _except_ those listed.
+      - "`.`" matches _any_ single character (unless escaped!).
+      - `\1` is a PCRE _backreference_ to the first capturing group --- not a classical regex feature, but treat it concretely: if group 1 matched `X`, then `\1` must also match `X`.
     ]
 
     #grid(
       columns: 2,
       column-gutter: 3em,
-      row-gutter: 1.5em,
+      row-gutter: 1em,
       align: center + horizon,
 
       // ── Beatles (2 × 2, Beginner) ──────────────────────────────────
@@ -298,7 +301,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       crw(
         ("[RUNT]*", "O.*[HAT]", "(.)*DO\\1"),
         ("[^NRU](NO|ON)", "(D|FU|UF)+", "(FO|A|R)*", "(N|A)*"),
-        title: [Technology #sym.dagger \ (4 × 3)],
+        title: [Technology \ (4 × 3)],
       ),
 
       // ── GMC Vandura (3 × 2, Double Cross) ──────────────────────────
@@ -326,13 +329,6 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         title: [Time Walker \ (4 × 4)],
       ),
     )
-
-    _#sym.dagger Row 3 of Technology uses `\1` (a backreference). See the note above._
-
-    #Block[
-      Puzzles adapted from #link("https://regexcrossword.com"). \
-      Visit for hundreds of crosswords at all difficulty levels!
-    ]
 ]
 
 
