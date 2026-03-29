@@ -954,7 +954,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 == Problem 13: Undecidability from First Principles #h(1fr)#TagChallenge
 
 #tasklist("prob13")[
-  + *Rice's Theorem* states: any non-trivial property of the _language_ of a TM is undecidable.
+  + *Rice's Theorem* states: any non-trivial semantic property of the _language_ of a TM is undecidable.
 
     #Box[
       *Rice's Theorem.*
@@ -975,25 +975,25 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $P$: "$cal(L)(M)$ contains at least one palindrome."
     ]
 
-  + *(Reduction: $"HALT" scripts(<=)_m A_"TM"$.)*
+  + *(Reduction: $A_"TM" scripts(<=)_m "HALT"$.)*
     Recall:
     $
-      A_"TM" = { angle.l M, w angle.r mid(|) M "accepts" w }, quad
-      "HALT" = { angle.l M, w angle.r mid(|) M "halts on" w }.
+      A_"TM" & = { angle.l M, w angle.r mid(|) M "accepts" w }, \
+      "HALT" & = { angle.l M, w angle.r mid(|) M "halts on" w }.
     $
 
-    Show that $A_"TM"$ is undecidable by reducing from $"HALT"$:
-    construct an explicit TM reduction $f$ such that
-    $angle.l M, w angle.r in "HALT" iff f(angle.l M, w angle.r) in A_"TM"$.
+    Using the undecidability of $A_"TM"$ (established by diagonalization in the next problem),
+    prove that $"HALT"$ is also undecidable.
+    Construct a many-one reduction $A_"TM" scripts(<=)_m "HALT"$:
+    a computable function $f$ such that
+    $angle.l M, w angle.r in A_"TM" iff f(angle.l M, w angle.r) in "HALT"$.
 
-    #[
-      #set enum(numbering: "(a)")
-      + Describe the reduction $f$ explicitly:
-        given $angle.l M, w angle.r$, how do you build a new TM $M'$ such that
-        $M'$ accepts its input iff $M$ halts on $w$?
-      + Verify correctness: if $M$ halts on $w$, does $M'$ accept?
-        If $M$ does not halt on $w$, does $M'$ reject (or loop)?
-      + Conclude: if $A_"TM"$ were decidable, then $"HALT"$ would also be decidable --- contradiction.
+    #tasklist("prob13b", format: "(a)")[
+      + Describe $f$ explicitly: given $angle.l M, w angle.r$, build a new TM $M'$ such that $M'$ _halts_ on every input if $M$ _accepts_ $w$, and $M'$ _loops_ on every input if $M$ does not accept $w$. \
+        _(Hint: modify $M$ so that its reject state loops instead of rejecting.)_
+      + Verify correctness: if $M$ accepts $w$, does $M'$ halt on its input?
+        If $M$ rejects or loops on $w$, does $M'$ loop forever?
+      + Conclude: if $"HALT"$ were decidable, then $A_"TM"$ would also be decidable.
     ]
 
   + *(Diagonalization.)*
@@ -1004,11 +1004,10 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       If $M$ halts, output _YES_.
       If $M$ has not halted after $k$ steps, output _NO_.
     ]
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob13c", format: "(a)")[
       + What is wrong with this algorithm?
-        For which inputs does it give the wrong answer, and why?
-      + Even if we let $k -> infinity$ ("simulate forever and wait"), why doesn't this solve the halting problem?
+        For which inputs does it give the wrong answer?
+      + Even if we let $k -> infinity$ ("simulate forever"), why doesn't this solve the halting problem?
       + The actual undecidability proof constructs a TM $D$ that, on input $angle.l M angle.r$,
         loops iff $M$ halts on $angle.l M angle.r$, and halts iff $M$ does not halt on $angle.l M angle.r$.
         What happens when we run $D$ on $angle.l D angle.r$?
