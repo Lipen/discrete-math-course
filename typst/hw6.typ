@@ -1019,9 +1019,9 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 The problems in this assignment are _tagged_:
 
-#TagCore are main problems due by the _announced deadline_.
+#TagCore are the _core_ problems that _everyone_ should solve (best before the test!).
 
-#TagChallenge are harder, optional problems --- submit when ready.
+#TagChallenge are slightly harder _non-mandatory_ problems due to the _announced deadline_.
 
 #TagBonus are _optional_ problems for #strike[extra credit] _memorable experience_.
 
