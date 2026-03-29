@@ -974,7 +974,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $cal(L)(M)$ is empty.
       + $cal(L)(M)$ is a regular language.
       #colbreak()
-      + $M$ has fewer than 100 states. // #h(1fr)_(Is this a property of the language?..)_
+      + $M$ has fewer than 100 states. #h(1fr)_(Beware!)_
       + $M$ halts on all inputs.
       + $cal(L)(M)$ contains at least one palindrome.
     ]
