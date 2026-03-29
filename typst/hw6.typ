@@ -1003,13 +1003,16 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
 == Notes on Tag System
 
-The problems in this assignment are _tagged_:
+#Block[
+  The problems in this assignment are _tagged_:
 
-#TagCore are the _core_ problems that _everyone_ should solve (best before the test!).
+  #TagCore are essential problems that you _must solve_ to pass the assignment.
 
-#TagChallenge are slightly harder _non-mandatory_ problems due to the _announced deadline_.
+  #TagChallenge are _non-mandatory_ problems that could be _skipped_ for a passing grade.
 
-#TagBonus are _optional_ problems for #strike[extra credit] _memorable experience_.
+  #TagBonus are _optional_ problems for _memorable experience_.
+  They won't be graded.
+]
 
 
 // ─────────────────────────────────────────────────────────────────────────────
