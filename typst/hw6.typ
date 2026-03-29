@@ -896,8 +896,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     For each claim, decide: is it *always* true, or can it *fail*?
     If it always holds, prove it.
     If it can fail, give an explicit counterexample (a concrete non-regular $L$, $L_1$, or $L_2$).
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob12a", format: "(a)")[
       + $L$ non-regular $quad=>quad$ $L^2 = L dot L$ non-regular.
       + $L$ non-regular $quad=>quad$ $L^*$ non-regular.
       + $L_1, L_2$ non-regular $quad=>quad$ $L_1 intersect L_2$ non-regular.
@@ -933,8 +932,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     by a fixed string $h(a) in Sigma_2^*$.
     Define $h : {a, b}^* to {0, 1}^*$ by $h(a) = mono("01")$ and $h(b) = mono("10")$.
 
-    #[
-      #set enum(numbering: "(a)")
+    #tasklist("prob12d", format: "(a)")[
       + Let $L = { w in {0,1}^* mid(|) w "starts with" mono("01") }$.
         Describe the inverse image
         $h^(-1)(L) = { x in {a,b}^* mid(|) h(x) in L }$,
@@ -968,9 +966,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     For each property $P$, determine whether ${ angle.l M angle.r mid(|) cal(L)(M) in P }$ is decidable or undecidable.
     If~undecidable, cite Rice's theorem and verify that $P$ is non-trivial.
     If decidable, explain why.
-    #[
-      #set enum(numbering: "(a)")
-      + $P$: "$cal(L)(M)$ contains at least one string."
+    #tasklist("prob13a", format: "(a)")[
+      + $P$: "$cal(L)(M)$ contain s at least one string."
       + $P$: "$cal(L)(M)$ is empty."
       + $P$: "$cal(L)(M)$ is a regular language."
       + $P$: "$M$ has fewer than 100 states." _(Careful: is this a property of the language or the machine?)_
