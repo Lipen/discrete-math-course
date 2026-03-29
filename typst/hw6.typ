@@ -979,18 +979,16 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $cal(L)(M)$ contains at least one palindrome.
     ]
 
-  + *(Reduction: $A_"TM" scripts(<=)_m "HALT"$.)*
+  + *Reduction: $A_"TM" scripts(<=)_m "HALT"$.*
     Recall:
     $
       A_"TM" & = { angle.l M, w angle.r mid(|) M "accepts" w }, \
       "HALT" & = { angle.l M, w angle.r mid(|) M "halts on" w }.
     $
 
-    Using the undecidability of $A_"TM"$ (established by diagonalization in the next problem),
-    prove that $"HALT"$ is also undecidable.
+    Using the undecidability of $A_"TM"$ (established by diagonalization in the next problem), prove that $"HALT"$ is also undecidable.
     Construct a many-one reduction $A_"TM" scripts(<=)_m "HALT"$:
-    a computable function $f$ such that
-    $angle.l M, w angle.r in A_"TM" iff f(angle.l M, w angle.r) in "HALT"$.
+    a computable function $f$ such that $angle.l M, w angle.r in A_"TM" iff f(angle.l M, w angle.r) in "HALT"$.
 
     #tasklist("prob13b", format: "(a)")[
       + Describe $f$ explicitly: given $angle.l M, w angle.r$, build a new TM $M'$ such that $M'$ _halts_ on every input if $M$ _accepts_ $w$, and $M'$ _loops_ on every input if $M$ does not accept $w$. \
@@ -1000,7 +998,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + Conclude: if $"HALT"$ were decidable, then $A_"TM"$ would also be decidable.
     ]
 
-  + *(Diagonalization.)*
+  + *Diagonalization.*
     A student proposes the following "algorithm" $H$ for the halting problem:
     #Box[
       Simulate $M$ on $w$ step by step.
@@ -1012,8 +1010,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + What is wrong with this algorithm?
         For which inputs does it give the wrong answer?
       + Even if we let $k -> infinity$ ("simulate forever"), why doesn't this solve the halting problem?
-      + The actual undecidability proof constructs a TM $D$ that, on input $angle.l M angle.r$,
-        loops iff $M$ halts on $angle.l M angle.r$, and halts iff $M$ does not halt on $angle.l M angle.r$.
+      + The actual proof of the halting problem undecidability constructs a TM $D$ that, on input $angle.l M angle.r$, loops iff $M$ halts on $angle.l M angle.r$, and halts iff $M$ does not halt on $angle.l M angle.r$.
         What happens when we run $D$ on $angle.l D angle.r$?
         Describe the contradiction that arises.
     ]
