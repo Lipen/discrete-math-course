@@ -175,7 +175,7 @@ The language encodes all inputs for which the answer is "yes".
     $ "VALID" = { phi mid(|) phi "is a valid (universally true) formula" } $
 
     *Halting Problem (HALT):* Given a TM $M$ and input $w$, does $M$ halt on $w$?
-    $ "HALT" = { angle.l M, w angle.r mid(|) "TM" thin M "halts on input" thin w } $
+    $ "HALT" = { angle.l M, w angle.r mid(|) "TM" M "halts on input" w } $
   ]
 ]
 #pagebreak()
