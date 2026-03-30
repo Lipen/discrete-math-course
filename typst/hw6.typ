@@ -298,7 +298,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
   // #colbreak()
 
-  + *(Regex Crosswords)*#footnote[
+  + *Regex Crosswords.*#footnote[
       Puzzles adapted from #link("https://regexcrossword.com").
       Visit for hundreds of crosswords at all difficulty levels!
     ]
@@ -602,7 +602,7 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
   *Myhill--Nerode Theorem.*
   A language $L subset.eq Sigma^*$ is _regular_ if and only if the relation $scripts(equiv)_L$ defined by
   $
-    x scripts(equiv)_L y quad iff quad forall z in Sigma^* . thick (x z in L iff y z in L)
+    x scripts(equiv)_L y quad iff quad forall z in Sigma^*. thin (x z in L iff y z in L)
   $
   has _finite index_ (finitely many equivalence classes).
   Moreover, the number of classes equals the number of states in the _minimal DFA_ for $L$.
@@ -897,7 +897,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 == Problem 12: Non-Regular Languages and the Closure Game #h(1fr)#TagChallenge
 
 #tasklist("prob12")[
-  + *(Closure traps.)*
+  + *Closure traps.*
     For each claim, decide: is it *always* true, or can it *fail*?
     If it always holds, prove it.
     If it can fail, give an explicit counterexample (a concrete non-regular $L$, $L_1$, or $L_2$).
@@ -908,7 +908,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       + $L_1$ regular, $L_2$ non-regular $quad=>quad$ $L_1 setminus L_2$ non-regular.
     ]
 
-  + *(Mutual constraints.)*
+  + *Mutual constraints.*
     Suppose we are given that:
     - $L_1 union L_2 = Sigma^*$ (#emph[regular]),
     - $L_1 intersect L_2 = { a^n b^n mid(|) n >= 0 }$ (#emph[non-regular]).
@@ -919,11 +919,8 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
     Can _both_ be non-regular?
     Prove each case that is possible, and disprove each case that is not.
 
-  // #colbreak()
-
-  + *(Half-language.)*
-    Define $"HALF"(L) = { x mid(|) exists y in Sigma^*. abs(y) = abs(x) "and" x y in L }$
-    (the first half of strings in $L$).
+  + *Half-language.*
+    Define $"HALF"(L) = { x mid(|) exists y in Sigma^* . thick abs(y) = abs(x) "and" x y in L }$.
 
     Prove: if $L$ is _regular_, then $"HALF"(L)$ is also _regular_.
 
@@ -932,7 +929,7 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
       Think about what information about a prefix $x$ is enough to decide whether there exists a suffix $y$ with $abs(y) = abs(x)$ and $x y in L$.
     ]
 
-  + *(Homomorphisms.)*
+  + *Homomorphisms.*
     A _string homomorphism_ $h : Sigma_1^* to Sigma_2^*$ replaces each symbol $a in Sigma_1$
     by a fixed string $h(a) in Sigma_2^*$.
     Define $h : {a, b}^* to {0, 1}^*$ by $h(a) = mono("01")$ and $h(b) = mono("10")$.
