@@ -1150,32 +1150,27 @@ Here, $x$ is the path to the loop, $y$ is the loop itself, $z$ is the path from 
 
 #proof[
   By contradiction.
-  Assume that $"EQUAL"$ is a regular language.
+  Assume $"EQUAL"$ is regular, and let $n$ be the pumping length. \
+  Take $w = 0^n hash 0^n in "EQUAL"$.
+  Write $w = x y z$ as in the weak pumping lemma.
 
-  Let $n$ be the pumping length guaranteed by the weak pumping lemma.
-  Let $w = 0^n hash 0^n$, which is in $"EQUAL"$ and $abs(w) = 2n + 1 >= n$.
-  By the weak pumping lemma, we can write $w = x y z$ such that $y != epsilon$ and for any $i in NN$, $x y^i z in "EQUAL"$.
-  Then $y$ cannot contain $hash$, since otherwise if we let $i = 0$, then $x y^0 z = x z$ does not contain $hash$ and would not be in $"EQUAL"$.
-  So $y$ is either completely to the left of $hash$ or completely to the right of $hash$.
+  The block $y$ cannot contain $hash$, because pumping with $i = 0$ would remove $hash$ and produce a string outside $"EQUAL"$.
+  Hence $y$ lies entirely to the left or entirely to the right of $hash$, so $y = 0^k$ for some $k > 0$.
 
-  Let $abs(y) = k$, so $k > 0$.
-  Since $y$ is completely to the left or right of $hash$, then #box[$y = 0^k$].
-
-  Now, we consider two cases:
+  We now pump with $i = 2$:
   #enum(numbering: i => "Case " + str(i) + ":")[
     $y$ is to the left of $hash$.
-    Then $x y^2 z = 0^(n+k) hash 0^n notin "EQUAL"$, contradicting the weak pumping lemma.
+    Then $x y^2 z = 0^(n+k) hash 0^n notin "EQUAL"$.
   ][
     $y$ is to the right of $hash$.
-    Then $x y^2 z = 0^n hash 0^(n+k) notin "EQUAL"$, contradicting the lemma.
+    Then $x y^2 z = 0^n hash 0^(n+k) notin "EQUAL"$.
   ]
-  In either case we reach a contradiction, so our assumption was wrong.
-  Thus, $"EQUAL"$ _is not regular_.
+  In both cases we contradict the pumping lemma.
+  Therefore $"EQUAL"$ is not regular.
 ]
 
 #Block(color: blue)[
-  *Why this matters:* This result tells us that a finite automaton fundamentally _cannot compare_ two unbounded strings for equality.
-  It lacks "memory" beyond its finite set of states.
+  A finite automaton cannot compare two unbounded strings for equality, because it has only finitely many states, i.e. it lacks "memory".
 ]
 
 == The Classic Non-regular Language
