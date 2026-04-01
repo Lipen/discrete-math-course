@@ -1078,7 +1078,7 @@ Informally:
 
 #theorem[Weak Pumping Lemma for Regular Languages][
   Let $L$ be regular.
-  Then there exists $n in NN$, $n > 0$, such that for every $w in L$ with $abs(w) >= n$,
+  Then there exists #box[$n in NN$], $n > 0$, such that for every $w in L$ with $abs(w) >= n$,
   there are strings $x, y, z$ with:
   - $w = x y z$,
   - $y != epsilon$,
