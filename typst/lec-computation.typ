@@ -1042,13 +1042,33 @@ $
   epigraph-author: "William Shakespeare",
 )
 
+== The Memory Bottleneck of Finite Automata
+
+When does a language fail to be regular?
+Finite automata (DFAs and NFAs) possess exactly one form of memory: *their current state*.
+
+- A DFA with $n$ states can distinguish at most $n$ different "situations" at any point while reading a string.
+
+- It *cannot count* indefinitely. \
+  (e.g., verifying if there are exactly 1,000,000 zeros vs 1,000,001 zeros might require 1M states).
+
+- It *cannot match* unbounded nested structures. \
+  (e.g., balancing parentheses in code, checking `<html>` tags).
+
+#Block(color: yellow)[
+  *Key Insight:* If a language requires unbounded memory to recognize
+  (e.g. keeping track of an arbitrarily large number), it *cannot be regular*.
+]
+
+To formalize this, we exploit the simplest consequence of finite state spaces: the *Pigeonhole Principle*.
+
 == Re-visiting States
 
 - Let $D$ be a DFA with $n$ states.
-- Any string $w$ accepted by $D$ that has length at least $n$ must visit some state twice.
-- Number of states visited is equal to $abs(w) + 1$.
-- By the _pigeonhole principle_, some state is "duplicated", i.e. visited more than once.
-- The substring of $w$ between those _revisited states_ can be removed, duplicated, tripled, etc. without changing the fact that $D$ accepts $w$.
+- Any string $w$ accepted by $D$ that has length at least $n$ will force the DFA to take at least $n$ transitions.
+- Taking $n$ transitions means visiting $n + 1$ states.
+- By the _Pigeonhole Principle_, because the DFA only has $n$ distinct states, *at least one state must be visited twice*.
+- Thus, the execution path contains a *loop*. The substring of $w$ that drives the DFA around this loop can be repeated (pumped) as many times as we want, or skipped entirely!
 
 #align(center)[
   #show: box.with(inset: -1em)
@@ -1057,9 +1077,9 @@ $
     import finite.draw: state, transition
 
     set-style(state: (radius: 0.5, extrude: 0.8))
-    set-style(transition: (stroke: (dash: "dashed")))
+    set-style(transition: (stroke: (dash: "dashed"), mark: (end: (symbol: ">", fill: black))))
 
-    state((.565, 0), "q1", initial: true, label: $q_1$)
+    state((0, 0), "q1", initial: true, label: $q_1$)
     state((2, 0), "q2", label: $q_2$)
     state((4, 0), "q3", label: $q_3$, final: true)
 
@@ -1078,21 +1098,27 @@ Informally:
 
 #theorem[Weak Pumping Lemma for Regular Languages][
   Let $L$ be regular.
-  Then there exists #box[$n in NN$], $n > 0$, such that for every $w in L$ with $abs(w) >= n$,
-  there are strings $x, y, z$ with:
-  - $w = x y z$,
-  - $y != epsilon$,
-  - and for every $i in NN$, $x y^i z in L$.
+  Then there exists a purely structural constant #box[$n in NN$] (the *pumping length*), $n > 0$, such that for every "sufficiently long" $w in L$ with #box[$abs(w) >= n$],
+  there are strings $x, y, z$ where $w = x y z$, and:
+  1. $y != epsilon$ (the loop can't be empty)
+  2. For every $i >= 0$, $x y^i z in L$ (the loop can be skipped or repeated)
 ]
+
+#v(-0.5em)
+$
+  underbrace(q_0 dots, x) underbrace(q_k dots, y) underbrace(q_k dots, z) q_f
+$
+#v(-0.5em)
+Here, $x$ is the path to the loop, $y$ is the loop itself, $z$ is the path from the loop to the final state.
 
 #example[
   Let $Sigma = {0, 1}$ and $L = { w in Sigma^* mid(|) w "contains" 00 "as a substring" }$.
-  Any string of length 3 or greater can be split into three parts, the second of which can be "pumped".
+  Given any string of length $>= 3$ in $L$, we can find a substring to pump. For instance, in $w = 100$, we let $x=1, y=0, z=0$. The pumped strings $1 0^i 0$ still contain "00" safely!
 ]
 
 #example[
   Let $Sigma = {0, 1}$ and $L = { epsilon, 0, 1, 00, 01, 10, 11 }$.
-  The weak pumping lemma still holds for finite languages, because the pumping length $n$ can be longer than the longest word in the language!
+  The weak pumping lemma trivially holds with pumping length $n = 3$. There are *no* strings in $L$ of length $>= 3$, so the condition "for every $w in L$ with $abs(w) >= 3$..." is vacuously true!
 ]
 
 == Non-regularity: The Equality Language
@@ -1102,21 +1128,21 @@ Informally:
 ]
 
 #example[
-  Let $Sigma = {0, 1, "#"}$.
-  We can _encode_ the equality problem as a string of the form _$x "#" y$_.
-  - "Is _001_ equal to _110_ ?" would be _$001 "#" 110$_.
-  - "Is _11_ equal to _11_ ?" would be _$11 "#" 11$_.
+  Let $Sigma = {0, 1, hash}$.
+  We can _encode_ the equality problem as a string of the form _$x hash y$_.
+  - "Is _001_ equal to _110_ ?" would be _$001 hash 110$_.
+  - "Is _11_ equal to _11_ ?" would be _$11 hash 11$_.
 
-  Let $"EQUAL" = { w "#" w mid(|) w in {0, 1}^* }$.
+  Let $"EQUAL" = { w hash w mid(|) w in {0, 1}^* }$.
 
   *Question:* Is $"EQUAL"$ a _regular_ language?
 ]
 
 #Block(color: orange)[
-  *Strategy:* Assume regularity, choose $w = 0^n "#" 0^n$, then pump to destroy equality.
+  *Strategy:* Assume regularity, choose $w = 0^n hash 0^n$, then pump to destroy equality.
 ]
 
-== Non-regularity: The Equality Language --- Proof
+== *$"EQUAL"$* is Not Regular
 
 #theorem[
   $"EQUAL"$ is not a regular language.
@@ -1127,21 +1153,21 @@ Informally:
   Assume that $"EQUAL"$ is a regular language.
 
   Let $n$ be the pumping length guaranteed by the weak pumping lemma.
-  Let $w = 0^n "#" 0^n$, which is in $"EQUAL"$ and $abs(w) = 2n + 1 >= n$.
+  Let $w = 0^n hash 0^n$, which is in $"EQUAL"$ and $abs(w) = 2n + 1 >= n$.
   By the weak pumping lemma, we can write $w = x y z$ such that $y != epsilon$ and for any $i in NN$, $x y^i z in "EQUAL"$.
-  Then $y$ cannot contain $"#"$, since otherwise if we let $i = 0$, then $x y^0 z = x z$ does not contain $"#"$ and would not be in $"EQUAL"$.
-  So $y$ is either completely to the left of $"#"$ or completely to the right of $"#"$.
+  Then $y$ cannot contain $hash$, since otherwise if we let $i = 0$, then $x y^0 z = x z$ does not contain $hash$ and would not be in $"EQUAL"$.
+  So $y$ is either completely to the left of $hash$ or completely to the right of $hash$.
 
   Let $abs(y) = k$, so $k > 0$.
-  Since $y$ is completely to the left or right of $"#"$, then #box[$y = 0^k$].
+  Since $y$ is completely to the left or right of $hash$, then #box[$y = 0^k$].
 
   Now, we consider two cases:
   #enum(numbering: i => "Case " + str(i) + ":")[
-    $y$ is to the left of $"#"$.
-    Then $x y^2 z = 0^(n+k) "#" 0^n notin "EQUAL"$, contradicting the weak pumping lemma.
+    $y$ is to the left of $hash$.
+    Then $x y^2 z = 0^(n+k) hash 0^n notin "EQUAL"$, contradicting the weak pumping lemma.
   ][
-    $y$ is to the right of $"#"$.
-    Then $x y^2 z = 0^n "#" 0^(n+k) notin "EQUAL"$, contradicting the lemma.
+    $y$ is to the right of $hash$.
+    Then $x y^2 z = 0^n hash 0^(n+k) notin "EQUAL"$, contradicting the lemma.
   ]
   In either case we reach a contradiction, so our assumption was wrong.
   Thus, $"EQUAL"$ _is not regular_.
@@ -1169,39 +1195,47 @@ Informally:
 
 == Pumping Lemma as a Game
 
-The weak pumping lemma can be thought of as a _game_ between #Green[*you*] and a #Red[*adversary*].
-- #Green[*You win*] if you can prove that the pumping lemma _fails_.
-- #Red[*The adversary wins*] if the adversary can make a choice for which the pumping lemma _succeeds_.
+#Block(color: yellow)[
+  The Pumping Lemma contains alternating quantifiers ($exists, forall, exists, forall$).
 
-The game goes as follows:
-- #Red[The adversary] chooses a pumping length $n$.
-- #Green[You] choose a string $w$ with $abs(w) >= n$ and $w in L$.
-- #Red[The adversary] breaks it into $x$, $y$, and $z$.
-- #Green[You] choose an $i$ such that $x y^i z notin L$ _(if you can't, you lose!)_.
+  Any such statement can be framed naturally as a *two-player game*.
+]
+
+Think of it as a game between #Green[*You*] and an #Red[*Adversary*].
+- #Green[*You win*] if you can break the pumping lemma conditions (proving it is *not regular*).
+- #Red[*The Adversary wins*] if they satisfy the conditions.
+
+The game is played in 4 steps:
+1. #Red[The adversary] chooses a pumping length $n$.
+2. #Green[You] cleverly pick a long string $w$ in the language ($abs(w) >= n$).
+3. #Red[The adversary] maliciously splits your string $w = x y z$ such that $y != epsilon$.
+4. #Green[You] cleverly choose a pump count $i$ such that $x y^i z notin L$. (If you can't, you lose!)
 
 #pagebreak()
 
-$
-  L = { 0^n 1^n mid(|) n in NN }
-$
+== Let's Play the Game: *$L = { 0^n 1^n mid(|) n in NN }$*
 
 #align(center)[
   #table(
-    columns: 2,
-    align: center,
+    columns: (auto, auto),
+    align: (center, center),
     column-gutter: 1em,
     stroke: (x, y) => if y == 0 { (bottom: .8pt) },
     table.header([*#Red[Adversary]*], [*#Green[You]*]),
-    [Maliciously choose \ pumping length $n$], [],
-    [], [Cleverly choose a string \ $w in L$, $abs(w) >= n$],
-    [Maliciously split \ $w = x y z$, $y != epsilon$], [],
-    [], [Cleverly choose an $i$ \ such that $x y^i z notin L$],
+    [Maliciously selects \ "pumping length" $n$ (unknown)],
+    [...Wait for adversary to play...],
+    [...Wait for you to respond...],
+    [Cleverly choose a "hostage" string \ $w = 0^n 1^n in L$. Its length is $2n >= n$.],
+    [Maliciously splits \ $w = x y z$ such that $y != epsilon$],
+    [...Wait for adversary's split...],
+    [...Wait for you to respond...],
+    [Cleverly choose a pump multiplier $i$. \ If $y$ has only zeros, choose $i=0$ to delete $y$.\ If $y$ has only ones, choose $i=0$ to delete $y$.\ If $y$ mixes $0$ & $1$, choose $i=2$ to copy $y$.\ *In all cases*, the string is destroyed and $x y^i z notin L$],
     Red[Lose], Green[Win],
-    table.cell(colspan: 2, stroke: (top: 0.4pt))[#Green[${0^n 1^n}$ is *not* regular]],
+    table.cell(colspan: 2, stroke: (top: 0.4pt))[#Green[$w$ cannot be pumped uniformly. $0^n 1^n$ is *not* regular]],
   )
 ]
 
-== Formal Proof: $0^n 1^n$ is Not Regular
+== Formal Proof: *$0^n 1^n$* is Not Regular
 
 #theorem[
   $L = { 0^n 1^n mid(|) n in NN }$ is not regular.
@@ -1215,36 +1249,40 @@ $
   Consider the string $w = 0^n 1^n$.
   Then $abs(w) = 2n >= n$ and $w in L$, so we can write (split) $w = x y z$ such that $y != epsilon$ and for any $i in NN$, we have $x y^i z in L$.
 
-  We consider three cases:
-  #enum(numbering: i => "Case " + str(i) + ":")[
-    $y$ consists solely of $0$s.
-    Then $x y^0 z = x z = 0^(n-abs(y)) 1^n$, and since $abs(y) > 0$, $x z notin L$.
-  ][
-    $y$ consists solely of $1$s.
-    Then $x y^0 z = x z = 0^n 1^(n-abs(y))$, and since $abs(y) > 0$, $x z notin L$.
-  ][
-    $y$ consists of $k > 0$ $0$s followed by $m > 0$ $1$s.
-    Then $x y^2 z = 0^n 1^m 0^k 1^n$, so $x y^2 z notin L$.
+  #[
+    #set enum(numbering: i => "Case " + str(i) + ":")
+
+    + $y$ consists solely of $0$s.
+      Then $x y^0 z = x z = 0^(n-abs(y)) 1^n$. \
+      Since $abs(y) > 0$, the number of $0$s is less than $n$, so $x z notin L$.
+
+    + $y$ consists solely of $1$s.
+      Then $x y^0 z = x z = 0^n 1^(n-abs(y))$. \
+      Since $abs(y) > 0$, the number of $1$s is less than $n$, so $x z notin L$.
+
+    + $y$ consists of some $0$s followed by some $1$s.
+      If we pump $y$ with $i = 2$, then $y^2 = y y$, which places $1$s from the first copy of $y$ *before* the $0$s of the second copy. \
+      Thus the resulting string $x y^2 z$ is not even of the form $0^*1^*$, so it cannot be in $L$.
   ]
-  In all three cases we reach a contradiction, so our assumption was wrong and $L$ is not regular.
+
+  In all three possible ways the adversary splits the string, we found a choice of $i$ giving a string outside $L$.
+  This contradicts the weak pumping lemma. Thus $L$ is *not regular*.
 ]
 
 == A Word of Caution
 
-- The pumping lemma describes a _necessary_ condition of regular languages.
-  - If $L$ is _regular_, then it _passes_ the conditions of the pumping lemma.
-  - If a language _fails_ the pumping lemma, it is _definitely not regular_.
+- The pumping lemma describes a _necessary_ condition for regularity.
+  - Regularity $implies$ Pumping Lemma holds.
+  - Pumping Lemma FAILS $implies$ Not Regular (by contrapositive).
 
-- The pumping lemma is _not a sufficient_ condition for regularity.
-  - If $L$ is _not regular_, it still _may pass_ the conditions of the pumping lemma.
-  - If a language _passes_ the pumping lemma, we _learn nothing_ about whether it is regular.
+- It is _not a sufficient_ condition.
+  - Pumping Lemma holds $cancel(implies)$ Regularity.
+  - There exist diabolical non-regular languages carefully crafted to pass the pumping lemma, yet they are not regular.
 
 #Block(color: orange)[
-  *Common mistake:* "The language satisfies the pumping lemma, therefore it is regular."
+  *Warning:* "The language satisfies the pumping lemma, therefore it is regular."
 
-  This is _invalid_ reasoning!
-  The pumping lemma is a _one-way_ test: it can only _disprove_ regularity, never _prove_ it.
-  For an exact characterization, use the Myhill-Nerode theorem (introduced later).
+  This is a critical logic error! The theorem is a *one-way street* acting only as a filter for non-regularity. To *prove* that a language is regular, your only option is to construct a DFA, NFA, or Regular Expression for it!
 ]
 
 == The Full Pumping Lemma
@@ -1344,22 +1382,6 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
   The constraint $abs(x y) <= n$ from the full version is essential.
 ]
 
-== Strings with Unequal Counts
-
-#definition[
-  Let $"UNEQUAL" = { w in {0,1}^* mid(|) w "has different number of 0s and 1s" }$.
-]
-
-#theorem[
-  $"UNEQUAL"$ is not regular.
-]
-
-#proof[
-  Note that $"UNEQUAL" = overline("EQUAL")$, the complement of the EQUAL language.
-  Since EQUAL is not regular (proved earlier), and regular languages are closed under complement, if $"UNEQUAL"$ were regular, then $overline("UNEQUAL") = "EQUAL"$ would also be regular --- contradiction.
-  Therefore, $"UNEQUAL"$ is not regular.
-]
-
 == Palindromes Over *${0,1}$*
 
 #definition[
@@ -1407,7 +1429,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
   Let $n$ be pumping length.
   Consider $w = 0^(n+1) 1^n$, which is in $"MORE0"$ and has length $2n+1 >= n$.
   By pumping lemma, $w = x y z$ with $abs(x y) <= n$, $y$ consists of $0$s only.
-  Pumping down ($i=0$) gives $x z = 0^(n+1-k) 1^n$ where $k = abs(y) > 0$.
+  Pumping down #box[($i = 0$)] gives $x z = 0^(n+1-k) 1^n$ where $k = abs(y) > 0$.
   Since $k >= 1$, the number of $0$s becomes $<= n$, which equals or is less than the number of $1$s.
   Contradiction.
 ]
@@ -1917,7 +1939,7 @@ For a regular language, the equivalence classes correspond to states in the mini
 
 We have seen several non-regular languages:
 - $L = { 0^n 1^n mid(|) n in NN }$ --- requires _counting_ to match $0$s and $1$s.
-- $"EQUAL" = { w "#" w mid(|) w in {0,1}^* }$ --- requires _remembering_ an entire string.
+- $"EQUAL" = { w hash w mid(|) w in {0,1}^* }$ --- requires _remembering_ an entire string.
 - $L = { w in {0,1}^* mid(|) w "has equal number of 0s and 1s" }$ --- requires a _counter_.
 
 The common pattern: regular languages cannot _count_ beyond a bounded amount.
