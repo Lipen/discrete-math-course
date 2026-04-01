@@ -1225,7 +1225,7 @@ The game is played in 4 steps:
     [Maliciously selects \ "pumping length" $n$ (unknown)],
     [...Wait for adversary to play...],
     [...Wait for you to respond...],
-    [Cleverly choose a "hostage" string \ $w = 0^n 1^n in L$. Its length is $2n >= n$.],
+    [Choose a test string \ $w = 0^n 1^n in L$. Its length is $2n >= n$.],
     [Maliciously splits \ $w = x y z$ such that $y != epsilon$],
     [...Wait for adversary's split...],
     [...Wait for you to respond...],
@@ -1277,7 +1277,7 @@ The game is played in 4 steps:
 
 - It is _not a sufficient_ condition.
   - Pumping Lemma holds $cancel(implies)$ Regularity.
-  - There exist diabolical non-regular languages carefully crafted to pass the pumping lemma, yet they are not regular.
+  - There exist non-regular languages that still satisfy the pumping lemma.
 
 #Block(color: orange)[
   *Warning:* "The language satisfies the pumping lemma, therefore it is regular."
@@ -1311,7 +1311,9 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
     import cetz.draw: *
     import finite.draw: state, transition
 
-    set-style(state: (radius: 0.5, extrude: 0.8))
+    set-style(state: (radius: 0.5, extrude: 0.8), transition: (mark: (end: (symbol: ">", fill: black))))
+
+    scale(85%)
 
     state((0, 0), "q0", initial: true, label: $q_0$)
     state((2, 0), "q1", label: $q_1$)
@@ -1333,6 +1335,7 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
   })
 ]
 
+#v(-0.5em)
 $
   underbrace(q_0 to^0, x) underbrace(q_1 to^1 q_2 to^1 q_3 to^0, y) q_1
   to^1 q_2
@@ -1345,11 +1348,11 @@ $
   to^1 q_3
   to^1 q_4
 $
+#v(-0.5em)
 
 #note[
-  State $q_1$ is revisited on the 4th step --- well within the first $n = 6$ states.
-  The substring between the two visits to $q_1$ is $y = 110$; it can be pumped ($i = 0, 1, 2, ...$) and the DFA still accepts.
-  Here $x = 0$ (reaches $q_1$ the first time) and $z$ is the suffix that reaches $q_4$.
+  The first repeated state is $q_1$, revisited on step 4, so $y = 110$ lies within the first $n = 6$ symbols.
+  Here $x = 0$, and pumping $y$ preserves acceptance until the suffix $z$ reaches $q_4$.
 ]
 
 == Formal Proof: Equal 0s and 1s
@@ -1395,14 +1398,17 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 ]
 
 #proof[
-  Assume $"PAL"$ is regular. Let $n$ be the pumping length.
-  Consider $w = 0^n 1 0^n$. Note $w in "PAL"$ and $abs(w) = 2n+1 >= n$.
-  By the pumping lemma, $w = x y z$ with $y != epsilon$, $abs(x y) <= n$, and $x y^i z in "PAL"$ for all $i$.
+  Assume $"PAL"$ is regular, with pumping length $n$.
+  Choose the string $w = 0^n 1 0^n$.
+  Then $w in "PAL"$ and $abs(w) = 2n+1 >= n$.
 
-  Since $abs(x y) <= n$, $y$ consists only of $0$s from the first block.
-  Pumping $y$ (say $i=2$) gives $x y^2 z = 0^(n+k) 1 0^n$ where $k = abs(y) > 0$.
-  This string is not a palindrome because the first block has $n+k$ zeros while the last block has $n$ zeros.
-  Contradiction.
+  By the full pumping lemma, there exist strings $x, y, z$ such that $w = x y z$ and:
+  - $y != epsilon$ (the loop is real)
+  - $abs(x y) <= n$ (the loop happens entirely within the first $n$ characters)
+
+  Since the first $n$ characters of $w$ are all $0$s, the string $y$ must be $0^k$ for some $k > 0$.
+  Choosing $i = 2$ gives $x y^2 z = 0^(n+k) 1 0^n$, which is not a palindrome.
+  This contradicts the lemma, so $"PAL"$ is not regular.
 ]
 
 #pagebreak()
@@ -1417,7 +1423,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 == Strings with More 0s than 1s
 
 #definition[
-  Let $"MORE0" = { w in {0,1}^* mid(|) w "has more 0s than 1s" }$.
+  Let $"MORE0" = { w in {0,1}^* mid(|) w "has strictly more 0s than 1s" }$.
 ]
 
 #theorem[
@@ -1425,13 +1431,22 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 ]
 
 #proof[
-  Assume regularity.
-  Let $n$ be pumping length.
-  Consider $w = 0^(n+1) 1^n$, which is in $"MORE0"$ and has length $2n+1 >= n$.
-  By pumping lemma, $w = x y z$ with $abs(x y) <= n$, $y$ consists of $0$s only.
-  Pumping down #box[($i = 0$)] gives $x z = 0^(n+1-k) 1^n$ where $k = abs(y) > 0$.
-  Since $k >= 1$, the number of $0$s becomes $<= n$, which equals or is less than the number of $1$s.
-  Contradiction.
+  Assume regularity, and let $n$ be the pumping length.
+  Choose the string $w = 0^(n+1) 1^n$.
+  - It clearly has $n+1 > n$ zeros, so $w in "MORE0"$.
+  - Its length $2n+1 >= n$, so it works.
+
+  The adversary splits $w = x y z$ such that $abs(x y) <= n$.
+  The first $n$ characters of $w$ are all $0$s. Thus, $y$ captures exactly $k$ zeros (where $k > 0$).
+
+  If we choose $i = 2$, the number of $0$s increases, so that does not help.
+  Instead, choose $i = 0$ and delete the block $y$.
+  Our modified string is $x z = 0^(n+1-k) 1^n$.
+  Since $k >= 1$, the remaining zeros are at most $n$.
+
+  The new string has at most $n$ zeros, but it still has exactly $n$ ones.
+  Therefore it does not have strictly more $0$s than $1$s, so it is not in $"MORE0"$.
+  This is a contradiction.
 ]
 
 == Strings with Unequal Counts
@@ -1472,89 +1487,132 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 ]
 
 
-== Myhill-Nerode Theorem: A Fundamental Characterization
+== Myhill-Nerode Theorem: Intuition
 
-While the pumping lemma gives a _necessary_ condition for regularity, the Myhill-Nerode theorem provides a _necessary and sufficient_ condition.
-It connects regular languages to equivalence relations with finite index.
+The pumping lemma studies _loops_ in long computations.
+The Myhill-Nerode theorem studies something even more basic: when two prefixes are _indistinguishable_ to a finite automaton.
+
+Suppose a DFA has read two different prefixes $x$ and $y$ and, after each of them, ends in the same state.
+From that moment on, the machine has exactly the same future behavior on both inputs.
+No suffix can reveal which prefix was read earlier, because the automaton remembers only its current state.
+
+#Block(color: yellow)[
+  *Key insight:* If a language forces the machine to keep infinitely many different prefixes apart, then no finite automaton can recognize it.
+]
+
+== The Equivalence Relation
 
 #definition[
-  Given a language $L subset.eq Sigma^*$, define the _Myhill-Nerode equivalence relation_ $equiv_L$ on $Sigma^*$ as:
+  Let $L subset.eq Sigma^*$.
+  Define a relation $scripts(equiv)_L$ on $Sigma^*$ by
   $
-    x equiv_L y quad "iff" quad forall z in Sigma^*. (x z in L iff y z in L)
+    x scripts(equiv)_L y quad "iff" quad forall z in Sigma^*. thin (x z in L iff y z in L).
   $
 
-  That is, two strings $x$ and $y$ are equivalent if _no distinguishing extension_ $z$ can tell them apart with respect to $L$.
+  Thus $x scripts(equiv)_L y$ means that _every_ suffix $z$ has the same effect on $x$ and on $y$.
+  In other words, $x$ and $y$ are indistinguishable with respect to membership in $L$.
 ]
 
 #example[
   Let $L = { w in {0,1}^* mid(|) w "ends with 01" }$.
-  - Strings $"001"$ and $"101"$ are equivalent: for any $z$, both $"001"z$ and $"101"z$ end with 01 iff $z$ is empty.
-  - Strings $"00"$ and $"0"$ are _not_ equivalent: take $z = "1"$, then $"00""1" = "001" in L$ but $"0""1" = "01" notin L$.
+
+  - The strings $001$ and $101$ are equivalent: both already end with $01$, so after appending any suffix $z$, the membership of $001 z$ and $101 z$ depends only on $z$, not on the earlier prefix.
+  - The strings $0$ and $01$ are distinguishable: take $z = epsilon$. Then $0 z = 0 notin L$, but $01 z = 01 in L$.
 ]
+
+== The Myhill-Nerode Theorem
 
 #theorem[Myhill-Nerode Theorem][
-  A language $L$ is regular if and only if $equiv_L$ has _finite index_ (finitely many equivalence classes).
+  A language $L$ is regular if and only if the relation $scripts(equiv)_L$ has finite index, that is, only finitely many equivalence classes.
 
-  Moreover, the number of equivalence classes equals the number of states in the _minimal DFA_ for $L$.
+  Moreover, the number of equivalence classes is exactly the number of states in the minimal DFA for $L$.
 ]
 
-#proof[(sketch)][
-  _($arrow.r.double$)_ If $L$ is regular, accepted by DFA $M$ with states $Q$. Define $f: Sigma^* to Q$ by $f(w) = hat(delta)(q_0, w)$. Then $f(x) = f(y)$ implies $x equiv_L y$, so index is at most $|Q|$.
+#proof[(idea)][
+  _($arrow.r.double$)_ Assume $L$ is regular, and let a DFA $A$ with state set $Q$ recognize it.
+  Every string $w in Sigma^*$ sends the start state to one state of $Q$.
+  If two strings $x$ and $y$ lead to the same state, then for every suffix $z$ the automaton behaves identically on $x z$ and $y z$.
+  Hence $x scripts(equiv)_L y$.
+  Therefore there can be at most $|Q|$ equivalence classes.
 
-  _($arrow.l.double$)_ If $equiv_L$ has finite index $n$, construct DFA with states = equivalence classes. Transition on symbol $a$: $[x] ->^a [x a]$. Accepting: classes $[w]$ with $w in L$.
+  _($arrow.l.double$)_ Now assume $scripts(equiv)_L$ has only finitely many equivalence classes.
+  Build a DFA whose states are those classes.
+  The start state is the class of $epsilon$.
+  On symbol $a$, move from the class of $x$ to the class of $x a$.
+  Accept exactly those classes containing strings from $L$.
+  This automaton recognizes $L$, so $L$ is regular.
 ]
 
 == Connection to Minimal DFAs
 
-The Myhill-Nerode theorem provides a direct way to construct the _unique minimal DFA_ for a regular language:
+The theorem does more than characterize regular languages: it explains what the states of the minimal DFA _mean_.
+Each state corresponds to one equivalence class of prefixes.
 
 #definition[
-  To build minimal DFA for $L$:
-  1. Compute equivalence classes of $equiv_L$
-  2. States = these classes
-  3. Start state = $[epsilon]$
-  4. Accepting states = ${[w] mid(|) w in L}$
-  5. Transitions on symbol $a$: $[x] ->^a [x a]$
+  To construct the minimal DFA for $L$:
+  1. Compute the equivalence classes of $scripts(equiv)_L$.
+  2. Use these classes as the states.
+  3. Take the class of $epsilon$ as the start state.
+  4. Mark a class as accepting iff it contains a string from $L$.
+  5. On input $a$, send the class of $x$ to the class of $x a$.
 ]
 
 #example[
-  For $L = { w mid(|) w "has odd number of 1s" }$ over ${0,1}$:
-  - Two equivalence classes: $C_0$ = strings with even \# of 1s, $C_1$ = strings with odd \# of 1s
-  - Minimal DFA: 2 states, toggling on 1
+  Let $L = { w mid(|) w "has an odd number of 1s" }$ over ${0,1}$.
+  There are exactly two equivalence classes:
+  - prefixes with an even number of $1$s;
+  - prefixes with an odd number of $1$s.
+
+  Therefore the minimal DFA has exactly two states.
 ]
 
-== Proving Non-regularity with Myhill-Nerode
+== Proof via Infinite Distinguishability
 
-To prove $L$ is _not_ regular using Myhill-Nerode, exhibit an _infinite set of pairwise distinguishable strings_.
+To prove that a language is _not_ regular using Myhill-Nerode, it is enough to exhibit infinitely many pairwise distinguishable strings.
 
 #definition[
-  Strings $x_1, x_2, ...$ are _pairwise $L$-distinguishable_ if for all $i != j$, there exists $z$ such that exactly one of $x_i z$, $x_j z$ is in $L$.
+  A family of strings $x_0, x_1, x_2, dots$ is _pairwise $L$-distinguishable_ if for every $i != j$ there exists a suffix $z$ such that exactly one of $x_i z$ and $x_j z$ belongs to $L$.
 ]
 
 #theorem[
-  If there exists an infinite set of pairwise $L$-distinguishable strings, then $equiv_L$ has infinite index, so $L$ is not regular.
+  If $L$ contains an infinite pairwise $L$-distinguishable family, then $scripts(equiv)_L$ has infinite index.
+  Consequently, $L$ is not regular.
 ]
 
-#example[${0^n 1^n mid(|) n >= 0}$ is not regular][
-  Consider strings $x_i = 0^i$ for $i = 0, 1, 2, ...$
-
-  For $i < j$, take $z = 1^i$. Then:
-  - $x_i z = 0^i 1^i in L$
-  - $x_j z = 0^j 1^i notin L$ (since $j > i$)
-
-  Thus ${0^i}$ is infinite and pairwise distinguishable, so $L$ is not regular.
+#proof[
+  If the strings are pairwise distinguishable, then no two of them can belong to the same equivalence class of $scripts(equiv)_L$.
+  Hence infinitely many different strings yield infinitely many different equivalence classes.
+  By the Myhill-Nerode theorem, a regular language can have only finitely many such classes.
+  Therefore $L$ is not regular.
 ]
 
 #pagebreak()
 
+#example[${0^n 1^n mid(|) n >= 0}$ is not regular][
+  Consider the infinite family $x_i = 0^i$ for $i in NN$.
+
+  Take two distinct indices $i < j$.
+  Choose the suffix $z = 1^i$.
+  Then
+  - $x_i z = 0^i 1^i in L$,
+  - $x_j z = 0^j 1^i notin L$.
+
+  Thus $x_i$ and $x_j$ are distinguishable.
+  Since this works for every pair $i != j$, the family is infinite and pairwise distinguishable.
+  Therefore $L$ is not regular.
+]
+
+#v(1em)
+
 #example[${w w mid(|) w in {0,1}^*}$ is not regular][
-  Consider strings $x_i = 0^i 1$ for $i = 0, 1, 2, ...$
+  Consider the family $x_i = 0^i 1$ for $i in NN$.
 
-  For $i < j$, take $z = 0^i 1$. Then:
-  - $x_i z = 0^i 1 0^i 1 = (0^i 1)(0^i 1) in L$
-  - $x_j z = 0^j 1 0^i 1 notin L$ (can't be written as $w w$)
+  Take two indices $i < j$ and choose the suffix $z = 0^i 1$.
+  Then
+  - $x_i z = 0^i 1 0^i 1 = (0^i 1)(0^i 1) in L$,
+  - $x_j z = 0^j 1 0^i 1 notin L$.
 
-  Infinite pairwise distinguishable set, so not regular.
+  Hence the strings $x_i$ are pairwise distinguishable, so the language is not regular.
 ]
 
 == Comparison: Pumping Lemma vs Myhill-Nerode
@@ -1586,6 +1644,8 @@ For a regular language, the equivalence classes correspond to states in the mini
   #cetz.canvas({
     import cetz.draw: *
 
+    scale(80%)
+
     // Diagram showing equivalence classes merging into DFA states
     set-style(fill: none)
 
@@ -1609,8 +1669,11 @@ For a regular language, the equivalence classes correspond to states in the mini
     content((3 - 0.1, 0.4))[0]
     content((5 - 0.1, 0.4))[0]
 
+    // Label
+    content((3, -1))[Equivalence Classes]
+
     // DFA on the bottom
-    translate((0, -3))
+    translate((0, -2))
 
     circle((1, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
     circle((3, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
@@ -1628,13 +1691,12 @@ For a regular language, the equivalence classes correspond to states in the mini
     content((4 - 0.1, 0.4))[0]
     content((6 - 0.1, 0.4))[0]
 
-    // Labels
-    content((3, 2))[Equivalence Classes]
-    content((3, -1.2))[Minimal DFA States]
+    // Label
+    content((3, -1))[Minimal DFA States]
   })
 ]
 
-#pagebreak()
+// #pagebreak()
 
 #align(center)[
   #table(
@@ -1769,7 +1831,7 @@ For a regular language, the equivalence classes correspond to states in the mini
       set-style(state: (radius: 0.5, extrude: 0.8))
 
       let aut(complement) = group({
-        state((0.566, 0), "q0", label: $q_0$, initial: true, final: complement)
+        state((0, 0), "q0", label: $q_0$, initial: true, final: complement)
         state((2, 0), "q1", label: $q_1$, final: complement)
         state((4, 0), "q2", label: $q_2$, final: not complement)
         transition("q0", "q1", inputs: 0, curve: 0)
@@ -1777,7 +1839,7 @@ For a regular language, the equivalence classes correspond to states in the mini
         transition("q1", "q1", inputs: 0, curve: 0.5)
         transition("q1", "q2", inputs: 1, curve: 0.5)
         transition("q2", "q1", inputs: 0, curve: 0.001)
-        transition("q2", "q0", inputs: 1, curve: 1)
+        transition("q2", "q0", inputs: 1, curve: 1.5)
       })
 
       aut(false)
@@ -1893,7 +1955,7 @@ For a regular language, the equivalence classes correspond to states in the mini
 #proof[
   Structural induction on the regular expression $E$ defining $L$:
   - _Basis:_ If $E$ is $epsilon$, $emptyset$, or $regex("a")$, then $E^R = E$.
-  - _Induction:_ $E = E_1 + E_2 => E^R = E_1^R + E_2^R$; $quad E = E_1 E_2 => E^R = E_2^R E_1^R$; $quad E = E_1^* => E^R = (E_1^R)^*$. #qedhere
+  - _Induction:_ $E = E_1 + E_2 => E^R = E_1^R + E_2^R; thick E = E_1 E_2 => E^R = E_2^R E_1^R; thick E = E_1^* => E^R = (E_1^R)^*$. #qedhere
 ]
 
 == Decision Properties
@@ -1906,10 +1968,10 @@ For a regular language, the equivalence classes correspond to states in the mini
 - RegEx to $epsilon$-NFA: $O(n)$
 
 #Block(color: yellow)[
-  *Takeaway:* representation changes are computable but can be exponentially expensive in the worst case.
+  Representation changes are computable but can be exponentially expensive in the worst case.
 ]
 
-== Decision Properties --- Decidable Questions
+== Decidable Questions
 
 *Decidable questions about $"REG"$*
 + Is the language _empty_? $O(n^2)$
@@ -1918,7 +1980,7 @@ For a regular language, the equivalence classes correspond to states in the mini
 + Is $L subset.eq M$? Decidable
 + Is $L = M$? Decidable
 
-== Decision Properties --- Threshold Theorems
+== Threshold Theorems
 
 #theorem[
   The language $L$ accepted by a finite automaton with $n$ states is _non-empty_ iff the finite automaton accepts a word of length less than $n$.
@@ -2629,7 +2691,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 
 + *Regular languages* (DFA $=$ NFA $=$ RegExp) are the simplest class --- powerful enough for pattern matching, too weak for counting.
 
-+ *The Pumping Lemma* gives a _necessary_ condition for regularity. *Myhill-Nerode* gives a _necessary and sufficient_ one: $L$ is regular iff its right-congruence $equiv_L$ has finite index.
++ *The Pumping Lemma* gives a _necessary_ condition for regularity. *Myhill-Nerode* gives a _necessary and sufficient_ one: $L$ is regular iff its right-congruence $scripts(equiv)_L$ has finite index.
 
 + *Context-free languages* (CFG $=$ PDA) add a stack, enabling matching and nesting.
 
