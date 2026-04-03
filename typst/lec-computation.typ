@@ -1330,20 +1330,16 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
   })
 ]
 
-#v(-0.5em)
+#v(-1em)
 $
-  underbrace(q_0 to^0, x) underbrace(q_1 to^1 q_2 to^1 q_3 to^0, y) q_1
-  to^1 q_2
-  to^1 q_3
-  to^0 q_1
-  to^1 q_2
-  to^1 q_3
-  to^0 q_1
-  to^1 q_2
-  to^1 q_3
-  to^1 q_4
+  q_0
+  thick underbrace(to^0, x = 0) thick q_1
+  thick underbrace(to^1 q_2 to^1 q_3 to^0, y = 110) thick q_1
+  thick underbrace(to^1 q_2 to^1 q_3 to^0, y = 110) thick q_1
+  thick underbrace(to^1 q_2 to^1 q_3 to^0, y = 110) thick q_1
+  thick underbrace(to^1 q_2 to^1 q_3 to^1, z = 111) thick q_4
 $
-#v(-0.5em)
+#v(-.5em)
 
 #note[
   The first repeated state is $q_1$, revisited on step 4, so $y = 110$ lies within the first $n = 6$ symbols.
