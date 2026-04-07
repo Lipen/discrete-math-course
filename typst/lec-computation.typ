@@ -38,10 +38,6 @@
       name: "Claude Shannon",
       image: image("assets/Claude_Shannon.jpg"),
     ),
-    (
-      name: [Yehoshua\ Bar-Hillel],
-      image: image("assets/Yehoshua_Bar-Hillel.jpg"),
-    ),
   ),
 )
 
@@ -254,7 +250,7 @@ Regular languages can be composed from "smaller" regular languages.
   - $(R)$, just a bracketed expression
   - Operator precedence: $regex("ab*c|d") eq.delta ((regex("a") (regex("b")^*)) regex("c")) | regex("d")$
 
-== Regular Expressions --- Summary Table
+== Regular Expressions: Summary Table
 
 #align(center)[
   #table(
@@ -274,7 +270,7 @@ Regular languages can be composed from "smaller" regular languages.
   )
 ]
 
-== Regular Expressions --- Quick Reading
+== Regular Expressions: Quick Reading
 
 #example[
   $regex("(a|bc)*") = {epsilon, "a", "aa", "aaa", dots, "bc", "bcbc", "bcbcbc", dots, "abc", "bca", "abca", "abcbc", "bcabc", dots}$
@@ -383,7 +379,7 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
   _Deterministic_ means: at every state, for every symbol, there is _exactly one_ transition.
 ]
 
-== DFA --- Example
+== DFA: Example
 
 #example[
   Automaton $cal(A)$ recognizing strings with an even number of 0s, $lang(cal(A)) = { w in {0,1}^* mid(|) w "has even number of 0s" }$.
@@ -407,7 +403,7 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
   )
 ]
 
-== DFA --- Computation
+== DFA: Computation
 
 #definition[
   A process of _computation_ by a finite-state machine $cal(A)$ is a finite sequence of _configurations_, or _snapshots_.
@@ -484,7 +480,7 @@ The key difference from a DFA: the transition function returns a _set_ of possib
   $delta : (q, c) maps underbrace({q^((1))\, dots\, q^((n))}, "non-determinism")$
 ]
 
-== NFA --- Example
+== NFA: Example
 
 The following NFA recognizes $lang(cal(A)) = Sigma^* (110^*)^+$ --- strings containing at least one `11` followed by any number of `0`s:
 
@@ -552,7 +548,7 @@ No physical implementation is known.
 An NFA can be thought of as a machine that tries _all possibilities in parallel_, using an unlimited number of "processors".
 Each symbol read causes a transition on every currently active state.
 
-== Tree Computation --- Example
+== Tree Computation: Example
 
 #align(center)[
   #let aut = (
@@ -610,7 +606,7 @@ Each symbol read causes a transition on every currently active state.
   *How to read this:* each time there are multiple outgoing transitions, the NFA branches into multiple active computations.
 ]
 
-== Tree Computation --- Accepting Branch
+== Tree Computation: Accepting Branch
 
 #[
   #import cetz.tree
@@ -1299,7 +1295,7 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
   This closes a loophole: some non-regular languages (such as #box[${ w mid(|) w "has equal 0s and 1s" }$)] pass the _weak_ lemma, but are caught by the _full_ version.
 ]
 
-== The Full Pumping Lemma --- DFA Revisit
+== Pumping Lemma: DFA Revisit
 
 #align(center)[
   #cetz.canvas({
@@ -1866,7 +1862,7 @@ For a regular language, the equivalence classes correspond to states in the mini
   De Morgan's identity gives a short proof; the product construction gives an explicit algorithm.
 ]
 
-== Closure under Intersection --- Product Example
+== Intersection Closure: Product Construction
 
 #example[
   The first automaton accepts all strings that _have a 0_.
@@ -1952,11 +1948,11 @@ For a regular language, the equivalence classes correspond to states in the mini
 == Decision Properties
 
 *Converting among representations*
-- $epsilon$-closure: $O(n^3)$
+- $epsilon$-closure: $cal(O)(n^3)$
 - $epsilon$-NFA to DFA: $n^3 2^n$
-- DFA to $epsilon$-NFA: $O(n)$
-- $epsilon$-NFA to RegEx: $O(n^3 4^n)$
-- RegEx to $epsilon$-NFA: $O(n)$
+- DFA to $epsilon$-NFA: $cal(O)(n)$
+- $epsilon$-NFA to RegEx: $cal(O)(n^3 4^n)$
+- RegEx to $epsilon$-NFA: $cal(O)(n)$
 
 #Block(color: yellow)[
   Representation changes are computable but can be exponentially expensive in the worst case.
@@ -1965,9 +1961,9 @@ For a regular language, the equivalence classes correspond to states in the mini
 == Decidable Questions
 
 *Decidable questions about $"REG"$*
-+ Is the language _empty_? $O(n^2)$
-+ Is the language _finite_? $O(n^2)$
-+ Is $w$ _in_ the language? $O(abs(w))$ for DFAs
++ Is the language _empty_? $cal(O)(n^2)$
++ Is the language _finite_? $cal(O)(n^2)$
++ Is $w$ _in_ the language? $cal(O)(abs(w))$ for DFAs
 + Is $L subset.eq M$? Decidable
 + Is $L = M$? Decidable
 
@@ -1982,10 +1978,58 @@ For a regular language, the equivalence classes correspond to states in the mini
 ]
 
 
+== Summary: Regular Languages
+
++ *Equivalence* (Kleene's Theorem): DFA $=$ NFA $=$ $epsilon$-NFA $=$ Regular Expression. Different representations, same class.
+
++ *Pumping Lemma:* if $L$ is regular with DFA of $n$ states, every $w in L$ with $|w| >= n$ can be pumped: #box[$w = x y z$], $|y| >= 1$, $|x y| <= n$, $x y^i z in L$ for all $i >= 0$. A _necessary_ condition only.
+
++ *Myhill--Nerode Theorem:* $L$ is regular iff the equivalence $x scripts(equiv)_L y$ ("$x$ and $y$ lead to the same future") has _finitely many classes_. This is both necessary and sufficient, and characterizes the minimal DFA.
+
++ *Closure:* regular languages are closed under union, intersection, complement, concatenation, Kleene star, reversal, homomorphism, and inverse homomorphism.
+
++ *All key questions are decidable:* emptiness, finiteness, membership, subset, equality.
+
+#Block(color: orange)[
+  *Hard ceiling:* a DFA has only _constant memory_ (finitely many states). It cannot count, match, or track unbounded structure. Any language requiring counting or matching at arbitrary depth is _not_ regular.
+  Canonical witnesses: ${ a^n b^n }$, $\{ w w \}$, balanced parentheses.
+]
+
 = Beyond Regular Languages
 
 #focus-slide(
-  epigraph: [The good thing about regular languages is everything is decidable. \ The bad thing is they can't express much.],
+  epigraph: [A grammar is a device that specifies the infinite set of well-formed sentences of a language and gives a structural description of each.],
+  epigraph-author: "Noam Chomsky",
+  scholars: (
+    (
+      name: "John Backus",
+      image: image("assets/John_Backus.jpg"),
+    ),
+    (
+      name: "Peter Naur",
+      image: image("assets/Peter_Naur.jpg"),
+    ),
+    (
+      name: [Yehoshua\ Bar-Hillel],
+      image: image("assets/Yehoshua_Bar-Hillel.jpg"),
+    ),
+    (
+      name: "Aad van Wijngaarden",
+      image: image("assets/Aad_van_Wijngaarden.jpg"),
+    ),
+    (
+      name: "Andrey Terekhov",
+      image: image("assets/Andrey_Terekhov.jpg"),
+    ),
+    (
+      name: "Niklaus Wirth",
+      image: image("assets/Niklaus_Wirth.jpg"),
+    ),
+    (
+      name: "John McCarthy",
+      image: image("assets/John_McCarthy.jpg"),
+    ),
+  ),
 )
 
 == What Regular Languages Cannot Do
@@ -1999,36 +2043,336 @@ The common pattern: regular languages cannot _count_ beyond a bounded amount.
 A DFA has only _finitely many states_, so it cannot track _unbounded_ quantities.
 
 #Block(color: yellow)[
-  *Fundamental limitation:* A finite automaton is a machine with _constant memory_.
+  *Fundamental limitation:* A finite automaton is a machine with _constant memory_. \
   It can remember only a _bounded_ amount of information about the input it has read.
+]
+
+#Block(color: blue)[
+  *Upgrade:* give the machine a _stack_ (last-in first-out memory).
+  This gives the next level of computational power in the Chomsky hierarchy: _context-free languages_.
 ]
 
 == Context-Free Languages
 
-To recognize languages like ${ a^n b^n mid(|) n >= 0 }$, we need more power: a _stack_.
+Regular languages cannot describe ${ a^n b^n mid(|) n >= 0 }$: any DFA only has finite memory.
+
+The key idea is to allow _recursive_ rules --- a grammar that can expand itself to arbitrary depth.
 
 #definition[
   A _context-free grammar_ (CFG) is a 4-tuple $G = (V, Sigma, R, S)$ where:
   - $V$ is a finite set of _variables_ (non-terminals),
   - $Sigma$ is a finite set of _terminals_ (disjoint from $V$),
-  - $R subset.eq V times (V union Sigma)^*$ is a finite set of _production rules_,
+  - $R subset.eq V times (V union Sigma)^*$ is a finite set of _production rules_ $A -> alpha$,
   - $S in V$ is the _start symbol_.
+
+  The language of $G$ is the set of all terminal strings derivable from $S$:
+  $
+    cal(L)(G) = { w in Sigma^* mid(|) S scripts(=>)^* w }
+  $
 ]
 
 #example[
-  The CFG $G$ with rules $S -> 0 S 1 mid(|) epsilon$ generates $L = { 0^n 1^n mid(|) n >= 0 }$.
+  Grammar $G$: $S -> 0 S 1 mid(|) epsilon$ generates $L = { 0^n 1^n mid(|) n >= 0 }$.
 
-  Derivation of $000111$:
+  $S => 0 S 1 => 0 0 S 1 1 => 0 0 0 S 1 1 1 => 000 epsilon 111 = 000111$
+]
+
+// #Block(color: blue)[
+//   *CFGs are the foundation of programming language syntax.*
+//   BNF (Backus--Naur Form) used in language standards _is_ a CFG.
+//   Every compiler uses a CFG (or a variant) to parse source code into an _abstract syntax tree_.
+// ]
+
+== Grammar Notation: BNF and EBNF
+
+_Backus--Naur Form_ (BNF) is the standard notation for writing CFGs in language specifications --- it is exactly the same formalism as CFGs, just a different syntax.
+
+#definition[
+  A _BNF rule_ has the form:
   $
-    S => 0 S 1 => 0 0 S 1 1 => 0 0 0 S 1 1 1 => 000111
+    angle.l "symbol" angle.r quad ::= quad alpha_1 quad | quad alpha_2 quad | quad dots quad | quad alpha_k
   $
+  - $angle.l "symbol" angle.r$ is a _non-terminal_ (written in angle brackets); corresponds to a CFG variable.
+  - Each $alpha_i$ is a sequence of _terminals_ (quoted strings) and non-terminals.
+  - "$::=$" means "is defined as".
+  - "$|$" separates alternatives.
+]
+
+#example[
+  BNF grammar for arithmetic expressions (from the ALGOL 60 report, Backus and Naur, 1960):
+  ```
+  <expr>   ::= <expr> "+" <term>  |  <term>
+  <term>   ::= <term> "*" <factor>  |  <factor>
+  <factor> ::= "(" <expr> ")"  |  <id>
+  ```
+  The stratified structure encodes _precedence_: `*` binds tighter than `+`.
+  This is exactly the unambiguous grammar $E -> E + T mid(|) T$, $T -> T times F mid(|) F$, $F -> (E) mid(|) mono("id")$.
+]
+
+_Extended BNF_ (EBNF) adds shorthand notation --- no new expressive power, but much more readable:
+
+#align(center)[
+  #table(
+    columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*EBNF syntax*], [*Meaning*], [*BNF equivalent*]),
+    [$[alpha]$], [Optional: zero or one $alpha$], [$S -> alpha mid(|) epsilon$],
+    [${ alpha }$ or $alpha^*$], [Repetition: zero or more $alpha$], [$S -> alpha S mid(|) epsilon$],
+    [$alpha^+$], [One or more $alpha$], [$S -> alpha alpha^*$],
+    [$(alpha_1 | alpha_2)$], [Grouping with alternatives], [Inline alternative],
+  )
 ]
 
 #Block(color: blue)[
-  Context-free grammars are the foundation of _programming language syntax_.
-  Every compiler uses a CFG (or a variant) to parse source code.
-  BNF notation used in language specifications _is_ a CFG.
+  *Where you'll encounter BNF/EBNF:* language reference manuals (Python, Rust, C), RFC protocol specifications, ISO SQL standard, JSON schema. Every modern compiler processes a grammar defined in BNF or EBNF.
 ]
+
+== CFG: Derivations and Parse Trees
+
+#definition[
+  A _derivation step_ $alpha A beta => alpha gamma beta$ applies production $A -> gamma in R$, replacing one variable~$A$.
+  _Derives_ $scripts(=>)^*$ is the reflexive-transitive closure: zero or more steps.
+  A _leftmost derivation_ always replaces the leftmost variable first.
+]
+
+The same derivation information can be rendered as a _parse tree_:
+
+#columns(2)[
+  *Derivation* of $0011$ from $S -> 0 S 1 mid(|) epsilon$:
+  $
+    S & => 0 S 1 \
+      & => 0 0 S 1 1 \
+      & => 0 0 epsilon 1 1 = 0011
+  $
+
+  Each step expands one node. The _leaves_ (left to right) spell out the derived word.
+
+  #colbreak()
+
+  #align(center)[
+    #cetz.canvas(length: 0.9cm, {
+      import cetz.draw: *
+      content((2.5, 3.2), $S$)
+      line((2.4, 3), (1.0, 1.9), stroke: 0.6pt)
+      line((2.5, 3), (2.5, 1.9), stroke: 0.6pt)
+      line((2.6, 3), (4.0, 1.9), stroke: 0.6pt)
+      content((1.0, 1.7), [0])
+      content((2.5, 1.7), $S$)
+      content((4.0, 1.7), [1])
+      line((2.4, 1.5), (1.8, 0.9), stroke: 0.6pt)
+      line((2.5, 1.5), (2.5, 0.9), stroke: 0.6pt)
+      line((2.6, 1.5), (3.2, 0.9), stroke: 0.6pt)
+      content((1.8, 0.7), [0])
+      content((2.5, 0.7), $S$)
+      content((3.2, 0.7), [1])
+      line((2.5, 0.5), (2.5, 0.15), stroke: 0.6pt)
+      content((2.5, 0), $epsilon$)
+    })
+  ]
+]
+
+#note[
+  Compilers use parse trees as the _abstract syntax tree_ (AST) of source code.
+  Different derivation _orders_ (leftmost, rightmost) produce identical parse trees in unambiguous grammars.
+]
+
+== CFG: More Examples
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Productions*], [*Language*], [*Application*]),
+    [$S -> 0 S 1 mid(|) epsilon$], [${ 0^n 1^n mid(|) n >= 0 }$], [Classic matched pairs],
+    [$S -> a S a mid(|) b S b mid(|) a mid(|) b mid(|) epsilon$],
+    [Palindromes over ${ a, b }^*$],
+    [Hashing, bioinformatics],
+
+    [$S -> S S mid(|) mono("(") S mono(")") mid(|) epsilon$],
+    [Balanced parentheses ${ mono("()"), mono("(())"), mono("()()"), dots }$],
+    [Lisp, expression parsers],
+
+    [
+      $E -> E + T mid(|) T$ \
+      $T -> T times F mid(|) F$ \
+      $F -> (E) mid(|) mono("id")$
+    ],
+    [Arithmetic expressions with correct precedence],
+    [Every compiler (real PLs)],
+
+    [$S -> a S b mid(|) b S a mid(|) S S mid(|) epsilon$],
+    [${ w in {a,b}^* mid(|) hash_a (w) = hash_b (w) }$],
+    [Balance counting],
+  )
+]
+
+#Block(color: yellow)[
+  *Pattern:* A grammar variable acts as a "placeholder" carrying context through recursive structure --- exactly what a _stack_ does at runtime.
+  This deep connection is Theorem: CFG $=$ PDA.
+]
+
+== Ambiguous Grammars
+
+#definition[
+  A grammar $G$ is _ambiguous_ if some word $w in cal(L)(G)$ has two distinct _leftmost derivations_ (equivalently, two distinct parse trees).
+]
+
+#example[
+  Grammar $E -> E + E mid(|) E times E mid(|) (E) mid(|) mono("id")$ is _ambiguous_.
+  The word $mono("id + id") times mono("id")$ has two parse trees with *different* root operators:
+  - *Tree A* ($times$ at root): interprets as $(mono("id + id")) times mono("id")$ --- wrong precedence!
+  - *Tree B* ($+$ at root): interprets as $mono("id") + (mono("id") times mono("id"))$ --- correct!
+  Both are valid derivations in $E -> E + E mid(|) E times E mid(|) dots$, so the grammar cannot determine which.
+]
+
+The fix: _stratify_ the grammar so that higher-precedence operators are at deeper nesting levels.
+
+$
+  E -> E + T mid(|) T, quad T -> T times F mid(|) F, quad F -> (E) mid(|) mono("id")
+$
+
+Here $T$ (term) binds tighter than $E$ (expression): $times$ before $+$.
+The stratified grammar has exactly _one_ parse tree per expression, reflecting the intended meaning.
+
+// #Block(color: yellow)[
+//   *Design principle:* Every grammar for a real programming language must be _unambiguous_.
+//   Arithmetic, function calls, and control flow all require careful grammar stratification.
+// ]
+
+== Consequences of Ambiguous Grammars
+
+#note(title: "Inherently ambiguous languages")[
+  A _context-free language_ $L$ is _inherently ambiguous_ if *every* CFG for $L$ is ambiguous.
+  This means no clever reformulation of the grammar can remove the ambiguity.
+
+  Classic example: $L = { a^i b^j c^k mid(|) i = j } union { a^i b^j c^k mid(|) j = k }$.
+  Any CFG for this union must handle both constraints simultaneously, leading to unavoidable
+  ambiguity on words like $a^n b^n c^n$ (which are in the language for _both_ reasons).
+]
+
+#Block(color: orange)[
+  *Compiler engineering:* Parser generators (yacc, Bison, ANTLR) _reject_ or _warn_ on ambiguous grammars.
+  Ambiguity manifests as shift/reduce or reduce/reduce _conflicts_ in LR parsing tables.
+  Resolving them requires either grammar rewriting or explicit precedence/associativity declarations.
+
+  *Decidability:* "Is grammar $G$ ambiguous?" is _undecidable_ --- there is no algorithm that can
+  check all grammars. Modern tools use heuristics and partial analyses.
+]
+
+== Chomsky Normal Form
+
+#definition[
+  A CFG $G$ is in _Chomsky Normal Form_ (CNF) if every production rule has one of two forms:
+  - $A -> B C$ where $B, C in V$ (two variables), or
+  - $A -> a$ where $a in Sigma$ (a single terminal).
+  The only $epsilon$-production allowed is $S -> epsilon$ (only if $epsilon in cal(L)(G)$),
+  and $S$ must not appear on any rule's right-hand side.
+]
+
+#theorem[
+  Every context-free language has a CNF grammar.
+]
+
+CNF is a canonical form: it looks restrictive (no rule has more than two symbols on the right), but any CFL can be expressed in it without changing the language.
+
+#Block(color: yellow)[
+  *Why CNF exists:* Many algorithms and proofs about CFLs become significantly simpler when the grammar has a fixed, uniform shape.
+
+  Two key applications:
+  + *CYK membership algorithm:* $cal(O)(n^3)$ dynamic programming, only works on CNF grammars.
+  + *Pumping Lemma proof:* The repeated variable on a long parse tree path is found via binary tree height bounds.
+]
+
+== CNF Properties
+
+In a CNF parse tree, every internal node is either a _binary branching_ ($A -> B C$) or a _terminal_ ($A -> a$). This gives a clean structural guarantee:
+
+#theorem[
+  In a CNF parse tree for a word of length $n$, there are _exactly_ $2n - 1$ internal nodes.
+]
+
+This means: the tree height is at most $2n - 1$, and a tree with height $>= abs(V) + 1$ must contain a repeated variable on some root-to-leaf path (by Pigeonhole) --- the key to the Pumping Lemma proof.
+
+== CYK Algorithm
+
+#Block(color: blue)[
+  *CYK algorithm* (Cocke--Younger--Kasami): given CNF grammar $G$ and string $w = a_1 dots a_n$,
+  fill a triangular table $T[i][j]$ = set of variables that derive $a_i a_(i+1) dots a_j$.
+
+  - Base: $T[i][i] = { A mid(|) A -> a_i in R }$
+  - Step: $T[i][j] = { A mid(|) A -> B C in R, B in T[i][k], C in T[k+1][j] "for some" k }$
+  - Accept iff $S in T[1][n]$.
+
+  Running time: $cal(O)(n^3 dot abs(G))$.
+]
+
+#Block(color: teal)[
+  *Historical note:*
+  CYK was the first polynomial-time CFL membership algorithm, developed independently by Cocke (1960), Younger (1967), and Kasami (1966).
+  It is the CFL analogue of Floyd--Warshall for shortest paths.
+]
+
+== CNF Conversion Algorithm
+
+Any CFG can be mechanically transformed into CNF in five steps (applied in order):
+
++ *New start symbol.*
+  Add $S_0 -> S$ and make $S_0$ the start.
+  Ensures $S$ never appears on any RHS, satisfying the CNF constraint.
+
++ *Eliminate $epsilon$-productions.*
+  Find all _nullable_ variables: those that can derive $epsilon$ in one or more steps.
+  For every rule $A -> dots B dots$ where $B$ is nullable, add a copy of the rule with $B$ omitted.
+  Then remove all $A -> epsilon$ rules (except $S_0 -> epsilon$ if $epsilon in cal(L)(G)$).
+
++ *Eliminate unit productions.*
+  A _unit production_ is $A -> B$ where $B$ is a single variable.
+  For each such rule, add $A -> alpha$ for every $B -> alpha$ (non-unit rule).
+  Remove all $A -> B$ rules.
+  Repeat until none remain.
+
++ *Binarize long rules.*
+  A rule with $k >= 3$ symbols on the RHS violates CNF. Replace $A -> X_1 X_2 dots X_k$ with a chain:
+  $A -> X_1 A_1, quad A_1 -> X_2 A_2, quad dots, quad A_(k-2) -> X_(k-1) X_k$
+  Each $A_i$ is a fresh variable introduced for this rule.
+
++ *Isolate terminals in mixed rules.*
+  For each terminal $a$ appearing in a rule body of length $>= 2$, introduce a fresh variable $U_a$ with production $U_a -> a$, and replace every occurrence of $a$ in rule bodies by $U_a$.
+
+#Block(color: yellow)[
+  Steps 1--5 are applied in order; each preserves the language.
+  The result is a CNF grammar for the same CFL.
+  The grammar may be larger, but structurally uniform.
+]
+
+== CNF Conversion Walkthrough
+
+#example[Convert $G$: $S -> a S b mid(|) a b$ to CNF.][]
+
+*Step 1* (new start): no $S$ on any RHS already, so skip.
+
+*Step 2* ($epsilon$): neither $S$ rule derives $epsilon$ directly. Since $S$ is not nullable, skip.
+
+*Step 3* (unit productions): no unit rules. Skip.
+
+*Step 4* (binarize): $S -> a S b$ has length 3. Introduce $A_1$:
+$
+  S -> a A_1, quad A_1 -> S b
+$
+Rule $S -> a b$ has length 2 (fine as-is, for now).
+
+*Step 5* (isolate terminals): in $S -> a A_1$, $a$ is a terminal in a two-symbol body. Introduce $U_a -> a$ and $U_b -> b$:
+$
+  S -> U_a A_1 mid(|) U_a U_b, quad A_1 -> S U_b, quad U_a -> a, quad U_b -> b
+$
+
+This is the final CNF grammar.
+Check: every production is $A -> B C$ or $A -> a$. #YES
+
+// #note[
+//   Real grammar transformations for production-scale compilers produce dozens of fresh variables. The CNF form is used internally (for algorithms), while the _original_ readable grammar is what humans maintain.
+// ]
 
 == Pushdown Automata
 
@@ -2039,52 +2383,436 @@ To recognize languages like ${ a^n b^n mid(|) n >= 0 }$, we need more power: a _
   - $Gamma$ is the _stack alphabet_,
   - $delta: Q times (Sigma union {epsilon}) times Gamma to power(Q times Gamma^*)$ is the _transition function_,
   - $q_0 in Q$ is the _start state_,
-  - $Z_0 in Gamma$ is the _initial stack symbol_,
+  - $Z_0 in Gamma$ is the _initial stack symbol_ (bottom-of-stack marker),
   - $F subset.eq Q$ is the set of _accepting states_.
 ]
 
-A PDA is like an NFA with an additional _stack_ that it can push to and pop from.
-
-#note[
-  The transition function reads the current state, the next input symbol (or $epsilon$), and the _top of the stack_.
-  It then transitions to a new state and _replaces_ the top stack symbol with a string of stack symbols.
-]
+A PDA is an NFA augmented with an unbounded _stack_ that it can push to and pop from.
 
 #pagebreak()
 
+#note[
+  Each transition reads:
+  - the current _state_,
+  - the current _input symbol_ (or $epsilon$ --- a "free move"),
+  - the _top of the stack_,
+
+  and produces: a new _state_ and a string to _replace_ the top stack symbol with.
+  A "pop" is modeled by replacing the top symbol with $epsilon$ (nothing).
+]
+
 #example[
   A PDA for $L = { 0^n 1^n mid(|) n >= 0 }$:
-  - On reading $0$: push a marker onto the stack.
-  - On reading $1$: pop a marker from the stack.
-  - Accept if the stack is empty when the input is exhausted.
+  - On reading $0$: push a marker $\$$ onto the stack.
+  - On reading the first $1$: switch to "popping" mode.
+  - On reading $1$ in popping mode: pop a $\$$.
+  - Accept when the input is exhausted and the stack contains only $Z_0$.
+]
+
+== PDA Computation Model
+
+A _configuration_ $(q, w, gamma)$ captures the complete machine state:
+$q in Q$ is the current state, $w in Sigma^*$ is remaining input, $gamma in Gamma^*$ is the stack (top on left).
+
+#definition[
+  The _step relation_ of a PDA:
+  $
+    (q, thin a w, thin Z gamma) scripts(tack) (p, thin w, thin alpha gamma) quad "iff" quad (p, alpha) in delta(q, a, Z)
+  $
+  Epsilon moves: $(q, thin w, thin Z gamma) scripts(tack) (p, thin w, thin alpha gamma)$ iff $(p, alpha) in delta(q, epsilon, Z)$.
+
+  $scripts(tack)^*$ is the reflexive-transitive closure (zero or more steps).
+]
+
+#definition[
+  Two equivalent _acceptance modes_ (both define the same class --- CFL):
+  - *By final state:* $cal(L)(cal(P)) = { w mid(|) (q_0, w, Z_0) scripts(tack)^* (f, epsilon, gamma), thin f in F }$
+  - *By empty stack:* $cal(L)(cal(P)) = { w mid(|) (q_0, w, Z_0) scripts(tack)^* (q, epsilon, epsilon) }$
+]
+
+#note[
+  PDAs are _non-deterministic_ by definition.
+  _Deterministic PDAs_ (DPDAs) recognize a strict subclass of CFLs.
+  Example: palindromes require non-determinism --- a DPDA cannot recognize them.
+]
+
+#Block(color: blue)[
+  LL and LR parsing is a _deterministic_ simulation of the PDA for a specific grammar.
+  Parser generators (yacc, ANTLR, Bison) automate exactly this construction.
+]
+
+== PDA Trace for *$0^n 1^n$*
+
+Let's trace the PDA for $L = { 0^n 1^n mid(|) n >= 0 }$ on input $mono("0011")$:
+
+#align(center)[
+  #table(
+    columns: 5,
+    align: (center, center, left, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Step*], [*State*], [*Input remaining*], [*Stack* (top $arrow.l$)], [*Action*]),
+    [0], [$q_0$], [`0011`], [$Z_0$], [Initial configuration],
+    [1], [$q_0$], [`011`], [$\$ Z_0$], [Read `0`, push $\$$],
+    [2], [$q_0$], [`11`], [$\$ \$ Z_0$], [Read `0`, push $\$$],
+    [3], [$q_1$], [`1`], [$\$ Z_0$], [Read `1`, pop $\$$ (switch to pop mode)],
+    [4], [$q_1$], [``], [$Z_0$], [Read `1`, pop $\$$],
+    [5], [$q_"acc"$], [``], [$Z_0$], [$epsilon$-move, *ACCEPT*],
+  )
+]
+
+#Block(color: yellow)[
+  *Why this works:* each `0` pushes a marker; each `1` pops one.
+  If the counts match, the stack returns to exactly $Z_0$ when input is consumed.
+  If there are more `0`s than `1`s, excess $\$$ remain. If more `1`s, the stack underflows (no $\$$ to pop $=>$ reject).
+]
+
+#note[
+  The PDA non-deterministically guesses *when* to switch from pushing to popping.
+  For $0^n 1^n$, a deterministic PDA also works: switch when the first `1` appears.
 ]
 
 == The Context-Free Hierarchy
 
 #theorem[
-  A language is context-free if and only if it is recognized by some pushdown automaton.
+  A language is context-free iff it is recognized by some pushdown automaton.
 ]
 
-#place(right)[
-  #cetz.canvas({
-    import cetz.draw: *
-    circle((0, 0), radius: (1, .6), fill: green.transparentize(90%), stroke: green.darken(20%))
-    circle((0, 0.5), radius: (1.5, 1.2), fill: blue.transparentize(90%), stroke: blue.darken(20%))
-    content((0, 0), [Regular])
-    content((0, 1), [Context-Free])
-  })
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    Context-free languages are _strictly more powerful_ than regular languages:
+    - Every regular language is context-free: a DFA is a PDA that ignores its stack entirely.
+    - ${ a^n b^n mid(|) n >= 0 }$ is context-free (by PDA above) but _not_ regular (by pumping lemma).
+
+    But CFLs still have limits:
+    - ${ a^n b^n c^n mid(|) n >= 0 }$ is *not* context-free.
+    - Context-sensitive languages (linear-bounded automata) lie above CFLs.
+  ],
+  [
+    The Chomsky hierarchy captures this nested structure precisely.
+
+    #align(center)[
+      #cetz.canvas({
+        import cetz.draw: *
+        set-style(stroke: 0.4pt)
+        circle((0, 0), radius: (0.9, 0.5), fill: green.transparentize(85%))
+        circle((0, 0.4), radius: (1.6, 1.0), fill: blue.transparentize(85%))
+        circle((0, 0.8), radius: (2.3, 1.5), fill: purple.transparentize(85%))
+        circle((0, 1.2), radius: (3.0, 2.0))
+        content((0, 0), [Regular])
+        content((0, 1.0), [CFL])
+        content((0, 2.0), [CS])
+        content((0, 2.9), [RE])
+      })
+    ]
+  ],
+)
+
+#place[
+  #v(1em)
+  #Block(color: teal)[
+    *Big picture:*
+    Regular $subset$ Context-Free $subset$ Context-Sensitive $subset$ Recursive (Decidable) $subset$ RE.
+
+    Each level strictly contains the one below, with concrete witness languages separating them.
+  ]
 ]
 
-Context-free languages are _strictly more powerful_ than regular languages:
-- Every regular language is context-free (a DFA is a PDA that ignores its stack).
-- ${ a^n b^n mid(|) n >= 0 }$ is context-free but not regular.
+== CFG $<=>$ PDA Equivalence
 
-However, context-free languages still have limits:
-- ${ a^n b^n c^n mid(|) n >= 0 }$ is _not_ context-free (can be shown via a pumping lemma for CFLs).
+#theorem[
+  $cal(L)$ is context-free iff $cal(L) = cal(L)(cal(P))$ for some PDA $cal(P)$.
+]
+
+#proof[($"CFG" => "PDA"$)][
+  Given CFG $G$, construct a PDA simulating _leftmost derivation_:
+  + _Push_ the start symbol $S$ onto the stack.
+  + While the stack is non-empty:
+    - If top is a _variable_ $A$: non-deterministically choose a production $A -> alpha$ and replace the top with $alpha$ ($epsilon$-move).
+    - If top is a _terminal_ $a$: read $a$ from input and pop the top.
+  + Accept when the stack and input are both empty.
+
+  This PDA non-deterministically simulates all leftmost derivations of $G$.
+]
+
+#Block(color: blue)[
+  The forward direction ($"CFG" => "PDA"$) is used by LL/LR parsing: the parser _simulates_ the leftmost derivation non-deterministically (with look-ahead to resolve choices).
+  GLL and GLR parsers handle the non-determinism explicitly.
+]
+
+#pagebreak()
+
+#proof[($"PDA" => "CFG"$)][
+  Given PDA $cal(P)$, construct a CFG where each variable $[p X q]$ represents: "$cal(P)$ can go from state $p$ with $X$ on top to state $q$, emptying $X$".
+  The construction is mechanical but tedious; the key insight is that each PDA transition translates into one or two grammar productions.
+]
+
+== Pumping Lemma for Context-Free Languages
+
+The CFL counterpart of the Pumping Lemma for regular languages, proved using CNF trees.
+
+#theorem[Pumping Lemma for CFLs (Bar-Hillel, Perles, Shamir, 1961)][
+  Let $L$ be a context-free language.
+  Then there exists $n >= 1$ such that for every $w in L$ with $abs(w) >= n$,
+  there exist strings $u, v, x, y, z$ with $w = u v x y z$ satisfying:
+  + $abs(v y) >= 1$ (the "pump" is non-empty),
+  + $abs(v x y) <= n$ (the pump is not too long),
+  + $u v^i x y^i z in L$ for all $i >= 0$ (pumping keeps the string in $L$).
+]
+
+Compared to the regular pumping lemma ($w = x y z$, pump $y$), the CFL version pumps _two_ substrings $v$ and $y$ _simultaneously_.
+This reflects the stack: each time the outer variable expands, it contributes one segment $v$ on the left and one segment $y$ on the right.
+
+#example[
+  Grammar $S -> 0 S 1 mid(|) epsilon$ generates ${ 0^n 1^n }$.
+  Taking $w = 0^n 1^n$: a valid split is $u = epsilon$, $v = 0^k$, $x = epsilon$, $y = 1^k$, $z = 0^(n-k) 1^(n-k)$.
+  Then $u v^i x y^i z = 0^(n-k+i k) 1^(n-k+i k) in L$ for all $i >= 0$. #YES
+]
+
+== CFL Pumping Lemma: Proof Idea
+
+Use CNF to make every parse tree binary. \
+The pumping length is $n = 2^(abs(V)+1)$, where $abs(V)$ is the number of variables.
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    If $abs(w) >= 2^(abs(V)+1)$, the parse tree has height $>= abs(V) + 1$. \
+    By the _Pigeonhole Principle_, some root-to-leaf path visits the same variable $A$ _twice_.
+
+    + Let $A_"outer"$ be the higher occurrence, $A_"inner"$ the lower.
+    + The subtree rooted at $A_"outer"$ derives $v x y$; \ the smaller subtree at $A_"inner"$ derives $x$.
+    + $v$ and $y$ are the "side contributions" between the two $A$s.
+
+    *Pumping:*
+    - $i = 0$: replace $A_"outer"$'s subtree with $A_"inner"$'s subtree. \
+      Result: $u x z in L$.
+    - $i >= 2$: nest another copy of $A_"outer"$'s subtree inside itself. \
+      Result: $u v^i x y^i z in L$.
+  ],
+  [#cetz.canvas({
+      import cetz.draw: *
+      // S above the outer A
+      content((3, 6.2), $S$)
+      line((3, 6.05), (3, 5.5), stroke: (paint: gray, dash: "dashed", thickness: 0.6pt))
+      // Outer A
+      circle((3, 5.2), radius: 0.3, fill: yellow.lighten(80%), stroke: blue.darken(20%) + 1pt)
+      content((3, 5.2), text(fill: blue.darken(20%))[$A$])
+      // Big outer triangle
+      line((3, 4.9), (1, 0.5), stroke: 1pt + blue.darken(20%))
+      line((3, 4.9), (5, 0.5), stroke: 1pt + blue.darken(20%))
+      // Dashed path to inner A
+      line((3, 4.9), (3, 2.7), stroke: (paint: gray, dash: "dashed", thickness: 0.6pt))
+      // Inner A
+      circle((3, 2.5), radius: 0.3, fill: yellow.lighten(80%), stroke: blue.darken(20%) + 1pt)
+      content((3, 2.5), text(fill: blue.darken(20%))[$A$])
+      // Small inner triangle
+      line((3, 2.2), (2.1, 0.5), stroke: 1pt + blue.darken(20%))
+      line((3, 2.2), (3.9, 0.5), stroke: 1pt + blue.darken(20%))
+      // Baseline
+      line((0.2, 0.3), (5.8, 0.3), stroke: 0.4pt + gray)
+      // Region labels
+      content((-0.1, -0.1), $u$)
+      content((1.5, -0.1), text(fill: red.darken(20%))[$v$])
+      content((3, -0.1), $x$)
+      content((4.5, -0.1), text(fill: red.darken(20%))[$y$])
+      content((6.1, -0.1), $z$)
+      // Region ground bars
+      line((-0.5, 0.3), (1, 0.3), stroke: 0.5pt)
+      line((1, 0.3), (2.1, 0.3), stroke: (paint: red.darken(20%), thickness: 1.2pt))
+      line((2.1, 0.3), (3.9, 0.3), stroke: 0.5pt)
+      line((3.9, 0.3), (5, 0.3), stroke: (paint: red.darken(20%), thickness: 1.2pt))
+      line((5, 0.3), (6.5, 0.3), stroke: 0.5pt)
+    })
+  ],
+)
+
+== *$a^n b^n c^n$* is Not Context-Free
+
+#theorem[
+  $L = { a^n b^n c^n mid(|) n >= 0 }$ is not context-free.
+]
+
+#proof[
+  Assume $L$ is CFL and let $n$ be the pumping length.
+  Choose $w = a^n b^n c^n in L$ with $abs(w) = 3n >= n$.
+
+  By the CFL pumping lemma, $w = u v x y z$ with $abs(v y) >= 1$ and $abs(v x y) <= n$.
+
+  Since $abs(v x y) <= n < 3n$, the segment $v x y$ can span _at most two_ of the three symbol blocks ($a$s, $b$s, $c$s).
+
+  - *Case 1:* $v$ and $y$ lie entirely within two adjacent blocks (say $a$s and $b$s). \
+    Pumping with $i = 2$ increases the count of $a$s and/or $b$s but _not_ $c$s. \
+    The result $u v^2 x y^2 z$ has unequal symbol counts, so it $notin L$.
+  - *Case 2:* $v$ or $y$ spans a block boundary, so pumped strings mix symbols out of order. \
+    For example, if $v = a^j b^k$, then $v^2 = a^j b^k a^j b^k$, which is not of the form $a^* b^* c^*$.
+    Hence $u v^2 x y^2 z notin L$.
+
+  In both cases we reach a contradiction.
+  Thus $L$ is not context-free.
+]
+
+#place[
+  #v(1em)
+  #Block(color: yellow)[
+    *Intuition:* A stack can maintain _one_ counter (e.g., match $a$s with $b$s).
+    Matching $a$s, $b$s, and $c$s _simultaneously_ requires _two_ independent counters --- beyond what any stack can do.
+  ]
+]
+
+== *$w w$* is Not Context-Free
+
+#theorem[
+  $L = { w w mid(|) w in {0,1}^* }$ is not context-free.
+]
+
+#proof[
+  Assume $L$ is CFL with pumping length $n$.
+  Choose $w_0 = 0^n 1^n 0^n 1^n in L$ (set $w = 0^n 1^n$, so $w w = w_0$, and $abs(w_0) = 4n$).
+
+  By the CFL pumping lemma, $w_0 = u v x y z$ with $abs(v x y) <= n$.
+  Since $abs(v x y) <= n$ and $abs(w_0) = 4n$, the segment $v x y$ covers at most $n$ consecutive characters of $w_0$.
+  It cannot straddle both the first half $0^n 1^n$ and the second half $0^n 1^n$ simultaneously.
+
+  Hence $v$ and $y$ together modify the symbol counts in _at most one half_ of $w_0$.
+
+  Pumping with $i = 2$ increases character counts in one half but not the other.
+  The resulting $u v^2 x y^2 z$ cannot equal $w' w'$ for any $w'$ (the two halves become unequal).
+  Thus $u v^2 x y^2 z notin L$, contradicting the lemma.
+]
+
+#Block(color: blue)[
+  *Context:* The language ${ w w mid(|) w in {0,1}^* }$ is decidable by Turing machine (it just has two heads, or uses the marking trick from the TM trace slides).
+  This shows Decidable $not subset.eq$ CFL.
+]
+
+== Closure Properties of CFLs
+
+#align(center)[
+  #table(
+    columns: (auto, auto, auto),
+    align: (left, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Operation*], [*CFLs closed?*], [*Proof idea*]),
+    [Union $L_1 union L_2$], [#YES], [New start $S -> S_1 mid(|) S_2$],
+    [Concatenation $L_1 dot L_2$], [#YES], [New start $S -> S_1 S_2$],
+    [Kleene star $L^*$], [#YES], [New start $S -> S S' mid(|) epsilon$],
+    [Reversal $L^R$], [#YES], [Reverse all production RHSs],
+    [Homomorphism $h(L)$], [#YES], [Apply $h$ to each terminal in grammar],
+    [$intersect$ with regular, $L inter R$], [#YES], [Product of PDA stack $times$ DFA state],
+    [Intersection $L_1 inter L_2$], [#NO], [${ a^n b^n } inter { b^n c^n } = { a^n b^n c^n } notin "CFL"$],
+    [Complement $overline(L)$], [#NO], [From non-closure under $intersect$ via De Morgan],
+    [Difference $L_1 setminus L_2$],
+    [#NO],
+    [$L setminus R in "CFL"$ for regular $R$; but $L_1 setminus L_2$ may not be],
+  )
+]
+
+#Block(color: orange)[
+  *Key contrast with regular languages:* CFLs are NOT closed under intersection or complement.
+  This means there is no direct "product PDA" construction analogous to the DFA product.
+
+  Exception: _Deterministic_ CFLs (DCFL) *are* closed under complement.
+  DCFL is the language class of most real programming languages (LR(1) grammars).
+]
+
+== Decision Properties of CFLs
+
+#columns(2)[
+  *_Decidable_ questions about CFLs:*
+
+  - *Empty?* Is $cal(L)(G) = emptyset$? \
+    Check whether $S$ can derive any terminal string. \
+    $cal(O)(abs(G))$ time. #YES
+
+  - *Membership:* Is $w in cal(L)(G)$? \
+    Use CYK algorithm (CNF required): \
+    $cal(O)(abs(w)^3 dot abs(G))$ time. #YES
+
+  - *Finite?* Is $cal(L)(G)$ finite? \
+    Decidable (check for useless variables). \
+    $cal(O)(abs(G))$ time. #YES
+
+  #colbreak()
+
+  *_Undecidable_ questions about CFLs:*
+
+  - *Universal?*
+    Is $cal(L)(G) = Sigma^*$? \
+    _Undecidable_. #NO
+
+  - *Intersection empty?*
+    Is $cal(L)(G_1) inter cal(L)(G_2) = emptyset$? \
+    _Undecidable_. #NO
+
+  - *Equivalence:*
+    Is $cal(L)(G_1) = cal(L)(G_2)$? \
+    _Undecidable_. #NO
+
+  - *Ambiguous?*
+    Is $G$ ambiguous? \
+    _Undecidable_. #NO
+]
+
+#Block(color: yellow)[
+  *The jump from decidable to undecidable happens exactly at intersection and universality* --- the same operations that break closure.
+  Decidability and closure are deeply linked.
+]
+
+/*
+
+== CFG Exercises
+
+For each language, (1) give a CFG, (2) give a PDA (informal description), (3) determine if the language is also regular:
+
++ $L_1 = { a^i b^j mid(|) i >= j >= 0 }$ --- more $a$s than $b$s (or equal) \
+  _(Hint: $S -> a S mid(|) a S b mid(|) epsilon$)_
+
++ $L_2 = { w in {a,b}^* mid(|) w = w^R }$ --- all palindromes over $\{a,b\}$
+
++ $L_3 = { a^i b^j c^k mid(|) i = j "or" j = k }$ --- union of two CFLs \
+  _(Hint: give a grammar for each part, then combine with $S -> S' mid(|) S''$)_
+
++ $L_4 = { w \# v mid(|) w, v in {0,1}^*, thin abs(w) = abs(v) }$ --- same length strings around $\#$
+
++ $L_5 = { w mid(|) hash_0(w) + hash_1(w) = hash_2(w), thin w in {0,1,2}^* }$ --- counts: $\#0 + \#1 = \#2$
+
++ Prove that ${ 0^n 1^(2n) mid(|) n >= 0 }$ is context-free but ${ 0^n 1^n 0^n mid(|) n >= 0 }$ is not.
+
+#Block(color: orange)[
+  *Challenge:* Is ${ w \# v mid(|) w "is a substring of" v }$ context-free? Prove your answer.
+]
 
 Even context-free languages hit a ceiling: they still cannot express languages like ${ a^n b^n c^n mid(|) n >= 0 }$ that require _multiple independent_ counters.
 We need a fundamentally more powerful model --- one with unrestricted memory and full read/write access to a tape.
 This leads us to the _Turing machine_, the most general computational model we will study.
+
+*/
+
+== Summary: Context-Free Languages
+
++ *Equivalence* (CFL analogue of Kleene): CFG $=$ PDA. Grammars and stack automata define the same class.
+
++ *CNF + CYK:* every CFL has a grammar in Chomsky Normal Form. CYK decides membership in $cal(O)(n^3 dot |G|)$ time via dynamic programming on the parse tree structure.
+
++ *Pumping Lemma:* if $L$ is context-free with pumping length $n$, every long word $w in L$ has a split $w = u v x y z$ with $|v y| >= 1$, $|v x y| <= n$, and $u v^i x y^i z in L$ for all $i >= 0$. The pair $(v, y)$ comes from a repeated variable in the CNF parse tree.
+
++ *Closure:* union, concatenation, Kleene star, reversal, homomorphism, and intersection with regular languages. *Not* closed under intersection or complement.
+
++ *Decidable:* emptiness, membership (CYK), finiteness.
+  *Undecidable:* universality ($cal(L)(G) = Sigma^*$?), equivalence, intersection emptiness, ambiguity.
+
+#Block(color: orange)[
+  *Hard ceiling:* a PDA has one _stack_ (LIFO memory). It can match one pair of counts, but not two independent ones simultaneously.
+  Canonical witnesses above CFLs: ${ a^n b^n c^n }$, ${ w w }$, ${ w \# w }$.
+]
+
+#Block(color: blue)[
+  *Where CFLs appear in practice:* the syntax of virtually every programming language is a CFL (or close to one: DCFL). Parser generators process CFG specifications; parse trees are the AST.
+  The non-closure under intersection is why type-checking and semantic analysis go _beyond_ parsing.
+]
 
 = Turing Machines
 #focus-slide(
@@ -2131,7 +2859,7 @@ This leads us to the _Turing machine_ --- the most general model of computation 
   Turing machines give us a precise mathematical framework to answer this.
 ]
 
-== Turing Machine --- Definition
+== Turing Machine: Definition
 
 #definition[
   A _Turing Machine_ (TM) is a 7-tuple $cal(M) = (Q, Sigma, Gamma, delta, q_0, q_"accept", q_"reject")$ where:
@@ -2152,7 +2880,7 @@ This leads us to the _Turing machine_ --- the most general model of computation 
   - The machine _halts_ when it enters $q_"accept"$ or $q_"reject"$.
 ]
 
-== Turing Machine --- Visualization
+== Turing Machine: Visualization
 
 A Turing machine operates on an infinite tape divided into cells, each containing a symbol from $Gamma$.
 
@@ -2207,7 +2935,7 @@ A Turing machine operates on an infinite tape divided into cells, each containin
   })
 ]
 
-== Turing Machine --- One Step Rule
+== TM: One Step Rule
 
 The machine starts with the input $w$ written on the tape, the head on the leftmost symbol, in state $q_0$.
 At each step:
@@ -2217,7 +2945,7 @@ At each step:
   - The _symbol to write_ in the current cell.
   - The _direction to move_ the head ($L$ or $R$).
 
-== Turing Machine --- Computation
+== TM: Computation
 
 #definition[
   A _configuration_ of a TM is a triple: the current state, the tape contents, and the head position.
@@ -2243,7 +2971,7 @@ At each step:
   "Not accepted" and "rejected" are _different_ --- the machine might just run forever.
 ]
 
-== Turing Machine --- Example
+== TM: Example
 
 #example[
   A TM that recognizes $L = { 0^n 1^n mid(|) n >= 0 }$:
@@ -2262,7 +2990,7 @@ At each step:
   *Checkpoint:* each full pass removes one matching pair $(0,1)$. If counts are equal and ordered as $0^n 1^n$, the machine eventually reaches all $times$ and accepts.
 ]
 
-== Turing Machine --- Example Trace (Input $0011$), Part 1A
+== TM Trace on $mono("0011")$, Part 1A
 
 Let's trace configurations on tape (omitting trailing $Blank$ cells for readability).
 
@@ -2303,7 +3031,7 @@ Let's trace configurations on tape (omitting trailing $Blank$ cells for readabil
   After Step 3, the first uncrossed $1$ is located.
 ]
 
-== Turing Machine --- Example Trace (Input $0011$), Part 1B
+== TM Trace on $mono("0011")$, Part 1B
 
 #grid(
   columns: 3,
@@ -2342,7 +3070,7 @@ Let's trace configurations on tape (omitting trailing $Blank$ cells for readabil
   After Step 6, one pair has been removed and the head is back on the left, ready for the second pass.
 ]
 
-== Turing Machine --- Example Trace (Input $0011$), Part 2A
+== TM Trace on $mono("0011")$, Part 2A
 
 #grid(
   columns: 3,
@@ -2381,7 +3109,7 @@ Let's trace configurations on tape (omitting trailing $Blank$ cells for readabil
   The second pass mirrors the first one: find the remaining $0$, then the remaining $1$.
 ]
 
-== Turing Machine --- Example Trace (Input $0011$), Part 2B
+== TM Trace on $mono("0011")$, Part 2B
 
 #grid(
   columns: 2,
@@ -2416,7 +3144,7 @@ $
   *Visual insight:* The tape acts as writable memory. Crossing symbols out lets the machine remember progress without storing large counters in finite control.
 ]
 
-== TM vs DFA vs PDA --- Comparison
+== TM vs DFA vs PDA: Comparison
 
 #align(center)[
   #table(
@@ -2513,6 +3241,35 @@ However, every formal model of computation ever proposed has turned out to be _e
   *Decide* = "_always halt_ with yes/no".
 ]
 
+== Programs as Data: Encodings
+
+To ask "does $M$ halt on $w$?" we need to _feed $M$ itself as an input_ to another TM.
+That requires encoding machines as strings.
+
+#definition[
+  The _encoding_ $angle.l M angle.r in {0,1}^*$ of a TM $M$ is a canonical binary string representation of its description: the state list, alphabet, and transition table, encoded in some fixed format.
+
+  We write $angle.l M, w angle.r$ for the encoding of the pair $(M, w)$.
+]
+
+#Block(color: yellow)[
+  *Key insight:* TMs can read their _own descriptions_ as input.
+  This is _programs as data_ --- and it is why the Halting Problem is well-formed.
+  The question "does $M$ halt on $angle.l M angle.r$?" is perfectly meaningful.
+]
+
+*Cardinality argument (why undecidable languages exist):*
+- There are _countably many_ TMs (each $angle.l M angle.r$ is a finite string).
+- There are _uncountably many_ languages ($cal(P)(Sigma^*)$ is uncountable by Cantor's theorem).
+- Therefore _most languages cannot be recognized by any TM_ --- they are not even RE.
+
+#Block(color: blue)[
+  *This idea underlies all of modern computing:*
+  - _Compilers:_ programs that take source code (a string) as input.
+  - _Interpreters:_ programs that simulate another program on data.
+  - _Formal verification:_ tools that analyse program behaviour --- and therefore hit exactly the limits exposed by Rice's Theorem.
+]
+
 == Map of Decidability and Recognizability
 
 #grid(
@@ -2578,6 +3335,7 @@ However, every formal model of computation ever proposed has turned out to be _e
 #proof[
   By _diagonalization_.
   Assume for contradiction that some TM $H$ decides $"HALT"$.
+
   Construct a TM $D$ that, on input $angle.l cal(M) angle.r$:
   + Run $H$ on $angle.l cal(M), angle.l cal(M) angle.r angle.r$.
   + If $H$ accepts (i.e., $cal(M)$ halts on $angle.l cal(M) angle.r$), then _loop forever_.
@@ -2634,14 +3392,37 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
   A decider for $P$ would decide HALT --- contradiction.
 ]
 
-#pagebreak()
+== Consequences of Rice's Theorem
+
+#align(center)[
+  #table(
+    columns: (auto, auto, auto),
+    align: (left, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Property of $cal(L)(M)$*], [*Decidable?*], [*Reason*]),
+    [$cal(L)(M) = emptyset$ (empty language)], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M)$ is finite], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M)$ is infinite], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M)$ contains string $w_0$], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M)$ is regular], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M) = Sigma^*$ (accepts all)], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M_1) = cal(L)(M_2)$ (equivalence)], [#NO], [Semantic, non-trivial: Rice],
+    [*$M$ has fewer than 100 states*], [#YES], [*Syntactic* (structural) --- NOT semantic!],
+    [*$M$ halts on the empty string $epsilon$ within 100 steps*], [#YES], [*Syntactic:* simulate 100 steps directly],
+    [*Is $w in cal(L)(M)$?* for a _fixed known_ machine $M$], [#YES], [Fixed machine $=>$ just simulate it],
+  )
+]
 
 #Block(color: orange)[
-  *Consequence:* No algorithm can answer any of these questions about an arbitrary program:
-  - _"Does this program terminate on all inputs?"_
-  - _"Does this program's output match its specification?"_
-  - _"Are these two programs equivalent?"_
-  Every interesting behavioral property is undecidable in general.
+  *The critical distinction:* a property is _decidable_ only when it depends on the _machine description_ (syntactic) rather than on the _language it computes_ (semantic).
+
+  "How many states does $M$ have?" --- we can read off the encoding. Decidable.
+  "Does $M$ accept every input?" --- this is about the language. Undecidable.
+]
+
+#Block(color: yellow)[
+  *Practical consequence:* No static analysis tool, linter, or type checker can ever be _both complete and sound_ for general semantic properties of programs.
+  Every real tool is either _approximate_ (may miss bugs) or _conservative_ (may report false positives).
 ]
 
 == The Landscape of Computability
@@ -2676,23 +3457,88 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
   )
 ]
 
-== Summary
+== Turing Machine: Exercises
 
-+ *Formal languages* provide a mathematical framework for computation: every problem is a language.
++ *Design a TM* for $L = { a^n b^n c^n mid(|) n >= 0 }$. Describe the states and tape actions in plain English (no need for a full transition table). What does the tape look like mid-computation?
 
-+ *Regular languages* (DFA $=$ NFA $=$ RegExp) are the simplest class --- powerful enough for pattern matching, too weak for counting.
++ *Tracing:* Run the TM for $0^n 1^n$ (from the trace slides) on input $mono("000111")$. Write out the full configuration sequence. What happens on input $mono("0011")$? On $mono("001")$?
 
-+ *The Pumping Lemma* gives a _necessary_ condition for regularity. *Myhill-Nerode* gives a _necessary and sufficient_ one: $L$ is regular iff its right-congruence $scripts(equiv)_L$ has finite index.
++ *Variants:* A two-tape TM can copy the first half of its input to the second tape. Use this to sketch a TM for $L = { w w mid(|) w in {0,1}^* }$. Why is this easy with two tapes but hard with one?
 
-+ *Context-free languages* (CFG $=$ PDA) add a stack, enabling matching and nesting.
++ *Decidability:* Classify each property as decidable (D), recognizable but not decidable (R), or not even recognizable (N). Justify each answer:
+  - ${ angle.l M angle.r mid(|) M "accepts the empty string" }$
+  - ${ angle.l M angle.r mid(|) M "halts on all inputs" }$
+  - ${ angle.l M angle.r mid(|) M "has exactly 7 states" }$
+  - ${ angle.l M_1, M_2 angle.r mid(|) cal(L)(M_1) = cal(L)(M_2) }$
 
-+ *Turing machines* capture _everything_ computable, with an infinite read/write tape.
++ *Rice's Theorem:* For each property below, state whether Rice's Theorem applies. If it does, conclude undecidability. If it does not, say why (and determine decidability separately):
+  - $cal(L)(M)$ is a regular language.
+  - $M$ visits state $q_3$ on input $epsilon$.
+  - $M$ accepts at least one palindrome.
+  - $M$ has a transition on symbol $\$$.
 
-+ *Decision problems are languages:* the set of "yes" inputs of any decision problem defines a formal language.
+#Block(color: orange)[
+  *Challenge:* prove that $"HALT" scripts(<=)_m { angle.l M angle.r mid(|) cal(L)(M) != emptyset }$ by an explicit reduction. Then conclude $"EMPTY"_"TM"$ is undecidable.
+]
 
-+ *The Halting Problem* shows that some problems are _fundamentally undecidable_.
+== Summary: Formal Languages and Automata
 
-+ *Rice's Theorem:* every non-trivial semantic property of TM behavior is undecidable.
++ *Formal languages:* every decision problem is a language $L subset.eq Sigma^*$. Deciding it = recognizing it.
 
-+ The _language hierarchy_ organizes classes as: $"R" = "RE" intersect "co-RE"$, and
-$"Regular" subset.neq "Context-Free" subset.neq "Decidable" subset.neq "RE" subset.neq "All Languages"$
++ *Regular languages* (DFA $=$ NFA $=$ $epsilon$-NFA $=$ RegExp) --- Kleene's Theorem.
+  - Memory model: finitely many states (constant memory).
+  - Pumping Lemma: _necessary_ condition for regularity.
+  - Myhill-Nerode: _necessary and sufficient_ --- $L$ regular iff $scripts(equiv)_L$ has finite index.
+  - Closed under all Boolean operations; all key questions decidable.
+
++ *Context-free languages* (CFG $=$ PDA):
+  - Memory model: a stack (unbounded LIFO memory).
+  - CNF and CYK: uniform parse-tree structure, $cal(O)(n^3)$ recognition.
+  - CFL Pumping Lemma: two-sided pump $v, y$ from repeated variable in parse tree.
+  - Closed under union, concatenation, star, reversal, homomorphism, $intersect$ regular.
+  - *Not* closed under intersection or complement.
+  - Undecidable: universality, equivalence, intersection emptiness, ambiguity.
+
+#align(center)[
+  #cetz.canvas(length: 0.9cm, {
+    import cetz.draw: *
+    set-style(stroke: 0.6pt)
+    circle((0, 0), radius: (0.9, 0.45), fill: green.transparentize(80%))
+    circle((0, 0.35), radius: (1.7, 0.9), fill: blue.transparentize(85%))
+    circle((0, 0.7), radius: (2.5, 1.35), fill: purple.transparentize(90%))
+    circle((0, 1.0), radius: (3.3, 1.8))
+    content((0, 0), text(size: 0.75em)[Regular])
+    content((0, 0.9), text(size: 0.75em)[CFL])
+    content((0, 1.8), text(size: 0.75em)[Decidable])
+    content((0, 2.6), text(size: 0.75em)[RE])
+  })
+]
+
+== Summary: Turing Machines and Limits of Computation
+
++ *Turing machines* --- the universal model of computation (Church--Turing Thesis).
+  - Infinite read/write tape; can simulate any other reasonable model.
+  - Variants (multi-tape, non-deterministic, two-way) are all equivalent in _power_ (not in _speed_).
+
++ *Decidability landscape:*
+  - *R (Decidable):* TM always halts with yes/no. Closed under all Boolean ops.
+  - *RE (Recognizable):* TM accepts yes-instances; may loop on no. Closed under $union$, $inter$ only.
+  - *co-RE:* complement is RE.
+  - $"R" = "RE" intersect "co-RE"$.
+  - There exist languages in neither RE nor co-RE (e.g., $"REGULAR"_"TM"$).
+
++ *The Halting Problem (HALT) is undecidable* --- proved by diagonalization.
+  HALT $in$ RE (simulate and accept if halts) but HALT $notin$ R.
+
++ *Rice's Theorem:* every non-trivial _semantic_ property of TM behavior is undecidable.
+  Distinguishing semantic (language property) from syntactic (machine structure) is the key.
+
++ *Counts argument:* countably many TMs, uncountably many languages --- most are not even RE.
+
+#Block(color: yellow)[
+  The _language hierarchy_ (each level strictly contains the one below):
+  $
+    "Regular" subset.neq "CFL" subset.neq "Decidable" subset.neq "RE" subset.neq "All Languages"
+  $
+  Each step up requires a strictly more powerful machine model: DFA $to$ PDA $to$ TM-decider $to$ TM-recognizer.
+]
