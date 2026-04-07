@@ -327,7 +327,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
 
       // ── Royal Dinner (5 × 3, Experienced) ─────────────────────────
       crw(
-        ("(Y|F)(.)\\ \\2[DAF]\\1", "(U|O|I)*T[FRO]+", "[KANE]*[GIN]*"),
+        ("(Y|F)(.)\\2[DAF]\\1", "(U|O|I)*T[FRO]+", "[KANE]*[GIN]*"),
         ("(FI|A)+", "(YE|OT)K", "(.)[IF]+", "[NODE]+", "(FY|F|RG)+"),
         title: [Royal Dinner \ (5 × 3)],
       ),
