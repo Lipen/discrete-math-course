@@ -351,7 +351,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       // ── Big Mac (3 × 4, Double Cross) ──────────────────────────────
       crw(
         (".[LUH]+", "(P|K)[^U]+", ".*C+[TIF]", "(NO|ONE|ION)*"),
-        ("(.)\\ \\1(.)\\ \\2", "[C\\sOU]+", "[^PU\\sH]+"),
+        ("(.)\\1(.)\\2", "[C\\sOU]+", "[^PU\\sH]+"),
         rpats-right: (".*L+", "[PUF\\s]*", "[TIC]*", "[NOI\\sE]+"),
         cpats-bot: ("[PIF]+", ".*[OWE]*", "(TN|LF|TF)*"),
         title: [Big Mac \ (3 × 4)],
