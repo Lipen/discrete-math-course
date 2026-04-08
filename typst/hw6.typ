@@ -124,7 +124,6 @@
   let nc = cpats-top.len()
 
   let ltext(s) = text(0.8em, raw(s))
-  let col-label(s) = rotate(90deg, reflow: true, ltext(s))
 
   let has-right = rpats-right.len() > 0
   let has-bot = cpats-bot.len() > 0
@@ -157,14 +156,14 @@
       // ── Top column labels ────────────────────────────────────────────
       for (col, pat) in cpats-top.enumerate() {
         let cx = left-w + col * sz + sz / 2
-        content((cx, -top-h + lpad), anchor: "south", col-label(pat))
+        content((cx, -top-h + lpad), anchor: "south-east", angle: -60deg, ltext(pat))
       }
 
       // ── Bottom column labels ─────────────────────────────────────────
       if has-bot {
         for (col, pat) in cpats-bot.enumerate() {
           let cx = left-w + col * sz + sz / 2
-          content((cx, -(top-h + grid-h) - lpad), anchor: "north", col-label(pat))
+          content((cx, -(top-h + grid-h) - lpad), anchor: "north-west", angle: -60deg, ltext(pat))
         }
       }
 
@@ -322,21 +321,21 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
       crw(
         ("HE|LL|O+", "[PLEASE]+"),
         ("[^SPEAK]+", "EP|IP|EF"),
-        title: [The Beatles \ (2 × 2)],
+        title: [The Beatles],
       ),
 
       // ── Royal Dinner (5 × 3, Experienced) ─────────────────────────
       crw(
         ("(Y|F)(.)\\2[DAF]\\1", "(U|O|I)*T[FRO]+", "[KANE]*[GIN]*"),
         ("(FI|A)+", "(YE|OT)K", "(.)[IF]+", "[NODE]+", "(FY|F|RG)+"),
-        title: [Royal Dinner \ (5 × 3)],
+        title: [Royal Dinner],
       ),
 
       // ── Technology (4 × 3, Intermediate) ───────────────────────────
       crw(
         ("[RUNT]*", "O.*[HAT]", "(.)*DO\\1"),
         ("[^NRU](NO|ON)", "(D|FU|UF)+", "(FO|A|R)*", "(N|A)*"),
-        title: [Technology \ (4 × 3)],
+        title: [Technology],
       ),
 
       // ── GMC Vandura (3 × 2, Double Cross) ──────────────────────────
@@ -345,7 +344,7 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         ("[^MCI]+", ".A", "(TM|BF)"),
         rpats-right: ("[^KI\\sP]+", "(M|APS|EA)*"),
         cpats-bot: ("[AI][E\\s]", "[A\\-Z]+", "[\\sT\\-M]+"),
-        title: [GMC Vandura \ (3 × 2)],
+        title: [GMC Vandura],
       ),
 
       // ── Big Mac (3 × 4, Double Cross) ──────────────────────────────
@@ -354,14 +353,14 @@ A _formal language_ over alphabet $Sigma$ is any set $L subset.eq Sigma^*$.
         ("(.)\\1(.)\\2", "[C\\sOU]+", "[^PU\\sH]+"),
         rpats-right: (".*L+", "[PUF\\s]*", "[TIC]*", "[NOI\\sE]+"),
         cpats-bot: ("[PIF]+", ".*[OWE]*", "(TN|LF|TF)*"),
-        title: [Big Mac \ (3 × 4)],
+        title: [Big Mac],
       ),
 
       // ── Time Walker (4 × 4, Palindromeda) ──────────────────────────
       crw(
         ("(EP|ST)*", "T[A-Z]*", ".M.T", ".*P.[S-X]+"),
         (".*E.*", "[^P]I(IT|ME)", "(EM|FE)(IT|IP)", "(TS|PE|KE)*"),
-        title: [Time Walker \ (4 × 4)],
+        title: [Time Walker],
       ),
     )
 ]
