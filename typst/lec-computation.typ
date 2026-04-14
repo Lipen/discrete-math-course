@@ -2951,13 +2951,13 @@ This leads us to the _Turing machine_, the most general computational model we w
 Finite automata recognize regular patterns, and pushdown automata capture recursive structure.
 But many computational tasks --- arithmetic on unbounded integers, execution of programs, symbolic reasoning, formal verification --- require a machine that can _store_, _rewrite_, and _revisit_ intermediate results.
 
-A Turing machine is the simplest classical model with exactly this level of generality. \
+A Turing machine is the simplest classical model with exactly this level of generality.
 It is strong enough to express arbitrary algorithms, yet simple enough to study mathematically.
 
 #Block(color: yellow)[
-  *Central objective:* give a precise meaning to _algorithm_, _decidable problem_, and _computational limit_.
+  This section formalizes three central notions: _algorithm_, _decidable problem_, and _computational limit_.
 
-  This is where automata theory becomes the general theory of computation.
+  At this point, automata theory becomes the general theory of computation.
 ]
 
 == Definition of a Turing Machine
@@ -2974,11 +2974,11 @@ It is strong enough to express arbitrary algorithms, yet simple enough to study 
 ]
 
 #note[
-  A Turing machine differs from finite automata in several important ways:
-  - The tape is _infinite_ (unbounded in both directions).
-  - The head can move _both left and right_.
-  - The machine can _write_ to the tape.
-  - The machine _halts_ when it enters $q_"accept"$ or $q_"reject"$.
+  Conceptually, a Turing machine has two parts:
+  - a small _finite control_ (the current state), and
+  - an unbounded _external memory_ (the tape).
+
+  Compared with a finite automaton, it can move in both directions, rewrite symbols, and halt only when it reaches $q_"accept"$ or $q_"reject"$.
 ]
 
 == Tape, Head, and State
@@ -3001,37 +3001,60 @@ A Turing machine operates on an infinite tape divided into cells, each containin
 The machine starts with the input $w$ written on the tape, the head on the leftmost symbol, in state $q_0$.
 
 At each step:
-+ Read the symbol under the head.
-+ Based on the current state and symbol, the transition function determines:
-  - The _new state_ to enter.
-  - The _symbol to write_ in the current cell.
-  - The _direction to move_ the head ($L$ or $R$).
++ Read the symbol currently under the head.
++ Use the transition function to decide three things:
+  - which _state_ to enter next,
+  - which _symbol_ to write in the current cell,
+  - whether to move the head _left_ or _right_.
 
-== Computation of a Turing Machine
+For example, if $delta(q, 0) = (r, times, R)$, then in state $q$ on symbol $0$ the machine writes $times$, changes to state $r$, and moves one cell to the right.
+
+== Configurations
 
 #definition[
-  A _configuration_ of a TM is a triple: the current state, the tape contents, and the head position.
-  We write configurations as $u q v$, where $q$ is the current state, $u$ is the tape content to the left of the head, and $v$ is the tape content starting at the head position.
+  A _configuration_ of a TM is a complete snapshot of the computation.
+  It records the current state, the tape contents, and the head position.
+
+  We write configurations as $u q v$.
+  Here $q$ is the current state.
+  String $u$ is the tape content to the left of the head.
+  String $v$ begins with the symbol currently under the head.
 ]
+
+#note[
+  Once a configuration is fixed, the entire future computation is determined for a deterministic TM.
+]
+
+== Acceptance, Rejection, and Looping
 
 #definition[
   A TM $cal(M)$ on input $w$:
-  - _Accepts_ $w$ if the computation reaches $q_"accept"$.
-  - _Rejects_ $w$ if the computation reaches $q_"reject"$.
-  - _Loops_ if it never halts (neither accepts nor rejects).
-]
-
-#definition[
-  The language _recognized_ by $cal(M)$ is:
-  $
-    lang(cal(M)) = { w in Sigma^* mid(|) cal(M) "accepts" w }
-  $
+  - _accepts_ $w$ if the computation eventually reaches $q_"accept"$;
+  - _rejects_ $w$ if it eventually reaches $q_"reject"$;
+  - _loops_ if it never halts.
 ]
 
 #Block(color: orange)[
-  *Warning:* Unlike DFAs, a Turing machine may _never halt_ on some inputs.
+  *Important distinction:*
+  failing to accept is not the same as rejecting.
 
-  "Not accepted" and "rejected" are _different_ --- the machine might just run forever.
+  A machine may halt and reject.
+  Or it may continue forever without producing any answer.
+  This distinction is central in computability theory.
+]
+
+== Languages Recognized by Turing Machines
+
+#definition[
+  The language _recognized_ by $cal(M)$ is
+  $
+    lang(cal(M)) = { w in Sigma^* mid(|) cal(M) "accepts" w }.
+  $
+]
+
+#note[
+  If the machine halts on every input, it is a _decider_.
+  Otherwise it is only a _recognizer_.
 ]
 
 == A Turing Machine for *$0^n 1^n$*
@@ -3047,11 +3070,14 @@ At each step:
   + Replace it by $times$ as well.
   + Return to the left and repeat the same procedure.
 
-  The machine accepts when everything has been matched, and rejects as soon as the required matching symbol does not exist.
+  The machine accepts when every $0$ has been matched with a later $1$.
+  It rejects as soon as this matching process breaks down --- for example, if a needed $1$ does not exist, or if the order is wrong.
 ]
 
 #Block(color: yellow)[
-  *Observation:* each full pass removes one matching pair $(0,1)$. If the input has the form $0^n 1^n$, the machine eventually reaches a tape containing only $times$ symbols and accepts.
+  *Why the procedure works:*
+  each pass removes exactly one pair $(0,1)$.
+  Successful completion therefore guarantees both _equal counts_ and the correct _left-to-right order_.
 ]
 
 == Trace on $mono("0011")$ --- First Pass
@@ -3068,7 +3094,7 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
 )
 
 #note[
-  After Step 3, the first uncrossed $1$ is located.
+  The first $0$ has now been marked, and the machine is positioned at the $1$ that will be paired with it.
 ]
 
 == Trace on $mono("0011")$ --- First Pass Continued
@@ -3083,7 +3109,9 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
 )
 
 #note[
-  After Step 6, one pair has been removed and the head is back on the left, ready for the second pass.
+  One matching pair has been removed.
+  The head has returned to the left end of the relevant tape segment.
+  The machine is ready for the next iteration.
 ]
 
 == Trace on $mono("0011")$ --- Second Pass
@@ -3098,7 +3126,7 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
 )
 
 #note[
-  The second pass mirrors the first one: find the remaining $0$, then the remaining $1$.
+  The computation proceeds in the same way on the remaining unmatched symbols.
 ]
 
 == Trace on $mono("0011")$ --- Acceptance
@@ -3117,7 +3145,9 @@ $
 $
 
 #Block(color: blue)[
-  *Visual insight:* The tape acts as writable memory. Crossing symbols out lets the machine remember progress without storing large counters in finite control.
+  *Visual insight:*
+  the tape acts as writable memory.
+  Crossing symbols out lets the machine record its progress without storing large counters in the finite control.
 ]
 
 == DFA, PDA, and TM Compared
@@ -3128,11 +3158,12 @@ $
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Feature*], [*DFA*], [*PDA*], [*TM*]),
-    [Memory], [Finite (states only)], [Stack (LIFO)], [Infinite tape],
-    [Head movement], [Left to right only], [Left to right only], [Both directions],
-    [Write?], [No], [Push/pop stack], [Yes (arbitrary)],
-    [Halting], [Always halts], [Always halts], [May loop forever],
-    [Languages], [Regular], [Context-free], [Recursively \ enumerable],
+    [Memory], [Finite control only], [One stack], [Read/write tape],
+    [Input access], [Single left-to-right pass], [Single pass + stack access], [Move left or right],
+    [Can modify memory?], [No], [Only push/pop], [Yes],
+    [Typical task], [Pattern matching], [Parsing nested syntax], [General algorithmic computation],
+    [Halting], [Always halts], [Always halts], [May run forever],
+    [Language class], [Regular], [Context-free], [Decidable / recognizable],
   )
 ]
 
@@ -3182,11 +3213,12 @@ Several variants of TMs exist, all _equivalent in computational power_:
 == Equivalent Models of Computation
 
 Turing machines are not the only formal model of algorithmic computation.
+What makes the notion of computability convincing is its _robustness_: several independently invented formalisms turn out to define exactly the same class of computable functions.
 
 #align(center)[
   #table(
     columns: 3,
-    align: (left, left, left),
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Model*], [*Main idea*], [*Where it appears*]),
     [Lambda calculus], [Computation by substitution], [Logic, proof theory, functional programming],
@@ -3198,7 +3230,7 @@ Turing machines are not the only formal model of algorithmic computation.
 ]
 
 #Block(color: yellow)[
-  *Key insight:* these models look very different, but they all capture the same robust notion of an _effective procedure_.
+  *Key insight:* these models arise from logic, arithmetic, hardware, and programming --- yet they all capture the same notion of an _effective procedure_.
 ]
 
 == Church--Turing Thesis
@@ -3237,7 +3269,9 @@ However, every formal model of computation ever proposed has turned out to be _e
 ]
 
 #Block(color: yellow)[
-  *Operational distinction:* _decidable_ means "there is an algorithm that always halts"; _semi-decidable_ means "yes-instances can eventually be confirmed, but no-instances may keep us waiting forever".
+  *Operational distinction:*
+  a _decider_ always halts with a correct yes/no answer.
+  A _recognizer_ is only required to halt on yes-instances.
 ]
 
 #theorem[
@@ -3285,7 +3319,8 @@ However, every formal model of computation ever proposed has turned out to be _e
 ]
 
 #Block(color: teal)[
-  This trick is called _dovetailing_. It is one of the most useful proof ideas in computability theory.
+  This trick is called _dovetailing_.
+  It is one of the most useful proof ideas in computability theory.
 ]
 
 == Programs as Data
