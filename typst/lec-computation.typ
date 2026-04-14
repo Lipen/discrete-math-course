@@ -250,7 +250,7 @@ Regular languages can be composed from "smaller" regular languages.
   - $(R)$, just a bracketed expression
   - Operator precedence: $regex("ab*c|d") eq.delta ((regex("a") (regex("b")^*)) regex("c")) | regex("d")$
 
-== Regular Expressions: Summary Table
+== Summary of Regular Expressions
 
 #align(center)[
   #table(
@@ -270,7 +270,7 @@ Regular languages can be composed from "smaller" regular languages.
   )
 ]
 
-== Regular Expressions: Quick Reading
+== Reading Regular Expressions
 
 #example[
   $regex("(a|bc)*") = {epsilon, "a", "aa", "aaa", dots, "bc", "bcbc", "bcbcbc", dots, "abc", "bca", "abca", "abcbc", "bcabc", dots}$
@@ -328,7 +328,7 @@ See also: PCRE #href("https://en.wikipedia.org/wiki/Perl_Compatible_Regular_Expr
   ),
 )
 
-== Recognizers vs Transducers
+== Recognizers and Transducers
 
 There are two main types of finite-state _machines_:
 
@@ -379,7 +379,7 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
   _Deterministic_ means: at every state, for every symbol, there is _exactly one_ transition.
 ]
 
-== DFA: Example
+== Example of a DFA
 
 #example[
   Automaton $cal(A)$ recognizing strings with an even number of 0s, $lang(cal(A)) = { w in {0,1}^* mid(|) w "has even number of 0s" }$.
@@ -403,7 +403,7 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
   )
 ]
 
-== DFA: Computation
+== Computation in a DFA
 
 #definition[
   A process of _computation_ by a finite-state machine $cal(A)$ is a finite sequence of _configurations_, or _snapshots_.
@@ -425,7 +425,7 @@ After reading the entire input, the machine either _accepts_ or _rejects_ based 
 ]
 
 #note[
-  A configuration captures _everything_ the machine "knows" at a given moment: its current state and the remaining input.
+  A configuration is a complete snapshot of the computation: once the current state and the remaining input are fixed, the future behavior is determined.
 ]
 
 == Automata Languages
@@ -460,7 +460,7 @@ For each language below (over the alphabet $Sigma = {0, 1}$), draw a DFA recogni
 + $L_5 = {w mid(|) w "contains 110 as a substring"}$
 
 
-= Non-determinism
+= Non-deterministic Automata
 #focus-slide()
 
 == Non-deterministic Finite Automata
@@ -480,9 +480,9 @@ The key difference from a DFA: the transition function returns a _set_ of possib
   $delta : (q, c) maps underbrace({q^((1))\, dots\, q^((n))}, "non-determinism")$
 ]
 
-== NFA: Example
+== Example of an NFA
 
-The following NFA recognizes $lang(cal(A)) = Sigma^* (110^*)^+$ --- strings containing at least one `11` followed by any number of `0`s:
+Consider the following NFA recognizing $lang(cal(A)) = Sigma^* (110^*)^+$ --- the strings containing at least one `11` followed by any number of `0`s:
 
 #[
   #let aut = (
@@ -505,9 +505,9 @@ The following NFA recognizes $lang(cal(A)) = Sigma^* (110^*)^+$ --- strings cont
 
 This NFA has _two_ transitions from $q_0$ by the symbol $1$: it can go to $q_0$ or to $q_1$.
 
-If an NFA needs to make a non-existent transition (e.g., at $q_1$ by $0$), it _dies_ and that particular path rejects.
+If an NFA needs to make a non-existent transition (for example, at $q_1$ on input $0$), that computation branch simply terminates and rejects.
 
-== Determinism vs Non-determinism
+== Determinism and Non-determinism
 
 #definition[
   A model of computation is _deterministic_ if at every point in the computation, there is exactly _one choice_ that can be made.
@@ -540,15 +540,15 @@ If _any_ leaf is accepting, the machine accepts.
 
 *2. Perfect Guessing*
 
-A non-deterministic machine has _magic superpowers_: it can always _guess_ the right sequence of choices (if one exists).
-No physical implementation is known.
+A non-deterministic machine can be imagined as making an idealized correct guess whenever an accepting branch exists.
+This is only an intuition; actual machines must simulate the branching explicitly.
 
 *3. Massive Parallelism*
 
 An NFA can be thought of as a machine that tries _all possibilities in parallel_, using an unlimited number of "processors".
 Each symbol read causes a transition on every currently active state.
 
-== Tree Computation: Example
+== Tree Computation
 
 #align(center)[
   #let aut = (
@@ -606,7 +606,7 @@ Each symbol read causes a transition on every currently active state.
   *How to read this:* each time there are multiple outgoing transitions, the NFA branches into multiple active computations.
 ]
 
-== Tree Computation: Accepting Branch
+== Accepting Branches
 
 #[
   #import cetz.tree
@@ -678,7 +678,7 @@ $
   $
 ]
 
-== DFAs vs NFAs
+== DFAs and NFAs
 
 #align(center)[
   #table(
@@ -737,7 +737,7 @@ $
 ]
 
 #note[
-  $q in epsilon"-clo"(q)$ since each state has an _implicit_ $epsilon$-loop.
+  $q in epsilon"-clo"(q)$ by reflexivity: every state is reachable from itself by an $epsilon$-path of length $0$.
 ]
 
 #example[
@@ -798,9 +798,9 @@ $cal(A)_"D" = (Q_"D", Sigma, delta_"D", {q_0}, F_"D")$
   In practice, many of these states are unreachable and can be pruned.
 ]
 
-== NFA to DFA: Worked Example
+== Converting an NFA to a DFA
 
-Let's walk through a complete example of converting an NFA to a DFA using the powerset construction.
+We now examine a complete example of the powerset construction.
 
 #example[
   Consider the NFA $cal(N)$ over alphabet $Sigma = {0, 1}$ that accepts strings ending with $01$:
@@ -833,7 +833,7 @@ Let's walk through a complete example of converting an NFA to a DFA using the po
   - $F = {q_2}$
 ]
 
-== Step 1: Determine Reachable States
+== Reachable States
 
 We begin with the start state of the DFA: ${q_0}$.
 
@@ -843,7 +843,7 @@ Compute transitions from ${q_0}$:
 
 Now we have new states ${q_0, q_1}$ and ${q_0}$. ${q_0}$ is already known.
 
-== Step 2: Compute Transitions for New States
+== New Transitions
 
 From ${q_0, q_1}$:
 - On $0$: $delta_N(q_0, 0) union delta_N(q_1, 0) = {q_0, q_1} union emptyset = {q_0, q_1}$
@@ -857,14 +857,14 @@ From ${q_0, q_2}$:
 
 No new states.
 
-== Step 3: Identify Accepting States
+== Accepting States
 
 A DFA state is accepting if it contains any NFA accepting state:
 - ${q_0}$: contains $q_0$? No ($q_0 notin F$). Not accepting.
 - ${q_0, q_1}$: contains $q_2$? No. Not accepting.
 - ${q_0, q_2}$: contains $q_2$? Yes ($q_2 in F$). Accepting.
 
-== Step 4: Construct the DFA
+== The Resulting DFA
 
 We have three reachable states: $A = {q_0}$, $B = {q_0, q_1}$, $C = {q_0, q_2}$.
 
@@ -898,14 +898,14 @@ Transition table:
   #dfa-example
 ]
 
-== Step 5: Verify Equivalence
+== Verifying Equivalence
 
 Both automata accept the same language: strings ending with $01$.
 - The NFA has 3 states, the DFA has 3 reachable states (out of possible $2^3 = 8$).
 - Unreachable states like ${q_1}$, ${q_2}$, ${q_1, q_2}$, ${q_0, q_1, q_2}$, $emptyset$ were never generated.
 
 #Block(color: green)[
-  *Key observation:* Although the powerset construction can produce exponentially many states, in practice many states are unreachable. This example shows that sometimes the resulting DFA can be as small as the original NFA.
+  *Observation:* Although the powerset construction can produce exponentially many states, many of them are often unreachable. In this example, the resulting DFA is no larger than the original NFA.
 ]
 
 So far, we have studied three different _representations_ of languages: regular expressions, DFAs, and NFAs.
@@ -937,8 +937,8 @@ Kleene's theorem answers this definitively.
 
 == The Equivalence Cycle
 
-The following diagram summarizes the conversions between the four representations.
-Each arrow represents a _constructive_ conversion algorithm.
+The diagram below shows the constructive conversions between the four equivalent representations.
+Each arrow denotes an explicit algorithm.
 
 #align(center)[
   #import fletcher: diagram, edge, node
@@ -1052,8 +1052,8 @@ Finite automata (DFAs and NFAs) possess exactly one form of memory: *their curre
   (e.g., balancing parentheses in code, checking `<html>` tags).
 
 #Block(color: yellow)[
-  *Key Insight:* If a language requires unbounded memory to recognize
-  (e.g. keeping track of an arbitrarily large number), it *cannot be regular*.
+  *Key insight:* If a language requires unbounded memory to recognize
+  (for example, keeping track of an arbitrarily large number), it *cannot be regular*.
 ]
 
 To formalize this, we exploit the simplest consequence of finite state spaces: the *Pigeonhole Principle*.
@@ -1117,7 +1117,7 @@ Here, $x$ is the path to the loop, $y$ is the loop itself, $z$ is the path from 
   The weak pumping lemma trivially holds with pumping length $n = 3$. There are *no* strings in $L$ of length $>= 3$, so the condition "for every $w in L$ with $abs(w) >= 3$..." is vacuously true!
 ]
 
-== Non-regularity: The Equality Language
+== The Equality Language
 
 #definition[
   The _equality problem_ is, given two strings $x$ and $y$, to decide whether $x = y$.
@@ -1192,19 +1192,19 @@ Here, $x$ is the path to the loop, $y$ is the loop itself, $z$ is the path from 
   Any such statement can be framed naturally as a *two-player game*.
 ]
 
-Think of it as a game between #Green[*You*] and an #Red[*Adversary*].
-- #Green[*You win*] if you can break the pumping lemma conditions (proving it is *not regular*).
-- #Red[*The Adversary wins*] if they satisfy the conditions.
+It is useful to view the lemma as a game between a #Green[*prover*] and an #Red[*adversary*].
+- The #Green[*prover*] tries to force a contradiction and show that the language is not regular.
+- The #Red[*adversary*] tries to produce a legal pumping decomposition.
 
-The game is played in 4 steps:
-1. #Red[The adversary] chooses a pumping length $n$.
-2. #Green[You] cleverly pick a long string $w$ in the language ($abs(w) >= n$).
-3. #Red[The adversary] maliciously splits your string $w = x y z$ such that $y != epsilon$.
-4. #Green[You] cleverly choose a pump count $i$ such that $x y^i z notin L$. (If you can't, you lose!)
+The interaction has four steps:
+1. The #Red[adversary] chooses a pumping length $n$.
+2. The #Green[prover] chooses a word $w in L$ with $abs(w) >= n$.
+3. The #Red[adversary] chooses a decomposition $w = x y z$ with $y != epsilon$.
+4. The #Green[prover] chooses $i >= 0$ and tries to force $x y^i z notin L$.
 
 #pagebreak()
 
-== Let's Play the Game: *$L = { 0^n 1^n mid(|) n in NN }$*
+== Pumping Game for *$L = { 0^n 1^n mid(|) n in NN }$*
 
 #align(center)[
   #table(
@@ -1212,21 +1212,23 @@ The game is played in 4 steps:
     align: (center, center),
     column-gutter: 1em,
     stroke: (x, y) => if y == 0 { (bottom: .8pt) },
-    table.header([*#Red[Adversary]*], [*#Green[You]*]),
-    [Maliciously selects \ "pumping length" $n$ (unknown)],
-    [...Wait for adversary to play...],
-    [...Wait for you to respond...],
-    [Choose a test string \ $w = 0^n 1^n in L$. Its length is $2n >= n$.],
-    [Maliciously splits \ $w = x y z$ such that $y != epsilon$],
-    [...Wait for adversary's split...],
-    [...Wait for you to respond...],
-    [Cleverly choose a pump multiplier $i$. \ If $y$ has only zeros, choose $i=0$ to delete $y$.\ If $y$ has only ones, choose $i=0$ to delete $y$.\ If $y$ mixes $0$ & $1$, choose $i=2$ to copy $y$.\ *In all cases*, the string is destroyed and $x y^i z notin L$],
+    table.header([*#Red[Adversary]*], [*#Green[Prover]*]),
+    [Choose pumping length $n$],
+    [Select the witness string $w = 0^n 1^n in L$ with $abs(w) = 2n >= n$],
+    [Choose a legal split $w = x y z$ with $y != epsilon$],
+    [Analyze the possible forms of $y$],
+    [Maintain the pumping claim],
+    [Choose a pumping index $i$],
+    [If $y$ contains only $0$s or only $1$s, take $i = 0$; if it mixes both, take $i = 2$],
+    [Then $x y^i z notin L$ in every case],
     Red[Lose], Green[Win],
-    table.cell(colspan: 2, stroke: (top: 0.4pt))[#Green[$w$ cannot be pumped uniformly. $0^n 1^n$ is *not* regular]],
+    table.cell(colspan: 2, stroke: (
+      top: 0.4pt,
+    ))[#Green[$0^n 1^n$ cannot satisfy the pumping conclusion uniformly, so it is not regular]],
   )
 ]
 
-== Formal Proof: *$0^n 1^n$* is Not Regular
+== Proof that *$0^n 1^n$* is Not Regular
 
 #theorem[
   $L = { 0^n 1^n mid(|) n in NN }$ is not regular.
@@ -1260,7 +1262,7 @@ The game is played in 4 steps:
   This contradicts the weak pumping lemma. Thus $L$ is *not regular*.
 ]
 
-== A Word of Caution
+== Cautionary Note
 
 - The pumping lemma describes a _necessary_ condition for regularity.
   - Regularity $implies$ Pumping Lemma holds.
@@ -1273,7 +1275,7 @@ The game is played in 4 steps:
 #Block(color: orange)[
   *Warning:* "The language satisfies the pumping lemma, therefore it is regular."
 
-  This is a critical logic error! The theorem is a *one-way street* acting only as a filter for non-regularity. To *prove* that a language is regular, your only option is to construct a DFA, NFA, or Regular Expression for it!
+  This is a logic error. The pumping lemma is a tool for disproving regularity, not for establishing it. To prove that a language is regular, one must construct a DFA, NFA, or regular expression.
 ]
 
 == The Full Pumping Lemma
@@ -1295,7 +1297,7 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
   This closes a loophole: some non-regular languages (such as #box[${ w mid(|) w "has equal 0s and 1s" }$)] pass the _weak_ lemma, but are caught by the _full_ version.
 ]
 
-== Pumping Lemma: DFA Revisit
+== A DFA View of the Pumping Lemma
 
 #align(center)[
   #cetz.canvas({
@@ -1342,7 +1344,7 @@ $
   Here $x = 0$, and pumping $y$ preserves acceptance until the suffix $z$ reaches $q_4$.
 ]
 
-== Formal Proof: Equal 0s and 1s
+== Equal Numbers of 0s and 1s
 
 Consider the language $L$ over $Sigma = {0, 1}$ of strings $w in Sigma^*$ that contain _an equal number_ of $0$s and $1$s.
 
@@ -1452,7 +1454,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
   (If $"UNEQUAL"$ were regular, its complement $"EQUAL"$ would also be regular — contradiction.)
 ]
 
-== Contrast: A Regular Language That Seems Complex
+== A Complex-Looking Regular Language
 
 #definition[
   Let $"DIV7" = { w in {0,1}^* mid(|) w "interpreted as binary number is divisible by 7" }$.
@@ -1474,7 +1476,7 @@ For example, #Green[`01`] in $L$, #Red[`11011`] not in $L$, #Green[`110010`] in 
 ]
 
 
-== Myhill-Nerode Theorem: Intuition
+== Intuition Behind the Myhill-Nerode Theorem
 
 The pumping lemma studies _loops_ in long computations.
 The Myhill-Nerode theorem studies something even more basic: when two prefixes are _indistinguishable_ to a finite automaton.
@@ -1602,7 +1604,7 @@ To prove that a language is _not_ regular using Myhill-Nerode, it is enough to e
   Hence the strings $x_i$ are pairwise distinguishable, so the language is not regular.
 ]
 
-== Comparison: Pumping Lemma vs Myhill-Nerode
+== Pumping Lemma and Myhill-Nerode
 
 #align(center)[
   #table(
@@ -1862,7 +1864,7 @@ For a regular language, the equivalence classes correspond to states in the mini
   De Morgan's identity gives a short proof; the product construction gives an explicit algorithm.
 ]
 
-== Intersection Closure: Product Construction
+== Product Construction for Intersection
 
 #example[
   The first automaton accepts all strings that _have a 0_.
@@ -1978,7 +1980,7 @@ For a regular language, the equivalence classes correspond to states in the mini
 ]
 
 
-== Summary: Regular Languages
+== Summary of Regular Languages
 
 + *Equivalence* (Kleene's Theorem): DFA $=$ NFA $=$ $epsilon$-NFA $=$ Regular Expression. Different representations, same class.
 
@@ -2083,7 +2085,7 @@ The key idea is to allow _recursive_ rules --- a grammar that can expand itself 
 //   Every compiler uses a CFG (or a variant) to parse source code into an _abstract syntax tree_.
 // ]
 
-== Grammar Notation: BNF and EBNF
+== BNF and EBNF
 
 _Backus--Naur Form_ (BNF) is the standard notation for writing CFGs in language specifications --- it is exactly the same formalism as CFGs, just a different syntax.
 
@@ -2127,7 +2129,7 @@ _Extended BNF_ (EBNF) adds shorthand notation --- no new expressive power, but m
   *Where you'll encounter BNF/EBNF:* language reference manuals (Python, Rust, C), RFC protocol specifications, ISO SQL standard, JSON schema. Every modern compiler processes a grammar defined in BNF or EBNF.
 ]
 
-== CFG: Derivations and Parse Trees
+== Derivations and Parse Trees
 
 #definition[
   A _derivation step_ $alpha A beta => alpha gamma beta$ applies production $A -> gamma in R$, replacing one variable~$A$.
@@ -2176,7 +2178,7 @@ The same derivation information can be rendered as a _parse tree_:
   Different derivation _orders_ (leftmost, rightmost) produce identical parse trees in unambiguous grammars.
 ]
 
-== CFG: More Examples
+== Further CFG Examples
 
 #align(center)[
   #table(
@@ -2443,7 +2445,7 @@ $q in Q$ is the current state, $w in Sigma^*$ is remaining input, $gamma in Gamm
 
 == PDA Trace for *$0^n 1^n$*
 
-Let's trace the PDA for $L = { 0^n 1^n mid(|) n >= 0 }$ on input $mono("0011")$:
+We trace the PDA for $L = { 0^n 1^n mid(|) n >= 0 }$ on input $mono("0011")$:
 
 #align(center)[
   #table(
@@ -2570,7 +2572,7 @@ This reflects the stack: each time the outer variable expands, it contributes on
   Then $u v^i x y^i z = 0^(n-k+i k) 1^(n-k+i k) in L$ for all $i >= 0$. #YES
 ]
 
-== CFL Pumping Lemma: Proof Idea
+== Proof Idea for the CFL Pumping Lemma
 
 Use CNF to make every parse tree binary. \
 The pumping length is $n = 2^(abs(V)+1)$, where $abs(V)$ is the number of variables.
@@ -2791,7 +2793,7 @@ This leads us to the _Turing machine_, the most general computational model we w
 
 */
 
-== Summary: Context-Free Languages
+== Summary of Context-Free Languages
 
 + *Equivalence* (CFL analogue of Kleene): CFG $=$ PDA. Grammars and stack automata define the same class.
 
@@ -2846,20 +2848,21 @@ This leads us to the _Turing machine_, the most general computational model we w
   ),
 )
 
-== Motivation
+== From Automata to General Computation
 
-Finite automata have _constant memory_ (finitely many states). \
-Pushdown automata have a _stack_ (LIFO memory). \
-What if we give the machine _unrestricted read/write access_ to a tape?
+Finite automata recognize regular patterns, and pushdown automata capture recursive structure.
+But many computational tasks --- arithmetic on unbounded integers, execution of programs, symbolic reasoning, formal verification --- require a machine that can _store_, _rewrite_, and _revisit_ intermediate results.
 
-This leads us to the _Turing machine_ --- the most general model of computation we will study.
+A Turing machine is the simplest classical model with exactly this level of generality. \
+It is strong enough to express arbitrary algorithms, yet simple enough to study mathematically.
 
 #Block(color: yellow)[
-  *The fundamental question:* What problems can be solved _algorithmically_?
-  Turing machines give us a precise mathematical framework to answer this.
+  *Central objective:* give a precise meaning to _algorithm_, _decidable problem_, and _computational limit_.
+
+  This is where automata theory becomes the general theory of computation.
 ]
 
-== Turing Machine: Definition
+== Definition of a Turing Machine
 
 #definition[
   A _Turing Machine_ (TM) is a 7-tuple $cal(M) = (Q, Sigma, Gamma, delta, q_0, q_"accept", q_"reject")$ where:
@@ -2873,14 +2876,14 @@ This leads us to the _Turing machine_ --- the most general model of computation 
 ]
 
 #note[
-  A Turing machine differs from finite automata in several crucial ways:
+  A Turing machine differs from finite automata in several important ways:
   - The tape is _infinite_ (unbounded in both directions).
   - The head can move _both left and right_.
   - The machine can _write_ to the tape.
   - The machine _halts_ when it enters $q_"accept"$ or $q_"reject"$.
 ]
 
-== Turing Machine: Visualization
+== Tape, Head, and State
 
 A Turing machine operates on an infinite tape divided into cells, each containing a symbol from $Gamma$.
 
@@ -2900,44 +2903,51 @@ A Turing machine operates on an infinite tape divided into cells, each containin
       )
     }
 
+    let cell(i, body) = {
+      let x = i * cell-size + 0.5 * cell-size
+      let y = 0.5 * cell-size
+      content((x, y), body)
+    }
+
     // Tape content
-    content((0.5 * cell-size, 0.5 * cell-size))[$Blank$]
-    content((1.5 * cell-size, 0.5 * cell-size))[$Blank$]
-    content((2.5 * cell-size, 0.5 * cell-size))[$0$]
-    content((3.5 * cell-size, 0.5 * cell-size))[$1$]
-    content((4.5 * cell-size, 0.5 * cell-size))[$1$]
-    content((5.5 * cell-size, 0.5 * cell-size))[$0$]
-    content((6.5 * cell-size, 0.5 * cell-size))[$1$]
-    content((7.5 * cell-size, 0.5 * cell-size))[$Blank$]
-    content((8.5 * cell-size, 0.5 * cell-size))[$Blank$]
-    content((9.5 * cell-size, 0.5 * cell-size))[$Blank$]
-    content((10.5 * cell-size, 0.5 * cell-size))[$Blank$]
+    cell(0)[$Blank$]
+    cell(1)[$Blank$]
+    cell(2)[$0$]
+    cell(3)[$0$]
+    cell(4)[$1$]
+    cell(5)[$1$]
+    cell(6)[$0$]
+    cell(7)[$1$]
+    cell(8)[$Blank$]
+    cell(9)[$Blank$]
+    cell(10)[$Blank$]
 
     // Dots at ends
-    content((-0.3, 0.5 * cell-size))[$dots$]
-    content((n * cell-size + 0.3, 0.5 * cell-size))[$dots$]
+    cell(-1)[$dots$]
+    cell(n)[$dots$]
 
     // Head
     let head-pos = 4.5 * cell-size
-    line((head-pos, -0.2), (head-pos, -0.6), stroke: 1pt, mark: (start: ">", fill: black))
+    line((head-pos, -0.1), (head-pos, -0.6), stroke: 1pt, mark: (start: ">", fill: black))
 
     // State label
-    content((head-pos, -0.9), text(fill: blue.darken(20%))[State $q_3$])
+    content((head-pos, -0.6), anchor: "north", padding: 0.1, Blue[State $q_3$])
 
     // Annotation: input region
     line(
       (2 * cell-size, cell-size + 0.2),
       (7 * cell-size, cell-size + 0.2),
-      stroke: 0.5pt + blue.darken(20%),
+      stroke: 0.8pt + blue.darken(20%),
       mark: (start: "|", end: "|"),
     )
     content((4.5 * cell-size, cell-size + 0.5), text(size: 0.8em, fill: blue.darken(20%))[Input $w$])
   })
 ]
 
-== TM: One Step Rule
+== One Transition Step
 
 The machine starts with the input $w$ written on the tape, the head on the leftmost symbol, in state $q_0$.
+
 At each step:
 + Read the symbol under the head.
 + Based on the current state and symbol, the transition function determines:
@@ -2945,7 +2955,7 @@ At each step:
   - The _symbol to write_ in the current cell.
   - The _direction to move_ the head ($L$ or $R$).
 
-== TM: Computation
+== Computation of a Turing Machine
 
 #definition[
   A _configuration_ of a TM is a triple: the current state, the tape contents, and the head position.
@@ -2968,10 +2978,11 @@ At each step:
 
 #Block(color: orange)[
   *Warning:* Unlike DFAs, a Turing machine may _never halt_ on some inputs.
+
   "Not accepted" and "rejected" are _different_ --- the machine might just run forever.
 ]
 
-== TM: Example
+== A Turing Machine for *$0^n 1^n$*
 
 #example[
   A TM that recognizes $L = { 0^n 1^n mid(|) n >= 0 }$:
@@ -2987,12 +2998,12 @@ At each step:
 ]
 
 #Block(color: yellow)[
-  *Checkpoint:* each full pass removes one matching pair $(0,1)$. If counts are equal and ordered as $0^n 1^n$, the machine eventually reaches all $times$ and accepts.
+  *Observation:* each full pass removes one matching pair $(0,1)$. If the input has the form $0^n 1^n$, the machine eventually reaches a tape containing only $times$ symbols and accepts.
 ]
 
-== TM Trace on $mono("0011")$, Part 1A
+== Trace on $mono("0011")$ --- First Pass
 
-Let's trace configurations on tape (omitting trailing $Blank$ cells for readability).
+We trace the computation on the tape, omitting trailing $Blank$ cells for readability.
 
 #grid(
   columns: 3,
@@ -3031,7 +3042,7 @@ Let's trace configurations on tape (omitting trailing $Blank$ cells for readabil
   After Step 3, the first uncrossed $1$ is located.
 ]
 
-== TM Trace on $mono("0011")$, Part 1B
+== Trace on $mono("0011")$ --- First Pass Continued
 
 #grid(
   columns: 3,
@@ -3070,7 +3081,7 @@ Let's trace configurations on tape (omitting trailing $Blank$ cells for readabil
   After Step 6, one pair has been removed and the head is back on the left, ready for the second pass.
 ]
 
-== TM Trace on $mono("0011")$, Part 2A
+== Trace on $mono("0011")$ --- Second Pass
 
 #grid(
   columns: 3,
@@ -3109,7 +3120,7 @@ Let's trace configurations on tape (omitting trailing $Blank$ cells for readabil
   The second pass mirrors the first one: find the remaining $0$, then the remaining $1$.
 ]
 
-== TM Trace on $mono("0011")$, Part 2B
+== Trace on $mono("0011")$ --- Acceptance
 
 #grid(
   columns: 2,
@@ -3144,7 +3155,7 @@ $
   *Visual insight:* The tape acts as writable memory. Crossing symbols out lets the machine remember progress without storing large counters in finite control.
 ]
 
-== TM vs DFA vs PDA: Comparison
+== DFA, PDA, and TM Compared
 
 #align(center)[
   #table(
@@ -3163,7 +3174,7 @@ $
 #Block(color: teal)[
   *Historical context:* Alan Turing introduced his machine model in 1936, before electronic computers existed.
   He was trying to formalize the notion of "mechanical procedure" to resolve Hilbert's _Entscheidungsproblem_ (decision problem).
-  The Turing machine remains the gold standard model of computation.
+  The Turing machine remains the standard reference model of computation.
 ]
 
 == Variants of Turing Machines
@@ -3312,7 +3323,7 @@ However, every formal model of computation ever proposed has turned out to be _e
   This trick is called _dovetailing_. It is one of the most useful proof ideas in computability theory.
 ]
 
-== Programs as Data: Encodings
+== Programs as Data
 
 To ask "does $M$ halt on $w$?" we need to _feed $M$ itself as an input_ to another TM.
 That requires encoding machines as strings.
@@ -3326,7 +3337,7 @@ That requires encoding machines as strings.
 #Block(color: yellow)[
   *Key insight:* TMs can read their _own descriptions_ as input.
   This is _programs as data_ --- and it is why the Halting Problem is well-formed.
-  The question "does $M$ halt on $angle.l M angle.r$?" is perfectly meaningful.
+  The question "does $M$ halt on $angle.l M angle.r$?" is mathematically well-defined.
 ]
 
 #theorem[Counting Theorem][
@@ -3339,7 +3350,7 @@ That requires encoding machines as strings.
 ]
 
 #Block(color: blue)[
-  *This idea underlies modern computing:*
+  *This perspective underlies modern computing:*
   - _Compilers:_ programs that take source code as input.
   - _Interpreters:_ programs that simulate another program on data.
   - _Formal verification:_ tools that analyse program behaviour --- and therefore encounter exactly the limits exposed by undecidability results.
@@ -3604,7 +3615,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
   )
 ]
 
-== Turing Machine: Exercises
+== Exercises on Turing Machines
 
 + *Design a TM* for $L = { a^n b^n c^n mid(|) n >= 0 }$. Describe the states and tape actions in plain English (no need for a full transition table). What does the tape look like mid-computation?
 
@@ -3628,7 +3639,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
   *Challenge:* prove that $"HALT" scripts(<=)_m { angle.l M angle.r mid(|) cal(L)(M) != emptyset }$ by an explicit reduction. Then conclude $"EMPTY"_"TM"$ is undecidable.
 ]
 
-== Summary: Formal Languages and Automata
+== Summary of Formal Languages and Automata
 
 + *Formal languages:* every decision problem is a language $L subset.eq Sigma^*$. Deciding it = recognizing it.
 
@@ -3661,7 +3672,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
   })
 ]
 
-== Summary: Turing Machines and Limits of Computation
+== Summary of Turing Machines and Computational Limits
 
 + *Turing machines* --- the universal model of computation (Church--Turing Thesis).
   - Infinite read/write tape; can simulate any other reasonable model.
