@@ -26,10 +26,10 @@
   head: 0,
   state: none,
   focus: none,
+  cell-size: 0.8,
   show-dots: false,
   caption: none,
 ) = {
-  let cell-size = 0.72
   let n = tape.len()
 
   cetz.canvas({
@@ -45,31 +45,39 @@
       )
     }
 
+    let pos(i, j) = {
+      let x = (i + 0.5) * cell-size
+      let y = (0.5 - j) * cell-size
+      (x, y)
+    }
+
     for i in range(n) {
-      content((i * cell-size + 0.5 * cell-size, 0.5 * cell-size), tape.at(i))
+      let p = pos(i, 0)
+      content(p, tape.at(i))
     }
 
     if show-dots {
-      content((-0.5 * cell-size, 0.5 * cell-size), $dots$)
-      content((n * cell-size + 0.5 * cell-size, 0.5 * cell-size), $dots$)
+      content(pos(-1, 0), $dots$)
+      content(pos(n, 0), $dots$)
     }
 
     let head-pos = (head + 0.5) * cell-size
-    line((head-pos, -0.08), (head-pos, -0.55), stroke: 1pt, mark: (start: ">", fill: black))
+    line((head-pos, -0.08), (head-pos, -0.6), stroke: 1pt, mark: (start: ">", fill: black))
 
     if state != none {
-      content((head-pos, -0.55), anchor: "north", padding: 0.05, Blue[state])
+      content((head-pos, -0.6), anchor: "north", padding: 0.1, Blue[state])
     }
 
     if focus != none and caption != none {
+      let (x, y) = focus
       line(
-        (focus.at(0) * cell-size, cell-size + 0.18),
-        ((focus.at(1) + 1) * cell-size, cell-size + 0.18),
+        (x * cell-size, cell-size + 0.2),
+        ((y + 1) * cell-size, cell-size + 0.2),
         stroke: 0.8pt + blue.darken(20%),
         mark: (start: "|", end: "|"),
       )
       content(
-        ((focus.at(0) + focus.at(1) + 1) * 0.5 * cell-size, cell-size + 0.45),
+        ((x + y + 1) * 0.5 * cell-size, cell-size + 0.45),
         text(size: 0.8em, fill: blue.darken(20%))[#caption],
       )
     }
