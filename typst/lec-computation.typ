@@ -3168,22 +3168,30 @@ $
 
 == Variants of Turing Machines
 
-Several variants of TMs exist, all _equivalent in power_:
-- _Multi-tape TMs:_ multiple tapes with independent heads.
-- _Non-deterministic TMs:_ $delta$ returns a _set_ of possible transitions.
-- _Two-way infinite tape:_ tape extends infinitely in both directions.
-- _Multi-track tape:_ each cell holds a tuple of symbols.
+Several variants of TMs exist, all _equivalent in computational power_:
+- _Multi-tape TMs:_ several tapes with independent heads.
+- _Non-deterministic TMs:_ $delta$ may branch into several possible moves.
+- _Two-way infinite tape:_ the head may roam freely in both directions.
+- _Multi-track or multi-head TMs:_ more structured storage, but the same computability.
 
 #theorem[
   Every multi-tape TM can be simulated by a single-tape TM.
 ]
-#v(-1em)
+#proof[
+  Encode all virtual tapes on one large tape using separators and marked head positions.
+  One simulation round scans this encoding, updates the marked cells, and writes the new symbols.
+]
+
 #theorem[
   Every non-deterministic TM can be simulated by a deterministic TM.
 ]
+#proof[
+  Explore the entire computation tree systematically, for example breadth-first.
+  If some branch accepts, the deterministic simulator will eventually discover it.
+]
 
 #note[
-  These simulations may involve a _polynomial_ (multi-tape) or _exponential_ (non-deterministic) slowdown, but they always terminate.
+  These simulations may slow computation down --- sometimes polynomially, sometimes exponentially --- but they do _not_ change which problems are computable.
 ]
 
 #place[
@@ -3193,6 +3201,28 @@ Several variants of TMs exist, all _equivalent in power_:
 
     Whether they can solve the same problems _efficiently_ is the famous *P vs NP* problem --- one of the most important open questions in mathematics and computer science.
   ]
+]
+
+== More Than One Model of Computation
+
+Turing machines are not the only model of algorithmic computation.
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Model*], [*Main idea*], [*Where it appears*]),
+    [Lambda calculus], [Computation by substitution], [Logic, proof theory, functional programming],
+    [Recursive functions], [Composition, primitive recursion, minimization], [Number theory and mathematical logic],
+    [Register / RAM machines], [Instructions on integer registers], [Assembly language and algorithm design],
+    [Boolean circuits], [Finite networks of gates], [Hardware and complexity theory],
+    [Cellular automata], [Simple local update rules], [Physics, emergence, simulation],
+  )
+]
+
+#Block(color: yellow)[
+  *Key insight:* these models look very different, but they all capture the same robust notion of an _effective procedure_.
 ]
 
 == Church--Turing Thesis
@@ -3218,27 +3248,68 @@ However, every formal model of computation ever proposed has turned out to be _e
 == Decidability and Recognizability
 
 #definition[
-  A language $L$ is _Turing-recognizable_ (or _recursively enumerable_, *RE*) if some TM _recognizes_ $L$.
-  That is, the TM accepts every $w in L$, and either rejects or loops on $w notin L$.
+  A language $L$ is _Turing-recognizable_ --- also called _semi-decidable_ or _recursively enumerable_ (*RE*) --- if some TM accepts every $w in L$.
+  On inputs $w notin L$, the machine may reject or loop forever.
 ]
 
 #definition[
-  A language $L$ is _decidable_ (or _recursive_, *R*) if some TM _decides_ $L$.
-  That is, the TM halts on _every_ input: it accepts $w in L$ and rejects $w notin L$.
+  A language $L$ is _decidable_ --- also called _recursive_ (*R*) --- if some TM halts on _every_ input and always gives the correct yes/no answer.
 ]
 
 #definition[
   A language $L$ is _co-recognizable_ (*co-RE*) if its complement $overline(L)$ is Turing-recognizable.
 ]
 
+#Block(color: yellow)[
+  *One-sentence summary:* _decidable_ means "there is an algorithm that always finishes"; _semi-decidable_ means "yes-instances can eventually be confirmed, but no-instances may keep us waiting forever".
+]
+
 #theorem[
   A language $L$ is decidable iff $L in "RE"$ and $L in "co-RE"$, i.e., $"R" = "RE" intersect "co-RE"$.
 ]
 
-#Block(color: yellow)[
-  *Recognize* = "_accept yes_-instances, maybe loop on no".
-  #h(1fr)
-  *Decide* = "_always halt_ with yes/no".
+== Common Examples of Computability Classes
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, center, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Problem*], [*Class*], [*Reason*]),
+    [DFA membership], [D], [Run the automaton once; it always halts],
+    [CFG membership], [D], [Use CYK or another parsing algorithm],
+    [SAT], [D], [There are finitely many assignments to try],
+    [$"HALT"$], [$"RE" setminus "R"$], [Simulate and accept when halting is observed],
+    [$overline("HALT")$], [$"co-RE" setminus "R"$], [Its complement is HALT],
+    [$"REGULAR"_"TM"$], [Neither], [No recognizer exists in either direction],
+  )
+]
+
+#Block(color: blue)[
+  _Semi-decidable_ problems often arise when a positive witness can be found by search, but a negative answer would require proving that _no witness exists_.
+]
+
+== Why $"R" = "RE" intersect "co-RE"$
+
+#proof[
+  The forward direction is easy: if $L$ is decidable, then the same decider recognizes $L$, and by swapping accept/reject it also recognizes $overline(L)$.
+
+  For the converse, assume $L in "RE"$ and $L in "co-RE"$.
+  Let $M_"yes"$ recognize $L$, and let $M_"no"$ recognize $overline(L)$.
+
+  On input $w$, simulate both machines in _lockstep_:
+  - Step 1 of $M_"yes"$, then Step 1 of $M_"no"$,
+  - Step 2 of $M_"yes"$, then Step 2 of $M_"no"$,
+  - and so on.
+
+  Since every input belongs either to $L$ or to $overline(L)$, one of the two recognizers must eventually accept.
+  As soon as that happens, we halt and return the corresponding answer.
+
+  Therefore $L$ is decidable.
+]
+
+#Block(color: teal)[
+  This trick is called _dovetailing_. It is one of the most useful proof ideas in computability theory.
 ]
 
 == Programs as Data: Encodings
@@ -3258,16 +3329,59 @@ That requires encoding machines as strings.
   The question "does $M$ halt on $angle.l M angle.r$?" is perfectly meaningful.
 ]
 
-*Cardinality argument (why undecidable languages exist):*
-- There are _countably many_ TMs (each $angle.l M angle.r$ is a finite string).
-- There are _uncountably many_ languages ($cal(P)(Sigma^*)$ is uncountable by Cantor's theorem).
-- Therefore _most languages cannot be recognized by any TM_ --- they are not even RE.
+#theorem[Counting Theorem][
+  There exist languages over ${0,1}$ that are not Turing-recognizable.
+]
+#proof[
+  There are only _countably many_ TMs, because each machine description is a finite string.
+  But there are _uncountably many_ languages, since $power({0,1}^*)$ is uncountable by Cantor's theorem.
+  So most languages cannot be matched with any TM at all.
+]
 
 #Block(color: blue)[
-  *This idea underlies all of modern computing:*
-  - _Compilers:_ programs that take source code (a string) as input.
+  *This idea underlies modern computing:*
+  - _Compilers:_ programs that take source code as input.
   - _Interpreters:_ programs that simulate another program on data.
-  - _Formal verification:_ tools that analyse program behaviour --- and therefore hit exactly the limits exposed by Rice's Theorem.
+  - _Formal verification:_ tools that analyse program behaviour --- and therefore encounter exactly the limits exposed by undecidability results.
+]
+
+== Universal Turing Machine
+
+#theorem[
+  There exists a single TM $U$ such that, on input $angle.l M, w angle.r$, the machine $U$ simulates the computation of $M$ on $w$.
+]
+
+#proof[
+  The encoded transition table of $M$ is part of the input.
+  Machine $U$ stores a simulated configuration of $M$ on its own tape and repeatedly applies the next transition described by that table.
+  So one fixed machine can imitate any other machine.
+]
+
+#Block(color: yellow)[
+  *Why this matters:* interpreters, emulators, virtual machines, and stored-program computers all rely on this idea.
+  A program is just _data that another program can execute_.
+]
+
+== Reductions: The Standard Tool
+
+#definition[
+  A _many-one reduction_ from $A$ to $B$, written $A scripts(<=)_m B$, is a computable function $f$ such that
+  $
+    x in A iff f(x) in B
+  $
+  for every input $x$.
+]
+
+#theorem[
+  If $A scripts(<=)_m B$ and $B$ is decidable, then $A$ is decidable.
+]
+#proof[
+  To decide whether $x in A$, compute $f(x)$ and run the decider for $B$ on the transformed input $f(x)$.
+]
+
+#Block(color: orange)[
+  To prove that $B$ is undecidable, it is enough to reduce a known undecidable problem $A$ to it.
+  Reductions let us _transfer impossibility_ from one problem to another.
 ]
 
 == Map of Decidability and Recognizability
@@ -3299,23 +3413,25 @@ That requires encoding machines as strings.
     circle((1, 3), radius: 3pt, fill: yellow.darken(10%))
     content((1, 3), anchor: "south-west", padding: 4pt, text(size: .7em)[HALT])
     circle((2.5, 3.5), radius: 3pt, fill: yellow.darken(10%))
-    content((2.5, 3.5), anchor: "south-west", padding: 4pt, text(size: .7em)[REGULAR])
+    content((2.5, 3.5), anchor: "south-west", padding: 4pt, text(size: .7em)[$"REGULAR"_"TM"$])
   }),
 
   [
     *Classes overview:*
     $ "Regular" subset "CF" subset "CS" subset "R" subset "RE" $
     - *R* = *RE* $intersect$ *co-RE* --- decidable languages
-    - *HALT* $in$ *RE* $setminus$ *R* --- recognizable but _not_ decidable; TM~accepts but may loop
-    - *SAT* $in$ *R* --- decidable (exhaustive search); #box[NP-complete]
-    - *REGULAR* $in$ {"neither RE nor co-RE"} --- no TM can even confirm or deny it
+    - *HALT* and *$"A"_"TM"$* lie in *RE* $setminus$ *R* --- yes-instances can be confirmed by simulation
+    - $overline("HALT")$ lies in *co-RE* $setminus$ *R*
+    - *SAT* lies in *R* --- decidable by exhaustive search; #box[NP-complete]
+    - *$"REGULAR"_"TM"$* lies in neither *RE* nor *co-RE*
   ],
 )
 
 #Block(color: orange)[
   *Warning:* Decidable $subset.neq$ Recognizable.
   - There exist languages that are recognizable but _not_ decidable (e.g., HALT).
-  - There also exist languages that are _not even recognizable_ (e.g., $overline("HALT")$, $"REGULAR"_"TM"$).
+  - Some languages are _not recognizable_ (for example $overline("HALT")$).
+  - Some are in neither *RE* nor *co-RE* (for example $"REGULAR"_"TM"$).
 ]
 
 == The Halting Problem
@@ -3352,8 +3468,37 @@ That requires encoding machines as strings.
   *Key insight:* There exist well-defined mathematical problems that _no algorithm can solve_.
 
   This is not a limitation of current technology --- it is a _fundamental_ impossibility.
+  The proof is a precise self-reference paradox: the machine $D$ is forced to halt iff it does _not_ halt.
 
-  The proof uses the same diagonal argument as Cantor's proof that $RR$ is uncountable.
+  This connects computation to Cantor's diagonal argument, Gödel's incompleteness ideas, and deep philosophical questions about the limits of mechanical reasoning.
+]
+
+== A Classical Semi-decidable Problem: $"A"_"TM"$
+
+#definition[Acceptance Problem][
+  $
+    "A"_"TM" = { angle.l M, w angle.r mid(|) M "accepts" w }
+  $
+]
+
+#theorem[
+  $"A"_"TM"$ is Turing-recognizable but undecidable.
+]
+
+#proof[
+  _Recognizable:_ simulate $M$ on $w$. If $M$ accepts, accept. If $M$ rejects or loops, our simulator may simply run forever.
+
+  _Undecidable:_ reduce HALT to $"A"_"TM"$.
+  Given $angle.l M, w angle.r$, construct a machine $N$ that ignores its own input, simulates $M$ on $w$, and accepts iff that simulation ever halts.
+  Then
+  $
+    angle.l M, w angle.r in "HALT" iff angle.l N, 0 angle.r in "A"_"TM"
+  $
+  so a decider for $"A"_"TM"$ would also decide HALT.
+]
+
+#Block(color: blue)[
+  This is the prototypical _semi-decidable_ problem: successful computations can be witnessed, but unsuccessful ones may leave us waiting forever.
 ]
 
 == Rice's Theorem
@@ -3380,16 +3525,18 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 ]
 
 #proof[
-  Assume WLOG that $P(M_emptyset) = "false"$ (where $cal(L)(M_emptyset) = emptyset$).
-  Since $P$ is non-trivial, some $M_P$ satisfies $P(M_P) = "true"$.
+  Assume WLOG that $P(M_emptyset) = "false"$ where $cal(L)(M_emptyset) = emptyset$.
+  Since $P$ is non-trivial, there exists some machine $M_P$ with $P(M_P) = "true"$.
 
-  Reduce HALT to $P$: given $angle.l M, w angle.r$, build $M'$ that on input $x$:
-  + Simulate $M$ on $w$. If $M$ halts and accepts, simulate $M_P$ on $x$.
+  Reduce HALT to $P$: given $angle.l M, w angle.r$, build a machine $M'$ that on input $x$ first simulates $M$ on $w$.
+  - If the simulation of $M$ on $w$ ever halts, then $M'$ continues by simulating $M_P$ on $x$.
+  - If the simulation never halts, then $M'$ never reaches the second phase.
 
-  Then $M$ halts on $w$ $imply$ $cal(L)(M') = cal(L)(M_P)$ $imply$ $P(M') = "true"$; \
-  and $M$ does not halt on $w$ $imply$ $cal(L)(M') = emptyset$ $imply$ $P(M') = "false"$.
+  Therefore:
+  - if $M$ halts on $w$, then $cal(L)(M') = cal(L)(M_P)$, so $P(M') = "true"$;
+  - if $M$ does not halt on $w$, then $cal(L)(M') = emptyset$, so $P(M') = "false"$.
 
-  A decider for $P$ would decide HALT --- contradiction.
+  A decider for $P$ would therefore decide HALT, which is impossible.
 ]
 
 == Consequences of Rice's Theorem
@@ -3409,7 +3556,7 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
     [$cal(L)(M_1) = cal(L)(M_2)$ (equivalence)], [#NO], [Semantic, non-trivial: Rice],
     [*$M$ has fewer than 100 states*], [#YES], [*Syntactic* (structural) --- NOT semantic!],
     [*$M$ halts on the empty string $epsilon$ within 100 steps*], [#YES], [*Syntactic:* simulate 100 steps directly],
-    [*Is $w in cal(L)(M)$?* for a _fixed known_ machine $M$], [#YES], [Fixed machine $=>$ just simulate it],
+    [*Is $w in cal(L)(M)$?* for a _fixed known decider_ $M$], [#YES], [Run $M$ on $w$; by assumption it always halts],
   )
 ]
 
@@ -3518,20 +3665,24 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 
 + *Turing machines* --- the universal model of computation (Church--Turing Thesis).
   - Infinite read/write tape; can simulate any other reasonable model.
-  - Variants (multi-tape, non-deterministic, two-way) are all equivalent in _power_ (not in _speed_).
+  - Variants (multi-tape, non-deterministic, two-way) are equivalent in _power_ even when their running times differ.
+  - Other equivalent models include lambda calculus, recursive functions, and register machines.
 
 + *Decidability landscape:*
-  - *R (Decidable):* TM always halts with yes/no. Closed under all Boolean ops.
-  - *RE (Recognizable):* TM accepts yes-instances; may loop on no. Closed under $union$, $inter$ only.
-  - *co-RE:* complement is RE.
-  - $"R" = "RE" intersect "co-RE"$.
-  - There exist languages in neither RE nor co-RE (e.g., $"REGULAR"_"TM"$).
+  - *R (Decidable):* TM always halts with yes/no. Closed under all Boolean operations.
+  - *RE (Recognizable / Semi-decidable):* TM accepts yes-instances; may loop on no.
+  - *co-RE:* complements of recognizable languages.
+  - $"R" = "RE" intersect "co-RE"$ by dovetailing.
+  - There exist languages in neither RE nor co-RE (for example $"REGULAR"_"TM"$).
 
-+ *The Halting Problem (HALT) is undecidable* --- proved by diagonalization.
-  HALT $in$ RE (simulate and accept if halts) but HALT $notin$ R.
++ *Programs as data* and the *universal TM* explain interpreters, virtual machines, and self-reference.
 
-+ *Rice's Theorem:* every non-trivial _semantic_ property of TM behavior is undecidable.
-  Distinguishing semantic (language property) from syntactic (machine structure) is the key.
++ *Undecidability toolkit:*
+  - *HALT* is undecidable by diagonalization.
+  - Many other problems are proved undecidable by _reductions_.
+  - *Rice's Theorem* shows that every non-trivial _semantic_ property of program behavior is undecidable.
+
++ *Big picture:* computation has extraordinary power, but it also has absolute mathematical limits.
 
 + *Counts argument:* countably many TMs, uncountably many languages --- most are not even RE.
 
