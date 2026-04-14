@@ -93,13 +93,12 @@
   show-dots: false,
   caption: none,
 ) = box(
-  inset: 0.7em,
-  radius: 4pt,
-  stroke: 0.5pt + luma(65%),
+  inset: 1em,
+  radius: 5pt,
+  stroke: 0.5pt + luma(70%),
   fill: luma(98%),
 )[
   #align(center)[*#title*]
-  #v(0.3em)
   #align(center)[
     #tm-snapshot(
       tape,
