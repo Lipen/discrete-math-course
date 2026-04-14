@@ -21,6 +21,97 @@
 #let lang(x) = $cal(L)(#x)$
 #let Blank = math.class("normal", sym.square.stroked)
 
+#let tm-snapshot(
+  tape,
+  head: 0,
+  state: none,
+  focus: none,
+  show-dots: false,
+  caption: none,
+) = {
+  let cell-size = 0.72
+  let n = tape.len()
+
+  cetz.canvas({
+    import cetz.draw: *
+
+    for i in range(n) {
+      let active = focus != none and i >= focus.at(0) and i <= focus.at(1)
+      rect(
+        (i * cell-size, 0),
+        ((i + 1) * cell-size, cell-size),
+        stroke: 0.5pt,
+        fill: if active { blue.lighten(90%) } else { luma(95%) },
+      )
+    }
+
+    for i in range(n) {
+      content((i * cell-size + 0.5 * cell-size, 0.5 * cell-size), tape.at(i))
+    }
+
+    if show-dots {
+      content((-0.5 * cell-size, 0.5 * cell-size), $dots$)
+      content((n * cell-size + 0.5 * cell-size, 0.5 * cell-size), $dots$)
+    }
+
+    let head-pos = (head + 0.5) * cell-size
+    line((head-pos, -0.08), (head-pos, -0.55), stroke: 1pt, mark: (start: ">", fill: black))
+
+    if state != none {
+      content((head-pos, -0.55), anchor: "north", padding: 0.05, Blue[state])
+    }
+
+    if focus != none and caption != none {
+      line(
+        (focus.at(0) * cell-size, cell-size + 0.18),
+        ((focus.at(1) + 1) * cell-size, cell-size + 0.18),
+        stroke: 0.8pt + blue.darken(20%),
+        mark: (start: "|", end: "|"),
+      )
+      content(
+        ((focus.at(0) + focus.at(1) + 1) * 0.5 * cell-size, cell-size + 0.45),
+        text(size: 0.8em, fill: blue.darken(20%))[#caption],
+      )
+    }
+  })
+}
+
+#let tm-frame(
+  title,
+  tape,
+  head: 0,
+  state: none,
+  focus: none,
+  show-dots: false,
+  caption: none,
+) = box(
+  inset: 0.7em,
+  radius: 4pt,
+  stroke: 0.5pt + luma(65%),
+  fill: luma(98%),
+)[
+  #align(center)[*#title*]
+  #v(0.3em)
+  #align(center)[
+    #tm-snapshot(
+      tape,
+      head: head,
+      state: state,
+      focus: focus,
+      show-dots: show-dots,
+      caption: caption,
+    )
+  ]
+]
+
+#let tm-excerpt(title, tape, head: 0, state: none) = tm-frame(
+  title,
+  tape,
+  head: head,
+  state: state,
+  show-dots: true,
+)
+
 #CourseOverviewPage2()
 
 
@@ -2888,60 +2979,14 @@ It is strong enough to express arbitrary algorithms, yet simple enough to study 
 A Turing machine operates on an infinite tape divided into cells, each containing a symbol from $Gamma$.
 
 #align(center)[
-  #cetz.canvas({
-    import cetz.draw: *
-
-    // Draw tape cells
-    let n = 11
-    let cell-size = 0.7
-    for i in range(n) {
-      rect(
-        (i * cell-size, 0),
-        ((i + 1) * cell-size, cell-size),
-        stroke: 0.5pt,
-        fill: if i >= 2 and i <= 6 { blue.lighten(90%) } else { luma(95%) },
-      )
-    }
-
-    let cell(i, body) = {
-      let x = i * cell-size + 0.5 * cell-size
-      let y = 0.5 * cell-size
-      content((x, y), body)
-    }
-
-    // Tape content
-    cell(0)[$Blank$]
-    cell(1)[$Blank$]
-    cell(2)[$0$]
-    cell(3)[$0$]
-    cell(4)[$1$]
-    cell(5)[$1$]
-    cell(6)[$0$]
-    cell(7)[$1$]
-    cell(8)[$Blank$]
-    cell(9)[$Blank$]
-    cell(10)[$Blank$]
-
-    // Dots at ends
-    cell(-1)[$dots$]
-    cell(n)[$dots$]
-
-    // Head
-    let head-pos = 4.5 * cell-size
-    line((head-pos, -0.1), (head-pos, -0.6), stroke: 1pt, mark: (start: ">", fill: black))
-
-    // State label
-    content((head-pos, -0.6), anchor: "north", padding: 0.1, Blue[State $q_3$])
-
-    // Annotation: input region
-    line(
-      (2 * cell-size, cell-size + 0.2),
-      (7 * cell-size, cell-size + 0.2),
-      stroke: 0.8pt + blue.darken(20%),
-      mark: (start: "|", end: "|"),
-    )
-    content((4.5 * cell-size, cell-size + 0.5), text(size: 0.8em, fill: blue.darken(20%))[Input $w$])
-  })
+  #tm-snapshot(
+    ($Blank$, $Blank$, $0$, $0$, $1$, $1$, $0$, $1$, $Blank$, $Blank$, $Blank$),
+    head: 4,
+    state: [State $q_3$],
+    focus: (2, 7),
+    show-dots: true,
+    caption: [Input $w$],
+  )
 ]
 
 == One Transition Step
@@ -2987,14 +3032,15 @@ At each step:
 #example[
   A TM that recognizes $L = { 0^n 1^n mid(|) n >= 0 }$:
 
-  *Idea:* Repeatedly scan the tape, crossing off one $0$ and one $1$ in each pass.
+  *Operational idea:* match the symbols in pairs.
 
-  + Scan right from the leftmost uncrossed $0$. If no $0$ found, check that no $1$ remains --- if so, _accept_.
-  + Cross off this $0$ (replace with $times$).
-  + Continue scanning right to find the leftmost uncrossed $1$. If no $1$ found, _reject_.
-  + Cross off this $1$ (replace with $times$).
-  + Move the head back to the left end of the tape.
-  + Repeat from step 1.
+  + Start at the left end and find the first uncrossed $0$.
+  + Replace it by $times$ to mark that this $0$ has been used.
+  + Move right until you encounter the first uncrossed $1$.
+  + Replace it by $times$ as well.
+  + Return to the left and repeat the same procedure.
+
+  The machine accepts when everything has been matched, and rejects as soon as the required matching symbol does not exist.
 ]
 
 #Block(color: yellow)[
@@ -3003,39 +3049,15 @@ At each step:
 
 == Trace on $mono("0011")$ --- First Pass
 
-We trace the computation on the tape, omitting trailing $Blank$ cells for readability.
+The trace makes the strategy visible: the machine marks one matching $0$-$1$ pair, returns to the left, and repeats the process.
 
 #grid(
   columns: 3,
   column-gutter: 1em,
   row-gutter: 1em,
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 1: Initial*], [], [], [], []),
-    [$q_0$], [], [], [], [],
-    [$0$], [$0$], [$1$], [$1$], [$Blank$],
-    [↑], [], [], [], [],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 2*], [], [], [], []),
-    [], [$q_1$], [], [], [],
-    [$times$], [$0$], [$1$], [$1$], [$Blank$],
-    [], [↑], [], [], [],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 3*], [], [], [], []),
-    [], [], [$q_1$], [], [],
-    [$times$], [$0$], [$1$], [$1$], [$Blank$],
-    [], [], [↑], [], [],
-  ),
+  tm-excerpt([Step 1 --- Initial], ($0$, $0$, $1$, $1$, $Blank$), head: 0, state: [$q_0$]),
+  tm-excerpt([Step 2], ($times$, $0$, $1$, $1$, $Blank$), head: 1, state: [$q_1$]),
+  tm-excerpt([Step 3], ($times$, $0$, $1$, $1$, $Blank$), head: 2, state: [$q_1$]),
 )
 
 #note[
@@ -3048,33 +3070,9 @@ We trace the computation on the tape, omitting trailing $Blank$ cells for readab
   columns: 3,
   column-gutter: 1em,
   row-gutter: 1em,
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 4*], [], [], [], []),
-    [], [], [], [$q_2$], [],
-    [$times$], [$0$], [$times$], [$1$], [$Blank$],
-    [], [], [], [↑], [],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 5*], [], [], [], []),
-    [], [$q_3$], [], [], [],
-    [$times$], [$0$], [$times$], [$1$], [$Blank$],
-    [], [↑], [], [], [],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 6*], [], [], [], []),
-    [$q_3$], [], [], [], [],
-    [$times$], [$0$], [$times$], [$1$], [$Blank$],
-    [↑], [], [], [], [],
-  ),
+  tm-excerpt([Step 4], ($times$, $0$, $times$, $1$, $Blank$), head: 3, state: [$q_2$]),
+  tm-excerpt([Step 5], ($times$, $0$, $times$, $1$, $Blank$), head: 1, state: [$q_3$]),
+  tm-excerpt([Step 6], ($times$, $0$, $times$, $1$, $Blank$), head: 0, state: [$q_3$]),
 )
 
 #note[
@@ -3087,33 +3085,9 @@ We trace the computation on the tape, omitting trailing $Blank$ cells for readab
   columns: 3,
   column-gutter: 1em,
   row-gutter: 1em,
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 7*], [], [], [], []),
-    [], [$q_0$], [], [], [],
-    [$times$], [$0$], [$times$], [$1$], [$Blank$],
-    [], [↑], [], [], [],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 8*], [], [], [], []),
-    [], [], [$q_1$], [], [],
-    [$times$], [$times$], [$times$], [$1$], [$Blank$],
-    [], [], [↑], [], [],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 9*], [], [], [], []),
-    [], [], [], [$q_1$], [],
-    [$times$], [$times$], [$times$], [$1$], [$Blank$],
-    [], [], [], [↑], [],
-  ),
+  tm-excerpt([Step 7], ($times$, $0$, $times$, $1$, $Blank$), head: 1, state: [$q_0$]),
+  tm-excerpt([Step 8], ($times$, $times$, $times$, $1$, $Blank$), head: 2, state: [$q_1$]),
+  tm-excerpt([Step 9], ($times$, $times$, $times$, $1$, $Blank$), head: 3, state: [$q_1$]),
 )
 
 #note[
@@ -3126,24 +3100,8 @@ We trace the computation on the tape, omitting trailing $Blank$ cells for readab
   columns: 2,
   column-gutter: 1em,
   row-gutter: 1em,
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 10*], [], [], [], []),
-    [], [], [], [], [$q_2$],
-    [$times$], [$times$], [$times$], [$times$], [$Blank$],
-    [], [], [], [], [↑],
-  ),
-  table(
-    columns: 5,
-    stroke: 0.5pt,
-    align: center,
-    table.header([*Step 11: Accept*], [], [], [], []),
-    [], [], [], [$q_3$], [],
-    [$times$], [$times$], [$times$], [$times$], [$Blank$],
-    [], [], [], [↑], [],
-  ),
+  tm-excerpt([Step 10], ($times$, $times$, $times$, $times$, $Blank$), head: 4, state: [$q_2$]),
+  tm-excerpt([Step 11 --- Accept], ($times$, $times$, $times$, $times$, $Blank$), head: 3, state: [$q_3$]),
 )
 
 Formal trace (abbreviated):
@@ -3617,26 +3575,39 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 
 == Exercises on Turing Machines
 
-+ *Design a TM* for $L = { a^n b^n c^n mid(|) n >= 0 }$. Describe the states and tape actions in plain English (no need for a full transition table). What does the tape look like mid-computation?
++ *Design a TM* for $L = { a^n b^n c^n mid(|) n >= 0 }$.
+  Describe the states and tape actions in plain English (no need for a full transition table).
+  What does the tape look like mid-computation?
 
-+ *Tracing:* Run the TM for $0^n 1^n$ (from the trace slides) on input $mono("000111")$. Write out the full configuration sequence. What happens on input $mono("0011")$? On $mono("001")$?
++ *Tracing:*
+  Run the TM for $0^n 1^n$ (from the trace slides) on input $mono("000111")$.
+  Write out the full configuration sequence. What happens on input $mono("0011")$? On $mono("001")$?
 
-+ *Variants:* A two-tape TM can copy the first half of its input to the second tape. Use this to sketch a TM for $L = { w w mid(|) w in {0,1}^* }$. Why is this easy with two tapes but hard with one?
++ *Variants:*
+  A two-tape TM can copy the first half of its input to the second tape.
+  Use this to sketch a TM for $L = { w w mid(|) w in {0,1}^* }$.
+  Why is this easy with two tapes but hard with one?
 
-+ *Decidability:* Classify each property as decidable (D), recognizable but not decidable (R), or not even recognizable (N). Justify each answer:
++ *Decidability:*
+  Classify each property as decidable (D), recognizable but not decidable (R), or not even recognizable (N).
+  Justify each answer:
   - ${ angle.l M angle.r mid(|) M "accepts the empty string" }$
   - ${ angle.l M angle.r mid(|) M "halts on all inputs" }$
   - ${ angle.l M angle.r mid(|) M "has exactly 7 states" }$
   - ${ angle.l M_1, M_2 angle.r mid(|) cal(L)(M_1) = cal(L)(M_2) }$
 
-+ *Rice's Theorem:* For each property below, state whether Rice's Theorem applies. If it does, conclude undecidability. If it does not, say why (and determine decidability separately):
++ *Rice's Theorem:*
+  For each property below, state whether Rice's Theorem applies.
+  If it does, conclude undecidability.
+  If it does not, say why (and determine decidability separately):
   - $cal(L)(M)$ is a regular language.
   - $M$ visits state $q_3$ on input $epsilon$.
   - $M$ accepts at least one palindrome.
   - $M$ has a transition on symbol $\$$.
 
 #Block(color: orange)[
-  *Challenge:* prove that $"HALT" scripts(<=)_m { angle.l M angle.r mid(|) cal(L)(M) != emptyset }$ by an explicit reduction. Then conclude $"EMPTY"_"TM"$ is undecidable.
+  *Challenge:* prove that $"HALT" scripts(<=)_m { angle.l M angle.r mid(|) cal(L)(M) != emptyset }$ by an explicit reduction.
+  Then conclude $"EMPTY"_"TM"$ is undecidable.
 ]
 
 == Summary of Formal Languages and Automata
