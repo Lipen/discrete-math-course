@@ -256,7 +256,7 @@ The language encodes all inputs for which the answer is "yes".
   A _decision problem_ is a question with a "yes" or "no" answer depending on the input.
   Formally, the set of inputs for which the answer is "yes" is a language $L subset.eq Sigma^*$.
 
-  _Deciding_ the problem is equivalent to _recognizing_ the language $L$.
+  Deciding the problem means deciding membership in the language $L$.
 ]
 
 #v(1em)
@@ -3343,6 +3343,8 @@ That requires encoding machines as strings.
   The question "does $M$ halt on $angle.l M angle.r$?" is mathematically well-defined.
 ]
 
+#pagebreak()
+
 #theorem[Counting Theorem][
   There exist languages over ${0,1}$ that are not Turing-recognizable.
 ]
@@ -3441,11 +3443,14 @@ That requires encoding machines as strings.
   ],
 )
 
+#place[
+  #v(1em)
 #Block(color: orange)[
   *Warning:* Decidable $subset.neq$ Recognizable.
   - There exist languages that are recognizable but _not_ decidable (e.g., HALT).
   - Some languages are _not recognizable_ (for example $overline("HALT")$).
   - Some are in neither *RE* nor *co-RE* (for example $"REGULAR"_"TM"$).
+]
 ]
 
 == The Halting Problem
@@ -3511,8 +3516,12 @@ That requires encoding machines as strings.
   so a decider for $"A"_"TM"$ would also decide HALT.
 ]
 
+#place[
+  #v(1em)
+  #set text(0.8em)
 #Block(color: blue)[
-  This is the prototypical _semi-decidable_ problem: successful computations can be witnessed, but unsuccessful ones may leave us waiting forever.
+  This is the prototypical _semi-decidable_ problem: successful computations can be witnessed, \ but unsuccessful ones may leave us waiting forever.
+]
 ]
 
 == Rice's Theorem
@@ -3657,66 +3666,67 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
 
 == Summary of Formal Languages and Automata
 
-+ *Formal languages:* every decision problem is a language $L subset.eq Sigma^*$. Deciding it = recognizing it.
++ *Formal languages:*
+  every decision problem can be encoded as a language $L subset.eq Sigma^*$. \
+  Deciding the problem means deciding whether the input word belongs to $L$.
 
 + *Regular languages* (DFA $=$ NFA $=$ $epsilon$-NFA $=$ RegExp) --- Kleene's Theorem.
-  - Memory model: finitely many states (constant memory).
-  - Pumping Lemma: _necessary_ condition for regularity.
-  - Myhill-Nerode: _necessary and sufficient_ --- $L$ regular iff $scripts(equiv)_L$ has finite index.
-  - Closed under all Boolean operations; all key questions decidable.
+  - Memory model: finitely many states.
+  - Pumping Lemma: a _necessary_ test for non-regularity.
+  - Myhill-Nerode: a _necessary and sufficient_ characterization.
+  - Closure and decision properties are exceptionally strong.
 
 + *Context-free languages* (CFG $=$ PDA):
-  - Memory model: a stack (unbounded LIFO memory).
-  - CNF and CYK: uniform parse-tree structure, $cal(O)(n^3)$ recognition.
-  - CFL Pumping Lemma: two-sided pump $v, y$ from repeated variable in parse tree.
-  - Closed under union, concatenation, star, reversal, homomorphism, $intersect$ regular.
-  - *Not* closed under intersection or complement.
-  - Undecidable: universality, equivalence, intersection emptiness, ambiguity.
+  - Memory model: one unbounded stack.
+  - CNF and CYK provide a uniform recognition method in $cal(O)(n^3)$ time.
+  - CFL Pumping Lemma reveals a higher expressiveness than regular languages.
+  - Important questions are still undecidable, including equivalence and ambiguity.
 
-#align(center)[
-  #cetz.canvas(length: 0.9cm, {
+#place(right + horizon, dy: -1.5em)[
+  #cetz.canvas({
     import cetz.draw: *
     set-style(stroke: 0.6pt)
-    circle((0, 0), radius: (0.9, 0.45), fill: green.transparentize(80%))
-    circle((0, 0.35), radius: (1.7, 0.9), fill: blue.transparentize(85%))
-    circle((0, 0.7), radius: (2.5, 1.35), fill: purple.transparentize(90%))
-    circle((0, 1.0), radius: (3.3, 1.8))
-    content((0, 0), text(size: 0.75em)[Regular])
-    content((0, 0.9), text(size: 0.75em)[CFL])
-    content((0, 1.8), text(size: 0.75em)[Decidable])
-    content((0, 2.6), text(size: 0.75em)[RE])
+    circle((0, 0), radius: (0.8, 0.45), fill: green.transparentize(80%))
+    circle((0, 0.35), radius: (1.4, 0.9), fill: blue.transparentize(85%))
+    circle((0, 0.7), radius: (2.0, 1.35), fill: purple.transparentize(90%))
+    circle((0, 1.05), radius: (2.6, 1.8))
+    content((0, 0), text(size: 0.8em)[Regular])
+    content((0, 0.9), text(size: 0.8em)[CFL])
+    content((0, 1.7), text(size: 0.8em)[Decidable])
+    content((0, 2.6), text(size: 0.8em)[RE])
   })
 ]
 
 == Summary of Turing Machines and Computational Limits
 
-+ *Turing machines* --- the universal model of computation (Church--Turing Thesis).
-  - Infinite read/write tape; can simulate any other reasonable model.
-  - Variants (multi-tape, non-deterministic, two-way) are equivalent in _power_ even when their running times differ.
-  - Other equivalent models include lambda calculus, recursive functions, and register machines.
++ *Turing machines* give a mathematically precise model of general computation.
+  - They have finite control together with unbounded read/write memory.
+  - Many alternative models are equivalent in expressive power.
 
 + *Decidability landscape:*
-  - *R (Decidable):* TM always halts with yes/no. Closed under all Boolean operations.
-  - *RE (Recognizable / Semi-decidable):* TM accepts yes-instances; may loop on no.
-  - *co-RE:* complements of recognizable languages.
-  - $"R" = "RE" intersect "co-RE"$ by dovetailing.
-  - There exist languages in neither RE nor co-RE (for example $"REGULAR"_"TM"$).
+  - *R* consists of the decidable languages.
+  - *RE* consists of the recognizable languages.
+  - Recognizability is strictly weaker than decidability.
+  - In fact, $"R" subset.neq "RE"$ and $"R" = "RE" intersect "co-RE"$.
 
-+ *Programs as data* and the *universal TM* explain interpreters, virtual machines, and self-reference.
-
-+ *Undecidability toolkit:*
++ *Undecidability is unavoidable:*
   - *HALT* is undecidable by diagonalization.
-  - Many other problems are proved undecidable by _reductions_.
-  - *Rice's Theorem* shows that every non-trivial _semantic_ property of program behavior is undecidable.
+  - Reductions transfer undecidability from one problem to another.
+  - *Rice's Theorem* rules out decision procedures for non-trivial semantic properties of programs.
 
 + *Big picture:* computation has extraordinary power, but it also has absolute mathematical limits.
 
 + *Counts argument:* countably many TMs, uncountably many languages --- most are not even RE.
 
-#Block(color: yellow)[
-  The _language hierarchy_ (each level strictly contains the one below):
-  $
-    "Regular" subset.neq "CFL" subset.neq "Decidable" subset.neq "RE" subset.neq "All Languages"
-  $
-  Each step up requires a strictly more powerful machine model: DFA $to$ PDA $to$ TM-decider $to$ TM-recognizer.
+#place(right + horizon, dy: -2em)[
+  #set align(left)
+  #set text(0.7em)
+  #Block(color: yellow)[
+    The _language hierarchy_:
+    $
+      "Regular" subset.neq "CFL" subset.neq "Decidable" subset.neq "RE" subset.neq "All Languages"
+    $
+    Each step up requires a strictly more powerful machine model:
+    $ "DFA" prec "PDA" prec "TM-decider" prec "TM-recognizer" prec "✨" $
+  ]
 ]
