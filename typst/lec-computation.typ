@@ -1081,7 +1081,7 @@ To formalize this, we exploit the simplest consequence of finite state spaces: t
 
     transition("q1", "q2", inputs: "x", label: $x$, curve: 0.001)
     transition("q2", "q3", inputs: "z", label: $z$, curve: 0.001)
-    transition("q2", "q2", inputs: "y", label: $y$)
+    transition("q2", "q2", inputs: "y", label: $y$, curve: 0.8)
   })
 ]
 
