@@ -3203,9 +3203,9 @@ Several variants of TMs exist, all _equivalent in computational power_:
   ]
 ]
 
-== More Than One Model of Computation
+== Equivalent Models of Computation
 
-Turing machines are not the only model of algorithmic computation.
+Turing machines are not the only formal model of algorithmic computation.
 
 #align(center)[
   #table(
@@ -3261,14 +3261,14 @@ However, every formal model of computation ever proposed has turned out to be _e
 ]
 
 #Block(color: yellow)[
-  *One-sentence summary:* _decidable_ means "there is an algorithm that always finishes"; _semi-decidable_ means "yes-instances can eventually be confirmed, but no-instances may keep us waiting forever".
+  *Operational distinction:* _decidable_ means "there is an algorithm that always halts"; _semi-decidable_ means "yes-instances can eventually be confirmed, but no-instances may keep us waiting forever".
 ]
 
 #theorem[
   A language $L$ is decidable iff $L in "RE"$ and $L in "co-RE"$, i.e., $"R" = "RE" intersect "co-RE"$.
 ]
 
-== Common Examples of Computability Classes
+== Examples of Computability Classes
 
 #align(center)[
   #table(
@@ -3289,7 +3289,7 @@ However, every formal model of computation ever proposed has turned out to be _e
   _Semi-decidable_ problems often arise when a positive witness can be found by search, but a negative answer would require proving that _no witness exists_.
 ]
 
-== Why $"R" = "RE" intersect "co-RE"$
+== Decidable $=$ RE $intersect$ co-RE
 
 #proof[
   The forward direction is easy: if $L$ is decidable, then the same decider recognizes $L$, and by swapping accept/reject it also recognizes $overline(L)$.
@@ -3345,7 +3345,7 @@ That requires encoding machines as strings.
   - _Formal verification:_ tools that analyse program behaviour --- and therefore encounter exactly the limits exposed by undecidability results.
 ]
 
-== Universal Turing Machine
+== Universal Machines
 
 #theorem[
   There exists a single TM $U$ such that, on input $angle.l M, w angle.r$, the machine $U$ simulates the computation of $M$ on $w$.
@@ -3362,7 +3362,7 @@ That requires encoding machines as strings.
   A program is just _data that another program can execute_.
 ]
 
-== Reductions: The Standard Tool
+== Many-One Reductions
 
 #definition[
   A _many-one reduction_ from $A$ to $B$, written $A scripts(<=)_m B$, is a computable function $f$ such that
@@ -3473,7 +3473,7 @@ That requires encoding machines as strings.
   This connects computation to Cantor's diagonal argument, Gödel's incompleteness ideas, and deep philosophical questions about the limits of mechanical reasoning.
 ]
 
-== A Classical Semi-decidable Problem: $"A"_"TM"$
+== The Acceptance Problem
 
 #definition[Acceptance Problem][
   $
