@@ -3221,9 +3221,9 @@ What makes the notion of computability convincing is its _robustness_: several i
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Model*], [*Main idea*], [*Where it appears*]),
-    [Lambda calculus], [Computation by substitution], [Logic, proof theory, functional programming],
-    [Recursive functions], [Composition, primitive recursion, minimization], [Number theory and mathematical logic],
-    [Register / RAM machines], [Instructions on integer registers], [Assembly language and algorithm design],
+    [Lambda calculus], [Computation by substitution], [Logic, proof theory, \ functional programming],
+    [Recursive functions], [Composition, primitive recursion, \ minimization], [Number theory and \ mathematical logic],
+    [Register / \ RAM machines], [Instructions on integer registers], [Assembly language and \ algorithm design],
     [Boolean circuits], [Finite networks of gates], [Hardware and complexity theory],
     [Cellular automata], [Simple local update rules], [Physics, emergence, simulation],
   )
