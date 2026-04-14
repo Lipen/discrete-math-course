@@ -3229,8 +3229,11 @@ What makes the notion of computability convincing is its _robustness_: several i
   )
 ]
 
-#Block(color: yellow)[
-  *Key insight:* these models arise from logic, arithmetic, hardware, and programming --- yet they all capture the same notion of an _effective procedure_.
+#place[
+  #v(1em)
+  #Block(color: yellow)[
+    *Key insight:* these models arise from logic, arithmetic, hardware, and programming --- yet they all capture the same notion of an _effective procedure_.
+  ]
 ]
 
 == Church--Turing Thesis
