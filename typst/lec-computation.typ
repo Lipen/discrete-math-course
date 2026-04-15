@@ -2893,31 +2893,54 @@ This leads us to the _Turing machine_, the most general computational model we w
 
 == Summary of Context-Free Languages
 
-+ *Equivalence* (CFL analogue of Kleene): CFG $=$ PDA. Grammars and stack automata define the same class.
+#grid(
+  columns: 2,
+  column-gutter: 2em,
 
-+ *CNF + CYK:* every CFL has a grammar in Chomsky Normal Form.
-  CYK decides membership in #box[$cal(O)(n^3 dot |G|)$] time via dynamic programming on the parse tree structure.
+  [
+    #Block(color: yellow, width: 100%)[
+      *CFG = PDA*
+      - CFGs _generate_ context-free languages
+      - PDAs _recognize_ context-free languages
+    ]
 
-+ *Pumping Lemma:* if $L$ is context-free with pumping length $n$, every long word $w in L$ has a split #box[$w = u v x y z$] with $|v y| >= 1$, $|v x y| <= n$, and $u v^i x y^i z in L$ for all $i >= 0$.
-  The pair $(v, y)$ comes from a repeated variable in the CNF parse tree.
+    #v(1fr, weak: true)
 
-+ *Closure:* union, concatenation, Kleene star, reversal, homomorphism, and intersection with regular languages.
-  *Not* closed under intersection or complement.
+    #Block(color: green, width: 100%)[
+      *Main Tools*
+      - Chomsky Normal Form (CNF)
+      - CYK decides membership in #box[$cal(O)(n^3 dot |G|)$]
+      - Parse trees make the structure explicit
+    ]
 
-+ *Decidable:* emptiness, membership (CYK), finiteness. \
-  *Undecidable:* universality ($cal(L)(G) eq.quest Sigma^*$), equivalence, intersection emptiness, ambiguity.
+    #v(1fr, weak: true)
 
-#Block(color: orange)[
-  *Hard ceiling:* a PDA has one _stack_ (LIFO memory).
-  It can match one pair of counts, but not two independent ones simultaneously.
-  Canonical witnesses above CFLs: ${ a^n b^n c^n }$, ${ w w }$, ${ w \# w }$.
-]
+    #Block(color: blue, width: 100%)[
+      *Decidable:* membership, emptiness, and finiteness are decidable. \
+      *Undecidable:* equivalence, universality, ambiguity, and intersection emptiness.
+    ]
+  ],
+  [
+    #Block(color: teal, width: 100%)[
+      *Closure properties*
+      - Closed under union, concatenation, star, reversal, homomorphism
+      - Closed under intersection with a regular language
+      - *Not* closed under general intersection or complement
+    ]
 
-#Block(color: blue)[
-  *Where CFLs appear in practice:* the syntax of virtually every programming language is a CFL (or close to one: DCFL).
-  Parser generators process CFG specifications; parse trees are the AST.
-  The non-closure under intersection is why type-checking and semantic analysis go _beyond_ parsing.
-]
+    #v(1fr, weak: true)
+
+    #Block(color: orange, width: 100%)[
+      *The Limitations*
+
+      - One stack handles nested structure.
+      - One stack does not handle several independent counters at once.
+
+      Typical non-CFLs:
+      ${ a^n b^n c^n }$, ${ w w }$, ${ w \# w }$.
+    ]
+  ],
+)
 
 = Turing Machines
 #focus-slide(
