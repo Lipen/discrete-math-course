@@ -2895,22 +2895,27 @@ This leads us to the _Turing machine_, the most general computational model we w
 
 + *Equivalence* (CFL analogue of Kleene): CFG $=$ PDA. Grammars and stack automata define the same class.
 
-+ *CNF + CYK:* every CFL has a grammar in Chomsky Normal Form. CYK decides membership in $cal(O)(n^3 dot |G|)$ time via dynamic programming on the parse tree structure.
++ *CNF + CYK:* every CFL has a grammar in Chomsky Normal Form.
+  CYK decides membership in #box[$cal(O)(n^3 dot |G|)$] time via dynamic programming on the parse tree structure.
 
-+ *Pumping Lemma:* if $L$ is context-free with pumping length $n$, every long word $w in L$ has a split $w = u v x y z$ with $|v y| >= 1$, $|v x y| <= n$, and $u v^i x y^i z in L$ for all $i >= 0$. The pair $(v, y)$ comes from a repeated variable in the CNF parse tree.
++ *Pumping Lemma:* if $L$ is context-free with pumping length $n$, every long word $w in L$ has a split #box[$w = u v x y z$] with $|v y| >= 1$, $|v x y| <= n$, and $u v^i x y^i z in L$ for all $i >= 0$.
+  The pair $(v, y)$ comes from a repeated variable in the CNF parse tree.
 
-+ *Closure:* union, concatenation, Kleene star, reversal, homomorphism, and intersection with regular languages. *Not* closed under intersection or complement.
++ *Closure:* union, concatenation, Kleene star, reversal, homomorphism, and intersection with regular languages.
+  *Not* closed under intersection or complement.
 
-+ *Decidable:* emptiness, membership (CYK), finiteness.
-  *Undecidable:* universality ($cal(L)(G) = Sigma^*$?), equivalence, intersection emptiness, ambiguity.
++ *Decidable:* emptiness, membership (CYK), finiteness. \
+  *Undecidable:* universality ($cal(L)(G) eq.quest Sigma^*$), equivalence, intersection emptiness, ambiguity.
 
 #Block(color: orange)[
-  *Hard ceiling:* a PDA has one _stack_ (LIFO memory). It can match one pair of counts, but not two independent ones simultaneously.
+  *Hard ceiling:* a PDA has one _stack_ (LIFO memory).
+  It can match one pair of counts, but not two independent ones simultaneously.
   Canonical witnesses above CFLs: ${ a^n b^n c^n }$, ${ w w }$, ${ w \# w }$.
 ]
 
 #Block(color: blue)[
-  *Where CFLs appear in practice:* the syntax of virtually every programming language is a CFL (or close to one: DCFL). Parser generators process CFG specifications; parse trees are the AST.
+  *Where CFLs appear in practice:* the syntax of virtually every programming language is a CFL (or close to one: DCFL).
+  Parser generators process CFG specifications; parse trees are the AST.
   The non-closure under intersection is why type-checking and semantic analysis go _beyond_ parsing.
 ]
 
