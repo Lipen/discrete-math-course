@@ -3467,12 +3467,12 @@ That requires encoding machines as strings.
 
 #place[
   #v(1em)
-#Block(color: orange)[
-  *Warning:* Decidable $subset.neq$ Recognizable.
-  - There exist languages that are recognizable but _not_ decidable (e.g., HALT).
-  - Some languages are _not recognizable_ (for example $overline("HALT")$).
-  - Some are in neither *RE* nor *co-RE* (for example $"REGULAR"_"TM"$).
-]
+  #Block(color: orange)[
+    *Warning:* Decidable $subset.neq$ Recognizable.
+    - There exist languages that are recognizable but _not_ decidable (e.g., HALT).
+    - Some languages are _not recognizable_ (for example $overline("HALT")$).
+    - Some are in neither *RE* nor *co-RE* (for example $"REGULAR"_"TM"$).
+  ]
 ]
 
 == The Halting Problem
@@ -3541,9 +3541,9 @@ That requires encoding machines as strings.
 #place[
   #v(1em)
   #set text(0.8em)
-#Block(color: blue)[
-  This is the prototypical _semi-decidable_ problem: successful computations can be witnessed, \ but unsuccessful ones may leave us waiting forever.
-]
+  #Block(color: blue)[
+    This is the prototypical _semi-decidable_ problem: successful computations can be witnessed, \ but unsuccessful ones may leave us waiting forever.
+  ]
 ]
 
 == Rice's Theorem
