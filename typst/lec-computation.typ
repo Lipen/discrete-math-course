@@ -3309,6 +3309,24 @@ However, every formal model of computation ever proposed has turned out to be _e
   A language $L$ is decidable iff $L in "RE"$ and $L in "co-RE"$, i.e., $"R" = "RE" intersect "co-RE"$.
 ]
 
+#proof[
+  *($arrow.r.double$)* Assume $L$ is decidable.
+  Let $M$ be a decider for $L$.
+  - $M$ recognizes $L$, so $L in "RE"$.
+  - Swapping the accept and reject states of $M$ gives a decider for $overline(L)$, so $L in "co-RE"$.
+
+  *($arrow.l.double$)* Now assume $L in "RE"$ and $L in "co-RE"$.
+
+  Let $M_"yes"$ recognize $L$ and $M_"no"$ recognize $overline(L)$.
+
+  We construct a decider using the _dovetailing technique_:
+  - On input $w$, alternate: one step of $M_"yes"$, then one step of $M_"no"$, and so on.
+  - Since $w in L$ or $w in overline(L)$, one machine eventually accepts.
+  - If $M_"yes"$ accepts, accept. If $M_"no"$ accepts, reject.
+
+  Dovetailing ensures neither simulation is starved, so the decider always halts.
+]
+
 == Examples of Computability Classes
 
 #align(center)[
@@ -3328,30 +3346,6 @@ However, every formal model of computation ever proposed has turned out to be _e
 
 #Block(color: blue)[
   _Semi-decidable_ problems often arise when a positive witness can be found by search, but a negative answer would require proving that _no witness exists_.
-]
-
-== Decidable $=$ RE $intersect$ co-RE
-
-#proof[
-  The forward direction is easy: if $L$ is decidable, then the same decider recognizes $L$, and by swapping accept/reject it also recognizes $overline(L)$.
-
-  For the converse, assume $L in "RE"$ and $L in "co-RE"$.
-  Let $M_"yes"$ recognize $L$, and let $M_"no"$ recognize $overline(L)$.
-
-  On input $w$, simulate both machines in _lockstep_:
-  - Step 1 of $M_"yes"$, then Step 1 of $M_"no"$,
-  - Step 2 of $M_"yes"$, then Step 2 of $M_"no"$,
-  - and so on.
-
-  Since every input belongs either to $L$ or to $overline(L)$, one of the two recognizers must eventually accept.
-  As soon as that happens, we halt and return the corresponding answer.
-
-  Therefore $L$ is decidable.
-]
-
-#Block(color: teal)[
-  This trick is called _dovetailing_.
-  It is one of the most useful proof ideas in computability theory.
 ]
 
 == Programs as Data
