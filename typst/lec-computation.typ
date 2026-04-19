@@ -2049,7 +2049,7 @@ For a regular language, the equivalence classes correspond to states in the mini
 
 *Converting among representations*
 - $epsilon$-closure: $cal(O)(n^3)$
-- $epsilon$-NFA to DFA: $n^3 2^n$
+- $epsilon$-NFA to DFA: $cal(O)(n^3 2^n)$
 - DFA to $epsilon$-NFA: $cal(O)(n)$
 - $epsilon$-NFA to RegEx: $cal(O)(n^3 4^n)$
 - RegEx to $epsilon$-NFA: $cal(O)(n)$
