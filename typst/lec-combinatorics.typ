@@ -90,9 +90,35 @@
 ]
 
 Three fundamental questions arise in every combinatorial problem:
-- _Existence_ --- does an arrangement of a given kind exist?
-- _Enumeration_ --- how many such arrangements are there?
-- _Optimization_ --- which one is "best" by some criterion?
+
+#grid(
+  columns: 3,
+  gutter: 1em,
+
+  Block(color: blue, width: 100%)[
+    *Existence*
+
+    Does an arrangement of the required kind _exist_ at all?
+
+    _Example:_ Does a graph with 5 vertices where every vertex has exactly 3~neighbors exist?
+  ],
+
+  Block(color: yellow, width: 100%)[
+    *Enumeration*
+
+    _How many_ such arrangements are there?
+
+    _Example:_ How many 4-digit PIN codes are possible?
+  ],
+
+  Block(color: orange, width: 100%)[
+    *Optimization*
+
+    Which arrangement is _best_ by some criterion?
+
+    _Example:_ What is the shortest tour visiting all $n$~cities exactly once?
+  ],
+)
 
 // #Block(color: blue)[
 //   Combinatorics underpins algorithm analysis, cryptography, probability, and formal language theory.
@@ -130,22 +156,53 @@ Three fundamental questions arise in every combinatorial problem:
 
 == Basic Counting Rules
 
-All of basic combinatorics rests on four principles:
+#grid(
+  columns: 2,
+  rows: (auto, auto),
+  column-gutter: 1em,
+  row-gutter: 1em,
+  [
+    #Block(color: green, width: 100%)[
+      *Addition* (_either/or_)
 
-#align(center)[
-  #table(
-    columns: 3,
-    align: left,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Principle*], [*Situation*], [*Count*]),
-    [Addition], [Partitioned choices (_either/or_)], $n_1 + n_2 + dots + n_k$,
-    [Multiplication], [Independent sequential choices (_and_)], $n_1 dot n_2 dot dots dot n_k$,
-    [Subtraction], [Complement counting], $abs(U) - abs(S)$,
-    [Bijection], [One-to-one correspondence to a known set], [same cardinality],
-  )
-]
+      If $S$ splits into _disjoint_ parts $S_1, dots, S_k$, count each part separately:
+      $abs(S) = abs(S_1) + dots + abs(S_k)$
 
-The following slides develop each principle formally.
+      _Example:_ 26 vowels + 20 consonants = 46~letters.
+    ]
+  ],
+  [
+    #Block(color: yellow, width: 100%)[
+      *Subtraction* (complement)
+
+      Count what you _don't_ want and subtract from the universe $U$:
+      $abs(overline(S)) = abs(U) - abs(S)$
+
+      _Example:_ 8-bit strings _with_ a leading zero: #box[$2^8 - 2^7 = 128$].
+    ]
+  ],
+
+  [
+    #Block(color: red, width: 100%)[
+      *Multiplication* (_and_)
+
+      For _independent_ sequential choices of sizes $n_1, dots, n_k$, multiply:
+      $abs(S) = n_1 dot n_2 dot dots dot n_k$
+
+      _Example:_ $26 times 10 = 260$ two-character codes (letter then digit).
+    ]
+  ],
+  [
+    #Block(color: purple, width: 100%)[
+      *Bijection* (one-to-one)
+
+      If $S$ and $T$ are in _bijective correspondence_, they have the same size:
+      $abs(S) = abs(T)$
+
+      _Example:_ $binom(n, k) = binom(n, n-k)$ via $A mapsto [n] setminus A$.
+    ]
+  ],
+)
 
 == Addition Principle
 
