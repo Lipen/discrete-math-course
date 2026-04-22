@@ -2,10 +2,12 @@
 #show: slides.with(
   title: [Combinatorics],
   subtitle: "Discrete Math",
-  date: "Spring 2025",
+  date: "Spring 2026",
   authors: "Konstantin Chukharev",
   // dark: true,
 )
+
+#show heading.where(level: 1): none
 
 #show table.cell.where(y: 0): strong
 
@@ -14,7 +16,8 @@
 #show quote: set par(justify: false)
 #show quote: set align(left)
 
-#let power(x) = $cal(P)(#x)$
+#import "common-lec.typ": *
+
 #let stirling(n, k) = $vec(delim: "{", #n, #k)$
 #let s2(n, k) = $s^("II")_(#k) (#n)$
 
@@ -40,93 +43,109 @@
   }
 }
 
-#let Green(x) = {
-  show emph: set text(green.darken(20%))
-  text(x, green.darken(20%))
-}
-#let Red(x) = {
-  show emph: set text(red.darken(20%))
-  text(x, red.darken(20%))
-}
+#CourseOverviewPage2()
 
-#let YES = Green[#sym.checkmark]
-#let NO = Red[#sym.crossmark]
 
 = Combinatorics
 
-== Introduction to Combinatorics
+#focus-slide(
+  epigraph: [It is better to solve one problem five different ways, \ than to solve five problems one way.],
+  epigraph-author: "George Pólya",
+  scholars: (
+    (
+      name: "George Pólya",
+      image: image("assets/Georg_Polya.jpg"),
+    ),
+    (
+      name: "Abraham de Moivre",
+      image: image("assets/Abraham_de_Moivre.jpg"),
+    ),
+    (
+      name: "Leonhard Euler",
+      image: image("assets/Leonhard_Euler.jpg"),
+    ),
+    (
+      name: "Gottfried Wilhelm Leibniz",
+      image: image("assets/Gottfried_Wilhelm_Leibniz.jpg"),
+    ),
+    (
+      name: "Herbert Wilf",
+      image: image("assets/Herbert_Wilf.jpg"),
+    ),
+    (
+      name: "Arthur Cayley",
+      image: image("assets/Arthur_Cayley.jpg"),
+    ),
+    (
+      name: "Augustin-Louis Cauchy",
+      image: image("assets/Augustin-Louis_Cauchy.jpg"),
+    ),
+  ),
+)
+
+== What is Combinatorics?
 
 #definition[
-  Combinatorics is the branch of discrete mathematics that deals with _counting_, _arranging_, and analyzing _discrete structures_.
-
-  *Three basic problems of Combinatorics:*
-  + Existence: _Is there at least one arrangement of a particular kind?_
-  + Counting: _How many arrangements are there?_
-  + Optimization: _Which one is best according to some criteria?_
+  _Combinatorics_ is the branch of mathematics that studies the existence, enumeration, and structure of _finite_ discrete objects.
 ]
 
-*Discrete structures*
-- Graphs, sets, multisets, sequences, patterns, coverings, partitions...
+Three fundamental questions arise in every combinatorial problem:
+- _Existence_ --- does an arrangement of a given kind exist?
+- _Enumeration_ --- how many such arrangements are there?
+- _Optimization_ --- which one is "best" by some criterion?
 
-*Enumeration*
-- Permutations, combinations, inclusion/exclusion, generating functions, recurrence relations...
+// #Block(color: blue)[
+//   Combinatorics underpins algorithm analysis, cryptography, probability, and formal language theory.
+//   Every time you count passwords, bound a hash-collision probability, or analyze a divide-and-conquer runtime, you are doing combinatorics.
+// ]
 
-*Algorithms and optimization*
-- Sorting, eulerian circuits, hamiltonian cycles, planarity testing, graph coloring, spanning trees, shortest paths, network flows, bipartite matchings, chain partitions...
+// == Lecture Road Map
+//
+// #align(center)[
+//   #table(
+//     columns: 2,
+//     align: left,
+//     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+//     table.header([*Section*], [*Topics*]),
+//     [Basic Counting], [Sum, product, subtraction, bijection, pigeonhole, double counting],
+//     [Arrangements], [Permutations, combinations, multisets, binomial/multinomial theorems],
+//     [Compositions], [Weak and strict compositions, stars-and-bars, parallel summation],
+//     [Set Partitions], [Stirling numbers of the 2nd kind, Bell numbers],
+//     [Integer Partitions], [Partition function, Ferrers diagrams, Young tableaux],
+//     [Inclusion--Exclusion], [PIE theorem, surjections, derangements],
+//     [Generating Functions], [OGF, convolution, Catalan numbers, Newton's theorem],
+//     [Recurrences], [Characteristic equations, non-homogeneous, annihilators],
+//     [Asymptotics], [Big-$O$ and $Theta$, Master theorem, Akra--Bazzi method],
+//     [Advanced], [Gamma function],
+//   )
+// ]
 
-
-== Discrete Structures
-
-We investigate the _building blocks_ of combinatorics:
-
-- Sets and multisets
-- Sequences and strings
-- Arrangements
-- Graphs, networks, trees
-- Posets and lattices
-- Partitions
-- Patterns, coverings, designs, configurations
-- Schedules, assignments, distributions
-
-_Used in data modeling, logic, cryptography, and the design of data structures._
-
-== Enumerative Combinatorics
-
-We learn how to count _without explicit listing_:
-
-- Permutations and combinations
-- Inclusion–Exclusion Principle
-- Set partitions, integer partitions, Stirling numbers, Catalan numbers
-- Recurrence relations
-- Generating functions
-
-_Used in probability theory, complexity theory, coding theory, computational biology._
-
-== Algorithmic and Optimization Methods
-
-Combinatorics powers _algorithm design_ and complexity analysis:
-
-- Sorting
-- Searching
-- Eulerian paths and Hamiltonian cycles
-- Planarity, colorings, cliques, coverings
-- Spanning trees
-- Shortest paths
-- Network flows
-- Bipartite matchings
-- Dilworth's theorem, chain and antichain partitions
-
-_Used in logistics, scheduling, routing, and complexity optimization._
 
 = Basic Counting Principles
 
+#focus-slide(
+  epigraph: [Music is the pleasure the human mind experiences from counting \ without being aware that it is counting.],
+  epigraph-author: "Gottfried Wilhelm Leibniz",
+)
+
 == Basic Counting Rules
 
-#smallcaps[*Product rule*]:
-If something can happen in $n_1$ ways, _and_ no matter how the first thing happens, a second thing can happen in $n_2$ ways, then the two things _together_ can happen in $n_1 dot n_2$ ways.
+All of basic combinatorics rests on four principles:
 
-#smallcaps[*Sum rule*]:
-If one event can occur in $n_1$ ways and a second event in $n_2$ (different) ways, then there are $n_1 + n_2$ ways in which _either_ the first event _or_ the second event can occur (_but not both_).
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Principle*], [*Situation*], [*Count*]),
+    [Addition], [Partitioned choices (_either/or_)], $n_1 + n_2 + dots + n_k$,
+    [Multiplication], [Independent sequential choices (_and_)], $n_1 dot n_2 dot dots dot n_k$,
+    [Subtraction], [Complement counting], $abs(U) - abs(S)$,
+    [Bijection], [One-to-one correspondence to a known set], [same cardinality],
+  )
+]
+
+The following slides develop each principle formally.
 
 == Addition Principle
 
@@ -159,7 +178,12 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 ]
 
 #example[
-  TODO: example with car plates
+  A _license plate_ consists of 3 letters followed by 3 digits.
+  The letters are chosen from $\{"A", dots, "Z"\}$ (26~choices each) and the digits from $\{0, dots, 9\}$ (10 choices each).
+  Since each position is filled independently:
+  $
+    26 times 26 times 26 times 10 times 10 times 10 = 26^3 dot 10^3 = 17\,576\,000
+  $
 ]
 
 == Subtraction Principle
@@ -174,10 +198,11 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 ]
 
 #example[
-  If $T$ is the set of students studying at KIT and $S$ the set of students studying neither math nor computer science.
-  If we know $abs(T) = 23905$ and $abs(S) = 20178$, then we can compute the number $abs(S)$ of students studying either math or computer science:
+  Let $T$ be the set of all students at a university ($abs(T) = 23905$).
+  Let $S subset.eq T$ be the set of students studying _neither_ mathematics nor computer science ($abs(S) = 20178$).
+  The complement $overline(S) = T setminus S$ consists of students studying mathematics or computer science:
   $
-    abs(S) = abs(T) - abs(S) = 23905 - 20178 = 3727
+    abs(overline(S)) = abs(T) - abs(S) = 23905 - 20178 = 3727
   $
 ]
 
@@ -191,12 +216,13 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
 ]
 
 #example[
-  Let $S$ be the set of students attending the combinatorics lecture and $T$ the set of homework submissions (unique per student) for the first problem sheet.
-  If the number of students and the number of submissions coincide, then there is a bijection between students and submissions.
+  The number of $k$-subsets of $[n]$ equals the number of $(n-k)$-subsets: $binom(n, k) = binom(n, n-k)$.
+  The map $S mapsto [n] setminus S$ is a bijection from $binom([n], k)$ to $binom([n], n-k)$:
+  each $k$-subset maps to its $(n-k)$-element complement, and the map is its own inverse.
 ]
 
 #note[
-  The bijection principle works both for _finite_ and _infinite_ sets.
+  The bijection principle works for _infinite_ sets too --- this is the foundation of Cantor's theory of cardinality.
 ]
 
 == Pigeonhole Principle
@@ -218,6 +244,13 @@ If one event can occur in $n_1$ ways and a second event in $n_2$ (different) way
   Then we know:
   - There is some hole with at least $d = 4$ pigeons.
   - There is some hole with at most $b = 3$ pigeons.
+]
+
+#Block(color: blue)[
+  *Birthday attack:* a hash function maps arbitrary inputs to $n$-bit digests.
+  With $2^n + 1$ inputs, at least two must collide --- guaranteed by the pigeonhole principle.
+  More subtly, with only $approx 2^(n slash 2)$ random inputs, collision probability already exceeds $50\%$.
+  This is the _birthday bound_ and sets the security level of hash functions in cryptography.
 ]
 
 == Double Counting
@@ -246,7 +279,13 @@ If we count the same quantity in _two different ways_, then this gives us a (per
   $display(sum_(i = 1)^(n - 1) i = (n dot (n - 1)) / 2)$
 ]
 
+
 = Arrangements, Permutations, Combinations
+
+#focus-slide(
+  epigraph: [As for everything else, so for a mathematical theory: \ beauty can be perceived but not explained.],
+  epigraph-author: "Arthur Cayley",
+)
 
 == Ordered Arrangements
 
@@ -316,7 +355,18 @@ Hereinafter, let $X$ be a finite set.
   In particular, $S_n = P(n, n)$.
 ]
 
-TODO: circular permutations
+== Circular Permutations
+
+#definition[
+  A _circular $k$-permutation_ of $[n]$ arranges $k$ distinct elements of $[n]$ in a circle.
+  Two such arrangements are considered the same if one is a cyclic rotation of the other.
+  The set of all circular $k$-permutations of $[n]$ is denoted $P_c(n, k)$.
+]
+
+#example[
+  There are $3! = 6$ linear permutations of $\{1,2,3\}$, but only $2! = 2$ circular ones:
+  $(1,2,3)$ and $(1,3,2)$ --- since $(1,2,3) tilde.op (2,3,1) tilde.op (3,1,2)$ are all the same circle.
+]
 
 == Counting Permutations
 
@@ -416,7 +466,9 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
   $display(abs(P(n, k)) = n! / (n - k)! = binom(n, k) dot k!)$
 ]
 
+
 = Multisets
+#focus-slide()
 
 == Multiset
 
@@ -479,6 +531,45 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   $
 ]
 
+== Pascal's Triangle
+
+Row $n$ of _Pascal's triangle_ lists $binom(n, 0), binom(n, 1), dots, binom(n, n)$.
+Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1) + binom(n-1, k)$.
+
+#grid(
+  columns: (1fr, auto),
+  column-gutter: 1em,
+  [
+    *Key identities:*
+    - *Row sum:* $display(sum_(k=0)^n binom(n, k) = 2^n)$ (set $x = y = 1$)
+    - *Symmetry:* $binom(n, k) = binom(n, n-k)$
+    - *Absorption:* $n binom(n-1, k-1) = (k+1) binom(n, k+1)$
+    - *Vandermonde:* $display(sum_k binom(m, k) binom(n, r-k) = binom(m+n, r))$
+  ],
+  align(center)[
+    #cetz.canvas(length: 0.85cm, {
+      import cetz.draw: *
+      let bincoef(n, k) = {
+        let r = 1.0
+        for i in range(k) { r = r * (n - i) / (i + 1) }
+        calc.round(r)
+      }
+      let cw = 1.2
+      let rh = 0.88
+      for row in range(7) {
+        for col in range(row + 1) {
+          let x = (col - row / 2) * cw
+          let y = -row * rh
+          let v = bincoef(row, col)
+          let clr = if v == 1 { blue.lighten(88%) } else { blue.lighten(72%) }
+          circle((x, y), radius: 0.38, fill: clr, stroke: 0.5pt + blue.darken(20%))
+          content((x, y), str(v))
+        }
+      }
+    })
+  ],
+)
+
 == Multinomial Theorem
 
 #theorem[
@@ -501,10 +592,10 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 ]
 
 #proof[
-  TODO
+  Expand $(x_1 + dots + x_r)^n$ by choosing one term from each of the $n$ factors.
+  A monomial $x_1^(k_1) dot.c dots dot.c x_r^(k_r)$ with $k_1 + dots + k_r = n$ is produced whenever we choose $x_i$ from exactly $k_i$ of the $n$ factors.
+  The number of ways to assign the $n$ factor-positions to the $r$ variables in groups of sizes $k_1, dots, k_r$ is $binom(n, k_1, dots, k_r) = n! / (k_1 ! dot.c dots dot.c k_r !)$.
 ]
-
-== Permutations of a Multiset
 
 #theorem[
   Let $S$ be a finite multiset with $k$ different types and repetition numbers $r_1, dots, r_k$.
@@ -560,7 +651,9 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   This method is also known as _Stars and Bars_.
 ]
 
+
 = Compositions
+#focus-slide()
 
 == Weak Compositions
 
@@ -616,6 +709,12 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   There are $binom(k - 1, s - 1)$ _compositions_ of $k > 0$ into $s$ positive parts.
 ]
 
+#proof[
+  Line up $k$ ones in a row.
+  A composition $b_1 + dots + b_s = k$ with each $b_i >= 1$ corresponds to choosing $s - 1$ of the $k - 1$ _gaps between consecutive ones_ as dividers.
+  There are $binom(k - 1, s - 1)$ such choices.
+]
+
 #theorem[
   The total number of compositions of $k > 0$ into _some_ number of positive parts is
   $
@@ -623,7 +722,13 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   $
 ]
 
-// TODO: proof, by induction, substitute t := s - 1, then apply Binomial theorem for (1+1)^(k-1)
+#proof[
+  Substituting $j = s - 1$:
+  $
+    sum_(s = 1)^k binom(k - 1, s - 1) = sum_(j = 0)^(k - 1) binom(k - 1, j) = (1 + 1)^(k - 1) = 2^(k - 1)
+  $
+  by the Binomial Theorem applied to $(1 + 1)^(k-1)$.
+]
 
 == Parallel Summation Identity
 
@@ -638,7 +743,9 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   Construct a bijection with the solutions to $b_1 + dots + b_s + b_(s+1) = k$, where $b_i >= 0$.
 ]
 
+
 = Set Partitions
+#focus-slide()
 
 == Set Partitions
 
@@ -739,7 +846,13 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
 ]
 
 #proof[(informal)][
-  TODO
+  Consider the element $n$ in any partition of $[n]$ into $k$ blocks.
+  There are exactly two cases:
+  - $\{n\}$ forms a singleton block on its own.
+    The remaining $n - 1$ elements are partitioned into $k - 1$ non-empty blocks: $stirling(n-1, k-1)$ ways.
+  - $n$ joins an existing block of a partition of $[n-1]$.
+    Start with any partition of $[n-1]$ into $k$ blocks ($stirling(n-1, k)$ ways), then insert $n$ into one of the $k$ blocks: $k dot stirling(n-1, k)$ ways.
+  These two cases are exhaustive and disjoint.
 ]
 
 == Bell Numbers
@@ -780,14 +893,20 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   $
 ]
 
+
 = Integer Partitions
+#focus-slide()
 
 == Integer Partitions
 
-#definition[
-  An _integer partition_ of a positive integer $n >= 1$ into $k$ _positive_ parts is a _solution_ to the equation $n = a_1 + dots + a_k$, where $a_1 >= a_2 >= dots >= a_k >= 1$.
+The integer $4$ can be written as a sum of positive integers in exactly $5$ ways:
+$4 = 3 + 1 = 2 + 2 = 2 + 1 + 1 = 1 + 1 + 1 + 1$.
+Order does _not_ matter: $3 + 1$ and $1 + 3$ are the same partition.
 
-  - The number of integer partitions of $n$ into $k$ positive non-decreasing parts is denoted $p_(k)(n)$ and defined recursively:
+#definition[
+  An _integer partition_ of a positive integer $n >= 1$ into $k$ _positive_ parts is a solution to the equation $n = a_1 + dots + a_k$, where $a_1 >= a_2 >= dots >= a_k >= 1$.
+
+  - The number of such partitions is denoted $p_(k)(n)$ and defined recursively:
     $
       p_(k)(n) = cases(
         0 & "if" k > n,
@@ -797,13 +916,23 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
       )
     $
 
-  - The number of partitions of $n$ (into an arbitrary number of parts) is the _partition function_ $p(n)$:
+  - The _partition function_ $p(n)$ counts all partitions of $n$:
     $
       p(n) = sum_(k = 0)^(n) p_(k)(n)
     $
 ]
 
-== Ferrer Diagrams and Yound Tableaux
+#Block(color: teal)[
+  *Rapid growth of $p(n)$:*
+  $p(5) = 7$, $quad p(10) = 42$, $quad p(50) = 204{,}226$, $quad p(100) = 190{,}569{,}292$.
+  Hardy and Ramanujan (1918) proved:
+  $
+    p(n) tilde frac(1, 4 n sqrt(3)) e^(pi sqrt(2n slash 3))
+  $
+  so the number of partitions grows _sub-exponentially_ but faster than any polynomial.
+]
+
+== Ferrers Diagrams and Young Tableaux
 
 #let parts = (6, 4, 3, 1)
 #let total = parts.sum()
@@ -874,8 +1003,21 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
     align: center,
     column-gutter: 1em,
     row-gutter: 0.5em,
-    link("https://en.wikipedia.org/wiki/Norman_Macleod_Ferrers", image("assets/Norman_Ferrer.jpg", height: 3cm)),
-    link("https://en.wikipedia.org/wiki/Alfred_Young_(mathematician)", image("assets/Alfred_Young.jpg", height: 3cm)),
+    link("https://en.wikipedia.org/wiki/Norman_Macleod_Ferrers", box(
+      image("assets/Norman_Ferrer.jpg"),
+      height: 3cm,
+      radius: 20%,
+      clip: true,
+      stroke: 1pt + blue,
+    )),
+    link("https://en.wikipedia.org/wiki/Alfred_Young_(mathematician)", box(
+      image("assets/Alfred_Young.jpg"),
+
+      height: 3cm,
+      radius: 20%,
+      clip: true,
+      stroke: 1pt + blue,
+    )),
 
     [Norman Ferrer], [Alfred Young],
   )
@@ -888,13 +1030,30 @@ _Counting $k$-combinations of a multiset is not as simple as it might seem..._
   partition_diagram(parts, young: false), partition_diagram(parts, young: true),
 )
 
+
 = Inclusion–Exclusion
 
-== The Inclusion–Exclusion Principle
+#focus-slide(
+  epigraph: [There are very few things which we know, which are not capable \ of being reduced to a mathematical reasoning.],
+  epigraph-author: "Abraham de Moivre, The Doctrine of Chances (1718)",
+)
 
-TODO: small example of PIE with 2 or 3 sets
+== Motivating Example
 
-== Principle of Inclusion–Exclusion (PIE)
+#example[
+  How many integers in $\{1, dots, 100\}$ are divisible by $2$ _or_ by $3$?
+  - Let $A = \{ k in [100] | 2 divides k \}$, so $abs(A) = 50$.
+  - Let $B = \{ k in [100] | 3 divides k \}$, so $abs(B) = 33$.
+  - Their intersection $A intersect B = \{ k in [100] | 6 divides k \}$ has $abs(A intersect B) = 16$.
+  By inclusion--exclusion:
+  $
+    abs(A union B) = abs(A) + abs(B) - abs(A intersect B) = 50 + 33 - 16 = 67
+  $
+]
+
+Generalizing this to an arbitrary number of sets gives the full PIE theorem.
+
+== Principle of Inclusion--Exclusion (PIE)
 
 #theorem[
   Let $X$ be a finite set and $P_1, dots, P_m$ _properties_.
@@ -925,24 +1084,46 @@ TODO: small example of PIE with 2 or 3 sets
   In the last step, we used that for any $y in RR$ we have $(1-y)^k = sum_(i = 0)^k binom(k, i) (-y)^i$ which implies #box[(for $y = 1$)] that $0 = sum_(i = 0)^k binom(k, i) (-1)^i$.
 ]
 
-== Very Useful Corollary of PIE
+== Counting the Union
 
 #corollary[
-  #emoji.cat.shock
   $
-    abs(union.big_(i in [m]) X_i) = abs(X) - sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S)) = sum_(emptyset != S subset.eq [m]) (-1)^(abs(S)-1) abs(N(S))
+    abs(union.big_(i in [m]) X_i)
+    = sum_(emptyset != S subset.eq [m]) (-1)^(abs(S) - 1) abs(N(S))
   $
 ]
 
-// TODO: picture with 3 circles and plus/minus signs
+
+// Venn diagram: three overlapping sets with +/- signs showing PIE
+// #align(center)[
+//   #cetz.canvas(length: 0.85cm, {
+//     import cetz.draw: *
+//     circle((-1.0, 0), radius: 1.5, fill: red.transparentize(80%), stroke: 1pt + red.darken(20%))
+//     circle((1.0, 0), radius: 1.5, fill: blue.transparentize(80%), stroke: 1pt + blue.darken(20%))
+//     circle((0, -1.6), radius: 1.5, fill: green.transparentize(80%), stroke: 1pt + green.darken(20%))
+//     content((-2.1, 1.2), [$A$])
+//     content((2.1, 1.2), [$B$])
+//     content((1.2, -2.9), [$C$])
+//     // Only A, B, C: counted once (+)
+//     content((-2.1, 0), text(fill: green.darken(20%), size: 1.3em, weight: "bold")[$+$])
+//     content((2.1, 0), text(fill: green.darken(20%), size: 1.3em, weight: "bold")[$+$])
+//     content((0, -3.0), text(fill: green.darken(20%), size: 1.3em, weight: "bold")[$+$])
+//     // Pairwise intersections: subtract (-)
+//     content((0, 0.85), text(fill: red.darken(20%), size: 1.3em, weight: "bold")[$-$])
+//     content((-0.75, -0.95), text(fill: red.darken(20%), size: 1.3em, weight: "bold")[$-$])
+//     content((0.75, -0.95), text(fill: red.darken(20%), size: 1.3em, weight: "bold")[$-$])
+//     // Triple intersection: add back (+)
+//     content((0, -0.35), text(fill: green.darken(20%), size: 1.3em, weight: "bold")[$+$])
+//   })
+// ]
 
 == Applications of PIE
 
-Let's state the principle of inclusion-exclusion using a rigid pattern:
+The following template organizes any PIE argument:
 
 + _Define "bad" properties._
 
-  Identify the things to count as the elements of some universe $X$ except for the whose having _at least one_ of the "bad" properties $P_1, dots, P_m$.
+  Identify the things to count as the elements of some universe $X$ except for those having _at least one_ of the "bad" properties $P_1, dots, P_m$.
   In other words, we want to count $X setminus (X_1 union dots union X_m)$.
 
 + _Count $N(S)$._
@@ -1050,30 +1231,38 @@ Let's state the principle of inclusion-exclusion using a rigid pattern:
     In the last step, we used that $(-1)^abs(S) (n - abs(S))!$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
 ]
 
+#pagebreak()
+
+#Block(color: blue)[
+  *Hat-check problem:* $n$ guests check their hats; the attendant loses the tickets.
+  As $n to infinity$, the probability that no guest gets their own hat back converges to
+  $
+    lim_(n to infinity) abs(D_n) / n! = sum_(i=0)^infinity (-1)^i / i! = 1 / e approx 36.8%
+  $
+  Remarkably, this probability is essentially independent of $n$ for all $n >= 5$.
+]
+
+
 = Generating Functions
+
+#focus-slide(
+  epigraph: [A generating function is a clothesline on which \ we hang up a sequence of numbers for display.],
+  epigraph-author: "Herbert Wilf, generatingfunctionology",
+)
 
 == Generating Functions
 
 #quote(attribution: [George Pólya, Mathematics and Plausible Reasoning @polya1954])[
-  _A generating function is a device somewhat similar to a bag. Instead of carrying many little objects detachedly, which could be embarrassing, we put them all in a bag, and then we have only one object to carry, the bag._
+  _A generating function is a device somewhat similar to a bag.
+  Instead of carrying many little objects detachedly, which could be embarrassing,
+  we put them all in a bag, and then we have only one object to carry, the bag._
 ]
 
-#quote(attribution: [Herbert Wilf, generatingfunctionology @wilf2006])[
-  _A generating function is a clothesline on which we hang up a sequence of numbers for display._
-]
-
-#place(bottom + left)[
-  #grid(
-    columns: 3,
-    align: top + center,
-    column-gutter: 1em,
-    row-gutter: 0.5em,
-    image("assets/Abraham_de_Moivre.jpg", height: 3cm),
-    image("assets/George_Polya.jpg", height: 3cm),
-    image("assets/Herbert_Wilf.jpg", height: 3cm),
-
-    [Abraham \ de Moivre], [George Pólya], [Herbert Wilf],
-  )
+#Block(color: yellow)[
+  *Core technique:* encode a sequence $(a_n)$ as coefficients of a formal power series
+  $G(x) = sum_(n=0)^infinity a_n x^n$,
+  then manipulate $G(x)$ _algebraically_ --- multiply, differentiate, compose --- to derive
+  counting identities and closed forms without ever computing terms by hand.
 ]
 
 == Ordinary Generating Functions
@@ -1453,9 +1642,18 @@ where $binom(n, k) = 0$ for $k > n$.
   The numbers $C_n := binom(2n, n) 1 / (n+1)$ are called _Catalan numbers_.
 ]
 
+
 = Recurrence Relations
 
+#focus-slide(
+  epigraph: [A certain man placed one pair of rabbits in a place enclosed on all sides by a wall. How many pairs of rabbits can be produced from that pair in one year?],
+  epigraph-author: "Leonardo Fibonacci, Liber Abaci (1202)",
+)
+
 == Recurrence Relations
+
+A _recurrence relation_ defines a sequence by expressing each term via its predecessors.
+Solving one means finding a _closed-form_ formula that avoids recursion.
 
 #example[
   - _Recurrent relation_ defining a sequence $(a_n)$:
@@ -1582,6 +1780,13 @@ Such solutions are called _characteristic roots_ of $(*)$.
     $
       F_n = 1 / sqrt(5) underbracket(((1+sqrt(5)) / 2), phi)^n - 1 / sqrt(5) underbracket(((1-sqrt(5)) / 2), psi)^n = (phi^n - psi^n) / sqrt(5)
     $
+]
+
+#Block(color: teal)[
+  *Golden ratio:* $phi = (1 + sqrt(5)) / 2 approx 1.618$ is the _golden ratio_.
+  Since $|psi| = |(1 - sqrt(5)) / 2| approx 0.618 < 1$, the term $psi^n$ vanishes:
+  $F_n$ is the nearest integer to $phi^n / sqrt(5)$ for all $n >= 0$.
+  Consecutive Fibonacci numbers converge: $F_(n+1) / F_n to phi$ as $n to infinity$.
 ]
 
 == Single (Repeated) Root Case
@@ -1719,7 +1924,9 @@ $
   - The _solution_ is $a_n = - n - 3 slash 2 + (11 slash 6) 3^n$.
 ]
 
+
 = Annihilators
+#focus-slide()
 
 == Operators
 
@@ -1796,10 +2003,15 @@ $
 == Annihilators
 
 #definition[
-  An _annihilator_ of a function $f$ is any non-trivial operator that transforms $f$ into zero.
+  An _annihilator_ of a function $f$ is any non-trivial operator $op(X)$ such that $op(X) f = 0$.
 ]
 
-TODO: examples!
+#examples[
+  - $(shift - 1)$ annihilates any constant $f(n) = c$: $(shift - 1) c = c - c = 0$.
+  - $(shift - 2)$ annihilates $f(n) = alpha dot 2^n$: $(shift - 2)(alpha 2^n) = alpha 2^(n+1) - 2 alpha 2^n = 0$.
+  - $(shift - 1)^2$ annihilates any linear $f(n) = alpha n + beta$:
+    $(shift - 1)(alpha n + beta) = alpha$ (a constant), and $(shift - 1) alpha = 0$.
+]
 
 == Annihilators Summary
 
@@ -1908,7 +2120,13 @@ TODO: examples!
   Thus, $T(n) in Theta(n 2^n)$
 ]
 
+
 = Asymptotic Analysis
+
+#focus-slide(
+  epigraph: [A mathematician who is not also something of a poet \ will never be a complete mathematician.],
+  epigraph-author: "Karl Weierstrass",
+)
 
 == Asymptotics 101
 
@@ -2109,7 +2327,10 @@ where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)
     $
 ]
 
+
 = Advanced Topics
+
+#focus-slide()
 
 == Gamma Function
 
@@ -2126,12 +2347,12 @@ where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)
 ]
 
 *Motivation*:
-The factorial is defined for positive integers as $n! = 1 dot 2 dot dots dot n = (n - 1)! dot n$. \
-We want to _extend_ this definition to _all real numbers_ and capture its _recursive_ nature. \
-Overall, we are looking for a _smooth_ function $Gamma(x)$ such that:
+The factorial is defined for positive integers as $n! = 1 dot 2 dot dots dot n = (n - 1)! dot n$.
+We want to _extend_ this definition to _all real numbers_ and capture its _recursive_ nature.
+Specifically, we seek a smooth function $Gamma(x)$ such that:
 - $Gamma(n + 1) = n!$ for all $n in NN$, matching the factorial.
-- $Gamma(x + 1) = x dot Gamma(x)$, satisfying a _recursive_ property.
-- $Gamma(x)$ is defined for all _real_ numbers $x > 0$.
+- $Gamma(x + 1) = x dot Gamma(x)$, satisfying a recursive property.
+- $Gamma(x)$ is defined for all real numbers $x > 0$.
 
 == Definition of a Gamma Function
 
@@ -2232,22 +2453,36 @@ $
 
 == Using the Gamma Function
 
-// Factorial
-$
-  n! = Gamma(n + 1)
-$
-// Generalized binomial coefficients
-$
-  binom(r, k) = Gamma(r + 1) / (Gamma(k + 1) dot Gamma(r - k + 1))
-$
-// Stirling's approximation
-$
-  Gamma(n + 1) approx sqrt(2 pi n) (n / e)^n
-$
-// Beta function
-$
-  Beta(x, y) = (Gamma(x) Gamma(y)) / Gamma(x + y)
-$
+The Gamma function provides closed forms for several important combinatorial expressions.
+
+- *Factorial extension:*
+  $
+    n! = Gamma(n + 1), quad e.g. thin Gamma(1 slash 2) = sqrt(pi)
+  $
+  This extends factorial to non-integer arguments.
+
+- *Generalized binomial coefficients* (for arbitrary $r in RR$):
+  $
+    binom(r, k) = Gamma(r + 1) / (Gamma(k + 1) dot Gamma(r - k + 1))
+  $
+  This is the definition underlying Newton's Binomial Theorem for real exponents.
+
+- *Stirling's approximation:*
+  $
+    n! = Gamma(n + 1) approx sqrt(2 pi n) thin (n / e)^n quad "as" n to infinity
+  $
+  Useful for estimating $binom(2n, n)$, entropy bounds, and worst-case algorithm analysis.
+
+- *Beta function:*
+  $
+    Beta(x, y) = (Gamma(x) Gamma(y)) / Gamma(x + y) = integral_0^1 t^(x-1) (1-t)^(y-1) d t
+  $
+
+#Block(color: yellow)[
+  These identities make $Gamma$ the natural tool whenever factorials, binomial coefficients,
+  or power series involve non-integer parameters ---
+  for example in probability distributions (Beta, Gamma, Student's $t$) and analytic combinatorics.
+]
 
 
 == Bibliography
