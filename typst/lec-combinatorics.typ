@@ -420,10 +420,51 @@ Hereinafter, let $X$ be a finite set.
   The set of all circular $k$-permutations of $[n]$ is denoted $P_c(n, k)$.
 ]
 
-#example[
-  There are $3! = 6$ linear permutations of $\{1,2,3\}$, but only $2! = 2$ circular ones:
-  $(1,2,3)$ and $(1,3,2)$ --- since $(1,2,3) tilde.op (2,3,1) tilde.op (3,1,2)$ are all the same circle.
-]
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 2em,
+  [
+    *Linear:* all $3! = 6$ are distinct:
+    #align(center)[
+      #cetz.canvas({
+        import cetz.draw: *
+        let nodes = ((0, 0), (2, 0), (4, 0))
+        let labels = ("1", "2", "3")
+        for (i, (x, y)) in nodes.enumerate() {
+          circle((x, y), radius: 0.35, fill: blue.lighten(80%), stroke: blue.darken(20%), name: "n" + str(i + 1))
+          content((x, y), text(size: 0.9em)[#labels.at(i)])
+        }
+        line("n1", "n2", mark: (end: ">", fill: black))
+        line("n2", "n3", mark: (end: ">", fill: black))
+      })
+    ]
+    $(1,2,3)$, $(1,3,2)$, $(2,1,3)$, \
+    $(2,3,1)$, $(3,1,2)$, $(3,2,1)$
+  ],
+  [
+    *Circular:* rotations are identical:
+    #align(center)[
+      #cetz.canvas({
+        import cetz.draw: *
+        // Equilateral triangle, radius 0.75, node radius 0.3
+        // Node positions: top=(0,0.75), right=(0.65,-0.375), left=(-0.65,-0.375)
+        circle((0, 0.75), radius: 0.3, fill: teal.lighten(80%), stroke: teal.darken(20%), name: "n1")
+        circle((0.65, -0.375), radius: 0.3, fill: teal.lighten(80%), stroke: teal.darken(20%), name: "n2")
+        circle((-0.65, -0.375), radius: 0.3, fill: teal.lighten(80%), stroke: teal.darken(20%), name: "n3")
+        content((0, 0.75), text(size: 0.9em)[1])
+        content((0.65, -0.375), text(size: 0.9em)[2])
+        content((-0.65, -0.375), text(size: 0.9em)[3])
+        // Arrows: 1→2, 2→3, 3→1 (pre-computed start/end with 0.3 offset)
+        line("n1", "n2", mark: (end: ">", fill: black), stroke: 0.8pt)
+        line("n2", "n3", mark: (end: ">", fill: black), stroke: 0.8pt)
+        line("n3", "n1", mark: (end: ">", fill: black), stroke: 0.8pt)
+      })
+    ]
+    $(1,2,3) tilde.op (2,3,1) tilde.op (3,1,2)$ --- same circle
+
+    Only 2 distinct circles: $(1,2,3)$ and $(1,3,2)$
+  ],
+)
 
 == Counting Permutations
 
@@ -521,6 +562,35 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
 
 #proof[
   $display(abs(P(n, k)) = n! / (n - k)! = binom(n, k) dot k!)$
+]
+
+== Summary: Four Counting Problems
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left + horizon, center + horizon, center + horizon),
+    inset: 1em,
+    stroke: (x, y) => {
+      let s = (:)
+      if y == 0 { s.insert("bottom", 0.8pt) }
+      if x == 1 { s.insert("left", 0.4pt) }
+      s
+    },
+    table.header([], [*No repetition*], [*With repetition*]),
+    [*Ordered* \ ($k$-perm., sequence)], $display(n! / (n-k)!) = n^underline(k)$, $n^k$,
+    [*Unordered* \ ($k$-comb., subset)],
+    $display(binom(n, k) = n! / (k! dot (n - k)!))$,
+    $display(binom(k + n - 1, k))$,
+  )
+]
+
+#Block(color: yellow)[
+  - $n$ is the size of the ground set $X$.
+  - $k$ is the size of the arrangement we want to count.
+  - "Ordered" means position matters: $(A, B) != (B, A)$.
+  - "Unordered" means only the selection matters: ${A,B} = {B,A}$.
+  - "With repetition" means the same element can appear multiple times.
 ]
 
 
@@ -772,6 +842,8 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
   There are $binom(k - 1, s - 1)$ such choices.
 ]
 
+#pagebreak()
+
 #theorem[
   The total number of compositions of $k > 0$ into _some_ number of positive parts is
   $
@@ -786,6 +858,51 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
   $
   by the Binomial Theorem applied to $(1 + 1)^(k-1)$.
 ]
+
+// == Stars and Bars
+//
+// #Block(color: yellow)[
+//   *Stars and bars:* a composition of $k$ into $s$ parts places $s-1$ _dividers_ into the $k-1$ gaps between $k$ stars.
+//   Each choice of gaps gives a unique tuple $(b_1, dots, b_s)$ with $b_i >= 1$.
+//
+//   #align(center)[
+//     #cetz.canvas(length: 0.9cm, {
+//       import cetz.draw: *
+//       // 5 stars (boxes) with 4 gaps; dividers shown in gaps 2 and 4 → (2,2,1)
+//       let k = 5
+//       let gap-w = 0.3
+//       let box-w = 0.7
+//       let h = 0.6
+//       let divider-gaps = (2, 4) // 0-indexed gap positions where dividers go
+//       let colors = (blue.lighten(60%), teal.lighten(60%), orange.lighten(60%))
+//       let part-of = (0, 0, 1, 1, 2) // which part each star belongs to
+//
+//       for i in range(k) {
+//         let x = i * (box-w + gap-w)
+//         rect(
+//           (x, 0),
+//           (x + box-w, h),
+//           fill: colors.at(part-of.at(i)).lighten(20%),
+//           stroke: colors.at(part-of.at(i)).darken(30%),
+//         )
+//         content((x + box-w / 2, h / 2), $star$)
+//       }
+//       // Draw dividers in selected gaps
+//       for g in divider-gaps {
+//         let x = g * (box-w + gap-w) - gap-w / 2
+//         line((x, -0.1), (x, h + 0.1), stroke: 1.2pt + red.darken(20%))
+//       }
+//       // Labels under each part
+//       content((0.5 * box-w + 0 * (box-w + gap-w) + 0.5 * box-w, -0.3), text(
+//         size: 0.75em,
+//         fill: blue.darken(40%),
+//       )[$b_1 = 2$])
+//       content((2.5 * box-w + 2 * gap-w + 0.5 * box-w, -0.3), text(size: 0.75em, fill: teal.darken(40%))[$b_2 = 2$])
+//       content((4 * (box-w + gap-w) + 0.5 * box-w, -0.3), text(size: 0.75em, fill: orange.darken(40%))[$b_3 = 1$])
+//     })
+//   ]
+//   Here $k = 5$, $s = 3$: dividers in gaps 2 and 4 give the composition $2 + 2 + 1 = 5$.
+// ]
 
 == Parallel Summation Identity
 
@@ -1176,20 +1293,36 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
 
 == Applications of PIE
 
-The following template organizes any PIE argument:
+// The following template organizes any PIE argument:
 
-+ _Define "bad" properties._
+#grid(
+  columns: 1,
+  row-gutter: 0.6em,
+  [
+    #Block(color: teal, width: 100%)[
+      *Step 1: Define "bad" properties*
 
-  Identify the things to count as the elements of some universe $X$ except for those having _at least one_ of the "bad" properties $P_1, dots, P_m$.
-  In other words, we want to count $X setminus (X_1 union dots union X_m)$.
+      Identify elements of a universe $X$ to _exclude_: those having _at least one_ of properties $P_1, dots, P_m$.
 
-+ _Count $N(S)$._
+      Target: count $X setminus (X_1 union dots union X_m)$.
+    ]
+  ],
+  [
+    #Block(color: blue, width: 100%)[
+      *Step 2: Count $N(S)$*
 
-  For each $S subset.eq [m]$, determine $N(S)$, the number of elements of $X$ having _all_ bad properties $P_i$ for $i in S$.
+      For each $S subset.eq [m]$, determine $N(S)$ --- number of elements of $X$ having _all_ bad properties $P_i$ for $i in S$.
+    ]
+  ],
+  [
+    #Block(color: yellow, width: 100%)[
+      *Step 3: Apply PIE*
 
-+ _Apply PIE_.
-
-  Use @thm:pie to obtain a closed formula for $abs(X setminus (X_1 union dots union X_m))$.
+      Use @thm:pie to compute a closed formula:
+      $ abs(X setminus (X_1 union dots union X_m)) = sum_(S subset.eq [m]) (-1)^abs(S) N(S) $
+    ]
+  ],
+)
 
 == Counting Surjections via PIE
 
@@ -1696,7 +1829,19 @@ where $binom(n, k) = 0$ for $k > n$.
          & = 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
            = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
   $
-  The numbers $C_n := binom(2n, n) 1 / (n+1)$ are called _Catalan numbers_.
+  The numbers $C_n := display(binom(2n, n) 1 / (n+1))$ are called _Catalan numbers_.
+]
+
+#pagebreak()
+
+#Block(color: yellow)[
+  *Catalan numbers* $C_n = 1/(n+1) binom(2n, n)$ count many combinatorial structures:
+  - well-formed parenthesis strings of length $2n$,
+  - full binary trees with $n+1$ leaves,
+  - triangulations of a convex $(n+2)$-gon,
+  - monotone lattice paths from $(0,0)$ to $(n,n)$ not crossing the diagonal.
+
+  $ C_0=1, quad C_1=1, quad C_2=2, quad C_3=5, quad C_4=14, quad C_5=42, quad dots $
 ]
 
 
