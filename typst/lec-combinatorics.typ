@@ -768,7 +768,8 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
 
 #proof[
   Let $S = chevron.l X, r_infinity chevron.r = { infinity #emoji.banana, infinity #emoji.apple.red, infinity #emoji.pear }$ with $r_x = infinity$ and $abs(X) = s = 3$.
-  - Let $k = 5$ (as an example). Consider a 5-combination of $S$: ${ #emoji.banana, #emoji.apple.red, #emoji.banana, #emoji.pear, #emoji.pear }$.
+  - Let $k = 5$ (as an example).
+    Consider a 5-combination of $S$: ${ #emoji.banana, #emoji.apple.red, #emoji.banana, #emoji.pear, #emoji.pear }$.
   - Reorder and group: ${ #emoji.banana #emoji.banana | #emoji.apple.red | #emoji.pear #emoji.pear }$.
   - Convert to _dots_ and _bars_: #h(1em) $bullet bullet bar bullet bar bullet bullet$
   - Represent as a 2-type multiset: $M = { thin k dot bullet, thick (s-1) dot bar zws thin }$
@@ -1429,7 +1430,7 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
   $
     lim_(n to infinity) abs(D_n) / n! = sum_(i=0)^infinity (-1)^i / i! = 1 / e approx 36.8%
   $
-  Remarkably, this probability is essentially independent of $n$ for all $n >= 5$.
+  This probability barely changes for $n >= 5$.
 ]
 
 
@@ -1443,16 +1444,11 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
 == Generating Functions
 
 #quote(attribution: [George Pólya, Mathematics and Plausible Reasoning @polya1954])[
-  _A generating function is a device somewhat similar to a bag.
-  Instead of carrying many little objects detachedly, which could be embarrassing,
-  we put them all in a bag, and then we have only one object to carry, the bag._
+  _A generating function is a device somewhat similar to a bag. Instead of carrying many little objects detachedly, which could be embarrassing, we put them all in a bag, and then we have only one object to carry, the bag._
 ]
 
 #Block(color: yellow)[
-  *Core technique:* encode a sequence $(a_n)$ as coefficients of a formal power series
-  $G(x) = sum_(n=0)^infinity a_n x^n$,
-  then manipulate $G(x)$ _algebraically_ --- multiply, differentiate, compose --- to derive
-  counting identities and closed forms without ever computing terms by hand.
+  Encode a sequence $(a_n)$ as coefficients of a formal power series $G(x) = sum_(n=0)^infinity a_n x^n$, then manipulate $G(x)$ _algebraically_ (multiply, differentiate, compose) to derive counting identities and closed forms.
 ]
 
 == Ordinary Generating Functions
@@ -2661,7 +2657,7 @@ The Gamma function provides closed forms for several important combinatorial exp
   $
     n! = Gamma(n + 1), quad e.g. thin Gamma(1 slash 2) = sqrt(pi)
   $
-  This extends factorial to non-integer arguments.
+  Extends factorial to non-integer arguments.
 
 - *Generalized binomial coefficients* (for arbitrary $r in RR$):
   $
@@ -2681,9 +2677,7 @@ The Gamma function provides closed forms for several important combinatorial exp
   $
 
 #Block(color: yellow)[
-  These identities make $Gamma$ the natural tool whenever factorials, binomial coefficients,
-  or power series involve non-integer parameters ---
-  for example in probability distributions (Beta, Gamma, Student's $t$) and analytic combinatorics.
+  $Gamma$ shows up whenever factorials, binomial coefficients, or power series hit non-integer parameters: probability distributions (Beta, Gamma, Student's $t$), analytic combinatorics, and elsewhere.
 ]
 
 
