@@ -1451,6 +1451,27 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
   Encode a sequence $(a_n)$ as coefficients of a formal power series $G(x) = sum_(n=0)^infinity a_n x^n$, then manipulate $G(x)$ _algebraically_ (multiply, differentiate, compose) to derive counting identities and closed forms.
 ]
 
+== Counting with Polynomials
+
+*Problem.* Two fair dice. How many outcomes give sum $n$?
+
+Encode one die as a polynomial: the term $x^k$ stands for "rolling $k$ is possible."
+$
+  D(x) = x + x^2 + x^3 + x^4 + x^5 + x^6
+$
+Two independent dice → multiply:
+$
+  D(x)^2 = x^2 + 2x^3 + 3x^4 + 4x^5 + 5x^6 + underbracket(6 x^7) + 5x^8 + 4x^9 + 3x^10 + 2x^11 + x^12
+$
+
+The coefficient of $x^n$ gives the count for sum $n$.
+For sum 7: $[x^7] D(x)^2 = 6$. #YES
+
+#Block(color: yellow)[
+  One multiplication solves the problem for _every_ $n$ simultaneously.
+  This polynomial is a _generating function_ --- now let's understand what they are and why this works.
+]
+
 == Ordinary Generating Functions
 
 #definition[
