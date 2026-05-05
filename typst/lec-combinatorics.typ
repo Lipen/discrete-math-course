@@ -1778,6 +1778,10 @@ $
 
 == Newton's Binomial Theorem
 
+To extract the coefficients of $F(x) = (1 - sqrt(1 - 4x)) / (2x)$, we need to expand $sqrt(1 - 4x)$ as a power series.
+
+This requires extending the binomial theorem to _real_ exponents.
+
 Let's revisit the binomial theorem:
 $
   (1 + x)^n = sum_(k = 0)^n binom(n, k) x^k = sum_(k = 0)^infinity binom(n, k) x^k
