@@ -1707,7 +1707,20 @@ Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x
   box($ F(x) dot G(x) = sum_(n = 0)^infinity (sum_(k = 0)^n a_k b_(n - k)) x^n $),
 )
 
-== Well-Formed Paranthesis Expressions
+== Diving into Catalan Numbers
+
+So far, we _composed_ generating functions from known polynomials and read off coefficients.
+
+Now we turn the idea around: start from a _recursive counting argument_, derive a _functional equation_ for $F(x)$, and solve it.
+
+This requires a heavier tool --- _Newton's binomial theorem_ for real-valued exponents --- but the payoff is one of the most famous sequences in combinatorics.
+
+#Block(color: teal)[
+  *Historical note:* Eugène Catalan (1814--1894) studied these numbers in the context of polygon triangulation.
+  They appear in dozens of seemingly unrelated counting problems --- a phenomenon that generating functions help explain.
+]
+
+== Well-Formed Parenthesis Expressions
 
 #example[
   Find the number of _well-formed parenthesis expressions_ with $n$ pairs of parenthesis.
