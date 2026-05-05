@@ -1400,6 +1400,7 @@ For sum 7: $[x^7] D(x)^2 = 6$. #YES
 
 #Block(color: yellow)[
   One multiplication solves the problem for _every_ $n$ simultaneously.
+
   This polynomial is a _generating function_ --- now let's understand what they are and why this works.
 ]
 
