@@ -120,32 +120,6 @@ Three fundamental questions arise in every combinatorial problem:
   ],
 )
 
-// #Block(color: blue)[
-//   Combinatorics underpins algorithm analysis, cryptography, probability, and formal language theory.
-//   Every time you count passwords, bound a hash-collision probability, or analyze a divide-and-conquer runtime, you are doing combinatorics.
-// ]
-
-// == Lecture Road Map
-//
-// #align(center)[
-//   #table(
-//     columns: 2,
-//     align: left,
-//     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-//     table.header([*Section*], [*Topics*]),
-//     [Basic Counting], [Sum, product, subtraction, bijection, pigeonhole, double counting],
-//     [Arrangements], [Permutations, combinations, multisets, binomial/multinomial theorems],
-//     [Compositions], [Weak and strict compositions, stars-and-bars, parallel summation],
-//     [Set Partitions], [Stirling numbers of the 2nd kind, Bell numbers],
-//     [Integer Partitions], [Partition function, Ferrers diagrams, Young tableaux],
-//     [Inclusion--Exclusion], [PIE theorem, surjections, derangements],
-//     [Generating Functions], [OGF, convolution, Catalan numbers, Newton's theorem],
-//     [Recurrences], [Characteristic equations, non-homogeneous, annihilators],
-//     [Asymptotics], [Big-$O$ and $Theta$, Master theorem, Akra--Bazzi method],
-//     [Advanced], [Gamma function],
-//   )
-// ]
-
 
 = Basic Counting Principles
 
@@ -860,50 +834,7 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
   by the Binomial Theorem applied to $(1 + 1)^(k-1)$.
 ]
 
-// == Stars and Bars
-//
-// #Block(color: yellow)[
-//   *Stars and bars:* a composition of $k$ into $s$ parts places $s-1$ _dividers_ into the $k-1$ gaps between $k$ stars.
-//   Each choice of gaps gives a unique tuple $(b_1, dots, b_s)$ with $b_i >= 1$.
-//
-//   #align(center)[
-//     #cetz.canvas(length: 0.9cm, {
-//       import cetz.draw: *
-//       // 5 stars (boxes) with 4 gaps; dividers shown in gaps 2 and 4 → (2,2,1)
-//       let k = 5
-//       let gap-w = 0.3
-//       let box-w = 0.7
-//       let h = 0.6
-//       let divider-gaps = (2, 4) // 0-indexed gap positions where dividers go
-//       let colors = (blue.lighten(60%), teal.lighten(60%), orange.lighten(60%))
-//       let part-of = (0, 0, 1, 1, 2) // which part each star belongs to
-//
-//       for i in range(k) {
-//         let x = i * (box-w + gap-w)
-//         rect(
-//           (x, 0),
-//           (x + box-w, h),
-//           fill: colors.at(part-of.at(i)).lighten(20%),
-//           stroke: colors.at(part-of.at(i)).darken(30%),
-//         )
-//         content((x + box-w / 2, h / 2), $star$)
-//       }
-//       // Draw dividers in selected gaps
-//       for g in divider-gaps {
-//         let x = g * (box-w + gap-w) - gap-w / 2
-//         line((x, -0.1), (x, h + 0.1), stroke: 1.2pt + red.darken(20%))
-//       }
-//       // Labels under each part
-//       content((0.5 * box-w + 0 * (box-w + gap-w) + 0.5 * box-w, -0.3), text(
-//         size: 0.75em,
-//         fill: blue.darken(40%),
-//       )[$b_1 = 2$])
-//       content((2.5 * box-w + 2 * gap-w + 0.5 * box-w, -0.3), text(size: 0.75em, fill: teal.darken(40%))[$b_2 = 2$])
-//       content((4 * (box-w + gap-w) + 0.5 * box-w, -0.3), text(size: 0.75em, fill: orange.darken(40%))[$b_3 = 1$])
-//     })
-//   ]
-//   Here $k = 5$, $s = 3$: dividers in gaps 2 and 4 give the composition $2 + 2 + 1 = 5$.
-// ]
+// TODO: add Stars and Bars visual diagram (see review)
 
 == Parallel Summation Identity
 
