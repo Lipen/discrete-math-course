@@ -1789,7 +1789,7 @@ where $binom(n, k) = 0$ for $k > n$.
   This shows that $(1 + x)^n$ is the generating function for the series $(a_k)_(k in NN)$ with $a_k = binom(n, k)$.
 ]
 
-#fancy-box[
+#Block(color: green)[
   We can extend this result from natural numbers $n in NN$ to any _real_ number $n in RR$.
 ]
 
