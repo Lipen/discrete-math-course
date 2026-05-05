@@ -1137,7 +1137,7 @@ Order does _not_ matter: $3 + 1$ and $1 + 3$ are the same partition.
 )
 
 
-= Inclusion–Exclusion
+= Inclusion--Exclusion
 
 #focus-slide(
   epigraph: [There are very few things which we know, which are not capable \ of being reduced to a mathematical reasoning.],
