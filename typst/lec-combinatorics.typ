@@ -1563,31 +1563,70 @@ $
 == Exercises
 
 #example[
-  Find GF for odd numbers: $(1, 3, 5, dots)$.
+  Find the GF for odd numbers: $(1, 3, 5, 7, dots)$.
 
-  //      A(x) = 1 + 3x + 5x^2 + 7x^3 + 9x^4 + ...
-  //  x * A(x) = 0 + 1x + 3x^2 + 5x^3 + 7x^4 + ...
-  // ----------------------------------------------
-  //   (1-x)*A = 1 + 2x + 2x^2 + 2x^3 + 2x^4 + ...
-  //   (1-x)*A = 1 + 2x/(1-x)
-  //
-  // A(x) = 1/(1-x) + 2x/(1-x)^2  ===  (1+x) / (1-x)^2 =
-  //  = (1,1,1,...) + (0,2,4,6,8,...) = (1,3,5,7,9,...)
+  #note(title: "Hint")[
+    write $A(x) = 1 + 3x + 5x^2 + 7x^3 + dots$, then compute $x dot A(x)$ and subtract from $A(x)$.
+
+    What familiar series do you see in the result?
+  ]
 ]
 
+#v(2em)
+
 #example[
-  Find GF for $(1, 3, 7, 15, 31, 63)$, which satisfies $a_n = 3 a_(n-1) - 2 a_(n-2)$ with $a_0 = 1$, $a_1 = 3$.
+  Find the GF for $(1, 3, 7, 15, 31, 63, dots)$, which satisfies $a_n = 3 a_(n-1) - 2 a_(n-2)$ with $a_0 = 1$, $a_1 = 3$.
 
-  //      A = 1 + 3x + 7x^2 + 15x^3 + 31x^4 + ... + a_n x^n + ...
-  //   -3xA = 0 - 3x - 9x^2 - 21x^3 - 45x^4 - ... - 3a_(n-1) x^n - ...
-  //  2x^2A = 0 + 0x + 2x^2 +  6x^3 + 18x^4 + ... + 2a_(n-2) x^n + ...
-  // ------------------------------------------------------------------
-  // (1 - 3x + 2x^2) A = 1
-  //
-  // Thus, A(x) = 1 / (1 - 3x + 2x^2)
+  #note(title: "Hint")[
+    write $A(x)$, $-3x A(x)$, and $+2x^2 A(x)$ stacked and add them column by column.
 
-  // Note: rewrite (a_n) as a_n - 3a(n-1) + 2a(n-2) = 0
-  // observe the similarity to A(x)
+    Most terms cancel because of the recurrence. What remains?
+  ]
+]
+
+== Solutions
+
+#example[
+  *Odd numbers.* Let $A(x) = 1 + 3x + 5x^2 + 7x^3 + dots$
+  $
+    mat(
+      delim: #none,
+      align: #right,
+      column-gap: #.5em,
+      row-gap: #.5em,
+      augment: #(hline: -1),
+      A(x), =, 1, +, 3x, +, 5x^2, +, 7x^3, +, 9x^4, +, dots;
+      x dot A(x), =, , +, x, +, 3x^2, +, 5x^3, +, 7x^4, +, dots;
+      A - x dot A, =, 1, +, 2x, +, 2x^2, +, 2x^3, +, 2x^4, +, dots;
+    )
+  $
+  The result is $1 + 2(x + x^2 + x^3 + dots) = 1 + 2 dot x / (1-x)$, so:
+  $
+    A(x) = (1 + 2 dot x / (1-x)) / (1-x) = (1-x + 2x) / (1-x)^2 = (1+x) / (1-x)^2
+  $
+  Check: $(1+x) / (1-x)^2 = (1,1,1,dots) + (0,2,4,6,8,dots) = (1,3,5,7,9,dots)$. #YES
+]
+
+#pagebreak()
+
+#example[
+  *Recurrence sequence.* Stack $A$, $-3x dot A$, $+2x^2 dot A$ and add:
+  $
+    mat(
+      delim: #none,
+      align: #right,
+      column-gap: #.5em,
+      row-gap: #.5em,
+      augment: #(hline: -1),
+      A(x), =, 1, +, 3x, +, 7x^2, +, 15x^3, +, 31x^4, +, dots;
+      -3x dot A(x), =, , -, 3x, -, 9x^2, -, 21x^3, -, 45x^4, -, dots;
+      2x^2 dot A(x), =, , , , , 2x^2, +, 6x^3, +, 18x^4, +, dots;
+      (1-3x+2x^2) dot A(x), =, 1;
+    )
+  $
+  Every column beyond $x^0$ vanishes because $a_n - 3 a_(n-1) + 2 a_(n-2) = 0$ by the recurrence.
+
+  Thus $display(A(x) = 1 / (1 - 3x + 2x^2))$.
 ]
 
 == Solving Combinatorial Problems via Generating Functions
