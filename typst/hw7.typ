@@ -660,154 +660,169 @@ Please make sure to answer #emph[all] questions and provide #emph[clear] explana
 
 == Problem A: Burnside's Lemma and Pólya Enumeration #h(1fr)#TagBonus
 
-Many counting problems ask: how many distinct objects can be formed if objects related by a _symmetry_ (rotation, reflection, etc.) are considered identical?
-For example, how many distinct necklaces can be made from $n$ beads in $k$ colors, if rotations and flips of the necklace are considered the same?
+Imagine you're coloring the faces of a cube with 3 colors.
+Naively, that's $3^6 = 729$ colorings --- but if you rotate the cube, many of these look the same.
+How many are _truly_ distinct?
+
+This kind of question comes up all the time: distinct necklaces up to rotation, distinct molecules up to symmetry, distinct graph labelings up to automorphism.
+The key insight is that _symmetries form a group_, and you can count orbits by averaging over the group.
 
 #Box[
-  *Burnside's Lemma.* Let $G$ be a finite group acting on a set $X$. The number of _orbits_ (equivalence classes) under this action is:
-  $ |X "/" G| = 1 "/" |G| sum_(g in G) |"Fix"(g)| $
-  where $"Fix"(g) = {x in X mid(|) g dot x = x}$ is the set of elements fixed by $g$.
+  *Burnside's Lemma.* Let a finite group $G$ act on a set $X$.
+  The number of distinct orbits (equivalence classes) is the average number of fixed points:
+  $ |X "/" G| = frac(1, |G|) sum_(g in G) |"Fix"(g)| $
+  where $"Fix"(g) = {x in X mid(|) g dot x = x}$ is the set of colorings left unchanged by $g$.
+
+  In words: to count distinct objects, average over all symmetries how many configurations each symmetry preserves.
 ]
 
 #tasklist("probA")[
-  + *Warm-up: rotating a flag.*
-    A circular flag has $n$ positions arranged in a circle, each to be colored black or white.
-    Two colorings are equivalent if one can be rotated to obtain the other.
-    Use Burnside's lemma to count the number of distinct flags for $n = 4$ and $n = 5$.
+  + *Warm-up: binary bracelets.*
+    You have $n$ beads in a circle, each black or white.
+    Two bracelets are the same if you can rotate one to get the other.
+    Use Burnside's lemma to count distinct bracelets for $n = 4$ and $n = 5$.
+    #h(1fr)
+    _(Try brute force first to check your answer.)_
 
-  + *Necklaces.* How many distinct necklaces can be made from $n$ beads in $k$ colors if:
+  + *Necklaces with flips.*
+    Now allow reflections too (you can flip the bracelet over).
     #tasklist("probA2", format: "(a)")[
-      + Rotations are considered equivalent (cyclic group $C_n$)?
-      + Both rotations and reflections are equivalent (dihedral group $D_n$)?
+      + How many distinct necklaces of $n = 6$ beads in $k = 3$ colors, up to rotation only?
+      + Same question, but rotations and reflections are equivalent.
     ]
-    Compute explicit answers for $n = 6, k = 3$ and $n = 8, k = 2$.
 
-  + *Cube coloring.* How many ways are there to color the faces of a cube with $k$ colors, up to rotation?
-    The rotation group of the cube has 24 elements.
-    Describe the conjugacy classes of rotations and compute $"Fix"(g)$ for each.
+  + *Cube coloring.*
+    How many ways to color the faces of a cube with $k$ colors, up to rotation?
 
-  + *Pólya enumeration theorem* (optional extension).
-    Instead of just _counting_ colorings, determine the _generating function_ that records how many colorings use each color a given number of times.
-    For the cube with colors ${R, G, B}$, find the number of colorings that use each color exactly twice.
+    The cube's rotation group has 24 elements.
+    Your job is to figure out what types of rotations exist (identity, face rotations, edge rotations, vertex rotations), how many of each type, and how many colorings each type fixes.
+
+  + *Pólya's theorem* (optional, for the adventurous).
+    Instead of just counting total colorings, Pólya's theorem gives you a _generating function_ that tells you how many colorings use each color how many times.
+    For a cube colored with ${R, G, B}$, how many colorings use each color exactly twice?
 ]
-
-
-#v(1em)
 
 
 == Problem B: Gray Codes and Iterative Generation #h(1fr)#TagBonus
 
-#Block[
-  "Generate _all_ objects of type $X$, one at a time, changing as little as possible between consecutive outputs."
-  This is the philosophy behind _Gray codes_ and _iterative combinatorial generation_ --- a rich topic explored in depth by Knuth (#link("https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming")[TAOCP Vol. 4A]).
-]
+Suppose you need to enumerate all $2^n$ bitstrings, or all $C_n^k$ combinations, or all $n!$ permutations.
+You could just generate them in lexicographic order --- but consecutive objects might differ in many positions.
+What if you want each step to change as _little_ as possible?
+
+This idea leads to _Gray codes_ (flip one bit at a time), the _revolving door_ algorithm (swap one element in/out), and the _Johnson--Trotter_ algorithm (swap two adjacent elements).
+Knuth devotes an entire volume (#link("https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming")[TAOCP 4A]) to these and related algorithms.
 
 #tasklist("probB")[
   + *Binary reflected Gray code.*
-    The standard Gray code lists all $2^n$ bitstrings of length $n$ so that consecutive strings differ in exactly one bit.
-    Implement the recursive construction: $Gamma_n = 0 dot Gamma_(n-1) union 1 dot "reverse"(Gamma_(n-1))$.
-    Verify for $n = 3, 4$ that consecutive strings differ in exactly one position.
+    The classic construction: $Gamma_1 = (0, 1)$, and $Gamma_n$ is $0$ prepended to $Gamma_(n-1)$, followed by $1$ prepended to the _reverse_ of $Gamma_(n-1)$.
+    Implement this and verify for $n = 3, 4$ that consecutive strings differ in exactly one bit.
 
   + *Rank and unrank.*
-    Implement:
-    - $"rank"(b)$: given a bitstring $b$ in the Gray code ordering, return its index $i in {0, ..., 2^n - 1}$.
-    - $"unrank"(i)$: given index $i$, produce the corresponding bitstring.
-    Both should run in $O(n)$ time without generating the entire list.
+    Can you go directly between a bitstring and its position in the Gray code, without generating the whole list?
+    Implement $"rank"(b) arrow.r i$ and $"unrank"(i) arrow.r b$ in $O(n)$ time.
 
-  + *Revolving door algorithm* (combinations).
-    Implement the revolving door algorithm that generates all $C_n^k$ $k$-combinations of ${1, ..., n}$ such that each combination differs from the previous one by exactly one element entering and one leaving.
+  + *Revolving door* (combinations).
+    Generate all $k$-element subsets of ${1, ..., n}$ so that each subset differs from the previous one by exactly one element entering and one leaving --- like a revolving door.
     Test for $n = 5, k = 3$.
 
-  + *Johnson--Trotter algorithm* (permutations).
-    Implement the Johnson--Trotter algorithm to generate all $n!$ permutations by adjacent transpositions (swapping one pair of adjacent elements at each step).
+  + *Johnson--Trotter* (permutations).
+    Generate all $n!$ permutations so that each consecutive pair differs by swapping two _adjacent_ elements.
+    The trick: each element has a "direction" (left or right), and you always move the largest mobile element.
     Test for $n = 3, 4$.
 
   + *Benchmark.*
-    For each algorithm, measure the time to enumerate all objects for $n in {10, 15, 20}$ (Gray code), $n = 20, k = 10$ (combinations), and $n = 8, 9, 10$ (permutations).
-    Report throughput (objects/second).
+    Measure throughput (objects/second) for each algorithm:
+    Gray code with $n in {10, 15, 20}$, combinations with $n = 20, k = 10$, permutations with $n in {8, 9, 10}$.
 ]
-
-
-#v(1em)
 
 
 == Problem C: Möbius Inversion and Derangements #h(1fr)#TagBonus
 
-The #link("https://en.wikipedia.org/wiki/M%C3%B6bius_inversion_formula")[Möbius inversion formula] is a powerful generalization of inclusion--exclusion that works on _any_ partially ordered set (poset).
-It provides a systematic way to invert sums over poset ideals.
+You already know inclusion--exclusion: to count elements that have _none_ of the bad properties, you alternate between overcounting and undercounting.
+It turns out this is a special case of something much more general --- #link("https://en.wikipedia.org/wiki/M%C3%B6bius_inversion_formula")[Möbius inversion] --- that works on _any_ partially ordered set, not just subsets.
+
+The idea: if you know a "cumulative" function $g(x) = sum_(y <= x) f(y)$, you can recover $f$ from $g$ by inverting with the Möbius function of the poset.
 
 #Box[
-  *Möbius Inversion on Posets.* Let $(P, <=)$ be a locally finite poset with Möbius function $mu$. If $f, g : P to ZZ$ satisfy
-  $ g(x) = sum_(y <= x) f(y) quad "for all" x in P $
-  then
+  *Möbius Inversion.* On a poset $(P, <=)$ with Möbius function $mu$, if $g(x) = sum_(y <= x) f(y)$, then
   $ f(x) = sum_(y <= x) mu(y, x) dot g(y) $
+  Different posets give different $mu$, and thus different inversion formulas.
 ]
 
 #tasklist("probC")[
-  + *Classical Möbius inversion* (number-theoretic).
-    Let $P = ZZ^+$ ordered by divisibility ($a <= b$ iff $a | b$).
-    The Möbius function in this poset is the classical $mu(n)$.
-    Prove that $phi(n) = sum_(d | n) mu(d) dot n "/" d$, where $phi$ is Euler's totient.
-    Verify for $n = 12, 30, 100$.
+  + *Warm-up: number theory.*
+    On $ZZ^+$ ordered by divisibility, the Möbius function is the classical $mu(n)$ (the one from number theory).
+    Use Möbius inversion to prove $phi(n) = sum_(d | n) mu(d) dot n "/" d$.
+    Check by hand for $n = 12, 30$.
 
-  + *Inclusion--exclusion as Möbius inversion.*
-    Let $P = $ the boolean lattice of subsets of ${1, ..., n}$ ordered by inclusion.
-    Show that the Möbius function of this poset satisfies $mu(A, B) = (-1)^(|B| - |A|)$.
-    Conclude that the inclusion--exclusion principle is a special case of Möbius inversion.
+  + *Inclusion--exclusion is just a special case.*
+    On the boolean lattice (subsets ordered by inclusion), show that $mu(A, B) = (-1)^(|B| - |A|)$.
+    Conclude: inclusion--exclusion is Möbius inversion on the subset lattice.
 
-  + *Derangements via Möbius inversion.*
-    A #link("https://en.wikipedia.org/wiki/Derangement")[_derangement_] is a permutation with no fixed points.
-    The number of derangements of $n$ elements is the _subfactorial_ $!n$.
+  + *Derangements: permutations with no fixed points.*
+    A #link("https://en.wikipedia.org/wiki/Derangement")[_derangement_] is a permutation where nothing stays in place.
+    The number of derangements of $n$ elements is called $!n$ (subfactorial).
     #tasklist("probC3", format: "(a)")[
-      + Derive the formula $!n = n! sum_(k=0)^n frac((-1)^k, k!)$ using inclusion--exclusion (or Möbius inversion on the permutation lattice).
-      + Prove the recurrence $!n = (n - 1) dot (!(n - 1) + !(n - 2))$ combinatorially.
-      + Compute the exponential generating function for $!n$ and show that, as a formal power series,
-        $ sum_(n >= 0) frac(!n, n!) dot x^n = e^(-x) / (1 - x) $
-      + Show that $display(lim_(n to infinity) frac(!n, n!) = 1 / e)$.
-      + What is the probability that a random permutation is a derangement?
+      + Derive $!n = n! sum_(k=0)^n frac((-1)^k, k!)$ via inclusion--exclusion.
+      + Prove the recurrence $!n = (n - 1) dot (!(n - 1) + !(n - 2))$ by a combinatorial argument.
+        #h(1fr)
+        _(Hint: where does element 1 go? It has $n - 1$ choices...)_
+      + Show that, as a formal power series, the EGF of derangements is $e^(-x) "/" (1 - x)$.
+      + Prove that $!n "/" n! -> 1 "/" e$ as $n -> infinity$.
+        Intuitively, if you shuffle a large number of cards --- how likely is it that no card ends up in its original position?
+
     ]
 
-  + *Möbius function on the partition lattice* (research).
-    The set of all partitions of ${1, ..., n}$ ordered by refinement forms the _partition lattice_ $Pi_n$.
-    Look up (or derive) the Möbius function of this lattice.
-    Use it to count the number of ways to partition $n$ labeled elements into $k$ non-empty _unordered_ blocks (Stirling numbers of the second kind) via Möbius inversion.
+  + *Partition lattice*.
+    Partitions of ${1, ..., n}$ ordered by refinement form a lattice $Pi_n$.
+    Its Möbius function has a beautiful formula.
+    Use it to derive the Stirling numbers $stirling(n, k)$ via Möbius inversion --- connecting this problem back to Problem 1.
 ]
-
-
-#v(1em)
 
 
 == Problem D: Combinatorial Games and Sprague--Grundy #h(1fr)#TagBonus
 
-#link("https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem")[Combinatorial game theory] analyzes two-player perfect-information games where the last player to move wins (normal play convention).
-The Sprague--Grundy theorem shows that every such impartial game is equivalent to a Nim heap.
+Two players, perfect information, no randomness, last move wins.
+Think Nim, or any game where you take turns and the one who can't move loses.
+It turns out _every_ such game is secretly just Nim in disguise.
+
+The key idea: each position has a _Grundy number_ (a non-negative integer), and a position is losing iff its Grundy number is 0.
+To compute it, take the _mex_ (minimum excludant) of all Grundy numbers reachable in one move.
+The #link("https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem")[Sprague--Grundy theorem] says this completely solves the game.
 
 #Box[
-  *Sprague--Grundy Theorem.* Every impartial combinatorial game under normal play is equivalent to a Nim heap of size $g$, where $g$ is the _Grundy number_ (also called _nimber_ or _mex value_) defined recursively:
-  $ g("position") = "mex"({ g(s) mid(|) s "is a reachable position"} ) $
-  where "mex" of a set of non-negative integers is the smallest non-negative integer _not_ in the set.
-  A position is losing (P-position) iff $g = 0$.
+  *Grundy number.* $g(p) = "mex"({ g(s) mid(|) s "is reachable from" p })$, where "mex" of a set of non-negative integers is the smallest non-negative integer _not_ in the set.
+
+  *Key fact:* $g(p) = 0$ iff $p$ is a losing position (the previous player wins). Everything else is winning.
+
+  *Composition:* if a game splits into independent sub-games, the combined Grundy number is the XOR of the parts.
 ]
 
 #tasklist("probD")[
-  + *Nim.* The game of Nim consists of several heaps of tokens. On each turn, a player removes any positive number of tokens from a single heap.
-    Prove Bouton's theorem: a Nim position $(h_1, h_2, ..., h_k)$ is losing iff $h_1 xor h_2 xor ... xor h_k = 0$, where $xor$ is bitwise XOR.
+  + *Nim.*
+    Several heaps of tokens. On your turn, remove any positive number of tokens from one heap.
+    Prove Bouton's theorem: position $(h_1, ..., h_k)$ is losing iff $h_1 xor h_2 xor ... xor h_k = 0$.
 
-  + *Subtraction game.* In the subtraction game $S(n, T)$, there is one heap of $n$ tokens, and a player may remove $t in T$ tokens on each turn (where $T$ is a fixed finite set).
-    For $T = {1, 2, 3}$, compute the Grundy numbers for $n = 0, 1, ..., 20$ and identify the pattern of P-positions.
-    For $T = {1, 4, 5}$, do the same. Is the pattern periodic?
+  + *Subtraction games.*
+    One heap of $n$ tokens. You may remove $t in T$ tokens per turn (say $T = {1, 2, 3}$).
+    Compute Grundy numbers for $n = 0, ..., 20$.
+    Notice the pattern? Now try $T = {1, 4, 5}$ --- still periodic?
 
-  + *Wythoff's game.* Two heaps of tokens. A move consists of removing any number of tokens from one heap, or the _same_ number of tokens from both heaps.
+  + *Wythoff's game.*
+    Two heaps. On your turn: remove any number from one heap, or the _same_ number from both.
+    This one is special --- the P-positions involve the golden ratio $phi$.
     #tasklist("probD3", format: "(a)")[
-      + Compute the P-positions for heap sizes up to $(20, 20)$.
-      + Show that the P-positions are $(floor(k dot phi), floor(k dot phi^2))$ for $k = 0, 1, 2, ...$, where $phi = (1 + sqrt(5)) "/" 2$ is the golden ratio.
-      + Prove that these positions satisfy the "no two in same row/column/diagonal" property.
+      + Compute the P-positions for heap sizes up to $(20, 20)$. Do you see the pattern?
+      + The P-positions turn out to be $(floor(k phi), floor(k phi^2))$ for $k = 0, 1, 2, ...$, where $phi = (1 + sqrt(5)) "/" 2$.
+        Verify this matches your computation.
+      + Why does the golden ratio show up? (This is a deep and beautiful question --- even a partial answer is worth a lot.)
     ]
 
-  + *Sprague--Grundy disjunctive sum.*
-    Given two impartial games $G_1$ and $G_2$, the _disjunctive sum_ $G_1 + G_2$ is the game where on each turn, a player moves in exactly one of the two component games.
-    Prove that $g(G_1 + G_2) = g(G_1) xor g(G_2)$ (the Grundy number of the sum is the XOR of the individual Grundy numbers).
-    Use this to analyze a game of Nim with heaps $(7, 5, 3, 1)$: is the first player winning? Give a winning move.
+  + *Putting it together.*
+    Suppose you're playing Nim with heaps $(7, 5, 3, 1)$.
+    Is the first player winning? If yes, give a winning move.
+    Now suppose the game is: one subtraction game with $T = {1, 3, 4}$ on a heap of 10, _plus_ a Nim heap of 5.
+    Who wins?
 ]
 
 
