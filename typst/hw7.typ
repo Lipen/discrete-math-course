@@ -642,3 +642,173 @@ Please make sure to answer #emph[all] questions and provide #emph[clear] explana
 
 #v(0.5em)
 #text(style: "italic")[Good luck!]
+
+
+#pagebreak()
+
+#align(center)[
+  #set text(1.2em, weight: "bold")
+  Optional Bonus Problems
+]
+
+#Block[
+  The following problems are _"optional"_.
+  They require programming and/or deeper theory.
+  They will _not_ count toward your grade but may earn bonus points and --- more importantly --- genuine understanding.
+]
+
+
+== Problem A: Burnside's Lemma and Pólya Enumeration #h(1fr)#TagBonus
+
+Many counting problems ask: how many distinct objects can be formed if objects related by a _symmetry_ (rotation, reflection, etc.) are considered identical?
+For example, how many distinct necklaces can be made from $n$ beads in $k$ colors, if rotations and flips of the necklace are considered the same?
+
+#Box[
+  *Burnside's Lemma.* Let $G$ be a finite group acting on a set $X$. The number of _orbits_ (equivalence classes) under this action is:
+  $ |X "/" G| = 1 "/" |G| sum_(g in G) |"Fix"(g)| $
+  where $"Fix"(g) = {x in X mid(|) g dot x = x}$ is the set of elements fixed by $g$.
+]
+
+#tasklist("probA")[
+  + *Warm-up: rotating a flag.*
+    A circular flag has $n$ positions arranged in a circle, each to be colored black or white.
+    Two colorings are equivalent if one can be rotated to obtain the other.
+    Use Burnside's lemma to count the number of distinct flags for $n = 4$ and $n = 5$.
+
+  + *Necklaces.* How many distinct necklaces can be made from $n$ beads in $k$ colors if:
+    #tasklist("probA2", format: "(a)")[
+      + Rotations are considered equivalent (cyclic group $C_n$)?
+      + Both rotations and reflections are equivalent (dihedral group $D_n$)?
+    ]
+    Compute explicit answers for $n = 6, k = 3$ and $n = 8, k = 2$.
+
+  + *Cube coloring.* How many ways are there to color the faces of a cube with $k$ colors, up to rotation?
+    The rotation group of the cube has 24 elements.
+    Describe the conjugacy classes of rotations and compute $"Fix"(g)$ for each.
+
+  + *Pólya enumeration theorem* (optional extension).
+    Instead of just _counting_ colorings, determine the _generating function_ that records how many colorings use each color a given number of times.
+    For the cube with colors ${R, G, B}$, find the number of colorings that use each color exactly twice.
+]
+
+
+#v(1em)
+
+
+== Problem B: Gray Codes and Iterative Generation #h(1fr)#TagBonus
+
+#Block[
+  "Generate _all_ objects of type $X$, one at a time, changing as little as possible between consecutive outputs."
+  This is the philosophy behind _Gray codes_ and _iterative combinatorial generation_ --- a rich topic explored in depth by Knuth (#link("https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming")[TAOCP Vol. 4A]).
+]
+
+#tasklist("probB")[
+  + *Binary reflected Gray code.*
+    The standard Gray code lists all $2^n$ bitstrings of length $n$ so that consecutive strings differ in exactly one bit.
+    Implement the recursive construction: $Gamma_n = 0 dot Gamma_(n-1) union 1 dot "reverse"(Gamma_(n-1))$.
+    Verify for $n = 3, 4$ that consecutive strings differ in exactly one position.
+
+  + *Rank and unrank.*
+    Implement:
+    - $"rank"(b)$: given a bitstring $b$ in the Gray code ordering, return its index $i in {0, ..., 2^n - 1}$.
+    - $"unrank"(i)$: given index $i$, produce the corresponding bitstring.
+    Both should run in $O(n)$ time without generating the entire list.
+
+  + *Revolving door algorithm* (combinations).
+    Implement the revolving door algorithm that generates all $C_n^k$ $k$-combinations of ${1, ..., n}$ such that each combination differs from the previous one by exactly one element entering and one leaving.
+    Test for $n = 5, k = 3$.
+
+  + *Johnson--Trotter algorithm* (permutations).
+    Implement the Johnson--Trotter algorithm to generate all $n!$ permutations by adjacent transpositions (swapping one pair of adjacent elements at each step).
+    Test for $n = 3, 4$.
+
+  + *Benchmark.*
+    For each algorithm, measure the time to enumerate all objects for $n in {10, 15, 20}$ (Gray code), $n = 20, k = 10$ (combinations), and $n = 8, 9, 10$ (permutations).
+    Report throughput (objects/second).
+]
+
+
+#v(1em)
+
+
+== Problem C: Möbius Inversion and Derangements #h(1fr)#TagBonus
+
+The #link("https://en.wikipedia.org/wiki/M%C3%B6bius_inversion_formula")[Möbius inversion formula] is a powerful generalization of inclusion--exclusion that works on _any_ partially ordered set (poset).
+It provides a systematic way to invert sums over poset ideals.
+
+#Box[
+  *Möbius Inversion on Posets.* Let $(P, <=)$ be a locally finite poset with Möbius function $mu$. If $f, g : P to ZZ$ satisfy
+  $ g(x) = sum_(y <= x) f(y) quad "for all" x in P $
+  then
+  $ f(x) = sum_(y <= x) mu(y, x) dot g(y) $
+]
+
+#tasklist("probC")[
+  + *Classical Möbius inversion* (number-theoretic).
+    Let $P = ZZ^+$ ordered by divisibility ($a <= b$ iff $a | b$).
+    The Möbius function in this poset is the classical $mu(n)$.
+    Prove that $phi(n) = sum_(d | n) mu(d) dot n "/" d$, where $phi$ is Euler's totient.
+    Verify for $n = 12, 30, 100$.
+
+  + *Inclusion--exclusion as Möbius inversion.*
+    Let $P = $ the boolean lattice of subsets of ${1, ..., n}$ ordered by inclusion.
+    Show that the Möbius function of this poset satisfies $mu(A, B) = (-1)^(|B| - |A|)$.
+    Conclude that the inclusion--exclusion principle is a special case of Möbius inversion.
+
+  + *Derangements via Möbius inversion.*
+    A #link("https://en.wikipedia.org/wiki/Derangement")[_derangement_] is a permutation with no fixed points.
+    The number of derangements of $n$ elements is the _subfactorial_ $!n$.
+    #tasklist("probC3", format: "(a)")[
+      + Derive the formula $!n = n! sum_(k=0)^n frac((-1)^k, k!)$ using inclusion--exclusion (or Möbius inversion on the permutation lattice).
+      + Prove the recurrence $!n = (n - 1) dot (!(n - 1) + !(n - 2))$ combinatorially.
+      + Compute the exponential generating function for $!n$ and show that, as a formal power series,
+        $ sum_(n >= 0) frac(!n, n!) dot x^n = e^(-x) / (1 - x) $
+      + Show that $display(lim_(n to infinity) frac(!n, n!) = 1 / e)$.
+      + What is the probability that a random permutation is a derangement?
+    ]
+
+  + *Möbius function on the partition lattice* (research).
+    The set of all partitions of ${1, ..., n}$ ordered by refinement forms the _partition lattice_ $Pi_n$.
+    Look up (or derive) the Möbius function of this lattice.
+    Use it to count the number of ways to partition $n$ labeled elements into $k$ non-empty _unordered_ blocks (Stirling numbers of the second kind) via Möbius inversion.
+]
+
+
+#v(1em)
+
+
+== Problem D: Combinatorial Games and Sprague--Grundy #h(1fr)#TagBonus
+
+#link("https://en.wikipedia.org/wiki/Sprague%E2%80%93Grundy_theorem")[Combinatorial game theory] analyzes two-player perfect-information games where the last player to move wins (normal play convention).
+The Sprague--Grundy theorem shows that every such impartial game is equivalent to a Nim heap.
+
+#Box[
+  *Sprague--Grundy Theorem.* Every impartial combinatorial game under normal play is equivalent to a Nim heap of size $g$, where $g$ is the _Grundy number_ (also called _nimber_ or _mex value_) defined recursively:
+  $ g("position") = "mex"({ g(s) mid(|) s "is a reachable position"} ) $
+  where "mex" of a set of non-negative integers is the smallest non-negative integer _not_ in the set.
+  A position is losing (P-position) iff $g = 0$.
+]
+
+#tasklist("probD")[
+  + *Nim.* The game of Nim consists of several heaps of tokens. On each turn, a player removes any positive number of tokens from a single heap.
+    Prove Bouton's theorem: a Nim position $(h_1, h_2, ..., h_k)$ is losing iff $h_1 xor h_2 xor ... xor h_k = 0$, where $xor$ is bitwise XOR.
+
+  + *Subtraction game.* In the subtraction game $S(n, T)$, there is one heap of $n$ tokens, and a player may remove $t in T$ tokens on each turn (where $T$ is a fixed finite set).
+    For $T = {1, 2, 3}$, compute the Grundy numbers for $n = 0, 1, ..., 20$ and identify the pattern of P-positions.
+    For $T = {1, 4, 5}$, do the same. Is the pattern periodic?
+
+  + *Wythoff's game.* Two heaps of tokens. A move consists of removing any number of tokens from one heap, or the _same_ number of tokens from both heaps.
+    #tasklist("probD3", format: "(a)")[
+      + Compute the P-positions for heap sizes up to $(20, 20)$.
+      + Show that the P-positions are $(floor(k dot phi), floor(k dot phi^2))$ for $k = 0, 1, 2, ...$, where $phi = (1 + sqrt(5)) "/" 2$ is the golden ratio.
+      + Prove that these positions satisfy the "no two in same row/column/diagonal" property.
+    ]
+
+  + *Sprague--Grundy disjunctive sum.*
+    Given two impartial games $G_1$ and $G_2$, the _disjunctive sum_ $G_1 + G_2$ is the game where on each turn, a player moves in exactly one of the two component games.
+    Prove that $g(G_1 + G_2) = g(G_1) xor g(G_2)$ (the Grundy number of the sum is the XOR of the individual Grundy numbers).
+    Use this to analyze a game of Nim with heaps $(7, 5, 3, 1)$: is the first player winning? Give a winning move.
+]
+
+
+#line(length: 100%, stroke: 0.4pt)
