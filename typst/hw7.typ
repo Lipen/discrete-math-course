@@ -350,6 +350,7 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
     Use $p_k (n)$ directly, since the closed-form expression is unknown.
 ]
 
+#pagebreak()
 
 == Problem 2: Password Counting #h(1fr)#TagCore
 
