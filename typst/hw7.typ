@@ -346,7 +346,7 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
   - #link("https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind")[Stirling number of the second kind] $s^("II")_k (n) =$ $stirling(n, k)$ $= S(n, k)$ is the number of ways to partition a set of $n$ elements into $k$ non-empty subsets.
     Use $s^("II")_k (n)$ notation (or $stirling(n, k)$, or $S(n, k)$, to your preference) directly without expanding the closed formula.
 
-  - #link("https://en.wikipedia.org/wiki/Partition_(number_theory)#Restricted_part_size_or_number_of_parts")[Partition function] $p_k (n)$ is the number of ways to partition the integer $n$ into $k$ positive parts, i.e. the number of solutions to the following equation: $n = a_1 + ... + a_k$, where $a_1 >= ... >= a_k >= 1$.
+  - #link("https://en.wikipedia.org/wiki/Partition_(number_theory)#Restricted_part_size_or_number_of_parts")[Partition function] $p_k (n)$ is the number of ways to partition the integer $n$ into $k$ positive parts, i.e. the number of solutions to the following equation: $n = a_1 + ... + a_k$, where #box[$a_1 >= ... >= a_k >= 1$].
     Use $p_k (n)$ directly, since the closed-form expression is unknown.
 ]
 
