@@ -758,6 +758,8 @@ The key insight is that _symmetries form a group_, and you can count orbits by a
 ]
 
 
+#pagebreak()
+
 == Problem B: Gray Codes and Iterative Generation #h(1fr)#TagBonus
 
 Suppose you need to enumerate all $2^n$ bitstrings, or all $C_n^k$ combinations, or all $n!$ permutations.
