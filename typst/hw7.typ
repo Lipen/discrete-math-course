@@ -442,7 +442,7 @@ Consider the word $"ASSESSMENTS"$.
 #tasklist("anagram", format: "(a)")[
   + Count the number of distinct anagrams.
 
-  + Count the number of distinct anagrams in which all four letters `S` appear consecutively.
+  + Count the number of distinct anagrams in which all five letters `S` appear consecutively.
 
   + Generalize: if a multiset has size $n$ with multiplicities $(m_1, ..., m_r)$, derive a formula for the number of permutations where all copies of one chosen symbol form a single consecutive block.
 
