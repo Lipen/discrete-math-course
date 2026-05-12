@@ -274,7 +274,7 @@ One of the classical combinatorial problems is counting the number of arrangemen
 There are at least #link("https://en.wikipedia.org/wiki/Twelvefold_way")[12 variations] of this problem: four cases (a--d) with three different constraints (1--3).
 For each problem (case+constraint), derive the corresponding generic formula.
 Additionally, pick several representative values for $n$ and $k$ and use your derived formulae to find the numbers of arrangements.
-Visualize several possible arrangements for the chosen $n$ and $k$.
+Visualize some arrangements for your chosen values of $n$ and $k$.
 
 #text(style: "italic")[#underline[Cases with arrangement examples]]:
 
@@ -353,15 +353,15 @@ Visualize several possible arrangements for the chosen $n$ and $k$.
 
 How many different passwords can be formed using the following rules?
 
-#list(marker: sym.bullet)[
+#[
   - The password must be exactly 8 characters long.
   - The password must consist only of Latin letters (a--z, A--Z) and Arabic digits (0--9).
   - The password must contain at least 2 digits (0--9) and at least 1 uppercase letter (A--Z).
   - Each character can be used no more than once in the password.
 ]
 
-#v(0.5em)
-How long does it take to crack such a password?
+Find the minimum password length $m$ (same alphabet and constraints) such that the number of valid passwords is at least $2^128$.
+Also estimate what fraction of all 8-character strings over this alphabet are valid passwords under the given constraints.
 
 
 == Problem 3: Five-Digit Numbers #h(1fr)#TagCore
@@ -383,6 +383,8 @@ Express the formula using standard combinatorial terms, such as $k$-combinations
   + Digits #emph[cannot] be repeated and must be written in #emph[strictly increasing] order.
 
   + Digits #emph[cannot] be repeated and the sum of the digits must be even.
+
+  + Digits #emph[cannot] be repeated and #emph[exactly two] of the five digits are even.
 ]
 
 
@@ -393,6 +395,7 @@ Prove the following identity using a combinatorial argument:
 $
   sum_(k=1)^n k dot C_n^k = n dot 2^(n-1)
 $
+// Then verify the same identity by an algebraic derivation (for example, via $k C_n^k = n C_(n-1)^(k-1)$ or from the binomial theorem).
 
 
 == Problem 5: Vandermonde's Identity #h(1fr)#TagCore
@@ -402,6 +405,7 @@ Prove the following identity using a combinatorial argument:
 $
   binom(m + n, r) = sum_(k=0)^r binom(m, k) binom(n, r - k)
 $
+// Then verify it numerically for one nontrivial case, for example $(m,n,r) = (3,4,3)$.
 
 
 == Problem 6: Generalized Pascal's Formula #h(1fr)#TagCore
@@ -410,16 +414,36 @@ Prove the Generalized Pascal's Formula (for $n >= 1$ and $k_1, ..., k_r >= 0$ wi
 $
   binom(n, k_1, ..., k_r) = sum_(i=1)^r binom(n-1, k_1, ..., k_i - 1, ..., k_r)
 $
+Treat terms with $k_i = 0$ as zero (equivalently, omit those terms from the sum).
 
 
-== Problem 7: Multinomial Coefficient #h(1fr)#TagCore
+== Problem 7: The Multinomial Walk #h(1fr)#TagCore
 
-Find the coefficient of $x^5 y^7 z^3$ in the expansion of $(x + y + z)^(15)$.
+A robot starts at $(0,0,0)$ in a 3D integer lattice.
+At each step it moves by one of the vectors $(1,0,0)$, $(0,1,0)$, or $(0,0,1)$.
+
+#tasklist("multiwalk", format: "(a)")[
+  + How many different paths of length 15 end at $(5,7,3)$?
+
+  + Generalize to endpoint $(a,b,c)$ with $a+b+c=n$.
+
+  + Generalize further to $d$ dimensions: endpoint $(a_1, ..., a_d)$ with $sum_i a_i = n$.
+]
 
 
-== Problem 8: Permutations of a Multiset #h(1fr)#TagCore
+== Problem 8: Anagram Identities #h(1fr)#TagCore
 
-Count the number of permutations of the multiset $Sigma^* = {2 dot #sym.triangle.stroked, 3 dot #sym.square.stroked, 1 dot #sym.sun}$.
+Consider the word $"ASSESSMENTS"$.
+
+#tasklist("anagram", format: "(a)")[
+  + Count the number of distinct anagrams.
+
+  + Count the number of distinct anagrams in which all four letters `S` appear consecutively.
+
+  + Generalize: if a multiset has size $n$ with multiplicities $(m_1, ..., m_r)$, derive a formula for the number of permutations where all copies of one chosen symbol form a single consecutive block.
+
+  + If two distinct symbols are each required to form a consecutive block, explain whether adjacency between the two blocks changes the counting argument.
+]
 
 
 == Problem 9: Non-Crossing Perfect Matchings #h(1fr)#TagChallenge
@@ -588,12 +612,18 @@ How many integer solutions are there for each given equation?
   )
 ]
 
+// Additionally, count the number of solutions to
+// $x_1 + x_2 + x_3 + x_4 = 20$,
+// where $x_i >= 0$ and exactly two variables are at least 6.
+
 
 == Problem 11: Dice Probability #h(1fr)#TagCore
 
 Consider three dice: one with 4 faces, one with 6 faces, and one with 8 faces.
 The faces are numbered 1 to 4, 1 to 6, and 1 to 8, respectively.
 Find the probability of rolling a total sum of 12.
+
+// Find the full distribution of sums from 3 to 18.
 
 
 == Problem 12: Interesting Subsets #h(1fr)#TagChallenge
@@ -602,10 +632,13 @@ Let $A = {1, 2, 3, ..., 12}$.
 Define an #emph[interesting] subset of $A$ as a subset in which no two elements have a difference of 3.
 Determine the number of interesting subsets of $A$.
 
+// Start with warm-up cases ${1,2,3}$ and ${1,2,...,6}$ before solving the full set.
+
 
 == Problem 13: People in a Line #h(1fr)#TagChallenge
 
-Find the number of ways to arrange five people of distinct heights in a line such that no three consecutive individuals form a strictly ascending or descending height sequence.
+Let $f(n)$ be the number of ways to arrange $n$ people of distinct heights in a line such that no three consecutive individuals form a strictly ascending or strictly descending height sequence.
+Compute $f(n)$ for $n = 1, 2, ..., 7$ and propose a conjecture (pattern, recurrence, or asymptotic trend).
 
 
 == Problem 14: GLaDOS Partitions #h(1fr)#TagChallenge
@@ -626,6 +659,25 @@ and $(underline(1) | 2 5 underline(6) 7 | 3 underline(4))$.
 #v(0.5em)
 Let the number of GLaDOS Partitions for $n$ students into $k$ groups, where each group has a designated leader, be denoted as $G(n, k)$.
 Your task is to find a generic formula and/or recurrence relation for $G(n, k)$ and justify it.
+Also compare $sum_k G(n,k)$ with Bell numbers and explain the relation.
+
+
+== Problem 15: Stirling and Bell Synthesis #h(1fr)#TagCore
+
+Let $S(n,k)$ be the Stirling numbers of the second kind and let $B_n$ be the $n$-th Bell number.
+
+#tasklist("stbell", format: "(a)")[
+  + Compute $S(5,k)$ for $k = 1,2,3,4,5$ and then compute $B_5$.
+
+  + Prove the identity
+    $B_n = sum_(k=1)^n S(n,k)$.
+
+  + Using
+    $S(n,k) = S(n-1,k-1) + k S(n-1,k)$,
+    compute $B_6$.
+
+  + Compare this problem with Problem 14 and express $G(n,k)$ in terms of $S(n,k)$.
+]
 
 
 #v(1em)
