@@ -391,7 +391,7 @@ Express the formula using standard combinatorial terms, such as $k$-combinations
 ]
 
 
-== Problem 4: A Combinatorial Identity #h(1fr)#TagCore
+== Problem 4: Combinatorial Identity #h(1fr)#TagCore
 
 Let $n$ be a positive integer.
 Prove the following identity using a combinatorial argument:
