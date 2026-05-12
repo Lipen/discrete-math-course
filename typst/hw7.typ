@@ -278,51 +278,53 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
 
 #text(style: "italic")[#underline[Cases with arrangement examples]]:
 
-#tasklist("case", format: "(a)")[
-  + $bold(U) arrow.r.long bold(L)$: Balls are #emph[Unlabeled], Boxes are #emph[Labeled].
+#tasklist("case", cols: 2, format: "(a)")[
+  + $bold(U) to bold(L)$: #emph[Unlabeled] Balls, #emph[Labeled] Boxes.
 
     #align(center)[
-      #cetz.canvas(length: 1cm, {
-        draw-3d-box("A", balls: ((0.45, 0.38, ""), (0.62, 0.32, ""), (0.28, 0.28, "")), ox: 0)
+      #cetz.canvas({
+        draw-3d-box("A", balls: ((0.45, 0.4, ""), (0.6, 0.3, ""), (0.28, 0.28, "")), ox: 0)
         draw-3d-box("B", ox: 1.6)
-        draw-3d-box("C", balls: ((0.52, 0.55, ""), (0.88, 0.51, ""), (0.31, 0.33, ""), (0.71, 0.3, "")), ox: 3.2)
-        draw-3d-box("D", balls: ((0.54, 0.31, ""), (0.88, 0.51, "")), ox: 4.8)
-        draw-3d-box("E", balls: ((0.52, 0.38, ""),), ox: 6.4)
+        draw-3d-box("C", balls: ((0.5, 0.5, ""), (0.9, 0.5, ""), (0.31, 0.33, ""), (0.71, 0.3, "")), ox: 3.2)
+        draw-3d-box("D", balls: ((0.4, 0.3, ""), (0.8, 0.5, "")), ox: 4.8)
+        draw-3d-box("E", balls: ((0.6, 0.4, ""),), ox: 6.4)
       })
     ]
 
-  + $bold(L) arrow.r.long bold(U)$: Balls are #emph[Labeled], Boxes are #emph[Unlabeled].
+  + $bold(L) to bold(U)$: #emph[Labeled] Balls, #emph[Unlabeled] Boxes.
 
     #align(center)[
-      #cetz.canvas(length: 1cm, {
-        draw-3d-box("", balls: ((0.52, 0.38, "1"),), ox: 0)
-        draw-3d-box("", balls: ((0.28, 0.28, "2"), (0.88, 0.51, "3")), ox: 1.6)
+      #cetz.canvas({
+        draw-3d-box("", balls: ((0.55, 0.3, "1"),), ox: 0)
+        draw-3d-box("", balls: ((0.4, 0.3, "2"), (0.8, 0.5, "3")), ox: 1.6)
         draw-3d-box("", ox: 3.2)
-        draw-3d-box("", balls: ((0.52, 0.55, "4"), (0.88, 0.51, "5"), (0.31, 0.33, "6"), (0.71, 0.3, "7")), ox: 4.8)
-        draw-3d-box("", balls: ((0.52, 0.38, "8"), (0.88, 0.51, "9"), (0.31, 0.33, "10")), ox: 6.4)
+        draw-3d-box("", balls: ((0.5, 0.55, "4"), (0.9, 0.5, "5"), (0.31, 0.33, "6"), (0.7, 0.3, "7")), ox: 4.8)
+        draw-3d-box("", balls: ((0.6, 0.4, "8"), (0.9, 0.55, "9"), (0.3, 0.3, "10")), ox: 6.4)
       })
     ]
 
-  + $bold(L) arrow.r.long bold(L)$: Balls are #emph[Labeled], Boxes are #emph[Labeled].
+  #colbreak()
+
+  + $bold(L) to bold(L)$: #emph[Labeled] Balls, #emph[Labeled] Boxes.
 
     #align(center)[
-      #cetz.canvas(length: 1cm, {
-        draw-3d-box("A", balls: ((0.28, 0.28, "1"), (0.88, 0.51, "2")), ox: 0)
-        draw-3d-box("B", balls: ((0.52, 0.38, "3"),), ox: 1.6)
-        draw-3d-box("C", balls: ((0.52, 0.55, "4"), (0.88, 0.51, "5"), (0.31, 0.33, "6")), ox: 3.2)
+      #cetz.canvas({
+        draw-3d-box("A", balls: ((0.3, 0.3, "1"), (0.8, 0.5, "2")), ox: 0)
+        draw-3d-box("B", balls: ((0.6, 0.5, "3"),), ox: 1.6)
+        draw-3d-box("C", balls: ((0.5, 0.55, "4"), (0.9, 0.5, "5"), (0.3, 0.3, "6")), ox: 3.2)
         draw-3d-box("D", ox: 4.8)
-        draw-3d-box("E", balls: ((0.52, 0.55, "7"), (0.88, 0.51, "8"), (0.31, 0.33, "9"), (0.71, 0.3, "10")), ox: 6.4)
+        draw-3d-box("E", balls: ((0.5, 0.55, "7"), (0.9, 0.55, "8"), (0.3, 0.3, "9"), (0.7, 0.3, "10")), ox: 6.4)
       })
     ]
 
-  + $bold(U) arrow.r.long bold(U)$: Balls are #emph[Unlabeled], Boxes are #emph[Unlabeled].
+  + $bold(U) to bold(U)$: #emph[Unlabeled] Balls, #emph[Unlabeled] Boxes.
 
     #align(center)[
-      #cetz.canvas(length: 1cm, {
-        draw-3d-box("", balls: ((0.52, 0.55, ""), (0.88, 0.51, ""), (0.31, 0.33, ""), (0.71, 0.3, "")), ox: 0)
-        draw-3d-box("", balls: ((0.52, 0.38, ""), (0.88, 0.51, ""), (0.31, 0.33, "")), ox: 1.6)
-        draw-3d-box("", balls: ((0.54, 0.31, ""), (0.88, 0.51, "")), ox: 3.2)
-        draw-3d-box("", balls: ((0.52, 0.38, ""),), ox: 4.8)
+      #cetz.canvas({
+        draw-3d-box("", balls: ((0.5, 0.55, ""), (0.9, 0.5, ""), (0.3, 0.3, ""), (0.7, 0.3, "")), ox: 0)
+        draw-3d-box("", balls: ((0.5, 0.5, ""), (0.9, 0.5, ""), (0.3, 0.3, "")), ox: 1.6)
+        draw-3d-box("", balls: ((0.4, 0.3, ""), (0.8, 0.5, "")), ox: 3.2)
+        draw-3d-box("", balls: ((0.6, 0.4, ""),), ox: 4.8)
         draw-3d-box("", ox: 6.4)
       })
     ]
