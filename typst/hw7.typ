@@ -399,7 +399,7 @@ Prove the following identity using a combinatorial argument:
 $
   sum_(k=1)^n k dot C_n^k = n dot 2^(n-1)
 $
-// Then verify the same identity by an algebraic derivation (for example, via $k C_n^k = n C_(n-1)^(k-1)$ or from the binomial theorem).
+Then verify the same identity by an algebraic derivation (for example, via $k C_n^k = n C_(n-1)^(k-1)$ or from the binomial theorem).
 
 
 == Problem 5: Vandermonde's Identity #h(1fr)#TagCore
