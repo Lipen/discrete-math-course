@@ -2040,18 +2040,21 @@ In particular, $F_(n+1) \/ F_n to phi$ as $n to infinity$.
 
 The characteristic equation of a recurrence is the _characteristic polynomial_ of its companion matrix.
 
-For $a_n = c_1 a_(n-1) + c_2 a_(n-2)$, define the _companion matrix_:
+For $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$, the _companion matrix_ $C$ is the $k times k$ matrix with coefficients in the first row and ones on the sub-diagonal:
 $
-  M = mat(c_1, c_2, 1, 0)
-  quad arrow.r.double.long quad
-  mat(a_n, a_(n-1)) = M^(n-1) mat(a_1, a_0)
+  C = mat(
+    c_1, c_2, c_3, dots, c_k;
+    1, 0, 0, dots, 0;
+    0, 1, 0, dots, 0;
+    dots.v, dots.v, dots.v, dots.v, dots.v;
+    0, 0, 0, dots, 0
+  )
 $
 
-Its eigenvalues are exactly the characteristic roots:
-$det(M - lambda I) = lambda^2 - c_1 lambda - c_2$.
+For $k = 2$: $C = mat(c_1, c_2; 1, 0)$, and $det(C - lambda I) = lambda^2 - c_1 lambda - c_2$.
 
 #example[
-  Fibonacci: $M = mat(1, 1, 1, 0)$, eigenvalues $phi, psi$.
+  Fibonacci: $C = mat(1, 1; 1, 0)$, eigenvalues $phi, psi$.
   Matrix exponentiation computes $F_n$ in $O(log n)$ multiplications (binary exponentiation), vs. $O(n)$ for naive iteration.
 ]
 
