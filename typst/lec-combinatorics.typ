@@ -538,12 +538,12 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
   $display(abs(P(n, k)) = n! / (n - k)! = binom(n, k) dot k!)$
 ]
 
-== Summary: Four Counting Problems
+== Four Counting Problems
 
 #align(center)[
   #table(
     columns: 3,
-    align: (left + horizon, center + horizon, center + horizon),
+    align: (left, center, center),
     inset: 1em,
     stroke: (x, y) => {
       let s = (:)
@@ -552,10 +552,8 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
       s
     },
     table.header([], [*No repetition*], [*With repetition*]),
-    [*Ordered* \ ($k$-perm., sequence)], $display(n! / (n-k)!) = n^underline(k)$, $n^k$,
-    [*Unordered* \ ($k$-comb., subset)],
-    $display(binom(n, k) = n! / (k! dot (n - k)!))$,
-    $display(binom(k + n - 1, k))$,
+    [*Ordered* ($k$-perm., sequence)], $display(n! / (n-k)!) = n^underline(k)$, $n^k$,
+    [*Unordered* ($k$-comb., subset)], $display(binom(n, k) = n! / (k! dot (n - k)!))$, $display(binom(k + n - 1, k))$,
   )
 ]
 
@@ -1295,7 +1293,7 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
     In the last step, we used that $(-1)^abs(S) (n - abs(S))^k$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
 ]
 
-== More Useful Corollaries
+== Useful Corollaries
 
 #corollary[
   Consider the case $n = k$.
@@ -1625,7 +1623,7 @@ $
 
 == Operations on Generating Functions
 
-Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x^n$ be ordinaty generating functions.
+Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x^n$ be ordinary generating functions.
 
 #table(
   columns: 2,
@@ -1639,7 +1637,7 @@ Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x
   box($ F(x) dot G(x) = sum_(n = 0)^infinity (sum_(k = 0)^n a_k b_(n - k)) x^n $),
 )
 
-== Diving into Catalan Numbers
+== Catalan Numbers via Generating Functions
 
 So far, we _composed_ generating functions from known polynomials and read off coefficients.
 
@@ -1748,9 +1746,9 @@ where $binom(n, k) = 0$ for $k > n$.
 ]
 
 #example[
-  Consider the number "$-7 "/" 2$ choose $5$":
+  Consider the number "$-7 \/ 2$ choose $5$":
   $
-    binom(-7 "/" 2, 5) = (-7 / 2 dot -9 / 2 dot -11 / 2 dot -13 / 2 dot -15 / 2) / 5! = - 9009 / 256
+    binom(-7 \/ 2, 5) = (-7 \/ 2 dot -9 \/ 2 dot -11 \/ 2 dot -13 \/ 2 dot -15 \/ 2) / 5! = - 9009 / 256
   $
 ]
 
@@ -1769,9 +1767,9 @@ where $binom(n, k) = 0$ for $k > n$.
 ]
 
 #example[
-  Let $n = 1 "/" 2$, then we have an identity for $sqrt(1 + x)$:
+  Let $n = 1 \/ 2$, then we have an identity for $sqrt(1 + x)$:
   $
-    sqrt(1 + x) = sum_(k = 0)^infinity binom(1 "/" 2, k) x^k
+    sqrt(1 + x) = sum_(k = 0)^infinity binom(1 \/ 2, k) x^k
   $
 
   To actually _use_ this fact, we need some _lemma_...
@@ -1780,7 +1778,7 @@ where $binom(n, k) = 0$ for $k > n$.
 #theorem(title: "Lemma")[
   For any integer $n >= 1$, we have:
   $
-    binom(1 "/" 2, n) = (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n
+    binom(1 \/ 2, n) = (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n
   $
 ]
 
@@ -1790,8 +1788,8 @@ where $binom(n, k) = 0$ for $k > n$.
   *Base*: $n = 1$.
   #v(-2em)
   $
-    binom(1 "/" 2, 1)
-    = (1 "/" 2) / 1!
+    binom(1 \/ 2, 1)
+    = (1 \/ 2) / 1!
     = 1 / 2 = 1 dot 1 dot 1 / 2 dot 1
     = underbracket((-1)^2, 1)
     dot underbracket(binom(2-2, 1-1), 1)
@@ -1804,11 +1802,11 @@ where $binom(n, k) = 0$ for $k > n$.
   We use the recusion $(star.filled)$ $p(n, k) = n dot p(n - 1, k - 1)$:
   #place(center)[
     $
-      binom(1 "/" 2, n + 1)
-      &= p(1 "/" 2, n + 1) / (n + 1)!
-      = ((1 "/" 2 - (n + 1) + 1) dot p(1 "/" 2, n)) / ((n + 1) dot n!)
-      = - (n - 1 "/" 2) / (n + 1) binom(1 "/" 2, n) \
-      &=^"IH" - (n - 1 "/" 2) / (n + 1) (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n \
+      binom(1 \/ 2, n + 1)
+      &= p(1 \/ 2, n + 1) / (n + 1)!
+      = ((1 \/ 2 - (n + 1) + 1) dot p(1 \/ 2, n)) / ((n + 1) dot n!)
+      = - (n - 1 \/ 2) / (n + 1) binom(1 \/ 2, n) \
+      &=^"IH" - (n - 1 \/ 2) / (n + 1) (-1)^(n+1) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / n \
       &= (2n) / (2n) dot (2n-1) / (2n) dot (-1)^(n+2) dot binom(2n-2, n-1) dot 1 / (2^(2n-1)) dot 1 / (n+1) \
       &= (-1)^(n+2) dot underbrace(((2n-2)! dot (2n-1) dot (2n)) / ((n-1)! dot (n-1) dot n dot n), display(binom(2n, n))) dot 1 / (2^(2n+1)) dot 1 / (n+1)
     $
@@ -1821,7 +1819,7 @@ where $binom(n, k) = 0$ for $k > n$.
 #theorem(title: "Proposition")[
   Now we can expand $sqrt(1 + n)$ into the following series:
   $
-    sqrt(1 + n) = sum_(n = 0)^infinity binom(1 "/" 2, n) x^n
+    sqrt(1 + n) = sum_(n = 0)^infinity binom(1 \/ 2, n) x^n
     = 1 + sum_(n = 1)^infinity -2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot x^n
   $
 ]
@@ -1863,23 +1861,80 @@ A _recurrence relation_ defines a sequence by expressing each term via its prede
 Solving one means finding a _closed-form_ formula that avoids recursion.
 
 #example[
-  - _Recurrent relation_ defining a sequence $(a_n)$:
-    $
-      a_n = cases(
-        a_0 = "const" & "if" n = 0,
-        a_(n-1) + d & "if" n > 0,
-      )
-    $
+  _Arithmetic progression_ as a recurrence:
+  $
+    a_n = cases(
+      a_0 = "const" & "if" n = 0,
+      a_(n-1) + d & "if" n > 0,
+    )
+  $
 
-  - _Solving_ it results in a non-recursive _closed_ formula:
-    $
-      a_n = a_0 + n dot d
-    $
+  Solution by telescoping: $a_n = a_0 + n dot d$.
+]
 
-  - _Checking_ it confirms that the formula is correct:
-    $
-      a_n & = underbracket(a_(n-1)) + d = underbracket(a_0 + (n-1)d, a_(n-1)) + d = a_0 + n dot d quad qed
-    $
+== Recursive Structure
+
+Many combinatorial objects have _recursive structure_: a large instance can be decomposed into smaller instances of the same problem.
+A recurrence captures this decomposition _exactly_.
+
+#example[
+  How many binary strings of length $n$ contain _no two consecutive_ 1s?
+  Let $b(n)$ denote the count.
+
+  Consider the last bit of a valid string of length $n$:
+  - *Ends in 0:* the first $n - 1$ bits form any valid string of length $n - 1$, giving $b(n - 1)$ ways.
+  - *Ends in 1:* the previous bit must be 0, so the first $n - 2$ bits form any valid string of length $n - 2$, giving $b(n - 2)$ ways.
+
+  Therefore $b(n) = b(n - 1) + b(n - 2)$, with $b(1) = 2$ and $b(2) = 3$.
+
+  This is the _Fibonacci recurrence_ with shifted initial conditions.
+  Once we solve it (using the characteristic equation), we get a closed formula that avoids enumerating all $2^n$ strings.
+]
+
+== Telescoping
+
+Before reaching for characteristic equations, try the simplest approach: _unwind the recurrence_.
+
+#example[
+  Solve $T(n) = T(n - 1) + n$ with $T(0) = 0$.
+
+  Unwind by substitution:
+  $
+    T(n) & = T(n - 1) + n \
+         & = T(n - 2) + (n - 1) + n \
+         & = dots.v \
+         & = T(0) + 1 + 2 + dots + n \
+         & = n(n + 1) / 2
+  $
+]
+
+#theorem[
+  If $a_n = a_(n-1) + f(n)$, then $a_n = a_0 + sum_(i=1)^n f(i)$ (telescoping sum).
+]
+
+== Tower of Hanoi
+
+#example[
+  *Tower of Hanoi.*
+  Move $n$ disks from peg A to peg C, one at a time, never placing a larger disk on a smaller one.
+  Let $T(n)$ be the minimum number of moves.
+
+  Recurrence: $T(n) = 2 T(n - 1) + 1$, with $T(1) = 1$.
+
+  Unwind:
+  $
+    T(n) & = 2 T(n - 1) + 1 \
+         & = 2(2 T(n - 2) + 1) + 1 = 4 T(n - 2) + 3 \
+         & = 8 T(n - 3) + 7 \
+         & = 2^k T(n - k) + (2^k - 1)
+  $
+
+  Setting $k = n - 1$: $T(n) = 2^(n-1) T(1) + 2^(n-1) - 1 = 2^n - 1$.
+]
+
+#note[
+  Telescoping works well for first-order recurrences.
+  For higher orders and constant-coefficient recurrences, we need more systematic methods.
 ]
 
 == Linear Homogeneous Recurrence Relations
@@ -1895,31 +1950,26 @@ Solving one means finding a _closed-form_ formula that avoids recursion.
 #examples[
   - $b_n = 2.71 b_(n-1)$ is a linear homogeneous recurrence relation of degree 1.
   - $F_n = F_(n-1) + F_(n-2)$ is a linear homogeneous recurrence relation of degree 2.
-  - $g_n = 2 g_(n-5)$ is a linear homogeneous recurrence relation of degree 5.
   - The recurrence relation $a_n = a_(n-1) + a_(n-2)^2$ is _not linear_.
   - The recurrence relation $H_n = 2 H_(n-1) + 1$ is _not homogeneous_.
-  - The recurrence relation $B_n = n B_(n-1)$ does _not_ have _constant_ coefficients.
 ]
 
 == Characteristic Equations
 
-Hereinafter, $(*)$ denotes a linear homogeneous recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$.
+Fix a linear homogeneous recurrence of degree $k$:
+$ a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) quad (star) $
 
-#theorem[
-  $a_n = r^n$ is a solution to $(*)$ if and only if $r^n = c_1 r^(n-1) + c_2 r^(n-2) + dots + c_k r^(n-k)$.
-]
-
-// Divide both sides by $r^(n-k)$ and reorganize the terms:
+If we try a solution of the form $a_n = r^n$ (with $r != 0$), substituting into $(star)$ and dividing by $r^(n-k)$ yields:
 
 #definition[
-  A _characteristic equation_ for $(*)$ is the algebraic equation in $r$ defined as:
+  The _characteristic equation_ of $(star)$ is:
   $
     r^k - c_1 r^(k-1) - c_2 r^(k-2) - dots - c_k = 0
   $
-]
 
-The sequence $(a_n)$ with $a_n = r^n$ (with $r_n != 0$) is a solution if and only if $r$ is a solution of the characteristic equation.
-Such solutions are called _characteristic roots_ of $(*)$.
+  Its solutions $r_1, r_2, dots$ are the _characteristic roots_ of the recurrence.
+  Each root yields a solution $a_n = r^n$.
+]
 
 == Distinct Roots Case
 
@@ -1930,20 +1980,12 @@ Such solutions are called _characteristic roots_ of $(*)$.
 ]
 
 #proof[(sketch)][
-  Since $r_1$ and $r_2$ are roots, then $r_1^2 = c_1 r_1 + c_2$ and $r_2^2 = c_1 r_2 + c_2$.
-  Next, we can see:
-  $
-    c_1 a_(n-1) + c_2 a_(n-2) & = c_1 (alpha_1 r_1^(n-1) + alpha_2 r_2^(n-1)) + c_2 (alpha_1 r_1^(n-2) + alpha_2 r_2^(n-2)) \
-                              & = alpha_1 r_1^(n-2) (c_1 r_1 + c_2) + alpha_2 r_2^(n-2) (c_1 r_2 + c_2) \
-                              & = alpha_1 r_1^(n-2) r_1^2 + alpha_2 r_2^(n-2) r_2^2 \
-                              & = alpha_1 r_1^n + alpha_2 r_2^n \
-                              & = a_n
-  $
-
-  To show that every solution $(a_n)$ of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ has $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for some constants $alpha_1$ and $alpha_2$, suppose that the initial condition are $a_0 = C_0$ and $a_1 = C_1$, and show that there exist constants $alpha_1$ and $alpha_2$ such that $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ satisfies the same initial conditions.
+  Since $r_i$ are roots, $r_i^2 = c_1 r_i + c_2$.
+  By factoring $r_i^(n-2)$ from $c_1 a_(n-1) + c_2 a_(n-2)$, direct substitution shows $alpha_1 r_1^n + alpha_2 r_2^n$ satisfies the recurrence.
+  The converse follows because distinct roots yield a Vandermonde system with a unique solution for $alpha_1, alpha_2$.
 ]
 
-== Solving Recurrence Relations using Characteristic Equations
+== Worked Example
 
 #example[
   Solve $a_n = a_(n-1) + 2 a_(n-2)$ with $a_0 = 2$ and $a_1 = 7$.
@@ -1967,33 +2009,50 @@ Such solutions are called _characteristic roots_ of $(*)$.
 == Fibonacci Numbers
 
 #example[
-  Find the closed formula for Fibonacci numbers.
+  The recurrence $F_n = F_(n-1) + F_(n-2)$ has characteristic equation $r^2 - r - 1 = 0$ with roots:
+  $
+    phi = (1 + sqrt(5)) / 2 approx 1.618, quad psi = (1 - sqrt(5)) / 2 approx -0.618.
+  $
 
-  - The recurrence relation is $F_n = F_(n-1) + F_(n-2)$.
-  - The characteristic equation is $r^2 - r - 1 = 0$.
-  - The roots are $r_1 = \(1 + sqrt(5)) slash 2$ and $r_2 = \(1 - sqrt(5)) slash 2$.
-  - Therefore, the solution is
-    $F_n = alpha_1 \( (1 + sqrt(5)) / 2 \)^n + alpha_2 \( (1 - sqrt(5)) / 2 \)^n$
-    for some constants $alpha_1$ and $alpha_2$.
-  - Using the initial conditions $F_0 = 0$ and $F_1 = 1$, we get
-    $
-      cases(
-        F_0 = alpha_1 + alpha_2 = 0,
-        F_1 = alpha_1 dot \( (1 + sqrt(5)) / 2 \) + alpha_2 dot \( (1 - sqrt(5)) / 2 \) = 1,
-      )
-    $
-  - Solving these two equations gives $alpha_1 = 1 slash sqrt(5)$ and $alpha_2 = -1 slash sqrt(5)$.
-  - Hence, the _closed formula_ (also known as Binet's formula) for Fibonacci numbers is
-    $
-      F_n = 1 / sqrt(5) underbracket(((1+sqrt(5)) / 2), phi)^n - 1 / sqrt(5) underbracket(((1-sqrt(5)) / 2), psi)^n = (phi^n - psi^n) / sqrt(5)
-    $
+  The general solution is $F_n = alpha_1 phi^n + alpha_2 psi^n$ for constants $alpha_1, alpha_2$.
+  Using initial conditions $F_0 = 0$ and $F_1 = 1$:
+  $
+    cases(
+      alpha_1 + alpha_2 = 0,
+      alpha_1 phi + alpha_2 psi = 1,
+    )
+  $
 ]
 
-#Block(color: teal)[
-  *Golden ratio:* $phi = (1 + sqrt(5)) / 2 approx 1.618$ is the _golden ratio_.
-  Since $|psi| = |(1 - sqrt(5)) / 2| approx 0.618 < 1$, the term $psi^n$ vanishes:
-  $F_n$ is the nearest integer to $phi^n / sqrt(5)$ for all $n >= 0$.
-  Consecutive Fibonacci numbers converge: $F_(n+1) / F_n to phi$ as $n to infinity$.
+== Binet's Formula
+
+Solving for $alpha_1, alpha_2$ yields $alpha_1 = 1 \/ sqrt(5)$ and $alpha_2 = -1 \/ sqrt(5)$, giving _Binet's formula_:
+
+#align(center)[
+  $ F_n = (phi^n - psi^n) / sqrt(5) $
+]
+
+Since $|psi| approx 0.618 < 1$, the term $psi^n to 0$, so $F_n$ is the nearest integer to $phi^n \/ sqrt(5)$.
+
+In particular, $F_(n+1) \/ F_n to phi$ as $n to infinity$.
+
+== Eigenvalues and the Companion Matrix
+
+The characteristic equation of a recurrence is the _characteristic polynomial_ of its companion matrix.
+
+For $a_n = c_1 a_(n-1) + c_2 a_(n-2)$, define the _companion matrix_:
+$
+  M = mat(c_1, c_2, 1, 0)
+  quad arrow.r.double.long quad
+  mat(a_n, a_(n-1)) = M^(n-1) mat(a_1, a_0)
+$
+
+Its eigenvalues are exactly the characteristic roots:
+$det(M - lambda I) = lambda^2 - c_1 lambda - c_2$.
+
+#example[
+  Fibonacci: $M = mat(1, 1, 1, 0)$, eigenvalues $phi, psi$.
+  Matrix exponentiation computes $F_n$ in $O(log n)$ multiplications (binary exponentiation), vs. $O(n)$ for naive iteration.
 ]
 
 == Single (Repeated) Root Case
@@ -2029,9 +2088,9 @@ Such solutions are called _characteristic roots_ of $(*)$.
   Let $c_1, dots, c_k$ be real numbers.
   Suppose that the recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ has $t$~distinct characteristic roots $r_1, dots, r_t$ with multiplicities $m_1, dots, m_t$, respectively, so that $m_i >= 1$ for $i = 1, dots, t$ and $m_1 + dots + m_t = k$.
 
-  Then the general of the recurrence relation is given by
+  Then the general solution of the recurrence relation is given by
   $
-    a_n = sum_(i = 1)^(t)(r_i^n dot sum_(j = 0)^(s_i - 1) alpha_(i,j) x^j)
+    a_n = sum_(i = 1)^(t)(r_i^n dot sum_(j = 0)^(m_i - 1) alpha_(i,j) n^j)
   $
   where $alpha_(i,j)$ are constants for $1 <= i <= t$ and $0 <= j <= m_i - 1$.
 ]
@@ -2046,39 +2105,102 @@ Such solutions are called _characteristic roots_ of $(*)$.
   $
 ]
 
-== Complex Case
+== Complex Roots
+
+When the characteristic equation has complex roots, they come in _conjugate pairs_ $rho e^(plus.minus i theta)$ (for recurrences with real coefficients).
+
+#definition[
+  For conjugate roots $rho e^(plus.minus i theta)$, the real general solution is:
+  $
+    a_n = rho^n (alpha cos(n theta) + beta sin(n theta))
+  $
+  This follows from Euler's formula: $rho^n e^(i n theta) = rho^n (cos(n theta) + i sin(n theta))$.
+]
+
+#Block(color: blue)[
+  Complex roots produce _oscillating exponential_ behavior: magnitude $rho^n$ grows (or decays), while $cos(n theta)$ and $sin(n theta)$ produce periodic oscillation with period $2 pi \/ theta$.
+]
+
+== Complex Roots Example
 
 #example[
-  // $a_n = 4a_(n-1) - 8a_(n-2) + 8a_(n-3) - 4a_(n-4)$
-  Solve the recurrence $a_n = 6a_(n-1) - 16a_(n-2) + 25a_(n-3) - 20a_(n-4) + 8a_(n-5)$ with the initial conditions $a_0 = 2$, $a_1 = 2$, $a_2 = 0$, $a_3 = -4$, $a_4 = -8$.
+  Solve $a_n = 2 a_(n-1) - 2 a_(n-2)$ with $a_0 = 1$ and $a_1 = 1$.
 
-  Characteristic equation is $r^5 - 6r^4 + 16r^3 - 25r^2 + 20r - 8 = 0$.
+  Characteristic equation $r^2 - 2r + 2 = 0$, roots $r = 1 plus.minus i$.
 
-  Characteristic roots are: $r_1 = (1 - i)$, repeated twice, $r_2 = (1 + i)$, also repeated twice, and $r_3 = 2$.
+  Polar form: $1 + i = sqrt(2) e^(i pi\/4)$, so $rho = sqrt(2)$ and $theta = pi\/4$.
 
-  General solution has the form:
-  $
-    a_n = (alpha_(1,0) + alpha_(1,1) n) (1 - i)^n + (alpha_(2,0) + alpha_(2,1) n) (1 + i)^n + alpha_(3,0) thin 2^n
-  $
+  General solution: $a_n = (sqrt(2))^n (alpha cos(n pi\/4) + beta sin(n pi\/4))$.
 
-  To find the constants, we can use the initial conditions:
-  $
-    cases(
-      a_0 & = 2 & = alpha_(1,0) & + alpha_(1,1) & + alpha_(2,0) & + alpha_(2,1) & + alpha_(3,0),
-      a_1 & = 2 & = (alpha_(1,0) & + alpha_(1,1)) (1 - i) & + (alpha_(2,0) & + alpha_(2,1)) (1 + i) & + 2 alpha_(3,0),
-      a_2 & = 0 & = (alpha_(1,0) & + 2 alpha_(1,1)) (1 - i)^2 & + (alpha_(2,0) & + 2 alpha_(2,1)) (1 + i)^2 & + 4 alpha_(3,0),
-      a_3 &= -4 &= (alpha_(1,0) &+ 3 alpha_(1,1)) (1 - i)^3 &+ (alpha_(2,0) &+ 3 alpha_(2,1)) (1 + i)^3 &+ 8 alpha_(3,0),
-      a_4 &= -8 &= (alpha_(1,0) &+ 4 alpha_(1,1)) (1 - i)^4 &+ (alpha_(2,0) &+ 4 alpha_(2,1)) (1 + i)^4 &+ 16 alpha_(3,0),
-    )
-    quad arrow.long.double quad
-    cases(
-      alpha_(1,0) = 1,
-      alpha_(1,1) = 0,
-      alpha_(2,0) = 1,
-      alpha_(2,1) = 0,
-      alpha_(3,0) = 0,
-    )
-  $
+  Initial conditions: $a_0 = 1 arrow.r alpha = 1$ and $a_1 = 1 arrow.r beta = 0$.
+
+  Therefore $a_n = (sqrt(2))^n cos(n pi\/4)$.
+]
+
+== Root Types Summary
+
+For $a_n = c_1 a_(n-1) + c_2 a_(n-2)$, the solution method is always the same four steps. Only the _form_ depends on the roots.
+
+#align(center)[
+  #table(
+    columns: 4,
+    align: (left + horizon, center + horizon, center + horizon, center + horizon),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Step*], [*Distinct Real*], [*Repeated*], [*Complex*]),
+    [1. Char. eq.], [$r^2 - c_1 r - c_2 = 0$], [$r^2 - c_1 r - c_2 = 0$], [$r^2 - c_1 r - c_2 = 0$],
+    [2. Roots], [$r_1 != r_2$], [$r_0$ (multiplicity 2)], [$rho e^(plus.minus i theta)$],
+    [3. Form],
+    [$alpha_1 r_1^n + alpha_2 r_2^n$],
+    [$(alpha_1 + alpha_2 n) r_0^n$],
+    [$rho^n (alpha cos n theta + beta sin n theta)$],
+
+    [4. Fit ICs], [2 equations], [2 equations], [2 equations],
+  )
+]
+
+== Recurrences and Differential Equations
+
+Linear recurrences are _discrete analogues_ of linear differential equations.
+The entire theory mirrors the continuous case.
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, center, center).map(x => x + horizon),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Aspect*], [*Differential Equation*], [*Recurrence*]),
+    [1st order], [$y' = c y arrow.r y_0 e^(c t)$], [$a_n = c a_(n-1) arrow.r a_0 c^n$],
+    [2nd order], [$y'' + p y' + q y = 0$], [$a_n + p a_(n-1) + q a_(n-2) = 0$],
+    [Char. eq.], [$lambda^2 + p lambda + q = 0$], [$r^2 + p r + q = 0$],
+    [Double root], [$(c_1 + c_2 t) e^(lambda t)$], [$(alpha_1 + alpha_2 n) r_0^n$],
+    [Particular sol.], [Undetermined coefficients], [Same method],
+    [Resonance], [$t e^(lambda t)$ factors], [$n r_0^n$ factors],
+  )
+]
+
+== Solving Linear Recurrences
+
+#align(center)[
+  #table(
+    columns: 3,
+    align: (left, left, left).map(x => x + horizon),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Step*], [*Homogeneous*], [*Non-homogeneous*]),
+    [1. Classify], [No $F(n)$ term?], [Has $F(n)$ term?],
+    [2. Char. eq.], [$r^k - c_1 r^(k-1) - dots - c_k = 0$], [Same (ignore $F(n)$)],
+    [3. Roots], [Distinct / repeated / complex], [Same],
+    [4. Homog. sol.], [$a_n^(("h"))$ from root type], [Same],
+    [5. Partic. sol.], [---], [Guess form matching $F(n)$],
+    [6. General], [$a_n = a_n^(("h"))$], [$a_n = a_n^(("h")) + a_n^(("p"))$],
+    [7. Fit ICs], [Solve linear system], [Solve linear system],
+  )
+]
+
+#Block(color: orange)[
+  *Particular solution cheat sheet:*
+  $F(n) =$ polynomial of degree $d$ $arrow.r.long$ try $c_0 + c_1 n + dots + c_d n^d$.
+  $F(n) = c dot r^n$, $r$ not a root $arrow.r.long$ try $beta r^n$.
+  $F(n) = c dot r^n$, $r$ is a root (mult. $m$) $arrow.r.long$ try $beta n^m r^n$ (resonance).
 ]
 
 == Linear Non-Homogeneous Recurrence Relations
@@ -2098,37 +2220,76 @@ $
 == Solving Non-Homogeneous Recurrence Relations
 
 #theorem[
-  If $\(a_n^((p)))$ is a _particular_ solution of the non-homogeneous linear recurrence relation #box[$a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n)$], then _every solution_ is of the form $\(a_n^((p)) + a_n^((h)))$, where $\(a_n^((h)))$ is a solution of the associated homogeneous recurrence relation.
-] <thm:non-homo>
+  If $\(a_n^(("p")))$ is a _particular_ solution of the non-homogeneous recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k) + F(n)$, then _every solution_ is of the form $a_n = a_n^(("p")) + a_n^(("h"))$, where $a_n^(("h"))$ is a solution of the associated homogeneous recurrence.
+]
+
+The recipe: (1) solve the homogeneous part, (2) find a particular solution by guessing a form matching $F(n)$, (3) add them, (4) fit initial conditions.
 
 #example[
-  Find all solutions of the recurrence relation $a_n = 3 a_(n-1) + 2n$.
-  What is the solution with $a_1 = 3$?
+  Find all solutions of $a_n = 3 a_(n-1) + 2n$ with $a_1 = 3$.
 
-  - First, solve the associated homogeneous recurrence relation $a_n = 3 a_(n-1)$.
-  - It has a general solution $a_n^((h)) = alpha 3^n$, where $alpha$ is a constant.
-  - To find a particular solution, observe that $F(n) = 2n$ is a polynomial in $n$ of degree 1, so a reasonable trial solution is a linear function in $n$, for example, $p_n = c n + d$, where $c$ and $d$ are constants.
-  - Thus, the equation $a_n = 3 a_(n-1) + 2n$ becomes $c n + d = 3 (c (n-1) + d) + 2n$.
-  - Simplify and reorder: $(2 + 2c) n + (2d - 3c) = 0$.
+  _Homogeneous part:_ $a_n^(("h")) = alpha 3^n$.
+
+  _Particular solution:_ $F(n) = 2n$ is degree-1 polynomial, so try $p_n = c n + d$.
+  Substituting: $c n + d = 3(c(n-1) + d) + 2n$.
+  Equating coefficients: $c = -1$, $d = -3\/2$. So $a_n^(("p")) = -n - 3\/2$.
+
+  _General solution:_ $a_n = -n - 3\/2 + alpha 3^n$.
+
+  With $a_1 = 3$: $alpha = 11\/6$, giving $a_n = -n - 3\/2 + (11\/6) 3^n$.
+]
+
+== Exponential Forcing Term
+
+When $F(n) = c dot r^n$, try $a_n^(("p")) = beta r^n$.
+
+#Block(color: orange)[
+  *Warning: resonance.* If $r$ is already a characteristic root, the trial $beta r^n$ fails.
+  Instead, multiply by $n$: try $a_n^(("p")) = beta n r^n$ (or $n^m$ if $r$ has multiplicity $m$).
+]
+
+#example[
+  Solve $a_n = 2 a_(n-1) + 3^n$ with $a_0 = 1$.
+
+  - _Homogeneous solution:_ $a_n^(("h")) = alpha 2^n$.
+  - _Particular solution._ Since $3$ is _not_ a characteristic root, try $a_n^(("p")) = beta dot 3^n$:
     $
-      cases(
-        2 + 2c = 0,
-        2d - 3c = 0,
-      )
+      beta 3^n = 2 beta 3^(n-1) + 3^n
       quad arrow.long.double quad
-      cases(
-        c = -1,
-        d = -3 slash 2,
-      )
+      beta = 2 beta / 3 + 1
+      quad arrow.long.double quad
+      beta = 3
     $
-  - Thus, $a_n^((p)) = -n - 3 slash 2$ is a _particular_ solution.
-  - By @thm:non-homo, all solutions are of the form
-    $
-      a_n = a_n^((p)) + a_n^((h)) = -n - 3 slash 2 + alpha 3^n,
-    $
-    where $alpha$ is a constant.
-  - To find the solution with $a_1 = 3$, let $n = 1$ in the formula: $3 = -1 - 3 slash 2 + 3 alpha$, thus $alpha = 11 slash 6$.
-  - The _solution_ is $a_n = - n - 3 slash 2 + (11 slash 6) 3^n$.
+    So $a_n^(("p")) = 3^(n+1)$.
+  - _General solution:_ $a_n = alpha 2^n + 3^(n+1)$.
+  - Using $a_0 = 1$: $1 = alpha + 3$, so $alpha = -2$.
+  - The _solution_ is $a_n = 3^(n+1) - 2^(n+1)$.
+]
+
+
+
+== Recurrences and Generating Functions
+
+We studied generating functions earlier and characteristic equations now.
+These two approaches are deeply connected.
+
+#example[
+  Consider Fibonacci: $F_n = F_(n-1) + F_(n-2)$, $F_0 = 0$, $F_1 = 1$.
+
+  - *Characteristic equation:* $r^2 - r - 1 = 0$, roots $phi, psi = (1 plus.minus sqrt(5)) / 2$.
+  - *Generating function:* $G(x) = x / (1 - x - x^2)$.
+
+  Setting the denominator to zero: $1 - x - x^2 = 0 arrow.r.double.long x^2 + x - 1 = 0$.
+  This is the _characteristic equation with $x$ in place of $r$_.
+
+  The roots of the characteristic equation are the _reciprocals_ of the poles of $G(x)$.
+]
+
+#Block(color: yellow)[
+  *Why two methods?*
+  Characteristic equations are faster for constant-coefficient recurrences.
+  Generating functions reveal combinatorial structure and handle variable-coefficient recurrences that characteristic equations cannot.
+  Together, they serve as cross-checks.
 ]
 
 
@@ -2193,6 +2354,7 @@ $
 
 #table(
   columns: 2,
+  align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Operator*], [*Definition*]),
   [addition], $(f+g)(n) := f(n) + g(n)$,
@@ -2224,6 +2386,7 @@ $
 
 #table(
   columns: 2,
+  align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Operator*], [*Functions annihilated*]),
   $shift - 1$, $alpha$,
@@ -2327,6 +2490,75 @@ $
   Thus, $T(n) in Theta(n 2^n)$
 ]
 
+== Annihilators and Characteristic Equations
+
+Characteristic equations and annihilators are _two notations for the same algebraic structure_.
+
+#theorem[
+  For the linear homogeneous recurrence $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$:
+
+  - *Characteristic polynomial:* $p(r) = r^k - c_1 r^(k-1) - dots - c_k$
+  - *Annihilator polynomial:* $p(shift) = shift^k - c_1 shift^(k-1) - dots - c_k$
+
+  If $r_1, dots, r_t$ are the distinct characteristic roots with multiplicities $m_1, dots, m_t$, then
+  $
+    p(r) = (r - r_1)^(m_1) dots (r - r_t)^(m_t) = p(shift)
+  $
+
+  The factorization is identical; only the interpretation differs.
+]
+
+#example[
+  $a_n = 5 a_(n-1) - 6 a_(n-2)$.
+
+  - *Characteristic:* $r^2 - 5r + 6 = (r - 2)(r - 3) = 0$.
+  - *Annihilator:* $(shift - 2)(shift - 3) a_n = 0$.
+  - Both give: $a_n = alpha 2^n + beta 3^n$.
+]
+
+== Common Mistakes
+
+#example[
+  *Problem:* Solve $a_n = 2 a_(n-1) - 2^n$ with $a_0 = 1$.
+
+  *Wrong answer:* "Characteristic equation: $r - 2 = 0$, so $r = 2$. General solution: $a_n = c dot 2^n$."
+
+  *Where's the error?*
+  - This is _non-homogeneous_ (has a $-2^n$ term), but the student _ignored it_!
+  - We need a _particular_ solution in addition to the homogeneous one.
+  - Since $2$ is _also_ the characteristic root (resonance!), the simple trial $beta 2^n$ fails.
+    We must try $a_n^(("p")) = beta n dot 2^n$.
+
+  *Correct:* $a_n = (alpha + n) 2^n$. Using $a_0 = 1$: $alpha = 1$, so $a_n = (1 + n) 2^n$.
+]
+
+#Block(color: orange)[
+  *Lesson:* Before solving, always ask:
+  (1) Is it homogeneous or non-homogeneous?
+  (2) Is the forcing term's base a characteristic root?
+  These two questions prevent the most common errors.
+]
+
+== Exercises
+
+#Block(color: blue, width: 100%)[
+  *1.* Solve by telescoping: $T(n) = 2 T(n - 1) + n$ with $T(0) = 1$.
+
+  *2.* Solve by characteristic equation: $a_n = 7 a_(n-1) - 10 a_(n-2)$ with $a_0 = 3$ and $a_1 = 11$.
+
+  *3.* Solve $a_n = 4 a_(n-1) - 4 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
+
+  *4.* Solve $a_n = 3 a_(n-1) + 2^n$ with $a_0 = 0$.
+]
+
+#Block(color: green, width: 100%)[
+  *5.* Count binary strings of length $n$ that do _not_ contain the substring $"00"$.
+  Set up the recurrence and solve it.
+
+  *6.* \* Solve $a_n = 5 a_(n-1) - 6 a_(n-2) + 3^n$ with $a_0 = 0$, $a_1 = 1$.
+  (Exponential forcing with second-order recurrence.)
+]
+
 
 = Asymptotic Analysis
 
@@ -2335,7 +2567,7 @@ $
   epigraph-author: "Karl Weierstrass",
 )
 
-== Asymptotics 101
+== Asymptotic Notation
 
 #definition[_Big-O notation_][
   The notation $f in O(g)$ means that the function $f(n)$ is _asymptotically bounded from above_ by the function $g(n)$, up to a constant factor.
@@ -2371,7 +2603,7 @@ $
 
 #table(
   columns: 4,
-  align: left + horizon,
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Notation*], [*Name*], [*Description*], [*Limit definition*]),
   $f in o(g)$, [Small Oh], [$f$ is dominated by $g$], $ lim_(n to infinity) f(n) / g(n) = 0 $,
@@ -2402,7 +2634,7 @@ $
   $f tilde g$ and $f in Theta(g)$ are _different_ notions!
 ]
 
-== Some Properties of Asymptotics
+== Properties of Asymptotics
 
 #box[
   $
@@ -2425,7 +2657,7 @@ $ T(n) = a dot T(n / b) + f(n) $
 
 - $T(n)$ is the _cost_ of the recursive algorithm
 - $a$ is the number of _parts_ (_sub-problems_)
-- $n "/" b$ is the _size_ of each part
+- $n \/ b$ is the _size_ of each part
 - $T(n / b)$ is the cost of each _sub-problem_
 - $f(n)$ is the cost of _splitting_ and _merging_ the solutions of the subproblems
 
@@ -2438,19 +2670,20 @@ $ T(n) = a dot T(n / b) + f(n) $
 
 #table(
   columns: 4,
+  align: (left, left, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Case*], [*Description*], [*Condition*], [*Bound*]),
-  [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$ \ where $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
+  [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$, $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
   [Case II],
   ["merge" $approx$ "recursion"],
-  [$f(n) in Theta(n^(c_"crit") log^k n)$ \ where $k >= 0$],
+  [$f(n) in Theta(n^(c_"crit") log^k n)$, $k >= 0$],
   [$T(n) in Theta(n^(c_"crit") log^(k+1) n)$],
 
-  [Case III], ["merge" $>>$ "recursion"], [$f(n) in Omega(n^c)$ \ where $c > c_"crit"$], [$T(n) in Theta(f(n))$],
+  [Case III], ["merge" $>>$ "recursion"], [$f(n) in Omega(n^c)$, $c > c_"crit"$], [$T(n) in Theta(f(n))$],
 )
 
 #note[
-  Case III also requires the _regularity condition_ to hold: $a f(n "/" b) <= k f(n)$ for some constant $k < 1$ and all sufficiently large $n$.
+  Case III also requires the _regularity condition_ to hold: $a f(n \/ b) <= k f(n)$ for some constant $k < 1$ and all sufficiently large $n$.
 ]
 
 #note[
@@ -2463,31 +2696,31 @@ $ T(n) = a dot T(n / b) + f(n) $
 #examples[
   Determine the case of Master Theorem and the bound of $T(n)$ for the following recurrences.
 
-  + $T(n) = 3 T(n "/" 9) + sqrt(n)$
+  + $T(n) = 3 T(n \/ 9) + sqrt(n)$
   // Case 2
   // T(n) in Theta(n^(1/2) log n)
 
-  + $T(n) = 2 T(n "/" 4) + n^(0.51)$
+  + $T(n) = 2 T(n \/ 4) + n^(0.51)$
   // Case 3
   // T(n) in Theta(n^(0.51))
 
-  + $T(n) = 5 T(n "/" 25) + n^(0.49)$
+  + $T(n) = 5 T(n \/ 25) + n^(0.49)$
   // Case 1
   // T(n) in Theta(n^0.5)
 
-  + $T(n) = T(floor(n / 2)) + T(ceil(n / 2))$
+  + $T(n) = T(floor(n \/ 2)) + T(ceil(n \/ 2))$
   // Case 2 (approximated)
   // T(n) in Theta(n log n)
 
-  + $T(n) = 3 T(n "/" 9) + sqrt(n) / (log n)$
+  + $T(n) = 3 T(n \/ 9) + sqrt(n) \/ (log n)$
   // Case 2b
   // T(n) in Theta(n^(1/2) log log n)
 
-  + $T(n) = 6 T(n "/" 36) + sqrt(n) / (log^2 n)$
+  + $T(n) = 6 T(n \/ 36) + sqrt(n) \/ (log^2 n)$
   // Case 2c
   // T(n) in Theta(n^(1/2))
 
-  + $T(n) = 4 T(n "/" 16) + sqrt(n / (log n))$
+  + $T(n) = 4 T(n \/ 16) + sqrt(n \/ (log n))$
   // Case 2a
   // T(n) in Theta(n^(1/2) (log n)^(1/2))
 ]
@@ -2510,7 +2743,7 @@ $
 $
 where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)$
 
-== Example of Akra--Bazzi Method Application
+== Akra--Bazzi Example
 
 #example[
   Suppose the runtime of an algorithm is expressed by the following recurrence relation:
@@ -2561,9 +2794,7 @@ Specifically, we seek a smooth function $Gamma(x)$ such that:
 - $Gamma(x + 1) = x dot Gamma(x)$, satisfying a recursive property.
 - $Gamma(x)$ is defined for all real numbers $x > 0$.
 
-== Definition of a Gamma Function
-
-The main definition of a gamma function is known as _Euler integral of the second kind_:
+== Alternative Definitions
 $
   Gamma(z) = integral_0^infinity t^(z - 1) e^(-t) d t
 $
@@ -2658,7 +2889,7 @@ $
   Gamma(x) = lim_(n to infinity) (n! dot n^x) / (x dot (x + 1) dot dots dot (x + n))
 $
 
-== Using the Gamma Function
+== Gamma Function Applications
 
 The Gamma function provides closed forms for several important combinatorial expressions.
 
