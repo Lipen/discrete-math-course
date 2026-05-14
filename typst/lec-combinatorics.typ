@@ -2273,26 +2273,63 @@ When $F(n) = c dot r^n$, try $a_n^(("p")) = beta r^n$.
 
 == Recurrences and Generating Functions
 
-We studied generating functions earlier and characteristic equations now.
-These two approaches are deeply connected.
-
-#example[
-  Consider Fibonacci: $F_n = F_(n-1) + F_(n-2)$, $F_0 = 0$, $F_1 = 1$.
-
-  - *Characteristic equation:* $r^2 - r - 1 = 0$, roots $phi, psi = (1 plus.minus sqrt(5)) / 2$.
-  - *Generating function:* $G(x) = x / (1 - x - x^2)$.
-
-  Setting the denominator to zero: $1 - x - x^2 = 0 arrow.r.double.long x^2 + x - 1 = 0$.
-  This is the _characteristic equation with $x$ in place of $r$_.
-
-  The roots of the characteristic equation are the _reciprocals_ of the poles of $G(x)$.
-]
+Both characteristic equations and generating functions solve the same recurrences --- but from different angles.
 
 #Block(color: yellow)[
+  *Key idea.*
+  A generating function encodes the _entire sequence_ $(a_n)$ as coefficients of a power series $A(x) = sum a_n x^n$.
+  The recurrence turns into an _algebraic equation_ for $A(x)$.
+]
+
+#example[
+  _Derive_ the generating function for Fibonacci: $F_n = F_(n-1) + F_(n-2)$, $F_0 = 0$, $F_1 = 1$.
+
+  Write $G(x) = F_0 + F_1 x + F_2 x^2 + F_3 x^3 + dots = x + x^2 + 2x^3 + 3x^4 + dots$.
+
+  Multiply by $x$ and $x^2$ to shift indices:
+  $
+    x G(x) & = \
+           & = F_0 x + F_1 x^2 + F_2 x^3 + dots + x^2 G(x) = \
+           & = F_0 x^2 + F_1 x^3 + dots
+  $
+
+  Since $F_n = F_(n-1) + F_(n-2)$ for $n >= 2$, each coefficient of $G - x G - x^2 G$ vanishes except $F_1 x = x$:
+  $
+    G(x) - x G(x) - x^2 G(x) = x
+    quad arrow.r.double.long quad
+    G(x) = x / (1 - x - x^2)
+  $
+]
+
+Now factor the denominator.
+The roots of $1 - x - x^2 = 0$ are:
+$
+  x = (1 plus.minus sqrt(5)) / (-2)
+  quad arrow.r.double.long quad
+  x_1 = -1\/phi, \ x_2 = -1\/psi
+$
+where $phi = (1 + sqrt(5))/2$, $psi = (1 - sqrt(5))/2$.
+
+#Block(color: yellow)[
+  *The connection.*
+  The denominator $1 - x - x^2$ and the characteristic polynomial $r^2 - r - 1$ differ only by the substitution $x arrow.r 1/r$.
+  Setting the denominator to zero gives values of $x$ where the series _diverges_ --- these are the _poles_ of $G(x)$.
+  The characteristic roots $r_1, r_2$ are the _reciprocals_ of these poles.
+]
+
+Partial fraction decomposition of $G(x)$ then produces exactly Binet's formula:
+$
+  G(x) = x / (1 - x - x^2)
+  = 1/sqrt(5) (1 / (1 - phi x) - 1 / (1 - psi x))
+  = 1/sqrt(5) sum_(n=0)^infinity (phi^n - psi^n) x^n
+$
+
+#Block(color: blue)[
   *Why two methods?*
-  Characteristic equations are faster for constant-coefficient recurrences.
-  Generating functions reveal combinatorial structure and handle variable-coefficient recurrences that characteristic equations cannot.
-  Together, they serve as cross-checks.
+
+  - *Characteristic equations* are mechanical and fast for constant-coefficient recurrences.
+
+  - *Generating functions* reveal combinatorial structure, handle variable coefficients, produce closed forms via partial fractions --- at the cost of more algebra.
 ]
 
 
