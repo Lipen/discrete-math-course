@@ -2019,10 +2019,35 @@ If we try a solution of the form $a_n = r^n$ (with $r != 0$), substituting into 
   Then the sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if $a_n = alpha_1 r_1^n + alpha_2 r_2^n$ for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
 ]
 
-#proof[(sketch)][
-  Since $r_i$ are roots, $r_i^2 = c_1 r_i + c_2$.
-  By factoring $r_i^(n-2)$ from $c_1 a_(n-1) + c_2 a_(n-2)$, direct substitution shows $alpha_1 r_1^n + alpha_2 r_2^n$ satisfies the recurrence.
-  The converse follows because distinct roots yield a Vandermonde system with a unique solution for $alpha_1, alpha_2$.
+#proof[
+  We prove both directions.
+
+  *($arrow.r.double$) Suppose $a_n = alpha_1 r_1^n + alpha_2 r_2^n$.*
+  We verify it satisfies $a_n = c_1 a_(n-1) + c_2 a_(n-2)$.
+  Since $r_i$ is a root of $r^2 - c_1 r - c_2 = 0$, we have $r_i^2 = c_1 r_i + c_2$.
+  Multiply both sides by $r_i^(n-2)$ to get $r_i^n = c_1 r_i^(n-1) + c_2 r_i^(n-2)$.
+  This holds for $i = 1$ and $i = 2$ separately, so taking a linear combination preserves equality:
+  $
+    c_1 a_(n-1) + c_2 a_(n-2) & = c_1 (alpha_1 r_1^(n-1) + alpha_2 r_2^(n-1))
+                                + c_2 (alpha_1 r_1^(n-2) + alpha_2 r_2^(n-2)) \
+                              & = alpha_1 (c_1 r_1^(n-1) + c_2 r_1^(n-2))
+                                + alpha_2 (c_1 r_2^(n-1) + c_2 r_2^(n-2)) \
+                              & = alpha_1 r_1^n + alpha_2 r_2^n = a_n.
+  $
+
+  *($arrow.l.double$) Suppose $a_n$ satisfies the recurrence.*
+  We show $a_n$ _must_ be of the form $alpha_1 r_1^n + alpha_2 r_2^n$.
+  The recurrence and initial conditions $a_0, a_1$ determine the entire sequence: each $a_n$ is computed from $a_(n-1)$ and $a_(n-2)$.
+  So it suffices to find $alpha_1, alpha_2$ such that $alpha_1 r_1^n + alpha_2 r_2^n$ matches the two initial values:
+  $
+    cases(
+      alpha_1 + alpha_2 = a_0,
+      alpha_1 r_1 + alpha_2 r_2 = a_1,
+    )
+  $
+  This is a $2 times 2$ linear system with determinant $r_2 - r_1$.
+  Since $r_1 != r_2$, the determinant is nonzero, so a unique solution $(alpha_1, alpha_2)$ exists.
+  The sequence $alpha_1 r_1^n + alpha_2 r_2^n$ matches the initial conditions and satisfies the recurrence (by the first direction), so it _equals_ $a_n$ by uniqueness.
 ]
 
 == Worked Example
@@ -2055,6 +2080,7 @@ If we try a solution of the form $a_n = r^n$ (with $r != 0$), substituting into 
   $
 
   The general solution is $F_n = alpha_1 phi^n + alpha_2 psi^n$ for constants $alpha_1, alpha_2$.
+
   Using initial conditions $F_0 = 0$ and $F_1 = 1$:
   $
     cases(
@@ -2132,8 +2158,7 @@ For $k = 2$: $C = mat(c_1, c_2; 1, 0)$, and $det(C - lambda I) = lambda^2 - c_1 
   A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = (alpha_1 + alpha_2 n) thin r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
 ]
 
-#note[
-  *Why $n r_0^n$?*
+#note(title: [Why $n r_0^n$?])[
   When the root is repeated, $r_0^n$ alone only provides one linearly independent solution.
   The second solution $n r_0^n$ arises by taking the _derivative_ of $r^n$ with respect to $r$ and then evaluating at $r = r_0$:
   $
@@ -2144,10 +2169,13 @@ For $k = 2$: $C = mat(c_1, c_2; 1, 0)$, and $det(C - lambda I) = lambda^2 - c_1 
   This is analogous to the resonance term $t e^(lambda t)$ in differential equations.
 ]
 
+#pagebreak()
+
 #example[
   Solve $a_n = 6 a_(n-1) - 9 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
 
   The characteristic equation is $r^2 - 6 r + 9 = 0$ with a single (repeated) root $r_0 = 3$.
+
   Hence, the solution is of the form $a_n = (alpha_1 + alpha_2 n) thin 3^n$.
   $
     cases(
@@ -2318,11 +2346,11 @@ The recipe: (1) solve the homogeneous part, (2) find a particular solution by gu
 
   _Particular solution:_ $F(n) = 2n$ is degree-1 polynomial, so try $p_n = c n + d$.
   Substituting: $c n + d = 3(c(n-1) + d) + 2n$.
-  Equating coefficients: $c = -1$, $d = -3\/2$. So $a_n^(("p")) = -n - 3\/2$.
+  Equating coefficients: $c = -1$, $d = -3/2$. So $a_n^(("p")) = -n - 3/2$.
 
-  _General solution:_ $a_n = -n - 3\/2 + alpha 3^n$.
+  _General solution:_ $a_n = -n - 3/2 + alpha 3^n$.
 
-  With $a_1 = 3$: $alpha = 11\/6$, giving $a_n = -n - 3\/2 + (11\/6) 3^n$.
+  With $a_1 = 3$: $alpha = 11/6$, giving $a_n = -n - 3/2 + (11/6) 3^n$.
 ]
 
 == Exponential Forcing Term
@@ -2355,7 +2383,7 @@ When $F(n) = c dot r^n$, try $a_n^(("p")) = beta r^n$.
 
 == Recurrences and Generating Functions
 
-Both characteristic equations and generating functions solve the same recurrences --- but from different angles.
+Both characteristic equations and generating functions solve the same recurrences, but differently.
 
 #Block(color: yellow)[
   *Key idea.*
@@ -2387,17 +2415,18 @@ Now factor the denominator.
 The roots of $1 - x - x^2 = 0$ are:
 $
   x = (1 plus.minus sqrt(5)) / (-2)
-  quad arrow.r.double.long quad
-  x_1 = -1\/phi, \ x_2 = -1\/psi
+  quad ==> quad
+  x_1 = -1/phi, quad x_2 = -1/psi
 $
 where $phi = (1 + sqrt(5))/2$, $psi = (1 - sqrt(5))/2$.
 
 #Block(color: yellow)[
-  *The connection.*
   The denominator $1 - x - x^2$ and the characteristic polynomial $r^2 - r - 1$ differ only by the substitution $x arrow.r 1/r$.
   Setting the denominator to zero gives values of $x$ where the series _diverges_ --- these are the _poles_ of $G(x)$.
   The characteristic roots $r_1, r_2$ are the _reciprocals_ of these poles.
 ]
+
+#pagebreak()
 
 Partial fraction decomposition of $G(x)$ then produces exactly Binet's formula:
 $
