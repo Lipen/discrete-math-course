@@ -1,0 +1,362 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Colloquiums - Discrete Mathematics</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Course materials for Discrete Mathematics at ITMO University">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Discrete Mathematics</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course/edit/master/docs/src/assessments/colloquiums/index.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="-theoretical-minimums-colloquiums"><a class="header" href="#-theoretical-minimums-colloquiums">🎓 Theoretical Minimums (Colloquiums)</a></h1>
+<h2 id="-overview"><a class="header" href="#-overview">📖 Overview</a></h2>
+<p><strong>Theoretical Minimums (TMs)</strong> are comprehensive oral/written examinations testing deep understanding of mathematical theory and proof techniques. Called “minimums” because passing them is a <strong>minimum requirement</strong> for course completion.</p>
+<blockquote>
+<p><strong>⚠️ Critical Requirement</strong>: You <strong>must pass both TMs</strong> (score ≥50%) to receive credit for the course, regardless of your other grades.</p>
+</blockquote>
+<h3 id="tm-structure"><a class="header" href="#tm-structure">TM Structure</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Detail</th><th>Information</th></tr></thead><tbody>
+<tr><td><strong>Number of TMs</strong></td><td>4 total (2 per semester)</td></tr>
+<tr><td><strong>Points Each</strong></td><td>10 points</td></tr>
+<tr><td><strong>Total Points</strong></td><td>40 points (20% of final grade)</td></tr>
+<tr><td><strong>Duration</strong></td><td>120 minutes each</td></tr>
+<tr><td><strong>Format</strong></td><td>Closed book, written + possible oral component</td></tr>
+<tr><td><strong>Passing Requirement</strong></td><td>≥5/10 on each TM</td></tr>
+</tbody></table>
+</div>
+<h2 id="-schedule"><a class="header" href="#-schedule">📅 Schedule</a></h2>
+<h3 id="fall-semester"><a class="header" href="#fall-semester">Fall Semester</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Exam</th><th>Coverage</th><th>Week</th><th>Topics</th><th>Passing Threshold</th></tr></thead><tbody>
+<tr><td><strong>TM1</strong> 📐🔗</td><td>Modules 1–2</td><td>Week 7</td><td>Set Theory + Binary Relations</td><td>≥5/10</td></tr>
+<tr><td><strong>TM2</strong> ⚡🧠</td><td>Modules 3–4</td><td>Week 15</td><td>Boolean Algebra + Formal Logic</td><td>≥5/10</td></tr>
+</tbody></table>
+</div>
+<h3 id="spring-semester"><a class="header" href="#spring-semester">Spring Semester</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Exam</th><th>Coverage</th><th>Week</th><th>Topics</th><th>Passing Threshold</th></tr></thead><tbody>
+<tr><td><strong>TM3</strong> 🌐💧</td><td>Modules 5–6</td><td>Week 7</td><td>Graph Theory + Flow Networks</td><td>≥5/10</td></tr>
+<tr><td><strong>TM4</strong> 🤖🎲</td><td>Modules 7–8</td><td>Week 15</td><td>Automata + Combinatorics</td><td>≥5/10</td></tr>
+</tbody></table>
+</div>
+<h2 id="-purpose"><a class="header" href="#-purpose">🎯 Purpose</a></h2>
+<p>TMs ensure you can:</p>
+<ul>
+<li>✓ <strong>State definitions and theorems precisely</strong> – word-perfect recall</li>
+<li>✓ <strong>Construct rigorous proofs</strong> – logical, complete arguments</li>
+<li>✓ <strong>Explain concepts clearly</strong> – demonstrate understanding, not memorization</li>
+<li>✓ <strong>Make connections between topics</strong> – see the big picture</li>
+<li>✓ <strong>Demonstrate mathematical maturity</strong> – write like a mathematician</li>
+</ul>
+<blockquote>
+<p><strong>💡 Key Insight</strong>: You cannot pass this course through computation alone. Theoretical understanding is <strong>mandatory</strong>.</p>
+</blockquote>
+<h2 id="-key-pages"><a class="header" href="#-key-pages">📚 Key Pages</a></h2>
+<ul>
+<li><a href="./tm1.html">📐🔗 TM1: Set Theory &amp; Binary Relations</a></li>
+<li><a href="./tm2.html">⚡🧠 TM2: Boolean Algebra &amp; Formal Logic</a></li>
+<li><a href="./preparation.html">📖 Preparation Guide</a></li>
+</ul>
+<h2 id="-difference-from-tests"><a class="header" href="#-difference-from-tests">⚖️ Difference from Tests</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Aspect</th><th>Regular Tests</th><th>Theoretical Minimums</th></tr></thead><tbody>
+<tr><td><strong>Focus</strong></td><td>Computation, problem-solving</td><td>Theory, definitions, proofs</td></tr>
+<tr><td><strong>Resources</strong></td><td>Open book (notes, textbook)</td><td>Closed book (nothing allowed)</td></tr>
+<tr><td><strong>Duration</strong></td><td>90 minutes</td><td>120 minutes</td></tr>
+<tr><td><strong>Partial Credit</strong></td><td>Generous (60% method, etc.)</td><td>Limited (correctness emphasized)</td></tr>
+<tr><td><strong>Passing</strong></td><td>No minimum threshold</td><td><strong>Must score ≥50%</strong></td></tr>
+<tr><td><strong>Coverage</strong></td><td>1 module (2–5 weeks)</td><td>2 modules (7–8 weeks)</td></tr>
+<tr><td><strong>Format</strong></td><td>Written only</td><td>Written + possible oral</td></tr>
+<tr><td><strong>Question Types</strong></td><td>Calculations, applications</td><td>Definitions, theorem statements, proofs</td></tr>
+</tbody></table>
+</div>
+<h2 id="-retake-policy"><a class="header" href="#-retake-policy">🔄 Retake Policy</a></h2>
+<h3 id="if-you-score--50-on-a-tm"><a class="header" href="#if-you-score--50-on-a-tm">If You Score &lt; 50% on a TM</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Detail</th><th>Information</th></tr></thead><tbody>
+<tr><td><strong>Retakes Allowed</strong></td><td>One retake per TM</td></tr>
+<tr><td><strong>Scheduling</strong></td><td>1–2 weeks after original exam</td></tr>
+<tr><td><strong>Format</strong></td><td>May be oral instead of written</td></tr>
+<tr><td><strong>Difficulty</strong></td><td>Expect different (possibly harder) questions</td></tr>
+<tr><td><strong>Score</strong></td><td>Retake score is final (does not average)</td></tr>
+</tbody></table>
+</div>
+<h3 id="important-notes"><a class="header" href="#important-notes">Important Notes</a></h3>
+<blockquote>
+<p><strong>⚠️ Retake Strategy</strong></p>
+<ul>
+<li>Take retake seriously – it may be more challenging</li>
+<li>Oral format requires explaining concepts verbally</li>
+<li>Study gaps identified in original attempt</li>
+<li>Schedule retake ASAP while material is fresh</li>
+<li>Use office hours/mentors before retake</li>
+</ul>
+</blockquote>
+<h2 id="-success-strategy"><a class="header" href="#-success-strategy">💪 Success Strategy</a></h2>
+<h3 id="understanding-vs-memorization"><a class="header" href="#understanding-vs-memorization">Understanding vs. Memorization</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Memorization (❌)</th><th>Understanding (✅)</th></tr></thead><tbody>
+<tr><td>“Learn” definitions word-by-word</td><td>Understand why definitions are structured that way</td></tr>
+<tr><td>Memorize proof steps</td><td>Grasp proof strategy and key ideas</td></tr>
+<tr><td>Recite theorem statements</td><td>Know when/how to apply theorems</td></tr>
+<tr><td>Copy examples from notes</td><td>Generate your own examples</td></tr>
+</tbody></table>
+</div>
+<h3 id="preparation-timeline"><a class="header" href="#preparation-timeline">Preparation Timeline</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>When</th><th>What to Do</th></tr></thead><tbody>
+<tr><td><strong>4 weeks before</strong></td><td>Start reviewing notes systematically</td></tr>
+<tr><td><strong>3 weeks before</strong></td><td>Create definition/theorem summary sheets</td></tr>
+<tr><td><strong>2 weeks before</strong></td><td>Practice proofs without looking at solutions</td></tr>
+<tr><td><strong>1 week before</strong></td><td>Form study groups, quiz each other</td></tr>
+<tr><td><strong>3 days before</strong></td><td>Review all definitions, theorem statements</td></tr>
+<tr><td><strong>1 day before</strong></td><td>Light review, get good sleep</td></tr>
+</tbody></table>
+</div>
+<h2 id="-what-to-expect"><a class="header" href="#-what-to-expect">📊 What to Expect</a></h2>
+<h3 id="question-categories"><a class="header" href="#question-categories">Question Categories</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Category</th><th>Weight</th><th>Example</th></tr></thead><tbody>
+<tr><td><strong>Definitions</strong></td><td>~30%</td><td>“Define equivalence relation. Provide an example and a non-example.”</td></tr>
+<tr><td><strong>Theorem Statements</strong></td><td>~20%</td><td>“State Cantor’s theorem precisely.”</td></tr>
+<tr><td><strong>Proofs</strong></td><td>~40%</td><td>“Prove that ℝ is uncountable.”</td></tr>
+<tr><td><strong>Conceptual</strong></td><td>~10%</td><td>“Explain why Russell’s paradox matters for set theory.”</td></tr>
+</tbody></table>
+</div>
+<h3 id="grading-criteria"><a class="header" href="#grading-criteria">Grading Criteria</a></h3>
+<ul>
+<li><strong>Precision</strong>: Definitions and statements must be exact</li>
+<li><strong>Rigor</strong>: Proofs must be logically complete</li>
+<li><strong>Clarity</strong>: Explanations must be clear and well-organized</li>
+<li><strong>Correctness</strong>: Right answers with valid justification</li>
+</ul>
+<blockquote>
+<p><strong>💡 Partial Credit</strong>: While more limited than regular tests, you can still earn points for:</p>
+<ul>
+<li>Correct definitions even if proof fails</li>
+<li>Valid proof strategies even if details are wrong</li>
+<li>Clear explanations of concepts</li>
+</ul>
+</blockquote>
+<p>Good luck on your TMs! Remember: deep understanding is the goal. 🎓</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../assessments/tests/tips.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../assessments/colloquiums/tm1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../assessments/tests/tips.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../assessments/colloquiums/tm1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
