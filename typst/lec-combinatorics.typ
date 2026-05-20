@@ -2536,7 +2536,7 @@ $
                             "Let" g(n) := & (shift - 2) f(n) = f(n+1) - 2f(n) \
     "Then" (shift - 1) (shift - 2) f(n) = & (shift - 1) g(n) \
                                         = & g(n+1) - g(n) \
-                                        = & [f(n+2) - 2f(n-1)] - [f(n+1) - 2f(n)] \
+                                        = & [f(n+2) - 2f(n+1)] - [f(n+1) - 2f(n)] \
                                         = & f(n+2) - 3f(n+1) + 2f(n) \
                                         = & (shift^2 - 3 shift + 2) f(n) quad YES
   $
@@ -2565,6 +2565,12 @@ $
 
 #definition[
   An _annihilator_ of a function $f$ is any non-trivial operator $op(X)$ such that $op(X) f = 0$.
+]
+
+#note(title: "Intuition")[
+  An annihilator "kills" the function --- after applying the operator, nothing remains.
+  This is the same idea as finding roots of a polynomial: if $(x - 2)$ is a factor, then plugging in $x = 2$ makes the polynomial zero.
+  Here, $(shift - a)$ is a factor, and applying it to $a^n$ makes the result zero.
 ]
 
 #examples[
@@ -2596,34 +2602,82 @@ $
 #theorem[
   If $operator(X)$ annihilates $f$, then $operator(X)$ also annihilates $alpha f$ for any constant $alpha$.
 ]
+#proof[
+  Since operators are linear (they distribute over scaling), $operator(X)(alpha f) = alpha dot operator(X) f = alpha dot 0 = 0$.
+]
+
 #theorem[
   If $operator(X)$ annihilates both $f$ and $g$, then $operator(X)$ also annihilates $f plus.minus g$.
 ]
+#proof[
+  By linearity of operators: $operator(X)(f plus.minus g) = operator(X) f plus.minus operator(X) g = 0 plus.minus 0 = 0$.
+]
+
 #theorem[
   If $operator(X)$ annihilates $f$, then $operator(X)$ also annihilates $shift f$.
 ]
+#proof[
+  Any operator $operator(X)$ that is a polynomial in $shift$ _commutes_ with $shift$ itself.
+
+  Therefore $operator(X)(shift f) = shift (operator(X) f) = shift(0) = 0$.
+]
+
+#pagebreak()
+
 #theorem[
   If $operator(X)$ annihilates $f$ and $operator(Y)$ annihilates $g$, then $operator(X) operator(Y)$ annihilates $f plus.minus g$.
+]
+#proof[
+  Since $operator(X)$ annihilates $f$, and by the previous theorem $operator(X)$ also annihilates $shift f$, $shift^2 f$, etc., the operator $operator(X)$ annihilates _any_ function obtained by applying shift-operators to $f$.
+  In particular, $operator(X)$ annihilates $operator(Y) f$.
+  Now apply $operator(X) operator(Y)$ to $f plus.minus g$:
+  $
+    operator(X) operator(Y) (f plus.minus g)
+    = operator(X) (operator(Y) f plus.minus operator(Y) g)
+    = operator(X)(operator(Y) f) plus.minus operator(X)(operator(Y) g)
+  $
+  The first term $operator(X)(operator(Y) f)$: since $operator(X)$ annihilates $f$ and commutes with $operator(Y)$, this is $operator(Y)(operator(X) f) = operator(Y)(0) = 0$.
+  The second term $operator(X)(operator(Y) g)$: since $operator(Y)$ annihilates $g$, we get $operator(X)(0) = 0$.
+  Both terms are zero, so the result is zero.
 ]
 
 == Annihilating Recurrences
 
-+ Write the recurrence in the _operator form_.
-+ Find the _annihilator_ for the recurrence.
-+ _Factor_ the annihilator, if necessary.
-+ Find the _generic solution_ from the annihilator.
-+ Solve for coefficients using the _initial conditions_.
+The annihilator method is a systematic five-step procedure for solving recurrences.
+
++ _Rewrite_ the recurrence in operator form (replace $a_n$ with $shift$-operators).
++ _Identify_ the annihilator of the _left-hand side_ and annihilate the _residue_ (right-hand side) by multiplying additional factors.
++ _Factor_ the annihilator into linear factors $(shift - a)$.
++ _Read off_ the generic solution from the factorization (one term per factor, using the summary table).
++ _Fit_ the initial conditions to determine the free constants.
+
+#let tasklist(id, cols: 1, format: "1.", body) = {
+  let s = counter(id)
+  s.update(1)
+  set enum(numbering: _ => context {
+    s.step()
+    s.display(format)
+  })
+  columns(cols, gutter: 1em)[#body]
+}
 
 #example[
   $r(n) = 5r(n-1)$ with $r(0) = 3$.
 
-  + $r(n+1) - 5r(n) = 0$ \
-    $(shift - 5) r(n) = 0$
+  #tasklist("example1", cols: 2, format: "Step 1.")[
+    + $r(n+1) - 5r(n) = 0$ \
+      $(shift - 5) r(n) = 0$
 
-  + $(shift - 5)$ annihilates $r(n)$.
-  + $(shift - 5)$ is already factored.
-  + $r(n) = alpha 5^n$ is a generic solution.
-  + $r(0) = alpha = 3 quad arrow.r.double.long quad alpha = 3$
+    + $(shift - 5)$ annihilates $r(n)$.
+
+    #colbreak()
+
+    + $(shift - 5)$ is already factored.
+
+    + $r(n) = alpha 5^n$ is a generic solution.
+
+    + $r(0) = alpha = 3 quad arrow.r.double.long quad alpha = 3$
+  ]
 
   Thus, $r(n) = 3 dot 5^n$.
 ]
@@ -2684,7 +2738,11 @@ $
 
 == Annihilators and Characteristic Equations
 
-Characteristic equations and annihilators are _two notations for the same algebraic structure_.
+#note[
+  The characteristic equation method and the annihilator method are _the same algebra_ in different notation.
+  Replacing $r$ with $shift$ in the characteristic polynomial gives the annihilator, and vice versa.
+  Understanding both gives you flexibility: use whichever is more convenient.
+]
 
 #theorem[
   For the linear homogeneous recurrence $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$:
@@ -2700,6 +2758,17 @@ Characteristic equations and annihilators are _two notations for the same algebr
   The factorization is identical; only the interpretation differs.
 ]
 
+#proof[
+  The recurrence $a_n - c_1 a_(n-1) - dots - c_k a_(n-k) = 0$ can be written as
+  $(shift^k - c_1 shift^(k-1) - dots - c_k) a_n = 0$.
+  This is the _annihilator polynomial_ applied to $a_n$.
+
+  The characteristic equation is $r^k - c_1 r^(k-1) - dots - c_k = 0$.
+
+  Both polynomials have the same coefficients --- the only difference is the symbol ($r$ vs. $shift$).
+  Therefore they have the same roots and the same factorization.
+]
+
 #example[
   $a_n = 5 a_(n-1) - 6 a_(n-2)$.
 
@@ -2711,12 +2780,12 @@ Characteristic equations and annihilators are _two notations for the same algebr
 == Common Mistakes
 
 #example[
-  *Problem:* Solve $a_n = 2 a_(n-1) - 2^n$ with $a_0 = 1$.
+  Solve $a_n = 2 a_(n-1) - 2^n$ with $a_0 = 1$.
 
   *Wrong answer:* "Characteristic equation: $r - 2 = 0$, so $r = 2$. General solution: $a_n = c dot 2^n$."
 
   *Where's the error?*
-  - This is _non-homogeneous_ (has a $-2^n$ term), but the student _ignored it_!
+  - This is _non-homogeneous_ (has extra term "$-2^n$"), but the student _ignored it_!
   - We need a _particular_ solution in addition to the homogeneous one.
   - Since $2$ is _also_ the characteristic root (resonance!), the simple trial $beta 2^n$ fails.
     We must try $a_n^(("p")) = beta n dot 2^n$.
@@ -2724,32 +2793,43 @@ Characteristic equations and annihilators are _two notations for the same algebr
   *Correct:* $a_n = (alpha + n) 2^n$. Using $a_0 = 1$: $alpha = 1$, so $a_n = (1 + n) 2^n$.
 ]
 
-#Block(color: orange)[
-  *Lesson:* Before solving, always ask:
-  (1) Is it homogeneous or non-homogeneous?
-  (2) Is the forcing term's base a characteristic root?
-  These two questions prevent the most common errors.
-]
 
-== Exercises
-
-#Block(color: blue, width: 100%)[
-  *1.* Solve by telescoping: $T(n) = 2 T(n - 1) + n$ with $T(0) = 1$.
-
-  *2.* Solve by characteristic equation: $a_n = 7 a_(n-1) - 10 a_(n-2)$ with $a_0 = 3$ and $a_1 = 11$.
-
-  *3.* Solve $a_n = 4 a_(n-1) - 4 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
-
-  *4.* Solve $a_n = 3 a_(n-1) + 2^n$ with $a_0 = 0$.
-]
+== Summary: Annihilators
 
 #Block(color: green, width: 100%)[
-  *5.* Count binary strings of length $n$ that do _not_ contain the substring $"00"$.
-  Set up the recurrence and solve it.
+  *Core idea.* An operator $op(X)$ _annihilates_ $f$ if $op(X) f = 0$.
 
-  *6.* \* Solve $a_n = 5 a_(n-1) - 6 a_(n-2) + 3^n$ with $a_0 = 0$, $a_1 = 1$.
-  (Exponential forcing with second-order recurrence.)
+  The factor $(shift - a)$ kills $a^n$.
+  Higher powers $(shift - a)^d$ kill $(alpha_0 + alpha_1 n + dots + alpha_(d-1) n^(d-1)) a^n$.
+
+  Finding the annihilator of a recurrence _automatically_ reveals the form of the solution.
 ]
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  Block(color: blue)[
+    *Algorithm*
+
+    + Rewrite recurrence in operator form
+
+    + Find the annihilator of both sides
+
+    + Factor into $(shift - a_i)$ terms
+
+    + Read off generic solution from factors
+
+    + Fit initial conditions
+  ],
+  Block(color: purple, width: 100%)[
+    *Key properties*
+
+    - If $op(X)$ annihilates $f$,\ then it also annihilates $alpha f$, $f plus.minus g$, $shift f$
+
+    - If $op(X)$ annihilates $f$ and $op(Y)$ annihilates $g$,\ then $op(X) op(Y)$ annihilates $f plus.minus g$
+    - Same polynomial as characteristic equation, with $r => shift$
+  ],
+)
 
 
 = Asymptotic Analysis
