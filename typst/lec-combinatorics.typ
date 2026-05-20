@@ -1914,11 +1914,37 @@ Before reaching for characteristic equations, try the simplest approach: _unwind
 
 == Tower of Hanoi
 
-#example[
-  *Tower of Hanoi.*
-  Move $n$ disks from peg A to peg C, one at a time, never placing a larger disk on a smaller one.
-  Let $T(n)$ be the minimum number of moves.
+#grid(
+  columns: (auto, 1fr),
+  column-gutter: 1em,
+  align(center + horizon)[
+    #cetz.canvas(length: 0.45cm, {
+      import cetz.draw: *
+      // Base
+      line((-3.5, 0), (3.5, 0), stroke: 1.5pt + luma(50%))
+      // Pegs
+      for (px, name) in ((-2.2, "A"), (0, "B"), (2.2, "C")) {
+        line((px, 0), (px, 2.6), stroke: 1.2pt + luma(60%))
+        content((px, -0.45), strong(name))
+      }
+      // Disks on peg A (n=4)
+      let widths = (2.5, 2.0, 1.5, 1.0)
+      let colors = (red.lighten(80%), blue.lighten(80%), green.lighten(80%), orange.lighten(80%))
+      for (i, w) in widths.enumerate() {
+        let y = 0.25 + i * 0.5
+        rect((-2.2 - w / 2, y - 0.2), (-2.2 + w / 2, y + 0.2), fill: colors.at(i), stroke: 0.5pt, radius: 2pt)
+      }
+    })
+  ],
+  [
+    Move $n$ disks from peg A to peg C, one at a time, never placing a larger disk on a smaller one.
 
+    *Strategy:* move the top $n - 1$ disks to peg B, move the largest disk to peg C, then move the $n - 1$ disks from B to C.
+  ],
+)
+
+#example[
+  Let $T(n)$ be the minimum number of moves.
   Recurrence: $T(n) = 2 T(n - 1) + 1$, with $T(1) = 1$.
 
   Unwind:
@@ -1932,9 +1958,12 @@ Before reaching for characteristic equations, try the simplest approach: _unwind
   Setting $k = n - 1$: $T(n) = 2^(n-1) T(1) + 2^(n-1) - 1 = 2^n - 1$.
 ]
 
-#note[
-  Telescoping works well for first-order recurrences.
-  For higher orders and constant-coefficient recurrences, we need more systematic methods.
+#place[
+  #v(1em)
+  #note[
+    Telescoping works well for first-order recurrences.
+    For higher orders and constant-coefficient recurrences, we need more systematic methods.
+  ]
 ]
 
 == Linear Homogeneous Recurrence Relations
@@ -1969,6 +1998,17 @@ If we try a solution of the form $a_n = r^n$ (with $r != 0$), substituting into 
 
   Its solutions $r_1, r_2, dots$ are the _characteristic roots_ of the recurrence.
   Each root yields a solution $a_n = r^n$.
+]
+
+#note[
+  *Why does this work?*
+  Substituting $a_n = r^n$ into the recurrence gives
+  $
+    r^n = c_1 r^(n-1) + c_2 r^(n-2) + dots + c_k r^(n-k)
+  $
+  which, after dividing by $r^(n-k)$ (assuming $r != 0$), is exactly the characteristic equation.
+  So $r^n$ satisfies the recurrence _if and only if_ $r$ is a root.
+  By linearity, any _linear combination_ of such solutions is also a solution.
 ]
 
 == Distinct Roots Case
@@ -2036,11 +2076,33 @@ Since $|psi| approx 0.618 < 1$, the term $psi^n to 0$, so $F_n$ is the nearest i
 
 In particular, $F_(n+1) \/ F_n to phi$ as $n to infinity$.
 
+#align(center)[
+  #table(
+    columns: 9,
+    align: center,
+    inset: (x: 0.5em, y: 0.3em),
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([$n$], [1], [2], [3], [4], [5], [6], [7], [8]),
+    [$F_n$], [1], [1], [2], [3], [5], [8], [13], [21],
+    [$F_(n+1) \/ F_n$], [1.000], [2.000], [1.500], [1.667], [1.600], [1.625], [1.615], [1.619],
+  )
+]
+
 == Eigenvalues and the Companion Matrix
 
-The characteristic equation of a recurrence is the _characteristic polynomial_ of its companion matrix.
+#definition[
+  Let $A$ be an $m times m$ matrix.
+  A scalar $lambda$ is an _eigenvalue_ of $A$ if there exists a nonzero vector $arrow(v)$ (called an _eigenvector_) such that
+  $
+    A arrow(v) = lambda arrow(v)
+  $
+  The eigenvalues are the roots of the _characteristic polynomial_ $p(lambda) = det(A - lambda I)$.
+]
 
-For $a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k)$, the _companion matrix_ $C$ is the $k times k$ matrix with coefficients in the first row and ones on the sub-diagonal:
+Why does this matter for recurrences?
+Define the _state vector_ $arrow(v)_n = (a_n, a_(n-1), dots, a_(n-k+1))^T$.
+Then the recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ is equivalent to $arrow(v)_n = C arrow(v)_(n-1)$, where $C$ is the _companion matrix_:
+
 $
   C = mat(
     c_1, c_2, c_3, dots, c_k;
@@ -2051,10 +2113,14 @@ $
   )
 $
 
+Iterating gives $arrow(v)_n = C^n arrow(v)_0$, so computing $a_n$ reduces to _matrix exponentiation_.
+The characteristic polynomial of $C$ is exactly $p(lambda) = lambda^k - c_1 lambda^(k-1) - dots - c_k$, i.e.\ the same characteristic equation we solve for the recurrence.
+
 For $k = 2$: $C = mat(c_1, c_2; 1, 0)$, and $det(C - lambda I) = lambda^2 - c_1 lambda - c_2$.
 
 #example[
   Fibonacci: $C = mat(1, 1; 1, 0)$, eigenvalues $phi, psi$.
+  Diagonalizing $C = P D P^(-1)$ yields $C^n = P D^n P^(-1)$, recovering Binet's formula.
   Matrix exponentiation computes $F_n$ in $O(log n)$ multiplications (binary exponentiation), vs. $O(n)$ for naive iteration.
 ]
 
@@ -2066,11 +2132,23 @@ For $k = 2$: $C = mat(c_1, c_2; 1, 0)$, and $det(C - lambda I) = lambda^2 - c_1 
   A sequence $(a_n)$ is a solution of the recurrence relation $a_n = c_1 a_(n-1) + c_2 a_(n-2)$ if and only if #box[$a_n = (alpha_1 + alpha_2 n) thin r_0^n$] for $n = 0, 1, 2, dots$, where $alpha_1$ and $alpha_2$ are constants.
 ]
 
+#note[
+  *Why $n r_0^n$?*
+  When the root is repeated, $r_0^n$ alone only provides one linearly independent solution.
+  The second solution $n r_0^n$ arises by taking the _derivative_ of $r^n$ with respect to $r$ and then evaluating at $r = r_0$:
+  $
+    dif / (dif r) (r^n) = n r^(n-1)
+    quad arrow.r.long quad
+    dif / (dif r) (r^n) dot r = n r^n
+  $
+  This is analogous to the resonance term $t e^(lambda t)$ in differential equations.
+]
+
 #example[
   Solve $a_n = 6 a_(n-1) - 9 a_(n-2)$ with $a_0 = 1$ and $a_1 = 6$.
 
   The characteristic equation is $r^2 - 6 r + 9 = 0$ with a single (repeated) root $r_0 = 3$.
-  Hence, the solutions is of the form $a_n = (alpha_1 + alpha_2 n) thin 3^n$.
+  Hence, the solution is of the form $a_n = (alpha_1 + alpha_2 n) thin 3^n$.
   $
     cases(
       a_0 = 1 = alpha_1,
@@ -2208,16 +2286,21 @@ The entire theory mirrors the continuous case.
 
 == Linear Non-Homogeneous Recurrence Relations
 
-$
-  a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n)
-$
+#definition[
+  A _linear non-homogeneous_ recurrence relation _of degree $k$_ with constant coefficients is a recurrence relation of the form
+  $
+    a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) + F(n),
+  $
+  where $c_1, c_2, dots, c_k$ are constants and $F(n) != 0$ is a function of $n$ (the _forcing term_).
 
-#example[
-  $a_n = 3 a_(n-1) + 2n$ is non-homogeneous.
+  The _associated homogeneous recurrence_ is the relation with $F(n)$ removed:
+  $ a_n = c_1 a_(n-1) + c_2 a_(n-2) + dots + c_k a_(n-k) $
 ]
 
-#definition[
-  An _associated homogeneous recurrence relation_ is the relation without the term $F(n)$.
+#example[
+  - $a_n = 3 a_(n-1) + 2n$ --- non-homogeneous, $F(n) = 2n$ (polynomial).
+  - $a_n = 2 a_(n-1) + 3^n$ --- non-homogeneous, $F(n) = 3^n$ (exponential).
+  - $H_n = 2 H_(n-1) + 1$ --- non-homogeneous, $F(n) = 1$ (constant).
 ]
 
 == Solving Non-Homogeneous Recurrence Relations
@@ -2268,7 +2351,6 @@ When $F(n) = c dot r^n$, try $a_n^(("p")) = beta r^n$.
   - Using $a_0 = 1$: $1 = alpha + 3$, so $alpha = -2$.
   - The _solution_ is $a_n = 3^(n+1) - 2^(n+1)$.
 ]
-
 
 
 == Recurrences and Generating Functions
@@ -2331,6 +2413,47 @@ $
 
   - *Generating functions* reveal combinatorial structure, handle variable coefficients, produce closed forms via partial fractions --- at the cost of more algebra.
 ]
+
+
+== Summary: Recurrence Relations
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  align(left + horizon)[
+    #Block(color: green, width: 100%)[
+      *Solution methods*
+
+      + _Telescoping_ --- unwind first-order recurrences
+      + _Characteristic equations_ --- for constant-coefficient linear recurrences
+      + _Generating functions_ --- encode the whole sequence algebraically
+    ]
+
+    #Block(color: blue, width: 100%)[
+      *Recipe: characteristic equation*
+
+      Polynomial $arrow.r$ roots $arrow.r$ general solution (distinct / repeated / complex) $arrow.r$ fit initial conditions.
+    ]
+  ],
+  align(left + horizon)[
+    #Block(color: orange, width: 100%)[
+      *General solution forms*
+
+      - Distinct: $alpha_1 r_1^n + alpha_2 r_2^n$
+      - Repeated: $(alpha_1 + alpha_2 n) r_0^n$
+      - Complex: $rho^n (alpha cos n theta + beta sin n theta)$
+      - Non-homogeneous: $a_n = a_n^("h") + a_n^("p")$
+    ]
+
+    #Block(color: purple, width: 100%)[
+      *Connections*
+
+      - Companion matrix, eigenvalues $arrow.r.double$ linear algebra
+      - Same structure as linear differential equations
+      - Characteristic roots = reciprocals of GF poles
+    ]
+  ],
+)
 
 
 = Annihilators
