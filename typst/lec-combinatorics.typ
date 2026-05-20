@@ -2842,7 +2842,7 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
 == Asymptotic Notation
 
 #definition[_Big-O notation_][
-  The notation $f in O(g)$ means that the function $f(n)$ is _asymptotically bounded from above_ by the function $g(n)$, up to a constant factor.
+  $f(n) in O(g(n))$ means $f$ is _asymptotically bounded from above_ by $g$, up to a constant factor:
   $
     f(n) in O(g(n))
     quad iff quad
@@ -2851,7 +2851,7 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
 ]
 
 #definition[_Small-o notation_][
-  The notation $f in o(g)$ means that the function $f(n)$ is _asympotically dominated_ by $g(n)$, up to a constant factor.
+  $f(n) in o(g(n))$ means $f$ is _strictly dominated_ by $g$: no constant makes $f$ keep up with $g$.
   $
     f(n) in o(g(n))
     quad iff quad
@@ -2860,15 +2860,25 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
 ]
 
 #note[
-  The difference is only in the $exists c$ and $forall c$ quantifier.
+  The only difference is $exists c$ (Big-O: _some_ constant works) vs.\ $forall c$ (Small-o: _every_ constant works, no matter how small).
 ]
 
 #note[
-  Flip $<=$ to $>=$ in the above definitions to obtain the dual notations: $f in Omega(g)$ and $f in omega(g)$.
+  Flip $<=$ to $>=$ to get the dual notations $f in Omega(g)$ (bounded below) and $f in omega(g)$ (strictly dominates).
 ]
 
 #definition[_Theta notation_][
-  $f in Theta(g)$ iff $f in O(g)$ and $g in O(f)$.
+  $f in Theta(g)$ iff $f in O(g)$ and $f in Omega(g)$ --- $f$ and $g$ grow at the _same rate_, up to constant factors.
+]
+
+#example[
+  Prove that $3 n^2 + 5 n in Theta(n^2)$.
+
+  *Upper bound:* $3 n^2 + 5 n <= 3 n^2 + 5 n^2 = 8 n^2$ for $n >= 1$, so $c = 8$, $n_0 = 1$.
+
+  *Lower bound:* $3 n^2 + 5 n >= 3 n^2$ for $n >= 0$, so $c = 3$, $n_0 = 0$.
+
+  Both bounds hold, so $3 n^2 + 5 n in Theta(n^2)$.
 ]
 
 == Limits
@@ -2888,27 +2898,26 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
 == Asymptotic Equivalence
 
 #definition[
-  The notation $f tilde g$ means that functions $f(n)$ and $g(n)$ are _asymptotically equivalent_.
+  $f tilde g$ means $f$ and $g$ are _asymptotically equivalent_ --- their ratio tends to 1:
   $
     f tilde g
-    quad iff quad
-    forall epsilon > 0 .thin exists n_0 .thin forall n > n_0 : abs(f(n) / g(n) - 1) <= epsilon
     quad iff quad
     lim_(n to infinity) f(n) / g(n) = 1
   $
 ]
 
-#note[
-  $f tilde g$ and $g tilde f$ are equivalent, since $tilde$ is an equivalence relation.
+#example[
+  $n^2 + 3 n tilde n^2$, since $(n^2 + 3 n) / n^2 = 1 + 3/n to 1$.
 ]
 
 #note[
-  $f tilde g$ and $f in Theta(g)$ are _different_ notions!
+  $f tilde g$ is _stronger_ than $f in Theta(g)$: $2 n in Theta(n)$ but $2 n tilde n$ is false (the ratio is $2$, not $1$).
 ]
 
 == Properties of Asymptotics
 
-#box[
+#theorem[
+  The asymptotic notations satisfy:
   $
     f in O(g) "and" f in Omega(g) & quad iff quad f in Theta(g) \
                         f in O(g) & quad iff quad g in Omega(f) \
@@ -2917,6 +2926,12 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
                     f in omega(g) & quad imply quad f in Omega(g) \
                         f tilde g & quad imply quad f in Theta(g) \
   $
+]
+
+#note[
+  *Growth rate hierarchy:* $1 subset o(ln n) subset o(n) subset o(n ln n) subset o(n^2) subset o(2^n) subset o(n!)$.
+
+  Each class is strictly contained in the next: $n^k in o(c^n)$ for any $k$ and $c > 1$.
 ]
 
 == Divide-and-Conquer Algorithms Analysis
@@ -2937,12 +2952,23 @@ Hereinafter, $c_"crit" = log_b a$ is a _critical constant_.
 
 == Master Theorem
 
-The master theorem @entley1980 applies to divide-and-conquer recurrences of the form
+The master theorem @entley1980 gives a direct asymptotic bound for recurrences of the form
 $ T(n) = a dot T(n / b) + f(n) $
+where $c_"crit" = log_b a$ is the _critical exponent_.
+
+#note(title: "Intuition")[
+  The recurrence splits into $a$ sub-problems of size $n \/ b$.
+  The total work at each level of the recursion tree is $a$ copies of the sub-problem cost, plus the merge cost $f(n)$.
+  - If $f(n)$ is small relative to $n^(c_"crit")$, the recursion _leaves_ dominate --- total cost is $Theta(n^(c_"crit"))$.
+  - If $f(n)$ is comparable to $n^(c_"crit")$, the levels contribute equally --- a $log$ factor appears.
+  - If $f(n)$ is large, the _root level_ dominates --- total cost is $Theta(f(n))$.
+]
+
+#pagebreak()
 
 #table(
   columns: 4,
-  align: (left, left, center, center),
+  align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Case*], [*Description*], [*Condition*], [*Bound*]),
   [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$, $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
@@ -2958,43 +2984,30 @@ $ T(n) = a dot T(n / b) + f(n) $
   Case III also requires the _regularity condition_ to hold: $a f(n \/ b) <= k f(n)$ for some constant $k < 1$ and all sufficiently large $n$.
 ]
 
-#note[
-  There is an _extended_ Case II, with three sub-cases (IIa, IIb, IIc) for other values of $k$.
-  See #link("https://en.wikipedia.org/wiki/Master_theorem_(analysis_of_algorithms)#Generic_form")[wiki].
-]
-
 == Examples of Master Theorem Application
 
-#examples[
-  Determine the case of Master Theorem and the bound of $T(n)$ for the following recurrences.
+#example[
+  $T(n) = 2 T(n \/ 4) + n^(0.51)$
 
-  + $T(n) = 3 T(n \/ 9) + sqrt(n)$
-  // Case 2
-  // T(n) in Theta(n^(1/2) log n)
+  $a = 2$, $b = 4$, $c_"crit" = log_4 2 = 1/2$. $f(n) = n^(0.51) in Omega(n^c)$ with $c = 0.51 > 0.5 = c_"crit"$.
 
-  + $T(n) = 2 T(n \/ 4) + n^(0.51)$
-  // Case 3
-  // T(n) in Theta(n^(0.51))
+  Case III: $T(n) in Theta(n^(0.51))$.
+]
 
-  + $T(n) = 5 T(n \/ 25) + n^(0.49)$
-  // Case 1
-  // T(n) in Theta(n^0.5)
+#example[
+  $T(n) = 5 T(n \/ 25) + n^(0.49)$
 
-  + $T(n) = T(floor(n \/ 2)) + T(ceil(n \/ 2))$
-  // Case 2 (approximated)
-  // T(n) in Theta(n log n)
+  $a = 5$, $b = 25$, $c_"crit" = log_(25) 5 = 1/2$. $f(n) = n^(0.49) in O(n^c)$ with $c = 0.49 < 0.5 = c_"crit"$.
 
-  + $T(n) = 3 T(n \/ 9) + sqrt(n) \/ (log n)$
-  // Case 2b
-  // T(n) in Theta(n^(1/2) log log n)
+  Case I: $T(n) in Theta(n^(1/2))$.
+]
 
-  + $T(n) = 6 T(n \/ 36) + sqrt(n) \/ (log^2 n)$
-  // Case 2c
-  // T(n) in Theta(n^(1/2))
+#example[
+  $T(n) = 3 T(n \/ 9) + sqrt(n)$
 
-  + $T(n) = 4 T(n \/ 16) + sqrt(n \/ (log n))$
-  // Case 2a
-  // T(n) in Theta(n^(1/2) (log n)^(1/2))
+  $a = 3$, $b = 9$, $c_"crit" = log_9 3 = 1/2$. $f(n) = n^(1/2) = n^(c_"crit")$, so $f(n) in Theta(n^(c_"crit") log^0 n)$.
+
+  Case II ($k = 0$): $T(n) in Theta(n^(1/2) log n)$.
 ]
 
 == Akra--Bazzi Method
@@ -3038,6 +3051,48 @@ where $p$ is the solution for the equation $display(sum_(i = 1)^k a_i b_i^p = 1)
            & = Theta(x^2 log x)
     $
 ]
+
+== Summary: Asymptotic Analysis
+
+#grid(
+  columns: 2,
+  column-gutter: 1em,
+  [
+    #Block(color: green, width: 100%)[
+      *Notations*
+      - $O(g)$: bounded above by $g$ (some constant $c$)
+      - $Omega(g)$: bounded below by $g$
+      - $Theta(g)$: bounded above _and_ below --- tight
+      - $o(g)$: strictly dominated (no constant saves you)
+      - $omega(g)$: strictly dominates
+      - $f tilde g$: ratio $arrow.r 1$ (stronger than $Theta$)
+    ]
+
+    #Block(color: purple, width: 100%)[
+      *Growth hierarchy:*
+      $1 subset o(ln n) subset o(n) subset o(n ln n) subset o(n^2) subset o(2^n) subset o(n!)$
+    ]
+  ],
+  [
+    #Block(color: blue, width: 100%)[
+      *Master Theorem*
+
+      $T(n) = a T(n \/ b) + f(n)$, where $c_"crit" = log_b a$.
+
+      Compare $f(n)$ with $n^(c_"crit")$:
+      - Case I: $f$ is smaller $arrow.r Theta(n^(c_"crit"))$
+      - Case II: $f$ is comparable $arrow.r Theta(n^(c_"crit") log n)$
+      - Case III: $f$ dominates $arrow.r Theta(f(n))$
+    ]
+
+    #Block(color: orange, width: 100%)[
+      *Akra--Bazzi*
+
+      Generalizes Master Theorem to unequal sub-problem sizes.
+      Solve $sum a_i b_i^p = 1$ for $p$, then integrate.
+    ]
+  ],
+)
 
 
 = Advanced Topics
