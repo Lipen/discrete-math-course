@@ -3477,10 +3477,6 @@ The Gamma function appears throughout combinatorics and analysis.
       name: "August Ferdinand Möbius",
       image: image("assets/August_Ferdinand_Mobius.jpg"),
     ),
-    (
-      name: "Richard P. Stanley",
-      image: image("assets/Richard_P_Stanley.png"),
-    ),
   ),
 )
 
@@ -3998,6 +3994,12 @@ Now let us see how this organizes _everything_ into one table.
 #focus-slide(
   epigraph: [The Twelvefold Way is a systematic classification of \ twelve fundamental counting problems.],
   epigraph-author: "Herbert Wilf, generatingfunctionology",
+  scholars: (
+    (
+      name: "Richard P. Stanley",
+      image: image("assets/Richard_P_Stanley.png"),
+    ),
+  ),
 )
 
 == Balls and Boxes
