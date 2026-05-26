@@ -210,7 +210,7 @@ Three fundamental questions arise in every combinatorial problem:
 
 #example[
   A _license plate_ consists of 3 letters followed by 3 digits.
-  The letters are chosen from $\{"A", dots, "Z"\}$ (26~choices each) and the digits from $\{0, dots, 9\}$ (10 choices each).
+  The letters are chosen from ${"A", dots, "Z"}$ (26~choices each) and the digits from ${0, dots, 9}$ (10 choices each).
   Since each position is filled independently:
   $
     26 times 26 times 26 times 10 times 10 times 10 = 26^3 dot 10^3 = 17\,576\,000
@@ -952,7 +952,7 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
 #proof[(informal)][
   Consider the element $n$ in any partition of $[n]$ into $k$ blocks.
   There are exactly two cases:
-  - $\{n\}$ forms a singleton block on its own.
+  - ${n}$ forms a singleton block on its own.
     The remaining $n - 1$ elements are partitioned into $k - 1$ non-empty blocks: $stirling(n-1, k-1)$ ways.
   - $n$ joins an existing block of a partition of $[n-1]$.
     Start with any partition of $[n-1]$ into $k$ blocks ($stirling(n-1, k)$ ways), then insert $n$ into one of the $k$ blocks: $k dot stirling(n-1, k)$ ways.
@@ -1145,10 +1145,10 @@ Order does _not_ matter: $3 + 1$ and $1 + 3$ are the same partition.
 == Motivating Example
 
 #example[
-  How many integers in $\{1, dots, 100\}$ are divisible by $2$ _or_ by $3$?
-  - Let $A = \{ k in [100] | 2 divides k \}$, so $abs(A) = 50$.
-  - Let $B = \{ k in [100] | 3 divides k \}$, so $abs(B) = 33$.
-  - Their intersection $A intersect B = \{ k in [100] | 6 divides k \}$ has $abs(A intersect B) = 16$.
+  How many integers in ${1, dots, 100}$ are divisible by $2$ _or_ by $3$?
+  - Let $A = { k in [100] | 2 divides k }$, so $abs(A) = 50$.
+  - Let $B = { k in [100] | 3 divides k }$, so $abs(B) = 33$.
+  - Their intersection $A intersect B = { k in [100] | 6 divides k }$ has $abs(A intersect B) = 16$.
   By inclusion--exclusion:
   $
     abs(A union B) = abs(A) + abs(B) - abs(A intersect B) = 50 + 33 - 16 = 67
@@ -3589,17 +3589,17 @@ We will work with three key examples:
     draw-node((0, 0), "bot", [$emptyset$])
 
     // Level 1
-    draw-node((-2, 1.3), "1", [$\{1\}$])
-    draw-node((0, 1.3), "2", [$\{2\}$])
-    draw-node((2, 1.3), "3", [$\{3\}$])
+    draw-node((-2, 1.3), "1", [${1}$])
+    draw-node((0, 1.3), "2", [${2}$])
+    draw-node((2, 1.3), "3", [${3}$])
 
     // Level 2
-    draw-node((-2, 2.6), "12", [$\{1,2\}$])
-    draw-node((0, 2.6), "13", [$\{1,3\}$])
-    draw-node((2, 2.6), "23", [$\{2,3\}$])
+    draw-node((-2, 2.6), "12", [${1,2}$])
+    draw-node((0, 2.6), "13", [${1,3}$])
+    draw-node((2, 2.6), "23", [${2,3}$])
 
     // Level 3
-    draw-node((0, 3.9), "top", [$\{1,2,3\}$])
+    draw-node((0, 3.9), "top", [${1,2,3}$])
 
     // Edges
     edge("bot", "1")
@@ -3618,7 +3618,7 @@ We will work with three key examples:
 ]
 
 The Boolean lattice $B_3 = (2^{[3]}, subset.eq)$:
-elements are subsets of $[3] = \{1, 2, 3\}$, ordered by inclusion.
+elements are subsets of $[3] = {1, 2, 3}$, ordered by inclusion.
 
 == The Divisor Lattice of 12
 
@@ -3712,7 +3712,7 @@ $pi <= sigma$ means every block of $pi$ is contained in a block of $sigma$.
   Let $cal(P) = (P, <=)$ be a poset and $x <= y$.
   The _interval_ $[x, y]$ is the set:
   $
-    [x, y] = \{z in P | x <= z <= y\}
+    [x, y] = {z in P | x <= z <= y}
   $
 ]
 
@@ -3721,11 +3721,11 @@ A poset is _locally finite_ if every interval is finite.
 #example[
   In the Boolean lattice $(2^{[3]}, subset.eq)$:
   $
-    [\{1\}, \{1,2,3\}] = \{\{1\}, \{1,2\}, \{1,3\}, \{1,2,3\}\}
+    [{1}, {1,2,3}] = {{1}, {1,2}, {1,3}, {1,2,3}}
   $
 
   In the divisor lattice of 12:
-  $[2, 12] = \{2, 4, 6, 12\}$
+  $[2, 12] = {2, 4, 6, 12}$
 ]
 
 == The Incidence Algebra --- Intuition
@@ -3745,7 +3745,7 @@ Think of it as _matrix multiplication_ restricted to intervals.
 #definition[
   Let $cal(P) = (P, <=)$ be a locally finite poset and $R$ a commutative ring.
   The _incidence algebra_ $I(cal(P); R)$ consists of functions
-  $f : \{(x, y) in P^2 | x <= y\} to R$
+  $f : { (x, y) in P^2 | x <= y } to R$
   with the _convolution product_:
   $
     (f * g)(x, y) = sum_(x <= z <= y) f(x, z) dot g(z, y)
@@ -3814,7 +3814,7 @@ $
 $
 
 #example[Möbius function on the chain $[3]$][
-  For the chain $(\{1, 2, 3\}, <=)$:
+  For the chain $({1, 2, 3}, <=)$:
   - $mu(1, 1) = 1$, $mu(2, 2) = 1$, $mu(3, 3) = 1$
   - $mu(1, 2) = -mu(1, 1) = -1$
   - $mu(2, 3) = -mu(2, 2) = -1$
@@ -3824,7 +3824,7 @@ $
 == Computing $mu$ on $B_2$
 
 Let us compute $mu$ for the Boolean lattice $B_2 = (2^{[2]}, subset.eq)$.
-The elements are $emptyset, \{1\}, \{2\}, \{1,2\}$.
+The elements are $emptyset, {1}, {2}, {1,2}$.
 
 #align(center)[
   #table(
@@ -3835,11 +3835,11 @@ The elements are $emptyset, \{1\}, \{2\}, \{1,2\}$.
     table.hline(stroke: 0.6pt),
     [$emptyset$], [$emptyset$], [$1$], [base case],
     table.hline(stroke: 0.2pt),
-    [$emptyset$], [$\{1\}$], [$-1$], [$-mu(emptyset, emptyset)$],
-    [$emptyset$], [$\{2\}$], [$-1$], [$-mu(emptyset, emptyset)$],
-    [$emptyset$], [$\{1,2\}$], [$1$], [$-(1 + (-1) + (-1))$],
-    [$\{1\}$], [$\{1,2\}$], [$-1$], [$-mu(\{1\}, \{1\})$],
-    [$\{2\}$], [$\{1,2\}$], [$-1$], [$-mu(\{2\}, \{2\})$],
+    [$emptyset$], [${1}$], [$-1$], [$-mu(emptyset, emptyset)$],
+    [$emptyset$], [${2}$], [$-1$], [$-mu(emptyset, emptyset)$],
+    [$emptyset$], [${1,2}$], [$1$], [$-(1 + (-1) + (-1))$],
+    [${1}$], [${1,2}$], [$-1$], [$-mu({1}, {1})$],
+    [${2}$], [${1,2}$], [$-1$], [$-mu({2}, {2})$],
   )
 ]
 
@@ -3960,8 +3960,8 @@ This is the _deep reason_ PIE works: it is a special case of a general algebraic
   How many _surjections_ $h : [k] to [n]$ are there?
 
   Define:
-  - $g(S) = abs(\{h : [k] to [n] | "image of" h "equals" S\})$ for $S subset.eq [n]$.
-  - $F(S) = abs(\{h : [k] to [n] | "image of" h subset.eq S\}) = abs(S)^k$.
+  - $g(S) = abs({h : [k] to [n] | "image of" h "equals" S})$ for $S subset.eq [n]$.
+  - $F(S) = abs({h : [k] to [n] | "image of" h subset.eq S}) = abs(S)^k$.
 
   Then $F(S) = sum_(T subset.eq S) g(T)$, i.e., $F = g * zeta$.
 
@@ -4069,7 +4069,7 @@ The convolution here is the classical _Dirichlet convolution_ of arithmetic func
 == Euler's Totient Function
 
 #example[
-  Define $phi(n) = abs(\{k in [n] | gcd(k, n) = 1\})$ --- Euler's totient function.
+  Define $phi(n) = abs({k in [n] | gcd(k, n) = 1})$ --- Euler's totient function.
 
   *Key identity:* every $k in [n]$ has $gcd(k, n) = d$ for a unique $d | n$.
   So $n = sum_(d | n) phi(d)$.
