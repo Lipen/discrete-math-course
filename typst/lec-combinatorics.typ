@@ -914,31 +914,33 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
   Let $X = {1,2,3,4}$, $k = 2$.
   There are 7 possible partitions:
 
-  #cetz.canvas({
-    import cetz.draw: *
-    let myfill = green.lighten(80%)
-    scale(50%)
-    set-style(stroke: 0.5pt)
-    for (b1, b2, b3, b4) in (
-      (true, false, false, false),
-      (true, true, false, false),
-      (true, false, true, false),
-      (true, false, false, true),
-      (true, true, true, false),
-      (true, true, false, true),
-      (true, false, true, true),
-    ) {
-      translate((3, 0))
-      rect((-1, 0), (0, 1), radius: (north-west: .5), fill: if b1 { myfill })
-      rect((0, 1), (1, 0), radius: (north-east: .5), fill: if b2 { myfill })
-      rect((0, -1), (1, 0), radius: (south-east: .5), fill: if b3 { myfill })
-      rect((-1, 0), (0, -1), radius: (south-west: .5), fill: if b4 { myfill })
-      content((-0.5, 0.5))[$1$]
-      content((0.5, 0.5))[$2$]
-      content((-0.5, -0.5))[$3$]
-      content((0.5, -0.5))[$4$]
-    }
-  })
+  #align(center)[
+    #cetz.canvas({
+      import cetz.draw: *
+      let myfill = green.lighten(80%)
+      scale(50%)
+      set-style(stroke: 0.5pt)
+      for (b1, b2, b3, b4) in (
+        (true, false, false, false),
+        (true, true, false, false),
+        (true, false, true, false),
+        (true, false, false, true),
+        (true, true, true, false),
+        (true, true, false, true),
+        (true, false, true, true),
+      ) {
+        translate((3, 0))
+        rect((-1, 0), (0, 1), radius: (north-west: .5), fill: if b1 { myfill })
+        rect((0, 1), (1, 0), radius: (north-east: .5), fill: if b2 { myfill })
+        rect((0, -1), (1, 0), radius: (south-east: .5), fill: if b3 { myfill })
+        rect((-1, 0), (0, -1), radius: (south-west: .5), fill: if b4 { myfill })
+        content((-0.5, 0.5))[$1$]
+        content((0.5, 0.5))[$2$]
+        content((-0.5, -0.5))[$3$]
+        content((0.5, -0.5))[$4$]
+      }
+    })
+  ]
 ]
 
 #theorem[
