@@ -1875,16 +1875,15 @@ A recurrence captures this decomposition _exactly_.
 
 #example[
   How many binary strings of length $n$ contain _no two consecutive_ 1s?
-  Let $b(n)$ denote the count.
+  Let $B(n)$ denote the count.
 
-  Consider the last bit of a valid string of length $n$:
-  - *Ends in 0:* the first $n - 1$ bits form any valid string of length $n - 1$, giving $b(n - 1)$ ways.
-  - *Ends in 1:* the previous bit must be 0, so the first $n - 2$ bits form any valid string of length $n - 2$, giving $b(n - 2)$ ways.
+  Look at the last bit of a valid string of length $n$:
+  - *Ends in 0:* the first $n - 1$ bits can be any valid string, that gives $B(n - 1)$ options.
+  - *Ends in 1:* then the bit before it _must_ be 0, so the first $n - 2$ bits can be any valid string, giving $B(n - 2)$ options.
 
-  Therefore $b(n) = b(n - 1) + b(n - 2)$, with $b(1) = 2$ and $b(2) = 3$.
+  Therefore $B(n) = B(n - 1) + B(n - 2)$, with $B(1) = 2$ and $B(2) = 3$.
 
   This is the _Fibonacci recurrence_ with shifted initial conditions.
-  Once we solve it (using the characteristic equation), we get a closed formula that avoids enumerating all $2^n$ strings.
 ]
 
 == Telescoping
