@@ -2022,7 +2022,7 @@ So $r^n$ is a solution precisely when $r$ is a root, and by linearity any linear
 
   *($arrow.l.double$) Suppose $a_n$ satisfies the recurrence.*
   We show $a_n$ _must_ be of the form $alpha_1 r_1^n + alpha_2 r_2^n$.
-  The recurrence and initial conditions $a_0, a_1$ determine the entire sequence: each $a_n$ is computed from $a_(n-1)$ and $a_(n-2)$.
+  The~recurrence and initial conditions $a_0, a_1$ determine the entire sequence: each $a_n$ is computed from $a_(n-1)$ and $a_(n-2)$.
   So it suffices to find $alpha_1, alpha_2$ such that $alpha_1 r_1^n + alpha_2 r_2^n$ matches the two initial values:
   $
     cases(
