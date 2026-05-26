@@ -2456,7 +2456,7 @@ $
       - Distinct: $alpha_1 r_1^n + alpha_2 r_2^n$
       - Repeated: $(alpha_1 + alpha_2 n) r_0^n$
       - Complex: $rho^n (alpha cos n theta + beta sin n theta)$
-      - Non-homogeneous: $a_n = a_n^("h") + a_n^("p")$
+      - Non-homogeneous: $a_n = a_n^(("h")) + a_n^(("p"))$
     ]
 
     #Block(color: purple, width: 100%)[
