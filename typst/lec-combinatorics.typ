@@ -1988,16 +1988,13 @@ If we try a solution of the form $a_n = r^n$ (with $r != 0$), substituting into 
   Each root yields a solution $a_n = r^n$.
 ]
 
-#note[
-  *Why does this work?*
-  Substituting $a_n = r^n$ into the recurrence gives
-  $
-    r^n = c_1 r^(n-1) + c_2 r^(n-2) + dots + c_k r^(n-k)
-  $
-  which, after dividing by $r^(n-k)$ (assuming $r != 0$), is exactly the characteristic equation.
-  So $r^n$ satisfies the recurrence _if and only if_ $r$ is a root.
-  By linearity, any _linear combination_ of such solutions is also a solution.
-]
+*Why guess $r^n$?*
+Plug $a_n = r^n$ into the recurrence:
+$
+  r^n = c_1 r^(n-1) + c_2 r^(n-2) + dots + c_k r^(n-k)
+$
+Divide by $r^(n-k)$ (assuming $r != 0$) and you get exactly the characteristic equation.
+So $r^n$ is a solution precisely when $r$ is a root, and by linearity any linear combination of such solutions works too.
 
 == Distinct Roots Case
 
