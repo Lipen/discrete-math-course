@@ -1870,8 +1870,8 @@ Solving one means finding a _closed-form_ formula that avoids recursion.
 
 == Recursive Structure
 
-Many combinatorial objects have _recursive structure_: a large instance can be decomposed into smaller instances of the same problem.
-A recurrence captures this decomposition _exactly_.
+Many combinatorial objects have _recursive structure_: a large instance decomposes into smaller instances of the same type.
+A recurrence is a formula that captures this decomposition.
 
 #example[
   How many binary strings of length $n$ contain _no two consecutive_ 1s?
@@ -2476,23 +2476,19 @@ $
 == Operators
 
 #definition[
-  _Operators_ are higher-order functions that transform functions into other functions.
+  An _operator_ takes a function and produces another function.
 
-  For example, differential and integral operators $d / (dif x)$ and $integral dif x$ are core operators in calculus.
-
-  In combinatorics, we are interested in the following three operators:
+  The three operators we need are:
   - _Sum_: $(f + g)(n) := f(n) + g(n)$
   - _Scale_: $(alpha dot f)(n) := alpha dot f(n)$
   - _Shift_: $(shift f)(n) := f(n + 1)$
 ]
 
 #examples[
-  - Scale and Shift operators are _linear_: $shift (f - 3 (g - h)) = shift f + (-3) shift g + 3 shift h$
-  - Operators are _composable_: $(shift - 2) f := shift f + (-2) f$
-  - $shift^2 f = shift (shift f)$
-  - $shift^k f (n) = f(n + k)$
-  - $(shift - 2)^2 = (shift - 2) (shift - 2)$
-  - $(shift - 1)(shift -2) = shift^2 - 3 shift + 2$
+  - _Linearity_: $shift (f + g) = shift f + shift g$, and $shift (3 f) = 3 dot shift f$.
+  - _Composition_: $(shift - 2) f := shift f - 2 f$.
+  - _Powers_: $shift^2 f (n) = f(n + 2)$, $shift^k f (n) = f(n + k)$.
+  - _Products_: $(shift - 2)^2 = shift^2 - 4 shift + 4$, $(shift - 1)(shift - 2) = shift^2 - 3 shift + 2$.
 ]
 
 == Applying Operators
@@ -3800,7 +3796,9 @@ A poset is _locally finite_ if every interval is finite.
 Think of it as _matrix multiplication_ restricted to intervals.
 
 #Block(color: blue, width: 100%)[
-  If we index the elements of $P$ as $x_1, x_2, dots$ with $x_i <= x_j$ implying $i <= j$, then each function $f$ corresponds to an _upper-triangular matrix_ $F$, and convolution $f * g$ corresponds to the matrix product $F G$.
+  Index the elements of $P$ as $x_1, x_2, dots$ so that $x_i <= x_j$ implies $i <= j$.
+
+  Then each function $f$ becomes an _upper-triangular matrix_ $F$, \ and convolution $f * g$ is just the matrix product $F G$.
 ]
 
 #note[
@@ -3811,6 +3809,7 @@ Think of it as _matrix multiplication_ restricted to intervals.
 
 #definition[
   Let $cal(P) = (P, <=)$ be a locally finite poset and $R$ a commutative ring.
+
   The _incidence algebra_ $I(cal(P); R)$ consists of functions
   $f : { (x, y) in P^2 | x <= y } to R$
   with the _convolution product_:
@@ -3820,7 +3819,7 @@ Think of it as _matrix multiplication_ restricted to intervals.
 ]
 
 #note[
-  For a finite poset with $n$ elements, $I(cal(P); R)$ is isomorphic to the algebra of $n times n$ upper-triangular matrices over $R$.
+  The incidence algebra of a poset with $n$ elements is just the algebra of $n times n$ upper-triangular matrices over $R$.
 ]
 
 == The Zeta Function
