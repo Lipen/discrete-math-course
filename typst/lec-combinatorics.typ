@@ -2446,7 +2446,7 @@ $
     #Block(color: blue, width: 100%)[
       *Recipe: characteristic equation*
 
-      Polynomial $arrow.r$ roots $arrow.r$ general solution (distinct / repeated / complex) $arrow.r$ fit initial conditions.
+      Polynomial $~~>$ roots $~~>$ general solution (distinct / repeated / complex) $~~>$ fit initial conditions.
     ]
   ],
   align(left + horizon)[
