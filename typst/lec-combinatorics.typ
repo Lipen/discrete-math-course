@@ -3504,7 +3504,7 @@ Throughout this course we have derived many counting formulas:
 They seem different.
 
 #Block(color: purple, width: 100%)[
-  But they are all instances of _one_ deep pattern: *Möbius inversion on partially ordered sets.*
+  But many of them are unified by _one_ deep pattern: *Möbius inversion on partially ordered sets.*
 ]
 
 == Inclusion--Exclusion Revisited
@@ -3667,8 +3667,8 @@ The divisor lattice of $12$: elements are divisors of $12 = 2^2 dot 3$, ordered 
 
     let draw-node(pos, name, label, fill-color: white) = {
       rect(
-        (pos.at(0) - 0.55, pos.at(1) - 0.22),
-        (pos.at(0) + 0.55, pos.at(1) + 0.22),
+        (pos.at(0) - 0.6, pos.at(1) - 0.22),
+        (pos.at(0) + 0.6, pos.at(1) + 0.22),
         fill: fill-color,
         stroke: 0.8pt,
         radius: 2pt,
@@ -3679,16 +3679,16 @@ The divisor lattice of $12$: elements are divisors of $12 = 2^2 dot 3$, ordered 
 
     let edge(a, b) = line(a, b, stroke: 0.7pt)
 
-    // Level 0: one block
-    draw-node((0, 0), "bot", text(size: 0.85em)[123])
+    // Level 0: finest partition (minimum under refinement)
+    draw-node((0, 0), "bot", text(size: 0.85em)[1|2|3])
 
     // Level 1: two blocks
     draw-node((-1.8, 1.3), "a", text(size: 0.75em)[12|3])
     draw-node((0, 1.3), "b", text(size: 0.75em)[13|2])
     draw-node((1.8, 1.3), "c", text(size: 0.75em)[23|1])
 
-    // Level 2: three blocks
-    draw-node((0, 2.6), "top", text(size: 0.75em)[1|2|3])
+    // Level 2: coarsest partition (maximum)
+    draw-node((0, 2.6), "top", text(size: 0.85em)[123])
 
     edge("bot", "a")
     edge("bot", "b")
@@ -3701,6 +3701,10 @@ The divisor lattice of $12$: elements are divisors of $12 = 2^2 dot 3$, ordered 
 
 The partition lattice $Pi_3$: elements are partitions of $[3]$, ordered by refinement.
 $pi <= sigma$ means every block of $pi$ is contained in a block of $sigma$.
+
+#note[
+  The partition lattice connects to Stirling numbers: $s2(n, k)$ counts the elements of $Pi_n$ with exactly $k$ blocks. We will use this in the Twelvefold Way.
+]
 
 == Intervals
 
@@ -3724,13 +3728,19 @@ A poset is _locally finite_ if every interval is finite.
   $[2, 12] = \{2, 4, 6, 12\}$
 ]
 
-== The Incidence Algebra
+== The Incidence Algebra --- Intuition
 
 Think of it as _matrix multiplication_ restricted to intervals.
 
 #Block(color: blue, width: 100%)[
   If we index the elements of $P$ as $x_1, x_2, dots$ with $x_i <= x_j$ implying $i <= j$, then each function $f$ corresponds to an _upper-triangular matrix_ $F$, and convolution $f * g$ corresponds to the matrix product $F G$.
 ]
+
+#note[
+  This matrix viewpoint is the key intuition: the incidence algebra is simply the algebra of upper-triangular matrices, restricted to pairs $(x, y)$ with $x <= y$.
+]
+
+== The Incidence Algebra --- Definition
 
 #definition[
   Let $cal(P) = (P, <=)$ be a locally finite poset and $R$ a commutative ring.
@@ -3768,6 +3778,12 @@ $
 $
 
 The zeta function encodes the relation "sum over everything below."
+
+#note[
+  Here $g : P to R$ is a function on elements, while $*$ was defined for interval functions on pairs.
+  We identify $g$ with the diagonal interval function $g(x, y) = g(x) dot delta(x, y)$,
+  so the convolution is a matrix-vector product.
+]
 
 == The Möbius Function
 
@@ -3849,6 +3865,8 @@ summing $mu(x, z)$ over $[x, y]$ yields 1 if $x = y$ and 0 otherwise.
 
 In words: if $f$ counts "everything below" $g$, then $mu$ tells you how to _recover_ $g$ from $f$.
 
+== Proof of the Inversion Formula
+
 #proof[
   ($arrow.r$) Suppose $f(x) = sum_(y <= x) g(y) = (g * zeta)(x)$.
   Convolve both sides with $mu$:
@@ -3864,10 +3882,13 @@ In words: if $f$ counts "everything below" $g$, then $mu$ tells you how to _reco
 
 == The Big Picture
 
-#Block(color: blue, width: 100%)[
-  *The pattern:*
-
-  $g(x) =>^("sum over") f(x) =>^("multiply by $mu$") g(x)$
+#align(center)[
+  #Block(color: blue, width: 100%)[
+    #set text(size: 1.2em)
+    #align(center)[
+      $g(x) =>^("sum over") f(x) =>^("multiply by $mu$") g(x)$
+    ]
+  ]
 ]
 
 - $zeta$ _aggregates_ (sums up) --- it creates overcounts.
@@ -3934,6 +3955,8 @@ This is the _deep reason_ PIE works: it is a special case of a general algebraic
 == Counting Surjections
 
 #example[
+  *Note:* in this example, $k$ is the domain size and $n$ is the codomain --- the opposite of the Twelvefold Way convention ($n$ = balls, $k$ = boxes) used later.
+
   How many _surjections_ $h : [k] to [n]$ are there?
 
   Define:
@@ -3952,12 +3975,35 @@ This is the _deep reason_ PIE works: it is a special case of a general algebraic
   This is exactly the PIE formula for surjections that we derived earlier!
 ]
 
-#note[
-  Note: here $k$ is the domain size and $n$ is the codomain --- the opposite of the Twelvefold Way convention ($n$ = balls, $k$ = boxes) used later.
-]
+== Computing $mu$ on the Divisor Lattice
 
-The same idea extends to any poset.
-Let us see the most famous example: the divisor lattice from number theory.
+Before stating the general formula, let us compute $mu$ on the divisor lattice of 12.
+
+#example[
+  Divisors of $12 = 2^2 dot 3$: $1, 2, 3, 4, 6, 12$.
+
+  Using the recursion $mu(1, d) = -sum_(c | d,\ c < d) mu(1, c)$:
+
+  #align(center)[
+    #table(
+      columns: 3,
+      align: center,
+      stroke: 0.4pt,
+      table.header([$d$], [$mu(1, d)$], [Computation]),
+      table.hline(stroke: 0.6pt),
+      [$1$], [$1$], [base case],
+      table.hline(stroke: 0.2pt),
+      [$2$], [$-1$], [$-mu(1,1)$],
+      [$3$], [$-1$], [$-mu(1,1)$],
+      [$4$], [$0$], [$-(1 + (-1))$],
+      [$6$], [$1$], [$-(1 + (-1) + (-1))$],
+      [$12$], [$0$], [$-(1 - 1 - 1 + 0 + 1)$],
+    )
+  ]
+
+  Notice: $mu(d) = 0$ when $d$ has a squared prime factor ($4 = 2^2$, $12 = 2^2 dot 3$),
+  and $mu(d) = (-1)^k$ when $d$ is a product of $k$ distinct primes.
+]
 
 == The Classical Möbius Function
 
@@ -3992,9 +4038,13 @@ Consider the divisor lattice $cal(P) = (ZZ^+, |)$.
 
 The identity $mu(a, b) = mu(b \/ a)$ holds because the interval $[a, b]$ in the divisor lattice is isomorphic to the divisor lattice of $b \/ a$.
 
+== The Classical Möbius Function --- Examples
+
 #example[
   $mu(1) = 1$, $mu(2) = -1$, $mu(3) = -1$, $mu(4) = 0$ (since $4 = 2^2$), $mu(6) = mu(2 dot 3) = 1$, $mu(30) = mu(2 dot 3 dot 5) = -1$.
 ]
+
+These match the computations from the divisor lattice of 12.
 
 == Number-Theoretic Möbius Inversion
 
@@ -4027,12 +4077,30 @@ The convolution here is the classical _Dirichlet convolution_ of arithmetic func
   By Möbius inversion:
   $
     phi(n) & = sum_(d | n) mu(d) dot n \/ d \
-           & = n dot sum_(d | n) mu(d) \/ d \
-           & = n dot product_(p | n, p "prime") (1 - 1 \/ p)
+           & = n dot sum_(d | n) mu(d) \/ d
+  $
+]
+
+== The Product Formula for $phi(n)$
+
+The sum $sum_(d | n) mu(d) \/ d$ simplifies to a product over prime divisors.
+
+#example[
+  For $n = 30 = 2 dot 3 dot 5$, expanding $(1 - 1\/2)(1 - 1\/3)(1 - 1\/5)$:
+  $
+    1 - 1\/2 - 1\/3 - 1\/5 + 1\/6 + 1\/10 + 1\/15 - 1\/30
   $
 
-  Since $mu$ vanishes on non-square-free divisors, only square-free $d$ survive.
-  Expanding the product $product_(p | n)(1 - 1\/p)$ and collecting terms gives exactly $sum_(d | n) mu(d) \/ d$.
+  Each denominator $d$ appears with sign $mu(d)$: $mu(1) = 1$, $mu(2) = mu(3) = mu(5) = -1$, $mu(6) = mu(10) = mu(15) = 1$, $mu(30) = -1$.
+  This is exactly $sum_(d | 30) mu(d) \/ d$.
+]
+
+In general, only square-free divisors survive (since $mu(d) = 0$ otherwise), and expanding $product_(p | n)(1 - 1\/p)$ produces exactly $sum_(d | n) mu(d) \/ d$.
+
+#Block(color: blue, width: 100%)[
+  $
+    phi(n) = n dot product_(p | n, p "prime") (1 - 1 \/ p)
+  $
 ]
 
 == Euler's Totient --- Example
@@ -4046,9 +4114,18 @@ The convolution here is the classical _Dirichlet convolution_ of arithmetic func
   The four numbers coprime to 12 are $1, 5, 7, 11$. $checkmark$
 ]
 
-We have seen Möbius inversion on the Boolean lattice (giving PIE) and on the divisor lattice (giving number theory).
-The partition lattice $Pi_n$ provides a third family, connecting to Stirling numbers.
-Now let us see how all of this organizes _everything_ into one table.
+== From Möbius to the Twelvefold Way
+
+We have seen Möbius inversion on three posets:
+
+#Block(color: blue, width: 100%)[
+  - *Boolean lattice* $(2^{[n]}, subset.eq)$ $arrow.r$ PIE, surjections, Stirling numbers
+  - *Divisor lattice* $(ZZ^+, |)$ $arrow.r$ Möbius function, Euler's totient
+  - *Partition lattice* $Pi_n$ $arrow.r$ set partitions, Stirling numbers
+]
+
+Each poset explains a different aspect of counting.
+Now we will see how _all_ basic counting problems organize into a single table: *The Twelvefold Way*.
 
 = The Twelvefold Way
 
@@ -4263,28 +4340,6 @@ This is the theory of _integer partitions_.
 
 Here $p_j(n)$ denotes the number of integer partitions of $n$ into exactly $j$ parts.
 
-== The Twelvefold Way
-
-#align(center)[
-  #table(
-    columns: 5,
-    align: (center, center, center, center, center),
-    stroke: 0.6pt,
-    fill: (_, row) => if row >= 1 and calc.rem(row, 2) == 0 { luma(245) },
-    table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
-    // Row 1: N distinct, K distinct
-    [*Distinct*], [*Distinct*], $k^n$, $(k)_n$, $k! s2(n, k)$,
-    // Row 2: N indistinct, K distinct
-    [*Indist.*], [*Distinct*], $binom(n+k-1, n)$, $binom(k, n)$, $binom(n-1, k-1)$,
-    // Row 3: N distinct, K indistinct
-    [*Distinct*], [*Indist.*], $sum_(j=1)^k s2(n, j)$, $[n <= k]$, $s2(n, k)$,
-    // Row 4: N indistinct, K indistinct
-    [*Indist.*], [*Indist.*], $sum_(j=1)^k p_j(n)$, $[n <= k]$, $p_k(n)$,
-  )
-]
-
-All formulas assume $n, k >= 1$.
-
 == From Unrestricted to Surjective
 
 The surjective column is obtained from the unrestricted column by Möbius inversion on the _Boolean lattice_.
@@ -4320,6 +4375,30 @@ For _surjective_ arrangements, every placement becomes one of $k!$ equivalent ar
 
   More generally, this "forget labels" operation is governed by the Möbius function of the _partition lattice_ $Pi_k$.
 ]
+
+== The Twelvefold Way
+
+#align(center)[
+  #text(size: 0.92em)[
+    #table(
+      columns: 5,
+      align: (center, center, center, center, center),
+      stroke: 0.6pt,
+      fill: (_, row) => if row >= 1 and calc.rem(row, 2) == 0 { luma(245) },
+      table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
+      // Row 1: N distinct, K distinct
+      [*Distinct*], [*Distinct*], $k^n$, $(k)_n$, $k! s2(n, k)$,
+      // Row 2: N indistinct, K distinct
+      [*Indist.*], [*Distinct*], $binom(n+k-1, n)$, $binom(k, n)$, $binom(n-1, k-1)$,
+      // Row 3: N distinct, K indistinct
+      [*Distinct*], [*Indist.*], $sum_(j=1)^k s2(n, j)$, $[n <= k]$, $s2(n, k)$,
+      // Row 4: N indistinct, K indistinct
+      [*Indist.*], [*Indist.*], $sum_(j=1)^k p_j(n)$, $[n <= k]$, $p_k(n)$,
+    )
+  ]
+]
+
+All formulas hold for the standard non-degenerate cases $n, k >= 1$.
 
 == Rota's Vision
 
