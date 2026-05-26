@@ -1953,13 +1953,6 @@ Before reaching for characteristic equations, try the simplest approach: _unwind
   Setting $k = n - 1$: $T(n) = 2^(n-1) T(1) + 2^(n-1) - 1 = 2^n - 1$.
 ]
 
-#place[
-  #v(1em)
-  #note[
-    Telescoping works well for first-order recurrences.
-    For higher orders and constant-coefficient recurrences, we need more systematic methods.
-  ]
-]
 
 == Linear Homogeneous Recurrence Relations
 
