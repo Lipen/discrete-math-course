@@ -47,3 +47,13 @@ akra1998:
     title: Computational Optimization and Applications
     issue: 2
     volume: 10
+
+stanley2011:
+  type: book
+  title:
+    value: "Enumerative Combinatorics, {Volume} 1"
+    short: Enumerative Combinatorics
+  author: Stanley, Richard P.
+  date: 2011
+  edition: 2
+  page-total: 626
