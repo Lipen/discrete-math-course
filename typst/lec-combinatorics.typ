@@ -1530,7 +1530,7 @@ $
   $
     A(x) = (1 + 2 dot x / (1-x)) / (1-x) = (1-x + 2x) / (1-x)^2 = (1+x) / (1-x)^2
   $
-  Check: $(1+x) / (1-x)^2 = (1,1,1,dots) + (0,2,4,6,8,dots) = (1,3,5,7,9,dots)$. #YES
+  Check: $display((1+x) / (1-x)^2) = (1,1,1,dots) + (0,2,4,6,8,dots) = (1,3,5,7,9,dots)$ #YES
 ]
 
 #pagebreak()
@@ -1552,7 +1552,7 @@ $
   $
   Every column beyond $x^0$ vanishes because $a_n - 3 a_(n-1) + 2 a_(n-2) = 0$ by the recurrence.
 
-  Thus $display(A(x) = 1 / (1 - 3x + 2x^2))$.
+  Thus, $display(A(x) = 1 / (1 - 3x + 2x^2))$
 ]
 
 == Solving Combinatorial Problems via Generating Functions
