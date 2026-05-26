@@ -1744,7 +1744,7 @@ where $binom(n, k) = 0$ for $k > n$.
 #example[
   Consider the number "$-7 \/ 2$ choose $5$":
   $
-    binom(-7 \/ 2, 5) = (-7 \/ 2 dot -9 \/ 2 dot -11 \/ 2 dot -13 \/ 2 dot -15 \/ 2) / 5! = - 9009 / 256
+    binom(-7 \/ 2, 5) = (-7 \/ 2 dot -9 \/ 2 dot -11 \/ 2 dot -13 \/ 2 dot -15 \/ 2) / 5! = - 9009 / 256 approx -35
   $
 ]
 
