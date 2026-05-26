@@ -2322,18 +2322,18 @@ The entire theory mirrors the continuous case.
   If $\(a_n^(("p")))$ is a _particular_ solution of the non-homogeneous recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k) + F(n)$, then _every solution_ is of the form $a_n = a_n^(("p")) + a_n^(("h"))$, where $a_n^(("h"))$ is a solution of the associated homogeneous recurrence.
 ]
 
-The recipe: (1) solve the homogeneous part, (2) find a particular solution by guessing a form matching $F(n)$, (3) add them, (4) fit initial conditions.
+The recipe: (1)~solve the homogeneous part, (2)~find a particular solution by guessing a form matching $F(n)$, (3)~add them, (4)~fit initial conditions.
 
 #example[
   Find all solutions of $a_n = 3 a_(n-1) + 2n$ with $a_1 = 3$.
 
   _Homogeneous part:_ $a_n^(("h")) = alpha 3^n$.
 
-  _Particular solution:_ $F(n) = 2n$ is degree-1 polynomial, so try $p_n = c n + d$.
-  Substituting: $c n + d = 3(c(n-1) + d) + 2n$.
+  _Particular solution:_ $F(n) = 2n$ is degree-1 polynomial, so try $p_n = c n + d$. \
+  Substituting: $c n + d = 3(c(n-1) + d) + 2n$. \
   Equating coefficients: $c = -1$, $d = -3/2$. So $a_n^(("p")) = -n - 3/2$.
 
-  _General solution:_ $a_n = -n - 3/2 + alpha 3^n$.
+  _General solution:_ $a_n = a_n^(("p")) + a_n^(("h")) = -n - 3/2 + alpha 3^n$.
 
   With $a_1 = 3$: $alpha = 11/6$, giving $a_n = -n - 3/2 + (11/6) 3^n$.
 ]
