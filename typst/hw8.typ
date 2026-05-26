@@ -199,3 +199,171 @@ For example, a 6-digit ticket $345\,264$ is lucky since $3 + 4 + 5 = 2 + 6 + 4$.
   + Find the generating function for the number of $2 n$-digit lucky tickets.
   + Find a closed formula for the number of $2 n$-digit lucky tickets.
 ]
+
+
+#pagebreak()
+
+#align(center)[
+  #set text(1.2em, weight: "bold")
+  Optional Bonus Problems
+]
+
+#Block[
+  The following problems are _"optional"_.
+  They require programming and/or deeper theory.
+  They~will _not_ count toward your grade but _may_ earn bonus points and genuine understanding.
+]
+
+
+== Problem A: The Fibonacci Zoo #h(1fr)#TagBonus
+
+In 1202, Leonardo of Pisa --- known as _Fibonacci_ --- posed a simple question about rabbit breeding.
+The resulting sequence $0, 1, 1, 2, 3, 5, 8, 13, 21, dots$ appears in sunflower spirals, pinecone bracts,
+and the worst-case height of AVL trees.
+But beneath the familiar $F_n = (phi^n - psi^n) \/ sqrt(5)$ lies a zoo of surprising phenomena.
+
+#Box[
+  *Fibonacci recurrence.* $F_0 = 0$, $F_1 = 1$, $F_n = F_(n-1) + F_(n-2)$ for $n >= 2$.
+  Binet: $F_n = frac(phi^n - psi^n, sqrt(5))$ where $phi = frac(1 + sqrt(5), 2)$, $psi = frac(1 - sqrt(5), 2)$.
+]
+
+#tasklist("probA")[
+  + *Pisano periods.*
+    Reduce every Fibonacci number modulo $m$ and the remainders _always become periodic_.
+    This period $pi(m)$ is the #link("https://en.wikipedia.org/wiki/Pisano_period")[_Pisano period_] --- nobody has a closed formula for it.
+    - Compute $pi(m)$ for $m = 2, 3, 4, 5, 6, 7, 8, 9, 10, 100$ by brute force.
+    - Prove: if $p$ is prime and $p equiv plus.minus 1 thin (mod thin 5)$, then $pi(p)$ divides $p - 1$.
+      (Apply Fermat's little theorem to Binet's formula.)
+    - The last digit of $F_n$ repeats every 60 terms.
+      Explain why $pi(10) = "lcm"(pi(2), pi(5))$ and compute $pi(2)$, $pi(5)$.
+
+  + *Zeckendorf: every number is a sum of non-consecutive Fibonaccis.*
+    Zeckendorf (1939): _every_ positive integer has a _unique_ representation
+    as a sum of non-consecutive Fibonacci numbers (from $F_2 = 1$).
+    For example, $100 = 89 + 8 + 3 = F_(11) + F_6 + F_4$.
+    - Prove that the greedy algorithm (always take the largest $F_k <= N$, subtract, repeat)
+      never selects two consecutive Fibonacci numbers.
+      (If it picks $F_k$ and $F_(k-1)$, then $F_k + F_(k-1) = F_(k+1)$ --- contradiction.)
+    - Prove uniqueness: two different non-consecutive subsets of ${F_2, F_3, dots}$
+      cannot sum to the same $N$.
+    - Implement the greedy algorithm. Write the Zeckendorf representation of $42$, $100$, and $2025$.
+
+  + *Fibonacci coding: turning Zeckendorf into a prefix code.*
+    Write the Zeckendorf representation in reverse binary (bit $i$ = 1 iff $F_(i+2)$ is used), then append an extra `1`.
+    The `11` suffix is a unique terminator --- no codeword is a prefix of another,
+    so you can concatenate messages without delimiters.
+    - Encode `"HELLO"` ($A to 1, dots, Z to 26$) using Fibonacci coding.
+      Compare total bits with $5 times 5 = 25$ bits of fixed-width encoding.
+    - Prove prefix-freeness: every codeword ends in `11` and no Zeckendorf representation has consecutive 1-bits.
+
+  + *Four ways to compute $F_n$ --- and which one actually works at scale.*
+    For $n = 10^(18)$ a simple loop takes 30 years, yet competitive programmers solve this in milliseconds.
+    Implement all four methods and compare:
+    - *Iterative* ($O(n)$): fine for $n = 10^6$, hopeless for $n = 10^(18)$.
+    - *Matrix exponentiation* ($O(log n)$): $F_n$ is the corner of $mat(1,1; 1,0)^n$, computed by repeated squaring.
+    - *Fast doubling* ($O(log n)$): $F_(2 n) = F_n (2 F_(n+1) - F_n)$, $F_(2 n + 1) = F_n^2 + F_(n+1)^2$ --- no matrices needed.
+    - *Binet's formula* ($O(1)$ in theory): $F_n = round(phi^n \/ sqrt(5))$.
+      Floating-point precision collapses around $n ~ 70$.
+      Find the exact $n$ where it first gives a wrong answer and explain why.
+    - Compute $F_(10^(18)) thin "mod" thin (10^9 + 7)$, benchmark all methods.
+]
+
+
+== Problem B: Euler's Pentagonal Magic #h(1fr)#TagBonus
+
+In 1741, Euler wrote to Berlin claiming an impossible identity: the infinite product
+$(1 - x)(1 - x^2)(1 - x^3) \cdots$ should have coefficients everywhere,
+but when expanded, _almost all vanish_ --- the only nonzero ones sit at the positions
+$1, 2, 5, 7, 12, 15, 22, 26, dots$, known as _pentagonal numbers_ $k(3k - 1) \/ 2$.
+From this single identity, Euler derived a recurrence for $p(n)$, the number of partitions of $n$.
+A century and a half later, Ramanujan discovered that $p(5k + 4)$ is always divisible by 5,
+and $p(7k + 5)$ by 7.
+This problem follows the thread from Euler's product to Ramanujan's congruences.
+
+#Box[
+  *Euler's pentagonal number theorem.*
+  $ product_(k=1)^infinity (1 - x^k) = sum_(k=-infinity)^infinity (-1)^k x^(k(3k-1)\/2) = 1 - x - x^2 + x^5 + x^7 - x^12 - x^15 + dots $
+  *Partition generating function.*
+  $ sum_(n=0)^infinity p(n) x^n = product_(k=1)^infinity frac(1, 1 - x^k) $
+  where $p(n)$ counts the ways to write $n$ as a sum of positive integers in non-increasing order.
+]
+
+#tasklist("probB")[
+  + *Vanishing coefficients and the partition GF.*
+    Expand $(1 - x)(1 - x^2) \cdots (1 - x^{30})$ and inspect the coefficients:
+    they are only $0, +1, -1$, and the nonzero indices form the sequence
+    $1, 2, 5, 7, 12, 15, 22, 26, dots$
+    - Verify that these are exactly $k(3k - 1) \/ 2$ for $k = plus.minus 1, plus.minus 2, plus.minus 3, dots$
+      and that the sign at index $k(3k-1)\/2$ is $(-1)^k$.
+      Does the coefficient of $x^n$ vanish for _every_ $n$ that is _not_ a pentagonal number?
+    - The partition GF is $sum_(n=0)^infinity p(n) x^n = product_(k=1)^infinity frac(1, 1 - x^k)$.
+      Why? Each factor $frac(1, 1-x^k) = 1 + x^k + x^(2 k) + dots$ counts how many times
+      part $k$ appears. Multiply 20 factors and read off $p(1)$ through $p(20)$.
+      Verify: $p(5) = 7$.
+
+  + *Euler's recurrence for $p(n)$.*
+    Multiply the pentagonal theorem by the partition GF:
+    $ 1 = lr(sum_k (-1)^k x^(k(3k-1)\/2)) lr(sum_n p(n) x^n) $
+    For $n >= 1$, the coefficient of $x^n$ on the right must vanish.
+    Setting it to zero gives a recurrence with pentagonal-number offsets:
+    $ p(n) = p(n - 1) + p(n - 2) - p(n - 5) - p(n - 7) + p(n - 12) + p(n - 15) - dots $
+    (signs alternate in pairs, negative indices treated as zero).
+    - Implement this recurrence and compute $p(n)$ for $n = 0, dots, 100$.
+      Verify $p(10) = 42$, $p(50) = 204226$, $p(100) = 190569292$.
+
+  + *Ramanujan's congruences.*
+    Ramanujan proved:
+    $p(5k + 4) equiv 0 thin (mod thin 5)$,
+    $p(7k + 5) equiv 0 thin (mod thin 7)$,
+    $p(11k + 6) equiv 0 thin (mod thin 11)$.
+    Verify all three for $k = 0, 1, dots, 50$ using your recurrence.
+
+  + *The Hardy--Ramanujan asymptotic.*
+    Hardy and Ramanujan (1918) proved: $p(n) sim frac(1, 4 n sqrt(3)) exp(pi sqrt(2 n \/ 3))$.
+    Compute $p(n)$ exactly via the recurrence and compare with the asymptotic formula
+    for $n = 5, 20, 50, 100, 500, 1000$. Plot the relative error.
+    How many digits does the asymptotic get right for $p(1000)$?
+]
+
+
+== Problem C: Linear Recurrence Solver #h(1fr)#TagBonus
+
+You've solved recurrences by hand --- characteristic polynomials, partial fractions, careful algebra.
+Now build a _tool_ that does it automatically: from recurrence to closed form, and from closed form to
+$a_n$ for $n = 10^(18)$ in milliseconds.
+
+#Box[
+  *Companion matrix.* $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ becomes
+  $ vec(bold(v)_n) = mat(c_1, c_2, dots, c_k; 1, 0, dots, 0; dots.v, , dots.down, dots.v; 0, dots, 1, 0) vec(bold(v)_(n-1)) $
+  Repeated squaring computes $a_n$ in $O(k^3 log n)$ time.
+]
+
+#tasklist("probC")[
+  + *Characteristic polynomial pipeline.*
+    Given a recurrence and initial conditions, produce the closed form:
+    (1) characteristic polynomial from coefficients,
+    (2) all roots (complex, repeated, or both),
+    (3) solve a linear system for coefficients from initial conditions,
+    (4) assemble $a_n = sum_i p_i (n) r_i^n$ where $p_i$ has degree one less than the multiplicity of $r_i$.
+    Test on every recurrence from Problem~1 --- verify the first 10 terms.
+
+  + *Matrix exponentiation: when you need the number, not the formula.*
+    Implement repeated squaring and compute:
+    - $F_(100)$ (Fibonacci). Verify.
+    - $F_(10^(18)) thin "mod" thin (10^9 + 7)$.
+      If your code runs more than a second, something is wrong.
+    - Problem~1(d): $a_n = 4 a_(n-1) + 5 a_(n-2)$, $a_0 = 1, a_1 = 17$.
+      Compute $a_(10^(15)) thin "mod" thin (10^9 + 7)$.
+      Benchmark against $O(n)$ iteration --- where is the crossover?
+
+  + *Complex roots and repeated roots.*
+    A toy solver handles distinct real roots. A real solver handles everything:
+    - *Complex roots:* $a_n = -a_(n-2)$, $a_0 = 0, a_1 = 1$ gives $a_n = sin(n pi \/ 2)$.
+    - *Repeated roots:* Problem~1(e) has a double root at $r = 2$, producing $n dot 2^n$.
+    For each case, verify against brute-force for the first 20 terms.
+
+  + *Applications.* Find a recurrence for the number of domino tilings of a $3 times n$ board
+    (compute small cases, spot the pattern), then use your solver for the closed form.
+    Also compute $T_(10^(12)) thin "mod" thin (10^9 + 7)$ for the Tribonacci sequence
+    $T_n = T_(n-1) + T_(n-2) + T_(n-3)$, $T_0 = 0, T_1 = 0, T_2 = 1$.
+]
