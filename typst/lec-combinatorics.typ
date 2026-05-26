@@ -3916,7 +3916,7 @@ Consider the Boolean lattice $cal(P) = (2^{[n]}, subset.eq)$.
 #proof[
   By strong induction on $d = abs(B) - abs(A)$.
 
-  *Base* ($d = 0$): $A = B$, so $mu(A, A) = 1 = (-1)^0$. $checkmark$
+  *Base* ($d = 0$): $A = B$, so $mu(A, A) = 1 = (-1)^0$. #YES
 
   *Inductive step:* For $A subset B$ with $abs(B) - abs(A) = d >= 1$:
   $
@@ -3932,7 +3932,7 @@ Consider the Boolean lattice $cal(P) = (2^{[n]}, subset.eq)$.
     & = -(sum_(i = 0)^d binom(d, i)(-1)^i - (-1)^d) \
     & = -(0 - (-1)^d) = (-1)^d
   $
-  since $(1 - 1)^d = 0$ for $d >= 1$. $checkmark$
+  since $(1 - 1)^d = 0$ for $d >= 1$. #YES
 ]
 
 == PIE as Möbius Inversion
@@ -4024,7 +4024,7 @@ Consider the divisor lattice $cal(P) = (ZZ^+, |)$.
 #proof[
   We need $sum_(d | n) mu(d) = cases(1 & "if" n = 1, 0 & "if" n > 1)$.
 
-  *Case $n = 1$:* $sum_(d | 1) mu(d) = mu(1) = 1$. $checkmark$
+  *Case $n = 1$:* $sum_(d | 1) mu(d) = mu(1) = 1$. #YES
 
   *Case $n > 1$:* Let $n = p_1^(a_1) dots p_r^(a_r)$.
   Divisors with a squared factor have $mu(d) = 0$, so only _square-free_ divisors contribute:
@@ -4111,7 +4111,7 @@ In general, only square-free divisors survive (since $mu(d) = 0$ otherwise), and
     phi(12) = 12 dot (1 - 1\/2)(1 - 1\/3) = 12 dot 1\/2 dot 2\/3 = 4
   $
 
-  The four numbers coprime to 12 are $1, 5, 7, 11$. $checkmark$
+  The four numbers coprime to 12 are $1, 5, 7, 11$. #YES
 ]
 
 == From Möbius to the Twelvefold Way
@@ -4185,7 +4185,7 @@ Total: $2 times 2 times 3 = 12$ cases.
     )
   ]
 
-  Answer: $k! s2(n, k) = 2! dot s2(2, 2) = 2 dot 1 = 2$. $checkmark$
+  Answer: $k! s2(n, k) = 2! dot s2(2, 2) = 2 dot 1 = 2$. #YES
 ]
 
 #example[
@@ -4193,7 +4193,7 @@ Total: $2 times 2 times 3 = 12$ cases.
 
   Each box gets $>= 1$, so we need compositions of 3 into 2 positive parts: $3 = 1 + 2 = 2 + 1$.
 
-  Answer: $binom(n-1, k-1) = binom(2, 1) = 2$. $checkmark$
+  Answer: $binom(n-1, k-1) = binom(2, 1) = 2$. #YES
 ]
 
 == Distinct Balls, Distinct Boxes
