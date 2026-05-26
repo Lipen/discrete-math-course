@@ -3491,7 +3491,7 @@ Throughout this course we have derived many counting formulas:
     - Multiplication principle: $k^n$
     - Permutations: $n! \/ (n-k)!$
     - Combinations: $binom(n, k)$
-    - Stars and bars: $binom(n+k-1, k)$
+    - Stars and bars: $binom(n+k-1, n)$
   ],
   Block(color: orange, width: 100%)[
     - Stirling numbers: $s2(n, k)$
@@ -3502,8 +3502,10 @@ Throughout this course we have derived many counting formulas:
 )
 
 They seem different.
-But they are all instances of _one_ deep pattern: \
-*Möbius inversion on partially ordered sets.*
+
+#Block(color: purple, width: 100%)[
+  But they are all instances of _one_ deep pattern: *Möbius inversion on partially ordered sets.*
+]
 
 == Inclusion--Exclusion Revisited
 
@@ -3513,12 +3515,14 @@ Recall the Principle of Inclusion--Exclusion:
   $ abs(X setminus (X_1 union dots union X_m)) = sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S)) $
 ]
 
+where $N(S) = inter_(i in S) X_i$ (and $N(emptyset) = X$).
+
 Where does the alternating sign $(-1)^abs(S)$ come from?
 
 It is not arbitrary --- it is determined by the _structure of the poset_ $(2^{[m]}, subset.eq)$.
-We will see that every poset has a built-in "correction function" (the _Möbius function_), and for the Boolean lattice it happens to be $(-1)^(abs(T) - abs(S))$.
+Every poset has a built-in "correction function" (the _Möbius function_), and for the Boolean lattice it happens to be $(-1)^(abs(T) - abs(S))$.
 
-Can we _generalize_ this idea to other posets?
+Can we _generalize_ this to other posets?
 Yes --- that is exactly *Möbius inversion*.
 
 == Posets
@@ -3564,7 +3568,7 @@ We will work with three key examples:
 == The Boolean Lattice $B_3$
 
 #align(center)[
-  #cetz.canvas(length: 0.85cm, {
+  #cetz.canvas(length: 1cm, {
     import cetz.draw: *
 
     let draw-node(pos, name, label, fill-color: white) = {
@@ -3576,7 +3580,7 @@ We will work with three key examples:
         radius: 2pt,
         name: name,
       )
-      content(name, text(size: 0.7em)[#label])
+      content(name, text(size: 0.8em)[#label])
     }
 
     let edge(a, b) = line(a, b, stroke: 0.7pt)
@@ -3633,11 +3637,11 @@ elements are subsets of $[3] = \{1, 2, 3\}$, ordered by inclusion.
     draw-node((0, 0), "n1", [$1$])
 
     // Level 1 (primes)
-    draw-node((-1.5, 1.3), "n2", [$2$])
-    draw-node((0, 1.3), "n3", [$3$])
+    draw-node((-1.3, 1.3), "n2", [$2$])
+    draw-node((1.3, 1.3), "n3", [$3$])
 
     // Level 2 (composite)
-    draw-node((-1.5, 2.6), "n4", [$4$])
+    draw-node((-1.3, 2.6), "n4", [$4$])
     draw-node((0, 2.6), "n6", [$6$])
 
     // Level 3
@@ -3654,6 +3658,49 @@ elements are subsets of $[3] = \{1, 2, 3\}$, ordered by inclusion.
 ]
 
 The divisor lattice of $12$: elements are divisors of $12 = 2^2 dot 3$, ordered by divisibility.
+
+== The Partition Lattice $Pi_3$
+
+#align(center)[
+  #cetz.canvas(length: 1cm, {
+    import cetz.draw: *
+
+    let draw-node(pos, name, label, fill-color: white) = {
+      rect(
+        (pos.at(0) - 0.55, pos.at(1) - 0.22),
+        (pos.at(0) + 0.55, pos.at(1) + 0.22),
+        fill: fill-color,
+        stroke: 0.8pt,
+        radius: 2pt,
+        name: name,
+      )
+      content(name, text(size: 0.75em)[#label])
+    }
+
+    let edge(a, b) = line(a, b, stroke: 0.7pt)
+
+    // Level 0: one block
+    draw-node((0, 0), "bot", text(size: 0.85em)[123])
+
+    // Level 1: two blocks
+    draw-node((-1.8, 1.3), "a", text(size: 0.75em)[12|3])
+    draw-node((0, 1.3), "b", text(size: 0.75em)[13|2])
+    draw-node((1.8, 1.3), "c", text(size: 0.75em)[23|1])
+
+    // Level 2: three blocks
+    draw-node((0, 2.6), "top", text(size: 0.75em)[1|2|3])
+
+    edge("bot", "a")
+    edge("bot", "b")
+    edge("bot", "c")
+    edge("a", "top")
+    edge("b", "top")
+    edge("c", "top")
+  })
+]
+
+The partition lattice $Pi_3$: elements are partitions of $[3]$, ordered by refinement.
+$pi <= sigma$ means every block of $pi$ is contained in a block of $sigma$.
 
 == Intervals
 
@@ -3679,6 +3726,12 @@ A poset is _locally finite_ if every interval is finite.
 
 == The Incidence Algebra
 
+Think of it as _matrix multiplication_ restricted to intervals.
+
+#Block(color: blue, width: 100%)[
+  If we index the elements of $P$ as $x_1, x_2, dots$ with $x_i <= x_j$ implying $i <= j$, then each function $f$ corresponds to an _upper-triangular matrix_ $F$, and convolution $f * g$ corresponds to the matrix product $F G$.
+]
+
 #definition[
   Let $cal(P) = (P, <=)$ be a locally finite poset and $R$ a commutative ring.
   The _incidence algebra_ $I(cal(P); R)$ consists of functions
@@ -3688,9 +3741,6 @@ A poset is _locally finite_ if every interval is finite.
     (f * g)(x, y) = sum_(x <= z <= y) f(x, z) dot g(z, y)
   $
 ]
-
-Think of it as _matrix multiplication_ restricted to intervals.
-If we index the elements of $P$ as $x_1, x_2, dots$ with $x_i <= x_j$ implying $i <= j$, then each function $f$ corresponds to an _upper-triangular matrix_ $F$, and convolution $f * g$ corresponds to the matrix product $F G$.
 
 #note[
   For a finite poset with $n$ elements, $I(cal(P); R)$ is isomorphic to the algebra of $n times n$ upper-triangular matrices over $R$.
@@ -3736,7 +3786,9 @@ We call its inverse the _Möbius function_.
   $
 ]
 
-Equivalently, $mu(x, y)$ is defined _recursively_:
+== Recursive Formula
+
+The algebraic definition $mu * zeta = delta$ yields an explicit recursion:
 
 $mu(x, x) = 1$ for all $x in P$.
 
@@ -3760,16 +3812,18 @@ The elements are $emptyset, \{1\}, \{2\}, \{1,2\}$.
 
 #align(center)[
   #table(
-    columns: 5,
+    columns: 4,
     align: center,
     stroke: 0.4pt,
-    table.header([$x$], [$y$], [$[x, y]$], [$mu(x, y)$], [Computation]),
-    [$emptyset$], [$emptyset$], [$\{emptyset\}$], [$1$], [base case],
-    [$emptyset$], [$\{1\}$], [$\{emptyset, \{1\}\}$], [$-1$], [$-mu(emptyset, emptyset)$],
-    [$emptyset$], [$\{2\}$], [$\{emptyset, \{2\}\}$], [$-1$], [$-mu(emptyset, emptyset)$],
-    [$emptyset$], [$\{1,2\}$], [$\{emptyset, \{1\}, \{2\}, \{1,2\}\}$], [$1$], [$-(1 + (-1) + (-1))$],
-    [$\{1\}$], [$\{1,2\}$], [$\{\{1\}, \{1,2\}\}$], [$-1$], [$-mu(\{1\}, \{1\})$],
-    [$\{2\}$], [$\{1,2\}$], [$\{\{2\}, \{1,2\}\}$], [$-1$], [$-mu(\{2\}, \{2\})$],
+    table.header([$x$], [$y$], [$mu(x, y)$], [Computation]),
+    table.hline(stroke: 0.6pt),
+    [$emptyset$], [$emptyset$], [$1$], [base case],
+    table.hline(stroke: 0.2pt),
+    [$emptyset$], [$\{1\}$], [$-1$], [$-mu(emptyset, emptyset)$],
+    [$emptyset$], [$\{2\}$], [$-1$], [$-mu(emptyset, emptyset)$],
+    [$emptyset$], [$\{1,2\}$], [$1$], [$-(1 + (-1) + (-1))$],
+    [$\{1\}$], [$\{1,2\}$], [$-1$], [$-mu(\{1\}, \{1\})$],
+    [$\{2\}$], [$\{1,2\}$], [$-1$], [$-mu(\{2\}, \{2\})$],
   )
 ]
 
@@ -3796,8 +3850,8 @@ summing $mu(x, z)$ over $[x, y]$ yields 1 if $x = y$ and 0 otherwise.
 In words: if $f$ counts "everything below" $g$, then $mu$ tells you how to _recover_ $g$ from $f$.
 
 #proof[
-  Suppose $f(x) = sum_(y <= x) g(y) = (g * zeta)(x)$.
-  Convolve both sides with $mu$ from the right:
+  ($arrow.r$) Suppose $f(x) = sum_(y <= x) g(y) = (g * zeta)(x)$.
+  Convolve both sides with $mu$:
   $
     f * mu & = (g * zeta) * mu \
            & = g * (zeta * mu) \
@@ -3805,7 +3859,7 @@ In words: if $f$ counts "everything below" $g$, then $mu$ tells you how to _reco
   $
   So $g(x) = (f * mu)(x) = sum_(y <= x) f(y) dot mu(y, x)$.
 
-  The converse direction is analogous (convolve $g$ with $zeta$).
+  ($arrow.l$) Conversely, if $g = f * mu$, then $g * zeta = f * mu * zeta = f * delta = f$.
 ]
 
 == The Big Picture
@@ -3816,7 +3870,6 @@ In words: if $f$ counts "everything below" $g$, then $mu$ tells you how to _reco
   $g(x) =>^("sum over") f(x) =>^("multiply by $mu$") g(x)$
 ]
 
-Think of it as a "sandwich":
 - $zeta$ _aggregates_ (sums up) --- it creates overcounts.
 - $mu$ _corrects_ (subtracts back) --- it undoes the overcounting.
 - Together, $mu * zeta = delta$ means "aggregate then correct = do nothing."
@@ -3844,15 +3897,21 @@ Consider the Boolean lattice $cal(P) = (2^{[n]}, subset.eq)$.
 
   *Base* ($d = 0$): $A = B$, so $mu(A, A) = 1 = (-1)^0$. $checkmark$
 
-  *Inductive step:* Assume $mu(A, C) = (-1)^(abs(C) - abs(A))$ for all $A subset.eq C$ with $abs(C) - abs(A) < d$.
-  For $A subset B$ with $abs(B) - abs(A) = d >= 1$:
+  *Inductive step:* For $A subset B$ with $abs(B) - abs(A) = d >= 1$:
   $
-    mu(A, B) & = -sum_(A subset.eq C subset B) mu(A, C) \
-             & = -sum_(i = 0)^(d - 1) binom(d, i) (-1)^i \
-             & = -(1 - 1)^d + (-1)^d \
-             & = (-1)^d
+    mu(A, B) = -sum_(A subset.eq C subset B) mu(A, C)
   $
-  where we used $sum_(i=0)^d binom(d, i)(-1)^i = 0$ for $d >= 1$. $checkmark$
+  There are $binom(d, i)$ sets $C$ with $abs(C) - abs(A) = i$ (choose which $i$ elements to add).
+  By the inductive hypothesis, each contributes $(-1)^i$:
+  $
+    & = -sum_(i = 0)^(d - 1) binom(d, i) (-1)^i
+  $
+  Adding the missing $i = d$ term and subtracting it back:
+  $
+    & = -(sum_(i = 0)^d binom(d, i)(-1)^i - (-1)^d) \
+    & = -(0 - (-1)^d) = (-1)^d
+  $
+  since $(1 - 1)^d = 0$ for $d >= 1$. $checkmark$
 ]
 
 == PIE as Möbius Inversion
@@ -3892,6 +3951,13 @@ This is the _deep reason_ PIE works: it is a special case of a general algebraic
 
   This is exactly the PIE formula for surjections that we derived earlier!
 ]
+
+#note[
+  Note: here $k$ is the domain size and $n$ is the codomain --- the opposite of the Twelvefold Way convention ($n$ = balls, $k$ = boxes) used later.
+]
+
+The same idea extends to any poset.
+Let us see the most famous example: the divisor lattice from number theory.
 
 == The Classical Möbius Function
 
@@ -3965,41 +4031,30 @@ The convolution here is the classical _Dirichlet convolution_ of arithmetic func
            & = n dot product_(p | n, p "prime") (1 - 1 \/ p)
   $
 
-  In the last step, since $mu$ vanishes on non-square-free divisors, only square-free $d$ survive.
+  Since $mu$ vanishes on non-square-free divisors, only square-free $d$ survive.
   Expanding the product $product_(p | n)(1 - 1\/p)$ and collecting terms gives exactly $sum_(d | n) mu(d) \/ d$.
 ]
 
+== Euler's Totient --- Example
+
 #example[
-  $phi(12) = 12 dot (1 - 1\/2)(1 - 1\/3) = 12 dot 1\/2 dot 2\/3 = 4$. $checkmark$ ($1, 5, 7, 11$ are coprime to 12.)
+  For $n = 12 = 2^2 dot 3$:
+  $
+    phi(12) = 12 dot (1 - 1\/2)(1 - 1\/3) = 12 dot 1\/2 dot 2\/3 = 4
+  $
+
+  The four numbers coprime to 12 are $1, 5, 7, 11$. $checkmark$
 ]
 
-== Möbius Inversion
-
-#Block(color: blue, width: 100%)[
-  *The general pattern:*
-
-  $f(x) = sum_(y <= x) g(y) quad => quad g(x) = sum_(y <= x) mu(y, x) f(y)$
-
-  - Boolean lattice $(2^{[n]}, subset.eq)$: $mu(A, B) = (-1)^(abs(B) - abs(A))$ $arrow.r$ PIE
-  - Divisor lattice $(ZZ^+, |)$: $mu(d)$ = classical Möbius function $arrow.r$ number theory
-  - Partition lattice $Pi_n$: $mu$ gives signed Stirling numbers $arrow.r$ set partitions
-]
-
-Every counting formula we have seen lives in some incidence algebra.
-
-Now let us see how this organizes _everything_ into one table.
+We have seen Möbius inversion on the Boolean lattice (giving PIE) and on the divisor lattice (giving number theory).
+The partition lattice $Pi_n$ provides a third family, connecting to Stirling numbers.
+Now let us see how all of this organizes _everything_ into one table.
 
 = The Twelvefold Way
 
 #focus-slide(
   epigraph: [The Twelvefold Way is a systematic classification of \ twelve fundamental counting problems.],
   epigraph-author: "Herbert Wilf, generatingfunctionology",
-  scholars: (
-    (
-      name: "Richard P. Stanley",
-      image: image("assets/Richard_P_Stanley.png"),
-    ),
-  ),
 )
 
 == Balls and Boxes
@@ -4064,25 +4119,6 @@ Total: $2 times 2 times 3 = 12$ cases.
   Answer: $binom(n-1, k-1) = binom(2, 1) = 2$. $checkmark$
 ]
 
-== The Twelvefold Way
-
-#align(center)[
-  #table(
-    columns: 5,
-    align: (center, center, center, center, center),
-    stroke: 0.4pt,
-    table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
-    // Row 1: N distinct, K distinct
-    [*Distinct*], [*Distinct*], $k^n$, $(k)_n$, $k! s2(n, k)$,
-    // Row 2: N indistinct, K distinct
-    [*Indist.*], [*Distinct*], $binom(n+k-1, n)$, $binom(k, n)$, $binom(n-1, k-1)$,
-    // Row 3: N distinct, K indistinct
-    [*Distinct*], [*Indist.*], $sum_(j=1)^k s2(n, j)$, $[n <= k]$, $s2(n, k)$,
-    // Row 4: N indistinct, K indistinct
-    [*Indist.*], [*Indist.*], $sum_(j=1)^k p_j(n)$, $[n <= k]$, $p_k(n)$,
-  )
-]
-
 == Distinct Balls, Distinct Boxes
 
 This is the theory of _functions_ $f : [n] to [k]$.
@@ -4103,7 +4139,7 @@ This is the theory of _functions_ $f : [n] to [k]$.
 
     At most one ball per box: $(k)_n = k! \/ (k-n)!$.
 
-    $k$-permutations of $n$ elements.
+    The number of injective functions $[n] -> [k]$.
     Requires $k >= n$.
   ],
   Block(color: purple, width: 100%)[
@@ -4188,6 +4224,8 @@ This is the theory of _set partitions_.
   ],
 )
 
+Here $[P]$ denotes the _Iverson bracket_: $[P] = 1$ if $P$ is true, $0$ otherwise.
+
 == Indistinguishable Balls, Indistinguishable Boxes
 
 This is the theory of _integer partitions_.
@@ -4223,6 +4261,30 @@ This is the theory of _integer partitions_.
   ],
 )
 
+Here $p_j(n)$ denotes the number of integer partitions of $n$ into exactly $j$ parts.
+
+== The Twelvefold Way
+
+#align(center)[
+  #table(
+    columns: 5,
+    align: (center, center, center, center, center),
+    stroke: 0.6pt,
+    fill: (_, row) => if row >= 1 and calc.rem(row, 2) == 0 { luma(245) },
+    table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
+    // Row 1: N distinct, K distinct
+    [*Distinct*], [*Distinct*], $k^n$, $(k)_n$, $k! s2(n, k)$,
+    // Row 2: N indistinct, K distinct
+    [*Indist.*], [*Distinct*], $binom(n+k-1, n)$, $binom(k, n)$, $binom(n-1, k-1)$,
+    // Row 3: N distinct, K indistinct
+    [*Distinct*], [*Indist.*], $sum_(j=1)^k s2(n, j)$, $[n <= k]$, $s2(n, k)$,
+    // Row 4: N indistinct, K indistinct
+    [*Indist.*], [*Indist.*], $sum_(j=1)^k p_j(n)$, $[n <= k]$, $p_k(n)$,
+  )
+]
+
+All formulas assume $n, k >= 1$.
+
 == From Unrestricted to Surjective
 
 The surjective column is obtained from the unrestricted column by Möbius inversion on the _Boolean lattice_.
@@ -4249,8 +4311,8 @@ The surjective column is obtained from the unrestricted column by Möbius invers
 
 == Forgetting Labels
 
-The transition from distinct to indistinguishable boxes is "forgetting the labels":
-since the $k$ boxes are no longer labeled, every arrangement becomes one of $k!$ equivalent arrangements (one for each permutation of the labels).
+The transition from distinct to indistinguishable boxes is "forgetting the labels."
+For _surjective_ arrangements, every placement becomes one of $k!$ equivalent arrangements (one for each permutation of the labels), so dividing by $k!$ gives the count for indistinguishable boxes.
 
 #Block(color: purple, width: 100%)[
   *Key identity:* dividing Row 1 surjective by $k!$ gives Row 3 surjective:
@@ -4315,7 +4377,13 @@ In this course on combinatorics, we covered:
   ],
 )
 
-*Everything connects.*
+#align(center)[
+  #Block(color: purple, width: 100%)[
+    #align(center)[
+      *Everything connects.*
+    ]
+  ]
+]
 
 == Bibliography
 #bibliography("refs.yml")
