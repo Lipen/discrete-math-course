@@ -1018,32 +1018,19 @@ Order does _not_ matter: $3 + 1$ and $1 + 3$ are the same partition.
 
 #definition[
   An _integer partition_ of a positive integer $n >= 1$ into $k$ _positive_ parts is a solution to the equation $n = a_1 + dots + a_k$, where $a_1 >= a_2 >= dots >= a_k >= 1$.
-
-  - The number of such partitions is denoted $p_(k)(n)$ and defined recursively:
-    $
-      p_(k)(n) = cases(
-        0 & "if" k > n,
-        0 & "if" n >= 1 "and" k = 0,
-        1 & "if" n = k = 0,
-        p_(k)(n - k) + p_(k - 1)(n - 1) & "if" 1 <= k <= n,
-      )
-    $
-
-  - The _partition function_ $p(n)$ counts all partitions of $n$:
-    $
-      p(n) = sum_(k = 0)^(n) p_(k)(n)
-    $
 ]
 
-#Block(color: teal)[
-  *Rapid growth of $p(n)$:*
-  $p(5) = 7$, $quad p(10) = 42$, $quad p(50) = 204{,}226$, $quad p(100) = 190{,}569{,}292$.
-  Hardy and Ramanujan (1918) proved:
-  $
-    p(n) tilde frac(1, 4 n sqrt(3)) e^(pi sqrt(2n slash 3))
-  $
-  so the number of partitions grows _sub-exponentially_ but faster than any polynomial.
-]
+The number of partitions into exactly $k$ parts is $p_(k)(n)$, defined recursively:
+$
+  p_(k)(n) = cases(
+    0 & "if" k > n,
+    0 & "if" n >= 1 "and" k = 0,
+    1 & "if" n = k = 0,
+    p_(k)(n - k) + p_(k - 1)(n - 1) & "if" 1 <= k <= n,
+  )
+$
+
+The _partition function_ $p(n) = sum_(k = 0)^(n) p_(k)(n)$ counts all partitions of $n$.
 
 == Ferrers Diagrams and Young Tableaux
 
