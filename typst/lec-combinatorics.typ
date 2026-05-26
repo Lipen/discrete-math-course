@@ -3433,12 +3433,16 @@ Since all three definitions satisfy the Bohr--Mollerup conditions, they define t
     I_n = n^x integral_0^1 u^(x-1) (1-u)^n d u = n^x dot Beta(x, n+1)
   $
   where $Beta(x, y) = integral_0^1 t^(x-1) (1-t)^(y-1) d t$.
+
+  #colbreak()
+
   Using the Beta--Gamma relation $Beta(x, y) = (Gamma(x) dot Gamma(y)) \/ Gamma(x + y)$ (itself provable from the Euler integral):
   $
     I_n = n^x dot (Gamma(x) dot Gamma(n+1)) / Gamma(x + n + 1)
     = (n! dot n^x) / (x dot (x+1) dot dots.c (x+n))
   $
   since $Gamma(n+1) = n!$ and $Gamma(x + n + 1) = (x+n)(x+n-1) dots.c x dot Gamma(x)$.
+
   Taking $n to infinity$ and matching both sides completes the proof.
 ]
 
