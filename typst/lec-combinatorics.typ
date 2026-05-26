@@ -943,6 +943,8 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
   ]
 ]
 
+#pagebreak()
+
 #theorem[
   Let $stirling(n, 0) = 0$ for $n >= 1$, $stirling(0, k) = 0$ for $k >= 1$, and $stirling(0, 0) = 1$.
   For $n, k >= 1$, we have:
@@ -953,11 +955,16 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
 
 #proof[(informal)][
   Consider the element $n$ in any partition of $[n]$ into $k$ blocks.
+
   There are exactly two cases:
-  - ${n}$ forms a singleton block on its own.
+
+  + ${n}$ forms a singleton block on its own. \
     The remaining $n - 1$ elements are partitioned into $k - 1$ non-empty blocks: $stirling(n-1, k-1)$ ways.
-  - $n$ joins an existing block of a partition of $[n-1]$.
-    Start with any partition of $[n-1]$ into $k$ blocks ($stirling(n-1, k)$ ways), then insert $n$ into one of the $k$ blocks: $k dot stirling(n-1, k)$ ways.
+
+  + $n$ joins an existing block of a partition of $[n-1]$. \
+    Start with any partition of $[n-1]$ into $k$ blocks ($stirling(n-1, k)$ ways), \ then insert $n$ into one of the $k$ blocks:
+    $k dot stirling(n-1, k)$ ways.
+
   These two cases are exhaustive and disjoint.
 ]
 
