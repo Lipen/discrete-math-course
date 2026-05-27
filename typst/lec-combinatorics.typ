@@ -4458,7 +4458,7 @@ For _surjective_ arrangements, every placement becomes one of $k!$ equivalent ar
 
 #Block(color: purple, width: 100%)[
   *Key identity:* dividing Row 1 surjective by $k!$ gives Row 3 surjective:
-  $s2(n, k) = 1 \/ k! sum_(i = 0)^k (-1)^i binom(k, i) (k - i)^n$
+  $ s2(n, k) = 1 / k! sum_(i = 0)^k (-1)^i binom(k, i) (k - i)^n $
 
   More generally, this "forget labels" operation is governed by the Möbius function of the _partition lattice_ $Pi_k$.
 ]
