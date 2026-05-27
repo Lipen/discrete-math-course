@@ -4212,8 +4212,8 @@ We saw four posets, each with its own Möbius function:
 = The Twelvefold Way
 
 #focus-slide(
-  epigraph: [The Twelvefold Way is a systematic classification of \ twelve fundamental counting problems.],
-  epigraph-author: "Herbert Wilf, generatingfunctionology",
+  epigraph: [The purpose of computing is insight, not numbers.],
+  epigraph-author: "Richard Hamming",
 )
 
 == Balls and Boxes
