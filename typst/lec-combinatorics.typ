@@ -3549,8 +3549,8 @@ The Gamma function appears throughout combinatorics and analysis.
 = Möbius Inversion
 
 #focus-slide(
-  epigraph: [The mathematical community owes a considerable debt of gratitude \ to the pioneers of incidence algebras.],
-  epigraph-author: "Gian-Carlo Rota (1932--1999)",
+  epigraph: [The opposite of a correct statement is a false statement. \ But the opposite of a profound truth may well be another profound truth.],
+  epigraph-author: "Niels Bohr",
   scholars: (
     (
       name: "Gian-Carlo Rota",
