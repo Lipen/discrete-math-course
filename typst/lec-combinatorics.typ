@@ -4487,70 +4487,42 @@ For _surjective_ arrangements, every placement becomes one of $k!$ equivalent ar
 
 All formulas hold for the standard non-degenerate cases $n, k >= 1$.
 
-== Rota's Vision
-
-#grid(
-  columns: (1fr, 2fr),
-  column-gutter: 1em,
-  image("assets/Gian-Carlo_Rota.jpg"),
-  [
-    Gian-Carlo Rota (1932--1999) showed that _all_ of enumerative combinatorics can be unified through incidence algebras.
-
-    #Block(color: blue, width: 100%)[
-      *Key insight:* every counting formula lives in the incidence algebra of some poset.
-
-      - PIE $arrow.r$ Boolean lattice $(2^([n]), subset.eq)$
-      - Möbius function $arrow.r$ divisor lattice $(ZZ^+, |)$
-      - Stirling numbers $arrow.r$ partition lattice $Pi_n$
-    ]
-
-    The Twelvefold Way, described by Stanley @stanley2011, is the natural organization of all basic counting problems.
-  ],
-)
-
 == Course Wrap-Up
-
-In this course on combinatorics, we covered:
 
 #grid(
   columns: 2,
-  gutter: 0.8em,
-  Block(color: blue, width: 100%)[
-    *Counting fundamentals*
-    - Addition, multiplication, bijection principles
-    - Permutations and combinations
-    - Multisets and compositions
-    - Binomial and multinomial theorems
+  gutter: 1em,
+  [
+    #Block(color: blue, width: 100%)[
+      *Counting fundamentals*
+      - Addition, multiplication, bijection principles
+      - Permutations and combinations
+      - Multisets and compositions
+      - Binomial and multinomial theorems
+    ]
+    #Block(color: green, width: 100%)[
+      *Structures*
+      - Set partitions (Stirling, Bell)
+      - Integer partitions (Ferrers, Young tableaux)
+      - Inclusion--exclusion (PIE, derangements)
+    ]
   ],
-  Block(color: green, width: 100%)[
-    *Structures*
-    - Set partitions (Stirling, Bell)
-    - Integer partitions (Ferrers, Young tableaux)
-    - Inclusion--exclusion (PIE, derangements)
-  ],
-
-  Block(color: orange, width: 100%)[
-    *Analytic methods*
-    - Generating functions (OGF, Catalan)
-    - Recurrence relations (characteristic equations)
-    - Annihilators
-    - Asymptotic analysis (Master theorem, Akra--Bazzi)
-  ],
-  Block(color: purple, width: 100%)[
-    *Advanced topics*
-    - Gamma function
-    - Möbius inversion
-    - The Twelvefold Way
+  [
+    #Block(color: orange, width: 100%)[
+      *Analytic methods*
+      - Generating functions
+      - Characteristic equations
+      - Annihilators
+      - Master theorem, Akra--Bazzi method
+    ]
+    #Block(color: purple, width: 100%)[
+      *Advanced topics*
+      - Gamma function
+      - Möbius inversion
+      - The Twelvefold Way
+    ]
   ],
 )
-
-#align(center)[
-  #Block(color: purple, width: 100%)[
-    #align(center)[
-      *Everything connects.*
-    ]
-  ]
-]
 
 == Bibliography
 #bibliography("refs.yml")
