@@ -4466,23 +4466,19 @@ For _surjective_ arrangements, every placement becomes one of $k!$ equivalent ar
 == The Twelvefold Way
 
 #align(center)[
-  #text(size: 0.92em)[
-    #table(
-      columns: 5,
-      align: (center, center, center, center, center),
-      stroke: 0.6pt,
-      fill: (_, row) => if row >= 1 and calc.rem(row, 2) == 0 { luma(245) },
-      table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
-      // Row 1: N distinct, K distinct
-      [*Distinct*], [*Distinct*], $k^n$, $(k)_n$, $k! s2(n, k)$,
-      // Row 2: N indistinct, K distinct
-      [*Indist.*], [*Distinct*], $binom(n+k-1, n)$, $binom(k, n)$, $binom(n-1, k-1)$,
-      // Row 3: N distinct, K indistinct
-      [*Distinct*], [*Indist.*], $sum_(j=1)^k s2(n, j)$, $[n <= k]$, $s2(n, k)$,
-      // Row 4: N indistinct, K indistinct
-      [*Indist.*], [*Indist.*], $sum_(j=1)^k p_j(n)$, $[n <= k]$, $p_k(n)$,
-    )
-  ]
+  #table(
+    columns: 5,
+    align: center,
+    inset: 1em,
+    stroke: (x, y) => if y == 0 { (top: 1pt, bottom: 0.8pt) },
+    table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
+    [*Distinct*], [*Distinct*], [$k^n$], [$(k)_n$], [$k! s2(n, k)$],
+    [*Indist.*], [*Distinct*], [$binom(n+k-1, n)$], [$binom(k, n)$], [$binom(n-1, k-1)$],
+    table.hline(stroke: 0.4pt),
+    [*Distinct*], [*Indist.*], [$sum_(j=1)^k s2(n, j)$], [$[n <= k]$], [$s2(n, k)$],
+    [*Indist.*], [*Indist.*], [$sum_(j=1)^k p_j(n)$], [$[n <= k]$], [$p_k(n)$],
+    table.hline(stroke: 0.8pt),
+  )
 ]
 
 All formulas hold for the standard non-degenerate cases $n, k >= 1$.
