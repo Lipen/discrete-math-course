@@ -279,8 +279,10 @@ Three fundamental questions arise in every combinatorial problem:
 
 #Block(color: blue)[
   *Birthday attack:* a hash function maps arbitrary inputs to $n$-bit digests.
-  With $2^n + 1$ inputs, at least two must collide --- guaranteed by the pigeonhole principle.
-  More subtly, with only $approx 2^(n slash 2)$ random inputs, collision probability already exceeds $50\%$.
+
+  - With $2^n + 1$ inputs, at least two must collide --- guaranteed by the pigeonhole principle.
+  - With only $approx 2^(n slash 2)$ random inputs, collision probability already exceeds $50\%$.
+
   This is the _birthday bound_ and sets the security level of hash functions in cryptography.
 ]
 
@@ -302,7 +304,7 @@ If we count the same quantity in _two different ways_, then this gives us a (per
     Then the total number of handshakes is:
     $
       sum_(i = 1)^n (i - 1) =
-      sum_(i = 0)^{n - 1} i =
+      sum_(i = 0)^(n - 1) i =
       sum_(i = 1)^(n - 1) i
     $
 
@@ -1351,10 +1353,12 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
 
 #Block(color: blue)[
   *Hat-check problem:* $n$ guests check their hats; the attendant loses the tickets.
+
   As $n to infinity$, the probability that no guest gets their own hat back converges to
   $
     lim_(n to infinity) abs(D_n) / n! = sum_(i=0)^infinity (-1)^i / i! = 1 / e approx 36.8%
   $
+
   This probability barely changes for $n >= 5$.
 ]
 
@@ -1373,7 +1377,9 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
 ]
 
 #Block(color: yellow)[
-  Encode a sequence $(a_n)$ as coefficients of a formal power series $G(x) = sum_(n=0)^infinity a_n x^n$, then manipulate $G(x)$ _algebraically_ (multiply, differentiate, compose) to derive counting identities and closed forms.
+  Encode a sequence $(a_n)$ as coefficients of a formal power series $G(x) = sum_(n=0)^infinity a_n x^n$.
+
+  Then manipulate $G(x)$ _algebraically_ (multiply, differentiate, compose) to derive counting identities and closed forms.
 ]
 
 == Counting with Polynomials
@@ -1621,6 +1627,8 @@ $
 
 Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x^n$ be ordinary generating functions.
 
+All operations are performed _term-wise_ on the power series.
+
 #table(
   columns: 2,
   align: left + horizon,
@@ -1637,9 +1645,12 @@ Let $F(x) = sum_(n = 0)^infinity a_n x^n$ and $G(x) = sum_(n = 0)^infinity b_n x
 
 So far, we _composed_ generating functions from known polynomials and read off coefficients.
 
-Now we turn the idea around: start from a _recursive counting argument_, derive a _functional equation_ for $F(x)$, and solve it.
+Now we turn the idea around:
++ Start from a _recursive counting argument_.
++ Derive a _functional equation_ for $F(x)$.
++ Solve it.
 
-This requires a heavier tool --- _Newton's binomial theorem_ for real-valued exponents --- but the payoff is one of the most famous sequences in combinatorics.
+This requires a heavier tool --- _Newton's binomial theorem_ --- but the payoff is one of the most famous sequences in combinatorics.
 
 #Block(color: teal)[
   *Historical note:* Eugène Catalan (1814--1894) studied these numbers in the context of polygon triangulation.
@@ -1854,6 +1865,7 @@ where $binom(n, k) = 0$ for $k > n$.
 == Recurrence Relations
 
 A _recurrence relation_ defines a sequence by expressing each term via its predecessors.
+
 Solving one means finding a _closed-form_ formula that avoids recursion.
 
 #example[
@@ -1871,7 +1883,8 @@ Solving one means finding a _closed-form_ formula that avoids recursion.
 == Recursive Structure
 
 Many combinatorial objects have _recursive structure_: a large instance decomposes into smaller instances of the same type.
-A recurrence is a formula that captures this decomposition.
+
+A _recurrence_ is a formula that captures this decomposition.
 
 #example[
   How many binary strings of length $n$ contain _no two consecutive_ 1s?
@@ -1888,7 +1901,8 @@ A recurrence is a formula that captures this decomposition.
 
 == Telescoping
 
-Before reaching for characteristic equations, try the simplest approach: _unwind the recurrence_.
+Before reaching for characteristic equations, try the simplest approach:
+_unwind the recurrence_.
 
 #example[
   Solve $T(n) = T(n - 1) + n$ with $T(0) = 0$.
@@ -2148,7 +2162,7 @@ For $k = 2$: $C = mat(c_1, c_2; 1, 0)$, and $det(C - lambda I) = lambda^2 - c_1 
   The second solution $n r_0^n$ arises by taking the _derivative_ of $r^n$ with respect to $r$ and then evaluating at $r = r_0$:
   $
     dif / (dif r) (r^n) = n r^(n-1)
-    quad arrow.r.long quad
+    quad ==> quad
     dif / (dif r) (r^n) dot r = n r^n
   $
   This is analogous to the resonance term $t e^(lambda t)$ in differential equations.
@@ -2292,9 +2306,10 @@ The entire theory mirrors the continuous case.
 
 #Block(color: orange)[
   *Particular solution cheat sheet:*
-  $F(n) =$ polynomial of degree $d$ $arrow.r.long$ try $c_0 + c_1 n + dots + c_d n^d$.
-  $F(n) = c dot r^n$, $r$ not a root $arrow.r.long$ try $beta r^n$.
-  $F(n) = c dot r^n$, $r$ is a root (mult. $m$) $arrow.r.long$ try $beta n^m r^n$ (resonance).
+
+  - $F(n) =$ polynomial of degree $d$ $==>$ try $c_0 + c_1 n + dots + c_d n^d$
+  - $F(n) = c dot r^n$, $r$ not a root $==>$ try $beta r^n$
+  - $F(n) = c dot r^n$, $r$ is a root (mult. $m$) $==>$ try $beta n^m r^n$ (resonance)
 ]
 
 == Linear Non-Homogeneous Recurrence Relations
@@ -2322,7 +2337,11 @@ The entire theory mirrors the continuous case.
   If $\(a_n^(("p")))$ is a _particular_ solution of the non-homogeneous recurrence $a_n = c_1 a_(n-1) + dots + c_k a_(n-k) + F(n)$, then _every solution_ is of the form $a_n = a_n^(("p")) + a_n^(("h"))$, where $a_n^(("h"))$ is a solution of the associated homogeneous recurrence.
 ]
 
-The recipe: (1)~solve the homogeneous part, (2)~find a particular solution by guessing a form matching $F(n)$, (3)~add them, (4)~fit initial conditions.
+The recipe:
++ Solve the homogeneous part.
++ Find a particular solution by guessing a form matching $F(n)$.
++ Add them.
++ Fit initial conditions.
 
 #example[
   Find all solutions of $a_n = 3 a_(n-1) + 2n$ with $a_1 = 3$.
@@ -2391,7 +2410,7 @@ Both characteristic equations and generating functions solve the same recurrence
   Since $F_n = F_(n-1) + F_(n-2)$ for $n >= 2$, each coefficient of $G - x G - x^2 G$ vanishes except $F_1 x = x$:
   $
     G(x) - x G(x) - x^2 G(x) = x
-    quad arrow.r.double.long quad
+    quad ==> quad
     G(x) = x / (1 - x - x^2)
   $
 ]
@@ -2462,7 +2481,7 @@ $
     #Block(color: purple, width: 100%)[
       *Connections*
 
-      - Companion matrix, eigenvalues $arrow.r.double$ linear algebra
+      - Companion matrix, eigenvalues $~~>$ linear algebra
       - Same structure as linear differential equations
       - Characteristic roots = reciprocals of GF poles
     ]
@@ -2641,7 +2660,7 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
       rect((x, -0.35), (x + 2.2, 0.35), fill: color.lighten(90%), stroke: 0.7pt + color.darken(20%), radius: 3pt)
       content((x + 1.1, 0), text(size: 0.8em, fill: color.darken(30%), strong(label)))
       if i < steps.len() - 1 {
-        content((x + 2.4, 0), text(size: 0.8em, [$arrow.r.double$]))
+        content((x + 2.4, 0), text(size: 0.8em, [$=>$]))
       }
     }
   })
@@ -2678,7 +2697,7 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
 
     + $r(n) = alpha 5^n$ is a generic solution.
 
-    + $r(0) = alpha = 3 quad arrow.r.double.long quad alpha = 3$
+    + $r(0) = alpha = 3 quad ==> quad alpha = 3$
   ]
 
   Thus, $r(n) = 3 dot 5^n$.
@@ -3467,6 +3486,7 @@ Since all three definitions satisfy the Bohr--Mollerup conditions, they define t
 ]
 
 Stirling's approximation lets us estimate factorials and binomial coefficients without computing huge products.
+
 For example, $binom(2n, n) approx 4^n \/ sqrt(pi n)$ follows directly.
 
 #example[
@@ -3564,29 +3584,11 @@ Throughout this course we have derived many counting formulas:
   ],
 )
 
-They seem different.
+They all seem unrelated.
 
 #Block(color: purple, width: 100%)[
   But many of them are unified by _one_ deep pattern: *Möbius inversion on partially ordered sets.*
 ]
-
-== Inclusion--Exclusion Revisited
-
-Recall the Principle of Inclusion--Exclusion:
-
-#Block(color: blue, width: 100%)[
-  $ abs(X setminus (X_1 union dots union X_m)) = sum_(S subset.eq [m]) (-1)^abs(S) abs(N(S)) $
-]
-
-where $N(S) = inter_(i in S) X_i$ (and $N(emptyset) = X$).
-
-Where does the alternating sign $(-1)^abs(S)$ come from?
-
-It is not arbitrary --- it is determined by the _structure of the poset_ $(2^{[m]}, subset.eq)$.
-Every poset has a built-in "correction function" (the _Möbius function_), and for the Boolean lattice it happens to be $(-1)^(abs(T) - abs(S))$.
-
-Can we _generalize_ this to other posets?
-Yes --- that is exactly *Möbius inversion*.
 
 == Posets
 
@@ -3602,7 +3604,7 @@ We will work with three key examples:
   Block(color: blue, width: 100%)[
     *Boolean lattice*
 
-    $(2^{[n]}, subset.eq)$
+    $(2^([n]), subset.eq)$
 
     Elements: subsets of $[n]$.
 
@@ -3680,7 +3682,7 @@ We will work with three key examples:
   })
 ]
 
-The Boolean lattice $B_3 = (2^{[3]}, subset.eq)$:
+The Boolean lattice $B_3 = (2^([3]), subset.eq)$:
 elements are subsets of $[3] = {1, 2, 3}$, ordered by inclusion.
 
 == The Divisor Lattice of 12
@@ -3765,8 +3767,8 @@ The divisor lattice of $12$: elements are divisors of $12 = 2^2 dot 3$, ordered 
 The partition lattice $Pi_3$: elements are partitions of $[3]$, ordered by refinement.
 $pi <= sigma$ means every block of $pi$ is contained in a block of $sigma$.
 
-#note[
-  The partition lattice connects to Stirling numbers: $s2(n, k)$ counts the elements of $Pi_n$ with exactly $k$ blocks. We will use this in the Twelvefold Way.
+#Block(color: yellow)[
+  Stirling number $s2(n, k)$ counts the elements of $Pi_n$ with exactly $k$ blocks.
 ]
 
 == Intervals
@@ -3782,7 +3784,7 @@ $pi <= sigma$ means every block of $pi$ is contained in a block of $sigma$.
 A poset is _locally finite_ if every interval is finite.
 
 #example[
-  In the Boolean lattice $(2^{[3]}, subset.eq)$:
+  In the Boolean lattice $(2^([3]), subset.eq)$:
   $
     [{1}, {1,2,3}] = {{1}, {1,2}, {1,3}, {1,2,3}}
   $
@@ -3791,25 +3793,10 @@ A poset is _locally finite_ if every interval is finite.
   $[2, 12] = {2, 4, 6, 12}$
 ]
 
-== The Incidence Algebra --- Intuition
-
-Think of it as _matrix multiplication_ restricted to intervals.
-
-#Block(color: blue, width: 100%)[
-  Index the elements of $P$ as $x_1, x_2, dots$ so that $x_i <= x_j$ implies $i <= j$.
-
-  Then each function $f$ becomes an _upper-triangular matrix_ $F$, \ and convolution $f * g$ is just the matrix product $F G$.
-]
-
-#note[
-  This matrix viewpoint is the key intuition: the incidence algebra is simply the algebra of upper-triangular matrices, restricted to pairs $(x, y)$ with $x <= y$.
-]
-
-== The Incidence Algebra --- Definition
+== The Incidence Algebra
 
 #definition[
-  Let $cal(P) = (P, <=)$ be a locally finite poset and $R$ a commutative ring.
-
+  Let $cal(P) = (P, <=)$ be a locally finite poset.
   The _incidence algebra_ $I(cal(P); R)$ consists of functions
   $f : { (x, y) in P^2 | x <= y } to R$
   with the _convolution product_:
@@ -3818,61 +3805,55 @@ Think of it as _matrix multiplication_ restricted to intervals.
   $
 ]
 
-#note[
-  The incidence algebra of a poset with $n$ elements is just the algebra of $n times n$ upper-triangular matrices over $R$.
+#Block(color: blue)[
+  *Matrix intuition.*
+
+  + Index elements $x_1, x_2, dots$ so that $x_i <= x_j$ implies $i <= j$.
+  + Each function becomes an _upper-triangular matrix_.
+  + Convolution is just _matrix multiplication_.
 ]
 
-== The Zeta Function
+== Three Key Functions
+
+The incidence algebra has three elements that make everything work.
 
 #definition[
-  The _zeta function_ of a poset $cal(P)$ is:
+  The _Kronecker delta_ is the identity for convolution:
   $
-    zeta(x, y) = cases(
-      1 & "if" x <= y,
-      0 & "otherwise",
-    )
+    delta(x, y) = cases(1 & "if" x = y, 0 & "otherwise")
   $
 ]
-
-It answers the question "is $x <= y$?" for every pair.
-
-Applied via convolution, it _sums over all lower elements_:
-for any function $g : P to R$, define $f(x) = sum_(y <= x) g(y)$.
-Since $zeta(y, x) = 1$ for $y <= x$, this is just the convolution $f = g * zeta$:
-$
-  f(x) = (g * zeta)(x) = sum_(y <= x) g(y) dot zeta(y, x) = sum_(y <= x) g(y)
-$
-
-The zeta function encodes the relation "sum over everything below."
-
-#note[
-  Here $g : P to R$ is a function on elements, while $*$ was defined for interval functions on pairs.
-  We identify $g$ with the diagonal interval function $g(x, y) = g(x) dot delta(x, y)$,
-  so the convolution is a matrix-vector product.
-]
-
-== The Möbius Function
-
-The _Kronecker delta_ is the identity element of $I(cal(P); R)$:
-$
-  delta(x, y) = cases(1 & "if" x = y, 0 & "otherwise")
-$
-
-Since $zeta$ corresponds to an upper-triangular matrix with $1$'s on the diagonal, it is invertible.
-We call its inverse the _Möbius function_.
 
 #definition[
-  The _Möbius function_ $mu$ of a poset $cal(P)$ is the inverse of $zeta$ in the incidence algebra:
+  The _zeta function_ encodes the order relation:
+  $
+    zeta(x, y) = cases(1 & "if" x <= y, 0 & "otherwise")
+  $
+]
+
+#definition[
+  The _Möbius function_ is the inverse of $zeta$ in the incidence algebra:
   $
     mu * zeta = zeta * mu = delta
   $
+]
+
+Convolving with $zeta$ _sums over everything below_: for any $f$, $(f * zeta)(y) = display(sum_(x <= y)) f(x)$.
+
+Convolving with $mu$ _undoes_ that sum.
+
+#Block(color: blue)[
+  *Analogy:*
+  - $zeta$ = "integrate" (accumulate)
+  - $mu$ = "differentiate" (recover original)
+  - $delta$ = "do nothing"
 ]
 
 == Recursive Formula
 
 The algebraic definition $mu * zeta = delta$ yields an explicit recursion:
 
-$mu(x, x) = 1$ for all $x in P$.
+$ mu(x, x) = 1 "for all" x in P $
 
 For $x < y$:
 $
@@ -3887,27 +3868,34 @@ $
   - $mu(1, 3) = -(mu(1, 1) + mu(1, 2)) = -(1 + (-1)) = 0$
 ]
 
-== Computing $mu$ on $B_2$
-
-Let us compute $mu$ for the Boolean lattice $B_2 = (2^{[2]}, subset.eq)$.
-The elements are $emptyset, {1}, {2}, {1,2}$.
+== Computing *$mu$* on the Boolean Lattice *$B_3$*
 
 #align(center)[
   #table(
     columns: 4,
     align: center,
-    stroke: 0.4pt,
-    table.header([$x$], [$y$], [$mu(x, y)$], [Computation]),
-    table.hline(stroke: 0.6pt),
-    [$emptyset$], [$emptyset$], [$1$], [base case],
+    stroke: none,
+    inset: (x, y) => if y == 0 { 5pt } else { 4pt },
+    table.header([$B$], [$abs(B)$], [$mu(emptyset, B)$], [Computation]),
+    table.hline(stroke: 0.8pt),
+    [$emptyset$], [$0$], [$1$], [base case],
     table.hline(stroke: 0.2pt),
-    [$emptyset$], [${1}$], [$-1$], [$-mu(emptyset, emptyset)$],
-    [$emptyset$], [${2}$], [$-1$], [$-mu(emptyset, emptyset)$],
-    [$emptyset$], [${1,2}$], [$1$], [$-(1 + (-1) + (-1))$],
-    [${1}$], [${1,2}$], [$-1$], [$-mu({1}, {1})$],
-    [${2}$], [${1,2}$], [$-1$], [$-mu({2}, {2})$],
+    [${1}$], [$1$], [$-1$], [$-mu(emptyset, emptyset)$],
+    [${2}$], [$1$], [$-1$], [$-mu(emptyset, emptyset)$],
+    [${3}$], [$1$], [$-1$], [$-mu(emptyset, emptyset)$],
+    table.hline(stroke: 0.2pt),
+    [${1,2}$], [$2$], [$1$], [$-(1 + (-1) + (-1))$],
+    [${1,3}$], [$2$], [$1$], [$-(1 + (-1) + (-1))$],
+    [${2,3}$], [$2$], [$1$], [$-(1 + (-1) + (-1))$],
+    table.hline(stroke: 0.2pt),
+    [${1,2,3}$], [$3$], [$-1$], [$-(1 - 1 - 1 - 1 + 1 + 1 + 1)$],
   )
 ]
+
+Non-bottom intervals confirm the same pattern:
+- $mu({1}, {1,2}) = -1 = (-1)^1$ (distance 1)
+- $mu({1}, {1,2,3}) = -(1 + (-1) + (-1)) = 1 = (-1)^2$ (distance 2)
+- $mu({1,2}, {1,2,3}) = -1 = (-1)^1$ (distance 1)
 
 The pattern is clear: $mu(A, B) = (-1)^(abs(B) - abs(A))$.
 
@@ -3915,61 +3903,38 @@ The pattern is clear: $mu(A, B) = (-1)^(abs(B) - abs(A))$.
 
 The Möbius function satisfies the _cancellation identity_: for any $x <= y$,
 $
-  sum_(x <= z <= y) mu(x, z) = delta(x, y) = cases(1 & "if" x = y, 0 & "if" x < y)
+  sum_(x <= z <= y) mu(x, z) = cases(1 & "if" x = y, 0 & "if" x < y)
 $
 
-This is just $mu * zeta = delta$ written out:
-summing $mu(x, z)$ over $[x, y]$ yields 1 if $x = y$ and 0 otherwise.
-
 #theorem[
-  Let $cal(P) = (P, <=)$ be a finite poset and $f, g : P to R$.
-  Then:
+  Let $cal(P) = (P, <=)$ be a finite poset and $f, g : P to R$. Then:
   $
     f(x) = sum_(y <= x) g(y) quad iff quad g(x) = sum_(y <= x) mu(y, x) dot f(y)
   $
 ]
 
-In words: if $f$ counts "everything below" $g$, then $mu$ tells you how to _recover_ $g$ from $f$.
+In words:
++ $f$ counts "everything below" $g$.
++ $mu$ tells you how to _recover_ $g$ from $f$.
 
 == Proof of the Inversion Formula
 
 #proof[
-  ($arrow.r$) Suppose $f(x) = sum_(y <= x) g(y) = (g * zeta)(x)$.
+  _($arrow.r.double$)_ Suppose $f(x) = sum_(y <= x) g(y) = (g * zeta)(x)$.
   Convolve both sides with $mu$:
   $
     f * mu & = (g * zeta) * mu \
            & = g * (zeta * mu) \
            & = g * delta = g
   $
-  So $g(x) = (f * mu)(x) = sum_(y <= x) f(y) dot mu(y, x)$.
+  So $g(x) = (f * mu)(x) = display(sum_(y <= x)) f(y) dot mu(y, x)$.
 
-  ($arrow.l$) Conversely, if $g = f * mu$, then $g * zeta = f * mu * zeta = f * delta = f$.
-]
-
-== The Big Picture
-
-#align(center)[
-  #Block(color: blue, width: 100%)[
-    #set text(size: 1.2em)
-    #align(center)[
-      $g(x) =>^("sum over") f(x) =>^("multiply by $mu$") g(x)$
-    ]
-  ]
-]
-
-- $zeta$ _aggregates_ (sums up) --- it creates overcounts.
-- $mu$ _corrects_ (subtracts back) --- it undoes the overcounting.
-- Together, $mu * zeta = delta$ means "aggregate then correct = do nothing."
-
-#Block(color: orange, width: 100%)[
-  *Analogy:* This is exactly how inclusion--exclusion works!
-  $zeta$ counts everything (overcounting),
-  and $mu$ provides the alternating correction signs.
+  _($arrow.l.double$)_ Conversely, if $g = f * mu$, then $g * zeta = f * mu * zeta = f * delta = f$.
 ]
 
 == Möbius Function on the Boolean Lattice
 
-Consider the Boolean lattice $cal(P) = (2^{[n]}, subset.eq)$.
+Consider the Boolean lattice $cal(P) = (2^([n]), subset.eq)$.
 
 #theorem[
   In the Boolean lattice, the Möbius function is:
@@ -3988,11 +3953,16 @@ Consider the Boolean lattice $cal(P) = (2^{[n]}, subset.eq)$.
   $
     mu(A, B) = -sum_(A subset.eq C subset B) mu(A, C)
   $
+
+  #colbreak
+
   There are $binom(d, i)$ sets $C$ with $abs(C) - abs(A) = i$ (choose which $i$ elements to add).
+
   By the inductive hypothesis, each contributes $(-1)^i$:
   $
     & = -sum_(i = 0)^(d - 1) binom(d, i) (-1)^i
   $
+
   Adding the missing $i = d$ term and subtracting it back:
   $
     & = -(sum_(i = 0)^d binom(d, i)(-1)^i - (-1)^d) \
@@ -4011,25 +3981,83 @@ $
 $
 
 #Block(color: purple, width: 100%)[
-  *The Principle of Inclusion--Exclusion IS Möbius inversion on the Boolean lattice!*
+  *PIE IS Möbius inversion on the Boolean lattice!*
 
-  PIE's alternating signs $(-1)^abs(S)$ come directly from the Möbius function of $(2^{[n]}, subset.eq)$.
+  The alternating signs $(-1)^abs(S)$ come directly from $mu(A, B) = (-1)^(abs(B) - abs(A))$.
 ]
 
 This is the _deep reason_ PIE works: it is a special case of a general algebraic identity.
 
+== The Chain: Finite Differences
+
+Consider the simplest poset: $NN$ with the usual order $<=.$
+
+The Möbius function here is:
+$
+  mu(x, y) = cases(
+    1 & "if" y = x,
+    -1 & "if" y = x + 1,
+    0 & "otherwise",
+  )
+$
+
+Plugging into the inversion formula:
+
++ If $G(n) = sum_(k = 0)^n F(k)$ (accumulated sum),
++ then $F(n) = G(n) - G(n - 1)$ (finite difference).
+
+#Block(color: yellow)[
+  Möbius inversion on the chain is the _fundamental theorem of discrete calculus_.
+
+  Summation and differencing are inverse operations --- just like integration and differentiation are in continuous calculus.
+]
+
+== Zhegalkin Polynomials
+
+The _Zhegalkin polynomial_ (algebraic normal form) of a Boolean function $f : {0,1}^n to {0,1}$ is a representation as an XOR-sum of conjunctions:
+$
+  f(x_1, dots, x_n) = xor.big_(S subset.eq [n]) a_S dot product_(i in S) x_i,
+$
+where $a_S in {0,1}$ and $xor$ is XOR (addition mod 2).
+
+The value of $f$ on input set $B$ is:
+$
+  f(B) = xor.big_(A subset.eq B) a_A.
+$
+This is convolution with $zeta$ on the Boolean lattice, but over the field $G F(2)$.
+
+By Möbius inversion over $G F(2)$, subtraction equals addition, so $(-1)^(abs(B) - abs(A)) equiv 1$:
+$
+  a_B = xor.big_(A subset.eq B) f(A).
+$
+
+#example[
+  Let $f(x,y) = x "and" y$.
+  Truth table: $f = (0, 0, 0, 1)$.
+
+  Compute coefficients:
+  - $a_(1) = f(00) = 0$,
+  - $a_(x) = f(00) xor f(10) = 0$,
+  - $a_(y) = f(00) xor f(01) = 0$,
+  - $a_(x y) = f(00) xor f(10) xor f(01) xor f(11) = 0 xor 0 xor 0 xor 1 = 1$.
+
+  Result: $f(x,y) = x y$.
+]
+
+#Block(color: blue)[
+  *Takeaway.* The standard algorithm for converting a truth table to Zhegalkin form (the "triangle method") is exactly Möbius inversion on the Boolean cube over $G F(2)$.
+]
+
 == Counting Surjections
 
 #example[
-  *Note:* in this example, $k$ is the domain size and $n$ is the codomain --- the opposite of the Twelvefold Way convention ($n$ = balls, $k$ = boxes) used later.
-
   How many _surjections_ $h : [k] to [n]$ are there?
 
   Define:
   - $g(S) = abs({h : [k] to [n] | "image of" h "equals" S})$ for $S subset.eq [n]$.
   - $F(S) = abs({h : [k] to [n] | "image of" h subset.eq S}) = abs(S)^k$.
 
-  Then $F(S) = sum_(T subset.eq S) g(T)$, i.e., $F = g * zeta$.
+  Then $F(S) = display(sum_(T subset.eq S)) g(T)$, i.e., $F = g * zeta$.
 
   By Möbius inversion on the Boolean lattice:
   $
@@ -4038,25 +4066,29 @@ This is the _deep reason_ PIE works: it is a special case of a general algebraic
            & = sum_(i = 0)^n (-1)^(n - i) binom(n, i) i^k
   $
 
-  This is exactly the PIE formula for surjections that we derived earlier!
+  #place[
+    #v(1em)
+    This is exactly the PIE formula for surjections that we derived earlier!
+  ]
 ]
 
-== Computing $mu$ on the Divisor Lattice
+== Computing *$mu$* on the Divisor Lattice
 
 Before stating the general formula, let us compute $mu$ on the divisor lattice of 12.
 
 #example[
-  Divisors of $12 = 2^2 dot 3$: $1, 2, 3, 4, 6, 12$.
+  Divisors of $12 = 2^2 dot 3$ are: ${1, 2, 3, 4, 6, 12}$.
 
-  Using the recursion $mu(1, d) = -sum_(c | d,\ c < d) mu(1, c)$:
+  Using the recursion $mu(1, d) = -display(sum_(c | d,\ c < d)) mu(1, c)$:
 
+  #v(-1em)
   #align(center)[
     #table(
       columns: 3,
       align: center,
-      stroke: 0.4pt,
+      stroke: none,
       table.header([$d$], [$mu(1, d)$], [Computation]),
-      table.hline(stroke: 0.6pt),
+      table.hline(stroke: 0.8pt),
       [$1$], [$1$], [base case],
       table.hline(stroke: 0.2pt),
       [$2$], [$-1$], [$-mu(1, 1)$],
@@ -4099,18 +4131,17 @@ Consider the divisor lattice $cal(P) = (ZZ^+, |)$.
                       & = sum_(S subset.eq [r]) (-1)^(abs(S)) \
                       & = sum_(j = 0)^r binom(r, j) (-1)^j \
                       & = (1 - 1)^r = 0
+                        qedhere
   $
 ]
 
 The identity $mu(a, b) = mu(b \/ a)$ holds because the interval $[a, b]$ in the divisor lattice is isomorphic to the divisor lattice of $b \/ a$.
 
-== The Classical Möbius Function --- Examples
-
 #example[
-  $mu(1) = 1$, $mu(2) = -1$, $mu(3) = -1$, $mu(4) = 0$ (since $4 = 2^2$), $mu(6) = mu(2 dot 3) = 1$, $mu(30) = mu(2 dot 3 dot 5) = -1$.
+  - $mu(1) = 1$, $mu(2) = -1$, $mu(3) = -1$
+  - $mu(4) = 0$ (since $4 = 2^2$)
+  - $mu(6) = mu(2 dot 3) = 1$, #box[$mu(30) = mu(2 dot 3 dot 5) = -1$]
 ]
-
-These match the computations from the divisor lattice of 12.
 
 == Number-Theoretic Möbius Inversion
 
@@ -4122,6 +4153,7 @@ These match the computations from the divisor lattice of 12.
 ]
 
 This is exactly Möbius inversion on $(ZZ^+, |)$, where the order relation is divisibility.
+
 The convolution here is the classical _Dirichlet convolution_ of arithmetic functions.
 
 #proof[
@@ -4135,63 +4167,47 @@ The convolution here is the classical _Dirichlet convolution_ of arithmetic func
 == Euler's Totient Function
 
 #example[
-  Define $phi(n) = abs({k in [n] | gcd(k, n) = 1})$ --- Euler's totient function.
+  Define $phi(n) = abs({k in [n] | gcd(k, n) = 1})$.
 
-  *Key identity:* every $k in [n]$ has $gcd(k, n) = d$ for a unique $d | n$.
-  So $n = sum_(d | n) phi(d)$.
+  Every $k in [n]$ has $gcd(k, n) = d$ for a unique $d | n$, so $n = display(sum_(d | n) phi(d))$.
 
-  By Möbius inversion:
+  By Möbius inversion: $phi(n) = n dot display(sum_(d | n) mu(d) / d)$.
+
+  Only square-free divisors survive, so the sum simplifies:
   $
-    phi(n) & = sum_(d | n) mu(d) dot n \/ d \
-           & = n dot sum_(d | n) mu(d) \/ d
+    phi(n) = n dot product_(p | n,\ p "prime") (1 - 1 / p)
   $
 ]
-
-== The Product Formula for $phi(n)$
-
-The sum $sum_(d | n) mu(d) \/ d$ simplifies to a product over prime divisors.
 
 #example[
-  For $n = 30 = 2 dot 3 dot 5$, expanding $(1 - 1\/2)(1 - 1\/3)(1 - 1\/5)$:
-  $
-    1 - 1\/2 - 1\/3 - 1\/5 + 1\/6 + 1\/10 + 1\/15 - 1\/30
-  $
-
-  Each denominator $d$ appears with sign $mu(d)$: $mu(1) = 1$, $mu(2) = mu(3) = mu(5) = -1$, $mu(6) = mu(10) = mu(15) = 1$, $mu(30) = -1$.
-  This is exactly $sum_(d | 30) mu(d) \/ d$.
-]
-
-In general, only square-free divisors survive (since $mu(d) = 0$ otherwise), and expanding $product_(p | n)(1 - 1\/p)$ produces exactly $sum_(d | n) mu(d) \/ d$.
-
-#Block(color: blue, width: 100%)[
-  $
-    phi(n) = n dot product_(p | n, p "prime") (1 - 1 \/ p)
-  $
-]
-
-== Euler's Totient --- Example
-
-#example[
-  For $n = 12 = 2^2 dot 3$:
-  $
-    phi(12) = 12 dot (1 - 1\/2)(1 - 1\/3) = 12 dot 1\/2 dot 2\/3 = 4
-  $
+  For $n = 12 = 2^2 dot 3$, we have:
+  $ phi(12) = 12 dot (1 - 1/2)(1 - 1/3) = 12 dot 1/2 dot 2/3 = 4 $
 
   The four numbers coprime to 12 are $1, 5, 7, 11$. #YES
 ]
 
-== From Möbius to the Twelvefold Way
+== Summary: Möbius Inversion
 
-We have seen Möbius inversion on three posets:
+We saw four posets, each with its own Möbius function:
 
-#Block(color: blue, width: 100%)[
-  - *Boolean lattice* $(2^{[n]}, subset.eq)$ $arrow.r$ PIE, surjections, Stirling numbers
-  - *Divisor lattice* $(ZZ^+, |)$ $arrow.r$ Möbius function, Euler's totient
-  - *Partition lattice* $Pi_n$ $arrow.r$ set partitions, Stirling numbers
+#align(center)[
+  #table(
+    columns: 3,
+    align: left,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([*Poset*], [*Möbius function*], [*What it gives*]),
+    [Chain $(NN, <=)$], [$mu(n, n)=1$, $mu(n-1, n)=-1$], [Finite differences: $F(n)=G(n)-G(n-1)$],
+    [Boolean $(2^([n]), subset.eq)$], [$mu(A, B) = (-1)^(abs(B) - abs(A))$], [Inclusion--exclusion],
+    [Boolean over $G F(2)$], [$mu(A, B) = 1$ always], [Zhegalkin polynomials],
+    [Divisors $(ZZ^+, |)$], [$mu(d)$: classical], [Number-theoretic inversion],
+  )
 ]
 
-Each poset explains a different aspect of counting.
-Now we will see how _all_ basic counting problems organize into a single table: *The Twelvefold Way*.
+#Block(color: orange, width: 100%)[
+  *Common pattern:* $zeta$ sums over everything below, $mu$ undoes the sum.
+
+  The poset determines the form of $mu$.
+]
 
 = The Twelvefold Way
 
@@ -4295,6 +4311,7 @@ This is the theory of _functions_ $f : [n] to [k]$.
 )
 
 The surjection count uses PIE (equivalently, Möbius inversion on the Boolean lattice):
+
 $k! s2(n, k) = sum_(i=0)^k (-1)^i binom(k, i)(k-i)^n$.
 
 == Indistinguishable Balls, Distinct Boxes
@@ -4367,7 +4384,9 @@ This is the theory of _set partitions_.
   ],
 )
 
-Here $[P]$ denotes the _Iverson bracket_: $[P] = 1$ if $P$ is true, $0$ otherwise.
+Here $[P]$ denotes the _Iverson bracket_:
+
+$[P] = 1$ if $P$ is true, $0$ otherwise.
 
 == Indistinguishable Balls, Indistinguishable Boxes
 
@@ -4406,6 +4425,8 @@ This is the theory of _integer partitions_.
 
 Here $p_j(n)$ denotes the number of integer partitions of $n$ into exactly $j$ parts.
 
+Note that Rows 3 and 4 are _unlabeled_, so the formulas differ from Rows 1 and 2 only in "forgetting" the box labels.
+
 == From Unrestricted to Surjective
 
 The surjective column is obtained from the unrestricted column by Möbius inversion on the _Boolean lattice_.
@@ -4417,7 +4438,7 @@ The surjective column is obtained from the unrestricted column by Möbius invers
 
   Surjective: $k! s2(n, k) = sum_(i=0)^k (-1)^i binom(k, i)(k-i)^n$.
 
-  This is PIE --- Möbius inversion on $2^{[k]}$!
+  This is PIE --- Möbius inversion on $2^([k])$!
 ]
 
 #Block(color: orange, width: 100%)[
@@ -4478,7 +4499,7 @@ All formulas hold for the standard non-degenerate cases $n, k >= 1$.
     #Block(color: blue, width: 100%)[
       *Key insight:* every counting formula lives in the incidence algebra of some poset.
 
-      - PIE $arrow.r$ Boolean lattice $(2^{[n]}, subset.eq)$
+      - PIE $arrow.r$ Boolean lattice $(2^([n]), subset.eq)$
       - Möbius function $arrow.r$ divisor lattice $(ZZ^+, |)$
       - Stirling numbers $arrow.r$ partition lattice $Pi_n$
     ]
