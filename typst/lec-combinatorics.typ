@@ -3954,7 +3954,7 @@ Consider the Boolean lattice $cal(P) = (2^([n]), subset.eq)$.
     mu(A, B) = -sum_(A subset.eq C subset B) mu(A, C)
   $
 
-  #colbreak
+  #colbreak()
 
   There are $binom(d, i)$ sets $C$ with $abs(C) - abs(A) = i$ (choose which $i$ elements to add).
 
