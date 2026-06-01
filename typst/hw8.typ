@@ -95,13 +95,18 @@
 For each given recurrence relation, find the first five terms,
 derive the closed-form solution, and check it by substituting it back to the recurrence relation.
 
-#tasklist("prob1", cols: 2, format: "(a)")[
+#tasklist("prob1", cols: 1, format: "(a)")[
   + $a_n = a_(n-1) + n$ with $a_0 = 2$
+
   + $a_n = 2 a_(n-1) + 2$ with $a_0 = 1$
+
   + $a_n = 3 a_(n-1) + 2^n$ with $a_0 = 5$
+
   + $a_n = 4 a_(n-1) + 5 a_(n-2)$ with $a_0 = 1$, $a_1 = 17$
+
   + $a_n = 4 a_(n-1) - 4 a_(n-2)$ with $a_0 = 3$, $a_1 = 11$
-  + $a_n = 2 a_(n-1) + a_(n-2) - 2 a_(n-3)$ with $a\_(0,1,2) = 3, 2, 6$
+
+  + $a_n = 2 a_(n-1) + a_(n-2) - 2 a_(n-3)$ with $a_(0,1,2) = 3, 2, 6$
 ]
 
 
