@@ -357,7 +357,7 @@ $a_n$ for $n = 10^(18)$ in milliseconds.
       Compute $a_(10^(15)) thin "mod" thin (10^9 + 7)$.
       Benchmark against $O(n)$ iteration --- where is the crossover?
 
-  + *Applications.* Find a recurrence for the number of domino tilings of a $3 times n$ board
-    (compute small cases, spot the pattern), then use your solver for the closed form.
-    Also compute $T_(10^(12)) thin "mod" thin (10^9 + 7)$ for the Tribonacci sequence: $T_n = T_(n-1) + T_(n-2) + T_(n-3)$ with $T_0 = 0$, $T_1 = 0$, $T_2 = 1$.
+  + *Applications.* Find a recurrence for the number of domino tilings of a $3 times n$ board (compute small cases, spot the pattern), then use your solver for the closed form.
+
+    Also compute $T_(10^(12)) thin "mod" thin (10^9 + 7)$ for the Tribonacci sequence: $T_n = T_(n-1) + T_(n-2) + T_(n-3)$ with #box[$T_0 = 0$], #box[$T_1 = 0$], #box[$T_2 = 1$].
 ]
