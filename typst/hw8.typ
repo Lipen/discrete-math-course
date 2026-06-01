@@ -270,9 +270,16 @@ This problem follows the thread from Euler's product to Ramanujan's congruences.
 
 #Box[
   *Euler's pentagonal number theorem.*
-  $ product_(k=1)^infinity (1 - x^k) = sum_(k=-infinity)^infinity (-1)^k x^(k(3k-1)\/2) = 1 - x - x^2 + x^5 + x^7 - x^12 - x^15 + dots $
+  $
+    product_(k=1)^infinity (1 - x^k)
+    = sum_(k=-infinity)^infinity (-1)^k x^(k(3k-1)\/2)
+    = 1 - x - x^2 + x^5 + x^7 - x^12 - x^15 + dots
+  $
   *Partition generating function.*
-  $ sum_(n=0)^infinity p(n) x^n = product_(k=1)^infinity frac(1, 1 - x^k) $
+  $
+    sum_(n=0)^infinity p(n) x^n
+    = product_(k=1)^infinity frac(1, 1 - x^k)
+  $
   where $p(n)$ counts the ways to write $n$ as a sum of positive integers in non-increasing order.
 ]
 
@@ -321,7 +328,14 @@ $a_n$ for $n = 10^(18)$ in milliseconds.
 
 #Box[
   *Companion matrix.* $a_n = c_1 a_(n-1) + dots + c_k a_(n-k)$ becomes
-  $ vec(bold(v)_n) = mat(c_1, c_2, dots, c_k; 1, 0, dots, 0; dots.v, , dots.down, dots.v; 0, dots, 1, 0) vec(bold(v)_(n-1)) $
+  $
+    vec(bold(v)_n) = mat(
+      c_1, c_2, dots, c_k;
+      1, 0, dots, 0;
+      dots.v, , dots.down, dots.v;
+      0, dots, 1, 0,
+    ) vec(bold(v)_(n-1))
+  $
   Repeated squaring computes $a_n$ in $O(k^3 log n)$ time.
 ]
 
