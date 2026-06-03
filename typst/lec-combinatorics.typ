@@ -1197,7 +1197,7 @@ $
 == Solving Combinatorial Problems via Generating Functions
 
 #example[
-  Find the number of integer solutions to $y_1 + y_2 + y_3 = 12$ with $0 <= x_i <= 6$.
+  Find the number of integer solutions to $y_1 + y_2 + y_3 = 12$ with $0 <= y_i <= 6$.
   - Possible values for $y_1$ are $0 <= y_1 <= 6$.
     - There is a _single_ way to select $y_1 = 0$.
       The same for other values among $1, dots, 6$.
