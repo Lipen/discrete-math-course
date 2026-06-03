@@ -2402,9 +2402,7 @@ Both characteristic equations and generating functions solve the same recurrence
 
   Multiply by $x$ and $x^2$ to shift indices:
   $
-    x G(x) & = \
-           & = F_0 x + F_1 x^2 + F_2 x^3 + dots = \
-           & = F_0 x^2 + F_1 x^3 + dots \
+    x G(x) & = F_0 x + F_1 x^2 + F_2 x^3 + dots \
     x^2 G(x) & = F_0 x^2 + F_1 x^3 + dots
   $
 
