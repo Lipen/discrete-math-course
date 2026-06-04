@@ -1564,7 +1564,7 @@ $
 == Solving Combinatorial Problems via Generating Functions
 
 #example[
-  Find the number of integer solutions to $y_1 + y_2 + y_3 = 12$ with $0 <= x_i <= 6$.
+  Find the number of integer solutions to $y_1 + y_2 + y_3 = 12$ with $0 <= y_i <= 6$.
   - Possible values for $y_1$ are $0 <= y_1 <= 6$.
     - There is a _single_ way to select $y_1 = 0$.
       The same for other values among $1, dots, 6$.
@@ -1573,7 +1573,7 @@ $
     - Write this sequence as a polynomial $x^0 + x^1 + dots + x^6$.
     - Do the same for $y_2$ and $y_3$ (_in isolation_!).
   - Since all combinations of $y_1$, $y_2$ and $y_3$ are valid non-conflicting solutions, we can multiply those polynomials and obtain the _generating function_ $G(x) = (1 + x + x^2 + dots + x^6)^3$.
-    - For each $n$, the coefficient of $x^n$ in $G(x)$ is the number of integer solutions to $x_1 + x_2 + x_3 = n$.
+    - For each $n$, the coefficient of $x^n$ in $G(x)$ is the number of integer solutions to $y_1 + y_2 + y_3 = n$.
     - In particular, we are interested in the coefficient of $x^12$ in $G(x)$, denoted $[x^12] G(x)$.
     - Use #strike[pen and paper] #link("https://www.wolframalpha.com/input?i=expand+%281%2Bx%2Bx%5E2%2Bx%5E3%2Bx%5E4%2Bx%5E5%2Bx%5E6%29%5E3")[Wolfram Alpha] to expand $G(x)$:
       $
