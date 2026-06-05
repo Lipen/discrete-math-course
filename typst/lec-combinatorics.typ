@@ -2402,8 +2402,8 @@ Both characteristic equations and generating functions solve the same recurrence
 
   Multiply by $x$ and $x^2$ to shift indices:
   $
-    x G(x) & = F_0 x + F_1 x^2 + F_2 x^3 + dots \
-    x^2 G(x) & = F_0 x^2 + F_1 x^3 + dots
+    x G(x) & = F_0 x & + F_1 x^2 & + F_2 x^3 + dots \
+    x^2 G(x) & = F_0 x^2 & + F_1 x^3 & + dots
   $
 
   Since $F_n = F_(n-1) + F_(n-2)$ for $n >= 2$, each coefficient of $G - x G - x^2 G$ vanishes except $F_1 x = x$:
