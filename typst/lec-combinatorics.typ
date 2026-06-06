@@ -262,9 +262,9 @@ Three fundamental questions arise in every combinatorial problem:
   Let $S_1, dots, S_k$ be finite sets that are pairwise disjoint and #box[$abs(S_1) + abs(S_2) + dots + abs(S_k) = n$].
   // Then
   $
-    exists i in {1,dots,k}: abs(S_i) >= floor(n / k)
+    exists i in {1,dots,k}: abs(S_i) >= ceil(n / k)
     quad "and" quad
-    exists j in {1,dots,k}: abs(S_j) <= ceil(n / k)
+    exists j in {1,dots,k}: abs(S_j) <= floor(n / k)
   $
 ]
 
