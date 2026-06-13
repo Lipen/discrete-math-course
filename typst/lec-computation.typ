@@ -1304,26 +1304,23 @@ The interaction has four steps:
 
 == Pumping Game for *$L = { 0^n 1^n mid(|) n in NN }$*
 
-#align(center)[
-  #table(
-    columns: (auto, auto),
-    align: (center, center),
-    column-gutter: 1em,
-    stroke: (x, y) => if y == 0 { (bottom: .8pt) },
-    table.header([*#Red[Adversary]*], [*#Green[Prover]*]),
-    [Choose pumping length $n$],
-    [Select the witness string $w = 0^n 1^n in L$ with $abs(w) = 2n >= n$],
-    [Choose a legal split $w = x y z$ with $y != epsilon$],
-    [Analyze the possible forms of $y$],
-    [Maintain the pumping claim],
-    [Choose a pumping index $i$],
-    [If $y$ contains only $0$s or only $1$s, take $i = 0$; if it mixes both, take $i = 2$],
-    [Then $x y^i z notin L$ in every case],
-    Red[Lose], Green[Win],
-    table.cell(colspan: 2, stroke: (
-      top: 0.4pt,
-    ))[#Green[$0^n 1^n$ cannot satisfy the pumping conclusion uniformly, so it is not regular]],
-  )
+A complete play: the #Red[adversary] and the #Green[prover] alternate over the four moves.
+
++ #Red[*Adversary*] picks the pumping length $n$.
+
++ #Green[*Prover*] plays the witness $w = 0^n 1^n in L$, of length $abs(w) = 2n >= n$.
+
++ #Red[*Adversary*] chooses a legal split $w = x y z$ with $y != epsilon$.
+
++ #Green[*Prover*] replies with a pumping index $i$ that defeats the split: $i = 0$ when $y$ consists only of $0$s or only of $1$s (then $x z$ has unequal counts), and $i = 2$ when $y$ straddles the boundary between $0$s and $1$s (then $x y^2 z$ is no longer of the form $0^* 1^*$).
+  In either case $x y^i z notin L$.
+
+#Block(color: green)[
+  *Verdict --- the prover wins.*
+
+  For any split the adversary can choose, the prover holds a reply $i$ that pumps the word out of $L$.
+
+  The pumping conclusion therefore fails, which proves that $L = { 0^n 1^n mid(|) n in NN }$ is _not regular_.
 ]
 
 == Proof that *$0^n 1^n$* is Not Regular
