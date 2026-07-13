@@ -37,7 +37,7 @@ Equivalently: solvable by nondeterministic TM in polynomial time.
 ]
 
 #note[
-    $P subset.eq "NP"$ trivially. $P = "NP"$? Open --- one of seven Millennium Prize Problems ($1,000,000).
+    $P subset.eq "NP"$ trivially. $P = "NP"$? Open --- one of seven Millennium Prize Problems $1,000,000$.
 ]
 
 == Polynomial Reductions and NP-Completeness
