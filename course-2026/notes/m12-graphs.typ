@@ -145,7 +145,7 @@
 
 #figure(
   eulerian,
-  caption: [An Eulerian graph: all vertices have even degree. The tour visits each edge exactly once.],
+  caption: [The Königsberg bridges: every vertex has odd degree (3,3,5,3) — no Eulerian tour is possible.],
 ) <fig:eulerian>
 
 #remark[

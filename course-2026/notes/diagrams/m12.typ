@@ -209,42 +209,80 @@
 })
 
 // ── 7. Bridges of Königsberg ──
+// Diamond layout: A (north bank), B (south bank), C and D (islands).
+// Real topology: A=3, B=3, C=5, D=3 — C (Kneiphof) has 5 bridges.
 #let eulerian = cetz.canvas({
   import cetz.draw: *
-  let v = ((-1.5, 1), (1.5, 1), (-1.5, -1), (1.5, -1))
+  let v = ((0, 2.2), (0, -2.2), (-2, 0), (2, 0))
   let names = ("A", "B", "C", "D")
-  // Landmasses (rects) FIRST — named
+  let r = 0.42
+
+  // Point on circle border in direction of `toward`
+  let rim(center, toward) = {
+    let (cx, cy) = center
+    let (tx, ty) = toward
+    let d = calc.sqrt((tx - cx) * (tx - cx) + (ty - cy) * (ty - cy))
+    (cx + (tx - cx) / d * r, cy + (ty - cy) / d * r)
+  }
+
+  // Landmasses — circles, named
   for (i, p) in v.enumerate() {
-    rect(
-      (p.at(0) - 0.5, p.at(1) - 0.3),
-      (rel: (1, 0.6)),
-      radius: 5pt,
+    circle(
+      p,
+      radius: r,
       fill: c-pa-fill,
-      stroke: c-pa-dot,
+      stroke: (paint: c-pa-dot, thickness: 1pt),
       name: names.at(i),
     )
-    content(p, size: .8em)[#text(weight: "bold")[#names.at(i)]]
+    content(p)[#text(weight: "bold")[#names.at(i)]]
   }
-  // Bridges — node names
-  line("A", "B")
-  line("A", "C")
-  line("A", "D")
-  line("B", "C")
-  line("B", "D")
-  line("C", "D")
-  // Second bridge A–B (offset via explicit coords since named routing would overlap)
-  line(
-    (v.at(0).at(0) + 0.2, v.at(0).at(1) - 0.1),
-    (v.at(1).at(0) - 0.2, v.at(1).at(1) - 0.1),
+
+  let bridge-style = (paint: c-edge, thickness: 0.7pt)
+
+  // Single bridges (straight, node-based)
+  line("A", "D", stroke: bridge-style)
+  line("B", "D", stroke: bridge-style)
+  line("C", "D", stroke: bridge-style)
+
+  // Double bridge A–C: one straight, one bezier curving outward (left)
+  line("A", "C", stroke: bridge-style)
+  let ac-ctrl = (-1.3, 1.3)
+  bezier(
+    rim(v.at(0), ac-ctrl),
+    rim(v.at(2), ac-ctrl),
+    ac-ctrl,
+    ac-ctrl,
+    stroke: bridge-style,
   )
-  // Degree annotations
-  let dg(p, anc, out, txt) = {
-    content(p, anchor: anc, outset: out, size: .7em, fill: c-edge-dim)[$txt$]
-  }
-  dg(v.at(0), "north", 0.6em, "3")
-  dg(v.at(1), "north", 0.6em, "3")
-  dg(v.at(2), "south", 0.6em, "5")
-  dg(v.at(3), "south", 0.6em, "3")
+
+  // Double bridge B–C: one straight, one bezier curving outward (left)
+  line("B", "C", stroke: bridge-style)
+  let bc-ctrl = (-1.3, -1.3)
+  bezier(
+    rim(v.at(1), bc-ctrl),
+    rim(v.at(2), bc-ctrl),
+    bc-ctrl,
+    bc-ctrl,
+    stroke: bridge-style,
+  )
+
+  // Degree labels — positioned outside each node via named anchors
+  content(
+    "A",
+    anchor: "south",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$3$]
+  content(
+    "B",
+    anchor: "north",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$3$]
+  content("C", anchor: "east", outset: 0.6em, size: .7em, fill: c-edge-dim)[$5$]
+  content("D", anchor: "west", outset: 0.6em, size: .7em, fill: c-edge-dim)[$3$]
 })
 
 // ── 8. Planar graph ──
