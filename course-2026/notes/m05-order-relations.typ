@@ -78,6 +78,21 @@
   In $({2, 3, 4, 6, 12}, |)$: minimal = ${2, 3}$, maximal = ${12}$, least = none, greatest = 12.
 ]
 
+#proposition[Extremal elements --- comparison][
+  #table(
+    columns: 4,
+    align: (left, center, center, left),
+    table.header(
+      [*Concept*], [*Definition*], [*Unique?*], [*Exists in finite poset?*]
+    ),
+    table.hline(),
+    [Minimal], [$not(exists a: a < m)$], [No --- can be many], [Always],
+    [Maximal], [$not(exists a: m < a)$], [No --- can be many], [Always],
+    [Least], [$m prec.eq a$ for all $a$], [Yes], [Not guaranteed],
+    [Greatest], [$a prec.eq m$ for all $a$], [Yes], [Not guaranteed],
+  )
+]
+
 === Bounds, Supremum, Infimum
 
 #definition[Bounds][
