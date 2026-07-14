@@ -44,7 +44,7 @@
   it: none,
 ) = {
   block(
-    fill: fill,
+    ..if fill != none { (fill: fill) } else { () },
     stroke: stroke,
     inset: inset,
     radius: 3pt,
