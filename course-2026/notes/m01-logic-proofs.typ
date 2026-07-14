@@ -336,11 +336,11 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
   Assume, for the sake of contradiction, that $sqrt(2)$ is rational.
   Then there exist positive integers $p, q in ZZ^+$ such that
-  $ sqrt(2) = p/q, $
+  $ sqrt(2) = p slash q, $
   and we may assume the fraction is in lowest terms, i.e. $gcd(p, q) = 1$.
   (If the fraction were not reduced, we could cancel common factors first.)
 
-  Squaring both sides gives $2 = p^2 / q^2$, hence
+  Squaring both sides gives $2 = p^2 slash q^2$, hence
   $ p^2 = 2q^2. $
   This shows that $p^2$ is even.
   If $p$ were odd, then $p^2$ would be odd (an odd times an odd is odd), so $p$ must be even.
