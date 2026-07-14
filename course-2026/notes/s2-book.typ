@@ -5,6 +5,7 @@
 #import "notation.typ": *
 
 #let theme = oklch(55%, 0.15, 250deg) // blue
+#let theme-light = oklch(85%, 0.05, 250deg)
 
 #set document(
   title: "Discrete Mathematics — Lecture Notes",
@@ -20,20 +21,30 @@
 )
 
 #align(center)[
-  #block(height: 3cm)
-  #line(length: 4cm, stroke: 2pt + theme)
-  #block(height: 1.5cm)
-  #text(size: 28pt, weight: "bold")[Discrete Mathematics]
-  #block(height: 0.4cm)
-  #text(size: 20pt, fill: luma(35%))[Lecture Notes]
-  #block(height: 1.5cm)
-  #text(size: 14pt)[Computation]
-  #text(size: 11pt, fill: luma(45%))[Semester 2]
   #block(height: 2.5cm)
-  #text(size: 11pt, fill: luma(45%))[ITMO University]
-  #text(size: 11pt, fill: luma(45%))[Fall 2026 — Spring 2027]
+  // Geometric accent: circle on a pole
+  #align(center)[
+    #rect(width: 7pt, height: 7pt, fill: theme, radius: 100%, inset: 0pt)
+    #v(6pt)
+    #rect(width: 1pt, height: 12pt, fill: theme, inset: 0pt)
+    #v(1pt)
+    #line(length: 3cm, stroke: 2pt + theme)
+  ]
+  #block(height: 2cm)
+  #text(size: 30pt, weight: "bold")[Discrete Mathematics]
+  #block(height: 0.3cm)
+  #text(size: 18pt, fill: luma(40%), weight: "light")[Lecture Notes]
+  #block(height: 1.8cm)
+  #line(length: 3cm, stroke: 0.3pt + luma(80%))
+  #block(height: 1.2cm)
+  #text(size: 13pt, weight: "semibold")[Computation]
+  #block(height: 0.2cm)
+  #text(size: 10pt, fill: luma(50%))[Semester 2]
+  #block(height: 2.5cm)
+  #text(size: 10pt, fill: luma(45%))[ITMO University]
+  #text(size: 10pt, fill: luma(45%))[Fall 2026 — Spring 2027]
   #block(height: 1.5cm)
-  #text(size: 9pt, fill: luma(55%))[Draft — work in progress]
+  #text(size: 8pt, fill: luma(60%))[Draft — work in progress]
 ]
 
 #pagebreak()
@@ -43,16 +54,26 @@
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
   header: [
-    #line(length: 100%, stroke: 1.5pt + theme)
-    #v(3pt)
+    // Top bar — thick colored
+    #line(length: 100%, stroke: 2.5pt + theme)
+    #v(1pt)
+    // Second bar — lighter echo
+    #line(length: 100%, stroke: 0.5pt + theme-light)
+    #v(5pt)
+    // Header text line
     #set text(7.5pt, fill: luma(45%))
-    #text(tracking: 0.12em)[DISCRETE MATH · NOTES]
+    #rect(width: 4.5pt, height: 4.5pt, fill: theme, inset: 0pt)
+    #h(5pt)
+    #text(tracking: 0.18em, weight: "semibold")[DISCRETE MATH · NOTES]
     #h(1fr)
-    #emph[Computation]
+    #text(style: "italic", fill: luma(35%))[Computation]
+    #v(4pt)
+    // Bottom rule — thin gray
+    #line(length: 100%, stroke: 0.3pt + luma(85%))
   ],
   footer: context [
-    #set text(8pt, fill: luma(50%))
-    #line(length: 100%, stroke: 0.3pt + luma(88%))
+    #set text(7.5pt, fill: luma(50%))
+    #line(length: 100%, stroke: 0.3pt + luma(85%))
     #v(2pt)
     #h(1fr)
     #counter(page).display("1")
