@@ -211,9 +211,11 @@
 #let example(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    emph[Example (#sub):]
-  } else {
+    if inline { emph[Example (#sub):] } else { emph[Example (#sub)] }
+  } else if inline {
     emph[Example:]
+  } else {
+    emph[Example]
   }
   _block(
     title: title,
@@ -228,11 +230,11 @@
 #let note(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    strong[Note: #sub.]
+    strong[Note: #sub]
   } else if inline {
     strong[Note:]
   } else {
-    strong[Note.]
+    strong[Note]
   }
   _block(
     title: title,
