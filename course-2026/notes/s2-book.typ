@@ -6,11 +6,14 @@
 
 // Must be in root file — set rules inside imported modules don't affect these elements.
 #set page(
-paper: "a4", margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm), header: [
+  paper: "a4",
+  margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm),
+  header: [
     #set text(9pt, fill: luma(40%))
     Discrete Math --- Lecture Notes
     #h(1fr)
-Fall 2026 --- Spring 2027 ], footer: context [
+    Fall 2026 --- Spring 2027 ],
+  footer: context [
     #set text(9pt, fill: luma(40%))
     #h(1fr)
     #counter(page).display("1")
@@ -19,7 +22,9 @@ Fall 2026 --- Spring 2027 ], footer: context [
 #set heading(numbering: "1.1.1")
 
 #set document(
-title: "Discrete Mathematics --- Lecture Notes", author: "Konstantin Chukharev", )
+  title: "Discrete Mathematics --- Lecture Notes",
+  author: "Konstantin Chukharev",
+)
 
 // --- Title page ---
 #align(center)[

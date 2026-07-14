@@ -2,13 +2,15 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": (
-bfs-tree, bipartite, bridge-cut, directed-graph, eulerian, graph-coloring, k33, k5, petersen, planar, simple-graph, spanning-tree, tree, )
+  bfs-tree, bipartite, bridge-cut, directed-graph, eulerian, graph-coloring,
+  k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
+)
 
 = Graphs
 
 #chapter-overview[
-Graphs are the lingua franca of discrete structures --- they model networks, dependencies, state spaces, and relationships in every domain of computer science.
-This chapter introduces fundamental definitions, major graph classes (trees, bipartite, planar, Eulerian, Hamiltonian), standard algorithms (BFS, DFS, Dijkstra), and theoretical pillars: graph coloring, planar duality, and the theorems that govern graph structure. ]
+  Graphs are the lingua franca of discrete structures --- they model networks, dependencies, state spaces, and relationships in every domain of computer science.
+  This chapter introduces fundamental definitions, major graph classes (trees, bipartite, planar, Eulerian, Hamiltonian), standard algorithms (BFS, DFS, Dijkstra), and theoretical pillars: graph coloring, planar duality, and the theorems that govern graph structure. ]
 
 == Basic Definitions
 
@@ -27,19 +29,23 @@ This chapter introduces fundamental definitions, major graph classes (trees, bip
 ]
 
 #figure(
-petersen, caption: [The Petersen graph: 3-regular, 10 vertices, non-planar, vertex-transitive.
-A classic counterexample in graph theory.], ) <fig:petersen>
+  petersen,
+  caption: [The Petersen graph: 3-regular, 10 vertices, non-planar, vertex-transitive.
+    A classic counterexample in graph theory.],
+) <fig:petersen>
 
 #definition[Degree][
-$"deg"(v)$ = number of incident edges.
-Directed: out-degree $"deg"^+(v)$, in-degree $"deg"^-(v)$. ]
+  $"deg"(v)$ = number of incident edges.
+  Directed: out-degree $"deg"^+(v)$, in-degree $"deg"^-(v)$. ]
 
 #theorem[Handshaking lemma][
-$sum_(v in V) "deg"(v) = 2|E|$.
-Corollary: number of odd-degree vertices is even. ]
+  $sum_(v in V) "deg"(v) = 2|E|$.
+  Corollary: number of odd-degree vertices is even. ]
 
 #figure(
-simple-graph, caption: [An undirected graph with 6 vertices and 9 edges.], ) <fig:simple-graph>
+  simple-graph,
+  caption: [An undirected graph with 6 vertices and 9 edges.],
+) <fig:simple-graph>
 
 === Representations
 
@@ -68,25 +74,31 @@ simple-graph, caption: [An undirected graph with 6 vertices and 9 edges.], ) <fi
 ]
 
 #figure(
-bridge-cut, caption: [Edge {1,2} is a bridge --- its removal disconnects the graph.
-Vertex 1 is a cut-vertex (articulation point).], ) <fig:bridge-cut>
+  bridge-cut,
+  caption: [Edge {1,2} is a bridge --- its removal disconnects the graph.
+    Vertex 1 is a cut-vertex (articulation point).],
+) <fig:bridge-cut>
 
 #proposition[Strong connectivity (directed)][
-In digraphs, *strong connectivity* requires directed paths in both directions between every pair.
-Strongly connected components (SCCs) are computed by Kosaraju's or Tarjan's algorithm in $O(V + E)$ via DFS. ]
+  In digraphs, *strong connectivity* requires directed paths in both directions between every pair.
+  Strongly connected components (SCCs) are computed by Kosaraju's or Tarjan's algorithm in $O(V + E)$ via DFS. ]
 
 #figure(
-directed-graph, caption: [A directed graph.
-Vertices 1, 2, 3 form one SCC --- each reachable from each other.], ) <fig:directed-graph>
+  directed-graph,
+  caption: [A directed graph.
+    Vertices 1, 2, 3 form one SCC --- each reachable from each other.],
+) <fig:directed-graph>
 
 == Trees
 
 #definition[Tree][
-A *tree* is a connected acyclic graph.
-A *forest* is a disjoint union of trees. ]
+  A *tree* is a connected acyclic graph.
+  A *forest* is a disjoint union of trees. ]
 
 #figure(
-tree, caption: [A tree: 10 vertices, 9 edges --- connected and acyclic.], ) <fig:tree>
+  tree,
+  caption: [A tree: 10 vertices, 9 edges --- connected and acyclic.],
+) <fig:tree>
 
 #theorem[Equivalent characterisations][
   For a graph on $n$ vertices, these are equivalent:
@@ -98,18 +110,20 @@ tree, caption: [A tree: 10 vertices, 9 edges --- connected and acyclic.], ) <fig
 ]
 
 #corollary[Leaves][
-Every tree with $n >= 2$ has at least two leaves (degree-1 vertices). ]
+  Every tree with $n >= 2$ has at least two leaves (degree-1 vertices). ]
 
 #definition[Spanning tree][
-A subgraph that includes all vertices and is a tree.
-Every connected graph has one. ]
+  A subgraph that includes all vertices and is a tree.
+  Every connected graph has one. ]
 
 #figure(
-spanning-tree, caption: [A graph (all edges shown) with one spanning tree highlighted in blue.], ) <fig:spanning-tree>
+  spanning-tree,
+  caption: [A graph (all edges shown) with one spanning tree highlighted in blue.],
+) <fig:spanning-tree>
 
 #theorem[Cayley's formula][
-Number of labelled trees on $n$ vertices: $n^(n-2)$.
-Proof via Prüfer codes. ]
+  Number of labelled trees on $n$ vertices: $n^(n-2)$.
+  Proof via Prüfer codes. ]
 
 #proposition[Minimum spanning tree][
   Given a weighted connected graph, an MST minimises the sum of edge weights.
@@ -120,21 +134,23 @@ Proof via Prüfer codes. ]
 == Eulerian and Hamiltonian Graphs
 
 #definition[Eulerian][
-*Eulerian tour*: traverses every edge exactly once, returns to start. *Eulerian trail*: open version (different start and end). ]
+  *Eulerian tour*: traverses every edge exactly once, returns to start. *Eulerian trail*: open version (different start and end). ]
 
 #theorem[Euler's criterion][
-Connected undirected graph is Eulerian iff all degrees are even.
-Has an Eulerian trail iff exactly two vertices have odd degree. ]
+  Connected undirected graph is Eulerian iff all degrees are even.
+  Has an Eulerian trail iff exactly two vertices have odd degree. ]
 
 #figure(
-eulerian, caption: [The Königsberg bridges: every vertex has odd degree (3,3,5,3) --- no Eulerian tour is possible.], ) <fig:eulerian>
+  eulerian,
+  caption: [The Königsberg bridges: every vertex has odd degree (3,3,5,3) --- no Eulerian tour is possible.],
+) <fig:eulerian>
 
 #remark[
-Chinese Postman Problem (shortest closed walk covering all edges) solvable in polynomial time. ]
+  Chinese Postman Problem (shortest closed walk covering all edges) solvable in polynomial time. ]
 
 #definition[Hamiltonian][
-*Hamiltonian cycle*: visits every vertex exactly once, returns to start.
-No simple necessary and sufficient condition --- the problem is NP-complete. ]
+  *Hamiltonian cycle*: visits every vertex exactly once, returns to start.
+  No simple necessary and sufficient condition --- the problem is NP-complete. ]
 
 #theorem[Sufficient conditions][
   - *Dirac*: $"deg"(v) >= n/2$ for all $v$ → Hamiltonian.
@@ -142,60 +158,68 @@ No simple necessary and sufficient condition --- the problem is NP-complete. ]
 ]
 
 #remark[
-TSP (shortest Hamiltonian cycle in weighted graph) is NP-hard --- one of the most studied optimisation problems. ]
+  TSP (shortest Hamiltonian cycle in weighted graph) is NP-hard --- one of the most studied optimisation problems. ]
 
 == Bipartite Graphs
 
 #definition[Bipartite graph][
-$V = X union Y$, $X inter Y = emptyset$, all edges between $X$ and $Y$. ]
+  $V = X union Y$, $X inter Y = emptyset$, all edges between $X$ and $Y$. ]
 
 #theorem[Bipartite criterion][
-A graph is bipartite iff it has no odd-length cycle.
-Test: BFS 2-coloring in $O(V+E)$. ]
+  A graph is bipartite iff it has no odd-length cycle.
+  Test: BFS 2-coloring in $O(V+E)$. ]
 
 #figure(
-bipartite, caption: [A bipartite graph: vertices partitioned into two colour classes (blue and red).
-Edges only cross between classes.], ) <fig:bipartite>
+  bipartite,
+  caption: [A bipartite graph: vertices partitioned into two colour classes (blue and red).
+    Edges only cross between classes.],
+) <fig:bipartite>
 
 #definition[Matching][
-A set of edges with no shared vertices. *Perfect matching* covers all vertices. ]
+  A set of edges with no shared vertices. *Perfect matching* covers all vertices. ]
 
 #theorem[Hall's marriage theorem][
-In bipartite $(X union Y, E)$, a matching covering $X$ exists iff $forall S subset.eq X: |N(S)| >= |S|$. ]
+  In bipartite $(X union Y, E)$, a matching covering $X$ exists iff $forall S subset.eq X: |N(S)| >= |S|$. ]
 
 == Planarity
 
 #definition[Planar graph][
-Can be drawn in the plane with no edge crossings. *Faces*: regions bounded by edges. ]
+  Can be drawn in the plane with no edge crossings. *Faces*: regions bounded by edges. ]
 
 #theorem[Euler's formula][
-For a connected plane graph: $V - E + F = 2$. ]
+  For a connected plane graph: $V - E + F = 2$. ]
 
 #corollary[Edge bound][
-For simple planar graph with $V >= 3$: $E <= 3V - 6$.
-Consequence: every simple planar graph has a vertex of degree $<= 5$.
-$K_5$ violates the edge bound ($E=10 > 3 dot 5 - 6 = 9$) and is non-planar.
-$K_(3,3)$ is also non-planar --- it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor). ]
+  For simple planar graph with $V >= 3$: $E <= 3V - 6$.
+  Consequence: every simple planar graph has a vertex of degree $<= 5$.
+  $K_5$ violates the edge bound ($E=10 > 3 dot 5 - 6 = 9$) and is non-planar.
+  $K_(3,3)$ is also non-planar --- it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor). ]
 
 #figure(
-k5, caption: [$K_5$ --- the complete graph on 5 vertices.
-Non-planar: $E=10 > 3 dot 5 - 6 = 9$.], ) <fig:k5>
+  k5,
+  caption: [$K_5$ --- the complete graph on 5 vertices.
+    Non-planar: $E=10 > 3 dot 5 - 6 = 9$.],
+) <fig:k5>
 
 #figure(
-k33, caption: [$K_(3,3)$ --- the complete bipartite graph.
-Also non-planar and a Kuratowski forbidden minor.], ) <fig:k33>
+  k33,
+  caption: [$K_(3,3)$ --- the complete bipartite graph.
+    Also non-planar and a Kuratowski forbidden minor.],
+) <fig:k33>
 
 #figure(
-planar, caption: [A planar graph with faces $f_1, ..., f_5$.
-Euler's formula: $V - E + F = 6 - 9 + 5 = 2$.], ) <fig:planar>
+  planar,
+  caption: [A planar graph with faces $f_1, ..., f_5$.
+    Euler's formula: $V - E + F = 6 - 9 + 5 = 2$.],
+) <fig:planar>
 
 #theorem[Kuratowski's theorem][
-A graph is planar iff it contains no subdivision of $K_5$ or $K_(3,3)$. ]
+  A graph is planar iff it contains no subdivision of $K_5$ or $K_(3,3)$. ]
 
 == Graph Coloring
 
 #definition[Vertex coloring][
-*Proper $k$-coloring*: adjacent vertices get different colors. *Chromatic number* $chi(G)$: minimum $k$. ]
+  *Proper $k$-coloring*: adjacent vertices get different colors. *Chromatic number* $chi(G)$: minimum $k$. ]
 
 #proposition[Chromatic number bounds][
   - $chi(G) <= Delta(G) + 1$ (greedy coloring bound).
@@ -204,42 +228,75 @@ A graph is planar iff it contains no subdivision of $K_5$ or $K_(3,3)$. ]
 ]
 
 #theorem[Four Color Theorem][
-Every planar graph is 4-colorable. (Appel-Haken, 1976 --- first major computer-assisted proof.) ]
+  Every planar graph is 4-colorable. (Appel-Haken, 1976 --- first major computer-assisted proof.) ]
 
 #theorem[Vizing's theorem][
-For edge coloring: $Delta(G) <= chi'(G) <= Delta(G) + 1$. ]
+  For edge coloring: $Delta(G) <= chi'(G) <= Delta(G) + 1$. ]
 
 #figure(
-graph-coloring, caption: [A 4-coloring of a graph with 6 vertices.
-Adjacent vertices receive different colours.], ) <fig:coloring>
+  graph-coloring,
+  caption: [A 4-coloring of a graph with 6 vertices.
+    Adjacent vertices receive different colours.],
+) <fig:coloring>
 
 #remark[
-Graph coloring models register allocation (compilers), frequency assignment (cellular), and exam scheduling. ]
+  Graph coloring models register allocation (compilers), frequency assignment (cellular), and exam scheduling. ]
 
 == Graph Algorithms
 
 #proposition[Core graph algorithms][
   #table(
-columns: 4, align: (left, left, left, left), stroke: (x, y) => if y == 0 { (bottom: 0.4pt) }, table.header([*Algorithm*], [*Solves*], [*Complexity*], [*Key idea*]), [BFS], [Shortest paths, unweighted], [$O(V + E)$], [Layer-by-layer queue exploration],
+    columns: 4,
+    align: (left, left, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    table.header([*Algorithm*], [*Solves*], [*Complexity*], [*Key idea*]),
+    [BFS],
+    [Shortest paths, unweighted],
+    [$O(V + E)$],
+    [Layer-by-layer queue exploration],
 
-[DFS], [Connectivity, cycles, topo-sort], [$O(V + E)$], [Recursive backtracking, pre/post times],
+    [DFS],
+    [Connectivity, cycles, topo-sort],
+    [$O(V + E)$],
+    [Recursive backtracking, pre/post times],
 
-[Dijkstra], [Shortest paths, non-neg. weights], [$O((V+E) log V)$], [Min-heap priority queue],
+    [Dijkstra],
+    [Shortest paths, non-neg. weights],
+    [$O((V+E) log V)$],
+    [Min-heap priority queue],
 
-[Bellman-Ford], [Shortest paths, any weights], [$O(V E)$], [Edge relaxation $V-1$ rounds],
+    [Bellman-Ford],
+    [Shortest paths, any weights],
+    [$O(V E)$],
+    [Edge relaxation $V-1$ rounds],
 
-[Kruskal], [Minimum spanning tree], [$O(E log E)$], [Sort edges, union-find],
+    [Kruskal],
+    [Minimum spanning tree],
+    [$O(E log E)$],
+    [Sort edges, union-find],
 
-[Prim], [Minimum spanning tree], [$O((V+E) log V)$], [Grow tree, min-heap frontier],
+    [Prim],
+    [Minimum spanning tree],
+    [$O((V+E) log V)$],
+    [Grow tree, min-heap frontier],
 
-[Kahn / DFS], [Topological sort of DAG], [$O(V + E)$], [Remove sources / reverse postorder],
+    [Kahn / DFS],
+    [Topological sort of DAG],
+    [$O(V + E)$],
+    [Remove sources / reverse postorder],
 
-[Kosaraju / Tarjan], [Strongly connected components], [$O(V + E)$], [Two-pass DFS / lowlink], ) ]
+    [Kosaraju / Tarjan],
+    [Strongly connected components],
+    [$O(V + E)$],
+    [Two-pass DFS / lowlink],
+  ) ]
 
 #figure(
-bfs-tree, caption: [BFS from vertex 1.
-Bold edges form the BFS tree; dashed arcs are cross/skip edges.
-Distances $d$ from the source are shown.], ) <fig:bfs-tree>
+  bfs-tree,
+  caption: [BFS from vertex 1.
+    Bold edges form the BFS tree; dashed arcs are cross/skip edges.
+    Distances $d$ from the source are shown.],
+) <fig:bfs-tree>
 
 BFS and DFS are the two fundamental traversal strategies --- almost every graph algorithm builds on one of them.
 Dijkstra generalises BFS to weighted graphs; Bellman-Ford handles negative edges at the cost of higher complexity.
@@ -250,12 +307,12 @@ Topological sort applies only to DAGs and is the basis of dependency resolution.
 == Applications
 
 #remark[Social networks][
-Vertices = people; edges = friendships/follows.
-Measures: degree centrality, betweenness, PageRank. ]
+  Vertices = people; edges = friendships/follows.
+  Measures: degree centrality, betweenness, PageRank. ]
 
 #remark[Routing][
-Internet: routers = vertices, links = edges.
-Dijkstra in OSPF for intra-domain routing. ]
+  Internet: routers = vertices, links = edges.
+  Dijkstra in OSPF for intra-domain routing. ]
 
 #remark[Compiler design][
-Control-flow graph (CFG) and register interference graph (coloring allocates registers). ]
+  Control-flow graph (CFG) and register interference graph (coloring allocates registers). ]
