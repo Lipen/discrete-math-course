@@ -38,6 +38,12 @@
 #let Floor = math.op("floor")
 #let Ceil = math.op("ceil")
 
+// === Truth values (colored) ===
+#let Green(x) = text(fill: green.darken(20%), x)
+#let Red(x) = text(fill: red.darken(20%), x)
+#let True = Green(`true`)
+#let False = Red(`false`)
+
 // === Special symbols and constants ===
 #let langle = sym.chevron.l
 #let rangle = sym.chevron.r

@@ -140,25 +140,24 @@
   ]
 }
 
-// --- Note — bold title, plain block ---
+// --- Note — bold title inline with body ---
 #let note(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
-    (pos.at(0), pos.at(1))
+    ([Note: #(pos.at(0))], pos.at(1))
   } else {
     ([Note], pos.at(0))
   }
   block(inset: (x: 0em, y: 0.4em), width: 100%)[
-    #strong[#title]
-    #body
+    #strong[#title.] #body
   ]
 }
 
-// --- Remark — boxed, bold title ---
+// --- Remark — boxed, bold title inline with body ---
 #let remark(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
-    (pos.at(0), pos.at(1))
+    ([Remark: #(pos.at(0))], pos.at(1))
   } else {
     ([Remark], pos.at(0))
   }
@@ -169,8 +168,7 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#title]
-    #body
+    #strong[#title.] #body
   ]
 }
 

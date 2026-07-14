@@ -20,7 +20,7 @@ A _proposition_ (or _statement_) is a declarative sentence that is either true o
 Questions, commands, and self-referential paradoxes are excluded --- only closed, unambiguous assertions qualify.
 
 #definition[Proposition][
-  A proposition is a declarative statement with a definite truth value: true ($T$) or false ($F$).
+  A proposition is a declarative statement with a definite truth value: true (#Green([T])) or false (#Red([F])).
 ]
 
 Compound propositions are built from atomic propositions using logical connectives.
@@ -58,7 +58,7 @@ Every formula corresponds to a unique parse tree, which makes its syntactic stru
 
 === Semantics: Truth Tables
 
-An _interpretation_ assigns a truth value ($T$ or $F$) to each atomic proposition.
+An _interpretation_ assigns a truth value (#Green([T]) or #Red([F])) to each atomic proposition.
 Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a truth table corresponds to one interpretation.
 
 #definition[Truth table][
@@ -71,10 +71,10 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header([$p$], [$q$], [$p arrow q$]),
-    [$T$], [$T$], [$T$],
-    [$T$], [$F$], [$F$],
-    [$F$], [$T$], [$T$],
-    [$F$], [$F$], [$T$],
+    [#Green([T])], [#Green([T])], [#Green([T])],
+    [#Green([T])], [#Red([F])], [#Red([F])],
+    [#Red([F])], [#Green([T])], [#Green([T])],
+    [#Red([F])], [#Red([F])], [#Green([T])],
   )
 ]
 
