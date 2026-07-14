@@ -104,7 +104,7 @@
 ]
 
 #note[Subtraction via two's complement][
-  $A - B = A + (overline(B) + 1)$ --- negation is bitwise NOT plus 1.
+  $A - B = A + (overline(B) + 1)$: negation is bitwise NOT plus 1.
   An ALU combines adder, logic gates, and control bits to perform multiple operations (AND, OR, ADD, SUB).
 ]
 
@@ -171,5 +171,5 @@
 ]
 
 #remark[
-  This is non-constructive: we know complicated functions exist, but naming one and proving a lower bound is hard --- the "P vs NP" of circuit complexity.
+  This is non-constructive: we know complicated functions exist, but naming one and proving a lower bound is hard. The "P vs NP" of circuit complexity.
 ]

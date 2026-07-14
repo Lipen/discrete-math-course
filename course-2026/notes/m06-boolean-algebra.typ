@@ -32,7 +32,7 @@
 #example[
   For $n = 0$: constants 0 and 1.
   For $n = 1$: 4 functions (identity, NOT, constant 0, constant 1).
-  For $n = 2$: 16 functions --- the classic logic gates.
+  For $n = 2$: 16 functions, the classic logic gates.
 ]
 
 === Binary Boolean Functions
@@ -162,7 +162,7 @@
 ]
 
 #note[
-  Non-perfect DNF/CNF are not unique --- this motivates minimisation.
+  Non-perfect DNF/CNF are not unique; this motivates minimisation.
 ]
 
 

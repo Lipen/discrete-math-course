@@ -197,17 +197,17 @@ A relation can be specified in three equivalent ways:
 ]
 
 #note[
-  Minimal elements can be multiple --- incomparable "bottom-most" elements.
+  Minimal elements can be multiple: incomparable "bottom-most" elements.
   Least element, when it exists, is unique and is also minimal.
   In a finite poset, minimal and maximal elements always exist; least and greatest may not.
 ]
 
 #example[
   In $({2, 3, 4, 6, 12}, |)$:
-  - Minimal: ${2, 3}$ --- neither 2 nor 3 divides the other.
-  - Maximal: ${12}$ --- no element (other than itself) that 12 divides.
-  - Greatest: $12$ --- every element divides 12.
-  - Least: none --- no element divides both 2 and 3.
+  - Minimal: ${2, 3}$: neither 2 nor 3 divides the other.
+  - Maximal: ${12}$: no element (other than itself) that 12 divides.
+  - Greatest: $12$: every element divides 12.
+  - Least: none: no element divides both 2 and 3.
 ]
 
 #definition[Upper and lower bounds][
@@ -224,10 +224,10 @@ A relation can be specified in three equivalent ways:
 
 #example[
   In the divisor poset $(D_12, |)$ with $S = {2, 3}$:
-  - Upper bounds: ${6, 12}$ --- both are multiples of 2 and 3.
-  - Supremum: $6 = "lcm"(2, 3)$ --- the _least_ common multiple of 2 and 3.
-  - Lower bounds: ${1}$ --- 1 divides both.
-  - Infimum: $1 = "gcd"(2, 3)$ --- the _greatest_ common divisor of 2 and 3.
+  - Upper bounds: ${6, 12}$: both are multiples of 2 and 3.
+  - Supremum: $6 = "lcm"(2, 3)$: the _least_ common multiple of 2 and 3.
+  - Lower bounds: ${1}$: 1 divides both.
+  - Infimum: $1 = "gcd"(2, 3)$: the _greatest_ common divisor of 2 and 3.
 ]
 
 === Lattices
@@ -247,7 +247,7 @@ A relation can be specified in three equivalent ways:
 
 #note[
   Not every poset is a lattice.
-  For example, ${1, 2, 3}$ with the usual order has no join for ${2, 3}$ --- there is no "least element above both" in this set.
+  For example, ${1, 2, 3}$ with the usual order has no join for ${2, 3}$: there is no "least element above both" in this set.
 ]
 
 #definition[Distributive lattice and Boolean algebra][
@@ -256,7 +256,7 @@ A relation can be specified in three equivalent ways:
 ]
 
 #note[
-  Propositional logic, set algebra, and Boolean algebra are the same abstract structure --- a complemented distributive lattice.
+  Propositional logic, set algebra, and Boolean algebra are the same abstract structure: a complemented distributive lattice.
 ]
 
 === Lexicographic Order and Topological Sort

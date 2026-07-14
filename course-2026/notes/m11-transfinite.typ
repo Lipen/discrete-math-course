@@ -111,7 +111,7 @@ The *Continuum Hypothesis* (CH): no such set exists --- $2^(aleph_0) = aleph_1$.
 ]
 
 #note[
-  Ordinals generalise counting beyond the finite --- they are the foundation of transfinite induction.
+  Ordinals generalise counting beyond the finite. They are the foundation of transfinite induction.
 ]
 
 #definition[Ordinal arithmetic --- informal][
@@ -136,7 +136,7 @@ The *Continuum Hypothesis* (CH): no such set exists --- $2^(aleph_0) = aleph_1$.
 ]
 
 #note[
-  AC is independent of ZF --- it is neither provable nor refutable from the other axioms of set theory.
+  AC is independent of ZF: it is neither provable nor refutable from the other axioms of set theory.
 ]
 
 #proposition[Equivalents of AC][
@@ -159,7 +159,7 @@ The *Continuum Hypothesis* (CH): no such set exists --- $2^(aleph_0) = aleph_1$.
 ]
 
 #remark[
-  This is not a contradiction --- the pieces are non-measurable (no well-defined volume).
+  This is not a contradiction: the pieces are non-measurable (no well-defined volume).
   AC enables constructions beyond physical intuition without breaking logical consistency.
 ]
 
