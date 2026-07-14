@@ -122,6 +122,15 @@ For finite sets: $|A| >= |B|$.
   A proper encoding-decoding pair is a bijection.
 ]
 
+#example[Proving bijectivity: $f(x) = 2x + 1$ on $ZZ$][
+  *Injectivity*: $f(a) = f(b)$ $=>$ $2a + 1 = 2b + 1$ $=>$ $2a = 2b$ $=>$ $a = b$.
+  *Surjectivity*: given $y in ZZ$, solve $2x + 1 = y$ $=>$ $x = (y-1)/2$.
+  If $y$ is odd ($y = 2k + 1$), $x = k in ZZ$; if $y$ is even, no integer $x$ exists.
+  $f$ restricted to odd codomain is bijective; on $ZZ$ it is injective but not surjective (outputs are odd).
+  $f: ZZ arrow {2k+1 mid(|) k in ZZ}$ is a bijection.
+  Finding the inverse: $f^(-1)(y) = (y-1)/2$.
+]
+
 === Cardinality Criteria
 
 #proposition[Cardinality classification][
@@ -162,11 +171,23 @@ For finite sets: $|A| >= |B|$.
   + $f(A inter B) subset.eq f(A) inter f(B)$. Equality holds if $f$ is injective.
 ]
 
+#proof[
+  First identity: $y in f(A union B)$ iff $exists x in A union B$ with $f(x) = y$ iff $exists x in A$ or $exists x in B$ with $f(x) = y$ iff $y in f(A) union f(B)$.
+  Second: $y in f(A inter B)$ $=>$ $exists x in A inter B$ with $f(x) = y$ $=>$ $y in f(A)$ and $y in f(B)$.
+  For injective $f$: $y in f(A) inter f(B)$ $=>$ $exists a in A, b in B$ with $f(a) = f(b) = y$ $=>$ $a = b$ (by injectivity) $=>$ $a in A inter B$ $=>$ $y in f(A inter B)$.
+]
+
 #proposition[Preimage preserves all operations][
   $f^(-1)(C union D) = f^(-1)(C) union f^(-1)(D)$.
   $f^(-1)(C inter D) = f^(-1)(C) inter f^(-1)(D)$.
   $f^(-1)(C setminus D) = f^(-1)(C) setminus f^(-1)(D)$.
   The preimage commutes with all Boolean operations.
+]
+
+#proof[
+  $x in f^(-1)(C inter D)$ iff $f(x) in C inter D$ iff $f(x) in C$ and $f(x) in D$ iff $x in f^(-1)(C) inter f^(-1)(D)$.
+  The other identities follow the same pattern --- replace set operation with its logical counterpart on the membership condition.
+  Preimage is a homomorphism from the Boolean algebra of subsets of $B$ to the Boolean algebra of subsets of $A$.
 ]
 
 

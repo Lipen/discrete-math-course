@@ -180,7 +180,22 @@ The product is not associative, but there is a canonical bijection, so we write 
   A partition of $X$ is a collection of non-empty, pairwise disjoint subsets whose union is $X$.
 ]
 
+#example[Concrete partition][
+  $X = {1, 2, 3, 4, 5, 6}$.
+  Partition by parity: ${{1, 3, 5}, {2, 4, 6}}$ --- two parts, pairwise disjoint, union is $X$.
+  Partition by remainder mod 3: ${{1, 4}, {2, 5}, {3, 6}}$ --- three parts.
+  Each partition defines the equivalence relation "$a$ and $b$ have the same parity" or "$a equiv b (mod 3)$".
+]
+
 Partitions are tightly linked to equivalence relations --- explored in the next chapter.
+
+#note[Russell's paradox][
+  Not every property defines a set.
+  Let $R = {x mid(|) x in.not x}$ --- "the set of all sets that do not contain themselves."
+  If $R in R$, then $R in.not R$; if $R in.not R$, then $R in R$ --- contradiction.
+  The resolution: axiomatic set theory (ZFC) restricts set formation to avoid self-reference.
+  In practice, working within a fixed universal set $U$ avoids the paradox.
+]
 
 
 == Applications
