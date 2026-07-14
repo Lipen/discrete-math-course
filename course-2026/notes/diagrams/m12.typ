@@ -81,13 +81,14 @@
   rect((-0.6, 2.5), (0.6, -2.5), radius: 6pt, fill: c-pa-fill, stroke: none)
   rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
   // Nodes FIRST — named so line() routes border-to-border
+  // Labels placed outside (anchor: "west"/"east") since nodes are small dots.
   for (i, p) in left.enumerate() {
-    circle(p, radius: 0.15, fill: c-pa-dot, name: "l" + str(i + 1))
-    content(p)[$v_i$]
+    circle(p, radius: 0.2, fill: c-pa-dot, name: "l" + str(i + 1))
+    content(p, $v_i$, anchor: "west", outset: 0.3em, size: .8em)
   }
   for (i, p) in right.enumerate() {
-    circle(p, radius: 0.15, fill: c-pb-dot, name: "r" + str(i + 1))
-    content(p)[$u_i$]
+    circle(p, radius: 0.2, fill: c-pb-dot, name: "r" + str(i + 1))
+    content(p, $u_i$, anchor: "east", outset: 0.3em, size: .8em)
   }
   // Edges — node names, not coordinates
   for i in range(3) {
@@ -310,14 +311,14 @@
   line("3", "6")
   // Face labels
   for (p, lab) in (
-    ((0, 1.2), "$f_1$"),
-    ((1, 0), "$f_2$"),
-    ((1, -0.9), "$f_3$"),
-    ((0, -1.2), "$f_4$"),
-    ((-1, -0.9), "$f_5$"),
-    ((-1, 0), "$f_6$"),
+    ((0, 1.2), $f_1$),
+    ((1, 0), $f_2$),
+    ((1, -0.9), $f_3$),
+    ((0, -1.2), $f_4$),
+    ((-1, -0.9), $f_5$),
+    ((-1, 0), $f_6$),
   ) {
-    content(p, size: .7em, fill: c-edge-dim)[#lab]
+    content(p, lab, size: .7em, fill: c-edge-dim)
   }
 })
 
@@ -327,11 +328,19 @@
   let v = ((0, 1), (0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
   let ci = (3, 0, 1, 0, 1, 2)
   // Nodes FIRST — named "n0".."n5"
+  // content(..., frame: "circle") guarantees text is centered in the circle.
   for (i, p) in v.enumerate() {
     let c = c-colors.at(ci.at(i))
     let sz = if i == 0 { 0.38 } else { 0.3 }
-    circle(p, radius: sz, fill: c, stroke: c.darken(20%), name: "n" + str(i))
-    content(p)[#text(weight: "bold")[#str(i)]]
+    content(
+      p,
+      [#text(weight: "bold")[#str(i)]],
+      frame: "circle",
+      radius: sz,
+      fill: c,
+      stroke: c.darken(20%),
+      name: "n" + str(i),
+    )
   }
   // Edges — node names
   line("n1", "n2")

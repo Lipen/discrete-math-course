@@ -261,7 +261,7 @@
     columns: 4,
     align: (left, left, left, left),
     table.header([*Algorithm*], [*Solves*], [*Complexity*], [*Key idea*]),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [BFS],
     [Shortest paths, unweighted],
     [$O(V + E)$],
