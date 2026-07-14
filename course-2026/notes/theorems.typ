@@ -93,14 +93,9 @@
 )
 
 // --- QED placement ---
-// When #qed is used inside a proof, no automatic QED is appended.
+// Use #qed manually inside a proof body to place the QED symbol.
 // Show rules handle proper placement inside lists, block equations, and plain text.
-#let _qed-placed = state("qed-placed", false)
-
-#let qed = {
-  _qed-placed.update(true)
-  metadata("qed-here")
-}
+#let qed = metadata("qed-here")
 
 #let _has-qed(x) = {
   if x == "qed-here" { return true }
@@ -153,7 +148,6 @@
 }
 
 #let proof(body) = {
-  _qed-placed.update(false)
   block(
     fill: luma(97%),
     stroke: (left: 2pt + luma(78%), rest: none),
@@ -163,11 +157,6 @@
   )[
     #strong[Proof.]
     #body
-    #context {
-      if _qed-placed.at(here()) == false {
-        align(right, $square$)
-      }
-    }
   ]
 }
 
@@ -198,10 +187,7 @@
     radius: 3pt,
     width: 100%,
   )[
-    #text(style: "italic")[
-      Example
-      #if title != none { [ (#title)] }.
-    ]
+    #text(style: "italic")[Example#if title != none { [ (#title)] }: ]
     #v(0.2em)
     #body
   ]
