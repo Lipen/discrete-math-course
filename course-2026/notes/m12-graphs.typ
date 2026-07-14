@@ -59,7 +59,10 @@
     + *Distance* $d(u, v)$: shortest path length. *Diameter*: maximum distance.
 ]
 
-Strong connectivity (directed): paths in both directions between every pair. SCCs via Kosaraju/Tarjan $O(V+E)$.
+#proposition[Strong connectivity (directed)][
+    In digraphs, *strong connectivity* requires directed paths in both directions between every pair.
+    Strongly connected components (SCCs) are computed by Kosaraju's or Tarjan's algorithm in $O(V + E)$ via DFS.
+]
 
 == Trees
 
@@ -88,7 +91,11 @@ Strong connectivity (directed): paths in both directions between every pair. SCC
     Number of labelled trees on $n$ vertices: $n^(n-2)$. Proof via Prüfer codes.
 ]
 
-Minimum spanning tree (MST): Kruskal $O(E log E)$, Prim $O((V+E) log V)$.
+#proposition[Minimum spanning tree][
+    Given a weighted connected graph, an MST minimises the sum of edge weights.
+    + *Kruskal*: sort edges by weight, add lightest that does not create a cycle (union-find). $O(E log E)$.
+    + *Prim*: grow tree from arbitrary start, repeatedly add lightest edge to outside vertex (priority queue). $O((V+E) log V)$.
+]
 
 == Eulerian and Hamiltonian Graphs
 
@@ -165,7 +172,11 @@ Minimum spanning tree (MST): Kruskal $O(E log E)$, Prim $O((V+E) log V)$.
     *Chromatic number* $chi(G)$: minimum $k$.
 ]
 
-Bounds: $chi(G) <= Delta(G) + 1$ (greedy). $chi(G) = 2$ iff bipartite with edges. $chi(K_n) = n$.
+#proposition[Chromatic number bounds][
+    + $chi(G) <= Delta(G) + 1$ (greedy coloring bound).
+    + $chi(G) = 2$ iff $G$ is bipartite and has at least one edge.
+    + $chi(K_n) = n$.
+]
 
 #theorem[Four Color Theorem][
     Every planar graph is 4-colorable. (Appel-Haken, 1976 --- first major computer-assisted proof.)
