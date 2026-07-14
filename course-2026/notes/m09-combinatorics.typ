@@ -160,8 +160,25 @@
     $F_n = (phi^n - psi^n)/sqrt(5)$ --- Binet's formula.
 ]
 
+=== Non-Homogeneous Recurrences
+
+For $a_n = c_1 a_(n-1) + ... + c_k a_(n-k) + f(n)$:
+the solution is the general homogeneous solution plus a *particular solution*.
+If $f(n)$ is a polynomial times $d^n$, guess a particular solution of the same form with undetermined coefficients.
+If the guess overlaps with the homogeneous solution, multiply by $n$.
+
+#example[Merge Sort][
+    $T(n) = 2T(n/2) + n$, $T(1) = 0$.
+    Substitute $n = 2^k$: $T(2^k) = 2T(2^(k-1)) + 2^k$.
+    Let $t_k = T(2^k)$: $t_k = 2t_(k-1) + 2^k$, $t_0 = 0$.
+    Homogeneous: $t_k^((h)) = A dot 2^k$. Particular: guess $t_k^((p)) = B k 2^k$.
+    Solving: $B = 1$, so $t_k = k 2^k$.
+    Thus $T(n) = n log_2 n$.
+]
+
 #remark[
-    Merge Sort recurrence $T(n) = 2T(n/2) + n$ → $T(2^k) = 2^k (k+1) = n(log_2 n + 1)$ via substitution $n = 2^k$.
+    Recurrences model algorithm runtimes.
+    The Master Theorem handles divide-and-conquer recurrences of the form $T(n) = a T(n/b) + f(n)$ by comparing $f(n)$ with $n^(log_b a)$.
 ]
 
 
