@@ -32,7 +32,7 @@ A set can be specified in several ways:
   + *Recursive definition*: base set + generation rules (used later for formal languages, inductive structures).
 ]
 
-#example[
+#example[Set builder notation][
   ${x in NN mid(|) x < 5} = {0, 1, 2, 3, 4}$.
   ${x in NN mid(|) x "is prime" and x < 10} = {2, 3, 5, 7}$.
 ]
