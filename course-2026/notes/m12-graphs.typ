@@ -261,7 +261,7 @@
   #table(
     columns: 4,
     align: (left, left, left, left),
-    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header([*Algorithm*], [*Solves*], [*Complexity*], [*Key idea*]),
     [BFS],
     [Shortest paths, unweighted],
