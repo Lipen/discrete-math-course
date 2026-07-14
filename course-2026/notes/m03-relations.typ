@@ -67,7 +67,7 @@ A relation can be specified in three equivalent ways:
   + *Transitive*: whenever there is a length-2 path, there is a direct edge.
 ]
 
-=== Closures
+=== Closures of Relations
 
 #definition[Closure][
   + *Reflexive closure* of $R$: $R union {(a, a) mid(|) a in A}$.
@@ -124,7 +124,7 @@ A relation can be specified in three equivalent ways:
   This is reflexive, symmetric, and transitive (parts are disjoint, so sharing a part is an equivalence).
 ]
 
-=== Examples
+=== Examples of Equivalence Relations
 
 #example[Equality modulo $m$][
   $a sim b$ iff $a equiv b (mod m)$.
@@ -142,7 +142,7 @@ A relation can be specified in three equivalent ways:
   Returns in the graphs chapter of semester 2.
 ]
 
-=== Applications
+=== Applications of Equivalence Relations
 
 #remark[
   *Data clustering*: grouping records by attribute partitions the dataset into equivalence classes.
@@ -153,7 +153,7 @@ A relation can be specified in three equivalent ways:
 
 == Partial Orders
 
-=== Definition
+=== Partial Order Definition
 
 #definition[Partial order][
   A binary relation $prec.eq$ on $A$ is a partial order if it is reflexive, antisymmetric, and transitive.

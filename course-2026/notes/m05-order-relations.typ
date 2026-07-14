@@ -14,7 +14,7 @@
 
 == Partial Orders
 
-=== Definitions
+=== Partial Order Definitions
 
 #definition[Partial order][
   A binary relation $prec.eq$ on $A$ is a *partial order* if it is reflexive, antisymmetric, and transitive.

@@ -254,7 +254,7 @@ In practice, most quantification is over a restricted set:
 
 Bounded quantifiers are ubiquitous in mathematics and CS: "every element of the array is non-negative" translates to $forall i in {0, ..., n-1} space A[i] >= 0$.
 
-=== Translation
+=== Translation to Predicate Logic
 
 A key skill is translating between natural language and predicate logic.
 The translation must preserve meaning precisely --- ambiguity in the English must be resolved.
