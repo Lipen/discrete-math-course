@@ -221,12 +221,12 @@
     ([Remark], pos.at(0))
   }
   block(
-    fill: oklch(97%, 0.006, 70deg),
+    fill: oklch(96%, 0.02, 70deg),
     stroke: (
-      left: 3pt + oklch(55%, 0.16, 75deg),
-      top: 0.5pt + luma(84%),
-      bottom: 0.5pt + luma(84%),
-      right: 0.5pt + luma(84%),
+      left: 3pt + oklch(60%, 0.16, 65deg),
+      top: 0.5pt + oklch(90%, 0.02, 70deg),
+      bottom: 0.5pt + oklch(90%, 0.02, 70deg),
+      right: 0.5pt + oklch(90%, 0.02, 70deg),
     ),
     inset: (x: 1em, y: 0.8em),
     radius: 3pt,
