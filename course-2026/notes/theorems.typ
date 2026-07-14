@@ -23,7 +23,7 @@
   ctr.step()
   block(
     stroke: (left: 3pt + bar-color, rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
     radius: 3pt,
     width: 100%,
   )[
@@ -38,7 +38,7 @@
   ctr.step()
   block(
     stroke: (left: 3pt + bar-color, rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
     radius: 3pt,
     width: 100%,
   )[
@@ -89,7 +89,7 @@
 #let proposition(..args) = _dispatch(
   "Proposition",
   thm-ctr,
-  oklch(60%, 0.16, 80deg), // amber
+  oklch(55%, 0.16, 195deg), // teal
   ..args,
 )
 
