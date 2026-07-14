@@ -2,8 +2,8 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": (
-  bipartite, directed-graph, eulerian, graph-coloring, k33, k5, planar,
-  simple-graph, spanning-tree, tree,
+  bfs-tree, bipartite, bridge-cut, directed-graph, eulerian, graph-coloring,
+  k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
 )
 
 = Graphs
@@ -29,6 +29,11 @@
   + *Multigraph*: loops and multiple edges allowed.
   + *$k$-regular*: every vertex has degree $k$.
 ]
+
+#figure(
+  petersen,
+  caption: [The Petersen graph: 3-regular, 10 vertices, non-planar, vertex-transitive. A classic counterexample in graph theory.],
+) <fig:petersen>
 
 #definition[Degree][
   $"deg"(v)$ = number of incident edges.
@@ -67,6 +72,11 @@
   + *Bridge*: edge whose removal disconnects the graph.
   + *Distance* $d(u, v)$: shortest path length. *Diameter*: maximum distance.
 ]
+
+#figure(
+  bridge-cut,
+  caption: [Edge {1,2} is a bridge --- its removal disconnects the graph. Vertex 1 is a cut-vertex (articulation point).],
+) <fig:bridge-cut>
 
 #proposition[Strong connectivity (directed)][
   In digraphs, *strong connectivity* requires directed paths in both directions between every pair.
@@ -286,6 +296,11 @@
     [Two-pass DFS / lowlink],
   )
 ]
+
+#figure(
+  bfs-tree,
+  caption: [BFS from vertex 1. Bold edges form the BFS tree; grey edges are cross/skip edges. Distances $d$ from the source are shown.],
+) <fig:bfs-tree>
 
 BFS and DFS are the two fundamental traversal strategies --- almost every graph algorithm builds on one of them.
 Dijkstra generalises BFS to weighted graphs; Bellman-Ford handles negative edges at the cost of higher complexity.

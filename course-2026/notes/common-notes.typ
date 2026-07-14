@@ -3,18 +3,21 @@
 // Imported by all topic files and book assembly files.
 
 // --- Package imports ---
-#import "@preview/cetz:0.4.2"
+#import "@preview/cetz:0.5.2"
 
 // --- Our theorem library ---
 #import "theorems.typ": *
 
 // --- Page geometry (A4 book) ---
 #set page(
-paper: "a4", margin: ( left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm, ), header: [
+  paper: "a4",
+  margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm),
+  header: [
     #set text(9pt, fill: luma(40%))
     Discrete Math --- Lecture Notes
     #h(1fr)
-2026/27 ], )
+    2026/27 ],
+)
 
 // --- Typography ---
 #set text(font: "Libertinus Serif", size: 11pt, lang: "en")
@@ -29,9 +32,9 @@ paper: "a4", margin: ( left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm, ), head
 // --- Number headings (3 levels: 1, 1.1, 1.1.1) ---
 #set heading(numbering: "1.1.1")
 #show heading.where(level: 1): it => {
-  pagebreak();
-  set heading(numbering: it.numbering);
-  it;
+  pagebreak()
+  set heading(numbering: it.numbering)
+  it
 }
 
 // --- Mathematics ---
