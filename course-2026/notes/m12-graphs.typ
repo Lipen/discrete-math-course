@@ -96,7 +96,7 @@
 
 #figure(
   tree,
-  caption: [A tree: 6 vertices, 5 edges --- connected and acyclic.],
+  caption: [A tree: 10 vertices, 9 edges --- connected and acyclic.],
 ) <fig:tree>
 
 #theorem[Equivalent characterisations][
@@ -169,7 +169,7 @@
 == Bipartite Graphs
 
 #definition[Bipartite graph][
-  $V = X union Y$, $X inter Y = nothing$, all edges between $X$ and $Y$.
+  $V = X union Y$, $X inter Y = emptyset$, all edges between $X$ and $Y$.
 ]
 
 #theorem[Bipartite criterion][
@@ -201,8 +201,9 @@
 
 #corollary[Edge bound][
   For simple planar graph with $V >= 3$: $E <= 3V - 6$.
-  Consequence: every planar graph has a vertex of degree $<= 5$.
-  $K_5$ ($E=10 > 9$) and $K_(3,3)$ are non-planar.
+  Consequence: every simple planar graph has a vertex of degree $<= 5$.
+  $K_5$ violates the edge bound ($E=10 > 3 dot 5 - 6 = 9$) and is non-planar.
+  $K_(3,3)$ is also non-planar — it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor).
 ]
 
 #figure(

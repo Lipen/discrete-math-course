@@ -49,15 +49,15 @@
   import cetz.draw: line
   let v = ((0, 2), (1.5, 2), (3, 2), (0.8, 0.5), (2.3, 0.5), (1.5, -1))
   for (i, p) in v.enumerate() { node(p, str(i + 1)) }
-  line("2", "1")
-  line("3", "2")
-  line("1", "4")
-  line("2", "4")
-  line("2", "5")
-  line("3", "5")
-  line("4", "5")
-  line("4", "6")
-  line("5", "6")
+  line("2", "1", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("3", "2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("1", "4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("2", "4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("2", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("3", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("4", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
 })
 
 // ── 2. K_5 ──
@@ -119,13 +119,13 @@
     circle(p, radius: 0.3, fill: c-pb-dot, name: "b" + str(i + 1))
   }
   // Edges — node names
-  line("t1", "b1")
-  line("t1", "b2")
-  line("t2", "b1")
-  line("t2", "b2")
-  line("t2", "b3")
-  line("t3", "b2")
-  line("t3", "b3")
+  line("t1", "b1", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("t1", "b2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("t2", "b1", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("t2", "b2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("t2", "b3", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("t3", "b2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("t3", "b3", stroke: (paint: c-edge, thickness: 0.7pt))
   content((-2.2, 1.5), anchor: "east")[$X$]
   content((-2.2, -1.5), anchor: "east")[$Y$]
 })
@@ -153,7 +153,13 @@
     content((x, y))[#text(weight: "bold")[#lab]]
   }
   for (x, y, lab) in ((-2.7, -1.5, "g"), (-1.2, -1.5, "h"), (0.2, -1.5, "i")) {
-    circle((x, y), radius: 0.2, fill: none, stroke: c-t-border, name: lab)
+    circle(
+      (x, y),
+      radius: 0.2,
+      fill: none,
+      stroke: (paint: c-t-border, thickness: 0.8pt),
+      name: lab,
+    )
     content((x, y))[#text(fill: c-t-leaf)[#lab]]
   }
   // Edges — node names
@@ -270,23 +276,25 @@
   // Degree labels — positioned outside each node via named anchors
   content(
     "A",
-    anchor: "south",
+    anchor: "north",
     outset: 0.6em,
     size: .7em,
     fill: c-edge-dim,
   )[$3$]
   content(
     "B",
-    anchor: "north",
+    anchor: "south",
     outset: 0.6em,
     size: .7em,
     fill: c-edge-dim,
   )[$3$]
-  content("C", anchor: "east", outset: 0.6em, size: .7em, fill: c-edge-dim)[$5$]
-  content("D", anchor: "west", outset: 0.6em, size: .7em, fill: c-edge-dim)[$3$]
+  content("C", anchor: "west", outset: 0.6em, size: .7em, fill: c-edge-dim)[$5$]
+  content("D", anchor: "east", outset: 0.6em, size: .7em, fill: c-edge-dim)[$3$]
 })
 
 // ── 8. Planar graph ──
+// Triangulated hexagon — all diagonals from vertex 1, no crossings.
+// V=6, E=9, F=5 (4 inner triangular faces + 1 outer face). 6-9+5=2.
 #let planar = cetz.canvas({
   import cetz.draw: *
   let v = (
@@ -299,24 +307,24 @@
   )
   // Nodes FIRST
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.22) }
-  // Edges — node names
-  line("1", "2")
-  line("2", "3")
-  line("3", "4")
-  line("4", "5")
-  line("5", "6")
-  line("6", "1")
-  line("1", "4")
-  line("2", "5")
-  line("3", "6")
-  // Face labels
+  // Outer cycle
+  line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("3", "4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("6", "1", stroke: (paint: c-edge, thickness: 0.7pt))
+  // Diagonals from vertex 1 — all share endpoint 1, so none cross
+  line("1", "3", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("1", "4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("1", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  // Face labels — 5 faces: f_1..f_4 inside, f_5 outside
   for (p, lab) in (
-    ((0, 1.2), $f_1$),
-    ((1, 0), $f_2$),
-    ((1, -0.9), $f_3$),
-    ((0, -1.2), $f_4$),
-    ((-1, -0.9), $f_5$),
-    ((-1, 0), $f_6$),
+    ((1.2, 1.2), $f_1$),
+    ((1.8, 0), $f_2$),
+    ((1.2, -1.2), $f_3$),
+    ((-0.5, -1), $f_4$),
+    ((-1.5, 0), $f_5$),
   ) {
     content(p, lab, size: .7em, fill: c-edge-dim)
   }
@@ -343,16 +351,16 @@
     )
   }
   // Edges — node names
-  line("n1", "n2")
-  line("n2", "n3")
-  line("n3", "n4")
-  line("n4", "n5")
-  line("n5", "n1")
-  line("n0", "n1")
-  line("n0", "n2")
-  line("n0", "n3")
-  line("n0", "n4")
-  line("n0", "n5")
+  line("n1", "n2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n2", "n3", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n3", "n4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n4", "n5", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n5", "n1", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n0", "n1", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n0", "n2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n0", "n3", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n0", "n4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("n0", "n5", stroke: (paint: c-edge, thickness: 0.7pt))
 })
 
 // ── 10. Directed graph + SCC ──
@@ -400,20 +408,24 @@
   for (i, p) in outer.enumerate() { snode(p, str(i + 1)) }
   for (i, p) in inner.enumerate() { snode(p, str(6 + i)) }
   // Edges — node names
-  line("1", "2")
-  line("2", "3")
-  line("3", "4")
-  line("4", "5")
-  line("5", "1")
-  line("6", "8")
-  line("7", "9")
-  line("8", "10")
-  line("9", "6")
-  line("10", "7")
-  for i in range(5) { line(str(i + 1), str(6 + i)) }
+  line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("3", "4", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("5", "1", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("6", "8", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("7", "9", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("8", "10", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("9", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  line("10", "7", stroke: (paint: c-edge, thickness: 0.7pt))
+  for i in range(5) {
+    line(str(i + 1), str(6 + i), stroke: (paint: c-edge, thickness: 0.7pt))
+  }
 })
 
 // ── 12. Bridge and cut-vertex ──
+// Left component {1,4,5} and right component {2,3,6} connected ONLY by bridge (1,2).
+// Removing (1,2) disconnects the graph. Vertex 1 is a cut-vertex.
 #let bridge-cut = cetz.canvas({
   import cetz.draw: *
   let v = (
@@ -426,19 +438,15 @@
   )
   // Nodes FIRST
   for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
-  // Edges — node names
-  for (a, b) in (
-    ("1", "4"),
-    ("1", "5"),
-    ("3", "5"),
-    ("3", "6"),
-    ("4", "5"),
-    ("5", "6"),
-  ) {
-    line(a, b, stroke: (paint: c-edge, thickness: 0.8pt))
-  }
+  // Left component: {1, 4, 5}
+  line("1", "4", stroke: (paint: c-edge, thickness: 0.8pt))
+  line("4", "5", stroke: (paint: c-edge, thickness: 0.8pt))
+  line("1", "5", stroke: (paint: c-edge, thickness: 0.8pt))
+  // Right component: {2, 3, 6}
   line("2", "3", stroke: (paint: c-edge, thickness: 0.8pt))
-  // Bridge highlight (bold)
+  line("3", "6", stroke: (paint: c-edge, thickness: 0.8pt))
+  line("2", "6", stroke: (paint: c-edge, thickness: 0.8pt))
+  // Bridge — the only edge connecting left and right components
   line("1", "2", stroke: (paint: c-hi, thickness: 2.2pt))
   // Cut-vertex highlight circle (decorative — coordinate-based)
   circle(v.at(0), radius: 0.38, fill: none, stroke: (
