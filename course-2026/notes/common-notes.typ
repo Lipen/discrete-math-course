@@ -54,3 +54,6 @@
 #show "i.e.": set text(style: "italic")
 #show "e.g.": set text(style: "italic")
 #show "etc.": set text(style: "italic")
+
+// --- QED placement rules (from theorems.typ) ---
+#setup-qed-rules()

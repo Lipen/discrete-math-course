@@ -92,16 +92,93 @@
   ..args,
 )
 
+// --- QED placement ---
+// When #qed is used inside a proof, no automatic QED is appended.
+// Show rules handle proper placement inside lists, block equations, and plain text.
+#let _qed-placed = state("qed-placed", false)
+
+#let qed = {
+  _qed-placed.update(true)
+  metadata("qed-here")
+}
+
+#let _has-qed(x) = {
+  if x == "qed-here" { return true }
+  if type(x) == content {
+    for (_, c) in x.fields() {
+      if _has-qed(c) { return true }
+    }
+  }
+  if type(x) == array {
+    for c in x {
+      if _has-qed(c) { return true }
+    }
+  }
+  false
+}
+
+// Call once from common-notes.typ after all imports.
+#let setup-qed-rules() = {
+  show metadata.where(value: "qed-here"): it => {
+    h(1fr)
+    $square$
+  }
+
+  show math.equation.where(block: true): eq => {
+    if _has-qed(eq.body) {
+      grid(
+        columns: (1fr, auto, 1fr),
+        [], eq, align(right + horizon)[$square$],
+      )
+    } else {
+      eq
+    }
+  }
+
+  show enum.item: it => {
+    show metadata.where(value: "qed-here"): it => {
+      h(1fr)
+      $square$
+    }
+    it
+  }
+
+  show list.item: it => {
+    show metadata.where(value: "qed-here"): it => {
+      h(1fr)
+      $square$
+    }
+    it
+  }
+}
+
 #let proof(body) = {
-  block(inset: (x: 0em, y: 0em), width: 100%)[
+  _qed-placed.update(false)
+  block(
+    fill: luma(97%),
+    stroke: (left: 2pt + luma(78%), rest: none),
+    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    radius: 3pt,
+    width: 100%,
+  )[
     #strong[Proof.]
     #body
-    #align(right, $square$)
+    #context {
+      if _qed-placed.at(here()) == false {
+        align(right, $square$)
+      }
+    }
   ]
 }
 
 #let proof-sketch(body) = {
-  block(inset: (x: 0em, y: 0em), width: 100%)[
+  block(
+    fill: luma(97%),
+    stroke: (left: 2pt + luma(78%), rest: none),
+    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    radius: 3pt,
+    width: 100%,
+  )[
     #strong[Proof sketch.]
     #body
   ]
@@ -137,7 +214,13 @@
   } else {
     ([Note], pos.at(0))
   }
-  block(inset: (x: 0em, y: 0.4em), width: 100%)[
+  block(
+    fill: oklch(97%, 0.006, 155deg),
+    stroke: (left: 3pt + oklch(55%, 0.15, 155deg), rest: none),
+    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    radius: 3pt,
+    width: 100%,
+  )[
     #strong[#title.] #body
   ]
 }
@@ -150,12 +233,12 @@
     ([Remark], pos.at(0))
   }
   block(
-    fill: rgb("#fafafa"),
+    fill: oklch(97%, 0.006, 70deg),
     stroke: (
-      left: 3pt + oklch(60%, 0.16, 75deg),
-      top: 0.5pt + luma(82%),
-      bottom: 0.5pt + luma(82%),
-      right: 0.5pt + luma(82%),
+      left: 3pt + oklch(55%, 0.16, 75deg),
+      top: 0.5pt + luma(84%),
+      bottom: 0.5pt + luma(84%),
+      right: 0.5pt + luma(84%),
     ),
     inset: (x: 1em, y: 0.8em),
     radius: 3pt,
