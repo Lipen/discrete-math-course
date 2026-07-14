@@ -74,7 +74,7 @@ For finite sets: $|A| <= |B|$.
 ]
 
 #theorem[Left inverse][
-  $f$ is injective iff there exists $g: B -> A$ with $g @ f = "id"_A$.
+  $f$ is injective iff there exists $g: B -> A$ with $g compose f = "id"_A$.
 ]
 
 #example[Hash collisions][
@@ -95,7 +95,7 @@ For finite sets: $|A| >= |B|$.
 ]
 
 #theorem[Right inverse][
-  $f$ is surjective iff there exists $g: B -> A$ with $f @ g = "id"_B$ (requires axiom of choice).
+  $f$ is surjective iff there exists $g: B -> A$ with $f compose g = "id"_B$ (requires axiom of choice).
 ]
 
 #remark[
@@ -110,7 +110,7 @@ For finite sets: $|A| >= |B|$.
 ]
 
 #theorem[Inverse function][
-  $f$ is bijective iff there exists $f^(-1): B -> A$ with $f @ f^(-1) = "id"_B$ and $f^(-1) @ f = "id"_A$.
+  $f$ is bijective iff there exists $f^(-1): B -> A$ with $f compose f^(-1) = "id"_B$ and $f^(-1) compose f = "id"_A$.
   For finite sets: $|A| = |B|$.
 ]
 
@@ -136,12 +136,12 @@ For finite sets: $|A| >= |B|$.
     [Injection],
     [$f(a_1) = f(a_2) arrow a_1 = a_2$],
     [$|A| <= |B|$],
-    [Left inverse $g @ f = "id"_A$],
+    [Left inverse $g compose f = "id"_A$],
 
     [Surjection],
     [$forall b exists a: f(a) = b$],
     [$|A| >= |B|$],
-    [Right inverse $f @ g = "id"_B$],
+    [Right inverse $f compose g = "id"_B$],
 
     [Bijection],
     [Injective + surjective],
@@ -154,23 +154,23 @@ For finite sets: $|A| >= |B|$.
 == Composition of Functions
 
 #definition[Composition][
-  Given $f: A -> B$ and $g: B -> C$, $(g @ f)(a) = g(f(a))$.
-  Composition is associative: $h @ (g @ f) = (h @ g) @ f$.
-  Not commutative: $g @ f eq.not f @ g$ in general.
+  Given $f: A -> B$ and $g: B -> C$, $(g compose f)(a) = g(f(a))$.
+  Composition is associative: $h compose(g compose f) = (h compose g) compose f$.
+  Not commutative: $g compose f eq.not f compose g$ in general.
 ]
 
 #theorem[Composition preserves function type][
-  Injection @ injection = injection.
-  Surjection @ surjection = surjection.
-  Bijection @ bijection = bijection.
+  If $f$ and $g$ are injective, $g compose f$ is injective.
+  If $f$ and $g$ are surjective, $g compose f$ is surjective.
+  If $f$ and $g$ are bijective, $g compose f$ is bijective.
 ]
 
 #theorem[Inverse of composition][
-  $(g @ f)^(-1) = f^(-1) @ g^(-1)$ --- order reverses.
+  $(g compose f)^(-1) = f^(-1) compose g^(-1)$ --- order reverses.
 ]
 
 #remark[
-  Functional pipelines `x |> f |> g |> h` are composition written left-to-right: $(h @ g @ f)(x)$.
+  Functional pipelines `x |> f |> g |> h` are composition written left-to-right: $(h compose g compose f)(x)$.
 ]
 
 

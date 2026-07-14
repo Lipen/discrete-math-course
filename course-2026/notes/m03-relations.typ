@@ -74,12 +74,12 @@ A relation can be specified in three equivalent ways:
 ]
 
 #definition[Composition of relations][
-  Given $R subset.eq A times B$ and $S subset.eq B times C$, their composition is: $S @ R = {(a, c) mid(|) exists b in B space (a, b) in R and (b, c) in S}$.
-  For a relation $R$ on $A$, powers: $R^1 = R$, $R^(k+1) = R^k @ R$.
+  Given $R subset.eq A times B$ and $S subset.eq B times C$, their composition is: $S compose R = {(a, c) mid(|) exists b in B space (a, b) in R and (b, c) in S}$.
+  For a relation $R$ on $A$, powers: $R^1 = R$, $R^(k+1) = R^k compose R$.
 ]
 
 #definition[Transitive closure][
-  $R^+ = union.big_(k=1)^oo R^k$, where $R^(k+1) = R^k @ R$.
+  $R^+ = union.big_(k=1)^oo R^k$, where $R^(k+1) = R^k compose R$.
   In the graph, $a R^+ b$ iff there is a directed path from $a$ to $b$.
 ]
 
