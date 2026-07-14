@@ -17,6 +17,11 @@
     Discrete Math --- Lecture Notes
     #h(1fr)
     2026/27 ],
+  footer: context [
+    #set text(9pt, fill: luma(40%))
+    #h(1fr)
+    #counter(page).display("1")
+    #h(1fr) ],
 )
 
 // --- Typography ---
