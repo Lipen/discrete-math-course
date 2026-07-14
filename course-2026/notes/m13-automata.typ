@@ -86,7 +86,14 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
 
 Proof: RE → NFA by structural induction; DFA → RE by state elimination.
 
-Regular languages are closed under all Boolean operations, concatenation, star, reversal, homomorphism, prefixes/suffixes.
+#proposition[Closure properties][
+    Regular languages are closed under:
+    + Boolean operations: union, intersection, complement, difference (DFA constructions).
+    + Concatenation and Kleene star (by regex definition).
+    + Reversal $L^R$ (reverse NFA transitions).
+    + Homomorphism and inverse homomorphism.
+    + Prefix, suffix, and substring operations.
+]
 
 === The Pumping Lemma
 
@@ -102,7 +109,18 @@ Regular languages are closed under all Boolean operations, concatenation, star, 
     The substring between visits is $y$ --- pumpable.
 ]
 
-Used to prove non-regularity: ${0^n 1^n mid(|) n >= 0}$, palindromes, ${a^(2^n) mid(|) n >= 0}$ are not regular.
+#example[Proving non-regularity of ${0^n 1^n mid(|) n >= 0}$][
+    Suppose $L$ is regular with pumping length $p$.
+    Take $w = 0^p 1^p in L$, $|w| = 2p >= p$.
+    By the lemma, $w = x y z$ with $|x y| <= p$ and $|y| > 0$, so $y$ consists only of $0$'s.
+    Then $x y^2 z = 0^(p+|y|) 1^p in L$ --- but it has more $0$'s than $1$'s, contradiction.
+    Therefore $L$ is not regular.
+]
+
+#example[
+    The language of palindromes over ${a, b}$ is not regular.
+    The language ${a^(2^n) mid(|) n >= 0}$ is not regular (pumping would give lengths not powers of 2).
+]
 
 == DFA Minimisation
 
