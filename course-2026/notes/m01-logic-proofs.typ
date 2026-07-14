@@ -324,8 +324,8 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
   Substitute:
   $
     (2k)^2 = 2q^2
-    => 4k^2 = 2q^2
-    => q^2 = 2k^2.
+    quad => quad 4k^2 = 2q^2
+    quad => quad q^2 = 2k^2.
   $
   Thus $q^2$ is even, so $q$ is even.
 

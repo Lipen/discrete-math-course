@@ -141,9 +141,17 @@ This correspondence is a Boolean algebra isomorphism (studied in its own chapter
 ]
 
 #proof[
-  First law by mutual inclusion:
-  - ($subset.eq$): $x in overline(A union B)$ $=>$ $x in.not A union B$ $=>$ $x in.not A$ and $x in.not B$ $=>$ $x in overline(A) inter overline(B)$.
-  - ($supset.eq$): $x in overline(A) inter overline(B)$ $=>$ $x in.not A$ and $x in.not B$ $=>$ $x in.not A union B$ $=>$ $x in overline(A union B)$.
+  By mutual inclusion.
+
+  ($subset.eq$): $x in overline(A union B)$
+  $=>$ $x in.not A union B$
+  $=>$ $x in.not A$ and $x in.not B$
+  $=>$ $x in overline(A) inter overline(B)$.
+
+  ($supset.eq$): $x in overline(A) inter overline(B)$
+  $=>$ $x in.not A$ and $x in.not B$
+  $=>$ $x in.not A union B$
+  $=>$ $x in overline(A union B)$.
 ]
 
 #remark[

@@ -50,9 +50,13 @@
 ]
 
 #proof-sketch[
-  $x_i$, $overline(x_i)$ in same SCC $=>$ $x_i iff overline(x_i)$ --- contradiction.
-  Reverse-topological assignment satisfies all implications.
-  Runs in $O(n + m)$.
+  Build an implication graph: each clause $(l_1 or l_2)$ adds edges $overline(l_1) -> l_2$ and $overline(l_2) -> l_1$.
+
+  If $x_i$ and $overline(x_i)$ belong to the same SCC, then $x_i iff overline(x_i)$, a contradiction — the formula is unsatisfiable.
+
+  Otherwise, assign variables in reverse topological order of the SCC condensation graph.
+  Every implication is satisfied, so the formula is satisfiable.
+  The algorithm runs in $O(n + m)$.
 ]
 
 #remark[

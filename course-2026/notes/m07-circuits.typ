@@ -154,9 +154,11 @@ An ALU combines adder, logic gates, and control bits to perform multiple operati
 ]
 
 #proof-sketch[
-  Number of circuits of size $s$: at most $(c s)^s$ (each gate = type + input choices).
-  Number of functions: $2^(2^n)$.
-  For $s = 2^n/(2n)$, $(c s)^s ≪ 2^(2^n)$ --- most functions cannot be represented.
+  A circuit of size $s$ has at most $(c s)^s$ possible configurations (each gate chooses a type and its inputs).
+
+  There are $2^(2^n)$ distinct Boolean functions of $n$ variables.
+  For $s = 2^n/(2n)$, the number of circuits is far smaller: $(c s)^s ≪ 2^(2^n)$.
+  Hence most Boolean functions require exponentially large circuits.
 ]
 
 This is non-constructive: we know complicated functions exist, but naming one and proving a lower bound is hard --- the "P vs NP" of circuit complexity.

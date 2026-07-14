@@ -116,8 +116,10 @@ A relation can be specified in three equivalent ways:
 ]
 
 #proof[
-  (Forward): Classes are pairwise disjoint and every element belongs to its own class. (Reverse): Given partition ${A_i}$, define $a sim b$ iff they share a part.
-  This is reflexive, symmetric, and transitive (parts are disjoint, so sharing a part is an equivalence).
+  ($arrow.r$): Equivalence classes are pairwise disjoint and cover $A$ by reflexivity.
+
+  ($arrow.l$): Given a partition ${A_i}$, define $a sim b$ iff $a$ and $b$ lie in the same part.
+  This is reflexive, symmetric, and transitive because the parts are disjoint.
 ]
 
 === Examples of Equivalence Relations
@@ -245,7 +247,7 @@ A relation can be specified in three equivalent ways:
 ]
 
 #proof[
-  If every box had $<= ceil(m/n) - 1$ objects, total would be $< n dot (m/n) = m$, contradiction.
+  If every box held $<= ceil(m/n) - 1$ objects, the total would be $< n dot (m/n) = m$, contradicting the count.
 ]
 
 In function language: if $|A| > |B|$, no injection $f: A -> B$ exists --- the mathematical essence of hash collisions.
@@ -271,8 +273,9 @@ In function language: if $|A| > |B|$, no injection $f: A -> B$ exists --- the ma
 ]
 
 #proof-sketch[
-  Assign each element $(italic("inc"), italic("dec"))$: longest increasing/decreasing subsequence ending there.
-  At most $n^2$ labels if both $<= n$; $n^2 + 1$ elements $=>$ some label exceeds $n$ by pigeonhole.
+  Label each element with $(italic("inc"), italic("dec"))$: the lengths of the longest increasing and decreasing subsequences ending at that element.
+  At most $n^2$ distinct labels if both are $<= n$.
+  With $n^2 + 1$ elements, pigeonhole forces some label to exceed $n$.
 ]
 
 #remark[

@@ -49,12 +49,15 @@
 
 #proof[
   Show $(0, 1)$ is uncountable.
+
   Suppose $r_1, r_2, ...$ enumerates all reals in $(0, 1)$ in decimal:
   $r_1 = 0.d_(11) d_(12) d_(13) ...$
   $r_2 = 0.d_(21) d_(22) d_(23) ...$
-  Construct $r = 0.e_1 e_2 e_3 ...$ where $e_i = 4$ if $d_(i i) eq.not 4$, else $e_i = 5$. $r$ differs from $r_i$ at digit $i$ --- not in the list.
+
+  Construct $r = 0.e_1 e_2 e_3 ...$ where $e_i = 4$ if $d_(i i) eq.not 4$, else $e_i = 5$.
+  Then $r$ differs from $r_i$ at the $i$-th digit, so $r$ is not in the list.
   Contradiction.
-  The list cannot be complete; $(0, 1)$ is uncountable.
+  Therefore $(0, 1)$ is uncountable.
 ]
 
 #corollary[Cantor's theorem][
@@ -63,8 +66,9 @@
 
 #proof[
   Define $D = {a in A mid(|) a in.not f(a)}$.
-  If $D = f(d)$, then $d in D$ iff $d in.not D$ --- contradiction.
-  No surjection $A arrow cal(P)(A)$ exists.
+  If $D = f(d)$ for some $d in A$, then $d in D$ iff $d in.not D$, a contradiction.
+  Hence $f$ is not surjective.
+  Since $f$ was arbitrary, no surjection $A -> cal(P)(A)$ exists, so $|A| < |cal(P)(A)|$.
 ]
 
 === The Continuum Hypothesis

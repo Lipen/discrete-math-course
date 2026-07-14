@@ -183,9 +183,14 @@ For finite sets: $|A| >= |B|$.
 ]
 
 #proof[
-  First identity: $y in f(A union B)$ iff $exists x in A union B$ with $f(x) = y$ iff $exists x in A$ or $exists x in B$ with $f(x) = y$ iff $y in f(A) union f(B)$.
-  Second: $y in f(A inter B)$ $=>$ $exists x in A inter B$ with $f(x) = y$ $=>$ $y in f(A)$ and $y in f(B)$.
-  For injective $f$: $y in f(A) inter f(B)$ $=>$ $exists a in A, b in B$ with $f(a) = f(b) = y$ $=>$ $a = b$ (by injectivity) $=>$ $a in A inter B$ $=>$ $y in f(A inter B)$.
+  *Image of union.*
+  $y in f(A union B)$ iff $exists x in A union B$, $f(x) = y$ iff ($exists x in A$ or $exists x in B$) $f(x) = y$ iff $y in f(A) union f(B)$.
+
+  *Image of intersection.*
+  $y in f(A inter B)$
+  $=>$ $exists x in A inter B$, $f(x) = y$
+  $=>$ $y in f(A)$ and $y in f(B)$.
+  The converse holds when $f$ is injective: $y in f(A) inter f(B)$ $=>$ $exists a in A, b in B$, $f(a) = f(b) = y$ $=>$ $a = b$ (injectivity) $=>$ $a in A inter B$ $=>$ $y in f(A inter B)$.
 ]
 
 #proposition[Preimage preserves all operations][
@@ -195,8 +200,7 @@ For finite sets: $|A| >= |B|$.
 
 #proof[
   $x in f^(-1)(C inter D)$ iff $f(x) in C inter D$ iff $f(x) in C$ and $f(x) in D$ iff $x in f^(-1)(C) inter f^(-1)(D)$.
-  The other identities follow the same pattern --- replace set operation with its logical counterpart on the membership condition.
-  Preimage is a homomorphism from the Boolean algebra of subsets of $B$ to the Boolean algebra of subsets of $A$.
+  The other identities follow the same pattern: replace each set operation with its logical counterpart on the membership condition.
 ]
 
 

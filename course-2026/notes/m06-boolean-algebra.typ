@@ -24,8 +24,9 @@
 ]
 
 #proof[
-  Truth table has $2^n$ rows; each output is 0 or 1 --- $2$ choices.
-  Total: $2 dot 2 dot dots.h 2 = 2^(2^n)$.
+  A truth table has $2^n$ rows, one per input combination.
+  Each output is independently 0 or 1, giving $2$ choices per row.
+  Total: $2^(2^n)$ functions.
 ]
 
 For $n = 0$: constants 0, 1. $n = 1$: 4 functions. $n = 2$: 16 functions --- the classic logic gates.
@@ -49,8 +50,11 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
 ]
 
 #proof[
-  Express NOT, AND, OR using only NAND: $not x = x arrow.t x$, $x and y = (x arrow.t y) arrow.t (x arrow.t y)$, $x or y = (x arrow.t x) arrow.t (y arrow.t y)$.
-  Since ${"NOT"}, {"AND"}, {"OR"}$ is complete, so is NAND.
+  Express NOT, AND, OR using only NAND:
+  $not x = x arrow.t x$,
+  $x and y = (x arrow.t y) arrow.t (x arrow.t y)$,
+  $x or y = (x arrow.t x) arrow.t (y arrow.t y)$.
+  Since ${"NOT"}, {"AND"}, {"OR"}$ is complete, NAND is complete.
 ]
 
 #proposition[Standard complete sets][

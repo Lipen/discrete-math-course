@@ -170,7 +170,9 @@ Suprema and infima are unique when they exist; they need not exist in an arbitra
 ]
 
 #proof-sketch[
-  Repeatedly pick a minimal element, output it, remove it, recurse.
+  In a finite poset, minimal elements always exist.
+  Repeatedly pick any minimal element, output it, remove it from the poset, and recurse on the remainder.
+  The order of removal is a topological sort.
 ]
 
 #remark[

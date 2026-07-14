@@ -123,7 +123,10 @@
 ]
 
 #proof[
-  An element in exactly $k$ of the $A_i$ is counted $binom(k, 1) - binom(k, 2) + ... + (-1)^(k+1)binom(k, k) = 1$ time.
+  Consider an element belonging to exactly $k$ of the sets $A_i$.
+  In $sum |A_i|$ it is counted $binom(k, 1)$ times, in $sum |A_i inter A_j|$ it is counted $binom(k, 2)$ times, etc.
+  Alternating sum: $binom(k, 1) - binom(k, 2) + ... + (-1)^(k+1) binom(k, k) = 1 - (1-1)^k = 1$.
+  So every element is counted exactly once.
 ]
 
 #example[Derangements][

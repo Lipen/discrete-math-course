@@ -77,11 +77,15 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
 ]
 
 #proof[
-  DFA states = $cal(P)(Q)$ (subsets of NFA states).
-  Start: $epsilon$-closure(${q_0}$).
-  Transition: $delta'(S, a) = epsilon$-closure($union.big_(q in S) delta(q, a)$).
-  Accepting: $F' = {S mid(|) S inter F eq.not nothing}$.
-  Exponential blowup possible ($2^n$ states from $n$-state NFA) --- worst-case unavoidable.
+  Let the NFA be $N = (Q, Sigma, delta, q_0, F)$.
+  Construct DFA $D = (cal(P)(Q), Sigma, delta', {q_0}^\* , F')$ where ${q_0}^\*$ is the $epsilon$-closure of ${q_0}$.
+
+  For each state $S subset.eq Q$ and symbol $a$:
+  $delta'(S, a) = epsilon "{-closure}"(union.big_(q in S) delta(q, a))$.
+
+  Accepting states: $F' = {S subset.eq Q mid(|) S inter F eq.not nothing}$.
+  By construction, $D$ simulates all possible runs of $N$ simultaneously.
+  The number of DFA states is at most $2^(|Q|)$, and this exponential blowup is unavoidable in the worst case.
 ]
 
 #proposition[DFA vs NFA --- comparison][
@@ -141,9 +145,9 @@ Proof: RE $->$ NFA by structural induction; DFA $->$ RE by state elimination.
 ]
 
 #proof-sketch[
-  DFA with $p$ states.
-  String length $>= p$ must visit some state twice (pigeonhole).
-  The substring between visits is $y$ --- pumpable.
+  Let the DFA have $p$ states.
+  A string of length $>= p$ must visit some state twice during its computation (pigeonhole).
+  The substring between the two visits is $y$; it can be repeated any number of times, and the DFA still accepts.
 ]
 
 #example[Proving non-regularity of ${0^n 1^n mid(|) n >= 0}$][
