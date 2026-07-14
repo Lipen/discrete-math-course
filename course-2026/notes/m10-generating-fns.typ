@@ -23,11 +23,11 @@
 === Operations on Generating Functions
 
 #proposition[OGF operations][
-  + *Addition*: $A(x) + B(x) = sum (a_n + b_n) x^n$.
-  + *Right shift*: $x A(x) = sum a_n x^(n+1) = sum a_(n-1) x^n$.
-  + *Left shift*: $(A(x) - a_0)/x = sum a_(n+1) x^n$.
-  + *Convolution*: $A(x) B(x) = sum c_n x^n$ where $c_n = sum_(i=0)^n a_i b_(n-i)$.
-  + *Partial sums*: $A(x)/(1-x) = sum s_n x^n$ where $s_n = sum_(i=0)^n a_i$.
+  - *Addition*: $A(x) + B(x) = sum (a_n + b_n) x^n$.
+  - *Right shift*: $x A(x) = sum a_n x^(n+1) = sum a_(n-1) x^n$.
+  - *Left shift*: $(A(x) - a_0)/x = sum a_(n+1) x^n$.
+  - *Convolution*: $A(x) B(x) = sum c_n x^n$ where $c_n = sum_(i=0)^n a_i b_(n-i)$.
+  - *Partial sums*: $A(x)/(1-x) = sum s_n x^n$ where $s_n = sum_(i=0)^n a_i$.
 ]
 
 === Basic Series
@@ -91,8 +91,8 @@
 ]
 
 #proposition[EGF operations][
-  + *Shift*: $dif/(dif x) E(x) = sum a_(n+1) x^n/(n!)$ --- differentiation shifts left.
-  + *Binomial convolution*: $A(x) B(x) = sum c_n x^n/(n!)$ where $c_n = sum binom(n, i) a_i b_(n-i)$.
+  - *Shift*: $dif/(dif x) E(x) = sum a_(n+1) x^n/(n!)$ --- differentiation shifts left.
+  - *Binomial convolution*: $A(x) B(x) = sum c_n x^n/(n!)$ where $c_n = sum binom(n, i) a_i b_(n-i)$.
 ]
 
 #proposition[Standard EGFs][
@@ -118,9 +118,9 @@
 
 #definition[Combinatorial species --- idea][
   A *species* $F$ assigns to each finite set $U$ of labels a finite set $F[U]$ of structures.
-  + Sets: $F[U] = {U}$.
-  + Lists (permutations): all linear orders of $U$.
-  + Trees, graphs, etc.
+  - Sets: $F[U] = {U}$.
+  - Lists (permutations): all linear orders of $U$.
+  - Trees, graphs, etc.
 ]
 
 The EGF of a species: $F(x) = sum |F[{1,...,n}]| x^n/(n!)$.

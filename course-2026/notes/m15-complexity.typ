@@ -52,8 +52,8 @@ Equivalently: solvable by nondeterministic TM in polynomial time.
 ]
 
 #definition[NP-hard, NP-complete][
-  + $B$ is *NP-hard* if $forall A in "NP"$, $A #preduce B$.
-  + $B$ is *NP-complete* if $B in "NP"$ and $B$ is NP-hard.
+  - $B$ is *NP-hard* if $forall A in "NP"$, $A #preduce B$.
+  - $B$ is *NP-complete* if $B in "NP"$ and $B$ is NP-hard.
 ]
 
 #theorem[Significance][
@@ -153,10 +153,10 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
 ]
 
 #definition[Other classes][
-  + *coNP*: complements of NP languages (UNSAT). Open: $"NP" = "coNP"$?
-  + *PH* (Polynomial Hierarchy): generalises NP with alternating quantifiers. Collapses if $P = "NP"$.
-  + *\#P*: counting solutions. \#SAT is \#P-complete (even harder than NP).
-  + *BQP*: quantum polynomial time. $P subset.eq "BQP" subset.eq "PSPACE"$. Shor's algorithm (factoring) in BQP.
+  - *coNP*: complements of NP languages (UNSAT). Open: $"NP" = "coNP"$?
+  - *PH* (Polynomial Hierarchy): generalises NP with alternating quantifiers. Collapses if $P = "NP"$.
+  - *\#P*: counting solutions. \#SAT is \#P-complete (even harder than NP).
+  - *BQP*: quantum polynomial time. $P subset.eq "BQP" subset.eq "PSPACE"$. Shor's algorithm (factoring) in BQP.
 ]
 
 #remark[Cryptography][

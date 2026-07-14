@@ -29,11 +29,11 @@ The standard connectives, listed by decreasing binding strength, are:
 #definition[Logical connectives][
   Let $p$ and $q$ be propositions.
   The basic connectives are:
-  + *Negation* $not p$: "not $p$" --- true when $p$ is false.
-  + *Conjunction* $p and q$: "$p$ and $q$" --- true when both are true.
-  + *Disjunction* $p or q$: "$p$ or $q$" (inclusive) --- true when at least one is true.
-  + *Implication* $p arrow q$: "if $p$ then $q$" --- false only when $p$ is true and $q$ is false.
-  + *Equivalence* $p arrow.l.r q$: "$p$ if and only if $q$" --- true when $p$ and $q$ have the same truth value.
+  - *Negation* $not p$: "not $p$" --- true when $p$ is false.
+  - *Conjunction* $p and q$: "$p$ and $q$" --- true when both are true.
+  - *Disjunction* $p or q$: "$p$ or $q$" (inclusive) --- true when at least one is true.
+  - *Implication* $p arrow q$: "if $p$ then $q$" --- false only when $p$ is true and $q$ is false.
+  - *Equivalence* $p arrow.l.r q$: "$p$ if and only if $q$" --- true when $p$ and $q$ have the same truth value.
 ]
 
 In an implication $p arrow q$, $p$ is the _antecedent_ (hypothesis) and $q$ is the _consequent_ (conclusion).
@@ -48,9 +48,9 @@ Think of it as a broken promise: "If it rains, I will bring an umbrella" is only
 The formal syntax of propositional logic is defined recursively:
 
 #definition[Well-formed formula][
-  + Every propositional variable (atom) is a well-formed formula (wff).
-  + If $phi$ and $psi$ are wffs, then $(not phi)$, $(phi and psi)$, $(phi or psi)$, $(phi arrow psi)$, and $(phi arrow.l.r psi)$ are wffs.
-  + Nothing else is a wff.
+  - Every propositional variable (atom) is a well-formed formula (wff).
+  - If $phi$ and $psi$ are wffs, then $(not phi)$, $(phi and psi)$, $(phi or psi)$, $(phi arrow psi)$, and $(phi arrow.l.r psi)$ are wffs.
+  - Nothing else is a wff.
 ]
 
 Precedence conventions reduce parentheses: $not$ binds tightest, then $and$, then $or$, then $arrow$, then $arrow.l.r$.
@@ -79,10 +79,10 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
 ]
 
 #definition[Tautology, contradiction, satisfiability][
-  + A _tautology_ is a formula true under every interpretation.
-  + A _contradiction_ (or unsatisfiable formula) is a formula false under every interpretation.
-  + A _satisfiable_ formula is true under at least one interpretation.
-  + A _contingent_ formula is true under some interpretations and false under others --- neither a tautology nor a contradiction.
+  - A _tautology_ is a formula true under every interpretation.
+  - A _contradiction_ (or unsatisfiable formula) is a formula false under every interpretation.
+  - A _satisfiable_ formula is true under at least one interpretation.
+  - A _contingent_ formula is true under some interpretations and false under others --- neither a tautology nor a contradiction.
 ]
 
 #example[
@@ -117,20 +117,20 @@ Propositional logic satisfies algebraic laws that enable simplification of formu
 
 #proposition[Laws of propositional logic][
   For all propositions $p$, $q$, $r$:
-  + *Commutativity*: $p and q equiv q and p$, $p or q equiv q or p$.
-  + *Associativity*: $(p and q) and r equiv p and (q and r)$, $(p or q) or r equiv p or (q or r)$.
-  + *Distributivity*: $p and (q or r) equiv (p and q) or (p and r)$, $p or (q and r) equiv (p or q) and (p or r)$.
-  + *Idempotence*: $p and p equiv p$, $p or p equiv p$.
-  + *Absorption*: $p and (p or q) equiv p$, $p or (p and q) equiv p$.
-  + *Double negation*: $not not p equiv p$.
-  + *Identity*: $p and T equiv p$, $p or F equiv p$.
-  + *Domination*: $p or T equiv T$, $p and F equiv F$.
-  + *Complement*: $p and not p equiv F$, $p or not p equiv T$.
+  - *Commutativity*: $p and q equiv q and p$, $p or q equiv q or p$.
+  - *Associativity*: $(p and q) and r equiv p and (q and r)$, $(p or q) or r equiv p or (q or r)$.
+  - *Distributivity*: $p and (q or r) equiv (p and q) or (p and r)$, $p or (q and r) equiv (p or q) and (p or r)$.
+  - *Idempotence*: $p and p equiv p$, $p or p equiv p$.
+  - *Absorption*: $p and (p or q) equiv p$, $p or (p and q) equiv p$.
+  - *Double negation*: $not not p equiv p$.
+  - *Identity*: $p and T equiv p$, $p or F equiv p$.
+  - *Domination*: $p or T equiv T$, $p and F equiv F$.
+  - *Complement*: $p and not p equiv F$, $p or not p equiv T$.
 ]
 
 #theorem[De Morgan's laws][
-  + $not (p and q) equiv not p or not q$.
-  + $not (p or q) equiv not p and not q$.
+  - $not (p and q) equiv not p or not q$.
+  - $not (p or q) equiv not p and not q$.
 ]
 
 De Morgan's laws generalise: the negation of a conjunction is the disjunction of the negations, and vice versa.
@@ -217,8 +217,8 @@ The scope of a quantifier is the subformula to which it applies.
 === Negation of Quantifiers
 
 #theorem[Quantifier negation][
-  + $not forall x space P(x) equiv exists x space not P(x)$.
-  + $not exists x space P(x) equiv forall x space not P(x)$.
+  - $not forall x space P(x) equiv exists x space not P(x)$.
+  - $not exists x space P(x) equiv forall x space not P(x)$.
 ]
 
 The negation of "everyone likes pizza" is "there exists someone who does not like pizza."
@@ -230,8 +230,8 @@ When a formula contains more than one quantifier, order matters critically.
 
 #example[
   Let $P(x, y)$ be "$y$ is the mother of $x$" with domain "people."
-  + $forall x exists y space P(x, y)$: "Everyone has a mother" --- true.
-  + $exists y forall x space P(x, y)$: "There is a person who is the mother of everyone" --- false.
+  - $forall x exists y space P(x, y)$: "Everyone has a mother" --- true.
+  - $exists y forall x space P(x, y)$: "There is a person who is the mother of everyone" --- false.
 ]
 
 The rule: $forall x exists y$ says "for each $x$, choose a $y$ (which may depend on $x$)."
@@ -248,8 +248,8 @@ $exists y forall x$ says "there is a single $y$ that works for all $x$."
 In practice, most quantification is over a restricted set:
 
 #definition[Bounded quantifier][
-  + $forall x in A space P(x)$ abbreviates $forall x space (x in A arrow P(x))$.
-  + $exists x in A space P(x)$ abbreviates $exists x space (x in A and P(x))$.
+  - $forall x in A space P(x)$ abbreviates $forall x space (x in A arrow P(x))$.
+  - $exists x in A space P(x)$ abbreviates $exists x space (x in A and P(x))$.
 ]
 
 Bounded quantifiers are ubiquitous in mathematics and CS: "every element of the array is non-negative" translates to $forall i in {0, ..., n-1} space A[i] >= 0$.
@@ -261,8 +261,8 @@ The translation must preserve meaning precisely --- ambiguity in the English mus
 
 #example[
   "All that glitters is not gold" is ambiguous.
-  + Reading 1: $forall x space ("glitters"(x) arrow not "gold"(x))$ --- "nothing that glitters is gold" (false).
-  + Reading 2: $not forall x space ("glitters"(x) arrow "gold"(x))$ --- "not everything that glitters is gold" (true).
+  - Reading 1: $forall x space ("glitters"(x) arrow not "gold"(x))$ --- "nothing that glitters is gold" (false).
+  - Reading 2: $not forall x space ("glitters"(x) arrow "gold"(x))$ --- "not everything that glitters is gold" (true).
 ]
 
 #example[
@@ -517,8 +517,8 @@ Testing can demonstrate the _presence_ of bugs, never their _absence_ --- exactl
 
 #note[
   The logical connection between testing and proof:
-  + Testing = searching for a counterexample.
-  + Proof = demonstrating that no counterexample exists.
+  - Testing = searching for a counterexample.
+  - Proof = demonstrating that no counterexample exists.
   Both are essential.
   Testing finds the easy bugs; proofs find the deep ones.
 ]

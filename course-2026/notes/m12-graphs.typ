@@ -20,14 +20,14 @@
 
 #definition[Graph][
   $G = (V, E)$: $V$ = vertices, $E$ = edges.
-  + *Undirected*: edges are unordered pairs ${u, v}$.
-  + *Directed*: edges (arcs) are ordered pairs $(u, v)$.
+  - *Undirected*: edges are unordered pairs ${u, v}$.
+  - *Directed*: edges (arcs) are ordered pairs $(u, v)$.
 ]
 
 #definition[Special types][
-  + *Simple graph*: no loops, no multiple edges.
-  + *Multigraph*: loops and multiple edges allowed.
-  + *$k$-regular*: every vertex has degree $k$.
+  - *Simple graph*: no loops, no multiple edges.
+  - *Multigraph*: loops and multiple edges allowed.
+  - *$k$-regular*: every vertex has degree $k$.
 ]
 
 #figure(
@@ -53,24 +53,24 @@
 === Representations
 
 #proposition[Three representations][
-  + *Edge list*: store all edges as pairs. $O(|E|)$ adjacency check.
-  + *Adjacency matrix*: $n times n$ matrix $A$; $(A^k)_(i j)$ = number of length-$k$ walks from $i$ to $j$.
-  + *Adjacency list*: per vertex, list of neighbours. Best for sparse graphs.
+  - *Edge list*: store all edges as pairs. $O(|E|)$ adjacency check.
+  - *Adjacency matrix*: $n times n$ matrix $A$; $(A^k)_(i j)$ = number of length-$k$ walks from $i$ to $j$.
+  - *Adjacency list*: per vertex, list of neighbours. Best for sparse graphs.
 ]
 
 == Paths, Cycles, Connectivity
 
 #definition[Walk, path, cycle][
-  + *Walk*: sequence $v_0, ..., v_k$ with ${v_(i-1), v_i} in E$. Length = $k$.
-  + *Path*: walk with no repeated vertices.
-  + *Cycle*: closed walk ($v_0 = v_k$, $k >= 3$) with no other repeats.
+  - *Walk*: sequence $v_0, ..., v_k$ with ${v_(i-1), v_i} in E$. Length = $k$.
+  - *Path*: walk with no repeated vertices.
+  - *Cycle*: closed walk ($v_0 = v_k$, $k >= 3$) with no other repeats.
 ]
 
 #definition[Connectivity][
-  + *Connected*: path between every pair.
-  + *Connected component*: maximal connected subgraph.
-  + *Bridge*: edge whose removal disconnects the graph.
-  + *Distance* $d(u, v)$: shortest path length. *Diameter*: maximum distance.
+  - *Connected*: path between every pair.
+  - *Connected component*: maximal connected subgraph.
+  - *Bridge*: edge whose removal disconnects the graph.
+  - *Distance* $d(u, v)$: shortest path length. *Diameter*: maximum distance.
 ]
 
 #figure(
@@ -127,8 +127,8 @@
 
 #proposition[Minimum spanning tree][
   Given a weighted connected graph, an MST minimises the sum of edge weights.
-  + *Kruskal*: sort edges by weight, add lightest that does not create a cycle (union-find). $O(E log E)$.
-  + *Prim*: grow tree from arbitrary start, repeatedly add lightest edge to outside vertex (priority queue). $O((V+E) log V)$.
+  - *Kruskal*: sort edges by weight, add lightest that does not create a cycle (union-find). $O(E log E)$.
+  - *Prim*: grow tree from arbitrary start, repeatedly add lightest edge to outside vertex (priority queue). $O((V+E) log V)$.
 ]
 
 == Eulerian and Hamiltonian Graphs
@@ -158,8 +158,8 @@
 ]
 
 #theorem[Sufficient conditions][
-  + *Dirac*: $"deg"(v) >= n/2$ for all $v$ → Hamiltonian.
-  + *Ore*: $"deg"(u) + "deg"(v) >= n$ for all non-adjacent $u$, $v$ → Hamiltonian.
+  - *Dirac*: $"deg"(v) >= n/2$ for all $v$ → Hamiltonian.
+  - *Ore*: $"deg"(u) + "deg"(v) >= n$ for all non-adjacent $u$, $v$ → Hamiltonian.
 ]
 
 #remark[
@@ -233,9 +233,9 @@
 ]
 
 #proposition[Chromatic number bounds][
-  + $chi(G) <= Delta(G) + 1$ (greedy coloring bound).
-  + $chi(G) = 2$ iff $G$ is bipartite and has at least one edge.
-  + $chi(K_n) = n$.
+  - $chi(G) <= Delta(G) + 1$ (greedy coloring bound).
+  - $chi(G) = 2$ iff $G$ is bipartite and has at least one edge.
+  - $chi(K_n) = n$.
 ]
 
 #theorem[Four Color Theorem][

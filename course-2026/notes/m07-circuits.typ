@@ -31,17 +31,17 @@ Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = 
 
 #definition[Logic circuit][
   A *logic circuit* is a directed acyclic graph (DAG):
-  + Source nodes = inputs (variables, constants 0/1).
-  + Internal nodes = logic gates.
-  + Sink nodes = outputs.
+  - Source nodes = inputs (variables, constants 0/1).
+  - Internal nodes = logic gates.
+  - Sink nodes = outputs.
   Acyclicity ensures combinational (not sequential) logic --- no feedback.
 ]
 
 #definition[Circuit complexity measures][
-  + *Size*: number of gates (hardware cost).
-  + *Depth*: longest path from input to output (propagation delay).
-  + *Fan-in*: maximum inputs per gate.
-  + *Fan-out*: maximum gates driven by one output.
+  - *Size*: number of gates (hardware cost).
+  - *Depth*: longest path from input to output (propagation delay).
+  - *Fan-in*: maximum inputs per gate.
+  - *Fan-out*: maximum gates driven by one output.
 ]
 
 #note[
@@ -126,8 +126,8 @@ An ALU combines adder, logic gates, and control bits to perform multiple operati
 ]
 
 #proposition[Binary ↔ Gray conversion][
-  + *Binary to Gray*: $g_(n-1) = b_(n-1)$; $g_i = b_i xor b_(i+1)$.
-  + *Gray to Binary*: $b_(n-1) = g_(n-1)$; $b_i = g_i xor b_(i+1)$ (cumulative XOR).
+  - *Binary to Gray*: $g_(n-1) = b_(n-1)$; $g_i = b_i xor b_(i+1)$.
+  - *Gray to Binary*: $b_(n-1) = g_(n-1)$; $b_i = g_i xor b_(i+1)$ (cumulative XOR).
 ]
 
 #remark[

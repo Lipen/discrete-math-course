@@ -17,10 +17,10 @@
 
 #definition[Turing machine][
   $M = (Q, Gamma, Sigma, delta, q_0, q_"accept", q_"reject")$:
-  + $Q$: finite states.
-  + $Gamma$: tape alphabet (includes blank $Blank$).
-  + $Sigma subset.eq Gamma setminus {Blank}$: input alphabet.
-  + $delta: Q times Gamma arrow Q times Gamma times {L, R}$: partial transition function.
+  - $Q$: finite states.
+  - $Gamma$: tape alphabet (includes blank $Blank$).
+  - $Sigma subset.eq Gamma setminus {Blank}$: input alphabet.
+  - $delta: Q times Gamma arrow Q times Gamma times {L, R}$: partial transition function.
 ]
 
 Infinite tape (both directions), one head. One step: read symbol, write symbol, move L/R, change state.
@@ -31,8 +31,8 @@ Infinite tape (both directions), one head. One step: read symbol, write symbol, 
 ]
 
 #definition[Recognisable vs decidable][
-  + $L$ is *recognisable* (r.e.): some TM accepts exactly $L$ (may loop on $w in.not L$).
-  + $L$ is *decidable* (recursive): some TM always halts and accepts iff $w in L$.
+  - $L$ is *recognisable* (r.e.): some TM accepts exactly $L$ (may loop on $w in.not L$).
+  - $L$ is *decidable* (recursive): some TM always halts and accepts iff $w in L$.
 ]
 
 Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
@@ -101,8 +101,8 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
 ]
 
 #proposition[Using reductions][
-  + $A #mreduce B$ and $B$ decidable → $A$ decidable.
-  + $A #mreduce B$ and $A$ undecidable → $B$ undecidable.
+  - $A #mreduce B$ and $B$ decidable → $A$ decidable.
+  - $A #mreduce B$ and $A$ undecidable → $B$ undecidable.
 ]
 
 #example[Reduction: HALT to Emptiness][
@@ -117,9 +117,9 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
 ]
 
 #example[Undecidable via reduction][
-  + *Totality*: does $M$ halt on every input? Undecidable. Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
-  + *Equivalence*: $L(M_1) = L(M_2)$? Undecidable. Even checking $L(M) = nothing$ (a special case) is undecidable.
-  + *Regularity*: is $L(M)$ a regular language? Undecidable.
+  - *Totality*: does $M$ halt on every input? Undecidable. Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
+  - *Equivalence*: $L(M_1) = L(M_2)$? Undecidable. Even checking $L(M) = nothing$ (a special case) is undecidable.
+  - *Regularity*: is $L(M)$ a regular language? Undecidable.
 ]
 
 == Rice's Theorem

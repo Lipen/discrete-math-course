@@ -27,9 +27,9 @@ There is no notion of multiplicity or ordering: ${1, 2, 3}$ and ${3, 1, 2}$ are 
 A set can be specified in several ways:
 
 #definition[Set specification][
-  + *Enumeration*: list all elements between braces --- ${1, 2, 3, 4}$.
-  + *Set-builder notation*: ${x in U mid(|) P(x)}$ --- the set of all $x$ in the universe $U$ satisfying property $P$.
-  + *Recursive definition*: base set + generation rules (used later for formal languages, inductive structures).
+  - *Enumeration*: list all elements between braces --- ${1, 2, 3, 4}$.
+  - *Set-builder notation*: ${x in U mid(|) P(x)}$ --- the set of all $x$ in the universe $U$ satisfying property $P$.
+  - *Recursive definition*: base set + generation rules (used later for formal languages, inductive structures).
 ]
 
 #example[Set builder notation][
@@ -53,8 +53,8 @@ A set can be specified in several ways:
 ]
 
 #definition[Subset][
-  + $A subset.eq B$: every element of $A$ is also an element of $B$ --- $forall x space (x in A arrow x in B)$.
-  + $A subset B$: $A subset.eq B$ and $A eq.not B$ (proper subset).
+  - $A subset.eq B$: every element of $A$ is also an element of $B$ --- $forall x space (x in A arrow x in B)$.
+  - $A subset B$: $A subset.eq B$ and $A eq.not B$ (proper subset).
 ]
 
 #theorem[Subset equality][
@@ -87,22 +87,22 @@ This theorem is the standard technique for proving set equality: show each side 
 
 #definition[Set operations][
   For sets $A$ and $B$ (subsets of a universal set $U$):
-  + *Union*: $A union B = {x mid(|) x in A or x in B}$.
-  + *Intersection*: $A inter B = {x mid(|) x in A and x in B}$.
-  + *Difference*: $A setminus B = {x mid(|) x in A and x in.not B}$.
-  + *Symmetric difference*: $A symdiff B = (A setminus B) union (B setminus A)$.
-  + *Complement*: $overline(A) = U setminus A = {x in U mid(|) x in.not A}$.
+  - *Union*: $A union B = {x mid(|) x in A or x in B}$.
+  - *Intersection*: $A inter B = {x mid(|) x in A and x in B}$.
+  - *Difference*: $A setminus B = {x mid(|) x in A and x in.not B}$.
+  - *Symmetric difference*: $A symdiff B = (A setminus B) union (B setminus A)$.
+  - *Complement*: $overline(A) = U setminus A = {x in U mid(|) x in.not A}$.
 ]
 
 Two sets are _disjoint_ if $A inter B = nothing$.
 
 #example[
   Let $A = {1, 2, 3}$, $B = {2, 3, 4}$ with $U = {1, 2, 3, 4, 5}$.
-  + $A union B = {1, 2, 3, 4}$
-  + $A inter B = {2, 3}$
-  + $A setminus B = {1}$
-  + $A symdiff B = {1, 4}$
-  + $overline(A) = {4, 5}$
+  - $A union B = {1, 2, 3, 4}$
+  - $A inter B = {2, 3}$
+  - $A setminus B = {1}$
+  - $A symdiff B = {1, 4}$
+  - $overline(A) = {4, 5}$
 ]
 
 === Algebraic Laws
@@ -130,24 +130,24 @@ This correspondence is a Boolean algebra isomorphism (studied in its own chapter
 
 #proposition[Laws of set algebra][
   For all sets $A$, $B$, $C$:
-  + *Commutativity*: $A union B = B union A$, $A inter B = B inter A$.
-  + *Associativity*: $(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$.
-  + *Distributivity*: $A inter (B union C) = (A inter B) union (A inter C)$, $A union (B inter C) = (A union B) inter (A union C)$.
-  + *Idempotence*: $A union A = A$, $A inter A = A$.
-  + *Identity*: $A union nothing = A$, $A inter U = A$.
-  + *Complement*: $A union overline(A) = U$, $A inter overline(A) = nothing$.
-  + *Double complement*: $overline(overline(A)) = A$.
+  - *Commutativity*: $A union B = B union A$, $A inter B = B inter A$.
+  - *Associativity*: $(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$.
+  - *Distributivity*: $A inter (B union C) = (A inter B) union (A inter C)$, $A union (B inter C) = (A union B) inter (A union C)$.
+  - *Idempotence*: $A union A = A$, $A inter A = A$.
+  - *Identity*: $A union nothing = A$, $A inter U = A$.
+  - *Complement*: $A union overline(A) = U$, $A inter overline(A) = nothing$.
+  - *Double complement*: $overline(overline(A)) = A$.
 ]
 
 #theorem[De Morgan's laws for sets][
-  + $overline(A union B) = overline(A) inter overline(B)$.
-  + $overline(A inter B) = overline(A) union overline(B)$.
+  - $overline(A union B) = overline(A) inter overline(B)$.
+  - $overline(A inter B) = overline(A) union overline(B)$.
 ]
 
 #proof[
-  First law by mutual inclusion.
-  ($subset.eq$): $x in overline(A union B)$ $=>$ $x in.not A union B$ $=>$ $x in.not A$ and $x in.not B$ $=>$ $x in overline(A) inter overline(B)$.
-  ($supset.eq$): $x in overline(A) inter overline(B)$ $=>$ $x in.not A$ and $x in.not B$ $=>$ $x in.not A union B$ $=>$ $x in overline(A union B)$.
+  First law by mutual inclusion:
+  - ($subset.eq$): $x in overline(A union B)$ $=>$ $x in.not A union B$ $=>$ $x in.not A$ and $x in.not B$ $=>$ $x in overline(A) inter overline(B)$.
+  - ($supset.eq$): $x in overline(A) inter overline(B)$ $=>$ $x in.not A$ and $x in.not B$ $=>$ $x in.not A union B$ $=>$ $x in overline(A union B)$.
 ]
 
 #remark[
@@ -228,10 +228,10 @@ Partitions are tightly linked to equivalence relations --- explored in the next 
 A database table is a subset of a Cartesian product.
 
 #definition[Relational algebra operations][
-  + *Selection* $sigma_"condition"(R)$: ${t in R mid(|) "condition"(t)}$.
-  + *Projection* $pi_"columns"(R)$: keep specified columns.
-  + *Union*, *intersection*, *difference*: set operations on tuples.
-  + *Cartesian product*: concatenate every row of $R$ with every row of $S$.
+  - *Selection* $sigma_"condition"(R)$: ${t in R mid(|) "condition"(t)}$.
+  - *Projection* $pi_"columns"(R)$: keep specified columns.
+  - *Union*, *intersection*, *difference*: set operations on tuples.
+  - *Cartesian product*: concatenate every row of $R$ with every row of $S$.
 ]
 
 #example[
@@ -247,15 +247,15 @@ A database table is a subset of a Cartesian product.
 === Data Types as Sets
 
 #definition[Types as sets][
-  + `bool` = ${T, F}$.
-  + `uint8` = ${0, ..., 255}$.
-  + `string` $subset.eq Sigma^*$ (finite sequences over alphabet $Sigma$).
-  + $A -> B$ is the set $B^A$ of all functions from $A$ to $B$.
+  - `bool` = ${T, F}$.
+  - `uint8` = ${0, ..., 255}$.
+  - `string` $subset.eq Sigma^*$ (finite sequences over alphabet $Sigma$).
+  - $A -> B$ is the set $B^A$ of all functions from $A$ to $B$.
 ]
 
 #definition[Sum and product types][
-  + *Sum type*: disjoint union --- a value belongs to exactly one branch with a tag.
-  + *Product type*: Cartesian product of component types.
+  - *Sum type*: disjoint union --- a value belongs to exactly one branch with a tag.
+  - *Product type*: Cartesian product of component types.
 ]
 
 #example[

@@ -18,11 +18,11 @@
 
 #definition[DFA][
   $M = (Q, Sigma, delta, q_0, F)$:
-  + $Q$: finite set of states.
-  + $Sigma$: finite alphabet.
-  + $delta: Q times Sigma arrow Q$: transition function (total).
-  + $q_0 in Q$: start state.
-  + $F subset.eq Q$: accepting states.
+  - $Q$: finite set of states.
+  - $Sigma$: finite alphabet.
+  - $delta: Q times Sigma arrow Q$: transition function (total).
+  - $q_0 in Q$: start state.
+  - $F subset.eq Q$: accepting states.
 ]
 
 Extended transition: $hat(delta)(q, epsilon) = q$, $hat(delta)(q, a w) = hat(delta)(delta(q, a), w)$.
@@ -41,9 +41,9 @@ Language: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
 
 #proposition[Boolean closure][
   Given DFAs for $L_1$, $L_2$, construct DFAs via product automaton:
-  + *Union*: $F = (F_1 times Q_2) union (Q_1 times F_2)$.
-  + *Intersection*: $F = F_1 times F_2$.
-  + *Complement*: swap $F$ and $Q setminus F$ (requires total $delta$).
+  - *Union*: $F = (F_1 times Q_2) union (Q_1 times F_2)$.
+  - *Intersection*: $F = F_1 times F_2$.
+  - *Complement*: swap $F$ and $Q setminus F$ (requires total $delta$).
 ]
 
 == Nondeterministic Finite Automata (NFA)
@@ -112,12 +112,12 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
 
 #definition[Regular expression][
   Over $Sigma$:
-  + $nothing$: empty language.
-  + $epsilon$: ${epsilon}$.
-  + $a$ ($a in Sigma$): ${a}$.
-  + $R_1 | R_2$: $L(R_1) union L(R_2)$.
-  + $R_1 R_2$: ${u v mid(|) u in L(R_1), v in L(R_2)}$.
-  + $R^*$: zero or more repetitions.
+  - $nothing$: empty language.
+  - $epsilon$: ${epsilon}$.
+  - $a$ ($a in Sigma$): ${a}$.
+  - $R_1 | R_2$: $L(R_1) union L(R_2)$.
+  - $R_1 R_2$: ${u v mid(|) u in L(R_1), v in L(R_2)}$.
+  - $R^*$: zero or more repetitions.
   Precedence: $* >$ concatenation $> |$.
 ]
 
@@ -129,20 +129,20 @@ Proof: RE → NFA by structural induction; DFA → RE by state elimination.
 
 #proposition[Closure properties][
   Regular languages are closed under:
-  + Boolean operations: union, intersection, complement, difference (DFA constructions).
-  + Concatenation and Kleene star (by regex definition).
-  + Reversal $L^R$ (reverse NFA transitions).
-  + Homomorphism and inverse homomorphism.
-  + Prefix, suffix, and substring operations.
+  - Boolean operations: union, intersection, complement, difference (DFA constructions).
+  - Concatenation and Kleene star (by regex definition).
+  - Reversal $L^R$ (reverse NFA transitions).
+  - Homomorphism and inverse homomorphism.
+  - Prefix, suffix, and substring operations.
 ]
 
 === The Pumping Lemma
 
 #theorem[Pumping Lemma for regular languages][
   If $L$ is regular, $exists p >= 1$ (pumping length) such that $forall w in L$, $|w| >= p$, $w = x y z$ with:
-  + $|y| > 0$,
-  + $|x y| <= p$,
-  + $x y^i z in L$ for all $i >= 0$.
+  - $|y| > 0$,
+  - $|x y| <= p$,
+  - $x y^i z in L$ for all $i >= 0$.
 ]
 
 #proof-sketch[

@@ -103,11 +103,11 @@
 ]
 
 #proposition[Core identities][
-  + *Row sum*: $sum binom(n, k) = 2^n$ (all subsets).
-  + *Alternating sum*: $sum (-1)^k binom(n, k) = 0$ for $n >= 1$.
-  + *Hockey-stick*: $sum_(i=k)^n binom(i, k) = binom(n+1, k+1)$.
-  + *Vandermonde*: $binom(m+n, r) = sum binom(m, k) binom(n, r-k)$.
-  + *Weighted sum*: $sum k binom(n, k) = n 2^(n-1)$.
+  - *Row sum*: $sum binom(n, k) = 2^n$ (all subsets).
+  - *Alternating sum*: $sum (-1)^k binom(n, k) = 0$ for $n >= 1$.
+  - *Hockey-stick*: $sum_(i=k)^n binom(i, k) = binom(n+1, k+1)$.
+  - *Vandermonde*: $binom(m+n, r) = sum binom(m, k) binom(n, r-k)$.
+  - *Weighted sum*: $sum k binom(n, k) = n 2^(n-1)$.
 ]
 
 #proof-sketch[

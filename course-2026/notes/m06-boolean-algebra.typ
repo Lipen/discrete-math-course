@@ -66,11 +66,11 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
 
 #proposition[Post's closed classes][
   Five maximal classes, each closed under composition:
-  + $T_0$: preserving 0 --- $f(0, ..., 0) = 0$.
-  + $T_1$: preserving 1 --- $f(1, ..., 1) = 1$.
-  + $S$: self-dual --- $not f(not x_1, ..., not x_n) = f(x_1, ..., x_n)$.
-  + $M$: monotone --- increasing inputs never decreases output.
-  + $L$: linear --- expressible as XOR of a subset of variables (possibly plus 1).
+  - $T_0$: preserving 0 --- $f(0, ..., 0) = 0$.
+  - $T_1$: preserving 1 --- $f(1, ..., 1) = 1$.
+  - $S$: self-dual --- $not f(not x_1, ..., not x_n) = f(x_1, ..., x_n)$.
+  - $M$: monotone --- increasing inputs never decreases output.
+  - $L$: linear --- expressible as XOR of a subset of variables (possibly plus 1).
 ]
 
 #theorem[Post's criterion][
@@ -80,11 +80,11 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
 #example[Verifying completeness via Post's criterion][
   Is ${"NAND"}$ ($arrow.t$) complete?
   Check membership in each class:
-  + $T_0$: $"NAND"(0, 0) = 1 eq.not 0$ → not in $T_0$.
-  + $T_1$: $"NAND"(1, 1) = 0 eq.not 1$ → not in $T_1$.
-  + $S$: $"NAND"(not x, not y) = not(not x and not y) = x or y$, but $not("NAND"(x, y)) = not(not(x and y)) = x and y eq.not x or y$ → not self-dual.
-  + $M$: $"NAND"(0, 1) = 1$, $"NAND"(1, 1) = 0$ --- increasing input decreases output → not monotone.
-  + $L$: $"NAND"(x, y) = not(x and y) = x y xor 1$ --- degree 2, not linear.
+  - $T_0$: $"NAND"(0, 0) = 1 eq.not 0$ → not in $T_0$.
+  - $T_1$: $"NAND"(1, 1) = 0 eq.not 1$ → not in $T_1$.
+  - $S$: $"NAND"(not x, not y) = not(not x and not y) = x or y$, but $not("NAND"(x, y)) = not(not(x and y)) = x and y eq.not x or y$ → not self-dual.
+  - $M$: $"NAND"(0, 1) = 1$, $"NAND"(1, 1) = 0$ --- increasing input decreases output → not monotone.
+  - $L$: $"NAND"(x, y) = not(x and y) = x y xor 1$ --- degree 2, not linear.
   NAND is in none of the five classes → ${"NAND"}$ is complete.
 ]
 
@@ -96,9 +96,9 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
 
 #definition[Boolean algebra axioms][
   A Boolean algebra is $(B, and, or, bar(X), 0, 1)$ satisfying:
-  + Commutativity, associativity, distributivity of $and$/$or$.
-  + Identity: $a and 1 = a$, $a or 0 = a$.
-  + Complement: $a and overline(a) = 0$, $a or overline(a) = 1$.
+  - Commutativity, associativity, distributivity of $and$/$or$.
+  - Identity: $a and 1 = a$, $a or 0 = a$.
+  - Complement: $a and overline(a) = 0$, $a or overline(a) = 1$.
 ]
 
 #proposition[Duality principle][
@@ -112,9 +112,9 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
 === Literals, Minterms, Maxterms
 
 #definition[Literals, minterms, maxterms][
-  + *Literal*: variable $x_i$ or its negation $overline(x_i)$.
-  + *Minterm*: conjunction of literals where each variable appears exactly once --- one per truth table row ($2^n$ total).
-  + *Maxterm*: disjunction of literals where each variable appears exactly once.
+  - *Literal*: variable $x_i$ or its negation $overline(x_i)$.
+  - *Minterm*: conjunction of literals where each variable appears exactly once --- one per truth table row ($2^n$ total).
+  - *Maxterm*: disjunction of literals where each variable appears exactly once.
 ]
 
 #example[
@@ -143,8 +143,8 @@ Construction from truth table:
 - CNF (dual): for each row with $f = 0$, write disjunction ($overline(x_i)$ if 1, $x_i$ if 0). Conjoin all.
 
 #definition[Perfect normal forms][
-  + *Perfect DNF* (SDNF): every conjunction contains all $n$ variables.
-  + *Perfect CNF* (SKNF): every disjunction contains all $n$ variables.
+  - *Perfect DNF* (SDNF): every conjunction contains all $n$ variables.
+  - *Perfect CNF* (SKNF): every disjunction contains all $n$ variables.
   Both unique up to order.
 ]
 

@@ -23,9 +23,9 @@
 A relation can be specified in three equivalent ways:
 
 #definition[Representations][
-  + *Set of pairs*: $R = {(a_1, b_1), (a_2, b_2), ...}$.
-  + *Adjacency matrix*: $n times n$ matrix $M$ where $M_(i j) = 1$ if $(a_i, a_j) in R$.
-  + *Directed graph*: vertices = elements of $A$; directed edge $a arrow b$ iff $(a, b) in R$.
+  - *Set of pairs*: $R = {(a_1, b_1), (a_2, b_2), ...}$.
+  - *Adjacency matrix*: $n times n$ matrix $M$ where $M_(i j) = 1$ if $(a_i, a_j) in R$.
+  - *Directed graph*: vertices = elements of $A$; directed edge $a arrow b$ iff $(a, b) in R$.
 ]
 
 #example[
@@ -43,13 +43,13 @@ A relation can be specified in three equivalent ways:
 
 #definition[Relational properties][
   Let $R$ be a binary relation on $A$.
-  + *Reflexive*: $forall a in A space a R a$.
-  + *Irreflexive*: $forall a in A space not(a R a)$.
-  + *Symmetric*: $a R b arrow b R a$.
-  + *Antisymmetric*: $(a R b and b R a) arrow a = b$.
-  + *Asymmetric*: $a R b arrow not(b R a)$.
-  + *Transitive*: $(a R b and b R c) arrow a R c$.
-  + *Total* (connected): $a eq.not b arrow (a R b or b R a)$.
+  - *Reflexive*: $forall a in A space a R a$.
+  - *Irreflexive*: $forall a in A space not(a R a)$.
+  - *Symmetric*: $a R b arrow b R a$.
+  - *Antisymmetric*: $(a R b and b R a) arrow a = b$.
+  - *Asymmetric*: $a R b arrow not(b R a)$.
+  - *Transitive*: $(a R b and b R c) arrow a R c$.
+  - *Total* (connected): $a eq.not b arrow (a R b or b R a)$.
 ]
 
 #note[
@@ -60,18 +60,18 @@ A relation can be specified in three equivalent ways:
 === Reading Properties from Representations
 
 #proposition[Property detection][
-  + *Reflexive*: all diagonal entries 1; every vertex has self-loop.
-  + *Irreflexive*: all diagonal entries 0; no self-loops.
-  + *Symmetric*: matrix symmetric ($M = M^T$); every edge is bidirectional.
-  + *Antisymmetric*: no symmetric 1s off-diagonal; no bidirectional edges.
-  + *Transitive*: whenever there is a length-2 path, there is a direct edge.
+  - *Reflexive*: all diagonal entries 1; every vertex has self-loop.
+  - *Irreflexive*: all diagonal entries 0; no self-loops.
+  - *Symmetric*: matrix symmetric ($M = M^T$); every edge is bidirectional.
+  - *Antisymmetric*: no symmetric 1s off-diagonal; no bidirectional edges.
+  - *Transitive*: whenever there is a length-2 path, there is a direct edge.
 ]
 
 === Closures of Relations
 
 #definition[Closure][
-  + *Reflexive closure* of $R$: $R union {(a, a) mid(|) a in A}$.
-  + *Symmetric closure*: $R union {(b, a) mid(|) (a, b) in R}$.
+  - *Reflexive closure* of $R$: $R union {(a, a) mid(|) a in A}$.
+  - *Symmetric closure*: $R union {(b, a) mid(|) (a, b) in R}$.
 ]
 
 #definition[Composition of relations][
@@ -105,9 +105,9 @@ A relation can be specified in three equivalent ways:
 ]
 
 #proposition[Class properties][
-  + $a in [a]$ (reflexivity).
-  + $[a] = [b]$ iff $a sim b$.
-  + $[a] inter [b] = nothing$ iff $not(a sim b)$.
+  - $a in [a]$ (reflexivity).
+  - $[a] = [b]$ iff $a sim b$.
+  - $[a] inter [b] = nothing$ iff $not(a sim b)$.
   Classes are either identical or disjoint.
 ]
 
@@ -161,9 +161,9 @@ A relation can be specified in three equivalent ways:
 ]
 
 #definition[Strict and total orders][
-  + *Strict order* $<$: irreflexive, asymmetric, transitive.
+  - *Strict order* $<$: irreflexive, asymmetric, transitive.
   Interchangeable: $a < b$ iff $a prec.eq b$ and $a eq.not b$.
-  + *Total order*: partial order where every pair is comparable.
+  - *Total order*: partial order where every pair is comparable.
 ]
 
 #example[
@@ -188,16 +188,16 @@ A relation can be specified in three equivalent ways:
 === Extremal Elements and Bounds
 
 #definition[Minimal, maximal, least, greatest][
-  + $m$ is *minimal* if no element is strictly smaller.
-  + $m$ is *maximal* if no element is strictly larger.
-  + $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique if exists).
-  + $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique if exists).
+  - $m$ is *minimal* if no element is strictly smaller.
+  - $m$ is *maximal* if no element is strictly larger.
+  - $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique if exists).
+  - $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique if exists).
 ]
 
 #definition[Bounds, supremum, infimum][
-  + $u$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
-  + The *supremum* (join) is the _least_ upper bound.
-  + The *infimum* (meet) is the _greatest_ lower bound.
+  - $u$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
+  - The *supremum* (join) is the _least_ upper bound.
+  - The *infimum* (meet) is the _greatest_ lower bound.
 ]
 
 === Lattices
@@ -248,8 +248,8 @@ A relation can be specified in three equivalent ways:
 == Pigeonhole Principle
 
 #theorem[Pigeonhole principle][
-  + *Simple form*: $n+1$ objects in $n$ boxes $=>$ at least one box has $>= 2$ objects.
-  + *General form*: $m$ objects in $n$ boxes $=>$ some box has $>= ceil(m/n)$ objects.
+  - *Simple form*: $n+1$ objects in $n$ boxes $=>$ at least one box has $>= 2$ objects.
+  - *General form*: $m$ objects in $n$ boxes $=>$ some box has $>= ceil(m/n)$ objects.
 ]
 
 #proof[

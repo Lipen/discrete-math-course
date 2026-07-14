@@ -37,8 +37,8 @@
 
 #definition[k-SAT][
   $k$-SAT: every clause has exactly $k$ literals.
-  + *2-SAT*: solvable in polynomial time (implication graph + SCC).
-  + *3-SAT*: NP-complete.
+  - *2-SAT*: solvable in polynomial time (implication graph + SCC).
+  - *3-SAT*: NP-complete.
 ]
 
 === 2-SAT Algorithm
@@ -71,9 +71,9 @@
 
 #example[Graph $k$-coloring][
   Variables: $x_(v, c) = 1$ iff vertex $v$ has color $c$.
-  + Each vertex has a color: $or.big_(c=1)^k x_(v, c)$.
-  + No vertex has two colors: $overline(x_(v, c)) or overline(x_(v, d))$ for $c < d$.
-  + Adjacent vertices differ: $overline(x_(u, c)) or overline(x_(v, c))$ for edge ${u, v}$.
+  - Each vertex has a color: $or.big_(c=1)^k x_(v, c)$.
+  - No vertex has two colors: $overline(x_(v, c)) or overline(x_(v, d))$ for $c < d$.
+  - Adjacent vertices differ: $overline(x_(u, c)) or overline(x_(v, c))$ for edge ${u, v}$.
 ]
 
 #example[Sudoku][
@@ -86,8 +86,8 @@
   Does graph $G$ have a vertex cover of size $<= k$?
   Variables: $x_v = 1$ iff vertex $v$ is in the cover.
   Constraints:
-  + Every edge covered: $x_u or x_v$ for each ${u, v} in E$.
-  + Size limit: use cardinality constraint encoding (sequential counter or binary adder).
+  - Every edge covered: $x_u or x_v$ for each ${u, v} in E$.
+  - Size limit: use cardinality constraint encoding (sequential counter or binary adder).
 ]
 
 The art of SAT encoding lies in choosing the right variables and writing compact clauses.

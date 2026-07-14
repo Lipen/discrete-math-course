@@ -55,10 +55,10 @@
 #example[
   The divisor poset on ${1, 2, 3, 4, 6, 12}$ ordered by $a | b$.
   The Hasse diagram shows only cover relations:
-  + 1 is covered by 2 and 3
-  + 2 is covered by 4 and 6
-  + 3 is covered by 6
-  + 4 and 6 are covered by 12
+  - 1 is covered by 2 and 3
+  - 2 is covered by 4 and 6
+  - 3 is covered by 6
+  - 4 and 6 are covered by 12
 ]
 
 #figure(
@@ -78,10 +78,10 @@
 === Extremal Elements
 
 #definition[Minimal, maximal, least, greatest][
-  + $m$ is *minimal* if no element is strictly smaller: $not(exists a space a < m)$.
-  + $m$ is *maximal* if no element is strictly larger: $not(exists a space m < a)$.
-  + $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique when exists, also minimal).
-  + $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique when exists, also maximal).
+  - $m$ is *minimal* if no element is strictly smaller: $not(exists a space a < m)$.
+  - $m$ is *maximal* if no element is strictly larger: $not(exists a space m < a)$.
+  - $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique when exists, also minimal).
+  - $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique when exists, also maximal).
 ]
 
 #note[
@@ -112,13 +112,13 @@
 
 #definition[Bounds][
   Let $(A, prec.eq)$ be a poset and $S subset.eq A$.
-  + $u$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
-  + $l$ is a *lower bound* of $S$ if $l prec.eq s$ for all $s in S$.
+  - $u$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
+  - $l$ is a *lower bound* of $S$ if $l prec.eq s$ for all $s in S$.
 ]
 
 #definition[Supremum and infimum][
-  + The *supremum* (sup, join $or$) is the _least_ upper bound.
-  + The *infimum* (inf, meet $and$) is the _greatest_ lower bound.
+  - The *supremum* (sup, join $or$) is the _least_ upper bound.
+  - The *infimum* (inf, meet $and$) is the _greatest_ lower bound.
   For a pair ${a, b}$: $a or b$ (join), $a and b$ (meet).
 ]
 

@@ -21,15 +21,15 @@
 ]
 
 #definition[Countable and uncountable][
-  + $A$ is *countable* if finite or equinumerous with $NN$.
-  + $A$ is *uncountable* if infinite but not countable.
+  - $A$ is *countable* if finite or equinumerous with $NN$.
+  - $A$ is *uncountable* if infinite but not countable.
 ]
 
 === Countable Sets
 
 #theorem[$ZZ$ and $QQ$ are countable][
-  + $ZZ$: bijection $0, 1, -1, 2, -2, ...$ given by $f(n) =$ if $n$ even: $n/2$, if $n$ odd: $-(n+1)/2$.
-  + $QQ$: list fractions $p/q$ in reduced form by $|p| + q$ (height), then within each height by numerator.
+  - $ZZ$: bijection $0, 1, -1, 2, -2, ...$ given by $f(n) =$ if $n$ even: $n/2$, if $n$ odd: $-(n+1)/2$.
+  - $QQ$: list fractions $p/q$ in reduced form by $|p| + q$ (height), then within each height by numerator.
   Height 1: $0/1$. Height 2: $-1/1$, $1/1$. Height 3: $-2/1$, $-1/2$, $1/2$, $2/1$. And so on.
   This is Cantor's first diagonal argument --- enumerate all pairs $(p, q)$ and skip non-reduced fractions.
 ]
@@ -81,10 +81,10 @@ The *Continuum Hypothesis* (CH): no such set exists --- $2^(aleph_0) = aleph_1$.
 
 
 #remark[Cardinal arithmetic][
-  + $aleph_0 + aleph_0 = aleph_0$: two countably infinite sets together are still countable.
-  + $aleph_0 dot aleph_0 = aleph_0$: countably many countable sets (e.g., $NN times NN$) are still countable.
-  + $2^(aleph_0) = |RR|$: the power set of $NN$ has the cardinality of the continuum.
-  + Under AC, cardinal addition and multiplication are trivial for infinite cardinals: $kappa + lambda = kappa dot lambda = max(kappa, lambda)$.
+  - $aleph_0 + aleph_0 = aleph_0$: two countably infinite sets together are still countable.
+  - $aleph_0 dot aleph_0 = aleph_0$: countably many countable sets (e.g., $NN times NN$) are still countable.
+  - $2^(aleph_0) = |RR|$: the power set of $NN$ has the cardinality of the continuum.
+  - Under AC, cardinal addition and multiplication are trivial for infinite cardinals: $kappa + lambda = kappa dot lambda = max(kappa, lambda)$.
     Cardinal exponentiation is the interesting operation (Cantor's theorem, CH, Easton's theorem).
 ]
 
@@ -104,10 +104,10 @@ Cardinals measure "how many"; ordinals measure "in what order":
 Ordinals generalise counting beyond the finite --- they are the foundation of transfinite induction.
 
 #definition[Ordinal arithmetic --- informal][
-  + *Successor*: $alpha + 1$ is the next ordinal after $alpha$ (like $omega + 1$ --- "infinity and then one more").
-  + *Limit ordinals*: ordinals with no immediate predecessor, such as $omega$, $omega dot 2$, $omega^2$.
-  + *Addition*: $1 + omega = omega$ (one then infinitely many = just infinitely many), $omega + 1 > omega$ (infinitely many then one more). Addition is not commutative.
-  + *Multiplication*: $omega dot 2 = omega + omega$ (infinitely many, then infinitely many again). $2 dot omega = omega$ (two, repeated infinitely = just $omega$). Not commutative either.
+  - *Successor*: $alpha + 1$ is the next ordinal after $alpha$ (like $omega + 1$ --- "infinity and then one more").
+  - *Limit ordinals*: ordinals with no immediate predecessor, such as $omega$, $omega dot 2$, $omega^2$.
+  - *Addition*: $1 + omega = omega$ (one then infinitely many = just infinitely many), $omega + 1 > omega$ (infinitely many then one more). Addition is not commutative.
+  - *Multiplication*: $omega dot 2 = omega + omega$ (infinitely many, then infinitely many again). $2 dot omega = omega$ (two, repeated infinitely = just $omega$). Not commutative either.
 ]
 
 #remark[Transfinite induction][
@@ -127,10 +127,10 @@ Ordinals generalise counting beyond the finite --- they are the foundation of tr
 AC is independent of ZF. Equivalent formulations:
 
 #proposition[Equivalents of AC][
-  + *Zorn's Lemma*: if every chain in a poset has an upper bound, the poset has a maximal element.
-  + *Well-Ordering Theorem*: every set can be well-ordered.
-  + *Every vector space has a basis*.
-  + *Tychonoff's theorem* (product of compact spaces is compact).
+  - *Zorn's Lemma*: if every chain in a poset has an upper bound, the poset has a maximal element.
+  - *Well-Ordering Theorem*: every set can be well-ordered.
+  - *Every vector space has a basis*.
+  - *Tychonoff's theorem* (product of compact spaces is compact).
 ]
 
 #remark[
@@ -150,8 +150,8 @@ AC enables constructions beyond physical intuition without breaking logical cons
 
 #note[
   The transfinite is the mathematical basis for:
-  + Existence of maximal ideals (Zorn's Lemma).
-  + Hahn-Banach theorem in functional analysis.
-  + Compactness theorem in model theory.
+  - Existence of maximal ideals (Zorn's Lemma).
+  - Hahn-Banach theorem in functional analysis.
+  - Compactness theorem in model theory.
   The infinite, properly handled, is as rigorous as the finite.
 ]

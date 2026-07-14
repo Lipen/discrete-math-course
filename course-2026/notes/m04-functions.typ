@@ -22,12 +22,12 @@
 ]
 
 #definition[Domain, codomain, image, preimage][
-  + *Domain*: $A$ --- the set of valid inputs.
-  + *Codomain*: $B$ --- the set of permitted outputs.
-  + *Image*: $f(A) = {f(a) mid(|) a in A}$ --- outputs actually produced.
-  + For $X subset.eq A$: $f(X) = {f(a) mid(|) a in X}$.
-  + For $Y subset.eq B$: $f^(-1)(Y) = {a in A mid(|) f(a) in Y}$.
-  + For $b in B$: $f^(-1)(b) = {a in A mid(|) f(a) = b}$ --- a set, not necessarily a singleton.
+  - *Domain*: $A$ --- the set of valid inputs.
+  - *Codomain*: $B$ --- the set of permitted outputs.
+  - *Image*: $f(A) = {f(a) mid(|) a in A}$ --- outputs actually produced.
+  - For $X subset.eq A$: $f(X) = {f(a) mid(|) a in X}$.
+  - For $Y subset.eq B$: $f^(-1)(Y) = {a in A mid(|) f(a) in Y}$.
+  - For $b in B$: $f^(-1)(b) = {a in A mid(|) f(a) = b}$ --- a set, not necessarily a singleton.
 ]
 
 #note[
@@ -38,8 +38,8 @@
 === Total and Partial Functions
 
 #definition[Total vs partial][
-  + *Total function* $f: A arrow B$: defined for every $a in A$.
-  + *Partial function* $f: A ⇀ B$: defined on a subset of $A$.
+  - *Total function* $f: A arrow B$: defined for every $a in A$.
+  - *Partial function* $f: A ⇀ B$: defined on a subset of $A$.
 ]
 
 #example[Partial function][
@@ -183,8 +183,8 @@ For finite sets: $|A| >= |B|$.
 == Image and Preimage Algebra
 
 #proposition[Image of union and intersection][
-  + $f(A union B) = f(A) union f(B)$.
-  + $f(A inter B) subset.eq f(A) inter f(B)$. Equality holds if $f$ is injective.
+  - $f(A union B) = f(A) union f(B)$.
+  - $f(A inter B) subset.eq f(A) inter f(B)$. Equality holds if $f$ is injective.
 ]
 
 #proof[
