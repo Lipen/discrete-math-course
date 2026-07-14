@@ -310,7 +310,7 @@ Sometimes the contrapositive is easier to prove than the original.
   *If $n^2$ is odd, then $n$ is odd.*
 
   We prove the contrapositive: if $n$ is even, then $n^2$ is even.
-  (Because "not odd" for an integer means "even" — every integer is either even or odd.)
+  (Because "not odd" for an integer means "even": every integer is either even or odd.)
 
   The statement "$n$ even $imply$ $n^2$ even" is exactly what we proved above by direct proof.
   Since the contrapositive is logically equivalent to the original implication, the original statement holds.
@@ -331,7 +331,7 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
   Assume, for the sake of contradiction, that $sqrt{2}$ is rational.
   Then there exist positive integers $p, q in ZZ^+$ such that
   $ sqrt{2} = p/q, $
-  and we may assume the fraction is in lowest terms — that is, $gcd(p, q) = 1$.
+  and we may assume the fraction is in lowest terms, i.e. $gcd(p, q) = 1$.
   (If the fraction were not reduced, we could cancel common factors first.)
 
   Squaring both sides gives $2 = p^2 / q^2$, hence
@@ -349,7 +349,7 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
   We have shown that both $p$ and $q$ are even.
   But then $gcd(p, q) >= 2$, contradicting the assumption that the fraction was in lowest terms with $gcd(p, q) = 1$.
 
-  The contradiction means our initial assumption — that $sqrt{2}$ is rational — must be false.
+  The contradiction shows that our initial assumption, that $sqrt{2}$ is rational, must be false.
   Therefore $sqrt{2}$ is irrational.
 ]
 
@@ -458,7 +458,7 @@ Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $
   *Induction hypothesis.* Assume that $P(m)$ holds for all integers $m$ with $2 <= m < k$.
   That is, every integer from $2$ up to $k-1$ can be factored into primes.
 
-  *Inductive step.* We must prove $P(k)$ — that $k$ itself can be factored into primes.
+  *Inductive step.* We must prove $P(k)$, i.e. that $k$ itself can be factored into primes.
 
   There are two possibilities:
   + If $k$ is prime, then $k$ is already a prime factorisation (a single factor). $P(k)$ holds.
@@ -471,7 +471,7 @@ Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $
     which is a product of primes.  Hence $P(k)$ holds.
 
   In either case, $P(k)$ is true.
-  By the principle of strong induction, $P(n)$ holds for all $n >= 2$ — every integer $>= 2$ can be factored into primes.
+  By the principle of strong induction, $P(n)$ holds for all $n >= 2$.  Hence every integer $>= 2$ can be factored into primes.
 ]
 
 #theorem[Well-ordering principle][

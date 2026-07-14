@@ -62,12 +62,12 @@
 
 #figure(
   hasse-divisors-12,
-  caption: [Hasse diagram of $(D_12, |)$ — the divisor lattice of 12. Edges show cover relations; transitivity and reflexivity are implicit.],
+  caption: [Hasse diagram of $(D_12, |)$ --- the divisor lattice of 12. Edges show cover relations; transitivity and reflexivity are implicit.],
 ) <fig:hasse-divisors-12>
 
 #figure(
   hasse-powerset-2,
-  caption: [Hasse diagram of $(cal(P)({1, 2}), subset.eq)$ — the Boolean lattice $B_2$. Join = $union$, meet = $inter$.],
+  caption: [Hasse diagram of $(cal(P)({1, 2}), subset.eq)$ --- the Boolean lattice $B_2$. Join = $union$, meet = $inter$.],
 ) <fig:hasse-powerset-2>
 
 #example[

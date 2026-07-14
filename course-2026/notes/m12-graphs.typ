@@ -144,7 +144,7 @@
 
 #figure(
   eulerian,
-  caption: [The Königsberg bridges: every vertex has odd degree (3,3,5,3) — no Eulerian tour is possible.],
+  caption: [The Königsberg bridges: every vertex has odd degree (3,3,5,3) --- no Eulerian tour is possible.],
 ) <fig:eulerian>
 
 #remark[
@@ -202,7 +202,7 @@
   For simple planar graph with $V >= 3$: $E <= 3V - 6$.
   Consequence: every simple planar graph has a vertex of degree $<= 5$.
   $K_5$ violates the edge bound ($E=10 > 3 dot 5 - 6 = 9$) and is non-planar.
-  $K_(3,3)$ is also non-planar — it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor).
+  $K_(3,3)$ is also non-planar --- it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor).
 ]
 
 #figure(

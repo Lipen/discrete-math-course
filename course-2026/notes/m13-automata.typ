@@ -56,7 +56,7 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
 
 #example[
   NFA for strings containing $"00"$ or $"11"$: from $q_0$, on 0 move to $q_1$ (looking for $"00"$) or on 1 to $q_2$ (looking for $"11"$).
-  Both branches proceed independently — the machine "guesses" which pattern will appear.
+  Both branches proceed independently --- the machine "guesses" which pattern will appear.
 ]
 
 #figure(
