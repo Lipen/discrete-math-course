@@ -469,7 +469,7 @@
     (0.8, -0.5),
     (2.8, -0.5),
   )
-  let r = 0.2 // node radius (matches snode)
+  let r = 0.25 // node radius (matches node() call below)
 
   // Point on circle border
   let rim(center, toward) = {
@@ -482,11 +482,11 @@
   // Nodes FIRST
   let anchors = ("north", "west", "east", "south", "south", "south", "south")
   for (i, p) in v.enumerate() {
-    snode(p, str(i + 1))
+    node(p, str(i + 1), radius: 0.25)
     content(
       p,
       anchor: anchors.at(i),
-      outset: 0.25em,
+      outset: 0.55em,
       size: .55em,
       fill: c-edge-dim,
     )[
