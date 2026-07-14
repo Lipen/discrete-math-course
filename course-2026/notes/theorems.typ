@@ -9,7 +9,8 @@
 //   #proof[body]                      #proof-sketch[body]
 //   #example[body]                    #example[Title][body]
 //   #note[body]                       #note[Title][body]
-//   #remark[body]                     #remark[Title][body]
+//   #remark[body]                     #remark(inline: true)[body]
+//   #remark[Title][body]              #note(inline: true)[body]
 //   #chapter-overview[body]
 //   #hrule
 
@@ -24,46 +25,77 @@
   if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
 }
 
-#let _numbered(label, ctr, bar-color, inline: false, body) = {
-  ctr.step()
-  let header = [#strong[#label #_ch-num(ctr)]]
+// Parse ..args sink into (subtitle, body) pair.
+#let _args(pos) = {
+  if pos.len() >= 2 {
+    (pos.at(0), pos.at(1))
+  } else {
+    (none, pos.at(0))
+  }
+}
+
+// Shared helper: colored block with title and body.
+#let _block(
+  title: none,
+  fill: none,
+  stroke: none,
+  inset: none,
+  inline: false,
+  it: none,
+) = {
   block(
-    stroke: (left: 3pt + bar-color, rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
+    fill: fill,
+    stroke: stroke,
+    inset: inset,
     radius: 3pt,
     width: 100%,
   )[
     #if inline {
-      [#strong[#label #_ch-num(ctr).] #body]
+      [#title #it]
     } else {
-      [#block(sticky: true)[#header #v(0.25em)] #body]
+      [#block(sticky: true)[#title] #it]
     }
   ]
+}
+
+#let _numbered(label, ctr, bar-color, inline: false, body) = {
+  ctr.step()
+  let header = if inline {
+    strong[#label #_ch-num(ctr).]
+  } else {
+    strong[#label #_ch-num(ctr)] + v(0.25em)
+  }
+  _block(
+    title: header,
+    stroke: (left: 3pt + bar-color, rest: none),
+    inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
+    inline: inline,
+    it: body,
+  )
 }
 
 #let _numbered-sub(label, subtitle, ctr, bar-color, inline: false, body) = {
   ctr.step()
-  let header = [#strong[#label #_ch-num(ctr) (#subtitle)]]
-  block(
+  let header = if inline {
+    strong[#label #_ch-num(ctr) (#subtitle).]
+  } else {
+    strong[#label #_ch-num(ctr) (#subtitle)] + v(0.25em)
+  }
+  _block(
+    title: header,
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #if inline {
-      [#strong[#label #_ch-num(ctr) (#subtitle).] #body]
-    } else {
-      [#block(sticky: true)[#header #v(0.25em)] #body]
-    }
-  ]
+    inline: inline,
+    it: body,
+  )
 }
 
 #let _dispatch(label, ctr, bar-color, inline: false, ..args) = {
-  let pos = args.pos()
-  if pos.len() >= 2 {
-    _numbered-sub(label, pos.at(0), ctr, bar-color, inline: inline, pos.at(1))
+  let (sub, body) = _args(args.pos())
+  if sub != none {
+    _numbered-sub(label, sub, ctr, bar-color, inline: inline, body)
   } else {
-    _numbered(label, ctr, bar-color, inline: inline, pos.at(0))
+    _numbered(label, ctr, bar-color, inline: inline, body)
   }
 }
 
@@ -158,90 +190,71 @@
   }
 }
 
-#let proof(body) = {
-  block(
-    fill: luma(97%),
-    stroke: (left: 2pt + luma(78%), rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #block(sticky: true)[
-      #strong[Proof:]
-      #v(0.2em)
-    ]
-    #body
-  ]
-}
+// --- Unnumbered block environments ---
 
-#let proof-sketch(body) = {
-  block(
-    fill: luma(97%),
-    stroke: (left: 2pt + luma(78%), rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #block(sticky: true)[
-      #strong[Proof sketch:]
-      #v(0.2em)
-    ]
-    #body
-  ]
-}
+#let proof(body) = _block(
+  title: strong[Proof:] + v(0.2em),
+  fill: luma(97%),
+  stroke: (left: 2pt + luma(78%), rest: none),
+  inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+  it: body,
+)
+
+#let proof-sketch(body) = _block(
+  title: strong[Proof sketch:] + v(0.2em),
+  fill: luma(97%),
+  stroke: (left: 2pt + luma(78%), rest: none),
+  inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+  it: body,
+)
 
 #let example(inline: false, ..args) = {
-  let pos = args.pos()
-  let (subtitle, body) = if pos.len() >= 2 {
-    (pos.at(0), pos.at(1))
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    emph[Example (#sub):]
   } else {
-    (none, pos.at(0))
+    emph[Example:]
   }
-  let title = [#text(
-    style: "italic",
-  )[Example#if subtitle != none { [ (#subtitle)] }]]
-  block(
+  _block(
+    title: title,
     fill: luma(97%),
     stroke: (left: 2pt + luma(82%), rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #if inline {
-      [#title: #body]
-    } else {
-      [#block(sticky: true)[#title: #v(0.2em)] #body]
-    }
-  ]
+    inline: inline,
+    it: body,
+  )
 }
 
-#let note(..args) = {
-  let pos = args.pos()
-  let (title, body) = if pos.len() >= 2 {
-    ([Note: #(pos.at(0))], pos.at(1))
+#let note(inline: false, ..args) = {
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    strong[Note: #sub.]
+  } else if inline {
+    strong[Note:]
   } else {
-    ([Note], pos.at(0))
+    strong[Note.]
   }
-  block(
+  _block(
+    title: title,
     fill: oklch(97%, 0.006, 155deg),
     stroke: (left: 3pt + oklch(55%, 0.15, 155deg), rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #block(sticky: true)[#strong[#title.]]
-    #body
-  ]
+    inline: inline,
+    it: body,
+  )
 }
 
-#let remark(..args) = {
-  let pos = args.pos()
-  let (title, body) = if pos.len() >= 2 {
-    ([Remark: #(pos.at(0))], pos.at(1))
+#let remark(inline: false, ..args) = {
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    strong[Remark: #sub]
+  } else if inline {
+    strong[Remark:]
   } else {
-    ([Remark], pos.at(0))
+    strong[Remark]
   }
-  block(
+  _block(
+    title: title,
     fill: oklch(96%, 0.02, 70deg),
     stroke: (
       left: 3pt + oklch(60%, 0.16, 65deg),
@@ -250,27 +263,17 @@
       right: 0.5pt + oklch(90%, 0.02, 70deg),
     ),
     inset: (x: 1em, y: 0.8em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #block(sticky: true)[#strong[#title.]]
-    #body
-  ]
+    inline: inline,
+    it: body,
+  )
 }
 
-#let chapter-overview(body) = {
-  block(
-    fill: luma(95%),
-    inset: 1em,
-    radius: 4pt,
-    width: 100%,
-  )[
-    #block(sticky: true)[
-      #strong[Chapter overview]
-      #v(0.2em)
-    ]
-    #body
-  ]
-}
+#let chapter-overview(body) = _block(
+  title: strong[Chapter overview] + v(0.2em),
+  fill: luma(95%),
+  stroke: none,
+  inset: 1em,
+  it: body,
+)
 
 #let hrule = line(length: 100%)
