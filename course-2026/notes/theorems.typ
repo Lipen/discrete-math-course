@@ -68,19 +68,39 @@
 }
 
 #let definition(inline: false, ..args) = _dispatch(
-  "Definition", def-ctr, oklch(55%, 0.18, 155deg), inline: inline, ..args,
+  "Definition",
+  def-ctr,
+  oklch(55%, 0.18, 155deg),
+  inline: inline,
+  ..args,
 )
 #let theorem(inline: false, ..args) = _dispatch(
-  "Theorem", thm-ctr, oklch(55%, 0.15, 250deg), inline: inline, ..args,
+  "Theorem",
+  thm-ctr,
+  oklch(55%, 0.15, 250deg),
+  inline: inline,
+  ..args,
 )
 #let lemma(inline: false, ..args) = _dispatch(
-  "Lemma", thm-ctr, oklch(55%, 0.14, 300deg), inline: inline, ..args,
+  "Lemma",
+  thm-ctr,
+  oklch(55%, 0.14, 300deg),
+  inline: inline,
+  ..args,
 )
 #let corollary(inline: false, ..args) = _dispatch(
-  "Corollary", thm-ctr, oklch(55%, 0.18, 22deg), inline: inline, ..args,
+  "Corollary",
+  thm-ctr,
+  oklch(55%, 0.18, 22deg),
+  inline: inline,
+  ..args,
 )
 #let proposition(inline: false, ..args) = _dispatch(
-  "Proposition", thm-ctr, oklch(55%, 0.16, 195deg), inline: inline, ..args,
+  "Proposition",
+  thm-ctr,
+  oklch(55%, 0.16, 195deg),
+  inline: inline,
+  ..args,
 )
 
 // --- QED placement ---
@@ -177,7 +197,9 @@
   } else {
     (none, pos.at(0))
   }
-  let title = [#text(style: "italic")[Example#if subtitle != none { [ (#subtitle)] }]]
+  let title = [#text(
+    style: "italic",
+  )[Example#if subtitle != none { [ (#subtitle)] }]]
   block(
     fill: luma(97%),
     stroke: (left: 2pt + luma(82%), rest: none),

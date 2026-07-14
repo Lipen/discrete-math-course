@@ -8,7 +8,9 @@
   Logic is the grammar of mathematical reasoning --- it formalises what it means for a statement to be true, false, or provable.
   This chapter introduces propositional logic, predicates and quantifiers, and the standard proof techniques used throughout the course.
   Mastery of these foundations is essential: every definition, theorem, and proof in later chapters relies on the language built here.
-  The chapter closes with applications to program correctness, connecting the formal machinery to everyday coding practice. ]
+  The chapter closes with applications to program correctness, connecting the formal machinery to everyday coding practice.
+
+]
 
 == Propositional Logic
 
@@ -18,7 +20,9 @@ A _proposition_ (or _statement_) is a declarative sentence that is either true o
 Questions, commands, and self-referential paradoxes are excluded --- only closed, unambiguous assertions qualify.
 
 #definition[Proposition][
-  A proposition is a declarative statement with a definite truth value: true (#Green([T])) or false (#Red([F])). ]
+  A proposition is a declarative statement with a definite truth value: true (#Green([T])) or false (#Red([F])).
+
+]
 
 Compound propositions are built from atomic propositions using logical connectives.
 The standard connectives, listed by decreasing binding strength, are:
@@ -39,7 +43,9 @@ Think of it as a broken promise: "If it rains, I will bring an umbrella" is only
 
 #note[
   Implication does not require causation.
-  "$2 + 2 = 5$ $imply$ pigs can fly" is true (vacuously) because the antecedent is false. ]
+  "$2 + 2 = 5$ $imply$ pigs can fly" is true (vacuously) because the antecedent is false.
+
+]
 
 The formal syntax of propositional logic is defined recursively:
 
@@ -58,7 +64,9 @@ An _interpretation_ assigns a truth value (#Green([T]) or #Red([F])) to each ato
 Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a truth table corresponds to one interpretation.
 
 #definition[Truth table][
-  A truth table lists all interpretations of the atoms and computes the truth value of a compound formula under each interpretation. ]
+  A truth table lists all interpretations of the atoms and computes the truth value of a compound formula under each interpretation.
+
+]
 
 #example[Truth table for $p imply q$][
   #table(
@@ -70,7 +78,9 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
     [#Green([T])], [#Red([F])], [#Red([F])],
     [#Red([F])], [#Green([T])], [#Green([T])],
     [#Red([F])], [#Red([F])], [#Green([T])],
-  ) ]
+  )
+
+]
 
 #definition[Tautology, contradiction, satisfiability][
   - A _tautology_ is a formula true under every interpretation.
@@ -80,23 +90,33 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
 ]
 
 #example[
-  $p or not p$ is a tautology (the law of excluded middle). $p and not p$ is a contradiction. $p and q$ is satisfiable but not a tautology. ]
+  $p or not p$ is a tautology (the law of excluded middle). $p and not p$ is a contradiction. $p and q$ is satisfiable but not a tautology.
+
+]
 
 Two formulas are logically equivalent if they have the same truth value under every interpretation:
 
 #definition[Logical equivalence][
   $phi equiv psi$ iff $phi iff psi$ is a tautology.
-  Equivalent formulas are interchangeable in any context (substitution preserves equivalence). ]
+  Equivalent formulas are interchangeable in any context (substitution preserves equivalence).
+
+]
 
 #definition[Logical consequence][
-  $psi$ is a logical consequence of $phi_1, ..., phi_n$, written $phi_1, ..., phi_n models psi$, if every interpretation that makes all $phi_i$ true also makes $psi$ true. ]
+  $psi$ is a logical consequence of $phi_1, ..., phi_n$, written $phi_1, ..., phi_n models psi$, if every interpretation that makes all $phi_i$ true also makes $psi$ true.
+
+]
 
 #theorem[Deduction theorem for propositional logic][
-  $phi_1, ..., phi_n models psi$ if and only if $(phi_1 and ... and phi_n) imply psi$ is a tautology. ]
+  $phi_1, ..., phi_n models psi$ if and only if $(phi_1 and ... and phi_n) imply psi$ is a tautology.
+
+]
 
 #note[
   The deduction theorem bridges semantic entailment ($models$) and syntactic implication ($imply$).
-  It is the foundation for proof by assumption: to prove $p imply q$, assume $p$ and derive $q$. ]
+  It is the foundation for proof by assumption: to prove $p imply q$, assume $p$ and derive $q$.
+
+]
 
 === Laws and Identities
 
@@ -125,10 +145,14 @@ They are verified by truth table, but the intuition is memorable: "it is not the
 
 #remark[
   De Morgan's laws are used constantly in programming: $not (x > 0 and y < 10)$ becomes $x <= 0 or y >= 10$.
-  Every programmer who negates a compound condition applies De Morgan --- often without realising it. ]
+  Every programmer who negates a compound condition applies De Morgan --- often without realising it.
+
+]
 
 #theorem[Substitution principle][
-  If $phi equiv psi$ and $chi$ is a formula containing $phi$ as a subformula, then replacing $phi$ by $psi$ in $chi$ yields a formula equivalent to $chi$. ]
+  If $phi equiv psi$ and $chi$ is a formula containing $phi$ as a subformula, then replacing $phi$ by $psi$ in $chi$ yields a formula equivalent to $chi$.
+
+]
 
 The substitution principle means we can replace any subformula with an equivalent one without changing the overall meaning.
 This is how we simplify boolean expressions in code --- factoring out common sub-expressions, eliminating redundant checks, and applying short-circuit evaluation rules.
@@ -139,10 +163,14 @@ Every propositional formula can be rewritten into a canonical shape.
 Normal forms are essential for automated reasoning: SAT solvers, circuit minimisation, and constraint satisfaction all operate on normalised formulas.
 
 #definition[Disjunctive Normal Form (DNF)][
-  A formula is in DNF if it is a disjunction of conjunctions of literals (atoms or their negations): $(l_(1,1) and ... and l_(1,k_1)) or ... or (l_(n,1) and ... and l_(n,k_n))$. ]
+  A formula is in DNF if it is a disjunction of conjunctions of literals (atoms or their negations): $(l_(1,1) and ... and l_(1,k_1)) or ... or (l_(n,1) and ... and l_(n,k_n))$.
+
+]
 
 #definition[Conjunctive Normal Form (CNF)][
-  A formula is in CNF if it is a conjunction of disjunctions of literals: $(l_(1,1) or ... or l_(1,k_1)) and ... and (l_(n,1) or ... or l_(n,k_n))$. ]
+  A formula is in CNF if it is a conjunction of disjunctions of literals: $(l_(1,1) or ... or l_(1,k_1)) and ... and (l_(n,1) or ... or l_(n,k_n))$.
+
+]
 
 Every propositional formula has equivalent DNF and CNF representations, obtained algorithmically from the truth table:
 - DNF: take rows where the formula is true; each row becomes a conjunction of literals.
@@ -157,14 +185,18 @@ Propositional logic is too coarse to express statements like "every natural numb
 We need variables and quantifiers.
 
 #definition[Predicate][
-  A _predicate_ $P(x)$ is a statement that contains a variable $x$ and becomes a proposition when $x$ is replaced by a specific value from the domain of discourse. ]
+  A _predicate_ $P(x)$ is a statement that contains a variable $x$ and becomes a proposition when $x$ is replaced by a specific value from the domain of discourse.
+
+]
 
 The _domain_ (or _universe of discourse_) is the set of values a variable may take.
 A predicate is a template --- a function from the domain to truth values.
 
 #example[Predicate with domain $NN$][
   Let $P(x)$ be "$x > 5$" with domain $NN$.
-  Then $P(7)$ is true, $P(3)$ is false. ]
+  Then $P(7)$ is true, $P(3)$ is false.
+
+]
 
 Predicates may involve multiple variables: $P(x, y)$ is "$x < y$" with domain $RR$.
 A predicate with $k$ variables defines a $k$-ary relation on the domain.
@@ -175,14 +207,20 @@ Quantifiers turn predicates into propositions by specifying how many domain elem
 
 #definition[Universal quantifier][
   $forall x space P(x)$ asserts that $P(x)$ is true for _every_ $x$ in the domain.
-  It is read "for all $x$, $P(x)$." ]
+  It is read "for all $x$, $P(x)$."
+
+]
 
 #definition[Existential quantifier][
   $exists x space P(x)$ asserts that $P(x)$ is true for _at least one_ $x$ in the domain.
-  It is read "there exists $x$ such that $P(x)$." ]
+  It is read "there exists $x$ such that $P(x)$."
+
+]
 
 #example[
-  With domain $NN$: $forall x space x >= 0$ is true. $exists x space x < 0$ is false. $forall x exists y space y > x$ is true (the natural numbers are unbounded). ]
+  With domain $NN$: $forall x space x >= 0$ is true. $exists x space x < 0$ is false. $forall x exists y space y > x$ is true (the natural numbers are unbounded).
+
+]
 
 A variable is _bound_ if it is quantified; otherwise it is _free_.
 The scope of a quantifier is the subformula to which it applies.
@@ -210,7 +248,9 @@ When a formula contains more than one quantifier, order matters critically.
 The rule: $forall x exists y$ says "for each $x$, choose a $y$ (which may depend on $x$)." $exists y forall x$ says "there is a single $y$ that works for all $x$."
 
 #remark[
-  Quantifier order is the logical analogue of loop nesting. $forall x exists y$ is like a nested loop where the inner computation depends on the outer index. $exists y forall x$ is like precomputing a value that works for the whole iteration. ]
+  Quantifier order is the logical analogue of loop nesting. $forall x exists y$ is like a nested loop where the inner computation depends on the outer index. $exists y forall x$ is like precomputing a value that works for the whole iteration.
+
+]
 
 === Bounded Quantifiers
 
@@ -235,11 +275,15 @@ The translation must preserve meaning precisely --- ambiguity in the English mus
 ]
 
 #example[
-  "The array is sorted" (ascending): $forall i in {0, ..., n-2} space A[i] <= A[i+1]$. ]
+  "The array is sorted" (ascending): $forall i in {0, ..., n-2} space A[i] <= A[i+1]$.
+
+]
 
 #example[
   The definition of a limit $lim_(x -> a) f(x) = L$: $forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon)$.
-  This packs five quantifiers and two inequalities into one sentence --- the power of predicate logic. ]
+  This packs five quantifiers and two inequalities into one sentence --- the power of predicate logic.
+
+]
 
 
 == Proof Methods
@@ -252,7 +296,9 @@ This section surveys the standard proof strategies.
 The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a chain of logical deductions.
 
 #proposition(inline: true)[Even squares][
-  If $n$ is even, then $n^2$ is even. ]
+  If $n$ is even, then $n^2$ is even.
+
+]
 
 #proof[
   We give a direct proof: assume the hypothesis and derive the conclusion.
@@ -266,7 +312,9 @@ The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a
   Since $k$ is an integer, $2k^2$ is also an integer.
   Let $m = 2k^2$; then $n^2 = 2m$, which is exactly the definition of an even number.
 
-  Therefore $n^2$ is even. ]
+  Therefore $n^2$ is even.
+
+]
 
 === Proof by Contrapositive
 
@@ -274,13 +322,17 @@ The implication $P imply Q$ is logically equivalent to its contrapositive $not Q
 Sometimes the contrapositive is easier to prove than the original.
 
 #proposition(inline: true)[Odd squares][
-  If $n^2$ is odd, then $n$ is odd. ]
+  If $n^2$ is odd, then $n$ is odd.
+
+]
 
 #proof[
   We prove the contrapositive: if $n$ is even, then $n^2$ is even. (Because "not odd" for an integer means "even": every integer is either even or odd.)
 
   The statement "$n$ even $imply$ $n^2$ even" is exactly Proposition 2.2.
-  Since the contrapositive is logically equivalent to the original implication, the original statement holds. ]
+  Since the contrapositive is logically equivalent to the original implication, the original statement holds.
+
+]
 
 The contrapositive is especially useful when the negation of the conclusion ($not Q$) gives a concrete starting point.
 
@@ -290,7 +342,9 @@ To prove $P$, assume $not P$ and derive a contradiction ($R and not R$ for some 
 Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 #theorem(inline: true)[
-  $sqrt(2)$ is irrational. ]
+  $sqrt(2)$ is irrational.
+
+]
 
 #proof[
   We use proof by contradiction.
@@ -318,7 +372,9 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
   But then $gcd(p, q) >= 2$, contradicting the assumption that the fraction was in lowest terms with $gcd(p, q) = 1$.
 
   The contradiction shows that our initial assumption, that $sqrt(2)$ is rational, must be false.
-  Therefore $sqrt(2)$ is irrational. ]
+  Therefore $sqrt(2)$ is irrational.
+
+]
 
 #note[
   Proof by contradiction and proof by contrapositive are often confused:
@@ -327,14 +383,18 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
   - *Contradiction* of $P imply Q$: assume $P and not Q$ and derive any contradiction ($R and not R$). \ The contradiction can be unrelated to the original hypothesis --- the method is more flexible.
 
-  The contrapositive is "cleaner" when applicable; contradiction is more general. ]
+  The contrapositive is "cleaner" when applicable; contradiction is more general.
+
+]
 
 === Proof by Case Analysis
 
 If the hypothesis can be partitioned into a finite set of mutually exclusive and exhaustive cases, proving the conclusion in each case suffices.
 
 #proposition[Multiplicativity of absolute value][
-  For all real $x$, $y$: $|x y| = |x| dot |y|$. ]
+  For all real $x$, $y$: $|x y| = |x| dot |y|$.
+
+]
 
 #proof[
   The sign of $x y$ depends on the signs of $x$ and $y$.
@@ -348,7 +408,9 @@ If the hypothesis can be partitioned into a finite set of mutually exclusive and
     Symmetric to case 2.
   + *Case 4:* $x < 0$, $y < 0$.
     Then $|x| = -x$, $|y| = -y$, $x y > 0$, so $|x y| = x y = (-x)(-y) = |x| dot |y|$.
-  All cases yield the equality, so the identity holds for all real $x$, $y$. ]
+  All cases yield the equality, so the identity holds for all real $x$, $y$.
+
+]
 
 === Proof of Equivalence
 
@@ -367,7 +429,9 @@ To disprove a universal statement $forall x space P(x)$, a single counterexample
 
 #example[
   *Claim:* "All primes are odd." *Counterexample:* $2$ is prime and even.
-  The statement is false. ]
+  The statement is false.
+
+]
 
 A counterexample is the logical analogue of a failing test case --- it takes one to break a universal claim.
 
@@ -380,7 +444,9 @@ It is the engine of reasoning about recursively defined objects.
   To prove $forall n >= 0 space P(n)$:
   1. *Base case:* Prove $P(0)$.
   2. *Inductive step:* Prove $forall k >= 0 space (P(k) imply P(k+1))$.
-  Conclude $forall n >= 0 space P(n)$. ]
+  Conclude $forall n >= 0 space P(n)$.
+
+]
 
 #proof[
   *For all $n >= 1$, $sum_(i=1)^n i = (n(n+1))/2$.*
@@ -407,13 +473,17 @@ It is the engine of reasoning about recursively defined objects.
   $
   The last expression is exactly $(n(n+1))/2$ with $n = k+1$.
 
-  By the principle of mathematical induction, the formula holds for all $n >= 1$. ]
+  By the principle of mathematical induction, the formula holds for all $n >= 1$.
+
+]
 
 #theorem[Strong induction][
   To prove $forall n >= 0 space P(n)$:
   1. *Base case:* Prove $P(0)$.
   2. *Inductive step:* Prove $forall k >= 0 space ((forall i < k space P(i)) imply P(k))$.
-  Conclude $forall n >= 0 space P(n)$. ]
+  Conclude $forall n >= 0 space P(n)$.
+
+]
 
 Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $P(k)$.
 
@@ -442,10 +512,14 @@ Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $
 
   In either case, $P(k)$ is true.
   By the principle of strong induction, $P(n)$ holds for all $n >= 2$.
-  Hence every integer $>= 2$ can be factored into primes. ]
+  Hence every integer $>= 2$ can be factored into primes.
+
+]
 
 #theorem[Well-ordering principle][
-  Every non-empty subset of $NN$ has a least element. ]
+  Every non-empty subset of $NN$ has a least element.
+
+]
 
 The well-ordering principle is logically equivalent to mathematical induction.
 One can be derived from the other.
@@ -454,7 +528,9 @@ One can be derived from the other.
   Induction is the mathematical basis for reasoning about loops and recursion.
   The base case is the empty input / termination condition.
   The inductive step is the loop body: assuming correctness after $k$ iterations, prove correctness after $k+1$.
-  Structural induction generalises this to trees, formulas, and programs --- central to compiler correctness and programming language theory. ]
+  Structural induction generalises this to trees, formulas, and programs --- central to compiler correctness and programming language theory.
+
+]
 
 === Structural Induction
 
@@ -476,24 +552,32 @@ Recognising them early saves time and embarrassment.
 
 #definition[Circular reasoning (begging the question)][
   Assuming what you are trying to prove, perhaps in disguised form.
-  "God exists because the Bible says so, and the Bible is the word of God" --- the premise already assumes the conclusion. ]
+  "God exists because the Bible says so, and the Bible is the word of God" --- the premise already assumes the conclusion.
+
+]
 
 #definition[Affirming the consequent][
   From $P imply Q$ and $Q$, concluding $P$.
   "If it rains, the ground is wet.
   The ground is wet.
-  Therefore it rained" --- the ground could be wet from a sprinkler. ]
+  Therefore it rained" --- the ground could be wet from a sprinkler.
+
+]
 
 #definition[Denying the antecedent][
   From $P imply Q$ and $not P$, concluding $not Q$.
   "If it rains, the ground is wet.
   It didn't rain.
-  Therefore the ground is not wet" --- again, a sprinkler suffices. ]
+  Therefore the ground is not wet" --- again, a sprinkler suffices.
+
+]
 
 #definition[False induction base][
   Proving $P(k) imply P(k+1)$ but neglecting to verify the base case, or using a wrong base.
   Example: "All horses are the same colour" --- the inductive step works only for $k >= 2$, but the base case $k=1$ does not bridge to $k=2$.
-  The flaw is subtle: going from 1 horse to 2 horses uses an empty overlap of the two groups. ]
+  The flaw is subtle: going from 1 horse to 2 horses uses an empty overlap of the two groups.
+
+]
 
 A proof that contains a fallacy is not a proof.
 Checking each step against definitions and known facts catches most errors.
@@ -510,10 +594,14 @@ An _assertion_ is a logical formula placed in code that must be true at that poi
 Assertions document expectations and catch bugs at runtime.
 
 #definition[Hoare triple][
-  A Hoare triple ${P} S {Q}$ means: if the precondition $P$ holds before executing statement $S$, then the postcondition $Q$ holds after $S$ terminates. ]
+  A Hoare triple ${P} S {Q}$ means: if the precondition $P$ holds before executing statement $S$, then the postcondition $Q$ holds after $S$ terminates.
+
+]
 
 #example[
-  ${x = 5} " " x := x + 1 " " {x = 6}$ --- if $x$ is 5 before the assignment, then $x$ is 6 after. ]
+  ${x = 5} " " x := x + 1 " " {x = 6}$ --- if $x$ is 5 before the assignment, then $x$ is 6 after.
+
+]
 
 The precondition encodes the assumptions about program state; the postcondition encodes the guarantees.
 Together they form a contract: if the caller satisfies $P$, the procedure delivers $Q$.
@@ -537,13 +625,17 @@ A loop invariant is a predicate that is true before the first iteration, remains
   i := i + 1
   ```
   *Invariant:* $forall j in {0, ..., i-1} space A[j] != x$ --- all positions before $i$ have been checked and do not contain $x$.
-  At exit, either $i = n$ (not found) or $A[i] = x$ (found). ]
+  At exit, either $i = n$ (not found) or $A[i] = x$ (found).
+
+]
 
 #remark[
   Loop invariants are the conceptual bridge between induction and programming.
   Proving that the invariant is preserved by the loop body is an inductive step.
   The base case is the invariant established before the first iteration.
-  This is exactly how verification tools (Dafny, Why3, Frama-C) prove program correctness: the programmer writes the invariant, the tool checks the inductive argument automatically. ]
+  This is exactly how verification tools (Dafny, Why3, Frama-C) prove program correctness: the programmer writes the invariant, the tool checks the inductive argument automatically.
+
+]
 
 === Counterexamples and Testing
 
@@ -555,4 +647,6 @@ Testing can demonstrate the _presence_ of bugs, never their _absence_ --- exactl
   - Testing = searching for a counterexample.
   - Proof = demonstrating that no counterexample exists.
   Both are essential.
-  Testing finds the easy bugs; proofs find the deep ones. ]
+  Testing finds the easy bugs; proofs find the deep ones.
+
+]
