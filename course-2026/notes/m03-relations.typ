@@ -153,18 +153,24 @@ A relation can be specified in three equivalent ways:
 
 #definition[Partial order][
   A binary relation $prec.eq$ on $A$ is a partial order if it is reflexive, antisymmetric, and transitive.
+
   The pair $(A, prec.eq)$ is a *poset*.
 ]
 
-#definition[Strict and total orders][
-  - *Strict order* $<$: irreflexive, asymmetric, transitive.
-  Interchangeable: $a < b$ iff $a prec.eq b$ and $a eq.not b$.
-  - *Total order*: partial order where every pair is comparable.
+#definition[Strict order][
+  A *strict order* $<$ on $A$ is irreflexive, asymmetric, and transitive.
+  Given a partial order $prec.eq$, define $a < b$ iff $a prec.eq b$ and $a eq.not b$.
+  Given a strict order $<$, define $a prec.eq b$ iff $a < b$ or $a = b$.
+]
+
+#definition[Total order][
+  A *total order* is a partial order where every pair is comparable: $forall a eq.not b$, either $a prec.eq b$ or $b prec.eq a$.
 ]
 
 #example[
-  $(NN, <=)$ is total. $(cal(P)(A), subset.eq)$ is partial (not total for $|A| > 1$).
-  Divisibility $a | b$ on $NN^+$ is partial: 2 and 3 are incomparable.
+  - $(NN, <=)$ and $(RR, <=)$ are total orders.
+  - $(cal(P)(A), subset.eq)$ is partial but not total when $|A| > 1$: ${1}$ and ${2}$ are incomparable.
+  - Divisibility $a | b$ on $NN^+$ is partial: 2 and 3 are incomparable.
 ]
 
 === Hasse Diagrams
@@ -184,16 +190,44 @@ A relation can be specified in three equivalent ways:
 === Extremal Elements and Bounds
 
 #definition[Minimal, maximal, least, greatest][
-  - $m$ is *minimal* if no element is strictly smaller.
-  - $m$ is *maximal* if no element is strictly larger.
-  - $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique if exists).
-  - $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique if exists).
+  - $m$ is *minimal* if no element is strictly smaller: $not(exists a space a < m)$.
+  - $m$ is *maximal* if no element is strictly larger: $not(exists a space m < a)$.
+  - $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique when exists).
+  - $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique when exists).
 ]
 
-#definition[Bounds, supremum, infimum][
-  - $u$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
-  - The *supremum* (join) is the _least_ upper bound.
-  - The *infimum* (meet) is the _greatest_ lower bound.
+#note[
+  Minimal elements can be multiple --- incomparable "bottom-most" elements.
+  Least element, when it exists, is unique and is also minimal.
+  In a finite poset, minimal and maximal elements always exist; least and greatest may not.
+]
+
+#example[
+  In $({2, 3, 4, 6, 12}, |)$:
+  - Minimal: ${2, 3}$ --- neither 2 nor 3 divides the other.
+  - Maximal: ${12}$ --- no element (other than itself) that 12 divides.
+  - Greatest: $12$ --- every element divides 12.
+  - Least: none --- no element divides both 2 and 3.
+]
+
+#definition[Upper and lower bounds][
+  Let $(A, prec.eq)$ be a poset and $S subset.eq A$.
+  - $u in A$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
+  - $l in A$ is a *lower bound* of $S$ if $l prec.eq s$ for all $s in S$.
+]
+
+#definition[Supremum and infimum][
+  - The *supremum* (sup, join $or$) is the _least_ upper bound.
+  - The *infimum* (inf, meet $and$) is the _greatest_ lower bound.
+  For a pair ${a, b}$: $a or b$ (join), $a and b$ (meet).
+]
+
+#example[
+  In the divisor poset $(D_12, |)$ with $S = {2, 3}$:
+  - Upper bounds: ${6, 12}$ --- both are multiples of 2 and 3.
+  - Supremum: $6 = "lcm"(2, 3)$ --- the _least_ common multiple of 2 and 3.
+  - Lower bounds: ${1}$ --- 1 divides both.
+  - Infimum: $1 = "gcd"(2, 3)$ --- the _greatest_ common divisor of 2 and 3.
 ]
 
 === Lattices
@@ -203,8 +237,17 @@ A relation can be specified in three equivalent ways:
 ]
 
 #example[
-  $(cal(P)(A), subset.eq)$: join = $union$, meet = $inter$.
-  $(NN^+, |)$: join = lcm, meet = gcd.
+  - $(cal(P)(A), subset.eq)$ is a lattice.
+    Join: $X or Y = X union Y$ (the least superset containing both).
+    Meet: $X and Y = X inter Y$ (the greatest subset contained in both).
+  - $(NN^+, |)$ is a lattice.
+    Join: $a or b = "lcm"(a, b)$ (the least number both divide).
+    Meet: $a and b = "gcd"(a, b)$ (the greatest number dividing both).
+]
+
+#note[
+  Not every poset is a lattice.
+  For example, ${1, 2, 3}$ with the usual order has no join for ${2, 3}$ --- there is no "least element above both" in this set.
 ]
 
 #definition[Distributive lattice and Boolean algebra][
