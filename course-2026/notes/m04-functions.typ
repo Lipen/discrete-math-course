@@ -138,7 +138,7 @@ For finite sets: $|A| >= |B|$.
     columns: 4,
     align: (center, center, center, left),
     table.header([*Type*], [*Condition*], [*Cardinality*], [*Inverse*]),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [Injection],
     [$f(a_1) = f(a_2) arrow a_1 = a_2$],
     [$|A| <= |B|$],

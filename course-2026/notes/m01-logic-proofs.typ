@@ -71,7 +71,7 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
     columns: 3,
     align: center,
     table.header([$p$], [$q$], [$p arrow q$]),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [$T$], [$T$], [$T$],
     [$T$], [$F$], [$F$],
     [$F$], [$T$], [$T$],

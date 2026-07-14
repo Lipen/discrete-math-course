@@ -72,7 +72,7 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
     columns: 3,
     align: (left, left, left),
     table.header([*Property*], [*DFA*], [*NFA*]),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [Transition],
     [$delta(q, a)$ = single state],
     [$delta(q, a)$ = set of states],

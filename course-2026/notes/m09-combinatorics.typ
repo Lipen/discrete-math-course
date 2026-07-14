@@ -44,7 +44,7 @@
     columns: 3,
     align: (center, center, left),
     table.header([*Balls*], [*Boxes*], [*Count*]),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [Distinct], [Distinct], [$k^n$ --- each ball chooses a box],
     [Identical], [Distinct], [$binom(n+k-1, n)$ --- stars and bars],
     [Distinct], [Identical], [$S(n,1) + ... + S(n,k)$ --- Stirling 2nd kind],

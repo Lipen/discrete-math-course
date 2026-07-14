@@ -110,7 +110,7 @@ Set operations mirror propositional logic:
     columns: 2,
     align: (left, left),
     table.header([*Set operation*], [*Logical counterpart*]),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [$A union B$], [$x in A or x in B$],
     [$A inter B$], [$x in A and x in B$],
     [$overline(A)$], [$not(x in A)$],

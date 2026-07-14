@@ -85,7 +85,7 @@
     table.header(
       [*Concept*], [*Definition*], [*Unique?*], [*Exists in finite poset?*]
     ),
-    table.hline(),
+    table.hline(stroke: 0.4pt),
     [Minimal], [$not(exists a: a < m)$], [No --- can be many], [Always],
     [Maximal], [$not(exists a: m < a)$], [No --- can be many], [Always],
     [Least], [$m prec.eq a$ for all $a$], [Yes], [Not guaranteed],
