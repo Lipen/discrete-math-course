@@ -105,7 +105,7 @@ Two sets are _disjoint_ if $A inter B = nothing$.
 
 Set operations mirror propositional logic:
 
-#proposition[Set–logic correspondence][
+#proposition[Set--logic correspondence][
   #table(
     columns: 2,
     align: (left, left),
