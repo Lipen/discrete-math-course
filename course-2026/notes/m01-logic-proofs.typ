@@ -327,16 +327,16 @@ The contrapositive is especially useful when the negation of the conclusion ($no
 To prove $P$, assume $not P$ and derive a contradiction ($R and not R$ for some $R$).
 Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
-#theorem[Irrationality of $sqrt{2}$][
-  $sqrt{2}$ is irrational.
+#theorem[Irrationality of $sqrt(2)$][
+  $sqrt(2)$ is irrational.
 ]
 
 #proof[
   We use proof by contradiction.
 
-  Assume, for the sake of contradiction, that $sqrt{2}$ is rational.
+  Assume, for the sake of contradiction, that $sqrt(2)$ is rational.
   Then there exist positive integers $p, q in ZZ^+$ such that
-  $ sqrt{2} = p/q, $
+  $ sqrt(2) = p/q, $
   and we may assume the fraction is in lowest terms, i.e. $gcd(p, q) = 1$.
   (If the fraction were not reduced, we could cancel common factors first.)
 
@@ -355,8 +355,8 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
   We have shown that both $p$ and $q$ are even.
   But then $gcd(p, q) >= 2$, contradicting the assumption that the fraction was in lowest terms with $gcd(p, q) = 1$.
 
-  The contradiction shows that our initial assumption, that $sqrt{2}$ is rational, must be false.
-  Therefore $sqrt{2}$ is irrational.
+  The contradiction shows that our initial assumption, that $sqrt(2)$ is rational, must be false.
+  Therefore $sqrt(2)$ is irrational.
 ]
 
 #note[
