@@ -22,8 +22,9 @@
 
 // --- Display chapter-prefixed number: "2.14" ---
 #let _ch-num(ctr) = context {
-  let ch = counter(heading).get().first()
-  let n = ctr.get().first()
+  let h = counter(heading).at(here())
+  let ch = if h != none { h.first() }
+  let n = ctr.at(here()).first()
   if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
 }
 

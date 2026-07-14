@@ -35,7 +35,6 @@
   pagebreak()
   counter("definition").update(0)
   counter("theorem").update(0)
-  set heading(numbering: it.numbering)
   it
 }
 

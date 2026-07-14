@@ -4,8 +4,13 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 
+// Must be in root file — set rules inside imported modules don't affect headings.
+#set heading(numbering: "1.1.1")
+
 #set document(
-title: "Discrete Mathematics --- Lecture Notes", author: "Konstantin Chukharev", )
+  title: "Discrete Mathematics --- Lecture Notes",
+  author: "Konstantin Chukharev",
+)
 
 // --- Title page ---
 #align(center)[
