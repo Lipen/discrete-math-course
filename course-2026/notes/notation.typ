@@ -6,13 +6,14 @@
 #let symdiff = $Delta$
 #let models = sym.tack.rr
 #let entails = sym.tack.r
+#let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let sim = sym.tilde
 #let nsim = sym.tilde.not
 #let setminus = sym.without
 #let notin = sym.in.not
-#let nand = $overline("and")$
-#let nor = $overline("or")$
+#let nand = $overline(and)$
+#let nor = $overline(or)$
 
 // === Parameterized aliases ===
 #let powerset(x) = $cal(P)(#x)$

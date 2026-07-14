@@ -19,7 +19,7 @@
   - $Q$: finite states.
   - $Gamma$: tape alphabet (includes blank $Blank$).
   - $Sigma subset.eq Gamma setminus {Blank}$: input alphabet.
-  - $delta: Q times Gamma arrow Q times Gamma times {L, R}$: partial transition function.
+  - $delta: Q times Gamma -> Q times Gamma times {L, R}$: partial transition function.
 ]
 
 Infinite tape (both directions), one head. One step: read symbol, write symbol, move L/R, change state.

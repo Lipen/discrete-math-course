@@ -19,7 +19,7 @@
   $M = (Q, Sigma, delta, q_0, F)$:
   - $Q$: finite set of states.
   - $Sigma$: finite alphabet.
-  - $delta: Q times Sigma arrow Q$: transition function (total).
+  - $delta: Q times Sigma -> Q$: transition function (total).
   - $q_0 in Q$: start state.
   - $F subset.eq Q$: accepting states.
 ]

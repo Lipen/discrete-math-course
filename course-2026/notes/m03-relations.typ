@@ -44,9 +44,9 @@ A relation can be specified in three equivalent ways:
   Let $R$ be a binary relation on $A$.
   - *Reflexive*: $forall a in A space a R a$.
   - *Irreflexive*: $forall a in A space not(a R a)$.
-  - *Symmetric*: $a R b arrow b R a$.
-  - *Antisymmetric*: $(a R b and b R a) arrow a = b$.
-  - *Asymmetric*: $a R b arrow not(b R a)$.
+  - *Symmetric*: $a R b imply b R a$.
+  - *Antisymmetric*: $(a R b and b R a) imply a = b$.
+  - *Asymmetric*: $a R b imply not(b R a)$.
   - *Transitive*: $(a R b and b R c) arrow a R c$.
   - *Total* (connected): $a eq.not b arrow (a R b or b R a)$.
 ]
@@ -255,7 +255,7 @@ A relation can be specified in three equivalent ways:
   If every box had $<= ceil(m/n) - 1$ objects, total would be $< n dot (m/n) = m$, contradiction.
 ]
 
-In function language: if $|A| > |B|$, no injection $f: A arrow B$ exists --- the mathematical essence of hash collisions.
+In function language: if $|A| > |B|$, no injection $f: A -> B$ exists --- the mathematical essence of hash collisions.
 
 === Examples
 

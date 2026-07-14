@@ -15,8 +15,8 @@
 === Function as a Relation
 
 #definition[Function][
-  A function $f$ from $A$ to $B$, written $f: A arrow B$, is a binary relation $f subset.eq A times B$ satisfying:
-  $(a, b_1) in f and (a, b_2) in f arrow b_1 = b_2$.
+  A function $f$ from $A$ to $B$, written $f: A -> B$, is a binary relation $f subset.eq A times B$ satisfying:
+  $(a, b_1) in f and (a, b_2) in f imply b_1 = b_2$.
   Each input has exactly one output.
 ]
 
@@ -37,7 +37,7 @@
 === Total and Partial Functions
 
 #definition[Total vs partial][
-  - *Total function* $f: A arrow B$: defined for every $a in A$.
+  - *Total function* $f: A -> B$: defined for every $a in A$.
   - *Partial function* $f: A ⇀ B$: defined on a subset of $A$.
 ]
 
@@ -52,7 +52,7 @@
 
 === Graph of a Function
 
-The _graph_ of $f: A arrow B$ is ${(a, f(a)) mid(|) a in A}$ --- the same as $f$ viewed as a relation.
+The _graph_ of $f: A -> B$ is ${(a, f(a)) mid(|) a in A}$ --- the same as $f$ viewed as a relation.
 
 #note[
   Not every relation is a function.
@@ -66,7 +66,7 @@ The _graph_ of $f: A arrow B$ is ${(a, f(a)) mid(|) a in A}$ --- the same as $f$
 
 #definition[Injection][
   $f$ is *injective* if distinct inputs map to distinct outputs:
-  $f(a_1) = f(a_2) arrow a_1 = a_2$, equivalently $a_1 eq.not a_2 arrow f(a_1) eq.not f(a_2)$.
+  $f(a_1) = f(a_2) arrow a_1 = a_2$, equivalently $a_1 eq.not a_2 imply f(a_1) eq.not f(a_2)$.
 ]
 
 For finite sets: $|A| <= |B|$.
@@ -76,7 +76,7 @@ For finite sets: $|A| <= |B|$.
 ]
 
 #theorem[Left inverse][
-  $f$ is injective iff there exists $g: B arrow A$ with $g @ f = "id"_A$.
+  $f$ is injective iff there exists $g: B -> A$ with $g @ f = "id"_A$.
 ]
 
 #example[Hash collisions][
@@ -97,7 +97,7 @@ For finite sets: $|A| >= |B|$.
 ]
 
 #theorem[Right inverse][
-  $f$ is surjective iff there exists $g: B arrow A$ with $f @ g = "id"_B$ (requires axiom of choice).
+  $f$ is surjective iff there exists $g: B -> A$ with $f @ g = "id"_B$ (requires axiom of choice).
 ]
 
 #remark[
@@ -112,7 +112,7 @@ For finite sets: $|A| >= |B|$.
 ]
 
 #theorem[Inverse function][
-  $f$ is bijective iff there exists $f^(-1): B arrow A$ with $f @ f^(-1) = "id"_B$ and $f^(-1) @ f = "id"_A$.
+  $f$ is bijective iff there exists $f^(-1): B -> A$ with $f @ f^(-1) = "id"_B$ and $f^(-1) @ f = "id"_A$.
   For finite sets: $|A| = |B|$.
 ]
 
@@ -126,7 +126,7 @@ For finite sets: $|A| >= |B|$.
   *Surjectivity*: given $y in ZZ$, solve $2x + 1 = y$ $=>$ $x = (y-1)/2$.
   If $y$ is odd ($y = 2k + 1$), $x = k in ZZ$; if $y$ is even, no integer $x$ exists.
   $f$ restricted to odd codomain is bijective; on $ZZ$ it is injective but not surjective (outputs are odd).
-  $f: ZZ arrow {2k+1 mid(|) k in ZZ}$ is a bijection.
+  $f: ZZ -> {2k+1 mid(|) k in ZZ}$ is a bijection.
   Finding the inverse: $f^(-1)(y) = (y-1)/2$.
 ]
 
@@ -159,7 +159,7 @@ For finite sets: $|A| >= |B|$.
 == Composition of Functions
 
 #definition[Composition][
-  Given $f: A arrow B$ and $g: B arrow C$, $(g @ f)(a) = g(f(a))$.
+  Given $f: A -> B$ and $g: B -> C$, $(g @ f)(a) = g(f(a))$.
   Composition is associative: $h @ (g @ f) = (h @ g) @ f$.
   Not commutative: $g @ f eq.not f @ g$ in general.
 ]
@@ -211,7 +211,7 @@ For finite sets: $|A| >= |B|$.
 === Characteristic Function
 
 #definition[Characteristic function][
-  For $X subset.eq U$, $chi_X: U arrow {0, 1}$:
+  For $X subset.eq U$, $chi_X: U -> {0, 1}$:
   $chi_X(x) = cases(1 space "if" space x in X, 0 space "if" space x in.not X)$.
 ]
 
@@ -242,6 +242,6 @@ For finite sets: $|A| >= |B|$.
 === Lambda Notation
 
 #definition[Lambda abstraction][
-  $lambda x in A dot e(x)$ denotes the function $f: A arrow B$ mapping $x$ to $e(x)$.
+  $lambda x in A dot e(x)$ denotes the function $f: A -> B$ mapping $x$ to $e(x)$.
   Foundation of anonymous functions, closures, and higher-order programming.
 ]

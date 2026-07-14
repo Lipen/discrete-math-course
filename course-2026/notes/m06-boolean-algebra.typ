@@ -32,10 +32,10 @@ For $n = 0$: constants 0, 1. $n = 1$: 4 functions. $n = 2$: 16 functions --- the
 
 === Binary Boolean Functions
 
-The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projection $x$, inhibition ($not x and y$), projection $y$, XOR, OR, NOR, XNOR, NOT $y$, converse implication, NOT $x$, implication ($x arrow y = not x or y$), NAND, TRUE.
+The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projection $x$, inhibition ($not x and y$), projection $y$, XOR, OR, NOR, XNOR, NOT $y$, converse implication, NOT $x$, implication ($x imply y = not x or y$), NAND, TRUE.
 
 #note[
-  $x arrow y = not x or y$ and $x equiv y = (x arrow y) and (y arrow x)$ --- implication and equivalence are expressible via NOT, AND, OR.
+  $x imply y = not x or y$ and $x equiv y = (x imply y) and (y imply x)$ --- implication and equivalence are expressible via NOT, AND, OR.
 ]
 
 === Functional Completeness

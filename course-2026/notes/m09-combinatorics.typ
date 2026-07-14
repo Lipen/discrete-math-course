@@ -135,7 +135,7 @@
 ]
 
 #example[Surjections][
-  Number of surjective functions $A arrow B$ ($|A|=n$, $|B|=k$):
+  Number of surjective functions $A -> B$ ($|A|=n$, $|B|=k$):
   $k! S(n, k) = sum_(i=0)^k (-1)^i binom(k, i) (k-i)^n$.
 ]
 

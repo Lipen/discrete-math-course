@@ -51,7 +51,7 @@
 ]
 
 #proof-sketch[
-  $x_i$, $overline(x_i)$ in same SCC → $x_i arrow.l.r overline(x_i)$ --- contradiction.
+  $x_i$, $overline(x_i)$ in same SCC → $x_i iff overline(x_i)$ --- contradiction.
   Reverse-topological assignment satisfies all implications. Runs in $O(n + m)$.
 ]
 

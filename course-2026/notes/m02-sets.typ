@@ -48,11 +48,11 @@ A set can be specified in several ways:
 
 #definition[Extensionality][
   Two sets $A$ and $B$ are equal, written $A = B$, iff they have exactly the same elements:
-  $A = B$ iff $forall x space (x in A arrow.l.r x in B)$.
+  $A = B$ iff $forall x space (x in A iff x in B)$.
 ]
 
 #definition[Subset][
-  - $A subset.eq B$: every element of $A$ is also an element of $B$ --- $forall x space (x in A arrow x in B)$.
+  - $A subset.eq B$: every element of $A$ is also an element of $B$ --- $forall x space (x in A imply x in B)$.
   - $A subset B$: $A subset.eq B$ and $A eq.not B$ (proper subset).
 ]
 
@@ -119,8 +119,8 @@ Set operations mirror propositional logic:
     [$overline(A)$], [$not(x in A)$],
     [$A setminus B$], [$x in A and not(x in B)$],
     [$A symdiff B$], [$x in A xor x in B$],
-    [$A subset.eq B$], [$x in A arrow x in B$],
-    [$A = B$], [$x in A arrow.l.r x in B$],
+    [$A subset.eq B$], [$x in A imply x in B$],
+    [$A = B$], [$x in A iff x in B$],
   )
 ]
 
@@ -186,7 +186,7 @@ The product is not associative, but there is a canonical bijection, so we write 
 ]
 
 #remark[
-  A record type is $A times B$. A function of $n$ parameters is $A_1 times ... times A_n arrow R$.
+  A record type is $A times B$. A function of $n$ parameters is $A_1 times ... times A_n -> R$.
   The Cartesian product underlies every struct, tuple, and parameter list.
 ]
 
@@ -278,7 +278,7 @@ A database table is a subset of a Cartesian product.
 
 === Hashing
 
-A hash function $h: K arrow {0, ..., m-1}$ maps a large key space into fixed-size slots.
+A hash function $h: K -> {0, ..., m-1}$ maps a large key space into fixed-size slots.
 By pigeonhole, collisions are inevitable.
 
 #definition[Collision][

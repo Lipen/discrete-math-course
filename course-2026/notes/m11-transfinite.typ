@@ -15,7 +15,7 @@
 === Equinumerosity
 
 #definition[Equinumerosity][
-  $|A| = |B|$ if there exists a bijection $f: A arrow B$.
+  $|A| = |B|$ if there exists a bijection $f: A -> B$.
   A set is *finite* if equinumerous with ${1, ..., n}$ for some $n in NN$; otherwise *infinite*.
 ]
 

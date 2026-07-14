@@ -31,28 +31,28 @@ The standard connectives, listed by decreasing binding strength, are:
   - *Negation* $not p$: "not $p$" --- true when $p$ is false.
   - *Conjunction* $p and q$: "$p$ and $q$" --- true when both are true.
   - *Disjunction* $p or q$: "$p$ or $q$" (inclusive) --- true when at least one is true.
-  - *Implication* $p arrow q$: "if $p$ then $q$" --- false only when $p$ is true and $q$ is false.
-  - *Equivalence* $p arrow.l.r q$: "$p$ if and only if $q$" --- true when $p$ and $q$ have the same truth value.
+  - *Implication* $p imply q$: "if $p$ then $q$" --- false only when $p$ is true and $q$ is false.
+  - *Equivalence* $p iff q$: "$p$ if and only if $q$" --- true when $p$ and $q$ have the same truth value.
 ]
 
-In an implication $p arrow q$, $p$ is the _antecedent_ (hypothesis) and $q$ is the _consequent_ (conclusion).
-The truth table for implication often surprises beginners: $F arrow T$ is true.
+In an implication $p imply q$, $p$ is the _antecedent_ (hypothesis) and $q$ is the _consequent_ (conclusion).
+The truth table for implication often surprises beginners: $F imply T$ is true.
 Think of it as a broken promise: "If it rains, I will bring an umbrella" is only false if it rains and I do not bring one.
 
 #note[
   Implication does not require causation.
-  "$2 + 2 = 5$ $arrow$ pigs can fly" is true (vacuously) because the antecedent is false.
+  "$2 + 2 = 5$ $imply$ pigs can fly" is true (vacuously) because the antecedent is false.
 ]
 
 The formal syntax of propositional logic is defined recursively:
 
 #definition[Well-formed formula][
   - Every propositional variable (atom) is a well-formed formula (wff).
-  - If $phi$ and $psi$ are wffs, then $(not phi)$, $(phi and psi)$, $(phi or psi)$, $(phi arrow psi)$, and $(phi arrow.l.r psi)$ are wffs.
+  - If $phi$ and $psi$ are wffs, then $(not phi)$, $(phi and psi)$, $(phi or psi)$, $(phi imply psi)$, and $(phi iff psi)$ are wffs.
   - Nothing else is a wff.
 ]
 
-Precedence conventions reduce parentheses: $not$ binds tightest, then $and$, then $or$, then $arrow$, then $arrow.l.r$.
+Precedence conventions reduce parentheses: $not$ binds tightest, then $and$, then $or$, then $imply$, then $iff$.
 Every formula corresponds to a unique parse tree, which makes its syntactic structure explicit.
 
 === Semantics: Truth Tables
@@ -64,12 +64,12 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
   A truth table lists all interpretations of the atoms and computes the truth value of a compound formula under each interpretation.
 ]
 
-#example[Truth table for $p arrow q$][
+#example[Truth table for $p imply q$][
   #table(
     columns: 3,
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([$p$], [$q$], [$p arrow q$]),
+    table.header([$p$], [$q$], [$p imply q$]),
     [#Green([T])], [#Green([T])], [#Green([T])],
     [#Green([T])], [#Red([F])], [#Red([F])],
     [#Red([F])], [#Green([T])], [#Green([T])],
@@ -93,7 +93,7 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
 Two formulas are logically equivalent if they have the same truth value under every interpretation:
 
 #definition[Logical equivalence][
-  $phi equiv psi$ iff $phi arrow.l.r psi$ is a tautology.
+  $phi equiv psi$ iff $phi iff psi$ is a tautology.
   Equivalent formulas are interchangeable in any context (substitution preserves equivalence).
 ]
 
@@ -102,12 +102,12 @@ Two formulas are logically equivalent if they have the same truth value under ev
 ]
 
 #theorem[Deduction theorem for propositional logic][
-  $phi_1, ..., phi_n models psi$ if and only if $(phi_1 and ... and phi_n) arrow psi$ is a tautology.
+  $phi_1, ..., phi_n models psi$ if and only if $(phi_1 and ... and phi_n) imply psi$ is a tautology.
 ]
 
 #note[
-  The deduction theorem bridges semantic entailment ($models$) and syntactic implication ($arrow$).
-  It is the foundation for proof by assumption: to prove $p arrow q$, assume $p$ and derive $q$.
+  The deduction theorem bridges semantic entailment ($models$) and syntactic implication ($imply$).
+  It is the foundation for proof by assumption: to prove $p imply q$, assume $p$ and derive $q$.
 ]
 
 === Laws and Identities
@@ -247,7 +247,7 @@ $exists y forall x$ says "there is a single $y$ that works for all $x$."
 In practice, most quantification is over a restricted set:
 
 #definition[Bounded quantifier][
-  - $forall x in A space P(x)$ abbreviates $forall x space (x in A arrow P(x))$.
+  - $forall x in A space P(x)$ abbreviates $forall x space (x in A imply P(x))$.
   - $exists x in A space P(x)$ abbreviates $exists x space (x in A and P(x))$.
 ]
 
@@ -260,8 +260,8 @@ The translation must preserve meaning precisely --- ambiguity in the English mus
 
 #example[
   "All that glitters is not gold" is ambiguous.
-  - Reading 1: $forall x space ("glitters"(x) arrow not "gold"(x))$ --- "nothing that glitters is gold" (false).
-  - Reading 2: $not forall x space ("glitters"(x) arrow "gold"(x))$ --- "not everything that glitters is gold" (true).
+  - Reading 1: $forall x space ("glitters"(x) imply not "gold"(x))$ --- "nothing that glitters is gold" (false).
+  - Reading 2: $not forall x space ("glitters"(x) imply "gold"(x))$ --- "not everything that glitters is gold" (true).
 ]
 
 #example[
@@ -269,8 +269,8 @@ The translation must preserve meaning precisely --- ambiguity in the English mus
 ]
 
 #example[
-  The definition of a limit $lim_(x arrow a) f(x) = L$:
-  $forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta arrow abs(f(x) - L) < epsilon)$.
+  The definition of a limit $lim_(x -> a) f(x) = L$:
+  $forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon)$.
   This packs five quantifiers and two inequalities into one sentence --- the power of predicate logic.
 ]
 
@@ -282,7 +282,7 @@ This section surveys the standard proof strategies.
 
 === Direct Proof
 
-The simplest strategy: to prove $P arrow Q$, assume $P$ and derive $Q$ through a chain of logical deductions.
+The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a chain of logical deductions.
 
 #proof[
   *If $n$ is even, then $n^2$ is even.*
@@ -303,7 +303,7 @@ The simplest strategy: to prove $P arrow Q$, assume $P$ and derive $Q$ through a
 
 === Proof by Contrapositive
 
-The implication $P arrow Q$ is logically equivalent to its contrapositive $not Q arrow not P$.
+The implication $P imply Q$ is logically equivalent to its contrapositive $not Q imply not P$.
 Sometimes the contrapositive is easier to prove than the original.
 
 #proof[
@@ -312,7 +312,7 @@ Sometimes the contrapositive is easier to prove than the original.
   We prove the contrapositive: if $n$ is even, then $n^2$ is even.
   (Because "not odd" for an integer means "even" — every integer is either even or odd.)
 
-  The statement "$n$ even $arrow$ $n^2$ even" is exactly what we proved above by direct proof.
+  The statement "$n$ even $imply$ $n^2$ even" is exactly what we proved above by direct proof.
   Since the contrapositive is logically equivalent to the original implication, the original statement holds.
 ]
 
@@ -342,7 +342,7 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
   Substitute $p = 2k$ into $p^2 = 2q^2$:
   $
-    (2k)^2 = 2q^2 arrow.r 4k^2 = 2q^2 arrow.r q^2 = 2k^2.
+    (2k)^2 = 2q^2 imply 4k^2 = 2q^2 imply q^2 = 2k^2.
   $
   Thus $q^2$ is even, and by the same reasoning as above, $q$ is even.
 
@@ -355,8 +355,8 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 #note[
   Proof by contradiction and proof by contrapositive are often confused.
-  In a contrapositive proof of $P arrow Q$, we assume $not Q$, derive $not P$, and stop.
-  In a contradiction proof of $P arrow Q$, we assume $P and not Q$ and derive a contradiction.
+  In a contrapositive proof of $P imply Q$, we assume $not Q$, derive $not P$, and stop.
+  In a contradiction proof of $P imply Q$, we assume $P and not Q$ and derive a contradiction.
   The contrapositive is "cleaner" when applicable; contradiction is more general.
 ]
 
@@ -366,22 +366,27 @@ If the hypothesis can be partitioned into a finite set of mutually exclusive and
 
 #proof[
   *$|x y| = |x| dot |y|$ for all real $x$, $y$.*
-  + *Case 1:* $x >= 0$, $y >= 0$. Then $|x| = x$, $|y| = y$, $x y >= 0$, so $|x y| = x y = |x| dot |y|$.
-  + *Case 2:* $x >= 0$, $y < 0$. Then $|x| = x$, $|y| = -y$, $x y <= 0$, so $|x y| = -x y = x(-y) = |x| dot |y|$.
-  + *Case 3:* $x < 0$, $y >= 0$. Symmetric to case 2.
-  + *Case 4:* $x < 0$, $y < 0$. Then $|x| = -x$, $|y| = -y$, $x y > 0$, so $|x y| = x y = (-x)(-y) = |x| dot |y|$.
+
+  + *Case 1:* $x >= 0$, $y >= 0$.
+    Then $|x| = x$, $|y| = y$, $x y >= 0$, so $|x y| = x y = |x| dot |y|$.
+  + *Case 2:* $x >= 0$, $y < 0$.
+    Then $|x| = x$, $|y| = -y$, $x y <= 0$, so $|x y| = -x y = x(-y) = |x| dot |y|$.
+  + *Case 3:* $x < 0$, $y >= 0$.
+    Symmetric to case 2.
+  + *Case 4:* $x < 0$, $y < 0$.
+    Then $|x| = -x$, $|y| = -y$, $x y > 0$, so $|x y| = x y = (-x)(-y) = |x| dot |y|$.
   All cases yield the equality.
 ]
 
 === Proof of Equivalence
 
-To prove $P arrow.l.r Q$, prove both directions: $P arrow Q$ and $Q arrow P$.
-Alternatively, construct a chain of equivalences: $P arrow.l.r R_1 arrow.l.r ... arrow.l.r Q$.
+To prove $P iff Q$, prove both directions: $P imply Q$ and $Q imply P$.
+Alternatively, construct a chain of equivalences: $P iff R_1 iff ... iff Q$.
 
 #example[
   To prove "$n$ is even iff $n^2$ is even":
-  + ($arrow$): Proved above (direct proof).
-  + ($arrow.l$): Proved above (contrapositive: $n$ odd $arrow$ $n^2$ odd).
+  + ($arrow.double.r$): Proved above (direct proof).
+  + ($arrow.double.l$): Proved above (contrapositive: $n$ odd $=>$ $n^2$ odd).
 ]
 
 === Counterexamples
@@ -403,7 +408,7 @@ It is the engine of reasoning about recursively defined objects.
 #theorem[Principle of mathematical induction][
   To prove $forall n >= 0 space P(n)$:
   1. *Base case:* Prove $P(0)$.
-  2. *Inductive step:* Prove $forall k >= 0 space (P(k) arrow P(k+1))$.
+  2. *Inductive step:* Prove $forall k >= 0 space (P(k) imply P(k+1))$.
   Conclude $forall n >= 0 space P(n)$.
 ]
 
@@ -419,6 +424,7 @@ It is the engine of reasoning about recursively defined objects.
   $ sum_(i=1)^k i = (k(k+1))/2. $
 
   *Inductive step.* We must prove that the formula holds for $k+1$.
+
   Starting from the definition of the sum and applying the induction hypothesis,
   $
     sum_(i=1)^(k+1) i
@@ -435,7 +441,7 @@ It is the engine of reasoning about recursively defined objects.
 #theorem[Strong induction][
   To prove $forall n >= 0 space P(n)$:
   1. *Base case:* Prove $P(0)$.
-  2. *Inductive step:* Prove $forall k >= 0 space ((forall i < k space P(i)) arrow P(k))$.
+  2. *Inductive step:* Prove $forall k >= 0 space ((forall i < k space P(i)) imply P(k))$.
   Conclude $forall n >= 0 space P(n)$.
 ]
 
@@ -453,9 +459,10 @@ Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $
   That is, every integer from $2$ up to $k-1$ can be factored into primes.
 
   *Inductive step.* We must prove $P(k)$ — that $k$ itself can be factored into primes.
+
   There are two possibilities:
-  - If $k$ is prime, then $k$ is already a prime factorisation (a single factor). $P(k)$ holds.
-  - If $k$ is composite, then $k = a b$ for some integers $a, b$ with $2 <= a, b < k$.
+  + If $k$ is prime, then $k$ is already a prime factorisation (a single factor). $P(k)$ holds.
+  + If $k$ is composite, then $k = a b$ for some integers $a, b$ with $2 <= a, b < k$.
     By the induction hypothesis, both $a$ and $b$ can be factored into primes:
     $ a = p_1 p_2 dots.h p_r, quad b = q_1 q_2 dots.h q_s, $
     where each $p_i$ and $q_j$ is prime.
@@ -488,7 +495,7 @@ For recursively defined sets (formulas, trees, lists, abstract syntax), structur
 #definition[Structural induction for formulas][
   To prove $P(phi)$ for all propositional formulas $phi$:
   1. *Base:* Prove $P(A)$ for every atomic formula $A$.
-  2. *Inductive steps:* Prove that if $P(phi)$ and $P(psi)$ hold, then $P(not phi)$, $P(phi and psi)$, $P(phi or psi)$, $P(phi arrow psi)$, and $P(phi arrow.l.r psi)$ hold.
+  2. *Inductive steps:* Prove that if $P(phi)$ and $P(psi)$ hold, then $P(not phi)$, $P(phi and psi)$, $P(phi or psi)$, $P(phi imply psi)$, and $P(phi iff psi)$ hold.
 ]
 
 This template applies to any inductively defined structure --- abstract syntax trees, regular expressions, parse trees.
@@ -505,17 +512,17 @@ Recognising them early saves time and embarrassment.
 ]
 
 #definition[Affirming the consequent][
-  From $P arrow Q$ and $Q$, concluding $P$.
+  From $P imply Q$ and $Q$, concluding $P$.
   "If it rains, the ground is wet. The ground is wet. Therefore it rained" --- the ground could be wet from a sprinkler.
 ]
 
 #definition[Denying the antecedent][
-  From $P arrow Q$ and $not P$, concluding $not Q$.
+  From $P imply Q$ and $not P$, concluding $not Q$.
   "If it rains, the ground is wet. It didn't rain. Therefore the ground is not wet" --- again, a sprinkler suffices.
 ]
 
 #definition[False induction base][
-  Proving $P(k) arrow P(k+1)$ but neglecting to verify the base case, or using a wrong base.
+  Proving $P(k) imply P(k+1)$ but neglecting to verify the base case, or using a wrong base.
   Example: "All horses are the same colour" --- the inductive step works only for $k >= 2$, but the base case $k=1$ does not bridge to $k=2$.
   The flaw is subtle: going from 1 horse to 2 horses uses an empty overlap of the two groups.
 ]
