@@ -98,7 +98,11 @@ Two sets are _disjoint_ if $A inter B = nothing$.
 
 #example[
   Let $A = {1, 2, 3}$, $B = {2, 3, 4}$ with $U = {1, 2, 3, 4, 5}$.
-  $A union B = {1, 2, 3, 4}$; $A inter B = {2, 3}$; $A setminus B = {1}$; $A symdiff B = {1, 4}$; $overline(A) = {4, 5}$.
+  + $A union B = {1, 2, 3, 4}$
+  + $A inter B = {2, 3}$
+  + $A setminus B = {1}$
+  + $A symdiff B = {1, 4}$
+  + $overline(A) = {4, 5}$
 ]
 
 === Algebraic Laws

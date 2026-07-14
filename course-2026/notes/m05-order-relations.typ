@@ -53,8 +53,12 @@
 ]
 
 #example[
-  The divisor poset on ${1, 2, 3, 4, 6, 12}$ ordered by $a | b$:
-  the Hasse diagram shows only cover relations --- 1 is covered by 2 and 3; 2 by 4 and 6; 3 by 6; 4 and 6 are covered by 12.
+  The divisor poset on ${1, 2, 3, 4, 6, 12}$ ordered by $a | b$.
+  The Hasse diagram shows only cover relations:
+  + 1 is covered by 2 and 3
+  + 2 is covered by 4 and 6
+  + 3 is covered by 6
+  + 4 and 6 are covered by 12
 ]
 
 #figure(
