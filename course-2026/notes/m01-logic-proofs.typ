@@ -286,10 +286,19 @@ The simplest strategy: to prove $P arrow Q$, assume $P$ and derive $Q$ through a
 
 #proof[
   *If $n$ is even, then $n^2$ is even.*
-  Assume $n$ is even, so $n = 2k$ for some integer $k$.
-  Then
+
+  This is a direct proof: we assume the hypothesis and derive the conclusion.
+
+  Assume $n$ is even.
+  By definition, there exists an integer $k$ such that $n = 2k$.
+
+  Squaring both sides:
   $ n^2 = (2k)^2 = 4k^2 = 2(2k^2). $
-  Since $2k^2$ is an integer, $n^2 = 2 dot "integer"$, which means $n^2$ is even.
+
+  Since $k$ is an integer, $2k^2$ is also an integer.
+  Let $m = 2k^2$; then $n^2 = 2m$, which is exactly the definition of an even number.
+
+  Therefore $n^2$ is even.
 ]
 
 === Proof by Contrapositive
@@ -299,8 +308,12 @@ Sometimes the contrapositive is easier to prove than the original.
 
 #proof[
   *If $n^2$ is odd, then $n$ is odd.*
-  We prove the contrapositive: if $n$ is not odd (i.e., even), then $n^2$ is not odd (i.e., even).
-  This is the direct proof above: $n$ even $arrow$ $n^2$ even.
+
+  We prove the contrapositive: if $n$ is even, then $n^2$ is even.
+  (Because "not odd" for an integer means "even" — every integer is either even or odd.)
+
+  The statement "$n$ even $arrow$ $n^2$ even" is exactly what we proved above by direct proof.
+  Since the contrapositive is logically equivalent to the original implication, the original statement holds.
 ]
 
 The contrapositive is especially useful when the negation of the conclusion ($not Q$) gives a concrete starting point.
@@ -312,14 +325,32 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 #proof[
   *$sqrt{2}$ is irrational.*
-  Suppose, for contradiction, that $sqrt{2} = p/q$ where $p, q in ZZ^+$ and the fraction is in lowest terms (gcd$(p, q) = 1$).
-  Squaring: $2 = p^2 / q^2$, so $p^2 = 2q^2$.
-  Hence $p^2$ is even, so $p$ is even: $p = 2k$.
-  Substituting:
-  $ (2k)^2 = 2q^2 arrow.r 4k^2 = 2q^2 arrow.r q^2 = 2k^2, $
-  so $q^2$ is even, so $q$ is even.
-  But then both $p$ and $q$ are even, contradicting gcd$(p, q) = 1$.
-  Therefore $sqrt{2}$ cannot be rational.
+
+  We use proof by contradiction.
+
+  Assume, for the sake of contradiction, that $sqrt{2}$ is rational.
+  Then there exist positive integers $p, q in ZZ^+$ such that
+  $ sqrt{2} = p/q, $
+  and we may assume the fraction is in lowest terms — that is, $gcd(p, q) = 1$.
+  (If the fraction were not reduced, we could cancel common factors first.)
+
+  Squaring both sides gives $2 = p^2 / q^2$, hence
+  $ p^2 = 2q^2. $
+  This shows that $p^2$ is even.
+  If $p$ were odd, then $p^2$ would be odd (an odd times an odd is odd), so $p$ must be even.
+  Write $p = 2k$ for some integer $k$.
+
+  Substitute $p = 2k$ into $p^2 = 2q^2$:
+  $
+    (2k)^2 = 2q^2 arrow.r 4k^2 = 2q^2 arrow.r q^2 = 2k^2.
+  $
+  Thus $q^2$ is even, and by the same reasoning as above, $q$ is even.
+
+  We have shown that both $p$ and $q$ are even.
+  But then $gcd(p, q) >= 2$, contradicting the assumption that the fraction was in lowest terms with $gcd(p, q) = 1$.
+
+  The contradiction means our initial assumption — that $sqrt{2}$ is rational — must be false.
+  Therefore $sqrt{2}$ is irrational.
 ]
 
 #note[
@@ -379,13 +410,26 @@ It is the engine of reasoning about recursively defined objects.
 #proof[
   *For all $n >= 1$, $sum_(i=1)^n i = (n(n+1))/2$.*
 
-  *Base:* $n = 1$: LHS $= 1$, RHS $= (1 dot 2)/2 = 1$. Holds.
+  We prove this by ordinary mathematical induction on $n$.
 
-  *Inductive step:* Assume the induction hypothesis
+  *Base case.* $n = 1$: the left-hand side is $1$, and the right-hand side is $(1 dot 2)/2 = 1$.
+  The formula holds.
+
+  *Induction hypothesis.* Assume that the formula holds for some $k >= 1$:
   $ sum_(i=1)^k i = (k(k+1))/2. $
-  Then
-  $ sum_(i=1)^(k+1) i = (sum_(i=1)^k i) + (k+1) = (k(k+1))/2 + (k+1) = ((k+1)(k+2))/2. $
-  This matches the formula for $n = k+1$.
+
+  *Inductive step.* We must prove that the formula holds for $k+1$.
+  Starting from the definition of the sum and applying the induction hypothesis,
+  $
+    sum_(i=1)^(k+1) i
+    = (sum_(i=1)^k i) + (k+1)
+    = (k(k+1))/2 + (k+1)
+    = (k(k+1) + 2(k+1))/2
+    = ((k+1)(k+2))/2.
+  $
+  The last expression is exactly $(n(n+1))/2$ with $n = k+1$.
+
+  By the principle of mathematical induction, the formula holds for all $n >= 1$.
 ]
 
 #theorem[Strong induction][
@@ -399,12 +443,28 @@ Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $
 
 #proof[
   *Every integer $n >= 2$ can be factored into primes.*
-  *Base:* $n = 2$ is itself prime.
-  *Inductive step:* Assume every integer $m$ with $2 <= m < k$ can be factored into primes.
-  If $k$ is prime, we are done.
-  If $k$ is composite, $k = a b$ with $2 <= a, b < k$.
-  By the inductive hypothesis, $a$ and $b$ each factor into primes.
-  Multiplying gives a prime factorisation of $k$.
+
+  We use strong induction on $n$.
+  Let $P(n)$ be the statement: "$n$ can be written as a product of primes."
+
+  *Base case.* $n = 2$: the number $2$ is itself prime, so $P(2)$ holds trivially.
+
+  *Induction hypothesis.* Assume that $P(m)$ holds for all integers $m$ with $2 <= m < k$.
+  That is, every integer from $2$ up to $k-1$ can be factored into primes.
+
+  *Inductive step.* We must prove $P(k)$ — that $k$ itself can be factored into primes.
+  There are two possibilities:
+  - If $k$ is prime, then $k$ is already a prime factorisation (a single factor). $P(k)$ holds.
+  - If $k$ is composite, then $k = a b$ for some integers $a, b$ with $2 <= a, b < k$.
+    By the induction hypothesis, both $a$ and $b$ can be factored into primes:
+    $ a = p_1 p_2 dots.h p_r, quad b = q_1 q_2 dots.h q_s, $
+    where each $p_i$ and $q_j$ is prime.
+    Multiplying these factorisations,
+    $ k = a b = p_1 p_2 dots.h p_r q_1 q_2 dots.h q_s, $
+    which is a product of primes.  Hence $P(k)$ holds.
+
+  In either case, $P(k)$ is true.
+  By the principle of strong induction, $P(n)$ holds for all $n >= 2$ — every integer $>= 2$ can be factored into primes.
 ]
 
 #theorem[Well-ordering principle][
