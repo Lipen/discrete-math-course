@@ -60,34 +60,36 @@
 
 #let _numbered(label, ctr, bar-color, inline: false, body) = {
   ctr.step()
-  let header = if inline {
-    strong[#label #_ch-num(ctr).]
-  } else {
-    strong[#label #_ch-num(ctr)] + v(0.25em)
-  }
-  _block(
-    title: header,
+  let header = strong[#label #_ch-num(ctr)]
+  block(
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
-    inline: inline,
-    it: body,
-  )
+    radius: 3pt,
+    width: 100%,
+  )[
+    #if inline {
+      [#strong[#label #_ch-num(ctr).] #body]
+    } else {
+      [#block(sticky: true)[#header #v(0.25em)] #body]
+    }
+  ]
 }
 
 #let _numbered-sub(label, subtitle, ctr, bar-color, inline: false, body) = {
   ctr.step()
-  let header = if inline {
-    strong[#label #_ch-num(ctr) (#subtitle).]
-  } else {
-    strong[#label #_ch-num(ctr) (#subtitle)] + v(0.25em)
-  }
-  _block(
-    title: header,
+  let header = strong[#label #_ch-num(ctr) (#subtitle)]
+  block(
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
-    inline: inline,
-    it: body,
-  )
+    radius: 3pt,
+    width: 100%,
+  )[
+    #if inline {
+      [#strong[#label #_ch-num(ctr) (#subtitle).] #body]
+    } else {
+      [#block(sticky: true)[#header #v(0.25em)] #body]
+    }
+  ]
 }
 
 #let _dispatch(label, ctr, bar-color, inline: false, ..args) = {
