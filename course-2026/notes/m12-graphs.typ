@@ -1,6 +1,10 @@
 // M12 --- Graphs: the universal structure for modelling connections.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import "diagrams/m12.typ": (
+  bipartite, directed-graph, eulerian, graph-coloring, k33, k5, planar,
+  simple-graph, spanning-tree, tree,
+)
 
 = Graphs
 
@@ -36,6 +40,11 @@
   Corollary: number of odd-degree vertices is even.
 ]
 
+#figure(
+  simple-graph,
+  caption: [An undirected graph with 6 vertices and 9 edges.],
+) <fig:simple-graph>
+
 === Representations
 
 #proposition[Three representations][
@@ -64,11 +73,21 @@
   Strongly connected components (SCCs) are computed by Kosaraju's or Tarjan's algorithm in $O(V + E)$ via DFS.
 ]
 
+#figure(
+  directed-graph,
+  caption: [A directed graph. Vertices 1, 2, 3 form one SCC --- each reachable from each other.],
+) <fig:directed-graph>
+
 == Trees
 
 #definition[Tree][
   A *tree* is a connected acyclic graph. A *forest* is a disjoint union of trees.
 ]
+
+#figure(
+  tree,
+  caption: [A tree: 6 vertices, 5 edges --- connected and acyclic.],
+) <fig:tree>
 
 #theorem[Equivalent characterisations][
   For a graph on $n$ vertices, these are equivalent:
@@ -86,6 +105,11 @@
 #definition[Spanning tree][
   A subgraph that includes all vertices and is a tree. Every connected graph has one.
 ]
+
+#figure(
+  spanning-tree,
+  caption: [A graph (all edges shown) with one spanning tree highlighted in blue.],
+) <fig:spanning-tree>
 
 #theorem[Cayley's formula][
   Number of labelled trees on $n$ vertices: $n^(n-2)$. Proof via Prüfer codes.
@@ -108,6 +132,11 @@
   Connected undirected graph is Eulerian iff all degrees are even.
   Has an Eulerian trail iff exactly two vertices have odd degree.
 ]
+
+#figure(
+  eulerian,
+  caption: [An Eulerian graph: all vertices have even degree. The tour visits each edge exactly once.],
+) <fig:eulerian>
 
 #remark[
   Chinese Postman Problem (shortest closed walk covering all edges) solvable in polynomial time.
@@ -137,6 +166,11 @@
   A graph is bipartite iff it has no odd-length cycle. Test: BFS 2-coloring in $O(V+E)$.
 ]
 
+#figure(
+  bipartite,
+  caption: [A bipartite graph: vertices partitioned into two colour classes (blue and red). Edges only cross between classes.],
+) <fig:bipartite>
+
 #definition[Matching][
   A set of edges with no shared vertices. *Perfect matching* covers all vertices.
 ]
@@ -160,6 +194,21 @@
   Consequence: every planar graph has a vertex of degree $<= 5$.
   $K_5$ ($E=10 > 9$) and $K_(3,3)$ are non-planar.
 ]
+
+#figure(
+  k5,
+  caption: [$K_5$ --- the complete graph on 5 vertices. Non-planar: $E=10 > 3 dot 5 - 6 = 9$.],
+) <fig:k5>
+
+#figure(
+  k33,
+  caption: [$K_(3,3)$ --- the complete bipartite graph. Also non-planar and a Kuratowski forbidden minor.],
+) <fig:k33>
+
+#figure(
+  planar,
+  caption: [A planar graph with faces $f_1, ..., f_6$. Euler's formula: $V - E + F = 2$.],
+) <fig:planar>
 
 #theorem[Kuratowski's theorem][
   A graph is planar iff it contains no subdivision of $K_5$ or $K_(3,3)$.
@@ -185,6 +234,11 @@
 #theorem[Vizing's theorem][
   For edge coloring: $Delta(G) <= chi'(G) <= Delta(G) + 1$.
 ]
+
+#figure(
+  graph-coloring,
+  caption: [A 4-coloring of a graph with 6 vertices. Adjacent vertices receive different colours.],
+) <fig:coloring>
 
 #remark[
   Graph coloring models register allocation (compilers), frequency assignment (cellular), and exam scheduling.
