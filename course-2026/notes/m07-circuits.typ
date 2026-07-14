@@ -19,7 +19,14 @@
   Each gate type corresponds to a fixed Boolean function.
 ]
 
-Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = x or y$), NAND ($not(x and y)$), NOR ($not(x or y)$), XOR ($x xor y$).
+#definition[Standard gates][
+  - NOT: $f(x) = not x$.
+  - AND: $f(x, y) = x and y$.
+  - OR: $f(x, y) = x or y$.
+  - NAND: $f(x, y) = not(x and y)$.
+  - NOR: $f(x, y) = not(x or y)$.
+  - XOR: $f(x, y) = x xor y$.
+]
 
 #note[
   NAND and NOR are *universal gates*: each alone is functionally complete.
@@ -96,8 +103,10 @@ Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = 
   Carry propagates through all stages: size $O(n)$, depth $O(n)$. *Carry look-ahead* reduces depth to $O(log n)$ by computing carries in parallel.
 ]
 
-Subtraction via two's complement: $A - B = A + (overline(B) + 1)$.
-An ALU combines adder, logic gates, and control bits to perform multiple operations (AND, OR, ADD, SUB).
+#note[Subtraction via two's complement][
+  $A - B = A + (overline(B) + 1)$ --- negation is bitwise NOT plus 1.
+  An ALU combines adder, logic gates, and control bits to perform multiple operations (AND, OR, ADD, SUB).
+]
 
 #remark[
   The ALU is the computational heart of every CPU.
@@ -161,4 +170,6 @@ An ALU combines adder, logic gates, and control bits to perform multiple operati
   Hence most Boolean functions require exponentially large circuits.
 ]
 
-This is non-constructive: we know complicated functions exist, but naming one and proving a lower bound is hard --- the "P vs NP" of circuit complexity.
+#remark[
+  This is non-constructive: we know complicated functions exist, but naming one and proving a lower bound is hard --- the "P vs NP" of circuit complexity.
+]

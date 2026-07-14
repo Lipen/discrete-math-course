@@ -29,11 +29,17 @@
   Total: $2^(2^n)$ functions.
 ]
 
-For $n = 0$: constants 0, 1. $n = 1$: 4 functions. $n = 2$: 16 functions --- the classic logic gates.
+#example[
+  For $n = 0$: constants 0 and 1.
+  For $n = 1$: 4 functions (identity, NOT, constant 0, constant 1).
+  For $n = 2$: 16 functions --- the classic logic gates.
+]
 
 === Binary Boolean Functions
 
-The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projection $x$, inhibition ($not x and y$), projection $y$, XOR, OR, NOR, XNOR, NOT $y$, converse implication, NOT $x$, implication ($x imply y = not x or y$), NAND, TRUE.
+#proposition[The 16 binary Boolean functions][
+  The complete list: FALSE, AND, $x and not y$, $x$, $not x and y$, $y$, XOR, OR, NOR, XNOR, not $y$, $x imply y$, not $x$, $y imply x$, NAND, TRUE.
+]
 
 #note[
   $x imply y = not x or y$ and $x equiv y = (x imply y) and (y imply x)$ --- implication and equivalence are expressible via NOT, AND, OR.
@@ -136,11 +142,18 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
   Every Boolean function has DNF and CNF representations.
 ]
 
-Construction from truth table:
-- DNF: for each row with $f = 1$, write conjunction of literals ($x_i$ if 1, $overline(x_i)$ if 0).
-  Disjoin all.
-- CNF (dual): for each row with $f = 0$, write disjunction ($overline(x_i)$ if 1, $x_i$ if 0).
-  Conjoin all.
+#note[Construction from truth table][
+  - *DNF*: for each row with $f = 1$, write conjunction of literals ($x_i$ if 1, $overline(x_i)$ if 0).
+    Disjoin all minterms.
+  - *CNF* (dual): for each row with $f = 0$, write disjunction ($overline(x_i)$ if 1, $x_i$ if 0).
+    Conjoin all maxterms.
+]
+
+#example[DNF and CNF of XOR][
+  $x xor y$ is 1 on $(0, 1)$ and $(1, 0)$.
+  - DNF: $(overline(x) and y) or (x and overline(y))$.
+  - CNF: $(x or y) and (overline(x) or overline(y))$.
+]
 
 #definition[Perfect normal forms][
   - *Perfect DNF* (SDNF): every conjunction contains all $n$ variables.
@@ -148,7 +161,9 @@ Construction from truth table:
   Both unique up to order.
 ]
 
-Non-perfect DNF/CNF are not unique --- this motivates minimisation.
+#note[
+  Non-perfect DNF/CNF are not unique --- this motivates minimisation.
+]
 
 
 == Minimisation
@@ -167,7 +182,11 @@ Goal: find a DNF with minimal literals (or terms).
   On the K-map: maximal rectangular group of 1-cells (size = power of 2). *Essential prime implicant*: covers at least one 1-cell not covered by others.
 ]
 
-Procedure: (1) identify all prime implicants, (2) mark essential ones, (3) cover remaining 1-cells minimally.
+#note[K-map procedure][
+  (1) Identify all prime implicants (maximal rectangular groups of 1-cells, size $2^k$).
+  (2) Mark essential prime implicants (covering a 1-cell no one else covers).
+  (3) Cover remaining 1-cells with minimal set of remaining primes.
+]
 
 #note[
   *Don't-care conditions* (× on K-map): input combinations that never occur or whose output is irrelevant.
@@ -185,7 +204,9 @@ Procedure: (1) identify all prime implicants, (2) mark essential ones, (3) cover
   3. *Covering phase*: select minimal subset of prime implicants covering all minterms (set cover --- NP-hard in general, heuristics exist).
 ]
 
-Modern tools (Espresso) use iterative improvement for near-minimal results on dozens of variables.
+#remark[
+  Modern tools (Espresso) use iterative improvement for near-minimal results on dozens of variables.
+]
 
 
 == Zhegalkin Polynomial (ANF)
@@ -198,10 +219,17 @@ Modern tools (Espresso) use iterative improvement for near-minimal results on do
   Every Boolean function has exactly one Zhegalkin polynomial.
 ]
 
-Three computation methods:
-1. *Undetermined coefficients*: substitute all $2^n$ assignments, solve linear system over $"GF"(2)$.
-2. *Equivalent transformations*: apply $x or y = x xor y xor x y$, $overline(x) = x xor 1$, simplify with $x xor x = 0$.
-3. *Pascal triangle method*: XOR adjacent truth-table entries repeatedly.
+#proposition[Computing the Zhegalkin polynomial][
+  Three methods:
+  1. *Undetermined coefficients*: substitute all $2^n$ assignments, solve linear system over $"GF"(2)$.
+  2. *Equivalent transformations*: apply $x or y = x xor y xor x y$, $overline(x) = x xor 1$, simplify with $x xor x = 0$.
+  3. *Pascal triangle method*: XOR adjacent truth-table entries repeatedly.
+]
+
+#example[Zhegalkin polynomial of XOR][
+  $x xor y$ is already in ANF: $a_0 = 0$, $a_x = 1$, $a_y = 1$, $a_(x y) = 0$.
+  $f(x, y) = 0 xor 1 dot x xor 1 dot y xor 0 dot x y = x xor y$.
+]
 
 #remark[
   The Zhegalkin polynomial is the basis of linear and differential cryptanalysis.

@@ -99,7 +99,9 @@ The *Continuum Hypothesis* (CH): no such set exists --- $2^(aleph_0) = aleph_1$.
 
 === Ordinals (Idea)
 
-Cardinals measure "how many"; ordinals measure "in what order":
+#note[
+  Cardinals measure "how many"; ordinals measure "in what order."
+]
 
 #definition[Ordinal --- informal][
   An *ordinal* is the order type of a well-ordered set.
@@ -108,7 +110,9 @@ Cardinals measure "how many"; ordinals measure "in what order":
   Then $omega+1$, $omega+2$, ..., $omega dot 2$, ..., $omega^2$, ..., $omega^omega$, ...
 ]
 
-Ordinals generalise counting beyond the finite --- they are the foundation of transfinite induction.
+#note[
+  Ordinals generalise counting beyond the finite --- they are the foundation of transfinite induction.
+]
 
 #definition[Ordinal arithmetic --- informal][
   - *Successor*: $alpha + 1$ is the next ordinal after $alpha$ (like $omega + 1$ --- "infinity and then one more").
@@ -131,8 +135,9 @@ Ordinals generalise counting beyond the finite --- they are the foundation of tr
   For any family ${A_i}_(i in I)$ of non-empty sets, $product A_i eq.not nothing$ --- there exists a choice function selecting one element from each set.
 ]
 
-AC is independent of ZF.
-Equivalent formulations:
+#note[
+  AC is independent of ZF --- it is neither provable nor refutable from the other axioms of set theory.
+]
 
 #proposition[Equivalents of AC][
   - *Zorn's Lemma*: if every chain in a poset has an upper bound, the poset has a maximal element.
@@ -153,8 +158,10 @@ Equivalent formulations:
   Using AC, a solid ball in $RR^3$ can be decomposed into finitely many pieces and reassembled (by rotations and translations) into two solid balls, each identical to the original.
 ]
 
-This is not a contradiction --- the pieces are non-measurable (no well-defined volume).
-AC enables constructions beyond physical intuition without breaking logical consistency.
+#remark[
+  This is not a contradiction --- the pieces are non-measurable (no well-defined volume).
+  AC enables constructions beyond physical intuition without breaking logical consistency.
+]
 
 #note[
   The transfinite is the mathematical basis for:
