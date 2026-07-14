@@ -1,6 +1,7 @@
 // M13 --- Finite Automata and Regular Languages: the simplest computational model.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import "diagrams/m13.typ": dfa-01, nfa-00-11
 
 = Finite Automata and Regular Languages
 
@@ -31,6 +32,11 @@ Language: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
   DFA for strings over ${0, 1}$ ending with $"01"$: states $q_0$ (no match), $q_1$ (ends in 0), $q_2$ (ends in 01, accepting).
 ]
 
+#figure(
+  dfa-01,
+  caption: [DFA recognising strings over ${0, 1}$ ending with $"01"$. Accepting state $q_2$ has a double border.],
+) <fig:dfa-01>
+
 === Closure Properties
 
 #proposition[Boolean closure][
@@ -48,6 +54,16 @@ Language: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
 ]
 
 A string is accepted if *there exists* a path from $q_0$ to some accepting state.
+
+#example[
+  NFA for strings containing $"00"$ or $"11"$: from $q_0$, on 0 move to $q_1$ (looking for $"00"$) or on 1 to $q_2$ (looking for $"11"$).
+  Both branches proceed independently — the machine "guesses" which pattern will appear.
+]
+
+#figure(
+  nfa-00-11,
+  caption: [NFA recognising strings over ${0, 1}$ containing $"00"$ or $"11"$. Two independent branches guess the pattern.],
+) <fig:nfa-00-11>
 
 #example[
   NFA for "third-to-last symbol is 1": guesses when it is 3 symbols from end, then checks. 4 states; minimal DFA needs $2^3 = 8$.

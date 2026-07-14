@@ -1,6 +1,7 @@
 // M05 --- Order Relations: ranking, comparing, and structuring discrete objects.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import "diagrams/m05.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2
 
 = Order Relations
 
@@ -53,8 +54,18 @@
 
 #example[
   The divisor poset on ${1, 2, 3, 4, 6, 12}$ ordered by $a | b$:
-  1 at bottom, 12 at top, 2 and 3 above 1, 4 and 6 above them, 12 connected to 4 and 6.
+  the Hasse diagram shows only cover relations --- 1 is covered by 2 and 3; 2 by 4 and 6; 3 by 6; 4 and 6 are covered by 12.
 ]
+
+#figure(
+  hasse-divisors-12,
+  caption: [Hasse diagram of $(D_12, |)$ — the divisor lattice of 12. Edges show cover relations; transitivity and reflexivity are implicit.],
+) <fig:hasse-divisors-12>
+
+#figure(
+  hasse-powerset-2,
+  caption: [Hasse diagram of $(cal(P)({1, 2}), subset.eq)$ — the Boolean lattice $B_2$. Join = $union$, meet = $inter$.],
+) <fig:hasse-powerset-2>
 
 #example[
   For $(cal(P)({1, 2, 3}), subset.eq)$, the Hasse diagram is a cube (3D Boolean lattice).
