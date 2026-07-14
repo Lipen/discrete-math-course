@@ -177,22 +177,23 @@
   let v = ((0, 2.5), (-2, 0.5), (2, 0.5), (-1.5, -1.5), (1.5, -1.5))
   // Nodes FIRST
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.25) }
-  // Thin edges with weight labels — named edges + .mid anchors (no manual midpoint calc)
-  for (ai, bi, w) in (
-    (0, 1, "4"),
-    (0, 2, "3"),
-    (1, 2, "5"),
-    (1, 3, "2"),
-    (2, 4, "6"),
-    (3, 4, "7"),
-    (1, 4, "8"),
+  // Thin edges with weight labels — each edge has a `rel:` offset to place the label beside (not on) the line.
+  // Offsets are perpendicular to the edge direction.
+  for (ai, bi, w, off) in (
+    (0, 1, "4", (-0.18, 0.12)),
+    (0, 2, "3", (0.18, 0.12)),
+    (1, 2, "5", (0, 0.22)),
+    (1, 3, "2", (-0.25, -0.05)),
+    (2, 4, "6", (0.25, -0.05)),
+    (3, 4, "7", (0, -0.22)),
+    (1, 4, "8", (0.12, 0.18)),
   ) {
     let aname = str(ai + 1)
     let bname = str(bi + 1)
     let ename = aname + "-" + bname
     line(aname, bname, stroke: (paint: c-edge, thickness: 0.7pt), name: ename)
     content(
-      (rel: (0, 0), to: ename + ".mid"),
+      (rel: off, to: ename + ".mid"),
       w,
       frame: "rect",
       fill: white,
