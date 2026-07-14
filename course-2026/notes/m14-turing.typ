@@ -69,7 +69,10 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
 
 #theorem[Universal TM][
   There exists a TM $U$ that, given encoding $chevron.l M chevron.r$ of TM $M$ and input $w$, simulates $M$ on $w$.
-  $U$ is the mathematical precursor of the stored-program computer (von Neumann).
+]
+
+#remark[
+  $U$ is the mathematical precursor of the stored-program computer (von Neumann architecture).
 ]
 
 == The Halting Problem
