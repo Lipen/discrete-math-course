@@ -1,22 +1,18 @@
-// Custom theorem environments for Discrete Math lecture notes.
-// Zero third-party dependencies — pure Typst block + counter.
-//
-// Numbering is per-chapter (counters reset at each = Heading).
+// Custom theorem environments — pure Typst block + counter.
+// Numbering resets at each = Heading chapter.
 // API:
-//   #definition[body]                — numbered, no subtitle
-//   #definition[Subtitle][body]      — numbered with subtitle
-//   #theorem[body] / #theorem[Name][body]
-//   #lemma[body] / #lemma[Name][body]
-//   #corollary[body] / #corollary[Name][body]
-//   #proposition[body] / #proposition[Name][body]
-//   #proof[body]                     — with QED square
-//   #proof-sketch[body]              — light, no QED
-//   #example[body]                   — unnumbered, subtle background
-//   #example[Title][body]            — with optional title
-//   #note[body]                      — bold title, unnumbered
-//   #remark[body]                    — boxed, bold title, unnumbered
+//   #definition[body]                 #definition[Subtitle][body]
+//   #theorem[body]                    #theorem[Name][body]
+//   #lemma[body]                      #lemma[Name][body]
+//   #corollary[body]                  #corollary[Name][body]
+//   #proposition[body]                #proposition[Name][body]
+//   #proof[body]                      #proof-sketch[body]
+//   #example[body]                    #example[Title][body]
+//   #note[body]                       #note[Title][body]
+//   #remark[body]                     #remark[Title][body]
+//   #chapter-overview[body]
+//   #hrule
 
-// --- Counters ---
 #let def-ctr = counter("definition")
 #let thm-ctr = counter("theorem")
 
@@ -28,7 +24,6 @@
   if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
 }
 
-// --- Internal: numbered block with left color bar ---
 #let _numbered(label, ctr, bar-color, body) = {
   ctr.step()
   block(
@@ -43,7 +38,6 @@
   ]
 }
 
-// --- Internal: numbered block with subtitle ---
 #let _numbered-sub(label, subtitle, ctr, bar-color, body) = {
   ctr.step()
   block(
@@ -58,7 +52,6 @@
   ]
 }
 
-// --- Helper: sink-based dispatch for 1 or 2 content blocks ---
 #let _dispatch(label, ctr, bar-color, ..args) = {
   let pos = args.pos()
   if pos.len() >= 2 {
@@ -68,39 +61,37 @@
   }
 }
 
-// --- Numbered environments ---
 #let definition(..args) = _dispatch(
   "Definition",
   def-ctr,
-  oklch(55%, 0.18, 155deg), // green
+  oklch(55%, 0.18, 155deg),
   ..args,
 )
 #let theorem(..args) = _dispatch(
   "Theorem",
   thm-ctr,
-  oklch(55%, 0.15, 250deg), // blue
+  oklch(55%, 0.15, 250deg),
   ..args,
 )
 #let lemma(..args) = _dispatch(
   "Lemma",
   thm-ctr,
-  oklch(55%, 0.14, 300deg), // purple
+  oklch(55%, 0.14, 300deg),
   ..args,
 )
 #let corollary(..args) = _dispatch(
   "Corollary",
   thm-ctr,
-  oklch(55%, 0.18, 22deg), // red
+  oklch(55%, 0.18, 22deg),
   ..args,
 )
 #let proposition(..args) = _dispatch(
   "Proposition",
   thm-ctr,
-  oklch(55%, 0.16, 195deg), // teal
+  oklch(55%, 0.16, 195deg),
   ..args,
 )
 
-// --- Proof environments ---
 #let proof(body) = {
   block(inset: (x: 0em, y: 0em), width: 100%)[
     #strong[Proof.]
@@ -116,7 +107,6 @@
   ]
 }
 
-// --- Example — subtle background, left bar, title on separate line ---
 #let example(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
@@ -140,7 +130,6 @@
   ]
 }
 
-// --- Note — bold title inline with body ---
 #let note(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
@@ -153,7 +142,6 @@
   ]
 }
 
-// --- Remark — boxed, bold title inline with body ---
 #let remark(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
@@ -163,7 +151,12 @@
   }
   block(
     fill: rgb("#fafafa"),
-    stroke: 0.5pt + luma(80%),
+    stroke: (
+      left: 3pt + oklch(60%, 0.16, 75deg),
+      top: 0.5pt + luma(82%),
+      bottom: 0.5pt + luma(82%),
+      right: 0.5pt + luma(82%),
+    ),
     inset: (x: 1em, y: 0.8em),
     radius: 3pt,
     width: 100%,
@@ -172,7 +165,6 @@
   ]
 }
 
-// --- Chapter overview ---
 #let chapter-overview(body) = {
   block(
     fill: luma(95%),
@@ -184,5 +176,4 @@
   ]
 }
 
-// --- Horizontal rule ---
 #let hrule = line(length: 100%)
