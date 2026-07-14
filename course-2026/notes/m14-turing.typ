@@ -84,7 +84,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 == The Halting Problem
 
 #definition[Halting problem][
-  $italic("HALT") = {la M ra w mid(|) M "halts on" w}$.
+  $"HALT" = {la M ra w mid(|) M "halts on" w}$.
 ]
 
 #theorem[Undecidability of halting problem][
@@ -92,11 +92,18 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 ]
 
 #proof[
-  Suppose $H$ decides HALT.
-  Construct $D$: on input $la M ra$, run $H$ on $la M ra la M ra$.
-  If $H$ says "halt", $D$ loops; if "loop", $D$ halts.
-  Run $D$ on $la D ra$: $D$ halts iff $H$ says $D$ loops --- contradiction.
-  Diagonal argument --- same pattern as Cantor and Russell.
+  By contradiction.
+  Suppose a TM $H$ decides HALT: $H(la M ra w)$ accepts iff $M$ halts on $w$.
+
+  Construct $D$ that, on input $la M ra$, runs $H$ on $la M ra la M ra$ and loops if $H$ accepts, halts if $H$ rejects.
+
+  Now run $D$ on $la D ra$.
+  If $D$ halts, $H$ rejected $la D ra la D ra$: $H$ claims $D$ loops, yet $D$ halted.
+  If $D$ loops, $H$ accepted $la D ra la D ra$: $H$ claims $D$ halts, yet $D$ loops.
+  In both cases $H$ is wrong, contradicting the assumption.
+
+  Therefore no TM decides HALT.
+  This diagonal pattern mirrors Cantor's diagonal argument and Russell's paradox.
 ]
 
 #note[
