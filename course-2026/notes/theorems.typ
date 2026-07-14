@@ -24,76 +24,63 @@
   if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
 }
 
-#let _numbered(label, ctr, bar-color, body) = {
+#let _numbered(label, ctr, bar-color, inline: false, body) = {
   ctr.step()
+  let header = [#strong[#label #_ch-num(ctr)]]
   block(
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
     radius: 3pt,
     width: 100%,
   )[
-    #block(sticky: true)[
-      #strong[#label #_ch-num(ctr)]
-      #v(0.25em)
-    ]
-    #body
+    #if inline {
+      [#strong[#label #_ch-num(ctr).] #body]
+    } else {
+      [#block(sticky: true)[#header #v(0.25em)] #body]
+    }
   ]
 }
 
-#let _numbered-sub(label, subtitle, ctr, bar-color, body) = {
+#let _numbered-sub(label, subtitle, ctr, bar-color, inline: false, body) = {
   ctr.step()
+  let header = [#strong[#label #_ch-num(ctr) (#subtitle)]]
   block(
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
     radius: 3pt,
     width: 100%,
   )[
-    #block(sticky: true)[
-      #strong[#label #_ch-num(ctr) (#subtitle)]
-      #v(0.25em)
-    ]
-    #body
+    #if inline {
+      [#strong[#label #_ch-num(ctr) (#subtitle).] #body]
+    } else {
+      [#block(sticky: true)[#header #v(0.25em)] #body]
+    }
   ]
 }
 
-#let _dispatch(label, ctr, bar-color, ..args) = {
+#let _dispatch(label, ctr, bar-color, inline: false, ..args) = {
   let pos = args.pos()
   if pos.len() >= 2 {
-    _numbered-sub(label, pos.at(0), ctr, bar-color, pos.at(1))
+    _numbered-sub(label, pos.at(0), ctr, bar-color, inline: inline, pos.at(1))
   } else {
-    _numbered(label, ctr, bar-color, pos.at(0))
+    _numbered(label, ctr, bar-color, inline: inline, pos.at(0))
   }
 }
 
-#let definition(..args) = _dispatch(
-  "Definition",
-  def-ctr,
-  oklch(55%, 0.18, 155deg),
-  ..args,
+#let definition(inline: false, ..args) = _dispatch(
+  "Definition", def-ctr, oklch(55%, 0.18, 155deg), inline: inline, ..args,
 )
-#let theorem(..args) = _dispatch(
-  "Theorem",
-  thm-ctr,
-  oklch(55%, 0.15, 250deg),
-  ..args,
+#let theorem(inline: false, ..args) = _dispatch(
+  "Theorem", thm-ctr, oklch(55%, 0.15, 250deg), inline: inline, ..args,
 )
-#let lemma(..args) = _dispatch(
-  "Lemma",
-  thm-ctr,
-  oklch(55%, 0.14, 300deg),
-  ..args,
+#let lemma(inline: false, ..args) = _dispatch(
+  "Lemma", thm-ctr, oklch(55%, 0.14, 300deg), inline: inline, ..args,
 )
-#let corollary(..args) = _dispatch(
-  "Corollary",
-  thm-ctr,
-  oklch(55%, 0.18, 22deg),
-  ..args,
+#let corollary(inline: false, ..args) = _dispatch(
+  "Corollary", thm-ctr, oklch(55%, 0.18, 22deg), inline: inline, ..args,
 )
-#let proposition(..args) = _dispatch(
-  "Proposition",
-  thm-ctr,
-  oklch(55%, 0.16, 195deg),
-  ..args,
+#let proposition(inline: false, ..args) = _dispatch(
+  "Proposition", thm-ctr, oklch(55%, 0.16, 195deg), inline: inline, ..args,
 )
 
 // --- QED placement ---
@@ -183,13 +170,14 @@
   ]
 }
 
-#let example(..args) = {
+#let example(inline: false, ..args) = {
   let pos = args.pos()
-  let (title, body) = if pos.len() >= 2 {
+  let (subtitle, body) = if pos.len() >= 2 {
     (pos.at(0), pos.at(1))
   } else {
     (none, pos.at(0))
   }
+  let title = [#text(style: "italic")[Example#if subtitle != none { [ (#subtitle)] }]]
   block(
     fill: luma(97%),
     stroke: (left: 2pt + luma(82%), rest: none),
@@ -197,11 +185,11 @@
     radius: 3pt,
     width: 100%,
   )[
-    #block(sticky: true)[
-      #text(style: "italic")[Example#if title != none { [ (#title)] }: ]
-      #v(0.2em)
-    ]
-    #body
+    #if inline {
+      [#title: #body]
+    } else {
+      [#block(sticky: true)[#title: #v(0.2em)] #body]
+    }
   ]
 }
 

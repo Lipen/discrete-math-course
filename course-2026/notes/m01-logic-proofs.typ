@@ -284,7 +284,7 @@ This section surveys the standard proof strategies.
 
 The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a chain of logical deductions.
 
-#proposition[Even squares][
+#proposition(inline: true)[Even squares][
   If $n$ is even, then $n^2$ is even.
 ]
 
@@ -308,7 +308,7 @@ The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a
 The implication $P imply Q$ is logically equivalent to its contrapositive $not Q imply not P$.
 Sometimes the contrapositive is easier to prove than the original.
 
-#proposition[Odd squares][
+#proposition(inline: true)[Odd squares][
   If $n^2$ is odd, then $n$ is odd.
 ]
 
@@ -327,7 +327,7 @@ The contrapositive is especially useful when the negation of the conclusion ($no
 To prove $P$, assume $not P$ and derive a contradiction ($R and not R$ for some $R$).
 Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
-#theorem[
+#theorem(inline: true)[
   $sqrt(2)$ is irrational.
 ]
 
@@ -370,7 +370,7 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 If the hypothesis can be partitioned into a finite set of mutually exclusive and exhaustive cases, proving the conclusion in each case suffices.
 
-#proposition[Multiplicativity of absolute value][
+#proposition(inline: true)[Multiplicativity of absolute value][
   For all real $x$, $y$: $|x y| = |x| dot |y|$.
 ]
 
