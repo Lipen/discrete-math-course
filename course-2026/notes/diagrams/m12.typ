@@ -457,6 +457,7 @@
 })
 
 // ── 13. BFS tree ──
+// Bold straight lines = BFS tree. Dashed bezier arcs = cross/skip edges.
 #let bfs-tree = cetz.canvas({
   import cetz.draw: *
   let v = (
@@ -468,6 +469,16 @@
     (0.8, -0.5),
     (2.8, -0.5),
   )
+  let r = 0.2 // node radius (matches snode)
+
+  // Point on circle border
+  let rim(center, toward) = {
+    let (cx, cy) = center
+    let (tx, ty) = toward
+    let d = calc.sqrt((tx - cx) * (tx - cx) + (ty - cy) * (ty - cy))
+    (cx + (tx - cx) / d * r, cy + (ty - cy) / d * r)
+  }
+
   // Nodes FIRST
   for (i, p) in v.enumerate() {
     snode(p, str(i + 1))
@@ -481,21 +492,36 @@
       $d!=!#((0, 1, 1, 2, 2, 2, 2).at(i))$
     ]
   }
-  // All edges (dim) — node names
-  for (a, b) in (
-    ("1", "2"),
-    ("1", "3"),
-    ("2", "4"),
-    ("2", "5"),
-    ("3", "6"),
-    ("3", "7"),
-    ("4", "5"),
-    ("6", "7"),
-    ("2", "6"),
-  ) {
-    line(a, b, stroke: (paint: c-edge-dim, thickness: 0.25pt))
-  }
-  // BFS tree (bold) — node names
+
+  let cross-style = (paint: c-edge-dim, thickness: 0.35pt, dash: "dashed")
+
+  // Cross edges — dashed bezier arcs curving away from the tree
+  // (4,5): siblings under 2 — arc below
+  bezier(
+    rim(v.at(3), (0, -1.5)),
+    rim(v.at(4), (0, -1.5)),
+    (-2.8, -1.5),
+    (-0.8, -1.5),
+    stroke: cross-style,
+  )
+  // (6,7): siblings under 3 — arc below
+  bezier(
+    rim(v.at(5), (0, -1.5)),
+    rim(v.at(6), (0, -1.5)),
+    (0.8, -1.5),
+    (2.8, -1.5),
+    stroke: cross-style,
+  )
+  // (2,6): cross between subtrees — arc to the right, outside the tree
+  bezier(
+    rim(v.at(1), (1.8, -0.8)),
+    rim(v.at(5), (1.8, -0.8)),
+    (1.8, 0.2),
+    (1.8, -1.3),
+    stroke: cross-style,
+  )
+
+  // BFS tree edges — bold straight lines
   for (a, b) in (
     ("1", "2"),
     ("1", "3"),

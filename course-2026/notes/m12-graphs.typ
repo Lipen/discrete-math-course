@@ -307,7 +307,7 @@
 
 #figure(
   bfs-tree,
-  caption: [BFS from vertex 1. Bold edges form the BFS tree; grey edges are cross/skip edges. Distances $d$ from the source are shown.],
+  caption: [BFS from vertex 1. Bold edges form the BFS tree; dashed arcs are cross/skip edges. Distances $d$ from the source are shown.],
 ) <fig:bfs-tree>
 
 BFS and DFS are the two fundamental traversal strategies --- almost every graph algorithm builds on one of them.
