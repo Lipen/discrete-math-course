@@ -58,10 +58,11 @@
   ]
 }
 
-#let _numbered(label, ctr, bar-color, inline: false, body) = {
+#let _numbered(label, ctr, bar-color, fill, inline: false, body) = {
   ctr.step()
   let header = strong[#label #_ch-num(ctr)]
   block(
+    fill: fill,
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
     radius: 3pt,
@@ -75,10 +76,19 @@
   ]
 }
 
-#let _numbered-sub(label, subtitle, ctr, bar-color, inline: false, body) = {
+#let _numbered-sub(
+  label,
+  subtitle,
+  ctr,
+  bar-color,
+  fill,
+  inline: false,
+  body,
+) = {
   ctr.step()
   let header = strong[#label #_ch-num(ctr) (#subtitle)]
   block(
+    fill: fill,
     stroke: (left: 3pt + bar-color, rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
     radius: 3pt,
@@ -92,12 +102,12 @@
   ]
 }
 
-#let _dispatch(label, ctr, bar-color, inline: false, ..args) = {
+#let _dispatch(label, ctr, bar-color, fill, inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   if sub != none {
-    _numbered-sub(label, sub, ctr, bar-color, inline: inline, body)
+    _numbered-sub(label, sub, ctr, bar-color, fill, inline: inline, body)
   } else {
-    _numbered(label, ctr, bar-color, inline: inline, body)
+    _numbered(label, ctr, bar-color, fill, inline: inline, body)
   }
 }
 
@@ -105,6 +115,7 @@
   "Definition",
   def-ctr,
   oklch(55%, 0.18, 155deg),
+  oklch(97%, 0.02, 155deg),
   inline: inline,
   ..args,
 )
@@ -112,6 +123,7 @@
   "Theorem",
   thm-ctr,
   oklch(55%, 0.15, 250deg),
+  oklch(97%, 0.02, 250deg),
   inline: inline,
   ..args,
 )
@@ -119,6 +131,7 @@
   "Lemma",
   thm-ctr,
   oklch(55%, 0.14, 300deg),
+  oklch(97%, 0.02, 300deg),
   inline: inline,
   ..args,
 )
@@ -126,6 +139,7 @@
   "Corollary",
   thm-ctr,
   oklch(55%, 0.18, 22deg),
+  oklch(97%, 0.02, 22deg),
   inline: inline,
   ..args,
 )
@@ -133,6 +147,7 @@
   "Proposition",
   thm-ctr,
   oklch(55%, 0.16, 195deg),
+  oklch(97%, 0.02, 195deg),
   inline: inline,
   ..args,
 )
