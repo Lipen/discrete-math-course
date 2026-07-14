@@ -81,7 +81,6 @@ Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = 
     columns: 5,
     align: center,
     table.header([$A$], [$B$], [$C_"in"$], [$S$], [$C_"out"$]),
-    table.hline(stroke: 0.4pt),
     [0], [0], [0], [0], [0],
     [0], [0], [1], [1], [0],
     [0], [1], [0], [1], [0],

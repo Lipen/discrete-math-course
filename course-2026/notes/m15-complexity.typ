@@ -125,7 +125,6 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
     table.header(
       [*Class*], [*Resource bound*], [*Canonical problem*], [*Status*]
     ),
-    table.hline(stroke: 0.4pt),
     [P], [Polynomial time], [Shortest path, sorting, MST], [Tractable],
     [NP], [Nondeterministic poly-time], [SAT, TSP, Clique], [Open: $P = "NP"$?],
     [coNP], [Complement of NP], [UNSAT, tautology], [Open: $"NP" = "coNP"$?],
@@ -133,10 +132,12 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
     [Polynomial space],
     [QBF, geography, chess],
     [$"NP" subset.eq "PSPACE"$],
+
     [EXP],
     [Exponential time],
     [Generalised chess, Go],
     [$"PSPACE" subset "EXP"$],
+
     [\#P], [Counting solutions], [\#SAT, counting matchings], [Harder than NP],
     [BQP],
     [Quantum poly-time],

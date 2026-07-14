@@ -44,6 +44,10 @@
 // --- Tables: booktabs style (no vertical rules, horizontal rules only) ---
 #set table(stroke: none, inset: (x: 10pt, y: 4pt))
 #show table.cell.where(y: 0): strong
+// Mid rule under header: bottom stroke on header cells.
+// Unlike table.hline(), this repeats across page breaks when the header row repeats.
+#show table.cell.where(y: 0): set table.cell(stroke: (bottom: 0.4pt))
+// Top and bottom rules via block wrapper.
 #show table: it => block(stroke: (top: 0.8pt, bottom: 0.8pt), inset: 0pt, it)
 
 // --- Figures: centered by default ---
