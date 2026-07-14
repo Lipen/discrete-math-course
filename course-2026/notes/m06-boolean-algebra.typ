@@ -195,7 +195,7 @@ Modern tools (Espresso) use iterative improvement for near-minimal results on do
 ]
 
 Three computation methods:
-1. *Undetermined coefficients*: substitute all $2^n$ assignments, solve linear system over $italic("GF")(2)$.
+1. *Undetermined coefficients*: substitute all $2^n$ assignments, solve linear system over $Prob("GF")(2)$.
 2. *Equivalent transformations*: apply $x or y = x xor y xor x y$, $overline(x) = x xor 1$, simplify with $x xor x = 0$.
 3. *Pascal triangle method*: XOR adjacent truth-table entries repeatedly.
 
