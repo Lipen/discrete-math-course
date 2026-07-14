@@ -42,7 +42,7 @@
   + *Partial function* $f: A ⇀ B$: defined on a subset of $A$.
 ]
 
-#example[
+#example[Partial function][
   $f(x) = 1/x$ is partial on $RR$ (undefined at 0); total on $RR setminus {0}$.
 ]
 
@@ -72,7 +72,7 @@ The _graph_ of $f: A arrow B$ is ${(a, f(a)) mid(|) a in A}$ --- the same as $f$
 
 For finite sets: $|A| <= |B|$.
 
-#example[
+#example[Injective function][
   $f(x) = 2x + 1$ is injective. $g(x) = x^2$ is not ($g(2) = g(-2) = 4$).
 ]
 
@@ -80,7 +80,7 @@ For finite sets: $|A| <= |B|$.
   $f$ is injective iff there exists $g: B arrow A$ with $g @ f = "id"_A$.
 ]
 
-#example[
+#example[Hash collisions][
   A hash function should ideally be injective; in practice, collisions are inevitable (pigeonhole).
 ]
 
@@ -93,7 +93,7 @@ For finite sets: $|A| <= |B|$.
 
 For finite sets: $|A| >= |B|$.
 
-#example[
+#example[Surjective function][
   $f(x) = x^3$ is surjective on $RR$. $g(x) = e^x$ is not (never reaches 0 or negatives).
 ]
 
@@ -117,7 +117,7 @@ For finite sets: $|A| >= |B|$.
   For finite sets: $|A| = |B|$.
 ]
 
-#example[
+#example[Base64 encoding][
   Base64 encoding is an injection from binary to text; within its image, decoding is the inverse.
   A proper encoding-decoding pair is a bijection.
 ]
