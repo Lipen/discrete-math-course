@@ -284,10 +284,12 @@ This section surveys the standard proof strategies.
 
 The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a chain of logical deductions.
 
-#proof[
-  *If $n$ is even, then $n^2$ is even.*
+#proposition[Even squares][
+  If $n$ is even, then $n^2$ is even.
+]
 
-  This is a direct proof: we assume the hypothesis and derive the conclusion.
+#proof[
+  We give a direct proof: assume the hypothesis and derive the conclusion.
 
   Assume $n$ is even.
   By definition, there exists an integer $k$ such that $n = 2k$.
@@ -306,13 +308,15 @@ The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a
 The implication $P imply Q$ is logically equivalent to its contrapositive $not Q imply not P$.
 Sometimes the contrapositive is easier to prove than the original.
 
-#proof[
-  *If $n^2$ is odd, then $n$ is odd.*
+#proposition[Odd squares][
+  If $n^2$ is odd, then $n$ is odd.
+]
 
+#proof[
   We prove the contrapositive: if $n$ is even, then $n^2$ is even.
   (Because "not odd" for an integer means "even": every integer is either even or odd.)
 
-  The statement "$n$ even $imply$ $n^2$ even" is exactly what we proved above by direct proof.
+  The statement "$n$ even $imply$ $n^2$ even" is exactly Proposition 2.2.
   Since the contrapositive is logically equivalent to the original implication, the original statement holds.
 ]
 
@@ -323,9 +327,11 @@ The contrapositive is especially useful when the negation of the conclusion ($no
 To prove $P$, assume $not P$ and derive a contradiction ($R and not R$ for some $R$).
 Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
-#proof[
-  *$sqrt{2}$ is irrational.*
+#theorem[Irrationality of $sqrt{2}$][
+  $sqrt{2}$ is irrational.
+]
 
+#proof[
   We use proof by contradiction.
 
   Assume, for the sake of contradiction, that $sqrt{2}$ is rational.
@@ -364,8 +370,13 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 If the hypothesis can be partitioned into a finite set of mutually exclusive and exhaustive cases, proving the conclusion in each case suffices.
 
+#proposition[Multiplicativity of absolute value][
+  For all real $x$, $y$: $|x y| = |x| dot |y|$.
+]
+
 #proof[
-  *$|x y| = |x| dot |y|$ for all real $x$, $y$.*
+  The sign of $x y$ depends on the signs of $x$ and $y$.
+  We partition into four mutually exclusive cases and verify the equality in each.
 
   + *Case 1:* $x >= 0$, $y >= 0$.
     Then $|x| = x$, $|y| = y$, $x y >= 0$, so $|x y| = x y = |x| dot |y|$.
@@ -375,7 +386,7 @@ If the hypothesis can be partitioned into a finite set of mutually exclusive and
     Symmetric to case 2.
   + *Case 4:* $x < 0$, $y < 0$.
     Then $|x| = -x$, $|y| = -y$, $x y > 0$, so $|x y| = x y = (-x)(-y) = |x| dot |y|$.
-  All cases yield the equality.
+  All cases yield the equality, so the identity holds for all real $x$, $y$.
 ]
 
 === Proof of Equivalence
