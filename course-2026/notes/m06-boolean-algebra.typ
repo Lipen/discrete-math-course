@@ -83,8 +83,8 @@ The 16 two-variable functions: FALSE, AND, inhibition ($x and not y$), projectio
   + $T_0$: $"NAND"(0, 0) = 1 eq.not 0$ → not in $T_0$.
   + $T_1$: $"NAND"(1, 1) = 0 eq.not 1$ → not in $T_1$.
   + $S$: $"NAND"(not x, not y) = not(not x and not y) = x or y$, but $not("NAND"(x, y)) = not(not(x and y)) = x and y eq.not x or y$ → not self-dual.
-  + $M$: $"NAND"(0, 1) = 1$, $"NAND"(1, 1) = 0$ — increasing input decreases output → not monotone.
-  + $L$: $"NAND"(x, y) = not(x and y) = x y xor 1$ — degree 2, not linear.
+  + $M$: $"NAND"(0, 1) = 1$, $"NAND"(1, 1) = 0$ --- increasing input decreases output → not monotone.
+  + $L$: $"NAND"(x, y) = not(x and y) = x y xor 1$ --- degree 2, not linear.
   NAND is in none of the five classes → ${"NAND"}$ is complete.
 ]
 
