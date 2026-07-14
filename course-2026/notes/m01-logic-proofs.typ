@@ -382,8 +382,9 @@ Alternatively, construct a chain of equivalences: $P iff R_1 iff ... iff Q$.
 To disprove a universal statement $forall x space P(x)$, a single counterexample suffices.
 
 #example[
-  *Claim:* "All primes are odd." *Counterexample:* $2$ is prime and even.
-  The statement is false.
+  - *Claim:* "All primes are odd."
+  - *Counterexample:* $2$ is prime and even.
+  - Thus, the claim is false.
 ]
 
 A counterexample is the logical analogue of a failing test case --- it takes one to break a universal claim.
@@ -395,9 +396,10 @@ It is the engine of reasoning about recursively defined objects.
 
 #theorem[Principle of mathematical induction][
   To prove $forall n >= 0 space P(n)$:
-  1. *Base case:* Prove $P(0)$.
-  2. *Inductive step:* Prove $forall k >= 0 space (P(k) imply P(k+1))$.
-  Conclude $forall n >= 0 space P(n)$.
+  + *Base case:* Prove $P(0)$.
+  + *Inductive step:* Prove $forall k >= 0 space (P(k) imply P(k+1))$.
+
+  Conclude: $forall n >= 0 space P(n)$.
 ]
 
 #proof[
@@ -422,9 +424,10 @@ It is the engine of reasoning about recursively defined objects.
 
 #theorem[Strong induction][
   To prove $forall n >= 0 space P(n)$:
-  1. *Base case:* Prove $P(0)$.
-  2. *Inductive step:* Prove $forall k >= 0 space ((forall i < k space P(i)) imply P(k))$.
-  Conclude $forall n >= 0 space P(n)$.
+  + *Base case:* Prove $P(0)$.
+  + *Inductive step:* Prove $forall k >= 0 space ((forall i < k space P(i)) imply P(k))$.
+
+  Conclude: $forall n >= 0 space P(n)$.
 ]
 
 Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $P(k)$.
@@ -466,8 +469,10 @@ For recursively defined sets (formulas, trees, lists, abstract syntax), structur
 
 #definition[Structural induction for formulas][
   To prove $P(phi)$ for all propositional formulas $phi$:
-  1. *Base:* Prove $P(A)$ for every atomic formula $A$.
-  2. *Inductive steps:* Prove that if $P(phi)$ and $P(psi)$ hold, then $P(not phi)$, $P(phi and psi)$, $P(phi or psi)$, $P(phi imply psi)$, and $P(phi iff psi)$ hold.
+
+  + *Base:* Prove $P(A)$ for every atomic formula $A$.
+
+  + *Inductive steps:* Prove that if $P(phi)$ and $P(psi)$ hold, then $P(not phi)$, $P(phi and psi)$, $P(phi or psi)$, #box[$P(phi imply psi)$], and $P(phi iff psi)$ hold.
 ]
 
 This template applies to any inductively defined structure --- abstract syntax trees, regular expressions, parse trees.
@@ -499,7 +504,9 @@ Recognising them early saves time and embarrassment.
 
 #definition[False induction base][
   Proving $P(k) imply P(k+1)$ but neglecting to verify the base case, or using a wrong base.
+
   Example: "All horses are the same colour" --- the inductive step works only for $k >= 2$, but the base case $k=1$ does not bridge to $k=2$.
+
   The flaw is subtle: going from 1 horse to 2 horses uses an empty overlap of the two groups.
 ]
 
@@ -522,7 +529,9 @@ Assertions document expectations and catch bugs at runtime.
 ]
 
 #example[
-  ${x = 5} " " x := x + 1 " " {x = 6}$ --- if $x$ is 5 before the assignment, then $x$ is 6 after.
+  $ {x = 5} quad x := x + 1 quad {x = 6} $
+
+  Here, if $x$ is 5 before the assignment, then $x$ is 6 afterwards.
 ]
 
 The precondition encodes the assumptions about program state; the postcondition encodes the guarantees.
@@ -546,6 +555,7 @@ A loop invariant is a predicate that is true before the first iteration, remains
   while i < n and A[i] != x do
   i := i + 1
   ```
+
   *Invariant:* $forall j in {0, ..., i-1} space A[j] != x$ --- all positions before $i$ have been checked and do not contain $x$.
   At exit, either $i = n$ (not found) or $A[i] = x$ (found).
 ]
