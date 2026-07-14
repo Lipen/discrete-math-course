@@ -327,7 +327,7 @@ The contrapositive is especially useful when the negation of the conclusion ($no
 To prove $P$, assume $not P$ and derive a contradiction ($R and not R$ for some $R$).
 Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
-#theorem[Irrationality of $sqrt(2)$][
+#theorem[
   $sqrt(2)$ is irrational.
 ]
 
