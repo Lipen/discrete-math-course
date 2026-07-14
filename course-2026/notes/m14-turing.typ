@@ -74,7 +74,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 === Universal Turing Machine
 
 #theorem[Universal TM][
-  There exists a TM $U$ that, given encoding $chevron.l M chevron.r$ of TM $M$ and input $w$, simulates $M$ on $w$.
+  There exists a TM $U$ that, given encoding $la M ra$ of TM $M$ and input $w$, simulates $M$ on $w$.
 ]
 
 #remark[
@@ -84,7 +84,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 == The Halting Problem
 
 #definition[Halting problem][
-  $italic("HALT") = {chevron.l M chevron.r w mid(|) M "halts on" w}$.
+  $italic("HALT") = {la M ra w mid(|) M "halts on" w}$.
 ]
 
 #theorem[Undecidability of halting problem][
@@ -93,9 +93,9 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 
 #proof[
   Suppose $H$ decides HALT.
-  Construct $D$: on input $chevron.l M chevron.r$, run $H$ on $chevron.l M chevron.r chevron.l M chevron.r$.
+  Construct $D$: on input $la M ra$, run $H$ on $la M ra la M ra$.
   If $H$ says "halt", $D$ loops; if "loop", $D$ halts.
-  Run $D$ on $chevron.l D chevron.r$: $D$ halts iff $H$ says $D$ loops --- contradiction.
+  Run $D$ on $la D ra$: $D$ halts iff $H$ says $D$ loops --- contradiction.
   Diagonal argument --- same pattern as Cantor and Russell.
 ]
 
@@ -117,12 +117,12 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 ]
 
 #example[Reduction: HALT to Emptiness][
-  Show $E_"TM" = {chevron.l M chevron.r mid(|) L(M) = nothing}$ is undecidable.
+  Show $E_"TM" = {la M ra mid(|) L(M) = nothing}$ is undecidable.
   Assume $E$ decides $E_"TM"$.
-  Construct decider $H$ for HALT on input $chevron.l M chevron.r w$:
+  Construct decider $H$ for HALT on input $la M ra w$:
   1. Build $M'$: on any input, ignore it, simulate $M$ on $w$, accept iff $M$ halts on $w$.
     $L(M') =$ all strings (if $M$ halts on $w$), or $nothing$ (if $M$ loops on $w$).
-  2. Feed $chevron.l M' chevron.r$ to $E$.
+  2. Feed $la M' ra$ to $E$.
   3. If $E$ accepts ($L(M') = nothing$): $M$ loops $=>$reject.
   If $E$ rejects ($L(M') eq.not nothing$): $M$ halts $=>$accept.
   Thus HALT decidable --- contradiction.
@@ -144,7 +144,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 
 #theorem[Rice's theorem][
   Let $P$ be any non-trivial property of recognisable languages (depends only on $L(M)$, not on machine description; true for some but not all TMs).
-  Then ${chevron.l M chevron.r mid(|) P(L(M))}$ is undecidable.
+  Then ${la M ra mid(|) P(L(M))}$ is undecidable.
 ]
 
 #proof-sketch[

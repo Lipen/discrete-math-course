@@ -25,7 +25,7 @@
 #let inv(x) = $#x^(-1)$
 #let rel(x) = math.class("relation", x)
 #let lang(l) = $L(#l)$
-#let config(q, w) = $chevron.l #q, #w chevron.r$
+#let config(q, w) = $la #q, #w ra$
 
 // === Custom math operators ===
 #let deg(v) = $"deg"(#v)$
@@ -46,8 +46,8 @@
 #let False = Red(`false`)
 
 // === Special symbols and constants ===
-#let langle = sym.chevron.l
-#let rangle = sym.chevron.r
+#let la = $chevron.l$
+#let ra = $chevron.r$
 #let Blank = math.class("normal", sym.square.stroked)
 #let qAccept = $q_"accept"$
 #let qReject = $q_"reject"$
