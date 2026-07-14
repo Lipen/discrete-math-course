@@ -24,8 +24,10 @@
   - $F subset.eq Q$: accepting states.
 ]
 
-Extended transition: $hat(delta)(q, epsilon) = q$, $hat(delta)(q, a w) = hat(delta)(delta(q, a), w)$.
-Language: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
+#definition[Extended transition and language][
+  Extended transition: $hat(delta)(q, epsilon) = q$, $hat(delta)(q, a w) = hat(delta)(delta(q, a), w)$.
+  Language accepted by $M$: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
+]
 
 #example[
   DFA for strings over ${0, 1}$ ending with $"01"$: states $q_0$ (no match), $q_1$ (ends in 0), $q_2$ (ends in 01, accepting).
@@ -53,7 +55,9 @@ Language: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
   From a state on a symbol (or spontaneously via $epsilon$), the machine may transition to *any* of several states --- nondeterministic "guessing."
 ]
 
-A string is accepted if *there exists* a path from $q_0$ to some accepting state.
+#note[
+  A string is accepted if *there exists* at least one computation path from $q_0$ to some accepting state.
+]
 
 #example[
   NFA for strings containing $"00"$ or $"11"$: from $q_0$, on 0 move to $q_1$ (looking for $"00"$) or on 1 to $q_2$ (looking for $"11"$).
@@ -94,14 +98,20 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
     align: (left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header([*Property*], [*DFA*], [*NFA*]),
-    [Transition], [$delta(q, a)$ = single state], [$delta(q, a)$ = set of states],
+    [Transition],
+    [$delta(q, a)$ = single state],
+    [$delta(q, a)$ = set of states],
 
     [$epsilon$-transitions], [Not allowed], [Allowed (spontaneous)],
     [States required], [Potentially exponential], [Often linear / polynomial],
     [Acceptance], [Unique computation path], [Some path leads to accept],
-    [Implementation], [Table-driven, simple loop], [Backtracking or subset simulation],
+    [Implementation],
+    [Table-driven, simple loop],
+    [Backtracking or subset simulation],
 
-    [Design difficulty], [Harder (explicitly handle all cases)], [Easier (nondeterminism helps)],
+    [Design difficulty],
+    [Harder (explicitly handle all cases)],
+    [Easier (nondeterminism helps)],
 
     [Complement], [Trivial (swap F)], [Require determinisation first],
   )
@@ -124,7 +134,10 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
   A language is regular (recognised by DFA/NFA) iff it can be described by a regular expression.
 ]
 
-Proof: RE $->$ NFA by structural induction; DFA $->$ RE by state elimination.
+#proof-sketch[
+  RE $->$ NFA by structural induction on the regular expression.
+  DFA $->$ RE by state elimination (generalised transitive closure).
+]
 
 #proposition[Closure properties][
   Regular languages are closed under:
