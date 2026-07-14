@@ -108,12 +108,12 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 == Reductions
 
 #definition[Many-one reduction][
-  $A #mreduce B$: exists computable $f$ s.t. $w in A$ iff $f(w) in B$.
+  $A mreduce B$: exists computable $f$ s.t. $w in A$ iff $f(w) in B$.
 ]
 
 #proposition[Using reductions][
-  - $A #mreduce B$ and $B$ decidable $=>$$A$ decidable.
-  - $A #mreduce B$ and $A$ undecidable $=>$$B$ undecidable.
+  - $A mreduce B$ and $B$ decidable $=>$$A$ decidable.
+  - $A mreduce B$ and $A$ undecidable $=>$$B$ undecidable.
 ]
 
 #example[Reduction: HALT to Emptiness][

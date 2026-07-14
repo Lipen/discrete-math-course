@@ -43,16 +43,16 @@ Equivalently: solvable by nondeterministic TM in polynomial time.
 == Polynomial Reductions and NP-Completeness
 
 #definition[Polynomial reduction][
-  $A #preduce B$: $exists$ poly-time computable $f$ s.t. $w in A$ iff $f(w) in B$.
+  $A preduce B$: $exists$ poly-time computable $f$ s.t. $w in A$ iff $f(w) in B$.
 ]
 
 #proposition[Closure][
-  $A #preduce B$ and $B in P$ $=>$ $A in P$.
-  $A #preduce B$ and $B in "NP"$ $=>$ $A in "NP"$.
+  $A preduce B$ and $B in P$ $=>$ $A in P$.
+  $A preduce B$ and $B in "NP"$ $=>$ $A in "NP"$.
 ]
 
 #definition[NP-hard, NP-complete][
-  - $B$ is *NP-hard* if $forall A in "NP"$, $A #preduce B$.
+  - $B$ is *NP-hard* if $forall A in "NP"$, $A preduce B$.
   - $B$ is *NP-complete* if $B in "NP"$ and $B$ is NP-hard.
 ]
 
@@ -77,9 +77,9 @@ Equivalently: solvable by nondeterministic TM in polynomial time.
 === The NP-Complete Zoo
 
 #proposition[Standard reduction chain][
-  $"SAT" #preduce "3-SAT" #preduce "Vertex Cover" #preduce "Clique" #preduce "Independent Set"$.
-  Also: $"3-SAT" #preduce "Subset Sum" #preduce "Partition" #preduce "Knapsack"$. $"3-SAT" #preduce "3-Coloring"$.
-  $"Vertex Cover" #preduce "Hamiltonian Cycle" #preduce "TSP"$.
+  $"SAT" preduce "3-SAT" preduce "Vertex Cover" preduce "Clique" preduce "Independent Set"$.
+  Also: $"3-SAT" preduce "Subset Sum" preduce "Partition" preduce "Knapsack"$. $"3-SAT" preduce "3-Coloring"$.
+  $"Vertex Cover" preduce "Hamiltonian Cycle" preduce "TSP"$.
 ]
 
 #example[Reduction: 3-SAT to Vertex Cover][
