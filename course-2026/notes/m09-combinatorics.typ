@@ -5,7 +5,6 @@
 = Combinatorics
 
 #chapter-overview[
-  *Chapter overview.*
   Combinatorics is the mathematics of counting --- how many ways to arrange, select, partition, or combine discrete objects.
   This chapter develops systematic counting tools: sum and product rules, permutations and combinations, binomial identities, inclusion-exclusion, recurrences, and the major sequences (Catalan, Stirling, Bell).
   Counting is the foundation of probability, algorithm analysis, and the enumeration of discrete structures throughout computer science.

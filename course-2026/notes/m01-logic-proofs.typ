@@ -5,7 +5,6 @@
 = Logic and Proofs
 
 #chapter-overview[
-  *Chapter overview.*
   Logic is the grammar of mathematical reasoning --- it formalises what it means for a statement to be true, false, or provable.
   This chapter introduces propositional logic, predicates and quantifiers, and the standard proof techniques used throughout the course.
   Mastery of these foundations is essential: every definition, theorem, and proof in later chapters relies on the language built here.
@@ -288,7 +287,8 @@ The simplest strategy: to prove $P arrow Q$, assume $P$ and derive $Q$ through a
 #proof[
   *If $n$ is even, then $n^2$ is even.*
   Assume $n$ is even, so $n = 2k$ for some integer $k$.
-  Then $n^2 = (2k)^2 = 4k^2 = 2(2k^2)$.
+  Then
+  $ n^2 = (2k)^2 = 4k^2 = 2(2k^2). $
   Since $2k^2$ is an integer, $n^2 = 2 dot "integer"$, which means $n^2$ is even.
 ]
 
@@ -315,7 +315,9 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
   Suppose, for contradiction, that $sqrt{2} = p/q$ where $p, q in ZZ^+$ and the fraction is in lowest terms (gcd$(p, q) = 1$).
   Squaring: $2 = p^2 / q^2$, so $p^2 = 2q^2$.
   Hence $p^2$ is even, so $p$ is even: $p = 2k$.
-  Substituting: $(2k)^2 = 2q^2$ $=>$ $4k^2 = 2q^2$ $=>$ $q^2 = 2k^2$, so $q^2$ is even, so $q$ is even.
+  Substituting:
+  $ (2k)^2 = 2q^2 arrow.r 4k^2 = 2q^2 arrow.r q^2 = 2k^2, $
+  so $q^2$ is even, so $q$ is even.
   But then both $p$ and $q$ are even, contradicting gcd$(p, q) = 1$.
   Therefore $sqrt{2}$ cannot be rational.
 ]
@@ -376,11 +378,13 @@ It is the engine of reasoning about recursively defined objects.
 
 #proof[
   *For all $n >= 1$, $sum_(i=1)^n i = (n(n+1))/2$.*
+
   *Base:* $n = 1$: LHS $= 1$, RHS $= (1 dot 2)/2 = 1$. Holds.
-  *Inductive step:* Assume $sum_(i=1)^k i = (k(k+1))/2$ (IH).
-  Then $sum_(i=1)^(k+1) i = (sum_(i=1)^k i) + (k+1)$
-  $= (k(k+1))/2 + (k+1)$ (by IH)
-  $= (k(k+1) + 2(k+1))/2 = ((k+1)(k+2))/2$.
+
+  *Inductive step:* Assume the induction hypothesis
+  $ sum_(i=1)^k i = (k(k+1))/2. $
+  Then
+  $ sum_(i=1)^(k+1) i = (sum_(i=1)^k i) + (k+1) = (k(k+1))/2 + (k+1) = ((k+1)(k+2))/2. $
   This matches the formula for $n = k+1$.
 ]
 

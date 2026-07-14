@@ -5,7 +5,6 @@
 = Transfinite Overview
 
 #chapter-overview[
-  *Chapter overview.*
   How big is infinity?
   This chapter introduces cardinality as the rigorous measure of set size, proves that some infinities are larger than others (Cantor's diagonal argument), and sketches the landscape beyond: ordinals, the Continuum Hypothesis, and the Axiom of Choice.
   The treatment is conceptual --- the goal is to appreciate the structure of the infinite, not to master axiomatic set theory.

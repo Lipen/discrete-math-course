@@ -5,7 +5,6 @@
 = SAT
 
 #chapter-overview[
-  *Chapter overview.*
   The Boolean satisfiability problem (SAT) asks: does there exist an assignment making a given CNF formula true?
   Despite its simplicity, SAT is the canonical NP-complete problem --- a "universal" problem to which all of NP reduces.
   This chapter introduces SAT, k-SAT, the art of encoding problems into CNF, and the architecture of modern SAT solvers.

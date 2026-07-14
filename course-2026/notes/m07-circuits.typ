@@ -5,7 +5,6 @@
 = Circuits
 
 #chapter-overview[
-  *Chapter overview.*
   Boolean algebra is the theory; logic circuits are the practice.
   This chapter shows how Boolean functions are realised as physical gates, how arithmetic circuits (adders) are built, and how circuit complexity is measured.
   The Gray code and circuit verification via SAT are covered as essential applications.

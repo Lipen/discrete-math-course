@@ -6,7 +6,6 @@
 = Order Relations
 
 #chapter-overview[
-  *Chapter overview.*
   Order relations capture the idea of "before and after" --- they rank elements, define hierarchies, and provide the structure needed to sort, schedule, and optimise.
   This chapter introduces partial orders, their visualisation via Hasse diagrams, and the key notions of extremal elements, bounds, and lattices.
   The chapter closes with lexicographic orders, topological sorting, and real-world applications from type systems to distributed computing.

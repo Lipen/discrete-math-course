@@ -6,7 +6,6 @@
 = Finite Automata and Regular Languages
 
 #chapter-overview[
-  *Chapter overview.*
   Finite automata are the simplest model of computation --- machines with fixed finite memory that read input once, left to right.
   Despite their simplicity, they define exactly the regular languages, ubiquitous in programming: every regex search, every lexer, every input validator.
   This chapter covers DFA, NFA, their equivalence, regular expressions, the Pumping Lemma, and DFA minimisation.

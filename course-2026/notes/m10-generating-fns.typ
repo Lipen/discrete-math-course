@@ -5,7 +5,6 @@
 = Generating Functions
 
 #chapter-overview[
-  *Chapter overview.*
   A generating function packages an entire sequence into a single algebraic object, turning combinatorial problems into algebraic ones.
   This chapter introduces ordinary and exponential generating functions, the technique of solving recurrences via generating functions, and applications from Fibonacci numbers to algorithm analysis.
   The chapter closes with a glimpse of combinatorial species --- the structural theory behind generating functions.

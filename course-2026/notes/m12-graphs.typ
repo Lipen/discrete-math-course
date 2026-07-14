@@ -9,7 +9,6 @@
 = Graphs
 
 #chapter-overview[
-  *Chapter overview.*
   Graphs are the lingua franca of discrete structures --- they model networks, dependencies, state spaces, and relationships in every domain of computer science.
   This chapter introduces fundamental definitions, major graph classes (trees, bipartite, planar, Eulerian, Hamiltonian), standard algorithms (BFS, DFS, Dijkstra), and theoretical pillars: graph coloring, planar duality, and the theorems that govern graph structure.
 ]

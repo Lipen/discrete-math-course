@@ -5,7 +5,6 @@
 = Relations
 
 #chapter-overview[
-  *Chapter overview.*
   Relations formalise connections between objects --- they underpin databases, equivalence, order, and graph theory.
   This chapter introduces binary relations and their algebraic properties, then focuses on two special kinds: equivalence relations (which partition sets) and partial orders (which rank and compare).
   The pigeonhole principle, a deceptively simple counting argument, closes the chapter with surprising applications throughout discrete mathematics.

@@ -5,7 +5,6 @@
 = Functions
 
 #chapter-overview[
-  *Chapter overview.*
   Functions are the mathematical abstraction of computation --- they map inputs to outputs with precision and determinism.
   This chapter defines functions as special relations, introduces the fundamental classification (injective, surjective, bijective), develops composition and inversion, and explores the algebraic properties of images and preimages.
   The chapter closes with special functions ubiquitous in discrete mathematics and CS: characteristic functions, floors and ceilings, and the Iverson bracket.

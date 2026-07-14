@@ -5,7 +5,6 @@
 = Sets
 
 #chapter-overview[
-  *Chapter overview.*
   Sets are the most fundamental data structure in mathematics --- every discrete object is built from sets.
   This chapter introduces set notation, operations, and identities, then connects them to their computational counterparts: SQL queries, data types, bitwise operations, and hash functions.
   The language of sets established here underpins relations, functions, and every subsequent chapter.

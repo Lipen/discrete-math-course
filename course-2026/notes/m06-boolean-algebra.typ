@@ -5,7 +5,6 @@
 = Boolean Algebra
 
 #chapter-overview[
-  *Chapter overview.*
   Boolean algebra is the mathematical foundation of digital logic --- every circuit, every conditional, every bitwise operation is an expression in this algebra.
   This chapter studies Boolean functions, their normal forms, and the problem of minimisation.
   The chapter closes with the Zhegalkin polynomial, an algebraic normal form based on XOR, and its cryptographic significance.

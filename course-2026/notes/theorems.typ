@@ -155,7 +155,8 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[Proof.]
+    #strong[Proof:]
+    #v(0.2em)
     #body
   ]
 }
@@ -168,7 +169,8 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[Proof sketch.]
+    #strong[Proof sketch:]
+    #v(0.2em)
     #body
   ]
 }
@@ -241,6 +243,8 @@
     radius: 4pt,
     width: 100%,
   )[
+    #strong[Chapter overview]
+    #v(0.2em)
     #body
   ]
 }

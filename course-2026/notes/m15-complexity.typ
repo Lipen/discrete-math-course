@@ -5,7 +5,6 @@
 = Complexity and NP-Completeness
 
 #chapter-overview[
-  *Chapter overview.*
   Not all decidable problems are created equal --- some can be solved in linear time, others require exponential time, and some sit at the frontier of human knowledge (P vs NP).
   This chapter introduces P and NP, polynomial-time reductions, NP-completeness, and Cook's theorem.
   The chapter closes with strategies for coping with intractability and the broader complexity landscape.

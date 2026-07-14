@@ -5,7 +5,6 @@
 = Turing Machines and Undecidability
 
 #chapter-overview[
-  *Chapter overview.*
   The Turing machine is the mathematical definition of "algorithm" --- it captures what it means to compute.
   This chapter defines Turing machines, proves the existence of undecidable problems (the Halting Problem), develops the technique of reduction, and presents Rice's theorem: any non-trivial semantic property of programs is undecidable.
   There are well-defined problems that no computer can ever solve.
