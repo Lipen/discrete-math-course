@@ -1,22 +1,45 @@
 // M12 Graph diagrams — CeTZ 0.5.2, node-based.
-// Design: restrained palette, visual clarity, captions do the explaining.
+// Light fills + dark text = good contrast for screen and print.
 #import "@preview/cetz:0.5.2"
 
-// ── Palette (oklch, 5 semantic roles) ──
-#let c-node = oklch(55%, 0.14, 255deg)   // primary: nodes
+// ── Palette ──
+#let c-n-fill = oklch(88%, 0.03, 250deg)   // node fill: light blue
+#let c-n-border = oklch(60%, 0.08, 250deg)   // node border
+#let c-n-text = oklch(25%, 0.02, 260deg)   // node label
+
 #let c-edge = oklch(35%, 0.02, 265deg)   // edges
-#let c-hi = oklch(58%, 0.22, 22deg)    // highlight (bridges, cuts)
-#let c-tree = oklch(55%, 0.19, 160deg)   // trees, spanning, MST
-#let c-pa = oklch(65%, 0.10, 245deg)   // partition A
-#let c-pb = oklch(65%, 0.12, 45deg)    // partition B
-#let c-grey = oklch(60%, 0.01, 260deg)   // muted / secondary edges
-#let c-white = oklch(100%, 0, 0deg)
+#let c-edge-dim = oklch(65%, 0.01, 260deg)   // dimmed edges (grey)
+
+#let c-hi = oklch(58%, 0.22, 22deg)    // highlight (bridge, cut-vertex)
+
+#let c-t-fill = oklch(88%, 0.05, 155deg)   // tree node fill: light green
+#let c-t-border = oklch(55%, 0.18, 155deg)   // tree edges & leaf border
+#let c-t-leaf = oklch(50%, 0.10, 155deg)   // leaf text
+
+#let c-pa-fill = oklch(90%, 0.03, 245deg)   // partition A background
+#let c-pb-fill = oklch(90%, 0.04, 45deg)    // partition B background
+#let c-pa-dot = oklch(65%, 0.12, 245deg)   // partition A node
+#let c-pb-dot = oklch(65%, 0.14, 45deg)    // partition B node
+
+// Colouring diagram palette (W_5)
+#let c-colors = (
+  oklch(80%, 0.14, 22deg), // warm red
+  oklch(80%, 0.12, 150deg), // green
+  oklch(80%, 0.12, 250deg), // blue
+  oklch(82%, 0.14, 90deg), // yellow
+)
 
 // ── Helpers (re-import cetz.draw inside) ──
-#let node(pos, label, radius: 0.3, fill: c-node) = {
+#let node(pos, label, radius: 0.3) = {
   import cetz.draw: circle, content
-  circle(pos, radius: radius, fill: fill, stroke: none, name: label)
-  content(label + ".center", fill: c-white)[#text(weight: "bold")[#label]]
+  circle(
+    pos,
+    radius: radius,
+    fill: c-n-fill,
+    stroke: (paint: c-n-border, thickness: 0.8pt),
+    name: label,
+  )
+  content(pos)[#text(fill: c-n-text, weight: "bold")[#label]]
 }
 
 #let snode(pos, label) = { node(pos, label, radius: 0.2) }
@@ -25,7 +48,7 @@
   import cetz.draw: content, line
   line(a, b, stroke: (paint: c-edge, thickness: 0.7pt))
   let mid = ((a.at(0) + b.at(0)) / 2, (a.at(1) + b.at(1)) / 2)
-  content(mid, fill: c-white, outset: 2pt, size: .65em)[#w]
+  content(mid, outset: 2pt, size: .65em)[#w]
 }
 
 // ── 1. Simple undirected graph ──
@@ -44,7 +67,7 @@
   line("5", "6")
 })
 
-// ── 2. K_5 (complete, non-planar) ──
+// ── 2. K_5 ──
 #let k5 = cetz.canvas({
   import cetz.draw: line
   let v = ((0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
@@ -61,31 +84,19 @@
   import cetz.draw: *
   let left = ((0, 2), (0, 0), (0, -2))
   let right = ((4, 2), (4, 0), (4, -2))
-  rect(
-    (-0.6, 2.5),
-    (0.6, -2.5),
-    radius: 6pt,
-    fill: c-pa.lighten(88%),
-    stroke: none,
-  )
-  rect(
-    (3.4, 2.5),
-    (4.6, -2.5),
-    radius: 6pt,
-    fill: c-pb.lighten(88%),
-    stroke: none,
-  )
+  rect((-0.6, 2.5), (0.6, -2.5), radius: 6pt, fill: c-pa-fill, stroke: none)
+  rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
   for l in left {
     for r in right {
       line(l, r, stroke: (paint: c-edge, thickness: 0.35pt))
     }
   }
   for p in left {
-    circle(p, radius: 0.15, fill: c-pa)
+    circle(p, radius: 0.15, fill: c-pa-dot)
     content(p)[$v_i$]
   }
   for p in right {
-    circle(p, radius: 0.15, fill: c-pb)
+    circle(p, radius: 0.15, fill: c-pb-dot)
     content(p)[$u_i$]
   }
   content((0, 2.6), anchor: "south")[$X$]
@@ -97,22 +108,10 @@
   import cetz.draw: *
   let top = ((-1, 1.5), (0.5, 1.5), (2, 1.5))
   let bot = ((-1, -1.5), (0.5, -1.5), (2, -1.5))
-  rect(
-    (-1.8, 2.2),
-    (2.8, 0.8),
-    radius: 5pt,
-    fill: c-pa.lighten(88%),
-    stroke: none,
-  )
-  rect(
-    (-1.8, -0.8),
-    (2.8, -2.2),
-    radius: 5pt,
-    fill: c-pb.lighten(88%),
-    stroke: none,
-  )
-  for p in top { circle(p, radius: 0.3, fill: c-pa) }
-  for p in bot { circle(p, radius: 0.3, fill: c-pb) }
+  rect((-1.8, 2.2), (2.8, 0.8), radius: 5pt, fill: c-pa-fill, stroke: none)
+  rect((-1.8, -0.8), (2.8, -2.2), radius: 5pt, fill: c-pb-fill, stroke: none)
+  for p in top { circle(p, radius: 0.3, fill: c-pa-dot) }
+  for p in bot { circle(p, radius: 0.3, fill: c-pb-dot) }
   line(top.at(0), bot.at(0))
   line(top.at(0), bot.at(1))
   line(top.at(1), bot.at(0))
@@ -139,9 +138,9 @@
     (0.7, -0.2, 0.2, -1.5),
   )
   for (x1, y1, x2, y2) in es {
-    line((x1, y1), (x2, y2), stroke: (paint: c-tree, thickness: 1pt))
+    line((x1, y1), (x2, y2), stroke: (paint: c-t-border, thickness: 1pt))
   }
-  // Internal (filled)
+  // Internal nodes (filled)
   for (x, y, lab) in (
     (0, 2.5, "r"),
     (-1.5, 1, "a"),
@@ -151,13 +150,16 @@
     (0.7, -0.2, "e"),
     (2.3, -0.2, "f"),
   ) {
-    circle((x, y), radius: 0.2, fill: c-tree, stroke: none)
-    content((x, y), fill: c-white)[#text(weight: "bold")[#lab]]
+    circle((x, y), radius: 0.2, fill: c-t-fill, stroke: (
+      paint: c-t-border,
+      thickness: 0.8pt,
+    ))
+    content((x, y))[#text(weight: "bold")[#lab]]
   }
-  // Leaves (outlined)
+  // Leaves (outlined, unfilled)
   for (x, y, lab) in ((-2.7, -1.5, "g"), (-1.2, -1.5, "h"), (0.2, -1.5, "i")) {
-    circle((x, y), radius: 0.2, fill: none, stroke: c-tree)
-    content((x, y))[#lab]
+    circle((x, y), radius: 0.2, fill: none, stroke: c-t-border)
+    content((x, y))[#text(fill: c-t-leaf)[#lab]]
   }
 })
 
@@ -177,7 +179,7 @@
     wedge(v.at(ai), v.at(bi), w)
   }
   for (ai, bi) in ((0, 2), (0, 1), (1, 3), (2, 4)) {
-    line(v.at(ai), v.at(bi), stroke: (paint: c-tree, thickness: 2.5pt))
+    line(v.at(ai), v.at(bi), stroke: (paint: c-t-border, thickness: 2.5pt))
   }
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.25) }
 })
@@ -202,40 +204,18 @@
       (p.at(0) - 0.5, p.at(1) - 0.3),
       (rel: (1, 0.6)),
       radius: 5pt,
-      fill: c-pa.lighten(85%),
-      stroke: c-pa,
+      fill: c-pa-fill,
+      stroke: c-pa-dot,
     )
     content(p, size: .8em)[#text(weight: "bold")[#names.at(i)]]
   }
-  // Degree labels in soft grey
-  content(
-    v.at(0),
-    anchor: "north",
-    outset: 0.6em,
-    size: .7em,
-    fill: c-grey,
-  )[$3$]
-  content(
-    v.at(1),
-    anchor: "north",
-    outset: 0.6em,
-    size: .7em,
-    fill: c-grey,
-  )[$3$]
-  content(
-    v.at(2),
-    anchor: "south",
-    outset: 0.6em,
-    size: .7em,
-    fill: c-grey,
-  )[$5$]
-  content(
-    v.at(3),
-    anchor: "south",
-    outset: 0.6em,
-    size: .7em,
-    fill: c-grey,
-  )[$3$]
+  let dg(p, anc, out, txt) = {
+    content(p, anchor: anc, outset: out, size: .7em, fill: c-edge-dim)[$txt$]
+  }
+  dg(v.at(0), "north", 0.6em, "3")
+  dg(v.at(1), "north", 0.6em, "3")
+  dg(v.at(2), "south", 0.6em, "5")
+  dg(v.at(3), "south", 0.6em, "3")
 })
 
 // ── 8. Planar graph ──
@@ -259,7 +239,6 @@
   line(v.at(1), v.at(4))
   line(v.at(2), v.at(5))
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.22) }
-  // Face labels
   for (p, lab) in (
     ((0, 1.2), "$f_1$"),
     ((1, 0), "$f_2$"),
@@ -268,19 +247,13 @@
     ((-1, -0.9), "$f_5$"),
     ((-1, 0), "$f_6$"),
   ) {
-    content(p, size: .7em, fill: c-grey)[#lab]
+    content(p, size: .7em, fill: c-edge-dim)[#lab]
   }
 })
 
 // ── 9. Graph colouring (W_5) ──
 #let graph-coloring = cetz.canvas({
   import cetz.draw: *
-  let cols = (
-    oklch(60%, 0.22, 22deg),
-    oklch(58%, 0.18, 150deg),
-    oklch(58%, 0.16, 250deg),
-    oklch(65%, 0.2, 90deg),
-  )
   let v = ((0, 1), (0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
   let ci = (3, 0, 1, 0, 1, 2)
   line(v.at(1), v.at(2))
@@ -294,10 +267,10 @@
   line(v.at(0), v.at(4))
   line(v.at(0), v.at(5))
   for (i, p) in v.enumerate() {
-    let c = cols.at(ci.at(i))
+    let c = c-colors.at(ci.at(i))
     let sz = if i == 0 { 0.38 } else { 0.3 }
-    circle(p, radius: sz, fill: c, stroke: c.darken(12%))
-    content(p, fill: c-white)[#text(weight: "bold")[#str(i)]]
+    circle(p, radius: sz, fill: c, stroke: c.darken(20%))
+    content(p)[#text(weight: "bold")[#str(i)]]
   }
 })
 
@@ -314,12 +287,12 @@
   line(v.at(5), v.at(0), mark: (end: "stealth"))
   line(v.at(1), v.at(5), mark: (end: "stealth"))
   circle((0.8, 0.8), radius: 1.2, fill: none, stroke: (
-    paint: c-pa,
+    paint: c-pa-dot,
     thickness: 1.2pt,
     dash: "dashed",
   ))
   circle((-0.8, -1.8), radius: 0.9, fill: none, stroke: (
-    paint: c-pb,
+    paint: c-pb-dot,
     thickness: 1.2pt,
     dash: "dashed",
   ))
@@ -363,15 +336,11 @@
     (0, -0.5),
     (1.5, -0.5),
   )
-  // Normal edges
   for (a, b) in ((0, 3), (0, 4), (2, 4), (2, 5), (3, 4), (4, 5)) {
     line(v.at(a), v.at(b), stroke: (paint: c-edge, thickness: 0.8pt))
   }
-  // Regular edge 1-2
   line(v.at(1), v.at(2), stroke: (paint: c-edge, thickness: 0.8pt))
-  // Bridge (highlighted)
   line(v.at(0), v.at(1), stroke: (paint: c-hi, thickness: 2.2pt))
-  // Cut-vertex marker
   circle(v.at(0), radius: 0.38, fill: none, stroke: (
     paint: c-hi,
     thickness: 1.8pt,
@@ -392,7 +361,7 @@
     (0.8, -0.5),
     (2.8, -0.5),
   )
-  // All edges (muted)
+  // All edges (dim)
   for (a, b) in (
     (0, 1),
     (0, 2),
@@ -404,11 +373,11 @@
     (5, 6),
     (1, 5),
   ) {
-    line(v.at(a), v.at(b), stroke: (paint: c-grey, thickness: 0.25pt))
+    line(v.at(a), v.at(b), stroke: (paint: c-edge-dim, thickness: 0.25pt))
   }
   // BFS tree (bold)
   for (a, b) in ((0, 1), (0, 2), (1, 3), (1, 4), (2, 5), (2, 6)) {
-    line(v.at(a), v.at(b), stroke: (paint: c-pa, thickness: 2pt))
+    line(v.at(a), v.at(b), stroke: (paint: c-pa-dot, thickness: 2pt))
   }
   for (i, p) in v.enumerate() {
     snode(p, str(i + 1))
@@ -417,7 +386,7 @@
       anchor: "north-east",
       outset: 0.25em,
       size: .55em,
-      fill: c-grey,
+      fill: c-edge-dim,
     )[$d!=!#((0, 1, 1, 2, 2, 2, 2).at(i))$]
   }
 })
