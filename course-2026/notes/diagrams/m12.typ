@@ -480,11 +480,12 @@
   }
 
   // Nodes FIRST
+  let anchors = ("north", "west", "east", "south", "south", "south", "south")
   for (i, p) in v.enumerate() {
     snode(p, str(i + 1))
     content(
       p,
-      anchor: "north-east",
+      anchor: anchors.at(i),
       outset: 0.25em,
       size: .55em,
       fill: c-edge-dim,
