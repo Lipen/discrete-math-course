@@ -8,21 +8,8 @@
 // --- Our theorem library ---
 #import "theorems.typ": *
 
-// --- Page geometry (A4 book) ---
-#set page(
-  paper: "a4",
-  margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm),
-  header: [
-    #set text(9pt, fill: luma(40%))
-    Discrete Math --- Lecture Notes
-    #h(1fr)
-    Fall 2026 --- Spring 2027 ],
-  footer: context [
-    #set text(9pt, fill: luma(40%))
-    #h(1fr)
-    #counter(page).display("1")
-    #h(1fr) ],
-)
+// Page geometry is set in s1-book.typ / s2-book.typ — set rules from imported
+// modules do not affect the root document.
 
 // --- Typography ---
 #set text(font: "Libertinus Serif", size: 12pt, lang: "en")
