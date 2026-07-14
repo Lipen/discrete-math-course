@@ -13,14 +13,14 @@
 
 == Ordinary Generating Functions
 
-=== Definition
+=== OGF Definition
 
 #definition[Ordinary generating function][
   The OGF of $(a_n)_(n=0)^oo$ is the formal power series $A(x) = sum_(n=0)^oo a_n x^n$.
   Convergence is irrelevant --- $x$ is a placeholder. Coefficient extraction: $[x^n] A(x) = a_n$.
 ]
 
-=== Operations
+=== Operations on Generating Functions
 
 #proposition[OGF operations][
   + *Addition*: $A(x) + B(x) = sum (a_n + b_n) x^n$.

@@ -39,7 +39,7 @@ A relation can be specified in three equivalent ways:
   SQL tables are mathematical relations --- the connection is direct, not an analogy.
 ]
 
-=== Properties
+=== Relation Properties
 
 #definition[Relational properties][
   Let $R$ be a binary relation on $A$.

@@ -13,7 +13,7 @@
 
 == Turing Machines
 
-=== Definition
+=== Turing Machine Definition
 
 #definition[Turing machine][
   $M = (Q, Gamma, Sigma, delta, q_0, q_"accept", q_"reject")$:
@@ -37,7 +37,7 @@ Infinite tape (both directions), one head. One step: read symbol, write symbol, 
 
 Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 
-=== Examples and Robustness
+=== Robustness and Variants
 
 #example[TM for ${0^n 1^n mid(|) n >= 0}$][
   Strategy: cross off one 0 at the left, one 1 at the right, repeat.

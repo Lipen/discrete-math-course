@@ -13,7 +13,7 @@
 
 == The SAT Problem
 
-=== Definitions
+=== SAT Definitions
 
 #definition[SAT][
   *SAT*: Given a Boolean formula $phi$ in CNF, decide whether there exists a satisfying assignment (a *model*).

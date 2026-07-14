@@ -1,6 +1,7 @@
 // Custom theorem environments for Discrete Math lecture notes.
 // Zero third-party dependencies — pure Typst block + counter.
 //
+// Numbering is per-chapter (counters reset at each = Heading).
 // API:
 //   #definition[body]                — numbered, no subtitle
 //   #definition[Subtitle][body]      — numbered with subtitle
@@ -10,13 +11,21 @@
 //   #proposition[body] / #proposition[Name][body]
 //   #proof[body]                     — with QED square
 //   #proof-sketch[body]              — light, no QED
-//   #example[body]                   — italic title, unnumbered
+//   #example[body]                   — unnumbered, subtle background
+//   #example[Title][body]            — with optional title
 //   #note[body]                      — bold title, unnumbered
 //   #remark[body]                    — boxed, bold title, unnumbered
 
 // --- Counters ---
 #let def-ctr = counter("definition")
 #let thm-ctr = counter("theorem")
+
+// --- Display chapter-prefixed number: "2.14" ---
+#let _ch-num(ctr) = context {
+  let ch = counter(heading).get().first()
+  let n = ctr.get().first()
+  if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
+}
 
 // --- Internal: numbered block with left color bar ---
 #let _numbered(label, ctr, bar-color, body) = {
@@ -27,7 +36,7 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#label #context ctr.display()]
+    #strong[#label #_ch-num(ctr)]
     #v(0.25em)
     #body
   ]
@@ -42,15 +51,13 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#label #context ctr.display() (#subtitle)]
+    #strong[#label #_ch-num(ctr) (#subtitle)]
     #v(0.25em)
     #body
   ]
 }
 
 // --- Helper: sink-based dispatch for 1 or 2 content blocks ---
-// #env[body]              → pos.len() = 1, pos.at(0) = body
-// #env[Subtitle][body]    → pos.len() ≥ 2, pos.at(0) = subtitle, pos.at(1) = body
 #let _dispatch(label, ctr, bar-color, ..args) = {
   let pos = args.pos()
   if pos.len() >= 2 {
@@ -61,7 +68,6 @@
 }
 
 // --- Numbered environments ---
-// Left-bar colors: saturated, distinct, readable against light backgrounds.
 #let definition(..args) = _dispatch(
   "Definition",
   def-ctr,
@@ -109,20 +115,31 @@
   ]
 }
 
-// --- Unnumbered environments (support 1 or 2 content blocks) ---
+// --- Example — subtle background, left bar, title on separate line ---
 #let example(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
     (pos.at(0), pos.at(1))
   } else {
-    ([Example], pos.at(0))
+    (none, pos.at(0))
   }
-  block(inset: (x: 0em, y: 0.4em), width: 100%)[
-    #text(style: "italic")[#title]
+  block(
+    fill: luma(97%),
+    stroke: (left: 2pt + luma(82%), rest: none),
+    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    radius: 3pt,
+    width: 100%,
+  )[
+    #text(style: "italic")[
+      Example
+      #if title != none { [ (#title)] }.
+    ]
+    #v(0.2em)
     #body
   ]
 }
 
+// --- Note — bold title, plain block ---
 #let note(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {
@@ -136,6 +153,7 @@
   ]
 }
 
+// --- Remark — boxed, bold title ---
 #let remark(..args) = {
   let pos = args.pos()
   let (title, body) = if pos.len() >= 2 {

@@ -33,6 +33,8 @@
 #set heading(numbering: "1.1.1")
 #show heading.where(level: 1): it => {
   pagebreak()
+  counter("definition").update(0)
+  counter("theorem").update(0)
   set heading(numbering: it.numbering)
   it
 }

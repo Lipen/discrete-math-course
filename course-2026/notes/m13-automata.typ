@@ -14,7 +14,7 @@
 
 == Deterministic Finite Automata (DFA)
 
-=== Definition
+=== DFA Definition
 
 #definition[DFA][
   $M = (Q, Sigma, delta, q_0, F)$:
