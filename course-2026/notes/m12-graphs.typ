@@ -11,7 +11,6 @@
 #chapter-overview[
   Graphs are the lingua franca of discrete structures --- they model networks, dependencies, state spaces, and relationships in every domain of computer science.
   This chapter introduces fundamental definitions, major graph classes (trees, bipartite, planar, Eulerian, Hamiltonian), standard algorithms (BFS, DFS, Dijkstra), and theoretical pillars: graph coloring, planar duality, and the theorems that govern graph structure.
-
 ]
 
 == Basic Definitions
@@ -39,13 +38,11 @@
 #definition[Degree][
   $"deg"(v)$ = number of incident edges.
   Directed: out-degree $"deg"^+(v)$, in-degree $"deg"^-(v)$.
-
 ]
 
 #theorem[Handshaking lemma][
   $sum_(v in V) "deg"(v) = 2|E|$.
   Corollary: number of odd-degree vertices is even.
-
 ]
 
 #figure(
@@ -88,7 +85,6 @@
 #proposition[Strong connectivity (directed)][
   In digraphs, *strong connectivity* requires directed paths in both directions between every pair.
   Strongly connected components (SCCs) are computed by Kosaraju's or Tarjan's algorithm in $O(V + E)$ via DFS.
-
 ]
 
 #figure(
@@ -102,7 +98,6 @@
 #definition[Tree][
   A *tree* is a connected acyclic graph.
   A *forest* is a disjoint union of trees.
-
 ]
 
 #figure(
@@ -121,13 +116,11 @@
 
 #corollary[Leaves][
   Every tree with $n >= 2$ has at least two leaves (degree-1 vertices).
-
 ]
 
 #definition[Spanning tree][
   A subgraph that includes all vertices and is a tree.
   Every connected graph has one.
-
 ]
 
 #figure(
@@ -138,7 +131,6 @@
 #theorem[Cayley's formula][
   Number of labelled trees on $n$ vertices: $n^(n-2)$.
   Proof via Prüfer codes.
-
 ]
 
 #proposition[Minimum spanning tree][
@@ -151,13 +143,11 @@
 
 #definition[Eulerian][
   *Eulerian tour*: traverses every edge exactly once, returns to start. *Eulerian trail*: open version (different start and end).
-
 ]
 
 #theorem[Euler's criterion][
   Connected undirected graph is Eulerian iff all degrees are even.
   Has an Eulerian trail iff exactly two vertices have odd degree.
-
 ]
 
 #figure(
@@ -167,13 +157,11 @@
 
 #remark[
   Chinese Postman Problem (shortest closed walk covering all edges) solvable in polynomial time.
-
 ]
 
 #definition[Hamiltonian][
   *Hamiltonian cycle*: visits every vertex exactly once, returns to start.
   No simple necessary and sufficient condition --- the problem is NP-complete.
-
 ]
 
 #theorem[Sufficient conditions][
@@ -183,20 +171,17 @@
 
 #remark[
   TSP (shortest Hamiltonian cycle in weighted graph) is NP-hard --- one of the most studied optimisation problems.
-
 ]
 
 == Bipartite Graphs
 
 #definition[Bipartite graph][
   $V = X union Y$, $X inter Y = emptyset$, all edges between $X$ and $Y$.
-
 ]
 
 #theorem[Bipartite criterion][
   A graph is bipartite iff it has no odd-length cycle.
   Test: BFS 2-coloring in $O(V+E)$.
-
 ]
 
 #figure(
@@ -207,24 +192,20 @@
 
 #definition[Matching][
   A set of edges with no shared vertices. *Perfect matching* covers all vertices.
-
 ]
 
 #theorem[Hall's marriage theorem][
   In bipartite $(X union Y, E)$, a matching covering $X$ exists iff $forall S subset.eq X: |N(S)| >= |S|$.
-
 ]
 
 == Planarity
 
 #definition[Planar graph][
   Can be drawn in the plane with no edge crossings. *Faces*: regions bounded by edges.
-
 ]
 
 #theorem[Euler's formula][
   For a connected plane graph: $V - E + F = 2$.
-
 ]
 
 #corollary[Edge bound][
@@ -232,7 +213,6 @@
   Consequence: every simple planar graph has a vertex of degree $<= 5$.
   $K_5$ violates the edge bound ($E=10 > 3 dot 5 - 6 = 9$) and is non-planar.
   $K_(3,3)$ is also non-planar --- it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor).
-
 ]
 
 #figure(
@@ -255,14 +235,12 @@
 
 #theorem[Kuratowski's theorem][
   A graph is planar iff it contains no subdivision of $K_5$ or $K_(3,3)$.
-
 ]
 
 == Graph Coloring
 
 #definition[Vertex coloring][
   *Proper $k$-coloring*: adjacent vertices get different colors. *Chromatic number* $chi(G)$: minimum $k$.
-
 ]
 
 #proposition[Chromatic number bounds][
@@ -273,12 +251,10 @@
 
 #theorem[Four Color Theorem][
   Every planar graph is 4-colorable. (Appel-Haken, 1976 --- first major computer-assisted proof.)
-
 ]
 
 #theorem[Vizing's theorem][
   For edge coloring: $Delta(G) <= chi'(G) <= Delta(G) + 1$.
-
 ]
 
 #figure(
@@ -289,7 +265,6 @@
 
 #remark[
   Graph coloring models register allocation (compilers), frequency assignment (cellular), and exam scheduling.
-
 ]
 
 == Graph Algorithms
@@ -340,7 +315,6 @@
     [$O(V + E)$],
     [Two-pass DFS / lowlink],
   )
-
 ]
 
 #figure(
@@ -361,16 +335,13 @@ Topological sort applies only to DAGs and is the basis of dependency resolution.
 #remark[Social networks][
   Vertices = people; edges = friendships/follows.
   Measures: degree centrality, betweenness, PageRank.
-
 ]
 
 #remark[Routing][
   Internet: routers = vertices, links = edges.
   Dijkstra in OSPF for intra-domain routing.
-
 ]
 
 #remark[Compiler design][
   Control-flow graph (CFG) and register interference graph (coloring allocates registers).
-
 ]

@@ -8,7 +8,6 @@
   The Boolean satisfiability problem (SAT) asks: does there exist an assignment making a given CNF formula true?
   Despite its simplicity, SAT is the canonical NP-complete problem --- a "universal" problem to which all of NP reduces.
   This chapter introduces SAT, k-SAT, the art of encoding problems into CNF, and the architecture of modern SAT solvers.
-
 ]
 
 == The SAT Problem
@@ -17,23 +16,19 @@
 
 #definition[SAT][
   *SAT*: Given a Boolean formula $phi$ in CNF, decide whether there exists a satisfying assignment (a *model*).
-
 ]
 
 #definition[CNF formula][
   $phi = C_1 and ... and C_m$, each clause $C_i = (l_(i,1) or ... or l_(i,k_i))$.
   A literal is a variable $x$ or its negation $overline(x)$.
-
 ]
 
 #example[Satisfiable formula][
   $phi = (x or overline(y)) and (overline(x) or y or z) and (overline(z))$. $x = 1, y = 1, z = 0$ satisfies all three clauses.
-
 ]
 
 #example[Unsatisfiable formula][
   $psi = (x) and (overline(x))$ is unsatisfiable.
-
 ]
 
 === k-SAT
@@ -52,19 +47,16 @@
   3. Compute SCCs.
   4. If $x_i$ and $overline(x_i)$ share an SCC: unsatisfiable.
   Otherwise, assign by reverse topological SCC order.
-
 ]
 
 #proof-sketch[
   $x_i$, $overline(x_i)$ in same SCC $=>$ $x_i iff overline(x_i)$ --- contradiction.
   Reverse-topological assignment satisfies all implications.
   Runs in $O(n + m)$.
-
 ]
 
 #remark[
   2-SAT (easy) vs 3-SAT (NP-complete) --- small problem changes cause dramatic complexity jumps.
-
 ]
 
 == Encoding Problems to SAT
@@ -87,7 +79,6 @@
   9×9 Sudoku = SAT with $9^3 = 729$ variables $x_(r, c, d)$ (cell $(r, c)$ contains digit $d$).
   Constraints: each cell has one digit; each digit once per row, column, 3×3 block; given digits fixed.
   Hardest puzzles solved in milliseconds.
-
 ]
 
 #example[Vertex cover][
@@ -121,26 +112,22 @@ CDCL (Conflict-Driven Clause Learning) adds:
   CDCL solvers (MiniSat, Glucose, CaDiCaL) routinely solve industrial instances with millions of variables and tens of millions of clauses.
   Applications: hardware verification (equivalence checking), software bounded model checking, AI planning, cryptography (attacking reduced-round ciphers), and configuration management.
   Despite NP-completeness, real-world instances often have enough structure to be tractable --- the "SAT revolution."
-
 ]
 
 == SAT and NP
 
 #theorem[Cook's theorem --- statement][
   SAT is NP-complete: SAT $in$ NP, and every problem in NP is polynomial-time reducible to SAT.
-
 ]
 
 #note[
   Full proof in the complexity chapter (Semester 2).
   Idea: encode NTM computation tableau as CNF; formula satisfiable iff machine accepts.
-
 ]
 
 #corollary[P vs NP consequence][
   If SAT $in$ P, then $P = "NP"$.
   If SAT requires exponential time, then $P eq.not "NP"$.
-
 ]
 
 SAT is the "canary in the coal mine" of complexity theory --- solve it efficiently and all of NP collapses.

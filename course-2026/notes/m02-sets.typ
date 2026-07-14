@@ -8,7 +8,6 @@
   Sets are the most fundamental data structure in mathematics --- every discrete object is built from sets.
   This chapter introduces set notation, operations, and identities, then connects them to their computational counterparts: SQL queries, data types, bitwise operations, and hash functions.
   The language of sets established here underpins relations, functions, and every subsequent chapter.
-
 ]
 
 == Definitions and Operations
@@ -21,7 +20,6 @@ There is no notion of multiplicity or ordering: ${1, 2, 3}$ and ${3, 1, 2}$ are 
 
 #definition[Set membership][
   $a in A$ means $a$ is an element of $A$. $a in.not A$ means $a$ is not an element of $A$.
-
 ]
 
 A set can be specified in several ways:
@@ -34,24 +32,20 @@ A set can be specified in several ways:
 
 #example[Set builder notation][
   ${x in NN mid(|) x < 5} = {0, 1, 2, 3, 4}$. ${x in NN mid(|) x "is prime" and x < 10} = {2, 3, 5, 7}$.
-
 ]
 
 #definition[Empty set][
   The _empty set_, denoted $nothing$ (or $emptyset$), is the unique set containing no elements.
-
 ]
 
 #note[
   $nothing$ and ${nothing}$ are different: the former has zero elements; the latter has one element (the empty set itself).
-
 ]
 
 === Equality and Subsets
 
 #definition[Extensionality][
   Two sets $A$ and $B$ are equal, written $A = B$, iff they have exactly the same elements: $A = B$ iff $forall x space (x in A iff x in B)$.
-
 ]
 
 #definition[Subset][
@@ -61,7 +55,6 @@ A set can be specified in several ways:
 
 #theorem[Subset equality][
   $A = B$ if and only if $A subset.eq B$ and $B subset.eq A$.
-
 ]
 
 This theorem is the standard technique for proving set equality: show each side is contained in the other.
@@ -70,24 +63,20 @@ This theorem is the standard technique for proving set equality: show each side 
 
 #definition[Powerset][
   The _powerset_ of $A$, denoted $cal(P)(A)$ or $2^A$, is the set of all subsets of $A$: $cal(P)(A) = {X mid(|) X subset.eq A}$.
-
 ]
 
 #theorem[Cardinality of powerset][
   If $A$ is a finite set with $|A| = n$, then $|cal(P)(A)| = 2^n$.
-
 ]
 
 #example[
   For $A = {a, b}$, $cal(P)(A) = {nothing, {a}, {b}, {a, b}}$.
   Indeed $|cal(P)(A)| = 4 = 2^2$.
-
 ]
 
 #remark[
   The powerset of ${1, ..., n}$ is in one-to-one correspondence with $n$-bit strings: each subset = a bit mask.
   Bitwise OR is union, AND is intersection, AND-NOT is difference.
-
 ]
 
 === Set Operations
@@ -130,7 +119,6 @@ Set operations mirror propositional logic:
     [$A subset.eq B$], [$x in A imply x in B$],
     [$A = B$], [$x in A iff x in B$],
   )
-
 ]
 
 Every set identity has a dual logical tautology, and vice versa.
@@ -160,7 +148,6 @@ This correspondence is a Boolean algebra isomorphism (studied in its own chapter
 
 #remark[
   Propositional logic and set algebra are both instances of Boolean algebra --- studied in its own chapter.
-
 ]
 
 === Venn Diagrams
@@ -171,7 +158,6 @@ Effective for up to three sets; beyond that, algebraic reasoning takes over.
 #note[
   Venn diagrams are a thinking tool, not a proof technique.
   A proper proof requires algebraic laws or element-chasing.
-
 ]
 
 === Cartesian Product
@@ -179,12 +165,10 @@ Effective for up to three sets; beyond that, algebraic reasoning takes over.
 #definition[Cartesian product][
   $A times B = {(a, b) mid(|) a in A, b in B}$.
   Two ordered pairs $(a, b)$ and $(c, d)$ are equal iff $a = c$ and $b = d$.
-
 ]
 
 #theorem[Cardinality of product][
   For finite sets, $|A times B| = |A| dot |B|$.
-
 ]
 
 The product is not associative, but there is a canonical bijection, so we write $A times B times C$ and treat elements as tuples.
@@ -192,31 +176,26 @@ The product is not associative, but there is a canonical bijection, so we write 
 #definition[n-ary Cartesian product][
   $A_1 times A_2 times ... times A_n = {(a_1, ..., a_n) mid(|) a_i in A_i}$.
   When all $A_i$ are the same set $A$, we write $A^n$.
-
 ]
 
 #example[
   $RR^2$ is the Euclidean plane. ${0, 1}^n$ is all $n$-bit strings.
-
 ]
 
 #remark[
   A record type is $A times B$.
   A function of $n$ parameters is $A_1 times ... times A_n -> R$.
   The Cartesian product underlies every struct, tuple, and parameter list.
-
 ]
 
 === Families and Partitions
 
 #definition[Indexed family][
   ${A_i}_(i in I)$ where each $A_i$ is a set and $I$ is the index set. $union.big_(i in I) A_i = {x mid(|) exists i in I space x in A_i}$. $inter.big_(i in I) A_i = {x mid(|) forall i in I space x in A_i}$.
-
 ]
 
 #definition[Partition][
   A partition of $X$ is a collection of non-empty, pairwise disjoint subsets whose union is $X$.
-
 ]
 
 #example[Concrete partition][
@@ -224,7 +203,6 @@ The product is not associative, but there is a canonical bijection, so we write 
   Partition by parity: ${{1, 3, 5}, {2, 4, 6}}$ --- two parts, pairwise disjoint, union is $X$.
   Partition by remainder mod 3: ${{1, 4}, {2, 5}, {3, 6}}$ --- three parts.
   Each partition defines the equivalence relation "$a$ and $b$ have the same parity" or "$a equiv b (mod 3)$".
-
 ]
 
 Partitions are tightly linked to equivalence relations --- explored in the next chapter.
@@ -235,7 +213,6 @@ Partitions are tightly linked to equivalence relations --- explored in the next 
   If $R in R$, then $R in.not R$; if $R in.not R$, then $R in R$ --- contradiction.
   The resolution: axiomatic set theory (ZFC) restricts set formation to avoid self-reference.
   In practice, working within a fixed universal set $U$ avoids the paradox.
-
 ]
 
 
@@ -254,13 +231,11 @@ A database table is a subset of a Cartesian product.
 
 #example[
   `SELECT DISTINCT Name FROM Employees WHERE Age > 30` $=$ ${e."Name" mid(|) e in "Employees", e."Age" > 30}$.
-
 ]
 
 #remark[
   SQL is set comprehension with syntactic sugar.
   Every `JOIN` is a Cartesian product with a selection; every `UNION` is a set union.
-
 ]
 
 === Data Types as Sets
@@ -279,19 +254,16 @@ A database table is a subset of a Cartesian product.
 
 #example[
   `Option<T>` = ${"None"} union {"Some"(v) mid(|) v in T}$ --- a disjoint union. `struct Point { x: f64, y: f64 }` is $RR times RR$.
-
 ]
 
 === Bitmasks
 
 #proposition[Bitmask correspondence][
   For $X, Y subset.eq {1, ..., n}$ encoded as bitmasks: $b_(X union Y) = b_X | b_Y$, $b_(X inter Y) = b_X & b_Y$, $b_(X symdiff Y) = b_X^b_Y$, $b_(overline(X)) = tilde.op b_X$.
-
 ]
 
 #remark[
   Bitmasks: Unix permissions (rwx = 3 bits), feature flags, graph bitsets, subset enumeration.
-
 ]
 
 === Hashing
@@ -301,11 +273,9 @@ By pigeonhole, collisions are inevitable.
 
 #definition[Collision][
   $h(k_1) = h(k_2)$ but $k_1 eq.not k_2$ --- the function is not injective.
-
 ]
 
 #note[
   A dictionary (hash map) is a partial function $f subset.eq K times V$.
   Hashing provides efficient implementation of this set-theoretic structure.
-
 ]
