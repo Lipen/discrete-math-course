@@ -71,6 +71,7 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
   #table(
     columns: 3,
     align: (left, left, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([*Property*], [*DFA*], [*NFA*]),
     [Transition],
     [$delta(q, a)$ = single state],

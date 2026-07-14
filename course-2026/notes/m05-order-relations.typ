@@ -82,6 +82,7 @@
   #table(
     columns: 4,
     align: (left, center, center, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header(
       [*Concept*], [*Definition*], [*Unique?*], [*Exists in finite poset?*]
     ),

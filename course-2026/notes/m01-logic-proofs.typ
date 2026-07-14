@@ -70,6 +70,7 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
   #table(
     columns: 3,
     align: center,
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([$p$], [$q$], [$p arrow q$]),
     [$T$], [$T$], [$T$],
     [$T$], [$F$], [$F$],

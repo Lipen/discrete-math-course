@@ -41,16 +41,9 @@
 #set math.mat(column-gap: 1em)
 #show sym.emptyset: set text(font: "Libertinus Sans")
 
-// --- Tables: booktabs style (no vertical rules, horizontal rules only) ---
-// stroke: (x, y) => ... gives bottom stroke on header row cells (mid rule).
-// Unlike table.hline(), this is part of the cell — it repeats across page breaks.
-#set table(
-  stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-  inset: (x: 10pt, y: 4pt),
-)
+// --- Tables ---
+#set table(inset: (x: 10pt, y: 4pt))
 #show table.cell.where(y: 0): strong
-// Top and bottom rules via block wrapper.
-#show table: it => block(stroke: (top: 0.8pt, bottom: 0.8pt), inset: 0pt, it)
 
 // --- Figures: centered by default ---
 #set figure(gap: 8pt)

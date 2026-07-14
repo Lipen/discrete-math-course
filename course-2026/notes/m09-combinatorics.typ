@@ -43,6 +43,7 @@
   #table(
     columns: 3,
     align: (center, center, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([*Balls*], [*Boxes*], [*Count*]),
     [Distinct], [Distinct], [$k^n$ --- each ball chooses a box],
     [Identical], [Distinct], [$binom(n+k-1, n)$ --- stars and bars],

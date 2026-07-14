@@ -137,6 +137,7 @@ For finite sets: $|A| >= |B|$.
   #table(
     columns: 4,
     align: (center, center, center, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([*Type*], [*Condition*], [*Cardinality*], [*Inverse*]),
     [Injection],
     [$f(a_1) = f(a_2) arrow a_1 = a_2$],

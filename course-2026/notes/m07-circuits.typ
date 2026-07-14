@@ -80,6 +80,7 @@ Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = 
   #table(
     columns: 5,
     align: center,
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([$A$], [$B$], [$C_"in"$], [$S$], [$C_"out"$]),
     [0], [0], [0], [0], [0],
     [0], [0], [1], [1], [0],

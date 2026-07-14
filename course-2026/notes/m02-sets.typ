@@ -109,6 +109,7 @@ Set operations mirror propositional logic:
   #table(
     columns: 2,
     align: (left, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([*Set operation*], [*Logical counterpart*]),
     [$A union B$], [$x in A or x in B$],
     [$A inter B$], [$x in A and x in B$],

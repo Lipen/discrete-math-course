@@ -122,6 +122,7 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
   #table(
     columns: 4,
     align: (left, left, left, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header(
       [*Class*], [*Resource bound*], [*Canonical problem*], [*Status*]
     ),

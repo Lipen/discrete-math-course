@@ -36,6 +36,7 @@
   #table(
     columns: 2,
     align: (left, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([*Sequence* $a_n$], [*OGF* $A(x)$]),
     [$a_n = 1$], [$1/(1-x)$],
     [$a_n = n$], [$x/(1-x)^2$],
@@ -98,6 +99,7 @@
   #table(
     columns: 2,
     align: (left, left),
+    stroke: (x, y) => if y == 0 { (top: 0.8pt, bottom: 0.4pt) },
     table.header([*Sequence* $a_n$], [*EGF* $E(x)$]),
     [$a_n = 1$], [$e^x$],
     [$a_n = n!$], [$1/(1-x)$],
