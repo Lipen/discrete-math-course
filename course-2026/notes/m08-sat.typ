@@ -38,13 +38,13 @@
 
 #proposition[2-SAT via implication graph][
   1. Build digraph: vertices $x_i$, $overline(x_i)$ for each variable.
-  2. Clause $(l_1 or l_2)$ → edges $overline(l_1) arrow l_2$, $overline(l_2) arrow l_1$.
+  2. Clause $(l_1 or l_2)$ $=>$ edges $overline(l_1) arrow l_2$, $overline(l_2) arrow l_1$.
   3. Compute SCCs.
   4. If $x_i$ and $overline(x_i)$ share an SCC: unsatisfiable.
   Otherwise, assign by reverse topological SCC order. ]
 
 #proof-sketch[
-  $x_i$, $overline(x_i)$ in same SCC → $x_i iff overline(x_i)$ --- contradiction.
+  $x_i$, $overline(x_i)$ in same SCC $=>$ $x_i iff overline(x_i)$ --- contradiction.
   Reverse-topological assignment satisfies all implications.
   Runs in $O(n + m)$. ]
 
@@ -57,7 +57,7 @@
   1. Choose Boolean variables.
   2. Write constraints as clauses.
   3. Run SAT solver.
-  4. Interpret: SAT → decode model; UNSAT → no solution.
+  4. Interpret: SAT $=>$ decode model; UNSAT $=>$ no solution.
 ]
 
 #example[Graph $k$-coloring][

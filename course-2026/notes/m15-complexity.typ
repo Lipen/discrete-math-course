@@ -40,8 +40,8 @@ Equivalently: solvable by nondeterministic TM in polynomial time.
   $A #preduce B$: $exists$ poly-time computable $f$ s.t. $w in A$ iff $f(w) in B$. ]
 
 #proposition[Closure][
-  $A #preduce B$ and $B in P$ → $A in P$.
-  $A #preduce B$ and $B in "NP"$ → $A in "NP"$. ]
+  $A #preduce B$ and $B in P$ $=>$ $A in P$.
+  $A #preduce B$ and $B in "NP"$ $=>$ $A in "NP"$. ]
 
 #definition[NP-hard, NP-complete][
   - $B$ is *NP-hard* if $forall A in "NP"$, $A #preduce B$.
@@ -76,8 +76,8 @@ Equivalently: solvable by nondeterministic TM in polynomial time.
   For each variable $x_i$, create an edge (gadget): two vertices $x_i$ and $overline(x_i)$ connected.
   For each clause $(l_1 or l_2 or l_3)$, create a triangle of three vertices labelled $l_1$, $l_2$, $l_3$.
   Connect each clause-triangle vertex to the corresponding literal vertex in the variable gadget.
-  Set $k = n + 2m$. $phi$ satisfiable → pick the true literal from each variable edge, then 2 vertices from each clause triangle (leaving the literal satisfied by the true literal uncovered → covered by variable side).
-  Cover of size $<= k$ → exactly one vertex from each variable edge (truth assignment), the remaining $2m$ vertices cover clause triangles → assignment satisfies all clauses.
+  Set $k = n + 2m$. $phi$ satisfiable $=>$ pick the true literal from each variable edge, then 2 vertices from each clause triangle (leaving the literal satisfied by the true literal uncovered $=>$ covered by variable side).
+  Cover of size $<= k$ $=>$ exactly one vertex from each variable edge (truth assignment), the remaining $2m$ vertices cover clause triangles $=>$ assignment satisfies all clauses.
   This is a polynomial-time reduction: $G$ has $2n + 3m$ vertices, $k = n + 2m$. ]
 
 Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Vertex Cover, Hamiltonian Cycle, TSP, 3-Coloring), numbers (Subset Sum, Partition, Knapsack, ILP), scheduling (Job Shop), games (Sudoku, Minesweeper, Tetris).
@@ -149,7 +149,7 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
 #remark[Cryptography][
   Modern crypto rests on assumed hardness of specific problems: integer factoring (RSA), discrete logarithm (Diffie-Hellman, ElGamal), and lattice problems (post-quantum crypto).
   All these problems are in NP (given the secret key as certificate, verification is fast) but are believed not NP-complete --- factoring is in NP $inter$ coNP (a certificate of primality exists), and if it were NP-complete the polynomial hierarchy would collapse.
-  Shor's quantum algorithm factors in poly-time → practical crypto is secure only against classical computers.
+  Shor's quantum algorithm factors in poly-time $=>$ practical crypto is secure only against classical computers.
   The relationship between one-way functions (crypto's foundation) and P vs NP: OWF existence implies $P eq.not "NP"$, but the converse is unknown. ]
 
 #note[

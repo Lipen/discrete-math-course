@@ -36,7 +36,7 @@ One step: read symbol, write symbol, move L/R, change state.
   - $L$ is *decidable* (recursive): some TM always halts and accepts iff $w in L$.
 ]
 
-Decidable → recognisable.
+Decidable $=>$ recognisable.
 $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 
 === Robustness and Variants
@@ -49,7 +49,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
   2. $q_1$: skip 0 and 1, reach blank, move L to $q_2$.
   3. $q_2$: read 1, write X, move L to $q_3$.
   4. $q_3$: skip back to first X, move R to $q_0$.
-  Repeat: 0X11 → XX11 → ... → XXXX → accept.
+  Repeat: 0X11 $->$ XX11 $->$ ... $->$ XXXX $->$ accept.
   If a 0 is found after a 1, reject.
   If 1's run out before 0's, reject. ]
 
@@ -101,8 +101,8 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
   $A #mreduce B$: exists computable $f$ s.t. $w in A$ iff $f(w) in B$. ]
 
 #proposition[Using reductions][
-  - $A #mreduce B$ and $B$ decidable → $A$ decidable.
-  - $A #mreduce B$ and $A$ undecidable → $B$ undecidable.
+  - $A #mreduce B$ and $B$ decidable $=>$$A$ decidable.
+  - $A #mreduce B$ and $A$ undecidable $=>$$B$ undecidable.
 ]
 
 #example[Reduction: HALT to Emptiness][
@@ -112,8 +112,8 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
   1. Build $M'$: on any input, ignore it, simulate $M$ on $w$, accept iff $M$ halts on $w$.
     $L(M') =$ all strings (if $M$ halts on $w$), or $nothing$ (if $M$ loops on $w$).
   2. Feed $chevron.l M' chevron.r$ to $E$.
-  3. If $E$ accepts ($L(M') = nothing$): $M$ loops → reject.
-  If $E$ rejects ($L(M') eq.not nothing$): $M$ halts → accept.
+  3. If $E$ accepts ($L(M') = nothing$): $M$ loops $=>$reject.
+  If $E$ rejects ($L(M') eq.not nothing$): $M$ halts $=>$accept.
   Thus HALT decidable --- contradiction.
   Therefore $E_"TM"$ is undecidable. ]
 
@@ -165,6 +165,6 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
   HALT is just one rung on an infinite ladder of undecidability. ]
 
 #note[
-  Only countably many TMs exist → almost all languages (uncountably many) are undecidable.
+  Only countably many TMs exist $=>$almost all languages (uncountably many) are undecidable.
   Undecidability is the norm, not the exception.
   Computation is a small island in a vast sea of uncomputability. ]

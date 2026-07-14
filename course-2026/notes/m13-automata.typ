@@ -65,7 +65,7 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
 #example[
   NFA for "third-to-last symbol is 1": guesses when it is 3 symbols from end, then checks. 4 states; minimal DFA needs $2^3 = 8$. ]
 
-=== Subset Construction (NFA → DFA)
+=== Subset Construction (NFA $->$ DFA)
 
 #theorem[Equivalence of DFA and NFA][
   For every NFA, there exists a DFA recognising the same language. ]
@@ -116,7 +116,7 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
 #theorem[Kleene's theorem][
   A language is regular (recognised by DFA/NFA) iff it can be described by a regular expression. ]
 
-Proof: RE → NFA by structural induction; DFA → RE by state elimination.
+Proof: RE $->$ NFA by structural induction; DFA $->$ RE by state elimination.
 
 #proposition[Closure properties][
   Regular languages are closed under:
@@ -163,7 +163,7 @@ Proof: RE → NFA by structural induction; DFA → RE by state elimination.
   2. Iterate: if $(delta(p, a), delta(q, a))$ is marked for some $a$, mark $(p, q)$.
   3. Repeat till stable.
     Unmarked pairs = equivalent.
-    Merge them → minimal DFA.
+    Merge them $=>$ minimal DFA.
 ]
 
 #theorem[Uniqueness][

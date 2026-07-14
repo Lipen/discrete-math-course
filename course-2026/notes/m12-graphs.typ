@@ -153,8 +153,8 @@
   No simple necessary and sufficient condition --- the problem is NP-complete. ]
 
 #theorem[Sufficient conditions][
-  - *Dirac*: $"deg"(v) >= n/2$ for all $v$ → Hamiltonian.
-  - *Ore*: $"deg"(u) + "deg"(v) >= n$ for all non-adjacent $u$, $v$ → Hamiltonian.
+  - *Dirac*: $"deg"(v) >= n/2$ for all $v$ $=>$ Hamiltonian.
+  - *Ore*: $"deg"(u) + "deg"(v) >= n$ for all non-adjacent $u$, $v$ $=>$ Hamiltonian.
 ]
 
 #remark[

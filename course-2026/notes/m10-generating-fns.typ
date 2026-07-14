@@ -132,7 +132,7 @@ Species operations (sum, product, composition) correspond exactly to EGF operati
   Generating functions not only give exact closed forms --- they also yield asymptotics.
   The dominant singularity (closest to 0) of $A(x)$ determines the growth rate of $a_n$: if the dominant singularity is $rho$ of type $(1 - x/rho)^(-alpha)$, then $a_n tilde.op C n^(alpha-1) rho^(-n)$.
   This is the basis of analytic combinatorics (Flajolet-Sedgewick).
-  For Catalan: $rho = 1/4$, $alpha = -1/2$ → $C_n tilde.op 4^n/(sqrt(pi) n^(3/2))$. ]
+  For Catalan: $rho = 1/4$, $alpha = -1/2$ $=>$ $C_n tilde.op 4^n/(sqrt(pi) n^(3/2))$. ]
 
 #remark[Cayley's formula][
   Number of labelled trees on $n$ vertices: $n^(n-2)$.
