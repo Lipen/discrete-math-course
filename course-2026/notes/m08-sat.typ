@@ -77,23 +77,40 @@
 ]
 
 #example[Sudoku][
-    9×9 Sudoku = SAT with $9^3 = 729$ variables $x_(r, c, d)$.
-    Hardest puzzles solved in milliseconds by modern solvers.
+    9×9 Sudoku = SAT with $9^3 = 729$ variables $x_(r, c, d)$ (cell $(r, c)$ contains digit $d$).
+    Constraints: each cell has one digit; each digit once per row, column, 3×3 block; given digits fixed.
+    Hardest puzzles solved in milliseconds.
 ]
+
+#example[Vertex cover][
+    Does graph $G$ have a vertex cover of size $<= k$?
+    Variables: $x_v = 1$ iff vertex $v$ is in the cover.
+    Constraints:
+    + Every edge covered: $x_u or x_v$ for each ${u, v} in E$.
+    + Size limit: use cardinality constraint encoding (sequential counter or binary adder).
+]
+
+The art of SAT encoding lies in choosing the right variables and writing compact clauses.
+Poor encodings blow up clause count; good encodings exploit problem structure.
 
 === Modern SAT Solvers: CDCL
 
+Modern solvers descend from the DPLL algorithm (Davis-Putnam-Logemann-Loveland, 1962):
+backtracking search with unit propagation and pure literal elimination.
+CDCL (Conflict-Driven Clause Learning) adds:
+
 #proposition[CDCL algorithm --- outline][
-    1. *Unit propagation*: all-but-one false → remaining must be true.
-    2. *Decision*: pick unassigned variable (VSIDS heuristic).
-    3. *Conflict analysis*: derive *learned clause* from implication graph.
-    4. *Backjumping*: undo to where learned clause becomes unit.
-    5. *Learn and restart*: add clause, periodically restart (keeping learned clauses).
+    1. *Unit propagation* (Boolean constraint propagation): if a clause has all-but-one literal assigned false, the remaining must be true. Propagate until fixpoint or conflict.
+    2. *Decision*: when no more propagation, pick an unassigned variable and assign it arbitrarily. VSIDS heuristic: variables appearing in recent conflicts are prioritised.
+    3. *Conflict analysis*: when a clause becomes false, analyse the implication graph to derive a *learned clause* --- a new clause that rules out the conflicting partial assignment. The first-UIP (Unique Implication Point) scheme is standard.
+    4. *Backjumping*: undo decisions up to the point where the learned clause becomes unit (non-chronological backtracking).
+    5. *Learn and restart*: add the learned clause to the formula; periodically restart the search (keeping learned clauses) to escape unfruitful branches.
 ]
 
 #remark[
-    CDCL solvers (MiniSat, Glucose, CaDiCaL) solve industrial instances with millions of variables.
-    Despite NP-completeness, real-world instances are often tractable --- the "SAT revolution."
+    CDCL solvers (MiniSat, Glucose, CaDiCaL) routinely solve industrial instances with millions of variables and tens of millions of clauses.
+    Applications: hardware verification (equivalence checking), software bounded model checking, AI planning, cryptography (attacking reduced-round ciphers), and configuration management.
+    Despite NP-completeness, real-world instances often have enough structure to be tractable --- the "SAT revolution."
 ]
 
 == SAT and NP
