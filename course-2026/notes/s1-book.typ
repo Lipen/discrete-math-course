@@ -30,12 +30,12 @@
   #block(height: 1.2cm)
   #text(size: 13pt, weight: "semibold")[Language and Objects]
   #block(height: 0.2cm)
-  #text(size: 10pt, fill: luma(50%))[Semester 1]
+  #text(size: 10pt, fill: luma(50%))[Semester I]
   #block(height: 2.5cm)
-  #text(size: 10pt, fill: luma(45%))[ITMO University]
-  #text(size: 10pt, fill: luma(45%))[Fall 2026 — Spring 2027]
+  #text(size: 10pt, fill: luma(45%))[ITMO University] \
+  #text(size: 10pt, fill: luma(45%))[Fall 2026 -- Spring 2027]
   #block(height: 1.5cm)
-  #text(size: 8pt, fill: luma(60%))[Draft — work in progress]
+  #text(size: 8pt, fill: luma(60%))[Draft --- work in progress]
 ]
 
 #pagebreak()
