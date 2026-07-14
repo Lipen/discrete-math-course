@@ -163,7 +163,6 @@
     radius: 4pt,
     width: 100%,
   )[
-    #set text(size: 11pt)
     #body
   ]
 }

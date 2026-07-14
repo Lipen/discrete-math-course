@@ -20,7 +20,7 @@
 )
 
 // --- Typography ---
-#set text(font: "Libertinus Serif", size: 11pt, lang: "en")
+#set text(font: "Libertinus Serif", size: 12pt, lang: "en")
 #set par(justify: true, leading: 0.65em)
 
 // --- Headings ---
