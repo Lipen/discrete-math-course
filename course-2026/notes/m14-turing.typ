@@ -78,7 +78,7 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
   $italic("HALT") = {chevron.l M chevron.r w mid(|) M "halts on" w}$.
 ]
 
-#theorem[Undecidability of HALT][
+#theorem[Undecidability of halting problem][
   $italic("HALT")$ is undecidable.
 ]
 
@@ -89,8 +89,9 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
 ]
 
 #note[
-  HALT is recognisable (simulate and accept if it halts) but not decidable.
-  $overline(italic("HALT"))$ is not even recognisable.
+  - HALT is recognisable (simulate and accept if it halts) but not decidable.
+
+  - $overline(italic("HALT"))$ is not even recognisable.
 ]
 
 == Reductions
@@ -116,8 +117,12 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
 ]
 
 #example[Undecidable via reduction][
-  - *Totality*: does $M$ halt on every input? Undecidable.\  Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
-  - *Equivalence*: $L(M_1) = L(M_2)$? Undecidable.\  Even checking $L(M) = nothing$ (a special case) is undecidable.
+  - *Totality*: does $M$ halt on every input? Undecidable.\
+    Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
+
+  - *Equivalence*: $L(M_1) = L(M_2)$? Undecidable.\
+    Even checking $L(M) = nothing$ (a special case) is undecidable.
+
   - *Regularity*: is $L(M)$ a regular language? Undecidable.
 ]
 

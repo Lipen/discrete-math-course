@@ -105,8 +105,10 @@ Ordinals generalise counting beyond the finite --- they are the foundation of tr
 #definition[Ordinal arithmetic --- informal][
   - *Successor*: $alpha + 1$ is the next ordinal after $alpha$ (like $omega + 1$ --- "infinity and then one more").
   - *Limit ordinals*: ordinals with no immediate predecessor, such as $omega$, $omega dot 2$, $omega^2$.
-  - *Addition*: $1 + omega = omega$ (one then infinitely many = just infinitely many), $omega + 1 > omega$ (infinitely many then one more).\  Addition is not commutative.
-  - *Multiplication*: $omega dot 2 = omega + omega$ (infinitely many, then infinitely many again). $2 dot omega = omega$ (two, repeated infinitely = just $omega$).\  Not commutative either.
+  - *Addition*: $1 + omega = omega$ (one then infinitely many = just infinitely many), $omega + 1 > omega$ (infinitely many then one more).\
+    Addition is not commutative.
+  - *Multiplication*: $omega dot 2 = omega + omega$ (infinitely many, then infinitely many again). $2 dot omega = omega$ (two, repeated infinitely = just $omega$).\
+    Not commutative either.
 ]
 
 #remark[Transfinite induction][
