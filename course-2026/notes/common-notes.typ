@@ -16,7 +16,7 @@
     #set text(9pt, fill: luma(40%))
     Discrete Math --- Lecture Notes
     #h(1fr)
-    2026/27 ],
+    Fall 2026 --- Spring 2027 ],
   footer: context [
     #set text(9pt, fill: luma(40%))
     #h(1fr)

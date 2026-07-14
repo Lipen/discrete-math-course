@@ -22,7 +22,7 @@
   #text(size: 16pt)[Semester 2 --- Computation]
   #block(height: 2cm)
   #text(size: 12pt)[ITMO University]
-  #text(size: 12pt)[2026/27]
+  #text(size: 12pt)[Fall 2026 --- Spring 2027]
   #block(height: 1cm)
   #text(size: 10pt, fill: luma(50%))[Draft --- work in progress]
 ]
