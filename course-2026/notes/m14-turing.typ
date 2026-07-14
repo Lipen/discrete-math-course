@@ -116,8 +116,8 @@ Decidable → recognisable. $L$ decidable iff both $L$ and $overline(L)$ are rec
 ]
 
 #example[Undecidable via reduction][
-  - *Totality*: does $M$ halt on every input? Undecidable. Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
-  - *Equivalence*: $L(M_1) = L(M_2)$? Undecidable. Even checking $L(M) = nothing$ (a special case) is undecidable.
+  - *Totality*: does $M$ halt on every input? Undecidable.\  Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
+  - *Equivalence*: $L(M_1) = L(M_2)$? Undecidable.\  Even checking $L(M) = nothing$ (a special case) is undecidable.
   - *Regularity*: is $L(M)$ a regular language? Undecidable.
 ]
 

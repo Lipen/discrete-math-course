@@ -126,8 +126,8 @@
 
 #proposition[Minimum spanning tree][
   Given a weighted connected graph, an MST minimises the sum of edge weights.
-  - *Kruskal*: sort edges by weight, add lightest that does not create a cycle (union-find). $O(E log E)$.
-  - *Prim*: grow tree from arbitrary start, repeatedly add lightest edge to outside vertex (priority queue). $O((V+E) log V)$.
+  - *Kruskal*: sort edges by weight, add lightest that does not create a cycle (union-find).\  $O(E log E)$.
+  - *Prim*: grow tree from arbitrary start, repeatedly add lightest edge to outside vertex (priority queue).\  $O((V+E) log V)$.
 ]
 
 == Eulerian and Hamiltonian Graphs

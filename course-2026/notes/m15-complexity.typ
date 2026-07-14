@@ -155,7 +155,7 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
   - *coNP*: complements of NP languages (UNSAT). Open: $"NP" = "coNP"$?
   - *PH* (Polynomial Hierarchy): generalises NP with alternating quantifiers. Collapses if $P = "NP"$.
   - *\#P*: counting solutions. \#SAT is \#P-complete (even harder than NP).
-  - *BQP*: quantum polynomial time. $P subset.eq "BQP" subset.eq "PSPACE"$. Shor's algorithm (factoring) in BQP.
+  - *BQP*: quantum polynomial time. $P subset.eq "BQP" subset.eq "PSPACE"$.\  Shor's algorithm (factoring) in BQP.
 ]
 
 #remark[Cryptography][
