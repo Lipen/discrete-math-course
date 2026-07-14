@@ -370,7 +370,7 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 If the hypothesis can be partitioned into a finite set of mutually exclusive and exhaustive cases, proving the conclusion in each case suffices.
 
-#proposition(inline: true)[Multiplicativity of absolute value][
+#proposition[Multiplicativity of absolute value][
   For all real $x$, $y$: $|x y| = |x| dot |y|$.
 ]
 
