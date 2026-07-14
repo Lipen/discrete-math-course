@@ -126,19 +126,19 @@ A relation can be specified in three equivalent ways:
 
 === Examples
 
-#example[
-  *Equality modulo $m$.* $a sim b$ iff $a equiv b (mod m)$.
+#example[Equality modulo $m$][
+  $a sim b$ iff $a equiv b (mod m)$.
   Classes: $ZZ_m = {[0], [1], ..., [m-1]}$.
   Addition and multiplication are well-defined on $ZZ_m$ --- the foundation of modular arithmetic and cryptography.
 ]
 
-#example[
-  *Equinumerosity.* $X sim Y$ iff there exists a bijection between $X$ and $Y$.
+#example[Equinumerosity][
+  $X sim Y$ iff there exists a bijection between $X$ and $Y$.
   The equivalence class is the cardinal number --- a teaser for the transfinite chapter.
 ]
 
-#example[
-  *Graph isomorphism.* $G sim H$ iff isomorphic.
+#example[Graph isomorphism][
+  $G sim H$ iff isomorphic.
   Returns in the graphs chapter of semester 2.
 ]
 
