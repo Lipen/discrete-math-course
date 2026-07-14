@@ -25,7 +25,7 @@
   Sequential choice with $k_1$, $k_2$, ... options: $k_1 dot k_2 dot dots.h$.
 ]
 
-#example[
+#example[Password counting][
   Password: 2 letters (26 each) + 4 digits (10 each) = $26^2 dot 10^4 = 6,760,000$.
 ]
 

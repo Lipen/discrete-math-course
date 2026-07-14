@@ -24,12 +24,12 @@
   A literal is a variable $x$ or its negation $overline(x)$.
 ]
 
-#example[
+#example[Satisfiable formula][
   $phi = (x or overline(y)) and (overline(x) or y or z) and (overline(z))$.
   $x = 1, y = 1, z = 0$ satisfies all three clauses.
 ]
 
-#example[
+#example[Unsatisfiable formula][
   $psi = (x) and (overline(x))$ is unsatisfiable.
 ]
 

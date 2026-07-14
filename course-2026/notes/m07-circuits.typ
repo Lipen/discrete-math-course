@@ -75,8 +75,7 @@ Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = 
   $C_"out" = 1$ when $>= 2$ of three inputs are 1 (majority function).
 ]
 
-#example[
-  Full-adder truth table:
+#example[Full-adder][
   #table(
     columns: 5,
     align: center,
