@@ -118,10 +118,35 @@ Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Verte
 
 == Beyond NP
 
+#proposition[Complexity class landscape][
+  #table(
+    columns: 4,
+    align: (left, left, left, left),
+    table.header(
+      [*Class*], [*Resource bound*], [*Canonical problem*], [*Status*]
+    ),
+    table.hline(),
+    [P], [Polynomial time], [Shortest path, sorting, MST], [Tractable],
+    [NP], [Nondeterministic poly-time], [SAT, TSP, Clique], [Open: $P = "NP"$?],
+    [coNP], [Complement of NP], [UNSAT, tautology], [Open: $"NP" = "coNP"$?],
+    [PSPACE],
+    [Polynomial space],
+    [QBF, geography, chess],
+    [$"NP" subset.eq "PSPACE"$],
+    [EXP],
+    [Exponential time],
+    [Generalised chess, Go],
+    [$"PSPACE" subset "EXP"$],
+    [\#P], [Counting solutions], [\#SAT, counting matchings], [Harder than NP],
+    [BQP],
+    [Quantum poly-time],
+    [Factoring (Shor)],
+    [$P subset.eq "BQP" subset.eq "PSPACE"$],
+  )
+]
+
 #proposition[Complexity hierarchy][
   $P subset.eq "NP" subset.eq "PSPACE" subset.eq "EXP"$.
-  + *PSPACE*: polynomial space (QBF, generalised geography, $n times n$ chess).
-  + *EXP*: exponential time (generalised chess, Go --- EXPTIME-complete).
   Known: $P subset "EXP"$ (Time Hierarchy Theorem). At least one inclusion above is strict --- which one(s) remain open.
 ]
 

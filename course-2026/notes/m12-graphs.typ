@@ -192,25 +192,52 @@
 
 == Graph Algorithms
 
-#proposition[BFS][
-  Layer-by-layer exploration from source. Shortest paths in unweighted graphs. $O(V + E)$.
+#proposition[Core graph algorithms][
+  #table(
+    columns: 4,
+    align: (left, left, left, left),
+    table.header([*Algorithm*], [*Solves*], [*Complexity*], [*Key idea*]),
+    table.hline(),
+    [BFS],
+    [Shortest paths, unweighted],
+    [$O(V + E)$],
+    [Layer-by-layer queue exploration],
+    [DFS],
+    [Connectivity, cycles, topo-sort],
+    [$O(V + E)$],
+    [Recursive backtracking, pre/post times],
+    [Dijkstra],
+    [Shortest paths, non-neg. weights],
+    [$O((V+E) log V)$],
+    [Min-heap priority queue],
+    [Bellman-Ford],
+    [Shortest paths, any weights],
+    [$O(V E)$],
+    [Edge relaxation $V-1$ rounds],
+    [Kruskal],
+    [Minimum spanning tree],
+    [$O(E log E)$],
+    [Sort edges, union-find],
+    [Prim],
+    [Minimum spanning tree],
+    [$O((V+E) log V)$],
+    [Grow tree, min-heap frontier],
+    [Kahn / DFS],
+    [Topological sort of DAG],
+    [$O(V + E)$],
+    [Remove sources / reverse postorder],
+    [Kosaraju / Tarjan],
+    [Strongly connected components],
+    [$O(V + E)$],
+    [Two-pass DFS / lowlink],
+  )
 ]
 
-#proposition[DFS][
-  Explore as far as possible along each branch. Pre/post times, edge classification.
-  Applications: cycle detection, topological sort, bridges, articulation points, SCCs. $O(V + E)$.
-]
-
-#proposition[Dijkstra][
-  Single-source shortest paths, non-negative weights. Min-heap priority queue: $O((V + E) log V)$.
-  Fails with negative weights --- use Bellman-Ford $O(V E)$ instead.
-]
-
-#proposition[Topological sort][
-  Linear ordering of DAG vertices respecting all edges.
-  DFS (reverse postorder) or Kahn's algorithm (remove sources).
-  Applications: build systems, task scheduling, instruction ordering.
-]
+BFS and DFS are the two fundamental traversal strategies --- almost every graph algorithm builds on one of them.
+Dijkstra generalises BFS to weighted graphs; Bellman-Ford handles negative edges at the cost of higher complexity.
+MST algorithms are greedy and provably optimal for the spanning tree problem.
+SCC algorithms decompose a digraph into strongly connected components --- the basic building blocks.
+Topological sort applies only to DAGs and is the basis of dependency resolution.
 
 == Applications
 

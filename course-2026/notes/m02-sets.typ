@@ -103,7 +103,26 @@ Two sets are _disjoint_ if $A inter B = nothing$.
 
 === Algebraic Laws
 
-Set operations mirror propositional logic --- replace $and$ with $inter$, $or$ with $union$, $not$ with complement.
+Set operations mirror propositional logic:
+
+#proposition[Set–logic correspondence][
+  #table(
+    columns: 2,
+    align: (left, left),
+    table.header([*Set operation*], [*Logical counterpart*]),
+    table.hline(),
+    [$A union B$], [$x in A or x in B$],
+    [$A inter B$], [$x in A and x in B$],
+    [$overline(A)$], [$not(x in A)$],
+    [$A setminus B$], [$x in A and not(x in B)$],
+    [$A symdiff B$], [$x in A xor x in B$],
+    [$A subset.eq B$], [$x in A arrow x in B$],
+    [$A = B$], [$x in A arrow.l.r x in B$],
+  )
+]
+
+Every set identity has a dual logical tautology, and vice versa.
+This correspondence is a Boolean algebra isomorphism (studied in its own chapter).
 
 #proposition[Laws of set algebra][
   For all sets $A$, $B$, $C$:

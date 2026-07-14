@@ -67,6 +67,28 @@ A string is accepted if *there exists* a path from $q_0$ to some accepting state
   Exponential blowup possible ($2^n$ states from $n$-state NFA) --- worst-case unavoidable.
 ]
 
+#proposition[DFA vs NFA --- comparison][
+  #table(
+    columns: 3,
+    align: (left, left, left),
+    table.header([*Property*], [*DFA*], [*NFA*]),
+    table.hline(),
+    [Transition],
+    [$delta(q, a)$ = single state],
+    [$delta(q, a)$ = set of states],
+    [$epsilon$-transitions], [Not allowed], [Allowed (spontaneous)],
+    [States required], [Potentially exponential], [Often linear / polynomial],
+    [Acceptance], [Unique computation path], [Some path leads to accept],
+    [Implementation],
+    [Table-driven, simple loop],
+    [Backtracking or subset simulation],
+    [Design difficulty],
+    [Harder (explicitly handle all cases)],
+    [Easier (nondeterminism helps)],
+    [Complement], [Trivial (swap F)], [Require determinisation first],
+  )
+]
+
 == Regular Expressions
 
 #definition[Regular expression][
