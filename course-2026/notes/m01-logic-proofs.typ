@@ -363,8 +363,14 @@ Since contradictions are impossible, $not P$ must be false, so $P$ is true.
 
 #note[
   Proof by contradiction and proof by contrapositive are often confused.
-  In a contrapositive proof of $P imply Q$, we assume $not Q$, derive $not P$, and stop.
-  In a contradiction proof of $P imply Q$, we assume $P and not Q$ and derive a contradiction.
+  Here is the key distinction:
+
+  - *Contrapositive* of $P imply Q$: assume $not Q$, derive $not P$, and stop.
+    The structure follows a single logical equivalence --- clean and direct.
+
+  - *Contradiction* of $P imply Q$: assume $P and not Q$ and derive any contradiction ($R and not R$).
+    The contradiction can be unrelated to the original hypothesis --- the method is more flexible.
+
   The contrapositive is "cleaner" when applicable; contradiction is more general.
 ]
 
