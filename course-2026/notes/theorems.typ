@@ -32,8 +32,10 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#label #_ch-num(ctr)]
-    #v(0.25em)
+    #block(sticky: true)[
+      #strong[#label #_ch-num(ctr)]
+      #v(0.25em)
+    ]
     #body
   ]
 }
@@ -46,8 +48,10 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#label #_ch-num(ctr) (#subtitle)]
-    #v(0.25em)
+    #block(sticky: true)[
+      #strong[#label #_ch-num(ctr) (#subtitle)]
+      #v(0.25em)
+    ]
     #body
   ]
 }
@@ -155,8 +159,10 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[Proof:]
-    #v(0.2em)
+    #block(sticky: true)[
+      #strong[Proof:]
+      #v(0.2em)
+    ]
     #body
   ]
 }
@@ -169,8 +175,10 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[Proof sketch:]
-    #v(0.2em)
+    #block(sticky: true)[
+      #strong[Proof sketch:]
+      #v(0.2em)
+    ]
     #body
   ]
 }
@@ -189,8 +197,10 @@
     radius: 3pt,
     width: 100%,
   )[
-    #text(style: "italic")[Example#if title != none { [ (#title)] }: ]
-    #v(0.2em)
+    #block(sticky: true)[
+      #text(style: "italic")[Example#if title != none { [ (#title)] }: ]
+      #v(0.2em)
+    ]
     #body
   ]
 }
@@ -209,7 +219,8 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#title.] #body
+    #block(sticky: true)[#strong[#title.]]
+    #body
   ]
 }
 
@@ -232,7 +243,8 @@
     radius: 3pt,
     width: 100%,
   )[
-    #strong[#title.] #body
+    #block(sticky: true)[#strong[#title.]]
+    #body
   ]
 }
 
@@ -243,8 +255,10 @@
     radius: 4pt,
     width: 100%,
   )[
-    #strong[Chapter overview]
-    #v(0.2em)
+    #block(sticky: true)[
+      #strong[Chapter overview]
+      #v(0.2em)
+    ]
     #body
   ]
 }
