@@ -65,8 +65,7 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
   A truth table lists all interpretations of the atoms and computes the truth value of a compound formula under each interpretation.
 ]
 
-#example[
-  The truth table for $p arrow q$:
+#example[Truth table for $p arrow q$][
   #table(
     columns: 3,
     align: center,
@@ -183,7 +182,7 @@ We need variables and quantifiers.
 The _domain_ (or _universe of discourse_) is the set of values a variable may take.
 A predicate is a template --- a function from the domain to truth values.
 
-#example[
+#example[Predicate with domain $NN$][
   Let $P(x)$ be "$x > 5$" with domain $NN$.
   Then $P(7)$ is true, $P(3)$ is false.
 ]
