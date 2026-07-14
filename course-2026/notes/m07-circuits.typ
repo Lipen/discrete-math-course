@@ -78,7 +78,8 @@ Standard gates: NOT ($f(x) = not x$), AND ($f(x, y) = x and y$), OR ($f(x, y) = 
 #example[
   Full-adder truth table:
   #table(
-    columns: 5, align: center,
+    columns: 5,
+    align: center,
     table.header([$A$], [$B$], [$C_"in"$], [$S$], [$C_"out"$]),
     table.hline(),
     [0], [0], [0], [0], [0],
