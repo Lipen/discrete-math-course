@@ -45,9 +45,6 @@
 #let True = Green(`true`)
 #let False = Red(`false`)
 
-// === Problem and language names (upright in math) ===
-#let Prob(name) = $upright(#name)$
-
 // === Special symbols and constants ===
 #let la = $chevron.l$
 #let ra = $chevron.r$

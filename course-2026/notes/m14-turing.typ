@@ -88,7 +88,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 ]
 
 #theorem[Undecidability of halting problem][
-  $Prob("HALT")$ is undecidable.
+  $"HALT"$ is undecidable.
 ]
 
 #proof[
@@ -102,7 +102,7 @@ $L$ decidable iff both $L$ and $overline(L)$ are recognisable.
 #note[
   - HALT is recognisable (simulate and accept if it halts) but not decidable.
 
-  - $overline(Prob("HALT"))$ is not even recognisable.
+  - $overline("HALT")$ is not even recognisable.
 ]
 
 == Reductions
