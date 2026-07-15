@@ -20,9 +20,9 @@
 
 // ── Half-adder: S = A xor B, C = A and B ──
 #let half-adder = canvas({
-  // Input labels
-  lbl((-3, 1.2), $A$, anchor: "east")
-  lbl((-3, -0.6), $B$, anchor: "east")
+  // Input labels — A aligned with XOR top entry, B with AND bottom entry
+  lbl((-3, 1.35), $A$, anchor: "east")
+  lbl((-3, -0.75), $B$, anchor: "east")
 
   // Gates
   gate((-0.5, 1.2), "XOR")
@@ -32,19 +32,19 @@
   lbl((2, 1.2), $S$, anchor: "west")
   lbl((2, -0.6), $C$, anchor: "west")
 
-  // A splits independently to XOR (upper entry) and AND (upper entry)
-  joint((-2, 1.2))
-  wire((-3, 1.2), (-2, 1.2))
-  wire((-2, 1.2), (-1.1, 1.35)) // A → XOR top
-  wire((-2, 1.2), (-2, -0.45)) // A → down to AND
+  // A splits: straight to XOR top, down to AND top
+  joint((-2, 1.35))
+  wire((-3, 1.35), (-2, 1.35))
+  wire((-2, 1.35), (-1.1, 1.35)) // A → XOR top
+  wire((-2, 1.35), (-2, -0.45)) // A → down to AND
   wire((-2, -0.45), (-1.1, -0.45)) // A → AND top
 
-  // B splits independently to XOR (lower entry) and AND (lower entry)
-  joint((-2.5, -0.6))
-  wire((-3, -0.6), (-2.5, -0.6))
-  wire((-2.5, -0.6), (-2.5, 1.05)) // B → up to XOR
+  // B splits: straight to AND bottom, up to XOR bottom
+  joint((-2.5, -0.75))
+  wire((-3, -0.75), (-2.5, -0.75))
+  wire((-2.5, -0.75), (-1.1, -0.75)) // B → AND bottom
+  wire((-2.5, -0.75), (-2.5, 1.05)) // B → up to XOR
   wire((-2.5, 1.05), (-1.1, 1.05)) // B → XOR bottom
-  wire((-2.5, -0.6), (-1.1, -0.75)) // B → AND bottom
 
   // Gate outputs
   wire((0.1, 1.2), (2, 1.2)) // XOR → S
