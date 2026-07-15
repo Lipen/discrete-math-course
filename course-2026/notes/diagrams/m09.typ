@@ -1,5 +1,8 @@
 // M09 diagrams — Pascal's triangle.
-#import "@preview/cetz:0.5.2": canvas, draw
+#import "../requirements.typ": *
+#import "../notation.typ": *
+
+#import cetz: canvas, draw
 
 #let c-num = oklch(35%, 0.02, 265deg)
 

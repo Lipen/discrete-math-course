@@ -1,5 +1,8 @@
 // M13 Automata diagrams : fletcher state machines.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "../requirements.typ": *
+#import "../notation.typ": *
+
+#import fletcher: diagram, edge, node
 
 #let c-state = oklch(88%, 0.03, 250deg)
 #let c-state-str = oklch(60%, 0.08, 250deg)

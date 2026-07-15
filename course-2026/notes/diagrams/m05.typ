@@ -1,5 +1,8 @@
 // M05 Hasse diagrams — poset visualization via fletcher.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "../requirements.typ": *
+#import "../notation.typ": *
+
+#import fletcher: diagram, edge, node
 
 #let n-size = 1.2em
 #let n-fill = oklch(88%, 0.03, 250deg)

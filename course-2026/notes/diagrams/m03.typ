@@ -1,5 +1,7 @@
 // M03 diagrams — relation digraphs via fletcher.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "../requirements.typ": *
+
+#import fletcher: diagram, edge, node
 
 #let n-fill = oklch(88%, 0.03, 250deg)
 #let n-str = 0.6pt + oklch(60%, 0.08, 250deg)

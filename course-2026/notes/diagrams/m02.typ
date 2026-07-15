@@ -1,6 +1,8 @@
 // M02 diagrams — Venn diagrams for set operations.
-#import "@preview/cetz:0.5.2": canvas, draw
-#import "../notation.typ": setminus
+#import "../requirements.typ": *
+#import "../notation.typ": *
+
+#import cetz: canvas, draw
 
 #let ca = oklch(72%, 0.1, 250deg).transparentize(55%)
 #let cb = oklch(72%, 0.1, 25deg).transparentize(55%)

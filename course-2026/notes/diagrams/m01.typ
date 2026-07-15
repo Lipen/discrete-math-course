@@ -1,6 +1,8 @@
 // M01 diagrams: parse trees and logic visualizations.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
-#import "../notation.typ": imply
+#import "../requirements.typ": *
+#import "../notation.typ": *
+
+#import fletcher: diagram, edge, node
 
 // ── Shared constants ──
 

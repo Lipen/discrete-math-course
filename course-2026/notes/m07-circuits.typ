@@ -1,6 +1,5 @@
 // M07 --- Схемы: булева алгебра становится физическим вычислением.
 #import "common-notes.typ": *
-#import "notation.typ": *
 #import "diagrams/m07.typ": full-adder, half-adder
 
 = Схемы
