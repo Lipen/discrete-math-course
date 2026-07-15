@@ -38,7 +38,21 @@
   e(<d6>, <d12>),
 )
 
-// ── 2. Powerset of {1,2} ordered by ⊆ (Boolean lattice B₂) ──
+// ── 2. Simple total order {1,2,3} : just a chain for reference ──
+#let hasse-chain-3 = diagram(
+  node-shape: "circle",
+  node-stroke: n-str,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 1.4em,
+  cn((0, 0), $1$, name: <c1>, width: 1.2em, height: 1.2em),
+  cn((0, 1), $2$, name: <c2>, width: 1.2em, height: 1.2em),
+  cn((0, 2), $3$, name: <c3>, width: 1.2em, height: 1.2em),
+  e(<c1>, <c2>),
+  e(<c2>, <c3>),
+)
+
+// ── 3. Powerset of {1,2} ordered by ⊆ (Boolean lattice B₂) ──
 #let hasse-powerset-2 = diagram(
   node-shape: "circle",
   node-stroke: n-str,
@@ -55,7 +69,7 @@
   e(<p2>, <p12>),
 )
 
-// ── 3. Powerset of {1,2,3} ordered by ⊆ (Boolean lattice B₃, a cube) ──
+// ── 4. Powerset of {1,2,3} ordered by ⊆ (Boolean lattice B₃, a cube) ──
 #let hasse-powerset-3 = diagram(
   node-shape: "circle",
   node-stroke: n-str,

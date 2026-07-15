@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m05.typ": (
-  hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
+  hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
 )
 
 = Отношения порядка
@@ -45,7 +45,13 @@
 #definition[Линейный (полный) порядок][
   Частичный порядок, в котором любая пара элементов сравнима ($forall a, b$, либо $a prec.eq b$, либо $b prec.eq a$), называется *линейным* (или *полным*) порядком.
   Линейный порядок также называют _цепью_.
+  Диаграмма Хассе цепи --- вертикальная линия, тривиальный случай без ветвлений.
 ]
+
+#figure(
+  hasse-chain-3,
+  caption: [Цепь из трёх элементов --- линейный порядок, диаграмма Хассе без ветвлений.],
+) <fig:hasse-chain-3>
 
 #example[
   - $(NN, <=)$ и $(RR, <=)$ --- линейные порядки: любые два числа сравнимы.
