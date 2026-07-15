@@ -176,7 +176,7 @@
     venn-union, venn-intersection,
     venn-difference, venn-subset,
   ),
-  caption: [Диаграммы Венна для операций над множествами.],
+  caption: [Диаграммы Венна.],
 ) <fig:venn-all>
 
 #note[

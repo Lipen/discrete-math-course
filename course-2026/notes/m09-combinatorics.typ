@@ -1,7 +1,7 @@
 // M09 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m09.typ": pascals-recurrence, pascals-triangle
+#import "diagrams/m09.typ": pascals-triangle
 
 = Комбинаторика
 
@@ -170,14 +170,8 @@
 ]
 
 #figure(
-  grid(
-    columns: 2,
-    gutter: 2em,
-    pascals-triangle, pascals-recurrence,
-  ),
-  caption: [
-    Треугольник Паскаля (строки 0--7) и формула Паскаля.
-  ],
+  pascals-triangle,
+  caption: [Треугольник Паскаля.],
 ) <fig:pascals-triangle>
 
 #theorem[Биномиальная теорема][

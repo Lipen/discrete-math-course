@@ -27,23 +27,3 @@
   }
 })
 
-// ── Pascal's recurrence: binom(n,k) = binom(n-1,k-1) + binom(n-1,k) ──
-#let pascals-recurrence = canvas({
-  let dy = 1.1
-  let dx = 1.1
-  draw.content((0, 0), text(size: 0.8em)[$binom(4, 2) = 6$])
-  draw.content((-dx, dy), text(size: 0.75em, fill: c-num)[$binom(3, 1) = 3$])
-  draw.content((dx, dy), text(size: 0.75em, fill: c-num)[$binom(3, 2) = 3$])
-  draw.line(
-    (-dx / 2, dy - 0.15),
-    (-dx / 4, 0.15),
-    stroke: (c-num + 0.5pt),
-    mark: (end: (symbol: ">", fill: c-num)),
-  )
-  draw.line(
-    (dx / 2, dy - 0.15),
-    (dx / 4, 0.15),
-    stroke: (c-num + 0.5pt),
-    mark: (end: (symbol: ">", fill: c-num)),
-  )
-})
