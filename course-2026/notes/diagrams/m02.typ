@@ -19,14 +19,19 @@
 })
 
 // ── Intersection: A ∩ B ──
-// Lens = right arc of A + left arc of B, filled, no stroke.
+// Lens = two arcs (right of A, left of B) merged into one closed path.
 #let venn-intersection = canvas({
   let a = 65.7deg
   let b = 114.3deg
-  draw.merge-path({
-    draw.arc((-0.35, 0), start: -a, stop: a, radius: r)
-    draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r)
-  }, close: true, fill: ca, stroke: none)
+  draw.merge-path(
+    {
+      draw.arc((-0.35, 0), start: -a, stop: a, radius: r, stroke: none)
+      draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r, stroke: none)
+    },
+    close: true,
+    fill: ca,
+    stroke: none,
+  )
   draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
