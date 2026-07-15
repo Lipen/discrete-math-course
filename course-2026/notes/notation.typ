@@ -44,6 +44,8 @@
 #let Red(x) = text(fill: red.darken(20%), x)
 #let True = Green(`true`)
 #let False = Red(`false`)
+#let T = Green[`T`]
+#let F = Red[`F`]
 
 // === Special symbols and constants ===
 #let la = $chevron.l$
