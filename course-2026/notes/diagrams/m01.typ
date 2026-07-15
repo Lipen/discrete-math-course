@@ -38,7 +38,7 @@
     spacing: 2em,
 
     // Tree structure — root at top, leaves at bottom
-    cn((0, 0), $arrow.r$, name: <root>),
+    cn((0, 0), $imply$, name: <root>),
     cn((-2, 1), $and$, name: <and>),
     an((2, 1), $r$, name: <r>),
     cn((-3, 2), $not$, name: <not>),
@@ -81,7 +81,7 @@
     spacing: 2em,
 
     // Tree structure
-    cn((0, 0), $arrow.r$, name: <root2>),
+    cn((0, 0), $imply$, name: <root2>),
     cn((-1.5, 1), $not$, name: <not2>),
     an((2, 1), $r$, name: <r2>),
     cn((-1.5, 2), $and$, name: <and2>),
