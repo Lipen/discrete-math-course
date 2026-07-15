@@ -83,20 +83,19 @@
   wire((-2.5, 2.2), (-2.5, 0.5))  // B → down
   wire((-2.5, 0.5), (-1.6, 0.5))  // B → AND1 bottom
 
-  // XOR1 output → XOR2
-  wire((-0.4, 2.5), (1.4, 2.5))
+  // XOR1 output → XOR2 + tap down to AND2 (both from joint at XOR1 exit)
+  joint((-0.4, 2.5))
+  wire((-0.4, 2.5), (1.4, 2.5))  // → XOR2
+  wire((-0.4, 2.5), (-0.4, 0.6)) // ↓ down between columns
+  wire((-0.4, 0.6), (1.4, 0.6))  // → AND2 top
 
-  // XOR1 output also tapped down to AND2 (top entry, y=0.6)
-  joint((0.8, 2.5))
-  wire((0.8, 2.5), (0.8, 0.6))
-  wire((0.8, 0.6), (1.4, 0.6))
-
-  // Cin: horizontal across, then up to AND2 bottom and XOR2 bottom
-  joint((-2, -0.5))
-  wire((-4, -0.5), (-2, -0.5))
-  wire((-2, -0.5), (1.4, -0.5))   // horizontal run
-  wire((1.4, -0.5), (1.4, 0.0))   // up → AND2 bottom
-  wire((1.4, -0.5), (1.4, 2.2))   // up → XOR2 bottom
+  // Cin: horizontal to midpoint between columns, then up to AND2 and XOR2
+  joint((0.5, -0.5))
+  wire((-4, -0.5), (0.5, -0.5))  // from label
+  wire((0.5, -0.5), (0.5, 0.0))  // up → AND2 level
+  wire((0.5, 0.0), (1.4, 0.0))   // → AND2 bottom
+  wire((0.5, -0.5), (0.5, 2.2))  // up → XOR2 level
+  wire((0.5, 2.2), (1.4, 2.2))   // → XOR2 bottom
 
   // XOR2 output → S
   wire((2.6, 2.5), (7.5, 2.5))
@@ -104,8 +103,7 @@
   // AND1 output → OR top
   wire((-0.4, 0.8), (3.9, 1.8))
 
-  // AND2 output → OR bottom (up from 0.3)
-  joint((2.6, 0.3))
+  // AND2 output → OR bottom
   wire((2.6, 0.3), (2.6, 1.2))
   wire((2.6, 1.2), (3.9, 1.2))
 
