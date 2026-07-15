@@ -1,7 +1,9 @@
 // M02 --- Множества: универсальный контейнер для дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m02.typ": venn-all
+#import "diagrams/m02.typ": (
+  venn-difference, venn-intersection, venn-subset, venn-union,
+)
 
 = Множества
 
@@ -103,14 +105,14 @@
 ]
 
 #figure(
-  venn-all,
-  caption: [
-    Диаграммы Венна для четырёх операций над множествами.
-    Объединение $A union B$: все элементы, входящие в $A$ или $B$.
-    Пересечение $A inter B$: элементы, входящие и в $A$, и в $B$.
-    Разность $A setminus B$: элементы $A$, не входящие в $B$.
-    Подмножество $A subset B$: все элементы $A$ принадлежат $B$.
-  ],
+  grid(
+    columns: 2,
+    rows: 2,
+    gutter: 1.5em,
+    venn-union, venn-intersection,
+    venn-difference, venn-subset,
+  ),
+  caption: [Диаграммы Венна для операций над множествами.],
 ) <fig:venn-all>
 
 === Алгебраические законы
