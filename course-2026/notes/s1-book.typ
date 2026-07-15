@@ -46,16 +46,18 @@
 #set page(
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
-  header: [
+  header: context [
     #set text(7.5pt, fill: luma(45%))
     #smallcaps[
-      #text(
-        tracking: 0.1em,
-        weight: "semibold",
-      )[Дискретная математика]
+      #text(tracking: 0.1em, weight: "semibold")[Дискретная математика]
     ]
     #h(1fr)
-    #text(style: "italic", fill: luma(35%))[Язык и объекты]
+    #{
+      let hs = query(heading.where(level: 1).before(here()))
+      if hs != () {
+        text(style: "italic", fill: luma(35%))[#hs.last().body]
+      }
+    }
     #line(length: 100%, stroke: 0.3pt + luma(85%))
   ],
   footer: context [
