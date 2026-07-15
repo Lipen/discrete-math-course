@@ -20,10 +20,15 @@
 })
 
 // ── Intersection: A ∩ B ──
+// Only the overlap lens is filled (approximated by a centered ellipse).
+// A and B are drawn as outlines only.
 #let venn-intersection = canvas({
   import draw: *
-  circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
-  circle((0.35, 0), radius: r, fill: cb, stroke: c-str)
+  // Overlap highlight (ellipse centered between the two circles)
+  circle((0, 0), radius: (0.45, 0.7), fill: ca, stroke: none)
+  // A and B outlines
+  circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
+  circle((0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A inter B$)
