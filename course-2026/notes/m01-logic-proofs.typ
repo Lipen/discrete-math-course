@@ -1,7 +1,9 @@
 // M01 --- Логика и доказательства: фундаментальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": parse-tree-imply, parse-tree-not-and
+#import "diagrams/m01.typ": (
+  parse-tree-imply, parse-tree-not-and, quantifier-order,
+)
 
 = Логика и доказательства
 
@@ -261,6 +263,15 @@ _Область определения_ (или _предметная облас
 #remark[
   Порядок кванторов --- это логический аналог вложенности циклов. $forall x exists y$ похож на вложенный цикл, где внутреннее вычисление зависит от внешнего индекса. $exists y forall x$ похож на предвычисление значения, работающего для всей итерации.
 ]
+
+#figure(
+  quantifier-order,
+  caption: [
+    Порядок кванторов меняет смысл.
+    Слева: $forall x exists y$ — для каждого $x_i$ найдётся свой $y_i$ (может зависеть от $x$).
+    Справа: $exists y forall x$ — существует один и тот же $y$, работающий для всех $x_i$.
+  ],
+) <fig:quantifier-order>
 
 === Ограниченные кванторы
 
