@@ -1,7 +1,7 @@
 // M05 Hasse diagrams — poset visualization via fletcher.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
-#let n-size = 1.6em
+#let n-size = 1.2em
 #let n-fill = oklch(88%, 0.03, 250deg)
 #let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
 #let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
@@ -45,9 +45,9 @@
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.4em,
-  cn((0, 0), $1$, name: <c1>, width: 1.2em, height: 1.2em),
-  cn((0, 1), $2$, name: <c2>, width: 1.2em, height: 1.2em),
-  cn((0, 2), $3$, name: <c3>, width: 1.2em, height: 1.2em),
+  cn((0, 0), $1$, name: <c1>),
+  cn((0, 1), $2$, name: <c2>),
+  cn((0, 2), $3$, name: <c3>),
   e(<c1>, <c2>),
   e(<c2>, <c3>),
 )
