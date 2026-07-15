@@ -53,60 +53,57 @@
 
 // ── Full-adder: S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B)) ──
 #let full-adder = canvas({
-  // Inputs
-  lbl((-4, 2.8), $A$, anchor: "east")
-  lbl((-4, 2.2), $B$, anchor: "east")
-  lbl((-4, -0.5), $C_"in"$, anchor: "east")
+  // Inputs: A, B on left; Cin below
+  lbl((-3.5, 3.5), $A$, anchor: "east")
+  lbl((-3.5, 2.8), $B$, anchor: "east")
+  lbl((-1, -1.5), $C_"in"$, anchor: "north")
 
-  // Gates
-  gate((-1, 2.5), "XOR")
-  gate((-1, 0.8), "AND")
-  gate((2, 2.5), "XOR")
-  gate((2, 0.3), "AND")
-  gate((4.5, 1.5), "OR")
+  // Row 1 (y=3.5): XOR1 → XOR2 → S
+  gate((-0.5, 3.5), "XOR")
+  gate((2.5, 3.5), "XOR")
+  lbl((5.5, 3.5), $S$, anchor: "west")
 
-  // Outputs
-  lbl((7.5, 2.5), $S$, anchor: "west")
-  lbl((7.5, 1.5), $C_"out"$, anchor: "west")
+  // Row 2 (y=1.0): AND1, AND2
+  gate((-0.5, 1.0), "AND")
+  gate((2.5, 1.0), "AND")
 
-  // A: to XOR1 top (y=2.8) and AND1 top (y=1.1)
-  joint((-2, 2.8))
-  wire((-4, 2.8), (-2, 2.8))
-  wire((-2, 2.8), (-1.6, 2.8))   // A → XOR1 top
-  wire((-2, 2.8), (-2, 1.1))      // A → down
-  wire((-2, 1.1), (-1.6, 1.1))    // A → AND1 top
+  // Row 3 (y=-1.5): OR → Cout
+  gate((2.5, -1.5), "OR")
+  lbl((5.5, -1.5), $C_"out"$, anchor: "west")
 
-  // B: to XOR1 bottom (y=2.2) and AND1 bottom (y=0.5)
-  joint((-2.5, 2.2))
-  wire((-4, 2.2), (-2.5, 2.2))
-  wire((-2.5, 2.2), (-1.6, 2.2))  // B → XOR1 bottom
-  wire((-2.5, 2.2), (-2.5, 0.5))  // B → down
-  wire((-2.5, 0.5), (-1.6, 0.5))  // B → AND1 bottom
+  // ── A routing ──
+  wire((-3.5, 3.5), (-1.1, 3.5))            // A → XOR1
+  joint((-1.5, 3.5))
+  wire((-1.5, 3.5), (-1.5, 1.4))             // A ↓ to AND1 level
+  wire((-1.5, 1.4), (-1.1, 1.4))             // A → AND1 top
 
-  // XOR1 output → XOR2 + tap down to AND2 (both from joint at XOR1 exit)
-  joint((-0.4, 2.5))
-  wire((-0.4, 2.5), (1.4, 2.5))  // → XOR2
-  wire((-0.4, 2.5), (-0.4, 0.6)) // ↓ down between columns
-  wire((-0.4, 0.6), (1.4, 0.6))  // → AND2 top
+  // ── B routing ──
+  wire((-3.5, 2.8), (-3.5, 2.5))             // B right a bit
+  joint((-2.5, 2.5))
+  wire((-2.5, 2.5), (-2.5, 3.2))             // B ↑ to XOR1 level
+  wire((-2.5, 3.2), (-1.1, 3.2))             // B → XOR1 bottom
+  wire((-2.5, 2.5), (-2.5, 0.6))             // B ↓ to AND1 level
+  wire((-2.5, 0.6), (-1.1, 0.6))             // B → AND1 bottom
 
-  // Cin: horizontal to midpoint between columns, then up to AND2 and XOR2
-  joint((0.5, -0.5))
-  wire((-4, -0.5), (0.5, -0.5))  // from label
-  wire((0.5, -0.5), (0.5, 0.0))  // up → AND2 level
-  wire((0.5, 0.0), (1.4, 0.0))   // → AND2 bottom
-  wire((0.5, -0.5), (0.5, 2.2))  // up → XOR2 level
-  wire((0.5, 2.2), (1.4, 2.2))   // → XOR2 bottom
+  // ── XOR1 output → XOR2 + tap down to AND2 ──
+  wire((0.1, 3.5), (1.9, 3.5))               // XOR1 → XOR2
+  joint((1.0, 3.5))
+  wire((1.0, 3.5), (1.0, 1.4))               // ↓ to AND2 level
+  wire((1.0, 1.4), (1.9, 1.4))               // → AND2 top
 
-  // XOR2 output → S
-  wire((2.6, 2.5), (7.5, 2.5))
+  // ── Cin routing: horizontal under gates, then up ──
+  wire((-1, -1.5), (1.0, -1.5))              // Cin → under gate column
+  joint((1.0, -1.5))
+  wire((1.0, -1.5), (1.0, 0.6))              // ↑ to AND2 level
+  wire((1.0, 0.6), (1.9, 0.6))               // → AND2 bottom
+  wire((1.0, -1.5), (1.9, -1.5))             // → OR bottom
 
-  // AND1 output → OR top
-  wire((-0.4, 0.8), (3.9, 1.8))
+  // ── AND1 output → OR top ──
+  wire((0.1, 1.0), (1.9, -1.1))              // diagonal into OR top
 
-  // AND2 output → OR bottom
-  wire((2.6, 0.3), (2.6, 1.2))
-  wire((2.6, 1.2), (3.9, 1.2))
+  // ── AND2 output → OR ──
+  wire((3.1, 1.0), (3.1, -1.1))              // vertical into OR center
 
-  // OR → Cout
-  wire((5.1, 1.5), (7.5, 1.5))
+  // ── XOR2 output → S ──
+  wire((3.1, 3.5), (5.5, 3.5))
 })
