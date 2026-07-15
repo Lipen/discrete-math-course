@@ -51,63 +51,64 @@
   wire((0.1, -0.6), (2, -0.6)) // AND → C
 })
 
-// ── Full-adder ──
+// ── Full-adder: S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B)) ──
 #let full-adder = canvas({
   // Inputs
-  lbl((-4, 2.5), $A$, anchor: "east")
-  lbl((-4, 1), $B$, anchor: "east")
+  lbl((-4, 2.8), $A$, anchor: "east")
+  lbl((-4, 2.2), $B$, anchor: "east")
   lbl((-4, -0.5), $C_"in"$, anchor: "east")
 
-  // Gates — row 1: first XOR and first AND
+  // Gates
   gate((-1, 2.5), "XOR")
-  gate((-1, 1), "AND")
-
-  // Gates — row 2: second XOR, second AND, OR
-  gate((1.5, 2.5), "XOR")
-  gate((1.5, 0.2), "AND")
-  gate((4, 1), "OR")
+  gate((-1, 0.8), "AND")
+  gate((2, 2.5), "XOR")
+  gate((2, 0.3), "AND")
+  gate((4.5, 1.5), "OR")
 
   // Outputs
-  lbl((6.5, 2.5), $S$, anchor: "west")
-  lbl((6.5, 1), $C_"out"$, anchor: "west")
+  lbl((7.5, 2.5), $S$, anchor: "west")
+  lbl((7.5, 1.5), $C_"out"$, anchor: "west")
 
-  // Input splitting: A and B go to XOR1 and AND1
-  joint((-2, 2.5))
-  wire((-4, 2.5), (-2, 2.5))
-  wire((-2, 2.5), (-1.6, 2.5)) // A → XOR1
-  wire((-2, 2.5), (-2, 1)) // A → down to AND1 branch
-  wire((-2, 1), (-1.6, 1)) // A → AND1
+  // A: to XOR1 top (y=2.8) and AND1 top (y=1.1)
+  joint((-2, 2.8))
+  wire((-4, 2.8), (-2, 2.8))
+  wire((-2, 2.8), (-1.6, 2.8))   // A → XOR1 top
+  wire((-2, 2.8), (-2, 1.1))      // A → down
+  wire((-2, 1.1), (-1.6, 1.1))    // A → AND1 top
 
-  joint((-2.5, 1))
-  wire((-4, 1), (-2.5, 1))
-  wire((-2.5, 1), (-2.5, 2.5)) // B → XOR1
-  wire((-2.5, 2.5), (-1.6, 2.5)) // B → XOR1
-  wire((-2.5, 1), (-1.6, 1)) // B → AND1
+  // B: to XOR1 bottom (y=2.2) and AND1 bottom (y=0.5)
+  joint((-2.5, 2.2))
+  wire((-4, 2.2), (-2.5, 2.2))
+  wire((-2.5, 2.2), (-1.6, 2.2))  // B → XOR1 bottom
+  wire((-2.5, 2.2), (-2.5, 0.5))  // B → down
+  wire((-2.5, 0.5), (-1.6, 0.5))  // B → AND1 bottom
 
-  // XOR1 output → XOR2 (straight line, same y-level)
-  wire((-0.4, 2.5), (0.9, 2.5))
+  // XOR1 output → XOR2
+  wire((-0.4, 2.5), (1.4, 2.5))
 
-  // XOR1 output also taps down to AND2
-  joint((0.5, 2.5))
-  wire((0.5, 2.5), (0.5, 0.2)) // down to AND2 level
-  wire((0.5, 0.2), (0.9, 0.2)) // into AND2
+  // XOR1 output also tapped down to AND2 (top entry, y=0.6)
+  joint((0.8, 2.5))
+  wire((0.8, 2.5), (0.8, 0.6))
+  wire((0.8, 0.6), (1.4, 0.6))
 
-  // Cin enters from left, routes horizontally, then splits up
+  // Cin: horizontal across, then up to AND2 bottom and XOR2 bottom
   joint((-2, -0.5))
   wire((-4, -0.5), (-2, -0.5))
-  wire((-2, -0.5), (0.9, -0.5)) // horizontal run
-  wire((0.9, -0.5), (0.9, 0.2)) // up → AND2
-  wire((0.9, -0.5), (0.9, 2.5)) // up → XOR2
+  wire((-2, -0.5), (1.4, -0.5))   // horizontal run
+  wire((1.4, -0.5), (1.4, 0.0))   // up → AND2 bottom
+  wire((1.4, -0.5), (1.4, 2.2))   // up → XOR2 bottom
 
   // XOR2 output → S
-  wire((2.1, 2.5), (6.5, 2.5))
+  wire((2.6, 2.5), (7.5, 2.5))
 
-  // AND1 → OR (level 1)
-  wire((-0.4, 1), (3.4, 1))
-  // AND2 → OR (up from 0.2 to 1)
-  joint((2.1, 0.2))
-  wire((2.1, 0.2), (2.1, 1))
-  wire((2.1, 1), (3.4, 1))
+  // AND1 output → OR top
+  wire((-0.4, 0.8), (3.9, 1.8))
+
+  // AND2 output → OR bottom (up from 0.3)
+  joint((2.6, 0.3))
+  wire((2.6, 0.3), (2.6, 1.2))
+  wire((2.6, 1.2), (3.9, 1.2))
+
   // OR → Cout
-  wire((4.6, 1), (6.5, 1))
+  wire((5.1, 1.5), (7.5, 1.5))
 })
