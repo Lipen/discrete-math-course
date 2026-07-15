@@ -28,7 +28,7 @@
   // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
   set heading(numbering: "1.1.1")
   show heading.where(level: 1): it => {
-    pagebreak(to: "odd")
+    pagebreak()
     counter("definition").update(0)
     counter("theorem").update(0)
     it
