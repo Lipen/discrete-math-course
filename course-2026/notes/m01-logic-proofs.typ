@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m01.typ": (
-  parse-tree-imply, parse-tree-not-and, quantifier-order,
+  parse-tree-imply, quantifier-order,
 )
 
 = Логика и доказательства

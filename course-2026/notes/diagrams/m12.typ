@@ -67,7 +67,7 @@
   for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
   for i in range(5) {
     for j in range(i + 1, 5) {
-      line(str(i + 1), str(j + 1), stroke: (paint: c-edge, thickness: 0.35pt))
+      line(str(i + 1), str(j + 1), stroke: (paint: c-edge, thickness: 0.7pt))
     }
   }
 })
@@ -95,7 +95,7 @@
     for j in range(3) {
       line("l" + str(i + 1), "r" + str(j + 1), stroke: (
         paint: c-edge,
-        thickness: 0.35pt,
+        thickness: 0.7pt,
       ))
     }
   }

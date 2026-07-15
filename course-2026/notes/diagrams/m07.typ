@@ -29,17 +29,22 @@
   gate((-0.5, -0.6), "AND")
 
   // Output labels
-  lbl((2, 1.2), $S = A xor B$, anchor: "west")
-  lbl((2, -0.6), $C = A and B$, anchor: "west")
+  lbl((2, 1.2), $S$, anchor: "west")
+  lbl((2, -0.6), $C$, anchor: "west")
 
-  // Wires: A → both gates, B → both gates
-  joint((-1.5, 0))
-  wire((-3, 1.2), (-1.5, 0))
-  wire((-3, -0.6), (-1.5, 0))
-  wire((-1.5, 0), (-1.5, 1.2))
-  wire((-1.5, 0), (-1.5, -0.6))
-  wire((-1.5, 1.2), (-1.1, 1.2)) // into XOR
-  wire((-1.5, -0.6), (-1.1, -0.6)) // into AND
+  // A splits independently to XOR and AND
+  joint((-2, 1.2))
+  wire((-3, 1.2), (-2, 1.2))
+  wire((-2, 1.2), (-1.1, 1.2)) // A → XOR
+  wire((-2, 1.2), (-2, -0.6)) // A → down to AND
+  wire((-2, -0.6), (-1.1, -0.6)) // A → AND
+
+  // B splits independently to XOR and AND
+  joint((-2.5, -0.6))
+  wire((-3, -0.6), (-2.5, -0.6))
+  wire((-2.5, -0.6), (-2.5, 1.2)) // B → up to XOR
+  wire((-2.5, 1.2), (-1.1, 1.2)) // B → XOR
+  wire((-2.5, -0.6), (-1.1, -0.6)) // B → AND
 
   // Gate outputs
   wire((0.1, 1.2), (2, 1.2)) // XOR → S
@@ -79,21 +84,30 @@
   wire((-2.5, 2.5), (-1.6, 2.5)) // B → XOR1
   wire((-2.5, 1), (-1.6, 1)) // B → AND1
 
-  // Cin goes to XOR2 and AND2 (with XOR1 output)
-  // XOR1 output → XOR2 and AND2
-  wire((-0.4, 2.5), (0.9, 2.5)) // XOR1 → XOR2
-  wire((-0.4, 2.5), (0.9, 0.2)) // XOR1 → AND2 (tapped)
+  // XOR1 output → XOR2 (straight line, same y-level)
+  wire((-0.4, 2.5), (0.9, 2.5))
 
-  joint((-4, -0.5))
-  wire((-4, -0.5), (-4, -0.5)) // Cin
-  wire((-4, -0.5), (0.9, 0.2)) // Cin → AND2
-  wire((-4, -0.5), (0.9, 2.5)) // Cin → XOR2 (crossing)
+  // XOR1 output also taps down to AND2
+  joint((0.5, 2.5))
+  wire((0.5, 2.5), (0.5, 0.2)) // down to AND2 level
+  wire((0.5, 0.2), (0.9, 0.2)) // into AND2
+
+  // Cin enters from left, routes horizontally, then splits up
+  joint((-2, -0.5))
+  wire((-4, -0.5), (-2, -0.5))
+  wire((-2, -0.5), (0.9, -0.5)) // horizontal run
+  wire((0.9, -0.5), (0.9, 0.2)) // up → AND2
+  wire((0.9, -0.5), (0.9, 2.5)) // up → XOR2
 
   // XOR2 output → S
   wire((2.1, 2.5), (6.5, 2.5))
 
-  // AND1 and AND2 outputs → OR → Cout
-  wire((-0.4, 1), (3.4, 1)) // AND1 → OR
-  wire((2.1, 0.2), (3.4, 1)) // AND2 → OR
-  wire((4.6, 1), (6.5, 1)) // OR → Cout
+  // AND1 → OR (level 1)
+  wire((-0.4, 1), (3.4, 1))
+  // AND2 → OR (up from 0.2 to 1)
+  joint((2.1, 0.2))
+  wire((2.1, 0.2), (2.1, 1))
+  wire((2.1, 1), (3.4, 1))
+  // OR → Cout
+  wire((4.6, 1), (6.5, 1))
 })

@@ -143,7 +143,7 @@ _График_ функции $f: A -> B$ --- это множество упор
     mapping-injection, mapping-surjection, mapping-bijection,
   ),
   caption: [
-    Три типа отображений.
+    Инъекция, сюръекция и биекция.
   ],
 ) <fig:mapping-types>
 
