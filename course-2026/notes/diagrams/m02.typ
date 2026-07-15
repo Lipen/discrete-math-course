@@ -19,13 +19,17 @@
 })
 
 // ── Intersection: A ∩ B ──
-// Two filled arcs with mode "CLOSE" form the lens: right half from A, left half from B.
-// The shared chord (vertical line at x=0) is invisible since both halves share the same fill.
+// Two CLOSE-mode arcs; CeTZ arc expects the start-point, not the center.
+// Right half of lens: start at bottom intersection (0, -ym) along circle A.
+// Left half of lens: start at top intersection (0, +ym) along circle B.
 #let venn-intersection = canvas({
   let a = 65.7deg
   let b = 114.3deg
-  draw.arc((-0.35, 0), start: -a, stop: a, radius: r, mode: "CLOSE", fill: ca, stroke: none)
-  draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r, mode: "CLOSE", fill: ca, stroke: none)
+  let ym = calc.sqrt(r * r - 0.35 * 0.35)
+  // Right arc via circle A: start at (0, -ym), angle -a to +a
+  draw.arc((0, -ym), start: -a, stop: a, radius: r, mode: "CLOSE", fill: ca, stroke: none)
+  // Left arc via circle B: start at (0, +ym), angle b to 180deg+a
+  draw.arc((0, ym), start: b, stop: 180deg + a, radius: r, mode: "CLOSE", fill: ca, stroke: none)
   draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
