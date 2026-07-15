@@ -1,99 +1,99 @@
-// M02 --- Sets: the universal container for discrete objects.
+// M02 --- Множества: универсальный контейнер для дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Sets
+= Множества
 
 #chapter-overview[
-  Sets are the most fundamental data structure in mathematics --- every discrete object is built from sets.
-  This chapter introduces set notation, operations, and identities, then connects them to their computational counterparts: SQL queries, data types, bitwise operations, and hash functions.
-  The language of sets established here underpins relations, functions, and every subsequent chapter.
+  Множества --- самая фундаментальная структура данных в математике: каждый дискретный объект строится из множеств.
+  Эта глава вводит обозначения для множеств, операции и тождества, а затем связывает их с вычислительными аналогами: SQL-запросами, типами данных, побитовыми операциями и хеш-функциями.
+  Язык множеств, установленный здесь, лежит в основе отношений, функций и всех последующих глав.
 ]
 
-== Definitions and Operations
+== Определения и операции
 
-=== Basic Definitions
+=== Основные определения
 
-A set is an unordered collection of distinct objects.
-The objects in a set are its _elements_ (or _members_).
-There is no notion of multiplicity or ordering: ${1, 2, 3}$ and ${3, 1, 2}$ are the same set, and ${1, 1, 2}$ is simply ${1, 2}$.
+Множество --- это неупорядоченный набор различных объектов.
+Объекты в множестве называются его _элементами_ (или _членами_).
+В множестве нет понятия кратности или порядка: ${1, 2, 3}$ и ${3, 1, 2}$ --- это одно и то же множество, а ${1, 1, 2}$ --- это просто ${1, 2}$.
 
-#definition[Set membership][
-  $a in A$ means $a$ is an element of $A$. $a in.not A$ means $a$ is not an element of $A$.
+#definition[Принадлежность множеству][
+  Тот факт, что $a$ является элементом $A$, называется *принадлежностью* $a$ множеству $A$, обозначается $a in A$. Тот факт, что $a$ не является элементом $A$, обозначается $a in.not A$.
 ]
 
-A set can be specified in several ways:
+Множество можно задать несколькими способами:
 
-#definition[Set specification][
-  - *Enumeration*: list all elements between braces --- ${1, 2, 3, 4}$.
-  - *Set-builder notation*: ${x in U mid(|) P(x)}$ --- the set of all $x$ in the universe $U$ satisfying property $P$.
-  - *Recursive definition*: base set + generation rules (used later for formal languages, inductive structures).
+#definition[Способы задания множеств][
+  - *Перечисление*: перечислить все элементы в фигурных скобках --- ${1, 2, 3, 4}$.
+  - *Нотация порождающего свойства*: ${x in U mid(|) P(x)}$ --- множество всех $x$ из универсума $U$, удовлетворяющих свойству $P$.
+  - *Рекурсивное определение*: базовое множество + правила порождения (используется далее для формальных языков, индуктивных структур).
 ]
 
-#example[Set builder notation][
-  ${x in NN mid(|) x < 5} = {0, 1, 2, 3, 4}$. ${x in NN mid(|) x "is prime" and x < 10} = {2, 3, 5, 7}$.
+#example[Нотация порождающего свойства][
+  ${x in NN mid(|) x < 5} = {0, 1, 2, 3, 4}$. ${x in NN mid(|) x "является простым" and x < 10} = {2, 3, 5, 7}$.
 ]
 
-#definition[Empty set][
-  The _empty set_, denoted $nothing$ (or $emptyset$), is the unique set containing no elements.
+#definition[Пустое множество][
+  Множество, не содержащее элементов, называется *пустым множеством*, обозначается $nothing$ (или $emptyset$).
 ]
 
 #note[
-  $nothing$ and ${nothing}$ are different: the former has zero elements; the latter has one element (the empty set itself).
+  $nothing$ и ${nothing}$ различны: первое не содержит элементов; второе содержит один элемент (само пустое множество).
 ]
 
-=== Equality and Subsets
+=== Равенство и подмножества
 
-#definition[Extensionality][
-  Two sets $A$ and $B$ are equal, written $A = B$, iff they have exactly the same elements: $A = B$ iff $forall x space (x in A iff x in B)$.
+#definition[Экстенсиональность][
+  Два множества $A$ и $B$ называются *равными*, обозначается $A = B$, если они содержат в точности одни и те же элементы: $forall x space (x in A iff x in B)$.
 ]
 
-#definition[Subset][
-  - $A subset.eq B$: every element of $A$ is also an element of $B$ --- $forall x space (x in A imply x in B)$.
-  - $A subset B$: $A subset.eq B$ and $A eq.not B$ (proper subset).
+#definition[Подмножество][
+  Множество $A$ называется *подмножеством* $B$, обозначается $A subset.eq B$, если каждый элемент $A$ также является элементом $B$: $forall x space (x in A imply x in B)$.
+  Множество $A$ называется *собственным подмножеством* $B$, обозначается $A subset B$, если $A subset.eq B$ и $A eq.not B$.
 ]
 
-#theorem[Subset equality][
-  $A = B$ if and only if $A subset.eq B$ and $B subset.eq A$.
+#theorem[Равенство через подмножества][
+  $A = B$ тогда и только тогда, когда $A subset.eq B$ и $B subset.eq A$.
 ]
 
-This theorem is the standard technique for proving set equality: show each side is contained in the other.
+Эта теорема даёт стандартный метод доказательства равенства множеств: показать, что каждая сторона содержится в другой.
 
-=== Powerset
+=== Булеан
 
-#definition[Powerset][
-  The _powerset_ of $A$, denoted $cal(P)(A)$ or $2^A$, is the set of all subsets of $A$: $cal(P)(A) = {X mid(|) X subset.eq A}$.
+#definition[Булеан][
+  Множество всех подмножеств $A$ называется *булеаном* $A$, обозначается $cal(P)(A)$ или $2^A$: $cal(P)(A) = {X mid(|) X subset.eq A}$.
 ]
 
-#theorem[Cardinality of powerset][
-  If $A$ is a finite set with $|A| = n$, then $|cal(P)(A)| = 2^n$.
+#theorem[Мощность булеана][
+  Если $A$ --- конечное множество и $|A| = n$, то $|cal(P)(A)| = 2^n$.
 ]
 
 #example[
-  For $A = {a, b}$, $cal(P)(A) = {nothing, {a}, {b}, {a, b}}$.
-  Indeed $|cal(P)(A)| = 4 = 2^2$.
+  Для $A = {a, b}$ имеем $cal(P)(A) = {nothing, {a}, {b}, {a, b}}$.
+  Действительно, $|cal(P)(A)| = 4 = 2^2$.
 ]
 
 #remark[
-  The powerset of ${1, ..., n}$ is in one-to-one correspondence with $n$-bit strings: each subset = a bit mask.
-  Bitwise OR is union, AND is intersection, AND-NOT is difference.
+  Булеан множества ${1, ..., n}$ находится во взаимно-однозначном соответствии с $n$-битными строками: каждое подмножество = битовая маска.
+  Побитовое OR --- это объединение, AND --- пересечение, AND-NOT --- разность.
 ]
 
-=== Set Operations
+=== Операции над множествами
 
-#definition[Set operations][
-  For sets $A$ and $B$ (subsets of a universal set $U$):
-  - *Union*: $A union B = {x mid(|) x in A or x in B}$.
-  - *Intersection*: $A inter B = {x mid(|) x in A and x in B}$.
-  - *Difference*: $A setminus B = {x mid(|) x in A and x in.not B}$.
-  - *Symmetric difference*: $A symdiff B = (A setminus B) union (B setminus A)$.
-  - *Complement*: $overline(A) = U setminus A = {x in U mid(|) x in.not A}$.
+#definition[Операции над множествами][
+  Для множеств $A$ и $B$ (подмножеств универсального множества $U$):
+  - *Объединение*: $A union B = {x mid(|) x in A or x in B}$.
+  - *Пересечение*: $A inter B = {x mid(|) x in A and x in B}$.
+  - *Разность*: $A setminus B = {x mid(|) x in A and x in.not B}$.
+  - *Симметрическая разность*: $A symdiff B = (A setminus B) union (B setminus A)$.
+  - *Дополнение*: $overline(A) = U setminus A = {x in U mid(|) x in.not A}$.
 ]
 
-Two sets are _disjoint_ if $A inter B = nothing$.
+Два множества называются _непересекающимися_, если $A inter B = nothing$.
 
 #example[
-  Let $A = {1, 2, 3}$, $B = {2, 3, 4}$ with $U = {1, 2, 3, 4, 5}$.
+  Пусть $A = {1, 2, 3}$, $B = {2, 3, 4}$ и $U = {1, 2, 3, 4, 5}$.
   - $A union B = {1, 2, 3, 4}$
   - $A inter B = {2, 3}$
   - $A setminus B = {1}$
@@ -101,16 +101,16 @@ Two sets are _disjoint_ if $A inter B = nothing$.
   - $overline(A) = {4, 5}$
 ]
 
-=== Algebraic Laws
+=== Алгебраические законы
 
-Set operations mirror propositional logic:
+Операции над множествами зеркально отражают логику высказываний:
 
-#proposition[Set--logic correspondence][
+#proposition[Соответствие между множествами и логикой][
   #table(
     columns: 2,
     align: (left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Set operation*], [*Logical counterpart*]),
+    table.header([*Операция над множествами*], [*Логический аналог*]),
     [$A union B$], [$x in A or x in B$],
     [$A inter B$], [$x in A and x in B$],
     [$overline(A)$], [$not(x in A)$],
@@ -121,120 +121,120 @@ Set operations mirror propositional logic:
   )
 ]
 
-Every set identity has a dual logical tautology, and vice versa.
-This correspondence is a Boolean algebra isomorphism (studied in its own chapter).
+Каждому теоретико-множественному тождеству соответствует двойственная логическая тавтология, и наоборот.
+Это соответствие является изоморфизмом булевых алгебр (изучается в отдельной главе).
 
-#proposition[Laws of set algebra][
-  For all sets $A$, $B$, $C$:
-  - *Commutativity*: $A union B = B union A$, $A inter B = B inter A$.
-  - *Associativity*: $(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$.
-  - *Distributivity*: $A inter (B union C) = (A inter B) union (A inter C)$, $A union (B inter C) = (A union B) inter (A union C)$.
-  - *Idempotence*: $A union A = A$, $A inter A = A$.
-  - *Identity*: $A union nothing = A$, $A inter U = A$.
-  - *Complement*: $A union overline(A) = U$, $A inter overline(A) = nothing$.
-  - *Double complement*: $overline(overline(A)) = A$.
+#proposition[Законы алгебры множеств][
+  Для любых множеств $A$, $B$, $C$:
+  - *Коммутативность*: $A union B = B union A$, $A inter B = B inter A$.
+  - *Ассоциативность*: $(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$.
+  - *Дистрибутивность*: $A inter (B union C) = (A inter B) union (A inter C)$, $A union (B inter C) = (A union B) inter (A union C)$.
+  - *Идемпотентность*: $A union A = A$, $A inter A = A$.
+  - *Тождество*: $A union nothing = A$, $A inter U = A$.
+  - *Дополнение*: $A union overline(A) = U$, $A inter overline(A) = nothing$.
+  - *Двойное дополнение*: $overline(overline(A)) = A$.
 ]
 
-#theorem[De Morgan's laws for sets][
+#theorem[Законы де Моргана для множеств][
   - $overline(A union B) = overline(A) inter overline(B)$.
   - $overline(A inter B) = overline(A) union overline(B)$.
 ]
 
 #proof[
-  By mutual inclusion.
+  Методом взаимного включения.
 
   ($subset.eq$): $x in overline(A union B)$
   $=>$ $x in.not A union B$
-  $=>$ $x in.not A$ and $x in.not B$
+  $=>$ $x in.not A$ и $x in.not B$
   $=>$ $x in overline(A) inter overline(B)$.
 
   ($supset.eq$): $x in overline(A) inter overline(B)$
-  $=>$ $x in.not A$ and $x in.not B$
+  $=>$ $x in.not A$ и $x in.not B$
   $=>$ $x in.not A union B$
   $=>$ $x in overline(A union B)$.
 ]
 
 #remark[
-  Propositional logic and set algebra are both instances of Boolean algebra --- studied in its own chapter.
+  Логика высказываний и алгебра множеств --- оба являются примерами булевой алгебры, которая изучается в отдельной главе.
 ]
 
-=== Venn Diagrams
+=== Диаграммы Венна
 
-Venn diagrams represent sets as overlapping regions inside a bounding rectangle (the universe $U$).
-Effective for up to three sets; beyond that, algebraic reasoning takes over.
+Диаграммы Венна изображают множества как перекрывающиеся области внутри ограничивающего прямоугольника (универсум $U$).
+Эффективны для не более чем трёх множеств; для большего числа используется алгебраическое рассуждение.
 
 #note[
-  Venn diagrams are a thinking tool, not a proof technique.
-  A proper proof requires algebraic laws or element-chasing.
+  Диаграммы Венна --- это инструмент для размышления, а не техника доказательства.
+  Корректное доказательство требует алгебраических законов или поэлементного рассуждения.
 ]
 
-=== Cartesian Product
+=== Декартово произведение
 
-#definition[Cartesian product][
-  $A times B = {(a, b) mid(|) a in A, b in B}$.
-  Two ordered pairs $(a, b)$ and $(c, d)$ are equal iff $a = c$ and $b = d$.
+#definition[Декартово произведение][
+  Множество всех упорядоченных пар $(a, b)$, где $a in A$ и $b in B$, называется *декартовым произведением* $A$ и $B$, обозначается $A times B$: $A times B = {(a, b) mid(|) a in A, b in B}$.
+  Две упорядоченные пары $(a, b)$ и $(c, d)$ называются *равными*, если и только если $a = c$ и $b = d$.
 ]
 
-#theorem[Cardinality of product][
-  For finite sets, $|A times B| = |A| dot |B|$.
+#theorem[Мощность декартова произведения][
+  Для конечных множеств $|A times B| = |A| dot |B|$.
 ]
 
-The product is not associative, but there is a canonical bijection, so we write $A times B times C$ and treat elements as tuples.
+Декартово произведение не ассоциативно, но существует каноническая биекция, поэтому мы пишем $A times B times C$ и рассматриваем элементы как кортежи.
 
-#definition[n-ary Cartesian product][
-  $A_1 times A_2 times ... times A_n = {(a_1, ..., a_n) mid(|) a_i in A_i}$.
-  When all $A_i$ are the same set $A$, we write $A^n$.
+#definition[n-арное декартово произведение][
+  Множество всех $n$-кортежей $(a_1, ..., a_n)$, где $a_i in A_i$, называется *$n$-арным декартовым произведением* $A_1, ..., A_n$, обозначается $A_1 times A_2 times ... times A_n$: $A_1 times A_2 times ... times A_n = {(a_1, ..., a_n) mid(|) a_i in A_i}$.
+  Когда все $A_i$ --- одно и то же множество $A$, произведение называется *декартовой степенью* $A$, обозначается $A^n$.
 ]
 
 #example[
-  $RR^2$ is the Euclidean plane. ${0, 1}^n$ is all $n$-bit strings.
+  $RR^2$ --- евклидова плоскость. ${0, 1}^n$ --- все $n$-битные строки.
 ]
 
 #remark[
-  A record type is $A times B$.
-  A function of $n$ parameters is $A_1 times ... times A_n -> R$.
-  The Cartesian product underlies every struct, tuple, and parameter list.
+  Тип-запись --- это $A times B$.
+  Функция от $n$ параметров --- это $A_1 times ... times A_n -> R$.
+  Декартово произведение лежит в основе каждой структуры, кортежа и списка параметров.
 ]
 
-=== Families and Partitions
+=== Семейства и разбиения
 
-#definition[Indexed family][
-  ${A_i}_(i in I)$ where each $A_i$ is a set and $I$ is the index set. $union.big_(i in I) A_i = {x mid(|) exists i in I space x in A_i}$. $inter.big_(i in I) A_i = {x mid(|) forall i in I space x in A_i}$.
+#definition[Индексированное семейство][
+  Набор множеств, проиндексированных элементами множества $I$, называется *индексированным семейством*, обозначается ${A_i}_(i in I)$. Объединение семейства: $union.big_(i in I) A_i = {x mid(|) exists i in I space x in A_i}$. Пересечение семейства: $inter.big_(i in I) A_i = {x mid(|) forall i in I space x in A_i}$.
 ]
 
-#definition[Partition][
-  A partition of $X$ is a collection of non-empty, pairwise disjoint subsets whose union is $X$.
+#definition[Разбиение][
+  Набор непустых, попарно непересекающихся подмножеств, объединение которых равно $X$, называется *разбиением* множества $X$.
 ]
 
-#example[Concrete partition][
+#example[Пример разбиения][
   $X = {1, 2, 3, 4, 5, 6}$.
-  Partition by parity: ${{1, 3, 5}, {2, 4, 6}}$ --- two parts, pairwise disjoint, union is $X$.
-  Partition by remainder mod 3: ${{1, 4}, {2, 5}, {3, 6}}$ --- three parts.
-  Each partition defines the equivalence relation "$a$ and $b$ have the same parity" or "$a equiv b (mod 3)$".
+  Разбиение по чётности: ${{1, 3, 5}, {2, 4, 6}}$ --- две части, попарно не пересекаются, объединение равно $X$.
+  Разбиение по остатку от деления на 3: ${{1, 4}, {2, 5}, {3, 6}}$ --- три части.
+  Каждое разбиение задаёт отношение эквивалентности: "$a$ и $b$ имеют одинаковую чётность" или "$a equiv b (mod 3)$".
 ]
 
-Partitions are tightly linked to equivalence relations --- explored in the next chapter.
+Разбиения тесно связаны с отношениями эквивалентности --- эта связь исследуется в следующей главе.
 
-#note[Russell's paradox][
-  Not every property defines a set.
-  Let $R = {x mid(|) x in.not x}$ --- "the set of all sets that do not contain themselves."
-  If $R in R$, then $R in.not R$; if $R in.not R$, then $R in R$ --- contradiction.
-  The resolution: axiomatic set theory (ZFC) restricts set formation to avoid self-reference.
-  In practice, working within a fixed universal set $U$ avoids the paradox.
+#note[Парадокс Рассела][
+  Не любое свойство определяет множество.
+  Пусть $R = {x mid(|) x in.not x}$ --- "множество всех множеств, не содержащих самих себя".
+  Если $R in R$, то $R in.not R$; если $R in.not R$, то $R in R$ --- противоречие.
+  Решение: аксиоматическая теория множеств (ZFC) ограничивает образование множеств, чтобы избежать самореференции.
+  На практике работа в фиксированном универсальном множестве $U$ позволяет избежать парадокса.
 ]
 
 
-== Applications
+== Приложения
 
-=== Relational Algebra and SQL
+=== Реляционная алгебра и SQL
 
-A database table is a subset of a Cartesian product.
+Таблица базы данных --- это подмножество декартова произведения.
 
-#definition[Relational algebra operations][
-  - *Selection* $sigma_"condition"(R)$: ${t in R mid(|) "condition"(t)}$.
-  - *Projection* $pi_"columns"(R)$: keep specified columns.
-  - *Union*, *intersection*, *difference*: set operations on tuples.
-  - *Cartesian product*: concatenate every row of $R$ with every row of $S$.
+#definition[Операции реляционной алгебры][
+  - *Выборка* $sigma_"условие"(R)$: ${t in R mid(|) "условие"(t)}$.
+  - *Проекция* $pi_"столбцы"(R)$: сохранить указанные столбцы.
+  - *Объединение*, *пересечение*, *разность*: теоретико-множественные операции над кортежами.
+  - *Декартово произведение*: сцепить каждую строку $R$ с каждой строкой $S$.
 ]
 
 #example[
@@ -242,48 +242,48 @@ A database table is a subset of a Cartesian product.
 ]
 
 #remark[
-  SQL is set comprehension with syntactic sugar.
-  Every `JOIN` is a Cartesian product with a selection; every `UNION` is a set union.
+  SQL --- это порождающая запись множеств с синтаксическим сахаром.
+  Каждый `JOIN` --- это декартово произведение с выборкой; каждый `UNION` --- это объединение множеств.
 ]
 
-=== Data Types as Sets
+=== Типы данных как множества
 
-#definition[Types as sets][
+#definition[Типы как множества][
   - `bool` = ${T, F}$.
   - `uint8` = ${0, ..., 255}$.
-  - `string` $subset.eq Sigma^*$ (finite sequences over alphabet $Sigma$).
-  - $A -> B$ is the set $B^A$ of all functions from $A$ to $B$.
+  - `string` $subset.eq Sigma^*$ (конечные последовательности над алфавитом $Sigma$).
+  - $A -> B$ --- это множество $B^A$ всех функций из $A$ в $B$.
 ]
 
-#definition[Sum and product types][
-  - *Sum type*: disjoint union --- a value belongs to exactly one branch with a tag.
-  - *Product type*: Cartesian product of component types.
+#definition[Типы-суммы и типы-произведения][
+  - *Тип-сумма*: дизъюнктное объединение --- значение принадлежит ровно одной ветви с тегом.
+  - *Тип-произведение*: декартово произведение типов компонентов.
 ]
 
 #example[
-  `Option<T>` = ${"None"} union {"Some"(v) mid(|) v in T}$ --- a disjoint union. `struct Point { x: f64, y: f64 }` is $RR times RR$.
+  `Option<T>` = ${"None"} union {"Some"(v) mid(|) v in T}$ --- дизъюнктное объединение. `struct Point { x: f64, y: f64 }` --- это $RR times RR$.
 ]
 
-=== Bitmasks
+=== Битовые маски
 
-#proposition[Bitmask correspondence][
-  For $X, Y subset.eq {1, ..., n}$ encoded as bitmasks: $b_(X union Y) = b_X | b_Y$, $b_(X inter Y) = b_X & b_Y$, $b_(X symdiff Y) = b_X^b_Y$, $b_(overline(X)) = tilde.op b_X$.
+#proposition[Соответствие битовых масок][
+  Для $X, Y subset.eq {1, ..., n}$, закодированных как битовые маски: $b_(X union Y) = b_X | b_Y$, $b_(X inter Y) = b_X & b_Y$, $b_(X symdiff Y) = b_X^b_Y$, $b_(overline(X)) = tilde.op b_X$.
 ]
 
 #remark[
-  Bitmasks: Unix permissions (rwx = 3 bits), feature flags, graph bitsets, subset enumeration.
+  Битовые маски: права доступа Unix (rwx = 3 бита), флаги функций, битовые представления графов, перечисление подмножеств.
 ]
 
-=== Hashing
+=== Хеширование
 
-A hash function $h: K -> {0, ..., m-1}$ maps a large key space into fixed-size slots.
-By pigeonhole, collisions are inevitable.
+Хеш-функция $h: K -> {0, ..., m-1}$ отображает большое пространство ключей в фиксированное число ячеек.
+По принципу Дирихле коллизии неизбежны.
 
-#definition[Collision][
-  $h(k_1) = h(k_2)$ but $k_1 eq.not k_2$ --- the function is not injective.
+#definition[Коллизия][
+  Ситуация, в которой $h(k_1) = h(k_2)$ при $k_1 eq.not k_2$, называется *коллизией* хеш-функции.
 ]
 
 #note[
-  A dictionary (hash map) is a partial function $f subset.eq K times V$.
-  Hashing provides efficient implementation of this set-theoretic structure.
+  Словарь (хеш-таблица) --- это частичная функция $f subset.eq K times V$.
+  Хеширование обеспечивает эффективную реализацию этой теоретико-множественной структуры.
 ]

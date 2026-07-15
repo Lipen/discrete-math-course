@@ -1,238 +1,239 @@
-// M06 --- Boolean Algebra: the algebraic structure of logic and computation.
+// M06 --- Булева алгебра: алгебраическая структура логики и вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Boolean Algebra
+= Булева алгебра
 
 #chapter-overview[
-  Boolean algebra is the mathematical foundation of digital logic --- every circuit, every conditional, every bitwise operation is an expression in this algebra.
-  This chapter studies Boolean functions, their normal forms, and the problem of minimisation.
-  The chapter closes with the Zhegalkin polynomial, an algebraic normal form based on XOR, and its cryptographic significance.
+  Булева алгебра --- математический фундамент цифровой логики: каждая схема, каждое условие, каждая побитовая операция являются выражениями в этой алгебре.
+  В этой главе изучаются булевы функции, их нормальные формы и задача минимизации.
+  Завершается глава полиномом Жегалкина --- алгебраической нормальной формой на основе XOR --- и его значением для криптографии.
 ]
 
-== Boolean Functions
+== Булевы функции
 
-=== Definitions and Counting
+=== Определения и подсчёт
 
-#definition[Boolean function][
-  An $n$-ary Boolean function is $f: {0, 1}^n arrow {0, 1}$.
-  Fully specified by its truth table with $2^n$ rows.
+#definition[Булева функция][
+  Функция $f$ называется *$n$-арной булевой функцией*, обозначается $f: {0, 1}^n arrow {0, 1}$, если её область определения --- ${0, 1}^n$, а область значений --- ${0, 1}$.
+  Полностью задаётся своей таблицей истинности с $2^n$ строками.
 ]
 
-#theorem[Counting Boolean functions][
-  There are exactly $2^(2^n)$ distinct $n$-ary Boolean functions.
+#theorem[Подсчёт булевых функций][
+  Существует ровно $2^(2^n)$ различных $n$-арных булевых функций.
 ]
 
 #proof[
-  A truth table has $2^n$ rows, one per input combination.
-  Each output is independently 0 or 1, giving $2$ choices per row.
-  Total: $2^(2^n)$ functions.
+  Таблица истинности содержит $2^n$ строк --- по одной на каждую входную комбинацию.
+  Каждый выход независимо равен 0 или 1, что даёт $2$ варианта на строку.
+  Итого: $2^(2^n)$ функций.
 ]
 
 #example[
-  For $n = 0$: constants 0 and 1.
-  For $n = 1$: 4 functions (identity, NOT, constant 0, constant 1).
-  For $n = 2$: 16 functions, the classic logic gates.
+  Для $n = 0$: константы 0 и 1.
+  Для $n = 1$: 4 функции (тождественная, НЕ, константа 0, константа 1).
+  Для $n = 2$: 16 функций --- классические логические вентили.
 ]
 
-=== Binary Boolean Functions
+=== Бинарные булевы функции
 
-#proposition[The 16 binary Boolean functions][
-  The complete list: FALSE, AND, $x and not y$, $x$, $not x and y$, $y$, XOR, OR, NOR, XNOR, not $y$, $x imply y$, not $x$, $y imply x$, NAND, TRUE.
+#proposition[16 бинарных булевых функций][
+  Полный список: ЛОЖЬ, И, $x and not y$, $x$, $not x and y$, $y$, XOR, ИЛИ, ИЛИ-НЕ, XNOR, НЕ $y$, $x imply y$, НЕ $x$, $y imply x$, И-НЕ, ИСТИНА.
 ]
 
 #note[
-  $x imply y = not x or y$ and $x equiv y = (x imply y) and (y imply x)$ --- implication and equivalence are expressible via NOT, AND, OR.
+  $x imply y = not x or y$ и $x equiv y = (x imply y) and (y imply x)$ --- импликация и эквивалентность выражаются через НЕ, И, ИЛИ.
 ]
 
-=== Functional Completeness
+=== Функциональная полнота
 
-#definition[Functional completeness][
-  A set $F$ of Boolean functions is *functionally complete* if every Boolean function can be written as a composition of functions from $F$.
+#definition[Функциональная полнота][
+  Множество булевых функций называется *функционально полным*, обозначается $F$, если всякая булева функция может быть записана как композиция функций из $F$.
 ]
 
-#theorem[Sheffer stroke and Peirce arrow][
-  Each of ${"NAND"}$ ($arrow.t$) and ${"NOR"}$ ($arrow.b$) alone is functionally complete.
+#theorem[Штрих Шеффера и стрелка Пирса][
+  Каждое из множеств ${"И-НЕ"}$ ($arrow.t$) и ${"ИЛИ-НЕ"}$ ($arrow.b$) по отдельности функционально полно.
 ]
 
 #proof[
-  Express NOT, AND, OR using only NAND:
+  Выразим НЕ, И, ИЛИ только через И-НЕ:
   $not x = x arrow.t x$,
   $x and y = (x arrow.t y) arrow.t (x arrow.t y)$,
   $x or y = (x arrow.t x) arrow.t (y arrow.t y)$.
-  Since ${"NOT"}, {"AND"}, {"OR"}$ is complete, NAND is complete.
+  Поскольку множество ${"НЕ"}, {"И"}, {"ИЛИ"}$ полно, И-НЕ полно.
 ]
 
-#proposition[Standard complete sets][
-  ${"NOT"}, {"AND"}, {"OR"}$, ${"NOT"}, {"AND"}$, and ${"NOT"}, {"OR"}$ are functionally complete.
-  ${"AND"}, {"OR"}$ alone is NOT complete --- both are monotone, cannot express negation.
+#proposition[Стандартные полные множества][
+  ${"НЕ"}, {"И"}, {"ИЛИ"}$, ${"НЕ"}, {"И"}$ и ${"НЕ"}, {"ИЛИ"}$ функционально полны.
+  ${"И"}, {"ИЛИ"}$ само по себе НЕ полно --- обе функции монотонны и не могут выразить отрицание.
 ]
 
-=== Post's Criterion (Overview)
+=== Критерий Поста (обзор)
 
-#proposition[Post's closed classes][
-  Five maximal classes, each closed under composition:
-  - $T_0$: preserving 0 --- $f(0, ..., 0) = 0$.
-  - $T_1$: preserving 1 --- $f(1, ..., 1) = 1$.
-  - $S$: self-dual --- $not f(not x_1, ..., not x_n) = f(x_1, ..., x_n)$.
-  - $M$: monotone --- increasing inputs never decreases output.
-  - $L$: linear --- expressible as XOR of a subset of variables (possibly plus 1).
+#proposition[Замкнутые классы Поста][
+  Пять максимальных классов, каждый замкнут относительно композиции:
+  - $T_0$: сохраняющие 0 --- $f(0, ..., 0) = 0$.
+  - $T_1$: сохраняющие 1 --- $f(1, ..., 1) = 1$.
+  - $S$: самодвойственные --- $not f(not x_1, ..., not x_n) = f(x_1, ..., x_n)$.
+  - $M$: монотонные --- увеличение входов никогда не уменьшает выход.
+  - $L$: линейные --- выражаются как XOR подмножества переменных (возможно, плюс 1).
 ]
 
-#theorem[Post's criterion][
-  A set $F$ is functionally complete iff it is NOT entirely contained in any one of $T_0$, $T_1$, $S$, $M$, $L$.
+#theorem[Критерий Поста][
+  Множество $F$ функционально полно тогда и только тогда, когда оно НЕ содержится целиком ни в одном из классов $T_0$, $T_1$, $S$, $M$, $L$.
 ]
 
-#example[Verifying completeness via Post's criterion][
-  Is ${"NAND"}$ ($arrow.t$) complete?
-  Check membership in each class:
-  - $T_0$: $"NAND"(0, 0) = 1 eq.not 0$ $=>$ not in $T_0$.
-  - $T_1$: $"NAND"(1, 1) = 0 eq.not 1$ $=>$ not in $T_1$.
-  - $S$: $"NAND"(not x, not y) = not(not x and not y) = x or y$, but $not("NAND"(x, y)) = not(not(x and y)) = x and y eq.not x or y$ $=>$ not self-dual.
-  - $M$: $"NAND"(0, 1) = 1$, $"NAND"(1, 1) = 0$ --- increasing input decreases output $=>$ not monotone.
-  - $L$: $"NAND"(x, y) = not(x and y) = x y xor 1$ --- degree 2, not linear.
-  NAND is in none of the five classes $=>$ ${"NAND"}$ is complete.
+#example[Проверка полноты через критерий Поста][
+  Является ли ${"И-НЕ"}$ ($arrow.t$) полным?
+  Проверим принадлежность каждому классу:
+  - $T_0$: $"И-НЕ"(0, 0) = 1 eq.not 0$ $=>$ не принадлежит $T_0$.
+  - $T_1$: $"И-НЕ"(1, 1) = 0 eq.not 1$ $=>$ не принадлежит $T_1$.
+  - $S$: $"И-НЕ"(not x, not y) = not(not x and not y) = x or y$, но $not("И-НЕ"(x, y)) = not(not(x and y)) = x and y eq.not x or y$ $=>$ не самодвойственна.
+  - $M$: $"И-НЕ"(0, 1) = 1$, $"И-НЕ"(1, 1) = 0$ --- увеличение входа уменьшает выход $=>$ не монотонна.
+  - $L$: $"И-НЕ"(x, y) = not(x and y) = x y xor 1$ --- степень 2, не линейна.
+  И-НЕ не принадлежит ни одному из пяти классов $=>$ ${"И-НЕ"}$ полно.
 ]
 
 #note[
-  NAND and NOR are universal gates in digital design --- each is complete and physically simple (4 transistors in CMOS).
+  И-НЕ и ИЛИ-НЕ являются универсальными вентилями в цифровой схемотехнике --- каждый функционально полон и физически прост (4 транзистора в КМОП).
 ]
 
-=== Boolean Algebra as Algebraic Structure
+=== Булева алгебра как алгебраическая структура
 
-#definition[Boolean algebra axioms][
-  A Boolean algebra is $(B, and, or, bar(X), 0, 1)$ satisfying:
-  - Commutativity, associativity, distributivity of $and$/$or$.
-  - Identity: $a and 1 = a$, $a or 0 = a$.
-  - Complement: $a and overline(a) = 0$, $a or overline(a) = 1$.
+#definition[Аксиомы булевой алгебры][
+  Алгебраическая структура $(B, and, or, bar(X), 0, 1)$ называется *булевой алгеброй*, если она удовлетворяет следующим аксиомам:
+  - Коммутативность, ассоциативность, дистрибутивность $and$/$or$.
+  - Нейтральный элемент: $a and 1 = a$, $a or 0 = a$.
+  - Дополнение: $a and overline(a) = 0$, $a or overline(a) = 1$.
 ]
 
-#proposition[Duality principle][
-  Every identity remains valid if $and$ and $or$ are swapped, and $0$ and $1$ are swapped.
-  Every theorem has a dual.
+#proposition[Принцип двойственности][
+  Всякое тождество остаётся верным, если поменять местами $and$ и $or$, а также $0$ и $1$.
+  У каждой теоремы есть двойственная.
 ]
 
 
-== Normal Forms
+== Нормальные формы
 
-=== Literals, Minterms, Maxterms
+=== Литералы, минтермы, макстермы
 
-#definition[Literals, minterms, maxterms][
-  - *Literal*: variable $x_i$ or its negation $overline(x_i)$.
-  - *Minterm*: conjunction of literals where each variable appears exactly once --- one per truth table row ($2^n$ total).
-  - *Maxterm*: disjunction of literals where each variable appears exactly once.
+#definition[Литералы, минтермы, макстермы][
+  - Переменная $x_i$ или её отрицание $overline(x_i)$ называется *литералом*.
+  - Конъюнкция литералов, в которую каждая переменная входит ровно один раз, называется *минтермом* --- по одному на строку таблицы истинности (всего $2^n$).
+  - Дизъюнкция литералов, в которую каждая переменная входит ровно один раз, называется *макстермом*.
 ]
 
 #example[
-  For $n = 3$: minterm $x and overline(y) and z$ is true only on $(1, 0, 1)$.
-  Maxterm $x or overline(y) or z$ is false only on $(0, 1, 0)$.
+  Для $n = 3$: минтерм $x and overline(y) and z$ истинен только на $(1, 0, 1)$.
+  Макстерм $x or overline(y) or z$ ложен только на $(0, 1, 0)$.
 ]
 
-=== DNF and CNF
+=== ДНФ и КНФ
 
-#definition[DNF][
-  Disjunctive Normal Form: disjunction of conjunctions of literals. $(l_(1,1) and ...) or ... or (l_(m,1) and ...)$.
+#definition[ДНФ][
+  Формула вида $(l_(1,1) and ...) or ... or (l_(m,1) and ...)$ называется *дизъюнктивной нормальной формой* (ДНФ), если она представляет собой дизъюнкцию конъюнкций литералов.
 ]
 
-#definition[CNF][
-  Conjunctive Normal Form: conjunction of disjunctions of literals. $(l_(1,1) or ...) and ... and (l_(m,1) or ...)$.
+#definition[КНФ][
+  Формула вида $(l_(1,1) or ...) and ... and (l_(m,1) or ...)$ называется *конъюнктивной нормальной формой* (КНФ), если она представляет собой конъюнкцию дизъюнкций литералов.
 ]
 
-#theorem[Existence][
-  Every Boolean function has DNF and CNF representations.
+#theorem[Существование][
+  Всякая булева функция имеет представление в ДНФ и КНФ.
 ]
 
-#note[Construction from truth table][
-  - *DNF*: for each row with $f = 1$, write conjunction of literals ($x_i$ if 1, $overline(x_i)$ if 0).
-    Disjoin all minterms.
-  - *CNF* (dual): for each row with $f = 0$, write disjunction ($overline(x_i)$ if 1, $x_i$ if 0).
-    Conjoin all maxterms.
+#note[Построение по таблице истинности][
+  - *ДНФ*: для каждой строки с $f = 1$ записать конъюнкцию литералов ($x_i$ если 1, $overline(x_i)$ если 0).
+    Соединить все минтермы дизъюнкцией.
+  - *КНФ* (двойственно): для каждой строки с $f = 0$ записать дизъюнкцию ($overline(x_i)$ если 1, $x_i$ если 0).
+    Соединить все макстермы конъюнкцией.
 ]
 
-#example[DNF and CNF of XOR][
-  $x xor y$ is 1 on $(0, 1)$ and $(1, 0)$.
-  - DNF: $(overline(x) and y) or (x and overline(y))$.
-  - CNF: $(x or y) and (overline(x) or overline(y))$.
+#example[ДНФ и КНФ для XOR][
+  $x xor y$ равен 1 на $(0, 1)$ и $(1, 0)$.
+  - ДНФ: $(overline(x) and y) or (x and overline(y))$.
+  - КНФ: $(x or y) and (overline(x) or overline(y))$.
 ]
 
-#definition[Perfect normal forms][
-  - *Perfect DNF* (SDNF): every conjunction contains all $n$ variables.
-  - *Perfect CNF* (SKNF): every disjunction contains all $n$ variables.
-  Both unique up to order.
-]
-
-#note[
-  Non-perfect DNF/CNF are not unique; this motivates minimisation.
-]
-
-
-== Minimisation
-
-Goal: find a DNF with minimal literals (or terms).
-
-=== Karnaugh Maps
-
-#definition[Karnaugh map][
-  A 2D truth table with Gray code ordering --- adjacent cells differ in one variable.
-  Rectangular groups of $2^k$ adjacent 1-cells correspond to a conjunction of $n - k$ literals.
-]
-
-#definition[Prime implicant][
-  A *prime implicant* is a conjunction implying the function, not expandable.
-  On the K-map: maximal rectangular group of 1-cells (size = power of 2). *Essential prime implicant*: covers at least one 1-cell not covered by others.
-]
-
-#note[K-map procedure][
-  (1) Identify all prime implicants (maximal rectangular groups of 1-cells, size $2^k$).
-  (2) Mark essential prime implicants (covering a 1-cell no one else covers).
-  (3) Cover remaining 1-cells with minimal set of remaining primes.
+#definition[Совершенные нормальные формы][
+  - ДНФ, в которой каждая конъюнкция содержит все $n$ переменных, называется *совершенной ДНФ* (СДНФ).
+  - КНФ, в которой каждая дизъюнкция содержит все $n$ переменных, называется *совершенной КНФ* (СКНФ).
+  Обе единственны с точностью до порядка.
 ]
 
 #note[
-  *Don't-care conditions* (× on K-map): input combinations that never occur or whose output is irrelevant.
-  Treated as 0 or 1, whichever creates larger groups.
-  K-maps work for $n <= 4$; beyond that, algorithmic methods are needed.
+  Несовершенные ДНФ/КНФ не единственны; это мотивирует задачу минимизации.
 ]
 
-=== Quine-McCluskey Algorithm
 
-#proposition[Quine-McCluskey --- outline][
-  1. List minterms in binary.
-  2. *Merging phase*: combine pairs differing in one bit (replace bit with dash).
-    Repeat until no merges.
-    Unmerged terms = prime implicants.
-  3. *Covering phase*: select minimal subset of prime implicants covering all minterms (set cover --- NP-hard in general, heuristics exist).
+== Минимизация
+
+Цель: найти ДНФ с минимальным числом литералов (или термов).
+
+=== Карты Карно
+
+#definition[Карта Карно][
+  Двумерная таблица истинности с упорядочиванием в коде Грея называется *картой Карно*, если соседние клетки отличаются в одной переменной.
+  Прямоугольные группы из $2^k$ смежных единичных клеток соответствуют конъюнкции из $n - k$ литералов.
+]
+
+#definition[Простая импликанта][
+  Конъюнкция, имплицирующая функцию и не расширяемая далее, называется *простой импликантой*.
+  На карте Карно: максимальная прямоугольная группа единичных клеток (размер --- степень двойки).
+  Простая импликанта, покрывающая хотя бы одну единичную клетку, не покрываемую другими, называется *существенной простой импликантой*.
+]
+
+#note[Процедура работы с картой Карно][
+  (1) Выделить все простые импликанты (максимальные прямоугольные группы единичных клеток размера $2^k$).
+  (2) Отметить существенные простые импликанты (покрывающие единичную клетку, которую никто другой не покрывает).
+  (3) Покрыть оставшиеся единичные клетки минимальным набором остальных простых импликант.
+]
+
+#note[
+  *Неопределённые условия* (× на карте Карно): входные комбинации, которые никогда не встречаются или чей выход безразличен.
+  Рассматриваются как 0 или 1 --- что даёт более крупные группы.
+  Карты Карно работают для $n <= 4$; для большего числа переменных нужны алгоритмические методы.
+]
+
+=== Алгоритм Квайна --- МакКласки
+
+#proposition[Алгоритм Квайна --- МакКласки (схема)][
+  1. Выписать минтермы в двоичном виде.
+  2. *Фаза склеивания*: комбинировать пары, отличающиеся в одном бите (замена бита на прочерк).
+    Повторять, пока есть склеивания.
+    Несклеенные термы = простые импликанты.
+  3. *Фаза покрытия*: выбрать минимальное подмножество простых импликант, покрывающих все минтермы (задача о покрытии множества --- в общем случае NP-трудна, существуют эвристики).
 ]
 
 #remark[
-  Modern tools (Espresso) use iterative improvement for near-minimal results on dozens of variables.
+  Современные инструменты (Espresso) используют итеративное улучшение для получения почти минимальных результатов на десятках переменных.
 ]
 
 
-== Zhegalkin Polynomial (ANF)
+== Полином Жегалкина (АНФ)
 
-#definition[Zhegalkin polynomial][
-  The Algebraic Normal Form represents a Boolean function as XOR of conjunctions: $f(x_1, ..., x_n) = xor_(S subset.eq {1,...,n}) a_S dot product_(i in S) x_i$, where $a_S in {0, 1}$ and XOR is addition modulo 2.
+#definition[Полином Жегалкина][
+  Представление булевой функции в виде $f(x_1, ..., x_n) = xor_(S subset.eq {1,...,n}) a_S dot product_(i in S) x_i$, где $a_S in {0, 1}$, а XOR --- сложение по модулю 2, называется *полиномом Жегалкина* (алгебраической нормальной формой).
 ]
 
-#theorem[Uniqueness][
-  Every Boolean function has exactly one Zhegalkin polynomial.
+#theorem[Единственность][
+  Всякая булева функция имеет ровно один полином Жегалкина.
 ]
 
-#proposition[Computing the Zhegalkin polynomial][
-  Three methods:
-  1. *Undetermined coefficients*: substitute all $2^n$ assignments, solve linear system over $"GF"(2)$.
-  2. *Equivalent transformations*: apply $x or y = x xor y xor x y$, $overline(x) = x xor 1$, simplify with $x xor x = 0$.
-  3. *Pascal triangle method*: XOR adjacent truth-table entries repeatedly.
+#proposition[Вычисление полинома Жегалкина][
+  Три метода:
+  1. *Метод неопределённых коэффициентов*: подставить все $2^n$ наборов, решить линейную систему над $"GF"(2)$.
+  2. *Эквивалентные преобразования*: применить $x or y = x xor y xor x y$, $overline(x) = x xor 1$, упростить с помощью $x xor x = 0$.
+  3. *Метод треугольника Паскаля*: многократно проксорить соседние элементы таблицы истинности.
 ]
 
-#example[Zhegalkin polynomial of XOR][
-  $x xor y$ is already in ANF: $a_0 = 0$, $a_x = 1$, $a_y = 1$, $a_(x y) = 0$.
+#example[Полином Жегалкина для XOR][
+  $x xor y$ уже в АНФ: $a_0 = 0$, $a_x = 1$, $a_y = 1$, $a_(x y) = 0$.
   $f(x, y) = 0 xor 1 dot x xor 1 dot y xor 0 dot x y = x xor y$.
 ]
 
 #remark[
-  The Zhegalkin polynomial is the basis of linear and differential cryptanalysis.
-  A cipher's Boolean function should have high *nonlinearity* --- its ANF should be far from linear.
-  Functions with simple algebraic structure are vulnerable to algebraic attacks.
+  Полином Жегалкина лежит в основе линейного и разностного криптоанализа.
+  Булева функция шифра должна иметь высокую *нелинейность* --- её АНФ должна быть далека от линейной.
+  Функции с простой алгебраической структурой уязвимы для алгебраических атак.
 ]

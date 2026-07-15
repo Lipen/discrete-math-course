@@ -1,196 +1,196 @@
-// M14 --- Turing Machines and Undecidability: the limits of computation.
+// M14 --- Машины Тьюринга и неразрешимость: пределы вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Turing Machines and Undecidability
+= Машины Тьюринга и неразрешимость
 
 #chapter-overview[
-  The Turing machine is the mathematical definition of "algorithm" --- it captures what it means to compute.
-  This chapter defines Turing machines, proves the existence of undecidable problems (the Halting Problem), develops the technique of reduction, and presents Rice's theorem: any non-trivial semantic property of programs is undecidable.
-  There are well-defined problems that no computer can ever solve.
+  Машина Тьюринга --- это математическое определение "алгоритма": она формализует, что значит "вычислять".
+  В этой главе определяются машины Тьюринга, доказывается существование неразрешимых проблем (проблема остановки), развивается техника сведения и приводится теорема Райса: любое нетривиальное семантическое свойство программ неразрешимо.
+  Существуют строго определённые задачи, которые ни один компьютер никогда не сможет решить.
 ]
 
-== Turing Machines
+== Машины Тьюринга
 
-=== Turing Machine Definition
+=== Определение машины Тьюринга
 
-#definition[Turing machine][
-  $M = (Q, Gamma, Sigma, delta, q_0, q_"accept", q_"reject")$:
-  - $Q$: finite states.
-  - $Gamma$: tape alphabet (includes blank $Blank$).
-  - $Sigma subset.eq Gamma setminus {Blank}$: input alphabet.
-  - $delta: Q times Gamma -> Q times Gamma times {L, R}$: partial transition function.
+#definition[Машина Тьюринга][
+  *Машиной Тьюринга* называется семёрка $M = (Q, Gamma, Sigma, delta, q_0, q_"accept", q_"reject")$, где
+  $Q$ --- конечное множество состояний,
+  $Gamma$ --- алфавит ленты (включает пустой символ $Blank$),
+  $Sigma subset.eq Gamma setminus {Blank}$ --- входной алфавит,
+  $delta: Q times Gamma -> Q times Gamma times {L, R}$ --- частичная функция переходов.
 ]
 
-Infinite tape (both directions), one head.
-One step: read symbol, write symbol, move L/R, change state.
+Бесконечная лента (в обе стороны), одна головка.
+Один шаг: прочитать символ, записать символ, сдвинуться L/R, перейти в новое состояние.
 
-#definition[Configuration][
-  $u q v$: tape content $u v$, head at first symbol of $v$, state $q$.
-  Start: $q_0 w$.
-  Accept: reach $q_"accept"$.
-  Reject: reach $q_"reject"$.
-  Loop: never halt.
+#definition[Конфигурация][
+  *Конфигурацией* машины Тьюринга называется запись $u q v$, где $u v$ --- содержимое ленты, головка указывает на первый символ $v$, а текущее состояние --- $q$.
+  Начальная конфигурация: $q_0 w$.
+  Машина *принимает*, если достигает состояния $q_"accept"$.
+  Машина *отвергает*, если достигает состояния $q_"reject"$.
+  Машина *зацикливается*, если никогда не останавливается.
 ]
 
-#definition[Recognisable vs decidable][
-  - $L$ is *recognisable* (r.e.): some TM accepts exactly $L$ (may loop on $w in.not L$).
-  - $L$ is *decidable* (recursive): some TM always halts and accepts iff $w in L$.
+#definition[Распознаваемость и разрешимость][
+  Язык $L$ называется *распознаваемым* (рекурсивно перечислимым), если существует машина Тьюринга, принимающая в точности $L$ (на входах $w in.not L$ может зациклиться).
+  Язык $L$ называется *разрешимым* (рекурсивным), если существует машина Тьюринга, которая всегда останавливается и принимает тогда и только тогда, когда $w in L$.
 ]
 
-Decidable $=>$ recognisable.
-$L$ decidable iff both $L$ and $overline(L)$ are recognisable.
+Разрешимость $=>$ распознаваемость.
+$L$ разрешим тогда и только тогда, когда и $L$, и $overline(L)$ распознаваемы.
 
-=== Robustness and Variants
+=== Устойчивость и варианты
 
-#example[TM for ${0^n 1^n mid(|) n >= 0}$][
-  Strategy: cross off one 0 at the left, one 1 at the right, repeat.
-  States: $q_0$ (seek first 0), $q_1$ (seek right end), $q_2$ (seek first 1 from right), $q_3$ (return to left), $q_"accept"$, $q_"reject"$.
-  Typical run on 0011:
-  1. $q_0$: read 0, write X, move R to $q_1$.
-  2. $q_1$: skip 0 and 1, reach blank, move L to $q_2$.
-  3. $q_2$: read 1, write X, move L to $q_3$.
-  4. $q_3$: skip back to first X, move R to $q_0$.
-  Repeat: 0X11 $->$ XX11 $->$ ... $->$ XXXX $->$ accept.
-  If a 0 is found after a 1, reject.
-  If 1's run out before 0's, reject.
-]
-
-#remark[
-  Multi-tape TMs are equivalent to single-tape (quadratic slowdown).
-  Nondeterministic TMs are equivalent to deterministic (exponential slowdown via dovetailing).
-  Two-stack machines, counter machines, register machines --- all equivalent.
-  All "reasonable" computational models define the same class of computable functions.
-  This is the empirical evidence for the Church-Turing thesis.
-]
-
-=== Church-Turing Thesis
-
-#proposition[Church-Turing thesis][
-  Every intuitively computable function can be computed by a Turing machine.
-  Not a theorem (notion of "intuitively computable" is informal) but an empirical fact: all proposed formalisations (lambda calculus, recursive functions, register machines) are equivalent.
-]
-
-=== Universal Turing Machine
-
-#theorem[Universal TM][
-  There exists a TM $U$ that, given encoding $la M ra$ of TM $M$ and input $w$, simulates $M$ on $w$.
+#example[МТ для языка ${0^n 1^n mid(|) n >= 0}$][
+  Стратегия: вычёркиваем один 0 слева, одну 1 справа, повторяем.
+  Состояния: $q_0$ (ищем первый 0), $q_1$ (идём к правому концу), $q_2$ (ищем первую 1 справа), $q_3$ (возвращаемся влево), $q_"accept"$, $q_"reject"$.
+  Пример работы на строке 0011:
+  1. $q_0$: читаем 0, пишем X, сдвиг R, переходим в $q_1$.
+  2. $q_1$: пропускаем 0 и 1, доходим до пробела, сдвиг L, переходим в $q_2$.
+  3. $q_2$: читаем 1, пишем X, сдвиг L, переходим в $q_3$.
+  4. $q_3$: возвращаемся к первому X, сдвиг R, переходим в $q_0$.
+  Повтор: 0X11 $->$ XX11 $->$ ... $->$ XXXX $->$ принять.
+  Если 0 найден после 1 --- отвергнуть.
+  Если единицы закончились раньше нулей --- отвергнуть.
 ]
 
 #remark[
-  $U$ is the mathematical precursor of the stored-program computer (von Neumann architecture).
+  Многоленточные МТ эквивалентны одноленточным (квадратичное замедление).
+  Недетерминированные МТ эквивалентны детерминированным (экспоненциальное замедление через dovetailing).
+  Машины с двумя стеками, счётчиковые машины, регистровые машины --- все эквивалентны.
+  Все "разумные" вычислительные модели определяют один и тот же класс вычислимых функций.
+  Это эмпирическое свидетельство в пользу тезиса Чёрча---Тьюринга.
 ]
 
-== The Halting Problem
+=== Тезис Чёрча---Тьюринга
 
-#definition[Halting problem][
-  $"HALT" = {la M ra w mid(|) M "halts on" w}$.
+#proposition[Тезис Чёрча---Тьюринга][
+  Всякая интуитивно вычислимая функция может быть вычислена машиной Тьюринга.
+  Это не теорема (понятие "интуитивно вычислимой" не формально), а эмпирический факт: все предложенные формализации (лямбда-исчисление, рекурсивные функции, регистровые машины) эквивалентны.
 ]
 
-#theorem[Undecidability of halting problem][
-  $"HALT"$ is undecidable.
+=== Универсальная машина Тьюринга
+
+#theorem[Универсальная МТ][
+  Существует МТ $U$, которая по кодировке $la M ra$ машины Тьюринга $M$ и входу $w$ симулирует работу $M$ на $w$.
+]
+
+#remark[
+  $U$ --- математический предшественник компьютера с хранимой программой (архитектура фон Неймана).
+]
+
+== Проблема остановки
+
+#definition[Проблема остановки][
+  *Проблемой остановки* называется язык $"HALT" = {la M ra w mid(|) M "останавливается на" w}$.
+]
+
+#theorem[Неразрешимость проблемы остановки][
+  $"HALT"$ неразрешима.
 ]
 
 #proof[
-  By contradiction.
-  Suppose a TM $H$ decides HALT: $H(la M ra w)$ accepts iff $M$ halts on $w$.
+  От противного.
+  Предположим, существует МТ $H$, разрешающая HALT: $H(la M ra w)$ принимает тогда и только тогда, когда $M$ останавливается на $w$.
 
-  Construct $D$ that, on input $la M ra$, runs $H$ on $la M ra la M ra$ and loops if $H$ accepts, halts if $H$ rejects.
+  Построим $D$, которая на входе $la M ra$ запускает $H$ на $la M ra la M ra$ и зацикливается, если $H$ принимает, и останавливается, если $H$ отвергает.
 
-  Now run $D$ on $la D ra$.
-  If $D$ halts, $H$ rejected $la D ra la D ra$: $H$ claims $D$ loops, yet $D$ halted.
-  If $D$ loops, $H$ accepted $la D ra la D ra$: $H$ claims $D$ halts, yet $D$ loops.
-  In both cases $H$ is wrong, contradicting the assumption.
+  Теперь запустим $D$ на $la D ra$.
+  Если $D$ останавливается, то $H$ отвергла $la D ra la D ra$: $H$ утверждает, что $D$ зацикливается, но $D$ остановилась.
+  Если $D$ зацикливается, то $H$ приняла $la D ra la D ra$: $H$ утверждает, что $D$ останавливается, но $D$ зациклилась.
+  В обоих случаях $H$ ошибается --- противоречие с предположением.
 
-  Therefore no TM decides HALT.
-  This diagonal pattern mirrors Cantor's diagonal argument and Russell's paradox.
+  Следовательно, никакая МТ не разрешает HALT.
+  Эта диагональная конструкция повторяет диагональный аргумент Кантора и парадокс Рассела.
 ]
 
 #note[
-  - HALT is recognisable (simulate and accept if it halts) but not decidable.
+  - HALT распознаваема (симулируем и принимаем, если остановится), но не разрешима.
 
-  - $overline("HALT")$ is not even recognisable.
+  - $overline("HALT")$ даже не распознаваема.
 ]
 
-== Reductions
+== Сведения
 
-#definition[Many-one reduction][
-  $A mreduce B$: exists computable $f$ s.t. $w in A$ iff $f(w) in B$.
+#definition[Сведение по Тьюрингу (many-one)][
+  Язык $A$ называется *сводимым по Тьюрингу* (many-one) к языку $B$, обозначается $A mreduce B$, если существует вычислимая функция $f$, такая что $w in A$ тогда и только тогда, когда $f(w) in B$.
 ]
 
-#proposition[Using reductions][
-  - $A mreduce B$ and $B$ decidable $=>$$A$ decidable.
-  - $A mreduce B$ and $A$ undecidable $=>$$B$ undecidable.
+#proposition[Использование сведений][
+  - $A mreduce B$ и $B$ разрешим $=>$$A$ разрешим.
+  - $A mreduce B$ и $A$ неразрешим $=>$$B$ неразрешим.
 ]
 
-#example[Reduction: HALT to Emptiness][
-  Show $E_"TM" = {la M ra mid(|) L(M) = nothing}$ is undecidable.
-  Assume $E$ decides $E_"TM"$.
-  Construct decider $H$ for HALT on input $la M ra w$:
-  1. Build $M'$: on any input, ignore it, simulate $M$ on $w$, accept iff $M$ halts on $w$.
-    $L(M') =$ all strings (if $M$ halts on $w$), or $nothing$ (if $M$ loops on $w$).
-  2. Feed $la M' ra$ to $E$.
-  3. If $E$ accepts ($L(M') = nothing$): $M$ loops $=>$reject.
-  If $E$ rejects ($L(M') eq.not nothing$): $M$ halts $=>$accept.
-  Thus HALT decidable --- contradiction.
-  Therefore $E_"TM"$ is undecidable.
+#example[Сведение: HALT к проблеме пустоты][
+  Покажем, что $E_"TM" = {la M ra mid(|) L(M) = nothing}$ неразрешима.
+  Предположим, $E$ разрешает $E_"TM"$.
+  Построим разрешатель $H$ для HALT на входе $la M ra w$:
+  1. Построим $M'$: на любом входе игнорирует его, симулирует $M$ на $w$, принимает тогда и только тогда, когда $M$ останавливается на $w$.
+    $L(M') =$ все строки (если $M$ останавливается на $w$) или $nothing$ (если $M$ зацикливается на $w$).
+  2. Подадим $la M' ra$ на вход $E$.
+  3. Если $E$ принимает ($L(M') = nothing$): $M$ зацикливается $=>$отвергнуть.
+  Если $E$ отвергает ($L(M') eq.not nothing$): $M$ останавливается $=>$принять.
+  Тогда HALT разрешима --- противоречие.
+  Следовательно, $E_"TM"$ неразрешима.
 ]
 
-#example[Undecidable via reduction][
-  - *Totality*: does $M$ halt on every input?
-    Undecidable.\ Reduce HALT: $M'$ ignores its own input, simulates $M$ on $w$; $M'$ is total iff $M$ halts on $w$.
+#example[Неразрешимость через сведение][
+  - *Тотальность*: останавливается ли $M$ на каждом входе?
+    Неразрешима.\ Сведение от HALT: $M'$ игнорирует свой вход, симулирует $M$ на $w$; $M'$ тотальна тогда и только тогда, когда $M$ останавливается на $w$.
 
-  - *Equivalence*: $L(M_1) = L(M_2)$?
-    Undecidable.\ Even checking $L(M) = nothing$ (a special case) is undecidable.
+  - *Эквивалентность*: $L(M_1) = L(M_2)$?
+    Неразрешима.\ Даже проверка $L(M) = nothing$ (частный случай) неразрешима.
 
-  - *Regularity*: is $L(M)$ a regular language?
-    Undecidable.
+  - *Регулярность*: является ли $L(M)$ регулярным языком?
+    Неразрешима.
 ]
 
-== Rice's Theorem
+== Теорема Райса
 
-#theorem[Rice's theorem][
-  Let $P$ be any non-trivial property of recognisable languages (depends only on $L(M)$, not on machine description; true for some but not all TMs).
-  Then ${la M ra mid(|) P(L(M))}$ is undecidable.
+#theorem[Теорема Райса][
+  Пусть $P$ --- любое нетривиальное свойство распознаваемых языков (зависит только от $L(M)$, а не от описания машины; истинно для некоторых, но не для всех МТ).
+  Тогда ${la M ra mid(|) P(L(M))}$ неразрешимо.
 ]
 
 #proof-sketch[
-  Reduce HALT to $P$.
-  Construct $M'$ that simulates $M$ on $w$; if $M$ halts, $M'$ behaves like a fixed machine with/without property $P$.
-  $P(L(M'))$ holds iff $M$ halts on $w$.
+  Сводим HALT к $P$.
+  Строим $M'$, которая симулирует $M$ на $w$; если $M$ останавливается, $M'$ ведёт себя как фиксированная машина, обладающая или не обладающая свойством $P$.
+  $P(L(M'))$ выполнено тогда и только тогда, когда $M$ останавливается на $w$.
 ]
 
-#example[Undecidable properties][
-  Is $L(M)$ empty?
-  Finite?
-  Regular?
-  Context-free?
+#example[Неразрешимые свойства][
+  Является ли $L(M)$ пустым?
+  Конечным?
+  Регулярным?
+  Контекстно-свободным?
   $= Sigma^*$?
-  The only decidable properties are the trivial ones (always true / always false).
+  Единственные разрешимые свойства --- тривиальные (всегда истинно / всегда ложно).
 ]
 
 #remark[
-  Rice's theorem explains why no perfect static analyser exists.
-  Any interesting behavioural property of programs is undecidable.
-  Practical tools are *conservative*: sound but incomplete, or complete but unsound.
+  Теорема Райса объясняет, почему не существует идеального статического анализатора.
+  Любое нетривиальное поведенческое свойство программ неразрешимо.
+  Практические инструменты *консервативны*: корректны, но не полны, либо полны, но не корректны.
 ]
 
-== Beyond Turing Machines
+== За пределами машин Тьюринга
 
-#definition[Oracle TM][
-  TM with access to an oracle that answers membership queries in one step.
-  Formalises *relative computability*.
+#definition[МТ с оракулом][
+  *Машиной Тьюринга с оракулом* называется машина Тьюринга, имеющая доступ к оракулу --- внешнему устройству, отвечающему на запросы принадлежности некоторому языку за один шаг.
+  Это понятие формализует *относительную вычислимость*.
 ]
 
-#proposition[Arithmetic hierarchy][
-  $Sigma_1$ = recognisable (HALT is $Sigma_1$-complete).
-  $Pi_1$ = co-recognisable.
-  Hierarchy extends: $Sigma_n$, $Pi_n$, $Delta_n$ --- problems requiring $n$ quantifier alternations.
-  HALT is just one rung on an infinite ladder of undecidability.
+#proposition[Арифметическая иерархия][
+  $Sigma_1$ = распознаваемые языки (HALT является $Sigma_1$-полной).
+  $Pi_1$ = ко-распознаваемые языки.
+  Иерархия продолжается: $Sigma_n$, $Pi_n$, $Delta_n$ --- задачи, требующие $n$ чередований кванторов.
+  HALT --- лишь одна ступень бесконечной лестницы неразрешимости.
 ]
 
 #note[
-  Only countably many TMs exist $=>$almost all languages (uncountably many) are undecidable.
-  Undecidability is the norm, not the exception.
-  Computation is a small island in a vast sea of uncomputability.
+  Существует лишь счётное число МТ $=>$почти все языки (континуум) неразрешимы.
+  Неразрешимость --- норма, а не исключение.
+  Вычислимость --- маленький остров в бескрайнем море невычислимости.
 ]

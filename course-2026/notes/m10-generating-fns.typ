@@ -1,43 +1,43 @@
-// M10 --- Generating Functions: the algebraic bridge from sequences to closed forms.
+// M10 --- Производящие функции: алгебраический мост от последовательностей к замкнутым формам.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Generating Functions
+= Производящие функции
 
 #chapter-overview[
-  A generating function packages an entire sequence into a single algebraic object, turning combinatorial problems into algebraic ones.
-  This chapter introduces ordinary and exponential generating functions, the technique of solving recurrences via generating functions, and applications from Fibonacci numbers to algorithm analysis.
-  The chapter closes with a glimpse of combinatorial species --- the structural theory behind generating functions.
+  Производящая функция упаковывает целую последовательность в единый алгебраический объект, превращая комбинаторные задачи в алгебраические.
+  В этой главе вводятся обычные и экспоненциальные производящие функции, метод решения рекуррентных соотношений через производящие функции и приложения --- от чисел Фибоначчи до анализа алгоритмов.
+  Глава завершается знакомством с комбинаторными видами --- структурной теорией, стоящей за производящими функциями.
 ]
 
-== Ordinary Generating Functions
+== Обычные производящие функции
 
-=== OGF Definition
+=== Определение ОПФ
 
-#definition[Ordinary generating function][
-  The OGF of $(a_n)_(n=0)^oo$ is the formal power series $A(x) = sum_(n=0)^oo a_n x^n$.
-  Convergence is irrelevant --- $x$ is a placeholder.
-  Coefficient extraction: $[x^n] A(x) = a_n$.
+#definition[Обычная производящая функция][
+  Формальный степенной ряд $A(x) = sum_(n=0)^oo a_n x^n$ называется *обычной производящей функцией* (ОПФ) последовательности $(a_n)_(n=0)^oo$.
+  Сходимость не важна --- $x$ лишь формальный символ.
+  Извлечение коэффициента: $[x^n] A(x) = a_n$.
 ]
 
-=== Operations on Generating Functions
+=== Операции над производящими функциями
 
-#proposition[OGF operations][
-  - *Addition*: $A(x) + B(x) = sum (a_n + b_n) x^n$.
-  - *Right shift*: $x A(x) = sum a_n x^(n+1) = sum a_(n-1) x^n$.
-  - *Left shift*: $(A(x) - a_0)/x = sum a_(n+1) x^n$.
-  - *Convolution*: $A(x) B(x) = sum c_n x^n$ where $c_n = sum_(i=0)^n a_i b_(n-i)$.
-  - *Partial sums*: $A(x)/(1-x) = sum s_n x^n$ where $s_n = sum_(i=0)^n a_i$.
+#proposition[Операции над ОПФ][
+  - *Сложение*: $A(x) + B(x) = sum (a_n + b_n) x^n$.
+  - *Сдвиг вправо*: $x A(x) = sum a_n x^(n+1) = sum a_(n-1) x^n$.
+  - *Сдвиг влево*: $(A(x) - a_0)/x = sum a_(n+1) x^n$.
+  - *Свёртка*: $A(x) B(x) = sum c_n x^n$, где $c_n = sum_(i=0)^n a_i b_(n-i)$.
+  - *Частичные суммы*: $A(x)/(1-x) = sum s_n x^n$, где $s_n = sum_(i=0)^n a_i$.
 ]
 
-=== Basic Series
+=== Базовые ряды
 
-#proposition[Standard OGFs][
+#proposition[Стандартные ОПФ][
   #table(
     columns: 2,
     align: (left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Sequence* $a_n$], [*OGF* $A(x)$]),
+    table.header([*Последовательность* $a_n$], [*ОПФ* $A(x)$]),
     [$a_n = 1$], [$1/(1-x)$],
     [$a_n = n$], [$x/(1-x)^2$],
     [$a_n = binom(k, n)$], [$(1+x)^k$],
@@ -46,123 +46,126 @@
   )
 ]
 
-=== Solving Recurrences via OGF
+=== Решение рекуррентных соотношений через ОПФ
 
-#proposition[OGF method][
-  1. Write recurrence valid for $n >= k$.
-  2. Multiply by $x^n$, sum over $n >= k$.
-  3. Express sums in terms of $A(x)$ via shift operations.
-  4. Solve for $A(x)$.
-  5. Decompose into partial fractions.
-  6. Expand each fraction as power series.
-  7. Read $a_n = [x^n] A(x)$.
+#proposition[Метод ОПФ][
+  1. Записать рекуррентное соотношение, справедливое для $n >= k$.
+  2. Умножить на $x^n$, просуммировать по $n >= k$.
+  3. Выразить суммы через $A(x)$ с помощью операций сдвига.
+  4. Решить уравнение относительно $A(x)$.
+  5. Разложить на простейшие дроби.
+  6. Разложить каждую дробь в степенной ряд.
+  7. Прочитать $a_n = [x^n] A(x)$.
 ]
 
-#example[Fibonacci via OGF][
+#example[Числа Фибоначчи через ОПФ][
   $F_n = F_(n-1) + F_(n-2)$, $n >= 2$, $F_0 = 0$, $F_1 = 1$.
   $F(x) - 0 - x = x(F(x) - 0) + x^2 F(x)$ $=>$ $F(x) = x/(1 - x - x^2)$.
-  Factor: $1 - x - x^2 = (1 - phi x)(1 - psi x)$.
-  Partial fractions: $F(x) = 1/sqrt(5) (1/(1 - phi x) - 1/(1 - psi x))$.
-  $F_n = (phi^n - psi^n)/sqrt(5)$ --- Binet's formula.
+  Разложение на множители: $1 - x - x^2 = (1 - phi x)(1 - psi x)$.
+  Простейшие дроби: $F(x) = 1/sqrt(5) (1/(1 - phi x) - 1/(1 - psi x))$.
+  $F_n = (phi^n - psi^n)/sqrt(5)$ --- формула Бине.
 ]
 
-#example[Catalan numbers via OGF][
-  Recurrence: $C_0 = 1$, $C_(n+1) = sum_(i=0)^n C_i C_(n-i)$ for $n >= 0$.
-  The right side is the convolution of $(C_n)$ with itself.
+#example[Числа Каталана через ОПФ][
+  Рекуррентное соотношение: $C_0 = 1$, $C_(n+1) = sum_(i=0)^n C_i C_(n-i)$ для $n >= 0$.
+  Правая часть --- свёртка последовательности $(C_n)$ с собой.
   $C(x) = sum C_n x^n = 1 + x sum_(n=0)^oo (sum_(i=0)^n C_i C_(n-i)) x^n = 1 + x C(x)^2$.
-  Solve quadratic: $C(x) = (1 - sqrt(1 - 4x))/(2x)$ (the root with $C(0) = 1$).
-  Expand via generalised binomial: $sqrt(1 - 4x) = sum_(n=0)^oo binom(1/2, n) (-4x)^n$.
-  After simplification: $[x^n] C(x) = 1/(n+1) binom(2n, n)$ --- closed form for Catalan numbers.
+  Решаем квадратное уравнение: $C(x) = (1 - sqrt(1 - 4x))/(2x)$ (корень с $C(0) = 1$).
+  Раскладываем через обобщённый бином: $sqrt(1 - 4x) = sum_(n=0)^oo binom(1/2, n) (-4x)^n$.
+  После упрощения: $[x^n] C(x) = 1/(n+1) binom(2n, n)$ --- замкнутая форма для чисел Каталана.
 ]
 
 #remark[
-  Any linear recurrence with constant coefficients yields a rational OGF: $A(x) = P(x)/Q(x)$.
-  The denominator $Q(x) = 1 - c_1 x - ... - c_k x^k$ is the reciprocal characteristic polynomial.
-  Non-linear recurrences (like Catalan) yield algebraic equations on $A(x)$.
-  The OGF approach is a unified algebraic machine for recurrences.
+  Любое линейное рекуррентное соотношение с постоянными коэффициентами даёт рациональную ОПФ: $A(x) = P(x)/Q(x)$.
+  Знаменатель $Q(x) = 1 - c_1 x - ... - c_k x^k$ --- это возвратный характеристический многочлен.
+  Нелинейные рекуррентные соотношения (как для чисел Каталана) приводят к алгебраическим уравнениям на $A(x)$.
+  Метод ОПФ --- это универсальная алгебраическая машина для рекуррентных соотношений.
 ]
 
 
-== Exponential Generating Functions
+== Экспоненциальные производящие функции
 
-#definition[Exponential generating function][
-  $E(x) = sum_(n=0)^oo a_n x^n/(n!)$.
-  Convenient for sequences with $n!$ factors or labelled structures.
+#definition[Экспоненциальная производящая функция][
+  Формальный степенной ряд $E(x) = sum_(n=0)^oo a_n x^n/(n!)$ называется *экспоненциальной производящей функцией* (ЭПФ) последовательности $(a_n)_(n=0)^oo$.
+
+  Удобна для последовательностей с $n!$ множителями или помеченных структур.
 ]
 
-#proposition[EGF operations][
-  - *Shift*: $dif/(dif x) E(x) = sum a_(n+1) x^n/(n!)$ --- differentiation shifts left.
-  - *Binomial convolution*: $A(x) B(x) = sum c_n x^n/(n!)$ where $c_n = sum binom(n, i) a_i b_(n-i)$.
+#proposition[Операции над ЭПФ][
+  - *Сдвиг*: $dif/(dif x) E(x) = sum a_(n+1) x^n/(n!)$ --- дифференцирование сдвигает влево.
+  - *Биномиальная свёртка*: $A(x) B(x) = sum c_n x^n/(n!)$, где $c_n = sum binom(n, i) a_i b_(n-i)$.
 ]
 
-#proposition[Standard EGFs][
+#proposition[Стандартные ЭПФ][
   #table(
     columns: 2,
     align: (left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Sequence* $a_n$], [*EGF* $E(x)$]),
+    table.header([*Последовательность* $a_n$], [*ЭПФ* $E(x)$]),
     [$a_n = 1$], [$e^x$],
     [$a_n = n!$], [$1/(1-x)$],
     [$a_n = c^n$], [$e^(c x)$],
     [$a_n = S(n, k)$], [$(e^x - 1)^k/(k!)$],
-    [$a_n = B_n$ (Bell)], [$e^(e^x - 1)$],
+    [$a_n = B_n$ (Белл)], [$e^(e^x - 1)$],
   )
 ]
 
 #remark[
-  The EGF for Bell numbers --- $e^(e^x - 1)$ --- encodes an entire infinite sequence in one expression.
+  ЭПФ для чисел Белла --- $e^(e^x - 1)$ --- кодирует целую бесконечную последовательность в одном выражении.
 ]
 
 
-== Combinatorial Species (Teaser)
+== Комбинаторные виды (анонс)
 
-#definition[Combinatorial species --- idea][
-  A *species* $F$ assigns to each finite set $U$ of labels a finite set $F[U]$ of structures.
-  - Sets: $F[U] = {U}$.
-  - Lists (permutations): all linear orders of $U$.
-  - Trees, graphs, etc.
+#definition[Комбинаторные виды --- идея][
+  Отображение, сопоставляющее каждому конечному множеству $U$ пометок конечное множество $F[U]$ структур, называется *комбинаторным видом*, обозначается $F$.
+  - Множества: $F[U] = {U}$.
+  - Списки (перестановки): все линейные порядки на $U$.
+  - Деревья, графы и т.д.
 ]
 
-The EGF of a species: $F(x) = sum |F[{1,...,n}]| x^n/(n!)$.
-Species operations (sum, product, composition) correspond exactly to EGF operations.
+ЭПФ вида: $F(x) = sum |F[{1,...,n}]| x^n/(n!)$.
+Операции над видами (сумма, произведение, композиция) в точности соответствуют операциям над ЭПФ.
 
-#example[Binary trees as a species][
-  $T = 1 + X times T^2$ (a tree is empty or a root with two subtrees).
-  Translates to $T(x) = 1 + x T(x)^2$.
-  Solving: $T(x) = (1 - sqrt(1 - 4x))/(2x)$, coefficients are Catalan $C_n$.
+#example[Бинарные деревья как вид][
+  $T = 1 + X times T^2$ (дерево либо пусто, либо корень с двумя поддеревьями).
+
+  Переводится в $T(x) = 1 + x T(x)^2$.
+
+  Решение: $T(x) = (1 - sqrt(1 - 4x))/(2x)$, коэффициенты --- числа Каталана $C_n$.
 ]
 
 #note[
-  Combinatorial species, developed by André Joyal (1980s), unify enumeration, algebra, and structural decomposition.
-  They turn informal reasoning into rigorous algebraic equations on generating functions.
+  Комбинаторные виды, разработанные Андре Жуайалем (1980-е), объединяют перечисление, алгебру и структурную декомпозицию.
+  Они превращают неформальные рассуждения в строгие алгебраические уравнения на производящие функции.
 ]
 
-== Applications
+== Применения
 
 #remark[
-  Generating functions not only give exact closed forms --- they also yield asymptotics.
-  The dominant singularity (closest to 0) of $A(x)$ determines the growth rate of $a_n$: if the dominant singularity is $rho$ of type $(1 - x/rho)^(-alpha)$, then $a_n tilde.op C n^(alpha-1) rho^(-n)$.
-  This is the basis of analytic combinatorics (Flajolet-Sedgewick).
-  For Catalan: $rho = 1/4$, $alpha = -1/2$ $=>$ $C_n tilde.op 4^n/(sqrt(pi) n^(3/2))$.
+  Производящие функции не только дают точные замкнутые формы --- они также дают асимптотику.
+  Доминантная особенность (ближайшая к 0) функции $A(x)$ определяет скорость роста $a_n$: если доминантная особенность есть $rho$ типа $(1 - x/rho)^(-alpha)$, то $a_n tilde.op C n^(alpha-1) rho^(-n)$.
+  На этом основана аналитическая комбинаторика (Флажоле-Седжвик).
+  Для чисел Каталана: $rho = 1/4$, $alpha = -1/2$ $=>$ $C_n tilde.op 4^n/(sqrt(pi) n^(3/2))$.
 ]
 
-#remark[Cayley's formula][
-  Number of labelled trees on $n$ vertices: $n^(n-2)$.
-  EGF for rooted labelled trees: $T(x) = x e^(T(x))$ (Lambert $W$).
-  Lagrange inversion extracts $n^(n-2)$.
+#remark[Формула Кэли][
+  Число помеченных деревьев на $n$ вершинах: $n^(n-2)$.
+  ЭПФ для корневых помеченных деревьев: $T(x) = x e^(T(x))$ (функция Ламберта $W$).
+  Обращение Лагранжа извлекает $n^(n-2)$.
 ]
 
-#example[Quicksort analysis via OGF][
-  Expected comparisons for random pivot on input size $n$: $C_n = n-1 + 2/n sum_(k=0)^(n-1) C_k$, $quad C_0 = 0$.
-  Multiply by $n$: $n C_n = n(n-1) + 2 sum_(k=0)^(n-1) C_k$.
-  Let $C(x) = sum C_n x^n$.
-  The recurrence translates to a differential equation in $C(x)$.
-  Solving: $C(x) = 2/(1-x)^2 ln 1/(1-x) - 2x/(1-x)^2$.
-  Extract $[x^n]$: $C_n = 2(n+1) H_n - 4n$, where $H_n = sum_(k=1)^n 1/k$ (harmonic numbers).
-  Using $H_n tilde.op ln n + gamma$: $C_n tilde.op 2 n ln n$ --- the familiar $O(n log n)$.
+#example[Анализ быстрой сортировки через ОПФ][
+  Ожидаемое число сравнений для случайного опорного элемента на входе размера $n$: $C_n = n-1 + 2/n sum_(k=0)^(n-1) C_k$, $quad C_0 = 0$.
+  Умножаем на $n$: $n C_n = n(n-1) + 2 sum_(k=0)^(n-1) C_k$.
+  Пусть $C(x) = sum C_n x^n$.
+  Рекуррентное соотношение переводится в дифференциальное уравнение относительно $C(x)$.
+  Решение: $C(x) = 2/(1-x)^2 ln 1/(1-x) - 2x/(1-x)^2$.
+  Извлекаем $[x^n]$: $C_n = 2(n+1) H_n - 4n$, где $H_n = sum_(k=1)^n 1/k$ (гармонические числа).
+  Используя $H_n tilde.op ln n + gamma$: $C_n tilde.op 2 n ln n$ --- знакомое $O(n log n)$.
 ]
 
-#remark[Probability generating functions][
-  For $P(X = k) = p_k$: $G_X(s) = E s^X = sum p_k s^k$.
-  Moments: $E X = G_X'(1)$, $"Var"(X) = G_X''(1) + G_X'(1) - (G_X'(1))^2$.
+#remark[Производящие функции вероятности][
+  Для $P(X = k) = p_k$: $G_X(s) = E s^X = sum p_k s^k$.
+  Моменты: $E X = G_X'(1)$, $"Var"(X) = G_X''(1) + G_X'(1) - (G_X'(1))^2$.
 ]

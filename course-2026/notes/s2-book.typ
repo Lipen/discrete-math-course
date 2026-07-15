@@ -1,18 +1,18 @@
-// Semester 2 — «Computation»: book assembly.
-// Includes all S2 topic files via #include.
+// Семестр 2 — "Вычисления": сборка книги.
+// Включает все темы S2 через #include.
 
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-#let theme = oklch(55%, 0.15, 250deg) // blue
+#let theme = oklch(55%, 0.15, 250deg) // синий
 #let theme-light = oklch(85%, 0.05, 250deg)
 
 #set document(
-  title: "Discrete Mathematics — Lecture Notes",
-  author: "Konstantin Chukharev",
+  title: "Дискретная математика — конспект лекций",
+  author: "Константин Чухарев",
 )
 
-// --- Title page ---
+// --- Титульная страница ---
 #set page(
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm),
@@ -22,33 +22,36 @@
 
 #align(center)[
   #block(height: 3cm)
-  #text(size: 30pt, weight: "bold")[Discrete Mathematics]
+  #text(size: 30pt, weight: "bold")[Дискретная математика]
   #block(height: 0.3cm)
-  #text(size: 18pt, fill: luma(40%), weight: "light")[Lecture Notes]
+  #text(size: 18pt, fill: luma(40%), weight: "light")[Конспект лекций]
   #block(height: 1.8cm)
   #line(length: 3cm, stroke: 2pt + theme)
   #block(height: 1.2cm)
-  #text(size: 13pt, weight: "semibold")[Computation]
+  #text(size: 13pt, weight: "semibold")[Вычисления]
   #block(height: 0.2cm)
-  #text(size: 10pt, fill: luma(50%))[Semester II]
+  #text(size: 10pt, fill: luma(50%))[Семестр II]
   #block(height: 2.5cm)
-  #text(size: 10pt, fill: luma(45%))[ITMO University] \
-  #text(size: 10pt, fill: luma(45%))[Fall 2026 -- Spring 2027]
+  #text(size: 10pt, fill: luma(45%))[Университет ИТМО] \
+  #text(size: 10pt, fill: luma(45%))[Осень 2026 -- Весна 2027]
   #block(height: 1.5cm)
-  #text(size: 8pt, fill: luma(60%))[Draft --- work in progress]
+  #text(size: 8pt, fill: luma(60%))[Черновик --- в работе]
 ]
 
 #pagebreak()
 
-// --- Content pages ---
+// --- Страницы с контентом ---
 #set page(
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
   header: [
     #set text(7.5pt, fill: luma(45%))
-    #text(tracking: 0.14em, weight: "semibold")[DISCRETE MATH · NOTES]
+    #text(
+      tracking: 0.14em,
+      weight: "semibold",
+    )[ДИСКРЕТНАЯ МАТЕМАТИКА · КОНСПЕКТ]
     #h(1fr)
-    #text(style: "italic", fill: luma(35%))[Computation]
+    #text(style: "italic", fill: luma(35%))[Вычисления]
     #v(4pt)
     #line(length: 100%, stroke: 0.3pt + luma(85%))
   ],
@@ -64,10 +67,10 @@
 
 #set heading(numbering: "1.1.1")
 
-// --- Table of contents ---
+// --- Содержание ---
 #outline(indent: 1em, depth: 3)
 
-// --- Topic chapters ---
+// --- Главы ---
 #include "m12-graphs.typ"
 #include "m13-automata.typ"
 #include "m14-turing.typ"

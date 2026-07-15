@@ -1,202 +1,213 @@
-// M13 --- Finite Automata and Regular Languages: the simplest computational model.
+// M13 --- Конечные автоматы и регулярные языки: простейшая вычислительная модель.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m13.typ": dfa-01, nfa-00-11
 
-= Finite Automata and Regular Languages
+= Конечные автоматы и регулярные языки
 
 #chapter-overview[
-  Finite automata are the simplest model of computation --- machines with fixed finite memory that read input once, left to right.
-  Despite their simplicity, they define exactly the regular languages, ubiquitous in programming: every regex search, every lexer, every input validator.
-  This chapter covers DFA, NFA, their equivalence, regular expressions, the Pumping Lemma, and DFA minimisation.
+  Конечные автоматы --- простейшая модель вычислений: машины с фиксированной конечной памятью, читающие входную строку один раз слева направо.
+  Несмотря на простоту, они определяют в точности регулярные языки, повсеместно встречающиеся в программировании: каждый поиск по регулярному выражению, каждый лексер, каждый валидатор ввода.
+  Эта глава охватывает ДКА, НКА, их эквивалентность, регулярные выражения, лемму о накачке и минимизацию ДКА.
 ]
 
-== Deterministic Finite Automata (DFA)
+== Детерминированные конечные автоматы (ДКА)
 
-=== DFA Definition
+=== Определение ДКА
 
-#definition[DFA][
-  $M = (Q, Sigma, delta, q_0, F)$:
-  - $Q$: finite set of states.
-  - $Sigma$: finite alphabet.
-  - $delta: Q times Sigma -> Q$: transition function (total).
-  - $q_0 in Q$: start state.
-  - $F subset.eq Q$: accepting states.
+#definition[ДКА][
+  *Детерминированным конечным автоматом* (ДКА) называется пятёрка $M = (Q, Sigma, delta, q_0, F)$, где
+  $Q$ --- конечное множество состояний,
+  $Sigma$ --- конечный алфавит,
+  $delta: Q times Sigma -> Q$ --- всюду определённая функция переходов,
+  $q_0 in Q$ --- начальное состояние,
+  $F subset.eq Q$ --- множество принимающих состояний.
 ]
 
-#definition[Extended transition and language][
-  Extended transition: $hat(delta)(q, epsilon) = q$, $hat(delta)(q, a w) = hat(delta)(delta(q, a), w)$.
-  Language accepted by $M$: $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
+#definition[Расширенный переход и язык][
+  *Расширенной функцией переходов* называется функция $hat(delta)$, определяемая рекурсивно: $hat(delta)(q, epsilon) = q$, $hat(delta)(q, a w) = hat(delta)(delta(q, a), w)$.
+  *Языком, распознаваемым автоматом* $M$, называется множество $L(M) = {w in Sigma^* mid(|) hat(delta)(q_0, w) in F}$.
 ]
 
 #example[
-  DFA for strings over ${0, 1}$ ending with $"01"$: states $q_0$ (no match), $q_1$ (ends in 0), $q_2$ (ends in 01, accepting).
+  ДКА для строк над алфавитом ${0, 1}$, заканчивающихся на $"01"$: состояния $q_0$ (нет совпадения), $q_1$ (заканчивается на 0), $q_2$ (заканчивается на 01, принимающее).
 ]
 
 #figure(
   dfa-01,
-  caption: [DFA recognising strings over ${0, 1}$ ending with $"01"$.
-    Accepting state $q_2$ has a double border.],
+  caption: [ДКА, распознающий строки над алфавитом ${0, 1}$, заканчивающиеся на $"01"$.
+    Принимающее состояние $q_2$ имеет двойную границу.],
 ) <fig:dfa-01>
 
-=== Closure Properties
+=== Свойства замкнутости
 
-#proposition[Boolean closure][
-  Given DFAs for $L_1$, $L_2$, construct DFAs via product automaton:
-  - *Union*: $F = (F_1 times Q_2) union (Q_1 times F_2)$.
-  - *Intersection*: $F = F_1 times F_2$.
-  - *Complement*: swap $F$ and $Q setminus F$ (requires total $delta$).
+#proposition[Замкнутость относительно булевых операций][
+  Имея ДКА для $L_1$, $L_2$, можно построить ДКА через конструкцию прямого произведения:
+  - *Объединение*: $F = (F_1 times Q_2) union (Q_1 times F_2)$.
+  - *Пересечение*: $F = F_1 times F_2$.
+  - *Дополнение*: поменять местами $F$ и $Q setminus F$ (требует всюду определённой $delta$).
 ]
 
-== Nondeterministic Finite Automata (NFA)
+== Недетерминированные конечные автоматы (НКА)
 
-#definition[NFA][
-  $delta: Q times (Sigma union {epsilon}) arrow cal(P)(Q)$.
-  From a state on a symbol (or spontaneously via $epsilon$), the machine may transition to *any* of several states --- nondeterministic "guessing."
+#definition[НКА][
+  *Недетерминированным конечным автоматом* (НКА) называется пятёрка $M = (Q, Sigma, delta, q_0, F)$, где функция переходов имеет вид $delta: Q times (Sigma union {epsilon}) arrow cal(P)(Q)$.
+  Из состояния по символу (или спонтанно через $epsilon$) автомат может перейти в *любое* из нескольких состояний --- недетерминированное "угадывание".
 ]
 
 #note[
-  A string is accepted if *there exists* at least one computation path from $q_0$ to some accepting state.
+  Строка принимается, если *существует* хотя бы один путь вычисления из $q_0$ в некоторое принимающее состояние.
 ]
 
 #example[
-  NFA for strings containing $"00"$ or $"11"$: from $q_0$, on 0 move to $q_1$ (looking for $"00"$) or on 1 to $q_2$ (looking for $"11"$).
-  Both branches proceed independently --- the machine "guesses" which pattern will appear.
+  НКА для строк, содержащих $"00"$ или $"11"$: из $q_0$ по 0 перейти в $q_1$ (ожидание $"00"$) или по 1 в $q_2$ (ожидание $"11"$).
+  Обе ветви работают независимо --- автомат "угадывает", какой из шаблонов появится.
 ]
 
 #figure(
   nfa-00-11,
-  caption: [NFA recognising strings over ${0, 1}$ containing $"00"$ or $"11"$.
-    Two independent branches guess the pattern.],
+  caption: [НКА, распознающий строки над алфавитом ${0, 1}$, содержащие $"00"$ или $"11"$.
+    Две независимые ветви угадывают шаблон.],
 ) <fig:nfa-00-11>
 
 #example[
-  NFA for "third-to-last symbol is 1": guesses when it is 3 symbols from end, then checks. 4 states; minimal DFA needs $2^3 = 8$.
+  НКА для "третий с конца символ равен 1": угадывает момент, когда до конца осталось 3 символа, затем проверяет.
+  4 состояния; минимальный ДКА требует $2^3 = 8$ состояний.
 ]
 
-=== Subset Construction (NFA $->$ DFA)
+=== Конструкция подмножеств (НКА $->$ ДКА)
 
-#theorem[Equivalence of DFA and NFA][
-  For every NFA, there exists a DFA recognising the same language.
+#theorem[Эквивалентность ДКА и НКА][
+  Для любого НКА существует ДКА, распознающий тот же язык.
 ]
 
 #proof[
-  Let the NFA be $N = (Q, Sigma, delta, q_0, F)$.
-  Construct DFA $D = (cal(P)(Q), Sigma, delta', {q_0}^\* , F')$ where ${q_0}^\*$ is the $epsilon$-closure of ${q_0}$.
+  Пусть НКА задан как $N = (Q, Sigma, delta, q_0, F)$.
+  Построим ДКА $D = (cal(P)(Q), Sigma, delta', {q_0}^\* , F')$, где ${q_0}^\*$ --- это $epsilon$-замыкание множества ${q_0}$.
 
-  For each state $S subset.eq Q$ and symbol $a$:
+  Для каждого состояния $S subset.eq Q$ и символа $a$:
   $delta'(S, a) = epsilon "{-closure}"(union.big_(q in S) delta(q, a))$.
 
-  Accepting states: $F' = {S subset.eq Q mid(|) S inter F eq.not nothing}$.
-  By construction, $D$ simulates all possible runs of $N$ simultaneously.
-  The number of DFA states is at most $2^(|Q|)$, and this exponential blowup is unavoidable in the worst case.
+  Принимающие состояния: $F' = {S subset.eq Q mid(|) S inter F eq.not nothing}$.
+  По построению, $D$ симулирует все возможные пути $N$ одновременно.
+  Число состояний ДКА не превышает $2^(|Q|)$, и этот экспоненциальный рост неизбежен в худшем случае.
 ]
 
-#proposition[DFA vs NFA --- comparison][
+#proposition[ДКА и НКА --- сравнение][
   #table(
     columns: 3,
     align: (left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Property*], [*DFA*], [*NFA*]),
-    [Transition],
-    [$delta(q, a)$ = single state],
-    [$delta(q, a)$ = set of states],
+    table.header([*Свойство*], [*ДКА*], [*НКА*]),
+    [Переход],
+    [$delta(q, a)$ = одно состояние],
+    [$delta(q, a)$ = множество состояний],
 
-    [$epsilon$-transitions], [Not allowed], [Allowed (spontaneous)],
-    [States required], [Potentially exponential], [Often linear / polynomial],
-    [Acceptance], [Unique computation path], [Some path leads to accept],
-    [Implementation],
-    [Table-driven, simple loop],
-    [Backtracking or subset simulation],
+    [$epsilon$-переходы], [Запрещены], [Разрешены (спонтанные)],
+    [Требуемое число состояний],
+    [Потенциально экспоненциальное],
+    [Часто линейное / полиномиальное],
 
-    [Design difficulty],
-    [Harder (explicitly handle all cases)],
-    [Easier (nondeterminism helps)],
+    [Распознавание],
+    [Единственный путь вычисления],
+    [Хотя бы один путь ведёт к принятию],
 
-    [Complement], [Trivial (swap F)], [Require determinisation first],
+    [Реализация],
+    [Табличный, простой цикл],
+    [Возврат или симуляция подмножеств],
+
+    [Сложность построения],
+    [Сложнее (явно обрабатывать все случаи)],
+    [Проще (недетерминизм помогает)],
+
+    [Дополнение],
+    [Тривиально (поменять $F$)],
+    [Требует предварительной детерминизации],
   )
 ]
 
-== Regular Expressions
+== Регулярные выражения
 
-#definition[Regular expression][
-  Over $Sigma$:
-  - $nothing$: empty language.
-  - $epsilon$: ${epsilon}$.
-  - $a$ ($a in Sigma$): ${a}$.
-  - $R_1 | R_2$: $L(R_1) union L(R_2)$.
-  - $R_1 R_2$: ${u v mid(|) u in L(R_1), v in L(R_2)}$.
-  - $R^*$: zero or more repetitions.
-  Precedence: $* >$ concatenation $> |$.
+#definition[Регулярное выражение][
+  *Регулярным выражением* над алфавитом $Sigma$ называется выражение, построенное по следующим правилам:
+  - $nothing$ обозначает пустой язык.
+  - $epsilon$ обозначает язык ${epsilon}$.
+  - $a$ (где $a in Sigma$) обозначает язык ${a}$.
+  - $R_1 | R_2$ обозначает объединение $L(R_1) union L(R_2)$.
+  - $R_1 R_2$ обозначает конкатенацию ${u v mid(|) u in L(R_1), v in L(R_2)}$.
+  - $R^*$ обозначает ноль или более повторений.
+  Приоритет операций: $* >$ конкатенация $> |$.
 ]
 
-#theorem[Kleene's theorem][
-  A language is regular (recognised by DFA/NFA) iff it can be described by a regular expression.
+#theorem[Теорема Клини][
+  Язык регулярен (распознаётся ДКА/НКА) тогда и только тогда, когда он может быть описан регулярным выражением.
 ]
 
 #proof-sketch[
-  RE $->$ NFA by structural induction on the regular expression.
-  DFA $->$ RE by state elimination (generalised transitive closure).
+  РВ $->$ НКА: структурной индукцией по регулярному выражению.
+  ДКА $->$ РВ: методом исключения состояний (обобщённое транзитивное замыкание).
 ]
 
-#proposition[Closure properties][
-  Regular languages are closed under:
-  - Boolean operations: union, intersection, complement, difference (DFA constructions).
-  - Concatenation and Kleene star (by regex definition).
-  - Reversal $L^R$ (reverse NFA transitions).
-  - Homomorphism and inverse homomorphism.
-  - Prefix, suffix, and substring operations.
+#proposition[Свойства замкнутости][
+  Регулярные языки замкнуты относительно:
+  - Булевых операций: объединение, пересечение, дополнение, разность (конструкции на ДКА).
+  - Конкатенации и звезды Клини (по определению регулярных выражений).
+  - Обращения $L^R$ (обратить переходы НКА).
+  - Гомоморфизма и обратного гомоморфизма.
+  - Операций взятия префикса, суффикса и подстроки.
 ]
 
-=== The Pumping Lemma
+=== Лемма о накачке
 
-#theorem[Pumping Lemma for regular languages][
-  If $L$ is regular, $exists p >= 1$ (pumping length) such that $forall w in L$, $|w| >= p$, $w = x y z$ with:
+#theorem[Лемма о накачке для регулярных языков][
+  Если язык $L$ регулярен, то $exists p >= 1$ (длина накачки) такое, что $forall w in L$, $|w| >= p$, $w = x y z$, где:
   - $|y| > 0$,
   - $|x y| <= p$,
-  - $x y^i z in L$ for all $i >= 0$.
+  - $x y^i z in L$ для всех $i >= 0$.
 ]
 
 #proof-sketch[
-  Let the DFA have $p$ states.
-  A string of length $>= p$ must visit some state twice during its computation (pigeonhole).
-  The substring between the two visits is $y$; it can be repeated any number of times, and the DFA still accepts.
+  Пусть ДКА имеет $p$ состояний.
+  Строка длины $>= p$ при вычислении обязательно посетит некоторое состояние дважды (принцип Дирихле).
+  Подстрока между двумя посещениями --- это $y$; её можно повторить любое число раз, и ДКА всё равно примет строку.
 ]
 
-#example[Proving non-regularity of ${0^n 1^n mid(|) n >= 0}$][
-  Suppose $L$ is regular with pumping length $p$.
-  Take $w = 0^p 1^p in L$, $|w| = 2p >= p$.
-  By the lemma, $w = x y z$ with $|x y| <= p$ and $|y| > 0$, so $y$ consists only of $0$'s.
-  Then $x y^2 z = 0^(p+|y|) 1^p in L$ --- but it has more $0$'s than $1$'s, contradiction.
-  Therefore $L$ is not regular.
+#example[Доказательство нерегулярности языка ${0^n 1^n mid(|) n >= 0}$][
+  Предположим, что $L$ регулярен, с длиной накачки $p$.
+  Возьмём $w = 0^p 1^p in L$, $|w| = 2p >= p$.
+  По лемме, $w = x y z$, где $|x y| <= p$ и $|y| > 0$, так что $y$ состоит только из нулей.
+  Тогда $x y^2 z = 0^(p+|y|) 1^p in L$ --- но в этой строке больше нулей, чем единиц; противоречие.
+  Следовательно, $L$ не регулярен.
 ]
 
 #example[
-  The language of palindromes over ${a, b}$ is not regular.
-  The language ${a^(2^n) mid(|) n >= 0}$ is not regular (pumping would give lengths not powers of 2).
+  Язык палиндромов над алфавитом ${a, b}$ не регулярен.
+  Язык ${a^(2^n) mid(|) n >= 0}$ не регулярен (накачка дала бы длины, не являющиеся степенями двойки).
 ]
 
-== DFA Minimisation
+== Минимизация ДКА
 
-#definition[State equivalence][
-  $p tilde.op q$ if $forall w: hat(delta)(p, w) in F$ iff $hat(delta)(q, w) in F$.
-  Equivalent states are indistinguishable.
+#definition[Эквивалентность состояний][
+  Состояния $p$ и $q$ называются *эквивалентными*, обозначается $p tilde.op q$, если для любой строки $w$ выполняется: $hat(delta)(p, w) in F$ тогда и только тогда, когда $hat(delta)(q, w) in F$.
+  Эквивалентные состояния неразличимы.
 ]
 
-#proposition[Moore's table-filling algorithm][
-  1. Mark pairs $(p, q)$ where exactly one is accepting.
-  2. Iterate: if $(delta(p, a), delta(q, a))$ is marked for some $a$, mark $(p, q)$.
-  3. Repeat till stable.
-    Unmarked pairs = equivalent.
-    Merge them $=>$ minimal DFA.
+#proposition[Алгоритм Мура заполнения таблицы][
+  1. Пометить пары $(p, q)$, в которых ровно одно состояние принимающее.
+  2. Итерация: если пара $(delta(p, a), delta(q, a))$ помечена для некоторого $a$, то пометить $(p, q)$.
+  3. Повторять до стабилизации.
+    Непомеченные пары = эквивалентные состояния.
+    Склеить их $=>$ минимальный ДКА.
 ]
 
-#theorem[Uniqueness][
-  Every regular language has a unique minimal DFA (up to isomorphism).
+#theorem[Единственность][
+  Каждый регулярный язык имеет единственный минимальный ДКА (с точностью до изоморфизма).
 ]
 
-== Applications
+== Применения
 
 #remark[
-  *Lexers*: flex/lex compile regex patterns to DFAs for tokenisation. *Protocols*: TCP states form a finite automaton; model checking verifies temporal properties. *Model checking*: hardware/software modelled as automata; specifications in temporal logic; exhaustive state-space verification (Clarke/Emerson/Sifakis, Turing Award 2007).
+  *Лексеры*: flex/lex компилируют шаблоны регулярных выражений в ДКА для токенизации.
+  *Протоколы*: состояния TCP образуют конечный автомат; model checking проверяет темпоральные свойства.
+  *Model checking*: аппаратное и программное обеспечение моделируются как автоматы; спецификации в темпоральной логике; исчерпывающая верификация пространства состояний (Кларк/Эмерсон/Сифакис, премия Тьюринга 2007).
 ]

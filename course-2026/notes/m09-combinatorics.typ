@@ -1,219 +1,223 @@
-// M09 --- Combinatorics: the art of counting without enumerating.
+// M09 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Combinatorics
+= Комбинаторика
 
 #chapter-overview[
-  Combinatorics is the mathematics of counting --- how many ways to arrange, select, partition, or combine discrete objects.
-  This chapter develops systematic counting tools: sum and product rules, permutations and combinations, binomial identities, inclusion-exclusion, recurrences, and the major sequences (Catalan, Stirling, Bell).
-  Counting is the foundation of probability, algorithm analysis, and the enumeration of discrete structures throughout computer science.
+  Комбинаторика --- это математика подсчёта: сколькими способами можно расположить, выбрать, разбить или скомбинировать дискретные объекты.
+  В этой главе разрабатываются систематические инструменты подсчёта: правила суммы и произведения, перестановки и сочетания, биномиальные тождества, включения-исключения, рекуррентные соотношения и основные последовательности (Каталана, Стирлинга, Белла).
+  Подсчёт --- это основа теории вероятностей, анализа алгоритмов и перечисления дискретных структур в computer science.
 ]
 
-== Counting Rules
+== Правила подсчёта
 
-=== Rule of Sum and Product
+=== Правило суммы и произведения
 
-#definition[Rule of sum][
-  If $A$ and $B$ are disjoint finite sets: $|A union B| = |A| + |B|$.
-  Generalises to $n$ pairwise disjoint sets.
+#definition[Правило суммы][
+  Принцип подсчёта $|A union B| = |A| + |B|$ для непересекающихся конечных множеств $A$ и $B$ называется *правилом суммы*.
+  Обобщается на $n$ попарно непересекающихся множеств.
 ]
 
-#definition[Rule of product][
-  $|A times B| = |A| dot |B|$.
-  Sequential choice with $k_1$, $k_2$, ... options: $k_1 dot k_2 dot dots.h$.
+#definition[Правило произведения][
+  Принцип подсчёта $|A times B| = |A| dot |B|$ называется *правилом произведения*, если выбор состоит из последовательных независимых шагов.
+  Последовательный выбор с $k_1$, $k_2$, ... вариантами: $k_1 dot k_2 dot dots.h$.
 ]
 
-#example[Password counting][
-  Password: 2 letters (26 each) + 4 digits (10 each) = $26^2 dot 10^4 = 6,760,000$.
+#example[Подсчёт паролей][
+  Пароль: 2 буквы (по 26 вариантов) + 4 цифры (по 10 вариантов) = $26^2 dot 10^4 = 6,760,000$.
 ]
 
-#definition[Rule of complement][
-  $|A| = |U| - |overline(A)|$.
-  Count what you *don't* want, subtract from total.
+#definition[Правило дополнения][
+  Принцип подсчёта $|A| = |U| - |overline(A)|$ называется *правилом дополнения*.
+  Подсчитай то, чего *не* хочешь, и вычти из общего.
 ]
 
 #example[
-  8-bit strings with at least one 1: $2^8 - 1 = 255$ (only all-zeros has no 1).
+  8-битные строки, содержащие хотя бы одну 1: $2^8 - 1 = 255$ (только строка из всех нулей не содержит 1).
 ]
 
-=== Balls and Boxes
+=== Шары и ящики
 
-#proposition[Four counting situations][
+#proposition[Четыре ситуации подсчёта][
   #table(
     columns: 3,
     align: (center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Balls*], [*Boxes*], [*Count*]),
-    [Distinct], [Distinct], [$k^n$ --- each ball chooses a box],
-    [Identical], [Distinct], [$binom(n+k-1, n)$ --- stars and bars],
-    [Distinct], [Identical], [$S(n,1) + ... + S(n,k)$ --- Stirling 2nd kind],
-    [Identical], [Identical], [Integer partitions],
+    table.header([*Шары*], [*Ящики*], [*Количество*]),
+    [Различные], [Различные], [$k^n$ --- каждый шар выбирает ящик],
+    [Неразличимые], [Различные], [$binom(n+k-1, n)$ --- звёзды и перегородки],
+    [Различные],
+    [Неразличимые],
+    [$S(n,1) + ... + S(n,k)$ --- числа Стирлинга 2-го рода],
+
+    [Неразличимые], [Неразличимые], [Разбиения целых чисел],
   )
 ]
 
 
-== Permutations, Arrangements, Combinations
+== Перестановки, размещения, сочетания
 
-#definition[Permutation][
-  An ordering of $n$ distinct objects.
-  Count: $n! = 1 dot 2 dot ... dot n$.
+#definition[Перестановка][
+  Упорядочение $n$ различных объектов называется *перестановкой*, обозначается $n! = 1 dot 2 dot ... dot n$.
 ]
 
-#proposition[Stirling's approximation][
+#proposition[Формула Стирлинга][
   $n! tilde.op sqrt(2 pi n) (n/e)^n$.
 ]
 
-#definition[Arrangement ($k$-permutation)][
-  Choose $k$ from $n$ distinct objects, order matters.
-  $P(n, k) = n dot (n-1) dot ... dot (n-k+1) = n!/(n-k)!$.
+#definition[Размещение ($k$-перестановка)][
+  Выбор $k$ из $n$ различных объектов, в котором порядок важен, называется *размещением* ($k$-перестановкой), обозначается $P(n, k) = n dot (n-1) dot ... dot (n-k+1) = n!/(n-k)!$.
 ]
 
-#definition[Combination][
-  Choose $k$ from $n$ distinct objects, order irrelevant. $binom(n, k) = (n!)/(k!(n-k)!) = P(n, k)/k!$.
-]
-
-#example[
-  Committee of 3 from 10 people: $binom(10, 3) = 120$.
-  Medal podium (gold, silver, bronze) from 10: $P(10, 3) = 720$.
-]
-
-#definition[Combinations with repetition][
-  $binom(n + k - 1, k)$ --- choose $k$ items from $n$ types, repetition allowed, order irrelevant.
-  Proof: $k$ stars, $n-1$ bars separating types.
-]
-
-#definition[Permutations with repetition][
-  $n$ objects with $n_i$ identical of type $i$: $n!/(n_1! n_2! dots.h n_k!)$ (multinomial coefficient).
+#definition[Сочетание][
+  Выбор $k$ из $n$ различных объектов, в котором порядок не важен, называется *сочетанием*, обозначается $binom(n, k) = (n!)/(k!(n-k)!) = P(n, k)/k!$.
 ]
 
 #example[
-  "MISSISSIPPI": M×1, I×4, S×4, P×2. $11!/(1!4!4!2!) = 34,650$ distinct strings.
+  Комитет из 3 человек из 10 кандидатов: $binom(10, 3) = 120$.
+  Пьедестал (золото, серебро, бронза) из 10 участников: $P(10, 3) = 720$.
+]
+
+#definition[Сочетания с повторениями][
+  Выбор $k$ элементов из $n$ типов, в котором повторения разрешены, а порядок не важен, называется *сочетанием с повторениями*, обозначается $binom(n + k - 1, k)$.
+  Доказательство: $k$ звёзд, $n-1$ перегородок, разделяющих типы.
+]
+
+#definition[Перестановки с повторениями][
+  Упорядочение $n$ объектов, среди которых $n_i$ неразличимых типа $i$, называется *перестановкой с повторениями*, обозначается $n!/(n_1! n_2! dots.h n_k!)$ (мультиномиальный коэффициент).
+]
+
+#example[
+  "MISSISSIPPI": M×1, I×4, S×4, P×2. $11!/(1!4!4!2!) = 34,650$ различных строк.
 ]
 
 
-== Binomial Coefficients and Identities
+== Биномиальные коэффициенты и тождества
 
-#proposition[Pascal's identity][
-  $binom(n, k) = binom(n-1, k-1) + binom(n-1, k)$ for $1 <= k <= n-1$.
+#proposition[Тождество Паскаля][
+  $binom(n, k) = binom(n-1, k-1) + binom(n-1, k)$ для $1 <= k <= n-1$.
 ]
 
-#theorem[Binomial theorem][
+#theorem[Биномиальная теорема][
   $(x + y)^n = sum_(k=0)^n binom(n, k) x^(n-k) y^k$.
 ]
 
-#proposition[Core identities][
-  - *Row sum*: $sum binom(n, k) = 2^n$ (all subsets).
-  - *Alternating sum*: $sum (-1)^k binom(n, k) = 0$ for $n >= 1$.
-  - *Hockey-stick*: $sum_(i=k)^n binom(i, k) = binom(n+1, k+1)$.
-  - *Vandermonde*: $binom(m+n, r) = sum binom(m, k) binom(n, r-k)$.
-  - *Weighted sum*: $sum k binom(n, k) = n 2^(n-1)$.
+#proposition[Основные тождества][
+  - *Сумма строки*: $sum binom(n, k) = 2^n$ (все подмножества).
+  - *Знакопеременная сумма*: $sum (-1)^k binom(n, k) = 0$ для $n >= 1$.
+  - *Хоккейная клюшка*: $sum_(i=k)^n binom(i, k) = binom(n+1, k+1)$.
+  - *Вандермонда*: $binom(m+n, r) = sum binom(m, k) binom(n, r-k)$.
+  - *Взвешенная сумма*: $sum k binom(n, k) = n 2^(n-1)$.
 ]
 
 #proof-sketch[
-  Each identity has two proofs: algebraic (manipulate factorials) and combinatorial (count a set two ways).
-  The combinatorial proof is usually more illuminating.
+  Каждое тождество имеет два доказательства: алгебраическое (манипуляции с факториалами) и комбинаторное (подсчёт множества двумя способами).
+  Комбинаторное доказательство обычно более проясняющее.
 ]
 
 
-== Inclusion-Exclusion
+== Включений-исключений
 
-#theorem[Inclusion-Exclusion --- general form][
+#theorem[Формула включений-исключений --- общий вид][
   $|union.big_(i=1)^n A_i| = sum |A_i| - sum_(i < j) |A_i inter A_j| + sum_(i < j < k) |A_i inter A_j inter A_k| - ... + (-1)^(n+1) |inter.big A_i|$.
 ]
 
 #proof[
-  Consider an element belonging to exactly $k$ of the sets $A_i$.
-  In $sum |A_i|$ it is counted $binom(k, 1)$ times, in $sum |A_i inter A_j|$ it is counted $binom(k, 2)$ times, etc.
-  Alternating sum: $binom(k, 1) - binom(k, 2) + ... + (-1)^(k+1) binom(k, k) = 1 - (1-1)^k = 1$.
-  So every element is counted exactly once.
+  Рассмотрим элемент, принадлежащий ровно $k$ множествам $A_i$.
+  В $sum |A_i|$ он посчитан $binom(k, 1)$ раз, в $sum |A_i inter A_j|$ --- $binom(k, 2)$ раз, и т.д.
+  Знакопеременная сумма: $binom(k, 1) - binom(k, 2) + ... + (-1)^(k+1) binom(k, k) = 1 - (1-1)^k = 1$.
+  Таким образом, каждый элемент посчитан ровно один раз.
 ]
 
-#example[Derangements][
-  Permutations where no element stays in place: $!n = n! sum_(i=0)^n ((-1)^i)/(i!) approx n!/e$.
+#example[Беспорядки][
+  Перестановки, в которых ни один элемент не остаётся на месте: $!n = n! sum_(i=0)^n ((-1)^i)/(i!) approx n!/e$.
 ]
 
-#example[Euler's totient][
-  $phi(n) = n product_(p|n) (1 - 1/p)$ --- count integers $<= n$ coprime to $n$.
+#example[Функция Эйлера][
+  $phi(n) = n product_(p|n) (1 - 1/p)$ --- количество целых чисел $<= n$, взаимно простых с $n$.
 ]
 
-#example[Surjections][
-  Number of surjective functions $A -> B$ ($|A|=n$, $|B|=k$): $k! S(n, k) = sum_(i=0)^k (-1)^i binom(k, i) (k-i)^n$.
+#example[Сюръекции][
+  Количество сюръективных функций $A -> B$ ($|A|=n$, $|B|=k$): $k! S(n, k) = sum_(i=0)^k (-1)^i binom(k, i) (k-i)^n$.
 ]
 
 
-== Recurrences
+== Рекуррентные соотношения
 
-#definition[Linear recurrence with constant coefficients][
-  $a_n = c_1 a_(n-1) + ... + c_k a_(n-k)$, with $a_0, ..., a_(k-1)$ given.
+#definition[Линейное рекуррентное соотношение с постоянными коэффициентами][
+  Уравнение вида $a_n = c_1 a_(n-1) + ... + c_k a_(n-k)$, где $a_0, ..., a_(k-1)$ заданы, называется *линейным рекуррентным соотношением с постоянными коэффициентами*.
 ]
 
-#proposition[Solving method][
-  1. Characteristic polynomial: $r^k - c_1 r^(k-1) - ... - c_k = 0$.
-  2. Distinct roots $r_i$: $a_n = sum alpha_i r_i^n$.
-  3. Root $r$ of multiplicity $m$: terms $r^n$, $n r^n$, ..., $n^(m-1) r^n$.
-  $alpha_i$ determined from initial conditions.
+#proposition[Метод решения][
+  + Характеристическое уравнение: $r^k - c_1 r^(k-1) - ... - c_k = 0$.
+  + Различные корни $r_i$: $a_n = sum alpha_i r_i^n$.
+  + Корень $r$ кратности $m$: слагаемые $r^n$, $n r^n$, ..., $n^(m-1) r^n$.
+
+  $alpha_i$ определяются из начальных условий.
 ]
 
-#example[Fibonacci][
-  $F_n = F_(n-1) + F_(n-2)$, $F_0 = 0$, $F_1 = 1$.
-  Characteristic: $r^2 - r - 1 = 0$, roots $phi = (1+sqrt(5))/2$, $psi = (1-sqrt(5))/2$.
-  $F_n = (phi^n - psi^n)/sqrt(5)$ --- Binet's formula.
+#example[Фибоначчи][
+  $F_n = F_(n-1) + F_(n-2)$, с начальными условиями $F_0 = 0$, $F_1 = 1$.
+
+  - Характеристическое уравнение: $r^2 - r - 1 = 0$.
+
+  - Корни: $phi = (1+sqrt(5))/2$, $psi = (1-sqrt(5))/2$.
+
+  - Решение --- формула Бине: $F_n = (phi^n - psi^n)/sqrt(5)$
 ]
 
-=== Non-Homogeneous Recurrences
+=== Неоднородные рекуррентные соотношения
 
-For $a_n = c_1 a_(n-1) + ... + c_k a_(n-k) + f(n)$: the solution is the general homogeneous solution plus a *particular solution*.
-If $f(n)$ is a polynomial times $d^n$, guess a particular solution of the same form with undetermined coefficients.
-If the guess overlaps with the homogeneous solution, multiply by $n$.
+Для $a_n = c_1 a_(n-1) + ... + c_k a_(n-k) + f(n)$: решение есть сумма общего однородного решения и *частного решения*.
+Если $f(n)$ --- многочлен, умноженный на $d^n$, угадай частное решение того же вида с неопределёнными коэффициентами.
+Если угаданное решение пересекается с однородным, умножь на $n$.
 
-#example[Merge Sort][
+#example[Сортировка слиянием][
   $T(n) = 2T(n/2) + n$, $T(1) = 0$.
-  Substitute $n = 2^k$: $T(2^k) = 2T(2^(k-1)) + 2^k$.
-  Let $t_k = T(2^k)$: $t_k = 2t_(k-1) + 2^k$, $t_0 = 0$.
-  Homogeneous: $t_k^((h)) = A dot 2^k$.
-  Particular: guess $t_k^((p)) = B k 2^k$.
-  Solving: $B = 1$, so $t_k = k 2^k$.
-  Thus $T(n) = n log_2 n$.
+  Подстановка $n = 2^k$: $T(2^k) = 2T(2^(k-1)) + 2^k$.
+  Пусть $t_k = T(2^k)$: $t_k = 2t_(k-1) + 2^k$, $t_0 = 0$.
+  Однородное: $t_k^((h)) = A dot 2^k$.
+  Частное: угадываем $t_k^((p)) = B k 2^k$.
+  Решение: $B = 1$, так что $t_k = k 2^k$.
+  Следовательно, $T(n) = n log_2 n$.
 ]
 
 #remark[
-  Recurrences model algorithm runtimes.
-  The Master Theorem handles divide-and-conquer recurrences of the form $T(n) = a T(n/b) + f(n)$ by comparing $f(n)$ with $n^(log_b a)$.
+  Рекуррентные соотношения моделируют время работы алгоритмов.
+  Master Theorem обрабатывает рекурренты типа "разделяй и властвуй" вида $T(n) = a T(n/b) + f(n)$, сравнивая $f(n)$ с $n^(log_b a)$.
 ]
 
 
-== Special Numbers
+== Специальные числа
 
-=== Catalan Numbers
+=== Числа Каталана
 
-#definition[Catalan numbers][
-  $C_n = 1/(n+1) binom(2n, n)$.
-  Recurrence: $C_0 = 1$, $C_(n+1) = sum_(i=0)^n C_i C_(n-i)$.
+#definition[Числа Каталана][
+  Числа $C_n = 1/(n+1) binom(2n, n)$, удовлетворяющие рекурренте $C_0 = 1$, $C_(n+1) = sum_(i=0)^n C_i C_(n-i)$, называются *числами Каталана*.
 ]
 
-$C_n$ counts: correct bracket sequences of $n$ pairs, binary trees with $n$ internal nodes, triangulations of $(n+2)$-gon, Dyck paths, matrix parenthesisation.
+$C_n$ подсчитывает: правильные скобочные последовательности из $n$ пар, бинарные деревья с $n$ внутренними узлами, триангуляции $(n+2)$-угольника, пути Дика, расстановки скобок в матричном произведении.
 
 #remark[
-  Catalan numbers appear in compiler design (parse trees), computational geometry, and algorithm analysis.
+  Числа Каталана встречаются в разработке компиляторов (деревья разбора), вычислительной геометрии и анализе алгоритмов.
 ]
 
-=== Stirling and Bell Numbers
+=== Числа Стирлинга и Белла
 
-#definition[Stirling numbers of the first kind][
-  $c(n, k)$ = permutations of $n$ elements with exactly $k$ cycles. $c(n, k) = c(n-1, k-1) + (n-1) c(n-1, k)$.
+#definition[Числа Стирлинга первого рода][
+  Количество перестановок $n$ элементов ровно с $k$ циклами называется *числами Стирлинга первого рода*, обозначается $c(n, k)$, и удовлетворяет рекурренте $c(n, k) = c(n-1, k-1) + (n-1) c(n-1, k)$.
 ]
 
-#definition[Stirling numbers of the second kind][
-  $S(n, k)$ = partitions of $n$-element set into $k$ non-empty unlabeled blocks.
-  $S(n, k) = S(n-1, k-1) + k S(n-1, k)$.
+#definition[Числа Стирлинга второго рода][
+  Количество разбиений $n$-элементного множества на $k$ непустых непомеченных блоков называется *числами Стирлинга второго рода*, обозначается $S(n, k)$, и удовлетворяет рекурренте $S(n, k) = S(n-1, k-1) + k S(n-1, k)$.
 ]
 
-#definition[Bell numbers][
-  $B_n = sum_(k=0)^n S(n, k)$ = total partitions of $n$-element set.
+#definition[Числа Белла][
+  Общее количество разбиений $n$-элементного множества называется *числами Белла*, обозначается $B_n = sum_(k=0)^n S(n, k)$.
   $B_3 = 5$, $B_4 = 15$, $B_5 = 52$.
 ]
 
-#proposition[Multinomial theorem][
-  $(x_1 + ... + x_m)^n = sum_(k_1+...+k_m=n) binom(n, k_1, ..., k_m) x_1^(k_1) ... x_m^(k_m)$, where $binom(n, k_1, ..., k_m) = n!/(k_1! dots.h k_m!)$.
+#proposition[Мультиномиальная теорема][
+  $(x_1 + ... + x_m)^n = sum_(k_1+...+k_m=n) binom(n, k_1, ..., k_m) x_1^(k_1) ... x_m^(k_m)$, где $binom(n, k_1, ..., k_m) = n!/(k_1! dots.h k_m!)$.
 ]

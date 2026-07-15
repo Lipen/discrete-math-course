@@ -1,221 +1,221 @@
-// M04 --- Functions: the mathematical formalisation of computation.
+// M04 --- Функции: математическая формализация вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Functions
+= Функции
 
 #chapter-overview[
-  Functions are the mathematical abstraction of computation --- they map inputs to outputs with precision and determinism.
-  This chapter defines functions as special relations, introduces the fundamental classification (injective, surjective, bijective), develops composition and inversion, and explores the algebraic properties of images and preimages.
-  The chapter closes with special functions ubiquitous in discrete mathematics and CS: characteristic functions, floors and ceilings, and the Iverson bracket.
+  Функции --- математическая абстракция вычислений: они отображают входы в выходы с точностью и детерминизмом.
+  Эта глава определяет функции как специальный вид отношений, вводит фундаментальную классификацию (инъективные, сюръективные, биективные), развивает композицию и обращение, а также исследует алгебраические свойства образов и прообразов.
+  Глава завершается специальными функциями, повсеместно встречающимися в дискретной математике и CS: характеристическими функциями, функциями пола и потолка, а также нотацией Айверсона.
 ]
 
-== Definitions and Basic Concepts
+== Определения и базовые понятия
 
-=== Function as a Relation
+=== Функция как отношение
 
-#definition[Function][
-  A function $f$ from $A$ to $B$, written $f: A -> B$, is a binary relation $f subset.eq A times B$ satisfying: $(a, b_1) in f and (a, b_2) in f imply b_1 = b_2$.
-  Each input has exactly one output.
+#definition[Функция][
+  Бинарное отношение $f subset.eq A times B$, удовлетворяющее условию $(a, b_1) in f and (a, b_2) in f imply b_1 = b_2$, называется *функцией* из $A$ в $B$, обозначается $f: A -> B$.
+  Каждый вход имеет ровно один выход.
 ]
 
-#definition[Domain, codomain, image, preimage][
-  - *Domain*: $A$ --- the set of valid inputs.
-  - *Codomain*: $B$ --- the set of permitted outputs.
-  - *Image*: $f(A) = {f(a) mid(|) a in A}$ --- outputs actually produced.
-  - For $X subset.eq A$: $f(X) = {f(a) mid(|) a in X}$.
-  - For $Y subset.eq B$: $f^(-1)(Y) = {a in A mid(|) f(a) in Y}$.
-  - For $b in B$: $f^(-1)(b) = {a in A mid(|) f(a) = b}$ --- a set, not necessarily a singleton.
+#definition[Область определения, кообласть, образ, прообраз][
+  - Множество допустимых входов $A$ называется *областью определения* функции $f: A -> B$.
+  - Множество разрешённых выходов $B$ называется *кообластью*.
+  - Множество всех действительно производимых выходов называется *образом*: $f(A) = {f(a) mid(|) a in A}$.
+  - Для $X subset.eq A$: $f(X) = {f(a) mid(|) a in X}$.
+  - Для $Y subset.eq B$: множество ${a in A mid(|) f(a) in Y}$ называется *прообразом* $Y$, обозначается $f^(-1)(Y)$.
+  - Для $b in B$: $f^(-1)(b) = {a in A mid(|) f(a) = b}$ --- множество, не обязательно одноэлементное.
 ]
 
 #note[
-  $f^(-1)(b)$ is a preimage, always defined as a set.
-  It does NOT imply $f$ is invertible.
+  $f^(-1)(b)$ --- это прообраз, всегда определённый как множество.
+  Это НЕ означает, что $f$ обратима.
 ]
 
-=== Total and Partial Functions
+=== Тотальные и частичные функции
 
-#definition[Total vs partial][
-  - *Total function* $f: A -> B$: defined for every $a in A$.
-  - *Partial function* $f: A ⇀ B$: defined on a subset of $A$.
+#definition[Тотальные и частичные][
+  - Функция, определённая для каждого $a in A$, называется *тотальной*, обозначается $f: A -> B$.
+  - Функция, определённая лишь на подмножестве $A$, называется *частичной*, обозначается $f: A ⇀ B$.
 ]
 
-#example[Partial function][
-  $f(x) = 1/x$ is partial on $RR$ (undefined at 0); total on $RR setminus {0}$.
+#example[Частичная функция][
+  $f(x) = 1/x$ частична на $RR$ (не определена в 0); тотальна на $RR setminus {0}$.
 ]
 
 #remark[
-  Partial functions model computations that may not terminate or throw exceptions.
-  The distinction between total and partial functions is the mathematical basis for the halting problem.
+  Частичные функции моделируют вычисления, которые могут не завершаться или выбрасывать исключения.
+  Различие между тотальными и частичными функциями --- математическая основа проблемы остановки.
 ]
 
-=== Graph of a Function
+=== График функции
 
-The _graph_ of $f: A -> B$ is ${(a, f(a)) mid(|) a in A}$ --- the same as $f$ viewed as a relation.
+_График_ функции $f: A -> B$ --- это множество ${(a, f(a)) mid(|) a in A}$ --- то же самое, что $f$, рассматриваемая как отношение.
 
 #note[
-  Not every relation is a function.
-  A relation $R subset.eq A times B$ is a function iff every $a in A$ appears in at most one pair (partial) or exactly one pair (total).
+  Не каждое отношение является функцией.
+  Отношение $R subset.eq A times B$ является функцией тогда и только тогда, когда каждый $a in A$ появляется не более чем в одной паре (частичная) или ровно в одной паре (тотальная).
 ]
 
 
-== Injection, Surjection, Bijection
+== Инъекция, сюръекция, биекция
 
-=== Injection (One-to-One)
+=== Инъекция (взаимно-однозначное отображение)
 
-#definition[Injection][
-  $f$ is *injective* if distinct inputs map to distinct outputs: $f(a_1) = f(a_2) arrow a_1 = a_2$, equivalently $a_1 eq.not a_2 imply f(a_1) eq.not f(a_2)$.
+#definition[Инъекция][
+  Функция $f$ называется *инъективной*, если различные входы отображаются в различные выходы: $f(a_1) = f(a_2) arrow a_1 = a_2$, или, эквивалентно, $a_1 eq.not a_2 imply f(a_1) eq.not f(a_2)$.
 ]
 
-For finite sets: $|A| <= |B|$.
+Для конечных множеств: $|A| <= |B|$.
 
-#example[Injective function][
-  $f(x) = 2x + 1$ is injective. $g(x) = x^2$ is not ($g(2) = g(-2) = 4$).
+#example[Инъективная функция][
+  $f(x) = 2x + 1$ инъективна. $g(x) = x^2$ не инъективна ($g(2) = g(-2) = 4$).
 ]
 
-#theorem[Left inverse][
-  $f$ is injective iff there exists $g: B -> A$ with $g compose f = "id"_A$.
+#theorem[Левая обратная][
+  $f$ инъективна тогда и только тогда, когда существует $g: B -> A$, такая что $g compose f = "id"_A$.
 ]
 
-#example[Hash collisions][
-  A hash function should ideally be injective; in practice, collisions are inevitable (pigeonhole).
+#example[Коллизии хешей][
+  Хеш-функция в идеале должна быть инъективной; на практике коллизии неизбежны (принцип Дирихле).
 ]
 
-=== Surjection (Onto)
+=== Сюръекция (отображение "на")
 
-#definition[Surjection][
-  $f$ is *surjective* if every element of $B$ is hit: $forall b in B space exists a in A space f(a) = b$.
-  Equivalently: $f(A) = B$.
+#definition[Сюръекция][
+  Функция $f$ называется *сюръективной*, если каждый элемент $B$ достигается: $forall b in B space exists a in A space f(a) = b$.
+  Эквивалентно: $f(A) = B$.
 ]
 
-For finite sets: $|A| >= |B|$.
+Для конечных множеств: $|A| >= |B|$.
 
-#example[Surjective function][
-  $f(x) = x^3$ is surjective on $RR$. $g(x) = e^x$ is not (never reaches 0 or negatives).
+#example[Сюръективная функция][
+  $f(x) = x^3$ сюръективна на $RR$. $g(x) = e^x$ не сюръективна (никогда не достигает 0 или отрицательных значений).
 ]
 
-#theorem[Right inverse][
-  $f$ is surjective iff there exists $g: B -> A$ with $f compose g = "id"_B$ (requires axiom of choice).
+#theorem[Правая обратная][
+  $f$ сюръективна тогда и только тогда, когда существует $g: B -> A$, такая что $f compose g = "id"_B$ (требует аксиомы выбора).
 ]
 
 #remark[
-  Serialisation is ideally injective; deserialisation is surjective onto valid objects.
-  Together they form a bijection between objects and their representations.
+  Сериализация в идеале инъективна; десериализация сюръективна на множество допустимых объектов.
+  Вместе они образуют биекцию между объектами и их представлениями.
 ]
 
-=== Bijection
+=== Биекция
 
-#definition[Bijection][
-  $f$ is *bijective* if it is both injective and surjective.
+#definition[Биекция][
+  Функция $f$ называется *биективной*, если она одновременно инъективна и сюръективна.
 ]
 
-#theorem[Inverse function][
-  $f$ is bijective iff there exists $f^(-1): B -> A$ with $f compose f^(-1) = "id"_B$ and $f^(-1) compose f = "id"_A$.
-  For finite sets: $|A| = |B|$.
+#theorem[Обратная функция][
+  $f$ биективна тогда и только тогда, когда существует $f^(-1): B -> A$, такая что $f compose f^(-1) = "id"_B$ и $f^(-1) compose f = "id"_A$.
+  Для конечных множеств: $|A| = |B|$.
 ]
 
-#example[Base64 encoding][
-  Base64 encoding is an injection from binary to text; within its image, decoding is the inverse.
-  A proper encoding-decoding pair is a bijection.
+#example[Кодирование Base64][
+  Кодирование Base64 --- это инъекция из бинарных данных в текст; в пределах своего образа декодирование является обратной функцией.
+  Корректная пара кодирование-декодирование --- это биекция.
 ]
 
-#example[Proving bijectivity: $f(x) = 2x + 1$ on $ZZ$][
-  *Injectivity*: $f(a) = f(b)$ $=>$ $2a + 1 = 2b + 1$ $=>$ $2a = 2b$ $=>$ $a = b$. *Surjectivity*: given $y in ZZ$, solve $2x + 1 = y$ $=>$ $x = (y-1)/2$.
-  If $y$ is odd ($y = 2k + 1$), $x = k in ZZ$; if $y$ is even, no integer $x$ exists. $f$ restricted to odd codomain is bijective; on $ZZ$ it is injective but not surjective (outputs are odd). $f: ZZ -> {2k+1 mid(|) k in ZZ}$ is a bijection.
-  Finding the inverse: $f^(-1)(y) = (y-1)/2$.
+#example[Доказательство биективности: $f(x) = 2x + 1$ на $ZZ$][
+  *Инъективность*: $f(a) = f(b)$ $=>$ $2a + 1 = 2b + 1$ $=>$ $2a = 2b$ $=>$ $a = b$. *Сюръективность*: для данного $y in ZZ$, решаем $2x + 1 = y$ $=>$ $x = (y-1)/2$.
+  Если $y$ нечётно ($y = 2k + 1$), $x = k in ZZ$; если $y$ чётно, целого $x$ не существует. $f$, ограниченная на нечётную кообласть, биективна; на $ZZ$ она инъективна, но не сюръективна (выходы нечётны). $f: ZZ -> {2k+1 mid(|) k in ZZ}$ --- биекция.
+  Нахождение обратной: $f^(-1)(y) = (y-1)/2$.
 ]
 
-=== Cardinality Criteria
+=== Критерии мощности
 
-#proposition[Cardinality classification][
+#proposition[Классификация по мощности][
   #table(
     columns: 4,
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Type*], [*Condition*], [*Cardinality*], [*Inverse*]),
-    [Injection],
+    table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
+    [Инъекция],
     [$f(a_1) = f(a_2) arrow a_1 = a_2$],
     [$|A| <= |B|$],
-    [Left inverse $g compose f = "id"_A$],
+    [Левая обратная $g compose f = "id"_A$],
 
-    [Surjection],
+    [Сюръекция],
     [$forall b exists a: f(a) = b$],
     [$|A| >= |B|$],
-    [Right inverse $f compose g = "id"_B$],
+    [Правая обратная $f compose g = "id"_B$],
 
-    [Bijection],
-    [Injective + surjective],
+    [Биекция],
+    [Инъективна + сюръективна],
     [$|A| = |B|$],
-    [Two-sided inverse $f^(-1)$],
+    [Двусторонняя обратная $f^(-1)$],
   )
 ]
 
 
-== Composition of Functions
+== Композиция функций
 
-#definition[Composition][
-  Given $f: A -> B$ and $g: B -> C$, $(g compose f)(a) = g(f(a))$.
-  Composition is associative: $h compose(g compose f) = (h compose g) compose f$.
-  Not commutative: $g compose f eq.not f compose g$ in general.
+#definition[Композиция][
+  Функция, заданная равенством $(g compose f)(a) = g(f(a))$ для $f: A -> B$ и $g: B -> C$, называется *композицией* $g$ и $f$, обозначается $g compose f$.
+  Композиция ассоциативна: $h compose(g compose f) = (h compose g) compose f$.
+  Не коммутативна: $g compose f eq.not f compose g$ в общем случае.
 ]
 
-#theorem[Composition preserves function type][
-  If $f$ and $g$ are injective, $g compose f$ is injective.
-  If $f$ and $g$ are surjective, $g compose f$ is surjective.
-  If $f$ and $g$ are bijective, $g compose f$ is bijective.
+#theorem[Композиция сохраняет тип функции][
+  Если $f$ и $g$ инъективны, то $g compose f$ инъективна.
+  Если $f$ и $g$ сюръективны, то $g compose f$ сюръективна.
+  Если $f$ и $g$ биективны, то $g compose f$ биективна.
 ]
 
-#theorem[Inverse of composition][
-  $(g compose f)^(-1) = f^(-1) compose g^(-1)$ --- order reverses.
+#theorem[Обратная композиции][
+  $(g compose f)^(-1) = f^(-1) compose g^(-1)$ --- порядок меняется на обратный.
 ]
 
 #remark[
-  Functional pipelines `x |> f |> g |> h` are composition written left-to-right: $(h compose g compose f)(x)$.
+  Функциональные конвейеры `x |> f |> g |> h` --- это композиция, записанная слева направо: $(h compose g compose f)(x)$.
 ]
 
 
-== Image and Preimage Algebra
+== Алгебра образов и прообразов
 
-#proposition[Image of union and intersection][
+#proposition[Образ объединения и пересечения][
   - $f(A union B) = f(A) union f(B)$.
   - $f(A inter B) subset.eq f(A) inter f(B)$.
-    Equality holds if $f$ is injective.
+    Равенство выполняется, если $f$ инъективна.
 ]
 
 #proof[
-  *Image of union.*
-  $y in f(A union B)$ iff $exists x in A union B$, $f(x) = y$ iff ($exists x in A$ or $exists x in B$) $f(x) = y$ iff $y in f(A) union f(B)$.
+  *Образ объединения.*
+  $y in f(A union B)$ тогда и только тогда, когда $exists x in A union B$, $f(x) = y$ тогда и только тогда, когда ($exists x in A$ или $exists x in B$) $f(x) = y$ тогда и только тогда, когда $y in f(A) union f(B)$.
 
-  *Image of intersection.*
+  *Образ пересечения.*
   $y in f(A inter B)$
   $=>$ $exists x in A inter B$, $f(x) = y$
-  $=>$ $y in f(A)$ and $y in f(B)$.
-  The converse holds when $f$ is injective: $y in f(A) inter f(B)$ $=>$ $exists a in A, b in B$, $f(a) = f(b) = y$ $=>$ $a = b$ (injectivity) $=>$ $a in A inter B$ $=>$ $y in f(A inter B)$.
+  $=>$ $y in f(A)$ и $y in f(B)$.
+  Обратное верно, когда $f$ инъективна: $y in f(A) inter f(B)$ $=>$ $exists a in A, b in B$, $f(a) = f(b) = y$ $=>$ $a = b$ (инъективность) $=>$ $a in A inter B$ $=>$ $y in f(A inter B)$.
 ]
 
-#proposition[Preimage preserves all operations][
+#proposition[Прообраз сохраняет все операции][
   $f^(-1)(C union D) = f^(-1)(C) union f^(-1)(D)$. $f^(-1)(C inter D) = f^(-1)(C) inter f^(-1)(D)$. $f^(-1)(C setminus D) = f^(-1)(C) setminus f^(-1)(D)$.
-  The preimage commutes with all Boolean operations.
+  Прообраз коммутирует со всеми булевыми операциями.
 ]
 
 #proof[
-  $x in f^(-1)(C inter D)$ iff $f(x) in C inter D$ iff $f(x) in C$ and $f(x) in D$ iff $x in f^(-1)(C) inter f^(-1)(D)$.
-  The other identities follow the same pattern: replace each set operation with its logical counterpart on the membership condition.
+  $x in f^(-1)(C inter D)$ тогда и только тогда, когда $f(x) in C inter D$ тогда и только тогда, когда $f(x) in C$ и $f(x) in D$ тогда и только тогда, когда $x in f^(-1)(C) inter f^(-1)(D)$.
+  Остальные тождества следуют той же схеме: замените каждую операцию над множествами её логическим аналогом в условии принадлежности.
 ]
 
 
-== Special Functions
+== Специальные функции
 
-=== Characteristic Function
+=== Характеристическая функция
 
-#definition[Characteristic function][
-  For $X subset.eq U$, $chi_X: U -> {0, 1}$: $chi_X(x) = cases(1 space "if" space x in X, 0 space "if" space x in.not X)$.
+#definition[Характеристическая функция][
+  Функция $chi_X: U -> {0, 1}$, заданная как $chi_X(x) = cases(1 space "если" space x in X, 0 space "если" space x in.not X)$, называется *характеристической функцией* множества $X subset.eq U$.
 ]
 
-=== Floor and Ceiling
+=== Пол и потолок
 
-#definition[Floor and ceiling][
-  $floor(x)$ = greatest integer $<= x$. $ceil(x)$ = least integer $>= x$.
+#definition[Пол и потолок][
+  Наибольшее целое, не превышающее $x$, называется *полом* $x$, обозначается $floor(x)$. Наименьшее целое, не меньшее $x$, называется *потолком* $x$, обозначается $ceil(x)$.
 ]
 
 #example[
@@ -223,20 +223,20 @@ For finite sets: $|A| >= |B|$.
 ]
 
 #remark[
-  Binary search makes $floor(log_2 n) + 1$ comparisons.
-  Partitioning $n$ items into blocks of size $k$: $ceil(n/k)$ blocks.
+  Бинарный поиск выполняет $floor(log_2 n) + 1$ сравнений.
+  Разбиение $n$ элементов на блоки размера $k$: $ceil(n/k)$ блоков.
 ]
 
-=== Iverson Bracket
+=== Нотация Айверсона
 
-#definition[Iverson bracket][
-  $[P] = 1$ if $P$ is true, $0$ otherwise.
-  Turns logical conditions into algebraic expressions: $sum_(i=1)^n [i "is even"] = floor(n/2)$.
+#definition[Нотация Айверсона][
+  Выражение, равное $1$ если $P$ истинно и $0$ иначе, называется *нотацией Айверсона*, обозначается $[P]$.
+  Превращает логические условия в алгебраические выражения: $sum_(i=1)^n [i "чётно"] = floor(n/2)$.
 ]
 
-=== Lambda Notation
+=== Лямбда-нотация
 
-#definition[Lambda abstraction][
-  $lambda x in A dot e(x)$ denotes the function $f: A -> B$ mapping $x$ to $e(x)$.
-  Foundation of anonymous functions, closures, and higher-order programming.
+#definition[Лямбда-абстракция][
+  Нотация $lambda x in A dot e(x)$ называется *лямбда-абстракцией*; она обозначает функцию $f: A -> B$, отображающую $x$ в $e(x)$.
+  Основа анонимных функций, замыканий и программирования высшего порядка.
 ]

@@ -1,193 +1,206 @@
-// M05 --- Order Relations: ranking, comparing, and structuring discrete objects.
+// M05 --- Отношения порядка: ранжирование, сравнение и структурирование дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m05.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2
 
-= Order Relations
+= Отношения порядка
 
 #chapter-overview[
-  Order relations capture the idea of "before and after" --- they rank elements, define hierarchies, and provide the structure needed to sort, schedule, and optimise.
-  This chapter introduces partial orders, their visualisation via Hasse diagrams, and the key notions of extremal elements, bounds, and lattices.
-  The chapter closes with lexicographic orders, topological sorting, and real-world applications from type systems to distributed computing.
+  Отношения порядка воплощают идею "до и после" --- они ранжируют элементы, определяют иерархии и задают структуру, необходимую для сортировки, планирования и оптимизации.
+  В этой главе вводятся частичные порядки, их визуализация при помощи диаграмм Хассе, а также ключевые понятия экстремальных элементов, граней и решёток.
+  Глава завершается лексикографическими порядками, топологической сортировкой и практическими приложениями --- от систем типов до распределённых вычислений.
 ]
 
-== Partial Orders
+== Частичные порядки
 
-=== Partial Order Definitions
+=== Определения частичного порядка
 
-#definition[Partial order][
-  A binary relation $prec.eq$ on $A$ is a *partial order* if it is reflexive, antisymmetric, and transitive.
-  The pair $(A, prec.eq)$ is a *poset*.
+#definition[Частичный порядок][
+  Бинарное отношение $prec.eq$ на $A$ называется *частичным порядком*, если оно рефлексивно, антисимметрично и транзитивно.
+  Пара $(A, prec.eq)$ называется *ЧУ-множеством* (частично упорядоченным множеством).
 ]
 
-#definition[Strict order][
-  A *strict order* $<$ is irreflexive, asymmetric, and transitive.
-  Given $prec.eq$, define $a < b$ iff $a prec.eq b$ and $a eq.not b$.
-  Given $<$, define $a prec.eq b$ iff $a < b$ or $a = b$.
+#definition[Строгий порядок][
+  Бинарное отношение $<$ на $A$ называется *строгим порядком*, если оно иррефлексивно, асимметрично и транзитивно.
+  Имея $prec.eq$, определим $a < b$ тогда и только тогда, когда $a prec.eq b$ и $a eq.not b$.
+  Имея $<$, определим $a prec.eq b$ тогда и только тогда, когда $a < b$ или $a = b$.
 ]
 
-#definition[Total order][
-  A *total order* is a partial order where every pair is comparable: $forall a eq.not b$, either $a prec.eq b$ or $b prec.eq a$.
+#definition[Линейный порядок][
+  Частичный порядок, в котором любая пара элементов сравнима ($forall a eq.not b$, либо $a prec.eq b$, либо $b prec.eq a$), называется *линейным порядком*.
 ]
 
 #example[
-  $(NN, <=)$ and $(RR, <=)$ are total.
-  Divisibility $a | b$ on $NN^+$ is partial: 2 and 3 are incomparable. $(cal(P)({1, 2, 3}), subset.eq)$ is partial: ${1}$ and ${2}$ are incomparable.
+  $(NN, <=)$ и $(RR, <=)$ линейны.
+  Делимость $a | b$ на $NN^+$ частична: 2 и 3 несравнимы.
+  $(cal(P)({1, 2, 3}), subset.eq)$ частичен: ${1}$ и ${2}$ несравнимы.
 ]
 
 #note[
-  "Partial" means some pairs may be incomparable --- neither $a prec.eq b$ nor $b prec.eq a$.
-  This is what makes orders useful for modelling dependencies, where some tasks are independent.
+  "Частичный" означает, что некоторые пары могут быть несравнимы --- ни $a prec.eq b$, ни $b prec.eq a$.
+  Именно это делает порядки полезными для моделирования зависимостей, где некоторые задачи независимы.
 ]
 
-=== Hasse Diagrams
+=== Диаграммы Хассе
 
-#definition[Hasse diagram][
-  To draw the Hasse diagram of a finite poset $(A, prec.eq)$:
-  1. Remove self-loops (reflexivity implicit).
-  2. Remove edges implied by transitivity.
-  3. Place $a$ lower than $b$ when $a < b$.
-  4. Draw undirected lines --- direction implied by vertical position.
+#definition[Диаграмма Хассе][
+  Чтобы построить диаграмму Хассе конечного ЧУ-множества $(A, prec.eq)$:
+  1. Убрать петли (рефлексивность подразумевается).
+  2. Убрать рёбра, следующие из транзитивности.
+  3. Расположить $a$ ниже $b$, когда $a < b$.
+  4. Нарисовать ненаправленные линии --- направление задаётся вертикальным положением.
 ]
 
 #example[
-  The divisor poset on ${1, 2, 3, 4, 6, 12}$ ordered by $a | b$.
-  The Hasse diagram shows only cover relations:
-  - 1 is covered by 2 and 3
-  - 2 is covered by 4 and 6
-  - 3 is covered by 6
-  - 4 and 6 are covered by 12
+  ЧУ-множество делителей на ${1, 2, 3, 4, 6, 12}$, упорядоченное отношением $a | b$.
+  Диаграмма Хассе показывает только отношения покрытия:
+  - 1 покрывается элементами 2 и 3
+  - 2 покрывается элементами 4 и 6
+  - 3 покрывается элементом 6
+  - 4 и 6 покрываются элементом 12
 ]
 
 #figure(
   hasse-divisors-12,
-  caption: [Hasse diagram of $(D_12, |)$ --- the divisor lattice of 12.
-    Edges show cover relations; transitivity and reflexivity are implicit.],
+  caption: [Диаграмма Хассе для $(D_12, |)$ --- решётка делителей числа 12.
+    Рёбра показывают отношения покрытия; транзитивность и рефлексивность подразумеваются.],
 ) <fig:hasse-divisors-12>
 
 #figure(
   hasse-powerset-2,
-  caption: [Hasse diagram of $(cal(P)({1, 2}), subset.eq)$ --- the Boolean lattice $B_2$.
-    Join = $union$, meet = $inter$.],
+  caption: [Диаграмма Хассе для $(cal(P)({1, 2}), subset.eq)$ --- булева решётка $B_2$.
+    Объединение = $union$, пересечение = $inter$.],
 ) <fig:hasse-powerset-2>
 
 #example[
-  For $(cal(P)({1, 2, 3}), subset.eq)$, the Hasse diagram is a cube (3D Boolean lattice).
+  Для $(cal(P)({1, 2, 3}), subset.eq)$ диаграмма Хассе представляет собой куб (трёхмерную булеву решётку).
 ]
 
-=== Extremal Elements
+=== Экстремальные элементы
 
-#definition[Minimal, maximal, least, greatest][
-  - $m$ is *minimal* if no element is strictly smaller: $not(exists a space a < m)$.
-  - $m$ is *maximal* if no element is strictly larger: $not(exists a space m < a)$.
-  - $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique when exists, also minimal).
-  - $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique when exists, also maximal).
+#definition[Минимальный, максимальный, наименьший, наибольший][
+  - Элемент $m$ называется *минимальным*, если нет элемента строго меньше: $not(exists a space a < m)$.
+  - Элемент $m$ называется *максимальным*, если нет элемента строго больше: $not(exists a space m < a)$.
+  - Элемент $m$ называется *наименьшим элементом*, если $m prec.eq a$ для всех $a$ (единственен, если существует; также минимален).
+  - Элемент $m$ называется *наибольшим элементом*, если $a prec.eq m$ для всех $a$ (единственен, если существует; также максимален).
 ]
 
 #note[
-  Minimal elements can be multiple (incomparable "bottom-most").
-  In a finite poset, minimal and maximal elements always exist; least and greatest may not.
+  Минимальных элементов может быть несколько (несравнимые "самые нижние").
+  В конечном ЧУ-множестве минимальные и максимальные элементы всегда существуют; наименьший и наибольший --- не обязательно.
 ]
 
 #example[
-  In $({2, 3, 4, 6, 12}, |)$: minimal = ${2, 3}$, maximal = ${12}$, least = none, greatest = 12.
+  В $({2, 3, 4, 6, 12}, |)$: минимальные = ${2, 3}$, максимальные = ${12}$, наименьший = нет, наибольший = 12.
 ]
 
-#proposition[Extremal elements --- comparison][
+#proposition[Экстремальные элементы --- сравнение][
   #table(
     columns: 4,
     align: (left, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header(
-      [*Concept*], [*Definition*], [*Unique?*], [*Exists in finite poset?*]
+      [*Понятие*],
+      [*Определение*],
+      [*Единственен?*],
+      [*Существует в конечном ЧУМ?*],
     ),
-    [Minimal], [$not(exists a: a < m)$], [No --- can be many], [Always],
-    [Maximal], [$not(exists a: m < a)$], [No --- can be many], [Always],
-    [Least], [$m prec.eq a$ for all $a$], [Yes], [Not guaranteed],
-    [Greatest], [$a prec.eq m$ for all $a$], [Yes], [Not guaranteed],
+    [Минимальный],
+    [$not(exists a: a < m)$],
+    [Нет --- может быть несколько],
+    [Всегда],
+
+    [Максимальный],
+    [$not(exists a: m < a)$],
+    [Нет --- может быть несколько],
+    [Всегда],
+
+    [Наименьший], [$m prec.eq a$ для всех $a$], [Да], [Не гарантирован],
+    [Наибольший], [$a prec.eq m$ для всех $a$], [Да], [Не гарантирован],
   )
 ]
 
-=== Bounds, Supremum, Infimum
+=== Грани, супремум, инфимум
 
-#definition[Bounds][
-  Let $(A, prec.eq)$ be a poset and $S subset.eq A$.
-  - $u$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
-  - $l$ is a *lower bound* of $S$ if $l prec.eq s$ for all $s in S$.
+#definition[Грани][
+  Пусть $(A, prec.eq)$ --- ЧУ-множество и $S subset.eq A$.
+  - $u$ называется *верхней гранью* $S$, если $s prec.eq u$ для всех $s in S$.
+  - $l$ называется *нижней гранью* $S$, если $l prec.eq s$ для всех $s in S$.
 ]
 
-#definition[Supremum and infimum][
-  - The *supremum* (sup, join $or$) is the _least_ upper bound.
-  - The *infimum* (inf, meet $and$) is the _greatest_ lower bound.
-  For a pair ${a, b}$: $a or b$ (join), $a and b$ (meet).
+#definition[Супремум и инфимум][
+  - Наименьшая верхняя грань называется *супремумом* (sup, объединение), обозначается $or$. Для пары ${a, b}$: $a or b$ (объединение).
+  - Наибольшая нижняя грань называется *инфимумом* (inf, пересечение), обозначается $and$. Для пары ${a, b}$: $a and b$ (пересечение).
 ]
 
-Suprema and infima are unique when they exist; they need not exist in an arbitrary poset.
+Супремум и инфимум единственны, когда существуют; в произвольном ЧУ-множестве они могут отсутствовать.
 
-=== Lattices
+=== Решётки
 
-#definition[Lattice][
-  A poset is a *lattice* if every pair has both a supremum and an infimum.
+#definition[Решётка][
+  ЧУ-множество называется *решёткой*, если у каждой пары элементов существуют и супремум, и инфимум.
 ]
 
 #example[
-  $(cal(P)(A), subset.eq)$: join = $union$, meet = $inter$.
-  $(NN^+, |)$: join = lcm, meet = gcd.
+  $(cal(P)(A), subset.eq)$: объединение = $union$, пересечение = $inter$.
+  $(NN^+, |)$: объединение = НОК, пересечение = НОД.
 ]
 
-#definition[Distributive lattice][
-  A lattice is *distributive* if $a and (b or c) = (a and b) or (a and c)$.
-  A *Boolean algebra* is a distributive lattice with 0, 1, and complement $overline(a)$.
+#definition[Дистрибутивная решётка][
+  Решётка называется *дистрибутивной*, если $a and (b or c) = (a and b) or (a and c)$.
+  Дистрибутивная решётка с дополнениями (с 0, 1 и дополнением $overline(a)$) называется *булевой алгеброй*.
 ]
 
 #note[
-  Propositional logic, set algebra, and Boolean algebra are the same structure --- a complemented distributive lattice.
-  This unification is studied in the Boolean algebra chapter.
+  Логика высказываний, алгебра множеств и булева алгебра --- это одна и та же структура: дистрибутивная решётка с дополнениями.
+  Это объединение изучается в главе о булевых алгебрах.
 ]
 
-#proposition[Modular lattices][
-  A lattice is *modular* if $a prec.eq c$ implies $a or (b and c) = (a or b) and c$.
-  Every distributive lattice is modular.
-  Modular lattices (Dedekind algebras) arise in the study of normal subgroups and ring ideals.
+#proposition[Модулярные решётки][
+  Решётка *модулярна*, если из $a prec.eq c$ следует $a or (b and c) = (a or b) and c$.
+  Любая дистрибутивная решётка модулярна.
+  Модулярные решётки (алгебры Дедекинда) возникают при изучении нормальных подгрупп и идеалов колец.
 ]
 
-=== Lexicographic Order
+=== Лексикографический порядок
 
-#definition[Lexicographic order][
-  On $A times B$: $(a_1, b_1) <_"lex" (a_2, b_2)$ iff $a_1 < a_2$, or $a_1 = a_2$ and $b_1 < b_2$.
-  Extends to $n$-tuples and strings.
-  Total whenever component orders are total.
+#definition[Лексикографический порядок][
+  Порядок на $A times B$, при котором $(a_1, b_1) <_"lex" (a_2, b_2)$ тогда и только тогда, когда $a_1 < a_2$ или $a_1 = a_2$ и $b_1 < b_2$, называется *лексикографическим порядком*, обозначается $<_"lex"$.
+  Обобщается на $n$-ки и строки.
+  Линеен, если порядки на компонентах линейны.
 ]
 
-=== Topological Sorting
+=== Топологическая сортировка
 
-#definition[Topological sort][
-  A *topological sort* of a finite poset $(A, prec.eq)$ is a total order $<=$ such that $a prec.eq b arrow a <= b$.
+#definition[Топологическая сортировка][
+  Линейный порядок $<=$ на конечном ЧУ-множестве $(A, prec.eq)$, такой что $a prec.eq b arrow a <= b$, называется *топологической сортировкой*.
 ]
 
-#theorem[Existence][
-  Every finite poset has at least one topological sort.
+#theorem[Существование][
+  Любое конечное ЧУ-множество имеет хотя бы одну топологическую сортировку.
 ]
 
 #proof-sketch[
-  In a finite poset, minimal elements always exist.
-  Repeatedly pick any minimal element, output it, remove it from the poset, and recurse on the remainder.
-  The order of removal is a topological sort.
+  В конечном ЧУ-множестве минимальные элементы всегда существуют.
+  Многократно выбираем любой минимальный элемент, выводим его, удаляем из ЧУ-множества и рекурсивно продолжаем с оставшейся частью.
+  Порядок удаления даёт топологическую сортировку.
 ]
 
 #remark[
-  *Build systems* (Make, Gradle): modules partially ordered by dependencies; any topological sort is a valid build order. *Task scheduling*: jobs with precedence constraints form a poset. *Compiler instruction scheduling*: instructions partially ordered by data dependencies.
+  *Сборочные системы* (Make, Gradle): модули частично упорядочены зависимостями; любая топологическая сортировка задаёт корректный порядок сборки.
+  *Планирование задач*: задания с ограничениями предшествования образуют ЧУ-множество.
+  *Планирование инструкций компилятора*: инструкции частично упорядочены зависимостями по данным.
 ]
 
-== Applications of Orders
+== Приложения отношений порядка
 
 #remark[
-  *Type hierarchies (OOP)*: subclassing is a partial order on types.
-  `Dog <: Animal`, `Cat <: Animal` --- `Dog` and `Cat` are incomparable.
-  Multiple inheritance introduces joins (least common supertype).
+  *Иерархии типов (ООП)*: отношение подкласса --- это частичный порядок на типах.
+  `Dog <: Animal`, `Cat <: Animal` --- `Dog` и `Cat` несравнимы.
+  Множественное наследование вводит объединения (наименьший общий надтип).
 
-  *Versioning*: semantic versioning is not a total order --- versions on different major branches are incomparable in compatibility.
+  *Версионирование*: семантическое версионирование не является линейным порядком --- версии на разных мажорных ветках несравнимы по совместимости.
 
-  *Distributed systems*: Lamport's happens-before ($arrow$) is a partial order on events.
-  Concurrent events ($a not(arrow) b$ and $b not(arrow) a$) are incomparable --- capturing causality without synchronised clocks.
+  *Распределённые системы*: отношение "произошло-до" Лэмпорта ($arrow$) --- это частичный порядок на событиях.
+  Конкурентные события ($a not(arrow) b$ и $b not(arrow) a$) несравнимы --- это отражает причинность без синхронизированных часов.
 ]

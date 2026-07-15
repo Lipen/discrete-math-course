@@ -1,4 +1,4 @@
-// M12 --- Graphs: the universal structure for modelling connections.
+// M12 --- Графы: универсальная структура для моделирования связей.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": (
@@ -6,342 +6,349 @@
   k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
 )
 
-= Graphs
+= Графы
 
 #chapter-overview[
-  Graphs are the lingua franca of discrete structures --- they model networks, dependencies, state spaces, and relationships in every domain of computer science.
-  This chapter introduces fundamental definitions, major graph classes (trees, bipartite, planar, Eulerian, Hamiltonian), standard algorithms (BFS, DFS, Dijkstra), and theoretical pillars: graph coloring, planar duality, and the theorems that govern graph structure.
+  Графы --- это lingua franca дискретных структур: они моделируют сети, зависимости, пространства состояний и отношения в любой области computer science.
+  В этой главе вводятся основные определения, важнейшие классы графов (деревья, двудольные, планарные, эйлеровы, гамильтоновы), стандартные алгоритмы (BFS, DFS, Дейкстра) и теоретические основы: раскраска графов, планарная двойственность и теоремы, определяющие структуру графов.
 ]
 
-== Basic Definitions
+== Основные определения
 
-=== Graphs and Variants
+=== Графы и их разновидности
 
-#definition[Graph][
-  $G = (V, E)$: $V$ = vertices, $E$ = edges.
-  - *Undirected*: edges are unordered pairs ${u, v}$.
-  - *Directed*: edges (arcs) are ordered pairs $(u, v)$.
+#definition[Граф][
+  *Графом* называется пара $G = (V, E)$, где $V$ --- множество вершин, $E$ --- множество рёбер.
+  Граф называется *неориентированным*, если его рёбра --- неупорядоченные пары ${u, v}$.
+  Граф называется *ориентированным*, если его рёбра (дуги) --- упорядоченные пары $(u, v)$.
 ]
 
-#definition[Special types][
-  - *Simple graph*: no loops, no multiple edges.
-  - *Multigraph*: loops and multiple edges allowed.
-  - *$k$-regular*: every vertex has degree $k$.
+#definition[Специальные типы][
+  Граф называется *простым*, если он не содержит петель и кратных рёбер.
+  Граф называется *мультиграфом*, если в нём разрешены петли и кратные рёбра.
+  Граф называется *$k$-регулярным*, если каждая его вершина имеет степень $k$.
 ]
 
 #figure(
   petersen,
-  caption: [The Petersen graph: 3-regular, 10 vertices, non-planar, vertex-transitive.
-    A classic counterexample in graph theory.],
+  caption: [Граф Петерсена: 3-регулярный, 10 вершин, не планарный, вершинно-транзитивный.
+    Классический контрпример в теории графов.],
 ) <fig:petersen>
 
-#definition[Degree][
-  $"deg"(v)$ = number of incident edges.
-  Directed: out-degree $"deg"^+(v)$, in-degree $"deg"^-(v)$.
+#definition[Степень][
+  *Степенью* вершины $v$ называется количество инцидентных ей рёбер, обозначается $"deg"(v)$.
+  В ориентированном графе: *полустепень исхода* $"deg"^+(v)$ --- количество исходящих дуг, *полустепень захода* $"deg"^-(v)$ --- количество входящих дуг.
 ]
 
-#theorem[Handshaking lemma][
+#theorem[Лемма о рукопожатиях][
   $sum_(v in V) "deg"(v) = 2|E|$.
-  Corollary: number of odd-degree vertices is even.
+  Следствие: число вершин нечётной степени чётно.
 ]
 
 #figure(
   simple-graph,
-  caption: [An undirected graph with 6 vertices and 9 edges.],
+  caption: [Неориентированный граф с 6 вершинами и 9 рёбрами.],
 ) <fig:simple-graph>
 
-=== Representations
+=== Представления
 
-#proposition[Three representations][
-  - *Edge list*: store all edges as pairs.
-    $O(|E|)$ adjacency check.
-  - *Adjacency matrix*: $n times n$ matrix $A$; $(A^k)_(i j)$ = number of length-$k$ walks from $i$ to $j$.
-  - *Adjacency list*: per vertex, list of neighbours.
-    Best for sparse graphs.
+#proposition[Три представления][
+  - *Список рёбер*: хранить все рёбра как пары.
+    Проверка смежности за $O(|E|)$.
+  - *Матрица смежности*: матрица $n times n$ $A$; $(A^k)_(i j)$ = количество маршрутов длины $k$ из $i$ в $j$.
+  - *Список смежности*: для каждой вершины --- список соседей.
+    Лучший вариант для разреженных графов.
 ]
 
-== Paths, Cycles, Connectivity
+== Пути, циклы, связность
 
-#definition[Walk, path, cycle][
-  - *Walk*: sequence $v_0, ..., v_k$ with ${v_(i-1), v_i} in E$.
-    Length = $k$.
-  - *Path*: walk with no repeated vertices.
-  - *Cycle*: closed walk ($v_0 = v_k$, $k >= 3$) with no other repeats.
+#definition[Маршрут, путь, цикл][
+  *Маршрутом* называется последовательность вершин $v_0, ..., v_k$, где ${v_(i-1), v_i} in E$ для всех $i$.
+  Длина маршрута равна $k$.
+  Маршрут называется *путём*, если все его вершины различны.
+  Маршрут называется *циклом*, если он замкнут ($v_0 = v_k$, $k >= 3$) и не содержит других повторений.
 ]
 
-#definition[Connectivity][
-  - *Connected*: path between every pair.
-  - *Connected component*: maximal connected subgraph.
-  - *Bridge*: edge whose removal disconnects the graph.
-  - *Distance* $d(u, v)$: shortest path length. *Diameter*: maximum distance.
+#definition[Связность][
+  Граф называется *связным*, если между любой парой его вершин существует путь.
+  *Компонентой связности* называется максимальный по включению связный подграф.
+  Ребро называется *мостом*, если его удаление нарушает связность графа.
+  *Расстоянием* $d(u, v)$ между вершинами $u$ и $v$ называется длина кратчайшего пути между ними.
+  *Диаметром* графа называется максимальное расстояние между его вершинами.
 ]
 
 #figure(
   bridge-cut,
-  caption: [Edge {1,2} is a bridge --- its removal disconnects the graph.
-    Vertex 1 is a cut-vertex (articulation point).],
+  caption: [Ребро {1,2} является мостом --- его удаление нарушает связность графа.
+    Вершина 1 --- точка сочленения.],
 ) <fig:bridge-cut>
 
-#proposition[Strong connectivity (directed)][
-  In digraphs, *strong connectivity* requires directed paths in both directions between every pair.
-  Strongly connected components (SCCs) are computed by Kosaraju's or Tarjan's algorithm in $O(V + E)$ via DFS.
+#proposition[Сильная связность (ориентированные графы)][
+  В орграфах *сильная связность* требует существования ориентированных путей в обоих направлениях между любой парой вершин.
+  Компоненты сильной связности (SCC) вычисляются алгоритмом Косарайю или Тарьяна за $O(V + E)$ с помощью DFS.
 ]
 
 #figure(
   directed-graph,
-  caption: [A directed graph.
-    Vertices 1, 2, 3 form one SCC --- each reachable from each other.],
+  caption: [Ориентированный граф.
+    Вершины 1, 2, 3 образуют одну компоненту сильной связности --- каждая достижима из каждой.],
 ) <fig:directed-graph>
 
-== Trees
+== Деревья
 
-#definition[Tree][
-  A *tree* is a connected acyclic graph.
-  A *forest* is a disjoint union of trees.
+#definition[Дерево][
+  Граф называется *деревом*, если он связный и ациклический.
+  Граф называется *лесом*, если он является дизъюнктным объединением деревьев.
 ]
 
 #figure(
   tree,
-  caption: [A tree: 10 vertices, 9 edges --- connected and acyclic.],
+  caption: [Дерево: 10 вершин, 9 рёбер --- связно и ациклично.],
 ) <fig:tree>
 
-#theorem[Equivalent characterisations][
-  For a graph on $n$ vertices, these are equivalent:
-  1. Connected and acyclic (a tree).
-  2. Connected and has $n-1$ edges.
-  3. Acyclic and has $n-1$ edges.
-  4. Unique simple path between every pair.
-  5. Connected and every edge is a bridge.
+#theorem[Эквивалентные характеризации][
+  Для графа с $n$ вершинами следующие утверждения эквивалентны:
+  1. Связный и ациклический (дерево).
+  2. Связный и имеет $n-1$ рёбер.
+  3. Ациклический и имеет $n-1$ рёбер.
+  4. Единственный простой путь между любой парой вершин.
+  5. Связный, и каждое ребро является мостом.
 ]
 
-#corollary[Leaves][
-  Every tree with $n >= 2$ has at least two leaves (degree-1 vertices).
+#corollary[Листья][
+  Любое дерево с $n >= 2$ имеет хотя бы два листа (вершины степени 1).
 ]
 
-#definition[Spanning tree][
-  A subgraph that includes all vertices and is a tree.
-  Every connected graph has one.
+#definition[Остовное дерево][
+  *Остовным деревом* графа называется его подграф, включающий все вершины и являющийся деревом.
+  Любой связный граф имеет остовное дерево.
 ]
 
 #figure(
   spanning-tree,
-  caption: [A graph (all edges shown) with one spanning tree highlighted in blue.],
+  caption: [Граф (показаны все рёбра) с одним остовным деревом, выделенным синим.],
 ) <fig:spanning-tree>
 
-#theorem[Cayley's formula][
-  Number of labelled trees on $n$ vertices: $n^(n-2)$.
-  Proof via Prüfer codes.
+#theorem[Формула Кэли][
+  Количество помеченных деревьев на $n$ вершинах: $n^(n-2)$.
+  Доказательство через коды Прюфера.
 ]
 
-#proposition[Minimum spanning tree][
-  Given a weighted connected graph, an MST minimises the sum of edge weights.
-  - *Kruskal*: sort edges by weight, add lightest that does not create a cycle (union-find).\ $O(E log E)$.
-  - *Prim*: grow tree from arbitrary start, repeatedly add lightest edge to outside vertex (priority queue).\ $O((V+E) log V)$.
+#proposition[Минимальное остовное дерево][
+  Дан взвешенный связный граф; MST минимизирует сумму весов рёбер.
+  - *Краскал*: сортировать рёбра по весу, добавлять легчайшее, не создающее цикла (система непересекающихся множеств).\ $O(E log E)$.
+  - *Прим*: растить дерево от произвольной стартовой вершины, на каждом шаге добавлять легчайшее ребро до внешней вершины (очередь с приоритетом).\ $O((V+E) log V)$.
 ]
 
-== Eulerian and Hamiltonian Graphs
+== Эйлеровы и гамильтоновы графы
 
-#definition[Eulerian][
-  *Eulerian tour*: traverses every edge exactly once, returns to start. *Eulerian trail*: open version (different start and end).
+#definition[Эйлеров граф][
+  Цикл называется *эйлеровым*, если он проходит каждое ребро графа ровно один раз и возвращается в начало.
+  Граф называется *эйлеровым*, если он содержит эйлеров цикл.
+  Маршрут называется *эйлеровой цепью*, если он проходит каждое ребро ровно один раз, а его начало и конец различны.
 ]
 
-#theorem[Euler's criterion][
-  Connected undirected graph is Eulerian iff all degrees are even.
-  Has an Eulerian trail iff exactly two vertices have odd degree.
+#theorem[Критерий Эйлера][
+  Связный неориентированный граф является эйлеровым тогда и только тогда, когда все степени чётны.
+  Имеет эйлерову цепь тогда и только тогда, когда ровно две вершины имеют нечётную степень.
 ]
 
 #figure(
   eulerian,
-  caption: [The Königsberg bridges: every vertex has odd degree (3,3,5,3) --- no Eulerian tour is possible.],
+  caption: [Кёнигсбергские мосты: каждая вершина имеет нечётную степень (3,3,5,3) --- эйлеров цикл невозможен.],
 ) <fig:eulerian>
 
 #remark[
-  Chinese Postman Problem (shortest closed walk covering all edges) solvable in polynomial time.
+  Задача китайского почтальона (кратчайший замкнутый маршрут, покрывающий все рёбра) разрешима за полиномиальное время.
 ]
 
-#definition[Hamiltonian][
-  *Hamiltonian cycle*: visits every vertex exactly once, returns to start.
-  No simple necessary and sufficient condition --- the problem is NP-complete.
+#definition[Гамильтонов граф][
+  Цикл называется *гамильтоновым*, если он посещает каждую вершину графа ровно один раз и возвращается в начало.
+  Граф называется *гамильтоновым*, если он содержит гамильтонов цикл.
+  Простого необходимого и достаточного условия не существует --- задача NP-полна.
 ]
 
-#theorem[Sufficient conditions][
-  - *Dirac*: $"deg"(v) >= n/2$ for all $v$ $=>$ Hamiltonian.
-  - *Ore*: $"deg"(u) + "deg"(v) >= n$ for all non-adjacent $u$, $v$ $=>$ Hamiltonian.
+#theorem[Достаточные условия][
+  - *Дирак*: $"deg"(v) >= n/2$ для всех $v$ $=>$ гамильтонов.
+  - *Оре*: $"deg"(u) + "deg"(v) >= n$ для всех несмежных $u$, $v$ $=>$ гамильтонов.
 ]
 
 #remark[
-  TSP (shortest Hamiltonian cycle in weighted graph) is NP-hard --- one of the most studied optimisation problems.
+  TSP (кратчайший гамильтонов цикл во взвешенном графе) NP-трудна --- одна из наиболее изучаемых оптимизационных задач.
 ]
 
-== Bipartite Graphs
+== Двудольные графы
 
-#definition[Bipartite graph][
-  $V = X union Y$, $X inter Y = emptyset$, all edges between $X$ and $Y$.
+#definition[Двудольный граф][
+  Граф называется *двудольным*, обозначается $G = (X, Y, E)$, если его вершины можно разбить на два непересекающихся множества $X$ и $Y$, так что каждое ребро соединяет вершину из $X$ с вершиной из $Y$.
 ]
 
-#theorem[Bipartite criterion][
-  A graph is bipartite iff it has no odd-length cycle.
-  Test: BFS 2-coloring in $O(V+E)$.
+#theorem[Критерий двудольности][
+  Граф является двудольным тогда и только тогда, когда в нём нет циклов нечётной длины.
+  Проверка: 2-раскраска с помощью BFS за $O(V+E)$.
 ]
 
 #figure(
   bipartite,
-  caption: [A bipartite graph: vertices partitioned into two colour classes (blue and red).
-    Edges only cross between classes.],
+  caption: [Двудольный граф: вершины разбиты на два цветовых класса (синие и красные).
+    Рёбра проходят только между классами.],
 ) <fig:bipartite>
 
-#definition[Matching][
-  A set of edges with no shared vertices. *Perfect matching* covers all vertices.
+#definition[Паросочетание][
+  *Паросочетанием* называется множество рёбер, не имеющих общих вершин.
+  Паросочетание называется *совершенным*, если оно покрывает все вершины графа.
 ]
 
-#theorem[Hall's marriage theorem][
-  In bipartite $(X union Y, E)$, a matching covering $X$ exists iff $forall S subset.eq X: |N(S)| >= |S|$.
+#theorem[Теорема Холла о свадьбах][
+  В двудольном графе $(X union Y, E)$ паросочетание, покрывающее $X$, существует тогда и только тогда, когда $forall S subset.eq X: |N(S)| >= |S|$.
 ]
 
-== Planarity
+== Планарность
 
-#definition[Planar graph][
-  Can be drawn in the plane with no edge crossings. *Faces*: regions bounded by edges.
+#definition[Планарный граф][
+  Граф называется *планарным*, если он может быть изображён на плоскости без пересечений рёбер.
+  Области, ограниченные рёбрами планарного графа, называются *гранями*.
 ]
 
-#theorem[Euler's formula][
-  For a connected plane graph: $V - E + F = 2$.
+#theorem[Формула Эйлера][
+  Для связного планарного графа: $V - E + F = 2$.
 ]
 
-#corollary[Edge bound][
-  For simple planar graph with $V >= 3$: $E <= 3V - 6$.
-  Consequence: every simple planar graph has a vertex of degree $<= 5$.
-  $K_5$ violates the edge bound ($E=10 > 3 dot 5 - 6 = 9$) and is non-planar.
-  $K_(3,3)$ is also non-planar --- it satisfies $E <= 3V - 6$ but violates the stronger triangle-free bound $E <= 2V - 4$ (Kuratowski forbidden minor).
+#corollary[Ограничение на число рёбер][
+  Для простого планарного графа с $V >= 3$: $E <= 3V - 6$.
+  Следствие: любой простой планарный граф имеет вершину степени $<= 5$.
+  $K_5$ нарушает ограничение на рёбра ($E=10 > 3 dot 5 - 6 = 9$) и не является планарным.
+  $K_(3,3)$ также не планарен --- он удовлетворяет $E <= 3V - 6$, но нарушает более сильное ограничение для графов без треугольников $E <= 2V - 4$ (запрещённый минор Куратовского).
 ]
 
 #figure(
   k5,
-  caption: [$K_5$ --- the complete graph on 5 vertices.
-    Non-planar: $E=10 > 3 dot 5 - 6 = 9$.],
+  caption: [$K_5$ --- полный граф на 5 вершинах.
+    Не планарен: $E=10 > 3 dot 5 - 6 = 9$.],
 ) <fig:k5>
 
 #figure(
   k33,
-  caption: [$K_(3,3)$ --- the complete bipartite graph.
-    Also non-planar and a Kuratowski forbidden minor.],
+  caption: [$K_(3,3)$ --- полный двудольный граф.
+    Также не планарен и является запрещённым минором Куратовского.],
 ) <fig:k33>
 
 #figure(
   planar,
-  caption: [A planar graph with faces $f_1, ..., f_5$.
-    Euler's formula: $V - E + F = 6 - 9 + 5 = 2$.],
+  caption: [Планарный граф с гранями $f_1, ..., f_5$.
+    Формула Эйлера: $V - E + F = 6 - 9 + 5 = 2$.],
 ) <fig:planar>
 
-#theorem[Kuratowski's theorem][
-  A graph is planar iff it contains no subdivision of $K_5$ or $K_(3,3)$.
+#theorem[Теорема Куратовского][
+  Граф планарен тогда и только тогда, когда он не содержит подразбиения $K_5$ или $K_(3,3)$.
 ]
 
-== Graph Coloring
+== Раскраска графов
 
-#definition[Vertex coloring][
-  *Proper $k$-coloring*: adjacent vertices get different colors. *Chromatic number* $chi(G)$: minimum $k$.
+#definition[Вершинная раскраска][
+  Раскраска вершин графа называется *правильной $k$-раскраской*, если смежные вершины получают разные цвета.
+  *Хроматическим числом* графа $G$ называется минимальное $k$, для которого существует правильная $k$-раскраска, обозначается $chi(G)$.
 ]
 
-#proposition[Chromatic number bounds][
-  - $chi(G) <= Delta(G) + 1$ (greedy coloring bound).
-  - $chi(G) = 2$ iff $G$ is bipartite and has at least one edge.
+#proposition[Оценки хроматического числа][
+  - $chi(G) <= Delta(G) + 1$ (оценка жадной раскраски).
+  - $chi(G) = 2$ тогда и только тогда, когда $G$ двудолен и имеет хотя бы одно ребро.
   - $chi(K_n) = n$.
 ]
 
-#theorem[Four Color Theorem][
-  Every planar graph is 4-colorable. (Appel-Haken, 1976 --- first major computer-assisted proof.)
+#theorem[Теорема о четырёх красках][
+  Любой планарный граф 4-раскрашиваем. (Аппель и Хакен, 1976 --- первое крупное доказательство с использованием компьютера.)
 ]
 
-#theorem[Vizing's theorem][
-  For edge coloring: $Delta(G) <= chi'(G) <= Delta(G) + 1$.
+#theorem[Теорема Визинга][
+  Для рёберной раскраски: $Delta(G) <= chi'(G) <= Delta(G) + 1$.
 ]
 
 #figure(
   graph-coloring,
-  caption: [A 4-coloring of a graph with 6 vertices.
-    Adjacent vertices receive different colours.],
+  caption: [4-раскраска графа с 6 вершинами.
+    Смежные вершины получают разные цвета.],
 ) <fig:coloring>
 
 #remark[
-  Graph coloring models register allocation (compilers), frequency assignment (cellular), and exam scheduling.
+  Раскраска графов моделирует распределение регистров (компиляторы), назначение частот (сотовая связь) и составление расписания экзаменов.
 ]
 
-== Graph Algorithms
+== Алгоритмы на графах
 
-#proposition[Core graph algorithms][
+#proposition[Основные алгоритмы на графах][
   #table(
     columns: 4,
     align: (left, left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Algorithm*], [*Solves*], [*Complexity*], [*Key idea*]),
+    table.header([*Алгоритм*], [*Задача*], [*Сложность*], [*Ключевая идея*]),
     [BFS],
-    [Shortest paths, unweighted],
+    [Кратчайшие пути, без весов],
     [$O(V + E)$],
-    [Layer-by-layer queue exploration],
+    [Послойный обход очередью],
 
     [DFS],
-    [Connectivity, cycles, topo-sort],
+    [Связность, циклы, топ. сортировка],
     [$O(V + E)$],
-    [Recursive backtracking, pre/post times],
+    [Рекурсивный перебор с возвратом, времена pre/post],
 
-    [Dijkstra],
-    [Shortest paths, non-neg. weights],
+    [Дейкстра],
+    [Кратчайшие пути, неотр. веса],
     [$O((V+E) log V)$],
-    [Min-heap priority queue],
+    [Очередь с приоритетом (min-heap)],
 
-    [Bellman-Ford],
-    [Shortest paths, any weights],
+    [Беллман-Форд],
+    [Кратчайшие пути, любые веса],
     [$O(V E)$],
-    [Edge relaxation $V-1$ rounds],
+    [Релаксация рёбер $V-1$ раундов],
 
-    [Kruskal],
-    [Minimum spanning tree],
+    [Краскал],
+    [Минимальное остовное дерево],
     [$O(E log E)$],
-    [Sort edges, union-find],
+    [Сортировка рёбер, система непересекающихся множеств],
 
-    [Prim],
-    [Minimum spanning tree],
+    [Прим],
+    [Минимальное остовное дерево],
     [$O((V+E) log V)$],
-    [Grow tree, min-heap frontier],
+    [Рост дерева, min-heap для границы],
 
-    [Kahn / DFS],
-    [Topological sort of DAG],
+    [Кан / DFS],
+    [Топологическая сортировка DAG],
     [$O(V + E)$],
-    [Remove sources / reverse postorder],
+    [Удаление истоков / обратный postorder],
 
-    [Kosaraju / Tarjan],
-    [Strongly connected components],
+    [Косарайю / Тарьян],
+    [Компоненты сильной связности],
     [$O(V + E)$],
-    [Two-pass DFS / lowlink],
+    [Двухпроходный DFS / lowlink],
   )
 ]
 
 #figure(
   bfs-tree,
-  caption: [BFS from vertex 1.
-    Bold edges form the BFS tree; dashed arcs are cross/skip edges.
-    Distances $d$ from the source are shown.],
+  caption: [BFS от вершины 1.
+    Жирные рёбра образуют BFS-дерево; пунктирные дуги --- кросс-рёбра/рёбра пропуска.
+    Показаны расстояния $d$ от источника.],
 ) <fig:bfs-tree>
 
-BFS and DFS are the two fundamental traversal strategies --- almost every graph algorithm builds on one of them.
-Dijkstra generalises BFS to weighted graphs; Bellman-Ford handles negative edges at the cost of higher complexity.
-MST algorithms are greedy and provably optimal for the spanning tree problem.
-SCC algorithms decompose a digraph into strongly connected components --- the basic building blocks.
-Topological sort applies only to DAGs and is the basis of dependency resolution.
+BFS и DFS --- две фундаментальные стратегии обхода; почти каждый алгоритм на графах строится на одной из них.
+Дейкстра обобщает BFS на взвешенные графы; Беллман-Форд обрабатывает отрицательные рёбра ценой более высокой сложности.
+Алгоритмы MST жадные и доказуемо оптимальны для задачи об остовном дереве.
+Алгоритмы SCC раскладывают орграф на компоненты сильной связности --- базовые строительные блоки.
+Топологическая сортировка применима только к DAG и лежит в основе разрешения зависимостей.
 
-== Applications
+== Применения
 
-#remark[Social networks][
-  Vertices = people; edges = friendships/follows.
-  Measures: degree centrality, betweenness, PageRank.
+#remark[Социальные сети][
+  Вершины = люди; рёбра = дружба/подписки.
+  Метрики: степень центральности, промежуточность (betweenness), PageRank.
 ]
 
-#remark[Routing][
-  Internet: routers = vertices, links = edges.
-  Dijkstra in OSPF for intra-domain routing.
+#remark[Маршрутизация][
+  Интернет: маршрутизаторы = вершины, каналы связи = рёбра.
+  Алгоритм Дейкстры в протоколе OSPF для внутридоменной маршрутизации.
 ]
 
-#remark[Compiler design][
-  Control-flow graph (CFG) and register interference graph (coloring allocates registers).
+#remark[Разработка компиляторов][
+  Граф потока управления (CFG) и граф интерференции регистров (раскраска распределяет регистры).
 ]

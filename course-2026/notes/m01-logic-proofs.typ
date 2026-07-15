@@ -1,70 +1,70 @@
-// M01 --- Logic and Proofs: the fundamental language for reasoning about discrete objects.
+// M01 --- Логика и доказательства: фундаментальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Logic and Proofs
+= Логика и доказательства
 
 #chapter-overview[
-  Logic is the grammar of mathematical reasoning --- it formalises what it means for a statement to be true, false, or provable.
-  This chapter introduces propositional logic, predicates and quantifiers, and the standard proof techniques used throughout the course.
-  Mastery of these foundations is essential: every definition, theorem, and proof in later chapters relies on the language built here.
-  The chapter closes with applications to program correctness, connecting the formal machinery to everyday coding practice.
+  Логика --- это грамматика математических рассуждений: она формализует, что значит для утверждения быть истинным, ложным или доказуемым.
+  В этой главе вводятся логика высказываний, предикаты и кванторы, а также стандартные методы доказательств, используемые на протяжении всего курса.
+  Владение этими основаниями необходимо: каждое определение, теорема и доказательство в последующих главах опираются на язык, построенный здесь.
+  Глава завершается приложениями к корректности программ, связывая формальный аппарат с повседневной практикой программирования.
 ]
 
-== Propositional Logic
+== Логика высказываний
 
-=== Propositions and Connectives
+=== Высказывания и связки
 
-A _proposition_ (or _statement_) is a declarative sentence that is either true or false, but not both.
-Questions, commands, and self-referential paradoxes are excluded --- only closed, unambiguous assertions qualify.
+_Высказывание_ (или _утверждение_) --- это повествовательное предложение, которое либо истинно, либо ложно, но не то и другое одновременно.
+Вопросы, команды и самореференциальные парадоксы исключаются --- допустимы только замкнутые, однозначные утверждения.
 
-#definition[Proposition][
-  A proposition is a declarative statement with a definite truth value: true (#Green([T])) or false (#Red([F])).
+#definition[Высказывание][
+  Высказывание --- это повествовательное утверждение с определённым истинностным значением: истина (#Green([T])) или ложь (#Red([F])).
 ]
 
-Compound propositions are built from atomic propositions using logical connectives.
-The standard connectives, listed by decreasing binding strength, are:
+Составные высказывания строятся из атомарных высказываний с помощью логических связок.
+Стандартные связки, перечисленные в порядке убывания силы связывания:
 
-#definition[Logical connectives][
-  Let $p$ and $q$ be propositions.
-  The basic connectives are:
-  - *Negation* $not p$: "not $p$" --- true when $p$ is false.
-  - *Conjunction* $p and q$: "$p$ and $q$" --- true when both are true.
-  - *Disjunction* $p or q$: "$p$ or $q$" (inclusive) --- true when at least one is true.
-  - *Implication* $p imply q$: "if $p$ then $q$" --- false only when $p$ is true and $q$ is false.
-  - *Equivalence* $p iff q$: "$p$ if and only if $q$" --- true when $p$ and $q$ have the same truth value.
+#definition[Логические связки][
+  Пусть $p$ и $q$ --- высказывания.
+  Основные связки:
+  - *Отрицание* $not p$: "не $p$" --- истинно, когда $p$ ложно.
+  - *Конъюнкция* $p and q$: "$p$ и $q$" --- истинно, когда оба истинны.
+  - *Дизъюнкция* $p or q$: "$p$ или $q$" (включающая) --- истинно, когда хотя бы одно истинно.
+  - *Импликация* $p imply q$: "если $p$, то $q$" --- ложно только тогда, когда $p$ истинно, а $q$ ложно.
+  - *Эквивалентность* $p iff q$: "$p$ тогда и только тогда, когда $q$" --- истинно, когда $p$ и $q$ имеют одинаковое истинностное значение.
 ]
 
-In an implication $p imply q$, $p$ is the _antecedent_ (hypothesis) and $q$ is the _consequent_ (conclusion).
-The truth table for implication often surprises beginners: $F imply T$ is true.
-Think of it as a broken promise: "If it rains, I will bring an umbrella" is only false if it rains and I do not bring one.
+В импликации $p imply q$, $p$ --- это _антецедент_ (посылка), а $q$ --- _консеквент_ (заключение).
+Таблица истинности для импликации часто удивляет начинающих: $F imply T$ истинно.
+Представьте это как нарушенное обещание: "Если пойдёт дождь, я возьму зонт" ложно только тогда, когда дождь идёт, а зонт не взят.
 
 #note[
-  Implication does not require causation.
-  "$2 + 2 = 5$ $imply$ pigs can fly" is true (vacuously) because the antecedent is false.
+  Импликация не требует причинной связи.
+  "$2 + 2 = 5$ $=>$ свиньи умеют летать" истинно (тривиально), потому что антецедент ложен.
 ]
 
-The formal syntax of propositional logic is defined recursively:
+Формальный синтаксис логики высказываний определяется рекурсивно:
 
-#definition[Well-formed formula][
-  - Every propositional variable (atom) is a well-formed formula (wff).
-  - If $phi$ and $psi$ are wffs, then $(not phi)$, $(phi and psi)$, $(phi or psi)$, $(phi imply psi)$, and $(phi iff psi)$ are wffs.
-  - Nothing else is a wff.
+#definition[Правильно построенная формула][
+  - Каждая пропозициональная переменная (атом) является правильно построенной формулой (ППФ).
+  - Если $phi$ и $psi$ --- ППФ, то $(not phi)$, $(phi and psi)$, $(phi or psi)$, $(phi imply psi)$ и $(phi iff psi)$ --- ППФ.
+  - Ничто иное не является ППФ.
 ]
 
-Precedence conventions reduce parentheses: $not$ binds tightest, then $and$, then $or$, then $imply$, then $iff$.
-Every formula corresponds to a unique parse tree, which makes its syntactic structure explicit.
+Соглашения о приоритетах уменьшают количество скобок: $not$ связывает сильнее всего, затем $and$, затем $or$, затем $=>$, затем $<=>$.
+Каждая формула соответствует единственному дереву разбора, которое делает её синтаксическую структуру явной.
 
-=== Semantics: Truth Tables
+=== Семантика: таблицы истинности
 
-An _interpretation_ assigns a truth value (#Green([T]) or #Red([F])) to each atomic proposition.
-Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a truth table corresponds to one interpretation.
+_Интерпретация_ сопоставляет каждой атомарной пропозициональной переменной истинностное значение (#Green([T]) или #Red([F])).
+Для $n$ атомов существует $2^n$ различных интерпретаций --- каждая строка таблицы истинности соответствует одной интерпретации.
 
-#definition[Truth table][
-  A truth table lists all interpretations of the atoms and computes the truth value of a compound formula under each interpretation.
+#definition[Таблица истинности][
+  Таблица истинности перечисляет все интерпретации атомов и вычисляет истинностное значение составной формулы при каждой интерпретации.
 ]
 
-#example[Truth table for $p imply q$][
+#example[Таблица истинности для $p imply q$][
   #table(
     columns: 3,
     align: center,
@@ -77,505 +77,512 @@ Given $n$ atoms, there are $2^n$ distinct interpretations --- each row of a trut
   )
 ]
 
-#definition[Tautology, contradiction, satisfiability][
-  - A _tautology_ is a formula true under every interpretation.
-  - A _contradiction_ (or unsatisfiable formula) is a formula false under every interpretation.
-  - A _satisfiable_ formula is true under at least one interpretation.
-  - A _contingent_ formula is true under some interpretations and false under others --- neither a tautology nor a contradiction.
+#definition[Тавтология, противоречие, выполнимость][
+  - _Тавтология_ --- формула, истинная при любой интерпретации.
+  - _Противоречие_ (или невыполнимая формула) --- формула, ложная при любой интерпретации.
+  - _Выполнимая_ формула --- формула, истинная хотя бы при одной интерпретации.
+  - _Контингентная_ формула --- формула, истинная при одних интерпретациях и ложная при других, то есть не тавтология и не противоречие.
 ]
 
 #example[
-  $p or not p$ is a tautology (the law of excluded middle). $p and not p$ is a contradiction. $p and q$ is satisfiable but not a tautology.
+  $p or not p$ --- тавтология (закон исключённого третьего). $p and not p$ --- противоречие. $p and q$ выполнима, но не тавтология.
 ]
 
-Two formulas are logically equivalent if they have the same truth value under every interpretation:
+Две формулы логически эквивалентны, если они имеют одинаковое истинностное значение при любой интерпретации:
 
-#definition[Logical equivalence][
-  $phi equiv psi$ iff $phi iff psi$ is a tautology.
-  Equivalent formulas are interchangeable in any context (substitution preserves equivalence).
+#definition[Логическая эквивалентность][
+  Две формулы $phi$ и $psi$ называются *логически эквивалентными*, обозначается $phi equiv psi$, если $phi iff psi$ является тавтологией.
+  Эквивалентные формулы взаимозаменяемы в любом контексте (подстановка сохраняет эквивалентность).
 ]
 
-#definition[Logical consequence][
-  $psi$ is a logical consequence of $phi_1, ..., phi_n$, written $phi_1, ..., phi_n models psi$, if every interpretation that makes all $phi_i$ true also makes $psi$ true.
+#definition[Логическое следствие][
+  Формула $psi$ называется *логическим следствием* формул $phi_1, ..., phi_n$, обозначается $phi_1, ..., phi_n models psi$, если каждая интерпретация, делающая все $phi_i$ истинными, также делает истинным $psi$.
 ]
 
-#theorem[Deduction theorem for propositional logic][
-  $phi_1, ..., phi_n models psi$ if and only if $(phi_1 and ... and phi_n) imply psi$ is a tautology.
+#theorem[Теорема о дедукции для логики высказываний][
+  $phi_1, ..., phi_n models psi$ тогда и только тогда, когда $(phi_1 and ... and phi_n) imply psi$ является тавтологией.
 ]
 
 #note[
-  The deduction theorem bridges semantic entailment ($models$) and syntactic implication ($imply$).
-  It is the foundation for proof by assumption: to prove $p imply q$, assume $p$ and derive $q$.
+  Теорема о дедукции соединяет семантическое следование ($models$) и синтаксическую импликацию ($=>$).
+  Это основа доказательства через допущение: чтобы доказать $p imply q$, предполагаем $p$ и выводим $q$.
 ]
 
-=== Laws and Identities
+=== Законы и тождества
 
-Propositional logic satisfies algebraic laws that enable simplification of formulas --- analogous to simplifying arithmetic expressions.
+Логика высказываний удовлетворяет алгебраическим законам, позволяющим упрощать формулы --- аналогично упрощению арифметических выражений.
 
-#proposition[Laws of propositional logic][
-  For all propositions $p$, $q$, $r$:
-  - *Commutativity*: $p and q equiv q and p$, $p or q equiv q or p$.
-  - *Associativity*: $(p and q) and r equiv p and (q and r)$, $(p or q) or r equiv p or (q or r)$.
-  - *Distributivity*: $p and (q or r) equiv (p and q) or (p and r)$, $p or (q and r) equiv (p or q) and (p or r)$.
-  - *Idempotence*: $p and p equiv p$, $p or p equiv p$.
-  - *Absorption*: $p and (p or q) equiv p$, $p or (p and q) equiv p$.
-  - *Double negation*: $not not p equiv p$.
-  - *Identity*: $p and T equiv p$, $p or F equiv p$.
-  - *Domination*: $p or T equiv T$, $p and F equiv F$.
-  - *Complement*: $p and not p equiv F$, $p or not p equiv T$.
+#proposition[Законы логики высказываний][
+  Для всех высказываний $p$, $q$, $r$:
+
+  #table(
+    columns: (auto, 1fr, 1fr),
+    align: (left, left, left),
+    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
+    [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
+    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
+    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
+    [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
+    [Двойное отрицание], [$not not p equiv p$], [---],
+    [Тождество], [$p and T equiv p$], [$p or F equiv p$],
+    [Доминирование], [$p or T equiv T$], [$p and F equiv F$],
+    [Дополнение], [$p and not p equiv F$], [$p or not p equiv T$],
+  )
 ]
 
-#theorem[De Morgan's laws][
+#theorem[Законы де Моргана][
   - $not (p and q) equiv not p or not q$.
   - $not (p or q) equiv not p and not q$.
 ]
 
-De Morgan's laws generalise: the negation of a conjunction is the disjunction of the negations, and vice versa.
-They are verified by truth table, but the intuition is memorable: "it is not the case that both are true" means "at least one is false."
+Законы де Моргана обобщаются: отрицание конъюнкции есть дизъюнкция отрицаний, и наоборот.
+Они проверяются таблицей истинности, но интуиция запоминается: "неверно, что оба истинны" означает "хотя бы одно ложно".
 
 #remark[
-  De Morgan's laws are used constantly in programming: $not (x > 0 and y < 10)$ becomes $x <= 0 or y >= 10$.
-  Every programmer who negates a compound condition applies De Morgan --- often without realising it.
+  Законы де Моргана постоянно используются в программировании: $not (x > 0 and y < 10)$ превращается в $x <= 0 or y >= 10$.
+  Каждый программист, отрицающий составное условие, применяет де Моргана --- часто не осознавая этого.
 ]
 
-#theorem[Substitution principle][
-  If $phi equiv psi$ and $chi$ is a formula containing $phi$ as a subformula, then replacing $phi$ by $psi$ in $chi$ yields a formula equivalent to $chi$.
+#theorem[Принцип подстановки][
+  Если $phi equiv psi$ и $chi$ --- формула, содержащая $phi$ как подформулу, то замена $phi$ на $psi$ в $chi$ даёт формулу, эквивалентную $chi$.
 ]
 
-The substitution principle means we can replace any subformula with an equivalent one without changing the overall meaning.
-This is how we simplify boolean expressions in code --- factoring out common sub-expressions, eliminating redundant checks, and applying short-circuit evaluation rules.
+Принцип подстановки означает, что мы можем заменить любую подформулу на эквивалентную, не меняя общего смысла.
+Именно так мы упрощаем булевы выражения в коде --- выносим общие подвыражения, устраняем избыточные проверки и применяем правила вычисления с коротким замыканием.
 
-=== Normal Forms
+=== Нормальные формы
 
-Every propositional formula can be rewritten into a canonical shape.
-Normal forms are essential for automated reasoning: SAT solvers, circuit minimisation, and constraint satisfaction all operate on normalised formulas.
+Каждая пропозициональная формула может быть приведена к каноническому виду.
+Нормальные формы необходимы для автоматизированных рассуждений: SAT-решатели, минимизация схем и выполнимость ограничений --- все работают с нормализованными формулами.
 
-#definition[Disjunctive Normal Form (DNF)][
-  A formula is in DNF if it is a disjunction of conjunctions of literals (atoms or their negations): $(l_(1,1) and ... and l_(1,k_1)) or ... or (l_(n,1) and ... and l_(n,k_n))$.
+#definition[Дизъюнктивная нормальная форма (ДНФ)][
+  Формула находится в ДНФ, если она является дизъюнкцией конъюнкций литералов (атомов или их отрицаний): $(l_(1,1) and ... and l_(1,k_1)) or ... or (l_(n,1) and ... and l_(n,k_n))$.
 ]
 
-#definition[Conjunctive Normal Form (CNF)][
-  A formula is in CNF if it is a conjunction of disjunctions of literals: $(l_(1,1) or ... or l_(1,k_1)) and ... and (l_(n,1) or ... or l_(n,k_n))$.
+#definition[Конъюнктивная нормальная форма (КНФ)][
+  Формула находится в КНФ, если она является конъюнкцией дизъюнкций литералов: $(l_(1,1) or ... or l_(1,k_1)) and ... and (l_(n,1) or ... or l_(n,k_n))$.
 ]
 
-Every propositional formula has equivalent DNF and CNF representations, obtained algorithmically from the truth table:
-- DNF: take rows where the formula is true; each row becomes a conjunction of literals.
-- CNF: take rows where the formula is false; each row becomes a disjunction of negated literals; conjoin them.
+Каждая пропозициональная формула имеет эквивалентные представления в ДНФ и КНФ, получаемые алгоритмически из таблицы истинности:
+- ДНФ: берём строки, где формула истинна; каждая строка становится конъюнкцией литералов.
+- КНФ: берём строки, где формула ложна; каждая строка становится дизъюнкцией отрицаний литералов; соединяем их конъюнкцией.
 
 
-== Predicates and Quantifiers
+== Предикаты и кванторы
 
-=== Predicates
+=== Предикаты
 
-Propositional logic is too coarse to express statements like "every natural number is either even or odd."
-We need variables and quantifiers.
+Логика высказываний слишком груба для выражения утверждений вроде "каждое натуральное число либо чётно, либо нечётно".
+Нам нужны переменные и кванторы.
 
-#definition[Predicate][
-  A _predicate_ $P(x)$ is a statement that contains a variable $x$ and becomes a proposition when $x$ is replaced by a specific value from the domain of discourse.
+#definition[Предикат][
+  _Предикат_ $P(x)$ --- это утверждение, содержащее переменную $x$, которое становится высказыванием, когда $x$ заменяется конкретным значением из предметной области.
 ]
 
-The _domain_ (or _universe of discourse_) is the set of values a variable may take.
-A predicate is a template --- a function from the domain to truth values.
+_Область определения_ (или _предметная область_) --- это множество значений, которые может принимать переменная.
+Предикат --- это шаблон, функция из области определения в истинностные значения.
 
-#example[Predicate with domain $NN$][
-  Let $P(x)$ be "$x > 5$" with domain $NN$.
-  Then $P(7)$ is true, $P(3)$ is false.
+#example[Предикат с областью определения $NN$][
+  Пусть $P(x)$ --- "$x > 5$" с областью определения $NN$.
+  Тогда $P(7)$ истинно, $P(3)$ ложно.
 ]
 
-Predicates may involve multiple variables: $P(x, y)$ is "$x < y$" with domain $RR$.
-A predicate with $k$ variables defines a $k$-ary relation on the domain.
+Предикаты могут содержать несколько переменных: $P(x, y)$ --- "$x < y$" с областью определения $RR$.
+Предикат с $k$ переменными задаёт $k$-арное отношение на области определения.
 
-=== Quantifiers
+=== Кванторы
 
-Quantifiers turn predicates into propositions by specifying how many domain elements satisfy the predicate.
+Кванторы превращают предикаты в высказывания, указывая, сколько элементов области определения удовлетворяют предикату.
 
-#definition[Universal quantifier][
-  $forall x space P(x)$ asserts that $P(x)$ is true for _every_ $x$ in the domain.
-  It is read "for all $x$, $P(x)$."
+#definition[Квантор всеобщности][
+  $forall x space P(x)$ утверждает, что $P(x)$ истинно для _каждого_ $x$ из области определения.
+  Читается "для всех $x$, $P(x)$".
 ]
 
-#definition[Existential quantifier][
-  $exists x space P(x)$ asserts that $P(x)$ is true for _at least one_ $x$ in the domain.
-  It is read "there exists $x$ such that $P(x)$."
+#definition[Квантор существования][
+  $exists x space P(x)$ утверждает, что $P(x)$ истинно _хотя бы для одного_ $x$ из области определения.
+  Читается "существует $x$ такой, что $P(x)$".
 ]
 
 #example[
-  With domain $NN$: $forall x space x >= 0$ is true. $exists x space x < 0$ is false. $forall x exists y space y > x$ is true (the natural numbers are unbounded).
+  С областью определения $NN$: $forall x space x >= 0$ истинно. $exists x space x < 0$ ложно. $forall x exists y space y > x$ истинно (натуральные числа неограничены).
 ]
 
-A variable is _bound_ if it is quantified; otherwise it is _free_.
-The scope of a quantifier is the subformula to which it applies.
+Переменная называется _связанной_, если она квантифицирована; в противном случае она _свободна_.
+Область действия квантора --- это подформула, к которой он применяется.
 
-=== Negation of Quantifiers
+=== Отрицание кванторов
 
-#theorem[Quantifier negation][
+#theorem[Отрицание кванторов][
   - $not forall x space P(x) equiv exists x space not P(x)$.
   - $not exists x space P(x) equiv forall x space not P(x)$.
 ]
 
-The negation of "everyone likes pizza" is "there exists someone who does not like pizza."
-The negation of "there exists a unicorn" is "everything is not a unicorn."
+Отрицание "все любят пиццу" --- "существует тот, кто не любит пиццу".
+Отрицание "существует единорог" --- "всё является не-единорогом".
 
-=== Multiple Quantifiers
+=== Несколько кванторов
 
-When a formula contains more than one quantifier, order matters critically.
+Когда формула содержит более одного квантора, порядок критически важен.
 
 #example[
-  Let $P(x, y)$ be "$y$ is the mother of $x$" with domain "people."
-  - $forall x exists y space P(x, y)$: "Everyone has a mother" --- true.
-  - $exists y forall x space P(x, y)$: "There is a person who is the mother of everyone" --- false.
+  Пусть $P(x, y)$ --- "$y$ является матерью $x$" с областью определения "люди".
+  - $forall x exists y space P(x, y)$: "У каждого есть мать" --- истинно.
+  - $exists y forall x space P(x, y)$: "Существует человек, являющийся матерью всех" --- ложно.
 ]
 
-The rule: $forall x exists y$ says "for each $x$, choose a $y$ (which may depend on $x$)." $exists y forall x$ says "there is a single $y$ that works for all $x$."
+Правило: $forall x exists y$ говорит "для каждого $x$ выберем $y$ (который может зависеть от $x$)". $exists y forall x$ говорит "существует единственный $y$, работающий для всех $x$".
 
 #remark[
-  Quantifier order is the logical analogue of loop nesting. $forall x exists y$ is like a nested loop where the inner computation depends on the outer index. $exists y forall x$ is like precomputing a value that works for the whole iteration.
+  Порядок кванторов --- это логический аналог вложенности циклов. $forall x exists y$ похож на вложенный цикл, где внутреннее вычисление зависит от внешнего индекса. $exists y forall x$ похож на предвычисление значения, работающего для всей итерации.
 ]
 
-=== Bounded Quantifiers
+=== Ограниченные кванторы
 
-In practice, most quantification is over a restricted set:
+На практике большинство квантификаций происходит по ограниченному множеству:
 
-#definition[Bounded quantifier][
-  - $forall x in A space P(x)$ abbreviates $forall x space (x in A imply P(x))$.
-  - $exists x in A space P(x)$ abbreviates $exists x space (x in A and P(x))$.
+#definition[Ограниченный квантор][
+  - $forall x in A space P(x)$ сокращает $forall x space (x in A imply P(x))$.
+  - $exists x in A space P(x)$ сокращает $exists x space (x in A and P(x))$.
 ]
 
-Bounded quantifiers are ubiquitous in mathematics and CS: "every element of the array is non-negative" translates to $forall i in {0, ..., n-1} space A[i] >= 0$.
+Ограниченные кванторы повсеместны в математике и информатике: "каждый элемент массива неотрицателен" переводится как $forall i in {0, ..., n-1} space A[i] >= 0$.
 
-=== Translation to Predicate Logic
+=== Перевод на язык логики предикатов
 
-A key skill is translating between natural language and predicate logic.
-The translation must preserve meaning precisely --- ambiguity in the English must be resolved.
+Ключевой навык --- перевод с естественного языка на язык логики предикатов и обратно.
+Перевод должен точно сохранять смысл --- неоднозначность естественного языка должна быть устранена.
 
 #example[
-  "All that glitters is not gold" is ambiguous.
-  - Reading 1: $forall x space ("glitters"(x) imply not "gold"(x))$ --- "nothing that glitters is gold" (false).
-  - Reading 2: $not forall x space ("glitters"(x) imply "gold"(x))$ --- "not everything that glitters is gold" (true).
-]
-
-#example[
-  "The array is sorted" (ascending): $forall i in {0, ..., n-2} space A[i] <= A[i+1]$.
+  "Не всё золото, что блестит" --- двусмысленно.
+  - Чтение 1: $forall x space ("glitters"(x) imply not "gold"(x))$ --- "ничто блестящее не золото" (ложно).
+  - Чтение 2: $not forall x space ("glitters"(x) imply "gold"(x))$ --- "не всё блестящее --- золото" (истинно).
 ]
 
 #example[
-  The definition of a limit $lim_(x -> a) f(x) = L$: $forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon)$.
-  This packs five quantifiers and two inequalities into one sentence --- the power of predicate logic.
+  "Массив отсортирован" (по возрастанию): $forall i in {0, ..., n-2} space A[i] <= A[i+1]$.
+]
+
+#example[
+  Определение предела $lim_(x -> a) f(x) = L$: $forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon)$.
+  Здесь пять кванторов и два неравенства упакованы в одно предложение --- вот сила логики предикатов.
 ]
 
 
-== Proof Methods
+== Методы доказательств
 
-A proof is a formal argument that establishes the truth of a statement from axioms, definitions, and previously proven statements.
-This section surveys the standard proof strategies.
+Доказательство --- это формальное рассуждение, устанавливающее истинность утверждения из аксиом, определений и ранее доказанных утверждений.
+В этом разделе рассматриваются стандартные стратегии доказательств.
 
-=== Direct Proof
+=== Прямое доказательство
 
-The simplest strategy: to prove $P imply Q$, assume $P$ and derive $Q$ through a chain of logical deductions.
+Простейшая стратегия: чтобы доказать $P imply Q$, предполагаем $P$ и выводим $Q$ через цепочку логических рассуждений.
 
-#proposition(inline: true)[Even squares][
-  If $n$ is even, then $n^2$ is even.
+#proposition(inline: true)[Чётные квадраты][
+  Если $n$ чётно, то $n^2$ чётно.
 ]
 
 #proof[
-  By direct proof.
-  Assume $n$ is even, so $n = 2k$ for some integer $k$.
+  Прямое доказательство.
+  Предположим, что $n$ чётно, то есть $n = 2k$ для некоторого целого $k$.
 
-  Squaring: $n^2 = (2k)^2 = 4k^2 = 2(2k^2)$.
-  Since $2k^2$ is an integer, $n^2 = 2 dot "integer"$, so $n^2$ is even.
+  Возводим в квадрат: $n^2 = (2k)^2 = 4k^2 = 2(2k^2)$.
+  Так как $2k^2$ --- целое, $n^2 = 2 dot "целое"$, поэтому $n^2$ чётно.
 ]
 
-=== Proof by Contrapositive
+=== Доказательство через контрапозицию
 
-The implication $P imply Q$ is logically equivalent to its contrapositive $not Q imply not P$.
-Sometimes the contrapositive is easier to prove than the original.
+Импликация $P imply Q$ логически эквивалентна своей контрапозиции $not Q imply not P$.
+Иногда контрапозицию доказать легче, чем исходное утверждение.
 
-#proposition(inline: true)[Odd squares][
-  If $n^2$ is odd, then $n$ is odd.
+#proposition(inline: true)[Нечётные квадраты][
+  Если $n^2$ нечётно, то $n$ нечётно.
 ]
 
 #proof[
-  We prove the contrapositive: if $n$ is even, then $n^2$ is even.
-  (Every integer is either even or odd, so "not odd" means "even".)
+  Докажем контрапозицию: если $n$ чётно, то $n^2$ чётно.
+  (Каждое целое число либо чётно, либо нечётно, так что "не нечётно" означает "чётно".)
 
-  This is exactly Proposition 2.2.
-  The contrapositive is equivalent to the original, so the statement holds.
+  Это в точности предложение 2.2.
+  Контрапозиция эквивалентна исходному утверждению, так что утверждение выполняется.
 ]
 
-The contrapositive is especially useful when the negation of the conclusion ($not Q$) gives a concrete starting point.
+Контрапозиция особенно полезна, когда отрицание заключения ($not Q$) даёт конкретную отправную точку.
 
-=== Proof by Contradiction
+=== Доказательство от противного
 
-To prove $P$, assume $not P$ and derive a contradiction ($R and not R$ for some $R$).
-Since contradictions are impossible, $not P$ must be false, so $P$ is true.
+Чтобы доказать $P$, предполагаем $not P$ и выводим противоречие ($R and not R$ для некоторого $R$).
+Поскольку противоречия невозможны, $not P$ должно быть ложно, так что $P$ истинно.
 
 #theorem(inline: true)[
-  $sqrt(2)$ is irrational.
+  $sqrt(2)$ иррационально.
 ]
 
 #proof[
-  By contradiction.
-  Suppose $sqrt(2)$ is rational: $sqrt(2) = p slash q$ with $p, q in ZZ^+$ and $gcd(p, q) = 1$ (the fraction is reduced).
+  От противного.
+  Предположим, что $sqrt(2)$ рационально: $sqrt(2) = p slash q$, где $p, q in ZZ^+$ и $gcd(p, q) = 1$ (дробь несократима).
 
-  Squaring gives $sqrt(2)^2 = 2 = p^2 slash q^2$, so $p^2 = 2q^2$.
-  Hence $p^2$ is even, which forces $p$ to be even (odd squared is odd).
-  Write $p = 2k$.
+  Возводим в квадрат: $sqrt(2)^2 = 2 = p^2 slash q^2$, так что $p^2 = 2q^2$.
+  Следовательно, $p^2$ чётно, откуда $p$ чётно (квадрат нечётного нечётен).
+  Запишем $p = 2k$.
 
-  Substitute:
+  Подставляем:
   $
     (2k)^2 = 2q^2
     quad => quad 4k^2 = 2q^2
     quad => quad q^2 = 2k^2.
   $
-  Thus $q^2$ is even, so $q$ is even.
+  Таким образом, $q^2$ чётно, так что $q$ чётно.
 
-  Both $p$ and $q$ are even, so $gcd(p, q) >= 2$, contradicting $gcd(p, q) = 1$.
-  Therefore $sqrt(2)$ is irrational.
+  Оба $p$ и $q$ чётны, поэтому $gcd(p, q) >= 2$, что противоречит $gcd(p, q) = 1$.
+  Следовательно, $sqrt(2)$ иррационально.
 ]
 
 #note[
-  Proof by contradiction and proof by contrapositive are often confused:
+  Доказательство от противного и доказательство через контрапозицию часто путают:
 
-  - *Contrapositive* of $P imply Q$: assume $not Q$, derive $not P$, and stop. \ The structure follows a single logical equivalence --- clean and direct.
+  - *Контрапозиция* для $P imply Q$: предполагаем $not Q$, выводим $not P$ и останавливаемся. \ Структура следует одной логической эквивалентности --- чисто и прямо.
 
-  - *Contradiction* of $P imply Q$: assume $P and not Q$ and derive any contradiction ($R and not R$). \ The contradiction can be unrelated to the original hypothesis --- the method is more flexible.
+  - *От противного* для $P imply Q$: предполагаем $P and not Q$ и выводим любое противоречие ($R and not R$). \ Противоречие может быть не связано с исходной гипотезой --- метод более гибкий.
 
-  The contrapositive is "cleaner" when applicable; contradiction is more general.
+  Контрапозиция "чище", когда применима; доказательство от противного --- более общее.
 ]
 
-=== Proof by Case Analysis
+=== Доказательство разбором случаев
 
-If the hypothesis can be partitioned into a finite set of mutually exclusive and exhaustive cases, proving the conclusion in each case suffices.
+Если гипотезу можно разбить на конечное множество взаимоисключающих и исчерпывающих случаев, то достаточно доказать заключение в каждом случае.
 
-#proposition[Multiplicativity of absolute value][
-  For all real $x$, $y$: $|x y| = |x| dot |y|$.
-]
-
-#proof[
-  The sign of $x y$ depends on the signs of $x$ and $y$.
-  We partition into four mutually exclusive cases and verify the equality in each.
-
-  + *Case 1:* $x >= 0$, $y >= 0$.
-    Then $|x| = x$, $|y| = y$, $x y >= 0$, so $|x y| = x y = |x| dot |y|$.
-  + *Case 2:* $x >= 0$, $y < 0$.
-    Then $|x| = x$, $|y| = -y$, $x y <= 0$, so $|x y| = -x y = x(-y) = |x| dot |y|$.
-  + *Case 3:* $x < 0$, $y >= 0$.
-    Symmetric to case 2.
-  + *Case 4:* $x < 0$, $y < 0$.
-    Then $|x| = -x$, $|y| = -y$, $x y > 0$, so $|x y| = x y = (-x)(-y) = |x| dot |y|$.
-  All cases yield the equality, so the identity holds for all real $x$, $y$.
-]
-
-=== Proof of Equivalence
-
-To prove $P iff Q$, prove both directions: $P imply Q$ and $Q imply P$.
-Alternatively, construct a chain of equivalences: $P iff R_1 iff ... iff Q$.
-
-#example[
-  To prove "$n$ is even iff $n^2$ is even":
-  + ($arrow.double.r$): Proved above (direct proof).
-  + ($arrow.double.l$): Proved above (contrapositive: $n$ odd $=>$ $n^2$ odd).
-]
-
-=== Counterexamples
-
-To disprove a universal statement $forall x space P(x)$, a single counterexample suffices.
-
-#example[
-  - *Claim:* "All primes are odd."
-  - *Counterexample:* $2$ is prime and even.
-  - Thus, the claim is false.
-]
-
-A counterexample is the logical analogue of a failing test case --- it takes one to break a universal claim.
-
-=== Mathematical Induction
-
-Induction proves statements of the form $forall n in NN space P(n)$.
-It is the engine of reasoning about recursively defined objects.
-
-#theorem[Principle of mathematical induction][
-  To prove $forall n >= 0 space P(n)$:
-  + *Base case:* Prove $P(0)$.
-  + *Inductive step:* Prove $forall k >= 0 space (P(k) imply P(k+1))$.
-
-  Conclude: $forall n >= 0 space P(n)$.
+#proposition[Мультипликативность модуля][
+  Для всех вещественных $x$, $y$: $|x y| = |x| dot |y|$.
 ]
 
 #proof[
-  By induction on $n$.
+  Знак $x y$ зависит от знаков $x$ и $y$.
+  Разобьём на четыре взаимоисключающих случая и проверим равенство в каждом.
 
-  *Base.* $n = 1$: LHS $= 1$, RHS $= (1 dot 2)/2 = 1$.
+  + *Случай 1:* $x >= 0$, $y >= 0$.
+    Тогда $|x| = x$, $|y| = y$, $x y >= 0$, так что $|x y| = x y = |x| dot |y|$.
+  + *Случай 2:* $x >= 0$, $y < 0$.
+    Тогда $|x| = x$, $|y| = -y$, $x y <= 0$, так что $|x y| = -x y = x(-y) = |x| dot |y|$.
+  + *Случай 3:* $x < 0$, $y >= 0$.
+    Симметрично случаю 2.
+  + *Случай 4:* $x < 0$, $y < 0$.
+    Тогда $|x| = -x$, $|y| = -y$, $x y > 0$, так что $|x y| = x y = (-x)(-y) = |x| dot |y|$.
+  Все случаи дают равенство, так что тождество выполняется для всех вещественных $x$, $y$.
+]
 
-  *Induction hypothesis.*
-  Assume $sum_(i=1)^k i = (k(k+1))/2$ for some $k >= 1$.
+=== Доказательство эквивалентности
 
-  *Inductive step.*
+Чтобы доказать $P iff Q$, доказываем оба направления: $P imply Q$ и $Q imply P$.
+Другой способ --- построить цепочку эквивалентностей: $P iff R_1 iff ... iff Q$.
+
+#example[
+  Докажем, что "$n$ чётно тогда и только тогда, когда $n^2$ чётно":
+  + ($arrow.double.r$): Доказано выше (прямое доказательство).
+  + ($arrow.double.l$): Доказано выше (контрапозиция: $n$ нечётно $=>$ $n^2$ нечётно).
+]
+
+=== Контрпримеры
+
+Чтобы опровергнуть универсальное утверждение $forall x space P(x)$, достаточно одного контрпримера.
+
+#example[
+  - *Утверждение:* "Все простые числа нечётны".
+  - *Контрпример:* $2$ простое и чётное.
+  - Следовательно, утверждение ложно.
+]
+
+Контрпример --- это логический аналог падающего теста: достаточно одного, чтобы опровергнуть универсальное утверждение.
+
+=== Математическая индукция
+
+Индукция доказывает утверждения вида $forall n in NN space P(n)$.
+Это двигатель рассуждений о рекурсивно определённых объектах.
+
+#theorem[Принцип математической индукции][
+  Чтобы доказать $forall n >= 0 space P(n)$:
+  + *База индукции:* Доказать $P(0)$.
+  + *Шаг индукции:* Доказать $forall k >= 0 space (P(k) imply P(k+1))$.
+
+  Заключение: $forall n >= 0 space P(n)$.
+]
+
+#proof[
+  Индукция по $n$.
+
+  *База.* $n = 1$: левая часть $= 1$, правая часть $= (1 dot 2)/2 = 1$.
+
+  *Индукционное предположение.*
+  Предположим, что $sum_(i=1)^k i = (k(k+1))/2$ для некоторого $k >= 1$.
+
+  *Шаг индукции.*
   $
     sum_(i=1)^(k+1) i
     = (sum_(i=1)^k i) + (k+1)
     = (k(k+1))/2 + (k+1)
     = ((k+1)(k+2))/2.
   $
-  This is exactly $(n(n+1))/2$ with $n = k+1$.
+  Это в точности $(n(n+1))/2$ при $n = k+1$.
 
-  By induction, the formula holds for all $n >= 1$.
+  По индукции формула выполняется для всех $n >= 1$.
 ]
 
-#theorem[Strong induction][
-  To prove $forall n >= 0 space P(n)$:
-  + *Base case:* Prove $P(0)$.
-  + *Inductive step:* Prove $forall k >= 0 space ((forall i < k space P(i)) imply P(k))$.
+#theorem[Сильная индукция][
+  Чтобы доказать $forall n >= 0 space P(n)$:
+  + *База индукции:* Доказать $P(0)$.
+  + *Шаг индукции:* Доказать $forall k >= 0 space ((forall i < k space P(i)) imply P(k))$.
 
-  Conclude: $forall n >= 0 space P(n)$.
+  Заключение: $forall n >= 0 space P(n)$.
 ]
 
-Strong induction is needed when $P(k+1)$ depends on earlier values beyond just $P(k)$.
+Сильная индукция нужна, когда $P(k+1)$ зависит от более ранних значений, а не только от $P(k)$.
 
 #proof[
-  By strong induction on $n$.
+  Сильная индукция по $n$.
 
-  *Base.* $n = 2$ is prime.
+  *База.* $n = 2$ простое.
 
-  *Induction hypothesis.*
-  Assume every $m$ with $2 <= m < k$ can be factored into primes.
+  *Индукционное предположение.*
+  Предположим, что каждое $m$ с $2 <= m < k$ можно разложить на простые множители.
 
-  *Inductive step.*
-  If $k$ is prime, we are done.
-  If $k$ is composite, $k = a b$ with $2 <= a, b < k$.
-  By the hypothesis, $a$ and $b$ each factor into primes.
-  Multiplying gives a prime factorisation of $k$.
+  *Шаг индукции.*
+  Если $k$ простое --- готово.
+  Если $k$ составное, $k = a b$, где $2 <= a, b < k$.
+  По предположению, $a$ и $b$ раскладываются на простые множители.
+  Перемножая, получаем разложение $k$ на простые множители.
 
-  By strong induction, every integer $n >= 2$ factors into primes.
+  По сильной индукции каждое целое $n >= 2$ раскладывается на простые множители.
 ]
 
-#theorem[Well-ordering principle][
-  Every non-empty subset of $NN$ has a least element.
+#theorem[Принцип полной упорядоченности][
+  Каждое непустое подмножество $NN$ имеет наименьший элемент.
 ]
 
-The well-ordering principle is logically equivalent to mathematical induction.
-One can be derived from the other.
+Принцип полной упорядоченности логически эквивалентен математической индукции.
+Одно можно вывести из другого.
 
 #remark[
-  Induction is the mathematical basis for reasoning about loops and recursion.
-  The base case is the empty input / termination condition.
-  The inductive step is the loop body: assuming correctness after $k$ iterations, prove correctness after $k+1$.
-  Structural induction generalises this to trees, formulas, and programs --- central to compiler correctness and programming language theory.
+  Индукция --- это математическая основа для рассуждений о циклах и рекурсии.
+  База индукции --- это пустой вход / условие завершения.
+  Шаг индукции --- это тело цикла: предполагая корректность после $k$ итераций, доказать корректность после $k+1$.
+  Структурная индукция обобщает это на деревья, формулы и программы --- центральная тема для корректности компиляторов и теории языков программирования.
 ]
 
-=== Structural Induction
+=== Структурная индукция
 
-For recursively defined sets (formulas, trees, lists, abstract syntax), structural induction proves that a property holds for all elements by verifying it for base elements and for each construction rule.
+Для рекурсивно определённых множеств (формулы, деревья, списки, абстрактный синтаксис) структурная индукция доказывает, что свойство выполняется для всех элементов, проверяя его для базовых элементов и для каждого правила построения.
 
-#definition[Structural induction for formulas][
-  To prove $P(phi)$ for all propositional formulas $phi$:
+#definition[Структурная индукция для формул][
+  Чтобы доказать $P(phi)$ для всех пропозициональных формул $phi$:
 
-  + *Base:* Prove $P(A)$ for every atomic formula $A$.
+  + *База:* Доказать $P(A)$ для каждой атомарной формулы $A$.
 
-  + *Inductive steps:* Prove that if $P(phi)$ and $P(psi)$ hold, then $P(not phi)$, $P(phi and psi)$, $P(phi or psi)$, #box[$P(phi imply psi)$], and $P(phi iff psi)$ hold.
+  + *Шаги индукции:* Доказать, что если $P(phi)$ и $P(psi)$ выполнены, то выполнены $P(not phi)$, $P(phi and psi)$, $P(phi or psi)$, #box[$P(phi imply psi)$] и $P(phi iff psi)$.
 ]
 
-This template applies to any inductively defined structure --- abstract syntax trees, regular expressions, parse trees.
-Structural induction will be used extensively in the automata and formal language chapters.
+Этот шаблон применим к любой индуктивно определённой структуре --- абстрактным синтаксическим деревьям, регулярным выражениям, деревьям разбора.
+Структурная индукция будет широко использоваться в главах об автоматах и формальных языках.
 
-=== Common Fallacies
+=== Типичные ошибки
 
-Beginners make predictable mistakes in proofs.
-Recognising them early saves time and embarrassment.
+Начинающие совершают предсказуемые ошибки в доказательствах.
+Распознавание их на раннем этапе экономит время и спасает от неловких ситуаций.
 
-#definition[Circular reasoning (begging the question)][
-  Assuming what you are trying to prove, perhaps in disguised form.
-  "God exists because the Bible says so, and the Bible is the word of God" --- the premise already assumes the conclusion.
+#definition[Порочный круг (предвосхищение основания)][
+  Предположение того, что вы пытаетесь доказать, возможно, в замаскированной форме.
+  "Бог существует, потому что так сказано в Библии, а Библия --- это слово Бога" --- посылка уже предполагает заключение.
 ]
 
-#definition[Affirming the consequent][
-  From $P imply Q$ and $Q$, concluding $P$.
-  "If it rains, the ground is wet.
-  The ground is wet.
-  Therefore it rained" --- the ground could be wet from a sprinkler.
+#definition[Утверждение консеквента][
+  Из $P imply Q$ и $Q$ делается вывод $P$.
+  "Если идёт дождь, земля мокрая.
+  Земля мокрая.
+  Следовательно, шёл дождь" --- земля могла быть мокрой из-за поливальной машины.
 ]
 
-#definition[Denying the antecedent][
-  From $P imply Q$ and $not P$, concluding $not Q$.
-  "If it rains, the ground is wet.
-  It didn't rain.
-  Therefore the ground is not wet" --- again, a sprinkler suffices.
+#definition[Отрицание антецедента][
+  Из $P imply Q$ и $not P$ делается вывод $not Q$.
+  "Если идёт дождь, земля мокрая.
+  Дождя не было.
+  Следовательно, земля не мокрая" --- опять же, достаточно поливальной машины.
 ]
 
-#definition[False induction base][
-  Proving $P(k) imply P(k+1)$ but neglecting to verify the base case, or using a wrong base.
+#definition[Неверная база индукции][
+  Доказательство $P(k) imply P(k+1)$ без проверки базы индукции или с неверной базой.
 
-  Example: "All horses are the same colour" --- the inductive step works only for $k >= 2$, but the base case $k=1$ does not bridge to $k=2$.
+  Пример: "Все лошади одного цвета" --- шаг индукции работает только для $k >= 2$, но база $k = 1$ не даёт перехода к $k = 2$.
 
-  The flaw is subtle: going from 1 horse to 2 horses uses an empty overlap of the two groups.
+  Ошибка тонкая: при переходе от 1 лошади к 2 лошадям используется пустое пересечение двух групп.
 ]
 
-A proof that contains a fallacy is not a proof.
-Checking each step against definitions and known facts catches most errors.
+Доказательство, содержащее ошибку, --- не доказательство.
+Проверка каждого шага на соответствие определениям и известным фактам отлавливает большинство ошибок.
 
 
-== Applications to Program Correctness
+== Приложения к корректности программ
 
-Logic is not just a theoretical exercise --- it is the foundation for reasoning about programs.
-This section introduces the logical view of software correctness.
+Логика --- это не просто теоретическое упражнение, а основа рассуждений о программах.
+В этом разделе вводится логический взгляд на корректность программ.
 
-=== Assertions and Hoare Triples
+=== Утверждения и тройки Хоара
 
-An _assertion_ is a logical formula placed in code that must be true at that point of execution.
-Assertions document expectations and catch bugs at runtime.
+_Утверждение_ (assertion) --- это логическая формула, размещённая в коде, которая должна быть истинна в этой точке выполнения.
+Утверждения документируют ожидания и отлавливают ошибки во время выполнения.
 
-#definition[Hoare triple][
-  A Hoare triple ${P} S {Q}$ means: if the precondition $P$ holds before executing statement $S$, then the postcondition $Q$ holds after $S$ terminates.
+#definition[Тройка Хоара][
+  Тройка Хоара ${P} S {Q}$ означает: если предусловие $P$ выполнено перед выполнением оператора $S$, то постусловие $Q$ выполнено после завершения $S$.
 ]
 
 #example[
   $ {x = 5} quad x := x + 1 quad {x = 6} $
 
-  Here, if $x$ is 5 before the assignment, then $x$ is 6 afterwards.
+  Здесь, если $x$ равно 5 до присваивания, то $x$ равно 6 после.
 ]
 
-The precondition encodes the assumptions about program state; the postcondition encodes the guarantees.
-Together they form a contract: if the caller satisfies $P$, the procedure delivers $Q$.
+Предусловие кодирует предположения о состоянии программы; постусловие кодирует гарантии.
+Вместе они образуют контракт: если вызывающая сторона удовлетворяет $P$, процедура обеспечивает $Q$.
 
-=== Loop Invariants
+=== Инварианты цикла
 
-A loop invariant is a predicate that is true before the first iteration, remains true after each iteration, and, together with the loop exit condition, implies the desired postcondition.
+Инвариант цикла --- это предикат, истинный перед первой итерацией, остающийся истинным после каждой итерации и вместе с условием выхода из цикла влекущий желаемое постусловие.
 
-#definition[Loop invariant][
-  For a loop $"while" B "do" S$, a predicate $I$ is an invariant if:
-  1. ${I and B} S {I}$ --- $S$ preserves $I$.
-  2. $I$ holds before the loop.
-  3. $I and not B$ implies the postcondition.
+#definition[Инвариант цикла][
+  Для цикла $"while" B "do" S$, предикат $I$ является инвариантом, если:
+  1. ${I and B} S {I}$ --- $S$ сохраняет $I$.
+  2. $I$ выполняется перед циклом.
+  3. $I and not B$ влечёт постусловие.
 ]
 
 #example[
-  Consider linear search: find the index of $x$ in array $A[0..n-1]$, or return $-1$.
+  Рассмотрим линейный поиск: найти индекс $x$ в массиве $A[0..n-1]$ или вернуть $-1$.
   ```
   i := 0
   while i < n and A[i] != x do
   i := i + 1
   ```
 
-  *Invariant:* $forall j in {0, ..., i-1} space A[j] != x$ --- all positions before $i$ have been checked and do not contain $x$.
-  At exit, either $i = n$ (not found) or $A[i] = x$ (found).
+  *Инвариант:* $forall j in {0, ..., i-1} space A[j] != x$ --- все позиции до $i$ проверены и не содержат $x$.
+  При выходе либо $i = n$ (не найден), либо $A[i] = x$ (найден).
 ]
 
 #remark[
-  Loop invariants are the conceptual bridge between induction and programming.
-  Proving that the invariant is preserved by the loop body is an inductive step.
-  The base case is the invariant established before the first iteration.
-  This is exactly how verification tools (Dafny, Why3, Frama-C) prove program correctness: the programmer writes the invariant, the tool checks the inductive argument automatically.
+  Инварианты цикла --- это концептуальный мост между индукцией и программированием.
+  Доказательство того, что инвариант сохраняется телом цикла, --- это шаг индукции.
+  База индукции --- это инвариант, установленный перед первой итерацией.
+  Именно так инструменты верификации (Dafny, Why3, Frama-C) доказывают корректность программ: программист записывает инвариант, инструмент автоматически проверяет индуктивное рассуждение.
 ]
 
-=== Counterexamples and Testing
+=== Контрпримеры и тестирование
 
-A failing test is a counterexample to the claim "the program is correct on this input."
-Testing can demonstrate the _presence_ of bugs, never their _absence_ --- exactly as a single counterexample disproves $forall$ but no number of examples proves it.
+Падающий тест --- это контрпример к утверждению "программа корректна на этом входе".
+Тестирование может продемонстрировать _наличие_ ошибок, но никогда их _отсутствие_ --- точно так же, как один контрпример опровергает $forall$, но никакое количество примеров его не доказывает.
 
 #note[
-  The logical connection between testing and proof:
-  - Testing = searching for a counterexample.
-  - Proof = demonstrating that no counterexample exists.
-  Both are essential.
-  Testing finds the easy bugs; proofs find the deep ones.
+  Логическая связь между тестированием и доказательством:
+  - Тестирование = поиск контрпримера.
+  - Доказательство = демонстрация того, что контрпримеров не существует.
+  И то, и другое необходимо.
+  Тестирование находит лёгкие ошибки; доказательства --- глубокие.
 ]

@@ -1,137 +1,137 @@
-// M08 --- SAT: the Boolean satisfiability problem and its central role in computation.
+// M08 --- SAT: задача булевой выполнимости и её центральная роль в теории вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
 = SAT
 
 #chapter-overview[
-  The Boolean satisfiability problem (SAT) asks: does there exist an assignment making a given CNF formula true?
-  Despite its simplicity, SAT is the canonical NP-complete problem --- a "universal" problem to which all of NP reduces.
-  This chapter introduces SAT, k-SAT, the art of encoding problems into CNF, and the architecture of modern SAT solvers.
+  Задача булевой выполнимости (SAT) спрашивает: существует ли набор значений, делающий данную КНФ-формулу истинной?
+  Несмотря на простоту, SAT --- каноническая NP-полная задача --- "универсальная" задача, к которой сводится весь класс NP.
+  Эта глава вводит SAT, k-SAT, искусство кодирования задач в КНФ и архитектуру современных SAT-решателей.
 ]
 
-== The SAT Problem
+== Задача SAT
 
-=== SAT Definitions
+=== Определения SAT
 
 #definition[SAT][
-  *SAT*: Given a Boolean formula $phi$ in CNF, decide whether there exists a satisfying assignment (a *model*).
+  Задача определения, существует ли выполняющий набор (называемый *моделью*) для булевой формулы $phi$ в КНФ, называется *SAT* (задачей булевой выполнимости).
 ]
 
-#definition[CNF formula][
-  $phi = C_1 and ... and C_m$, each clause $C_i = (l_(i,1) or ... or l_(i,k_i))$.
-  A literal is a variable $x$ or its negation $overline(x)$.
+#definition[КНФ-формула][
+  Формула вида $phi = C_1 and ... and C_m$, где каждый дизъюнкт $C_i = (l_(i,1) or ... or l_(i,k_i))$, называется *КНФ-формулой*.
+  Переменная $x$ или её отрицание $overline(x)$ называется *литералом*.
 ]
 
-#example[Satisfiable formula][
-  $phi = (x or overline(y)) and (overline(x) or y or z) and (overline(z))$. $x = 1, y = 1, z = 0$ satisfies all three clauses.
+#example[Выполнимая формула][
+  $phi = (x or overline(y)) and (overline(x) or y or z) and (overline(z))$. $x = 1, y = 1, z = 0$ выполняет все три дизъюнкта.
 ]
 
-#example[Unsatisfiable formula][
-  $psi = (x) and (overline(x))$ is unsatisfiable.
+#example[Невыполнимая формула][
+  $psi = (x) and (overline(x))$ невыполнима.
 ]
 
 === k-SAT
 
 #definition[k-SAT][
-  $k$-SAT: every clause has exactly $k$ literals.
-  - *2-SAT*: solvable in polynomial time (implication graph + SCC).
-  - *3-SAT*: NP-complete.
+  Задача SAT, в которой каждый дизъюнкт содержит ровно $k$ литералов, называется *$k$-SAT*.
+  - *2-SAT*: разрешима за полиномиальное время (граф импликаций + компоненты сильной связности).
+  - *3-SAT*: NP-полна.
 ]
 
-=== 2-SAT Algorithm
+=== Алгоритм для 2-SAT
 
-#proposition[2-SAT via implication graph][
-  1. Build digraph: vertices $x_i$, $overline(x_i)$ for each variable.
-  2. Clause $(l_1 or l_2)$ $=>$ edges $overline(l_1) arrow l_2$, $overline(l_2) arrow l_1$.
-  3. Compute SCCs.
-  4. If $x_i$ and $overline(x_i)$ share an SCC: unsatisfiable.
-  Otherwise, assign by reverse topological SCC order.
+#proposition[2-SAT через граф импликаций][
+  1. Построим орграф: вершины $x_i$, $overline(x_i)$ для каждой переменной.
+  2. Дизъюнкт $(l_1 or l_2)$ $=>$ рёбра $overline(l_1) arrow l_2$, $overline(l_2) arrow l_1$.
+  3. Найдём компоненты сильной связности.
+  4. Если $x_i$ и $overline(x_i)$ принадлежат одной КСС: формула невыполнима.
+  Иначе присваиваем значения в обратном топологическом порядке КСС.
 ]
 
 #proof-sketch[
-  Build an implication graph: each clause $(l_1 or l_2)$ adds edges $overline(l_1) -> l_2$ and $overline(l_2) -> l_1$.
+  Строим граф импликаций: каждый дизъюнкт $(l_1 or l_2)$ добавляет рёбра $overline(l_1) -> l_2$ и $overline(l_2) -> l_1$.
 
-  If $x_i$ and $overline(x_i)$ belong to the same SCC, then $x_i iff overline(x_i)$, a contradiction — the formula is unsatisfiable.
+  Если $x_i$ и $overline(x_i)$ принадлежат одной КСС, то $x_i iff overline(x_i)$ --- противоречие, формула невыполнима.
 
-  Otherwise, assign variables in reverse topological order of the SCC condensation graph.
-  Every implication is satisfied, so the formula is satisfiable.
-  The algorithm runs in $O(n + m)$.
+  Иначе присваиваем переменные в обратном топологическом порядке конденсации графа.
+  Все импликации выполнены, значит, формула выполнима.
+  Алгоритм работает за $O(n + m)$.
 ]
 
 #remark[
-  2-SAT (easy) vs 3-SAT (NP-complete) --- small problem changes cause dramatic complexity jumps.
+  2-SAT (лёгкая) против 3-SAT (NP-полная) --- небольшое изменение задачи вызывает драматический скачок сложности.
 ]
 
-== Encoding Problems to SAT
+== Кодирование задач в SAT
 
-#proposition[SAT reduction recipe][
-  1. Choose Boolean variables.
-  2. Write constraints as clauses.
-  3. Run SAT solver.
-  4. Interpret: SAT $=>$ decode model; UNSAT $=>$ no solution.
+#proposition[Рецепт сведения к SAT][
+  1. Выбрать булевы переменные.
+  2. Записать ограничения в виде дизъюнктов.
+  3. Запустить SAT-решатель.
+  4. Интерпретировать: SAT $=>$ декодируем модель; UNSAT $=>$ решения нет.
 ]
 
-#example[Graph $k$-coloring][
-  Variables: $x_(v, c) = 1$ iff vertex $v$ has color $c$.
-  - Each vertex has a color: $or.big_(c=1)^k x_(v, c)$.
-  - No vertex has two colors: $overline(x_(v, c)) or overline(x_(v, d))$ for $c < d$.
-  - Adjacent vertices differ: $overline(x_(u, c)) or overline(x_(v, c))$ for edge ${u, v}$.
+#example[Раскраска графа в $k$ цветов][
+  Переменные: $x_(v, c) = 1$, если вершина $v$ имеет цвет $c$.
+  - Каждая вершина имеет цвет: $or.big_(c=1)^k x_(v, c)$.
+  - Ни одна вершина не имеет двух цветов: $overline(x_(v, c)) or overline(x_(v, d))$ для $c < d$.
+  - Смежные вершины различаются: $overline(x_(u, c)) or overline(x_(v, c))$ для ребра ${u, v}$.
 ]
 
-#example[Sudoku][
-  9×9 Sudoku = SAT with $9^3 = 729$ variables $x_(r, c, d)$ (cell $(r, c)$ contains digit $d$).
-  Constraints: each cell has one digit; each digit once per row, column, 3×3 block; given digits fixed.
-  Hardest puzzles solved in milliseconds.
+#example[Судоку][
+  Судоку 9×9 = SAT с $9^3 = 729$ переменными $x_(r, c, d)$ (клетка $(r, c)$ содержит цифру $d$).
+  Ограничения: каждая клетка содержит одну цифру; каждая цифра встречается один раз в строке, столбце и блоке 3×3; заданные цифры зафиксированы.
+  Самые сложные головоломки решаются за миллисекунды.
 ]
 
-#example[Vertex cover][
-  Does graph $G$ have a vertex cover of size $<= k$?
-  Variables: $x_v = 1$ iff vertex $v$ is in the cover.
-  Constraints:
-  - Every edge covered: $x_u or x_v$ for each ${u, v} in E$.
-  - Size limit: use cardinality constraint encoding (sequential counter or binary adder).
+#example[Вершинное покрытие][
+  Существует ли в графе $G$ вершинное покрытие размера $<= k$?
+  Переменные: $x_v = 1$, если вершина $v$ входит в покрытие.
+  Ограничения:
+  - Каждое ребро покрыто: $x_u or x_v$ для каждого ${u, v} in E$.
+  - Ограничение размера: используем кодирование ограничения мощности (последовательный счётчик или двоичный сумматор).
 ]
 
-The art of SAT encoding lies in choosing the right variables and writing compact clauses.
-Poor encodings blow up clause count; good encodings exploit problem structure.
+Искусство кодирования в SAT --- в выборе правильных переменных и записи компактных дизъюнктов.
+Плохие кодировки раздувают число дизъюнктов; хорошие --- используют структуру задачи.
 
-=== Modern SAT Solvers: CDCL
+=== Современные SAT-решатели: CDCL
 
-Modern solvers descend from the DPLL algorithm (Davis-Putnam-Logemann-Loveland, 1962): backtracking search with unit propagation and pure literal elimination.
-CDCL (Conflict-Driven Clause Learning) adds:
+Современные решатели происходят от алгоритма DPLL (Дэвис-Патнэм-Логеманн-Лавленд, 1962): поиск с возвратом, распространение единичного дизъюнкта и устранение чистых литералов.
+CDCL (Conflict-Driven Clause Learning) добавляет:
 
-#proposition[CDCL algorithm --- outline][
-  1. *Unit propagation* (Boolean constraint propagation): if a clause has all-but-one literal assigned false, the remaining must be true.
-    Propagate until fixpoint or conflict.
-  2. *Decision*: when no more propagation, pick an unassigned variable and assign it arbitrarily.
-    VSIDS heuristic: variables appearing in recent conflicts are prioritised.
-  3. *Conflict analysis*: when a clause becomes false, analyse the implication graph to derive a *learned clause* --- a new clause that rules out the conflicting partial assignment.
-    The first-UIP (Unique Implication Point) scheme is standard.
-  4. *Backjumping*: undo decisions up to the point where the learned clause becomes unit (non-chronological backtracking).
-  5. *Learn and restart*: add the learned clause to the formula; periodically restart the search (keeping learned clauses) to escape unfruitful branches.
+#proposition[Алгоритм CDCL --- схема][
+  1. *Распространение единичного дизъюнкта* (Boolean constraint propagation): если в дизъюнкте все литералы, кроме одного, ложны, оставшийся должен быть истинным.
+    Распространяем до фиксированной точки или конфликта.
+  2. *Решение*: когда распространение исчерпано, выбираем неприсвоенную переменную и присваиваем ей произвольное значение.
+    Эвристика VSIDS: переменные, появляющиеся в недавних конфликтах, приоритетнее.
+  3. *Анализ конфликта*: когда дизъюнкт становится ложным, анализируем граф импликаций, чтобы вывести *выученный дизъюнкт* --- новый дизъюнкт, исключающий конфликтующее частичное присваивание.
+    Стандартной является схема первого UIP (Unique Implication Point).
+  4. *Откат*: отменяем решения до точки, в которой выученный дизъюнкт становится единичным (нехронологический возврат).
+  5. *Обучение и перезапуск*: добавляем выученный дизъюнкт в формулу; периодически перезапускаем поиск (сохраняя выученные дизъюнкты), чтобы выйти из бесперспективных ветвей.
 ]
 
 #remark[
-  CDCL solvers (MiniSat, Glucose, CaDiCaL) routinely solve industrial instances with millions of variables and tens of millions of clauses.
-  Applications: hardware verification (equivalence checking), software bounded model checking, AI planning, cryptography (attacking reduced-round ciphers), and configuration management.
-  Despite NP-completeness, real-world instances often have enough structure to be tractable --- the "SAT revolution."
+  CDCL-решатели (MiniSat, Glucose, CaDiCaL) регулярно решают индустриальные примеры с миллионами переменных и десятками миллионов дизъюнктов.
+  Применения: верификация аппаратуры (проверка эквивалентности), программная ограниченная проверка моделей, ИИ-планирование, криптография (атаки на шифры с уменьшенным числом раундов) и управление конфигурациями.
+  Несмотря на NP-полноту, практические задачи часто обладают достаточной структурой, чтобы быть разрешимыми --- "SAT-революция".
 ]
 
-== SAT and NP
+== SAT и NP
 
-#theorem[Cook's theorem --- statement][
-  SAT is NP-complete: SAT $in$ NP, and every problem in NP is polynomial-time reducible to SAT.
+#theorem[Теорема Кука --- формулировка][
+  SAT NP-полна: SAT $in$ NP, и всякая задача из NP полиномиально сводится к SAT.
 ]
 
 #note[
-  Full proof in the complexity chapter (Semester 2).
-  Idea: encode NTM computation tableau as CNF; formula satisfiable iff machine accepts.
+  Полное доказательство --- в главе о сложности вычислений (второй семестр).
+  Идея: закодировать таблицу вычисления НМТ в КНФ; формула выполнима тогда и только тогда, когда машина допускает.
 ]
 
-#corollary[P vs NP consequence][
-  If SAT $in$ P, then $P = "NP"$.
-  If SAT requires exponential time, then $P eq.not "NP"$.
+#corollary[Следствие для P vs NP][
+  Если SAT $in$ P, то $P = "NP"$.
+  Если SAT требует экспоненциального времени, то $P eq.not "NP"$.
 ]
 
-SAT is the "canary in the coal mine" of complexity theory --- solve it efficiently and all of NP collapses.
+SAT --- "канарейка в угольной шахте" теории сложности: реши её эффективно --- и весь NP схлопнется.

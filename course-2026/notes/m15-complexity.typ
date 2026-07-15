@@ -1,178 +1,187 @@
-// M15 --- Complexity and NP-Completeness: the limits of efficient computation.
+// M15 --- Сложность и NP-полнота: пределы эффективных вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Complexity and NP-Completeness
+= Сложность и NP-полнота
 
 #chapter-overview[
-  Not all decidable problems are created equal --- some can be solved in linear time, others require exponential time, and some sit at the frontier of human knowledge (P vs NP).
-  This chapter introduces P and NP, polynomial-time reductions, NP-completeness, and Cook's theorem.
-  The chapter closes with strategies for coping with intractability and the broader complexity landscape.
+  Не все разрешимые задачи одинаковы --- одни решаются за линейное время, другие требуют экспоненциального времени, а некоторые находятся на переднем крае человеческого знания (P против NP).
+  Эта глава знакомит с P и NP, полиномиальными сведениями, NP-полнотой и теоремой Кука.
+  Завершается глава стратегиями борьбы с трудноразрешимостью и обзором более широкого ландшафта сложности.
 ]
 
-== The Class P
+== Класс P
 
-#definition[Class P][
-  $P = union.big_(k >= 1) "TIME"(n^k)$ --- decision problems solvable by a deterministic TM in polynomial time.
-  Robust: same class for single-tape, multi-tape TMs, and RAM model (within polynomial factors).
+#definition[Класс P][
+  *Классом P* называется класс задач разрешения, решаемых детерминированной машиной Тьюринга за полиномиальное время, обозначается $P = union.big_(k >= 1) "TIME"(n^k)$.
+  Класс P устойчив: тот же класс получается для одноленточных, многоленточных МТ и RAM-модели (с точностью до полиномиальных факторов).
 ]
 
-#example[Problems in P][
-  Sorting, shortest paths (Dijkstra), MST, 2-coloring (bipartiteness), Eulerian cycle, planarity testing, linear programming, primality (AKS, 2002), CFG parsing ($O(n^3)$).
+#example[Задачи из P][
+  Сортировка, кратчайшие пути (Дейкстра), MST, 2-раскраска (двудольность), эйлеров цикл, проверка планарности, линейное программирование, проверка простоты (AKS, 2002), разбор КС-грамматик ($O(n^3)$).
 ]
 
-== The Class NP
+== Класс NP
 
-#definition[Class NP][
-  $L in "NP"$ if $exists$ polynomial-time verifier $V$ and polynomial $p$: $w in L$ iff $exists c$ (certificate), $|c| <= p(|w|)$, and $V(w, c)$ accepts.
-  "Guess the certificate, verify in polynomial time."
+#definition[Класс NP][
+  *Классом NP* называется класс языков $L$, для которых существует полиномиальный верификатор $V$ и полином $p$, такие что $w in L$ тогда и только тогда, когда существует сертификат $c$ длины $|c| <= p(|w|)$, и $V(w, c)$ принимает.
+  "Угадай сертификат, проверь за полиномиальное время".
 ]
 
-Equivalently: solvable by nondeterministic TM in polynomial time.
+Эквивалентно: разрешима недетерминированной МТ за полиномиальное время.
 
-#example[Problems in NP][
-  SAT (certificate = assignment), Hamiltonian cycle (the cycle), Vertex Cover $<= k$ (the cover), Clique, $k$-coloring, Subset Sum, ILP, Graph Isomorphism.
+#example[Задачи из NP][
+  SAT (сертификат = выполняющее присваивание), гамильтонов цикл (сам цикл), вершинное покрытие $<= k$ (покрытие), клика, $k$-раскраска, сумма подмножества, ЦЛП, изоморфизм графов.
 ]
 
 #note[
-  $P subset.eq "NP"$ trivially.
+  $P subset.eq "NP"$ тривиально.
   $P = "NP"$?
-  Open --- one of seven Millennium Prize Problems $1,000,000$.
+  Открытая проблема --- одна из семи задач тысячелетия, $1 000 000$.
 ]
 
-== Polynomial Reductions and NP-Completeness
+== Полиномиальные сведения и NP-полнота
 
-#definition[Polynomial reduction][
-  $A preduce B$: $exists$ poly-time computable $f$ s.t. $w in A$ iff $f(w) in B$.
+#definition[Полиномиальное сведение][
+  Язык $A$ называется *полиномиально сводимым* к языку $B$, обозначается $A preduce B$, если существует вычислимая за полиномиальное время функция $f$, такая что $w in A$ тогда и только тогда, когда $f(w) in B$.
 ]
 
-#proposition[Closure][
-  $A preduce B$ and $B in P$ $=>$ $A in P$.
-  $A preduce B$ and $B in "NP"$ $=>$ $A in "NP"$.
+#proposition[Замкнутость][
+  $A preduce B$ и $B in P$ $=>$ $A in P$.
+  $A preduce B$ и $B in "NP"$ $=>$ $A in "NP"$.
 ]
 
-#definition[NP-hard, NP-complete][
-  - $B$ is *NP-hard* if $forall A in "NP"$, $A preduce B$.
-  - $B$ is *NP-complete* if $B in "NP"$ and $B$ is NP-hard.
+#definition[NP-трудная, NP-полная][
+  Задача $B$ называется *NP-трудной*, если любой язык из NP полиномиально сводится к ней: $forall A in "NP"$, $A preduce B$.
+  Задача $B$ называется *NP-полной*, если $B in "NP"$ и $B$ NP-трудная.
 ]
 
-#theorem[Significance][
-  If any NP-complete problem is in P, then $P = "NP"$.
+#theorem[Значимость][
+  Если хотя бы одна NP-полная задача принадлежит P, то $P = "NP"$.
 ]
 
-=== Cook's Theorem
+=== Теорема Кука
 
-#theorem[Cook-Levin theorem][
-  SAT is NP-complete.
+#theorem[Теорема Кука--Левина][
+  SAT NP-полна.
 ]
 
 #proof-sketch[
-  SAT $in$ NP: certificate = assignment, verify in linear time.
-  NP-hardness: given NTM $M$ accepting $L$ in time $p(n)$, construct CNF $phi$ encoding the computation tableau.
-  Variables: $x_(t,p,s)$ (time $t$, position $p$, symbol $s$), $y_(t,i)$ (time $t$, head at $i$, state $q_i$).
-  Clauses enforce: valid start, valid transitions, acceptance. $phi$ satisfiable iff $M$ accepts $w$.
-  Size $O(p(|w|)^2)$.
+  SAT $in$ NP: сертификат = выполняющее присваивание, проверка за линейное время.
+  NP-трудность: для НМТ $M$, допускающей $L$ за время $p(n)$, построим КНФ $phi$, кодирующую таблицу вычисления.
+  Переменные: $x_(t,p,s)$ (время $t$, позиция $p$, символ $s$), $y_(t,i)$ (время $t$, головка в $i$, состояние $q_i$).
+  Дизъюнкты задают: корректное начало, корректные переходы, допускание.
+  $phi$ выполнима тогда и только тогда, когда $M$ допускает $w$.
+  Размер $O(p(|w|)^2)$.
 ]
 
-=== The NP-Complete Zoo
+=== Зоопарк NP-полных задач
 
-#proposition[Standard reduction chain][
+#proposition[Стандартная цепочка сведений][
   $"SAT" preduce "3-SAT" preduce "Vertex Cover" preduce "Clique" preduce "Independent Set"$.
-  Also: $"3-SAT" preduce "Subset Sum" preduce "Partition" preduce "Knapsack"$. $"3-SAT" preduce "3-Coloring"$.
+  Также: $"3-SAT" preduce "Subset Sum" preduce "Partition" preduce "Knapsack"$.
+  $"3-SAT" preduce "3-Coloring"$.
   $"Vertex Cover" preduce "Hamiltonian Cycle" preduce "TSP"$.
 ]
 
-#example[Reduction: 3-SAT to Vertex Cover][
-  Given 3-CNF formula $phi$ with $m$ clauses over $n$ variables.
-  Construct graph $G$ and integer $k$ such that $phi$ is satisfiable iff $G$ has a vertex cover of size $<= k$.
-  For each variable $x_i$, create an edge (gadget): two vertices $x_i$ and $overline(x_i)$ connected.
-  For each clause $(l_1 or l_2 or l_3)$, create a triangle of three vertices labelled $l_1$, $l_2$, $l_3$.
-  Connect each clause-triangle vertex to the corresponding literal vertex in the variable gadget.
-  Set $k = n + 2m$. $phi$ satisfiable $=>$ pick the true literal from each variable edge, then 2 vertices from each clause triangle (leaving the literal satisfied by the true literal uncovered $=>$ covered by variable side).
-  Cover of size $<= k$ $=>$ exactly one vertex from each variable edge (truth assignment), the remaining $2m$ vertices cover clause triangles $=>$ assignment satisfies all clauses.
-  This is a polynomial-time reduction: $G$ has $2n + 3m$ vertices, $k = n + 2m$.
+#example[Сведение: 3-SAT к вершинному покрытию][
+  Дана 3-КНФ формула $phi$ с $m$ дизъюнктами от $n$ переменных.
+  Построим граф $G$ и целое число $k$, такие что $phi$ выполнима тогда и только тогда, когда в $G$ есть вершинное покрытие размера $<= k$.
+  Для каждой переменной $x_i$ создаём ребро (гаджет): две вершины $x_i$ и $overline(x_i)$, соединённые ребром.
+  Для каждого дизъюнкта $(l_1 or l_2 or l_3)$ создаём треугольник из трёх вершин с пометками $l_1$, $l_2$, $l_3$.
+  Соединяем каждую вершину треугольника-дизъюнкта с соответствующей литеральной вершиной в переменном гаджете.
+  Положим $k = n + 2m$.
+  $phi$ выполнима $=>$ выбираем истинный литерал из каждого переменного ребра, затем по 2 вершины из каждого треугольника-дизъюнкта (оставляя литерал, выполненный истинным литералом, непокрытым $=>$ покрытым со стороны переменной).
+  Покрытие размера $<= k$ $=>$ ровно одна вершина из каждого переменного ребра (присваивание истинности), остальные $2m$ вершин покрывают треугольники-дизъюнктов $=>$ присваивание выполняет все дизъюнкты.
+  Это полиномиальное сведение: $G$ содержит $2n + 3m$ вершин, $k = n + 2m$.
 ]
 
-Major NP-complete problems: logic (SAT, 3-SAT, Max-2-SAT), graphs (Clique, Vertex Cover, Hamiltonian Cycle, TSP, 3-Coloring), numbers (Subset Sum, Partition, Knapsack, ILP), scheduling (Job Shop), games (Sudoku, Minesweeper, Tetris).
+Основные NP-полные задачи: логика (SAT, 3-SAT, Max-2-SAT), графы (клика, вершинное покрытие, гамильтонов цикл, TSP, 3-раскраска), числа (сумма подмножества, разбиение, рюкзак, ЦЛП), расписания (Job Shop), игры (судоку, сапёр, тетрис).
 
-== Coping with NP-Hardness
+== Борьба с NP-трудностью
 
-#proposition[Exact algorithms][
-  Branch-and-bound, backtracking.
-  SAT solvers (CDCL) handle millions of variables in practice despite exponential worst-case.
+#proposition[Точные алгоритмы][
+  Метод ветвей и границ, поиск с возвратом.
+  SAT-решатели (CDCL) на практике справляются с миллионами переменных, несмотря на экспоненциальную сложность в худшем случае.
 ]
 
-#proposition[Approximation algorithms][
-  Vertex Cover 2-approximation: repeatedly pick uncovered edge, add both endpoints.
+#proposition[Приближённые алгоритмы][
+  2-приближение для вершинного покрытия: многократно выбираем непокрытое ребро, добавляем обе конечные вершины.
   PTAS, APX.
-  Some problems (general TSP) cannot be approximated at all unless $P = "NP"$.
+  Некоторые задачи (общий TSP) невозможно приблизить вовсе, если только $P = "NP"$.
 ]
 
-#definition[FPT --- Fixed-Parameter Tractability][
-  Solvable in $f(k) dot "poly"(n)$ where $k$ is a small parameter.
-  Example: Vertex Cover in $O(1.27^k + n)$.
+#definition[FPT --- параметризованная сложность][
+  Задача называется *параметрически разрешимой* (FPT --- fixed-parameter tractable), если она разрешима за время $f(k) dot "poly"(n)$, где $k$ --- малый параметр задачи.
+  Пример: вершинное покрытие за $O(1.27^k + n)$.
 ]
 
-#proposition[Heuristics][
-  Genetic algorithms, simulated annealing, local search.
-  SAT/ILP solvers for structured real-world instances.
+#proposition[Эвристики][
+  Генетические алгоритмы, имитация отжига, локальный поиск.
+  SAT/ILP-решатели для структурированных практических задач.
 ]
 
-== Beyond NP
+== За пределами NP
 
-#proposition[Complexity class landscape][
+#proposition[Ландшафт классов сложности][
   #table(
     columns: 4,
     align: (left, left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header(
-      [*Class*], [*Resource bound*], [*Canonical problem*], [*Status*]
+      [*Класс*], [*Ограничение ресурса*], [*Каноническая задача*], [*Статус*]
     ),
-    [P], [Polynomial time], [Shortest path, sorting, MST], [Tractable],
-    [NP], [Nondeterministic poly-time], [SAT, TSP, Clique], [Open: $P = "NP"$?],
-    [coNP], [Complement of NP], [UNSAT, tautology], [Open: $"NP" = "coNP"$?],
+    [P],
+    [Полиномиальное время],
+    [Кратчайший путь, сортировка, MST],
+    [Подаётся эффективному решению],
+
+    [NP],
+    [Недетерминированное полиномиальное время],
+    [SAT, TSP, клика],
+    [Открыт: $P = "NP"$?],
+
+    [coNP], [Дополнение NP], [UNSAT, тавтология], [Открыт: $"NP" = "coNP"$?],
     [PSPACE],
-    [Polynomial space],
-    [QBF, geography, chess],
+    [Полиномиальная память],
+    [QBF, geography, шахматы],
     [$"NP" subset.eq "PSPACE"$],
 
     [EXP],
-    [Exponential time],
-    [Generalised chess, Go],
+    [Экспоненциальное время],
+    [Обобщённые шахматы, го],
     [$"PSPACE" subset "EXP"$],
 
-    [\#P], [Counting solutions], [\#SAT, counting matchings], [Harder than NP],
+    [\#P], [Подсчёт решений], [\#SAT, подсчёт паросочетаний], [Сложнее NP],
     [BQP],
-    [Quantum poly-time],
-    [Factoring (Shor)],
+    [Квантовое полиномиальное время],
+    [Факторизация (Шор)],
     [$P subset.eq "BQP" subset.eq "PSPACE"$],
   )
 ]
 
-#proposition[Complexity hierarchy][
+#proposition[Иерархия сложности][
   $P subset.eq "NP" subset.eq "PSPACE" subset.eq "EXP"$.
-  Known: $P subset "EXP"$ (Time Hierarchy Theorem).
-  At least one inclusion above is strict --- which one(s) remain open.
+  Известно: $P subset "EXP"$ (теорема об иерархии по времени).
+  Как минимум одно из включений выше строгое --- какие именно, остаётся открытым.
 ]
 
-#definition[Other classes][
-  - *coNP*: complements of NP languages (UNSAT).
-    Open: $"NP" = "coNP"$?
-  - *PH* (Polynomial Hierarchy): generalises NP with alternating quantifiers.
-    Collapses if $P = "NP"$.
-  - *\#P*: counting solutions. \#SAT is \#P-complete (even harder than NP).
-  - *BQP*: quantum polynomial time.
-    $P subset.eq "BQP" subset.eq "PSPACE"$.\ Shor's algorithm (factoring) in BQP.
+#definition[Другие классы][
+  Другие важные классы сложности:
+  - *coNP* --- класс дополнений NP-языков (например, UNSAT). Открыт вопрос: $"NP" = "coNP"$?
+  - *PH* (полиномиальная иерархия) --- обобщает NP чередующимися кванторами. Схлопывается, если $P = "NP"$.
+  - *\#P* --- класс задач подсчёта решений. \#SAT является \#P-полной (сложнее, чем NP).
+  - *BQP* --- класс задач, разрешимых квантовым компьютером за полиномиальное время. $P subset.eq "BQP" subset.eq "PSPACE"$. Алгоритм Шора (факторизация) лежит в BQP.
 ]
 
-#remark[Cryptography][
-  Modern crypto rests on assumed hardness of specific problems: integer factoring (RSA), discrete logarithm (Diffie-Hellman, ElGamal), and lattice problems (post-quantum crypto).
-  All these problems are in NP (given the secret key as certificate, verification is fast) but are believed not NP-complete --- factoring is in NP $inter$ coNP (a certificate of primality exists), and if it were NP-complete the polynomial hierarchy would collapse.
-  Shor's quantum algorithm factors in poly-time $=>$ practical crypto is secure only against classical computers.
-  The relationship between one-way functions (crypto's foundation) and P vs NP: OWF existence implies $P eq.not "NP"$, but the converse is unknown.
+#remark[Криптография][
+  Современная криптография опирается на предположительную трудность конкретных задач: факторизация целых чисел (RSA), дискретный логарифм (Диффи--Хеллман, Эль-Гамаль) и задачи на решётках (постквантовая криптография).
+  Все эти задачи принадлежат NP (зная секретный ключ как сертификат, проверка быстра), но, как полагают, не являются NP-полными --- факторизация лежит в NP $inter$ coNP (сертификат простоты существует), и если бы она была NP-полной, полиномиальная иерархия схлопнулась бы.
+  Квантовый алгоритм Шора факторизует за полиномиальное время $=>$ практическая криптография стойка только против классических компьютеров.
+  Связь между односторонними функциями (основа криптографии) и P против NP: существование OWF влечёт $P eq.not "NP"$, но обратное неизвестно.
 ]
 
 #note[
-  Practical lesson: if your problem is NP-complete, don't search for an efficient exact algorithm.
-  Look for structure in your instances, consider approximation, parameterise on the small part, or use a SAT/ILP solver.
+  Практический урок: если ваша задача NP-полна, не ищите эффективный точный алгоритм.
+  Ищите структуру в ваших экземплярах, рассматривайте приближение, параметризуйте по малой части или используйте SAT/ILP-решатель.
 ]

@@ -1,327 +1,324 @@
-// M03 --- Relations: the mathematical language for connections between objects.
+// M03 --- Отношения: математический язык связей между объектами.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Relations
+= Отношения
 
 #chapter-overview[
-  Relations formalise connections between objects --- they underpin databases, equivalence, order, and graph theory.
-  This chapter introduces binary relations and their algebraic properties, then focuses on two special kinds: equivalence relations (which partition sets) and partial orders (which rank and compare).
-  The pigeonhole principle, a deceptively simple counting argument, closes the chapter with surprising applications throughout discrete mathematics.
+  Отношения формализуют связи между объектами --- они лежат в основе баз данных, эквивалентности, порядка и теории графов.
+  В этой главе вводятся бинарные отношения и их алгебраические свойства, затем рассматриваются два особых вида: отношения эквивалентности (которые разбивают множества) и частичные порядки (которые ранжируют и сравнивают).
+  Принцип Дирихле, обманчиво простое комбинаторное рассуждение, завершает главу неожиданными приложениями по всей дискретной математике.
 ]
 
-== Binary Relations
+== Бинарные отношения
 
-=== Definitions and Representations
+=== Определения и способы представления
 
-#definition[Binary relation][
-  A binary relation $R$ on a set $A$ is a subset $R subset.eq A times A$.
-  We write $a R b$ to mean $(a, b) in R$.
+#definition[Бинарное отношение][
+  Подмножество $R subset.eq A times A$ называется *бинарным отношением* $R$ на множестве $A$. Факт $(a, b) in R$ обозначается $a R b$.
 ]
 
-A relation can be specified in three equivalent ways:
+Отношение может быть задано тремя эквивалентными способами:
 
-#definition[Representations][
-  - *Set of pairs*: $R = {(a_1, b_1), (a_2, b_2), ...}$.
-  - *Adjacency matrix*: $n times n$ matrix $M$ where $M_(i j) = 1$ if $(a_i, a_j) in R$.
-  - *Directed graph*: vertices = elements of $A$; directed edge $a arrow b$ iff $(a, b) in R$.
+#definition[Способы представления][
+  - *Множество пар*: $R = {(a_1, b_1), (a_2, b_2), ...}$.
+  - *Матрица смежности*: матрица $n times n$ $M$, где $M_(i j) = 1$, если $(a_i, a_j) in R$.
+  - *Ориентированный граф*: вершины = элементы $A$; ориентированное ребро $a arrow b$, если $(a, b) in R$.
 ]
 
 #example[
   $A = {1, 2, 3}$, $R = {(1, 1), (1, 2), (2, 3), (3, 1)}$.
-  The adjacency matrix has 1s at those positions; the graph has self-loop at 1, edges $1 arrow 2$, $2 arrow 3$, $3 arrow 1$.
+  Матрица смежности содержит единицы на этих позициях; граф имеет петлю в 1, рёбра $1 arrow 2$, $2 arrow 3$, $3 arrow 1$.
 ]
 
 #remark[
-  In a database, a table is a relation.
-  Each row is a tuple in the relation.
-  SQL tables are mathematical relations --- the connection is direct, not an analogy.
+  В базе данных таблица --- это отношение.
+  Каждая строка --- кортеж в отношении.
+  Таблицы SQL --- это математические отношения; связь прямая, а не аналогия.
 ]
 
-=== Properties of Relations
+=== Свойства отношений
 
-#definition[Relational properties][
-  Let $R$ be a binary relation on $A$.
-  - *Reflexive*: $forall a in A space a R a$.
-  - *Irreflexive*: $forall a in A space not(a R a)$.
-  - *Symmetric*: $a R b imply b R a$.
-  - *Antisymmetric*: $(a R b and b R a) imply a = b$.
-  - *Asymmetric*: $a R b imply not(b R a)$.
-  - *Transitive*: $(a R b and b R c) arrow a R c$.
-  - *Total* (connected): $a eq.not b arrow (a R b or b R a)$.
+#definition[Свойства отношений][
+  Пусть $R$ --- бинарное отношение на $A$.
+  - *Рефлексивность*: $forall a in A space a R a$.
+  - *Иррефлексивность*: $forall a in A space not(a R a)$.
+  - *Симметричность*: $a R b imply b R a$.
+  - *Антисимметричность*: $(a R b and b R a) imply a = b$.
+  - *Асимметричность*: $a R b imply not(b R a)$.
+  - *Транзитивность*: $(a R b and b R c) arrow a R c$.
+  - *Тотальность* (связность): $a eq.not b arrow (a R b or b R a)$.
 ]
 
 #note[
-  Irreflexive is stronger than "not reflexive."
-  Asymmetry implies irreflexivity: if $a R a$, then $not(a R a)$ --- contradiction.
+  Иррефлексивность сильнее, чем "не рефлексивно".
+  Асимметричность влечёт иррефлексивность: если $a R a$, то $not(a R a)$ --- противоречие.
 ]
 
-=== Reading Properties from Representations
+=== Определение свойств по представлениям
 
-#proposition[Property detection][
-  - *Reflexive*: all diagonal entries 1; every vertex has self-loop.
-  - *Irreflexive*: all diagonal entries 0; no self-loops.
-  - *Symmetric*: matrix symmetric ($M = M^T$); every edge is bidirectional.
-  - *Antisymmetric*: no symmetric 1s off-diagonal; no bidirectional edges.
-  - *Transitive*: whenever there is a length-2 path, there is a direct edge.
+#proposition[Определение свойств][
+  - *Рефлексивность*: все диагональные элементы равны 1; каждая вершина имеет петлю.
+  - *Иррефлексивность*: все диагональные элементы равны 0; петель нет.
+  - *Симметричность*: матрица симметрична ($M = M^T$); каждое ребро двунаправлено.
+  - *Антисимметричность*: нет симметричных единиц вне диагонали; нет двунаправленных рёбер.
+  - *Транзитивность*: всегда, когда есть путь длины 2, существует прямое ребро.
 ]
 
-=== Closures of Relations
+=== Замыкания отношений
 
-#definition[Closure][
-  - *Reflexive closure* of $R$: $R union {(a, a) mid(|) a in A}$.
-  - *Symmetric closure*: $R union {(b, a) mid(|) (a, b) in R}$.
+#definition[Замыкание][
+  - *Рефлексивное замыкание* $R$: $R union {(a, a) mid(|) a in A}$.
+  - *Симметричное замыкание*: $R union {(b, a) mid(|) (a, b) in R}$.
 ]
 
-#definition[Composition of relations][
-  Given $R subset.eq A times B$ and $S subset.eq B times C$, their composition is: $S compose R = {(a, c) mid(|) exists b in B space (a, b) in R and (b, c) in S}$.
-  For a relation $R$ on $A$, powers: $R^1 = R$, $R^(k+1) = R^k compose R$.
+#definition[Композиция отношений][
+  Для $R subset.eq A times B$ и $S subset.eq B times C$, отношение, состоящее из всех пар $(a, c)$, для которых существует $b in B$ такое, что $(a, b) in R$ и $(b, c) in S$, называется *композицией* $S$ и $R$, обозначается $S compose R$: $S compose R = {(a, c) mid(|) exists b in B space (a, b) in R and (b, c) in S}$.
+  Для отношения $R$ на $A$, степени: $R^1 = R$, $R^(k+1) = R^k compose R$.
 ]
 
-#definition[Transitive closure][
-  $R^+ = union.big_(k=1)^oo R^k$, where $R^(k+1) = R^k compose R$.
-  In the graph, $a R^+ b$ iff there is a directed path from $a$ to $b$.
+#definition[Транзитивное замыкание][
+  Отношение, состоящее из всех пар $(a, b)$, для которых существует ориентированный путь из $a$ в $b$ в графе $R$, называется *транзитивным замыканием* $R$, обозначается $R^+$: $R^+ = union.big_(k=1)^oo R^k$, где $R^(k+1) = R^k compose R$.
 ]
 
 #remark[
-  The Warshall algorithm computes the transitive closure in $O(n^3)$ via dynamic programming: for $k$, $i$, $j$: $M_(i j) = M_(i j) or (M_(i k) and M_(k j))$.
-  This is the essence of Floyd-Warshall all-pairs shortest paths.
+  Алгоритм Уоршалла вычисляет транзитивное замыкание за $O(n^3)$ с помощью динамического программирования: для $k$, $i$, $j$: $M_(i j) = M_(i j) or (M_(i k) and M_(k j))$.
+  В этом суть алгоритма Флойда-Уоршалла для поиска кратчайших путей между всеми парами вершин.
 ]
 
 
-== Equivalence Relations
+== Отношения эквивалентности
 
-=== Definition and Equivalence Classes
+=== Определение и классы эквивалентности
 
-#definition[Equivalence relation][
-  A binary relation $sim$ on $A$ is an equivalence relation if it is reflexive, symmetric, and transitive.
+#definition[Отношение эквивалентности][
+  Бинарное отношение $sim$ на $A$ называется отношением эквивалентности, если оно рефлексивно, симметрично и транзитивно.
 ]
 
-#definition[Equivalence class][
-  For $a in A$, the equivalence class of $a$ is $[a] = {b in A mid(|) a sim b}$.
+#definition[Класс эквивалентности][
+  Множество всех элементов, эквивалентных $a$, называется *классом эквивалентности* $a$, обозначается $[a]$: $[a] = {b in A mid(|) a sim b}$.
 ]
 
-#proposition[Class properties][
-  - $a in [a]$ (reflexivity).
-  - $[a] = [b]$ iff $a sim b$.
-  - $[a] inter [b] = nothing$ iff $not(a sim b)$.
-  Classes are either identical or disjoint.
+#proposition[Свойства классов][
+  - $a in [a]$ (рефлексивность).
+  - $[a] = [b]$, если и только если $a sim b$.
+  - $[a] inter [b] = nothing$, если и только если $not(a sim b)$.
+  Классы либо совпадают, либо не пересекаются.
 ]
 
-=== The Partition Theorem
+=== Теорема о разбиении
 
-#theorem[Equivalence relations and partitions][
-  The set of all equivalence classes $A\/sim = {[a] mid(|) a in A}$ forms a partition of $A$.
-  Conversely, every partition of $A$ defines an equivalence relation: $a sim b$ iff $a$ and $b$ belong to the same part.
+#theorem[Отношения эквивалентности и разбиения][
+  Множество всех классов эквивалентности $A\/sim = {[a] mid(|) a in A}$ образует разбиение $A$.
+  Обратно, каждое разбиение $A$ определяет отношение эквивалентности: $a sim b$, если и только если $a$ и $b$ принадлежат одной части.
 ]
 
 #proof[
-  ($arrow.r$): Equivalence classes are pairwise disjoint and cover $A$ by reflexivity.
+  ($arrow.r$): Классы эквивалентности попарно не пересекаются и покрывают $A$ в силу рефлексивности.
 
-  ($arrow.l$): Given a partition ${A_i}$, define $a sim b$ iff $a$ and $b$ lie in the same part.
-  This is reflexive, symmetric, and transitive because the parts are disjoint.
+  ($arrow.l$): Дано разбиение ${A_i}$, определим $a sim b$, если $a$ и $b$ лежат в одной части.
+  Это отношение рефлексивно, симметрично и транзитивно, поскольку части не пересекаются.
 ]
 
-=== Examples of Equivalence Relations
+=== Примеры отношений эквивалентности
 
-#example[Equality modulo $m$][
-  $a sim b$ iff $a equiv b (mod m)$.
-  Classes: $ZZ_m = {[0], [1], ..., [m-1]}$.
-  Addition and multiplication are well-defined on $ZZ_m$ --- the foundation of modular arithmetic and cryptography.
+#example[Сравнимость по модулю $m$][
+  $a sim b$, если и только если $a equiv b (mod m)$.
+  Классы: $ZZ_m = {[0], [1], ..., [m-1]}$.
+  Сложение и умножение корректно определены на $ZZ_m$ --- основа модульной арифметики и криптографии.
 ]
 
-#example[Equinumerosity][
-  $X sim Y$ iff there exists a bijection between $X$ and $Y$.
-  The equivalence class is the cardinal number --- a teaser for the transfinite chapter.
+#example[Равномощность][
+  $X sim Y$, если и только если существует биекция между $X$ и $Y$.
+  Класс эквивалентности --- кардинальное число; тизер к главе о трансфинитных множествах.
 ]
 
-#example[Graph isomorphism][
-  $G sim H$ iff isomorphic.
-  Returns in the graphs chapter of semester 2.
+#example[Изоморфизм графов][
+  $G sim H$, если и только если они изоморфны.
+  Вернёмся к этому в главе о графах во втором семестре.
 ]
 
-=== Applications of Equivalence Relations
+=== Приложения отношений эквивалентности
 
 #remark[
-  *Data clustering*: grouping records by attribute partitions the dataset into equivalence classes. *Hash tables*: the hash function partitions the key space; each bucket is a class. *DFA minimisation*: equivalent states (indistinguishable by any input) form classes; merging them gives the minimal DFA (semester 2).
+  *Кластеризация данных*: группировка записей по атрибуту разбивает набор данных на классы эквивалентности. *Хеш-таблицы*: хеш-функция разбивает пространство ключей; каждая корзина --- класс. *Минимизация ДКА*: эквивалентные состояния (неразличимые никаким входом) образуют классы; их склеивание даёт минимальный ДКА (второй семестр).
 ]
 
 
-== Partial Orders
+== Частичные порядки
 
-=== Partial Order Definition
+=== Определение частичного порядка
 
-#definition[Partial order][
-  A binary relation $prec.eq$ on $A$ is a partial order if it is reflexive, antisymmetric, and transitive.
+#definition[Частичный порядок][
+  Бинарное отношение $prec.eq$ на $A$ называется частичным порядком, если оно рефлексивно, антисимметрично и транзитивно.
 
-  The pair $(A, prec.eq)$ is a *poset*.
+  Пара $(A, prec.eq)$ называется *ЧУМ* (частично упорядоченное множество).
 ]
 
-#definition[Strict order][
-  A *strict order* $<$ on $A$ is irreflexive, asymmetric, and transitive.
-  Given a partial order $prec.eq$, define $a < b$ iff $a prec.eq b$ and $a eq.not b$.
-  Given a strict order $<$, define $a prec.eq b$ iff $a < b$ or $a = b$.
+#definition[Строгий порядок][
+  Бинарное отношение $<$ на $A$ называется *строгим порядком*, если оно иррефлексивно, асимметрично и транзитивно.
+  По частичному порядку $prec.eq$ определим $a < b$, если $a prec.eq b$ и $a eq.not b$.
+  По строгому порядку $<$ определим $a prec.eq b$, если $a < b$ или $a = b$.
 ]
 
-#definition[Total order][
-  A *total order* is a partial order where every pair is comparable: $forall a eq.not b$, either $a prec.eq b$ or $b prec.eq a$.
-]
-
-#example[
-  - $(NN, <=)$ and $(RR, <=)$ are total orders.
-  - $(cal(P)(A), subset.eq)$ is partial but not total when $|A| > 1$: ${1}$ and ${2}$ are incomparable.
-  - Divisibility $a | b$ on $NN^+$ is partial: 2 and 3 are incomparable.
-]
-
-=== Hasse Diagrams
-
-#definition[Hasse diagram][
-  To draw the Hasse diagram of a finite poset:
-  1. Remove self-loops.
-  2. Remove edges implied by transitivity.
-  3. Place $a$ lower than $b$ when $a < b$.
-  4. Draw undirected lines --- direction implied by vertical position.
+#definition[Линейный порядок][
+  Частичный порядок, в котором любая пара элементов сравнима ($forall a eq.not b$, либо $a prec.eq b$, либо $b prec.eq a$), называется *линейным порядком*.
 ]
 
 #example[
-  For $(cal(P)({1, 2, 3}), subset.eq)$, the Hasse diagram is a cube: $nothing$ at bottom, ${1, 2, 3}$ at top, edges between sets differing by one element.
+  - $(NN, <=)$ и $(RR, <=)$ --- линейные порядки.
+  - $(cal(P)(A), subset.eq)$ --- частичный, но не линейный при $|A| > 1$: ${1}$ и ${2}$ несравнимы.
+  - Делимость $a | b$ на $NN^+$ --- частичный порядок: 2 и 3 несравнимы.
 ]
 
-=== Extremal Elements and Bounds
+=== Диаграммы Хассе
 
-#definition[Minimal, maximal, least, greatest][
-  - $m$ is *minimal* if no element is strictly smaller: $not(exists a space a < m)$.
-  - $m$ is *maximal* if no element is strictly larger: $not(exists a space m < a)$.
-  - $m$ is the *least element* if $m prec.eq a$ for all $a$ (unique when exists).
-  - $m$ is the *greatest element* if $a prec.eq m$ for all $a$ (unique when exists).
+#definition[Диаграмма Хассе][
+  Чтобы нарисовать диаграмму Хассе конечного ЧУМ:
+  1. Удалить петли.
+  2. Удалить рёбра, следующие из транзитивности.
+  3. Расположить $a$ ниже $b$, когда $a < b$.
+  4. Рисовать ненаправленные линии --- направление задаётся вертикальным положением.
+]
+
+#example[
+  Для $(cal(P)({1, 2, 3}), subset.eq)$ диаграмма Хассе --- куб: $nothing$ внизу, ${1, 2, 3}$ наверху, рёбра между множествами, отличающимися на один элемент.
+]
+
+=== Экстремальные элементы и границы
+
+#definition[Минимальный, максимальный, наименьший, наибольший][
+  - Элемент $m$ называется *минимальным*, если нет строго меньшего элемента: $not(exists a space a < m)$.
+  - Элемент $m$ называется *максимальным*, если нет строго большего элемента: $not(exists a space m < a)$.
+  - Элемент $m$ называется *наименьшим элементом*, если $m prec.eq a$ для всех $a$ (единственен, если существует).
+  - Элемент $m$ называется *наибольшим элементом*, если $a prec.eq m$ для всех $a$ (единственен, если существует).
 ]
 
 #note[
-  Minimal elements can be multiple: incomparable "bottom-most" elements.
-  Least element, when it exists, is unique and is also minimal.
-  In a finite poset, minimal and maximal elements always exist; least and greatest may not.
+  Минимальных элементов может быть несколько: несравнимые "самые нижние" элементы.
+  Наименьший элемент, если существует, единственен и также является минимальным.
+  В конечном ЧУМ минимальные и максимальные элементы всегда существуют; наименьший и наибольший --- не обязательно.
 ]
 
 #example[
-  In $({2, 3, 4, 6, 12}, |)$:
-  - Minimal: ${2, 3}$: neither 2 nor 3 divides the other.
-  - Maximal: ${12}$: no element (other than itself) that 12 divides.
-  - Greatest: $12$: every element divides 12.
-  - Least: none: no element divides both 2 and 3.
+  В $({2, 3, 4, 6, 12}, |)$:
+  - Минимальные: ${2, 3}$: ни 2, ни 3 не делят друг друга.
+  - Максимальные: ${12}$: нет элемента (кроме себя), который делится на 12.
+  - Наибольший: $12$: каждый элемент делит 12.
+  - Наименьший: нет: ни один элемент не делит одновременно 2 и 3.
 ]
 
-#definition[Upper and lower bounds][
-  Let $(A, prec.eq)$ be a poset and $S subset.eq A$.
-  - $u in A$ is an *upper bound* of $S$ if $s prec.eq u$ for all $s in S$.
-  - $l in A$ is a *lower bound* of $S$ if $l prec.eq s$ for all $s in S$.
+#definition[Верхние и нижние границы][
+  Пусть $(A, prec.eq)$ --- ЧУМ и $S subset.eq A$.
+  - Элемент $u in A$ называется *верхней границей* $S$, если $s prec.eq u$ для всех $s in S$.
+  - Элемент $l in A$ называется *нижней границей* $S$, если $l prec.eq s$ для всех $s in S$.
 ]
 
-#definition[Supremum and infimum][
-  - The *supremum* (sup, join $or$) is the _least_ upper bound.
-  - The *infimum* (inf, meet $and$) is the _greatest_ lower bound.
-  For a pair ${a, b}$: $a or b$ (join), $a and b$ (meet).
-]
-
-#example[
-  In the divisor poset $(D_12, |)$ with $S = {2, 3}$:
-  - Upper bounds: ${6, 12}$: both are multiples of 2 and 3.
-  - Supremum: $6 = "lcm"(2, 3)$: the _least_ common multiple of 2 and 3.
-  - Lower bounds: ${1}$: 1 divides both.
-  - Infimum: $1 = "gcd"(2, 3)$: the _greatest_ common divisor of 2 and 3.
-]
-
-=== Lattices
-
-#definition[Lattice][
-  A poset is a *lattice* if every pair has both a supremum ($a or b$) and an infimum ($a and b$).
+#definition[Супремум и инфимум][
+  - Наименьшая верхняя граница называется *супремумом* (sup, объединение), обозначается $or$. Для пары ${a, b}$: $a or b$ (join).
+  - Наибольшая нижняя граница называется *инфимумом* (inf, пересечение), обозначается $and$. Для пары ${a, b}$: $a and b$ (meet).
 ]
 
 #example[
-  - $(cal(P)(A), subset.eq)$ is a lattice.
-    Join: $X or Y = X union Y$ (the least superset containing both).
-    Meet: $X and Y = X inter Y$ (the greatest subset contained in both).
-  - $(NN^+, |)$ is a lattice.
-    Join: $a or b = "lcm"(a, b)$ (the least number both divide).
-    Meet: $a and b = "gcd"(a, b)$ (the greatest number dividing both).
+  В ЧУМ делителей $(D_12, |)$ с $S = {2, 3}$:
+  - Верхние границы: ${6, 12}$: оба кратны 2 и 3.
+  - Супремум: $6 = "lcm"(2, 3)$: _наименьшее_ общее кратное 2 и 3.
+  - Нижние границы: ${1}$: 1 делит оба.
+  - Инфимум: $1 = "gcd"(2, 3)$: _наибольший_ общий делитель 2 и 3.
+]
+
+=== Решётки
+
+#definition[Решётка][
+  ЧУМ называется *решёткой*, если каждая пара имеет и супремум ($a or b$), и инфимум ($a and b$).
+]
+
+#example[
+  - $(cal(P)(A), subset.eq)$ --- решётка.
+    Объединение: $X or Y = X union Y$ (наименьшее надмножество, содержащее оба).
+    Пересечение: $X and Y = X inter Y$ (наибольшее подмножество, содержащееся в обоих).
+  - $(NN^+, |)$ --- решётка.
+    Объединение: $a or b = "lcm"(a, b)$ (наименьшее число, которое делят оба).
+    Пересечение: $a and b = "gcd"(a, b)$ (наибольшее число, делящее оба).
 ]
 
 #note[
-  Not every poset is a lattice.
-  For example, ${1, 2, 3}$ with the usual order has no join for ${2, 3}$: there is no "least element above both" in this set.
+  Не каждое ЧУМ является решёткой.
+  Например, ${1, 2, 3}$ с обычным порядком не имеет объединения для ${2, 3}$: в этом множестве нет "наименьшего элемента над обоими".
 ]
 
-#definition[Distributive lattice and Boolean algebra][
-  A lattice is *distributive* if $a and (b or c) = (a and b) or (a and c)$.
-  A *Boolean algebra* is a complemented distributive lattice --- with 0, 1, and complement $overline(a)$.
+#definition[Дистрибутивная решётка и булева алгебра][
+  Решётка называется *дистрибутивной*, если $a and (b or c) = (a and b) or (a and c)$.
+  Дистрибутивная решётка с дополнениями (с 0, 1 и дополнением $overline(a)$) называется *булевой алгеброй*.
 ]
 
 #note[
-  Propositional logic, set algebra, and Boolean algebra are the same abstract structure: a complemented distributive lattice.
+  Логика высказываний, алгебра множеств и булева алгебра --- одна и та же абстрактная структура: дистрибутивная решётка с дополнениями.
 ]
 
-=== Lexicographic Order and Topological Sort
+=== Лексикографический порядок и топологическая сортировка
 
-#definition[Lexicographic order][
-  $(a_1, b_1) <_"lex" (a_2, b_2)$ iff $a_1 < a_2$, or $a_1 = a_2$ and $b_1 < b_2$.
-  Extends to $n$-tuples and strings.
+#definition[Лексикографический порядок][
+  Порядок на парах, при котором $(a_1, b_1) <_"lex" (a_2, b_2)$ если $a_1 < a_2$ или $a_1 = a_2$ и $b_1 < b_2$, называется *лексикографическим порядком*, обозначается $<_"lex"$.
+  Обобщается на $n$-ки и строки.
 ]
 
-#definition[Topological sort][
-  A topological sort of a finite poset is a total order $<=$ extending $prec.eq$: $a prec.eq b arrow a <= b$.
-  Every finite poset has at least one topological sort.
+#definition[Топологическая сортировка][
+  Линейный порядок $<=$, расширяющий $prec.eq$ (то есть $a prec.eq b arrow a <= b$), называется *топологической сортировкой* конечного ЧУМ.
+  Каждое конечное ЧУМ имеет хотя бы одну топологическую сортировку.
 ]
 
 #remark[
-  Topological sorting: build systems (Make, Gradle), task scheduling, course prerequisites.
+  Топологическая сортировка: системы сборки (Make, Gradle), планирование задач, пререквизиты курсов.
 ]
 
-=== Applications of Orders
+=== Приложения порядков
 
 #remark[
-  *Type hierarchies*: subclassing is a partial order on types; multiple inheritance introduces joins. *Versioning*: semver is not total --- different major versions are incomparable. *Distributed systems*: Lamport's happens-before is a partial order capturing causality without synchronised clocks.
+  *Иерархии типов*: наследование --- частичный порядок на типах; множественное наследование вводит объединения. *Версионирование*: semver не линеен --- разные мажорные версии несравнимы. *Распределённые системы*: отношение happens-before Лампорта --- частичный порядок, фиксирующий причинность без синхронизированных часов.
 ]
 
 
-== Pigeonhole Principle
+== Принцип Дирихле
 
-#theorem[Pigeonhole principle][
-  - *Simple form*: $n+1$ objects in $n$ boxes $=>$ at least one box has $>= 2$ objects.
-  - *General form*: $m$ objects in $n$ boxes $=>$ some box has $>= ceil(m/n)$ objects.
+#theorem[Принцип Дирихле][
+  - *Простая форма*: $n+1$ объектов в $n$ ящиках $=>$ хотя бы в одном ящике $>= 2$ объектов.
+  - *Общая форма*: $m$ объектов в $n$ ящиках $=>$ в некотором ящике $>= ceil(m/n)$ объектов.
 ]
 
 #proof[
-  If every box held $<= ceil(m/n) - 1$ objects, the total would be $< n dot (m/n) = m$, contradicting the count.
+  Если бы в каждом ящике было $<= ceil(m/n) - 1$ объектов, общее количество было бы $< n dot (m/n) = m$, что противоречит подсчёту.
 ]
 
-In function language: if $|A| > |B|$, no injection $f: A -> B$ exists --- the mathematical essence of hash collisions.
+На языке функций: если $|A| > |B|$, инъекции $f: A -> B$ не существует --- математическая суть коллизий хеш-функций.
 
-=== Examples
-
-#example[
-  Among 367 people, two share a birthday (366 possible birthdays).
-]
+=== Примеры
 
 #example[
-  5 points in a unit square $=>$ two within distance $<= 1/sqrt{2}$.
-  Partition into four $1/2 times 1/2$ subsquares; two points in same subsquare.
+  Среди 367 человек двое имеют общий день рождения (366 возможных дней рождения).
 ]
 
 #example[
-  Any graph on $n >= 2$ vertices has two vertices with the same degree.
-  Degrees are ${0, ..., n-1}$; 0 and $n-1$ cannot both occur $=>$ at most $n-1$ distinct degrees.
+  5 точек в единичном квадрате $=>$ две на расстоянии $<= 1/sqrt{2}$.
+  Разобьём на четыре $1/2 times 1/2$ подквадрата; две точки в одном подквадрате.
 ]
 
-#proposition[Erdős--Szekeres][
-  Every sequence of $n^2 + 1$ distinct real numbers contains a monotone subsequence of length $n + 1$.
+#example[
+  В любом графе на $n >= 2$ вершинах найдутся две вершины с одинаковой степенью.
+  Степени --- ${0, ..., n-1}$; 0 и $n-1$ не могут встречаться одновременно $=>$ не более $n-1$ различных степеней.
+]
+
+#proposition[Теорема Эрдёша --- Секереша][
+  Всякая последовательность из $n^2 + 1$ различных вещественных чисел содержит монотонную подпоследовательность длины $n + 1$.
 ]
 
 #proof-sketch[
-  Label each element with $(italic("inc"), italic("dec"))$: the lengths of the longest increasing and decreasing subsequences ending at that element.
-  At most $n^2$ distinct labels if both are $<= n$.
-  With $n^2 + 1$ elements, pigeonhole forces some label to exceed $n$.
+  Пометим каждый элемент парой $(italic("inc"), italic("dec"))$: длины наибольшей возрастающей и убывающей подпоследовательностей, заканчивающихся в этом элементе.
+  Не более $n^2$ различных меток, если обе $<= n$.
+  С $n^2 + 1$ элементами принцип Дирихле заставляет некоторую метку превысить $n$.
 ]
 
 #remark[
-  The pigeonhole principle is the simplest case of Ramsey theory: "complete disorder is impossible."
-  Any large enough structure contains a highly ordered substructure.
+  Принцип Дирихле --- простейший случай теории Рамсея: "полный беспорядок невозможен".
+  Всякая достаточно большая структура содержит высокоупорядоченную подструктуру.
 ]

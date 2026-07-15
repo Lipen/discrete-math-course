@@ -1,23 +1,23 @@
-// Custom theorem environments — pure Typst block + counter.
-// Numbering resets at each = Heading chapter.
+// Русские theorem-окружения — чистый Typst: block + counter.
+// Нумерация сбрасывается на каждом = Heading (глава).
 // API:
-//   #definition[body]                 #definition[Subtitle][body]
-//   #theorem[body]                    #theorem[Name][body]
-//   #lemma[body]                      #lemma[Name][body]
-//   #corollary[body]                  #corollary[Name][body]
-//   #proposition[body]                #proposition[Name][body]
-//   #proof[body]                      #proof-sketch[body]
-//   #example[body]                    #example[Title][body]
-//   #note[body]                       #note[Title][body]
-//   #remark[body]                     #remark(inline: true)[body]
-//   #remark[Title][body]              #note(inline: true)[body]
-//   #chapter-overview[body]
+//   #definition[тело]                #definition[Подзаголовок][тело]
+//   #theorem[тело]                   #theorem[Название][тело]
+//   #lemma[тело]                     #lemma[Название][тело]
+//   #corollary[тело]                 #corollary[Название][тело]
+//   #proposition[тело]               #proposition[Название][тело]
+//   #proof[тело]                     #proof-sketch[тело]
+//   #example[тело]                   #example[Заголовок][тело]
+//   #note[тело]                      #note[Заголовок][тело]
+//   #remark[тело]                    #remark(inline: true)[тело]
+//   #remark[Заголовок][тело]         #note(inline: true)[тело]
+//   #chapter-overview[тело]
 //   #hrule
 
 #let def-ctr = counter("definition")
 #let thm-ctr = counter("theorem")
 
-// --- Display chapter-prefixed number: "2.14" ---
+// --- Номер с префиксом главы: "2.14" ---
 #let _ch-num(ctr) = context {
   let h = counter(heading).at(here())
   let ch = if h != none { h.first() }
@@ -25,7 +25,7 @@
   if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
 }
 
-// Parse ..args sink into (subtitle, body) pair.
+// Разбор ..args в (подзаголовок, тело).
 #let _args(pos) = {
   if pos.len() >= 2 {
     (pos.at(0), pos.at(1))
@@ -34,7 +34,7 @@
   }
 }
 
-// Shared helper: colored block with title and body.
+// Общий хелпер: цветной блок с заголовком и телом.
 #let _block(
   title: none,
   fill: none,
@@ -112,7 +112,7 @@
 }
 
 #let definition(inline: false, ..args) = _dispatch(
-  "Definition",
+  "Определение",
   def-ctr,
   oklch(55%, 0.18, 155deg),
   oklch(97%, 0.02, 155deg),
@@ -120,7 +120,7 @@
   ..args,
 )
 #let theorem(inline: false, ..args) = _dispatch(
-  "Theorem",
+  "Теорема",
   thm-ctr,
   oklch(55%, 0.15, 250deg),
   oklch(97%, 0.02, 250deg),
@@ -128,7 +128,7 @@
   ..args,
 )
 #let lemma(inline: false, ..args) = _dispatch(
-  "Lemma",
+  "Лемма",
   thm-ctr,
   oklch(55%, 0.14, 300deg),
   oklch(97%, 0.02, 300deg),
@@ -136,7 +136,7 @@
   ..args,
 )
 #let corollary(inline: false, ..args) = _dispatch(
-  "Corollary",
+  "Следствие",
   thm-ctr,
   oklch(55%, 0.18, 22deg),
   oklch(97%, 0.02, 22deg),
@@ -144,7 +144,7 @@
   ..args,
 )
 #let proposition(inline: false, ..args) = _dispatch(
-  "Proposition",
+  "Утверждение",
   thm-ctr,
   oklch(55%, 0.16, 195deg),
   oklch(97%, 0.02, 195deg),
@@ -152,9 +152,9 @@
   ..args,
 )
 
-// --- QED placement ---
-// Use #qed manually inside a proof body to place the QED symbol.
-// Show rules handle proper placement inside lists, block equations, and plain text.
+// --- Размещение QED ---
+// Используй #qed вручную внутри доказательства для размещения символа QED.
+// Show-правила корректно размещают его внутри списков, выключных уравнений и текста.
 #let qed = metadata("qed-here")
 
 #let _has-qed(x) = {
@@ -172,7 +172,7 @@
   false
 }
 
-// Call once from common-notes.typ after all imports.
+// Вызови один раз из common-notes.typ после всех импортов.
 #let setup-qed-rules() = {
   show metadata.where(value: "qed-here"): it => {
     h(1fr)
@@ -207,10 +207,10 @@
   }
 }
 
-// --- Unnumbered block environments ---
+// --- Ненумерованные блоки ---
 
 #let proof(body) = _block(
-  title: strong[Proof:] + v(0.2em),
+  title: strong[Доказательство:] + v(0.2em),
   fill: luma(97%),
   stroke: (left: 2pt + luma(78%), rest: none),
   inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
@@ -218,7 +218,7 @@
 )
 
 #let proof-sketch(body) = _block(
-  title: strong[Proof sketch:] + v(0.2em),
+  title: strong[Набросок доказательства:] + v(0.2em),
   fill: luma(97%),
   stroke: (left: 2pt + luma(78%), rest: none),
   inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
@@ -228,11 +228,11 @@
 #let example(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    if inline { emph[Example (#sub):] } else { emph[Example (#sub)] }
+    if inline { emph[Пример (#sub):] } else { emph[Пример (#sub)] }
   } else if inline {
-    emph[Example:]
+    emph[Пример:]
   } else {
-    emph[Example]
+    emph[Пример]
   }
   _block(
     title: title,
@@ -247,11 +247,11 @@
 #let note(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    strong[Note: #sub]
+    strong[Примечание: #sub]
   } else if inline {
-    strong[Note:]
+    strong[Примечание:]
   } else {
-    strong[Note]
+    strong[Примечание]
   }
   _block(
     title: title,
@@ -266,11 +266,11 @@
 #let remark(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    strong[Remark: #sub]
+    strong[Замечание: #sub]
   } else if inline {
-    strong[Remark:]
+    strong[Замечание:]
   } else {
-    strong[Remark]
+    strong[Замечание]
   }
   _block(
     title: title,
@@ -288,7 +288,7 @@
 }
 
 #let chapter-overview(body) = _block(
-  title: strong[Chapter overview] + v(0.2em),
+  title: strong[Обзор главы] + v(0.2em),
   fill: luma(95%),
   stroke: none,
   inset: 1em,

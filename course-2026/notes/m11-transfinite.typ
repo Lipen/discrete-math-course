@@ -1,172 +1,174 @@
-// M11 --- Transfinite: counting beyond the finite.
+// M11 --- Трансфинитное: счёт за пределами конечного.
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-= Transfinite Overview
+= Трансфинитное: обзор
 
 #chapter-overview[
-  How big is infinity?
-  This chapter introduces cardinality as the rigorous measure of set size, proves that some infinities are larger than others (Cantor's diagonal argument), and sketches the landscape beyond: ordinals, the Continuum Hypothesis, and the Axiom of Choice.
-  The treatment is conceptual --- the goal is to appreciate the structure of the infinite, not to master axiomatic set theory.
+  Насколько велика бесконечность?
+  Эта глава вводит мощность как строгую меру размера множества, доказывает, что одни бесконечности больше других (диагональный аргумент Кантора), и обрисовывает дальнейший ландшафт: ординалы, континуум-гипотезу и аксиому выбора.
+  Изложение концептуальное --- цель в том, чтобы оценить структуру бесконечного, а не освоить аксиоматическую теорию множеств.
 ]
 
-== Cardinality
+== Мощность
 
-=== Equinumerosity
+=== Равномощность
 
-#definition[Equinumerosity][
-  $|A| = |B|$ if there exists a bijection $f: A -> B$.
-  A set is *finite* if equinumerous with ${1, ..., n}$ for some $n in NN$; otherwise *infinite*.
+#definition[Равномощность][
+  Два множества $A$ и $B$ называются *равномощными*, обозначается $|A| = |B|$, если существует биекция $f: A -> B$.
+  Множество называется *конечным*, если оно равномощно ${1, ..., n}$ для некоторого $n in NN$; в противном случае называется *бесконечным*.
 ]
 
-#definition[Countable and uncountable][
-  - $A$ is *countable* if finite or equinumerous with $NN$.
-  - $A$ is *uncountable* if infinite but not countable.
+#definition[Счётные и несчётные][
+  - Множество $A$ называется *счётным*, если оно конечно или равномощно $NN$.
+  - Множество $A$ называется *несчётным*, если оно бесконечно, но не счётно.
 ]
 
-=== Countable Sets
+=== Счётные множества
 
-#theorem[$ZZ$ and $QQ$ are countable][
-  - $ZZ$: bijection $0, 1, -1, 2, -2, ...$ given by $f(n) =$ if $n$ even: $n/2$, if $n$ odd: $-(n+1)/2$.
-  - $QQ$: list fractions $p/q$ in reduced form by $|p| + q$ (height), then within each height by numerator.
-  Height 1: $0/1$.
-  Height 2: $-1/1$, $1/1$.
-  Height 3: $-2/1$, $-1/2$, $1/2$, $2/1$.
-  And so on.
-  This is Cantor's first diagonal argument --- enumerate all pairs $(p, q)$ and skip non-reduced fractions.
+#theorem[$ZZ$ и $QQ$ счётны][
+  - $ZZ$: биекция $0, 1, -1, 2, -2, ...$, заданная как $f(n) =$, если $n$ чётно: $n/2$, если $n$ нечётно: $-(n+1)/2$.
+  - $QQ$: перечисляем дроби $p/q$ в несократимой форме по $|p| + q$ (высота), затем внутри каждой высоты --- по числителю.
+  Высота 1: $0/1$.
+  Высота 2: $-1/1$, $1/1$.
+  Высота 3: $-2/1$, $-1/2$, $1/2$, $2/1$.
+  И так далее.
+  Это первый диагональный аргумент Кантора --- перечисляем все пары $(p, q)$ и пропускаем сократимые дроби.
 ]
 
 #note[
-  $QQ$ is dense (between any two rationals there is another), yet it is "the same size" as $NN$.
-  Cardinality disregards topology --- a profound conceptual shift.
+  $QQ$ плотно (между любыми двумя рациональными числами есть ещё одно), и тем не менее оно "того же размера", что и $NN$.
+  Мощность игнорирует топологию --- глубокий концептуальный сдвиг.
 ]
 
-=== Uncountability of $RR$
+=== Несчётность $RR$
 
-#theorem[Cantor's diagonal argument][
-  $RR$ is uncountable.
+#theorem[Диагональный аргумент Кантора][
+  $RR$ несчётно.
 ]
 
 #proof[
-  Show $(0, 1)$ is uncountable.
+  Покажем, что $(0, 1)$ несчётно.
 
-  Suppose $r_1, r_2, ...$ enumerates all reals in $(0, 1)$ in decimal:
+  Предположим, $r_1, r_2, ...$ перечисляет все действительные числа из $(0, 1)$ в десятичной записи:
   $r_1 = 0.d_(11) d_(12) d_(13) ...$
   $r_2 = 0.d_(21) d_(22) d_(23) ...$
 
-  Construct $r = 0.e_1 e_2 e_3 ...$ where $e_i = 4$ if $d_(i i) eq.not 4$, else $e_i = 5$.
-  Then $r$ differs from $r_i$ at the $i$-th digit, so $r$ is not in the list.
-  Contradiction.
-  Therefore $(0, 1)$ is uncountable.
+  Построим $r = 0.e_1 e_2 e_3 ...$, где $e_i = 4$, если $d_(i i) eq.not 4$, иначе $e_i = 5$.
+  Тогда $r$ отличается от $r_i$ в $i$-й цифре, так что $r$ отсутствует в списке.
+  Противоречие.
+  Следовательно, $(0, 1)$ несчётно.
 ]
 
-#corollary[Cantor's theorem][
-  $|A| < |cal(P)(A)|$ for any set $A$.
+#corollary[Теорема Кантора][
+  $|A| < |cal(P)(A)|$ для любого множества $A$.
 ]
 
 #proof[
-  Define $D = {a in A mid(|) a in.not f(a)}$.
-  If $D = f(d)$ for some $d in A$, then $d in D$ iff $d in.not D$, a contradiction.
-  Hence $f$ is not surjective.
-  Since $f$ was arbitrary, no surjection $A -> cal(P)(A)$ exists, so $|A| < |cal(P)(A)|$.
+  Определим $D = {a in A mid(|) a in.not f(a)}$.
+  Если $D = f(d)$ для некоторого $d in A$, то $d in D$ тогда и только тогда, когда $d in.not D$ --- противоречие.
+  Следовательно, $f$ не сюръективна.
+  Поскольку $f$ произвольна, не существует сюръекции $A -> cal(P)(A)$, так что $|A| < |cal(P)(A)|$.
 ]
 
-=== The Continuum Hypothesis
+=== Континуум-гипотеза
 
-#definition[Cardinal numbers][
-  $|NN| = aleph_0$.
-  $|RR| = |cal(P)(NN))| = 2^(aleph_0)$.
+#definition[Кардинальные числа][
+  Мощность множества $NN$ называется *$aleph_0$* (алеф-нуль), обозначается $|NN| = aleph_0$.
+  Мощность множества $RR$ называется *континуумом*, обозначается $|RR| = |cal(P)(NN)| = 2^(aleph_0)$.
 ]
 
-Cantor's question: is there a set $A$ with $aleph_0 < |A| < 2^(aleph_0)$?
-The *Continuum Hypothesis* (CH): no such set exists --- $2^(aleph_0) = aleph_1$.
+Вопрос Кантора: существует ли множество $A$ такое, что $aleph_0 < |A| < 2^(aleph_0)$?
+
+*Континуум-гипотеза* (CH): такого множества не существует, то есть $2^(aleph_0) = aleph_1$.
 
 #note[
-  CH is independent of ZFC: Gödel (1940) proved it consistent; Cohen (1963) proved its negation consistent.
-  CH is neither provable nor disprovable in standard set theory --- a genuine choice about the nature of sets.
+  CH независима от ZFC: Гёдель (1940) доказал её совместимость; Коэн (1963) доказал совместимость её отрицания.
+  CH нельзя ни доказать, ни опровергнуть в стандартной теории множеств --- это настоящий выбор о природе множеств.
 ]
 
 
-#remark[Cardinal arithmetic][
-  - $aleph_0 + aleph_0 = aleph_0$: two countably infinite sets together are still countable.
-  - $aleph_0 dot aleph_0 = aleph_0$: countably many countable sets (e.g., $NN times NN$) are still countable.
-  - $2^(aleph_0) = |RR|$: the power set of $NN$ has the cardinality of the continuum.
-  - Under AC, cardinal addition and multiplication are trivial for infinite cardinals: $kappa + lambda = kappa dot lambda = max(kappa, lambda)$.
-    Cardinal exponentiation is the interesting operation (Cantor's theorem, CH, Easton's theorem).
+#remark[Кардинальная арифметика][
+  - $aleph_0 + aleph_0 = aleph_0$: два счётно-бесконечных множества вместе всё ещё счётны.
+  - $aleph_0 dot aleph_0 = aleph_0$: счётное число счётных множеств (например, $NN times NN$) всё ещё счётно.
+  - $2^(aleph_0) = |RR|$: множество-степень $NN$ имеет мощность континуума.
+  - При AC кардинальное сложение и умножение тривиальны для бесконечных кардиналов: $kappa + lambda = kappa dot lambda = max(kappa, lambda)$.
+    Кардинальное возведение в степень --- интересная операция (теорема Кантора, CH, теорема Истона).
 ]
 
-== Ordinals and the Axiom of Choice
+== Ординалы и аксиома выбора
 
-=== Ordinals (Idea)
+=== Ординалы (идея)
 
 #note[
-  Cardinals measure "how many"; ordinals measure "in what order."
+  Кардиналы измеряют "сколько"; ординалы измеряют "в каком порядке".
 ]
 
-#definition[Ordinal --- informal][
-  An *ordinal* is the order type of a well-ordered set.
-  Finite ordinals: $0, 1, 2, ...$.
-  First infinite ordinal: $omega$ (order type of $NN$).
-  Then $omega+1$, $omega+2$, ..., $omega dot 2$, ..., $omega^2$, ..., $omega^omega$, ...
-]
-
-#note[
-  Ordinals generalise counting beyond the finite. They are the foundation of transfinite induction.
-]
-
-#definition[Ordinal arithmetic --- informal][
-  - *Successor*: $alpha + 1$ is the next ordinal after $alpha$ (like $omega + 1$ --- "infinity and then one more").
-  - *Limit ordinals*: ordinals with no immediate predecessor, such as $omega$, $omega dot 2$, $omega^2$.
-  - *Addition*: $1 + omega = omega$ (one then infinitely many = just infinitely many), $omega + 1 > omega$ (infinitely many then one more).\ Addition is not commutative.
-  - *Multiplication*: $omega dot 2 = omega + omega$ (infinitely many, then infinitely many again). $2 dot omega = omega$ (two, repeated infinitely = just $omega$).\ Not commutative either.
-]
-
-#remark[Transfinite induction][
-  To prove $forall alpha$ a property holds:
-  1. Base: prove for $alpha = 0$.
-  2. Successor step: if holds for $alpha$, prove for $alpha + 1$.
-  3. Limit step: if holds for all $beta < lambda$ ($lambda$ a limit ordinal), prove for $lambda$.
-  Transfinite induction is essential for proving results about well-orderings, ordinals, and in set theory.
-]
-
-=== Axiom of Choice
-
-#definition[Axiom of Choice (AC)][
-  For any family ${A_i}_(i in I)$ of non-empty sets, $product A_i eq.not nothing$ --- there exists a choice function selecting one element from each set.
+#definition[Ординал --- неформально][
+  Порядковый тип вполне упорядоченного множества называется *ординалом*.
+  Конечные ординалы: $0, 1, 2, ...$.
+  Первый бесконечный ординал: $omega$ (порядковый тип $NN$).
+  Затем $omega+1$, $omega+2$, ..., $omega dot 2$, ..., $omega^2$, ..., $omega^omega$, ...
 ]
 
 #note[
-  AC is independent of ZF: it is neither provable nor refutable from the other axioms of set theory.
+  Ординалы обобщают счёт за пределы конечного. Они являются основой трансфинитной индукции.
 ]
 
-#proposition[Equivalents of AC][
-  - *Zorn's Lemma*: if every chain in a poset has an upper bound, the poset has a maximal element.
-  - *Well-Ordering Theorem*: every set can be well-ordered.
-  - *Every vector space has a basis*.
-  - *Tychonoff's theorem* (product of compact spaces is compact).
+#definition[Ординальная арифметика --- неформально][
+  - Ординал $alpha + 1$ называется *последователем* $alpha$ (как $omega + 1$ --- "бесконечность и затем ещё один").
+  - Ординалы без непосредственного предшественника, такие как $omega$, $omega dot 2$, $omega^2$, называются *предельными ординалами*.
+  - *Сложение*: $1 + omega = omega$ (один, затем бесконечно много = просто бесконечно много), $omega + 1 > omega$ (бесконечно много, затем ещё один).\ Сложение не коммутативно.
+  - *Умножение*: $omega dot 2 = omega + omega$ (бесконечно много, затем снова бесконечно много). $2 dot omega = omega$ (два, повторённые бесконечно = просто $omega$).\ Тоже не коммутативно.
+]
+
+#remark[Трансфинитная индукция][
+  Чтобы доказать $forall alpha$, что свойство выполнено:
+  + База: доказать для $alpha = 0$.
+  + Шаг последователя: если выполнено для $alpha$, доказать для $alpha + 1$.
+  + Предельный шаг: если выполнено для всех $beta < lambda$ (где $lambda$ --- предельный ординал), доказать для $lambda$.
+
+  Трансфинитная индукция существенна для доказательства результатов о вполне упорядочениях, ординалах и в теории множеств.
+]
+
+=== Аксиома выбора
+
+#definition[Аксиома выбора (AC)][
+  Утверждение о существовании функции выбора для любого семейства ${A_i}_(i in I)$ непустых множеств, обозначается $product A_i eq.not emptyset$, называется *аксиомой выбора* (AC).
+]
+
+#note[
+  AC независима от ZF: её нельзя ни доказать, ни опровергнуть из остальных аксиом теории множеств.
+]
+
+#proposition[Эквиваленты AC][
+  - *Лемма Цорна*: если каждая цепь в частично упорядоченном множестве имеет верхнюю грань, то множество имеет максимальный элемент.
+  - *Теорема о вполне упорядочении*: каждое множество может быть вполне упорядочено.
+  - *Каждое векторное пространство имеет базис*.
+  - *Теорема Тихонова* (произведение компактных пространств компактно).
 ]
 
 #remark[
-  AC is non-constructive --- it asserts existence without providing a construction.
-  Historically controversial (Zermelo, 1904); now accepted by the vast majority of mathematicians.
-  The interesting question is not "is AC true?" but "what happens with and without it?"
+  AC неконструктивна --- она утверждает существование, не предоставляя построения.
+  Исторически спорна (Цермело, 1904); в настоящее время принята подавляющим большинством математиков.
+  Интересный вопрос не "верна ли AC?", а "что происходит с ней и без неё?"
 ]
 
-=== The Banach-Tarski Paradox
+=== Парадокс Банаха-Тарского
 
-#proposition[Banach-Tarski][
-  Using AC, a solid ball in $RR^3$ can be decomposed into finitely many pieces and reassembled (by rotations and translations) into two solid balls, each identical to the original.
+#proposition[Банах-Тарский][
+  С использованием AC сплошной шар в $RR^3$ может быть разложен на конечное число частей и собран заново (поворотами и переносами) в два сплошных шара, каждый из которых идентичен исходному.
 ]
 
 #remark[
-  This is not a contradiction: the pieces are non-measurable (no well-defined volume).
-  AC enables constructions beyond physical intuition without breaking logical consistency.
+  Это не противоречие: части неизмеримы (не имеют корректно определённого объёма).
+  AC позволяет строить конструкции за пределами физической интуиции, не нарушая логической непротиворечивости.
 ]
 
 #note[
-  The transfinite is the mathematical basis for:
-  - Existence of maximal ideals (Zorn's Lemma).
-  - Hahn-Banach theorem in functional analysis.
-  - Compactness theorem in model theory.
-  The infinite, properly handled, is as rigorous as the finite.
+  Трансфинитное является математической основой для:
+  - Существования максимальных идеалов (лемма Цорна).
+  - Теоремы Хана-Банаха в функциональном анализе.
+  - Теоремы компактности в теории моделей.
+  Бесконечное, при корректном обращении, столь же строго, как и конечное.
 ]

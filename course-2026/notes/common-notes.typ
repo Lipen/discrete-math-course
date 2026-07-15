@@ -1,27 +1,27 @@
-// Self-contained A4 style for Discrete Math lecture notes.
-// No dependency on the slide infrastructure (typst/common.typ, requirements.typ).
-// Imported by all topic files and book assembly files.
+// Автономный A4-стиль для конспекта по дискретной математике (русская версия).
+// Не зависит от слайдовой инфраструктуры (typst/common.typ, requirements.typ).
+// Импортируется всеми файлами тем и файлами сборки.
 
-// --- Package imports ---
+// --- Импорты пакетов ---
 #import "@preview/cetz:0.5.2"
 
-// --- Our theorem library ---
+// --- Наша библиотека теорем (русская) ---
 #import "theorems.typ": *
 
-// Page geometry is set in s1-book.typ / s2-book.typ — set rules from imported
-// modules do not affect the root document.
+// Геометрия страницы задаётся в s1-book.typ / s2-book.typ ---
+// set-правила из импортированных модулей не влияют на корневой документ.
 
-// --- Typography ---
-#set text(font: "Libertinus Serif", size: 12pt, lang: "en")
+// --- Типографика ---
+#set text(font: "Libertinus Serif", size: 12pt, lang: "ru")
 #set par(justify: true, leading: 0.65em)
 
-// --- Headings ---
+// --- Заголовки ---
 #show heading.where(level: 1): set text(size: 24pt, weight: "bold")
 #show heading.where(level: 2): set text(size: 18pt, weight: "bold")
 #show heading.where(level: 3): set text(size: 14pt, weight: "bold")
 #show heading.where(level: 4): set text(size: 12pt, style: "italic")
 
-// --- Number headings (3 levels: 1, 1.1, 1.1.1) ---
+// --- Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1) ---
 #set heading(numbering: "1.1.1")
 #show heading.where(level: 1): it => {
   pagebreak()
@@ -30,22 +30,22 @@
   it
 }
 
-// --- Mathematics ---
+// --- Математика ---
 #set math.mat(column-gap: 1em)
 #show sym.emptyset: set text(font: "Libertinus Sans")
 
-// --- Tables ---
+// --- Таблицы ---
 #set table(inset: (x: 10pt, y: 4pt))
 #show table.cell.where(y: 0): strong
 
-// --- Figures: centered by default ---
+// --- Рисунки: по центру по умолчанию ---
 #set figure(gap: 8pt)
 #show figure: it => align(center, it)
 
-// --- Show i.e., e.g., etc. in italic ---
+// --- Show-правила для латинских сокращений (не требуются в русском, но оставлены для совместимости) ---
 #show "i.e.": set text(style: "italic")
 #show "e.g.": set text(style: "italic")
 #show "etc.": set text(style: "italic")
 
-// --- QED placement rules (from theorems.typ) ---
+// --- QED-правила размещения (из theorems.typ) ---
 #setup-qed-rules()
