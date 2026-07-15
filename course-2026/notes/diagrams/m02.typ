@@ -42,9 +42,11 @@
 // ── Subset: A ⊂ B ──
 #let venn-subset = canvas({
   import draw: *
-  circle((0, 0), radius: 1.15, fill: cb, stroke: c-str)
-  circle((0, 0), radius: r, fill: ca, stroke: c-str)
-  label((0, 0.3), $A$)
-  label((0, -0.7), $B$)
+  // B is an oval (ellipse)
+  circle((0, 0), radius: (1.4, 1.1), fill: cb, stroke: c-str)
+  label((1.5, 0), $B$)
+  // A is a circle inside B, offset to the left
+  circle((-0.3, 0), radius: r, fill: ca, stroke: c-str)
+  label((-0.3, 0), $A$)
   label((0, 1.35), $A subset B$)
 })
