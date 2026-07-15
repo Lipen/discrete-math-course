@@ -30,7 +30,7 @@
 )
 
 // ── Helpers (re-import cetz.draw inside) ──
-#let node(pos, label, radius: 0.3) = {
+#let node(pos, label, radius: 0.38) = {
   import cetz.draw: circle, content
   circle(
     pos,
@@ -42,7 +42,7 @@
   content(pos)[#text(fill: c-n-text, weight: "bold")[#label]]
 }
 
-#let snode(pos, label) = { node(pos, label, radius: 0.2) }
+#let snode(pos, label) = { node(pos, label, radius: 0.28) }
 
 // ── 1. Simple undirected graph ──
 #let simple-graph = cetz.canvas({
@@ -83,11 +83,11 @@
   // Nodes FIRST : named so line() routes border-to-border
   // Labels placed outside (anchor: "west"/"east") since nodes are small dots.
   for (i, p) in left.enumerate() {
-    circle(p, radius: 0.2, fill: c-pa-dot, name: "l" + str(i + 1))
+    circle(p, radius: 0.28, fill: c-pa-dot, name: "l" + str(i + 1))
     content(p, $v_i$, anchor: "west", outset: 0.3em, size: .8em)
   }
   for (i, p) in right.enumerate() {
-    circle(p, radius: 0.2, fill: c-pb-dot, name: "r" + str(i + 1))
+    circle(p, radius: 0.28, fill: c-pb-dot, name: "r" + str(i + 1))
     content(p, $u_i$, anchor: "east", outset: 0.3em, size: .8em)
   }
   // Edges : node names, not coordinates
@@ -113,10 +113,10 @@
   rect((-1.8, -0.8), (2.8, -2.2), radius: 5pt, fill: c-pb-fill, stroke: none)
   // Nodes FIRST
   for (i, p) in top.enumerate() {
-    circle(p, radius: 0.3, fill: c-pa-dot, name: "t" + str(i + 1))
+    circle(p, radius: 0.38, fill: c-pa-dot, name: "t" + str(i + 1))
   }
   for (i, p) in bot.enumerate() {
-    circle(p, radius: 0.3, fill: c-pb-dot, name: "b" + str(i + 1))
+    circle(p, radius: 0.38, fill: c-pb-dot, name: "b" + str(i + 1))
   }
   // Edges : node names
   line("t1", "b1", stroke: (paint: c-edge, thickness: 0.7pt))
@@ -145,7 +145,7 @@
   ) {
     circle(
       (x, y),
-      radius: 0.2,
+      radius: 0.28,
       fill: c-t-fill,
       stroke: (paint: c-t-border, thickness: 0.8pt),
       name: lab,
@@ -155,7 +155,7 @@
   for (x, y, lab) in ((-2.7, -1.5, "g"), (-1.2, -1.5, "h"), (0.2, -1.5, "i")) {
     circle(
       (x, y),
-      radius: 0.2,
+      radius: 0.28,
       fill: none,
       stroke: (paint: c-t-border, thickness: 0.8pt),
       name: lab,
@@ -183,7 +183,7 @@
   import cetz.draw: *
   let v = ((0, 2.5), (-2, 0.5), (2, 0.5), (-1.5, -1.5), (1.5, -1.5))
   // Nodes FIRST
-  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.25) }
+  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.33) }
   // Thin edges with weight labels : each edge has a `rel:` offset to place the label beside (not on) the line.
   // Offsets are perpendicular to the edge direction.
   for (ai, bi, w, off) in (
@@ -222,7 +222,7 @@
   import cetz.draw: *
   let v = ((0, 2.2), (0, -2.2), (-2, 0), (2, 0))
   let names = ("A", "B", "C", "D")
-  let r = 0.42
+  let r = 0.52
 
   // Point on circle border in direction of `toward`
   let rim(center, toward) = {
@@ -306,7 +306,7 @@
     (-2.4, 1.3),
   )
   // Nodes FIRST
-  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.22) }
+  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.3) }
   // Outer cycle
   line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
   line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
@@ -339,7 +339,7 @@
   // content(..., frame: "circle") guarantees text is centered in the circle.
   for (i, p) in v.enumerate() {
     let c = c-colors.at(ci.at(i))
-    let sz = if i == 0 { 0.38 } else { 0.3 }
+    let sz = if i == 0 { 0.45 } else { 0.38 }
     content(
       p,
       [#text(weight: "bold")[#str(i)]],
@@ -469,7 +469,7 @@
     (0.8, -0.5),
     (2.8, -0.5),
   )
-  let r = 0.25 // node radius (matches node() call below)
+  let r = 0.33 // node radius (matches node() call below)
 
   // Point on circle border
   let rim(center, toward) = {
@@ -482,7 +482,7 @@
   // Nodes FIRST
   let anchors = ("north", "west", "east", "south", "south", "south", "south")
   for (i, p) in v.enumerate() {
-    node(p, str(i + 1), radius: 0.25)
+    node(p, str(i + 1), radius: 0.33)
     content(
       p,
       anchor: anchors.at(i),
