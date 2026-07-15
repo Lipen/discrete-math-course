@@ -176,8 +176,7 @@
     pascals-triangle, pascals-recurrence,
   ),
   caption: [
-    Треугольник Паскаля (строки 0--7) и рекуррентное соотношение:
-    $binom(n, k) = binom(n-1, k-1) + binom(n-1, k)$.
+    Треугольник Паскаля (строки 0--7) и рекуррентное соотношение Паскаля.
   ],
 ) <fig:pascals-triangle>
 
