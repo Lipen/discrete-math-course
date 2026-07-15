@@ -43,7 +43,7 @@
 #let venn-subset = canvas({
   import draw: *
   // B is an oval
-  circle((0, 0), radius: (1.4, r + 0.05), fill: cb, stroke: c-str)
+  circle((0, 0), radius: (1.2, r + 0.05), fill: cb, stroke: c-str)
   label((0.8, 0), $B$)
   // A is a smaller circle inside B, offset to the left
   circle((-0.35, 0), radius: 0.6, fill: ca, stroke: c-str)
