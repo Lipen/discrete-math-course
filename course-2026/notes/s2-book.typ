@@ -51,9 +51,11 @@
     #text(tracking: 0.14em, weight: "semibold")[ДИСКРЕТНАЯ МАТЕМАТИКА · КОНСПЕКТ]
     #h(1fr)
     #{
-      let hs = query(heading.where(level: 1).before(here()))
-      if hs != () {
-        text(style: "italic", fill: luma(35%))[#hs.last().body]
+      let pg = counter(page).get().first()
+      let hs = query(heading.where(level: 1))
+      let ch = hs.rev().find(h => counter(page).at(h.location()).first() <= pg)
+      if ch != none {
+        text(style: "italic", fill: luma(35%))[#ch.body]
       }
     }
     #v(4pt)

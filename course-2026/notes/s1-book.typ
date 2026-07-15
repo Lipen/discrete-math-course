@@ -53,9 +53,11 @@
     ]
     #h(1fr)
     #{
-      let hs = query(heading.where(level: 1).before(here()))
-      if hs != () {
-        text(style: "italic", fill: luma(35%))[#hs.last().body]
+      let pg = counter(page).get().first()
+      let hs = query(heading.where(level: 1))
+      let ch = hs.rev().find(h => counter(page).at(h.location()).first() <= pg)
+      if ch != none {
+        text(style: "italic", fill: luma(35%))[#ch.body]
       }
     }
     #line(length: 100%, stroke: 0.3pt + luma(85%))
