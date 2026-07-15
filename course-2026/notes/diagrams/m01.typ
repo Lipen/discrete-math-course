@@ -1,4 +1,4 @@
-// M01 diagrams — parse trees and logic visualizations.
+// M01 diagrams: parse trees and logic visualizations.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "../notation.typ": iff, imply
 

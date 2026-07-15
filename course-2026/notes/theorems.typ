@@ -1,4 +1,4 @@
-// Русские theorem-окружения — чистый Typst: block + counter.
+// Русские theorem-окружения : чистый Typst: block + counter.
 // Нумерация сбрасывается на каждом = Heading (глава).
 // API:
 //   #definition[тело]                #definition[Подзаголовок][тело]

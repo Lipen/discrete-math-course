@@ -20,7 +20,7 @@
 #let card(x) = $abs(#x)$
 #let choose(n, k) = $binom(#n, #k)$
 #let perm(n, k) = $P(#n, #k)$
-// Composition ∘ is the built-in Typst symbol `compose` — use directly: $g compose f$
+// Composition ∘ is the built-in Typst symbol `compose` : use directly: $g compose f$
 #let id(x) = $"id"_#x$
 #let inv(x) = $#x^(-1)$
 #let rel(x) = math.class("relation", x)

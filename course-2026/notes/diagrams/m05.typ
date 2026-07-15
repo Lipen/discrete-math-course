@@ -1,4 +1,4 @@
-// M05 Hasse diagrams — fletcher for poset visualization.
+// M05 Hasse diagrams : fletcher for poset visualization.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
 #let c-node = oklch(88%, 0.03, 250deg)
@@ -31,7 +31,7 @@
   edge(<d6>, <d12>, "-"),
 )
 
-// ── 2. Simple total order {1,2,3} — just a chain ──
+// ── 2. Simple total order {1,2,3} : just a chain ──
 #let hasse-chain-3 = diagram(
   node-stroke: (paint: c-node-str, thickness: 0.8pt),
   node-fill: c-node,
