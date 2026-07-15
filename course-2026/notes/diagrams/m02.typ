@@ -19,21 +19,11 @@
 })
 
 // ── Intersection: A ∩ B ──
-// Lens = two arcs (right of A, left of B) merged into one closed path.
+// Two overlapping circles with semi-transparent fills;
+// the overlap region naturally shows as the mix of both colors.
 #let venn-intersection = canvas({
-  let a = 65.7deg
-  let b = 114.3deg
-  draw.merge-path(
-    {
-      draw.arc((-0.35, 0), start: -a, stop: a, radius: r, stroke: none)
-      draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r, stroke: none)
-    },
-    close: true,
-    fill: ca,
-    stroke: none,
-  )
-  draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
-  draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
+  draw.circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
+  draw.circle((0.35, 0), radius: r, fill: cb, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A inter B$)
