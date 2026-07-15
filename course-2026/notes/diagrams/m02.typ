@@ -11,46 +11,40 @@
 
 // ── Union: A ∪ B ──
 #let venn-union = canvas({
-  import draw: *
-  circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
-  circle((0.35, 0), radius: r, fill: cb, stroke: c-str)
+  draw.circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
+  draw.circle((0.35, 0), radius: r, fill: cb, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A union B$)
 })
 
 // ── Intersection: A ∩ B ──
-// The overlap region is a lens formed by two circular arcs:
-// right arc from circle A, left arc from circle B.
-// Intersection points at (0, ±√(r² - d²)) where d = 0.35.
 #let venn-intersection = canvas({
-  import draw: *
   let a = 65.7deg
   let b = 114.3deg
-  // Lens fill: right arc from circle A, left arc from circle B
-  merge-path({
-    arc((-0.35, 0), start: -a, stop: a, radius: r)
-    arc((0.35, 0), start: b, stop: 180deg + a, radius: r)
-  }, close: true, fill: ca)
-  // A and B outlines
-  circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
-  circle((0.35, 0), radius: r, fill: none, stroke: c-str)
+  draw.merge-path(
+    {
+      draw.arc((-0.35, 0), start: -a, stop: a, radius: r)
+      draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r)
+    },
+    close: true,
+    fill: ca,
+  )
+  draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
+  draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A inter B$)
 })
 
 // ── Difference: A \ B ──
-// A fill (behind), then B with white fill to erase the overlap,
-// then A stroke-only (on top) to restore the A outline.
 #let venn-difference = canvas({
-  import draw: *
   // A fill only (behind)
-  circle((-0.35, 0), radius: r, fill: ca, stroke: none)
-  // B with white fill to "cut out" the overlap, plus B stroke
-  circle((0.35, 0), radius: r, fill: white, stroke: c-str)
+  draw.circle((-0.35, 0), radius: r, fill: ca, stroke: none)
+  // B with white fill to "cut out" the overlap
+  draw.circle((0.35, 0), radius: r, fill: white, stroke: c-str)
   // A stroke restored on top
-  circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
+  draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A setminus B$)
@@ -58,12 +52,11 @@
 
 // ── Subset: A ⊂ B ──
 #let venn-subset = canvas({
-  import draw: *
   // B is an oval
-  circle((0, 0), radius: (1.2, r + 0.05), fill: cb, stroke: c-str)
+  draw.circle((0, 0), radius: (1.2, r + 0.05), fill: cb, stroke: c-str)
   label((0.8, 0), $B$)
   // A is a smaller circle inside B, offset to the left
-  circle((-0.35, 0), radius: 0.6, fill: ca, stroke: c-str)
+  draw.circle((-0.35, 0), radius: 0.6, fill: ca, stroke: c-str)
   label((-0.35, 0), $A$)
   label((0, r + 0.5), $A subset B$)
 })
