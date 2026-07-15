@@ -37,7 +37,7 @@
     node-outset: 0pt,
     spacing: 2em,
 
-    // Tree structure — root at top, leaves at bottom
+    // Tree structure: root at top, leaves at bottom
     cn((0, 0), $imply$, name: <root>),
     cn((-2, 1), $and$, name: <and>),
     an((2, 1), $r$, name: <r>),
