@@ -30,12 +30,16 @@
 })
 
 // ── Difference: A \ B ──
-// A filled; B with no fill, stroke only. The overlap shows A's fill
-// with B's stroke on top — the visual emphasis is on A's exclusive region.
+// A fill (behind), then B with white fill to erase the overlap,
+// then A stroke-only (on top) to restore the A outline.
 #let venn-difference = canvas({
   import draw: *
-  circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
-  circle((0.35, 0), radius: r, fill: none, stroke: c-str)
+  // A fill only (behind)
+  circle((-0.35, 0), radius: r, fill: ca, stroke: none)
+  // B with white fill to "cut out" the overlap, plus B stroke
+  circle((0.35, 0), radius: r, fill: white, stroke: c-str)
+  // A stroke restored on top
+  circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A setminus B$)
