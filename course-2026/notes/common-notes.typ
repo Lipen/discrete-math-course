@@ -17,7 +17,7 @@
 #let notes-template(it) = {
   // Типографика
   set text(font: "Libertinus Serif", size: 12pt, lang: "ru")
-  set par(justify: true, leading: 0.65em)
+  set par(justify: true, leading: 0.65em, first-line-indent: 1em)
 
   // Заголовки
   show heading.where(level: 1): set text(size: 24pt, weight: "bold")
@@ -28,7 +28,7 @@
   // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
   set heading(numbering: "1.1.1")
   show heading.where(level: 1): it => {
-    pagebreak()
+    pagebreak(to: "odd")
     counter("definition").update(0)
     counter("theorem").update(0)
     it
@@ -45,6 +45,17 @@
   // Рисунки: по центру
   set figure(gap: 8pt)
   show figure: it => align(center, it)
+
+  // Бумажно-безопасные ссылки: URL в сноску при печати
+  show link: it => {
+    let url = it.dest
+    if type(url) == str and it.body != url {
+      it
+      footnote(url)
+    } else {
+      it
+    }
+  }
 
   // Латинские сокращения
   show "i.e.": set text(style: "italic")

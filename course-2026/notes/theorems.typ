@@ -14,6 +14,21 @@
 //   #chapter-overview[тело]
 //   #hrule
 
+// --- Метки теорем (словарь для лёгкой смены языка) ---
+#let thm-labels = (
+  definition: "Определение",
+  theorem: "Теорема",
+  lemma: "Лемма",
+  corollary: "Следствие",
+  proposition: "Утверждение",
+  proof: "Доказательство",
+  proof-sketch: "Набросок доказательства",
+  example: "Пример",
+  note: "Примечание",
+  remark: "Замечание",
+  overview: "Обзор главы",
+)
+
 #let def-ctr = counter("definition")
 #let thm-ctr = counter("theorem")
 
@@ -112,7 +127,7 @@
 }
 
 #let definition(inline: false, ..args) = _dispatch(
-  "Определение",
+  thm-labels.definition,
   def-ctr,
   oklch(55%, 0.18, 155deg),
   oklch(97%, 0.02, 155deg),
@@ -120,7 +135,7 @@
   ..args,
 )
 #let theorem(inline: false, ..args) = _dispatch(
-  "Теорема",
+  thm-labels.theorem,
   thm-ctr,
   oklch(55%, 0.15, 250deg),
   oklch(97%, 0.02, 250deg),
@@ -128,7 +143,7 @@
   ..args,
 )
 #let lemma(inline: false, ..args) = _dispatch(
-  "Лемма",
+  thm-labels.lemma,
   thm-ctr,
   oklch(55%, 0.14, 300deg),
   oklch(97%, 0.02, 300deg),
@@ -136,7 +151,7 @@
   ..args,
 )
 #let corollary(inline: false, ..args) = _dispatch(
-  "Следствие",
+  thm-labels.corollary,
   thm-ctr,
   oklch(55%, 0.18, 22deg),
   oklch(97%, 0.02, 22deg),
@@ -144,7 +159,7 @@
   ..args,
 )
 #let proposition(inline: false, ..args) = _dispatch(
-  "Утверждение",
+  thm-labels.proposition,
   thm-ctr,
   oklch(55%, 0.16, 195deg),
   oklch(97%, 0.02, 195deg),
@@ -210,7 +225,7 @@
 // --- Ненумерованные блоки ---
 
 #let proof(body) = _block(
-  title: strong[Доказательство:] + v(0.2em),
+  title: strong[#thm-labels.proof:] + v(0.2em),
   fill: luma(97%),
   stroke: (left: 2pt + luma(78%), rest: none),
   inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
@@ -218,7 +233,7 @@
 )
 
 #let proof-sketch(body) = _block(
-  title: strong[Набросок доказательства:] + v(0.2em),
+  title: strong[#thm-labels.proof-sketch:] + v(0.2em),
   fill: luma(97%),
   stroke: (left: 2pt + luma(78%), rest: none),
   inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
@@ -228,11 +243,11 @@
 #let example(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    if inline { emph[Пример (#sub):] } else { emph[Пример (#sub)] }
+    if inline { emph[#thm-labels.example (#sub):] } else { emph[#thm-labels.example (#sub)] }
   } else if inline {
-    emph[Пример:]
+    emph[#thm-labels.example:]
   } else {
-    emph[Пример]
+    emph[#thm-labels.example]
   }
   _block(
     title: title,
@@ -247,11 +262,11 @@
 #let note(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    strong[Примечание: #sub]
+    strong[#thm-labels.note: #sub]
   } else if inline {
-    strong[Примечание:]
+    strong[#thm-labels.note:]
   } else {
-    strong[Примечание]
+    strong[#thm-labels.note]
   }
   _block(
     title: title,
@@ -266,11 +281,11 @@
 #let remark(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    strong[Замечание: #sub]
+    strong[#thm-labels.remark: #sub]
   } else if inline {
-    strong[Замечание:]
+    strong[#thm-labels.remark:]
   } else {
-    strong[Замечание]
+    strong[#thm-labels.remark]
   }
   _block(
     title: title,
@@ -288,7 +303,7 @@
 }
 
 #let chapter-overview(body) = _block(
-  title: strong[Обзор главы] + v(0.2em),
+  title: strong[#thm-labels.overview] + v(0.2em),
   fill: luma(95%),
   stroke: none,
   inset: 1em,
