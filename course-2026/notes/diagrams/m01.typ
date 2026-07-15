@@ -14,7 +14,7 @@
 // All nodes are uniform circles: explicit width/height + shape: "circle".
 #let parse-tree-imply = diagram(
   node-shape: "circle",
-  node-stroke: none,
+  node-stroke: 0.6pt + luma(70%),
   node-inset: 0pt,
   node-outset: 0pt,
   edge-stroke: c-edge-str,
@@ -37,7 +37,7 @@
     width: 2em,
     height: 2em,
   ),
-  node((2, 1), $r$, name: <r>, fill: c-atom, width: 2em, height: 2em),
+  node((2, 1), $r$, name: <r>, fill: c-atom, width: 1.6em, height: 1.6em),
   // Level 2
   node(
     (-3, 2),
@@ -47,9 +47,9 @@
     width: 2em,
     height: 2em,
   ),
-  node((-0.5, 2), $q$, name: <q>, fill: c-atom, width: 2em, height: 2em),
+  node((-0.5, 2), $q$, name: <q>, fill: c-atom, width: 1.6em, height: 1.6em),
   // Level 3 — leaves (bottom)
-  node((-3, 3), $p$, name: <p>, fill: c-atom, width: 2em, height: 2em),
+  node((-3, 3), $p$, name: <p>, fill: c-atom, width: 1.6em, height: 1.6em),
   // Edges — no explicit anchors, natural circle-to-circle routing
   edge(<root>, <and>, "-"),
   edge(<root>, <r>, "-"),
@@ -62,7 +62,7 @@
 // Compare structure with parse-tree-imply.
 #let parse-tree-not-and = diagram(
   node-shape: "circle",
-  node-stroke: none,
+  node-stroke: 0.6pt + luma(70%),
   node-inset: 0pt,
   node-outset: 0pt,
   edge-stroke: c-edge-str,
@@ -85,7 +85,7 @@
     width: 2em,
     height: 2em,
   ),
-  node((2, 1), $r$, name: <r2>, fill: c-atom, width: 2em, height: 2em),
+  node((2, 1), $r$, name: <r2>, fill: c-atom, width: 1.6em, height: 1.6em),
   // Level 2
   node(
     (-1.5, 2),
@@ -96,8 +96,8 @@
     height: 2em,
   ),
   // Level 3 — leaves (bottom)
-  node((-2.5, 3), $p$, name: <p2>, fill: c-atom, width: 2em, height: 2em),
-  node((-0.5, 3), $q$, name: <q2>, fill: c-atom, width: 2em, height: 2em),
+  node((-2.5, 3), $p$, name: <p2>, fill: c-atom, width: 1.6em, height: 1.6em),
+  node((-0.5, 3), $q$, name: <q2>, fill: c-atom, width: 1.6em, height: 1.6em),
   // Edges
   edge(<root2>, <not2>, "-"),
   edge(<root2>, <r2>, "-"),
