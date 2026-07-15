@@ -13,7 +13,6 @@
 
 // --- Типографика ---
 #set text(font: "Libertinus Serif", size: 12pt, lang: "ru")
-#set par(justify: true, leading: 0.65em)
 
 // --- Заголовки ---
 #show heading.where(level: 1): set text(size: 24pt, weight: "bold")
