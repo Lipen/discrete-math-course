@@ -42,8 +42,8 @@
 // === Truth values (colored) ===
 #let Green(x) = text(fill: green.darken(20%), x)
 #let Red(x) = text(fill: red.darken(20%), x)
-#let True = Green(`true`)
-#let False = Red(`false`)
+#let True = Green[`true`]
+#let False = Red[`false`]
 #let T = Green[`T`]
 #let F = Red[`F`]
 
