@@ -7,9 +7,8 @@
 #let e-fg = oklch(35%, 0.02, 265deg)
 
 #let cn(pos, body, ..args) = node(pos, body, fill: n-fill, width: 1.2em, height: 1.2em, ..args)
-#let stealth = (inherit: "stealth", pos: 1, fill: e-fg)
-#let ea(from, to, ..args) = edge(from, to, marks: (stealth,), stroke: e-str, ..args)
-#let el(from, to, angle: 30deg, ..args) = edge(from, to, marks: (stealth,), stroke: e-str, loop-angle: angle, ..args)
+#let ea(from, to, ..args) = edge(from, to, "->", stroke: e-str, ..args)
+#let el(from, to, angle: 30deg, ..args) = edge(from, to, "->", stroke: e-str, loop-angle: angle, ..args)
 
 // ── Digraph of R on A = {1,2,3,4,5} ──
 #let rel-digraph = diagram(
