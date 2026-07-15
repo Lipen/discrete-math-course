@@ -79,13 +79,13 @@
   // Layer 0: empty set
   cn((0, 0), $nothing$, name: <p0>),
   // Layer 1: singletons — {2} in the middle (front of the cube)
-  cn((-1.3, 1), ${1}$, name: <p1>),
+  cn((-1.2, 1), ${1}$, name: <p1>),
   cn((0, 1), ${2}$, name: <p2>),
-  cn((1.3, 1), ${3}$, name: <p3>),
+  cn((1.2, 1), ${3}$, name: <p3>),
   // Layer 2: pairs — {1,3} in the middle (back of the cube)
-  cn((-0.7, 2), ${1,2}$, name: <p12>),
+  cn((-1.2, 2), ${1,2}$, name: <p12>),
   cn((0, 2), ${1,3}$, name: <p13>),
-  cn((0.7, 2), ${2,3}$, name: <p23>),
+  cn((1.2, 2), ${2,3}$, name: <p23>),
   // Layer 3: full set
   cn((0, 3), ${1,2,3}$, name: <p123>),
   // Edges (cover = add exactly one element)
