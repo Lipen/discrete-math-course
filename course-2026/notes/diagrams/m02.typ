@@ -20,12 +20,18 @@
 })
 
 // ── Intersection: A ∩ B ──
-// Only the overlap lens is filled (approximated by a centered ellipse).
-// A and B are drawn as outlines only.
+// The overlap region is a lens formed by two circular arcs:
+// right arc from circle A, left arc from circle B.
+// Intersection points at (0, ±√(r² - d²)) where d = 0.35.
 #let venn-intersection = canvas({
   import draw: *
-  // Overlap highlight (ellipse centered between the two circles)
-  circle((0, 0), radius: (0.45, 0.7), fill: ca, stroke: none)
+  let a = 65.7deg
+  let b = 114.3deg
+  // Lens fill: right arc from circle A, left arc from circle B
+  merge-path({
+    arc((-0.35, 0), start: -a, stop: a, radius: r)
+    arc((0.35, 0), start: b, stop: 180deg + a, radius: r)
+  }, close: true, fill: ca)
   // A and B outlines
   circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   circle((0.35, 0), radius: r, fill: none, stroke: c-str)
