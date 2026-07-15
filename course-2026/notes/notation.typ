@@ -57,10 +57,3 @@
 // === Reductions (computability / complexity) ===
 #let mreduce = rel($scripts(<=)_m$)
 #let preduce = rel($scripts(<=)_p$)
-
-// === Numeric sets ===
-#let NN = $NN$
-#let ZZ = $ZZ$
-#let QQ = $QQ$
-#let RR = $RR$
-#let CC = $CC$
