@@ -11,7 +11,8 @@
   title: "Дискретная математика --- конспект лекций",
   author: "Константин Чухарев",
 )
-#set par(justify: true, leading: 0.65em)
+
+#show: notes-template
 
 // --- Титульная страница ---
 #set page(
