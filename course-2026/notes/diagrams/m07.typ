@@ -32,19 +32,19 @@
   lbl((2, 1.2), $S$, anchor: "west")
   lbl((2, -0.6), $C$, anchor: "west")
 
-  // A splits independently to XOR and AND
+  // A splits independently to XOR (upper entry) and AND (upper entry)
   joint((-2, 1.2))
   wire((-3, 1.2), (-2, 1.2))
-  wire((-2, 1.2), (-1.1, 1.2)) // A → XOR
-  wire((-2, 1.2), (-2, -0.6)) // A → down to AND
-  wire((-2, -0.6), (-1.1, -0.6)) // A → AND
+  wire((-2, 1.2), (-1.1, 1.35)) // A → XOR top
+  wire((-2, 1.2), (-2, -0.45)) // A → down to AND
+  wire((-2, -0.45), (-1.1, -0.45)) // A → AND top
 
-  // B splits independently to XOR and AND
+  // B splits independently to XOR (lower entry) and AND (lower entry)
   joint((-2.5, -0.6))
   wire((-3, -0.6), (-2.5, -0.6))
-  wire((-2.5, -0.6), (-2.5, 1.2)) // B → up to XOR
-  wire((-2.5, 1.2), (-1.1, 1.2)) // B → XOR
-  wire((-2.5, -0.6), (-1.1, -0.6)) // B → AND
+  wire((-2.5, -0.6), (-2.5, 1.05)) // B → up to XOR
+  wire((-2.5, 1.05), (-1.1, 1.05)) // B → XOR bottom
+  wire((-2.5, -0.6), (-1.1, -0.75)) // B → AND bottom
 
   // Gate outputs
   wire((0.1, 1.2), (2, 1.2)) // XOR → S
