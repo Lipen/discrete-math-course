@@ -1,9 +1,7 @@
 // M04 --- Функции: математическая формализация вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m04.typ": (
-  mapping-bijection, mapping-injection, mapping-surjection,
-)
+#import "diagrams/m04.typ": mapping-bijection, mapping-injection, mapping-surjection
 
 = Функции
 
@@ -159,20 +157,11 @@ _График_ функции $f: A -> B$ --- это множество упор
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
-    [Инъекция],
-    [$f(a_1) = f(a_2) imply a_1 = a_2$],
-    [$|A| <= |B|$],
-    [Левая обратная $g compose f = "id"_A$],
+    [Инъекция], [$f(a_1) = f(a_2) imply a_1 = a_2$], [$|A| <= |B|$], [Левая обратная $g compose f = "id"_A$],
 
-    [Сюръекция],
-    [$forall b exists a: f(a) = b$],
-    [$|A| >= |B|$],
-    [Правая обратная $f compose g = "id"_B$],
+    [Сюръекция], [$forall b exists a: f(a) = b$], [$|A| >= |B|$], [Правая обратная $f compose g = "id"_B$],
 
-    [Биекция],
-    [Инъективна + сюръективна],
-    [$|A| = |B|$],
-    [Двусторонняя обратная $f^(-1)$],
+    [Биекция], [Инъективна + сюръективна], [$|A| = |B|$], [Двусторонняя обратная $f^(-1)$],
   )
 ]
 
@@ -205,7 +194,8 @@ _График_ функции $f: A -> B$ --- это множество упор
 #proposition[Образ объединения и пересечения][
   - $f(A union B) = f(A) union f(B)$.
   - $f(A inter B) subset.eq f(A) inter f(B)$.
-    Равенство выполняется, если $f$ инъективна.
+
+  Равенство выполняется, если $f$ инъективна.
 ]
 
 #proof[
@@ -235,7 +225,11 @@ _График_ функции $f: A -> B$ --- это множество упор
 === Характеристическая функция
 
 #definition[Характеристическая функция][
-  Функция $chi_X: U -> {0, 1}$, заданная как $chi_X(x) = cases(1 space "если" space x in X, 0 space "если" space x in.not X)$, называется *характеристической функцией* множества $X subset.eq U$.
+  Функция $chi_X: U -> {0, 1}$, заданная как
+  $
+    chi_X (x) = cases(1 space "если" space x in X, 0 space "если" space x in.not X),
+  $
+  называется *характеристической функцией* множества $X subset.eq U$.
 ]
 
 === Пол и потолок
