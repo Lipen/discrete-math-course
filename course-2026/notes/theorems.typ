@@ -86,7 +86,7 @@
   body,
 ) = {
   ctr.step()
-  let header = strong[#label #_ch-num(ctr)#h(0.4em); (#subtitle)]
+  let header = strong[#label #_ch-num(ctr)#h(0.4em);(#subtitle)]
   block(
     fill: fill,
     stroke: (left: 3pt + bar-color, rest: none),
@@ -95,7 +95,7 @@
     width: 100%,
   )[
     #if inline {
-      [#strong[#label #_ch-num(ctr)#h(0.4em); (#subtitle).] #body]
+      [#strong[#label #_ch-num(ctr)#h(0.4em);(#subtitle).] #body]
     } else {
       [#block(sticky: true)[#header #v(0.25em)] #body]
     }
