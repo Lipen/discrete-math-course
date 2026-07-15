@@ -12,9 +12,11 @@
   author: "Константин Чухарев",
 )
 
-#show: notes-template
+#show: notes-template.with(theme: theme)
 
 // --- Титульная страница ---
+#front-matter
+
 #set page(
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm),
@@ -42,7 +44,12 @@
 
 #pagebreak()
 
+// --- Содержание ---
+#outline(indent: 1em, depth: 3)
+
 // --- Страницы с контентом ---
+#main-matter
+
 #set page(
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
@@ -70,11 +77,6 @@
     #h(1fr)
   ],
 )
-
-#set heading(numbering: "1.1.1")
-
-// --- Содержание ---
-#outline(indent: 1em, depth: 3)
 
 // --- Главы ---
 #include "m12-graphs.typ"
