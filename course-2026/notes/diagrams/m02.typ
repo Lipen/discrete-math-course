@@ -19,11 +19,15 @@
 })
 
 // ── Intersection: A ∩ B ──
-// Two overlapping circles with semi-transparent fills;
-// the overlap region naturally shows as the mix of both colors.
+// Two filled arcs with mode "CLOSE" form the lens: right half from A, left half from B.
+// The shared chord (vertical line at x=0) is invisible since both halves share the same fill.
 #let venn-intersection = canvas({
-  draw.circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
-  draw.circle((0.35, 0), radius: r, fill: cb, stroke: c-str)
+  let a = 65.7deg
+  let b = 114.3deg
+  draw.arc((-0.35, 0), start: -a, stop: a, radius: r, mode: "CLOSE", fill: ca, stroke: none)
+  draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r, mode: "CLOSE", fill: ca, stroke: none)
+  draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
+  draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A inter B$)
