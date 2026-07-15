@@ -19,17 +19,25 @@
 })
 
 // ── Intersection: A ∩ B ──
+// Lens shape built from two polyline halves (right arc of A, left arc of B).
 #let venn-intersection = canvas({
-  let a = 65.7deg
-  let b = 114.3deg
-  draw.merge-path(
-    {
-      draw.arc((-0.35, 0), start: -a, stop: a, radius: r)
-      draw.arc((0.35, 0), start: b, stop: 180deg + a, radius: r)
-    },
-    close: true,
-    fill: ca,
-  )
+  let n = 30
+  let y-max = calc.sqrt(r * r - 0.35 * 0.35)
+  // Right arc of A: for y from -y-max to +y-max
+  let right-arc = range(-n, n + 1).map(i => {
+    let y = y-max * i / n
+    let x = -0.35 + calc.sqrt(r * r - y * y)
+    (x, y)
+  })
+  // Left arc of B: for y from +y-max down to -y-max
+  let left-arc = range(-n, n + 1).rev().map(i => {
+    let y = y-max * i / n
+    let x = 0.35 - calc.sqrt(r * r - y * y)
+    (x, y)
+  })
+  // Draw filled lens polygon
+  draw.line(..right-arc, ..left-arc, close: true, fill: ca, stroke: none)
+  // A and B outlines
   draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
   label((-r - 0.1, 0), $A$)
