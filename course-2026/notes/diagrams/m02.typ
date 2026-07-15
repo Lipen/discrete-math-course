@@ -30,10 +30,11 @@
 })
 
 // ── Difference: A \ B ──
+// B circle drawn with white fill on top to "erase" the overlapping part of A.
 #let venn-difference = canvas({
   import draw: *
   circle((-0.35, 0), radius: r, fill: ca, stroke: c-str)
-  circle((0.35, 0), radius: r, fill: none, stroke: c-str)
+  circle((0.35, 0), radius: r, fill: white, stroke: c-str)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)
   label((0, r + 0.5), $A setminus B$)
