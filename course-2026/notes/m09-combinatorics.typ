@@ -1,6 +1,7 @@
 // M09 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import "diagrams/m09.typ": pascals-recurrence, pascals-triangle
 
 = Комбинаторика
 
@@ -167,6 +168,18 @@
   Комбинаторное доказательство: чтобы выбрать $k$ элементов из $n$, либо включаем первый элемент (тогда остаётся выбрать $k-1$ из $n-1$), либо не включаем (тогда выбираем $k$ из $n-1$).
   Тождество Паскаля порождает треугольник Паскаля --- простейшую комбинаторную структуру.
 ]
+
+#figure(
+  grid(
+    columns: 2,
+    gutter: 2em,
+    pascals-triangle, pascals-recurrence,
+  ),
+  caption: [
+    Треугольник Паскаля (строки 0--7) и рекуррентное соотношение:
+    $binom(n, k) = binom(n-1, k-1) + binom(n-1, k)$.
+  ],
+) <fig:pascals-triangle>
 
 #theorem[Биномиальная теорема][
   $(x + y)^n = sum_(k=0)^n binom(n, k) x^(n-k) y^k$.
