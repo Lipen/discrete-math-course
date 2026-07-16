@@ -47,38 +47,6 @@
   pagebreak()
 }
 
-// --- Единый колонтитул для книг S1 и S2 ---
-// Использование: #running-header(theme: theme)
-#let running-header(theme: oklch(55%, 0.02, 265deg)) = {
-  set page(
-    header: context [
-      #set text(8pt, fill: luma(45%))
-      #smallcaps[
-        #text(tracking: 0.1em, weight: "semibold")[Дискретная математика]
-      ]
-      #h(1fr)
-      #{
-        let pg = counter(page).get().first()
-        let hs = query(heading.where(level: 1))
-        let ch = hs.rev().find(h => counter(page).at(h.location()).first() <= pg)
-        if ch != none {
-          text(style: "italic", fill: luma(35%))[#ch.body]
-        }
-      }
-      #v(4pt)
-      #line(length: 100%, stroke: 0.3pt + luma(85%))
-    ],
-    footer: context [
-      #set text(8pt, fill: luma(50%))
-      #line(length: 100%, stroke: 0.3pt + luma(85%))
-      #v(2pt)
-      #h(1fr)
-      #counter(page).display("1")
-      #h(1fr)
-    ],
-  )
-}
-
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
 #let notes-template(it, theme: oklch(55%, 0.02, 265deg)) = {
   // Типографика
@@ -114,7 +82,30 @@
     // Мини-содержание главы: разделы уровня 2.
     set text(size: 10pt)
     context {
-      let secs = query(heading.where(outlined: true, level: 2).after(here()))
+      let ch_loc = here()
+      let ch_pg = counter(page).at(ch_loc).first()
+      // Все секции уровня 2 в книге.
+      let all_secs = query(heading.where(outlined: true, level: 2))
+      let secs = ()
+      // Найти страницу следующей главы (если есть).
+      let next_chs = query(heading.where(level: 1))
+      let bound_pg = none
+      for h in next_chs {
+        let hp = counter(page).at(h.location()).first()
+        if hp > ch_pg {
+          bound_pg = hp
+          break
+        }
+      }
+      // Отобрать секции между этой главой и следующей.
+      for s in all_secs {
+        let sp = counter(page).at(s.location()).first()
+        if sp >= ch_pg {
+          if bound_pg == none or sp < bound_pg {
+            secs.push(s)
+          }
+        }
+      }
       if secs.len() > 0 {
         line(length: 100%, stroke: 0.3pt + theme)
         v(0.6em)

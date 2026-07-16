@@ -53,8 +53,32 @@
 #set page(
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
+  header: context [
+    #set text(8pt, fill: luma(45%))
+    #smallcaps[
+      #text(tracking: 0.1em, weight: "semibold")[Дискретная математика]
+    ]
+    #h(1fr)
+    #{
+      let pg = counter(page).get().first()
+      let hs = query(heading.where(level: 1))
+      let ch = hs.rev().find(h => counter(page).at(h.location()).first() <= pg)
+      if ch != none {
+        text(style: "italic", fill: luma(35%))[#ch.body]
+      }
+    }
+    #v(4pt)
+    #line(length: 100%, stroke: 0.3pt + luma(85%))
+  ],
+  footer: context [
+    #set text(8pt, fill: luma(50%))
+    #line(length: 100%, stroke: 0.3pt + luma(85%))
+    #v(2pt)
+    #h(1fr)
+    #counter(page).display("1")
+    #h(1fr)
+  ],
 )
-#running-header(theme: theme)
 
 // --- Главы ---
 #include "m01-logic-proofs.typ"
