@@ -1,6 +1,7 @@
 // M08 --- SAT: задача булевой выполнимости и её центральная роль в теории вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import "diagrams/m08.typ": implication-graph-2sat, implication-graph-2sat-simple
 
 = SAT
 
@@ -77,6 +78,11 @@
   Это делает каждую импликацию $overline(l_1) -> l_2$ истинной.
   Алгоритм работает за $O(n + m)$, где $n$ --- количество переменных, $m$ --- количество дизъюнктов.
 ]
+
+#figure(
+  implication-graph-2sat-simple,
+  caption: [Граф импликаций для формулы $(x or y) and (not x or y)$. Из $overline(x)$ есть путь в $y$ (через $x or y$), и из $x$ есть путь в $y$ (через $not x or y$). Поскольку $y$ и $overline(y)$ не лежат в одной КСС --- формула выполнима: $y =$ истина.],
+) <fig:implication-graph-2sat>
 
 #remark[
   Контраст между 2-SAT (лёгкая, линейное время) и 3-SAT (NP-полная) --- один из самых поучительных примеров в теории сложности.

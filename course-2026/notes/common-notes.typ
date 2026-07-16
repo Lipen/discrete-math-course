@@ -110,7 +110,23 @@
       v(1.2em)
     }
     it
-    v(2.5em)
+    v(1.5em)
+    // Мини-содержание главы: разделы уровня 2.
+    set text(size: 10pt)
+    context {
+      let secs = query(heading.where(outlined: true, level: 2).after(here()))
+      if secs.len() > 0 {
+        line(length: 100%, stroke: 0.3pt + theme)
+        v(0.6em)
+        for s in secs {
+          link(s.location(), text(fill: luma(40%))[#s.body])
+          v(0.3em)
+        }
+        v(0.3em)
+        line(length: 100%, stroke: 0.3pt + theme)
+      }
+    }
+    v(1.5em)
   }
 
   // Математика
