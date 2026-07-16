@@ -28,25 +28,61 @@
 }
 
 // --- Страница-разделитель (часть/семестр) ---
-#let part(title, theme: oklch(55%, 0.02, 265deg)) = {
+#let part(title, number: none, theme: oklch(55%, 0.02, 265deg)) = {
   pagebreak()
   set page(header: none, footer: none, numbering: none)
   align(center + horizon)[
-    #v(3cm)
-    #line(length: 45%, stroke: 1.5pt + theme)
-    #v(1.5em)
-    #text(size: 2.2em, weight: "bold")[#title]
+    #v(2.5cm)
+    #if number != none [
+      #text(size: 5em, fill: theme, weight: "bold")[#number]
+      #v(0.3em)
+    ]
+    #line(length: 80%, stroke: 1.5pt + theme)
+    #v(1.2em)
+    #text(size: 2.8em, weight: "bold")[#title]
     #v(0.3em)
     #line(length: 45%, stroke: 1.5pt + theme)
-    #v(3cm)
+    #v(2.5cm)
   ]
   pagebreak()
+}
+
+// --- Единый колонтитул для книг S1 и S2 ---
+// Использование: #running-header(theme: theme)
+#let running-header(theme: oklch(55%, 0.02, 265deg)) = {
+  set page(
+    header: context [
+      #set text(8pt, fill: luma(45%))
+      #smallcaps[
+        #text(tracking: 0.1em, weight: "semibold")[Дискретная математика]
+      ]
+      #h(1fr)
+      #{
+        let pg = counter(page).get().first()
+        let hs = query(heading.where(level: 1))
+        let ch = hs.rev().find(h => counter(page).at(h.location()).first() <= pg)
+        if ch != none {
+          text(style: "italic", fill: luma(35%))[#ch.body]
+        }
+      }
+      #v(4pt)
+      #line(length: 100%, stroke: 0.3pt + luma(85%))
+    ],
+    footer: context [
+      #set text(8pt, fill: luma(50%))
+      #line(length: 100%, stroke: 0.3pt + luma(85%))
+      #v(2pt)
+      #h(1fr)
+      #counter(page).display("1")
+      #h(1fr)
+    ],
+  )
 }
 
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
 #let notes-template(it, theme: oklch(55%, 0.02, 265deg)) = {
   // Типографика
-  set text(font: "Libertinus Serif", size: 12pt, lang: "ru")
+  set text(font: "Libertinus Serif", size: 12pt, lang: "ru", hyphenate: true)
   set par(justify: true, leading: 0.65em, first-line-indent: 1em)
 
   // Заголовки
@@ -84,6 +120,9 @@
   // Таблицы
   set table(inset: (x: 10pt, y: 4pt))
   show table.cell.where(y: 0): strong
+
+  // Содержание: dot leaders
+  set outline.entry(fill: box(width: 1fr, repeat(gap: 0.25em)[.]))
 
   // Рисунки: по центру
   set figure(gap: 8pt)

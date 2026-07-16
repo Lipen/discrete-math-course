@@ -17,7 +17,7 @@
 
 // Sets and functions
 #let setminus = sym.without
-#let symdiff = sym.triangle
+#let symdiff = $Delta$
 #let notin = sym.in.not
 #let ceiling = math.op("ceil")
 

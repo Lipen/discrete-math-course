@@ -226,7 +226,7 @@
 
 #let proof(body) = _block(
   title: strong[#thm-labels.proof:] + v(0.2em),
-  fill: luma(97%),
+  fill: luma(94%),
   stroke: (left: 2pt + luma(78%), rest: none),
   inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
   it: body,
@@ -234,7 +234,7 @@
 
 #let proof-sketch(body) = _block(
   title: strong[#thm-labels.proof-sketch:] + v(0.2em),
-  fill: luma(97%),
+  fill: luma(94%),
   stroke: (left: 2pt + luma(78%), rest: none),
   inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
   it: body,
@@ -251,7 +251,7 @@
   }
   _block(
     title: title,
-    fill: luma(97%),
+    fill: luma(94%),
     stroke: (left: 2pt + luma(82%), rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
     inline: inline,
@@ -270,7 +270,7 @@
   }
   _block(
     title: title,
-    fill: oklch(97%, 0.006, 155deg),
+    fill: oklch(94%, 0.006, 155deg),
     stroke: (left: 3pt + oklch(55%, 0.15, 155deg), rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
     inline: inline,
@@ -289,7 +289,7 @@
   }
   _block(
     title: title,
-    fill: oklch(96%, 0.02, 70deg),
+    fill: oklch(93%, 0.02, 70deg),
     stroke: (
       left: 3pt + oklch(60%, 0.16, 65deg),
       top: 0.5pt + oklch(90%, 0.02, 70deg),
@@ -304,7 +304,7 @@
 
 #let chapter-overview(body) = _block(
   title: strong[#thm-labels.overview] + v(0.2em),
-  fill: luma(95%),
+  fill: luma(92%),
   stroke: none,
   inset: 1em,
   it: body,
