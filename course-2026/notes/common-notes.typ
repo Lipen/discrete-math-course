@@ -50,8 +50,20 @@
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
 #let notes-template(it, theme: oklch(55%, 0.02, 265deg)) = {
   // Типографика
-  set text(font: "Libertinus Serif", size: 12pt, lang: "ru", hyphenate: true)
-  set par(justify: true, leading: 0.65em, first-line-indent: 1em)
+  set text(
+    font: "Libertinus Serif",
+    size: 12pt,
+    lang: "ru",
+  )
+  set par(
+    justify: true,
+    leading: 0.65em,
+    first-line-indent: 1em,
+    justification-limits: (
+      spacing: (min: 100% * 2 / 3, max: 150%),
+      tracking: (min: -0.01em, max: 0.02em),
+    ),
+  )
 
   // Заголовки
   show heading.where(level: 1): set text(size: 22pt, weight: "bold")
