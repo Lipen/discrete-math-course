@@ -68,3 +68,6 @@
 #include "m09-combinatorics.typ"
 #include "m10-generating-fns.typ"
 #include "m11-transfinite.typ"
+
+// --- Упражнения ---
+#include "exercises.typ"
