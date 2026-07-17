@@ -326,6 +326,28 @@
   )
 }
 
+// Прикладное отступление: фиолетовый, для развёрнутых CS-применений.
+// API: #digression[тело]  или  #digression[Заголовок][тело]
+#let digression(inline: false, ..args) = {
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    strong[#sym.dot.c  #sub]
+  } else {
+    strong[#sym.dot.c  ОТСТУПЛЕНИЕ]
+  }
+  _block(
+    title: title,
+    fill: oklch(96%, 0.012, 290deg),
+    stroke: (
+      left: 3pt + oklch(55%, 0.12, 290deg),
+      rest: 0.4pt + oklch(85%, 0.01, 290deg),
+    ),
+    inset: (x: 1em, y: 0.8em),
+    inline: inline,
+    it: body,
+  )
+}
+
 #let chapter-overview(body) = _block(
   title: strong[#thm-labels.overview] + v(0.2em),
   fill: luma(92%),
