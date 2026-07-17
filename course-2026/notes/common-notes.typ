@@ -29,7 +29,7 @@
 
 // --- Страница-разделитель (часть/семестр) ---
 #let part(title, number: none, theme: oklch(55%, 0.02, 265deg)) = {
-  pagebreak()
+  pagebreak(weak: true)
   set page(header: none, footer: none, numbering: none)
   align(center + horizon)[
     #v(2.5cm)
@@ -44,7 +44,7 @@
     #line(length: 45%, stroke: 1.5pt + theme)
     #v(2.5cm)
   ]
-  pagebreak()
+  pagebreak(weak: true)
 }
 
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
@@ -76,7 +76,7 @@
 
   // Открытие главы: крупный номер, линия, воздух.
   show heading.where(level: 1): it => {
-    pagebreak()
+    pagebreak(weak: true)
     counter("definition").update(0)
     counter("theorem").update(0)
 

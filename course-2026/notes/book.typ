@@ -42,7 +42,7 @@
   #text(size: 8pt, fill: luma(60%))[Черновик — в работе]
 ]
 
-#pagebreak()
+#pagebreak(weak: true)
 
 // --- Содержание ---
 #outline(indent: 1em, depth: 3)

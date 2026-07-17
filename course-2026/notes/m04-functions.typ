@@ -317,7 +317,7 @@ _График_ функции $f: A -> B$ --- это множество упор
 ]
 
 
-#pagebreak()
+#pagebreak(weak: true)
 #set text(size: 11pt)
 #align(center)[
   #line(length: 30%, stroke: 1pt + luma(80%))

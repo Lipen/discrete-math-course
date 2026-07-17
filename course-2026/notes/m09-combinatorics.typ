@@ -524,7 +524,7 @@ $m^(phi(n)) equiv 1 (mod n)$ для $"gcd"(m, n) = 1$, откуда $m^(e d) equ
 ]
 
 
-#pagebreak()
+#pagebreak(weak: true)
 #set text(size: 11pt)
 #align(center)[
   #line(length: 30%, stroke: 1pt + luma(80%))

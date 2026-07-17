@@ -282,7 +282,7 @@ SAT --- это "канарейка в угольной шахте" теории 
 Именно поэтому понимание SAT, как алгоритмическое, так и теоретическое, остаётся одной из центральных задач computer science.
 
 
-#pagebreak()
+#pagebreak(weak: true)
 #set text(size: 11pt)
 #align(center)[
   #line(length: 30%, stroke: 1pt + luma(80%))

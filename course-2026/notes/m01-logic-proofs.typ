@@ -203,15 +203,13 @@ _Интерпретация_ сопоставляет каждой атомар�
   Для всех высказываний $p$, $q$, $r$:
 
   #table(
-    columns: (auto, 1fr, 1fr),
-    align: (left, left, left),
+    columns: 3,
+    align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
     [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
-
     [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
-
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
     [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
     [Двойное отрицание], [$not not p equiv p$], [---],
@@ -721,7 +719,7 @@ _Утверждение_ (assertion) --- это логическая форму�
   Тестирование находит лёгкие ошибки; доказательства --- глубокие.
 ]
 
-#pagebreak()
+#pagebreak(weak: true)
 #set text(size: 11pt)
 #align(center)[
   #line(length: 30%, stroke: 1pt + luma(80%))
