@@ -69,8 +69,10 @@
   show heading.where(level: 1): set text(size: 22pt, weight: "bold")
   show heading.where(level: 2): it => {
     v(1.5em)
-    text(size: 16pt, weight: "bold", fill: theme)[
-      #{sym.section} #it
+    text(size: 16pt, weight: "bold")[
+      #text(fill: theme)[#{sym.section}]
+      #{counter(heading).display()}
+      #{it.body}
     ]
     v(-0.2em)
     line(length: 100%, stroke: 0.4pt + theme)
