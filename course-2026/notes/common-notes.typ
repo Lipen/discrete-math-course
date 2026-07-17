@@ -47,12 +47,23 @@
   pagebreak(weak: true)
 }
 
+// --- Размеры шрифта (один раз от базы) ---
+// Используем абсолютные pt, чтобы избежать стакинга em в show-правилах.
+#let base-size = 12pt
+#let h1-size = base-size * 1.8
+#let h2-size = base-size * 1.3
+#let h3-size = base-size * 1.15
+#let h4-size = base-size * 1.0
+#let chapter-num-size = base-size * 3.5
+#let small-size = base-size * 0.9
+#let tiny-size = base-size * 0.65
+
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
 #let notes-template(it, theme: oklch(55%, 0.02, 265deg)) = {
   // Типографика
   set text(
     font: "Libertinus Serif",
-    size: 12pt,
+    size: base-size,
     lang: "ru",
   )
   set par(
@@ -66,12 +77,13 @@
   )
 
   // Заголовки
-  show heading.where(level: 1): set text(size: 1.8em, weight: "bold")
+  show heading.where(level: 1): set text(size: h1-size, weight: "bold")
   show heading.where(level: 2): it => {
     v(1.5em)
-    text(size: 1.3em, weight: "bold")[
-      #box(width: 0em, inset: (left: -1.5em))[#text(fill: theme)[#{sym.section}]]
-      #h(0.4em)
+    text(size: h2-size, weight: "bold")[
+      #h(-1.4em)
+      #text(fill: theme)[#{sym.section}]
+      #h(0.5em)
       #{counter(heading).display()}
       #{it.body}
     ]
@@ -79,8 +91,8 @@
     line(length: 100%, stroke: 0.4pt + theme)
     v(1em)
   }
-  show heading.where(level: 3): set text(size: 1.15em, weight: "bold")
-  show heading.where(level: 4): set text(size: 1em, style: "italic")
+  show heading.where(level: 3): set text(size: h3-size, weight: "bold")
+  show heading.where(level: 4): set text(size: h4-size, style: "italic")
 
   // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
   set heading(numbering: "1.1.1")
@@ -93,14 +105,14 @@
 
     if it.numbering != none {
       v(3em)
-      text(size: 3.5em, fill: theme, weight: "bold")[
+      text(size: chapter-num-size, fill: theme, weight: "bold")[
         #counter(heading).display()
       ]
       v(-0.6em)
       line(length: 22%, stroke: 1.5pt + theme)
       v(0.8em)
     }
-    text(size: 1.8em, weight: "bold")[#it.body]
+    text(size: h1-size, weight: "bold")[#it.body]
     v(1.5em)
   }
 
