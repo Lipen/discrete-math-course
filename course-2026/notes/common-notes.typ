@@ -47,23 +47,19 @@
   pagebreak(weak: true)
 }
 
-// --- Размеры шрифта (один раз от базы) ---
-// Используем абсолютные pt, чтобы избежать стакинга em в show-правилах.
-#let base-size = 12pt
-#let h1-size = base-size * 1.8
-#let h2-size = base-size * 1.3
-#let h3-size = base-size * 1.15
-#let h4-size = base-size * 1.0
-#let chapter-num-size = base-size * 3.5
-#let small-size = base-size * 0.9
-#let tiny-size = base-size * 0.65
+// --- Размеры шрифта ---
+#let h1-size = 22pt
+#let h2-size = 16pt
+#let h3-size = 14pt
+#let h4-size = 12pt
+#let chapter-num-size = 42pt
 
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
 #let notes-template(it, theme: oklch(55%, 0.02, 265deg)) = {
   // Типографика
   set text(
     font: "Libertinus Serif",
-    size: base-size,
+    size: 12pt,
     lang: "ru",
   )
   set par(
@@ -83,7 +79,7 @@
     text(size: h2-size, weight: "bold")[
       #h(-1.4em)
       #text(fill: theme)[#{sym.section}]
-      #h(0.5em)
+      #h(0.75em)
       #{counter(heading).display()}
       #{it.body}
     ]
