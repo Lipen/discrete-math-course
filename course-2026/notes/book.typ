@@ -26,20 +26,20 @@
 
 #align(center)[
   #block(height: 3cm)
-  #text(size: 30pt, weight: "bold")[Дискретная математика]
+  #text(size: 2.5em, weight: "bold")[Дискретная математика]
   #block(height: 0.3cm)
-  #text(size: 18pt, fill: luma(40%), weight: "light")[Конспект лекций]
+  #text(size: 1.5em, fill: luma(40%), weight: "light")[Конспект лекций]
   #block(height: 1.8cm)
   #line(length: 3cm, stroke: 2pt + s1-theme)
   #block(height: 1.2cm)
-  #text(size: 13pt, weight: "semibold")[Язык, объекты, вычисления]
+  #text(size: 1.1em, weight: "semibold")[Язык, объекты, вычисления]
   #block(height: 0.2cm)
-  #text(size: 10pt, fill: luma(50%))[Семестры I и II]
+  #text(size: 0.85em, fill: luma(50%))[Семестры I и II]
   #block(height: 2.5cm)
-  #text(size: 10pt, fill: luma(45%))[Университет ИТМО] \
-  #text(size: 10pt, fill: luma(45%))[2026 -- 2027]
+  #text(size: 0.85em, fill: luma(45%))[Университет ИТМО] \
+  #text(size: 0.85em, fill: luma(45%))[2026 -- 2027]
   #block(height: 1.5cm)
-  #text(size: 8pt, fill: luma(60%))[Черновик — в работе]
+  #text(size: 0.65em, fill: luma(60%))[Черновик — в работе]
 ]
 
 #pagebreak(weak: true)
@@ -54,7 +54,7 @@
   paper: "a4",
   margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
   header: context [
-    #set text(8pt, fill: luma(45%))
+    #set text(0.65em, fill: luma(45%))
     #smallcaps[
       #text(tracking: 0.1em, weight: "semibold")[Дискретная математика]
     ]
@@ -71,7 +71,7 @@
     #line(length: 100%, stroke: 0.3pt + luma(85%))
   ],
   footer: context [
-    #set text(8pt, fill: luma(50%))
+    #set text(0.65em, fill: luma(50%))
     #line(length: 100%, stroke: 0.3pt + luma(85%))
     #v(2pt)
     #h(1fr)

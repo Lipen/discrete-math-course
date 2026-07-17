@@ -66,10 +66,10 @@
   )
 
   // Заголовки
-  show heading.where(level: 1): set text(size: 22pt, weight: "bold")
+  show heading.where(level: 1): set text(size: 1.8em, weight: "bold")
   show heading.where(level: 2): it => {
     v(1.5em)
-    text(size: 16pt, weight: "bold")[
+    text(size: 1.3em, weight: "bold")[
       #text(fill: theme)[#{sym.section}]
       #{counter(heading).display()}
       #{it.body}
@@ -78,8 +78,8 @@
     line(length: 100%, stroke: 0.4pt + theme)
     v(1em)
   }
-  show heading.where(level: 3): set text(size: 14pt, weight: "bold")
-  show heading.where(level: 4): set text(size: 12pt, style: "italic")
+  show heading.where(level: 3): set text(size: 1.15em, weight: "bold")
+  show heading.where(level: 4): set text(size: 1em, style: "italic")
 
   // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
   set heading(numbering: "1.1.1")
@@ -99,7 +99,7 @@
       line(length: 22%, stroke: 1.5pt + theme)
       v(0.8em)
     }
-    text(size: 22pt, weight: "bold")[#it.body]
+    text(size: 1.8em, weight: "bold")[#it.body]
     v(1.5em)
   }
 
@@ -108,14 +108,14 @@
   show sym.emptyset: set text(font: "Libertinus Sans")
 
   // Таблицы
-  set table(inset: (x: 10pt, y: 4pt))
+  set table(inset: (x: 0.8em, y: 0.3em))
   show table.cell.where(y: 0): strong
 
   // Содержание: dot leaders
   set outline.entry(fill: box(width: 1fr, repeat(gap: 0.25em)[.]))
 
   // Рисунки: по центру
-  set figure(gap: 8pt)
+  set figure(gap: 0.65em)
   show figure: it => align(center, it)
 
   // Бумажно-безопасные ссылки: URL в сноску при печати
