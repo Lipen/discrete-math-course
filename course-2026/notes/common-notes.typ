@@ -70,7 +70,8 @@
   show heading.where(level: 2): it => {
     v(1.5em)
     text(size: 1.3em, weight: "bold")[
-      #text(fill: theme)[#{sym.section}]
+      #box(width: 0em, inset: (left: -1.5em))[#text(fill: theme)[#{sym.section}]]
+      #h(0.4em)
       #{counter(heading).display()}
       #{it.body}
     ]
