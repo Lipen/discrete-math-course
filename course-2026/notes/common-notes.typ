@@ -67,14 +67,22 @@
 
   // Заголовки
   show heading.where(level: 1): set text(size: 22pt, weight: "bold")
-  show heading.where(level: 2): set text(size: 18pt, weight: "bold")
+  show heading.where(level: 2): it => {
+    v(1.5em)
+    text(size: 16pt, weight: "bold", fill: theme)[
+      #{sym.section} #it
+    ]
+    v(-0.2em)
+    line(length: 100%, stroke: 0.4pt + theme)
+    v(1em)
+  }
   show heading.where(level: 3): set text(size: 14pt, weight: "bold")
   show heading.where(level: 4): set text(size: 12pt, style: "italic")
 
   // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
   set heading(numbering: "1.1.1")
 
-  // Открытие главы: крупный номер, линия, воздух.
+  // Открытие главы: крупный номер, название, линия.
   show heading.where(level: 1): it => {
     pagebreak(weak: true)
     counter("definition").update(0)
@@ -87,48 +95,9 @@
       ]
       v(-0.6em)
       line(length: 22%, stroke: 1.5pt + theme)
-      v(1.2em)
+      v(0.8em)
     }
-    it
-    v(1.5em)
-    // Мини-содержание главы: разделы уровня 2.
-    set text(size: 10pt)
-    context {
-      let ch_loc = here()
-      let ch_pg = counter(page).at(ch_loc).first()
-      // Все секции уровня 2 в книге.
-      let all_secs = query(heading.where(outlined: true, level: 2))
-      let secs = ()
-      // Найти страницу следующей главы (если есть).
-      let next_chs = query(heading.where(level: 1))
-      let bound_pg = none
-      for h in next_chs {
-        let hp = counter(page).at(h.location()).first()
-        if hp > ch_pg {
-          bound_pg = hp
-          break
-        }
-      }
-      // Отобрать секции между этой главой и следующей.
-      for s in all_secs {
-        let sp = counter(page).at(s.location()).first()
-        if sp >= ch_pg {
-          if bound_pg == none or sp < bound_pg {
-            secs.push(s)
-          }
-        }
-      }
-      if secs.len() > 0 {
-        line(length: 100%, stroke: 0.3pt + theme)
-        v(0.6em)
-        for s in secs {
-          link(s.location(), text(fill: luma(40%))[#s.body])
-          v(0.3em)
-        }
-        v(0.3em)
-        line(length: 100%, stroke: 0.3pt + theme)
-      }
-    }
+    text(size: 22pt, weight: "bold")[#it.body]
     v(1.5em)
   }
 
