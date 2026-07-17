@@ -73,27 +73,6 @@
   )
 
   // Заголовки
-  show heading.where(level: 1): set text(size: h1-size, weight: "bold")
-  show heading.where(level: 2): it => {
-    v(1.5em)
-    text(size: h2-size, weight: "bold")[
-      #h(-1.4em)
-      #text(fill: theme)[#{sym.section}]
-      #h(0.75em)
-      #{counter(heading).display()}
-      #{it.body}
-    ]
-    v(-0.2em)
-    line(length: 100%, stroke: 0.4pt + theme)
-    v(1em)
-  }
-  show heading.where(level: 3): set text(size: h3-size, weight: "bold")
-  show heading.where(level: 4): set text(size: h4-size, style: "italic")
-
-  // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
-  set heading(numbering: "1.1.1")
-
-  // Открытие главы: крупный номер, название, линия.
   show heading.where(level: 1): it => {
     pagebreak(weak: true)
     counter("definition").update(0)
@@ -111,6 +90,27 @@
     text(size: h1-size, weight: "bold")[#it.body]
     v(1.5em)
   }
+  show heading.where(level: 2): it => block(
+    sticky: true,
+    above: 2em,
+    below: 1em,
+    {
+      set text(size: h2-size, weight: "bold")
+      box(width: 0em, inset: -1em)[
+        #text(fill: theme)[#sym.section]
+      ]
+      counter(heading).display()
+      h(0.5em)
+      it.body
+      v(-0.2em)
+      line(length: 100%, stroke: 0.4pt + theme)
+    },
+  )
+  show heading.where(level: 3): set text(size: h3-size, weight: "bold")
+  show heading.where(level: 4): set text(size: h4-size, style: "italic")
+
+  // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
+  set heading(numbering: "1.1.1")
 
   // Математика
   set math.mat(column-gap: 1em)
