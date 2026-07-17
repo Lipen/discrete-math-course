@@ -1,9 +1,7 @@
 // M02 --- Множества: универсальный контейнер для дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m02.typ": (
-  venn-difference, venn-intersection, venn-subset, venn-union,
-)
+#import "diagrams/m02.typ": venn-difference, venn-intersection, venn-subset, venn-union
 
 = Множества <chap:sets>
 
@@ -283,7 +281,6 @@
   Решение: аксиоматическая теория множеств (ZFC) ограничивает образование множеств, чтобы избежать самореференции.
   На практике работа в фиксированном универсальном множестве $U$ позволяет избежать парадокса.
 ]
-
 
 Мы построили язык множеств.
 Определения, операции, законы --- это инструментарий.
