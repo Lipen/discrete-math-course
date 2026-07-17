@@ -243,7 +243,9 @@
 #let example(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
   let title = if sub != none {
-    if inline { emph[#thm-labels.example (#sub):] } else { emph[#thm-labels.example (#sub)] }
+    if inline { emph[#thm-labels.example (#sub):] } else {
+      emph[#thm-labels.example (#sub)]
+    }
   } else if inline {
     emph[#thm-labels.example:]
   } else {
@@ -295,6 +297,28 @@
       top: 0.5pt + oklch(90%, 0.02, 70deg),
       bottom: 0.5pt + oklch(90%, 0.02, 70deg),
       right: 0.5pt + oklch(90%, 0.02, 70deg),
+    ),
+    inset: (x: 1em, y: 0.8em),
+    inline: inline,
+    it: body,
+  )
+}
+
+// Историческая справка: тёплая охра, тонкая рамка, иконка песочных часов.
+// API: #history-note[тело]  или  #history-note[Заголовок][тело]
+#let history-note(inline: false, ..args) = {
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    strong[#sym.hourglass  #sub]
+  } else {
+    strong[#sym.hourglass  ИСТОРИЧЕСКАЯ СПРАВКА]
+  }
+  _block(
+    title: title,
+    fill: oklch(97%, 0.015, 70deg),
+    stroke: (
+      left: 3pt + oklch(55%, 0.14, 70deg),
+      rest: 0.4pt + oklch(85%, 0.02, 70deg),
     ),
     inset: (x: 1em, y: 0.8em),
     inline: inline,
