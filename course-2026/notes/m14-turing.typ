@@ -343,8 +343,8 @@ $L$ разрешим тогда и только тогда, когда и $L$, �
 
 
 #pagebreak(weak: true)
-#set text(size: 11pt)
 #align(center)[
+  #set text(0.9em)
   #line(length: 30%, stroke: 1pt + luma(80%))
   #v(0.6em)
   #text(weight: "bold")[Что дальше?]
