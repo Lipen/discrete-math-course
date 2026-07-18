@@ -47,3 +47,6 @@
 // === Reductions (computability / complexity) ===
 #let mreduce = rel($scripts(<=)_m$)
 #let preduce = rel($scripts(<=)_p$)
+
+// === Myhill-Nerode relation (subscript, not limit) ===
+#let meq = $scripts(tilde.eq)$
