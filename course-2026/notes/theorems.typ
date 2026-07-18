@@ -1,5 +1,6 @@
 // Русские theorem-окружения : чистый Typst: block + counter.
 // Нумерация сбрасывается на каждом = Heading (глава).
+#import "requirements.typ": *
 // API:
 //   #definition[тело]                #definition[Подзаголовок][тело]
 //   #theorem[тело]                   #theorem[Название][тело]
@@ -27,6 +28,7 @@
   note: "Примечание",
   remark: "Замечание",
   overview: "Обзор главы",
+  algorithm: "Алгоритм",
 )
 
 #let def-ctr = counter("definition")
@@ -355,5 +357,24 @@
   inset: 1em,
   it: body,
 )
+
+// Алгоритм: блок для псевдокода. Использует lovelace.pseudocode-list внутри.
+// API: #algorithm[тело]  или  #algorithm[Название][тело]
+#let algorithm(inline: false, ..args) = {
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    strong[#thm-labels.algorithm (#sub)]
+  } else {
+    strong[#thm-labels.algorithm]
+  }
+  _block(
+    title: title,
+    fill: oklch(97%, 0.01, 230deg),
+    stroke: (left: 2pt + oklch(55%, 0.12, 230deg), rest: none),
+    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
+    inline: inline,
+    it: lovelace.pseudocode-list(body),
+  )
+}
 
 #let hrule = line(length: 100%)
