@@ -25,21 +25,14 @@
 )
 
 #align(center)[
-  #block(height: 3cm)
-  #text(size: 2.5em, weight: "bold")[Дискретная математика]
-  #block(height: 0.3cm)
-  #text(size: 1.5em, fill: luma(40%), weight: "light")[Конспект лекций]
-  #block(height: 1.8cm)
+  #block(height: 4cm)
+  #text(size: 2.8em, weight: "bold")[Дискретная математика]
+  #block(height: 0.4cm)
   #line(length: 3cm, stroke: 2pt + s1-theme)
-  #block(height: 1.2cm)
-  #text(size: 1.1em, weight: "semibold")[Язык, объекты, вычисления]
-  #block(height: 0.2cm)
-  #text(size: 0.85em, fill: luma(50%))[Семестры I и II]
-  #block(height: 2.5cm)
-  #text(size: 0.85em, fill: luma(45%))[Университет ИТМО] \
-  #text(size: 0.85em, fill: luma(45%))[2026 -- 2027]
-  #block(height: 1.5cm)
-  #text(size: 0.65em, fill: luma(60%))[Черновик --- в работе]
+  #block(height: 2cm)
+  #text(size: 1em, fill: luma(45%))[Университет ИТМО]
+  #block(height: 0.1cm)
+  #text(size: 0.85em, fill: luma(55%))[2026 / 2027]
 ]
 
 #pagebreak(weak: true)
