@@ -38,6 +38,12 @@
 #let qAccept = $q_"accept"$
 #let qReject = $q_"reject"$
 
+// === Logic gates (aliases for readability) ===
+#let nand = sym.arrow.t    // штрих Шеффера: $nand$
+#let nor = sym.arrow.b      // стрелка Пирса: $nor$
+#let sheffer = sym.arrow.t  // штрих Шеффера (aliased)
+#let peirce = sym.arrow.b   // стрелка Пирса (aliased)
+
 // === Reductions (computability / complexity) ===
 #let mreduce = rel($scripts(<=)_m$)
 #let preduce = rel($scripts(<=)_p$)
