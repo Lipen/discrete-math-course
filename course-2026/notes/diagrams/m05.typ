@@ -72,7 +72,27 @@
   e(<p2>, <p12>),
 )
 
-// ── 4. Powerset of {1,2,3} ordered by ⊆ (Boolean lattice B₃, a cube) ──
+// ── 4. Sign lattice for abstract interpretation ──
+#let sign-lattice = diagram(
+  node-shape: "circle",
+  node-stroke: n-str,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 1.8em,
+  cn((0, 0), $bot$, name: <bot>),
+  cn((-1, 1), $-$, name: <neg>),
+  cn((0, 1), $0$, name: <zero>),
+  cn((1, 1), $+$, name: <pos>),
+  cn((0, 2), $top$, name: <top>),
+  e(<bot>, <neg>),
+  e(<bot>, <zero>),
+  e(<bot>, <pos>),
+  e(<neg>, <top>),
+  e(<zero>, <top>),
+  e(<pos>, <top>),
+)
+
+// ── 5. Powerset of {1,2,3} ordered by ⊆ (Boolean lattice B₃, a cube) ──
 #let hasse-powerset-3 = diagram(
   node-shape: "circle",
   node-stroke: n-str,
