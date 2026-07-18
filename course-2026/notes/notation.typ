@@ -48,5 +48,5 @@
 #let mreduce = rel($scripts(<=)_m$)
 #let preduce = rel($scripts(<=)_p$)
 
-// === Myhill-Nerode relation (subscript, not limit) ===
-#let meq = $scripts(tilde.eq)$
+// === Отношение неразличимости Майхилла--Нерода (индекс, не предел) ===
+#let myhilleq = $scripts(tilde.eq)$
