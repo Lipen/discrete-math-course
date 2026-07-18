@@ -117,6 +117,14 @@
   $A = B$ тогда и только тогда, когда $A subset.eq B$ и $B subset.eq A$.
 ]
 
+#proof[
+  ($=>$) Если $A = B$, то по определению экстенсиональности $x in A iff x in B$.
+  Тогда $x in A arrow.r x in B$ (что даёт $A subset.eq B$) и $x in B arrow.r x in A$ (что даёт $B subset.eq A$).
+
+  ($arrow.l$) Если $A subset.eq B$ и $B subset.eq A$, то $x in A arrow.r x in B$ и $x in B arrow.r x in A$.
+  Следовательно, $x in A iff x in B$, что по определению экстенсиональности означает $A = B$.
+]
+
 Эта теорема даёт стандартный метод доказательства равенства множеств: показать, что каждая сторона содержится в другой.
 
 === Принадлежность и включение
@@ -490,9 +498,9 @@ SQL-запрос --- не метафора множеств, а прямая р�
 
   В терминах множеств: результат --- это
   $
-    pi_"name"(sigma_("course = Дискр. мат.")(("Students") join_{"id = sid"} ("Courses"))),
+    pi_"name"(sigma_("course = Дискр. мат.")(("Students") times_{"id = sid"} ("Courses"))),
   $
-  где $R join_P S = sigma_P(R times S)$.
+  где $"JOIN"$ с условием $P$ определяется как $R bowtie.big_P S = sigma_P(R times S)$.
   `JOIN` строит декартово произведение (каждая строка `Students` с каждой строкой `Courses`), затем `ON` отбирает пары с совпадающими id, `WHERE` фильтрует по названию курса, а `SELECT DISTINCT name` берёт проекцию на столбец name.
   Каждый шаг --- операция над множествами кортежей.
 ]
