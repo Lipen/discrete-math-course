@@ -1,18 +1,16 @@
 // Дискретная математика --- конспект лекций, полная книга.
-// Два семестра, единый документ.
 
 #import "common-notes.typ": *
 #import "notation.typ": *
 
-#let s1-theme = oklch(55%, 0.18, 155deg) // зелёный --- "Язык и объекты"
-#let s2-theme = oklch(55%, 0.15, 250deg) // синий --- "Вычисления"
+#let accent-color = oklch(55%, 0.16, 230deg) // сине-голубой
 
 #set document(
   title: "Дискретная математика --- конспект лекций",
   author: "Константин Чухарев",
 )
 
-#show: notes-template.with(theme: s1-theme)
+#show: notes-template.with(theme: accent-color)
 
 // --- Титульная страница ---
 #front-matter
@@ -28,7 +26,7 @@
   #block(height: 4cm)
   #text(size: 2.8em, weight: "bold")[Дискретная математика]
   #block(height: 0.4cm)
-  #line(length: 3cm, stroke: 2pt + s1-theme)
+  #line(length: 3cm, stroke: 2pt + accent-color)
   #block(height: 2cm)
   #text(size: 1em, fill: luma(45%))[Университет ИТМО]
   #block(height: 0.1cm)
@@ -73,9 +71,7 @@
   ],
 )
 
-// --- Семестр I: Язык и объекты ---
-#part("Язык и объекты", number: "I", theme: s1-theme)
-
+// --- Главы ---
 #include "m01-logic-proofs.typ"
 #include "m02-sets.typ"
 #include "m03-relations.typ"
@@ -87,9 +83,6 @@
 #include "m09-combinatorics.typ"
 #include "m10-generating-fns.typ"
 #include "m11-transfinite.typ"
-
-// --- Семестр II: Вычисления ---
-#part("Вычисления", number: "II", theme: s2-theme)
 
 #include "m12-graphs.typ"
 #include "m13-automata.typ"

@@ -3,7 +3,7 @@
 //
 // Использование:
 //   #import "common-notes.typ": *
-//   #show: notes-template.with(theme: oklch(55%, 0.18, 155deg))
+//   #show: notes-template.with(theme: oklch(55%, 0.16, 230deg))
 //   #set document(title: "...", author: "...")
 
 #import "requirements.typ": *
@@ -27,8 +27,8 @@
   set heading(numbering: "1.1.1")
 }
 
-// --- Страница-разделитель (часть/семестр) ---
-#let part(title, number: none, theme: oklch(55%, 0.02, 265deg)) = {
+// --- Страница-разделитель (часть) ---
+#let part(title, number: none, theme: oklch(55%, 0.16, 230deg)) = {
   pagebreak(weak: true)
   set page(header: none, footer: none, numbering: none)
   align(center + horizon)[
@@ -55,7 +55,7 @@
 #let chapter-num-size = 42pt
 
 // --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
-#let notes-template(it, theme: oklch(55%, 0.02, 265deg)) = {
+#let notes-template(it, theme: oklch(55%, 0.16, 230deg)) = {
   // Типографика
   set text(
     font: "Libertinus Serif",
