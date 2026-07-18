@@ -1,6 +1,5 @@
 // Русские theorem-окружения : чистый Typst: block + counter.
 // Нумерация сбрасывается на каждом = Heading (глава).
-#import "requirements.typ": *
 // API:
 //   #definition[тело]                #definition[Подзаголовок][тело]
 //   #theorem[тело]                   #theorem[Название][тело]
@@ -358,7 +357,8 @@
   it: body,
 )
 
-// Алгоритм: блок для псевдокода. Использует lovelace.pseudocode-list внутри.
+// Алгоритм: стилевой блок для пошаговых процедур.
+// Содержимое --- обычный +-список (Typst сам нумерует).
 // API: #algorithm[тело]  или  #algorithm[Название][тело]
 #let algorithm(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
@@ -373,7 +373,7 @@
     stroke: (left: 2pt + oklch(55%, 0.12, 230deg), rest: none),
     inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
     inline: inline,
-    it: lovelace.pseudocode-list(body),
+    it: body,
   )
 }
 
