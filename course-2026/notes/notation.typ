@@ -49,4 +49,4 @@
 #let preduce = rel($scripts(<=)_p$)
 
 // === Отношение неразличимости Майхилла--Нерода (индекс, не предел) ===
-#let myhilleq = $scripts(tilde.eq)$
+#let meq = $scripts(tilde.eq)$
