@@ -77,6 +77,7 @@
 #include "m03-relations.typ"
 #include "m04-functions.typ"
 #include "m05-order-relations.typ"
+#include "m12-graphs.typ"
 #include "m06-boolean-algebra.typ"
 #include "m07-circuits.typ"
 #include "m08-sat.typ"
@@ -84,7 +85,6 @@
 #include "m10-generating-fns.typ"
 #include "m11-transfinite.typ"
 
-#include "m12-graphs.typ"
 #include "m13-automata.typ"
 #include "m14-turing.typ"
 #include "m15-complexity.typ"
