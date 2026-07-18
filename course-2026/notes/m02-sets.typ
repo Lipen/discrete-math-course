@@ -190,18 +190,18 @@
 === Соответствие операций над множествами и логических связок
 
 #table(
-    columns: 2,
-    align: (left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
-    table.header([*Операция над множествами*], [*Логический аналог*]),
-    [$A union B$], [$x in A or x in B$],
-    [$A inter B$], [$x in A and x in B$],
-    [$overline(A)$], [$not(x in A)$],
-    [$A setminus B$], [$x in A and not(x in B)$],
-    [$A symdiff B$], [$x in A xor x in B$],
-    [$A subset.eq B$], [$x in A imply x in B$],
-    [$A = B$], [$x in A iff x in B$],
-  )
+  columns: 2,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+  table.header([*Операция над множествами*], [*Логический аналог*]),
+  [$A union B$], [$x in A or x in B$],
+  [$A inter B$], [$x in A and x in B$],
+  [$overline(A)$], [$not(x in A)$],
+  [$A setminus B$], [$x in A and not(x in B)$],
+  [$A symdiff B$], [$x in A xor x in B$],
+  [$A subset.eq B$], [$x in A imply x in B$],
+  [$A = B$], [$x in A iff x in B$],
+)
 
 Это не просто мнемоническое совпадение.
 Операции над множествами и логические связки --- два представления одной структуры.
@@ -477,6 +477,24 @@ SQL-запрос --- не метафора множеств, а прямая р�
 
 #example[
   `SELECT DISTINCT Name FROM Employees WHERE Age > 30` $=$ ${e."Name" mid(|) e in "Employees", e."Age" > 30}$.
+]
+
+#example[JOIN как декартово произведение с условием][
+  Таблица `Students(id, name)` и таблица `Courses(sid, course)`.
+  Запрос «имена студентов, записанных на дискретную математику»:
+  ```sql
+  SELECT DISTINCT s.name
+  FROM Students s JOIN Courses c ON s.id = c.sid
+  WHERE c.course = 'Дискретная математика'
+  ```
+
+  В терминах множеств: результат --- это
+  $
+    pi_"name"(sigma_("course = Дискр. мат.")(("Students") join_{"id = sid"} ("Courses"))),
+  $
+  где $R join_P S = sigma_P(R times S)$.
+  `JOIN` строит декартово произведение (каждая строка `Students` с каждой строкой `Courses`), затем `ON` отбирает пары с совпадающими id, `WHERE` фильтрует по названию курса, а `SELECT DISTINCT name` берёт проекцию на столбец name.
+  Каждый шаг --- операция над множествами кортежей.
 ]
 
 SQL --- это порождающая запись множеств с синтаксическим сахаром.
