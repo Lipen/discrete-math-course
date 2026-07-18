@@ -127,17 +127,6 @@
   set figure(gap: 0.65em)
   show figure: it => align(center, it)
 
-  // Бумажно-безопасные ссылки: URL в сноску при печати
-  show link: it => {
-    let url = it.dest
-    if type(url) == str and it.body != url {
-      it
-      footnote(url)
-    } else {
-      it
-    }
-  }
-
   // Латинские сокращения
   show "i.e.": set text(style: "italic")
   show "e.g.": set text(style: "italic")
