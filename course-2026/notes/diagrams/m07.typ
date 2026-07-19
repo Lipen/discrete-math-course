@@ -170,28 +170,45 @@
 
 // Helper: internal node (circle with variable name)
 #let bdd-var(pos, var-name, node-name) = {
-  draw.circle(pos, radius: 0.42, fill: bdd-node-fill, stroke: bdd-node-str, name: node-name)
+  draw.circle(
+    pos,
+    radius: 0.42,
+    fill: bdd-node-fill,
+    stroke: bdd-node-str,
+    name: node-name,
+  )
   draw.content(pos, text(size: 0.8em, fill: bdd-label)[#var-name])
 }
 
 // Helper: terminal node (square with value 0 or 1)
 #let bdd-term(pos, val, node-name) = {
   let (cx, cy) = pos
-  draw.rect((cx - 0.3, cy - 0.3), (cx + 0.3, cy + 0.3),
-    radius: 2pt, fill: white, stroke: bdd-node-str, name: node-name)
+  draw.rect(
+    (cx - 0.3, cy - 0.3),
+    (cx + 0.3, cy + 0.3),
+    radius: 2pt,
+    fill: white,
+    stroke: bdd-node-str,
+    name: node-name,
+  )
   draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
 }
 
 // Helper: lo-edge (dashed, uses anchor strings directly)
 #let bdd-lo(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor,
-    stroke: (paint: bdd-lo-color, thickness: 0.6pt, dash: "dashed"))
+  draw.line(from-anchor, to-anchor, stroke: (
+    paint: bdd-lo-color,
+    thickness: 0.6pt,
+    dash: "dashed",
+  ))
 }
 
 // Helper: hi-edge (solid)
 #let bdd-hi(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor,
-    stroke: (paint: bdd-hi-color, thickness: 0.7pt))
+  draw.line(from-anchor, to-anchor, stroke: (
+    paint: bdd-hi-color,
+    thickness: 0.7pt,
+  ))
 }
 
 #let bdd-xor = canvas({
@@ -223,14 +240,26 @@
   let tx = 3.8
   for (col, hdr) in (($x$, $y$, $f$),).enumerate() {
     for (k, label) in hdr.enumerate() {
-      draw.content((tx + k * 0.6, 2.5),
-        text(size: 0.6em, weight: "bold", fill: bdd-label)[#label])
+      draw.content((tx + k * 0.6, 2.5), text(
+        size: 0.6em,
+        weight: "bold",
+        fill: bdd-label,
+      )[#label])
     }
   }
-  for (k, (vx, vy, vf)) in ((0,0,0),(0,1,1),(1,0,1),(1,1,0)).enumerate() {
+  for (k, (vx, vy, vf)) in (
+    (0, 0, 0),
+    (0, 1, 1),
+    (1, 0, 1),
+    (1, 1, 0),
+  ).enumerate() {
     let y = 1.8 - k * 0.55
     draw.content((tx, y), text(size: 0.6em, fill: bdd-label)[#vx])
     draw.content((tx + 0.6, y), text(size: 0.6em, fill: bdd-label)[#vy])
-    draw.content((tx + 1.2, y), text(size: 0.6em, weight: "bold", fill: bdd-label)[#vf])
+    draw.content((tx + 1.2, y), text(
+      size: 0.6em,
+      weight: "bold",
+      fill: bdd-label,
+    )[#vf])
   }
 })

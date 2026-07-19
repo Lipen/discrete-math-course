@@ -130,8 +130,18 @@
   )
 
   // Center vertex 1 (highlighted)
-  draw.circle(center, radius: 0.38, fill: c-hi, stroke: oklch(55%, 0.18, 45deg) + 1pt, name: "c")
-  draw.content(center, text(size: 0.7em, weight: "bold", fill: oklch(30%, 0.02, 265deg))[1])
+  draw.circle(
+    center,
+    radius: 0.38,
+    fill: c-hi,
+    stroke: oklch(55%, 0.18, 45deg) + 1pt,
+    name: "c",
+  )
+  draw.content(center, text(size: 0.7em, weight: "bold", fill: oklch(
+    30%,
+    0.02,
+    265deg,
+  ))[1])
 
   // Outer vertices 2..6
   for (i, p) in others.enumerate() {
@@ -159,7 +169,15 @@
   draw.line("v2", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
 
   // Other edges (thin, dimmed) using named nodes
-  for (a, b) in (("v2", "v6"), ("v2", "v5"), ("v3", "v5"), ("v3", "v6"), ("v4", "v5"), ("v4", "v6"), ("v5", "v6")) {
+  for (a, b) in (
+    ("v2", "v6"),
+    ("v2", "v5"),
+    ("v3", "v5"),
+    ("v3", "v6"),
+    ("v4", "v5"),
+    ("v4", "v6"),
+    ("v5", "v6"),
+  ) {
     draw.line(a, b, stroke: (paint: luma(70%), thickness: 0.3pt))
   }
 
@@ -169,9 +187,17 @@
 
   // Legend
   draw.line((3.8, 2.0), (4.5, 2.0), stroke: (paint: c-red, thickness: 1.5pt))
-  draw.content((4.8, 2.0), text(size: 0.55em, fill: oklch(30%, 0.02, 265deg))[красное])
+  draw.content((4.8, 2.0), text(size: 0.55em, fill: oklch(
+    30%,
+    0.02,
+    265deg,
+  ))[красное])
   draw.line((3.8, 1.3), (4.5, 1.3), stroke: (paint: c-blue, thickness: 1.5pt))
-  draw.content((4.8, 1.3), text(size: 0.55em, fill: oklch(30%, 0.02, 265deg))[синее])
+  draw.content((4.8, 1.3), text(size: 0.55em, fill: oklch(
+    30%,
+    0.02,
+    265deg,
+  ))[синее])
 
   // Annotation
   draw.content((3.5, 0.3), text(size: 0.5em, fill: luma(50%))[

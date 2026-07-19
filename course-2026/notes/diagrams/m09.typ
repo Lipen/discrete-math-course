@@ -109,8 +109,14 @@
 // Helper: rounded box with text, returns named node
 #let dpll-box(pos, w, h, fill, stroke, title, subtitle, name) = {
   let (cx, cy) = pos
-  draw.rect((cx - w/2, cy - h/2), (cx + w/2, cy + h/2),
-    radius: 4pt, fill: fill, stroke: stroke, name: name)
+  draw.rect(
+    (cx - w / 2, cy - h / 2),
+    (cx + w / 2, cy + h / 2),
+    radius: 4pt,
+    fill: fill,
+    stroke: stroke,
+    name: name,
+  )
   draw.content((cx, cy + 0.15), text(size: 0.55em, fill: dpll-label)[#title])
   if subtitle != none {
     draw.content((cx, cy - 0.2), text(size: 0.5em, fill: luma(45%))[#subtitle])
@@ -120,47 +126,108 @@
 // Helper: X marker for dead ends
 #let dpll-dead-end(pos, name) = {
   let (cx, cy) = pos
-  draw.line((cx - 0.2, cy - 0.15), (cx + 0.2, cy - 0.4), stroke: dpll-conf-str, name: name + "-x1")
-  draw.line((cx + 0.2, cy - 0.15), (cx - 0.2, cy - 0.4), stroke: dpll-conf-str, name: name + "-x2")
+  draw.line(
+    (cx - 0.2, cy - 0.15),
+    (cx + 0.2, cy - 0.4),
+    stroke: dpll-conf-str,
+    name: name + "-x1",
+  )
+  draw.line(
+    (cx + 0.2, cy - 0.15),
+    (cx - 0.2, cy - 0.4),
+    stroke: dpll-conf-str,
+    name: name + "-x2",
+  )
 }
 
 // Helper: edge between named anchor strings
 #let dpll-edge(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor,
-    stroke: dpll-edge-color + 0.7pt)
+  draw.line(from-anchor, to-anchor, stroke: dpll-edge-color + 0.7pt)
 }
 
 #let dpll-tree = canvas({
   // ── Formula ──
-  dpll-box((0, 4.2), 5.0, 0.8,
-    oklch(96%, 0.01, 260deg), oklch(60%, 0.05, 260deg) + 0.5pt,
+  dpll-box(
+    (0, 4.2),
+    5.0,
+    0.8,
+    oklch(96%, 0.01, 260deg),
+    oklch(60%, 0.05, 260deg) + 0.5pt,
     $(x or y) and (not x or y) and (x or not y) and (not x or not y)$,
-    none, "formula")
+    none,
+    "formula",
+  )
 
   // ── Decision ──
-  dpll-box((0, 3.0), 2.0, 0.6, dpll-dec-fill, dpll-dec-str,
-    [выбор $x$], none, "decision")
+  dpll-box(
+    (0, 3.0),
+    2.0,
+    0.6,
+    dpll-dec-fill,
+    dpll-dec-str,
+    [выбор $x$],
+    none,
+    "decision",
+  )
   dpll-edge("formula.south", "decision.north")
 
   // ── Left branch (x=1) ──
-  draw.content((-2.1, 3.3), anchor: "south", text(size: 0.6em, fill: dpll-label)[$x = 1$])
-  dpll-box((-2.1, 1.9), 2.2, 0.8, dpll-up-fill, dpll-up-str,
-    [unit propagation], [$(not x or y) → y = 1$], "up-left")
+  draw.content((-2.1, 3.3), anchor: "south", text(
+    size: 0.6em,
+    fill: dpll-label,
+  )[$x = 1$])
+  dpll-box(
+    (-2.1, 1.9),
+    2.2,
+    0.8,
+    dpll-up-fill,
+    dpll-up-str,
+    [unit propagation],
+    [$(not x or y) → y = 1$],
+    "up-left",
+  )
   dpll-edge("decision.south-west", "up-left.north")
 
-  dpll-box((-2.1, 0.7), 2.2, 0.8, dpll-conf-fill, dpll-conf-str,
-    [конфликт], [$(not x or not y)$ пуст], "conf-left")
+  dpll-box(
+    (-2.1, 0.7),
+    2.2,
+    0.8,
+    dpll-conf-fill,
+    dpll-conf-str,
+    [конфликт],
+    [$(not x or not y)$ пуст],
+    "conf-left",
+  )
   dpll-edge("up-left.south", "conf-left.north")
   dpll-dead-end((-2.1, 0.0), "dead-left")
 
   // ── Right branch (x=0) ──
-  draw.content((2.1, 3.3), anchor: "south", text(size: 0.6em, fill: dpll-label)[$x = 0$])
-  dpll-box((2.1, 1.9), 2.2, 0.8, dpll-up-fill, dpll-up-str,
-    [unit propagation], [$(x or y) → y = 1$], "up-right")
+  draw.content((2.1, 3.3), anchor: "south", text(
+    size: 0.6em,
+    fill: dpll-label,
+  )[$x = 0$])
+  dpll-box(
+    (2.1, 1.9),
+    2.2,
+    0.8,
+    dpll-up-fill,
+    dpll-up-str,
+    [unit propagation],
+    [$(x or y) → y = 1$],
+    "up-right",
+  )
   dpll-edge("decision.south-east", "up-right.north")
 
-  dpll-box((2.1, 0.7), 2.2, 0.8, dpll-conf-fill, dpll-conf-str,
-    [конфликт], [$(x or not y)$ пуст], "conf-right")
+  dpll-box(
+    (2.1, 0.7),
+    2.2,
+    0.8,
+    dpll-conf-fill,
+    dpll-conf-str,
+    [конфликт],
+    [$(x or not y)$ пуст],
+    "conf-right",
+  )
   dpll-edge("up-right.south", "conf-right.north")
   dpll-dead-end((2.1, 0.0), "dead-right")
 })
