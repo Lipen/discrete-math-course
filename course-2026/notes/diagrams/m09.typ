@@ -107,55 +107,89 @@
   )[$"011", "101", "110"$])
 })
 
-// ── Ramsey R(3,3) = 6: K6 with 2-colored edges ──
+// ── Ramsey R(3,3) ≤ 6: proof by pigeonhole ──
+// Metaphor: vertex 1 connects to 5 others. By pigeonhole, ≥3 edges
+// from 1 have the same color (say red, to vertices 2,3,4).
+// The triangle {2,3,4} either has a red edge (→ red K₃ with 1)
+// or is all blue (→ blue K₃). A monochromatic triangle is inevitable.
 #let c-red = oklch(58%, 0.22, 22deg)
 #let c-blue = oklch(58%, 0.18, 250deg)
 #let c-ram-node = oklch(88%, 0.03, 250deg)
 #let c-ram-str = oklch(60%, 0.08, 250deg) + 0.7pt
+#let c-hi = oklch(65%, 0.20, 45deg)
 
 #let ramsey-k6 = canvas({
-  // Vertices of a regular hexagon
-  let v = (
-    (0, 2.2),
-    (1.9, 1.1),
-    (1.9, -1.1),
-    (0, -2.2),
-    (-1.9, -1.1),
-    (-1.9, 1.1),
+  // Vertex 1 in center, others around
+  let center = (0, 0)
+  let others = (
+    (0, 2.5),
+    (2.4, 0.8),
+    (1.5, -2),
+    (-1.5, -2),
+    (-2.4, 0.8),
   )
-  // Nodes
-  for (i, p) in v.enumerate() {
-    draw.circle(p, radius: 0.32, fill: c-ram-node, stroke: c-ram-str)
-    draw.content(p, text(size: 0.7em, fill: c-orbit)[#(i + 1)])
+
+  // Center vertex 1 (highlighted)
+  draw.circle(center, radius: 0.38, fill: c-hi, stroke: oklch(55%, 0.18, 45deg) + 1pt, name: "c")
+  draw.content(center, text(size: 0.7em, weight: "bold", fill: oklch(30%, 0.02, 265deg))[1])
+
+  // Outer vertices 2..6
+  for (i, p) in others.enumerate() {
+    let lab = str(i + 2)
+    // Vertices 2,3,4 are the "pigeonhole" set (connected to 1 in red)
+    let fill = if i < 3 { oklch(88%, 0.06, 22deg) } else { c-ram-node }
+    let str = if i < 3 { oklch(55%, 0.18, 22deg) + 0.8pt } else { c-ram-str }
+    draw.circle(p, radius: 0.32, fill: fill, stroke: str, name: "v" + lab)
+    draw.content(p, text(size: 0.65em, fill: oklch(30%, 0.02, 265deg))[#lab])
   }
-  // Edge coloring: (i,j,color) where color=true=red, false=blue
-  // This specific 2-coloring has NO monochromatic triangle (optimal coloring)
-  let edges = (
-    (0, 1, true),
-    (0, 2, false),
-    (0, 3, true),
-    (0, 4, false),
-    (0, 5, false),
-    (1, 2, true),
-    (1, 3, false),
-    (1, 4, true),
-    (1, 5, true),
-    (2, 3, true),
-    (2, 4, false),
-    (2, 5, false),
-    (3, 4, true),
-    (3, 5, true),
-    (4, 5, false),
-  )
-  for (i, j, is-red) in edges {
-    draw.line(v.at(i), v.at(j), stroke: (
+
+  // Edges from vertex 1: 3 red (to 2,3,4), 2 blue (to 5,6)
+  for i in range(5) {
+    let is-red = (i < 3)
+    draw.line(center, others.at(i), stroke: (
       paint: if is-red { c-red } else { c-blue },
-      thickness: 1.2pt,
+      thickness: if is-red { 1.6pt } else { 0.8pt },
     ))
   }
+
+  // Triangle {2,3,4}: show edges. One is red (→ red K₃ with 1),
+  // or all are blue (→ blue K₃). Here we show version with red edge.
+  // Edge 2-3: red → red triangle {1,2,3}
+  draw.line(others.at(0), others.at(1),
+    stroke: (paint: c-red, thickness: 2.0pt))
+  // Edge 3-4: blue
+  draw.line(others.at(1), others.at(2),
+    stroke: (paint: c-blue, thickness: 0.8pt))
+  // Edge 2-4: blue
+  draw.line(others.at(0), others.at(2),
+    stroke: (paint: c-blue, thickness: 0.8pt))
+
+  // Other edges (thin, dimmed)
+  for (i1, i2) in ((0, 3), (0, 4), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)) {
+    draw.line(others.at(i1), others.at(i2),
+      stroke: (paint: luma(70%), thickness: 0.3pt))
+  }
+
+  // Highlight the red triangle {1,2,3}
+  draw.line(center, others.at(0),
+    stroke: (paint: c-red, thickness: 2.5pt))
+  draw.line(center, others.at(1),
+    stroke: (paint: c-red, thickness: 2.5pt))
+
   // Legend
-  draw.line((3.5, 1.5), (4.3, 1.5), stroke: (paint: c-red, thickness: 1.2pt))
-  draw.content((4.6, 1.5), text(size: 0.6em, fill: c-orbit)[красное ребро])
-  draw.line((3.5, 0.8), (4.3, 0.8), stroke: (paint: c-blue, thickness: 1.2pt))
-  draw.content((4.6, 0.8), text(size: 0.6em, fill: c-orbit)[синее ребро])
+  draw.line((3.8, 2.0), (4.5, 2.0), stroke: (paint: c-red, thickness: 1.5pt))
+  draw.content((4.8, 2.0), text(size: 0.55em, fill: oklch(30%, 0.02, 265deg))[красное])
+  draw.line((3.8, 1.3), (4.5, 1.3), stroke: (paint: c-blue, thickness: 1.5pt))
+  draw.content((4.8, 1.3), text(size: 0.55em, fill: oklch(30%, 0.02, 265deg))[синее])
+
+  // Annotation
+  draw.content((3.5, 0.3), text(size: 0.5em, fill: luma(50%))[
+    Из 5 рёбер от вершины 1 минимум 3 одного цвета.
+  ])
+  draw.content((3.5, -0.2), text(size: 0.5em, fill: luma(50%))[
+    Среди их концов найдётся ребро того же цвета
+  ])
+  draw.content((3.5, -0.7), text(size: 0.5em, fill: luma(50%))[
+    либо все три ребра --- другого цвета.
+  ])
 })
