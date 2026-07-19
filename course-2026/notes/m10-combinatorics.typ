@@ -1,7 +1,7 @@
 // M10 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m09.typ": burnside-necklaces, pascals-triangle, ramsey-k6
+#import "diagrams/m10.typ": burnside-necklaces, pascals-triangle, ramsey-k6
 
 = Комбинаторика <chap:combinatorics>
 

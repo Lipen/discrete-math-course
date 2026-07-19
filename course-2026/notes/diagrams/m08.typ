@@ -1,172 +1,220 @@
-// M08 diagrams --- SAT: implication graph for 2-SAT.
+// M07 diagrams — adder circuits.
+// All junction coordinates derived from port anchors — fully independent of gw/gh.
 #import "../requirements.typ": *
-#import cetz: canvas, draw
+#import "../notation.typ": *
 
-#let c-node = oklch(88%, 0.03, 250deg)
-#let c-node-str = oklch(60%, 0.08, 250deg)
-#let c-edge = oklch(35%, 0.02, 265deg) + 0.5pt
-#let c-label = oklch(35%, 0.02, 265deg)
-#let c-arrow = oklch(35%, 0.02, 265deg)
+#import circuiteria: circuit, element, wire
+#import "@preview/cetz:0.3.4" as ccetz
+#import ccetz: draw
 
-// Implication graph for: (x or y) and (not x or z) and (not y or not z)
-// Clauses:
-//   (x or y)    → not x → y,  not y → x
-//   (not x or z) → x → z,     not z → not x
-//   (not y or not z) → y → not z,  z → not y
-//
-// Layout: 6 nodes --- x, not x, y, not y, z, not z
-// x=(0,1), notx=(0,-1), y=(2,1), noty=(2,-1), z=(4,1), notz=(4,-1)
-#let implication-graph-2sat = canvas({
-  let r = 0.4
-  let positions = (
-    ((0, 1.2), $x$),
-    ((0, -1.2), $overline(x)$),
-    ((2, 1.2), $y$),
-    ((2, -1.2), $overline(y)$),
-    ((4, 1.2), $z$),
-    ((4, -1.2), $overline(z)$),
+#let c-gate = oklch(88%, 0.03, 250deg)
+#let c-fg = oklch(35%, 0.02, 265deg)
+#let c-str = oklch(35%, 0.02, 265deg) + 0.7pt
+
+// Gate dimensions.
+#let gw = 1
+#let gh = 1
+
+// Intersection radius.
+#let ir = 0.07
+
+// Helper: coordinate with given x, and y taken from a port anchor.
+// (horizontal: (x, 0), vertical: port) → x from tuple, y from port anchor.
+#let lj(x, port) = (horizontal: (x, 0), vertical: port)
+
+// ── Half-adder: S = A xor B, C = A and B ──
+#let half-adder = circuit({
+  element.gate-xor(
+    x: 0,
+    y: 1,
+    w: gw,
+    h: gh,
+    id: "xor",
+    fill: c-gate,
+    stroke: c-str,
+  )
+  element.gate-and(
+    x: 0,
+    y: -.5,
+    w: gw,
+    h: gh,
+    id: "and",
+    fill: c-gate,
+    stroke: c-str,
   )
 
-  // Nodes
-  for pair in positions {
-    let pos = pair.at(0)
-    let label = pair.at(1)
-    draw.circle(pos, radius: r, fill: c-node, stroke: c-node-str)
-    draw.content(pos, text(size: 0.72em, fill: c-label)[#label])
-  }
-
-  // Edges from (x or y): not x → y, not y → x
-  draw.line((-0.3, -1.2), (1.7, 1.2), stroke: c-edge, mark: (end: ">"))
-  draw.line((1.7, -1.2), (-0.3, 1.2), stroke: c-edge, mark: (end: ">"))
-
-  // Edges from (not x or z): x → z, not z → not x
-  draw.line((0.35, 1.2), (3.65, 1.2), stroke: c-edge, mark: (end: ">"))
-  draw.line((3.65, -1.2), (0.35, -1.2), stroke: c-edge, mark: (end: ">"))
-
-  // Edges from (not y or not z): y → not z, z → not y
-  draw.line((2.35, 1.2), (3.65, -1.2), stroke: c-edge, mark: (end: ">"))
-  draw.line((4.35, 1.2), (2.35, -1.2), stroke: c-edge, mark: (end: ">"))
-})
-
-// Simpler example for explanation: (x or y) and (not x or y)
-// Clauses:
-//   (x or y)    → not x → y
-//   (not x or y) → x → y
-// This formula is satisfiable: set y=true.
-#let implication-graph-2sat-simple = canvas({
-  let r = 0.4
-  draw.circle((0, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "x")
-  draw.content((0, 0.8), text(size: 0.72em, fill: c-label)[$x$])
-
-  draw.circle(
-    (0, -0.8),
-    radius: r,
-    fill: c-node,
-    stroke: c-node-str,
-    name: "notx",
+  // A → XOR.in0 + AND.in0.
+  let aj = lj(-0.5, "xor-port-in0")
+  wire.wire("a-in", (lj(-2.0, "xor-port-in0"), aj), color: c-fg)
+  wire.wire("a-xor", (aj, "xor-port-in0"), color: c-fg)
+  wire.wire(
+    "a-and-v",
+    (aj, "and-port-in0"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
   )
-  draw.content((0, -0.8), text(size: 0.72em, fill: c-label)[$overline(x)$])
+  wire.intersection("a-and-v.zig", radius: ir, fill: c-fg)
 
-  draw.circle((2, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "y")
-  draw.content((2, 0.8), text(size: 0.72em, fill: c-label)[$y$])
-
-  draw.circle(
-    (2, -0.8),
-    radius: r,
-    fill: c-node,
-    stroke: c-node-str,
-    name: "noty",
+  // B → XOR.in1 + AND.in1.
+  let bj = lj(-0.9, "and-port-in1")
+  wire.wire("b-in", (lj(-2.0, "and-port-in1"), bj), color: c-fg)
+  wire.wire("b-and", (bj, "and-port-in1"), color: c-fg)
+  wire.wire(
+    "b-xor-v",
+    (bj, "xor-port-in1"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
   )
-  draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
+  wire.intersection(bj, radius: ir, fill: c-fg)
 
-  // Edges
-  draw.line((-0.35, -0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
-  draw.line((0.35, 0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
+  // Outputs.
+  wire.wire("s-out", ("xor-port-out", lj(2.0, "xor-port-out")), color: c-fg)
+  wire.wire("c-out", ("and-port-out", lj(2.0, "and-port-out")), color: c-fg)
 
-  // Labels
-  draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(
-    45%,
-    0.02,
-    265deg,
-  ))[$x or y$])
-  draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(
-    45%,
-    0.02,
-    265deg,
-  ))[$not x or y$])
+  // Labels.
+  draw.content(lj(-2.1, "xor-port-in0"), anchor: "east", $A$)
+  draw.content(lj(-2.1, "and-port-in1"), anchor: "east", $B$)
+  draw.content(lj(2.1, "xor-port-out"), anchor: "west", $S$)
+  draw.content(lj(2.1, "and-port-out"), anchor: "west", $C$)
 })
 
-// ── DPLL decision landscape for φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
-// Metaphor: search as a branching road. Each decision forks the path;
-// unit propagation is gravitational pull toward inevitable conclusions;
-// conflicts are dead ends. When all roads lead to conflict → UNSAT.
-#let c-dpll-dec-fill = oklch(92%, 0.04, 250deg)
-#let c-dpll-dec-str = oklch(55%, 0.15, 250deg) + 0.8pt
-#let c-dpll-up-fill = oklch(92%, 0.04, 155deg)
-#let c-dpll-up-str = oklch(55%, 0.18, 155deg) + 0.7pt
-#let c-dpll-conf-fill = oklch(92%, 0.06, 22deg)
-#let c-dpll-conf-str = oklch(55%, 0.20, 22deg) + 0.8pt
-#let c-dpll-edge = oklch(35%, 0.02, 265deg) + 0.7pt
-#let c-dpll-label = oklch(30%, 0.02, 265deg)
+// ── Full-adder: S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B)) ──
+#let full-adder = circuit({
+  // Column 1 — anchor column.
+  element.gate-xor(
+    x: 0,
+    y: 0.9,
+    w: gw,
+    h: gh,
+    id: "xor1",
+    fill: c-gate,
+    stroke: c-str,
+  )
+  element.gate-and(
+    x: 0,
+    y: -0.9,
+    w: gw,
+    h: gh,
+    id: "and1",
+    fill: c-gate,
+    stroke: c-str,
+  )
 
-#let dpll-tree = canvas({
-  // ── Formula box at top ──
-  draw.rect((-2.5, 3.8), (2.5, 4.6), radius: 6pt,
-    fill: oklch(96%, 0.01, 260deg),
-    stroke: oklch(60%, 0.05, 260deg) + 0.5pt)
-  draw.content((0, 4.2),
-    text(size: 0.55em, fill: c-dpll-label)[$(x or y) and (not x or y) and (x or not y) and (not x or not y)$])
+  // Column 2 — relative to col 1.
+  element.gate-xor(
+    x: (rel: 1.5, to: "xor1.east"),
+    y: 0.9,
+    w: gw,
+    h: gh,
+    id: "xor2",
+    fill: c-gate,
+    stroke: c-str,
+  )
+  element.gate-and(
+    x: (rel: 2.5, to: "and1.east"),
+    y: -0.5,
+    w: gw,
+    h: gh,
+    id: "and2",
+    fill: c-gate,
+    stroke: c-str,
+  )
 
-  // ── Decision node: x ──
-  draw.rect((-0.5, 2.7), (0.5, 3.3), radius: 4pt,
-    fill: c-dpll-dec-fill, stroke: c-dpll-dec-str)
-  draw.content((0, 3.0), text(size: 0.65em, weight: "bold", fill: c-dpll-label)[выбор $x$])
+  // Column 3 — relative to col 2.
+  element.gate-or(
+    x: (rel: 1.5, to: "and2.east"),
+    y: -0.9,
+    w: gw,
+    h: gh,
+    id: "or1",
+    fill: c-gate,
+    stroke: c-str,
+  )
 
-  draw.line((0, 3.8), (0, 3.3), stroke: c-dpll-edge)
+  // ── A → XOR1.in0 + AND1.in0 ──
+  let a1j = lj(-0.5, "xor1-port-in0")
+  wire.wire("a-in", (lj(-2.0, "xor1-port-in0"), a1j), color: c-fg)
+  wire.wire("a-xor1", (a1j, "xor1-port-in0"), color: c-fg)
+  wire.wire(
+    "a-and1",
+    (a1j, "and1-port-in0"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
+  )
+  wire.intersection("a-and1.zig", radius: ir, fill: c-fg)
 
-  // ── Left branch: x=1 ──
-  // Branch label
-  draw.content((-1.6, 2.8), text(size: 0.6em, fill: c-dpll-label)[$x = 1$])
+  // ── B → XOR1.in1 + AND1.in1 ──
+  let b1j = lj(-0.9, "and1-port-in1")
+  wire.wire("b-in", (lj(-2.0, "and1-port-in1"), b1j), color: c-fg)
+  wire.wire("b-and1", (b1j, "and1-port-in1"), color: c-fg)
+  wire.wire(
+    "b-xor1",
+    (b1j, "xor1-port-in1"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
+  )
+  wire.intersection("b-xor1.zig", radius: ir, fill: c-fg)
 
-  // Unit propagation box
-  draw.rect((-3.2, 1.5), (-1.0, 2.3), radius: 4pt,
-    fill: c-dpll-up-fill, stroke: c-dpll-up-str)
-  draw.content((-2.1, 2.05), text(size: 0.55em, fill: c-dpll-label)[unit propagation])
-  draw.content((-2.1, 1.75), text(size: 0.5em, fill: luma(45%))[$(not x or y) → y = 1$])
+  // ── XOR1.out → XOR2.in0 + AND2.in0 ──
+  let j1 = lj(2.1, "xor1-port-out")
+  wire.wire("x1-out", ("xor1-port-out", j1), color: c-fg)
+  wire.wire("x1-xor2", (j1, "xor2-port-in0"), color: c-fg)
+  wire.wire(
+    "x1-and2",
+    (j1, "and2-port-in0"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
+  )
+  wire.intersection("x1-and2.zig", radius: ir, fill: c-fg)
 
-  // Conflict box
-  draw.rect((-3.2, 0.3), (-1.0, 1.1), radius: 4pt,
-    fill: c-dpll-conf-fill, stroke: c-dpll-conf-str)
-  draw.content((-2.1, 0.8), text(size: 0.55em, weight: "bold", fill: c-dpll-label)[конфликт])
-  draw.content((-2.1, 0.5), text(size: 0.5em, fill: luma(45%))[$(not x or not y)$ пуст])
+  // ── Cin → XOR2.in1 + AND2.in1 ──
+  // Cin from left at y=-1.25 (below gates), rises between cols 1 and 2.
+  let j2 = lj(2.1, "and2-port-in1")
+  wire.wire("cin-in", ((-2.3, -1.25), (2.1, -1.25)), color: c-fg)
+  wire.wire("cin-up", ((2.1, -1.25), j2), color: c-fg)
+  wire.wire("cin-and2", (j2, "and2-port-in1"), color: c-fg)
+  wire.wire(
+    "cin-xor2",
+    (j2, "xor2-port-in1"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
+  )
+  wire.intersection("cin-xor2.zig", radius: ir, fill: c-fg)
 
-  // Edges
-  draw.line((-0.3, 2.9), (-2.1, 2.3), stroke: c-dpll-edge)
-  draw.line((-2.1, 1.5), (-2.1, 1.1), stroke: c-dpll-edge)
+  // ── AND1.out → OR.in0 ──
+  wire.wire(
+    "and1-or",
+    ("and1-port-out", "or1-port-in0"),
+    color: c-fg,
+    style: "dodge",
+  )
 
-  // ── Right branch: x=0 ──
-  draw.content((1.6, 2.8), text(size: 0.6em, fill: c-dpll-label)[$x = 0$])
+  // ── AND2.out → OR.in1 ──
+  let j3 = lj(5.0, "and2-port-out")
+  wire.wire("and2-out", ("and2-port-out", j3), color: c-fg)
+  wire.wire(
+    "and2-or",
+    (j3, "or1-port-in1"),
+    color: c-fg,
+    style: "zigzag",
+    zigzag-ratio: 0,
+  )
+  wire.intersection("and2-or.zig", radius: ir, fill: c-fg)
 
-  // Unit propagation box
-  draw.rect((1.0, 1.5), (3.2, 2.3), radius: 4pt,
-    fill: c-dpll-up-fill, stroke: c-dpll-up-str)
-  draw.content((2.1, 2.05), text(size: 0.55em, fill: c-dpll-label)[unit propagation])
-  draw.content((2.1, 1.75), text(size: 0.5em, fill: luma(45%))[$(x or y) → y = 1$])
+  // ── Outputs ──
+  wire.wire("s-out", ("xor2-port-out", lj(5.3, "xor2-port-out")), color: c-fg)
+  wire.wire("cout-out", ("or1-port-out", lj(7.8, "or1-port-out")), color: c-fg)
 
-  // Conflict box
-  draw.rect((1.0, 0.3), (3.2, 1.1), radius: 4pt,
-    fill: c-dpll-conf-fill, stroke: c-dpll-conf-str)
-  draw.content((2.1, 0.8), text(size: 0.55em, weight: "bold", fill: c-dpll-label)[конфликт])
-  draw.content((2.1, 0.5), text(size: 0.5em, fill: luma(45%))[$(x or not y)$ пуст])
-
-  // Edges
-  draw.line((0.3, 2.9), (2.1, 2.3), stroke: c-dpll-edge)
-  draw.line((2.1, 1.5), (2.1, 1.1), stroke: c-dpll-edge)
-
-  // Dead-end markers (X)
-  for x in (-2.1, 2.1) {
-    draw.line((x - 0.25, -0.1), (x + 0.25, -0.5), stroke: c-dpll-conf-str)
-    draw.line((x + 0.25, -0.1), (x - 0.25, -0.5), stroke: c-dpll-conf-str)
-  }
+  // ── Labels ──
+  draw.content(lj(-2.1, "xor1-port-in0"), anchor: "east", $A$)
+  draw.content(lj(-2.1, "and1-port-in1"), anchor: "east", $B$)
+  draw.content((-2.3, -1.25), anchor: "east", $C_"in"$)
+  draw.content(lj(5.3, "xor2-port-out"), anchor: "west", $S$)
+  draw.content(lj(7.8, "or1-port-out"), anchor: "west", $C_"out"$)
 })
-

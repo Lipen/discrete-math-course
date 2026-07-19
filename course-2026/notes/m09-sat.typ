@@ -1,7 +1,7 @@
 // M08 --- SAT: задача булевой выполнимости и её роль в теории вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m08.typ": (
+#import "diagrams/m09.typ": (
   dpll-tree, implication-graph-2sat, implication-graph-2sat-simple,
 )
 

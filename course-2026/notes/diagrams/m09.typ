@@ -1,195 +1,172 @@
-// M09 diagrams --- Pascal's triangle.
+// M08 diagrams --- SAT: implication graph for 2-SAT.
 #import "../requirements.typ": *
-#import "../notation.typ": *
-
 #import cetz: canvas, draw
 
-#let c-num = oklch(35%, 0.02, 265deg)
+#let c-node = oklch(88%, 0.03, 250deg)
+#let c-node-str = oklch(60%, 0.08, 250deg)
+#let c-edge = oklch(35%, 0.02, 265deg) + 0.5pt
+#let c-label = oklch(35%, 0.02, 265deg)
+#let c-arrow = oklch(35%, 0.02, 265deg)
 
-// ── Pascal's triangle, rows 0..7 ──
-#let pascals-triangle = canvas({
-  let dx = 0.9
-  let dy = 0.9
-  // Precompute rows of Pascal's triangle
-  let rows = (
-    (1,),
-    (1, 1),
-    (1, 2, 1),
-    (1, 3, 3, 1),
-    (1, 4, 6, 4, 1),
-    (1, 5, 10, 10, 5, 1),
-    (1, 6, 15, 20, 15, 6, 1),
-    (1, 7, 21, 35, 35, 21, 7, 1),
-  )
-  for (i, row) in rows.enumerate() {
-    for (j, val) in row.enumerate() {
-      let x = (j - i / 2) * dx
-      let y = i * -dy
-      draw.content((x, y), text(size: 0.78em, fill: c-num)[#val])
-    }
-  }
-})
-
-
-// ── Burnside: necklaces of 3 beads, 2 colors → 4 orbits ──
-#let c-bead-b = oklch(25%, 0.02, 265deg)  // black bead
-#let c-bead-w = oklch(92%, 0.01, 90deg)   // white bead
-#let c-bead-str = oklch(35%, 0.02, 265deg) + 0.5pt
-#let c-orbit = oklch(35%, 0.02, 265deg)
-#let c-rot = oklch(55%, 0.10, 250deg)
-
-// Draw one necklace: circle with n colored dots on it.
-// center: (x,y), colors: array of "b"|"w", radius
-#let necklace(center, colors, radius: 0.55) = {
-  let n = colors.len()
-  let (cx, cy) = center
-  // Draw the string circle
-  draw.circle(center, radius: radius, fill: none, stroke: c-bead-str)
-  // Draw beads
-  for (i, col) in colors.enumerate() {
-    let angle = 90deg - i * (360deg / n)
-    let bx = cx + radius * calc.cos(angle)
-    let by = cy + radius * calc.sin(angle)
-    draw.circle(
-      (bx, by),
-      radius: 0.12,
-      fill: if col == "b" { c-bead-b } else { c-bead-w },
-      stroke: c-bead-str,
-    )
-  }
-}
-
-// Orbit 1: all-black {000} --- one element
-// Orbit 2: all-white {111} --- one element
-// Orbit 3: one-white {001, 010, 100} --- three elements (rotate)
-// Orbit 4: two-white {011, 101, 110} --- three elements (rotate)
-
-#let burnside-necklaces = canvas({
-  // Orbit 1: {000}
-  necklace((-1.5, 1.8), ("b", "b", "b"))
-  draw.content((-1.5, 0.9), text(size: 0.55em, fill: c-orbit)[1 элемент])
-  draw.content((-1.5, 0.55), text(size: 0.5em, fill: luma(50%))[$"000"$])
-
-  // Orbit 2: {111}
-  necklace((1.5, 1.8), ("w", "w", "w"))
-  draw.content((1.5, 0.9), text(size: 0.55em, fill: c-orbit)[1 элемент])
-  draw.content((1.5, 0.55), text(size: 0.5em, fill: luma(50%))[$"111"$])
-
-  // Orbit 3: one white bead --- {001, 010, 100}
-  necklace((-3.5, -1.0), ("w", "b", "b"))
-  necklace((-1.5, -1.0), ("b", "w", "b"))
-  necklace((0.5, -1.0), ("b", "b", "w"))
-  // Rotation arrows between them
-  draw.line((-2.8, -1.0), (-2.2, -1.0), stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line((-0.8, -1.0), (-0.2, -1.0), stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.content((-2.5, -1.7), text(
-    size: 0.55em,
-    fill: c-orbit,
-  )[3 элемента (повороты)])
-  draw.content((-2.5, -2.1), text(
-    size: 0.5em,
-    fill: luma(50%),
-  )[$"001", "010", "100"$])
-
-  // Orbit 4: two white beads --- {011, 101, 110}
-  necklace((-3.5, -3.5), ("w", "w", "b"))
-  necklace((-1.5, -3.5), ("b", "w", "w"))
-  necklace((0.5, -3.5), ("w", "b", "w"))
-  draw.line((-2.8, -3.5), (-2.2, -3.5), stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line((-0.8, -3.5), (-0.2, -3.5), stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.content((-2.5, -4.2), text(
-    size: 0.55em,
-    fill: c-orbit,
-  )[3 элемента (повороты)])
-  draw.content((-2.5, -4.6), text(
-    size: 0.5em,
-    fill: luma(50%),
-  )[$"011", "101", "110"$])
-})
-
-// ── Ramsey R(3,3) ≤ 6: proof by pigeonhole ──
-// Metaphor: vertex 1 connects to 5 others. By pigeonhole, ≥3 edges
-// from 1 have the same color (say red, to vertices 2,3,4).
-// The triangle {2,3,4} either has a red edge (→ red K₃ with 1)
-// or is all blue (→ blue K₃). A monochromatic triangle is inevitable.
-#let c-red = oklch(58%, 0.22, 22deg)
-#let c-blue = oklch(58%, 0.18, 250deg)
-#let c-ram-node = oklch(88%, 0.03, 250deg)
-#let c-ram-str = oklch(60%, 0.08, 250deg) + 0.7pt
-#let c-hi = oklch(65%, 0.20, 45deg)
-
-#let ramsey-k6 = canvas({
-  // Vertex 1 in center, others around
-  let center = (0, 0)
-  let others = (
-    (0, 2.5),
-    (2.4, 0.8),
-    (1.5, -2),
-    (-1.5, -2),
-    (-2.4, 0.8),
+// Implication graph for: (x or y) and (not x or z) and (not y or not z)
+// Clauses:
+//   (x or y)    → not x → y,  not y → x
+//   (not x or z) → x → z,     not z → not x
+//   (not y or not z) → y → not z,  z → not y
+//
+// Layout: 6 nodes --- x, not x, y, not y, z, not z
+// x=(0,1), notx=(0,-1), y=(2,1), noty=(2,-1), z=(4,1), notz=(4,-1)
+#let implication-graph-2sat = canvas({
+  let r = 0.4
+  let positions = (
+    ((0, 1.2), $x$),
+    ((0, -1.2), $overline(x)$),
+    ((2, 1.2), $y$),
+    ((2, -1.2), $overline(y)$),
+    ((4, 1.2), $z$),
+    ((4, -1.2), $overline(z)$),
   )
 
-  // Center vertex 1 (highlighted)
-  draw.circle(center, radius: 0.38, fill: c-hi, stroke: oklch(55%, 0.18, 45deg) + 1pt, name: "c")
-  draw.content(center, text(size: 0.7em, weight: "bold", fill: oklch(30%, 0.02, 265deg))[1])
-
-  // Outer vertices 2..6
-  for (i, p) in others.enumerate() {
-    let lab = str(i + 2)
-    // Vertices 2,3,4 are the "pigeonhole" set (connected to 1 in red)
-    let fill = if i < 3 { oklch(88%, 0.06, 22deg) } else { c-ram-node }
-    let str = if i < 3 { oklch(55%, 0.18, 22deg) + 0.8pt } else { c-ram-str }
-    draw.circle(p, radius: 0.32, fill: fill, stroke: str, name: "v" + lab)
-    draw.content(p, text(size: 0.65em, fill: oklch(30%, 0.02, 265deg))[#lab])
+  // Nodes
+  for pair in positions {
+    let pos = pair.at(0)
+    let label = pair.at(1)
+    draw.circle(pos, radius: r, fill: c-node, stroke: c-node-str)
+    draw.content(pos, text(size: 0.72em, fill: c-label)[#label])
   }
 
-  // Edges from vertex 1: 3 red (to 2,3,4), 2 blue (to 5,6)
-  for i in range(5) {
-    let is-red = (i < 3)
-    draw.line(center, others.at(i), stroke: (
-      paint: if is-red { c-red } else { c-blue },
-      thickness: if is-red { 1.6pt } else { 0.8pt },
-    ))
-  }
+  // Edges from (x or y): not x → y, not y → x
+  draw.line((-0.3, -1.2), (1.7, 1.2), stroke: c-edge, mark: (end: ">"))
+  draw.line((1.7, -1.2), (-0.3, 1.2), stroke: c-edge, mark: (end: ">"))
 
-  // Triangle {2,3,4}: show edges. One is red (→ red K₃ with 1),
-  // or all are blue (→ blue K₃). Here we show version with red edge.
-  // Edge 2-3: red → red triangle {1,2,3}
-  draw.line(others.at(0), others.at(1),
-    stroke: (paint: c-red, thickness: 2.0pt))
-  // Edge 3-4: blue
-  draw.line(others.at(1), others.at(2),
-    stroke: (paint: c-blue, thickness: 0.8pt))
-  // Edge 2-4: blue
-  draw.line(others.at(0), others.at(2),
-    stroke: (paint: c-blue, thickness: 0.8pt))
+  // Edges from (not x or z): x → z, not z → not x
+  draw.line((0.35, 1.2), (3.65, 1.2), stroke: c-edge, mark: (end: ">"))
+  draw.line((3.65, -1.2), (0.35, -1.2), stroke: c-edge, mark: (end: ">"))
 
-  // Other edges (thin, dimmed)
-  for (i1, i2) in ((0, 3), (0, 4), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)) {
-    draw.line(others.at(i1), others.at(i2),
-      stroke: (paint: luma(70%), thickness: 0.3pt))
-  }
-
-  // Highlight the red triangle {1,2,3}
-  draw.line(center, others.at(0),
-    stroke: (paint: c-red, thickness: 2.5pt))
-  draw.line(center, others.at(1),
-    stroke: (paint: c-red, thickness: 2.5pt))
-
-  // Legend
-  draw.line((3.8, 2.0), (4.5, 2.0), stroke: (paint: c-red, thickness: 1.5pt))
-  draw.content((4.8, 2.0), text(size: 0.55em, fill: oklch(30%, 0.02, 265deg))[красное])
-  draw.line((3.8, 1.3), (4.5, 1.3), stroke: (paint: c-blue, thickness: 1.5pt))
-  draw.content((4.8, 1.3), text(size: 0.55em, fill: oklch(30%, 0.02, 265deg))[синее])
-
-  // Annotation
-  draw.content((3.5, 0.3), text(size: 0.5em, fill: luma(50%))[
-    Из 5 рёбер от вершины 1 минимум 3 одного цвета.
-  ])
-  draw.content((3.5, -0.2), text(size: 0.5em, fill: luma(50%))[
-    Среди их концов найдётся ребро того же цвета
-  ])
-  draw.content((3.5, -0.7), text(size: 0.5em, fill: luma(50%))[
-    либо все три ребра --- другого цвета.
-  ])
+  // Edges from (not y or not z): y → not z, z → not y
+  draw.line((2.35, 1.2), (3.65, -1.2), stroke: c-edge, mark: (end: ">"))
+  draw.line((4.35, 1.2), (2.35, -1.2), stroke: c-edge, mark: (end: ">"))
 })
+
+// Simpler example for explanation: (x or y) and (not x or y)
+// Clauses:
+//   (x or y)    → not x → y
+//   (not x or y) → x → y
+// This formula is satisfiable: set y=true.
+#let implication-graph-2sat-simple = canvas({
+  let r = 0.4
+  draw.circle((0, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "x")
+  draw.content((0, 0.8), text(size: 0.72em, fill: c-label)[$x$])
+
+  draw.circle(
+    (0, -0.8),
+    radius: r,
+    fill: c-node,
+    stroke: c-node-str,
+    name: "notx",
+  )
+  draw.content((0, -0.8), text(size: 0.72em, fill: c-label)[$overline(x)$])
+
+  draw.circle((2, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "y")
+  draw.content((2, 0.8), text(size: 0.72em, fill: c-label)[$y$])
+
+  draw.circle(
+    (2, -0.8),
+    radius: r,
+    fill: c-node,
+    stroke: c-node-str,
+    name: "noty",
+  )
+  draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
+
+  // Edges
+  draw.line((-0.35, -0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
+  draw.line((0.35, 0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
+
+  // Labels
+  draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(
+    45%,
+    0.02,
+    265deg,
+  ))[$x or y$])
+  draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(
+    45%,
+    0.02,
+    265deg,
+  ))[$not x or y$])
+})
+
+// ── DPLL decision landscape for φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
+// Metaphor: search as a branching road. Each decision forks the path;
+// unit propagation is gravitational pull toward inevitable conclusions;
+// conflicts are dead ends. When all roads lead to conflict → UNSAT.
+#let c-dpll-dec-fill = oklch(92%, 0.04, 250deg)
+#let c-dpll-dec-str = oklch(55%, 0.15, 250deg) + 0.8pt
+#let c-dpll-up-fill = oklch(92%, 0.04, 155deg)
+#let c-dpll-up-str = oklch(55%, 0.18, 155deg) + 0.7pt
+#let c-dpll-conf-fill = oklch(92%, 0.06, 22deg)
+#let c-dpll-conf-str = oklch(55%, 0.20, 22deg) + 0.8pt
+#let c-dpll-edge = oklch(35%, 0.02, 265deg) + 0.7pt
+#let c-dpll-label = oklch(30%, 0.02, 265deg)
+
+#let dpll-tree = canvas({
+  // ── Formula box at top ──
+  draw.rect((-2.5, 3.8), (2.5, 4.6), radius: 6pt,
+    fill: oklch(96%, 0.01, 260deg),
+    stroke: oklch(60%, 0.05, 260deg) + 0.5pt)
+  draw.content((0, 4.2),
+    text(size: 0.55em, fill: c-dpll-label)[$(x or y) and (not x or y) and (x or not y) and (not x or not y)$])
+
+  // ── Decision node: x ──
+  draw.rect((-0.5, 2.7), (0.5, 3.3), radius: 4pt,
+    fill: c-dpll-dec-fill, stroke: c-dpll-dec-str)
+  draw.content((0, 3.0), text(size: 0.65em, weight: "bold", fill: c-dpll-label)[выбор $x$])
+
+  draw.line((0, 3.8), (0, 3.3), stroke: c-dpll-edge)
+
+  // ── Left branch: x=1 ──
+  // Branch label
+  draw.content((-1.6, 2.8), text(size: 0.6em, fill: c-dpll-label)[$x = 1$])
+
+  // Unit propagation box
+  draw.rect((-3.2, 1.5), (-1.0, 2.3), radius: 4pt,
+    fill: c-dpll-up-fill, stroke: c-dpll-up-str)
+  draw.content((-2.1, 2.05), text(size: 0.55em, fill: c-dpll-label)[unit propagation])
+  draw.content((-2.1, 1.75), text(size: 0.5em, fill: luma(45%))[$(not x or y) → y = 1$])
+
+  // Conflict box
+  draw.rect((-3.2, 0.3), (-1.0, 1.1), radius: 4pt,
+    fill: c-dpll-conf-fill, stroke: c-dpll-conf-str)
+  draw.content((-2.1, 0.8), text(size: 0.55em, weight: "bold", fill: c-dpll-label)[конфликт])
+  draw.content((-2.1, 0.5), text(size: 0.5em, fill: luma(45%))[$(not x or not y)$ пуст])
+
+  // Edges
+  draw.line((-0.3, 2.9), (-2.1, 2.3), stroke: c-dpll-edge)
+  draw.line((-2.1, 1.5), (-2.1, 1.1), stroke: c-dpll-edge)
+
+  // ── Right branch: x=0 ──
+  draw.content((1.6, 2.8), text(size: 0.6em, fill: c-dpll-label)[$x = 0$])
+
+  // Unit propagation box
+  draw.rect((1.0, 1.5), (3.2, 2.3), radius: 4pt,
+    fill: c-dpll-up-fill, stroke: c-dpll-up-str)
+  draw.content((2.1, 2.05), text(size: 0.55em, fill: c-dpll-label)[unit propagation])
+  draw.content((2.1, 1.75), text(size: 0.5em, fill: luma(45%))[$(x or y) → y = 1$])
+
+  // Conflict box
+  draw.rect((1.0, 0.3), (3.2, 1.1), radius: 4pt,
+    fill: c-dpll-conf-fill, stroke: c-dpll-conf-str)
+  draw.content((2.1, 0.8), text(size: 0.55em, weight: "bold", fill: c-dpll-label)[конфликт])
+  draw.content((2.1, 0.5), text(size: 0.5em, fill: luma(45%))[$(x or not y)$ пуст])
+
+  // Edges
+  draw.line((0.3, 2.9), (2.1, 2.3), stroke: c-dpll-edge)
+  draw.line((2.1, 1.5), (2.1, 1.1), stroke: c-dpll-edge)
+
+  // Dead-end markers (X)
+  for x in (-2.1, 2.1) {
+    draw.line((x - 0.25, -0.1), (x + 0.25, -0.5), stroke: c-dpll-conf-str)
+    draw.line((x + 0.25, -0.1), (x - 0.25, -0.5), stroke: c-dpll-conf-str)
+  }
+})
+

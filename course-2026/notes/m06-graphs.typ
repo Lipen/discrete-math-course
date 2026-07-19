@@ -1,7 +1,7 @@
 // M12 --- Графы: универсальная структура для моделирования связей.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": (
+#import "diagrams/m06.typ": (
   bfs-tree, bipartite, bridge-cut, directed-graph, eulerian, graph-coloring,
   k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
 )
