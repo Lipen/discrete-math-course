@@ -25,6 +25,7 @@
   proof-sketch: "Набросок доказательства",
   example: "Пример",
   note: "Примечание",
+  warning: "Предупреждение",
   remark: "Замечание",
   overview: "Обзор главы",
   algorithm: "Алгоритм",
@@ -298,6 +299,32 @@
       top: 0.5pt + oklch(90%, 0.02, 70deg),
       bottom: 0.5pt + oklch(90%, 0.02, 70deg),
       right: 0.5pt + oklch(90%, 0.02, 70deg),
+    ),
+    inset: (x: 1em, y: 0.8em),
+    inline: inline,
+    it: body,
+  )
+}
+
+// Предупреждение: жёлтая полоса, предостерегающий оттенок.
+// API: #warning[тело]  или  #warning[Заголовок][тело]
+#let warning(inline: false, ..args) = {
+  let (sub, body) = _args(args.pos())
+  let title = if sub != none {
+    strong[⚠  #sub]
+  } else if inline {
+    strong[⚠  #thm-labels.warning]
+  } else {
+    strong[⚠  #thm-labels.warning]
+  }
+  _block(
+    title: title,
+    fill: oklch(95%, 0.05, 85deg),
+    stroke: (
+      left: 3pt + oklch(65%, 0.18, 75deg),
+      top: 0.5pt + oklch(92%, 0.05, 85deg),
+      bottom: 0.5pt + oklch(92%, 0.05, 85deg),
+      right: 0.5pt + oklch(92%, 0.05, 85deg),
     ),
     inset: (x: 1em, y: 0.8em),
     inline: inline,
