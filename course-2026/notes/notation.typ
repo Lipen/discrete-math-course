@@ -22,6 +22,8 @@
 // === Custom math operators (only those actually used across modules) ===
 #let dist = math.op("dist")
 #let diam = math.op("diam")
+#let EE = math.op("E")       // expected value
+#let Var = math.op("Var")    // variance
 
 // === Truth values (colored) ===
 #let Green(x) = text(fill: green.darken(20%), x)
