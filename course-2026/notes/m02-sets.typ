@@ -277,8 +277,8 @@
   $=>$ $x in.not A union B$
   $=>$ $x in.not A$ и $x in.not B$ $=>$ $x in overline(A) inter overline(B)$.
 
-  ($supset.eq$): $x in overline(A) inter overline(B)$ $=>$ $x in.not A$ и $x in.not B$
-  $=>$ $x in.not A union B$
+  ($supset.eq$): $x in overline(A) inter overline(B)$ $=>$ $x in.not A$ и $x in.not B$\
+  $=>$ $x in.not A union B$\
   $=>$ $x in overline(A union B)$.
 ]
 
