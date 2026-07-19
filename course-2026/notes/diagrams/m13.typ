@@ -67,96 +67,57 @@
   edge(<sb>, <sb>, "-}>", label: "0,1", bend: 50deg),
 )
 
-// ── Pumping Lemma visualization ──
-#let c-pl-str = oklch(60%, 0.08, 250deg) + 0.7pt
-#let c-pl-fill = oklch(88%, 0.03, 250deg)
-#let c-pl-y-color = oklch(55%, 0.18, 22deg)
-#let c-pl-y-str = c-pl-y-color + 0.7pt
-#let c-pl-edge = oklch(35%, 0.02, 265deg) + 0.7pt
-#let c-pl-label = oklch(35%, 0.02, 265deg)
+// ── Pumping Lemma: x·y·z with y loop ──
+#let pl-node-fill = oklch(90%, 0.02, 260deg)
+#let pl-node-str = oklch(55%, 0.06, 260deg) + 0.7pt
+#let pl-y-color = oklch(55%, 0.18, 22deg)
+#let pl-edge = oklch(35%, 0.02, 265deg) + 0.7pt
+#let pl-label = oklch(30%, 0.02, 265deg)
 
-// Schematic: string split into x·y·z, with y looping
+// State node
+#let pl-state(pos, label, name, ..style) = {
+  draw.circle(pos, radius: 0.35,
+    fill: pl-node-fill, stroke: pl-node-str, name: name, ..style)
+  draw.content(pos, text(size: 0.65em, fill: pl-label)[#label])
+}
+
 #let pumping-lemma = canvas({
-  // States in a line: start → q_i → q_j → accept
-  let sy = 0
-  draw.circle(
-    (-3, sy),
-    radius: 0.35,
-    fill: c-pl-fill,
-    stroke: c-pl-str,
-    name: "start",
+  // ── States (left to right) ──
+  pl-state((-3, 0), $q_0$, "q0")
+  pl-state((-0.5, 0), $q_i$, "qi")
+  pl-state((2, 0), $q_j$, "qj")
+  pl-state((4.5, 0), $q_f$, "qf")
+  // Accept state: double circle
+  draw.circle((4.5, 0), radius: 0.45, fill: none, stroke: pl-node-str, name: "qf-ring")
+
+  // ── Forward edges (named, with segment labels at midpoints) ──
+  draw.line("q0", "qi", name: "e-x", stroke: pl-edge)
+  draw.content("e-x.mid", text(size: 0.65em, fill: pl-label)[$x$],
+    frame: "rect", fill: white, stroke: none, padding: 1pt, anchor: "south")
+
+  draw.line("qi", "qj", name: "e-y",
+    stroke: (paint: pl-y-color, thickness: 0.9pt))
+  draw.content("e-y.mid", text(size: 0.65em, fill: pl-y-color, weight: "bold")[$y$],
+    frame: "rect", fill: white, stroke: none, padding: 1pt, anchor: "south")
+
+  draw.line("qj", "qf", name: "e-z", stroke: pl-edge)
+  draw.content("e-z.mid", text(size: 0.65em, fill: pl-label)[$z$],
+    frame: "rect", fill: white, stroke: none, padding: 1pt, anchor: "south")
+
+  // ── Loop back: q_j → q_i (the "pumping" cycle) ──
+  // Bezier arc above the states, from q_j.north back to qi.north
+  draw.bezier("qj.north", "qi.north", (1.5, 1.5), (-0.2, 1.5), name: "e-loop",
+    stroke: (paint: pl-y-color, thickness: 0.7pt, dash: "dashed"))
+
+  // ── Pumped strings below ──
+  let pumped = (
+    ([$x z$ (0 повторений)],       -1.8),
+    ([$x y z$ (1 повторение)],     -2.3),
+    ([$x y^2 z$ (2 повторения)],   -2.8),
+    ([$x y^k z$ ($k$ повторений)], -3.3),
   )
-  draw.content((-3, sy), text(size: 0.6em, fill: c-pl-label)[$q_0$])
-
-  draw.circle(
-    (-0.5, sy),
-    radius: 0.35,
-    fill: c-pl-fill,
-    stroke: c-pl-str,
-    name: "qi",
-  )
-  draw.content((-0.5, sy), text(size: 0.6em, fill: c-pl-label)[$q_i$])
-
-  draw.circle(
-    (2, sy),
-    radius: 0.35,
-    fill: c-pl-fill,
-    stroke: c-pl-str,
-    name: "qj",
-  )
-  draw.content((2, sy), text(size: 0.6em, fill: c-pl-label)[$q_j$])
-
-  draw.circle(
-    (4.5, sy),
-    radius: 0.35,
-    fill: c-pl-fill,
-    stroke: c-pl-str,
-    name: "acc",
-  )
-  draw.content((4.5, sy), text(size: 0.6em, fill: c-pl-label)[$q_f$])
-
-  // Double circle for accept
-  draw.circle((4.5, sy), radius: 0.45, fill: none, stroke: c-pl-str)
-
-  // Path edges
-  draw.line("start", "qi", stroke: c-pl-edge)
-  draw.line("qi", "qj", stroke: (paint: c-pl-y-color, thickness: 0.8pt))
-  draw.line("qj", "acc", stroke: c-pl-edge)
-
-  // Labels for x, y, z segments
-  draw.content((-1.75, 0.55), anchor: "south", text(
-    size: 0.65em,
-    fill: c-pl-label,
-  )[$x$])
-  draw.content((0.75, 0.55), anchor: "south", text(
-    size: 0.65em,
-    fill: c-pl-y-color,
-    weight: "bold",
-  )[$y$])
-  draw.content((3.25, 0.55), anchor: "south", text(
-    size: 0.65em,
-    fill: c-pl-label,
-  )[$z$])
-
-  // Loop back from q_j to q_i (the "pumping" loop)
-  draw.bezier((2.3, 0.45), (-0.2, 0.45), (1.5, 1.3), (0.5, 1.3), stroke: (
-    paint: c-pl-y-color,
-    thickness: 0.6pt,
-    dash: "dashed",
-  ))
-
-  // Below: pumped strings
-  let yy = -2.0
-  draw.content((0.5, yy), text(size: 0.7em, fill: c-pl-label)[
-    $x z$ (0 повторений $y$)
-  ])
-  draw.content((0.5, yy - 0.5), text(size: 0.7em, fill: c-pl-label)[
-    $x y z$ (1 повторение)
-  ])
-  draw.content((0.5, yy - 1.0), text(size: 0.7em, fill: c-pl-label)[
-    $x y y z$ (2 повторения)
-  ])
-  draw.content((0.5, yy - 1.5), text(size: 0.7em, fill: c-pl-label)[
-    $x y^k z$ ($k$ повторений)
-  ])
+  for (k, (label, y)) in pumped.enumerate() {
+    draw.content((0.5, y),
+      text(size: 0.65em, fill: if k == 1 { pl-label } else { luma(55%) })[#label])
+  }
 })
