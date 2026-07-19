@@ -9,7 +9,7 @@
 // Karnaugh map for 3 variables (x, y, z).
 // Standard layout: rows=yz (00,01,11,10), cols=x (0,1).
 #let karnaugh-3var = canvas({
-  let s = 1.2  // cell size
+  let s = 1.2 // cell size
   let rows = 4
   let cols = 2
 
@@ -22,21 +22,33 @@
   }
 
   // Row labels (yz)
-  let yz = (("00"), ("01"), ("11"), ("10"))
+  let yz = ("00", "01", "11", "10")
   for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(size: 0.72em, fill: c-km-num)[#label])
+    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.72em,
+      fill: c-km-num,
+    )[#label])
   }
 
   // Column label (x)
-  draw.content((0.5 * s, 0.35), anchor: "south", text(size: 0.72em, fill: c-km-num)[$x$])
+  draw.content((0.5 * s, 0.35), anchor: "south", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$x$])
 
   // Column header values
   for j in range(cols) {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(size: 0.65em, fill: c-km-num)[#j])
+    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
+      size: 0.65em,
+      fill: c-km-num,
+    )[#j])
   }
 
   // Axis labels
-  draw.content((-1.0, -2 * s), anchor: "east", text(size: 0.72em, fill: c-km-num)[$y z$])
+  draw.content((-1.0, -2 * s), anchor: "east", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$y z$])
 })
 
 // Karnaugh map for 4 variables (w, x, y, z).
@@ -56,20 +68,32 @@
   }
 
   // Row labels (yz) in Gray code
-  let yz = (("00"), ("01"), ("11"), ("10"))
+  let yz = ("00", "01", "11", "10")
   for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(size: 0.72em, fill: c-km-num)[#label])
+    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.72em,
+      fill: c-km-num,
+    )[#label])
   }
 
   // Column labels (wx) in Gray code
-  let wx = (("00"), ("01"), ("11"), ("10"))
+  let wx = ("00", "01", "11", "10")
   for (j, label) in wx.enumerate() {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(size: 0.65em, fill: c-km-num)[#label])
+    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
+      size: 0.65em,
+      fill: c-km-num,
+    )[#label])
   }
 
   // Axis labels
-  draw.content((-0.8, -2 * s), anchor: "east", text(size: 0.72em, fill: c-km-num)[$y z$])
-  draw.content((2 * s, 0.7), anchor: "south", text(size: 0.72em, fill: c-km-num)[$w x$])
+  draw.content((-0.8, -2 * s), anchor: "east", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$y z$])
+  draw.content((2 * s, 0.7), anchor: "south", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$w x$])
 })
 
 // Example: Karnaugh map for f(x,y,z) = xy + xz + yz (majority function).
@@ -94,25 +118,154 @@
   // yz=10: x=0→0, x=1→1 (row=3, col=1)
   let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
   for (row, col) in ones {
-    draw.rect((col * s, -row * s), ((col + 1) * s, -(row + 1) * s), fill: c-km-fill, stroke: none)
+    draw.rect(
+      (col * s, -row * s),
+      ((col + 1) * s, -(row + 1) * s),
+      fill: c-km-fill,
+      stroke: none,
+    )
   }
 
   // Cell labels
   for (row, col) in ones {
-    draw.content(((col + 0.5) * s, -(row + 0.5) * s), text(size: 0.8em, fill: c-km-num)[1])
+    draw.content(((col + 0.5) * s, -(row + 0.5) * s), text(
+      size: 0.8em,
+      fill: c-km-num,
+    )[1])
   }
 
   // Row labels (yz)
-  let yz = (("00"), ("01"), ("11"), ("10"))
+  let yz = ("00", "01", "11", "10")
   for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(size: 0.72em, fill: c-km-num)[#label])
+    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.72em,
+      fill: c-km-num,
+    )[#label])
   }
 
   // Column labels
-  draw.content((0.5 * s, 0.35), anchor: "south", text(size: 0.72em, fill: c-km-num)[$x$])
+  draw.content((0.5 * s, 0.35), anchor: "south", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$x$])
   for j in range(cols) {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(size: 0.65em, fill: c-km-num)[#j])
+    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
+      size: 0.65em,
+      fill: c-km-num,
+    )[#j])
   }
 
-  draw.content((-1.0, -2 * s), anchor: "east", text(size: 0.72em, fill: c-km-num)[$y z$])
+  draw.content((-1.0, -2 * s), anchor: "east", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$y z$])
+})
+
+// ── ROBDD for f(x,y) = x xor y ──
+#let c-bdd-node = oklch(88%, 0.03, 250deg)
+#let c-bdd-str = oklch(60%, 0.08, 250deg) + 0.7pt
+#let c-bdd-lo-color = oklch(50%, 0.08, 22deg)
+#let c-bdd-hi-color = oklch(50%, 0.08, 250deg)
+#let c-bdd-lo = c-bdd-lo-color + 0.5pt
+#let c-bdd-hi = c-bdd-hi-color + 0.7pt
+#let c-bdd-label = oklch(35%, 0.02, 265deg)
+
+#let bdd-xor = canvas({
+  let r = 0.42
+  draw.circle((0, 2), radius: r, fill: c-bdd-node, stroke: c-bdd-str, name: "x")
+  draw.content((0, 2), text(size: 0.8em, fill: c-bdd-label)[$x$])
+  draw.circle(
+    (-1.3, 0),
+    radius: r,
+    fill: c-bdd-node,
+    stroke: c-bdd-str,
+    name: "y1",
+  )
+  draw.content((-1.3, 0), text(size: 0.8em, fill: c-bdd-label)[$y$])
+  draw.circle(
+    (1.3, 0),
+    radius: r,
+    fill: c-bdd-node,
+    stroke: c-bdd-str,
+    name: "y2",
+  )
+  draw.content((1.3, 0), text(size: 0.8em, fill: c-bdd-label)[$y$])
+  // Terminal nodes
+  draw.rect(
+    (-1.3, -2),
+    (-0.7, -1.4),
+    radius: 2pt,
+    fill: white,
+    stroke: c-bdd-str,
+  )
+  draw.content((-1, -1.7), text(size: 0.8em, fill: c-bdd-label)[0])
+  draw.rect(
+    (-0.3, -2),
+    (0.3, -1.4),
+    radius: 2pt,
+    fill: white,
+    stroke: c-bdd-str,
+  )
+  draw.content((0, -1.7), text(size: 0.8em, fill: c-bdd-label)[1])
+  draw.rect((0.7, -2), (1.3, -1.4), radius: 2pt, fill: white, stroke: c-bdd-str)
+  draw.content((1, -1.7), text(size: 0.8em, fill: c-bdd-label)[0])
+  draw.rect((1.7, -2), (2.3, -1.4), radius: 2pt, fill: white, stroke: c-bdd-str)
+  draw.content((2, -1.7), text(size: 0.8em, fill: c-bdd-label)[1])
+  // Edges: lo=dashed, hi=solid
+  draw.line((-0.3, 1.7), (-1.0, 0.35), stroke: (
+    paint: c-bdd-lo-color,
+    thickness: 0.6pt,
+    dash: "dashed",
+  ))
+  draw.line((0.3, 1.7), (1.0, 0.35), stroke: (
+    paint: c-bdd-hi-color,
+    thickness: 0.7pt,
+  ))
+  draw.content((-0.7, 1.1), anchor: "south", text(
+    size: 0.6em,
+    fill: c-bdd-lo-color,
+  )[$0$])
+  draw.content((0.7, 1.1), anchor: "south", text(
+    size: 0.6em,
+    fill: c-bdd-hi-color,
+  )[$1$])
+  // y1 → leaves
+  draw.line((-1.15, -0.35), (-1.15, -1.35), stroke: (
+    paint: c-bdd-lo-color,
+    thickness: 0.6pt,
+    dash: "dashed",
+  ))
+  draw.line((-1.45, -0.35), (-0.15, -1.35), stroke: (
+    paint: c-bdd-hi-color,
+    thickness: 0.7pt,
+  ))
+  // y2 → leaves
+  draw.line((1.45, -0.35), (2.15, -1.35), stroke: (
+    paint: c-bdd-lo-color,
+    thickness: 0.6pt,
+    dash: "dashed",
+  ))
+  draw.line((1.15, -0.35), (0.85, -1.35), stroke: (
+    paint: c-bdd-hi-color,
+    thickness: 0.7pt,
+  ))
+  // Cofactor labels
+  draw.rect((-1.9, 0.6), (-0.7, -2.5), radius: 6pt, fill: none, stroke: (
+    paint: luma(85%),
+    thickness: 0.4pt,
+    dash: "dotted",
+  ))
+  draw.content((-1.3, -2.8), anchor: "north", text(
+    size: 0.55em,
+    fill: luma(50%),
+  )[$f(0, y) = y$])
+  draw.rect((0.7, 0.6), (2.5, -2.5), radius: 6pt, fill: none, stroke: (
+    paint: luma(85%),
+    thickness: 0.4pt,
+    dash: "dotted",
+  ))
+  draw.content((1.6, -2.8), anchor: "north", text(
+    size: 0.55em,
+    fill: luma(50%),
+  )[$f(1, y) = overline(y)$])
 })

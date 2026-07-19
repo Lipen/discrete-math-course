@@ -1,6 +1,7 @@
 // M11 --- Трансфинитное: счёт за пределами конечного.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import cetz: canvas, draw
 
 = Трансфинитное: обзор <chap:transfinite>
 
@@ -172,6 +173,94 @@
 
   Значит, никакое перечисление не может содержать все действительные числа --- интервал $(0, 1)$ несчётен.
 ]
+
+#figure(
+  {
+    let c-cell = oklch(95%, 0.01, 85deg)
+    let c-diag = oklch(88%, 0.06, 22deg)
+    let c-digit = oklch(35%, 0.02, 265deg)
+    let c-constr = oklch(50%, 0.18, 250deg)
+    let s = 0.65
+    canvas({
+      // Matrix of 5 rows × 6 columns
+      let rows = 5
+      let cols = 6
+      // Sample digits (rows are r1..r5, columns are decimal positions)
+      let digits = (
+        (3, 5, 2, 7, 1, 4),
+        (1, 8, 4, 6, 2, 9),
+        (7, 2, 5, 9, 3, 0),
+        (0, 3, 1, 8, 6, 2),
+        (9, 4, 7, 2, 0, 5),
+      )
+      // Row labels
+      for i in range(rows) {
+        draw.content((-0.5, -(i + 0.5) * s), text(
+          size: 0.65em,
+          fill: c-digit,
+        )[$r_#(i + 1) = 0.$])
+      }
+      // Grid cells
+      for i in range(rows) {
+        for j in range(cols) {
+          let x = j * s
+          let y = -(i + 0.5) * s
+          let is-diag = (i == j)
+          if is-diag {
+            draw.rect(
+              (x, y - 0.3),
+              (x + s, y + 0.3),
+              fill: c-diag,
+              stroke: (paint: oklch(50%, 0.16, 22deg), thickness: 0.5pt),
+              radius: 1pt,
+            )
+          }
+          draw.content((x + s / 2, y), text(
+            size: 0.7em,
+            fill: c-digit,
+            weight: if is-diag { "bold" } else { "regular" },
+          )[#digits.at(i).at(j)])
+        }
+      }
+      // Ellipsis
+      draw.content((cols * s + 0.2, -(rows / 2) * s), text(
+        size: 0.7em,
+        fill: c-digit,
+      )[$dots$])
+      // Constructed number below
+      draw.content((-0.5, -(rows + 1.2) * s), text(
+        size: 0.65em,
+        fill: c-constr,
+      )[$r = 0.$])
+      let constructed = (4, 4, 4, 4, 4)
+      for j in range(calc.min(cols, rows)) {
+        let x = j * s + s / 2
+        draw.content((x, -(rows + 1.2) * s), text(
+          size: 0.7em,
+          fill: c-constr,
+          weight: "bold",
+        )[#constructed.at(j)])
+      }
+      // Arrows from diagonal to constructed
+      for i in range(rows) {
+        draw.line(
+          (i * s + s / 2, -(i + 0.5) * s - 0.35),
+          (i * s + s / 2, -(rows + 1.0) * s),
+          stroke: (paint: c-constr, thickness: 0.4pt, dash: "dashed"),
+        )
+      }
+      // Annotation
+      draw.content((cols * s / 2, -(rows + 2.0) * s), text(
+        size: 0.6em,
+        fill: luma(50%),
+      )[$r$ отличается от $r_i$ в $i$-й цифре: $e_i ≠ d_(i i)$])
+    })
+  },
+  caption: [Диагональный аргумент Кантора.
+    Диагональные цифры $d_(i i)$ выделены оранжевым.
+    Построенное число $r = 0.44444...$ (синее) отличается от каждого $r_i$ в позиции $i$: если $d_(i i) ≠ 4$, ставим $4$; иначе $5$.
+    Число $r$ не может находиться в перечислении --- противоречие.],
+) <fig:cantor-diagonal>
 
 #example[Несчётное множество][
   Интервал $(0, 1)$ несчётен --- только что доказано диагональным аргументом.
