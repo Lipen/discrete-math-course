@@ -311,11 +311,7 @@ CDCL добавляет к этому механизм _обучения на к
 
 #figure(
   dpll-tree,
-  caption: [DPLL-дерево для невыполнимой формулы $(x or y) and (not x or y) and (x or not y) and (not x or not y)$.
-    Выбор $x = 1$ через unit propagation принуждает $y = 1$ (из $not x or y$), что даёт конфликт в дизъюнкте $(not x or not y)$.
-    Возврат: $x = 0$ через unit propagation принуждает $y = 1$ (из $x or y$), конфликт в $(x or not y)$.
-    Обе ветви ведут к конфликту --- формула невыполнима.
-    Дерево поиска с возвратом --- суть DPLL до добавления clause learning.],
+  caption: [DPLL-дерево поиска с возвратом. Обе ветви ($x=1$ и $x=0$) через unit propagation ведут к конфликту.],
 ) <fig:dpll-tree>
 
 #algorithm[CDCL][
