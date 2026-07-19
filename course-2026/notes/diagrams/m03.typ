@@ -2,6 +2,7 @@
 #import "../requirements.typ": *
 
 #import fletcher: diagram, edge, node
+#import cetz: canvas, draw
 
 #let n-fill = oklch(88%, 0.03, 250deg)
 #let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
@@ -33,3 +34,34 @@
   ea(<5>, <3>),
   el(<5>, <5>, angle: 240deg),
 )
+
+// ── Equivalence partition: numbers 1..10 modulo 3 ──
+#let c-eq-a = oklch(88%, 0.06, 250deg)
+#let c-eq-b = oklch(88%, 0.06, 155deg)
+#let c-eq-c = oklch(88%, 0.10, 45deg)
+#let c-eq-str = oklch(50%, 0.08, 250deg) + 0.6pt
+#let c-eq-label = oklch(35%, 0.02, 265deg)
+
+#let equivalence-partition = canvas({
+  // Class [0]: {3, 6, 9}
+  draw.rect((-3.8, 1.2), (3.8, 2.8), radius: 12pt, fill: c-eq-a, stroke: c-eq-str)
+  draw.content((-2.5, 2.0), text(size: 0.7em, fill: c-eq-label)[3])
+  draw.content((-0.8, 2.0), text(size: 0.7em, fill: c-eq-label)[6])
+  draw.content((0.9, 2.0), text(size: 0.7em, fill: c-eq-label)[9])
+  draw.content((3.2, 2.0), anchor: "west", text(size: 0.55em, fill: luma(50%))[$"mod" 3 = 0$])
+
+  // Class [1]: {1, 4, 7, 10}
+  draw.rect((-3.8, -0.3), (3.8, 1.3), radius: 12pt, fill: c-eq-b, stroke: c-eq-str)
+  draw.content((-2.5, 0.5), text(size: 0.7em, fill: c-eq-label)[1])
+  draw.content((-0.8, 0.5), text(size: 0.7em, fill: c-eq-label)[4])
+  draw.content((0.9, 0.5), text(size: 0.7em, fill: c-eq-label)[7])
+  draw.content((2.6, 0.5), text(size: 0.7em, fill: c-eq-label)[10])
+  draw.content((3.2, 0.5), anchor: "west", text(size: 0.55em, fill: luma(50%))[$"mod" 3 = 1$])
+
+  // Class [2]: {2, 5, 8}
+  draw.rect((-3.8, -1.8), (3.8, -0.2), radius: 12pt, fill: c-eq-c, stroke: c-eq-str)
+  draw.content((-1.5, -1.0), text(size: 0.7em, fill: c-eq-label)[2])
+  draw.content((0.2, -1.0), text(size: 0.7em, fill: c-eq-label)[5])
+  draw.content((1.9, -1.0), text(size: 0.7em, fill: c-eq-label)[8])
+  draw.content((3.2, -1.0), anchor: "west", text(size: 0.55em, fill: luma(50%))[$"mod" 3 = 2$])
+})
