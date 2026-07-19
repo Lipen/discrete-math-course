@@ -80,14 +80,15 @@
 #include "m06-graphs.typ"
 #include "m07-boolean-algebra.typ"
 #include "m08-circuits.typ"
-#include "m09-sat.typ"
-#include "m10-combinatorics.typ"
-#include "m11-generating-fns.typ"
-#include "m12-transfinite.typ"
+#include "m09-codes.typ"
+#include "m10-sat.typ"
+#include "m11-combinatorics.typ"
+#include "m12-generating-fns.typ"
+#include "m13-transfinite.typ"
 
-#include "m13-automata.typ"
-#include "m14-turing.typ"
-#include "m15-complexity.typ"
+#include "m14-automata.typ"
+#include "m15-turing.typ"
+#include "m16-complexity.typ"
 
 // --- Упражнения ---
 #include "exercises.typ"
