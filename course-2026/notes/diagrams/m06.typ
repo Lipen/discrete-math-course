@@ -1,4 +1,4 @@
-// M06 diagrams — Boolean Algebra: Karnaugh maps.
+// M06 diagrams --- Boolean Algebra: Karnaugh maps.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 

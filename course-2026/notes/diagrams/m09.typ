@@ -1,4 +1,4 @@
-// M09 diagrams — Pascal's triangle.
+// M09 diagrams --- Pascal's triangle.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -59,10 +59,10 @@
   }
 }
 
-// Orbit 1: all-black {000} — one element
-// Orbit 2: all-white {111} — one element
-// Orbit 3: one-white {001, 010, 100} — three elements (rotate)
-// Orbit 4: two-white {011, 101, 110} — three elements (rotate)
+// Orbit 1: all-black {000} --- one element
+// Orbit 2: all-white {111} --- one element
+// Orbit 3: one-white {001, 010, 100} --- three elements (rotate)
+// Orbit 4: two-white {011, 101, 110} --- three elements (rotate)
 
 #let burnside-necklaces = canvas({
   // Orbit 1: {000}
@@ -75,7 +75,7 @@
   draw.content((1.5, 0.9), text(size: 0.55em, fill: c-orbit)[1 элемент])
   draw.content((1.5, 0.55), text(size: 0.5em, fill: luma(50%))[$"111"$])
 
-  // Orbit 3: one white bead — {001, 010, 100}
+  // Orbit 3: one white bead --- {001, 010, 100}
   necklace((-3.5, -1.0), ("w", "b", "b"))
   necklace((-1.5, -1.0), ("b", "w", "b"))
   necklace((0.5, -1.0), ("b", "b", "w"))
@@ -91,7 +91,7 @@
     fill: luma(50%),
   )[$"001", "010", "100"$])
 
-  // Orbit 4: two white beads — {011, 101, 110}
+  // Orbit 4: two white beads --- {011, 101, 110}
   necklace((-3.5, -3.5), ("w", "w", "b"))
   necklace((-1.5, -3.5), ("b", "w", "w"))
   necklace((0.5, -3.5), ("w", "b", "w"))

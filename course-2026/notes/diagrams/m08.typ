@@ -1,4 +1,4 @@
-// M08 diagrams — SAT: implication graph for 2-SAT.
+// M08 diagrams --- SAT: implication graph for 2-SAT.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
@@ -14,7 +14,7 @@
 //   (not x or z) → x → z,     not z → not x
 //   (not y or not z) → y → not z,  z → not y
 //
-// Layout: 6 nodes — x, not x, y, not y, z, not z
+// Layout: 6 nodes --- x, not x, y, not y, z, not z
 // x=(0,1), notx=(0,-1), y=(2,1), noty=(2,-1), z=(4,1), notz=(4,-1)
 #let implication-graph-2sat = canvas({
   let r = 0.4
@@ -96,91 +96,77 @@
   ))[$not x or y$])
 })
 
-// ── DPLL search tree for φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
-// UNSAT formula: φ = y ∧ ¬y after resolving on x.
-#let c-dpll-node = oklch(88%, 0.03, 250deg)
-#let c-dpll-str = oklch(60%, 0.08, 250deg) + 0.7pt
-#let c-dpll-dec = oklch(88%, 0.06, 250deg) // decision node
-#let c-dpll-up = oklch(88%, 0.05, 155deg)  // unit propagation
-#let c-dpll-conf = oklch(88%, 0.08, 22deg) // conflict
+// ── DPLL decision landscape for φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
+// Metaphor: search as a branching road. Each decision forks the path;
+// unit propagation is gravitational pull toward inevitable conclusions;
+// conflicts are dead ends. When all roads lead to conflict → UNSAT.
+#let c-dpll-dec-fill = oklch(92%, 0.04, 250deg)
+#let c-dpll-dec-str = oklch(55%, 0.15, 250deg) + 0.8pt
+#let c-dpll-up-fill = oklch(92%, 0.04, 155deg)
+#let c-dpll-up-str = oklch(55%, 0.18, 155deg) + 0.7pt
+#let c-dpll-conf-fill = oklch(92%, 0.06, 22deg)
+#let c-dpll-conf-str = oklch(55%, 0.20, 22deg) + 0.8pt
 #let c-dpll-edge = oklch(35%, 0.02, 265deg) + 0.7pt
-#let c-dpll-label = oklch(35%, 0.02, 265deg)
+#let c-dpll-label = oklch(30%, 0.02, 265deg)
 
 #let dpll-tree = canvas({
-  // Root: decide x
-  draw.circle(
-    (0, 3),
-    radius: 0.35,
-    fill: c-dpll-dec,
-    stroke: c-dpll-str,
-    name: "root",
-  )
-  draw.content((0, 3), text(size: 0.6em, fill: c-dpll-label)[$x$])
+  // ── Formula box at top ──
+  draw.rect((-2.5, 3.8), (2.5, 4.6), radius: 6pt,
+    fill: oklch(96%, 0.01, 260deg),
+    stroke: oklch(60%, 0.05, 260deg) + 0.5pt)
+  draw.content((0, 4.2),
+    text(size: 0.55em, fill: c-dpll-label)[$(x or y) and (not x or y) and (x or not y) and (not x or not y)$])
 
-  // Left branch: x=1
-  draw.circle(
-    (-2.5, 1.5),
-    radius: 0.35,
-    fill: c-dpll-up,
-    stroke: c-dpll-str,
-    name: "l-up",
-  )
-  draw.content((-2.5, 1.5), text(size: 0.6em, fill: c-dpll-label)[$y!=!1$])
+  // ── Decision node: x ──
+  draw.rect((-0.5, 2.7), (0.5, 3.3), radius: 4pt,
+    fill: c-dpll-dec-fill, stroke: c-dpll-dec-str)
+  draw.content((0, 3.0), text(size: 0.65em, weight: "bold", fill: c-dpll-label)[выбор $x$])
 
-  draw.rect(
-    (-3.1, 0.1),
-    (-1.9, -0.5),
-    radius: 4pt,
-    fill: c-dpll-conf,
-    stroke: oklch(55%, 0.18, 22deg) + 0.7pt,
-    name: "l-conf",
-  )
-  draw.content((-2.5, -0.2), text(size: 0.55em, fill: c-dpll-label)[конфликт])
+  draw.line((0, 3.8), (0, 3.3), stroke: c-dpll-edge)
 
-  // Right branch: x=0
-  draw.circle(
-    (2.5, 1.5),
-    radius: 0.35,
-    fill: c-dpll-up,
-    stroke: c-dpll-str,
-    name: "r-up",
-  )
-  draw.content((2.5, 1.5), text(size: 0.6em, fill: c-dpll-label)[$y!=!1$])
+  // ── Left branch: x=1 ──
+  // Branch label
+  draw.content((-1.6, 2.8), text(size: 0.6em, fill: c-dpll-label)[$x = 1$])
 
-  draw.rect(
-    (1.9, 0.1),
-    (3.1, -0.5),
-    radius: 4pt,
-    fill: c-dpll-conf,
-    stroke: oklch(55%, 0.18, 22deg) + 0.7pt,
-    name: "r-conf",
-  )
-  draw.content((2.5, -0.2), text(size: 0.55em, fill: c-dpll-label)[конфликт])
+  // Unit propagation box
+  draw.rect((-3.2, 1.5), (-1.0, 2.3), radius: 4pt,
+    fill: c-dpll-up-fill, stroke: c-dpll-up-str)
+  draw.content((-2.1, 2.05), text(size: 0.55em, fill: c-dpll-label)[unit propagation])
+  draw.content((-2.1, 1.75), text(size: 0.5em, fill: luma(45%))[$(not x or y) → y = 1$])
+
+  // Conflict box
+  draw.rect((-3.2, 0.3), (-1.0, 1.1), radius: 4pt,
+    fill: c-dpll-conf-fill, stroke: c-dpll-conf-str)
+  draw.content((-2.1, 0.8), text(size: 0.55em, weight: "bold", fill: c-dpll-label)[конфликт])
+  draw.content((-2.1, 0.5), text(size: 0.5em, fill: luma(45%))[$(not x or not y)$ пуст])
 
   // Edges
-  draw.line("root", "l-up", stroke: c-dpll-edge)
-  draw.line("root", "r-up", stroke: c-dpll-edge)
-  draw.line("l-up", "l-conf", stroke: c-dpll-edge)
-  draw.line("r-up", "r-conf", stroke: c-dpll-edge)
+  draw.line((-0.3, 2.9), (-2.1, 2.3), stroke: c-dpll-edge)
+  draw.line((-2.1, 1.5), (-2.1, 1.1), stroke: c-dpll-edge)
 
-  // Branch labels
-  draw.content((-1.2, 2.4), anchor: "south", text(
-    size: 0.6em,
-    fill: c-dpll-label,
-  )[$x!=!1$])
-  draw.content((1.2, 2.4), anchor: "south", text(
-    size: 0.6em,
-    fill: c-dpll-label,
-  )[$x!=!0$])
+  // ── Right branch: x=0 ──
+  draw.content((1.6, 2.8), text(size: 0.6em, fill: c-dpll-label)[$x = 0$])
 
-  // Unit propagation annotations
-  draw.content((-2.5, 0.7), anchor: "south", text(
-    size: 0.5em,
-    fill: luma(50%),
-  )[$(not x or y) → y$])
-  draw.content((2.5, 0.7), anchor: "south", text(
-    size: 0.5em,
-    fill: luma(50%),
-  )[$(x or y) → y$])
+  // Unit propagation box
+  draw.rect((1.0, 1.5), (3.2, 2.3), radius: 4pt,
+    fill: c-dpll-up-fill, stroke: c-dpll-up-str)
+  draw.content((2.1, 2.05), text(size: 0.55em, fill: c-dpll-label)[unit propagation])
+  draw.content((2.1, 1.75), text(size: 0.5em, fill: luma(45%))[$(x or y) → y = 1$])
+
+  // Conflict box
+  draw.rect((1.0, 0.3), (3.2, 1.1), radius: 4pt,
+    fill: c-dpll-conf-fill, stroke: c-dpll-conf-str)
+  draw.content((2.1, 0.8), text(size: 0.55em, weight: "bold", fill: c-dpll-label)[конфликт])
+  draw.content((2.1, 0.5), text(size: 0.5em, fill: luma(45%))[$(x or not y)$ пуст])
+
+  // Edges
+  draw.line((0.3, 2.9), (2.1, 2.3), stroke: c-dpll-edge)
+  draw.line((2.1, 1.5), (2.1, 1.1), stroke: c-dpll-edge)
+
+  // Dead-end markers (X)
+  for x in (-2.1, 2.1) {
+    draw.line((x - 0.25, -0.1), (x + 0.25, -0.5), stroke: c-dpll-conf-str)
+    draw.line((x + 0.25, -0.1), (x - 0.25, -0.5), stroke: c-dpll-conf-str)
+  }
 })
 

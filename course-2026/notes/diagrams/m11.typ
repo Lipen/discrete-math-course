@@ -1,4 +1,4 @@
-// M11 diagrams — Generating Functions.
+// M11 diagrams --- Generating Functions.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import cetz: canvas, draw
