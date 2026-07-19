@@ -73,63 +73,62 @@
 // ═══════════════════════════════════════════════════════════════
 // Catalan decomposition: recursive tree structure
 // ═══════════════════════════════════════════════════════════════
-// Metaphor: a binary tree that "breaks apart" at the root,
-// revealing the recursive convolution C_{n+1} = Σ C_i C_{n-i}.
-// Left side: the original tree. Right side: decomposition products.
 
-#let cat-tree-node(x, y, r: 0.22, fill: oklch(88%, 0.03, 250deg)) = {
-  draw.circle((x, y), radius: r, fill: fill, stroke: oklch(55%, 0.08, 250deg) + 0.6pt)
+#let cat-node-fill = oklch(88%, 0.03, 250deg)
+#let cat-node-str = oklch(55%, 0.08, 250deg) + 0.6pt
+#let cat-edge-color = oklch(35%, 0.02, 265deg)
+#let cat-label = oklch(35%, 0.02, 265deg)
+
+// Internal node: circle, named
+#let cat-node(pos, name) = {
+  draw.circle(pos, radius: 0.22,
+    fill: cat-node-fill, stroke: cat-node-str, name: name)
 }
 
-#let cat-tree-leaf(x, y) = {
-  draw.rect((x - 0.12, y - 0.12), (x + 0.12, y + 0.12),
-    fill: white, stroke: oklch(55%, 0.08, 250deg) + 0.5pt, radius: 1pt)
+// Leaf: small square, named
+#let cat-leaf(pos, name) = {
+  let (cx, cy) = pos
+  draw.rect((cx - 0.12, cy - 0.12), (cx + 0.12, cy + 0.12),
+    fill: white, stroke: cat-node-str, radius: 1pt, name: name)
 }
 
-#let cat-tree-edge(x1, y1, x2, y2) = {
-  draw.line((x1, y1), (x2, y2),
-    stroke: oklch(35%, 0.02, 265deg) + 0.6pt)
+// Edge between named nodes
+#let cat-edge(from, to) = {
+  draw.line(from, to, stroke: cat-edge-color + 0.6pt)
 }
 
 #let catalan-recursive = canvas({
   // ── Original tree (left) ──
-  // A binary tree with 4 internal nodes representing C_4
-  // Root at (0, 4), splitting left and right
-
   // Root
-  cat-tree-node(0, 4)
-  // Left subtree: one internal node
-  cat-tree-node(-1.2, 2.8)
-  cat-tree-leaf(-1.6, 1.6)
-  cat-tree-leaf(-0.8, 1.6)
-  // Right subtree: two internal nodes
-  cat-tree-node(1.2, 2.8)
-  cat-tree-node(0.7, 1.6)
-  cat-tree-leaf(0.3, 0.4)
-  cat-tree-leaf(1.1, 0.4)
-  cat-tree-leaf(1.7, 1.6)
+  cat-node((0, 4), "root")
+  // Left subtree: one internal node + two leaves
+  cat-node((-1.2, 2.8), "L")
+  cat-leaf((-1.6, 1.6), "LL")
+  cat-leaf((-0.8, 1.6), "LR")
+  // Right subtree: two internal nodes + three leaves
+  cat-node((1.2, 2.8), "R")
+  cat-node((0.7, 1.6), "RL")
+  cat-leaf((0.3, 0.4), "RLL")
+  cat-leaf((1.1, 0.4), "RLR")
+  cat-leaf((1.7, 1.6), "RR")
 
-  // Edges
-  cat-tree-edge(0, 3.8, -1.2, 3.0)
-  cat-tree-edge(0, 3.8, 1.2, 3.0)
-  cat-tree-edge(-1.2, 2.6, -1.6, 1.8)
-  cat-tree-edge(-1.2, 2.6, -0.8, 1.8)
-  cat-tree-edge(1.2, 2.6, 0.7, 1.8)
-  cat-tree-edge(1.2, 2.6, 1.7, 1.8)
-  cat-tree-edge(0.7, 1.4, 0.3, 0.6)
-  cat-tree-edge(0.7, 1.4, 1.1, 0.6)
+  // Edges between named nodes
+  cat-edge("root", "L")
+  cat-edge("root", "R")
+  cat-edge("L", "LL")
+  cat-edge("L", "LR")
+  cat-edge("R", "RL")
+  cat-edge("R", "RR")
+  cat-edge("RL", "RLL")
+  cat-edge("RL", "RLR")
 
   // Label
-  draw.content((0, -0.3), text(size: 0.7em, weight: "bold",
-    fill: oklch(35%, 0.02, 265deg))[$C_4$])
+  draw.content((0, -0.3), text(size: 0.7em, weight: "bold", fill: cat-label)[$C_4$])
 
   // ── Equality sign ──
-  draw.content((2.8, 2.0), text(size: 1.2em, fill: oklch(35%, 0.02, 265deg))[$=$])
+  draw.content((2.8, 2.0), text(size: 1.2em, fill: cat-label)[$=$])
 
-  // ── Decomposition (right side) ──
-  // Show the sum of products: C_0·C_3 + C_1·C_2 + C_2·C_1 + C_3·C_0
-  // Each term shown as a pair of subtrees (left × right)
-
+  // ── Decomposition (right side): sum of products C_i·C_{3-i} ──
   let terms = (
     (0, 3, 3.8, 3.5, 5.5, 2.0),
     (1, 2, 6.5, 3.5, 8.2, 2.0),
@@ -138,69 +137,62 @@
   )
 
   for (i, (li, ri, x1, y1, x2, y2)) in terms.enumerate() {
-    // Left subtree placeholder
     draw.rect((x1 - 0.6, y1 - 0.4), (x1 + 0.6, y1 + 0.4),
       radius: 4pt,
       fill: oklch(92%, 0.03, 250deg).transparentize(40%),
-      stroke: oklch(60%, 0.08, 250deg) + 0.5pt)
-    draw.content((x1, y1),
-      text(size: 0.6em, fill: oklch(35%, 0.02, 265deg))[$C_#li$])
+      stroke: oklch(60%, 0.08, 250deg) + 0.5pt,
+      name: "ci" + str(i) + "-l")
+    draw.content((x1, y1), text(size: 0.6em, fill: cat-label)[$C_#li$])
 
-    // Right subtree placeholder
     draw.rect((x2 - 0.6, y2 - 0.4), (x2 + 0.6, y2 + 0.4),
       radius: 4pt,
       fill: oklch(92%, 0.04, 155deg).transparentize(40%),
-      stroke: oklch(55%, 0.18, 155deg) + 0.5pt)
-    draw.content((x2, y2),
-      text(size: 0.6em, fill: oklch(35%, 0.02, 265deg))[$C_#ri$])
+      stroke: oklch(55%, 0.18, 155deg) + 0.5pt,
+      name: "ci" + str(i) + "-r")
+    draw.content((x2, y2), text(size: 0.6em, fill: cat-label)[$C_#ri$])
 
-    // Plus sign between terms (except last)
     if i < terms.len() - 1 {
-      let px = (x2 + 0.9, y1)
-      draw.content(px, text(size: 0.8em, fill: oklch(35%, 0.02, 265deg))[$+$])
+      draw.content((x2 + 0.9, y1), text(size: 0.8em, fill: cat-label)[$+$])
     }
   }
 })
 
 // ═══════════════════════════════════════════════════════════════
-// Generating function as a "machine": sequence → GF → operations
+// Generating function pipeline: sequence → GF → closed form
 // ═══════════════════════════════════════════════════════════════
-// Metaphor: a pipeline that transforms a sequence into its closed form.
+
+#let gf-box-fill = oklch(92%, 0.03, 250deg)
+#let gf-box-str = oklch(60%, 0.08, 250deg) + 0.6pt
+#let gf-arrow-color = oklch(35%, 0.02, 265deg)
+#let gf-label = oklch(35%, 0.02, 265deg)
+
+// A labelled box
+#let gf-box(pos, w, h, fill, stroke, title, subtitle, name) = {
+  let (cx, cy) = pos
+  draw.rect((cx - w/2, cy - h/2), (cx + w/2, cy + h/2),
+    radius: 8pt, fill: fill, stroke: stroke, name: name)
+  draw.content((cx, cy + 0.2), text(size: 0.65em, weight: "bold", fill: gf-label)[#title])
+  draw.content((cx, cy - 0.25), text(size: 0.55em, fill: luma(50%))[#subtitle])
+}
 
 #let gf-pipeline = canvas({
-  // Input: sequence on the left
-  draw.rect((-4.5, -0.7), (-1.5, 0.7), radius: 8pt,
-    fill: oklch(92%, 0.03, 250deg), stroke: oklch(60%, 0.08, 250deg) + 0.6pt)
-  draw.content((-3.0, 0.2),
-    text(size: 0.65em, weight: "bold", fill: oklch(35%, 0.02, 265deg))[$a_0, a_1, a_2, dots$])
-  draw.content((-3.0, -0.3),
-    text(size: 0.55em, fill: luma(50%))[последовательность])
+  gf-box((-3, 0), 3.0, 1.4, gf-box-fill, gf-box-str,
+    $a_0, a_1, a_2, dots$, [последовательность], "seq")
+  gf-box((1.8, 0), 2.0, 1.4,
+    oklch(88%, 0.05, 155deg), oklch(55%, 0.18, 155deg) + 0.6pt,
+    $A(x)$, [производящая функция], "gf")
+  gf-box((6.1, 0), 2.0, 1.4,
+    oklch(88%, 0.06, 45deg), oklch(55%, 0.18, 45deg) + 0.6pt,
+    $a_n = [x^n] A(x)$, [явная формула], "result")
 
-  // Arrow 1
-  draw.line((-1.2, 0), (0.5, 0),
-    stroke: oklch(35%, 0.02, 265deg) + 0.7pt, mark: (end: "stealth"))
-  draw.content((-0.35, 0.4),
-    text(size: 0.5em, fill: luma(50%))[$sum a_n x^n$])
+  // Arrows between named boxes
+  draw.line("seq.east", "gf.west",
+    stroke: gf-arrow-color + 0.7pt, mark: (end: "stealth"), name: "arr1")
+  draw.content("arr1.mid", anchor: "south",
+    text(size: 0.55em, fill: luma(50%))[$sum a_n x^n$])
 
-  // GF box
-  draw.rect((0.8, -0.7), (2.8, 0.7), radius: 8pt,
-    fill: oklch(88%, 0.05, 155deg), stroke: oklch(55%, 0.18, 155deg) + 0.6pt)
-  draw.content((1.8, 0.2),
-    text(size: 0.65em, weight: "bold", fill: oklch(35%, 0.02, 265deg))[$A(x)$])
-  draw.content((1.8, -0.3),
-    text(size: 0.55em, fill: luma(50%))[производящая функция])
-
-  // Arrow 2: algebraic operations
-  draw.line((3.1, 0), (4.8, 0),
-    stroke: oklch(35%, 0.02, 265deg) + 0.7pt, mark: (end: "stealth"))
-  draw.content((3.95, 0.4),
-    text(size: 0.5em, fill: luma(50%))[решаем уравнение])
-
-  // Result box
-  draw.rect((5.1, -0.7), (7.1, 0.7), radius: 8pt,
-    fill: oklch(88%, 0.06, 45deg), stroke: oklch(55%, 0.18, 45deg) + 0.6pt)
-  draw.content((6.1, 0.2),
-    text(size: 0.65em, weight: "bold", fill: oklch(35%, 0.02, 265deg))[$a_n = [x^n] A(x)$])
-  draw.content((6.1, -0.3),
-    text(size: 0.55em, fill: luma(50%))[явная формула])
+  draw.line("gf.east", "result.west",
+    stroke: gf-arrow-color + 0.7pt, mark: (end: "stealth"), name: "arr2")
+  draw.content("arr2.mid", anchor: "south",
+    text(size: 0.55em, fill: luma(50%))[решаем уравнение])
 })

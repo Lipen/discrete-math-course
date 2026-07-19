@@ -39,23 +39,17 @@
 #let c-rot = oklch(55%, 0.10, 250deg)
 
 // Draw one necklace: circle with n colored dots on it.
-// center: (x,y), colors: array of "b"|"w", radius
-#let necklace(center, colors, radius: 0.55) = {
+#let necklace(center, colors, radius: 0.55, name: none) = {
   let n = colors.len()
   let (cx, cy) = center
-  // Draw the string circle
-  draw.circle(center, radius: radius, fill: none, stroke: c-bead-str)
-  // Draw beads
+  draw.circle(center, radius: radius, fill: none, stroke: c-bead-str, name: name)
   for (i, col) in colors.enumerate() {
     let angle = 90deg - i * (360deg / n)
     let bx = cx + radius * calc.cos(angle)
     let by = cy + radius * calc.sin(angle)
-    draw.circle(
-      (bx, by),
-      radius: 0.12,
+    draw.circle((bx, by), radius: 0.12,
       fill: if col == "b" { c-bead-b } else { c-bead-w },
-      stroke: c-bead-str,
-    )
+      stroke: c-bead-str)
   }
 }
 
@@ -76,12 +70,11 @@
   draw.content((1.5, 0.55), text(size: 0.5em, fill: luma(50%))[$"111"$])
 
   // Orbit 3: one white bead --- {001, 010, 100}
-  necklace((-3.5, -1.0), ("w", "b", "b"))
-  necklace((-1.5, -1.0), ("b", "w", "b"))
-  necklace((0.5, -1.0), ("b", "b", "w"))
-  // Rotation arrows between them
-  draw.line((-2.8, -1.0), (-2.2, -1.0), stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line((-0.8, -1.0), (-0.2, -1.0), stroke: c-rot + 0.5pt, mark: (end: ">"))
+  necklace((-3.0, -1.0), ("w", "b", "b"), name: "o3a")
+  necklace((-1.5, -1.0), ("b", "w", "b"), name: "o3b")
+  necklace((0.0, -1.0), ("b", "b", "w"), name: "o3c")
+  draw.line("o3a.east", "o3b.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
+  draw.line("o3b.east", "o3c.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
   draw.content((-2.5, -1.7), text(
     size: 0.55em,
     fill: c-orbit,
@@ -92,11 +85,11 @@
   )[$"001", "010", "100"$])
 
   // Orbit 4: two white beads --- {011, 101, 110}
-  necklace((-3.5, -3.5), ("w", "w", "b"))
-  necklace((-1.5, -3.5), ("b", "w", "w"))
-  necklace((0.5, -3.5), ("w", "b", "w"))
-  draw.line((-2.8, -3.5), (-2.2, -3.5), stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line((-0.8, -3.5), (-0.2, -3.5), stroke: c-rot + 0.5pt, mark: (end: ">"))
+  necklace((-3.0, -3.5), ("w", "w", "b"), name: "o4a")
+  necklace((-1.5, -3.5), ("b", "w", "w"), name: "o4b")
+  necklace((0.0, -3.5), ("w", "b", "w"), name: "o4c")
+  draw.line("o4a.east", "o4b.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
+  draw.line("o4b.east", "o4c.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
   draw.content((-2.5, -4.2), text(
     size: 0.55em,
     fill: c-orbit,
