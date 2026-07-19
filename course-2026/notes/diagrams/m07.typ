@@ -188,20 +188,20 @@
   draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
 }
 
-// lo edge: dashed, label on edge
+// lo edge: dashed, label at 30% from source (avoids crossing-area collisions)
 #let lo-edge(from, to, edge-name) = {
   draw.line(from, to, name: edge-name,
     stroke: (paint: bdd-lo-paint, thickness: 0.7pt, dash: "dashed"))
-  draw.content(edge-name + ".mid",
+  draw.content(edge-name + ".30%",
     text(size: 0.65em, fill: bdd-lo-paint)[$0$],
     frame: "rect", fill: white, stroke: none, padding: 1pt)
 }
 
-// hi edge: solid, label on edge
+// hi edge: solid, label at 30% from source
 #let hi-edge(from, to, edge-name) = {
   draw.line(from, to, name: edge-name,
     stroke: (paint: bdd-hi-paint, thickness: 0.8pt))
-  draw.content(edge-name + ".mid",
+  draw.content(edge-name + ".30%",
     text(size: 0.65em, fill: bdd-hi-paint)[$1$],
     frame: "rect", fill: white, stroke: none, padding: 1pt)
 }
