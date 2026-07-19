@@ -161,105 +161,80 @@
   )[$y z$])
 })
 
-// ── ROBDD for f(x,y) = x xor y with truth table ──
-#let bdd-lo-color = oklch(50%, 0.08, 22deg)
-#let bdd-hi-color = oklch(50%, 0.08, 250deg)
-#let bdd-label = oklch(35%, 0.02, 265deg)
-#let bdd-node-fill = oklch(88%, 0.03, 250deg)
-#let bdd-node-str = oklch(60%, 0.08, 250deg) + 0.7pt
+// ── ROBDD for f(x,y) = x xor y ──
+// Order x < y. Shannon expansion: f = ¬x·f(0,y) ∨ x·f(1,y).
+// f(0,y) = y (identity), f(1,y) = ¬y (negation).
+// 3 internal nodes + 2 shared terminals.
+// lo = dashed (var=0), hi = solid (var=1).
 
-// Helper: internal node (circle with variable name)
-#let bdd-var(pos, var-name, node-name) = {
-  draw.circle(
-    pos,
-    radius: 0.42,
-    fill: bdd-node-fill,
-    stroke: bdd-node-str,
-    name: node-name,
-  )
-  draw.content(pos, text(size: 0.8em, fill: bdd-label)[#var-name])
+#let bdd-lo = oklch(55%, 0.10, 22deg)
+#let bdd-hi = oklch(55%, 0.12, 250deg)
+#let bdd-term-str = oklch(35%, 0.02, 265deg) + 0.8pt
+#let bdd-label = oklch(30%, 0.02, 265deg)
+
+// Internal node: circle with variable label
+#let bdd-node(pos, var, name) = {
+  draw.circle(pos, radius: 0.38,
+    fill: oklch(90%, 0.02, 260deg),
+    stroke: oklch(55%, 0.06, 260deg) + 0.7pt,
+    name: name)
+  draw.content(pos, text(size: 0.75em, weight: "semibold", fill: bdd-label)[#var])
 }
 
-// Helper: terminal node (square with value 0 or 1)
-#let bdd-term(pos, val, node-name) = {
+// Terminal node: square with 0 or 1
+#let bdd-term(pos, val, name) = {
   let (cx, cy) = pos
-  draw.rect(
-    (cx - 0.3, cy - 0.3),
-    (cx + 0.3, cy + 0.3),
-    radius: 2pt,
-    fill: white,
-    stroke: bdd-node-str,
-    name: node-name,
-  )
+  draw.rect((cx - 0.28, cy - 0.28), (cx + 0.28, cy + 0.28),
+    radius: 2pt, fill: white, stroke: bdd-term-str, name: name)
   draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
 }
 
-// Helper: lo-edge (dashed, uses anchor strings directly)
-#let bdd-lo(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor, stroke: (
-    paint: bdd-lo-color,
-    thickness: 0.6pt,
-    dash: "dashed",
-  ))
+// lo-edge: dashed, labelled 0
+#let bdd-lo-edge(from-anchor, to-anchor) = {
+  draw.line(from-anchor, to-anchor,
+    stroke: (paint: bdd-lo, thickness: 0.7pt, dash: "dashed"))
 }
 
-// Helper: hi-edge (solid)
-#let bdd-hi(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor, stroke: (
-    paint: bdd-hi-color,
-    thickness: 0.7pt,
-  ))
+// hi-edge: solid, labelled 1
+#let bdd-hi-edge(from-anchor, to-anchor) = {
+  draw.line(from-anchor, to-anchor,
+    stroke: (paint: bdd-hi, thickness: 0.8pt))
 }
 
 #let bdd-xor = canvas({
-  // ── BDD nodes ──
-  bdd-var((0, 2.2), $x$, "x")
-  bdd-var((-1.3, 0.2), $y$, "y-lo")
-  bdd-var((1.3, 0.2), $y$, "y-hi")
+  // ── Level 0: root ──
+  bdd-node((0, 2.8), $x$, "x")
 
-  bdd-term((-1.0, -1.5), 0, "t0-left")
-  bdd-term((0.0, -1.5), 1, "t1-left")
-  bdd-term((1.0, -1.5), 0, "t0-right")
-  bdd-term((2.0, -1.5), 1, "t1-right")
+  // ── Level 1: y-nodes (cofactors) ──
+  bdd-node((-1.8, 1.2), $y$, "y-lo")
+  bdd-node((1.8, 1.2), $y$, "y-hi")
 
-  // ── Edges between named nodes ──
-  bdd-lo("x.south", "y-lo.north")
-  bdd-hi("x.south-east", "y-hi.north")
+  // ── Level 2: shared terminals ──
+  // 0 terminal centered between the two nodes that point to it
+  bdd-term((-0.8, -0.3), 0, "t0")
+  bdd-term((0.8, -0.3), 1, "t1")
 
-  bdd-lo("y-lo.south", "t0-left.north")
-  bdd-hi("y-lo.south-east", "t1-left.north")
+  // ── Edges: root → cofactors ──
+  bdd-lo-edge("x.south-west", "y-lo.north")
+  bdd-hi-edge("x.south-east", "y-hi.north")
 
-  bdd-lo("y-hi.south", "t1-right.north")
-  bdd-hi("y-hi.south-east", "t0-right.north")
+  // Edge labels (midpoint of x→y edges)
+  draw.content((-0.9, 2.1), text(size: 0.55em, fill: bdd-lo)[$0$])
+  draw.content((0.9, 2.1), text(size: 0.55em, fill: bdd-hi)[$1$])
 
-  // Edge labels at midpoints
-  draw.content((-0.7, 1.2), text(size: 0.55em, fill: bdd-lo-color)[$0$])
-  draw.content((0.7, 1.2), text(size: 0.55em, fill: bdd-hi-color)[$1$])
+  // ── Edges: y-lo → terminals ──
+  // y-lo computes f(0,y) = y: lo→0, hi→1
+  bdd-lo-edge("y-lo.south-west", "t0.north")
+  bdd-hi-edge("y-lo.south-east", "t1.north")
 
-  // ── Truth table (right side) ──
-  let tx = 3.8
-  for (col, hdr) in (($x$, $y$, $f$),).enumerate() {
-    for (k, label) in hdr.enumerate() {
-      draw.content((tx + k * 0.6, 2.5), text(
-        size: 0.6em,
-        weight: "bold",
-        fill: bdd-label,
-      )[#label])
-    }
-  }
-  for (k, (vx, vy, vf)) in (
-    (0, 0, 0),
-    (0, 1, 1),
-    (1, 0, 1),
-    (1, 1, 0),
-  ).enumerate() {
-    let y = 1.8 - k * 0.55
-    draw.content((tx, y), text(size: 0.6em, fill: bdd-label)[#vx])
-    draw.content((tx + 0.6, y), text(size: 0.6em, fill: bdd-label)[#vy])
-    draw.content((tx + 1.2, y), text(
-      size: 0.6em,
-      weight: "bold",
-      fill: bdd-label,
-    )[#vf])
-  }
+  // ── Edges: y-hi → terminals ──
+  // y-hi computes f(1,y) = ¬y: lo→1, hi→0
+  bdd-lo-edge("y-hi.south-west", "t1.north-west")
+  bdd-hi-edge("y-hi.south-east", "t0.north-east")
+
+  // ── Cofactor labels ──
+  draw.content((-2.2, 1.2), anchor: "east",
+    text(size: 0.52em, fill: bdd-lo)[$x!=!0$])
+  draw.content((2.2, 1.2), anchor: "west",
+    text(size: 0.52em, fill: bdd-hi)[$x!=!1$])
 })
