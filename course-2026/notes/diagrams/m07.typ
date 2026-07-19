@@ -188,18 +188,22 @@
   draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
 }
 
-// lo edge: dashed, auto-routed between named nodes
-#let lo-edge(from, to, label-pos) = {
-  draw.line(from, to,
+// lo edge: dashed, label on edge
+#let lo-edge(from, to, edge-name) = {
+  draw.line(from, to, name: edge-name,
     stroke: (paint: bdd-lo-paint, thickness: 0.7pt, dash: "dashed"))
-  draw.content(label-pos, text(size: 0.65em, fill: bdd-lo-paint)[$0$])
+  draw.content(edge-name + ".mid",
+    text(size: 0.65em, fill: bdd-lo-paint)[$0$],
+    frame: "rect", fill: white, stroke: none, padding: 1pt)
 }
 
-// hi edge: solid, auto-routed between named nodes
-#let hi-edge(from, to, label-pos) = {
-  draw.line(from, to,
+// hi edge: solid, label on edge
+#let hi-edge(from, to, edge-name) = {
+  draw.line(from, to, name: edge-name,
     stroke: (paint: bdd-hi-paint, thickness: 0.8pt))
-  draw.content(label-pos, text(size: 0.65em, fill: bdd-hi-paint)[$1$])
+  draw.content(edge-name + ".mid",
+    text(size: 0.65em, fill: bdd-hi-paint)[$1$],
+    frame: "rect", fill: white, stroke: none, padding: 1pt)
 }
 
 #let bdd-xor = canvas({
@@ -211,14 +215,14 @@
   bdd-term((1.6, -1),  1, "t1")
 
   // ── Root → cofactors ──
-  lo-edge("x", "y-lo", (-1.0, 2.15))
-  hi-edge("x", "y-hi", (1.0, 2.15))
+  lo-edge("x", "y-lo", "e-x-lo")
+  hi-edge("x", "y-hi", "e-x-hi")
 
   // ── Left cofactor f(0,y) = y: lo→0, hi→1 ──
-  lo-edge("y-lo", "t0", (-2.2, 0.0))
-  hi-edge("y-lo", "t1", (-1.2, 0.0))
+  lo-edge("y-lo", "t0", "e-yl-t0")
+  hi-edge("y-lo", "t1", "e-yl-t1")
 
   // ── Right cofactor f(1,y) = ¬y: lo→1, hi→0 ──
-  lo-edge("y-hi", "t1", (1.2, 0.0))
-  hi-edge("y-hi", "t0", (2.2, 0.0))
+  lo-edge("y-hi", "t1", "e-yr-t1")
+  hi-edge("y-hi", "t0", "e-yr-t0")
 })
