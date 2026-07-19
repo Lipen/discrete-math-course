@@ -161,7 +161,8 @@
 #let c-res-label = oklch(35%, 0.02, 265deg)
 
 #let cn(pos, body, fill: c-res-in, ..args) = node(
-  pos, body,
+  pos,
+  body,
   fill: fill,
   width: 2.2em,
   height: 1.1em,
@@ -188,7 +189,13 @@
   cn((0, 1.5), $r$, fill: c-res-mid, name: <r2>),
 
   // Empty clause (top)
-  cn((-1, 0), $square$, fill: c-res-empty, stroke: c-res-empty-str, name: <empty>),
+  cn(
+    (-1, 0),
+    $square$,
+    fill: c-res-empty,
+    stroke: c-res-empty-str,
+    name: <empty>,
+  ),
 
   // Resolution edges
   re(<c1>, <r1>),

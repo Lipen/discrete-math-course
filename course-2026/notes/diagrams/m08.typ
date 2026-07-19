@@ -58,13 +58,25 @@
   draw.circle((0, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "x")
   draw.content((0, 0.8), text(size: 0.72em, fill: c-label)[$x$])
 
-  draw.circle((0, -0.8), radius: r, fill: c-node, stroke: c-node-str, name: "notx")
+  draw.circle(
+    (0, -0.8),
+    radius: r,
+    fill: c-node,
+    stroke: c-node-str,
+    name: "notx",
+  )
   draw.content((0, -0.8), text(size: 0.72em, fill: c-label)[$overline(x)$])
 
   draw.circle((2, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "y")
   draw.content((2, 0.8), text(size: 0.72em, fill: c-label)[$y$])
 
-  draw.circle((2, -0.8), radius: r, fill: c-node, stroke: c-node-str, name: "noty")
+  draw.circle(
+    (2, -0.8),
+    radius: r,
+    fill: c-node,
+    stroke: c-node-str,
+    name: "noty",
+  )
   draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
 
   // Edges
@@ -72,8 +84,16 @@
   draw.line((0.35, 0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
 
   // Labels
-  draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(45%, 0.02, 265deg))[$x or y$])
-  draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(45%, 0.02, 265deg))[$not x or y$])
+  draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(
+    45%,
+    0.02,
+    265deg,
+  ))[$x or y$])
+  draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(
+    45%,
+    0.02,
+    265deg,
+  ))[$not x or y$])
 })
 
 // ── DPLL search tree for φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
@@ -88,21 +108,53 @@
 
 #let dpll-tree = canvas({
   // Root: decide x
-  draw.circle((0, 3), radius: 0.35, fill: c-dpll-dec, stroke: c-dpll-str, name: "root")
+  draw.circle(
+    (0, 3),
+    radius: 0.35,
+    fill: c-dpll-dec,
+    stroke: c-dpll-str,
+    name: "root",
+  )
   draw.content((0, 3), text(size: 0.6em, fill: c-dpll-label)[$x$])
 
   // Left branch: x=1
-  draw.circle((-2.5, 1.5), radius: 0.35, fill: c-dpll-up, stroke: c-dpll-str, name: "l-up")
+  draw.circle(
+    (-2.5, 1.5),
+    radius: 0.35,
+    fill: c-dpll-up,
+    stroke: c-dpll-str,
+    name: "l-up",
+  )
   draw.content((-2.5, 1.5), text(size: 0.6em, fill: c-dpll-label)[$y!=!1$])
 
-  draw.rect((-3.1, 0.1), (-1.9, -0.5), radius: 4pt, fill: c-dpll-conf, stroke: oklch(55%, 0.18, 22deg) + 0.7pt, name: "l-conf")
+  draw.rect(
+    (-3.1, 0.1),
+    (-1.9, -0.5),
+    radius: 4pt,
+    fill: c-dpll-conf,
+    stroke: oklch(55%, 0.18, 22deg) + 0.7pt,
+    name: "l-conf",
+  )
   draw.content((-2.5, -0.2), text(size: 0.55em, fill: c-dpll-label)[конфликт])
 
   // Right branch: x=0
-  draw.circle((2.5, 1.5), radius: 0.35, fill: c-dpll-up, stroke: c-dpll-str, name: "r-up")
+  draw.circle(
+    (2.5, 1.5),
+    radius: 0.35,
+    fill: c-dpll-up,
+    stroke: c-dpll-str,
+    name: "r-up",
+  )
   draw.content((2.5, 1.5), text(size: 0.6em, fill: c-dpll-label)[$y!=!1$])
 
-  draw.rect((1.9, 0.1), (3.1, -0.5), radius: 4pt, fill: c-dpll-conf, stroke: oklch(55%, 0.18, 22deg) + 0.7pt, name: "r-conf")
+  draw.rect(
+    (1.9, 0.1),
+    (3.1, -0.5),
+    radius: 4pt,
+    fill: c-dpll-conf,
+    stroke: oklch(55%, 0.18, 22deg) + 0.7pt,
+    name: "r-conf",
+  )
   draw.content((2.5, -0.2), text(size: 0.55em, fill: c-dpll-label)[конфликт])
 
   // Edges
@@ -112,14 +164,23 @@
   draw.line("r-up", "r-conf", stroke: c-dpll-edge)
 
   // Branch labels
-  draw.content((-1.2, 2.4), anchor: "south", text(size: 0.6em, fill: c-dpll-label)[$x!=!1$])
-  draw.content((1.2, 2.4), anchor: "south", text(size: 0.6em, fill: c-dpll-label)[$x!=!0$])
+  draw.content((-1.2, 2.4), anchor: "south", text(
+    size: 0.6em,
+    fill: c-dpll-label,
+  )[$x!=!1$])
+  draw.content((1.2, 2.4), anchor: "south", text(
+    size: 0.6em,
+    fill: c-dpll-label,
+  )[$x!=!0$])
 
   // Unit propagation annotations
-  draw.content((-2.5, 0.7), anchor: "south",
-    text(size: 0.5em, fill: luma(50%))[$(not x or y) → y$])
-  draw.content((2.5, 0.7), anchor: "south",
-    text(size: 0.5em, fill: luma(50%))[$(x or y) → y$])
-
+  draw.content((-2.5, 0.7), anchor: "south", text(
+    size: 0.5em,
+    fill: luma(50%),
+  )[$(not x or y) → y$])
+  draw.content((2.5, 0.7), anchor: "south", text(
+    size: 0.5em,
+    fill: luma(50%),
+  )[$(x or y) → y$])
 })
 

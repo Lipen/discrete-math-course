@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m08.typ": (
-  implication-graph-2sat, implication-graph-2sat-simple, dpll-tree,
+  dpll-tree, implication-graph-2sat, implication-graph-2sat-simple,
 )
 
 = SAT <chap:sat>
