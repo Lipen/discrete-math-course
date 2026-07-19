@@ -150,3 +150,55 @@
     e(<a3>, <yy>),
   )
 }
+
+// ── Resolution refutation DAG: (¬p∨q), (¬q∨r), (p), (¬r) ⊢ □ ──
+#let c-res-in = oklch(88%, 0.03, 250deg)
+#let c-res-mid = oklch(88%, 0.03, 155deg)
+#let c-res-empty = oklch(88%, 0.06, 22deg)
+#let c-res-str = oklch(60%, 0.08, 250deg) + 0.7pt
+#let c-res-empty-str = oklch(55%, 0.18, 22deg) + 0.7pt
+#let c-res-edge = oklch(35%, 0.02, 265deg) + 0.6pt
+#let c-res-label = oklch(35%, 0.02, 265deg)
+
+#let cn(pos, body, fill: c-res-in, ..args) = node(
+  pos, body,
+  fill: fill,
+  width: 2.2em,
+  height: 1.1em,
+  ..args,
+)
+
+#let re(from, to) = edge(from, to, "-", stroke: c-res-edge)
+
+#let resolution-dag = diagram(
+  node-shape: "rect",
+  node-stroke: c-res-str,
+  node-inset: 4pt,
+  node-outset: 4pt,
+  spacing: 1.6em,
+
+  // Input clauses (bottom row)
+  cn((-3, 3), $not p or q$, name: <c1>),
+  cn((-1, 3), $not q or r$, name: <c2>),
+  cn((1, 3), $p$, name: <c3>),
+  cn((3, 3), $not r$, name: <c4>),
+
+  // Intermediate resolvents (middle row)
+  cn((-2, 1.5), $q$, fill: c-res-mid, name: <r1>),
+  cn((0, 1.5), $r$, fill: c-res-mid, name: <r2>),
+
+  // Empty clause (top)
+  cn((-1, 0), $square$, fill: c-res-empty, stroke: c-res-empty-str, name: <empty>),
+
+  // Resolution edges
+  re(<c1>, <r1>),
+  re(<c3>, <r1>),
+  re(<c2>, <r2>),
+  re(<r1>, <r2>),
+  re(<r2>, <empty>),
+  re(<c4>, <empty>),
+
+  // Edge labels (cut variables)
+  edge(<c1>, <r1>, "-", stroke: none, label: [$x$], label-size: 0.55em),
+  edge(<r2>, <empty>, "-", stroke: none, label: [$r$], label-size: 0.55em),
+)
