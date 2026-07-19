@@ -1,7 +1,7 @@
 // M11 --- Производящие функции: алгебраический мост от последовательностей к замкнутым формам.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m11.typ": catalan-decomposition, convolution-table
+#import "diagrams/m11.typ": convolution-grid, catalan-recursive, gf-pipeline
 
 = Производящие функции <chap:generating>
 
@@ -98,8 +98,8 @@ $
 Свёртка открывает комбинаторные задачи, где объект составляется из двух независимых частей.
 
 #figure(
-  convolution-table,
-  caption: [Свёртка последовательностей. Коэффициент $c_n$ образуется суммированием $a_i b_j$ по всем $i + j = n$.],
+  convolution-grid,
+  caption: [Свёртка последовательностей. Каждая диагональная полоса --- вклад в один $c_n$.],
 ) <fig:convolution>
 
 === Базовые ряды
@@ -217,8 +217,8 @@ $
   Суммируя по всем $i$, получаем в точности рекурренту.
 
   #figure(
-    catalan-decomposition,
-    caption: [Свёрточная структура чисел Каталана. При удалении корня бинарное дерево распадается на левое и правое поддеревья.],
+    catalan-recursive,
+    caption: [Свёрточная структура чисел Каталана. Дерево $C_4$ разлагается в сумму произведений $C_i C_(3-i)$ при удалении корня.],
   ) <fig:catalan-decomposition>
 
   Пусть $C(x) = sum_(n=0)^oo C_n x^n$.
