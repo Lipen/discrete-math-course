@@ -1,4 +1,4 @@
-// M12 --- Производящие функции: алгебраический мост от последовательностей к замкнутым формам.
+// M13 --- Производящие функции: алгебраический мост от последовательностей к замкнутым формам.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m11.typ": catalan-recursive, convolution-grid, gf-pipeline

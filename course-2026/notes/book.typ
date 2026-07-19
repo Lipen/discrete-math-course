@@ -83,12 +83,13 @@
 #include "m09-codes.typ"
 #include "m10-sat.typ"
 #include "m11-combinatorics.typ"
-#include "m12-generating-fns.typ"
-#include "m13-transfinite.typ"
+#include "m12-probability.typ"
+#include "m13-generating-fns.typ"
+#include "m14-transfinite.typ"
 
-#include "m14-automata.typ"
-#include "m15-turing.typ"
-#include "m16-complexity.typ"
+#include "m15-automata.typ"
+#include "m16-turing.typ"
+#include "m17-complexity.typ"
 
 // --- Упражнения ---
 #include "exercises.typ"

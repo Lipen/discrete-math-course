@@ -1,4 +1,4 @@
-// M15 --- Машины Тьюринга и неразрешимость: пределы вычислений.
+// M16 --- Машины Тьюринга и неразрешимость: пределы вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m14.typ": reduction-halt-empty, turing-machine

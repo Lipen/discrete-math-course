@@ -1,4 +1,4 @@
-// M13 --- Трансфинитное: счёт за пределами конечного.
+// M14 --- Трансфинитное: счёт за пределами конечного.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": cantor-diagonal
