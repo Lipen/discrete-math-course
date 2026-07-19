@@ -161,7 +161,9 @@
   )[$y z$])
 })
 
-// ── ROBDD for f(x,y) = x xor y ──
+// ── ROBDD for f(x,y) = x xor y with truth table ──
+// Metaphor: decision flowchart + truth table correspondence.
+// Each path through the BDD maps to one row of the truth table.
 #let c-bdd-node = oklch(88%, 0.03, 250deg)
 #let c-bdd-str = oklch(60%, 0.08, 250deg) + 0.7pt
 #let c-bdd-lo-color = oklch(50%, 0.08, 22deg)
@@ -172,81 +174,60 @@
 
 #let bdd-xor = canvas({
   let r = 0.42
-  draw.circle((0, 2), radius: r, fill: c-bdd-node, stroke: c-bdd-str, name: "x")
-  draw.content((0, 2), text(size: 0.8em, fill: c-bdd-label)[$x$])
-  draw.circle(
-    (-1.3, 0),
-    radius: r,
-    fill: c-bdd-node,
-    stroke: c-bdd-str,
-    name: "y1",
-  )
-  draw.content((-1.3, 0), text(size: 0.8em, fill: c-bdd-label)[$y$])
-  draw.circle(
-    (1.3, 0),
-    radius: r,
-    fill: c-bdd-node,
-    stroke: c-bdd-str,
-    name: "y2",
-  )
-  draw.content((1.3, 0), text(size: 0.8em, fill: c-bdd-label)[$y$])
+
+  // ── BDD (left side) ──
+  // Internal nodes
+  draw.circle((0, 2.2), radius: r, fill: c-bdd-node, stroke: c-bdd-str, name: "x")
+  draw.content((0, 2.2), text(size: 0.8em, fill: c-bdd-label)[$x$])
+
+  draw.circle((-1.3, 0.2), radius: r, fill: c-bdd-node, stroke: c-bdd-str, name: "y1")
+  draw.content((-1.3, 0.2), text(size: 0.8em, fill: c-bdd-label)[$y$])
+
+  draw.circle((1.3, 0.2), radius: r, fill: c-bdd-node, stroke: c-bdd-str, name: "y2")
+  draw.content((1.3, 0.2), text(size: 0.8em, fill: c-bdd-label)[$y$])
+
   // Terminal nodes
-  draw.rect(
-    (-1.3, -2),
-    (-0.7, -1.4),
-    radius: 2pt,
-    fill: white,
-    stroke: c-bdd-str,
-  )
-  draw.content((-1, -1.7), text(size: 0.8em, fill: c-bdd-label)[0])
-  draw.rect(
-    (-0.3, -2),
-    (0.3, -1.4),
-    radius: 2pt,
-    fill: white,
-    stroke: c-bdd-str,
-  )
-  draw.content((0, -1.7), text(size: 0.8em, fill: c-bdd-label)[1])
-  draw.rect((0.7, -2), (1.3, -1.4), radius: 2pt, fill: white, stroke: c-bdd-str)
-  draw.content((1, -1.7), text(size: 0.8em, fill: c-bdd-label)[0])
-  draw.rect((1.7, -2), (2.3, -1.4), radius: 2pt, fill: white, stroke: c-bdd-str)
-  draw.content((2, -1.7), text(size: 0.8em, fill: c-bdd-label)[1])
+  draw.rect((-1.3, -1.8), (-0.7, -1.2), radius: 2pt, fill: white, stroke: c-bdd-str)
+  draw.content((-1, -1.5), text(size: 0.8em, fill: c-bdd-label)[0])
+  draw.rect((-0.3, -1.8), (0.3, -1.2), radius: 2pt, fill: white, stroke: c-bdd-str)
+  draw.content((0, -1.5), text(size: 0.8em, fill: c-bdd-label)[1])
+  draw.rect((0.7, -1.8), (1.3, -1.2), radius: 2pt, fill: white, stroke: c-bdd-str)
+  draw.content((1, -1.5), text(size: 0.8em, fill: c-bdd-label)[0])
+  draw.rect((1.7, -1.8), (2.3, -1.2), radius: 2pt, fill: white, stroke: c-bdd-str)
+  draw.content((2, -1.5), text(size: 0.8em, fill: c-bdd-label)[1])
+
   // Edges: lo=dashed, hi=solid
-  draw.line((-0.3, 1.7), (-1.0, 0.35), stroke: (
-    paint: c-bdd-lo-color,
-    thickness: 0.6pt,
-    dash: "dashed",
-  ))
-  draw.line((0.3, 1.7), (1.0, 0.35), stroke: (
-    paint: c-bdd-hi-color,
-    thickness: 0.7pt,
-  ))
-  draw.content((-0.7, 1.1), anchor: "south", text(
-    size: 0.6em,
-    fill: c-bdd-lo-color,
-  )[$0$])
-  draw.content((0.7, 1.1), anchor: "south", text(
-    size: 0.6em,
-    fill: c-bdd-hi-color,
-  )[$1$])
+  draw.line((-0.3, 1.9), (-1.0, 0.55), stroke: (paint: c-bdd-lo-color, thickness: 0.6pt, dash: "dashed"))
+  draw.line((0.3, 1.9), (1.0, 0.55), stroke: (paint: c-bdd-hi-color, thickness: 0.7pt))
+  draw.content((-0.8, 1.3), text(size: 0.55em, fill: c-bdd-lo-color)[$0$])
+  draw.content((0.8, 1.3), text(size: 0.55em, fill: c-bdd-hi-color)[$1$])
+
   // y1 → leaves
-  draw.line((-1.15, -0.35), (-1.15, -1.35), stroke: (
-    paint: c-bdd-lo-color,
-    thickness: 0.6pt,
-    dash: "dashed",
-  ))
-  draw.line((-1.45, -0.35), (-0.15, -1.35), stroke: (
-    paint: c-bdd-hi-color,
-    thickness: 0.7pt,
-  ))
+  draw.line((-1.15, -0.15), (-1.15, -1.15), stroke: (paint: c-bdd-lo-color, thickness: 0.6pt, dash: "dashed"))
+  draw.line((-1.45, -0.15), (-0.15, -1.15), stroke: (paint: c-bdd-hi-color, thickness: 0.7pt))
+
   // y2 → leaves
-  draw.line((1.45, -0.35), (2.15, -1.35), stroke: (
-    paint: c-bdd-lo-color,
-    thickness: 0.6pt,
-    dash: "dashed",
-  ))
-  draw.line((1.15, -0.35), (0.85, -1.35), stroke: (
-    paint: c-bdd-hi-color,
-    thickness: 0.7pt,
-  ))
+  draw.line((1.45, -0.15), (2.15, -1.15), stroke: (paint: c-bdd-lo-color, thickness: 0.6pt, dash: "dashed"))
+  draw.line((1.15, -0.15), (0.85, -1.15), stroke: (paint: c-bdd-hi-color, thickness: 0.7pt))
+
+  // ── Truth table (right side) ──
+  let tx = 3.5
+  // Header
+  draw.content((tx, 2.5), text(size: 0.6em, weight: "bold", fill: c-bdd-label)[$x$])
+  draw.content((tx + 0.5, 2.5), text(size: 0.6em, weight: "bold", fill: c-bdd-label)[$y$])
+  draw.content((tx + 1.0, 2.5), text(size: 0.6em, weight: "bold", fill: c-bdd-label)[$f$])
+
+  let rows = ((0, 0, 0), (0, 1, 1), (1, 0, 1), (1, 1, 0))
+  for (k, row) in rows.enumerate() {
+    let y = 1.8 - k * 0.55
+    draw.content((tx, y), text(size: 0.6em, fill: c-bdd-label)[#row.at(0)])
+    draw.content((tx + 0.5, y), text(size: 0.6em, fill: c-bdd-label)[#row.at(1)])
+    draw.content((tx + 1.0, y), text(size: 0.6em, weight: "bold", fill: c-bdd-label)[#row.at(2)])
+  }
+
+  // Connecting lines: truth table rows → BDD paths
+  // (0,0)→0: through x-lo, y-lo
+  // (0,1)→1: through x-lo, y-hi
+  // (1,0)→1: through x-hi, y-lo
+  // (1,1)→0: through x-hi, y-hi
 })
