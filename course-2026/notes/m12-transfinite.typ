@@ -1,7 +1,7 @@
 // M11 --- Трансфинитное: счёт за пределами конечного.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import cetz: canvas, draw
+#import "diagrams/m12.typ": cantor-diagonal
 
 = Трансфинитное: обзор <chap:transfinite>
 
@@ -175,77 +175,7 @@
 ]
 
 #figure(
-  {
-    let c-matrix-bg = oklch(96%, 0.01, 260deg)
-    let c-diag = oklch(65%, 0.22, 22deg)
-    let c-digit = oklch(30%, 0.02, 265deg)
-    let c-constr = oklch(50%, 0.18, 250deg)
-    let c-escape = oklch(50%, 0.16, 300deg)
-    let c-mismatch = oklch(55%, 0.20, 22deg)
-    canvas({
-      let s = 0.72
-      let rows = 5
-      let cols = 7
-      let digits = (
-        (3, 5, 2, 7, 1, 4, 8),
-        (1, 8, 4, 6, 2, 9, 0),
-        (7, 2, 5, 9, 3, 0, 6),
-        (0, 3, 1, 8, 6, 2, 7),
-        (9, 4, 7, 2, 0, 5, 3),
-      )
-      let constructed = (4, 4, 4, 4, 4)
-
-      // Matrix background
-      draw.rect((-0.7, 0.5), (cols * s + 0.2, -(rows + 0.3) * s),
-        fill: c-matrix-bg, stroke: none, radius: 4pt)
-
-      // Row labels and digits
-      for i in range(rows) {
-        draw.content((-0.4, -(i + 0.5) * s),
-          text(size: 0.6em, fill: luma(45%))[$r_#(i+1)$])
-        for j in range(cols) {
-          let x = j * s + 0.1
-          let y = -(i + 0.5) * s
-          let is-diag = (i == j)
-          if is-diag {
-            // Highlighted diagonal cell
-            draw.rect((x - 0.05, y - 0.32), (x + s - 0.05, y + 0.32),
-              fill: c-diag.transparentize(80%), stroke: c-diag + 0.8pt, radius: 2pt)
-          }
-          draw.content((x + s/2, y),
-            text(size: 0.7em, fill: if is-diag { c-diag } else { c-digit },
-              weight: if is-diag { "bold" } else { "regular" })[#digits.at(i).at(j)])
-        }
-      }
-
-      // Ellipsis
-      draw.content((cols * s + 0.5, -(rows/2) * s),
-        text(size: 0.65em, fill: luma(50%))[$dots$])
-
-      // The "escape": r constructed below, visibly breaking out
-      // Diagonal escape arrows
-      for i in range(rows) {
-        let x = i * s + s/2 + 0.1
-        draw.line((x, -(i + 0.5) * s - 0.4), (x, -(rows + 0.8) * s),
-          stroke: (paint: c-constr.transparentize(50%), thickness: 0.4pt, dash: "dashed"))
-        // ≠ marker
-        draw.content((x + 0.18, -(i + 0.5) * s - 0.1),
-          text(size: 0.45em, fill: c-mismatch)[$≠$])
-      }
-
-      // Constructed number r
-      draw.content((-0.4, -(rows + 1.2) * s),
-        text(size: 0.65em, weight: "bold", fill: c-constr)[$r = 0.$])
-      for j in range(rows) {
-        let x = j * s + s/2 + 0.1
-        draw.content((x, -(rows + 1.2) * s),
-          text(size: 0.75em, fill: c-constr, weight: "bold")[#constructed.at(j)])
-      }
-      // r escapes to the right
-      draw.content((rows * s + 0.3, -(rows + 1.2) * s),
-        text(size: 0.65em, fill: c-escape)[$dots not in {r_1, r_2, dots}$])
-    })
-  },
+  cantor-diagonal,
   caption: [Диагональный аргумент Кантора. Число $r$ (синее) отличается от каждого $r_i$ в $i$-й позиции --- оно «убегает» из любого предполагаемого перечисления.],
 ) <fig:cantor-diagonal>
 
