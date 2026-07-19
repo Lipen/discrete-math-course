@@ -159,9 +159,4 @@
   draw.content((0.5, yy - 1.5), text(size: 0.7em, fill: c-pl-label)[
     $x y^k z$ ($k$ повторений)
   ])
-
-  // Annotation
-  draw.content((0.5, yy - 2.5), text(size: 0.6em, fill: luma(50%))[
-    Все эти строки принимаются автоматом: цикл можно пройти любое число раз.
-  ])
 })

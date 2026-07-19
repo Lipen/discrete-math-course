@@ -249,23 +249,4 @@
     paint: c-bdd-hi-color,
     thickness: 0.7pt,
   ))
-  // Cofactor labels
-  draw.rect((-1.9, 0.6), (-0.7, -2.5), radius: 6pt, fill: none, stroke: (
-    paint: luma(85%),
-    thickness: 0.4pt,
-    dash: "dotted",
-  ))
-  draw.content((-1.3, -2.8), anchor: "north", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[$f(0, y) = y$])
-  draw.rect((0.7, 0.6), (2.5, -2.5), radius: 6pt, fill: none, stroke: (
-    paint: luma(85%),
-    thickness: 0.4pt,
-    dash: "dotted",
-  ))
-  draw.content((1.6, -2.8), anchor: "north", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[$f(1, y) = overline(y)$])
 })

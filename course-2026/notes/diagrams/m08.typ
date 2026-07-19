@@ -75,3 +75,51 @@
   draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(45%, 0.02, 265deg))[$x or y$])
   draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(45%, 0.02, 265deg))[$not x or y$])
 })
+
+// ── DPLL search tree for φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
+// UNSAT formula: φ = y ∧ ¬y after resolving on x.
+#let c-dpll-node = oklch(88%, 0.03, 250deg)
+#let c-dpll-str = oklch(60%, 0.08, 250deg) + 0.7pt
+#let c-dpll-dec = oklch(88%, 0.06, 250deg) // decision node
+#let c-dpll-up = oklch(88%, 0.05, 155deg)  // unit propagation
+#let c-dpll-conf = oklch(88%, 0.08, 22deg) // conflict
+#let c-dpll-edge = oklch(35%, 0.02, 265deg) + 0.7pt
+#let c-dpll-label = oklch(35%, 0.02, 265deg)
+
+#let dpll-tree = canvas({
+  // Root: decide x
+  draw.circle((0, 3), radius: 0.35, fill: c-dpll-dec, stroke: c-dpll-str, name: "root")
+  draw.content((0, 3), text(size: 0.6em, fill: c-dpll-label)[$x$])
+
+  // Left branch: x=1
+  draw.circle((-2.5, 1.5), radius: 0.35, fill: c-dpll-up, stroke: c-dpll-str, name: "l-up")
+  draw.content((-2.5, 1.5), text(size: 0.6em, fill: c-dpll-label)[$y!=!1$])
+
+  draw.rect((-3.1, 0.1), (-1.9, -0.5), radius: 4pt, fill: c-dpll-conf, stroke: oklch(55%, 0.18, 22deg) + 0.7pt, name: "l-conf")
+  draw.content((-2.5, -0.2), text(size: 0.55em, fill: c-dpll-label)[конфликт])
+
+  // Right branch: x=0
+  draw.circle((2.5, 1.5), radius: 0.35, fill: c-dpll-up, stroke: c-dpll-str, name: "r-up")
+  draw.content((2.5, 1.5), text(size: 0.6em, fill: c-dpll-label)[$y!=!1$])
+
+  draw.rect((1.9, 0.1), (3.1, -0.5), radius: 4pt, fill: c-dpll-conf, stroke: oklch(55%, 0.18, 22deg) + 0.7pt, name: "r-conf")
+  draw.content((2.5, -0.2), text(size: 0.55em, fill: c-dpll-label)[конфликт])
+
+  // Edges
+  draw.line("root", "l-up", stroke: c-dpll-edge)
+  draw.line("root", "r-up", stroke: c-dpll-edge)
+  draw.line("l-up", "l-conf", stroke: c-dpll-edge)
+  draw.line("r-up", "r-conf", stroke: c-dpll-edge)
+
+  // Branch labels
+  draw.content((-1.2, 2.4), anchor: "south", text(size: 0.6em, fill: c-dpll-label)[$x!=!1$])
+  draw.content((1.2, 2.4), anchor: "south", text(size: 0.6em, fill: c-dpll-label)[$x!=!0$])
+
+  // Unit propagation annotations
+  draw.content((-2.5, 0.7), anchor: "south",
+    text(size: 0.5em, fill: luma(50%))[$(not x or y) → y$])
+  draw.content((2.5, 0.7), anchor: "south",
+    text(size: 0.5em, fill: luma(50%))[$(x or y) → y$])
+
+})
+

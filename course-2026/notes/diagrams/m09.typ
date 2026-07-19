@@ -105,11 +105,6 @@
     size: 0.5em,
     fill: luma(50%),
   )[$"011", "101", "110"$])
-
-  // Total label
-  draw.content((-2.5, -5.4), text(size: 0.75em, fill: c-orbit, weight: "bold")[
-    Всего орбит: $(8 + 2 + 2) / 3 = 4$
-  ])
 })
 
 // ── Ramsey R(3,3) = 6: K6 with 2-colored edges ──
@@ -163,12 +158,4 @@
   draw.content((4.6, 1.5), text(size: 0.6em, fill: c-orbit)[красное ребро])
   draw.line((3.5, 0.8), (4.3, 0.8), stroke: (paint: c-blue, thickness: 1.2pt))
   draw.content((4.6, 0.8), text(size: 0.6em, fill: c-orbit)[синее ребро])
-  draw.content((3.5, 0.0), text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[2-раскраска без монохроматического $K_3$])
-  draw.content((3.5, -0.4), text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[Значит, $R(3,3) > 6$])
 })

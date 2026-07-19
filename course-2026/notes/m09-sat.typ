@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m08.typ": (
-  implication-graph-2sat, implication-graph-2sat-simple,
+  implication-graph-2sat, implication-graph-2sat-simple, dpll-tree,
 )
 
 = SAT <chap:sat>
@@ -308,6 +308,15 @@ SAT-решатели --- мощные инструменты.
 - _Устранение чистых литералов_ (pure literal elimination): если переменная встречается только с одной полярностью, ей можно присвоить выполняющее значение.
 
 CDCL добавляет к этому механизм _обучения на конфликтах_, который радикально ускоряет поиск.
+
+#figure(
+  dpll-tree,
+  caption: [DPLL-дерево для невыполнимой формулы $(x or y) and (not x or y) and (x or not y) and (not x or not y)$.
+    Выбор $x = 1$ через unit propagation принуждает $y = 1$ (из $not x or y$), что даёт конфликт в дизъюнкте $(not x or not y)$.
+    Возврат: $x = 0$ через unit propagation принуждает $y = 1$ (из $x or y$), конфликт в $(x or not y)$.
+    Обе ветви ведут к конфликту --- формула невыполнима.
+    Дерево поиска с возвратом --- суть DPLL до добавления clause learning.],
+) <fig:dpll-tree>
 
 #algorithm[CDCL][
   CDCL расширяет DPLL механизмом обучения на конфликтах.
