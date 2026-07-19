@@ -1,6 +1,7 @@
 // M09 --- Коды и информация: защита данных от ошибок и сжатие.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import cetz: canvas, draw
 
 = Коды и информация <chap:codes>
 
@@ -28,6 +29,17 @@
 
 В предыдущей главе мы проектировали логические схемы --- физические устройства, вычисляющие булевы функции.
 Теперь мы защищаем информацию, которую эти устройства обрабатывают.
+
+#history-note[Шеннон и Хэмминг: рождение теории кодирования][
+  Клод Шеннон опубликовал "A Mathematical Theory of Communication" в 1948 году --- две части в Bell System Technical Journal.
+  В этой работе он ввёл понятие информации, энтропии и пропускной способности канала, а также доказал свою теорему кодирования: для любого канала с шумом существуют коды, передающие информацию со сколь угодно малой вероятностью ошибки --- если скорость ниже пропускной способности.
+  Доказательство было неконструктивным: случайный код достаточно большой длины с высокой вероятностью окажется хорошим, но как его построить явно --- Шеннон не говорил.
+
+  Ричард Хэмминг работал в той же Bell Labs и, по собственному признанию, придумал свой код от раздражения.
+  Компьютер с перфокартами останавливался при каждой ошибке чтения, и выходные проходили впустую --- Хэмминг решил, что машина должна находить и исправлять ошибки сама.
+  Его статья "Error Detecting and Error Correcting Codes" (1950) дала первый явный код, исправляющий одну ошибку.
+  С неё начинается алгебраическая теория кодирования --- явные конструкции, стремящиеся к границе, указанной Шенноном.#footnote[Shannon C. E. "A Mathematical Theory of Communication", Bell System Technical Journal, 1948; Hamming R. W. "Error Detecting and Error Correcting Codes", Bell System Technical Journal, 1950.]
+]
 
 #note[После этой главы вы будете уметь:
   + Вычислять расстояние Хэмминга и кодовое расстояние;
@@ -203,6 +215,53 @@ $
   Средняя длина: $0.40 dot 1 + 0.25 dot 2 + 0.20 dot 3 + 0.10 dot 4 + 0.05 dot 4 = 2.15$ битов на символ.
   Для сравнения: равномерный код для 5 символов требует $ceil(log_2 5) = 3$ битов на символ.
 ]
+
+#figure(
+  canvas(length: 9cm, {
+    import draw: *
+    // Node positions — tree structure
+    let root = (0, 0)
+    let nA = (-3.5, -1.8)
+    let nR = (1.5, -1.8)    // BCDE
+    let nB = (-0.5, -3.6)
+    let nR2 = (2.5, -3.6)   // CDE
+    let nC = (1, -5.4)
+    let nR3 = (3.5, -5.4)   // DE
+    let nD = (2.5, -7.2)
+    let nE = (4.5, -7.2)
+    // Helper for midpoint label
+    let mid-label(p, q, offset, label) = {
+      let mx = (p.at(0) + q.at(0)) / 2
+      let my = (p.at(1) + q.at(1)) / 2
+      line(p, q)
+      content((mx + offset.at(0), my + offset.at(1)), label)
+    }
+
+    // Edges with labels
+    mid-label(root, nA, (-0.4, 0.1),  [_0_])
+    mid-label(root, nR, (0.2, 0.1),   [_1_])
+    mid-label(nR, nB,   (-0.4, 0.1),  [_0_])
+    mid-label(nR, nR2,  (0.2, 0.1),   [_1_])
+    mid-label(nR2, nC,  (-0.4, 0.1),  [_0_])
+    mid-label(nR2, nR3, (0.2, 0.1),   [_1_])
+    mid-label(nR3, nD,  (-0.4, 0.1),  [_0_])
+    mid-label(nR3, nE,  (0.2, 0.1),   [_1_])
+
+    // Internal nodes (weights)
+    circle(root, radius: 0.3); content(root, $1.0$)
+    circle(nR, radius: 0.3);   content(nR, $0.60$)
+    circle(nR2, radius: 0.3);  content(nR2, $0.35$)
+    circle(nR3, radius: 0.3);  content(nR3, $0.15$)
+
+    // Leaf nodes (symbols)
+    circle(nA, radius: 0.35, stroke: 1pt + black, fill: white); content(nA, [$A: 0.40$])
+    circle(nB, radius: 0.35, stroke: 1pt + black, fill: white); content(nB, [$B: 0.25$])
+    circle(nC, radius: 0.35, stroke: 1pt + black, fill: white); content(nC, [$C: 0.20$])
+    circle(nD, radius: 0.35, stroke: 1pt + black, fill: white); content(nD, [$D: 0.10$])
+    circle(nE, radius: 0.35, stroke: 1pt + black, fill: white); content(nE, [$E: 0.05$])
+  }),
+  caption: [Дерево Хаффмана для пяти символов. Цифры на рёбрах: 0 = левое поддерево, 1 = правое. Внутренние узлы содержат сумму весов потомков.],
+) <fig:huffman-tree>
 
 Код Хаффмана используется в JPEG, MP3, DEFLATE (zip/gzip), и многих других форматах.
 В сочетании с кодами, исправляющими ошибки, получается полный цикл: сжать данные кодом Хаффмана, затем защитить кодом Хэмминга (или более мощным кодом).
