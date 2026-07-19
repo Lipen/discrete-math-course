@@ -145,36 +145,27 @@
 
   // Edges from vertex 1: 3 red (to 2,3,4), 2 blue (to 5,6)
   for i in range(5) {
+    let lab = str(i + 2)
     let is-red = (i < 3)
-    draw.line(center, others.at(i), stroke: (
+    draw.line("c", "v" + lab, stroke: (
       paint: if is-red { c-red } else { c-blue },
       thickness: if is-red { 1.6pt } else { 0.8pt },
     ))
   }
 
-  // Triangle {2,3,4}: show edges. One is red (→ red K₃ with 1),
-  // or all are blue (→ blue K₃). Here we show version with red edge.
-  // Edge 2-3: red → red triangle {1,2,3}
-  draw.line(others.at(0), others.at(1),
-    stroke: (paint: c-red, thickness: 2.0pt))
-  // Edge 3-4: blue
-  draw.line(others.at(1), others.at(2),
-    stroke: (paint: c-blue, thickness: 0.8pt))
-  // Edge 2-4: blue
-  draw.line(others.at(0), others.at(2),
-    stroke: (paint: c-blue, thickness: 0.8pt))
+  // Triangle {2,3,4}: edge 2-3 red → red triangle {1,2,3}
+  draw.line("v2", "v3", stroke: (paint: c-red, thickness: 2.0pt))
+  draw.line("v3", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
+  draw.line("v2", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
 
-  // Other edges (thin, dimmed)
-  for (i1, i2) in ((0, 3), (0, 4), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4)) {
-    draw.line(others.at(i1), others.at(i2),
-      stroke: (paint: luma(70%), thickness: 0.3pt))
+  // Other edges (thin, dimmed) using named nodes
+  for (a, b) in (("v2", "v6"), ("v2", "v5"), ("v3", "v5"), ("v3", "v6"), ("v4", "v5"), ("v4", "v6"), ("v5", "v6")) {
+    draw.line(a, b, stroke: (paint: luma(70%), thickness: 0.3pt))
   }
 
   // Highlight the red triangle {1,2,3}
-  draw.line(center, others.at(0),
-    stroke: (paint: c-red, thickness: 2.5pt))
-  draw.line(center, others.at(1),
-    stroke: (paint: c-red, thickness: 2.5pt))
+  draw.line("c", "v2", stroke: (paint: c-red, thickness: 2.5pt))
+  draw.line("c", "v3", stroke: (paint: c-red, thickness: 2.5pt))
 
   // Legend
   draw.line((3.8, 2.0), (4.5, 2.0), stroke: (paint: c-red, thickness: 1.5pt))
