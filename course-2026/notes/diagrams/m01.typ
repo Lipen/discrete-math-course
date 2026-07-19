@@ -2,6 +2,7 @@
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
+#import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
 // ── Shared constants ──
@@ -148,6 +149,98 @@
     e(<a1>, <yy>),
     e(<a2>, <yy>),
     e(<a3>, <yy>),
+  )
+}
+
+// ── Square of Opposition (Aristotelian logic) ──
+#let square-of-opposition = {
+  let c-square = oklch(45%, 0.12, 260deg)
+  let corner-size = 0.4
+  let square-width = 3.0
+
+  // Local helper: draw a labelled corner box
+  let corner(pos, label-text) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - corner-size, y + corner-size),
+      (x + corner-size, y - corner-size),
+      name: label-text,
+      stroke: 1pt + c-square,
+      radius: 5pt,
+    )
+    draw.content(label-text, text(1.4em)[#label-text])
+  }
+
+  // Local helper: draw an edge variant
+  let sq-edge(from, to, style: "solid", ..args) = {
+    let st = if style == "dashed" {
+      (paint: c-square, thickness: 2pt, dash: "dashed")
+    } else if style == "arrow" {
+      (paint: c-square, thickness: 2pt)
+    } else {
+      2pt + c-square
+    }
+    draw.line(from, to, name: from + "-" + to, stroke: st, ..args)
+  }
+
+  // Local helper: label an edge at midpoint
+  let edge-label(edge-name, body, ..args) = {
+    draw.content(edge-name, body, ..args)
+  }
+
+  figure(
+    canvas(length: 8cm, {
+      import draw: *
+
+      // Four corners
+      corner((0, 0), "A")
+      corner((square-width, 0), "E")
+      corner((0, -square-width), "I")
+      corner((square-width, -square-width), "O")
+
+      // Top: contraries
+      sq-edge("A", "E")
+      // Bottom: subcontraries
+      sq-edge("I", "O")
+      // Diagonals: contradictories
+      sq-edge("A", "O", style: "dashed")
+      sq-edge("I", "E", style: "dashed")
+      // Verticals: subalternation
+      sq-edge("A", "I", style: "arrow", mark: (end: "stealth", fill: c-square))
+      sq-edge("E", "O", style: "arrow", mark: (end: "stealth", fill: c-square))
+
+      edge-label(
+        "A-E",
+        [Противоположность\ (contraries)],
+        anchor: "south",
+        padding: 0.2,
+      )
+      edge-label(
+        "I-O",
+        [Частичная совместимость\ (subcontraries)],
+        anchor: "north",
+        padding: 0.2,
+      )
+      edge-label(
+        "A-I",
+        [Подчинение\ (subalternation)],
+        anchor: "east",
+        padding: 0.2,
+      )
+      edge-label(
+        "E-O",
+        [Подчинение\ (subalternation)],
+        anchor: "west",
+        padding: 0.2,
+      )
+      edge-label(
+        "I-E",
+        box(fill: white, inset: 3pt)[Противоречие\ (contradictories)],
+        anchor: "south",
+        padding: 1pt,
+      )
+    }),
+    caption: [Логический квадрат: отношения между четырьмя формами категорических суждений с общими $S$ и $P$. Диагонали --- противоречие (ровно одно истинно), верхняя грань --- противоположность (оба не могут быть истинны, но могут быть ложны), нижняя --- частичная совместимость (оба не могут быть ложны, но могут быть истинны), вертикали --- подчинение (истинность общего влечёт истинность частного).],
   )
 }
 
