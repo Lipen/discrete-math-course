@@ -362,13 +362,13 @@ $L$ разрешим тогда и только тогда, когда и $L$, �
 
 == Теорема Райса
 
-#theorem[Теорема Райса][
+#theorem[Теорема Райса#footnote[Rice H. G. "Classes of Recursively Enumerable Sets and Their Decision Problems", Transactions of the AMS, 1953.]][
   Пусть $P$ --- свойство распознаваемых языков (формально: множество описаний МТ), такое что:
   - $P$ зависит только от языка: если $L(M_1) = L(M_2)$, то $la M_1 ra in P$ тогда и только тогда, когда $la M_2 ra in P$.
   - $P$ нетривиально: существует МТ $M_1$ с $L(M_1) in P$ и существует МТ $M_2$ с $L(M_2) in.not P$.
 
   Тогда язык ${la M ra mid(|) L(M) "удовлетворяет" P}$ неразрешим.
-]#footnote[Rice H. G. "Classes of Recursively Enumerable Sets and Their Decision Problems", Transactions of the AMS, 1953.]
+]
 
 #proof-sketch[
   Сводим $"HALT"$ к $P$.

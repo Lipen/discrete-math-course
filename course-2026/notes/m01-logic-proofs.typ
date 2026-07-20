@@ -315,10 +315,10 @@ _Интерпретация_ сопоставляет каждой атомар�
   Проверка механическая: никаких дополнительных предположений не требуется.
 ]
 
-#theorem[Законы де Моргана][
+#theorem[Законы де Моргана#footnote[De Morgan A. "Formal Logic: or, The Calculus of Inference, Necessary and Probable", 1847. Законы были известны в схоластической логике (XIV век, Уильям Оккам), но вошли в оборот современной логики благодаря Де Моргану и Булю.]][
   - $not (p and q) equiv not p or not q$.
   - $not (p or q) equiv not p and not q$.
-]#footnote[De Morgan A. "Formal Logic: or, The Calculus of Inference, Necessary and Probable", 1847. Законы были известны в схоластической логике (XIV век, Уильям Оккам), но вошли в оборот современной логики благодаря Де Моргану и Булю.]
+]
 
 #proof-sketch[
   Проверим оба равенства таблицей истинности.
