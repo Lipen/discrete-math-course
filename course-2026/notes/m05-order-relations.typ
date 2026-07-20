@@ -504,7 +504,7 @@
 #theorem[Кнастера--Тарского о неподвижной точке][
   Пусть $(L, prec.eq)$ --- полная решётка (решётка, в которой супремум и инфимум существуют для любого, не обязательно конечного, подмножества).
   Всякая монотонная функция $f: L -> L$ имеет наименьшую неподвижную точку $"lfp"(f)$ и наибольшую неподвижную точку $"gfp"(f)$.
-]
+]#footnote[Knaster B. "Un théorème sur les fonctions d'ensembles", Annales de la Société Polonaise de Mathématique, 1928. Tarski A. "A lattice-theoretical fixpoint theorem and its applications", Pacific Journal of Mathematics, 1955.]
 
 #proof-sketch[
   Рассмотрим множество $P = {x in L mid(|) f(x) prec.eq x}$ ("пост-неподвижные точки" --- элементы, которые функция не увеличивает).

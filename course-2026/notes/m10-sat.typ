@@ -381,7 +381,7 @@ SAT --- точка отсчёта в теории сложности.
 
 #theorem[Теорема Кука --- формулировка][
   SAT NP-полна: SAT $in$ NP, и всякая задача из NP полиномиально сводится к SAT.
-]
+]#footnote[Cook S. A. "The Complexity of Theorem-Proving Procedures", Proceedings of the 3rd ACM Symposium on Theory of Computing (STOC), 1971. Первая доказанная NP-полнота; конструкция сводит произвольную NP-машину к булевой формуле через таблицу вычисления.]
 
 Из NP-полноты SAT следует прямое утверждение о проблеме перебора.
 

@@ -475,7 +475,7 @@ $
 
   Теорема связывает тип особенности (показатель $alpha$) с полиномиальным множителем $n^(alpha-1)$, а положение особенности $rho$ --- с экспоненциальным ростом $rho^(-n)$.
   Мы даём формулировку без доказательства; строгое изложение требует аппарата комплексного анализа и условия регулярности ($Delta$-область Флажоле--Оджыко).
-]
+]#footnote[Flajolet P., Odlyzko A. "Singularity analysis of generating functions", SIAM Journal on Discrete Mathematics, 1990. Книга: Flajolet P., Sedgewick R. "Analytic Combinatorics", Cambridge University Press, 2009.]
 
 Применим к числам Каталана.
 

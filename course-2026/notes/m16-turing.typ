@@ -368,7 +368,7 @@ $L$ разрешим тогда и только тогда, когда и $L$, �
   - $P$ нетривиально: существует МТ $M_1$ с $L(M_1) in P$ и существует МТ $M_2$ с $L(M_2) in.not P$.
 
   Тогда язык ${la M ra mid(|) L(M) "удовлетворяет" P}$ неразрешим.
-]
+]#footnote[Rice H. G. "Classes of Recursively Enumerable Sets and Their Decision Problems", Transactions of the AMS, 1953.]
 
 #proof-sketch[
   Сводим $"HALT"$ к $P$.
