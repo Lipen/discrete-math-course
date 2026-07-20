@@ -14,7 +14,7 @@
 #import "notation.typ": *
 
 // --- Вёрстка и символы ---
-#let YES = box(fill: green, inset: 2pt, radius: 2pt, text(white, sym.checkmark))
+#let YES = text(fill: green, sym.checkmark)
 
 // --- Окружения: front-matter / main-matter ---
 // Используются как вставки (не show-правила), чтобы не заменять notes-template.
