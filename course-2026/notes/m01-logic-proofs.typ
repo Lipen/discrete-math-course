@@ -1,9 +1,7 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": (
-  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
-)
+#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
 
 = Логика и доказательства <chap:logic>
 
@@ -198,9 +196,11 @@ _Таблица истинности_ для импликации часто у�
 
 #figure(
   parse-tree-imply,
-  caption: [ Дерево разбора формулы $not p and q imply r$.
+  caption: [
+    Дерево разбора формулы $not p and q imply r$.
     Приоритет связок определяет структуру: $not$ связывает $p$ (сильнее всего), $and$ соединяет $not p$ и $q$, а $imply$ соединяет результат с $r$.
-    Без соглашений о приоритетах пришлось бы писать $(((not p) and q) imply r)$. ],
+    Без соглашений о приоритетах пришлось бы писать $(((not p) and q) imply r)$.
+  ],
 ) <fig:parse-tree-imply>
 
 === Семантика: таблицы истинности
@@ -222,7 +222,8 @@ _Интерпретация_ сопоставляет каждой атомар�
     [#T], [#F], [#F],
     [#F], [#T], [#T],
     [#F], [#F], [#T],
-  ) ]
+  )
+]
 
 #definition[Тавтология, противоречие, выполнимость][
   - _Тавтология_ --- формула, истинная при любой интерпретации.
@@ -297,13 +298,9 @@ _Интерпретация_ сопоставляет каждой атомар�
     stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
-    [Ассоциативность],
-    [$(p and q) and r equiv p and (q and r)$],
-    [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность],
-    [$p and (q or r) equiv (p and q) or (p and r)$],
-    [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
 
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
     [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
@@ -311,7 +308,8 @@ _Интерпретация_ сопоставляет каждой атомар�
     [Тождество], [$p and T equiv p$], [$p or F equiv p$],
     [Доминирование], [$p or T equiv T$], [$p and F equiv F$],
     [Дополнение], [$p and not p equiv F$], [$p or not p equiv T$],
-  ) ]
+  )
+]
 
 #proof-sketch[
   Каждый закон проверяется таблицей истинности: вычисляем истинностные значения левой и правой частей при всех интерпретациях переменных и убеждаемся, что они совпадают.
@@ -579,9 +577,11 @@ $exists y forall x$ говорит "существует единственны�
 
 #figure(
   quantifier-order,
-  caption: [ Порядок кванторов меняет смысл.
+  caption: [
+    Порядок кванторов меняет смысл.
     Слева: $forall x exists y$ --- для каждого $x_i$ найдётся свой $y_i$ (может зависеть от $x$).
-    Справа: $exists y forall x$ --- существует один и тот же $y$, работающий для всех $x_i$. ],
+    Справа: $exists y forall x$ --- существует один и тот же $y$, работающий для всех $x_i$.
+  ],
 ) <fig:quantifier-order>
 
 === Ограниченные кванторы
@@ -610,7 +610,9 @@ $exists y forall x$ говорит "существует единственны�
 ]
 
 #example[
-  "Массив отсортирован" (по возрастанию): $forall i in {0, ..., n-2} space A[i] <= A[i+1]$. ]
+  "Массив отсортирован" (по возрастанию):
+  $ forall i in {0, ..., n-2} space A[i] <= A[i+1]. $
+]
 
 #example[
   Определение предела $lim_(x -> a) f(x) = L$:
@@ -1175,17 +1177,15 @@ _Инвариант цикла_ --- это предикат, истинный п
   i := i + 1
   ```
 
-  *Инвариант:* $forall j in {0, ..., i-1} space A[j] != x$ --- все позиции до $i$ проверены и не содержат $x$.
-  При выходе либо $i = n$ (не найден), либо $A[i] = x$ (найден). ]
+  *Инвариант:* $forall j in {0, ..., i-1} space A[j] != x$ --- все позиции до $i$ проверены и не содержат~$x$.
+  При выходе либо $i = n$ (не найден), либо $A[i] = x$ (найден).
+]
 
 === Верификация программ через индукцию
 
 Доказательство того, что инвариант сохраняется телом цикла, --- это шаг индукции.
 База индукции --- это инвариант, установленный перед первой итерацией.
-Именно так инструменты верификации (Dafny, Why3, Frama-C) доказывают корректность программ: программист записывает инвариант, инструмент генерирует условия верификации (verification conditions) и передаёт их автоматическим доказателям (Z3, Alt-Ergo, CVC5), которые проверяют индуктивное рассуждение --- базу и шаг --- без участия человека.
-Dafny: K. R. M. Leino, "Dafny: An Automatic Program Verifier for Functional Correctness", Microsoft Research, 2010.
-Why3: J.-C. Filliâtre, A. Paskevich, "Why3 --- Where Programs Meet Provers", ESOP 2013.
-Frama-C: CEA LIST, "Frama-C User Manual", 2008--2025.
+Именно так инструменты верификации (Dafny#footnote[K. R. M. Leino, "Dafny: An Automatic Program Verifier for Functional Correctness", Microsoft Research, 2010.], Why3#footnote[J.-C. Filliâtre, A. Paskevich, "Why3 --- Where Programs Meet Provers", ESOP 2013.], Frama-C#footnote[CEA LIST, "Frama-C User Manual", 2008--2025.]) доказывают корректность программ: программист записывает инвариант, инструмент генерирует условия верификации (verification conditions) и передаёт их автоматическим доказателям (Z3, Alt-Ergo, CVC5), которые проверяют индуктивное рассуждение --- базу и шаг --- без участия человека.
 
 === Контрпримеры и тестирование
 
@@ -1196,7 +1196,7 @@ Frama-C: CEA LIST, "Frama-C User Manual", 2008--2025.
   Логическая связь между тестированием и доказательством:
   - Тестирование = поиск контрпримера.
   - Доказательство = демонстрация того, что контрпримеров не существует.
-  И то, и другое необходимо.
+  И то, и другое необходимо. \
   Тестирование находит лёгкие ошибки; доказательства --- глубокие.
 ]
 
