@@ -106,11 +106,7 @@
   Полный список: _ложь_ (константа 0), И ($and$), $x and not y$, $x$, $not x and y$, $y$, XOR ($xor$), ИЛИ ($or$), ИЛИ-НЕ ($arrow.b$), XNOR ($equiv$), НЕ $y$, $x imply y$, НЕ $x$, $y imply x$, И-НЕ ($arrow.t$), _истина_ (константа 1).
 ]
 
-#note[
-  Импликация и эквивалентность выражаются через базовые операции:
-  - $x imply y = not x or y$.
-  - $x equiv y = (x imply y) and (y imply x) = (not x or y) and (not y or x)$.
-]
+Импликация и эквивалентность выражаются через базовые операции: $x imply y = not x or y$, $x equiv y = (x imply y) and (y imply x) = (not x or y) and (not y or x)$.
 
 === Функциональная полнота
 
