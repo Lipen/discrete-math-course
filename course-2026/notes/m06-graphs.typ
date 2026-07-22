@@ -1,10 +1,9 @@
 // M12 --- Графы: универсальная структура для моделирования связей.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import cetz: canvas, draw
 #import "diagrams/m06.typ": (
-  bfs-tree, bipartite, bridge-cut, directed-graph, eulerian, graph-coloring,
-  k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
+  bfs-grid, bfs-tree, bipartite, bridge-cut, directed-graph, eulerian,
+  graph-coloring, k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
 )
 
 = Графы <chap:graphs>
@@ -840,40 +839,7 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
 
 #example[Трассировка BFS][
   Рассмотрим граф:
-  #canvas({
-    import cetz.draw: *
-
-    let n-fill = oklch(88%, 0.03, 250deg)
-    let n-border = oklch(60%, 0.08, 250deg)
-    let n-text = oklch(25%, 0.02, 260deg)
-    let edge = oklch(35%, 0.02, 265deg)
-
-    let dx = 1.5
-    let dy = 1.5
-
-    set-style(fill: n-fill, stroke: 0.8pt + n-border, radius: 2pt)
-    for (i, (x, y)) in (
-      (0, 0),
-      (1, 0),
-      (2, 0),
-      (0, -1),
-      (1, -1),
-      (2, -1),
-    ).enumerate() {
-      circle((x * dx, y * dy), radius: 0.35, anchor: "center")
-      content((x * dx, y * dy), text(size: 9pt, n-text, str(i + 1)))
-    }
-
-    set-style(stroke: 0.6pt + edge)
-    // Рёбра
-    line((0, 0), (dx, 0))
-    line((dx, 0), (2 * dx, 0))
-    line((0, -dy), (dx, -dy))
-    line((dx, -dy), (2 * dx, -dy))
-    line((0, 0), (0, -dy))
-    line((dx, 0), (dx, -dy))
-    line((2 * dx, 0), (2 * dx, -dy))
-  })
+  #align(center)[#bfs-grid]
 
   Старт из вершины 1. Очередь: $[1]$.
   - Извлекаем 1. Соседи: ${2, 4}$. Оба не посещены. $Q = [2, 4]$, $"parent"(2) = 1$, $"parent"(4) = 1$.

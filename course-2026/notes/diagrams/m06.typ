@@ -60,13 +60,32 @@
   draw.line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
 })
 
-// ── 2. K_5 ──
+// ── 2. BFS grid (3×2) ──
+#let bfs-grid = canvas({
+  let rows = ((0, 0), (1.5, 0), (3.0, 0), (0, -1.5), (1.5, -1.5), (3.0, -1.5))
+  for (i, p) in rows.enumerate() { node(p, str(i + 1)) }
+
+  // Horizontal
+  draw.line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
+  draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
+  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  draw.line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  // Vertical
+  draw.line("1", "4", stroke: (paint: c-edge, thickness: 0.7pt))
+  draw.line("2", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  draw.line("3", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+})
+
+// ── 3. K_5 ──
 #let k5 = canvas({
   let v = ((0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
   for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
   for i in range(5) {
     for j in range(i + 1, 5) {
-      draw.line(str(i + 1), str(j + 1), stroke: (paint: c-edge, thickness: 0.7pt))
+      draw.line(str(i + 1), str(j + 1), stroke: (
+        paint: c-edge,
+        thickness: 0.7pt,
+      ))
     }
   }
 })
@@ -76,7 +95,13 @@
   let left = ((0, 2), (0, 0), (0, -2))
   let right = ((4, 2), (4, 0), (4, -2))
   // Background regions
-  draw.rect((-0.6, 2.5), (0.6, -2.5), radius: 6pt, fill: c-pa-fill, stroke: none)
+  draw.rect(
+    (-0.6, 2.5),
+    (0.6, -2.5),
+    radius: 6pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
   draw.rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
   // Nodes FIRST : named so line() routes border-to-border
   // Labels placed outside (anchor: "west"/"east") since nodes are small dots.
@@ -107,7 +132,13 @@
   let bot = ((-1, -1.5), (0.5, -1.5), (2, -1.5))
   // Background regions
   draw.rect((-1.8, 2.2), (2.8, 0.8), radius: 5pt, fill: c-pa-fill, stroke: none)
-  draw.rect((-1.8, -0.8), (2.8, -2.2), radius: 5pt, fill: c-pb-fill, stroke: none)
+  draw.rect(
+    (-1.8, -0.8),
+    (2.8, -2.2),
+    radius: 5pt,
+    fill: c-pb-fill,
+    stroke: none,
+  )
   // Nodes FIRST
   for (i, p) in top.enumerate() {
     draw.circle(p, radius: 0.38, fill: c-pa-dot, name: "t" + str(i + 1))
@@ -193,7 +224,12 @@
     let aname = str(ai + 1)
     let bname = str(bi + 1)
     let ename = aname + "-" + bname
-    draw.line(aname, bname, stroke: (paint: c-edge, thickness: 0.7pt), name: ename)
+    draw.line(
+      aname,
+      bname,
+      stroke: (paint: c-edge, thickness: 0.7pt),
+      name: ename,
+    )
     draw.content(
       (rel: off, to: ename + ".mid"),
       w,
@@ -282,8 +318,20 @@
     size: .7em,
     fill: c-edge-dim,
   )[$3$]
-  draw.content("C", anchor: "west", outset: 0.6em, size: .7em, fill: c-edge-dim)[$5$]
-  draw.content("D", anchor: "east", outset: 0.6em, size: .7em, fill: c-edge-dim)[$3$]
+  draw.content(
+    "C",
+    anchor: "west",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$5$]
+  draw.content(
+    "D",
+    anchor: "east",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$3$]
 })
 
 // ── 8. Planar graph ──
