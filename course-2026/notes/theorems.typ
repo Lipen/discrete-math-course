@@ -11,8 +11,11 @@
 //   #note[тело]                      #note[Заголовок][тело]
 //   #remark[тело]                    #remark(inline: true)[тело]
 //   #remark[Заголовок][тело]         #note(inline: true)[тело]
+//   #raven[тело]                     #raven[Заголовок][тело]
 //   #chapter-overview[тело]
 //   #hrule
+
+#import "@preview/cetz:0.5.2" as cetz
 
 // --- Метки теорем (словарь для лёгкой смены языка) ---
 #let thm-labels = (
@@ -27,6 +30,7 @@
   note: "Примечание",
   warning: "Предупреждение",
   remark: "Замечание",
+  raven: "Nevermore.",
   overview: "Обзор главы",
   algorithm: "Алгоритм",
 )
@@ -402,6 +406,62 @@
     inline: inline,
     it: body,
   )
+}
+
+// Ворон: маргиналии — заметки на полях. Внимательный читатель, спокойный, любопытный.
+// Иконка ворона (CeTZ) заходит на левое поле, тёмно-синяя правая полоса — противовес.
+// API: #raven[тело]  или  #raven[Заголовок][тело]
+#let raven-accent = oklch(35%, 0.03, 255deg)
+#let raven-fill = oklch(97%, 0.005, 260deg)
+#let raven-hairline = oklch(88%, 0.01, 260deg)
+
+#let raven-icon() = cetz.canvas({
+  import cetz.draw: *
+  let c = raven-accent
+  let w = oklch(100%, 1, 0deg)
+
+  // Body
+  set-style(fill: c, stroke: none)
+  circle((14pt, 10pt), radius: 12pt)
+
+  // Head
+  circle((28pt, 24pt), radius: 7pt)
+
+  // Beak
+  set-style(stroke: 1.8pt + c)
+  line((34pt, 25pt), (44pt, 24pt))
+  line((34pt, 23pt), (44pt, 24pt))
+
+  // Eye
+  set-style(fill: w, stroke: none)
+  circle((30pt, 27pt), radius: 1.1pt)
+})
+
+#let raven(..args) = {
+  let (sub, body) = _args(args.pos())
+  let header = if sub != none {
+    strong[#thm-labels.raven #sub]
+  } else {
+    strong[#thm-labels.raven]
+  }
+
+  block(stroke: none, fill: none, width: 100%, inset: 0pt)[
+    #pad(left: 26pt, block(
+      fill: raven-fill,
+      stroke: (
+        right: 3pt + raven-accent,
+        top: 0.5pt + raven-hairline,
+        bottom: 0.5pt + raven-hairline,
+      ),
+      inset: (x: 1em, y: 0.8em),
+      radius: 4pt,
+      width: 100%,
+    )[
+      #block(sticky: true)[#header #v(0.25em)]
+      #body
+    ])
+    #place(top + left, dx: -15pt, dy: 3pt, raven-icon())
+  ]
 }
 
 #let hrule = line(length: 100%)
