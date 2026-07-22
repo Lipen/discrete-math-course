@@ -365,8 +365,10 @@
 
 Дан взвешенный связный граф; минимальное остовное дерево (MST --- Minimum Spanning Tree) минимизирует сумму весов рёбер.
 Существует два классических жадных алгоритма.
-- *Алгоритм Краскала*#footnote[Kruskal J.B. "On the shortest spanning subtree of a graph and the traveling salesman problem", Proceedings of the AMS, 1956.]: сортировать рёбра по весу, добавлять легчайшее, не создающее цикла (система непересекающихся множеств). $O(E log E)$.
-- *Алгоритм Прима*#footnote[Prim R.C. "Shortest connection networks and some generalizations", Bell System Technical Journal, 1957.]: растить дерево от произвольной стартовой вершины, на каждом шаге добавлять легчайшее ребро до внешней вершины (очередь с приоритетом). $O((V+E) log V)$.
+
+- *Алгоритм Краскала*#footnote[Kruskal J.B. "On the shortest spanning subtree of a graph and the traveling salesman problem", Proceedings of the AMS, 1956.] сортирует рёбра по весу и добавляет легчайшее из тех, что не создают цикла; принадлежность вершин одной компоненте проверяется системой непересекающихся множеств. Время работы --- $O(E log E)$.
+
+- *Алгоритм Прима*#footnote[Prim R.C. "Shortest connection networks and some generalizations", Bell System Technical Journal, 1957.] выращивает дерево от произвольной стартовой вершины: на каждом шаге к дереву добавляется легчайшее ребро, соединяющее его с ещё не охваченной вершиной; ближайшая внешняя вершина извлекается из очереди с приоритетом. Время работы --- $O((V+E) log V)$.
 
 == Эйлеровы и гамильтоновы графы
 
