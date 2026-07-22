@@ -1,11 +1,11 @@
 // M12 --- Графы: универсальная структура для моделирования связей.
 #import "common-notes.typ": *
 #import "notation.typ": *
+#import cetz: canvas, draw
 #import "diagrams/m06.typ": (
   bfs-tree, bipartite, bridge-cut, directed-graph, eulerian, graph-coloring,
   k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
 )
-#import "@preview/cetz:0.5.2" as cetz
 
 = Графы <chap:graphs>
 
@@ -840,7 +840,7 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
 
 #example[Трассировка BFS][
   Рассмотрим граф:
-  #cetz.canvas({
+  #canvas({
     import cetz.draw: *
 
     let n-fill = oklch(88%, 0.03, 250deg)
