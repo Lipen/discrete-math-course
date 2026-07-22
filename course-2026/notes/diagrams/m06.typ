@@ -45,19 +45,24 @@
 
 #let snode(pos, label) = { node(pos, label, radius: 0.28) }
 
+// Edge helper: e("a", "b") — styled edge. e("a", "b", stroke: ...) — override.
+#let e(a, b, ..style) = {
+  draw.line(a, b, stroke: (paint: c-edge, thickness: 0.7pt), ..style)
+}
+
 // ── 1. Simple undirected graph ──
 #let simple-graph = canvas({
   let v = ((0, 2), (1.5, 2), (3, 2), (0.8, 0.5), (2.3, 0.5), (1.5, -1))
   for (i, p) in v.enumerate() { node(p, str(i + 1)) }
-  draw.line("2", "1", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("3", "2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("1", "4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("2", "4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("2", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("3", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("4", "6", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("2", "1")
+  e("3", "2")
+  e("1", "4")
+  e("2", "4")
+  e("2", "5")
+  e("3", "5")
+  e("4", "5")
+  e("4", "6")
+  e("5", "6")
 })
 
 // ── 2. BFS grid (3×2) ──
@@ -66,14 +71,14 @@
   for (i, p) in rows.enumerate() { node(p, str(i + 1)) }
 
   // Horizontal
-  draw.line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("1", "2")
+  e("2", "3")
+  e("4", "5")
+  e("5", "6")
   // Vertical
-  draw.line("1", "4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("2", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("3", "6", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("1", "4")
+  e("2", "5")
+  e("3", "6")
 })
 
 // ── 3. K_5 ──
@@ -147,13 +152,13 @@
     draw.circle(p, radius: 0.38, fill: c-pb-dot, name: "b" + str(i + 1))
   }
   // Edges : node names
-  draw.line("t1", "b1", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("t1", "b2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("t2", "b1", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("t2", "b2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("t2", "b3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("t3", "b2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("t3", "b3", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("t1", "b1")
+  e("t1", "b2")
+  e("t2", "b1")
+  e("t2", "b2")
+  e("t2", "b3")
+  e("t3", "b2")
+  e("t3", "b3")
   draw.content((-2.2, 1.5), anchor: "east")[$X$]
   draw.content((-2.2, -1.5), anchor: "east")[$Y$]
 })
@@ -201,7 +206,7 @@
     ("d", "h"),
     ("e", "i"),
   ) {
-    draw.line(a, b, stroke: (paint: c-t-border, thickness: 1pt))
+    e(a, b, stroke: (paint: c-t-border, thickness: 1pt))
   }
 })
 
@@ -349,16 +354,16 @@
   // Nodes FIRST
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.3) }
   // Outer cycle
-  draw.line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("3", "4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("5", "6", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("6", "1", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("1", "2")
+  e("2", "3")
+  e("3", "4")
+  e("4", "5")
+  e("5", "6")
+  e("6", "1")
   // Diagonals from vertex 1 : all share endpoint 1, so none cross
-  draw.line("1", "3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("1", "4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("1", "5", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("1", "3")
+  e("1", "4")
+  e("1", "5")
   // Face labels : 5 faces: f_1..f_4 inside, f_5 outside
   for (p, lab) in (
     ((1.2, 1.2), $f_1$),
@@ -391,16 +396,16 @@
     )
   }
   // Edges : node names
-  draw.line("n1", "n2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n2", "n3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n3", "n4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n4", "n5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n5", "n1", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n0", "n1", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n0", "n2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n0", "n3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n0", "n4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("n0", "n5", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("n1", "n2")
+  e("n2", "n3")
+  e("n3", "n4")
+  e("n4", "n5")
+  e("n5", "n1")
+  e("n0", "n1")
+  e("n0", "n2")
+  e("n0", "n3")
+  e("n0", "n4")
+  e("n0", "n5")
 })
 
 // ── 10. Directed graph + SCC ──
@@ -446,18 +451,18 @@
   for (i, p) in outer.enumerate() { snode(p, str(i + 1)) }
   for (i, p) in inner.enumerate() { snode(p, str(6 + i)) }
   // Edges : node names
-  draw.line("1", "2", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("3", "4", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("5", "1", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("6", "8", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("7", "9", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("8", "10", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("9", "6", stroke: (paint: c-edge, thickness: 0.7pt))
-  draw.line("10", "7", stroke: (paint: c-edge, thickness: 0.7pt))
+  e("1", "2")
+  e("2", "3")
+  e("3", "4")
+  e("4", "5")
+  e("5", "1")
+  e("6", "8")
+  e("7", "9")
+  e("8", "10")
+  e("9", "6")
+  e("10", "7")
   for i in range(5) {
-    draw.line(str(i + 1), str(6 + i), stroke: (paint: c-edge, thickness: 0.7pt))
+    e(str(i + 1), str(6 + i))
   }
 })
 
