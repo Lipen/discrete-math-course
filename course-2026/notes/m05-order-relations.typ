@@ -520,7 +520,7 @@
 
 Монотонные функции на решётках отличаются от функций на числах одним свойством: при слабых дополнительных условиях неподвижная точка гарантированно существует.
 
-#theorem[Кнастера--Тарского о неподвижной точке#footnote[Knaster B. "Un théorème sur les fonctions d'ensembles", Annales de la Société Polonaise de Mathématique, 1928. Tarski A. "A lattice-theoretical fixpoint theorem and its applications", Pacific Journal of Mathematics, 1955.]][
+#theorem[Кнастера--Тарского о неподвижной точке#footnote[Knaster B. "Un théorème sur les fonctions d'ensembles", Annales de la Société Polonaise de Mathématique, 1928.]#footnote[Tarski A. "A lattice-theoretical fixpoint theorem and its applications", Pacific Journal of Mathematics, 1955.]][
   Пусть $(L, prec.eq)$ --- полная решётка (решётка, в которой супремум и инфимум существуют для любого, не обязательно конечного, подмножества).
   Всякая монотонная функция $f: L -> L$ имеет наименьшую неподвижную точку $"lfp"(f)$ и наибольшую неподвижную точку $"gfp"(f)$.
 ]
