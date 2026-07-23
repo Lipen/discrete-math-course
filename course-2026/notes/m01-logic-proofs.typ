@@ -228,7 +228,7 @@ _Интерпретация_ сопоставляет каждой атомар�
   #table(
     columns: 3,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([$p$], [$q$], [$p imply q$]),
     [#T], [#T], [#T],
     [#T], [#F], [#F],
@@ -304,7 +304,7 @@ _Интерпретация_ сопоставляет каждой атомар�
   #table(
     columns: 3,
     align: left,
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
     [Ассоциативность],
@@ -412,7 +412,7 @@ _Интерпретация_ сопоставляет каждой атомар�
   #table(
     columns: 5,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([$p$], [$q$], [$p imply q$], [ДНФ-терм], [КНФ-терм]),
     [#F], [#F], [#T], [$not p and not q$], [---],
     [#F], [#T], [#T], [$not p and q$], [---],
@@ -1050,14 +1050,12 @@ CompCert --- верифицированный компилятор C, серти
   #figure(
     table(
       columns: (auto, auto, auto, auto),
-      table.hline(),
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Обозначение*], [*Квантор*], [*Качество*], [*Структура*]),
-      table.hline(),
       [*A*], [Общий], [Утвердительное], [Все $S$ суть $P$],
       [*E*], [Общий], [Отрицательное], [Ни одно $S$ не есть $P$],
       [*I*], [Частный], [Утвердительное], [Некоторые $S$ суть $P$],
       [*O*], [Частный], [Отрицательное], [Некоторые $S$ не суть $P$],
-      table.hline(),
     ),
     caption: [Четыре стандартные формы категорических суждений. Обозначения $A$, $E$, $I$, $O$ происходят от латинских #emph[Affirmo] (утверждаю) и #emph[nEgo] (отрицаю).],
   )
@@ -1091,6 +1089,7 @@ CompCert --- верифицированный компилятор C, серти
 #figure(
   table(
     columns: (auto, auto),
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Традиционная форма*], [*Современная запись*]),
     [Все $S$ суть $P$ ($A$)], [$forall x (S(x) -> P(x))$],
     [Ни одно $S$ не есть $P$ ($E$)], [$forall x (S(x) -> not P(x))$],

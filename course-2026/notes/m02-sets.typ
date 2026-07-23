@@ -247,7 +247,7 @@
 #table(
   columns: 2,
   align: (left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
   table.header([*Операция над множествами*], [*Логический аналог*]),
   [$A union B$], [$x in A or x in B$],
   [$A inter B$], [$x in A and x in B$],

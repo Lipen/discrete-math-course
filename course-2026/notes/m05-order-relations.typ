@@ -245,7 +245,7 @@
   table(
     columns: 4,
     align: (left, center, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header(
       [*Понятие*], [*Условие*], [*Единственен?*], [*Существует в конечном ЧУМ?*]
     ),
@@ -591,7 +591,7 @@
   table(
     columns: 5,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([$times$], [$-$], [$0$], [$+$], [$top$]),
     [$-$], [$+$], [$0$], [$-$], [$top$],
     [$0$], [$0$], [$0$], [$0$], [$0$],

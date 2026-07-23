@@ -560,7 +560,7 @@ MSO₂ --- это логика, в которой можно говорить о
   #table(
     columns: 4,
     align: (left, left, left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header(
       [*Класс*], [*Ограничение ресурса*], [*Каноническая задача*], [*Статус*]
     ),

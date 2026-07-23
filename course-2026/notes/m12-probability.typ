@@ -342,7 +342,8 @@ $
 #figure(
   table(
     columns: (auto, auto),
-    [$n$], [$P("совпадение")$],
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([$n$], [$P("совпадение")$]),
     [10], [11.7%],
     [20], [41.1%],
     [23], [50.7%],

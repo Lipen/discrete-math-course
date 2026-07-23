@@ -235,7 +235,8 @@ $
   #figure(
     table(
       columns: (auto, auto, auto, auto, auto),
-      [$+$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
+      stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+      table.header([$+$], [$0$], [$1$], [$alpha$], [$alpha + 1$]),
       [$0$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
       [$1$], [$1$], [$0$], [$alpha + 1$], [$alpha$],
       [$alpha$], [$alpha$], [$alpha + 1$], [$0$], [$1$],
@@ -248,7 +249,8 @@ $
   #figure(
     table(
       columns: (auto, auto, auto, auto, auto),
-      [$times$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
+      stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+      table.header([$times$], [$0$], [$1$], [$alpha$], [$alpha + 1$]),
       [$0$], [$0$], [$0$], [$0$], [$0$],
       [$1$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
       [$alpha$], [$0$], [$alpha$], [$alpha + 1$], [$1$],

@@ -102,7 +102,7 @@
   #table(
     columns: 3,
     align: (center, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Шары*], [*Ящики*], [*Количество способов*]),
     [Различные],
     [Различные],

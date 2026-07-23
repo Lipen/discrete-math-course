@@ -260,7 +260,7 @@
 #table(
   columns: 3,
   align: (left, left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
   table.header([*Свойство*], [*ДКА*], [*НКА*]),
   [Переход],
   [$delta(q, a)$ = одно состояние],

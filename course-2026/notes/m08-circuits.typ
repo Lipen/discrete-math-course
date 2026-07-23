@@ -248,7 +248,7 @@ $
   #table(
     columns: 4,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([$A$], [$B$], [$S$ (сумма)], [$C$ (перенос)]),
     [0], [0], [0], [0],
     [0], [1], [1], [0],
@@ -280,7 +280,7 @@ $
   #table(
     columns: 5,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([$A$], [$B$], [$C_"in"$], [$S$], [$C_"out"$]),
     [0], [0], [0], [0], [0],
     [0], [0], [1], [1], [0],

@@ -341,7 +341,7 @@ _График_ функции $f: A -> B$ --- это множество упор
   #table(
     columns: 4,
     align: (center, center, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
     [Инъекция],
     [$f(a_1) = f(a_2) imply a_1 = a_2$],

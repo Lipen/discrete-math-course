@@ -143,7 +143,7 @@ $
   #table(
     columns: 2,
     align: (left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Последовательность* $a_n$], [*ОПФ* $A(x)$]),
     [$a_n = 1$], [$1/(1-x)$],
     [$a_n = n$], [$x/(1-x)^2$],
@@ -452,7 +452,7 @@ $A(x) = P(x)/Q(x)$, где знаменатель $Q(x) = 1 - c_1 x - dots.c - c
   #table(
     columns: 2,
     align: (left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.4pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Последовательность* $a_n$], [*ЭПФ* $E(x)$]),
     [$a_n = 1$], [$e^x$],
     [$a_n = n!$], [$1/(1-x)$],

@@ -181,6 +181,7 @@ $
 #figure(
   table(
     columns: (auto, auto, auto, auto),
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header(
       [*Название*], [*t-норма $I(a, b)$*], [*s-норма $U(a, b)$*], [*Применение*]
     ),
