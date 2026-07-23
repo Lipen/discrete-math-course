@@ -534,7 +534,7 @@
   $
     pi_"name" (sigma_("course = Дискр. мат.") (("Students") times_{"id = sid"} ("Courses"))),
   $
-  где $"JOIN"$ с условием $P$ определяется как $R bowtie.big_P S = sigma_P(R times S)$.
+  где $"JOIN"$ с условием $P$ определяется как $R bowtie.big_P S = sigma_P (R times S)$.
   `JOIN` строит декартово произведение (каждая строка `Students` с каждой строкой `Courses`), затем `ON` отбирает пары с совпадающими id, `WHERE` фильтрует по названию курса, а `SELECT DISTINCT name` берёт проекцию на столбец name.
   Каждый шаг --- операция над множествами кортежей.
 ]
