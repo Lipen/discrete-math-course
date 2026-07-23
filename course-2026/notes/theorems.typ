@@ -18,19 +18,19 @@
 //   #chapter-overview[тело]
 //   #hrule
 
-// --- Палитра (из theme-5) ---
-#let def-color = rgb("1a7a4a")  // green
-#let thm-color = rgb("1a3d6e")  // rich blue
-#let lem-color = oklch(55%, 0.14, 300deg)  // violet (lemma)
-#let cor-color = oklch(55%, 0.18, 22deg)   // warm red (corollary)
-#let prop-color = oklch(55%, 0.06, 200deg)   // muted cyan (proposition)
-#let ex-color = rgb("5b2d8e")  // purple (example)
-#let note-color = rgb("7a828d")  // gray (note)
-#let remark-color = rgb("b87333")  // copper (remark)
-#let warn-color = oklch(65%, 0.18, 75deg)   // amber (warning)
-#let hist-color = rgb("8b6f47")  // warm brown (history)
-#let digr-color = oklch(55%, 0.12, 290deg)  // violet (digression)
-#let algo-color = oklch(55%, 0.12, 230deg)  // steel blue (algorithm)
+// --- Палитра ---
+#let def-color = rgb("28965a")  // green
+#let thm-color = rgb("25558b")  // blue
+#let lem-color = oklch(60%, 0.12, 300deg)  // violet (lemma)
+#let cor-color = oklch(58%, 0.14, 22deg)   // warm red (corollary)
+#let prop-color = oklch(60%, 0.06, 200deg)   // muted cyan (proposition)
+#let ex-color = rgb("7345a8")  // purple (example)
+#let note-color = rgb("8e97a3")  // gray (note)
+#let remark-color = rgb("cd8a4a")  // copper (remark)
+#let warn-color = oklch(70%, 0.15, 75deg)   // amber (warning)
+#let hist-color = rgb("a08055")  // warm brown (history)
+#let digr-color = oklch(60%, 0.10, 290deg)  // violet (digression)
+#let algo-color = oklch(60%, 0.10, 230deg)  // steel blue (algorithm)
 
 // --- Метки (словарь для лёгкой смены языка) ---
 #let thm-labels = (
