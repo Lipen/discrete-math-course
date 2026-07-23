@@ -126,7 +126,7 @@
   box(
     fill: fill,
     stroke: (
-      left: 2pt + bar-color,
+      left: 1.5pt + bar-color,
       top: 0.6pt + bar-color,
       bottom: 0.6pt + bar-color,
       right: 0.6pt + bar-color,
