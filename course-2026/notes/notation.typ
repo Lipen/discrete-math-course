@@ -39,6 +39,7 @@
 #let Blank = math.class("normal", sym.square.stroked)
 #let qAccept = $q_"accept"$
 #let qReject = $q_"reject"$
+#let partialto = $⇀$  // стрелка частичной функции: f: A ⇀ B
 
 // === Logic gates (aliases for readability) ===
 #let nand = sym.arrow.t    // штрих Шеффера: $nand$

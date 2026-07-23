@@ -12,7 +12,6 @@
 //   #remark[тело]                    #remark[Заголовок][тело]
 //   #warning[тело]                   #warning[Заголовок][тело]
 //   #history-note[тело]              #history-note[Заголовок][тело]
-//   #digression[тело]                #digression[Заголовок][тело]
 //   #algorithm[тело]                 #algorithm[Название][тело]
 //   #raven[тело]                     #raven[Заголовок][тело]
 //   #chapter-overview[тело]
@@ -29,7 +28,6 @@
 #let remark-color = rgb("cd8a4a")  // copper (remark)
 #let warn-color = oklch(70%, 0.15, 75deg)   // amber (warning)
 #let hist-color = rgb("a08055")  // warm brown (history)
-#let digr-color = oklch(60%, 0.10, 290deg)  // violet (digression)
 #let algo-color = oklch(60%, 0.10, 230deg)  // steel blue (algorithm)
 
 // --- Метки (словарь для лёгкой смены языка) ---
@@ -48,7 +46,6 @@
   raven: "Замечание",
   overview: "Обзор главы",
   algorithm: "АЛГОРИТМ",
-  digression: "ОТСТУПЛЕНИЕ",
 )
 
 // State for sticky-headers flag (controlled from notes-template)
@@ -418,30 +415,6 @@
       #if sub != none [#h(0.4em)#text(
           weight: "semibold",
           fill: hist-color,
-        )[#sub]]
-    ]
-    #parbreak()
-    #body
-  ]
-}
-
-#let digression(inline: false, ..args) = {
-  let (sub, body) = _args(args.pos())
-  block(
-    above: 0.8em,
-    below: 0.8em,
-    fill: digr-color.lighten(95%),
-    stroke: _block-stroke(digr-color),
-    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #badge(digr-color)[#thm-labels.digression]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: digr-color,
         )[#sub]]
     ]
     #parbreak()
