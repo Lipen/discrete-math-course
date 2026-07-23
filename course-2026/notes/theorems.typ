@@ -131,7 +131,7 @@
       bottom: 0.6pt + bar-color,
       right: 0.6pt + bar-color,
     ),
-    inset: (x: 0.5em, y: 0.2em),
+    inset: (left: 0.25em, right: 0.5em, y: 0.2em),
     radius: 2pt,
     outset: (y: 0.1em),
   )[
