@@ -110,13 +110,11 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #header
-      #if title != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: bar-color,
-        )[#title]]
-    ]
+    #header
+    #if title != none [#h(0.4em)#text(
+        weight: "semibold",
+        fill: bar-color,
+      )[#title]]
     #parbreak()
     #body
   ]
@@ -126,8 +124,7 @@
 #let _numbered-inline(label, ctr, bar-color, fill, body, title: none) = {
   ctr.step()
   block(
-    above: 0.4em,
-    below: 0.4em,
+    above: 0.4em, below: 0.4em,
     fill: fill,
     stroke: (
       left: 1.5pt + bar-color,
@@ -140,13 +137,11 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #badge(bar-color)[#label #_ch-num(ctr)]
-      #if title != none [#h(0.3em)#text(
-          weight: "semibold",
-          fill: bar-color,
-        )[(#title)]]
-    ]
+    #badge(bar-color)[#label #_ch-num(ctr)]
+    #if title != none [#h(0.3em)#text(
+        weight: "semibold",
+        fill: bar-color,
+      )[(#title)]]
     #h(0.35em)
     #body
   ]
@@ -255,16 +250,15 @@
   block(
     above: 0.4em,
     below: 0.5em,
-    fill: luma(97%),
+    sticky: true,
+    fill: luma(94%),
     stroke: _aux-stroke(luma(65%)),
     inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
     radius: 2pt,
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #text(weight: "semibold", fill: luma(40%))[#thm-labels.proof]
-    ]
+    #text(weight: "semibold", fill: luma(40%))[#thm-labels.proof]
     #parbreak()
     #body
   ]
@@ -274,20 +268,19 @@
   block(
     above: 0.4em,
     below: 0.5em,
-    fill: luma(97%),
+    sticky: true,
+    fill: luma(94%),
     stroke: _aux-stroke(luma(65%)),
     inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
     radius: 2pt,
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #text(
-        size: 0.92em,
-        style: "italic",
-        fill: luma(45%),
-      )[#thm-labels.proof-sketch]
-    ]
+    #text(
+      size: 0.92em,
+      style: "italic",
+      fill: luma(45%),
+    )[#thm-labels.proof-sketch]
     #parbreak()
     #body
   ]
@@ -298,6 +291,7 @@
   block(
     above: 0.8em,
     below: 0.8em,
+    sticky: true,
     fill: ex-color.lighten(95%),
     stroke: _block-stroke(ex-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
@@ -305,10 +299,8 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #badge(ex-color)[#thm-labels.example]
-      #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
-    ]
+    #badge(ex-color)[#thm-labels.example]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
     #parbreak()
     #body
   ]
@@ -319,24 +311,19 @@
   block(
     above: 0.6em,
     below: 0.6em,
+    sticky: true,
     inset: (left: 1em, right: 0.7em, top: 0.35em, bottom: 0.35em),
     stroke: _aux-stroke(note-color.lighten(20%)),
     radius: 2pt,
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #text(
+    #text(size: 0.92em, weight: "semibold", fill: note-color)[#thm-labels.note]
+    #if sub != none [#h(0.3em)#text(
         size: 0.92em,
-        weight: "semibold",
+        style: "italic",
         fill: note-color,
-      )[#thm-labels.note]
-      #if sub != none [#h(0.3em)#text(
-          size: 0.92em,
-          style: "italic",
-          fill: note-color,
-        )[#sub]]
-    ]
+      )[#sub]]
     #parbreak()
     #text(size: 0.92em, fill: luma(35%))[#body]
   ]
@@ -347,6 +334,7 @@
   block(
     above: 0.6em,
     below: 0.6em,
+    sticky: true,
     fill: rgb("fdf8f2"),
     stroke: 0.4pt + remark-color.lighten(40%),
     inset: (left: 0.9em, right: 0.7em, top: 0.4em, bottom: 0.4em),
@@ -354,13 +342,11 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #text(style: "italic", fill: remark-color)[#thm-labels.remark]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: remark-color.darken(10%),
-        )[#sub]]
-    ]
+    #text(style: "italic", fill: remark-color)[#thm-labels.remark]
+    #if sub != none [#h(0.4em)#text(
+        weight: "semibold",
+        fill: remark-color.darken(10%),
+      )[#sub]]
     #parbreak()
     #body
   ]
@@ -371,6 +357,7 @@
   block(
     above: 0.6em,
     below: 0.6em,
+    sticky: true,
     fill: oklch(95%, 0.05, 85deg),
     stroke: _block-stroke(warn-color),
     inset: (left: 0.8em, right: 0.7em, top: 0.5em, bottom: 0.55em),
@@ -378,16 +365,14 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #text(
-        weight: "semibold",
+    #text(
+      weight: "semibold",
+      fill: warn-color.darken(20%),
+    )[⚠  #thm-labels.warning]
+    #if sub != none [#h(0.3em)#text(
+        style: "italic",
         fill: warn-color.darken(20%),
-      )[⚠  #thm-labels.warning]
-      #if sub != none [#h(0.3em)#text(
-          style: "italic",
-          fill: warn-color.darken(20%),
-        )[#sub]]
-    ]
+      )[#sub]]
     #parbreak()
     #body
   ]
@@ -398,6 +383,7 @@
   block(
     above: 0.8em,
     below: 0.8em,
+    sticky: true,
     fill: rgb("fdf5f0"),
     stroke: _block-stroke(hist-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
@@ -405,13 +391,8 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #badge(hist-color)[ИСТОРИЯ]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: hist-color,
-        )[#sub]]
-    ]
+    #badge(hist-color)[ИСТОРИЯ]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: hist-color)[#sub]]
     #parbreak()
     #body
   ]
@@ -422,6 +403,7 @@
   block(
     above: 0.8em,
     below: 0.8em,
+    sticky: true,
     fill: digr-color.lighten(95%),
     stroke: _block-stroke(digr-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
@@ -429,13 +411,8 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #badge(digr-color)[#thm-labels.digression]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: digr-color,
-        )[#sub]]
-    ]
+    #badge(digr-color)[#thm-labels.digression]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: digr-color)[#sub]]
     #parbreak()
     #body
   ]
@@ -446,6 +423,7 @@
   block(
     above: 0.8em,
     below: 0.8em,
+    sticky: true,
     fill: algo-color.lighten(95%),
     stroke: _block-stroke(algo-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
@@ -453,13 +431,8 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
-      #badge(algo-color)[#thm-labels.algorithm]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: algo-color,
-        )[#sub]]
-    ]
+    #badge(algo-color)[#thm-labels.algorithm]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: algo-color)[#sub]]
     #parbreak()
     #body
   ]
