@@ -123,7 +123,8 @@
 // Inline numbered — компактный блок: бейдж + тело на одной строке
 #let _numbered-inline(label, ctr, bar-color, fill, body, title: none) = {
   ctr.step()
-  box(
+  block(
+    above: 0.4em, below: 0.4em,
     fill: fill,
     stroke: (
       left: 1.5pt + bar-color,
@@ -131,10 +132,11 @@
       bottom: 0.6pt + bar-color,
       right: 0.6pt + bar-color,
     ),
-    inset: (left: 0.25em, right: 0.5em, y: 0.2em),
+    inset: (left: 0.25em, right: 0.5em, y: 0.3em),
     radius: 2pt,
-    outset: (y: 0.1em),
+    width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #badge(bar-color)[#label #_ch-num(ctr)]
     #if title != none [#h(0.3em)#text(
         weight: "semibold",
