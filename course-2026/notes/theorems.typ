@@ -19,7 +19,7 @@
 //   #hrule
 
 // --- Палитра ---
-#let def-color = rgb("28965a")  // green
+#let def-color = rgb("1e7d48")  // green
 #let thm-color = rgb("25558b")  // blue
 #let lem-color = oklch(60%, 0.12, 300deg)  // violet (lemma)
 #let cor-color = oklch(58%, 0.14, 22deg)   // warm red (corollary)
