@@ -1,7 +1,7 @@
-// Русские theorem-окружения : чистый Typst: block + counter.
+// Русские theorem-окружения в стиле theme-5: pill-бейджи, цветные полосы.
 // Нумерация сбрасывается на каждом = Heading (глава).
-// API:
-//   #definition[тело]                #definition[Подзаголовок][тело]
+// API (обратно-совместимый):
+//   #definition[тело]                #definition[Заголовок][тело]
 //   #theorem[тело]                   #theorem[Название][тело]
 //   #lemma[тело]                     #lemma[Название][тело]
 //   #corollary[тело]                 #corollary[Название][тело]
@@ -9,13 +9,30 @@
 //   #proof[тело]                     #proof-sketch[тело]
 //   #example[тело]                   #example[Заголовок][тело]
 //   #note[тело]                      #note[Заголовок][тело]
-//   #remark[тело]                    #remark(inline: true)[тело]
-//   #remark[Заголовок][тело]         #note(inline: true)[тело]
+//   #remark[тело]                    #remark[Заголовок][тело]
+//   #warning[тело]                   #warning[Заголовок][тело]
+//   #history-note[тело]              #history-note[Заголовок][тело]
+//   #digression[тело]                #digression[Заголовок][тело]
+//   #algorithm[тело]                 #algorithm[Название][тело]
 //   #raven[тело]                     #raven[Заголовок][тело]
 //   #chapter-overview[тело]
 //   #hrule
 
-// --- Метки теорем (словарь для лёгкой смены языка) ---
+// --- Палитра (из theme-5) ---
+#let def-color = rgb("1a7a4a")  // green
+#let thm-color = rgb("1a3d6e")  // rich blue
+#let lem-color = oklch(55%, 0.14, 300deg)  // violet (lemma)
+#let cor-color = oklch(55%, 0.18, 22deg)   // warm red (corollary)
+#let prop-color = oklch(55%, 0.16, 195deg)   // cyan (proposition)
+#let ex-color = rgb("5b2d8e")  // purple (example)
+#let note-color = rgb("7a828d")  // gray (note)
+#let remark-color = rgb("b87333")  // copper (remark)
+#let warn-color = oklch(65%, 0.18, 75deg)   // amber (warning)
+#let hist-color = rgb("8b6f47")  // warm brown (history)
+#let digr-color = oklch(55%, 0.12, 290deg)  // violet (digression)
+#let algo-color = oklch(55%, 0.12, 230deg)  // steel blue (algorithm)
+
+// --- Метки (словарь для лёгкой смены языка) ---
 #let thm-labels = (
   definition: "Определение",
   theorem: "Теорема",
@@ -28,9 +45,10 @@
   note: "Примечание",
   warning: "Предупреждение",
   remark: "Замечание",
-  raven: "Nevermore.",
+  raven: "Замечание",
   overview: "Обзор главы",
   algorithm: "Алгоритм",
+  digression: "Отступление",
 )
 
 #let def-ctr = counter("definition")
@@ -53,127 +71,96 @@
   }
 }
 
-// Общий хелпер: цветной блок с заголовком и телом.
-#let _block(
-  title: none,
-  fill: none,
-  stroke: none,
-  inset: none,
-  inline: false,
-  it: none,
-) = {
+// Pill badge — цветная плашка с белым текстом
+#let badge(color, body) = {
+  box(
+    fill: color,
+    inset: (x: 0.55em, y: 0.22em),
+    radius: 2pt,
+    outset: (y: 0.12em),
+  )[#text(size: 0.82em, weight: "bold", fill: white, tracking: 0.06em)[#body]]
+}
+
+// --- Нумерованные блоки ---
+
+#let _numbered(label, ctr, bar-color, fill, body, title: none) = {
+  ctr.step()
+  let header = badge(bar-color)[#label #_ch-num(ctr)]
   block(
-    ..if fill != none { (fill: fill) } else { () },
-    stroke: stroke,
-    inset: inset,
-    radius: 3pt,
+    fill: fill,
+    stroke: (left: 2.5pt + bar-color),
+    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
+    radius: 2pt,
     width: 100%,
   )[
-    #if inline {
-      [#title #it]
-    } else {
-      [#block(sticky: true)[#title] #it]
-    }
+    #header
+    #if title != none [#h(0.4em)#text(
+        weight: "semibold",
+        fill: bar-color,
+      )[#title]]
+    #parbreak()
+    #body
   ]
 }
 
-#let _numbered(label, ctr, bar-color, fill, inline: false, body) = {
+#let _numbered-inline(label, ctr, bar-color, fill, body, title: none) = {
   ctr.step()
-  let header = strong[#label #_ch-num(ctr)]
-  block(
-    fill: fill,
-    stroke: (left: 3pt + bar-color, rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #if inline {
-      [#strong[#label #_ch-num(ctr).] #body]
-    } else {
-      [#block(sticky: true)[#header #v(0.25em)] #body]
-    }
-  ]
-}
-
-#let _numbered-sub(
-  label,
-  subtitle,
-  ctr,
-  bar-color,
-  fill,
-  inline: false,
-  body,
-) = {
-  ctr.step()
-  let header = strong[#label #_ch-num(ctr)#h(0.4em);(#subtitle)]
-  block(
-    fill: fill,
-    stroke: (left: 3pt + bar-color, rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.8em, bottom: 0.8em),
-    radius: 3pt,
-    width: 100%,
-  )[
-    #if inline {
-      [#strong[#label #_ch-num(ctr)#h(0.4em);(#subtitle).] #body]
-    } else {
-      [#block(sticky: true)[#header #v(0.25em)] #body]
-    }
-  ]
+  text(fill: bar-color, weight: "bold")[#label #_ch-num(ctr).]
+  if title != none [ #text(weight: "semibold", fill: bar-color)[(#title).]]
+  [ ] + body
 }
 
 #let _dispatch(label, ctr, bar-color, fill, inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  if sub != none {
-    _numbered-sub(label, sub, ctr, bar-color, fill, inline: inline, body)
+  if inline {
+    _numbered-inline(label, ctr, bar-color, fill, body, title: sub)
   } else {
-    _numbered(label, ctr, bar-color, fill, inline: inline, body)
+    _numbered(label, ctr, bar-color, fill, body, title: sub)
   }
 }
 
 #let definition(inline: false, ..args) = _dispatch(
   thm-labels.definition,
   def-ctr,
-  oklch(55%, 0.18, 155deg),
-  oklch(97%, 0.02, 155deg),
+  def-color,
+  def-color.lighten(94%),
   inline: inline,
   ..args,
 )
 #let theorem(inline: false, ..args) = _dispatch(
   thm-labels.theorem,
   thm-ctr,
-  oklch(55%, 0.15, 250deg),
-  oklch(97%, 0.02, 250deg),
+  thm-color,
+  thm-color.lighten(93%),
   inline: inline,
   ..args,
 )
 #let lemma(inline: false, ..args) = _dispatch(
   thm-labels.lemma,
   thm-ctr,
-  oklch(55%, 0.14, 300deg),
-  oklch(97%, 0.02, 300deg),
+  lem-color,
+  lem-color.lighten(93%),
   inline: inline,
   ..args,
 )
 #let corollary(inline: false, ..args) = _dispatch(
   thm-labels.corollary,
   thm-ctr,
-  oklch(55%, 0.18, 22deg),
-  oklch(97%, 0.02, 22deg),
+  cor-color,
+  cor-color.lighten(93%),
   inline: inline,
   ..args,
 )
 #let proposition(inline: false, ..args) = _dispatch(
   thm-labels.proposition,
   thm-ctr,
-  oklch(55%, 0.16, 195deg),
-  oklch(97%, 0.02, 195deg),
+  prop-color,
+  prop-color.lighten(93%),
   inline: inline,
   ..args,
 )
 
-// --- Размещение QED ---
-// Используй #qed вручную внутри доказательства для размещения символа QED.
-// Show-правила корректно размещают его внутри списков, выключных уравнений и текста.
+// --- QED ---
 #let qed = metadata("qed-here")
 
 #let _has-qed(x) = {
@@ -191,36 +178,30 @@
   false
 }
 
-// Вызови один раз из common-notes.typ после всех импортов.
 #let setup-qed-rules() = {
   show metadata.where(value: "qed-here"): it => {
     h(1fr)
-    $square$
+    $square.stroked$
   }
-
   show math.equation.where(block: true): eq => {
     if _has-qed(eq.body) {
       grid(
         columns: (1fr, auto, 1fr),
-        [], eq, align(right + horizon)[$square$],
+        [], eq, align(right + horizon)[$square.stroked$],
       )
-    } else {
-      eq
-    }
+    } else { eq }
   }
-
   show enum.item: it => {
     show metadata.where(value: "qed-here"): it => {
       h(1fr)
-      $square$
+      $square.stroked$
     }
     it
   }
-
   show list.item: it => {
     show metadata.where(value: "qed-here"): it => {
       h(1fr)
-      $square$
+      $square.stroked$
     }
     it
   }
@@ -228,201 +209,210 @@
 
 // --- Ненумерованные блоки ---
 
-#let proof(body) = _block(
-  title: strong[#thm-labels.proof:] + v(0.2em),
-  fill: luma(94%),
-  stroke: (left: 2pt + luma(78%), rest: none),
-  inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-  it: body,
-)
+#let proof(body) = {
+  block(
+    above: 0.4em,
+    below: 0.5em,
+    sticky: true,
+    stroke: (left: 1.8pt + luma(65%)),
+    inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
+    width: 100%,
+  )[
+    #text(weight: "semibold", fill: luma(40%))[#thm-labels.proof]
+    #parbreak()
+    #body
+  ]
+}
 
-#let proof-sketch(body) = _block(
-  title: strong[#thm-labels.proof-sketch:] + v(0.2em),
-  fill: luma(94%),
-  stroke: (left: 2pt + luma(78%), rest: none),
-  inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-  it: body,
-)
+#let proof-sketch(body) = {
+  block(
+    above: 0.4em,
+    below: 0.5em,
+    sticky: true,
+    stroke: (left: 1.8pt + luma(65%), rest: 0.4pt + luma(88%)),
+    inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
+    width: 100%,
+  )[
+    #text(
+      size: 0.92em,
+      style: "italic",
+      fill: luma(45%),
+    )[#thm-labels.proof-sketch]
+    #parbreak()
+    #body
+  ]
+}
 
 #let example(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    if inline { emph[#thm-labels.example (#sub):] } else {
-      emph[#thm-labels.example (#sub)]
-    }
-  } else if inline {
-    emph[#thm-labels.example:]
-  } else {
-    emph[#thm-labels.example]
-  }
-  _block(
-    title: title,
-    fill: luma(94%),
-    stroke: (left: 2pt + luma(82%), rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    inline: inline,
-    it: body,
-  )
+  block(
+    above: 0.8em,
+    below: 0.8em,
+    sticky: true,
+    fill: ex-color.lighten(95%),
+    stroke: (left: 2.5pt + ex-color),
+    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
+    radius: 2pt,
+    width: 100%,
+  )[
+    #badge(ex-color)[#upper(thm-labels.example)]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
+    #parbreak()
+    #body
+  ]
 }
 
 #let note(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    strong[#thm-labels.note: #sub]
-  } else if inline {
-    strong[#thm-labels.note:]
-  } else {
-    strong[#thm-labels.note]
-  }
-  _block(
-    title: title,
-    fill: oklch(94%, 0.006, 155deg),
-    stroke: (left: 3pt + oklch(55%, 0.15, 155deg), rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    inline: inline,
-    it: body,
-  )
+  block(
+    above: 0.6em,
+    below: 0.6em,
+    sticky: true,
+    inset: (left: 1em, right: 0.7em, top: 0.35em, bottom: 0.35em),
+    stroke: (left: 1.5pt + note-color.lighten(20%)),
+    width: 100%,
+  )[
+    #text(size: 0.92em, weight: "semibold", fill: note-color)[#thm-labels.note]
+    #if sub != none [#h(0.3em)#text(
+        size: 0.92em,
+        style: "italic",
+        fill: note-color,
+      )[#sub]]
+    #parbreak()
+    #text(size: 0.92em, fill: luma(35%))[#body]
+  ]
 }
 
 #let remark(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    strong[#thm-labels.remark: #sub]
-  } else if inline {
-    strong[#thm-labels.remark:]
-  } else {
-    strong[#thm-labels.remark]
-  }
-  _block(
-    title: title,
-    fill: oklch(93%, 0.02, 70deg),
-    stroke: (
-      left: 3pt + oklch(60%, 0.16, 65deg),
-      top: 0.5pt + oklch(90%, 0.02, 70deg),
-      bottom: 0.5pt + oklch(90%, 0.02, 70deg),
-      right: 0.5pt + oklch(90%, 0.02, 70deg),
-    ),
-    inset: (x: 1em, y: 0.8em),
-    inline: inline,
-    it: body,
-  )
+  block(
+    above: 0.6em,
+    below: 0.6em,
+    sticky: true,
+    fill: rgb("fdf8f2"),
+    stroke: 0.4pt + remark-color.lighten(50%),
+    inset: (left: 0.9em, right: 0.7em, top: 0.4em, bottom: 0.4em),
+    radius: 2pt,
+    width: 100%,
+  )[
+    #text(style: "italic", fill: remark-color)[#thm-labels.remark]
+    #if sub != none [#h(0.4em)#text(
+        weight: "semibold",
+        fill: remark-color.darken(10%),
+      )[#sub]]
+    #parbreak()
+    #body
+  ]
 }
 
-// Предупреждение: жёлтая полоса, предостерегающий оттенок.
-// API: #warning[тело]  или  #warning[Заголовок][тело]
 #let warning(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    strong[⚠  #sub]
-  } else if inline {
-    strong[⚠  #thm-labels.warning]
-  } else {
-    strong[⚠  #thm-labels.warning]
-  }
-  _block(
-    title: title,
+  block(
+    above: 0.6em,
+    below: 0.6em,
+    sticky: true,
     fill: oklch(95%, 0.05, 85deg),
-    stroke: (
-      left: 3pt + oklch(65%, 0.18, 75deg),
-      top: 0.5pt + oklch(92%, 0.05, 85deg),
-      bottom: 0.5pt + oklch(92%, 0.05, 85deg),
-      right: 0.5pt + oklch(92%, 0.05, 85deg),
-    ),
-    inset: (x: 1em, y: 0.8em),
-    inline: inline,
-    it: body,
-  )
+    stroke: (left: 2.5pt + warn-color),
+    inset: (left: 0.8em, right: 0.7em, top: 0.5em, bottom: 0.55em),
+    radius: 2pt,
+    width: 100%,
+  )[
+    #text(
+      weight: "semibold",
+      fill: warn-color.darken(20%),
+    )[⚠  #thm-labels.warning]
+    #if sub != none [#h(0.3em)#text(
+        style: "italic",
+        fill: warn-color.darken(20%),
+      )[#sub]]
+    #parbreak()
+    #body
+  ]
 }
 
-// Историческая справка: тёплая охра, тонкая рамка, иконка песочных часов.
-// API: #history-note[тело]  или  #history-note[Заголовок][тело]
 #let history-note(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    strong[#sym.hourglass  #sub]
-  } else {
-    strong[#sym.hourglass  ИСТОРИЧЕСКАЯ СПРАВКА]
-  }
-  _block(
-    title: title,
-    fill: oklch(97%, 0.015, 70deg),
-    stroke: (
-      left: 3pt + oklch(55%, 0.14, 70deg),
-      rest: 0.4pt + oklch(85%, 0.02, 70deg),
-    ),
-    inset: (x: 1em, y: 0.8em),
-    inline: inline,
-    it: body,
-  )
+  block(
+    above: 0.8em,
+    below: 0.8em,
+    sticky: true,
+    fill: rgb("fdf5f0"),
+    stroke: (left: 2.5pt + hist-color),
+    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
+    radius: 2pt,
+    width: 100%,
+  )[
+    #badge(hist-color)[ИСТОРИЯ]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: hist-color)[#sub]]
+    #parbreak()
+    #body
+  ]
 }
 
-// Прикладное отступление: фиолетовый, для развёрнутых CS-применений.
-// API: #digression[тело]  или  #digression[Заголовок][тело]
 #let digression(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    strong[#sym.dot.c  #sub]
-  } else {
-    strong[#sym.dot.c  ОТСТУПЛЕНИЕ]
-  }
-  _block(
-    title: title,
-    fill: oklch(96%, 0.012, 290deg),
-    stroke: (
-      left: 3pt + oklch(55%, 0.12, 290deg),
-      rest: 0.4pt + oklch(85%, 0.01, 290deg),
-    ),
-    inset: (x: 1em, y: 0.8em),
-    inline: inline,
-    it: body,
-  )
+  block(
+    above: 0.8em,
+    below: 0.8em,
+    sticky: true,
+    fill: digr-color.lighten(95%),
+    stroke: (left: 2.5pt + digr-color),
+    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
+    radius: 2pt,
+    width: 100%,
+  )[
+    #badge(digr-color)[#thm-labels.digression]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: digr-color)[#sub]]
+    #parbreak()
+    #body
+  ]
 }
 
-#let chapter-overview(body) = _block(
-  title: strong[#thm-labels.overview] + v(0.2em),
-  fill: luma(92%),
-  stroke: none,
-  inset: 1em,
-  it: body,
-)
-
-// Алгоритм: стилевой блок для пошаговых процедур.
-// Содержимое --- обычный +-список (Typst сам нумерует).
-// API: #algorithm[тело]  или  #algorithm[Название][тело]
 #let algorithm(inline: false, ..args) = {
   let (sub, body) = _args(args.pos())
-  let title = if sub != none {
-    strong[#thm-labels.algorithm (#sub)]
-  } else {
-    strong[#thm-labels.algorithm]
-  }
-  _block(
-    title: title,
-    fill: oklch(97%, 0.01, 230deg),
-    stroke: (left: 2pt + oklch(55%, 0.12, 230deg), rest: none),
-    inset: (left: 0.9em, right: 0.6em, top: 0.5em, bottom: 0.5em),
-    inline: inline,
-    it: body,
-  )
+  block(
+    above: 0.8em,
+    below: 0.8em,
+    sticky: true,
+    fill: algo-color.lighten(95%),
+    stroke: (left: 2.5pt + algo-color),
+    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
+    radius: 2pt,
+    width: 100%,
+  )[
+    #badge(algo-color)[#thm-labels.algorithm]
+    #if sub != none [#h(0.4em)#text(weight: "semibold", fill: algo-color)[#sub]]
+    #parbreak()
+    #body
+  ]
+}
+
+#let chapter-overview(body) = {
+  block(
+    above: 0.8em,
+    below: 1.2em,
+    sticky: true,
+    fill: luma(93%),
+    stroke: none,
+    inset: 1.2em,
+    radius: 2pt,
+    width: 100%,
+  )[
+    #text(weight: "semibold", fill: luma(35%))[#thm-labels.overview]
+    #v(0.3em)
+    #body
+  ]
 }
 
 // Ворон: блок с левой полосой, внутри — картинка ворона слева и текст справа (grid).
-// API: #raven[тело]
 #let raven-accent = oklch(35%, 0.03, 255deg)
 #let raven-fill = oklch(97%, 0.005, 260deg)
 #let raven-hairline = oklch(88%, 0.01, 260deg)
-#let raven-img-width = 40pt
-#let raven-img-gap = 0.6em
 
 #let raven(body) = {
   block(
     fill: raven-fill,
-    stroke: (
-      left: 3pt + raven-accent,
-      top: 0.5pt + raven-hairline,
-      bottom: 0.5pt + raven-hairline,
-      right: 0.5pt + raven-hairline,
-    ),
+    stroke: (left: 3pt + raven-accent, rest: 0.5pt + raven-hairline),
     inset: (left: 0.5em, right: 1em, y: 0.8em),
     radius: 3pt,
     width: 100%,
@@ -433,10 +423,10 @@
     ))
     #grid(
       columns: (auto, 1fr),
-      column-gutter: raven-img-gap,
-      [#image("assets/raven.png", width: raven-img-width)], [#body],
+      column-gutter: 0.6em,
+      [#image("assets/raven.png", width: 40pt)], [#body],
     )
   ]
 }
 
-#let hrule = line(length: 100%)
+#let hrule = line(length: 100%, stroke: 0.3pt + luma(85%))

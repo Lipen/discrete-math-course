@@ -17,20 +17,46 @@
 
 #set page(
   paper: "a4",
-  margin: (left: 2.5cm, right: 2cm, top: 2cm, bottom: 2.5cm),
+  margin: (left: 3cm, right: 2.5cm, top: 3cm, bottom: 2.5cm),
   header: none,
   footer: none,
 )
 
-#align(center)[
-  #block(height: 4cm)
-  #text(size: 2.8em, weight: "bold")[Дискретная математика]
-  #block(height: 0.4cm)
-  #line(length: 3cm, stroke: 2pt + accent-color)
-  #block(height: 2cm)
-  #text(size: 1em, fill: luma(45%))[Университет ИТМО]
-  #block(height: 0.1cm)
-  #text(size: 0.85em, fill: luma(55%))[2026 / 2027]
+#align(center + horizon)[
+  #block(
+    fill: white,
+    inset: (x: 3.5em, y: 2.5em),
+    radius: 6pt,
+    stroke: 0.4pt + luma(80%),
+    width: auto,
+  )[
+    #align(center)[
+      #text(
+        size: 9pt,
+        weight: "semibold",
+        fill: accent-color,
+        tracking: 0.14em,
+      )[#upper[университет итмо]]
+      #v(0.8em)
+      #text(
+        size: 44pt,
+        weight: "bold",
+        fill: accent-color,
+        font: "Libertinus Sans",
+      )[ДИСКРЕТНАЯ]
+      #v(0em)
+      #text(
+        size: 44pt,
+        weight: "light",
+        fill: accent-color,
+        font: "Libertinus Sans",
+      )[МАТЕМАТИКА]
+      #v(0.6em)
+      #line(length: 4cm, stroke: 0.5pt + accent-color)
+      #v(0.8em)
+      #text(size: 10pt, fill: luma(45%))[2026 / 2027]
+    ]
+  ]
 ]
 
 #pagebreak(weak: true)
@@ -43,31 +69,22 @@
 
 #set page(
   paper: "a4",
-  margin: (left: 2.5cm, right: 2cm, top: 2.2cm, bottom: 2.5cm),
-  header: context [
-    #set text(0.65em, fill: luma(45%))
-    #smallcaps[
-      #text(tracking: 0.1em, weight: "semibold")[Дискретная математика]
+  margin: (left: 3cm, right: 2.5cm, top: 3cm, bottom: 2.5cm),
+  header: [
+    #set text(size: 8.5pt, fill: luma(45%))
+    #align(center)[
+      #text(tracking: 0.08em)[ДИСКРЕТНАЯ МАТЕМАТИКА]
+      #v(0.25em)
+      #line(length: 100%, stroke: 0.3pt + luma(80%))
     ]
-    #h(1fr)
-    #{
-      let pg = counter(page).get().first()
-      let hs = query(heading.where(level: 1))
-      let ch = hs.rev().find(h => counter(page).at(h.location()).first() <= pg)
-      if ch != none {
-        text(style: "italic", fill: luma(35%))[#ch.body]
-      }
-    }
-    #v(4pt)
-    #line(length: 100%, stroke: 0.3pt + luma(85%))
   ],
-  footer: context [
-    #set text(0.65em, fill: luma(50%))
-    #line(length: 100%, stroke: 0.3pt + luma(85%))
-    #v(2pt)
-    #h(1fr)
-    #counter(page).display("1")
-    #h(1fr)
+  footer: align(center)[
+    #set text(size: 8pt, fill: luma(50%))
+    #align(center)[
+      #line(length: 3cm, stroke: 0.3pt + luma(80%))
+      #v(0.15em)
+      #context { counter(page).display("1") }
+    ]
   ],
 )
 

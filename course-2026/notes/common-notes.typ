@@ -7,27 +7,34 @@
 //   #set document(title: "...", author: "...")
 
 #import "requirements.typ": *
-
-// --- Библиотека теорем ---
 #import "theorems.typ": *
-
 #import "notation.typ": *
 
 // --- Вёрстка и символы ---
 #let YES = text(fill: green, sym.checkmark)
 
-// --- Окружения: front-matter / main-matter ---
-// Используются как вставки (не show-правила), чтобы не заменять notes-template.
+// Roman numeral helper
+#let roman(n) = numbering("I", n)
 
-// Римская нумерация страниц для титула и содержания.
+// --- Орнаменты заголовков ---
+#let chapter-ornament(accent) = {
+  v(0.25em)
+  line(length: 100%, stroke: 0.5pt + accent)
+}
+
+#let section-rule(border) = {
+  v(0.1em)
+  line(length: 100%, stroke: 0.35pt + border)
+  v(0.45em)
+}
+
+// --- Окружения: front-matter / main-matter ---
 #let front-matter = {
   set page(numbering: "i")
 }
 
-// Арабская нумерация страниц для основного текста.
 #let main-matter = {
   set page(numbering: "1")
-  set heading(numbering: "1.1.1")
 }
 
 // --- Страница-разделитель (часть) ---
@@ -50,14 +57,7 @@
   pagebreak(weak: true)
 }
 
-// --- Размеры шрифта ---
-#let h1-size = 22pt
-#let h2-size = 16pt
-#let h3-size = 14pt
-#let h4-size = 12pt
-#let chapter-num-size = 42pt
-
-// --- Шаблон: все set/show-правила внутри, чтобы действовали глобально ---
+// --- Шаблон: все set/show-правила ---
 #let notes-template(it, theme: oklch(55%, 0.16, 230deg)) = {
   // Типографика
   set text(
@@ -69,51 +69,66 @@
     justify: true,
     leading: 0.65em,
     first-line-indent: 1em,
-    justification-limits: (
-      spacing: (min: 100% * 2 / 3, max: 150%),
-      tracking: (min: -0.01em, max: 0.02em),
-    ),
   )
 
-  // Заголовки
-  show heading.where(level: 1): it => {
-    pagebreak(weak: true)
-    counter("definition").update(0)
-    counter("theorem").update(0)
-
-    if it.numbering != none {
-      v(3em)
-      text(size: chapter-num-size, fill: theme, weight: "bold")[
-        #counter(heading).display()
-      ]
-      v(-0.6em)
-      line(length: 22%, stroke: 1.5pt + theme)
-      v(0.8em)
-    }
-    text(size: h1-size, weight: "bold")[#it.body]
-    v(1.5em)
-  }
-  show heading.where(level: 2): it => block(
-    sticky: true,
-    above: 2em,
-    below: 1em,
-    {
-      set text(size: h2-size, weight: "bold")
-      box(width: 0em, inset: -1em)[
-        #text(fill: theme)[#sym.section]
-      ]
-      counter(heading).display()
-      h(0.5em)
-      it.body
-      v(-0.2em)
-      line(length: 100%, stroke: 0.4pt + theme)
-    },
-  )
-  show heading.where(level: 3): set text(size: h3-size, weight: "bold")
-  show heading.where(level: 4): set text(size: h4-size, style: "italic")
-
-  // Нумерация заголовков (3 уровня: 1, 1.1, 1.1.1)
   set heading(numbering: "1.1.1")
+
+  // Заголовки — стиль theme-5
+  show heading.where(level: 1): it => {
+    let nums = counter(heading).get()
+    def-ctr.update(0)
+    thm-ctr.update(0)
+    pagebreak(weak: true)
+    block(
+      width: 100%,
+      above: 3em,
+      below: 2em,
+      sticky: true,
+      inset: (x: 0em, y: 0em),
+    )[
+      #text(size: 48pt, weight: "bold", fill: theme, tracking: 0.1em)[#roman(
+        nums.first(),
+      )]
+      #v(2em, weak: true)
+      #text(
+        size: 22pt,
+        weight: "medium",
+        fill: theme,
+        font: "Libertinus Sans",
+        tracking: 0.05em,
+      )[#it.body]
+      #chapter-ornament(theme)
+    ]
+  }
+
+  show heading.where(level: 2): it => {
+    block(
+      width: 100%,
+      above: 1.5em,
+      below: 0.6em,
+      sticky: true,
+      inset: (x: 0em, y: 0em),
+    )[
+      #text(size: 16pt, weight: "medium")[
+        #text(fill: theme)[§#it.numbering]#h(0.5em)#it.body
+      ]
+      #section-rule(luma(80%))
+    ]
+  }
+
+  show heading.where(level: 3): it => {
+    block(
+      width: 100%,
+      above: 1.4em,
+      below: 0.6em,
+      sticky: true,
+      inset: (left: 0em, y: 0em),
+    )[
+      #text(size: 14pt, weight: "medium")[
+        #text(fill: theme)[#it.numbering]#h(0.5em)#it.body
+      ]
+    ]
+  }
 
   // Математика
   set math.mat(column-gap: 1em)
@@ -123,8 +138,36 @@
   set table(inset: (x: 0.8em, y: 0.3em))
   show table.cell.where(y: 0): strong
 
-  // Содержание: dot leaders
-  set outline.entry(fill: box(width: 1fr, repeat(gap: 0.25em)[.]))
+  // Содержание
+  show outline.entry: it => {
+    if it.level == 1 {
+      let nums = counter(heading).at(it.element.location())
+      block(above: 1.3em, below: 0.35em)[
+        #text(size: 14pt, weight: "medium")[
+          #text(size: 0.9em, fill: theme)[#roman(nums.first())]#h(0.5em)
+          #link(it.element.location())[#it.element.body]
+          #box(width: 1fr, repeat[#h(0.7em)·])
+          #it.page()
+        ]
+      ]
+    } else if it.level == 2 {
+      block(above: 0.5em, below: 0.2em, inset: (left: 2em))[
+        #text(size: 11.5pt)[
+          #link(it.element.location())[#it.element.body]
+          #box(width: 1fr, repeat[#h(0.7em)·])
+          #it.page()
+        ]
+      ]
+    } else if it.level == 3 {
+      block(above: 0.25em, below: 0.15em, inset: (left: 4em))[
+        #text(size: 10pt, fill: luma(45%))[
+          #link(it.element.location())[#it.element.body]
+          #box(width: 1fr, repeat[#h(0.7em)·])
+          #it.page()
+        ]
+      ]
+    }
+  }
 
   // Рисунки: по центру
   set figure(gap: 0.65em)
@@ -135,7 +178,7 @@
   show "e.g.": set text(style: "italic")
   show "etc.": set text(style: "italic")
 
-  // QED-правила размещения
+  // QED-правила
   setup-qed-rules()
 
   it
