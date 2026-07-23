@@ -84,17 +84,17 @@
 // Full border: thick left + thin on other sides
 #let _block-stroke(color) = (
   left: 2.5pt + color,
-  top: 0.4pt + color,
-  bottom: 0.4pt + color,
-  right: 0.4pt + color,
+  top: 0.6pt + color,
+  bottom: 0.6pt + color,
+  right: 0.6pt + color,
 )
 
 // Subtle border for auxiliary blocks (proof, note)
 #let _aux-stroke(color) = (
   left: 1.8pt + color,
-  top: 0.4pt + color,
-  bottom: 0.4pt + color,
-  right: 0.4pt + color,
+  top: 0.6pt + color,
+  bottom: 0.6pt + color,
+  right: 0.6pt + color,
 )
 
 // --- Нумерованные блоки ---
@@ -127,9 +127,9 @@
     fill: fill,
     stroke: (
       left: 2pt + bar-color,
-      top: 0.3pt + bar-color,
-      bottom: 0.3pt + bar-color,
-      right: 0.3pt + bar-color,
+      top: 0.6pt + bar-color,
+      bottom: 0.6pt + bar-color,
+      right: 0.6pt + bar-color,
     ),
     inset: (x: 0.5em, y: 0.2em),
     radius: 2pt,
