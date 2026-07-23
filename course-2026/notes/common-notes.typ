@@ -58,7 +58,14 @@
 }
 
 // --- Шаблон: все set/show-правила ---
-#let notes-template(it, theme: oklch(55%, 0.16, 230deg)) = {
+// toc-numbers — уровни, для которых показывать номера в содержании.
+// По умолчанию (2, 3) — номера секций и подсекций.
+// Убрать все: () или (,) — только h2: (2,).
+#let notes-template(
+  it,
+  theme: oklch(55%, 0.16, 230deg),
+  toc-numbers: (2, 3),
+) = {
   // Типографика
   set text(
     font: "Libertinus Serif",
@@ -144,8 +151,9 @@
       let nums = counter(heading).at(it.element.location())
       block(above: 1.3em, below: 0.35em)[
         #text(size: 14pt, weight: "medium")[
-          #text(size: 0.9em, fill: theme)[#roman(nums.first())]#h(0.5em)
-          #link(it.element.location())[#it.element.body]
+          #text(size: 0.9em, fill: theme)[#roman(nums.first())]#h(0.5em)#link(
+            it.element.location(),
+          )[#it.element.body]
           #box(width: 1fr, repeat[#h(0.7em)·])
           #it.page()
         ]
@@ -153,6 +161,9 @@
     } else if it.level == 2 {
       block(above: 0.5em, below: 0.2em, inset: (left: 2em))[
         #text(size: 11.5pt)[
+          #if toc-numbers.contains(2) and it.element.numbering != none [
+            #text(fill: theme)[#it.element.numbering]#h(0.5em)
+          ]
           #link(it.element.location())[#it.element.body]
           #box(width: 1fr, repeat[#h(0.7em)·])
           #it.page()
@@ -161,6 +172,9 @@
     } else if it.level == 3 {
       block(above: 0.25em, below: 0.15em, inset: (left: 4em))[
         #text(size: 10pt, fill: luma(45%))[
+          #if toc-numbers.contains(3) and it.element.numbering != none [
+            #text(fill: theme)[#it.element.numbering]#h(0.5em)
+          ]
           #link(it.element.location())[#it.element.body]
           #box(width: 1fr, repeat[#h(0.7em)·])
           #it.page()
