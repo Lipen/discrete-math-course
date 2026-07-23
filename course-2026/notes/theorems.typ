@@ -23,7 +23,7 @@
 #let thm-color = rgb("1a3d6e")  // rich blue
 #let lem-color = oklch(55%, 0.14, 300deg)  // violet (lemma)
 #let cor-color = oklch(55%, 0.18, 22deg)   // warm red (corollary)
-#let prop-color = oklch(55%, 0.16, 195deg)   // cyan (proposition)
+#let prop-color = oklch(55%, 0.10, 195deg)   // cyan (proposition)
 #let ex-color = rgb("5b2d8e")  // purple (example)
 #let note-color = rgb("7a828d")  // gray (note)
 #let remark-color = rgb("b87333")  // copper (remark)
@@ -34,21 +34,21 @@
 
 // --- Метки (словарь для лёгкой смены языка) ---
 #let thm-labels = (
-  definition: "Определение",
-  theorem: "Теорема",
-  lemma: "Лемма",
-  corollary: "Следствие",
-  proposition: "Утверждение",
+  definition: "ОПРЕДЕЛЕНИЕ",
+  theorem: "ТЕОРЕМА",
+  lemma: "ЛЕММА",
+  corollary: "СЛЕДСТВИЕ",
+  proposition: "УТВЕРЖДЕНИЕ",
   proof: "Доказательство",
   proof-sketch: "Набросок доказательства",
-  example: "Пример",
+  example: "ПРИМЕР",
   note: "Примечание",
   warning: "Предупреждение",
   remark: "Замечание",
   raven: "Замечание",
   overview: "Обзор главы",
-  algorithm: "Алгоритм",
-  digression: "Отступление",
+  algorithm: "АЛГОРИТМ",
+  digression: "ОТСТУПЛЕНИЕ",
 )
 
 #let def-ctr = counter("definition")
@@ -75,10 +75,10 @@
 #let badge(color, body) = {
   box(
     fill: color,
-    inset: (x: 0.55em, y: 0.22em),
+    inset: (x: 0.62em, y: 0.28em),
     radius: 2pt,
     outset: (y: 0.12em),
-  )[#text(size: 0.82em, weight: "bold", fill: white, tracking: 0.06em)[#body]]
+  )[#text(size: 0.82em, weight: "bold", fill: white, tracking: 0.08em)[#body]]
 }
 
 // --- Нумерованные блоки ---
@@ -255,7 +255,7 @@
     radius: 2pt,
     width: 100%,
   )[
-    #badge(ex-color)[#upper(thm-labels.example)]
+    #badge(ex-color)[#thm-labels.example]
     #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
     #parbreak()
     #body

@@ -82,7 +82,6 @@
 
   // Заголовки — стиль theme-5
   show heading.where(level: 1): it => {
-    let nums = counter(heading).get()
     def-ctr.update(0)
     thm-ctr.update(0)
     pagebreak(weak: true)
@@ -93,9 +92,12 @@
       sticky: true,
       inset: (x: 0em, y: 0em),
     )[
-      #text(size: 48pt, weight: "bold", fill: theme, tracking: 0.1em)[#roman(
-        nums.first(),
-      )]
+      #context [
+        #let ch = counter(heading).at(it.location()).first()
+        #text(size: 48pt, weight: "bold", fill: theme, tracking: 0.1em)[#roman(
+          ch,
+        )]
+      ]
       #v(2em, weak: true)
       #text(
         size: 22pt,
@@ -117,7 +119,7 @@
       inset: (x: 0em, y: 0em),
     )[
       #text(size: 16pt, weight: "medium")[
-        #text(fill: theme)[§#it.numbering]#h(0.5em)#it.body
+        #text(fill: theme)[§]#counter(heading).display()#h(0.5em)#it.body
       ]
       #section-rule(luma(80%))
     ]
@@ -132,7 +134,7 @@
       inset: (left: 0em, y: 0em),
     )[
       #text(size: 14pt, weight: "medium")[
-        #text(fill: theme)[#it.numbering]#h(0.5em)#it.body
+        #counter(heading).display()#h(0.5em)#it.body
       ]
     ]
   }
@@ -160,25 +162,31 @@
       ]
     } else if it.level == 2 {
       block(above: 0.5em, below: 0.2em, inset: (left: 2em))[
-        #text(size: 11.5pt)[
-          #if toc-numbers.contains(2) and it.element.numbering != none [
-            #text(fill: theme)[#it.element.numbering]#h(0.5em)
+        #context {
+          let nums = counter(heading).at(it.element.location())
+          text(size: 11.5pt)[
+            #if toc-numbers.contains(2) [
+              #text(fill: theme)[#numbering("1.1", ..nums.slice(0, 2))]#h(0.5em)
+            ]
+            #link(it.element.location())[#it.element.body]
+            #box(width: 1fr, repeat[#h(0.7em)·])
+            #it.page()
           ]
-          #link(it.element.location())[#it.element.body]
-          #box(width: 1fr, repeat[#h(0.7em)·])
-          #it.page()
-        ]
+        }
       ]
     } else if it.level == 3 {
       block(above: 0.25em, below: 0.15em, inset: (left: 4em))[
-        #text(size: 10pt, fill: luma(45%))[
-          #if toc-numbers.contains(3) and it.element.numbering != none [
-            #text(fill: theme)[#it.element.numbering]#h(0.5em)
+        #context {
+          let nums = counter(heading).at(it.element.location())
+          text(size: 10pt, fill: luma(45%))[
+            #if toc-numbers.contains(3) [
+              #text(fill: theme)[#numbering("1.1.1", ..nums)]#h(0.5em)
+            ]
+            #link(it.element.location())[#it.element.body]
+            #box(width: 1fr, repeat[#h(0.7em)·])
+            #it.page()
           ]
-          #link(it.element.location())[#it.element.body]
-          #box(width: 1fr, repeat[#h(0.7em)·])
-          #it.page()
-        ]
+        }
       ]
     }
   }
