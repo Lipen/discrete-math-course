@@ -81,6 +81,22 @@
   )[#text(size: 0.82em, weight: "bold", fill: white, tracking: 0.08em)[#body]]
 }
 
+// Full border: thick left + thin on other sides
+#let _block-stroke(color) = (
+  left: 2.5pt + color,
+  top: 0.4pt + color,
+  bottom: 0.4pt + color,
+  right: 0.4pt + color,
+)
+
+// Subtle border for auxiliary blocks (proof, note)
+#let _aux-stroke(color) = (
+  left: 1.8pt + color,
+  top: 0.4pt + color,
+  bottom: 0.4pt + color,
+  right: 0.4pt + color,
+)
+
 // --- Нумерованные блоки ---
 
 #let _numbered(label, ctr, bar-color, fill, body, title: none) = {
@@ -88,11 +104,12 @@
   let header = badge(bar-color)[#label #_ch-num(ctr)]
   block(
     fill: fill,
-    stroke: (left: 2.5pt + bar-color),
+    stroke: _block-stroke(bar-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #header
     #if title != none [#h(0.4em)#text(
         weight: "semibold",
@@ -103,11 +120,29 @@
   ]
 }
 
+// Inline numbered — компактный блок: бейдж + тело на одной строке
 #let _numbered-inline(label, ctr, bar-color, fill, body, title: none) = {
   ctr.step()
-  text(fill: bar-color, weight: "bold")[#label #_ch-num(ctr).]
-  if title != none [ #text(weight: "semibold", fill: bar-color)[(#title).]]
-  [ ] + body
+  box(
+    fill: fill,
+    stroke: (
+      left: 2pt + bar-color,
+      top: 0.3pt + bar-color,
+      bottom: 0.3pt + bar-color,
+      right: 0.3pt + bar-color,
+    ),
+    inset: (x: 0.5em, y: 0.2em),
+    radius: 2pt,
+    outset: (y: 0.1em),
+  )[
+    #badge(bar-color)[#label #_ch-num(ctr)]
+    #if title != none [#h(0.3em)#text(
+        weight: "semibold",
+        fill: bar-color,
+      )[(#title)]]
+    #h(0.35em)
+    #body
+  ]
 }
 
 #let _dispatch(label, ctr, bar-color, fill, inline: false, ..args) = {
@@ -214,10 +249,13 @@
     above: 0.4em,
     below: 0.5em,
     sticky: true,
-    stroke: (left: 1.8pt + luma(65%)),
+    fill: luma(94%),
+    stroke: _aux-stroke(luma(65%)),
     inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
+    radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #text(weight: "semibold", fill: luma(40%))[#thm-labels.proof]
     #parbreak()
     #body
@@ -229,10 +267,13 @@
     above: 0.4em,
     below: 0.5em,
     sticky: true,
-    stroke: (left: 1.8pt + luma(65%), rest: 0.4pt + luma(88%)),
+    fill: luma(94%),
+    stroke: _aux-stroke(luma(65%)),
     inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
+    radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #text(
       size: 0.92em,
       style: "italic",
@@ -250,11 +291,12 @@
     below: 0.8em,
     sticky: true,
     fill: ex-color.lighten(95%),
-    stroke: (left: 2.5pt + ex-color),
+    stroke: _block-stroke(ex-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #badge(ex-color)[#thm-labels.example]
     #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
     #parbreak()
@@ -269,9 +311,11 @@
     below: 0.6em,
     sticky: true,
     inset: (left: 1em, right: 0.7em, top: 0.35em, bottom: 0.35em),
-    stroke: (left: 1.5pt + note-color.lighten(20%)),
+    stroke: _aux-stroke(note-color.lighten(20%)),
+    radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #text(size: 0.92em, weight: "semibold", fill: note-color)[#thm-labels.note]
     #if sub != none [#h(0.3em)#text(
         size: 0.92em,
@@ -290,11 +334,12 @@
     below: 0.6em,
     sticky: true,
     fill: rgb("fdf8f2"),
-    stroke: 0.4pt + remark-color.lighten(50%),
+    stroke: 0.4pt + remark-color.lighten(40%),
     inset: (left: 0.9em, right: 0.7em, top: 0.4em, bottom: 0.4em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #text(style: "italic", fill: remark-color)[#thm-labels.remark]
     #if sub != none [#h(0.4em)#text(
         weight: "semibold",
@@ -312,11 +357,12 @@
     below: 0.6em,
     sticky: true,
     fill: oklch(95%, 0.05, 85deg),
-    stroke: (left: 2.5pt + warn-color),
+    stroke: _block-stroke(warn-color),
     inset: (left: 0.8em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #text(
       weight: "semibold",
       fill: warn-color.darken(20%),
@@ -337,11 +383,12 @@
     below: 0.8em,
     sticky: true,
     fill: rgb("fdf5f0"),
-    stroke: (left: 2.5pt + hist-color),
+    stroke: _block-stroke(hist-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #badge(hist-color)[ИСТОРИЯ]
     #if sub != none [#h(0.4em)#text(weight: "semibold", fill: hist-color)[#sub]]
     #parbreak()
@@ -356,11 +403,12 @@
     below: 0.8em,
     sticky: true,
     fill: digr-color.lighten(95%),
-    stroke: (left: 2.5pt + digr-color),
+    stroke: _block-stroke(digr-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #badge(digr-color)[#thm-labels.digression]
     #if sub != none [#h(0.4em)#text(weight: "semibold", fill: digr-color)[#sub]]
     #parbreak()
@@ -375,11 +423,12 @@
     below: 0.8em,
     sticky: true,
     fill: algo-color.lighten(95%),
-    stroke: (left: 2.5pt + algo-color),
+    stroke: _block-stroke(algo-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #badge(algo-color)[#thm-labels.algorithm]
     #if sub != none [#h(0.4em)#text(weight: "semibold", fill: algo-color)[#sub]]
     #parbreak()
@@ -393,11 +442,12 @@
     below: 1.2em,
     sticky: true,
     fill: luma(93%),
-    stroke: none,
+    stroke: 0.4pt + luma(80%),
     inset: 1.2em,
     radius: 2pt,
     width: 100%,
   )[
+    #set par(first-line-indent: 0pt)
     #text(weight: "semibold", fill: luma(35%))[#thm-labels.overview]
     #v(0.3em)
     #body
@@ -417,10 +467,7 @@
     radius: 3pt,
     width: 100%,
   )[
-    #set par(justify: true, justification-limits: (
-      spacing: (min: 100% * 2 / 3, max: 200%),
-      tracking: (min: -0.01em, max: 0.04em),
-    ))
+    #set par(first-line-indent: 0pt)
     #grid(
       columns: (auto, 1fr),
       column-gutter: 0.6em,
