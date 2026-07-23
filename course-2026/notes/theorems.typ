@@ -51,6 +51,14 @@
   digression: "ОТСТУПЛЕНИЕ",
 )
 
+// State for sticky-headers flag (controlled from notes-template)
+#let sticky-state = state("block-headers-sticky", true)
+
+// Context-aware sticky block — header stays with first line of body
+#let _sticky(body) = context {
+  block(sticky: sticky-state.get())[#body]
+}
+
 #let def-ctr = counter("definition")
 #let thm-ctr = counter("theorem")
 
@@ -110,7 +118,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #header
       #if title != none [#h(0.4em)#text(
           weight: "semibold",
@@ -140,7 +148,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #badge(bar-color)[#label #_ch-num(ctr)]
       #if title != none [#h(0.3em)#text(
           weight: "semibold",
@@ -262,7 +270,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #text(weight: "semibold", fill: luma(40%))[#thm-labels.proof]
     ]
     #parbreak()
@@ -281,7 +289,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #text(
         size: 0.92em,
         style: "italic",
@@ -305,7 +313,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #badge(ex-color)[#thm-labels.example]
       #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
     ]
@@ -325,7 +333,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #text(
         size: 0.92em,
         weight: "semibold",
@@ -354,7 +362,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #text(style: "italic", fill: remark-color)[#thm-labels.remark]
       #if sub != none [#h(0.4em)#text(
           weight: "semibold",
@@ -378,7 +386,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #text(
         weight: "semibold",
         fill: warn-color.darken(20%),
@@ -405,7 +413,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #badge(hist-color)[ИСТОРИЯ]
       #if sub != none [#h(0.4em)#text(
           weight: "semibold",
@@ -429,7 +437,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #badge(digr-color)[#thm-labels.digression]
       #if sub != none [#h(0.4em)#text(
           weight: "semibold",
@@ -453,7 +461,7 @@
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #block(sticky: true)[
+    #_sticky[
       #badge(algo-color)[#thm-labels.algorithm]
       #if sub != none [#h(0.4em)#text(
           weight: "semibold",

@@ -61,11 +61,14 @@
 // toc-numbers — уровни, для которых показывать номера в содержании.
 // По умолчанию (2, 3) — номера секций и подсекций.
 // Убрать все: () или (,) — только h2: (2,).
+// sticky-headers — закреплять заголовки блоков (бейдж+название) при разрыве страниц.
 #let notes-template(
   it,
   theme: oklch(55%, 0.16, 230deg),
   toc-numbers: (2, 3),
+  sticky-headers: true,
 ) = {
+  sticky-state.update(sticky-headers)
   // Типографика
   set text(
     font: "Libertinus Serif",
