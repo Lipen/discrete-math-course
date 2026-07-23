@@ -23,7 +23,7 @@
 #let thm-color = rgb("25558b")  // blue
 #let lem-color = oklch(60%, 0.12, 300deg)  // violet (lemma)
 #let cor-color = oklch(58%, 0.14, 22deg)   // warm red (corollary)
-#let prop-color = oklch(60%, 0.06, 200deg)   // muted cyan (proposition)
+#let prop-color = oklch(62%, 0.04, 210deg)   // faint cyan (proposition)
 #let ex-color = rgb("7345a8")  // purple (example)
 #let note-color = rgb("8e97a3")  // gray (note)
 #let remark-color = rgb("cd8a4a")  // copper (remark)
