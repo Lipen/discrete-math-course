@@ -105,8 +105,8 @@
       oklch(45%, 0.02, 265deg) + 0.5pt
     }
     draw.rect(
-      (x - 1.8, y + 0.35),
-      (x + 1.8, y - 0.35),
+      (x - 1.3, y + 0.35),
+      (x + 1.3, y - 0.35),
       name: name,
       fill: f,
       stroke: str,
@@ -120,20 +120,20 @@
 
     // M — top
     cr-node(
-      (0, 4.0),
+      (0, 2.8),
       "M",
       $M = (lambda x . x) ((lambda y . y) z)$,
       style: "start",
     )
 
     // N1 — left
-    cr-node((-4.5, 0.8), "N1", $N_1 = (lambda y . y) z$, style: "normal")
+    cr-node((-3.2, 0.6), "N1", $N_1 = (lambda y . y) z$, style: "normal")
 
     // N2 — right
-    cr-node((4.5, 0.8), "N2", $N_2 = (lambda x . x) z$, style: "normal")
+    cr-node((3.2, 0.6), "N2", $N_2 = (lambda x . x) z$, style: "normal")
 
     // L — bottom
-    cr-node((0, -2.4), "L", $L = z$, style: "end")
+    cr-node((0, -1.7), "L", $L = z$, style: "end")
 
     // Edges
     draw.line("M", "N1", stroke: c-beta, name: "e1")
@@ -163,7 +163,7 @@
     ))[$arrow.r_beta$])
 
     // Caption
-    draw.content((0, -4.5), text(
+    draw.content((0, -3.2), text(
       size: 0.55em,
       fill: luma(45%),
     )[Конфлюэнтность: два пути редукции --- один результат.])

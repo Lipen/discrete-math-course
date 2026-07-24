@@ -59,17 +59,19 @@
 // Внутри $...$ использовать встроенный $lambda$ (без #).
 #let lam = $lambda$
 
-// Макросы для λ-конструкций — принимают content, возвращают math.
-// Использовать ВНЕ math mode (без окружающих $) — макрос сам ставит $.
-#let abs(x, body) = $lambda #x . #body$
-#let app(M, N) = $#M #N$
-#let sub(M, x, N) = $#M[#x := #N]$
+// Стрелки и отношения редукции (с scripts() для корректных индексов).
+#let beta-red = $scripts(->)_beta$            // →_β (одношаговая)
+#let beta-reds = $scripts(->>)_beta$          // ↠_β (многошаговая)
+#let beta-eq = $scripts(=)_beta$              // =_β (эквивалентность)
+#let alpha-eq = $scripts(=)_alpha$            // =_α (α-эквивалентность)
 
-// Отношения редукции — используют scripts() для корректных индексов в display math.
-#let betared(M, N) = $#M scripts(->)_beta #N$       // M →_β N (один шаг)
-#let betareds(M, N) = $#M scripts(->>)_beta #N$     // M ↠_β N (много шагов)
-#let betaeq(M, N) = $#M scripts(=)_beta #N$         // M =_β N (эквивалентность)
-#let alphaeq(M, N) = $#M scripts(=)_alpha #N$       // M =_α N (α-эквивалентность)
+// Макросы для λ-конструкций.
+#let lamabs(x, body) = $lambda #x . #body$
+#let app(M, N) = $#M #N$
+#let subst(M, x, N) = $#M[#x := #N]$
+#let betared(M, N) = $#M scripts(->)_beta #N$
+#let betareds(M, N) = $#M scripts(->>)_beta #N$
+#let betaeq(M, N) = $#M scripts(=)_beta #N$
 
 // Нотация для часто используемых термов:
 #let Church-true = $"true"$
