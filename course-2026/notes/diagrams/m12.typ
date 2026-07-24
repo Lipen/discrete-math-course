@@ -1,4 +1,4 @@
-// M12 diagrams — Transfinite: Cantor diagonal, QQ pairing, ordinals, Banach--Tarski.
+// M12 diagrams — Transfinite: Cantor diagonal, QQ pairing, ordinals, Banach--Tarski; Probability: Markov chain.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
@@ -267,3 +267,95 @@
     fill: luma(45%),
   )[Разбиение сферы на 5 частей (вращения + AC) $→$ два шара того же радиуса.])
 })
+
+// ── 2-state Markov chain: weather model (Sunny / Rainy) ──
+#let c-mc-state = oklch(88%, 0.03, 250deg)
+#let c-mc-str = oklch(60%, 0.08, 250deg)
+#let c-mc-edge = oklch(35%, 0.02, 265deg)
+#let c-mc-label = oklch(30%, 0.02, 265deg)
+
+#let markov-chain = figure(
+  canvas(length: 8cm, {
+    import draw: *
+
+    // State node helper — labeled circle
+    let state(pos, label, name) = {
+      let (x, y) = pos
+      draw.circle(
+        (x, y),
+        radius: 0.5,
+        name: name,
+        fill: c-mc-state,
+        stroke: 0.8pt + c-mc-str,
+      )
+      draw.content(
+        (x, y),
+        text(size: 0.9em, fill: c-mc-label, weight: "bold")[#label],
+      )
+    }
+
+    // Edge label helper — white-boxed text at midpoint of a named edge
+    let elabel(edge-name, label-text, anchor: "south") = {
+      draw.content(
+        edge-name + ".mid",
+        text(size: 0.7em, fill: c-mc-label)[#label-text],
+        frame: "rect",
+        fill: white,
+        stroke: none,
+        padding: 1pt,
+        anchor: anchor,
+      )
+    }
+
+    // ── States ──
+    state((0, 0), [$S$], "S")
+    state((5, 0), [$R$], "R")
+
+    // ── Transitions ──
+
+    // S → R (forward, upper path)
+    draw.line(
+      "S.north-east",
+      "R.north-west",
+      name: "s-r",
+      stroke: 0.7pt + c-mc-edge,
+      mark: (end: ">"),
+    )
+    elabel("s-r", [$0.2$])
+
+    // R → S (backward, lower path)
+    draw.line(
+      "R.south-west",
+      "S.south-east",
+      name: "r-s",
+      stroke: 0.7pt + c-mc-edge,
+      mark: (end: ">"),
+    )
+    elabel("r-s", [$0.4$])
+
+    // S → S (self-loop, curved upward)
+    draw.bezier(
+      "S.north-west",
+      "S.north-east",
+      (-1.2, 1.5),
+      (1.2, 1.5),
+      name: "s-s",
+      stroke: 0.7pt + c-mc-edge,
+      mark: (end: ">"),
+    )
+    elabel("s-s", [$0.8$])
+
+    // R → R (self-loop, curved upward)
+    draw.bezier(
+      "R.north-west",
+      "R.north-east",
+      (3.8, 1.5),
+      (6.2, 1.5),
+      name: "r-r",
+      stroke: 0.7pt + c-mc-edge,
+      mark: (end: ">"),
+    )
+    elabel("r-r", [$0.6$])
+  }),
+  caption: [Марковская цепь с двумя состояниями: солнечно ($S$) и дождливо ($R$).],
+)
