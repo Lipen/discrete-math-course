@@ -458,6 +458,136 @@
 // Pascal's triangle --- table, rows 0..6
 // ═══════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════
+// Venn diagram: inclusion-exclusion for 3 sets
+// ═══════════════════════════════════════════════════════════════
+
+#let venn-ie-a = oklch(65%, 0.18, 10deg)
+#let venn-ie-b = oklch(65%, 0.15, 150deg)
+#let venn-ie-c = oklch(65%, 0.15, 260deg)
+#let venn-ie-text = oklch(35%, 0.02, 265deg)
+
+#let venn-inclusion-exclusion = canvas({
+  import draw: *
+
+  let r = 2.1
+  let pa = (-1.3, 0.75)
+  let pb = (1.3, 0.75)
+  let pc = (0, -1.55)
+
+  // Circles with translucent fills
+  draw.circle(
+    pa,
+    radius: r,
+    fill: venn-ie-a.transparentize(60%),
+    stroke: venn-ie-a + 0.8pt,
+    name: "A",
+  )
+  draw.circle(
+    pb,
+    radius: r,
+    fill: venn-ie-b.transparentize(60%),
+    stroke: venn-ie-b + 0.8pt,
+    name: "B",
+  )
+  draw.circle(
+    pc,
+    radius: r,
+    fill: venn-ie-c.transparentize(60%),
+    stroke: venn-ie-c + 0.8pt,
+    name: "C",
+  )
+
+  // Set labels
+  draw.content((-2.8, 2.5), text(
+    size: 1.1em,
+    weight: "bold",
+    fill: venn-ie-a,
+  )[$A$])
+  draw.content((2.8, 2.5), text(
+    size: 1.1em,
+    weight: "bold",
+    fill: venn-ie-b,
+  )[$B$])
+  draw.content((0, -3.5), text(
+    size: 1.1em,
+    weight: "bold",
+    fill: venn-ie-c,
+  )[$C$])
+
+  // Region contributions
+  // A only
+  draw.content((-2.1, 0.2), text(size: 0.8em, fill: venn-ie-text)[$+1$])
+  // B only
+  draw.content((2.1, 0.2), text(size: 0.8em, fill: venn-ie-text)[$+1$])
+  // C only
+  draw.content((0, -2.8), text(size: 0.8em, fill: venn-ie-text)[$+1$])
+  // A∩B (outside C)
+  draw.content((0, 1.3), text(size: 0.8em, fill: venn-ie-text)[$-1$])
+  // A∩C (outside B)
+  draw.content((-1.0, -0.7), text(size: 0.8em, fill: venn-ie-text)[$-1$])
+  // B∩C (outside A)
+  draw.content((1.0, -0.7), text(size: 0.8em, fill: venn-ie-text)[$-1$])
+  // A∩B∩C
+  draw.content((0, -0.05), text(
+    size: 0.85em,
+    weight: "bold",
+    fill: venn-ie-text,
+  )[$+1$])
+
+  // Legend
+  let ly = -4.2
+  draw.rect(
+    (-3.2, ly - 0.2),
+    (-2.6, ly + 0.2),
+    fill: venn-ie-a.transparentize(30%),
+    stroke: venn-ie-a + 0.5pt,
+    radius: 2pt,
+  )
+  draw.content((-1.8, ly), text(
+    size: 0.65em,
+    fill: venn-ie-text,
+  )[$|A|+|B|+|C|$ --- одиночные])
+
+  draw.rect(
+    (0.5, ly - 0.2),
+    (1.1, ly + 0.2),
+    fill: venn-ie-a.transparentize(40%),
+    stroke: venn-ie-a + 0.5pt,
+    radius: 2pt,
+  )
+  draw.line((1.1, ly), (1.7, ly - 0.2), stroke: venn-ie-b + 0.5pt)
+  draw.line((1.1, ly), (1.7, ly + 0.2), stroke: venn-ie-c + 0.5pt)
+  draw.content((2.4, ly), text(
+    size: 0.65em,
+    fill: venn-ie-text,
+  )[$-|A inter B|-|A inter C|-|B inter C|$])
+})
+
+// ═══════════════════════════════════════════════════════════════
+// Table of special combinatorial numbers
+// ═══════════════════════════════════════════════════════════════
+
+#let combinatorial-numbers = figure(
+  table(
+    columns: 5,
+    align: center + horizon,
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header(
+      [$n$], [$n!$], [$C_n$ (Catalan)], [$S(n,3)$ (Stirling)], [$B_n$ (Bell)]
+    ),
+    [1], [1], [1], [0], [1],
+    [2], [2], [2], [0], [2],
+    [3], [6], [5], [1], [5],
+    [4], [24], [14], [6], [15],
+    [5], [120], [42], [25], [52],
+  ),
+  caption: [
+    Специальные комбинаторные числа для $n = 1, ..., 5$.
+    Факториал $n!$, числа Каталана $C_n$, числа Стирлинга второго рода $S(n,3)$ (разбиения на 3 блока) и числа Белла $B_n$ (все разбиения).
+  ],
+)
+
 #let pascal-triangle = figure(
   table(
     columns: 7,

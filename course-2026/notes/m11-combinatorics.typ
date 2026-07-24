@@ -2,7 +2,10 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m10.typ": burnside-necklaces, ramsey-k6
-#import "diagrams/m11.typ": decision-tree, pascal-triangle
+#import "diagrams/m11.typ": (
+  combinatorial-numbers, decision-tree, pascal-triangle,
+  venn-inclusion-exclusion,
+)
 
 = Комбинаторика <chap:combinatorics>
 
@@ -464,6 +467,14 @@ _Формула включений-исключений_ на первый вз�
   раз.
   Ровно один раз для любого $k >= 1$.
 ]
+
+#figure(
+  venn-inclusion-exclusion,
+  caption: [
+    Формула включений-исключений для трёх множеств: $|A union B union C| = |A| + |B| + |C| - |A inter B| - |A inter C| - |B inter C| + |A inter B inter C|$.
+    Каждый элемент из $union$ учитывается ровно один раз: одиночные области дают $+1$, двойные пересечения корректируются вычитанием ($-1$), тройное пересечение, вычтенное трижды, возвращается ($+1$).
+  ],
+) <fig:venn-inclusion-exclusion>
 
 Формула включений-исключений имеет множество классических приложений.
 
@@ -1057,6 +1068,8 @@ $C_3 = 5$.
   Первое --- один блок (все элементы эквивалентны), последнее --- три блока (все элементы попарно неэквивалентны).
   Пять отношений эквивалентности на трёхэлементном множестве --- ровно столько же, сколько разбиений.
 ]
+
+#combinatorial-numbers <fig:combinatorial-numbers>
 
 #proposition[Мультиномиальная теорема][
   Обобщение биномиальной теоремы на сумму $m$ слагаемых:
