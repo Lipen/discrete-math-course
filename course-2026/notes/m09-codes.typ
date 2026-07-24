@@ -2,6 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import cetz: canvas, draw
+#import "diagrams/m09.typ": hamming-spheres
 
 = Коды и информация <chap:codes>
 
@@ -93,6 +94,8 @@
   Следовательно, шары не пересекаются.
   Принятое слово попадает ровно в один шар --- декодируем в его центр.
 ]
+
+#hamming-spheres <fig:hamming-spheres>
 
 #example[Параметры кодов][
   Код Хэмминга $(7, 4, 3)$: длина $n = 7$, $2^4 = 16$ кодовых слов, расстояние $d = 3$.

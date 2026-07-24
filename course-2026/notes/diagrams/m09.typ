@@ -71,7 +71,124 @@
 )
 
 // ════════════════════════════════════════════════════════
-// Section B — SAT diagrams (used by m10-sat.typ)
+// Section B — Hamming spheres (Codes, chapter m09-codes.typ)
+// ════════════════════════════════════════════════════════
+
+#let hs-codeword = oklch(55%, 0.15, 260deg)
+#let hs-sphere-stroke = oklch(58%, 0.10, 260deg)
+#let hs-sphere-fill = oklch(96%, 0.03, 260deg)
+#let hs-point = oklch(40%, 0.03, 265deg)
+#let hs-label = oklch(35%, 0.02, 265deg)
+#let hs-dim = oklch(55%, 0.14, 22deg)
+
+// Draw a codeword dot with its Hamming sphere and surrounding noise points.
+#let hs-draw-sphere(center, radius, noise) = {
+  let (cx, cy) = center
+
+  // Sphere: dashed circle with light fill
+  draw.circle(
+    center,
+    radius: radius,
+    stroke: (paint: hs-sphere-stroke, thickness: 0.7pt, dash: "dashed"),
+    fill: hs-sphere-fill,
+  )
+
+  // Noise points --- other strings at distance ≤ t from the codeword
+  for p in noise {
+    draw.circle((cx + p.at(0), cy + p.at(1)), radius: 0.07, fill: hs-point)
+  }
+
+  // Codeword dot on top (larger, filled)
+  draw.circle(center, radius: 0.17, fill: hs-codeword)
+}
+
+#let hamming-spheres = figure(
+  canvas(length: 9cm, {
+    import draw: *
+
+    let r = 1.25
+    let cw1 = (1.8, 3.0)
+    let cw2 = (6.2, 3.0)
+    let cw3 = (4.0, -0.3)
+
+    // Noise points inside each sphere (offsets from center, magnitude < r)
+    let n1 = (
+      (0.25, 0.50),
+      (-0.50, -0.35),
+      (0.10, -0.65),
+      (0.60, -0.20),
+      (-0.40, 0.40),
+      (0.55, 0.30),
+      (-0.20, -0.70),
+      (-0.55, 0.10),
+      (0.70, -0.40),
+    )
+    let n2 = (
+      (-0.15, 0.55),
+      (0.45, 0.25),
+      (-0.45, -0.20),
+      (-0.05, -0.45),
+      (0.25, -0.40),
+      (-0.35, 0.20),
+      (0.60, 0.05),
+      (0.15, 0.50),
+      (-0.50, -0.50),
+    )
+    let n3 = (
+      (0.35, 0.35),
+      (-0.25, 0.45),
+      (0.05, -0.30),
+      (-0.45, -0.25),
+      (0.60, 0.00),
+      (-0.10, -0.50),
+      (0.40, -0.30),
+      (-0.40, 0.25),
+      (-0.50, 0.10),
+    )
+
+    hs-draw-sphere(cw1, r, n1)
+    hs-draw-sphere(cw2, r, n2)
+    hs-draw-sphere(cw3, r, n3)
+
+    // Dimension line: radius t from codeword 1 to sphere edge
+    let dim-start = cw1
+    let dim-end = (cw1.at(0) + r, cw1.at(1))
+    line(dim-start, dim-end, stroke: (paint: hs-dim, thickness: 0.6pt))
+    // Tick marks
+    line(
+      (dim-start.at(0), dim-start.at(1) - 0.12),
+      (dim-start.at(0), dim-start.at(1) + 0.12),
+      stroke: (paint: hs-dim, thickness: 0.5pt),
+    )
+    line(
+      (dim-end.at(0), dim-end.at(1) - 0.12),
+      (dim-end.at(0), dim-end.at(1) + 0.12),
+      stroke: (paint: hs-dim, thickness: 0.5pt),
+    )
+    // Dimension label
+    content(
+      (cw1.at(0) + r / 2, cw1.at(1) + 0.28),
+      anchor: "south",
+      text(size: 0.7em, fill: hs-dim)[радиус $t$],
+    )
+
+    // Codeword label with arrow
+    content(
+      (cw2.at(0), cw2.at(1) + 0.6),
+      anchor: "south",
+      text(size: 0.7em, fill: hs-label)[кодовое слово],
+    )
+    line(
+      (cw2.at(0), cw2.at(1) + 0.42),
+      (cw2.at(0), cw2.at(1) + 0.19),
+      stroke: (paint: hs-label, thickness: 0.4pt),
+    )
+  }),
+  caption: [Шары Хэмминга радиуса $t$ вокруг кодовых слов. Если шары не пересекаются, код исправляет $t$ ошибок.],
+)
+
+// ════════════════════════════════════════════════════════
+// Section C — SAT diagrams (used by m10-sat.typ)
 // ════════════════════════════════════════════════════════
 
 #let c-node = oklch(88%, 0.03, 250deg)
