@@ -113,3 +113,4 @@
 
 // --- Упражнения ---
 #include "exercises.typ"
+test

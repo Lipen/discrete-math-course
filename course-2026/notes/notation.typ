@@ -55,9 +55,6 @@
 #let meq = $scripts(tilde.eq)$
 
 // === Лямбда-исчисление (m17, m18) ===
-// Греческая λ — ТОЛЬКО для prose: #{lam}-исчисление, #{lam}-терм.
-// Внутри $...$ использовать встроенный $lambda$ (без #).
-#let lam = $lambda$
 
 // Стрелки и отношения редукции (beta сверху, без scripts).
 #let beta-red = $->^beta$                     // →^β (одношаговая)
@@ -66,9 +63,9 @@
 #let alpha-eq = $=^alpha$                     // =^α (α-эквивалентность)
 
 // Макросы для λ-конструкций — принимают content, возвращают math.
-#let lamabs(x, body) = $lambda #x . #body$
+#let lam(x, body) = $lambda #x . #body$
 #let app(M, N) = $#M #N$
-#let subst(M, x, N) = $#M[#x := #N]$
+#let subst(M, x, N) = $#M \[ #x := #N \]$
 #let betared(M, N) = $#M ->^beta #N$
 #let betareds(M, N) = $#M ->>^beta #N$
 #let betaeq(M, N) = $#M =^beta #N$

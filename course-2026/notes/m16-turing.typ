@@ -692,3 +692,5 @@ Coverity и Infer находят реальные баги, не гаранти�
   #v(0.4em)
   #line(length: 30%, stroke: 1pt + luma(80%))
 ]
+
+
