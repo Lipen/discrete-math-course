@@ -175,44 +175,74 @@
 
 // Internal node
 #let bdd-node(pos, var, name) = {
-  draw.circle(pos, radius: 0.4,
-    fill: bdd-node-fill, stroke: bdd-node-str, name: name)
-  draw.content(pos, text(size: 0.8em, weight: "semibold", fill: bdd-label)[#var])
+  draw.circle(
+    pos,
+    radius: 0.4,
+    fill: bdd-node-fill,
+    stroke: bdd-node-str,
+    name: name,
+  )
+  draw.content(pos, text(
+    size: 0.8em,
+    weight: "semibold",
+    fill: bdd-label,
+  )[#var])
 }
 
 // Terminal node
 #let bdd-term(pos, val, name) = {
   let (cx, cy) = pos
-  draw.rect((cx - 0.3, cy - 0.3), (cx + 0.3, cy + 0.3),
-    radius: 2pt, fill: white, stroke: bdd-term-str, name: name)
+  draw.rect(
+    (cx - 0.3, cy - 0.3),
+    (cx + 0.3, cy + 0.3),
+    radius: 2pt,
+    fill: white,
+    stroke: bdd-term-str,
+    name: name,
+  )
   draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
 }
 
 // lo edge: dashed, label at 30% from source (avoids crossing-area collisions)
 #let lo-edge(from, to, edge-name) = {
-  draw.line(from, to, name: edge-name,
-    stroke: (paint: bdd-lo-paint, thickness: 0.7pt, dash: "dashed"))
-  draw.content(edge-name + ".30%",
+  draw.line(from, to, name: edge-name, stroke: (
+    paint: bdd-lo-paint,
+    thickness: 0.7pt,
+    dash: "dashed",
+  ))
+  draw.content(
+    edge-name + ".30%",
     text(size: 0.65em, fill: bdd-lo-paint)[$0$],
-    frame: "rect", fill: white, stroke: none, padding: 1pt)
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+  )
 }
 
 // hi edge: solid, label at 30% from source
 #let hi-edge(from, to, edge-name) = {
-  draw.line(from, to, name: edge-name,
-    stroke: (paint: bdd-hi-paint, thickness: 0.8pt))
-  draw.content(edge-name + ".30%",
+  draw.line(from, to, name: edge-name, stroke: (
+    paint: bdd-hi-paint,
+    thickness: 0.8pt,
+  ))
+  draw.content(
+    edge-name + ".30%",
     text(size: 0.65em, fill: bdd-hi-paint)[$1$],
-    frame: "rect", fill: white, stroke: none, padding: 1pt)
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+  )
 }
 
 #let bdd-xor = canvas({
   // ── Nodes ──
-  bdd-node((0, 3),     $x$, "x")
-  bdd-node((-2.0, 1),  $y$, "y-lo")
-  bdd-node((2.0, 1),   $y$, "y-hi")
+  bdd-node((0, 3), $x$, "x")
+  bdd-node((-2.0, 1), $y$, "y-lo")
+  bdd-node((2.0, 1), $y$, "y-hi")
   bdd-term((-1.6, -1), 0, "t0")
-  bdd-term((1.6, -1),  1, "t1")
+  bdd-term((1.6, -1), 1, "t1")
 
   // ── Root → cofactors ──
   lo-edge("x", "y-lo", "e-x-lo")

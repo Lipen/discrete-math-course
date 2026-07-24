@@ -42,14 +42,23 @@
 #let necklace(center, colors, radius: 0.55, name: none) = {
   let n = colors.len()
   let (cx, cy) = center
-  draw.circle(center, radius: radius, fill: none, stroke: c-bead-str, name: name)
+  draw.circle(
+    center,
+    radius: radius,
+    fill: none,
+    stroke: c-bead-str,
+    name: name,
+  )
   for (i, col) in colors.enumerate() {
     let angle = 90deg - i * (360deg / n)
     let bx = cx + radius * calc.cos(angle)
     let by = cy + radius * calc.sin(angle)
-    draw.circle((bx, by), radius: 0.12,
+    draw.circle(
+      (bx, by),
+      radius: 0.12,
       fill: if col == "b" { c-bead-b } else { c-bead-w },
-      stroke: c-bead-str)
+      stroke: c-bead-str,
+    )
   }
 }
 

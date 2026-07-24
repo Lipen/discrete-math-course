@@ -76,8 +76,14 @@
 
 // State node
 #let pl-state(pos, label, name, ..style) = {
-  draw.circle(pos, radius: 0.35,
-    fill: pl-node-fill, stroke: pl-node-str, name: name, ..style)
+  draw.circle(
+    pos,
+    radius: 0.35,
+    fill: pl-node-fill,
+    stroke: pl-node-str,
+    name: name,
+    ..style,
+  )
   draw.content(pos, text(size: 0.65em, fill: pl-label)[#label])
 }
 
@@ -88,36 +94,72 @@
   pl-state((2, 0), $q_j$, "qj")
   pl-state((4.5, 0), $q_f$, "qf")
   // Accept state: double circle
-  draw.circle((4.5, 0), radius: 0.45, fill: none, stroke: pl-node-str, name: "qf-ring")
+  draw.circle(
+    (4.5, 0),
+    radius: 0.45,
+    fill: none,
+    stroke: pl-node-str,
+    name: "qf-ring",
+  )
 
   // ── Forward edges (named, with segment labels at midpoints) ──
   draw.line("q0", "qi", name: "e-x", stroke: pl-edge)
-  draw.content("e-x.mid", text(size: 0.65em, fill: pl-label)[$x$],
-    frame: "rect", fill: white, stroke: none, padding: 1pt, anchor: "south")
+  draw.content(
+    "e-x.mid",
+    text(size: 0.65em, fill: pl-label)[$x$],
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+    anchor: "south",
+  )
 
-  draw.line("qi", "qj", name: "e-y",
-    stroke: (paint: pl-y-color, thickness: 0.9pt))
-  draw.content("e-y.mid", text(size: 0.65em, fill: pl-y-color, weight: "bold")[$y$],
-    frame: "rect", fill: white, stroke: none, padding: 1pt, anchor: "south")
+  draw.line("qi", "qj", name: "e-y", stroke: (
+    paint: pl-y-color,
+    thickness: 0.9pt,
+  ))
+  draw.content(
+    "e-y.mid",
+    text(size: 0.65em, fill: pl-y-color, weight: "bold")[$y$],
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+    anchor: "south",
+  )
 
   draw.line("qj", "qf", name: "e-z", stroke: pl-edge)
-  draw.content("e-z.mid", text(size: 0.65em, fill: pl-label)[$z$],
-    frame: "rect", fill: white, stroke: none, padding: 1pt, anchor: "south")
+  draw.content(
+    "e-z.mid",
+    text(size: 0.65em, fill: pl-label)[$z$],
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+    anchor: "south",
+  )
 
   // ── Loop back: q_j → q_i (the "pumping" cycle) ──
   // Bezier arc above the states, from q_j.north back to qi.north
-  draw.bezier("qj.north", "qi.north", (1.5, 1.5), (-0.2, 1.5), name: "e-loop",
-    stroke: (paint: pl-y-color, thickness: 0.7pt, dash: "dashed"))
+  draw.bezier(
+    "qj.north",
+    "qi.north",
+    (1.5, 1.5),
+    (-0.2, 1.5),
+    name: "e-loop",
+    stroke: (paint: pl-y-color, thickness: 0.7pt, dash: "dashed"),
+  )
 
   // ── Pumped strings below ──
   let pumped = (
-    ([$x z$ (0 повторений)],       -1.8),
-    ([$x y z$ (1 повторение)],     -2.3),
-    ([$x y^2 z$ (2 повторения)],   -2.8),
+    ([$x z$ (0 повторений)], -1.8),
+    ([$x y z$ (1 повторение)], -2.3),
+    ([$x y^2 z$ (2 повторения)], -2.8),
     ([$x y^k z$ ($k$ повторений)], -3.3),
   )
   for (k, (label, y)) in pumped.enumerate() {
-    draw.content((0.5, y),
-      text(size: 0.65em, fill: if k == 1 { pl-label } else { luma(55%) })[#label])
+    draw.content((0.5, y), text(size: 0.65em, fill: if k == 1 {
+      pl-label
+    } else { luma(55%) })[#label])
   }
 })

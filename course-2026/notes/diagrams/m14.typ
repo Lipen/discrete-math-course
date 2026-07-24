@@ -18,16 +18,24 @@
   let n = 8
   let cell = 0.8
   for i in range(n) {
-    let x = (i - n/2 + 0.5) * cell
+    let x = (i - n / 2 + 0.5) * cell
     draw.rect((x, -0.4), (x + cell, 0.4), fill: c-tape, stroke: c-tape-str)
     // Show some sample symbols
     let syms = ("0", "1", "1", "0", "1", "0", "0", "1")
-    draw.content((x + cell/2, 0), text(size: 0.7em, fill: c-label)[#syms.at(i)])
+    draw.content((x + cell / 2, 0), text(size: 0.7em, fill: c-label)[#syms.at(
+      i,
+    )])
   }
 
   // Tape left/right continuation markers
-  draw.content((-n/2 * cell - 0.4, 0), text(size: 0.6em, fill: luma(50%))[$dots$])
-  draw.content((n/2 * cell + 0.4, 0), text(size: 0.6em, fill: luma(50%))[$dots$])
+  draw.content((-n / 2 * cell - 0.4, 0), text(
+    size: 0.6em,
+    fill: luma(50%),
+  )[$dots$])
+  draw.content((n / 2 * cell + 0.4, 0), text(
+    size: 0.6em,
+    fill: luma(50%),
+  )[$dots$])
 
   // Head — triangle/arrow pointing down to the tape
   let head-x = 0
@@ -39,7 +47,13 @@
   // Finite control box
   let ctrl-w = 2.5
   let ctrl-h = 1.2
-  draw.rect((-ctrl-w/2, -1.6), (ctrl-w/2, -2.8), radius: 4pt, fill: c-ctrl, stroke: c-ctrl-str)
+  draw.rect(
+    (-ctrl-w / 2, -1.6),
+    (ctrl-w / 2, -2.8),
+    radius: 4pt,
+    fill: c-ctrl,
+    stroke: c-ctrl-str,
+  )
   draw.content((0, -1.95), text(size: 0.7em, fill: c-label)[$q_i$])
   draw.content((0, -2.35), text(size: 0.6em, fill: luma(50%))[конечное])
 
@@ -47,7 +61,10 @@
   draw.line((head-x, -0.9), (head-x, -1.6), stroke: c-head-str)
 
   // Tape label
-  draw.content((-n/2 * cell, 0.7), anchor: "west", text(size: 0.72em, fill: c-label)[Лента:])
+  draw.content((-n / 2 * cell, 0.7), anchor: "west", text(
+    size: 0.72em,
+    fill: c-label,
+  )[Лента:])
 })
 
 // Reduction diagram: HALT ≤_m EMPTY
@@ -60,20 +77,35 @@
 
   // Input box
   draw.rect((-1.5, -0.5), (1.5, 0.5), fill: c-box, stroke: c-box-str)
-  draw.content((0, 0), text(size: 0.7em, fill: c-label)[$chevron.l M chevron.r w$])
+  draw.content((0, 0), text(
+    size: 0.7em,
+    fill: c-label,
+  )[$chevron.l M chevron.r w$])
 
   // f arrow
   draw.line((1.8, 0), (3.2, 0), stroke: c-arrow, mark: (end: ">"))
-  draw.content((2.5, 0.3), anchor: "south", text(size: 0.65em, fill: c-label)[$f$])
+  draw.content((2.5, 0.3), anchor: "south", text(
+    size: 0.65em,
+    fill: c-label,
+  )[$f$])
 
   // f box
   draw.rect((3.5, -0.5), (6.5, 0.5), fill: none, stroke: c-box-str)
-  draw.content((5, 0), text(size: 0.7em, fill: c-label)[$chevron.l M' chevron.r$])
+  draw.content((5, 0), text(
+    size: 0.7em,
+    fill: c-label,
+  )[$chevron.l M' chevron.r$])
 
   // Result arrow
   draw.line((6.8, 0), (8.2, 0), stroke: c-arrow, mark: (end: ">"))
 
   // Output labels
-  draw.content((5, 0.9), anchor: "south", text(size: 0.55em, fill: luma(50%))[описание МТ,])
-  draw.content((5, 0.6), anchor: "south", text(size: 0.55em, fill: luma(50%))[чей язык пуст iff M(w) останавливается])
+  draw.content((5, 0.9), anchor: "south", text(
+    size: 0.55em,
+    fill: luma(50%),
+  )[описание МТ,])
+  draw.content((5, 0.6), anchor: "south", text(
+    size: 0.55em,
+    fill: luma(50%),
+  )[чей язык пуст iff M(w) останавливается])
 })

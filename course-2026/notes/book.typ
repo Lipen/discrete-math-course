@@ -106,8 +106,10 @@
 
 #include "m15-automata.typ"
 #include "m16-turing.typ"
-#include "m17-complexity.typ"
-#include "m18-fuzzy-sets.typ"
+#include "m17-lambda.typ"
+#include "m18-type-theory.typ"
+#include "m19-complexity.typ"
+#include "m20-fuzzy-sets.typ"
 
 // --- Упражнения ---
 #include "exercises.typ"

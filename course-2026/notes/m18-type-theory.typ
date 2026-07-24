@@ -96,7 +96,7 @@
 
   #set par(first-line-indent: 0pt)
   1. Правило var: $x : sigma ⊢ x : sigma$.
-  2. Правило abs (применённое к строке 1): $ ⊢ lambda x : sigma . x : sigma arrow.r sigma$.
+  2. Правило abs (применённое к строке 1): $⊢ lambda x : sigma . x : sigma arrow.r sigma$.
 
   Тождественная функция имеет тип $sigma arrow.r sigma$ для любого типа $sigma$.
   Полученный тип соответствует тавтологии $sigma -> sigma$ в логике высказываний --- и это не случайность.
@@ -108,7 +108,7 @@
   #set par(first-line-indent: 0pt)
   1. Правило var: $x : sigma, y : tau ⊢ x : sigma$.
   2. Правило abs (к строке 1): $x : sigma ⊢ lambda y : tau . x : tau arrow.r sigma$.
-  3. Правило abs (к строке 2): $ ⊢ lambda x : sigma . lambda y : tau . x : sigma arrow.r tau arrow.r sigma$.
+  3. Правило abs (к строке 2): $⊢ lambda x : sigma . lambda y : tau . x : sigma arrow.r tau arrow.r sigma$.
 
   Тип $sigma arrow.r tau arrow.r sigma$ --- это в точности аксиома $sigma -> (tau -> sigma)$ минимальной логики высказываний.
   Комбинатор $K$ "доказывает" одну из аксиом исчисления высказываний.
