@@ -1,7 +1,7 @@
 // M18 --- Нечёткие множества: градуальная принадлежность и размытая логика.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m18.typ": fuzzy-operations, membership-functions
+#import "diagrams/m20.typ": fuzzy-operations, membership-functions
 
 = Нечёткие множества <chap:fuzzy>
 
