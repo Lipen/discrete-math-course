@@ -59,19 +59,19 @@
 // Внутри $...$ использовать встроенный $lambda$ (без #).
 #let lam = $lambda$
 
-// Стрелки и отношения редукции (с scripts() для корректных индексов).
-#let beta-red = $scripts(->)_beta$            // →_β (одношаговая)
-#let beta-reds = $scripts(->>)_beta$          // ↠_β (многошаговая)
-#let beta-eq = $scripts(=)_beta$              // =_β (эквивалентность)
-#let alpha-eq = $scripts(=)_alpha$            // =_α (α-эквивалентность)
+// Стрелки и отношения редукции (beta сверху, без scripts).
+#let beta-red = $->^beta$                     // →^β (одношаговая)
+#let beta-reds = $->>^beta$                   // ↠^β (многошаговая)
+#let beta-eq = $=^beta$                       // =^β (эквивалентность)
+#let alpha-eq = $=^alpha$                     // =^α (α-эквивалентность)
 
-// Макросы для λ-конструкций.
+// Макросы для λ-конструкций — принимают content, возвращают math.
 #let lamabs(x, body) = $lambda #x . #body$
 #let app(M, N) = $#M #N$
 #let subst(M, x, N) = $#M[#x := #N]$
-#let betared(M, N) = $#M scripts(->)_beta #N$
-#let betareds(M, N) = $#M scripts(->>)_beta #N$
-#let betaeq(M, N) = $#M scripts(=)_beta #N$
+#let betared(M, N) = $#M ->^beta #N$
+#let betareds(M, N) = $#M ->>^beta #N$
+#let betaeq(M, N) = $#M =^beta #N$
 
 // Нотация для часто используемых термов:
 #let Church-true = $"true"$
