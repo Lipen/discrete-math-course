@@ -35,24 +35,24 @@
     draw.line(parent, child, stroke: c-edge)
   }
 
-  canvas(length: 9cm, {
+  canvas({
     import draw: *
 
     // Root: application
-    tree-node((0, 2.2), "root", $@$, c-app)
+    tree-node((0, 3.3), "root", $@$, c-app)
 
     // λx node (left child of root)
-    tree-node((-2.5, 1.0), "lam", $lambda x$, c-abs)
+    tree-node((-3.75, 1.5), "lam", $lambda x$, c-abs)
 
     // y node (right child of root)
-    tree-node((2.5, 1.0), "y-var", $y$, c-var)
+    tree-node((3.75, 1.5), "y-var", $y$, c-var)
 
     // Inner application node (child of λx)
-    tree-node((-2.5, -0.3), "inner-app", $@$, c-app)
+    tree-node((-3.75, -0.45), "inner-app", $@$, c-app)
 
     // x nodes (children of inner app)
-    tree-node((-3.8, -1.5), "x1", $x$, c-var)
-    tree-node((-1.2, -1.5), "x2", $x$, c-var)
+    tree-node((-5.7, -2.25), "x1", $x$, c-var)
+    tree-node((-1.8, -2.25), "x2", $x$, c-var)
 
     // Edges
     tree-edge("root", "lam")
@@ -63,20 +63,20 @@
 
     // Labels on edges
     draw.content(
-      ((-2.5 + 0) / 2 - 0.25, (1.0 + 2.2) / 2),
+      ((-3.75 + 0) / 2 - 0.4, (1.5 + 3.3) / 2),
       text(size: 0.6em, fill: luma(45%))[аппликация],
     )
     draw.content(
-      ((2.5 + 0) / 2 + 0.25, (1.0 + 2.2) / 2),
+      ((3.75 + 0) / 2 + 0.4, (1.5 + 3.3) / 2),
       text(size: 0.6em, fill: luma(45%))[аргумент],
     )
     draw.content(
-      ((-2.5 + -2.5) / 2 - 1.05, (-0.3 + 1.0) / 2),
+      ((-3.75 + -3.75) / 2 - 1.6, (-0.45 + 1.5) / 2),
       text(size: 0.6em, fill: luma(45%))[тело],
     )
 
     // Legend
-    draw.content((2.5, -2.5), text(
+    draw.content((3.75, -3.75), text(
       size: 0.55em,
       fill: luma(45%),
     )[Синтаксическое дерево терма $(lambda x . x x) y$])
@@ -115,25 +115,25 @@
     draw.content(name, text(size: 0.6em, fill: c-label)[#label])
   }
 
-  canvas(length: 12cm, {
+  canvas({
     import draw: *
 
     // M — top
     cr-node(
-      (0, 2.5),
+      (0, 4.0),
       "M",
       $M = (lambda x . x) ((lambda y . y) z)$,
       style: "start",
     )
 
     // N1 — left
-    cr-node((-3, 0.5), "N1", $N_1 = (lambda y . y) z$, style: "normal")
+    cr-node((-4.5, 0.8), "N1", $N_1 = (lambda y . y) z$, style: "normal")
 
     // N2 — right
-    cr-node((3, 0.5), "N2", $N_2 = (lambda x . x) z$, style: "normal")
+    cr-node((4.5, 0.8), "N2", $N_2 = (lambda x . x) z$, style: "normal")
 
     // L — bottom
-    cr-node((0, -1.5), "L", $L = z$, style: "end")
+    cr-node((0, -2.4), "L", $L = z$, style: "end")
 
     // Edges
     draw.line("M", "N1", stroke: c-beta, name: "e1")
@@ -163,7 +163,7 @@
     ))[$arrow.r_beta$])
 
     // Caption
-    draw.content((0, -2.8), text(
+    draw.content((0, -4.5), text(
       size: 0.55em,
       fill: luma(45%),
     )[Конфлюэнтность: два пути редукции --- один результат.])

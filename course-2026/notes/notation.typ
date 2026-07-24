@@ -53,3 +53,14 @@
 
 // === Отношение неразличимости Майхилла--Нерода (индекс, не предел) ===
 #let meq = $scripts(tilde.eq)$
+
+// === Лямбда-исчисление (m17, m18) ===
+#let lam = $lambda$                           // λ (строчная лямбда)
+#let beta-red = $scripts(->)_beta$            // →_β (одношаговая β-редукция)
+#let beta-reds = $scripts(->>)_beta$          // ↠_β (многошаговая β-редукция)
+#let beta-eq = $scripts(=)_beta$              // =_β (β-эквивалентность)
+#let alpha-eq = $scripts(=)_alpha$            // =_α (α-эквивалентность)
+#let Church-true = $"true"$                   // булево значение Чёрча
+#let Church-false = $"false"$                 // булево значение Чёрча
+#let ty-Nat = $"Nat"$                         // тип натуральных чисел
+#let ty-Bool = $"Bool"$                       // тип булевых значений

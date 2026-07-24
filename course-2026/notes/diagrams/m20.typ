@@ -10,7 +10,7 @@
 
 // ── Three membership functions for comparison ──
 #let membership-functions = figure(
-  canvas(length: 9cm, {
+  canvas({
     import draw: *
 
     // Data coordinates → canvas coordinates.
@@ -175,7 +175,7 @@
 
 // ── Union (max), intersection (min), complement — three panels ──
 #let fuzzy-operations = figure(
-  canvas(length: 14cm, {
+  canvas({
     import draw: *
 
     // Panel offsets: each sub-plot is 4.6 wide, with 0.4 gap between.

@@ -51,7 +51,7 @@
 // Typing derivation: λx:Nat. x  :  Nat -> Nat
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = figure(
-  canvas(length: 7.5cm, {
+  canvas({
     import draw: *
 
     // Tree structure:
@@ -95,7 +95,7 @@
 // Typing derivation: λx:Nat. λy:Bool. x  :  Nat -> Bool -> Nat
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-k = figure(
-  canvas(length: 8.5cm, {
+  canvas({
     import draw: *
 
     // Tree structure:
