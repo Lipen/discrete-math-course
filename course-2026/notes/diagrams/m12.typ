@@ -359,3 +359,84 @@
   }),
   caption: [Марковская цепь с двумя состояниями: солнечно ($S$) и дождливо ($R$).],
 )
+
+// ── Probability tree: biased coin, two tosses ──
+#let c-pt-node = oklch(55%, 0.13, 250deg)
+#let c-pt-leaf = oklch(55%, 0.12, 160deg)
+#let c-pt-edge = oklch(35%, 0.02, 265deg)
+#let c-pt-label = oklch(35%, 0.02, 265deg)
+#let c-pt-prob = oklch(55%, 0.12, 22deg)
+
+#let probability-tree = figure(
+  canvas(length: 9cm, {
+    import draw: *
+
+    // Edge with probability label at midpoint (white-boxed for readability)
+    let prob-edge(from, to, prob) = {
+      let name = "e-" + from + "-" + to
+      draw.line(from, to, stroke: 0.6pt + c-pt-edge, name: name)
+      draw.content(
+        name,
+        text(size: 0.75em, fill: c-pt-label)[$#prob$],
+        frame: "rect",
+        fill: white,
+        stroke: none,
+        padding: 1pt,
+      )
+    }
+
+    // Leaf label: outcome below, probability above
+    let leaf-label(name, outcome, prob) = {
+      draw.content(
+        name,
+        anchor: "south",
+        text(size: 0.7em, fill: c-pt-label)[#outcome],
+        padding: 0.08,
+      )
+      draw.content(
+        name,
+        anchor: "north",
+        text(size: 0.65em, fill: c-pt-prob)[$#prob$],
+        padding: 0.06,
+      )
+    }
+
+    // ── Nodes ──
+    draw.circle((0, 3.5), radius: 0.15, fill: c-pt-node, name: "root")
+    draw.circle((2, 1.8), radius: 0.14, fill: c-pt-node, name: "H")
+    draw.circle((-2, 1.8), radius: 0.14, fill: c-pt-node, name: "T")
+    draw.circle((3, 0), radius: 0.12, fill: c-pt-leaf, name: "HH")
+    draw.circle((1, 0), radius: 0.12, fill: c-pt-leaf, name: "HT")
+    draw.circle((-1, 0), radius: 0.12, fill: c-pt-leaf, name: "TH")
+    draw.circle((-3, 0), radius: 0.12, fill: c-pt-leaf, name: "TT")
+
+    // ── Edges with labels ──
+    prob-edge("root", "H", 0.6)
+    prob-edge("root", "T", 0.4)
+    prob-edge("H", "HH", 0.6)
+    prob-edge("H", "HT", 0.4)
+    prob-edge("T", "TH", 0.6)
+    prob-edge("T", "TT", 0.4)
+
+    // ── Node labels (level 1) ──
+    draw.content(
+      "H",
+      anchor: "west",
+      text(size: 0.8em, fill: c-pt-node, weight: "bold")[$H$],
+      padding: 0.15,
+    )
+    draw.content(
+      "T",
+      anchor: "east",
+      text(size: 0.8em, fill: c-pt-node, weight: "bold")[$T$],
+      padding: 0.15,
+    )
+
+    // ── Leaf labels ──
+    leaf-label("HH", [$H H$], 0.36)
+    leaf-label("HT", [$H T$], 0.24)
+    leaf-label("TH", [$T H$], 0.24)
+    leaf-label("TT", [$T T$], 0.16)
+  }),
+  caption: [Дерево вероятностей для двукратного бросания монеты со смещением $P(H) = 0.6$.],
+)
