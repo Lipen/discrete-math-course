@@ -16,7 +16,8 @@
 #let c-beta = oklch(55%, 0.18, 22deg) + 0.6pt
 
 // ── 1. Syntax tree of (λx. x x) y ──
-// Shows the tree structure: root is application, left is λx.(x x), right is y.
+// Grid: y-step = 1.5, level 0 at y=1.8, level 1 at y=0.3, level 2 at y=-1.2, level 3 at y=-2.7.
+// x: root=0, λx=-1.2, y=1.2, inner-app=-1.2, x1=-2.0, x2=-0.4.
 #let lambda-syntax-tree = {
   let tree-node(pos, name, label, fill) = {
     let (x, y) = pos
@@ -38,21 +39,19 @@
   canvas({
     import draw: *
 
-    // Root: application
-    tree-node((0, 3.3), "root", $@$, c-app)
+    // Level 0 — root application
+    tree-node((0, 1.8), "root", $@$, c-app)
 
-    // λx node (left child of root)
-    tree-node((-3.75, 1.5), "lam", $lambda x$, c-abs)
+    // Level 1 — children of root
+    tree-node((-1.2, 0.3), "lam", $lambda x$, c-abs)
+    tree-node((1.2, 0.3), "y-var", $y$, c-var)
 
-    // y node (right child of root)
-    tree-node((3.75, 1.5), "y-var", $y$, c-var)
+    // Level 2 — body of λx
+    tree-node((-1.2, -1.2), "inner-app", $@$, c-app)
 
-    // Inner application node (child of λx)
-    tree-node((-3.75, -0.45), "inner-app", $@$, c-app)
-
-    // x nodes (children of inner app)
-    tree-node((-5.7, -2.25), "x1", $x$, c-var)
-    tree-node((-1.8, -2.25), "x2", $x$, c-var)
+    // Level 3 — the two x's
+    tree-node((-2.0, -2.7), "x1", $x$, c-var)
+    tree-node((-0.4, -2.7), "x2", $x$, c-var)
 
     // Edges
     tree-edge("root", "lam")
@@ -61,22 +60,22 @@
     tree-edge("inner-app", "x1")
     tree-edge("inner-app", "x2")
 
-    // Labels on edges
-    draw.content(
-      ((-3.75 + 0) / 2 - 0.4, (1.5 + 3.3) / 2),
-      text(size: 0.6em, fill: luma(45%))[аппликация],
-    )
-    draw.content(
-      ((3.75 + 0) / 2 + 0.4, (1.5 + 3.3) / 2),
-      text(size: 0.6em, fill: luma(45%))[аргумент],
-    )
-    draw.content(
-      ((-3.75 + -3.75) / 2 - 1.6, (-0.45 + 1.5) / 2),
-      text(size: 0.6em, fill: luma(45%))[тело],
-    )
+    // Edge labels (midpoint + offset)
+    let el(size: 0.6em, body) = text(size: size, fill: luma(45%))[#body]
 
-    // Legend
-    draw.content((3.75, -3.75), text(
+    // root → lam: midpoint (-0.6, 1.05), label left
+    draw.content((-1.1, 1.05), el[функция])
+    // root → y: midpoint (0.6, 1.05), label right
+    draw.content((1.1, 1.05), el[аргумент])
+    // lam → inner-app: midpoint (-1.2, -0.45), label left
+    draw.content((-1.9, -0.45), el[тело])
+    // inner-app → x1: midpoint (-1.6, -1.95), label left
+    draw.content((-2.0, -1.95), el[функция])
+    // inner-app → x2: midpoint (-0.8, -1.95), label right
+    draw.content((-0.4, -1.95), el[аргумент])
+
+    // Caption
+    draw.content((0, -3.5), text(
       size: 0.55em,
       fill: luma(45%),
     )[Синтаксическое дерево терма $(lambda x . x x) y$])
