@@ -1,6 +1,64 @@
-// M15 diagrams — Complexity Theory.
+// M15 diagrams — Finite Automata & Complexity Theory.
 #import "../requirements.typ": *
+#import "../notation.typ": *
+
+#import fletcher: diagram, edge, node
 #import cetz: canvas, draw
+
+// ── Automata ──
+
+#let c-state = oklch(88%, 0.03, 250deg)
+#let c-state-str = oklch(60%, 0.08, 250deg)
+#let c-accept = oklch(88%, 0.05, 155deg)
+#let c-accept-str = oklch(55%, 0.18, 155deg)
+#let c-edge = oklch(35%, 0.02, 265deg)
+
+// 1. DFA: strings over {0,1} ending with "01".
+#let dfa-example = figure(
+  diagram(
+    node-stroke: (paint: c-state-str, thickness: 0.8pt),
+    node-fill: c-state,
+    edge-stroke: (paint: c-edge, thickness: 0.7pt),
+    spacing: 3em,
+    edge((-1, 0), "-}>"),
+    node((0, 0), $q_0$, name: <q0>),
+    edge(<q0>, <q0>, "-}>", label: "0", bend: -50deg),
+    edge(<q0>, <q1>, "-}>", label: "1"),
+    node((1, 0), $q_1$, name: <q1>, fill: c-accept, stroke: (
+      paint: c-accept-str,
+      thickness: 1.5pt,
+    )),
+    edge(<q1>, <q2>, "-}>", label: "0"),
+    edge(<q1>, <q1>, "-}>", label: "1", bend: -50deg),
+    node((2, 0), $q_2$, name: <q2>),
+    edge(<q2>, <q2>, "-}>", label: "0", bend: -50deg),
+    edge(<q2>, <q1>, "-}>", label: "1", bend: 40deg),
+  ),
+  caption: [ДКА, распознающий строки, заканчивающиеся на 01.],
+)
+
+// 2. NFA: strings ending with "01" (nondeterministic — shows choice at 0).
+#let nfa-example = figure(
+  diagram(
+    node-stroke: (paint: c-state-str, thickness: 0.8pt),
+    node-fill: c-state,
+    edge-stroke: (paint: c-edge, thickness: 0.7pt),
+    spacing: 3em,
+    edge((-1, 0), "-}>"),
+    node((0, 0), $q_0$, name: <q0>),
+    edge(<q0>, <q0>, "-}>", label: "0,1", bend: -50deg),
+    edge(<q0>, <q1>, "-}>", label: "0"),
+    node((1, 0), $q_1$, name: <q1>),
+    edge(<q1>, <q2>, "-}>", label: "1"),
+    node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
+      paint: c-accept-str,
+      thickness: 1.5pt,
+    )),
+  ),
+  caption: [НКА, распознающий строки, заканчивающиеся на 01. Из $q_0$ по символу 0 возможны два перехода: остаться в $q_0$ или перейти в $q_1$ (недетерминированный выбор).],
+)
+
+// ── Complexity Theory ──
 
 #let c-p = oklch(88%, 0.05, 155deg)
 #let c-np = oklch(88%, 0.04, 70deg)
@@ -33,7 +91,10 @@
   draw.content((-0.4, -0.2), text(size: 0.65em, fill: c-label)[P])
 
   // Proper inclusion notes
-  draw.content((0, 1.5), text(size: 0.6em, fill: luma(50%))[$P != "EXP"$ (теорема об иерархии)])
+  draw.content((0, 1.5), text(
+    size: 0.6em,
+    fill: luma(50%),
+  )[$P != "EXP"$ (теорема об иерархии)])
   draw.content((2.0, 0.8), text(size: 0.55em, fill: luma(50%))[$?$])
 })
 
@@ -51,37 +112,89 @@
   let gap = 0.75
 
   // Level 0: SAT (root)
-  draw.rect((-w/2, 0), (w/2, h), radius: 3pt, fill: c-box-npc, stroke: c-box-npc-str)
-  draw.content((0, h/2), text(size: 0.65em, fill: c-label)[SAT])
+  draw.rect(
+    (-w / 2, 0),
+    (w / 2, h),
+    radius: 3pt,
+    fill: c-box-npc,
+    stroke: c-box-npc-str,
+  )
+  draw.content((0, h / 2), text(size: 0.65em, fill: c-label)[SAT])
 
   // Level 1: 3-SAT, Clique, Vertex Cover
   let y1 = -gap - h
-  draw.rect((-w/2, y1), (w/2, y1 + h), radius: 3pt, fill: c-box, stroke: c-box-str)
-  draw.content((0, y1 + h/2), text(size: 0.65em, fill: c-label)[3-SAT])
+  draw.rect(
+    (-w / 2, y1),
+    (w / 2, y1 + h),
+    radius: 3pt,
+    fill: c-box,
+    stroke: c-box-str,
+  )
+  draw.content((0, y1 + h / 2), text(size: 0.65em, fill: c-label)[3-SAT])
 
-  draw.rect((-w/2 + 3, y1 - gap - h), (w/2 + 3, y1 - gap), radius: 3pt, fill: c-box, stroke: c-box-str)
-  draw.content((3, y1 - gap - h/2), text(size: 0.65em, fill: c-label)[Clique])
+  draw.rect(
+    (-w / 2 + 3, y1 - gap - h),
+    (w / 2 + 3, y1 - gap),
+    radius: 3pt,
+    fill: c-box,
+    stroke: c-box-str,
+  )
+  draw.content((3, y1 - gap - h / 2), text(size: 0.65em, fill: c-label)[Clique])
 
-  draw.rect((-w/2 - 3, y1 - gap - h), (w/2 - 3, y1 - gap), radius: 3pt, fill: c-box, stroke: c-box-str)
-  draw.content((-3, y1 - gap - h/2), text(size: 0.65em, fill: c-label)[Vertex Cover])
+  draw.rect(
+    (-w / 2 - 3, y1 - gap - h),
+    (w / 2 - 3, y1 - gap),
+    radius: 3pt,
+    fill: c-box,
+    stroke: c-box-str,
+  )
+  draw.content((-3, y1 - gap - h / 2), text(
+    size: 0.65em,
+    fill: c-label,
+  )[Vertex Cover])
 
   // Arrows from SAT
-  draw.line((0, y1 + h + 0.1), (0, y1 + 0.05), stroke: c-arrow, mark: (end: ">"))
-  draw.line((0, y1 + h + 0.1), (3, y1 - gap + 0.05), stroke: c-arrow, mark: (end: ">"))
-  draw.line((0, y1 + h + 0.1), (-3, y1 - gap + 0.05), stroke: c-arrow, mark: (end: ">"))
+  draw.line((0, y1 + h + 0.1), (0, y1 + 0.05), stroke: c-arrow, mark: (
+    end: ">",
+  ))
+  draw.line((0, y1 + h + 0.1), (3, y1 - gap + 0.05), stroke: c-arrow, mark: (
+    end: ">",
+  ))
+  draw.line((0, y1 + h + 0.1), (-3, y1 - gap + 0.05), stroke: c-arrow, mark: (
+    end: ">",
+  ))
 
   // Level 2: Hamiltonian Cycle, Subset Sum
   let y2 = y1 - 2 * gap - 2 * h
-  draw.rect((-w/2 - 3, y2), (w/2 - 3, y2 + h), radius: 3pt, fill: c-box, stroke: c-box-str)
-  draw.content((-3, y2 + h/2), text(size: 0.6em, fill: c-label)[Ham. Cycle])
+  draw.rect(
+    (-w / 2 - 3, y2),
+    (w / 2 - 3, y2 + h),
+    radius: 3pt,
+    fill: c-box,
+    stroke: c-box-str,
+  )
+  draw.content((-3, y2 + h / 2), text(size: 0.6em, fill: c-label)[Ham. Cycle])
 
-  draw.rect((-w/2 + 3, y2), (w/2 + 3, y2 + h), radius: 3pt, fill: c-box, stroke: c-box-str)
-  draw.content((3, y2 + h/2), text(size: 0.65em, fill: c-label)[Subset Sum])
+  draw.rect(
+    (-w / 2 + 3, y2),
+    (w / 2 + 3, y2 + h),
+    radius: 3pt,
+    fill: c-box,
+    stroke: c-box-str,
+  )
+  draw.content((3, y2 + h / 2), text(size: 0.65em, fill: c-label)[Subset Sum])
 
   // Arrows from level 1
-  draw.line((-3, y1 - gap - h + 0.1), (-3, y2 + 0.05), stroke: c-arrow, mark: (end: ">"))
-  draw.line((3, y1 - gap - h + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (end: ">"))
+  draw.line((-3, y1 - gap - h + 0.1), (-3, y2 + 0.05), stroke: c-arrow, mark: (
+    end: ">",
+  ))
+  draw.line((3, y1 - gap - h + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (
+    end: ">",
+  ))
 
   // Legend
-  draw.content((0, y2 - 0.9), text(size: 0.55em, fill: luma(50%))[Каждая стрелка: $<=_p$ (полиномиальное сведение)])
+  draw.content((0, y2 - 0.9), text(
+    size: 0.55em,
+    fill: luma(50%),
+  )[Каждая стрелка: $<=_p$ (полиномиальное сведение)])
 })

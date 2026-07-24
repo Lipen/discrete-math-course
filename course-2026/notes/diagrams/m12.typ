@@ -1,4 +1,4 @@
-// M12 diagrams — Transfinite: Cantor diagonal, QQ pairing, ordinals, Banach--Tarski; Probability: Markov chain.
+// M12 diagrams — Transfinite: Cantor diagonal, QQ pairing, ordinals, Banach--Tarski; Probability: Markov chain, probability tree, Bayesian network.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
@@ -439,4 +439,83 @@
     leaf-label("TT", [$T T$], 0.16)
   }),
   caption: [Дерево вероятностей для двукратного бросания монеты со смещением $P(H) = 0.6$.],
+)
+
+// ── Bayesian network: Flu → Cough, Flu → Fever ──
+#let c-bn-fill = oklch(92%, 0.04, 250deg)
+#let c-bn-stroke = oklch(55%, 0.08, 250deg)
+#let c-bn-label = oklch(30%, 0.02, 265deg)
+#let c-bn-edge = oklch(35%, 0.02, 265deg)
+
+#let bayes-net = figure(
+  canvas(length: 10cm, {
+    import draw: *
+
+    // Rounded rectangle node
+    let node(pos, label, name) = {
+      let (x, y) = pos
+      draw.rect(
+        (x - 1.2, y + 0.45),
+        (x + 1.2, y - 0.45),
+        name: name,
+        fill: c-bn-fill,
+        stroke: 0.8pt + c-bn-stroke,
+        radius: 8pt,
+      )
+      draw.content(
+        (x, y),
+        text(size: 0.9em, fill: c-bn-label, weight: "bold")[#label],
+      )
+    }
+
+    // Directed edge
+    let dir-edge(from-anchor, to-anchor) = {
+      draw.line(
+        from-anchor,
+        to-anchor,
+        stroke: 0.7pt + c-bn-edge,
+        mark: (end: ">"),
+      )
+    }
+
+    // ── Nodes ──
+    node((0, 2.2), [Грипп], "flu")
+    node((-2.5, -0.3), [Кашель], "cough")
+    node((2.5, -0.3), [Температура], "fever")
+
+    // ── Edges ──
+    dir-edge("flu.south-west", "cough.north")
+    dir-edge("flu.south-east", "fever.north")
+
+    // ── CPT: Flu ──
+    draw.content(
+      "flu.east",
+      text(size: 0.65em, fill: c-bn-label)[$P("Flu") = 0.05$],
+      anchor: "west",
+      padding: 0.3,
+    )
+
+    // ── CPT: Cough ──
+    draw.content(
+      "cough.east",
+      anchor: "west",
+      padding: 0.25,
+      text(size: 0.6em, fill: c-bn-label)[
+        $P("Cough" | "Flu") = 0.8$\
+        $P("Cough" | not "Flu") = 0.1$
+      ],
+    )
+
+    // ── CPT: Fever ──
+    draw.content(
+      "fever.east",
+      anchor: "west",
+      padding: 0.25,
+      text(size: 0.6em, fill: c-bn-label)[
+        $P("Fever" | "Flu") = 0.9$\
+        $P("Fever" | not "Flu") = 0.05$
+      ],
+    )
+  }),
+  caption: [Байесовская сеть для медицинской диагностики: грипп вызывает кашель и температуру.],
 )

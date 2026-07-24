@@ -2,8 +2,9 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m06.typ": (
-  bfs-grid, bfs-tree, bipartite, bridge-cut, directed-graph, eulerian,
-  graph-coloring, k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
+  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, directed-graph,
+  euler-cycle, eulerian, graph-coloring, k33, k5, petersen, planar,
+  simple-graph, spanning-tree, tree,
 )
 
 = Графы <chap:graphs>
@@ -431,6 +432,11 @@
   caption: [Кёнигсбергские мосты.],
 ) <fig:eulerian>
 
+#figure(
+  euler-cycle,
+  caption: [Эйлеров граф-восьмёрка: цикл $B arrow.r A arrow.r C arrow.r B arrow.r D arrow.r E arrow.r B$ обходит каждое ребро ровно один раз. Все степени чётны ($A$, $C$, $D$, $E$ --- степень $2$; $B$ --- степень $4$).],
+) <fig:euler-cycle>
+
 Эйлеров цикл и его вариации разрешимы за полиномиальное время.
 Гамильтонов цикл --- внешне похожая задача (посетить каждую вершину вместо каждого ребра), но её сложностной статус иной.
 
@@ -595,6 +601,11 @@
   Совершенного паросочетания нет: нечётное число вершин.
   В $K_(3,3)$ совершенное паросочетание существует: можно выбрать три ребра, попарно не имеющие общих вершин, покрывающие все шесть вершин.
 ]
+
+#figure(
+  bipartite-matching,
+  caption: [Двудольный граф с максимальным паросочетанием (выделено жирным). Паросочетание $x_1-y_1$, $x_2-y_2$, $x_3-y_3$ --- совершенное: покрывает все шесть вершин.],
+) <fig:bipartite-matching>
 
 Существование паросочетания, покрывающего долю $X$, не гарантировано: если у нескольких вершин из $X$ общие соседи, рёбер может не хватить.
 Теорема Холла даёт точное условие.

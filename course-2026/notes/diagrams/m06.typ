@@ -575,3 +575,96 @@
     draw.line(a, b, stroke: (paint: c-pa-dot, thickness: 2pt))
   }
 })
+
+// ── 14. Euler cycle (figure-8: two triangles sharing vertex B) ──
+// All degrees even: A=2, C=2, D=2, E=2, B=4.
+// Cycle: B→A→C→B→D→E→B — each edge used exactly once.
+#let euler-cycle = canvas({
+  // Node positions
+  let pos = ((0, 1.5), (1, 0), (2, 1.5), (0, -1.5), (2, -1.5))
+  let labs = ("A", "B", "C", "D", "E")
+
+  for (i, p) in pos.enumerate() { node(p, labs.at(i), radius: 0.33) }
+
+  // Euler cycle path: edge pairs + offset for circled number placement
+  let cycle = (
+    ("B", "A", (-0.12, 0.12)),
+    ("A", "C", (0, 0.15)),
+    ("C", "B", (0.12, 0.12)),
+    ("B", "D", (-0.12, -0.12)),
+    ("D", "E", (0, -0.15)),
+    ("E", "B", (0.12, -0.12)),
+  )
+
+  for (i, (a, b, off)) in cycle.enumerate() {
+    let ename = a + "-" + b
+    draw.line(
+      a,
+      b,
+      stroke: (paint: c-pa-dot, thickness: 1.2pt),
+      name: ename,
+    )
+    // Circled step number at edge midpoint
+    let pt = (rel: off, to: ename + ".mid")
+    draw.circle(pt, radius: 0.23, fill: white, stroke: (
+      paint: c-pa-dot,
+      thickness: 0.7pt,
+    ))
+    draw.content(pt, str(i + 1), size: .58em)
+  }
+})
+
+// ── 15. Bipartite graph with maximum matching ──
+// Left part L: 3 vertices,  Right part R: 3 vertices.
+// Matching (bold): L1-R1, L2-R2, L3-R3.  Non-matching (thin): L1-R2, L2-R3.
+#let bipartite-matching = canvas({
+  let ly = (0, 1.5, 3)
+  let ry = (0, 1.5, 3)
+  let xl = 0
+  let xr = 4
+
+  // Background regions
+  draw.rect(
+    (-0.6, 3.5),
+    (0.6, -0.5),
+    radius: 6pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
+  draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
+
+  // Nodes
+  for (i, y) in ly.enumerate() {
+    draw.circle((xl, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
+    draw.content(
+      (xl, y),
+      $x_#(i + 1)$,
+      anchor: "east",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+  for (i, y) in ry.enumerate() {
+    draw.circle((xr, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
+    draw.content(
+      (xr, y),
+      $y_#(i + 1)$,
+      anchor: "west",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+
+  // Non-matching edges : thin, dimmed
+  draw.line("L1", "R2", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  draw.line("L2", "R3", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+
+  // Matching edges : thick, highlighted
+  draw.line("L1", "R1", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L2", "R2", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L3", "R3", stroke: (paint: c-t-border, thickness: 2.5pt))
+
+  // Partition labels
+  draw.content((0, 3.6), anchor: "south")[$X$]
+  draw.content((4, 3.6), anchor: "south")[$Y$]
+})
