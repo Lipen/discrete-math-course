@@ -376,36 +376,44 @@
   }
 })
 
-// ── 9. Graph colouring (W_5) ──
+// ── 9. Graph colouring (C5, χ = 3) ──
+// Odd cycle: 5 vertices need 3 colours.  4 vertices alternate red-green;
+// the 5th is adjacent to one red and one green → needs blue.
 #let graph-coloring = canvas({
-  let v = ((0, 1), (0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
-  let ci = (3, 0, 1, 0, 1, 2)
-  // Nodes FIRST : named "n0".."n5"
-  // content(..., frame: "circle") guarantees text is centered in the circle.
+  import draw: *
+  let v = (
+    (0, 2),
+    (-1.902, 0.618),
+    (-1.176, -1.618),
+    (1.176, -1.618),
+    (1.902, 0.618),
+  )
+  // 3-colouring: 0=red, 1=green, 0=red, 1=green, 2=blue
+  let ci = (0, 1, 0, 1, 2)
+  // Nodes : content inside a coloured circle frame, named "c0".."c4"
   for (i, p) in v.enumerate() {
-    let c = c-colors.at(ci.at(i))
-    let sz = if i == 0 { 0.45 } else { 0.38 }
+    let col = c-colors.at(ci.at(i))
     draw.content(
       p,
       [#text(weight: "bold")[#str(i)]],
       frame: "circle",
-      radius: sz,
-      fill: c,
-      stroke: c.darken(20%),
-      name: "n" + str(i),
+      radius: 0.42,
+      fill: col,
+      stroke: col.darken(20%),
+      name: "c" + str(i),
     )
   }
-  // Edges : node names
-  e("n1", "n2")
-  e("n2", "n3")
-  e("n3", "n4")
-  e("n4", "n5")
-  e("n5", "n1")
-  e("n0", "n1")
-  e("n0", "n2")
-  e("n0", "n3")
-  e("n0", "n4")
-  e("n0", "n5")
+  // Edges : pentagon cycle
+  for i in range(5) {
+    e("c" + str(i), "c" + str(calc.rem(i + 1, 5)))
+  }
+  // Chromatic number
+  draw.content(
+    (0, -2.3),
+    anchor: "north",
+    size: .8em,
+    fill: c-edge-dim,
+  )[$chi = 3$]
 })
 
 // ── 10. Directed graph + SCC ──
@@ -667,4 +675,53 @@
   // Partition labels
   draw.content((0, 3.6), anchor: "south")[$X$]
   draw.content((4, 3.6), anchor: "south")[$Y$]
+})
+
+// ── 16. Dijkstra counterexample with negative edge ──
+// S→A (weight 2), S→B (weight 3), A→B (weight −2).
+// Intuition: Dijkstra fixes B at distance 3 before the negative edge can shorten it.
+#let dijkstra-counterexample = canvas({
+  import draw: *
+  let c-neg = oklch(58%, 0.22, 22deg) // red highlight for negative edge
+
+  // Node positions
+  node((0, 0), "S")
+  node((3, 1.8), "A")
+  node((3, -1.8), "B")
+
+  let arr = (mark: (end: "stealth"))
+
+  // Edge S→A : weight 2
+  draw.line(
+    "S",
+    "A",
+    stroke: (paint: c-edge, thickness: 0.7pt),
+    ..arr,
+    name: "sa",
+  )
+  draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $2$, size: .65em)
+
+  // Edge S→B : weight 3
+  draw.line(
+    "S",
+    "B",
+    stroke: (paint: c-edge, thickness: 0.7pt),
+    ..arr,
+    name: "sb",
+  )
+  draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $3$, size: .65em)
+
+  // Edge A→B : weight −2 (negative, red, dashed)
+  draw.line(
+    "A",
+    "B",
+    stroke: (
+      paint: c-neg,
+      thickness: 1pt,
+      dash: "dashed",
+    ),
+    ..arr,
+    name: "ab",
+  )
+  draw.content((rel: (0.22, 0), to: "ab.mid"), $-2$, size: .65em, fill: c-neg)
 })

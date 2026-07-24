@@ -188,6 +188,66 @@
 )
 
 // ════════════════════════════════════════════════════════
+// Section B2 — Subspace lattice of GF(2)³ (Codes, chapter m09-codes.typ)
+// ════════════════════════════════════════════════════════
+
+#let cl-n-fill = oklch(88%, 0.03, 250deg)
+#let cl-n-str = 0.6pt + oklch(60%, 0.08, 250deg)
+#let cl-e-str = 0.6pt + oklch(35%, 0.02, 265deg)
+#let cl-n-size = 1.6em
+
+#let cl-node(pos, body, ..args) = node(
+  pos,
+  body,
+  fill: cl-n-fill,
+  stroke: cl-n-str,
+  width: cl-n-size,
+  height: cl-n-size,
+  ..args,
+)
+#let cl-edge(from, to) = edge(from, to, "-", stroke: cl-e-str)
+
+// Hasse diagram of coordinate subspaces of GF(2)³, ordered by inclusion.
+// Structure: 1 zero + 3 axes + 3 planes + 1 full space = 8 nodes (Boolean lattice B₃).
+#let code-lattice = figure(
+  diagram(
+    node-shape: "circle",
+    node-stroke: cl-n-str,
+    node-inset: 0pt,
+    node-outset: 0pt,
+    spacing: 2.5em,
+    // Top (y=0): full space
+    cl-node((0, 0), $"GF"(2)^3$, name: <full>),
+    // Layer 2 (y=1): 2D coordinate subspaces
+    cl-node((-1.3, 1), $<x, y>$, name: <xy>),
+    cl-node((0, 1), $<x, z>$, name: <xz>),
+    cl-node((1.3, 1), $<y, z>$, name: <yz>),
+    // Layer 1 (y=2): 1D coordinate subspaces
+    cl-node((-1.3, 2), $<x>$, name: <x>),
+    cl-node((0, 2), $<y>$, name: <y>),
+    cl-node((1.3, 2), $<z>$, name: <z>),
+    // Bottom (y=3): zero subspace
+    cl-node((0, 3), ${0}$, name: <zero>),
+    // Cover relations: zero → axes
+    cl-edge(<zero>, <x>),
+    cl-edge(<zero>, <y>),
+    cl-edge(<zero>, <z>),
+    // Axes → planes
+    cl-edge(<x>, <xy>),
+    cl-edge(<x>, <xz>),
+    cl-edge(<y>, <xy>),
+    cl-edge(<y>, <yz>),
+    cl-edge(<z>, <xz>),
+    cl-edge(<z>, <yz>),
+    // Planes → full space
+    cl-edge(<xy>, <full>),
+    cl-edge(<xz>, <full>),
+    cl-edge(<yz>, <full>),
+  ),
+  caption: [Решётка координатных подпространств $"GF"(2)^3$, упорядоченных по включению. Каждый линейный код над $"GF"(2)$ образует подпространство --- такую же структуру, но в пространстве большей размерности.],
+)
+
+// ════════════════════════════════════════════════════════
 // Section C — SAT diagrams (used by m10-sat.typ)
 // ════════════════════════════════════════════════════════
 

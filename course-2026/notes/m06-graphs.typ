@@ -2,9 +2,9 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m06.typ": (
-  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, directed-graph,
-  euler-cycle, eulerian, graph-coloring, k33, k5, petersen, planar,
-  simple-graph, spanning-tree, tree,
+  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut,
+  dijkstra-counterexample, directed-graph, euler-cycle, eulerian,
+  graph-coloring, k33, k5, petersen, planar, simple-graph, spanning-tree, tree,
 )
 
 = Графы <chap:graphs>
@@ -809,7 +809,7 @@
 
 #figure(
   graph-coloring,
-  caption: [Раскраска графа.],
+  caption: [Цикл $C_5$ с правильной 3-раскраской: $chi(C_5) = 3$. Нечётный цикл требует трёх цветов --- на один больше, чем двудольный граф.],
 ) <fig:coloring>
 
 Раскраска графа решает задачу распределения регистров в компиляторе.
@@ -918,6 +918,12 @@ BFS не справляется: путь из двух рёбер может б
 
 Именно неотрицательность весов критична.
 Если есть ребро отрицательного веса, Дейкстра может выдать неверный ответ: вершина, извлечённая раньше, могла бы быть достигнута короче через отрицательное ребро, проходящее через вершину, извлечённую позже.
+
+#figure(
+  dijkstra-counterexample,
+  caption: [Контрпример для Дейкстры: отрицательное ребро $A arrow.r B$ даёт путь $S arrow.r A arrow.r B$ с суммарным весом $0$, короче прямого $S arrow.r B$ с весом $3$.],
+) <fig:dijkstra-counterexample>
+
 Для графов с отрицательными весами (но без отрицательных циклов) служит алгоритм Беллмана--Форда.
 
 #example[Трассировка Дейкстры][
