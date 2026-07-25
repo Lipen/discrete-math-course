@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m18.typ": derivation-id, derivation-k
-#import "@preview/curryst:0.5.1": rule
+#import curryst: rule
 
 = Теория типов <chap:typetheory>
 
