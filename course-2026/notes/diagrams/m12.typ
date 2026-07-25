@@ -1,4 +1,4 @@
-// M12 diagrams — Transfinite: Cantor diagonal, QQ pairing, ordinals, Banach--Tarski; Probability: Markov chain, probability tree, Bayesian network.
+// M12 diagrams --- Transfinite: Cantor diagonal, QQ pairing, ordinals, Banach--Tarski; Probability: Markov chain, probability tree, Bayesian network.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
@@ -64,7 +64,7 @@
     fill: luma(50%),
   )[$dots$])
 
-  // Constructed number r (named digit positions — must precede arrows)
+  // Constructed number r (named digit positions --- must precede arrows)
   draw.content((-0.4, -(rows + 1.2) * s), text(
     size: 0.65em,
     weight: "bold",
@@ -275,10 +275,10 @@
 #let c-mc-label = oklch(30%, 0.02, 265deg)
 
 #let markov-chain = figure(
-  canvas(length: 8cm, {
+  canvas({
     import draw: *
 
-    // State node helper — labeled circle
+    // State node helper --- labeled circle
     let state(pos, label, name) = {
       let (x, y) = pos
       draw.circle(
@@ -294,7 +294,7 @@
       )
     }
 
-    // Edge label helper — white-boxed text at midpoint of a named edge
+    // Edge label helper --- white-boxed text at midpoint of a named edge
     let elabel(edge-name, label-text, anchor: "south") = {
       draw.content(
         edge-name + ".mid",
@@ -368,7 +368,7 @@
 #let c-pt-prob = oklch(55%, 0.12, 22deg)
 
 #let probability-tree = figure(
-  canvas(length: 9cm, {
+  canvas({
     import draw: *
 
     // Edge with probability label at midpoint (white-boxed for readability)
@@ -448,7 +448,7 @@
 #let c-bn-edge = oklch(35%, 0.02, 265deg)
 
 #let bayes-net = figure(
-  canvas(length: 10cm, {
+  canvas({
     import draw: *
 
     // Rounded rectangle node

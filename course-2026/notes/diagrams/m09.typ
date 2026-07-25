@@ -1,4 +1,4 @@
-// M09 diagrams — Codes (Huffman tree) + SAT (implication graph & DPLL, used by m10-sat.typ).
+// M09 diagrams --- Codes (Huffman tree) + SAT (implication graph & DPLL, used by m10-sat.typ).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -6,7 +6,7 @@
 #import fletcher: diagram, edge, node
 
 // ════════════════════════════════════════════════════════
-// Section A — Huffman tree (Codes, chapter m09-codes.typ)
+// Section A --- Huffman tree (Codes, chapter m09-codes.typ)
 // ════════════════════════════════════════════════════════
 
 #let h-n-fill = oklch(88%, 0.03, 250deg)
@@ -71,7 +71,7 @@
 )
 
 // ════════════════════════════════════════════════════════
-// Section B — Hamming spheres (Codes, chapter m09-codes.typ)
+// Section B --- Hamming spheres (Codes, chapter m09-codes.typ)
 // ════════════════════════════════════════════════════════
 
 #let hs-codeword = oklch(55%, 0.15, 260deg)
@@ -103,7 +103,7 @@
 }
 
 #let hamming-spheres = figure(
-  canvas(length: 9cm, {
+  canvas({
     import draw: *
 
     let r = 1.25
@@ -188,7 +188,7 @@
 )
 
 // ════════════════════════════════════════════════════════
-// Section B2 — Subspace lattice of GF(2)³ (Codes, chapter m09-codes.typ)
+// Section B2 --- Subspace lattice of GF(2)³ (Codes, chapter m09-codes.typ)
 // ════════════════════════════════════════════════════════
 
 #let cl-n-fill = oklch(88%, 0.03, 250deg)
@@ -248,7 +248,7 @@
 )
 
 // ════════════════════════════════════════════════════════
-// Section C — SAT diagrams (used by m10-sat.typ)
+// Section C --- SAT diagrams (used by m10-sat.typ)
 // ════════════════════════════════════════════════════════
 
 #let c-node = oklch(88%, 0.03, 250deg)

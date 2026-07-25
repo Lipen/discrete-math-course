@@ -189,7 +189,7 @@
   }
 
   figure(
-    canvas(length: 8cm, {
+    canvas({
       import draw: *
 
       // Four corners
