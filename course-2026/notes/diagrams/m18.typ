@@ -53,24 +53,24 @@
   canvas({
     import draw: *
     let nw = 3.3
-    let by = 1.0
-    let ty = 3.0
+    let py = 3.0 // premise (var) — leaf, top
+    let cy = 1.0 // conclusion (abs) — root, bottom
 
-    judgment-node((3.0, by), "prem", nw, {
+    judgment-node((3.0, py), "prem", nw, {
       $x : "Nat" tack.r x : "Nat"$
     })
     rule-label("prem", [(var)])
 
-    judgment-node((3.0, ty), "conc", nw, {
+    judgment-node((3.0, cy), "conc", nw, {
       $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
     })
     rule-label("conc", [(abs)])
 
-    vert-edge("conc", "prem")
+    vert-edge("prem", "conc")
   }),
   caption: [
     Дерево вывода типа для тождественной функции.
-    Два уровня: нижний --- аксиома var, верхний --- правило abs.
+    Верхний уровень --- аксиома var, нижний --- применение правила abs.
     Поскольку у правила abs одна посылка, дерево вырождается в линию --- это нормально для типовых выводов в $lambda ->$.
   ],
 )
@@ -84,11 +84,11 @@
   canvas({
     import draw: *
     let nw = 4.0
-    let by = 0.8
-    let my = 2.6
-    let ty = 4.4
+    let py = 4.4 // premise (var) — leaf, top
+    let my = 2.6 // abs on y — middle
+    let cy = 0.8 // abs on x — root, bottom
 
-    judgment-node((3.5, by), "k-prem", nw, {
+    judgment-node((3.5, py), "k-prem", nw, {
       $x : "Nat", y : "Bool" tack.r x : "Nat"$
     })
     rule-label("k-prem", [(var)])
@@ -98,13 +98,13 @@
     })
     rule-label("k-mid", [(abs)])
 
-    judgment-node((3.5, ty), "k-top", nw, {
+    judgment-node((3.5, cy), "k-top", nw, {
       $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
     })
     rule-label("k-top", [(abs)])
 
-    vert-edge("k-top", "k-mid")
-    vert-edge("k-mid", "k-prem")
+    vert-edge("k-prem", "k-mid")
+    vert-edge("k-mid", "k-top")
   }),
   caption: [
     Дерево вывода типа для комбинатора $K$ (проекция на первый аргумент) с типами $"Nat"$ и $"Bool"$.
