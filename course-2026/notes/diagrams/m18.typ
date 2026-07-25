@@ -1,4 +1,4 @@
-// M18 diagrams — Type Theory: typing derivation trees.
+// M18 diagrams --- Type Theory: typing derivation trees.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -44,17 +44,17 @@
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// Derivation of ⊢ λx:Nat. x : Nat → Nat
+// Derivation of tack.r λx:Nat. x : Nat -> Nat
 //
-// One branch: premise (leaf, top) → conclusion (root, bottom).
-// Linear because each typing rule in λ→ has at most one subderivation.
+// One branch: premise (leaf, top) to conclusion (root, bottom).
+// Linear because each typing rule in λ-> has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = figure(
   canvas({
     import draw: *
     let nw = 3.3
-    let py = 3.0 // premise (var) — leaf, top
-    let cy = 1.0 // conclusion (abs) — root, bottom
+    let py = 3.0 // premise (var) --- leaf, top
+    let cy = 1.0 // conclusion (abs) --- root, bottom
 
     judgment-node((3.0, py), "prem", nw, {
       $x : "Nat" tack.r x : "Nat"$
@@ -76,17 +76,17 @@
 )
 
 // ═══════════════════════════════════════════════════════════════════
-// Derivation of K combinator: ⊢ λx:Nat. λy:Bool. x : Nat → Bool → Nat
+// Derivation of K combinator: tack.r λx:Nat. λy:Bool. x : Nat -> Bool -> Nat
 //
-// Three levels: var → abs on y → abs on x. Linear for the same reason.
+// Three levels: var -> abs on y -> abs on x. Linear for the same reason.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-k = figure(
   canvas({
     import draw: *
     let nw = 4.0
-    let py = 4.4 // premise (var) — leaf, top
-    let my = 2.6 // abs on y — middle
-    let cy = 0.8 // abs on x — root, bottom
+    let py = 4.4 // premise (var) --- leaf, top
+    let my = 2.6 // abs on y --- middle
+    let cy = 0.8 // abs on x --- root, bottom
 
     judgment-node((3.5, py), "k-prem", nw, {
       $x : "Nat", y : "Bool" tack.r x : "Nat"$
