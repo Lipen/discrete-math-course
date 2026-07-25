@@ -78,7 +78,7 @@
   set par(
     justify: true,
     leading: 0.65em,
-    first-line-indent: 1em,
+    // first-line-indent: 1em,
   )
 
   set heading(numbering: "1.1.1")
