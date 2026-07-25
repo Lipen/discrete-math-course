@@ -1,4 +1,4 @@
-// M03 diagrams — relation digraphs via fletcher.
+// M03 diagrams --- relation digraphs via fletcher.
 #import "../requirements.typ": *
 
 #import fletcher: diagram, edge, node
@@ -72,7 +72,7 @@
     draw.content(pos, text(size: 0.7em)[#n])
   }
 
-  // Edges — only cover relations (no transitive shortcuts)
+  // Edges --- only cover relations (no transitive shortcuts)
   // 1 -> 2, 1 -> 3
   draw.line((0, 0.35), (-1.0, 0.65), stroke: edge-str)
   draw.line((0, 0.35), (1.0, 0.65), stroke: edge-str)
