@@ -18,14 +18,13 @@
 
 // --- Орнаменты заголовков ---
 #let chapter-ornament(accent) = {
-  v(0.25em)
+  v(-0.3em)
   line(length: 100%, stroke: 0.5pt + accent)
 }
 
 #let section-rule(border) = {
-  v(0.1em)
+  v(-0.3em)
   line(length: 100%, stroke: 0.35pt + border)
-  v(0.45em)
 }
 
 // --- Окружения: front-matter / main-matter ---
@@ -83,23 +82,24 @@
 
   set heading(numbering: "1.1.1")
 
-  // Заголовки -- стиль theme-5
+  // Заголовки
   show heading.where(level: 1): it => {
     def-ctr.update(0)
     thm-ctr.update(0)
     pagebreak(weak: true)
     block(
       width: 100%,
-      above: 3em,
       below: 2em,
       sticky: true,
-      inset: (x: 0em, y: 0em),
     )[
       #context [
         #let ch = counter(heading).at(it.location()).first()
-        #text(size: 48pt, weight: "bold", fill: theme, tracking: 0.1em)[#roman(
-          ch,
-        )]
+        #text(
+          size: 48pt,
+          weight: "bold",
+          fill: theme,
+          tracking: 0.1em,
+        )[#roman(ch)]
       ]
       #v(2em, weak: true)
       #text(
@@ -116,13 +116,12 @@
   show heading.where(level: 2): it => {
     block(
       width: 100%,
-      above: 1.5em,
-      below: 0.6em,
+      above: 2em,
+      below: 1em,
       sticky: true,
-      inset: (x: 0em, y: 0em),
     )[
       #text(size: 16pt, weight: "medium")[
-        #text(fill: theme)[§]#counter(heading).display()#h(0.5em)#it.body
+        #text(fill: theme)[§] #counter(heading).display()#h(0.5em)#it.body
       ]
       #section-rule(luma(80%))
     ]
@@ -131,10 +130,9 @@
   show heading.where(level: 3): it => {
     block(
       width: 100%,
-      above: 1.4em,
-      below: 0.6em,
+      above: 2em,
+      below: 1em,
       sticky: true,
-      inset: (left: 0em, y: 0em),
     )[
       #text(size: 14pt, weight: "medium")[
         #counter(heading).display()#h(0.5em)#it.body
@@ -154,39 +152,39 @@
   show outline.entry: it => {
     if it.level == 1 {
       let nums = counter(heading).at(it.element.location())
-      block(above: 1.3em, below: 0.35em)[
+      block(above: 1.5em, below: 0.5em, sticky: true)[
         #text(size: 14pt, weight: "medium")[
-          #text(size: 0.9em, fill: theme)[#roman(nums.first())]#h(0.5em)#link(
-            it.element.location(),
-          )[#it.element.body]
-          #box(width: 1fr, repeat[#h(0.7em)·])
+          #text(fill: theme)[#roman(nums.first())]#h(0.5em)#link(it.element.location())[#it.element.body]
+          #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
           #it.page()
         ]
       ]
     } else if it.level == 2 {
-      block(above: 0.5em, below: 0.2em, inset: (left: 2em))[
+      block(above: 0.5em, below: 0.5em, inset: (left: 2em), sticky: true)[
         #context {
           let nums = counter(heading).at(it.element.location())
           text(size: 11.5pt)[
             #if toc-numbers.contains(2) [
-              #text(fill: theme)[#numbering("1.1", ..nums.slice(0, 2))]#h(0.5em)
+              #text(fill: theme)[#numbering("1.1", ..nums.slice(0, 2))]
+              #h(0.5em, weak: true)
             ]
             #link(it.element.location())[#it.element.body]
-            #box(width: 1fr, repeat[#h(0.7em)·])
+            #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
             #it.page()
           ]
         }
       ]
     } else if it.level == 3 {
-      block(above: 0.25em, below: 0.15em, inset: (left: 4em))[
+      block(above: 0.3em, below: 0.3em, inset: (left: 4em))[
         #context {
           let nums = counter(heading).at(it.element.location())
           text(size: 10pt, fill: luma(45%))[
             #if toc-numbers.contains(3) [
-              #text(fill: theme)[#numbering("1.1.1", ..nums)]#h(0.5em)
+              #text(fill: theme)[#numbering("1.1.1", ..nums)]
+              #h(0.5em, weak: true)
             ]
             #link(it.element.location())[#it.element.body]
-            #box(width: 1fr, repeat[#h(0.7em)·])
+            #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
             #it.page()
           ]
         }
