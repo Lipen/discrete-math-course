@@ -158,9 +158,9 @@
 
 #proof[
   $(arrow.double.r)$ Если $A = B$, то по определению экстенсиональности $x in A iff x in B$.
-  Тогда $x in A arrow.r x in B$ (что даёт $A subset.eq B$) и $x in B arrow.r x in A$ (что даёт $B subset.eq A$).
+  Тогда $x in A -> x in B$ (что даёт $A subset.eq B$) и $x in B -> x in A$ (что даёт $B subset.eq A$).
 
-  ($arrow.l$) Если $A subset.eq B$ и $B subset.eq A$, то $x in A arrow.r x in B$ и $x in B arrow.r x in A$.
+  ($arrow.l$) Если $A subset.eq B$ и $B subset.eq A$, то $x in A -> x in B$ и $x in B -> x in A$.
   Следовательно, $x in A iff x in B$, что по определению экстенсиональности означает $A = B$.
 ]
 
@@ -706,7 +706,7 @@ _Аксиома выделения_ (Separation): из существующег�
 Чтобы выйти за пределы конечного, нужна аксиома, постулирующая существование хотя бы одного бесконечного множества.
 
 #definition[Аксиома бесконечности (Infinity)][
-  Существует множество $I$, содержащее $emptyset$ и замкнутое относительно операции $x arrow.r x union {x}$.
+  Существует множество $I$, содержащее $emptyset$ и замкнутое относительно операции $x -> x union {x}$.
 ]
 
 Операция $x union {x}$ моделирует функцию следования.

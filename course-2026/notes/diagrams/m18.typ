@@ -85,7 +85,7 @@
     vert-edge((3.75, ty), (3.75, by))
   }),
   caption: [
-    Дерево вывода типа для $lambda x : "Nat" . x : "Nat" arrow.r "Nat"$.
+    Дерево вывода типа для $lambda x : "Nat" . x : "Nat" -> "Nat"$.
     Единственная посылка --- аксиома var.
     Вывод состоит из двух шагов.
   ],
@@ -138,7 +138,7 @@
   }),
   caption: [
     Дерево вывода типа для комбинатора $K$ с типами $"Nat"$ и $"Bool"$:
-    $lambda x : "Nat" . lambda y : "Bool" . x : "Nat" arrow.r "Bool" arrow.r "Nat"$.
+    $lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$.
     Три шага: одна аксиома var и два применения правила abs.
   ],
 )

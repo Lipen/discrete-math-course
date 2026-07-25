@@ -1,6 +1,6 @@
 // Unified math notation for Discrete Math lecture notes.
 // Only aliases that add value: awkward stdlib symbols, parameterized forms, custom operators.
-// Simple symbols ($and$, $union$, $subset$, $arrow.r$, etc.) --- write directly in math mode.
+// Simple symbols ($and$, $union$, $subset$, $->$, etc.) --- write directly in math mode.
 
 // === Numeric sets ===
 #let NN = $NN$
