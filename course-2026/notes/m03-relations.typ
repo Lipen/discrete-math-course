@@ -562,9 +562,9 @@ $ forall w in Sigma^*: delta^*(p, w) in F <=> delta^*(q, w) in F, $
 
 #definition[Дистрибутивная решётка][
   Решётка называется _дистрибутивной_, если выполняются законы дистрибутивности:
-  $a and (b or c) = (a and b) or (a and c)$,
-  $a or (b and c) = (a or b) and (a or c)$.
-  Дистрибутивная решётка с наименьшим элементом $0$, наибольшим $1$ и дополнением $overline(a)$ (где $a and overline(a) = 0$, $a or overline(a) = 1$) называется _булевой алгеброй_.
+  $a meet (b join c) = (a meet b) join (a meet c)$,
+  $a join (b meet c) = (a join b) meet (a join c)$.
+  Дистрибутивная решётка с наименьшим элементом $0$, наибольшим $1$ и дополнением $overline(a)$ (где $a meet overline(a) = 0$, $a join overline(a) = 1$) называется _булевой алгеброй_.
 ]
 
 Не всякая решётка дистрибутивна.
