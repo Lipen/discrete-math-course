@@ -271,19 +271,19 @@
   node-outset: 4pt,
   spacing: 1.6em,
 
-  // Input clauses (bottom row)
-  cn((-3, 3), $not p or q$, name: <c1>),
-  cn((-1, 3), $not q or r$, name: <c2>),
-  cn((1, 3), $p$, name: <c3>),
-  cn((3, 3), $not r$, name: <c4>),
+  // Input clauses (top row)
+  cn((-4, 0), $not p or q$, name: <c1>),
+  cn((-2, 0), $p$, name: <c3>),
+  cn((0, 0), $not q or r$, name: <c2>),
+  cn((2, 0), $not r$, name: <c4>),
 
   // Intermediate resolvents (middle row)
-  cn((-2, 1.5), $q$, fill: c-res-mid, name: <r1>),
-  cn((0, 1.5), $r$, fill: c-res-mid, name: <r2>),
+  cn((-3, 1.5), $q$, fill: c-res-mid, name: <r1>),
+  cn((1, 1.5), $r$, fill: c-res-mid, name: <r2>),
 
-  // Empty clause (top)
+  // Empty clause (bottom)
   cn(
-    (-1, 0),
+    (-1, 3),
     $square$,
     fill: c-res-empty,
     stroke: c-res-empty-str,
@@ -299,6 +299,10 @@
   re(<c4>, <empty>),
 
   // Edge labels (cut variables)
-  edge(<c1>, <r1>, "-", stroke: none, label: [$x$], label-size: 0.55em),
+  edge(<c1>, <r1>, "-", stroke: none, label: [$p$], label-size: 0.55em),
+  edge(<c3>, <r1>, "-", stroke: none, label: [$p$], label-size: 0.55em),
+  edge(<c2>, <r2>, "-", stroke: none, label: [$q$], label-size: 0.55em),
+  edge(<r1>, <r2>, "-", stroke: none, label: [$q$], label-size: 0.55em),
   edge(<r2>, <empty>, "-", stroke: none, label: [$r$], label-size: 0.55em),
+  edge(<c4>, <empty>, "-", stroke: none, label: [$r$], label-size: 0.55em),
 )

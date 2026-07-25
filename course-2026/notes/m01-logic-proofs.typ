@@ -1,9 +1,7 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": (
-  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
-)
+#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
 
 = Логика и доказательства <chap:logic>
 
@@ -98,9 +96,7 @@ _Высказывание_ (или _утверждение_) --- это пове
   columns: 7,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header(
-    [$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]
-  ),
+  table.header([$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]),
   [#T], [#T], [#F], [#T], [#T], [#T], [#T],
   [#T], [#F], [#F], [#F], [#T], [#F], [#F],
   [#F], [#T], [#T], [#F], [#T], [#T], [#F],
@@ -333,13 +329,9 @@ _Интерпретация_ сопоставляет каждой атомар�
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
-    [Ассоциативность],
-    [$(p and q) and r equiv p and (q and r)$],
-    [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность],
-    [$p and (q or r) equiv (p and q) or (p and r)$],
-    [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
 
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
     [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
@@ -400,7 +392,7 @@ _Интерпретация_ сопоставляет каждой атомар�
 #definition[Дизъюнктивная нормальная форма (ДНФ)][
   Формула находится в ДНФ, если она является дизъюнкцией конъюнкций литералов (атомов или их отрицаний):
   $
-  (l_(1,1) and ... and l_(1,k_1)) or ... or (l_(n,1) and ... and l_(n,k_n))
+    (l_(1,1) and ... and l_(1,k_1)) or ... or (l_(n,1) and ... and l_(n,k_n))
   $
 ]
 
@@ -410,7 +402,7 @@ _Интерпретация_ сопоставляет каждой атомар�
 #definition[Конъюнктивная нормальная форма (КНФ)][
   Формула находится в КНФ, если она является конъюнкцией дизъюнкций литералов:
   $
-  (l_(1,1) or ... or l_(1,k_1)) and ... and (l_(n,1) or ... or l_(n,k_n))
+    (l_(1,1) or ... or l_(1,k_1)) and ... and (l_(n,1) or ... or l_(n,k_n))
   $
 ]
 
@@ -597,8 +589,8 @@ $P(x)$ не истинно и не ложно, пока $x$ не заменён 
 #raven[
   Заметим: для конечной области определения кванторы не добавляют выразительной силы --- логика предикатов над конечной областью сводится к логике высказываний.
   $
-    forall x space P(x) equiv limits(and)_(i=1)^n P(a_i)
-    exists x space P(x) equiv limits(or)_(i=1)^n P(a_i)
+    forall x space P(x) equiv and.big_(i=1)^n P(a_i)
+    exists x space P(x) equiv or.big_(i=1)^n P(a_i)
   $
   Кванторы дают лишь компактность записи, а не новую логическую силу.
   Вся подлинная сила кванторов --- в бесконечных областях.
@@ -678,9 +670,11 @@ $exists y forall x$ говорит "существует единственны�
 Перевод должен точно сохранять смысл --- неоднозначность естественного языка должна быть устранена.
 
 #example[
-  "Не всё золото, что блестит" --- двусмысленно.
-  - Чтение 1: $forall x space ("glitters"(x) imply not "gold"(x))$ --- "ничто блестящее не золото" (ложно).
-  - Чтение 2: $not forall x space ("glitters"(x) imply "gold"(x))$ --- "не всё блестящее --- золото" (истинно).
+  Утверждение "не всё то золото, что блестит" --- двусмысленно.
+
+  - Интерпретация 1: $forall x space ("glitters"(x) imply not "gold"(x))$ \ "ничто блестящее не золото" (ложно).
+
+  - Интерпретация 2: $not forall x space ("glitters"(x) imply "gold"(x))$ \ "не всё блестящее --- золото" (истинно).
 ]
 
 #example[
