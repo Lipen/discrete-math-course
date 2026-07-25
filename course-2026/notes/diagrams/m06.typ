@@ -45,7 +45,7 @@
 
 #let snode(pos, label) = { node(pos, label, radius: 0.28) }
 
-// Edge helper: e("a", "b") — styled edge. e("a", "b", stroke: ...) — override.
+// Edge helper: e("a", "b") --- styled edge. e("a", "b", stroke: ...) --- override.
 #let e(a, b, ..style) = {
   draw.line(a, b, stroke: (paint: c-edge, thickness: 0.7pt), ..style)
 }
@@ -286,7 +286,7 @@
   draw.line("B", "D", stroke: bridge-style)
   draw.line("C", "D", stroke: bridge-style)
 
-  // Double bridge A–C: one straight, one bezier curving outward (left)
+  // Double bridge A--C: one straight, one bezier curving outward (left)
   draw.line("A", "C", stroke: bridge-style)
   let ac-ctrl = (-1.3, 1.3)
   draw.bezier(
@@ -297,7 +297,7 @@
     stroke: bridge-style,
   )
 
-  // Double bridge B–C: one straight, one bezier curving outward (left)
+  // Double bridge B--C: one straight, one bezier curving outward (left)
   draw.line("B", "C", stroke: bridge-style)
   let bc-ctrl = (-1.3, -1.3)
   draw.bezier(
@@ -586,7 +586,7 @@
 
 // ── 14. Euler cycle (figure-8: two triangles sharing vertex B) ──
 // All degrees even: A=2, C=2, D=2, E=2, B=4.
-// Cycle: B→A→C→B→D→E→B — each edge used exactly once.
+// Cycle: B→A→C→B→D→E→B --- each edge used exactly once.
 #let euler-cycle = canvas({
   // Node positions
   let pos = ((0, 1.5), (1, 0), (2, 1.5), (0, -1.5), (2, -1.5))

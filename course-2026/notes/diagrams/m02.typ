@@ -1,4 +1,4 @@
-// M02 diagrams — Venn diagrams for set operations.
+// M02 diagrams --- Venn diagrams for set operations.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 

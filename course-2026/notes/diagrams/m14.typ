@@ -1,4 +1,4 @@
-// M14 diagrams — Turing Machines.
+// M14 diagrams --- Turing Machines.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
@@ -14,7 +14,7 @@
 // The tape is a row of cells; the head reads/writes the current cell.
 // The finite control holds the current state and transition logic.
 #let turing-machine = canvas({
-  // Tape cells — horizontal row
+  // Tape cells --- horizontal row
   let n = 8
   let cell = 0.8
   for i in range(n) {
@@ -37,7 +37,7 @@
     fill: luma(50%),
   )[$dots$])
 
-  // Head — triangle/arrow pointing down to the tape
+  // Head --- triangle/arrow pointing down to the tape
   let head-x = 0
   draw.line((head-x, -0.5), (head-x - 0.3, -0.9), stroke: c-head-str)
   draw.line((head-x, -0.5), (head-x + 0.3, -0.9), stroke: c-head-str)

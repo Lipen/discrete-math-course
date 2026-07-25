@@ -1,4 +1,4 @@
-// M05 Hasse diagrams — poset visualization via fletcher.
+// M05 Hasse diagrams --- poset visualization via fletcher.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -20,7 +20,7 @@
 #let e(from, to) = edge(from, to, "-", stroke: e-str)
 
 // Fletcher y-axis: points downward (screen convention). In Hasse diagrams,
-// larger elements go upward — so y=0 is the top element, y=max is the bottom.
+// larger elements go upward --- so y=0 is the top element, y=max is the bottom.
 // ── 1. Divisor poset on {1,2,3,4,6,12} ordered by | ──
 #let hasse-divisors-12 = diagram(
   node-shape: "circle",

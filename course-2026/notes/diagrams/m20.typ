@@ -1,4 +1,4 @@
-// M20 diagrams — Fuzzy sets: membership functions and operations.
+// M20 diagrams --- Fuzzy sets: membership functions and operations.
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
@@ -173,7 +173,7 @@
 #let c-muB-dim = oklch(70%, 0.08, 25deg)
 #let c-result = oklch(40%, 0.16, 280deg)
 
-// ── Union (max), intersection (min), complement — three panels ──
+// ── Union (max), intersection (min), complement --- three panels ──
 #let fuzzy-operations = figure(
   canvas({
     import draw: *

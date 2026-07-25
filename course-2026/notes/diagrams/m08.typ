@@ -1,5 +1,5 @@
-// M07 diagrams — adder circuits.
-// All junction coordinates derived from port anchors — fully independent of gw/gh.
+// M07 diagrams --- adder circuits.
+// All junction coordinates derived from port anchors --- fully independent of gw/gh.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -82,7 +82,7 @@
 
 // ── Full-adder: S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B)) ──
 #let full-adder = circuit({
-  // Column 1 — anchor column.
+  // Column 1 --- anchor column.
   element.gate-xor(
     x: 0,
     y: 0.9,
@@ -102,7 +102,7 @@
     stroke: c-str,
   )
 
-  // Column 2 — relative to col 1.
+  // Column 2 --- relative to col 1.
   element.gate-xor(
     x: (rel: 1.5, to: "xor1.east"),
     y: 0.9,
@@ -122,7 +122,7 @@
     stroke: c-str,
   )
 
-  // Column 3 — relative to col 2.
+  // Column 3 --- relative to col 2.
   element.gate-or(
     x: (rel: 1.5, to: "and2.east"),
     y: -0.9,

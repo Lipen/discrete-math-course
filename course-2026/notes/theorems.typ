@@ -51,7 +51,7 @@
 // State for sticky-headers flag (controlled from notes-template)
 #let sticky-state = state("block-headers-sticky", true)
 
-// Context-aware sticky block — header stays with first line of body
+// Context-aware sticky block --- header stays with first line of body
 #let _sticky(body) = context {
   block(sticky: sticky-state.get())[#body]
 }
@@ -76,7 +76,7 @@
   }
 }
 
-// Pill badge — цветная плашка с белым текстом
+// Pill badge --- цветная плашка с белым текстом
 #let badge(color, body) = {
   box(
     fill: color,
@@ -127,7 +127,7 @@
   ]
 }
 
-// Inline numbered — компактный блок: бейдж + тело на одной строке
+// Inline numbered --- компактный блок: бейдж + тело на одной строке
 #let _numbered-inline(label, ctr, bar-color, fill, body, title: none) = {
   ctr.step()
   block(
@@ -464,7 +464,7 @@
   ]
 }
 
-// Ворон: блок с левой полосой, внутри — картинка ворона слева и текст справа (grid).
+// Ворон: блок с левой полосой, внутри --- картинка ворона слева и текст справа (grid).
 #let raven-accent = oklch(35%, 0.03, 255deg)
 #let raven-fill = oklch(97%, 0.005, 260deg)
 #let raven-hairline = oklch(88%, 0.01, 260deg)

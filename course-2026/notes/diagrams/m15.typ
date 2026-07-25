@@ -1,4 +1,4 @@
-// M15 diagrams — Finite Automata & Complexity Theory.
+// M15 diagrams --- Finite Automata & Complexity Theory.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -37,7 +37,7 @@
   caption: [ДКА, распознающий строки, заканчивающиеся на 01.],
 )
 
-// 2. NFA: strings ending with "01" (nondeterministic — shows choice at 0).
+// 2. NFA: strings ending with "01" (nondeterministic --- shows choice at 0).
 #let nfa-example = figure(
   diagram(
     node-stroke: (paint: c-state-str, thickness: 0.8pt),

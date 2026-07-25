@@ -1,4 +1,4 @@
-// M04 diagrams — injection, surjection, bijection mapping schemes.
+// M04 diagrams --- injection, surjection, bijection mapping schemes.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 

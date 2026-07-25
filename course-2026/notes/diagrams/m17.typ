@@ -1,4 +1,4 @@
-// M17 diagrams — Lambda calculus: syntax trees and reduction graphs.
+// M17 diagrams --- Lambda calculus: syntax trees and reduction graphs.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -39,17 +39,17 @@
   canvas({
     import draw: *
 
-    // Level 0 — root application
+    // Level 0 --- root application
     tree-node((0, 1.8), "root", $@$, c-app)
 
-    // Level 1 — children of root
+    // Level 1 --- children of root
     tree-node((-1.2, 0.3), "lam", $lambda x$, c-abs)
     tree-node((1.2, 0.3), "y-var", $y$, c-var)
 
-    // Level 2 — body of λx
+    // Level 2 --- body of λx
     tree-node((-1.2, -1.2), "inner-app", $@$, c-app)
 
-    // Level 3 — the two x's
+    // Level 3 --- the two x's
     tree-node((-2.0, -2.7), "x1", $x$, c-var)
     tree-node((-0.4, -2.7), "x2", $x$, c-var)
 
@@ -117,7 +117,7 @@
   canvas({
     import draw: *
 
-    // M — top
+    // M --- top
     cr-node(
       (0, 2.8),
       "M",
@@ -125,13 +125,13 @@
       style: "start",
     )
 
-    // N1 — left
+    // N1 --- left
     cr-node((-3.2, 0.6), "N1", $N_1 = (lambda y . y) z$, style: "normal")
 
-    // N2 — right
+    // N2 --- right
     cr-node((3.2, 0.6), "N2", $N_2 = (lambda x . x) z$, style: "normal")
 
-    // L — bottom
+    // L --- bottom
     cr-node((0, -1.7), "L", $L = z$, style: "end")
 
     // Edges
