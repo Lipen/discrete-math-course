@@ -2,6 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m18.typ": derivation-id, derivation-k
+#import "@preview/curryst:0.5.1": rule
 
 = Теория типов <chap:typetheory>
 
@@ -111,27 +112,21 @@ _Этот_ --- число.
 
   + *var*: переменная имеет тип, приписанный ей в контексте.
     Если мы предположили что $x$ --- число, то $x$ --- число.
-    $
-      frac((x : sigma) in Gamma, quad Gamma ⊢ x : sigma)
-    $
+    #rule($Gamma ⊢ x : sigma$, $(x : sigma) in Gamma$)
 
   + *app*: применение функции $M$ (вход $sigma$, выход $tau$) к аргументу $N$ (типа $sigma$) даёт результат типа $tau$.
     Если функция ожидает число --- дайте ей число.
-    $
-      frac(
-        Gamma ⊢ M : sigma arrow.r tau quad Gamma ⊢ N : sigma,
-        quad Gamma ⊢ M N : tau
-      )
-    $
+    #rule(
+      $Gamma ⊢ M N : tau$,
+      $Gamma ⊢ M : sigma arrow.r tau quad Gamma ⊢ N : sigma$,
+    )
 
   + *abs*: если тело $M$ имеет тип $tau$ при предположении что $x : sigma$, то $lambda$-абстракция --- функция из $sigma$ в $tau$.
     Аннотация $x : sigma$ в терме фиксирует тип аргумента.
-    $
-      frac(
-        (Gamma, x : sigma ⊢ M : tau),
-        quad (Gamma ⊢ lambda x : sigma . M : sigma arrow.r tau)
-      )
-    $
+    #rule(
+      $Gamma ⊢ lambda x : sigma . M : sigma arrow.r tau$,
+      $(Gamma, x : sigma ⊢ M : tau)$,
+    )
 ]
 
 Разберём каждое правило на конкретных примерах.
