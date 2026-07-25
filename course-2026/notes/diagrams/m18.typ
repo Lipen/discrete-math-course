@@ -46,7 +46,7 @@
 // ═══════════════════════════════════════════════════════════════════
 // Derivation of ⊢ λx:Nat. x : Nat → Nat
 //
-// One branch: conclusion above one premise.
+// One branch: premise (leaf, top) → conclusion (root, bottom).
 // Linear because each typing rule in λ→ has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = figure(
