@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m18.typ": derivation-id, derivation-k
-#import curryst: rule
+#import curryst: prooftree, rule
 
 = Теория типов <chap:typetheory>
 
@@ -112,20 +112,29 @@ _Этот_ --- число.
 
   + *var*: переменная имеет тип, приписанный ей в контексте.
     Если мы предположили что $x$ --- число, то $x$ --- число.
-    #rule($Gamma ⊢ x : sigma$, $(x : sigma) in Gamma$)
+    #prooftree(
+      rule(label: [*var*], $Gamma ⊢ x : sigma$, $(x : sigma) in Gamma$),
+    )
 
   + *app*: применение функции $M$ (вход $sigma$, выход $tau$) к аргументу $N$ (типа $sigma$) даёт результат типа $tau$.
     Если функция ожидает число --- дайте ей число.
-    #rule(
-      $Gamma ⊢ M N : tau$,
-      $Gamma ⊢ M : sigma -> tau quad Gamma ⊢ N : sigma$,
+    #prooftree(
+      rule(
+        label: [*app*],
+        $Gamma ⊢ M N : tau$,
+        $Gamma ⊢ M : sigma -> tau$,
+        $Gamma ⊢ N : sigma$,
+      ),
     )
 
   + *abs*: если тело $M$ имеет тип $tau$ при предположении что $x : sigma$, то $lambda$-абстракция --- функция из $sigma$ в $tau$.
     Аннотация $x : sigma$ в терме фиксирует тип аргумента.
-    #rule(
-      $Gamma ⊢ lambda x : sigma . M : sigma -> tau$,
-      $(Gamma, x : sigma ⊢ M : tau)$,
+    #prooftree(
+      rule(
+        label: [*abs*],
+        $Gamma ⊢ lambda x : sigma . M : sigma -> tau$,
+        $(Gamma, x : sigma ⊢ M : tau)$,
+      ),
     )
 ]
 
