@@ -9,17 +9,15 @@
 #let c-rule = oklch(55%, 0.14, 260deg)
 #let c-line = oklch(35%, 0.02, 265deg)
 
-// ── Helper: judgment node with automatic width ──
-// Draws a rounded rect around the content, returns the node.
-// Content determines width; height is fixed.
-#let judgment-node(pos, name, body) = {
+// ── Helpers ──
+
+// Judgment node: rounded rect with fixed width.
+// Width is generous to fit all judgments in these derivations.
+#let judgment-node(pos, name, w, body) = {
   let (x, y) = pos
-  // Estimate width: ~0.47em per character in math, plus padding
-  // We use a generous estimate and let CeTZ clip if needed
-  let est-w = 3.0 // default width for most judgments
   draw.rect(
-    (x - est-w, y + 0.35),
-    (x + est-w, y - 0.35),
+    (x - w, y + 0.35),
+    (x + w, y - 0.35),
     name: name,
     fill: oklch(97%, 0.01, 260deg),
     stroke: 0.7pt + c-judgment,
@@ -28,18 +26,16 @@
   draw.content(name, text(size: 0.65em, fill: c-judgment)[#body])
 }
 
-// ── Helper: rule label to the RIGHT of a node ──
-#let rule-label(pos, name, text-body) = {
+// Rule label anchored west (left edge at position, text goes right).
+#let rule-label(pos, body) = {
   draw.content(
     pos,
-    name: name,
     anchor: "west",
-    text(size: 0.55em, fill: c-rule, weight: "semibold")[#text-body],
+    text(size: 0.55em, fill: c-rule, weight: "semibold")[#body],
   )
 }
 
-// ── Helper: vertical edge (parent → child) ──
-// Uses CeTZ compass anchors: parent.south → child.north
+// Vertical edge from parent.south to child.north.
 #let vert-edge(parent, child) = {
   draw.line(
     (parent + ".south"),
@@ -51,81 +47,75 @@
 // ═══════════════════════════════════════════════════════════════════
 // Derivation of ⊢ λx:Nat. x : Nat → Nat
 //
-// This derivation is a TREE with one branch (two levels):
-// the conclusion (top) follows from a single premise (bottom).
-// Many typing derivations are linear like this — each rule has
-// at most one premise that requires further proof.
+// A tree with one branch: conclusion above one premise.
+// Linear because each typing rule in λ→ has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = figure(
   canvas({
     import draw: *
 
-    // Vertical spacing: compact, 2cm between levels
-    let by = 1.0 // bottom row y
-    let ty = 3.0 // top row y
+    let nw = 3.3 // half-width of judgment rects
+    let lx = 4.0 // x position for rule labels (anchor=west)
 
-    // Bottom: premise — x:Nat ⊢ x : Nat  [var]
-    judgment-node((2.5, by), "prem", {
+    let by = 1.0 // bottom row
+    let ty = 3.0 // top row
+
+    judgment-node((3.0, by), "prem", nw, {
       $x : "Nat" tack.r x : "Nat"$
     })
-    rule-label((5.6, by), "rl1", [(var)])
+    rule-label((lx, by), [(var)])
 
-    // Top: conclusion — ⊢ λx:Nat. x : Nat → Nat  [abs]
-    judgment-node((2.5, ty), "conc", {
+    judgment-node((3.0, ty), "conc", nw, {
       $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
     })
-    rule-label((5.6, ty), "rl2", [(abs)])
+    rule-label((lx, ty), [(abs)])
 
-    // Vertical edge
     vert-edge("conc", "prem")
   }),
   caption: [
     Дерево вывода типа для тождественной функции.
-    Вывод состоит из двух уровней: нижний --- аксиома var, верхний --- применение правила abs.
-    Поскольку у правила abs ровно одна посылка, дерево вырождается в линию --- это нормально для типовых выводов в $lambda ->$.
+    Два уровня: нижний --- аксиома var, верхний --- правило abs.
+    Поскольку у правила abs одна посылка, дерево вырождается в линию --- это нормально для типовых выводов в $lambda ->$.
   ],
 )
 
 // ═══════════════════════════════════════════════════════════════════
 // Derivation of K combinator: ⊢ λx:Nat. λy:Bool. x : Nat → Bool → Nat
 //
-// Three levels: var (bottom), abs on y (middle), abs on x (top).
-// Again linear — each step has exactly one subderivation.
+// Three levels: var → abs on y → abs on x. Linear for the same reason.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-k = figure(
   canvas({
     import draw: *
 
-    // Vertical spacing: compact, 1.8cm between levels
+    let nw = 4.0 // wider for longer judgments
+    let lx = 5.0
+
     let by = 0.8 // bottom: var
     let my = 2.6 // middle: abs on y
     let ty = 4.4 // top: abs on x
 
-    // Bottom: x:Nat, y:Bool ⊢ x : Nat  [var]
-    judgment-node((2.5, by), "k-prem", {
+    judgment-node((4.0, by), "k-prem", nw, {
       $x : "Nat", y : "Bool" tack.r x : "Nat"$
     })
-    rule-label((5.6, by), "kr1", [(var)])
+    rule-label((lx, by), [(var)])
 
-    // Middle: x:Nat ⊢ λy:Bool. x : Bool → Nat  [abs]
-    judgment-node((2.5, my), "k-mid", {
+    judgment-node((4.0, my), "k-mid", nw, {
       $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$
     })
-    rule-label((5.6, my), "kr2", [(abs)])
+    rule-label((lx, my), [(abs)])
 
-    // Top: ⊢ λx:Nat. λy:Bool. x : Nat → Bool → Nat  [abs]
-    judgment-node((2.5, ty), "k-top", {
+    judgment-node((4.0, ty), "k-top", nw, {
       $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
     })
-    rule-label((5.6, ty), "kr3", [(abs)])
+    rule-label((lx, ty), [(abs)])
 
-    // Vertical edges
     vert-edge("k-top", "k-mid")
     vert-edge("k-mid", "k-prem")
   }),
   caption: [
     Дерево вывода типа для комбинатора $K$ (проекция на первый аргумент) с типами $"Nat"$ и $"Bool"$.
-    Три шага: аксиома var, два применения правила abs.
+    Три шага: аксиома var, затем два применения правила abs.
     Вывод снова линеен --- каждое правило имеет ровно одну посылочную ветвь.
   ],
 )
