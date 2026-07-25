@@ -11,6 +11,7 @@
 // === Complex symbols (awkward in stdlib) ===
 #let symdiff = $Delta$
 #let models = sym.tack.rr
+#let vdash = sym.tack.r    // ⊢ (turnstile, «доказуемо»)
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let setminus = sym.without
