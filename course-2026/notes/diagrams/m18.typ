@@ -11,8 +11,7 @@
 
 // ── Helpers ──
 
-// Judgment node: rounded rect with fixed width.
-// Width is generous to fit all judgments in these derivations.
+// Judgment node: rounded rect with given half-width.
 #let judgment-node(pos, name, w, body) = {
   let (x, y) = pos
   draw.rect(
@@ -26,10 +25,10 @@
   draw.content(name, text(size: 0.65em, fill: c-judgment)[#body])
 }
 
-// Rule label anchored west (left edge at position, text goes right).
-#let rule-label(pos, body) = {
+// Rule label at node.east, anchor west — text starts at right edge of node.
+#let rule-label(node-name, body) = {
   draw.content(
-    pos,
+    (node-name + ".east"),
     anchor: "west",
     text(size: 0.55em, fill: c-rule, weight: "semibold")[#body],
   )
@@ -47,28 +46,25 @@
 // ═══════════════════════════════════════════════════════════════════
 // Derivation of ⊢ λx:Nat. x : Nat → Nat
 //
-// A tree with one branch: conclusion above one premise.
+// One branch: conclusion above one premise.
 // Linear because each typing rule in λ→ has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = figure(
   canvas({
     import draw: *
-
-    let nw = 3.3 // half-width of judgment rects
-    let lx = 4.0 // x position for rule labels (anchor=west)
-
-    let by = 1.0 // bottom row
-    let ty = 3.0 // top row
+    let nw = 3.3
+    let by = 1.0
+    let ty = 3.0
 
     judgment-node((3.0, by), "prem", nw, {
       $x : "Nat" tack.r x : "Nat"$
     })
-    rule-label((lx, by), [(var)])
+    rule-label("prem", [(var)])
 
     judgment-node((3.0, ty), "conc", nw, {
       $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
     })
-    rule-label((lx, ty), [(abs)])
+    rule-label("conc", [(abs)])
 
     vert-edge("conc", "prem")
   }),
@@ -87,28 +83,25 @@
 #let derivation-k = figure(
   canvas({
     import draw: *
+    let nw = 4.0
+    let by = 0.8
+    let my = 2.6
+    let ty = 4.4
 
-    let nw = 4.0 // wider for longer judgments
-    let lx = 5.0
-
-    let by = 0.8 // bottom: var
-    let my = 2.6 // middle: abs on y
-    let ty = 4.4 // top: abs on x
-
-    judgment-node((4.0, by), "k-prem", nw, {
+    judgment-node((3.5, by), "k-prem", nw, {
       $x : "Nat", y : "Bool" tack.r x : "Nat"$
     })
-    rule-label((lx, by), [(var)])
+    rule-label("k-prem", [(var)])
 
-    judgment-node((4.0, my), "k-mid", nw, {
+    judgment-node((3.5, my), "k-mid", nw, {
       $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$
     })
-    rule-label((lx, my), [(abs)])
+    rule-label("k-mid", [(abs)])
 
-    judgment-node((4.0, ty), "k-top", nw, {
+    judgment-node((3.5, ty), "k-top", nw, {
       $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
     })
-    rule-label((lx, ty), [(abs)])
+    rule-label("k-top", [(abs)])
 
     vert-edge("k-top", "k-mid")
     vert-edge("k-mid", "k-prem")
