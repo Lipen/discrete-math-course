@@ -113,14 +113,14 @@ _Этот_ --- число.
   + *var*: переменная имеет тип, приписанный ей в контексте.
     Если мы предположили что $x$ --- число, то $x$ --- число.
     #prooftree(
-      rule(label: [*var*], $Gamma tack.r x : sigma$, $(x : sigma) in Gamma$),
+      rule(name: [*var*], $Gamma tack.r x : sigma$, $(x : sigma) in Gamma$),
     )
 
   + *app*: применение функции $M$ (вход $sigma$, выход $tau$) к аргументу $N$ (типа $sigma$) даёт результат типа $tau$.
     Если функция ожидает число --- дайте ей число.
     #prooftree(
       rule(
-        label: [*app*],
+        name: [*app*],
         $Gamma tack.r M N : tau$,
         $Gamma tack.r M : sigma -> tau$,
         $Gamma tack.r N : sigma$,
@@ -131,7 +131,7 @@ _Этот_ --- число.
     Аннотация $x : sigma$ в терме фиксирует тип аргумента.
     #prooftree(
       rule(
-        label: [*abs*],
+        name: [*abs*],
         $Gamma tack.r lambda x : sigma . M : sigma -> tau$,
         $(Gamma, x : sigma tack.r M : tau)$,
       ),
