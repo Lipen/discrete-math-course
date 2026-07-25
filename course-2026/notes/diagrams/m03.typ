@@ -49,6 +49,44 @@
   el(<5>, <5>, angle: 240deg),
 )
 
+// ── Hasse diagram of divisibility on {1,2,3,4,6,12} ──
+#let hasse-divisibility = canvas({
+  import cetz: draw
+  let fill = oklch(88%, 0.03, 250deg)
+  let stroke = 0.6pt + oklch(50%, 0.08, 250deg)
+  let edge-str = 0.6pt + oklch(35%, 0.02, 265deg)
+
+  // Positions: 1 at bottom, 12 at top
+  let p(n) = {
+    if n == 12 { return (0, 3.0) }
+    if n == 4  { return (-1.5, 2.0) }
+    if n == 6  { return (1.5, 2.0) }
+    if n == 2  { return (-1.0, 1.0) }
+    if n == 3  { return (1.0, 1.0) }
+    if n == 1  { return (0, 0.0) }
+  }
+
+  // Nodes
+  for (n, pos) in (("12", (0, 3.0)), ("4", (-1.5, 2.0)), ("6", (1.5, 2.0)), ("2", (-1.0, 1.0)), ("3", (1.0, 1.0)), ("1", (0, 0.0))) {
+    draw.circle(pos, radius: 0.35, fill: fill, stroke: stroke)
+    draw.content(pos, text(size: 0.7em)[#n])
+  }
+
+  // Edges — only cover relations (no transitive shortcuts)
+  // 1 -> 2, 1 -> 3
+  draw.line((0, 0.35), (-1.0, 0.65), stroke: edge-str)
+  draw.line((0, 0.35), (1.0, 0.65), stroke: edge-str)
+  // 2 -> 4, 2 -> 6
+  draw.line((-1.0, 1.35), (-1.5, 1.65), stroke: edge-str)
+  draw.line((-1.0, 1.35), (1.5, 1.65), stroke: edge-str)
+  // 3 -> 6
+  draw.line((1.0, 1.35), (1.5, 1.65), stroke: edge-str)
+  // 4 -> 12
+  draw.line((-1.5, 2.35), (0, 2.65), stroke: edge-str)
+  // 6 -> 12
+  draw.line((1.5, 2.35), (0, 2.65), stroke: edge-str)
+})
+
 // ── Equivalence partition: numbers 1..10 modulo 3 ──
 #let c-eq-a = oklch(88%, 0.06, 250deg)
 #let c-eq-b = oklch(88%, 0.06, 155deg)
