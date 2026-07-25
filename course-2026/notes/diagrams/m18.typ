@@ -25,10 +25,10 @@
   draw.content(name, text(size: 0.65em, fill: c-judgment)[#body])
 }
 
-// Rule label at node.east, anchor west — text starts at right edge of node.
+// Rule label at node.east + 0.3em gap, anchor west.
 #let rule-label(node-name, body) = {
   draw.content(
-    (node-name + ".east"),
+    (rel: (0.3em, 0), to: node-name + ".east"),
     anchor: "west",
     text(size: 0.55em, fill: c-rule, weight: "semibold")[#body],
   )
