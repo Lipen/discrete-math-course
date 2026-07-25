@@ -110,7 +110,6 @@ _Этот_ --- число.
 Алгоритм проверки --- отдельная инженерная задача (и для $lambda arrow.r$ она решается за линейное время).
 
 #definition[Правила типизации $lambda arrow.r$][
-  #set par(first-line-indent: 0pt)
 
   #table(
     columns: (auto, auto, auto),
@@ -187,23 +186,23 @@ _Этот_ --- число.
 #example[Тождественная функция][
   Построим вывод типа для $lambda x : "Nat" . x$.
 
-  #set par(first-line-indent: 0pt)
-  + По правилу var: $x : "Nat" ⊢ x : "Nat"$.
-  + По правилу abs (применённому к предыдущей строке): $dots.c ⊢ lambda x : "Nat" . x : "Nat" arrow.r "Nat"$.
 
-  Тождественная функция на натуральных числах имеет тип $"Nat" arrow.r "Nat"$.
+  + По правилу var: $x : "Nat" ⊢ x : "Nat"$.
+    + По правилу abs (применённому к предыдущей строке): $dots.c ⊢ lambda x : "Nat" . x : "Nat" arrow.r "Nat"$.
+
+    Тождественная функция на натуральных числах имеет тип $"Nat" arrow.r "Nat"$.
 ]
 
 #example[Проекция на первый аргумент][
   Построим вывод типа для $lambda x : "Nat" . lambda y : "Bool" . x$.
 
-  #set par(first-line-indent: 0pt)
-  + По правилу var: $x : "Nat", y : "Bool" ⊢ x : "Nat"$.
-  + По правилу abs по $y$: $x : "Nat" ⊢ lambda y : "Bool" . x : "Bool" arrow.r "Nat"$.
-  + По правилу abs по $x$: $dots.c ⊢ lambda x : "Nat" . lambda y : "Bool" . x : "Nat" arrow.r "Bool" arrow.r "Nat"$.
 
-  Тип этой функции: $"Nat" arrow.r "Bool" arrow.r "Nat"$.
-  Функция принимает $"Nat"$, затем $"Bool"$, и игнорируя булево значение возвращает исходное число.
+  + По правилу var: $x : "Nat", y : "Bool" ⊢ x : "Nat"$.
+    + По правилу abs по $y$: $x : "Nat" ⊢ lambda y : "Bool" . x : "Bool" arrow.r "Nat"$.
+    + По правилу abs по $x$: $dots.c ⊢ lambda x : "Nat" . lambda y : "Bool" . x : "Nat" arrow.r "Bool" arrow.r "Nat"$.
+
+    Тип этой функции: $"Nat" arrow.r "Bool" arrow.r "Nat"$.
+    Функция принимает $"Nat"$, затем $"Bool"$, и игнорируя булево значение возвращает исходное число.
 ]
 
 Визуализируем деревья вывода для этих двух примеров.
@@ -327,7 +326,6 @@ $
 Это изоморфизм: взаимно-однозначное соответствие, сохраняющее все операции.
 
 #definition[Соответствие Карри--Ховарда (Curry--Howard correspondence)][
-  #set par(first-line-indent: 0pt)
 
   #table(
     columns: (auto, auto),
