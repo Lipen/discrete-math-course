@@ -11,7 +11,7 @@
 // === Complex symbols (awkward in stdlib) ===
 #let symdiff = $Delta$
 #let models = sym.tack.rr
-#let vdash = sym.tack.r    // ⊢ (turnstile, «доказуемо»)
+#let vdash = sym.tack.r    // turnstile, "доказуемо"
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let setminus = sym.without
@@ -40,7 +40,7 @@
 #let Blank = math.class("normal", sym.square.stroked)
 #let qAccept = $q_"accept"$
 #let qReject = $q_"reject"$
-#let partialto = $⇀$  // стрелка частичной функции: f: A ⇀ B
+#let partialto = symbol("\u{21C0}")  // стрелка частичной функции
 
 // === Logic gates (aliases for readability) ===
 #let nand = sym.arrow.t    // штрих Шеффера: $nand$
@@ -55,15 +55,19 @@
 // === Отношение неразличимости Майхилла--Нерода (индекс, не предел) ===
 #let meq = $scripts(tilde.eq)$
 
+// === Решётки (m05, m07) ===
+#let join = $or$          // join (супремум в решётке)
+#let meet = $and$         // meet (инфимум в решётке)
+
 // === Лямбда-исчисление (m17, m18) ===
 
 // Стрелки и отношения редукции (beta сверху, без scripts).
-#let beta-red = $->^beta$                     // →^β (одношаговая)
-#let beta-reds = $->>^beta$                   // ↠^β (многошаговая)
+#let beta-red = $->^beta$                     // ->^beta (одношаговая)
+#let beta-reds = $->>^beta$                   // ->>^beta (многошаговая)
 #let beta-eq = $=^beta$                       // =^β (эквивалентность)
 #let alpha-eq = $=^alpha$                     // =^α (α-эквивалентность)
 
-// Макросы для λ-конструкций — принимают content, возвращают math.
+// Макросы для lambda-конструкций --- принимают content, возвращают math.
 #let lam(x, body) = $lambda #x . #body$
 #let app(M, N) = $#M #N$
 #let subst(M, x, N) = $#M \[ #x := #N \]$
