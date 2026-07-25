@@ -109,55 +109,29 @@ _Этот_ --- число.
 
 #definition[Правила типизации $lambda arrow.r$][
 
-  #table(
-    columns: (auto, auto, auto),
-    stroke: none,
-    inset: (x: 0.4em, y: 0.3em),
+  + *var*: переменная имеет тип, приписанный ей в контексте.
+    Если мы предположили что $x$ --- число, то $x$ --- число.
+    $
+      frac((x : sigma) in Gamma, quad Gamma ⊢ x : sigma)
+    $
 
-    // Header
-    [], [*Правило*], [*Содержание*],
+  + *app*: применение функции $M$ (вход $sigma$, выход $tau$) к аргументу $N$ (типа $sigma$) даёт результат типа $tau$.
+    Если функция ожидает число --- дайте ей число.
+    $
+      frac(
+        Gamma ⊢ M : sigma arrow.r tau quad Gamma ⊢ N : sigma,
+        quad Gamma ⊢ M N : tau
+      )
+    $
 
-    // Var
-    [*var*],
-    [
-      $(x : sigma) in Gamma$
-      #v(0.15em)
-      ---
-      $Gamma ⊢ x : sigma$
-    ],
-    [
-      Переменная имеет тип, приписанный ей в контексте.
-      Если мы предположили что $x$ --- число, то $x$ --- число.
-    ],
-
-    // App
-    table.hline(),
-    [*app*],
-    [
-      $Gamma ⊢ M : sigma arrow.r tau quad Gamma ⊢ N : sigma$
-      #v(0.15em)
-      ---
-      $Gamma ⊢ M N : tau$
-    ],
-    [
-      Применение функции $M$ (вход $sigma$, выход $tau$) к аргументу $N$ (типа $sigma$) даёт результат типа $tau$.
-      Если функция ожидает число --- дайте ей число.
-    ],
-
-    // Abs
-    table.hline(),
-    [*abs*],
-    [
-      $Gamma, x : sigma ⊢ M : tau$
-      #v(0.15em)
-      ---
-      $Gamma ⊢ lambda x : sigma . M : sigma arrow.r tau$
-    ],
-    [
-      Если тело $M$ имеет тип $tau$ при предположении что $x : sigma$, то $lambda$-абстракция --- функция из $sigma$ в $tau$.
-      Аннотация $x : sigma$ в терме фиксирует тип аргумента.
-    ],
-  )
+  + *abs*: если тело $M$ имеет тип $tau$ при предположении что $x : sigma$, то $lambda$-абстракция --- функция из $sigma$ в $tau$.
+    Аннотация $x : sigma$ в терме фиксирует тип аргумента.
+    $
+      frac(
+        (Gamma, x : sigma ⊢ M : tau),
+        quad (Gamma ⊢ lambda x : sigma . M : sigma arrow.r tau)
+      )
+    $
 ]
 
 Разберём каждое правило на конкретных примерах.
