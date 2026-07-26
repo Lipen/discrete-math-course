@@ -1,7 +1,9 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
+#import "diagrams/m01.typ": (
+  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
+)
 
 = Логика и доказательства <chap:logic>
 
@@ -96,7 +98,9 @@ _Высказывание_ (или _утверждение_) --- это пове
   columns: 7,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header([$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]),
+  table.header(
+    [$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]
+  ),
   [#T], [#T], [#F], [#T], [#T], [#T], [#T],
   [#T], [#F], [#F], [#F], [#T], [#F], [#F],
   [#F], [#T], [#T], [#F], [#T], [#T], [#F],
@@ -170,14 +174,14 @@ _Высказывание_ (или _утверждение_) --- это пове
 - _Штрих Шеффера_ (NAND, #nand) --- функционально полон.
 - _Стрелка Пирса_ (NOR, #nor) --- функционально полна.
 Через каждую выражаются отрицание, конъюнкция и дизъюнкция.
-Вот как это работает для штриха Шеффера ($#nand$):
+Вот как это работает для штриха Шеффера ($nand$):
 
 #example[Выражение связок через NAND][
-  - *Отрицание*: $not p equiv p #nand p$.
-    Если $p$ истинно, $p #nand p$ ложно; если $p$ ложно, $p #nand p$ истинно --- в точности отрицание.
-  - *Конъюнкция*: $p and q equiv (p #nand q) #nand (p #nand q)$.
+  - *Отрицание*: $not p equiv p nand p$.
+    Если $p$ истинно, $p nand p$ ложно; если $p$ ложно, $p nand p$ истинно --- в точности отрицание.
+  - *Конъюнкция*: $p and q equiv (p nand q) nand (p nand q)$.
     Внутренний NAND даёт $not (p and q)$; применяя к нему NAND с самим собой, получаем двойное отрицание --- и возвращаем $p and q$.
-  - *Дизъюнкция*: $p or q equiv (p #nand p) #nand (q #nand q)$.
+  - *Дизъюнкция*: $p or q equiv (p nand p) nand (q nand q)$.
     Это $not (not p and not q)$ --- по закону де Моргана, ровно $p or q$.
 ]
 
@@ -331,9 +335,13 @@ _Интерпретация_ сопоставляет каждой атомар�
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
-    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность],
+    [$(p and q) and r equiv p and (q and r)$],
+    [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность],
+    [$p and (q or r) equiv (p and q) or (p and r)$],
+    [$p or (q and r) equiv (p or q) and (p or r)$],
 
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
     [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
