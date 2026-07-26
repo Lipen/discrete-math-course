@@ -519,3 +519,70 @@
   }),
   caption: [Байесовская сеть для медицинской диагностики: грипп вызывает кашель и температуру.],
 )
+
+// ── Hasse diagram of P({a,b,c}) ordered by inclusion ──
+#let c-powerset-fill = oklch(92%, 0.04, 155deg)
+#let c-powerset-str = oklch(55%, 0.08, 250deg)
+#let c-powerset-edge = oklch(40%, 0.02, 265deg)
+
+#let power-set-hasse = canvas({
+  import draw: *
+
+  // Node helper: rounded rectangle with label
+  let node(pos, label, name) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - 0.65, y + 0.28),
+      (x + 0.65, y - 0.28),
+      name: name,
+      fill: c-powerset-fill,
+      stroke: 0.7pt + c-powerset-str,
+      radius: 4pt,
+    )
+    draw.content((x, y), text(size: 0.7em, fill: luma(30%))[#label])
+  }
+
+  // Subset edge: from subset to superset
+  let subset-edge(from-name, to-name) = {
+    draw.line(
+      from-name + ".north",
+      to-name + ".south",
+      stroke: 0.5pt + c-powerset-edge,
+      mark: (end: "stealth", fill: c-powerset-edge, scale: 0.7),
+    )
+  }
+
+  // ── Level 3: {a,b,c} ──
+  node((0, 4.5), ${a, b, c}$, "abc")
+
+  // ── Level 2: pairs ──
+  node((-1.3, 3), ${a, b}$, "ab")
+  node((0, 3), ${a, c}$, "ac")
+  node((1.3, 3), ${b, c}$, "bc")
+
+  // ── Level 1: singletons ──
+  node((-1.3, 1.5), ${a}$, "a")
+  node((0, 1.5), ${b}$, "b")
+  node((1.3, 1.5), ${c}$, "c")
+
+  // ── Level 0: empty set ──
+  node((0, 0), $emptyset$, "e")
+
+  // ── Edges: ∅ → singletons ──
+  subset-edge("e", "a")
+  subset-edge("e", "b")
+  subset-edge("e", "c")
+
+  // ── Edges: singletons → pairs ──
+  subset-edge("a", "ab")
+  subset-edge("a", "ac")
+  subset-edge("b", "ab")
+  subset-edge("b", "bc")
+  subset-edge("c", "ac")
+  subset-edge("c", "bc")
+
+  // ── Edges: pairs → {a,b,c} ──
+  subset-edge("ab", "abc")
+  subset-edge("ac", "abc")
+  subset-edge("bc", "abc")
+})
