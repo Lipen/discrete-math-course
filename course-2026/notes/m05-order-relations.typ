@@ -227,7 +227,7 @@
 
   Напомним, что $prec$ --- индуцированный _строгий_ порядок:
   $
-    (a prec b) iff (a prec.eq b) and (a != b)
+    (a prec b) <=> (a prec.eq b) and (a != b)
   $
 
   - Элемент $m$ называется *минимальным*, если нет элемента строго меньше.
@@ -474,7 +474,7 @@
 #definition[Лексикографический порядок на парах][
   Строгий лексикографический порядок $precLex$ на $A times B$ определяется так:
   $
-    (a_1, b_1) precLex (a_2, b_2) iff
+    (a_1, b_1) precLex (a_2, b_2) <=>
     (a_1 prec_A a_2) or (a_1 = a_2 and b_1 prec_B b_2),
   $
   где $prec_A$ и $prec_B$ --- строгие порядки, индуцированные $prec.eq_A$ и $prec.eq_B$.
@@ -560,7 +560,7 @@
 #definition[Shortlex][
   Для строк $s, t in Sigma^*$ порядок *shortlex* (или length-lexicographic) определяется так:
   $
-    s precSlex t iff
+    s precSlex t <=>
     (|s| < |t|) or (|s| = |t| and s precLex t),
   $
   где $|s|$ --- длина строки.
@@ -595,7 +595,7 @@
   Для двух $k$-кортежей из $A^k$ положим
   $
     (a_1, dots, a_k) precColex (b_1, dots, b_k)
-    iff
+    <=>
     (a_k, dots, a_1) precLex (b_k, dots, b_1).
   $
   Иными словами: сравниваем последние компоненты; если они равны --- предпоследние; и так далее справа налево.
