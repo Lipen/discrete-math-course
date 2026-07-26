@@ -48,6 +48,9 @@
 #let sheffer = sym.arrow.t  // штрих Шеффера (aliased)
 #let peirce = sym.arrow.b   // стрелка Пирса (aliased)
 
+// === Complexity theory (m19) ===
+#let mso-two = $"MSO"_2$
+
 // === Reductions (computability / complexity) ===
 #let mreduce = rel($scripts(<=)_m$)
 #let preduce = rel($scripts(<=)_p$)
