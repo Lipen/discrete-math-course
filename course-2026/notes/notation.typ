@@ -66,6 +66,9 @@
 #let beta-reds = $->>^beta$                   // ->>^beta (многошаговая)
 #let beta-eq = $=^beta$                       // =^β (эквивалентность)
 #let alpha-eq = $=^alpha$                     // =^α (α-эквивалентность)
+#let succeq = $≽$                             // parallel reduction / succeeding relation
+#let par-red = $succeq$                       // параллельная редукция (Church-Rosser proof)
+#let par-red-rel(M, N) = $#M succeq #N$       // M ≽ N
 
 // Макросы для lambda-конструкций --- принимают content, возвращают math.
 #let lam(x, body) = $lambda #x . #body$
