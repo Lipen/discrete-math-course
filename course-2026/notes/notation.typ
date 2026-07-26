@@ -40,7 +40,7 @@
 #let Blank = math.class("normal", sym.square.stroked)
 #let qAccept = $q_"accept"$
 #let qReject = $q_"reject"$
-#let partialto = symbol("\u{21C0}")  // стрелка частичной функции
+#let partialto = sym.arrow.r.bar  // стрелка частичной функции
 
 // === Logic gates (aliases for readability) ===
 #let nand = sym.arrow.t    // штрих Шеффера: $nand$
@@ -64,10 +64,10 @@
 // Стрелки и отношения редукции (beta сверху, без scripts).
 #let beta-red = $->^beta$                     // ->^beta (одношаговая)
 #let beta-reds = $->>^beta$                   // ->>^beta (многошаговая)
-#let beta-eq = $=^beta$                       // =^β (эквивалентность)
-#let alpha-eq = $=^alpha$                     // =^α (α-эквивалентность)
-#let par-red = $succ.eq$                       // ≽ --- параллельная редукция (Church-Rosser proof)
-#let par-red-rel(M, N) = $#M succ.eq #N$       // M ≽ N
+#let beta-eq = $=^beta$                       // =^beta (эквивалентность)
+#let alpha-eq = $=^alpha$                     // =^alpha (альфа-эквивалентность)
+#let par-red = $succ.eq$                       // succ.eq --- параллельная редукция (Church-Rosser proof)
+#let par-red-rel(M, N) = $#M succ.eq #N$       // M succ.eq N
 
 // Макросы для lambda-конструкций --- принимают content, возвращают math.
 #let lam(x, body) = $lambda #x . #body$

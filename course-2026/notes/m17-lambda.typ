@@ -1,4 +1,4 @@
-// M17 --- Бестиповое λ-исчисление: вычисление как подстановка.
+// M17 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m17.typ": church-rosser-diamond, lambda-syntax-tree
@@ -688,9 +688,9 @@ $
 
 Например, терм $lambda x y . y x$ переводится так:
 $
-  [x] [y] y x &= [x] (S ([y] y) ([y] x)) \
-               &= [x] (S I (K x)) \
-               &= S (S (K S) (K I)) (S (K K) I)
+  [x] [y] y x & = [x] (S ([y] y) ([y] x)) \
+              & = [x] (S I (K x)) \
+              & = S (S (K S) (K I)) (S (K K) I)
 $
 
 Результат громоздкий, но все переменные устранены.

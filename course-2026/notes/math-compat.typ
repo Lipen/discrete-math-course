@@ -35,21 +35,21 @@
 #let nsim = sym.tilde.not
 
 // Special symbols
-#let langle = "⟨"
-#let rangle = "⟩"
+#let langle = $langle$
+#let rangle = $rangle$
 #let empty = sym.emptyset
-#let epsilon = "ε"
-#let oplus = "⊕"
-#let sq = "□"
-#let Diamond = "□"
-#let coloneqq = "≔"
+#let epsilon = $epsilon$
+#let oplus = $xor$
+#let sq = $square.stroked$
+#let Diamond = $square.stroked$
+#let coloneqq = $colon.eq$
 
 // Inequality
-#let le = "≤"
-#let ge = "≥"
-#let neq = "≠"
-#let leq = "≤"
-#let geq = "≥"
+#let le = $<=$
+#let ge = $>=$
+#let neq = $!=$
+#let leq = $<=$
+#let geq = $>=$
 
 // Text labels for math mode (content blocks --- safe inside/outside math)
 #let T(t) = text(style: "italic", t)
