@@ -38,11 +38,8 @@
 
   Ричард Хэмминг работал в той же Bell Labs и, по собственному признанию, придумал свой код от раздражения.
   Компьютер с перфокартами останавливался при каждой ошибке чтения, и выходные проходили впустую --- Хэмминг решил, что машина должна находить и исправлять ошибки сама.
-  Его статья "Error Detecting and Error Correcting Codes" (1950) дала первый явный код, исправляющий одну ошибку.
-  С неё начинается алгебраическая теория кодирования --- явные конструкции, стремящиеся к границе, указанной Шенноном.#footnote[
-    Shannon C. E. "A Mathematical Theory of Communication", Bell System Technical Journal, 1948;
-    Hamming R. W. "Error Detecting and Error Correcting Codes", Bell System Technical Journal, 1950.
-  ]
+  Его статья "Error Detecting and Error Correcting Codes" (1950#footnote[Hamming R. W. "Error Detecting and Error Correcting Codes", Bell System Technical Journal, 1950.]) дала первый явный код, исправляющий одну ошибку.
+  С неё начинается алгебраическая теория кодирования --- явные конструкции, стремящиеся к границе, указанной Шенноном#footnote[Shannon C. E. "A Mathematical Theory of Communication", Bell System Technical Journal, 1948.].
 ]
 
 #note[После этой главы вы будете уметь:
