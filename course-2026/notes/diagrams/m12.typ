@@ -108,60 +108,80 @@
 })
 
 // --- QQ diagonal pairing matrix ---
-#let qq-pairing = canvas({
-  let s = 0.55
-  let size = 6
-  let bg = oklch(97%, 0.005, 260deg)
-  let path-color = oklch(55%, 0.20, 22deg)
+#let qq-pairing = canvas(y: -1, {
+  let size = 5
 
   // Column/row labels
-  draw.content((0.1, 0.65), text(size: 0.6em, fill: luma(45%))[$1$])
-  draw.content((-0.5, -0.3), text(size: 0.6em, fill: luma(45%))[$1$])
-  for i in range(2, size + 1) {
-    draw.content((i * s - s / 2, 0.65), text(
-      size: 0.6em,
+  for i in range(1, size + 1) {
+    draw.content((i + 0.5, 1), anchor: "south", padding: 0.3, text(
+      size: 0.8em,
       fill: luma(45%),
     )[$#i$])
-    draw.content((-0.5, -(i - 0.5) * s), text(
-      size: 0.6em,
+    draw.content((1, i + 0.5), anchor: "east", padding: 0.3, text(
+      size: 0.8em,
       fill: luma(45%),
     )[$#i$])
-  }
-
-  // Grid with diagonal path
-  for i in range(size) {
-    for j in range(size) {
-      let x = j * s
-      let y = -(i + 1) * s + 0.3
-      let n = i + j + 1
-      // Cell fill based on diagonal
-      let clr = oklch(75%, 0.02, 260deg - n * 30deg)
-      draw.rect(
-        (x, y - 0.3),
-        (x + s, y + 0.3),
-        fill: clr,
-        stroke: 0.3pt + luma(85%),
-      )
-      draw.content((x + s / 2, y), text(
-        size: 0.55em,
-        fill: luma(35%),
-      )[$(#(i + 1),#(j + 1))$])
-    }
   }
 
   // Diagonal path arrows
-  for k in range(0, size * 2 - 1) {
-    let start = calc.max(0, k - size + 1)
-    let r0 = start
-    let c0 = k - start
-    if r0 < size and c0 < size {
-      let x = c0 * s + s / 2
-      let y = -(r0 + 1) * s + 0.3
-      draw.content((x, y + 0.15), text(
-        size: 0.48em,
-        fill: oklch(55%, 0.22, 22deg),
+  let cells = ()
+  for s in range(2, size * size) {
+    // s = i + j
+    for i in range(calc.max(1, s - size), calc.min(size, s - 1) + 1) {
+      let j = s - i
+      cells.push((i, j))
+    }
+  }
+  let color = oklch(55%, 0.20, 22deg)
+  let path-color = color.transparentize(50%)
+  for idx in range(1, cells.len()) {
+    let (i_prev, j_prev) = cells.at(idx - 1)
+    let (i_curr, j_curr) = cells.at(idx)
+    let x = j_prev
+    let y = i_prev
+    let start = (j_prev + 0.5, i_prev + 0.5)
+    let end = (j_curr + 0.5, i_curr + 0.5)
+    draw.line(
+      start,
+      end,
+      stroke: 0.5pt + path-color,
+      mark: (end: "stealth", fill: path-color),
+    )
+    draw.content(
+      (x + 0.5, y),
+      anchor: "north",
+      padding: 0.1,
+      text(
+        size: 0.5em,
+        fill: color,
         weight: "bold",
-      )[$#(k + 1)$])
+      )[#idx],
+    )
+  }
+
+  // Grid
+  for i in range(1, size + 1) {
+    for j in range(1, size + 1) {
+      let x = j
+      let y = i
+      let n = i + j + 1
+      // Cell fill based on diagonal
+      let clr = oklch(75%, 0.1, 260deg - n * 30deg).transparentize(80%)
+      draw.rect(
+        (x, y),
+        (x + 1, y + 1),
+        fill: clr,
+        stroke: 0.3pt + luma(85%),
+      )
+      draw.content(
+        (x + 0.5, y + 1),
+        anchor: "south",
+        padding: 0.1,
+        text(
+          size: 0.8em,
+          fill: luma(35%),
+        )[$(#i, #j)$],
+      )
     }
   }
 })
