@@ -2,13 +2,13 @@
 #import "../requirements.typ": *
 #import cetz: canvas, draw
 
-#let cantor-bg = oklch(97%, 0.005, 260deg)
-#let cantor-diag = oklch(60%, 0.22, 22deg)
-#let cantor-digit = oklch(30%, 0.02, 265deg)
-#let cantor-constr = oklch(50%, 0.18, 250deg)
-#let cantor-mismatch = oklch(55%, 0.20, 22deg)
-
 #let cantor-diagonal = canvas({
+  let cantor-bg = oklch(97%, 0.005, 260deg)
+  let cantor-diag = oklch(60%, 0.22, 22deg)
+  let cantor-digit = oklch(30%, 0.02, 265deg)
+  let cantor-constr = oklch(50%, 0.18, 250deg)
+  let cantor-mismatch = oklch(55%, 0.20, 22deg)
+
   let s = 0.72
   let rows = 5
   let cols = 7
@@ -191,6 +191,7 @@
   let top = 0.3
   let line-y = -0.5
   let mark = 0.8
+
   draw.line((-3.5, line-y), (4.5, line-y), stroke: 0.6pt + luma(50%))
 
   // Markers
@@ -389,8 +390,6 @@
 
 #let probability-tree = figure(
   canvas({
-    import draw: *
-
     // Edge with probability label at midpoint (white-boxed for readability)
     let prob-edge(from, to, prob) = {
       let name = "e-" + from + "-" + to
@@ -462,14 +461,12 @@
 )
 
 // ── Bayesian network: Flu → Cough, Flu → Fever ──
-#let c-bn-fill = oklch(92%, 0.04, 250deg)
-#let c-bn-stroke = oklch(55%, 0.08, 250deg)
-#let c-bn-label = oklch(30%, 0.02, 265deg)
-#let c-bn-edge = oklch(35%, 0.02, 265deg)
-
 #let bayes-net = figure(
   canvas({
-    import draw: *
+    let c-bn-fill = oklch(92%, 0.04, 250deg)
+    let c-bn-stroke = oklch(55%, 0.08, 250deg)
+    let c-bn-label = oklch(30%, 0.02, 265deg)
+    let c-bn-edge = oklch(35%, 0.02, 265deg)
 
     // Rounded rectangle node
     let node(pos, label, name) = {
@@ -541,22 +538,25 @@
 )
 
 // ── Hasse diagram of P({a,b,c}) ordered by inclusion ──
-#let c-powerset-fill = oklch(92%, 0.04, 155deg)
-#let c-powerset-str = oklch(55%, 0.08, 250deg)
-#let c-powerset-edge = oklch(40%, 0.02, 265deg)
-
 #let power-set-hasse = canvas({
-  import draw: *
+  let xgap = 2
+  let ygap = 1.5
+  let w = 1.2
+  let h = 0.6
+
+  let c-powerset-fill = oklch(92%, 0.04, 155deg)
+  let c-powerset-str = oklch(55%, 0.08, 250deg)
+  let c-powerset-edge = oklch(40%, 0.02, 265deg)
 
   // Node helper: rounded rectangle with label
   let node(pos, label, name) = {
     let (x, y) = pos
     draw.rect(
-      (x - 0.65, y + 0.28),
-      (x + 0.65, y - 0.28),
+      (x - w / 2, y + h / 2),
+      (x + w / 2, y - h / 2),
       name: name,
       fill: c-powerset-fill,
-      stroke: 0.7pt + c-powerset-str,
+      stroke: 0.8pt + c-powerset-str,
       radius: 4pt,
     )
     draw.content((x, y), text(size: 0.7em, fill: luma(30%))[#label])
@@ -565,25 +565,25 @@
   // Subset edge: from subset to superset
   let subset-edge(from-name, to-name) = {
     draw.line(
-      from-name + ".north",
-      to-name + ".south",
+      from-name,
+      to-name,
       stroke: 0.5pt + c-powerset-edge,
-      mark: (end: "stealth", fill: c-powerset-edge, scale: 0.7),
+      mark: (end: "stealth", fill: c-powerset-edge),
     )
   }
 
   // ── Level 3: {a,b,c} ──
-  node((0, 4.5), ${a, b, c}$, "abc")
+  node((0, ygap * 3), ${a, b, c}$, "abc")
 
   // ── Level 2: pairs ──
-  node((-1.3, 3), ${a, b}$, "ab")
-  node((0, 3), ${a, c}$, "ac")
-  node((1.3, 3), ${b, c}$, "bc")
+  node((-xgap, ygap * 2), ${a, b}$, "ab")
+  node((0, ygap * 2), ${a, c}$, "ac")
+  node((xgap, ygap * 2), ${b, c}$, "bc")
 
   // ── Level 1: singletons ──
-  node((-1.3, 1.5), ${a}$, "a")
-  node((0, 1.5), ${b}$, "b")
-  node((1.3, 1.5), ${c}$, "c")
+  node((-xgap, ygap), ${a}$, "a")
+  node((0, ygap), ${b}$, "b")
+  node((xgap, ygap), ${c}$, "c")
 
   // ── Level 0: empty set ──
   node((0, 0), $emptyset$, "e")

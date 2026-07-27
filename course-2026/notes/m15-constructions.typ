@@ -1,7 +1,7 @@
 // M15 --- Конструкции чисел.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": banach-tarski, ordinals
+#import "diagrams/m12.typ": banach-tarski
 
 = Конструкции чисел <chap:constructions>
 

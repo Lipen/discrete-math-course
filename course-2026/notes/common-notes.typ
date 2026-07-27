@@ -80,6 +80,10 @@
     // first-line-indent: 1em,
   )
 
+  // show figure.caption: it => {
+  //   it
+  // }
+
   set heading(numbering: "1.1.1")
 
   // Заголовки
