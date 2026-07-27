@@ -101,8 +101,7 @@
 #history-note[Реляционная модель Кодда][
   Каждая строка --- кортеж, принадлежащий отношению $R subset.eq D_1 times ... times D_n$ (подмножеству декартова произведения доменов).
   Операция `SELECT` с условием $P$ возвращает подмножество кортежей, удовлетворяющих $P$: ${t in R mid(|) P(t)}$ --- в точности порождающая запись множества.
-  Термин "реляционная" происходит именно отсюда: Кодд осознанно использовал математический термин relation (отношение), а не table, подчёркивая теоретико-множественную природу модели.#footnote[E. F. Codd, "A Relational Model of Data for Large Shared Data Banks", Communications of the ACM, 1970.
-  ]
+  Термин "реляционная" происходит именно отсюда: Кодд осознанно использовал математический термин relation (отношение), а не table, подчёркивая теоретико-множественную природу модели.#footnote[E. F. Codd, "A Relational Model of Data for Large Shared Data Banks", Communications of the ACM, 1970.]
 
   Кодд был математиком, а не программистом.
   Он получил PhD по математике в Мичиганском университете и пришёл в IBM Research как специалист по формальным системам.
@@ -321,8 +320,10 @@ $R^2$ даёт пары, достижимые за два шага; $R^3$ --- з
 Алгоритм Уоршелла (1962) и алгоритм Флойда--Уоршелла для кратчайших путей --- структурно один и тот же алгоритм, применённый к разным полукольцам.
 Булево полукольцо $({T, F}, or, and)$ --- для транзитивного замыкания.
 Тропическое полукольцо $(RR union {oo}, "min", +)$ --- для кратчайших путей.
-Замена $or$ на $"min"$ и $and$ на $+$ превращает одно в другое.#footnote[S. Warshall, "A Theorem on Boolean Matrices", Journal of the ACM, 1962.
-  R. W. Floyd, "Algorithm 97: Shortest Path", Communications of the ACM, 1962.]
+Замена $or$ на $"min"$ и $and$ на $+$ превращает одно в другое.#footnote[
+  S. Warshall, "A Theorem on Boolean Matrices", Journal of the ACM, 1962.
+  R. W. Floyd, "Algorithm 97: Shortest Path", Communications of the ACM, 1962.
+]
 
 === Происхождение термина "замыкание"
 
@@ -561,8 +562,10 @@ $ forall w in Sigma^*: delta^*(p, w) in F iff delta^*(q, w) in F, $
 Это отношение эквивалентности.
 Склеивание эквивалентных состояний (замена класса одним состоянием) даёт _минимальный_ ДКА --- автомат с наименьшим возможным числом состояний, распознающий тот же язык.
 Минимальность доказывается теоремой Майхилла--Нерода: число состояний минимального ДКА равно числу классов эквивалентности отношения Майхилла--Нерода на строках.
-Подробнее --- в главе о конечных автоматах.#footnote[J. Myhill, "Finite Automata and the Representation of Events", WADD TR-57-624, 1957.
-  A. Nerode, "Linear Automaton Transformations", Proceedings of the AMS, 1958.]
+Подробнее --- в главе о конечных автоматах.#footnote[
+  J. Myhill, "Finite Automata and the Representation of Events", WADD TR-57-624, 1957.
+  A. Nerode, "Linear Automaton Transformations", Proceedings of the AMS, 1958.
+]
 
 
 == Частичные порядки
