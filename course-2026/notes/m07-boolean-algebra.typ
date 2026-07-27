@@ -230,9 +230,7 @@ NAND и NOR выделяются среди остальных вентилей:
   - $x and y$ не самодвойственна ($not(not x and not y) = x or y != x and y$);
   - $not x$ не монотонна ($M$);
   - $x and y$ не линейна ($L$).
-  Все пять --- максимальные замкнутые классы#footnote[E.
-    L.
-    Post, "Introduction to a General Theory of Elementary Propositions", American Journal of Mathematics, 1921.].
+  Все пять --- максимальные замкнутые классы#footnote[E. L. Post, "Introduction to a General Theory of Elementary Propositions", American Journal of Mathematics, 1921.].
 
   *Доказательство критерия.*
 
@@ -625,8 +623,7 @@ NAND и NOR выделяются среди остальных вентилей:
     Повторяем итеративно, пока возможны склеивания.
     Несклеенные термы --- простые импликанты.
   + *Фаза покрытия*: составить таблицу покрытия (строки --- простые импликанты, столбцы --- исходные минтермы) и выбрать минимальное по числу импликант подмножество строк, покрывающее все столбцы.
-    Это задача о покрытии множества, в общем случае NP-трудная, но на практике решается эвристиками#footnote[R.
-      Brayton et al., "Logic Minimization Algorithms for VLSI Synthesis", Kluwer, 1984.
+    Это задача о покрытии множества, в общем случае NP-трудная, но на практике решается эвристиками#footnote[R. Brayton et al., "Logic Minimization Algorithms for VLSI Synthesis", Kluwer, 1984.
       ABC: https://github.com/berkeley-abc/abc.] для типичных размеров.
 ]
 
@@ -822,15 +819,9 @@ NAND и NOR выделяются среди остальных вентилей:
 Чем выше нелинейность S-блока, тем меньше максимальная вероятность любой линейной аппроксимации --- и тем больше данных нужно криптоаналитику для атаки.
 
 *Алгебраические атаки*: если S-блок имеет АНФ низкой степени (мало переменных в мономах, немного слагаемых), то вся система шифрования сводится к системе полиномиальных уравнений над $op("GF")(2)$, которую можно пытаться решить алгоритмами типа XL или вычислением базиса Грёбнера.
-Поэтому S-блоки современных шифров проектируются так, чтобы их АНФ имела высокую степень и много мономов --- конкретно, S-блок AES имеет АНФ степени 7 из 8 переменных с 255 слагаемыми#footnote[M.
-  Matsui, "Linear Cryptanalysis Method for DES Cipher", EUROCRYPT 1993.
-  J.
-  Daemen, V.
-  Rijmen, "The Design of Rijndael", Springer, 2002.
-  C.
-  Cid, S.
-  Murphy, M.
-  Robshaw, "Algebraic Aspects of the Advanced Encryption Standard", Springer, 2006.].
+Поэтому S-блоки современных шифров проектируются так, чтобы их АНФ имела высокую степень и много мономов --- конкретно, S-блок AES имеет АНФ степени 7 из 8 переменных с 255 слагаемыми#footnote[M. Matsui, "Linear Cryptanalysis Method for DES Cipher", EUROCRYPT 1993.
+  J. Daemen, V. Rijmen, "The Design of Rijndael", Springer, 2002.
+  C. Cid, S. Murphy, M. Robshaw, "Algebraic Aspects of the Advanced Encryption Standard", Springer, 2006.].
 
 
 == BDD: диаграммы разрешения
@@ -901,14 +892,8 @@ $
   ROBDD лежат в основе символьной верификации (symbolic model checking).
   Множество состояний программы --- это булева функция (набор битовых переменных --- регистры, флаги), закодированная как BDD.
   Объединение, пересечение и проверка пустоты множеств выполняются как операции над BDD за время, пропорциональное размеру BDD, а не количеству элементов множества (которое может быть астрономическим --- $10^20$ и более).
-  Именно это позволяет model checker'ам оперировать пространствами состояний, экспоненциально превосходящими размер доступной памяти.#footnote[R.
-    E.
-    Bryant, "Graph-Based Algorithms for Boolean Function Manipulation", IEEE Transactions on Computers, 1986.
-    E.
-    M.
-    Clarke, O.
-    Grumberg, D.
-    Peled, "Model Checking", MIT Press, 1999.]
+  Именно это позволяет model checker'ам оперировать пространствами состояний, экспоненциально превосходящими размер доступной памяти.#footnote[R. E. Bryant, "Graph-Based Algorithms for Boolean Function Manipulation", IEEE Transactions on Computers, 1986.
+    E. M. Clarke, O. Grumberg, D. Peled, "Model Checking", MIT Press, 1999.]
 ]
 
 

@@ -679,11 +679,8 @@ $Sigma_3$ --- $exists forall exists$, и так далее.
 ]
 
 За ней --- область, куда не может зайти ни один алгоритм.
-Конкретные значения для малых $n$ известны; поведение для $n >= 5$ --- открытое поле, где теория вычислимости встречается с комбинаторной оптимизацией#footnote[T.
-  Radó, "On Non-Computable Functions", Bell System Technical Journal, 1962.
-  A.
-  H.
-  Brady, "The Busy Beaver Game and the Meaning of Life", 1988.].
+Конкретные значения для малых $n$ известны; поведение для $n >= 5$ --- открытое поле, где теория вычислимости встречается с комбинаторной оптимизацией#footnote[T. Radó, "On Non-Computable Functions", Bell System Technical Journal, 1962.
+  A. H. Brady, "The Busy Beaver Game and the Meaning of Life", 1988.].
 
 
 == Упражнения
