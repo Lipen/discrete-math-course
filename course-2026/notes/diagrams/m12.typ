@@ -606,3 +606,96 @@
   subset-edge("ac", "abc")
   subset-edge("bc", "abc")
 })
+
+// Кантор: биекция между отрезком и квадратом
+#let cantor-square-segment = canvas({
+  let sq-size = 3.2
+  let seg-y = -2.2
+  let seg-w = 5.0
+
+  // Square
+  draw.rect(
+    (-0.2, 0.2),
+    (sq-size, -sq-size),
+    fill: oklch(98%, 0.005, 250deg),
+    stroke: 0.6pt + luma(50%),
+  )
+  draw.content((sq-size / 2, 0.6), text(
+    size: 0.7em,
+    fill: luma(40%),
+  )[$[0,1] times [0,1]$])
+
+  // Axes
+  draw.line((-0.4, 0), (sq-size + 0.3, 0), stroke: 0.4pt + luma(60%), mark: (
+    end: "stealth",
+  ))
+  draw.line((0, 0.4), (0, -sq-size - 0.3), stroke: 0.4pt + luma(60%), mark: (
+    end: "stealth",
+  ))
+  draw.content((sq-size + 0.5, 0.1), text(size: 0.6em, fill: luma(40%))[$x$])
+  draw.content((-0.2, -sq-size - 0.5), text(size: 0.6em, fill: luma(40%))[$y$])
+
+  // Point P in square
+  let px = 1.8
+  let py = -1.2
+  draw.circle(
+    (px, py),
+    radius: 0.06,
+    fill: oklch(50%, 0.16, 22deg),
+    stroke: none,
+  )
+  draw.content((px + 0.25, py - 0.3), text(size: 0.6em, fill: luma(35%))[$P$])
+
+  // Coordinates of P
+  draw.content((px, py - 0.8), text(
+    size: 0.55em,
+    fill: luma(45%),
+  )[$x = 0.x_1 x_2 x_3 dots$])
+  draw.content((px + 2.7, py + 0.1), text(
+    size: 0.55em,
+    fill: luma(45%),
+  )[$y = 0.y_1 y_2 y_3 dots$])
+
+  // Arrow from square to segment
+  draw.line(
+    (sq-size / 2, -sq-size - 0.3),
+    (sq-size / 2, seg-y + 0.3),
+    stroke: 0.5pt + luma(60%),
+    mark: (end: "stealth"),
+  )
+  draw.content((sq-size / 2 + 0.3, -sq-size - 0.9), text(
+    size: 0.55em,
+    fill: luma(45%),
+  )[$z = 0.x_1 y_1 x_2 y_2 x_3 y_3 dots$])
+
+  // Unit segment
+  draw.line((0.6, seg-y), (0.6 + seg-w, seg-y), stroke: 1.2pt + luma(40%))
+  draw.line((0.6, seg-y - 0.2), (0.6, seg-y + 0.2), stroke: 0.6pt + luma(40%))
+  draw.line(
+    (0.6 + seg-w, seg-y - 0.2),
+    (0.6 + seg-w, seg-y + 0.2),
+    stroke: 0.6pt + luma(40%),
+  )
+  draw.content((0.6, seg-y + 0.5), text(size: 0.55em, fill: luma(45%))[$0$])
+  draw.content((0.6 + seg-w, seg-y + 0.5), text(
+    size: 0.55em,
+    fill: luma(45%),
+  )[$1$])
+  draw.content((0.6 + seg-w / 2, seg-y - 0.5), text(
+    size: 0.55em,
+    fill: luma(40%),
+  )[$[0,1]$])
+
+  // Point z on segment
+  let zx = 0.6 + seg-w * 0.45
+  draw.circle(
+    (zx, seg-y),
+    radius: 0.06,
+    fill: oklch(50%, 0.16, 22deg),
+    stroke: none,
+  )
+  draw.content((zx + 0.25, seg-y - 0.4), text(
+    size: 0.6em,
+    fill: luma(35%),
+  )[$z$])
+})
