@@ -1,9 +1,7 @@
 // M05 --- Мощность и бесконечность.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": (
-  cantor-diagonal, cantor-square-segment, power-set-hasse, qq-pairing,
-)
+#import "diagrams/m12.typ": cantor-diagonal, cantor-line-square, power-set-hasse, qq-pairing
 
 = Мощность и бесконечность <chap:cardinals>
 
@@ -243,9 +241,11 @@ $
   Отрезок одномерен, квадрат двумерен; кажется очевидным, что в квадрате "больше" точек.
   С 1871 по 1874 год Кантор искал доказательство невозможности --- и не находил.
 
-  А затем нашёл обратное.
+  А затем нашёл обратное...
 
-  #cantor-square-segment
+  #align(center)[
+    #cantor-line-square
+  ]
 
   Кантор написал Дедекинду: "Je le vois, mais je ne le crois pas" --- "Я вижу это, но не верю".
   Три года он пытался доказать, что такой биекции нет, --- а обнаружил, что она есть.

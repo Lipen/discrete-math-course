@@ -607,19 +607,19 @@
   subset-edge("bc", "abc")
 })
 
-// Кантор: отрезок и квадрат равномощны
-#let cantor-square-segment = canvas({
-  let w = 2.2
-  let gap = 1.2
+// Cantor: Line and Square are equinumerous
+#let cantor-line-square = canvas({
+  let w = 2
+  let gap = 1.5
 
   // Unit segment L
   draw.line((0, 0), (w, 0), mark: (symbol: "|"))
   draw.content((w / 2, w / 2))[$L = [0,1]$]
 
+  // Unit square S
+  draw.rect((w + gap, 0), (w + gap + w, w), fill: luma(95%))
+  draw.content((w + gap + w / 2, w / 2))[$S = [0,1]^2$]
+
   // ≈ between them
   draw.content((w + gap / 2, w / 2))[$approx$]
-
-  // Unit square S
-  draw.rect((w + gap, 0), (w + gap + w, w), fill: luma(94%))
-  draw.content((w + gap + w / 2, w / 2))[$S = [0,1]^2$]
 })
