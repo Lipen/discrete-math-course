@@ -218,3 +218,49 @@
   draw.content(lj(5.3, "xor2-port-out"), anchor: "west", $S$)
   draw.content(lj(7.8, "or1-port-out"), anchor: "west", $C_"out"$)
 })
+
+// ── Multiplexer 4-to-1 ──
+// Trapezoid: data inputs D0..D3 on the left, output Y on the right,
+// select lines S0,S1 on top.
+#let multiplexer-4to1 = ccetz.canvas({
+  import draw: *
+
+  let c-body = oklch(90%, 0.03, 250deg)
+  let c-str = oklch(35%, 0.02, 265deg) + 0.7pt
+  let c-label = oklch(35%, 0.02, 265deg)
+
+  // Trapezoid body: left (wide) x=0, right (narrow) x=5
+  // Use rect as approximate fill
+  draw.rect((0, 2.8), (5, -2.8), fill: c-body, stroke: none, radius: 2pt)
+  // Trapezoid outline
+  draw.line((0, 2.8), (5, 1.4), stroke: c-str)
+  draw.line((5, 1.4), (5, -1.4), stroke: c-str)
+  draw.line((5, -1.4), (0, -2.8), stroke: c-str)
+  draw.line((0, -2.8), (0, 2.8), stroke: c-str)
+
+  // Internal label
+  draw.content((2.2, 0.2), text(size: 0.7em, fill: c-label)[MUX])
+  draw.content((2.2, -0.8), text(size: 0.55em, fill: oklch(45%, 0.02, 265deg))[$4 times 1$])
+
+  // Data inputs D0..D3 on the left
+  let dy = (2.1, 0.7, -0.7, -2.1)
+  for (i, y) in dy.enumerate() {
+    draw.line((-1.2, y), (0, y), stroke: c-str)
+    draw.content((-1.3, y), anchor: "east", text(size: 0.7em, fill: c-label)[$D_#i$])
+  }
+
+  // Output Y on the right
+  draw.line((5, 0), (6.2, 0), stroke: c-str)
+  draw.content((6.3, 0), anchor: "west", text(size: 0.7em, fill: c-label)[$Y$])
+
+  // Select lines S0, S1 from top
+  draw.line((1.5, 2.8), (1.5, 3.8), stroke: c-str)
+  draw.content((1.5, 3.9), anchor: "south", text(size: 0.65em, fill: c-label)[$S_0$])
+  draw.line((3.5, 2.8), (3.5, 3.8), stroke: c-str)
+  draw.content((3.5, 3.9), anchor: "south", text(size: 0.65em, fill: c-label)[$S_1$])
+
+  // Formula below
+  draw.content((2.5, -3.4), text(size: 0.55em, fill: oklch(45%, 0.02, 265deg))[
+    $Y = D_((S_1 S_0)_2)$
+  ])
+})

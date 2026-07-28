@@ -1,5 +1,6 @@
 // M14 diagrams --- Turing Machines.
 #import "../requirements.typ": *
+#import "../notation.typ": *
 #import cetz: canvas, draw
 
 #let c-tape = oklch(90%, 0.02, 80deg)
@@ -65,6 +66,61 @@
     size: 0.72em,
     fill: c-label,
   )[Лента:])
+})
+
+// ── TM computation trace: parity check (even number of 1's) ──
+// Shows four successive configurations of a TM on input "11".
+// TM: q0 = even so far, q1 = odd so far.
+// δ(q0,1)=(q1,1,R), δ(q1,1)=(q0,1,R), δ(q0,Blank)=accept.
+#let tm-computation = canvas({
+  import draw: *
+
+  let cell = 0.75
+  let n = 6
+  let c-step-label = oklch(50%, 0.04, 265deg)
+  let c-head-marker = oklch(55%, 0.18, 22deg)
+  let c-accept = oklch(55%, 0.18, 155deg)
+
+  // Helper: draw one configuration row
+  let config-row(y, cells, head-idx, state-label, state-color: c-label) = {
+    // Tape cells
+    for (i, sym) in cells.enumerate() {
+      let x = (i - n/2 + 0.5) * cell
+      draw.rect((x, y - 0.35), (x + cell, y + 0.35), fill: c-tape, stroke: c-tape-str)
+      draw.content((x + cell/2, y), text(size: 0.65em, fill: c-label)[#sym])
+    }
+    // State label on the left
+    draw.content((-n/2 * cell - 0.35, y), anchor: "east", text(
+      size: 0.65em,
+      fill: state-color,
+      weight: "bold",
+    )[#state-label])
+    // Head marker below current cell
+    let hx = (head-idx - n/2 + 0.5) * cell + cell/2
+    draw.content((hx, y - 0.6), text(size: 0.7em, fill: c-head-marker)[↓])
+  }
+
+  // Step 1: q₀ 1 1 □ □ □
+  config-row(3.0, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 0, $q_0$)
+
+  // Arrow between rows
+  draw.content((-n/2 * cell - 0.35, 2.35), text(size: 0.6em, fill: luma(50%))[↓])
+  draw.content((-0.2, 2.35), text(size: 0.6em, fill: luma(50%))[читает 1, пишет 1, $R$])
+
+  // Step 2: 1 q₁ 1 ␣ ␣ ␣
+  config-row(1.6, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 1, $q_1$)
+
+  draw.content((-n/2 * cell - 0.35, 0.95), text(size: 0.6em, fill: luma(50%))[↓])
+  draw.content((-0.2, 0.95), text(size: 0.6em, fill: luma(50%))[читает 1, пишет 1, $R$])
+
+  // Step 3: 1 1 q₀ ␣ ␣ ␣
+  config-row(0.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, $q_0$)
+
+  draw.content((-n/2 * cell - 0.35, -0.45), text(size: 0.6em, fill: luma(50%))[↓])
+  draw.content((-0.2, -0.45), text(size: 0.6em, fill: luma(50%))[читает ␣, принимает])
+
+  // Step 4: 1 1 ␣ q_accept ␣ ␣
+  config-row(-1.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, qAccept, state-color: c-accept)
 })
 
 // Reduction diagram: HALT ≤_m EMPTY
