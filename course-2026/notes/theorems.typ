@@ -80,7 +80,7 @@
 #let badge(color, body) = {
   box(
     fill: color,
-    inset: (x: 0.62em, y: 0.28em),
+    inset: (x: 0.6em, y: 0.3em),
     radius: 2pt,
     outset: (y: 0.12em),
   )[#text(size: 0.82em, weight: "bold", fill: white, tracking: 0.08em)[#body]]
