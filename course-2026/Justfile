@@ -1,0 +1,11 @@
+compile := "typst compile"
+
+[private]
+@default:
+    just --list
+
+book:
+    {{ compile }} notes/book.typ
+
+problems:
+    {{ compile }} notes/problems.typ
