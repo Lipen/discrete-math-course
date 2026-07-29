@@ -46,6 +46,7 @@
   raven: "Замечание",
   overview: "Обзор главы",
   algorithm: "АЛГОРИТМ",
+  history: "ИСТОРИЯ",
 )
 
 // State for sticky-headers flag (controlled from notes-template)
@@ -80,10 +81,15 @@
 #let badge(color, body) = {
   box(
     fill: color,
-    inset: (x: 0.6em, y: 0.3em),
     radius: 2pt,
-    outset: (y: 0.12em),
-  )[#text(size: 0.82em, weight: "bold", fill: white, tracking: 0.08em)[#body]]
+    inset: (x: 0.5em),
+    outset: (y: 0.4em),
+  )[#text(
+    size: 0.8em,
+    weight: "bold",
+    fill: white,
+    tracking: 0.08em,
+  )[#body]]
 }
 
 // Full border: thick left + thin on other sides
@@ -102,29 +108,58 @@
   right: 0.6pt + color,
 )
 
-// --- Нумерованные блоки ---
-
-#let _numbered(label, ctr, bar-color, fill, body, title: none) = {
-  ctr.step()
-  let header = badge(bar-color)[#label #_ch-num(ctr)]
+// Block with header and title
+#let _block(
+  header,
+  title,
+  body,
+  fill: none,
+  stroke: none,
+  inset: (x: 0.8em, top: 0.8em, bottom: 0.8em),
+  radius: 4pt,
+) = {
   block(
     fill: fill,
-    stroke: _block-stroke(bar-color),
-    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
-    radius: 2pt,
+    stroke: stroke,
+    inset: inset,
+    radius: radius,
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
     #_sticky[
-      #header
-      #if title != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: bar-color,
-        )[#title]]
+      #if header != none {
+        header
+      }
+      #if header != none and title != none {
+        h(1em, weak: true)
+      }
+      #if title != none {
+        title
+      }
     ]
-    #parbreak()
+    #v(1em, weak: true)
     #body
   ]
+}
+
+// --- Нумерованные блоки ---
+
+#let _numbered(label, ctr, bar-color, fill, body, title: none) = {
+  ctr.step()
+  let header = badge(bar-color)[
+    #label #_ch-num(ctr)
+  ]
+  let title = text(
+    weight: "semibold",
+    fill: bar-color,
+  )[#title]
+  _block(
+    header,
+    title,
+    body,
+    fill: fill,
+    stroke: _block-stroke(bar-color),
+  )
 }
 
 // Inline numbered --- компактный блок: бейдж + тело на одной строке
@@ -257,193 +292,147 @@
 // --- Ненумерованные блоки ---
 
 #let proof(body) = {
-  block(
-    above: 0.4em,
-    below: 0.5em,
-    fill: luma(97%),
-    stroke: _aux-stroke(luma(65%)),
-    inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #text(weight: "semibold", fill: luma(40%))[#thm-labels.proof]
-    ]
-    #parbreak()
-    #body
-  ]
+  let c = luma(50%)
+  let title = text(
+    weight: "semibold",
+    fill: c,
+  )[#thm-labels.proof]
+  _block(
+    none,
+    title,
+    body,
+    fill: c.lighten(40%),
+    stroke: _block-stroke(c),
+  )
 }
 
 #let proof-sketch(body) = {
-  block(
-    above: 0.4em,
-    below: 0.5em,
-    fill: luma(97%),
-    stroke: _aux-stroke(luma(65%)),
-    inset: (left: 0.8em, right: 0.5em, top: 0.3em, bottom: 0.3em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #text(
-        size: 0.92em,
-        style: "italic",
-        fill: luma(45%),
-      )[#thm-labels.proof-sketch]
-    ]
-    #parbreak()
-    #body
-  ]
+  let c = luma(40%)
+  let title = text(
+    style: "italic",
+    fill: c,
+  )[#thm-labels.proof-sketch]
+  _block(
+    none,
+    title,
+    body,
+    fill: c.lighten(90%),
+    stroke: _aux-stroke(c),
+  )
 }
 
-#let example(inline: false, ..args) = {
+#let example(..args) = {
   let (sub, body) = _args(args.pos())
-  block(
-    above: 0.8em,
-    below: 0.8em,
+  let header = badge(ex-color)[#thm-labels.example]
+  _block(
+    header,
+    sub,
+    body,
     fill: ex-color.lighten(95%),
     stroke: _block-stroke(ex-color),
-    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #badge(ex-color)[#thm-labels.example]
-      #if sub != none [#h(0.4em)#text(weight: "semibold", fill: ex-color)[#sub]]
-    ]
-    #parbreak()
-    #body
-  ]
+  )
 }
 
-#let note(inline: false, ..args) = {
+#let note(..args) = {
   let (sub, body) = _args(args.pos())
-  block(
-    above: 0.6em,
-    below: 0.6em,
-    inset: (left: 1em, right: 0.7em, top: 0.35em, bottom: 0.35em),
-    stroke: _aux-stroke(note-color.lighten(20%)),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #text(
-        size: 0.92em,
-        weight: "semibold",
-        fill: note-color,
-      )[#thm-labels.note]
-      #if sub != none [#h(0.3em)#text(
-          size: 0.92em,
-          style: "italic",
-          fill: note-color,
-        )[#sub]]
-    ]
-    #parbreak()
-    #text(size: 0.92em, fill: luma(35%))[#body]
-  ]
+  let header = text(
+    weight: "semibold",
+    fill: note-color.darken(20%),
+  )[#thm-labels.note]
+  if sub != none {
+    sub = text(
+      style: "italic",
+      fill: note-color.darken(20%),
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
+    fill: note-color.lighten(80%),
+    stroke: _aux-stroke(note-color),
+  )
 }
 
-#let remark(inline: false, ..args) = {
+#let remark(..args) = {
   let (sub, body) = _args(args.pos())
-  block(
-    above: 0.6em,
-    below: 0.6em,
-    fill: rgb("fdf8f2"),
-    stroke: 0.4pt + remark-color.lighten(40%),
-    inset: (left: 0.9em, right: 0.7em, top: 0.4em, bottom: 0.4em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #text(style: "italic", fill: remark-color)[#thm-labels.remark]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: remark-color.darken(10%),
-        )[#sub]]
-    ]
-    #parbreak()
-    #body
-  ]
+  let header = text(
+    style: "italic",
+    weight: "semibold",
+    fill: remark-color.darken(20%),
+  )[#thm-labels.remark]
+  if sub != none {
+    sub = text(
+      weight: "semibold",
+      fill: remark-color.darken(20%),
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
+    fill: remark-color.lighten(80%),
+    stroke: _block-stroke(remark-color),
+  )
 }
 
-#let warning(inline: false, ..args) = {
+#let warning(..args) = {
   let (sub, body) = _args(args.pos())
-  block(
-    above: 0.6em,
-    below: 0.6em,
+  let header = text(
+    weight: "semibold",
+    fill: warn-color.darken(20%),
+  )[⚠  #thm-labels.warning]
+  if sub != none {
+    sub = text(
+      style: "italic",
+      fill: warn-color.darken(20%),
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
     fill: oklch(95%, 0.05, 85deg),
     stroke: _block-stroke(warn-color),
     inset: (left: 0.8em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #text(
-        weight: "semibold",
-        fill: warn-color.darken(20%),
-      )[⚠  #thm-labels.warning]
-      #if sub != none [#h(0.3em)#text(
-          style: "italic",
-          fill: warn-color.darken(20%),
-        )[#sub]]
-    ]
-    #parbreak()
-    #body
-  ]
+  )
 }
 
-#let history-note(inline: false, ..args) = {
+#let history-note(..args) = {
   let (sub, body) = _args(args.pos())
-  block(
-    above: 0.8em,
-    below: 0.8em,
-    fill: rgb("fdf5f0"),
+  let header = badge(hist-color)[#thm-labels.history]
+  sub = text(
+    weight: "semibold",
+    fill: hist-color.darken(20%),
+  )[#sub]
+  _block(
+    header,
+    sub,
+    body,
+    fill: hist-color.lighten(90%),
     stroke: _block-stroke(hist-color),
-    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #badge(hist-color)[ИСТОРИЯ]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: hist-color,
-        )[#sub]]
-    ]
-    #parbreak()
-    #body
-  ]
+  )
 }
 
-#let algorithm(inline: false, ..args) = {
+#let algorithm(..args) = {
   let (sub, body) = _args(args.pos())
-  block(
-    above: 0.8em,
-    below: 0.8em,
+  let header = badge(algo-color)[#thm-labels.algorithm]
+  if sub != none {
+    sub = text(
+      weight: "semibold",
+      fill: algo-color,
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
     fill: algo-color.lighten(95%),
     stroke: _block-stroke(algo-color),
     inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #badge(algo-color)[#thm-labels.algorithm]
-      #if sub != none [#h(0.4em)#text(
-          weight: "semibold",
-          fill: algo-color,
-        )[#sub]]
-    ]
-    #parbreak()
-    #body
-  ]
+  )
 }
 
 #let chapter-overview(body) = {
@@ -469,7 +458,8 @@
 #let raven-fill = oklch(97%, 0.005, 260deg)
 #let raven-hairline = oklch(88%, 0.01, 260deg)
 
-#let raven(body) = {
+#let raven(..args) = {
+  let (sub, body) = _args(args.pos())
   block(
     fill: raven-fill,
     stroke: (left: 3pt + raven-accent, rest: 0.5pt + raven-hairline),
@@ -481,7 +471,14 @@
     #grid(
       columns: (auto, 1fr),
       column-gutter: 0.6em,
-      [#image("assets/raven.png", width: 40pt)], [#body],
+      [#image("assets/raven.png", width: 40pt)],
+      [
+        #if sub != none {
+          text(weight: "semibold", fill: raven-accent)[#sub]
+          v(0.5em, weak: true)
+        }
+        #body
+      ],
     )
   ]
 }
