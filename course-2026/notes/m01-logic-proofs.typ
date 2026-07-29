@@ -608,7 +608,10 @@ $P(x)$ не истинно и не ложно, пока $x$ не заменён 
 ]
 
 #example[
-  С областью определения $NN$: $forall x space x >= 0$ истинно. $exists x space x < 0$ ложно. $forall x exists y space y > x$ истинно (натуральные числа неограничены).
+  С областью определения $NN$:
+  - $forall x space x >= 0$ истинно.
+  - $exists x space x < 0$ ложно.
+  - $forall x exists y space y > x$ истинно (натуральные числа неограничены).
 ]
 
 #raven[
