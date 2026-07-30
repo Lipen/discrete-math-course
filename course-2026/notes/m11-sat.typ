@@ -59,7 +59,10 @@ SAT была первой задачей, для которой доказана
 
 #example[КНФ-формула][
   $phi = (x or overline(y)) and (overline(x) or y or z) and (overline(z))$.
-  Здесь три дизъюнкта: $C_1 = (x or overline(y))$ (два литерала: $x$ и $overline(y)$), $C_2 = (overline(x) or y or z)$ (три литерала), $C_3 = (overline(z))$ (один литерал).
+  Здесь три дизъюнкта:
+  - $C_1 = (x or overline(y))$ (два литерала: $x$ и $overline(y)$)
+  - $C_2 = (overline(x) or y or z)$ (три литерала)
+  - $C_3 = (overline(z))$ (один литерал)
   Единичный дизъюнкт $(overline(z))$ немедленно принуждает $z = 0$ в любом выполняющем наборе.
 ]
 
