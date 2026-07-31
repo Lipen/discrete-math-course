@@ -47,7 +47,7 @@
 #include "problem-bank/meta-07-constructions-problems.typ"
 #include "problem-bank/meta-08-automata-computation-problems.typ"
 #include "problem-bank/meta-09-lambda-types-problems.typ"
-// #include "problem-bank/meta-10-fuzzy-problems.typ"
+#include "problem-bank/meta-10-fuzzy-problems.typ"
 
 // ═══ Подсказки ═══
 
@@ -65,6 +65,7 @@
 #include "problem-bank/meta-07-constructions-hints.typ"
 #include "problem-bank/meta-08-automata-computation-hints.typ"
 #include "problem-bank/meta-09-lambda-types-hints.typ"
+#include "problem-bank/meta-10-fuzzy-hints.typ"
 
 // ═══ Решения ═══
 
@@ -83,3 +84,4 @@
 #include "problem-bank/meta-07-constructions-solutions.typ"
 #include "problem-bank/meta-08-automata-computation-solutions.typ"
 #include "problem-bank/meta-09-lambda-types-solutions.typ"
+#include "problem-bank/meta-10-fuzzy-solutions.typ"
