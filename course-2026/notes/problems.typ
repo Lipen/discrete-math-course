@@ -45,8 +45,8 @@
 #include "problem-bank/meta-05-codes-sat-problems.typ"
 #include "problem-bank/meta-06-counting-probability-problems.typ"
 #include "problem-bank/meta-07-constructions-problems.typ"
-// #include "problem-bank/meta-08-automata-computation-problems.typ"
-// #include "problem-bank/meta-09-lambda-types-problems.typ"
+#include "problem-bank/meta-08-automata-computation-problems.typ"
+#include "problem-bank/meta-09-lambda-types-problems.typ"
 // #include "problem-bank/meta-10-fuzzy-problems.typ"
 
 // ═══ Подсказки ═══
@@ -63,7 +63,8 @@
 #include "problem-bank/meta-05-codes-sat-hints.typ"
 #include "problem-bank/meta-06-counting-probability-hints.typ"
 #include "problem-bank/meta-07-constructions-hints.typ"
-// #include "problem-bank/meta-08-automata-computation-hints.typ"
+#include "problem-bank/meta-08-automata-computation-hints.typ"
+// #include "problem-bank/meta-09-lambda-types-hints.typ"
 
 // ═══ Решения ═══
 
@@ -80,4 +81,5 @@
 #include "problem-bank/meta-05-codes-sat-solutions.typ"
 #include "problem-bank/meta-06-counting-probability-solutions.typ"
 #include "problem-bank/meta-07-constructions-solutions.typ"
-// #include "problem-bank/meta-08-automata-computation-solutions.typ"
+#include "problem-bank/meta-08-automata-computation-solutions.typ"
+// #include "problem-bank/meta-09-lambda-types-solutions.typ"
