@@ -43,7 +43,7 @@
 #include "problem-bank/meta-03-graphs-problems.typ"
 #include "problem-bank/meta-04-boolean-circuits-problems.typ"
 #include "problem-bank/meta-05-codes-sat-problems.typ"
-// #include "problem-bank/meta-06-counting-probability-problems.typ"
+#include "problem-bank/meta-06-counting-probability-problems.typ"
 // #include "problem-bank/meta-07-constructions-problems.typ"
 // #include "problem-bank/meta-08-automata-computation-problems.typ"
 // #include "problem-bank/meta-09-lambda-types-problems.typ"
@@ -61,7 +61,7 @@
 #include "problem-bank/meta-03-graphs-hints.typ"
 #include "problem-bank/meta-04-boolean-circuits-hints.typ"
 #include "problem-bank/meta-05-codes-sat-hints.typ"
-// #include "problem-bank/meta-06-counting-probability-hints.typ"
+#include "problem-bank/meta-06-counting-probability-hints.typ"
 
 // ═══ Решения ═══
 
@@ -76,4 +76,4 @@
 #include "problem-bank/meta-03-graphs-solutions.typ"
 #include "problem-bank/meta-04-boolean-circuits-solutions.typ"
 #include "problem-bank/meta-05-codes-sat-solutions.typ"
-// #include "problem-bank/meta-06-counting-probability-solutions.typ"
+#include "problem-bank/meta-06-counting-probability-solutions.typ"
