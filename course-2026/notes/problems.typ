@@ -39,7 +39,7 @@
 // ═══ Задачи ═══
 
 #include "problem-bank/meta-01-language-problems.typ"
-// #include "problem-bank/meta-02-order-infinity-problems.typ"
+#include "problem-bank/meta-02-order-infinity-problems.typ"
 #include "problem-bank/meta-03-graphs-problems.typ"
 // #include "problem-bank/meta-04-boolean-circuits-problems.typ"
 // #include "problem-bank/meta-05-codes-sat-problems.typ"
@@ -57,6 +57,7 @@
 Подсказка не выдаёт ответ --- она указывает направление для самостоятельного решения.
 
 #include "problem-bank/meta-01-language-hints.typ"
+#include "problem-bank/meta-02-order-infinity-hints.typ"
 #include "problem-bank/meta-03-graphs-hints.typ"
 
 // ═══ Решения ═══
@@ -68,4 +69,5 @@
 Рекомендуется читать после самостоятельной попытки.
 
 #include "problem-bank/meta-01-language-solutions.typ"
+#include "problem-bank/meta-02-order-infinity-solutions.typ"
 #include "problem-bank/meta-03-graphs-solutions.typ"
