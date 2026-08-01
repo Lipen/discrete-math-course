@@ -38,7 +38,7 @@
 
 #problem(
   id: "con:z-embedding",
-  title: [Вложение $NN$ в $ZZ$],
+  title: [Инъекция $NN$ в $ZZ$],
   difficulty: "medium",
   topics: ("моноид", "гомоморфизм"),
 )[

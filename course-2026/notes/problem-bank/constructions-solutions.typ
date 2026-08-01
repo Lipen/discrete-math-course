@@ -65,7 +65,7 @@
   $alpha dot beta = {q in QQ : exists r in alpha, s in beta, r >= 0, s >= 0, q < r s}$.
 
   Докажем $alpha dot alpha = {q : q < 2}$.
-  Вложение $subset.eq$: если $0 <= q in alpha dot alpha$, то $q < r s$ для $r, s in alpha$ с $r, s >= 0$.
+  Включение $subset.eq$: если $0 <= q in alpha dot alpha$, то $q < r s$ для $r, s in alpha$ с $r, s >= 0$.
   Тогда $r^2 < 2$ и $s^2 < 2$, значит $r s < 2$, и $q < 2$.
 
   Обратное: при $q < 0$ обе стороны содержат все отрицательные числа (сечения замкнуты вниз) --- тривиально.
