@@ -156,9 +156,9 @@
   Терм $lambda x : "Bool" . lambda y : "Nat" . y$ имеет тип $"Bool" -> "Nat" -> "Nat"$.
 
   Дерево вывода (сверху вниз):
-  + гипотеза $x : "Bool", y : "Nat" vdash y : "Nat"$ (правило var);
-  + $x : "Bool" vdash lambda y : "Nat" . y : "Nat" -> "Nat"$ (правило abs, извлекаем $y$);
-  + $emptyset vdash lambda x : "Bool" . lambda y : "Nat" . y : "Bool" -> "Nat" -> "Nat"$ (правило abs, извлекаем $x$).
+  + гипотеза $x : "Bool", y : "Nat" proves y : "Nat"$ (правило var);
+  + $x : "Bool" proves lambda y : "Nat" . y : "Nat" -> "Nat"$ (правило abs, извлекаем $y$);
+  + $emptyset proves lambda x : "Bool" . lambda y : "Nat" . y : "Bool" -> "Nat" -> "Nat"$ (правило abs, извлекаем $x$).
 ]
 
 #pb-solution("ty:type-app")[
@@ -199,7 +199,7 @@
 #pb-solution("ty:curry-howard-rules")[
   + Правило var (переменная из контекста) соответствует выдвижению гипотезы в натуральном выводе: терм-переменная $x : A$ --- гипотеза $A$.
   + Правило app: из $M : sigma -> tau$ и $N : sigma$ получить $M N : tau$ --- это $->$-удаление (modus ponens).
-  + Правило abs: из $x : sigma vdash M : tau$ получить $lambda x . M : sigma -> tau$ --- это $->$-введение.
+  + Правило abs: из $x : sigma proves M : tau$ получить $lambda x . M : sigma -> tau$ --- это $->$-введение.
 
   Соответствие точное: каждое типизирующее правило --- ровно одно правило вывода, гипотезы --- переменные контекста.
 ]

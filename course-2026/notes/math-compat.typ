@@ -8,8 +8,9 @@
 #let iff = sym.arrow.l.r
 #let to = sym.arrow.r
 #let models = sym.tack.rr
-#let entails = sym.tack.r
+#let entails = sym.tack.rr
 #let satisfies = models
+#let proves = sym.tack.r
 #let nand = $overline("and")$
 #let nor = $overline("or")$
 #let uparrow = sym.arrow.t // nand, Sheffer stroke

@@ -109,7 +109,7 @@ _Этот_ --- число.
 == Правила типизации
 
 Мы вводим три правила, определяющих корректно типизированные термы.
-Запись $Gamma tack.r M : sigma$ читается: "в контексте $Gamma$ терм $M$ имеет тип $sigma$".
+Запись $Gamma proves M : sigma$ читается: "в контексте $Gamma$ терм $M$ имеет тип $sigma$".
 Контекст $Gamma$ --- множество предположений вида $x : tau$, фиксирующих типы свободных переменных.
 
 Правила --- спецификация, не алгоритм.
@@ -121,7 +121,7 @@ _Этот_ --- число.
   + *var*: переменная имеет тип, приписанный ей в контексте.
     Если мы предположили что $x$ --- число, то $x$ --- число.
     #prooftree(
-      rule(name: [*var*], $Gamma tack.r x : sigma$, $(x : sigma) in Gamma$),
+      rule(name: [*var*], $Gamma proves x : sigma$, $(x : sigma) in Gamma$),
     )
 
   + *app*: применение функции $M$ (вход $sigma$, выход $tau$) к аргументу $N$ (типа $sigma$) даёт результат типа $tau$.
@@ -129,9 +129,9 @@ _Этот_ --- число.
     #prooftree(
       rule(
         name: [*app*],
-        $Gamma tack.r M N : tau$,
-        $Gamma tack.r M : sigma -> tau$,
-        $Gamma tack.r N : sigma$,
+        $Gamma proves M N : tau$,
+        $Gamma proves M : sigma -> tau$,
+        $Gamma proves N : sigma$,
       ),
     )
 
@@ -140,8 +140,8 @@ _Этот_ --- число.
     #prooftree(
       rule(
         name: [*abs*],
-        $Gamma tack.r lambda x : sigma . M : sigma -> tau$,
-        $(Gamma, x : sigma tack.r M : tau)$,
+        $Gamma proves lambda x : sigma . M : sigma -> tau$,
+        $(Gamma, x : sigma proves M : tau)$,
       ),
     )
 ]
@@ -150,8 +150,8 @@ _Этот_ --- число.
 
 Правило *var*.
 Пусть контекст содержит $x : "Nat"$.
-Тогда $x tack.r x : "Nat"$.
-Если в контексте $f : "Nat" -> "Bool"$, то по var получаем $f tack.r f : "Nat" -> "Bool"$.
+Тогда $x proves x : "Nat"$.
+Если в контексте $f : "Nat" -> "Bool"$, то по var получаем $f proves f : "Nat" -> "Bool"$.
 
 Правило *app*.
 Пусть $f : "Nat" -> "Bool"$ и $x : "Nat"$.
@@ -170,8 +170,8 @@ _Этот_ --- число.
 #example[Тождественная функция][
   Построим вывод типа для $lambda x : "Nat" . x$.
 
-  + По правилу var: $x : "Nat" tack.r x : "Nat"$.
-  + По правилу abs (применённому к предыдущей строке): $dots.c tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$.
+  + По правилу var: $x : "Nat" proves x : "Nat"$.
+  + По правилу abs (применённому к предыдущей строке): $dots.c proves lambda x : "Nat" . x : "Nat" -> "Nat"$.
 
   Тождественная функция на натуральных числах имеет тип $"Nat" -> "Nat"$.
 ]
@@ -179,9 +179,9 @@ _Этот_ --- число.
 #example[Проекция на первый аргумент][
   Построим вывод типа для $lambda x : "Nat" . lambda y : "Bool" . x$.
 
-  + По правилу var: $x : "Nat", y : "Bool" tack.r x : "Nat"$.
-  + По правилу abs по $y$: $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$.
-  + По правилу abs по $x$: $dots.c tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$.
+  + По правилу var: $x : "Nat", y : "Bool" proves x : "Nat"$.
+  + По правилу abs по $y$: $x : "Nat" proves lambda y : "Bool" . x : "Bool" -> "Nat"$.
+  + По правилу abs по $x$: $dots.c proves lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$.
 
   Тип этой функции: $"Nat" -> "Bool" -> "Nat"$.
   Функция принимает $"Nat"$, затем $"Bool"$, и игнорируя булево значение возвращает исходное число.
@@ -263,7 +263,7 @@ $
 Первое: тип не меняется при вычислении.
 
 #theorem[Subject Reduction (сохранение типа при редукции)][
-  Если $Gamma tack.r M : sigma$ и $M arrow.r_beta M'$, то $Gamma tack.r M' : sigma$.
+  Если $Gamma proves M : sigma$ и $M arrow.r_beta M'$, то $Gamma proves M' : sigma$.
 ]
 
 Тип --- статическая характеристика программы.
@@ -271,7 +271,7 @@ $
 Как тип переменной в программе: вы объявили `x: int`, и сколько бы операций ни выполнялось, `x` остаётся целым числом.
 
 #proof-sketch[
-  Ключевая лемма (лемма о подстановке): если $Gamma, x : tau tack.r P : sigma$ и $Gamma tack.r Q : tau$, то $Gamma tack.r P[x := Q] : sigma$.
+  Ключевая лемма (лемма о подстановке): если $Gamma, x : tau proves P : sigma$ и $Gamma proves Q : tau$, то $Gamma proves P[x := Q] : sigma$.
   Подстановка терма нужного типа вместо переменной сохраняет тип всего выражения.
 
   Доказательство леммы --- индукция по структуре $P$:

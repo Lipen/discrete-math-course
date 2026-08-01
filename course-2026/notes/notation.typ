@@ -10,8 +10,9 @@
 
 // === Complex symbols (awkward in stdlib) ===
 #let symdiff = $Delta$
-#let models = sym.tack.rr
-#let vdash = sym.tack.r    // turnstile, "доказуемо"
+#let models = sym.tack.rr    // семантическое следование (⊨)
+#let entails = models        // «влечёт» --- синоним models
+#let proves = sym.tack.r     // выводимость, типизация (⊢)
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let setminus = sym.without

@@ -5,7 +5,7 @@
 // ── За пределами N (m20) ──
 
 #pb-hint("nonstd:compactness")[
-  Если $Gamma$ не имеет модели, по полноте $Gamma vdash bot$.
+  Если $Gamma$ не имеет модели, по полноте $Gamma proves bot$.
   Вывод конечен --- противоречие выводится из конечного $Delta subset.eq Gamma$.
   Примените контрапозицию.
 ]
