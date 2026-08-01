@@ -264,7 +264,7 @@
 
 // ── Мета-секция ──
 
-#let meta-section-header(title, chapters, description) = {
+#let topic-header(title, chapters, description) = {
   pagebreak(weak: true)
   [== #title]
   text(

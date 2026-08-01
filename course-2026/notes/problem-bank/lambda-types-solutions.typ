@@ -1,0 +1,248 @@
+// Решения к разделу Лямбда-исчисление и теория типов (m18-m19).
+#import "macros.typ": pb-solution
+#import "../notation.typ": *
+
+// ── Лямбда-исчисление (m18) ──
+
+#pb-solution("lam:free-vars")[
+  + $lambda x . x y$: свободна только $y$;
+  + $x (lambda x . x y)$: свободны $x$ (внешняя) и $y$;
+  + $lambda a b . a b c$: свободна только $c$;
+  + $(lambda p . p q)(lambda q . q p)$: свободны $q$ и $p$ (в первом терме $q$, во втором --- $p$).
+
+  В каждом терме переменные, связанные $lambda$, перечислены отдельно.
+]
+
+#pb-solution("lam:alpha")[
+  В терме $lambda x . (lambda y . x y) (lambda x . x y)$ имя $y$ встречается и связанным (в $lambda y . x y$), и свободным (в $lambda x . x y$).
+  Переименуем связанное $y$ в $z$:
+  $lambda x . (lambda z . x z) (lambda x . x y)$.
+
+  Теперь $z$ --- связанная, $y$ --- свободная, конфликта имён нет.
+]
+
+#pb-solution("lam:reduce")[
+  + $(lambda x . x) z -> z$;
+  + $(lambda x y . y) a b = ((lambda x . lambda y . y) a) b -> (lambda y . y) b -> b$;
+  + $(lambda x . x x)(lambda z . z) w -> (lambda z . z)(lambda z . z) w -> (lambda z . z) w -> w$.
+
+  Все три терма приводятся к нормальной форме.
+]
+
+#pb-solution("lam:substitute")[
+  Первая: $M = lambda y . x y$, $N = y$.
+  Переменная $y$ свободна в $N$, а в $M$ связана $lambda y$ --- прямое применение захватило бы её.
+  Переименовываем $lambda y$ в $lambda z$: $M = lambda z . x z$, тогда
+  $M[x := y] = lambda z . y z$.
+
+  Вторая: $M = lambda z . x (lambda x . z)$, $N = z$.
+  Переименовываем связанное $z$ в $w$: $lambda w . x (lambda x . w)$, тогда
+  $M[x := z] = lambda w . z (lambda x . w)$.
+]
+
+#pb-solution("lam:combinators")[
+  Комбинатор --- терм без свободных переменных.
+  + $lambda x . x$: комбинатор (I);
+  + $lambda x . y$: $y$ свободна --- нет;
+  + $lambda x y . x$: комбинатор (K);
+  + $x (lambda x . x)$: $x$ свободна --- нет;
+  + $lambda x . x y z$: $y$ и $z$ свободны --- нет.
+
+  Комбинаторы: $lambda x . x$ и $lambda x y . x$.
+]
+
+#pb-solution("lam:xor")[
+  Булевы Чёрча: $"true" = lambda x y . x$, $"false" = lambda x y . y$, $"not" = lambda p . p "false" "true"$.
+  XOR: $"xor" = lambda a b . a ("not" b) b$.
+  Проверка:
+  + $"xor" "true" "true" = "true" ("not" "true") "true" = "not" "true" = "false"$;
+  + $"xor" "true" "false" = "true" ("not" "false") "false" = "not" "false" = "true"$;
+  + $"xor" "false" "true" = "false" ("not" "true") "true" = "true"$;
+  + $"xor" "false" "false" = "false" ("not" "false") "false" = "false"$.
+
+  Совпадает с таблицей XOR.
+]
+
+#pb-solution("lam:church4")[
+  Число Чёрча: $n = lambda f x . f^n x$, $"succ" = lambda n f x . f (n f x)$.
+  (а) Вручную: $4 = lambda f x . f (f (f (f x)))$.
+  (б) $3 = lambda f x . f (f (f x))$; тогда
+  $"succ" 3 = lambda f x . f (3 f x) = lambda f x . f (f (f (f x))) = 4$.
+
+  Оба определения совпадают --- они $beta$-эквивалентны.
+]
+
+#pb-solution("lam:iszero")[
+  $"isZero" = lambda n . n (lambda x . "false") "true"$.
+  Для $n = 0$: $0 g y = y$, значит $"isZero" 0 = "true"$.
+  Для $n > 0$: функция $lambda x . "false"$ применяется $n$ раз, и после первого применения результат --- $"false"$.
+  Итак, $"isZero" n = "true"$ при $n = 0$ и $"false"$ при $n > 0$.
+]
+
+#pb-solution("lam:omega")[
+  $Omega = (lambda x . x x)(lambda x . x x)$.
+  Редукция тремя шагами:
+  $Omega -> (lambda x . x x)(lambda x . x x) -> (lambda x . x x)(lambda x . x x) -> (lambda x . x x)(lambda x . x x)$.
+  Каждый шаг воспроизводит $Omega$ целиком, поэтому редукция не завершается и нормальной формы нет.
+
+  Терм $(lambda x . lambda y . y) Omega$: если редуцировать внешний редекс, получаем
+  $(lambda x . lambda y . y) Omega -> lambda y . y$ --- нормальная форма.
+  Если же начать редуцировать $Omega$ внутри, редукция не завершится.
+  Стратегия имеет значение: левая-наружная редукция находит нормальную форму, внутренняя --- нет.
+]
+
+#pb-solution("lam:mult")[
+  $"mult" = lambda m n f . m (n f)$.
+  $2 = lambda f x . f (f x)$, $3 = lambda f x . f (f (f x))$.
+  По шагам:
+  $"mult" 2 3 = (lambda m n f . m (n f)) 2 3 -> (lambda n f . 2 (n f)) 3 -> lambda f . 2 (3 f)$.
+  Далее $3 f -> lambda x . f (f (f x))$, поэтому
+  $2 (3 f) = 2 (lambda x . f (f (f x))) -> lambda y . (lambda x . f (f (f x)))((lambda x . f (f (f x))) y)$
+  $-> lambda y . (lambda x . f (f (f x)))(f (f (f y))) -> lambda y . f (f (f (f (f (f y)))))$.
+  Итог: $"mult" 2 3 = lambda f y . f^6 y = 6$.
+]
+
+#pb-solution("lam:exp")[
+  $"exp" = lambda m n . n m$: число $n$ применяет функцию $m$ $n$ раз.
+  $"exp" 2 3 = 3 2 = lambda f x . 2 (2 (2 f)) x$.
+  Каждое применение 2 удваивает число вхождений $f$: $2 (2 (2 f))$ даёт $f$ применённую $2^3 = 8$ раз.
+  Итак, $"exp" 2 3 = 8$.
+]
+
+#pb-solution("lam:sum")[
+  Используем Y-комбинатор: $Y = lambda f . (lambda x . f (x x)) (lambda x . f (x x))$.
+  $"sum" = Y (lambda s n . "isZero" n 0 ("add" n (s ("pred" n))))$.
+  Проверка: $"sum" 0 = "isZero" 0 0 ... = 0$; $"sum" 3 = "add" 3 ("sum" 2) = 3 + 2 + 1 + 0 = 6$.
+]
+
+#pb-solution("lam:pred")[
+  Пары: $"pair" = lambda a b s . s a b$, $"fst" = lambda p . p "true"$, $"snd" = lambda p . p "false"$.
+  Шаг итерации: $F = lambda p . "pair" ("snd" p) ("succ" ("snd" p))$ --- сдвигает пару $(a, b)$ в $(b, "succ" b)$.
+  $"pred" = lambda n . "fst" (n F ("pair" 0 0))$.
+
+  После $n$ шагов пара равна $(n - 1, n)$, поэтому $"fst"$ даёт $n - 1$.
+  Для $n = 0$ получаем $"fst" ("pair" 0 0) = 0$ (предшественник нуля --- нуль, как принято).
+]
+
+#pb-solution("lam:normal-form-strategy")[
+  $Omega = (lambda x . x x)(lambda x . x x)$: каждый шаг редукции возвращает $Omega$, нормальной формы нет.
+
+  Терм $(lambda x . lambda y . y) Omega$: при левой-наружной редукции внешний редекс редуцируется первым:
+  $(lambda x . lambda y . y) Omega -> lambda y . y$ --- нормальная форма найдена.
+  При внутренней редукции сначала редуцируется $Omega$, и процесс не завершается.
+
+  Вывод: у терма нормальная форма существует, но её находит только стратегия, редуцирующая внешние редексы раньше внутренних.
+]
+
+#pb-solution("lam:lists")[
+  Список --- функция двух аргументов (обработка пустого и непустого случая):
+  + $"nil" = lambda z f . z$;
+  + $"cons" h t = lambda z f . f h t$.
+
+  Деструкторы:
+  + $"isNil" = lambda l . l "true" (lambda h t . "false")$;
+  + $"head" = lambda l . l "error" (lambda h t . h)$;
+  + $"tail" = lambda l . l "error" (lambda h t . t)$.
+
+  Свёртка:
+  + $"foldr" = lambda g z . lambda l . l z (lambda h t . g h ("foldr" g z t))$ (рекурсия --- через Y-комбинатор).
+
+  Например, $"foldr" "add" 0$ вычисляет сумму элементов списка.
+]
+
+// ── Теория типов (m19) ──
+
+#pb-solution("ty:derive-basic")[
+  Терм $lambda x : "Bool" . lambda y : "Nat" . y$ имеет тип $"Bool" -> "Nat" -> "Nat"$.
+
+  Дерево вывода (сверху вниз):
+  + гипотеза $x : "Bool", y : "Nat" proves y : "Nat"$ (правило var);
+  + $x : "Bool" proves lambda y : "Nat" . y : "Nat" -> "Nat"$ (правило abs, извлекаем $y$);
+  + $emptyset proves lambda x : "Bool" . lambda y : "Nat" . y : "Bool" -> "Nat" -> "Nat"$ (правило abs, извлекаем $x$).
+]
+
+#pb-solution("ty:type-app")[
+  $f : "Nat" -> "Bool"$, $x : "Nat"$, поэтому $f x : "Bool"$.
+  Терм имеет тип $("Nat" -> "Bool") -> "Nat" -> "Bool"$.
+
+  Тавтология минимальной логики: $(P -> Q) -> P -> Q$ --- modus ponens: если $P$ влечёт $Q$ и $P$, то $Q$.
+]
+
+#pb-solution("ty:typable-or-not")[
+  + $lambda x : "Nat" . lambda f : "Nat" -> "Nat" . f (f x)$: типизируется, тип $"Nat" -> ("Nat" -> "Nat") -> "Nat"$;
+  + $lambda x : "Nat" . x x$: не типизируется --- первое вхождение $x$ требует $"Nat" = "Nat" -> tau$, что невозможно;
+  + $lambda f : "Nat" -> "Bool" . lambda g : "Bool" -> "Nat" . lambda x : "Nat" . g (f x)$: типизируется, тип $("Nat" -> "Bool") -> ("Bool" -> "Nat") -> "Nat" -> "Nat"$.
+]
+
+#pb-solution("ty:derive-compare")[
+  Оба терма имеют форму $lambda x : "Nat" . lambda y : sigma . x$ и тип $"Nat" -> sigma -> "Nat"$, где $sigma$ --- $"Nat"$ или $"Bool"$.
+  Структура деревьев одинакова: две абстракции и одно применение правила var для $x$.
+  Различие --- только в типе, приписанном $y$ в контексте и в функциональном типе.
+]
+
+#pb-solution("ty:omega-untypable")[
+  Пусть $x : sigma$.
+  В подтерме $x x$ первое вхождение $x$ должно иметь тип $sigma -> tau$ (чтобы принимать аргумент), а второе --- тип $sigma$.
+  По правилу var переменная имеет один тип в контексте, значит $sigma = sigma -> tau$.
+
+  В $lambda ->$ типы конечны и нерекурсивны: уравнение $sigma = sigma -> tau$ не имеет решения (тип стрелки всегда строго длиннее своего домена).
+  Вывод терпит неудачу; $Omega$ не типизируется.
+]
+
+#pb-solution("ty:xx-typable")[
+  Такого терма не существует.
+  Любой подтерм вида $x x$ (переменная, применённая к себе) требует, чтобы тип $x$ был одновременно $sigma$ и $sigma -> tau$.
+  По правилу var переменная имеет ровно один тип в контексте, и уравнение $sigma = sigma -> tau$ в $lambda ->$ неразрешимо.
+  Поэтому ни один терм, содержащий подтерм $x x$, не типизируется.
+]
+
+#pb-solution("ty:curry-howard-rules")[
+  + Правило var (переменная из контекста) соответствует выдвижению гипотезы в натуральном выводе: терм-переменная $x : A$ --- гипотеза $A$.
+  + Правило app: из $M : sigma -> tau$ и $N : sigma$ получить $M N : tau$ --- это $->$-удаление (modus ponens).
+  + Правило abs: из $x : sigma proves M : tau$ получить $lambda x . M : sigma -> tau$ --- это $->$-введение.
+
+  Соответствие точное: каждое типизирующее правило --- ровно одно правило вывода, гипотезы --- переменные контекста.
+]
+
+#pb-solution("ty:mp-proof")[
+  Терм-доказательство: $lambda a : A . lambda f : A -> B . f a$.
+  Его тип: $A -> (A -> B) -> B$.
+  Проверка: $a : A$, $f : A -> B$, значит $f a : B$ (modus ponens); абстракции вводят $A$ и $A -> B$ как гипотезы.
+]
+
+#pb-solution("ty:combinator-s")[
+  $S = lambda x y z . x z (y z)$.
+  Пусть $x : A -> B -> C$, $y : A -> B$, $z : A$.
+  Тогда $x z : B -> C$ и $y z : B$, значит $x z (y z) : C$.
+  Тип $S$: $(A -> B -> C) -> (A -> B) -> A -> C$.
+
+  $S$ --- доказательство тавтологии (аксиомы дистрибутивности импликации) $((P -> Q -> R) -> (P -> Q) -> P -> R)$.
+]
+
+#pb-solution("ty:lambda-cube")[
+  Четыре угловые системы лямбда-куба:
+  + $lambda ->$: простые типы (без полиморфизма);
+  + $lambda 2$: типы, зависящие от типов (System F): пример --- $forall alpha . alpha -> alpha$ (тип тождества), невыразим в $lambda ->$;
+  + $lambda P$: типы, зависящие от термов: пример --- $Pi n : "Nat" . "Vec" n$ (семейство типов, параметризованное значением $n$), невыразим в $lambda ->$;
+  + $lambda omega$: типы высшего рода: пример --- оператор на типах вида $("Type" -> "Type") -> "Type"$, невыразим в $lambda ->$.
+]
+
+#pb-solution("ty:normalization")[
+  $beta$-редекс --- терм вида $(lambda x . M) N$: абстракция, применённая к аргументу.
+  В доказательстве это обходной путь (detour): импликация вводится ($->$-введение) и тут же удаляется ($->$-удаление), хотя можно было обойтись без промежуточного шага.
+
+  Сильная нормализация $lambda ->$ гарантирует, что любая последовательность $beta$-редукций завершается.
+  Значит, любое доказательство в минимальной логике высказываний приводится к нормальной форме, в которой нет обходных путей: применение всегда происходит к подходящему аргументу.
+
+  Пример: $lambda a : A . lambda f : A -> B . f a$ --- нормальная форма; если применить её к $m$ и $g$, появится редекс, который редуцируется в $g m$ --- прямое применение без промежуточных введений.
+]
+
+#pb-solution("ty:dependent")[
+  Тип $"Vec" n$ (вектор длины $n$) зависит от значения терма $n$: семейство типов параметризовано числом.
+  В $lambda ->$ типы строятся только из базовых и стрелок; типы не могут упоминать термы.
+  Поэтому $"Vec" n$ невыразим.
+
+  Требуется расширение до зависимых типов ($lambda P$): типы вида $Pi x : A . B(x)$, где $B(x)$ --- тип, зависящий от терма $x$.
+
+  Другой пример: тип «матрицы размера $m times n$», или тип «доказательства утверждения $P(n)$ для конкретного $n$», или тип «список длины $n$».
+]

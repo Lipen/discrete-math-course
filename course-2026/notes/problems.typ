@@ -2,19 +2,23 @@
 // Компилируется самостоятельно: typst compile problems.typ
 // Задачи → Подсказки → Решения.
 //
-// Мета-разделы (тематическая группировка задач, см. .dev/1_active/book-exercises/spec.md):
-//   meta-01 language            m01-m04  логика, множества, отношения, функции
-//   meta-02 order-infinity      m05-m06  кардиналы, порядок
-//   meta-03 graphs              m07      графы
-//   meta-04 boolean-circuits    m08-m09  булева алгебра, схемы
-//   meta-05 codes-sat           m10-m11  коды, SAT
-//   meta-06 counting-probability m12-m14 комбинаторика, вероятность, производящие функции
-//   meta-07 constructions       m15      конструкции чисел
-//   meta-08 automata-computation m16-m17 автоматы, Тьюринг
-//   meta-09 lambda-types        m18-m19  лямбда-исчисление, теория типов
-//   meta-10 fuzzy               m20-m22  за пределами N, сложность, нечёткие множества
+// Разделы (по одной теме на раздел; главы mXX --- для ориентации):
+//   language             m01-m04  логика, множества, отношения, функции
+//   cardinals            m05      кардиналы, бесконечность
+//   order                m06      отношения порядка
+//   graphs               m07      графы
+//   boolean-circuits     m08-m09  булева алгебра, схемы
+//   codes                m10      коды, исправляющие ошибки
+//   sat                  m11      SAT, NP-полнота
+//   counting-probability m12-m14  комбинаторика, вероятность, производящие функции
+//   constructions        m15      конструкции чисел
+//   automata-computation m16-m17  автоматы, Тьюринг
+//   lambda-types         m18-m19  лямбда-исчисление, теория типов
+//   beyond-n             m20      за пределами натуральных чисел
+//   complexity           m21      сложность вычислений
+//   fuzzy                m22      нечёткие множества
 //
-// Каждый мета-раздел лежит в трёх файлах: meta-NN-topic-{problems,hints,solutions}.typ.
+// Каждый раздел лежит в трёх файлах: topic-{problems,hints,solutions}.typ.
 #import "common-notes.typ": *
 #show: notes-template.with(theme: oklch(55%, 0.16, 230deg))
 
@@ -31,23 +35,27 @@
 = Банк задач
 
 #text(size: 0.95em, fill: luma(45%))[
-  Задачи сгруппированы по мета-разделам.
+  Задачи сгруппированы по темам.
   Для каждой задачи доступны подсказка и решение --- ссылки внизу блока.
   Подсказки и решения вынесены в конец, чтобы не мешать самостоятельным попыткам.
 ]
 
 // ═══ Задачи ═══
 
-#include "problem-bank/meta-01-language-problems.typ"
-#include "problem-bank/meta-02-order-infinity-problems.typ"
-#include "problem-bank/meta-03-graphs-problems.typ"
-#include "problem-bank/meta-04-boolean-circuits-problems.typ"
-#include "problem-bank/meta-05-codes-sat-problems.typ"
-#include "problem-bank/meta-06-counting-probability-problems.typ"
-#include "problem-bank/meta-07-constructions-problems.typ"
-#include "problem-bank/meta-08-automata-computation-problems.typ"
-#include "problem-bank/meta-09-lambda-types-problems.typ"
-#include "problem-bank/meta-10-fuzzy-problems.typ"
+#include "problem-bank/language-problems.typ"
+#include "problem-bank/cardinals-problems.typ"
+#include "problem-bank/order-problems.typ"
+#include "problem-bank/graphs-problems.typ"
+#include "problem-bank/boolean-circuits-problems.typ"
+#include "problem-bank/codes-problems.typ"
+#include "problem-bank/sat-problems.typ"
+#include "problem-bank/counting-probability-problems.typ"
+#include "problem-bank/constructions-problems.typ"
+#include "problem-bank/automata-computation-problems.typ"
+#include "problem-bank/lambda-types-problems.typ"
+#include "problem-bank/beyond-n-problems.typ"
+#include "problem-bank/complexity-problems.typ"
+#include "problem-bank/fuzzy-problems.typ"
 
 // ═══ Подсказки ═══
 
@@ -56,16 +64,20 @@
 
 Подсказка не выдаёт ответ --- она указывает направление для самостоятельного решения.
 
-#include "problem-bank/meta-01-language-hints.typ"
-#include "problem-bank/meta-02-order-infinity-hints.typ"
-#include "problem-bank/meta-03-graphs-hints.typ"
-#include "problem-bank/meta-04-boolean-circuits-hints.typ"
-#include "problem-bank/meta-05-codes-sat-hints.typ"
-#include "problem-bank/meta-06-counting-probability-hints.typ"
-#include "problem-bank/meta-07-constructions-hints.typ"
-#include "problem-bank/meta-08-automata-computation-hints.typ"
-#include "problem-bank/meta-09-lambda-types-hints.typ"
-#include "problem-bank/meta-10-fuzzy-hints.typ"
+#include "problem-bank/language-hints.typ"
+#include "problem-bank/cardinals-hints.typ"
+#include "problem-bank/order-hints.typ"
+#include "problem-bank/graphs-hints.typ"
+#include "problem-bank/boolean-circuits-hints.typ"
+#include "problem-bank/codes-hints.typ"
+#include "problem-bank/sat-hints.typ"
+#include "problem-bank/counting-probability-hints.typ"
+#include "problem-bank/constructions-hints.typ"
+#include "problem-bank/automata-computation-hints.typ"
+#include "problem-bank/lambda-types-hints.typ"
+#include "problem-bank/beyond-n-hints.typ"
+#include "problem-bank/complexity-hints.typ"
+#include "problem-bank/fuzzy-hints.typ"
 
 // ═══ Решения ═══
 
@@ -75,13 +87,17 @@
 Решение содержит полную цепочку рассуждений.
 Рекомендуется читать после самостоятельной попытки.
 
-#include "problem-bank/meta-01-language-solutions.typ"
-#include "problem-bank/meta-02-order-infinity-solutions.typ"
-#include "problem-bank/meta-03-graphs-solutions.typ"
-#include "problem-bank/meta-04-boolean-circuits-solutions.typ"
-#include "problem-bank/meta-05-codes-sat-solutions.typ"
-#include "problem-bank/meta-06-counting-probability-solutions.typ"
-#include "problem-bank/meta-07-constructions-solutions.typ"
-#include "problem-bank/meta-08-automata-computation-solutions.typ"
-#include "problem-bank/meta-09-lambda-types-solutions.typ"
-#include "problem-bank/meta-10-fuzzy-solutions.typ"
+#include "problem-bank/language-solutions.typ"
+#include "problem-bank/cardinals-solutions.typ"
+#include "problem-bank/order-solutions.typ"
+#include "problem-bank/graphs-solutions.typ"
+#include "problem-bank/boolean-circuits-solutions.typ"
+#include "problem-bank/codes-solutions.typ"
+#include "problem-bank/sat-solutions.typ"
+#include "problem-bank/counting-probability-solutions.typ"
+#include "problem-bank/constructions-solutions.typ"
+#include "problem-bank/automata-computation-solutions.typ"
+#include "problem-bank/lambda-types-solutions.typ"
+#include "problem-bank/beyond-n-solutions.typ"
+#include "problem-bank/complexity-solutions.typ"
+#include "problem-bank/fuzzy-solutions.typ"
