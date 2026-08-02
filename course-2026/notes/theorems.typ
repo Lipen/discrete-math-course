@@ -12,6 +12,8 @@
 //   #remark[тело]                    #remark[Заголовок][тело]
 //   #warning[тело]                   #warning[Заголовок][тело]
 //   #history-note[тело]              #history-note[Заголовок][тело]
+//   #trap[тело]                      #trap[Заголовок][тело]
+//   #self-check[тело]                #self-check[Заголовок][тело]
 //   #algorithm[тело]                 #algorithm[Название][тело]
 //   #raven[тело]                     #raven[Заголовок][тело]
 //   #chapter-overview[тело]
@@ -29,6 +31,8 @@
 #let warn-color = oklch(70%, 0.15, 75deg)   // amber (warning)
 #let hist-color = rgb("a08055")  // warm brown (history)
 #let algo-color = oklch(60%, 0.10, 230deg)  // steel blue (algorithm)
+#let trap-color = oklch(52%, 0.16, 25deg)  // red (trap)
+#let self-color = rgb("2a7f8a")  // teal (self-check)
 
 // --- Метки (словарь для лёгкой смены языка) ---
 #let thm-labels = (
@@ -47,6 +51,8 @@
   overview: "Обзор главы",
   algorithm: "АЛГОРИТМ",
   history: "ИСТОРИЯ",
+  trap: "ЛОВУШКА",
+  self-check: "ПРОВЕРЬТЕ СЕБЯ",
 )
 
 // State for sticky-headers flag (controlled from notes-template)
@@ -412,6 +418,42 @@
     body,
     fill: hist-color.lighten(90%),
     stroke: _block-stroke(hist-color),
+  )
+}
+
+#let trap(..args) = {
+  let (sub, body) = _args(args.pos())
+  let header = badge(trap-color)[#thm-labels.trap]
+  if sub != none {
+    sub = text(
+      weight: "semibold",
+      fill: trap-color.darken(20%),
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
+    fill: trap-color.lighten(88%),
+    stroke: _block-stroke(trap-color),
+  )
+}
+
+#let self-check(..args) = {
+  let (sub, body) = _args(args.pos())
+  let header = badge(self-color)[#thm-labels.self-check]
+  if sub != none {
+    sub = text(
+      weight: "semibold",
+      fill: self-color.darken(20%),
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
+    fill: self-color.lighten(90%),
+    stroke: _block-stroke(self-color),
   )
 }
 
