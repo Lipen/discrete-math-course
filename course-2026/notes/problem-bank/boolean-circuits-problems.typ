@@ -1,6 +1,6 @@
 // Раздел: Булева алгебра и схемы (m08-m09).
 // Задачи соответствуют разделам «== Упражнения» глав m08 и m09.
-#import "macros.typ": problem, topic-header
+#import "macros.typ": problem, project, topic-header
 #import "../notation.typ": *
 
 #topic-header("Булева алгебра и схемы", "m08-m09")[
@@ -354,4 +354,38 @@
   Приведено доказательство: «NAND выражается как $x arrow.t y = 1 + x y$ (по модулю 2) --- это линейная функция, и композиция линейных функций линейна.
   Но AND нелинеен, значит AND невыразим через NAND, и NAND не функционально полон».
   Где ошибка?
+]
+
+// ── Программный проект (Rust) ──
+
+#project(
+  id: "circ:proj-sim",
+  title: [Симулятор логических схем],
+  chapter-refs: ("m08", "m09"),
+  deliverables: [
+    `lib.rs` + тесты на таблицы истинности всех вентилей и на полный сумматор (все 8 комбинаций).
+  ],
+  criteria: [
+    Топологический порядок корректен, циклы схемы → ошибка, полный сумматор совпадает с таблицей истинности.
+  ],
+)[
+  Реализуйте комбинационную схему из вентилей (AND, OR, NOT, NAND, NOR, XOR), топологический порядок и вычисление выходов по входам.
+  Соберите из вентилей полный сумматор и проверьте на всех 8 комбинациях входов.
+
+  Заготовка:
+
+  ```rust
+  #[derive(Clone, Copy, Debug)]
+  pub enum Gate { And, Or, Not, Nand, Nor, Xor }
+
+  pub struct Circuit {
+      pub gates: Vec<(Gate, Vec<usize>)>, // вентиль + индексы входов
+  }
+
+  impl Circuit {
+      pub fn evaluate(&self, inputs: &[bool]) -> Result<Vec<bool>, String> { /* TODO */ }
+      /// Полный сумматор: (a, b, c_in) -> (sum, c_out).
+      pub fn full_adder(a: bool, b: bool, c_in: bool) -> (bool, bool) { /* TODO */ }
+  }
+  ```
 ]

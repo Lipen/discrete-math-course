@@ -1,6 +1,6 @@
 // Раздел: Сложность вычислений (m21).
 // Задачи соответствуют разделу «== Упражнения» главы m21.
-#import "macros.typ": problem, topic-header
+#import "macros.typ": problem, project, topic-header, project
 #import "../notation.typ": *
 
 #topic-header("Сложность вычислений", "m21")[
@@ -185,4 +185,30 @@
   Значит, $L in P$ и, следовательно, $"NP" subset.eq P$.»
 
   Где ошибка?
+]
+
+// ── Программный проект (Rust) ──
+
+#project(
+  id: "comp:proj-bench",
+  title: [Эмпирическое сравнение $O(n log n)$ и $O(n^2)$],
+  chapter-refs: ("m21",),
+  deliverables: [
+    `lib.rs` + `benches/` или main, печать таблицы `n | insertion(сравн., время) | merge(сравн., время) | отношение времён`.
+  ],
+  criteria: [
+    Обе сортировки корректны (проверка на случайных массивах).
+    Число сравнений вставок ~ $n^2 \/ 4$, слияния ~ $n log_2 n$.
+    Таблица растёт ожидаемо.
+  ],
+)[
+  Реализуйте сортировку вставками ($O(n^2)$) и сортировку слиянием ($O(n log n)$), измерьте время и число сравнений на $n = 10^3, 10^4, 10^5, 10^6$ (случайные данные), выведите таблицу и отношение времён; убедитесь, что отношение растёт примерно как $n \/ (log n)$ (асимптотика $O(n^2)$ против $O(n log n)$).
+
+  Заготовка:
+  ```rust
+  pub fn insertion_sort<T: Ord>(a: &mut [T]) -> usize { /* TODO: возвращает число сравнений */ }
+  pub fn merge_sort<T: Ord + Clone>(a: &mut [T]) -> usize { /* TODO */ }
+  /// Время и число сравнений на массиве размера n.
+  pub fn bench(n: usize, seed: u64) -> (std::time::Duration, usize, std::time::Duration, usize) { /* TODO */ }
+  ```
 ]
