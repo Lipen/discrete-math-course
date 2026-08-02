@@ -314,7 +314,7 @@
         size: 0.8em,
         tracking: 0.05em,
         fill: dc.darken(18%),
-      )[#pb-diff-label.at(difficulty)]
+      )[#pb-diff-label.at("project")]
     ]
 
     #parbreak()
