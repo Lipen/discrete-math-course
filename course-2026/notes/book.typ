@@ -74,16 +74,24 @@
     #set text(size: 8.5pt, fill: luma(45%))
     #grid(
       columns: (1fr, 1fr),
-      align(left)[#text(tracking: 0.08em)[ДМ]],
+      align(left)[#text(tracking: 0.08em)[ДИСКРЕТНАЯ МАТЕМАТИКА]],
       align(right)[
         #context {
           let pg = counter(page).get().first()
           let name = ""
+          let num = 0
           for h in query(heading.where(level: 1)) {
             let hp = counter(page).at(h.location()).first()
-            if hp <= pg { name = h.body }
+            if hp <= pg {
+              name = h.body
+              num = counter(heading).at(h.location()).first()
+            }
           }
-          name
+          if num > 0 {
+            [#roman(num). #name]
+          } else {
+            name
+          }
         }
       ],
     )
