@@ -174,12 +174,16 @@
 
   ```rust
   #[derive(Clone, Debug)]
-  pub struct Surreal { pub left: Vec<f64>, pub right: Vec<f64> } // упрощённо: числовые опции.
+  pub struct Surreal {
+      pub left: Vec<f64>,
+      pub right: Vec<f64>, // упрощённо: числовые опции
+  }
 
   /// Проверка x < y для сюрреальных чисел с числовыми опциями.
   pub fn less(x: &Surreal, y: &Surreal) -> bool { /* TODO */ }
 
-  /// Генерация чисел дня d (для малых d, с числовыми значениями опций).
+  /// Генерация чисел дня d
+  /// (для малых d, с числовыми значениями опций).
   pub fn day(d: usize) -> Vec<Surreal> { /* TODO */ }
   ```
 ]

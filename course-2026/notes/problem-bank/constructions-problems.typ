@@ -178,9 +178,12 @@
   Заготовка:
 
   ```rust
-  /// Натуральное число фон Неймана: n = {0, 1, ..., n-1} как Vec<bool>.
+  /// Натуральное число фон Неймана:
+  /// n = {0, 1, ..., n-1} как Vec<bool>.
   #[derive(Clone, Debug, PartialEq)]
-  pub struct VonNeumann { pub members: Vec<bool> } // members[i] означает i ∈ n.
+  pub struct VonNeumann {
+      pub members: Vec<bool>, // members[i] означает i ∈ n.
+  }
 
   impl VonNeumann {
       pub fn zero() -> Self { /* TODO */ }

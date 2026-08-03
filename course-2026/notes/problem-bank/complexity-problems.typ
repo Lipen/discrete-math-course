@@ -223,9 +223,18 @@
 
   Заготовка:
   ```rust
-  pub fn insertion_sort<T: Ord>(a: &mut [T]) -> usize { /* TODO: возвращает число сравнений */ }
-  pub fn merge_sort<T: Ord + Clone>(a: &mut [T]) -> usize { /* TODO */ }
+  pub fn insertion_sort<T: Ord>(a: &mut [T]) -> usize {
+      /* TODO: возвращает число сравнений */
+  }
+  pub fn merge_sort<T: Ord + Clone>(a: &mut [T]) -> usize {
+      /* TODO */
+  }
   /// Время и число сравнений на массиве размера n.
-  pub fn bench(n: usize, seed: u64) -> (std::time::Duration, usize, std::time::Duration, usize) { /* TODO */ }
+  pub fn bench(
+      n: usize,
+      seed: u64,
+  ) -> (std::time::Duration, usize, std::time::Duration, usize) {
+      /* TODO */
+  }
   ```
 ]

@@ -399,13 +399,21 @@
   pub enum Gate { And, Or, Not, Nand, Nor, Xor }
 
   pub struct Circuit {
-      pub gates: Vec<(Gate, Vec<usize>)>, // вентиль + индексы входов
+      /// (вентиль, индексы входов)
+      pub gates: Vec<(Gate, Vec<usize>)>,
   }
 
   impl Circuit {
-      pub fn evaluate(&self, inputs: &[bool]) -> Result<Vec<bool>, String> { /* TODO */ }
+      pub fn evaluate(
+          &self,
+          inputs: &[bool],
+      ) -> Result<Vec<bool>, String> { /* TODO */ }
       /// Полный сумматор: (a, b, c_in) -> (sum, c_out).
-      pub fn full_adder(a: bool, b: bool, c_in: bool) -> (bool, bool) { /* TODO */ }
+      pub fn full_adder(
+          a: bool,
+          b: bool,
+          c_in: bool,
+      ) -> (bool, bool) { /* TODO */ }
   }
   ```
 ]

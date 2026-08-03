@@ -644,9 +644,17 @@
   pub fn permutations(n: usize) -> Vec<Vec<usize>> { /* TODO */ }
 
   /// Сочетания по k из n (лексикографически).
-  pub fn combinations(n: usize, k: usize) -> Vec<Vec<usize>> { /* TODO */ }
+  pub fn combinations(
+      n: usize,
+      k: usize,
+  ) -> Vec<Vec<usize>> { /* TODO */ }
 
-  /// Монте-Карло: доля групп из m человек с совпадающим днём рождения.
-  pub fn birthday_probability(m: usize, trials: usize, seed: u64) -> f64 { /* TODO */ }
+  /// Монте-Карло: доля групп из m человек
+  /// с совпадающим днём рождения.
+  pub fn birthday_probability(
+      m: usize,
+      trials: usize,
+      seed: u64,
+  ) -> f64 { /* TODO */ }
   ```
 ]

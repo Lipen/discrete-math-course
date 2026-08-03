@@ -235,9 +235,13 @@
   }
 
   impl Solver {
-      pub fn new(n: usize, clauses: Vec<Vec<i32>>) -> Self { /* TODO */ }
+      pub fn new(
+          n: usize,
+          clauses: Vec<Vec<i32>>,
+      ) -> Self { /* TODO */ }
 
-      /// Единичное распространение; возвращает ошибку при конфликте.
+      /// Единичное распространение;
+      /// возвращает ошибку при конфликте.
       fn propagate(&mut self) -> Result<(), ()> { /* TODO */ }
 
       /// CDCL; возвращает выполняющее присваивание или None.

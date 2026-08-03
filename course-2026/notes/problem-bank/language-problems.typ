@@ -181,8 +181,13 @@
 
   impl Formula {
       pub fn vars(&self) -> Vec<String> { /* TODO */ }
-      pub fn eval(&self, env: &std::collections::HashMap<String, bool>) -> bool { /* TODO */ }
-      pub fn is_tautology(&self) -> bool { /* TODO: все 2^n присваиваний */ }
+      pub fn eval(
+          &self,
+          env: &std::collections::HashMap<String, bool>,
+      ) -> bool { /* TODO */ }
+      pub fn is_tautology(
+          &self,
+      ) -> bool { /* TODO: все 2^n присваиваний */ }
   }
   ```
 ]

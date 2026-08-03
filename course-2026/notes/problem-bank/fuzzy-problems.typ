@@ -227,6 +227,9 @@
       pub then_set: FuzzySet,
   }
 
-  pub fn defuzzify_centroid(xs: &[f64], weights: &[f64]) -> f64 { /* TODO */ }
+  pub fn defuzzify_centroid(
+      xs: &[f64],
+      weights: &[f64],
+  ) -> f64 { /* TODO */ }
   ```
 ]

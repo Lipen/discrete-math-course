@@ -365,14 +365,19 @@
       /// Свободные переменные.
       pub fn free_vars(&self) -> Vec<String> { /* TODO */ }
 
-      /// Подстановка с $alpha$-переименованием во избежание захвата.
+      /// Подстановка с α-переименованием во избежание захвата.
       pub fn subst(&self, x: &str, t: &Term) -> Term { /* TODO */ }
 
-      /// Один шаг $beta$-редукции (левый внешний редекс); None, если редексов нет.
+      /// Один шаг β-редукции (левый внешний редекс);
+      /// None, если редексов нет.
       pub fn step(&self) -> Option<Term> { /* TODO */ }
 
-      /// Нормальная форма (лимит шагов, напр. 1000, чтобы поймать $Omega$).
-      pub fn normal_form(&self, max_steps: usize) -> Result<Term, String> { /* TODO */ }
+      /// Нормальная форма (лимит шагов,
+      /// напр. 1000, чтобы поймать Ω).
+      pub fn normal_form(
+          &self,
+          max_steps: usize,
+      ) -> Result<Term, String> { /* TODO */ }
   }
   ```
 

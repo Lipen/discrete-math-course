@@ -189,10 +189,17 @@
   ```rust
   pub struct DiGraph { pub adj: Vec<Vec<usize>> }
   impl DiGraph {
-      pub fn from_edges(n: usize, edges: &[(usize, usize)]) -> Self { /* TODO */ }
+      pub fn from_edges(
+          n: usize,
+          edges: &[(usize, usize)],
+      ) -> Self { /* TODO */ }
       /// Топологический порядок; Err(цикл), если граф циклический.
-      pub fn topo_kahn(&self) -> Result<Vec<usize>, Vec<usize>> { /* TODO */ }
-      pub fn topo_dfs(&self) -> Result<Vec<usize>, Vec<usize>> { /* TODO */ }
+      pub fn topo_kahn(
+          &self,
+      ) -> Result<Vec<usize>, Vec<usize>> { /* TODO */ }
+      pub fn topo_dfs(
+          &self,
+      ) -> Result<Vec<usize>, Vec<usize>> { /* TODO */ }
   }
   ```
 ]

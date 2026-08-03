@@ -359,12 +359,23 @@
       pub adj: Vec<Vec<usize>>, // списки смежности
   }
   impl Graph {
-      pub fn from_edges(n: usize, edges: &[(usize, usize)]) -> Self { /* TODO */ }
-      pub fn bfs_order(&self, start: usize) -> Vec<usize> { /* TODO */ }
-      pub fn dfs_order(&self, start: usize) -> Vec<usize> { /* TODO */ }
+      pub fn from_edges(
+          n: usize,
+          edges: &[(usize, usize)],
+      ) -> Self { /* TODO */ }
+      pub fn bfs_order(
+          &self,
+          start: usize,
+      ) -> Vec<usize> { /* TODO */ }
+      pub fn dfs_order(
+          &self,
+          start: usize,
+      ) -> Vec<usize> { /* TODO */ }
       pub fn is_connected(&self) -> bool { /* TODO */ }
       /// Эйлеров цикл (Хирхольцер); None, если не эйлеров.
-      pub fn eulerian_cycle(&self) -> Option<Vec<usize>> { /* TODO */ }
+      pub fn eulerian_cycle(
+          &self,
+      ) -> Option<Vec<usize>> { /* TODO */ }
   }
   ```
 ]

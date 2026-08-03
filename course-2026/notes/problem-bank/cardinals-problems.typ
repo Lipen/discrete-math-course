@@ -198,6 +198,8 @@
   pub fn uncantor(n: usize) -> (usize, usize) { /* TODO */ }
 
   /// Нумерация рациональных чисел из (0, 1]: дробь p/q -> индекс.
-  pub fn enumerate_rationals(n: usize) -> Vec<(usize, usize)> { /* TODO */ }
+  pub fn enumerate_rationals(
+      n: usize,
+  ) -> Vec<(usize, usize)> { /* TODO */ }
   ```
 ]
