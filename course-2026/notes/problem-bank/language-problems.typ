@@ -1,6 +1,6 @@
 // Раздел: Язык математики (m01-m04).
 // Логика, множества, отношения, функции.
-#import "macros.typ": problem, topic-header
+#import "macros.typ": problem, project, topic-header
 #import "../notation.typ": *
 
 #topic-header("Язык математики", "m01-m04")[
@@ -107,4 +107,43 @@
 
   В общем виде: из $forall x exists y: P(x, y)$ следует $exists y forall x: P(x, y)$.
   Где ошибка?
+]
+
+// ── Программный проект (Rust) ──
+
+#project(
+  id: "lang:proj-prover",
+  title: [Мини-проверщик таблиц истинности],
+  chapter-refs: ("m01",),
+  topics: ("логика", "булевы формулы", "таблица истинности", "тавтология", "SAT"),
+  deliverables: [
+    - Файл `lib.rs` с полной реализацией типа `Formula` и всех методов.
+    - Тесты: $x or not x$ --- тавтология, $x and not x$ --- противоречие, таблица истинности для $(p imply q)$.
+  ],
+  criteria: [
+    - `eval` корректен на всех 16 бинарных комбинациях логических операторов.
+    - `is_tautology` считает все $2^n$ строк таблицы истинности.
+    - `vars` правильно извлекает все переменные формулы.
+  ],
+)[
+  Реализуйте представление булевых формул (переменные, $and$, $or$, $not$, $imply$), вычисление таблицы истинности и проверку тавтологии, выполнимости и противоречивости.
+
+  Заготовка:
+
+  ```rust
+  #[derive(Clone)]
+  pub enum Formula {
+      Var(String),
+      Not(Box<Formula>),
+      And(Box<Formula>, Box<Formula>),
+      Or(Box<Formula>, Box<Formula>),
+      Impl(Box<Formula>, Box<Formula>),
+  }
+
+  impl Formula {
+      pub fn vars(&self) -> Vec<String> { /* TODO */ }
+      pub fn eval(&self, env: &std::collections::HashMap<String, bool>) -> bool { /* TODO */ }
+      pub fn is_tautology(&self) -> bool { /* TODO: все 2^n присваиваний */ }
+  }
+  ```
 ]

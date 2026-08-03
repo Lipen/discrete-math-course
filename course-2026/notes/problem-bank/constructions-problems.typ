@@ -1,6 +1,6 @@
 // Раздел: Конструкции чисел (m15).
 // Задачи соответствуют разделу «== Упражнения» главы m15.
-#import "macros.typ": problem, topic-header
+#import "macros.typ": problem, project, topic-header
 #import "../notation.typ": *
 
 #topic-header("Конструкции чисел", "m15")[
@@ -129,4 +129,41 @@
   $ 2 = 3 $.
 
   Где ошибка?
+]
+
+// ── Программный проект (Rust) ──
+
+#project(
+  id: "con:proj-vn",
+  title: [Натуральные числа фон Неймана],
+  chapter-refs: ("m15",),
+  topics: ("ординалы", "фон Нейман", "натуральные числа", "аксиомы Пеано"),
+  deliverables: [
+    - Файл `lib.rs` с полной реализацией типа `VonNeumann` и всех методов.
+    - Тесты: $0 = emptyset$, $1 = {0}$, $2 = {0, 1}$; порядок $0 in 1 in 2$; `succ` переводит число фон Неймана в следующее, согласовано с `from_usize`.
+  ],
+  criteria: [
+    - Представление корректно: `from_usize` создаёт число фон Неймана для данного $n$.
+    - `succ` строится по правилу $n + 1 = n union {n}$.
+    - `to_usize` и `from_usize` взаимно обратны.
+  ],
+)[
+  Реализуйте натуральные числа как множества фон Неймана ($0 = emptyset$, $1 = {0}$, $2 = {0, 1}$, ...).
+  Определите порядок $in$ между числами и сложение через теоретико-множественное объединение.
+  Проверьте аксиому индукции на малых числах ($0, 1, 2, 3, 4$).
+
+  Заготовка:
+
+  ```rust
+  /// Натуральное число фон Неймана: n = {0, 1, ..., n-1} как Vec<bool>.
+  #[derive(Clone, Debug, PartialEq)]
+  pub struct VonNeumann { pub members: Vec<bool> } // members[i] означает i ∈ n.
+
+  impl VonNeumann {
+      pub fn zero() -> Self { /* TODO */ }
+      pub fn succ(&self) -> Self { /* TODO: n+1 = n ∪ {n} */ }
+      pub fn to_usize(&self) -> usize { /* TODO */ }
+      pub fn from_usize(n: usize) -> Self { /* TODO */ }
+  }
+  ```
 ]
