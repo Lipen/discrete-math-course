@@ -72,11 +72,23 @@
   margin: (left: 3cm, right: 2.5cm, top: 3cm, bottom: 2.5cm),
   header: [
     #set text(size: 8.5pt, fill: luma(45%))
-    #align(center)[
-      #text(tracking: 0.08em)[ДИСКРЕТНАЯ МАТЕМАТИКА]
-      #v(0.25em)
-      #line(length: 100%, stroke: 0.3pt + luma(80%))
-    ]
+    #grid(
+      columns: (1fr, 1fr),
+      align(left)[#text(tracking: 0.08em)[ДМ]],
+      align(right)[
+        #context {
+          let pg = counter(page).get().first()
+          let name = ""
+          for h in query(heading.where(level: 1)) {
+            let hp = counter(page).at(h.location()).first()
+            if hp <= pg { name = h.body }
+          }
+          name
+        }
+      ],
+    )
+    #v(0.25em)
+    #line(length: 100%, stroke: 0.3pt + luma(80%))
   ],
   footer: align(center)[
     #set text(size: 8pt, fill: luma(50%))
