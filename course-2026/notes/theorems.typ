@@ -466,12 +466,7 @@
 // Лёгкий мини-блок для быстрой проверки внутри главы (перед сменой темы или факультативом)
 #let checkpoint(..args) = {
   let (sub, body) = _args(args.pos())
-  let header = text(
-    size: 0.85em,
-    weight: "bold",
-    fill: self-color.darken(10%),
-    tracking: 0.08em,
-  )[#thm-labels.checkpoint]
+  let header = badge(self-color)[#thm-labels.checkpoint]
   if sub != none {
     sub = text(
       weight: "semibold",
