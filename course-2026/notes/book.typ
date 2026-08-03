@@ -88,7 +88,7 @@
             }
           }
           if num > 0 {
-            [#roman(num). #name]
+            [#num. #name]
           } else {
             name
           }
