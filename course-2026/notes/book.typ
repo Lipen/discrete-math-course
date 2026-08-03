@@ -126,6 +126,8 @@
 #include "m15-constructions.typ"
 
 #include "m16-automata.typ"
+#include "m17-regular-languages.typ"
+#include "m18-context-free.typ"
 #include "m19-turing.typ"
 #include "m20-decidability.typ"
 #include "m21-lambda.typ"
