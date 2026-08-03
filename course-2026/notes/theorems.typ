@@ -89,7 +89,7 @@
     fill: color,
     radius: 2pt,
     inset: (x: 0.5em),
-    outset: (y: 0.4em),
+    outset: (y: 0.5em),
   )[#text(
     size: 0.8em,
     weight: "bold",
@@ -137,7 +137,7 @@
         header
       }
       #if header != none and title != none {
-        h(1em, weak: true)
+        h(0.5em, weak: true)
       }
       #if title != none {
         title
@@ -330,6 +330,12 @@
 #let example(..args) = {
   let (sub, body) = _args(args.pos())
   let header = badge(ex-color)[#thm-labels.example]
+  if sub != none {
+    sub = text(
+      style: "italic",
+      fill: ex-color.darken(20%),
+    )[#sub]
+  }
   _block(
     header,
     sub,
@@ -400,8 +406,6 @@
     body,
     fill: oklch(95%, 0.05, 85deg),
     stroke: _block-stroke(warn-color),
-    inset: (left: 0.8em, right: 0.7em, top: 0.5em, bottom: 0.55em),
-    radius: 2pt,
   )
 }
 
@@ -463,7 +467,7 @@
   if sub != none {
     sub = text(
       weight: "semibold",
-      fill: algo-color,
+      fill: algo-color.darken(20%),
     )[#sub]
   }
   _block(
@@ -472,8 +476,6 @@
     body,
     fill: algo-color.lighten(95%),
     stroke: _block-stroke(algo-color),
-    inset: (left: 0.7em, right: 0.7em, top: 0.5em, bottom: 0.55em),
-    radius: 2pt,
   )
 }
 
