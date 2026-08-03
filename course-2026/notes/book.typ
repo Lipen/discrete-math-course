@@ -115,3 +115,6 @@
 
 // --- Упражнения ---
 #include "exercises.typ"
+
+// --- Глоссарий ---
+#include "glossary.typ"
