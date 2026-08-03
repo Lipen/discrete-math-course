@@ -14,6 +14,7 @@
 //   #history-note[тело]              #history-note[Заголовок][тело]
 //   #trap[тело]                      #trap[Заголовок][тело]
 //   #self-check[тело]                #self-check[Заголовок][тело]
+//   #checkpoint[тело]                #checkpoint[Заголовок][тело]
 //   #algorithm[тело]                 #algorithm[Название][тело]
 //   #raven[тело]                     #raven[Заголовок][тело]
 //   #chapter-overview[тело]
@@ -53,6 +54,7 @@
   history: "ИСТОРИЯ",
   trap: "ЛОВУШКА",
   self-check: "ПРОВЕРЬТЕ СЕБЯ",
+  checkpoint: "БЫСТРАЯ ПРОВЕРКА",
 )
 
 // State for sticky-headers flag (controlled from notes-template)
@@ -458,6 +460,31 @@
     body,
     fill: self-color.lighten(90%),
     stroke: _block-stroke(self-color),
+  )
+}
+
+// Лёгкий мини-блок для быстрой проверки внутри главы (перед сменой темы или факультативом)
+#let checkpoint(..args) = {
+  let (sub, body) = _args(args.pos())
+  let header = text(
+    size: 0.85em,
+    weight: "bold",
+    fill: self-color.darken(10%),
+    tracking: 0.08em,
+  )[#thm-labels.checkpoint]
+  if sub != none {
+    sub = text(
+      weight: "semibold",
+      fill: self-color.darken(20%),
+    )[#sub]
+  }
+  _block(
+    header,
+    sub,
+    body,
+    fill: self-color.lighten(96%),
+    stroke: _block-stroke(self-color),
+    inset: (x: 0.8em, top: 0.6em, bottom: 0.6em),
   )
 }
 
