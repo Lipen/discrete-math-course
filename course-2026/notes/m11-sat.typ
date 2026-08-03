@@ -510,10 +510,10 @@ CDCL не решает SAT в общем случае; он решает SAT н�
 
 + Какие из следующих КНФ-формул выполнимы?
   Для выполнимых --- укажите модель; для невыполнимых --- объясните причину.
-  (а) $(x or y) and (not x or not y)$;
-  (б) $(x) and (not x)$;
-  (в) $(x or y or z) and (not x) and (not y) and (not z)$;
-  (г) $(x or y) and (not x or y) and (not y)$.
+  + $(x or y) and (not x or not y)$
+  + $(x) and (not x)$
+  + $(x or y or z) and (not x) and (not y) and (not z)$
+  + $(x or y) and (not x or y) and (not y)$
 
 + Переведите каждый дизъюнкт 2-SAT в пару импликаций и постройте граф импликаций для формулы:
   $

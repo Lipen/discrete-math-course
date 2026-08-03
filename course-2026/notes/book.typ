@@ -113,8 +113,5 @@
 #include "m21-complexity.typ"
 #include "m22-fuzzy-sets.typ"
 
-// --- Упражнения ---
-#include "exercises.typ"
-
 // --- Глоссарий ---
 #include "glossary.typ"
