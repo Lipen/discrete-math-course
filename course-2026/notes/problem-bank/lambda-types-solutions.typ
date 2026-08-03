@@ -65,9 +65,9 @@
 
 #pb-solution("lam:church4")[
   Число Чёрча: $n = lambda f x . f^n x$, $"succ" = lambda n f x . f (n f x)$.
-  (а) Вручную: $4 = lambda f x . f (f (f (f x)))$.
-  (б) $3 = lambda f x . f (f (f x))$; тогда
-  $"succ" 3 = lambda f x . f (3 f x) = lambda f x . f (f (f (f x))) = 4$.
+  + Вручную: $4 = lambda f x . f (f (f (f x)))$.
+  + $3 = lambda f x . f (f (f x))$;
+    тогда $"succ" 3 = lambda f x . f (3 f x) = lambda f x . f (f (f (f x))) = 4$.
 
   Оба определения совпадают --- они $beta$-эквивалентны.
 ]
