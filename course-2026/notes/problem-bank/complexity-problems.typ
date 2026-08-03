@@ -187,7 +187,24 @@
   Где ошибка?
 ]
 
-// ── Программный проект (Rust) ──
+#problem(
+  id: "comp:err2-np-conp",
+  title: [Доказательство $"NP" subset.eq "coNP"$],
+  difficulty: "advanced",
+  topics: ("сложность", "NP", "coNP", "сертификаты", "ошибка"),
+)[
+  Рассмотрим следующее «доказательство» включения $"NP" subset.eq "coNP"$.
+  Пусть $L in "NP"$.
+  Тогда существует полиномиальный верификатор $V(x, c)$: $x in L <=> exists c: V(x, c) = 1$, где $|c| <= "poly"(|x|)$.
+  Определим верификатор $V'(x, c')$ для дополнения $overline(L)$: $V'(x, c') = not V(x, c')$.
+  Если $x in overline(L)$, то $not exists c: V(x, c) = 1$, то есть $forall c: V(x, c) = 0$.
+  Для любого $c'$ (например, $c' = epsilon$) имеем $V'(x, c') = not V(x, epsilon) = not 0 = 1$.
+  Значит, в качестве сертификата принадлежности $overline(L)$ можно взять что угодно, и $V'$ его примет.
+  Следовательно, $overline(L) in "NP"$, то есть $L in "coNP"$.
+  Итак, $"NP" subset.eq "coNP"$.
+
+  Где ошибка?
+]
 
 #project(
   id: "comp:proj-bench",
