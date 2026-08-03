@@ -431,7 +431,8 @@ $
   Генератор случайных чисел --- линейный конгруэнтный (LCG) с параметрами из книги Кнута, поэтому внешние крейты не нужны.
 
   ```rust
-  // Парадокс дней рождения методом Монте-Карло (без внешних крейтов, LCG).
+  // Парадокс дней рождения методом Монте-Карло
+  // (без внешних крейтов, LCG).
   fn birthday(m: usize, trials: usize) -> f64 {
       let mut x: u64 = 1;
       let mut hits = 0;
@@ -439,7 +440,9 @@ $
           let mut seen = [false; 365];
           let mut dup = false;
           for _ in 0..m {
-              x = x.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+              x = x
+                  .wrapping_mul(6364136223846793005)
+                  .wrapping_add(1442695040888963407);
               let day = (x % 365) as usize;
               if seen[day] { dup = true; }
               seen[day] = true;

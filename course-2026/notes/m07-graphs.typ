@@ -960,8 +960,12 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
   Тот же обход в коде: очередь явная, расстояния --- числа, а непосещённые вершины помечены `usize::MAX`.
 
   ```rust
-  // Обход в ширину: порядок обхода и расстояния от стартовой вершины.
-  fn bfs(adj: &[Vec<usize>], start: usize) -> (Vec<usize>, Vec<usize>) {
+  // Обход в ширину: порядок обхода
+  // и расстояния от стартовой вершины.
+  fn bfs(
+      adj: &[Vec<usize>],
+      start: usize,
+  ) -> (Vec<usize>, Vec<usize>) {
       let n = adj.len();
       let mut dist = vec![usize::MAX; n];
       let mut order = vec![];

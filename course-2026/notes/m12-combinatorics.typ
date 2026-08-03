@@ -322,7 +322,13 @@ $3 dot 2 dot 1 = 6$ путей от корня до листьев, и кажд�
   ```rust
   // Все сочетания по k из [0..n): рекурсивный перебор.
   fn combinations(n: usize, k: usize) -> Vec<Vec<usize>> {
-      fn go(start: usize, k: usize, cur: &mut Vec<usize>, out: &mut Vec<Vec<usize>>, n: usize) {
+      fn go(
+          start: usize,
+          k: usize,
+          cur: &mut Vec<usize>,
+          out: &mut Vec<Vec<usize>>,
+          n: usize,
+      ) {
           if k == 0 { out.push(cur.clone()); return; }
           for x in start..=n - k {
               cur.push(x);

@@ -115,7 +115,12 @@ _Регулярные языки_ --- языки, распознаваемые �
 
   ```rust
   // Принятие слова детерминированным конечным автоматом.
-  fn accepts(trans: &[Vec<usize>], start: usize, accept: &[bool], word: &[usize]) -> bool {
+  fn accepts(
+      trans: &[Vec<usize>],
+      start: usize,
+      accept: &[bool],
+      word: &[usize],
+  ) -> bool {
       let mut q = start;
       for &sym in word { q = trans[q][sym]; }
       accept[q]
