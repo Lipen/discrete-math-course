@@ -49,7 +49,7 @@
 #let sheffer = sym.arrow.t  // штрих Шеффера (aliased)
 #let peirce = sym.arrow.b   // стрелка Пирса (aliased)
 
-// === Complexity theory (m19) ===
+// === Complexity theory (m24) ===
 #let mso-two = $"MSO"_2$
 
 // === Reductions (computability / complexity) ===
@@ -63,7 +63,7 @@
 #let join = $or$          // join (супремум в решётке)
 #let meet = $and$         // meet (инфимум в решётке)
 
-// === Лямбда-исчисление (m17, m18) ===
+// === Лямбда-исчисление (m21) ===
 
 // Стрелки и отношения редукции (beta сверху, без scripts).
 #let beta-red = $->^beta$                     // ->^beta (одношаговая)
