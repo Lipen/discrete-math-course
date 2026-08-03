@@ -127,6 +127,7 @@
 
 #include "m16-automata.typ"
 #include "m19-turing.typ"
+#include "m20-decidability.typ"
 #include "m21-lambda.typ"
 #include "m22-type-theory.typ"
 #include "m23-beyond-n.typ"

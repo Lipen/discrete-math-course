@@ -1,4 +1,4 @@
-// M18 --- Нечёткие множества: градуальная принадлежность и размытая логика.
+// M25 --- Нечёткие множества: градуальная принадлежность и размытая логика.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m20.typ": fuzzy-operations, membership-functions
