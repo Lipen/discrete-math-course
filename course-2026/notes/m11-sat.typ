@@ -200,6 +200,11 @@ Circuit-SAT, наоборот, слишком неструктурирован �
   Странно, что для большинства других пар задач в теории сложности граница не имеет столь же ясного объяснения...
 ]
 
+#checkpoint[Выполнимость и граф импликаций 2-SAT][
+  + Почему дизъюнкт $(l_1 or l_2)$ порождает в графе импликаций две стрелки, а не одну?
+  + Чем выполнимость отличается от общезначимости, и почему отрицание выполнимой формулы не обязано быть невыполнимым?
+]
+
 == Кодирование задач в SAT
 
 Теорема Кука говорит нам, что _любая_ задача из NP сводится к SAT.
@@ -412,15 +417,20 @@ CDCL обобщает эту идею на КНФ произвольной дл�
   J. P. Marques-Silva, K. A. Sakallah, "GRASP: A Search Algorithm for Propositional Satisfiability", IEEE Transactions on Computers, 1999.
 ]
 
+#checkpoint[Кодирование задач в SAT][
+  + Почему "не более одного" в кодировании раскраски требует $binom(k, 2)$ попарных дизъюнктов, тогда как "хотя бы один" --- лишь одного?
+  + Чем хорошая редукция отличается от плохой, если обе формально корректно сводят задачу к SAT?
+]
+
 == SAT и NP
 
 SAT --- точка отсчёта в теории сложности.
 Теорема Кука (1971) утверждает, что SAT является NP-полной задачей --- "самой трудной" в классе NP.
 
 #theorem[Теорема Кука --- формулировка#footnote[
-  Cook S. A. "The Complexity of Theorem-Proving Procedures", Proceedings of the 3rd ACM Symposium on Theory of Computing (STOC), 1971.
-  Первая доказанная NP-полнота; конструкция сводит произвольную NP-машину к булевой формуле через таблицу вычисления.
-]][
+    Cook S. A. "The Complexity of Theorem-Proving Procedures", Proceedings of the 3rd ACM Symposium on Theory of Computing (STOC), 1971.
+    Первая доказанная NP-полнота; конструкция сводит произвольную NP-машину к булевой формуле через таблицу вычисления.
+  ]][
   SAT NP-полна: SAT $in$ NP, и всякая задача из NP полиномиально сводится к SAT.
 ]
 
@@ -500,9 +510,9 @@ CDCL не решает SAT в общем случае; он решает SAT н�
 Алгоритм эксплуатирует структурные свойства формул через два механизма:
 + VSIDS --- приоритезация "активных" переменных;
 + Обучение дизъюнктам --- накопление "структурного знания" о формуле.#footnote[
-  C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman, "Satisfiability Solvers", глава 2 в "Handbook of Knowledge Representation", Elsevier, 2008.
-  C. Ansótegui, M. L. Bonet, J. Levy, "On the Structure of Industrial SAT Instances", CP 2009.
-]
+    C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman, "Satisfiability Solvers", глава 2 в "Handbook of Knowledge Representation", Elsevier, 2008.
+    C. Ansótegui, M. L. Bonet, J. Levy, "On the Structure of Industrial SAT Instances", CP 2009.
+  ]
 
 == Упражнения
 
