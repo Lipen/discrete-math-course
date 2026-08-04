@@ -21,11 +21,13 @@
 //   #hrule
 
 // --- Палитра ---
-#let def-color = rgb("1e7d48")  // green
-#let thm-color = rgb("25558b")  // blue
+#let def-color = rgb("1e7d48")  // green (definition)
+#let thm-color = rgb("25558b")  // blue (theorem)
 #let lem-color = oklch(60%, 0.12, 300deg)  // violet (lemma)
-#let cor-color = oklch(58%, 0.14, 22deg)   // warm red (corollary)
-#let prop-color = oklch(62%, 0.04, 210deg)   // faint cyan (proposition)
+#let cor-color = oklch(70%, 0.15, 21deg)   // warm red (corollary)
+#let prop-color = oklch(76%, 0.09, 210deg)   // faint cyan (proposition)
+#let prf-color = luma(50%)  // gray (proof)
+#let psk-color = luma(60%)  // gray (proof sketch)
 #let ex-color = rgb("7345a8")  // purple (example)
 #let note-color = rgb("8e97a3")  // gray (note)
 #let remark-color = rgb("cd8a4a")  // copper (remark)
@@ -300,32 +302,30 @@
 // --- Ненумерованные блоки ---
 
 #let proof(body) = {
-  let c = luma(50%)
   let title = text(
     weight: "semibold",
-    fill: c,
+    fill: prf-color.darken(20%),
   )[#thm-labels.proof]
   _block(
     none,
     title,
     body,
-    fill: c.lighten(40%),
-    stroke: _block-stroke(c),
+    fill: prf-color.lighten(80%),
+    stroke: _block-stroke(prf-color),
   )
 }
 
 #let proof-sketch(body) = {
-  let c = luma(40%)
   let title = text(
     style: "italic",
-    fill: c,
+    fill: psk-color.darken(20%),
   )[#thm-labels.proof-sketch]
   _block(
     none,
     title,
     body,
-    fill: c.lighten(90%),
-    stroke: _aux-stroke(c),
+    fill: psk-color.lighten(80%),
+    stroke: _aux-stroke(psk-color),
   )
 }
 
@@ -440,7 +440,7 @@
     header,
     sub,
     body,
-    fill: trap-color.lighten(88%),
+    fill: trap-color.lighten(90%),
     stroke: _block-stroke(trap-color),
   )
 }
@@ -477,9 +477,8 @@
     header,
     sub,
     body,
-    fill: self-color.lighten(96%),
+    fill: self-color.lighten(90%),
     stroke: _block-stroke(self-color),
-    inset: (x: 0.8em, top: 0.6em, bottom: 0.6em),
   )
 }
 
@@ -496,7 +495,7 @@
     header,
     sub,
     body,
-    fill: algo-color.lighten(95%),
+    fill: algo-color.lighten(90%),
     stroke: _block-stroke(algo-color),
   )
 }
