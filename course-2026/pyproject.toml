@@ -1,0 +1,6 @@
+[project]
+name = "book-tools"
+version = "0.1.0"
+description = "Инструменты для книги «Дискретная математика»: стилевой аудит и вспомогательные скрипты."
+requires-python = ">=3.10"
+dependencies = []

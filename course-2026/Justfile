@@ -11,4 +11,4 @@ problems:
     {{ compile }} notes/problems.typ
 
 lint:
-    cd notes && uv run --project ../.dev/1_active/text-checker python -m textcheck check --lang ru --config ../.textcheck.toml --severity warning --format rich m*.typ
+    cd notes && uv run ../tools/audit.py
