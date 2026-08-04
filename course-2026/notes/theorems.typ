@@ -1,76 +1,80 @@
-// Русские theorem-окружения в стиле theme-5: pill-бейджи, цветные полосы.
-// Нумерация сбрасывается на каждом = Heading (глава).
-// API (обратно-совместимый):
-//   #definition[тело]                #definition[Заголовок][тело]
-//   #theorem[тело]                   #theorem[Название][тело]
-//   #lemma[тело]                     #lemma[Название][тело]
-//   #corollary[тело]                 #corollary[Название][тело]
-//   #proposition[тело]               #proposition[Название][тело]
-//   #proof[тело]                     #proof-sketch[тело]
-//   #example[тело]                   #example[Заголовок][тело]
-//   #note[тело]                      #note[Заголовок][тело]
-//   #remark[тело]                    #remark[Заголовок][тело]
-//   #warning[тело]                   #warning[Заголовок][тело]
-//   #history-note[тело]              #history-note[Заголовок][тело]
-//   #trap[тело]                      #trap[Заголовок][тело]
-//   #self-check[тело]                #self-check[Заголовок][тело]
-//   #checkpoint[тело]                #checkpoint[Заголовок][тело]
-//   #algorithm[тело]                 #algorithm[Название][тело]
-//   #raven[тело]                     #raven[Заголовок][тело]
+// Окружения книги: цветные блоки с полосой слева.
+// Основные блоки --- бейдж-метка; вспомогательные (примечания, замечания,
+// наброски) --- текстовая метка без бейджа; обзор главы --- отдельная вёрстка.
+// Все бейджевые блоки собираются каркасом `_block`.
+// Нумерация сбрасывается на каждой главе (`= Heading`).
+//
+// API:
+//   #definition[тело]           #definition[Название][тело]
+//   #theorem[тело]              #theorem[Название][тело]
+//   #lemma[тело]                #lemma[Название][тело]
+//   #corollary[тело]            #corollary[Название][тело]
+//   #proposition[тело]          #proposition[Название][тело]
+//   #proof[тело]                #proof[Название][тело]
+//   #proof-sketch[тело]         #proof-sketch[Название][тело]
+//   #example[тело]              #example[Название][тело]
+//   #note[тело]                 #note[Название][тело]
+//   #remark[тело]               #remark[Название][тело]
+//   #warning[тело]              #warning[Название][тело]
+//   #history-note[тело]         #history-note[Название][тело]
+//   #trap[тело]                 #trap[Название][тело]
+//   #check[тело]                #check[Название][тело]
+//   #algorithm[тело]            #algorithm[Название][тело]
 //   #chapter-overview[тело]
-//   #hrule
+//   #raven[тело]                #raven[Название][тело]
 
-// --- Палитра ---
-#let def-color = rgb("1e7d48")  // green (definition)
-#let thm-color = rgb("25558b")  // blue (theorem)
-#let lem-color = oklch(60%, 0.12, 300deg)  // violet (lemma)
-#let cor-color = oklch(70%, 0.15, 21deg)   // warm red (corollary)
-#let prop-color = oklch(76%, 0.09, 210deg)   // faint cyan (proposition)
-#let prf-color = luma(50%)  // gray (proof)
-#let psk-color = luma(60%)  // gray (proof sketch)
-#let ex-color = rgb("7345a8")  // purple (example)
-#let note-color = rgb("8e97a3")  // gray (note)
-#let remark-color = rgb("cd8a4a")  // copper (remark)
-#let warn-color = oklch(70%, 0.15, 75deg)   // amber (warning)
-#let hist-color = rgb("a08055")  // warm brown (history)
-#let algo-color = oklch(60%, 0.10, 230deg)  // steel blue (algorithm)
-#let trap-color = oklch(52%, 0.16, 25deg)  // red (trap)
-#let self-color = rgb("2a7f8a")  // teal (self-check)
+// --- Палитра: приглушённый oklch-ряд (низкая хрома, светлота согласована) ---
+#let def-color = oklch(53%, 0.06, 155deg)   // определение: зелёный
+#let thm-color = oklch(53%, 0.07, 248deg)   // теорема: синий
+#let lem-color = oklch(54%, 0.10, 290deg)   // лемма: фиолетовый (самый насыщенный)
+#let cor-color = oklch(55%, 0.07, 25deg)    // следствие: тёплый красный
+#let prop-color = oklch(57%, 0.05, 200deg)  // утверждение: циан
+#let prf-color = oklch(50%, 0.00, 0deg)     // доказательство: серый
+#let psk-color = oklch(58%, 0.00, 0deg)     // набросок: светло-серый
+#let ex-color = oklch(54%, 0.07, 340deg)    // пример: маджента
+#let note-color = oklch(50%, 0.03, 70deg)   // примечание: тёплый серый
+#let remark-color = oklch(55%, 0.06, 65deg) // замечание: медный
+#let warn-color = oklch(54%, 0.07, 82deg)   // предупреждение: янтарный
+#let hist-color = oklch(50%, 0.06, 55deg)   // история: коричневый
+#let trap-color = oklch(55%, 0.09, 12deg)   // ловушка: кримзон
+#let check-color = oklch(55%, 0.06, 190deg) // проверка: бирюзовый
+#let algo-color = oklch(52%, 0.06, 230deg)  // алгоритм: стальной синий
+#let overview-color = oklch(45%, 0.03, 240deg) // обзор главы: серо-синий
 
-// --- Метки (словарь для лёгкой смены языка) ---
+// --- Метки: словарь для лёгкой смены языка ---
 #let thm-labels = (
   definition: "ОПРЕДЕЛЕНИЕ",
   theorem: "ТЕОРЕМА",
   lemma: "ЛЕММА",
   corollary: "СЛЕДСТВИЕ",
   proposition: "УТВЕРЖДЕНИЕ",
-  proof: "Доказательство",
+  proof: "ДОКАЗАТЕЛЬСТВО",
   proof-sketch: "Набросок доказательства",
   example: "ПРИМЕР",
   note: "Примечание",
-  warning: "Предупреждение",
+  warning: "ПРЕДУПРЕЖДЕНИЕ",
   remark: "Замечание",
-  raven: "Замечание",
-  overview: "Обзор главы",
+  raven: "ЗАМЕЧАНИЕ",
+  overview: "ОБЗОР ГЛАВЫ",
   algorithm: "АЛГОРИТМ",
   history: "ИСТОРИЯ",
   trap: "ЛОВУШКА",
-  self-check: "ПРОВЕРЬТЕ СЕБЯ",
-  checkpoint: "БЫСТРАЯ ПРОВЕРКА",
+  check: "ПРОВЕРКА",
 )
 
-// State for sticky-headers flag (controlled from notes-template)
+// Флаг липких заголовков; управляется из notes-template.
 #let sticky-state = state("block-headers-sticky", true)
 
-// Context-aware sticky block --- header stays with first line of body
+// Липкий заголовок: держится с первой строкой тела при разрыве страницы.
 #let _sticky(body) = context {
   block(sticky: sticky-state.get())[#body]
 }
 
+// Счётчики: определения отдельно, теоремы (и леммы, следствия, утверждения) общие.
 #let def-ctr = counter("definition")
 #let thm-ctr = counter("theorem")
 
-// --- Номер с префиксом главы: "2.14" ---
+// Номер с префиксом главы: "2.14".
 #let _ch-num(ctr) = context {
   let h = counter(heading).at(here())
   let ch = if h != none { h.first() }
@@ -78,7 +82,7 @@
   if ch != none and n != none { [#ch.#n] } else if n != none { [#n] }
 }
 
-// Разбор ..args в (подзаголовок, тело).
+// Разбор ..args в (заголовок, тело).
 #let _args(pos) = {
   if pos.len() >= 2 {
     (pos.at(0), pos.at(1))
@@ -87,7 +91,7 @@
   }
 }
 
-// Pill badge --- цветная плашка с белым текстом
+// Бейдж: цветная плашка с белым текстом.
 #let badge(color, body) = {
   box(
     fill: color,
@@ -102,429 +106,152 @@
   )[#body]]
 }
 
-// Full border: thick left + thin on other sides
-#let _block-stroke(color) = (
-  left: 2.5pt + color,
-  top: 0.6pt + color,
-  bottom: 0.6pt + color,
-  right: 0.6pt + color,
+// Рамка: толстая полоса слева + тонкие остальные стороны.
+#let _stroke(accent) = (
+  left: 2.5pt + accent,
+  top: 0.6pt + accent,
+  bottom: 0.6pt + accent,
+  right: 0.6pt + accent,
 )
 
-// Subtle border for auxiliary blocks (proof, note)
-#let _aux-stroke(color) = (
-  left: 1.8pt + color,
-  top: 0.6pt + color,
-  bottom: 0.6pt + color,
-  right: 0.6pt + color,
-)
+// Вспомогательный блок: только левая полоса, без рамки и фона.
+#let _aux-stroke(accent) = (left: 1.8pt + accent)
 
-// Block with header and title
+// Общий каркас блока: бейдж или текстовая метка, необязательный заголовок, тело.
+// fill и тон заголовка выводятся из цвета-акцента по единой формуле.
 #let _block(
-  header,
-  title,
+  label,
+  accent,
   body,
-  fill: none,
-  stroke: none,
-  inset: (x: 0.8em, top: 0.8em, bottom: 0.8em),
-  radius: 4pt,
+  title: none,
+  ctr: none,
+  badged: true,
+  above: auto,
+  below: auto,
 ) = {
+  if ctr != none { ctr.step() }
   block(
-    fill: fill,
-    stroke: stroke,
-    inset: inset,
-    radius: radius,
+    above: above,
+    below: below,
     width: 100%,
+    fill: if badged { accent.lighten(95%) } else { none },
+    stroke: if badged { _stroke(accent) } else { _aux-stroke(accent) },
+    inset: (x: 0.8em, top: if badged { 0.7em } else { 0.6em }, bottom: 0.8em),
+    radius: 3pt,
   )[
     #set par(first-line-indent: 0pt)
     #_sticky[
-      #if header != none {
-        header
-      }
-      #if header != none and title != none {
-        h(0.5em, weak: true)
-      }
-      #if title != none {
-        title
-      }
-    ]
-    #v(1em, weak: true)
-    #body
-  ]
-}
-
-// --- Нумерованные блоки ---
-
-#let _numbered(label, ctr, bar-color, fill, body, title: none) = {
-  ctr.step()
-  let header = badge(bar-color)[
-    #label #_ch-num(ctr)
-  ]
-  let title = text(
-    weight: "semibold",
-    fill: bar-color,
-  )[#title]
-  _block(
-    header,
-    title,
-    body,
-    fill: fill,
-    stroke: _block-stroke(bar-color),
-  )
-}
-
-// Inline numbered --- компактный блок: бейдж + тело на одной строке
-#let _numbered-inline(label, ctr, bar-color, fill, body, title: none) = {
-  ctr.step()
-  block(
-    above: 0.4em,
-    below: 0.4em,
-    fill: fill,
-    stroke: (
-      left: 1.5pt + bar-color,
-      top: 0.6pt + bar-color,
-      bottom: 0.6pt + bar-color,
-      right: 0.6pt + bar-color,
-    ),
-    inset: (left: 0.25em, right: 0.5em, y: 0.3em),
-    radius: 2pt,
-    width: 100%,
-  )[
-    #set par(first-line-indent: 0pt)
-    #_sticky[
-      #badge(bar-color)[#label #_ch-num(ctr)]
-      #if title != none [#h(0.3em)#text(
+      #if badged [
+        #badge(accent)[#label #if ctr != none [#_ch-num(ctr)]]
+      ] else [
+        #text(
+          size: 0.9em,
           weight: "semibold",
-          fill: bar-color,
-        )[(#title)]]
+          style: "italic",
+          fill: accent.darken(30%),
+        )[#label]
+      ]
+      #if title != none [
+        #h(0.6em, weak: true)
+        #text(weight: "semibold", fill: accent.darken(20%))[#title]
+      ]
     ]
-    #h(0.35em)
+    #v(0.9em, weak: true)
     #body
   ]
 }
 
-#let _dispatch(label, ctr, bar-color, fill, inline: false, ..args) = {
-  let (sub, body) = _args(args.pos())
-  if inline {
-    _numbered-inline(label, ctr, bar-color, fill, body, title: sub)
-  } else {
-    _numbered(label, ctr, bar-color, fill, body, title: sub)
-  }
+// Нумерованный блок.
+#let _numbered(label, accent, ctr, ..args) = {
+  let (title, body) = _args(args.pos())
+  _block(label, accent, body, title: title, ctr: ctr)
 }
 
-#let definition(inline: false, ..args) = _dispatch(
+// Ненумерованный блок.
+#let _plain(label, accent, badged: true, ..args) = {
+  let (title, body) = _args(args.pos())
+  _block(label, accent, body, title: title, badged: badged)
+}
+
+// --- Публичные блоки ---
+
+#let definition(..args) = _numbered(
   thm-labels.definition,
-  def-ctr,
   def-color,
-  def-color.lighten(94%),
-  inline: inline,
+  def-ctr,
   ..args,
 )
-#let theorem(inline: false, ..args) = _dispatch(
-  thm-labels.theorem,
-  thm-ctr,
-  thm-color,
-  thm-color.lighten(93%),
-  inline: inline,
-  ..args,
-)
-#let lemma(inline: false, ..args) = _dispatch(
-  thm-labels.lemma,
-  thm-ctr,
-  lem-color,
-  lem-color.lighten(93%),
-  inline: inline,
-  ..args,
-)
-#let corollary(inline: false, ..args) = _dispatch(
+#let theorem(..args) = _numbered(thm-labels.theorem, thm-color, thm-ctr, ..args)
+#let lemma(..args) = _numbered(thm-labels.lemma, lem-color, thm-ctr, ..args)
+#let corollary(..args) = _numbered(
   thm-labels.corollary,
-  thm-ctr,
   cor-color,
-  cor-color.lighten(93%),
-  inline: inline,
-  ..args,
-)
-#let proposition(inline: false, ..args) = _dispatch(
-  thm-labels.proposition,
   thm-ctr,
+  ..args,
+)
+#let proposition(..args) = _numbered(
+  thm-labels.proposition,
   prop-color,
-  prop-color.lighten(93%),
-  inline: inline,
+  thm-ctr,
   ..args,
 )
 
-// --- QED ---
-#let qed = metadata("qed-here")
+#let proof(..args) = _plain(thm-labels.proof, prf-color, ..args)
+#let proof-sketch(..args) = _plain(
+  thm-labels.proof-sketch,
+  psk-color,
+  badged: false,
+  ..args,
+)
+#let example(..args) = _plain(thm-labels.example, ex-color, ..args)
+#let note(..args) = _plain(thm-labels.note, note-color, badged: false, ..args)
+#let remark(..args) = _plain(
+  thm-labels.remark,
+  remark-color,
+  badged: false,
+  ..args,
+)
+#let warning(..args) = _plain(thm-labels.warning, warn-color, ..args)
+#let history-note(..args) = _plain(thm-labels.history, hist-color, ..args)
+#let trap(..args) = _plain(thm-labels.trap, trap-color, ..args)
+#let check(..args) = _plain(thm-labels.check, check-color, ..args)
+#let algorithm(..args) = _plain(thm-labels.algorithm, algo-color, ..args)
 
-#let _has-qed(x) = {
-  if x == "qed-here" { return true }
-  if type(x) == content {
-    for (_, c) in x.fields() {
-      if _has-qed(c) { return true }
-    }
-  }
-  if type(x) == array {
-    for c in x {
-      if _has-qed(c) { return true }
-    }
-  }
-  false
-}
-
-#let setup-qed-rules() = {
-  show metadata.where(value: "qed-here"): it => {
-    h(1fr)
-    $square.stroked$
-  }
-  show math.equation.where(block: true): eq => {
-    if _has-qed(eq.body) {
-      grid(
-        columns: (1fr, auto, 1fr),
-        [], eq, align(right + horizon)[$square.stroked$],
-      )
-    } else { eq }
-  }
-  show enum.item: it => {
-    show metadata.where(value: "qed-here"): it => {
-      h(1fr)
-      $square.stroked$
-    }
-    it
-  }
-  show list.item: it => {
-    show metadata.where(value: "qed-here"): it => {
-      h(1fr)
-      $square.stroked$
-    }
-    it
-  }
-}
-
-// --- Ненумерованные блоки ---
-
-#let proof(body) = {
-  let title = text(
-    weight: "semibold",
-    fill: prf-color.darken(20%),
-  )[#thm-labels.proof]
-  _block(
-    none,
-    title,
-    body,
-    fill: prf-color.lighten(80%),
-    stroke: _block-stroke(prf-color),
-  )
-}
-
-#let proof-sketch(body) = {
-  let title = text(
-    style: "italic",
-    fill: psk-color.darken(20%),
-  )[#thm-labels.proof-sketch]
-  _block(
-    none,
-    title,
-    body,
-    fill: psk-color.lighten(80%),
-    stroke: _aux-stroke(psk-color),
-  )
-}
-
-#let example(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = badge(ex-color)[#thm-labels.example]
-  if sub != none {
-    sub = text(
-      style: "italic",
-      fill: ex-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: ex-color.lighten(95%),
-    stroke: _block-stroke(ex-color),
-  )
-}
-
-#let note(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = text(
-    weight: "semibold",
-    fill: note-color.darken(20%),
-  )[#thm-labels.note]
-  if sub != none {
-    sub = text(
-      style: "italic",
-      fill: note-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: note-color.lighten(80%),
-    stroke: _aux-stroke(note-color),
-  )
-}
-
-#let remark(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = text(
-    style: "italic",
-    weight: "semibold",
-    fill: remark-color.darken(20%),
-  )[#thm-labels.remark]
-  if sub != none {
-    sub = text(
-      weight: "semibold",
-      fill: remark-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: remark-color.lighten(80%),
-    stroke: _block-stroke(remark-color),
-  )
-}
-
-#let warning(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = text(
-    weight: "semibold",
-    fill: warn-color.darken(20%),
-  )[⚠  #thm-labels.warning]
-  if sub != none {
-    sub = text(
-      style: "italic",
-      fill: warn-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: oklch(95%, 0.05, 85deg),
-    stroke: _block-stroke(warn-color),
-  )
-}
-
-#let history-note(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = badge(hist-color)[#thm-labels.history]
-  sub = text(
-    weight: "semibold",
-    fill: hist-color.darken(20%),
-  )[#sub]
-  _block(
-    header,
-    sub,
-    body,
-    fill: hist-color.lighten(90%),
-    stroke: _block-stroke(hist-color),
-  )
-}
-
-#let trap(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = badge(trap-color)[#thm-labels.trap]
-  if sub != none {
-    sub = text(
-      weight: "semibold",
-      fill: trap-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: trap-color.lighten(90%),
-    stroke: _block-stroke(trap-color),
-  )
-}
-
-#let self-check(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = badge(self-color)[#thm-labels.self-check]
-  if sub != none {
-    sub = text(
-      weight: "semibold",
-      fill: self-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: self-color.lighten(90%),
-    stroke: _block-stroke(self-color),
-  )
-}
-
-// Лёгкий мини-блок для быстрой проверки внутри главы (перед сменой темы или факультативом)
-#let checkpoint(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = badge(self-color)[#thm-labels.checkpoint]
-  if sub != none {
-    sub = text(
-      weight: "semibold",
-      fill: self-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: self-color.lighten(90%),
-    stroke: _block-stroke(self-color),
-  )
-}
-
-#let algorithm(..args) = {
-  let (sub, body) = _args(args.pos())
-  let header = badge(algo-color)[#thm-labels.algorithm]
-  if sub != none {
-    sub = text(
-      weight: "semibold",
-      fill: algo-color.darken(20%),
-    )[#sub]
-  }
-  _block(
-    header,
-    sub,
-    body,
-    fill: algo-color.lighten(90%),
-    stroke: _block-stroke(algo-color),
-  )
-}
-
-#let chapter-overview(body) = {
+// Обзор главы: отдельная вёрстка --- центрированная метка с линейкой.
+#let chapter-overview(..args) = {
+  let (title, body) = _args(args.pos())
   block(
     above: 0.8em,
     below: 1.2em,
-    sticky: true,
-    fill: luma(93%),
-    stroke: 0.4pt + luma(80%),
-    inset: 1.2em,
-    radius: 2pt,
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #text(weight: "semibold", fill: luma(35%))[#thm-labels.overview]
-    #v(0.3em)
+    #align(center)[
+      #text(
+        size: 1.05em,
+        weight: "semibold",
+        fill: overview-color,
+        tracking: 0.1em,
+      )[#thm-labels.overview]
+    ]
+    #v(0.4em)
+    #align(center)[#line(length: 40%, stroke: 0.8pt + overview-color)]
+    #v(0.7em)
+    #if title != none [
+      #text(weight: "semibold", fill: overview-color.darken(20%))[#title]
+      #v(0.5em)
+    ]
     #body
   ]
 }
 
-// Ворон: блок с левой полосой, внутри --- картинка ворона слева и текст справа (grid).
-#let raven-accent = oklch(35%, 0.03, 255deg)
-#let raven-fill = oklch(97%, 0.005, 260deg)
-#let raven-hairline = oklch(88%, 0.01, 260deg)
+// Ворон: блок с левой полосой, внутри --- картинка слева и текст справа.
+#let raven-accent = oklch(35%, 0.05, 260deg)
+#let raven-fill = oklch(97%, 0.01, 260deg)
+#let raven-hairline = oklch(88%, 0.02, 260deg)
 
 #let raven(..args) = {
-  let (sub, body) = _args(args.pos())
+  let (title, body) = _args(args.pos())
   block(
     fill: raven-fill,
     stroke: (left: 3pt + raven-accent, rest: 0.5pt + raven-hairline),
@@ -538,8 +265,8 @@
       column-gutter: 0.6em,
       [#image("assets/raven.png", width: 40pt)],
       [
-        #if sub != none {
-          text(weight: "semibold", fill: raven-accent)[#sub]
+        #if title != none {
+          text(weight: "semibold", fill: raven-accent)[#title]
           v(0.5em, weak: true)
         }
         #body
@@ -547,5 +274,3 @@
     )
   ]
 }
-
-#let hrule = line(length: 100%, stroke: 0.3pt + luma(85%))

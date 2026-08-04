@@ -1,7 +1,7 @@
 // Макросы для банка задач (problems.typ).
 // Связи через metadata + query + link(location).
 // Визуал: block с толстым левым краем (как теоремы).
-#import "../theorems.typ": _aux-stroke, _block-stroke, badge
+#import "../theorems.typ": _stroke, badge
 
 // ── Счётчик ──
 
@@ -132,7 +132,7 @@
     above: 1em,
     below: 1em,
     fill: df,
-    stroke: _block-stroke(dc),
+    stroke: _stroke(dc),
     inset: (x: 0.8em, y: 0.5em),
     radius: 5pt,
     breakable: false,
@@ -188,7 +188,7 @@
     above: 1em,
     below: 1em,
     fill: pb-medium-fill,
-    stroke: _aux-stroke(c),
+    stroke: _stroke(c),
     inset: (x: 0.8em, y: 0.6em),
     radius: 5pt,
     // breakable: false,
@@ -233,7 +233,7 @@
     above: 1em,
     below: 1em,
     fill: pb-advanced-fill,
-    stroke: _block-stroke(c),
+    stroke: _stroke(c),
     inset: (x: 0.8em, y: 0.5em),
     radius: 5pt,
     // breakable: false,
@@ -297,7 +297,7 @@
     above: 1em,
     below: 0.8em,
     fill: pb-project-fill,
-    stroke: _block-stroke(dc),
+    stroke: _stroke(dc),
     inset: (left: 0.8em, right: 0.7em, top: 0.5em, bottom: 0.55em),
     radius: 2pt,
     width: 100%,

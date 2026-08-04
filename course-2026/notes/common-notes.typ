@@ -205,8 +205,5 @@
   show "e.g.": set text(style: "italic")
   show "etc.": set text(style: "italic")
 
-  // QED-правила
-  setup-qed-rules()
-
   it
 }
