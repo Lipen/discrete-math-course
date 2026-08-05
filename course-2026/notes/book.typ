@@ -126,15 +126,14 @@
 #include "m15-constructions.typ"
 
 #include "m16-automata.typ"
-#include "m17-regular-languages.typ"
-#include "m18-context-free.typ"
-#include "m19-turing.typ"
-#include "m20-decidability.typ"
-#include "m21-lambda.typ"
-#include "m22-type-theory.typ"
-#include "m23-beyond-n.typ"
-#include "m24-complexity.typ"
-#include "m25-fuzzy-sets.typ"
+#include "m17-context-free.typ"
+#include "m18-turing.typ"
+#include "m19-decidability.typ"
+#include "m20-lambda.typ"
+#include "m21-type-theory.typ"
+#include "m22-beyond-n.typ"
+#include "m23-complexity.typ"
+#include "m24-fuzzy-sets.typ"
 
 // --- Глоссарий ---
 #include "glossary.typ"
