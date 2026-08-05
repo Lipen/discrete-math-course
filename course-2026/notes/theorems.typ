@@ -1,6 +1,7 @@
 // Окружения книги: цветные блоки с полосой слева.
-// Основные блоки --- бейдж-метка; вспомогательные (примечания, замечания,
-// наброски) --- текстовая метка без бейджа; обзор главы --- отдельная вёрстка.
+// Бейдж-метка --- у формальных утверждений и сигналов; текстовая метка без
+// бейджа --- у доказательств, примеров и комментариев; обзор главы ---
+// отдельная вёрстка.
 // Все бейджевые блоки собираются каркасом `_block`.
 // Нумерация сбрасывается на каждой главе (`= Heading`).
 //
@@ -24,22 +25,22 @@
 //   #raven[тело]                #raven[Название][тело]
 
 // --- Палитра: приглушённый oklch-ряд (низкая хрома, светлота согласована) ---
-#let def-color = oklch(53%, 0.06, 155deg)   // определение: зелёный
-#let thm-color = oklch(53%, 0.07, 248deg)   // теорема: синий
-#let lem-color = oklch(54%, 0.10, 290deg)   // лемма: фиолетовый (самый насыщенный)
-#let cor-color = oklch(55%, 0.07, 25deg)    // следствие: тёплый красный
-#let prop-color = oklch(57%, 0.05, 200deg)  // утверждение: циан
-#let prf-color = oklch(50%, 0.00, 0deg)     // доказательство: серый
-#let psk-color = oklch(58%, 0.00, 0deg)     // набросок: светло-серый
-#let ex-color = oklch(54%, 0.07, 340deg)    // пример: маджента
-#let note-color = oklch(50%, 0.03, 70deg)   // примечание: тёплый серый
-#let remark-color = oklch(55%, 0.06, 65deg) // замечание: медный
-#let warn-color = oklch(54%, 0.07, 82deg)   // предупреждение: янтарный
-#let hist-color = oklch(50%, 0.06, 55deg)   // история: коричневый
-#let trap-color = oklch(55%, 0.09, 12deg)   // ловушка: кримзон
-#let check-color = oklch(55%, 0.06, 190deg) // проверка: бирюзовый
-#let algo-color = oklch(52%, 0.06, 230deg)  // алгоритм: стальной синий
-#let overview-color = oklch(45%, 0.03, 240deg) // обзор главы: серо-синий
+#let def-color = oklch(60%, 0.12, 145deg)   // определение: зелёный
+#let thm-color = oklch(60%, 0.12, 240deg)   // теорема: синий
+#let lem-color = oklch(60%, 0.12, 290deg)   // лемма: фиолетовый (самый насыщенный)
+#let cor-color = oklch(60%, 0.12, 25deg)    // следствие: тёплый красный
+#let prop-color = oklch(60%, 0.12, 200deg)  // утверждение: циан
+#let prf-color = oklch(60%, 0.00, 0deg)     // доказательство: серый
+#let psk-color = oklch(60%, 0.00, 0deg)     // набросок: светло-серый
+#let ex-color = oklch(60%, 0.12, 345deg)    // пример: маджента
+#let note-color = oklch(60%, 0.12, 70deg)   // примечание: тёплый серый
+#let remark-color = oklch(60%, 0.06, 65deg) // замечание: медный
+#let warn-color = oklch(60%, 0.07, 82deg)   // предупреждение: янтарный
+#let hist-color = oklch(60%, 0.06, 55deg)   // история: коричневый
+#let trap-color = oklch(60%, 0.09, 12deg)   // ловушка: кримзон
+#let check-color = oklch(60%, 0.06, 190deg) // проверка: бирюзовый
+#let algo-color = oklch(60%, 0.06, 230deg)  // алгоритм: стальной синий
+#let overview-color = oklch(60%, 0.03, 240deg) // обзор главы: серо-синий
 
 // --- Метки: словарь для лёгкой смены языка ---
 #let thm-labels = (
@@ -48,18 +49,18 @@
   lemma: "ЛЕММА",
   corollary: "СЛЕДСТВИЕ",
   proposition: "УТВЕРЖДЕНИЕ",
-  proof: "ДОКАЗАТЕЛЬСТВО",
+  proof: "Доказательство",
   proof-sketch: "Набросок доказательства",
-  example: "ПРИМЕР",
+  example: "Пример",
   note: "Примечание",
   warning: "ПРЕДУПРЕЖДЕНИЕ",
   remark: "Замечание",
-  raven: "ЗАМЕЧАНИЕ",
+  raven: "Замечание",
   overview: "ОБЗОР ГЛАВЫ",
   algorithm: "АЛГОРИТМ",
   history: "ИСТОРИЯ",
   trap: "ЛОВУШКА",
-  check: "ПРОВЕРКА",
+  check: "Проверка",
 )
 
 // Флаг липких заголовков; управляется из notes-template.
@@ -126,6 +127,7 @@
   title: none,
   ctr: none,
   badged: true,
+  label-italic: false,
   above: auto,
   below: auto,
 ) = {
@@ -134,7 +136,7 @@
     above: above,
     below: below,
     width: 100%,
-    fill: if badged { accent.lighten(95%) } else { none },
+    fill: if badged { accent.transparentize(90%) } else { none },
     stroke: if badged { _stroke(accent) } else { _aux-stroke(accent) },
     inset: (x: 0.8em, top: if badged { 0.7em } else { 0.6em }, bottom: 0.8em),
     radius: 3pt,
@@ -147,7 +149,7 @@
         #text(
           size: 0.9em,
           weight: "semibold",
-          style: "italic",
+          style: if label-italic { "italic" } else { "normal" },
           fill: accent.darken(30%),
         )[#label]
       ]
@@ -168,9 +170,9 @@
 }
 
 // Ненумерованный блок.
-#let _plain(label, accent, badged: true, ..args) = {
+#let _plain(label, accent, badged: true, label-italic: false, ..args) = {
   let (title, body) = _args(args.pos())
-  _block(label, accent, body, title: title, badged: badged)
+  _block(label, accent, body, title: title, badged: badged, label-italic: label-italic)
 }
 
 // --- Публичные блоки ---
@@ -196,25 +198,53 @@
   ..args,
 )
 
-#let proof(..args) = _plain(thm-labels.proof, prf-color, ..args)
+#let proof(..args) = _plain(
+  thm-labels.proof,
+  prf-color,
+  badged: false,
+  ..args,
+)
 #let proof-sketch(..args) = _plain(
   thm-labels.proof-sketch,
   psk-color,
   badged: false,
   ..args,
 )
-#let example(..args) = _plain(thm-labels.example, ex-color, ..args)
-#let note(..args) = _plain(thm-labels.note, note-color, badged: false, ..args)
+#let example(..args) = _plain(
+  thm-labels.example,
+  ex-color,
+  badged: false,
+  ..args,
+)
+#let note(..args) = _plain(
+  thm-labels.note,
+  note-color,
+  badged: false,
+  label-italic: true,
+  ..args,
+)
 #let remark(..args) = _plain(
   thm-labels.remark,
   remark-color,
   badged: false,
+  label-italic: true,
   ..args,
 )
 #let warning(..args) = _plain(thm-labels.warning, warn-color, ..args)
-#let history-note(..args) = _plain(thm-labels.history, hist-color, ..args)
+#let history-note(..args) = _plain(
+  thm-labels.history,
+  hist-color,
+  badged: false,
+  label-italic: true,
+  ..args,
+)
 #let trap(..args) = _plain(thm-labels.trap, trap-color, ..args)
-#let check(..args) = _plain(thm-labels.check, check-color, ..args)
+#let check(..args) = _plain(
+  thm-labels.check,
+  check-color,
+  badged: false,
+  ..args,
+)
 #let algorithm(..args) = _plain(thm-labels.algorithm, algo-color, ..args)
 
 // Обзор главы: отдельная вёрстка --- центрированная метка с линейкой.
