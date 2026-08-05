@@ -12,7 +12,7 @@
 //   sat                  m11      SAT, NP-полнота
 //   counting-probability m12-m14  комбинаторика, вероятность, производящие функции
 //   constructions        m15      конструкции чисел
-//   automata-computation m16-m17  автоматы, Тьюринг
+//   automata-computation m16  автоматы, Тьюринг
 //   lambda-types         m18-m19  лямбда-исчисление, теория типов
 //   beyond-n             m20      за пределами натуральных чисел
 //   complexity           m21      сложность вычислений
