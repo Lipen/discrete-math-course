@@ -172,7 +172,14 @@
 // Ненумерованный блок.
 #let _plain(label, accent, badged: true, label-italic: false, ..args) = {
   let (title, body) = _args(args.pos())
-  _block(label, accent, body, title: title, badged: badged, label-italic: label-italic)
+  _block(
+    label,
+    accent,
+    body,
+    title: title,
+    badged: badged,
+    label-italic: label-italic,
+  )
 }
 
 // --- Публичные блоки ---
@@ -251,7 +258,7 @@
 #let chapter-overview(..args) = {
   let (title, body) = _args(args.pos())
   block(
-    above: 0.8em,
+    above: 2.5em,
     below: 1.2em,
     width: 100%,
   )[
