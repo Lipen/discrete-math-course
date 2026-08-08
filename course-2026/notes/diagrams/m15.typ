@@ -13,31 +13,7 @@
 #let c-accept-str = oklch(55%, 0.18, 155deg)
 #let c-edge = oklch(35%, 0.02, 265deg)
 
-// 1. DFA: strings over {0,1} ending with "01".
-#let dfa-example = figure(
-  diagram(
-    node-stroke: (paint: c-state-str, thickness: 0.8pt),
-    node-fill: c-state,
-    edge-stroke: (paint: c-edge, thickness: 0.7pt),
-    spacing: 3em,
-    edge((-1, 0), "-}>"),
-    node((0, 0), $q_0$, name: <q0>),
-    edge(<q0>, <q0>, "-}>", label: "0", bend: -50deg),
-    edge(<q0>, <q1>, "-}>", label: "1"),
-    node((1, 0), $q_1$, name: <q1>, fill: c-accept, stroke: (
-      paint: c-accept-str,
-      thickness: 1.5pt,
-    )),
-    edge(<q1>, <q2>, "-}>", label: "0"),
-    edge(<q1>, <q1>, "-}>", label: "1", bend: -50deg),
-    node((2, 0), $q_2$, name: <q2>),
-    edge(<q2>, <q2>, "-}>", label: "0", bend: -50deg),
-    edge(<q2>, <q1>, "-}>", label: "1", bend: 40deg),
-  ),
-  caption: [ДКА, распознающий строки, заканчивающиеся на 01.],
-)
-
-// 2. NFA: strings ending with "01" (nondeterministic --- shows choice at 0).
+// 1. NFA: strings ending with "01" (nondeterministic --- shows choice at 0).
 #let nfa-example = figure(
   diagram(
     node-stroke: (paint: c-state-str, thickness: 0.8pt),
@@ -58,7 +34,7 @@
   caption: [НКА, распознающий строки, заканчивающиеся на 01. Из $q_0$ по символу 0 возможны два перехода: остаться в $q_0$ или перейти в $q_1$ (недетерминированный выбор).],
 )
 
-// 3. NFA with epsilon-transitions recognizing a*b*.
+// 2. NFA with epsilon-transitions recognizing a*b*.
 #let epsilon-nfa = figure(
   diagram(
     node-stroke: (paint: c-state-str, thickness: 0.8pt),
