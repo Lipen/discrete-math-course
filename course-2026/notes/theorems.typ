@@ -255,33 +255,26 @@
 #let algorithm(..args) = _plain(thm-labels.algorithm, algo-color, ..args)
 
 // Обзор главы: отдельная вёрстка --- центрированная метка с линейкой.
-#let chapter-overview(..args) = {
-  let (title, body) = _args(args.pos())
+#let chapter-overview(body) = {
   block(
     above: 2.5em,
-    below: 1.2em,
     width: 100%,
   )[
     #set par(first-line-indent: 0pt)
-    #align(center)[
-      #text(
-        size: 1.05em,
-        weight: "semibold",
-        fill: overview-color,
-        tracking: 0.1em,
-      )[#thm-labels.overview]
-    ]
-    #v(0.4em)
-    #align(center)[
-      #line(length: 40%, stroke: 0.8pt + overview-color)
-    ]
-    #v(0.5em)
-    #if title != none [
-      #text(
-        weight: "semibold",
-        fill: overview-color.darken(20%),
-      )[#title]
-      #v(0.5em)
+    #block(
+      below: 1.5em,
+      sticky: true,
+      width: 100%,
+    )[
+      #align(center)[
+        #text(
+          size: 1.1em,
+          weight: "semibold",
+          fill: overview-color,
+          tracking: 0.1em,
+        )[#thm-labels.overview]
+        #line(length: 40%, stroke: 0.8pt + overview-color)
+      ]
     ]
     #body
   ]
