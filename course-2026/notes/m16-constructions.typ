@@ -1,4 +1,4 @@
-// M15 --- Конструкции чисел.
+// M16 --- Конструкции чисел.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": banach-tarski

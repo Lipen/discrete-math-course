@@ -62,7 +62,12 @@
 #pagebreak(weak: true)
 
 // --- Содержание ---
-#heading(level: 1, numbering: none, outlined: false, bookmarked: true)[Содержание] <toc>
+#heading(
+  level: 1,
+  numbering: none,
+  outlined: false,
+  bookmarked: true,
+)[Содержание] <toc>
 #outline(title: none, indent: 1em, depth: 3)
 
 // --- Основной текст ---
@@ -122,19 +127,20 @@
 #include "m10-codes.typ"
 #include "m11-sat.typ"
 #include "m12-combinatorics.typ"
-#include "m13-probability.typ"
-#include "m14-generating-fns.typ"
-#include "m15-constructions.typ"
+#include "m13-number-theory-crypto.typ"
+#include "m14-probability.typ"
+#include "m15-generating-fns.typ"
+#include "m16-constructions.typ"
 
-#include "m16-automata.typ"
-#include "m17-context-free.typ"
-#include "m18-turing.typ"
-#include "m19-decidability.typ"
-#include "m20-lambda.typ"
-#include "m21-type-theory.typ"
-#include "m22-beyond-n.typ"
-#include "m23-complexity.typ"
-#include "m24-fuzzy-sets.typ"
+#include "m17-automata.typ"
+#include "m18-context-free.typ"
+#include "m19-turing.typ"
+#include "m20-decidability.typ"
+#include "m21-lambda.typ"
+#include "m22-type-theory.typ"
+#include "m23-beyond-n.typ"
+#include "m24-complexity.typ"
+#include "m25-fuzzy-sets.typ"
 
 // --- Глоссарий ---
 #include "glossary.typ"

@@ -1,4 +1,4 @@
-// M18 --- Машины Тьюринга: универсальная модель вычислений.
+// M19 --- Машины Тьюринга: универсальная модель вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m14.typ": tm-computation, turing-machine

@@ -1,4 +1,4 @@
-// M13 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
+// M14 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": bayes-net, markov-chain, probability-tree

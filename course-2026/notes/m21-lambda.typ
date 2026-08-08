@@ -1,4 +1,4 @@
-// M20 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
+// M21 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m17.typ": church-rosser-diamond, lambda-syntax-tree
