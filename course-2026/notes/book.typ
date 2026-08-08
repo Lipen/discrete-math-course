@@ -62,7 +62,8 @@
 #pagebreak(weak: true)
 
 // --- Содержание ---
-#outline(indent: 1em, depth: 3)
+#heading(level: 1, numbering: none, outlined: false, bookmarked: true)[Содержание] <toc>
+#outline(title: none, indent: 1em, depth: 3)
 
 // --- Основной текст ---
 #main-matter

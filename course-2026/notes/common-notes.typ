@@ -90,31 +90,43 @@
   show heading.where(level: 1): it => {
     def-ctr.update(0)
     thm-ctr.update(0)
-    pagebreak(weak: true)
-    block(
-      width: 100%,
-      below: 2em,
-      sticky: true,
-    )[
-      #context [
-        #let ch = counter(heading).at(it.location()).first()
+    if it.body == [Содержание] {
+      block(width: 100%, above: 2em, below: 1.5em)[
         #text(
-          size: 48pt,
-          weight: "bold",
+          size: 24pt,
+          weight: "medium",
           fill: theme,
-          tracking: 0.1em,
-        )[#roman(ch)]
+          font: "Libertinus Sans",
+          tracking: 0.05em,
+        )[#it.body]
       ]
-      #v(2em, weak: true)
-      #text(
-        size: 22pt,
-        weight: "medium",
-        fill: theme,
-        font: "Libertinus Sans",
-        tracking: 0.05em,
-      )[#it.body]
-      #chapter-ornament(theme)
-    ]
+    } else {
+      pagebreak(weak: true)
+      block(
+        width: 100%,
+        below: 2em,
+        sticky: true,
+      )[
+        #context [
+          #let ch = counter(heading).at(it.location()).first()
+          #text(
+            size: 48pt,
+            weight: "bold",
+            fill: theme,
+            tracking: 0.1em,
+          )[#roman(ch)]
+        ]
+        #v(2em, weak: true)
+        #text(
+          size: 22pt,
+          weight: "medium",
+          fill: theme,
+          font: "Libertinus Sans",
+          tracking: 0.05em,
+        )[#it.body]
+        #chapter-ornament(theme)
+      ]
+    }
   }
 
   show heading.where(level: 2): it => {
