@@ -272,10 +272,15 @@
       )[#thm-labels.overview]
     ]
     #v(0.4em)
-    #align(center)[#line(length: 40%, stroke: 0.8pt + overview-color)]
-    #v(0.7em)
+    #align(center)[
+      #line(length: 40%, stroke: 0.8pt + overview-color)
+    ]
+    #v(0.5em)
     #if title != none [
-      #text(weight: "semibold", fill: overview-color.darken(20%))[#title]
+      #text(
+        weight: "semibold",
+        fill: overview-color.darken(20%),
+      )[#title]
       #v(0.5em)
     ]
     #body
