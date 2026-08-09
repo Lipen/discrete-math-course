@@ -37,7 +37,4 @@
   <!-- 1 edge q1 -> q0 (curved below, label below) -->
   <path d="M 300 168 C 240 214, 180 168" fill="none" stroke="#0f172a" stroke-width="1.6" marker-end="url(#arrow)"/>
   <text x="240" y="214" text-anchor="middle" font-size="13" font-weight="600" fill="#0f172a">1</text>
-
-  <!-- legend -->
-  <text x="40" y="262" font-size="11.5" fill="#64748b">Reading a 1 flips the state, reading a 0 keeps it, so after w we sit in q₀ exactly when the number of 1s is even.</text>
 </svg>
