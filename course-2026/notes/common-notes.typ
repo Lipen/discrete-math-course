@@ -27,6 +27,13 @@
   line(length: 100%, stroke: 0.35pt + border)
 }
 
+// Подзаголовок "Что дальше?" в конце Итогов главы.
+#let whats-next(title) = align(center)[
+  #v(0.7em)
+  #text(size: 11pt, weight: "bold")[#title]
+  #v(0.5em)
+]
+
 // --- Окружения: front-matter / main-matter ---
 #let front-matter = {
   set page(numbering: "i")
