@@ -71,10 +71,12 @@ impl Rsa {
         Rsa { n, e, d }
     }
 
+    /// Encrypts `msg` with the public key: `c = msg^e mod n`.
     pub fn encrypt(&self, msg: u64) -> u64 {
         mod_pow(msg, self.e, self.n)
     }
 
+    /// Decrypts `cipher` with the private key: `m = cipher^d mod n`.
     pub fn decrypt(&self, cipher: u64) -> u64 {
         mod_pow(cipher, self.d, self.n)
     }

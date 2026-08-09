@@ -35,6 +35,10 @@ impl Dfa {
     }
 
     /// Sets a transition from state `from` to state `to` on symbol `sym`.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `sym` is not in the alphabet.
     pub fn set_transition(&mut self, from: usize, sym: char, to: usize) {
         let idx = self
             .alphabet
@@ -45,6 +49,10 @@ impl Dfa {
     }
 
     /// Marks states as accepting (one flag per state).
+    ///
+    /// # Panics
+    ///
+    /// Panics if `accepting` has a different length than the number of states.
     pub fn set_accepting(&mut self, accepting: Vec<bool>) {
         assert_eq!(accepting.len(), self.states);
         self.accepting = accepting;

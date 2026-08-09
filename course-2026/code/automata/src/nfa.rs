@@ -48,6 +48,10 @@ impl Nfa {
     }
 
     /// Adds a transition on a symbol.
+    ///
+    /// # Panics
+    ///
+    /// Panics if `sym` is not in the alphabet.
     pub fn add_transition(&mut self, from: usize, sym: char, to: usize) {
         let idx = self
             .alphabet
