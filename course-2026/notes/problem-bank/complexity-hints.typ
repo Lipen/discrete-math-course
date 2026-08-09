@@ -38,7 +38,7 @@
 
 #pb-hint("comp:tautology")[
   $phi$ тавтология тогда и только тогда, когда $not phi$ невыполнима.
-  Сведите SAT к TAUTOLOGY (через отрицание).
+  Сведите UNSAT к TAUTOLOGY (через отрицание): $phi |-> not phi$.
 ]
 
 #pb-hint("comp:self-reduction")[
