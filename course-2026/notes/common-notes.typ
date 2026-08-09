@@ -85,6 +85,9 @@
   // }
 
   set heading(numbering: "1.1.1")
+  // Дополнения референсов ("Глава", "Раздел", "Рис.") не рендерим:
+  // слово в прозе уже просклонено, число --- ссылка.
+  set ref(supplement: none)
 
   // Заголовки
   show heading.where(level: 1): it => {
@@ -170,7 +173,9 @@
       let nums = counter(heading).at(it.element.location())
       block(above: 1.5em, below: 0.5em, sticky: true)[
         #text(size: 14pt, weight: "medium")[
-          #text(fill: theme)[#roman(nums.first())]#h(0.5em)#link(it.element.location())[#it.element.body]
+          #text(fill: theme)[#roman(nums.first())]#h(0.5em)#link(
+            it.element.location(),
+          )[#it.element.body]
           #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
           #it.page()
         ]
