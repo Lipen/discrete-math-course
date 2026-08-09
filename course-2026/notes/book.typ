@@ -131,7 +131,6 @@
 #include "m14-probability.typ"
 #include "m15-generating-fns.typ"
 #include "m16-constructions.typ"
-
 #include "m17-automata.typ"
 #include "m18-context-free.typ"
 #include "m19-turing.typ"
