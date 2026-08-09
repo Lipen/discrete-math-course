@@ -9,6 +9,39 @@
 #let c-edge = oklch(35%, 0.02, 265deg)
 #let c-text = oklch(35%, 0.02, 265deg)
 
+// The sign domain lattice: ⊥ ⊑ {−, 0, +} ⊑ ⊤.
+#let sign-lattice = canvas({
+  let node(pos, label) = {
+    draw.circle(
+      pos,
+      radius: 0.42,
+      fill: c-elem,
+      stroke: (paint: c-edge, thickness: 0.8pt),
+    )
+    draw.content(pos)[#text(fill: c-text, weight: "bold")[#label]]
+  }
+  let e(a, b) = draw.line(a, b, stroke: (paint: c-edge, thickness: 0.7pt))
+
+  let top = (0, 2.4)
+  let neg = (-1.7, 0)
+  let zero = (0, 0)
+  let pos = (1.7, 0)
+  let bot = (0, -2.4)
+
+  e(top, neg)
+  e(top, zero)
+  e(top, pos)
+  e(neg, bot)
+  e(zero, bot)
+  e(pos, bot)
+
+  node(top, $top$)
+  node(neg, $minus$)
+  node(zero, $0$)
+  node(pos, $plus$)
+  node(bot, $bot$)
+})
+
 // Widening for the counter loop: the naive intervals [0,0], [0,1], [0,2], ...
 // keep growing and never stabilize; the widening operator (nabla) drops the
 // growing upper bound and lands on [0, +inf) in two steps.
