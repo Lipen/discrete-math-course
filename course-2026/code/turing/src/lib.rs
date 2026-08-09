@@ -50,13 +50,11 @@ impl<Sym: Clone + Eq> Tape<Sym> {
     /// Лента со словом `word`; головка на первом символе.
     pub fn with_word(word: &[Sym], blank: Sym) -> Self {
         let mut tape = Tape::new(blank.clone());
-        let mut i = 0;
-        for sym in word {
+        for (i, sym) in word.iter().enumerate() {
             tape.write(sym.clone());
             if i + 1 < word.len() {
                 tape.move_right();
             }
-            i += 1;
         }
         // Возвращаемся к первому символу.
         for _ in 1..word.len() {

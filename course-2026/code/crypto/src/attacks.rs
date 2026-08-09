@@ -44,9 +44,9 @@ pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
     let mut factors = Vec::new();
     let mut d = 2;
     while d * d <= n {
-        if n % d == 0 {
+        if n.is_multiple_of(d) {
             let mut a = 0;
-            while n % d == 0 {
+            while n.is_multiple_of(d) {
                 n /= d;
                 a += 1;
             }

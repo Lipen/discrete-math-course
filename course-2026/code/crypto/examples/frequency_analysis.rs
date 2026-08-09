@@ -17,7 +17,7 @@ fn main() {
     }
 
     let mut freq: Vec<(char, usize)> = counts.into_iter().collect();
-    freq.sort_by(|a, b| b.1.cmp(&a.1));
+    freq.sort_by_key(|&(_, n)| std::cmp::Reverse(n));
 
     println!("Частоты букв шифротекста:");
     for (c, n) in &freq {

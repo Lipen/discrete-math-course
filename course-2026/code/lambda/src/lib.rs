@@ -91,10 +91,9 @@ impl Term {
                 _ => {
                     if let Some(f_reduced) = f.beta_reduce() {
                         Some(Term::App(Box::new(f_reduced), a.clone()))
-                    } else if let Some(a_reduced) = a.beta_reduce() {
-                        Some(Term::App(f.clone(), Box::new(a_reduced)))
                     } else {
-                        None
+                        a.beta_reduce()
+                            .map(|a_reduced| Term::App(f.clone(), Box::new(a_reduced)))
                     }
                 }
             },

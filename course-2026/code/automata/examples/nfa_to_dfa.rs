@@ -33,7 +33,7 @@ fn main() {
 
     println!(
         "НКА с {} состояниями -> ДКА с {} состояниями",
-        5,
+        nfa.num_states(),
         dfa.num_states()
     );
 
