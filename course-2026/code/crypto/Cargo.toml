@@ -2,4 +2,4 @@
 name = "crypto"
 version = "0.1.0"
 edition = "2021"
-description = "Теория чисел и криптография (глава m13)"
+description = "Number theory and cryptography"

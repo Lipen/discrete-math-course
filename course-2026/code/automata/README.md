@@ -1,25 +1,53 @@
 # automata
 
-Конечные автоматы и регулярные языки.
+Finite automata and regular languages.
 
-## Компоненты
+Implements the chapter on automata: DFA, NFA with ε-transitions, subset construction, language operations, regular expressions via the Thompson construction, and DFA minimization.
+Every idea has a runnable demo in `examples/`.
 
-- `Dfa` --- детерминированный автомат: приём слов, дополнение, объединение и пересечение языков, минимизация.
-- `Nfa` --- недетерминированный автомат: ε-переходы, приём слов, детерминизация.
-- `RegEx` --- регулярные выражения: парсер и конструкция Томпсона.
-
-## Примеры
+## Quick start
 
 ```bash
 cargo run -p automata --example even_ones
-cargo run -p automata --example nfa_to_dfa
 cargo run -p automata --example regex_matching
-cargo run -p automata --example language_ops
-cargo run -p automata --example minimize
+cargo test -p automata
 ```
 
-## Тесты
+## What a DFA recognizes
+
+A DFA is a tuple $(Q, \Sigma, \delta, q_0, F)$.
+It accepts a word $w$ when the extended transition function lands in an accepting state:
+
+$$ L(M) = \{ w \in \Sigma^* \mid \hat\delta(q_0, w) \in F \} $$
+
+![DFA for an even number of 1s](assets/dfa-even-ones.svg)
+
+The diagram shows the smallest useful example: words over $\{0, 1\}$ with an even number of `1`s.
+State $q_0$ is both the start and the only accepting state; reading a `1` flips it, reading a `0` keeps it.
+
+## API
+
+| Type | Purpose | Key methods |
+| --- | --- | --- |
+| `Dfa` | Deterministic automaton | `accepts`, `complete`, `complement`, `union`, `intersection`, `difference`, `minimize` |
+| `Nfa` | Nondeterministic automaton (with ε-transitions) | `epsilon_closure`, `accepts`, `to_dfa` |
+| `RegEx` | Regular expression AST | `sym`, `concat`, `union`, `star`, `to_nfa` |
+| `parse` | Regex parser | recursive descent over a small grammar |
+
+## Demos
+
+| Demo | Shows |
+| --- | --- |
+| `even_ones` | A DFA for an even number of `1`s, checked word by word |
+| `nfa_to_dfa` | Subset construction on the "contains `00` or `11`" NFA |
+| `regex_matching` | Thompson construction: regex → NFA → DFA, then matching |
+| `language_ops` | Complement, union, intersection, difference on two DFAs |
+| `minimize` | Moore's algorithm merges indistinguishable states |
+
+## Tests
 
 ```bash
 cargo test -p automata
 ```
+
+Unit tests live next to the code in `src/`.

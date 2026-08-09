@@ -2,4 +2,4 @@
 name = "lambda"
 version = "0.1.0"
 edition = "2021"
-description = "Бестиповое лямбда-исчисление (глава m21)"
+description = "Untyped lambda calculus"

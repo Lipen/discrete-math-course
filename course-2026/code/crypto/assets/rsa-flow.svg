@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="300" viewBox="0 0 700 300" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="darrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="700" height="300" fill="#ffffff"/>
+  <text x="350" y="30" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">RSA: key generation, encryption, decryption</text>
+
+  <!-- Keygen -->
+  <rect x="40" y="70" width="180" height="160" rx="10" fill="#f8fafc" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="130" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">Key generation</text>
+  <text x="130" y="122" text-anchor="middle" font-size="11.5" fill="#334155">p, q primes</text>
+  <text x="130" y="142" text-anchor="middle" font-size="11.5" fill="#334155">n = pq,  φ(n) = (p-1)(q-1)</text>
+  <text x="130" y="162" text-anchor="middle" font-size="11.5" fill="#334155">e coprime to φ(n)</text>
+  <text x="130" y="182" text-anchor="middle" font-size="11.5" fill="#334155">d = e⁻¹ mod φ(n)</text>
+  <text x="130" y="214" text-anchor="middle" font-size="11" font-weight="600" fill="#2563eb">public: (n, e)   ·   private: d</text>
+
+  <!-- Encrypt -->
+  <rect x="300" y="70" width="170" height="160" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="385" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">Encrypt</text>
+  <text x="385" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">c = mᵉ mod n</text>
+  <text x="385" y="190" text-anchor="middle" font-size="11" fill="#64748b">input: plaintext m</text>
+  <text x="385" y="208" text-anchor="middle" font-size="11" fill="#64748b">output: ciphertext c</text>
+
+  <!-- Decrypt -->
+  <rect x="560" y="70" width="150" height="160" rx="10" fill="#fdf2f8" stroke="#dc2626" stroke-width="1.6"/>
+  <text x="635" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#dc2626">Decrypt</text>
+  <text x="635" y="130" text-anchor="middle" font-size="12" font-weight="600" fill="#0f172a">m = cᵈ mod n</text>
+  <text x="635" y="190" text-anchor="middle" font-size="11" fill="#64748b">input: ciphertext c</text>
+  <text x="635" y="208" text-anchor="middle" font-size="11" fill="#64748b">output: plaintext m</text>
+
+  <!-- arrows: (n,e) keygen -> encrypt -->
+  <line x1="220" y1="110" x2="298" y2="110" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="259" y="100" text-anchor="middle" font-size="11" fill="#2563eb">(n, e)</text>
+
+  <!-- arrows: c encrypt -> decrypt -->
+  <line x1="470" y1="110" x2="558" y2="110" stroke="#2563eb" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="514" y="100" text-anchor="middle" font-size="11" fill="#2563eb">c</text>
+
+  <!-- arrows: d keygen -> decrypt (dashed, below) -->
+  <path d="M 220 200 C 390 258, 520 258, 560 200" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#darrow)"/>
+  <text x="390" y="268" text-anchor="middle" font-size="11" fill="#dc2626">d (private, kept secret)</text>
+</svg>

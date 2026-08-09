@@ -2,4 +2,4 @@
 name = "turing"
 version = "0.1.0"
 edition = "2021"
-description = "Машины Тьюринга (глава m19)"
+description = "Turing machines"

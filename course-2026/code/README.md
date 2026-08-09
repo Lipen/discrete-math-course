@@ -1,22 +1,68 @@
 # code
 
-Rust-воркспейс с самодостаточными модулями по темам дискретной математики.
-Каждый крейт --- независимый модуль по своей теме: библиотека, тесты и запускаемые примеры.
-Крейты читаются и запускаются по отдельности.
+Rust companion to the discrete-math course.
 
-## Состав
+A workspace of self-contained modules, one per topic.
+Each crate is an independent unit: a library, its tests, and runnable examples.
+Crates build, test, and run on their own.
 
-- `automata` --- конечные автоматы и регулярные языки.
-- `crypto` --- теория чисел и криптография.
-- `lambda` --- бестиповое лямбда-исчисление.
-- `turing` --- машины Тьюринга.
+## Crates
 
-## Сборка и запуск
+| Crate | Topic | Highlights |
+| --- | --- | --- |
+| [`automata`](automata/README.md) | Finite automata and regular languages | DFA, NFA, subset construction, regex via Thompson, minimization, language operations |
+| [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
+| [`lambda`](lambda/README.md) | Untyped λ-calculus | Terms, capture-avoiding substitution, β-reduction, Church numerals |
+| [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
 
-```bash
-cargo build --workspace
-cargo test --workspace
-cargo run -p <креп> --example <имя>
+## Layout
+
+![Workspace layout](assets/workspace.svg)
+
+Every crate follows the same shape:
+
+```
+<workspace root>
+└── <crate>/
+    ├── Cargo.toml
+    ├── src/lib.rs            # library entry point
+    ├── src/*.rs              # topic modules
+    ├── examples/*.rs         # runnable demos
+    └── README.md             # crate guide
 ```
 
-Подробности о каждом модуле --- в его README: `automata`, `crypto`, `lambda`, `turing`.
+## Build, test, run
+
+```bash
+# Build the whole workspace.
+cargo build --workspace
+
+# Run every test in every crate.
+cargo test --workspace
+
+# Run one demo from one crate.
+cargo run -p <crate> --example <name>
+
+# Lint everything, including demos and tests.
+cargo clippy --workspace --all-targets
+```
+
+`-p <crate>` selects the crate, `--example <name>` the demo (without the `.rs` suffix).
+For example, `cargo run -p automata --example even_ones`.
+
+## How to read the demos
+
+Every demo is written to be read, not just executed.
+It prints its inputs, the intermediate steps, and the result.
+Names map one-to-one to the concepts of the book chapter.
+
+Each crate README explains its module, lists every demo, and has a diagram:
+
+- [automata/README.md](automata/README.md)
+- [crypto/README.md](crypto/README.md)
+- [lambda/README.md](lambda/README.md)
+- [turing/README.md](turing/README.md)
+
+## Russian version
+
+Read the same guide in Russian: [README.ru.md](README.ru.md).

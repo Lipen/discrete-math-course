@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="230" viewBox="0 0 700 230" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="700" height="230" fill="#ffffff"/>
+  <text x="350" y="30" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">Turing machine: tape with the head under the cell being read</text>
+
+  <!-- tape cells -->
+  <g font-size="15" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+    <rect x="150" y="70" width="56" height="56" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/><text x="178" y="105" text-anchor="middle" fill="#94a3b8">⊔</text>
+    <rect x="206" y="70" width="56" height="56" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/><text x="234" y="105" text-anchor="middle" fill="#0f172a">0</text>
+    <rect x="262" y="70" width="56" height="56" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/><text x="290" y="105" text-anchor="middle" fill="#0f172a">1</text>
+    <rect x="318" y="70" width="56" height="56" fill="#fff7ed" stroke="#dc2626" stroke-width="2.5"/><text x="346" y="105" text-anchor="middle" fill="#dc2626" font-weight="700">1</text>
+    <rect x="374" y="70" width="56" height="56" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/><text x="402" y="105" text-anchor="middle" fill="#0f172a">0</text>
+    <rect x="430" y="70" width="56" height="56" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/><text x="458" y="105" text-anchor="middle" fill="#94a3b8">⊔</text>
+  </g>
+
+  <!-- head arrow -->
+  <line x1="346" y1="160" x2="346" y2="134" stroke="#dc2626" stroke-width="2.2" marker-end="url(#arrow)"/>
+  <text x="430" y="172" text-anchor="end" font-size="12.5" font-weight="600" fill="#dc2626">head</text>
+
+  <!-- state label -->
+  <rect x="330" y="178" width="100" height="28" rx="14" fill="#fee2e2"/>
+  <text x="380" y="197" text-anchor="middle" font-size="13" font-weight="600" fill="#991b1b">state: q₂</text>
+
+  <!-- transition example -->
+  <text x="40" y="218" font-size="12" fill="#64748b">δ(q₂, 1) = (X, L, q₃): write X, move the head left, go to q₃.</text>
+</svg>

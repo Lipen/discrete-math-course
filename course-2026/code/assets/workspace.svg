@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="480" viewBox="0 0 720 480" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="720" height="480" fill="#ffffff"/>
+  <text x="40" y="36" font-size="20" font-weight="700" fill="#0f172a">Rust workspace: one crate per topic</text>
+  <text x="40" y="60" font-size="13" fill="#64748b">Each crate = library + unit tests + runnable examples. Crates do not depend on each other.</text>
+
+  <!-- automata -->
+  <g>
+    <rect x="40" y="80" width="300" height="128" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="60" y="112" font-size="16" font-weight="700" fill="#2563eb" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">automata</text>
+    <text x="60" y="134" font-size="12.5" fill="#334155">Finite automata and</text>
+    <text x="60" y="151" font-size="12.5" fill="#334155">regular languages</text>
+    <g font-size="11" fill="#475569">
+      <rect x="60" y="166" width="46" height="20" rx="10" fill="#dbeafe"/><text x="83" y="180" text-anchor="middle">src/</text>
+      <rect x="114" y="166" width="52" height="20" rx="10" fill="#ecfdf5"/><text x="140" y="180" text-anchor="middle">tests</text>
+      <rect x="174" y="166" width="66" height="20" rx="10" fill="#fef3c7"/><text x="207" y="180" text-anchor="middle">examples</text>
+    </g>
+  </g>
+
+  <!-- crypto -->
+  <g>
+    <rect x="380" y="80" width="300" height="128" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="400" y="112" font-size="16" font-weight="700" fill="#2563eb" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">crypto</text>
+    <text x="400" y="134" font-size="12.5" fill="#334155">Number theory and</text>
+    <text x="400" y="151" font-size="12.5" fill="#334155">cryptography, RSA attacks</text>
+    <g font-size="11" fill="#475569">
+      <rect x="400" y="166" width="46" height="20" rx="10" fill="#dbeafe"/><text x="423" y="180" text-anchor="middle">src/</text>
+      <rect x="454" y="166" width="52" height="20" rx="10" fill="#ecfdf5"/><text x="480" y="180" text-anchor="middle">tests</text>
+      <rect x="514" y="166" width="66" height="20" rx="10" fill="#fef3c7"/><text x="547" y="180" text-anchor="middle">examples</text>
+    </g>
+  </g>
+
+  <!-- lambda -->
+  <g>
+    <rect x="40" y="240" width="300" height="128" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="60" y="272" font-size="16" font-weight="700" fill="#2563eb" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">lambda</text>
+    <text x="60" y="294" font-size="12.5" fill="#334155">Untyped λ-calculus,</text>
+    <text x="60" y="311" font-size="12.5" fill="#334155">substitution and β-reduction</text>
+    <g font-size="11" fill="#475569">
+      <rect x="60" y="326" width="46" height="20" rx="10" fill="#dbeafe"/><text x="83" y="340" text-anchor="middle">src/</text>
+      <rect x="114" y="326" width="52" height="20" rx="10" fill="#ecfdf5"/><text x="140" y="340" text-anchor="middle">tests</text>
+      <rect x="174" y="326" width="66" height="20" rx="10" fill="#fef3c7"/><text x="207" y="340" text-anchor="middle">examples</text>
+    </g>
+  </g>
+
+  <!-- turing -->
+  <g>
+    <rect x="380" y="240" width="300" height="128" rx="10" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+    <text x="400" y="272" font-size="16" font-weight="700" fill="#2563eb" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">turing</text>
+    <text x="400" y="294" font-size="12.5" fill="#334155">Turing machines,</text>
+    <text x="400" y="311" font-size="12.5" fill="#334155">tape and run traces</text>
+    <g font-size="11" fill="#475569">
+      <rect x="400" y="326" width="46" height="20" rx="10" fill="#dbeafe"/><text x="423" y="340" text-anchor="middle">src/</text>
+      <rect x="454" y="326" width="52" height="20" rx="10" fill="#ecfdf5"/><text x="480" y="340" text-anchor="middle">tests</text>
+      <rect x="514" y="326" width="66" height="20" rx="10" fill="#fef3c7"/><text x="547" y="340" text-anchor="middle">examples</text>
+    </g>
+  </g>
+
+  <!-- commands strip -->
+  <rect x="40" y="392" width="640" height="64" rx="10" fill="#0f172a"/>
+  <text x="60" y="418" font-size="12" font-weight="600" fill="#e2e8f0">Everything you need</text>
+  <text x="60" y="440" font-size="12" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#7dd3fc">cargo build --workspace   ·   cargo test --workspace   ·   cargo run -p &lt;crate&gt; --example &lt;name&gt;</text>
+</svg>

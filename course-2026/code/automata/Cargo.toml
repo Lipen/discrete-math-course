@@ -2,4 +2,4 @@
 name = "automata"
 version = "0.1.0"
 edition = "2021"
-description = "Конечные автоматы и регулярные языки (глава m17)"
+description = "Finite automata and regular languages"

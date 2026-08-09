@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="170" viewBox="0 0 700 170" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="700" height="170" fill="#ffffff"/>
+  <text x="350" y="28" text-anchor="middle" font-size="14" font-weight="600" fill="#0f172a">β-reduction, step by step (the constant combinator K)</text>
+
+  <!-- term 1 -->
+  <rect x="30" y="52" width="205" height="58" rx="9" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="132" y="88" text-anchor="middle" font-size="15" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0f172a">(λx. λy. x) a b</text>
+
+  <!-- arrow 1 -->
+  <line x1="250" y1="81" x2="288" y2="81" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="269" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#64748b">β</text>
+
+  <!-- term 2 with substituted a highlighted -->
+  <rect x="300" y="52" width="190" height="58" rx="9" fill="#f8fafc" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="395" y="88" text-anchor="middle" font-size="15" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0f172a">(λy. <tspan fill="#2563eb" font-weight="700">a</tspan>) b</text>
+  <text x="395" y="126" text-anchor="middle" font-size="11" fill="#2563eb">x ↦ a (the bound x is replaced)</text>
+
+  <!-- arrow 2 -->
+  <line x1="505" y1="81" x2="543" y2="81" stroke="#64748b" stroke-width="1.8" marker-end="url(#arrow)"/>
+  <text x="524" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#64748b">β</text>
+
+  <!-- term 3 -->
+  <rect x="555" y="52" width="115" height="58" rx="9" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5"/>
+  <text x="612" y="88" text-anchor="middle" font-size="15" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#0f172a">a</text>
+</svg>
