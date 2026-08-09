@@ -163,3 +163,31 @@
     } else { luma(55%) })[#label])
   }
 })
+
+// ── Атака "человек посередине" на Диффи--Хеллмана (m13) ──
+#let mitm = canvas({
+  let c-node = oklch(35%, 0.02, 265deg)
+  let c-edge = oklch(45%, 0.09, 250deg)
+  let c-eve = oklch(50%, 0.16, 25deg)
+
+  draw.content((-3.1, 0), text(size: 0.95em, fill: c-node)[Алиса])
+  draw.content((0, 0), text(size: 0.95em, fill: c-eve)[Ева])
+  draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб])
+
+  // Алиса -> Ева: A = g^a; Ева -> Алиса: B' = g^y.
+  draw.line((-2.1, 0.5), (-0.9, 0.5), stroke: c-edge, mark: (end: "stealth"))
+  draw.content((-1.5, 0.85), text(size: 0.72em, fill: c-node)[$A = g^a$])
+  draw.line((-0.9, -0.5), (-2.1, -0.5), stroke: c-edge, mark: (end: "stealth"))
+  draw.content((-1.5, -0.85), text(size: 0.72em, fill: c-node)[$B' = g^y$])
+
+  // Боб -> Ева: B = g^b; Ева -> Боб: A' = g^x.
+  draw.line((2.1, 0.5), (0.9, 0.5), stroke: c-edge, mark: (end: "stealth"))
+  draw.content((1.5, 0.85), text(size: 0.72em, fill: c-node)[$B = g^b$])
+  draw.line((0.9, -0.5), (2.1, -0.5), stroke: c-edge, mark: (end: "stealth"))
+  draw.content((1.5, -0.85), text(size: 0.72em, fill: c-node)[$A' = g^x$])
+
+  draw.content((0, -1.75), text(
+    size: 0.7em,
+    fill: c-eve,
+  )[два секрета: с Алисой и с Бобом])
+})
