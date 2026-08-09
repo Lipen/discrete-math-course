@@ -1,7 +1,7 @@
-//! ДКА из главы m17: слова с чётным числом единиц.
+//! A DFA for the language of words with an even number of ones.
 //!
-//! Состояние 0 --- «пока чётно» (принимающее), состояние 1 --- «пока нечётно».
-//! Единица переключает состояние, ноль --- нет.
+//! State 0 means "even so far" (accepting), state 1 means "odd so far".
+//! A one flips the state, a zero does not.
 
 use automata::Dfa;
 

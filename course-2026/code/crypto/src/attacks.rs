@@ -1,13 +1,13 @@
-//! Атаки на криптосистемы.
+//! Attacks on cryptosystems.
 //!
-//! Каждая атака показывает грань, за которой система перестаёт быть
-//! безопасной: общий модуль и маллобильность ломают неумелый RSA,
-//! Полиг--Хеллман --- DLOG в группе с гладким порядком.
+//! Each attack shows the boundary beyond which a system stops being
+//! secure: the common modulus and malleability break careless RSA,
+//! Pohlig--Hellman breaks DLOG in a group of smooth order.
 
 use super::{egcd, mod_inverse, mod_pow};
 
-/// Возведение в степень по модулю с отрицательным показателем
-/// (через обратный элемент).
+/// Modular exponentiation with a negative exponent
+/// (via the inverse element).
 fn mod_pow_signed(base: u64, exp: i64, m: u64) -> Option<u64> {
     if exp >= 0 {
         Some(mod_pow(base, exp as u64, m))
@@ -17,12 +17,12 @@ fn mod_pow_signed(base: u64, exp: i64, m: u64) -> Option<u64> {
     }
 }
 
-/// Атака с общим модулем.
+/// Common modulus attack.
 ///
-/// Два пользователя используют один модуль $n$ с разными показателями
-/// $e_1$, $e_2$ ($"gcd"(e_1, e_2) = 1$). Увидев $c_1 = m^(e_1)$ и
-/// $c_2 = m^(e_2)$, злоумышленник находит $u, v$ с $e_1 u + e_2 v = 1$
-/// расширенным алгоритмом Евклида и вычисляет $c_1^u c_2^v = m$.
+/// Two users share one modulus $n$ with different exponents
+/// $e_1$, $e_2$ ($"gcd"(e_1, e_2) = 1$). Seeing $c_1 = m^(e_1)$ and
+/// $c_2 = m^(e_2)$, the attacker finds $u, v$ with $e_1 u + e_2 v = 1$
+/// by the extended Euclidean algorithm and computes $c_1^u c_2^v = m$.
 pub fn common_modulus_attack(n: u64, e1: u64, c1: u64, e2: u64, c2: u64) -> Option<u64> {
     let (g, u, v) = egcd(e1 as i64, e2 as i64);
     if g != 1 {
@@ -33,13 +33,13 @@ pub fn common_modulus_attack(n: u64, e1: u64, c1: u64, e2: u64, c2: u64) -> Opti
     Some(a * b % n)
 }
 
-/// Маллобильность RSA: произведение шифротекстов --- шифротекст
-/// произведения сообщений: $c_1 c_2 = (m_1 m_2)^e mod n$.
+/// RSA malleability: the product of ciphertexts is the ciphertext
+/// of the product of the messages: $c_1 c_2 = (m_1 m_2)^e mod n$.
 pub fn malleable_product(c1: u64, c2: u64, n: u64) -> u64 {
     c1 % n * c2 % n
 }
 
-/// Разложение на простые множители пробным делением: `[(простое, степень)]`.
+/// Factorization by trial division: `[(prime, exponent)]`.
 pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
     let mut factors = Vec::new();
     let mut d = 2;
@@ -60,7 +60,7 @@ pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
     factors
 }
 
-/// Китайская теорема об остатках для попарно взаимно простых модулей.
+/// Chinese remainder theorem for pairwise coprime moduli.
 fn crt(residues: &[u64], moduli: &[u64]) -> Option<u64> {
     let mut x = 0u64;
     let mut m = 1u64;
@@ -74,11 +74,11 @@ fn crt(residues: &[u64], moduli: &[u64]) -> Option<u64> {
     Some(x % m)
 }
 
-/// Упрощённая атака Полига--Хеллмана: дискретный логарифм
-/// $x = log_g h (mod p)$, когда порядок группы $p - 1$ гладкий.
+/// Simplified Pohlig--Hellman attack: the discrete logarithm
+/// $x = log_g h (mod p)$, when the group order $p - 1$ is smooth.
 ///
-/// Для каждой простой степени $q^a$ порядок логарифма сводится к подгруппе
-/// порядка $q^a$, где ответ находится перебором; результаты собираются по CRT.
+/// For each prime power $q^a$ the logarithm reduces to the subgroup
+/// of order $q^a$, where the answer is found by brute force; the results are combined via CRT.
 pub fn pohlig_hellman(p: u64, g: u64, h: u64) -> Option<u64> {
     let n = p - 1;
     let mut residues = Vec::new();
@@ -87,7 +87,7 @@ pub fn pohlig_hellman(p: u64, g: u64, h: u64) -> Option<u64> {
         let qa = q.pow(a as u32);
         let g_a = mod_pow(g, n / qa, p);
         let h_a = mod_pow(h, n / qa, p);
-        // h_a = g_a^(x mod qa): перебираем показатель в подгруппе порядка qa.
+        // h_a = g_a^(x mod qa): brute-force the exponent in the subgroup of order qa.
         let mut x = 0u64;
         let mut cur = 1u64;
         while x < qa {
@@ -98,7 +98,7 @@ pub fn pohlig_hellman(p: u64, g: u64, h: u64) -> Option<u64> {
             x += 1;
         }
         if x >= qa {
-            return None; // h не лежит в подгруппе (не должно случаться для образующего g)
+            return None; // h is not in the subgroup (should not happen for a generator g)
         }
         residues.push(x);
         moduli.push(qa);
@@ -112,7 +112,7 @@ mod tests {
 
     #[test]
     fn common_modulus_recovers_message() {
-        // Учебные ключи с общим модулем n = 61 * 53.
+        // Teaching keys with a shared modulus n = 61 * 53.
         let n = 61 * 53;
         let e1 = 17;
         let e2 = 7; // gcd(17, 7) = 1
@@ -134,9 +134,9 @@ mod tests {
 
     #[test]
     fn pohlig_hellman_solves_smooth_dlog() {
-        // p = 29, порядок группы 28 = 2^2 * 7 --- гладкий.
+        // p = 29, the group order 28 = 2^2 * 7 is smooth.
         let p = 29;
-        let g = 2; // образующий ZZ_29^*
+        let g = 2; // generator of ZZ_29^*
         let x = 13;
         let h = mod_pow(g, x, p);
         assert_eq!(pohlig_hellman(p, g, h), Some(x));

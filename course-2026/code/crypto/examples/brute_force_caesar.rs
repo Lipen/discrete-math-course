@@ -1,15 +1,15 @@
-//! Взлом шифра Цезаря полным перебором (глава m13, раздел «Взлом»).
+//! Breaking the Caesar cipher by brute force (the chapter, section "Breaking").
 //!
-//! Ключ шифра --- сдвиг от 1 до 32. Пробуем все сдвиги в обратную сторону:
-//! осмысленное слово "ШИФР" появится при сдвиге на 3 позиции.
+//! The cipher key is a shift from 1 to 32. We try all shifts in reverse:
+//! the meaningful word "ШИФР" appears at a shift of 3 positions.
 
-/// Русский алфавит (33 буквы, с Ё).
+/// Russian alphabet (33 letters, with Ё).
 const RUS: &str = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";
 
 fn main() {
     let cipher = "ЫЛЧУ";
-    println!("Шифротекст: {cipher}");
-    println!("Все сдвиги (дешифрование):");
+    println!("Ciphertext: {cipher}");
+    println!("All shifts (decryption):");
 
     let letters: Vec<char> = RUS.chars().collect();
     let n = letters.len();
@@ -23,8 +23,8 @@ fn main() {
                 letters[(i + n - k) % n]
             })
             .collect();
-        println!("сдвиг {k:>2}: {decrypted}");
+        println!("shift {k:>2}: {decrypted}");
     }
 
-    println!("Среди строк есть осмысленная --- это и есть открытый текст.");
+    println!("One of the lines is meaningful --- that is the plaintext.");
 }

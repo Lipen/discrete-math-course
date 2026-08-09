@@ -1,6 +1,6 @@
-//! Арифметика Чёрча из главы m21: `2 + 3 = 5` и `succ 2 = 3`.
+//! Church arithmetic from the chapter: `2 + 3 = 5` and `succ 2 = 3`.
 //!
-//! Вычисление --- чистая бета-редукция: никаких встроенных чисел.
+//! The computation is pure beta reduction: no built-in numbers.
 
 use lambda::{add, church, succ, to_nat, Term};
 
@@ -11,12 +11,12 @@ fn main() {
     let sum = Term::app(Term::app(add(), two.clone()), three).normalize(10000);
     println!(
         "2 + 3 = {}",
-        to_nat(&sum).expect("терм не оказался числом Чёрча")
+        to_nat(&sum).expect("term did not evaluate to a Church numeral")
     );
 
     let next = Term::app(succ(), two).normalize(1000);
     println!(
         "succ 2 = {}",
-        to_nat(&next).expect("терм не оказался числом Чёрча")
+        to_nat(&next).expect("term did not evaluate to a Church numeral")
     );
 }

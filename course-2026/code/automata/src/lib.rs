@@ -1,9 +1,10 @@
-//! Конечные автоматы и регулярные языки.
+//! Finite automata and regular languages.
 //!
-//! ДКА, НКА (с ε-переходами), конструкция подмножеств, операции над языками
-//! (дополнение, объединение, пересечение, разность), регулярные выражения
-//! (конструкция Томпсона) и минимизация. Разобранные примеры книги ---
-//! запускаемые `examples/`, базовые структуры покрыты тестами.
+//! DFAs, NFAs (with epsilon transitions), the subset construction, operations
+//! on languages (complement, union, intersection, difference), regular
+//! expressions (Thompson construction) and minimization. The worked examples
+//! from the book are runnable `examples/`, and the core structures are covered
+//! by tests.
 
 pub mod dfa;
 pub mod nfa;

@@ -1,7 +1,8 @@
-//! Регулярные выражения через конструкцию Томпсона (глава m17).
+//! Regular expressions via the Thompson construction.
 //!
-//! Пример главы: `(a|b)*a(a|b)` --- язык слов с предпоследней буквой `a`.
-//! Выражение превращается в ε-НКА, затем --- в ДКА конструкцией подмножеств.
+//! Book example: `(a|b)*a(a|b)` is the language of words whose second-to-last
+//! letter is `a`. The expression becomes an epsilon-NFA, then a DFA via the
+//! subset construction.
 
 use automata::{parse, RegEx};
 
@@ -10,14 +11,14 @@ fn main() {
     let nfa = re.to_nfa();
     let dfa = nfa.to_dfa();
 
-    println!("Регулярное выражение: (a|b)*a(a|b) --- слова с предпоследней буквой a");
+    println!("Regular expression: (a|b)*a(a|b) --- words with second-to-last letter a");
     println!(
-        "НКА состояний: {}, ДКА состояний: {}",
+        "NFA states: {}, DFA states: {}",
         nfa.num_states(),
         dfa.num_states()
     );
 
     for w in ["a", "aa", "ba", "aab", "baba", "", "b", "bb", "abb"] {
-        println!("{w:>5}: ДКА={}", dfa.accepts(w));
+        println!("{w:>5}: DFA={}", dfa.accepts(w));
     }
 }

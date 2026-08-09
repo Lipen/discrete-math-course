@@ -1,28 +1,28 @@
-//! Недетерминированные конечные автоматы (НКА) и конструкция подмножеств.
+//! Nondeterministic finite automata (NFA) and the subset construction.
 //!
-//! Из состояния по символу может быть несколько переходов, плюс ε-переходы
-//! (по пустому символу). Слово принимается, если существует путь, проходящий
-//! его целиком и заканчивающийся в принимающем состоянии. Детерминизация
-//! (конструкция подмножеств) превращает НКА в эквивалентный ДКА.
+//! A state may have several transitions on one symbol, plus epsilon transitions
+//! (on the empty symbol). A word is accepted if there is a path that reads it
+//! all and ends in an accepting state. Determinization (the subset
+//! construction) turns an NFA into an equivalent DFA.
 
 use std::collections::{BTreeSet, HashMap};
 
 use crate::dfa::Dfa;
 
-/// Недетерминированный конечный автомат.
+/// A nondeterministic finite automaton.
 #[derive(Debug, Clone)]
 pub struct Nfa {
     start: usize,
     alphabet: Vec<char>,
-    /// transitions[state][индекс символа] -> набор следующих состояний.
+    /// transitions[state][symbol index] -> set of next states.
     transitions: Vec<Vec<Vec<usize>>>,
-    /// epsilon[state] -> состояния, достижимые по ε-переходу.
+    /// epsilon[state] -> states reachable by an epsilon transition.
     epsilon: Vec<Vec<usize>>,
     accepting: Vec<bool>,
 }
 
 impl Nfa {
-    /// Пустой автомат без состояний.
+    /// An empty automaton with no states.
     pub fn new(alphabet: Vec<char>) -> Self {
         Nfa {
             start: 0,
@@ -33,7 +33,7 @@ impl Nfa {
         }
     }
 
-    /// Добавляет состояние и возвращает его номер.
+    /// Adds a state and returns its number.
     pub fn add_state(&mut self, accepting: bool) -> usize {
         let id = self.transitions.len();
         self.transitions.push(vec![Vec::new(); self.alphabet.len()]);
@@ -42,38 +42,38 @@ impl Nfa {
         id
     }
 
-    /// Задаёт стартовое состояние.
+    /// Sets the start state.
     pub fn set_start(&mut self, start: usize) {
         self.start = start;
     }
 
-    /// Добавляет переход по символу.
+    /// Adds a transition on a symbol.
     pub fn add_transition(&mut self, from: usize, sym: char, to: usize) {
         let idx = self
             .alphabet
             .iter()
             .position(|&c| c == sym)
-            .expect("символ вне алфавита");
+            .expect("symbol is not in the alphabet");
         self.transitions[from][idx].push(to);
     }
 
-    /// Добавляет ε-переход.
+    /// Adds an epsilon transition.
     pub fn add_epsilon(&mut self, from: usize, to: usize) {
         self.epsilon[from].push(to);
     }
 
-    /// Меняет принимающий флаг состояния.
+    /// Sets the accepting flag of a state.
     pub fn set_accepting(&mut self, state: usize, accepting: bool) {
         self.accepting[state] = accepting;
     }
 
-    /// Число состояний.
+    /// Number of states.
     pub fn num_states(&self) -> usize {
         self.transitions.len()
     }
 
-    /// ε-замыкание множества состояний: всё, что достижимо по цепочке
-    /// ε-переходов.
+    /// Epsilon closure of a set of states: everything reachable by a chain of
+    /// epsilon transitions.
     pub fn epsilon_closure(&self, states: &BTreeSet<usize>) -> BTreeSet<usize> {
         let mut closure = states.clone();
         let mut stack: Vec<usize> = closure.iter().copied().collect();
@@ -87,7 +87,7 @@ impl Nfa {
         closure
     }
 
-    /// Принимает ли автомат слово.
+    /// Whether the automaton accepts a word.
     pub fn accepts(&self, word: &str) -> bool {
         let mut reachable = self.epsilon_closure(&BTreeSet::from([self.start]));
         for c in word.chars() {
@@ -103,9 +103,9 @@ impl Nfa {
         reachable.iter().any(|&s| self.accepting[s])
     }
 
-    /// Конструкция подмножеств: превращает НКА в эквивалентный ДКА.
+    /// Subset construction: turns an NFA into an equivalent DFA.
     pub fn to_dfa(&self) -> Dfa {
-        // Состояния ДКА --- подмножества состояний НКА (точнее, их ε-замыкания).
+        // DFA states are subsets of NFA states (more precisely, their epsilon closures).
         let start_set = self.epsilon_closure(&BTreeSet::from([self.start]));
         let mut subsets: Vec<BTreeSet<usize>> = vec![start_set.clone()];
         let mut index: HashMap<BTreeSet<usize>, usize> = HashMap::new();
@@ -123,7 +123,7 @@ impl Nfa {
                 }
                 let next = self.epsilon_closure(&next);
                 if next.is_empty() {
-                    row.push(usize::MAX); // ловушка
+                    row.push(usize::MAX); // trap
                 } else {
                     let j = *index.entry(next.clone()).or_insert_with(|| {
                         subsets.push(next.clone());
@@ -157,7 +157,7 @@ impl Nfa {
 mod tests {
     use super::*;
 
-    /// НКА из главы m17: язык слов, содержащих "00" или "11".
+    /// An NFA for the language of words containing "00" or "11".
     fn contains_double() -> Nfa {
         let mut nfa = Nfa::new(vec!['0', '1']);
         let q0 = nfa.add_state(false);
@@ -166,15 +166,15 @@ mod tests {
         let q2 = nfa.add_state(false);
         let qb = nfa.add_state(true);
         nfa.set_start(q0);
-        // "застряли" на нуле: 0 -> q1, затем 0 -> qa (приняли "00").
+        // Stuck on zero: 0 -> q1, then 0 -> qa (accepted "00").
         nfa.add_transition(q0, '0', q1);
         nfa.add_transition(q1, '0', qa);
         nfa.add_transition(q1, '1', q2);
-        // "застряли" на единице: 1 -> q2, затем 1 -> qb.
+        // Stuck on one: 1 -> q2, then 1 -> qb.
         nfa.add_transition(q0, '1', q2);
         nfa.add_transition(q2, '1', qb);
         nfa.add_transition(q2, '0', q1);
-        // Принимающие состояния поглощают всё.
+        // Accepting states absorb everything.
         nfa.add_transition(qa, '0', qa);
         nfa.add_transition(qa, '1', qa);
         nfa.add_transition(qb, '0', qb);
@@ -203,7 +203,7 @@ mod tests {
         for w in [
             "", "0", "1", "00", "11", "010", "1010", "01011", "1000", "010010",
         ] {
-            assert_eq!(dfa.accepts(w), nfa.accepts(w), "слово {w:?}");
+            assert_eq!(dfa.accepts(w), nfa.accepts(w), "word {w:?}");
         }
     }
 

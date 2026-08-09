@@ -1,7 +1,7 @@
-//! Машина из главы m19, распознающая язык 0^n 1^n.
+//! A machine from the chapter recognizing the language 0^n 1^n.
 //!
-//! Прогон на слове "0011": машина вычёркивает пары 0--1 буквой X
-//! и принимает, когда все символы вычеркнуты.
+//! A run on the word "0011": the machine crosses out pairs 0--1 with X
+//! and accepts when all symbols are crossed out.
 
 use turing::{examples, Tape};
 
@@ -14,10 +14,10 @@ fn main() {
         println!("{word:>6} -> {outcome:?}");
     }
 
-    // Полная трасса на "0011".
+    // The full trace for "0011".
     let tape = Tape::with_word(&['0', '0', '1', '1'], ' ');
     let run = machine.run(tape);
-    println!("\nТрасса на 0011:");
+    println!("\nTrace for 0011:");
     for (i, cfg) in run.configs.iter().enumerate() {
         let content: String = cfg.tape.content().iter().collect();
         println!("{i:>2}: {:>6}  [{content}]", cfg.state);

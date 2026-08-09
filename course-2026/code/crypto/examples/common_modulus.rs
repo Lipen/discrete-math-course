@@ -1,8 +1,8 @@
-//! Атака с общим модулем на RSA (глава m13, раздел «Взлом»).
+//! Common modulus attack on RSA (the chapter, section "Breaking").
 //!
-//! Два пользователя делят модуль $n$, показатели $e_1$, $e_2$ взаимно просты.
-//! Расширенный алгоритм Евклида даёт $u, v$ с $e_1 u + e_2 v = 1$, и
-//! $c_1^u c_2^v = m$ --- закрытые ключи не нужны.
+//! Two users share the modulus $n$, and the exponents $e_1$, $e_2$ are coprime.
+//! The extended Euclidean algorithm gives $u, v$ with $e_1 u + e_2 v = 1$, and
+//! $c_1^u c_2^v = m$ --- no private keys are needed.
 
 use crypto::attacks::common_modulus_attack;
 use crypto::mod_pow;
@@ -22,7 +22,7 @@ fn main() {
     println!("c1 = m^e1 = {c1}");
     println!("c2 = m^e2 = {c2}");
 
-    let recovered = common_modulus_attack(n, e1, c1, e2, c2).expect("атака должна удаться");
-    println!("Атака восстановила: {recovered}");
-    println!("Закрытые показатели не понадобились: модуль обязан быть индивидуальным у каждого пользователя.");
+    let recovered = common_modulus_attack(n, e1, c1, e2, c2).expect("the attack must succeed");
+    println!("The attack recovered: {recovered}");
+    println!("Private exponents were not needed: each user must have their own modulus.");
 }

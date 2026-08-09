@@ -1,18 +1,18 @@
-//! Бестиповое лямбда-исчисление.
+//! Untyped lambda calculus.
 //!
-//! Термы, подстановка без захвата переменных, бета-редукция
-//! и арифметика Чёрча. Разобранные примеры главы --- в `examples/`.
+//! Terms, capture-avoiding substitution, beta reduction,
+//! and Church arithmetic. Worked examples from the chapter are in `examples/`.
 
 use std::collections::HashSet;
 
-/// Лямбда-терм.
+/// A lambda term.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Term {
-    /// Переменная.
+    /// A variable.
     Var(String),
-    /// Абстракция `lambda x. body`.
+    /// Abstraction `lambda x. body`.
     Abs(String, Box<Term>),
-    /// Применение `f a`.
+    /// Application `f a`.
     App(Box<Term>, Box<Term>),
 }
 
@@ -29,7 +29,7 @@ impl Term {
         Term::App(Box::new(f), Box::new(a))
     }
 
-    /// Свободные переменные терма.
+    /// Free variables of the term.
     pub fn free_vars(&self) -> HashSet<String> {
         match self {
             Term::Var(x) => HashSet::from([x.clone()]),
@@ -46,15 +46,15 @@ impl Term {
         }
     }
 
-    /// Подстановка `self[x := replacement]` без захвата переменных.
+    /// Substitute `self[x := replacement]` without capturing variables.
     pub fn substitute(&self, x: &str, replacement: &Term) -> Term {
         match self {
             Term::Var(y) if y == x => replacement.clone(),
             Term::Var(_) => self.clone(),
             Term::Abs(y, _) if y == x => self.clone(),
             Term::Abs(y, body) => {
-                // Если `replacement` содержит свободный `y`, сначала
-                // переименовываем связанную переменную (альфа-конверсия).
+                // If `replacement` contains a free `y`, first
+                // rename the bound variable (alpha-conversion).
                 if replacement.free_vars().contains(y) {
                     let fresh = format!("{y}'");
                     let renamed = body.rename(y, &fresh);
@@ -70,7 +70,7 @@ impl Term {
         }
     }
 
-    /// Переименование связанной переменной `from` в `to`.
+    /// Rename the bound variable `from` to `to`.
     fn rename(&self, from: &str, to: &str) -> Term {
         match self {
             Term::Var(y) if y == from => Term::Var(to.to_string()),
@@ -83,7 +83,7 @@ impl Term {
         }
     }
 
-    /// Один шаг бета-редукции (левая внешняя); `None`, если терм --- нормальная форма.
+    /// One beta-reduction step (leftmost outermost); `None` if the term is a normal form.
     pub fn beta_reduce(&self) -> Option<Term> {
         match self {
             Term::App(f, a) => match f.as_ref() {
@@ -104,7 +104,7 @@ impl Term {
         }
     }
 
-    /// Полная нормализация; `max_steps` --- защита от зацикливания.
+    /// Full normalization; `max_steps` guards against non-termination.
     pub fn normalize(&self, max_steps: usize) -> Term {
         let mut t = self.clone();
         for _ in 0..max_steps {
@@ -117,7 +117,7 @@ impl Term {
     }
 }
 
-/// Число Чёрча `n`: `lambda f x. f^n x`.
+/// Church numeral `n`: `lambda f x. f^n x`.
 pub fn church(n: usize) -> Term {
     let f = Term::var("f");
     let x = Term::var("x");
@@ -128,7 +128,7 @@ pub fn church(n: usize) -> Term {
     Term::abs("f", Term::abs("x", body))
 }
 
-/// Если терм --- число Чёрча в нормальной форме, возвращает его значение.
+/// If the term is a Church numeral in normal form, return its value.
 pub fn to_nat(t: &Term) -> Option<usize> {
     let Term::Abs(_, body) = t else { return None };
     let Term::Abs(_, inner) = body.as_ref() else {

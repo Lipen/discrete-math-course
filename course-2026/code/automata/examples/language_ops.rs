@@ -1,11 +1,11 @@
-//! Операции над языками автоматов (глава m17, «Свойства замкнутости»).
+//! Operations on automaton languages (the chapter "Closure Properties").
 //!
-//! Объединение, пересечение и дополнение строятся через произведение
-//! автоматов: состояние результата --- пара состояний исходных машин.
+//! Union, intersection and complement are built via the product of automata:
+//! the state of the result is a pair of states of the source machines.
 
 use automata::Dfa;
 
-/// ДКА: слова с чётным числом единиц.
+/// A DFA for words with an even number of ones.
 fn even_ones() -> Dfa {
     let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
     dfa.set_transition(0, '0', 0);
@@ -16,7 +16,7 @@ fn even_ones() -> Dfa {
     dfa
 }
 
-/// ДКА: слова, заканчивающиеся на "0".
+/// A DFA for words ending in "0".
 fn ends_with_zero() -> Dfa {
     let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
     dfa.set_transition(0, '0', 1);
@@ -37,7 +37,7 @@ fn main() {
 
     for w in ["", "0", "1", "10", "110", "010"] {
         println!(
-            "{w:>3}: чёт.1={:<5} кон.0={:<5} ∪={:<5} ∩={:<5} ∖={:<5} ¬чёт.1={}",
+            "{w:>3}: even1={:<5} end0={:<5} ∪={:<5} ∩={:<5} ∖={:<5} ¬even1={}",
             even.accepts(w),
             end0.accepts(w),
             union.accepts(w),
@@ -48,7 +48,7 @@ fn main() {
     }
 
     println!(
-        "Размеры: чёт.1={}, кон.0={}, произведение (∪)={}",
+        "Sizes: even1={}, end0={}, product (∪)={}",
         even.num_states(),
         end0.num_states(),
         union.num_states(),

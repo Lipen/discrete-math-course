@@ -1,25 +1,26 @@
-//! Регулярные выражения и конструкция Томпсона.
+//! Regular expressions and the Thompson construction.
 //!
-//! Регулярное выражение разбирается из строки и превращается в ε-НКА
-//! конструкцией Томпсона, затем --- при желании --- в ДКА (см. `Nfa::to_dfa`).
-//! Пример главы: `(a|b)*a(a|b)` --- язык слов с предпоследней буквой `a`.
+//! A regular expression is parsed from a string and turned into an epsilon-NFA
+//! by the Thompson construction, then --- optionally --- into a DFA (see
+//! `Nfa::to_dfa`). Book example: `(a|b)*a(a|b)` is the language of words whose
+//! second-to-last letter is `a`.
 
 use crate::nfa::Nfa;
 
-/// Регулярное выражение над алфавитом из `char`.
+/// A regular expression over an alphabet of `char`.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum RegEx {
-    /// Пустой язык `∅`.
+    /// The empty language `∅`.
     Empty,
-    /// Пустое слово `ε`.
+    /// The empty word `ε`.
     Epsilon,
-    /// Один символ.
+    /// A single symbol.
     Sym(char),
-    /// Конкатенация `AB`.
+    /// Concatenation `AB`.
     Concat(Box<RegEx>, Box<RegEx>),
-    /// Объединение `A|B`.
+    /// Union `A|B`.
     Union(Box<RegEx>, Box<RegEx>),
-    /// Звезда Клини `A*`.
+    /// Kleene star `A*`.
     Star(Box<RegEx>),
 }
 
@@ -40,7 +41,7 @@ impl RegEx {
         RegEx::Star(Box::new(a))
     }
 
-    /// Символы, встречающиеся в выражении (алфавит построенного автомата).
+    /// Symbols occurring in the expression (the alphabet of the built automaton).
     fn symbols(&self, out: &mut Vec<char>) {
         match self {
             RegEx::Sym(c) => {
@@ -57,7 +58,7 @@ impl RegEx {
         }
     }
 
-    /// Конструкция Томпсона: регулярное выражение -> ε-НКА.
+    /// Thompson construction: regular expression -> epsilon-NFA.
     pub fn to_nfa(&self) -> Nfa {
         let mut alphabet = Vec::new();
         self.symbols(&mut alphabet);
@@ -68,8 +69,8 @@ impl RegEx {
         nfa
     }
 
-    /// Строит фрагмент автомата для выражения, возвращает пару
-    /// `(старт, конец)`. Конец --- принимающее состояние фрагмента.
+    /// Builds an automaton fragment for the expression, returning the pair
+    /// `(start, end)`. `end` is the accepting state of the fragment.
     fn build(&self, nfa: &mut Nfa) -> (usize, usize) {
         match self {
             RegEx::Empty => {
@@ -120,9 +121,9 @@ impl RegEx {
     }
 }
 
-/// Рекурсивный спуск по грамматике:
+/// Recursive descent over the grammar:
 /// `union := concat ('|' concat)*`, `concat := star+`,
-/// `star := atom '*'*`, `atom := символ | '(' union ')'`.
+/// `star := atom '*'*`, `atom := symbol | '(' union ')'`.
 struct Parser {
     chars: Vec<char>,
     pos: usize,
@@ -141,7 +142,7 @@ impl Parser {
         assert_eq!(
             self.pos,
             self.chars.len(),
-            "лишние символы в конце выражения"
+            "extra symbols at the end of the expression"
         );
         result
     }
@@ -176,16 +177,16 @@ impl Parser {
 
     fn atom(&mut self) -> RegEx {
         match self.peek() {
-            None => panic!("неожиданный конец выражения"),
+            None => panic!("unexpected end of expression"),
             Some('(') => {
                 self.pos += 1;
                 let inner = self.union();
-                assert_eq!(self.peek(), Some(')'), "ожидалась закрывающая скобка");
+                assert_eq!(self.peek(), Some(')'), "expected a closing parenthesis");
                 self.pos += 1;
                 inner
             }
             Some(')') | Some('|') | Some('*') => {
-                panic!("неожиданный символ '{}'", self.peek().unwrap())
+                panic!("unexpected symbol '{}'", self.peek().unwrap())
             }
             Some(c) => {
                 self.pos += 1;
@@ -199,7 +200,7 @@ impl Parser {
     }
 }
 
-/// Разбирает строку в регулярное выражение.
+/// Parses a string into a regular expression.
 pub fn parse(s: &str) -> RegEx {
     Parser::new(s).parse()
 }
@@ -245,7 +246,7 @@ mod tests {
 
     #[test]
     fn chapter_example_second_to_last_a() {
-        // (a|b)*a(a|b): слова с предпоследней буквой a (нужно >= 2 символов).
+        // (a|b)*a(a|b): words whose second-to-last letter is a (need >= 2 symbols).
         let re = parse("(a|b)*a(a|b)");
         for (w, expect) in [
             ("", false),
@@ -260,7 +261,7 @@ mod tests {
             ("baba", false),
             ("abb", false),
         ] {
-            assert_eq!(re.to_nfa().accepts(w), expect, "слово {w:?}");
+            assert_eq!(re.to_nfa().accepts(w), expect, "word {w:?}");
         }
     }
 

@@ -1,12 +1,12 @@
-//! Теория чисел и криптография.
+//! Number theory and cryptography.
 //!
-//! Модулярная арифметика на `u64` для учебных примеров.
-//! Для полноценных ключей RSA нужна произвольная точность
-//! (например, `num-bigint`) --- добавим, когда дойдём до неё.
+//! Modular arithmetic on `u64` for teaching examples.
+//! Full RSA keys need arbitrary precision
+//! (for example, `num-bigint`) --- we will add it when we get to it.
 
 pub mod attacks;
 
-/// Алгоритм Евклида: наибольший общий делитель.
+/// Euclid's algorithm: the greatest common divisor.
 pub fn gcd(a: u64, b: u64) -> u64 {
     let (mut a, mut b) = (a, b);
     while b != 0 {
@@ -17,7 +17,7 @@ pub fn gcd(a: u64, b: u64) -> u64 {
     a
 }
 
-/// Расширенный алгоритм Евклида: тройка `(g, x, y)` с `a*x + b*y = g`.
+/// Extended Euclidean algorithm: the triple `(g, x, y)` with `a*x + b*y = g`.
 pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
     if b == 0 {
         (a, 1, 0)
@@ -27,7 +27,7 @@ pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
     }
 }
 
-/// Обратный элемент `a` по модулю `m`, если он существует.
+/// Modular inverse of `a` modulo `m`, if it exists.
 pub fn mod_inverse(a: u64, m: u64) -> Option<u64> {
     let (g, x, _) = egcd(a as i64, m as i64);
     if g != 1 {
@@ -36,7 +36,7 @@ pub fn mod_inverse(a: u64, m: u64) -> Option<u64> {
     Some(((x % m as i64 + m as i64) % m as i64) as u64)
 }
 
-/// Быстрое возведение в степень по модулю: `base^exp mod m`.
+/// Fast modular exponentiation: `base^exp mod m`.
 pub fn mod_pow(mut base: u64, mut exp: u64, m: u64) -> u64 {
     if m == 1 {
         return 0;
@@ -53,21 +53,21 @@ pub fn mod_pow(mut base: u64, mut exp: u64, m: u64) -> u64 {
     result
 }
 
-/// Учебный RSA на малых числах (без произвольной точности).
+/// Teaching RSA on small numbers (without arbitrary precision).
 pub struct Rsa {
-    /// Модуль `p * q`.
+    /// The modulus `p * q`.
     pub n: u64,
-    /// Открытый показатель.
+    /// The public exponent.
     pub e: u64,
     d: u64,
 }
 
 impl Rsa {
-    /// Собирает ключи из простых `p`, `q` и открытого показателя `e`.
+    /// Builds keys from primes `p`, `q` and the public exponent `e`.
     pub fn new(p: u64, q: u64, e: u64) -> Rsa {
         let n = p * q;
         let phi = (p - 1) * (q - 1);
-        let d = mod_inverse(e, phi).expect("e должно быть взаимно простым с phi(n)");
+        let d = mod_inverse(e, phi).expect("e must be coprime with phi(n)");
         Rsa { n, e, d }
     }
 
@@ -105,7 +105,7 @@ mod tests {
 
     #[test]
     fn rsa_roundtrip() {
-        // Классический учебный пример из главы m13: p = 61, q = 53, e = 17.
+        // Classic teaching example from the chapter: p = 61, q = 53, e = 17.
         let rsa = Rsa::new(61, 53, 17);
         for msg in [0, 1, 42, 65, 123] {
             assert_eq!(rsa.decrypt(rsa.encrypt(msg)), msg);

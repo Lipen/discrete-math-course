@@ -1,7 +1,7 @@
-//! Конструкция подмножеств: НКА -> ДКА (глава m17).
+//! Subset construction: NFA -> DFA.
 //!
-//! НКА языка «содержит "00" или "11"» детерминизируется в ДКА;
-//! языки совпадают на всех пробных словах.
+//! An NFA for the language "contains 00 or 11" is determinized into a DFA;
+//! the languages agree on all test words.
 
 use automata::Nfa;
 
@@ -32,7 +32,7 @@ fn main() {
     let dfa = nfa.to_dfa();
 
     println!(
-        "НКА с {} состояниями -> ДКА с {} состояниями",
+        "NFA with {} states -> DFA with {} states",
         nfa.num_states(),
         dfa.num_states()
     );
@@ -42,7 +42,7 @@ fn main() {
     ] {
         let a = nfa.accepts(w);
         let b = dfa.accepts(w);
-        let mark = if a == b { "ok" } else { "ОШИБКА" };
-        println!("{w:>7}: НКА={a:<5} ДКА={b:<5} {mark}");
+        let mark = if a == b { "ok" } else { "ERROR" };
+        println!("{w:>7}: NFA={a:<5} DFA={b:<5} {mark}");
     }
 }

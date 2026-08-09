@@ -1,14 +1,14 @@
-//! Машины Тьюринга.
+//! Turing machines.
 //!
-//! Ядро смоделировано по дизайну экспериментального репозитория
-//! `~/dev/nexus/turing`: лента с головкой на двух стеках, таблица переходов,
-//! трасса конфигураций. Адаптировано под определение главы ---
-//! принимающее и отвергающее состояния.
+//! The core is modeled after the design of the experimental repository
+//! `~/dev/nexus/turing`: a tape with a head on two stacks, a transition table,
+//! a trace of configurations. Adapted to the definition in the chapter ---
+//! accepting and rejecting states.
 
 use std::collections::HashMap;
 use std::hash::Hash;
 
-/// Направление сдвига головки.
+/// The direction the head moves.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
     Left,
@@ -16,7 +16,7 @@ pub enum Direction {
     Stay,
 }
 
-/// Переход: записать `write`, сдвинуться, перейти в `next_state`.
+/// Transition: write `write`, move, go to `next_state`.
 #[derive(Debug, Clone)]
 pub struct Transition<Sym, State> {
     pub write: Sym,
@@ -24,10 +24,10 @@ pub struct Transition<Sym, State> {
     pub next_state: State,
 }
 
-/// Лента с головкой.
+/// Tape with a head.
 ///
-/// Символы слева и справа от головки хранятся в двух стеках, поэтому
-/// движение --- перенос символа между `left`, `head` и `right`.
+/// Symbols to the left and right of the head are stored in two stacks, so
+/// a move transfers a symbol between `left`, `head` and `right`.
 #[derive(Debug, Clone)]
 pub struct Tape<Sym> {
     head: Sym,
@@ -37,7 +37,7 @@ pub struct Tape<Sym> {
 }
 
 impl<Sym: Clone + Eq> Tape<Sym> {
-    /// Пустая лента; головка на пустом символе.
+    /// An empty tape; the head is on the blank symbol.
     pub fn new(blank: Sym) -> Self {
         Self {
             head: blank.clone(),
@@ -47,7 +47,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
         }
     }
 
-    /// Лента со словом `word`; головка на первом символе.
+    /// A tape with the word `word`; the head is on the first symbol.
     pub fn with_word(word: &[Sym], blank: Sym) -> Self {
         let mut tape = Tape::new(blank.clone());
         for (i, sym) in word.iter().enumerate() {
@@ -56,7 +56,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
                 tape.move_right();
             }
         }
-        // Возвращаемся к первому символу.
+        // Return to the first symbol.
         for _ in 1..word.len() {
             tape.move_left();
         }
@@ -89,7 +89,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
         }
     }
 
-    /// Содержимое ленты: `left` + `head` + `right`.
+    /// The tape content: `left` + `head` + `right`.
     pub fn content(&self) -> Vec<Sym> {
         let mut content = Vec::new();
         content.extend(self.left.iter().cloned());
@@ -99,33 +99,33 @@ impl<Sym: Clone + Eq> Tape<Sym> {
     }
 }
 
-/// Конфигурация: текущее состояние и лента.
+/// Configuration: the current state and the tape.
 #[derive(Debug, Clone)]
 pub struct Configuration<Sym, State> {
     pub state: State,
     pub tape: Tape<Sym>,
 }
 
-/// Исход работы машины на входе.
+/// The outcome of the machine's run on an input.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Outcome {
-    /// Достигнуто принимающее состояние.
+    /// An accepting state was reached.
     Accepted,
-    /// Достигнуто отвергающее состояние.
+    /// A rejecting state was reached.
     Rejected,
-    /// Нет применимого перехода: машина не принимает и не отвергает.
+    /// No applicable transition: the machine neither accepts nor rejects.
     Stuck,
 }
 
-/// Трасса вычисления вместе с исходом.
+/// A trace of the computation together with the outcome.
 #[derive(Debug, Clone)]
 pub struct Run<Sym, State> {
     pub outcome: Outcome,
     pub configs: Vec<Configuration<Sym, State>>,
 }
 
-/// Машина Тьюринга: таблица переходов, стартовое, принимающее
-/// и отвергающее состояния.
+/// Turing machine: the transition table, and the start, accepting
+/// and rejecting states.
 #[derive(Debug, Clone)]
 pub struct Machine<Sym, State> {
     transitions: HashMap<(State, Sym), Transition<Sym, State>>,
@@ -153,7 +153,7 @@ where
         }
     }
 
-    /// Следующая конфигурация по правилу для текущего состояния и символа.
+    /// The next configuration according to the rule for the current state and symbol.
     pub fn next(&self, config: &Configuration<Sym, State>) -> Option<Configuration<Sym, State>> {
         let sym = config.tape.read().clone();
         self.transitions
@@ -169,7 +169,7 @@ where
             })
     }
 
-    /// Запускает машину на ленте `tape` и возвращает трассу с исходом.
+    /// Runs the machine on the tape `tape` and returns the trace with the outcome.
     pub fn run(&self, tape: Tape<Sym>) -> Run<Sym, State> {
         let mut config = Configuration {
             state: self.start.clone(),
@@ -193,7 +193,7 @@ where
     }
 }
 
-/// Примеры машин из главы m19.
+/// Example machines from the chapter.
 pub mod examples {
     use super::*;
 
@@ -209,10 +209,10 @@ pub mod examples {
         }
     }
 
-    /// Машина из главы m19, принимающая строки над `{0, 1}`,
-    /// заканчивающиеся на `0`. Пустой символ ленты --- пробел.
+    /// A machine from the chapter that accepts strings over `{0, 1}`
+    /// ending in `0`. The blank tape symbol is a space.
     ///
-    /// Состояние `q0` --- «последний символ был 1», `q1` --- «был 0».
+    /// State `q0` means "the last symbol was 1", `q1` means "it was 0".
     pub fn ends_with_zero() -> Machine<char, &'static str> {
         let mut t = HashMap::new();
         t.insert(("q0", '0'), tr('0', Direction::Right, "q1"));
@@ -224,28 +224,28 @@ pub mod examples {
         Machine::new(t, "q0", "accept", "reject")
     }
 
-    /// Машина из главы m19, распознающая язык `0^n 1^n` (n >= 0).
+    /// A machine from the chapter recognizing the language `0^n 1^n` (n >= 0).
     ///
-    /// Многократно вычёркивает один `0` слева и одну `1` справа буквой `X`;
-    /// принимает, когда все символы вычеркнуты.
+    /// Repeatedly crosses out one `0` on the left and one `1` on the right with `X`;
+    /// accepts when all symbols are crossed out.
     pub fn zero_n_one_n() -> Machine<char, &'static str> {
         let mut t = HashMap::new();
-        // q0: поиск первого невычеркнутого 0.
+        // q0: find the first 0 not yet crossed out.
         t.insert(("q0", '0'), tr('X', Direction::Right, "q1"));
         t.insert(("q0", 'X'), tr('X', Direction::Right, "accept"));
         t.insert(("q0", '1'), tr('1', Direction::Right, "reject"));
-        t.insert(("q0", ' '), tr(' ', Direction::Right, "accept")); // пустое слово
-                                                                    // q1: движение вправо к концу строки.
+        t.insert(("q0", ' '), tr(' ', Direction::Right, "accept")); // empty word
+                                                                    // q1: move right to the end of the string.
         t.insert(("q1", '0'), tr('0', Direction::Right, "q1"));
         t.insert(("q1", '1'), tr('1', Direction::Right, "q1"));
         t.insert(("q1", 'X'), tr('X', Direction::Right, "q1"));
         t.insert(("q1", ' '), tr(' ', Direction::Left, "q2"));
-        // q2: поиск первой невычеркнутой 1 справа (вычеркнутые X пропускаем).
+        // q2: find the first 1 not yet crossed out on the right (skip crossed-out X's).
         t.insert(("q2", '1'), tr('X', Direction::Left, "q3"));
         t.insert(("q2", 'X'), tr('X', Direction::Left, "q2"));
         t.insert(("q2", '0'), tr('0', Direction::Left, "reject"));
         t.insert(("q2", ' '), tr(' ', Direction::Left, "reject"));
-        // q3: возврат влево к началу.
+        // q3: return left to the start.
         t.insert(("q3", '1'), tr('1', Direction::Left, "q3"));
         t.insert(("q3", '0'), tr('0', Direction::Left, "q3"));
         t.insert(("q3", 'X'), tr('X', Direction::Right, "q0"));
@@ -272,7 +272,7 @@ mod tests {
         ] {
             let tape = Tape::with_word(&word.chars().collect::<Vec<_>>(), ' ');
             let outcome = machine.run(tape).outcome;
-            assert_eq!(outcome == Outcome::Accepted, expect, "слово {word:?}");
+            assert_eq!(outcome == Outcome::Accepted, expect, "word {word:?}");
         }
     }
 
@@ -291,7 +291,7 @@ mod tests {
         ] {
             let tape = Tape::with_word(&word.chars().collect::<Vec<_>>(), ' ');
             let outcome = machine.run(tape).outcome;
-            assert_eq!(outcome == Outcome::Accepted, expect, "слово {word:?}");
+            assert_eq!(outcome == Outcome::Accepted, expect, "word {word:?}");
         }
     }
 }
