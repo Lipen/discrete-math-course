@@ -34,6 +34,24 @@
   #v(0.5em)
 ]
 
+// Список упражнений со сквозной нумерацией: id --- строка, уникальная для
+// главы; enum нумеруется непрерывно через все батчи внутри тела.
+// Вложенные `+`-списки (подпункты) нумеруются буквами a), b), c) и не
+// трогают счётчик упражнений.
+#let tasklist(id, cols: 1, body) = {
+  let s = counter(id)
+  s.update(1)
+  set enum(full: true, numbering: (..n) => context {
+    if n.pos().len() <= 1 {
+      s.step()
+      s.display("1.")
+    } else {
+      numbering("a)", n.pos().last())
+    }
+  })
+  columns(cols, gutter: 1em)[#body]
+}
+
 // --- Окружения: front-matter / main-matter ---
 #let front-matter = {
   set page(numbering: "i")
