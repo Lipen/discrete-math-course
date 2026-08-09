@@ -1455,7 +1455,7 @@ _Инвариант цикла_ --- это предикат, истинный п
 + Автоматические доказатели (Z3, Alt-Ergo, CVC5) проверяют эти формулы --- базу и шаг индукции --- без участия человека.
 
 Среди промышленных инструментов верификации:
-Dafny#footnote[K. R. M. Leino, "Dafny: An Automatic Program Verifier for Functional Correctness", Microsoft Research, 2010.],
+Dafny#footnote[K. R. M. Leino, "Dafny: An Automatic Program Verifier for Functional Correctness", LPAR 2010 (LNCS 6355).],
 Why3#footnote[J.-C. Filliâtre, A. Paskevich, "Why3 --- Where Programs Meet Provers", ESOP 2013.],
 Frama-C#footnote[CEA LIST, "Frama-C User Manual", 2008--2025.].
 
