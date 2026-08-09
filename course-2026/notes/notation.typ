@@ -70,6 +70,10 @@
 #let sqcup = $union.sq$      // join в абстрактном домене ⊔
 #let sqcap = $inter.sq$      // meet в абстрактном домене ⊓
 #let sqplus = $plus.square$  // абстрактное сложение ⊞
+#let widen = $nabla$         // оператор расширения (widening) ∇
+#let narrow = $triangle$     // оператор сужения (narrowing) △
+#let semant(s) = $llbracket #s rrbracket$          // конкретная семантика ⟦s⟧
+#let transfer(s) = $llbracket #s rrbracket^sharp$  // переносящая функция ⟦s⟧♯
 
 // === Лямбда-исчисление (m21) ===
 
