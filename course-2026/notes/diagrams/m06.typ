@@ -691,7 +691,7 @@
 
   let arr = (mark: (end: "stealth"))
 
-  // Edge S→A : weight 2
+  // Edge S→A : weight 3
   draw.line(
     "S",
     "A",
@@ -699,9 +699,9 @@
     ..arr,
     name: "sa",
   )
-  draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $2$, size: .65em)
+  draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $3$, size: .65em)
 
-  // Edge S→B : weight 3
+  // Edge S→B : weight 2
   draw.line(
     "S",
     "B",
@@ -709,7 +709,7 @@
     ..arr,
     name: "sb",
   )
-  draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $3$, size: .65em)
+  draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $2$, size: .65em)
 
   // Edge A→B : weight −2 (negative, red, dashed)
   draw.line(
