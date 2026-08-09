@@ -17,8 +17,6 @@ Crates build, test, and run on their own.
 
 ## Layout
 
-![Workspace layout](assets/workspace.svg)
-
 Every crate follows the same shape:
 
 ```
