@@ -139,7 +139,8 @@
 #include "m22-type-theory.typ"
 #include "m23-beyond-n.typ"
 #include "m24-complexity.typ"
-#include "m25-fuzzy-sets.typ"
+#include "m25-abstract-interpretation.typ"
+#include "m26-fuzzy-sets.typ"
 
 // --- Глоссарий ---
 #include "glossary.typ"

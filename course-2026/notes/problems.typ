@@ -16,7 +16,7 @@
 //   lambda-types         m21-m22  лямбда-исчисление, теория типов
 //   beyond-n             m23      за пределами натуральных чисел
 //   complexity           m24      сложность вычислений
-//   fuzzy                m25      нечёткие множества
+//   fuzzy                m26      нечёткие множества
 //
 // Каждый раздел лежит в трёх файлах: topic-{problems,hints,solutions}.typ.
 #import "common-notes.typ": *
