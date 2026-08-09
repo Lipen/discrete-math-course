@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="340" viewBox="0 0 320 340" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0f172a"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="320" height="340" fill="#ffffff"/>
+  <text x="160" y="30" text-anchor="middle" font-size="14" font-weight="600" fill="#0f172a">ROBDD for x XOR y</text>
+
+  <!-- x node -->
+  <circle cx="160" cy="78" r="24" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="160" y="85" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">x</text>
+
+  <!-- y node (shared by both cofactors) -->
+  <circle cx="160" cy="190" r="24" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="160" y="197" text-anchor="middle" font-size="15" font-weight="700" fill="#1e3a8a">y</text>
+
+  <!-- lo edge x -> y (dashed, label 0) -->
+  <path d="M 143 101 C 133 130, 140 160, 145 166" fill="none" stroke="#0f172a" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+  <text x="118" y="138" font-size="12" font-weight="600" fill="#0f172a">0</text>
+
+  <!-- hi edge x -> y (solid, label 1, complement dot) -->
+  <path d="M 177 101 C 187 130, 180 160, 175 166" fill="none" stroke="#0f172a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <circle cx="184" cy="132" r="4" fill="#0f172a"/>
+  <text x="197" y="138" font-size="12" font-weight="600" fill="#0f172a">1</text>
+
+  <!-- y lo -> leaf 0 -->
+  <path d="M 145 213 C 120 250, 92 285, 78 300" fill="none" stroke="#0f172a" stroke-width="1.4" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+  <text x="92" y="255" font-size="12" font-weight="600" fill="#0f172a">0</text>
+
+  <!-- y hi -> leaf 1 -->
+  <path d="M 175 213 C 200 250, 228 285, 242 300" fill="none" stroke="#0f172a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text x="225" y="255" font-size="12" font-weight="600" fill="#0f172a">1</text>
+
+  <!-- leaves -->
+  <rect x="52" y="300" width="26" height="22" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="65" y="315" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">1</text>
+  <rect x="228" y="300" width="26" height="22" rx="4" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="241" y="315" text-anchor="middle" font-size="13" font-weight="700" fill="#991b1b">0</text>
+
+  <!-- complement dot legend -->
+  <text x="160" y="338" text-anchor="middle" font-size="11" fill="#64748b">• on the x→y edge means the child is negated (complement edge)</text>
+</svg>

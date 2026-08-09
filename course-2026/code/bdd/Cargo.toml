@@ -1,0 +1,5 @@
+[package]
+name = "bdd"
+version = "0.1.0"
+edition = "2021"
+description = "Reduced ordered binary decision diagrams with complement edges"

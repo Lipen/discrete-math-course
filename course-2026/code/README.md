@@ -11,6 +11,10 @@ Crates build, test, and run on their own.
 | Crate | Topic | Highlights |
 | --- | --- | --- |
 | [`automata`](automata/README.md) | Finite automata and regular languages | DFA, NFA, subset construction, regex via Thompson, minimization, language operations |
+| [`codes`](codes/README.md) | Hamming codes | Hamming(7,4), syndrome decoding, single-error correction |
+| [`sat`](sat/README.md) | Boolean satisfiability | A DPLL solver with unit propagation and backtracking |
+| [`bdd`](bdd/README.md) | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation |
+| [`analysis`](analysis/README.md) | Abstract interpretation | Sign, interval, and constant domains; transfer functions; widening |
 | [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
 | [`lambda`](lambda/README.md) | Untyped λ-calculus | Terms, capture-avoiding substitution, β-reduction, Church numerals |
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
@@ -57,6 +61,10 @@ Names map one-to-one to the concepts of the book chapter.
 Each crate README explains its module, lists every demo, and has a diagram:
 
 - [automata/README.md](automata/README.md)
+- [codes/README.md](codes/README.md)
+- [sat/README.md](sat/README.md)
+- [bdd/README.md](bdd/README.md)
+- [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)
 - [lambda/README.md](lambda/README.md)
 - [turing/README.md](turing/README.md)
