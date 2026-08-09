@@ -28,9 +28,9 @@
 }
 
 // Подзаголовок "Что дальше?" в конце Итогов главы.
-#let whats-next(title) = align(center)[
+#let whats-next = align(center)[
   #v(0.7em)
-  #text(size: 11pt, weight: "bold")[#title]
+  #text(size: 11pt, weight: "bold")[Что дальше?]
   #v(0.5em)
 ]
 
