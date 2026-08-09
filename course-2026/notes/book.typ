@@ -67,7 +67,7 @@
   numbering: none,
   outlined: false,
   bookmarked: true,
-)[Содержание] <toc>
+)[Содержание]
 #outline(title: none, indent: 1em, depth: 3)
 
 // --- Основной текст ---
