@@ -1,4 +1,4 @@
-// M09 diagrams --- Codes (Huffman tree) + SAT (implication graph & DPLL, used by m10-sat.typ).
+// Diagrams for the Codes (m10) and SAT (m11) chapters: Huffman, Hamming, implication graph, DPLL.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -6,66 +6,67 @@
 #import fletcher: diagram, edge, node
 
 // ════════════════════════════════════════════════════════
-// Section A --- Huffman tree (Codes, chapter m09-codes.typ)
+// Section A --- Huffman tree (Codes, chapter m10-codes.typ)
 // ════════════════════════════════════════════════════════
 
-#let h-n-fill = oklch(88%, 0.03, 250deg)
-#let h-n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-#let h-leaf-fill = oklch(88%, 0.05, 155deg)
-#let h-leaf-str = 0.6pt + oklch(55%, 0.12, 155deg)
-#let h-e-str = 0.6pt + oklch(35%, 0.02, 265deg)
+#let hf-str = 0.8pt + oklch(35%, 0.02, 265deg)
+#let hf-leaf-str = 1pt + oklch(35%, 0.02, 265deg)
 
-// Internal node (merged frequency)
-#let h-inode(pos, body, name) = node(
-  pos,
-  body,
-  fill: h-n-fill,
-  stroke: h-n-str,
-  name: name,
-)
+// Huffman tree for A: 0.40, B: 0.25, C: 0.20, D: 0.10, E: 0.05.
+#let huffman-tree = canvas({
+  import draw: *
 
-// Leaf node (character + frequency)
-#let h-lnode(pos, body, name) = node(
-  pos,
-  body,
-  fill: h-leaf-fill,
-  stroke: h-leaf-str,
-  name: name,
-)
+  // Node positions --- tree structure (y-step = 1.8, units = cm)
+  let root = (0, 0)
+  let nA = (-3.5, -1.8)
+  let nR = (1.5, -1.8) // BCDE
+  let nB = (-0.5, -3.6)
+  let nR2 = (2.5, -3.6) // CDE
+  let nC = (1, -5.4)
+  let nR3 = (3.5, -5.4) // DE
+  let nD = (2.5, -7.2)
+  let nE = (4.5, -7.2)
 
-// Tree edge with 0/1 label
-#let h-edge(from, to, label) = edge(
-  from,
-  to,
-  "-",
-  label: $#label$,
-  stroke: h-e-str,
-)
+  // Helper for midpoint label
+  let mid-label(p, q, offset, label) = {
+    let mx = (p.at(0) + q.at(0)) / 2
+    let my = (p.at(1) + q.at(1)) / 2
+    line(p, q, stroke: hf-str)
+    content((mx + offset.at(0), my + offset.at(1)), label)
+  }
 
-#let huffman-tree = diagram(
-  node-shape: "circle",
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 1.8em,
-  // Root
-  h-inode((0, 0), $1.0$, <r>),
-  // Level 1
-  h-lnode((-3, 1.5), $A:0.4$, <A>),
-  h-inode((3, 1.5), $0.6$, <n06>),
-  // Level 2
-  h-lnode((2, 3.0), $B:0.3$, <B>),
-  h-inode((4, 3.0), $0.3$, <n03>),
-  // Level 3
-  h-lnode((3.5, 4.5), $C:0.2$, <C>),
-  h-lnode((4.5, 4.5), $D:0.1$, <D>),
-  // Edges
-  h-edge(<r>, <A>, 0),
-  h-edge(<r>, <n06>, 1),
-  h-edge(<n06>, <B>, 0),
-  h-edge(<n06>, <n03>, 1),
-  h-edge(<n03>, <C>, 0),
-  h-edge(<n03>, <D>, 1),
-)
+  // Edges with labels
+  mid-label(root, nA, (-0.4, 0.1), [_0_])
+  mid-label(root, nR, (0.2, 0.1), [_1_])
+  mid-label(nR, nB, (-0.4, 0.1), [_0_])
+  mid-label(nR, nR2, (0.2, 0.1), [_1_])
+  mid-label(nR2, nC, (-0.4, 0.1), [_0_])
+  mid-label(nR2, nR3, (0.2, 0.1), [_1_])
+  mid-label(nR3, nD, (-0.4, 0.1), [_0_])
+  mid-label(nR3, nE, (0.2, 0.1), [_1_])
+
+  // Internal nodes (weights)
+  circle(root, radius: 0.3, stroke: hf-str)
+  content(root, $1.0$)
+  circle(nR, radius: 0.3, stroke: hf-str)
+  content(nR, $0.60$)
+  circle(nR2, radius: 0.3, stroke: hf-str)
+  content(nR2, $0.35$)
+  circle(nR3, radius: 0.3, stroke: hf-str)
+  content(nR3, $0.15$)
+
+  // Leaf nodes (symbols)
+  circle(nA, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  content(nA, [$A: 0.40$])
+  circle(nB, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  content(nB, [$B: 0.25$])
+  circle(nC, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  content(nC, [$C: 0.20$])
+  circle(nD, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  content(nD, [$D: 0.10$])
+  circle(nE, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  content(nE, [$E: 0.05$])
+})
 
 // ════════════════════════════════════════════════════════
 // Section B --- Hamming spheres (Codes, chapter m09-codes.typ)
