@@ -34,37 +34,16 @@
     )
   }
 
+  // Helper: y-axis tick with label
+  let y-tick(y, label, tick-len: 0.06, stroke: 0.3pt + c-tick, size: 0.55em, fill: c-tick) = {
+    draw.line((tx(0) - tick-len, ty(y)), (tx(0) + tick-len, ty(y)), stroke: stroke)
+    draw.content((tx(-0.15), ty(y)), anchor: "east", text(size: size, fill: fill)[#label])
+  }
+
   // y-axis ticks: 0, 0.5, 1
-  draw.line(
-    (tx(0) - 0.06, ty(0)),
-    (tx(0) + 0.06, ty(0)),
-    stroke: 0.3pt + c-tick,
-  )
-  draw.content(
-    (tx(-0.15), ty(0)),
-    anchor: "east",
-    text(size: 0.55em, fill: c-tick)[0],
-  )
-  draw.line(
-    (tx(0) - 0.04, ty(0.5)),
-    (tx(0) + 0.04, ty(0.5)),
-    stroke: 0.2pt + luma(65%),
-  )
-  draw.content(
-    (tx(-0.15), ty(0.5)),
-    anchor: "east",
-    text(size: 0.5em, fill: luma(55%))[0.5],
-  )
-  draw.line(
-    (tx(0) - 0.06, ty(1)),
-    (tx(0) + 0.06, ty(1)),
-    stroke: 0.3pt + c-tick,
-  )
-  draw.content(
-    (tx(-0.15), ty(1)),
-    anchor: "east",
-    text(size: 0.55em, fill: c-tick)[1],
-  )
+  y-tick(0, "0")
+  y-tick(0.5, "0.5", tick-len: 0.04, stroke: 0.2pt + luma(65%), size: 0.5em, fill: luma(55%))
+  y-tick(1, "1")
 
   // Axis labels
   draw.content(
@@ -137,26 +116,15 @@
   let lg = 0.55
   let ls = 0.22
 
-  draw.line((lx, ly), (lx + lg, ly), stroke: 1pt + c-tri)
-  draw.content(
-    (lx + lg + 0.15, ly),
-    anchor: "west",
-    text(size: 0.55em, fill: c-axis)[Треугольная],
-  )
+  // Helper: one legend entry (line + label)
+  let legend-item(y, color, label) = {
+    draw.line((lx, y), (lx + lg, y), stroke: 1pt + color)
+    draw.content((lx + lg + 0.15, y), anchor: "west", text(size: 0.55em, fill: c-axis)[#label])
+  }
 
-  draw.line((lx, ly - ls), (lx + lg, ly - ls), stroke: 1pt + c-trap)
-  draw.content(
-    (lx + lg + 0.15, ly - ls),
-    anchor: "west",
-    text(size: 0.55em, fill: c-axis)[Трапецеидальная],
-  )
-
-  draw.line((lx, ly - 2 * ls), (lx + lg, ly - 2 * ls), stroke: 1pt + c-gauss)
-  draw.content(
-    (lx + lg + 0.15, ly - 2 * ls),
-    anchor: "west",
-    text(size: 0.55em, fill: c-axis)[Гауссова],
-  )
+  legend-item(ly, c-tri, "Треугольная")
+  legend-item(ly - ls, c-trap, "Трапецеидальная")
+  legend-item(ly - 2 * ls, c-gauss, "Гауссова")
 })
 
 // ── Fuzzy set operations ──
