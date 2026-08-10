@@ -15,56 +15,56 @@
 
 // 1. NFA: strings ending with "01" (nondeterministic --- shows choice at 0).
 #let nfa-example = diagram(
-    node-stroke: (paint: c-state-str, thickness: 0.8pt),
-    node-fill: c-state,
-    edge-stroke: (paint: c-edge, thickness: 0.7pt),
-    spacing: 3em,
-    edge((-1, 0), "-}>"),
-    node((0, 0), $q_0$, name: <q0>),
-    edge(<q0>, <q0>, "-}>", label: "0,1", bend: -50deg),
-    edge(<q0>, <q1>, "-}>", label: "0"),
-    node((1, 0), $q_1$, name: <q1>),
-    edge(<q1>, <q2>, "-}>", label: "1"),
-    node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
-      paint: c-accept-str,
-      thickness: 1.5pt,
-    )),
-  )
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.7pt),
+  spacing: 3em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $q_0$, name: <q0>),
+  edge(<q0>, <q0>, "-}>", label: "0,1", bend: -50deg),
+  edge(<q0>, <q1>, "-}>", label: "0"),
+  node((1, 0), $q_1$, name: <q1>),
+  edge(<q1>, <q2>, "-}>", label: "1"),
+  node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.5pt,
+  )),
+)
 
 // 2. NFA with epsilon-transitions recognizing a*b*.
 #let epsilon-nfa = diagram(
-    node-stroke: (paint: c-state-str, thickness: 0.8pt),
-    node-fill: c-state,
-    edge-stroke: (paint: c-edge, thickness: 0.7pt),
-    spacing: 3em,
-    // Start arrow into q0
-    edge((-1, 0), "-}>"),
-    // q0 (start)
-    node((0, 0), $q_0$, name: <q0>),
-    // epsilon: q0 → q1 (spontaneous)
-    edge(<q0>, <q1>, "-}>", label: $epsilon$, stroke: (
-      paint: c-edge,
-      thickness: 0.7pt,
-      dash: "dashed",
-    )),
-    // q1
-    node((1, 0), $q_1$, name: <q1>),
-    // self-loop: q1 --a--> q1
-    edge(<q1>, <q1>, "-}>", label: $"a"$, bend: -50deg),
-    // epsilon: q1 → q2 (spontaneous)
-    edge(<q1>, <q2>, "-}>", label: $epsilon$, stroke: (
-      paint: c-edge,
-      thickness: 0.7pt,
-      dash: "dashed",
-    )),
-    // q2 (accept)
-    node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
-      paint: c-accept-str,
-      thickness: 1.5pt,
-    )),
-    // self-loop: q2 --b--> q2
-    edge(<q2>, <q2>, "-}>", label: $"b"$, bend: -50deg),
-  )
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.7pt),
+  spacing: 3em,
+  // Start arrow into q0
+  edge((-1, 0), "-}>"),
+  // q0 (start)
+  node((0, 0), $q_0$, name: <q0>),
+  // epsilon: q0 → q1 (spontaneous)
+  edge(<q0>, <q1>, "-}>", label: $epsilon$, stroke: (
+    paint: c-edge,
+    thickness: 0.7pt,
+    dash: "dashed",
+  )),
+  // q1
+  node((1, 0), $q_1$, name: <q1>),
+  // self-loop: q1 --a--> q1
+  edge(<q1>, <q1>, "-}>", label: $"a"$, bend: -50deg),
+  // epsilon: q1 → q2 (spontaneous)
+  edge(<q1>, <q2>, "-}>", label: $epsilon$, stroke: (
+    paint: c-edge,
+    thickness: 0.7pt,
+    dash: "dashed",
+  )),
+  // q2 (accept)
+  node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.5pt,
+  )),
+  // self-loop: q2 --b--> q2
+  edge(<q2>, <q2>, "-}>", label: $"b"$, bend: -50deg),
+)
 
 // ── Chomsky hierarchy ──
 

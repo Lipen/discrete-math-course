@@ -43,29 +43,29 @@
 )
 
 #let huffman-tree = diagram(
-    node-shape: "circle",
-    node-inset: 0pt,
-    node-outset: 0pt,
-    spacing: 1.8em,
-    // Root
-    h-inode((0, 0), $1.0$, <r>),
-    // Level 1
-    h-lnode((-3, 1.5), $A:0.4$, <A>),
-    h-inode((3, 1.5), $0.6$, <n06>),
-    // Level 2
-    h-lnode((2, 3.0), $B:0.3$, <B>),
-    h-inode((4, 3.0), $0.3$, <n03>),
-    // Level 3
-    h-lnode((3.5, 4.5), $C:0.2$, <C>),
-    h-lnode((4.5, 4.5), $D:0.1$, <D>),
-    // Edges
-    h-edge(<r>, <A>, 0),
-    h-edge(<r>, <n06>, 1),
-    h-edge(<n06>, <B>, 0),
-    h-edge(<n06>, <n03>, 1),
-    h-edge(<n03>, <C>, 0),
-    h-edge(<n03>, <D>, 1),
-  )
+  node-shape: "circle",
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 1.8em,
+  // Root
+  h-inode((0, 0), $1.0$, <r>),
+  // Level 1
+  h-lnode((-3, 1.5), $A:0.4$, <A>),
+  h-inode((3, 1.5), $0.6$, <n06>),
+  // Level 2
+  h-lnode((2, 3.0), $B:0.3$, <B>),
+  h-inode((4, 3.0), $0.3$, <n03>),
+  // Level 3
+  h-lnode((3.5, 4.5), $C:0.2$, <C>),
+  h-lnode((4.5, 4.5), $D:0.1$, <D>),
+  // Edges
+  h-edge(<r>, <A>, 0),
+  h-edge(<r>, <n06>, 1),
+  h-edge(<n06>, <B>, 0),
+  h-edge(<n06>, <n03>, 1),
+  h-edge(<n03>, <C>, 0),
+  h-edge(<n03>, <D>, 1),
+)
 
 // ════════════════════════════════════════════════════════
 // Section B --- Hamming spheres (Codes, chapter m09-codes.typ)
@@ -100,86 +100,86 @@
 }
 
 #let hamming-spheres = canvas({
-    import draw: *
+  import draw: *
 
-    let r = 1.25
-    let cw1 = (1.8, 3.0)
-    let cw2 = (6.2, 3.0)
-    let cw3 = (4.0, -0.3)
+  let r = 1.25
+  let cw1 = (1.8, 3.0)
+  let cw2 = (6.2, 3.0)
+  let cw3 = (4.0, -0.3)
 
-    // Noise points inside each sphere (offsets from center, magnitude < r)
-    let n1 = (
-      (0.25, 0.50),
-      (-0.50, -0.35),
-      (0.10, -0.65),
-      (0.60, -0.20),
-      (-0.40, 0.40),
-      (0.55, 0.30),
-      (-0.20, -0.70),
-      (-0.55, 0.10),
-      (0.70, -0.40),
-    )
-    let n2 = (
-      (-0.15, 0.55),
-      (0.45, 0.25),
-      (-0.45, -0.20),
-      (-0.05, -0.45),
-      (0.25, -0.40),
-      (-0.35, 0.20),
-      (0.60, 0.05),
-      (0.15, 0.50),
-      (-0.50, -0.50),
-    )
-    let n3 = (
-      (0.35, 0.35),
-      (-0.25, 0.45),
-      (0.05, -0.30),
-      (-0.45, -0.25),
-      (0.60, 0.00),
-      (-0.10, -0.50),
-      (0.40, -0.30),
-      (-0.40, 0.25),
-      (-0.50, 0.10),
-    )
+  // Noise points inside each sphere (offsets from center, magnitude < r)
+  let n1 = (
+    (0.25, 0.50),
+    (-0.50, -0.35),
+    (0.10, -0.65),
+    (0.60, -0.20),
+    (-0.40, 0.40),
+    (0.55, 0.30),
+    (-0.20, -0.70),
+    (-0.55, 0.10),
+    (0.70, -0.40),
+  )
+  let n2 = (
+    (-0.15, 0.55),
+    (0.45, 0.25),
+    (-0.45, -0.20),
+    (-0.05, -0.45),
+    (0.25, -0.40),
+    (-0.35, 0.20),
+    (0.60, 0.05),
+    (0.15, 0.50),
+    (-0.50, -0.50),
+  )
+  let n3 = (
+    (0.35, 0.35),
+    (-0.25, 0.45),
+    (0.05, -0.30),
+    (-0.45, -0.25),
+    (0.60, 0.00),
+    (-0.10, -0.50),
+    (0.40, -0.30),
+    (-0.40, 0.25),
+    (-0.50, 0.10),
+  )
 
-    hs-draw-sphere(cw1, r, n1)
-    hs-draw-sphere(cw2, r, n2)
-    hs-draw-sphere(cw3, r, n3)
+  hs-draw-sphere(cw1, r, n1)
+  hs-draw-sphere(cw2, r, n2)
+  hs-draw-sphere(cw3, r, n3)
 
-    // Dimension line: radius t from codeword 1 to sphere edge
-    let dim-start = cw1
-    let dim-end = (cw1.at(0) + r, cw1.at(1))
-    line(dim-start, dim-end, stroke: (paint: hs-dim, thickness: 0.6pt))
-    // Tick marks
-    line(
-      (dim-start.at(0), dim-start.at(1) - 0.12),
-      (dim-start.at(0), dim-start.at(1) + 0.12),
-      stroke: (paint: hs-dim, thickness: 0.5pt),
-    )
-    line(
-      (dim-end.at(0), dim-end.at(1) - 0.12),
-      (dim-end.at(0), dim-end.at(1) + 0.12),
-      stroke: (paint: hs-dim, thickness: 0.5pt),
-    )
-    // Dimension label
-    content(
-      (cw1.at(0) + r / 2, cw1.at(1) + 0.28),
-      anchor: "south",
-      text(size: 0.7em, fill: hs-dim)[радиус $t$],
-    )
+  // Dimension line: radius t from codeword 1 to sphere edge
+  let dim-start = cw1
+  let dim-end = (cw1.at(0) + r, cw1.at(1))
+  line(dim-start, dim-end, stroke: (paint: hs-dim, thickness: 0.6pt))
+  // Tick marks
+  line(
+    (dim-start.at(0), dim-start.at(1) - 0.12),
+    (dim-start.at(0), dim-start.at(1) + 0.12),
+    stroke: (paint: hs-dim, thickness: 0.5pt),
+  )
+  line(
+    (dim-end.at(0), dim-end.at(1) - 0.12),
+    (dim-end.at(0), dim-end.at(1) + 0.12),
+    stroke: (paint: hs-dim, thickness: 0.5pt),
+  )
+  // Dimension label
+  content(
+    (cw1.at(0) + r / 2, cw1.at(1) + 0.28),
+    anchor: "south",
+    text(size: 0.7em, fill: hs-dim)[радиус $t$],
+  )
 
-    // Codeword label with arrow
-    content(
-      (cw2.at(0), cw2.at(1) + 0.6),
-      anchor: "south",
-      text(size: 0.7em, fill: hs-label)[кодовое слово],
-    )
-    line(
-      (cw2.at(0), cw2.at(1) + 0.42),
-      (cw2.at(0), cw2.at(1) + 0.19),
-      stroke: (paint: hs-label, thickness: 0.4pt),
-    )
-  })
+  // Codeword label with arrow
+  content(
+    (cw2.at(0), cw2.at(1) + 0.6),
+    anchor: "south",
+    text(size: 0.7em, fill: hs-label)[кодовое слово],
+  )
+  line(
+    (cw2.at(0), cw2.at(1) + 0.42),
+    (cw2.at(0), cw2.at(1) + 0.19),
+    stroke: (paint: hs-label, thickness: 0.4pt),
+  )
+})
 
 // ════════════════════════════════════════════════════════
 // Section B2 --- Subspace lattice of GF(2)³ (Codes, chapter m09-codes.typ)
@@ -204,39 +204,39 @@
 // Hasse diagram of coordinate subspaces of GF(2)³, ordered by inclusion.
 // Structure: 1 zero + 3 axes + 3 planes + 1 full space = 8 nodes (Boolean lattice B₃).
 #let code-lattice = diagram(
-    node-shape: "circle",
-    node-stroke: cl-n-str,
-    node-inset: 0pt,
-    node-outset: 0pt,
-    spacing: 2.5em,
-    // Top (y=0): full space
-    cl-node((0, 0), $"GF"(2)^3$, name: <full>),
-    // Layer 2 (y=1): 2D coordinate subspaces
-    cl-node((-1.3, 1), $<x, y>$, name: <xy>),
-    cl-node((0, 1), $<x, z>$, name: <xz>),
-    cl-node((1.3, 1), $<y, z>$, name: <yz>),
-    // Layer 1 (y=2): 1D coordinate subspaces
-    cl-node((-1.3, 2), $<x>$, name: <x>),
-    cl-node((0, 2), $<y>$, name: <y>),
-    cl-node((1.3, 2), $<z>$, name: <z>),
-    // Bottom (y=3): zero subspace
-    cl-node((0, 3), ${0}$, name: <zero>),
-    // Cover relations: zero → axes
-    cl-edge(<zero>, <x>),
-    cl-edge(<zero>, <y>),
-    cl-edge(<zero>, <z>),
-    // Axes → planes
-    cl-edge(<x>, <xy>),
-    cl-edge(<x>, <xz>),
-    cl-edge(<y>, <xy>),
-    cl-edge(<y>, <yz>),
-    cl-edge(<z>, <xz>),
-    cl-edge(<z>, <yz>),
-    // Planes → full space
-    cl-edge(<xy>, <full>),
-    cl-edge(<xz>, <full>),
-    cl-edge(<yz>, <full>),
-  )
+  node-shape: "circle",
+  node-stroke: cl-n-str,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 2.5em,
+  // Top (y=0): full space
+  cl-node((0, 0), $"GF"(2)^3$, name: <full>),
+  // Layer 2 (y=1): 2D coordinate subspaces
+  cl-node((-1.3, 1), $<x, y>$, name: <xy>),
+  cl-node((0, 1), $<x, z>$, name: <xz>),
+  cl-node((1.3, 1), $<y, z>$, name: <yz>),
+  // Layer 1 (y=2): 1D coordinate subspaces
+  cl-node((-1.3, 2), $<x>$, name: <x>),
+  cl-node((0, 2), $<y>$, name: <y>),
+  cl-node((1.3, 2), $<z>$, name: <z>),
+  // Bottom (y=3): zero subspace
+  cl-node((0, 3), ${0}$, name: <zero>),
+  // Cover relations: zero → axes
+  cl-edge(<zero>, <x>),
+  cl-edge(<zero>, <y>),
+  cl-edge(<zero>, <z>),
+  // Axes → planes
+  cl-edge(<x>, <xy>),
+  cl-edge(<x>, <xz>),
+  cl-edge(<y>, <xy>),
+  cl-edge(<y>, <yz>),
+  cl-edge(<z>, <xz>),
+  cl-edge(<z>, <yz>),
+  // Planes → full space
+  cl-edge(<xy>, <full>),
+  cl-edge(<xz>, <full>),
+  cl-edge(<yz>, <full>),
+)
 
 // ════════════════════════════════════════════════════════
 // Section C --- SAT diagrams (used by m10-sat.typ)
@@ -489,53 +489,53 @@
 // p₁ feeds d₁, d₂, d₄; p₂ feeds d₁, d₃, d₄; p₄ feeds d₂, d₃, d₄; each dᵢ
 // reaches only its own line.
 #let hamming-groups = canvas({
-    import draw: *
+  import draw: *
 
-    // Horizontal position of each codeword bit (index: position - 1).
-    let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
-    let cy = 7.0
-    let r = 0.42
-    let y-top = cy - r
+  // Horizontal position of each codeword bit (index: position - 1).
+  let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+  let cy = 7.0
+  let r = 0.42
+  let y-top = cy - r
 
-    // Data lines from top (d₁) to bottom (d₄).
-    let data-y = (5.4, 4.5, 3.6, 2.7)
-    let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
-    for (i, y) in data-y.enumerate() {
-      line((-0.6, y), (6.6, y), stroke: (paint: hg-line, thickness: 0.5pt))
-      content((-1.7, y), text(size: 0.7em, fill: hg-data)[#data-name.at(i)])
+  // Data lines from top (d₁) to bottom (d₄).
+  let data-y = (5.4, 4.5, 3.6, 2.7)
+  let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
+  for (i, y) in data-y.enumerate() {
+    line((-0.6, y), (6.6, y), stroke: (paint: hg-line, thickness: 0.5pt))
+    content((-1.7, y), text(size: 0.7em, fill: hg-data)[#data-name.at(i)])
+  }
+
+  // One circle per bit, stroked in its group's color.
+  let hg-bit(bx, label, num, color) = {
+    circle(
+      (bx, cy),
+      radius: r,
+      fill: hg-fill,
+      stroke: (paint: color, thickness: 0.8pt),
+    )
+    content((bx, cy), text(size: 0.72em, fill: hg-label)[#label])
+    content((bx, cy + 0.8), text(size: 0.55em, fill: hg-dim)[#num])
+  }
+  hg-bit(x.at(0), $p_1$, 1, hg-p1)
+  hg-bit(x.at(1), $p_2$, 2, hg-p2)
+  hg-bit(x.at(2), $d_1$, 3, hg-data)
+  hg-bit(x.at(3), $p_4$, 4, hg-p4)
+  hg-bit(x.at(4), $d_2$, 5, hg-data)
+  hg-bit(x.at(5), $d_3$, 6, hg-data)
+  hg-bit(x.at(6), $d_4$, 7, hg-data)
+
+  // Vertical from a bit down to its lines; dots mark the connections.
+  let hg-edge(bx, bottom, color, dots) = {
+    line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: 1pt))
+    for d in dots {
+      circle((bx, d), radius: 0.13, fill: color)
     }
-
-    // One circle per bit, stroked in its group's color.
-    let hg-bit(bx, label, num, color) = {
-      circle(
-        (bx, cy),
-        radius: r,
-        fill: hg-fill,
-        stroke: (paint: color, thickness: 0.8pt),
-      )
-      content((bx, cy), text(size: 0.72em, fill: hg-label)[#label])
-      content((bx, cy + 0.8), text(size: 0.55em, fill: hg-dim)[#num])
-    }
-    hg-bit(x.at(0), $p_1$, 1, hg-p1)
-    hg-bit(x.at(1), $p_2$, 2, hg-p2)
-    hg-bit(x.at(2), $d_1$, 3, hg-data)
-    hg-bit(x.at(3), $p_4$, 4, hg-p4)
-    hg-bit(x.at(4), $d_2$, 5, hg-data)
-    hg-bit(x.at(5), $d_3$, 6, hg-data)
-    hg-bit(x.at(6), $d_4$, 7, hg-data)
-
-    // Vertical from a bit down to its lines; dots mark the connections.
-    let hg-edge(bx, bottom, color, dots) = {
-      line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: 1pt))
-      for d in dots {
-        circle((bx, d), radius: 0.13, fill: color)
-      }
-    }
-    hg-edge(x.at(0), data-y.at(3), hg-p1, (data-y.at(0), data-y.at(1), data-y.at(3)))
-    hg-edge(x.at(1), data-y.at(3), hg-p2, (data-y.at(0), data-y.at(2), data-y.at(3)))
-    hg-edge(x.at(3), data-y.at(3), hg-p4, (data-y.at(1), data-y.at(2), data-y.at(3)))
-    hg-edge(x.at(2), data-y.at(0), hg-data, (data-y.at(0),))
-    hg-edge(x.at(4), data-y.at(1), hg-data, (data-y.at(1),))
-    hg-edge(x.at(5), data-y.at(2), hg-data, (data-y.at(2),))
-    hg-edge(x.at(6), data-y.at(3), hg-data, (data-y.at(3),))
-  })
+  }
+  hg-edge(x.at(0), data-y.at(3), hg-p1, (data-y.at(0), data-y.at(1), data-y.at(3)))
+  hg-edge(x.at(1), data-y.at(3), hg-p2, (data-y.at(0), data-y.at(2), data-y.at(3)))
+  hg-edge(x.at(3), data-y.at(3), hg-p4, (data-y.at(1), data-y.at(2), data-y.at(3)))
+  hg-edge(x.at(2), data-y.at(0), hg-data, (data-y.at(0),))
+  hg-edge(x.at(4), data-y.at(1), hg-data, (data-y.at(1),))
+  hg-edge(x.at(5), data-y.at(2), hg-data, (data-y.at(2),))
+  hg-edge(x.at(6), data-y.at(3), hg-data, (data-y.at(3),))
+})

@@ -50,23 +50,23 @@
 // Linear because each typing rule in λ-> has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = canvas({
-    import draw: *
-    let nw = 3.3
-    let py = 3.0 // premise (var) --- leaf, top
-    let cy = 1.0 // conclusion (abs) --- root, bottom
+  import draw: *
+  let nw = 3.3
+  let py = 3.0 // premise (var) --- leaf, top
+  let cy = 1.0 // conclusion (abs) --- root, bottom
 
-    judgment-node((3.0, py), "prem", nw, {
-      $x : "Nat" tack.r x : "Nat"$
-    })
-    rule-label("prem", [(var)])
-
-    judgment-node((3.0, cy), "conc", nw, {
-      $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
-    })
-    rule-label("conc", [(abs)])
-
-    vert-edge("prem", "conc")
+  judgment-node((3.0, py), "prem", nw, {
+    $x : "Nat" tack.r x : "Nat"$
   })
+  rule-label("prem", [(var)])
+
+  judgment-node((3.0, cy), "conc", nw, {
+    $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
+  })
+  rule-label("conc", [(abs)])
+
+  vert-edge("prem", "conc")
+})
 
 // ═══════════════════════════════════════════════════════════════════
 // Derivation of K combinator: tack.r λx:Nat. λy:Bool. x : Nat -> Bool -> Nat
@@ -74,27 +74,27 @@
 // Three levels: var -> abs on y -> abs on x. Linear for the same reason.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-k = canvas({
-    import draw: *
-    let nw = 4.0
-    let py = 4.4 // premise (var) --- leaf, top
-    let my = 2.6 // abs on y --- middle
-    let cy = 0.8 // abs on x --- root, bottom
+  import draw: *
+  let nw = 4.0
+  let py = 4.4 // premise (var) --- leaf, top
+  let my = 2.6 // abs on y --- middle
+  let cy = 0.8 // abs on x --- root, bottom
 
-    judgment-node((3.5, py), "k-prem", nw, {
-      $x : "Nat", y : "Bool" tack.r x : "Nat"$
-    })
-    rule-label("k-prem", [(var)])
-
-    judgment-node((3.5, my), "k-mid", nw, {
-      $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$
-    })
-    rule-label("k-mid", [(abs)])
-
-    judgment-node((3.5, cy), "k-top", nw, {
-      $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
-    })
-    rule-label("k-top", [(abs)])
-
-    vert-edge("k-prem", "k-mid")
-    vert-edge("k-mid", "k-top")
+  judgment-node((3.5, py), "k-prem", nw, {
+    $x : "Nat", y : "Bool" tack.r x : "Nat"$
   })
+  rule-label("k-prem", [(var)])
+
+  judgment-node((3.5, my), "k-mid", nw, {
+    $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$
+  })
+  rule-label("k-mid", [(abs)])
+
+  judgment-node((3.5, cy), "k-top", nw, {
+    $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
+  })
+  rule-label("k-top", [(abs)])
+
+  vert-edge("k-prem", "k-mid")
+  vert-edge("k-mid", "k-top")
+})

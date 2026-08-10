@@ -189,56 +189,56 @@
   }
 
   canvas({
-      import draw: *
+    import draw: *
 
-      // Four corners
-      corner((0, 0), "A")
-      corner((square-width, 0), "E")
-      corner((0, -square-width), "I")
-      corner((square-width, -square-width), "O")
+    // Four corners
+    corner((0, 0), "A")
+    corner((square-width, 0), "E")
+    corner((0, -square-width), "I")
+    corner((square-width, -square-width), "O")
 
-      // Top: contraries
-      sq-edge("A", "E")
-      // Bottom: subcontraries
-      sq-edge("I", "O")
-      // Diagonals: contradictories
-      sq-edge("A", "O", style: "dashed")
-      sq-edge("I", "E", style: "dashed")
-      // Verticals: subalternation
-      sq-edge("A", "I", style: "arrow", mark: (end: "stealth", fill: c-square))
-      sq-edge("E", "O", style: "arrow", mark: (end: "stealth", fill: c-square))
+    // Top: contraries
+    sq-edge("A", "E")
+    // Bottom: subcontraries
+    sq-edge("I", "O")
+    // Diagonals: contradictories
+    sq-edge("A", "O", style: "dashed")
+    sq-edge("I", "E", style: "dashed")
+    // Verticals: subalternation
+    sq-edge("A", "I", style: "arrow", mark: (end: "stealth", fill: c-square))
+    sq-edge("E", "O", style: "arrow", mark: (end: "stealth", fill: c-square))
 
-      edge-label(
-        "A-E",
-        [Противоположность\ (contraries)],
-        anchor: "south",
-        padding: 0.2,
-      )
-      edge-label(
-        "I-O",
-        [Частичная совместимость\ (subcontraries)],
-        anchor: "north",
-        padding: 0.2,
-      )
-      edge-label(
-        "A-I",
-        [Подчинение\ (subalternation)],
-        anchor: "east",
-        padding: 0.2,
-      )
-      edge-label(
-        "E-O",
-        [Подчинение\ (subalternation)],
-        anchor: "west",
-        padding: 0.2,
-      )
-      edge-label(
-        "I-E",
-        box(fill: white, inset: 3pt)[Противоречие\ (contradictories)],
-        anchor: "south",
-        padding: 1pt,
-      )
-    })
+    edge-label(
+      "A-E",
+      [Противоположность\ (contraries)],
+      anchor: "south",
+      padding: 0.2,
+    )
+    edge-label(
+      "I-O",
+      [Частичная совместимость\ (subcontraries)],
+      anchor: "north",
+      padding: 0.2,
+    )
+    edge-label(
+      "A-I",
+      [Подчинение\ (subalternation)],
+      anchor: "east",
+      padding: 0.2,
+    )
+    edge-label(
+      "E-O",
+      [Подчинение\ (subalternation)],
+      anchor: "west",
+      padding: 0.2,
+    )
+    edge-label(
+      "I-E",
+      box(fill: white, inset: 3pt)[Противоречие\ (contradictories)],
+      anchor: "south",
+      padding: 1pt,
+    )
+  })
 }
 
 // ── Resolution refutation DAG: (¬p∨q), (¬q∨r), (p), (¬r) ⊢ □ ──
