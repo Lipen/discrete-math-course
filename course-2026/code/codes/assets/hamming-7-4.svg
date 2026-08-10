@@ -1,79 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="700" height="460" viewBox="0 0 700 460" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
-  <rect x="0" y="0" width="700" height="460" fill="#ffffff"/>
-  <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">Hamming(7,4): which data bits feed each parity bit</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="580" viewBox="0 0 700 580" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="700" height="580" fill="#ffffff"/>
+  <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">Hamming(7,4): the 7-bit codeword and its parity bits</text>
+
+  <!-- the 7-bit codeword: positions 1..7 -->
+  <g font-size="12" fill="#64748b" text-anchor="middle">
+    <text x="70" y="56">1</text>
+    <text x="160" y="56">2</text>
+    <text x="250" y="56">3</text>
+    <text x="340" y="56">4</text>
+    <text x="430" y="56">5</text>
+    <text x="520" y="56">6</text>
+    <text x="610" y="56">7</text>
+  </g>
+
+  <g>
+    <circle cx="70" cy="90" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="70" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">p₁</text>
+    <circle cx="160" cy="90" r="20" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <text x="160" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">p₂</text>
+    <circle cx="250" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="250" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
+    <circle cx="340" cy="90" r="20" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+    <text x="340" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">p₄</text>
+    <circle cx="430" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="430" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
+    <circle cx="520" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="520" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
+    <circle cx="610" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="610" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
+  </g>
+
+  <text x="350" y="142" text-anchor="middle" font-size="13" fill="#334155">each parity bit is the xor of the data bits it feeds:</text>
 
   <!-- buses: one per parity bit -->
   <g stroke-width="2" fill="none">
-    <path d="M140 116 V 404" stroke="#2563eb"/>
-    <path d="M350 116 V 404" stroke="#16a34a"/>
-    <path d="M560 116 V 404" stroke="#9333ea"/>
+    <path d="M140 216 V 512" stroke="#2563eb"/>
+    <path d="M350 216 V 512" stroke="#16a34a"/>
+    <path d="M560 216 V 512" stroke="#9333ea"/>
   </g>
 
   <!-- taps: from a bus to each data bit it feeds -->
   <g stroke-width="2">
-    <line x1="140" y1="230" x2="174" y2="230" stroke="#2563eb"/>
-    <line x1="140" y1="310" x2="174" y2="310" stroke="#2563eb"/>
-    <line x1="140" y1="390" x2="174" y2="390" stroke="#2563eb"/>
-    <line x1="350" y1="230" x2="384" y2="230" stroke="#16a34a"/>
-    <line x1="350" y1="310" x2="384" y2="310" stroke="#16a34a"/>
-    <line x1="350" y1="390" x2="384" y2="390" stroke="#16a34a"/>
-    <line x1="560" y1="230" x2="594" y2="230" stroke="#9333ea"/>
-    <line x1="560" y1="310" x2="594" y2="310" stroke="#9333ea"/>
-    <line x1="560" y1="390" x2="594" y2="390" stroke="#9333ea"/>
+    <line x1="140" y1="340" x2="174" y2="340" stroke="#2563eb"/>
+    <line x1="140" y1="425" x2="174" y2="425" stroke="#2563eb"/>
+    <line x1="140" y1="510" x2="174" y2="510" stroke="#2563eb"/>
+    <line x1="350" y1="340" x2="384" y2="340" stroke="#16a34a"/>
+    <line x1="350" y1="425" x2="384" y2="425" stroke="#16a34a"/>
+    <line x1="350" y1="510" x2="384" y2="510" stroke="#16a34a"/>
+    <line x1="560" y1="340" x2="594" y2="340" stroke="#9333ea"/>
+    <line x1="560" y1="425" x2="594" y2="425" stroke="#9333ea"/>
+    <line x1="560" y1="510" x2="594" y2="510" stroke="#9333ea"/>
   </g>
 
   <!-- junctions where a tap leaves its bus -->
   <g>
-    <circle cx="140" cy="230" r="3" fill="#2563eb"/>
-    <circle cx="140" cy="310" r="3" fill="#2563eb"/>
-    <circle cx="140" cy="390" r="3" fill="#2563eb"/>
-    <circle cx="350" cy="230" r="3" fill="#16a34a"/>
-    <circle cx="350" cy="310" r="3" fill="#16a34a"/>
-    <circle cx="350" cy="390" r="3" fill="#16a34a"/>
-    <circle cx="560" cy="230" r="3" fill="#9333ea"/>
-    <circle cx="560" cy="310" r="3" fill="#9333ea"/>
-    <circle cx="560" cy="390" r="3" fill="#9333ea"/>
+    <circle cx="140" cy="340" r="3" fill="#2563eb"/>
+    <circle cx="140" cy="425" r="3" fill="#2563eb"/>
+    <circle cx="140" cy="510" r="3" fill="#2563eb"/>
+    <circle cx="350" cy="340" r="3" fill="#16a34a"/>
+    <circle cx="350" cy="425" r="3" fill="#16a34a"/>
+    <circle cx="350" cy="510" r="3" fill="#16a34a"/>
+    <circle cx="560" cy="340" r="3" fill="#9333ea"/>
+    <circle cx="560" cy="425" r="3" fill="#9333ea"/>
+    <circle cx="560" cy="510" r="3" fill="#9333ea"/>
   </g>
 
   <!-- parity bits: colored, one per column -->
   <g>
-    <circle cx="140" cy="90" r="26" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-    <text x="140" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">p₁</text>
-    <circle cx="350" cy="90" r="26" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
-    <text x="350" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">p₂</text>
-    <circle cx="560" cy="90" r="26" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
-    <text x="560" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">p₄</text>
+    <circle cx="140" cy="190" r="26" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="140" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">p₁</text>
+    <circle cx="350" cy="190" r="26" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <text x="350" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">p₂</text>
+    <circle cx="560" cy="190" r="26" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+    <text x="560" y="196" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">p₄</text>
   </g>
 
   <!-- data bits: neutral gray, hung on the buses -->
   <g>
-    <circle cx="200" cy="230" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="200" y="236" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
-    <circle cx="200" cy="310" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="200" y="316" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
-    <circle cx="200" cy="390" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="200" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
+    <circle cx="200" cy="340" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="200" y="346" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
+    <circle cx="200" cy="425" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="200" y="431" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
+    <circle cx="200" cy="510" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="200" y="516" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
 
-    <circle cx="410" cy="230" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="410" y="236" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
-    <circle cx="410" cy="310" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="410" y="316" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
-    <circle cx="410" cy="390" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="410" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
+    <circle cx="410" cy="340" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="410" y="346" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
+    <circle cx="410" cy="425" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="410" y="431" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
+    <circle cx="410" cy="510" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="410" y="516" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
 
-    <circle cx="620" cy="230" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="620" y="236" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
-    <circle cx="620" cy="310" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="620" y="316" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
-    <circle cx="620" cy="390" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="620" y="396" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
+    <circle cx="620" cy="340" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="620" y="346" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
+    <circle cx="620" cy="425" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="620" y="431" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
+    <circle cx="620" cy="510" r="26" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="620" y="516" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
   </g>
 
   <!-- legend -->
   <g font-size="11" fill="#64748b">
-    <line x1="20" y1="440" x2="48" y2="440" stroke="#2563eb" stroke-width="2"/><text x="56" y="444">feeds p₁</text>
-    <line x1="150" y1="440" x2="178" y2="440" stroke="#16a34a" stroke-width="2"/><text x="186" y="444">feeds p₂</text>
-    <line x1="280" y1="440" x2="308" y2="440" stroke="#9333ea" stroke-width="2"/><text x="316" y="444">feeds p₄</text>
-    <circle cx="430" cy="440" r="6" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/><text x="444" y="444">data bit</text>
+    <line x1="20" y1="556" x2="48" y2="556" stroke="#2563eb" stroke-width="2"/><text x="56" y="560">feeds p₁</text>
+    <line x1="150" y1="556" x2="178" y2="556" stroke="#16a34a" stroke-width="2"/><text x="186" y="560">feeds p₂</text>
+    <line x1="280" y1="556" x2="308" y2="556" stroke="#9333ea" stroke-width="2"/><text x="316" y="560">feeds p₄</text>
+    <circle cx="430" cy="556" r="6" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/><text x="444" y="560">data bit</text>
   </g>
 </svg>
