@@ -60,6 +60,20 @@ The figure above is the `visualize` demo graph: the crate writes the DOT source,
 | `greedy_coloring(&g)` | Vertex coloring, greedy order |
 | `distance`, `eccentricity`, `diameter` | Unweighted distance measures |
 
+Picking an algorithm:
+
+| You have | Use |
+| --- | --- |
+| unweighted graph, need distances or a traversal | `bfs`, `dfs` |
+| weighted graph, non-negative weights | `dijkstra` |
+| weighted graph with negative edges (no negative cycles) | `bellman_ford` |
+| undirected graph, cheapest spanning tree | `min_spanning_tree` |
+| need to visit every edge exactly once | `find_eulerian_path` |
+| directed acyclic graph, need an order | `topological_sort` |
+| need components | `connected_components` (undirected), `strongly_connected_components` (directed) |
+| need bridges, articulation points, or a 2-coloring | `bridges`, `articulation_points`, `is_bipartite` |
+| need colors or distance measures | `greedy_coloring`, `distance`, `eccentricity`, `diameter` |
+
 ### Visualization (`viz/`)
 
 The crate does not draw layouts itself: graph layout is a hard problem, and ready tools are good at it. The crate hands them text instead:
