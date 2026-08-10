@@ -137,7 +137,10 @@ pub fn hamming_distance(a: &[bool], b: &[bool]) -> usize {
 /// Requires at least two codewords of equal length. A code with minimum
 /// distance d detects up to d - 1 errors and corrects up to (d - 1) / 2.
 pub fn min_distance(words: &[Vec<bool>]) -> usize {
-    assert!(words.len() >= 2, "min_distance: need at least two codewords");
+    assert!(
+        words.len() >= 2,
+        "min_distance: need at least two codewords"
+    );
     let mut best = usize::MAX;
     for i in 0..words.len() {
         for j in (i + 1)..words.len() {
@@ -223,7 +226,7 @@ mod tests {
             [false, true, false],
             [true, false, false],
         ] {
-            assert_eq!(repeat_decode(word), false, "{word:?}");
+            assert!(!repeat_decode(word), "word {word:?} should decode to 0");
         }
         for word in [
             [true, true, true],
@@ -231,15 +234,15 @@ mod tests {
             [true, false, true],
             [false, true, true],
         ] {
-            assert_eq!(repeat_decode(word), true, "{word:?}");
+            assert!(repeat_decode(word), "word {word:?} should decode to 1");
         }
     }
 
     #[test]
     fn repetition_two_errors_flip_the_vote() {
         // The majority of 011 is 1, so two errors go uncorrected.
-        assert_eq!(repeat_decode([false, true, true]), true);
-        assert_eq!(repeat_decode([true, false, false]), false);
+        assert!(repeat_decode([false, true, true]));
+        assert!(!repeat_decode([true, false, false]));
     }
 
     // --- parity ---
@@ -278,17 +281,15 @@ mod tests {
 
     #[test]
     fn min_distance_of_the_three_codes() {
-        let parity_words: Vec<Vec<bool>> = (0..16)
-            .map(|m| parity_encode(&bit_pattern(m)))
-            .collect();
+        let parity_words: Vec<Vec<bool>> =
+            (0..16).map(|m| parity_encode(&bit_pattern(m))).collect();
         assert_eq!(min_distance(&parity_words), 2);
 
         let repeat_words = vec![repeat_encode(false).to_vec(), repeat_encode(true).to_vec()];
         assert_eq!(min_distance(&repeat_words), 3);
 
-        let hamming_words: Vec<Vec<bool>> = (0..16)
-            .map(|m| encode(bit_pattern(m)).to_vec())
-            .collect();
+        let hamming_words: Vec<Vec<bool>> =
+            (0..16).map(|m| encode(bit_pattern(m)).to_vec()).collect();
         assert_eq!(min_distance(&hamming_words), 3);
     }
 
