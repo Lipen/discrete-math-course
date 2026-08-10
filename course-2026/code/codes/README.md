@@ -10,11 +10,12 @@ noise?" -- with different amounts of redundancy:
 | parity | (7, 6, 2) | 6/7 | 1 | 0 | append one bit so the word has even parity |
 | repetition | (3, 1, 3) | 1/3 | 2 | 1 | send each bit three times, majority vote |
 | Hamming | (7, 4, 3) | 4/7 | 2 | 1 | parity bits whose positions spell the error |
+| extended Hamming | (8, 4, 4) | 1/2 | 3 | 1 | Hamming(7,4) plus an overall parity bit: a double error is detected, not miscorrected |
 
 `(n, k, d)`: n bits per codeword, k data bits, minimum distance d. A code of
-distance d detects up to d - 1 errors and corrects up to (d - 1) / 2. All three
-detect a single error; repetition and Hamming also correct it, and Hamming does
-so at nearly twice the rate.
+distance d detects up to d - 1 errors and corrects up to (d - 1) / 2. All four
+detect a single error; repetition, Hamming, and extended Hamming also correct
+it, and Hamming does so at nearly twice the rate.
 
 ## Quick start
 
@@ -22,6 +23,7 @@ so at nearly twice the rate.
 cargo run -p codes --example hamming_demo
 cargo run -p codes --example codes_compare
 cargo run -p codes --example hamming_errors
+cargo run -p codes --example hamming_extended
 cargo run -p codes --example repetition_errors
 cargo run -p codes --example parity_errors
 cargo test -p codes
@@ -34,6 +36,7 @@ The demos:
 | `hamming_demo` | One word through the whole Hamming pipeline |
 | `codes_compare` | The three families side by side (rate vs distance) |
 | `hamming_errors` | Hamming at 0, 1, 2, 3 flipped bits |
+| `hamming_extended` | Extended Hamming: how one parity bit tells 1 error from 2 |
 | `repetition_errors` | Repetition at 0, 1, 2, 3 flipped bits |
 | `parity_errors` | Parity at 0, 1, 2, 3 flipped bits |
 
@@ -69,6 +72,24 @@ With two or more flipped bits `s` stays nonzero but points at the wrong
 position, so the decoder "corrects" a bit that was never wrong -- the price of
 a code of distance 3.
 
+## Extended Hamming (8, 4, 4)
+
+Hamming(7,4) plus one overall parity bit: the whole 8-bit word must have an
+even number of ones. The minimum distance grows to 4, and the decoder now
+distinguishes a double error from a single one:
+
+| syndrome | parity | what the decoder does |
+| --- | --- | --- |
+| 0 | even | no error |
+| 0 | odd | the parity bit itself was flipped: correct bit 8 |
+| nonzero | odd | a single error: correct the bit the syndrome points at |
+| nonzero | even | two errors: detected, left uncorrected |
+
+Without the extra bit a double error was silently miscorrected: the syndrome
+pointed at a healthy bit, and the decoder flipped it. The overall parity bit
+removes that ambiguity -- `extended_decode` reports `ExtendedOutcome::Double`
+and the data is not trusted.
+
 ## Repetition (3, 1, 3)
 
 Each bit is sent three times; the receiver takes a majority vote. Any single
@@ -99,6 +120,8 @@ assert_eq!(corrects_up_to(d), 1);  // (d - 1) / 2
 | `parity_bit` | 1 when the data has an odd number of ones |
 | `parity_encode` | Appends the parity bit: (n + 1, n, 2) code |
 | `parity_ok` | True when the word passes the even-parity check |
+| `extended_encode` | 4 data bits -> 8-bit extended Hamming codeword |
+| `extended_decode` | Corrects one error, detects two; returns `ExtendedDecoded` |
 | `repeat_encode` | One bit -> the same bit three times |
 | `repeat_decode` | Majority vote over three bits |
 | `encode` | 4 data bits -> 7-bit Hamming codeword |
@@ -120,6 +143,8 @@ cargo test -p codes
 
 For Hamming, every one of the 16 data words is checked against all 7 single-bit
 corruptions, and every pair of distinct codewords is checked to differ in at
-least 3 positions. For repetition, all 3-bit words are voted on. For parity,
-every single-bit corruption of every valid word fails the check. `min_distance`
-is verified to give 2, 3, 3 for the three codes.
+least 3 positions. The extended code is checked against all 8 single-bit
+corruptions (corrected) and all 28 double-bit corruptions (detected), and its
+minimum distance is verified to be 4. For repetition, all 3-bit words are voted
+on. For parity, every single-bit corruption of every valid word fails the
+check. `min_distance` is verified to give 2, 3, 3, 4 for the four codes.
