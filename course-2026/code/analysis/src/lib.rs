@@ -9,7 +9,7 @@
 pub mod domains;
 pub mod program;
 
-pub use domains::{Const, Interval, Sign};
+pub use domains::{Interval, Sign};
 
 #[cfg(test)]
 mod tests {

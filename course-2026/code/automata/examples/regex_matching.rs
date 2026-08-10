@@ -7,7 +7,7 @@
 use automata::{parse, RegEx};
 
 fn main() {
-    let re: RegEx = parse("(a|b)*a(a|b)");
+    let re: RegEx = parse("(a|b)*a(a|b)").unwrap();
     let nfa = re.to_nfa();
     let dfa = nfa.to_dfa();
 

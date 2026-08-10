@@ -122,7 +122,17 @@ impl Dfa {
     }
 
     /// Product of two automata: states are reachable pairs.
+    ///
+    /// Uses the union of both alphabets so symbols present only in `other`
+    /// are not silently dropped into the trap.
     fn product(&self, other: &Dfa, combine: fn(bool, bool) -> bool) -> Dfa {
+        let mut alphabet = self.alphabet.clone();
+        for &sym in &other.alphabet {
+            if !alphabet.contains(&sym) {
+                alphabet.push(sym);
+            }
+        }
+
         let mut pairs: Vec<(usize, usize)> = vec![(self.start, other.start)];
         let mut index: HashMap<(usize, usize), usize> = HashMap::new();
         index.insert((self.start, other.start), 0);
@@ -131,8 +141,8 @@ impl Dfa {
         let mut i = 0;
         while i < pairs.len() {
             let (q1, q2) = pairs[i];
-            let mut row = Vec::with_capacity(self.alphabet.len());
-            for &sym in &self.alphabet {
+            let mut row = Vec::with_capacity(alphabet.len());
+            for &sym in &alphabet {
                 let key = (self.next_state(q1, sym), other.next_state(q2, sym));
                 let j = *index.entry(key).or_insert_with(|| {
                     pairs.push(key);
@@ -144,10 +154,10 @@ impl Dfa {
             i += 1;
         }
 
-        let mut dfa = Dfa::new(pairs.len(), 0, self.alphabet.clone());
+        let mut dfa = Dfa::new(pairs.len(), 0, alphabet);
         for (i, row) in rows.iter().enumerate() {
             for (sym_idx, &to) in row.iter().enumerate() {
-                dfa.set_transition(i, self.alphabet[sym_idx], to);
+                dfa.set_transition(i, dfa.alphabet[sym_idx], to);
             }
         }
         let accepting = pairs

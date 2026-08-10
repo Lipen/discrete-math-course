@@ -137,60 +137,61 @@ impl Parser {
         }
     }
 
-    fn parse(mut self) -> RegEx {
-        let result = self.union();
-        assert_eq!(
-            self.pos,
-            self.chars.len(),
-            "extra symbols at the end of the expression"
-        );
-        result
+    fn parse(mut self) -> Result<RegEx, String> {
+        let result = self.union()?;
+        if self.pos != self.chars.len() {
+            return Err("extra symbols at the end of the expression".to_string());
+        }
+        Ok(result)
     }
 
-    fn union(&mut self) -> RegEx {
-        let mut left = self.concat();
+    fn union(&mut self) -> Result<RegEx, String> {
+        let mut left = self.concat()?;
         while self.peek() == Some('|') {
             self.pos += 1;
-            let right = self.concat();
+            let right = self.concat()?;
             left = RegEx::Union(Box::new(left), Box::new(right));
         }
-        left
+        Ok(left)
     }
 
-    fn concat(&mut self) -> RegEx {
-        let mut left = self.star();
+    fn concat(&mut self) -> Result<RegEx, String> {
+        let mut left = self.star()?;
         while matches!(self.peek(), Some(c) if c != '|' && c != ')') {
-            let right = self.star();
+            let right = self.star()?;
             left = RegEx::Concat(Box::new(left), Box::new(right));
         }
-        left
+        Ok(left)
     }
 
-    fn star(&mut self) -> RegEx {
-        let mut atom = self.atom();
+    fn star(&mut self) -> Result<RegEx, String> {
+        let mut atom = self.atom()?;
         while self.peek() == Some('*') {
             self.pos += 1;
             atom = RegEx::Star(Box::new(atom));
         }
-        atom
+        Ok(atom)
     }
 
-    fn atom(&mut self) -> RegEx {
+    fn atom(&mut self) -> Result<RegEx, String> {
         match self.peek() {
-            None => panic!("unexpected end of expression"),
+            None => Err("unexpected end of expression".to_string()),
             Some('(') => {
                 self.pos += 1;
-                let inner = self.union();
-                assert_eq!(self.peek(), Some(')'), "expected a closing parenthesis");
+                let inner = self.union()?;
+                if self.peek() != Some(')') {
+                    return Err("expected a closing parenthesis".to_string());
+                }
                 self.pos += 1;
-                inner
+                Ok(inner)
             }
-            Some(')') | Some('|') | Some('*') => {
-                panic!("unexpected symbol '{}'", self.peek().unwrap())
-            }
+            Some(')') | Some('|') | Some('*') => Err(format!(
+                "unexpected symbol '{}'",
+                self.peek().unwrap()
+            )),
             Some(c) => {
                 self.pos += 1;
-                RegEx::Sym(c)
+                Ok(RegEx::Sym(c))
             }
         }
     }
@@ -201,7 +202,7 @@ impl Parser {
 }
 
 /// Parses a string into a regular expression.
-pub fn parse(s: &str) -> RegEx {
+pub fn parse(s: &str) -> Result<RegEx, String> {
     Parser::new(s).parse()
 }
 
@@ -210,7 +211,7 @@ mod tests {
     use super::*;
 
     fn matches(re: &str, word: &str) -> bool {
-        parse(re).to_nfa().accepts(word)
+        parse(re).unwrap().to_nfa().accepts(word)
     }
 
     #[test]
@@ -247,7 +248,7 @@ mod tests {
     #[test]
     fn chapter_example_second_to_last_a() {
         // (a|b)*a(a|b): words whose second-to-last letter is a (need >= 2 symbols).
-        let re = parse("(a|b)*a(a|b)");
+        let re = parse("(a|b)*a(a|b)").unwrap();
         for (w, expect) in [
             ("", false),
             ("a", false),
@@ -267,7 +268,7 @@ mod tests {
 
     #[test]
     fn to_dfa_after_thompson() {
-        let dfa = parse("a|bc").to_nfa().to_dfa();
+        let dfa = parse("a|bc").unwrap().to_nfa().to_dfa();
         assert!(dfa.accepts("a"));
         assert!(dfa.accepts("bc"));
         assert!(!dfa.accepts("b"));
