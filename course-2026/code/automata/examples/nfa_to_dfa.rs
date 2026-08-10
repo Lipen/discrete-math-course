@@ -14,16 +14,16 @@ fn contains_double() -> Nfa {
     let qb = nfa.add_state(true);
     nfa.set_start(q0);
 
-    nfa.add_transition(q0, '0', q1);
-    nfa.add_transition(q1, '0', qa);
-    nfa.add_transition(q1, '1', q2);
-    nfa.add_transition(q0, '1', q2);
-    nfa.add_transition(q2, '1', qb);
-    nfa.add_transition(q2, '0', q1);
-    nfa.add_transition(qa, '0', qa);
-    nfa.add_transition(qa, '1', qa);
-    nfa.add_transition(qb, '0', qb);
-    nfa.add_transition(qb, '1', qb);
+    nfa.add_transition(q0, '0', q1).unwrap();
+    nfa.add_transition(q1, '0', qa).unwrap();
+    nfa.add_transition(q1, '1', q2).unwrap();
+    nfa.add_transition(q0, '1', q2).unwrap();
+    nfa.add_transition(q2, '1', qb).unwrap();
+    nfa.add_transition(q2, '0', q1).unwrap();
+    nfa.add_transition(qa, '0', qa).unwrap();
+    nfa.add_transition(qa, '1', qa).unwrap();
+    nfa.add_transition(qb, '0', qb).unwrap();
+    nfa.add_transition(qb, '1', qb).unwrap();
     nfa
 }
 

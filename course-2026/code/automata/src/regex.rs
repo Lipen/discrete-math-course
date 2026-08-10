@@ -87,7 +87,8 @@ impl RegEx {
             RegEx::Sym(c) => {
                 let s = nfa.add_state(false);
                 let e = nfa.add_state(false);
-                nfa.add_transition(s, *c, e);
+                nfa.add_transition(s, *c, e)
+                    .expect("symbol from the regex's own alphabet");
                 (s, e)
             }
             RegEx::Concat(a, b) => {

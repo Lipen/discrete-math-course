@@ -8,10 +8,10 @@ use automata::Dfa;
 /// A DFA for words with an even number of ones.
 fn even_ones() -> Dfa {
     let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
-    dfa.set_transition(0, '0', 0);
-    dfa.set_transition(0, '1', 1);
-    dfa.set_transition(1, '0', 1);
-    dfa.set_transition(1, '1', 0);
+    dfa.set_transition(0, '0', 0).unwrap();
+    dfa.set_transition(0, '1', 1).unwrap();
+    dfa.set_transition(1, '0', 1).unwrap();
+    dfa.set_transition(1, '1', 0).unwrap();
     dfa.set_accepting(vec![true, false]);
     dfa
 }
@@ -19,10 +19,10 @@ fn even_ones() -> Dfa {
 /// A DFA for words ending in "0".
 fn ends_with_zero() -> Dfa {
     let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
-    dfa.set_transition(0, '0', 1);
-    dfa.set_transition(0, '1', 0);
-    dfa.set_transition(1, '0', 1);
-    dfa.set_transition(1, '1', 0);
+    dfa.set_transition(0, '0', 1).unwrap();
+    dfa.set_transition(0, '1', 0).unwrap();
+    dfa.set_transition(1, '0', 1).unwrap();
+    dfa.set_transition(1, '1', 0).unwrap();
     dfa.set_accepting(vec![false, true]);
     dfa
 }

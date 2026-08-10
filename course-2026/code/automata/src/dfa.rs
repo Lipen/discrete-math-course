@@ -36,16 +36,15 @@ impl Dfa {
 
     /// Sets a transition from state `from` to state `to` on symbol `sym`.
     ///
-    /// # Panics
+    /// # Errors
     ///
-    /// Panics if `sym` is not in the alphabet.
-    pub fn set_transition(&mut self, from: usize, sym: char, to: usize) {
-        let idx = self
-            .alphabet
-            .iter()
-            .position(|&c| c == sym)
-            .expect("symbol is not in the alphabet");
+    /// Returns `Err` if `sym` is not in the alphabet.
+    pub fn set_transition(&mut self, from: usize, sym: char, to: usize) -> Result<(), String> {
+        let Some(idx) = self.alphabet.iter().position(|&c| c == sym) else {
+            return Err(format!("symbol '{sym}' is not in the alphabet"));
+        };
         self.delta[from][idx] = to;
+        Ok(())
     }
 
     /// Marks states as accepting (one flag per state).
@@ -157,7 +156,8 @@ impl Dfa {
         let mut dfa = Dfa::new(pairs.len(), 0, alphabet);
         for (i, row) in rows.iter().enumerate() {
             for (sym_idx, &to) in row.iter().enumerate() {
-                dfa.set_transition(i, dfa.alphabet[sym_idx], to);
+                dfa.set_transition(i, dfa.alphabet[sym_idx], to)
+                    .expect("symbol from the union alphabet");
             }
         }
         let accepting = pairs
@@ -262,7 +262,8 @@ impl Dfa {
             let rep = group[0];
             for (sym_idx, &to) in self.delta[rep].iter().enumerate() {
                 if to < self.states {
-                    dfa.set_transition(b, self.alphabet[sym_idx], block[to]);
+                    dfa.set_transition(b, self.alphabet[sym_idx], block[to])
+                        .expect("symbol from the automaton's own alphabet");
                 }
             }
         }
@@ -279,10 +280,10 @@ mod tests {
     /// A DFA for the language of words with an even number of ones.
     fn even_ones() -> Dfa {
         let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
-        dfa.set_transition(0, '0', 0);
-        dfa.set_transition(0, '1', 1);
-        dfa.set_transition(1, '0', 1);
-        dfa.set_transition(1, '1', 0);
+        dfa.set_transition(0, '0', 0).unwrap();
+        dfa.set_transition(0, '1', 1).unwrap();
+        dfa.set_transition(1, '0', 1).unwrap();
+        dfa.set_transition(1, '1', 0).unwrap();
         dfa.set_accepting(vec![true, false]);
         dfa
     }
@@ -290,10 +291,10 @@ mod tests {
     /// A DFA for the language of words ending in "0".
     fn ends_with_zero() -> Dfa {
         let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
-        dfa.set_transition(0, '0', 1);
-        dfa.set_transition(0, '1', 0);
-        dfa.set_transition(1, '0', 1);
-        dfa.set_transition(1, '1', 0);
+        dfa.set_transition(0, '0', 1).unwrap();
+        dfa.set_transition(0, '1', 0).unwrap();
+        dfa.set_transition(1, '0', 1).unwrap();
+        dfa.set_transition(1, '1', 0).unwrap();
         dfa.set_accepting(vec![false, true]);
         dfa
     }
@@ -355,12 +356,12 @@ mod tests {
     fn minimize_preserves_language() {
         // An automaton with a redundant (duplicate) state.
         let mut dfa = Dfa::new(3, 0, vec!['0', '1']);
-        dfa.set_transition(0, '0', 1);
-        dfa.set_transition(0, '1', 0);
-        dfa.set_transition(1, '0', 2);
-        dfa.set_transition(1, '1', 1);
-        dfa.set_transition(2, '0', 1);
-        dfa.set_transition(2, '1', 2);
+        dfa.set_transition(0, '0', 1).unwrap();
+        dfa.set_transition(0, '1', 0).unwrap();
+        dfa.set_transition(1, '0', 2).unwrap();
+        dfa.set_transition(1, '1', 1).unwrap();
+        dfa.set_transition(2, '0', 1).unwrap();
+        dfa.set_transition(2, '1', 2).unwrap();
         dfa.set_accepting(vec![false, true, true]); // states 1 and 2 are indistinguishable
 
         let min = dfa.minimize();

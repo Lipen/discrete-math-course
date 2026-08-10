@@ -7,10 +7,10 @@ use automata::Dfa;
 
 fn main() {
     let mut dfa = Dfa::new(2, 0, vec!['0', '1']);
-    dfa.set_transition(0, '0', 0);
-    dfa.set_transition(0, '1', 1);
-    dfa.set_transition(1, '0', 1);
-    dfa.set_transition(1, '1', 0);
+    dfa.set_transition(0, '0', 0).unwrap();
+    dfa.set_transition(0, '1', 1).unwrap();
+    dfa.set_transition(1, '0', 1).unwrap();
+    dfa.set_transition(1, '1', 0).unwrap();
     dfa.set_accepting(vec![true, false]);
 
     for w in ["", "0", "1", "11", "101", "1100", "111"] {

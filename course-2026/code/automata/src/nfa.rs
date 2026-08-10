@@ -49,16 +49,15 @@ impl Nfa {
 
     /// Adds a transition on a symbol.
     ///
-    /// # Panics
+    /// # Errors
     ///
-    /// Panics if `sym` is not in the alphabet.
-    pub fn add_transition(&mut self, from: usize, sym: char, to: usize) {
-        let idx = self
-            .alphabet
-            .iter()
-            .position(|&c| c == sym)
-            .expect("symbol is not in the alphabet");
+    /// Returns `Err` if `sym` is not in the alphabet.
+    pub fn add_transition(&mut self, from: usize, sym: char, to: usize) -> Result<(), String> {
+        let Some(idx) = self.alphabet.iter().position(|&c| c == sym) else {
+            return Err(format!("symbol '{sym}' is not in the alphabet"));
+        };
         self.transitions[from][idx].push(to);
+        Ok(())
     }
 
     /// Adds an epsilon transition.
@@ -144,7 +143,8 @@ impl Nfa {
         for (i, row) in rows.iter().enumerate() {
             for (sym_idx, &to) in row.iter().enumerate() {
                 if to != usize::MAX {
-                    dfa.set_transition(i, self.alphabet[sym_idx], to);
+                    dfa.set_transition(i, self.alphabet[sym_idx], to)
+                        .expect("symbol from the NFA's own alphabet");
                 }
             }
         }
@@ -171,18 +171,18 @@ mod tests {
         let qb = nfa.add_state(true);
         nfa.set_start(q0);
         // Stuck on zero: 0 -> q1, then 0 -> qa (accepted "00").
-        nfa.add_transition(q0, '0', q1);
-        nfa.add_transition(q1, '0', qa);
-        nfa.add_transition(q1, '1', q2);
+        nfa.add_transition(q0, '0', q1).unwrap();
+        nfa.add_transition(q1, '0', qa).unwrap();
+        nfa.add_transition(q1, '1', q2).unwrap();
         // Stuck on one: 1 -> q2, then 1 -> qb.
-        nfa.add_transition(q0, '1', q2);
-        nfa.add_transition(q2, '1', qb);
-        nfa.add_transition(q2, '0', q1);
+        nfa.add_transition(q0, '1', q2).unwrap();
+        nfa.add_transition(q2, '1', qb).unwrap();
+        nfa.add_transition(q2, '0', q1).unwrap();
         // Accepting states absorb everything.
-        nfa.add_transition(qa, '0', qa);
-        nfa.add_transition(qa, '1', qa);
-        nfa.add_transition(qb, '0', qb);
-        nfa.add_transition(qb, '1', qb);
+        nfa.add_transition(qa, '0', qa).unwrap();
+        nfa.add_transition(qa, '1', qa).unwrap();
+        nfa.add_transition(qb, '0', qb).unwrap();
+        nfa.add_transition(qb, '1', qb).unwrap();
         nfa
     }
 
