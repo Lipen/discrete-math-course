@@ -1,16 +1,25 @@
-//! Hamming codes and single-error correction.
+//! Error-correcting codes: parity, repetition, and Hamming(7,4).
 //!
-//! The canonical Hamming(7,4) code: 4 data bits are protected by 3 parity
-//! bits into a 7-bit codeword. Data bits sit at positions 3, 5, 6, 7;
-//! parity bits `p1`, `p2`, `p4` at positions 1, 2, 4. A parity bit covers
-//! every position whose number has that bit set:
+//! Three code families over a binary channel, from the cheapest protection to
+//! the clever one:
 //!
-//! - `p1` covers {1, 3, 5, 7},
-//! - `p2` covers {2, 3, 6, 7},
-//! - `p4` covers {4, 5, 6, 7}.
+//! - parity appends one bit so a word has an even number of ones: distance 2,
+//!   so it detects a single error but cannot locate it;
+//! - repetition says each bit three times and lets the majority vote:
+//!   distance 3, one error corrected, but the rate is a poor 1/3;
+//! - Hamming(7,4) packs 4 data bits with 3 parity bits into a 7-bit codeword:
+//!   the same distance 3 at the better rate 4/7.
 //!
-//! The code has minimum distance 3, so it corrects any single bit error and
-//! detects any double error (a nonzero syndrome, but at the wrong position).
+//! The Hamming(7,4) code: data bits sit at positions 3, 5, 6, 7; parity bits
+//! `p1`, `p2`, `p4` at positions 1, 2, 4. Each parity bit is the xor of the
+//! data bits it covers:
+//!
+//! - `p1 = d1 ^ d2 ^ d4`,
+//! - `p2 = d1 ^ d3 ^ d4`,
+//! - `p4 = d2 ^ d3 ^ d4`.
+//!
+//! The shared metric is the Hamming distance: a code with minimum distance d
+//! detects up to d - 1 errors and corrects up to (d - 1) / 2.
 
 /// The 4 data bits and the 3 parity bits of a Hamming(7,4) codeword.
 ///
@@ -76,6 +85,42 @@ pub fn decode(word: [bool; 7]) -> Decoded {
     }
 }
 
+/// Repetition code (3, 1, 3): one bit sent three times.
+pub fn repeat_encode(bit: bool) -> [bool; 3] {
+    [bit, bit, bit]
+}
+
+/// Decodes a 3-bit word by majority vote.
+///
+/// Two out of three equal bits win, so any single error is outvoted. Two
+/// errors flip the vote -- the price of the naive code.
+pub fn repeat_decode(word: [bool; 3]) -> bool {
+    let ones = word.iter().filter(|&&b| b).count();
+    ones >= 2
+}
+
+/// Parity bit: 1 when `data` has an odd number of ones.
+///
+/// Appending it to `data` makes the total number of ones even, so a single
+/// flipped bit is detected by the parity check.
+pub fn parity_bit(data: &[bool]) -> bool {
+    data.iter().filter(|&&b| b).count() % 2 == 1
+}
+
+/// Appends the parity bit to `data` -- a (n + 1, n, 2) code.
+pub fn parity_encode(data: &[bool]) -> Vec<bool> {
+    let mut word = data.to_vec();
+    word.push(parity_bit(data));
+    word
+}
+
+/// True when `word` passes the even-parity check.
+///
+/// Any odd number of errors fails the check; two errors slip through.
+pub fn parity_ok(word: &[bool]) -> bool {
+    word.iter().filter(|&&b| b).count() % 2 == 0
+}
+
 /// The Hamming distance between two equal-length bit strings.
 pub fn hamming_distance(a: &[bool], b: &[bool]) -> usize {
     assert_eq!(
@@ -84,6 +129,32 @@ pub fn hamming_distance(a: &[bool], b: &[bool]) -> usize {
         "hamming_distance: bit strings must have equal length"
     );
     a.iter().zip(b).filter(|(x, y)| x != y).count()
+}
+
+/// The minimum distance of a code: the smallest Hamming distance between any
+/// two distinct codewords in `words`.
+///
+/// Requires at least two codewords of equal length. A code with minimum
+/// distance d detects up to d - 1 errors and corrects up to (d - 1) / 2.
+pub fn min_distance(words: &[Vec<bool>]) -> usize {
+    assert!(words.len() >= 2, "min_distance: need at least two codewords");
+    let mut best = usize::MAX;
+    for i in 0..words.len() {
+        for j in (i + 1)..words.len() {
+            best = best.min(hamming_distance(&words[i], &words[j]));
+        }
+    }
+    best
+}
+
+/// How many errors a code of minimum distance `d` detects: d - 1.
+pub fn detects_up_to(d: usize) -> usize {
+    d.saturating_sub(1)
+}
+
+/// How many errors a code of minimum distance `d` corrects: (d - 1) / 2.
+pub fn corrects_up_to(d: usize) -> usize {
+    d.saturating_sub(1) / 2
 }
 
 #[cfg(test)]
@@ -140,5 +211,94 @@ mod tests {
 
     fn bit_pattern(d: usize) -> [bool; 4] {
         [d & 8 != 0, d & 4 != 0, d & 2 != 0, d & 1 != 0]
+    }
+
+    // --- repetition ---
+
+    #[test]
+    fn repetition_majority_vote_outvotes_a_single_error() {
+        for word in [
+            [false, false, false],
+            [false, false, true],
+            [false, true, false],
+            [true, false, false],
+        ] {
+            assert_eq!(repeat_decode(word), false, "{word:?}");
+        }
+        for word in [
+            [true, true, true],
+            [true, true, false],
+            [true, false, true],
+            [false, true, true],
+        ] {
+            assert_eq!(repeat_decode(word), true, "{word:?}");
+        }
+    }
+
+    #[test]
+    fn repetition_two_errors_flip_the_vote() {
+        // The majority of 011 is 1, so two errors go uncorrected.
+        assert_eq!(repeat_decode([false, true, true]), true);
+        assert_eq!(repeat_decode([true, false, false]), false);
+    }
+
+    // --- parity ---
+
+    #[test]
+    fn parity_bit_makes_the_total_even() {
+        assert!(!parity_bit(&[false, false, true, true])); // two ones
+        assert!(parity_bit(&[false, true, true, true])); // three ones
+        for m in 0..16 {
+            let data = bit_pattern(m);
+            assert!(parity_ok(&parity_encode(&data)), "msg {m}");
+        }
+    }
+
+    #[test]
+    fn parity_detects_any_single_error() {
+        for m in 0..16 {
+            let word = parity_encode(&bit_pattern(m));
+            for i in 0..word.len() {
+                let mut corrupted = word.clone();
+                corrupted[i] = !corrupted[i];
+                assert!(!parity_ok(&corrupted), "msg {m} bit {i}");
+            }
+        }
+    }
+
+    #[test]
+    fn parity_two_errors_go_unnoticed() {
+        let mut word = parity_encode(&[true, false, true, false]);
+        word[0] = !word[0];
+        word[2] = !word[2];
+        assert!(parity_ok(&word));
+    }
+
+    // --- distance and capability ---
+
+    #[test]
+    fn min_distance_of_the_three_codes() {
+        let parity_words: Vec<Vec<bool>> = (0..16)
+            .map(|m| parity_encode(&bit_pattern(m)))
+            .collect();
+        assert_eq!(min_distance(&parity_words), 2);
+
+        let repeat_words = vec![repeat_encode(false).to_vec(), repeat_encode(true).to_vec()];
+        assert_eq!(min_distance(&repeat_words), 3);
+
+        let hamming_words: Vec<Vec<bool>> = (0..16)
+            .map(|m| encode(bit_pattern(m)).to_vec())
+            .collect();
+        assert_eq!(min_distance(&hamming_words), 3);
+    }
+
+    #[test]
+    fn capability_helpers_follow_the_distance() {
+        assert_eq!(detects_up_to(2), 1);
+        assert_eq!(corrects_up_to(2), 0);
+        assert_eq!(detects_up_to(3), 2);
+        assert_eq!(corrects_up_to(3), 1);
+        assert_eq!(detects_up_to(0), 0);
+        assert_eq!(corrects_up_to(0), 0);
     }
 }
