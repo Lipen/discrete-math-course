@@ -2,11 +2,31 @@
 //!
 //! The demo walks through the whole pipeline on a single word so the syndrome
 //! trick is visible: a nonzero syndrome is exactly the position of the error.
+//! The flipped bit is drawn in red when the terminal supports it.
 
 use codes::{decode, encode, syndrome};
+use std::io::IsTerminal;
 
 fn bits(word: [bool; 7]) -> String {
     word.iter().map(|&b| if b { '1' } else { '0' }).collect()
+}
+
+/// The word with the flipped position (1-based) drawn in red.
+fn bits_colored(word: &[bool; 7], flipped: usize) -> String {
+    if !std::io::stdout().is_terminal() {
+        return bits(*word);
+    }
+    word.iter()
+        .enumerate()
+        .map(|(i, &b)| {
+            let ch = if b { '1' } else { '0' };
+            if i + 1 == flipped {
+                format!("\x1b[1;31m{ch}\x1b[0m")
+            } else {
+                ch.to_string()
+            }
+        })
+        .collect()
 }
 
 fn main() {
@@ -19,7 +39,10 @@ fn main() {
     let mut received = word;
     received[3] = !received[3];
     let s = syndrome(received);
-    println!("\ncorrupt bit 4 -> received = {}", bits(received));
+    println!(
+        "\ncorrupt bit 4 -> received = {}",
+        bits_colored(&received, 4)
+    );
     println!("syndrome = {s}   (the position of the error)");
 
     let decoded = decode(received);

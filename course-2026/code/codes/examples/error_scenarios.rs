@@ -5,14 +5,32 @@
 //! what happened: it may "correct" the wrong bit, or even report no error at
 //! all. This demo feeds the same message through all three code families and
 //! corrupts 0, 1, 2, or 3 bits, printing what each decoder reports and what
-//! that means for the recovered data.
+//! that means for the recovered data. Flipped bits are drawn in red when the
+//! terminal supports it.
 
 use codes::{
     decode, encode, parity_encode, parity_ok, repeat_decode, repeat_encode, syndrome, Decoded,
 };
+use std::io::IsTerminal;
 
 fn bits(word: &[bool]) -> String {
     word.iter().map(|&b| if b { '1' } else { '0' }).collect()
+}
+
+/// The word with the flipped positions (1-based) drawn in red.
+fn bits_colored(word: &[bool], flips: &[usize]) -> String {
+    let colored = std::io::stdout().is_terminal();
+    word.iter()
+        .enumerate()
+        .map(|(i, &b)| {
+            let ch = if b { '1' } else { '0' };
+            if colored && flips.contains(&(i + 1)) {
+                format!("\x1b[1;31m{ch}\x1b[0m")
+            } else {
+                ch.to_string()
+            }
+        })
+        .collect()
 }
 
 /// Flips the given 1-based positions in place.
@@ -95,7 +113,10 @@ fn hamming_section(data: &[bool; 4]) {
             None => "nowhere".to_string(),
         };
         println!("case {label}");
-        println!("  received = {}, syndrome = {s}", bits(&received));
+        println!(
+            "  received = {}, syndrome = {s}",
+            bits_colored(&received, flips)
+        );
         println!(
             "  decoder: corrected {}, error at {}, data = {}",
             decoded.corrected,
@@ -127,7 +148,7 @@ fn repetition_section(bit: bool) {
         println!("case {label}");
         println!(
             "  received = {}, majority vote = {}",
-            bits(&received),
+            bits_colored(&received, flips),
             vote as u8
         );
         println!("  -> {}", repetition_verdict(bit, vote, flips.len()));
@@ -157,7 +178,7 @@ fn parity_section(data: &[bool; 4]) {
         println!("case {label}");
         println!(
             "  received = {}, parity check = {check}, data = {}",
-            bits(&received),
+            bits_colored(&received, flips),
             bits(&received[..4])
         );
         println!("  -> {}", parity_verdict(check_ok, data_ok));

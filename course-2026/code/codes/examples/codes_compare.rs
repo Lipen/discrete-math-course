@@ -8,9 +8,26 @@ use codes::{
     corrects_up_to, decode, detects_up_to, encode, min_distance, parity_encode, parity_ok,
     repeat_decode, repeat_encode, syndrome,
 };
+use std::io::IsTerminal;
 
 fn bits(word: &[bool]) -> String {
     word.iter().map(|&b| if b { '1' } else { '0' }).collect()
+}
+
+/// The word with the flipped position (1-based) drawn in red.
+fn bits_colored(word: &[bool], flipped: usize) -> String {
+    let colored = std::io::stdout().is_terminal();
+    word.iter()
+        .enumerate()
+        .map(|(i, &b)| {
+            let ch = if b { '1' } else { '0' };
+            if colored && i + 1 == flipped {
+                format!("\x1b[1;31m{ch}\x1b[0m")
+            } else {
+                ch.to_string()
+            }
+        })
+        .collect()
 }
 
 /// All messages of k bits, in binary order.
@@ -60,7 +77,7 @@ fn main() {
         "\nparity: {} -> {}, flip bit 0 -> {}, parity_ok = {}",
         bits(&message),
         bits(&parity_encode(&message)),
-        bits(&pw),
+        bits_colored(&pw, 1),
         parity_ok(&pw)
     );
 
@@ -72,7 +89,7 @@ fn main() {
         "\nrepetition: bit {} -> {}, flip bit 2 -> {}, majority = {}",
         message[0] as u8,
         bits(&rw),
-        bits(&rw_corrupt),
+        bits_colored(&rw_corrupt, 3),
         repeat_decode(rw_corrupt) as u8
     );
 
@@ -86,7 +103,7 @@ fn main() {
         "\nhamming: {} -> {}, flip bit 4 -> {}, syndrome = {s}, recovered {}",
         bits(&message),
         bits(&hw),
-        bits(&hw_corrupt),
+        bits_colored(&hw_corrupt, 4),
         bits(&decoded.data)
     );
 }
