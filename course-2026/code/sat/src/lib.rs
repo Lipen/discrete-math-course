@@ -86,10 +86,6 @@ fn dpll(
             }
             if let Some(l) = unit(clause, assign) {
                 let v = l.unsigned_abs() as usize - 1;
-                // If the variable was already set to the opposite value --- conflict.
-                if assign[v] == Some(!(l > 0)) {
-                    return None;
-                }
                 assign[v] = Some(l > 0);
                 changed = true;
             } else if !has_way_out(clause, assign) {
