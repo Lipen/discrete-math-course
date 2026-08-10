@@ -65,7 +65,7 @@
 
   // widening result
   draw.line((0, 5), (11, 5), stroke: (paint: c-hi, thickness: 2.2pt))
-  draw.content((11.3, 5), anchor: "west", fill: c-hi)[$[0, +oo)$]
+  draw.content((11.3, 5), anchor: "west", fill: c-hi)[$[0, +oo]$]
 
   // the widening jump
   draw.line(
