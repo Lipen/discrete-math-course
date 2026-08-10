@@ -28,13 +28,17 @@ cargo test -p codes
 ## Hamming(7,4)
 
 Data bits sit at positions 3, 5, 6, 7; parity bits `p1`, `p2`, `p4` at positions 1, 2, 4.
-Each parity bit is the xor of the data bits it covers:
+Each parity bit is the xor (sum modulo 2) of the data bits it covers:
+
+| parity bit | xor of data bits | covers positions |
+| --- | --- | --- |
+| `p1` | `d1 ⊕ d2 ⊕ d4` | 1, 3, 5, 7 |
+| `p2` | `d1 ⊕ d3 ⊕ d4` | 2, 3, 6, 7 |
+| `p4` | `d2 ⊕ d3 ⊕ d4` | 4, 5, 6, 7 |
 
 ![Hamming(7,4): each parity bit is the xor of the data bits it covers](assets/hamming-7-4.svg)
 
-Blue circles are computed parity bits, green circles are the data bits from the
-message. A dashed line from a data bit down to a row means that bit's value
-enters that row's xor. The decoder recomputes the three parities of the
+The decoder recomputes the three parities of the
 received word; they form a 3-bit syndrome. Zero means "no error", any other
 value is exactly the position of the flipped bit:
 
