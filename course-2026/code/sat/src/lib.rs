@@ -104,12 +104,15 @@ fn dpll(
 
     // Decide an unassigned variable and try both values.
     let v = (0..nvars).find(|&i| assign[i].is_none())?;
+    // Unit propagation from a failed branch must not leak into the next one,
+    // so each branch starts from the same saved assignment.
+    let saved = assign.clone();
     for val in [true, false] {
+        *assign = saved.clone();
         assign[v] = Some(val);
         if let Some(m) = dpll(nvars, clauses, assign) {
             return Some(m);
         }
-        assign[v] = None;
     }
     None
 }
