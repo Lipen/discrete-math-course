@@ -21,9 +21,9 @@ A `Graph` stores its data twice, and both views are public:
 
 Vertices are `usize` ids `0..n` with optional string names. Edges are directed or undirected depending on the `directed` flag, and may repeat (multigraphs). The duplication is intentional: it mirrors how the chapter's pseudocode thinks about a graph, and it keeps every algorithm short.
 
-![A weighted graph, rendered by the crate's own svg backend](assets/graphs-demo.svg)
+![A weighted graph, laid out by graphviz (neato) from the crate's DOT output](assets/graphs-demo.svg)
 
-The figure above is not hand-drawn: it is the output of `graphs::viz::svg::render` (see the `visualize` demo).
+The figure above is the `visualize` demo graph: the crate writes the DOT source, graphviz picks the layout (this one uses `neato`, the force-directed engine).
 
 ## API
 
@@ -62,17 +62,14 @@ The figure above is not hand-drawn: it is the output of `graphs::viz::svg::rende
 
 ### Visualization (`viz/`)
 
-| Backend | Output | Open with |
-| --- | --- | --- |
-| `viz::svg::render` | A standalone SVG document | any browser |
-| `viz::dot::render` | Graphviz DOT source | `dot -Tsvg g.dot -o g.svg` |
-| `viz::cytoscape::render` | cytoscape.js JSON | the `elements` option of `cytoscape()` |
-| `viz::html::render` | A full HTML page with the SVG inside | any browser |
+The crate does not draw layouts itself: graph layout is a hard problem, and ready tools are good at it. The crate hands them text instead:
 
-The JSON backend uses `serde`/`serde_json` (the only external dependency of the crate):
-the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of
-escaping, so any vertex name stays valid JSON. The other backends are plain string
-building with small dedicated escapers (SVG/XML and DOT have their own quoting rules).
+| Backend | Output | Laid out by |
+| --- | --- | --- |
+| `viz::dot::render` | Graphviz DOT source | `dot`, `neato`, `fdp`, `circo` |
+| `viz::cytoscape::render` | cytoscape.js JSON | cytoscape.js (`cose`, `circle`, `concentric`, ...) |
+
+DOT becomes a picture with any Graphviz engine, e.g. `neato -Tsvg graph.dot -o graph.svg`. The JSON goes straight into cytoscape.js as the `elements` option. The JSON backend uses `serde`/`serde_json` (the only external dependency of the crate): the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of escaping, so any vertex name stays valid JSON. DOT needs only a small dedicated escaper for its own quoting rules.
 
 ## Demos
 
@@ -84,17 +81,17 @@ building with small dedicated escapers (SVG/XML and DOT have their own quoting r
 | `structure` | Components, bridges, articulation points, bipartiteness, diameter |
 | `directed` | Topological sort, cycle detection, strongly connected components |
 | `euler` | The Euler criterion and Hierholzer's trail |
-| `visualize` | One graph rendered to SVG, DOT, cytoscape JSON, and HTML files in a temp dir; prints the paths |
-| `random_graph` | Erdős–Rényi $G(n, p)$: degrees, handshake lemma, components; writes an SVG file |
+| `visualize` | One graph written as DOT and cytoscape JSON files in a temp dir; prints the paths and the graphviz command |
+| `random_graph` | Erdős–Rényi $G(n, p)$: degrees, handshake lemma, components; writes a DOT file |
 
 ## Integration paths (web, wasm, js, desktop)
 
-The four backends cover the easy routes; the same data feeds the harder ones:
+The two backends cover the easy routes; the same data feeds the harder ones:
 
-- **web**: inline the SVG (`viz::html`), or feed the JSON to cytoscape.js for pan/zoom/click;
+- **web**: feed the JSON to cytoscape.js for pan/zoom/click; the DOT source renders server-side with graphviz;
 - **wasm / js**: compile the crate with `wasm-pack`, expose `Graph` + algorithms, and render with the same backends on the JS side;
 - **bevy / egui**: skip the text backends and draw `g.adj`/`g.edges` directly — the model is just `Vec`s, so it transfers to any renderer;
-- **graphviz**: `viz::dot` output works with `dot`, `neato`, `fdp` and the other layout engines.
+- **graphviz**: `viz::dot` output works with `dot`, `neato`, `fdp`, `circo` and the other layout engines.
 
 ## Tests
 

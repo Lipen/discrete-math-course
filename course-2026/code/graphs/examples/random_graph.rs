@@ -3,11 +3,11 @@
 //! n вершин, каждое ребро появляется независимо с вероятностью p.
 //! Один и тот же seed даёт один и тот же граф -- примеры воспроизводимы.
 //! Заодно проверяем лемму о рукопожатиях: сумма степеней чётна.
-//! Картинка пишется в файл, путь печатается в терминале.
+//! DOT-описание пишется в файл, путь печатается в терминале.
 
 use std::fs;
 
-use graphs::viz::svg;
+use graphs::viz::dot;
 use graphs::{connected_components, Graph};
 
 fn main() {
@@ -36,9 +36,11 @@ fn main() {
 
     let dir = std::env::temp_dir().join("graphs-visualize");
     fs::create_dir_all(&dir).expect("не удалось создать выходную папку");
-    let svg_path = dir.join("random-graph.svg");
-    fs::write(&svg_path, svg::render(&g, &svg::SvgOptions::default()))
-        .expect("не удалось записать SVG");
-    println!("\nКартинка: {}", svg_path.display());
-    println!("  открой в браузере: xdg-open {}", svg_path.display());
+    let dot_path = dir.join("random-graph.dot");
+    fs::write(&dot_path, dot::render(&g)).expect("не удалось записать DOT");
+    println!("\nDOT: {}", dot_path.display());
+    println!(
+        "  картинка: neato -Tsvg {} -o random-graph.svg",
+        dot_path.display()
+    );
 }

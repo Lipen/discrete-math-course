@@ -1,22 +1,23 @@
-//! Визуализация: один граф -- четыре файла.
+//! Визуализация: один граф -- два формата.
 //!
-//! Пример рендерит граф во все доступные форматы, пишет файлы во
-//! временную папку `graphs-visualize/` и печатает их пути:
+//! Раскладку рисуют не вручную, а готовые инструменты, поэтому пример
+//! выдаёт два текстовых формата, пишет их во временную папку
+//! `graphs-visualize/` и печатает пути:
 //!
 //! ```text
-//! SVG:   /tmp/graphs-visualize/graph.svg      <- открой браузером
-//! DOT:   /tmp/graphs-visualize/graph.dot      <- dot -Tsvg graph.dot -o graph.svg
-//! JSON:  /tmp/graphs-visualize/graph.json     <- для cytoscape.js
-//! HTML:  /tmp/graphs-visualize/graph.html     <- открой браузером
+//! DOT:  /tmp/graphs-visualize/graph.dot     <- dot -Tsvg graph.dot -o graph.svg
+//! JSON: /tmp/graphs-visualize/graph.json    <- для cytoscape.js
 //! ```
 //!
-//! Ничего в текущую папку пример не пишет: репозиторий остаётся чистым,
-//! а файлы легко найти (пути печатаются в терминале).
+//! DOT понимает любой движок Graphviz (`dot`, `neato`, `fdp`, `circo` --
+//! у каждого свой стиль раскладки), JSON -- библиотека cytoscape.js,
+//! которая раскладывает и делает граф интерактивным.
+//! Ничего в текущую папку пример не пишет: репозиторий остаётся чистым.
 
 use std::fs;
 use std::path::PathBuf;
 
-use graphs::viz::{cytoscape, dot, html, svg};
+use graphs::viz::{cytoscape, dot};
 use graphs::Graph;
 
 fn main() {
@@ -33,29 +34,18 @@ fn main() {
         );
     }
 
-    let svg_path = out.join("graph.svg");
-    fs::write(&svg_path, svg::render(&g, &svg::SvgOptions::default()))
-        .expect("не удалось записать SVG");
-    println!("\nSVG:   {}", svg_path.display());
-
     let dot_path = out.join("graph.dot");
     fs::write(&dot_path, dot::render(&g)).expect("не удалось записать DOT");
-    println!("DOT:   {}", dot_path.display());
+    println!("\nDOT:   {}", dot_path.display());
     println!(
-        "  конвертация в картинку: dot -Tsvg {} -o {}.svg",
-        dot_path.display(),
+        "  картинка любым движком Graphviz: neato -Tsvg {} -o graph.svg",
         dot_path.display()
     );
 
     let json_path = out.join("graph.json");
     fs::write(&json_path, cytoscape::render(&g)).expect("не удалось записать JSON");
     println!("JSON:  {}", json_path.display());
-    println!("  это формат cytoscape.js: подставь в опцию elements");
-
-    let html_path = out.join("graph.html");
-    fs::write(&html_path, html::render(&g)).expect("не удалось записать HTML");
-    println!("HTML:  {}", html_path.display());
-    println!("  открой в браузере: xdg-open {}", html_path.display());
+    println!("  формат cytoscape.js: подставь в опцию elements");
 }
 
 /// Выходная папка: временная директория системы + подпапка с именем примера.
