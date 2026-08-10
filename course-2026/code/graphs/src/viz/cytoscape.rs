@@ -1,6 +1,6 @@
 //! Рендер графа в JSON для cytoscape.js.
 //!
-//! [cytoscape.js](https://js.cytoscape.org) --- библиотека интерактивных
+//! [cytoscape.js](https://js.cytoscape.org) -- библиотека интерактивных
 //! графов для браузера. Ей нужен простой JSON; результат этой функции
 //! кладётся в опцию `elements`:
 //!
@@ -9,7 +9,7 @@
 //! ```
 //!
 //! JSON собирает serde: структуры `NodeData`/`EdgeData` описывают схему,
-//! а `serde_json` берёт на себя экранирование строк --- имена вершин могут
+//! а `serde_json` берёт на себя экранирование строк -- имена вершин могут
 //! содержать кавычки, слеши и переводы строк, и JSON останется валидным.
 
 use crate::graph::Graph;
@@ -94,7 +94,7 @@ mod tests {
         g.add_edge(a, b);
         let json = render(&g);
         let parsed: serde_json::Value = serde_json::from_str(&json).expect("JSON валиден");
-        // У вершин label есть всегда, у ребра с единичным весом --- нет.
+        // У вершин label есть всегда, у ребра с единичным весом -- нет.
         assert_eq!(parsed["nodes"][0]["label"], "a");
         assert!(parsed["edges"][0].get("label").is_none());
     }

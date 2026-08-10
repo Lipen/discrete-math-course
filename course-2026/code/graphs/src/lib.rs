@@ -12,7 +12,7 @@
 //! let c = g.add_node("c");
 //! g.add_edges(&[(a, b), (b, c), (c, a)]);
 //!
-//! // Компонент связности один, расстояния --- через BFS.
+//! // Компонент связности один, расстояния -- через BFS.
 //! assert_eq!(graphs::connected_components(&g).0, 1);
 //! assert_eq!(graphs::distance(&g, a, c), Some(2));
 //! ```

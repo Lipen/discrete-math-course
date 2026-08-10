@@ -17,7 +17,7 @@ fn main() {
     g.add_weighted_edge(3, 0, 10); // D-A (дорогое)
     g.add_weighted_edge(0, 2, 100); // A-C (очень дорогое)
 
-    println!("Граф (вес --- на ребре):");
+    println!("Граф (вес -- на ребре):");
     for e in &g.edges {
         println!(
             "  {} -- {}  вес {}",

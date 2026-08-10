@@ -7,14 +7,14 @@
 use graphs::{find_eulerian_path, Graph};
 
 fn main() {
-    println!("=== Квадрат: все степени чётны --- эйлеров цикл ===");
+    println!("=== Квадрат: все степени чётны -- эйлеров цикл ===");
     let g = square();
     match find_eulerian_path(&g) {
         Some(trail) => println!("  {}", trail_str(&g, &trail)),
         None => println!("  пути нет"),
     }
 
-    println!("\n=== Путь 0-1-2-3: две нечётные степени --- эйлеров путь ===");
+    println!("\n=== Путь 0-1-2-3: две нечётные степени -- эйлеров путь ===");
     let mut g = Graph::undirected();
     for i in 0..4 {
         g.add_node(i.to_string());
@@ -25,7 +25,7 @@ fn main() {
         None => println!("  пути нет"),
     }
 
-    println!("\n=== Звезда: четыре нечётные степени --- пути нет ===");
+    println!("\n=== Звезда: четыре нечётные степени -- пути нет ===");
     let mut g = Graph::undirected();
     for i in 0..4 {
         g.add_node(i.to_string());

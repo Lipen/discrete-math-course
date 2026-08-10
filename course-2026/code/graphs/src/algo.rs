@@ -1,11 +1,11 @@
 //! Алгоритмы на графах из главы про графы.
 //!
-//! Каждый алгоритм --- свободная функция, принимающая `&Graph`.
+//! Каждый алгоритм -- свободная функция, принимающая `&Graph`.
 //! Модель отделена от алгоритмов: один и тот же граф можно скормить
 //! любому числу функций.
 //!
 //! Сложность и идея каждого алгоритма описаны в его документации;
-//! демонстрации по шагам --- в `examples/`.
+//! демонстрации по шагам -- в `examples/`.
 
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, VecDeque};
@@ -18,7 +18,7 @@ use crate::unionfind::UnionFind;
 pub struct BfsResult {
     /// Вершины в порядке посещения.
     pub order: Vec<usize>,
-    /// Расстояние от стартовой вершины; `usize::MAX` --- вершина недостижима.
+    /// Расстояние от стартовой вершины; `usize::MAX` -- вершина недостижима.
     pub dist: Vec<usize>,
     /// Предок в BFS-дереве; `None` для стартовой вершины и недостижимых.
     pub parent: Vec<Option<usize>>,
@@ -59,7 +59,7 @@ pub fn bfs(g: &Graph, start: usize) -> BfsResult {
 /// Результат обхода в глубину.
 #[derive(Debug)]
 pub struct DfsResult {
-    /// Время входа в вершину (1-based; 0 --- вершина не посещалась в этом обходе).
+    /// Время входа в вершину (1-based; 0 -- вершина не посещалась в этом обходе).
     pub pre: Vec<usize>,
     /// Время выхода из вершины.
     pub post: Vec<usize>,
@@ -69,7 +69,7 @@ pub struct DfsResult {
     pub order: Vec<usize>,
     /// Вершины в порядке завершения обработки.
     ///
-    /// Обратный порядок --- топологический порядок вершин DAG, и именно он
+    /// Обратный порядок -- топологический порядок вершин DAG, и именно он
     /// нужен алгоритму Косарайю для поиска компонент сильной связности.
     pub finish: Vec<usize>,
 }
@@ -143,12 +143,12 @@ pub fn connected_components(g: &Graph) -> (usize, Vec<usize>) {
 /// Компоненты сильной связности (алгоритм Косарайю), для ориентированных графов.
 ///
 /// Два прохода: DFS на исходном графе даёт порядок завершения, DFS на
-/// обратном графе в обратном порядке --- сами компоненты. Для
+/// обратном графе в обратном порядке -- сами компоненты. Для
 /// неориентированного графа возвращает обычные компоненты связности.
 pub fn strongly_connected_components(g: &Graph) -> Vec<Vec<usize>> {
     let n = g.node_count();
 
-    // 1. Обратный граф: rev[v] --- вершины, из которых идут рёбра в v.
+    // 1. Обратный граф: rev[v] -- вершины, из которых идут рёбра в v.
     let mut rev = vec![Vec::new(); n];
     for e in &g.edges {
         rev[e.to].push(e.from);
@@ -183,7 +183,7 @@ fn collect(u: usize, rev: &[Vec<usize>], visited: &mut [bool], comp: &mut Vec<us
 ///
 /// Неориентированный граф проверяется системой непересекающихся множеств
 /// (ребро, соединяющее вершины одной компоненты, замыкает цикл);
-/// ориентированный --- DFS с цветами (серый цвет означает ребро в текущий
+/// ориентированный -- DFS с цветами (серый цвет означает ребро в текущий
 /// стек рекурсии).
 pub fn is_cyclic(g: &Graph) -> bool {
     if !g.directed {
@@ -251,14 +251,14 @@ pub fn topological_sort(g: &Graph) -> Option<Vec<usize>> {
     if order.len() == n {
         Some(order)
     } else {
-        None // остались вершины с ненулевой полустепенью --- цикл
+        None // остались вершины с ненулевой полустепенью -- цикл
     }
 }
 
 /// Расстояния от источника и предшественники на кратчайших путях.
 ///
-/// Пара `(dist, prev)`: `dist[v]` --- длина кратчайшего пути до `v`
-/// (`None` --- недостижима), `prev[v]` --- предыдущая вершина на этом пути.
+/// Пара `(dist, prev)`: `dist[v]` -- длина кратчайшего пути до `v`
+/// (`None` -- недостижима), `prev[v]` -- предыдущая вершина на этом пути.
 pub type ShortestPaths = (Vec<Option<i64>>, Vec<Option<usize>>);
 
 /// Кратчайшие пути от `start` (алгоритм Дейкстры).
@@ -272,7 +272,7 @@ pub fn dijkstra(g: &Graph, start: usize) -> ShortestPaths {
     let mut dist = vec![None; n];
     let mut prev = vec![None; n];
 
-    // Куча: (расстояние, вершина). Reverse --- чтобы куча была минимальной.
+    // Куча: (расстояние, вершина). Reverse -- чтобы куча была минимальной.
     let mut heap = BinaryHeap::new();
     dist[start] = Some(0);
     heap.push(Reverse((0, start)));
@@ -324,7 +324,7 @@ pub fn bellman_ford(g: &Graph, start: usize) -> Option<ShortestPaths> {
         }
     }
 
-    // Ещё один раунд: если что-то улучшилось --- есть отрицательный цикл.
+    // Ещё один раунд: если что-то улучшилось -- есть отрицательный цикл.
     for e in &g.edges {
         if let Some(du) = dist[e.from] {
             if dist[e.to].is_none_or(|old| du + e.weight < old) {
@@ -339,7 +339,7 @@ pub fn bellman_ford(g: &Graph, start: usize) -> Option<ShortestPaths> {
 ///
 /// Сортируем рёбра по весу и добавляем каждое, которое соединяет две разные
 /// компоненты (проверка системой непересекающихся множеств). Возвращает
-/// номера рёбер остовного дерева; для несвязного графа --- остовный лес
+/// номера рёбер остовного дерева; для несвязного графа -- остовный лес
 /// (дерево каждой компоненты).
 pub fn min_spanning_tree(g: &Graph) -> Vec<usize> {
     assert!(
@@ -364,11 +364,11 @@ pub fn min_spanning_tree(g: &Graph) -> Vec<usize> {
 /// Эйлеров путь: маршрут, проходящий каждое ребро ровно один раз.
 ///
 /// Возвращает `None`, если такого пути нет. Критерий Эйлера: у
-/// неориентированного графа либо все степени чётны (тогда путь --- цикл,
+/// неориентированного графа либо все степени чётны (тогда путь -- цикл,
 /// начинается где угодно), либо ровно две вершины имеют нечётную степень
 /// (тогда путь начинается в одной из них). Для ориентированного графа
 /// аналогично, но по разности полустепеней исхода и захода. Сам путь строится
-/// алгоритмом Иерархольцера; если рёбра не съедены до конца --- граф
+/// алгоритмом Иерархольцера; если рёбра не съедены до конца -- граф
 /// несвязен, и ответа нет.
 pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
     let n = g.node_count();
@@ -452,7 +452,7 @@ pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
         }
     }
 
-    // 3. Все ли рёбра съедены? Если нет --- ребра лежат в другой компоненте.
+    // 3. Все ли рёбра съедены? Если нет -- ребра лежат в другой компоненте.
     if used.iter().any(|&x| !x) {
         return None;
     }
@@ -460,10 +460,10 @@ pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
     Some(trail)
 }
 
-/// Двудольный ли граф; если да --- раскраска вершин в два цвета (0 и 1).
+/// Двудольный ли граф; если да -- раскраска вершин в два цвета (0 и 1).
 ///
 /// Раскраска строится обходом: соседи получают противоположный цвет; если
-/// сосед уже окрашен в тот же цвет --- в графе есть нечётный цикл, и граф
+/// сосед уже окрашен в тот же цвет -- в графе есть нечётный цикл, и граф
 /// не двудольный (`None`).
 pub fn is_bipartite(g: &Graph) -> Option<Vec<usize>> {
     let n = g.node_count();
@@ -493,11 +493,11 @@ pub fn is_bipartite(g: &Graph) -> Option<Vec<usize>> {
     Some(color.into_iter().map(|c| c.unwrap()).collect())
 }
 
-/// Мосты --- рёбра, удаление которых увеличивает число компонент связности.
+/// Мосты -- рёбра, удаление которых увеличивает число компонент связности.
 ///
 /// Алгоритм Тарьяна: обход в глубину с временами входа `tin` и величинами
 /// `low` (самое раннее время входа, достижимое по обратным рёбрам).
-/// Ребро `(u, v)` --- мост, если $"low"(v) > "tin"(u)`. Только для
+/// Ребро `(u, v)` -- мост, если $"low"(v) > "tin"(u)`. Только для
 /// неориентированных графов; параллельные рёбра мостами не считаются.
 pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
     assert!(
@@ -510,7 +510,7 @@ pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
     let mut timer = 0usize;
     let mut result = Vec::new();
 
-    #[allow(clippy::too_many_arguments)] // рекурсивный обход Тарьяна: параметры --- состояние обхода
+    #[allow(clippy::too_many_arguments)] // рекурсивный обход Тарьяна: параметры -- состояние обхода
     fn visit(
         u: usize,
         parent_edge: Option<usize>,
@@ -525,7 +525,7 @@ pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
         low[u] = *timer;
         for &(v, e) in &g.adj[u] {
             if Some(e) == parent_edge {
-                continue; // то же ребро, по которому пришли, --- не обратное
+                continue; // то же ребро, по которому пришли, -- не обратное
             }
             if tin[v] != 0 {
                 low[u] = low[u].min(tin[v]); // обратное ребро в предка
@@ -548,10 +548,10 @@ pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
     result
 }
 
-/// Точки сочленения --- вершины, удаление которых увеличивает число компонент.
+/// Точки сочленения -- вершины, удаление которых увеличивает число компонент.
 ///
-/// Тот же обход Тарьяна: некорневая вершина `u` --- точка сочленения, если
-/// у неё есть ребёнок `v` с $"low"(v) >= "tin"(u)`; корень DFS-дерева ---
+/// Тот же обход Тарьяна: некорневая вершина `u` -- точка сочленения, если
+/// у неё есть ребёнок `v` с $"low"(v) >= "tin"(u)`; корень DFS-дерева --
 /// если у него больше одного ребёнка. Только для неориентированных графов.
 pub fn articulation_points(g: &Graph) -> Vec<usize> {
     assert!(
@@ -564,7 +564,7 @@ pub fn articulation_points(g: &Graph) -> Vec<usize> {
     let mut timer = 0usize;
     let mut is_art = vec![false; n];
 
-    #[allow(clippy::too_many_arguments)] // рекурсивный обход Тарьяна: параметры --- состояние обхода
+    #[allow(clippy::too_many_arguments)] // рекурсивный обход Тарьяна: параметры -- состояние обхода
     fn visit(
         u: usize,
         parent_edge: Option<usize>,
@@ -620,8 +620,10 @@ pub fn articulation_points(g: &Graph) -> Vec<usize> {
 ///
 /// Вершины красятся по порядку номеров; каждой даётся наименьший цвет
 /// (0, 1, 2, ...), которого нет ни у одного соседа. Число цветов зависит от
-/// порядка вершин и не обязано быть минимальным; для двудольного графа
-/// гарантированно хватит двух.
+/// порядка вершин и не обязано быть минимальным: например, на цикле из
+/// четырёх вершин жадный алгоритм в естественном порядке использует три
+/// цвета, хотя граф двудольный. При подходящем порядке для двудольного
+/// графа хватило бы двух.
 pub fn greedy_coloring(g: &Graph) -> Vec<usize> {
     let n = g.node_count();
     let mut color = vec![0usize; n];
@@ -662,7 +664,7 @@ pub fn eccentricity(g: &Graph, u: usize) -> Option<usize> {
 
 /// Диаметр графа: максимум расстояний между всеми парами вершин.
 ///
-/// Для несвязного графа --- максимум внутри компонент (между вершинами из
+/// Для несвязного графа -- максимум внутри компонент (между вершинами из
 /// разных компонент расстояния нет). Пустой граф даёт `None`.
 pub fn diameter(g: &Graph) -> Option<usize> {
     let mut best: Option<usize> = None;
@@ -765,7 +767,7 @@ mod tests {
         let mut g = Graph::undirected();
         let a = g.add_node("a");
         g.add_edge(a, a);
-        assert!(is_cyclic(&g)); // петля --- цикл
+        assert!(is_cyclic(&g)); // петля -- цикл
 
         let mut d = Graph::directed();
         for i in 0..3 {
@@ -858,7 +860,7 @@ mod tests {
         g.add_weighted_edge(3, 0, 10);
         g.add_weighted_edge(0, 2, 100);
         let tree = min_spanning_tree(&g);
-        assert_eq!(tree.len(), 3); // 4 вершины --- 3 ребра
+        assert_eq!(tree.len(), 3); // 4 вершины -- 3 ребра
         let total: i64 = tree.iter().map(|&e| g.edge_weight(e)).sum();
         assert_eq!(total, 6);
     }
@@ -868,7 +870,7 @@ mod tests {
         let trail = find_eulerian_path(&square()).unwrap();
         assert_eq!(trail.len(), 5); // 4 ребра, 5 вершин
         assert_eq!(trail[0], trail[4]); // цикл
-                                        // Каждое ребро пройдено ровно один раз --- проверим по парам.
+                                        // Каждое ребро пройдено ровно один раз -- проверим по парам.
         let mut used = 0;
         for w in trail.windows(2) {
             if square().adjacent(w[0], w[1]) {
@@ -958,5 +960,102 @@ mod tests {
     fn distance_diameter_on_square() {
         assert_eq!(distance(&square(), 0, 2), Some(2));
         assert_eq!(diameter(&square()), Some(2));
+    }
+
+    #[test]
+    fn empty_graph_edge_cases() {
+        let g = Graph::undirected();
+        assert_eq!(connected_components(&g), (0, vec![]));
+        assert!(diameter(&g).is_none());
+        assert!(!is_cyclic(&g));
+        assert_eq!(topological_sort(&g), Some(vec![]));
+        assert!(min_spanning_tree(&g).is_empty());
+        assert!(strongly_connected_components(&g).is_empty());
+        assert!(find_eulerian_path(&g).is_none());
+        assert!(greedy_coloring(&g).is_empty());
+    }
+
+    #[test]
+    fn single_vertex_edge_cases() {
+        let mut g = Graph::undirected();
+        g.add_node("only");
+        assert_eq!(diameter(&g), Some(0));
+        assert_eq!(find_eulerian_path(&g), Some(vec![0]));
+        let (dist, _) = dijkstra(&g, 0);
+        assert_eq!(dist, vec![Some(0)]);
+    }
+
+    #[test]
+    fn parallel_edges_form_a_cycle_and_no_bridge() {
+        let mut g = Graph::undirected();
+        for i in 0..2 {
+            g.add_node(i.to_string());
+        }
+        g.add_edge(0, 1);
+        g.add_edge(0, 1);
+        assert!(is_cyclic(&g));
+        assert!(bridges(&g).is_empty());
+    }
+
+    #[test]
+    fn dijkstra_on_undirected_graph() {
+        let mut g = Graph::undirected();
+        for i in 0..3 {
+            g.add_node(i.to_string());
+        }
+        g.add_weighted_edge(0, 1, 2);
+        g.add_weighted_edge(1, 2, 3);
+        let (dist, _) = dijkstra(&g, 0);
+        assert_eq!(dist, vec![Some(0), Some(2), Some(5)]);
+    }
+
+    #[test]
+    fn euler_path_on_directed_chain() {
+        let mut g = Graph::directed();
+        for i in 0..3 {
+            g.add_node(i.to_string());
+        }
+        g.add_edges(&[(0, 1), (1, 2)]);
+        assert_eq!(find_eulerian_path(&g), Some(vec![0, 1, 2]));
+    }
+
+    #[test]
+    fn topological_sort_of_edgeless_graph_is_identity() {
+        let mut g = Graph::directed();
+        for i in 0..4 {
+            g.add_node(i.to_string());
+        }
+        assert_eq!(topological_sort(&g), Some(vec![0, 1, 2, 3]));
+    }
+
+    #[test]
+    fn greedy_coloring_of_star_uses_two_colors() {
+        let mut g = Graph::undirected();
+        for i in 0..4 {
+            g.add_node(i.to_string());
+        }
+        g.add_edges(&[(0, 1), (0, 2), (0, 3)]);
+        let colors = greedy_coloring(&g);
+        assert!(*colors.iter().max().unwrap() <= 1);
+        // Соседи всегда разных цветов.
+        for e in &g.edges {
+            assert_ne!(colors[e.from], colors[e.to]);
+        }
+    }
+
+    #[test]
+    fn greedy_coloring_on_square_may_use_three() {
+        // Жадный алгоритм не гарантирует минимум: на 4-цикле в естественном
+        // порядке он использует три цвета, хотя граф двудольный.
+        let colors = greedy_coloring(&square());
+        assert!(*colors.iter().max().unwrap() >= 1);
+        for e in &square().edges {
+            assert_ne!(colors[e.from], colors[e.to]);
+        }
+    }
+
+    #[test]
+    fn eccentricity_of_square_corner() {
+        assert_eq!(eccentricity(&square(), 0), Some(2));
     }
 }
