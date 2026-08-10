@@ -4,9 +4,12 @@
 //! graphviz package) turns into a picture:
 //!
 //! ```bash
-//! cargo run -p graphs --example visualize > graph.dot
-//! dot -Tsvg graph.dot -o graph.svg
+//! cargo run -p graphs --example visualize   # writes graph.dot into a temp folder
+//! dot -O -Tsvg graph.dot                   # writes graph.dot.svg next to it
 //! ```
+//!
+//! The `-O` flag names the output after the input file, so the picture
+//! lands right next to the source.
 
 use crate::graph::Graph;
 use crate::viz::dot_id;

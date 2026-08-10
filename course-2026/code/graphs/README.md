@@ -21,9 +21,9 @@ A `Graph` stores its data twice, and both views are public:
 
 Vertices are `usize` ids `0..n` with optional string names. Edges are directed or undirected depending on the `directed` flag, and may repeat (multigraphs). The duplication is intentional: it mirrors how the chapter's pseudocode thinks about a graph, and it keeps every algorithm short.
 
-![A weighted graph, laid out by graphviz (neato) from the crate's DOT output](assets/graphs-demo.svg)
+![A weighted graph, laid out by graphviz (the `dot` engine) from the crate's DOT output](assets/graphs-demo.svg)
 
-The figure above is the `visualize` demo graph: the crate writes the DOT source, graphviz picks the layout (this one uses `neato`, the force-directed engine).
+The figure above is the `visualize` demo graph: the crate writes the DOT source, and the example renders the picture itself with `dot -O -Tsvg` (the `dot` engine lays the graph out hierarchically).
 
 ## API
 
@@ -82,8 +82,9 @@ The crate does not draw layouts itself: graph layout is a hard problem, and read
 | --- | --- | --- |
 | `viz::dot::render` | Graphviz DOT source | `dot`, `neato`, `fdp`, `circo` |
 | `viz::cytoscape::render` | cytoscape.js JSON | cytoscape.js (`cose`, `circle`, `concentric`, ...) |
+| `viz::cytoscape::render_html` | self-contained HTML page | cytoscape.js from a CDN, no server |
 
-DOT becomes a picture with any Graphviz engine, e.g. `neato -Tsvg graph.dot -o graph.svg`. The JSON goes straight into cytoscape.js as the `elements` option. The JSON backend uses `serde`/`serde_json` (the only external dependency of the crate): the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of escaping, so any vertex name stays valid JSON. DOT needs only a small dedicated escaper for its own quoting rules.
+DOT becomes a picture with any Graphviz engine: `dot -O -Tsvg graph.dot` writes `graph.dot.svg` next to the source (the `-O` flag names the output after the input). The JSON goes straight into cytoscape.js as the `elements` option; `render_html` wraps the same JSON into a self-contained page that opens in a browser by double-click. The JSON backend uses `serde`/`serde_json` (the only external dependency of the crate): the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of escaping, so any vertex name stays valid JSON. DOT needs only a small dedicated escaper for its own quoting rules.
 
 ## Demos
 
@@ -95,7 +96,7 @@ DOT becomes a picture with any Graphviz engine, e.g. `neato -Tsvg graph.dot -o g
 | `structure` | Components, bridges, articulation points, bipartiteness, diameter |
 | `directed` | Topological sort, cycle detection, strongly connected components |
 | `euler` | The Euler criterion and Hierholzer's trail |
-| `visualize` | One graph written as DOT and cytoscape JSON files in a temp dir; prints the paths and the graphviz command |
+| `visualize` | One graph written as DOT, an SVG picture (rendered with `dot -O -Tsvg`), and a self-contained cytoscape.js HTML page in a temp dir; prints the paths |
 | `random_graph` | Erdős–Rényi $G(n, p)$: degrees, handshake lemma, components; writes a DOT file |
 
 ## Integration paths (web, wasm, js, desktop)
