@@ -78,6 +78,11 @@ pub fn decode(word: [bool; 7]) -> Decoded {
 
 /// The Hamming distance between two equal-length bit strings.
 pub fn hamming_distance(a: &[bool], b: &[bool]) -> usize {
+    assert_eq!(
+        a.len(),
+        b.len(),
+        "hamming_distance: bit strings must have equal length"
+    );
     a.iter().zip(b).filter(|(x, y)| x != y).count()
 }
 

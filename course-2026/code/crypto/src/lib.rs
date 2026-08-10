@@ -18,7 +18,7 @@ pub fn gcd(a: u64, b: u64) -> u64 {
 }
 
 /// Extended Euclidean algorithm: the triple `(g, x, y)` with `a*x + b*y = g`.
-pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
+pub fn egcd(a: i128, b: i128) -> (i128, i128, i128) {
     if b == 0 {
         (a, 1, 0)
     } else {
@@ -29,11 +29,14 @@ pub fn egcd(a: i64, b: i64) -> (i64, i64, i64) {
 
 /// Modular inverse of `a` modulo `m`, if it exists.
 pub fn mod_inverse(a: u64, m: u64) -> Option<u64> {
-    let (g, x, _) = egcd(a as i64, m as i64);
+    if m == 0 {
+        return None;
+    }
+    let (g, x, _) = egcd(a as i128, m as i128);
     if g != 1 {
         return None;
     }
-    Some(((x % m as i64 + m as i64) % m as i64) as u64)
+    Some(((x % m as i128 + m as i128) % m as i128) as u64)
 }
 
 /// Fast modular exponentiation: `base^exp mod m`.

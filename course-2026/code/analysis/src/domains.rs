@@ -209,12 +209,20 @@ impl std::ops::Mul for Interval {
                     hi: Some(d),
                 },
             ) => {
-                let products = [a * c, a * d, b * c, b * d];
-                let min = products.iter().copied().min().unwrap();
-                let max = products.iter().copied().max().unwrap();
-                Interval::Range {
-                    lo: Some(min),
-                    hi: Some(max),
+                let products = [
+                    a.checked_mul(c),
+                    a.checked_mul(d),
+                    b.checked_mul(c),
+                    b.checked_mul(d),
+                ];
+                if products.iter().any(|&p| p.is_none()) {
+                    Interval::top()
+                } else {
+                    let vals = products.map(|p| p.unwrap());
+                    Interval::Range {
+                        lo: Some(vals.iter().copied().min().unwrap()),
+                        hi: Some(vals.iter().copied().max().unwrap()),
+                    }
                 }
             }
             _ => Interval::top(),
@@ -281,14 +289,14 @@ fn hi_max(a: Option<i64>, b: Option<i64>) -> Option<i64> {
 
 fn lo_add(a: Option<i64>, b: Option<i64>) -> Option<i64> {
     match (a, b) {
-        (Some(x), Some(y)) => Some(x + y),
+        (Some(x), Some(y)) => x.checked_add(y),
         _ => None,
     }
 }
 
 fn hi_add(a: Option<i64>, b: Option<i64>) -> Option<i64> {
     match (a, b) {
-        (Some(x), Some(y)) => Some(x + y),
+        (Some(x), Some(y)) => x.checked_add(y),
         _ => None,
     }
 }

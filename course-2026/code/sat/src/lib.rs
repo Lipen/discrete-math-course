@@ -58,6 +58,15 @@ fn has_way_out(clause: &Clause, assign: &[Option<bool>]) -> bool {
 ///
 /// The result maps each variable to `true` or `false`.
 pub fn solve(nvars: usize, clauses: &[Clause]) -> Option<Vec<bool>> {
+    // Reject out-of-range literals (0 or > nvars) up front instead of panicking.
+    for clause in clauses {
+        for &l in clause {
+            let v = l.unsigned_abs() as usize;
+            if v == 0 || v > nvars {
+                return None;
+            }
+        }
+    }
     let mut assign = vec![None; nvars];
     dpll(nvars, clauses, &mut assign).map(|a| a.into_iter().map(|x| x.unwrap_or(false)).collect())
 }

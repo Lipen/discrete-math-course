@@ -56,7 +56,10 @@ impl Term {
                 // If `replacement` contains a free `y`, first
                 // rename the bound variable (alpha-conversion).
                 if replacement.free_vars().contains(y) {
-                    let fresh = format!("{y}'");
+                    let mut fresh = format!("{y}'");
+                    while body.free_vars().contains(&fresh) || replacement.free_vars().contains(&fresh) {
+                        fresh = format!("{fresh}'");
+                    }
                     let renamed = body.rename(y, &fresh);
                     Term::Abs(fresh, Box::new(renamed.substitute(x, replacement)))
                 } else {

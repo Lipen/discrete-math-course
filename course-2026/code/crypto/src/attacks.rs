@@ -8,12 +8,12 @@ use super::{egcd, mod_inverse, mod_pow};
 
 /// Modular exponentiation with a negative exponent
 /// (via the inverse element).
-fn mod_pow_signed(base: u64, exp: i64, m: u64) -> Option<u64> {
+fn mod_pow_signed(base: u64, exp: i128, m: u64) -> Option<u64> {
     if exp >= 0 {
         Some(mod_pow(base, exp as u64, m))
     } else {
         let inv = mod_inverse(base, m)?;
-        Some(mod_pow(inv, exp.unsigned_abs(), m))
+        Some(mod_pow(inv, exp.unsigned_abs() as u64, m))
     }
 }
 
@@ -24,19 +24,19 @@ fn mod_pow_signed(base: u64, exp: i64, m: u64) -> Option<u64> {
 /// $c_2 = m^(e_2)$, the attacker finds $u, v$ with $e_1 u + e_2 v = 1$
 /// by the extended Euclidean algorithm and computes $c_1^u c_2^v = m$.
 pub fn common_modulus_attack(n: u64, e1: u64, c1: u64, e2: u64, c2: u64) -> Option<u64> {
-    let (g, u, v) = egcd(e1 as i64, e2 as i64);
+    let (g, u, v) = egcd(e1 as i128, e2 as i128);
     if g != 1 {
         return None;
     }
     let a = mod_pow_signed(c1, u, n)?;
     let b = mod_pow_signed(c2, v, n)?;
-    Some(a * b % n)
+    Some(((a as u128 * b as u128) % n as u128) as u64)
 }
 
 /// RSA malleability: the product of ciphertexts is the ciphertext
 /// of the product of the messages: $c_1 c_2 = (m_1 m_2)^e mod n$.
 pub fn malleable_product(c1: u64, c2: u64, n: u64) -> u64 {
-    c1 % n * c2 % n
+    ((c1 as u128 % n as u128) * (c2 as u128 % n as u128) % n as u128) as u64
 }
 
 /// Factorization by trial division: `[(prime, exponent)]`.

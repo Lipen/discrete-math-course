@@ -56,12 +56,21 @@ pub fn exec_sign(stmts: &[Stmt], st: &mut State<Sign>) {
                 *st = merge(then_state, else_state, Sign::Bottom, Sign::lub);
             }
             Stmt::While { body } => {
-                // The sign lattice is finite, so plain iteration reaches a fixpoint.
-                loop {
+                // Plain iteration from a non-⊥ state on a finite non-chain lattice can
+                // oscillate between incomparable states (e.g. `i := -i`); bound the
+                // passes and over-approximate to ⊤ on timeout.
+                let mut converged = false;
+                for _ in 0..64 {
                     let before = st.clone();
                     exec_sign(body, st);
                     if *st == before {
+                        converged = true;
                         break;
+                    }
+                }
+                if !converged {
+                    for v in st.values_mut() {
+                        *v = Sign::Top;
                     }
                 }
             }
