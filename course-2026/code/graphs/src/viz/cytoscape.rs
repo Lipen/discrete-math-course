@@ -86,59 +86,58 @@ pub fn render_html(g: &Graph) -> String {
     // `<` can only occur inside JSON strings, and `\u003c` is valid JSON,
     // so escaping keeps the JSON valid and the page injection-proof.
     let json = render(g).replace('<', "\\u003c");
-    format!(
-        r#"<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<title>graphs -- interactive demo</title>
-<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
-<style>
-  html, body, #cy {{ margin: 0; width: 100%; height: 100%; }}
-</style>
-</head>
-<body>
-<div id="cy"></div>
-<script>
-const elements = {json};
-cytoscape({{
-  container: document.getElementById('cy'),
-  elements: elements,
-  style: [
-    {{
-      selector: 'node',
-      style: {{
-        'label': 'data(label)',
-        'background-color': '#4a7dbb',
-        'color': '#222222',
-        'text-valign': 'bottom',
-        'text-margin-y': 6,
-        'font-size': 14,
-        'width': 28,
-        'height': 28
-      }}
-    }},
-    {{
-      selector: 'edge',
-      style: {{
-        'label': 'data(label)',
-        'curve-style': 'bezier',
-        'width': 1.5,
-        'line-color': '#9aa7b4',
-        'font-size': 11,
-        'text-background-color': '#ffffff',
-        'text-background-opacity': 0.8,
-        'text-background-padding': 2
-      }}
-    }}
-  ],
-  layout: {{ name: 'cose', animate: false }}
-}});
-</script>
-</body>
-</html>
-"#
-    )
+    indoc::formatdoc! {r#"
+        <!doctype html>
+        <html lang="en">
+        <head>
+        <meta charset="utf-8">
+        <title>graphs -- interactive demo</title>
+        <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+        <style>
+          html, body, #cy {{ margin: 0; width: 100%; height: 100%; }}
+        </style>
+        </head>
+        <body>
+        <div id="cy"></div>
+        <script>
+        const elements = {json};
+        cytoscape({{
+          container: document.getElementById('cy'),
+          elements: elements,
+          style: [
+            {{
+              selector: 'node',
+              style: {{
+                'label': 'data(label)',
+                'background-color': '#4a7dbb',
+                'color': '#222222',
+                'text-valign': 'bottom',
+                'text-margin-y': 6,
+                'font-size': 14,
+                'width': 28,
+                'height': 28
+              }}
+            }},
+            {{
+              selector: 'edge',
+              style: {{
+                'label': 'data(label)',
+                'curve-style': 'bezier',
+                'width': 1.5,
+                'line-color': '#9aa7b4',
+                'font-size': 11,
+                'text-background-color': '#ffffff',
+                'text-background-opacity': 0.8,
+                'text-background-padding': 2
+              }}
+            }}
+          ],
+          layout: {{ name: 'cose', animate: false }}
+        }});
+        </script>
+        </body>
+        </html>
+    "#}
 }
 
 #[cfg(test)]
