@@ -12,12 +12,12 @@
 ]
 
 #pb-hint("code:hamming-encode")[
-  Проверочные биты стоят на позициях 1, 2, 4: $p_1 = d_1 xor d_2 xor d_4$, $p_2 = d_1 xor d_3 xor d_4$, $p_3 = d_2 xor d_3 xor d_4$.
+  Проверочные биты стоят на позициях 1, 2, 4: $p_1 = d_1 xor d_2 xor d_4$, $p_2 = d_1 xor d_3 xor d_4$, $p_4 = d_2 xor d_3 xor d_4$.
 ]
 
 #pb-hint("code:syndrome")[
-  Синдром: $s_1 = p_1 xor d_1 xor d_2 xor d_4$, $s_2 = p_2 xor d_1 xor d_3 xor d_4$, $s_3 = p_3 xor d_2 xor d_3 xor d_4$.
-  Номер искажённого бита равен $s_1 + 2 s_2 + 4 s_3$, то есть синдром читается как двоичное число $(s_3 s_2 s_1)$.
+  Синдром: $s_1 = p_1 xor d_1 xor d_2 xor d_4$, $s_2 = p_2 xor d_1 xor d_3 xor d_4$, $s_4 = p_4 xor d_2 xor d_3 xor d_4$.
+  Номер искажённого бита равен $s_1 + 2 s_2 + 4 s_4$, то есть синдром читается как двоичное число $(s_4 s_2 s_1)$.
 ]
 
 #pb-hint("code:bsc-capacity")[
