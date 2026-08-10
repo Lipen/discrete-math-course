@@ -274,4 +274,46 @@ mod tests {
         assert!(!dfa.accepts("b"));
         assert!(!dfa.accepts("abc"));
     }
+
+    /// All words over `alphabet` of exactly length `len`.
+    fn all_words(alphabet: &[char], len: usize) -> Vec<String> {
+        if len == 0 {
+            return vec![String::new()];
+        }
+        let mut words = Vec::new();
+        for &c in alphabet {
+            for w in all_words(alphabet, len - 1) {
+                words.push(format!("{c}{w}"));
+            }
+        }
+        words
+    }
+
+    /// The Thompson NFA and its determinized DFA must agree on every word.
+    #[test]
+    fn nfa_and_dfa_agree_on_all_short_words() {
+        for re_str in [
+            "a",
+            "ab",
+            "a|b",
+            "a*",
+            "(a|b)*",
+            "(a|b)*a(a|b)",
+            "ab|ba",
+            "(ab)*",
+            "a(b|c)*",
+        ] {
+            let nfa = parse(re_str).unwrap().to_nfa();
+            let dfa = nfa.to_dfa();
+            for len in 0..=6 {
+                for word in all_words(&['a', 'b', 'c'], len) {
+                    assert_eq!(
+                        dfa.accepts(&word),
+                        nfa.accepts(&word),
+                        "regex {re_str:?} word {word:?}"
+                    );
+                }
+            }
+        }
+    }
 }
