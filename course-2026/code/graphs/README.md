@@ -84,8 +84,8 @@ building with small dedicated escapers (SVG/XML and DOT have their own quoting r
 | `structure` | Components, bridges, articulation points, bipartiteness, diameter |
 | `directed` | Topological sort, cycle detection, strongly connected components |
 | `euler` | The Euler criterion and Hierholzer's trail |
-| `visualize` | One graph rendered to SVG, DOT, cytoscape JSON, and HTML |
-| `random_graph` | Erdős–Rényi $G(n, p)$: degrees, handshake lemma, components, SVG |
+| `visualize` | One graph rendered to SVG, DOT, cytoscape JSON, and HTML files in a temp dir; prints the paths |
+| `random_graph` | Erdős–Rényi $G(n, p)$: degrees, handshake lemma, components; writes an SVG file |
 
 ## Integration paths (web, wasm, js, desktop)
 

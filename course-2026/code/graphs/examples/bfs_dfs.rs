@@ -41,7 +41,7 @@ fn parents(p: &[Option<usize>]) -> Vec<String> {
     p.iter()
         .map(|x| match x {
             Some(u) => (u + 1).to_string(),
-            None => "—".to_string(),
+            None => "--".to_string(),
         })
         .collect()
 }
