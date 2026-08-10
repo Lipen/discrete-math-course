@@ -62,14 +62,17 @@ The figure above is not hand-drawn: it is the output of `graphs::viz::svg::rende
 
 ### Visualization (`viz/`)
 
-All backends are pure text output — no external dependencies:
-
 | Backend | Output | Open with |
 | --- | --- | --- |
 | `viz::svg::render` | A standalone SVG document | any browser |
 | `viz::dot::render` | Graphviz DOT source | `dot -Tsvg g.dot -o g.svg` |
 | `viz::cytoscape::render` | cytoscape.js JSON | the `elements` option of `cytoscape()` |
 | `viz::html::render` | A full HTML page with the SVG inside | any browser |
+
+The JSON backend uses `serde`/`serde_json` (the only external dependency of the crate):
+the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of
+escaping, so any vertex name stays valid JSON. The other backends are plain string
+building with small dedicated escapers (SVG/XML and DOT have their own quoting rules).
 
 ## Demos
 
@@ -99,4 +102,4 @@ The four backends cover the easy routes; the same data feeds the harder ones:
 cargo test -p graphs
 ```
 
-Every algorithm has hand-checked cases next to the code in `src/`: BFS distances on a square, Dijkstra's shortcut through a middle vertex, the Euler criterion (circuit vs path vs none), bridges/articulation points of a path, and so on.
+Every algorithm has hand-checked cases next to the code in `src/`: BFS distances on a square, Dijkstra's shortcut through a middle vertex, the Euler criterion (circuit vs path vs none), bridges/articulation points of a path, hostile vertex names staying valid JSON/DOT, and so on.

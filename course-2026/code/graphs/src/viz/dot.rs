@@ -9,7 +9,12 @@
 //! ```
 
 use crate::graph::Graph;
-use crate::viz::{dot_id, escape};
+use crate::viz::dot_id;
+
+/// Экранировать текст внутри DOT-строки в кавычках: `\` и `"`.
+fn escape_dot_label(text: &str) -> String {
+    text.replace('\\', "\\\\").replace('"', "\\\"")
+}
 
 /// Описание графа в формате DOT.
 ///
@@ -29,7 +34,7 @@ pub fn render(g: &Graph) -> String {
         out.push_str(&format!(
             "    {} [label=\"{}\"];\n",
             dot_id(g.node_name(u)),
-            escape(g.node_name(u))
+            escape_dot_label(g.node_name(u))
         ));
     }
 
@@ -85,5 +90,16 @@ mod tests {
         let dot = render(&g);
         assert!(dot.contains("node_one [label=\"node one\"];"));
         assert!(dot.contains("n2 [label=\"2\"];"));
+    }
+
+    #[test]
+    fn quotes_and_backslashes_in_labels_are_escaped() {
+        let mut g = Graph::undirected();
+        let a = g.add_node("a\"b");
+        let b = g.add_node("c\\d");
+        g.add_edge(a, b);
+        let dot = render(&g);
+        assert!(dot.contains("[label=\"a\\\"b\"]"));
+        assert!(dot.contains("[label=\"c\\\\d\"]"));
     }
 }
