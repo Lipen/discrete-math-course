@@ -177,26 +177,31 @@
   // Triangle vertices for B: (ox+1.8,0.5) → (ox+2.8,3.0) → (ox+3.8,0.5)
   // Intersection A-right ∩ B-left at (ox+2.3, 1.75)
 
+  // Helper: axes with ticks and axis labels for one panel
+  let panel-axes(ox) = {
+    draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
+    draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
+    draw.line((ox + 0.6 - 0.08, 0.5), (ox + 0.6, 0.5), stroke: 0.3pt + c-tick)
+    draw.content((ox + 0.44, 0.5), anchor: "east", text(
+      size: 0.5em,
+      fill: c-tick,
+    )[0])
+    draw.line((ox + 0.6 - 0.08, 3.0), (ox + 0.6, 3.0), stroke: 0.3pt + c-tick)
+    draw.content((ox + 0.44, 3.0), anchor: "east", text(
+      size: 0.5em,
+      fill: c-tick,
+    )[1])
+    draw.content((ox + 2.3, -0.1), text(size: 0.55em, fill: c-axis)[$x$])
+    draw.content((ox + 0.35, 1.75), anchor: "east", text(
+      size: 0.55em,
+      fill: c-axis,
+    )[$mu$])
+  }
+
   // ══════ Panel 1: Union (max) ══════
   let ox = 0
   // Axes
-  draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
-  draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
-  draw.line((ox + 0.6 - 0.08, 0.5), (ox + 0.6, 0.5), stroke: 0.3pt + c-tick)
-  draw.content((ox + 0.44, 0.5), anchor: "east", text(
-    size: 0.5em,
-    fill: c-tick,
-  )[0])
-  draw.line((ox + 0.6 - 0.08, 3.0), (ox + 0.6, 3.0), stroke: 0.3pt + c-tick)
-  draw.content((ox + 0.44, 3.0), anchor: "east", text(
-    size: 0.5em,
-    fill: c-tick,
-  )[1])
-  draw.content((ox + 2.3, -0.1), text(size: 0.55em, fill: c-axis)[$x$])
-  draw.content((ox + 0.35, 1.75), anchor: "east", text(
-    size: 0.55em,
-    fill: c-axis,
-  )[$mu$])
+  panel-axes(ox)
   // Dim curves A and B
   draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.5pt + c-muA-dim)
   draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.5pt + c-muA-dim)
@@ -224,23 +229,7 @@
 
   // ══════ Panel 2: Intersection (min) ══════
   ox = 5.0
-  draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
-  draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
-  draw.line((ox + 0.6 - 0.08, 0.5), (ox + 0.6, 0.5), stroke: 0.3pt + c-tick)
-  draw.content((ox + 0.44, 0.5), anchor: "east", text(
-    size: 0.5em,
-    fill: c-tick,
-  )[0])
-  draw.line((ox + 0.6 - 0.08, 3.0), (ox + 0.6, 3.0), stroke: 0.3pt + c-tick)
-  draw.content((ox + 0.44, 3.0), anchor: "east", text(
-    size: 0.5em,
-    fill: c-tick,
-  )[1])
-  draw.content((ox + 2.3, -0.1), text(size: 0.55em, fill: c-axis)[$x$])
-  draw.content((ox + 0.35, 1.75), anchor: "east", text(
-    size: 0.55em,
-    fill: c-axis,
-  )[$mu$])
+  panel-axes(ox)
   // Dim curves A and B
   draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.5pt + c-muA-dim)
   draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.5pt + c-muA-dim)
@@ -266,23 +255,7 @@
 
   // ══════ Panel 3: Complement ─═════
   ox = 10.0
-  draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
-  draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
-  draw.line((ox + 0.6 - 0.08, 0.5), (ox + 0.6, 0.5), stroke: 0.3pt + c-tick)
-  draw.content((ox + 0.44, 0.5), anchor: "east", text(
-    size: 0.5em,
-    fill: c-tick,
-  )[0])
-  draw.line((ox + 0.6 - 0.08, 3.0), (ox + 0.6, 3.0), stroke: 0.3pt + c-tick)
-  draw.content((ox + 0.44, 3.0), anchor: "east", text(
-    size: 0.5em,
-    fill: c-tick,
-  )[1])
-  draw.content((ox + 2.3, -0.1), text(size: 0.55em, fill: c-axis)[$x$])
-  draw.content((ox + 0.35, 1.75), anchor: "east", text(
-    size: 0.55em,
-    fill: c-axis,
-  )[$mu$])
+  panel-axes(ox)
   // Original A
   draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.8pt + c-muA)
   draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.8pt + c-muA)

@@ -34,6 +34,12 @@
     draw.content((mx + offset.at(0), my + offset.at(1)), label)
   }
 
+  // Helper: labelled circle node (internal or leaf)
+  let hf-node(pos, radius, body, stroke: hf-str, ..args) = {
+    draw.circle(pos, radius: radius, stroke: stroke, ..args)
+    draw.content(pos, body)
+  }
+
   // Edges with labels
   mid-label(root, nA, (-0.4, 0.1), [_0_])
   mid-label(root, nR, (0.2, 0.1), [_1_])
@@ -45,26 +51,17 @@
   mid-label(nR3, nE, (0.2, 0.1), [_1_])
 
   // Internal nodes (weights)
-  draw.circle(root, radius: 0.3, stroke: hf-str)
-  draw.content(root, $1.0$)
-  draw.circle(nR, radius: 0.3, stroke: hf-str)
-  draw.content(nR, $0.60$)
-  draw.circle(nR2, radius: 0.3, stroke: hf-str)
-  draw.content(nR2, $0.35$)
-  draw.circle(nR3, radius: 0.3, stroke: hf-str)
-  draw.content(nR3, $0.15$)
+  hf-node(root, 0.3, $1.0$)
+  hf-node(nR, 0.3, $0.60$)
+  hf-node(nR2, 0.3, $0.35$)
+  hf-node(nR3, 0.3, $0.15$)
 
   // Leaf nodes (symbols)
-  draw.circle(nA, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  draw.content(nA, [$A: 0.40$])
-  draw.circle(nB, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  draw.content(nB, [$B: 0.25$])
-  draw.circle(nC, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  draw.content(nC, [$C: 0.20$])
-  draw.circle(nD, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  draw.content(nD, [$D: 0.10$])
-  draw.circle(nE, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  draw.content(nE, [$E: 0.05$])
+  hf-node(nA, 0.35, [$A: 0.40$], stroke: hf-leaf-str, fill: white)
+  hf-node(nB, 0.35, [$B: 0.25$], stroke: hf-leaf-str, fill: white)
+  hf-node(nC, 0.35, [$C: 0.20$], stroke: hf-leaf-str, fill: white)
+  hf-node(nD, 0.35, [$D: 0.10$], stroke: hf-leaf-str, fill: white)
+  hf-node(nE, 0.35, [$E: 0.05$], stroke: hf-leaf-str, fill: white)
 })
 
 // ════════════════════════════════════════════════════════
