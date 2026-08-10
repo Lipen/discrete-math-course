@@ -1036,7 +1036,10 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
 
 #example[Трассировка BFS][
   Рассмотрим граф:
-  #align(center)[#bfs-grid]
+  #figure(
+    bfs-grid,
+    caption: [Граф для трассировки BFS.],
+  ) <fig:bfs-grid>
 
   Старт из вершины 1. Очередь: $[1]$.
   - Извлекаем 1.
