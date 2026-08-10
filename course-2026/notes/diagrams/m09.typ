@@ -42,8 +42,7 @@
   stroke: h-e-str,
 )
 
-#let huffman-tree = figure(
-  diagram(
+#let huffman-tree = diagram(
     node-shape: "circle",
     node-inset: 0pt,
     node-outset: 0pt,
@@ -66,9 +65,7 @@
     h-edge(<n06>, <n03>, 1),
     h-edge(<n03>, <C>, 0),
     h-edge(<n03>, <D>, 1),
-  ),
-  caption: [Дерево Хаффмана для алфавита ${A, B, C, D}$ с частотами ${0.4, 0.3, 0.2, 0.1}$.],
-)
+  )
 
 // ════════════════════════════════════════════════════════
 // Section B --- Hamming spheres (Codes, chapter m09-codes.typ)
@@ -102,8 +99,7 @@
   draw.circle(center, radius: 0.17, fill: hs-codeword)
 }
 
-#let hamming-spheres = figure(
-  canvas({
+#let hamming-spheres = canvas({
     import draw: *
 
     let r = 1.25
@@ -183,9 +179,7 @@
       (cw2.at(0), cw2.at(1) + 0.19),
       stroke: (paint: hs-label, thickness: 0.4pt),
     )
-  }),
-  caption: [Шары Хэмминга радиуса $t$ вокруг кодовых слов. Если шары не пересекаются, код исправляет $t$ ошибок.],
-)
+  })
 
 // ════════════════════════════════════════════════════════
 // Section B2 --- Subspace lattice of GF(2)³ (Codes, chapter m09-codes.typ)
@@ -209,8 +203,7 @@
 
 // Hasse diagram of coordinate subspaces of GF(2)³, ordered by inclusion.
 // Structure: 1 zero + 3 axes + 3 planes + 1 full space = 8 nodes (Boolean lattice B₃).
-#let code-lattice = figure(
-  diagram(
+#let code-lattice = diagram(
     node-shape: "circle",
     node-stroke: cl-n-str,
     node-inset: 0pt,
@@ -243,9 +236,7 @@
     cl-edge(<xy>, <full>),
     cl-edge(<xz>, <full>),
     cl-edge(<yz>, <full>),
-  ),
-  caption: [Решётка координатных подпространств $"GF"(2)^3$, упорядоченных по включению. Каждый линейный код над $"GF"(2)$ образует подпространство --- такую же структуру, но в пространстве большей размерности.],
-)
+  )
 
 // ════════════════════════════════════════════════════════
 // Section C --- SAT diagrams (used by m10-sat.typ)
@@ -497,8 +488,7 @@
 // each bit to its data lines, and a dot marks every line the bit feeds:
 // p₁ feeds d₁, d₂, d₄; p₂ feeds d₁, d₃, d₄; p₄ feeds d₂, d₃, d₄; each dᵢ
 // reaches only its own line.
-#let hamming-groups = figure(
-  canvas({
+#let hamming-groups = canvas({
     import draw: *
 
     // Horizontal position of each codeword bit (index: position - 1).
@@ -548,6 +538,4 @@
     hg-edge(x.at(4), data-y.at(1), hg-data, (data-y.at(1),))
     hg-edge(x.at(5), data-y.at(2), hg-data, (data-y.at(2),))
     hg-edge(x.at(6), data-y.at(3), hg-data, (data-y.at(3),))
-  }),
-  caption: [Контрольные группы кода Хэмминга (7, 4). Каждая линия --- один бит данных; кружок на пересечении означает, что бит входит в группу проверочного бита.],
-)
+  })

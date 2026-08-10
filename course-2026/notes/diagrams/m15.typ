@@ -14,8 +14,7 @@
 #let c-edge = oklch(35%, 0.02, 265deg)
 
 // 1. NFA: strings ending with "01" (nondeterministic --- shows choice at 0).
-#let nfa-example = figure(
-  diagram(
+#let nfa-example = diagram(
     node-stroke: (paint: c-state-str, thickness: 0.8pt),
     node-fill: c-state,
     edge-stroke: (paint: c-edge, thickness: 0.7pt),
@@ -30,13 +29,10 @@
       paint: c-accept-str,
       thickness: 1.5pt,
     )),
-  ),
-  caption: [НКА, распознающий строки, заканчивающиеся на 01. Из $q_0$ по символу 0 возможны два перехода: остаться в $q_0$ или перейти в $q_1$ (недетерминированный выбор).],
-)
+  )
 
 // 2. NFA with epsilon-transitions recognizing a*b*.
-#let epsilon-nfa = figure(
-  diagram(
+#let epsilon-nfa = diagram(
     node-stroke: (paint: c-state-str, thickness: 0.8pt),
     node-fill: c-state,
     edge-stroke: (paint: c-edge, thickness: 0.7pt),
@@ -68,9 +64,7 @@
     )),
     // self-loop: q2 --b--> q2
     edge(<q2>, <q2>, "-}>", label: $"b"$, bend: -50deg),
-  ),
-  caption: [НКА с $epsilon$-переходами, распознающий язык $a^* b^*$ (любое количество $a$, затем любое количество $b$). $epsilon$-переходы показаны пунктиром.],
-)
+  )
 
 // ── Chomsky hierarchy ──
 

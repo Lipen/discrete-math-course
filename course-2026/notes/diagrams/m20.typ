@@ -9,8 +9,7 @@
 #let c-tick = oklch(40%, 0.02, 265deg)
 
 // ── Three membership functions for comparison ──
-#let membership-functions = figure(
-  canvas({
+#let membership-functions = canvas({
     import draw: *
 
     // Data coordinates → canvas coordinates.
@@ -159,11 +158,7 @@
       anchor: "west",
       text(size: 0.55em, fill: c-axis)[Гауссова],
     )
-  }),
-  caption: [
-    Функции принадлежности: треугольная $(2, 5, 8)$, трапецеидальная $(2, 4, 7, 9)$ и гауссова (центр $5$).
-  ],
-)
+  })
 
 // ── Fuzzy set operations ──
 
@@ -174,8 +169,7 @@
 #let c-result = oklch(40%, 0.16, 280deg)
 
 // ── Union (max), intersection (min), complement --- three panels ──
-#let fuzzy-operations = figure(
-  canvas({
+#let fuzzy-operations = canvas({
     import draw: *
 
     // Panel offsets: each sub-plot is 4.6 wide, with 0.4 gap between.
@@ -311,6 +305,4 @@
       weight: "semibold",
       fill: c-axis,
     )[Дополнение $(1-mu)$])
-  }),
-  caption: [Операции над нечёткими множествами: объединение ($max$), пересечение ($min$) и дополнение ($1 - mu$). Треугольные функции принадлежности $mu_A$ и $mu_B$ показаны тонкими линиями, результат операции --- жирной.],
-)
+  })

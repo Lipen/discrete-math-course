@@ -49,8 +49,7 @@
 // One branch: premise (leaf, top) to conclusion (root, bottom).
 // Linear because each typing rule in λ-> has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
-#let derivation-id = figure(
-  canvas({
+#let derivation-id = canvas({
     import draw: *
     let nw = 3.3
     let py = 3.0 // premise (var) --- leaf, top
@@ -67,21 +66,14 @@
     rule-label("conc", [(abs)])
 
     vert-edge("prem", "conc")
-  }),
-  caption: [
-    Дерево вывода типа для тождественной функции.
-    Верхний уровень --- аксиома var, нижний --- применение правила abs.
-    Поскольку у правила abs одна посылка, дерево вырождается в линию --- это нормально для типовых выводов в $lambda ->$.
-  ],
-)
+  })
 
 // ═══════════════════════════════════════════════════════════════════
 // Derivation of K combinator: tack.r λx:Nat. λy:Bool. x : Nat -> Bool -> Nat
 //
 // Three levels: var -> abs on y -> abs on x. Linear for the same reason.
 // ═══════════════════════════════════════════════════════════════════
-#let derivation-k = figure(
-  canvas({
+#let derivation-k = canvas({
     import draw: *
     let nw = 4.0
     let py = 4.4 // premise (var) --- leaf, top
@@ -105,10 +97,4 @@
 
     vert-edge("k-prem", "k-mid")
     vert-edge("k-mid", "k-top")
-  }),
-  caption: [
-    Дерево вывода типа для комбинатора $K$ (проекция на первый аргумент) с типами $"Nat"$ и $"Bool"$.
-    Три шага: аксиома var, затем два применения правила abs.
-    Вывод снова линеен --- каждое правило имеет ровно одну посылочную ветвь.
-  ],
-)
+  })

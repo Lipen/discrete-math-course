@@ -295,8 +295,7 @@
 #let c-mc-edge = oklch(35%, 0.02, 265deg)
 #let c-mc-label = oklch(30%, 0.02, 265deg)
 
-#let markov-chain = figure(
-  canvas({
+#let markov-chain = canvas({
     import draw: *
 
     // State node helper --- labeled circle
@@ -377,9 +376,7 @@
       mark: (end: ">"),
     )
     elabel("r-r", [$0.6$])
-  }),
-  caption: [Марковская цепь с двумя состояниями: солнечно ($S$) и дождливо ($R$).],
-)
+  })
 
 // ── Probability tree: biased coin, two tosses ──
 #let c-pt-node = oklch(55%, 0.13, 250deg)
@@ -388,8 +385,7 @@
 #let c-pt-label = oklch(35%, 0.02, 265deg)
 #let c-pt-prob = oklch(55%, 0.12, 22deg)
 
-#let probability-tree = figure(
-  canvas({
+#let probability-tree = canvas({
     // Edge with probability label at midpoint (white-boxed for readability)
     let prob-edge(from, to, prob) = {
       let name = "e-" + from + "-" + to
@@ -456,13 +452,10 @@
     leaf-label("HT", [$H T$], 0.24)
     leaf-label("TH", [$T H$], 0.24)
     leaf-label("TT", [$T T$], 0.16)
-  }),
-  caption: [Дерево вероятностей для двукратного бросания монеты со смещением $P(H) = 0.6$.],
-)
+  })
 
 // ── Bayesian network: Flu → Cough, Flu → Fever ──
-#let bayes-net = figure(
-  canvas({
+#let bayes-net = canvas({
     let c-bn-fill = oklch(92%, 0.04, 250deg)
     let c-bn-stroke = oklch(55%, 0.08, 250deg)
     let c-bn-label = oklch(30%, 0.02, 265deg)
@@ -533,9 +526,7 @@
         $P("Fever" | not "Flu") = 0.05$
       ],
     )
-  }),
-  caption: [Байесовская сеть для медицинской диагностики: грипп вызывает кашель и температуру.],
-)
+  })
 
 // ── Hasse diagram of P({a,b,c}) ordered by inclusion ──
 #let power-set-hasse = canvas({

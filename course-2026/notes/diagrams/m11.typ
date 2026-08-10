@@ -568,8 +568,7 @@
 // Table of special combinatorial numbers
 // ═══════════════════════════════════════════════════════════════
 
-#let combinatorial-numbers = figure(
-  table(
+#let combinatorial-numbers = table(
     columns: 5,
     align: center + horizon,
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
@@ -581,12 +580,7 @@
     [3], [6], [5], [1], [5],
     [4], [24], [14], [6], [15],
     [5], [120], [42], [25], [52],
-  ),
-  caption: [
-    Специальные комбинаторные числа для $n = 1, ..., 5$.
-    Факториал $n!$, числа Каталана $C_n$, числа Стирлинга второго рода $S(n,3)$ (разбиения на 3 блока) и числа Белла $B_n$ (все разбиения).
-  ],
-)
+  )
 
 // Треугольник Паскаля как пирамида: рекуррентность (10 + 10 = 20)
 // и ось симметрии нарисованы, а не подразумеваются пустыми клетками таблицы.
@@ -594,8 +588,7 @@
 #let pt-accent = oklch(45%, 0.12, 260deg)
 #let pt-axis = oklch(35%, 0.02, 265deg)
 
-#let pascal-triangle = figure(
-  canvas({
+#let pascal-triangle = canvas({
     let s = 0.62  // шаг по горизонтали
     let h = 1.05  // шаг по вертикали
     let rows = (
@@ -638,10 +631,4 @@
     draw.content(p2, text(size: 0.62em, weight: "bold", fill: pt-accent)[10])
     draw.content(c, text(size: 0.62em, weight: "bold", fill: pt-accent)[20])
     draw.content((0, -0.6), text(size: 0.6em, fill: pt-text)[$20 = 10 + 10$])
-  }),
-  caption: [
-    Треугольник Паскаля: $binom(n, k)$ для $n = 0, ..., 6$.
-    Симметрия: $binom(n, k) = binom(n, n-k)$ --- каждая строка зеркальна.
-    Рекуррентность: $binom(n, k) = binom(n-1, k-1) + binom(n-1, k)$ --- каждый внутренний элемент равен сумме двух над ним.
-  ],
-)
+  })
