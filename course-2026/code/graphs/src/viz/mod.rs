@@ -30,7 +30,7 @@ pub(crate) fn dot_id(text: &str) -> String {
             }
         })
         .collect();
-    if cleaned.chars().next().unwrap().is_ascii_digit() {
+    if cleaned.chars().next().is_some_and(|c| c.is_ascii_digit()) {
         return format!("n{cleaned}");
     }
     cleaned
