@@ -8,7 +8,10 @@
 //! - repetition says each bit three times and lets the majority vote:
 //!   distance 3, one error corrected, but the rate is a poor 1/3;
 //! - Hamming(7,4) packs 4 data bits with 3 parity bits into a 7-bit codeword:
-//!   the same distance 3 at the better rate 4/7.
+//!   the same distance 3 at the better rate 4/7;
+//! - extended Hamming(8,4,4) adds an overall parity bit to the Hamming word:
+//!   still one error corrected, and a double error now *detected* instead of
+//!   being miscorrected.
 //!
 //! The Hamming(7,4) code: data bits sit at positions 3, 5, 6, 7; parity bits
 //! `p1`, `p2`, `p4` at positions 1, 2, 4. Each parity bit is the xor of the
@@ -82,6 +85,72 @@ pub fn decode(word: [bool; 7]) -> Decoded {
         data: data_bits(fixed),
         corrected: 1,
         error_position: Some(s),
+    }
+}
+
+/// Extended Hamming (8, 4, 4): the Hamming(7,4) word plus an overall parity bit.
+///
+/// The extra bit is chosen so that the whole 8-bit word has an even number of
+/// ones. The minimum distance grows to 4: the code still corrects one error,
+/// but now it can also tell a double error apart and refuse to miscorrect.
+pub fn extended_encode(data: [bool; 4]) -> [bool; 8] {
+    let word = encode(data);
+    let mut out = [false; 8];
+    out[..7].copy_from_slice(&word);
+    out[7] = parity_bit(&word);
+    out
+}
+
+/// The outcome of decoding an 8-bit extended Hamming word.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ExtendedOutcome {
+    /// No error: the word is a valid codeword.
+    Clean,
+    /// A single error was found and corrected; it sat at `position` (1-based,
+    /// 8 = the overall parity bit).
+    Corrected { position: u8 },
+    /// Two errors: detected, but not correctable.
+    Double,
+}
+
+/// The result of decoding an 8-bit extended Hamming word.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ExtendedDecoded {
+    /// The data bits (meaningful unless the outcome is `Double`).
+    pub data: [bool; 4],
+    /// What the decoder found.
+    pub outcome: ExtendedOutcome,
+}
+
+/// Decodes an 8-bit word: corrects a single error, detects a double one.
+///
+/// The syndrome says where a single error would be; the overall parity says
+/// whether the number of errors is odd (one) or even (two). With two errors
+/// the syndrome points at a wrong bit, so the decoder reports `Double`
+/// instead of "correcting" it.
+pub fn extended_decode(word: [bool; 8]) -> ExtendedDecoded {
+    let hamming = [
+        word[0], word[1], word[2], word[3], word[4], word[5], word[6],
+    ];
+    let s = syndrome(hamming);
+    let even = parity_ok(&word);
+
+    let outcome = match (s, even) {
+        (0, true) => ExtendedOutcome::Clean,
+        (0, false) => ExtendedOutcome::Corrected { position: 8 },
+        (_, false) => ExtendedOutcome::Corrected { position: s },
+        (_, true) => ExtendedOutcome::Double,
+    };
+
+    let mut fixed = hamming;
+    if let ExtendedOutcome::Corrected { position } = outcome {
+        if position <= 7 {
+            fixed[(position - 1) as usize] = !fixed[(position - 1) as usize];
+        }
+    }
+    ExtendedDecoded {
+        data: data_bits(fixed),
+        outcome,
     }
 }
 
@@ -291,6 +360,69 @@ mod tests {
         let hamming_words: Vec<Vec<bool>> =
             (0..16).map(|m| encode(bit_pattern(m)).to_vec()).collect();
         assert_eq!(min_distance(&hamming_words), 3);
+    }
+
+    // --- extended hamming ---
+
+    #[test]
+    fn extended_codewords_have_even_parity() {
+        for m in 0..16 {
+            let word = extended_encode(bit_pattern(m));
+            assert!(parity_ok(&word), "data {m}");
+            assert_eq!(
+                extended_decode(word).outcome,
+                ExtendedOutcome::Clean,
+                "data {m}"
+            );
+        }
+    }
+
+    #[test]
+    fn extended_corrects_every_single_error() {
+        for m in 0..16 {
+            let data = bit_pattern(m);
+            let word = extended_encode(data);
+            for pos in 1..=8u8 {
+                let mut corrupted = word;
+                corrupted[(pos - 1) as usize] = !corrupted[(pos - 1) as usize];
+                let decoded = extended_decode(corrupted);
+                assert_eq!(
+                    decoded.outcome,
+                    ExtendedOutcome::Corrected { position: pos },
+                    "data {m} pos {pos}"
+                );
+                assert_eq!(decoded.data, data, "data {m} pos {pos}");
+            }
+        }
+    }
+
+    #[test]
+    fn extended_detects_every_double_error() {
+        for m in 0..16 {
+            let data = bit_pattern(m);
+            let word = extended_encode(data);
+            for i in 1..=8u8 {
+                for j in (i + 1)..=8u8 {
+                    let mut corrupted = word;
+                    corrupted[(i - 1) as usize] = !corrupted[(i - 1) as usize];
+                    corrupted[(j - 1) as usize] = !corrupted[(j - 1) as usize];
+                    let decoded = extended_decode(corrupted);
+                    assert_eq!(
+                        decoded.outcome,
+                        ExtendedOutcome::Double,
+                        "data {m} errors {i},{j}"
+                    );
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn extended_minimum_distance_is_four() {
+        let words: Vec<Vec<bool>> = (0..16)
+            .map(|m| extended_encode(bit_pattern(m)).to_vec())
+            .collect();
+        assert_eq!(min_distance(&words), 4);
     }
 
     #[test]
