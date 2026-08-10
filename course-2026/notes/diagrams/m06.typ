@@ -433,12 +433,12 @@
   draw.line("6", "1", ..arr)
   draw.line("2", "6", ..arr)
   // SCC regions (decorative : coordinate-based, no nodes involved)
-  draw.circle((0.8, 0.8), radius: 1.2, fill: none, stroke: (
+  draw.circle((0, 0.75), radius: 3.1, fill: none, stroke: (
     paint: c-pa-dot,
     thickness: 1.2pt,
     dash: "dashed",
   ))
-  draw.circle((-0.8, -1.8), radius: 0.9, fill: none, stroke: (
+  draw.circle((-1.2, -1.8), radius: 1.6, fill: none, stroke: (
     paint: c-pb-dot,
     thickness: 1.2pt,
     dash: "dashed",
@@ -678,8 +678,8 @@
 })
 
 // ── 16. Dijkstra counterexample with negative edge ──
-// S→A (weight 2), S→B (weight 3), A→B (weight −2).
-// Intuition: Dijkstra fixes B at distance 3 before the negative edge can shorten it.
+// S→A (weight 3), S→B (weight 2), A→B (weight −2).
+// Intuition: Dijkstra fixes B at distance 2 before the negative edge can shorten it.
 #let dijkstra-counterexample = canvas({
   import draw: *
   let c-neg = oklch(58%, 0.22, 22deg) // red highlight for negative edge
