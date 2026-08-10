@@ -10,13 +10,13 @@ fn main() {
 
     for word in ["", "01", "0011", "001", "10"] {
         let tape = Tape::with_word(&word.chars().collect::<Vec<_>>(), ' ');
-        let outcome = machine.run(tape).outcome;
+        let outcome = machine.run(tape, 100).outcome;
         println!("{word:>6} -> {outcome:?}");
     }
 
     // The full trace for "0011".
     let tape = Tape::with_word(&['0', '0', '1', '1'], ' ');
-    let run = machine.run(tape);
+    let run = machine.run(tape, 100);
     println!("\nTrace for 0011:");
     for (i, cfg) in run.configs.iter().enumerate() {
         let content: String = cfg.tape.content().iter().collect();

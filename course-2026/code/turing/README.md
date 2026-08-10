@@ -30,7 +30,8 @@ The tape cells live in two stacks (`left`, `right`) with the head between them, 
 | --- | --- |
 | `Tape` | Tape with a head over `left`, `head`, `right` stacks |
 | `Machine` | Transition table plus start, accept, and reject states |
-| `Configuration`, `Run`, `Outcome` | A snapshot, the full trace, and its verdict |
+| `Machine::run(tape, max_steps)` | Run with a step limit: a non-halting machine ends with `Outcome::Limit` instead of running forever |
+| `Configuration`, `Run`, `Outcome` | A snapshot, the full trace, and its verdict (`Accepted`, `Rejected`, `Stuck`, `Limit`) |
 | `examples::ends_with_zero` | Words over $\{0, 1\}$ that end in `0` |
 | `examples::zero_n_one_n` | The language $0^n 1^n$ (crossing out matching pairs) |
 

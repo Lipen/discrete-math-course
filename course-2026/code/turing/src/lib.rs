@@ -115,6 +115,8 @@ pub enum Outcome {
     Rejected,
     /// No applicable transition: the machine neither accepts nor rejects.
     Stuck,
+    /// The step limit was reached before the machine halted.
+    Limit,
 }
 
 /// A trace of the computation together with the outcome.
@@ -169,8 +171,11 @@ where
             })
     }
 
-    /// Runs the machine on the tape `tape` and returns the trace with the outcome.
-    pub fn run(&self, tape: Tape<Sym>) -> Run<Sym, State> {
+    /// Runs the machine on `tape` and returns the trace with the outcome.
+    ///
+    /// Takes at most `max_steps` transitions; a machine that has not halted
+    /// by then ends with `Outcome::Limit` instead of running forever.
+    pub fn run(&self, tape: Tape<Sym>, max_steps: usize) -> Run<Sym, State> {
         let mut config = Configuration {
             state: self.start.clone(),
             tape,
@@ -183,6 +188,9 @@ where
             }
             if config.state == self.reject {
                 break Outcome::Rejected;
+            }
+            if configs.len() - 1 == max_steps {
+                break Outcome::Limit;
             }
             match self.next(&config) {
                 Some(next) => config = next,
@@ -271,7 +279,7 @@ mod tests {
             ("01", false),
         ] {
             let tape = Tape::with_word(&word.chars().collect::<Vec<_>>(), ' ');
-            let outcome = machine.run(tape).outcome;
+            let outcome = machine.run(tape, 100).outcome;
             assert_eq!(outcome == Outcome::Accepted, expect, "word {word:?}");
         }
     }
@@ -290,8 +298,26 @@ mod tests {
             ("00111", false),
         ] {
             let tape = Tape::with_word(&word.chars().collect::<Vec<_>>(), ' ');
-            let outcome = machine.run(tape).outcome;
+            let outcome = machine.run(tape, 100).outcome;
             assert_eq!(outcome == Outcome::Accepted, expect, "word {word:?}");
         }
+    }
+
+    #[test]
+    fn non_halting_machine_hits_the_step_limit() {
+        // A machine that moves right forever never halts.
+        let mut transitions = HashMap::new();
+        let move_right = |sym: char| Transition {
+            write: sym,
+            direction: Direction::Right,
+            next_state: "q0",
+        };
+        transitions.insert(("q0", 'a'), move_right('a'));
+        transitions.insert(("q0", ' '), move_right(' '));
+        let machine = Machine::new(transitions, "q0", "accept", "reject");
+        let tape = Tape::with_word(&['a', 'a', 'a'], ' ');
+        let run = machine.run(tape, 5);
+        assert_eq!(run.outcome, Outcome::Limit);
+        assert_eq!(run.configs.len(), 6); // the start configuration + 5 steps
     }
 }
