@@ -1,22 +1,21 @@
-//! Система непересекающихся множеств (union-find / DSU).
+//! Disjoint-set union (union-find / DSU).
 //!
-//! Хранит разбиение вершин на компоненты и умеет две операции:
-//! `find(x)` -- представитель компоненты вершины `x`, `union(a, b)` --
-//! объединить компоненты `a` и `b`. Используется в алгоритме Краскала
-//! (минимальное остовное дерево) и при проверке неориентированного графа
-//! на циклы: ребро соединяет вершины, которые уже в одной компоненте, --
-//! значит, в графе есть цикл.
+//! Keeps a partition of vertices into components and supports two operations:
+//! `find(x)` -- the representative of `x`'s component, `union(a, b)` --
+//! merge the components of `a` and `b`. Used by Kruskal's algorithm
+//! (minimum spanning tree) and by cycle detection in undirected graphs:
+//! an edge joining vertices already in one component -- means a cycle.
 
-/// Разбиение множества `{0, 1, ..., n-1}` на компоненты.
+/// A partition of the set `{0, 1, ..., n-1}` into components.
 pub struct UnionFind {
-    /// `parent[x]` -- родитель вершины `x` в лесe представителей.
+    /// `parent[x]` -- the parent of `x` in the representative forest.
     parent: Vec<usize>,
-    /// `size[x]` -- размер компоненты, если `x` -- её представитель.
+    /// `size[x]` -- the component size, if `x` is its representative.
     size: Vec<usize>,
 }
 
 impl UnionFind {
-    /// Новое разбиение: каждая вершина -- отдельная компонента.
+    /// A new partition: every vertex is its own component.
     pub fn new(n: usize) -> Self {
         UnionFind {
             parent: (0..n).collect(),
@@ -24,7 +23,7 @@ impl UnionFind {
         }
     }
 
-    /// Представитель компоненты вершины `x` (с сжатием пути).
+    /// The representative of `x`'s component (with path compression).
     pub fn find(&mut self, x: usize) -> usize {
         if self.parent[x] != x {
             self.parent[x] = self.find(self.parent[x]);
@@ -32,17 +31,17 @@ impl UnionFind {
         self.parent[x]
     }
 
-    /// Объединить компоненты вершин `a` и `b`.
+    /// Merge the components of vertices `a` and `b`.
     ///
-    /// Возвращает `false`, если вершины уже были в одной компоненте
-    /// (и ничего не изменилось), и `true`, если компоненты объединились.
+    /// Returns `false` if the vertices were already in one component
+    /// (and nothing changed), and `true` if the components merged.
     pub fn union(&mut self, a: usize, b: usize) -> bool {
         let ra = self.find(a);
         let rb = self.find(b);
         if ra == rb {
             return false;
         }
-        // Меньшую компоненту подвешиваем к большей -- дерево остаётся низким.
+        // Hang the smaller component under the bigger one -- the tree stays shallow.
         if self.size[ra] < self.size[rb] {
             self.parent[ra] = rb;
             self.size[rb] += self.size[ra];
@@ -53,7 +52,7 @@ impl UnionFind {
         true
     }
 
-    /// В одной ли компоненте вершины `a` и `b`.
+    /// Whether vertices `a` and `b` are in one component.
     pub fn same(&mut self, a: usize, b: usize) -> bool {
         self.find(a) == self.find(b)
     }
@@ -81,7 +80,7 @@ mod tests {
         assert!(uf.union(1, 2));
         assert!(uf.same(0, 3));
         assert!(!uf.same(0, 4));
-        assert!(!uf.union(0, 3)); // уже в одной компоненте
+        assert!(!uf.union(0, 3)); // already in one component
     }
 
     #[test]

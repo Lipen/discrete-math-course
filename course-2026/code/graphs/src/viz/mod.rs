@@ -1,21 +1,21 @@
-//! Визуализация графов: как «отрендерить» граф разными способами.
+//! Rendering graphs: how to "draw" a graph in different ways.
 //!
-//! Раскладку (где какая вершина) рисовать самим не нужно: это делают
-//! готовые инструменты. Крейт выдаёт им текст:
+//! The layout (where each vertex goes) is not something to draw by hand:
+//! ready-made tools do that. The crate hands them text instead:
 //!
-//! - [`dot`]: описание для Graphviz. Утилиты `dot`, `neato`, `fdp`, `circo`
-//!   сами выберут раскладку и нарисуют картинку в любом формате;
-//! - [`cytoscape`]: JSON для библиотеки cytoscape.js. Она сама раскладывает
-//!   граф (алгоритмы `cose`, `circle`, `concentric`, ...) и делает его
-//!   интерактивным в браузере.
+//! - [`dot`]: a description for Graphviz. The `dot`, `neato`, `fdp`, `circo`
+//!   utilities pick the layout themselves and draw a picture in any format;
+//! - [`cytoscape`]: JSON for the cytoscape.js library. It lays the graph out
+//!   on its own (the `cose`, `circle`, `concentric`, ... algorithms) and
+//!   makes it interactive in the browser.
 //!
-//! Оба формата -- текст, так что для Graphviz не нужно ничего, кроме
-//! самого `dot`, а для cytoscape -- только `serde_json`.
+//! Both formats are text, so Graphviz needs nothing but `dot` itself, and
+//! cytoscape needs only `serde_json`.
 
 pub mod cytoscape;
 pub mod dot;
 
-/// Убрать из имени символы, недопустимые в идентификаторах DOT.
+/// Strip characters that are invalid in DOT identifiers.
 pub(crate) fn dot_id(text: &str) -> String {
     if text.is_empty() {
         return String::from("_");

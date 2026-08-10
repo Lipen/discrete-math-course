@@ -1,7 +1,7 @@
-//! Рендер графа в формат Graphviz DOT.
+//! Render a graph in the Graphviz DOT format.
 //!
-//! DOT -- текстовое описание графа, которое утилита `dot` (из пакета
-//! graphviz) превращает в картинку:
+//! DOT is a text description of a graph that the `dot` utility (from the
+//! graphviz package) turns into a picture:
 //!
 //! ```bash
 //! cargo run -p graphs --example visualize > graph.dot
@@ -11,19 +11,19 @@
 use crate::graph::Graph;
 use crate::viz::dot_id;
 
-/// Экранировать текст внутри DOT-строки в кавычках: `\` и `"`.
+/// Escape text inside a quoted DOT string: `\` and `"`.
 fn escape_dot_label(text: &str) -> String {
     text.replace('\\', "\\\\").replace('"', "\\\"")
 }
 
-/// Описание графа в формате DOT.
+/// A description of the graph in DOT format.
 ///
-/// Для неориентированного графа -- блок `graph` с рёбрами `--`,
-/// для ориентированного -- блок `digraph` с рёбрами `->`.
+/// For an undirected graph -- a `graph` block with `--` edges, for a
+/// directed one -- a `digraph` block with `->` edges.
 pub fn render(g: &Graph) -> String {
-    // Идентификаторы вершин в DOT: из имени, но уникальные. Два разных
-    // имени могут дать один id ("a b" и "a_b") -- тогда вершины сольются
-    // в картинке, поэтому при совпадении добавляем суффикс.
+    // DOT ids come from names but must be unique. Two different names can
+    // sanitize to one id ("a b" and "a_b") -- then the vertices would merge
+    // in the picture, so on a collision we append a suffix.
     let mut ids = Vec::with_capacity(g.node_count());
     let mut used = std::collections::HashSet::new();
     for u in 0..g.node_count() {
@@ -119,8 +119,8 @@ mod tests {
 
     #[test]
     fn colliding_sanitized_names_get_unique_ids() {
-        // "a b" и "a_b" дают один и тот же id при санитизации: второй
-        // получает суффикс, и вершины не сливаются в картинке.
+        // "a b" and "a_b" sanitize to the same id: the second one gets a
+        // suffix, and the vertices do not merge in the picture.
         let mut g = Graph::undirected();
         let a = g.add_node("a b");
         let b = g.add_node("a_b");

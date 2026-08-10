@@ -1,55 +1,55 @@
-//! Модель графа: вершины, рёбра, степени.
+//! The graph model: vertices, edges, degrees.
 //!
-//! `Graph` -- простая структура для курса: никаких дженериков, никаких
-//! трейтов. Вершины нумеруются числами `0..n` и могут иметь имена; у каждого
-//! ребра есть вес (по умолчанию 1). Граф хранит данные дважды:
+//! `Graph` is a simple structure for the course: no generics, no traits.
+//! Vertices are numbered `0..n` and may have names; every edge has a weight
+//! (1 by default). The graph stores its data twice:
 //!
-//! - `edges` -- список всех рёбер (его читают взвешенные алгоритмы:
-//!   Дейкстра, Краскал, Беллман--Форд);
-//! - `adj` -- списки смежности (их читают обходы BFS/DFS).
+//! - `edges` -- the list of all edges (read by the weighted algorithms:
+//!   Dijkstra, Kruskal, Bellman--Ford);
+//! - `adj` -- the adjacency lists (read by the BFS/DFS traversals).
 //!
-//! Поля открыты: структуру можно читать и собирать руками -- так проще
-//! понять, как граф устроен изнутри.
+//! The fields are public: the structure can be read and assembled by hand,
+//! which makes it easier to see how a graph works inside.
 
-/// Ребро графа.
+/// An edge of the graph.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Edge {
-    /// Вершина, из которой ребро выходит.
+    /// The vertex the edge leaves.
     pub from: usize,
-    /// Вершина, в которую ребро входит.
+    /// The vertex the edge enters.
     pub to: usize,
-    /// Вес ребра (целое число; алгоритмы, которым нужна неотрицательность,
-    /// сами это документируют).
+    /// The edge weight (an integer; algorithms that need non-negativity
+    /// document it themselves).
     pub weight: i64,
 }
 
-/// Граф: ориентированный или неориентированный, с именами вершин и весами рёбер.
+/// A graph: directed or undirected, with vertex names and edge weights.
 ///
-/// Методы и алгоритмы, принимающие номера вершин, паникуют, если номер вне
-/// отрезка `0..node_count()`; номера берутся из `add_node` и `add_edge`.
+/// Methods and algorithms that take vertex ids panic if the id is outside
+/// `0..node_count()`; ids come from `add_node` and `add_edge`.
 #[derive(Debug, Clone)]
 pub struct Graph {
-    /// `true` -- ориентированный граф (рёбра -- стрелки), `false` -- неориентированный.
+    /// `true` -- a directed graph (edges are arrows), `false` -- undirected.
     pub directed: bool,
-    /// Имя вершины `i` (для вывода на экран и для рисунков).
+    /// Name of vertex `i` (for printing and for pictures).
     pub names: Vec<String>,
-    /// Списки смежности: `adj[u]` содержит пары (сосед, номер ребра).
+    /// Adjacency lists: `adj[u]` holds pairs (neighbor, edge id).
     ///
-    /// Для неориентированного графа ребро попадает в списки обеих вершин,
-    /// для ориентированного -- только в список начальной. Петля (ребро
-    /// `u -> u`) лежит в списке один раз.
+    /// In an undirected graph an edge lands in the lists of both vertices,
+    /// in a directed one -- only in the source's list. A self-loop (edge
+    /// `u -> u`) sits in the list once.
     pub adj: Vec<Vec<(usize, usize)>>,
-    /// Все рёбра графа; `edges[e]` -- ребро с номером `e`.
+    /// All edges of the graph; `edges[e]` is the edge with id `e`.
     pub edges: Vec<Edge>,
 }
 
 impl Graph {
-    /// Пустой неориентированный граф.
+    /// A new empty undirected graph.
     pub fn undirected() -> Self {
         Self::new(false)
     }
 
-    /// Пустой ориентированный граф.
+    /// A new empty directed graph.
     pub fn directed() -> Self {
         Self::new(true)
     }
@@ -63,7 +63,7 @@ impl Graph {
         }
     }
 
-    /// Добавить вершину с именем; возвращает её номер.
+    /// Add a vertex with a name; returns its id.
     pub fn add_node(&mut self, name: impl Into<String>) -> usize {
         let id = self.names.len();
         self.names.push(name.into());
@@ -71,12 +71,12 @@ impl Graph {
         id
     }
 
-    /// Добавить ребро с весом 1; возвращает номер ребра.
+    /// Add an edge with weight 1; returns the edge id.
     pub fn add_edge(&mut self, from: usize, to: usize) -> usize {
         self.add_weighted_edge(from, to, 1)
     }
 
-    /// Добавить ребро с весом; возвращает номер ребра.
+    /// Add an edge with a weight; returns the edge id.
     pub fn add_weighted_edge(&mut self, from: usize, to: usize, weight: i64) -> usize {
         let id = self.edges.len();
         self.edges.push(Edge { from, to, weight });
@@ -87,69 +87,69 @@ impl Graph {
         id
     }
 
-    /// Добавить несколько рёбер с весом 1: `add_edges(&[(0, 1), (1, 2)])`.
+    /// Add several edges with weight 1: `add_edges(&[(0, 1), (1, 2)])`.
     pub fn add_edges(&mut self, pairs: &[(usize, usize)]) {
         for &(from, to) in pairs {
             self.add_edge(from, to);
         }
     }
 
-    /// Сколько в графе вершин.
+    /// How many vertices the graph has.
     pub fn node_count(&self) -> usize {
         self.names.len()
     }
 
-    /// Сколько в графе рёбер.
+    /// How many edges the graph has.
     pub fn edge_count(&self) -> usize {
         self.edges.len()
     }
 
-    /// Ориентированный ли граф.
+    /// Whether the graph is directed.
     pub fn is_directed(&self) -> bool {
         self.directed
     }
 
-    /// Имя вершины `u`.
+    /// Name of vertex `u`.
     pub fn node_name(&self, u: usize) -> &str {
         &self.names[u]
     }
 
-    /// Соседи вершины `u`: пары (сосед, номер ребра).
+    /// Neighbors of vertex `u`: pairs (neighbor, edge id).
     pub fn neighbors(&self, u: usize) -> &[(usize, usize)] {
         &self.adj[u]
     }
 
-    /// Степень вершины `u` -- число соседей.
+    /// Degree of vertex `u` -- the number of neighbors.
     ///
-    /// Для ориентированного графа это полустепень исхода (число рёбер,
-    /// выходящих из `u`).
+    /// For a directed graph this is the out-degree (the number of edges
+    /// leaving `u`).
     pub fn degree(&self, u: usize) -> usize {
         self.adj[u].len()
     }
 
-    /// Вес ребра с номером `e`.
+    /// Weight of the edge with id `e`.
     pub fn edge_weight(&self, e: usize) -> i64 {
         self.edges[e].weight
     }
 
-    /// Есть ли ребро из `u` в `v` (для неориентированного графа -- хотя бы в одну сторону).
+    /// Whether there is an edge from `u` to `v` (for an undirected graph -- at least in one direction).
     pub fn adjacent(&self, u: usize, v: usize) -> bool {
         self.adj[u].iter().any(|&(w, _)| w == v)
     }
 
-    /// Степени всех вершин (для леммы о рукопожатиях и гистограмм).
+    /// Degrees of all vertices (for the handshake lemma and histograms).
     pub fn degrees(&self) -> Vec<usize> {
         (0..self.node_count()).map(|u| self.degree(u)).collect()
     }
 
-    /// Случайный неориентированный граф Эрдёша--Реньи $G(n, p)$.
+    /// A random undirected Erdős--Rényi graph $G(n, p)$.
     ///
-    /// `n` вершин, каждое ребро появляется независимо с вероятностью `p`
-    /// (которая должна лежать в отрезке `[0, 1]`).
-    /// `seed` задаёт генератор, так что один и тот же seed даёт один и тот же
-    /// граф (для воспроизводимых примеров).
+    /// `n` vertices, every edge appears independently with probability `p`
+    /// (which must lie in the interval `[0, 1]`).
+    /// `seed` fixes the generator, so the same seed always gives the same
+    /// graph (for reproducible examples).
     pub fn erdos_renyi(n: usize, p: f64, seed: u64) -> Graph {
-        assert!((0.0..=1.0).contains(&p), "p должна быть в отрезке [0, 1]");
+        assert!((0.0..=1.0).contains(&p), "p must be in [0, 1]");
         let mut g = Graph::undirected();
         for i in 0..n {
             g.add_node(i.to_string());
@@ -166,13 +166,13 @@ impl Graph {
     }
 }
 
-/// Крошечный генератор случайных чисел (xorshift64), чтобы не тащить
-/// внешние зависимости. Хорош для учебных примеров, не для криптографии.
+/// A tiny random number generator (xorshift64) so we avoid external
+/// dependencies. Good for teaching examples, not for cryptography.
 struct XorShift64(u64);
 
 impl XorShift64 {
     fn new(seed: u64) -> Self {
-        XorShift64(seed | 1) // ноль запрещён
+        XorShift64(seed | 1) // zero is forbidden
     }
 
     fn next_u64(&mut self) -> u64 {
@@ -184,7 +184,7 @@ impl XorShift64 {
         x
     }
 
-    /// Число из отрезка [0, 1).
+    /// A number from the interval [0, 1).
     fn next_f64(&mut self) -> f64 {
         (self.next_u64() >> 11) as f64 / (1u64 << 53) as f64
     }
@@ -260,7 +260,7 @@ mod tests {
 
     #[test]
     fn erdos_renyi_extremes() {
-        // p = 0: рёбер нет; p = 1: полный граф.
+        // p = 0: no edges; p = 1: the complete graph.
         assert_eq!(Graph::erdos_renyi(5, 0.0, 1).edge_count(), 0);
         let complete = Graph::erdos_renyi(5, 1.0, 1);
         assert_eq!(complete.edge_count(), 5 * 4 / 2);

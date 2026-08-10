@@ -1,7 +1,7 @@
-//! Graphs: моделирование, алгоритмы и визуализация графов.
+//! Graphs: modeling, algorithms, and visualization.
 //!
-//! Учебный крейт к главе про графы: простая модель без дженериков и
-//! трейтов, классические алгоритмы и способы «отрендерить» граф.
+//! A teaching crate for the graphs chapter: a simple model without generics
+//! or traits, the classic algorithms, and ways to render a graph.
 //!
 //! ```no_run
 //! use graphs::Graph;
@@ -12,7 +12,7 @@
 //! let c = g.add_node("c");
 //! g.add_edges(&[(a, b), (b, c), (c, a)]);
 //!
-//! // Компонент связности один, расстояния -- через BFS.
+//! // There is one connected component, and distances come from BFS.
 //! assert_eq!(graphs::connected_components(&g).0, 1);
 //! assert_eq!(graphs::distance(&g, a, c), Some(2));
 //! ```

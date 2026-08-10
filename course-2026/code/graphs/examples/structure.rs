@@ -1,47 +1,47 @@
-//! Структура графа: компоненты, мосты, точки сочленения, двудольность.
+//! Graph structure: components, bridges, articulation points, bipartiteness.
 //!
-//! Один пример -- несколько «паспортов» графа: на какие части он
-//! распадается, какие рёбра и вершины критичны (их удаление рвёт граф),
-//! можно ли раскрасить его в два цвета.
+//! One example, several "passports" of the graph: what parts it falls apart
+//! into, which edges and vertices are critical (removing them tears the
+//! graph), and whether it can be colored with two colors.
 
 use graphs::{articulation_points, bridges, connected_components, diameter, is_bipartite, Graph};
 
 fn main() {
-    // Треугольник A-B-C плюс хвост C-D-E.
+    // Triangle A-B-C plus a tail C-D-E.
     let mut g = Graph::undirected();
     for name in ["A", "B", "C", "D", "E"] {
         g.add_node(name);
     }
     g.add_edges(&[(0, 1), (1, 2), (2, 0), (2, 3), (3, 4)]);
 
-    println!("Граф: треугольник A-B-C с хвостом C-D-E.");
-    println!("  рёбра: A-B, B-C, C-A, C-D, D-E");
+    println!("Graph: triangle A-B-C with tail C-D-E.");
+    println!("  edges: A-B, B-C, C-A, C-D, D-E");
 
     let (count, comp) = connected_components(&g);
-    println!("\nКомпонент связности: {count}");
+    println!("\nConnected components: {count}");
     for (u, &c) in comp.iter().enumerate() {
-        println!("  {} -> компонента {c}", g.node_name(u));
+        println!("  {} -> component {c}", g.node_name(u));
     }
 
-    println!("\nМосты (удаление рвёт граф):");
+    println!("\nBridges (removal tears the graph):");
     for (u, v) in bridges(&g) {
         println!("  {} -- {}", g.node_name(u), g.node_name(v));
     }
 
-    println!("\nТочки сочленения (удаление рвёт граф):");
+    println!("\nArticulation points (removal tears the graph):");
     for u in articulation_points(&g) {
         println!("  {}", g.node_name(u));
     }
 
     match is_bipartite(&g) {
         Some(colors) => {
-            println!("\nГраф двудольный, цвета:");
+            println!("\nThe graph is bipartite, colors:");
             for (u, &c) in colors.iter().enumerate() {
-                println!("  {} -> цвет {c}", g.node_name(u));
+                println!("  {} -> color {c}", g.node_name(u));
             }
         }
-        None => println!("\nГраф НЕ двудольный: в треугольнике есть нечётный цикл."),
+        None => println!("\nThe graph is NOT bipartite: the triangle is an odd cycle."),
     }
 
-    println!("\nДиаметр графа: {:?}", diameter(&g));
+    println!("\nGraph diameter: {:?}", diameter(&g));
 }

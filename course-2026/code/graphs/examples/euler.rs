@@ -1,20 +1,21 @@
-//! Эйлеровы пути и циклы.
+//! Eulerian paths and circuits.
 //!
-//! Критерий Эйлера: у неориентированного графа либо все степени чётны
-//! (есть эйлеров цикл), либо ровно две нечётные (есть эйлеров путь между
-//! ними). Сам маршрут строится алгоритмом Иерархольцера.
+//! Euler's criterion: in an undirected graph either all degrees are even
+//! (there is an Eulerian circuit), or exactly two are odd (there is an
+//! Eulerian path between them). The trail itself is built by Hierholzer's
+//! algorithm.
 
 use graphs::{find_eulerian_path, Graph};
 
 fn main() {
-    println!("=== Квадрат: все степени чётны -- эйлеров цикл ===");
+    println!("=== Square: all degrees even -- an Eulerian circuit ===");
     let g = square();
     match find_eulerian_path(&g) {
         Some(trail) => println!("  {}", trail_str(&g, &trail)),
-        None => println!("  пути нет"),
+        None => println!("  no trail"),
     }
 
-    println!("\n=== Путь 0-1-2-3: две нечётные степени -- эйлеров путь ===");
+    println!("\n=== Path 0-1-2-3: two odd degrees -- an Eulerian path ===");
     let mut g = Graph::undirected();
     for i in 0..4 {
         g.add_node(i.to_string());
@@ -22,10 +23,10 @@ fn main() {
     g.add_edges(&[(0, 1), (1, 2), (2, 3)]);
     match find_eulerian_path(&g) {
         Some(trail) => println!("  {}", trail_str(&g, &trail)),
-        None => println!("  пути нет"),
+        None => println!("  no trail"),
     }
 
-    println!("\n=== Звезда: четыре нечётные степени -- пути нет ===");
+    println!("\n=== Star: four odd degrees -- no trail ===");
     let mut g = Graph::undirected();
     for i in 0..4 {
         g.add_node(i.to_string());
@@ -33,10 +34,10 @@ fn main() {
     g.add_edges(&[(0, 1), (0, 2), (0, 3)]);
     match find_eulerian_path(&g) {
         Some(trail) => println!("  {}", trail_str(&g, &trail)),
-        None => println!("  пути нет (критерий Эйлера не выполнен)"),
+        None => println!("  no trail (Euler's criterion fails)"),
     }
 
-    println!("\n=== Ориентированный цикл A -> B -> C -> A ===");
+    println!("\n=== Directed circuit A -> B -> C -> A ===");
     let mut g = Graph::directed();
     for name in ["A", "B", "C"] {
         g.add_node(name);
@@ -44,7 +45,7 @@ fn main() {
     g.add_edges(&[(0, 1), (1, 2), (2, 0)]);
     match find_eulerian_path(&g) {
         Some(trail) => println!("  {}", trail_str(&g, &trail)),
-        None => println!("  пути нет"),
+        None => println!("  no trail"),
     }
 }
 

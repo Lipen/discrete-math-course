@@ -1,50 +1,50 @@
-//! Рендер графа в JSON для cytoscape.js.
+//! Render a graph as JSON for cytoscape.js.
 //!
-//! [cytoscape.js](https://js.cytoscape.org) -- библиотека интерактивных
-//! графов для браузера. Ей нужен простой JSON; результат этой функции
-//! кладётся в опцию `elements`:
+//! [cytoscape.js](https://js.cytoscape.org) is a browser library for
+//! interactive graphs. It wants a simple JSON; the output of this function
+//! goes into the `elements` option:
 //!
 //! ```js
-//! const cy = cytoscape({ elements: <вывод этой функции> });
+//! const cy = cytoscape({ elements: <output of this function> });
 //! ```
 //!
-//! JSON собирает serde: структуры `NodeData`/`EdgeData` описывают схему,
-//! а `serde_json` берёт на себя экранирование строк -- имена вершин могут
-//! содержать кавычки, слеши и переводы строк, и JSON останется валидным.
+//! The JSON is assembled by serde: the `NodeData`/`EdgeData` structs describe
+//! the schema, and `serde_json` handles string escaping -- vertex names may
+//! contain quotes, slashes, and newlines, and the JSON stays valid.
 
 use crate::graph::Graph;
 use serde::Serialize;
 
-/// Одна вершина в формате cytoscape.js.
+/// One vertex in cytoscape.js format.
 #[derive(Serialize)]
 struct NodeData {
-    /// Номер вершины как строка: на него ссылаются рёбра.
+    /// The vertex id as a string: edges refer to it.
     id: String,
-    /// Имя для подписи.
+    /// The name shown as the label.
     label: String,
 }
 
-/// Одно ребро в формате cytoscape.js.
+/// One edge in cytoscape.js format.
 #[derive(Serialize)]
 struct EdgeData {
     id: String,
-    /// Вершина, из которой ребро выходит (номер как строка).
+    /// The vertex the edge leaves (id as a string).
     source: String,
-    /// Вершина, в которую ребро входит.
+    /// The vertex the edge enters.
     target: String,
-    /// Вес, если он не единичный (единичный вес не подписываем).
+    /// The weight, unless it is 1 (unit weights are not labelled).
     #[serde(skip_serializing_if = "Option::is_none")]
     label: Option<String>,
 }
 
-/// Корневой объект `{ nodes: [...], edges: [...] }`.
+/// The root object `{ nodes: [...], edges: [...] }`.
 #[derive(Serialize)]
 struct Elements {
     nodes: Vec<NodeData>,
     edges: Vec<EdgeData>,
 }
 
-/// Граф в JSON-формате cytoscape.js (pretty-printed).
+/// The graph in cytoscape.js JSON format (pretty-printed).
 pub fn render(g: &Graph) -> String {
     let elements = Elements {
         nodes: (0..g.node_count())
@@ -65,7 +65,7 @@ pub fn render(g: &Graph) -> String {
             })
             .collect(),
     };
-    serde_json::to_string_pretty(&elements).expect("простая схема не может не сериализоваться")
+    serde_json::to_string_pretty(&elements).expect("a simple schema cannot fail to serialize")
 }
 
 #[cfg(test)]
@@ -93,19 +93,19 @@ mod tests {
         let b = g.add_node("b");
         g.add_edge(a, b);
         let json = render(&g);
-        let parsed: serde_json::Value = serde_json::from_str(&json).expect("JSON валиден");
-        // У вершин label есть всегда, у ребра с единичным весом -- нет.
+        let parsed: serde_json::Value = serde_json::from_str(&json).expect("JSON is valid");
+        // Vertices always have a label; unit-weight edges do not.
         assert_eq!(parsed["nodes"][0]["label"], "a");
         assert!(parsed["edges"][0].get("label").is_none());
     }
 
     #[test]
     fn hostile_names_stay_valid_json() {
-        // Кавычки и слеши в имени не должны ломать JSON.
+        // Quotes and slashes in a name must not break the JSON.
         let mut g = Graph::undirected();
         g.add_node("say \"hi\" \\ here");
         let json = render(&g);
-        let parsed: serde_json::Value = serde_json::from_str(&json).expect("JSON валиден");
+        let parsed: serde_json::Value = serde_json::from_str(&json).expect("JSON is valid");
         assert_eq!(parsed["nodes"][0]["label"], "say \"hi\" \\ here");
     }
 }
