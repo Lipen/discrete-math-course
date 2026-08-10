@@ -56,7 +56,7 @@ pub struct Decoded {
 ///
 /// The correction is the inverse of the encoding: flip the bit whose position
 /// the syndrome points at. A double error also gives a nonzero syndrome, but
-/// pointing at a wrong position, so it is silently miscorrected --- the price
+/// pointing at a wrong position, so it is silently miscorrected -- the price
 /// of a code of distance 3.
 pub fn decode(word: [bool; 7]) -> Decoded {
     let s = syndrome(word);
