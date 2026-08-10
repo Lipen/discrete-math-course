@@ -21,6 +21,7 @@ so at nearly twice the rate.
 ```bash
 cargo run -p codes --example hamming_demo
 cargo run -p codes --example codes_compare
+cargo run -p codes --example error_scenarios
 cargo test -p codes
 ```
 
