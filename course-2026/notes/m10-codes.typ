@@ -2,7 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import cetz: canvas, draw
-#import "diagrams/m09.typ": code-lattice, hamming-spheres
+#import "diagrams/m09.typ": code-lattice, hamming-groups, hamming-spheres
 
 = Коды и информация <chap:codes>
 
@@ -154,6 +154,11 @@ $
 - $p_4$ контролирует биты 4, 5, 6, 7: $p_4 = d_2 xor d_3 xor d_4$
 
 Закономерность: $p_i$ контролирует те позиции, в двоичной записи которых $i$-й бит равен 1 (позиция $3 = 011$ --- контролируется $p_1$ и $p_2$, позиция $7 = 111$ --- всеми тремя).
+
+#hamming-groups <fig:hamming-groups>
+
+Рис. @fig:hamming-groups показывает те же группы наглядно: от каждого проверочного бита вниз идёт линия, а кружок на пересечении означает, что бит данных входит в его группу.
+Каждый бит данных соединён только со своей линией; бит $d_4$ присутствует во всех трёх группах.
 
 #example[Кодирование][
   Данные: $d_1 = 1$, $d_2 = 0$, $d_3 = 1$, $d_4 = 1$.

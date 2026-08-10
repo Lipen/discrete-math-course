@@ -479,3 +479,75 @@
   dpll-edge("up-right.south", "conf-right.north")
   dpll-dead-end((2.1, 0.0), "dead-right")
 })
+
+// ════════════════════════════════════════════════════════
+// Section B4 --- Hamming(7,4) control groups (Codes, chapter m10-codes.typ)
+// ════════════════════════════════════════════════════════
+
+#let hg-p1 = oklch(52%, 0.15, 260deg)    // p₁ group: blue
+#let hg-p2 = oklch(48%, 0.12, 150deg)    // p₂ group: green
+#let hg-p4 = oklch(48%, 0.14, 315deg)    // p₄ group: purple
+#let hg-data = oklch(38%, 0.03, 265deg)  // data bits and their lines
+#let hg-line = oklch(72%, 0.02, 265deg)  // data lines
+#let hg-label = oklch(30%, 0.02, 265deg) // bit labels
+#let hg-dim = oklch(58%, 0.02, 265deg)   // positions, faint
+#let hg-fill = oklch(97%, 0.02, 265deg)  // circle fill
+
+// The 7-bit codeword on top; four data lines below. A vertical drops from
+// each bit to its data lines, and a dot marks every line the bit feeds:
+// p₁ feeds d₁, d₂, d₄; p₂ feeds d₁, d₃, d₄; p₄ feeds d₂, d₃, d₄; each dᵢ
+// reaches only its own line.
+#let hamming-groups = figure(
+  canvas({
+    import draw: *
+
+    // Horizontal position of each codeword bit (index: position - 1).
+    let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+    let cy = 7.0
+    let r = 0.42
+    let y-top = cy - r
+
+    // Data lines from top (d₁) to bottom (d₄).
+    let data-y = (5.4, 4.5, 3.6, 2.7)
+    let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
+    for (i, y) in data-y.enumerate() {
+      line((-0.6, y), (6.6, y), stroke: (paint: hg-line, thickness: 0.5pt))
+      content((-1.7, y), text(size: 0.7em, fill: hg-data)[#data-name.at(i)])
+    }
+
+    // One circle per bit, stroked in its group's color.
+    let hg-bit(bx, label, num, color) = {
+      circle(
+        (bx, cy),
+        radius: r,
+        fill: hg-fill,
+        stroke: (paint: color, thickness: 0.8pt),
+      )
+      content((bx, cy), text(size: 0.72em, fill: hg-label)[#label])
+      content((bx, cy + 0.8), text(size: 0.55em, fill: hg-dim)[#num])
+    }
+    hg-bit(x.at(0), $p_1$, 1, hg-p1)
+    hg-bit(x.at(1), $p_2$, 2, hg-p2)
+    hg-bit(x.at(2), $d_1$, 3, hg-data)
+    hg-bit(x.at(3), $p_4$, 4, hg-p4)
+    hg-bit(x.at(4), $d_2$, 5, hg-data)
+    hg-bit(x.at(5), $d_3$, 6, hg-data)
+    hg-bit(x.at(6), $d_4$, 7, hg-data)
+
+    // Vertical from a bit down to its lines; dots mark the connections.
+    let hg-edge(bx, bottom, color, dots) = {
+      line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: 1pt))
+      for d in dots {
+        circle((bx, d), radius: 0.13, fill: color)
+      }
+    }
+    hg-edge(x.at(0), data-y.at(3), hg-p1, (data-y.at(0), data-y.at(1), data-y.at(3)))
+    hg-edge(x.at(1), data-y.at(3), hg-p2, (data-y.at(0), data-y.at(2), data-y.at(3)))
+    hg-edge(x.at(3), data-y.at(3), hg-p4, (data-y.at(1), data-y.at(2), data-y.at(3)))
+    hg-edge(x.at(2), data-y.at(0), hg-data, (data-y.at(0),))
+    hg-edge(x.at(4), data-y.at(1), hg-data, (data-y.at(1),))
+    hg-edge(x.at(5), data-y.at(2), hg-data, (data-y.at(2),))
+    hg-edge(x.at(6), data-y.at(3), hg-data, (data-y.at(3),))
+  }),
+  caption: [Контрольные группы кода Хэмминга (7, 4). Каждая линия --- один бит данных; кружок на пересечении означает, что бит входит в группу проверочного бита.],
+)
