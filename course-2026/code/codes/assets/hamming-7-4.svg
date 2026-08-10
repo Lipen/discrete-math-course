@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="700" height="560" viewBox="0 0 700 560" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
-  <rect x="0" y="0" width="700" height="560" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="460" viewBox="0 0 700 460" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="700" height="460" fill="#ffffff"/>
   <text x="350" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">Hamming(7,4): the 7-bit codeword and which data bits feed each parity bit</text>
 
   <!-- the 7-bit codeword: positions 1..7 -->
@@ -15,70 +15,70 @@
 
   <!-- the four data lines, one per data bit -->
   <g stroke="#94a3b8" stroke-width="2">
-    <line x1="45" y1="240" x2="660" y2="240"/>
+    <line x1="45" y1="200" x2="660" y2="200"/>
+    <line x1="45" y1="260" x2="660" y2="260"/>
     <line x1="45" y1="320" x2="660" y2="320"/>
-    <line x1="45" y1="400" x2="660" y2="400"/>
-    <line x1="45" y1="480" x2="660" y2="480"/>
+    <line x1="45" y1="380" x2="660" y2="380"/>
   </g>
   <g font-size="13" font-weight="700" fill="#334155">
-    <text x="20" y="244">d₁</text>
-    <text x="20" y="324">d₂</text>
-    <text x="20" y="404">d₃</text>
-    <text x="20" y="484">d₄</text>
+    <text x="20" y="204">d₁</text>
+    <text x="20" y="264">d₂</text>
+    <text x="20" y="324">d₃</text>
+    <text x="20" y="384">d₄</text>
   </g>
 
   <!-- the 7-bit codeword circles -->
   <g>
-    <circle cx="70" cy="90" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
-    <text x="70" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">p₁</text>
-    <circle cx="160" cy="90" r="20" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
-    <text x="160" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">p₂</text>
-    <circle cx="250" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="250" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
-    <circle cx="340" cy="90" r="20" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
-    <text x="340" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">p₄</text>
-    <circle cx="430" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="430" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
-    <circle cx="520" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="520" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
-    <circle cx="610" cy="90" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-    <text x="610" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
+    <circle cx="70" cy="88" r="20" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+    <text x="70" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#1e3a8a">p₁</text>
+    <circle cx="160" cy="88" r="20" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+    <text x="160" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#14532d">p₂</text>
+    <circle cx="250" cy="88" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="250" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₁</text>
+    <circle cx="340" cy="88" r="20" fill="#faf5ff" stroke="#9333ea" stroke-width="2"/>
+    <text x="340" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#4c1d95">p₄</text>
+    <circle cx="430" cy="88" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="430" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₂</text>
+    <circle cx="520" cy="88" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="520" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₃</text>
+    <circle cx="610" cy="88" r="20" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+    <text x="610" y="94" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">d₄</text>
   </g>
 
   <!-- verticals: from each bit down to its data lines -->
   <g stroke-width="2">
-    <line x1="70" y1="110" x2="70" y2="480" stroke="#2563eb"/>
-    <line x1="160" y1="110" x2="160" y2="480" stroke="#16a34a"/>
-    <line x1="340" y1="110" x2="340" y2="480" stroke="#9333ea"/>
-    <line x1="250" y1="110" x2="250" y2="240" stroke="#64748b"/>
-    <line x1="430" y1="110" x2="430" y2="320" stroke="#64748b"/>
-    <line x1="520" y1="110" x2="520" y2="400" stroke="#64748b"/>
-    <line x1="610" y1="110" x2="610" y2="480" stroke="#64748b"/>
+    <line x1="70" y1="108" x2="70" y2="380" stroke="#2563eb"/>
+    <line x1="160" y1="108" x2="160" y2="380" stroke="#16a34a"/>
+    <line x1="340" y1="108" x2="340" y2="380" stroke="#9333ea"/>
+    <line x1="250" y1="108" x2="250" y2="200" stroke="#64748b"/>
+    <line x1="430" y1="108" x2="430" y2="260" stroke="#64748b"/>
+    <line x1="520" y1="108" x2="520" y2="320" stroke="#64748b"/>
+    <line x1="610" y1="108" x2="610" y2="380" stroke="#64748b"/>
   </g>
 
   <!-- junction dots: a dot on a data line means the bit feeds it -->
   <g>
-    <circle cx="70" cy="240" r="4" fill="#2563eb"/>
-    <circle cx="70" cy="320" r="4" fill="#2563eb"/>
-    <circle cx="70" cy="480" r="4" fill="#2563eb"/>
-    <circle cx="160" cy="240" r="4" fill="#16a34a"/>
-    <circle cx="160" cy="400" r="4" fill="#16a34a"/>
-    <circle cx="160" cy="480" r="4" fill="#16a34a"/>
-    <circle cx="340" cy="320" r="4" fill="#9333ea"/>
-    <circle cx="340" cy="400" r="4" fill="#9333ea"/>
-    <circle cx="340" cy="480" r="4" fill="#9333ea"/>
-    <circle cx="250" cy="240" r="4" fill="#64748b"/>
-    <circle cx="430" cy="320" r="4" fill="#64748b"/>
-    <circle cx="520" cy="400" r="4" fill="#64748b"/>
-    <circle cx="610" cy="480" r="4" fill="#64748b"/>
+    <circle cx="70" cy="200" r="5" fill="#2563eb"/>
+    <circle cx="70" cy="260" r="5" fill="#2563eb"/>
+    <circle cx="70" cy="380" r="5" fill="#2563eb"/>
+    <circle cx="160" cy="200" r="5" fill="#16a34a"/>
+    <circle cx="160" cy="320" r="5" fill="#16a34a"/>
+    <circle cx="160" cy="380" r="5" fill="#16a34a"/>
+    <circle cx="340" cy="260" r="5" fill="#9333ea"/>
+    <circle cx="340" cy="320" r="5" fill="#9333ea"/>
+    <circle cx="340" cy="380" r="5" fill="#9333ea"/>
+    <circle cx="250" cy="200" r="5" fill="#64748b"/>
+    <circle cx="430" cy="260" r="5" fill="#64748b"/>
+    <circle cx="520" cy="320" r="5" fill="#64748b"/>
+    <circle cx="610" cy="380" r="5" fill="#64748b"/>
   </g>
 
   <!-- legend -->
   <g font-size="11" fill="#64748b">
-    <line x1="20" y1="540" x2="48" y2="540" stroke="#2563eb" stroke-width="2"/><circle cx="48" cy="540" r="3" fill="#2563eb"/><text x="56" y="544">feeds p₁</text>
-    <line x1="150" y1="540" x2="178" y2="540" stroke="#16a34a" stroke-width="2"/><circle cx="178" cy="540" r="3" fill="#16a34a"/><text x="186" y="544">feeds p₂</text>
-    <line x1="280" y1="540" x2="308" y2="540" stroke="#9333ea" stroke-width="2"/><circle cx="308" cy="540" r="3" fill="#9333ea"/><text x="316" y="544">feeds p₄</text>
-    <line x1="410" y1="540" x2="432" y2="540" stroke="#64748b" stroke-width="2"/><circle cx="432" cy="540" r="3" fill="#64748b"/><text x="440" y="544">connection</text>
-    <circle cx="560" cy="540" r="6" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/><text x="574" y="544">data bit</text>
+    <line x1="20" y1="430" x2="48" y2="430" stroke="#2563eb" stroke-width="2"/><circle cx="48" cy="430" r="3" fill="#2563eb"/><text x="56" y="434">feeds p₁</text>
+    <line x1="150" y1="430" x2="178" y2="430" stroke="#16a34a" stroke-width="2"/><circle cx="178" cy="430" r="3" fill="#16a34a"/><text x="186" y="434">feeds p₂</text>
+    <line x1="280" y1="430" x2="308" y2="430" stroke="#9333ea" stroke-width="2"/><circle cx="308" cy="430" r="3" fill="#9333ea"/><text x="316" y="434">feeds p₄</text>
+    <line x1="410" y1="430" x2="432" y2="430" stroke="#64748b" stroke-width="2"/><circle cx="432" cy="430" r="3" fill="#64748b"/><text x="440" y="434">connection</text>
+    <circle cx="560" cy="430" r="6" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/><text x="574" y="434">data bit</text>
   </g>
 </svg>
