@@ -1,10 +1,10 @@
-//! What happens at 0, 1, 2, 3, or 4 flipped bits: the limits of each code.
+//! What happens at 0, 1, 2, or 3 flipped bits: the limits of each code.
 //!
 //! A code with minimum distance d guarantees detection of up to d - 1 errors
 //! and correction of up to (d - 1) / 2. Beyond that the decoder cannot tell
 //! what happened: it may "correct" the wrong bit, or even report no error at
 //! all. This demo feeds the same message through all three code families and
-//! corrupts 0, 1, 2, 3, or 4 bits, printing what each decoder reports and what
+//! corrupts 0, 1, 2, or 3 bits, printing what each decoder reports and what
 //! that means for the recovered data.
 
 use codes::{
@@ -79,11 +79,10 @@ fn hamming_section(data: &[bool; 4]) {
 
     let scenarios: &[(&str, &[usize])] = &[
         ("0 errors", &[]),
-        ("1 error at bit 4", &[4]),
+        ("1 error at bit 4 (a parity bit)", &[4]),
+        ("1 error at bit 6 (a data bit)", &[6]),
         ("2 errors at bits 4 and 6", &[4, 6]),
         ("3 errors at bits 1, 2, 3 (a codeword)", &[1, 2, 3]),
-        ("3 errors at bits 1, 2, 4 (not a codeword)", &[1, 2, 4]),
-        ("4 errors at bits 1, 2, 4, 7 (a codeword)", &[1, 2, 4, 7]),
     ];
 
     for (label, flips) in scenarios {
@@ -115,7 +114,8 @@ fn repetition_section(bit: bool) {
 
     let scenarios: &[(&str, &[usize])] = &[
         ("0 errors", &[]),
-        ("1 error at bit 2", &[2]),
+        ("1 error at bit 1", &[1]),
+        ("1 error at bit 3", &[3]),
         ("2 errors at bits 2 and 3", &[2, 3]),
         ("3 errors at bits 1, 2, 3", &[1, 2, 3]),
     ];
@@ -142,10 +142,10 @@ fn parity_section(data: &[bool; 4]) {
 
     let scenarios: &[(&str, &[usize])] = &[
         ("0 errors", &[]),
-        ("1 error at bit 3", &[3]),
+        ("1 error at bit 3 (a data bit)", &[3]),
+        ("1 error at bit 5 (the parity bit)", &[5]),
         ("2 errors at bits 3 and 4", &[3, 4]),
         ("3 errors at bits 1, 2, 3", &[1, 2, 3]),
-        ("4 errors at bits 1, 2, 3, 4", &[1, 2, 3, 4]),
     ];
 
     for (label, flips) in scenarios {
