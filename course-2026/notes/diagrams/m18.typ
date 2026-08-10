@@ -50,7 +50,6 @@
 // Linear because each typing rule in λ-> has at most one subderivation.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-id = canvas({
-  import draw: *
   let nw = 3.3
   let py = 3.0 // premise (var) --- leaf, top
   let cy = 1.0 // conclusion (abs) --- root, bottom
@@ -74,7 +73,6 @@
 // Three levels: var -> abs on y -> abs on x. Linear for the same reason.
 // ═══════════════════════════════════════════════════════════════════
 #let derivation-k = canvas({
-  import draw: *
   let nw = 4.0
   let py = 4.4 // premise (var) --- leaf, top
   let my = 2.6 // abs on y --- middle

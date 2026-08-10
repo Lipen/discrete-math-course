@@ -14,7 +14,6 @@
 
 // Huffman tree for A: 0.40, B: 0.25, C: 0.20, D: 0.10, E: 0.05.
 #let huffman-tree = canvas({
-  import draw: *
 
   // Node positions --- tree structure (y-step = 1.8, units = cm)
   let root = (0, 0)
@@ -31,8 +30,8 @@
   let mid-label(p, q, offset, label) = {
     let mx = (p.at(0) + q.at(0)) / 2
     let my = (p.at(1) + q.at(1)) / 2
-    line(p, q, stroke: hf-str)
-    content((mx + offset.at(0), my + offset.at(1)), label)
+    draw.line(p, q, stroke: hf-str)
+    draw.content((mx + offset.at(0), my + offset.at(1)), label)
   }
 
   // Edges with labels
@@ -46,26 +45,26 @@
   mid-label(nR3, nE, (0.2, 0.1), [_1_])
 
   // Internal nodes (weights)
-  circle(root, radius: 0.3, stroke: hf-str)
-  content(root, $1.0$)
-  circle(nR, radius: 0.3, stroke: hf-str)
-  content(nR, $0.60$)
-  circle(nR2, radius: 0.3, stroke: hf-str)
-  content(nR2, $0.35$)
-  circle(nR3, radius: 0.3, stroke: hf-str)
-  content(nR3, $0.15$)
+  draw.circle(root, radius: 0.3, stroke: hf-str)
+  draw.content(root, $1.0$)
+  draw.circle(nR, radius: 0.3, stroke: hf-str)
+  draw.content(nR, $0.60$)
+  draw.circle(nR2, radius: 0.3, stroke: hf-str)
+  draw.content(nR2, $0.35$)
+  draw.circle(nR3, radius: 0.3, stroke: hf-str)
+  draw.content(nR3, $0.15$)
 
   // Leaf nodes (symbols)
-  circle(nA, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  content(nA, [$A: 0.40$])
-  circle(nB, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  content(nB, [$B: 0.25$])
-  circle(nC, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  content(nC, [$C: 0.20$])
-  circle(nD, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  content(nD, [$D: 0.10$])
-  circle(nE, radius: 0.35, stroke: hf-leaf-str, fill: white)
-  content(nE, [$E: 0.05$])
+  draw.circle(nA, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  draw.content(nA, [$A: 0.40$])
+  draw.circle(nB, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  draw.content(nB, [$B: 0.25$])
+  draw.circle(nC, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  draw.content(nC, [$C: 0.20$])
+  draw.circle(nD, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  draw.content(nD, [$D: 0.10$])
+  draw.circle(nE, radius: 0.35, stroke: hf-leaf-str, fill: white)
+  draw.content(nE, [$E: 0.05$])
 })
 
 // ════════════════════════════════════════════════════════
@@ -101,7 +100,6 @@
 }
 
 #let hamming-spheres = canvas({
-  import draw: *
 
   let r = 1.25
   let cw1 = (1.8, 3.0)
@@ -150,32 +148,32 @@
   // Dimension line: radius t from codeword 1 to sphere edge
   let dim-start = cw1
   let dim-end = (cw1.at(0) + r, cw1.at(1))
-  line(dim-start, dim-end, stroke: (paint: hs-dim, thickness: 0.6pt))
+  draw.line(dim-start, dim-end, stroke: (paint: hs-dim, thickness: 0.6pt))
   // Tick marks
-  line(
+  draw.line(
     (dim-start.at(0), dim-start.at(1) - 0.12),
     (dim-start.at(0), dim-start.at(1) + 0.12),
     stroke: (paint: hs-dim, thickness: 0.5pt),
   )
-  line(
+  draw.line(
     (dim-end.at(0), dim-end.at(1) - 0.12),
     (dim-end.at(0), dim-end.at(1) + 0.12),
     stroke: (paint: hs-dim, thickness: 0.5pt),
   )
   // Dimension label
-  content(
+  draw.content(
     (cw1.at(0) + r / 2, cw1.at(1) + 0.28),
     anchor: "south",
     text(size: 0.7em, fill: hs-dim)[радиус $t$],
   )
 
   // Codeword label with arrow
-  content(
+  draw.content(
     (cw2.at(0), cw2.at(1) + 0.6),
     anchor: "south",
     text(size: 0.7em, fill: hs-label)[кодовое слово],
   )
-  line(
+  draw.line(
     (cw2.at(0), cw2.at(1) + 0.42),
     (cw2.at(0), cw2.at(1) + 0.19),
     stroke: (paint: hs-label, thickness: 0.4pt),
@@ -490,7 +488,6 @@
 // p₁ feeds d₁, d₂, d₄; p₂ feeds d₁, d₃, d₄; p₄ feeds d₂, d₃, d₄; each dᵢ
 // reaches only its own line.
 #let hamming-groups = canvas({
-  import draw: *
 
   // Horizontal position of each codeword bit (index: position - 1).
   let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
@@ -502,20 +499,20 @@
   let data-y = (5.4, 4.5, 3.6, 2.7)
   let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
   for (i, y) in data-y.enumerate() {
-    line((-0.6, y), (6.6, y), stroke: (paint: hg-line, thickness: 0.5pt))
-    content((-1.7, y), text(size: 0.7em, fill: hg-data)[#data-name.at(i)])
+    draw.line((-0.6, y), (6.6, y), stroke: (paint: hg-line, thickness: 0.5pt))
+    draw.content((-1.7, y), text(size: 0.7em, fill: hg-data)[#data-name.at(i)])
   }
 
   // One circle per bit, stroked in its group's color.
   let hg-bit(bx, label, num, color) = {
-    circle(
+    draw.circle(
       (bx, cy),
       radius: r,
       fill: hg-fill,
       stroke: (paint: color, thickness: 0.8pt),
     )
-    content((bx, cy), text(size: 0.72em, fill: hg-label)[#label])
-    content((bx, cy + 0.8), text(size: 0.55em, fill: hg-dim)[#num])
+    draw.content((bx, cy), text(size: 0.72em, fill: hg-label)[#label])
+    draw.content((bx, cy + 0.8), text(size: 0.55em, fill: hg-dim)[#num])
   }
   hg-bit(x.at(0), $p_1$, 1, hg-p1)
   hg-bit(x.at(1), $p_2$, 2, hg-p2)
@@ -527,9 +524,9 @@
 
   // Vertical from a bit down to its lines; dots mark the connections.
   let hg-edge(bx, bottom, color, dots) = {
-    line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: 1pt))
+    draw.line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: 1pt))
     for d in dots {
-      circle((bx, d), radius: 0.13, fill: color)
+      draw.circle((bx, d), radius: 0.13, fill: color)
     }
   }
   hg-edge(x.at(0), data-y.at(3), hg-p1, (data-y.at(0), data-y.at(1), data-y.at(3)))

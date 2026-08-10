@@ -380,7 +380,6 @@
 // Odd cycle: 5 vertices need 3 colours.  4 vertices alternate red-green;
 // the 5th is adjacent to one red and one green → needs blue.
 #let graph-coloring = canvas({
-  import draw: *
   let v = (
     (0, 2),
     (-1.902, 0.618),
@@ -681,7 +680,6 @@
 // S→A (weight 3), S→B (weight 2), A→B (weight −2).
 // Intuition: Dijkstra fixes B at distance 2 before the negative edge can shorten it.
 #let dijkstra-counterexample = canvas({
-  import draw: *
   let c-neg = oklch(58%, 0.22, 22deg) // red highlight for negative edge
 
   // Node positions

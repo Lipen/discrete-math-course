@@ -223,7 +223,6 @@
 // Trapezoid: data inputs D0..D3 on the left, output Y on the right,
 // select lines S0,S1 on top.
 #let multiplexer-4to1 = ccetz.canvas({
-  import draw: *
 
   let c-body = oklch(90%, 0.03, 250deg)
   let c-str = oklch(35%, 0.02, 265deg) + 0.7pt

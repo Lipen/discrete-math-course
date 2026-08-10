@@ -37,7 +37,6 @@
   }
 
   canvas({
-    import draw: *
 
     // Level 0 --- root application
     tree-node((0, 1.8), "root", $@$, c-app)
@@ -115,7 +114,6 @@
   }
 
   canvas({
-    import draw: *
 
     // M --- top
     cr-node(

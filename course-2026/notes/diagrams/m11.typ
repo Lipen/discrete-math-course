@@ -299,7 +299,6 @@
 #let c-dt-leaf = oklch(35%, 0.08, 140deg)
 
 #let decision-tree = canvas({
-  import draw: *
 
   // Helper: node --- small named circle
   let node(pos, name) = {
@@ -468,7 +467,6 @@
 #let venn-ie-text = oklch(35%, 0.02, 265deg)
 
 #let venn-inclusion-exclusion = canvas({
-  import draw: *
 
   let r = 2.1
   let pa = (-1.3, 0.75)

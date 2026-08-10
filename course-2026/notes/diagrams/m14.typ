@@ -73,7 +73,6 @@
 // TM: q0 = even so far, q1 = odd so far.
 // δ(q0,1)=(q1,1,R), δ(q1,1)=(q0,1,R), δ(q0,Blank)=accept.
 #let tm-computation = canvas({
-  import draw: *
 
   let cell = 0.75
   let n = 6

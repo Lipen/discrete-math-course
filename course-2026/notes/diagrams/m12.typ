@@ -296,7 +296,6 @@
 #let c-mc-label = oklch(30%, 0.02, 265deg)
 
 #let markov-chain = canvas({
-  import draw: *
 
   // State node helper --- labeled circle
   let state(pos, label, name) = {

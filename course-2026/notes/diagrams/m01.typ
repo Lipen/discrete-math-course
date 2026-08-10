@@ -189,7 +189,6 @@
   }
 
   canvas({
-    import draw: *
 
     // Four corners
     corner((0, 0), "A")
