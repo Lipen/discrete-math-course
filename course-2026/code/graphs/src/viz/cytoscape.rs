@@ -12,8 +12,9 @@
 //! the schema, and `serde_json` handles string escaping -- vertex names may
 //! contain quotes, slashes, and newlines, and the JSON stays valid.
 
-use crate::graph::Graph;
 use serde::Serialize;
+
+use crate::graph::Graph;
 
 /// One vertex in cytoscape.js format.
 #[derive(Serialize)]

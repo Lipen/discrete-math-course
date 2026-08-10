@@ -57,7 +57,9 @@ impl Term {
                 // rename the bound variable (alpha-conversion).
                 if replacement.free_vars().contains(y) {
                     let mut fresh = format!("{y}'");
-                    while body.free_vars().contains(&fresh) || replacement.free_vars().contains(&fresh) {
+                    while body.free_vars().contains(&fresh)
+                        || replacement.free_vars().contains(&fresh)
+                    {
                         fresh = format!("{fresh}'");
                     }
                     let renamed = body.rename(y, &fresh);

@@ -13,8 +13,9 @@ pub use domains::{Interval, Sign};
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use program::{assign, eval_interval, exec_interval, exec_sign, inc, State};
+
+    use super::*;
 
     #[test]
     fn sign_addition_is_imprecise_for_mixed() {

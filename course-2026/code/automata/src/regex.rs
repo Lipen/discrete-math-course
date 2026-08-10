@@ -185,10 +185,9 @@ impl Parser {
                 self.pos += 1;
                 Ok(inner)
             }
-            Some(')') | Some('|') | Some('*') => Err(format!(
-                "unexpected symbol '{}'",
-                self.peek().unwrap()
-            )),
+            Some(')') | Some('|') | Some('*') => {
+                Err(format!("unexpected symbol '{}'", self.peek().unwrap()))
+            }
             Some(c) => {
                 self.pos += 1;
                 Ok(RegEx::Sym(c))
