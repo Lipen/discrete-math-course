@@ -521,7 +521,7 @@ _График_ функции $f: A -> B$ --- это множество упор
   Цепочка сохраняет свойства каждого звена --- три утверждения выше суть одно.
   Именно это позволяет строить сложные преобразования из простых, проверяя корректность каждого шага по отдельности.
   В этом состоит принцип модульной верификации: если каждый модуль корректен относительно своей спецификации, то и композиция модулей корректна.#footnote[
-    B. Liskov, J. Guttag, "Program Development in Java: Abstraction, Specification, and Object-Oriented Design", Addison-Wesley, 2000, глава о композиции спецификаций.
+    B. Liskov, J. Guttag, "Program Development in Java: Abstraction, Specification, and Object-Oriented Design", 2000, глава о композиции спецификаций.
   ]
 ]
 

@@ -1395,7 +1395,7 @@ BFS от $A$ до $D$ выдаст прямой путь $A -> D$ длины $1$
 Каждое удаление увеличивает число компонент связности, и на каждом шаге пересчитывается промежуточность оставшихся рёбер.
 Альтернативный подход --- максимизация модулярности (modularity): меры того, насколько плотность рёбер внутри предполагаемых сообществ превышает ожидаемую плотность в случайном графе с теми же степенями вершин.#footnote[
   Girvan M., Newman M. "Community structure in social and biological networks", PNAS, 2002.
-  Newman M. "Networks: An Introduction", Oxford, 2010.
+  Newman M. "Networks: An Introduction", 2010.
 ]
 
 === Маршрутизация в сетях
@@ -1449,8 +1449,8 @@ Model checking --- метод автоматической верификаци�
 Современные model checker'ы (NuSMV, SPIN) справляются с $10^(20)$ и более состояниями благодаря символьной верификации.
 Множества состояний представляются не перечислением, а булевыми формулами в виде BDD (Binary Decision Diagrams) --- компактных ациклических графов, кодирующих булевы функции.
 Операции над множествами (объединение, пересечение, проверка пустоты) выполняются как операции над BDD.#footnote[
-  Clarke E., Grumberg O., Peled D. "Model Checking", MIT Press, 1999.
-  Baier C., Katoen J.-P. "Principles of Model Checking", MIT Press, 2008.
+  Clarke E., Grumberg O., Peled D. "Model Checking", 1999.
+  Baier C., Katoen J.-P. "Principles of Model Checking", 2008.
 ]
 
 === PageRank и поисковые системы
