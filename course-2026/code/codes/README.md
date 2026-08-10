@@ -21,9 +21,23 @@ so at nearly twice the rate.
 ```bash
 cargo run -p codes --example hamming_demo
 cargo run -p codes --example codes_compare
-cargo run -p codes --example error_scenarios
+cargo run -p codes --example hamming_errors
+cargo run -p codes --example repetition_errors
+cargo run -p codes --example parity_errors
 cargo test -p codes
 ```
+
+The demos:
+
+| Example | What it shows |
+| --- | --- |
+| `hamming_demo` | One word through the whole Hamming pipeline |
+| `codes_compare` | The three families side by side (rate vs distance) |
+| `hamming_errors` | Hamming at 0, 1, 2, 3 flipped bits |
+| `repetition_errors` | Repetition at 0, 1, 2, 3 flipped bits |
+| `parity_errors` | Parity at 0, 1, 2, 3 flipped bits |
+
+The `*_errors` demos draw the flipped bits in red when the terminal supports it.
 
 ## Hamming(7,4)
 
