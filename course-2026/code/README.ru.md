@@ -18,6 +18,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`crypto`](crypto/README.md) | Теория чисел и криптография | Модулярная арифметика, RSA, реальные атаки на него |
 | [`lambda`](lambda/README.md) | Бестиповое λ-исчисление | Термы, подстановка без захвата, β-редукция, числа Чёрча |
 | [`turing`](turing/README.md) | Машины Тьюринга | Лента на двух стеках, таблица переходов, трассы вычислений, примеры машин |
+| [`graphs`](graphs/README.md) | Графы | Простая модель без дженериков, BFS/DFS, Дейкстра, Краскал, Эйлер, мосты, раскраска; рендер в SVG/DOT/cytoscape/HTML |
 
 ## Структура
 
@@ -64,6 +65,7 @@ README каждого крейта объясняет модуль, перечи
 - [crypto/README.md](crypto/README.md)
 - [lambda/README.md](lambda/README.md)
 - [turing/README.md](turing/README.md)
+- [graphs/README.md](graphs/README.md)
 
 ## Английская версия
 

@@ -18,6 +18,7 @@ Crates build, test, and run on their own.
 | [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
 | [`lambda`](lambda/README.md) | Untyped λ-calculus | Terms, capture-avoiding substitution, β-reduction, Church numerals |
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
+| [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring; SVG/DOT/cytoscape/HTML renderers |
 
 ## Layout
 
