@@ -160,4 +160,76 @@ mod tests {
     fn empty_formula_is_trivially_sat() {
         assert!(solve(0, &[]).is_some());
     }
+
+    /// A tiny xorshift64 generator so the random tests stay dependency-free.
+    struct TestRng(u64);
+
+    impl TestRng {
+        fn below(&mut self, n: usize) -> usize {
+            let mut x = self.0;
+            x ^= x << 13;
+            x ^= x >> 7;
+            x ^= x << 17;
+            self.0 = x;
+            (x % n as u64) as usize
+        }
+    }
+
+    /// `solve` must agree with exhaustive search on random small formulas.
+    #[test]
+    fn matches_brute_force_on_random_formulas() {
+        fn brute_force(nvars: usize, clauses: &[Clause]) -> bool {
+            (0..(1u32 << nvars)).any(|mask| {
+                clauses.iter().all(|clause| {
+                    clause.iter().any(|&l| {
+                        let v = l.unsigned_abs() as usize - 1;
+                        ((mask >> v) & 1) == (l > 0) as u32
+                    })
+                })
+            })
+        }
+
+        let mut rng = TestRng(0x9E37_79B9_7F4A_7C15);
+        for nvars in 1..=4usize {
+            for _ in 0..200 {
+                let mut clauses = Vec::new();
+                for _ in 0..rng.below(3 * nvars + 1) {
+                    let clause: Clause = (0..rng.below(4)) // 0..=3 literals
+                        .map(|_| {
+                            let v = (rng.below(nvars) + 1) as i32;
+                            if rng.below(2) == 0 {
+                                v
+                            } else {
+                                -v
+                            }
+                        })
+                        .collect();
+                    clauses.push(clause);
+                }
+                let model = solve(nvars, &clauses);
+                match model {
+                    Some(m) => {
+                        assert!(
+                            brute_force(nvars, &clauses),
+                            "solve found a model for an unsat formula: {clauses:?}"
+                        );
+                        // The returned model really satisfies every clause.
+                        for clause in &clauses {
+                            assert!(
+                                clause.iter().any(|&l| {
+                                    let v = l.unsigned_abs() as usize - 1;
+                                    m[v] == (l > 0)
+                                }),
+                                "model {m:?} does not satisfy {clause:?} in {clauses:?}"
+                            );
+                        }
+                    }
+                    None => assert!(
+                        !brute_force(nvars, &clauses),
+                        "solve says unsat but {clauses:?} is satisfiable (nvars {nvars})"
+                    ),
+                }
+            }
+        }
+    }
 }
