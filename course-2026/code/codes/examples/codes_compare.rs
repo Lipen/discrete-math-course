@@ -5,8 +5,8 @@
 //! one word through each family: encode, corrupt, recover or detect.
 
 use codes::{
-    corrects_up_to, decode, detects_up_to, encode, min_distance, parity_encode,
-    parity_ok, repeat_decode, repeat_encode, syndrome,
+    corrects_up_to, decode, detects_up_to, encode, min_distance, parity_encode, parity_ok,
+    repeat_decode, repeat_encode, syndrome,
 };
 
 fn bits(word: &[bool]) -> String {
@@ -40,10 +40,8 @@ fn main() {
     let k = 4;
     let message = [true, false, true, true]; // 1011
 
-    let parity_words: Vec<Vec<bool>> =
-        all_messages(k).iter().map(|m| parity_encode(m)).collect();
-    let repeat_words: Vec<Vec<bool>> =
-        all_messages(k).iter().map(|m| repeat_block(m)).collect();
+    let parity_words: Vec<Vec<bool>> = all_messages(k).iter().map(|m| parity_encode(m)).collect();
+    let repeat_words: Vec<Vec<bool>> = all_messages(k).iter().map(|m| repeat_block(m)).collect();
     let hamming_words: Vec<Vec<bool>> = all_messages(k)
         .iter()
         .map(|m| encode([m[0], m[1], m[2], m[3]]).to_vec())
