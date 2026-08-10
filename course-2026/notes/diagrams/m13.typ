@@ -43,6 +43,8 @@
   spacing: 3em,
   edge((-1, 0), "-}>"),
   node((0, 0), $q_0$, name: <s0>),
+  // q0 self-loop: keep scanning until the run of "00" or "11" starts
+  edge(<s0>, <s0>, "-}>", label: "0,1", bend: 80deg),
   // Upper branch
   edge(<s0>, <s1>, "-}>", label: "0"),
   node((1, 1), $q_1$, name: <s1>),
