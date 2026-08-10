@@ -133,7 +133,7 @@
   draw.content((1.0, -0.2), text(size: 0.6em, fill: c-label)[coNP])
 
   // P
-  draw.circle((-0.4, -0.2), radius: (0.55, 0.35), fill: c-p, stroke: c-border)
+  draw.circle((0.1, -0.2), radius: (0.5, 0.3), fill: c-p, stroke: c-border)
   draw.content((-0.4, -0.2), text(size: 0.65em, fill: c-label)[P])
 
   // Proper inclusion notes
@@ -203,12 +203,6 @@
   draw.line((0, y1 + h + 0.1), (0, y1 + 0.05), stroke: c-arrow, mark: (
     end: ">",
   ))
-  draw.line((0, y1 + h + 0.1), (3, y1 - gap + 0.05), stroke: c-arrow, mark: (
-    end: ">",
-  ))
-  draw.line((0, y1 + h + 0.1), (-3, y1 - gap + 0.05), stroke: c-arrow, mark: (
-    end: ">",
-  ))
 
   // Level 2: Hamiltonian Cycle, Subset Sum
   let y2 = y1 - 2 * gap - 2 * h
@@ -234,7 +228,12 @@
   draw.line((-3, y1 - gap - h + 0.1), (-3, y2 + 0.05), stroke: c-arrow, mark: (
     end: ">",
   ))
-  draw.line((3, y1 - gap - h + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (
+  // 3-SAT → Subset Sum (canonical chain)
+  draw.line((0, y1 + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (
+    end: ">",
+  ))
+  // Vertex Cover → Clique (canonical chain)
+  draw.line((-1.9, y1 - gap + h / 2), (1.9, y1 - gap + h / 2), stroke: c-arrow, mark: (
     end: ">",
   ))
 
