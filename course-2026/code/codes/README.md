@@ -30,19 +30,30 @@ cargo test -p codes
 Data bits sit at positions 3, 5, 6, 7; parity bits `p1`, `p2`, `p4` at positions 1, 2, 4.
 Each parity bit is the xor (sum modulo 2) of the data bits it covers:
 
-| parity bit | xor of data bits | covers positions |
-| --- | --- | --- |
-| `p1` | `d1 ⊕ d2 ⊕ d4` | 1, 3, 5, 7 |
-| `p2` | `d1 ⊕ d3 ⊕ d4` | 2, 3, 6, 7 |
-| `p4` | `d2 ⊕ d3 ⊕ d4` | 4, 5, 6, 7 |
+![Hamming(7,4): which data bits feed each parity bit](assets/hamming-7-4.svg)
 
-![Hamming(7,4): each parity bit is the xor of the data bits it covers](assets/hamming-7-4.svg)
+$$ p_1 = d_1 \oplus d_2 \oplus d_4, \qquad
+   p_2 = d_1 \oplus d_3 \oplus d_4, \qquad
+   p_4 = d_2 \oplus d_3 \oplus d_4 $$
 
-The decoder recomputes the three parities of the
-received word; they form a 3-bit syndrome. Zero means "no error", any other
-value is exactly the position of the flipped bit:
+Equivalently, in terms of positions inside the 7-bit word:
 
-$$ s = (s_4\, s_2\, s_1)_2 \;\Rightarrow\; \text{flip bit } s $$
+| parity bit | covers positions |
+| --- | --- |
+| `p1` | 1, 3, 5, 7 |
+| `p2` | 2, 3, 6, 7 |
+| `p4` | 4, 5, 6, 7 |
+
+The decoder recomputes the three parities of the received word; they form the
+3-bit syndrome
+
+$$ s = (s_4\, s_2\, s_1)_2 . $$
+
+Read `s` as a binary number: it encodes the **number of the bit to flip
+back**, and that interpretation is correct **if at most one error occurred**.
+With two or more flipped bits `s` stays nonzero but points at the wrong
+position, so the decoder "corrects" a bit that was never wrong -- the price of
+a code of distance 3.
 
 ## Repetition (3, 1, 3)
 
