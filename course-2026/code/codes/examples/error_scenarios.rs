@@ -33,6 +33,14 @@ fn bits_colored(word: &[bool], flips: &[usize]) -> String {
         .collect()
 }
 
+/// The syndrome as its bits (s4 s2 s1), as a binary number, and in decimal.
+fn syndrome_bits(s: u8) -> String {
+    let s4 = (s >> 2) & 1;
+    let s2 = (s >> 1) & 1;
+    let s1 = s & 1;
+    format!("(s₄ s₂ s₁) = ({s4} {s2} {s1})₂ = {s}")
+}
+
 /// Flips the given 1-based positions in place.
 fn flip(word: &mut [bool], positions: &[usize]) {
     for &p in positions {
@@ -114,8 +122,9 @@ fn hamming_section(data: &[bool; 4]) {
         };
         println!("case {label}");
         println!(
-            "  received = {}, syndrome = {s}",
-            bits_colored(&received, flips)
+            "  received = {}, syndrome = {}",
+            bits_colored(&received, flips),
+            syndrome_bits(s)
         );
         println!(
             "  decoder: corrected {}, error at {}, data = {}",

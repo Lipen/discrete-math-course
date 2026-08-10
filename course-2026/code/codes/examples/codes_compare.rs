@@ -30,6 +30,14 @@ fn bits_colored(word: &[bool], flipped: usize) -> String {
         .collect()
 }
 
+/// The syndrome as its bits (s4 s2 s1), as a binary number, and in decimal.
+fn syndrome_bits(s: u8) -> String {
+    let s4 = (s >> 2) & 1;
+    let s2 = (s >> 1) & 1;
+    let s1 = s & 1;
+    format!("(s₄ s₂ s₁) = ({s4} {s2} {s1})₂ = {s}")
+}
+
 /// All messages of k bits, in binary order.
 fn all_messages(k: usize) -> Vec<Vec<bool>> {
     (0..(1usize << k))
@@ -100,10 +108,11 @@ fn main() {
     let s = syndrome(hw_corrupt);
     let decoded = decode(hw_corrupt);
     println!(
-        "\nhamming: {} -> {}, flip bit 4 -> {}, syndrome = {s}, recovered {}",
+        "\nhamming: {} -> {}, flip bit 4 -> {}, syndrome = {}, recovered {}",
         bits(&message),
         bits(&hw),
         bits_colored(&hw_corrupt, 4),
+        syndrome_bits(s),
         bits(&decoded.data)
     );
 }

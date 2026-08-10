@@ -29,6 +29,14 @@ fn bits_colored(word: &[bool; 7], flipped: usize) -> String {
         .collect()
 }
 
+/// The syndrome as its bits (s4 s2 s1), as a binary number, and in decimal.
+fn syndrome_bits(s: u8) -> String {
+    let s4 = (s >> 2) & 1;
+    let s2 = (s >> 1) & 1;
+    let s1 = s & 1;
+    format!("(s₄ s₂ s₁) = ({s4} {s2} {s1})₂ = {s}")
+}
+
 fn main() {
     let data = [true, false, true, true]; // 1011
     let word = encode(data);
@@ -43,7 +51,10 @@ fn main() {
         "\ncorrupt bit 4 -> received = {}",
         bits_colored(&received, 4)
     );
-    println!("syndrome = {s}   (the position of the error)");
+    println!(
+        "syndrome = {}   (the position of the error)",
+        syndrome_bits(s)
+    );
 
     let decoded = decode(received);
     println!(
