@@ -1,25 +1,29 @@
-//! A machine from the chapter recognizing the language 0^n 1^n.
+//! A machine from the chapter recognising the language 0^n 1^n.
 //!
-//! A run on the word "0011": the machine crosses out pairs 0--1 with X
-//! and accepts when all symbols are crossed out.
+//! The algorithm crosses out matching 0--1 pairs with X and accepts when
+//! all symbols are crossed out. This example prints the outcome for several
+//! words and shows a full step-by-step trace for "0011".
 
-use turing::{examples, Tape};
+use turing::{machines, Tape};
 
 fn main() {
-    let machine = examples::zero_n_one_n();
+    let machine = machines::zero_n_one_n();
 
-    for word in ["", "01", "0011", "001", "10"] {
-        let tape = Tape::with_word(&word.chars().collect::<Vec<_>>(), ' ');
+    println!("=== 0^n 1^n -- outcome for several inputs ===\n");
+    for word in ["", "01", "0011", "000111", "0", "001", "10", "011"] {
+        let chars: Vec<char> = word.chars().collect();
+        let tape = Tape::with_word(&chars, ' ');
         let outcome = machine.run(tape, 100).outcome;
-        println!("{word:>6} -> {outcome:?}");
+        println!("  {word:>8}  ->  {outcome}");
     }
 
-    // The full trace for "0011".
+    // Full step-by-step trace for "0011".
+    println!("\n=== Step-by-step trace for 0011 ===\n");
     let tape = Tape::with_word(&['0', '0', '1', '1'], ' ');
     let run = machine.run(tape, 100);
-    println!("\nTrace for 0011:");
     for (i, cfg) in run.configs.iter().enumerate() {
-        let content: String = cfg.tape.content().iter().collect();
-        println!("{i:>2}: {:>6}  [{content}]", cfg.state);
+        let tape_str: String = cfg.tape.content_trimmed().iter().collect();
+        println!("  step {i:>2}:  state={:>6}  tape=[{tape_str}]", cfg.state);
     }
+    println!("\n  outcome: {}", run.outcome);
 }
