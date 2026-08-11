@@ -113,27 +113,45 @@ assert_eq!(detects_up_to(d), 2);   // d - 1
 assert_eq!(corrects_up_to(d), 1);  // (d - 1) / 2
 ```
 
+## Modules
+
+| Module | What is inside |
+| --- | --- |
+| `hamming` | `encode`, `syndrome`, `data_bits`, `decode`, `Decoded` |
+| `extended` | `encode`, `decode`, `Outcome`, `Decoded` |
+| `repetition` | `encode`, `decode` |
+| `parity` | `bit`, `encode`, `ok`, `decode` |
+| `distance` | `hamming`, `min_distance`, `detects_up_to`, `corrects_up_to` |
+
+All public items are also re-exported from the crate root under their familiar
+names (`codes::encode`, `codes::parity_bit`, `codes::extended_decode`, etc.),
+so existing code continues to work.
+
 ## API
 
-| Function | Purpose |
-| --- | --- |
-| `parity_bit` | 1 when the data has an odd number of ones |
-| `parity_encode` | Appends the parity bit: (n + 1, n, 2) code |
-| `parity_ok` | True when the word passes the even-parity check |
-| `extended_encode` | 4 data bits -> 8-bit extended Hamming codeword |
-| `extended_decode` | Corrects one error, detects two; returns `ExtendedDecoded` |
-| `repeat_encode` | One bit -> the same bit three times |
-| `repeat_decode` | Majority vote over three bits |
-| `encode` | 4 data bits -> 7-bit Hamming codeword |
-| `syndrome` | 0 for a valid codeword, else the position of a single error |
-| `decode` | Corrects a single error and returns the data bits |
-| `data_bits` | Extracts the 4 data bits from a 7-bit word |
-| `hamming_distance` | Number of differing positions between two bit strings |
-| `min_distance` | Smallest pairwise distance over a set of codewords |
-| `detects_up_to` | d - 1: errors detected by a code of distance d |
-| `corrects_up_to` | (d - 1) / 2: errors corrected by a code of distance d |
+| Function | Module | Purpose |
+| --- | --- | --- |
+| `encode` | `hamming` | 4 data bits -> 7-bit Hamming codeword |
+| `syndrome` | `hamming` | 0 for a valid codeword, else the position of a single error |
+| `decode` | `hamming` | Corrects a single error and returns the data bits |
+| `data_bits` | `hamming` | Extracts the 4 data bits from a 7-bit word |
+| `extended::encode` | `extended` | 4 data bits -> 8-bit extended Hamming codeword |
+| `extended::decode` | `extended` | Corrects one error, detects two; returns `ExtendedDecoded` |
+| `repeat_encode` | `repetition` | One bit -> the same bit three times |
+| `repeat_decode` | `repetition` | Majority vote over three bits |
+| `parity_bit` | `parity` | 1 when the data has an odd number of ones |
+| `parity_encode` | `parity` | Appends the parity bit: (n + 1, n, 2) code |
+| `parity_ok` | `parity` | True when the word passes the even-parity check |
+| `parity_decode` | `parity` | Strips the parity bit if the check passes; `None` otherwise |
+| `hamming_distance` | `distance` | Number of differing positions between two bit strings |
+| `min_distance` | `distance` | Smallest pairwise distance over a set of codewords |
+| `detects_up_to` | `distance` | d - 1: errors detected by a code of distance d |
+| `corrects_up_to` | `distance` | d - 1 / 2: errors corrected by a code of distance d |
 
-`Decoded` reports the recovered data plus how many errors were corrected (0 or 1) and where.
+`hamming::Decoded` reports the recovered data plus how many errors were
+corrected (0 or 1) and where.
+`extended::Decoded` reports data and an `Outcome` (`Clean`, `Corrected`,
+or `Double`).
 
 ## Tests
 
@@ -141,10 +159,19 @@ assert_eq!(corrects_up_to(d), 1);  // (d - 1) / 2
 cargo test -p codes
 ```
 
-For Hamming, every one of the 16 data words is checked against all 7 single-bit
-corruptions, and every pair of distinct codewords is checked to differ in at
-least 3 positions. The extended code is checked against all 8 single-bit
-corruptions (corrected) and all 28 double-bit corruptions (detected), and its
-minimum distance is verified to be 4. For repetition, all 3-bit words are voted
-on. For parity, every single-bit corruption of every valid word fails the
-check. `min_distance` is verified to give 2, 3, 3, 4 for the four codes.
+Unit tests: 29. Doc-tests: 19 (every public function has a runnable example).
+Test coverage:
+
+- Hamming(7,4): all 16 codewords verified, all 16 x 7 single-bit corruptions
+  corrected, all 16 x 15/2 = 120 word pairs checked for d >= 3, double-error
+  miscorrection verified, syndrome table checked, hand-computed word validated.
+- Extended Hamming(8,4,4): all 16 codewords have even parity, all 16 x 8
+  single-bit corruptions corrected, all 16 x 28 double-bit corruptions
+  detected, parity-bit-only and data+parity bit scenarios checked, d = 4
+  verified.
+- Repetition(3,1,3): exhaustive 8-word majority vote, two-error flip verified,
+  d = 3 verified.
+- Parity: all 16 data words checked, all 16 x 5 single-bit corruptions
+  detected, two-error slip verified, `parity_decode` tested, edge case
+  (empty data) covered, d = 2 verified.
+- Distance: helpers verified for d = 0..4, different-length panic checked.
