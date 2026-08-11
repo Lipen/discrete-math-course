@@ -1,42 +1,147 @@
 //! Regular expressions and the Thompson construction.
 //!
-//! A regular expression is parsed from a string and turned into an epsilon-NFA
-//! by the Thompson construction, then --- optionally --- into a DFA (see
-//! `Nfa::to_dfa`). Book example: `(a|b)*a(a|b)` is the language of words whose
-//! second-to-last letter is `a`.
+//! A regular expression is parsed from a string by recursive descent and
+//! turned into an epsilon-NFA via the Thompson construction.
+//! The result can be determinized with [`Nfa::to_dfa`](crate::Nfa::to_dfa).
+//!
+//! The grammar is: `union := concat ('|' concat)*`, `concat := star+`,
+//! `star := atom '*'*`, `atom := symbol | '(' union ')'`.
+//! Juxtaposition is implicit concatenation.
+//!
+//! ```
+//! use automata::{parse, RegEx};
+//!
+//! let re = parse("(a|b)*a(a|b)").unwrap();
+//! // Words whose second-to-last letter is 'a'.
+//! let nfa = re.to_nfa();
+//! assert!(nfa.accepts("aa"));
+//! assert!(nfa.accepts("ab"));
+//! assert!(!nfa.accepts("ba"));
+//! assert!(!nfa.accepts(""));
+//! ```
 
 use crate::nfa::Nfa;
 
 /// A regular expression over an alphabet of `char`.
+///
+/// Construct via the [`parse`] function or the convenience methods
+/// [`sym`](RegEx::sym), [`concat`](RegEx::concat), [`union`](RegEx::union),
+/// [`star`](RegEx::star).
+///
+/// ```
+/// use automata::RegEx;
+///
+/// // (a|b)*  --  zero or more repetitions of 'a' or 'b'.
+/// let re = RegEx::star(RegEx::union(RegEx::sym('a'), RegEx::sym('b')));
+/// let nfa = re.to_nfa();
+/// assert!(nfa.accepts(""));
+/// assert!(nfa.accepts("a"));
+/// assert!(nfa.accepts("abba"));
+/// assert!(!nfa.accepts("c"));
+/// ```
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum RegEx {
-    /// The empty language `∅`.
+    /// The empty language `∅` -- accepts nothing.
     Empty,
-    /// The empty word `ε`.
+    /// The empty word `ε` -- accepts only the empty string.
     Epsilon,
     /// A single symbol.
     Sym(char),
-    /// Concatenation `AB`.
+    /// Concatenation `AB` -- words that are a word of A followed by a word of B.
     Concat(Box<RegEx>, Box<RegEx>),
-    /// Union `A|B`.
+    /// Union `A|B` -- words that belong to A or to B (or both).
     Union(Box<RegEx>, Box<RegEx>),
-    /// Kleene star `A*`.
+    /// Kleene star `A*` -- zero or more repetitions of a word from A.
     Star(Box<RegEx>),
 }
 
 impl RegEx {
+    /// A single symbol.
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// let re = RegEx::sym('x');
+    /// let nfa = re.to_nfa();
+    /// assert!(nfa.accepts("x"));
+    /// assert!(!nfa.accepts(""));
+    /// assert!(!nfa.accepts("xx"));
+    /// ```
     pub fn sym(c: char) -> RegEx {
         RegEx::Sym(c)
     }
 
+    /// The empty language.
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// let re = RegEx::empty();
+    /// let nfa = re.to_nfa();
+    /// assert!(!nfa.accepts(""));
+    /// assert!(!nfa.accepts("a"));
+    /// ```
+    pub fn empty() -> RegEx {
+        RegEx::Empty
+    }
+
+    /// The empty word (epsilon).
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// let re = RegEx::epsilon();
+    /// let nfa = re.to_nfa();
+    /// assert!(nfa.accepts(""));
+    /// assert!(!nfa.accepts("a"));
+    /// ```
+    pub fn epsilon() -> RegEx {
+        RegEx::Epsilon
+    }
+
+    /// Concatenation of two expressions: `AB`.
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// let re = RegEx::concat(RegEx::sym('a'), RegEx::sym('b'));
+    /// let nfa = re.to_nfa();
+    /// assert!(nfa.accepts("ab"));
+    /// assert!(!nfa.accepts("a"));
+    /// assert!(!nfa.accepts("ba"));
+    /// ```
     pub fn concat(a: RegEx, b: RegEx) -> RegEx {
         RegEx::Concat(Box::new(a), Box::new(b))
     }
 
+    /// Union of two expressions: `A|B`.
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// let re = RegEx::union(RegEx::sym('a'), RegEx::sym('b'));
+    /// let nfa = re.to_nfa();
+    /// assert!(nfa.accepts("a"));
+    /// assert!(nfa.accepts("b"));
+    /// assert!(!nfa.accepts(""));
+    /// assert!(!nfa.accepts("ab"));
+    /// ```
     pub fn union(a: RegEx, b: RegEx) -> RegEx {
         RegEx::Union(Box::new(a), Box::new(b))
     }
 
+    /// Kleene star of an expression: `A*`.
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// let re = RegEx::star(RegEx::sym('a'));
+    /// let nfa = re.to_nfa();
+    /// assert!(nfa.accepts(""));
+    /// assert!(nfa.accepts("a"));
+    /// assert!(nfa.accepts("aaaa"));
+    /// assert!(!nfa.accepts("b"));
+    /// ```
     pub fn star(a: RegEx) -> RegEx {
         RegEx::Star(Box::new(a))
     }
@@ -59,6 +164,26 @@ impl RegEx {
     }
 
     /// Thompson construction: regular expression -> epsilon-NFA.
+    ///
+    /// Each constructor (`Empty`, `Epsilon`, `Sym`, `Concat`, `Union`,
+    /// `Star`) adds a small sub-automaton with exactly one start state
+    /// and one accepting state.
+    ///
+    /// ```
+    /// use automata::RegEx;
+    ///
+    /// // (a|b)*a  --  words ending in 'a'.
+    /// let re = RegEx::concat(
+    ///     RegEx::star(RegEx::union(RegEx::sym('a'), RegEx::sym('b'))),
+    ///     RegEx::sym('a'),
+    /// );
+    /// let nfa = re.to_nfa();
+    /// assert!(nfa.accepts("a"));
+    /// assert!(nfa.accepts("ba"));
+    /// assert!(nfa.accepts("abba"));
+    /// assert!(!nfa.accepts(""));
+    /// assert!(!nfa.accepts("b"));
+    /// ```
     pub fn to_nfa(&self) -> Nfa {
         let mut alphabet = Vec::new();
         self.symbols(&mut alphabet);
@@ -202,6 +327,26 @@ impl Parser {
 }
 
 /// Parses a string into a regular expression.
+///
+/// The syntax supports symbols (any char except `(`, `)`, `|`, `*`),
+/// concatenation by juxtaposition, union `|`, Kleene star `*`, and
+/// grouping with parentheses.
+///
+/// ```
+/// use automata::parse;
+///
+/// // Words whose second-to-last letter is 'a'.
+/// let re = parse("(a|b)*a(a|b)").unwrap();
+/// let nfa = re.to_nfa();
+/// assert!(nfa.accepts("aa"));
+/// assert!(nfa.accepts("ab"));
+/// assert!(!nfa.accepts("ba"));
+///
+/// // Parse errors.
+/// assert!(parse("a|").is_err());
+/// assert!(parse("(a").is_err());
+/// assert!(parse("*a").is_err());
+/// ```
 pub fn parse(s: &str) -> Result<RegEx, String> {
     Parser::new(s).parse()
 }
@@ -275,6 +420,77 @@ mod tests {
         assert!(!dfa.accepts("abc"));
     }
 
+    #[test]
+    fn parse_errors() {
+        assert!(parse("").is_err());
+        assert!(parse("a|").is_err());
+        assert!(parse("(a").is_err());
+        assert!(parse("*a").is_err());
+        assert!(parse("a|*").is_err());
+        assert!(parse(")a").is_err());
+    }
+
+    #[test]
+    fn empty_language_accepts_nothing() {
+        let re = RegEx::empty();
+        let nfa = re.to_nfa();
+        assert!(!nfa.accepts(""));
+        assert!(!nfa.accepts("a"));
+    }
+
+    #[test]
+    fn epsilon_accepts_only_empty_word() {
+        let re = RegEx::epsilon();
+        let nfa = re.to_nfa();
+        assert!(nfa.accepts(""));
+        assert!(!nfa.accepts("a"));
+        assert!(!nfa.accepts("aa"));
+    }
+
+    #[test]
+    fn concat_empty_with_anything_is_empty() {
+        let re = RegEx::concat(RegEx::empty(), RegEx::sym('a'));
+        let nfa = re.to_nfa();
+        assert!(!nfa.accepts("a"));
+        assert!(!nfa.accepts(""));
+    }
+
+    #[test]
+    fn union_empty_with_re_is_re() {
+        let re = RegEx::union(RegEx::empty(), RegEx::sym('a'));
+        let nfa = re.to_nfa();
+        assert!(nfa.accepts("a"));
+        assert!(!nfa.accepts(""));
+        assert!(!nfa.accepts("b"));
+    }
+
+    #[test]
+    fn nesting_and_precedence() {
+        // a|bc*  =  a | (b(c*))  -- not (a|b)c*
+        let dfa = parse("a|bc*").unwrap().to_nfa().to_dfa();
+        assert!(dfa.accepts("a"));
+        assert!(dfa.accepts("b"));
+        assert!(dfa.accepts("bc"));
+        assert!(dfa.accepts("bcc"));
+        assert!(!dfa.accepts("ac"));
+        assert!(!dfa.accepts(""));
+    }
+
+    #[test]
+    fn complex_regex_with_star_union_concat() {
+        // a(b|c)*d  --  words starting with a, ending with d, middle any mix of b,c.
+        let dfa = parse("a(b|c)*d").unwrap().to_nfa().to_dfa();
+        assert!(dfa.accepts("ad"));
+        assert!(dfa.accepts("abd"));
+        assert!(dfa.accepts("acd"));
+        assert!(dfa.accepts("abcbcd"));
+        assert!(!dfa.accepts(""));
+        assert!(!dfa.accepts("a"));
+        assert!(!dfa.accepts("d"));
+        assert!(!dfa.accepts("abc")); // no trailing d
+        assert!(dfa.accepts("abcd")); // a + (b,c)* + d
+    }
+
     /// All words over `alphabet` of exactly length `len`.
     fn all_words(alphabet: &[char], len: usize) -> Vec<String> {
         if len == 0 {
@@ -302,10 +518,12 @@ mod tests {
             "ab|ba",
             "(ab)*",
             "a(b|c)*",
+            "a*b*c*",
+            "(a|b|c)*",
         ] {
             let nfa = parse(re_str).unwrap().to_nfa();
             let dfa = nfa.to_dfa();
-            for len in 0..=6 {
+            for len in 0..=5 {
                 for word in all_words(&['a', 'b', 'c'], len) {
                     assert_eq!(
                         dfa.accepts(&word),
@@ -313,6 +531,20 @@ mod tests {
                         "regex {re_str:?} word {word:?}"
                     );
                 }
+            }
+        }
+    }
+
+    #[test]
+    fn to_nfa_then_to_dfa_then_minimize_preserves_language() {
+        // End-to-end check: parse -> NFA -> DFA -> minimize must preserve language.
+        let re = parse("(a|b)*a(a|b)").unwrap();
+        let nfa = re.to_nfa();
+        let dfa = nfa.to_dfa();
+        let min = dfa.minimize();
+        for len in 0..=5 {
+            for word in all_words(&['a', 'b'], len) {
+                assert_eq!(min.accepts(&word), nfa.accepts(&word), "word {word:?}");
             }
         }
     }

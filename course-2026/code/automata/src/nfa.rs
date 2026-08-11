@@ -1,15 +1,50 @@
 //! Nondeterministic finite automata (NFA) and the subset construction.
 //!
-//! A state may have several transitions on one symbol, plus epsilon transitions
-//! (on the empty symbol). A word is accepted if there is a path that reads it
-//! all and ends in an accepting state. Determinization (the subset
-//! construction) turns an NFA into an equivalent DFA.
+//! An NFA may have several transitions from a state on the same symbol,
+//! plus epsilon transitions (on the empty string).
+//! A word is accepted if there exists a path that reads the entire word
+//! and ends in an accepting state.
+//!
+//! The subset construction ([`Nfa::to_dfa`]) turns an NFA into an
+//! equivalent DFA by treating each subset of NFA states as a single DFA state.
+//!
+//! ```
+//! use automata::Nfa;
+//!
+//! // An NFA for the language of words containing "ab".
+//! let mut nfa = Nfa::new(vec!['a', 'b']);
+//! let q0 = nfa.add_state(false);
+//! let q1 = nfa.add_state(false);
+//! let q2 = nfa.add_state(true);
+//! nfa.set_start(q0);
+//! nfa.add_transition(q0, 'a', q0).unwrap();
+//! nfa.add_transition(q0, 'b', q0).unwrap();
+//! nfa.add_transition(q0, 'a', q1).unwrap();
+//! nfa.add_transition(q1, 'b', q2).unwrap();
+//!
+//! assert!(nfa.accepts("ab"));
+//! assert!(nfa.accepts("aab"));
+//! assert!(nfa.accepts("abab"));
+//! assert!(!nfa.accepts(""));
+//! assert!(!nfa.accepts("a"));
+//! assert!(!nfa.accepts("ba"));
+//!
+//! let dfa = nfa.to_dfa();
+//! assert_eq!(dfa.accepts("ab"), nfa.accepts("ab"));
+//! assert_eq!(dfa.accepts("a"), nfa.accepts("a"));
+//! ```
 
 use std::collections::{BTreeSet, HashMap};
+use std::fmt;
 
 use crate::dfa::Dfa;
 
-/// A nondeterministic finite automaton.
+/// A nondeterministic finite automaton with epsilon transitions.
+///
+/// States are added via [`add_state`](Self::add_state) and return
+/// consecutive integer identifiers.
+/// Transitions on symbols go to sets of states; epsilon transitions
+/// go to single states.
 #[derive(Debug, Clone)]
 pub struct Nfa {
     start: usize,
@@ -22,7 +57,16 @@ pub struct Nfa {
 }
 
 impl Nfa {
-    /// An empty automaton with no states.
+    /// Creates an empty automaton with the given alphabet.
+    ///
+    /// Add states one by one with [`add_state`](Self::add_state).
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// let nfa = Nfa::new(vec!['a', 'b']);
+    /// assert_eq!(nfa.num_states(), 0);
+    /// ```
     pub fn new(alphabet: Vec<char>) -> Self {
         Nfa {
             start: 0,
@@ -33,7 +77,20 @@ impl Nfa {
         }
     }
 
-    /// Adds a state and returns its number.
+    /// Adds a state and returns its index.
+    ///
+    /// The state is created with the given accepting flag.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// let mut nfa = Nfa::new(vec!['a']);
+    /// let q0 = nfa.add_state(false);
+    /// let q1 = nfa.add_state(true);
+    /// assert_eq!(q0, 0);
+    /// assert_eq!(q1, 1);
+    /// assert_eq!(nfa.num_states(), 2);
+    /// ```
     pub fn add_state(&mut self, accepting: bool) -> usize {
         let id = self.transitions.len();
         self.transitions.push(vec![Vec::new(); self.alphabet.len()]);
@@ -43,15 +100,38 @@ impl Nfa {
     }
 
     /// Sets the start state.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// let mut nfa = Nfa::new(vec!['a']);
+    /// let q0 = nfa.add_state(false);
+    /// let q1 = nfa.add_state(false);
+    /// nfa.set_start(q1);
+    /// // q1 is now the start state.
+    /// ```
     pub fn set_start(&mut self, start: usize) {
         self.start = start;
     }
 
-    /// Adds a transition on a symbol.
+    /// Adds a transition from `from` to `to` on symbol `sym`.
+    ///
+    /// Multiple transitions on the same symbol are allowed (that is
+    /// the nondeterminism).
     ///
     /// # Errors
     ///
     /// Returns `Err` if `sym` is not in the alphabet.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// let mut nfa = Nfa::new(vec!['a']);
+    /// let q0 = nfa.add_state(false);
+    /// let q1 = nfa.add_state(true);
+    /// nfa.add_transition(q0, 'a', q1).unwrap();
+    /// assert!(nfa.add_transition(q0, 'x', q0).is_err());
+    /// ```
     pub fn add_transition(&mut self, from: usize, sym: char, to: usize) -> Result<(), String> {
         let Some(idx) = self.alphabet.iter().position(|&c| c == sym) else {
             return Err(format!("symbol '{sym}' is not in the alphabet"));
@@ -60,12 +140,37 @@ impl Nfa {
         Ok(())
     }
 
-    /// Adds an epsilon transition.
+    /// Adds an epsilon transition from `from` to `to`.
+    ///
+    /// An epsilon transition is a spontaneous move: the automaton can
+    /// jump to the target state without reading a symbol.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    /// use std::collections::BTreeSet;
+    ///
+    /// let mut nfa = Nfa::new(vec!['a']);
+    /// let q0 = nfa.add_state(false);
+    /// let q1 = nfa.add_state(true);
+    /// nfa.add_epsilon(q0, q1);
+    ///
+    /// // The epsilon closure of {q0} includes {q1}.
+    /// let closure = nfa.epsilon_closure(&BTreeSet::from([q0]));
+    /// assert!(closure.contains(&q1));
+    /// ```
     pub fn add_epsilon(&mut self, from: usize, to: usize) {
         self.epsilon[from].push(to);
     }
 
     /// Sets the accepting flag of a state.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// let mut nfa = Nfa::new(vec!['a']);
+    /// let q = nfa.add_state(false);
+    /// nfa.set_accepting(q, true);
+    /// ```
     pub fn set_accepting(&mut self, state: usize, accepting: bool) {
         self.accepting[state] = accepting;
     }
@@ -75,8 +180,38 @@ impl Nfa {
         self.transitions.len()
     }
 
-    /// Epsilon closure of a set of states: everything reachable by a chain of
-    /// epsilon transitions.
+    /// The alphabet of the automaton.
+    pub fn alphabet(&self) -> &[char] {
+        &self.alphabet
+    }
+
+    /// The start state.
+    pub fn start(&self) -> usize {
+        self.start
+    }
+
+    /// Whether `state` is an accepting state.
+    pub fn is_accepting(&self, state: usize) -> bool {
+        state < self.accepting.len() && self.accepting[state]
+    }
+
+    /// Epsilon closure of a set of states: everything reachable by a
+    /// chain of epsilon transitions (including the original states).
+    ///
+    /// ```
+    /// use automata::Nfa;
+    /// use std::collections::BTreeSet;
+    ///
+    /// let mut nfa = Nfa::new(vec![]);
+    /// let a = nfa.add_state(false);
+    /// let b = nfa.add_state(false);
+    /// let c = nfa.add_state(false);
+    /// nfa.add_epsilon(a, b);
+    /// nfa.add_epsilon(b, c);
+    ///
+    /// let closure = nfa.epsilon_closure(&BTreeSet::from([a]));
+    /// assert_eq!(closure, BTreeSet::from([a, b, c]));
+    /// ```
     pub fn epsilon_closure(&self, states: &BTreeSet<usize>) -> BTreeSet<usize> {
         let mut closure = states.clone();
         let mut stack: Vec<usize> = closure.iter().copied().collect();
@@ -91,6 +226,28 @@ impl Nfa {
     }
 
     /// Whether the automaton accepts a word.
+    ///
+    /// Starting from the epsilon closure of the start state, processes
+    /// each symbol by computing the set of reachable states and taking
+    /// their epsilon closure.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// // NFA for "a" or "b".
+    /// let mut nfa = Nfa::new(vec!['a', 'b']);
+    /// let q0 = nfa.add_state(false);
+    /// let q1 = nfa.add_state(true);
+    /// let q2 = nfa.add_state(true);
+    /// nfa.set_start(q0);
+    /// nfa.add_transition(q0, 'a', q1).unwrap();
+    /// nfa.add_transition(q0, 'b', q2).unwrap();
+    ///
+    /// assert!(nfa.accepts("a"));
+    /// assert!(nfa.accepts("b"));
+    /// assert!(!nfa.accepts(""));
+    /// assert!(!nfa.accepts("ab"));
+    /// ```
     pub fn accepts(&self, word: &str) -> bool {
         let mut reachable = self.epsilon_closure(&BTreeSet::from([self.start]));
         for c in word.chars() {
@@ -107,6 +264,31 @@ impl Nfa {
     }
 
     /// Subset construction: turns an NFA into an equivalent DFA.
+    ///
+    /// Each DFA state corresponds to a set (the epsilon closure of
+    /// a subset) of NFA states.
+    /// The implicit trap state (DFA index `usize::MAX`) is used for
+    /// empty subsets.
+    ///
+    /// ```
+    /// use automata::Nfa;
+    ///
+    /// let mut nfa = Nfa::new(vec!['a', 'b']);
+    /// let q0 = nfa.add_state(false);
+    /// let q1 = nfa.add_state(false);
+    /// let q2 = nfa.add_state(true);
+    /// nfa.set_start(q0);
+    /// nfa.add_transition(q0, 'a', q0).unwrap();
+    /// nfa.add_transition(q0, 'b', q0).unwrap();
+    /// nfa.add_transition(q0, 'a', q1).unwrap();
+    /// nfa.add_transition(q1, 'b', q2).unwrap();
+    ///
+    /// let dfa = nfa.to_dfa();
+    /// // The DFA accepts exactly the same words as the NFA.
+    /// assert_eq!(dfa.accepts("ab"), nfa.accepts("ab"));
+    /// assert_eq!(dfa.accepts("aab"), nfa.accepts("aab"));
+    /// assert_eq!(dfa.accepts("ba"), nfa.accepts("ba"));
+    /// ```
     pub fn to_dfa(&self) -> Dfa {
         // DFA states are subsets of NFA states (more precisely, their epsilon closures).
         let start_set = self.epsilon_closure(&BTreeSet::from([self.start]));
@@ -155,6 +337,45 @@ impl Nfa {
         dfa.set_accepting(accepting);
         dfa
     }
+}
+
+impl fmt::Display for Nfa {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(
+            f,
+            "NFA: {} states, alphabet = {:?}, start = q{}",
+            self.num_states(),
+            self.alphabet,
+            self.start
+        )?;
+        let accept_set: Vec<usize> = (0..self.num_states())
+            .filter(|&s| self.accepting[s])
+            .collect();
+        writeln!(f, "  accepting = {accept_set:?}")?;
+        for s in 0..self.num_states() {
+            let arrow = if s == self.start { "→" } else { " " };
+            let star = if self.accepting[s] { "*" } else { " " };
+            write!(f, "  {arrow}q{s}{star}:")?;
+            // Symbol transitions.
+            for (sym_idx, targets) in self.transitions[s].iter().enumerate() {
+                if !targets.is_empty() {
+                    write!(f, " {}→{{{}}}", self.alphabet[sym_idx], fmt_set(targets))?;
+                }
+            }
+            // Epsilon transitions.
+            if !self.epsilon[s].is_empty() {
+                write!(f, " ε→{{{}}}", fmt_set(&self.epsilon[s]))?;
+            }
+            writeln!(f)?;
+        }
+        Ok(())
+    }
+}
+
+/// Format a slice of usizes as a compact set string like "q0,q1".
+fn fmt_set(set: &[usize]) -> String {
+    let items: Vec<String> = set.iter().map(|x| format!("q{x}")).collect();
+    items.join(",")
 }
 
 #[cfg(test)]
@@ -223,5 +444,79 @@ mod tests {
             nfa.epsilon_closure(&BTreeSet::from([s])),
             BTreeSet::from([s, t, u])
         );
+    }
+
+    #[test]
+    fn epsilon_closure_includes_self() {
+        let mut nfa = Nfa::new(vec!['a']);
+        let s = nfa.add_state(false);
+        let closure = nfa.epsilon_closure(&BTreeSet::from([s]));
+        assert!(closure.contains(&s));
+    }
+
+    #[test]
+    fn nfa_with_epsilon_accepts_empty_word() {
+        // An NFA where the start state has an epsilon transition to an accepting state.
+        let mut nfa = Nfa::new(vec!['a']);
+        let q0 = nfa.add_state(false);
+        let q1 = nfa.add_state(true);
+        nfa.set_start(q0);
+        nfa.add_epsilon(q0, q1);
+        assert!(nfa.accepts(""));
+    }
+
+    #[test]
+    fn nfa_with_epsilon_preserves_language_after_to_dfa() {
+        // An NFA that uses epsilon transitions.
+        let mut nfa = Nfa::new(vec!['a', 'b']);
+        let q0 = nfa.add_state(false);
+        let q1 = nfa.add_state(false);
+        let q2 = nfa.add_state(true);
+        nfa.set_start(q0);
+        nfa.add_epsilon(q0, q1);
+        nfa.add_transition(q1, 'a', q2).unwrap();
+        nfa.add_transition(q2, 'b', q0).unwrap();
+
+        let dfa = nfa.to_dfa();
+        for w in ["", "a", "b", "ab", "aba", "abab"] {
+            assert_eq!(dfa.accepts(w), nfa.accepts(w), "word {w:?}");
+        }
+    }
+
+    #[test]
+    fn symbol_outside_alphabet_rejected_by_nfa() {
+        let nfa = contains_double();
+        assert!(!nfa.accepts("2"));
+        assert!(!nfa.accepts("0x1"));
+    }
+
+    #[test]
+    fn accessors_match_construction() {
+        let nfa = contains_double();
+        assert_eq!(nfa.num_states(), 5);
+        assert_eq!(nfa.alphabet(), &['0', '1']);
+        assert_eq!(nfa.start(), 0);
+        assert!(nfa.is_accepting(2)); // qa
+        assert!(nfa.is_accepting(4)); // qb
+        assert!(!nfa.is_accepting(0));
+    }
+
+    #[test]
+    fn display_does_not_panic() {
+        let nfa = contains_double();
+        let s = format!("{nfa}");
+        assert!(s.contains("states"));
+        assert!(s.contains("q0"));
+        assert!(s.contains("q0"));
+        assert!(s.contains("start"));
+    }
+
+    #[test]
+    fn add_state_returns_consecutive_ids() {
+        let mut nfa = Nfa::new(vec!['a']);
+        assert_eq!(nfa.add_state(false), 0);
+        assert_eq!(nfa.add_state(false), 1);
+        assert_eq!(nfa.add_state(true), 2);
+        assert_eq!(nfa.num_states(), 3);
     }
 }
