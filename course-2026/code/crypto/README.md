@@ -2,7 +2,7 @@
 
 Number theory and cryptography.
 
-A small, dependency-free toolbox of modular arithmetic on `u64`, a textbook RSA, and a set of attacks that actually break it.
+A small, dependency-free toolbox of modular arithmetic on `u64`, a textbook RSA with signing, and a set of attacks that actually break it.
 The point of the crate: to trust a cryptosystem you first have to attack it.
 
 ## Quick start
@@ -12,6 +12,14 @@ cargo run -p crypto --example rsa_demo
 cargo run -p crypto --example pohlig_hellman
 cargo test -p crypto
 ```
+
+## Modules
+
+| Module | Purpose |
+| --- | --- |
+| `modular` | `gcd`, `egcd`, `mod_inverse`, `mod_pow` |
+| `rsa` | `Rsa` struct: key generation, encrypt/decrypt, sign/verify |
+| `attacks` | Common modulus, malleability, factorization, CRT, Pohlig--Hellman |
 
 ## RSA in one picture
 
@@ -28,9 +36,11 @@ $$ c = m^e \bmod n \qquad m = c^d \bmod n $$
 | --- | --- |
 | `gcd`, `egcd`, `mod_inverse`, `mod_pow` | Modular-arithmetic toolbox |
 | `Rsa::new`, `encrypt`, `decrypt` | Textbook RSA on small numbers |
+| `Rsa::sign`, `verify` | Digital signature with RSA |
 | `attacks::common_modulus_attack` | Recover $m$ from two ciphertexts that share $n$ |
 | `attacks::malleable_product` | $c_1 c_2 = (m_1 m_2)^e \bmod n$ |
 | `attacks::factorize` | Trial division; shows why small primes fail |
+| `attacks::crt` | Chinese remainder theorem |
 | `attacks::pohlig_hellman` | Discrete log when $p-1$ is smooth |
 
 ## Demos
@@ -42,7 +52,7 @@ $$ c = m^e \bmod n \qquad m = c^d \bmod n $$
 | `common_modulus` | RSA common-modulus attack | $m$ recovered without any private key |
 | `malleability` | RSA malleability | $c_1 c_2$ decrypts to $m_1 m_2$ |
 | `pohlig_hellman` | Discrete log, smooth order | $x$ with $g^x = h \pmod p$ |
-| `rsa_demo` | RSA | A full encrypt → decrypt round trip |
+| `rsa_demo` | RSA | Encrypt/decrypt round trip and signing/verification |
 
 ## Tests
 

@@ -4,7 +4,7 @@
 //! secure: the common modulus and malleability break careless RSA,
 //! Pohlig--Hellman breaks DLOG in a group of smooth order.
 
-use super::{egcd, mod_inverse, mod_pow};
+use super::modular::{egcd, mod_inverse, mod_pow};
 
 /// Modular exponentiation with a negative exponent
 /// (via the inverse element).
@@ -20,9 +20,25 @@ fn mod_pow_signed(base: u64, exp: i128, m: u64) -> Option<u64> {
 /// Common modulus attack.
 ///
 /// Two users share one modulus $n$ with different exponents
-/// $e_1$, $e_2$ ($"gcd"(e_1, e_2) = 1$). Seeing $c_1 = m^(e_1)$ and
-/// $c_2 = m^(e_2)$, the attacker finds $u, v$ with $e_1 u + e_2 v = 1$
+/// $e_1$, $e_2$ ($\gcd(e_1, e_2) = 1$). Seeing $c_1 = m^{e_1}$ and
+/// $c_2 = m^{e_2}$, the attacker finds $u, v$ with $e_1 u + e_2 v = 1$
 /// by the extended Euclidean algorithm and computes $c_1^u c_2^v = m$.
+///
+/// Returns `None` if $\gcd(e_1, e_2) \neq 1$.
+///
+/// # Examples
+///
+/// ```
+/// use crypto::attacks::common_modulus_attack;
+/// use crypto::modular::mod_pow;
+///
+/// let n = 61 * 53; // 3233
+/// let (e1, e2) = (17, 7);
+/// let m = 42;
+/// let c1 = mod_pow(m, e1, n);
+/// let c2 = mod_pow(m, e2, n);
+/// assert_eq!(common_modulus_attack(n, e1, c1, e2, c2), Some(m));
+/// ```
 pub fn common_modulus_attack(n: u64, e1: u64, c1: u64, e2: u64, c2: u64) -> Option<u64> {
     let (g, u, v) = egcd(e1 as i128, e2 as i128);
     if g != 1 {
@@ -34,12 +50,36 @@ pub fn common_modulus_attack(n: u64, e1: u64, c1: u64, e2: u64, c2: u64) -> Opti
 }
 
 /// RSA malleability: the product of ciphertexts is the ciphertext
-/// of the product of the messages: $c_1 c_2 = (m_1 m_2)^e mod n$.
+/// of the product of the messages: $c_1 c_2 = (m_1 m_2)^e \bmod n$.
+///
+/// # Examples
+///
+/// ```
+/// use crypto::attacks::malleable_product;
+/// use crypto::modular::mod_pow;
+///
+/// let n = 61 * 53;
+/// let e = 17;
+/// let m1 = 7;
+/// let m2 = 11;
+/// let forged = malleable_product(mod_pow(m1, e, n), mod_pow(m2, e, n), n);
+/// assert_eq!(forged, mod_pow(m1 * m2 % n, e, n));
+/// ```
 pub fn malleable_product(c1: u64, c2: u64, n: u64) -> u64 {
     ((c1 as u128 % n as u128) * (c2 as u128 % n as u128) % n as u128) as u64
 }
 
-/// Factorization by trial division: `[(prime, exponent)]`.
+/// Factorization by trial division: returns `[(prime, exponent)]`.
+///
+/// # Examples
+///
+/// ```
+/// use crypto::attacks::factorize;
+///
+/// assert_eq!(factorize(28), vec![(2, 2), (7, 1)]);
+/// assert_eq!(factorize(13), vec![(13, 1)]);
+/// assert_eq!(factorize(1), vec![]);
+/// ```
 pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
     let mut factors = Vec::new();
     let mut d = 2;
@@ -61,7 +101,22 @@ pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
 }
 
 /// Chinese remainder theorem for pairwise coprime moduli.
-fn crt(residues: &[u64], moduli: &[u64]) -> Option<u64> {
+///
+/// Given residues $r_i$ and pairwise coprime moduli $m_i$,
+/// finds $x$ such that $x \equiv r_i \pmod{m_i}$ for all $i$.
+///
+/// Returns `None` if any pair of moduli is not coprime
+/// (the required modular inverse does not exist).
+///
+/// # Examples
+///
+/// ```
+/// use crypto::attacks::crt;
+///
+/// // x ≡ 2 (mod 3), x ≡ 3 (mod 5), x ≡ 2 (mod 7) => x = 23
+/// assert_eq!(crt(&[2, 3, 2], &[3, 5, 7]), Some(23));
+/// ```
+pub fn crt(residues: &[u64], moduli: &[u64]) -> Option<u64> {
     let mut x = 0u64;
     let mut m = 1u64;
     for (&r, &mi) in residues.iter().zip(moduli) {
@@ -75,10 +130,24 @@ fn crt(residues: &[u64], moduli: &[u64]) -> Option<u64> {
 }
 
 /// Simplified Pohlig--Hellman attack: the discrete logarithm
-/// $x = log_g h (mod p)$, when the group order $p - 1$ is smooth.
+/// $x = \log_g h \pmod p$, when the group order $p - 1$ is smooth.
 ///
 /// For each prime power $q^a$ the logarithm reduces to the subgroup
-/// of order $q^a$, where the answer is found by brute force; the results are combined via CRT.
+/// of order $q^a$, where the answer is found by brute force;
+/// the results are combined via CRT.
+///
+/// # Examples
+///
+/// ```
+/// use crypto::attacks::pohlig_hellman;
+/// use crypto::modular::mod_pow;
+///
+/// let p = 29;
+/// let g = 2; // generator of Z_29^*
+/// let x = 13;
+/// let h = mod_pow(g, x, p);
+/// assert_eq!(pohlig_hellman(p, g, h), Some(x));
+/// ```
 pub fn pohlig_hellman(p: u64, g: u64, h: u64) -> Option<u64> {
     let n = p - 1;
     let mut residues = Vec::new();
@@ -112,7 +181,6 @@ mod tests {
 
     #[test]
     fn common_modulus_recovers_message() {
-        // Teaching keys with a shared modulus n = 61 * 53.
         let n = 61 * 53;
         let e1 = 17;
         let e2 = 7; // gcd(17, 7) = 1
@@ -120,6 +188,17 @@ mod tests {
         let c1 = mod_pow(m, e1, n);
         let c2 = mod_pow(m, e2, n);
         assert_eq!(common_modulus_attack(n, e1, c1, e2, c2), Some(m));
+    }
+
+    #[test]
+    fn common_modulus_fails_with_non_coprime_exponents() {
+        let n = 61 * 53;
+        let e1 = 6;
+        let e2 = 9; // gcd(6, 9) = 3
+        let m = 42;
+        let c1 = mod_pow(m, e1, n);
+        let c2 = mod_pow(m, e2, n);
+        assert_eq!(common_modulus_attack(n, e1, c1, e2, c2), None);
     }
 
     #[test]
@@ -133,11 +212,31 @@ mod tests {
     }
 
     #[test]
+    fn malleability_with_larger_messages() {
+        let n = 61 * 53;
+        let e = 17;
+        let m1 = 100;
+        let m2 = 200;
+        let forged = malleable_product(mod_pow(m1, e, n), mod_pow(m2, e, n), n);
+        assert_eq!(forged, mod_pow(m1 * m2 % n, e, n));
+    }
+
+    #[test]
     fn pohlig_hellman_solves_smooth_dlog() {
         // p = 29, the group order 28 = 2^2 * 7 is smooth.
         let p = 29;
-        let g = 2; // generator of ZZ_29^*
+        let g = 2; // generator of Z_29^*
         let x = 13;
+        let h = mod_pow(g, x, p);
+        assert_eq!(pohlig_hellman(p, g, h), Some(x));
+    }
+
+    #[test]
+    fn pohlig_hellman_with_other_generator() {
+        // p = 29, g = 3 is also a generator, x = 5.
+        let p = 29;
+        let g = 3;
+        let x = 5;
         let h = mod_pow(g, x, p);
         assert_eq!(pohlig_hellman(p, g, h), Some(x));
     }
@@ -146,6 +245,39 @@ mod tests {
     fn factorize_splits_smooth_order() {
         assert_eq!(factorize(28), vec![(2, 2), (7, 1)]);
         assert_eq!(factorize(12), vec![(2, 2), (3, 1)]);
+    }
+
+    #[test]
+    fn factorize_prime_returns_single_factor() {
         assert_eq!(factorize(13), vec![(13, 1)]);
+        assert_eq!(factorize(97), vec![(97, 1)]);
+    }
+
+    #[test]
+    fn factorize_one_is_empty() {
+        assert_eq!(factorize(1), vec![]);
+    }
+
+    #[test]
+    fn factorize_powers_of_two() {
+        assert_eq!(factorize(8), vec![(2, 3)]);
+        assert_eq!(factorize(16), vec![(2, 4)]);
+    }
+
+    #[test]
+    fn crt_reconstructs_known_number() {
+        // x = 23: 23 ≡ 2 (mod 3), 23 ≡ 3 (mod 5), 23 ≡ 2 (mod 7)
+        assert_eq!(crt(&[2, 3, 2], &[3, 5, 7]), Some(23));
+    }
+
+    #[test]
+    fn crt_returns_none_with_non_coprime_moduli() {
+        // moduli 4 and 6 are not coprime
+        assert_eq!(crt(&[1, 2], &[4, 6]), None);
+    }
+
+    #[test]
+    fn crt_with_single_modulus() {
+        assert_eq!(crt(&[5], &[7]), Some(5));
     }
 }
