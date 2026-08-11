@@ -1,21 +1,24 @@
 # sat
 
-A small DPLL SAT solver.
+A small DPLL SAT solver -- teaching crate for the SAT and NP-completeness chapter.
 
-Implements the DPLL algorithm from the book chapter on SAT: unit propagation and chronological backtracking.
-Literals are integers (`v` = variable true, `-v` = variable false); a formula is a list of clauses.
+Implements the Davis-Putnam-Logemann-Loveland algorithm: unit propagation, pure literal elimination, and chronological backtracking.
+Literals are integers (`v` = variable true, `-v` = variable false); a formula is a conjunction of clauses.
 
 ## Quick start
 
 ```bash
 cargo run -p sat --example dpll_demo
+cargo run -p sat --example pigeonhole
+cargo run -p sat --example random_3sat
 cargo test -p sat
 ```
 
 ## The idea
 
-DPLL decides a variable, propagates unit clauses (clauses with exactly one unassigned literal), and backtracks when a clause becomes false.
-The demo runs the solver on the worked example from the chapter:
+DPLL decides a variable, propagates unit clauses (clauses with exactly one unassigned literal), eliminates pure literals (variables that appear only in one polarity), and backtracks when a conflict is found.
+
+The `dpll_demo` example runs the solver with step-by-step trace on the worked example from the chapter:
 
 $$ F = (x_1 \lor x_2 \lor x_3) \land (\neg x_1 \lor x_2) \land (x_2 \lor \neg x_3) \land (\neg x_2 \lor x_3) \land (\neg x_2 \lor \neg x_3) $$
 
@@ -23,16 +26,24 @@ which is unsatisfiable --- DPLL exhausts every branch and reports `None`.
 
 ## API
 
-| Item | Purpose |
-| --- | --- |
-| `Lit`, `Clause` | Literal and clause types |
-| `solve` | A satisfying assignment, or `None` when the formula is unsatisfiable |
+| Item | Module | Purpose |
+| --- | --- | --- |
+| `Lit`, `Clause` | `cnf` | Literal and clause type aliases |
+| `pos`, `neg` | `cnf` | Create positive/negative literals |
+| `var_of`, `lit_idx`, `is_pos` | `cnf` | Literal accessors |
+| `clause_satisfied`, `unit_of`, `clause_has_unassigned` | `cnf` | Clause-level helpers |
+| `Cnf` | `cnf` | CNF formula: `num_vars`, `clauses`, `new`, `random_3sat` |
+| `format_lit`, `format_clause`, `format_cnf` | `cnf` | Display helpers |
+| `solve` | `dpll` | Find a model or return `None` if UNSAT |
+| `solve_traced` | `dpll` | Solve with step-by-step trace printed to stdout |
 
 ## Demo
 
 | Demo | Shows |
 | --- | --- |
-| `dpll_demo` | The UNSAT formula from the chapter, plus a satisfiable one with its model |
+| `dpll_demo` | The UNSAT formula from the chapter (traced), plus a satisfiable one with pure literal elimination |
+| `pigeonhole` | PHP(n, n-1) pigeonhole principle formulas are UNSAT (n=2..5), a classic hard case for SAT solvers |
+| `random_3sat` | Phase transition: random 3-SAT flips from SAT to UNSAT around clauses/vars ≈ 4--5 |
 
 ## Tests
 
@@ -40,4 +51,6 @@ which is unsatisfiable --- DPLL exhausts every branch and reports `None`.
 cargo test -p sat
 ```
 
-The solver is checked on satisfiable and unsatisfiable formulas; every returned model is verified against all clauses.
+The solver is checked on satisfiable and unsatisfiable formulas (unit clauses, pure literals, tautologies, pigeonhole principle).
+Every returned model is verified against all clauses.
+Randomised tests compare DPLL against brute-force exhaustive search on small formulas.
