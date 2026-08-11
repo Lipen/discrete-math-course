@@ -98,3 +98,6 @@
 #let Church-false = $"false"$
 #let ty-Nat = $"Nat"$
 #let ty-Bool = $"Bool"$
+
+// === Асимптотические обозначения (m04) ===
+#let BigO = $cal(O)$  // каллиграфическое O, чтобы не путать с буквой
