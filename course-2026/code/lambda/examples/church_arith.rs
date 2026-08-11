@@ -1,22 +1,31 @@
-//! Church arithmetic from the chapter: `2 + 3 = 5` and `succ 2 = 3`.
+//! Church arithmetic: numerals, addition, multiplication, exponentiation.
 //!
-//! The computation is pure beta reduction: no built-in numbers.
+//! All computation is pure beta reduction -- no built-in numbers.
 
-use lambda::{add, church, succ, to_nat, Term};
+use lambda::{add, church, mult, power, succ, to_nat, Term};
 
 fn main() {
     let two = church(2);
     let three = church(3);
+    let four = church(4);
 
-    let sum = Term::app(Term::app(add(), two.clone()), three).normalize(10000);
-    println!(
-        "2 + 3 = {}",
-        to_nat(&sum).expect("term did not evaluate to a Church numeral")
-    );
+    // -- Successor ------------------------------------------------------------
 
-    let next = Term::app(succ(), two).normalize(1000);
-    println!(
-        "succ 2 = {}",
-        to_nat(&next).expect("term did not evaluate to a Church numeral")
-    );
+    let one_more = Term::app(succ(), two.clone()).normalize(1000);
+    println!("succ 2 = {}", to_nat(&one_more).unwrap());
+
+    // -- Addition -------------------------------------------------------------
+
+    let sum = Term::app(Term::app(add(), two.clone()), three.clone()).normalize(10000);
+    println!("2 + 3 = {}", to_nat(&sum).unwrap());
+
+    // -- Multiplication -------------------------------------------------------
+
+    let prod = Term::app(Term::app(mult(), three), four.clone()).normalize(10000);
+    println!("3 * 4 = {}", to_nat(&prod).unwrap());
+
+    // -- Exponentiation -------------------------------------------------------
+
+    let exp = Term::app(Term::app(power(), two), four).normalize(50000);
+    println!("2^4 = {}", to_nat(&exp).unwrap());
 }
