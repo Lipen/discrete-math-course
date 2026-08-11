@@ -1,10 +1,7 @@
 // M04 --- Функции: математическая формализация вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m04.typ": (
-  mapping-bijection, mapping-injection, mapping-surjection,
-  function-parts,
-)
+#import "diagrams/m04.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection
 
 = Функции <chap:functions>
 
@@ -440,20 +437,11 @@ _График_ функции $f: A -> B$ --- это множество упор
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
-    [Инъекция],
-    [$f(a_1) = f(a_2) imply a_1 = a_2$],
-    [$|A| <= |B|$],
-    [Левая обратная\ $g compose f = "id"_A$],
+    [Инъекция], [$f(a_1) = f(a_2) imply a_1 = a_2$], [$|A| <= |B|$], [Левая обратная\ $g compose f = "id"_A$],
 
-    [Сюръекция],
-    [$forall b exists a: f(a) = b$],
-    [$|A| >= |B|$],
-    [Правая обратная\ $f compose g = "id"_B$],
+    [Сюръекция], [$forall b exists a: f(a) = b$], [$|A| >= |B|$], [Правая обратная\ $f compose g = "id"_B$],
 
-    [Биекция],
-    [Инъективна\ + сюръективна],
-    [$|A| = |B|$],
-    [Двусторонняя\ обратная $f^(-1)$],
+    [Биекция], [Инъективна\ + сюръективна], [$|A| = |B|$], [Двусторонняя\ обратная $f^(-1)$],
   ) ]
 
 #raven[
@@ -549,12 +537,10 @@ _График_ функции $f: A -> B$ --- это множество упор
 Механизм виден в доказательствах: каждая операция над множествами превращается в логическую связку над условием принадлежности.
 
 #proposition[Образ объединения и пересечения][
-  - $
-      f(A union B) = f(A) union f(B).
-    $
-  - $
-      f(A inter B) subset.eq f(A) inter f(B).
-    $
+  $
+    f(A union B) & = f(A) union f(B) \
+    f(A inter B) & subset.eq f(A) inter f(B)
+  $
 
   Равенство выполняется, если $f$ инъективна.
 ]
@@ -569,15 +555,11 @@ _График_ функции $f: A -> B$ --- это множество упор
 ]
 
 #proposition[Прообраз сохраняет все операции][
-  - $
-      f^(-1)(C union D) = f^(-1)(C) union f^(-1)(D).
-    $
-  - $
-      f^(-1)(C inter D) = f^(-1)(C) inter f^(-1)(D).
-    $
-  - $
-      f^(-1)(C setminus D) = f^(-1)(C) setminus f^(-1)(D).
-    $
+  $
+       f^(-1)(C union D) & = f^(-1)(C) union f^(-1)(D) \
+       f^(-1)(C inter D) & = f^(-1)(C) inter f^(-1)(D) \
+    f^(-1)(C setminus D) & = f^(-1)(C) setminus f^(-1)(D)
+  $
 
   Прообраз коммутирует со всеми булевыми операциями.
 ]
@@ -589,7 +571,7 @@ _График_ функции $f: A -> B$ --- это множество упор
 
   *Разность.* $x in f^(-1)(C setminus D)$ тогда и только тогда, когда $f(x) in C setminus D$ тогда и только тогда, когда $f(x) in C$ и $f(x) in.not D$ тогда и только тогда, когда $x in f^(-1)(C) setminus f^(-1)(D)$.
 
-  Каждый шаг заменяет операцию над множествами её логическим аналогом в условии принадлежности: $inter$ на $and$, $union$ на $or$, $setminus$ на $and not$.
+  Каждый шаг заменяет операцию над множествами её логическим аналогом в условии принадлежности: $inter$ на $and$, $union$ на $or$, $setminus$ на $and$ и $not$.
 ]
 
 
