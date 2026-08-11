@@ -23,6 +23,20 @@ fn escape_dot_label(text: &str) -> String {
 ///
 /// For an undirected graph -- a `graph` block with `--` edges, for a
 /// directed one -- a `digraph` block with `->` edges.
+///
+/// ```
+/// use graphs::viz::dot;
+/// use graphs::Graph;
+///
+/// let mut g = Graph::undirected();
+/// g.add_node("a");
+/// g.add_node("b");
+/// g.add_edge(0, 1);
+///
+/// let dot = dot::render(&g);
+/// assert!(dot.starts_with("graph G {"));
+/// assert!(dot.contains("a -- b;"));
+/// ```
 pub fn render(g: &Graph) -> String {
     // DOT ids come from names but must be unique. Two different names can
     // sanitize to one id ("a b" and "a_b") -- then the vertices would merge

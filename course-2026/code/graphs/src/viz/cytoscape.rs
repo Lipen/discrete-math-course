@@ -49,6 +49,21 @@ struct Elements {
 }
 
 /// The graph in cytoscape.js JSON format (pretty-printed).
+///
+/// ```
+/// use graphs::viz::cytoscape;
+/// use graphs::Graph;
+///
+/// let mut g = Graph::undirected();
+/// g.add_node("x");
+/// g.add_node("y");
+/// g.add_weighted_edge(0, 1, 3);
+///
+/// let json = cytoscape::render(&g);
+/// assert!(json.contains("\"id\": \"0\""));
+/// assert!(json.contains("\"label\": \"x\""));
+/// assert!(json.contains("\"label\": \"3\""));
+/// ```
 pub fn render(g: &Graph) -> String {
     let elements = Elements {
         nodes: (0..g.node_count())
@@ -82,6 +97,21 @@ pub fn render(g: &Graph) -> String {
 /// Vertex names go through `serde_json` escaping plus one extra rule: every
 /// `<` becomes `\u003c`, so a name like `</script>` cannot break out of the
 /// inline script.
+///
+/// ```
+/// use graphs::viz::cytoscape;
+/// use graphs::Graph;
+///
+/// let mut g = Graph::undirected();
+/// g.add_node("a");
+/// g.add_node("b");
+/// g.add_edge(0, 1);
+///
+/// let html = cytoscape::render_html(&g);
+/// assert!(html.contains("<!doctype html>"));
+/// assert!(html.contains("cytoscape({"));
+/// assert!(html.contains("\"label\": \"a\""));
+/// ```
 pub fn render_html(g: &Graph) -> String {
     // `<` can only occur inside JSON strings, and `\u003c` is valid JSON,
     // so escaping keeps the JSON valid and the page injection-proof.

@@ -31,6 +31,18 @@ pub struct BfsResult {
 /// Visits the graph layer by layer: first vertices at distance 1, then 2,
 /// and so on. Runs in $O(V + E)$ and finds shortest paths in an unweighted
 /// graph (weights are ignored).
+///
+/// ```
+/// use graphs::{bfs, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..4 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2), (2, 3)]);
+///
+/// let res = bfs(&g, 0);
+/// assert_eq!(res.dist, vec![0, 1, 2, 3]);
+/// assert_eq!(res.parent, vec![None, Some(0), Some(1), Some(2)]);
+/// ```
 pub fn bfs(g: &Graph, start: usize) -> BfsResult {
     let n = g.node_count();
     let mut order = Vec::with_capacity(n);
@@ -83,6 +95,18 @@ pub struct DfsResult {
 /// structural information about edges (tree, back, and cross edges).
 /// Runs in $O(V + E)$. Recursive: may overflow the call stack on very
 /// large graphs.
+///
+/// ```
+/// use graphs::{dfs, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+///
+/// let res = dfs(&g);
+/// assert_eq!(res.order.len(), 3); // all vertices visited
+/// assert!(res.pre.iter().all(|&t| t > 0));
+/// ```
 pub fn dfs(g: &Graph) -> DfsResult {
     let n = g.node_count();
     let mut res = DfsResult {
@@ -121,6 +145,20 @@ pub fn dfs(g: &Graph) -> DfsResult {
 ///
 /// For a directed graph this counts the *weakly* connected components:
 /// edge directions are ignored.
+///
+/// ```
+/// use graphs::{connected_components, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..4 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (2, 3)]);
+///
+/// let (count, comp) = connected_components(&g);
+/// assert_eq!(count, 2);
+/// assert_eq!(comp[0], comp[1]);
+/// assert_ne!(comp[0], comp[2]);
+/// assert_eq!(comp[2], comp[3]);
+/// ```
 pub fn connected_components(g: &Graph) -> (usize, Vec<usize>) {
     let n = g.node_count();
     let mut uf = UnionFind::new(n);
@@ -149,6 +187,18 @@ pub fn connected_components(g: &Graph) -> (usize, Vec<usize>) {
 /// reversed graph in reverse finish order gives the components themselves.
 /// For an undirected graph use [`connected_components`]: passing one here is
 /// a mistake, and the function panics on it.
+///
+/// ```
+/// use graphs::{strongly_connected_components, Graph};
+///
+/// let mut g = Graph::directed();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2), (2, 0)]);
+///
+/// let sccs = strongly_connected_components(&g);
+/// assert_eq!(sccs.len(), 1); // one cycle, one component
+/// assert_eq!(sccs[0].len(), 3);
+/// ```
 pub fn strongly_connected_components(g: &Graph) -> Vec<Vec<usize>> {
     assert!(
         g.directed,
@@ -192,6 +242,17 @@ fn collect(u: usize, rev: &[Vec<usize>], visited: &mut [bool], comp: &mut Vec<us
 /// An undirected graph is checked with a union-find structure (an edge that
 /// joins vertices of one component closes a cycle); a directed graph -- with
 /// colored DFS (gray means an edge into the current recursion stack).
+///
+/// ```
+/// use graphs::{is_cyclic, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+/// assert!(!is_cyclic(&g));
+/// g.add_edge(2, 0);
+/// assert!(is_cyclic(&g));
+/// ```
 pub fn is_cyclic(g: &Graph) -> bool {
     if !g.directed {
         let mut uf = UnionFind::new(g.node_count());
@@ -235,6 +296,17 @@ pub fn is_cyclic(g: &Graph) -> bool {
 /// The order is such that every edge goes from an earlier vertex to a later
 /// one. Topological sort is undefined for undirected graphs, and the
 /// function panics on them.
+///
+/// ```
+/// use graphs::{topological_sort, Graph};
+///
+/// let mut g = Graph::directed();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+///
+/// let order = topological_sort(&g).unwrap();
+/// assert_eq!(order, vec![0, 1, 2]);
+/// ```
 pub fn topological_sort(g: &Graph) -> Option<Vec<usize>> {
     assert!(g.directed, "topological_sort is for directed graphs");
     let n = g.node_count();
@@ -276,6 +348,19 @@ pub type ShortestPaths = (Vec<Option<i64>>, Vec<Option<usize>>);
 /// [`ShortestPaths`]: the distance to every vertex and the predecessor on
 /// the shortest path (to reconstruct the path itself).
 /// Runs in $O((V + E) log V)$.
+///
+/// ```
+/// use graphs::{dijkstra, Graph};
+///
+/// let mut g = Graph::directed();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_weighted_edge(0, 1, 4);
+/// g.add_weighted_edge(0, 2, 1);
+/// g.add_weighted_edge(2, 1, 2); // shortcut through vertex 2
+///
+/// let (dist, _) = dijkstra(&g, 0);
+/// assert_eq!(dist, vec![Some(0), Some(3), Some(1)]);
+/// ```
 pub fn dijkstra(g: &Graph, start: usize) -> ShortestPaths {
     debug_assert!(
         g.edges.iter().all(|e| e.weight >= 0),
@@ -325,6 +410,18 @@ pub fn dijkstra(g: &Graph, start: usize) -> ShortestPaths {
 /// breaks on negative cycles: if `start` can reach such a cycle, it returns
 /// `None` (an unreachable cycle does not matter). After $k$ rounds paths of
 /// at most $k$ edges are correct. Runs in $O(V E)$.
+///
+/// ```
+/// use graphs::{bellman_ford, Graph};
+///
+/// let mut g = Graph::directed();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_weighted_edge(0, 1, 4);
+/// g.add_weighted_edge(1, 2, -3);
+///
+/// let (dist, _) = bellman_ford(&g, 0).unwrap();
+/// assert_eq!(dist, vec![Some(0), Some(4), Some(1)]);
+/// ```
 pub fn bellman_ford(g: &Graph, start: usize) -> Option<ShortestPaths> {
     let n = g.node_count();
     let mut dist: Vec<Option<i64>> = vec![None; n];
@@ -377,6 +474,19 @@ pub fn bellman_ford(g: &Graph, start: usize) -> Option<ShortestPaths> {
 /// components (checked with a union-find structure). Returns the edge ids of
 /// the spanning tree; for a disconnected graph -- a spanning forest (one
 /// tree per component).
+///
+/// ```
+/// use graphs::{min_spanning_tree, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_weighted_edge(0, 1, 1);
+/// g.add_weighted_edge(1, 2, 2);
+/// g.add_weighted_edge(0, 2, 10);
+///
+/// let tree = min_spanning_tree(&g);
+/// assert_eq!(tree.len(), 2); // 3 vertices, 2 edges in the tree
+/// ```
 pub fn min_spanning_tree(g: &Graph) -> Vec<usize> {
     assert!(!g.directed, "min_spanning_tree is for undirected graphs");
 
@@ -403,6 +513,18 @@ pub fn min_spanning_tree(g: &Graph) -> Vec<usize> {
 /// difference of out- and in-degrees. The trail itself is built by
 /// Hierholzer's algorithm; if not all edges are eaten, the graph is
 /// disconnected and there is no answer.
+///
+/// ```
+/// use graphs::{find_eulerian_path, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+///
+/// let trail = find_eulerian_path(&g).unwrap();
+/// assert_eq!(trail[0], 0); // starts at the odd-degree vertex
+/// assert_eq!(trail[2], 2); // ends at the other
+/// ```
 pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
     let n = g.node_count();
     if g.edge_count() == 0 {
@@ -503,6 +625,22 @@ pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
 /// The coloring is built by a traversal: neighbors get the opposite color; if
 /// a neighbor is already colored with the same color, the graph has an odd
 /// cycle and is not bipartite (`None`).
+///
+/// ```
+/// use graphs::{is_bipartite, Graph};
+///
+/// // A square is bipartite.
+/// let mut g = Graph::undirected();
+/// for i in 0..4 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2), (2, 3), (3, 0)]);
+/// assert_eq!(is_bipartite(&g).unwrap(), vec![0, 1, 0, 1]);
+///
+/// // A triangle is not.
+/// let mut tri = Graph::undirected();
+/// for i in 0..3 { tri.add_node(i.to_string()); }
+/// tri.add_edges(&[(0, 1), (1, 2), (2, 0)]);
+/// assert!(is_bipartite(&tri).is_none());
+/// ```
 pub fn is_bipartite(g: &Graph) -> Option<Vec<usize>> {
     let n = g.node_count();
     let mut color = vec![None; n];
@@ -538,6 +676,15 @@ pub fn is_bipartite(g: &Graph) -> Option<Vec<usize>> {
 /// An edge `(u, v)` is a bridge if $"low"(v) > "tin"(u)`. Undirected graphs
 /// only; parallel edges are never bridges.
 /// Recursive: may overflow the call stack on very large graphs.
+///
+/// ```
+/// use graphs::{bridges, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+/// assert_eq!(bridges(&g), vec![(0, 1), (1, 2)]);
+/// ```
 pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
     assert!(!g.directed, "bridges is for undirected graphs");
     let n = g.node_count();
@@ -590,6 +737,15 @@ pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
 /// has a child `v` with $"low"(v) >= "tin"(u)`; the root of a DFS tree -- if
 /// it has more than one child. Undirected graphs only.
 /// Recursive: may overflow the call stack on very large graphs.
+///
+/// ```
+/// use graphs::{articulation_points, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..4 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2), (2, 3)]);
+/// assert_eq!(articulation_points(&g), vec![1, 2]);
+/// ```
 pub fn articulation_points(g: &Graph) -> Vec<usize> {
     assert!(!g.directed, "articulation_points is for undirected graphs");
     let n = g.node_count();
@@ -657,6 +813,19 @@ pub fn articulation_points(g: &Graph) -> Vec<usize> {
 /// colors depends on the vertex order and is not guaranteed minimal: on a
 /// bipartite graph a bad order can make the greedy algorithm use three
 /// colors even though two suffice.
+///
+/// ```
+/// use graphs::{greedy_coloring, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2), (2, 0)]);
+///
+/// let colors = greedy_coloring(&g);
+/// for e in &g.edges {
+///     assert_ne!(colors[e.from], colors[e.to]);
+/// }
+/// ```
 pub fn greedy_coloring(g: &Graph) -> Vec<usize> {
     let n = g.node_count();
     let mut color = vec![0usize; n];
@@ -683,12 +852,30 @@ pub fn greedy_coloring(g: &Graph) -> Vec<usize> {
 ///
 /// `None` if $v$ is unreachable from $u$. Weights are ignored (this is the
 /// unweighted distance from the chapter's definitions).
+///
+/// ```
+/// use graphs::{distance, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+/// assert_eq!(distance(&g, 0, 2), Some(2));
+/// ```
 pub fn distance(g: &Graph, u: usize, v: usize) -> Option<usize> {
     let dist = bfs(g, u).dist;
     (dist[v] != usize::MAX).then_some(dist[v])
 }
 
 /// Eccentricity of a vertex: the maximum distance to reachable vertices.
+///
+/// ```
+/// use graphs::{eccentricity, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2)]);
+/// assert_eq!(eccentricity(&g, 0), Some(2));
+/// ```
 pub fn eccentricity(g: &Graph, u: usize) -> Option<usize> {
     bfs(g, u)
         .dist
@@ -701,6 +888,15 @@ pub fn eccentricity(g: &Graph, u: usize) -> Option<usize> {
 ///
 /// For a disconnected graph -- the maximum within components (vertices in
 /// different components have no distance). An empty graph gives `None`.
+///
+/// ```
+/// use graphs::{diameter, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..4 { g.add_node(i.to_string()); }
+/// g.add_edges(&[(0, 1), (1, 2), (2, 3), (3, 0)]);
+/// assert_eq!(diameter(&g), Some(2));
+/// ```
 pub fn diameter(g: &Graph) -> Option<usize> {
     let mut best: Option<usize> = None;
     for u in 0..g.node_count() {
@@ -884,6 +1080,21 @@ mod tests {
     }
 
     #[test]
+    fn bellman_ford_unreachable_negative_cycle_is_ok() {
+        // A negative cycle unreachable from start does not break the algorithm.
+        let mut g = Graph::directed();
+        for i in 0..4 {
+            g.add_node(i.to_string());
+        }
+        g.add_weighted_edge(0, 1, 5); // start -> 1
+        g.add_weighted_edge(2, 3, 1);
+        g.add_weighted_edge(3, 2, -5); // negative cycle 2 <-> 3, unreachable from 0
+        let (dist, _) = bellman_ford(&g, 0).unwrap();
+        assert_eq!(dist[1], Some(5));
+        assert_eq!(dist[2], None); // unreachable
+    }
+
+    #[test]
     fn kruskal_builds_spanning_tree() {
         let mut g = Graph::undirected();
         for i in 0..4 {
@@ -898,6 +1109,19 @@ mod tests {
         assert_eq!(tree.len(), 3); // 4 vertices, 3 edges
         let total: i64 = tree.iter().map(|&e| g.edge_weight(e)).sum();
         assert_eq!(total, 6);
+    }
+
+    #[test]
+    fn mst_disconnected_graph_returns_spanning_forest() {
+        let mut g = Graph::undirected();
+        for i in 0..4 {
+            g.add_node(i.to_string());
+        }
+        g.add_weighted_edge(0, 1, 1);
+        g.add_weighted_edge(2, 3, 2);
+        let tree = min_spanning_tree(&g);
+        // Two components, each needs one edge to connect its two vertices.
+        assert_eq!(tree.len(), 2);
     }
 
     #[test]

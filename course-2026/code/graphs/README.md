@@ -36,7 +36,7 @@ The figure above is the `visualize` demo graph: the crate writes the DOT source,
 | `add_edge(u, v)`, `add_weighted_edge(u, v, w)` | Add an edge, return its id |
 | `add_edges(&[(u, v), ...])` | Add several unit-weight edges |
 | `node_count()`, `edge_count()`, `is_directed()` | Basic facts |
-| `node_name(u)`, `neighbors(u)`, `degree(u)` | Read the structure |
+| `node_name(u)`, `neighbors(u)`, `degree(u)`, `in_degree(u)` | Read the structure |
 | `edge_weight(e)`, `adjacent(u, v)` | Edge lookups |
 | `degrees()` | All degrees (handshake lemma, histograms) |
 | `Graph::erdos_renyi(n, p, seed)` | Random graph $G(n, p)$, reproducible |
