@@ -10,13 +10,13 @@
 //   boolean-circuits     m08-m09  булева алгебра, схемы
 //   codes                m10      коды, исправляющие ошибки
 //   sat                  m11      SAT, NP-полнота
-//   counting-probability m12-m15  комбинаторика, вероятность, производящие функции
-//   constructions        m16      конструкции чисел
-//   automata-computation m17-m20  автоматы, Тьюринг
-//   lambda-types         m21-m22  лямбда-исчисление, теория типов
-//   beyond-n             m23      за пределами натуральных чисел
-//   complexity           m24      сложность вычислений
-//   fuzzy                m26      нечёткие множества
+//   counting-probability m13-m16  комбинаторика, вероятность, производящие функции
+//   constructions        m17      конструкции чисел
+//   automata-computation m18-m21  автоматы, Тьюринг
+//   lambda-types         m22-m23  лямбда-исчисление, теория типов
+//   beyond-n             m24      за пределами натуральных чисел
+//   complexity           m25      сложность вычислений
+//   fuzzy                m27      нечёткие множества
 //
 // Каждый раздел лежит в трёх файлах: topic-{problems,hints,solutions}.typ.
 #import "common-notes.typ": *

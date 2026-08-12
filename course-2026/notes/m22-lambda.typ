@@ -1,4 +1,4 @@
-// M21 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
+// M22 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m17.typ": church-rosser-diamond, lambda-syntax-tree
@@ -815,7 +815,7 @@ $
 
 == Упражнения
 
-#tasklist("m21")[
+#tasklist("m22")[
   _Синтаксис, свободные и связанные переменные._
   + Найдите свободные переменные термов: $lambda x . x y$, $x (lambda x . x y)$, $lambda a b . a b c$, $(lambda p . p q)(lambda q . q p)$.
 

@@ -49,7 +49,7 @@
 #let sheffer = sym.arrow.t  // штрих Шеффера (aliased)
 #let peirce = sym.arrow.b   // стрелка Пирса (aliased)
 
-// === Complexity theory (m24) ===
+// === Complexity theory (m26) ===
 #let mso-two = $"MSO"_2$
 
 // === Reductions (computability / complexity) ===
@@ -63,7 +63,7 @@
 #let join = $or$          // join (супремум в решётке)
 #let meet = $and$         // meet (инфимум в решётке)
 
-// === Абстрактная интерпретация (m25) ===
+// === Абстрактная интерпретация (m26) ===
 #let llbracket = $[|$        // семантические скобки ⟦
 #let rrbracket = $|]$        // ⟧
 #let sharp = $sharp$         // переносящая функция: ⟦s⟧♯
@@ -75,7 +75,7 @@
 #let semant(s) = $llbracket #s rrbracket$          // конкретная семантика ⟦s⟧
 #let transfer(s) = $llbracket #s rrbracket^sharp$  // переносящая функция ⟦s⟧♯
 
-// === Лямбда-исчисление (m21) ===
+// === Лямбда-исчисление (m22) ===
 
 // Стрелки и отношения редукции (beta сверху, без scripts).
 #let beta-red = $->^beta$                     // ->^beta (одношаговая)
