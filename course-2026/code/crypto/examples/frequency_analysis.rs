@@ -2,7 +2,7 @@
 //!
 //! In Russian text the letter "о" is the most frequent. If a simple substitution cipher
 //! replaces each letter with a fixed one, the most frequent ciphertext letter
-//! most likely corresponds to the most frequent letter of the language --- and the
+//! most likely corresponds to the most frequent letter of the language -- and the
 //! substitution can be recovered from the frequencies.
 
 use std::collections::HashMap;

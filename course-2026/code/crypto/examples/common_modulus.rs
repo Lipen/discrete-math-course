@@ -2,7 +2,7 @@
 //!
 //! Two users share the modulus $n$, and the exponents $e_1$, $e_2$ are coprime.
 //! The extended Euclidean algorithm gives $u, v$ with $e_1 u + e_2 v = 1$, and
-//! $c_1^u c_2^v = m$ --- no private keys are needed.
+//! $c_1^u c_2^v = m$ -- no private keys are needed.
 
 use crypto::attacks::common_modulus_attack;
 use crypto::mod_pow;

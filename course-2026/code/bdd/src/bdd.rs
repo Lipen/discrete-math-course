@@ -344,9 +344,9 @@ impl Bdd {
         u != FALSE
     }
 
-    // ------------------------------------------------------------------
+    // ==================================================================
     // Internal helpers
-    // ------------------------------------------------------------------
+    // ==================================================================
 
     /// The canonical `(var, lo, hi)` node.
     ///
@@ -454,7 +454,7 @@ mod tests {
         }
     }
 
-    // -- boolean operations --------------------------------------------------
+    // -- boolean operations ==================================================
 
     #[test]
     fn xor_of_two_variables() {
@@ -480,7 +480,7 @@ mod tests {
         check_table(f, &bdd, 3, &table);
     }
 
-    // -- structural properties ------------------------------------------------
+    // -- structural properties ================================================
 
     #[test]
     fn negation_is_free_and_shares_nodes() {
@@ -529,7 +529,7 @@ mod tests {
         assert_eq!(bdd.size(), size_before);
     }
 
-    // -- sat_count ------------------------------------------------------------
+    // -- sat_count ============================================================
 
     #[test]
     fn sat_count_xor_two_vars() {
@@ -577,7 +577,7 @@ mod tests {
         assert_eq!(bdd.sat_count(f, 2), 3);
     }
 
-    // -- is_tautology / is_satisfiable ----------------------------------------
+    // -- is_tautology / is_satisfiable ========================================
 
     #[test]
     fn tautology_detection() {
@@ -598,7 +598,7 @@ mod tests {
         assert!(!Bdd::is_satisfiable(FALSE));
     }
 
-    // -- restrict -------------------------------------------------------------
+    // -- restrict =============================================================
 
     #[test]
     fn restrict_var_to_true() {
@@ -648,7 +648,7 @@ mod tests {
         assert!(!bdd.eval(fy, &[false, true]));
     }
 
-    // -- ite ----------------------------------------------------------------
+    // -- ite ================================================================
 
     #[test]
     fn ite_base_cases() {
@@ -664,7 +664,7 @@ mod tests {
         assert_eq!(bdd.ite(x, TRUE, FALSE), x);
     }
 
-    // -- complement edge edge cases -----------------------------------------
+    // -- complement edge edge cases =========================================
 
     #[test]
     fn double_negation_is_identity() {

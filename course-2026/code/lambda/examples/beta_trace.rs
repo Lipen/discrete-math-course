@@ -27,9 +27,9 @@ fn main() {
     println!("Normal form:  {}", final_term);
     assert!(final_term.is_normal_form());
 
-    // -- A non-terminating term with a step limit ----------------------------
+    // -- A non-terminating term with a step limit ============================
     println!();
-    println!("--- Non-terminating example ---");
+    println!("== Non-terminating example ==");
 
     // (λx. x x) (λx. x x)  -- the Ω combinator
     let self_app = Term::abs("x", Term::app(Term::var("x"), Term::var("x")));
@@ -46,9 +46,9 @@ fn main() {
         omega_trace.last().unwrap().is_normal_form()
     );
 
-    // -- Church arithmetic with trace ----------------------------------------
+    // -- Church arithmetic with trace ========================================
     println!();
-    println!("--- Church succ 2 with trace ---");
+    println!("== Church succ 2 with trace ==");
 
     let c2 = church(2);
     let succ_term = Term::app(lambda::succ(), c2);

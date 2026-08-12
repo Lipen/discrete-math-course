@@ -17,7 +17,7 @@ fn main() {
     println!("Group order p - 1 = {} = 2^2 * 7 (smooth)", p - 1);
     println!("Find x in g^x = {h} (mod {p}), where g = {g}");
 
-    let recovered = pohlig_hellman(p, g, h).expect("smooth order --- the attack must succeed");
+    let recovered = pohlig_hellman(p, g, h).expect("smooth order -- the attack must succeed");
     println!("Pohlig--Hellman found x = {recovered}");
     println!("This is why the order is chosen with a large prime factor (safe prime p - 1 = 2q).");
 }

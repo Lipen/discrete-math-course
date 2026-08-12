@@ -8,7 +8,7 @@
 //! ## Decoding logic
 //!
 //! | syndrome | overall parity | what happened |
-//! |----------|----------------|---------------|
+//! |==========|================|===============|
 //! | 0        | even           | no error |
 //! | 0        | odd            | the parity bit (position 8) was flipped |
 //! | nonzero  | odd            | a single error at the position the syndrome points at |

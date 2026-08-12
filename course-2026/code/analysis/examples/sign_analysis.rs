@@ -31,5 +31,5 @@ fn main() {
     }];
     exec_sign(&branchy, &mut st);
     println!("\nafter if/else merge: y is {}", st["y"]);
-    println!("the join of + and - is unknown --- sound, but imprecise");
+    println!("the join of + and - is unknown -- sound, but imprecise");
 }

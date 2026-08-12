@@ -203,7 +203,7 @@ mod tests {
     use crate::machine::Outcome;
     use crate::tape::{Direction, Tape};
 
-    // -- ends_with_zero ---------------------------------------------------
+    // -- ends_with_zero ===================================================
 
     #[test]
     fn ends_with_zero_accepts_correct_words() {
@@ -230,7 +230,7 @@ mod tests {
         }
     }
 
-    // -- zero_n_one_n -----------------------------------------------------
+    // -- zero_n_one_n =====================================================
 
     #[test]
     fn zero_n_one_n_accepts_correct_words() {
@@ -278,7 +278,7 @@ mod tests {
         assert_eq!(run.configs.last().unwrap().state, "accept");
     }
 
-    // -- binary_increment -------------------------------------------------
+    // -- binary_increment =================================================
 
     #[test]
     fn binary_increment_accepts_various_inputs() {
@@ -312,7 +312,7 @@ mod tests {
         }
     }
 
-    // -- palindrome -------------------------------------------------------
+    // -- palindrome =======================================================
 
     #[test]
     fn palindrome_accepts_palindromes() {
@@ -350,7 +350,7 @@ mod tests {
         }
     }
 
-    // -- non-halting ------------------------------------------------------
+    // -- non-halting ======================================================
 
     #[test]
     fn non_halting_machine_hits_the_step_limit() {

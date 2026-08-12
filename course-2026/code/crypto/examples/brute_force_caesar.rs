@@ -26,5 +26,5 @@ fn main() {
         println!("shift {k:>2}: {decrypted}");
     }
 
-    println!("One of the lines is meaningful --- that is the plaintext.");
+    println!("One of the lines is meaningful -- that is the plaintext.");
 }

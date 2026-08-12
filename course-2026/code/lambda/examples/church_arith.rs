@@ -9,22 +9,22 @@ fn main() {
     let three = church(3);
     let four = church(4);
 
-    // -- Successor ------------------------------------------------------------
+    // -- Successor ============================================================
 
     let one_more = Term::app(succ(), two.clone()).normalize(1000);
     println!("succ 2 = {}", to_nat(&one_more).unwrap());
 
-    // -- Addition -------------------------------------------------------------
+    // -- Addition =============================================================
 
     let sum = Term::app(Term::app(add(), two.clone()), three.clone()).normalize(10000);
     println!("2 + 3 = {}", to_nat(&sum).unwrap());
 
-    // -- Multiplication -------------------------------------------------------
+    // -- Multiplication =======================================================
 
     let prod = Term::app(Term::app(mult(), three), four.clone()).normalize(10000);
     println!("3 * 4 = {}", to_nat(&prod).unwrap());
 
-    // -- Exponentiation -------------------------------------------------------
+    // -- Exponentiation =======================================================
 
     let exp = Term::app(Term::app(power(), two), four).normalize(50000);
     println!("2^4 = {}", to_nat(&exp).unwrap());

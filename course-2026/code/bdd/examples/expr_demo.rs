@@ -9,7 +9,7 @@ use bdd::{Bdd, Expr};
 fn main() {
     let mut bdd = Bdd::new();
 
-    // -- XNOR expressed two ways -------------------------------------------
+    // -- XNOR expressed two ways ===========================================
     //   (x ∧ y) ∨ (¬x ∧ ¬y)
     let x = Expr::var(0);
     let y = Expr::var(1);
@@ -40,7 +40,7 @@ fn main() {
         println!("    x={vx}, y={vy} -> {}", bdd.eval(f1, &[vx, vy]));
     }
 
-    // -- Transitivity of implication (tautology) ---------------------------
+    // -- Transitivity of implication (tautology) ===========================
     println!("\n-- Checking a tautology --");
     let z = Expr::var(2);
     // (x -> y) ∧ (y -> z)  ->  (x -> z)
@@ -56,7 +56,7 @@ fn main() {
     println!("  Is tautology? {}", Bdd::is_tautology(t));
     println!("  Node count: {}", bdd.size());
 
-    // -- Contradiction ----------------------------------------------------
+    // -- Contradiction ====================================================
     println!("\n-- An unsatisfiable formula --");
     // x ∧ ¬x
     let contradiction = x.clone().and(x.not_());
