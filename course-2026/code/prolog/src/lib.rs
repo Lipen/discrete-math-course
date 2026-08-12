@@ -5,7 +5,7 @@
 //!
 //! - terms ([`term::Term`]) -- variables, constants, and structures;
 //! - substitutions ([`subst`]) and unification with the occurs check
-//!   ([`unify`]);
+//!   ([`mod@unify`]);
 //! - definite clauses ([`clause::Clause`]): facts and rules;
 //! - a program ([`database::Database`]) and a depth-first SLD solver with
 //!   backtracking ([`solver::Solver`]).
