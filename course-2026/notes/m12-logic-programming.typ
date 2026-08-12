@@ -348,14 +348,17 @@ while let Some(ChoicePoint { goals, sigma }) = self.stack.pop() {
         return Some(sigma); // пустая цель: успех
     }
     let (head, rest) = goals.split_first().unwrap();
-    if let Goal::Call(term) = apply(head, sigma) {
+    if let Goal::Call(term) = apply_goal(head, &sigma) {
+        let Some(clauses) = self.db.clauses_for(&term) else {
+            continue; // подходящих клауз нет: ветвь обрывается
+        };
         // Клаузы в порядке программы; первая положена на стек последней.
-        for clause in self.db.clauses_for(&term) {
+        for clause in clauses {
             let fresh = rename_clause(clause, &mut fresh); // свежие переменные
             let mut cand = sigma.clone();
             if unify(&term, &fresh.head, &mut cand) {
                 self.stack.push(ChoicePoint {
-                    goals: prepend(fresh.body, rest),
+                    goals: prepend(fresh.body, rest.clone()),
                     sigma: cand,
                 });
             }
