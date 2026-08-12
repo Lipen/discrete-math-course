@@ -126,6 +126,7 @@
 #include "m09-circuits.typ"
 #include "m10-codes.typ"
 #include "m11-sat.typ"
+#include "m12-logic-programming.typ"
 #include "m13-combinatorics.typ"
 #include "m14-number-theory-crypto.typ"
 #include "m15-probability.typ"
