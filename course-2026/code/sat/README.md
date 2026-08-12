@@ -5,6 +5,8 @@ A small DPLL SAT solver -- teaching crate for the SAT and NP-completeness chapte
 Implements the Davis-Putnam-Logemann-Loveland algorithm: unit propagation, pure literal elimination, and chronological backtracking.
 Literals are integers (`v` = variable true, `-v` = variable false); a formula is a conjunction of clauses.
 
+This is DPLL, not CDCL: clause learning and non-chronological backtracking are described in the chapter but deliberately left out of the crate.
+
 ## Quick start
 
 ```bash
