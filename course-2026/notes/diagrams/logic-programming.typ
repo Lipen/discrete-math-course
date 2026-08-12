@@ -63,7 +63,11 @@
   goal(base2, [`parent(bob, Y)`])
   goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`])
   solution(sol2, [$Y = "carol"$])
-  draw.content(dead, text(fill: sld-dead-col, weight: "bold")[тупик])
+  goal(dead, [`ancestor(carol, Y)`])
+  draw.content((dead.at(0), dead.at(1) - 0.85), text(
+    fill: sld-dead-col,
+    weight: "bold",
+  )[тупик])
 
   edge(root, base1)
   edge(root, recur1)
