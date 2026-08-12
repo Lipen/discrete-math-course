@@ -1,6 +1,6 @@
 //! Example Turing machines from the chapter and beyond.
 //!
-//! Each function builds a [`Machine`](crate::Machine) that recognises a
+//! Each function builds a [`Machine`] that recognises a
 //! specific language or computes a simple function. The machines use
 //! `&'static str` for states (readable in traces) and `char` for tape
 //! symbols (with `' '` as the blank).
