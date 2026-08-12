@@ -53,6 +53,10 @@ pub enum Outcome {
     /// A rejecting state was reached.
     Rejected,
     /// No transition applied; the machine neither accepts nor rejects.
+    ///
+    /// In the theoretical model this is the same as a rejection -- a machine
+    /// that halts without accepting is said to reject the input. Here the two
+    /// are told apart so that a trace shows *why* the word was not accepted.
     Stuck,
     /// The step limit was reached before the machine halted.
     Limit,
@@ -82,6 +86,10 @@ pub struct Run<Sym, State> {
 /// Holds the transition table (a partial function) and the designated start,
 /// accept, and reject states. The machine is deterministic: at most one
 /// transition applies to any (state, symbol) pair.
+///
+/// The sets Q, Σ and Γ of the formal definition are not stored separately:
+/// Q is the set of states that occur in the table, Σ the tape symbols read by
+/// it, and Γ those plus the blank.
 ///
 /// ```
 /// use std::collections::HashMap;
@@ -171,6 +179,10 @@ where
     ///
     /// Takes at most `max_steps` transitions; a machine that has not halted
     /// by then ends with `Outcome::Limit` instead of running forever.
+    ///
+    /// `Limit` is an engineering substitute for non-termination, not a
+    /// theoretical outcome: whether a machine stops at all is undecidable, so
+    /// a finite trace simply gives up after `max_steps`.
     ///
     /// ```
     /// use std::collections::HashMap;

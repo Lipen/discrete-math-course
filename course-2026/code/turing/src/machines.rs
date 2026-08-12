@@ -99,9 +99,9 @@ pub fn zero_n_one_n() -> Machine<char, &'static str> {
 /// A machine that increments a binary number.
 ///
 /// The input is a word over `{0, 1}` with the least significant bit on the
-/// right. The machine adds 1: it flips trailing `1`s to `0` (carry
-/// propagation) and flips the first `0` to `1`. An all-`1` input grows by
-/// one digit (e.g. `111` becomes `1000`).
+/// left (as in the book's exercise). The machine adds 1: it flips leading
+/// `1`s to `0` (carry propagation) and flips the first `0` to `1`. An all-`1`
+/// input grows one digit on the right (e.g. `111` becomes `0001`).
 ///
 /// ```
 /// use turing::{machines, Tape, Outcome};
@@ -114,28 +114,28 @@ pub fn zero_n_one_n() -> Machine<char, &'static str> {
 /// assert_eq!(run.outcome, Outcome::Accepted);
 /// assert_eq!(run.configs.last().unwrap().tape.content_trimmed(), vec!['1']);
 ///
-/// // 1011 (11) + 1 = 1100 (12)
+/// // 1011 (13) + 1 = 0111 (14) -- LSB on the left
 /// let t = Tape::with_word(&['1', '0', '1', '1'], ' ');
 /// let run = m.run(t, 20);
 /// assert_eq!(run.outcome, Outcome::Accepted);
-/// assert_eq!(run.configs.last().unwrap().tape.content_trimmed(), vec!['1', '1', '0', '0']);
+/// assert_eq!(run.configs.last().unwrap().tape.content_trimmed(), vec!['0', '1', '1', '1']);
 ///
-/// // 111 (7) + 1 = 1000 (8)
+/// // 111 (7) + 1 = 0001 (8) -- overflow
 /// let t = Tape::with_word(&['1', '1', '1'], ' ');
 /// let run = m.run(t, 20);
 /// assert_eq!(run.outcome, Outcome::Accepted);
-/// assert_eq!(run.configs.last().unwrap().tape.content_trimmed(), vec!['1', '0', '0', '0']);
+/// assert_eq!(run.configs.last().unwrap().tape.content_trimmed(), vec!['0', '0', '0', '1']);
 /// ```
 pub fn binary_increment() -> Machine<char, &'static str> {
     let mut t = HashMap::new();
-    // q0: move to the right end of the number.
-    t.insert(("q0", '0'), tr('0', Direction::Right, "q0"));
-    t.insert(("q0", '1'), tr('1', Direction::Right, "q0"));
-    t.insert(("q0", ' '), tr(' ', Direction::Left, "q1"));
-    // q1: increment with carry propagation.
-    t.insert(("q1", '1'), tr('0', Direction::Left, "q1")); // 1+1=0, carry
-    t.insert(("q1", '0'), tr('1', Direction::Left, "accept")); // 0+1=1, done
-    t.insert(("q1", ' '), tr('1', Direction::Left, "accept")); // overflow: 111... -> 1000...
+    // q0: start, the head is on the least significant bit.
+    t.insert(("q0", '0'), tr('1', Direction::Right, "accept")); // 0+1=1, done
+    t.insert(("q0", '1'), tr('0', Direction::Right, "q1")); // 1+1=0, carry
+    t.insert(("q0", ' '), tr('1', Direction::Right, "accept")); // empty word -> 1
+                                                                // q1: carry propagation to the right.
+    t.insert(("q1", '0'), tr('1', Direction::Right, "accept")); // 0+1=1, done
+    t.insert(("q1", '1'), tr('0', Direction::Right, "q1")); // 1+1=0, carry
+    t.insert(("q1", ' '), tr('1', Direction::Right, "accept")); // overflow: 111... -> 0001...
     Machine::new(t, "q0", "accept", "reject")
 }
 
@@ -283,15 +283,16 @@ mod tests {
     #[test]
     fn binary_increment_accepts_various_inputs() {
         let m = binary_increment();
+        // LSB on the left, as in the book's exercise.
         let cases = [
             ("0", "1"),
-            ("1", "10"),
-            ("10", "11"),
-            ("11", "100"),
-            ("100", "101"),
-            ("111", "1000"),
-            ("1011", "1100"),
-            ("1111", "10000"),
+            ("1", "01"),
+            ("10", "01"),
+            ("11", "001"),
+            ("100", "010"),
+            ("111", "0001"),
+            ("1011", "0111"),
+            ("1111", "00001"),
         ];
         for (input, expected) in cases {
             let tape = Tape::with_word(&input.chars().collect::<Vec<_>>(), ' ');

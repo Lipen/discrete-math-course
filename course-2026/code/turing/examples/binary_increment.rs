@@ -1,8 +1,9 @@
 //! A machine that increments a binary number.
 //!
 //! The input is a word over {0, 1} with the least significant bit on the
-//! right. The machine adds 1: trailing 1s become 0s (carry), the first 0
-//! becomes 1, and an all-1 input grows a new digit.
+//! left (as in the book's exercise). The machine adds 1: leading 1s become
+//! 0s (carry), the first 0 becomes 1, and an all-1 input grows a new digit
+//! on the right.
 //!
 //! This example prints a step-by-step trace for several inputs.
 
