@@ -14,7 +14,6 @@
 
 // Huffman tree for A: 0.40, B: 0.25, C: 0.20, D: 0.10, E: 0.05.
 #let huffman-tree = canvas({
-
   // Node positions --- tree structure (y-step = 1.8, units = cm)
   let root = (0, 0)
   let nA = (-3.5, -1.8)
@@ -97,7 +96,6 @@
 }
 
 #let hamming-spheres = canvas({
-
   let r = 1.25
   let cw1 = (1.8, 3.0)
   let cw2 = (6.2, 3.0)
@@ -485,7 +483,6 @@
 // p₁ feeds d₁, d₂, d₄; p₂ feeds d₁, d₃, d₄; p₄ feeds d₂, d₃, d₄; each dᵢ
 // reaches only its own line.
 #let hamming-groups = canvas({
-
   // Horizontal position of each codeword bit (index: position - 1).
   let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
   let cy = 7.0
@@ -526,11 +523,103 @@
       draw.circle((bx, d), radius: 0.13, fill: color)
     }
   }
-  hg-edge(x.at(0), data-y.at(3), hg-p1, (data-y.at(0), data-y.at(1), data-y.at(3)))
-  hg-edge(x.at(1), data-y.at(3), hg-p2, (data-y.at(0), data-y.at(2), data-y.at(3)))
-  hg-edge(x.at(3), data-y.at(3), hg-p4, (data-y.at(1), data-y.at(2), data-y.at(3)))
+  hg-edge(x.at(0), data-y.at(3), hg-p1, (
+    data-y.at(0),
+    data-y.at(1),
+    data-y.at(3),
+  ))
+  hg-edge(x.at(1), data-y.at(3), hg-p2, (
+    data-y.at(0),
+    data-y.at(2),
+    data-y.at(3),
+  ))
+  hg-edge(x.at(3), data-y.at(3), hg-p4, (
+    data-y.at(1),
+    data-y.at(2),
+    data-y.at(3),
+  ))
   hg-edge(x.at(2), data-y.at(0), hg-data, (data-y.at(0),))
   hg-edge(x.at(4), data-y.at(1), hg-data, (data-y.at(1),))
   hg-edge(x.at(5), data-y.at(2), hg-data, (data-y.at(2),))
   hg-edge(x.at(6), data-y.at(3), hg-data, (data-y.at(3),))
+})
+
+// ════════════════════════════════════════════════════════
+// Section C --- Схемная сложность (chapter m09-circuits.typ)
+// ════════════════════════════════════════════════════════
+
+#let cs-func-fill = oklch(96%, 0.02, 265deg)   // все функции
+#let cs-func-str = 0.8pt + oklch(35%, 0.02, 265deg)
+#let cs-small-fill = oklch(88%, 0.06, 250deg)  // функции с малой схемой
+#let cs-label = oklch(30%, 0.02, 265deg)
+#let cs-dim = oklch(58%, 0.02, 265deg)
+
+// Мощностной аргумент: функций 2^(2^n), а схем размера s мало.
+// Большой прямоугольник --- все функции; маленький --- функции, реализуемые малой схемой.
+#let functions-vs-circuits = canvas({
+  let w = 7.0
+  let h = 4.2
+  draw.rect(
+    (-w / 2, -h / 2),
+    (w / 2, h / 2),
+    fill: cs-func-fill,
+    stroke: cs-func-str,
+    name: "all",
+  )
+  draw.content((0, 1.0), text(size: 0.62em, fill: cs-label)[все функции])
+  draw.content((0, 0.25), text(size: 0.72em, fill: cs-label)[$2^(2^n)$])
+
+  let sw = 2.8
+  let sh = 1.4
+  let sx = w / 2 - sw / 2 - 0.5
+  let sy = -h / 2 + sh / 2 + 0.6
+  draw.rect(
+    (sx - sw / 2, sy - sh / 2),
+    (sx + sw / 2, sy + sh / 2),
+    fill: cs-small-fill,
+    stroke: cs-func-str,
+    name: "small",
+  )
+  draw.content((sx, sy + 0.25), text(size: 0.52em, fill: cs-label)[малые схемы])
+  draw.content((sx, sy - 0.3), text(size: 0.62em, fill: cs-label)[$(c s)^s$])
+})
+
+// Вложенность классов: P subset P/poly; снятие равномерности пускает в P/poly неразрешимые языки.
+#let class-inclusion = canvas({
+  let all-w = 7.8
+  let all-h = 5.0
+  draw.rect(
+    (-all-w / 2, -all-h / 2),
+    (all-w / 2, all-h / 2),
+    fill: oklch(97%, 0.01, 265deg),
+    stroke: cs-func-str,
+    name: "all",
+  )
+  draw.content((0, all-h / 2 - 0.45), text(
+    size: 0.62em,
+    fill: cs-dim,
+  )[все языки])
+
+  draw.rect(
+    (-2.4, -1.8),
+    (3.0, 2.0),
+    radius: 12pt,
+    fill: oklch(92%, 0.05, 250deg),
+    stroke: cs-func-str,
+    name: "ppoly",
+  )
+  draw.content((0.3, 1.35), text(size: 0.68em, fill: cs-label)[$"P/poly"$])
+
+  draw.rect(
+    (-1.55, -1.05),
+    (0.75, 0.65),
+    radius: 8pt,
+    fill: white,
+    stroke: cs-func-str,
+    name: "p",
+  )
+  draw.content((-0.4, -0.2), text(size: 0.68em, fill: cs-label)[$P$])
+
+  draw.content((1.8, 0.15), text(size: 0.5em, fill: cs-label)[неразрешимые])
+  draw.content((1.8, -0.3), text(size: 0.5em, fill: cs-label)[языки])
 })
