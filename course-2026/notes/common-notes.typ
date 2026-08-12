@@ -206,7 +206,7 @@
         ]
       ]
     } else if it.level == 2 {
-      block(above: 0.5em, below: 0.5em, inset: (left: 2em), sticky: true)[
+      block(above: 0.5em, below: 0.5em, inset: (left: 2em))[
         #context {
           let nums = counter(heading).at(it.element.location())
           text(size: 11.5pt)[
