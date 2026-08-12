@@ -54,6 +54,7 @@ The figure above is the `visualize` demo graph: the crate writes the DOT source,
 | `dijkstra(&g, start)` | Shortest paths, non-negative weights |
 | `bellman_ford(&g, start)` | Shortest paths with negative edges, `None` on a negative cycle |
 | `min_spanning_tree(&g)` | Kruskal's algorithm, returns edge ids |
+| `prim(&g)` | Prim's algorithm, min-heap, returns edge ids |
 | `find_eulerian_path(&g)` | Eulerian trail via Hierholzer, `None` if none exists |
 | `is_bipartite(&g)` | 2-coloring, `None` on an odd cycle |
 | `bridges(&g)`, `articulation_points(&g)` | Tarjan's lowlink algorithm |
@@ -67,7 +68,7 @@ Picking an algorithm:
 | unweighted graph, need distances or a traversal | `bfs`, `dfs` |
 | weighted graph, non-negative weights | `dijkstra` |
 | weighted graph with negative edges (no negative cycles) | `bellman_ford` |
-| undirected graph, cheapest spanning tree | `min_spanning_tree` |
+| undirected graph, cheapest spanning tree | `min_spanning_tree` (Kruskal), `prim` (Prim) |
 | need to visit every edge exactly once | `find_eulerian_path` |
 | directed acyclic graph, need an order | `topological_sort` |
 | need components | `connected_components` (undirected), `strongly_connected_components` (directed) |

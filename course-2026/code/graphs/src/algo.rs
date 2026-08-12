@@ -504,6 +504,65 @@ pub fn min_spanning_tree(g: &Graph) -> Vec<usize> {
     tree
 }
 
+/// Minimum spanning tree (Prim's algorithm), for undirected graphs.
+///
+/// Grows a tree from a start vertex: at every step it takes the lightest edge
+/// crossing the cut between the tree and the rest of the graph, using a binary
+/// min-heap of candidate edges. Kruskal is friendlier to sparse graphs, Prim
+/// to dense ones. Returns the edge ids of the spanning tree; for a
+/// disconnected graph -- a spanning forest.
+///
+/// ```
+/// use graphs::{prim, Graph};
+///
+/// let mut g = Graph::undirected();
+/// for i in 0..3 { g.add_node(i.to_string()); }
+/// g.add_weighted_edge(0, 1, 1);
+/// g.add_weighted_edge(1, 2, 2);
+/// g.add_weighted_edge(0, 2, 10);
+///
+/// let tree = prim(&g);
+/// assert_eq!(tree.len(), 2); // 3 vertices, 2 edges in the tree
+/// ```
+pub fn prim(g: &Graph) -> Vec<usize> {
+    assert!(!g.directed, "prim is for undirected graphs");
+
+    use std::cmp::Reverse;
+    use std::collections::BinaryHeap;
+
+    let n = g.node_count();
+    let mut in_tree = vec![false; n];
+    let mut tree = Vec::new();
+
+    for start in 0..n {
+        if in_tree[start] {
+            continue;
+        }
+        // Grow a tree in the component of `start`: each connected component
+        // gets its own tree, so a disconnected graph yields a spanning forest.
+        in_tree[start] = true;
+        let mut heap: BinaryHeap<(Reverse<i64>, usize, usize)> = BinaryHeap::new();
+        for &(to, e) in &g.adj[start] {
+            if !in_tree[to] {
+                heap.push((Reverse(g.edges[e].weight), to, e));
+            }
+        }
+        while let Some((Reverse(_w), to, e)) = heap.pop() {
+            if in_tree[to] {
+                continue;
+            }
+            in_tree[to] = true;
+            tree.push(e);
+            for &(next, e2) in &g.adj[to] {
+                if !in_tree[next] {
+                    heap.push((Reverse(g.edges[e2].weight), next, e2));
+                }
+            }
+        }
+    }
+    tree
+}
+
 /// Eulerian path: a trail that visits every edge exactly once.
 ///
 /// Returns `None` if no such trail exists. Euler's criterion: in an
@@ -1120,6 +1179,36 @@ mod tests {
         g.add_weighted_edge(0, 1, 1);
         g.add_weighted_edge(2, 3, 2);
         let tree = min_spanning_tree(&g);
+        // Two components, each needs one edge to connect its two vertices.
+        assert_eq!(tree.len(), 2);
+    }
+
+    #[test]
+    fn prim_builds_spanning_tree() {
+        let mut g = Graph::undirected();
+        for i in 0..4 {
+            g.add_node(i.to_string());
+        }
+        g.add_weighted_edge(0, 1, 1);
+        g.add_weighted_edge(1, 2, 2);
+        g.add_weighted_edge(2, 3, 3);
+        g.add_weighted_edge(3, 0, 10);
+        g.add_weighted_edge(0, 2, 100);
+        let tree = prim(&g);
+        assert_eq!(tree.len(), 3); // 4 vertices, 3 edges
+        let total: i64 = tree.iter().map(|&e| g.edge_weight(e)).sum();
+        assert_eq!(total, 6);
+    }
+
+    #[test]
+    fn prim_disconnected_graph_returns_spanning_forest() {
+        let mut g = Graph::undirected();
+        for i in 0..4 {
+            g.add_node(i.to_string());
+        }
+        g.add_weighted_edge(0, 1, 1);
+        g.add_weighted_edge(2, 3, 2);
+        let tree = prim(&g);
         // Two components, each needs one edge to connect its two vertices.
         assert_eq!(tree.len(), 2);
     }
