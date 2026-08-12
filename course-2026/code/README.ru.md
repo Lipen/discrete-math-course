@@ -19,6 +19,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`lambda`](lambda/README.md) | Бестиповое λ-исчисление | Термы, подстановка без захвата, β-редукция, числа Чёрча |
 | [`turing`](turing/README.md) | Машины Тьюринга | Лента на двух стеках, таблица переходов, трассы вычислений, примеры машин |
 | [`graphs`](graphs/README.md) | Графы | Простая модель без дженериков, BFS/DFS, Дейкстра, Краскал, Эйлер, мосты, раскраска; рендер в SVG/DOT/cytoscape/HTML |
+| [`prolog`](prolog/README.md) | Логическое программирование | Термы, унификация с occurs-check, SLD-резолюция с бэктрекингом |
 
 ## Структура
 
@@ -66,6 +67,7 @@ README каждого крейта объясняет модуль, перечи
 - [lambda/README.md](lambda/README.md)
 - [turing/README.md](turing/README.md)
 - [graphs/README.md](graphs/README.md)
+- [prolog/README.md](prolog/README.md)
 
 ## Английская версия
 
