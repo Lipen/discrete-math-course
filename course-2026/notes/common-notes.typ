@@ -220,7 +220,7 @@
           ]
         }
       ]
-    } else if it.level == 3 {
+    } else if false /* it.level == 3 */ {
       block(above: 0.3em, below: 0.3em, inset: (left: 4em))[
         #context {
           let nums = counter(heading).at(it.element.location())
