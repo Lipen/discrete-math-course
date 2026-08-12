@@ -262,6 +262,38 @@ impl Interval {
             }
         }
     }
+
+    /// The narrowing ▲: replace unbounded ends with the corresponding finite
+    /// bound of the other interval.
+    ///
+    /// Narrowing is the second half of the widening--narrowing pair: after
+    /// widening converges to a sound (but possibly imprecise) fixpoint, repeated
+    /// narrowing can refine unbounded ends that the loop never actually reaches.
+    /// Finite bounds are never widened by narrowing.
+    ///
+    /// ```
+    /// use analysis::Interval;
+    ///
+    /// // [0, +∞) ▲ [1, 4] = [0, 4] -- the upper bound becomes finite.
+    /// let a = Interval::Range { lo: Some(0), hi: None };
+    /// let b = Interval::Range { lo: Some(1), hi: Some(4) };
+    /// assert_eq!(a.narrow(b), Interval::Range { lo: Some(0), hi: Some(4) });
+    ///
+    /// // A finite bound is left alone.
+    /// let c = Interval::point(3);
+    /// assert_eq!(c.narrow(Interval::Range { lo: Some(0), hi: Some(9) }), c);
+    /// ```
+    pub fn narrow(self, other: Interval) -> Interval {
+        match (self, other) {
+            (Interval::Bottom, r) | (r, Interval::Bottom) => r,
+            (Interval::Range { lo: a, hi: b }, Interval::Range { lo: c, hi: d }) => {
+                Interval::Range {
+                    lo: a.or(c),
+                    hi: b.or(d),
+                }
+            }
+        }
+    }
 }
 
 /// Abstract addition: `[a, b] + [c, d] = [a + c, b + d]`.

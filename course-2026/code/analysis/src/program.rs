@@ -58,9 +58,10 @@ pub fn eval_sign(e: &Expr, st: &State<Sign>) -> Sign {
 
 /// Runs a list of statements in the sign domain, updating `st` in place.
 ///
-/// The sign lattice is finite (5 elements), so the fixpoint iteration for
-/// `While` is bounded by a hard iteration limit; if it does not converge, all
-/// variables are set to ⊤.
+/// The sign lattice is finite (5 elements), so `While` converges to a fixpoint
+/// by Kleene iteration: after each pass the state is joined with the loop-head
+/// state (F(d) = E ⊔ transfer(B)(d)), and the iteration stops once it
+/// stabilizes.
 ///
 /// ```
 /// use analysis::program::{assign, exec_sign, State};
@@ -86,22 +87,18 @@ pub fn exec_sign(stmts: &[Stmt], st: &mut State<Sign>) {
                 *st = merge(then_state, else_state, Sign::Bottom, Sign::lub);
             }
             Stmt::While { body } => {
-                // Plain iteration from a non-⊥ state on a finite non-chain lattice can
-                // oscillate between incomparable states (e.g. `i := -i`); bound the
-                // passes and over-approximate to ⊤ on timeout.
-                let mut converged = false;
-                for _ in 0..64 {
-                    let before = st.clone();
-                    exec_sign(body, st);
-                    if *st == before {
-                        converged = true;
+                // Kleene iteration from the loop-head state E: after each pass the
+                // next state is joined with E (F(d) = E ⊔ transfer(B)(d)). The sign
+                // lattice is finite, so the iteration converges to a fixpoint.
+                let entry = st.clone();
+                loop {
+                    let mut after = st.clone();
+                    exec_sign(body, &mut after);
+                    let next = merge(entry.clone(), after, Sign::Bottom, Sign::lub);
+                    if next == *st {
                         break;
                     }
-                }
-                if !converged {
-                    for v in st.values_mut() {
-                        *v = Sign::Top;
-                    }
+                    *st = next;
                 }
             }
         }

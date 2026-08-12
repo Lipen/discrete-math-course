@@ -113,6 +113,62 @@ mod tests {
         assert_eq!(st["x"], Sign::Top);
     }
 
+    #[test]
+    fn sign_while_oscillating_body_converges_to_top() {
+        // i := 1; while ... do i := -i: the sign alternates +, −, +, ... Plain
+        // iteration would oscillate; Kleene iteration joins with the loop-head
+        // state and reaches ⊤ in two passes.
+        let program = vec![
+            assign("i", 1),
+            Stmt::While {
+                body: vec![Stmt::Assign(
+                    "i".into(),
+                    Expr::Neg(Box::new(Expr::Var("i".into()))),
+                )],
+            },
+        ];
+        let mut st: State<Sign> = State::new();
+        exec_sign(&program, &mut st);
+        assert_eq!(st["i"], Sign::Top);
+    }
+
+    #[test]
+    fn sign_while_counter_stays_positive() {
+        // i := 1; while ... do i := i + 1  →  i stays +.
+        let program = vec![
+            assign("i", 1),
+            Stmt::While {
+                body: vec![inc("i")],
+            },
+        ];
+        let mut st: State<Sign> = State::new();
+        exec_sign(&program, &mut st);
+        assert_eq!(st["i"], Sign::Pos);
+    }
+
+    #[test]
+    fn interval_narrow_refines_only_unbounded_ends() {
+        // [0, +∞) ▲ [1, 4] = [0, 4] -- the upper bound becomes finite.
+        let wide = Interval::Range {
+            lo: Some(0),
+            hi: None,
+        };
+        let finite = Interval::Range {
+            lo: Some(1),
+            hi: Some(4),
+        };
+        assert_eq!(
+            wide.narrow(finite),
+            Interval::Range {
+                lo: Some(0),
+                hi: Some(4)
+            }
+        );
+        // Finite bounds survive narrowing.
+        let point = Interval::point(3);
+        assert_eq!(point.narrow(Interval::top()), point);
+    }
+
     // ── Interval domain tests ──
 
     #[test]
