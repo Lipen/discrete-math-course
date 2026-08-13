@@ -142,6 +142,7 @@
 #include "m25-complexity.typ"
 #include "m26-abstract-interpretation.typ"
 #include "m27-fuzzy-sets.typ"
+#include "m28-matroids.typ"
 
 // --- Глоссарий ---
 #include "glossary.typ"
