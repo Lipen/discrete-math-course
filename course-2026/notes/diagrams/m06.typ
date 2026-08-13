@@ -723,3 +723,138 @@
   )
   draw.content((rel: (0.22, 0), to: "ab.mid"), $-2$, size: .65em, fill: c-neg)
 })
+
+// ── Prüfer code: encoding and decoding ──
+#let c-pr-rem = oklch(82%, 0.01, 260deg)       // removed / not-yet vertex
+#let c-pr-rem-str = oklch(72%, 0.01, 260deg)   // removed / future edge
+#let c-pr-add = oklch(58%, 0.22, 22deg)        // just-added edge (decoding)
+
+// Draw one Prüfer frame: vertices and edges with per-element states, plus code label.
+// Vertex states: "on", "off" (grayed), "last" (green final).
+// Edge states:   "on", "off" (solid gray, removed), "future" (dashed gray),
+//                "add" (red highlighted), "last" (green), "none" (skip).
+#let prufer-frame(ox, oy, vpos, edges, vst, est, code) = {
+  for (label, pos) in vpos {
+    let st = vst.at(label, default: "on")
+    let (fill, strk, txt) = if st == "off" {
+      (c-pr-rem, c-pr-rem-str, c-pr-rem-str)
+    } else if st == "last" {
+      (c-t-fill, c-t-border, c-t-border)
+    } else {
+      (c-n-fill, c-n-border, c-n-text)
+    }
+    draw.circle(
+      (pos.at(0) + ox, pos.at(1) + oy),
+      radius: 0.27,
+      fill: fill,
+      stroke: (paint: strk, thickness: 0.8pt),
+    )
+    draw.content(
+      (pos.at(0) + ox, pos.at(1) + oy),
+      text(fill: txt, weight: "bold", size: 0.72em)[#label],
+    )
+  }
+  for (a, b) in edges {
+    let st = est.at(a + b, default: "on")
+    let stroke = if st == "none" {
+      none
+    } else if st == "off" {
+      (paint: c-pr-rem-str, thickness: 0.6pt)
+    } else if st == "future" {
+      (paint: c-pr-rem-str, thickness: 0.6pt, dash: "dashed")
+    } else if st == "add" {
+      (paint: c-pr-add, thickness: 1.8pt)
+    } else if st == "last" {
+      (paint: c-t-border, thickness: 1.6pt)
+    } else {
+      (paint: c-edge, thickness: 0.7pt)
+    }
+    if stroke == none {
+      continue
+    }
+    let pa = vpos.at(a)
+    let pb = vpos.at(b)
+    draw.line(
+      (pa.at(0) + ox, pa.at(1) + oy),
+      (pb.at(0) + ox, pb.at(1) + oy),
+      stroke: stroke,
+    )
+  }
+  draw.content(
+    (1.2 + ox, -0.55 + oy),
+    anchor: "north",
+    text(fill: c-n-text, size: 0.66em)[#code],
+  )
+}
+
+// Prüfer encoding: tree {1-2, 2-3, 3-4, 3-5} -> code [2, 3, 3].
+#let prufer-encode = canvas({
+  let vpos = (
+    "3": (1.5, 1.0),
+    "2": (0.7, 1.9),
+    "1": (0.0, 2.7),
+    "4": (0.7, 0.1),
+    "5": (2.3, 0.1),
+  )
+  let edges = (("1", "2"), ("2", "3"), ("3", "4"), ("3", "5"))
+  prufer-frame(0.0, 0.0, vpos, edges, (:), (:), "K = []")
+  prufer-frame(2.9, 0.0, vpos, edges, ("1": "off"), ("12": "off"), "K = [2]")
+  prufer-frame(
+    5.8,
+    0.0,
+    vpos,
+    edges,
+    ("1": "off", "2": "off"),
+    ("12": "off", "23": "off"),
+    "K = [2, 3]",
+  )
+  prufer-frame(
+    8.7,
+    0.0,
+    vpos,
+    edges,
+    ("1": "off", "2": "off", "4": "off", "3": "last", "5": "last"),
+    ("12": "off", "23": "off", "34": "off", "35": "last"),
+    "K = [2, 3, 3]",
+  )
+})
+
+// Prüfer decoding: code [3, 3, 1] -> tree {2-3, 4-3, 3-1, 1-5}.
+#let prufer-decode = canvas({
+  let vpos = (
+    "1": (1.5, 1.8),
+    "3": (0.6, 1.0),
+    "5": (2.4, 1.0),
+    "2": (0.0, 0.2),
+    "4": (1.2, 0.2),
+  )
+  let edges = (("1", "3"), ("1", "5"), ("3", "2"), ("3", "4"))
+  prufer-frame(
+    0.0,
+    0.0,
+    vpos,
+    edges,
+    ("2": "on", "3": "on", "1": "off", "4": "off", "5": "off"),
+    ("32": "add", "13": "future", "15": "future", "34": "future"),
+    "K = [3, 1]",
+  )
+  prufer-frame(
+    2.9,
+    0.0,
+    vpos,
+    edges,
+    ("2": "on", "3": "on", "4": "on", "1": "off", "5": "off"),
+    ("32": "add", "34": "add", "13": "future", "15": "future"),
+    "K = [1]",
+  )
+  prufer-frame(
+    5.8,
+    0.0,
+    vpos,
+    edges,
+    ("2": "on", "3": "on", "4": "on", "1": "on", "5": "off"),
+    ("32": "add", "34": "add", "13": "add", "15": "future"),
+    "K = []",
+  )
+  prufer-frame(8.7, 0.0, vpos, edges, (:), (:), "K = []")
+})
