@@ -565,8 +565,10 @@
   Алгоритм Кана --- та же жадная схема, что и в наброске доказательства выше: очередь минимальных элементов, извлечение, обновление счётчиков входящих рёбер.
   Функция возвращает порядок сборки или `None`, если граф содержит цикл: у циклического графа топологической сортировки нет.
   ```rust
-  // Топологическая сортировка (алгоритм Кана):
-  // порядок сборки или None при цикле.
+  use std::collections::VecDeque;
+
+  /// Топологическая сортировка (алгоритм Кана):
+  /// порядок сборки или None при цикле.
   fn topo_sort(
       n: usize,
       edges: &[(usize, usize)],
@@ -574,7 +576,7 @@
       let mut indeg = vec![0usize; n];
       let mut adj = vec![vec![]; n];
       for &(u, v) in edges { adj[u].push(v); indeg[v] += 1; }
-      let mut q: std::collections::VecDeque<usize> =
+      let mut q: VecDeque<usize> =
           (0..n).filter(|&v| indeg[v] == 0).collect();
       let mut order = vec![];
       while let Some(u) = q.pop_front() {

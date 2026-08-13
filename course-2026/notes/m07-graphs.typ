@@ -1173,8 +1173,10 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
   Тот же обход в коде: очередь явная, расстояния --- числа, а непосещённые вершины помечены `usize::MAX`.
 
   ```rust
-  // Обход в ширину: порядок обхода, расстояния
-  // и родители в дереве обхода.
+  use std::collections::VecDeque;
+
+  /// Обход в ширину: порядок обхода, расстояния
+  /// и родители в дереве обхода.
   fn bfs(
       adj: &[Vec<usize>],
       start: usize,
@@ -1183,7 +1185,7 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
       let mut dist = vec![usize::MAX; n];
       let mut parent = vec![None; n];
       let mut order = vec![];
-      let mut q = std::collections::VecDeque::from([start]);
+      let mut q = VecDeque::from([start]);
       dist[start] = 0;
       while let Some(u) = q.pop_front() {
           order.push(u);

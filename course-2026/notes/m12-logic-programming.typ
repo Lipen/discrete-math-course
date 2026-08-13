@@ -66,7 +66,7 @@
 В коде-компаньоне термы моделируются перечислением:
 
 ```rust
-// Терм: переменная, константа или структура.
+/// Терм: переменная, константа или структура.
 enum Term {
     Var(usize),                // переменная, номер вместо имени
     Atom(String),              // константа: alice, bob, []
@@ -96,10 +96,10 @@ enum Term {
 ]
 
 ```rust
-// Подстановка: словарь номеров переменных и термов.
+/// Подстановка: словарь номеров переменных и термов.
 type Subst = HashMap<usize, Term>;
 
-// Применение: рекурсивно заменить связанные переменные.
+/// Применение: рекурсивно заменить связанные переменные.
 fn apply(t: &Term, sigma: &Subst) -> Term {
     match t {
         Term::Var(x) => sigma
@@ -182,7 +182,7 @@ Occurs-check запрещает бесконечные термы.
 ]
 
 ```rust
-// Унификация: sigma дополняется до унификатора.
+/// Унификация: sigma дополняется до унификатора.
 fn unify(t1: &Term, t2: &Term, sigma: &mut Subst) -> Result<(), UnifyError> {
     let t1 = apply(t1, sigma);
     let t2 = apply(t2, sigma);
@@ -203,7 +203,7 @@ fn unify(t1: &Term, t2: &Term, sigma: &mut Subst) -> Result<(), UnifyError> {
     }
 }
 
-// Occurs-check: переменная не связывается с термом, содержащим её.
+/// Occurs-check: переменная не связывается с термом, содержащим её.
 fn bind(x: usize, t: &Term, sigma: &mut Subst) -> Result<(), UnifyError> {
     if t.contains(x) {
         return Err(UnifyError::OccursCheck { var: x, term: t.clone() });
@@ -260,20 +260,20 @@ fn bind(x: usize, t: &Term, sigma: &mut Subst) -> Result<(), UnifyError> {
 ]
 
 ```rust
-// Клауза: голова и тело. У факта тело пустое.
+/// Клауза: голова и тело. У факта тело пустое.
 struct Clause {
     head: Term,
     body: Goal,
 }
 
-// Цель: пустая, атом или конъюнкция.
+/// Цель: пустая, атом или конъюнкция.
 enum Goal {
     True,
     Call(Term),
     Conj(Vec<Goal>),
 }
 
-// Программа: клаузы, индексированные по предикату головы.
+/// Программа: клаузы, индексированные по предикату головы.
 struct Database {
     clauses: HashMap<(String, usize), Vec<Clause>>,
 }
