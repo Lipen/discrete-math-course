@@ -120,6 +120,7 @@
     thm-ctr.update(0)
     if it.body == [Содержание] {
       block(width: 100%, above: 2em, below: 1.5em)[
+        #set par(justify: false)
         #text(
           size: 24pt,
           weight: "medium",
@@ -135,8 +136,9 @@
         below: 2em,
         sticky: true,
       )[
+        #set par(justify: false)
         #text(
-          size: 48pt,
+          size: 40pt,
           weight: "bold",
           fill: theme,
           tracking: 0.1em,
@@ -151,6 +153,7 @@
         below: 2em,
         sticky: true,
       )[
+        #set par(justify: false)
         #context [
           #let ch = counter(heading).at(it.location()).first()
           #text(
