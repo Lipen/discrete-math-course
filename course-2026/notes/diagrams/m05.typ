@@ -127,3 +127,42 @@
   e(<p13>, <p123>),
   e(<p23>, <p123>),
 )
+
+// ── M₃ (diamond): smallest non-distributive lattice ──
+#let lattice-m3 = diagram(
+  node-shape: "circle",
+  node-stroke: n-str,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 1.6em,
+  cn((0, 2), $bot$, name: <m3-bot>),
+  cn((-1, 1), $a$, name: <m3-a>),
+  cn((0, 1), $b$, name: <m3-b>),
+  cn((1, 1), $c$, name: <m3-c>),
+  cn((0, 0), $top$, name: <m3-top>),
+  e(<m3-bot>, <m3-a>),
+  e(<m3-bot>, <m3-b>),
+  e(<m3-bot>, <m3-c>),
+  e(<m3-a>, <m3-top>),
+  e(<m3-b>, <m3-top>),
+  e(<m3-c>, <m3-top>),
+)
+
+// ── N₅ (pentagon): smallest non-modular lattice ──
+#let lattice-n5 = diagram(
+  node-shape: "circle",
+  node-stroke: n-str,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 1.6em,
+  cn((0, 3), $0$, name: <n5-zero>),
+  cn((-1, 2), $a$, name: <n5-a>),
+  cn((-1, 1), $b$, name: <n5-b>),
+  cn((1, 1), $c$, name: <n5-c>),
+  cn((0, 0), $1$, name: <n5-one>),
+  e(<n5-zero>, <n5-a>),
+  e(<n5-zero>, <n5-c>),
+  e(<n5-a>, <n5-b>),
+  e(<n5-b>, <n5-one>),
+  e(<n5-c>, <n5-one>),
+)
