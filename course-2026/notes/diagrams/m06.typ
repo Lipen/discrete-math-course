@@ -858,3 +858,104 @@
   )
   prufer-frame(8.7, 0.0, vpos, edges, (:), (:), "K = []")
 })
+
+// ── 17. Menger: vertex-disjoint paths and a minimum separator ──
+// u, v with inner a, b, c, d. Two vertex-disjoint paths (green, blue),
+// separator {a, b} marked with an orange ring, extra edges dimmed.
+#let menger-paths = canvas({
+  let c-path-green = c-t-border
+  let c-path-blue = oklch(50%, 0.15, 250deg)
+  let c-sep = c-hi
+
+  node((0, 0.5), "u")
+  node((1, 0), "a")
+  node((1, 1), "b")
+  node((2, 0), "c")
+  node((2, 1), "d")
+  node((3, 0.5), "v")
+
+  // Extra edges : dimmed
+  e("a", "d", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  e("b", "c", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  e("c", "d", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+
+  // Path 1 (green) : u-a-c-v
+  e("u", "a", stroke: (paint: c-path-green, thickness: 2.5pt))
+  e("a", "c", stroke: (paint: c-path-green, thickness: 2.5pt))
+  e("c", "v", stroke: (paint: c-path-green, thickness: 2.5pt))
+
+  // Path 2 (blue) : u-b-d-v
+  e("u", "b", stroke: (paint: c-path-blue, thickness: 2.5pt))
+  e("b", "d", stroke: (paint: c-path-blue, thickness: 2.5pt))
+  e("d", "v", stroke: (paint: c-path-blue, thickness: 2.5pt))
+
+  // Separator {a, b} : orange ring
+  draw.circle((1, 0), radius: 0.38, fill: none, stroke: (
+    paint: c-sep,
+    thickness: 1.6pt,
+  ))
+  draw.circle((1, 1), radius: 0.38, fill: none, stroke: (
+    paint: c-sep,
+    thickness: 1.6pt,
+  ))
+})
+
+// ── 18. König: bipartite graph, maximum matching = minimum vertex cover ──
+// Left part X: 3 vertices, right part Y: 3 vertices.
+// Matching (bold): X1-Y1, X2-Y2, X3-Y3. Vertex cover: whole right part (orange rings).
+#let konig-cover = canvas({
+  let ly = (0, 1.5, 3)
+  let ry = (0, 1.5, 3)
+  let xl = 0
+  let xr = 4
+
+  draw.rect(
+    (-0.6, 3.5),
+    (0.6, -0.5),
+    radius: 6pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
+  draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
+
+  for (i, y) in ly.enumerate() {
+    draw.circle((xl, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
+    draw.content(
+      (xl, y),
+      $x_#(i + 1)$,
+      anchor: "east",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+  for (i, y) in ry.enumerate() {
+    draw.circle((xr, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
+    draw.content(
+      (xr, y),
+      $y_#(i + 1)$,
+      anchor: "west",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+
+  // Non-matching edges : thin, dimmed
+  draw.line("L1", "R2", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  draw.line("L2", "R3", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+
+  // Matching edges : thick, highlighted
+  draw.line("L1", "R1", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L2", "R2", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L3", "R3", stroke: (paint: c-t-border, thickness: 2.5pt))
+
+  // Vertex cover : whole right part, orange rings
+  for (i, y) in ry.enumerate() {
+    draw.circle((xr, y), radius: 0.38, fill: none, stroke: (
+      paint: c-hi,
+      thickness: 1.6pt,
+    ))
+  }
+
+  draw.content((0, 3.6), anchor: "south")[$X$]
+  draw.content((4, 3.6), anchor: "south")[$Y$]
+})
