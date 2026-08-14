@@ -86,14 +86,16 @@
           let pg = counter(page).get().first()
           let name = ""
           let num = 0
+          let no-num = false
           for h in query(heading.where(level: 1)) {
             let hp = counter(page).at(h.location()).first()
             if hp <= pg {
               name = h.body
               num = counter(heading).at(h.location()).first()
+              no-num = h.numbering == none
             }
           }
-          if num > 0 {
+          if (not no-num) and num > 0 {
             [#num. #name]
           } else {
             name
@@ -115,6 +117,7 @@
 )
 
 // --- Главы ---
+#include "introduction.typ"
 #include "m01-logic-proofs.typ"
 #include "m02-sets.typ"
 #include "m03-relations.typ"
@@ -143,6 +146,7 @@
 #include "m26-abstract-interpretation.typ"
 #include "m27-fuzzy-sets.typ"
 #include "m28-matroids.typ"
+#include "conclusion.typ"
 
 // --- Глоссарий ---
 #include "glossary.typ"

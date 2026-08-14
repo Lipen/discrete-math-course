@@ -128,6 +128,22 @@
           tracking: 0.05em,
         )[#it.body]
       ]
+    } else if it.numbering == none {
+      pagebreak(weak: true)
+      block(
+        width: 100%,
+        below: 2em,
+        sticky: true,
+      )[
+        #text(
+          size: 48pt,
+          weight: "bold",
+          fill: theme,
+          tracking: 0.1em,
+        )[#it.body]
+        #v(2em, weak: true)
+        #chapter-ornament(theme)
+      ]
     } else {
       pagebreak(weak: true)
       block(
@@ -198,9 +214,13 @@
       let nums = counter(heading).at(it.element.location())
       block(above: 1.5em, below: 0.5em, sticky: true)[
         #text(size: 14pt, weight: "medium")[
-          #text(fill: theme)[#roman(nums.first())]#h(0.5em)#link(
-            it.element.location(),
-          )[#it.element.body]
+          #if it.element.numbering == none [
+            #link(it.element.location())[#it.element.body]
+          ] else [
+            #text(fill: theme)[#roman(nums.first())]#h(0.5em)#link(
+              it.element.location(),
+            )[#it.element.body]
+          ]
           #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
           #it.page()
         ]
