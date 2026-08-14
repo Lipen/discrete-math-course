@@ -36,3 +36,12 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
 pub fn weight(set: &[u32], weights: &[u32]) -> u32 {
     set.iter().map(|&i| weights[i as usize]).sum()
 }
+
+/// Rank of a matroid: the size of a maximum independent set.
+///
+/// Greedy with unit weights returns a base, and all bases of a matroid
+/// have the same size, so the rank is the size of the greedy result.
+pub fn rank<M: Matroid>(m: &M) -> u32 {
+    let unit = vec![1; m.n() as usize];
+    greedy(m, &unit).len() as u32
+}

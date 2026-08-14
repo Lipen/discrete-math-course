@@ -78,6 +78,42 @@ impl Matroid for SchedulingMatroid {
     }
 }
 
+/// Linear matroid over GF(2): independent sets are linearly independent
+/// binary vectors. Each ground-set element is one vector, stored as a row
+/// of bits (a `u8` per coordinate).
+pub struct BinaryLinearMatroid<'a> {
+    pub vectors: &'a [Vec<u8>],
+}
+
+impl<'a> Matroid for BinaryLinearMatroid<'a> {
+    fn n(&self) -> u32 {
+        self.vectors.len() as u32
+    }
+    fn is_independent(&self, set: &[u32]) -> bool {
+        let dim = self.vectors[0].len();
+        // Reduced basis built so far; each row has its own pivot column.
+        let mut basis: Vec<Vec<u8>> = Vec::new();
+        for &i in set {
+            let mut row = self.vectors[i as usize].clone();
+            // Eliminate `row` against the basis over GF(2).
+            for b in &basis {
+                let pivot = b.iter().position(|&x| x == 1).unwrap();
+                if row[pivot] == 1 {
+                    for c in 0..dim {
+                        row[c] ^= b[c];
+                    }
+                }
+            }
+            // A zero row means the vector is a combination of the others.
+            if row.iter().all(|&x| x == 0) {
+                return false;
+            }
+            basis.push(row);
+        }
+        true
+    }
+}
+
 /// An independence system that is NOT a matroid: used to show that greedy can fail.
 /// Independent sets: size at most `max_size`, excluding the listed 2-element sets.
 pub struct SimpleIndependenceSystem {
