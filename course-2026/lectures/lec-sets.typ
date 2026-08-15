@@ -234,6 +234,26 @@
   Вот что значит "логика --- язык математики".
 ]
 
+== Тождества множеств
+Законы алгебры множеств позволяют доказывать тождества.
+Докажем, что $A setminus (B union C) = (A setminus B) inter (A setminus C)$.
+
+#proof[
+  Цепочка эквивалентностей для произвольного элемента $x$:
+  $
+    x in A setminus (B union C)
+    iff x in A and x in.not (B union C)
+    iff x in A and (x in.not B and x in.not C)
+    iff (x in A and x in.not B) and (x in A and x in.not C)
+    iff x in (A setminus B) inter (A setminus C)
+  $
+  Множества совпадают, потому что совпадают их элементы.
+]
+
+#Block(color: yellow)[
+  Третий переход --- закон де Моргана из логики в действии.
+]
+
 == Булеан
 
 #definition[
