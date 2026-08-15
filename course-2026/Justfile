@@ -19,5 +19,7 @@ lec-sets:
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
+lectures: lec-logic lec-sets course-intro
+
 lint:
     cd notes && uv run ../tools/audit.py
