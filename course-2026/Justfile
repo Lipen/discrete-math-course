@@ -19,10 +19,13 @@ lec-sets:
 lec-relations:
     {{ compile }} lectures/lec-relations.typ
 
+lec-functions:
+    {{ compile }} lectures/lec-functions.typ
+
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
-lectures: lec-logic lec-sets lec-relations course-intro
+lectures: lec-logic lec-sets lec-relations lec-functions course-intro
 
 lint:
     cd notes && uv run ../tools/audit.py
