@@ -237,7 +237,7 @@
         epigraph
       }
       #if epigraph-author != none [
-        #v(0.5em, weak: true)
+        #v(1em, weak: true)
         #align(right)[
           #set text(0.9em, weight: "bold", fill: colors.accent-strong)
           --- #epigraph-author
