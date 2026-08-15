@@ -116,9 +116,9 @@
 #let proof(..args) = {
   let (title, body) = split-args(args)
   block(
-    fill: colors.accent.transparentize(90%),
+    fill: luma(96%),
     stroke: (
-      left: 2.5pt + colors.accent.lighten(30%),
+      left: 3pt + colors.muted,
       top: 0.5pt + colors.line,
       bottom: 0.5pt + colors.line,
       right: 0.5pt + colors.line,
@@ -126,7 +126,7 @@
     radius: 4pt,
     inset: (x: 1em, y: 0.5em),
   )[
-    #text(weight: "bold")[
+    #text(fill: colors.muted, weight: "bold")[
       Доказательство#(if title != none [.#h(0.5em)#title])
     ]
     #v(1em, weak: true)
