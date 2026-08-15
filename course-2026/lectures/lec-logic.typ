@@ -82,9 +82,7 @@ A говорит: "Мы оба лжецы".
   [$and$], [и], ["светит солнце и нет дождя"],
   [$or$], [или (включающее)], ["возьму зонт или дождевик"],
   [$imply$], [если ... то], ["если дождь, то возьму зонт"],
-  [$iff$],
-  [тогда и только тогда],
-  ["дождь тогда и только тогда, когда небо в тучах"],
+  [$iff$], [тогда и только тогда], ["дождь тогда и только тогда, когда небо в тучах"],
 )
 
 == Отрицание
@@ -355,11 +353,9 @@ A говорит: "Мы оба лжецы".
   table.header([*Закон*], [*Формулы*]),
   [Идемпотентность], [$P or P equiv P$, $P and P equiv P$],
   [Коммутативность], [$P or Q equiv Q or P$, $P and Q equiv Q and P$],
-  [Ассоциативность],
-  [$(P or Q) or R equiv P or (Q or R)$, $(P and Q) and R equiv P and (Q and R)$],
+  [Ассоциативность], [$(P or Q) or R equiv P or (Q or R)$, $(P and Q) and R equiv P and (Q and R)$],
 
-  [Дистрибутивность],
-  [$P and (Q or R) equiv (P and Q) or (P and R)$, $P or (Q and R) equiv (P or Q) and (P or R)$],
+  [Дистрибутивность], [$P and (Q or R) equiv (P and Q) or (P and R)$, $P or (Q and R) equiv (P or Q) and (P or R)$],
 
   [Поглощение], [$P or (P and Q) equiv P$, $P and (P or Q) equiv P$],
   [Двойное отрицание], [$not not P equiv P$],
