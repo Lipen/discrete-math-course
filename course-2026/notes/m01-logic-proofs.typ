@@ -1,9 +1,7 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": (
-  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
-)
+#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
 
 = Логика и доказательства <chap:logic>
 
@@ -126,9 +124,7 @@ _Атомарное высказывание_ --- это высказывани�
   columns: 7,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header(
-    [$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]
-  ),
+  table.header([$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]),
   [#T], [#T], [#F], [#T], [#T], [#T], [#T],
   [#T], [#F], [#F], [#F], [#T], [#F], [#F],
   [#F], [#T], [#T], [#F], [#T], [#T], [#F],
@@ -393,13 +389,9 @@ _Атомарное высказывание_ --- это высказывани�
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
-    [Ассоциативность],
-    [$(p and q) and r equiv p and (q and r)$],
-    [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность],
-    [$p and (q or r) equiv (p and q) or (p and r)$],
-    [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
 
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
     [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
@@ -760,8 +752,10 @@ $exists y forall x$ говорит "существует один и тот же
 В утверждении "все X обладают свойством Y" --- $forall$ с импликацией; в утверждении "существует X со свойством Y" --- $exists$ с конъюнкцией.
 
 #example[Ограниченные кванторы для массивов][
-  "Каждый элемент массива неотрицателен" переводится как $forall i in {0, ..., n-1} space A[i] >= 0$.
-  "Массив содержит хотя бы один ноль" --- $exists i in {0, ..., n-1} space A[i] = 0$.
+  - "Каждый элемент массива неотрицателен":
+    $ forall i in {0, ..., n-1} space A[i] >= 0 $
+  - "Массив содержит хотя бы один ноль":
+    $ exists i in {0, ..., n-1} space A[i] = 0 $
 ]
 
 == Перевод на язык логики предикатов
@@ -772,9 +766,13 @@ $exists y forall x$ говорит "существует один и тот же
 #example[Двусмысленность отрицания][
   Английская пословица "all that glitters is not gold" двусмысленна по области действия отрицания.
 
-  - Интерпретация 1: $forall x space ("glitters"(x) imply not "gold"(x))$ \ "ничто блестящее не золото" (ложно).
+  + Интерпретация 1:
+    $forall x space ("glitters"(x) imply not "gold"(x))$ \
+    "ничто блестящее не золото" (ложно).
 
-  - Интерпретация 2: $not forall x space ("glitters"(x) imply "gold"(x))$ \ "не всё блестящее --- золото" (истинно).
+  + Интерпретация 2:
+    $not forall x space ("glitters"(x) imply "gold"(x))$ \
+    "не всё блестящее --- золото" (истинно).
 
   В русском переводе "не всё то золото, что блестит" отрицание привязано к слову "всё", и остаётся только вторая интерпретация.
 ]
@@ -791,7 +789,10 @@ $exists y forall x$ говорит "существует один и тот же
 #example[Предел на языке кванторов][
   Определение предела $lim_(x -> a) f(x) = L$:
   $
-    forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon).
+    forall epsilon > 0 space
+    exists delta > 0 space
+    forall x space
+    (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon).
   $
   Три квантора и два неравенства упакованы в одно предложение --- вот сила логики предикатов.
 ]
@@ -828,7 +829,8 @@ $exists y forall x$ говорит "существует один и тот же
 ]
 
 #proof[
-  Докажем контрапозицию: если $n$ чётно, то $n^2$ чётно. (Каждое целое число либо чётно, либо нечётно, так что "не нечётно" означает "чётно".)
+  Докажем контрапозицию: если $n$ чётно, то $n^2$ чётно.
+  (Каждое целое число либо чётно, либо нечётно, так что "не нечётно" означает "чётно".)
 
   Это в точности доказанное выше утверждение о чётных квадратах.
   Контрапозиция эквивалентна исходному утверждению, так что утверждение выполняется.
