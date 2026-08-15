@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="400" viewBox="0 0 700 400" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="700" height="400" fill="#ffffff"/>
+  <text x="350" y="30" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">The forbidden sublattices: M3 (diamond) and N5 (pentagon)</text>
+
+  <!-- M3: the diamond -->
+  <g stroke="#94a3b8" stroke-width="2">
+    <line x1="175" y1="320" x2="125" y2="210"/>
+    <line x1="175" y1="320" x2="175" y2="210"/>
+    <line x1="175" y1="320" x2="225" y2="210"/>
+    <line x1="125" y1="210" x2="175" y2="100"/>
+    <line x1="175" y1="210" x2="175" y2="100"/>
+    <line x1="225" y1="210" x2="175" y2="100"/>
+  </g>
+  <g font-size="13" font-weight="600" fill="#334155" text-anchor="middle">
+    <text x="175" y="345">⊥</text>
+    <text x="110" y="205">a</text>
+    <text x="175" y="205">b</text>
+    <text x="240" y="205">c</text>
+    <text x="175" y="90">⊤</text>
+  </g>
+
+  <!-- N5: the pentagon -->
+  <g stroke="#94a3b8" stroke-width="2">
+    <line x1="525" y1="340" x2="470" y2="260"/>
+    <line x1="525" y1="340" x2="590" y2="200"/>
+    <line x1="470" y1="260" x2="470" y2="150"/>
+    <line x1="470" y1="150" x2="525" y2="60"/>
+    <line x1="590" y1="200" x2="525" y2="60"/>
+  </g>
+  <g font-size="13" font-weight="600" fill="#334155" text-anchor="middle">
+    <text x="525" y="365">0</text>
+    <text x="455" y="255">a</text>
+    <text x="455" y="145">b</text>
+    <text x="600" y="195">c</text>
+    <text x="525" y="50">1</text>
+  </g>
+
+  <text x="350" y="385" text-anchor="middle" font-size="12" fill="#64748b">M3 is modular but not distributive; N5 is not modular. Both are 5-element lattices.</text>
+</svg>

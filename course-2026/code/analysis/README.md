@@ -14,6 +14,7 @@ constant domains widening makes the iteration converge.
 cargo run -p analysis --example sign_analysis
 cargo run -p analysis --example interval_analysis
 cargo run -p analysis --example constant_propagation
+cargo run -p analysis --example distributive_flow
 cargo test -p analysis
 ```
 
@@ -51,6 +52,7 @@ The constant demo shows the key insight that zero times unknown is still zero.
 | `sign_analysis` | The cost of abstraction: `+ ⊞ − = ⊤`, and branch merging via the join |
 | `interval_analysis` | The counter loop: widening turns a diverging iteration into a fixpoint |
 | `constant_propagation` | Constants through arithmetic, branch-induced precision loss, and 0·⊤ = 0 |
+| `distributive_flow` | Why distributivity of flow functions matters: `f(x ⊔ y)` vs `f(x) ⊔ f(y)` on a monotone and a distributive function |
 
 ## Tests
 

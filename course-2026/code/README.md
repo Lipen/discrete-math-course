@@ -20,6 +20,7 @@ Crates build, test, and run on their own.
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
 | [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring; SVG/DOT/cytoscape/HTML renderers |
 | [`prolog`](prolog/README.md) | Logic programming | Terms, unification with the occurs check, SLD resolution with backtracking |
+| [`lattices`](lattices/README.md) | Lattices and orders | Join/meet, distributivity, modularity, Birkhoff characterization (M3/N5 forbidden sublattices) |
 
 ## Layout
 
@@ -71,6 +72,7 @@ Each crate README explains its module, lists every demo, and has a diagram:
 - [lambda/README.md](lambda/README.md)
 - [turing/README.md](turing/README.md)
 - [prolog/README.md](prolog/README.md)
+- [lattices/README.md](lattices/README.md)
 
 ## Russian version
 

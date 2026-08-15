@@ -20,6 +20,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`turing`](turing/README.md) | Машины Тьюринга | Лента на двух стеках, таблица переходов, трассы вычислений, примеры машин |
 | [`graphs`](graphs/README.md) | Графы | Простая модель без дженериков, BFS/DFS, Дейкстра, Краскал, Эйлер, мосты, раскраска; рендер в SVG/DOT/cytoscape/HTML |
 | [`prolog`](prolog/README.md) | Логическое программирование | Термы, унификация с occurs-check, SLD-резолюция с бэктрекингом |
+| [`lattices`](lattices/README.md) | Решётки и порядки | join/meet, дистрибутивность, модулярность, характеризация Биркгофа (запрещённые подрешётки M3/N5) |
 
 ## Структура
 
@@ -68,6 +69,7 @@ README каждого крейта объясняет модуль, перечи
 - [turing/README.md](turing/README.md)
 - [graphs/README.md](graphs/README.md)
 - [prolog/README.md](prolog/README.md)
+- [lattices/README.md](lattices/README.md)
 
 ## Английская версия
 
