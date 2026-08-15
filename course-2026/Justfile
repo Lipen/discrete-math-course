@@ -1,4 +1,4 @@
-compile := "typst compile"
+compile := "typst compile --root ."
 
 [private]
 @default:
@@ -9,6 +9,15 @@ book:
 
 problems:
     {{ compile }} notes/problems.typ
+
+lec-logic:
+    {{ compile }} lectures/lec-logic.typ
+
+lec-sets:
+    {{ compile }} lectures/lec-sets.typ
+
+course-intro:
+    {{ compile }} lectures/course-intro.typ
 
 lint:
     cd notes && uv run ../tools/audit.py
