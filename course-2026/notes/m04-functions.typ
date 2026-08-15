@@ -1,9 +1,7 @@
 // M04 --- Функции: математическая формализация вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m04.typ": (
-  function-parts, mapping-bijection, mapping-injection, mapping-surjection,
-)
+#import "diagrams/m04.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection
 
 = Функции <chap:functions>
 
@@ -454,20 +452,11 @@ $f^(-1)(4) = {-2, 2}$ --- прообраз (множество из двух э�
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
-    [Инъекция],
-    [$f(a_1) = f(a_2) imply a_1 = a_2$],
-    [$|A| <= |B|$],
-    [Левая обратная\ $g compose f = "id"_A$],
+    [Инъекция], [$f(a_1) = f(a_2) imply a_1 = a_2$], [$|A| <= |B|$], [Левая обратная\ $g compose f = "id"_A$],
 
-    [Сюръекция],
-    [$forall b exists a: f(a) = b$],
-    [$|A| >= |B|$],
-    [Правая обратная\ $f compose g = "id"_B$],
+    [Сюръекция], [$forall b exists a: f(a) = b$], [$|A| >= |B|$], [Правая обратная\ $f compose g = "id"_B$],
 
-    [Биекция],
-    [Инъективна\ + сюръективна],
-    [$|A| = |B|$],
-    [Двусторонняя\ обратная $f^(-1)$],
+    [Биекция], [Инъективна\ + сюръективна], [$|A| = |B|$], [Двусторонняя\ обратная $f^(-1)$],
   ) ]
 
 #raven[

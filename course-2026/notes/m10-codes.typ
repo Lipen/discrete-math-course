@@ -2,9 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import cetz: canvas, draw
-#import "diagrams/m09.typ": (
-  code-lattice, hamming-groups, hamming-spheres, huffman-tree,
-)
+#import "diagrams/m09.typ": code-lattice, hamming-groups, hamming-spheres, huffman-tree
 
 = Коды и информация <chap:codes>
 
@@ -154,8 +152,8 @@ _Расстояние Хэмминга_ измерит, насколько да�
 
 Структура кодового слова (биты нумеруются с 1; биты 1, 2, 4 --- проверочные, биты 3, 5, 6, 7 --- информационные):
 $
-  "позиция:" quad & 1 & quad & 2 & quad & 3 & quad & 4 & quad & 5 & quad & 6 & quad & 7 \
-  "бит:" quad & p_1 & quad & p_2 & quad & d_1 & quad & p_4 & quad & d_2 & quad & d_3 & quad & d_4
+  "позиция:" quad & 1   & quad & 2   & quad & 3   & quad & 4   & quad & 5   & quad & 6   & quad & 7 \
+      "бит:" quad & p_1 & quad & p_2 & quad & d_1 & quad & p_4 & quad & d_2 & quad & d_3 & quad & d_4
 $
 
 Проверочные биты вычисляются так, чтобы XOR битов в каждой из трёх контрольных групп равнялся нулю:

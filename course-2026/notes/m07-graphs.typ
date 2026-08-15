@@ -2,10 +2,9 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m06.typ": (
-  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut,
-  dijkstra-counterexample, directed-graph, euler-cycle, eulerian,
-  graph-coloring, k33, k5, konig-cover, menger-paths, petersen, planar,
-  prufer-decode, prufer-encode, spanning-tree, tree,
+  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, dijkstra-counterexample, directed-graph, euler-cycle,
+  eulerian, graph-coloring, k33, k5, konig-cover, menger-paths, petersen, planar, prufer-decode, prufer-encode,
+  spanning-tree, tree,
 )
 
 = Графы <chap:graphs>

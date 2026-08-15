@@ -1,9 +1,7 @@
 // M02 --- Множества: универсальный контейнер для дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m02.typ": (
-  venn-difference, venn-intersection, venn-subset, venn-union,
-)
+#import "diagrams/m02.typ": venn-difference, venn-intersection, venn-subset, venn-union
 
 = Наивная теория множеств <chap:sets>
 

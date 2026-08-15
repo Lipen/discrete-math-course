@@ -1,10 +1,7 @@
 // M06 --- Отношения порядка: ранжирование, сравнение и структурирование дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m05.typ": (
-  hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
-  lattice-m3, lattice-n5,
-)
+#import "diagrams/m05.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3, lattice-m3, lattice-n5
 
 = Отношения порядка <chap:orders>
 
@@ -373,28 +370,14 @@
     columns: 4,
     align: (left, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-    table.header(
-      [*Понятие*], [*Условие*], [*Единственен?*], [*Существует в конечном ЧУМ?*]
-    ),
-    [Минимальный],
-    [$not(exists a: a prec m)$],
-    [Нет --- может быть несколько],
-    [Всегда],
+    table.header([*Понятие*], [*Условие*], [*Единственен?*], [*Существует в конечном ЧУМ?*]),
+    [Минимальный], [$not(exists a: a prec m)$], [Нет --- может быть несколько], [Всегда],
 
-    [Максимальный],
-    [$not(exists a: m prec a)$],
-    [Нет --- может быть несколько],
-    [Всегда],
+    [Максимальный], [$not(exists a: m prec a)$], [Нет --- может быть несколько], [Всегда],
 
-    [Наименьший],
-    [$forall a in A . space m prec.eq a$],
-    [Да],
-    [Не гарантирован],
+    [Наименьший], [$forall a in A . space m prec.eq a$], [Да], [Не гарантирован],
 
-    [Наибольший],
-    [$forall a in A . space a prec.eq m$],
-    [Да],
-    [Не гарантирован],
+    [Наибольший], [$forall a in A . space a prec.eq m$], [Да], [Не гарантирован],
   ),
   caption: [Сравнение экстремальных элементов частичного порядка.],
 )

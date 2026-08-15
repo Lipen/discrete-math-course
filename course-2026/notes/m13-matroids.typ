@@ -2,9 +2,7 @@
 
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m28.typ": (
-  greedy-counterexample, interval-scheduling, matroid-sources,
-)
+#import "diagrams/m28.typ": greedy-counterexample, interval-scheduling, matroid-sources
 
 = Матроиды <chap:matroids>
 
