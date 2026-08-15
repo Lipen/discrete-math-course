@@ -62,8 +62,8 @@
   let name-font-size = 0.8em
 
   // Colors
-  let title-color = blue.darken(40%)
-  let accent-color = blue.darken(20%)
+  let title-color = oklch(40%, 0.13, 235deg)
+  let accent-color = oklch(50%, 0.14, 230deg)
   let text-color = accent-color
 
   if dark {
@@ -223,8 +223,8 @@
   let space = 1.6cm
 
   // Colors
-  let title-color = blue.darken(40%)
-  let emph-color = blue.darken(20%)
+  let title-color = oklch(40%, 0.13, 235deg)
+  let emph-color = oklch(50%, 0.14, 230deg)
 
   // Fonts
   let title-font = "Libertinus Sans"
