@@ -25,10 +25,13 @@ lec-functions:
 lec-cardinals:
     {{ compile }} lectures/lec-cardinals.typ
 
+lec-orders:
+    {{ compile }} lectures/lec-orders.typ
+
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
-lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals course-intro
+lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders course-intro
 
 lint:
     cd notes && uv run ../tools/audit.py
