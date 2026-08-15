@@ -2,8 +2,10 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m06.typ": (
-  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, dijkstra-counterexample, directed-graph, euler-cycle, eulerian,
-  graph-coloring, k33, k5, konig-cover, menger-paths, petersen, planar, prufer-decode, prufer-encode, spanning-tree, tree,
+  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut,
+  dijkstra-counterexample, directed-graph, euler-cycle, eulerian,
+  graph-coloring, k33, k5, konig-cover, menger-paths, petersen, planar,
+  prufer-decode, prufer-encode, spanning-tree, tree,
 )
 
 = Графы <chap:graphs>
@@ -330,7 +332,8 @@ _Граф_ --- это множество точек (вершин) и соеди
 ]
 
 #figure(
-  bridge-cut, caption: [Мост и точка сочленения.],
+  bridge-cut,
+  caption: [Мост и точка сочленения.],
 ) <fig:bridge-cut>
 
 На рис. @fig:bridge-cut показаны мост (ребро, удаление которого разрывает граф) и точка сочленения (вершина с тем же свойством).
@@ -341,8 +344,10 @@ _Граф_ --- это множество точек (вершин) и соеди
 ]
 
 #figure(
-  directed-graph, caption: [Ориентированный граф.
-    Вершины 1, 2, 3, 6 образуют одну компоненту сильной связности --- каждая достижима из каждой.], ) <fig:directed-graph>
+  directed-graph,
+  caption: [Ориентированный граф.
+    Вершины 1, 2, 3, 6 образуют одну компоненту сильной связности --- каждая достижима из каждой.],
+) <fig:directed-graph>
 
 Связность, компоненты, расстояния --- всё это вычисляется одним инструментом: обходом графа.
 К обходам мы и переходим.
@@ -373,7 +378,8 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
 #example[Трассировка BFS][
   Рассмотрим граф:
   #figure(
-    bfs-grid, caption: [Граф для трассировки BFS.],
+    bfs-grid,
+    caption: [Граф для трассировки BFS.],
   ) <fig:bfs-grid>
 
   Старт из вершины 1. Очередь: $[1]$.
@@ -423,7 +429,8 @@ BFS (Breadth-First Search) обходит граф "по слоям": снача
 BFS работает за $O(V + E)$: каждая вершина попадает в очередь ровно один раз, каждое ребро просматривается не более двух раз (по разу с каждой стороны).
 
 #figure(
-  bfs-tree, caption: [BFS-дерево.],
+  bfs-tree,
+  caption: [BFS-дерево.],
 ) <fig:bfs-tree>
 
 BFS-дерево на рис. @fig:bfs-tree строится послойно: от стартовой вершины к соседям первого уровня, затем второго, и так далее.
@@ -501,7 +508,8 @@ DFS лежит в основе алгоритмов:
 ]
 
 #figure(
-  tree, caption: [Дерево.],
+  tree,
+  caption: [Дерево.],
 ) <fig:tree>
 
 Дерево на рис. @fig:tree обладает минимальным числом рёбер для связности: добавление любого ребра создаёт цикл, удаление --- разрывает граф.
@@ -1322,7 +1330,8 @@ BFS от $A$ до $D$ выдаст прямой путь $A -> D$ длины $1$
 ]
 
 #figure(
-  menger-paths, caption: [Теорема Менгера: два вершинно-непересекающихся пути из $u$ в $v$ и минимальный разделитель ${a, b}$ размера 2.],
+  menger-paths,
+  caption: [Теорема Менгера: два вершинно-непересекающихся пути из $u$ в $v$ и минимальный разделитель ${a, b}$ размера 2.],
 ) <fig:menger-paths>
 
 Число непересекающихся путей между парой вершин --- мера отказоустойчивости сети.
@@ -1370,7 +1379,8 @@ BFS от $A$ до $D$ выдаст прямой путь $A -> D$ длины $1$
 ]
 
 #figure(
-  konig-cover, caption: [Двудольный граф с максимальным паросочетанием (жирные рёбра) и минимальным вершинным покрытием (оранжевые кольца): размеры равны.],
+  konig-cover,
+  caption: [Двудольный граф с максимальным паросочетанием (жирные рёбра) и минимальным вершинным покрытием (оранжевые кольца): размеры равны.],
 ) <fig:konig-cover>
 
 #theorem[Теорема Кёнига#footnote[König D. "Gráfok és matrixok", Matematikai és Fizikai Lapok, 1931.]][

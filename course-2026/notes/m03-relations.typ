@@ -2,7 +2,8 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m03.typ": (
-  equivalence-partition, hasse-divisibility, rel-digraph, )
+  equivalence-partition, hasse-divisibility, rel-digraph,
+)
 
 = Отношения <chap:relations>
 

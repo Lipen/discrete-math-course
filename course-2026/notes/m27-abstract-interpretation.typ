@@ -108,7 +108,8 @@ _Переносящие функции_ переносят операторы п
 Нагляднее всего порядок виден на рис. @fig:m25-sign-lattice.
 
 #figure(
-  sign-lattice, caption: [Решётка домена знаков: $bot prec.eq {minus, 0, plus} prec.eq top$.],
+  sign-lattice,
+  caption: [Решётка домена знаков: $bot prec.eq {minus, 0, plus} prec.eq top$.],
 ) <fig:m25-sign-lattice>
 
 #definition[Информационный порядок][

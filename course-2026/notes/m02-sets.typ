@@ -2,7 +2,8 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m02.typ": (
-  venn-difference, venn-intersection, venn-subset, venn-union, )
+  venn-difference, venn-intersection, venn-subset, venn-union,
+)
 
 = Наивная теория множеств <chap:sets>
 
@@ -292,12 +293,18 @@ $emptyset in {emptyset, {emptyset}}$ верно, но $emptyset subset.eq {empty
 Зафиксируем это соответствие таблицей, а затем выведем из него законы алгебры множеств.
 
 #table(
-  columns: 2, align: (left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) }, table.header([*Операция над множествами*], [*Логический аналог*]),
-  [$A union B$], [$x in A or x in B$], [$A inter B$], [$x in A and x in B$],
-  [$overline(A)$], [$not(x in A)$], [$A setminus B$], [$x in A and not(x in B)$],
-  [$A symdiff B$], [$x in A xor x in B$], [$A subset.eq B$], [$x in A imply x in B$],
-  [$A = B$], [$x in A iff x in B$], )
+  columns: 2,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([*Операция над множествами*], [*Логический аналог*]),
+  [$A union B$], [$x in A or x in B$],
+  [$A inter B$], [$x in A and x in B$],
+  [$overline(A)$], [$not(x in A)$],
+  [$A setminus B$], [$x in A and not(x in B)$],
+  [$A symdiff B$], [$x in A xor x in B$],
+  [$A subset.eq B$], [$x in A imply x in B$],
+  [$A = B$], [$x in A iff x in B$],
+)
 
 #definition[Изоморфизм][
   Две структуры (множества с операциями) называются *изоморфными*, если существует биекция между их элементами, сохраняющая все операции: результат операции не зависит от того, в какой из двух структур её выполнять.

@@ -2,7 +2,8 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m01.typ": (
-  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition, )
+  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
+)
 
 = Логика и доказательства <chap:logic>
 
@@ -122,12 +123,17 @@ _Атомарное высказывание_ --- это высказывани�
 ]
 
 #table(
-  columns: 7, align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) }, table.header(
+  columns: 7,
+  align: center,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header(
     [$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]
-  ), [#T], [#T], [#F], [#T], [#T], [#T], [#T],
-  [#T], [#F], [#F], [#F], [#T], [#F], [#F], [#F], [#T], [#T], [#F], [#T], [#T], [#F],
-  [#F], [#F], [#T], [#F], [#F], [#T], [#T], )
+  ),
+  [#T], [#T], [#F], [#T], [#T], [#T], [#T],
+  [#T], [#F], [#F], [#F], [#T], [#F], [#F],
+  [#F], [#T], [#T], [#F], [#T], [#T], [#F],
+  [#F], [#F], [#T], [#F], [#F], [#T], [#T],
+)
 
 #remark[Включающее или и исключающее][
   В быту "или" часто означает выбор: к стейку подаётся салат или суп --- в цену входит что-то одно.
@@ -246,11 +252,13 @@ _Атомарное высказывание_ --- это высказывани�
 Каждая формула соответствует единственному дереву разбора, которое делает её синтаксическую структуру явной.
 
 #figure(
-  parse-tree-imply, caption: [
+  parse-tree-imply,
+  caption: [
     Дерево разбора формулы $not p and q imply r$.
     Приоритет связок определяет структуру: $not$ связывает $p$ (сильнее всего), $and$ соединяет $not p$ и $q$, а $imply$ соединяет результат с $r$.
     Без соглашений о приоритетах пришлось бы писать $(((not p) and q) imply r)$.
-  ], ) <fig:parse-tree-imply>
+  ],
+) <fig:parse-tree-imply>
 
 На рис. @fig:parse-tree-imply структура формулы видна без скобок.
 
@@ -268,10 +276,14 @@ _Атомарное высказывание_ --- это высказывани�
 
 #example[Таблица истинности для $p imply q$][
   #table(
-    columns: 3, align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) }, table.header([$p$], [$q$], [$p imply q$]),
-    [#T], [#T], [#T], [#T], [#F], [#F],
-    [#F], [#T], [#T], [#F], [#F], [#T],
+    columns: 3,
+    align: center,
+    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    table.header([$p$], [$q$], [$p imply q$]),
+    [#T], [#T], [#T],
+    [#T], [#F], [#F],
+    [#F], [#T], [#T],
+    [#F], [#F], [#T],
   ) ]
 
 Таблица истинности исчерпывающе описывает поведение формулы при всех интерпретациях.
@@ -302,15 +314,21 @@ _Атомарное высказывание_ --- это высказывани�
 Для иллюстрации посмотрим на две простейшие таблицы: тавтологию и противоречие.
 
 #table(
-  columns: 2, align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) }, table.header([$p$], [$p or not p$]),
-  [#T], [#T], [#F], [#T],
+  columns: 2,
+  align: center,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([$p$], [$p or not p$]),
+  [#T], [#T],
+  [#F], [#T],
 )
 
 #table(
-  columns: 2, align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) }, table.header([$p$], [$p and not p$]),
-  [#T], [#F], [#F], [#F],
+  columns: 2,
+  align: center,
+  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  table.header([$p$], [$p and not p$]),
+  [#T], [#F],
+  [#F], [#F],
 )
 
 Таблица истинности для $n$ переменных содержит $2^n$ строк --- по одной на каждую возможную комбинацию значений.

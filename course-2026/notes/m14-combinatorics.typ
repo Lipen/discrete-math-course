@@ -3,7 +3,8 @@
 #import "notation.typ": *
 #import "diagrams/m10.typ": burnside-necklaces, ramsey-k6
 #import "diagrams/m11.typ": (
-  combinatorial-numbers, decision-tree, pascal-triangle, venn-inclusion-exclusion,
+  combinatorial-numbers, decision-tree, pascal-triangle,
+  venn-inclusion-exclusion,
 )
 
 = Комбинаторика <chap:combinatorics>
