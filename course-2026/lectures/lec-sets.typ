@@ -6,17 +6,12 @@
   authors: "Константин Чухарев",
 )
 
-#show heading.where(level: 1): none
-
-#import "common-lec.typ": *
-#import "../notes/notation.typ": *
-#import "../notes/diagrams/m02.typ": (
+#import "diagrams/m02.typ": (
   venn-difference, venn-intersection, venn-subset, venn-union,
 )
 
 = Наивная теория множеств
 #focus-slide(
-  title: [Множества],
   epigraph: [Множество --- это Многое, мыслимое как Одно.],
   epigraph-author: [Георг Кантор],
 )

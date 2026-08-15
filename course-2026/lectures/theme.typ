@@ -1,12 +1,179 @@
-#import "common.typ": *
+// theme.typ --- тема лекционных слайдов (16:9).
+// Единый вход: #show: slides.with(title: [...], ...)
+// Всё локально: палитра, нотация, блоки, слайды. Без зависимости от книги.
 
-#let title-slide(content) = {
-  set page(header: none, footer: none)
-  set align(horizon)
-  content
-  pagebreak(weak: true)
+// === Палитра: единый объект цветов ===
+#let colors = (
+  accent: oklch(50%, 0.15, 250deg), // сине-индиго, основной
+  accent-strong: oklch(45%, 0.15, 250deg), // заголовки
+  amber: oklch(70%, 0.15, 80deg), // ключевые выводы
+  warn: oklch(60%, 0.15, 40deg), // предупреждения
+  green: oklch(50%, 0.14, 150deg), // определения
+  red: oklch(50%, 0.2, 25deg), // ложь в таблицах истинности
+  violet: oklch(55%, 0.15, 300deg), // теоремы
+  teal: oklch(55%, 0.1, 200deg), // примечания
+  ink: oklch(30%, 0.02, 250deg), // основной текст
+  muted: oklch(45%, 0.01, 250deg), // вторичный текст
+  line: luma(88%), // тонкие границы
+)
+
+// === Нотация (скопирована из notes/notation.typ) ===
+// Лекции не зависят от книги: книга меняется со временем.
+#let NN = $NN$
+#let ZZ = $ZZ$
+#let RR = $RR$
+
+#let imply = sym.arrow.r
+#let iff = sym.arrow.l.r
+#let models = sym.tack.rr // семантическое следование (⊨)
+#let setminus = sym.without
+#let symdiff = $Delta$
+
+#let Green(x) = text(fill: colors.green.darken(20%), x)
+#let Red(x) = text(fill: colors.red.darken(20%), x)
+#let True = Green[`true`]
+#let False = Red[`false`]
+#let T = Green[`T`]
+#let F = Red[`F`]
+
+#let power(x) = $cal(P)(#x)$
+
+// === Карточка: прозрачная заливка, левая полоса ===
+#let card(bar, tint) = (
+  fill: tint,
+  stroke: (
+    left: 3pt + bar,
+    top: 0.5pt + bar.lighten(50%),
+    bottom: 0.5pt + bar.lighten(50%),
+    right: 0.5pt + bar.lighten(50%),
+  ),
+  radius: 4pt,
+)
+
+// === Счётчики окружений ===
+#let definition-counter = counter("definition")
+#let theorem-counter = counter("theorem")
+#let corollary-counter = counter("corollary")
+
+// === Общий каркас окружения ===
+#let env-box(bar, tint, head, body, header: true) = block(
+  ..card(bar, tint),
+  inset: (x: 1em, y: 0.5em),
+)[
+  #if header [#head #v(0.3em) #body] else [#head #h(0.5em) #body]
+]
+
+// Разбор аргументов: `[body]` или `[Title][body]`.
+#let split-args(args) = {
+  let first = args.at(0, default: none)
+  let second = args.at(1, default: none)
+  if second == none { (none, first) } else { (first, second) }
 }
 
+// === Окружения ===
+// Нумерованное: шаг счётчика в потоке, номер в context, заголовок отдельной строкой.
+#let numbered-env(bar, tint, label, counter, title, body) = {
+  let head = text(fill: bar, weight: "bold")[
+    #counter.step()
+    #label #context counter.display("1")#(if title != none [. #title])
+  ]
+  env-box(bar, tint, head, body)
+}
+
+#let definition(..args) = {
+  let (title, body) = split-args(args)
+  numbered-env(
+    colors.green.darken(10%),
+    colors.green.transparentize(90%),
+    "Определение",
+    definition-counter,
+    title,
+    body,
+  )
+}
+#let theorem(..args) = {
+  let (title, body) = split-args(args)
+  numbered-env(
+    colors.violet.darken(10%),
+    colors.violet.transparentize(90%),
+    "Теорема",
+    theorem-counter,
+    title,
+    body,
+  )
+}
+#let corollary(..args) = {
+  let (title, body) = split-args(args)
+  numbered-env(
+    colors.violet.darken(10%),
+    colors.violet.transparentize(90%),
+    "Следствие",
+    corollary-counter,
+    title,
+    body,
+  )
+}
+#let proof(..args) = {
+  let (title, body) = split-args(args)
+  block(
+    fill: colors.accent.transparentize(90%),
+    stroke: (
+      left: 2.5pt + colors.accent.lighten(30%),
+      top: 0.5pt + colors.line,
+      bottom: 0.5pt + colors.line,
+      right: 0.5pt + colors.line,
+    ),
+    radius: 4pt,
+    inset: (x: 1em, y: 0.5em),
+  )[
+    #text(weight: "bold")[Доказательство#(if title != none [. #title])]
+    #v(0.3em)
+    #body
+  ]
+}
+#let example(..args) = {
+  let (title, body) = split-args(args)
+  env-box(
+    colors.muted,
+    colors.line.lighten(40%),
+    text(fill: colors.muted, weight: "bold")[
+      Пример#(if title != none [: #title])
+    ],
+    body,
+    header: false,
+  )
+}
+#let note(..args) = {
+  let (title, body) = split-args(args)
+  env-box(
+    colors.teal.darken(10%),
+    colors.teal.transparentize(90%),
+    text(fill: colors.teal.darken(10%), weight: "bold")[
+      Замечание#(if title != none [: #title])
+    ],
+    body,
+    header: false,
+  )
+}
+
+// === Блок-применение ===
+// color --- акцент блока (colors.accent для применений, colors.amber для выводов, colors.warn для предупреждений).
+#let Block(color: colors.accent, body, ..args) = block(
+  body,
+  fill: color.transparentize(90%),
+  stroke: (
+    left: 3pt + color.darken(10%),
+    top: 0.5pt + color.lighten(50%),
+    bottom: 0.5pt + color.lighten(50%),
+    right: 0.5pt + color.lighten(50%),
+  ),
+  radius: 4pt,
+  inset: (x: 1em, y: 0.5em),
+  ..args.named(),
+)
+
+// === Заголовок текущей секции ===
+// focus-slide берёт заголовок из последнего h1 перед собой.
 #let current-heading(level: 1) = context {
   let h = query(selector(heading.where(level: level)).before(here()))
   if h.len() > 0 {
@@ -16,24 +183,19 @@
   }
 }
 
-// Usage:
-// #focus-slide(
-//   title: [Section Title],
-//   epigraph: [Your inspirational quote here],
-//   epigraph-author: [Author Name],
-//   scholars: ("Name 1", "Name 2", "Name 3", ...)
-// )
-//
-// Note: `title` can be:
-//  - none (default): use current heading (level 1)
-//  - function: a function that receives the current heading
-//  - str: use the provided string as the title
+// === Титульный слайд презентации ===
+#let title-slide(content) = {
+  set page(header: none, footer: none, margin: 0pt)
+  content
+  pagebreak(weak: true)
+}
+
+// === Слайд-открыватель секции ===
+// title по умолчанию берётся из заголовка h1.
 #let focus-slide(
   title: none,
   epigraph: none,
   epigraph-author: none,
-  scholars: (),
-  dark: false,
 ) = {
   let title = if title == none {
     current-heading()
@@ -43,209 +205,62 @@
     title
   }
 
-  // Configuration variables
-  let page-margin = 1cm
-  let hex-stroke-width = 1pt
-  let hex-height = 1in
+  set page(header: none, footer: none, margin: 0pt)
 
-  let title-font-size = 2.2em
-  let title-width = 90%
-  let title-inset = 1.2em
-  let title-stroke-width = 2pt
-
-  let epigraph-font-size = 1.1em
-  let epigraph-width = 80%
-  let epigraph-inset = 1em
-  let epigraph-author-font-size = 0.9em
-
-  let initials-font-size = 1.2em
-  let name-font-size = 0.8em
-
-  // Colors: системный цвет из палитры
-  let title-color = colors.accent-strong
-  let accent-color = colors.accent
-  let text-color = accent-color
-
-  if dark {
-    title-color = title-color.lighten(40%)
-    accent-color = accent-color.lighten(40%)
-    text-color = accent-color
-  }
-
-  // heading(title)
-
-  // Set up the page for the title slide
-  set page(
-    header: none,
-    footer: none,
-    margin: page-margin,
-  )
-
-  set text(fill: text-color)
-
-  set align(center)
-
-  let scholar-portrait(scholar) = {
-    let portrait-content = if type(scholar) == str {
-      // Scholar is a string name - create placeholder with initials
-      let initials = scholar.split(" ").map(word => word.first()).join("")
-      align(horizon)[
-        #box(
-          height: hex-height,
-          inset: 1em,
-          radius: 20%,
-          fill: gradient.radial(
-            accent-color.lighten(70%),
-            accent-color.lighten(40%),
-          ),
-          stroke: hex-stroke-width + accent-color,
-        )[
-          #text(
-            initials,
-            initials-font-size,
-            weight: "bold",
-            fill: text-color.darken(30%),
-          )
+  // Заголовок, акцентная линия, эпиграф
+  place(center + horizon, block(width: 84%)[
+    #set align(center)
+    #set text(2.3em, weight: "bold", font: "Libertinus Sans", fill: colors.accent-strong)
+    #title
+    #v(0.7em, weak: true)
+    #align(center, line(length: 24%, stroke: 1.5pt + colors.accent))
+    #if epigraph != none [
+      #v(1.2em, weak: true)
+      #set text(1.15em, style: "italic", fill: colors.muted)
+      #if type(epigraph) == function {
+        epigraph()
+      } else {
+        epigraph
+      }
+      #if epigraph-author != none [
+        #v(0.4em, weak: true)
+        #align(right)[
+          #set text(0.95em, weight: "bold", fill: colors.accent-strong)
+          --- #epigraph-author
         ]
       ]
-    } else {
-      // Scholar is a dict (name, image)
-      let img = scholar.at("image")
-      box(height: hex-height, box(
-        img,
-        radius: 20%,
-        clip: true,
-        stroke: hex-stroke-width + accent-color,
-      ))
-    }
-
-    let scholar-name = if type(scholar) == str {
-      scholar
-    } else {
-      scholar.at("name")
-    }
-
-    (portrait-content, scholar-name)
-  }
-
-  grid(
-    columns: 1fr,
-    // Note: one row for title+epigraph, one for portraits.
-    //  - First row fills all available space.
-    //  - Second row (optional) is auto-sized to content.
-    rows: (1fr, auto),
-    align(horizon, stack(
-      // Title
-      block(
-        width: title-width,
-        // stroke: .1pt, // debug
-      )[
-        #block(
-          stroke: (bottom: 1pt + title-color),
-          inset: 1em,
-        )[
-          #set text(
-            title-font-size,
-            weight: "bold",
-            font: "Libertinus Sans",
-            fill: title-color,
-          )
-          #title
-        ]
-      ],
-
-      // Epigraph
-      if epigraph != none {
-        if type(epigraph) == function {
-          epigraph = epigraph()
-        } else {
-          epigraph = ["#epigraph"]
-        }
-        block(
-          width: epigraph-width,
-          inset: (top: epigraph-inset),
-          // stroke: .1pt, // debug
-        )[
-          #set text(
-            epigraph-font-size,
-            style: "italic",
-          )
-          #epigraph
-
-          #if epigraph-author != none [
-            #align(right)[
-              #set text(
-                epigraph-author-font-size,
-                weight: "bold",
-              )
-              --- #epigraph-author
-            ]
-          ]
-        ]
-      },
-    )),
-
-    // Portraits
-    if scholars.len() > 0 {
-      grid(
-        columns: scholars.len(),
-        align: (x, y) => if y == 0 { bottom } else { top },
-        column-gutter: .5em,
-        row-gutter: .5em,
-        // stroke: 1pt + silver,
-        ..array
-          .zip(..scholars.map(scholar => {
-            let (hex, name) = scholar-portrait(scholar)
-            (
-              box(width: 2cm, hex),
-              box(width: 2cm, text(name, name-font-size)),
-            )
-          }))
-          .flatten()
-      )
-    }
-  )
+    ]
+  ])
 
   pagebreak(weak: true)
 }
 
+// === Слайды: точка входа ===
 #let slides(
   content,
   title: none,
   subtitle: none,
   date: none,
   authors: (),
-  dark: false,
 ) = {
-  // Page dimensions
+  // === Текст: русский, базовый цвет ===
+  set text(lang: "ru", fill: colors.ink)
+  show sym.emptyset: set text(font: "Libertinus Sans")
+  set math.mat(column-gap: 1em)
+
+  // === Страница 16:9 ===
   let height = 10.5cm
   let width = height * 16 / 9
   let space = 1.6cm
 
-  // Colors
   let title-color = colors.accent-strong
-  let emph-color = colors.accent
-
-  // Fonts
   let title-font = "Libertinus Sans"
 
-  // Dark mode
-  if dark {
-    title-color = title-color.lighten(40%)
-    emph-color = emph-color.lighten(40%)
-  }
-
-  // Common template
-  show: template.with(dark: dark)
-
-  // Setup
-  set document(title: title, author: authors) if (title != none)
   set page(
     width: width,
     height: height,
     margin: (x: 0.5 * space, top: space, bottom: 0.5 * space),
     header: context {
-      // show: body => block(width: 100%, height: 100%, stroke: 1pt + red, body)
       let page = here().page()
       let headings = query(selector(heading.where(level: 2)))
       let heading = headings.rev().find(x => x.location().page() <= page)
@@ -267,112 +282,73 @@
           outset: (bottom: 0.4em, x: 0.1em),
           stroke: (bottom: 0.5pt + title-color),
         )[
-          // Note: reduce leading to fit 2-line headings better
-          // Note: default leading is 0.65em
           #set par(leading: 0.4em)
           #body
         ]
       }
     },
     footer: context {
-      // show: body => block(width: 100%, height: 100%, stroke: 1pt + red, body)
       set text(0.8em, fill: luma(50%))
       set align(right)
       counter(page).display("1 / 1", both: true)
     },
   )
-  set outline(target: heading.where(level: 1), title: none)
-  set bibliography(title: none)
+  set document(title: title, author: authors) if (title != none)
 
-  // Rules
-  show heading.where(level: 1): it => {
-    // Create a simple focus page for regular level 1 headings
-    set page(header: none, footer: none, margin: 1cm)
-
-    // Main layout: simple centered title
-    align(center + horizon, block(
-      width: 90%,
-      // stroke: .1pt, // debug
-    )[
-      #block(
-        inset: 1em,
-        stroke: (bottom: 1pt + title-color),
-      )[
-        #set text(
-          1.6em,
-          weight: "bold",
-          font: title-font,
-          fill: title-color,
-        )
-        #it.body
-      ]
-    ])
-
-    pagebreak(weak: true)
-  }
+  // === Заголовки ===
+  // h1 --- открыватель секции (слайд рисует focus-slide)
+  show heading.where(level: 1): none
+  // h2 --- заголовок слайда (текст живёт в шапке)
   show heading.where(level: 2): pagebreak(weak: true)
-  show heading: set text(1.1em, fill: title-color)
 
-  // Style headings
-  set heading(numbering: numbly.numbly(
-    sym.section + "{1} ",
-    none,
-    sym.square + "",
-    default: (.., last) => str(last) + ".",
-  ))
-
-  // Style lists
+  // === Списки, эмфасис, ссылки ===
   set list(marker: (
     text(fill: title-color)[•],
     text(fill: title-color)[‣],
     text(fill: title-color)[-],
   ))
   set enum(numbering: nums => text(fill: title-color)[*#nums.*])
-
-  // Colored emph
-  show emph: set text(fill: emph-color) if emph-color != none
-
-  // Make links underlined
+  show emph: set text(fill: colors.accent)
   show link: underline
 
-  // Title page
+  // === Титульная страница ===
   if title != none {
     if (type(authors) != array) {
       authors = (authors,)
     }
     title-slide({
-      // Верхняя акцентная полоса
-      block(fill: title-color, width: 100%, height: 0.5em)
-      v(3em, weak: true)
-      // Заголовок
-      block(width: 100%)[
-        #set align(center)
-        #set text(2.5em, weight: "bold", font: title-font, fill: title-color)
-        #title
-      ]
-      v(0.8em, weak: true)
-      // Акцентная линия
-      align(center, line(length: 38%, stroke: 1.5pt + title-color))
-      v(1.4em, weak: true)
-      // Подзаголовок, авторы, дата
-      block(width: 100%)[
-        #set align(center)
+      // Заголовок, акцентная линия, подзаголовок --- по левому краю
+      place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
+        #block(width: 82%)[
+          #set text(3em, weight: "bold", font: title-font, fill: title-color)
+          #title
+        ]
+        #v(1.1em, weak: true)
+        #line(length: 32%, stroke: 2pt + colors.accent)
+        #v(1.1em, weak: true)
         #if subtitle != none [
-          #text(1.15em, weight: "bold", fill: title-color)[#subtitle]
-          #v(0.7em, weak: true)
+          #set text(1.2em, fill: colors.muted)
+          #subtitle
         ]
-        #text(0.95em, fill: luma(45%))[#authors.join(", ", last: " и ")]
-        #if date != none [
-          #v(0.4em, weak: true)
-          #text(0.85em, fill: luma(55%))[#date]
-        ]
-      ]
-      v(1fr)
-      // Нижняя акцентная полоса
-      block(fill: title-color, width: 100%, height: 0.5em)
+      ])
+      // Авторы и дата внизу
+      place(
+        bottom + left,
+        dx: 2cm,
+        dy: -0.9cm,
+        text(0.95em, fill: luma(45%))[#authors.join(", ", last: " и ")],
+      )
+      place(
+        bottom + right,
+        dx: -2cm,
+        dy: -0.9cm,
+        if date != none {
+          text(0.85em, fill: luma(55%))[#date]
+        },
+      )
     })
   }
 
-  // Content
+  // === Контент ===
   content
 }

@@ -6,14 +6,8 @@
   authors: "Константин Чухарев",
 )
 
-#show heading.where(level: 1): none
-
-#import "common-lec.typ": *
-#import "../notes/notation.typ": *
-
 = Как устроен курс
 #focus-slide(
-  title: [Дискретная математика],
   epigraph: [Язык математики и его применение в computer science.],
   epigraph-author: [Семестр 1],
 )
