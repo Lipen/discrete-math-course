@@ -625,7 +625,8 @@ FPT-алгоритм использует технику _ограниченно
 - Рекурсивно исследовать обе ветви; глубина рекурсии не превышает $k$.
 
 Время работы: $O(2^k dot n)$.
-Улучшенные алгоритмы снижают базу экспоненты: лучший известный на 2025 год результат --- $O^*(1.25284^k)$ (Harris and Narayanaswamy, 2022)#footnote[D. G. Harris, N. S. Narayanaswamy, "A faster algorithm for Vertex Cover parameterized by solution size", arXiv:2205.08022, 2022; STACS 2024.].
+Улучшенные алгоритмы снижают базу экспоненты: лучший известный на 2025 год результат --- $O^*(1.25284^k)$ (Harris and Narayanaswamy,
+2022)#footnote[D. G. Harris, N. S. Narayanaswamy, "A faster algorithm for Vertex Cover parameterized by solution size", arXiv:2205.08022, 2022; STACS 2024.].
 
 Для $k = 10$ и $n = 1000$: $1.25284^10 approx 10$, и даже с полиномиальным множителем по $n$, скрытым в нотации $O^*$, это практически мгновенно.
 FPT превращает NP-полную задачу в практически разрешимую для экземпляров с малым значением параметра.
