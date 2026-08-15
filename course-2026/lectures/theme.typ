@@ -11,7 +11,6 @@
   green: oklch(50%, 0.14, 150deg), // определения
   red: oklch(50%, 0.2, 25deg), // ложь в таблицах истинности
   violet: oklch(55%, 0.15, 300deg), // теоремы
-  teal: oklch(55%, 0.1, 200deg), // примечания
   ink: oklch(30%, 0.02, 250deg), // основной текст
   muted: oklch(45%, 0.01, 250deg), // вторичный текст
   line: luma(88%), // тонкие границы
@@ -143,20 +142,8 @@
     header: false,
   )
 }
-#let note(..args) = {
-  let (title, body) = split-args(args)
-  env-box(
-    colors.teal.darken(10%),
-    colors.teal.transparentize(90%),
-    text(fill: colors.teal.darken(10%), weight: "bold")[
-      Замечание#(if title != none [: #title])
-    ],
-    body,
-    header: false,
-  )
-}
 
-// === Блок-применение ===
+// === Блок: прозрачная заливка, левая полоса ===
 // color --- акцент блока (colors.accent для применений, colors.amber для выводов, colors.warn для предупреждений).
 #let Block(color: colors.accent, body, ..args) = block(
   body,
@@ -171,6 +158,11 @@
   inset: (x: 1em, y: 0.5em),
   ..args.named(),
 )
+
+// === Неформальные блоки: цвет без текстовой метки ===
+// important --- важное (amber), note --- пояснение (голубое).
+#let important(..args) = Block(..args, color: colors.amber)
+#let note(..args) = Block(..args, color: colors.accent)
 
 // === Заголовок текущей секции ===
 // focus-slide берёт заголовок из последнего h1 перед собой.
