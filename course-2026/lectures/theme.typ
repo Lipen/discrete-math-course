@@ -207,25 +207,26 @@
 
   set page(header: none, footer: none, margin: 0pt)
 
-  // Заголовок, акцентная линия, эпиграф
-  place(center + horizon, block(width: 84%)[
-    #set align(center)
-    #set text(2.3em, weight: "bold", font: "Libertinus Sans", fill: colors.accent-strong)
-    #title
-    #v(0.7em, weak: true)
-    #align(center, line(length: 24%, stroke: 1.5pt + colors.accent))
+  // Заголовок, акцентная линия, эпиграф --- как на титульной странице
+  place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
+    #block(width: 82%)[
+      #set text(2.3em, weight: "bold", font: "Libertinus Sans", fill: colors.accent-strong)
+      #title
+    ]
+    #v(1em, weak: true)
+    #line(length: 32%, stroke: 1.5pt + colors.accent)
     #if epigraph != none [
-      #v(1.2em, weak: true)
-      #set text(1.15em, style: "italic", fill: colors.muted)
+      #v(1em, weak: true)
+      #set text(1em, style: "italic", fill: colors.muted)
       #if type(epigraph) == function {
         epigraph()
       } else {
         epigraph
       }
       #if epigraph-author != none [
-        #v(0.4em, weak: true)
+        #v(0.3em, weak: true)
         #align(right)[
-          #set text(0.95em, weight: "bold", fill: colors.accent-strong)
+          #set text(0.85em, weight: "bold", fill: colors.accent-strong)
           --- #epigraph-author
         ]
       ]
@@ -243,10 +244,8 @@
   date: none,
   authors: (),
 ) = {
-  // === Текст: русский, базовый цвет ===
-  set text(lang: "ru", fill: colors.ink)
-  show sym.emptyset: set text(font: "Libertinus Sans")
-  set math.mat(column-gap: 1em)
+  // === Текст: русский, базовый размер и цвет ===
+  set text(lang: "ru", size: 12pt, fill: colors.ink)
 
   // === Страница 16:9 ===
   let height = 10.5cm
@@ -348,6 +347,12 @@
       )
     })
   }
+
+  show sym.emptyset: set text(font: "Libertinus Sans")
+
+  set math.mat(column-gap: 1em)
+
+  set table(inset: (x: 5pt, y: 2pt))
 
   // === Контент ===
   content
