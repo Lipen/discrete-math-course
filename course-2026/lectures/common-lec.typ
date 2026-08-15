@@ -1,20 +1,20 @@
 // Note: this file should NOT contain `show` rules!
 // Алиасы True/False/Green/Red/iff живут в ../notes/notation.typ (единый источник).
 #import "../notes/notation.typ": Green, Red
-#import "common.typ": accent, accent-strong, amber, teal, violet, warn
+#import "common.typ": colors
 
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $chevron.l #a, #b chevron.r$
 
-#let Blue(x) = text(fill: accent-strong, x)
+#let Blue(x) = text(fill: colors.accent-strong, x)
 
 #let YES = Green(sym.checkmark)
 #let NO = Red(sym.crossmark)
 
 // Карточка: плоская прозрачная заливка, левая полоса, скругление.
-// color --- акцент блока (accent для применений, amber для выводов, warn для предупреждений).
+// color --- акцент блока (colors.accent для применений, colors.amber для выводов, colors.warn для предупреждений).
 #let Block(
-  color: accent,
+  color: colors.accent,
   body,
   ..args,
 ) = block(

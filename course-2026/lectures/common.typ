@@ -4,14 +4,21 @@
 // Math-алиасы НЕ здесь: единый источник --- ../notes/notation.typ.
 #import "requirements.typ": *
 
-// --- Палитра ---
-#let accent = oklch(50%, 0.15, 250deg) // сине-индиго, основной
-#let accent-strong = oklch(45%, 0.15, 250deg) // для заголовков-акцентов
-#let amber = oklch(70%, 0.15, 80deg) // янтарный, ключевые выводы
-#let warn = oklch(60%, 0.15, 40deg) // оранжевый, предупреждения
-#let green = oklch(50%, 0.14, 150deg) // зелёный, определения
-#let violet = oklch(55%, 0.15, 300deg) // фиолетовый, теоремы
-#let teal = oklch(55%, 0.1, 200deg) // бирюзовый, примечания
+// --- Палитра: единый объект цветов ---
+#let colors = (
+  // Акценты
+  accent: oklch(50%, 0.15, 250deg), // сине-индиго, основной
+  accent-strong: oklch(45%, 0.15, 250deg), // заголовки
+  amber: oklch(70%, 0.15, 80deg), // ключевые выводы
+  warn: oklch(60%, 0.15, 40deg), // предупреждения
+  green: oklch(50%, 0.14, 150deg), // определения
+  violet: oklch(55%, 0.15, 300deg), // теоремы
+  teal: oklch(55%, 0.1, 200deg), // примечания
+  // Нейтральные
+  ink: oklch(30%, 0.02, 250deg), // основной текст
+  muted: oklch(45%, 0.01, 250deg), // вторичный текст
+  line: luma(88%), // тонкие границы
+)
 
 #let template(dark: false, doc) = {
   set text(fill: white) if dark
@@ -76,8 +83,8 @@
 #let definition(..args) = {
   let (title, body) = split-args(args)
   numbered-env(
-    green.darken(10%),
-    green.transparentize(90%),
+    colors.green.darken(10%),
+    colors.green.transparentize(90%),
     "Определение",
     definition-counter,
     title,
@@ -87,8 +94,8 @@
 #let theorem(..args) = {
   let (title, body) = split-args(args)
   numbered-env(
-    violet,
-    violet.transparentize(90%),
+    colors.violet.darken(10%),
+    colors.violet.transparentize(90%),
     "Теорема",
     theorem-counter,
     title,
@@ -98,8 +105,8 @@
 #let corollary(..args) = {
   let (title, body) = split-args(args)
   numbered-env(
-    violet,
-    violet.transparentize(90%),
+    colors.violet.darken(10%),
+    colors.violet.transparentize(90%),
     "Следствие",
     corollary-counter,
     title,
@@ -109,12 +116,12 @@
 #let proof(..args) = {
   let (title, body) = split-args(args)
   block(
-    fill: accent.transparentize(90%),
+    fill: colors.accent.transparentize(90%),
     stroke: (
-      left: 2.5pt + accent.lighten(30%),
-      top: 0.5pt + luma(90%),
-      bottom: 0.5pt + luma(90%),
-      right: 0.5pt + luma(90%),
+      left: 2.5pt + colors.accent.lighten(30%),
+      top: 0.5pt + colors.line,
+      bottom: 0.5pt + colors.line,
+      right: 0.5pt + colors.line,
     ),
     radius: 4pt,
     inset: (x: 1em, y: 0.5em),
@@ -127,9 +134,12 @@
 #let example(..args) = {
   let (title, body) = split-args(args)
   env-box(
-    luma(50%),
-    luma(90%),
-    text(fill: luma(45%), weight: "bold")[Пример#(if title != none [: #title])],
+    colors.muted,
+    colors.line.lighten(40%),
+    text(
+      fill: colors.muted,
+      weight: "bold",
+    )[Пример#(if title != none [: #title])],
     body,
     header: false,
   )
@@ -137,10 +147,10 @@
 #let note(..args) = {
   let (title, body) = split-args(args)
   env-box(
-    teal,
-    teal.transparentize(90%),
+    colors.teal.darken(10%),
+    colors.teal.transparentize(90%),
     text(
-      fill: teal.darken(10%),
+      fill: colors.teal.darken(10%),
       weight: "bold",
     )[Замечание#(if title != none [: #title])],
     body,
@@ -155,7 +165,7 @@
 #let blob(
   pos,
   label,
-  tint: none,
+  tint: colors.green,
   shape: auto,
   ..args,
 ) = fletcher.node(
@@ -169,7 +179,7 @@
 
 // Colored box around a content
 #let fancy-box(
-  tint: green,
+  tint: colors.green,
   diagram-style: (:),
   blob-style: (:),
   content,

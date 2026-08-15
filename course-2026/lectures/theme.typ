@@ -62,8 +62,8 @@
   let name-font-size = 0.8em
 
   // Colors: системный цвет из палитры
-  let title-color = accent-strong
-  let accent-color = accent
+  let title-color = colors.accent-strong
+  let accent-color = colors.accent
   let text-color = accent-color
 
   if dark {
@@ -223,8 +223,8 @@
   let space = 1.6cm
 
   // Colors
-  let title-color = accent-strong
-  let emph-color = accent
+  let title-color = colors.accent-strong
+  let emph-color = colors.accent
 
   // Fonts
   let title-font = "Libertinus Sans"
