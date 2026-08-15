@@ -86,7 +86,7 @@
 #let theorem(..args) = {
   let (title, body) = split-args(args)
   numbered-env(
-    violet.darken(10%),
+    violet,
     violet.transparentize(90%),
     "Теорема",
     theorem-counter,
@@ -97,7 +97,7 @@
 #let corollary(..args) = {
   let (title, body) = split-args(args)
   numbered-env(
-    violet.darken(10%),
+    violet,
     violet.transparentize(90%),
     "Следствие",
     corollary-counter,
@@ -127,7 +127,7 @@
   let (title, body) = split-args(args)
   env-box(
     luma(50%),
-    luma(96%),
+    luma(90%),
     text(fill: luma(45%), weight: "bold")[Пример#(if title != none [: #title])],
     body,
     header: false,
@@ -136,7 +136,7 @@
 #let note(..args) = {
   let (title, body) = split-args(args)
   env-box(
-    teal.darken(10%),
+    teal,
     teal.transparentize(90%),
     text(
       fill: teal.darken(10%),
