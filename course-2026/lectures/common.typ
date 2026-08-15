@@ -1,32 +1,27 @@
 // Общие окружения и хелперы лекций.
-// Стиль «тёплая книга»: oklch-палитра, плоские прозрачные карточки с левой полосой.
+// Собственная машинерия блоков (без ctheorems): карточки с левой полосой и прозрачной заливкой.
+// Числа --- круглые: прозрачность 90%, паддинг 1em/0.5em, радиус 4pt.
 // Math-алиасы НЕ здесь: единый источник --- ../notes/notation.typ.
 #import "requirements.typ": *
 
 // --- Палитра ---
-#let accent = oklch(52%, 0.15, 245deg) // сине-индиго, основной
-#let accent-strong = oklch(42%, 0.14, 250deg) // для заголовков-акцентов
-#let amber = oklch(70%, 0.17, 80deg) // янтарный, ключевые выводы
-#let warn = oklch(58%, 0.18, 40deg) // оранжевый, предупреждения
+#let accent = oklch(50%, 0.15, 250deg) // сине-индиго, основной
+#let accent-strong = oklch(45%, 0.15, 250deg) // для заголовков-акцентов
+#let amber = oklch(70%, 0.15, 80deg) // янтарный, ключевые выводы
+#let warn = oklch(60%, 0.15, 40deg) // оранжевый, предупреждения
 #let violet = oklch(55%, 0.15, 300deg) // фиолетовый, теоремы
-#let teal = oklch(56%, 0.12, 195deg) // бирюзовый, примечания
+#let teal = oklch(55%, 0.1, 200deg) // бирюзовый, примечания
 
 #let template(dark: false, doc) = {
-  // Dark mode
   set text(fill: white) if dark
-  set page(fill: luma(12%)) if dark
+  set page(fill: luma(10%)) if dark
 
   // Fix emptyset symbol
   show sym.emptyset: set text(font: "Libertinus Sans")
 
-  // Setup theorems
-  show: ctheorems.thmrules.with(qed-symbol: $square$)
-
   // Show i.e. in italic:
   show "i.e.": set text(style: "italic")
-  // Show e.g. in italic:
   show "e.g.": set text(style: "italic")
-  // Show etc. in italic:
   show "etc.": set text(style: "italic")
 
   // Matrix setup
@@ -35,17 +30,122 @@
   doc
 }
 
-// Карточка: прозрачная заливка (tint), левая полоса (bar).
+// Карточка: прозрачная заливка, левая полоса.
 #let card(bar, tint) = (
   fill: tint,
   stroke: (
     left: 3pt + bar,
-    top: 0.6pt + bar.lighten(55%),
-    bottom: 0.6pt + bar.lighten(55%),
-    right: 0.6pt + bar.lighten(55%),
+    top: 0.5pt + bar.lighten(50%),
+    bottom: 0.5pt + bar.lighten(50%),
+    right: 0.5pt + bar.lighten(50%),
   ),
   radius: 4pt,
 )
+
+// Счётчики окружений.
+#let definition-counter = counter("definition")
+#let theorem-counter = counter("theorem")
+#let corollary-counter = counter("corollary")
+
+// Общий каркас: заголовок (отдельной строкой или inline) + тело.
+#let env-box(bar, tint, head, body, header: true) = block(
+  ..card(bar, tint),
+  inset: (x: 1em, y: 0.5em),
+)[
+  #if header [#head #v(0.3em) #body] else [#head #h(0.5em) #body]
+]
+
+// Разбор аргументов: `[body]` или `[Title][body]`.
+#let split-args(args) = {
+  let first = args.at(0, default: none)
+  let second = args.at(1, default: none)
+  if second == none { (none, first) } else { (first, second) }
+}
+
+// --- Окружения ---
+// Нумерованное: шаг счётчика в потоке, номер в context, заголовок отдельной строкой.
+#let numbered-env(bar, tint, label, counter, title, body) = {
+  let head = text(fill: bar, weight: "bold")[
+    #counter.step()
+    #label #context counter.display("1")#(if title != none [. #title])
+  ]
+  env-box(bar, tint, head, body)
+}
+
+#let definition(..args) = {
+  let (title, body) = split-args(args)
+  numbered-env(
+    accent-strong,
+    accent.transparentize(90%),
+    "Определение",
+    definition-counter,
+    title,
+    body,
+  )
+}
+#let theorem(..args) = {
+  let (title, body) = split-args(args)
+  numbered-env(
+    violet.darken(10%),
+    violet.transparentize(90%),
+    "Теорема",
+    theorem-counter,
+    title,
+    body,
+  )
+}
+#let corollary(..args) = {
+  let (title, body) = split-args(args)
+  numbered-env(
+    violet.darken(10%),
+    violet.transparentize(90%),
+    "Следствие",
+    corollary-counter,
+    title,
+    body,
+  )
+}
+#let proof(..args) = {
+  let (title, body) = split-args(args)
+  block(
+    fill: accent.transparentize(90%),
+    stroke: (
+      left: 2.5pt + accent.lighten(30%),
+      top: 0.5pt + luma(90%),
+      bottom: 0.5pt + luma(90%),
+      right: 0.5pt + luma(90%),
+    ),
+    radius: 4pt,
+    inset: (x: 1em, y: 0.5em),
+  )[
+    #text(weight: "bold")[Доказательство#(if title != none [. #title])]
+    #v(0.3em)
+    #body
+  ]
+}
+#let example(..args) = {
+  let (title, body) = split-args(args)
+  env-box(
+    luma(50%),
+    luma(96%),
+    text(fill: luma(45%), weight: "bold")[Пример#(if title != none [: #title])],
+    body,
+    header: false,
+  )
+}
+#let note(..args) = {
+  let (title, body) = split-args(args)
+  env-box(
+    teal.darken(10%),
+    teal.transparentize(90%),
+    text(
+      fill: teal.darken(10%),
+      weight: "bold",
+    )[Замечание#(if title != none [: #title])],
+    body,
+    header: false,
+  )
+}
 
 // Horizontal rule
 #let hrule = line(length: 100%)
@@ -86,69 +186,3 @@
 
 // Link with icon
 #let href(..args) = link(..args, super(fontawesome.fa-external-link()))
-
-#import ctheorems: *
-
-#let definition = thmbox(
-  "definition",
-  "Определение",
-  ..card(accent-strong, accent.transparentize(85%)),
-  inset: (x: 1em, y: 0.6em),
-  padding: (),
-  base_level: 0,
-  titlefmt: it => text(fill: accent-strong, weight: "bold", it),
-)
-#let theorem = thmbox(
-  "theorem",
-  "Теорема",
-  ..card(violet.darken(10%), violet.transparentize(84%)),
-  inset: (x: 1em, y: 0.6em),
-  padding: (),
-  base_level: 0,
-  titlefmt: it => text(fill: violet.darken(15%), weight: "bold", it),
-)
-#let corollary = thmbox(
-  "corollary",
-  "Следствие",
-  base: "theorem",
-  ..card(violet.darken(10%), violet.transparentize(84%)),
-  inset: (x: 1em, y: 0.6em),
-  padding: (),
-  titlefmt: it => text(fill: violet.darken(15%), weight: "bold", it),
-)
-#let proof = thmproof(
-  "proof",
-  "Доказательство",
-  fill: accent.transparentize(92%),
-  stroke: (
-    left: 2.5pt + accent.lighten(40%),
-    top: 0.5pt + luma(88%),
-    bottom: 0.5pt + luma(88%),
-    right: 0.5pt + luma(88%),
-  ),
-  radius: 4pt,
-  inset: (x: 1em, y: 0.5em),
-  titlefmt: it => strong(it),
-)
-#let example = thmplain(
-  "example",
-  "Пример",
-  fill: luma(96%),
-  stroke: (
-    left: 2.5pt + luma(80%),
-    top: 0.5pt + luma(90%),
-    bottom: 0.5pt + luma(90%),
-    right: 0.5pt + luma(90%),
-  ),
-  radius: 4pt,
-  inset: (x: 1em, y: 0.5em),
-  titlefmt: it => text(style: "italic", it),
-).with(numbering: none)
-#let examples = example.with(title: "Примеры")
-#let note = thmplain(
-  "note",
-  "Замечание",
-  ..card(teal.darken(10%), teal.transparentize(85%)),
-  inset: (x: 1em, y: 0.6em),
-  titlefmt: it => strong(text(fill: teal.darken(20%), it)),
-).with(numbering: none)

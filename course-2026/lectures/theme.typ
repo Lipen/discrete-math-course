@@ -61,9 +61,9 @@
   let initials-font-size = 1.2em
   let name-font-size = 0.8em
 
-  // Colors
-  let title-color = oklch(48%, 0.14, 255deg)
-  let accent-color = oklch(48%, 0.14, 255deg)
+  // Colors: системный цвет из палитры
+  let title-color = accent-strong
+  let accent-color = accent
   let text-color = accent-color
 
   if dark {
@@ -223,8 +223,8 @@
   let space = 1.6cm
 
   // Colors
-  let title-color = oklch(48%, 0.14, 255deg)
-  let emph-color = oklch(52%, 0.15, 245deg)
+  let title-color = accent-strong
+  let emph-color = accent
 
   // Fonts
   let title-font = "Libertinus Sans"
@@ -265,7 +265,7 @@
         }
         block(
           outset: (bottom: 0.4em, x: 0.1em),
-          stroke: (bottom: 0.6pt + title-color),
+          stroke: (bottom: 0.5pt + title-color),
         )[
           // Note: reduce leading to fit 2-line headings better
           // Note: default leading is 0.65em

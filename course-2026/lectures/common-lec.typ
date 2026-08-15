@@ -19,14 +19,14 @@
   ..args,
 ) = block(
   body,
-  fill: color.transparentize(85%),
+  fill: color.transparentize(90%),
   stroke: (
     left: 3pt + color.darken(10%),
-    top: 0.6pt + color.lighten(60%),
-    bottom: 0.6pt + color.lighten(60%),
-    right: 0.6pt + color.lighten(60%),
+    top: 0.5pt + color.lighten(50%),
+    bottom: 0.5pt + color.lighten(50%),
+    right: 0.5pt + color.lighten(50%),
   ),
   radius: 4pt,
-  inset: (x: 1em, y: 0.7em),
+  inset: (x: 1em, y: 0.5em),
   ..args.named(),
 )
