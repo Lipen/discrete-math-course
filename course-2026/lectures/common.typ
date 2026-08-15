@@ -9,6 +9,7 @@
 #let accent-strong = oklch(45%, 0.15, 250deg) // для заголовков-акцентов
 #let amber = oklch(70%, 0.15, 80deg) // янтарный, ключевые выводы
 #let warn = oklch(60%, 0.15, 40deg) // оранжевый, предупреждения
+#let green = oklch(50%, 0.14, 150deg) // зелёный, определения
 #let violet = oklch(55%, 0.15, 300deg) // фиолетовый, теоремы
 #let teal = oklch(55%, 0.1, 200deg) // бирюзовый, примечания
 
@@ -75,8 +76,8 @@
 #let definition(..args) = {
   let (title, body) = split-args(args)
   numbered-env(
-    accent-strong,
-    accent.transparentize(90%),
+    green.darken(10%),
+    green.transparentize(90%),
     "Определение",
     definition-counter,
     title,
