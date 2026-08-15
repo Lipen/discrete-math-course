@@ -62,8 +62,8 @@
   let name-font-size = 0.8em
 
   // Colors
-  let title-color = oklch(40%, 0.13, 235deg)
-  let accent-color = oklch(50%, 0.14, 230deg)
+  let title-color = oklch(48%, 0.14, 255deg)
+  let accent-color = oklch(48%, 0.14, 255deg)
   let text-color = accent-color
 
   if dark {
@@ -223,8 +223,8 @@
   let space = 1.6cm
 
   // Colors
-  let title-color = oklch(40%, 0.13, 235deg)
-  let emph-color = oklch(50%, 0.14, 230deg)
+  let title-color = oklch(48%, 0.14, 255deg)
+  let emph-color = oklch(52%, 0.15, 245deg)
 
   // Fonts
   let title-font = "Libertinus Sans"
@@ -341,35 +341,35 @@
       authors = (authors,)
     }
     title-slide({
-      // Title:
-      {
-        set text(
-          2em,
-          weight: "bold",
-          font: title-font,
-          fill: title-color,
-        )
-        title
-      }
+      // Верхняя акцентная полоса
+      block(fill: title-color, width: 100%, height: 0.5em)
+      v(3em, weak: true)
+      // Заголовок
+      block(width: 100%)[
+        #set align(center)
+        #set text(2.5em, weight: "bold", font: title-font, fill: title-color)
+        #title
+      ]
+      v(0.8em, weak: true)
+      // Акцентная линия
+      align(center, line(length: 38%, stroke: 1.5pt + title-color))
       v(1.4em, weak: true)
-      // Subtitle:
-      if subtitle != none or date != none {
-        set text(1.4em, weight: "bold")
-        if subtitle != none {
-          subtitle
-        }
-        if date != none {
-          if subtitle != none {
-            [, ]
-          }
-          date
-        }
-      }
-      v(1em, weak: true)
-      // Authors:
-      {
-        authors.join(", ", last: " and ")
-      }
+      // Подзаголовок, авторы, дата
+      block(width: 100%)[
+        #set align(center)
+        #if subtitle != none [
+          #text(1.15em, weight: "bold", fill: title-color)[#subtitle]
+          #v(0.7em, weak: true)
+        ]
+        #text(0.95em, fill: luma(45%))[#authors.join(", ", last: " и ")]
+        #if date != none [
+          #v(0.4em, weak: true)
+          #text(0.85em, fill: luma(55%))[#date]
+        ]
+      ]
+      v(1fr)
+      // Нижняя акцентная полоса
+      block(fill: title-color, width: 100%, height: 0.5em)
     })
   }
 

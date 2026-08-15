@@ -11,7 +11,7 @@
 #let YES = Green(sym.checkmark)
 #let NO = Red(sym.crossmark)
 
-// Карточка: левая полоса, лёгкий градиент, скругление.
+// Карточка: плоская прозрачная заливка, левая полоса, скругление.
 // color --- акцент блока (accent для применений, amber для выводов, warn для предупреждений).
 #let Block(
   color: accent,
@@ -19,14 +19,14 @@
   ..args,
 ) = block(
   body,
-  fill: gradient.linear(angle: 0deg, color.lighten(86%), color.lighten(96%)),
+  fill: color.transparentize(85%),
   stroke: (
     left: 3pt + color.darken(10%),
-    top: 0.6pt + color.lighten(55%),
-    bottom: 0.6pt + color.lighten(55%),
-    right: 0.6pt + color.lighten(55%),
+    top: 0.6pt + color.lighten(60%),
+    bottom: 0.6pt + color.lighten(60%),
+    right: 0.6pt + color.lighten(60%),
   ),
   radius: 4pt,
-  inset: (x: 0.85em, y: 0.45em),
+  inset: (x: 1em, y: 0.7em),
   ..args.named(),
 )

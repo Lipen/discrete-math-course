@@ -1,15 +1,15 @@
 // Общие окружения и хелперы лекций.
-// Стиль «тёплая книга»: oklch-палитра, карточки с левой полосой и градиентом.
+// Стиль «тёплая книга»: oklch-палитра, плоские прозрачные карточки с левой полосой.
 // Math-алиасы НЕ здесь: единый источник --- ../notes/notation.typ.
 #import "requirements.typ": *
 
 // --- Палитра ---
-#let accent = oklch(50%, 0.14, 230deg) // сине-бирюзовый, основной (как в книге)
-#let accent-strong = oklch(40%, 0.13, 235deg) // глубокий, для заголовков
-#let amber = oklch(72%, 0.16, 85deg) // янтарный, ключевые выводы
-#let warn = oklch(62%, 0.17, 45deg) // оранжевый, предупреждения
+#let accent = oklch(52%, 0.15, 245deg) // сине-индиго, основной
+#let accent-strong = oklch(42%, 0.14, 250deg) // для заголовков-акцентов
+#let amber = oklch(70%, 0.17, 80deg) // янтарный, ключевые выводы
+#let warn = oklch(58%, 0.18, 40deg) // оранжевый, предупреждения
 #let violet = oklch(55%, 0.15, 300deg) // фиолетовый, теоремы
-#let teal = oklch(55%, 0.12, 200deg) // бирюзовый, примечания
+#let teal = oklch(56%, 0.12, 195deg) // бирюзовый, примечания
 
 #let template(dark: false, doc) = {
   // Dark mode
@@ -35,9 +35,9 @@
   doc
 }
 
-// Карточка с левой полосой и лёгким градиентом.
-#let card(bar, fill-a, fill-b) = (
-  fill: gradient.linear(angle: 0deg, fill-a, fill-b),
+// Карточка: прозрачная заливка (tint), левая полоса (bar).
+#let card(bar, tint) = (
+  fill: tint,
   stroke: (
     left: 3pt + bar,
     top: 0.6pt + bar.lighten(55%),
@@ -92,8 +92,8 @@
 #let definition = thmbox(
   "definition",
   "Определение",
-  ..card(accent-strong, accent.lighten(93%), accent.lighten(97%)),
-  inset: (x: 0.85em, y: 0.45em),
+  ..card(accent-strong, accent.transparentize(85%)),
+  inset: (x: 1em, y: 0.6em),
   padding: (),
   base_level: 0,
   titlefmt: it => text(fill: accent-strong, weight: "bold", it),
@@ -101,8 +101,8 @@
 #let theorem = thmbox(
   "theorem",
   "Теорема",
-  ..card(violet.darken(10%), violet.lighten(90%), violet.lighten(95%)),
-  inset: (x: 0.85em, y: 0.45em),
+  ..card(violet.darken(10%), violet.transparentize(84%)),
+  inset: (x: 1em, y: 0.6em),
   padding: (),
   base_level: 0,
   titlefmt: it => text(fill: violet.darken(15%), weight: "bold", it),
@@ -111,15 +111,15 @@
   "corollary",
   "Следствие",
   base: "theorem",
-  ..card(violet.darken(10%), violet.lighten(90%), violet.lighten(95%)),
-  inset: (x: 0.85em, y: 0.45em),
+  ..card(violet.darken(10%), violet.transparentize(84%)),
+  inset: (x: 1em, y: 0.6em),
   padding: (),
   titlefmt: it => text(fill: violet.darken(15%), weight: "bold", it),
 )
 #let proof = thmproof(
   "proof",
   "Доказательство",
-  fill: luma(97%),
+  fill: accent.transparentize(92%),
   stroke: (
     left: 2.5pt + accent.lighten(40%),
     top: 0.5pt + luma(88%),
@@ -127,7 +127,7 @@
     right: 0.5pt + luma(88%),
   ),
   radius: 4pt,
-  inset: (x: 0.85em, y: 0.45em),
+  inset: (x: 1em, y: 0.5em),
   titlefmt: it => strong(it),
 )
 #let example = thmplain(
@@ -141,14 +141,14 @@
     right: 0.5pt + luma(90%),
   ),
   radius: 4pt,
-  inset: (x: 0.85em, y: 0.4em),
+  inset: (x: 1em, y: 0.5em),
   titlefmt: it => text(style: "italic", it),
 ).with(numbering: none)
 #let examples = example.with(title: "Примеры")
 #let note = thmplain(
   "note",
   "Замечание",
-  ..card(teal.darken(10%), teal.lighten(92%), teal.lighten(96%)),
-  inset: (x: 0.85em, y: 0.4em),
+  ..card(teal.darken(10%), teal.transparentize(85%)),
+  inset: (x: 1em, y: 0.6em),
   titlefmt: it => strong(text(fill: teal.darken(20%), it)),
 ).with(numbering: none)
