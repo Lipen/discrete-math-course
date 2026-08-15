@@ -57,9 +57,10 @@
 // === Общий каркас окружения ===
 #let env-box(bar, tint, head, body, header: true) = block(
   ..card(bar, tint),
-  inset: (x: 1em, y: 0.5em),
+  width: 100%,
+  inset: (x: 0.8em, y: 0.5em),
 )[
-  #if header [#head #v(0.3em) #body] else [#head #h(0.5em) #body]
+  #if header [#head #v(1em, weak: true) #body] else [#head #h(0.5em, weak: true) #body]
 ]
 
 // Разбор аргументов: `[body]` или `[Title][body]`.
@@ -74,7 +75,7 @@
 #let numbered-env(bar, tint, label, counter, title, body) = {
   let head = text(fill: bar, weight: "bold")[
     #counter.step()
-    #label #context counter.display("1")#(if title != none [. #title])
+    #label #context counter.display("1")#(if title != none [.#h(0.5em)#title])
   ]
   env-box(bar, tint, head, body)
 }
@@ -125,8 +126,10 @@
     radius: 4pt,
     inset: (x: 1em, y: 0.5em),
   )[
-    #text(weight: "bold")[Доказательство#(if title != none [. #title])]
-    #v(0.3em)
+    #text(weight: "bold")[
+      Доказательство#(if title != none [.#h(0.5em)#title])
+    ]
+    #v(1em, weak: true)
     #body
   ]
 }
@@ -200,25 +203,39 @@
   set page(header: none, footer: none, margin: 0pt)
 
   // Заголовок, акцентная линия, эпиграф --- как на титульной странице
-  place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
-    #block(width: 82%)[
-      #set text(2.3em, weight: "bold", font: "Libertinus Sans", fill: colors.accent-strong)
+  place(left + horizon, block(
+    width: 100%,
+    inset: (x: 2cm, y: 1cm),
+  )[
+    #block(width: 90%)[
+      #set text(
+        2.4em,
+        weight: "bold",
+        font: "Libertinus Sans",
+        fill: colors.accent-strong,
+      )
       #title
     ]
     #v(1em, weak: true)
-    #line(length: 32%, stroke: 1.5pt + colors.accent)
+    #line(
+      length: 30%,
+      stroke: 1.5pt + colors.accent,
+    )
     #if epigraph != none [
       #v(1em, weak: true)
-      #set text(1em, style: "italic", fill: colors.muted)
+      #set text(
+        style: "italic",
+        fill: colors.muted,
+      )
       #if type(epigraph) == function {
         epigraph()
       } else {
         epigraph
       }
       #if epigraph-author != none [
-        #v(0.3em, weak: true)
+        #v(0.5em, weak: true)
         #align(right)[
-          #set text(0.85em, weight: "bold", fill: colors.accent-strong)
+          #set text(0.9em, weight: "bold", fill: colors.accent-strong)
           --- #epigraph-author
         ]
       ]
@@ -236,8 +253,12 @@
   date: none,
   authors: (),
 ) = {
-  // === Текст: русский, базовый размер и цвет ===
-  set text(lang: "ru", size: 12pt, fill: colors.ink)
+  // === Текст ===
+  set text(
+    lang: "ru",
+    size: 12pt,
+    fill: colors.ink,
+  )
 
   // === Страница 16:9 ===
   let height = 10.5cm
@@ -250,7 +271,11 @@
   set page(
     width: width,
     height: height,
-    margin: (x: 0.5 * space, top: space, bottom: 0.5 * space),
+    margin: (
+      x: 0.5 * space,
+      top: space,
+      bottom: 0.5 * space,
+    ),
     header: context {
       let page = here().page()
       let headings = query(selector(heading.where(level: 2)))
@@ -343,8 +368,6 @@
   show sym.emptyset: set text(font: "Libertinus Sans")
 
   set math.mat(column-gap: 1em)
-
-  set table(inset: (x: 5pt, y: 2pt))
 
   // === Контент ===
   content
