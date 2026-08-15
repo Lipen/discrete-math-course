@@ -27,6 +27,7 @@
 #let models = sym.tack.rr // семантическое следование (⊨)
 #let setminus = sym.without
 #let symdiff = $Delta$
+#let sim = sym.tilde
 
 #let Green(x) = text(fill: colors.green.darken(20%), x)
 #let Red(x) = text(fill: colors.red.darken(20%), x)
@@ -60,7 +61,10 @@
   width: 100%,
   inset: (x: 0.8em, y: 0.5em),
 )[
-  #if header [#head #v(1em, weak: true) #body] else [#head #h(0.5em, weak: true) #body]
+  #if header [#head #v(1em, weak: true) #body] else [#head #h(
+      0.5em,
+      weak: true,
+    ) #body]
 ]
 
 // Разбор аргументов: `[body]` или `[Title][body]`.
