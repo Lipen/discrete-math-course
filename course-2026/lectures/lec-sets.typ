@@ -133,10 +133,6 @@
   [$overline(A) = {x mid(|) x in.not A}$ (относительно универсума)],
 )
 
-#Block(color: yellow)[
-  Объединение и пересечение --- дистрибутивны, как конъюнкция и дизъюнкция.
-]
-
 == Диаграммы Венна
 Диаграммы Венна --- наглядное представление операций над множествами.
 
@@ -175,13 +171,43 @@
   Законы логики автоматически переносятся на множества.
 ]
 
+== Законы алгебры множеств
+Каждая строка --- логический закон в записи множеств.
+
+#table(
+  columns: 2,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Закон*], [*Формулы*]),
+  [Идемпотентность], [$A union A = A$, $A inter A = A$],
+  [Коммутативность], [$A union B = B union A$, $A inter B = B inter A$],
+  [Ассоциативность],
+  [$(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$],
+
+  [Дистрибутивность],
+  [$A union (B inter C) = (A union B) inter (A union C)$, $A inter (B union C) = (A inter B) union (A inter C)$],
+
+  [Поглощение], [$A union (A inter B) = A$, $A inter (A union B) = A$],
+  [Тождество], [$A union emptyset = A$, $A inter U = A$],
+  [Дополнение], [$A union overline(A) = U$, $A inter overline(A) = emptyset$],
+)
+
+#Block(color: yellow)[
+  Тождества отличаются от логических законов только именами операций.
+  Доказательства не нужны: они уже доказаны для логики.
+]
+
 == Де Морган для множеств
-#theorem[Де Морган для множеств][
-  $overline(A inter B) = overline(A) union overline(B)$.
+#theorem[Законы де Моргана для множеств][
+  $
+    overline(A inter B) = overline(A) union overline(B) \
+    overline(A union B) = overline(A) inter overline(B)
+  $
 ]
 
 #proof[
-  Цепочка эквивалентностей, где последний переход --- закон де Моргана из логики:
+  Докажем первый закон цепочкой эквивалентностей.
+  Последний переход --- закон де Моргана из логики:
   $
     x in overline(A inter B)
     iff x in.not (A inter B)
@@ -190,6 +216,7 @@
     iff x in overline(A) union overline(B)
   $
   Значит, множества $overline(A inter B)$ и $overline(A) union overline(B)$ совпадают.
+  Второй закон доказывается аналогично.
 ]
 
 #Block(color: yellow)[
@@ -307,4 +334,18 @@
 Множества дали логике конкретный домен, а логика --- аппарат доказательств.
 
 Следующие темы строятся на множествах: бинарные отношения --- множества пар, функции --- их частный случай.
+
+== Вопросы для самопроверки
+- Почему ${2, 2, 3} = {2, 3}$?
+
+- Верно ли, что $emptyset in emptyset$?
+  А что насчёт $emptyset subset.eq emptyset$?
+
+- Запишите множество чётных чисел через предикат.
+
+- Чему равен булеан множества ${emptyset}$?
+
+- Придумайте разбиение $ZZ$ на три класса.
+
+- Докажите закон де Моргана $overline(A union B) = overline(A) inter overline(B)$.
 
