@@ -2,8 +2,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m04.typ": (
-  function-parts, mapping-bijection, mapping-injection, mapping-surjection,
-)
+  function-parts, mapping-bijection, mapping-injection, mapping-surjection, )
 
 = Функции <chap:functions>
 
@@ -125,8 +124,7 @@ _Функция_ --- математическая абстракция вычи�
 ]
 
 #figure(
-  function-parts,
-  caption: [Функция $f: A -> B$: $A$ --- область определения (домен), $B$ --- кодомен, #box[стрелка "$->$"] --- функциональное отображение.],
+  function-parts, caption: [Функция $f: A -> B$: $A$ --- область определения (домен), $B$ --- кодомен, #box[стрелка "$->$"] --- функциональное отображение.],
 ) <fig:function-parts>
 
 В отображении участвуют два множества (рис. @fig:function-parts), но функция может "обещать" кодомен целиком, а "производить" лишь его подмножество.

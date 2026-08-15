@@ -67,17 +67,13 @@
 
 В коде-компаньоне термы моделируются перечислением:
 
-```rust
-/// Терм: переменная, константа или структура.
+```rust /// Терм: переменная, константа или структура.
 enum Term {
-    Var(usize),                // переменная, номер вместо имени
-    Atom(String),              // константа: alice, bob, []
-    Struct(String, Vec<Term>), // f(t1, ..., tn)
-}
+    Var(usize),                // переменная, номер вместо имени Atom(String),              // константа: alice, bob, []
+    Struct(String, Vec<Term>), // f(t1, ..., tn) }
 ```
 
-Переменные получают номера вместо имён: подстановки --- словари номеров и термов --- тогда выглядят как отображения, а переименование при каждом использовании клаузы становится простым сдвигом (зачем
-клаузы переименовывают --- стандартизация-разделение, раздел об SLD-резолюции).
+Переменные получают номера вместо имён: подстановки --- словари номеров и термов --- тогда выглядят как отображения, а переименование при каждом использовании клаузы становится простым сдвигом (зачем клаузы переименовывают --- стандартизация-разделение, раздел об SLD-резолюции).
 
 == Подстановки <sec:lp-substitutions>
 
@@ -98,23 +94,17 @@ enum Term {
   Если подстановка $rho = {X -> "bob", Z -> X}$ связывает $Z$ с переменной $X$, применение $rho$ к терму `parent(X, Z)` даёт `parent(bob, X)`, а не `parent(bob, bob)`: вхождение $X$ внутри значения $Z$ повторно не заменяется.
 ]
 
-```rust
-/// Подстановка: словарь номеров переменных и термов.
+```rust /// Подстановка: словарь номеров переменных и термов.
 type Subst = HashMap<usize, Term>;
 
 /// Применение: рекурсивно заменить связанные переменные.
 fn apply(t: &Term, sigma: &Subst) -> Term {
     match t {
-        Term::Var(x) => sigma
-            .get(x)
-            .map(|v| apply(v, sigma))
-            .unwrap_or_else(|| t.clone()),
-        Term::Struct(f, args) => Term::Struct(
-            f.clone(),
-            args.iter().map(|a| apply(a, sigma)).collect(),
-        ),
-        Term::Atom(_) => t.clone(),
-    }
+        Term::Var(x) => sigma .get(x)
+            .map(|v| apply(v, sigma)) .unwrap_or_else(|| t.clone()),
+        Term::Struct(f, args) => Term::Struct( f.clone(),
+            args.iter().map(|a| apply(a, sigma)).collect(), ),
+        Term::Atom(_) => t.clone(), }
 }
 ```
 
@@ -184,26 +174,20 @@ _Occurs-check_ запрещает бесконечные термы.
   Occurs-check отклоняет такое уравнение сразу, на шаге связывания.
 ]
 
-```rust
-/// Унификация: sigma дополняется до унификатора.
+```rust /// Унификация: sigma дополняется до унификатора.
 fn unify(t1: &Term, t2: &Term, sigma: &mut Subst) -> Result<(), UnifyError> {
     let t1 = apply(t1, sigma);
     let t2 = apply(t2, sigma);
     match (&t1, &t2) {
-        (Term::Var(x), Term::Var(y)) if x == y => Ok(()),
-        (Term::Var(x), t) => bind(*x, t, sigma),
-        (t, Term::Var(x)) => bind(*x, t, sigma),
-        (Term::Atom(a), Term::Atom(b)) if a == b => Ok(()),
-        (Term::Struct(f, xs), Term::Struct(g, ys))
-            if f == g && xs.len() == ys.len() =>
+        (Term::Var(x), Term::Var(y)) if x == y => Ok(()), (Term::Var(x), t) => bind(*x, t, sigma),
+        (t, Term::Var(x)) => bind(*x, t, sigma), (Term::Atom(a), Term::Atom(b)) if a == b => Ok(()),
+        (Term::Struct(f, xs), Term::Struct(g, ys)) if f == g && xs.len() == ys.len() =>
         {
             for (a, b) in xs.iter().zip(ys) {
                 unify(a, b, sigma)?;
             }
-            Ok(())
-        }
-        _ => Err(UnifyError::Mismatch),
-    }
+            Ok(()) }
+        _ => Err(UnifyError::Mismatch), }
 }
 
 /// Occurs-check: переменная не связывается с термом, содержащим её.
@@ -212,8 +196,7 @@ fn bind(x: usize, t: &Term, sigma: &mut Subst) -> Result<(), UnifyError> {
         return Err(UnifyError::OccursCheck { var: x, term: t.clone() });
     }
     sigma.insert(x, t.clone());
-    Ok(())
-}
+    Ok(()) }
 ```
 
 Унификация --- единственная операция, которая умеет и сравнивать, и связывать.

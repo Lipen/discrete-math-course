@@ -3,8 +3,7 @@
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m28.typ": (
-  greedy-counterexample, interval-scheduling, matroid-sources,
-)
+  greedy-counterexample, interval-scheduling, matroid-sources, )
 
 = Матроиды <chap:matroids>
 
@@ -73,8 +72,7 @@
 Реализация жадного алгоритма коротка.
 От задачи требуется лишь проверка независимости --- метод `is_independent`; остальное --- сортировка и перебор.
 
-```rust
-/// Жадный алгоритм: элементы по убыванию веса,
+```rust /// Жадный алгоритм: элементы по убыванию веса,
 /// включить, если независимость сохраняется.
 pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
     let mut order: Vec<u32> = (0..m.n()).collect();
@@ -88,8 +86,7 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
             chosen = candidate;
         }
     }
-    chosen
-}
+    chosen }
 ```
 
 Трейт `Matroid` --- это и есть допустимое семейство: число элементов `n()` и проверка независимости `is_independent`.

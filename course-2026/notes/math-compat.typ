@@ -1,6 +1,5 @@
 // Typst math aliases for LaTeX compatibility (internal planning docs).
-// All symbols defined via sym.* (code mode), NOT $...$ (math mode),
-// so they work both inside and outside math blocks.
+// All symbols defined via sym.* (code mode), NOT $...$ (math mode), // so they work both inside and outside math blocks.
 
 // Logic
 #let neg = sym.not
