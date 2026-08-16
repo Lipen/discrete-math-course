@@ -213,19 +213,25 @@ $
   ```
 
   Декодирование --- исправление по синдрому: если $s != 0$, переворачиваем бит с номером $s$ (в коде --- индекс $s - 1$, потому что Rust индексирует с нуля).
+  В крейте результат декодирования --- структура с данными, числом исправленных ошибок и позицией ошибки:
 
   ```rust
+  /// Результат декодирования: данные, число исправленных ошибок, позиция ошибки.
+  pub struct Decoded {
+      pub data: [bool; 4],
+      pub corrected: usize,
+      pub error_position: Option<u8>,
+  }
+
   /// Исправить одиночную ошибку: перевернуть бит на позиции синдрома.
-  pub fn decode(word: [bool; 7]) -> [bool; 7] {
+  pub fn decode(word: [bool; 7]) -> Decoded {
       let s = syndrome(word);
       if s == 0 {
-          word
-      } else {
-          let mut fixed = word;
-          let i = (s - 1) as usize;
-          fixed[i] = !fixed[i];
-          fixed
+          return Decoded { data: data_bits(word), corrected: 0, error_position: None };
       }
+      let mut fixed = word;
+      fixed[(s - 1) as usize] = !fixed[(s - 1) as usize];
+      Decoded { data: data_bits(fixed), corrected: 1, error_position: Some(s) }
   }
   ```
 ]
