@@ -7,7 +7,7 @@ noise?" -- with different amounts of redundancy:
 
 | code | (n, k, d) | rate k/n | detects | corrects | idea |
 | --- | --- | --- | --- | --- | --- |
-| parity | (7, 6, 2) | 6/7 | 1 | 0 | append one bit so the word has even parity |
+| parity | (5, 4, 2) | 4/5 | 1 | 0 | append one bit so the word has even parity |
 | repetition | (3, 1, 3) | 1/3 | 2 | 1 | send each bit three times, majority vote |
 | Hamming | (7, 4, 3) | 4/7 | 2 | 1 | parity bits whose positions spell the error |
 | extended Hamming | (8, 4, 4) | 1/2 | 3 | 1 | Hamming(7,4) plus an overall parity bit: a double error is detected, not miscorrected |
@@ -68,9 +68,10 @@ $$ s = (s_4\, s_2\, s_1)_2 . $$
 
 Read `s` as a binary number: it encodes the **number of the bit to flip
 back**, and that interpretation is correct **if at most one error occurred**.
-With two or more flipped bits `s` stays nonzero but points at the wrong
-position, so the decoder "corrects" a bit that was never wrong -- the price of
-a code of distance 3.
+With two flipped bits `s` stays nonzero but points at the wrong position, so
+the decoder "corrects" a bit that was never wrong. With three flipped bits `s`
+may be zero, and the errors slip through unnoticed -- the price of a code of
+distance 3.
 
 ## Extended Hamming (8, 4, 4)
 
@@ -146,7 +147,7 @@ so existing code continues to work.
 | `hamming_distance` | `distance` | Number of differing positions between two bit strings |
 | `min_distance` | `distance` | Smallest pairwise distance over a set of codewords |
 | `detects_up_to` | `distance` | d - 1: errors detected by a code of distance d |
-| `corrects_up_to` | `distance` | d - 1 / 2: errors corrected by a code of distance d |
+| `corrects_up_to` | `distance` | (d - 1) / 2: errors corrected by a code of distance d |
 
 `hamming::Decoded` reports the recovered data plus how many errors were
 corrected (0 or 1) and where.

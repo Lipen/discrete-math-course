@@ -82,7 +82,7 @@ fn main() {
     let mut pw = parity_encode(&message);
     pw[0] = !pw[0];
     println!(
-        "\nparity: {} -> {}, flip bit 0 -> {}, parity_ok = {}",
+        "\nparity: {} -> {}, flip bit 1 -> {}, parity_ok = {}",
         bits(&message),
         bits(&parity_encode(&message)),
         bits_colored(&pw, 1),
@@ -94,7 +94,7 @@ fn main() {
     let mut rw_corrupt = rw;
     rw_corrupt[2] = !rw_corrupt[2];
     println!(
-        "\nrepetition: bit {} -> {}, flip bit 2 -> {}, majority = {}",
+        "\nrepetition: bit {} -> {}, flip bit 3 -> {}, majority = {}",
         message[0] as u8,
         bits(&rw),
         bits_colored(&rw_corrupt, 3),
