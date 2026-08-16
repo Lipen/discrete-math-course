@@ -57,8 +57,7 @@ pub fn k() -> Term {
 ///     Term::app(Term::app(s(), k()), k()),
 ///     Term::var("x"),
 /// );
-/// // Normalizes to x, but may take many steps.
-/// // SKK x → K x (K x) → x  (in 3 steps)
+/// // Normalizes to x; the trace contracts S and K one step at a time.
 /// let result = skk.normalize(100);
 /// assert_eq!(result, Term::var("x"));
 /// ```

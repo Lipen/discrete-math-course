@@ -169,6 +169,29 @@ impl Term {
             }
         }
     }
+
+    /// Collect every variable name occurring anywhere in the term, free or
+    /// bound. Used to pick a name that is fresh with respect to the whole
+    /// body during capture-avoiding α-renaming.
+    fn all_vars(&self) -> HashSet<String> {
+        match self {
+            Term::Var(x) => {
+                let mut s = HashSet::new();
+                s.insert(x.clone());
+                s
+            }
+            Term::Abs(x, body) => {
+                let mut s = body.all_vars();
+                s.insert(x.clone());
+                s
+            }
+            Term::App(fun, arg) => {
+                let mut s = fun.all_vars();
+                s.extend(arg.all_vars());
+                s
+            }
+        }
+    }
 }
 
 // ===========================================================================
@@ -179,12 +202,6 @@ impl Term {
 fn fresh_var(avoid: &HashSet<String>, base: &str) -> String {
     let mut name = base.to_string();
     while avoid.contains(&name) {
-        name = format!("{name}'");
-    }
-    // Guard against the edge case where `base` itself is free.
-    if avoid.contains(&name) {
-        // base was in avoid; the loop above already checked base',
-        // base'', etc. One more round:
         name = format!("{name}'");
     }
     name
@@ -213,7 +230,11 @@ impl Term {
             Term::Abs(y, body) => {
                 if replacement.free_vars().contains(y) {
                     // α-convert the bound variable to avoid capture.
-                    let mut avoid = body.free_vars();
+                    // The fresh name must avoid every name in the body (free
+                    // or bound), not just the free ones: a name bound deeper
+                    // in the body would otherwise stop the renaming and leave
+                    // dangling occurrences.
+                    let mut avoid = body.all_vars();
                     avoid.extend(replacement.free_vars().iter().cloned());
                     let fresh = fresh_var(&avoid, y);
                     let renamed = body.subst_var(y, &fresh);
@@ -229,11 +250,12 @@ impl Term {
         }
     }
 
-    /// α-conversion: rename bound variable `from` to `to`.
+    /// α-conversion: rename the bound variable `from` to `to`.
     ///
-    /// Only occurrences bound by a matching `Abs(from, _)` are renamed.
-    /// Free variables and shadowed bindings with the same name are left
-    /// alone. Stops at binders that shadow `to` to avoid accidental capture.
+    /// Only occurrences bound by a matching `Abs(from, _)` are renamed;
+    /// free variables are left alone. `to` must be fresh: it must not occur
+    /// (free or bound) anywhere in the term, otherwise the renamed binder
+    /// captures those occurrences and changes the meaning of the term.
     ///
     /// ```
     /// use lambda::Term;
@@ -566,6 +588,33 @@ mod tests {
         let t = Term::abs("y", Term::app(Term::var("y"), Term::var("x")));
         let result = t.substitute("x", &Term::var("z"));
         assert_eq!(result.to_string(), "λy. y z");
+    }
+
+    #[test]
+    fn substitute_avoids_capture_by_nested_bound_name() {
+        // [x := y] (λy. λy'. y x)
+        // The outer `y` binds the `y` in `y x`; the fresh name chosen for the
+        // α-renamed binder must not collide with the inner bound `y'`.
+        // Correct result: λy''. λy'. y'' y  (up to α).
+        let t = Term::abs(
+            "y",
+            Term::abs("y'", Term::app(Term::var("y"), Term::var("x"))),
+        );
+        let result = t.substitute("x", &Term::var("y"));
+        match &result {
+            Term::Abs(outer, inner) => {
+                assert_ne!(outer, "y");
+                assert_ne!(outer, "y'");
+                match inner.as_ref() {
+                    Term::Abs(inner_name, _) => assert_eq!(inner_name, "y'"),
+                    other => panic!("expected inner abstraction, got {other}"),
+                }
+            }
+            other => panic!("expected abstraction, got {other}"),
+        }
+        // The substituted `y` stays free; only it is a free variable.
+        assert_eq!(result.free_vars().len(), 1);
+        assert!(result.free_vars().contains("y"));
     }
 
     // -- Rename (alpha-conversion) ===========================================

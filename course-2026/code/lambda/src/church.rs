@@ -38,8 +38,10 @@ pub fn church(n: usize) -> Term {
 
 /// If the term is a Church numeral in normal form, return its value.
 ///
-/// Returns `None` for terms that are not Church numerals (wrong structure,
-/// variable names other than `f`/`x`, or not in normal form).
+/// Returns `None` for terms that are not Church numerals: wrong structure,
+/// a body that is not `f` applied repeatedly to `x`, or a redex inside. The
+/// two outer binder names are ignored (a numeral is α-equivalent under any
+/// renaming of its binders).
 ///
 /// ```
 /// use lambda::Term;
@@ -354,12 +356,12 @@ pub fn pair() -> Term {
 /// of a Church pair.
 ///
 /// ```
-/// use lambda::church::{church, fst, pair};
+/// use lambda::church::{church, fst, pair, to_nat};
 /// use lambda::Term;
 ///
 /// let p = Term::app(Term::app(pair(), church(3)), church(5));
 /// let first = Term::app(fst(), p).normalize(100);
-/// // Projection works: the result behaves like 3.
+/// assert_eq!(to_nat(&first), Some(3));
 /// ```
 pub fn fst() -> Term {
     Term::abs(
@@ -375,12 +377,12 @@ pub fn fst() -> Term {
 /// of a Church pair.
 ///
 /// ```
-/// use lambda::church::{church, pair, snd};
+/// use lambda::church::{church, pair, snd, to_nat};
 /// use lambda::Term;
 ///
 /// let p = Term::app(Term::app(pair(), church(3)), church(5));
 /// let second = Term::app(snd(), p).normalize(100);
-/// // Projection works: the result behaves like 5.
+/// assert_eq!(to_nat(&second), Some(5));
 /// ```
 pub fn snd() -> Term {
     Term::abs(
