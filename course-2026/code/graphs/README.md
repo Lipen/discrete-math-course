@@ -85,7 +85,7 @@ The crate does not draw layouts itself: graph layout is a hard problem, and read
 | `viz::cytoscape::render` | cytoscape.js JSON | cytoscape.js (`cose`, `circle`, `concentric`, ...) |
 | `viz::cytoscape::render_html` | self-contained HTML page | cytoscape.js from a CDN, no server |
 
-DOT becomes a picture with any Graphviz engine: `dot -O -Tsvg graph.dot` writes `graph.dot.svg` next to the source (the `-O` flag names the output after the input). The JSON goes straight into cytoscape.js as the `elements` option; `render_html` wraps the same JSON into a self-contained page that opens in a browser by double-click. The JSON backend uses `serde`/`serde_json` (the only external dependency of the crate): the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of escaping, so any vertex name stays valid JSON. DOT needs only a small dedicated escaper for its own quoting rules.
+DOT becomes a picture with any Graphviz engine: `dot -O -Tsvg graph.dot` writes `graph.dot.svg` next to the source (the `-O` flag names the output after the input). The JSON goes straight into cytoscape.js as the `elements` option; `render_html` wraps the same JSON into a self-contained page that opens in a browser by double-click. The JSON backend uses `serde`/`serde_json` and the HTML wrapper uses `indoc` (together the crate's only external dependencies): the node/edge schema is two `#[derive(Serialize)]` structs, and serde takes care of escaping, so any vertex name stays valid JSON. DOT needs only a small dedicated escaper for its own quoting rules.
 
 ## Demos
 
