@@ -122,9 +122,9 @@
 #proof[
   Достаточно выразить $not$, $and$, $or$ через NAND:
 
-  - $not x = x arrow.t x$ --- отрицание замыканием входов.
-  - $x and y = (x arrow.t y) arrow.t (x arrow.t y)$ --- двойное отрицание.
-  - $x or y = (x arrow.t x) arrow.t (y arrow.t y)$ --- де Морган.
+  - $not x = x #nand x$ --- отрицание замыканием входов.
+  - $x and y = (x #nand y) #nand (x #nand y)$ --- двойное отрицание.
+  - $x or y = (x #nand x) #nand (y #nand y)$ --- де Морган.
 ]
 
 #important[
