@@ -170,7 +170,7 @@
   Вершина --- *точка сочленения*, если её удаление нарушает связность.
 ]
 
-#align(center, scale(bridge-cut, x: 90%, y: 90%))
+#align(center, box(width: 2.9cm, height: 2cm)[#place(center + horizon, scale(bridge-cut, x: 90%, y: 90%))])
 
 #note[
   Удаление моста ${1, 2}$ разрывает граф на две компоненты.
@@ -222,7 +222,7 @@ BFS и DFS превращают граф в структуру данных.
     - всех непосещённых соседей $v$ помечаем и добавляем в хвост.
 ]
 
-#align(center, scale(bfs-grid, x: 75%, y: 75%))
+#align(center, box(width: 2.4cm, height: 1.4cm)[#place(center + horizon, scale(bfs-grid, x: 75%, y: 75%))])
 
 #important[
   BFS обходит граф по слоям: расстояние 1, затем 2, и так далее.

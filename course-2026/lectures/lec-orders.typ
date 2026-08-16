@@ -81,7 +81,7 @@
   Линейный порядок называют *цепью*.
 ]
 
-#align(center, scale(hasse-chain-3, x: 75%, y: 75%))
+#align(center, box(width: 1.2cm, height: 1.8cm)[#place(center + horizon, scale(hasse-chain-3, x: 75%, y: 75%))])
 
 #important[
   $(NN, <=)$ и $(RR, <=)$ --- линейные, делимость --- лишь частичная.
@@ -161,7 +161,7 @@
 
 == Делители числа 12
 
-#align(center, scale(hasse-divisors-12, x: 100%, y: 100%))
+#align(center, box(width: 3.2cm, height: 4cm)[#place(center + horizon, scale(hasse-divisors-12, x: 100%, y: 100%))])
 
 #example[
   $D_12 = {1, 2, 3, 4, 6, 12}$ с отношением делимости.
@@ -177,8 +177,8 @@
   columns: 2,
   column-gutter: 2em,
   align: center,
-  scale(hasse-powerset-2, x: 100%, y: 100%),
-  scale(hasse-powerset-3, x: 90%, y: 90%),
+  box(width: 2.8cm, height: 2.8cm)[#place(center + horizon, scale(hasse-powerset-2, x: 100%, y: 100%))],
+  box(width: 2.6cm, height: 3cm)[#place(center + horizon, scale(hasse-powerset-3, x: 90%, y: 90%))],
 )
 
 #important[
@@ -409,7 +409,7 @@
 
 Решётка из статического анализа --- знаки чисел.
 
-#align(center, scale(sign-lattice, x: 75%, y: 75%))
+#align(center, box(width: 2cm, height: 2cm)[#place(center + horizon, scale(sign-lattice, x: 75%, y: 75%))])
 
 #note[
   Каждое значение заменяется знаком: $+$, $-$, $0$.

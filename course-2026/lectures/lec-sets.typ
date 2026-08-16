@@ -152,11 +152,11 @@
   columns: 2,
   column-gutter: 1em,
   row-gutter: 1em,
-  scale(venn-union, x: 130%, y: 130%),
-  scale(venn-intersection, x: 130%, y: 130%),
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-union, x: 130%, y: 130%))],
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-intersection, x: 130%, y: 130%))],
 
-  scale(venn-difference, x: 130%, y: 130%),
-  scale(venn-subset, x: 130%, y: 130%),
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-difference, x: 130%, y: 130%))],
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-subset, x: 130%, y: 130%))],
 )
 
 #note[

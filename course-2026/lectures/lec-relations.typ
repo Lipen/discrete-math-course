@@ -76,7 +76,7 @@
 
 == Орграф отношения
 
-#align(center, scale(rel-digraph, x: 130%, y: 130%))
+#align(center, box(width: 3.2cm, height: 2.9cm)[#place(center + horizon, scale(rel-digraph, x: 130%, y: 130%))])
 
 #example[
   На $A = {1, 2, 3, 4, 5}$:
@@ -387,7 +387,7 @@
 Классы эквивалентности попарно не пересекаются и покрывают всё множество.
 На рисунке --- разбиение ${1, ..., 10}$ на классы по остаткам при делении на 3.
 
-#align(center, scale(equivalence-partition, x: 85%, y: 85%))
+#align(center, box(width: 6.8cm, height: 4.2cm)[#place(center + horizon, scale(equivalence-partition, x: 85%, y: 85%))])
 
 == Теорема о разбиении
 
@@ -530,7 +530,7 @@
 
 Диаграмма Хассе --- графическое представление частичного порядка.
 
-#align(center, scale(hasse-divisibility, x: 90%, y: 90%))
+#align(center, box(width: 3.6cm, height: 3.6cm)[#place(center + horizon, scale(hasse-divisibility, x: 90%, y: 90%))])
 
 #important[
   Меньшее ниже большего.

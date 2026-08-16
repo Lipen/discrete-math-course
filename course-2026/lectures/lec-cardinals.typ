@@ -211,7 +211,7 @@ $QQ$ плотно заполняет прямую --- и всё же счётн�
   Отрезок, квадрат, куб --- равномощны: для мощности размерность не имеет значения.
 ]
 
-#align(center, scale(cantor-line-square, x: 110%, y: 110%))
+#align(center, box(width: 6.2cm, height: 2.4cm)[#place(center + horizon, scale(cantor-line-square, x: 110%, y: 110%))])
 
 #important[
   Кантор три года искал доказательство, что биекции нет --- и нашёл биекцию.

@@ -52,7 +52,7 @@
 
 Функция сопоставляет два множества.
 
-#align(center, scale(function-parts, x: 110%, y: 110%))
+#align(center, box(width: 5.2cm, height: 3.4cm)[#place(center + horizon, scale(function-parts, x: 110%, y: 110%))])
 
 #note[
   $A$ --- *область определения* (домен). \
@@ -201,9 +201,9 @@
   columns: 3,
   column-gutter: 1em,
   align: center,
-  scale(mapping-injection, x: 75%, y: 75%),
-  scale(mapping-surjection, x: 75%, y: 75%),
-  scale(mapping-bijection, x: 75%, y: 75%),
+  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(mapping-injection, x: 75%, y: 75%))],
+  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(mapping-surjection, x: 75%, y: 75%))],
+  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(mapping-bijection, x: 75%, y: 75%))],
 )
 
 #note[
