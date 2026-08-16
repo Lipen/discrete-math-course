@@ -8,7 +8,8 @@
 use std::collections::HashMap;
 
 fn main() {
-    // Simple substitution ciphertext: "о" is replaced by "щ", "е" by "м", "а" by "к".
+    // Simple substitution ciphertext: the most frequent Russian letter "о"
+    // was replaced by "м", so "м" dominates the counts below.
     let cipher = "МЩЙЩС ЛГЧШМГМУ ЙМКМЩЗ ЩМКЩВМЩРУ ЩММРГУ";
 
     let mut counts: HashMap<char, usize> = HashMap::new();

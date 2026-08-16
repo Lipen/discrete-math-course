@@ -83,7 +83,7 @@ pub fn malleable_product(c1: u64, c2: u64, n: u64) -> u64 {
 pub fn factorize(mut n: u64) -> Vec<(u64, u64)> {
     let mut factors = Vec::new();
     let mut d = 2;
-    while d * d <= n {
+    while d <= n / d {
         if n.is_multiple_of(d) {
             let mut a = 0;
             while n.is_multiple_of(d) {
