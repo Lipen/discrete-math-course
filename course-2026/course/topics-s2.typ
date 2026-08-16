@@ -1,7 +1,7 @@
 // Семестр 2 --- "Вычисления": разбивка тем.
 
 // Math aliases for Typst compatibility
-#import "notes/math-compat.typ": *
+#import "../notes/math-compat.typ": *
 
 = Семестр 2. Вычисления
 

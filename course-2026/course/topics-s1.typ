@@ -1,7 +1,7 @@
 // Семестр 1 --- "Язык и объекты": разбивка тем.
 
 // Math aliases for Typst compatibility
-#import "notes/math-compat.typ": *
+#import "../notes/math-compat.typ": *
 
 = Семестр 1. Язык и объекты
 
