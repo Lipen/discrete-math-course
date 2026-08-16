@@ -31,6 +31,9 @@
 #let partialto = sym.arrow.r.bar
 #let nand = sym.arrow.t // штрих Шеффера
 #let nor = sym.arrow.b // стрелка Пирса
+#let EE = math.op("E") // матожидание
+#let la = $chevron.l$ // левая угловая скобка
+#let ra = $chevron.r$ // правая угловая скобка
 
 #let Green(x) = text(fill: colors.green.darken(20%), x)
 #let Red(x) = text(fill: colors.red.darken(20%), x)
