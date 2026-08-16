@@ -40,10 +40,13 @@ lec-circuits:
 lec-codes:
     {{ compile }} lectures/lec-codes.typ
 
+lec-sat:
+    {{ compile }} lectures/lec-sat.typ
+
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
-lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes course-intro
+lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat course-intro
 
 lint:
     cd notes && uv run ../tools/audit.py
