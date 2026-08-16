@@ -178,8 +178,8 @@
 #definition[Булева алгебра][
   Структура $(B, and, or, bar(X), 0, 1)$ --- *булева алгебра*, если для всех $a, b, c in B$:
   - *коммутативность*: $a and b = b and a$, $a or b = b or a$;
-  - *ассоциативность*: $(a and b) and c = a and (b and c)$;
-  - *дистрибутивность*: $a and (b or c) = (a and b) or (a and c)$;
+  - *ассоциативность*: $(a and b) and c = a and (b and c)$, $(a or b) or c = a or (b or c)$;
+  - *дистрибутивность*: $a and (b or c) = (a and b) or (a and c)$, $a or (b and c) = (a or b) and (a or c)$;
   - *нейтральные*: $a and 1 = a$, $a or 0 = a$;
   - *дополнение*: $a and overline(a) = 0$, $a or overline(a) = 1$.
 ]
