@@ -52,4 +52,8 @@
     paint: c-accept-str,
     thickness: 1.2pt,
   )),
+  edge(<s1>, <s0>, "-}>", label: "1", bend: -40deg),
+  edge(<s2>, <s0>, "-}>", label: "0", bend: 40deg),
+  edge(<sa>, <sa>, "-}>", label: "0,1", bend: -50deg),
+  edge(<sb>, <sb>, "-}>", label: "0,1", bend: 50deg),
 )
