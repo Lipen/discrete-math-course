@@ -557,7 +557,7 @@ $Omega$ не имеет.
 - $"or" = lambda a b . a "true" b$.
   Если $a$ --- $"true"$, возвращает $"true"$.
   Если $a$ --- $"false"$, возвращает $b$.
-  Проверим: #betared($"or" "false" "true"$, $"false" "true" "true"$), и ещё шаг --- #betared($"false" "true" "true"$, $"true"$).
+  Проверим: #betareds($"or" "false" "true"$, $"false" "true" "true"$), и ещё два шага --- #betareds($"false" "true" "true"$, $"true"$).
 
 #example[Вычисление $"and" "true" "false"$ по шагам][
   $
