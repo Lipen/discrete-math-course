@@ -190,9 +190,13 @@
 #proof[
   $d$ выбран так, что $e d = 1 + k phi(n)$.
 
-  Тогда $c^d equiv m^(e d) = m dot (m^(phi(n)))^k equiv m (mod n)$.
+  Тогда $c^d equiv m^(e d) = m dot (m^(phi(n)))^k$.
 
-  По теореме Эйлера $m^(phi(n)) equiv 1$.
+  Если $"gcd"(m, n) = 1$, теорема Эйлера даёт $m^(phi(n)) equiv 1 (mod n)$, откуда $c^d equiv m (mod n)$.
+
+  Если $"gcd"(m, n) != 1$, то $m$ делится на $p$ или $q$.
+  По модулю $p$: если $p mid(|) m$, обе части $m^(e d) equiv m$ равны $0$; иначе $m^(p-1) equiv 1 (mod p)$, а $e d - 1 = k phi(n)$ кратно $p - 1$, поэтому $m^(e d) equiv m (mod p)$.
+  То же по модулю $q$, и китайская теорема об остатках собирает сравнение по модулю $n$: $c^d equiv m (mod n)$.
 ]
 
 #important[
