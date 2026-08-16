@@ -190,12 +190,12 @@
   /// n = {0, 1, ..., n-1} как Vec<bool>.
   #[derive(Clone, Debug, PartialEq)]
   pub struct VonNeumann {
-      pub members: Vec<bool>, // members[i] означает i ∈ n.
+      pub members: Vec<bool>, // members[i] означает i in n.
   }
 
   impl VonNeumann {
       pub fn zero() -> Self { /* TODO */ }
-      pub fn succ(&self) -> Self { /* TODO: n+1 = n ∪ {n} */ }
+      pub fn succ(&self) -> Self { /* TODO: n+1 = n union {n} */ }
       pub fn to_usize(&self) -> usize { /* TODO */ }
       pub fn from_usize(n: usize) -> Self { /* TODO */ }
   }
