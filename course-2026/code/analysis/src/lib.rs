@@ -71,6 +71,8 @@ mod tests {
         assert_eq!(Pos * Neg, Neg);
         assert_eq!(Neg * Pos, Neg);
         assert_eq!(Zero * Pos, Zero);
+        assert_eq!(Zero * Top, Zero);
+        assert_eq!(Top * Zero, Zero);
         assert_eq!(Top * Pos, Top);
         assert_eq!(Bottom * Neg, Bottom);
     }

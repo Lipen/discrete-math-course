@@ -20,7 +20,7 @@ fn main() {
     );
     println!("a is {}, b is {}", st["a"], st["b"]);
     println!(
-        "c := a + b  ->  c is {}   (the sign of 3 + (-7) is unknown)",
+        "c := a + b  ->  c is {}   (the analysis loses the sign of 3 + (-7))",
         c
     );
 

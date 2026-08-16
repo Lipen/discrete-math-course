@@ -113,6 +113,8 @@ impl std::ops::Add for Sign {
 /// assert_eq!(Sign::Neg * Sign::Neg, Sign::Pos);
 /// assert_eq!(Sign::Pos * Sign::Neg, Sign::Neg);
 /// assert_eq!(Sign::Zero * Sign::Pos, Sign::Zero);
+/// assert_eq!(Sign::Zero * Sign::Top, Sign::Zero);
+/// assert_eq!(Sign::Top * Sign::Zero, Sign::Zero);
 /// assert_eq!(Sign::Top * Sign::Pos, Sign::Top);
 /// ```
 impl std::ops::Mul for Sign {
@@ -121,8 +123,8 @@ impl std::ops::Mul for Sign {
         use Sign::*;
         match (self, other) {
             (Bottom, _) | (_, Bottom) => Bottom,
+            (Zero, _) | (_, Zero) => Zero, // 0 * anything = 0
             (Top, _) | (_, Top) => Top,
-            (Zero, _) | (_, Zero) => Zero,
             (Neg, Neg) | (Pos, Pos) => Pos,
             (Neg, Pos) | (Pos, Neg) => Neg,
         }
@@ -170,7 +172,7 @@ impl std::ops::Neg for Sign {
 pub enum Interval {
     /// ⊥: unreachable.
     Bottom,
-    /// The range `[lo, hi]`; `None` means an open end.
+    /// The range `[lo, hi]`; `None` means an unbounded end (±∞).
     Range { lo: Option<i64>, hi: Option<i64> },
 }
 
