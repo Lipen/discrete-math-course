@@ -1,4 +1,4 @@
-//! Operations on automaton languages (the chapter "Closure Properties").
+//! Operations on automaton languages.
 //!
 //! Union, intersection and complement are built via the product of automata:
 //! the state of the result is a pair of states of the source machines.

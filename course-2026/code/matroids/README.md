@@ -2,7 +2,7 @@
 
 Matroids and the greedy algorithm.
 
-Implements the matroids chapter: the independence axioms, three matroids
+The independence axioms, three matroids
 (graphic, linear over GF(2), uniform), the scheduling matroid, the rank
 function, and the key fact that the greedy algorithm is optimal exactly when
 the independence system is a matroid. The counterexample demo shows greedy
@@ -38,7 +38,7 @@ On any other independence system, greedy can be fooled.
 | `counterexample` | Greedy takes `{a}` (weight 5) while the optimum `{b,c}` weighs 8: the exchange property is missing |
 | `spanning` | Kruskal as greedy on the graphic matroid: maximum spanning tree of a triangle, weight 9 |
 | `scheduling` | Jobs with deadlines as a matroid: greedy picks `{A,C}` with profit 80 |
-| `linear` | Linear matroid over GF(2): the three book vectors, greedy picks `{v1,v2}` with weight 9 |
+| `linear` | Linear matroid over GF(2): the three vectors, greedy picks `{v1,v2}` with weight 9 |
 | `rank` | Rank of the graphic, linear and uniform matroids: all equal 2 |
 
 ## API
@@ -48,5 +48,5 @@ On any other independence system, greedy can be fooled.
 | `Matroid` trait | `n()` + `is_independent(&[u32]) -> bool` |
 | `greedy(m, weights)` | Maximum-weight independent set on a matroid |
 | `rank(m)` | Size of a maximum independent set (via greedy with unit weights) |
-| `UniformMatroid`, `GraphicMatroid`, `BinaryLinearMatroid`, `SchedulingMatroid` | The three book matroids plus the scheduling matroid |
+| `UniformMatroid`, `GraphicMatroid`, `BinaryLinearMatroid`, `SchedulingMatroid` | The three matroids plus the scheduling matroid |
 | `SimpleIndependenceSystem` | A non-matroid, to show greedy can fail |

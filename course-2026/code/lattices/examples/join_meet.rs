@@ -1,7 +1,7 @@
 //! Join and meet on the divisor lattice of 12.
 //!
-//! Prints upper/lower bounds and the join/meet of a few pairs, mirroring the
-//! book example: the supremum of {2, 3} is 6, their infimum is 1.
+//! Prints upper/lower bounds and the join/meet of a few pairs: the supremum
+//! of {2, 3} is 6, their infimum is 1.
 
 use lattices::examples::divisors_12;
 

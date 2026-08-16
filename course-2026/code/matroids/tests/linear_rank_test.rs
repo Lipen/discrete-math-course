@@ -3,14 +3,14 @@
 use matroids::examples::{BinaryLinearMatroid, GraphicMatroid, UniformMatroid};
 use matroids::{greedy, rank, weight, Matroid};
 
-fn book_vectors() -> Vec<Vec<u8>> {
+fn sample_vectors() -> Vec<Vec<u8>> {
     // v1 = (1,0), v2 = (0,1), v3 = (1,1): any pair independent, triple dependent.
     vec![vec![1u8, 0], vec![0u8, 1], vec![1u8, 1]]
 }
 
 #[test]
 fn linear_matroid_independence() {
-    let vectors = book_vectors();
+    let vectors = sample_vectors();
     let m = BinaryLinearMatroid { vectors: &vectors };
     assert!(m.is_independent(&[0, 1]));
     assert!(m.is_independent(&[1, 2]));
@@ -18,9 +18,9 @@ fn linear_matroid_independence() {
 }
 
 #[test]
-fn linear_matroid_greedy_matches_book() {
-    // Weights from the book: v1=5, v2=4, v3=3. Greedy -> {v1, v2}, weight 9.
-    let vectors = book_vectors();
+fn linear_matroid_greedy() {
+    // Weights: v1=5, v2=4, v3=3. Greedy -> {v1, v2}, weight 9.
+    let vectors = sample_vectors();
     let m = BinaryLinearMatroid { vectors: &vectors };
     let weights = [5u32, 4, 3];
     let base = greedy(&m, &weights);
@@ -34,7 +34,7 @@ fn rank_of_examples() {
     let graphic = GraphicMatroid::new(3, &edges);
     assert_eq!(rank(&graphic), 2); // spanning tree of a triangle
 
-    let vectors = book_vectors();
+    let vectors = sample_vectors();
     let linear = BinaryLinearMatroid { vectors: &vectors };
     assert_eq!(rank(&linear), 2); // basis of the plane
 

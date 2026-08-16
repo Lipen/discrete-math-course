@@ -1,7 +1,6 @@
-//! DPLL on the worked example from the book chapter on SAT, plus a
-//! satisfiable formula.
+//! DPLL on the worked example, plus a satisfiable formula.
 //!
-//! The first is the worked example from the chapter: DPLL exhausts every
+//! The first is the worked example: DPLL exhausts every
 //! branch and reports UNSAT. The second is a satisfiable formula -- the
 //! solver finds a model and prints it.
 //!
@@ -11,7 +10,7 @@ use sat::cnf::{neg, pos, Cnf};
 use sat::solve_traced;
 
 fn main() {
-    println!("=== Example 1: unsatisfiable formula from the chapter ===\n");
+    println!("=== Example 1: unsatisfiable formula ===\n");
 
     // F = (x1 ∨ x2 ∨ x3) ∧ (¬x1 ∨ x2) ∧ (x2 ∨ ¬x3) ∧ (¬x2 ∨ x3) ∧ (¬x2 ∨ ¬x3)
     let unsat = Cnf::new(

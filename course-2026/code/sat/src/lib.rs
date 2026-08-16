@@ -1,5 +1,4 @@
-//! A small DPLL SAT solver -- teaching crate for the SAT and NP-completeness
-//! chapter.
+//! A small DPLL SAT solver.
 //!
 //! Implements the Davis-Putnam-Logemann-Loveland algorithm with unit
 //! propagation, pure literal elimination, and chronological backtracking.
@@ -192,7 +191,7 @@ mod tests {
     }
 
     #[test]
-    fn solve_formula_from_chapter_is_unsat() {
+    fn solve_unsat_formula() {
         // F = (x1∨x2∨x3) ∧ (¬x1∨x2) ∧ (x2∨¬x3) ∧ (¬x2∨x3) ∧ (¬x2∨¬x3).
         let cnf = Cnf::new(
             3,

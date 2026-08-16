@@ -1,4 +1,4 @@
-//! DFA minimization by Moore's algorithm (the chapter "Minimizing a DFA").
+//! DFA minimization by Moore's algorithm.
 //!
 //! An automaton with a redundant (indistinguishable) state is compressed to a
 //! minimal number of states; the language is preserved.

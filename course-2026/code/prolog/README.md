@@ -2,8 +2,7 @@
 
 A miniature Prolog: terms, unification, and SLD resolution.
 
-A teaching crate for the logic-programming chapter: a deliberately small
-model of Prolog's core as a mathematical system. No parser, no REPL, no
+A deliberately small model of Prolog's core as a mathematical system. No parser, no REPL, no
 arithmetic, no cut -- the language stops where the theory is complete and
 a student project begins.
 

@@ -2,7 +2,7 @@
 
 Reduced ordered binary decision diagrams (ROBDDs) with complement edges.
 
-Implements the BDD machinery from the boolean-algebra chapter: a node table
+A canonical BDD manager: a node table
 with the unique-node rule, reduction (dropping redundant nodes), and
 complement edges so negation costs nothing.
 The fundamental operation is `ite`; `and`, `or`, and `xor` are its special
@@ -30,7 +30,7 @@ variable order every function has exactly one ROBDD.
 Complement edges store negation as a flag on the edge, so `not` never builds
 a new node and complement-heavy functions stay compact.
 
-![The ROBDD for x XOR y from the chapter](assets/xor-bdd.svg)
+![The ROBDD for x XOR y](assets/xor-bdd.svg)
 
 ## API
 

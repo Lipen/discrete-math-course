@@ -14,7 +14,7 @@ pub mod examples;
 /// A finite lattice given explicitly: a set of elements and the relation `<=`.
 ///
 /// The relation is the full list of pairs `(a, b)` with `a <= b`. Keeping it
-/// explicit makes the code transparent; the book examples are small.
+/// explicit makes the code transparent; the examples are small.
 pub struct Lattice {
     pub elements: Vec<u32>,
     pub leq: Vec<(u32, u32)>,
@@ -234,7 +234,7 @@ impl Lattice {
 
     /// Whether the lattice contains a sublattice isomorphic to M3.
     ///
-    /// Brute force over 5-element subsets; fine for the small book examples.
+    /// Brute force over 5-element subsets; fine for the small examples.
     pub fn has_m3_sublattice(&self) -> bool {
         combinations(&self.elements, 5)
             .into_iter()
@@ -315,7 +315,7 @@ mod tests {
         assert!(l.is_distributive_birkhoff());
         assert!(!l.has_m3_sublattice());
         assert!(!l.has_n5_sublattice());
-        // Book example: join of {2, 3} is 6, meet is 1.
+        // Join of {2, 3} is 6, meet is 1.
         assert_eq!(l.join(2, 3), Some(6));
         assert_eq!(l.meet(2, 3), Some(1));
     }

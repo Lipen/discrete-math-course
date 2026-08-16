@@ -2,7 +2,7 @@
 
 Graphs: modeling, algorithms, visualization.
 
-A teaching crate for the graphs chapter: a deliberately simple graph model (no generics, no traits — just `usize` vertex ids, names, and weighted edges), the classic algorithms from the chapter, and several ways to render a graph.
+A deliberately simple graph model (no generics, no traits — just `usize` vertex ids, names, and weighted edges), the classic algorithms, and several ways to render a graph.
 
 ## Quick start
 
@@ -19,7 +19,7 @@ A `Graph` stores its data twice, and both views are public:
 - `edges` — the edge list `(from, to, weight)`, read by weighted algorithms (Dijkstra, Bellman–Ford, Kruskal);
 - `adj` — adjacency lists `adj[u] = [(neighbor, edge_id), ...]`, read by traversals (BFS, DFS).
 
-Vertices are `usize` ids `0..n` with optional string names. Edges are directed or undirected depending on the `directed` flag, and may repeat (multigraphs). The duplication is intentional: it mirrors how the chapter's pseudocode thinks about a graph, and it keeps every algorithm short.
+Vertices are `usize` ids `0..n` with optional string names. Edges are directed or undirected depending on the `directed` flag, and may repeat (multigraphs). The duplication is intentional: it mirrors how the pseudocode thinks about a graph, and it keeps every algorithm short.
 
 ![A weighted graph, laid out by graphviz (the `dot` engine) from the crate's DOT output](assets/graphs-demo.svg)
 
@@ -91,7 +91,7 @@ DOT becomes a picture with any Graphviz engine: `dot -O -Tsvg graph.dot` writes 
 
 | Demo | Shows |
 | --- | --- |
-| `bfs_dfs` | BFS layers and distances; DFS entry/exit times on the chapter's graph |
+| `bfs_dfs` | BFS layers and distances; DFS entry/exit times on the running example graph |
 | `dijkstra` | Dijkstra vs Bellman–Ford, negative edges, negative cycles, path reconstruction |
 | `mst` | Kruskal's minimum spanning tree on a weighted graph |
 | `structure` | Components, bridges, articulation points, bipartiteness, diameter |

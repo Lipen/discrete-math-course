@@ -1,4 +1,4 @@
-//! Building a BDD for x XOR y, the example from the boolean-algebra chapter.
+//! Building a BDD for x XOR y.
 //!
 //! The demo constructs the ROBDD, evaluates it on all four assignments, prints
 //! the node count, and shows that negation and satisfiability queries are cheap.

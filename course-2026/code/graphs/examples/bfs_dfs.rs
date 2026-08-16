@@ -1,13 +1,12 @@
 //! Breadth-first and depth-first search on one graph.
 //!
 //! BFS visits the graph layer by layer and finds shortest distances from the
-//! start; DFS goes deep and records entry/exit times. The graph is the same
-//! one as in the chapter's BFS trace.
+//! start; DFS goes deep and records entry/exit times.
 
 use graphs::{bfs, dfs, Graph};
 
 fn main() {
-    // Vertices 1..6, edges as in the BFS trace from the chapter.
+    // Vertices 1..6, edges as in the BFS trace.
     let mut g = Graph::undirected();
     for i in 1..=6 {
         g.add_node(i.to_string());

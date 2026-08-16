@@ -2,7 +2,7 @@
 
 Finite automata and regular languages.
 
-Implements the chapter on automata: DFA, NFA with epsilon-transitions, subset construction, language operations, regular expressions via the Thompson construction, and DFA minimization.
+DFA, NFA with epsilon-transitions, subset construction, language operations, regular expressions via the Thompson construction, and DFA minimization.
 Every idea has a runnable demo in `examples/`.
 
 ## Quick start

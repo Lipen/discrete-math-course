@@ -12,7 +12,7 @@ fn main() {
     let edges = vec![(0u32, 1u32), (1u32, 2u32), (0u32, 2u32)];
     let graphic = GraphicMatroid::new(3, &edges);
 
-    // The three vectors of the book example: (1,0), (0,1), (1,1).
+    // The three vectors: (1,0), (0,1), (1,1).
     let vectors = vec![vec![1u8, 0], vec![0u8, 1], vec![1u8, 1]];
     let linear = BinaryLinearMatroid { vectors: &vectors };
 

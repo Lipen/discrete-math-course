@@ -1,6 +1,6 @@
 //! Graphs: modeling, algorithms, and visualization.
 //!
-//! A teaching crate for the graphs chapter: a simple model without generics
+//! A simple model without generics
 //! or traits, the classic algorithms, and ways to render a graph.
 //!
 //! ```no_run

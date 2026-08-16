@@ -391,7 +391,7 @@ mod tests {
     }
 
     #[test]
-    fn chapter_example_second_to_last_a() {
+    fn second_to_last_a() {
         // (a|b)*a(a|b): words whose second-to-last letter is a (need >= 2 symbols).
         let re = parse("(a|b)*a(a|b)").unwrap();
         for (w, expect) in [

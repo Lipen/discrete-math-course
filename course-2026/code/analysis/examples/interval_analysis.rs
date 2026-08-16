@@ -1,5 +1,4 @@
-//! Interval analysis of the counter loop from the abstract-interpretation
-//! chapter: `i := 0; while ... do i := i + 1`.
+//! Interval analysis of the counter loop `i := 0; while ... do i := i + 1`.
 //!
 //! Naive iteration would climb [0,0], [0,1], [0,2], ... forever; widening drops
 //! the moving bound and converges on [0, +∞) in two steps.

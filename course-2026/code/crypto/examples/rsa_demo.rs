@@ -1,4 +1,4 @@
-//! Teaching RSA from the chapter on small keys.
+//! Teaching RSA on small keys.
 //!
 //! p = 61, q = 53, e = 17 -- the classic example; modulus n = 3233.
 //! Real keys require arbitrary precision and padding.

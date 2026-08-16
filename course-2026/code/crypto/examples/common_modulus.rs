@@ -1,4 +1,4 @@
-//! Common modulus attack on RSA (the chapter, section "Breaking").
+//! Common modulus attack on RSA.
 //!
 //! Two users share the modulus $n$, and the exponents $e_1$, $e_2$ are coprime.
 //! The extended Euclidean algorithm gives $u, v$ with $e_1 u + e_2 v = 1$, and

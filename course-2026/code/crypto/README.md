@@ -45,7 +45,7 @@ $$ c = m^e \bmod n \qquad m = c^d \bmod n $$
 
 ## Demos
 
-| Demo | Chapter idea | What it prints |
+| Demo | Idea | What it prints |
 | --- | --- | --- |
 | `brute_force_caesar` | Caesar cipher | All 32 shifts; the plaintext appears at shift 3 |
 | `frequency_analysis` | Simple substitution | Letter frequencies; the top ciphertext letter maps to «о» |

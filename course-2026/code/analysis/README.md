@@ -2,8 +2,7 @@
 
 Abstract interpretation: abstract domains, transfer functions, and widening.
 
-Implements the theory from the abstract-interpretation chapter: the sign,
-interval, and constant domains; abstract arithmetic on them; and transfer
+The sign, interval, and constant domains; abstract arithmetic on them; and transfer
 functions over a tiny imperative program.
 Loops are analyzed by computing a fixpoint; on the infinite interval and
 constant domains widening makes the iteration converge.
@@ -28,7 +27,7 @@ constant lattices are infinite, so loops are iterated with widening:
 
 $$ w_{k+1} = w_k \nabla F(w_k) $$
 
-The interval demo runs the counter loop from the chapter: naive iteration
+The interval demo runs the counter loop: naive iteration
 climbs `[0,0], [0,1], [0,2], ...` forever, while widening drops the moving
 bound and converges on `[0, +∞)` in two steps.
 The constant demo shows the key insight that zero times unknown is still zero.

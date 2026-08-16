@@ -2,7 +2,7 @@
 //!
 //! A concrete model: a tape held as two stacks, a deterministic transition
 //! table, accepting and rejecting states, and a trace of every configuration
-//! the machine visits. The design follows the definition in the chapter --
+//! the machine visits. The design follows the mathematical definition --
 //! simple, transparent, no generics beyond what the model naturally needs.
 //!
 //! ```

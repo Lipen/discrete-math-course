@@ -1,6 +1,6 @@
 //! Regular expressions via the Thompson construction.
 //!
-//! Book example: `(a|b)*a(a|b)` is the language of words whose second-to-last
+//! Example: `(a|b)*a(a|b)` is the language of words whose second-to-last
 //! letter is `a`. The expression becomes an epsilon-NFA, then a DFA via the
 //! subset construction.
 

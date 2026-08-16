@@ -1,7 +1,6 @@
 //! Abstract interpretation: abstract domains, transfer functions, widening.
 //!
-//! Implements the theory from the abstract-interpretation chapter: the sign,
-//! interval, and constant domains; abstract arithmetic on them; and transfer
+//! The sign, interval, and constant domains; abstract arithmetic on them; and transfer
 //! functions over a tiny imperative program. Loops are analyzed by computing a
 //! fixpoint; on the infinite interval and constant domains widening makes the
 //! iteration converge.

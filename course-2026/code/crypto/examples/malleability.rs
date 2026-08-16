@@ -1,4 +1,4 @@
-//! RSA malleability (the chapter, section "Breaking").
+//! RSA malleability.
 //!
 //! The product of ciphertexts is the ciphertext of the product of the messages:
 //! $c_1 c_2 = (m_1 m_2)^e mod n$. The attacker does not read the messages

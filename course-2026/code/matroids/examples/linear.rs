@@ -1,4 +1,4 @@
-//! Linear matroid over GF(2): the three vectors of the book example.
+//! Linear matroid over GF(2): the three vectors.
 //!
 //! v1 = (1,0) weight 5, v2 = (0,1) weight 4, v3 = (1,1) weight 3.
 //! Any two vectors are independent; all three are dependent (v3 = v1 + v2).

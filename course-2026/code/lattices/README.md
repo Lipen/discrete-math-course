@@ -2,7 +2,7 @@
 
 Lattices and partial orders.
 
-Implements the orders chapter: finite lattices with explicit order, the
+Finite lattices with explicit order, the
 join (supremum) and meet (infimum) of a pair, and the key structural
 properties --- distributivity, modularity, and the Birkhoff
 characterization that a lattice is distributive exactly when it contains no
@@ -51,6 +51,6 @@ sublattices, so the characterization can be verified on examples.
 | `is_distributive()` / `is_modular()` | Check the lattice laws |
 | `has_m3_sublattice()` / `has_n5_sublattice()` | Forbidden sublattice search |
 | `is_distributive_birkhoff()` | The Birkhoff characterization as a single check |
-| `examples::m3()`, `n5()`, `divisors_12()`, `boolean_3()` | The book's running examples |
+| `examples::m3()`, `n5()`, `divisors_12()`, `boolean_3()` | The running examples |
 
 ![M3 and N5](assets/lattices-demo.svg)

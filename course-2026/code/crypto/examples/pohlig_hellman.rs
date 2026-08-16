@@ -1,4 +1,4 @@
-//! Pohlig--Hellman attack on DLOG (the chapter, section "Breaking").
+//! Pohlig--Hellman attack on DLOG.
 //!
 //! If the group order $p - 1$ is smooth, the discrete logarithm reduces
 //! to logarithms in subgroups of small orders and is assembled via CRT.

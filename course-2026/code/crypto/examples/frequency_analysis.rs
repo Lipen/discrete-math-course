@@ -1,4 +1,4 @@
-//! Frequency analysis (the chapter, section "Breaking").
+//! Frequency analysis.
 //!
 //! In Russian text the letter "о" is the most frequent. If a simple substitution cipher
 //! replaces each letter with a fixed one, the most frequent ciphertext letter

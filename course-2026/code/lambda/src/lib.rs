@@ -1,8 +1,7 @@
 //! Untyped lambda calculus.
 //!
 //! Terms, capture-avoiding substitution, β-reduction, Church encodings,
-//! and well-known combinators. A teaching crate for the lambda-calculus
-//! chapter.
+//! and well-known combinators.
 //!
 //! ```
 //! use lambda::{Term, church};

@@ -3,7 +3,7 @@
 Turing machines.
 
 A concrete model: a tape held as two stacks, a transition table, accepting and rejecting states, and a trace of every configuration the machine visits.
-The design mirrors the definition in the chapter, not any specific hardware.
+The design mirrors the mathematical definition, not any specific hardware.
 
 ## Quick start
 

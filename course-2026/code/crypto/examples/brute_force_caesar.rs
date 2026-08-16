@@ -1,4 +1,4 @@
-//! Breaking the Caesar cipher by brute force (the chapter, section "Breaking").
+//! Breaking the Caesar cipher by brute force.
 //!
 //! The cipher key is a shift from 1 to 32. We try all shifts in reverse:
 //! the meaningful word "ШИФР" appears at a shift of 3 positions.

@@ -6,7 +6,7 @@
 //! before applying `f` can lose precision. When `f` is *distributive* --
 //! `f(x join y) = f(x) join f(y)` -- each fact can be run through `f` on its
 //! own and the results merged. That is exactly what the IFDS class of
-//! analyses relies on (orders chapter).
+//! analyses relies on.
 
 /// A set of facts, one bit per fact. The universe is {x, y, z}.
 type Facts = u8;

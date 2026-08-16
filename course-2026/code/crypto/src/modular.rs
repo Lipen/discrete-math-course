@@ -1,6 +1,6 @@
 //! Modular arithmetic on `u64`.
 //!
-//! The toolbox for the number-theory part of the chapter:
+//! The toolbox for the number-theory part:
 //! GCD (Euclid), extended GCD, modular inverse, and fast exponentiation
 //! by repeated squaring.
 

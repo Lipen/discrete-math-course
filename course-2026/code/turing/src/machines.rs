@@ -1,4 +1,4 @@
-//! Example Turing machines from the chapter and beyond.
+//! Example Turing machines.
 //!
 //! Each function builds a [`Machine`] that recognises a
 //! specific language or computes a simple function. The machines use
@@ -99,7 +99,7 @@ pub fn zero_n_one_n() -> Machine<char, &'static str> {
 /// A machine that increments a binary number.
 ///
 /// The input is a word over `{0, 1}` with the least significant bit on the
-/// left (as in the book's exercise). The machine adds 1: it flips leading
+/// left. The machine adds 1: it flips leading
 /// `1`s to `0` (carry propagation) and flips the first `0` to `1`. An all-`1`
 /// input grows one digit on the right (e.g. `111` becomes `0001`).
 ///
@@ -283,7 +283,7 @@ mod tests {
     #[test]
     fn binary_increment_accepts_various_inputs() {
         let m = binary_increment();
-        // LSB on the left, as in the book's exercise.
+        // LSB on the left.
         let cases = [
             ("0", "1"),
             ("1", "01"),

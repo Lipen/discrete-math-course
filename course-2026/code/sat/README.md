@@ -1,11 +1,11 @@
 # sat
 
-A small DPLL SAT solver -- teaching crate for the SAT and NP-completeness chapter.
+A small DPLL SAT solver -- teaching crate for SAT and NP-completeness.
 
 Implements the Davis-Putnam-Logemann-Loveland algorithm: unit propagation, pure literal elimination, and chronological backtracking.
 Literals are integers (`v` = variable true, `-v` = variable false); a formula is a conjunction of clauses.
 
-This is DPLL, not CDCL: clause learning and non-chronological backtracking are described in the chapter but deliberately left out of the crate.
+This is DPLL, not CDCL: clause learning and non-chronological backtracking are deliberately left out of the crate.
 
 ## Quick start
 
@@ -20,7 +20,7 @@ cargo test -p sat
 
 DPLL decides a variable, propagates unit clauses (clauses with exactly one unassigned literal and the rest false), eliminates pure literals (variables that appear only in one polarity), and backtracks when a conflict is found.
 
-The `dpll_demo` example runs the solver with step-by-step trace on the worked example from the chapter:
+The `dpll_demo` example runs the solver with step-by-step trace on the worked example:
 
 $$ F = (x_1 \lor x_2 \lor x_3) \land (\neg x_1 \lor x_2) \land (x_2 \lor \neg x_3) \land (\neg x_2 \lor x_3) \land (\neg x_2 \lor \neg x_3) $$
 
@@ -43,7 +43,7 @@ which is unsatisfiable --- DPLL exhausts every branch and reports `None`.
 
 | Demo | Shows |
 | --- | --- |
-| `dpll_demo` | The UNSAT formula from the chapter (traced), plus a satisfiable one with pure literal elimination |
+| `dpll_demo` | The UNSAT formula (traced), plus a satisfiable one with pure literal elimination |
 | `pigeonhole` | PHP(n, n-1) pigeonhole principle formulas are UNSAT (n=2..5), a classic hard case for SAT solvers |
 | `random_3sat` | Phase transition: random 3-SAT flips from SAT to UNSAT around clauses/vars ≈ 4.3 |
 

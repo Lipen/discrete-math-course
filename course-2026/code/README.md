@@ -59,7 +59,7 @@ For example, `cargo run -p automata --example even_ones`.
 
 Every demo is written to be read, not just executed.
 It prints its inputs, the intermediate steps, and the result.
-Names map one-to-one to the concepts of the book chapter.
+Names map one-to-one to the mathematical concepts.
 
 Each crate README explains its module, lists every demo, and has a diagram:
 

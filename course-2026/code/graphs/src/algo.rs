@@ -1,4 +1,4 @@
-//! Graph algorithms from the graphs chapter.
+//! Graph algorithms.
 //!
 //! Every algorithm is a free function taking `&Graph`.
 //! The model is separate from the algorithms: the same graph can be fed to
@@ -19,7 +19,7 @@ pub struct BfsResult {
     /// Vertices in the order they were visited.
     pub order: Vec<usize>,
     /// Distance from the start vertex; `usize::MAX` means unreachable
-    /// (a sentinel, as in the chapter's example; the weighted algorithms
+    /// (a sentinel; the weighted algorithms
     /// Dijkstra and Bellman--Ford mark unreachable vertices as `None`).
     pub dist: Vec<usize>,
     /// Parent in the BFS tree; `None` for the start vertex and unreachable ones.
@@ -910,7 +910,7 @@ pub fn greedy_coloring(g: &Graph) -> Vec<usize> {
 /// Distance between vertices $u$ and $v$ (edges on the shortest path).
 ///
 /// `None` if $v$ is unreachable from $u$. Weights are ignored (this is the
-/// unweighted distance from the chapter's definitions).
+/// unweighted distance).
 ///
 /// ```
 /// use graphs::{distance, Graph};

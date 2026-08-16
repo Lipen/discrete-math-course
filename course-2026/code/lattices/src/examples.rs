@@ -1,4 +1,4 @@
-//! Concrete lattices used as running examples in the book.
+//! Concrete lattices used as running examples.
 
 use crate::Lattice;
 
