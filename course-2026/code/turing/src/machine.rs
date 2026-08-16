@@ -87,9 +87,12 @@ pub struct Run<Sym, State> {
 /// accept, and reject states. The machine is deterministic: at most one
 /// transition applies to any (state, symbol) pair.
 ///
-/// The sets Q, Σ and Γ of the formal definition are not stored separately:
-/// Q is the set of states that occur in the table, Σ the tape symbols read by
-/// it, and Γ those plus the blank.
+/// The sets Q, Σ and Γ of the formal definition are not stored separately.
+/// The state set Q is the states the table mentions plus `start`, `accept`,
+/// and `reject`; the tape alphabet Γ is whatever the symbol type can hold.
+/// There is no separate input alphabet Σ: a word is laid on the tape before
+/// the run, and the machine may read and write any symbol, including markers
+/// such as the `X` used by the example machines.
 ///
 /// ```
 /// use std::collections::HashMap;
