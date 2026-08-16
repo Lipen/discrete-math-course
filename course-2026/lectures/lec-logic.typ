@@ -472,9 +472,9 @@ A говорит: "Мы оба лжецы".
 
   [Поглощение], [$P or (P and Q) equiv P$, $P and (P or Q) equiv P$],
   [Двойное отрицание], [$not not P equiv P$],
-  [Тождество], [$P or #False equiv P$, $P and #True equiv P$],
-  [Исключённое третье], [$P or not P equiv #True$, $P and not P equiv #False$],
-  [Доминирование], [$P or #True equiv #True$, $P and #False equiv #False$],
+  [Тождество], [$P or #F equiv P$, $P and #T equiv P$],
+  [Дополнение], [$P or not P equiv #T$, $P and not P equiv #F$],
+  [Доминирование], [$P or #T equiv #T$, $P and #F equiv #F$],
 )
 
 == Упрощение формул
@@ -488,8 +488,8 @@ $
   & equiv (not P or not Q) or P && "де Морган" \
   & equiv not P or (not Q or P) && "ассоциативность" \
   & equiv (not P or P) or not Q && "коммутативность" \
-  & equiv #True or not Q        && "закон исключённого третьего" \
-  & equiv #True                 && "доминирование"
+  & equiv #T or not Q           && "закон исключённого третьего" \
+  & equiv #T                    && "доминирование"
 $
 
 #important[
@@ -595,10 +595,10 @@ $
 Любая формула приводится к КНФ алгоритмически.
 
 #definition[Алгоритм приведения][
-  + Убрать $<=>$: $phi <=> psi -> (phi -> psi) and (psi -> phi)$.
-  + Убрать $->$: $phi -> psi -> overline(phi) or psi$.
+  + Убрать $iff$: $phi iff psi => (phi -> psi) and (psi -> phi)$.
+  + Убрать $->$: $phi -> psi => overline(phi) or psi$.
   + Пронести отрицания внутрь по де Моргану, снять двойные.
-  + Раскрыть $or$ по $and$: $phi or (psi and chi) -> (phi or psi) and (phi or chi)$.
+  + Раскрыть $or$ по $and$: $phi or (psi and chi) => (phi or psi) and (phi or chi)$.
 ]
 
 #note[
