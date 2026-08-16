@@ -6,7 +6,7 @@
 use automata::Dfa;
 
 fn main() {
-    // The language of words ending in 0; states 1 and 2 are indistinguishable.
+    // The language of words containing at least one 0; states 1 and 2 are indistinguishable.
     let mut dfa = Dfa::new(3, 0, vec!['0', '1']);
     dfa.set_transition(0, '0', 1).unwrap();
     dfa.set_transition(0, '1', 0).unwrap();

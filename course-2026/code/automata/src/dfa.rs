@@ -5,9 +5,11 @@
 //! An undefined transition leads to an implicit trap state (index `states`),
 //! which `accepts` catches and treats as rejection.
 //!
-//! The module also provides language operations built via the product
-//! construction -- complement, union, intersection, difference -- and
-//! minimization by Moore's partition-refinement algorithm.
+//! The module also provides language operations -- complement, union,
+//! intersection, difference -- and minimization by Moore's
+//! partition-refinement algorithm. Union, intersection and difference use
+//! the product construction; complement completes the automaton and flips
+//! the accepting flags.
 //!
 //! ```
 //! use automata::Dfa;

@@ -267,8 +267,8 @@ impl Nfa {
     ///
     /// Each DFA state corresponds to a set (the epsilon closure of
     /// a subset) of NFA states.
-    /// The implicit trap state (DFA index `usize::MAX`) is used for
-    /// empty subsets.
+    /// An empty subset maps to the DFA's implicit trap state: the
+    /// transition is left undefined, which the DFA treats as rejection.
     ///
     /// ```
     /// use automata::Nfa;
