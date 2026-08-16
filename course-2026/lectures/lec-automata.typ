@@ -9,7 +9,10 @@
 #import "diagrams/m19.typ": dfa-01, nfa-00-11
 
 = Языки
-#focus-slide()
+#focus-slide(
+  epigraph: [Computer science --- это не про компьютеры, как астрономия --- не про телескопы.],
+  epigraph-author: [Эдсгер Дейкстра],
+)
 
 == Алфавит, слово, язык
 

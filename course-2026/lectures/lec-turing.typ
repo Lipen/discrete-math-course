@@ -9,7 +9,10 @@
 #import "diagrams/m21.typ": turing-machine
 
 = Определение
-#focus-slide()
+#focus-slide(
+  epigraph: [Машины удивляют меня с большой частотой.],
+  epigraph-author: [Алан Тьюринг],
+)
 
 == Три части
 

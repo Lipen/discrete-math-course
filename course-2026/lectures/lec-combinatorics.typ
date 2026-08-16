@@ -9,7 +9,10 @@
 #import "diagrams/m14.typ": pascal-triangle, venn-inclusion-exclusion
 
 = Правила счёта
-#focus-slide()
+#focus-slide(
+  epigraph: [Математик, как художник или поэт, создаёт узоры.],
+  epigraph-author: [Годфри Харди],
+)
 
 == Правило суммы и произведения
 

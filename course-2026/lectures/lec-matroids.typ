@@ -9,7 +9,10 @@
 #import "diagrams/m13.typ": greedy-counterexample, matroid-sources
 
 = Жадный алгоритм
-#focus-slide()
+#focus-slide(
+  epigraph: [Всё должно быть настолько просто, насколько возможно, но не проще.],
+  epigraph-author: [Альберт Эйнштейн],
+)
 
 == Задача выбора
 

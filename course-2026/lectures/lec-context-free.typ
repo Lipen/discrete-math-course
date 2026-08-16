@@ -9,7 +9,10 @@
 #import "diagrams/m20.typ": chomsky-hierarchy
 
 = Грамматики
-#focus-slide()
+#focus-slide(
+  epigraph: [Бесцветные зелёные идеи яростно спят.],
+  epigraph-author: [Ноам Хомский],
+)
 
 == КС-грамматика
 

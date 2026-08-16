@@ -9,7 +9,10 @@
 #import "diagrams/m11.typ": implication-graph-2sat-simple
 
 = Задача SAT
-#focus-slide()
+#focus-slide(
+  epigraph: [Нет царского пути в геометрию.],
+  epigraph-author: [Евклид],
+)
 
 == Выполнимость
 

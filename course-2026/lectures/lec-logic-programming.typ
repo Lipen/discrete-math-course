@@ -9,7 +9,10 @@
 #import "diagrams/m12.typ": sld-tree
 
 = Термы и унификация
-#focus-slide()
+#focus-slide(
+  epigraph: [Алгоритм = логика + управление.],
+  epigraph-author: [Роберт Ковальский],
+)
 
 == Вычисление как доказательство
 
