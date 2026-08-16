@@ -36,7 +36,7 @@ fn main() {
     }
 
     println!(
-        "\nAround ratio 4--5 most random 3-SAT instances become unsatisfiable\n\
-         (the phase transition)."
+        "\nAround ratio ~4.3 -- the 3-SAT phase transition -- instances flip\n\
+         from mostly-SAT to mostly-UNSAT."
     );
 }

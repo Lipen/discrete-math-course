@@ -1,4 +1,5 @@
-//! DPLL on the two formulas from the book chapter on SAT.
+//! DPLL on the worked example from the book chapter on SAT, plus a
+//! satisfiable formula.
 //!
 //! The first is the worked example from the chapter: DPLL exhausts every
 //! branch and reports UNSAT. The second is a satisfiable formula -- the

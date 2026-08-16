@@ -18,7 +18,7 @@ cargo test -p sat
 
 ## The idea
 
-DPLL decides a variable, propagates unit clauses (clauses with exactly one unassigned literal), eliminates pure literals (variables that appear only in one polarity), and backtracks when a conflict is found.
+DPLL decides a variable, propagates unit clauses (clauses with exactly one unassigned literal and the rest false), eliminates pure literals (variables that appear only in one polarity), and backtracks when a conflict is found.
 
 The `dpll_demo` example runs the solver with step-by-step trace on the worked example from the chapter:
 
@@ -45,7 +45,7 @@ which is unsatisfiable --- DPLL exhausts every branch and reports `None`.
 | --- | --- |
 | `dpll_demo` | The UNSAT formula from the chapter (traced), plus a satisfiable one with pure literal elimination |
 | `pigeonhole` | PHP(n, n-1) pigeonhole principle formulas are UNSAT (n=2..5), a classic hard case for SAT solvers |
-| `random_3sat` | Phase transition: random 3-SAT flips from SAT to UNSAT around clauses/vars ≈ 4--5 |
+| `random_3sat` | Phase transition: random 3-SAT flips from SAT to UNSAT around clauses/vars ≈ 4.3 |
 
 ## Tests
 
