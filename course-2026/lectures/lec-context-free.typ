@@ -37,7 +37,7 @@
 #example[
   $ S -> a S b mid(|) epsilon. $
 
-  Вывод: $S -> a S b -> a a S b b -> a^3 b^3$.
+  Вывод: $S -> a S b -> a a S b b -> a a a S b b b -> a^3 b^3$.
 
   Не регулярен, но контекстно-свободен.
 ]
