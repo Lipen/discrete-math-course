@@ -76,10 +76,13 @@ lec-turing:
 lec-decidability:
     {{ compile }} lectures/lec-decidability.typ
 
+lec-lambda:
+    {{ compile }} lectures/lec-lambda.typ
+
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
-lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability lec-generating-fns lec-constructions lec-automata lec-context-free lec-turing lec-decidability course-intro
+lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability lec-generating-fns lec-constructions lec-automata lec-context-free lec-turing lec-decidability lec-lambda course-intro
 
 lint:
     cd notes && uv run ../tools/audit.py
