@@ -1,7 +1,9 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common-notes.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
+#import "diagrams/m01.typ": (
+  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
+)
 
 = Логика и доказательства <chap:logic>
 
@@ -124,7 +126,9 @@ _Атомарное высказывание_ --- это высказывани�
   columns: 7,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-  table.header([$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]),
+  table.header(
+    [$p$], [$q$], [$not p$], [$p and q$], [$p or q$], [$p imply q$], [$p iff q$]
+  ),
   [#T], [#T], [#F], [#T], [#T], [#T], [#T],
   [#T], [#F], [#F], [#F], [#T], [#F], [#F],
   [#F], [#T], [#T], [#F], [#T], [#T], [#F],
@@ -389,9 +393,13 @@ _Атомарное высказывание_ --- это высказывани�
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
-    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность],
+    [$(p and q) and r equiv p and (q and r)$],
+    [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность],
+    [$p and (q or r) equiv (p and q) or (p and r)$],
+    [$p or (q and r) equiv (p or q) and (p or r)$],
 
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
     [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
@@ -950,7 +958,7 @@ $exists y forall x$ говорит "существует один и тот же
 
   Математическая практика принимает оба типа доказательств.
   Но философское различие существенно: одно дело --- знать что объект существует, и совсем другое --- держать его в руках.
-  Интуиционистская логика (Брауэр, 1907) отвергает неконструктивные доказательства.
+  Интуиционизм Брауэра (1907) отвергает неконструктивные доказательства.
   Для интуициониста утверждение "$exists x space P(x)$" означает "я могу построить $x$ со свойством $P$", а не "предположение об отсутствии такого $x$ ведёт к противоречию".
   Классическая логика, напротив, принимает закон исключённого третьего --- и вместе с ним право доказывать существование, не предъявляя свидетеля.
 ]
