@@ -1,74 +1,56 @@
-//! How variable ordering affects BDD size.
+//! How variable ordering affects ROBDD size.
 //!
-//! The function `(x0 ∧ x1) ∨ (x2 ∧ x3)` is built with two different variable
-//! orders and the resulting node counts are compared. With the natural order
-//! `[0, 1, 2, 3]` the BDD is compact; an interleaved order `[0, 2, 1, 3]`
-//! forces the diagram to duplicate subgraphs.
+//! The crate fixes the variable order by index: `var(i)` is tested before
+//! `var(j)` whenever `i < j`. To see the same function under two different
+//! orders, build it once with its paired variables consecutive and once with
+//! them scattered.
+//!
+//! The function is `(a ∧ b) ∨ (c ∧ d)`. Under the natural order `[a, b, c, d]`
+//! each conjunction lines up with the order and the diagram stays compact.
+//! Under the interleaved order `[a, c, b, d]` a conjunction must remember its
+//! first variable while the other is still undecided, so the diagram grows.
 
 use bdd::Bdd;
 
 fn main() {
-    let f_components = |bdd: &mut Bdd, a: u32, b: u32, c: u32, d: u32| {
-        let xa = bdd.var(a);
-        let xb = bdd.var(b);
-        let xc = bdd.var(c);
-        let xd = bdd.var(d);
-        let left = bdd.and(xa, xb);
-        let right = bdd.and(xc, xd);
-        bdd.or(left, right)
-    };
-
-    // Natural order: variables appear in the same order as in the formula.
-    let mut bdd1 = Bdd::new();
-    let f1 = f_components(&mut bdd1, 0, 1, 2, 3);
-    println!(
-        "Order [0, 1, 2, 3]: {} node(s) for (x0 ∧ x1) ∨ (x2 ∧ x3)",
-        bdd1.size()
+    // Natural order: `a` and `b` (also `c` and `d`) are consecutive.
+    let mut natural = Bdd::new();
+    let (a, b, c, d) = (
+        natural.var(0),
+        natural.var(1),
+        natural.var(2),
+        natural.var(3),
     );
-    println!("  sat_count = {}", bdd1.sat_count(f1, 4));
-
-    // Interleaved order: grouping related variables is harder for the BDD.
-    let mut bdd2 = Bdd::new();
-    let f2 = f_components(&mut bdd2, 0, 2, 1, 3);
+    let ab = natural.and(a, b);
+    let cd = natural.and(c, d);
+    let f_natural = natural.or(ab, cd);
     println!(
-        "Order [0, 2, 1, 3]: {} node(s) for (x0 ∧ x2) ∨ (x1 ∧ x3)",
-        bdd2.size()
+        "Order [a, b, c, d]: {} node(s) for (x0 ∧ x1) ∨ (x2 ∧ x3)",
+        natural.size()
     );
-    println!("  sat_count = {}", bdd2.sat_count(f2, 4));
+    println!("  sat_count = {}", natural.sat_count(f_natural, 4));
 
-    // The functions are different syntactically, but both represent the same
-    // kind of formula (a disjunction of two conjunctions). The point is that
-    // variable ordering matters: the same logical function can have a much
-    // larger BDD under an unfortunate ordering.
+    // Interleaved order: rename `b` and `c` so that paired variables are no
+    // longer adjacent. This is the same function, only the indices (and thus
+    // the test order) differ.
+    let mut interleaved = Bdd::new();
+    let (a, c, b, d) = (
+        interleaved.var(0),
+        interleaved.var(1),
+        interleaved.var(2),
+        interleaved.var(3),
+    );
+    let ab = interleaved.and(a, b);
+    let cd = interleaved.and(c, d);
+    let f_interleaved = interleaved.or(ab, cd);
+    println!(
+        "Order [a, c, b, d]: {} node(s) for (x0 ∧ x2) ∨ (x1 ∧ x3)",
+        interleaved.size()
+    );
+    println!("  sat_count = {}", interleaved.sat_count(f_interleaved, 4));
 
-    // A more dramatic example: building the same function under two orders
-    // by renaming variables back.
-    println!("\n-- Same function, different orders --");
-    let mut bdd_a = Bdd::new();
-    let fa = {
-        let x0 = bdd_a.var(0);
-        let x1 = bdd_a.var(1);
-        let x2 = bdd_a.var(2);
-        let x3 = bdd_a.var(3);
-        let left = bdd_a.and(x0, x1);
-        let right = bdd_a.and(x2, x3);
-        bdd_a.or(left, right)
-    };
-    println!("Interleaved [0,1,2,3]: {} node(s)", bdd_a.size());
-    println!("  sat_count = {}", bdd_a.sat_count(fa, 4));
-
-    let mut bdd_b = Bdd::new();
-    let fb = {
-        // Same function but with interleaved variable order:
-        // map [0->0, 1->2, 2->1, 3->3], i.e. (x0 ∧ x2) ∨ (x1 ∧ x3).
-        let x0 = bdd_b.var(0);
-        let x1 = bdd_b.var(1);
-        let x2 = bdd_b.var(2);
-        let x3 = bdd_b.var(3);
-        let left = bdd_b.and(x0, x2);
-        let right = bdd_b.and(x1, x3);
-        bdd_b.or(left, right)
-    };
-    println!("Sequential [0,2,1,3]: {} node(s)", bdd_b.size());
-    println!("  sat_count = {}", bdd_b.sat_count(fb, 4));
+    // Both formulas have the same number of models (7 of 16 assignments) --
+    // they are the same function up to the variable rename -- but the
+    // interleaved order costs an extra node. With more conjunctions this gap
+    // grows exponentially, which is why variable ordering matters.
 }

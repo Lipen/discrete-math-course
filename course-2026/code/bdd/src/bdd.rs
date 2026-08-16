@@ -32,7 +32,7 @@ struct Node {
 ///
 /// Every boolean function gets a unique canonical edge under a fixed variable
 /// order. Complement edges store negation as a flag on the edge: `NOT` costs
-/// nothing and roughly halves the node count.
+/// nothing, and a function and its negation share a single diagram.
 ///
 /// ```
 /// use bdd::Bdd;
@@ -258,7 +258,7 @@ impl Bdd {
     /// satisfy the function represented by edge `u`.
     ///
     /// Runs in time proportional to the number of reachable nodes. Returns
-    /// `u64::MAX` on overflow (more than 2^63 assignments).
+    /// `u64::MAX` when the true count exceeds `u64::MAX`.
     ///
     /// ```
     /// use bdd::Bdd;
@@ -395,12 +395,9 @@ impl Bdd {
         nvars: u32,
         memo: &mut HashMap<Edge, u64>,
     ) -> u64 {
-        if let Some(&c) = memo.get(&e) {
-            return c;
-        }
         let idx = e >> 1;
         if idx == 0 {
-            // Do not memoize constants: the result depends on cur_var,
+            // Constants are not memoized: the result depends on cur_var,
             // and the same constant edge can be reached at different
             // variable levels through different paths.
             return if e & 1 == 0 {
@@ -410,13 +407,21 @@ impl Bdd {
             };
         }
         let node = &self.nodes[idx as usize];
+        // Variables cur_var..node.var do not occur on this path; each one
+        // doubles the count. The count from node.var down is memoized per
+        // node, so it does not depend on the level we are reached from.
         let skipped = pow2_sat(node.var - cur_var);
-        let c = e & 1;
-        let lo = self.sat_count_rec(node.lo ^ c, node.var + 1, nvars, memo);
-        let hi = self.sat_count_rec(node.hi ^ c, node.var + 1, nvars, memo);
-        let result = skipped.saturating_mul(lo.saturating_add(hi));
-        memo.insert(e, result);
-        result
+        let base = if let Some(&c) = memo.get(&e) {
+            c
+        } else {
+            let c = e & 1;
+            let lo = self.sat_count_rec(node.lo ^ c, node.var + 1, nvars, memo);
+            let hi = self.sat_count_rec(node.hi ^ c, node.var + 1, nvars, memo);
+            let b = lo.saturating_add(hi);
+            memo.insert(e, b);
+            b
+        };
+        skipped.saturating_mul(base)
     }
 }
 
@@ -575,6 +580,31 @@ mod tests {
         let xy = bdd.and(x, y);
         let f = bdd.not(xy);
         assert_eq!(bdd.sat_count(f, 2), 3);
+    }
+
+    #[test]
+    fn sat_count_shared_subgraph_reached_at_different_levels() {
+        // f = x2 ∧ (x0 ∨ x1): the x2 node is reached both directly from x0
+        // (skipping x1) and through x1, so the same subgraph is counted from
+        // two different variable levels.
+        let mut bdd = Bdd::new();
+        let x0 = bdd.var(0);
+        let x1 = bdd.var(1);
+        let x2 = bdd.var(2);
+        let or = bdd.or(x0, x1);
+        let f = bdd.and(x2, or);
+        assert_eq!(bdd.sat_count(f, 3), 3);
+
+        // (x0 ∧ x1) ∨ (x2 ∧ x3) over four variables: 4 + 4 - 1 = 7 models.
+        let mut bdd = Bdd::new();
+        let x0 = bdd.var(0);
+        let x1 = bdd.var(1);
+        let x2 = bdd.var(2);
+        let x3 = bdd.var(3);
+        let l = bdd.and(x0, x1);
+        let r = bdd.and(x2, x3);
+        let f = bdd.or(l, r);
+        assert_eq!(bdd.sat_count(f, 4), 7);
     }
 
     // -- is_tautology / is_satisfiable ========================================

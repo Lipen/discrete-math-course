@@ -5,7 +5,8 @@
 //! else `lo`". Reduction removes redundant nodes (lo == hi) and merges equal
 //! subgraphs, so every function has exactly one canonical diagram under a
 //! fixed variable order. Complement edges store negation as a flag on the
-//! edge: `NOT` costs no new node and the diagram size is roughly halved.
+//! edge: `NOT` costs no new node, and a function and its negation share a
+//! single diagram.
 //!
 //! # Quick example
 //!
