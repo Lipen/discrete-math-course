@@ -4,7 +4,7 @@
 //! rules say that `reachable(X, Y)` holds when there is an edge, or when
 //! there is an edge to an intermediate node that can reach `Y`. The second
 //! rule recurses on the *second* argument, so the search makes progress and
-//! terminates on a finite graph.
+//! terminates on a finite acyclic graph.
 //!
 //! Run with `cargo run -p prolog --example reachability`.
 

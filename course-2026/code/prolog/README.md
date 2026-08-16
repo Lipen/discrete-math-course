@@ -77,14 +77,14 @@ The search tree for `ancestor(alice, Y)` with the base rule first:
 | Demo | Shows |
 | --- | --- |
 | `family_tree` | Facts and recursive rules over `parent`/`ancestor`; answers in program order |
-| `reachability` | Graph reachability as recursive rules; the terminating (right-recursive) form |
+| `reachability` | Graph reachability as recursive rules; the right-recursive form, terminating on acyclic graphs |
 | `unify_demo` | Most general unifiers by hand; the occurs check rejecting `X = f(X)` |
 | `sld_trace` | The SLD search as a transcript: calls, clause selections, backtracking |
 
 ## Tests
 
 Unit tests live next to each module; `tests/scenarios.rs` runs whole
-programs end to end (append splitting a list, reverse, reachability).
+programs end to end (append concatenating and splitting a list, reverse).
 Every public item carries a doctest.
 
 ## Out of scope

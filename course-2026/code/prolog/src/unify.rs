@@ -39,8 +39,9 @@ impl Display for UnifyError {
 ///
 /// This is Robinson's algorithm (1965) with the occurs check: a variable is
 /// never bound to a term that contains it. On success the substitution maps
-/// both terms to one and the same term; on failure the reason is returned
-/// and `subst` is left unchanged.
+/// both terms to one and the same term; on failure the reason is returned.
+/// A failure does not roll back bindings already made, so `subst` may be
+/// left partially extended.
 ///
 /// ```
 /// use prolog::term::Term;
