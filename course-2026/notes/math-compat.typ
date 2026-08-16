@@ -3,23 +3,22 @@
 
 // Logic
 #let neg = sym.not
-#let implies = sym.arrow.r
+#let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
-#let to = sym.arrow.r
 #let models = sym.tack.rr
 #let entails = sym.tack.rr
 #let satisfies = models
 #let proves = sym.tack.r
 #let nand = $overline("and")$
 #let nor = $overline("or")$
-#let uparrow = sym.arrow.t // nand, Sheffer stroke
-#let downarrow = sym.arrow.b // nor, Peirce arrow
 
 // Sets and functions
 #let setminus = sym.without
 #let symdiff = $Delta$
 #let notin = sym.in.not
 #let ceiling = math.op("ceil")
+
+#let rel(x) = math.class("relation", x)
 
 // Parameterized
 #let powerset(x) = $cal(P)(#x)$
@@ -34,22 +33,10 @@
 #let sim = sym.tilde
 #let nsim = sym.tilde.not
 
-// Special symbols
-#let langle = $langle$
-#let rangle = $rangle$
-#let empty = sym.emptyset
-#let epsilon = $epsilon$
-#let oplus = $xor$
+// LaTeX-compat shims (used by planning docs)
 #let sq = $square.stroked$
-#let Diamond = $square.stroked$
-#let coloneqq = $colon.eq$
-
-// Inequality
-#let le = $<=$
-#let ge = $>=$
-#let neq = $!=$
-#let leq = $<=$
-#let geq = $>=$
+#let langle = $chevron.l$
+#let rangle = $chevron.r$
 
 // Text labels for math mode (content blocks --- safe inside/outside math)
 #let T(t) = text(style: "italic", t)
