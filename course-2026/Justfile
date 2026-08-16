@@ -58,10 +58,13 @@ lec-number-theory:
 lec-probability:
     {{ compile }} lectures/lec-probability.typ
 
+lec-generating-fns:
+    {{ compile }} lectures/lec-generating-fns.typ
+
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
-lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability course-intro
+lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability lec-generating-fns course-intro
 
 lint:
     cd notes && uv run ../tools/audit.py
