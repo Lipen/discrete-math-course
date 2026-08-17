@@ -145,8 +145,8 @@ $ overline(l_1) -> l_2, quad overline(l_2) -> l_1. $
 
   Ограничения:
   - Каждая вершина имеет цвет: $or.big_(c=1)^k x_(v,c)$. 
-  - Не более одного цвета: $overline(x_(v,c)) or overline(x_(v,d))$. 
-  - смежные различаются: $overline(x_(u,c)) or overline(x_(v,c))$.
+  - Не более одного цвета: для всех $c < d$ --- $overline(x_(v,c)) or overline(x_(v,d))$.
+  - Смежные различаются: для каждого ребра $(u, v)$ и цвета $c$ --- $overline(x_(u,c)) or overline(x_(v,c))$.
 ]
 
 #important[
