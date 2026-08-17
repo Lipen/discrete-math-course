@@ -890,7 +890,7 @@ $
 
 == Упражнения
 
-#tasklist("m02")[
+#tasklist("m04")[
   _Принадлежность, включение и равенство._
   + Даны $A = {1, 2, 3}$ и $B = {2, 3, 4}$.
     Найдите $A union B$, $A inter B$, $A setminus B$, $B setminus A$, $A symdiff B$.
