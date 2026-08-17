@@ -55,7 +55,7 @@
 #align(center, box(width: 5.2cm, height: 3.4cm)[#place(center + horizon, scale(function-parts, x: 110%, y: 110%))])
 
 #note[
-  $A$ --- *область определения* (_domain_) (домен). \
+  $A$ --- *область определения* (_domain_). \
   $B$ --- *кодомен*.
 
   Образ $f(X)$ --- что функция реально производит.

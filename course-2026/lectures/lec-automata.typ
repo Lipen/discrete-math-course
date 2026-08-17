@@ -134,7 +134,7 @@
 == Определение
 
 #definition[НКА][
-  $delta: Q times (Sigma union {epsilon}) -> cal(P)(Q)$ --- булеан (_power set_).
+  $delta: Q times (Sigma union {epsilon}) -> cal(P)(Q)$ --- булеан.
 
   Возвращает множество возможных состояний.
 ]
