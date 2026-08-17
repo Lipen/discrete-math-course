@@ -19,10 +19,7 @@ topics-s2:
 schedule-s1:
     {{ compile }} course/schedule-s1.typ
 
-quizzes-s1:
-    {{ compile }} course/flash-quizzes-s1.typ
-
-course: topics-s1 topics-s2 schedule-s1 quizzes-s1
+course: topics-s1 topics-s2 schedule-s1
 
 lec-logic:
     {{ compile }} lectures/lec-logic.typ
