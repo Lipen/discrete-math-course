@@ -1,4 +1,4 @@
-// M05 --- Мощность и бесконечность.
+// M07 --- Мощность и бесконечность.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": cantor-diagonal, cantor-line-square, power-set-hasse, qq-pairing

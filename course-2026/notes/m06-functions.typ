@@ -1,4 +1,4 @@
-// M04 --- Функции: математическая формализация вычислений.
+// M06 --- Функции: математическая формализация вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m04.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection

@@ -1,4 +1,4 @@
-// M23 --- Теория типов: от $lambda$-исчисления к соответствию Карри--Ховарда.
+// M26 --- Теория типов: от $lambda$-исчисления к соответствию Карри--Ховарда.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m18.typ": derivation-id, derivation-k

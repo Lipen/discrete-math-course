@@ -1,4 +1,4 @@
-// M09 --- Логические схемы: булева алгебра становится физическим вычислением.
+// M11 --- Логические схемы: булева алгебра становится физическим вычислением.
 #import "common-notes.typ": *
 #import "diagrams/m08.typ": full-adder, half-adder, multiplexer-4to1
 #import "diagrams/m09.typ": class-inclusion, functions-vs-circuits

@@ -1,4 +1,4 @@
-// M10 --- Коды и информация: защита данных от ошибок и сжатие.
+// M12 --- Коды и информация: защита данных от ошибок и сжатие.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import cetz: canvas, draw

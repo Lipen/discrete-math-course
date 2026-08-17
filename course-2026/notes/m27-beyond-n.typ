@@ -1,4 +1,4 @@
-// M24 --- За пределами N.
+// M27 --- За пределами N.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": ordinals

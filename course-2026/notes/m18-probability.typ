@@ -1,4 +1,4 @@
-// M15 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
+// M18 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m12.typ": bayes-net, markov-chain, probability-tree

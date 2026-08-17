@@ -1,4 +1,4 @@
-// M03 --- Отношения: математический язык связей между объектами.
+// M05 --- Отношения: математический язык связей между объектами.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m03.typ": equivalence-partition, hasse-divisibility, rel-digraph

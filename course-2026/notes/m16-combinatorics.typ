@@ -1,4 +1,4 @@
-// M14 --- Комбинаторика: искусство подсчёта без перечисления.
+// M16 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m10.typ": burnside-necklaces, ramsey-k6

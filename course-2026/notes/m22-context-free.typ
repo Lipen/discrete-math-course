@@ -1,4 +1,4 @@
-// M19 --- Контекстно-свободные языки: за границей регулярности.
+// M22 --- Контекстно-свободные языки: за границей регулярности.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m15.typ": chomsky-hierarchy

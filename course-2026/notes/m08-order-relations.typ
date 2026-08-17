@@ -1,4 +1,4 @@
-// M06 --- Отношения порядка: ранжирование, сравнение и структурирование дискретных объектов.
+// M08 --- Отношения порядка: ранжирование, сравнение и структурирование дискретных объектов.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m05.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3, lattice-m3, lattice-n5

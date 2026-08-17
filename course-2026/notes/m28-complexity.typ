@@ -1,4 +1,4 @@
-// M26 --- Сложность и NP-полнота: пределы эффективных вычислений.
+// M28 --- Сложность и NP-полнота: пределы эффективных вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m15.typ": complexity-classes, np-reduction-tree

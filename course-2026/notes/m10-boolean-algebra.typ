@@ -1,4 +1,4 @@
-// M08 --- Булева алгебра: алгебраическая структура логики и вычислений.
+// M10 --- Булева алгебра: алгебраическая структура логики и вычислений.
 #import "common-notes.typ": *
 #import "notation.typ": *
 #import "diagrams/m07.typ": bdd-xor, karnaugh-3var-majority, karnaugh-4var
