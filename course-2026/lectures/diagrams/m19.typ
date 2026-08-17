@@ -29,29 +29,24 @@
   edge(<q2>, <q0>, "-}>", label: [1], bend: -50deg),
 )
 
-// ── 2. NFA: strings containing "00" or "11" ──
-#let nfa-00-11 = diagram(
+// ── 2. NFA with epsilon: contains "01", or the empty word ──
+#let nfa-01-eps = diagram(
   node-stroke: (paint: c-state-str, thickness: 0.8pt),
   node-fill: c-state,
   edge-stroke: (paint: c-edge, thickness: 0.7pt),
   spacing: 3em,
   edge((-1, 0), "-}>"),
-  node((0, 0), $q_0$, name: <s0>),
-  edge(<s0>, <s0>, "-}>", label: [0,1], bend: 80deg),
-  edge(<s0>, <s1>, "-}>", label: [0], label-side: right),
-  node((1, 1), $q_1$, name: <s1>),
-  edge(<s1>, <sa>, "-}>", label: [0]),
-  node((2, 1), $q_a$, name: <sa>, fill: c-accept, stroke: (
+  node((0, 0), $s$, name: <s>),
+  edge(<s>, <q0>, "-}>", label: [$epsilon$]),
+  edge(<s>, <q2>, "-}>", label: [$epsilon$], bend: 30deg),
+  node((1.3, 0), $q_0$, name: <q0>),
+  edge(<q0>, <q0>, "-}>", label: [0,1], bend: -50deg),
+  edge(<q0>, <q1>, "-}>", label: [0], label-side: right),
+  node((2.6, 1), $q_1$, name: <q1>),
+  edge(<q1>, <q2>, "-}>", label: [1]),
+  node((2.6, -1), $q_2$, name: <q2>, fill: c-accept, stroke: (
     paint: c-accept-str,
     thickness: 1.2pt,
   )),
-  edge(<s0>, <s2>, "-}>", label: [1]),
-  node((1, -1), $q_2$, name: <s2>),
-  edge(<s2>, <sb>, "-}>", label: [1]),
-  node((2, -1), $q_b$, name: <sb>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.2pt,
-  )),
-  edge(<sa>, <sa>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
-  edge(<sb>, <sb>, "-}>", label: [0,1], loop-angle: -90deg, bend: 120deg),
+  edge(<q2>, <q2>, "-}>", label: [0,1], loop-angle: -90deg, bend: 120deg),
 )
