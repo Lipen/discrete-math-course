@@ -118,7 +118,9 @@
 
 // --- Главы ---
 #include "introduction.typ"
-#include "m01-logic-proofs.typ"
+#include "m01-logic.typ"
+#include "m02-deduction.typ"
+#include "m03-fol.typ"
 #include "m02-sets.typ"
 #include "m03-relations.typ"
 #include "m04-functions.typ"
