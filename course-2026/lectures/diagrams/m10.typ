@@ -1,53 +1,44 @@
 // M10 diagrams --- Hamming, Huffman.
 // Скопировано из notes/diagrams/m09.typ, чтобы лекции не зависели от книги.
-#import "@preview/cetz:0.5.2": canvas, draw
+#import "@preview/cetz:0.5.2": canvas, draw, vector
 
 #let hf-str = 0.8pt + oklch(35%, 0.02, 265deg)
 #let hf-leaf-str = 1pt + oklch(35%, 0.02, 265deg)
 
 // ── Huffman tree ──
 #let huffman-tree = canvas({
-  let root = (0, 0)
-  let nA = (-3.5, -1.8)
-  let nR = (1.5, -1.8) // BCDE
-  let nB = (-0.5, -3.6)
-  let nR2 = (2.5, -3.6) // CDE
-  let nC = (1, -5.4)
-  let nR3 = (3.5, -5.4) // DE
-  let nD = (2.5, -7.2)
-  let nE = (4.5, -7.2)
-
-  let mid-label(p, q, offset, label) = {
-    let mx = (p.at(0) + q.at(0)) / 2
-    let my = (p.at(1) + q.at(1)) / 2
-    draw.line(p, q, stroke: hf-str)
-    draw.content((mx + offset.at(0), my + offset.at(1)), label)
-  }
-
-  let hf-node(pos, radius, body, stroke: hf-str, ..args) = {
-    draw.circle(pos, radius: radius, stroke: stroke, ..args)
+  // Node helper: named circle with a label
+  let hf-node(pos, radius, body, name, stroke: hf-str, ..args) = {
+    draw.circle(pos, radius: radius, stroke: stroke, name: name, ..args)
     draw.content(pos, body)
   }
 
-  mid-label(root, nA, (-0.4, 0.1), [_0_])
-  mid-label(root, nR, (0.2, 0.1), [_1_])
-  mid-label(nR, nB, (-0.4, 0.1), [_0_])
-  mid-label(nR, nR2, (0.2, 0.1), [_1_])
-  mid-label(nR2, nC, (-0.4, 0.1), [_0_])
-  mid-label(nR2, nR3, (0.2, 0.1), [_1_])
-  mid-label(nR3, nD, (-0.4, 0.1), [_0_])
-  mid-label(nR3, nE, (0.2, 0.1), [_1_])
+  // Edge helper: line between two named nodes + label at midpoint
+  let mid-label(a, b, offset, label) = {
+    draw.line(a, b, stroke: hf-str)
+    draw.content((a, 50%, b), offset: offset, label)
+  }
 
-  hf-node(root, 0.3, $1.0$)
-  hf-node(nR, 0.3, $0.60$)
-  hf-node(nR2, 0.3, $0.35$)
-  hf-node(nR3, 0.3, $0.15$)
+  // Nodes, named
+  hf-node((0, 0), 0.3, $1.0$, "root")
+  hf-node((-3.5, -1.8), 0.35, [$A: 0.40$], "A", stroke: hf-leaf-str, fill: white)
+  hf-node((1.5, -1.8), 0.3, $0.60$, "R")
+  hf-node((-0.5, -3.6), 0.35, [$B: 0.25$], "B", stroke: hf-leaf-str, fill: white)
+  hf-node((2.5, -3.6), 0.3, $0.35$, "R2")
+  hf-node((1, -5.4), 0.35, [$C: 0.20$], "C", stroke: hf-leaf-str, fill: white)
+  hf-node((3.5, -5.4), 0.3, $0.15$, "R3")
+  hf-node((2.5, -7.2), 0.35, [$D: 0.10$], "D", stroke: hf-leaf-str, fill: white)
+  hf-node((4.5, -7.2), 0.35, [$E: 0.05$], "E", stroke: hf-leaf-str, fill: white)
 
-  hf-node(nA, 0.35, [$A: 0.40$], stroke: hf-leaf-str, fill: white)
-  hf-node(nB, 0.35, [$B: 0.25$], stroke: hf-leaf-str, fill: white)
-  hf-node(nC, 0.35, [$C: 0.20$], stroke: hf-leaf-str, fill: white)
-  hf-node(nD, 0.35, [$D: 0.10$], stroke: hf-leaf-str, fill: white)
-  hf-node(nE, 0.35, [$E: 0.05$], stroke: hf-leaf-str, fill: white)
+  // Edges, node-based
+  mid-label("root", "A", (-0.4, 0.1), [_0_])
+  mid-label("root", "R", (0.2, 0.1), [_1_])
+  mid-label("R", "B", (-0.4, 0.1), [_0_])
+  mid-label("R", "R2", (0.2, 0.1), [_1_])
+  mid-label("R2", "C", (-0.4, 0.1), [_0_])
+  mid-label("R2", "R3", (0.2, 0.1), [_1_])
+  mid-label("R3", "D", (-0.4, 0.1), [_0_])
+  mid-label("R3", "E", (0.2, 0.1), [_1_])
 })
 
 // ── Hamming spheres ──

@@ -252,33 +252,32 @@
 #let implication-graph-2sat = canvas({
   let r = 0.4
   let positions = (
-    ((0, 1.2), $x$),
-    ((0, -1.2), $overline(x)$),
-    ((2, 1.2), $y$),
-    ((2, -1.2), $overline(y)$),
-    ((4, 1.2), $z$),
-    ((4, -1.2), $overline(z)$),
+    ((0, 1.2), $x$, "x"),
+    ((0, -1.2), $overline(x)$, "notx"),
+    ((2, 1.2), $y$, "y"),
+    ((2, -1.2), $overline(y)$, "noty"),
+    ((4, 1.2), $z$, "z"),
+    ((4, -1.2), $overline(z)$, "notz"),
   )
 
-  // Nodes
-  for pair in positions {
-    let pos = pair.at(0)
-    let label = pair.at(1)
-    draw.circle(pos, radius: r, fill: c-node, stroke: c-node-str)
+  // Nodes, named
+  for (pos, label, name) in positions {
+    draw.circle(pos, radius: r, fill: c-node, stroke: c-node-str, name: name)
     draw.content(pos, text(size: 0.72em, fill: c-label)[#label])
   }
 
+  // Edges : node names, border-to-border
   // Edges from (x or y): not x → y, not y → x
-  draw.line((-0.3, -1.2), (1.7, 1.2), stroke: c-edge, mark: (end: ">"))
-  draw.line((1.7, -1.2), (-0.3, 1.2), stroke: c-edge, mark: (end: ">"))
+  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
+  draw.line("noty", "x", stroke: c-edge, mark: (end: ">"))
 
   // Edges from (not x or z): x → z, not z → not x
-  draw.line((0.35, 1.2), (3.65, 1.2), stroke: c-edge, mark: (end: ">"))
-  draw.line((3.65, -1.2), (0.35, -1.2), stroke: c-edge, mark: (end: ">"))
+  draw.line("x", "z", stroke: c-edge, mark: (end: ">"))
+  draw.line("notz", "notx", stroke: c-edge, mark: (end: ">"))
 
   // Edges from (not y or not z): y → not z, z → not y
-  draw.line((2.35, 1.2), (3.65, -1.2), stroke: c-edge, mark: (end: ">"))
-  draw.line((4.35, 1.2), (2.35, -1.2), stroke: c-edge, mark: (end: ">"))
+  draw.line("y", "notz", stroke: c-edge, mark: (end: ">"))
+  draw.line("z", "noty", stroke: c-edge, mark: (end: ">"))
 })
 
 // Simpler example for explanation: (x or y) and (not x or y)
@@ -312,9 +311,9 @@
   )
   draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
 
-  // Edges
-  draw.line((-0.35, -0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
-  draw.line((0.35, 0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
+  // Edges : node names, border-to-border
+  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
+  draw.line("x", "y", stroke: c-edge, mark: (end: ">"))
 
   // Labels
   draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(

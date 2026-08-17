@@ -54,42 +54,31 @@
   let stroke = 0.6pt + oklch(50%, 0.08, 250deg)
   let edge-str = 0.6pt + oklch(35%, 0.02, 265deg)
 
-  // Positions: 1 at bottom, 12 at top
-  let p(n) = {
-    if n == 12 { return (0, 3.0) }
-    if n == 4 { return (-1.5, 2.0) }
-    if n == 6 { return (1.5, 2.0) }
-    if n == 2 { return (-1.0, 1.0) }
-    if n == 3 { return (1.0, 1.0) }
-    if n == 1 { return (0, 0.0) }
+  // Node helper: named circle with a label
+  let v(name, pos) = {
+    draw.circle(pos, radius: 0.35, fill: fill, stroke: stroke, name: name)
+    draw.content(pos, text(size: 0.7em)[#name])
   }
 
-  // Nodes
-  for (n, pos) in (
-    ("12", (0, 3.0)),
-    ("4", (-1.5, 2.0)),
-    ("6", (1.5, 2.0)),
-    ("2", (-1.0, 1.0)),
-    ("3", (1.0, 1.0)),
-    ("1", (0, 0.0)),
-  ) {
-    draw.circle(pos, radius: 0.35, fill: fill, stroke: stroke)
-    draw.content(pos, text(size: 0.7em)[#n])
-  }
+  // Edge helper: straight line between two named nodes
+  let e(a, b) = draw.line(a, b, stroke: edge-str)
 
-  // Edges --- only cover relations (no transitive shortcuts)
-  // 1 -> 2, 1 -> 3
-  draw.line((0, 0.35), (-1.0, 0.65), stroke: edge-str)
-  draw.line((0, 0.35), (1.0, 0.65), stroke: edge-str)
-  // 2 -> 4, 2 -> 6
-  draw.line((-1.0, 1.35), (-1.5, 1.65), stroke: edge-str)
-  draw.line((-1.0, 1.35), (1.5, 1.65), stroke: edge-str)
-  // 3 -> 6
-  draw.line((1.0, 1.35), (1.5, 1.65), stroke: edge-str)
-  // 4 -> 12
-  draw.line((-1.5, 2.35), (0, 2.65), stroke: edge-str)
-  // 6 -> 12
-  draw.line((1.5, 2.35), (0, 2.65), stroke: edge-str)
+  // Nodes, named
+  v("12", (0, 3.0))
+  v("4", (-1.5, 2.0))
+  v("6", (1.5, 2.0))
+  v("2", (-1.0, 1.0))
+  v("3", (1.0, 1.0))
+  v("1", (0, 0.0))
+
+  // Edges --- only cover relations (no transitive shortcuts), node-based
+  e("1", "2")
+  e("1", "3")
+  e("2", "4")
+  e("2", "6")
+  e("3", "6")
+  e("4", "12")
+  e("6", "12")
 })
 
 // ── Equivalence partition: numbers 1..10 modulo 3 ──

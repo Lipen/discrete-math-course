@@ -59,14 +59,14 @@
     thickness: 0.9pt,
     dash: "dashed",
   ))
-  draw.line("a.south", (-1.9, -1.5), stroke: e-str, mark: (end: "stealth"))
-  draw.line("c.south", (0.9, -2.3), stroke: e-str, mark: (end: "stealth"))
   draw.content((-1.9, -1.9), text(
     size: 0.85em,
     fill: c-label,
-  )[жадный: ${a}$, вес $5$])
+  )[жадный: ${a}$, вес $5$], name: "lbl-greedy")
   draw.content((0.9, -2.7), text(
     size: 0.85em,
     fill: c-label,
-  )[оптимум: ${b,c}$, вес $8$])
+  )[оптимум: ${b,c}$, вес $8$], name: "lbl-opt")
+  draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (end: "stealth"))
+  draw.line("c.south", "lbl-opt.north", stroke: e-str, mark: (end: "stealth"))
 })

@@ -19,7 +19,7 @@
   let hw = 1.7 // полуширина плашки цели
 
   // Узел-цель: скруглённая плашка с подписью.
-  let goal(pos, label) = {
+  let goal(pos, label, name) = {
     let (x, y) = pos
     draw.rect(
       (x - hw, y + 0.34),
@@ -27,11 +27,12 @@
       fill: sld-goal-fill,
       stroke: sld-goal-str,
       radius: 3pt,
+      name: name,
     )
     draw.content(pos, label)
   }
   // Ответ: зелёная плашка.
-  let solution(pos, label) = {
+  let solution(pos, label, name) = {
     let (x, y) = pos
     draw.rect(
       (x - 1.6, y + 0.3),
@@ -39,6 +40,7 @@
       fill: sld-sol-fill,
       stroke: 0.7pt + sld-sol-fill,
       radius: 3pt,
+      name: name,
     )
     draw.content(pos, label)
   }
@@ -55,26 +57,26 @@
   let sol2 = (1.6, -7.2)
   let dead = (5.2, -7.2)
 
-  goal(root, [`ancestor(alice, Y)`])
-  goal(base1, [`parent(alice, Y)`])
-  goal(recur1, [`parent(alice, Z)` \ `ancestor(Z, Y)`])
-  solution(sol1, [$Y = "bob"$])
-  goal(anc, [`ancestor(bob, Y)`])
-  goal(base2, [`parent(bob, Y)`])
-  goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`])
-  solution(sol2, [$Y = "carol"$])
-  goal(dead, [`ancestor(carol, Y)`])
+  goal(root, [`ancestor(alice, Y)`], "root")
+  goal(base1, [`parent(alice, Y)`], "base1")
+  goal(recur1, [`parent(alice, Z)` \ `ancestor(Z, Y)`], "recur1")
+  solution(sol1, [$Y = "bob"$], "sol1")
+  goal(anc, [`ancestor(bob, Y)`], "anc")
+  goal(base2, [`parent(bob, Y)`], "base2")
+  goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`], "recur2")
+  solution(sol2, [$Y = "carol"$], "sol2")
+  goal(dead, [`ancestor(carol, Y)`], "dead")
   draw.content((dead.at(0), dead.at(1) - 0.85), text(
     fill: sld-dead-col,
     weight: "bold",
   )[тупик])
 
-  edge(root, base1)
-  edge(root, recur1)
-  edge(base1, sol1)
-  edge(recur1, anc)
-  edge(anc, base2)
-  edge(anc, recur2)
-  edge(base2, sol2)
-  edge(recur2, dead)
+  edge("root", "base1")
+  edge("root", "recur1")
+  edge("base1", "sol1")
+  edge("recur1", "anc")
+  edge("anc", "base2")
+  edge("anc", "recur2")
+  edge("base2", "sol2")
+  edge("recur2", "dead")
 })

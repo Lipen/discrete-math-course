@@ -36,9 +36,9 @@
   )
   draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
 
-  // Edges
-  draw.line((-0.35, -0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
-  draw.line((0.35, 0.8), (1.65, 0.8), stroke: c-edge, mark: (end: ">"))
+  // Edges : node names, border-to-border
+  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
+  draw.line("x", "y", stroke: c-edge, mark: (end: ">"))
 
   // Labels
   draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(

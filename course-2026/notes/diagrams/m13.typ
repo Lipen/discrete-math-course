@@ -172,20 +172,24 @@
   let c-edge = oklch(45%, 0.09, 250deg)
   let c-eve = oklch(50%, 0.16, 25deg)
 
-  draw.content((-3.1, 0), text(size: 0.95em, fill: c-node)[Алиса])
-  draw.content((0, 0), text(size: 0.95em, fill: c-eve)[Ева])
-  draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб])
+  // Actors as named content nodes
+  draw.content((-3.1, 0), text(size: 0.95em, fill: c-node)[Алиса], name: "alice")
+  draw.content((0, 0), text(size: 0.95em, fill: c-eve)[Ева], name: "eve")
+  draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб], name: "bob")
+
+  // Edge helper: arrow between two named nodes
+  let arrow(a, b) = draw.line(a, b, stroke: c-edge, mark: (end: "stealth"))
 
   // Алиса -> Ева: A = g^a; Ева -> Алиса: B' = g^y.
-  draw.line((-2.1, 0.5), (-0.9, 0.5), stroke: c-edge, mark: (end: "stealth"))
+  arrow("alice", "eve")
   draw.content((-1.5, 0.85), text(size: 0.72em, fill: c-node)[$A = g^a$])
-  draw.line((-0.9, -0.5), (-2.1, -0.5), stroke: c-edge, mark: (end: "stealth"))
+  arrow("eve", "alice")
   draw.content((-1.5, -0.85), text(size: 0.72em, fill: c-node)[$B' = g^y$])
 
   // Боб -> Ева: B = g^b; Ева -> Боб: A' = g^x.
-  draw.line((2.1, 0.5), (0.9, 0.5), stroke: c-edge, mark: (end: "stealth"))
+  arrow("bob", "eve")
   draw.content((1.5, 0.85), text(size: 0.72em, fill: c-node)[$B = g^b$])
-  draw.line((0.9, -0.5), (2.1, -0.5), stroke: c-edge, mark: (end: "stealth"))
+  arrow("eve", "bob")
   draw.content((1.5, -0.85), text(size: 0.72em, fill: c-node)[$A' = g^x$])
 
   draw.content((0, -1.75), text(
