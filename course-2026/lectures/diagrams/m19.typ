@@ -52,8 +52,6 @@
     paint: c-accept-str,
     thickness: 1.2pt,
   )),
-  edge(<s1>, <s0>, "-}>", label: [1], label-pos: 0.25, bend: -30deg),
-  edge(<s2>, <s0>, "-}>", label: [0], label-pos: 0.25, bend: 30deg),
   edge(<sa>, <sa>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
   edge(<sb>, <sb>, "-}>", label: [0,1], loop-angle: -90deg, bend: 120deg),
 )
