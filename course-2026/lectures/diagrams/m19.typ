@@ -12,7 +12,7 @@
 #let dfa-01 = diagram(
   node-stroke: (paint: c-state-str, thickness: 0.8pt),
   node-fill: c-state,
-  edge-stroke: (paint: c-edge, thickness: 0.7pt),
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
   spacing: 3em,
   edge((-1, 0), "-}>"),
   node((0, 0), $q_0$, name: <q0>),
@@ -33,20 +33,20 @@
 #let nfa-01-eps = diagram(
   node-stroke: (paint: c-state-str, thickness: 0.8pt),
   node-fill: c-state,
-  edge-stroke: (paint: c-edge, thickness: 0.7pt),
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
   spacing: 3em,
-  edge((-1, 0), "-}>"),
+  edge((-0.6, 0), <s>, "-}>"),
   node((0, 0), $s$, name: <s>),
   edge(<s>, <q0>, "-}>", label: [$epsilon$]),
   edge(<s>, <q2>, "-}>", label: [$epsilon$], bend: 30deg),
-  node((1.3, 0), $q_0$, name: <q0>),
+  node((1, 0), $q_0$, name: <q0>),
   edge(<q0>, <q0>, "-}>", label: [0,1], bend: -50deg),
   edge(<q0>, <q1>, "-}>", label: [0], label-side: right),
-  node((2.6, 1), $q_1$, name: <q1>),
+  node((2, 1), $q_1$, name: <q1>),
   edge(<q1>, <q2>, "-}>", label: [1]),
-  node((2.6, -1), $q_2$, name: <q2>, fill: c-accept, stroke: (
+  node((2, -1), $q_2$, name: <q2>, fill: c-accept, stroke: (
     paint: c-accept-str,
     thickness: 1.2pt,
   )),
-  edge(<q2>, <q2>, "-}>", label: [0,1], loop-angle: -90deg, bend: 120deg),
+  edge(<q2>, <q2>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
 )
