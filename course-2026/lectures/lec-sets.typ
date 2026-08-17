@@ -159,6 +159,8 @@
   box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-subset, x: 130%, y: 130%))],
 )
 
+== Пределы диаграмм
+
 #note[
   Диаграммы Венна --- интуиция, а не доказательство.
 
