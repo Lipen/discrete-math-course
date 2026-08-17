@@ -270,6 +270,13 @@
   Второй переход --- закон де Моргана из логики в действии.
 ]
 
+#note[
+  Ложная аналогия с арифметикой: $A setminus (B union C) != (A setminus B) union (A setminus C)$.
+
+  Проверьте на $A = {1, 2, 3}$, $B = {2}$, $C = {3}$: слева ${1}$, справа ${1, 2, 3}$.
+  Верный закон --- с пересечением: $A setminus (B union C) = (A setminus B) inter (A setminus C)$.
+]
+
 == Булеан
 
 #definition[
