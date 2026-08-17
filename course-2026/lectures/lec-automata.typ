@@ -151,8 +151,8 @@
 
 #align(center, box(width: 6.5cm, height: 3cm)[#place(center + horizon, scale(
   nfa-00-11,
-  x: 100%,
-  y: 100%,
+  x: 60%,
+  y: 60%,
 ))])
 
 #example[

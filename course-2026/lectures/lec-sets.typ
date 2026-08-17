@@ -195,6 +195,7 @@
 #table(
   columns: 2,
   align: (left, left),
+  inset: 4pt,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Закон*], [*Формулы*]),
   [Идемпотентность], [$A union A = A$, $A inter A = A$],
@@ -258,10 +259,10 @@
   Цепочка эквивалентностей для произвольного элемента $x$:
   $
     x in A setminus (B union C)
-    iff x in A and x in.not (B union C)
-    iff x in A and (x in.not B and x in.not C)
-    iff (x in A and x in.not B) and (x in A and x in.not C)
-    iff x in (A setminus B) inter (A setminus C)
+    &iff x in A and x in.not (B union C) \
+    &iff x in A and (x in.not B and x in.not C) \
+    &iff (x in A and x in.not B) and (x in A and x in.not C) \
+    &iff x in (A setminus B) inter (A setminus C)
   $
   Множества совпадают, потому что совпадают их элементы.
 ]
