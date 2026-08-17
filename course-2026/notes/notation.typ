@@ -11,8 +11,10 @@
 // === Complex symbols (awkward in stdlib) ===
 #let symdiff = $Delta$
 #let models = sym.tack.rr    // семантическое следование (⊨)
+#let nmodels = models.not    // отрицание models: "не следует / не выполняется" (⊭)
 #let entails = models        // "влечёт" --- синоним models
 #let proves = sym.tack.r     // выводимость, типизация (⊢)
+#let nproves = proves.not    // отрицание proves: "не выводится" (⊬)
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let setminus = sym.without
