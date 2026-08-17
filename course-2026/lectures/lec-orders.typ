@@ -84,7 +84,7 @@
 
 #definition[Линейный порядок][
   Частичный порядок, в котором любая пара сравнима: $forall a, b: (a prec.eq b) or (b prec.eq a)$.
-  Линейный порядок называют *цепью*.
+  Линейный порядок (_total order_) называют *цепью*.
 ]
 
 #align(center, box(width: 1.2cm, height: 1.8cm)[#place(center + horizon, scale(hasse-chain-3, x: 75%, y: 75%))])
@@ -298,7 +298,7 @@
 #definition[Грани][
   Пусть $S subset.eq A$.
 
-  $u$ --- *верхняя грань* $S$, если $s prec.eq u$ для всех $s in S$.
+  $u$ --- *верхняя грань* (_upper bound_) $S$, если $s prec.eq u$ для всех $s in S$.
 
   $l$ --- *нижняя грань* $S$, если $l prec.eq s$ для всех $s in S$.
 ]
