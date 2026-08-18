@@ -23,6 +23,11 @@ course: topics-s1 topics-s2 schedule-s1
 
 lec-logic:
     {{ compile }} lectures/lec-logic.typ
+lec-deduction:
+    {{ compile }} lectures/lec-deduction.typ
+
+lec-fol:
+    {{ compile }} lectures/lec-fol.typ
 
 lec-sets:
     {{ compile }} lectures/lec-sets.typ
@@ -96,7 +101,7 @@ lec-type-theory:
 course-intro:
     {{ compile }} lectures/course-intro.typ
 
-lectures: lec-logic lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability lec-generating-fns lec-constructions lec-automata lec-context-free lec-turing lec-decidability lec-lambda lec-type-theory course-intro
+lectures: lec-logic lec-deduction lec-fol lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability lec-generating-fns lec-constructions lec-automata lec-context-free lec-turing lec-decidability lec-lambda lec-type-theory course-intro
 
 lint:
     cd notes && uv run ../tools/audit.py
