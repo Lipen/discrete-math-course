@@ -5,6 +5,7 @@
   date: "Осень 2026",
   authors: "Константин Чухарев",
 )
+#import "diagrams/m15.typ": dpll-t-architecture, dl-negative-cycle
 
 = Satisfiability Modulo Theories
 #focus-slide(
@@ -158,6 +159,12 @@ SMT работает с _многими-сортной_ логикой.
   Тот же цикл "поиск, конфликт, обучение", что в CDCL, но с теорией в роли оракула.
   Всё, что работает в CDCL --- watched literals, VSIDS, выученные дизъюнкты --- работает и внутри SMT-солвера.
 ]
+== Архитектура DPLL(T)
+#box(width: 100%, height: 4cm)[#place(center + horizon, scale(
+  dpll-t-architecture,
+  x: 55%,
+  y: 55%,
+))]
 
 == Разностная логика
 
@@ -183,6 +190,11 @@ SMT работает с _многими-сортной_ логикой.
   Ребро $x arrow^c y$ для каждого $x - y <= c$.
   Цикл $x arrow^-3 z arrow^-1 w arrow^2 x$ имеет вес $-3 - 1 + 2 = -2 < 0$ --- противоречие $0 <= -2$.
 ]
+#box(width: 100%, height: 1.2cm)[#place(center + horizon, scale(
+  dl-negative-cycle,
+  x: 42%,
+  y: 42%,
+))]
 
 == Кратчайшие расстояния
 

@@ -5,6 +5,7 @@
   date: "Осень 2026",
   authors: "Константин Чухарев",
 )
+#import "diagrams/m15.typ": ctl-tree
 
 = Модальная и темпоральная логика
 #focus-slide(
@@ -148,6 +149,12 @@ _Путь_ --- бесконечная последовательность $pi =
   - "Всегда возможно перезапуск" --- $A square E diamond "restart"$: в каждом состоянии любого пути есть продолжение к перезапуску.
   - Взаимное исключение --- $A square not ("crit"_1 and "crit"_2)$.
 ]
+== Дерево вычислений
+#box(width: 100%, height: 4.5cm)[#place(center + horizon, scale(
+  ctl-tree,
+  x: 55%,
+  y: 55%,
+))]
 
 == LTL против CTL
 
