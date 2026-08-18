@@ -1,107 +1,11 @@
-compile := "typst compile --root ."
-
 [private]
-@default:
-    just --list
+default:
+    @just --list
 
+# Собрать книгу
 book:
-    {{ compile }} notes/book.typ
+    just book/build
 
-problems:
-    {{ compile }} private/problems/problems.typ
-
-topics-s1:
-    {{ compile }} course/topics-s1.typ
-
-topics-s2:
-    {{ compile }} course/topics-s2.typ
-
-schedule-s1:
-    {{ compile }} course/schedule-s1.typ
-
-course: topics-s1 topics-s2 schedule-s1
-
-lec-logic:
-    {{ compile }} lectures/lec-logic.typ
-lec-deduction:
-    {{ compile }} lectures/lec-deduction.typ
-
-lec-fol:
-    {{ compile }} lectures/lec-fol.typ
-
-lec-sets:
-    {{ compile }} lectures/lec-sets.typ
-
-lec-relations:
-    {{ compile }} lectures/lec-relations.typ
-
-lec-functions:
-    {{ compile }} lectures/lec-functions.typ
-
-lec-cardinals:
-    {{ compile }} lectures/lec-cardinals.typ
-
-lec-orders:
-    {{ compile }} lectures/lec-orders.typ
-
-lec-graphs:
-    {{ compile }} lectures/lec-graphs.typ
-
-lec-boolean:
-    {{ compile }} lectures/lec-boolean.typ
-
-lec-circuits:
-    {{ compile }} lectures/lec-circuits.typ
-
-lec-codes:
-    {{ compile }} lectures/lec-codes.typ
-
-lec-sat:
-    {{ compile }} lectures/lec-sat.typ
-
-lec-logic-programming:
-    {{ compile }} lectures/lec-logic-programming.typ
-
-lec-matroids:
-    {{ compile }} lectures/lec-matroids.typ
-
-lec-combinatorics:
-    {{ compile }} lectures/lec-combinatorics.typ
-
-lec-number-theory:
-    {{ compile }} lectures/lec-number-theory.typ
-
-lec-probability:
-    {{ compile }} lectures/lec-probability.typ
-
-lec-generating-fns:
-    {{ compile }} lectures/lec-generating-fns.typ
-
-lec-constructions:
-    {{ compile }} lectures/lec-constructions.typ
-
-lec-automata:
-    {{ compile }} lectures/lec-automata.typ
-
-lec-context-free:
-    {{ compile }} lectures/lec-context-free.typ
-
-lec-turing:
-    {{ compile }} lectures/lec-turing.typ
-
-lec-decidability:
-    {{ compile }} lectures/lec-decidability.typ
-
-lec-lambda:
-    {{ compile }} lectures/lec-lambda.typ
-
-lec-type-theory:
-    {{ compile }} lectures/lec-type-theory.typ
-
-course-intro:
-    {{ compile }} lectures/course-intro.typ
-
-lectures: lec-logic lec-deduction lec-fol lec-sets lec-relations lec-functions lec-cardinals lec-orders lec-graphs lec-boolean lec-circuits lec-codes lec-sat lec-logic-programming lec-matroids lec-combinatorics lec-number-theory lec-probability lec-generating-fns lec-constructions lec-automata lec-context-free lec-turing lec-decidability lec-lambda lec-type-theory course-intro
-
-lint:
-    cd notes && uv run ../tools/audit.py
+# Собрать все лекции
+lectures:
+    just lectures/all

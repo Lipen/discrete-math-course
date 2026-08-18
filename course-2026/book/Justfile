@@ -1,0 +1,11 @@
+[private]
+default:
+    @just --list
+
+# Собрать книгу в book.pdf
+build:
+    typst compile --root .. book.typ
+
+# Стилевой аудит глав книги (tools/audit.py)
+lint:
+    uv run ../tools/audit.py

@@ -1,0 +1,18 @@
+[private]
+default:
+    @just --list
+
+# Собрать все документы курса
+all: topics-s1 topics-s2 schedule-s1
+
+# Проспект курса: семестр 1
+topics-s1:
+    typst compile --root .. topics-s1.typ
+
+# Проспект курса: семестр 2
+topics-s2:
+    typst compile --root .. topics-s2.typ
+
+# Расписание семестра 1
+schedule-s1:
+    typst compile --root .. schedule-s1.typ

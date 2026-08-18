@@ -1,0 +1,52 @@
+[private]
+default:
+    @just --list
+
+files := """
+    lec-logic.typ
+    lec-deduction.typ
+    lec-fol.typ
+    lec-sets.typ
+    lec-relations.typ
+    lec-functions.typ
+    lec-cardinals.typ
+    lec-orders.typ
+    lec-graphs.typ
+    lec-boolean.typ
+    lec-circuits.typ
+    lec-codes.typ
+    lec-sat.typ
+    lec-smt.typ
+    lec-logic-programming.typ
+    lec-matroids.typ
+    lec-combinatorics.typ
+    lec-number-theory.typ
+    lec-probability.typ
+    lec-generating-fns.typ
+    lec-constructions.typ
+    lec-automata.typ
+    lec-context-free.typ
+    lec-turing.typ
+    lec-decidability.typ
+    lec-lambda.typ
+    lec-type-theory.typ
+    lec-kripke.typ
+    lec-intuitionism.typ
+    course-intro.typ
+"""
+
+# Собрать все лекции
+all:
+    #!/usr/bin/env sh
+    set -e
+    for file in {{replace(files, "\n", ' ')}}; do
+        just _compile $file
+    done
+
+# Собрать лекции параллельно
+parallel:
+    parallel -k -- just _compile {} ::: {{replace(files, "\n", ' ')}}
+
+# Собрать один файл: just lectures/_compile lec-logic.typ
+_compile *args:
+    typst compile --root .. {{args}}
