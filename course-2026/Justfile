@@ -8,7 +8,7 @@ book:
     {{ compile }} notes/book.typ
 
 problems:
-    {{ compile }} notes/problems.typ
+    {{ compile }} private/problems/problems.typ
 
 topics-s1:
     {{ compile }} course/topics-s1.typ
