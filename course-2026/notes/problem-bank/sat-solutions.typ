@@ -1,4 +1,4 @@
-// Решения к разделу SAT и NP-полнота (m11).
+// Решения к разделу SAT и NP-полнота (m13).
 #import "macros.typ": pb-solution
 #import "../notation.typ": *
 

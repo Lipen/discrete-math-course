@@ -1,4 +1,4 @@
-// Подсказки к разделу Графы (m07).
+// Подсказки к разделу Графы (m09).
 #import "macros.typ": pb-hint
 #import "../notation.typ": *
 

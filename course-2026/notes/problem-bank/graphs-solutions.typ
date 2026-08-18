@@ -1,4 +1,4 @@
-// Решения к разделу Графы (m07).
+// Решения к разделу Графы (m09).
 #import "macros.typ": pb-solution
 #import "../notation.typ": *
 

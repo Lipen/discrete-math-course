@@ -1,4 +1,4 @@
-// Подсказки к разделу SAT и NP-полнота (m11).
+// Подсказки к разделу SAT и NP-полнота (m13).
 #import "macros.typ": pb-hint
 #import "../notation.typ": *
 
