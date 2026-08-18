@@ -9,7 +9,7 @@
 // Example: Karnaugh map for f(x,y,z) = xy + xz + yz (majority function).
 // Filled cells show where f = 1.
 #let karnaugh-3var-majority = canvas({
-  let s = 1.2
+  let s = 0.6
   let rows = 4
   let cols = 2
 
@@ -35,7 +35,7 @@
   // Cell labels
   for (row, col) in ones {
     draw.content(((col + 0.5) * s, -(row + 0.5) * s), text(
-      size: 0.8em,
+      size: 0.45em,
       fill: c-km-num,
     )[1])
   }
@@ -43,26 +43,26 @@
   // Row labels (yz)
   let yz = ("00", "01", "11", "10")
   for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
-      size: 0.72em,
+    draw.content((-0.2, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.42em,
       fill: c-km-num,
     )[#label])
   }
 
   // Column labels
-  draw.content((0.5 * s, 0.35), anchor: "south", text(
-    size: 0.72em,
+  draw.content((0.5 * s, 0.18), anchor: "south", text(
+    size: 0.42em,
     fill: c-km-num,
   )[$x$])
   for j in range(cols) {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
-      size: 0.65em,
+    draw.content(((j + 0.5) * s, 0.13), anchor: "south", text(
+      size: 0.4em,
       fill: c-km-num,
     )[#j])
   }
 
-  draw.content((-1.0, -2 * s), anchor: "east", text(
-    size: 0.72em,
+  draw.content((-0.5, -2 * s), anchor: "east", text(
+    size: 0.42em,
     fill: c-km-num,
   )[$y z$])
 })

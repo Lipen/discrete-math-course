@@ -9,10 +9,10 @@
 #let venn-ie-text = oklch(35%, 0.02, 265deg)
 
 #let venn-inclusion-exclusion = canvas({
-  let r = 2.1
-  let pa = (-1.3, 0.75)
-  let pb = (1.3, 0.75)
-  let pc = (0, -1.55)
+  let r = 1.05
+  let pa = (-0.65, 0.375)
+  let pb = (0.65, 0.375)
+  let pc = (0, -0.775)
 
   draw.circle(
     pa,
@@ -36,58 +36,58 @@
     name: "C",
   )
 
-  draw.content((-2.8, 2.5), text(
-    size: 1.1em,
+  draw.content((-1.4, 1.25), text(
+    size: 0.55em,
     weight: "bold",
     fill: venn-ie-a,
   )[$A$])
-  draw.content((2.8, 2.5), text(
-    size: 1.1em,
+  draw.content((1.4, 1.25), text(
+    size: 0.55em,
     weight: "bold",
     fill: venn-ie-b,
   )[$B$])
-  draw.content((0, -3.5), text(
-    size: 1.1em,
+  draw.content((0, -1.75), text(
+    size: 0.55em,
     weight: "bold",
     fill: venn-ie-c,
   )[$C$])
 
-  draw.content((-2.1, 0.2), text(size: 0.8em, fill: venn-ie-text)[$+1$])
-  draw.content((2.1, 0.2), text(size: 0.8em, fill: venn-ie-text)[$+1$])
-  draw.content((0, -2.8), text(size: 0.8em, fill: venn-ie-text)[$+1$])
-  draw.content((0, 1.3), text(size: 0.8em, fill: venn-ie-text)[$-1$])
-  draw.content((-1.0, -0.7), text(size: 0.8em, fill: venn-ie-text)[$-1$])
-  draw.content((1.0, -0.7), text(size: 0.8em, fill: venn-ie-text)[$-1$])
-  draw.content((0, -0.05), text(
-    size: 0.85em,
+  draw.content((-1.05, 0.1), text(size: 0.45em, fill: venn-ie-text)[$+1$])
+  draw.content((1.05, 0.1), text(size: 0.45em, fill: venn-ie-text)[$+1$])
+  draw.content((0, -1.4), text(size: 0.45em, fill: venn-ie-text)[$+1$])
+  draw.content((0, 0.65), text(size: 0.45em, fill: venn-ie-text)[$-1$])
+  draw.content((-0.5, -0.35), text(size: 0.45em, fill: venn-ie-text)[$-1$])
+  draw.content((0.5, -0.35), text(size: 0.45em, fill: venn-ie-text)[$-1$])
+  draw.content((0, -0.025), text(
+    size: 0.45em,
     weight: "bold",
     fill: venn-ie-text,
   )[$+1$])
 
-  let ly = -4.2
+  let ly = -2.1
   draw.rect(
-    (-3.2, ly - 0.2),
-    (-2.6, ly + 0.2),
+    (-1.6, ly - 0.1),
+    (-1.3, ly + 0.1),
     fill: venn-ie-a.transparentize(30%),
     stroke: venn-ie-a + 0.5pt,
     radius: 2pt,
   )
-  draw.content((-1.8, ly), text(
-    size: 0.65em,
+  draw.content((-0.9, ly), text(
+    size: 0.4em,
     fill: venn-ie-text,
   )[$|A|+|B|+|C|$ --- одиночные])
 
   draw.rect(
-    (0.5, ly - 0.2),
-    (1.1, ly + 0.2),
+    (0.25, ly - 0.1),
+    (0.55, ly + 0.1),
     fill: venn-ie-a.transparentize(40%),
     stroke: venn-ie-a + 0.5pt,
     radius: 2pt,
   )
-  draw.line((1.1, ly), (1.7, ly - 0.2), stroke: venn-ie-b + 0.5pt)
-  draw.line((1.1, ly), (1.7, ly + 0.2), stroke: venn-ie-c + 0.5pt)
-  draw.content((2.4, ly), text(
-    size: 0.65em,
+  draw.line((0.55, ly), (0.85, ly - 0.1), stroke: venn-ie-b + 0.5pt)
+  draw.line((0.55, ly), (0.85, ly + 0.1), stroke: venn-ie-c + 0.5pt)
+  draw.content((1.2, ly), text(
+    size: 0.4em,
     fill: venn-ie-text,
   )[$-|A inter B|-|A inter C|-|B inter C|$])
 })
@@ -98,8 +98,8 @@
 #let pt-axis = oklch(35%, 0.02, 265deg)
 
 #let pascal-triangle = canvas({
-  let s = 0.62 // шаг по горизонтали
-  let h = 1.05 // шаг по вертикали
+  let s = 0.31 // шаг по горизонтали
+  let h = 0.525 // шаг по вертикали
   let rows = (
     (1,),
     (1, 1),
@@ -110,13 +110,13 @@
     (1, 6, 15, 20, 15, 6, 1),
   )
 
-  draw.line((0, 7.05), (0, 0.45), stroke: (
+  draw.line((0, 3.525), (0, 0.225), stroke: (
     paint: pt-axis,
     thickness: 0.5pt,
     dash: "dashed",
   ))
-  draw.content((0.32, 6.7), anchor: "west", text(
-    size: 0.55em,
+  draw.content((0.16, 3.35), anchor: "west", text(
+    size: 0.4em,
     fill: pt-text,
   )[ось симметрии])
 
@@ -124,7 +124,7 @@
     for (k, val) in row.enumerate() {
       let x = (2 * k - n) * s
       let y = (rows.len() - 1 - n) * h
-      draw.content((x, y), text(size: 0.62em, fill: pt-text)[#val])
+      draw.content((x, y), text(size: 0.42em, fill: pt-text)[#val])
     }
   }
 
@@ -133,8 +133,8 @@
   let c = (0, 0)
   draw.line(p1, c, stroke: pt-accent + 0.8pt)
   draw.line(p2, c, stroke: pt-accent + 0.8pt)
-  draw.content(p1, text(size: 0.62em, weight: "bold", fill: pt-accent)[10])
-  draw.content(p2, text(size: 0.62em, weight: "bold", fill: pt-accent)[10])
-  draw.content(c, text(size: 0.62em, weight: "bold", fill: pt-accent)[20])
-  draw.content((0, -0.6), text(size: 0.6em, fill: pt-text)[$20 = 10 + 10$])
+  draw.content(p1, text(size: 0.42em, weight: "bold", fill: pt-accent)[10])
+  draw.content(p2, text(size: 0.42em, weight: "bold", fill: pt-accent)[10])
+  draw.content(c, text(size: 0.42em, weight: "bold", fill: pt-accent)[20])
+  draw.content((0, -0.3), text(size: 0.42em, fill: pt-text)[$20 = 10 + 10$])
 })

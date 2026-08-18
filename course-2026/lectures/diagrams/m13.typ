@@ -13,17 +13,17 @@
 
 // ── 1. Три источника → один матроид ──
 #let matroid-sources = {
-  let src(pos, body, name) = node(pos, body, name: name, fill: c-src-fill)
+  let src(pos, body, name) = node(pos, text(size: 0.6em, body), name: name, fill: c-src-fill)
   diagram(
     node-stroke: c-src-str,
-    node-inset: 5pt,
-    spacing: 1.8em,
+    node-inset: 2pt,
+    spacing: 0.9em,
     src((0, 0), [Лес \ ацикличность], <src-forest>),
-    src((3, 0), [Векторы \ независимость], <src-linear>),
-    src((6, 0), [Не более $k$ \ размер], <src-uniform>),
+    src((1.5, 0), [Векторы \ независимость], <src-linear>),
+    src((3, 0), [Не более $k$ \ размер], <src-uniform>),
     node(
-      (3, 2.6),
-      [Матроид \ два свойства],
+      (1.5, 1.3),
+      text(size: 0.6em)[Матроид \ два свойства],
       name: <matroid>,
       fill: c-mat-fill,
       stroke: c-mat-str,
@@ -39,16 +39,16 @@
   let elem(pos, letter, weight, name) = {
     draw.circle(
       pos,
-      radius: 0.5,
+      radius: 0.25,
       fill: c-src-fill,
       stroke: c-src-str,
       name: name,
     )
-    draw.content(pos, text(size: 0.82em, fill: c-label)[#letter \ #weight])
+    draw.content(pos, text(size: 0.45em, fill: c-label)[#letter \ #weight])
   }
-  elem((-1.9, 0), $a$, $5$, "a")
-  elem((0.9, 1.2), $b$, $4$, "b")
-  elem((0.9, -1.2), $c$, $4$, "c")
+  elem((-0.95, 0), $a$, $5$, "a")
+  elem((0.45, 0.6), $b$, $4$, "b")
+  elem((0.45, -0.6), $c$, $4$, "c")
   draw.line("a.north-east", "b.south-west", stroke: (
     paint: c-conflict,
     thickness: 0.9pt,
@@ -59,12 +59,12 @@
     thickness: 0.9pt,
     dash: "dashed",
   ))
-  draw.content((-1.9, -1.9), text(
-    size: 0.85em,
+  draw.content((-0.95, -0.95), text(
+    size: 0.45em,
     fill: c-label,
   )[жадный: ${a}$, вес $5$], name: "lbl-greedy")
-  draw.content((0.9, -2.7), text(
-    size: 0.85em,
+  draw.content((0.45, -1.35), text(
+    size: 0.45em,
     fill: c-label,
   )[оптимум: ${b,c}$, вес $8$], name: "lbl-opt")
   draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (end: "stealth"))

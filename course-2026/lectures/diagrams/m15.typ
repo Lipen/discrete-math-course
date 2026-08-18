@@ -15,65 +15,65 @@
 #let c-node(pos, label, fill: d-node-fill) = {
   draw.circle(
     pos,
-    radius: 0.34,
+    radius: 0.17,
     fill: fill,
     stroke: (paint: d-node-border, thickness: 0.8pt),
   )
-  draw.content(pos, text(size: 0.62em, fill: d-text, weight: "bold")[#label])
+  draw.content(pos, text(size: 0.42em, fill: d-text, weight: "bold")[#label])
 }
 
 // ── DPLL(T) architecture ──
 #let dpll-t-architecture = canvas({
-  let sat-top = (0, 1.6)
-  let sat-bot = (0, 0.6)
-  let th-top = (0, -0.6)
-  let th-bot = (0, -1.6)
+  let sat-top = (0, 0.8)
+  let sat-bot = (0, 0.3)
+  let th-top = (0, -0.3)
+  let th-bot = (0, -0.8)
 
   draw.rect(
-    (-2.6, sat-bot.at(1)),
-    (2.6, sat-top.at(1)),
+    (-1.3, sat-bot.at(1)),
+    (1.3, sat-top.at(1)),
     fill: d-sat,
     stroke: (paint: d-node-border, thickness: 0.8pt),
     radius: 3pt,
   )
-  draw.content((0, 1.1), text(size: 0.7em, fill: d-text, weight: "bold")[SAT-решатель])
-  draw.content((0, 0.8), text(size: 0.55em, fill: d-muted)[DPLL / CDCL])
+  draw.content((0, 0.55), text(size: 0.45em, fill: d-text, weight: "bold")[SAT-решатель])
+  draw.content((0, 0.4), text(size: 0.4em, fill: d-muted)[DPLL / CDCL])
 
   draw.rect(
-    (-2.6, th-bot.at(1)),
-    (2.6, th-top.at(1)),
+    (-1.3, th-bot.at(1)),
+    (1.3, th-top.at(1)),
     fill: d-theory,
     stroke: (paint: d-node-border, thickness: 0.8pt),
     radius: 3pt,
   )
-  draw.content((0, -1.1), text(size: 0.7em, fill: d-text, weight: "bold")[Theory-солвер])
-  draw.content((0, -1.4), text(size: 0.55em, fill: d-muted)[DL, EUF, LRA, ...])
+  draw.content((0, -0.55), text(size: 0.45em, fill: d-text, weight: "bold")[Theory-солвер])
+  draw.content((0, -0.7), text(size: 0.4em, fill: d-muted)[DL, EUF, LRA, ...])
 
   // SAT -> theory: proposes a model
   draw.line(
-    (1.7, 0.6),
-    (1.7, -0.6),
+    (0.85, 0.3),
+    (0.85, -0.3),
     mark: (end: "stealth"),
     stroke: d-edge + 0.8pt,
   )
-  draw.content((2.15, 0), anchor: "west", text(size: 0.55em, fill: d-text)[модель])
+  draw.content((1.075, 0), anchor: "west", text(size: 0.4em, fill: d-text)[модель])
 
   // theory -> SAT: returns T-lemma on conflict
   draw.line(
-    (-1.7, -0.6),
-    (-1.7, 0.6),
+    (-0.85, -0.3),
+    (-0.85, 0.3),
     mark: (end: "stealth"),
     stroke: d-edge + 0.8pt,
   )
-  draw.content((-2.15, 0), anchor: "east", text(size: 0.55em, fill: d-text)[$T$-лемма])
+  draw.content((-1.075, 0), anchor: "east", text(size: 0.4em, fill: d-text)[$T$-лемма])
 })
 
 // ── Difference-logic negative cycle ──
 #let dl-negative-cycle = canvas({
   // Triangle x -> z (-3), z -> w (-1), w -> x (+2).
-  let x = (-1.6, 1.2)
-  let z = (1.6, 1.2)
-  let w = (0, -1.6)
+  let x = (-0.4, 0.32)
+  let z = (0.4, 0.32)
+  let w = (0, -0.4)
 
   c-node(x, $x$)
   c-node(z, $z$)
@@ -81,27 +81,27 @@
 
   // x -> z, weight -3
   draw.line(x, z, mark: (end: "stealth"), stroke: d-neg + 1pt)
-  draw.content((0, 1.7), text(size: 0.6em, fill: d-neg, weight: "bold")[$-3$])
+  draw.content((0, 0.44), text(size: 0.42em, fill: d-neg, weight: "bold")[$-3$])
   // z -> w, weight -1
   draw.line(z, w, mark: (end: "stealth"), stroke: d-neg + 1pt)
-  draw.content((1.05, -0.35), text(size: 0.6em, fill: d-neg, weight: "bold")[$-1$])
+  draw.content((0.26, -0.08), text(size: 0.42em, fill: d-neg, weight: "bold")[$-1$])
   // w -> x, weight +2
   draw.line(w, x, mark: (end: "stealth"), stroke: d-pos + 1pt)
-  draw.content((-0.9, -0.35), text(size: 0.6em, fill: d-pos, weight: "bold")[$+2$])
+  draw.content((-0.24, -0.08), text(size: 0.42em, fill: d-pos, weight: "bold")[$+2$])
 
-  draw.content((0, -2.5), text(size: 0.6em, fill: d-neg)[$-3 - 1 + 2 = -2 < 0$])
+  draw.content((0, -0.6), text(size: 0.42em, fill: d-neg)[$-3 - 1 + 2 = -2 < 0$])
 })
 
 // ── CTL computation tree ──
 #let ctl-tree = canvas({
   // Root s0, branches s1 (p) and s2 (q); s1 branches to s3, s4; s2 branches to s5, s6.
-  let s0 = (0, 2.4)
-  let s1 = (-1.4, 1.0)
-  let s2 = (1.4, 1.0)
-  let s3 = (-2.2, -0.4)
-  let s4 = (-0.6, -0.4)
-  let s5 = (0.6, -0.4)
-  let s6 = (2.2, -0.4)
+  let s0 = (0, 1.2)
+  let s1 = (-0.7, 0.5)
+  let s2 = (0.7, 0.5)
+  let s3 = (-1.1, -0.2)
+  let s4 = (-0.3, -0.2)
+  let s5 = (0.3, -0.2)
+  let s6 = (1.1, -0.2)
 
   c-node(s0, $s_0$)
   c-node(s1, $s_1$)
@@ -118,7 +118,7 @@
   draw.line(s2, s5, mark: (end: "stealth"), stroke: d-edge + 0.8pt)
   draw.line(s2, s6, mark: (end: "stealth"), stroke: d-edge + 0.8pt)
 
-  draw.content((-2.2, -0.85), text(size: 0.55em, fill: d-text)[$p$])
-  draw.content((-0.6, -0.85), text(size: 0.55em, fill: d-text)[$q$])
-  draw.content((2.2, -0.85), text(size: 0.55em, fill: d-text)[$p$])
+  draw.content((-1.1, -0.425), text(size: 0.42em, fill: d-text)[$p$])
+  draw.content((-0.3, -0.425), text(size: 0.42em, fill: d-text)[$q$])
+  draw.content((1.1, -0.425), text(size: 0.42em, fill: d-text)[$p$])
 })

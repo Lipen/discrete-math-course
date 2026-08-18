@@ -8,43 +8,43 @@
 #let sld-dead-col = oklch(45%, 0.10, 15deg)
 
 #let sld-tree = canvas({
-  let hw = 1.7 // полуширина плашки цели
+  let hw = 0.85 // полуширина плашки цели
 
   let goal(pos, label, name) = {
     let (x, y) = pos
     draw.rect(
-      (x - hw, y + 0.34),
-      (x + hw, y - 0.34),
+      (x - hw, y + 0.17),
+      (x + hw, y - 0.17),
       fill: sld-goal-fill,
       stroke: sld-goal-str,
-      radius: 3pt,
+      radius: 2pt,
       name: name,
     )
-    draw.content(pos, label)
+    draw.content(pos, text(size: 0.5em, label))
   }
   let solution(pos, label, name) = {
     let (x, y) = pos
     draw.rect(
-      (x - 1.6, y + 0.3),
-      (x + 1.6, y - 0.3),
+      (x - 0.8, y + 0.15),
+      (x + 0.8, y - 0.15),
       fill: sld-sol-fill,
       stroke: 0.7pt + sld-sol-fill,
-      radius: 3pt,
+      radius: 2pt,
       name: name,
     )
-    draw.content(pos, label)
+    draw.content(pos, text(size: 0.5em, label))
   }
   let edge(a, b) = draw.line(a, b, stroke: sld-goal-str)
 
   let root = (0, 0)
-  let base1 = (-3.4, -1.8)
-  let recur1 = (3.4, -1.8)
-  let sol1 = (-3.4, -3.6)
-  let anc = (3.4, -3.6)
-  let base2 = (1.6, -5.4)
-  let recur2 = (5.2, -5.4)
-  let sol2 = (1.6, -7.2)
-  let dead = (5.2, -7.2)
+  let base1 = (-1.7, -0.9)
+  let recur1 = (1.7, -0.9)
+  let sol1 = (-1.7, -1.8)
+  let anc = (1.7, -1.8)
+  let base2 = (0.8, -2.7)
+  let recur2 = (2.6, -2.7)
+  let sol2 = (0.8, -3.6)
+  let dead = (2.6, -3.6)
 
   goal(root, [`ancestor(alice, Y)`], "root")
   goal(base1, [`parent(alice, Y)`], "base1")
@@ -55,7 +55,8 @@
   goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`], "recur2")
   solution(sol2, [$Y = "carol"$], "sol2")
   goal(dead, [`ancestor(carol, Y)`], "dead")
-  draw.content((dead.at(0), dead.at(1) - 0.85), text(
+  draw.content((dead.at(0), dead.at(1) - 0.425), text(
+    size: 0.45em,
     fill: sld-dead-col,
     weight: "bold",
   )[тупик])

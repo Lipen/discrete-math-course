@@ -2,14 +2,14 @@
 // Скопировано из notes/diagrams/m05.typ, чтобы лекции не зависели от книги.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
-#let n-size = 1.2em
+#let n-size = 0.6em
 #let n-fill = oklch(88%, 0.03, 250deg)
 #let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
 #let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
 
 #let cn(pos, body, ..args) = node(
   pos,
-  body,
+  text(size: 0.7em)[#body],
   fill: n-fill,
   width: n-size,
   height: n-size,
@@ -25,7 +25,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 2em,
+  spacing: 1em,
   cn((0, 3), $1$, name: <d1>),
   cn((-1, 2), $2$, name: <d2>),
   cn((1, 2), $3$, name: <d3>),
@@ -47,7 +47,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 1.4em,
+  spacing: 0.7em,
   cn((0, 2), $1$, name: <c1>),
   cn((0, 1), $2$, name: <c2>),
   cn((0, 0), $3$, name: <c3>),
@@ -61,7 +61,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 2em,
+  spacing: 1em,
   cn((0, 2), $nothing$, name: <p0>),
   cn((-1, 1), ${1}$, name: <p1>),
   cn((1, 1), ${2}$, name: <p2>),
@@ -78,7 +78,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 1.8em,
+  spacing: 0.9em,
   cn((0, 2), $bot$, name: <bot>),
   cn((-1, 1), $-$, name: <neg>),
   cn((0, 1), $0$, name: <zero>),
@@ -98,7 +98,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 1.8em,
+  spacing: 0.9em,
   // Layer 3: full set (top)
   cn((0, 0), ${1,2,3}$, name: <p123>),
   // Layer 2: pairs

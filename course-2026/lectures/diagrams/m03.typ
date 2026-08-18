@@ -9,10 +9,10 @@
 
 #let cn(pos, body, ..args) = node(
   pos,
-  body,
+  text(size: 0.7em)[#body],
   fill: n-fill,
-  width: 1.2em,
-  height: 1.2em,
+  width: 0.6em,
+  height: 0.6em,
   ..args,
 )
 #let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-str, ..args)
@@ -31,7 +31,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 1.6em,
+  spacing: 0.8em,
   cn((-0.4, 1.6), $1$, name: <1>),
   cn((1.3, 0.8), $2$, name: <2>),
   cn((1.3, -0.8), $3$, name: <3>),
@@ -56,19 +56,19 @@
 
   // Node helper: named circle with a label
   let v(name, pos) = {
-    draw.circle(pos, radius: 0.35, fill: fill, stroke: stroke, name: name)
-    draw.content(pos, text(size: 0.7em)[#name])
+    draw.circle(pos, radius: 0.18, fill: fill, stroke: stroke, name: name)
+    draw.content(pos, text(size: 0.45em)[#name])
   }
 
   // Edge helper: straight line between two named nodes
   let e(a, b) = draw.line(a, b, stroke: edge-str)
 
   // Nodes, named
-  v("12", (0, 3.0))
-  v("4", (-1.5, 2.0))
-  v("6", (1.5, 2.0))
-  v("2", (-1.0, 1.0))
-  v("3", (1.0, 1.0))
+  v("12", (0, 1.5))
+  v("4", (-0.75, 1.0))
+  v("6", (0.75, 1.0))
+  v("2", (-0.5, 0.5))
+  v("3", (0.5, 0.5))
   v("1", (0, 0.0))
 
   // Edges --- only cover relations (no transitive shortcuts), node-based
@@ -91,50 +91,50 @@
 #let equivalence-partition = canvas({
   // Class [0]: {3, 6, 9}
   draw.rect(
-    (-3.8, 1.2),
-    (3.8, 2.8),
-    radius: 12pt,
+    (-1.9, 0.6),
+    (1.9, 1.4),
+    radius: 6pt,
     fill: c-eq-a,
     stroke: c-eq-str,
   )
-  draw.content((-2.5, 2.0), text(size: 0.7em, fill: c-eq-label)[3])
-  draw.content((-0.8, 2.0), text(size: 0.7em, fill: c-eq-label)[6])
-  draw.content((0.9, 2.0), text(size: 0.7em, fill: c-eq-label)[9])
-  draw.content((3.2, 2.0), anchor: "west", text(
-    size: 0.55em,
+  draw.content((-1.25, 1.0), text(size: 0.45em, fill: c-eq-label)[3])
+  draw.content((-0.4, 1.0), text(size: 0.45em, fill: c-eq-label)[6])
+  draw.content((0.45, 1.0), text(size: 0.45em, fill: c-eq-label)[9])
+  draw.content((1.6, 1.0), anchor: "west", text(
+    size: 0.4em,
     fill: luma(50%),
   )[$"mod" 3 = 0$])
 
   // Class [1]: {1, 4, 7, 10}
   draw.rect(
-    (-3.8, -0.3),
-    (3.8, 1.3),
-    radius: 12pt,
+    (-1.9, -0.15),
+    (1.9, 0.65),
+    radius: 6pt,
     fill: c-eq-b,
     stroke: c-eq-str,
   )
-  draw.content((-2.5, 0.5), text(size: 0.7em, fill: c-eq-label)[1])
-  draw.content((-0.8, 0.5), text(size: 0.7em, fill: c-eq-label)[4])
-  draw.content((0.9, 0.5), text(size: 0.7em, fill: c-eq-label)[7])
-  draw.content((2.6, 0.5), text(size: 0.7em, fill: c-eq-label)[10])
-  draw.content((3.2, 0.5), anchor: "west", text(
-    size: 0.55em,
+  draw.content((-1.25, 0.25), text(size: 0.45em, fill: c-eq-label)[1])
+  draw.content((-0.4, 0.25), text(size: 0.45em, fill: c-eq-label)[4])
+  draw.content((0.45, 0.25), text(size: 0.45em, fill: c-eq-label)[7])
+  draw.content((1.3, 0.25), text(size: 0.45em, fill: c-eq-label)[10])
+  draw.content((1.6, 0.25), anchor: "west", text(
+    size: 0.4em,
     fill: luma(50%),
   )[$"mod" 3 = 1$])
 
   // Class [2]: {2, 5, 8}
   draw.rect(
-    (-3.8, -1.8),
-    (3.8, -0.2),
-    radius: 12pt,
+    (-1.9, -0.9),
+    (1.9, -0.1),
+    radius: 6pt,
     fill: c-eq-c,
     stroke: c-eq-str,
   )
-  draw.content((-1.5, -1.0), text(size: 0.7em, fill: c-eq-label)[2])
-  draw.content((0.2, -1.0), text(size: 0.7em, fill: c-eq-label)[5])
-  draw.content((1.9, -1.0), text(size: 0.7em, fill: c-eq-label)[8])
-  draw.content((3.2, -1.0), anchor: "west", text(
-    size: 0.55em,
+  draw.content((-0.75, -0.5), text(size: 0.45em, fill: c-eq-label)[2])
+  draw.content((0.1, -0.5), text(size: 0.45em, fill: c-eq-label)[5])
+  draw.content((0.95, -0.5), text(size: 0.45em, fill: c-eq-label)[8])
+  draw.content((1.6, -0.5), anchor: "west", text(
+    size: 0.4em,
     fill: luma(50%),
   )[$"mod" 3 = 2$])
 })
