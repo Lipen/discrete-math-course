@@ -6,6 +6,8 @@
   authors: "Константин Чухарев",
 )
 
+#import "diagrams/m09.typ": half-adder, full-adder, multiplexer-4to1
+
 = Системы счисления
 #focus-slide(
   epigraph: [Что я не могу создать, я не понимаю.],
@@ -184,6 +186,14 @@
   Формирует перенос, но не принимает входящий.
 ]
 
+#box(width: 100%, height: 2.5cm)[#place(center + horizon, scale(
+  half-adder,
+  x: 55%,
+  y: 55%,
+))]
+
+== Полусумматор: таблица истинности
+
 #table(
   columns: 4,
   align: center,
@@ -207,6 +217,14 @@
     S = A xor B xor C_"in", quad C_"out" = (A and B) or (C_"in" and (A xor B)).
   $
 ]
+
+#box(width: 100%, height: 2.5cm)[#place(center + horizon, scale(
+  full-adder,
+  x: 55%,
+  y: 55%,
+))]
+
+== Полный сумматор: перенос
 
 #important[
   Перенос $C_"out" = 1$, когда не менее двух из трёх входов равны 1.
@@ -247,6 +265,14 @@
   - *Декодер* $k$-в-$2^k$ --- активирует один из выходов.
   - Однобитный срез АЛУ: параллельные блоки AND, OR, ADD, SUB, мультиплексор выбирает.
 ]
+
+#box(width: 100%, height: 2.6cm)[#place(center + horizon, scale(
+  multiplexer-4to1,
+  x: 45%,
+  y: 45%,
+))]
+
+== АЛУ: срезы и состав
 
 #important[
   $n$-битное АЛУ --- $n$ срезов с цепочкой переносов.
