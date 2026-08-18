@@ -142,10 +142,10 @@ _LTL_ (Linear Temporal Logic) рассматривает _один путь_ з�
   $
     pi models p &"iff" p in L(s_0),
     pi models not phi &"iff" pi nmodels phi,
-    pi models phi and psi &"iff" pi models phi "и" pi models psi,
-    pi models circle phi &"iff" pi^1 models phi,
-    pi models phi U psi &"iff" exists j >= 0: pi^j models psi "и" forall i < j: pi^i models phi.
+    pi models phi and psi &"iff" pi models phi and pi models psi,
+    pi models circle phi &"iff" pi^1 models phi.
   $
+  Для оператора $U$: $pi models phi U psi$ тогда и только тогда, когда существует $j$ такое, что $pi^j models psi$ и $forall i < j: pi^i models phi$.
 ]
 
 #example[Свойства в LTL][
