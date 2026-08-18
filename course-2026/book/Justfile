@@ -6,6 +6,6 @@ default:
 build:
     typst compile --root .. book.typ
 
-# Стилевой аудит глав книги (tools/audit.py)
+# Стилевой аудит глав книги (.dev/scripts/audit.py)
 lint:
-    uv run ../tools/audit.py
+    python3 ../.dev/scripts/audit.py
