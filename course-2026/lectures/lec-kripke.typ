@@ -57,6 +57,7 @@
     [рефлексивность: $forall w: R(w, w)$], [ $<->$ ], [$T$: $square p -> p$],
     [симметричность: $R(u, v) -> R(v, u)$], [ $<->$ ], [$B$: $p -> square diamond p$],
     [транзитивность: $R(u, v) and R(v, w) -> R(u, w)$], [ $<->$ ], [$4$: $square p -> square square p$],
+    [евклидовость: $R(u, v) and R(u, w) -> R(v, w)$], [ $<->$ ], [$5$: $diamond p -> square diamond p$],
   )
 ]
 
