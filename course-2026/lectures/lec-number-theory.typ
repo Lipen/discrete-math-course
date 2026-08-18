@@ -77,6 +77,10 @@
   $ a x + m y = 1. $
 ]
 
+#example[
+  Для $"gcd"(7, 26) = 1$: $7 dot (-11) + 26 dot 3 = 1$, поэтому $7^(-1) equiv -11 equiv 15 (mod 26)$.
+]
+
 #important[
   Если $a x + m y = 1$, то $a x equiv 1 (mod m)$.
 
@@ -155,6 +159,10 @@
 
 #theorem[Теорема Эйлера][
   Если $"gcd"(a, n) = 1$: $a^(phi(n)) equiv 1 (mod n)$.
+]
+
+#example[
+  $a = 3$, $n = 10$: $phi(10) = 4$, и $3^4 = 81 equiv 1 (mod 10)$.
 ]
 
 #important[
