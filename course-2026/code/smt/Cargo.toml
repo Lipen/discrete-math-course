@@ -1,0 +1,5 @@
+[package]
+name = "smt"
+version = "0.1.0"
+edition = "2021"
+description = "A small difference-logic (DL) SMT solver"
