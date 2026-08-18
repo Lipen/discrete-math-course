@@ -2,17 +2,17 @@
 default:
     @just --list
 
-# Собрать все документы курса
+# Build all course documents
 all: topics-s1 topics-s2 schedule-s1
 
-# Проспект курса: семестр 1
+# Course prospectus: semester 1
 topics-s1:
     typst compile --root .. topics-s1.typ
 
-# Проспект курса: семестр 2
+# Course prospectus: semester 2
 topics-s2:
     typst compile --root .. topics-s2.typ
 
-# Расписание семестра 1
+# Semester 1 schedule
 schedule-s1:
     typst compile --root .. schedule-s1.typ

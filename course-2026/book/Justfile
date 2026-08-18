@@ -2,10 +2,10 @@
 default:
     @just --list
 
-# Собрать книгу в book.pdf
+# Build the book to book.pdf
 build:
     typst compile --root .. book.typ
 
-# Стилевой аудит глав книги (.dev/scripts/audit.py)
+# Style audit of book chapters (.dev/scripts/audit.py)
 lint:
     python3 ../.dev/scripts/audit.py

@@ -2,10 +2,10 @@
 default:
     @just --list
 
-# Собрать книгу
+# Build the book
 book:
     just book/build
 
-# Собрать все лекции
+# Build all lectures
 lectures:
     just lectures/all
