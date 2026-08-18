@@ -312,7 +312,7 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
 /// Линейно независимы ли выбранные двоичные векторы?
 fn is_independent(vectors: &[Vec<u8>], set: &[u32]) -> bool {
     let dim = vectors[0].len();
-    Let mut basis: Vec<Vec<u8>> = Vec::new(). // редуцированный базис
+    let mut basis: Vec<Vec<u8>> = Vec::new(); // редуцированный базис
     for &i in set {
         let mut row = vectors[i as usize].clone();
         for b in &basis {
@@ -324,7 +324,7 @@ fn is_independent(vectors: &[Vec<u8>], set: &[u32]) -> bool {
             }
         }
         if row.iter().all(|&x| x == 0) {
-            Return false. // вектор --- комбинация остальных
+            return false; // вектор --- комбинация остальных
         }
         basis.push(row);
     }

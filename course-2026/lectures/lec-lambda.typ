@@ -37,7 +37,8 @@
 ]
 
 #example[
-  $(lambda x . x) y$ --- аппликация абстракции к переменной; $lambda x y . x$ --- вложенная абстракция.
+  - $(lambda x . x) y$ --- аппликация абстракции к переменной.
+  - $lambda x y . x$ --- вложенная абстракция.
 ]
 
 #important[
@@ -47,9 +48,9 @@
 ]
 
 #note[
-  Соглашения: $M N P = (M N) P$ (лево-ассоциативно).
-
-  $lambda x y . M = lambda x . (lambda y . M)$.
+  Соглашения:
+  - $M N P = (M N) P$ (лево-ассоциативно).
+  - $lambda x y . M = lambda x . (lambda y . M)$.
 ]
 
 = Синтаксис и редукция
@@ -58,11 +59,9 @@
 == Свободные и связанные
 
 #definition[
-  *Свободная* переменная --- та, на пути от которой к корню терма нет связывающего её $lambda$.
-
-  *Связанная*: есть $lambda x$.
-
-  *Комбинатор*: замкнутый терм, то есть терм без свободных переменных.
+  - *Свободная* переменная --- та, на пути от которой к корню терма нет связывающего её $lambda$.
+  - *Связанная*: есть $lambda x$.
+  - *Комбинатор*: замкнутый терм, то есть терм без свободных переменных.
 ]
 
 #example[
@@ -166,9 +165,8 @@
 #example[
   $(lambda x . y) Omega$.
 
-  Нормальная стратегия (самый левый внешний редекс): $(lambda x . y) Omega ->^beta y$ за один шаг.
-
-  Аппликативная (самый левый внутренний): сначала редуцирует $Omega$ и зацикливается.
+  - Нормальная стратегия (самый левый внешний редекс): $(lambda x . y) Omega ->^beta y$ за один шаг.
+  - Аппликативная (самый левый внутренний): сначала редуцирует $Omega$ и зацикливается.
 ]
 
 #important[
@@ -185,19 +183,15 @@
 == Булевы Чёрча
 
 #definition[
-  $"true" = lambda x y . x$.
-
-  $"false" = lambda x y . y$.
-
-  Условное выражение --- аппликация: $"true" A B -> A$.
+  - $"true" = lambda x y . x$.
+  - $"false" = lambda x y . y$.
+  - Условное выражение --- аппликация: $"true" A B -> A$.
 ]
 
 #example[
-  $"not" = lambda b . b "false" "true"$.
-
-  $"and" = lambda a b . a b "false"$.
-
-  $"or" = lambda a b . a "true" b$.
+  - $"not" = lambda b . b "false" "true"$.
+  - $"and" = lambda a b . a b "false"$.
+  - $"or" = lambda a b . a "true" b$.
 ]
 
 #important[
@@ -217,25 +211,23 @@
 #important[
   Число Чёрча $n$ формально есть $lambda f x . f^n (x)$: итерация функции $f$ ровно $n$ раз.
 
-  $"succ" = lambda n f x . f (n f x)$. $"add" 2 3 ->>^beta 5$. $"mult" 2 3 ->>^beta 6$.
-
-  $"exp" = lambda m n . n m$: $"exp" 2 3 -> 8$.
+  - $"succ" = lambda n f x . f (n f x)$.
+  - $"add" 2 3 ->>^beta 5$.
+  - $"mult" 2 3 ->>^beta 6$.
+  - $"exp" = lambda m n . n m$: $"exp" 2 3 -> 8$.
 ]
 
 == Пары Чёрча
 
 #definition[Пары Чёрча][
-  $"pair" = lambda a b s . s a b$.
-
-  $"fst" = lambda p . p "true"$.
-
-  $"snd" = lambda p . p "false"$.
+  - $"pair" = lambda a b s . s a b$.
+  - $"fst" = lambda p . p "true"$.
+  - $"snd" = lambda p . p "false"$.
 ]
 
 #example[
-  $"fst" ("pair" a b) -> a$.
-
-  $"snd" ("pair" a b) -> b$.
+  - $"fst" ("pair" a b) -> a$.
+  - $"snd" ("pair" a b) -> b$.
 ]
 
 #important[
@@ -304,21 +296,16 @@
 == Три комбинатора
 
 #definition[Комбинаторы $S$, $K$, $I$][
-  $I = lambda x . x$.
-
-  $K = lambda x y . x$.
-
-  $S = lambda x y z . x z (y z)$.
+  - $I = lambda x . x$.
+  - $K = lambda x y . x$.
+  - $S = lambda x y z . x z (y z)$.
 ]
 
 #example[
-  $I x -> x$.
-
-  $K x y -> x$.
-
-  $S x y z -> x z (y z)$.
-
-  $S K K x -> K x (K x) -> x$, то есть $S K K$ ведёт себя как $I$.
+  - $I x -> x$.
+  - $K x y -> x$.
+  - $S x y z -> x z (y z)$.
+  - $S K K x -> K x (K x) -> x$, то есть $S K K$ ведёт себя как $I$.
 ]
 
 == Базис S, K
@@ -380,9 +367,8 @@
 ]
 
 #note[
-  Императивные языки ближе к МТ: состояния, память, шаги.
-
-  Функциональные --- к лямбде: выражения, подстановка.
+  - Императивные языки ближе к МТ: состояния, память, шаги.
+  - Функциональные --- к лямбде: выражения, подстановка.
 ]
 
 == Пределы типизации
