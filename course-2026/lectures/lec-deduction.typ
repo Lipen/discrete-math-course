@@ -1,4 +1,5 @@
 #import "theme.typ": *
+#import "@preview/frederic:0.1.0": proof as fitch-proof, premise as fitch-premise, step as fitch-step, assume as fitch-assume, subproof as fitch-subproof
 #show: slides.with(
   title: [Дедукция и системы вывода],
   subtitle: "Дискретная математика",
@@ -95,6 +96,39 @@
 
 #important[
   Гипотетическое рассуждение --- сердце доказательства.
+]
+
+== Нотация Фитча
+
+Натуральный вывод записывают в _нотации Фитча_: колонка пронумерованных строк, поддоказательства отступом с вертикальной чертой, гипотезы снимаются.
+
+#example[Доказательство $A -> (B -> A)$][
+  #fitch-proof(
+    fitch-subproof(
+      fitch-assume(1, $A$),
+      fitch-subproof(
+        fitch-assume(2, $B$),
+        fitch-step(3, $A$, rule: [R 1]),
+      ),
+      fitch-step(4, $B -> A$, rule: [$->$I 2-3]),
+    ),
+    fitch-step(5, $A -> (B -> A)$, rule: [$->$I 1-4]),
+  )
+
+  Два ввода импликации снимают обе гипотезы: заключение не зависит ни от одной.
+]
+
+#example[Косвенное доказательство и снятие двойного отрицания][
+  #fitch-proof(
+    fitch-premise(1, $not not A$),
+    fitch-subproof(
+      fitch-assume(2, $not A$),
+      fitch-step(3, $bot$, rule: [$not$E 1, 2]),
+    ),
+    fitch-step(4, $A$, rule: [IP 2-3]),
+  )
+
+  Классическое правило IP: из противоречия, выведенного из $not A$, следует $A$.
 ]
 
 == Естественная дедукция
