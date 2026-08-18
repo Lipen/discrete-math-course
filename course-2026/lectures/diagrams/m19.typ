@@ -1,5 +1,5 @@
 // M19 diagrams --- finite automata.
-// Скопировано из notes/diagrams/m13.typ, чтобы лекции не зависели от книги.
+// Скопировано из book/diagrams/m13.typ, чтобы лекции не зависели от книги.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
 #let c-state = oklch(88%, 0.03, 250deg)

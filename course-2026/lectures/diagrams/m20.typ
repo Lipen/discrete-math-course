@@ -1,5 +1,5 @@
 // M20 diagrams --- Chomsky hierarchy.
-// Скопировано из notes/diagrams/m15.typ, чтобы лекции не зависели от книги.
+// Скопировано из book/diagrams/m15.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 #let chomsky-hierarchy = canvas({

@@ -1,5 +1,5 @@
 // M10 diagrams --- Hamming, Huffman.
-// Скопировано из notes/diagrams/m09.typ, чтобы лекции не зависели от книги.
+// Скопировано из book/diagrams/m09.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw, vector
 
 #let hf-str = 0.8pt + oklch(35%, 0.02, 265deg)

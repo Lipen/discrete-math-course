@@ -1,5 +1,5 @@
 // M05 diagrams --- Cantor diagonal, QQ pairing, line-to-square.
-// Скопировано из notes/diagrams/m12.typ, чтобы лекции не зависели от книги.
+// Скопировано из book/diagrams/m12.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 #let cantor-diagonal = canvas({

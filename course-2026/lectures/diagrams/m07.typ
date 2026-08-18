@@ -1,5 +1,5 @@
 // M07 graph diagrams --- CeTZ 0.5.2, node-based.
-// Скопировано из notes/diagrams/m06.typ, чтобы лекции не зависели от книги.
+// Скопировано из book/diagrams/m06.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Palette ──

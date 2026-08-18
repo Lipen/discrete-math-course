@@ -7,10 +7,10 @@
 
 | Папка | Что это | Сборка |
 |---|---|---|
-| `notes/` | Книга на Typst, 28 глав | `typst compile notes/book.typ` |
-| `lectures/` | Слайды лекций на Typst | `typst compile lectures/lec-*.typ` |
+| `book/` | Книга на Typst, 34 главы | `just book` |
+| `lectures/` | Слайды лекций на Typst | `just lectures` |
 | `code/` | Rust-крейты по темам книги | `cargo test --workspace` |
-| `course/` | Документы курса: проспект, планы, расписание, опросники | `typst compile --root . course/*.typ` |
+| `course/` | Документы курса: проспект, планы, расписание, опросники | `just course/all` |
 
 ## Документы курса
 
@@ -30,9 +30,9 @@
 ## Сборка
 
 ```bash
-typst compile notes/book.typ /tmp/book.pdf
+just book          # книга → book/book.pdf
+just lectures      # все лекции → lectures/*.pdf
 cargo test --workspace
-cargo clippy --workspace --all-targets
 ```
 
 ## Статус

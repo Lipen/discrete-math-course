@@ -1,7 +1,7 @@
 // Семестр 1 --- понедельное расписание.
 
 // Math aliases for Typst compatibility
-#import "../notes/math-compat.typ": *
+#import "../book/math-compat.typ": *
 
 = Семестр 1. Расписание
 

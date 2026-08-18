@@ -1,5 +1,5 @@
 // M08 diagrams --- Karnaugh maps.
-// Скопировано из notes/diagrams/m07.typ, чтобы лекции не зависели от книги.
+// Скопировано из book/diagrams/m07.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 #let c-km-line = oklch(35%, 0.02, 265deg) + 0.5pt
