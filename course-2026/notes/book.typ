@@ -151,8 +151,7 @@
 #include "m31-verification.typ"
 #include "m32-kripke.typ"
 #include "m33-intuitionism.typ"
-#include "m34-syllogistics.typ"
-#include "m35-fuzzy-sets.typ"
+#include "m34-fuzzy-sets.typ"
 #include "conclusion.typ"
 
 // --- Глоссарий ---
