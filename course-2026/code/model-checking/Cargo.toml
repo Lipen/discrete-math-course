@@ -1,0 +1,5 @@
+[package]
+name = "model-checking"
+version = "0.1.0"
+edition = "2021"
+description = "CTL model checking via state labeling"
