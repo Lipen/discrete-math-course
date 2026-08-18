@@ -45,14 +45,14 @@
 ]
 
 #pb-hint("fuzzy:defuzzification")[
-  Centroid: $integral x mu (x) d x \/ integral mu (x) d x$.
+  Centroid: $integral x mu (x) dif x \/ integral mu (x) dif x$.
   Mean of Max: середина отрезка, где $mu = 1$.
   Посчитайте площадь и моменты трапеции.
 ]
 
 #pb-hint("fuzzy:excluded-middle")[
   Заде: при $mu = 0.5$ и $A union not A$, и $A inter not A$ дают 0.5.
-  Лукасевича: $max(0, a + 1 - a - 1) = 0$; но $max(0, 2a - 1) < a$.
+  Лукасевича: $max(0, a + (1 - a) - 1) = 0$; но $max(0, 2a - 1) < a$ при $a < 1$.
 ]
 
 #pb-hint("fuzzy:err-prob")[
