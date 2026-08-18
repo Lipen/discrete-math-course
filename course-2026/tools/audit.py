@@ -114,6 +114,9 @@ def analyze(fname):
         typo.append(f'«» {text.count(chr(0xAB)) + text.count(chr(0xBB))}')
     if chr(0x201C) in text or chr(0x201D) in text:
         typo.append(f'English quotes {text.count(chr(0x201C)) + text.count(chr(0x201D))}')
+    cjk = re.findall(r'[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af\uf900-\ufaff]', text)
+    if cjk:
+        typo.append(f'CJK x{len(cjk)}: ' + ' '.join(sorted(set(cjk))[:5]))
     return slop, stops, runs, typo
 
 
@@ -134,3 +137,8 @@ for f, ts, nst, nr, mr, slop, stops, typo in rows[:10]:
     if ts:
         cats = ', '.join(f"{k}={v}" for k, v in sorted(slop.items()))
         print(f"  {f}: {ts}  [{cats}]")
+
+print("\n=== типографика и CJK ===")
+for f, ts, nst, nr, mr, slop, stops, typo in rows:
+    if typo:
+        print(f"  {f}: {', '.join(typo)}")
