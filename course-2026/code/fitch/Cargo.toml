@@ -1,0 +1,5 @@
+[package]
+name = "fitch"
+version = "0.1.0"
+edition = "2021"
+description = "Fitch-style natural deduction proof checker for propositional logic"
