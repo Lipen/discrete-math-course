@@ -191,12 +191,26 @@ pub fn check(steps: &[Step]) -> Result<(), Error> {
                 f => return Err(Error::WrongFormula { line: conj, expected: and(atom("_"), atom("_")), found: f }),
             },
             Just::OrIntroLeft { disj } => {
+                let (x, _) = match &step.formula {
+                    Formula::Or(x, y) => ((**x).clone(), (**y).clone()),
+                    f => return Err(Error::WrongFormula { line, expected: or(atom("_"), atom("_")), found: f.clone() }),
+                };
                 let a = scope(&active, &formulas, disj)?;
-                or(a, atom("_"))
+                if a != x {
+                    return Err(Error::WrongFormula { line: disj, expected: x, found: a });
+                }
+                step.formula.clone()
             }
             Just::OrIntroRight { disj } => {
+                let (_, y) = match &step.formula {
+                    Formula::Or(x, y) => ((**x).clone(), (**y).clone()),
+                    f => return Err(Error::WrongFormula { line, expected: or(atom("_"), atom("_")), found: f.clone() }),
+                };
                 let b = scope(&active, &formulas, disj)?;
-                or(atom("_"), b)
+                if b != y {
+                    return Err(Error::WrongFormula { line: disj, expected: y, found: b });
+                }
+                step.formula.clone()
             }
             Just::OrElim { disj, left, right } => {
                 let (a, b) = match scope(&active, &formulas, disj)? {
@@ -371,6 +385,32 @@ mod tests {
             Step { depth: 0, formula: c.clone(), just: Just::OrElim { disj: 1, left: 5, right: 7 } },
         ];
         assert!(check(&steps).is_ok(), "{:?}", check(&steps));
+    }
+
+    #[test]
+    fn or_introduction_derives_from_a_disjunct() {
+        // A ⊢ A ∨ B (left) and A ⊢ B ∨ A (right).
+        let a = atom("A");
+        let b = atom("B");
+        let steps = vec![
+            Step { depth: 0, formula: a.clone(), just: Just::Assumption },
+            Step { depth: 0, formula: or(a.clone(), b.clone()), just: Just::OrIntroLeft { disj: 1 } },
+            Step { depth: 0, formula: or(b.clone(), a.clone()), just: Just::OrIntroRight { disj: 1 } },
+        ];
+        assert!(check(&steps).is_ok(), "{:?}", check(&steps));
+    }
+
+    #[test]
+    fn or_introduction_rejects_wrong_disjunct() {
+        // From A, left-intro cannot state B ∨ C (B ≠ A).
+        let a = atom("A");
+        let b = atom("B");
+        let c = atom("C");
+        let steps = vec![
+            Step { depth: 0, formula: a.clone(), just: Just::Assumption },
+            Step { depth: 0, formula: or(b.clone(), c.clone()), just: Just::OrIntroLeft { disj: 1 } },
+        ];
+        assert!(matches!(check(&steps), Err(Error::WrongFormula { line: 1, .. })));
     }
 
     #[test]
