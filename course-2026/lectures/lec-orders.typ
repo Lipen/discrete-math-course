@@ -60,8 +60,8 @@
 
 #definition[Строгий порядок][
   Бинарное отношение $prec$ на $A$ --- *строгий порядок*, если оно:
-  - *Иррефлексивно*: $not (a prec a)$. 
-  - *Асимметрично*: из $a prec b$ следует $not (b prec a)$. 
+  - *Иррефлексивно*: $not (a prec a)$.
+  - *Асимметрично*: из $a prec b$ следует $not (b prec a)$.
   - *транзитивно*: из $a prec b$ и $b prec c$ следует $a prec c$.
 ]
 
@@ -86,7 +86,11 @@
   Линейный порядок (_total order_) --- это порядок, в котором всё множество сравнимо и само образует цепь.
 ]
 
-#align(center, box(width: 1.2cm, height: 1.8cm)[#place(center + horizon, scale(hasse-chain-3, x: 75%, y: 75%))])
+#align(center, box(width: 1.2cm, height: 1.8cm)[#place(center + horizon, scale(
+  hasse-chain-3,
+  x: 75%,
+  y: 75%,
+))])
 
 #important[
   $(NN, <=)$ и $(RR, <=)$ --- линейные, делимость --- лишь частичная.
@@ -166,7 +170,11 @@
 
 == Делители числа 12
 
-#align(center, box(width: 3.2cm, height: 4cm)[#place(center + horizon, scale(hasse-divisors-12, x: 100%, y: 100%))])
+#align(center, box(width: 3.2cm, height: 4cm)[#place(center + horizon, scale(
+  hasse-divisors-12,
+  x: 100%,
+  y: 100%,
+))])
 
 #example[
   $D_12 = {1, 2, 3, 4, 6, 12}$ с отношением делимости.
@@ -182,8 +190,16 @@
   columns: 2,
   column-gutter: 2em,
   align: center,
-  box(width: 2.8cm, height: 2.8cm)[#place(center + horizon, scale(hasse-powerset-2, x: 100%, y: 100%))],
-  box(width: 2.6cm, height: 3cm)[#place(center + horizon, scale(hasse-powerset-3, x: 90%, y: 90%))],
+  box(width: 2.8cm, height: 2.8cm)[#place(center + horizon, scale(
+    hasse-powerset-2,
+    x: 100%,
+    y: 100%,
+  ))],
+  box(width: 2.6cm, height: 3cm)[#place(center + horizon, scale(
+    hasse-powerset-3,
+    x: 90%,
+    y: 90%,
+  ))],
 )
 
 Подмножества ${1, 2}$ и ${1, 2, 3}$ по включению: слева --- квадрат $B_2$, справа --- куб $B_3$.
@@ -308,6 +324,10 @@
   Для пары ${a, b}$ супремум называют join, инфимум --- meet.
 ]
 
+#example[
+  В делителях 12 с делимостью для пары ${2, 3}$: верхние грани --- $6$ и $12$, нижняя --- $1$; значит супремум --- $6$, инфимум --- $1$.
+]
+
 #important[
   Супремум и инфимум единственны, когда существуют.
 
@@ -416,7 +436,7 @@
 
   Делители 12 с НОД и НОК --- дистрибутивны.
 
-  Булеан с включением: $0 = emptyset$, $1 = A$, дополнение --- $overline(X)$.
+  Булеан с включением: $0 = emptyset$, $1 = A$, дополнение --- $overline(S)$.
 
   Двухэлементная: ${0, 1}$ с $and$, $or$, $not$.
 ]
@@ -425,7 +445,11 @@
 
 Решётка из статического анализа --- знаки чисел.
 
-#align(center, box(width: 2cm, height: 2cm)[#place(center + horizon, scale(sign-lattice, x: 75%, y: 75%))])
+#align(center, box(width: 2cm, height: 2cm)[#place(center + horizon, scale(
+  sign-lattice,
+  x: 75%,
+  y: 75%,
+))])
 
 #note[
   Каждое значение заменяется знаком: $+$, $-$, $0$.
@@ -590,8 +614,8 @@
 
 #definition[Произошло-до][
   Отношение $->$ определяется правилами:
-  - События в одном процессе упорядочены по времени. 
-  - Отправка сообщения предшествует его получению. 
+  - События в одном процессе упорядочены по времени.
+  - Отправка сообщения предшествует его получению.
   - Замыкаем отношение по транзитивности: если $a -> b$ и $b -> c$, то $a -> c$.
 ]
 

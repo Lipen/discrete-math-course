@@ -151,11 +151,27 @@
   columns: 2,
   column-gutter: 1em,
   row-gutter: 1em,
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-union, x: 130%, y: 130%))],
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-intersection, x: 130%, y: 130%))],
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
+    venn-union,
+    x: 130%,
+    y: 130%,
+  ))],
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
+    venn-intersection,
+    x: 130%,
+    y: 130%,
+  ))],
 
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-difference, x: 130%, y: 130%))],
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(venn-subset, x: 130%, y: 130%))],
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
+    venn-difference,
+    x: 130%,
+    y: 130%,
+  ))],
+  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
+    venn-subset,
+    x: 130%,
+    y: 130%,
+  ))],
 )
 
 == Пределы диаграмм
@@ -177,14 +193,14 @@
   table.header([*Множества*], [*Логика*]),
   [$union$], [$or$],
   [$inter$], [$and$],
-  [$overline(X)$], [$not$],
+  [$overline(A)$], [$not$],
   [$A subset.eq B$], [$x in A -> x in B$],
 )
 
 #important[
   Каждому закону логики соответствует тождество множеств.
 
-  Формально: замена $and$ на $inter$, $or$ на $union$, $not$ на $overline(X)$ переносит закон без изменений.
+  Формально: замена $and$ на $inter$, $or$ на $union$, $not$ на $overline(A)$ переносит закон без изменений.
 ]
 
 == Законы алгебры множеств
@@ -321,6 +337,11 @@
   Для конечных $A$ и $B$ выполнено $abs(A times B) = abs(A) dot abs(B)$.
 ]
 
+#proof[
+  Для первой компоненты пары есть $abs(A)$ вариантов, для второй --- $abs(B)$.
+  Независимые выборы перемножаются: $abs(A times B) = abs(A) dot abs(B)$.
+]
+
 #important[
   Декартово произведение --- основа координатной плоскости и кортежей в базах данных.
 ]
@@ -361,7 +382,7 @@
   - $"uint8" = {0, 1, ..., 255}$.
   - Тип-произведение (struct) --- декартово произведение.
   - Тип-сумма --- дизъюнктное объединение.
-  - $"Option"<T>$ --- тип-сумма: значение "None" или "Some"(T).
+  - $"Option" la T ra$ --- тип-сумма: значение "None" или "Some"(T).
 ]
 
 == Битовые маски

@@ -34,7 +34,7 @@
 
 #definition[
   Бинарное отношение $f subset.eq A times B$ называется *функцией* из $A$ в $B$, если:
-  - Для каждого $a in A$ найдётся $b in B$ с $(a, b) in f$. 
+  - Для каждого $a in A$ найдётся $b in B$ с $(a, b) in f$.
   - из $(a, b_1) in f$ и $(a, b_2) in f$ следует $b_1 = b_2$.
 
   Каждый вход имеет ровно один выход.
@@ -58,7 +58,11 @@
 
 Функция сопоставляет два множества.
 
-#align(center, box(width: 5.2cm, height: 3.4cm)[#place(center + horizon, scale(function-parts, x: 110%, y: 110%))])
+#align(center, box(width: 5.2cm, height: 3.4cm)[#place(center + horizon, scale(
+  function-parts,
+  x: 110%,
+  y: 110%,
+))])
 
 #note[
   $A$ --- *область определения* (_domain_). \
@@ -188,6 +192,11 @@
   $f$ *биективна*, если она одновременно инъективна и сюръективна.
 ]
 
+#example[
+  $f: {1, 2, 3} -> {a, b, c}$ с $f(1) = a$, $f(2) = b$, $f(3) = c$ --- биекция.
+  $g(x) = x^2$ на $RR$ --- не биекция: не сюръективна.
+]
+
 #important[
   Только биекция имеет полноценную обратную функцию.
 
@@ -206,9 +215,21 @@
   columns: 3,
   column-gutter: 1em,
   align: center,
-  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(mapping-injection, x: 75%, y: 75%))],
-  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(mapping-surjection, x: 75%, y: 75%))],
-  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(mapping-bijection, x: 75%, y: 75%))],
+  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(
+    mapping-injection,
+    x: 75%,
+    y: 75%,
+  ))],
+  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(
+    mapping-surjection,
+    x: 75%,
+    y: 75%,
+  ))],
+  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(
+    mapping-bijection,
+    x: 75%,
+    y: 75%,
+  ))],
 )
 
 #note[
@@ -216,7 +237,7 @@
 
   Сюръекция --- каждый выход достигнут хотя бы один раз.
 
-  Биекция --- ровно один раз.
+  Биекция --- каждый выход достигнут ровно один раз.
 ]
 
 == Критерии мощности
@@ -327,6 +348,11 @@
   Если $f$ и $g$ биективны, то $g compose f$ биективна.
 ]
 
+#proof[
+  Инъективность: из $(g compose f)(a_1) = (g compose f)(a_2)$ следует $g(f(a_1)) = g(f(a_2))$; инъективность $g$ даёт $f(a_1) = f(a_2)$, а $f$ --- $a_1 = a_2$.
+  Сюръективность: для $c in C$ найдётся $b in B$ с $g(b) = c$, затем $a in A$ с $f(a) = b$, откуда $(g compose f)(a) = c$.
+]
+
 #important[
   Корректность целого выводится из корректности частей.
 
@@ -338,6 +364,10 @@
 #theorem[Обратная композиции][
   Если $f: A -> B$ и $g: B -> C$ биективны, то
   $ (g compose f)^(-1) = f^(-1) compose g^(-1). $
+]
+
+#proof[
+  Проверим композицию: $(f^(-1) compose g^(-1)) compose (g compose f) = f^(-1) compose "id"_B compose f = "id"_A$, и симметрично в другую сторону --- $"id"_C$.
 ]
 
 #important[
@@ -366,6 +396,11 @@
   $
 ]
 
+#proof[
+  $y in f(A union B)$ iff найдётся $x in A union B$ с $f(x) = y$, то есть $x in A$ или $x in B$ --- ровно $y in f(A)$ или $y in f(B)$.
+  Для пересечения включение строгое: $f(x) = x^2$ сливает $-1$ и $1$.
+]
+
 #example[
   $f(x) = x^2$: образ $A = {-1, 1}$ --- это ${1}$.
 
@@ -388,10 +423,15 @@
   $
 ]
 
-#example[
-  $f(x) = x^2$: $f^(-1)({1, 4}) = {-2, -1, 1, 2}$.
+#proof[
+  $a in f^(-1) (C union D)$ iff $f(a) in C union D$ iff $f(a) in C$ или $f(a) in D$ iff $a in f^(-1) (C)$ или $a in f^(-1) (D)$.
+  Остальные тождества --- тем же ходом: прообраз дословно повторяет булеву операцию.
+]
 
-  Прообраз пересечения точен: $f^(-1)({1} inter {4}) = emptyset = f^(-1)({1}) inter f^(-1)({4})$.
+#example[
+  $f(x) = x^2$: $f^(-1) ({1, 4}) = {-2, -1, 1, 2}$.
+
+  Прообраз пересечения точен: $f^(-1) ({1} inter {4}) = emptyset = f^(-1) ({1}) inter f^(-1) ({4})$.
 ]
 
 #important[
@@ -442,7 +482,7 @@
 
 #example[
   Число чётных чисел от $1$ до $n$:
-  $ sum_(i=1)^n [i "чётно"] = floor(n\/2). $
+  $ sum_(i=1)^n [i "чётно"] = floor(n/2). $
 
   Число простых, не превышающих $n$: $pi(n) = sum_(k=1)^n [k "простое"]$.
 ]
