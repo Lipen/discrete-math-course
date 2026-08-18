@@ -70,12 +70,6 @@
 
 == Наследственность
 
-#align(center, box(width: 6.5cm, height: 3cm)[#place(center + horizon, scale(
-  matroid-sources,
-  x: 60%,
-  y: 60%,
-))])
-
 #definition[Наследственность][
   Подмножество допустимого допустимо: выбросил элементы --- не испортил.
 ]
@@ -192,6 +186,13 @@
 
   Базы --- двухэлементные подмножества. Любое трёхэлементное подмножество зависимо.
 ]
+
+
+#align(center, box(width: 6.5cm, height: 3cm)[#place(center + horizon, scale(
+  matroid-sources,
+  x: 60%,
+  y: 60%,
+))])
 
 #important[
   Три источника --- один матроид.
