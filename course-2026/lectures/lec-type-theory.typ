@@ -57,6 +57,14 @@
 
 == Три правила
 
+#note[
+  $Gamma$ --- контекст: набор допущений вида $x : sigma$.
+
+  $Gamma tack.r M : sigma$ читается как "из $Gamma$ выводится, что $M$ имеет тип $sigma$".
+
+  $Gamma, x : sigma$ --- контекст $Gamma$, расширенный новым допущением $x : sigma$.
+]
+
 #definition[Правила $lambda ->$][
   - *var*: если $x : sigma in Gamma$, то $Gamma tack.r x : sigma$.
   - *app*: из $M : sigma -> tau$ и $N : sigma$ получаем $M N : tau$.
