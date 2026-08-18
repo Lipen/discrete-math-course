@@ -89,7 +89,7 @@
 == Свойство замены
 
 #definition[Свойство замены][
-  $|A| < |B|$ влечёт $exists x in B setminus A$: $A union {x}$ допустимо.
+  Для любых $A, B in cal(I)$ с $|A| < |B|$ найдётся $x in B setminus A$, для которого $A union {x} in cal(I)$.
 ]
 
 #example[Замена в треугольнике][
@@ -107,7 +107,7 @@
 
 #definition[Матроид][
   Пара $(E, cal(I))$ --- *матроид*, если выполнены:
-  - *Наследственность*: $A in cal(I)$, $B subset.eq A$ влечёт $B in cal(I)$. 
+  - *Наследственность*: $A in cal(I)$, $B subset.eq A$ влечёт $B in cal(I)$.
   - *свойство замены* (_exchange property_): для любых $A, B in cal(I)$ с $|A| < |B|$ существует $x in B setminus A$, для которого $A union {x} in cal(I)$; кроме того, $emptyset in cal(I)$.
 
   Множества из $cal(I)$ --- *независимые*.
