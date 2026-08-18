@@ -175,11 +175,7 @@
 $QQ$ плотно заполняет прямую --- и всё же счётно.
 
 #align(center)[
-  #box(width: 4.2cm, height: 3.9cm)[#place(center + horizon, scale(
-    qq-pairing,
-    x: 55%,
-    y: 55%,
-  ))]
+  #align(center)[#qq-pairing]
 ]
 
 == Диагональное перечисление
@@ -202,11 +198,7 @@ $QQ$ плотно заполняет прямую --- и всё же счётн�
   Интервал $(0, 1)$ несчётен, а значит и $RR$.
 ]
 
-#align(center, box(width: 5.5cm, height: 4cm)[#place(center + horizon, scale(
-  cantor-diagonal,
-  x: 75%,
-  y: 75%,
-))])
+#align(center)[#cantor-diagonal]
 
 == Диагональный аргумент
 
@@ -227,11 +219,7 @@ $QQ$ плотно заполняет прямую --- и всё же счётн�
   Отрезок, квадрат, куб --- равномощны: для мощности размерность не имеет значения.
 ]
 
-#align(center, box(width: 6.2cm, height: 2.4cm)[#place(center + horizon, scale(
-  cantor-line-square,
-  x: 110%,
-  y: 110%,
-))])
+#align(center)[#cantor-line-square]
 
 == Переплетение цифр
 

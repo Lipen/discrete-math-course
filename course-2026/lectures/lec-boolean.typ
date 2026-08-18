@@ -422,12 +422,7 @@
   Соседние клетки отличаются ровно одной переменной. Группа из $2^k$ смежных единиц --- конъюнкция из $n - k$ литералов.
 ]
 
-#box(width: 3.2cm, height: 3.4cm)[#place(center + horizon, scale(
-  karnaugh-3var-majority,
-  x: 60%,
-  y: 60%,
-))]
-
+#align(center)[#karnaugh-3var-majority]
 #important[Карта функции большинства: $f = x y or x z or y z$.]
 
 == Квайн--МакКласки

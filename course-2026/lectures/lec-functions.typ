@@ -64,11 +64,7 @@
 
 Функция сопоставляет два множества.
 
-#align(center, box(width: 5.2cm, height: 3.4cm)[#place(center + horizon, scale(
-  function-parts,
-  x: 110%,
-  y: 110%,
-))])
+#align(center)[#function-parts]
 
 #note[
   - $A$ --- *область определения* (_domain_).
@@ -220,21 +216,9 @@
   columns: 3,
   column-gutter: 1em,
   align: center,
-  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(
-    mapping-injection,
-    x: 75%,
-    y: 75%,
-  ))],
-  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(
-    mapping-surjection,
-    x: 75%,
-    y: 75%,
-  ))],
-  box(width: 3.2cm, height: 3cm)[#place(center + horizon, scale(
-    mapping-bijection,
-    x: 75%,
-    y: 75%,
-  ))],
+  align(center, mapping-injection),
+  align(center, mapping-surjection),
+  align(center, mapping-bijection),
 )
 
 #note[

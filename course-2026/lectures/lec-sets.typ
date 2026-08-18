@@ -158,27 +158,11 @@
   columns: 2,
   column-gutter: 1em,
   row-gutter: 1em,
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
-    venn-union,
-    x: 130%,
-    y: 130%,
-  ))],
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
-    venn-intersection,
-    x: 130%,
-    y: 130%,
-  ))],
+  align(center, venn-union),
+  align(center, venn-intersection),
 
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
-    venn-difference,
-    x: 130%,
-    y: 130%,
-  ))],
-  box(width: 2.8cm, height: 3cm)[#place(center + horizon, scale(
-    venn-subset,
-    x: 130%,
-    y: 130%,
-  ))],
+  align(center, venn-difference),
+  align(center, venn-subset),
 )
 
 == Пределы диаграмм

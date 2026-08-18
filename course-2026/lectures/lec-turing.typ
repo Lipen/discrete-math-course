@@ -19,11 +19,7 @@
 Прежде чем строить модель, уточним, что значит "вычислить".
 Нужна модель проще компьютера, но не слабее по возможностям.
 
-#align(center, box(width: 7cm, height: 3.4cm)[#place(center + horizon, scale(
-  turing-machine,
-  x: 80%,
-  y: 80%,
-))])
+#align(center)[#turing-machine]
 
 == Формальное определение
 

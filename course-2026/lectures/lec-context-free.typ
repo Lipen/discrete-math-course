@@ -289,11 +289,7 @@
 
 == Ступени
 
-#align(center, box(width: 4.5cm, height: 3.2cm)[#place(center + horizon, scale(
-  chomsky-hierarchy,
-  x: 80%,
-  y: 80%,
-))])
+#align(center)[#chomsky-hierarchy]
 
 #note[
   - *Регулярные*: конечные автоматы.
