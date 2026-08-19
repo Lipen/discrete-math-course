@@ -3,7 +3,7 @@
 #import "notation.typ": *
 #import "diagrams/m32.typ": kripke-traffic
 
-= Модальная логика <chap:kripke>
+= Модальная логика <chap:modal>
 
 Глава @chap:verification доказала корректность программам тройками Хоара.
 Тройки говорят о _входе-выходе_: что верно до и после оператора.
