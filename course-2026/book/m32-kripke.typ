@@ -1,5 +1,5 @@
 // M32 --- Модальная и темпоральная логика: модели Крипке, LTL/CTL, model checking.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m32.typ": kripke-traffic
 

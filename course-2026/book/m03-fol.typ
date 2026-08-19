@@ -1,5 +1,5 @@
 // M03 --- Логика предикатов: объекты, свойства и кванторы.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m01.typ": (
   quantifier-order,

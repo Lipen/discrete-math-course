@@ -1,5 +1,5 @@
 // M08 --- Отношения порядка: ранжирование, сравнение и структурирование дискретных объектов.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m05.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3, lattice-m3, lattice-n5
 
@@ -969,7 +969,7 @@ Colex-порядок на таких векторах группирует по�
 Алгоритм C3 (используемый в Python)#footnote[
   Описание C3 в документации Python: https://www.python.org/download/releases/2.3/mro/.
 ] вычисляет топологическую сортировку, удовлетворяющую двум дополнительным ограничениям:
-+ порядок родителей в объявлении класса (слева направо) должен быть сохранён в MRO. 
++ порядок родителей в объявлении класса (слева направо) должен быть сохранён в MRO.
 + наследники должны появляться в MRO раньше родителей.
 Если эти ограничения невыполнимы (например, из-за конфликта при "ромбовидном" наследовании с несогласованным порядком), C3 отвергает определение класса --- в Python это вызывает `TypeError`.#footnote[
   K. Barrett, B. Cassels, P. Haahr, D. A. Moon, K. Playford, P. T. Withington, "A Monotonic Superclass Linearization for Dylan", OOPSLA 1996.

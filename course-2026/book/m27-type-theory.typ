@@ -1,5 +1,5 @@
 // M27 --- Теория типов: от $lambda$-исчисления к соответствию Карри--Ховарда.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m18.typ": derivation-id, derivation-k
 #import curryst: prooftree, rule
@@ -297,7 +297,7 @@ $
   + Если $P$ --- абстракция $lambda y . M$: по индукции, с учётом $alpha$-конверсии для избежания захвата.
 
   Из леммы о подстановке Subject Reduction для одного шага $beta$-редукции следует непосредственно:
-  Единственное правило редукции --- $(lambda x . M) N ->_beta M[x := N]$. 
+  Единственное правило редукции --- $(lambda x . M) N ->_beta M[x := N]$.
   Если $lambda x . M$ имеет тип $sigma -> tau$, а $N$ --- тип $sigma$, то $M[x:=N]$ имеет тип $tau$ по лемме.
 ]
 

@@ -1,5 +1,5 @@
 // M13 --- SAT: задача булевой выполнимости и её роль в теории вычислений.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m09.typ": dpll-tree, implication-graph-2sat-simple
 #import "diagrams/m01.typ": resolution-dag
@@ -676,7 +676,7 @@ NP-полнота --- свойство задачи в худшем случае
 
 CDCL не решает SAT в общем случае. Он решает SAT на индустриальных входах.
 Алгоритм эксплуатирует структурные свойства формул через два механизма:
-+ VSIDS --- приоритезация "активных" переменных. 
++ VSIDS --- приоритезация "активных" переменных.
 + Обучение дизъюнктам --- накопление "структурного знания" о формуле.#footnote[
     C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman, "Satisfiability Solvers", глава 2 в "Handbook of Knowledge Representation", Elsevier, 2008.
   ]#footnote[

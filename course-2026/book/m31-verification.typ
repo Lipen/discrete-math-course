@@ -1,5 +1,5 @@
 // M31 --- Формальная верификация: доказательство корректности программ.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 
 = Формальная верификация <chap:verification>

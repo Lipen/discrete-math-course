@@ -1,5 +1,5 @@
 // Временный файл для визуальной проверки блоков. Удалить.
-#import "common-notes.typ": *
+#import "common.typ": *
 #show: notes-template.with(theme: oklch(55%, 0.16, 230deg))
 #set document(title: "Preview")
 #set page(margin: (x: 2cm, y: 2cm))

@@ -1,5 +1,5 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m01.typ": (
   parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,

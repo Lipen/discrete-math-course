@@ -1,5 +1,5 @@
 // Введение --- мета-глава без номера.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 
 #heading(level: 1, numbering: none)[Введение]

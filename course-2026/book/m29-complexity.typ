@@ -1,5 +1,5 @@
 // M29 --- Сложность и NP-полнота: пределы эффективных вычислений.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m15.typ": complexity-classes, np-reduction-tree
 
@@ -207,7 +207,7 @@ $
   Пусть $L_1, L_2 in "NP"$. Тогда:
   + $L_1 inter L_2 in "NP"$;
   + $L_1 union L_2 in "NP"$;
-  + $L_1 L_2 in "NP"$ (конкатенация). 
+  + $L_1 L_2 in "NP"$ (конкатенация).
   + $L_1^* in "NP"$ (звезда Клини).
 ]
 

@@ -1,5 +1,5 @@
 // Словарь терминов курса. Подключается в book.typ после упражнений.
-#import "common-notes.typ": *
+#import "common.typ": *
 
 #heading(level: 1, numbering: none)[Словарь терминов] <chap:glossary>
 

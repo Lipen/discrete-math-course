@@ -1,5 +1,5 @@
 // M33 --- Интуиционизм и доказательные ассистенты: за пределами классической логики.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 
 = Интуиционизм и доказательные ассистенты <chap:intuitionism>

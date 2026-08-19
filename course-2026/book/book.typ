@@ -1,6 +1,6 @@
 // Дискретная математика --- конспект лекций, полная книга.
 
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 
 #let accent-color = oklch(55%, 0.16, 230deg) // сине-голубой

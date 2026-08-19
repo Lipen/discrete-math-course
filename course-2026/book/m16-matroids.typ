@@ -1,6 +1,6 @@
 // M16 --- Матроиды: почему жадный алгоритм работает.
 
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m28.typ": greedy-counterexample, interval-scheduling, matroid-sources
 

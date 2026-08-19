@@ -1,5 +1,5 @@
 // M30 --- Абстрактная интерпретация: автоматическое доказательство свойств программ.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m25.typ": sign-lattice, widening
 

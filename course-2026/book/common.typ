@@ -2,7 +2,7 @@
 // Импортируется всеми файлами тем и файлами сборки.
 //
 // Использование:
-//   #import "common-notes.typ": *
+//   #import "common.typ": *
 //   #show: notes-template.with(theme: oklch(55%, 0.16, 230deg))
 //   #set document(title: "...", author: "...")
 

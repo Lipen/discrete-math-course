@@ -1,5 +1,5 @@
 // M14 --- SMT: Satisfiability Modulo Theories.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m14-smt.typ": dpll-t-architecture, dl-negative-cycle, congruence-closure-merge
 

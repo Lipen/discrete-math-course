@@ -1,5 +1,5 @@
 // M18 --- Теория чисел и криптография: от делимости к открытым ключам.
-#import "common-notes.typ": *
+#import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m13.typ": mitm
 
