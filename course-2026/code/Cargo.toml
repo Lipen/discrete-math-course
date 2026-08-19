@@ -1,3 +1,20 @@
 [workspace]
 resolver = "2"
-members = ["automata", "lambda", "crypto", "turing", "codes", "sat", "smt", "model-checking", "heyting", "bdd", "analysis", "graphs", "prolog", "matroids", "lattices", "fitch"]
+members = [
+    "automata",
+    "lambda",
+    "crypto",
+    "turing",
+    "codes",
+    "sat",
+    "smt",
+    "model-checking",
+    "heyting",
+    "bdd",
+    "analysis",
+    "graphs",
+    "prolog",
+    "matroids",
+    "lattices",
+    "fitch",
+]
