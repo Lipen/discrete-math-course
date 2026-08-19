@@ -5,7 +5,3 @@ default:
 # Build the book to book.pdf
 build:
     typst compile --root .. book.typ
-
-# Style audit of book chapters (.dev/scripts/audit.py)
-lint:
-    python3 ../.dev/scripts/audit.py
