@@ -2,6 +2,6 @@
 default:
     @just --list
 
-# Build the book to book.pdf
+# Compile the book
 build:
-    typst compile --root .. book.typ
+    typst compile book.typ

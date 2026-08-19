@@ -3,6 +3,7 @@ default:
     @just --list
 
 files := """
+    course-intro.typ
     lec-logic.typ
     lec-deduction.typ
     lec-fol.typ
@@ -32,21 +33,20 @@ files := """
     lec-type-theory.typ
     lec-kripke.typ
     lec-intuitionism.typ
-    course-intro.typ
 """
 
-# Build all lectures
+# Compile all lectures
 all:
     #!/usr/bin/env sh
     set -e
-    for file in {{replace(files, "\n", ' ')}}; do
+    for file in {{ replace(files, "\n", ' ') }}; do
         just _compile $file
     done
 
-# Build lectures in parallel
+# Compile lectures in parallel
 parallel:
-    parallel -k -- just _compile {} ::: {{replace(files, "\n", ' ')}}
+    parallel -k -- just _compile {} ::: {{ replace(files, "\n", ' ') }}
 
-# Build one file: just lectures/_compile lec-logic.typ
+# Compile one file
 _compile *args:
-    typst compile --root .. {{args}}
+    typst compile {{ args }}
