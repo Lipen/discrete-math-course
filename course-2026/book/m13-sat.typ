@@ -683,7 +683,7 @@ CDCL не решает SAT в общем случае. Он решает SAT н�
     C. Ansótegui, M. L. Bonet, J. Levy, "On the Structure of Industrial SAT Instances", CP 2009.
   ]
 
-== \* DPLL и CDCL: как работают современные SAT-решатели
+== \* Современные SAT-решатели (DPLL и CDCL)
 
 Прежде чем перейти к инженерным деталям, посмотрим, как DPLL работает на конкретной формуле.
 
