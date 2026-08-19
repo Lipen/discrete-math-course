@@ -195,13 +195,13 @@ _Путь_ --- бесконечная последовательность $pi =
 == Model checking: разметка состояний
 
 #definition[Labeling-алгоритм][
-  Проверка $E (phi U psi)$ в модели $M = (S, R, L)$ через пре-образ $"pre"_exists(X) = {s : exists s' in R(s), s' in X}$:
+  Проверка $E (phi U psi)$ в модели $M = (S, R, L)$ через пре-образ $"pre"_exists (X) = {s : exists s' in R(s), s' in X}$:
   - $Y := {s : s models psi}$;
-  - повторять, пока не стабилизируется: $Y := Y union ({s : s models phi} inter "pre"_exists(Y))$.
+  - повторять, пока не стабилизируется: $Y := Y union ({s : s models phi} inter "pre"_exists (Y))$.
   Итог $Y$ --- в точности состояния с $E (phi U psi)$.
 ]
 
-Для $A square phi$ --- пре-образ "по всем преемникам": $"pre"_forall(X) = {s : forall s' in R(s), s' in X}$.
+Для $A square phi$ --- пре-образ "по всем преемникам": $"pre"_forall (X) = {s : forall s' in R(s), s' in X}$.
 
 #important[
   - Живость ($diamond$, $U$) --- наименьшие неподвижные точки; безопасность ($square$) --- наибольшие.
