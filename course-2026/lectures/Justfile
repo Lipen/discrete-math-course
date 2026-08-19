@@ -31,7 +31,7 @@ files := """
     lec-decidability.typ
     lec-lambda.typ
     lec-type-theory.typ
-    lec-kripke.typ
+    lec-model.typ
     lec-intuitionism.typ
 """
 
