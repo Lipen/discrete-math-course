@@ -622,3 +622,165 @@
   draw.content((1.8, 0.15), text(size: 0.5em, fill: cs-label)[неразрешимые])
   draw.content((1.8, -0.3), text(size: 0.5em, fill: cs-label)[языки])
 })
+
+// ════════════════════════════════════════════════════════
+// Section C --- Cook-Levin computation table (SAT, m13) ──
+// ════════════════════════════════════════════════════════
+
+#let clt-cell-str = 0.5pt + oklch(50%, 0.05, 250deg)
+#let clt-cell-fill = oklch(97%, 0.01, 260deg)
+#let clt-window-str = 1pt + oklch(55%, 0.18, 22deg)
+#let clt-head-fill = oklch(92%, 0.06, 22deg)
+#let clt-label = oklch(35%, 0.02, 265deg)
+
+// Cook-Levin: p(n) × p(n) computation table with a highlighted 2×3 locality window.
+#let cook-levin-table = canvas({
+  let rows = 4
+  let cols = 6
+  let cell = 0.55
+  let head-y = (rows + 0.6) / 2 * 1.0
+
+  // Grid cells: (i, t) with tape position i horizontal, step t vertical (down).
+  for t in range(rows) {
+    for i in range(cols) {
+      let x = (i - (cols - 1) / 2) * cell
+      let y = (rows / 2 - 0.5 - t) * cell
+      draw.rect(
+        (x - cell / 2, y - cell / 2),
+        (x + cell / 2, y + cell / 2),
+        fill: clt-cell-fill,
+        stroke: clt-cell-str,
+        name: "c-" + str(t) + "-" + str(i),
+      )
+    }
+  }
+
+  // Head markers on the second row (t=1) at positions 2..4: a small triangle.
+  for i in range(2, 5) {
+    let x = (i - (cols - 1) / 2) * cell
+    let y = (rows / 2 - 0.5 - 1) * cell
+    draw.content((x, y + 0.02), text(
+      size: 0.5em,
+      fill: oklch(55%, 0.18, 22deg),
+    )[$H$])
+  }
+
+  // Locality window: cells (t=0..1, i=2..4) → 2 rows × 3 columns.
+  let x0 = (2 - (cols - 1) / 2) * cell - cell / 2
+  let x1 = (4 - (cols - 1) / 2) * cell + cell / 2
+  let y0 = (rows / 2 - 0.5 - 1) * cell + cell / 2
+  let y1 = (rows / 2 - 0.5 - 0) * cell - cell / 2
+  draw.rect(
+    (x0, y0),
+    (x1, y1),
+    stroke: clt-window-str,
+    fill: none,
+    name: "window",
+  )
+
+  // Axis labels.
+  draw.content(
+    (0, (rows / 2 + 0.8) * cell),
+    text(size: 0.6em, fill: clt-label)[шаг $t$],
+  )
+  draw.content(
+    (-(cols / 2 + 0.5) * cell, 0),
+    rotate(90deg, text(size: 0.6em, fill: clt-label)[позиция $i$]),
+  )
+  draw.content(
+    ((cols / 2 + 0.8) * cell, 0),
+    rotate(-90deg, text(size: 0.55em, fill: luma(45%))[локальность: ячейка зависит от трёх выше]),
+  )
+})
+
+// ════════════════════════════════════════════════════════
+// Section D --- CDCL conflict graph (SAT, m13) ──
+// ════════════════════════════════════════════════════════
+
+#let cdcl-node-fill = oklch(92%, 0.03, 250deg)
+#let cdcl-node-str = 0.6pt + oklch(55%, 0.08, 250deg)
+#let cdcl-conf-fill = oklch(92%, 0.06, 22deg)
+#let cdcl-conf-str = 0.8pt + oklch(55%, 0.20, 22deg)
+#let cdcl-cut-str = 0.7pt + oklch(55%, 0.14, 300deg)
+#let cdcl-edge = 0.6pt + oklch(35%, 0.02, 265deg)
+#let cdcl-label = oklch(30%, 0.02, 265deg)
+
+#let cdcl-node(pos, label, name, ..style) = {
+  let (cx, cy) = pos
+  draw.circle(
+    (cx, cy),
+    radius: 0.32,
+    fill: cdcl-node-fill,
+    stroke: cdcl-node-str,
+    name: name,
+    ..style,
+  )
+  draw.content((cx, cy), text(size: 0.62em, fill: cdcl-label)[#label])
+}
+
+// CDCL: implication graph with a conflict, 1-UIP cut, and the learned clause.
+#let cdcl-conflict-graph = canvas({
+  // Decision level 1 (left): x1 = 1 at decision.
+  cdcl-node((-2.6, 1.6), $x_1$, "x1", fill: oklch(92%, 0.05, 155deg), stroke: (
+    paint: oklch(50%, 0.16, 155deg),
+    thickness: 0.8pt,
+  ))
+  draw.content((-3.3, 1.9), text(size: 0.5em, fill: luma(50%))[ур. 1])
+  cdcl-node((-1.5, 0.6), $overline(x_2)$, "nx2")
+  cdcl-node((-0.4, 0.0), $x_3$, "x3")
+
+  // Decision level 2 (right): x4 = 0 at decision.
+  cdcl-node((2.6, 1.6), $overline(x_4)$, "nx4", fill: oklch(
+    92%,
+    0.05,
+    155deg,
+  ), stroke: (
+    paint: oklch(50%, 0.16, 155deg),
+    thickness: 0.8pt,
+  ))
+  draw.content((3.3, 1.9), text(size: 0.5em, fill: luma(50%))[ур. 2])
+  cdcl-node((1.5, 0.6), $x_5$, "x5")
+
+  // Conflict node in the middle.
+  cdcl-node((0.0, -1.2), $bot$, "conf", fill: cdcl-conf-fill, stroke: cdcl-conf-str)
+
+  // Implication edges: two chains converging at the conflict.
+  draw.line("x1", "nx2", stroke: cdcl-edge, mark: (end: ">"))
+  draw.line("nx2", "x3", stroke: cdcl-edge, mark: (end: ">"))
+  draw.line("x3", "conf", stroke: cdcl-edge, mark: (end: ">"))
+  draw.line("nx4", "x5", stroke: cdcl-edge, mark: (end: ">"))
+  draw.line("x5", "conf", stroke: cdcl-edge, mark: (end: ">"))
+
+  // Clause labels on edges.
+  draw.content(((-2.6 - 1.5) / 2, 1.15), anchor: "south", text(
+    size: 0.48em,
+    fill: luma(45%),
+  )[$overline(x_1) or overline(x_2)$])
+  draw.content(((-1.5 - 0.4) / 2, 0.35), anchor: "south", text(
+    size: 0.48em,
+    fill: luma(45%),
+  )[$x_2 or x_3$])
+  draw.content(((2.6 + 1.5) / 2, 1.15), anchor: "south", text(
+    size: 0.48em,
+    fill: luma(45%),
+  )[$x_4 or x_5$])
+
+  // 1-UIP cut: dashed line separating reason (left+right) from conflict.
+  draw.line(
+    (-0.9, 0.7),
+    (0.9, 0.7),
+    name: "cut",
+    stroke: cdcl-cut-str,
+    dash: "dashed",
+  )
+  draw.content((0.95, 0.85), anchor: "west", text(
+    size: 0.52em,
+    fill: oklch(55%, 0.14, 300deg),
+  )[разрез 1-UIP])
+
+  // Learned clause below.
+  draw.content(
+    (0, -1.9),
+    text(size: 0.6em, fill: cdcl-label)[выученный дизъюнкт: $x_1 or x_4$],
+  )
+})

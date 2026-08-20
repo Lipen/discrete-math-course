@@ -237,3 +237,38 @@
     fill: luma(50%),
   )[Каждая стрелка: $<=_p$ (полиномиальное сведение)])
 })
+
+// ── ZPP = RP ∩ coRP: Euler diagram with the known inclusions ──
+#let zpp-venn = canvas({
+  let c-rp = oklch(92%, 0.05, 155deg)
+  let c-corp = oklch(92%, 0.05, 22deg)
+  let c-bpp = oklch(90%, 0.03, 250deg)
+  let c-zpp = oklch(94%, 0.06, 90deg)
+  let c-label = oklch(35%, 0.02, 265deg)
+  let c-border = oklch(50%, 0.05, 250deg) + 0.5pt
+
+  // BPP (outer).
+  draw.circle((0, 0), radius: (2.6, 1.7), fill: c-bpp, stroke: c-border)
+  draw.content((2.2, 1.3), text(size: 0.65em, fill: c-label)[BPP])
+
+  // RP (left lobe).
+  draw.circle((-0.7, 0.1), radius: (1.4, 1.0), fill: c-rp, stroke: c-border)
+  draw.content((-1.6, 0.1), text(size: 0.65em, fill: c-label)[RP])
+
+  // coRP (right lobe).
+  draw.circle((0.7, 0.1), radius: (1.4, 1.0), fill: c-corp, stroke: c-border)
+  draw.content((1.6, 0.1), text(size: 0.65em, fill: c-label)[coRP])
+
+  // ZPP (intersection).
+  draw.circle((0, 0.1), radius: (0.55, 0.4), fill: c-zpp, stroke: c-border)
+  draw.content((0, 0.1), text(size: 0.6em, fill: c-label)[ZPP])
+
+  // P inside ZPP.
+  draw.circle((0, 0.1), radius: (0.2, 0.15), fill: white, stroke: c-border)
+  draw.content((0, 0.1), text(size: 0.5em, fill: c-label)[P])
+
+  draw.content((0, -1.5), text(
+    size: 0.55em,
+    fill: luma(50%),
+  )[$P subset.eq "ZPP" = "RP" inter "coRP" subset.eq "BPP"$])
+})
