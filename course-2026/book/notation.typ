@@ -15,7 +15,7 @@
 #let entails = models        // "влечёт" --- синоним models
 #let proves = sym.tack.r     // выводимость, типизация (⊢)
 #let nproves = proves.not    // отрицание proves: "не выводится" (⊬)
-#let forces = sym.forces     // вынуждение (Крипке) (⊩)
+#let forces = sym.forces     // принуждение (Крипке) (⊩)
 #let imply = sym.arrow.r
 #let iff = sym.arrow.l.r
 #let setminus = sym.without
