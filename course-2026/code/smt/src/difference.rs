@@ -33,8 +33,7 @@ pub fn solve(constraints: &[Constraint]) -> Option<Vec<i64>> {
         .unwrap_or(0);
 
     // Edges y -> x of weight c, plus a super-source n -> i of weight 0.
-    let mut edges: Vec<(usize, usize, i64)> =
-        constraints.iter().map(|c| (c.y, c.x, c.c)).collect();
+    let mut edges: Vec<(usize, usize, i64)> = constraints.iter().map(|c| (c.y, c.x, c.c)).collect();
     for i in 0..n {
         edges.push((n, i, 0));
     }

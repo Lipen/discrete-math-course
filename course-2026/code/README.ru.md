@@ -13,14 +13,19 @@ Rust-компаньон к курсу дискретной математики.
 | [`automata`](automata/README.md) | Конечные автоматы и регулярные языки | ДКА, НКА, конструкция подмножеств, регулярки через Томпсона, минимизация, операции над языками |
 | [`codes`](codes/README.md) | Коды Хэмминга | Hamming(7,4), синдромное декодирование, исправление одиночной ошибки |
 | [`sat`](sat/README.md) | Выполнимость | DPLL-солвер с единичным распространением и возвратом |
+| [`smt`](smt/README.md) | Выполнимость с теориями (SMT) | Разностная логика `x - y <= c`, поиск отрицательного цикла через Беллмана-Форда; демо: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
 | [`bdd`](bdd/README.md) | Диаграммы решений | ROBDD с дополняющими рёбрами, операция `ite` |
+| [`model-checking`](model-checking/README.md) | Проверка моделей (CTL) | Структуры Крипке, раскраска состояний, семантика неподвижных точек для EX/AX/EF/EG/EU; демо: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
 | [`analysis`](analysis/README.md) | Абстрактная интерпретация | Домены знаков, интервалов и констант; переносящие функции; widening |
 | [`crypto`](crypto/README.md) | Теория чисел и криптография | Модулярная арифметика, RSA, реальные атаки на него |
 | [`lambda`](lambda/README.md) | Бестиповое λ-исчисление | Термы, подстановка без захвата, β-редукция, числа Чёрча |
 | [`turing`](turing/README.md) | Машины Тьюринга | Лента на двух стеках, таблица переходов, трассы вычислений, примеры машин |
 | [`graphs`](graphs/README.md) | Графы | Простая модель без дженериков, BFS/DFS, Дейкстра, Краскал, Эйлер, мосты, раскраска; рендер в SVG/DOT/cytoscape/HTML |
+| [`matroids`](matroids/README.md) | Матроиды | Аксиомы независимости, графический/линейный/равномерный матроид и матроид расписаний, ранг, оптимальность жадного алгоритма; демо: [`counterexample`](matroids/examples/counterexample.rs), [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
 | [`prolog`](prolog/README.md) | Логическое программирование | Термы, унификация с occurs-check, SLD-резолюция с бэктрекингом |
 | [`lattices`](lattices/README.md) | Решётки и порядки | join/meet, дистрибутивность, модулярность, характеризация Биркгофа (запрещённые подрешётки M3/N5) |
+| [`heyting`](heyting/README.md) | Алгебры Гейтинга | Трёхэлементная алгебра {0, 1/2, 1}, относительное псевдодополнение, закон исключённого третьего не работает; демо: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
+| [`fitch`](fitch/README.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 
 ## Структура
 
@@ -61,15 +66,24 @@ cargo clippy --workspace --all-targets
 Оно печатает входные данные, промежуточные шаги и результат.
 Имена один в один соответствуют понятиям главы книги.
 
-README каждого крейта объясняет модуль, перечисляет все демо и содержит диаграмму:
+README каждого крейта объясняет модуль и перечисляет все демо:
 
 - [automata/README.md](automata/README.md)
+- [codes/README.md](codes/README.md)
+- [sat/README.md](sat/README.md)
+- [smt/README.md](smt/README.md)
+- [bdd/README.md](bdd/README.md)
+- [model-checking/README.md](model-checking/README.md)
+- [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)
 - [lambda/README.md](lambda/README.md)
 - [turing/README.md](turing/README.md)
 - [graphs/README.md](graphs/README.md)
+- [matroids/README.md](matroids/README.md)
 - [prolog/README.md](prolog/README.md)
 - [lattices/README.md](lattices/README.md)
+- [heyting/README.md](heyting/README.md)
+- [fitch/README.md](fitch/README.md)
 
 ## Английская версия
 

@@ -13,14 +13,19 @@ Crates build, test, and run on their own.
 | [`automata`](automata/README.md) | Finite automata and regular languages | DFA, NFA, subset construction, regex via Thompson, minimization, language operations |
 | [`codes`](codes/README.md) | Hamming codes | Hamming(7,4), syndrome decoding, single-error correction |
 | [`sat`](sat/README.md) | Boolean satisfiability | A DPLL solver with unit propagation and backtracking |
+| [`smt`](smt/README.md) | Satisfiability modulo theories | Difference logic `x - y <= c`, negative-cycle detection via Bellman-Ford; demos: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
 | [`bdd`](bdd/README.md) | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation |
+| [`model-checking`](model-checking/README.md) | CTL model checking | Kripke structures, state labeling, fixed-point semantics of EX/AX/EF/EG/EU; demos: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
 | [`analysis`](analysis/README.md) | Abstract interpretation | Sign, interval, and constant domains; transfer functions; widening |
 | [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
 | [`lambda`](lambda/README.md) | Untyped λ-calculus | Terms, capture-avoiding substitution, β-reduction, Church numerals |
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
 | [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring; SVG/DOT/cytoscape/HTML renderers |
+| [`matroids`](matroids/README.md) | Matroids | Independence axioms, graphic/linear/uniform/scheduling matroids, rank, greedy optimality; demos: [`counterexample`](matroids/examples/counterexample.rs), [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
 | [`prolog`](prolog/README.md) | Logic programming | Terms, unification with the occurs check, SLD resolution with backtracking |
 | [`lattices`](lattices/README.md) | Lattices and orders | Join/meet, distributivity, modularity, Birkhoff characterization (M3/N5 forbidden sublattices) |
+| [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
+| [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 
 ## Layout
 
@@ -61,18 +66,24 @@ Every demo is written to be read, not just executed.
 It prints its inputs, the intermediate steps, and the result.
 Names map one-to-one to the mathematical concepts.
 
-Each crate README explains its module, lists every demo, and has a diagram:
+Each crate README explains its module and lists every demo:
 
 - [automata/README.md](automata/README.md)
 - [codes/README.md](codes/README.md)
 - [sat/README.md](sat/README.md)
+- [smt/README.md](smt/README.md)
 - [bdd/README.md](bdd/README.md)
+- [model-checking/README.md](model-checking/README.md)
 - [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)
 - [lambda/README.md](lambda/README.md)
 - [turing/README.md](turing/README.md)
+- [graphs/README.md](graphs/README.md)
+- [matroids/README.md](matroids/README.md)
 - [prolog/README.md](prolog/README.md)
 - [lattices/README.md](lattices/README.md)
+- [heyting/README.md](heyting/README.md)
+- [fitch/README.md](fitch/README.md)
 
 ## Russian version
 

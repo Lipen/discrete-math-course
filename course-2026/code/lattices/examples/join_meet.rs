@@ -1,9 +1,12 @@
 //! Join and meet on the divisor lattice of 12.
 //!
 //! Prints upper/lower bounds and the join/meet of a few pairs: the supremum
-//! of {2, 3} is 6, their infimum is 1.
+//! of {2, 3} is 6, their infimum is 1. The second part rebuilds the same
+//! poset from scratch with `relation_pairs` and derives its Hasse diagram
+//! (cover relation), which is also the shape of the printed lattice.
 
 use lattices::examples::divisors_12;
+use lattices::{hasse, relation_pairs};
 
 fn main() {
     let d = divisors_12();
@@ -16,5 +19,15 @@ fn main() {
             d.join(a, b).map_or("none".to_string(), |j| j.to_string()),
             d.meet(a, b).map_or("none".to_string(), |m| m.to_string())
         );
+    }
+
+    // The same poset, built from a predicate: elements 1, 2, 3, 4, 6, 12.
+    let elements = [1u32, 2, 3, 4, 6, 12];
+    let pairs = relation_pairs(elements.len(), |i, j| elements[j] % elements[i] == 0);
+    println!("\nrelation pairs: {}", pairs.len());
+    let covers = hasse(&pairs);
+    println!("Hasse diagram (covers):");
+    for &(i, j) in &covers {
+        println!("  {} < {}", elements[i], elements[j]);
     }
 }

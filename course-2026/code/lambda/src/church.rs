@@ -11,7 +11,8 @@
 //! ```
 //!
 //! Arithmetic, booleans, and conditionals are all encoded as pure λ-terms
-//! with no built-in types.
+//! with no built-in types. The zero test and the predecessor (built from
+//! pairs) complete the toolkit needed for recursion.
 
 use crate::term::Term;
 
@@ -185,6 +186,62 @@ pub fn power() -> Term {
                 ),
             ),
         ),
+    )
+}
+
+/// Zero test: `isZero = λn. n (λx. false) true`.
+///
+/// Applies the constant `false`-function `n` times starting from `true`:
+/// only `0` returns `true`, every positive numeral returns `false`.
+///
+/// ```
+/// use lambda::church::{church, church_to_bool, is_zero};
+/// use lambda::Term;
+///
+/// let zero = Term::app(is_zero(), church(0)).normalize(100);
+/// let three = Term::app(is_zero(), church(3)).normalize(100);
+/// assert_eq!(church_to_bool(&zero), Some(true));
+/// assert_eq!(church_to_bool(&three), Some(false));
+/// ```
+pub fn is_zero() -> Term {
+    Term::abs(
+        "n",
+        Term::app(
+            Term::app(Term::var("n"), Term::abs("x", church_false())),
+            church_true(),
+        ),
+    )
+}
+
+/// Predecessor: `pred = λn. fst (n (λp. pair (snd p) (succ (snd p))) (pair 0 0))`.
+///
+/// Shifts the pair `(a, b) → (b, succ b)` `n` times starting from `(0, 0)`;
+/// after `n` shifts the *first* component holds `n - 1`. By convention
+/// `pred 0 = 0`.
+///
+/// ```
+/// use lambda::church::{church, pred, to_nat};
+/// use lambda::Term;
+///
+/// let p3 = Term::app(pred(), church(3)).normalize(5000);
+/// assert_eq!(to_nat(&p3), Some(2));
+/// let p0 = Term::app(pred(), church(0)).normalize(5000);
+/// assert_eq!(to_nat(&p0), Some(0));
+/// ```
+pub fn pred() -> Term {
+    // λn. fst (n (λp. pair (snd p) (succ (snd p))) (pair 0 0))
+    let p = Term::var("p");
+    let shift = Term::abs(
+        "p",
+        Term::app(
+            Term::app(pair(), Term::app(snd(), p.clone())),
+            Term::app(succ(), Term::app(snd(), p)),
+        ),
+    );
+    let start = Term::app(Term::app(pair(), church(0)), church(0));
+    Term::abs(
+        "n",
+        Term::app(fst(), Term::app(Term::app(Term::var("n"), shift), start)),
     )
 }
 
@@ -461,6 +518,43 @@ mod tests {
     fn power_three_two_is_nine() {
         let result = Term::app(Term::app(power(), church(3)), church(2)).normalize(50000);
         assert_eq!(to_nat(&result), Some(9));
+    }
+
+    // -- Zero test and predecessor ===========================================
+
+    #[test]
+    fn is_zero_of_zero_is_true() {
+        let result = Term::app(is_zero(), church(0)).normalize(100);
+        assert_eq!(church_to_bool(&result), Some(true));
+    }
+
+    #[test]
+    fn is_zero_of_positive_is_false() {
+        for n in 1..=4 {
+            let result = Term::app(is_zero(), church(n)).normalize(100);
+            assert_eq!(church_to_bool(&result), Some(false), "isZero {n}");
+        }
+    }
+
+    #[test]
+    fn pred_of_three_is_two() {
+        let result = Term::app(pred(), church(3)).normalize(5000);
+        assert_eq!(to_nat(&result), Some(2));
+    }
+
+    #[test]
+    fn pred_of_zero_is_zero() {
+        let result = Term::app(pred(), church(0)).normalize(5000);
+        assert_eq!(to_nat(&result), Some(0));
+    }
+
+    #[test]
+    fn pred_followed_by_succ_is_identity_on_positives() {
+        // succ (pred n) = n for n ≥ 1
+        for n in 1..=4 {
+            let result = Term::app(succ(), Term::app(pred(), church(n))).normalize(10000);
+            assert_eq!(to_nat(&result), Some(n), "succ (pred {n})");
+        }
     }
 
     // -- Booleans ===========================================================

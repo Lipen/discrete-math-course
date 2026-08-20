@@ -1,8 +1,20 @@
-//! A difference-logic (DL) satisfiability solver.
+//! A small DPLL(T) stack for quantifier-free SMT problems.
 //!
-//! Difference logic is a fragment of linear integer arithmetic: conjunctions
-//! of literals of the form `x - y <= c`. Satisfiability reduces to detecting a
-//! negative cycle in a weighted directed graph (Bellman--Ford).
+//! The crate builds a satisfiability solver in layers, from the Boolean core
+//! up to a mixed-signature driver:
+//!
+//! - [`sat`] -- a self-contained DPLL SAT solver (unit propagation and
+//!   backtracking), the engine every other module uses;
+//! - [`difference`] -- difference logic, solved as a negative-cycle test;
+//! - [`linear`] -- linear real arithmetic by Fourier--Motzkin elimination
+//!   with exact rational arithmetic;
+//! - [`integers`] -- linear integer arithmetic by branch and bound on the
+//!   rational relaxation;
+//! - [`bitvec`] -- fixed-width bitvectors by bit-blasting into the SAT core;
+//! - [`driver`] -- the DPLL(T) loop: abstract a mixed formula to Booleans,
+//!   hand each SAT model to the theory solvers, and learn conflicts.
+//!
+//! The classic example, difference logic, is still solved directly:
 //!
 //! ```
 //! use smt::difference::{Constraint, solve};
@@ -18,6 +30,13 @@
 //! assert!(a[1] - a[0] <= -4);
 //! ```
 
+pub mod bitvec;
 pub mod difference;
+pub mod driver;
+pub mod integers;
+pub mod linear;
+pub mod sat;
 
 pub use difference::{solve, Constraint};
+pub use driver::{check, Atom, Error, Formula, Verdict};
+pub use linear::Rat;

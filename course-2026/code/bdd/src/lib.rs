@@ -34,5 +34,5 @@
 pub mod bdd;
 pub mod expr;
 
-pub use bdd::{Bdd, Edge, FALSE, TRUE};
+pub use bdd::{Bdd, Edge, PlainBdd, PlainNode, FALSE, TRUE};
 pub use expr::Expr;

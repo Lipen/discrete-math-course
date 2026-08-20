@@ -2,4 +2,4 @@
 name = "smt"
 version = "0.1.0"
 edition = "2021"
-description = "A small difference-logic (DL) SMT solver"
+description = "A small DPLL(T) stack: SAT core, difference/linear/integer/bitvector theories, mixed driver"

@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 /// An edge in the BDD: a node index shifted left by one, with the low bit
 /// storing a complement flag. Edge `0` is TRUE, edge `1` is FALSE.
@@ -26,6 +26,73 @@ struct Node {
     var: u32,
     lo: Edge,
     hi: Edge,
+}
+
+/// A node of a plain (complement-free) BDD: `lo` and `hi` are plain node
+/// indices into a [`PlainBdd`] table, never edges with a complement flag.
+///
+/// Negation is materialized as real nodes: the complement-free form of a
+/// function can use up to twice as many nodes as the complemented form.
+#[derive(Clone, Copy, Debug)]
+pub struct PlainNode {
+    /// The tested variable `x_var`.
+    pub var: u32,
+    /// Plain index of the sub-BDD taken when `var` is false.
+    pub lo: u32,
+    /// Plain index of the sub-BDD taken when `var` is true.
+    pub hi: u32,
+}
+
+/// A BDD stored without complement edges, produced by [`Bdd::to_plain`].
+///
+/// This is pure storage: it lets you inspect a diagram whose edges carry no
+/// complement flag. Index `0` is the FALSE terminal, index `1` is the TRUE
+/// terminal, and real nodes start at index `2`. Every non-terminal node
+/// points to a *plain* child index, so a `*`-free traversal is a plain
+/// (not complemented) Shannon tree.
+pub struct PlainBdd {
+    /// The node table; `nodes[0]` is FALSE and `nodes[1]` is TRUE.
+    pub nodes: Vec<PlainNode>,
+    /// Plain index of the converted root.
+    pub root: u32,
+    unique: HashMap<(u32, u32, u32), u32>,
+}
+
+impl PlainBdd {
+    /// A fresh plain manager with just the FALSE and TRUE terminals.
+    fn new() -> PlainBdd {
+        PlainBdd {
+            nodes: vec![
+                PlainNode {
+                    var: u32::MAX,
+                    lo: 0,
+                    hi: 0,
+                }, // FALSE
+                PlainNode {
+                    var: u32::MAX,
+                    lo: 1,
+                    hi: 1,
+                }, // TRUE
+            ],
+            root: 0,
+            unique: HashMap::new(),
+        }
+    }
+
+    /// The canonical `(var, lo, hi)` plain node: drops redundant nodes where
+    /// `lo == hi` and merges equal subgraphs.
+    fn mk(&mut self, var: u32, lo: u32, hi: u32) -> u32 {
+        if lo == hi {
+            return lo;
+        }
+        if let Some(&idx) = self.unique.get(&(var, lo, hi)) {
+            return idx;
+        }
+        let idx = self.nodes.len() as u32;
+        self.nodes.push(PlainNode { var, lo, hi });
+        self.unique.insert((var, lo, hi), idx);
+        idx
+    }
 }
 
 /// A manager for a family of BDDs over a common node table.
@@ -342,6 +409,228 @@ impl Bdd {
     /// ```
     pub fn is_satisfiable(u: Edge) -> bool {
         u != FALSE
+    }
+
+    // ==================================================================
+    // Visualization
+    // ==================================================================
+
+    /// Renders the BDD rooted at `root` as a Graphviz DOT string.
+    ///
+    /// Each node is a circle labelled `x<var>`; the FALSE and TRUE terminals
+    /// are boxes labelled `0` and `1`. Every edge is labelled with its Shannon
+    /// branch (`0` for the "false" child, `1` for the "true" child). A
+    /// **complemented edge** is drawn dashed with a trailing `~`, so negation
+    /// is always visible on the diagram. The constant node appears twice, as
+    /// the two terminal boxes, because a complemented edge to it is exactly
+    /// the FALSE terminal.
+    ///
+    /// ```
+    /// use bdd::Bdd;
+    ///
+    /// let mut bdd = Bdd::new();
+    /// let x = bdd.var(0);
+    /// let dot = bdd.to_dot(x);
+    /// assert!(dot.starts_with("digraph bdd"));
+    /// assert!(dot.contains("n1 [label=\"x0\"]"));
+    /// // The "false" child of x0 is FALSE (edge 1): a dashed, complemented edge.
+    /// assert!(dot.contains("n1 -> zero [label=\"0 ~\", style=dashed]"));
+    /// ```
+    pub fn to_dot(&self, root: Edge) -> String {
+        // Collect the node indices reachable from the root (the constant node
+        // is rendered as the two terminal boxes instead).
+        let mut reachable: Vec<u32> = Vec::new();
+        let mut seen: HashSet<u32> = HashSet::new();
+        let mut stack: Vec<Edge> = vec![root];
+        while let Some(e) = stack.pop() {
+            let idx = e >> 1;
+            if idx == 0 || !seen.insert(idx) {
+                continue;
+            }
+            let node = &self.nodes[idx as usize];
+            stack.push(node.lo);
+            stack.push(node.hi);
+            reachable.push(idx);
+        }
+
+        let mut s = String::from("digraph bdd {\n  rankdir=TB;\n");
+        // A synthetic root dot makes a complemented root edge visible too.
+        s.push_str("  root [label=\"\", shape=point, width=0.1];\n");
+        s.push_str("  one [label=\"1\", shape=box];\n  zero [label=\"0\", shape=box];\n");
+        for &idx in &reachable {
+            let node = &self.nodes[idx as usize];
+            s.push_str(&format!("  n{idx} [label=\"x{}\"];\n", node.var));
+        }
+        // The edge out of the synthetic root.
+        self.push_dot_edge(&mut s, "root", "", root);
+        // The two Shannon branches of every reachable node.
+        for &idx in &reachable {
+            let node = &self.nodes[idx as usize];
+            let from = format!("n{idx}");
+            self.push_dot_edge(&mut s, &from, "0", node.lo);
+            self.push_dot_edge(&mut s, &from, "1", node.hi);
+        }
+        s.push_str("}\n");
+        s
+    }
+
+    /// Appends one DOT edge from `from` along edge `e`, marking complement.
+    ///
+    /// `branch` is the Shannon branch label (`""` for the root, `"0"` for the
+    /// false child, `"1"` for the true child). A complemented edge is drawn
+    /// dashed with a `~` on the label.
+    fn push_dot_edge(&self, s: &mut String, from: &str, branch: &str, e: Edge) {
+        let idx = e >> 1;
+        let comp = e & 1;
+        // A complemented edge to the constant is the other terminal.
+        let target = if idx == 0 {
+            if comp == 0 { "one" } else { "zero" }.to_string()
+        } else {
+            format!("n{idx}")
+        };
+        let mut attrs = Vec::new();
+        if !branch.is_empty() {
+            let label = if comp == 1 {
+                format!("{branch} ~")
+            } else {
+                branch.to_string()
+            };
+            attrs.push(format!("label=\"{label}\""));
+        } else if comp == 1 {
+            attrs.push("label=\"~\"".to_string());
+        }
+        if comp == 1 {
+            attrs.push("style=dashed".to_string());
+        }
+        if attrs.is_empty() {
+            s.push_str(&format!("  {from} -> {target};\n"));
+        } else {
+            s.push_str(&format!("  {from} -> {target} [{}];\n", attrs.join(", ")));
+        }
+    }
+
+    /// Renders the BDD rooted at `root` as an indented tree dump.
+    ///
+    /// Each line shows a node as `n<idx>: x<var>` followed by its two Shannon
+    /// branches. A **shared subgraph** (a node reached a second time through a
+    /// different path) is printed once as `n<idx>: x<var> *` instead of being
+    /// duplicated, so the dump shows sharing explicitly. A **complemented
+    /// edge** is shown with a `~` before the target.
+    ///
+    /// ```
+    /// use bdd::Bdd;
+    ///
+    /// let mut bdd = Bdd::new();
+    /// let x = bdd.var(0);
+    /// let t = bdd.to_tree_string(x);
+    /// assert_eq!(
+    ///     t,
+    ///     "n1: x0\n  lo -> 0\n  hi -> 1\n"
+    /// );
+    /// ```
+    pub fn to_tree_string(&self, root: Edge) -> String {
+        let mut out = String::new();
+        let mut visited: HashSet<u32> = HashSet::new();
+        self.tree_line(root, 0, "", &mut visited, &mut out);
+        out
+    }
+
+    /// Recursive worker for `to_tree_string`.
+    fn tree_line(
+        &self,
+        e: Edge,
+        depth: usize,
+        branch: &str,
+        visited: &mut HashSet<u32>,
+        out: &mut String,
+    ) {
+        let indent = "  ".repeat(depth);
+        let idx = e >> 1;
+        let comp = e & 1;
+        if idx == 0 {
+            // Constant: the complement is absorbed into the shown value.
+            out.push_str(&format!(
+                "{indent}{branch}{}\n",
+                if comp == 0 { "1" } else { "0" }
+            ));
+            return;
+        }
+        let node = &self.nodes[idx as usize];
+        let neg = if comp == 1 { "~ " } else { "" };
+        if !visited.insert(idx) {
+            // Shared subgraph: mark it instead of re-expanding.
+            out.push_str(&format!("{indent}{branch}{neg}n{idx}: x{} *\n", node.var));
+            return;
+        }
+        out.push_str(&format!("{indent}{branch}{neg}n{idx}: x{}\n", node.var));
+        // The complement flag on this edge negates both children.
+        self.tree_line(node.lo ^ comp, depth + 1, "lo -> ", visited, out);
+        self.tree_line(node.hi ^ comp, depth + 1, "hi -> ", visited, out);
+    }
+
+    // ==================================================================
+    // Plain (complement-free) conversion
+    // ==================================================================
+
+    /// Converts the BDD rooted at `root` into a [`PlainBdd`] without any
+    /// complemented edges.
+    ///
+    /// Negation is pushed down into the graph: where the complemented form
+    /// stores a `NOT` as a flag on an edge, the plain form materializes it as
+    /// real nodes (a negated node `(var, lo, hi)` becomes `(var, ¬lo, ¬hi)`),
+    /// so the result can use up to twice as many nodes. This is pure storage
+    /// -- no BDD operations are available on [`PlainBdd`] -- meant for
+    /// inspecting a diagram whose edges carry no complement flag.
+    ///
+    /// ```
+    /// use bdd::Bdd;
+    ///
+    /// let mut bdd = Bdd::new();
+    /// let x = bdd.var(0);
+    /// let y = bdd.var(1);
+    /// let f = bdd.xor(x, y);
+    ///
+    /// let plain = bdd.to_plain(f);
+    /// // Every edge is a plain index into the table, never an edge with a
+    /// // complement bit.
+    /// for n in &plain.nodes {
+    ///     assert!(n.lo < plain.nodes.len() as u32);
+    ///     assert!(n.hi < plain.nodes.len() as u32);
+    /// }
+    /// // Terminals: index 0 is FALSE, index 1 is TRUE.
+    /// assert_eq!(plain.nodes[0].var, u32::MAX);
+    /// assert_eq!(plain.nodes[1].var, u32::MAX);
+    /// ```
+    pub fn to_plain(&self, root: Edge) -> PlainBdd {
+        let mut plain = PlainBdd::new();
+        let mut memo: HashMap<Edge, u32> = HashMap::new();
+        let r = self.to_plain_rec(root, &mut plain, &mut memo);
+        plain.root = r;
+        plain
+    }
+
+    /// Recursive worker for `to_plain`, memoised on the complemented edge.
+    fn to_plain_rec(&self, e: Edge, plain: &mut PlainBdd, memo: &mut HashMap<Edge, u32>) -> u32 {
+        if let Some(&p) = memo.get(&e) {
+            return p;
+        }
+        let idx = e >> 1;
+        let comp = e & 1;
+        let p = if idx == 0 {
+            // Constant: the complement flag picks FALSE (0) vs TRUE (1).
+            if comp == 0 {
+                1
+            } else {
+                0
+            }
+        } else {
+            let node = &self.nodes[idx as usize];
+            let lo = self.to_plain_rec(node.lo ^ comp, plain, memo);
+            let hi = self.to_plain_rec(node.hi ^ comp, plain, memo);
+            plain.mk(node.var, lo, hi)
+        };
+        memo.insert(e, p);
+        p
     }
 
     // ==================================================================

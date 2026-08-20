@@ -19,6 +19,7 @@
 /// assert!(uf.same(0, 3));
 /// assert!(!uf.same(0, 4));
 /// ```
+#[derive(Debug)]
 pub struct UnionFind {
     /// `parent[x]` -- the parent of `x` in the representative forest.
     parent: Vec<usize>,
@@ -110,6 +111,58 @@ impl UnionFind {
     pub fn same(&mut self, a: usize, b: usize) -> bool {
         self.find(a) == self.find(b)
     }
+
+    /// Add a new element as its own component; returns its id.
+    ///
+    /// The structure grows by one: useful when the number of elements is
+    /// not known in advance (for example, fresh locations in a pointer
+    /// analysis). Existing ids stay valid.
+    ///
+    /// ```
+    /// use graphs::UnionFind;
+    ///
+    /// let mut uf = UnionFind::new(2);
+    /// let id = uf.push();
+    /// assert_eq!(id, 2);
+    /// uf.union(0, id);
+    /// assert!(uf.same(0, 2));
+    /// assert!(!uf.same(1, 2));
+    /// ```
+    pub fn push(&mut self) -> usize {
+        let id = self.parent.len();
+        self.parent.push(id);
+        self.size.push(1);
+        id
+    }
+
+    /// The equivalence classes of the current partition.
+    ///
+    /// Each class is a sorted list of element ids, and the classes
+    /// themselves are ordered by their smallest element, so the result is
+    /// deterministic. Runs in $O(n alpha(n))$.
+    ///
+    /// ```
+    /// use graphs::UnionFind;
+    ///
+    /// let mut uf = UnionFind::new(6);
+    /// uf.union(0, 1);
+    /// uf.union(2, 3);
+    /// uf.union(1, 2); // 0, 1, 2, 3 now form one class
+    ///
+    /// let classes = uf.classes();
+    /// assert_eq!(classes, vec![vec![0, 1, 2, 3], vec![4], vec![5]]);
+    /// ```
+    pub fn classes(&mut self) -> Vec<Vec<usize>> {
+        let n = self.parent.len();
+        let mut by_root: Vec<Vec<usize>> = vec![Vec::new(); n];
+        for x in 0..n {
+            let r = self.find(x);
+            by_root[r].push(x);
+        }
+        let mut classes: Vec<Vec<usize>> = by_root.into_iter().filter(|c| !c.is_empty()).collect();
+        classes.sort_by_key(|c| c[0]);
+        classes
+    }
 }
 
 #[cfg(test)]
@@ -147,5 +200,34 @@ mod tests {
         assert_eq!(uf.find(1), r);
         assert_eq!(uf.find(2), r);
         assert_eq!(uf.find(3), r);
+    }
+
+    #[test]
+    fn push_grows_the_partition() {
+        let mut uf = UnionFind::new(2);
+        assert_eq!(uf.push(), 2);
+        assert_eq!(uf.push(), 3);
+        uf.union(0, 2);
+        assert!(uf.same(0, 2));
+        assert!(!uf.same(1, 2));
+        assert!(!uf.same(3, 0));
+    }
+
+    #[test]
+    fn classes_reflect_the_partition() {
+        let mut uf = UnionFind::new(6);
+        uf.union(0, 1);
+        uf.union(2, 3);
+        uf.union(1, 2);
+        assert_eq!(uf.classes(), vec![vec![0, 1, 2, 3], vec![4], vec![5]]);
+    }
+
+    #[test]
+    fn classes_after_push_include_the_new_elements() {
+        let mut uf = UnionFind::new(3);
+        uf.union(0, 1);
+        let fresh = uf.push();
+        uf.union(fresh, 2);
+        assert_eq!(uf.classes(), vec![vec![0, 1], vec![2, 3]]);
     }
 }

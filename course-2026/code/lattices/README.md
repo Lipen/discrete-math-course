@@ -36,7 +36,7 @@ sublattices, so the characterization can be verified on examples.
 
 | Demo | What it shows |
 |------|---------------|
-| `join_meet` | Upper/lower bounds and join/meet on the divisors of 12: join of {2,3} is 6, meet is 1 |
+| `join_meet` | Upper/lower bounds and join/meet on the divisors of 12: join of {2,3} is 6, meet is 1; also rebuilds the poset with `relation_pairs` and prints its Hasse diagram |
 | `birkhoff` | Distributivity and modularity of D₁₂, B₃, M3 and N5, plus M3/N5 sublattice search |
 
 ## API
@@ -51,6 +51,9 @@ sublattices, so the characterization can be verified on examples.
 | `is_distributive()` / `is_modular()` | Check the lattice laws |
 | `has_m3_sublattice()` / `has_n5_sublattice()` | Forbidden sublattice search |
 | `is_distributive_birkhoff()` | The Birkhoff characterization as a single check |
+| `relation_pairs(n, leq)` | The relation `{(i, j) : leq(i, j)}` as an explicit pair list |
+| `hasse(pairs)` | The Hasse diagram (cover relation): transitive pairs removed, strict form |
+| `hasse_reflexive(pairs)` | Same, but keeps the reflexive pairs to match the `Lattice` pair format |
 | `examples::m3()`, `n5()`, `divisors_12()`, `boolean_3()` | The running examples |
 
 ![M3 and N5](assets/lattices-demo.svg)

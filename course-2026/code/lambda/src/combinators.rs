@@ -6,9 +6,18 @@
 //! `S` and `K` (and applications).
 //!
 //! Non-terminating terms like Ω = (λx. x x)(λx. x x) demonstrate that not
-//! every term has a normal form.
+//! every term has a normal form. Fixed-point combinators (Y and Z) live in
+//! the [`fixpoint`](crate::fixpoint) module; the call-by-name Y combinator
+//! is re-exported here for convenience.
 
 use crate::term::Term;
+
+/// Call-by-name Y fixed-point combinator, defined in [`crate::fixpoint`].
+///
+/// Re-exported here so that `lambda::combinators::y` keeps working; the
+/// definition lives next to the call-by-value variant
+/// [`z`](crate::fixpoint::z) in the [`fixpoint`](crate::fixpoint) module.
+pub use crate::fixpoint::y;
 
 // ===========================================================================
 // SKI combinators
@@ -113,34 +122,6 @@ pub fn omega() -> Term {
 }
 
 // ===========================================================================
-// Fixed-point combinator
-// ===========================================================================
-
-/// Call-by-name Y combinator: `Y = λf. (λx. f (x x)) (λx. f (x x))`.
-///
-/// For any term `g`, `Y g` reduces to `g (Y g)`, making `Y g` a fixed point
-/// of `g`. This is how recursion is expressed in pure λ-calculus without
-/// named functions.
-///
-/// **Note:** under normal-order reduction, `Y g` expands infinitely. This
-/// combinator is included for pedagogical completeness -- use `normalize`
-/// with a step limit.
-///
-/// ```
-/// use lambda::combinators::y;
-/// // Y combinator is a closed term -- no free variables.
-/// assert!(y().free_vars().is_empty());
-/// ```
-pub fn y() -> Term {
-    // λf. (λx. f (x x)) (λx. f (x x))
-    let inner = Term::abs(
-        "x",
-        Term::app(Term::var("f"), Term::app(Term::var("x"), Term::var("x"))),
-    );
-    Term::abs("f", Term::app(inner.clone(), inner))
-}
-
-// ===========================================================================
 // Tests
 // ===========================================================================
 
@@ -184,11 +165,6 @@ mod tests {
         let t = omega();
         let reduced = t.beta_reduce().unwrap();
         assert_eq!(reduced.beta_reduce(), Some(omega()));
-    }
-
-    #[test]
-    fn y_combinator_g_is_closed() {
-        assert!(y().free_vars().is_empty());
     }
 
     #[test]

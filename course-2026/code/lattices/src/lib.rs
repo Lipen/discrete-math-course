@@ -255,6 +255,110 @@ impl Lattice {
     }
 }
 
+/// The relation `{(i, j) : leq(i, j)}` as an explicit list of pairs.
+///
+/// Builds a full pair set for a finite relation given by a predicate: every
+/// pair `(i, j)` with `0 <= i < n` and `0 <= j < n` is tested, and the pairs
+/// for which `leq(i, j)` is true are collected in lexicographic order.
+///
+/// ```
+/// use lattices::relation_pairs;
+///
+/// // The chain 0 < 1 < 2: leq is just `i <= j`.
+/// let pairs = relation_pairs(3, |i, j| i <= j);
+/// assert!(pairs.contains(&(0, 2)));
+/// assert_eq!(pairs.len(), 6);
+/// ```
+pub fn relation_pairs(n: usize, leq: impl Fn(usize, usize) -> bool) -> Vec<(usize, usize)> {
+    let mut pairs = Vec::new();
+    for i in 0..n {
+        for j in 0..n {
+            if leq(i, j) {
+                pairs.push((i, j));
+            }
+        }
+    }
+    pairs
+}
+
+/// The Hasse diagram (cover relation) of a poset given by its pairs.
+///
+/// A pair `(a, c)` is removed when it can be obtained by transitivity from
+/// two other pairs: some `b` with both `(a, b)` and `(b, c)` in the
+/// relation. What remains are the covers, the pairs that are not a
+/// composition of two smaller steps. The input is expected to be the full
+/// relation (as produced by `relation_pairs`), so that dropping the
+/// transitive pairs leaves exactly the covering pairs.
+///
+/// This variant drops the reflexive pairs `(a, a)` too, so the result is
+/// the strict cover relation.
+///
+/// ```
+/// use lattices::{hasse, relation_pairs};
+///
+/// // The chain 0 < 1 < 2: pairs include the transitive (0, 2), the Hasse
+/// // diagram does not.
+/// let pairs = relation_pairs(3, |i, j| i <= j);
+/// assert!(pairs.contains(&(0, 2)));
+/// let hasse = hasse(&pairs);
+/// assert!(!hasse.contains(&(0, 2)));
+/// assert_eq!(hasse, vec![(0, 1), (1, 2)]);
+/// ```
+pub fn hasse(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
+    pairs
+        .iter()
+        .copied()
+        .filter(|&(a, c)| {
+            if a == c {
+                return false;
+            }
+            // Keep (a, c) unless some b lies strictly between them.
+            !pairs
+                .iter()
+                .any(|&(x, y)| x == a && y != a && y != c && pairs.contains(&(y, c)))
+        })
+        .collect()
+}
+
+/// The Hasse diagram, keeping the reflexive pairs.
+///
+/// Like `hasse`, this removes the transitive pairs, but it keeps the
+/// reflexive pairs `(a, a)`, so the result is in the same pair format as
+/// `Lattice::leq`. Note that `Lattice::leq` must be transitively closed,
+/// while the Hasse diagram is deliberately not: to build a `Lattice` from a
+/// Hasse diagram, take the transitive closure first (for a poset, the
+/// transitive closure of the covers is the whole relation).
+///
+/// ```
+/// use lattices::{hasse_reflexive, relation_pairs, Lattice};
+///
+/// // The chain 0 < 1 < 2: covers plus reflexive pairs.
+/// let covers = hasse_reflexive(&relation_pairs(3, |i, j| i <= j));
+/// assert_eq!(covers, vec![(0, 0), (0, 1), (1, 1), (1, 2), (2, 2)]);
+///
+/// // A Lattice needs the full relation, so close the covers transitively.
+/// let leq: Vec<(u32, u32)> = relation_pairs(3, |i, j| {
+///     covers.contains(&(i, j))
+///         || covers.iter().any(|&(a, b)| a == i && covers.contains(&(b, j)))
+/// })
+/// .into_iter()
+/// .map(|(a, b)| (a as u32, b as u32))
+/// .collect();
+/// let l = Lattice { elements: vec![0, 1, 2], leq };
+/// assert!(l.is_chain());
+/// assert!(l.is_distributive());
+/// ```
+pub fn hasse_reflexive(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
+    let mut reflexive: Vec<(usize, usize)> = pairs
+        .iter()
+        .copied()
+        .filter(|&(a, b)| a == b)
+        .collect();
+    reflexive.append(&mut hasse(pairs));
+    reflexive.sort_unstable();
+    reflexive
+}
+
 /// All `k`-element subsets of `xs`, each as a sorted `Vec`.
 fn combinations(xs: &[u32], k: usize) -> Vec<Vec<u32>> {
     let mut out = Vec::new();
@@ -285,6 +389,7 @@ fn combinations(xs: &[u32], k: usize) -> Vec<Vec<u32>> {
 #[cfg(test)]
 mod tests {
     use crate::examples::{boolean_3, divisors_12, m3, n5};
+    use crate::Lattice;
 
     #[test]
     fn m3_is_modular_not_distributive() {
@@ -335,5 +440,72 @@ mod tests {
         for l in [m3(), n5(), divisors_12(), boolean_3()] {
             assert_eq!(l.is_distributive(), l.is_distributive_birkhoff());
         }
+    }
+
+    #[test]
+    fn relation_pairs_builds_a_chain() {
+        let pairs = crate::relation_pairs(3, |i, j| i <= j);
+        assert_eq!(pairs, vec![(0, 0), (0, 1), (0, 2), (1, 1), (1, 2), (2, 2)]);
+        // Only pairs satisfying the predicate appear.
+        assert!(!pairs.contains(&(1, 0)));
+        assert!(!pairs.contains(&(2, 1)));
+    }
+
+    #[test]
+    fn hasse_drops_transitive_pairs() {
+        let pairs = crate::relation_pairs(4, |i, j| i <= j);
+        assert_eq!(crate::hasse(&pairs), vec![(0, 1), (1, 2), (2, 3)]);
+        // The 3-element chain: (0, 2) is transitive, (0, 1) and (1, 2) are covers.
+        let chain3 = crate::relation_pairs(3, |i, j| i <= j);
+        assert_eq!(crate::hasse(&chain3), vec![(0, 1), (1, 2)]);
+    }
+
+    #[test]
+    fn hasse_reflexive_keeps_covers_and_reflexive_pairs() {
+        // The chain 0 < 1 < 2: reflexive pairs plus the covers.
+        let covers = crate::hasse_reflexive(&crate::relation_pairs(3, |i, j| i <= j));
+        assert_eq!(covers, vec![(0, 0), (0, 1), (1, 1), (1, 2), (2, 2)]);
+        // A Lattice needs the transitively closed relation, as the crate's
+        // example lattices have it.
+        let leq: Vec<(u32, u32)> = crate::relation_pairs(3, |i, j| i <= j)
+            .into_iter()
+            .map(|(a, b)| (a as u32, b as u32))
+            .collect();
+        let l = Lattice {
+            elements: vec![0, 1, 2],
+            leq,
+        };
+        assert!(l.is_chain());
+        assert!(l.is_distributive());
+        assert_eq!(l.upper_bounds(0, 1), vec![1, 2]);
+        assert_eq!(l.meet(0, 2), Some(0));
+        assert_eq!(l.join(0, 2), Some(2));
+    }
+
+    #[test]
+    fn hasse_on_divisors_12_matches_building_blocks() {
+        // Divisor poset of 12 built from scratch: a <= b iff a divides b.
+        // Indices: 0=1, 1=2, 2=3, 3=4, 4=6, 5=12.
+        let d12 = divisors_12();
+        let pairs = crate::relation_pairs(6, |i, j| {
+            d12.le(d12.elements[i], d12.elements[j])
+        });
+        let covers = crate::hasse(&pairs);
+        // The covers are the covering pairs: 1<2, 1<3, 2<4, 2<6, 3<6,
+        // 4<12, 6<12. The transitive pairs (1,4), (1,6), (1,12), (2,12),
+        // (3,12) are removed; (2,6) stays because 4 does not divide 6.
+        assert!(!covers.contains(&(0, 3))); // 1 -> 4 via 2
+        assert!(!covers.contains(&(0, 4))); // 1 -> 6 via 3
+        assert!(!covers.contains(&(0, 5))); // 1 -> 12
+        assert!(!covers.contains(&(1, 5))); // 2 -> 12 via 4
+        assert!(!covers.contains(&(2, 5))); // 3 -> 12 via 6
+        assert!(covers.contains(&(0, 1))); // 1 -> 2
+        assert!(covers.contains(&(0, 2))); // 1 -> 3
+        assert!(covers.contains(&(1, 3))); // 2 -> 4
+        assert!(covers.contains(&(1, 4))); // 2 -> 6
+        assert!(covers.contains(&(2, 4))); // 3 -> 6
+        assert!(covers.contains(&(3, 5))); // 4 -> 12
+        assert!(covers.contains(&(4, 5))); // 6 -> 12
+        assert_eq!(covers.len(), 7);
     }
 }

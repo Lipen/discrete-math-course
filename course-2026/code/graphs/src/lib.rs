@@ -18,10 +18,16 @@
 //! ```
 
 pub mod algo;
+pub mod de_bruijn;
 pub mod graph;
+pub mod matrix;
+pub mod steensgaard;
 pub mod unionfind;
 pub mod viz;
 
 pub use algo::*;
+pub use de_bruijn::DeBruijnGraph;
 pub use graph::{Edge, Graph};
+pub use matrix::AdjMatrix;
+pub use steensgaard::{Steensgaard, Stmt};
 pub use unionfind::UnionFind;
