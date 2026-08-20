@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m05.typ": cantor-diagonal, cantor-line-square, qq-pairing
+#import "diagrams/m07.typ": cantor-diagonal, cantor-line-square, qq-pairing
 
 = Равномощность
 #focus-slide(

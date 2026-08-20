@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m02.typ": (
+#import "diagrams/m04.typ": (
   venn-difference, venn-intersection, venn-subset, venn-union,
 )
 

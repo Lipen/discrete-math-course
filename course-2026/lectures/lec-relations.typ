@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m03.typ": equivalence-partition, rel-digraph
+#import "diagrams/m05.typ": equivalence-partition, rel-digraph
 
 = Бинарные отношения
 #focus-slide(

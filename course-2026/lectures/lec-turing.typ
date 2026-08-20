@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m21.typ": turing-machine
+#import "diagrams/m24.typ": turing-machine
 
 = Определение
 #focus-slide(

@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m07.typ": (
+#import "diagrams/m09.typ": (
   bfs-grid, bipartite, bridge-cut, eulerian, graph-coloring, k33, k5, petersen,
   planar, tree,
 )

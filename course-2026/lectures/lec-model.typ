@@ -5,7 +5,7 @@
   date: "Осень 2026",
   authors: "Константин Чухарев",
 )
-#import "diagrams/m15.typ": ctl-tree
+#import "diagrams/m32.typ": ctl-tree
 
 = Модальная логика
 #focus-slide(

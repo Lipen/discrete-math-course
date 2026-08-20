@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m04.typ": (
+#import "diagrams/m06.typ": (
   function-parts, mapping-bijection, mapping-injection, mapping-surjection,
 )
 

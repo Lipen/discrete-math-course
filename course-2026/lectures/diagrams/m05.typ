@@ -1,204 +1,140 @@
-// M05 diagrams --- Cantor diagonal, QQ pairing, line-to-square.
-// Скопировано из book/diagrams/m12.typ, чтобы лекции не зависели от книги.
+// M03 diagrams --- relation digraphs via fletcher.
+// Скопировано из book/diagrams/m03.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "@preview/fletcher:0.5.8": diagram, edge, node
 
-#let cantor-diagonal = canvas({
-  let cantor-bg = oklch(97%, 0.005, 260deg)
-  let cantor-diag = oklch(60%, 0.22, 22deg)
-  let cantor-digit = oklch(30%, 0.02, 265deg)
-  let cantor-constr = oklch(50%, 0.18, 250deg)
-  let cantor-mismatch = oklch(55%, 0.20, 22deg)
+#let n-fill = oklch(88%, 0.03, 250deg)
+#let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
+#let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
 
-  let s = 0.72
-  let rows = 5
-  let cols = 7
-  let digits = (
-    (3, 5, 2, 7, 1, 4, 8),
-    (1, 8, 4, 6, 2, 9, 0),
-    (7, 2, 5, 9, 3, 0, 6),
-    (0, 3, 1, 8, 6, 2, 7),
-    (9, 4, 7, 2, 0, 5, 3),
-  )
-  let constructed = (4, 4, 4, 4, 4)
+#let cn(pos, body, ..args) = node(
+  pos,
+  text(size: 0.7em)[#body],
+  fill: n-fill,
+  width: 0.6em,
+  height: 0.6em,
+  ..args,
+)
+#let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-str, ..args)
+#let el(from, to, angle: 30deg, ..args) = edge(
+  from,
+  to,
+  "-}>",
+  stroke: e-str,
+  loop-angle: angle,
+  ..args,
+)
 
-  // Matrix background
+// ── Digraph of R on A = {1,2,3,4,5} ──
+#let rel-digraph = diagram(
+  node-shape: "circle",
+  node-stroke: n-str,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 0.8em,
+  cn((-0.4, 1.6), $1$, name: <1>),
+  cn((1.3, 0.8), $2$, name: <2>),
+  cn((1.3, -0.8), $3$, name: <3>),
+  cn((-1.3, -0.8), $4$, name: <4>),
+  cn((-1.3, 0.8), $5$, name: <5>),
+  el(<1>, <1>, angle: 120deg),
+  ea(<1>, <2>),
+  ea(<1>, <5>),
+  ea(<2>, <3>),
+  ea(<2>, <4>),
+  ea(<3>, <1>),
+  ea(<4>, <2>),
+  ea(<5>, <3>),
+  el(<5>, <5>, angle: 240deg),
+)
+
+// ── Hasse diagram of divisibility on {1,2,3,4,6,12} ──
+#let hasse-divisibility = canvas({
+  let fill = oklch(88%, 0.03, 250deg)
+  let stroke = 0.6pt + oklch(50%, 0.08, 250deg)
+  let edge-str = 0.6pt + oklch(35%, 0.02, 265deg)
+
+  // Node helper: named circle with a label
+  let v(name, pos) = {
+    draw.circle(pos, radius: 0.18, fill: fill, stroke: stroke, name: name)
+    draw.content(pos, text(size: 0.45em)[#name])
+  }
+
+  // Edge helper: straight line between two named nodes
+  let e(a, b) = draw.line(a, b, stroke: edge-str)
+
+  // Nodes, named
+  v("12", (0, 1.5))
+  v("4", (-0.75, 1.0))
+  v("6", (0.75, 1.0))
+  v("2", (-0.5, 0.5))
+  v("3", (0.5, 0.5))
+  v("1", (0, 0.0))
+
+  // Edges --- only cover relations (no transitive shortcuts), node-based
+  e("1", "2")
+  e("1", "3")
+  e("2", "4")
+  e("2", "6")
+  e("3", "6")
+  e("4", "12")
+  e("6", "12")
+})
+
+// ── Equivalence partition: numbers 1..10 modulo 3 ──
+#let c-eq-a = oklch(88%, 0.06, 250deg)
+#let c-eq-b = oklch(88%, 0.06, 155deg)
+#let c-eq-c = oklch(88%, 0.10, 45deg)
+#let c-eq-str = oklch(50%, 0.08, 250deg) + 0.6pt
+#let c-eq-label = oklch(35%, 0.02, 265deg)
+
+#let equivalence-partition = canvas({
+  // Class [0]: {3, 6, 9}
   draw.rect(
-    (-0.7, 0.5),
-    (cols * s + 0.2, -(rows + 0.3) * s),
-    fill: cantor-bg,
-    stroke: none,
-    radius: 4pt,
+    (-1.9, 0.6),
+    (1.9, 1.4),
+    radius: 6pt,
+    fill: c-eq-a,
+    stroke: c-eq-str,
   )
-
-  // Rows
-  for i in range(rows) {
-    draw.content((-0.4, -(i + 0.5) * s), text(
-      size: 0.6em,
-      fill: luma(45%),
-    )[$r_#(i + 1)$])
-    for j in range(cols) {
-      let x = j * s + 0.1
-      let y = -(i + 0.5) * s
-      let is-diag = (i == j)
-      if is-diag {
-        draw.rect(
-          (x - 0.05, y - 0.32),
-          (x + s - 0.05, y + 0.32),
-          fill: cantor-diag.transparentize(80%),
-          stroke: cantor-diag + 0.8pt,
-          radius: 2pt,
-          name: "d" + str(i),
-        )
-      }
-      draw.content((x + s / 2, y), text(
-        size: 0.7em,
-        fill: if is-diag { cantor-diag } else { cantor-digit },
-        weight: if is-diag { "bold" } else { "regular" },
-      )[#digits.at(i).at(j)])
-    }
-  }
-
-  // Ellipsis
-  draw.content((cols * s + 0.5, -(rows / 2) * s), text(
-    size: 0.65em,
+  draw.content((-1.25, 1.0), text(size: 0.45em, fill: c-eq-label)[3])
+  draw.content((-0.4, 1.0), text(size: 0.45em, fill: c-eq-label)[6])
+  draw.content((0.45, 1.0), text(size: 0.45em, fill: c-eq-label)[9])
+  draw.content((1.6, 1.0), anchor: "west", text(
+    size: 0.4em,
     fill: luma(50%),
-  )[$dots$])
+  )[$"mod" 3 = 0$])
 
-  // Constructed number r (named digit positions --- must precede arrows)
-  draw.content((-0.4, -(rows + 1.2) * s), text(
-    size: 0.65em,
-    weight: "bold",
-    fill: cantor-constr,
-  )[$r = 0.$])
-  for j in range(rows) {
-    let x = j * s + s / 2 + 0.1
-    draw.content((x, -(rows + 1.2) * s), name: "r" + str(j), text(
-      size: 0.75em,
-      fill: cantor-constr,
-      weight: "bold",
-    )[#constructed.at(j)])
-  }
-  draw.content((rows * s + 0.3, -(rows + 1.2) * s), text(
-    size: 0.65em,
-    fill: oklch(50%, 0.16, 300deg),
-  )[$dots not in {r_1, r_2, dots}$])
+  // Class [1]: {1, 4, 7, 10}
+  draw.rect(
+    (-1.9, -0.15),
+    (1.9, 0.65),
+    radius: 6pt,
+    fill: c-eq-b,
+    stroke: c-eq-str,
+  )
+  draw.content((-1.25, 0.25), text(size: 0.45em, fill: c-eq-label)[1])
+  draw.content((-0.4, 0.25), text(size: 0.45em, fill: c-eq-label)[4])
+  draw.content((0.45, 0.25), text(size: 0.45em, fill: c-eq-label)[7])
+  draw.content((1.3, 0.25), text(size: 0.45em, fill: c-eq-label)[10])
+  draw.content((1.6, 0.25), anchor: "west", text(
+    size: 0.4em,
+    fill: luma(50%),
+  )[$"mod" 3 = 1$])
 
-  // Vertical dashed arrows: diagonal cell → constructed digit
-  for i in range(rows) {
-    draw.line(
-      "d" + str(i) + ".south",
-      "r" + str(i) + ".north",
-      stroke: (
-        paint: cantor-constr.transparentize(50%),
-        thickness: 0.4pt,
-        dash: "dashed",
-      ),
-      name: "arr" + str(i),
-    )
-    draw.content(
-      "arr" + str(i) + ".mid",
-      text(size: 0.5em, fill: cantor-mismatch)[$≠$],
-      frame: "rect",
-      fill: white,
-      stroke: none,
-      padding: 0.5pt,
-      anchor: "west",
-    )
-  }
-})
-
-// --- QQ diagonal pairing matrix ---
-#let qq-pairing = canvas(y: -1, {
-  let size = 5
-
-  // Column/row labels
-  for i in range(1, size + 1) {
-    draw.content((i + 0.5, 1), anchor: "south", padding: 0.3, text(
-      size: 0.8em,
-      fill: luma(45%),
-    )[$#i$])
-    draw.content((1, i + 0.5), anchor: "east", padding: 0.3, text(
-      size: 0.8em,
-      fill: luma(45%),
-    )[$#i$])
-  }
-
-  // Diagonal path arrows
-  let cells = ()
-  for s in range(2, size * size) {
-    // s = i + j
-    for i in range(calc.max(1, s - size), calc.min(size, s - 1) + 1) {
-      let j = s - i
-      cells.push((i, j))
-    }
-  }
-  let color = oklch(55%, 0.20, 22deg)
-  let path-color = color.transparentize(50%)
-  for idx in range(1, cells.len()) {
-    let (i_prev, j_prev) = cells.at(idx - 1)
-    let (i_curr, j_curr) = cells.at(idx)
-    let x = j_prev
-    let y = i_prev
-    let start = (j_prev + 0.5, i_prev + 0.5)
-    let end = (j_curr + 0.5, i_curr + 0.5)
-    draw.line(
-      start,
-      end,
-      stroke: 0.5pt + path-color,
-      mark: (end: "stealth", fill: path-color),
-    )
-    draw.content(
-      (x + 0.5, y),
-      anchor: "north",
-      padding: 0.1,
-      text(
-        size: 0.5em,
-        fill: color,
-        weight: "bold",
-      )[#idx],
-    )
-  }
-
-  // Grid
-  for i in range(1, size + 1) {
-    for j in range(1, size + 1) {
-      let x = j
-      let y = i
-      let n = i + j + 1
-      // Cell fill based on diagonal
-      let clr = oklch(75%, 0.1, 260deg - n * 30deg).transparentize(80%)
-      draw.rect(
-        (x, y),
-        (x + 1, y + 1),
-        fill: clr,
-        stroke: 0.3pt + luma(85%),
-      )
-      draw.content(
-        (x + 0.5, y + 1),
-        anchor: "south",
-        padding: 0.1,
-        text(
-          size: 0.8em,
-          fill: luma(35%),
-        )[$(#i, #j)$],
-      )
-    }
-  }
-})
-
-// --- Line to square: |L| = |S| ---
-#let cantor-line-square = canvas({
-  let w = 2
-  let gap = 1.5
-
-  // Unit segment L
-  draw.line((0, 0), (w, 0), mark: (symbol: "|"))
-  draw.content((w / 2, w / 2))[$L = [0,1]$]
-
-  // Unit square S
-  draw.rect((w + gap, 0), (w + gap + w, w), fill: luma(95%))
-  draw.content((w + gap + w / 2, w / 2))[$S = [0,1]^2$]
-
-  // ≈ between them
-  draw.content((w + gap / 2, w / 2))[$approx$]
+  // Class [2]: {2, 5, 8}
+  draw.rect(
+    (-1.9, -0.9),
+    (1.9, -0.1),
+    radius: 6pt,
+    fill: c-eq-c,
+    stroke: c-eq-str,
+  )
+  draw.content((-0.75, -0.5), text(size: 0.45em, fill: c-eq-label)[2])
+  draw.content((0.1, -0.5), text(size: 0.45em, fill: c-eq-label)[5])
+  draw.content((0.95, -0.5), text(size: 0.45em, fill: c-eq-label)[8])
+  draw.content((1.6, -0.5), anchor: "west", text(
+    size: 0.4em,
+    fill: luma(50%),
+  )[$"mod" 3 = 2$])
 })

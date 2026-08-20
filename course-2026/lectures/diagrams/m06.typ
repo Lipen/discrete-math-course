@@ -1,127 +1,124 @@
-// M06 Hasse diagrams --- poset visualization via fletcher.
-// Скопировано из book/diagrams/m05.typ, чтобы лекции не зависели от книги.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
+// M04 diagrams --- injection, surjection, bijection mapping schemes.
+// Скопировано из book/diagrams/m04.typ, чтобы лекции не зависели от книги.
+#import "@preview/cetz:0.5.2": canvas, draw
 
-#let n-size = 0.6em
-#let n-fill = oklch(88%, 0.03, 250deg)
-#let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-#let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
+#let c-dom = oklch(80%, 0.06, 250deg)
+#let c-cod = oklch(80%, 0.06, 25deg)
+#let c-dot = oklch(35%, 0.02, 265deg)
+#let c-str = oklch(35%, 0.02, 265deg) + 0.7pt
 
-#let cn(pos, body, ..args) = node(
-  pos,
-  text(size: 0.7em)[#body],
-  fill: n-fill,
-  width: n-size,
-  height: n-size,
-  ..args,
-)
-#let e(from, to) = edge(from, to, "-", stroke: e-str)
+#let label(pos, body) = draw.content(pos, text(size: 0.85em, body))
 
-// Fletcher y-axis: points downward (screen convention). In Hasse diagrams,
-// larger elements go upward --- so y=0 is the top element, y=max is the bottom.
-// ── 1. Divisor poset on {1,2,3,4,6,12} ordered by | ──
-#let hasse-divisors-12 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 1em,
-  cn((0, 3), $1$, name: <d1>),
-  cn((-1, 2), $2$, name: <d2>),
-  cn((1, 2), $3$, name: <d3>),
-  cn((-1, 1), $4$, name: <d4>),
-  cn((1, 1), $6$, name: <d6>),
-  cn((0, 0), $12$, name: <d12>),
-  e(<d1>, <d2>),
-  e(<d1>, <d3>),
-  e(<d2>, <d4>),
-  e(<d2>, <d6>),
-  e(<d3>, <d6>),
-  e(<d4>, <d12>),
-  e(<d6>, <d12>),
-)
+// ── Injection (one-to-one): each B element reached at most once ──
+#let mapping-injection = canvas({
+  draw.circle((-1.5, 0), radius: (0.55, 1.1), fill: c-dom, stroke: c-str)
+  label((-1.5, 1.4), $A$)
+  draw.circle((-1.5, -0.65), radius: 0.07, fill: c-dot, name: "a1")
+  draw.circle((-1.5, -0.25), radius: 0.07, fill: c-dot, name: "a2")
+  draw.circle((-1.5, 0.15), radius: 0.07, fill: c-dot, name: "a3")
+  draw.circle((-1.5, 0.55), radius: 0.07, fill: c-dot, name: "a4")
 
-// ── 2. Simple total order {1,2,3} : just a chain for reference ──
-#let hasse-chain-3 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 0.7em,
-  cn((0, 2), $1$, name: <c1>),
-  cn((0, 1), $2$, name: <c2>),
-  cn((0, 0), $3$, name: <c3>),
-  e(<c1>, <c2>),
-  e(<c2>, <c3>),
-)
+  draw.circle((1.5, 0), radius: (0.55, 1.4), fill: c-cod, stroke: c-str)
+  label((1.5, 1.7), $B$)
+  draw.circle((1.5, -1.05), radius: 0.07, fill: c-dot, name: "b1")
+  draw.circle((1.5, -0.65), radius: 0.07, fill: c-dot, name: "b2")
+  draw.circle((1.5, -0.25), radius: 0.07, fill: c-dot, name: "b3")
+  draw.circle((1.5, 0.15), radius: 0.07, fill: c-dot, name: "b4")
+  draw.circle((1.5, 0.55), radius: 0.07, fill: c-dot, name: "b5")
+  draw.circle((1.5, 0.95), radius: 0.07, fill: c-dot, name: "b6")
 
-// ── 3. Powerset of {1,2} ordered by ⊆ (Boolean lattice B₂) ──
-#let hasse-powerset-2 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 1em,
-  cn((0, 2), $nothing$, name: <p0>),
-  cn((-1, 1), ${1}$, name: <p1>),
-  cn((1, 1), ${2}$, name: <p2>),
-  cn((0, 0), ${1,2}$, name: <p12>),
-  e(<p0>, <p1>),
-  e(<p0>, <p2>),
-  e(<p1>, <p12>),
-  e(<p2>, <p12>),
-)
+  draw.line("a1", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a2", "b5", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a3", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a4", "b6", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  label((0, -2.2), text(weight: "bold")[Инъекция])
+})
 
-// ── 4. Sign lattice for abstract interpretation ──
-#let sign-lattice = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 0.9em,
-  cn((0, 2), $bot$, name: <bot>),
-  cn((-1, 1), $-$, name: <neg>),
-  cn((0, 1), $0$, name: <zero>),
-  cn((1, 1), $+$, name: <pos>),
-  cn((0, 0), $top$, name: <top>),
-  e(<bot>, <neg>),
-  e(<bot>, <zero>),
-  e(<bot>, <pos>),
-  e(<neg>, <top>),
-  e(<zero>, <top>),
-  e(<pos>, <top>),
-)
+// ── Surjection (onto): each B element reached at least once ──
+#let mapping-surjection = canvas({
+  draw.circle((-1.5, 0), radius: (0.55, 1.4), fill: c-dom, stroke: c-str)
+  label((-1.5, 1.7), $A$)
+  draw.circle((-1.5, -1.05), radius: 0.07, fill: c-dot, name: "a1")
+  draw.circle((-1.5, -0.65), radius: 0.07, fill: c-dot, name: "a2")
+  draw.circle((-1.5, -0.25), radius: 0.07, fill: c-dot, name: "a3")
+  draw.circle((-1.5, 0.15), radius: 0.07, fill: c-dot, name: "a4")
+  draw.circle((-1.5, 0.55), radius: 0.07, fill: c-dot, name: "a5")
+  draw.circle((-1.5, 0.95), radius: 0.07, fill: c-dot, name: "a6")
 
-// ── 5. Powerset of {1,2,3} ordered by ⊆ (Boolean lattice B₃, a cube) ──
-#let hasse-powerset-3 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 0.9em,
-  // Layer 3: full set (top)
-  cn((0, 0), ${1,2,3}$, name: <p123>),
-  // Layer 2: pairs
-  cn((-1.2, 1), ${1,2}$, name: <p12>),
-  cn((0, 1), ${1,3}$, name: <p13>),
-  cn((1.2, 1), ${2,3}$, name: <p23>),
-  // Layer 1: singletons
-  cn((-1.2, 2), ${1}$, name: <p1>),
-  cn((0, 2), ${2}$, name: <p2>),
-  cn((1.2, 2), ${3}$, name: <p3>),
-  // Layer 0: empty set (bottom)
-  cn((0, 3), $nothing$, name: <p0>),
-  // Edges (cover = add exactly one element)
-  e(<p0>, <p1>),
-  e(<p0>, <p2>),
-  e(<p0>, <p3>),
-  e(<p1>, <p12>),
-  e(<p1>, <p13>),
-  e(<p2>, <p12>),
-  e(<p2>, <p23>),
-  e(<p3>, <p13>),
-  e(<p3>, <p23>),
-  e(<p12>, <p123>),
-  e(<p13>, <p123>),
-  e(<p23>, <p123>),
-)
+  draw.circle((1.5, 0), radius: (0.55, 0.9), fill: c-cod, stroke: c-str)
+  label((1.5, 1.2), $B$)
+  draw.circle((1.5, -0.45), radius: 0.07, fill: c-dot, name: "b1")
+  draw.circle((1.5, 0), radius: 0.07, fill: c-dot, name: "b2")
+  draw.circle((1.5, 0.45), radius: 0.07, fill: c-dot, name: "b3")
+
+  draw.line("a1", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a3", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a5", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a6", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  label((0, -2.2), text(weight: "bold")[Сюръекция])
+})
+
+// ── Bijection: one-to-one AND onto ──
+#let mapping-bijection = canvas({
+  draw.circle((-1.5, 0), radius: (0.55, 1.1), fill: c-dom, stroke: c-str)
+  label((-1.5, 1.4), $A$)
+  draw.circle((-1.5, -0.65), radius: 0.07, fill: c-dot, name: "a1")
+  draw.circle((-1.5, -0.25), radius: 0.07, fill: c-dot, name: "a2")
+  draw.circle((-1.5, 0.15), radius: 0.07, fill: c-dot, name: "a3")
+  draw.circle((-1.5, 0.55), radius: 0.07, fill: c-dot, name: "a4")
+
+  draw.circle((1.5, 0), radius: (0.55, 1.1), fill: c-cod, stroke: c-str)
+  label((1.5, 1.4), $B$)
+  draw.circle((1.5, -0.65), radius: 0.07, fill: c-dot, name: "b1")
+  draw.circle((1.5, -0.25), radius: 0.07, fill: c-dot, name: "b2")
+  draw.circle((1.5, 0.15), radius: 0.07, fill: c-dot, name: "b3")
+  draw.circle((1.5, 0.55), radius: 0.07, fill: c-dot, name: "b4")
+
+  draw.line("a1", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a3", "b4", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  label((0, -2.2), text(weight: "bold")[Биекция])
+})
+
+// ── Function parts: domain and codomain, f: A -> B ──
+#let function-parts = canvas({
+  // Sets A and B
+  draw.circle((-1.6, 0), radius: (0.6, 1.0), fill: c-dom, stroke: c-str)
+  label((-1.6, 1.35), $A$)
+  draw.circle((1.6, 0), radius: (0.6, 1.0), fill: c-cod, stroke: c-str)
+  label((1.6, 1.35), $B$)
+
+  // Functional arrow f
+  draw.line((-1.0, 0), (1.0, 0), stroke: 1.2pt + c-dot, mark: (
+    end: (symbol: ">", fill: black),
+  ))
+  label((0, 0.4), $f$)
+
+  // Underbrace: smooth dip below a set, with a label
+  let underbrace(x0, x1, y, body) = {
+    let xc = (x0 + x1) / 2
+    let w = x1 - x0
+    let dip = 0.25
+    draw.bezier(
+      (x0, y),
+      (xc, y - dip),
+      (x0 + 0.3 * w, y),
+      (xc - 0.3 * w, y - dip),
+      stroke: c-str,
+    )
+    draw.bezier(
+      (xc, y - dip),
+      (x1, y),
+      (xc + 0.3 * w, y - dip),
+      (x1 - 0.3 * w, y),
+      stroke: c-str,
+    )
+    draw.content((xc, y - dip - 0.22), text(size: 0.8em, fill: c-dot)[#body])
+  }
+
+  underbrace(-2.25, -0.95, -1.3, "домен")
+  underbrace(0.95, 2.25, -1.3, "кодомен")
+})

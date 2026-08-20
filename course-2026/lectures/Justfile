@@ -33,6 +33,11 @@ files := """
     lec-type-theory.typ
     lec-model.typ
     lec-intuitionism.typ
+    lec-beyond-n.typ
+    lec-complexity.typ
+    lec-abstract-interpretation.typ
+    lec-verification.typ
+    lec-fuzzy.typ
 """
 
 # Compile all lectures

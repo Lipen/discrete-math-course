@@ -1,155 +1,404 @@
-// M09 diagrams --- Логические схемы: полусумматор, полный сумматор, мультиплексор.
-// Стиль лекционных диаграмм: cetz 0.5.2, oklch-палитра (синее семейство 250deg).
+// M07 graph diagrams --- CeTZ 0.5.2, node-based.
+// Скопировано из book/diagrams/m06.typ, чтобы лекции не зависели от книги.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Palette ──
-#let c-gate-fill = oklch(88%, 0.03, 250deg)   // вентиль: светлая заливка
-#let c-gate-str = oklch(55%, 0.10, 250deg)    // вентиль: граница
-#let c-text = oklch(30%, 0.02, 265deg)        // подписи
-#let c-edge = oklch(35%, 0.02, 265deg)        // провода
+#let c-n-fill = oklch(88%, 0.03, 250deg)   // node fill: light blue
+#let c-n-border = oklch(60%, 0.08, 250deg)   // node border
+#let c-n-text = oklch(25%, 0.02, 260deg)   // node label
 
-// ── Helpers ──
-// Вентиль: скруглённый прямоугольник с именем по центру.
-#let gate(pos, label, w: 0.85, h: 0.45) = {
-  let (x, y) = pos
-  draw.rect(
-    (x - w / 2, y - h / 2),
-    (x + w / 2, y + h / 2),
-    fill: c-gate-fill,
-    stroke: (paint: c-gate-str, thickness: 0.8pt),
-    radius: 2pt,
-  )
-  draw.content(pos, text(size: 0.42em, fill: c-text, weight: "bold")[#label])
-}
+#let c-edge = oklch(35%, 0.02, 265deg)   // edges
+#let c-edge-dim = oklch(65%, 0.01, 260deg)   // dimmed edges (grey)
 
-// Точка соединения (узел), где провода реально соединяются.
-#let jdot(pos) = draw.circle(pos, radius: 0.03, fill: c-edge)
+#let c-hi = oklch(58%, 0.22, 22deg)    // highlight (bridge, cut-vertex)
 
-// Провод.
-#let wire(a, b) = draw.line(a, b, stroke: c-edge + 0.7pt)
+#let c-t-fill = oklch(88%, 0.05, 155deg)   // tree node fill: light green
+#let c-t-border = oklch(55%, 0.18, 155deg)   // tree edges & leaf border
+#let c-t-leaf = oklch(50%, 0.10, 155deg)   // leaf text
 
-// Подпись.
-#let lab(pos, anchor, body) = draw.content(
-  pos,
-  anchor: anchor,
-  text(size: 0.45em, fill: c-text)[#body],
+#let c-pa-fill = oklch(90%, 0.03, 245deg)   // partition A background
+#let c-pb-fill = oklch(90%, 0.04, 45deg)    // partition B background
+#let c-pa-dot = oklch(65%, 0.12, 245deg)   // partition A node
+#let c-pb-dot = oklch(65%, 0.14, 45deg)    // partition B node
+
+// Colouring diagram palette (W_5)
+#let c-colors = (
+  oklch(80%, 0.14, 22deg), // warm red
+  oklch(80%, 0.12, 150deg), // green
+  oklch(80%, 0.12, 250deg), // blue
+  oklch(82%, 0.14, 90deg), // yellow
 )
 
-// ── Полусумматор: S = A xor B, C = A and B ──
-#let half-adder = canvas({
-  gate((0, 0.45), "XOR")
-  gate((0, -0.45), "AND")
+// ── Helpers (re-import cetz.draw inside) ──
+#let node(pos, label, radius: 0.19) = {
+  draw.circle(
+    pos,
+    radius: radius,
+    fill: c-n-fill,
+    stroke: (paint: c-n-border, thickness: 0.8pt),
+    name: label,
+  )
+  draw.content(pos)[#text(size: 0.5em, fill: c-n-text, weight: "bold")[#label]]
+}
 
-  // A: верхний вход, в верхний порт XOR и верхний порт AND.
-  wire((-1.25, 0.575), (-0.425, 0.575))
-  jdot((-0.75, 0.575))
-  wire((-0.75, 0.575), (-0.75, -0.325))
-  wire((-0.75, -0.325), (-0.425, -0.325))
+#let snode(pos, label) = { node(pos, label, radius: 0.14) }
 
-  // B: нижний вход, в нижний порт AND и нижний порт XOR.
-  wire((-1.25, -0.575), (-0.425, -0.575))
-  jdot((-0.55, -0.575))
-  wire((-0.55, -0.575), (-0.55, 0.325))
-  wire((-0.55, 0.325), (-0.425, 0.325))
+// Edge helper: e("a", "b") --- styled edge. e("a", "b", stroke: ...) --- override.
+#let e(a, b, ..style) = {
+  draw.line(a, b, stroke: (paint: c-edge, thickness: 0.7pt), ..style)
+}
 
-  // Выходы.
-  wire((0.425, 0.45), (0.675, 0.45))
-  wire((0.425, -0.45), (0.675, -0.45))
+// ── BFS grid (3×2) ──
+#let bfs-grid = canvas({
+  let rows = ((0, 0), (0.75, 0), (1.5, 0), (0, -0.75), (0.75, -0.75), (1.5, -0.75))
+  for (i, p) in rows.enumerate() { node(p, str(i + 1)) }
 
-  lab((-1.3, 0.575), "east", $A$)
-  lab((-1.3, -0.575), "east", $B$)
-  lab((0.725, 0.45), "west", $S$)
-  lab((0.725, -0.45), "west", $C$)
+  // Horizontal
+  e("1", "2")
+  e("2", "3")
+  e("4", "5")
+  e("5", "6")
+  // Vertical
+  e("1", "4")
+  e("2", "5")
+  e("3", "6")
 })
 
-// ── Полный сумматор: S = A xor B xor Cin, Cout = (A and B) or (Cin and (A xor B)) ──
-#let full-adder = canvas({
-  // Колонка 1: XOR1 (сумма A,B) и AND1 (перенос A,B).
-  gate((0, 0.6), "XOR", w: 0.8)
-  gate((0, -0.5), "AND", w: 0.8)
-  // Колонка 2: XOR2 (сумма с Cin) и AND2 (перенос от Cin и A xor B).
-  gate((1.35, 0.6), "XOR", w: 0.8)
-  gate((1.35, -0.3), "AND", w: 0.8)
-  // Колонка 3: OR (итоговый перенос).
-  gate((2.3, -0.5), "OR", w: 0.8)
-
-  // A: в XOR1 (верхний) и AND1 (верхний).
-  wire((-1.3, 0.675), (-0.4, 0.675))
-  jdot((-0.75, 0.675))
-  wire((-0.75, 0.675), (-0.75, -0.425))
-  wire((-0.75, -0.425), (-0.4, -0.425))
-
-  // B: в AND1 (нижний) и XOR1 (нижний).
-  wire((-1.3, -0.575), (-0.4, -0.575))
-  jdot((-0.55, -0.575))
-  wire((-0.55, -0.575), (-0.55, 0.525))
-  wire((-0.55, 0.525), (-0.4, 0.525))
-
-  // P = A xor B: из XOR1 в XOR2 и в AND2.
-  wire((0.4, 0.6), (0.95, 0.6))
-  jdot((0.675, 0.6))
-  wire((0.675, 0.6), (0.675, -0.375))
-  wire((0.675, -0.375), (0.95, -0.375))
-
-  // Cin: входит слева, в AND2 (нижний) и в XOR2 (нижний).
-  wire((-1.3, -0.225), (0.95, -0.225))
-  jdot((0.5, -0.225))
-  wire((0.5, -0.225), (0.5, 0.5))
-  wire((0.5, 0.5), (0.95, 0.5))
-
-  // AND1 -> OR (огибает AND2 снизу).
-  wire((0.4, -0.5), (0.4, -1.05))
-  wire((0.4, -1.05), (1.8, -1.05))
-  wire((1.8, -1.05), (1.8, -0.575))
-  wire((1.8, -0.575), (1.9, -0.575))
-
-  // AND2 -> OR.
-  wire((1.75, -0.3), (1.75, -0.425))
-  wire((1.75, -0.425), (1.9, -0.425))
-
-  // Выходы.
-  wire((1.75, 0.6), (2.0, 0.6))
-  wire((2.7, -0.5), (3.0, -0.5))
-
-  lab((-1.35, 0.675), "east", $A$)
-  lab((-1.35, -0.575), "east", $B$)
-  lab((-1.35, -0.225), "east", $C_"in"$)
-  lab((2.05, 0.6), "west", $S$)
-  lab((3.05, -0.5), "west", $C_"out"$)
+// ── K_5 ──
+#let k5 = canvas({
+  let v = ((0, 1.25), (1.2, 0.4), (0.75, -1), (-0.75, -1), (-1.2, 0.4))
+  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  for i in range(5) {
+    for j in range(i + 1, 5) {
+      draw.line(str(i + 1), str(j + 1), stroke: (
+        paint: c-edge,
+        thickness: 0.7pt,
+      ))
+    }
+  }
 })
 
-// ── Мультиплексор 4-в-1 ──
-#let multiplexer-4to1 = canvas({
-  // Корпус-трапеция: широкая левая сторона (входы D0..D3), узкая правая (выход Y).
-  draw.rect((0, 1.0), (2.1, -1.0), fill: c-gate-fill, stroke: none, radius: 2pt)
-  draw.line((0, 1.0), (2.1, 0.5), stroke: c-gate-str + 0.8pt)
-  draw.line((2.1, 0.5), (2.1, -0.5), stroke: c-gate-str + 0.8pt)
-  draw.line((2.1, -0.5), (0, -1.0), stroke: c-gate-str + 0.8pt)
-  draw.line((0, -1.0), (0, 1.0), stroke: c-gate-str + 0.8pt)
+// ── K_{3,3} ──
+#let k33 = canvas({
+  let left = ((0, 1), (0, 0), (0, -1))
+  let right = ((2, 1), (2, 0), (2, -1))
+  // Background regions
+  draw.rect(
+    (-0.3, 1.25),
+    (0.3, -1.25),
+    radius: 3pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
+  draw.rect((1.7, 1.25), (2.3, -1.25), radius: 3pt, fill: c-pb-fill, stroke: none)
+  // Nodes FIRST : named so line() routes border-to-border
+  for (i, p) in left.enumerate() {
+    draw.circle(p, radius: 0.14, fill: c-pa-dot, name: "l" + str(i + 1))
+    draw.content(p, $v_i$, anchor: "west", outset: 0.15em, size: .4em)
+  }
+  for (i, p) in right.enumerate() {
+    draw.circle(p, radius: 0.14, fill: c-pb-dot, name: "r" + str(i + 1))
+    draw.content(p, $u_i$, anchor: "east", outset: 0.15em, size: .4em)
+  }
+  // Edges : node names, not coordinates
+  for i in range(3) {
+    for j in range(3) {
+      draw.line("l" + str(i + 1), "r" + str(j + 1), stroke: (
+        paint: c-edge,
+        thickness: 0.7pt,
+      ))
+    }
+  }
+  draw.content((0, 1.3), anchor: "south", size: .5em)[$X$]
+  draw.content((2, 1.3), anchor: "south", size: .5em)[$Y$]
+})
 
-  // Внутренняя подпись.
-  draw.content((1.0, 0.1), text(size: 0.42em, fill: c-text, weight: "bold")[MUX])
-  draw.content((1.0, -0.35), text(size: 0.4em, fill: oklch(45%, 0.02, 265deg))[$4 times 1$])
+// ── Bipartite graph ──
+#let bipartite = canvas({
+  let top = ((-0.5, 0.75), (0.25, 0.75), (1, 0.75))
+  let bot = ((-0.5, -0.75), (0.25, -0.75), (1, -0.75))
+  // Background regions
+  draw.rect((-0.9, 1.1), (1.4, 0.4), radius: 2.5pt, fill: c-pa-fill, stroke: none)
+  draw.rect(
+    (-0.9, -0.4),
+    (1.4, -1.1),
+    radius: 2.5pt,
+    fill: c-pb-fill,
+    stroke: none,
+  )
+  // Nodes FIRST
+  for (i, p) in top.enumerate() {
+    draw.circle(p, radius: 0.19, fill: c-pa-dot, name: "t" + str(i + 1))
+  }
+  for (i, p) in bot.enumerate() {
+    draw.circle(p, radius: 0.19, fill: c-pb-dot, name: "b" + str(i + 1))
+  }
+  // Edges : node names
+  e("t1", "b1")
+  e("t1", "b2")
+  e("t2", "b1")
+  e("t2", "b2")
+  e("t2", "b3")
+  e("t3", "b2")
+  e("t3", "b3")
+  draw.content((-1.1, 0.75), anchor: "east", size: .5em)[$X$]
+  draw.content((-1.1, -0.75), anchor: "east", size: .5em)[$Y$]
+})
 
-  // Входы данных D0..D3 слева.
-  let dy = (0.75, 0.25, -0.25, -0.75)
-  for (i, y) in dy.enumerate() {
-    wire((-0.5, y), (0, y))
-    lab((-0.55, y), "east", $D_#i$)
+// ── Rooted tree ──
+#let tree = canvas({
+  // Nodes FIRST : each named by its label letter
+  for (x, y, lab) in (
+    (0, 1.25, "r"),
+    (-0.75, 0.5, "a"),
+    (0.75, 0.5, "b"),
+    (-1.15, -0.1, "c"),
+    (-0.35, -0.1, "d"),
+    (0.35, -0.1, "e"),
+    (1.15, -0.1, "f"),
+  ) {
+    draw.circle(
+      (x, y),
+      radius: 0.14,
+      fill: c-t-fill,
+      stroke: (paint: c-t-border, thickness: 0.8pt),
+      name: lab,
+    )
+    draw.content((x, y))[#text(size: 0.5em, weight: "bold")[#lab]]
+  }
+  for (x, y, lab) in ((-1.35, -0.75, "g"), (-0.6, -0.75, "h"), (0.1, -0.75, "i")) {
+    draw.circle(
+      (x, y),
+      radius: 0.14,
+      fill: none,
+      stroke: (paint: c-t-border, thickness: 0.8pt),
+      name: lab,
+    )
+    draw.content((x, y))[#text(size: 0.5em, fill: c-t-leaf)[#lab]]
+  }
+  // Edges : node names
+  for (a, b) in (
+    ("r", "a"),
+    ("r", "b"),
+    ("a", "c"),
+    ("a", "d"),
+    ("b", "e"),
+    ("b", "f"),
+    ("c", "g"),
+    ("d", "h"),
+    ("e", "i"),
+  ) {
+    e(a, b, stroke: (paint: c-t-border, thickness: 1pt))
+  }
+})
+
+// ── Bridges of Königsberg ──
+#let eulerian = canvas({
+  let v = ((0, 1.1), (0, -1.1), (-1, 0), (1, 0))
+  let names = ("A", "B", "C", "D")
+  let r = 0.26
+
+  // Point on circle border in direction of `toward`
+  let rim(center, toward) = {
+    let (cx, cy) = center
+    let (tx, ty) = toward
+    let d = calc.sqrt((tx - cx) * (tx - cx) + (ty - cy) * (ty - cy))
+    (cx + (tx - cx) / d * r, cy + (ty - cy) / d * r)
   }
 
-  // Выход Y справа.
-  wire((2.1, 0), (2.6, 0))
-  lab((2.65, 0), "west", $Y$)
+  // Landmasses : circles, named
+  for (i, p) in v.enumerate() {
+    draw.circle(
+      p,
+      radius: r,
+      fill: c-pa-fill,
+      stroke: (paint: c-pa-dot, thickness: 1pt),
+      name: names.at(i),
+    )
+    draw.content(p)[#text(size: 0.5em, weight: "bold")[#names.at(i)]]
+  }
 
-  // Адресные линии S0, S1 сверху.
-  wire((0.6, 1.0), (0.6, 1.4))
-  lab((0.6, 1.45), "south", $S_0$)
-  wire((1.4, 1.0), (1.4, 1.4))
-  lab((1.4, 1.45), "south", $S_1$)
+  let bridge-style = (paint: c-edge, thickness: 0.7pt)
 
-  // Формула снизу.
-  draw.content((1.05, -1.3), text(size: 0.4em, fill: oklch(45%, 0.02, 265deg))[
-    $Y = D_((S_1 S_0)_2)$
-  ])
+  // Single bridges (straight, node-based)
+  draw.line("A", "D", stroke: bridge-style)
+  draw.line("B", "D", stroke: bridge-style)
+  draw.line("C", "D", stroke: bridge-style)
+
+  // Double bridge A--C: one straight, one bezier curving outward (left)
+  draw.line("A", "C", stroke: bridge-style)
+  let ac-ctrl = (-0.65, 0.65)
+  draw.bezier(
+    rim(v.at(0), ac-ctrl),
+    rim(v.at(2), ac-ctrl),
+    ac-ctrl,
+    ac-ctrl,
+    stroke: bridge-style,
+  )
+
+  // Double bridge B--C: one straight, one bezier curving outward (left)
+  draw.line("B", "C", stroke: bridge-style)
+  let bc-ctrl = (-0.65, -0.65)
+  draw.bezier(
+    rim(v.at(1), bc-ctrl),
+    rim(v.at(2), bc-ctrl),
+    bc-ctrl,
+    bc-ctrl,
+    stroke: bridge-style,
+  )
+
+  // Degree labels
+  draw.content(
+    "A",
+    anchor: "north",
+    outset: 0.3em,
+    size: .4em,
+    fill: c-edge-dim,
+  )[$3$]
+  draw.content(
+    "B",
+    anchor: "south",
+    outset: 0.3em,
+    size: .4em,
+    fill: c-edge-dim,
+  )[$3$]
+  draw.content(
+    "C",
+    anchor: "west",
+    outset: 0.3em,
+    size: .4em,
+    fill: c-edge-dim,
+  )[$5$]
+  draw.content(
+    "D",
+    anchor: "east",
+    outset: 0.3em,
+    size: .4em,
+    fill: c-edge-dim,
+  )[$3$]
+})
+
+// ── Planar graph (triangulated hexagon) ──
+#let planar = canvas({
+  let v = (
+    (0, 1.25),
+    (1.2, 0.65),
+    (1.2, -0.65),
+    (0, -1.25),
+    (-1.2, -0.65),
+    (-1.2, 0.65),
+  )
+  // Nodes FIRST
+  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.15) }
+  // Outer cycle
+  e("1", "2")
+  e("2", "3")
+  e("3", "4")
+  e("4", "5")
+  e("5", "6")
+  e("6", "1")
+  // Diagonals from vertex 1 : all share endpoint 1, so none cross
+  e("1", "3")
+  e("1", "4")
+  e("1", "5")
+  // Face labels
+  for (p, lab) in (
+    ((0.6, 0.6), $f_1$),
+    ((0.9, 0), $f_2$),
+    ((0.6, -0.6), $f_3$),
+    ((-0.25, -0.5), $f_4$),
+    ((-0.75, 0), $f_5$),
+  ) {
+    draw.content(p, lab, size: .4em, fill: c-edge-dim)
+  }
+})
+
+// ── Graph colouring (C5, χ = 3) ──
+#let graph-coloring = canvas({
+  let v = (
+    (0, 1),
+    (-0.951, 0.309),
+    (-0.588, -0.809),
+    (0.588, -0.809),
+    (0.951, 0.309),
+  )
+  // 3-colouring: 0=red, 1=green, 0=red, 1=green, 2=blue
+  let ci = (0, 1, 0, 1, 2)
+  // Nodes : content inside a coloured circle frame
+  for (i, p) in v.enumerate() {
+    let col = c-colors.at(ci.at(i))
+    draw.content(
+      p,
+      [#text(size: 0.5em, weight: "bold")[#str(i)]],
+      frame: "circle",
+      radius: 0.21,
+      fill: col,
+      stroke: col.darken(20%),
+      name: "c" + str(i),
+    )
+  }
+  // Edges : pentagon cycle
+  for i in range(5) {
+    e("c" + str(i), "c" + str(calc.rem(i + 1, 5)))
+  }
+  // Chromatic number
+  draw.content(
+    (0, -1.15),
+    anchor: "north",
+    size: .4em,
+    fill: c-edge-dim,
+  )[$chi = 3$]
+})
+
+// ── Bridge and cut-vertex ──
+#let bridge-cut = canvas({
+  let v = (
+    (-0.75, 0.75),
+    (0, 0.75),
+    (0.75, 0.75),
+    (-0.75, -0.25),
+    (0, -0.25),
+    (0.75, -0.25),
+  )
+  // Nodes FIRST
+  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  // Left component: {1, 4, 5}
+  draw.line("1", "4", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("1", "5", stroke: (paint: c-edge, thickness: 0.8pt))
+  // Right component: {2, 3, 6}
+  draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("3", "6", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("2", "6", stroke: (paint: c-edge, thickness: 0.8pt))
+  // Bridge : the only edge connecting left and right components
+  draw.line("1", "2", stroke: (paint: c-hi, thickness: 2.2pt))
+})
+
+// ── Petersen graph ──
+#let petersen = canvas({
+  let outer = ((0, 1.25), (1.2, 0.4), (0.75, -1), (-0.75, -1), (-1.2, 0.4))
+  let inner = (
+    (0, 0.6),
+    (0.575, 0.185),
+    (0.36, -0.49),
+    (-0.36, -0.49),
+    (-0.575, 0.185),
+  )
+  // Nodes FIRST
+  for (i, p) in outer.enumerate() { snode(p, str(i + 1)) }
+  for (i, p) in inner.enumerate() { snode(p, str(6 + i)) }
+  // Edges : node names
+  e("1", "2")
+  e("2", "3")
+  e("3", "4")
+  e("4", "5")
+  e("5", "1")
+  e("6", "8")
+  e("7", "9")
+  e("8", "10")
+  e("9", "6")
+  e("10", "7")
+  for i in range(5) {
+    e(str(i + 1), str(6 + i))
+  }
 })

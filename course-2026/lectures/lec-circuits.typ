@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m09.typ": half-adder, full-adder, multiplexer-4to1
+#import "diagrams/m11.typ": half-adder, full-adder, multiplexer-4to1
 
 = Системы счисления
 #focus-slide(

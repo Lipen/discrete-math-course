@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m10.typ": hamming-groups, hamming-spheres, huffman-tree
+#import "diagrams/m12.typ": hamming-groups, hamming-spheres, huffman-tree
 
 = Расстояние Хэмминга
 #focus-slide(

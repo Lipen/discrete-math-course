@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m06.typ": (
+#import "diagrams/m08.typ": (
   hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
   sign-lattice,
 )
