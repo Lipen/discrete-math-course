@@ -218,18 +218,21 @@ $top$ --- самое грубое (значение любое).
   Домен знаков --- это тип с четырьмя значениями и таблицей операций:
 
   ```rust
-  use analysis::program::{assign, exec_sign, State};
-  use analysis::Sign;
+  // Домен знаков: минус, ноль, плюс и "не знаю" (top).
+  enum Sign { Neg, Zero, Pos, Top }
 
-  // Программа: x := 3; y := -7.
-  let program = vec![assign("x", 3), assign("y", -7)];
-  let mut st: State<Sign> = State::new();
-  exec_sign(&program, &mut st);
-  assert_eq!(st["x"], Sign::Pos);
-  assert_eq!(st["y"], Sign::Neg);
+  // Сложение знаков: плюс ⊕ минус = Top, x ⊕ 0 = x.
+  fn add(a: Sign, b: Sign) -> Sign {
+      match (a, b) {
+          (Sign::Zero, x) | (x, Sign::Zero) => x,
+          (Sign::Neg, Sign::Neg) => Sign::Neg,
+          (Sign::Pos, Sign::Pos) => Sign::Pos,
+          _ => Sign::Top, // разные знаки могут дать всё что угодно
+      }
+  }
   ```
 
-  Значения $plus$, $minus$, $0$, $top$, $bot$ --- это варианты типа `Sign`, а сложение знаков --- перегруженный оператор `+` того же типа.
+  Значения $plus$, $minus$, $0$, $top$, $bot$ --- это варианты типа `Sign`, а таблица сложения --- функция `add`.
   Константы и интервалы --- соседние домены, построенные по той же схеме.
 ]
 

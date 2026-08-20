@@ -255,24 +255,21 @@ _Детерминированный конечный автомат_ --- мат�
   Принятие слова --- это цикл по символам слова: один шаг --- один табличный переход, а ответ определяется состоянием в конце.
 
   ```rust
-  /// Accepts a word by simulating the transition function.
-  pub fn accepts(&self, word: &str) -> bool {
-      let mut state = self.start;
-      for c in word.chars() {
-          let Some(idx) = self.alphabet.iter().position(|&x| x == c) else {
-              return false; // symbol outside the alphabet
-          };
-          state = self.delta[state][idx];
-          if state >= self.states {
-              return false; // entered the trap state
-          }
-      }
-      self.accepting[state]
+  /// Принятие слова детерминированным конечным автоматом.
+  fn accepts(
+      trans: &[Vec<usize>],
+      start: usize,
+      accept: &[bool],
+      word: &[usize],
+  ) -> bool {
+      let mut q = start;
+      for &sym in word { q = trans[q][sym]; }
+      accept[q]
   }
   ```
 
-  Таблица переходов $delta$ живёт в поле `delta`: для каждого состояния и символа --- номер следующего состояния.
-  Неопределённый переход ведёт в _ловушку_ (trap) --- несуществующее состояние `states`, которое метод `accepts` трактует как отвергающее.
+  Массив `trans` --- это и есть таблица переходов $delta$: для каждого состояния и символа --- номер следующего состояния.
+  Если переход не определён, в таблице стоит номер ловушки --- несуществующего состояния, которое никогда не бывает принимающим.
 ]
 
 #example[ДКА для слов, заканчивающихся на $"01"$][
@@ -1205,28 +1202,23 @@ $
 Та же процедура отвечает и на соседний вопрос: принадлежит ли конкретное слово $w$ языку --- достаточно пройтись по символам $w$ и посмотреть на итоговое состояние.
 
 ```rust
-/// Whether the language of the automaton is empty.
-pub fn is_empty(&self) -> bool {
-    let mut visited = vec![false; self.states];
-    let mut stack = vec![self.start];
-    visited[self.start] = true;
-    while let Some(s) = stack.pop() {
-        if self.accepting[s] {
-            return false;
-        }
-        for &to in &self.delta[s] {
-            if to < self.states && !visited[to] {
-                visited[to] = true;
-                stack.push(to);
-            }
+/// Пуст ли язык автомата? -- обход от начального состояния.
+fn is_empty(trans: &[Vec<usize>], start: usize, accept: &[bool]) -> bool {
+    let mut seen = vec![false; trans.len()];
+    let mut stack = vec![start];
+
+    while let Some(q) = stack.pop() {
+        if accept[q] { return false; }       // нашли принимающее состояние
+        for &r in &trans[q] {
+            if !seen[r] { seen[r] = true; stack.push(r); }
         }
     }
+
     true
 }
 ```
 
-Обход идёт по таблице `delta`: для каждого состояния --- номера состояний, в которые можно попасть по одному символу.
-Неопределённые переходы (в ловушку) из обхода исключаются проверкой `to < self.states`.
+Массив `trans` --- список переходов: для каждого состояния --- состояния, в которые можно попасть по одному символу.
 
 *Равен ли язык всем словам?*
 $L(M) = Sigma^*$ тогда и только тогда, когда пусто дополнение языка.
