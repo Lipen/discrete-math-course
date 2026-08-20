@@ -149,7 +149,7 @@
 #include "m29-complexity.typ"
 #include "m30-abstract-interpretation.typ"
 #include "m31-verification.typ"
-#include "m32-kripke.typ"
+#include "m32-modal.typ"
 #include "m33-intuitionism.typ"
 #include "m34-fuzzy-sets.typ"
 #include "conclusion.typ"
