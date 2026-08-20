@@ -1,3 +1,5 @@
 CLAUDE.md
 *.pdf
 private/
+**/tinymist.lock
+

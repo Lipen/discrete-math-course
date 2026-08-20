@@ -5,3 +5,7 @@ default:
 # Compile the book
 build:
     typst compile book.typ
+
+# Refresh tinymist.lock (LSP project routes; run after adding/renaming chapters)
+lock:
+    tinymist compile --save-lock -f pdf book.typ - >/dev/null
