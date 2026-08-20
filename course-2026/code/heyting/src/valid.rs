@@ -160,8 +160,9 @@ fn fingerprint(a: &Algebra) -> Vec<usize> {
     f
 }
 
-/// Every partial order on `0..size` (labelled posets), enumerated by trying
-/// all relations and keeping the reflexive, antisymmetric, transitive ones.
+/// Every partial order on `0..size`, enumerated by trying all `2^(size²)`
+/// relation matrices. At `MAX_POSET_SIZE = 4` that is 65536 matrices; size 5
+/// would be 2^25 (seconds), size 6 — 2^36 (minutes).
 fn all_posets(size: usize) -> Vec<Poset> {
     let mut out = Vec::new();
     let cells = size * size;
@@ -316,14 +317,14 @@ fn subalgebra_algebra(a: &Algebra, elems: &[usize]) -> Algebra {
 /// ordered to make the flattened tables lexicographically smallest.  Two
 /// algebras are isomorphic iff they have the same canonical form.
 ///
-/// The search is an *individualization-refinement* canonicalization:
-/// elements are partitioned by isomorphism invariants (meet/join degree,
-/// then the class of every meet/join/implication partner), cells of size
-/// greater than one are split by individualizing one element, and the
-/// minimal flattened table over all terminal partitions is the canonical
-/// form.  Unlike a naive degree-pruned relabeling search, every isomorphism
-/// is reached by some branch, so isomorphic algebras always receive the
-/// same canonical form.
+/// Individualization-refinement: elements are partitioned by isomorphism
+/// invariants, cells of size > 1 are split by individualizing one element,
+/// and the minimal flattened table over all terminal partitions is the
+/// canonical form.  Every isomorphism is reached by some branch, unlike a
+/// naive degree-pruned relabeling search.
+///
+/// Worst case: a highly symmetric algebra (16-element Boolean: three
+/// interchangeable cells) costs ~4·10⁵ leaves, ~40 ms in debug.
 fn canonical_form(a: &Algebra) -> Vec<usize> {
     let n = a.size;
     if n == 0 {
