@@ -266,7 +266,7 @@
   context {
     let n = project-stage-num.get().first()
     block(above: 0.6em, below: 0.55em)[
-      grid(
+      #grid(
         columns: (auto, 1fr),
         column-gutter: 0.8em,
         row-gutter: 0.6em,
