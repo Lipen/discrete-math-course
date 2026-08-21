@@ -21,7 +21,8 @@
 //   #trap[тело]                 #trap[Название][тело]
 //   #check[тело]                #check[Название][тело]
 //   #algorithm[тело]            #algorithm[Название][тело]
-//   #chapter-overview[тело]
+//   #project[тело]              #project[Название][тело]
+//   #project-stage[Ключ][тело]  #project-outcome[тело]
 //   #raven[тело]                #raven[Название][тело]
 
 // --- Палитра: приглушённый oklch-ряд (низкая хрома, светлота согласована) ---
@@ -255,7 +256,46 @@
   ..args,
 )
 #let algorithm(..args) = _plain(thm-labels.algorithm, algo-color, ..args)
-#let project(..args) = _plain(thm-labels.project, project-color, ..args)
+
+// --- Этапы и итог проекта ---
+// Нумерованные подблоки внутри #project: кружок с номером, ключ-заголовок,
+// тело этапа. Счётчик сбрасывается в начале каждого #project.
+#let project-stage-num = counter("project-stage")
+#let project-stage(key, body) = {
+  project-stage-num.step()
+  context {
+    let n = project-stage-num.get().first()
+    block(above: 0.6em, below: 0.55em)[
+      #box(
+        width: 1.5em,
+        height: 1.5em,
+        radius: 50%,
+        fill: project-color,
+        baseline: 50%,
+      )[
+        #place(center + horizon)[#text(size: 0.85em, weight: "bold", fill: white)[#n]]
+      ]
+      #h(0.6em)
+      #text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#key]
+      #v(0.25em, weak: true)
+      #parbreak()
+      #body
+    ]
+  }
+}
+#let project-outcome(body) = {
+  block(
+    above: 0.5em,
+    stroke: (top: 0.6pt + project-color),
+    inset: (top: 0.5em),
+  )[
+    #text(weight: "bold", fill: project-color.darken(20%))[Итог:]#h(0.3em)#body
+  ]
+}
+#let project(..args) = {
+  project-stage-num.update(0)
+  _plain(thm-labels.project, project-color, ..args)
+}
 
 // Обзор главы: отдельная вёрстка --- центрированная метка с линейкой.
 #let chapter-overview(body) = {
