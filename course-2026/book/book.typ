@@ -154,5 +154,8 @@
 #include "m34-fuzzy-sets.typ"
 #include "conclusion.typ"
 
+// --- Указания к упражнениям со звёздочкой ---
+#include "hints.typ"
+
 // --- Глоссарий ---
 #include "glossary.typ"
