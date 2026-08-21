@@ -261,28 +261,28 @@
 // Нумерованные подблоки внутри #project: кружок с номером, ключ-заголовок,
 // тело этапа. Счётчик сбрасывается в начале каждого #project.
 #let project-stage-num = counter("project-stage")
-#let project-stage(key, body) = {
+#let project-stage(title, body) = {
   project-stage-num.step()
   context {
     let n = project-stage-num.get().first()
-    // Плашка с номером: бейзлайн бокса по умолчанию совпадает с бейзлайном
-    // содержимого, поэтому цифра стоит на бейзлайне строки ключа, а плашка
-    // симметрична вокруг неё.
-    let badge = box(
-      fill: project-color,
-      radius: 50%,
-      inset: (x: 0.32em, y: 0.1em),
-    )[#text(size: 0.85em, weight: "bold", fill: white)[#n]]
-    let marker = [#badge#h(0.55em)]
-    // Отступ тела равен ширине маркера: продолжение выравнивается по началу
-    // ключа, как продолжение элемента списка по началу его текста.
-    let indent = measure(marker).width
-    let key-text = text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#key]
     block(above: 0.6em, below: 0.55em)[
-      #marker#key-text
-      #parbreak()
-      // Висячий отступ: все строки тела выровнены по началу ключа.
-      #block(inset: (left: indent))[#body]
+      grid(
+        columns: (auto, 1fr),
+        column-gutter: 0.8em,
+        row-gutter: 0.6em,
+        // Номер в кольце: центрируется по строке заголовка, поэтому цифра
+        // стоит на бейзлайне заголовка.
+        box(
+          stroke: 0.8pt + project-color,
+          radius: 50%,
+          inset: (x: 0.32em, y: 0.15em),
+        )[#text(size: 0.85em, weight: "bold", fill: project-color.darken(20%))[#n]],
+        text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#title],
+        // Тело во второй колонке: висячий отступ по заголовку, как
+        // продолжение элемента списка по началу его текста.
+        [],
+        body,
+      )
     ]
   }
 }
