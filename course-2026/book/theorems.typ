@@ -40,6 +40,7 @@
 #let trap-color = oklch(60%, 0.09, 12deg)   // ловушка: кримзон
 #let check-color = oklch(60%, 0.06, 190deg) // проверка: бирюзовый
 #let algo-color = oklch(60%, 0.06, 230deg)  // алгоритм: стальной синий
+#let project-color = oklch(60%, 0.12, 300deg) // проект: индиго
 #let overview-color = oklch(60%, 0.03, 240deg) // обзор главы: серо-синий
 
 // --- Метки: словарь для лёгкой смены языка ---
@@ -61,6 +62,7 @@
   history: "ИСТОРИЯ",
   trap: "ЛОВУШКА",
   check: "Проверка",
+  project: "ПРОЕКТ",
 )
 
 // Флаг липких заголовков; управляется из notes-template.
@@ -253,6 +255,7 @@
   ..args,
 )
 #let algorithm(..args) = _plain(thm-labels.algorithm, algo-color, ..args)
+#let project(..args) = _plain(thm-labels.project, project-color, ..args)
 
 // Обзор главы: отдельная вёрстка --- центрированная метка с линейкой.
 #let chapter-overview(body) = {
