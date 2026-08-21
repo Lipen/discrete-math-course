@@ -265,20 +265,22 @@
   project-stage-num.step()
   context {
     let n = project-stage-num.get().first()
+    // Плашка с номером: бейзлайн бокса равен низу цифры (нижний inset
+    // нулевой), поэтому цифра стоит на бейзлайне строки ключа.
+    let badge = box(fill: project-color, radius: 50%, inset: (x: 0.35em, top: 0.12em, bottom: 0em))[
+      #text(size: 0.85em, weight: "bold", fill: white)[#n]
+    ]
+    // Без пробелов маркапа: иначе между плашкой, отступом и ключом
+    // появляются лишние пробелы, и отступ тела не совпадёт с ключом.
+    let marker = [#badge#h(0.55em)]
+    // Отступ тела равен ширине маркера: продолжение выравнивается по началу
+    // ключа, как продолжение элемента списка по началу его текста.
+    let indent = measure(marker).width
+    let key-text = text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#key]
     block(above: 0.6em, below: 0.55em)[
-      #box(
-        width: 1.5em,
-        height: 1.5em,
-        radius: 50%,
-        fill: project-color,
-        baseline: 50%,
-      )[
-        #place(center + horizon)[#text(size: 0.85em, weight: "bold", fill: white)[#n]]
-      ]
-      #h(0.6em)
-      #text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#key]
-      #v(0.25em, weak: true)
+      #marker#key-text
       #parbreak()
+      #h(indent)
       #body
     ]
   }
