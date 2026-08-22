@@ -1068,3 +1068,41 @@
   // Source side S = {s, a, b} shaded.
   draw.circle((-1.2, 0), radius: 2.2, fill: c-pa-fill.transparentize(65%), stroke: (paint: c-pa-dot, thickness: 1.2pt, dash: "dashed"))
 })
+
+// ── 16. Cut with net flow across it: A = {s,a} (green), B = {b,t} (warm) ──
+// Network from the Ford--Fulkerson trace: s->a (3), s->b (2), a->b (1), a->t (2), b->t (3).
+#let flow-cut-net = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  // A = {s,a}. Draw nodes manually: vertex fill color distinguishes the two sides.
+  for (i, p) in v.enumerate() {
+    let (lbl, infA) = (("s", true), ("a", true), ("b", false), ("t", false)).at(i)
+    draw.circle(
+      p, radius: 0.36,
+      fill: if infA { c-t-fill } else { oklch(92%, 0.06, 25deg) },
+      stroke: (paint: if infA { c-t-border } else { oklch(60%, 0.08, 25deg) }, thickness: 0.8pt),
+      name: lbl,
+    )
+    draw.content(p)[#text(fill: c-n-text, weight: "bold")[#lbl]]
+  }
+
+  // Edge labels: flow/capacity. cross = edge from A to B (counts in cut capacity).
+  for (fr, to, lb, off, cross) in (
+    ("s", "a", "3/3", (-0.12, 0.26), true),
+    ("s", "b", "2/2", (-0.12, -0.26), true),
+    ("a", "t", "2/2", (0.12, 0.26), true),
+    ("b", "t", "3/3", (0.12, -0.26), false),
+    ("a", "b", "1/1", (0.28, 0), true),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(
+      fr, to, name: ename,
+      stroke: (paint: if cross { c-hi } else { c-edge }, thickness: if cross { 2pt } else { 0.7pt }),
+      mark: (end: "stealth"),
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      lb,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+})
