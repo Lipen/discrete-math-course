@@ -962,3 +962,109 @@
   draw.content((0, 3.6), anchor: "south")[$X$]
   draw.content((4, 3.6), anchor: "south")[$Y$]
 })
+
+// ── 12. Network flow: network with capacities ──
+#let flow-network = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  for (fr, to, cap, off) in (
+    ("s", "a", "5", (-0.1, 0.26)),
+    ("s", "b", "3", (-0.1, -0.26)),
+    ("a", "t", "3", (0.1, 0.26)),
+    ("b", "t", "4", (0.1, -0.26)),
+    ("a", "b", "2", (0.22, 0)),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(fr, to, name: ename, ..arr)
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      cap,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+  draw.content((-3, 1.9), anchor: "south")[$s$]
+  draw.content((2.5, 1.9), anchor: "south")[$t$]
+})
+
+// ── 13. Network flow: a feasible flow on the same network ──
+#let flow-values = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  for (fr, to, lb, off) in (
+    ("s", "a", "3/5", (-0.12, 0.26)),
+    ("s", "b", "2/3", (-0.12, -0.26)),
+    ("a", "t", "2/3", (0.12, 0.26)),
+    ("b", "t", "3/4", (0.12, -0.26)),
+    ("a", "b", "1/2", (0.24, 0)),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(fr, to, name: ename, ..arr)
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      lb,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+})
+
+// ── 14. Residual network with forward/backward edges ──
+#let residual-network = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  // Forward residual (solid) + backward residual (dashed) for edges carrying flow.
+  for (fr, to, cf, off, dim) in (
+    ("s", "a", "2", (-0.12, 0.26), false),
+    ("a", "s", "3", (-0.36, 0.18), true),
+    ("s", "b", "1", (-0.12, -0.26), false),
+    ("b", "s", "2", (-0.36, -0.18), true),
+    ("a", "t", "1", (0.12, 0.26), false),
+    ("t", "a", "2", (0.36, 0.18), true),
+    ("b", "t", "1", (0.12, -0.26), false),
+    ("t", "b", "3", (0.36, -0.18), true),
+    ("a", "b", "1", (0.24, 0), false),
+    ("b", "a", "1", (0.24, 0.1), true),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(
+      fr, to, name: ename,
+      stroke: (paint: if dim { c-edge-dim } else { c-edge }, thickness: if dim { 0.6pt } else { 0.7pt }, dash: if dim { "dashed" } else { none }),
+      mark: (end: "stealth"),
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      cf,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .58em,
+    )
+  }
+})
+
+// ── 15. Flow cut (S,T): saturated forward edges marked ──
+#let flow-cut = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  for (fr, to, cap, off, hi) in (
+    ("s", "a", "5", (-0.1, 0.26), false),
+    ("s", "b", "3", (-0.1, -0.26), false),
+    ("a", "t", "3", (0.1, 0.26), true),
+    ("b", "t", "4", (0.1, -0.26), true),
+    ("a", "b", "2", (0.24, 0), false),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(
+      fr, to, name: ename,
+      stroke: (paint: if hi { c-hi } else { c-edge }, thickness: if hi { 2pt } else { 0.7pt }),
+      mark: (end: "stealth"),
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      cap,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+  // Source side S = {s, a, b} shaded.
+  draw.circle((-1.2, 0), radius: 2.2, fill: c-pa-fill.transparentize(65%), stroke: (paint: c-pa-dot, thickness: 1.2pt, dash: "dashed"))
+})
