@@ -1,9 +1,7 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": (
-  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
-)
+#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
 
 = Логика и доказательства <chap:logic>
 
@@ -129,7 +127,7 @@ _Атомарное высказывание_ --- это высказывани�
     Истинна, когда оба высказывания истинны.
   - *Дизъюнкция* $p or q$: "$p$ или $q$" (включающая).
     Истинна, когда хотя бы одно истинно.
-  - *Импликация* $p imply q$#footnote[
+  - *Импликация*$#footnote[
       В "Principia Mathematica" Уайтхеда и Рассела импликацию обозначали знаком $supset$ ("подкова").
       Запись $p supset q$ читалась как "$p$ влечёт $q$".
 
@@ -139,7 +137,7 @@ _Атомарное высказывание_ --- это высказывани�
 
       Современная стрелка $->$ свободна от этой двусмысленности.
       Символ $supset$ и сейчас встречается в старых текстах.
-    ]: "если $p$, то $q$".
+    ]$p imply q: "если $p$, то $q$".
     Импликация ложна только тогда, когда $p$ истинно, а $q$ ложно.
   - *Эквивалентность* $p iff q$: "$p$ тогда и только тогда, когда $q$".
     Истинна, когда $p$ и $q$ имеют одинаковое истинностное значение.
@@ -150,14 +148,9 @@ _Атомарное высказывание_ --- это высказывани�
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
-    [$p$],
-    [$q$],
-    [$not p$],
+    [$p$], [$q$], [$not p$],
 
-    [$p and q$],
-    [$p or q$],
-    [$p imply q$],
-    [$p iff q$],
+    [$p and q$], [$p or q$], [$p imply q$], [$p iff q$],
   ),
 
   [#T], [#T], [#F], [#T], [#T], [#T], [#T],
@@ -356,11 +349,7 @@ _Атомарное высказывание_ --- это высказывани�
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
-    table.header(
-      [$p$],
-      [$q$],
-      [$p imply q$],
-    ),
+    table.header([$p$], [$q$], [$p imply q$]),
 
     [#T], [#T], [#T],
     [#T], [#F], [#F],
@@ -399,10 +388,7 @@ _Атомарное высказывание_ --- это высказывани�
   columns: 2,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header(
-    [$p$],
-    [$p or not p$],
-  ),
+  table.header([$p$], [$p or not p$]),
 
   [#T], [#T],
   [#F], [#T],
@@ -412,10 +398,7 @@ _Атомарное высказывание_ --- это высказывани�
   columns: 2,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header(
-    [$p$],
-    [$p and not p$],
-  ),
+  table.header([$p$], [$p and not p$]),
 
   [#T], [#F],
   [#F], [#F],
@@ -493,39 +476,23 @@ _Атомарное высказывание_ --- это высказывани�
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
 
-    [Коммутативность],
-    [$p and q equiv q and p$],
-    [$p or q equiv q or p$],
+    [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
 
-    [Ассоциативность],
-    [$(p and q) and r equiv p and (q and r)$],
-    [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность],
-    [$p and (q or r) equiv (p and q) or (p and r)$],
-    [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
 
-    [Идемпотентность],
-    [$p and p equiv p$],
-    [$p or p equiv p$],
+    [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
 
-    [Поглощение],
-    [$p and (p or q) equiv p$],
-    [$p or (p and q) equiv p$],
+    [Поглощение], [$p and (p or q) equiv p$], [$p or (p and q) equiv p$],
 
     [Двойное отрицание], [$not not p equiv p$], [---],
 
-    [Тождество],
-    [$p and #T equiv p$],
-    [$p or #F equiv p$],
+    [Тождество], [$p and #T equiv p$], [$p or #F equiv p$],
 
-    [Доминирование],
-    [$p and #F equiv #F$],
-    [$p or #T equiv #T$],
+    [Доминирование], [$p and #F equiv #F$], [$p or #T equiv #T$],
 
-    [Дополнение],
-    [$p and not p equiv #F$],
-    [$p or not p equiv #T$],
+    [Дополнение], [$p and not p equiv #F$], [$p or not p equiv #T$],
   )
 ]
 
@@ -648,13 +615,7 @@ _Атомарное высказывание_ --- это высказывани�
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
-    table.header(
-      [$p$],
-      [$q$],
-      [$p imply q$],
-      [ДНФ-терм],
-      [КНФ-терм],
-    ),
+    table.header([$p$], [$q$], [$p imply q$], [ДНФ-терм], [КНФ-терм]),
 
     [#F], [#F], [#T], [$not p and not q$], [---],
     [#F], [#T], [#T], [$not p and q$], [---],
@@ -682,7 +643,7 @@ _Атомарное высказывание_ --- это высказывани�
   Из посылок $p$ и $p imply q$ правило modus ponens выводит $q$:
   $
     (1) & p, p imply q && "посылки" \
-    (2) & q && "modus ponens: (1)"
+    (2) & q            && "modus ponens: (1)"
   $
   Это первый образец явного правила вывода из введения: каждый шаг рассуждения либо разрешён правилом, либо нет.
 ]
@@ -752,9 +713,9 @@ _Атомарное высказывание_ --- это высказывани�
 
   Подставляем:
   $
-    (2k)^2 &= 2q^2 \
-    4k^2 &= 2q^2 \
-    q^2 &= 2k^2.
+    (2k)^2 & = 2q^2 \
+      4k^2 & = 2q^2 \
+       q^2 & = 2k^2.
   $
   Таким образом, $q^2$ чётно, так что $q$ чётно.
 
@@ -1312,11 +1273,7 @@ CompCert --- верифицированный компилятор C, серти
 Ассерты документируют ожидания и отлавливают ошибки во время выполнения.
 
 #definition[Тройка Хоара][
-  Тройка Хоара #hoare(
-    $P$,
-    $S$,
-    $Q$,
-  ) означает следующее.
+  Тройка Хоара #hoare($P$, $S$, $Q$) означает следующее.
   Предусловие $P$ выполняется перед оператором $S$.
   Постусловие $Q$ выполняется после завершения $S$.
 ]
