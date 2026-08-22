@@ -613,3 +613,70 @@
   // ≈ between them
   draw.content((w + gap / 2, w / 2))[$approx$]
 })
+
+// Aleph and Beth hierarchies: two views of the same ladder of infinities.
+// Top row: alephs (successor cardinals, drawn red). Bottom row: beths (powerset, green).
+// Dashed "?" edge between aleph_1 and beth_1 is the Continuum Hypothesis.
+#let aleph-beth = canvas({
+  let gap = 2.6
+  let y = 1.6
+
+  let c-aleph-fill = oklch(90%, 0.06, 22deg)
+  let c-aleph-str = oklch(55%, 0.12, 22deg)
+  let c-beth-fill = oklch(90%, 0.06, 155deg)
+  let c-beth-str = oklch(50%, 0.10, 155deg)
+  let c-edge = oklch(45%, 0.02, 265deg)
+  let c-qmark = oklch(50%, 0.02, 265deg)
+
+  let node(pos, label, name, fill, str) = {
+    let (x, yy) = pos
+    draw.rect(
+      (x - 1.3, yy + 0.45),
+      (x + 1.3, yy - 0.45),
+      name: name,
+      fill: fill,
+      stroke: 0.9pt + str,
+      radius: 5pt,
+    )
+    draw.content((x, yy), text(size: 0.68em, fill: luma(25%))[#label])
+  }
+
+  // ── Shared start: aleph_0 = beth_0 = |NN| ──
+  node((0, y), $aleph_0 = beth_0 = abs(NN)$, "start", luma(92%), oklch(55%, 0.02, 265deg))
+
+  // ── Aleph chain (top) ──
+  node((gap, 2 * y), $aleph_1$, "a1", c-aleph-fill, c-aleph-str)
+  node((2 * gap, 2 * y), $aleph_2$, "a2", c-aleph-fill, c-aleph-str)
+  node((3 * gap, 2 * y), $aleph_3$, "a3", c-aleph-fill, c-aleph-str)
+
+  // ── Beth chain (bottom) ──
+  node((gap, 0), $beth_1 = 2^(aleph_0)$, "b1", c-beth-fill, c-beth-str)
+  node((2 * gap, 0), $beth_2 = 2^(beth_1)$, "b2", c-beth-fill, c-beth-str)
+  node((3 * gap, 0), $beth_3 = 2^(beth_2)$, "b3", c-beth-fill, c-beth-str)
+
+  // ── Start → aleph_1 (successor) ──
+  draw.line("start", "a1", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
+  // ── Start → beth_1 (powerset) ──
+  draw.line("start", "b1", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
+
+  // ── Aleph chain edges ──
+  draw.line("a1", "a2", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
+  draw.line("a2", "a3", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
+
+  // ── Beth chain edges ──
+  draw.line("b1", "b2", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
+  draw.line("b2", "b3", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
+
+  // ── CH question mark between aleph_1 and beth_1 ──
+  draw.line(
+    "a1",
+    "b1",
+    stroke: (paint: c-qmark, thickness: 1.4pt, dash: "dashed"),
+    mark: none,
+  )
+  draw.content((gap, y + 0.25), text(size: 1.1em, fill: c-qmark)[$?$])
+
+  // ── Labels: successor vs powerset ──
+  draw.content((gap / 2, 2 * y + 0.6), text(size: 0.6em, fill: c-aleph-str)["следующий"])
+  draw.content((gap / 2, -0.6), text(size: 0.6em, fill: c-beth-str)["булеан"])
+})
