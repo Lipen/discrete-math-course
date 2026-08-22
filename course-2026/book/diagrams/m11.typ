@@ -569,7 +569,7 @@
 #let combinatorial-numbers = table(
   columns: 5,
   align: center + horizon,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
     [$n$], [$n!$], [$C_n$ (Catalan)], [$S(n,3)$ (Stirling)], [$B_n$ (Bell)]
   ),

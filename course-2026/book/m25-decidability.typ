@@ -521,7 +521,7 @@
   #table(
     columns: 3,
     align: (left, left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Уровень*], [*Задача*], [*Формулировка*]),
     [$Delta_1$], [Разрешимые задачи], [Существует МТ, всегда дающая ответ],
 

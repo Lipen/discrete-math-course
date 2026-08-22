@@ -498,6 +498,7 @@ SAT-решатели --- мощные инструменты.
 
   #table(
     columns: 3,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     [*Ограничение*], [*Формула*], [*Количество*],
     [клетка содержит не более одной цифры],
     [$overline(x_(r,c,d)) or overline(x_(r,c,d'))$ для $d < d'$],
@@ -971,6 +972,7 @@ CDCL не решает SAT в общем случае. Он решает SAT н�
 
   #table(
     columns: 4,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     [*Ветвь*], [*Решение*], [*Unit propagation*], [*Результат*],
     [$x_1 = 1$], [$x_1 = 1$],
     [$x_2 = 1$ из $overline(x_1) or x_2$, затем $x_3 = 0$ из $overline(x_2) or overline(x_3)$],

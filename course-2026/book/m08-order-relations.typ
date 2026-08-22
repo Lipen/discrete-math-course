@@ -395,7 +395,7 @@
   table(
     columns: 4,
     align: (left, center, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Понятие*], [*Условие*], [*Единственен?*], [*Существует в конечном ЧУМ?*]),
     [Минимальный], [$not(exists a: a prec m)$], [Нет --- может быть несколько], [Всегда],
 

@@ -492,6 +492,7 @@
 
 #table(
   columns: (auto, 1fr),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   [Аксиома], [$Gamma, A proves A, Delta$],
   [$->$R], [из $Gamma, A proves B, Delta$ выводится $Gamma proves A -> B, Delta$],
   [$not$R], [из $Gamma, A proves Delta$ выводится $Gamma proves not A, Delta$],

@@ -597,7 +597,7 @@ NP-полные задачи --- универсальные приёмники �
 #table(
   columns: 3,
   align: (left, left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Стратегия*], [*Гарантия*], [*Пример*]),
 
   [Точные алгоритмы], [Оптимальный ответ, экспонента в худшем случае], [Метод ветвей и границ, SAT-решатели (CDCL)],
@@ -749,7 +749,7 @@ FPT превращает NP-полную задачу в практически 
   #table(
     columns: 4,
     align: (left, left, left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header(
       [*Класс*], [*Ограничение ресурса*], [*Каноническая задача*], [*Статус*]
     ),
@@ -950,7 +950,7 @@ ZPP --- это в точности пересечение RP и coRP: безош
   #table(
     columns: 3,
     align: (left, left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Правильный ответ*], [*Машина вернула*], [*Заключение*]),
 
     [$w in L$], [$1$], [Приняли верно],

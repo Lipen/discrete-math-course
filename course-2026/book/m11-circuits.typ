@@ -209,7 +209,7 @@ XOR для полноты не нужен --- его можно собрать �
   table(
     columns: (auto, auto, auto, auto),
     align: (left, center, left, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([Вентиль], [Обозначение], [Функция], [Таблица истинности]),
 
     [NOT],
@@ -420,7 +420,7 @@ Fan-out ограничен нагрузочной способностью вы�
   #table(
     columns: 4,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
     table.header(
       [$A$],
@@ -479,7 +479,7 @@ Fan-out ограничен нагрузочной способностью вы�
   #table(
     columns: 5,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
     table.header(
       [$A$],

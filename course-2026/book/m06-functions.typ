@@ -533,7 +533,7 @@ $f^(-1)(4) = {-2, 2}$ --- прообраз (множество из двух э�
   #table(
     columns: 4,
     align: (center, center, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
     [Инъекция],
     [$f(a_1) = f(a_2) imply a_1 = a_2$],

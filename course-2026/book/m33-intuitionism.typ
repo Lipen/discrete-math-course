@@ -279,7 +279,7 @@ $ 1/2 or not 1/2 &= 1/2 or 0 \
 #table(
   columns: 5,
   align: (left, center, center, center, center),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([$p$], [$not p$], [$p or not p$], [$not not p$], [$not not p -> p$]),
   [$0$], [$1$], [$1$], [$0$], [$1$],
   [$1/2$], [$0$], [$1/2$], [$1$], [$1/2$],
@@ -295,7 +295,7 @@ $ 1/2 or not 1/2 &= 1/2 or 0 \
   #table(
     columns: 4,
     align: (left, left, center, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([Формула], [Выкладка], [Значение], [Прочтение]),
     [$p$], [---], [$1/2$], [«завтра будет дождь» --- не решено],
     [$not p$], [$1/2 -> 0 = 0$], [$0$], [«завтра не будет дождя» --- ложно],
@@ -308,7 +308,7 @@ $ 1/2 or not 1/2 &= 1/2 or 0 \
   #table(
     columns: 3,
     align: (left, center, center),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([Формула], [Булево значение], [Значение на цепочке при $p = 1/2$]),
     [$p or not p$], [$1$ при любом $p$], [$1/2$],
     [$not not p -> p$], [$1$ при любом $p$], [$1/2$],
@@ -436,7 +436,7 @@ $ 1/2 or not 1/2 &= 1/2 or 0 \
   #table(
     columns: 5,
     align: (left, center, center, center, center),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([Мир], [$p$], [$not p$], [$not not p$], [$p or not p$]),
     [$u$], [нет], [нет], [да], [нет],
     [$v$], [да], [нет], [да], [да],
@@ -473,7 +473,7 @@ $ 1/2 or not 1/2 &= 1/2 or 0 \
   #table(
     columns: 5,
     align: (left, center, center, center, center),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([Мир], [$p$], [$q$], [$p -> q$], [$p or not p$]),
     [$w_0$], [нет], [нет], [нет], [нет],
     [$w_1$], [да], [да], [да], [да],

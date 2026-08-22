@@ -349,7 +349,7 @@ $
 #table(
   columns: (auto, auto, auto, auto),
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Пространство], [Аддитивность], [События], [Пример]),
   [Конечное], [конечная], [все подмножества], [монета, кубик],
   [Счётное], [счётная], [все подмножества], [выбор из $NN$],
@@ -626,7 +626,7 @@ $
   #table(
     columns: (auto, auto),
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header(
       [$x$],
       [$P(X = x)$],
@@ -998,7 +998,7 @@ $
 #table(
   columns: (auto, auto, auto, auto),
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Неравенство], [Хвост], [Требования], [Когда применять]),
   [Маркова],
   [$EE[X]/a$],
@@ -1047,7 +1047,7 @@ $
 #figure(
   table(
     columns: (auto, auto),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header(
       [$n$],
       [$P("совпадение")$],
@@ -1568,7 +1568,7 @@ $
 #table(
   columns: (auto, auto, 1fr),
   align: (center, center, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Понятие], [Формула], [Смысл]),
   [Вероятностное пространство], [$(Omega, P)$], [исходы и мера на событиях],
   [Условная вероятность], [$P(A mid(|) B) = P(A inter B) / P(B)$], [пересчёт при новой информации],

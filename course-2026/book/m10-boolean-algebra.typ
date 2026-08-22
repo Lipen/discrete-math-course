@@ -106,7 +106,7 @@ _Булева функция_ --- это простейшая возможная
 #table(
   columns: 3,
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
     [$x$],
     [$y$],
@@ -153,7 +153,7 @@ _Булева функция_ --- это простейшая возможная
   #table(
     columns: 3,
     align: (left, center, center),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([Имя], [Формула], [Обозначение]),
     [Константа 0],
     [$0$],
@@ -1417,7 +1417,7 @@ $
   #table(
     columns: 3,
     align: (center, right, left),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header(
       [Элемент $a$],
       [$phi(a)$],

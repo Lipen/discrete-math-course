@@ -100,7 +100,7 @@ $
 #table(
   columns: (auto, auto),
   align: (left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Символ*], [*Роль*]),
 
   [$0$], [константа],

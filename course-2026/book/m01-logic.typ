@@ -148,7 +148,7 @@ _Атомарное высказывание_ --- это высказывани�
 #table(
   columns: 7,
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
     [$p$],
     [$q$],
@@ -354,7 +354,7 @@ _Атомарное высказывание_ --- это высказывани�
   #table(
     columns: 3,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
     table.header(
       [$p$],
@@ -398,7 +398,7 @@ _Атомарное высказывание_ --- это высказывани�
 #table(
   columns: 2,
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
     [$p$],
     [$p or not p$],
@@ -411,7 +411,7 @@ _Атомарное высказывание_ --- это высказывани�
 #table(
   columns: 2,
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
     [$p$],
     [$p and not p$],
@@ -490,7 +490,7 @@ _Атомарное высказывание_ --- это высказывани�
   #table(
     columns: 3,
     align: left,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Закон*], [*Конъюнктивная форма*], [*Дизъюнктивная форма*]),
 
     [Коммутативность],
@@ -646,7 +646,7 @@ _Атомарное высказывание_ --- это высказывани�
   #table(
     columns: 5,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
     table.header(
       [$p$],

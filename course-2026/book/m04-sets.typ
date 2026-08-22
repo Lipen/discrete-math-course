@@ -398,7 +398,7 @@ $emptyset in {emptyset, {emptyset}}$ верно.
 #table(
   columns: 2,
   align: (left, left),
-  stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Операция над множествами*], [*Логический аналог*]),
   // бинарные операции и дополнение
   [$A union B$],

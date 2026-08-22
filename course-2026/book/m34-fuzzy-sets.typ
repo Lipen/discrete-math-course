@@ -448,7 +448,7 @@ t-норма моделирует пересечение (AND), s-норма ---
 #figure(
   table(
     columns: (auto, auto, auto, auto),
-    stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
     table.header(
       [*Название*],
