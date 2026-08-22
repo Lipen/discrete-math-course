@@ -15,52 +15,45 @@
 // Huffman tree for A: 0.40, B: 0.25, C: 0.20, D: 0.10, E: 0.05.
 #let huffman-tree = canvas({
   // Node positions --- tree structure (y-step = 1.8, units = cm)
+  // Ноды именованы, чтобы cetz обрезал рёбра до границы кружка.
   let root = (0, 0)
-  let nA = (-3.5, -1.8)
-  let nR = (1.5, -1.8) // BCDE
-  let nB = (-0.5, -3.6)
-  let nR2 = (2.5, -3.6) // CDE
-  let nC = (1, -5.4)
-  let nR3 = (3.5, -5.4) // DE
-  let nD = (2.5, -7.2)
-  let nE = (4.5, -7.2)
 
-  // Helper for midpoint label
-  let mid-label(p, q, offset, label) = {
-    let mx = (p.at(0) + q.at(0)) / 2
-    let my = (p.at(1) + q.at(1)) / 2
-    draw.line(p, q, stroke: hf-str)
-    draw.content((mx + offset.at(0), my + offset.at(1)), label)
-  }
-
-  // Helper: labelled circle node (internal or leaf)
-  let hf-node(pos, radius, body, stroke: hf-str, ..args) = {
-    draw.circle(pos, radius: radius, stroke: stroke, ..args)
+  // Helper: labelled circle node (internal or leaf), named by `name`.
+  let hf-node(pos, name, radius, body, stroke: hf-str, ..args) = {
+    draw.circle(pos, radius: radius, stroke: stroke, name: name, ..args)
     draw.content(pos, body)
   }
 
-  // Edges with labels
-  mid-label(root, nA, (-0.4, 0.1), [_0_])
-  mid-label(root, nR, (0.2, 0.1), [_1_])
-  mid-label(nR, nB, (-0.4, 0.1), [_0_])
-  mid-label(nR, nR2, (0.2, 0.1), [_1_])
-  mid-label(nR2, nC, (-0.4, 0.1), [_0_])
-  mid-label(nR2, nR3, (0.2, 0.1), [_1_])
-  mid-label(nR3, nD, (-0.4, 0.1), [_0_])
-  mid-label(nR3, nE, (0.2, 0.1), [_1_])
+  // Internal nodes (weights) and leaf nodes (symbols) --- created first,
+  // so the edges below can reference them by name and clip at the border.
+  hf-node(root, "root", 0.3, $1.0$)
+  hf-node((1.5, -1.8), "R1", 0.3, $0.60$)
+  hf-node((2.5, -3.6), "R2", 0.3, $0.35$)
+  hf-node((3.5, -5.4), "R3", 0.3, $0.15$)
+  hf-node((-3.5, -1.8), "A", 0.35, [$A: 0.40$], stroke: hf-leaf-str, fill: white)
+  hf-node((-0.5, -3.6), "B", 0.35, [$B: 0.25$], stroke: hf-leaf-str, fill: white)
+  hf-node((1, -5.4), "C", 0.35, [$C: 0.20$], stroke: hf-leaf-str, fill: white)
+  hf-node((2.5, -7.2), "D", 0.35, [$D: 0.10$], stroke: hf-leaf-str, fill: white)
+  hf-node((4.5, -7.2), "E", 0.35, [$E: 0.05$], stroke: hf-leaf-str, fill: white)
 
-  // Internal nodes (weights)
-  hf-node(root, 0.3, $1.0$)
-  hf-node(nR, 0.3, $0.60$)
-  hf-node(nR2, 0.3, $0.35$)
-  hf-node(nR3, 0.3, $0.15$)
+  // Edge helper: named line (cetz clips to node border) + label at midpoint.
+  // `p`/`q` only give the midpoint coordinates for the label.
+  let mid-label(fr, to, p, q, offset, label) = {
+    draw.line(fr, to, stroke: hf-str)
+    let mx = (p.at(0) + q.at(0)) / 2
+    let my = (p.at(1) + q.at(1)) / 2
+    draw.content((mx + offset.at(0), my + offset.at(1)), label)
+  }
 
-  // Leaf nodes (symbols)
-  hf-node(nA, 0.35, [$A: 0.40$], stroke: hf-leaf-str, fill: white)
-  hf-node(nB, 0.35, [$B: 0.25$], stroke: hf-leaf-str, fill: white)
-  hf-node(nC, 0.35, [$C: 0.20$], stroke: hf-leaf-str, fill: white)
-  hf-node(nD, 0.35, [$D: 0.10$], stroke: hf-leaf-str, fill: white)
-  hf-node(nE, 0.35, [$E: 0.05$], stroke: hf-leaf-str, fill: white)
+  // Edges with labels (by node names, so cetz clips to the border).
+  mid-label("root", "A", root, (-3.5, -1.8), (-0.4, 0.1), [_0_])
+  mid-label("root", "R1", root, (1.5, -1.8), (0.2, 0.1), [_1_])
+  mid-label("R1", "B", (1.5, -1.8), (-0.5, -3.6), (-0.4, 0.1), [_0_])
+  mid-label("R1", "R2", (1.5, -1.8), (2.5, -3.6), (0.2, 0.1), [_1_])
+  mid-label("R2", "C", (2.5, -3.6), (1, -5.4), (-0.4, 0.1), [_0_])
+  mid-label("R2", "R3", (2.5, -3.6), (3.5, -5.4), (0.2, 0.1), [_1_])
+  mid-label("R3", "D", (3.5, -5.4), (2.5, -7.2), (-0.4, 0.1), [_0_])
+  mid-label("R3", "E", (3.5, -5.4), (4.5, -7.2), (0.2, 0.1), [_1_])
 })
 
 // ════════════════════════════════════════════════════════
