@@ -1,5 +1,5 @@
-// M02 diagrams: Venn diagrams for set operations (used by m04),
-// natural deduction tree and sequent calculus trees (used by m02).
+// M02 diagrams: proof trees (used by m02) and Venn diagrams for set
+// operations (used by m04).
 // Proof trees are typeset with the `curryst` package: premises above
 // a horizontal bar, conclusion below, rule name on the right of the bar.
 #import "../requirements.typ": *

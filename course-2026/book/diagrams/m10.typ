@@ -1,4 +1,4 @@
-// M09 diagrams --- Pascal's triangle.
+// Combinatorics (used by m17): Pascal's triangle, inclusion--exclusion.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 

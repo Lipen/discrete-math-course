@@ -1,4 +1,5 @@
-// M11 diagrams --- Generating Functions.
+// Combinatorics (used by m17, m20): Catalan recursion, decision tree,
+// inclusion--exclusion, convolution grid, combinatorial numbers.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import cetz: canvas, draw

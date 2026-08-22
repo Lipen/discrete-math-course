@@ -1,4 +1,4 @@
-// M07 diagrams --- adder circuits.
+// Logic circuits (used by m11): half-adder, full-adder, multiplexer.
 // All junction coordinates derived from port anchors --- fully independent of gw/gh.
 #import "../requirements.typ": *
 #import "../notation.typ": *

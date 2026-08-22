@@ -1,4 +1,6 @@
-// M12 Graph diagrams : CeTZ 0.5.2, node-based.
+// Graph diagrams (used by m09-graphs): CeTZ 0.5.2, node-based.
+// Рёбра рисуются по именам нод (draw.line("a","b")), поэтому cetz обрезает
+// их до границы кружка; так рёбра не заходят в центр вершины.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
@@ -6,29 +8,28 @@
 
 // ── Palette ──
 #let c-n-fill = oklch(88%, 0.03, 250deg)   // node fill: light blue
-#let c-n-border = oklch(60%, 0.08, 250deg)   // node border
+#let c-n-border = oklch(60%, 0.08, 250deg) // node border
 #let c-n-text = oklch(25%, 0.02, 260deg)   // node label
 
-#let c-edge = oklch(35%, 0.02, 265deg)   // edges
-#let c-edge-dim = oklch(65%, 0.01, 260deg)   // dimmed edges (grey)
-
-#let c-hi = oklch(58%, 0.22, 22deg)    // highlight (bridge, cut-vertex)
+#let c-edge = oklch(35%, 0.02, 265deg)     // edges
+#let c-edge-dim = oklch(65%, 0.01, 260deg) // dimmed edges (grey)
+#let c-hi = oklch(58%, 0.22, 22deg)        // highlight (bridge, cut-vertex)
 
 #let c-t-fill = oklch(88%, 0.05, 155deg)   // tree node fill: light green
-#let c-t-border = oklch(55%, 0.18, 155deg)   // tree edges & leaf border
+#let c-t-border = oklch(55%, 0.18, 155deg) // tree edges & leaf border
 #let c-t-leaf = oklch(50%, 0.10, 155deg)   // leaf text
 
-#let c-pa-fill = oklch(90%, 0.03, 245deg)   // partition A background
-#let c-pb-fill = oklch(90%, 0.04, 45deg)    // partition B background
+#let c-pa-fill = oklch(90%, 0.03, 245deg)  // partition A background
+#let c-pb-fill = oklch(90%, 0.04, 45deg)   // partition B background
 #let c-pa-dot = oklch(65%, 0.12, 245deg)   // partition A node
 #let c-pb-dot = oklch(65%, 0.14, 45deg)    // partition B node
 
 // Colouring diagram palette (W_5)
 #let c-colors = (
-  oklch(80%, 0.14, 22deg), // warm red
+  oklch(80%, 0.14, 22deg),  // warm red
   oklch(80%, 0.12, 150deg), // green
   oklch(80%, 0.12, 250deg), // blue
-  oklch(82%, 0.14, 90deg), // yellow
+  oklch(82%, 0.14, 90deg),  // yellow
 )
 
 // ── Helpers (re-import cetz.draw inside) ──
@@ -734,6 +735,11 @@
 // Edge states:   "on", "off" (solid gray, removed), "future" (dashed gray),
 //                "add" (red highlighted), "last" (green), "none" (skip).
 #let prufer-frame(ox, oy, vpos, edges, vst, est, code) = {
+  // Ноды именуются как "<label>-<frame>", поэтому имена уникальны в canvas:
+  // cetz обрезает линии по границе именованной ноды (border anchor).
+  // Суффикс `frame` не содержит '.', иначе имя ломает assert в cetz.
+  let frame = str(ox).replace(".", "_")
+  let nid = label => label + "-" + frame
   for (label, pos) in vpos {
     let st = vst.at(label, default: "on")
     let (fill, strk, txt) = if st == "off" {
@@ -748,6 +754,7 @@
       radius: 0.27,
       fill: fill,
       stroke: (paint: strk, thickness: 0.8pt),
+      name: nid(label),
     )
     draw.content(
       (pos.at(0) + ox, pos.at(1) + oy),
@@ -772,13 +779,9 @@
     if stroke == none {
       continue
     }
-    let pa = vpos.at(a)
-    let pb = vpos.at(b)
-    draw.line(
-      (pa.at(0) + ox, pa.at(1) + oy),
-      (pb.at(0) + ox, pb.at(1) + oy),
-      stroke: stroke,
-    )
+    // Рисуем по именам нод: cetz сам находит первое пересечение линии
+    // с границей кружка и обрезает до неё, не заходя в центр.
+    draw.line(nid(a), nid(b), stroke: stroke)
   }
   draw.content(
     (1.2 + ox, -0.55 + oy),
