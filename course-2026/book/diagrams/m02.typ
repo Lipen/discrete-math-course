@@ -89,13 +89,13 @@
 // ── Proof trees (m02), typeset with curryst ──
 // Правило: rule(name: ..., премисы..., заключение); prooftree раскладывает.
 
-// ── Композиция двух применений modus ponens ──
+// ── Композиция двух применений MP ──
 // Самый первый пример дерева вывода: листья --- гипотезы, корень --- заключение.
 #let mp-chain-tree = prooftree(
   rule(
-    name: [modus ponens],
+    name: [MP],
     rule(
-      name: [modus ponens],
+      name: [MP],
       $A -> B$,
       $A$,
       $B$,
@@ -105,7 +105,7 @@
   ),
 )
 
-// ── Дерево натурального вывода: проекция A∧B → A ──
+// ── Дерево натурального вывода: проекция A∧B -> A ──
 #let nd-tree-projection = prooftree(
   rule(
     name: [$->$I],
