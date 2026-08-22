@@ -381,25 +381,17 @@ _Атомарное высказывание_ --- это высказывани�
 
 Для иллюстрации посмотрим на две простейшие таблицы: тавтологию и противоречие.
 
-#table(
-  columns: 2,
-  align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([$p$], [$p or not p$]),
+#align(center)[
+  #table(
+    columns: 3,
+    align: center,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+    table.header([$p$], [$p or not p$], [$p and not p$]),
 
-  [#T], [#T],
-  [#F], [#T],
-)
-
-#table(
-  columns: 2,
-  align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([$p$], [$p and not p$]),
-
-  [#T], [#F],
-  [#F], [#F],
-)
+    [#T], [#T], [#F],
+    [#F], [#T], [#F],
+  )
+]
 
 Таблица истинности для $n$ переменных содержит $2^n$ строк.
 По одной строке на каждую возможную комбинацию значений.
