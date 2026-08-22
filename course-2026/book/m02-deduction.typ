@@ -1,7 +1,7 @@
 // M02 --- Дедукция и системы вывода: как доказательства проверяются механически.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m02.typ": (nd-tree-projection, seq-tree-lem, seq-tree-comm)
+#import "diagrams/m02.typ": (nd-tree-projection, seq-tree-lem, seq-tree-comm, res-tree-trans)
 #import "@preview/frederic:0.1.0": proof as fitch-proof, premise as fitch-premise, step as fitch-step, assume as fitch-assume, subproof as fitch-subproof
 
 = Дедукция и системы вывода <chap:deduction>
@@ -618,6 +618,16 @@
   + $Q$ --- резольвента клауз 1 и 3 по $P$.
   + $R$ --- резольвента клауз 2 и 5 по $Q$.
   + $square$ --- резольвента клауз 4 и 6 по $R$.
+
+  То же опровержение --- деревом (рис. @fig:res-tree): листья --- клаузы, каждый узел --- шаг резолюции, корень --- пустой дизъюнкт.
+
+  #figure(
+    res-tree-trans,
+    caption: [
+      Дерево опровержения резолюцией.
+      Две посылки каждого шага --- клаузы или предыдущие резольвенты; корень --- пустой дизъюнкт $square$.
+    ],
+  ) <fig:res-tree>
 
   Пустой дизъюнкт выведен --- значит, отрицание следствия невыполнимо вместе с посылками, и следствие выводимо.
 ]
