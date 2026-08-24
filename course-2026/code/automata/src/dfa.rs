@@ -590,11 +590,11 @@ impl fmt::Display for Dfa {
         let accept_set: Vec<usize> = (0..self.states).filter(|&s| self.accepting[s]).collect();
         writeln!(f, "  accepting = {accept_set:?}")?;
         for s in 0..self.states {
-            let arrow = if s == self.start { "→" } else { " " };
+            let arrow = if s == self.start { "->" } else { " " };
             let star = if self.accepting[s] { "*" } else { " " };
             write!(f, "  {arrow}q{s}{star}:")?;
             for (sym_idx, &to) in self.delta[s].iter().enumerate() {
-                write!(f, " {}→", self.alphabet[sym_idx])?;
+                write!(f, " {}->", self.alphabet[sym_idx])?;
                 if to < self.states {
                     write!(f, "q{to}")?;
                 } else {

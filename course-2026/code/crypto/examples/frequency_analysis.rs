@@ -26,6 +26,6 @@ fn main() {
     }
 
     let top = freq[0].0;
-    println!("The most frequent is {top}; in Russian text this is most likely «о».");
-    println!("Substituting the hypothesis {top} → о and trying the remaining pairs recovers the substitution.");
+    println!("The most frequent is {top}; in Russian text this is most likely \"о\".");
+    println!("Substituting the hypothesis {top} -> о and trying the remaining pairs recovers the substitution.");
 }

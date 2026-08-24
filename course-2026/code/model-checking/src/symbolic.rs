@@ -10,7 +10,7 @@
 //! can blow up exponentially, and all operations enumerate the whole
 //! state space. It exists to show the fixed-point structure of symbolic
 //! reachability -- `EF p` and `AG p` as least/greatest fixed points over
-//! formulas -- on small (2–6 bit) models.
+//! formulas -- on small (2-6 bit) models.
 //!
 //! ```
 //! use model_checking::symbolic::{BoolExpr as B, System, sat_count};

@@ -32,7 +32,7 @@
 //! assert_eq!(err.cycle, vec![2, 0, 1]);
 //! ```
 //!
-//! # How it works (Vardi–Wolper, simplified)
+//! # How it works (Vardi-Wolper, simplified)
 //!
 //! 1. The negated property `¬f` is converted to *negation normal form*,
 //!    pushing `¬` down to the atoms (`¬F φ = G ¬φ`, `¬G φ = F ¬φ`,

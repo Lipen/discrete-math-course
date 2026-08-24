@@ -76,7 +76,7 @@ impl fmt::Display for Formula {
             Formula::Not(x) => write!(f, "¬{x}"),
             Formula::And(a, b) => write!(f, "({a} ∧ {b})"),
             Formula::Or(a, b) => write!(f, "({a} ∨ {b})"),
-            Formula::Implies(a, b) => write!(f, "({a} → {b})"),
+            Formula::Implies(a, b) => write!(f, "({a} -> {b})"),
         }
     }
 }

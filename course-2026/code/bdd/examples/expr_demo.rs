@@ -30,7 +30,7 @@ fn main() {
 
     println!("XNOR built two ways:");
     println!("  (x ∧ y) ∨ (¬x ∧ ¬y)  -> edge {f1}");
-    println!("  (x → y) ∧ (y → x)    -> edge {f2}");
+    println!("  (x -> y) ∧ (y -> x)    -> edge {f2}");
     println!("  Same BDD? {}", f1 == f2);
     println!("  Satisfying assignments: {}", bdd.sat_count(f1, 2));
 
