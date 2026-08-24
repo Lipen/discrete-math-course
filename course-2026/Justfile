@@ -9,3 +9,8 @@ book:
 # Build all lectures
 lectures:
     just lectures/all
+
+
+# Build all homeworks
+homework:
+    just homework/all

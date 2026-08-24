@@ -1,0 +1,30 @@
+[private]
+default:
+    @just --list
+
+files := """
+    hw1.typ
+    hw2.typ
+    hw3.typ
+    hw4.typ
+    hw5.typ
+    hw6.typ
+    hw7.typ
+    hw8.typ
+"""
+
+# Compile everything
+all:
+    #!/usr/bin/env sh
+    set -e
+    for file in {{ replace(files, "\n", ' ') }}; do
+        just _compile $file
+    done
+
+# Compile everything in parallel
+parallel:
+    parallel -k -- just _compile {} ::: {{ replace(files, "\n", ' ') }}
+
+# Compile one file
+_compile *args:
+    typst compile {{ args }}
