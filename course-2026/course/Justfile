@@ -3,7 +3,7 @@ default:
     @just --list
 
 # Build all course documents
-all: topics-s1 topics-s2 schedule-s1
+all: topics-s1 topics-s2 schedule-s1 schedule-s2
 
 # Course prospectus: semester 1
 topics-s1:
@@ -16,3 +16,7 @@ topics-s2:
 # Semester 1 schedule
 schedule-s1:
     typst compile --root .. schedule-s1.typ
+
+# Semester 2 schedule
+schedule-s2:
+    typst compile --root .. schedule-s2.typ
