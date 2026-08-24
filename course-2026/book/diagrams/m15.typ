@@ -41,7 +41,7 @@
   edge((-1, 0), "-}>"),
   // q0 (start)
   node((0, 0), $q_0$, name: <q0>),
-  // epsilon: q0 → q1 (spontaneous)
+  // epsilon: q0 -> q1 (spontaneous)
   edge(<q0>, <q1>, "-}>", label: $epsilon$, stroke: (
     paint: c-edge,
     thickness: 0.7pt,
@@ -51,7 +51,7 @@
   node((1, 0), $q_1$, name: <q1>),
   // self-loop: q1 --a--> q1
   edge(<q1>, <q1>, "-}>", label: $"a"$, bend: -50deg),
-  // epsilon: q1 → q2 (spontaneous)
+  // epsilon: q1 -> q2 (spontaneous)
   edge(<q1>, <q2>, "-}>", label: $epsilon$, stroke: (
     paint: c-edge,
     thickness: 0.7pt,
@@ -139,7 +139,7 @@
 })
 
 // NP-completeness reduction graph: canonical chain of reductions.
-// SAT → 3-SAT → Vertex Cover → Hamiltonian Cycle → Subset Sum
+// SAT -> 3-SAT -> Vertex Cover -> Hamiltonian Cycle -> Subset Sum
 #let np-reduction-tree = canvas({
   let c-box = oklch(88%, 0.03, 250deg)
   let c-box-str = oklch(60%, 0.08, 250deg) + 0.5pt
@@ -222,11 +222,11 @@
   draw.line((-3, y1 - gap - h + 0.1), (-3, y2 + 0.05), stroke: c-arrow, mark: (
     end: ">",
   ))
-  // 3-SAT → Subset Sum (canonical chain)
+  // 3-SAT -> Subset Sum (canonical chain)
   draw.line((0, y1 + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (
     end: ">",
   ))
-  // Vertex Cover → Clique (canonical chain)
+  // Vertex Cover -> Clique (canonical chain)
   draw.line((-1.9, y1 - gap + h / 2), (1.9, y1 - gap + h / 2), stroke: c-arrow, mark: (
     end: ">",
   ))

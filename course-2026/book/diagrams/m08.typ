@@ -19,7 +19,7 @@
 #let ir = 0.07
 
 // Helper: coordinate with given x, and y taken from a port anchor.
-// (horizontal: (x, 0), vertical: port) → x from tuple, y from port anchor.
+// (horizontal: (x, 0), vertical: port) -> x from tuple, y from port anchor.
 #let lj(x, port) = (horizontal: (x, 0), vertical: port)
 
 // ── Half-adder: S = A xor B, C = A and B ──
@@ -43,7 +43,7 @@
     stroke: c-str,
   )
 
-  // A → XOR.in0 + AND.in0.
+  // A -> XOR.in0 + AND.in0.
   let aj = lj(-0.5, "xor-port-in0")
   wire.wire("a-in", (lj(-2.0, "xor-port-in0"), aj), color: c-fg)
   wire.wire("a-xor", (aj, "xor-port-in0"), color: c-fg)
@@ -56,7 +56,7 @@
   )
   wire.intersection("a-and-v.zig", radius: ir, fill: c-fg)
 
-  // B → XOR.in1 + AND.in1.
+  // B -> XOR.in1 + AND.in1.
   let bj = lj(-0.9, "and-port-in1")
   wire.wire("b-in", (lj(-2.0, "and-port-in1"), bj), color: c-fg)
   wire.wire("b-and", (bj, "and-port-in1"), color: c-fg)
@@ -133,7 +133,7 @@
     stroke: c-str,
   )
 
-  // ── A → XOR1.in0 + AND1.in0 ──
+  // ── A -> XOR1.in0 + AND1.in0 ──
   let a1j = lj(-0.5, "xor1-port-in0")
   wire.wire("a-in", (lj(-2.0, "xor1-port-in0"), a1j), color: c-fg)
   wire.wire("a-xor1", (a1j, "xor1-port-in0"), color: c-fg)
@@ -146,7 +146,7 @@
   )
   wire.intersection("a-and1.zig", radius: ir, fill: c-fg)
 
-  // ── B → XOR1.in1 + AND1.in1 ──
+  // ── B -> XOR1.in1 + AND1.in1 ──
   let b1j = lj(-0.9, "and1-port-in1")
   wire.wire("b-in", (lj(-2.0, "and1-port-in1"), b1j), color: c-fg)
   wire.wire("b-and1", (b1j, "and1-port-in1"), color: c-fg)
@@ -159,7 +159,7 @@
   )
   wire.intersection("b-xor1.zig", radius: ir, fill: c-fg)
 
-  // ── XOR1.out → XOR2.in0 + AND2.in0 ──
+  // ── XOR1.out -> XOR2.in0 + AND2.in0 ──
   let j1 = lj(2.1, "xor1-port-out")
   wire.wire("x1-out", ("xor1-port-out", j1), color: c-fg)
   wire.wire("x1-xor2", (j1, "xor2-port-in0"), color: c-fg)
@@ -172,7 +172,7 @@
   )
   wire.intersection("x1-and2.zig", radius: ir, fill: c-fg)
 
-  // ── Cin → XOR2.in1 + AND2.in1 ──
+  // ── Cin -> XOR2.in1 + AND2.in1 ──
   // Cin from left at y=-1.25 (below gates), rises between cols 1 and 2.
   let j2 = lj(2.1, "and2-port-in1")
   wire.wire("cin-in", ((-2.3, -1.25), (2.1, -1.25)), color: c-fg)
@@ -187,7 +187,7 @@
   )
   wire.intersection("cin-xor2.zig", radius: ir, fill: c-fg)
 
-  // ── AND1.out → OR.in0 ──
+  // ── AND1.out -> OR.in0 ──
   wire.wire(
     "and1-or",
     ("and1-port-out", "or1-port-in0"),
@@ -195,7 +195,7 @@
     style: "dodge",
   )
 
-  // ── AND2.out → OR.in1 ──
+  // ── AND2.out -> OR.in1 ──
   let j3 = lj(5.0, "and2-port-out")
   wire.wire("and2-out", ("and2-port-out", j3), color: c-fg)
   wire.wire(

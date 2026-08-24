@@ -16,7 +16,7 @@
 #let c-label = oklch(30%, 0.02, 265deg)
 #let e-str = 0.7pt + oklch(35%, 0.02, 265deg)
 
-// ── 1. Три источника → один матроид ──
+// ── 1. Три источника -> один матроид ──
 #let matroid-sources = {
   let src(pos, body, name) = node(pos, body, name: name, fill: c-src-fill)
   diagram(

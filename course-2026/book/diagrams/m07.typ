@@ -112,10 +112,10 @@
   }
 
   // Filled cells: minterms where majority(x,y,z)=1
-  // yz=00: x=0→0, x=1→0
-  // yz=01: x=0→0, x=1→1 (cell row=1, col=1)
-  // yz=11: x=0→1 (row=2, col=0), x=1→1 (row=2, col=1)
-  // yz=10: x=0→0, x=1→1 (row=3, col=1)
+  // yz=00: x=0->0, x=1->0
+  // yz=01: x=0->0, x=1->1 (cell row=1, col=1)
+  // yz=11: x=0->1 (row=2, col=0), x=1->1 (row=2, col=1)
+  // yz=10: x=0->0, x=1->1 (row=3, col=1)
   let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
   for (row, col) in ones {
     draw.rect(
@@ -244,15 +244,15 @@
   bdd-term((-1.6, -1), 0, "t0")
   bdd-term((1.6, -1), 1, "t1")
 
-  // ── Root → cofactors ──
+  // ── Root -> cofactors ──
   lo-edge("x", "y-lo", "e-x-lo")
   hi-edge("x", "y-hi", "e-x-hi")
 
-  // ── Left cofactor f(0,y) = y: lo→0, hi→1 ──
+  // ── Left cofactor f(0,y) = y: lo->0, hi->1 ──
   lo-edge("y-lo", "t0", "e-yl-t0")
   hi-edge("y-lo", "t1", "e-yl-t1")
 
-  // ── Right cofactor f(1,y) = ¬y: lo→1, hi→0 ──
+  // ── Right cofactor f(1,y) = ¬y: lo->1, hi->0 ──
   lo-edge("y-hi", "t1", "e-yr-t1")
   hi-edge("y-hi", "t0", "e-yr-t0")
 })

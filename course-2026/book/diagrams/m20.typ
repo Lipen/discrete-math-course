@@ -11,9 +11,9 @@
 // ── Three membership functions for comparison ──
 #let membership-functions = canvas({
 
-  // Data coordinates → canvas coordinates.
-  // x-data: 0…10  → canvas x: 0.5…7.5  (0.7 per unit)
-  // y-data: 0…1.2 → canvas y: 0.5…5.3  (4.0 per unit)
+  // Data coordinates -> canvas coordinates.
+  // x-data: 0...10  -> canvas x: 0.5...7.5  (0.7 per unit)
+  // y-data: 0...1.2 -> canvas y: 0.5...5.3  (4.0 per unit)
   let tx(x) = 0.5 + x * 0.7
   let ty(y) = 0.5 + y * 4.0
 
@@ -75,7 +75,7 @@
     stroke: 1pt + c-tri,
   )
 
-  // ── 2. Trapezoidal: rise 2→4, plateau 4→7, fall 7→9 ──
+  // ── 2. Trapezoidal: rise 2->4, plateau 4->7, fall 7->9 ──
   draw.line(
     (tx(2), ty(0)),
     (tx(4), ty(1)),
@@ -93,7 +93,7 @@
   )
 
   // ── 3. Gaussian-like bell: centred at x = 5 ──
-  // Left half: slow rise → steep approach → peak.
+  // Left half: slow rise -> steep approach -> peak.
   draw.bezier(
     (tx(2), ty(0)),
     (tx(5), ty(1)),
@@ -101,7 +101,7 @@
     (tx(4.3), ty(0.88)),
     stroke: 1pt + c-gauss,
   )
-  // Right half: gentle descent → steep drop → zero.
+  // Right half: gentle descent -> steep drop -> zero.
   draw.bezier(
     (tx(5), ty(1)),
     (tx(8), ty(0)),
@@ -141,8 +141,8 @@
   // Panel offsets: each sub-plot is 4.6 wide, with 0.4 gap between.
   // Plot area within panel: [ox+0.6, ox+4.0] in x, [0.5, 3.0] in y.
   //
-  // Triangle vertices for A: (ox+0.8,0.5) → (ox+1.8,3.0) → (ox+2.8,0.5)
-  // Triangle vertices for B: (ox+1.8,0.5) → (ox+2.8,3.0) → (ox+3.8,0.5)
+  // Triangle vertices for A: (ox+0.8,0.5) -> (ox+1.8,3.0) -> (ox+2.8,0.5)
+  // Triangle vertices for B: (ox+1.8,0.5) -> (ox+2.8,3.0) -> (ox+3.8,0.5)
   // Intersection A-right ∩ B-left at (ox+2.3, 1.75)
 
   // Helper: axes with ticks and axis labels for one panel

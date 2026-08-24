@@ -208,18 +208,18 @@
   cl-node((1.3, 2), $<z>$, name: <z>),
   // Bottom (y=3): zero subspace
   cl-node((0, 3), ${0}$, name: <zero>),
-  // Cover relations: zero → axes
+  // Cover relations: zero -> axes
   cl-edge(<zero>, <x>),
   cl-edge(<zero>, <y>),
   cl-edge(<zero>, <z>),
-  // Axes → planes
+  // Axes -> planes
   cl-edge(<x>, <xy>),
   cl-edge(<x>, <xz>),
   cl-edge(<y>, <xy>),
   cl-edge(<y>, <yz>),
   cl-edge(<z>, <xz>),
   cl-edge(<z>, <yz>),
-  // Planes → full space
+  // Planes -> full space
   cl-edge(<xy>, <full>),
   cl-edge(<xz>, <full>),
   cl-edge(<yz>, <full>),
@@ -236,9 +236,9 @@
 
 // Implication graph for: (x or y) and (not x or z) and (not y or not z)
 // Clauses:
-//   (x or y)    → not x → y,  not y → x
-//   (not x or z) → x → z,     not z → not x
-//   (not y or not z) → y → not z,  z → not y
+//   (x or y)    -> not x -> y,  not y -> x
+//   (not x or z) -> x -> z,     not z -> not x
+//   (not y or not z) -> y -> not z,  z -> not y
 //
 // Layout: 6 nodes --- x, not x, y, not y, z, not z
 // x=(0,1), notx=(0,-1), y=(2,1), noty=(2,-1), z=(4,1), notz=(4,-1)
@@ -260,23 +260,23 @@
   }
 
   // Edges : node names, border-to-border
-  // Edges from (x or y): not x → y, not y → x
+  // Edges from (x or y): not x -> y, not y -> x
   draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
   draw.line("noty", "x", stroke: c-edge, mark: (end: ">"))
 
-  // Edges from (not x or z): x → z, not z → not x
+  // Edges from (not x or z): x -> z, not z -> not x
   draw.line("x", "z", stroke: c-edge, mark: (end: ">"))
   draw.line("notz", "notx", stroke: c-edge, mark: (end: ">"))
 
-  // Edges from (not y or not z): y → not z, z → not y
+  // Edges from (not y or not z): y -> not z, z -> not y
   draw.line("y", "notz", stroke: c-edge, mark: (end: ">"))
   draw.line("z", "noty", stroke: c-edge, mark: (end: ">"))
 })
 
 // Simpler example for explanation: (x or y) and (not x or y)
 // Clauses:
-//   (x or y)    → not x → y
-//   (not x or y) → x → y
+//   (x or y)    -> not x -> y
+//   (not x or y) -> x -> y
 // This formula is satisfiable: set y=true.
 #let implication-graph-2sat-simple = canvas({
   let r = 0.4
@@ -408,7 +408,7 @@
     dpll-up-fill,
     dpll-up-str,
     [unit propagation],
-    [$(not x or y) → y = 1$],
+    [$(not x or y) -> y = 1$],
     "up-left",
   )
   dpll-edge("decision.south-west", "up-left.north")
@@ -438,7 +438,7 @@
     dpll-up-fill,
     dpll-up-str,
     [unit propagation],
-    [$(x or y) → y = 1$],
+    [$(x or y) -> y = 1$],
     "up-right",
   )
   dpll-edge("decision.south-east", "up-right.north")
@@ -658,7 +658,7 @@
     )[$H$])
   }
 
-  // Locality window: cells (t=0..1, i=2..4) → 2 rows × 3 columns.
+  // Locality window: cells (t=0..1, i=2..4) -> 2 rows × 3 columns.
   let x0 = (2 - (cols - 1) / 2) * cell - cell / 2
   let x1 = (4 - (cols - 1) / 2) * cell + cell / 2
   let y0 = (rows / 2 - 0.5 - 1) * cell + cell / 2

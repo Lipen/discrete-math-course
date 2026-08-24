@@ -31,7 +31,7 @@
 })
 
 
-// ── Burnside: necklaces of 3 beads, 2 colors → 4 orbits ──
+// ── Burnside: necklaces of 3 beads, 2 colors -> 4 orbits ──
 #let c-bead-b = oklch(25%, 0.02, 265deg)  // black bead
 #let c-bead-w = oklch(92%, 0.01, 90deg)   // white bead
 #let c-bead-str = oklch(35%, 0.02, 265deg) + 0.5pt
@@ -112,8 +112,8 @@
 // ── Ramsey R(3,3) ≤ 6: proof by pigeonhole ──
 // Metaphor: vertex 1 connects to 5 others. By pigeonhole, ≥3 edges
 // from 1 have the same color (say red, to vertices 2,3,4).
-// The triangle {2,3,4} either has a red edge (→ red K₃ with 1)
-// or is all blue (→ blue K₃). A monochromatic triangle is inevitable.
+// The triangle {2,3,4} either has a red edge (-> red K₃ with 1)
+// or is all blue (-> blue K₃). A monochromatic triangle is inevitable.
 #let c-red = oklch(58%, 0.22, 22deg)
 #let c-blue = oklch(58%, 0.18, 250deg)
 #let c-ram-node = oklch(88%, 0.03, 250deg)
@@ -165,7 +165,7 @@
     ))
   }
 
-  // Triangle {2,3,4}: edge 2-3 red → red triangle {1,2,3}
+  // Triangle {2,3,4}: edge 2-3 red -> red triangle {1,2,3}
   draw.line("v2", "v3", stroke: (paint: c-red, thickness: 2.0pt))
   draw.line("v3", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
   draw.line("v2", "v4", stroke: (paint: c-blue, thickness: 0.8pt))

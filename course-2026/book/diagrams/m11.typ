@@ -200,7 +200,7 @@
 })
 
 // ═══════════════════════════════════════════════════════════════
-// Generating function pipeline: sequence → GF → closed form
+// Generating function pipeline: sequence -> GF -> closed form
 // ═══════════════════════════════════════════════════════════════
 
 #let gf-box-fill = oklch(92%, 0.03, 250deg)
@@ -290,7 +290,7 @@
 // Decision tree: permutations of {A, B, C}
 // ═══════════════════════════════════════════════════════════════
 // Visualises the multiplicative principle: 3 choices for the first
-// element, then 2 for the second, then 1 for the third → 3·2·1 = 6
+// element, then 2 for the second, then 1 for the third -> 3·2·1 = 6
 // permutations.
 
 #let c-dt-fill = oklch(88%, 0.03, 250deg)
@@ -431,12 +431,12 @@
   )[CBA])
 
   // ── Edges ──
-  // Level 0 → Level 1
+  // Level 0 -> Level 1
   ledge("start", "a", start, a, [A])
   ledge("start", "b", start, b, [B])
   ledge("start", "c", start, c, [C])
 
-  // Level 1 → Level 2
+  // Level 1 -> Level 2
   ledge("a", "ab", a, ab, [B])
   ledge("a", "ac", a, ac, [C])
   ledge("b", "ba", b, ba, [A])
@@ -444,7 +444,7 @@
   ledge("c", "ca", c, ca, [A])
   ledge("c", "cb", c, cb, [B])
 
-  // Level 2 → Level 3
+  // Level 2 -> Level 3
   ledge("ab", "abc", ab, abc, [C])
   ledge("ac", "acb", ac, acb, [B])
   ledge("ba", "bac", ba, bac, [C])

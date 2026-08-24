@@ -62,15 +62,15 @@
     // Edge labels (midpoint + offset)
     let el(size: 0.6em, body) = text(size: size, fill: luma(45%))[#body]
 
-    // root → lam: midpoint (-0.6, 1.05), label left
+    // root -> lam: midpoint (-0.6, 1.05), label left
     draw.content((-1.1, 1.05), el[функция])
-    // root → y: midpoint (0.6, 1.05), label right
+    // root -> y: midpoint (0.6, 1.05), label right
     draw.content((1.1, 1.05), el[аргумент])
-    // lam → inner-app: midpoint (-1.2, -0.45), label left
+    // lam -> inner-app: midpoint (-1.2, -0.45), label left
     draw.content((-1.9, -0.45), el[тело])
-    // inner-app → x1: midpoint (-1.6, -1.95), label left
+    // inner-app -> x1: midpoint (-1.6, -1.95), label left
     draw.content((-2.0, -1.95), el[функция])
-    // inner-app → x2: midpoint (-0.8, -1.95), label right
+    // inner-app -> x2: midpoint (-0.8, -1.95), label right
     draw.content((-0.4, -1.95), el[аргумент])
 
     // Caption
@@ -83,8 +83,8 @@
 
 // ── 2. Church-Rosser confluence: concrete example ──
 // M = (λx. x) ((λy. y) z)
-// Path 1 (outer first): M → (λy. y) z → z
-// Path 2 (inner first): M → (λx. x) z → z
+// Path 1 (outer first): M -> (λy. y) z -> z
+// Path 2 (inner first): M -> (λx. x) z -> z
 // Both paths converge to z.
 
 #let church-rosser-diamond = {

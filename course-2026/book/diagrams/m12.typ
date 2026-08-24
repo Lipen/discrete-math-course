@@ -83,7 +83,7 @@
     fill: oklch(50%, 0.16, 300deg),
   )[$dots not in {r_1, r_2, dots}$])
 
-  // Vertical dashed arrows: diagonal cell → constructed digit
+  // Vertical dashed arrows: diagonal cell -> constructed digit
   for i in range(rows) {
     draw.line(
       "d" + str(i) + ".south",
@@ -234,7 +234,7 @@
 #let banach-tarski = canvas({
   let s = 1.2
 
-  // Three spheres: original → decomposition → two spheres
+  // Three spheres: original -> decomposition -> two spheres
   // Labels
   draw.content((0, 1.5), text(weight: "bold", size: 0.9em)[Исходный шар])
   draw.content((s * 3, 1.5), text(weight: "bold", size: 0.9em)[Два шара])
@@ -286,7 +286,7 @@
   draw.content((s * 1.5, -1.6), text(
     size: 0.55em,
     fill: luma(45%),
-  )[Разбиение сферы на 5 частей (вращения + AC) $→$ два шара того же радиуса.])
+  )[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.])
 })
 
 // ── 2-state Markov chain: weather model (Sunny / Rainy) ──
@@ -332,7 +332,7 @@
 
   // ── Transitions ──
 
-  // S → R (forward, upper path)
+  // S -> R (forward, upper path)
   draw.line(
     "S.north-east",
     "R.north-west",
@@ -342,7 +342,7 @@
   )
   elabel("s-r", [$0.2$])
 
-  // R → S (backward, lower path)
+  // R -> S (backward, lower path)
   draw.line(
     "R.south-west",
     "S.south-east",
@@ -352,7 +352,7 @@
   )
   elabel("r-s", [$0.4$])
 
-  // S → S (self-loop, curved upward)
+  // S -> S (self-loop, curved upward)
   draw.bezier(
     "S.north-west",
     "S.north-east",
@@ -364,7 +364,7 @@
   )
   elabel("s-s", [$0.8$])
 
-  // R → R (self-loop, curved upward)
+  // R -> R (self-loop, curved upward)
   draw.bezier(
     "R.north-west",
     "R.north-east",
@@ -453,7 +453,7 @@
   leaf-label("TT", [$T T$], 0.16)
 })
 
-// ── Bayesian network: Flu → Cough, Flu → Fever ──
+// ── Bayesian network: Flu -> Cough, Flu -> Fever ──
 #let bayes-net = canvas({
   let c-bn-fill = oklch(92%, 0.04, 250deg)
   let c-bn-stroke = oklch(55%, 0.08, 250deg)
@@ -578,12 +578,12 @@
   // ── Level 0: empty set ──
   node((0, 0), $emptyset$, "e")
 
-  // ── Edges: ∅ → singletons ──
+  // ── Edges: ∅ -> singletons ──
   subset-edge("e", "a")
   subset-edge("e", "b")
   subset-edge("e", "c")
 
-  // ── Edges: singletons → pairs ──
+  // ── Edges: singletons -> pairs ──
   subset-edge("a", "ab")
   subset-edge("a", "ac")
   subset-edge("b", "ab")
@@ -591,7 +591,7 @@
   subset-edge("c", "ac")
   subset-edge("c", "bc")
 
-  // ── Edges: pairs → {a,b,c} ──
+  // ── Edges: pairs -> {a,b,c} ──
   subset-edge("ab", "abc")
   subset-edge("ac", "abc")
   subset-edge("bc", "abc")
@@ -654,9 +654,9 @@
   node((2 * gap, 0), $beth_2 = 2^(beth_1)$, "b2", c-beth-fill, c-beth-str)
   node((3 * gap, 0), $beth_3 = 2^(beth_2)$, "b3", c-beth-fill, c-beth-str)
 
-  // ── Start → aleph_1 (successor) ──
+  // ── Start -> aleph_1 (successor) ──
   draw.line("start", "a1", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
-  // ── Start → beth_1 (powerset) ──
+  // ── Start -> beth_1 (powerset) ──
   draw.line("start", "b1", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
 
   // ── Aleph chain edges ──

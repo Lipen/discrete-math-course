@@ -379,7 +379,7 @@
 
 // ── 9. Graph colouring (C5, χ = 3) ──
 // Odd cycle: 5 vertices need 3 colours.  4 vertices alternate red-green;
-// the 5th is adjacent to one red and one green → needs blue.
+// the 5th is adjacent to one red and one green -> needs blue.
 #let graph-coloring = canvas({
   let v = (
     (0, 2),
@@ -586,7 +586,7 @@
 
 // ── 14. Euler cycle (figure-8: two triangles sharing vertex B) ──
 // All degrees even: A=2, C=2, D=2, E=2, B=4.
-// Cycle: B→A→C→B→D→E→B --- each edge used exactly once.
+// Cycle: B->A->C->B->D->E->B --- each edge used exactly once.
 #let euler-cycle = canvas({
   // Node positions
   let pos = ((0, 1.5), (1, 0), (2, 1.5), (0, -1.5), (2, -1.5))
@@ -678,7 +678,7 @@
 })
 
 // ── 16. Dijkstra counterexample with negative edge ──
-// S→A (weight 3), S→B (weight 2), A→B (weight −2).
+// S->A (weight 3), S->B (weight 2), A->B (weight −2).
 // Intuition: Dijkstra fixes B at distance 2 before the negative edge can shorten it.
 #let dijkstra-counterexample = canvas({
   let c-neg = oklch(58%, 0.22, 22deg) // red highlight for negative edge
@@ -690,7 +690,7 @@
 
   let arr = (mark: (end: "stealth"))
 
-  // Edge S→A : weight 3
+  // Edge S->A : weight 3
   draw.line(
     "S",
     "A",
@@ -700,7 +700,7 @@
   )
   draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $3$, size: .65em)
 
-  // Edge S→B : weight 2
+  // Edge S->B : weight 2
   draw.line(
     "S",
     "B",
@@ -710,7 +710,7 @@
   )
   draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $2$, size: .65em)
 
-  // Edge A→B : weight −2 (negative, red, dashed)
+  // Edge A->B : weight −2 (negative, red, dashed)
   draw.line(
     "A",
     "B",

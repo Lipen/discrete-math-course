@@ -58,7 +58,7 @@
   draw.content((0, -1.95), text(size: 0.7em, fill: c-label)[$q_i$])
   draw.content((0, -2.35), text(size: 0.6em, fill: luma(50%))[конечное])
 
-  // Connection head → control
+  // Connection head -> control
   draw.line((head-x, -0.9), (head-x, -1.6), stroke: c-head-str)
 
   // Tape label

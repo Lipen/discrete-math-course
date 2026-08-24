@@ -35,11 +35,11 @@
   draw.content((0, -0.95), text(size: 0.72em, fill: d-text, weight: "bold")[Theory-солвер])
   draw.content((0, -1.3), text(size: 0.58em, fill: d-muted)[DL, EUF, LRA, ...])
 
-  // SAT → theory: candidate model.
+  // SAT -> theory: candidate model.
   draw.line((1.7, 0.55), (1.7, -0.55), mark: (end: "stealth"), stroke: d-edge)
   draw.content((2.15, 0), anchor: "west", text(size: 0.58em, fill: d-text)[кандидат-модель])
 
-  // Theory → SAT: conflict clause (T-lemma).
+  // Theory -> SAT: conflict clause (T-lemma).
   draw.line((-1.7, -0.55), (-1.7, 0.55), mark: (end: "stealth"), stroke: d-edge)
   draw.content((-2.15, 0), anchor: "east", text(size: 0.58em, fill: d-text)[$T$-лемма])
 })
