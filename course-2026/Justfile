@@ -14,3 +14,7 @@ lectures:
 # Build all homeworks
 homework:
     just homework/all
+
+# Run all Rust crate tests
+test:
+    cd code && cargo test --workspace
