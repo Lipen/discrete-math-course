@@ -9,8 +9,8 @@
 //! simplifies eagerly. This is deliberately NOT a BDD package: formulas
 //! can blow up exponentially, and all operations enumerate the whole
 //! state space. It exists to show the fixed-point structure of symbolic
-//! reachability — `EF p` and `AG p` as least/greatest fixed points over
-//! formulas — on small (2–6 bit) models.
+//! reachability -- `EF p` and `AG p` as least/greatest fixed points over
+//! formulas -- on small (2–6 bit) models.
 //!
 //! ```
 //! use model_checking::symbolic::{BoolExpr as B, System, sat_count};
@@ -191,7 +191,7 @@ impl System {
         BoolExpr::not(self.pre_exists(&BoolExpr::not(set.clone())))
     }
 
-    /// `EF p` — the least fixed point `Y = p ∨ pre_exists(Y)`, iterated
+    /// `EF p` -- the least fixed point `Y = p ∨ pre_exists(Y)`, iterated
     /// over formulas until the set of satisfying states stops growing.
     pub fn ef(&self, p: &BoolExpr) -> BoolExpr {
         let mut y = p.clone();
@@ -204,7 +204,7 @@ impl System {
         }
     }
 
-    /// `AG p` — the greatest fixed point `Y = p ∧ pre_forall(Y)`,
+    /// `AG p` -- the greatest fixed point `Y = p ∧ pre_forall(Y)`,
     /// iterated over formulas until the set of satisfying states stops
     /// shrinking.
     pub fn ag(&self, p: &BoolExpr) -> BoolExpr {

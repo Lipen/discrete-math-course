@@ -8,9 +8,9 @@
 pub struct Kripke {
     /// Number of states.
     pub n: usize,
-    /// `successors[s]` — the states reachable in one transition from `s`.
+    /// `successors[s]` -- the states reachable in one transition from `s`.
     pub successors: Vec<Vec<usize>>,
-    /// `atoms[s]` — the atoms (by index) true in state `s`.
+    /// `atoms[s]` -- the atoms (by index) true in state `s`.
     pub atoms: Vec<Vec<usize>>,
 }
 
@@ -35,7 +35,7 @@ impl Kripke {
     }
 
     /// States whose every successor lies in `set` (true also for states with
-    /// no successors — vacuous truth).
+    /// no successors -- vacuous truth).
     pub fn pre_forall(&self, set: &[bool]) -> Vec<bool> {
         let mut out = vec![false; self.n];
         for (s, succ) in self.successors.iter().enumerate() {

@@ -30,7 +30,7 @@ mod tests {
     #[test]
     fn sign_lub_table() {
         use Sign::*;
-        // Same → identity.
+        // Same -> identity.
         assert_eq!(Pos.lub(Pos), Pos);
         assert_eq!(Neg.lub(Neg), Neg);
         assert_eq!(Zero.lub(Zero), Zero);
@@ -39,7 +39,7 @@ mod tests {
         // Bottom is unit.
         assert_eq!(Bottom.lub(Pos), Pos);
         assert_eq!(Neg.lub(Bottom), Neg);
-        // Different → Top.
+        // Different -> Top.
         assert_eq!(Pos.lub(Neg), Top);
         assert_eq!(Pos.lub(Zero), Top);
         assert_eq!(Neg.lub(Zero), Top);
@@ -53,7 +53,7 @@ mod tests {
         assert_eq!(Neg + Neg, Neg);
         assert_eq!(Zero + Pos, Pos);
         assert_eq!(Neg + Zero, Neg);
-        // Mixed → Top.
+        // Mixed -> Top.
         assert_eq!(Pos + Neg, Top);
         assert_eq!(Neg + Pos, Top);
         // Top and Bottom.
@@ -135,7 +135,7 @@ mod tests {
 
     #[test]
     fn sign_while_counter_stays_positive() {
-        // i := 1; while ... do i := i + 1  →  i stays +.
+        // i := 1; while ... do i := i + 1  ->  i stays +.
         let program = vec![
             assign("i", 1),
             Stmt::While {
@@ -242,7 +242,7 @@ mod tests {
             lo: Some(4),
             hi: Some(5),
         };
-        // Products: -8, -10, 12, 15 → min = -10, max = 15.
+        // Products: -8, -10, 12, 15 -> min = -10, max = 15.
         assert_eq!(
             a * b,
             Interval::Range {
@@ -274,7 +274,7 @@ mod tests {
 
     #[test]
     fn interval_analysis_finds_bounds() {
-        // x := 3; y := 5; z := x + y  →  z = [8, 8].
+        // x := 3; y := 5; z := x + y  ->  z = [8, 8].
         let program = vec![assign("x", 3), assign("y", 5)];
         let mut st: State<Interval> = State::new();
         exec_interval(&program, &mut st);
@@ -322,7 +322,7 @@ mod tests {
 
     #[test]
     fn interval_widening_converges_on_counter_loop() {
-        // i := 0; while ... do i := i + 1  →  i ∈ [0, +∞).
+        // i := 0; while ... do i := i + 1  ->  i ∈ [0, +∞).
         let program = vec![
             assign("i", 0),
             Stmt::While {
@@ -498,7 +498,7 @@ mod tests {
     #[test]
     fn const_while_widening_converges() {
         // i := 0; while ... do i := i + 1.
-        // After first pass: i = 0 → 1. Widen: 0 ∇ 1 = ⊤. Second pass: ⊤ stays ⊤.
+        // After first pass: i = 0 -> 1. Widen: 0 ∇ 1 = ⊤. Second pass: ⊤ stays ⊤.
         let program = vec![
             assign("i", 0),
             Stmt::While {

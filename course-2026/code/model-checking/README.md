@@ -49,7 +49,7 @@ The classical applications are concurrent systems: mutual exclusion (`AG ¬(crit
 | `ltl::check(&Kripke, &Formula) -> Result<(), Counterexample>` | LTL check; `Counterexample { prefix, cycle }` is the violating lasso |
 | `property::holds(&Kripke, &Prop) -> Result<(), Counterexample>` | Uniform entry point for both logics (`Prop::Ctl` / `Prop::Ltl`); CTL failures carry a path or lasso witness |
 | `ModelBuilder` + `Expr` | Declarative, SPIN/SMV-inspired synchronous transition system: `var(name, init)`, `next(name, expr)` (frame rule: unmentioned variables keep their value), `transition(guard)`; `build()` compiles to a `Kripke` over all valuations, with one atom per `(variable, value)` pair |
-| `symbolic::BoolExpr`, `symbolic::System` | Boolean formulas (`Var`/`Not`/`And`/`Or`) with `eval`, `sat_count`, `models`; a `System` with `pre_exists`, `pre_forall`, `ef`, `ag` computed by fixed-point iteration over formulas (no BDDs — exponential by design) |
+| `symbolic::BoolExpr`, `symbolic::System` | Boolean formulas (`Var`/`Not`/`And`/`Or`) with `eval`, `sat_count`, `models`; a `System` with `pre_exists`, `pre_forall`, `ef`, `ag` computed by fixed-point iteration over formulas (no BDDs -- exponential by design) |
 
 ```rust
 use model_checking::{check, Formula, Kripke};

@@ -95,7 +95,7 @@ counter.
 
 Recursion in λ-calculus is a *fixed point*: `X` with `X = F X`. The
 call-by-name combinator `Y = λf. (λx. f (x x)) (λx. f (x x))` unfolds as
-`Y F → F (Y F)`. The call-by-value combinator `Z = λf. (λx. f (λv. x x v))
+`Y F -> F (Y F)`. The call-by-value combinator `Z = λf. (λx. f (λv. x x v))
 (λx. f (λv. x x v))` adds a `λv` wrapper so the recursive expansion is
 delayed until an argument arrives. The factorial `fact = Z Fact` computes
 `3! = 6` in about 1500 pure β-steps (naive substitution is exponential --
@@ -108,7 +108,7 @@ real implementations share subterms).
 | `church_arith` | Church numerals: succ, add, mult, power (2^4 = 16, etc.) |
 | `combinators` | I, K, S combinators; SKK = I; Ω non-termination |
 | `beta_trace` | Step-by-step reduction trace; Ω with step limit; Church arithmetic with trace |
-| `fixpoint` | Y unfolds `Y K → K (Y K) → λx. x`; factorial via Z |
+| `fixpoint` | Y unfolds `Y K -> K (Y K) -> λx. x`; factorial via Z |
 
 ## Tests
 

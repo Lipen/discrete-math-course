@@ -48,7 +48,7 @@ $$ c = m^e \bmod n \qquad m = c^d \bmod n $$
 | Demo | Idea | What it prints |
 | --- | --- | --- |
 | `brute_force_caesar` | Caesar cipher | All 32 shifts; the plaintext appears at shift 3 |
-| `frequency_analysis` | Simple substitution | Letter frequencies; the top ciphertext letter maps to «о» |
+| `frequency_analysis` | Simple substitution | Letter frequencies; the top ciphertext letter maps to "о" |
 | `common_modulus` | RSA common-modulus attack | $m$ recovered without any private key |
 | `malleability` | RSA malleability | $c_1 c_2$ decrypts to $m_1 m_2$ |
 | `pohlig_hellman` | Discrete log, smooth order | $x$ with $g^x = h \pmod p$ |

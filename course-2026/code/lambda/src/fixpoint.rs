@@ -3,7 +3,7 @@
 //! In λ-calculus functions have no names, so a function cannot call itself
 //! directly. Instead, recursion is expressed through a *fixed point*: a term
 //! `X` with `X = F X`. The call-by-name combinator [`y`] unfolds as
-//! `Y F → F (Y F)`; the call-by-value combinator [`z`] adds a `λv` wrapper
+//! `Y F -> F (Y F)`; the call-by-value combinator [`z`] adds a `λv` wrapper
 //! so that the recursive expansion is delayed until an argument arrives --
 //! which is what call-by-value evaluation needs. [`fact`] shows the pattern
 //! in action: the factorial is built as the fixed point of a one-step term.
@@ -24,13 +24,13 @@ use crate::term::Term;
 /// **Note:** under normal-order reduction, `Y g` expands infinitely unless
 /// `g` discards its argument. Use `normalize` with a step limit.
 ///
-/// The unfold `Y g → g (Y g)` is visible in the first steps of the trace:
+/// The unfold `Y g -> g (Y g)` is visible in the first steps of the trace:
 ///
 /// ```
 /// use lambda::fixpoint::y;
 /// use lambda::Term;
 ///
-/// // K = λf. λx. x ignores its argument, so Y K → K (Y K) → λx. x:
+/// // K = λf. λx. x ignores its argument, so Y K -> K (Y K) -> λx. x:
 /// // the fixed point of K is the identity.
 /// let k = Term::abs("f", Term::abs("x", Term::var("x")));
 /// let steps = Term::app(y(), k).trace(10);
@@ -73,7 +73,7 @@ pub fn y() -> Term {
 /// use lambda::fixpoint::z;
 /// use lambda::Term;
 ///
-/// // Z g  →  (λx. g (λv. x x v)) (λx. g (λv. x x v))  →  g (λv. Z g v)
+/// // Z g  ->  (λx. g (λv. x x v)) (λx. g (λv. x x v))  ->  g (λv. Z g v)
 /// let steps = Term::app(z(), Term::var("g")).trace(10);
 /// assert_eq!(steps[1].to_string(), "(λx. g (λv. x x v)) (λx. g (λv. x x v))");
 /// assert_eq!(
@@ -130,7 +130,7 @@ pub fn fact_step() -> Term {
 /// use lambda::fixpoint::fact;
 /// use lambda::Term;
 ///
-/// // fact 3 → 6, all through pure β-reduction.
+/// // fact 3 -> 6, all through pure β-reduction.
 /// let three = Term::app(fact(), church(3));
 /// assert_eq!(to_nat(&three.normalize(200_000)), Some(6));
 /// ```
@@ -164,7 +164,7 @@ mod tests {
 
     #[test]
     fn y_unfolds_to_fixed_point_equation() {
-        // Y g  →  g (Y g)  -- check the unfold on a symbolic g.
+        // Y g  ->  g (Y g)  -- check the unfold on a symbolic g.
         let g = Term::var("g");
         let yg = Term::app(y(), g.clone());
         let t1 = yg.beta_reduce().unwrap();
@@ -176,7 +176,7 @@ mod tests {
 
     #[test]
     fn y_fixed_point_of_k_is_identity() {
-        // Y K  →  λx. x
+        // Y K  ->  λx. x
         let k = Term::abs("f", Term::abs("x", Term::var("x")));
         let result = Term::app(y(), k).normalize(100);
         assert_eq!(result, Term::abs("x", Term::var("x")));
@@ -196,7 +196,7 @@ mod tests {
 
     #[test]
     fn z_unfolds_with_delayed_recursion() {
-        // Z g  →  g (λv. Z g v): the recursive call is wrapped in λv, so it
+        // Z g  ->  g (λv. Z g v): the recursive call is wrapped in λv, so it
         // only fires when an argument arrives.
         let g = Term::var("g");
         let zg = Term::app(z(), g);

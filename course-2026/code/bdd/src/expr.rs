@@ -30,7 +30,7 @@ pub enum Expr {
     Or(Box<Expr>, Box<Expr>),
     /// `a ⊕ b`
     Xor(Box<Expr>, Box<Expr>),
-    /// `a → b`
+    /// `a -> b`
     Implies(Box<Expr>, Box<Expr>),
 }
 
@@ -96,7 +96,7 @@ impl Expr {
         Expr::Xor(Box::new(self), Box::new(other))
     }
 
-    /// `self → other`
+    /// `self -> other`
     ///
     /// ```
     /// use bdd::Expr;

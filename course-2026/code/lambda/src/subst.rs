@@ -161,7 +161,7 @@ mod tests {
 
     #[test]
     fn substitute_under_abstraction_no_capture() {
-        // [x := z] (λy. x y)  →  λy. z y
+        // [x := z] (λy. x y)  ->  λy. z y
         let t = Term::abs("y", Term::app(Term::var("x"), Term::var("y")));
         let result = t.substitute("x", &Term::var("z"));
         assert_eq!(result.to_string(), "λy. z y");
@@ -169,7 +169,7 @@ mod tests {
 
     #[test]
     fn substitute_avoids_capture_by_alpha_conversion() {
-        // [x := y] (λy. y x)  →  λy'. (y' y)
+        // [x := y] (λy. y x)  ->  λy'. (y' y)
         // The bound `y` is renamed to avoid capturing the free `y` from the
         // replacement.
         let t = Term::abs("y", Term::app(Term::var("y"), Term::var("x")));
@@ -190,7 +190,7 @@ mod tests {
 
     #[test]
     fn substitute_does_not_rename_when_safe() {
-        // [x := z] (λy. y x)  →  λy. y z   (no rename needed; z ≠ y)
+        // [x := z] (λy. y x)  ->  λy. y z   (no rename needed; z ≠ y)
         let t = Term::abs("y", Term::app(Term::var("y"), Term::var("x")));
         let result = t.substitute("x", &Term::var("z"));
         assert_eq!(result.to_string(), "λy. y z");
@@ -234,7 +234,7 @@ mod tests {
 
     #[test]
     fn rename_does_not_touch_free_variable() {
-        // λx. x y  →  rename "y" to "w"  has no effect (y is free)
+        // λx. x y  ->  rename "y" to "w"  has no effect (y is free)
         let t = Term::abs("x", Term::app(Term::var("x"), Term::var("y")));
         let renamed = t.rename("y", "w");
         assert_eq!(renamed, t);

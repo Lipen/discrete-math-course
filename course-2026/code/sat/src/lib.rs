@@ -49,24 +49,24 @@ mod tests {
     #[test]
     fn clause_satisfied_basic() {
         let c = vec![pos(1), neg(2)];
-        // x1 = true → satisfied regardless of x2.
+        // x1 = true -> satisfied regardless of x2.
         assert!(clause_satisfied(&c, &[Some(true), None]));
-        // x1 = false, x2 = false → ¬x2 = true → satisfied.
+        // x1 = false, x2 = false -> ¬x2 = true -> satisfied.
         assert!(clause_satisfied(&c, &[Some(false), Some(false)]));
-        // Both false → not satisfied.
+        // Both false -> not satisfied.
         assert!(!clause_satisfied(&c, &[Some(false), Some(true)]));
     }
 
     #[test]
     fn unit_of_detects_unit() {
-        // x1 ∨ ¬x2 with x2 = true → ¬x2 false → x1 forced.
+        // x1 ∨ ¬x2 with x2 = true -> ¬x2 false -> x1 forced.
         let c = vec![pos(1), neg(2)];
         assert_eq!(unit_of(&c, &[None, Some(true)]), Some(pos(1)));
-        // x1 = false, x2 unassigned → ¬x2 forced.
+        // x1 = false, x2 unassigned -> ¬x2 forced.
         assert_eq!(unit_of(&c, &[Some(false), None]), Some(neg(2)));
-        // Already satisfied → not a unit.
+        // Already satisfied -> not a unit.
         assert_eq!(unit_of(&c, &[Some(true), None]), None);
-        // Both false → no unassigned literal to force.
+        // Both false -> no unassigned literal to force.
         assert_eq!(unit_of(&c, &[Some(false), Some(true)]), None);
     }
 
@@ -152,7 +152,7 @@ mod tests {
 
     #[test]
     fn solve_pure_literal_positive() {
-        // (x1 ∨ x2) ∧ (x1 ∨ ¬x3) -- x1 appears only positively → set to true.
+        // (x1 ∨ x2) ∧ (x1 ∨ ¬x3) -- x1 appears only positively -> set to true.
         let cnf = Cnf::new(3, vec![vec![pos(1), pos(2)], vec![pos(1), neg(3)]]).unwrap();
         let model = solve(&cnf).unwrap();
         assert!(model[0]); // x1 = true (pure positive)
@@ -288,7 +288,7 @@ mod tests {
 
     /// Build the pigeonhole principle PHP(n, n-1): n pigeons, n-1 holes.
     ///
-    /// Variable index: pigeon i in hole j → variable (i-1)*(n-1) + j.
+    /// Variable index: pigeon i in hole j -> variable (i-1)*(n-1) + j.
     fn php_cnf(n: usize, holes: usize) -> Cnf {
         let nvars = n * holes;
         let mut clauses = Vec::new();

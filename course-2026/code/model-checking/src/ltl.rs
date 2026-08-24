@@ -64,7 +64,7 @@
 //! # Dead ends
 //!
 //! LTL talks about *infinite* runs. A state with no successors starts no
-//! run, so a property holds vacuously there — even if a finite path into
+//! run, so a property holds vacuously there -- even if a finite path into
 //! the dead end would have violated it. To check a property along finite
 //! paths, add self-loops to the dead ends of the model first.
 
@@ -78,15 +78,15 @@ pub enum Formula {
     Not(Box<Formula>),
     And(Box<Formula>, Box<Formula>),
     Or(Box<Formula>, Box<Formula>),
-    /// `X φ` — φ holds in the next state.
+    /// `X φ` -- φ holds in the next state.
     X(Box<Formula>),
-    /// `F φ` — φ holds eventually (equivalent to `true U φ`).
+    /// `F φ` -- φ holds eventually (equivalent to `true U φ`).
     F(Box<Formula>),
-    /// `G φ` — φ holds always (equivalent to `false R φ`).
+    /// `G φ` -- φ holds always (equivalent to `false R φ`).
     G(Box<Formula>),
-    /// `φ U ψ` — φ holds until ψ holds.
+    /// `φ U ψ` -- φ holds until ψ holds.
     U(Box<Formula>, Box<Formula>),
-    /// `φ R ψ` — ψ holds at least until φ (weak until).
+    /// `φ R ψ` -- ψ holds at least until φ (weak until).
     R(Box<Formula>, Box<Formula>),
 }
 

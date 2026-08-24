@@ -1,12 +1,12 @@
 //! A tiny simply-typed lambda calculus.
 //!
-//! Types are built from a base type `o` and function arrows `τ → σ`. Typed
+//! Types are built from a base type `o` and function arrows `τ -> σ`. Typed
 //! terms ([`STerm`]) carry type annotations on binders; [`STerm::erase`]
 //! forgets them and produces the untyped [`Term`]. [`STerm::infer`] type
 //! checks a term against a typing context and returns its type, or a
 //! [`TypeError`].
 //!
-//! The type system is deliberately small: with only `o` and `→` there is no
+//! The type system is deliberately small: with only `o` and `->` there is no
 //! type for self-application, so terms like `λx. x x` are rejected. That is
 //! why the untyped Y combinator cannot be typed here -- recursion needs an
 //! explicit fixed-point rule (see the type-theory chapter of the book).
@@ -17,18 +17,18 @@ use crate::term::Term;
 
 /// A type of the simply-typed lambda calculus.
 ///
-/// Two forms only: the base type `o` and function arrows `τ → σ`.
+/// Two forms only: the base type `o` and function arrows `τ -> σ`.
 ///
 /// ```
 /// use lambda::stlc::Ty;
 /// assert_eq!(Ty::Base.to_string(), "o");
-/// assert_eq!(Ty::arrow(Ty::Base, Ty::Base).to_string(), "o → o");
+/// assert_eq!(Ty::arrow(Ty::Base, Ty::Base).to_string(), "o -> o");
 /// ```
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Ty {
     /// The base type `o` -- a primitive value with no further structure.
     Base,
-    /// Function type `dom → cod`.
+    /// Function type `dom -> cod`.
     Arrow(Box<Ty>, Box<Ty>),
 }
 
@@ -38,7 +38,7 @@ impl Ty {
         Ty::Base
     }
 
-    /// The function type `dom → cod`.
+    /// The function type `dom -> cod`.
     pub fn arrow(dom: Ty, cod: Ty) -> Ty {
         Ty::Arrow(Box::new(dom), Box::new(cod))
     }
@@ -49,7 +49,7 @@ impl fmt::Display for Ty {
         match self {
             Ty::Base => write!(f, "o"),
             // Arrow domains that are themselves arrows need parentheses:
-            // (o → o) → o, not o → o → o.
+            // (o -> o) -> o, not o -> o -> o.
             Ty::Arrow(dom, cod) => match dom.as_ref() {
                 Ty::Arrow(..) => write!(f, "({dom}) → {cod}"),
                 _ => write!(f, "{dom} → {cod}"),
@@ -129,7 +129,7 @@ impl STerm {
     ///
     /// ```
     /// use lambda::stlc::{STerm, Ty};
-    /// // (λx:o. x) a with a : o  →  o
+    /// // (λx:o. x) a with a : o  ->  o
     /// let id = STerm::abs("x", Ty::Base, STerm::var("x"));
     /// let app = STerm::app(id, STerm::var("a"));
     /// assert_eq!(
@@ -240,7 +240,7 @@ mod tests {
 
     #[test]
     fn application_checks_against_context() {
-        // (λx:o. x) a, a : o  →  o
+        // (λx:o. x) a, a : o  ->  o
         let id = STerm::abs("x", o(), STerm::var("x"));
         let app = STerm::app(id, STerm::var("a"));
         assert_eq!(app.infer(&[("a".into(), o())]), Ok(o()));
@@ -254,7 +254,7 @@ mod tests {
 
     #[test]
     fn shadowing_uses_the_innermost_binder() {
-        // λx:o. λx:o→o. x : o → (o → o) → (o → o) -- the inner x wins.
+        // λx:o. λx:o->o. x : o -> (o -> o) -> (o -> o) -- the inner x wins.
         let t = STerm::abs(
             "x",
             o(),
@@ -271,7 +271,7 @@ mod tests {
 
     #[test]
     fn self_application_is_rejected() {
-        // λx:o. x x -- no type for this: x would need o = o → σ.
+        // λx:o. x x -- no type for this: x would need o = o -> σ.
         // This is why the untyped Y combinator cannot be typed.
         let bad = STerm::abs("x", o(), STerm::app(STerm::var("x"), STerm::var("x")));
         assert_eq!(bad.type_of(), Err(TypeError::NotAFunction { fun: o() }));
@@ -279,7 +279,7 @@ mod tests {
 
     #[test]
     fn mismatched_argument_is_rejected() {
-        // (λx:o. x) a with a : o → o -- expected o, found o → o.
+        // (λx:o. x) a with a : o -> o -- expected o, found o -> o.
         let id = STerm::abs("x", o(), STerm::var("x"));
         let app = STerm::app(id, STerm::var("a"));
         assert_eq!(

@@ -19,7 +19,7 @@ fn main() {
         .and(y.clone())
         .or(x.clone().not_().and(y.clone().not_()));
 
-    //   x ↔ y  =  (x → y) ∧ (y → x)
+    //   x ↔ y  =  (x -> y) ∧ (y -> x)
     let xnor2 = x
         .clone()
         .implies(y.clone())

@@ -9,21 +9,21 @@ pub enum Formula {
     Not(Box<Formula>),
     And(Box<Formula>, Box<Formula>),
     Or(Box<Formula>, Box<Formula>),
-    /// `EX φ` — some successor satisfies `φ`.
+    /// `EX φ` -- some successor satisfies `φ`.
     Ex(Box<Formula>),
-    /// `AX φ` — every successor satisfies `φ`.
+    /// `AX φ` -- every successor satisfies `φ`.
     Ax(Box<Formula>),
-    /// `EF φ` — some path reaches `φ`.
+    /// `EF φ` -- some path reaches `φ`.
     Ef(Box<Formula>),
-    /// `AF φ` — every path eventually reaches `φ`.
+    /// `AF φ` -- every path eventually reaches `φ`.
     Af(Box<Formula>),
-    /// `EG φ` — some path where `φ` always holds.
+    /// `EG φ` -- some path where `φ` always holds.
     Eg(Box<Formula>),
-    /// `AG φ` — every path where `φ` always holds.
+    /// `AG φ` -- every path where `φ` always holds.
     Ag(Box<Formula>),
-    /// `E[φ U ψ]` — some path: `φ` holds until `ψ`.
+    /// `E[φ U ψ]` -- some path: `φ` holds until `ψ`.
     Eu(Box<Formula>, Box<Formula>),
-    /// `A[φ U ψ]` — every path: `φ` holds until `ψ`.
+    /// `A[φ U ψ]` -- every path: `φ` holds until `ψ`.
     Au(Box<Formula>, Box<Formula>),
 }
 
@@ -164,10 +164,10 @@ mod tests {
     #[test]
     fn ax_and_ex() {
         let m = traffic();
-        // AX green: every successor is green — true only where all succ are green.
+        // AX green: every successor is green -- true only where all succ are green.
         let ax_green = Formula::Ax(Box::new(Formula::Atom(0)));
         assert_eq!(check(&m, &ax_green), vec![false, false, true]);
-        // EX green: some successor is green — state 2 (red -> green).
+        // EX green: some successor is green -- state 2 (red -> green).
         let ex_green = Formula::Ex(Box::new(Formula::Atom(0)));
         assert_eq!(check(&m, &ex_green), vec![false, false, true]);
     }
@@ -183,7 +183,7 @@ mod tests {
 
     #[test]
     fn ef_red_everywhere() {
-        // EF red: some path reaches red — from every state on the cycle.
+        // EF red: some path reaches red -- from every state on the cycle.
         let m = traffic();
         let ef_red = Formula::Ef(Box::new(Formula::Atom(2)));
         assert_eq!(check(&m, &ef_red), vec![true, true, true]);

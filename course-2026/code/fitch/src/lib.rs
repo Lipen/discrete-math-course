@@ -11,7 +11,7 @@
 //! use fitch::{check, Step, Just};
 //! use fitch::{atom, implies, not, bottom};
 //!
-//! // Proves (P → Q) → (¬Q → ¬P): the contrapositive.
+//! // Proves (P -> Q) -> (¬Q -> ¬P): the contrapositive.
 //! let p = atom("P");
 //! let q = atom("Q");
 //! let steps = vec![
@@ -101,9 +101,9 @@ pub enum Just {
     OrIntroRight { disj: Line },
     /// `C` from `A ∨ B`, a subproof `A ⊢ C`, and a subproof `B ⊢ C`.
     OrElim { disj: Line, left: Line, right: Line },
-    /// `A → B` from a subproof `A ⊢ B`.
+    /// `A -> B` from a subproof `A ⊢ B`.
     ImpliesIntro { assump: Line, concl: Line },
-    /// `B` from `A → B` and `A` (modus ponens).
+    /// `B` from `A -> B` and `A` (modus ponens).
     ImpliesElim { imp: Line, ante: Line },
     /// `¬A` from a subproof `A ⊢ ⊥`.
     NotIntro { assump: Line, concl: Line },
@@ -370,7 +370,7 @@ mod tests {
 
     #[test]
     fn or_elimination_is_valid() {
-        // (A ∨ B), (A → C), (B → C) ⊢ C.
+        // (A ∨ B), (A -> C), (B -> C) ⊢ C.
         let a = atom("A");
         let b = atom("B");
         let c = atom("C");

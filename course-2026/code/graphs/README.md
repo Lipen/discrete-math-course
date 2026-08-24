@@ -2,7 +2,7 @@
 
 Graphs: modeling, algorithms, visualization.
 
-A deliberately simple graph model (no generics, no traits — just `usize` vertex ids, names, and weighted edges), the classic algorithms, and several ways to render a graph.
+A deliberately simple graph model (no generics, no traits -- just `usize` vertex ids, names, and weighted edges), the classic algorithms, and several ways to render a graph.
 
 ## Quick start
 
@@ -16,8 +16,8 @@ cargo test -p graphs
 
 A `Graph` stores its data twice, and both views are public:
 
-- `edges` — the edge list `(from, to, weight)`, read by weighted algorithms (Dijkstra, Bellman–Ford, Kruskal);
-- `adj` — adjacency lists `adj[u] = [(neighbor, edge_id), ...]`, read by traversals (BFS, DFS).
+- `edges` -- the edge list `(from, to, weight)`, read by weighted algorithms (Dijkstra, Bellman–Ford, Kruskal);
+- `adj` -- adjacency lists `adj[u] = [(neighbor, edge_id), ...]`, read by traversals (BFS, DFS).
 
 Vertices are `usize` ids `0..n` with optional string names. Edges are directed or undirected depending on the `directed` flag, and may repeat (multigraphs). The duplication is intentional: it mirrors how the pseudocode thinks about a graph, and it keeps every algorithm short.
 
@@ -158,7 +158,7 @@ The two backends cover the easy routes; the same data feeds the harder ones:
 
 - **web**: feed the JSON to cytoscape.js for pan/zoom/click; the DOT source renders server-side with graphviz;
 - **wasm / js**: compile the crate with `wasm-pack`, expose `Graph` + algorithms, and render with the same backends on the JS side;
-- **bevy / egui**: skip the text backends and draw `g.adj`/`g.edges` directly — the model is just `Vec`s, so it transfers to any renderer;
+- **bevy / egui**: skip the text backends and draw `g.adj`/`g.edges` directly -- the model is just `Vec`s, so it transfers to any renderer;
 - **graphviz**: `viz::dot` output works with `dot`, `neato`, `fdp`, `circo` and the other layout engines.
 
 ## Tests

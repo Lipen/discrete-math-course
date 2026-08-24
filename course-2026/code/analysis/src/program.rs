@@ -138,7 +138,7 @@ pub fn eval_interval(e: &Expr, st: &State<Interval>) -> Interval {
 /// use analysis::program::{assign, exec_interval, inc, State, Stmt};
 /// use analysis::Interval;
 ///
-/// // i := 0; while ... do i := i + 1  →  i ∈ [0, +∞)
+/// // i := 0; while ... do i := i + 1  ->  i ∈ [0, +∞)
 /// let program = vec![
 ///     assign("i", 0),
 ///     Stmt::While { body: vec![inc("i")] },

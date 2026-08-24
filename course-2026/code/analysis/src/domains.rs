@@ -65,8 +65,8 @@ impl Sign {
     /// ```
     /// use analysis::Sign;
     ///
-    /// assert_eq!(Sign::Pos.lub(Sign::Pos), Sign::Pos); // same → identity
-    /// assert_eq!(Sign::Pos.lub(Sign::Neg), Sign::Top); // different → ⊤
+    /// assert_eq!(Sign::Pos.lub(Sign::Pos), Sign::Pos); // same -> identity
+    /// assert_eq!(Sign::Pos.lub(Sign::Neg), Sign::Top); // different -> ⊤
     /// assert_eq!(Sign::Bottom.lub(Sign::Zero), Sign::Zero); // ⊥ is neutral
     /// ```
     pub fn lub(self, other: Sign) -> Sign {
@@ -354,7 +354,7 @@ impl std::ops::Neg for Interval {
 /// let b = Interval::Range { lo: Some(4), hi: Some(5) };
 /// assert_eq!(a * b, Interval::Range { lo: Some(-10), hi: Some(15) });
 ///
-/// // Unbounded operand → Top.
+/// // Unbounded operand -> Top.
 /// assert_eq!(Interval::top() * a, Interval::top());
 /// ```
 impl std::ops::Mul for Interval {
@@ -472,7 +472,7 @@ impl Const {
     /// use analysis::Const;
     ///
     /// assert_eq!(Const::Val(0).widen(Const::Val(0)), Const::Val(0)); // stable
-    /// assert_eq!(Const::Val(0).widen(Const::Val(1)), Const::Top); // changed → ⊤
+    /// assert_eq!(Const::Val(0).widen(Const::Val(1)), Const::Top); // changed -> ⊤
     /// assert_eq!(Const::Bottom.widen(Const::Val(5)), Const::Val(5));
     /// ```
     pub fn widen(self, other: Const) -> Const {

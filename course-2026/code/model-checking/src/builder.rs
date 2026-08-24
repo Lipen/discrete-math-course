@@ -348,7 +348,7 @@ impl ModelBuilder {
     /// Compile the transition system into a `Kripke` structure.
     ///
     /// States are all valuations of the variables (exponentially many in
-    /// the number of variables — keep models small). State `s` encodes
+    /// the number of variables -- keep models small). State `s` encodes
     /// the valuation in mixed radix, the first declared variable being
     /// the most significant. A pending unclosed transition is given the
     /// guard `true`; with no transitions at all, every state stutters.

@@ -21,7 +21,7 @@ fn main() {
     let s_term = s();
     println!("S  =  {}", s_term);
 
-    // SKK x  →  x  (SKK is extensionally equal to I)
+    // SKK x  ->  x  (SKK is extensionally equal to I)
     let skk = Term::app(Term::app(Term::app(s(), k()), k()), Term::var("x"));
     println!("\nS K K x  → ...");
     for (i, step) in skk.trace(20).iter().enumerate() {

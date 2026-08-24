@@ -10,7 +10,7 @@ use lambda::Term;
 
 fn main() {
     // -- Y: the fixed-point equation, step by step ==========================
-    // K = λf. λx. x ignores its argument, so Y K → K (Y K) → λx. x:
+    // K = λf. λx. x ignores its argument, so Y K -> K (Y K) -> λx. x:
     // the fixed point of K is the identity.
     println!("Y K unfolds:");
     let k = Term::abs("f", Term::abs("x", Term::var("x")));

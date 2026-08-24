@@ -3,7 +3,7 @@
 //! The core data type of untyped lambda calculus. Every computation is a term
 //! built from variables, abstractions, and applications.
 //!
-//! The only computation rule is β-reduction: `(λx.M) N → M[x := N]`.
+//! The only computation rule is β-reduction: `(λx.M) N -> M[x := N]`.
 //! Substitution is capture-avoiding -- when a free variable of `N` would be
 //! captured by a binder in `M`, the binder is α-renamed first (the
 //! substitution itself lives in [`crate::subst`], the reduction strategies
@@ -12,7 +12,7 @@
 //! ```
 //! use lambda::Term;
 //!
-//! // (λx. x) y  →  y
+//! // (λx. x) y  ->  y
 //! let id = Term::abs("x", Term::var("x"));
 //! let term = Term::app(id, Term::var("y"));
 //! let reduced = term.normalize(10);
@@ -263,7 +263,7 @@ mod tests {
 
     #[test]
     fn display_left_associative_app() {
-        // ((f a) b)  →  "f a b"
+        // ((f a) b)  ->  "f a b"
         let t = Term::app(Term::app(Term::var("f"), Term::var("a")), Term::var("b"));
         assert_eq!(t.to_string(), "f a b");
     }

@@ -45,7 +45,7 @@ impl Term {
     ///
     /// ```
     /// use lambda::Term;
-    /// // (λx. x) y  →  y
+    /// // (λx. x) y  ->  y
     /// let id = Term::abs("x", Term::var("x"));
     /// let term = Term::app(id, Term::var("y"));
     /// assert_eq!(term.beta_reduce(), Some(Term::var("y")));
@@ -53,7 +53,7 @@ impl Term {
     pub fn beta_reduce(&self) -> Option<Term> {
         match self {
             Term::App(fun, arg) => match fun.as_ref() {
-                // (λx. body) arg  →  body[x := arg]
+                // (λx. body) arg  ->  body[x := arg]
                 Term::Abs(x, body) => Some(body.substitute(x, arg)),
                 // Reduce the function part first (leftmost outermost).
                 _ => {
@@ -95,7 +95,7 @@ impl Term {
                 Term::Abs(x, body) => {
                     // This is a redex, but inner redexes come first: search
                     // the body (left), then the argument. A step inside the
-                    // body keeps the application: (λx. body) arg → (λx. body') arg.
+                    // body keeps the application: (λx. body) arg -> (λx. body') arg.
                     if let Some(b) = body.beta_reduce_applicative() {
                         let fun_reduced = Term::Abs(x.clone(), Box::new(b));
                         return Some(Term::App(Box::new(fun_reduced), arg.clone()));
@@ -130,7 +130,7 @@ impl Term {
     ///
     /// ```
     /// use lambda::Term;
-    /// // ((λx. x) f) a  →whnf  f a
+    /// // ((λx. x) f) a  ->whnf  f a
     /// let t = Term::app(
     ///     Term::app(Term::abs("x", Term::var("x")), Term::var("f")),
     ///     Term::var("a"),
@@ -212,7 +212,7 @@ impl Term {
     ///
     /// ```
     /// use lambda::Term;
-    /// // (λx. x) a  →  a  in one step
+    /// // (λx. x) a  ->  a  in one step
     /// let term = Term::app(Term::abs("x", Term::var("x")), Term::var("a"));
     /// assert_eq!(term.normalize(10), Term::var("a"));
     /// ```
@@ -290,7 +290,7 @@ impl Term {
     ///
     /// ```
     /// use lambda::Term;
-    /// // ((λx. x) f) a  →whnf  f a  in one head-spine step.
+    /// // ((λx. x) f) a  ->whnf  f a  in one head-spine step.
     /// let t = Term::app(
     ///     Term::app(Term::abs("x", Term::var("x")), Term::var("f")),
     ///     Term::var("a"),
@@ -309,7 +309,7 @@ impl Term {
     ///
     /// ```
     /// use lambda::Term;
-    /// // (λx. x) (λy. y) a  →  two steps
+    /// // (λx. x) (λy. y) a  ->  two steps
     /// let id = Term::abs("x", Term::var("x"));
     /// let term = Term::app(Term::app(id, Term::abs("y", Term::var("y"))), Term::var("a"));
     /// let trace = term.trace(10);
@@ -395,14 +395,14 @@ mod tests {
 
     #[test]
     fn beta_reduce_simple_redex() {
-        // (λx. x) a  →  a
+        // (λx. x) a  ->  a
         let redex = Term::app(Term::abs("x", Term::var("x")), Term::var("a"));
         assert_eq!(redex.beta_reduce(), Some(Term::var("a")));
     }
 
     #[test]
     fn beta_reduce_nested_redex_leftmost_outermost() {
-        // (λx. (λy. y) x) z  →  (λy. y) z  (not λx. x z)
+        // (λx. (λy. y) x) z  ->  (λy. y) z  (not λx. x z)
         let inner = Term::app(Term::abs("y", Term::var("y")), Term::var("x"));
         let outer = Term::abs("x", inner);
         let redex = Term::app(outer, Term::var("z"));
@@ -419,7 +419,7 @@ mod tests {
 
     #[test]
     fn beta_reduce_abstraction_reduces_body() {
-        // λx. ((λy. y) x)  →  λx. x
+        // λx. ((λy. y) x)  ->  λx. x
         let body = Term::app(Term::abs("y", Term::var("y")), Term::var("x"));
         let t = Term::abs("x", body);
         assert_eq!(t.beta_reduce(), Some(Term::abs("x", Term::var("x"))));
@@ -454,7 +454,7 @@ mod tests {
 
     #[test]
     fn normalize_stops_at_normal_form() {
-        // (λx. x) a  →  a  (one step, then stops)
+        // (λx. x) a  ->  a  (one step, then stops)
         let redex = Term::app(Term::abs("x", Term::var("x")), Term::var("a"));
         assert_eq!(redex.normalize(10), Term::var("a"));
     }
@@ -531,7 +531,7 @@ mod tests {
 
     #[test]
     fn whnf_reduces_head_spine() {
-        // ((λx. x) f) a  →whnf  f a
+        // ((λx. x) f) a  ->whnf  f a
         let t = Term::app(
             Term::app(Term::abs("x", Term::var("x")), Term::var("f")),
             Term::var("a"),
@@ -561,7 +561,7 @@ mod tests {
 
     #[test]
     fn trace_records_all_intermediate_steps() {
-        // (λx. x) ((λy. y) a)  →  two steps
+        // (λx. x) ((λy. y) a)  ->  two steps
         let id = Term::abs("x", Term::var("x"));
         let inner = Term::app(Term::abs("y", Term::var("y")), Term::var("a"));
         let redex = Term::app(id, inner);

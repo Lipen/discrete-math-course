@@ -162,7 +162,7 @@ fn fingerprint(a: &Algebra) -> Vec<usize> {
 
 /// Every partial order on `0..size`, enumerated by trying all `2^(size²)`
 /// relation matrices. At `MAX_POSET_SIZE = 4` that is 65536 matrices; size 5
-/// would be 2^25 (seconds), size 6 — 2^36 (minutes).
+/// would be 2^25 (seconds), size 6 -- 2^36 (minutes).
 fn all_posets(size: usize) -> Vec<Poset> {
     let mut out = Vec::new();
     let cells = size * size;
@@ -350,7 +350,7 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
                 }
             }
             // Signature of x: (own class, sorted pairs (partner class,
-            // class of meet/join/implies result)) — an isomorphism invariant.
+            // class of meet/join/implies result)) -- an isomorphism invariant.
             let sig = |x: usize| {
                 let mut pairs: Vec<(usize, usize, usize, usize)> = (0..norm.size)
                     .map(|y| {

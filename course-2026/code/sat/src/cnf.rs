@@ -65,7 +65,7 @@ fn lit_value(lit: Lit, assign: &[Option<bool>]) -> Option<bool> {
 /// ```
 /// use sat::cnf::*;
 ///
-/// // x1 ∨ ¬x2  with x1 = true, x2 unassigned  → satisfied by x1.
+/// // x1 ∨ ¬x2  with x1 = true, x2 unassigned  -> satisfied by x1.
 /// let clause = vec![pos(1), neg(2)];
 /// let assign = vec![Some(true), None];
 /// assert!(clause_satisfied(&clause, &assign));
@@ -82,7 +82,7 @@ pub fn clause_satisfied(clause: &Clause, assign: &[Option<bool>]) -> bool {
 /// ```
 /// use sat::cnf::*;
 ///
-/// // x1 ∨ ¬x2  with x2 = true  →  ¬x2 is false, so x1 is forced.
+/// // x1 ∨ ¬x2  with x2 = true  ->  ¬x2 is false, so x1 is forced.
 /// let clause = vec![pos(1), neg(2)];
 /// let assign = vec![None, Some(true)];
 /// assert_eq!(unit_of(&clause, &assign), Some(pos(1)));
@@ -114,11 +114,11 @@ pub fn unit_of(clause: &Clause, assign: &[Option<bool>]) -> Option<Lit> {
 /// ```
 /// use sat::cnf::*;
 ///
-/// // x1 ∨ ¬x2  with x1 = false, x2 unassigned → still alive (¬x2 could save it).
+/// // x1 ∨ ¬x2  with x1 = false, x2 unassigned -> still alive (¬x2 could save it).
 /// let clause = vec![pos(1), neg(2)];
 /// assert!(clause_has_unassigned(&clause, &[Some(false), None]));
 ///
-/// // Both falsified → dead.
+/// // Both falsified -> dead.
 /// assert!(!clause_has_unassigned(&clause, &[Some(false), Some(true)]));
 /// ```
 pub fn clause_has_unassigned(clause: &Clause, assign: &[Option<bool>]) -> bool {

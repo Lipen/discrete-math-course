@@ -28,7 +28,7 @@ fn main() {
 
 /// Build the pigeonhole principle PHP(n, holes).
 ///
-/// Variable index: pigeon i in hole j → variable (i-1)*holes + j.
+/// Variable index: pigeon i in hole j -> variable (i-1)*holes + j.
 fn php_cnf(n: usize, holes: usize) -> Cnf {
     let nvars = n * holes;
     let mut clauses = Vec::new();

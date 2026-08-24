@@ -3,7 +3,7 @@
 //! The same two-process lock as the CTL `mutex` example, checked with a
 //! linear-time property: `G ¬(critA ∧ critB)`. For the correct protocol
 //! the Büchi check passes; for the broken protocol it returns a lasso
-//! counterexample — a finite prefix followed by a repeating cycle — that
+//! counterexample -- a finite prefix followed by a repeating cycle -- that
 //! ends in the state `(c, c)` where both processes are critical.
 
 use model_checking::{Counterexample, Kripke, ltl};

@@ -215,7 +215,7 @@ pub fn is_zero() -> Term {
 
 /// Predecessor: `pred = λn. fst (n (λp. pair (snd p) (succ (snd p))) (pair 0 0))`.
 ///
-/// Shifts the pair `(a, b) → (b, succ b)` `n` times starting from `(0, 0)`;
+/// Shifts the pair `(a, b) -> (b, succ b)` `n` times starting from `(0, 0)`;
 /// after `n` shifts the *first* component holds `n - 1`. By convention
 /// `pred 0 = 0`.
 ///
@@ -345,7 +345,7 @@ pub fn not() -> Term {
 /// use lambda::church::{church_false, church_true, ifthenelse};
 /// use lambda::Term;
 ///
-/// // if true then "a" else "b"  →  "a"
+/// // if true then "a" else "b"  ->  "a"
 /// let cond = Term::app(
 ///     Term::app(Term::app(ifthenelse(), church_true()), Term::var("a")),
 ///     Term::var("b"),

@@ -44,7 +44,7 @@ use fitch::{atom, implies, not};
 let p = atom("P");
 let q = atom("Q");
 let contra = implies(implies(p.clone(), q.clone()), implies(not(q), not(p)));
-assert_eq!(contra.to_string(), "((P → Q) → (¬Q → ¬P))");
+assert_eq!(contra.to_string(), "((P -> Q) -> (¬Q -> ¬P))");
 ```
 
 Proofs are checked line by line:

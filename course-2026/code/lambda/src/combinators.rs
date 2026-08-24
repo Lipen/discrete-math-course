@@ -41,7 +41,7 @@ pub fn i() -> Term {
 /// use lambda::combinators::k;
 /// use lambda::Term;
 ///
-/// // K a b  →  a
+/// // K a b  ->  a
 /// let term = Term::app(Term::app(k(), Term::var("a")), Term::var("b"));
 /// assert_eq!(term.normalize(10), Term::var("a"));
 /// ```
@@ -61,7 +61,7 @@ pub fn k() -> Term {
 /// use lambda::combinators::{k, s};
 /// use lambda::Term;
 ///
-/// // S K K x  →  x  (SKK is extensionally equal to I)
+/// // S K K x  ->  x  (SKK is extensionally equal to I)
 /// let skk = Term::app(
 ///     Term::app(Term::app(s(), k()), k()),
 ///     Term::var("x"),
@@ -145,7 +145,7 @@ mod tests {
 
     #[test]
     fn s_distributes() {
-        // S K K x  →  x  (SKK is extensionally equal to I)
+        // S K K x  ->  x  (SKK is extensionally equal to I)
         let skk = Term::app(Term::app(Term::app(s(), k()), k()), Term::var("x"));
         assert_eq!(skk.normalize(100), Term::var("x"));
     }
@@ -161,7 +161,7 @@ mod tests {
 
     #[test]
     fn omega_stays_same_under_reduction() {
-        // Ω → Ω (reduces to itself, structurally)
+        // Ω -> Ω (reduces to itself, structurally)
         let t = omega();
         let reduced = t.beta_reduce().unwrap();
         assert_eq!(reduced.beta_reduce(), Some(omega()));
