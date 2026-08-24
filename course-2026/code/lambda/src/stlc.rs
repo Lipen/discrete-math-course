@@ -51,8 +51,8 @@ impl fmt::Display for Ty {
             // Arrow domains that are themselves arrows need parentheses:
             // (o -> o) -> o, not o -> o -> o.
             Ty::Arrow(dom, cod) => match dom.as_ref() {
-                Ty::Arrow(..) => write!(f, "({dom}) → {cod}"),
-                _ => write!(f, "{dom} → {cod}"),
+                Ty::Arrow(..) => write!(f, "({dom}) -> {cod}"),
+                _ => write!(f, "{dom} -> {cod}"),
             },
         }
     }
@@ -216,12 +216,12 @@ mod tests {
     #[test]
     fn ty_display_parenthesizes_arrow_domains() {
         assert_eq!(o().to_string(), "o");
-        assert_eq!(Ty::arrow(o(), o()).to_string(), "o → o");
+        assert_eq!(Ty::arrow(o(), o()).to_string(), "o -> o");
         assert_eq!(
             Ty::arrow(Ty::arrow(o(), o()), o()).to_string(),
-            "(o → o) → o"
+            "(o -> o) -> o"
         );
-        assert_eq!(Ty::arrow(o(), Ty::arrow(o(), o())).to_string(), "o → o → o");
+        assert_eq!(Ty::arrow(o(), Ty::arrow(o(), o())).to_string(), "o -> o -> o");
     }
 
     // -- Type checking =======================================================
