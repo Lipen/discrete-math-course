@@ -257,6 +257,28 @@
 )
 #let algorithm(..args) = _plain(thm-labels.algorithm, algo-color, ..args)
 
+// Цитата: вставленная литературная цитата.
+#let quote-accent = oklch(55%, 0.12, 230deg)
+#let blockquote(body, attribution) = {
+  block(
+    above: 1.4em,
+    below: 1.4em,
+    width: 100%,
+    stroke: (left: 2pt + quote-accent),
+    inset: (left: 0.9em, right: 0.9em, top: 0.4em, bottom: 0.5em),
+    radius: 3pt,
+  )[
+    #set par(first-line-indent: 0pt)
+    #set text(fill: luma(50%))
+    #body
+    #v(0.6em, weak: true)
+    #align(right)[
+      #set text(style: "normal", size: 0.9em, fill: luma(55%))
+      #attribution
+    ]
+  ]
+}
+
 // --- Этапы и итог проекта ---
 // Нумерованные подблоки внутри #project: кружок с номером, ключ-заголовок,
 // тело этапа. Счётчик сбрасывается в начале каждого #project.
