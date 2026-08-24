@@ -149,7 +149,7 @@ $diamond$ --- "возможно".
 
 Операторы двойственны --- каждый выражается через другой с отрицанием:
 $
-  square A & = not diamond not A, \
+   square A & = not diamond not A, \
   diamond A & = not square not A.
 $
 В самом деле, "необходимо" значит "невозможно не", а "возможно" --- "не необходимо не".
@@ -298,30 +298,12 @@ _Модальная система_ --- это логика, заданная а
   columns: (auto, auto, 1fr, 1fr),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header[Система][Добавка к $K$][Класс фреймов][Типичное чтение],
-  [$K$],
-  [---],
-  [все фреймы],
-  [минимальная логика],
-  [$D$],
-  [аксиома $D$],
-  [серийные],
-  [обязанность, убеждение],
-  [$T$],
-  [аксиома $T$],
-  [рефлексивные],
-  [необходимость, знание],
-  [$B$],
-  [$T + B$],
-  [рефлексивные и симметричные],
-  [редко сама по себе],
-  [$S_4$],
-  [$T + 4$],
-  [рефлексивные и транзитивные (предпорядки)],
-  [знание, время],
-  [$S_5$],
-  [$T + 5$],
-  [отношения эквивалентности],
-  [полное знание],
+  [$K$], [---], [все фреймы], [минимальная логика],
+  [$D$], [аксиома $D$], [серийные], [обязанность, убеждение],
+  [$T$], [аксиома $T$], [рефлексивные], [необходимость, знание],
+  [$B$], [$T + B$], [рефлексивные и симметричные], [редко сама по себе],
+  [$S_4$], [$T + 4$], [рефлексивные и транзитивные (предпорядки)], [знание, время],
+  [$S_5$], [$T + 5$], [отношения эквивалентности], [полное знание],
 )
 
 $S_5$ допускает несколько равносильных заданий.
@@ -560,7 +542,7 @@ _LTL_ (Linear Temporal Logic) рассматривает _один путь_ з�
 Остальные --- производные:
 $
   diamond phi & = "true" U phi, \
-  square phi & = not diamond not phi.
+   square phi & = not diamond not phi.
 $
 $diamond phi$ --- "когда-нибудь $phi$" (в будущем, включая сейчас).
 $square phi$ --- "всегда $phi$" (во всех состояниях пути).
@@ -570,11 +552,11 @@ $square phi$ --- "всегда $phi$" (во всех состояниях пут
   $pi^i$ --- хвост пути с $s_i$.
   Запись $pi models phi$ означает "формула $phi$ истинна на пути $pi$".
   $
-    pi models p &iff p in L(s_0), \
-    pi models not phi &iff pi nmodels phi, \
-    pi models phi and psi &iff pi models phi and pi models psi, \
-    pi models phi or psi &iff pi models phi or pi models psi, \
-    pi models circle phi &iff pi^1 models phi.
+              pi models p & iff p in L(s_0), \
+        pi models not phi & iff pi nmodels phi, \
+    pi models phi and psi & iff pi models phi and pi models psi, \
+     pi models phi or psi & iff pi models phi or pi models psi, \
+     pi models circle phi & iff pi^1 models phi.
   $
   Для оператора $U$: $pi models phi U psi$ тогда и только тогда, когда
   существует $j$ такое, что $pi^j models psi$,
@@ -607,7 +589,7 @@ $square phi$ --- "всегда $phi$" (во всех состояниях пут
 
 Полезны две эквивалентности-развёртки (они же --- неподвижные точки):
 $
-  square phi & = phi and circle square phi, \
+   square phi & = phi and circle square phi, \
   diamond phi & = phi or circle diamond phi.
 $
 "Всегда" значит "сейчас и всегда в следующем состоянии".
@@ -637,8 +619,8 @@ _CTL_ (Computation Tree Logic) рассматривает _все_ пути ср
   Отношение $M, s models phi$ определяется индукцией по формуле.
   Клаузы для $circle$:
   $
-    M, s models A circle phi &iff forall s' in R(s): M, s' models phi, \
-    M, s models E circle phi &iff exists s' in R(s): M, s' models phi .
+    M, s models A circle phi & iff forall s' in R(s): M, s' models phi, \
+    M, s models E circle phi & iff exists s' in R(s): M, s' models phi .
   $
   Для $U$:
   - $M, s models A (phi U psi)$ --- на _всех_ путях, начинающихся в $s$,

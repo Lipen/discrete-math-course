@@ -493,8 +493,8 @@ $f^(-1)(4) = {-2, 2}$ --- прообраз (множество из двух э�
   *Инъективность*: цепочка импликаций
   $
     f(a) = f(b) & => 2a + 1 = 2b + 1 \
-              & => 2a = 2b \
-              & => a = b.
+                & => 2a = 2b \
+                & => a = b.
   $
 
   *Сюръективность*: для данного $y in ZZ$ решаем уравнение
@@ -531,18 +531,9 @@ $f^(-1)(4) = {-2, 2}$ --- прообраз (множество из двух э�
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
-    [Инъекция],
-    [$f(a_1) = f(a_2) imply a_1 = a_2$],
-    [$|A| <= |B|$],
-    [Левая обратная\ $g compose f = "id"_A$],
-    [Сюръекция],
-    [$forall b exists a: f(a) = b$],
-    [$|A| >= |B|$],
-    [Правая обратная\ $f compose g = "id"_B$],
-    [Биекция],
-    [Инъективна\ + сюръективна],
-    [$|A| = |B|$],
-    [Двусторонняя обратная\ $f^(-1)$],
+    [Инъекция], [$f(a_1) = f(a_2) imply a_1 = a_2$], [$|A| <= |B|$], [Левая обратная\ $g compose f = "id"_A$],
+    [Сюръекция], [$forall b exists a: f(a) = b$], [$|A| >= |B|$], [Правая обратная\ $f compose g = "id"_B$],
+    [Биекция], [Инъективна\ + сюръективна], [$|A| = |B|$], [Двусторонняя обратная\ $f^(-1)$],
   ) ]
 
 #raven[
@@ -609,10 +600,9 @@ _Композиция_ --- операция склеивания функций 
   Инъективность $f$ и $g$ означает, что $f(x_1) = f(x_2) => x_1 = x_2$ и аналогично для $g$.
   Тогда
   $
-    (g compose f)(x_1) = (g compose f)(x_2)
-    & => g(f(x_1)) = g(f(x_2)) \
-    & => f(x_1) = f(x_2) \
-    & => x_1 = x_2.
+    (g compose f)(x_1) = (g compose f)(x_2) & => g(f(x_1)) = g(f(x_2)) \
+                                            & => f(x_1) = f(x_2) \
+                                            & => x_1 = x_2.
   $
   Второй переход использует инъективность $g$, третий --- инъективность $f$.
 
@@ -677,26 +667,23 @@ _Композиция_ --- операция склеивания функций 
 #proof[
   *Образ объединения.*
   $
-    y in f(A union B)
-    & iff exists x in A union B: f(x) = y \
-    & iff (exists x in A: f(x) = y) or (exists x in B: f(x) = y) \
-    & iff y in f(A) union f(B)
+    y in f(A union B) & iff exists x in A union B: f(x) = y \
+                      & iff (exists x in A: f(x) = y) or (exists x in B: f(x) = y) \
+                      & iff y in f(A) union f(B)
   $
 
   *Образ пересечения.*
   $
-    y in f(A inter B)
-    & => exists x in A inter B: f(x) = y \
-    & => y in f(A) and y in f(B)
+    y in f(A inter B) & => exists x in A inter B: f(x) = y \
+                      & => y in f(A) and y in f(B)
   $
 
   Обратное верно, когда $f$ инъективна:
   $
-    y in f(A) inter f(B)
-    & => exists a in A, b in B: f(a) = f(b) = y \
-    & => a = b space ("инъективность") \
-    & => a in A inter B \
-    & => y in f(A inter B)
+    y in f(A) inter f(B) & => exists a in A, b in B: f(a) = f(b) = y \
+                         & => a = b space ("инъективность") \
+                         & => a in A inter B \
+                         & => y in f(A inter B)
   $
 ]
 
@@ -713,26 +700,23 @@ _Композиция_ --- операция склеивания функций 
 #proof[
   *Пересечение.*
   $
-    x in f^(-1)(C inter D)
-    & iff f(x) in C inter D \
-    & iff f(x) in C and f(x) in D \
-    & iff x in f^(-1)(C) inter f^(-1)(D)
+    x in f^(-1)(C inter D) & iff f(x) in C inter D \
+                           & iff f(x) in C and f(x) in D \
+                           & iff x in f^(-1)(C) inter f^(-1)(D)
   $
 
   *Объединение.*
   $
-    x in f^(-1)(C union D)
-    & iff f(x) in C union D \
-    & iff f(x) in C or f(x) in D \
-    & iff x in f^(-1)(C) union f^(-1)(D)
+    x in f^(-1)(C union D) & iff f(x) in C union D \
+                           & iff f(x) in C or f(x) in D \
+                           & iff x in f^(-1)(C) union f^(-1)(D)
   $
 
   *Разность.*
   $
-    x in f^(-1)(C setminus D)
-    & iff f(x) in C setminus D \
-    & iff f(x) in C and f(x) in.not D \
-    & iff x in f^(-1)(C) setminus f^(-1)(D)
+    x in f^(-1)(C setminus D) & iff f(x) in C setminus D \
+                              & iff f(x) in C and f(x) in.not D \
+                              & iff x in f^(-1)(C) setminus f^(-1)(D)
   $
 
   Каждый шаг заменяет операцию над множествами её логическим аналогом в условии принадлежности: $inter -> and, union -> or, setminus -> and, not$.
@@ -823,7 +807,7 @@ $omega(g)$ --- строго быстрее.
 Строчные и большие обозначения связаны: $f in o(g) iff g in omega(f)$.
 Из строгих оценок следуют нестрогие:
 $
-  f in o(g) & => f in BigO(g) \
+      f in o(g) & => f in BigO(g) \
   f in omega(g) & => f in Omega(g)
 $
 

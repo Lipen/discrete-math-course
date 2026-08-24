@@ -287,14 +287,14 @@ $
 
   Функция переходов:
   $
-    delta(q_0, a, Z_0) &= {(q_0, A Z_0)} \
-    delta(q_0, a, A) &= {(q_0, A A)} \
-    delta(q_0, b, A) &= {(q_1, epsilon)}
+    delta(q_0, a, Z_0) & = {(q_0, A Z_0)} \
+      delta(q_0, a, A) & = {(q_0, A A)} \
+      delta(q_0, b, A) & = {(q_1, epsilon)}
   $
   $
-    delta(q_1, b, A) &= {(q_1, epsilon)} \
-    delta(q_1, epsilon, Z_0) &= {(q_1, epsilon)} \
-    delta(q_0, epsilon, Z_0) &= {(q_1, epsilon)}.
+            delta(q_1, b, A) & = {(q_1, epsilon)} \
+    delta(q_1, epsilon, Z_0) & = {(q_1, epsilon)} \
+    delta(q_0, epsilon, Z_0) & = {(q_1, epsilon)}.
   $
   Переходы $delta(q_1, a, dot), delta(q_0, b, Z_0)$ не определены.
   Это чтение $a$ в фазе $q_1$ и чтение $b$ на пустом счётчике.
@@ -316,12 +316,12 @@ $
   Состояния: $q_0$ --- фаза записи, $q_1$ --- фаза сравнения.
   Переходы (для любого верхнего символа стека $Z in {a, b, Z_0}$):
   $
-    delta(q_0, a, Z) &= {(q_0, a Z), (q_1, Z)} \
-    delta(q_0, b, Z) &= {(q_0, b Z), (q_1, Z)} \
-    delta(q_0, epsilon, Z) &= {(q_1, Z)} \
-    delta(q_1, a, a) &= {(q_1, epsilon)} \
-    delta(q_1, b, b) &= {(q_1, epsilon)} \
-    delta(q_1, epsilon, Z_0) &= {(q_1, epsilon)}.
+            delta(q_0, a, Z) & = {(q_0, a Z), (q_1, Z)} \
+            delta(q_0, b, Z) & = {(q_0, b Z), (q_1, Z)} \
+      delta(q_0, epsilon, Z) & = {(q_1, Z)} \
+            delta(q_1, a, a) & = {(q_1, epsilon)} \
+            delta(q_1, b, b) & = {(q_1, epsilon)} \
+    delta(q_1, epsilon, Z_0) & = {(q_1, epsilon)}.
   $
 
   Первая пара переходов устроена хитро: по каждому символу у автомата два выбора --- продолжить запись или перейти к сравнению, не положив символ в стек.
@@ -359,7 +359,9 @@ $
   Автомат, построенный в наброске доказательства, работает по правилам грамматики $S -> a S b mid(|) epsilon$.
   В стеке живут нетерминалы и терминалы, ожидающие совпадения с входом.
   Прогон слова $a a b b$ (конфигурации --- тройки $(q, w, gamma)$):
-  $ (q, a a b b, S) -> (q, a a b b, a S b) -> (q, a b b, S b) -> (q, a b b, a S b b) -> (q, b b, S b b) -> (q, b b, b b) -> (q, b, b) -> (q, epsilon, epsilon). $
+  $
+    (q, a a b b, S) -> (q, a a b b, a S b) -> (q, a b b, S b) -> (q, a b b, a S b b) -> (q, b b, S b b) -> (q, b b, b b) -> (q, b, b) -> (q, epsilon, epsilon).
+  $
   Шаги с $epsilon$-переходом разворачивают верхний нетерминал по одному из правил.
   Правила --- $S -> a S b$ или $S -> epsilon$.
   Шаги по терминалу сверяют вершину стека со входным символом и снимают её.

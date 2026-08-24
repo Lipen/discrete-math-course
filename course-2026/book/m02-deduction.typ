@@ -1,8 +1,11 @@
 // M02 --- Дедукция и системы вывода: как доказательства проверяются механически.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m02.typ": (mp-chain-tree, nd-tree-projection, seq-tree-lem, seq-tree-comm, res-tree-trans)
-#import "@preview/frederic:0.1.0": proof as fitch-proof, premise as fitch-premise, step as fitch-step, assume as fitch-assume, subproof as fitch-subproof
+#import "diagrams/m02.typ": mp-chain-tree, nd-tree-projection, res-tree-trans, seq-tree-comm, seq-tree-lem
+#import "@preview/frederic:0.1.0": (
+  assume as fitch-assume, premise as fitch-premise, proof as fitch-proof, step as fitch-step,
+  subproof as fitch-subproof,
+)
 
 = Дедукция и системы вывода <chap:deduction>
 

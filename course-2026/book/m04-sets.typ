@@ -419,22 +419,15 @@ $emptyset in {emptyset, {emptyset}}$ верно.
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Операция над множествами*], [*Логический аналог*]),
   // бинарные операции и дополнение
-  [$A union B$],
-  [$x in A or x in B$],
-  [$A inter B$],
-  [$x in A and x in B$],
-  [$overline(A)$],
-  [$not(x in A)$],
+  [$A union B$], [$x in A or x in B$],
+  [$A inter B$], [$x in A and x in B$],
+  [$overline(A)$], [$not(x in A)$],
   // разность и симметрическая разность
-  [$A setminus B$],
-  [$x in A and not(x in B)$],
-  [$A symdiff B$],
-  [$x in A xor x in B$],
+  [$A setminus B$], [$x in A and not(x in B)$],
+  [$A symdiff B$], [$x in A xor x in B$],
   // отношения
-  [$A subset.eq B$],
-  [$x in A imply x in B$],
-  [$A = B$],
-  [$x in A iff x in B$],
+  [$A subset.eq B$], [$x in A imply x in B$],
+  [$A = B$], [$x in A iff x in B$],
 )
 
 #definition[Изоморфизм][

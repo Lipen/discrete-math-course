@@ -2,12 +2,9 @@
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m06.typ": (
-  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut,
-  dijkstra-counterexample, directed-graph, euler-cycle, eulerian,
-  flow-cut, flow-cut-net, flow-network, flow-values,
-  graph-coloring, k33, k5,
-  konig-cover, menger-paths, petersen, planar, prufer-decode,
-  prufer-encode, residual-network, spanning-tree, tree,
+  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, dijkstra-counterexample, directed-graph, euler-cycle,
+  eulerian, flow-cut, flow-cut-net, flow-network, flow-values, graph-coloring, k33, k5, konig-cover, menger-paths,
+  petersen, planar, prufer-decode, prufer-encode, residual-network, spanning-tree, tree,
 )
 
 = Графы <chap:graphs>
@@ -699,15 +696,15 @@ DAG --- редкий случай: циклов нет.
 ]
 
 #example[Деревья и не-деревья][
-- Граф-цепочка из $n$ вершин
-  ($1-2-...-n$) --- дерево:
-  связен, имеет $n - 1$ рёбер, циклов нет.
-  - Граф-цикл $C_n$ не является деревом: содержит цикл.
-  - Звезда (центр и $k$ листьев) --- дерево.
-  - Лес из двух цепочек $1-2-3, 4-5$
-    имеет $3+2=5$ вершин
-    и $2+1=3$ ребра,
-    то есть $5-3=2$ компоненты связности.
+  - Граф-цепочка из $n$ вершин
+    ($1-2-...-n$) --- дерево:
+    связен, имеет $n - 1$ рёбер, циклов нет.
+    - Граф-цикл $C_n$ не является деревом: содержит цикл.
+    - Звезда (центр и $k$ листьев) --- дерево.
+    - Лес из двух цепочек $1-2-3, 4-5$
+      имеет $3+2=5$ вершин
+      и $2+1=3$ ребра,
+      то есть $5-3=2$ компоненты связности.
 ]
 
 #figure(
@@ -1912,7 +1909,7 @@ $
 #definition[Пропускная способность разреза][
   *Пропускная способность* разреза $(A, B)$ --- сумма пропускных способностей рёбер из $A$ в $B$:
   $ c(A, B) = sum_((u, v) in delta^+ (A)) c(u, v)
-    = sum_(u in A, v in B) c(u, v) $.
+  = sum_(u in A, v in B) c(u, v) $.
 ]
 
 #note[Считаются только рёбра из $A$ в $B$][

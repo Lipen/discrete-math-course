@@ -302,8 +302,7 @@
         text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#title],
         // Тело во второй колонке: висячий отступ по заголовку, как
         // продолжение элемента списка по началу его текста.
-        [],
-        body,
+        [], body,
       )
     ]
   }
