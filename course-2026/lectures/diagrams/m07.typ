@@ -83,7 +83,7 @@
     fill: oklch(50%, 0.16, 300deg),
   )[$dots not in {r_1, r_2, dots}$])
 
-  // Vertical dashed arrows: diagonal cell → constructed digit
+  // Vertical dashed arrows: diagonal cell -> constructed digit
   for i in range(rows) {
     draw.line(
       "d" + str(i) + ".south",
@@ -240,9 +240,9 @@
   node((2 * gap, 0), $beth_2 = 2^(beth_1)$, "b2", c-beth-fill, c-beth-str)
   node((3 * gap, 0), $beth_3 = 2^(beth_2)$, "b3", c-beth-fill, c-beth-str)
 
-  // ── Start → aleph_1 (successor) ──
+  // ── Start -> aleph_1 (successor) ──
   draw.line("start", "a1", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
-  // ── Start → beth_1 (powerset) ──
+  // ── Start -> beth_1 (powerset) ──
   draw.line("start", "b1", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
 
   // ── Aleph chain edges ──

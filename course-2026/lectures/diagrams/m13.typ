@@ -8,7 +8,7 @@
 #let c-label = oklch(35%, 0.02, 265deg)
 
 // Implication graph for (x or y) and (not x or y).
-// Clauses: (x or y) → not x → y;  (not x or y) → x → y.
+// Clauses: (x or y) -> not x -> y;  (not x or y) -> x -> y.
 // Satisfiable: set y = true.
 #let implication-graph-2sat-simple = canvas({
   let r = 0.4
