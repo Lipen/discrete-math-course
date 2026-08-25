@@ -44,11 +44,11 @@
   draw.content((0, -1.3), text(size: 0.58em, fill: d-muted)[DL, EUF, LRA, ...])
 
   // SAT -> theory: candidate model.
-  draw.line((1.7, 0.55), (1.7, -0.55), mark: (end: "stealth"), stroke: d-edge)
+  draw.line((1.7, 0.55), (1.7, -0.55), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge)
   draw.content((2.15, 0), anchor: "west", text(size: 0.58em, fill: d-text)[кандидат-модель])
 
   // Theory -> SAT: conflict clause (T-lemma).
-  draw.line((-1.7, -0.55), (-1.7, 0.55), mark: (end: "stealth"), stroke: d-edge)
+  draw.line((-1.7, -0.55), (-1.7, 0.55), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge)
   draw.content((-2.15, 0), anchor: "east", text(size: 0.58em, fill: d-text)[$T$-лемма])
 })
 
@@ -77,7 +77,7 @@
   let guide(px, py, stroke: d-guide) = draw.line((px, ax-y), (px, py), stroke: stroke)
 
   // Axis with arrowhead; integer ticks 0..5.
-  draw.line((-2.0, ax-y), (5.9, ax-y), mark: (end: "stealth"), stroke: d-edge)
+  draw.line((-2.0, ax-y), (5.9, ax-y), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge)
   for v in range(6) { tick(v) }
 
   // x anchored at position 0.
@@ -86,21 +86,21 @@
   // z >= x + 3: z must lie at least 3 units right of x; allowed region [3, +oo).
   draw.line((0, 1.0), (3, 1.0), name: "zspan", stroke: d-edge-thick)
   draw.line((3, 0.82), (3, 1.18), stroke: d-edge-thick)             // closed cap
-  draw.line((3, 1.0), (5.5, 1.0), mark: (end: "stealth"), stroke: d-edge-thick)
+  draw.line((3, 1.0), (5.5, 1.0), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge-thick)
   draw.content((1.5, 1.45), text(size: 0.66em, fill: d-text)[$z >= x + 3$])
   draw.content((4.4, 0.7), anchor: "west", text(size: 0.6em, fill: d-muted)[разрешено $z >= 3$])
   guide(3.5, 1.0)
   vpoint((3.5, ax-y), [z?], open: true)
 
   // w >= z + 1: w must lie at least 1 unit right of z; sample z = 3.5 forces w >= 4.5.
-  draw.line((3.5, 1.9), (4.5, 1.9), name: "wspan", mark: (end: "stealth"), stroke: d-edge-thick)
+  draw.line((3.5, 1.9), (4.5, 1.9), name: "wspan", mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge-thick)
   draw.content((3.25, 2.25), anchor: "east", text(size: 0.66em, fill: d-text)[$w >= z + 1$])
   guide(4.5, 2.8, stroke: d-red-guide)                                 // w's required position
   vpoint((4.5, ax-y), [w?], open: true)
 
   // w <= x + 2 (RED): w allowed only in (-oo, 2]; required w >= 4.5 falls outside.
   draw.line((-2.0, 2.8), (2, 2.8), name: "wcap", stroke: d-neg + 1.2pt)
-  draw.line((-2.0, 2.8), (-2.9, 2.8), mark: (end: "stealth"), stroke: d-neg + 1.2pt)
+  draw.line((-2.0, 2.8), (-2.9, 2.8), mark: (end: "stealth", fill: d-neg), stroke: d-neg + 1.2pt)
   draw.line((2, 2.62), (2, 2.98), stroke: d-neg + 1.2pt)               // closed cap
   draw.content((0.1, 3.2), text(size: 0.66em, fill: d-neg, weight: "bold")[$w <= x + 2$])
   draw.content((0.1, 2.45), anchor: "north", text(size: 0.6em, fill: d-neg)[разрешено $w <= 2$])
@@ -126,7 +126,7 @@
   draw.content((2.0, 4.05), anchor: "south", text(size: 0.62em, fill: d-text, weight: "bold")[класс ${f(a), b}$])
 
   // Merge arrow: the shared element b glues the two classes together.
-  draw.line((0, 2.6), (0, 2.2), stroke: d-edge, mark: (end: "stealth"))
+  draw.line((0, 2.6), (0, 2.2), stroke: d-edge, mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)))
   draw.content((0.25, 2.4), anchor: "west", text(size: 0.58em, fill: d-muted)[слияние])
 
   // Stage 2: merged class {a, b, f(a)}.
@@ -137,7 +137,7 @@
   draw.content((0, 1.82), text(size: 0.55em, fill: d-text, weight: "bold")[класс ${a, b, f(a)}$])
 
   // Congruence arrow: a = f(a) inside the class.
-  draw.line((0, 0.8), (0, 0.42), stroke: d-edge, mark: (end: "stealth"))
+  draw.line((0, 0.8), (0, 0.42), stroke: d-edge, mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)))
   draw.content((0.25, 0.61), anchor: "west", text(size: 0.58em, fill: d-muted)[конгруэнтность: $a = f(a)$])
 
   // Stage 3: implied equality contradicts the third literal.

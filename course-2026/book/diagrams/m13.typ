@@ -39,8 +39,8 @@
   draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
 
   // Edges : node names, border-to-border
-  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
-  draw.line("x", "y", stroke: c-edge, mark: (end: ">"))
+  draw.line("notx", "y", stroke: c-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("x", "y", stroke: c-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
 
   // Labels
   draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(
@@ -314,11 +314,11 @@
   cdcl-node((0.0, -1.2), $bot$, "conf", fill: cdcl-conf-fill, stroke: cdcl-conf-str)
 
   // Implication edges: two chains converging at the conflict.
-  draw.line("x1", "nx2", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("nx2", "x3", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("x3", "conf", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("nx4", "x5", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("x5", "conf", stroke: cdcl-edge, mark: (end: ">"))
+  draw.line("x1", "nx2", stroke: cdcl-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("nx2", "x3", stroke: cdcl-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("x3", "conf", stroke: cdcl-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("nx4", "x5", stroke: cdcl-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("x5", "conf", stroke: cdcl-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
 
   // Clause labels on edges.
   draw.content(((-2.6 - 1.5) / 2, 1.15), anchor: "south", text(

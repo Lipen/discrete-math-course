@@ -55,7 +55,7 @@
     "R.north-west",
     name: "s-r",
     stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">"),
+    mark: (end: ">", fill: c-mc-edge),
   )
   elabel("s-r", [$0.2$])
 
@@ -65,7 +65,7 @@
     "S.south-east",
     name: "r-s",
     stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">"),
+    mark: (end: ">", fill: c-mc-edge),
   )
   elabel("r-s", [$0.4$])
 
@@ -77,7 +77,7 @@
     (1.2, 1.5),
     name: "s-s",
     stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">"),
+    mark: (end: ">", fill: c-mc-edge),
   )
   elabel("s-s", [$0.8$])
 
@@ -89,7 +89,7 @@
     (6.2, 1.5),
     name: "r-r",
     stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">"),
+    mark: (end: ">", fill: c-mc-edge),
   )
   elabel("r-r", [$0.6$])
 })
@@ -202,7 +202,7 @@
       from-anchor,
       to-anchor,
       stroke: 0.7pt + c-bn-edge,
-      mark: (end: ">"),
+      mark: (end: ">", fill: c-bn-edge),
     )
   }
 

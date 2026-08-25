@@ -100,7 +100,7 @@
 
   // Arrows from SAT
   draw.line((0, y1 + h + 0.1), (0, y1 + 0.05), stroke: c-arrow, mark: (
-    end: ">",
+    end: ">", fill: oklch(35%, 0.02, 265deg),
   ))
 
   // Level 2: Hamiltonian Cycle, Subset Sum
@@ -125,15 +125,15 @@
 
   // Arrows from level 1
   draw.line((-3, y1 - gap - h + 0.1), (-3, y2 + 0.05), stroke: c-arrow, mark: (
-    end: ">",
+    end: ">", fill: oklch(35%, 0.02, 265deg),
   ))
   // 3-SAT -> Subset Sum
   draw.line((0, y1 + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (
-    end: ">",
+    end: ">", fill: oklch(35%, 0.02, 265deg),
   ))
   // Vertex Cover -> Clique
   draw.line((-1.9, y1 - gap + h / 2), (1.9, y1 - gap + h / 2), stroke: c-arrow, mark: (
-    end: ">",
+    end: ">", fill: oklch(35%, 0.02, 265deg),
   ))
 
   // Legend

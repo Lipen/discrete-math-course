@@ -31,10 +31,10 @@
   draw.circle((1.5, 0.55), radius: 0.07, fill: c-dot, name: "b5")
   draw.circle((1.5, 0.95), radius: 0.07, fill: c-dot, name: "b6")
 
-  draw.line("a1", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a2", "b5", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a3", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a4", "b6", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a1", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a2", "b5", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a3", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a4", "b6", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
   label((0, -2.2), text(weight: "bold")[Инъекция])
 })
 
@@ -54,12 +54,12 @@
   draw.circle((1.5, 0), radius: 0.07, fill: c-dot, name: "b2")
   draw.circle((1.5, 0.45), radius: 0.07, fill: c-dot, name: "b3")
 
-  draw.line("a1", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a3", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a5", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a6", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a1", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a3", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a5", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a6", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
   label((0, -2.2), text(weight: "bold")[Сюръекция])
 })
 
@@ -78,10 +78,10 @@
   draw.circle((1.5, 0.15), radius: 0.07, fill: c-dot, name: "b3")
   draw.circle((1.5, 0.55), radius: 0.07, fill: c-dot, name: "b4")
 
-  draw.line("a1", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a3", "b4", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
+  draw.line("a1", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a3", "b4", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
+  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
   label((0, -2.2), text(weight: "bold")[Биекция])
 })
 
@@ -93,7 +93,7 @@
   label((1.6, 1.35), $B$)
 
   // Functional arrow f
-  draw.line((-1.0, 0), (1.0, 0), stroke: 1.2pt + c-dot, mark: (end: (symbol: ">", fill: black)))
+  draw.line((-1.0, 0), (1.0, 0), stroke: 1.2pt + c-dot, mark: (end: (symbol: ">", fill: oklch(35%, 0.02, 265deg))))
   label((0, 0.4), $f$)
 
   // Underbrace: smooth dip below a set, with a label

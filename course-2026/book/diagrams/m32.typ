@@ -25,9 +25,9 @@
   draw.circle((-0.95, -0.55), radius: r, fill: k-node, stroke: k-node-str, name: "R")
   draw.content((-0.95, -0.55), text(size: 0.72em, fill: k-label)[$R$])
 
-  draw.line("G", "Y", stroke: k-edge, mark: (end: ">"))
-  draw.line("Y", "R", stroke: k-edge, mark: (end: ">"))
-  draw.line("R", "G", stroke: k-edge, mark: (end: ">"))
+  draw.line("G", "Y", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("Y", "R", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("R", "G", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
 
   // Atom labels
   draw.content((0, 1.5), anchor: "south", text(size: 0.62em, fill: k-label)[${"green"}$])
@@ -125,8 +125,8 @@
   draw.content((0, 2.9), text(size: 0.62em, fill: k-label)[${(C, C)}$])
   draw.content((0.55, 2.9), anchor: "west", text(size: 0.55em, fill: k-label)[${"crit"_1, "crit"_2}$])
 
-  draw.line("oo", "co", stroke: k-edge, mark: (end: ">"))
-  draw.line("oo", "oc", stroke: k-edge, mark: (end: ">"))
-  draw.line("co", "oo", stroke: k-edge, mark: (end: ">"))
-  draw.line("oc", "oo", stroke: k-edge, mark: (end: ">"))
+  draw.line("oo", "co", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("oo", "oc", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("co", "oo", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("oc", "oo", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
 })

@@ -407,7 +407,7 @@
   // Nodes FIRST
   for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
   // Arrow style
-  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  let arr = (mark: (end: "stealth", fill: c-edge), stroke: (paint: c-edge, thickness: 0.7pt))
   // Edges
   draw.line("1", "2", ..arr)
   draw.line("2", "3", ..arr)
@@ -658,7 +658,7 @@
   node((3, 1.8), "A")
   node((3, -1.8), "B")
 
-  let arr = (mark: (end: "stealth"))
+  let arr = (mark: (end: "stealth", fill: c-edge))
 
   // Edge S->A : weight 3
   draw.line(
@@ -922,7 +922,7 @@
 #let flow-network = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
-  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  let arr = (mark: (end: "stealth", fill: c-edge), stroke: (paint: c-edge, thickness: 0.7pt))
   for (fr, to, cap, off) in (
     ("s", "a", "5", (-0.1, 0.26)),
     ("s", "b", "3", (-0.1, -0.26)),
@@ -945,7 +945,7 @@
 #let flow-values = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
-  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  let arr = (mark: (end: "stealth", fill: c-edge), stroke: (paint: c-edge, thickness: 0.7pt))
   for (fr, to, lb, off) in (
     ("s", "a", "3/5", (-0.12, 0.26)),
     ("s", "b", "2/3", (-0.12, -0.26)),
@@ -966,7 +966,7 @@
 #let residual-network = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
-  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  let arr = (mark: (end: "stealth", fill: c-edge), stroke: (paint: c-edge, thickness: 0.7pt))
   // Forward residual (solid) / backward (dashed)
   for (fr, to, cf, off, dim) in (
     ("s", "a", "2", (-0.12, 0.26), false),
@@ -984,7 +984,7 @@
     draw.line(
       fr, to, name: ename,
       stroke: (paint: if dim { c-edge-dim } else { c-edge }, thickness: if dim { 0.6pt } else { 0.7pt }, dash: if dim { "dashed" } else { none }),
-      mark: (end: "stealth"),
+      mark: (end: "stealth", fill: (if dim { c-edge-dim } else { c-edge })),
     )
     draw.content(
       (rel: off, to: ename + ".mid"),
@@ -997,7 +997,7 @@
 #let flow-cut = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
-  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  let arr = (mark: (end: "stealth", fill: c-edge), stroke: (paint: c-edge, thickness: 0.7pt))
   for (fr, to, cap, off, hi) in (
     ("s", "a", "5", (-0.1, 0.26), false),
     ("s", "b", "3", (-0.1, -0.26), false),
@@ -1009,7 +1009,7 @@
     draw.line(
       fr, to, name: ename,
       stroke: (paint: if hi { c-hi } else { c-edge }, thickness: if hi { 2pt } else { 0.7pt }),
-      mark: (end: "stealth"),
+      mark: (end: "stealth", fill: (if hi { c-hi } else { c-edge })),
     )
     draw.content(
       (rel: off, to: ename + ".mid"),
@@ -1047,7 +1047,7 @@
     draw.line(
       fr, to, name: ename,
       stroke: (paint: if cross { c-hi } else { c-edge }, thickness: if cross { 2pt } else { 0.7pt }),
-      mark: (end: "stealth"),
+      mark: (end: "stealth", fill: (if cross { c-hi } else { c-edge })),
     )
     draw.content(
       (rel: off, to: ename + ".mid"),

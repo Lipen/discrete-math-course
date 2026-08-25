@@ -53,8 +53,8 @@
   necklace((-3.0, -1.0), ("w", "b", "b"), name: "o3a")
   necklace((-1.5, -1.0), ("b", "w", "b"), name: "o3b")
   necklace((0.0, -1.0), ("b", "b", "w"), name: "o3c")
-  draw.line("o3a.east", "o3b.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line("o3b.east", "o3c.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
+  draw.line("o3a.east", "o3b.west", stroke: c-rot + 0.5pt, mark: (end: ">", fill: c-rot))
+  draw.line("o3b.east", "o3c.west", stroke: c-rot + 0.5pt, mark: (end: ">", fill: c-rot))
   draw.content((-2.5, -1.7), text(
     size: 0.55em,
     fill: c-orbit,
@@ -68,8 +68,8 @@
   necklace((-3.0, -3.5), ("w", "w", "b"), name: "o4a")
   necklace((-1.5, -3.5), ("b", "w", "w"), name: "o4b")
   necklace((0.0, -3.5), ("w", "b", "w"), name: "o4c")
-  draw.line("o4a.east", "o4b.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line("o4b.east", "o4c.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
+  draw.line("o4a.east", "o4b.west", stroke: c-rot + 0.5pt, mark: (end: ">", fill: c-rot))
+  draw.line("o4b.east", "o4c.west", stroke: c-rot + 0.5pt, mark: (end: ">", fill: c-rot))
   draw.content((-2.5, -4.2), text(
     size: 0.55em,
     fill: c-orbit,

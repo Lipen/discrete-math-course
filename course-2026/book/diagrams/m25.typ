@@ -20,7 +20,7 @@
   )[$chevron.l M chevron.r w$])
 
   // f arrow
-  draw.line((1.8, 0), (3.2, 0), stroke: c-arrow, mark: (end: ">"))
+  draw.line((1.8, 0), (3.2, 0), stroke: c-arrow, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
   draw.content((2.5, 0.3), anchor: "south", text(
     size: 0.65em,
     fill: c-label,
@@ -34,7 +34,7 @@
   )[$chevron.l M' chevron.r$])
 
   // Result arrow
-  draw.line((6.8, 0), (8.2, 0), stroke: c-arrow, mark: (end: ">"))
+  draw.line((6.8, 0), (8.2, 0), stroke: c-arrow, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
 
   // Output labels
   draw.content((5, 0.9), anchor: "south", text(

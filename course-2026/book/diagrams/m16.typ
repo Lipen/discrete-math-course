@@ -79,8 +79,8 @@
     size: 0.85em,
     fill: c-label,
   )[оптимум: ${b,c}$, вес $8$], name: "lbl-opt")
-  draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (end: "stealth"))
-  draw.line("c.south", "lbl-opt.north", stroke: e-str, mark: (end: "stealth"))
+  draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("c.south", "lbl-opt.north", stroke: e-str, mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)))
 })
 
 #let interval-scheduling = canvas({

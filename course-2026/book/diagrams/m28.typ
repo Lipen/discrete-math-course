@@ -43,6 +43,6 @@
   draw.content((3.3, line-y), text(size: 0.65em, fill: luma(50%))[$dots$])
   // Arrow at end
   draw.line((4.5, line-y), (4.8, line-y), stroke: 0.6pt + luma(50%), mark: (
-    end: ">",
+    end: ">", fill: luma(50%),
   ))
 })

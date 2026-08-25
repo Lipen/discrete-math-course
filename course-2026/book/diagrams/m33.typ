@@ -29,7 +29,7 @@
   draw.content((1.5, -0.9), text(size: 0.55em, fill: luma(45%))[$p$ принуждается])
 
   // Accessibility edge u -> v.
-  draw.line("u", "v", stroke: k-edge, mark: (end: ">"))
+  draw.line("u", "v", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
   draw.content((0, 0.35), text(size: 0.55em, fill: luma(45%))[$u <= v$])
 
   draw.content((0, -1.6), text(
@@ -61,8 +61,8 @@
   draw.content((2.2, 1.05), text(size: 0.55em, fill: luma(45%))[$p$ принуждается, $q$ --- нет])
 
   // Accessibility edges w0 -> w1 and w0 -> w1'
-  draw.line("w0", (-1.8, 1.5), (2.2, 1.5), "w1'", stroke: k-edge, mark: (end: ">"))
-  draw.line("w0", (-1.8, 1.5), (0.4, 1.5), "w1", stroke: k-edge, mark: (end: ">"))
+  draw.line("w0", (-1.8, 1.5), (2.2, 1.5), "w1'", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.line("w0", (-1.8, 1.5), (0.4, 1.5), "w1", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
 
   draw.content((0.6, -1.7), text(
     size: 0.55em,

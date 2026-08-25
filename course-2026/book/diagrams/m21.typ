@@ -26,7 +26,7 @@
 
   // Arrow
   draw.line((1.0, 0), (s * 2 - 1.0, 0), stroke: 0.5pt + luma(50%), mark: (
-    end: ">",
+    end: ">", fill: luma(50%),
   ))
   draw.content((s * 1.5, 0.4), text(size: 0.55em, fill: luma(40%))[5 частей])
 

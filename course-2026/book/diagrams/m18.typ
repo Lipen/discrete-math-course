@@ -17,7 +17,7 @@
   draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб], name: "bob")
 
   // Edge helper
-  let arrow(a, b) = draw.line(a, b, stroke: c-edge, mark: (end: "stealth"))
+  let arrow(a, b) = draw.line(a, b, stroke: c-edge, mark: (end: "stealth", fill: c-edge))
 
   // Алиса -> Ева: A = g^a; Ева -> Алиса: B' = g^y.
   arrow("alice", "eve")
