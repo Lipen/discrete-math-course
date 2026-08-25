@@ -66,7 +66,7 @@
     fill: luma(50%),
   )[$dots$])
 
-  // Constructed number r (named digit positions --- must precede arrows)
+  // Constructed number r
   draw.content((-0.4, -(rows + 1.2) * s), text(
     size: 0.65em,
     weight: "bold",

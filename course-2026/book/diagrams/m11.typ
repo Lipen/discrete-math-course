@@ -169,7 +169,6 @@
   wire.intersection("x1-and2.zig", radius: ir, fill: c-fg)
 
   // ── Cin -> XOR2.in1 + AND2.in1 ──
-  // Cin from left at y=-1.25 (below gates), rises between cols 1 and 2.
   let j2 = lj(2.1, "and2-port-in1")
   wire.wire("cin-in", ((-2.3, -1.25), (2.1, -1.25)), color: c-fg)
   wire.wire("cin-up", ((2.1, -1.25), j2), color: c-fg)
@@ -221,8 +220,6 @@
   let c-str = oklch(35%, 0.02, 265deg) + 0.7pt
   let c-label = oklch(35%, 0.02, 265deg)
 
-  // Trapezoid body: left (wide) x=0, right (narrow) x=5
-  // Use rect as approximate fill
   draw.rect((0, 2.8), (5, -2.8), fill: c-body, stroke: none, radius: 2pt)
   // Trapezoid outline
   draw.line((0, 2.8), (5, 1.4), stroke: c-str)

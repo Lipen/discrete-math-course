@@ -17,7 +17,7 @@
 #let c-border = oklch(50%, 0.05, 250deg) + 0.5pt
 
 #let complexity-classes = canvas({
-  // EXP (outermost)
+  // EXP
   draw.circle((0, -0.2), radius: (2.8, 1.6), fill: c-exp, stroke: c-border)
   draw.content((2.5, -1.8), text(size: 0.65em, fill: c-label)[EXP])
 
@@ -127,11 +127,11 @@
   draw.line((-3, y1 - gap - h + 0.1), (-3, y2 + 0.05), stroke: c-arrow, mark: (
     end: ">",
   ))
-  // 3-SAT -> Subset Sum (canonical chain)
+  // 3-SAT -> Subset Sum
   draw.line((0, y1 + 0.1), (3, y2 + 0.05), stroke: c-arrow, mark: (
     end: ">",
   ))
-  // Vertex Cover -> Clique (canonical chain)
+  // Vertex Cover -> Clique
   draw.line((-1.9, y1 - gap + h / 2), (1.9, y1 - gap + h / 2), stroke: c-arrow, mark: (
     end: ">",
   ))
@@ -151,23 +151,23 @@
   let c-label = oklch(35%, 0.02, 265deg)
   let c-border = oklch(50%, 0.05, 250deg) + 0.5pt
 
-  // BPP (outer).
+  // BPP
   draw.circle((0, 0), radius: (2.6, 1.7), fill: c-bpp, stroke: c-border)
   draw.content((2.2, 1.3), text(size: 0.65em, fill: c-label)[BPP])
 
-  // RP (left lobe).
+  // RP
   draw.circle((-0.7, 0.1), radius: (1.4, 1.0), fill: c-rp, stroke: c-border)
   draw.content((-1.6, 0.1), text(size: 0.65em, fill: c-label)[RP])
 
-  // coRP (right lobe).
+  // coRP
   draw.circle((0.7, 0.1), radius: (1.4, 1.0), fill: c-corp, stroke: c-border)
   draw.content((1.6, 0.1), text(size: 0.65em, fill: c-label)[coRP])
 
-  // ZPP (intersection).
+  // ZPP
   draw.circle((0, 0.1), radius: (0.55, 0.4), fill: c-zpp, stroke: c-border)
   draw.content((0, 0.1), text(size: 0.6em, fill: c-label)[ZPP])
 
-  // P inside ZPP.
+  // P
   draw.circle((0, 0.1), radius: (0.2, 0.15), fill: white, stroke: c-border)
   draw.content((0, 0.1), text(size: 0.5em, fill: c-label)[P])
 

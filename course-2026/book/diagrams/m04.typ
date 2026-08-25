@@ -70,7 +70,6 @@
   // B is an oval
   draw.circle((0, 0), radius: (1.2, r + 0.05), fill: cb, stroke: c-str)
   label((0.8, 0), $B$)
-  // A is a smaller circle inside B, offset to the left
   draw.circle((-0.35, 0), radius: 0.6, fill: ca, stroke: c-str)
   label((-0.35, 0), $A$)
   label((0, r + 0.5), $A subset B$)

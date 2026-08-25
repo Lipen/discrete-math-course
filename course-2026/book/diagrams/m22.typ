@@ -105,7 +105,7 @@
     name: "qf-ring",
   )
 
-  // ── Forward edges (named, with segment labels at midpoints) ──
+  // ── Forward edges ──
   draw.line("q0", "qi", name: "e-x", stroke: pl-edge)
   draw.content(
     "e-x.mid",
@@ -143,7 +143,6 @@
   )
 
   // ── Loop back: q_j -> q_i (the "pumping" cycle) ──
-  // Bezier arc above the states, from q_j.north back to qi.north
   draw.bezier(
     "qj.north",
     "qi.north",

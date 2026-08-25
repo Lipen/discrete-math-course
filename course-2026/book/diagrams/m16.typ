@@ -59,7 +59,7 @@
   elem((-1.9, 0), $a$, $5$, "a")
   elem((0.9, 1.2), $b$, $4$, "b")
   elem((0.9, -1.2), $c$, $4$, "c")
-  // запрещённые пары: пунктирные рёбра через именованные порты
+  // запрещённые пары
   draw.line("a.north-east", "b.south-west", stroke: (
     paint: c-conflict,
     thickness: 0.9pt,

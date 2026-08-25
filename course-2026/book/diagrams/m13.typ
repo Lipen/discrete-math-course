@@ -223,7 +223,7 @@
     }
   }
 
-  // Head markers on the second row (t=1) at positions 2..4: a small triangle.
+  // Head markers
   for i in range(2, 5) {
     let x = (i - (cols - 1) / 2) * cell
     let y = (rows / 2 - 0.5 - 1) * cell

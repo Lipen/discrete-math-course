@@ -10,8 +10,7 @@
 #let hf-leaf-str = 1pt + oklch(35%, 0.02, 265deg)
 
 #let huffman-tree = canvas({
-  // Node positions --- tree structure (y-step = 1.8, units = cm)
-  // Ноды именованы, чтобы cetz обрезал рёбра до границы кружка.
+  // Tree: nodes named so edges clip at their border.
   let root = (0, 0)
 
   // Helper: labelled circle node (internal or leaf), named by `name`.
@@ -20,8 +19,6 @@
     draw.content(pos, body)
   }
 
-  // Internal nodes (weights) and leaf nodes (symbols) --- created first,
-  // so the edges below can reference them by name and clip at the border.
   hf-node(root, "root", 0.3, $1.0$)
   hf-node((1.5, -1.8), "R1", 0.3, $0.60$)
   hf-node((2.5, -3.6), "R2", 0.3, $0.35$)
@@ -32,8 +29,7 @@
   hf-node((2.5, -7.2), "D", 0.35, [$D: 0.10$], stroke: hf-leaf-str, fill: white)
   hf-node((4.5, -7.2), "E", 0.35, [$E: 0.05$], stroke: hf-leaf-str, fill: white)
 
-  // Edge helper: named line (cetz clips to node border) + label at midpoint.
-  // `p`/`q` only give the midpoint coordinates for the label.
+  // Edge helper: named line + label at midpoint.
   let mid-label(fr, to, p, q, offset, label) = {
     draw.line(fr, to, stroke: hf-str)
     let mx = (p.at(0) + q.at(0)) / 2
@@ -190,17 +186,17 @@
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 2.5em,
-  // Top (y=0): full space
+  // Top: full space
   cl-node((0, 0), $"GF"(2)^3$, name: <full>),
-  // Layer 2 (y=1): 2D coordinate subspaces
+  // Layer 2: 2D coordinate subspaces
   cl-node((-1.3, 1), $<x, y>$, name: <xy>),
   cl-node((0, 1), $<x, z>$, name: <xz>),
   cl-node((1.3, 1), $<y, z>$, name: <yz>),
-  // Layer 1 (y=2): 1D coordinate subspaces
+  // Layer 1: 1D coordinate subspaces
   cl-node((-1.3, 2), $<x>$, name: <x>),
   cl-node((0, 2), $<y>$, name: <y>),
   cl-node((1.3, 2), $<z>$, name: <z>),
-  // Bottom (y=3): zero subspace
+  // Bottom: zero subspace
   cl-node((0, 3), ${0}$, name: <zero>),
   // Cover relations: zero -> axes
   cl-edge(<zero>, <x>),
@@ -236,7 +232,6 @@
 #let hg-fill = oklch(97%, 0.02, 265deg)  // circle fill
 
 #let hamming-groups = canvas({
-  // Horizontal position of each codeword bit (index: position - 1).
   let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
   let cy = 7.0
   let r = 0.42

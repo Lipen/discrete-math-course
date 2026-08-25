@@ -135,12 +135,12 @@
     ))
   }
 
-  // Triangle {2,3,4}: edge 2-3 red -> red triangle {1,2,3}
+  // triangle {2,3,4}
   draw.line("v2", "v3", stroke: (paint: c-red, thickness: 2.0pt))
   draw.line("v3", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
   draw.line("v2", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
 
-  // Other edges (thin, dimmed) using named nodes
+  // other edges (dimmed)
   for (a, b) in (
     ("v2", "v6"),
     ("v2", "v5"),
@@ -195,12 +195,12 @@
 
 #let decision-tree = canvas({
 
-  // Helper: node --- small named circle
+  // node helper
   let node(pos, name) = {
     draw.circle(pos, radius: 0.2, fill: c-dt-fill, stroke: c-dt-str, name: name)
   }
 
-  // Helper: labelled edge --- line + label at midpoint
+  // labelled edge helper
   let ledge(from-name, to-name, from-pos, to-pos, label) = {
     draw.line(from-name, to-name, stroke: c-dt-edge)
     let mx = (from-pos.at(0) + to-pos.at(0)) / 2
@@ -495,7 +495,7 @@
     fill: pt-text,
   )[ось симметрии])
 
-  // Числа треугольника: строка n, позиция k, координаты (x, y).
+  // числа треугольника
   for (n, row) in rows.enumerate() {
     for (k, val) in row.enumerate() {
       let x = (2 * k - n) * s

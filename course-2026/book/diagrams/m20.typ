@@ -40,15 +40,14 @@
     )[#val])
   }
 
-  // Grid cells: product a_j * b_i, with diagonal band coloring
+  // grid cells: a_j * b_i, diagonal band coloring
   for i in range(b.len()) {
     for j in range(a.len()) {
-      let n = i + j // which c_n this term contributes to
+      let n = i + j
       let x = j * cell + 0.7
       let y = -i * cell
       let prod = a.at(j) * b.at(i)
 
-      // Cell background with band color
       draw.rect(
         (x, y - cell),
         (x + cell, y),
@@ -57,7 +56,6 @@
         radius: 2pt,
       )
 
-      // Product value
       draw.content((x + cell / 2, y - cell / 2), text(size: 0.65em, fill: oklch(
         30%,
         0.02,
@@ -134,7 +132,7 @@
   cat-leaf((1.1, 0.4), "RLR")
   cat-leaf((1.7, 1.6), "RR")
 
-  // Edges between named nodes
+  // edges
   cat-edge("root", "L")
   cat-edge("root", "R")
   cat-edge("L", "LL")

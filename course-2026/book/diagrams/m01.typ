@@ -114,7 +114,6 @@
   let corner-size = 0.4
   let square-width = 3.0
 
-  // Local helper: draw a labelled corner box
   let corner(pos, label-text) = {
     let (x, y) = pos
     draw.rect(
@@ -127,7 +126,6 @@
     draw.content(label-text, text(1.4em)[#label-text])
   }
 
-  // Local helper: draw an edge variant
   let sq-edge(from, to, style: "solid", ..args) = {
     let st = if style == "dashed" {
       (paint: c-square, thickness: 2pt, dash: "dashed")
@@ -139,7 +137,6 @@
     draw.line(from, to, name: from + "-" + to, stroke: st, ..args)
   }
 
-  // Local helper: label an edge at midpoint
   let edge-label(edge-name, body, ..args) = {
     draw.content(edge-name, body, ..args)
   }

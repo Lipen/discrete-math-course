@@ -15,12 +15,12 @@
 #let k-label = oklch(30%, 0.02, 265deg)
 
 #let kripke-two-worlds = canvas({
-  // World u (left, p not forced).
+  // World u : p not forced
   draw.circle((-1.5, 0), radius: 0.5, fill: k-node-fill, stroke: k-node-str, name: "u")
   draw.content((-1.5, 0), text(size: 0.8em, fill: k-label)[$u$])
   draw.content((-1.5, -0.9), text(size: 0.55em, fill: luma(45%))[$p$ не принуждается])
 
-  // World v (right, p forced).
+  // World v : p forced
   draw.circle((1.5, 0), radius: 0.5, fill: k-forced-fill, stroke: (
     paint: oklch(50%, 0.16, 155deg),
     thickness: 0.8pt,
@@ -39,12 +39,12 @@
 })
 
 #let kripke-umbrella = canvas({
-  // World w0 (root, bottom left; neither p nor q forced).
+  // World w0 : neither p nor q forced
   draw.circle((-1.8, 0), radius: 0.5, fill: k-node-fill, stroke: k-node-str, name: "w0")
   draw.content((-1.8, 0), text(size: 0.8em, fill: k-label)[$w_0$])
   draw.content((-1.8, -0.9), text(size: 0.55em, fill: luma(45%))[ни $p$, ни $q$ не принуждаются])
 
-  // World w1 (top, both p and q forced).
+  // World w1 : both p and q forced
   draw.circle((0.4, 2), radius: 0.5, fill: k-forced-fill, stroke: (
     paint: oklch(50%, 0.16, 155deg),
     thickness: 0.8pt,
@@ -52,7 +52,7 @@
   draw.content((0.4, 2), text(size: 0.8em, fill: k-label)[$w_1$])
   draw.content((0.4, 1.05), text(size: 0.55em, fill: luma(45%))[$p$ и $q$ принуждаются])
 
-  // World w1' (top, p forced, q not).
+  // World w1' : p forced, q not
   draw.circle((2.2, 2), radius: 0.5, fill: k-forced-fill, stroke: (
     paint: oklch(50%, 0.16, 155deg),
     thickness: 0.8pt,
@@ -60,7 +60,7 @@
   draw.content((2.2, 2), text(size: 0.8em, fill: k-label)[$w_1'$])
   draw.content((2.2, 1.05), text(size: 0.55em, fill: luma(45%))[$p$ принуждается, $q$ --- нет])
 
-  // Accessibility edges w0 -> w1 and w0 -> w1' (umbrella ribs).
+  // Accessibility edges w0 -> w1 and w0 -> w1'
   draw.line("w0", (-1.8, 1.5), (2.2, 1.5), "w1'", stroke: k-edge, mark: (end: ">"))
   draw.line("w0", (-1.8, 1.5), (0.4, 1.5), "w1", stroke: k-edge, mark: (end: ">"))
 

@@ -16,9 +16,6 @@
 
 #let membership-functions = canvas({
 
-  // Data coordinates -> canvas coordinates.
-  // x-data: 0...10  -> canvas x: 0.5...7.5  (0.7 per unit)
-  // y-data: 0...1.2 -> canvas y: 0.5...5.3  (4.0 per unit)
   let tx(x) = 0.5 + x * 0.7
   let ty(y) = 0.5 + y * 4.0
 
@@ -26,7 +23,7 @@
   draw.line((tx(0), ty(0)), (tx(10.6), ty(0)), stroke: 0.5pt + c-axis)
   draw.line((tx(0), ty(0)), (tx(0), ty(1.15)), stroke: 0.5pt + c-axis)
 
-  // x-axis ticks (every unit from 1 to 10)
+  // x-axis ticks
   for i in range(1, 11) {
     draw.line(
       (tx(i), ty(0) - 0.06),
@@ -39,13 +36,12 @@
     )
   }
 
-  // Helper: y-axis tick with label
+  // y-axis tick with label
   let y-tick(y, label, tick-len: 0.06, stroke: 0.3pt + c-tick, size: 0.55em, fill: c-tick) = {
     draw.line((tx(0) - tick-len, ty(y)), (tx(0) + tick-len, ty(y)), stroke: stroke)
     draw.content((tx(-0.15), ty(y)), anchor: "east", text(size: size, fill: fill)[#label])
   }
 
-  // y-axis ticks: 0, 0.5, 1
   y-tick(0, "0")
   y-tick(0.5, "0.5", tick-len: 0.04, stroke: 0.2pt + luma(65%), size: 0.5em, fill: luma(55%))
   y-tick(1, "1")
@@ -68,7 +64,6 @@
   )
 
   // ── 1. Triangular: μ(x) = max(0, 1 − |x−5|/3) ──
-  // Rises from x=2 to x=5, falls from x=5 to x=8.
   draw.line(
     (tx(2), ty(0)),
     (tx(5), ty(1)),
@@ -80,7 +75,7 @@
     stroke: 1pt + c-tri,
   )
 
-  // ── 2. Trapezoidal: rise 2->4, plateau 4->7, fall 7->9 ──
+  // ── 2. Trapezoidal ──
   draw.line(
     (tx(2), ty(0)),
     (tx(4), ty(1)),
@@ -97,8 +92,7 @@
     stroke: 1pt + c-trap,
   )
 
-  // ── 3. Gaussian-like bell: centred at x = 5 ──
-  // Left half: slow rise -> steep approach -> peak.
+  // ── 3. Gaussian-like bell ──
   draw.bezier(
     (tx(2), ty(0)),
     (tx(5), ty(1)),
@@ -106,7 +100,6 @@
     (tx(4.3), ty(0.88)),
     stroke: 1pt + c-gauss,
   )
-  // Right half: gentle descent -> steep drop -> zero.
   draw.bezier(
     (tx(5), ty(1)),
     (tx(8), ty(0)),
@@ -121,7 +114,7 @@
   let lg = 0.55
   let ls = 0.22
 
-  // Helper: one legend entry (line + label)
+  // legend entry (line + label)
   let legend-item(y, color, label) = {
     draw.line((lx, y), (lx + lg, y), stroke: 1pt + color)
     draw.content((lx + lg + 0.15, y), anchor: "west", text(size: 0.55em, fill: c-axis)[#label])
@@ -144,14 +137,7 @@
 
 #let fuzzy-operations = canvas({
 
-  // Panel offsets: each sub-plot is 4.6 wide, with 0.4 gap between.
-  // Plot area within panel: [ox+0.6, ox+4.0] in x, [0.5, 3.0] in y.
-  //
-  // Triangle vertices for A: (ox+0.8,0.5) -> (ox+1.8,3.0) -> (ox+2.8,0.5)
-  // Triangle vertices for B: (ox+1.8,0.5) -> (ox+2.8,3.0) -> (ox+3.8,0.5)
-  // Intersection A-right ∩ B-left at (ox+2.3, 1.75)
-
-  // Helper: axes with ticks and axis labels for one panel
+  // panel axes
   let panel-axes(ox) = {
     draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
     draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
@@ -233,7 +219,7 @@
   // Original A
   draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.8pt + c-muA)
   draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.8pt + c-muA)
-  // ¬A: mirrored about y = 1.75
+  // ¬A: mirrored
   draw.line((ox + 0.8, 3.0), (ox + 1.8, 0.5), stroke: 1.2pt + c-result)
   draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 1.2pt + c-result)
   // Labels

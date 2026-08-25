@@ -14,7 +14,7 @@
 
 #let markov-chain = canvas({
 
-  // State node helper --- labeled circle
+  // state node helper
   let state(pos, label, name) = {
     let (x, y) = pos
     draw.circle(
@@ -30,7 +30,7 @@
     )
   }
 
-  // Edge label helper --- white-boxed text at midpoint of a named edge
+  // edge label helper
   let elabel(edge-name, label-text, anchor: "south") = {
     draw.content(
       edge-name + ".mid",
@@ -49,7 +49,7 @@
 
   // ── Transitions ──
 
-  // S -> R (forward, upper path)
+  // S -> R
   draw.line(
     "S.north-east",
     "R.north-west",
@@ -59,7 +59,7 @@
   )
   elabel("s-r", [$0.2$])
 
-  // R -> S (backward, lower path)
+  // R -> S
   draw.line(
     "R.south-west",
     "S.south-east",
@@ -69,7 +69,7 @@
   )
   elabel("r-s", [$0.4$])
 
-  // S -> S (self-loop, curved upward)
+  // S -> S (self-loop)
   draw.bezier(
     "S.north-west",
     "S.north-east",
@@ -81,7 +81,7 @@
   )
   elabel("s-s", [$0.8$])
 
-  // R -> R (self-loop, curved upward)
+  // R -> R (self-loop)
   draw.bezier(
     "R.north-west",
     "R.north-east",
@@ -105,7 +105,7 @@
 #let c-pt-prob = oklch(55%, 0.12, 22deg)
 
 #let probability-tree = canvas({
-  // Edge with probability label at midpoint (white-boxed for readability)
+  // prob edge helper
   let prob-edge(from, to, prob) = {
     let name = "e-" + from + "-" + to
     draw.line(from, to, stroke: 0.6pt + c-pt-edge, name: name)
@@ -119,7 +119,7 @@
     )
   }
 
-  // Leaf label: outcome below, probability above
+  // leaf label helper
   let leaf-label(name, outcome, prob) = {
     draw.content(
       name,

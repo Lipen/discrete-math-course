@@ -29,7 +29,7 @@
   draw.line("Y", "R", stroke: k-edge, mark: (end: ">"))
   draw.line("R", "G", stroke: k-edge, mark: (end: ">"))
 
-  // Atom labels: which atomic proposition is true in each state.
+  // Atom labels
   draw.content((0, 1.5), anchor: "south", text(size: 0.62em, fill: k-label)[${"green"}$])
   draw.content((1.05, -1.15), anchor: "west", text(size: 0.62em, fill: k-label)[${"yellow"}$])
   draw.content((-1.05, -1.15), anchor: "east", text(size: 0.62em, fill: k-label)[${"red"}$])
@@ -55,7 +55,6 @@
 
 #let modal-cube = canvas({
   let r = 0.36
-  // Single source of truth for positions: edges and nodes share these.
   let pk = (0, 0)
   let pt = (1.7, 0)
   let pkb = (0, 1.7)
@@ -97,7 +96,7 @@
   wnode(pkb, $K B$, "kb", fill: mc-dim-fill, stroke: mc-dim-str, label: mc-dim-label)
   wnode(pb, $B$, "b")
 
-  // Top square: K4, S4, KB4, S5 (shifted along the 4 axis).
+  // Top square: K4, S4, KB4, S5
   wnode(pk4, $K_4$, "k4", fill: mc-dim-fill, stroke: mc-dim-str, label: mc-dim-label)
   wnode(ps4, $S_4$, "s4")
   wnode(pkb4, $K B_4$, "kb4", fill: mc-dim-fill, stroke: mc-dim-str, label: mc-dim-label)

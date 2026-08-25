@@ -41,8 +41,8 @@
 
 #let derivation-id = canvas({
   let nw = 3.3
-  let py = 3.0 // premise (var) --- leaf, top
-  let cy = 1.0 // conclusion (abs) --- root, bottom
+  let py = 3.0 // premise (var)
+  let cy = 1.0 // conclusion (abs)
 
   judgment-node((3.0, py), "prem", nw, {
     $x : "Nat" tack.r x : "Nat"$
@@ -59,9 +59,9 @@
 
 #let derivation-k = canvas({
   let nw = 4.0
-  let py = 4.4 // premise (var) --- leaf, top
-  let my = 2.6 // abs on y --- middle
-  let cy = 0.8 // abs on x --- root, bottom
+  let py = 4.4 // premise (var)
+  let my = 2.6 // abs on y
+  let cy = 0.8 // abs on x
 
   judgment-node((3.5, py), "k-prem", nw, {
     $x : "Nat", y : "Bool" tack.r x : "Nat"$

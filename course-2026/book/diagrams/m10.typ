@@ -109,10 +109,6 @@
   }
 
   // Filled cells: minterms where majority(x,y,z)=1
-  // yz=00: x=0->0, x=1->0
-  // yz=01: x=0->0, x=1->1 (cell row=1, col=1)
-  // yz=11: x=0->1 (row=2, col=0), x=1->1 (row=2, col=1)
-  // yz=10: x=0->0, x=1->1 (row=3, col=1)
   let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
   for (row, col) in ones {
     draw.rect(

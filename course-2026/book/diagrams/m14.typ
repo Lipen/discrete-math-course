@@ -85,7 +85,7 @@
 
   // z >= x + 3: z must lie at least 3 units right of x; allowed region [3, +oo).
   draw.line((0, 1.0), (3, 1.0), name: "zspan", stroke: d-edge-thick)
-  draw.line((3, 0.82), (3, 1.18), stroke: d-edge-thick)             // closed cap at 3
+  draw.line((3, 0.82), (3, 1.18), stroke: d-edge-thick)             // closed cap
   draw.line((3, 1.0), (5.5, 1.0), mark: (end: "stealth"), stroke: d-edge-thick)
   draw.content((1.5, 1.45), text(size: 0.66em, fill: d-text)[$z >= x + 3$])
   draw.content((4.4, 0.7), anchor: "west", text(size: 0.6em, fill: d-muted)[разрешено $z >= 3$])
@@ -101,7 +101,7 @@
   // w <= x + 2 (RED): w allowed only in (-oo, 2]; required w >= 4.5 falls outside.
   draw.line((-2.0, 2.8), (2, 2.8), name: "wcap", stroke: d-neg + 1.2pt)
   draw.line((-2.0, 2.8), (-2.9, 2.8), mark: (end: "stealth"), stroke: d-neg + 1.2pt)
-  draw.line((2, 2.62), (2, 2.98), stroke: d-neg + 1.2pt)               // closed cap at 2
+  draw.line((2, 2.62), (2, 2.98), stroke: d-neg + 1.2pt)               // closed cap
   draw.content((0.1, 3.2), text(size: 0.66em, fill: d-neg, weight: "bold")[$w <= x + 2$])
   draw.content((0.1, 2.45), anchor: "north", text(size: 0.6em, fill: d-neg)[разрешено $w <= 2$])
   draw.content((3.3, 2.8), text(size: 1.0em, fill: d-neg, weight: "bold")[✗])

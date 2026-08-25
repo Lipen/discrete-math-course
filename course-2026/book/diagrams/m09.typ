@@ -108,8 +108,8 @@
     stroke: none,
   )
   draw.rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
-  // Nodes FIRST : named so line() routes border-to-border
-  // Labels placed outside (anchor: "west"/"east") since nodes are small dots.
+  // Nodes first
+  // Labels outside
   for (i, p) in left.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pa-dot, name: "l" + str(i + 1))
     draw.content(p, $v_i$, anchor: "west", outset: 0.3em, size: .8em)
@@ -118,7 +118,7 @@
     draw.circle(p, radius: 0.28, fill: c-pb-dot, name: "r" + str(i + 1))
     draw.content(p, $u_i$, anchor: "east", outset: 0.3em, size: .8em)
   }
-  // Edges : node names, not coordinates
+  // Edges
   for i in range(3) {
     for j in range(3) {
       draw.line("l" + str(i + 1), "r" + str(j + 1), stroke: (
@@ -150,7 +150,7 @@
   for (i, p) in bot.enumerate() {
     draw.circle(p, radius: 0.38, fill: c-pb-dot, name: "b" + str(i + 1))
   }
-  // Edges : node names
+  // Edges
   e("t1", "b1")
   e("t1", "b2")
   e("t2", "b1")
@@ -163,7 +163,7 @@
 })
 
 #let tree = canvas({
-  // Nodes FIRST : each named by its label letter
+  // Nodes first
   for (x, y, lab) in (
     (0, 2.5, "r"),
     (-1.5, 1, "a"),
@@ -192,7 +192,7 @@
     )
     draw.content((x, y))[#text(fill: c-t-leaf)[#lab]]
   }
-  // Edges : node names
+  // Edges
   for (a, b) in (
     ("r", "a"),
     ("r", "b"),
@@ -212,8 +212,7 @@
   let v = ((0, 2.5), (-2, 0.5), (2, 0.5), (-1.5, -1.5), (1.5, -1.5))
   // Nodes FIRST
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.33) }
-  // Thin edges with weight labels : each edge has a `rel:` offset to place the label beside (not on) the line.
-  // Offsets are perpendicular to the edge direction.
+  // Weighted edges: labels offset perpendicular
   for (ai, bi, w, off) in (
     (0, 1, "4", (-0.18, 0.12)),
     (0, 2, "3", (0.18, 0.12)),
@@ -242,7 +241,7 @@
       size: .65em,
     )
   }
-  // MST highlight (bold) : node names
+  // MST highlight
   for (a, b) in (("1", "3"), ("1", "2"), ("2", "4"), ("3", "5")) {
     draw.line(a, b, stroke: (paint: c-t-border, thickness: 2.5pt))
   }
@@ -275,12 +274,12 @@
 
   let bridge-style = (paint: c-edge, thickness: 0.7pt)
 
-  // Single bridges (straight, node-based)
+  // Single bridges
   draw.line("A", "D", stroke: bridge-style)
   draw.line("B", "D", stroke: bridge-style)
   draw.line("C", "D", stroke: bridge-style)
 
-  // Double bridge A--C: one straight, one bezier curving outward (left)
+  // Double bridge A--C: straight + bezier
   draw.line("A", "C", stroke: bridge-style)
   let ac-ctrl = (-1.3, 1.3)
   draw.bezier(
@@ -291,7 +290,7 @@
     stroke: bridge-style,
   )
 
-  // Double bridge B--C: one straight, one bezier curving outward (left)
+  // Double bridge B--C: straight + bezier
   draw.line("B", "C", stroke: bridge-style)
   let bc-ctrl = (-1.3, -1.3)
   draw.bezier(
@@ -302,7 +301,7 @@
     stroke: bridge-style,
   )
 
-  // Degree labels : positioned outside each node via named anchors
+  // Degree labels
   draw.content(
     "A",
     anchor: "north",
@@ -351,7 +350,7 @@
   e("4", "5")
   e("5", "6")
   e("6", "1")
-  // Diagonals from vertex 1 : all share endpoint 1, so none cross
+  // Diagonals from vertex 1
   e("1", "3")
   e("1", "4")
   e("1", "5")
@@ -377,7 +376,7 @@
   )
   // 3-colouring: 0=red, 1=green, 0=red, 1=green, 2=blue
   let ci = (0, 1, 0, 1, 2)
-  // Nodes : content inside a coloured circle frame, named "c0".."c4"
+  // Nodes : colored circle frames
   for (i, p) in v.enumerate() {
     let col = c-colors.at(ci.at(i))
     draw.content(
@@ -407,9 +406,9 @@
   let v = ((0, 2.5), (2.5, 1), (2.5, -1), (0, -2.5), (-2.5, -1), (-2.5, 1))
   // Nodes FIRST
   for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
-  // Arrow style : spread pattern for clean reuse
+  // Arrow style
   let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
-  // Edges : node names, CeTZ routes border-to-border
+  // Edges
   draw.line("1", "2", ..arr)
   draw.line("2", "3", ..arr)
   draw.line("3", "1", ..arr)
@@ -418,7 +417,7 @@
   draw.line("5", "4", ..arr)
   draw.line("6", "1", ..arr)
   draw.line("2", "6", ..arr)
-  // SCC regions (decorative : coordinate-based, no nodes involved)
+  // SCC regions
   draw.circle((0, 0.75), radius: 3.1, fill: none, stroke: (
     paint: c-pa-dot,
     thickness: 1.2pt,
@@ -443,7 +442,7 @@
   // Nodes FIRST
   for (i, p) in outer.enumerate() { snode(p, str(i + 1)) }
   for (i, p) in inner.enumerate() { snode(p, str(6 + i)) }
-  // Edges : node names
+  // Edges
   e("1", "2")
   e("2", "3")
   e("3", "4")
@@ -478,9 +477,9 @@
   draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.8pt))
   draw.line("3", "6", stroke: (paint: c-edge, thickness: 0.8pt))
   draw.line("2", "6", stroke: (paint: c-edge, thickness: 0.8pt))
-  // Bridge : the only edge connecting left and right components
+  // Bridge
   draw.line("1", "2", stroke: (paint: c-hi, thickness: 2.2pt))
-  // Cut-vertex highlight circle (decorative : coordinate-based)
+  // Cut-vertex highlight
   draw.circle(v.at(0), radius: 0.38, fill: none, stroke: (
     paint: c-hi,
     thickness: 1.8pt,
@@ -498,7 +497,7 @@
     (0.8, -0.5),
     (2.8, -0.5),
   )
-  let r = 0.33 // node radius (matches node() call below)
+  let r = 0.33 // node radius
 
   // Point on circle border
   let rim(center, toward) = {
@@ -525,8 +524,8 @@
 
   let cross-style = (paint: c-edge-dim, thickness: 0.35pt, dash: "dashed")
 
-  // Cross edges : dashed bezier arcs curving away from the tree
-  // (4,5): siblings under 2 : arc below
+  // Cross edges
+  // (4,5): siblings under 2
   draw.bezier(
     rim(v.at(3), (0, -1.5)),
     rim(v.at(4), (0, -1.5)),
@@ -534,7 +533,7 @@
     (-0.8, -1.5),
     stroke: cross-style,
   )
-  // (6,7): siblings under 3 : arc below
+  // (6,7): siblings under 3
   draw.bezier(
     rim(v.at(5), (0, -1.5)),
     rim(v.at(6), (0, -1.5)),
@@ -542,7 +541,7 @@
     (2.8, -1.5),
     stroke: cross-style,
   )
-  // (2,6): cross between subtrees : arc to the right, outside the tree
+  // (2,6): cross between subtrees
   draw.bezier(
     rim(v.at(1), (1.8, -0.8)),
     rim(v.at(5), (1.8, -0.8)),
@@ -551,7 +550,7 @@
     stroke: cross-style,
   )
 
-  // BFS tree edges : bold straight lines
+  // BFS tree edges
   for (a, b) in (
     ("1", "2"),
     ("1", "3"),
@@ -571,7 +570,7 @@
 
   for (i, p) in pos.enumerate() { node(p, labs.at(i), radius: 0.33) }
 
-  // Euler cycle path: edge pairs + offset for circled number placement
+  // Euler cycle path: edge + label offset
   let cycle = (
     ("B", "A", (-0.12, 0.12)),
     ("A", "C", (0, 0.15)),
@@ -589,7 +588,7 @@
       stroke: (paint: c-pa-dot, thickness: 1.2pt),
       name: ename,
     )
-    // Circled step number at edge midpoint
+    // Circled step number
     let pt = (rel: off, to: ename + ".mid")
     draw.circle(pt, radius: 0.23, fill: white, stroke: (
       paint: c-pa-dot,
@@ -637,11 +636,11 @@
     )
   }
 
-  // Non-matching edges : thin, dimmed
+  // Non-matching edges
   draw.line("L1", "R2", stroke: (paint: c-edge-dim, thickness: 0.7pt))
   draw.line("L2", "R3", stroke: (paint: c-edge-dim, thickness: 0.7pt))
 
-  // Matching edges : thick, highlighted
+  // Matching edges
   draw.line("L1", "R1", stroke: (paint: c-t-border, thickness: 2.5pt))
   draw.line("L2", "R2", stroke: (paint: c-t-border, thickness: 2.5pt))
   draw.line("L3", "R3", stroke: (paint: c-t-border, thickness: 2.5pt))
@@ -681,7 +680,7 @@
   )
   draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $2$, size: .65em)
 
-  // Edge A->B : weight −2 (negative, red, dashed)
+  // Edge A->B : weight −2
   draw.line(
     "A",
     "B",
@@ -703,9 +702,7 @@
 #let c-pr-add = oklch(58%, 0.22, 22deg)        // just-added edge (decoding)
 
 #let prufer-frame(ox, oy, vpos, edges, vst, est, code) = {
-  // Ноды именуются как "<label>-<frame>", поэтому имена уникальны в canvas:
-  // cetz обрезает линии по границе именованной ноды (border anchor).
-  // Суффикс `frame` не содержит '.', иначе имя ломает assert в cetz.
+  // Node names "<label>-<frame>" (unique in canvas; no '.' in frame)
   let frame = str(ox).replace(".", "_")
   let nid = label => label + "-" + frame
   for (label, pos) in vpos {
@@ -747,8 +744,7 @@
     if stroke == none {
       continue
     }
-    // Рисуем по именам нод: cetz сам находит первое пересечение линии
-    // с границей кружка и обрезает до неё, не заходя в центр.
+    // Draw via node names (cetz clips at circle border)
     draw.line(nid(a), nid(b), stroke: stroke)
   }
   draw.content(
@@ -840,7 +836,7 @@
   node((2, 1), "d")
   node((3, 0.5), "v")
 
-  // Extra edges : dimmed
+  // Extra edges
   e("a", "d", stroke: (paint: c-edge-dim, thickness: 0.7pt))
   e("b", "c", stroke: (paint: c-edge-dim, thickness: 0.7pt))
   e("c", "d", stroke: (paint: c-edge-dim, thickness: 0.7pt))
@@ -902,16 +898,16 @@
     )
   }
 
-  // Non-matching edges : thin, dimmed
+  // Non-matching edges
   draw.line("L1", "R2", stroke: (paint: c-edge-dim, thickness: 0.7pt))
   draw.line("L2", "R3", stroke: (paint: c-edge-dim, thickness: 0.7pt))
 
-  // Matching edges : thick, highlighted
+  // Matching edges
   draw.line("L1", "R1", stroke: (paint: c-t-border, thickness: 2.5pt))
   draw.line("L2", "R2", stroke: (paint: c-t-border, thickness: 2.5pt))
   draw.line("L3", "R3", stroke: (paint: c-t-border, thickness: 2.5pt))
 
-  // Vertex cover : whole right part, orange rings
+  // Vertex cover
   for (i, y) in ry.enumerate() {
     draw.circle((xr, y), radius: 0.38, fill: none, stroke: (
       paint: c-hi,
@@ -971,7 +967,7 @@
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
   let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
-  // Forward residual (solid) + backward residual (dashed) for edges carrying flow.
+  // Forward residual (solid) / backward (dashed)
   for (fr, to, cf, off, dim) in (
     ("s", "a", "2", (-0.12, 0.26), false),
     ("a", "s", "3", (-0.36, 0.18), true),
@@ -1027,7 +1023,7 @@
 
 #let flow-cut-net = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  // A = {s,a}. Draw nodes manually: vertex fill color distinguishes the two sides.
+  // A = {s,a}: fill distinguishes the sides
   for (i, p) in v.enumerate() {
     let (lbl, infA) = (("s", true), ("a", true), ("b", false), ("t", false)).at(i)
     draw.circle(
@@ -1039,7 +1035,7 @@
     draw.content(p)[#text(fill: c-n-text, weight: "bold")[#lbl]]
   }
 
-  // Edge labels: flow/capacity. cross = edge from A to B (counts in cut capacity).
+  // Edge labels: flow/capacity; cross = A→B
   for (fr, to, lb, off, cross) in (
     ("s", "a", "3/3", (-0.12, 0.26), true),
     ("s", "b", "2/2", (-0.12, -0.26), true),

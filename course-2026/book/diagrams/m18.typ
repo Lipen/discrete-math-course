@@ -11,12 +11,12 @@
   let c-edge = oklch(45%, 0.09, 250deg)
   let c-eve = oklch(50%, 0.16, 25deg)
 
-  // Actors as named content nodes
+  // Actors
   draw.content((-3.1, 0), text(size: 0.95em, fill: c-node)[Алиса], name: "alice")
   draw.content((0, 0), text(size: 0.95em, fill: c-eve)[Ева], name: "eve")
   draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб], name: "bob")
 
-  // Edge helper: arrow between two named nodes
+  // Edge helper
   let arrow(a, b) = draw.line(a, b, stroke: c-edge, mark: (end: "stealth"))
 
   // Алиса -> Ева: A = g^a; Ева -> Алиса: B' = g^y.

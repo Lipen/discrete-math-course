@@ -17,7 +17,7 @@
 #let c-label = oklch(35%, 0.02, 265deg)
 
 #let turing-machine = canvas({
-  // Tape cells --- horizontal row
+  // Tape cells
   let n = 8
   let cell = 0.8
   for i in range(n) {
@@ -40,7 +40,7 @@
     fill: luma(50%),
   )[$dots$])
 
-  // Head --- triangle/arrow pointing down to the tape
+  // Head
   let head-x = 0
   draw.line((head-x, -0.5), (head-x - 0.3, -0.9), stroke: c-head-str)
   draw.line((head-x, -0.5), (head-x + 0.3, -0.9), stroke: c-head-str)
@@ -97,25 +97,25 @@
     draw.content((hx, y - 0.6), text(size: 0.7em, fill: c-head-marker)[↓])
   }
 
-  // Step 1: q₀ 1 1 □ □ □
+  // Step 1
   config-row(3.0, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 0, $q_0$)
 
   // Arrow between rows
   draw.content((-n/2 * cell - 0.35, 2.35), text(size: 0.6em, fill: luma(50%))[↓])
   draw.content((-0.2, 2.35), text(size: 0.6em, fill: luma(50%))[читает 1, пишет 1, $R$])
 
-  // Step 2: 1 q₁ 1 ␣ ␣ ␣
+  // Step 2
   config-row(1.6, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 1, $q_1$)
 
   draw.content((-n/2 * cell - 0.35, 0.95), text(size: 0.6em, fill: luma(50%))[↓])
   draw.content((-0.2, 0.95), text(size: 0.6em, fill: luma(50%))[читает 1, пишет 1, $R$])
 
-  // Step 3: 1 1 q₀ ␣ ␣ ␣
+  // Step 3
   config-row(0.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, $q_0$)
 
   draw.content((-n/2 * cell - 0.35, -0.45), text(size: 0.6em, fill: luma(50%))[↓])
   draw.content((-0.2, -0.45), text(size: 0.6em, fill: luma(50%))[читает ␣, принимает])
 
-  // Step 4: 1 1 ␣ q_accept ␣ ␣
+  // Step 4
   config-row(-1.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, qAccept, state-color: c-accept)
 })

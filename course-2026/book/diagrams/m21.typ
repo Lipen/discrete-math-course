@@ -7,7 +7,6 @@
 #let banach-tarski = canvas({
   let s = 1.2
 
-  // Three spheres: original -> decomposition -> two spheres
   // Labels
   draw.content((0, 1.5), text(weight: "bold", size: 0.9em)[Исходный шар])
   draw.content((s * 3, 1.5), text(weight: "bold", size: 0.9em)[Два шара])

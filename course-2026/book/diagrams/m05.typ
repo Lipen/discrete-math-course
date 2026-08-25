@@ -59,16 +59,16 @@
   let stroke = 0.6pt + oklch(50%, 0.08, 250deg)
   let edge-str = 0.6pt + oklch(35%, 0.02, 265deg)
 
-  // Node helper: named circle with a label
+  // node: named circle with label
   let v(name, pos) = {
     draw.circle(pos, radius: 0.35, fill: fill, stroke: stroke, name: name)
     draw.content(pos, text(size: 0.7em)[#name])
   }
 
-  // Edge helper: straight line between two named nodes
+  // edge: line between two nodes
   let e(a, b) = draw.line(a, b, stroke: edge-str)
 
-  // Nodes, named: 1 at bottom, 12 at top
+  // 1 at bottom, 12 at top
   v("12", (0, 3.0))
   v("4", (-1.5, 2.0))
   v("6", (1.5, 2.0))
@@ -76,7 +76,7 @@
   v("3", (1.0, 1.0))
   v("1", (0, 0.0))
 
-  // Edges --- only cover relations (no transitive shortcuts), node-based
+  // cover relations only (no transitive shortcuts)
   e("1", "2")
   e("1", "3")
   e("2", "4")
