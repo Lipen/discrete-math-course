@@ -1,98 +1,38 @@
-// M18 diagrams --- Type Theory: typing derivation trees.
+// m18 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
 #import cetz: canvas, draw
 
-// ── Colours ──
-#let c-judgment = oklch(50%, 0.04, 260deg)
-#let c-rule = oklch(55%, 0.14, 260deg)
-#let c-line = oklch(35%, 0.02, 265deg)
+#let c-edge = oklch(35%, 0.02, 265deg)
 
-// ── Helpers ──
+#let mitm = canvas({
+  let c-node = oklch(35%, 0.02, 265deg)
+  let c-edge = oklch(45%, 0.09, 250deg)
+  let c-eve = oklch(50%, 0.16, 25deg)
 
-// Judgment node: rounded rect with given half-width.
-#let judgment-node(pos, name, w, body) = {
-  let (x, y) = pos
-  draw.rect(
-    (x - w, y + 0.35),
-    (x + w, y - 0.35),
-    name: name,
-    fill: oklch(97%, 0.01, 260deg),
-    stroke: 0.7pt + c-judgment,
-    radius: 4pt,
-  )
-  draw.content(name, text(size: 0.65em, fill: c-judgment)[#body])
-}
+  // Actors as named content nodes
+  draw.content((-3.1, 0), text(size: 0.95em, fill: c-node)[Алиса], name: "alice")
+  draw.content((0, 0), text(size: 0.95em, fill: c-eve)[Ева], name: "eve")
+  draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб], name: "bob")
 
-// Rule label at node.east + 0.3em gap, anchor west.
-#let rule-label(node-name, body) = {
-  draw.content(
-    (rel: (0.3em, 0), to: node-name + ".east"),
-    anchor: "west",
-    text(size: 0.55em, fill: c-rule, weight: "semibold")[#body],
-  )
-}
+  // Edge helper: arrow between two named nodes
+  let arrow(a, b) = draw.line(a, b, stroke: c-edge, mark: (end: "stealth"))
 
-// Vertical edge from parent.south to child.north.
-#let vert-edge(parent, child) = {
-  draw.line(
-    (parent + ".south"),
-    (child + ".north"),
-    stroke: 0.6pt + c-line,
-  )
-}
+  // Алиса -> Ева: A = g^a; Ева -> Алиса: B' = g^y.
+  arrow("alice", "eve")
+  draw.content((-1.5, 0.85), text(size: 0.72em, fill: c-node)[$A = g^a$])
+  arrow("eve", "alice")
+  draw.content((-1.5, -0.85), text(size: 0.72em, fill: c-node)[$B' = g^y$])
 
-// ═══════════════════════════════════════════════════════════════════
-// Derivation of tack.r λx:Nat. x : Nat -> Nat
-//
-// One branch: premise (leaf, top) to conclusion (root, bottom).
-// Linear because each typing rule in λ-> has at most one subderivation.
-// ═══════════════════════════════════════════════════════════════════
-#let derivation-id = canvas({
-  let nw = 3.3
-  let py = 3.0 // premise (var) --- leaf, top
-  let cy = 1.0 // conclusion (abs) --- root, bottom
+  // Боб -> Ева: B = g^b; Ева -> Боб: A' = g^x.
+  arrow("bob", "eve")
+  draw.content((1.5, 0.85), text(size: 0.72em, fill: c-node)[$B = g^b$])
+  arrow("eve", "bob")
+  draw.content((1.5, -0.85), text(size: 0.72em, fill: c-node)[$A' = g^x$])
 
-  judgment-node((3.0, py), "prem", nw, {
-    $x : "Nat" tack.r x : "Nat"$
-  })
-  rule-label("prem", [(var)])
-
-  judgment-node((3.0, cy), "conc", nw, {
-    $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
-  })
-  rule-label("conc", [(abs)])
-
-  vert-edge("prem", "conc")
-})
-
-// ═══════════════════════════════════════════════════════════════════
-// Derivation of K combinator: tack.r λx:Nat. λy:Bool. x : Nat -> Bool -> Nat
-//
-// Three levels: var -> abs on y -> abs on x. Linear for the same reason.
-// ═══════════════════════════════════════════════════════════════════
-#let derivation-k = canvas({
-  let nw = 4.0
-  let py = 4.4 // premise (var) --- leaf, top
-  let my = 2.6 // abs on y --- middle
-  let cy = 0.8 // abs on x --- root, bottom
-
-  judgment-node((3.5, py), "k-prem", nw, {
-    $x : "Nat", y : "Bool" tack.r x : "Nat"$
-  })
-  rule-label("k-prem", [(var)])
-
-  judgment-node((3.5, my), "k-mid", nw, {
-    $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$
-  })
-  rule-label("k-mid", [(abs)])
-
-  judgment-node((3.5, cy), "k-top", nw, {
-    $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
-  })
-  rule-label("k-top", [(abs)])
-
-  vert-edge("k-prem", "k-mid")
-  vert-edge("k-mid", "k-top")
+  draw.content((0, -1.75), text(
+    size: 0.7em,
+    fill: c-eve,
+  )[два секрета: с Алисой и с Бобом])
 })

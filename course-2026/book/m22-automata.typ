@@ -3,8 +3,7 @@
 // лемма о накачке, теорема Майхилла--Нерода, минимизация, разрешимость, применения.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m13.typ": dfa-01, nfa-00-11, pumping-lemma
-#import "diagrams/m15.typ": epsilon-nfa, nfa-example
+#import "diagrams/m22.typ": dfa-01, nfa-00-11, pumping-lemma, epsilon-nfa, nfa-example
 
 = Конечные автоматы и регулярные языки <chap:automata>
 
@@ -1531,4 +1530,6 @@ fn is_empty(trans: &[Vec<usize>], start: usize, accept: &[bool]) -> bool {
     работающий поиск по шаблону от парсера до минимального автомата и измерение размеров на каждом звене конвейера.
   ]
 ]
+
+
 

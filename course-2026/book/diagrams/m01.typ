@@ -1,19 +1,20 @@
-// M01 diagrams: parse trees and logic visualizations.
+// m01 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
 #import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
-// ── Shared constants ──
-
 #let n-size = 1.6em
+
 #let n-stroke = 0.6pt + luma(70%)
+
 #let e-stroke = (paint: oklch(35%, 0.02, 265deg), thickness: 0.8pt)
+
 #let c-connective = oklch(92%, 0.04, 45deg)
+
 #let c-atom = oklch(92%, 0.02, 155deg)
 
-// ── Parse tree for (not p and q) -> r ──
 #let parse-tree-imply = {
   let cn(pos, label, ..args) = node(
     pos,
@@ -56,50 +57,6 @@
   )
 }
 
-// ── Parse tree for not(p and q) -> r ──
-#let parse-tree-not-and = {
-  let cn(pos, label, ..args) = node(
-    pos,
-    label,
-    fill: c-connective,
-    width: n-size,
-    height: n-size,
-    ..args,
-  )
-  let an(pos, label, ..args) = node(
-    pos,
-    label,
-    fill: c-atom,
-    width: n-size,
-    height: n-size,
-    ..args,
-  )
-  let e(to, from) = edge(to, from, "-", stroke: e-stroke)
-
-  diagram(
-    node-shape: "circle",
-    node-stroke: n-stroke,
-    node-inset: 0pt,
-    node-outset: 0pt,
-    spacing: 2em,
-
-    // Tree structure
-    cn((0, 0), $imply$, name: <root2>),
-    cn((-1.5, 1), $not$, name: <not2>),
-    an((2, 1), $r$, name: <r2>),
-    cn((-1.5, 2), $and$, name: <and2>),
-    an((-2.5, 3), $p$, name: <p2>),
-    an((-0.5, 3), $q$, name: <q2>),
-
-    e(<root2>, <not2>),
-    e(<root2>, <r2>),
-    e(<not2>, <and2>),
-    e(<and2>, <p2>),
-    e(<and2>, <q2>),
-  )
-}
-
-// ── Quantifier order: ∀x∃y vs ∃y∀x ──
 #let quantifier-order = {
   let x-node(pos, label, ..args) = node(
     pos,
@@ -152,7 +109,6 @@
   )
 }
 
-// ── Square of Opposition (Aristotelian logic) ──
 #let square-of-opposition = {
   let c-square = oklch(45%, 0.12, 260deg)
   let corner-size = 0.4
@@ -240,14 +196,17 @@
   })
 }
 
-// ── Resolution refutation DAG: (¬p∨q), (¬q∨r), (p), (¬r) ⊢ □ ──
 #let c-res-in = oklch(88%, 0.03, 250deg)
+
 #let c-res-mid = oklch(88%, 0.03, 155deg)
+
 #let c-res-empty = oklch(88%, 0.06, 22deg)
+
 #let c-res-str = oklch(60%, 0.08, 250deg) + 0.7pt
+
 #let c-res-empty-str = oklch(55%, 0.18, 22deg) + 0.7pt
+
 #let c-res-edge = oklch(35%, 0.02, 265deg) + 0.6pt
-#let c-res-label = oklch(35%, 0.02, 265deg)
 
 #let cn(pos, body, fill: c-res-in, ..args) = node(
   pos,

@@ -1,7 +1,7 @@
 // M19 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": bayes-net, markov-chain, probability-tree
+#import "diagrams/m19.typ": bayes-net, markov-chain, probability-tree
 
 = Дискретная вероятность <chap:probability>
 
@@ -1601,4 +1601,6 @@ $
     пара разных строк с одним усечённым хешем, принятая дедупликатором за равные, вместе с измерением закона $sqrt(N)$ и объяснением, на чём держится стойкость криптографического хеша.
   ]
 ]
+
+
 

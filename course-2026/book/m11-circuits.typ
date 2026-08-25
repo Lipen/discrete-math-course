@@ -1,7 +1,6 @@
 // M11 --- Логические схемы: булева алгебра становится физическим вычислением.
 #import "common.typ": *
-#import "diagrams/m08.typ": full-adder, half-adder, multiplexer-4to1
-#import "diagrams/m09.typ": class-inclusion, functions-vs-circuits
+#import "diagrams/m11.typ": full-adder, half-adder, multiplexer-4to1, class-inclusion, functions-vs-circuits
 
 = Схемы <chap:circuits>
 
@@ -1083,4 +1082,6 @@ BCP занимает 80--90% времени в программном CDCL. В �
     две корректные реализации многоразрядного сумматора --- с последовательным и опережающим переносом --- с измеренными глубиной и размером и ответ на вопрос, чем схема платит за скорость.
   ]
 ]
+
+
 

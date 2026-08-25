@@ -1,7 +1,7 @@
 // M07 --- Мощность и бесконечность.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": aleph-beth, cantor-diagonal, cantor-line-square, power-set-hasse, qq-pairing
+#import "diagrams/m07.typ": aleph-beth, cantor-diagonal, cantor-line-square, power-set-hasse, qq-pairing
 
 = Мощность и бесконечность <chap:cardinals>
 
@@ -979,4 +979,6 @@ $
 
   + \* Сформулируйте, что утверждает обобщённая континуум-гипотеза, и объясните, почему $aleph_omega = limits(sup)_(n < omega) aleph_n$, а $beth_omega = limits(sup)_(n < omega) beth_n$, и что из этого следует при GCH.
 ]
+
+
 

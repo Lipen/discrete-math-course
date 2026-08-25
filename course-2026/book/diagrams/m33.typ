@@ -1,16 +1,19 @@
-// M33 diagrams --- Intuitionism: Kripke model of two worlds.
+// m33 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
 #import cetz: canvas, draw
 
 #let k-node-str = 0.6pt + oklch(55%, 0.08, 250deg)
+
 #let k-node-fill = oklch(92%, 0.03, 250deg)
+
 #let k-forced-fill = oklch(92%, 0.06, 155deg)
+
 #let k-edge = 0.6pt + oklch(35%, 0.02, 265deg)
+
 #let k-label = oklch(30%, 0.02, 265deg)
 
-// Kripke model: two worlds u < v, valuation V(p) = {v}.
 #let kripke-two-worlds = canvas({
   // World u (left, p not forced).
   draw.circle((-1.5, 0), radius: 0.5, fill: k-node-fill, stroke: k-node-str, name: "u")
@@ -35,7 +38,6 @@
   )[оценка: $V(p) = {v}$])
 })
 
-// Kripke model: root w0 with two incomparable worlds w1, w1' above it.
 #let kripke-umbrella = canvas({
   // World w0 (root, bottom left; neither p nor q forced).
   draw.circle((-1.8, 0), radius: 0.5, fill: k-node-fill, stroke: k-node-str, name: "w0")

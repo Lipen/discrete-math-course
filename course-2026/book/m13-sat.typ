@@ -1,7 +1,7 @@
 // M13 --- SAT: задача булевой выполнимости и её роль в теории вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m09.typ": cdcl-conflict-graph, cook-levin-table, dpll-tree, implication-graph-2sat-simple
+#import "diagrams/m13.typ": cdcl-conflict-graph, cook-levin-table, dpll-tree, implication-graph-2sat-simple
 #import "diagrams/m01.typ": resolution-dag
 
 = SAT <chap:sat>
@@ -1194,4 +1194,6 @@ SAT решал выполнимость булевых формул. SMT спр�
     две кривые фазового перехода с проверкой перехода против известного $m/n approx 4.26$ и сравнение случайных и структурных формул.
   ]
 ]
+
+
 

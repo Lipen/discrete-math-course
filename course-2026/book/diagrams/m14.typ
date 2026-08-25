@@ -1,166 +1,147 @@
-// M14 diagrams --- Turing Machines.
+// m14 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+
 #import cetz: canvas, draw
+#import circuiteria: circuit, element, wire
 
-#let c-tape = oklch(90%, 0.02, 80deg)
-#let c-tape-str = oklch(35%, 0.02, 265deg) + 0.4pt
-#let c-head = oklch(88%, 0.03, 250deg)
-#let c-head-str = oklch(60%, 0.08, 250deg) + 0.6pt
-#let c-ctrl = oklch(88%, 0.05, 155deg)
-#let c-ctrl-str = oklch(55%, 0.18, 155deg) + 0.7pt
-#let c-label = oklch(35%, 0.02, 265deg)
+#let d-node = oklch(88%, 0.03, 250deg)
 
-// Schematic of a Turing machine: tape, head, finite control.
-// The tape is a row of cells; the head reads/writes the current cell.
-// The finite control holds the current state and transition logic.
-#let turing-machine = canvas({
-  // Tape cells --- horizontal row
-  let n = 8
-  let cell = 0.8
-  for i in range(n) {
-    let x = (i - n / 2 + 0.5) * cell
-    draw.rect((x, -0.4), (x + cell, 0.4), fill: c-tape, stroke: c-tape-str)
-    // Show some sample symbols
-    let syms = ("0", "1", "1", "0", "1", "0", "0", "1")
-    draw.content((x + cell / 2, 0), text(size: 0.7em, fill: c-label)[#syms.at(
-      i,
-    )])
-  }
+#let d-node-str = oklch(60%, 0.08, 250deg) + 0.6pt
 
-  // Tape left/right continuation markers
-  draw.content((-n / 2 * cell - 0.4, 0), text(
-    size: 0.6em,
-    fill: luma(50%),
-  )[$dots$])
-  draw.content((n / 2 * cell + 0.4, 0), text(
-    size: 0.6em,
-    fill: luma(50%),
-  )[$dots$])
+#let d-text = oklch(30%, 0.02, 265deg)
 
-  // Head --- triangle/arrow pointing down to the tape
-  let head-x = 0
-  draw.line((head-x, -0.5), (head-x - 0.3, -0.9), stroke: c-head-str)
-  draw.line((head-x, -0.5), (head-x + 0.3, -0.9), stroke: c-head-str)
-  draw.line((head-x - 0.3, -0.9), (head-x + 0.3, -0.9), stroke: c-head-str)
-  draw.content((head-x, -0.72), text(size: 0.55em, fill: c-label)[↓])
+#let d-muted = oklch(55%, 0.02, 265deg)
 
-  // Finite control box
-  let ctrl-w = 2.5
-  let ctrl-h = 1.2
-  draw.rect(
-    (-ctrl-w / 2, -1.6),
-    (ctrl-w / 2, -2.8),
-    radius: 4pt,
-    fill: c-ctrl,
-    stroke: c-ctrl-str,
-  )
-  draw.content((0, -1.95), text(size: 0.7em, fill: c-label)[$q_i$])
-  draw.content((0, -2.35), text(size: 0.6em, fill: luma(50%))[конечное])
+#let d-edge = oklch(35%, 0.02, 265deg) + 0.8pt
 
-  // Connection head -> control
-  draw.line((head-x, -0.9), (head-x, -1.6), stroke: c-head-str)
+#let d-edge-thick = oklch(35%, 0.02, 265deg) + 1.0pt
 
-  // Tape label
-  draw.content((-n / 2 * cell, 0.7), anchor: "west", text(
-    size: 0.72em,
-    fill: c-label,
-  )[Лента:])
+#let d-neg = oklch(58%, 0.20, 22deg)
+
+#let d-sat = oklch(88%, 0.05, 250deg)
+
+#let d-theory = oklch(88%, 0.05, 155deg)
+
+#let d-merge = oklch(88%, 0.05, 155deg)
+
+#let d-conflict = oklch(58%, 0.20, 22deg)
+
+#let cnode(pos, label, fill: d-node) = {
+  draw.circle(pos, radius: 0.42, fill: fill, stroke: d-node-str)
+  draw.content(pos, text(size: 0.68em, fill: d-text)[#label])
+}
+
+#let dpll-t-architecture = canvas({
+  // SAT solver box (top): boolean skeleton + CDCL search.
+  draw.rect((-2.7, 0.55), (2.7, 1.65), fill: d-sat, stroke: d-node-str, radius: 3pt)
+  draw.content((0, 1.3), text(size: 0.72em, fill: d-text, weight: "bold")[SAT-решатель])
+  draw.content((0, 0.95), text(size: 0.58em, fill: d-muted)[DPLL / CDCL])
+
+  // Theory solver box (bottom): checks consistency of theory atoms.
+  draw.rect((-2.7, -1.65), (2.7, -0.55), fill: d-theory, stroke: d-node-str, radius: 3pt)
+  draw.content((0, -0.95), text(size: 0.72em, fill: d-text, weight: "bold")[Theory-солвер])
+  draw.content((0, -1.3), text(size: 0.58em, fill: d-muted)[DL, EUF, LRA, ...])
+
+  // SAT -> theory: candidate model.
+  draw.line((1.7, 0.55), (1.7, -0.55), mark: (end: "stealth"), stroke: d-edge)
+  draw.content((2.15, 0), anchor: "west", text(size: 0.58em, fill: d-text)[кандидат-модель])
+
+  // Theory -> SAT: conflict clause (T-lemma).
+  draw.line((-1.7, -0.55), (-1.7, 0.55), mark: (end: "stealth"), stroke: d-edge)
+  draw.content((-2.15, 0), anchor: "east", text(size: 0.58em, fill: d-text)[$T$-лемма])
 })
 
-// ── TM computation trace: parity check (even number of 1's) ──
-// Shows four successive configurations of a TM on input "11".
-// TM: q0 = even so far, q1 = odd so far.
-// δ(q0,1)=(q1,1,R), δ(q1,1)=(q0,1,R), δ(q0,Blank)=accept.
-#let tm-computation = canvas({
+#let dl-negative-cycle = canvas({
+  // Number line: variables are positions on the axis, constraints are offsets.
+  let ax-y = 0
+  let d-guide = (paint: d-muted, thickness: 0.5pt, dash: "dashed")
+  let d-red-guide = (paint: d-neg, thickness: 0.6pt, dash: "dashed")
 
-  let cell = 0.75
-  let n = 6
-  let c-step-label = oklch(50%, 0.04, 265deg)
-  let c-head-marker = oklch(55%, 0.18, 22deg)
-  let c-accept = oklch(55%, 0.18, 155deg)
-
-  // Helper: draw one configuration row
-  let config-row(y, cells, head-idx, state-label, state-color: c-label) = {
-    // Tape cells
-    for (i, sym) in cells.enumerate() {
-      let x = (i - n/2 + 0.5) * cell
-      draw.rect((x, y - 0.35), (x + cell, y + 0.35), fill: c-tape, stroke: c-tape-str)
-      draw.content((x + cell/2, y), text(size: 0.65em, fill: c-label)[#sym])
-    }
-    // State label on the left
-    draw.content((-n/2 * cell - 0.35, y), anchor: "east", text(
-      size: 0.65em,
-      fill: state-color,
-      weight: "bold",
-    )[#state-label])
-    // Head marker below current cell
-    let hx = (head-idx - n/2 + 0.5) * cell + cell/2
-    draw.content((hx, y - 0.6), text(size: 0.7em, fill: c-head-marker)[↓])
+  // Tick mark + numeric label on the axis.
+  let tick(v) = {
+    draw.line((v, ax-y), (v, ax-y - 0.14), stroke: d-text + 0.7pt)
+    draw.content((v, ax-y - 0.5), text(size: 0.62em, fill: d-muted)[#v])
   }
 
-  // Step 1: q₀ 1 1 □ □ □
-  config-row(3.0, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 0, $q_0$)
+  // Variable point on the axis: filled = anchored, open = hypothesized.
+  let vpoint(pos, label, open: false) = {
+    draw.circle(pos, radius: 0.16,
+      fill: if open { white } else { d-text },
+      stroke: if open { (paint: d-neg, thickness: 0.7pt, dash: "dashed") } else { d-text })
+    draw.content((pos.at(0), pos.at(1) + 0.42), anchor: "south",
+      text(size: 0.72em, fill: d-text, weight: "bold")[#label])
+  }
 
-  // Arrow between rows
-  draw.content((-n/2 * cell - 0.35, 2.35), text(size: 0.6em, fill: luma(50%))[↓])
-  draw.content((-0.2, 2.35), text(size: 0.6em, fill: luma(50%))[читает 1, пишет 1, $R$])
+  // Dashed vertical guide from an axis position up to a given height.
+  let guide(px, py, stroke: d-guide) = draw.line((px, ax-y), (px, py), stroke: stroke)
 
-  // Step 2: 1 q₁ 1 ␣ ␣ ␣
-  config-row(1.6, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 1, $q_1$)
+  // Axis with arrowhead; integer ticks 0..5.
+  draw.line((-2.0, ax-y), (5.9, ax-y), mark: (end: "stealth"), stroke: d-edge)
+  for v in range(6) { tick(v) }
 
-  draw.content((-n/2 * cell - 0.35, 0.95), text(size: 0.6em, fill: luma(50%))[↓])
-  draw.content((-0.2, 0.95), text(size: 0.6em, fill: luma(50%))[читает 1, пишет 1, $R$])
+  // x anchored at position 0.
+  vpoint((0, ax-y), $x$)
 
-  // Step 3: 1 1 q₀ ␣ ␣ ␣
-  config-row(0.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, $q_0$)
+  // z >= x + 3: z must lie at least 3 units right of x; allowed region [3, +oo).
+  draw.line((0, 1.0), (3, 1.0), name: "zspan", stroke: d-edge-thick)
+  draw.line((3, 0.82), (3, 1.18), stroke: d-edge-thick)             // closed cap at 3
+  draw.line((3, 1.0), (5.5, 1.0), mark: (end: "stealth"), stroke: d-edge-thick)
+  draw.content((1.5, 1.45), text(size: 0.66em, fill: d-text)[$z >= x + 3$])
+  draw.content((4.4, 0.7), anchor: "west", text(size: 0.6em, fill: d-muted)[разрешено $z >= 3$])
+  guide(3.5, 1.0)
+  vpoint((3.5, ax-y), [z?], open: true)
 
-  draw.content((-n/2 * cell - 0.35, -0.45), text(size: 0.6em, fill: luma(50%))[↓])
-  draw.content((-0.2, -0.45), text(size: 0.6em, fill: luma(50%))[читает ␣, принимает])
+  // w >= z + 1: w must lie at least 1 unit right of z; sample z = 3.5 forces w >= 4.5.
+  draw.line((3.5, 1.9), (4.5, 1.9), name: "wspan", mark: (end: "stealth"), stroke: d-edge-thick)
+  draw.content((3.25, 2.25), anchor: "east", text(size: 0.66em, fill: d-text)[$w >= z + 1$])
+  guide(4.5, 2.8, stroke: d-red-guide)                                 // w's required position
+  vpoint((4.5, ax-y), [w?], open: true)
 
-  // Step 4: 1 1 ␣ q_accept ␣ ␣
-  config-row(-1.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, qAccept, state-color: c-accept)
+  // w <= x + 2 (RED): w allowed only in (-oo, 2]; required w >= 4.5 falls outside.
+  draw.line((-2.0, 2.8), (2, 2.8), name: "wcap", stroke: d-neg + 1.2pt)
+  draw.line((-2.0, 2.8), (-2.9, 2.8), mark: (end: "stealth"), stroke: d-neg + 1.2pt)
+  draw.line((2, 2.62), (2, 2.98), stroke: d-neg + 1.2pt)               // closed cap at 2
+  draw.content((0.1, 3.2), text(size: 0.66em, fill: d-neg, weight: "bold")[$w <= x + 2$])
+  draw.content((0.1, 2.45), anchor: "north", text(size: 0.6em, fill: d-neg)[разрешено $w <= 2$])
+  draw.content((3.3, 2.8), text(size: 1.0em, fill: d-neg, weight: "bold")[✗])
+  draw.content((3.3, 3.25), anchor: "south", text(size: 0.66em, fill: d-neg, weight: "bold")[противоречие])
+
+  // Summary: the cycle accumulates to a negative value.
+  draw.content((1.6, -1.5), text(size: 0.68em, fill: d-neg, weight: "bold")[
+    требуется $w >= 4.5$, но разрешено $w <= 2$ ⟹ $-3 - 1 + 2 = -2 < 0$
+  ])
 })
 
-// Reduction diagram: HALT ≤_m EMPTY
-// Shows the reduction function f that transforms HALT instances into EMPTY instances.
-#let reduction-halt-empty = canvas({
-  let c-box = oklch(88%, 0.03, 250deg)
-  let c-box-str = oklch(60%, 0.08, 250deg) + 0.5pt
-  let c-arrow = oklch(35%, 0.02, 265deg) + 0.6pt
-  let c-label = oklch(35%, 0.02, 265deg)
+#let congruence-closure-merge = canvas({
+  // Stage 1: two initial equivalence classes sharing b.
+  draw.rect((-3.8, 2.6), (-0.2, 3.6), fill: d-node, stroke: d-node-str, radius: 3pt)
+  cnode((-2.7, 3.1), $a$)
+  cnode((-1.3, 3.1), $b$)
+  draw.content((-2.0, 4.05), anchor: "south", text(size: 0.62em, fill: d-text, weight: "bold")[класс ${a, b}$])
 
-  // Input box
-  draw.rect((-1.5, -0.5), (1.5, 0.5), fill: c-box, stroke: c-box-str)
-  draw.content((0, 0), text(
-    size: 0.7em,
-    fill: c-label,
-  )[$chevron.l M chevron.r w$])
+  draw.rect((0.2, 2.6), (3.8, 3.6), fill: d-node, stroke: d-node-str, radius: 3pt)
+  cnode((1.3, 3.1), $f(a)$)
+  cnode((2.7, 3.1), $b$)
+  draw.content((2.0, 4.05), anchor: "south", text(size: 0.62em, fill: d-text, weight: "bold")[класс ${f(a), b}$])
 
-  // f arrow
-  draw.line((1.8, 0), (3.2, 0), stroke: c-arrow, mark: (end: ">"))
-  draw.content((2.5, 0.3), anchor: "south", text(
-    size: 0.65em,
-    fill: c-label,
-  )[$f$])
+  // Merge arrow: the shared element b glues the two classes together.
+  draw.line((0, 2.6), (0, 2.2), stroke: d-edge, mark: (end: "stealth"))
+  draw.content((0.25, 2.4), anchor: "west", text(size: 0.58em, fill: d-muted)[слияние])
 
-  // f box
-  draw.rect((3.5, -0.5), (6.5, 0.5), fill: none, stroke: c-box-str)
-  draw.content((5, 0), text(
-    size: 0.7em,
-    fill: c-label,
-  )[$chevron.l M' chevron.r$])
+  // Stage 2: merged class {a, b, f(a)}.
+  draw.rect((-2.9, 0.8), (2.9, 2.0), fill: d-merge, stroke: d-node-str, radius: 3pt)
+  cnode((-1.8, 1.25), $a$)
+  cnode((0, 1.25), $b$)
+  cnode((1.8, 1.25), $f(a)$)
+  draw.content((0, 1.82), text(size: 0.55em, fill: d-text, weight: "bold")[класс ${a, b, f(a)}$])
 
-  // Result arrow
-  draw.line((6.8, 0), (8.2, 0), stroke: c-arrow, mark: (end: ">"))
+  // Congruence arrow: a = f(a) inside the class.
+  draw.line((0, 0.8), (0, 0.42), stroke: d-edge, mark: (end: "stealth"))
+  draw.content((0.25, 0.61), anchor: "west", text(size: 0.58em, fill: d-muted)[конгруэнтность: $a = f(a)$])
 
-  // Output labels
-  draw.content((5, 0.9), anchor: "south", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[описание МТ,])
-  draw.content((5, 0.6), anchor: "south", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[чей язык пуст iff M(w) останавливается])
+  // Stage 3: implied equality contradicts the third literal.
+  draw.rect((-2.9, -0.5), (2.9, 0.0), fill: d-node, stroke: d-conflict + 0.9pt, radius: 3pt)
+  draw.content((0, -0.25), text(size: 0.7em, fill: d-text, weight: "bold")[$g(a) = g(f(a))$])
+  draw.content((0, -1.0), text(size: 0.6em, fill: d-conflict, weight: "bold")[противоречит $not (g(a) = g(f(a)))$])
 })

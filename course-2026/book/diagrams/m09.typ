@@ -1,779 +1,1062 @@
-// Diagrams for the Codes (m10) and SAT (m11) chapters: Huffman, Hamming, implication graph, DPLL.
+// m09 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
 #import cetz: canvas, draw
-#import fletcher: diagram, edge, node
 
-// ════════════════════════════════════════════════════════
-// Section A --- Huffman tree (Codes, chapter m10-codes.typ)
-// ════════════════════════════════════════════════════════
+#let c-n-fill = oklch(88%, 0.03, 250deg)   // node fill: light blue
 
-#let hf-str = 0.8pt + oklch(35%, 0.02, 265deg)
-#let hf-leaf-str = 1pt + oklch(35%, 0.02, 265deg)
+#let c-n-border = oklch(60%, 0.08, 250deg) // node border
 
-// Huffman tree for A: 0.40, B: 0.25, C: 0.20, D: 0.10, E: 0.05.
-#let huffman-tree = canvas({
-  // Node positions --- tree structure (y-step = 1.8, units = cm)
-  // Ноды именованы, чтобы cetz обрезал рёбра до границы кружка.
-  let root = (0, 0)
+#let c-n-text = oklch(25%, 0.02, 260deg)   // node label
 
-  // Helper: labelled circle node (internal or leaf), named by `name`.
-  let hf-node(pos, name, radius, body, stroke: hf-str, ..args) = {
-    draw.circle(pos, radius: radius, stroke: stroke, name: name, ..args)
-    draw.content(pos, body)
-  }
+#let c-edge = oklch(35%, 0.02, 265deg)     // edges
 
-  // Internal nodes (weights) and leaf nodes (symbols) --- created first,
-  // so the edges below can reference them by name and clip at the border.
-  hf-node(root, "root", 0.3, $1.0$)
-  hf-node((1.5, -1.8), "R1", 0.3, $0.60$)
-  hf-node((2.5, -3.6), "R2", 0.3, $0.35$)
-  hf-node((3.5, -5.4), "R3", 0.3, $0.15$)
-  hf-node((-3.5, -1.8), "A", 0.35, [$A: 0.40$], stroke: hf-leaf-str, fill: white)
-  hf-node((-0.5, -3.6), "B", 0.35, [$B: 0.25$], stroke: hf-leaf-str, fill: white)
-  hf-node((1, -5.4), "C", 0.35, [$C: 0.20$], stroke: hf-leaf-str, fill: white)
-  hf-node((2.5, -7.2), "D", 0.35, [$D: 0.10$], stroke: hf-leaf-str, fill: white)
-  hf-node((4.5, -7.2), "E", 0.35, [$E: 0.05$], stroke: hf-leaf-str, fill: white)
+#let c-edge-dim = oklch(65%, 0.01, 260deg) // dimmed edges (grey)
 
-  // Edge helper: named line (cetz clips to node border) + label at midpoint.
-  // `p`/`q` only give the midpoint coordinates for the label.
-  let mid-label(fr, to, p, q, offset, label) = {
-    draw.line(fr, to, stroke: hf-str)
-    let mx = (p.at(0) + q.at(0)) / 2
-    let my = (p.at(1) + q.at(1)) / 2
-    draw.content((mx + offset.at(0), my + offset.at(1)), label)
-  }
+#let c-hi = oklch(58%, 0.22, 22deg)        // highlight (bridge, cut-vertex)
 
-  // Edges with labels (by node names, so cetz clips to the border).
-  mid-label("root", "A", root, (-3.5, -1.8), (-0.4, 0.1), [_0_])
-  mid-label("root", "R1", root, (1.5, -1.8), (0.2, 0.1), [_1_])
-  mid-label("R1", "B", (1.5, -1.8), (-0.5, -3.6), (-0.4, 0.1), [_0_])
-  mid-label("R1", "R2", (1.5, -1.8), (2.5, -3.6), (0.2, 0.1), [_1_])
-  mid-label("R2", "C", (2.5, -3.6), (1, -5.4), (-0.4, 0.1), [_0_])
-  mid-label("R2", "R3", (2.5, -3.6), (3.5, -5.4), (0.2, 0.1), [_1_])
-  mid-label("R3", "D", (3.5, -5.4), (2.5, -7.2), (-0.4, 0.1), [_0_])
-  mid-label("R3", "E", (3.5, -5.4), (4.5, -7.2), (0.2, 0.1), [_1_])
-})
+#let c-t-fill = oklch(88%, 0.05, 155deg)   // tree node fill: light green
 
-// ════════════════════════════════════════════════════════
-// Section B --- Hamming spheres (Codes, chapter m09-codes.typ)
-// ════════════════════════════════════════════════════════
+#let c-t-border = oklch(55%, 0.18, 155deg) // tree edges & leaf border
 
-#let hs-codeword = oklch(55%, 0.15, 260deg)
-#let hs-sphere-stroke = oklch(58%, 0.10, 260deg)
-#let hs-sphere-fill = oklch(96%, 0.03, 260deg)
-#let hs-point = oklch(40%, 0.03, 265deg)
-#let hs-label = oklch(35%, 0.02, 265deg)
-#let hs-dim = oklch(55%, 0.14, 22deg)
+#let c-t-leaf = oklch(50%, 0.10, 155deg)   // leaf text
 
-// Draw a codeword dot with its Hamming sphere and surrounding noise points.
-#let hs-draw-sphere(center, radius, noise) = {
-  let (cx, cy) = center
+#let c-pa-fill = oklch(90%, 0.03, 245deg)  // partition A background
 
-  // Sphere: dashed circle with light fill
+#let c-pb-fill = oklch(90%, 0.04, 45deg)   // partition B background
+
+#let c-pa-dot = oklch(65%, 0.12, 245deg)   // partition A node
+
+#let c-pb-dot = oklch(65%, 0.14, 45deg)    // partition B node
+
+#let c-colors = (
+  oklch(80%, 0.14, 22deg),  // warm red
+  oklch(80%, 0.12, 150deg), // green
+  oklch(80%, 0.12, 250deg), // blue
+  oklch(82%, 0.14, 90deg),  // yellow
+)
+
+#let node(pos, label, radius: 0.38) = {
   draw.circle(
-    center,
+    pos,
     radius: radius,
-    stroke: (paint: hs-sphere-stroke, thickness: 0.7pt, dash: "dashed"),
-    fill: hs-sphere-fill,
+    fill: c-n-fill,
+    stroke: (paint: c-n-border, thickness: 0.8pt),
+    name: label,
   )
-
-  // Noise points --- other strings at distance ≤ t from the codeword
-  for p in noise {
-    draw.circle((cx + p.at(0), cy + p.at(1)), radius: 0.07, fill: hs-point)
-  }
-
-  // Codeword dot on top (larger, filled)
-  draw.circle(center, radius: 0.17, fill: hs-codeword)
+  draw.content(pos)[#text(fill: c-n-text, weight: "bold")[#label]]
 }
 
-#let hamming-spheres = canvas({
-  let r = 1.25
-  let cw1 = (1.8, 3.0)
-  let cw2 = (6.2, 3.0)
-  let cw3 = (4.0, -0.3)
+#let snode(pos, label) = { node(pos, label, radius: 0.28) }
 
-  // Noise points inside each sphere (offsets from center, magnitude < r)
-  let n1 = (
-    (0.25, 0.50),
-    (-0.50, -0.35),
-    (0.10, -0.65),
-    (0.60, -0.20),
-    (-0.40, 0.40),
-    (0.55, 0.30),
-    (-0.20, -0.70),
-    (-0.55, 0.10),
-    (0.70, -0.40),
-  )
-  let n2 = (
-    (-0.15, 0.55),
-    (0.45, 0.25),
-    (-0.45, -0.20),
-    (-0.05, -0.45),
-    (0.25, -0.40),
-    (-0.35, 0.20),
-    (0.60, 0.05),
-    (0.15, 0.50),
-    (-0.50, -0.50),
-  )
-  let n3 = (
-    (0.35, 0.35),
-    (-0.25, 0.45),
-    (0.05, -0.30),
-    (-0.45, -0.25),
-    (0.60, 0.00),
-    (-0.10, -0.50),
-    (0.40, -0.30),
-    (-0.40, 0.25),
-    (-0.50, 0.10),
-  )
+#let e(a, b, ..style) = {
+  draw.line(a, b, stroke: (paint: c-edge, thickness: 0.7pt), ..style)
+}
 
-  hs-draw-sphere(cw1, r, n1)
-  hs-draw-sphere(cw2, r, n2)
-  hs-draw-sphere(cw3, r, n3)
-
-  // Dimension line: radius t from codeword 1 to sphere edge
-  let dim-start = cw1
-  let dim-end = (cw1.at(0) + r, cw1.at(1))
-  draw.line(dim-start, dim-end, stroke: (paint: hs-dim, thickness: 0.6pt))
-  // Tick marks
-  draw.line(
-    (dim-start.at(0), dim-start.at(1) - 0.12),
-    (dim-start.at(0), dim-start.at(1) + 0.12),
-    stroke: (paint: hs-dim, thickness: 0.5pt),
-  )
-  draw.line(
-    (dim-end.at(0), dim-end.at(1) - 0.12),
-    (dim-end.at(0), dim-end.at(1) + 0.12),
-    stroke: (paint: hs-dim, thickness: 0.5pt),
-  )
-  // Dimension label
-  draw.content(
-    (cw1.at(0) + r / 2, cw1.at(1) + 0.28),
-    anchor: "south",
-    text(size: 0.7em, fill: hs-dim)[радиус $t$],
-  )
-
-  // Codeword label with arrow
-  draw.content(
-    (cw2.at(0), cw2.at(1) + 0.6),
-    anchor: "south",
-    text(size: 0.7em, fill: hs-label)[кодовое слово],
-  )
-  draw.line(
-    (cw2.at(0), cw2.at(1) + 0.42),
-    (cw2.at(0), cw2.at(1) + 0.19),
-    stroke: (paint: hs-label, thickness: 0.4pt),
-  )
+#let simple-graph = canvas({
+  let v = ((0, 2), (1.5, 2), (3, 2), (0.8, 0.5), (2.3, 0.5), (1.5, -1))
+  for (i, p) in v.enumerate() { node(p, str(i + 1)) }
+  e("2", "1")
+  e("3", "2")
+  e("1", "4")
+  e("2", "4")
+  e("2", "5")
+  e("3", "5")
+  e("4", "5")
+  e("4", "6")
+  e("5", "6")
 })
 
-// ════════════════════════════════════════════════════════
-// Section B2 --- Subspace lattice of GF(2)³ (Codes, chapter m09-codes.typ)
-// ════════════════════════════════════════════════════════
+#let bfs-grid = canvas({
+  let rows = ((0, 0), (1.5, 0), (3.0, 0), (0, -1.5), (1.5, -1.5), (3.0, -1.5))
+  for (i, p) in rows.enumerate() { node(p, str(i + 1)) }
 
-#let cl-n-fill = oklch(88%, 0.03, 250deg)
-#let cl-n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-#let cl-e-str = 0.6pt + oklch(35%, 0.02, 265deg)
-#let cl-n-size = 1.6em
+  // Horizontal
+  e("1", "2")
+  e("2", "3")
+  e("4", "5")
+  e("5", "6")
+  // Vertical
+  e("1", "4")
+  e("2", "5")
+  e("3", "6")
+})
 
-#let cl-node(pos, body, ..args) = node(
-  pos,
-  body,
-  fill: cl-n-fill,
-  stroke: cl-n-str,
-  width: cl-n-size,
-  height: cl-n-size,
-  ..args,
-)
-#let cl-edge(from, to) = edge(from, to, "-", stroke: cl-e-str)
-
-// Hasse diagram of coordinate subspaces of GF(2)³, ordered by inclusion.
-// Structure: 1 zero + 3 axes + 3 planes + 1 full space = 8 nodes (Boolean lattice B₃).
-#let code-lattice = diagram(
-  node-shape: "circle",
-  node-stroke: cl-n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 2.5em,
-  // Top (y=0): full space
-  cl-node((0, 0), $"GF"(2)^3$, name: <full>),
-  // Layer 2 (y=1): 2D coordinate subspaces
-  cl-node((-1.3, 1), $<x, y>$, name: <xy>),
-  cl-node((0, 1), $<x, z>$, name: <xz>),
-  cl-node((1.3, 1), $<y, z>$, name: <yz>),
-  // Layer 1 (y=2): 1D coordinate subspaces
-  cl-node((-1.3, 2), $<x>$, name: <x>),
-  cl-node((0, 2), $<y>$, name: <y>),
-  cl-node((1.3, 2), $<z>$, name: <z>),
-  // Bottom (y=3): zero subspace
-  cl-node((0, 3), ${0}$, name: <zero>),
-  // Cover relations: zero -> axes
-  cl-edge(<zero>, <x>),
-  cl-edge(<zero>, <y>),
-  cl-edge(<zero>, <z>),
-  // Axes -> planes
-  cl-edge(<x>, <xy>),
-  cl-edge(<x>, <xz>),
-  cl-edge(<y>, <xy>),
-  cl-edge(<y>, <yz>),
-  cl-edge(<z>, <xz>),
-  cl-edge(<z>, <yz>),
-  // Planes -> full space
-  cl-edge(<xy>, <full>),
-  cl-edge(<xz>, <full>),
-  cl-edge(<yz>, <full>),
-)
-
-// ════════════════════════════════════════════════════════
-// Section C --- SAT diagrams (used by m10-sat.typ)
-// ════════════════════════════════════════════════════════
-
-#let c-node = oklch(88%, 0.03, 250deg)
-#let c-node-str = oklch(60%, 0.08, 250deg)
-#let c-edge = oklch(35%, 0.02, 265deg) + 0.5pt
-#let c-label = oklch(35%, 0.02, 265deg)
-
-// Implication graph for: (x or y) and (not x or z) and (not y or not z)
-// Clauses:
-//   (x or y)    -> not x -> y,  not y -> x
-//   (not x or z) -> x -> z,     not z -> not x
-//   (not y or not z) -> y -> not z,  z -> not y
-//
-// Layout: 6 nodes --- x, not x, y, not y, z, not z
-// x=(0,1), notx=(0,-1), y=(2,1), noty=(2,-1), z=(4,1), notz=(4,-1)
-#let implication-graph-2sat = canvas({
-  let r = 0.4
-  let positions = (
-    ((0, 1.2), $x$, "x"),
-    ((0, -1.2), $overline(x)$, "notx"),
-    ((2, 1.2), $y$, "y"),
-    ((2, -1.2), $overline(y)$, "noty"),
-    ((4, 1.2), $z$, "z"),
-    ((4, -1.2), $overline(z)$, "notz"),
-  )
-
-  // Nodes, named
-  for (pos, label, name) in positions {
-    draw.circle(pos, radius: r, fill: c-node, stroke: c-node-str, name: name)
-    draw.content(pos, text(size: 0.72em, fill: c-label)[#label])
+#let k5 = canvas({
+  let v = ((0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
+  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  for i in range(5) {
+    for j in range(i + 1, 5) {
+      draw.line(str(i + 1), str(j + 1), stroke: (
+        paint: c-edge,
+        thickness: 0.7pt,
+      ))
+    }
   }
-
-  // Edges : node names, border-to-border
-  // Edges from (x or y): not x -> y, not y -> x
-  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
-  draw.line("noty", "x", stroke: c-edge, mark: (end: ">"))
-
-  // Edges from (not x or z): x -> z, not z -> not x
-  draw.line("x", "z", stroke: c-edge, mark: (end: ">"))
-  draw.line("notz", "notx", stroke: c-edge, mark: (end: ">"))
-
-  // Edges from (not y or not z): y -> not z, z -> not y
-  draw.line("y", "notz", stroke: c-edge, mark: (end: ">"))
-  draw.line("z", "noty", stroke: c-edge, mark: (end: ">"))
 })
 
-// Simpler example for explanation: (x or y) and (not x or y)
-// Clauses:
-//   (x or y)    -> not x -> y
-//   (not x or y) -> x -> y
-// This formula is satisfiable: set y=true.
-#let implication-graph-2sat-simple = canvas({
-  let r = 0.4
-  draw.circle((0, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "x")
-  draw.content((0, 0.8), text(size: 0.72em, fill: c-label)[$x$])
-
-  draw.circle(
-    (0, -0.8),
-    radius: r,
-    fill: c-node,
-    stroke: c-node-str,
-    name: "notx",
-  )
-  draw.content((0, -0.8), text(size: 0.72em, fill: c-label)[$overline(x)$])
-
-  draw.circle((2, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "y")
-  draw.content((2, 0.8), text(size: 0.72em, fill: c-label)[$y$])
-
-  draw.circle(
-    (2, -0.8),
-    radius: r,
-    fill: c-node,
-    stroke: c-node-str,
-    name: "noty",
-  )
-  draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
-
-  // Edges : node names, border-to-border
-  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
-  draw.line("x", "y", stroke: c-edge, mark: (end: ">"))
-
-  // Labels
-  draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(
-    45%,
-    0.02,
-    265deg,
-  ))[$x or y$])
-  draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(
-    45%,
-    0.02,
-    265deg,
-  ))[$not x or y$])
-})
-
-// ── DPLL decision tree: φ = (x∨y) ∧ (¬x∨y) ∧ (x∨¬y) ∧ (¬x∨¬y) ──
-#let dpll-dec-fill = oklch(92%, 0.04, 250deg)
-#let dpll-dec-str = oklch(55%, 0.15, 250deg) + 0.8pt
-#let dpll-up-fill = oklch(92%, 0.04, 155deg)
-#let dpll-up-str = oklch(55%, 0.18, 155deg) + 0.7pt
-#let dpll-conf-fill = oklch(92%, 0.06, 22deg)
-#let dpll-conf-str = oklch(55%, 0.20, 22deg) + 0.8pt
-#let dpll-edge-color = oklch(35%, 0.02, 265deg)
-#let dpll-label = oklch(30%, 0.02, 265deg)
-
-// Helper: rounded box with text, returns named node
-#let dpll-box(pos, w, h, fill, stroke, title, subtitle, name) = {
-  let (cx, cy) = pos
+#let k33 = canvas({
+  let left = ((0, 2), (0, 0), (0, -2))
+  let right = ((4, 2), (4, 0), (4, -2))
+  // Background regions
   draw.rect(
-    (cx - w / 2, cy - h / 2),
-    (cx + w / 2, cy + h / 2),
-    radius: 4pt,
-    fill: fill,
-    stroke: stroke,
-    name: name,
+    (-0.6, 2.5),
+    (0.6, -2.5),
+    radius: 6pt,
+    fill: c-pa-fill,
+    stroke: none,
   )
-  draw.content((cx, cy + 0.15), text(size: 0.55em, fill: dpll-label)[#title])
-  if subtitle != none {
-    draw.content((cx, cy - 0.2), text(size: 0.5em, fill: luma(45%))[#subtitle])
+  draw.rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
+  // Nodes FIRST : named so line() routes border-to-border
+  // Labels placed outside (anchor: "west"/"east") since nodes are small dots.
+  for (i, p) in left.enumerate() {
+    draw.circle(p, radius: 0.28, fill: c-pa-dot, name: "l" + str(i + 1))
+    draw.content(p, $v_i$, anchor: "west", outset: 0.3em, size: .8em)
   }
-}
-
-// Helper: X marker for dead ends
-#let dpll-dead-end(pos, name) = {
-  let (cx, cy) = pos
-  draw.line(
-    (cx - 0.2, cy - 0.15),
-    (cx + 0.2, cy - 0.4),
-    stroke: dpll-conf-str,
-    name: name + "-x1",
-  )
-  draw.line(
-    (cx + 0.2, cy - 0.15),
-    (cx - 0.2, cy - 0.4),
-    stroke: dpll-conf-str,
-    name: name + "-x2",
-  )
-}
-
-// Helper: edge between named anchor strings
-#let dpll-edge(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor, stroke: dpll-edge-color + 0.7pt)
-}
-
-#let dpll-tree = canvas({
-  // ── Formula ──
-  dpll-box(
-    (0, 4.2),
-    5.0,
-    0.8,
-    oklch(96%, 0.01, 260deg),
-    oklch(60%, 0.05, 260deg) + 0.5pt,
-    $(x or y) and (not x or y) and (x or not y) and (not x or not y)$,
-    none,
-    "formula",
-  )
-
-  // ── Decision ──
-  dpll-box(
-    (0, 3.0),
-    2.0,
-    0.6,
-    dpll-dec-fill,
-    dpll-dec-str,
-    [выбор $x$],
-    none,
-    "decision",
-  )
-  dpll-edge("formula.south", "decision.north")
-
-  // ── Left branch (x=1) ──
-  draw.content((-2.1, 3.3), anchor: "south", text(
-    size: 0.6em,
-    fill: dpll-label,
-  )[$x = 1$])
-  dpll-box(
-    (-2.1, 1.9),
-    2.2,
-    0.8,
-    dpll-up-fill,
-    dpll-up-str,
-    [unit propagation],
-    [$(not x or y) -> y = 1$],
-    "up-left",
-  )
-  dpll-edge("decision.south-west", "up-left.north")
-
-  dpll-box(
-    (-2.1, 0.7),
-    2.2,
-    0.8,
-    dpll-conf-fill,
-    dpll-conf-str,
-    [конфликт],
-    [$(not x or not y)$ пуст],
-    "conf-left",
-  )
-  dpll-edge("up-left.south", "conf-left.north")
-  dpll-dead-end((-2.1, 0.0), "dead-left")
-
-  // ── Right branch (x=0) ──
-  draw.content((2.1, 3.3), anchor: "south", text(
-    size: 0.6em,
-    fill: dpll-label,
-  )[$x = 0$])
-  dpll-box(
-    (2.1, 1.9),
-    2.2,
-    0.8,
-    dpll-up-fill,
-    dpll-up-str,
-    [unit propagation],
-    [$(x or y) -> y = 1$],
-    "up-right",
-  )
-  dpll-edge("decision.south-east", "up-right.north")
-
-  dpll-box(
-    (2.1, 0.7),
-    2.2,
-    0.8,
-    dpll-conf-fill,
-    dpll-conf-str,
-    [конфликт],
-    [$(x or not y)$ пуст],
-    "conf-right",
-  )
-  dpll-edge("up-right.south", "conf-right.north")
-  dpll-dead-end((2.1, 0.0), "dead-right")
+  for (i, p) in right.enumerate() {
+    draw.circle(p, radius: 0.28, fill: c-pb-dot, name: "r" + str(i + 1))
+    draw.content(p, $u_i$, anchor: "east", outset: 0.3em, size: .8em)
+  }
+  // Edges : node names, not coordinates
+  for i in range(3) {
+    for j in range(3) {
+      draw.line("l" + str(i + 1), "r" + str(j + 1), stroke: (
+        paint: c-edge,
+        thickness: 0.7pt,
+      ))
+    }
+  }
+  draw.content((0, 2.6), anchor: "south")[$X$]
+  draw.content((4, 2.6), anchor: "south")[$Y$]
 })
 
-// ════════════════════════════════════════════════════════
-// Section B4 --- Hamming(7,4) control groups (Codes, chapter m10-codes.typ)
-// ════════════════════════════════════════════════════════
-
-#let hg-p1 = oklch(52%, 0.15, 260deg)    // p₁ group: blue
-#let hg-p2 = oklch(48%, 0.12, 150deg)    // p₂ group: green
-#let hg-p4 = oklch(48%, 0.14, 315deg)    // p₄ group: purple
-#let hg-data = oklch(38%, 0.03, 265deg)  // data bits and their lines
-#let hg-line = oklch(72%, 0.02, 265deg)  // data lines
-#let hg-label = oklch(30%, 0.02, 265deg) // bit labels
-#let hg-dim = oklch(58%, 0.02, 265deg)   // positions, faint
-#let hg-fill = oklch(97%, 0.02, 265deg)  // circle fill
-
-// The 7-bit codeword on top; four data lines below. A vertical drops from
-// each bit to its data lines, and a dot marks every line the bit feeds:
-// p₁ feeds d₁, d₂, d₄; p₂ feeds d₁, d₃, d₄; p₄ feeds d₂, d₃, d₄; each dᵢ
-// reaches only its own line.
-#let hamming-groups = canvas({
-  // Horizontal position of each codeword bit (index: position - 1).
-  let x = (0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
-  let cy = 7.0
-  let r = 0.42
-  let y-top = cy - r
-
-  // Data lines from top (d₁) to bottom (d₄).
-  let data-y = (5.4, 4.5, 3.6, 2.7)
-  let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
-  for (i, y) in data-y.enumerate() {
-    draw.line((-0.6, y), (6.6, y), stroke: (paint: hg-line, thickness: 0.5pt))
-    draw.content((-1.7, y), text(size: 0.7em, fill: hg-data)[#data-name.at(i)])
+#let bipartite = canvas({
+  let top = ((-1, 1.5), (0.5, 1.5), (2, 1.5))
+  let bot = ((-1, -1.5), (0.5, -1.5), (2, -1.5))
+  // Background regions
+  draw.rect((-1.8, 2.2), (2.8, 0.8), radius: 5pt, fill: c-pa-fill, stroke: none)
+  draw.rect(
+    (-1.8, -0.8),
+    (2.8, -2.2),
+    radius: 5pt,
+    fill: c-pb-fill,
+    stroke: none,
+  )
+  // Nodes FIRST
+  for (i, p) in top.enumerate() {
+    draw.circle(p, radius: 0.38, fill: c-pa-dot, name: "t" + str(i + 1))
   }
+  for (i, p) in bot.enumerate() {
+    draw.circle(p, radius: 0.38, fill: c-pb-dot, name: "b" + str(i + 1))
+  }
+  // Edges : node names
+  e("t1", "b1")
+  e("t1", "b2")
+  e("t2", "b1")
+  e("t2", "b2")
+  e("t2", "b3")
+  e("t3", "b2")
+  e("t3", "b3")
+  draw.content((-2.2, 1.5), anchor: "east")[$X$]
+  draw.content((-2.2, -1.5), anchor: "east")[$Y$]
+})
 
-  // One circle per bit, stroked in its group's color.
-  let hg-bit(bx, label, num, color) = {
+#let tree = canvas({
+  // Nodes FIRST : each named by its label letter
+  for (x, y, lab) in (
+    (0, 2.5, "r"),
+    (-1.5, 1, "a"),
+    (1.5, 1, "b"),
+    (-2.3, -0.2, "c"),
+    (-0.7, -0.2, "d"),
+    (0.7, -0.2, "e"),
+    (2.3, -0.2, "f"),
+  ) {
     draw.circle(
-      (bx, cy),
-      radius: r,
-      fill: hg-fill,
-      stroke: (paint: color, thickness: 0.8pt),
+      (x, y),
+      radius: 0.28,
+      fill: c-t-fill,
+      stroke: (paint: c-t-border, thickness: 0.8pt),
+      name: lab,
     )
-    draw.content((bx, cy), text(size: 0.72em, fill: hg-label)[#label])
-    draw.content((bx, cy + 0.8), text(size: 0.55em, fill: hg-dim)[#num])
+    draw.content((x, y))[#text(weight: "bold")[#lab]]
   }
-  hg-bit(x.at(0), $p_1$, 1, hg-p1)
-  hg-bit(x.at(1), $p_2$, 2, hg-p2)
-  hg-bit(x.at(2), $d_1$, 3, hg-data)
-  hg-bit(x.at(3), $p_4$, 4, hg-p4)
-  hg-bit(x.at(4), $d_2$, 5, hg-data)
-  hg-bit(x.at(5), $d_3$, 6, hg-data)
-  hg-bit(x.at(6), $d_4$, 7, hg-data)
+  for (x, y, lab) in ((-2.7, -1.5, "g"), (-1.2, -1.5, "h"), (0.2, -1.5, "i")) {
+    draw.circle(
+      (x, y),
+      radius: 0.28,
+      fill: none,
+      stroke: (paint: c-t-border, thickness: 0.8pt),
+      name: lab,
+    )
+    draw.content((x, y))[#text(fill: c-t-leaf)[#lab]]
+  }
+  // Edges : node names
+  for (a, b) in (
+    ("r", "a"),
+    ("r", "b"),
+    ("a", "c"),
+    ("a", "d"),
+    ("b", "e"),
+    ("b", "f"),
+    ("c", "g"),
+    ("d", "h"),
+    ("e", "i"),
+  ) {
+    e(a, b, stroke: (paint: c-t-border, thickness: 1pt))
+  }
+})
 
-  // Vertical from a bit down to its lines; dots mark the connections.
-  let hg-edge(bx, bottom, color, dots) = {
-    draw.line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: 1pt))
-    for d in dots {
-      draw.circle((bx, d), radius: 0.13, fill: color)
+#let spanning-tree = canvas({
+  let v = ((0, 2.5), (-2, 0.5), (2, 0.5), (-1.5, -1.5), (1.5, -1.5))
+  // Nodes FIRST
+  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.33) }
+  // Thin edges with weight labels : each edge has a `rel:` offset to place the label beside (not on) the line.
+  // Offsets are perpendicular to the edge direction.
+  for (ai, bi, w, off) in (
+    (0, 1, "4", (-0.18, 0.12)),
+    (0, 2, "3", (0.18, 0.12)),
+    (1, 2, "5", (0, 0.22)),
+    (1, 3, "2", (-0.25, -0.05)),
+    (2, 4, "6", (0.25, -0.05)),
+    (3, 4, "7", (0, -0.22)),
+    (1, 4, "8", (0.12, 0.18)),
+  ) {
+    let aname = str(ai + 1)
+    let bname = str(bi + 1)
+    let ename = aname + "-" + bname
+    draw.line(
+      aname,
+      bname,
+      stroke: (paint: c-edge, thickness: 0.7pt),
+      name: ename,
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      w,
+      frame: "rect",
+      fill: white,
+      stroke: none,
+      padding: 1pt,
+      size: .65em,
+    )
+  }
+  // MST highlight (bold) : node names
+  for (a, b) in (("1", "3"), ("1", "2"), ("2", "4"), ("3", "5")) {
+    draw.line(a, b, stroke: (paint: c-t-border, thickness: 2.5pt))
+  }
+})
+
+#let eulerian = canvas({
+  let v = ((0, 2.2), (0, -2.2), (-2, 0), (2, 0))
+  let names = ("A", "B", "C", "D")
+  let r = 0.52
+
+  // Point on circle border in direction of `toward`
+  let rim(center, toward) = {
+    let (cx, cy) = center
+    let (tx, ty) = toward
+    let d = calc.sqrt((tx - cx) * (tx - cx) + (ty - cy) * (ty - cy))
+    (cx + (tx - cx) / d * r, cy + (ty - cy) / d * r)
+  }
+
+  // Landmasses : circles, named
+  for (i, p) in v.enumerate() {
+    draw.circle(
+      p,
+      radius: r,
+      fill: c-pa-fill,
+      stroke: (paint: c-pa-dot, thickness: 1pt),
+      name: names.at(i),
+    )
+    draw.content(p)[#text(weight: "bold")[#names.at(i)]]
+  }
+
+  let bridge-style = (paint: c-edge, thickness: 0.7pt)
+
+  // Single bridges (straight, node-based)
+  draw.line("A", "D", stroke: bridge-style)
+  draw.line("B", "D", stroke: bridge-style)
+  draw.line("C", "D", stroke: bridge-style)
+
+  // Double bridge A--C: one straight, one bezier curving outward (left)
+  draw.line("A", "C", stroke: bridge-style)
+  let ac-ctrl = (-1.3, 1.3)
+  draw.bezier(
+    rim(v.at(0), ac-ctrl),
+    rim(v.at(2), ac-ctrl),
+    ac-ctrl,
+    ac-ctrl,
+    stroke: bridge-style,
+  )
+
+  // Double bridge B--C: one straight, one bezier curving outward (left)
+  draw.line("B", "C", stroke: bridge-style)
+  let bc-ctrl = (-1.3, -1.3)
+  draw.bezier(
+    rim(v.at(1), bc-ctrl),
+    rim(v.at(2), bc-ctrl),
+    bc-ctrl,
+    bc-ctrl,
+    stroke: bridge-style,
+  )
+
+  // Degree labels : positioned outside each node via named anchors
+  draw.content(
+    "A",
+    anchor: "north",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$3$]
+  draw.content(
+    "B",
+    anchor: "south",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$3$]
+  draw.content(
+    "C",
+    anchor: "west",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$5$]
+  draw.content(
+    "D",
+    anchor: "east",
+    outset: 0.6em,
+    size: .7em,
+    fill: c-edge-dim,
+  )[$3$]
+})
+
+#let planar = canvas({
+  let v = (
+    (0, 2.5),
+    (2.4, 1.3),
+    (2.4, -1.3),
+    (0, -2.5),
+    (-2.4, -1.3),
+    (-2.4, 1.3),
+  )
+  // Nodes FIRST
+  for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.3) }
+  // Outer cycle
+  e("1", "2")
+  e("2", "3")
+  e("3", "4")
+  e("4", "5")
+  e("5", "6")
+  e("6", "1")
+  // Diagonals from vertex 1 : all share endpoint 1, so none cross
+  e("1", "3")
+  e("1", "4")
+  e("1", "5")
+  // Face labels : 5 faces: f_1..f_4 inside, f_5 outside
+  for (p, lab) in (
+    ((1.2, 1.2), $f_1$),
+    ((1.8, 0), $f_2$),
+    ((1.2, -1.2), $f_3$),
+    ((-0.5, -1), $f_4$),
+    ((-1.5, 0), $f_5$),
+  ) {
+    draw.content(p, lab, size: .7em, fill: c-edge-dim)
+  }
+})
+
+#let graph-coloring = canvas({
+  let v = (
+    (0, 2),
+    (-1.902, 0.618),
+    (-1.176, -1.618),
+    (1.176, -1.618),
+    (1.902, 0.618),
+  )
+  // 3-colouring: 0=red, 1=green, 0=red, 1=green, 2=blue
+  let ci = (0, 1, 0, 1, 2)
+  // Nodes : content inside a coloured circle frame, named "c0".."c4"
+  for (i, p) in v.enumerate() {
+    let col = c-colors.at(ci.at(i))
+    draw.content(
+      p,
+      [#text(weight: "bold")[#str(i)]],
+      frame: "circle",
+      radius: 0.42,
+      fill: col,
+      stroke: col.darken(20%),
+      name: "c" + str(i),
+    )
+  }
+  // Edges : pentagon cycle
+  for i in range(5) {
+    e("c" + str(i), "c" + str(calc.rem(i + 1, 5)))
+  }
+  // Chromatic number
+  draw.content(
+    (0, -2.3),
+    anchor: "north",
+    size: .8em,
+    fill: c-edge-dim,
+  )[$chi = 3$]
+})
+
+#let directed-graph = canvas({
+  let v = ((0, 2.5), (2.5, 1), (2.5, -1), (0, -2.5), (-2.5, -1), (-2.5, 1))
+  // Nodes FIRST
+  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  // Arrow style : spread pattern for clean reuse
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  // Edges : node names, CeTZ routes border-to-border
+  draw.line("1", "2", ..arr)
+  draw.line("2", "3", ..arr)
+  draw.line("3", "1", ..arr)
+  draw.line("1", "4", ..arr)
+  draw.line("4", "5", ..arr)
+  draw.line("5", "4", ..arr)
+  draw.line("6", "1", ..arr)
+  draw.line("2", "6", ..arr)
+  // SCC regions (decorative : coordinate-based, no nodes involved)
+  draw.circle((0, 0.75), radius: 3.1, fill: none, stroke: (
+    paint: c-pa-dot,
+    thickness: 1.2pt,
+    dash: "dashed",
+  ))
+  draw.circle((-1.2, -1.8), radius: 1.6, fill: none, stroke: (
+    paint: c-pb-dot,
+    thickness: 1.2pt,
+    dash: "dashed",
+  ))
+})
+
+#let petersen = canvas({
+  let outer = ((0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
+  let inner = (
+    (0, 1.2),
+    (1.15, 0.37),
+    (0.72, -0.98),
+    (-0.72, -0.98),
+    (-1.15, 0.37),
+  )
+  // Nodes FIRST
+  for (i, p) in outer.enumerate() { snode(p, str(i + 1)) }
+  for (i, p) in inner.enumerate() { snode(p, str(6 + i)) }
+  // Edges : node names
+  e("1", "2")
+  e("2", "3")
+  e("3", "4")
+  e("4", "5")
+  e("5", "1")
+  e("6", "8")
+  e("7", "9")
+  e("8", "10")
+  e("9", "6")
+  e("10", "7")
+  for i in range(5) {
+    e(str(i + 1), str(6 + i))
+  }
+})
+
+#let bridge-cut = canvas({
+  let v = (
+    (-1.5, 1.5),
+    (0, 1.5),
+    (1.5, 1.5),
+    (-1.5, -0.5),
+    (0, -0.5),
+    (1.5, -0.5),
+  )
+  // Nodes FIRST
+  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  // Left component: {1, 4, 5}
+  draw.line("1", "4", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("4", "5", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("1", "5", stroke: (paint: c-edge, thickness: 0.8pt))
+  // Right component: {2, 3, 6}
+  draw.line("2", "3", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("3", "6", stroke: (paint: c-edge, thickness: 0.8pt))
+  draw.line("2", "6", stroke: (paint: c-edge, thickness: 0.8pt))
+  // Bridge : the only edge connecting left and right components
+  draw.line("1", "2", stroke: (paint: c-hi, thickness: 2.2pt))
+  // Cut-vertex highlight circle (decorative : coordinate-based)
+  draw.circle(v.at(0), radius: 0.38, fill: none, stroke: (
+    paint: c-hi,
+    thickness: 1.8pt,
+    dash: "dashed",
+  ))
+})
+
+#let bfs-tree = canvas({
+  let v = (
+    (0, 2.5),
+    (-1.8, 1),
+    (1.8, 1),
+    (-2.8, -0.5),
+    (-0.8, -0.5),
+    (0.8, -0.5),
+    (2.8, -0.5),
+  )
+  let r = 0.33 // node radius (matches node() call below)
+
+  // Point on circle border
+  let rim(center, toward) = {
+    let (cx, cy) = center
+    let (tx, ty) = toward
+    let d = calc.sqrt((tx - cx) * (tx - cx) + (ty - cy) * (ty - cy))
+    (cx + (tx - cx) / d * r, cy + (ty - cy) / d * r)
+  }
+
+  // Nodes FIRST
+  let anchors = ("north", "west", "east", "south", "south", "south", "south")
+  for (i, p) in v.enumerate() {
+    node(p, str(i + 1), radius: 0.33)
+    draw.content(
+      p,
+      anchor: anchors.at(i),
+      outset: 0.55em,
+      size: .55em,
+      fill: c-edge-dim,
+    )[
+      $d!=!#((0, 1, 1, 2, 2, 2, 2).at(i))$
+    ]
+  }
+
+  let cross-style = (paint: c-edge-dim, thickness: 0.35pt, dash: "dashed")
+
+  // Cross edges : dashed bezier arcs curving away from the tree
+  // (4,5): siblings under 2 : arc below
+  draw.bezier(
+    rim(v.at(3), (0, -1.5)),
+    rim(v.at(4), (0, -1.5)),
+    (-2.8, -1.5),
+    (-0.8, -1.5),
+    stroke: cross-style,
+  )
+  // (6,7): siblings under 3 : arc below
+  draw.bezier(
+    rim(v.at(5), (0, -1.5)),
+    rim(v.at(6), (0, -1.5)),
+    (0.8, -1.5),
+    (2.8, -1.5),
+    stroke: cross-style,
+  )
+  // (2,6): cross between subtrees : arc to the right, outside the tree
+  draw.bezier(
+    rim(v.at(1), (1.8, -0.8)),
+    rim(v.at(5), (1.8, -0.8)),
+    (1.8, 0.2),
+    (1.8, -1.3),
+    stroke: cross-style,
+  )
+
+  // BFS tree edges : bold straight lines
+  for (a, b) in (
+    ("1", "2"),
+    ("1", "3"),
+    ("2", "4"),
+    ("2", "5"),
+    ("3", "6"),
+    ("3", "7"),
+  ) {
+    draw.line(a, b, stroke: (paint: c-pa-dot, thickness: 2pt))
+  }
+})
+
+#let euler-cycle = canvas({
+  // Node positions
+  let pos = ((0, 1.5), (1, 0), (2, 1.5), (0, -1.5), (2, -1.5))
+  let labs = ("A", "B", "C", "D", "E")
+
+  for (i, p) in pos.enumerate() { node(p, labs.at(i), radius: 0.33) }
+
+  // Euler cycle path: edge pairs + offset for circled number placement
+  let cycle = (
+    ("B", "A", (-0.12, 0.12)),
+    ("A", "C", (0, 0.15)),
+    ("C", "B", (0.12, 0.12)),
+    ("B", "D", (-0.12, -0.12)),
+    ("D", "E", (0, -0.15)),
+    ("E", "B", (0.12, -0.12)),
+  )
+
+  for (i, (a, b, off)) in cycle.enumerate() {
+    let ename = a + "-" + b
+    draw.line(
+      a,
+      b,
+      stroke: (paint: c-pa-dot, thickness: 1.2pt),
+      name: ename,
+    )
+    // Circled step number at edge midpoint
+    let pt = (rel: off, to: ename + ".mid")
+    draw.circle(pt, radius: 0.23, fill: white, stroke: (
+      paint: c-pa-dot,
+      thickness: 0.7pt,
+    ))
+    draw.content(pt, str(i + 1), size: .58em)
+  }
+})
+
+#let bipartite-matching = canvas({
+  let ly = (0, 1.5, 3)
+  let ry = (0, 1.5, 3)
+  let xl = 0
+  let xr = 4
+
+  // Background regions
+  draw.rect(
+    (-0.6, 3.5),
+    (0.6, -0.5),
+    radius: 6pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
+  draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
+
+  // Nodes
+  for (i, y) in ly.enumerate() {
+    draw.circle((xl, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
+    draw.content(
+      (xl, y),
+      $x_#(i + 1)$,
+      anchor: "east",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+  for (i, y) in ry.enumerate() {
+    draw.circle((xr, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
+    draw.content(
+      (xr, y),
+      $y_#(i + 1)$,
+      anchor: "west",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+
+  // Non-matching edges : thin, dimmed
+  draw.line("L1", "R2", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  draw.line("L2", "R3", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+
+  // Matching edges : thick, highlighted
+  draw.line("L1", "R1", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L2", "R2", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L3", "R3", stroke: (paint: c-t-border, thickness: 2.5pt))
+
+  // Partition labels
+  draw.content((0, 3.6), anchor: "south")[$X$]
+  draw.content((4, 3.6), anchor: "south")[$Y$]
+})
+
+#let dijkstra-counterexample = canvas({
+  let c-neg = oklch(58%, 0.22, 22deg) // red highlight for negative edge
+
+  // Node positions
+  node((0, 0), "S")
+  node((3, 1.8), "A")
+  node((3, -1.8), "B")
+
+  let arr = (mark: (end: "stealth"))
+
+  // Edge S->A : weight 3
+  draw.line(
+    "S",
+    "A",
+    stroke: (paint: c-edge, thickness: 0.7pt),
+    ..arr,
+    name: "sa",
+  )
+  draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $3$, size: .65em)
+
+  // Edge S->B : weight 2
+  draw.line(
+    "S",
+    "B",
+    stroke: (paint: c-edge, thickness: 0.7pt),
+    ..arr,
+    name: "sb",
+  )
+  draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $2$, size: .65em)
+
+  // Edge A->B : weight −2 (negative, red, dashed)
+  draw.line(
+    "A",
+    "B",
+    stroke: (
+      paint: c-neg,
+      thickness: 1pt,
+      dash: "dashed",
+    ),
+    ..arr,
+    name: "ab",
+  )
+  draw.content((rel: (0.22, 0), to: "ab.mid"), $-2$, size: .65em, fill: c-neg)
+})
+
+#let c-pr-rem = oklch(82%, 0.01, 260deg)       // removed / not-yet vertex
+
+#let c-pr-rem-str = oklch(72%, 0.01, 260deg)   // removed / future edge
+
+#let c-pr-add = oklch(58%, 0.22, 22deg)        // just-added edge (decoding)
+
+#let prufer-frame(ox, oy, vpos, edges, vst, est, code) = {
+  // Ноды именуются как "<label>-<frame>", поэтому имена уникальны в canvas:
+  // cetz обрезает линии по границе именованной ноды (border anchor).
+  // Суффикс `frame` не содержит '.', иначе имя ломает assert в cetz.
+  let frame = str(ox).replace(".", "_")
+  let nid = label => label + "-" + frame
+  for (label, pos) in vpos {
+    let st = vst.at(label, default: "on")
+    let (fill, strk, txt) = if st == "off" {
+      (c-pr-rem, c-pr-rem-str, c-pr-rem-str)
+    } else if st == "last" {
+      (c-t-fill, c-t-border, c-t-border)
+    } else {
+      (c-n-fill, c-n-border, c-n-text)
     }
+    draw.circle(
+      (pos.at(0) + ox, pos.at(1) + oy),
+      radius: 0.27,
+      fill: fill,
+      stroke: (paint: strk, thickness: 0.8pt),
+      name: nid(label),
+    )
+    draw.content(
+      (pos.at(0) + ox, pos.at(1) + oy),
+      text(fill: txt, weight: "bold", size: 0.72em)[#label],
+    )
   }
-  hg-edge(x.at(0), data-y.at(3), hg-p1, (
-    data-y.at(0),
-    data-y.at(1),
-    data-y.at(3),
-  ))
-  hg-edge(x.at(1), data-y.at(3), hg-p2, (
-    data-y.at(0),
-    data-y.at(2),
-    data-y.at(3),
-  ))
-  hg-edge(x.at(3), data-y.at(3), hg-p4, (
-    data-y.at(1),
-    data-y.at(2),
-    data-y.at(3),
-  ))
-  hg-edge(x.at(2), data-y.at(0), hg-data, (data-y.at(0),))
-  hg-edge(x.at(4), data-y.at(1), hg-data, (data-y.at(1),))
-  hg-edge(x.at(5), data-y.at(2), hg-data, (data-y.at(2),))
-  hg-edge(x.at(6), data-y.at(3), hg-data, (data-y.at(3),))
-})
-
-// ════════════════════════════════════════════════════════
-// Section C --- Схемная сложность (chapter m09-circuits.typ)
-// ════════════════════════════════════════════════════════
-
-#let cs-func-fill = oklch(96%, 0.02, 265deg)   // все функции
-#let cs-func-str = 0.8pt + oklch(35%, 0.02, 265deg)
-#let cs-small-fill = oklch(88%, 0.06, 250deg)  // функции с малой схемой
-#let cs-label = oklch(30%, 0.02, 265deg)
-#let cs-dim = oklch(58%, 0.02, 265deg)
-
-// Мощностной аргумент: функций 2^(2^n), а схем размера s мало.
-// Большой прямоугольник --- все функции; маленький --- функции, реализуемые малой схемой.
-#let functions-vs-circuits = canvas({
-  let w = 7.0
-  let h = 4.2
-  draw.rect(
-    (-w / 2, -h / 2),
-    (w / 2, h / 2),
-    fill: cs-func-fill,
-    stroke: cs-func-str,
-    name: "all",
-  )
-  draw.content((0, 1.0), text(size: 0.62em, fill: cs-label)[все функции])
-  draw.content((0, 0.25), text(size: 0.72em, fill: cs-label)[$2^(2^n)$])
-
-  let sw = 2.8
-  let sh = 1.4
-  let sx = w / 2 - sw / 2 - 0.5
-  let sy = -h / 2 + sh / 2 + 0.6
-  draw.rect(
-    (sx - sw / 2, sy - sh / 2),
-    (sx + sw / 2, sy + sh / 2),
-    fill: cs-small-fill,
-    stroke: cs-func-str,
-    name: "small",
-  )
-  draw.content((sx, sy + 0.25), text(size: 0.52em, fill: cs-label)[малые схемы])
-  draw.content((sx, sy - 0.3), text(size: 0.62em, fill: cs-label)[$(c s)^s$])
-})
-
-// Вложенность классов: P subset P/poly; снятие равномерности пускает в P/poly неразрешимые языки.
-#let class-inclusion = canvas({
-  let all-w = 7.8
-  let all-h = 5.0
-  draw.rect(
-    (-all-w / 2, -all-h / 2),
-    (all-w / 2, all-h / 2),
-    fill: oklch(97%, 0.01, 265deg),
-    stroke: cs-func-str,
-    name: "all",
-  )
-  draw.content((0, all-h / 2 - 0.45), text(
-    size: 0.62em,
-    fill: cs-dim,
-  )[все языки])
-
-  draw.rect(
-    (-2.4, -1.8),
-    (3.0, 2.0),
-    radius: 12pt,
-    fill: oklch(92%, 0.05, 250deg),
-    stroke: cs-func-str,
-    name: "ppoly",
-  )
-  draw.content((0.3, 1.35), text(size: 0.68em, fill: cs-label)[$"P/poly"$])
-
-  draw.rect(
-    (-1.55, -1.05),
-    (0.75, 0.65),
-    radius: 8pt,
-    fill: white,
-    stroke: cs-func-str,
-    name: "p",
-  )
-  draw.content((-0.4, -0.2), text(size: 0.68em, fill: cs-label)[$P$])
-
-  draw.content((1.8, 0.15), text(size: 0.5em, fill: cs-label)[неразрешимые])
-  draw.content((1.8, -0.3), text(size: 0.5em, fill: cs-label)[языки])
-})
-
-// ════════════════════════════════════════════════════════
-// Section C --- Cook-Levin computation table (SAT, m13) ──
-// ════════════════════════════════════════════════════════
-
-#let clt-cell-str = 0.5pt + oklch(50%, 0.05, 250deg)
-#let clt-cell-fill = oklch(97%, 0.01, 260deg)
-#let clt-window-str = 1pt + oklch(55%, 0.18, 22deg)
-#let clt-head-fill = oklch(92%, 0.06, 22deg)
-#let clt-label = oklch(35%, 0.02, 265deg)
-
-// Cook-Levin: p(n) × p(n) computation table with a highlighted 2×3 locality window.
-#let cook-levin-table = canvas({
-  let rows = 4
-  let cols = 6
-  let cell = 0.55
-  let head-y = (rows + 0.6) / 2 * 1.0
-
-  // Grid cells: (i, t) with tape position i horizontal, step t vertical (down).
-  for t in range(rows) {
-    for i in range(cols) {
-      let x = (i - (cols - 1) / 2) * cell
-      let y = (rows / 2 - 0.5 - t) * cell
-      draw.rect(
-        (x - cell / 2, y - cell / 2),
-        (x + cell / 2, y + cell / 2),
-        fill: clt-cell-fill,
-        stroke: clt-cell-str,
-        name: "c-" + str(t) + "-" + str(i),
-      )
+  for (a, b) in edges {
+    let st = est.at(a + b, default: "on")
+    let stroke = if st == "none" {
+      none
+    } else if st == "off" {
+      (paint: c-pr-rem-str, thickness: 0.6pt)
+    } else if st == "future" {
+      (paint: c-pr-rem-str, thickness: 0.6pt, dash: "dashed")
+    } else if st == "add" {
+      (paint: c-pr-add, thickness: 1.8pt)
+    } else if st == "last" {
+      (paint: c-t-border, thickness: 1.6pt)
+    } else {
+      (paint: c-edge, thickness: 0.7pt)
     }
+    if stroke == none {
+      continue
+    }
+    // Рисуем по именам нод: cetz сам находит первое пересечение линии
+    // с границей кружка и обрезает до неё, не заходя в центр.
+    draw.line(nid(a), nid(b), stroke: stroke)
   }
-
-  // Head markers on the second row (t=1) at positions 2..4: a small triangle.
-  for i in range(2, 5) {
-    let x = (i - (cols - 1) / 2) * cell
-    let y = (rows / 2 - 0.5 - 1) * cell
-    draw.content((x, y + 0.02), text(
-      size: 0.5em,
-      fill: oklch(55%, 0.18, 22deg),
-    )[$H$])
-  }
-
-  // Locality window: cells (t=0..1, i=2..4) -> 2 rows × 3 columns.
-  let x0 = (2 - (cols - 1) / 2) * cell - cell / 2
-  let x1 = (4 - (cols - 1) / 2) * cell + cell / 2
-  let y0 = (rows / 2 - 0.5 - 1) * cell + cell / 2
-  let y1 = (rows / 2 - 0.5 - 0) * cell - cell / 2
-  draw.rect(
-    (x0, y0),
-    (x1, y1),
-    stroke: clt-window-str,
-    fill: none,
-    name: "window",
-  )
-
-  // Axis labels.
   draw.content(
-    (0, (rows / 2 + 0.8) * cell),
-    text(size: 0.6em, fill: clt-label)[шаг $t$],
+    (1.2 + ox, -0.55 + oy),
+    anchor: "north",
+    text(fill: c-n-text, size: 0.66em)[#code],
   )
-  draw.content(
-    (-(cols / 2 + 0.5) * cell, 0),
-    rotate(90deg, text(size: 0.6em, fill: clt-label)[позиция $i$]),
-  )
-  draw.content(
-    ((cols / 2 + 0.8) * cell, 0),
-    rotate(-90deg, text(size: 0.55em, fill: luma(45%))[локальность: ячейка зависит от трёх выше]),
-  )
-})
-
-// ════════════════════════════════════════════════════════
-// Section D --- CDCL conflict graph (SAT, m13) ──
-// ════════════════════════════════════════════════════════
-
-#let cdcl-node-fill = oklch(92%, 0.03, 250deg)
-#let cdcl-node-str = 0.6pt + oklch(55%, 0.08, 250deg)
-#let cdcl-conf-fill = oklch(92%, 0.06, 22deg)
-#let cdcl-conf-str = 0.8pt + oklch(55%, 0.20, 22deg)
-#let cdcl-cut-str = 0.7pt + oklch(55%, 0.14, 300deg)
-#let cdcl-edge = 0.6pt + oklch(35%, 0.02, 265deg)
-#let cdcl-label = oklch(30%, 0.02, 265deg)
-
-#let cdcl-node(pos, label, name, ..style) = {
-  let (cx, cy) = pos
-  draw.circle(
-    (cx, cy),
-    radius: 0.32,
-    fill: cdcl-node-fill,
-    stroke: cdcl-node-str,
-    name: name,
-    ..style,
-  )
-  draw.content((cx, cy), text(size: 0.62em, fill: cdcl-label)[#label])
 }
 
-// CDCL: implication graph with a conflict, 1-UIP cut, and the learned clause.
-#let cdcl-conflict-graph = canvas({
-  // Decision level 1 (left): x1 = 1 at decision.
-  cdcl-node((-2.6, 1.6), $x_1$, "x1", fill: oklch(92%, 0.05, 155deg), stroke: (
-    paint: oklch(50%, 0.16, 155deg),
-    thickness: 0.8pt,
-  ))
-  draw.content((-3.3, 1.9), text(size: 0.5em, fill: luma(50%))[ур. 1])
-  cdcl-node((-1.5, 0.6), $overline(x_2)$, "nx2")
-  cdcl-node((-0.4, 0.0), $x_3$, "x3")
-
-  // Decision level 2 (right): x4 = 0 at decision.
-  cdcl-node((2.6, 1.6), $overline(x_4)$, "nx4", fill: oklch(
-    92%,
-    0.05,
-    155deg,
-  ), stroke: (
-    paint: oklch(50%, 0.16, 155deg),
-    thickness: 0.8pt,
-  ))
-  draw.content((3.3, 1.9), text(size: 0.5em, fill: luma(50%))[ур. 2])
-  cdcl-node((1.5, 0.6), $x_5$, "x5")
-
-  // Conflict node in the middle.
-  cdcl-node((0.0, -1.2), $bot$, "conf", fill: cdcl-conf-fill, stroke: cdcl-conf-str)
-
-  // Implication edges: two chains converging at the conflict.
-  draw.line("x1", "nx2", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("nx2", "x3", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("x3", "conf", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("nx4", "x5", stroke: cdcl-edge, mark: (end: ">"))
-  draw.line("x5", "conf", stroke: cdcl-edge, mark: (end: ">"))
-
-  // Clause labels on edges.
-  draw.content(((-2.6 - 1.5) / 2, 1.15), anchor: "south", text(
-    size: 0.48em,
-    fill: luma(45%),
-  )[$overline(x_1) or overline(x_2)$])
-  draw.content(((-1.5 - 0.4) / 2, 0.35), anchor: "south", text(
-    size: 0.48em,
-    fill: luma(45%),
-  )[$x_2 or x_3$])
-  draw.content(((2.6 + 1.5) / 2, 1.15), anchor: "south", text(
-    size: 0.48em,
-    fill: luma(45%),
-  )[$x_4 or x_5$])
-
-  // 1-UIP cut: dashed line separating reason (left+right) from conflict.
-  draw.line(
-    (-0.9, 0.7),
-    (0.9, 0.7),
-    name: "cut",
-    stroke: cdcl-cut-str,
-    dash: "dashed",
+#let prufer-encode = canvas({
+  let vpos = (
+    "3": (1.5, 1.0),
+    "2": (0.7, 1.9),
+    "1": (0.0, 2.7),
+    "4": (0.7, 0.1),
+    "5": (2.3, 0.1),
   )
-  draw.content((0.95, 0.85), anchor: "west", text(
-    size: 0.52em,
-    fill: oklch(55%, 0.14, 300deg),
-  )[разрез 1-UIP])
-
-  // Learned clause below.
-  draw.content(
-    (0, -1.9),
-    text(size: 0.6em, fill: cdcl-label)[выученный дизъюнкт: $x_1 or x_4$],
+  let edges = (("1", "2"), ("2", "3"), ("3", "4"), ("3", "5"))
+  prufer-frame(0.0, 0.0, vpos, edges, (:), (:), "K = []")
+  prufer-frame(2.9, 0.0, vpos, edges, ("1": "off"), ("12": "off"), "K = [2]")
+  prufer-frame(
+    5.8,
+    0.0,
+    vpos,
+    edges,
+    ("1": "off", "2": "off"),
+    ("12": "off", "23": "off"),
+    "K = [2, 3]",
   )
+  prufer-frame(
+    8.7,
+    0.0,
+    vpos,
+    edges,
+    ("1": "off", "2": "off", "4": "off", "3": "last", "5": "last"),
+    ("12": "off", "23": "off", "34": "off", "35": "last"),
+    "K = [2, 3, 3]",
+  )
+})
+
+#let prufer-decode = canvas({
+  let vpos = (
+    "1": (1.5, 1.8),
+    "3": (0.6, 1.0),
+    "5": (2.4, 1.0),
+    "2": (0.0, 0.2),
+    "4": (1.2, 0.2),
+  )
+  let edges = (("1", "3"), ("1", "5"), ("3", "2"), ("3", "4"))
+  prufer-frame(
+    0.0,
+    0.0,
+    vpos,
+    edges,
+    ("2": "on", "3": "on", "1": "off", "4": "off", "5": "off"),
+    ("32": "add", "13": "future", "15": "future", "34": "future"),
+    "K = [3, 1]",
+  )
+  prufer-frame(
+    2.9,
+    0.0,
+    vpos,
+    edges,
+    ("2": "on", "3": "on", "4": "on", "1": "off", "5": "off"),
+    ("32": "add", "34": "add", "13": "future", "15": "future"),
+    "K = [1]",
+  )
+  prufer-frame(
+    5.8,
+    0.0,
+    vpos,
+    edges,
+    ("2": "on", "3": "on", "4": "on", "1": "on", "5": "off"),
+    ("32": "add", "34": "add", "13": "add", "15": "future"),
+    "K = []",
+  )
+  prufer-frame(8.7, 0.0, vpos, edges, (:), (:), "K = []")
+})
+
+#let menger-paths = canvas({
+  let c-path-green = c-t-border
+  let c-path-blue = oklch(50%, 0.15, 250deg)
+  let c-sep = c-hi
+
+  node((0, 0.5), "u")
+  node((1, 0), "a")
+  node((1, 1), "b")
+  node((2, 0), "c")
+  node((2, 1), "d")
+  node((3, 0.5), "v")
+
+  // Extra edges : dimmed
+  e("a", "d", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  e("b", "c", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  e("c", "d", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+
+  // Path 1 (green) : u-a-c-v
+  e("u", "a", stroke: (paint: c-path-green, thickness: 2.5pt))
+  e("a", "c", stroke: (paint: c-path-green, thickness: 2.5pt))
+  e("c", "v", stroke: (paint: c-path-green, thickness: 2.5pt))
+
+  // Path 2 (blue) : u-b-d-v
+  e("u", "b", stroke: (paint: c-path-blue, thickness: 2.5pt))
+  e("b", "d", stroke: (paint: c-path-blue, thickness: 2.5pt))
+  e("d", "v", stroke: (paint: c-path-blue, thickness: 2.5pt))
+
+  // Separator {a, b} : orange ring
+  draw.circle((1, 0), radius: 0.38, fill: none, stroke: (
+    paint: c-sep,
+    thickness: 1.6pt,
+  ))
+  draw.circle((1, 1), radius: 0.38, fill: none, stroke: (
+    paint: c-sep,
+    thickness: 1.6pt,
+  ))
+})
+
+#let konig-cover = canvas({
+  let ly = (0, 1.5, 3)
+  let ry = (0, 1.5, 3)
+  let xl = 0
+  let xr = 4
+
+  draw.rect(
+    (-0.6, 3.5),
+    (0.6, -0.5),
+    radius: 6pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
+  draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
+
+  for (i, y) in ly.enumerate() {
+    draw.circle((xl, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
+    draw.content(
+      (xl, y),
+      $x_#(i + 1)$,
+      anchor: "east",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+  for (i, y) in ry.enumerate() {
+    draw.circle((xr, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
+    draw.content(
+      (xr, y),
+      $y_#(i + 1)$,
+      anchor: "west",
+      outset: 0.4em,
+      size: .85em,
+    )
+  }
+
+  // Non-matching edges : thin, dimmed
+  draw.line("L1", "R2", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+  draw.line("L2", "R3", stroke: (paint: c-edge-dim, thickness: 0.7pt))
+
+  // Matching edges : thick, highlighted
+  draw.line("L1", "R1", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L2", "R2", stroke: (paint: c-t-border, thickness: 2.5pt))
+  draw.line("L3", "R3", stroke: (paint: c-t-border, thickness: 2.5pt))
+
+  // Vertex cover : whole right part, orange rings
+  for (i, y) in ry.enumerate() {
+    draw.circle((xr, y), radius: 0.38, fill: none, stroke: (
+      paint: c-hi,
+      thickness: 1.6pt,
+    ))
+  }
+
+  draw.content((0, 3.6), anchor: "south")[$X$]
+  draw.content((4, 3.6), anchor: "south")[$Y$]
+})
+
+#let flow-network = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  for (fr, to, cap, off) in (
+    ("s", "a", "5", (-0.1, 0.26)),
+    ("s", "b", "3", (-0.1, -0.26)),
+    ("a", "t", "3", (0.1, 0.26)),
+    ("b", "t", "4", (0.1, -0.26)),
+    ("a", "b", "2", (0.22, 0)),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(fr, to, name: ename, ..arr)
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      cap,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+  draw.content((-3, 1.9), anchor: "south")[$s$]
+  draw.content((2.5, 1.9), anchor: "south")[$t$]
+})
+
+#let flow-values = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  for (fr, to, lb, off) in (
+    ("s", "a", "3/5", (-0.12, 0.26)),
+    ("s", "b", "2/3", (-0.12, -0.26)),
+    ("a", "t", "2/3", (0.12, 0.26)),
+    ("b", "t", "3/4", (0.12, -0.26)),
+    ("a", "b", "1/2", (0.24, 0)),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(fr, to, name: ename, ..arr)
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      lb,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+})
+
+#let residual-network = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  // Forward residual (solid) + backward residual (dashed) for edges carrying flow.
+  for (fr, to, cf, off, dim) in (
+    ("s", "a", "2", (-0.12, 0.26), false),
+    ("a", "s", "3", (-0.36, 0.18), true),
+    ("s", "b", "1", (-0.12, -0.26), false),
+    ("b", "s", "2", (-0.36, -0.18), true),
+    ("a", "t", "1", (0.12, 0.26), false),
+    ("t", "a", "2", (0.36, 0.18), true),
+    ("b", "t", "1", (0.12, -0.26), false),
+    ("t", "b", "3", (0.36, -0.18), true),
+    ("a", "b", "1", (0.24, 0), false),
+    ("b", "a", "1", (0.24, 0.1), true),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(
+      fr, to, name: ename,
+      stroke: (paint: if dim { c-edge-dim } else { c-edge }, thickness: if dim { 0.6pt } else { 0.7pt }, dash: if dim { "dashed" } else { none }),
+      mark: (end: "stealth"),
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      cf,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .58em,
+    )
+  }
+})
+
+#let flow-cut = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  let arr = (mark: (end: "stealth"), stroke: (paint: c-edge, thickness: 0.7pt))
+  for (fr, to, cap, off, hi) in (
+    ("s", "a", "5", (-0.1, 0.26), false),
+    ("s", "b", "3", (-0.1, -0.26), false),
+    ("a", "t", "3", (0.1, 0.26), true),
+    ("b", "t", "4", (0.1, -0.26), true),
+    ("a", "b", "2", (0.24, 0), false),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(
+      fr, to, name: ename,
+      stroke: (paint: if hi { c-hi } else { c-edge }, thickness: if hi { 2pt } else { 0.7pt }),
+      mark: (end: "stealth"),
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      cap,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
+  // Source side S = {s, a, b} shaded.
+  draw.circle((-1.2, 0), radius: 2.2, fill: c-pa-fill.transparentize(65%), stroke: (paint: c-pa-dot, thickness: 1.2pt, dash: "dashed"))
+})
+
+#let flow-cut-net = canvas({
+  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
+  // A = {s,a}. Draw nodes manually: vertex fill color distinguishes the two sides.
+  for (i, p) in v.enumerate() {
+    let (lbl, infA) = (("s", true), ("a", true), ("b", false), ("t", false)).at(i)
+    draw.circle(
+      p, radius: 0.36,
+      fill: if infA { c-t-fill } else { oklch(92%, 0.06, 25deg) },
+      stroke: (paint: if infA { c-t-border } else { oklch(60%, 0.08, 25deg) }, thickness: 0.8pt),
+      name: lbl,
+    )
+    draw.content(p)[#text(fill: c-n-text, weight: "bold")[#lbl]]
+  }
+
+  // Edge labels: flow/capacity. cross = edge from A to B (counts in cut capacity).
+  for (fr, to, lb, off, cross) in (
+    ("s", "a", "3/3", (-0.12, 0.26), true),
+    ("s", "b", "2/2", (-0.12, -0.26), true),
+    ("a", "t", "2/2", (0.12, 0.26), true),
+    ("b", "t", "3/3", (0.12, -0.26), false),
+    ("a", "b", "1/1", (0.28, 0), true),
+  ) {
+    let ename = fr + "-" + to
+    draw.line(
+      fr, to, name: ename,
+      stroke: (paint: if cross { c-hi } else { c-edge }, thickness: if cross { 2pt } else { 0.7pt }),
+      mark: (end: "stealth"),
+    )
+    draw.content(
+      (rel: off, to: ename + ".mid"),
+      lb,
+      frame: "rect", fill: white, stroke: none, padding: 1pt, size: .62em,
+    )
+  }
 })

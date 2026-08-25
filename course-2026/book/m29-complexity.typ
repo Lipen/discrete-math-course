@@ -1,8 +1,8 @@
 // M29 --- Сложность и NP-полнота: пределы эффективных вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m15.typ": complexity-classes, np-reduction-tree, zpp-venn
-#import "diagrams/m09.typ": cook-levin-table
+#import "diagrams/m29.typ": complexity-classes, np-reduction-tree, zpp-venn
+#import "diagrams/m13.typ": cook-levin-table
 
 = Сложность и NP-полнота <chap:complexity>
 
@@ -1199,4 +1199,6 @@ PH --- не просто ещё один класс.
     работающий конвейер: граф и число $k$ сводятся явной конструкцией гаджетов к КНФ, формула решается решателем DPLL, найденное покрытие проверяется верификатором, а таблица времён отделяет "проверить" от "найти".
   ]
 ]
+
+
 

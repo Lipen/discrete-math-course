@@ -1,10 +1,12 @@
 // M09 --- Графы: универсальная структура для моделирования связей.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m06.typ": (
-  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, dijkstra-counterexample, directed-graph, euler-cycle,
-  eulerian, flow-cut, flow-cut-net, flow-network, flow-values, graph-coloring, k33, k5, konig-cover, menger-paths,
-  petersen, planar, prufer-decode, prufer-encode, residual-network, spanning-tree, tree,
+#import "diagrams/m09.typ": (
+  bfs-grid, bfs-tree, bipartite, bipartite-matching, bridge-cut, dijkstra-counterexample,
+  directed-graph, euler-cycle, eulerian, flow-cut, flow-cut-net, flow-network,
+  flow-values, graph-coloring, k33, k5, konig-cover, menger-paths,
+  petersen, planar, prufer-decode, prufer-encode, residual-network, spanning-tree,
+  tree,
 )
 
 = Графы <chap:graphs>
@@ -2878,4 +2880,6 @@ $
     Все рёбра вновь идут между долями, индукционный шаг завершён.
     Утверждение ложно (приведите контрпример) --- найдите ошибку.
 ]
+
+
 

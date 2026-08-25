@@ -1,7 +1,7 @@
 // M08 --- Отношения порядка: ранжирование, сравнение и структурирование дискретных объектов.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m05.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3, lattice-m3, lattice-n5
+#import "diagrams/m08.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3, lattice-m3, lattice-n5
 
 = Отношения порядка <chap:orders>
 
@@ -1335,4 +1335,6 @@ $
     статический анализатор, который находит или исключает деление на ноль в небольших программах, используя решётку знаков и теорему о неподвижной точке.
   ]
 ]
+
+
 

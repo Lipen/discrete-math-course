@@ -2,7 +2,7 @@
 
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m28.typ": greedy-counterexample, interval-scheduling, matroid-sources
+#import "diagrams/m16.typ": greedy-counterexample, interval-scheduling, matroid-sources
 
 = Матроиды <chap:matroids>
 
@@ -800,4 +800,6 @@ $d_i in {1, ..., n}, p_i >= 0$.
     Это работающее воплощение обратного утверждения теоремы Радо--Эдмондса.
   ]
 ]
+
+
 

@@ -1,7 +1,7 @@
 // M27 --- Теория типов: от $lambda$-исчисления к соответствию Карри--Ховарда.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m18.typ": derivation-id, derivation-k
+#import "diagrams/m27.typ": derivation-id, derivation-k
 #import curryst: prooftree, rule
 
 = Теория типов <chap:typetheory>
@@ -848,4 +848,6 @@ $lambda$-куб Барендрегта показывает, как полимо
     работающая проверка типов $lambda ->$, канонический перебор замкнутых нормальных форм и таблица обитателей формул с размерами, включая исчерпывающее подтверждение невыводимости закона Пирса.
   ]
 ]
+
+
 

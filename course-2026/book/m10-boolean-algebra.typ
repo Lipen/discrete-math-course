@@ -1,7 +1,7 @@
 // M10 --- Булева алгебра: алгебраическая структура логики и вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m07.typ": bdd-xor, karnaugh-3var-majority, karnaugh-4var
+#import "diagrams/m10.typ": bdd-xor, karnaugh-3var-majority, karnaugh-4var
 
 = Булева алгебра <chap:boolean>
 
@@ -1565,4 +1565,6 @@ $
     минимизатор, который по таблице истинности или минтермам возвращает минимальную по числу импликант ДНФ, проверенную на эквивалентность на всех наборах и подтверждённую независимым перебором для малых функций.
   ]
 ]
+
+
 

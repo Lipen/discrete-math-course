@@ -1,7 +1,7 @@
 // M14 --- SMT: Satisfiability Modulo Theories.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m14-smt.typ": congruence-closure-merge, dl-negative-cycle, dpll-t-architecture
+#import "diagrams/m14.typ": congruence-closure-merge, dl-negative-cycle, dpll-t-architecture
 
 = SMT <chap:smt>
 
@@ -1580,4 +1580,6 @@ SMT автоматизирует проверку выполнимости по 
     Пусть биты вектора $x$ --- $x_1 x_0$, биты вектора $y$ --- $y_1 y_0$ (в каждом старший бит --- первый).
     Введите битовые переменные, выпишите уравнения сумматора, переведите их в дизъюнкты и приведите выполняющее присваивание.
 ]
+
+
 

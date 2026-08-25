@@ -1,7 +1,7 @@
 // M26 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m17.typ": church-rosser-diamond, lambda-syntax-tree
+#import "diagrams/m26.typ": church-rosser-diamond, lambda-syntax-tree
 
 = Бестиповое $lambda$-исчисление <chap:lambda>
 
@@ -1033,4 +1033,6 @@ $2 "true"$ --- синтаксически корректный терм, хот�
     работающий пошаговый редуктор и сравнение трасс $Omega$ и $Y$: самоприменение без применения функции расходится без роста размера, а с применением функции терм накапливает умножения и сводится к значению факториала.
   ]
 ]
+
+
 

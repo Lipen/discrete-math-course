@@ -1,7 +1,7 @@
 // M24 --- Машины Тьюринга: универсальная модель вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m14.typ": tm-computation, turing-machine
+#import "diagrams/m24.typ": tm-computation, turing-machine
 
 = Машины Тьюринга <chap:turing>
 
@@ -729,4 +729,6 @@
     симулятор с таблицей минимальных машин, составная машина для $w \# w$ с доказательством корректности и работающая универсальная машина $U$.
   ]
 ]
+
+
 

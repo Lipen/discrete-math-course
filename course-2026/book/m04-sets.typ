@@ -1,7 +1,7 @@
 // M04 --- Множества: универсальный контейнер для дискретных объектов.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m02.typ": venn-difference, venn-intersection, venn-subset, venn-union
+#import "diagrams/m04.typ": venn-difference, venn-intersection, venn-subset, venn-union
 
 #import cetz: canvas, draw
 
@@ -1201,4 +1201,6 @@ $
     инструмент, который по текстовому выражению строит дерево, по любой проверке тождества над конечной вселенной выносит вердикт (верно всегда или ложно), и для ложного выводит конкретный контрпример-элемент.
   ]
 ]
+
+
 

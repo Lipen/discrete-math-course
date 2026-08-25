@@ -1,7 +1,7 @@
 // M06 --- Функции: математическая формализация вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m04.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection
+#import "diagrams/m06.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection
 
 = Функции <chap:functions>
 
@@ -1214,4 +1214,6 @@ $lambda$-исчисление --- вычисление через определ
     крейт, который разлагает функциональный граф на циклы и входящие деревья за линейное время, находит длину хвоста и цикла любой траектории с памятью $O(1)$, сверяет средние случайных функций с теорией $sqrt(pi n / 2)$ и $sqrt(pi n / 8)$ и вычисляет порядок элемента по модулю поиском цикла.
   ]
 ]
+
+
 

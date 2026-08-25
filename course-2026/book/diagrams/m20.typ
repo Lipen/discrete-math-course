@@ -1,247 +1,190 @@
-// M20 diagrams --- Fuzzy sets: membership functions and operations.
+// m20 diagrams.
 #import "../requirements.typ": *
+#import "../notation.typ": *
+
 #import cetz: canvas, draw
 
-#let c-tri = oklch(55%, 0.18, 22deg)
-#let c-trap = oklch(50%, 0.14, 260deg)
-#let c-gauss = oklch(46%, 0.13, 140deg)
-#let c-axis = oklch(35%, 0.02, 265deg)
-#let c-tick = oklch(40%, 0.02, 265deg)
+#let c-conv-band(n) = {
+  let hue = calc.rem(250 + n * 55, 360)
+  oklch(70%, 0.08, hue * 1deg).transparentize(70%)
+}
 
-// ── Three membership functions for comparison ──
-#let membership-functions = canvas({
+#let convolution-grid = canvas({
+  let a = (2, 1, 3, 0, 1)
+  let b = (1, 3, 2, 0)
+  let cell = 0.9
 
-  // Data coordinates -> canvas coordinates.
-  // x-data: 0...10  -> canvas x: 0.5...7.5  (0.7 per unit)
-  // y-data: 0...1.2 -> canvas y: 0.5...5.3  (4.0 per unit)
-  let tx(x) = 0.5 + x * 0.7
-  let ty(y) = 0.5 + y * 4.0
-
-  // ── Axes ──
-  draw.line((tx(0), ty(0)), (tx(10.6), ty(0)), stroke: 0.5pt + c-axis)
-  draw.line((tx(0), ty(0)), (tx(0), ty(1.15)), stroke: 0.5pt + c-axis)
-
-  // x-axis ticks (every unit from 1 to 10)
-  for i in range(1, 11) {
-    draw.line(
-      (tx(i), ty(0) - 0.06),
-      (tx(i), ty(0) + 0.06),
-      stroke: 0.3pt + c-tick,
-    )
-    draw.content(
-      (tx(i), ty(-0.18)),
-      text(size: 0.55em, fill: c-tick)[#i],
-    )
+  // Column headers (a_j)
+  for (j, val) in a.enumerate() {
+    draw.content((j * cell + cell / 2 + 0.7, 0.8), text(
+      size: 0.7em,
+      weight: "bold",
+      fill: oklch(45%, 0.12, 250deg),
+    )[$a_#j$])
+    draw.content((j * cell + cell / 2 + 0.7, 0.3), text(
+      size: 0.6em,
+      fill: oklch(40%, 0.02, 265deg),
+    )[#val])
   }
 
-  // Helper: y-axis tick with label
-  let y-tick(y, label, tick-len: 0.06, stroke: 0.3pt + c-tick, size: 0.55em, fill: c-tick) = {
-    draw.line((tx(0) - tick-len, ty(y)), (tx(0) + tick-len, ty(y)), stroke: stroke)
-    draw.content((tx(-0.15), ty(y)), anchor: "east", text(size: size, fill: fill)[#label])
+  // Row headers (b_i)
+  for (i, val) in b.enumerate() {
+    draw.content((-0.1, -i * cell - cell / 2), anchor: "east", text(
+      size: 0.7em,
+      weight: "bold",
+      fill: oklch(45%, 0.12, 22deg),
+    )[$b_#i$])
+    draw.content((0.3, -i * cell - cell / 2), anchor: "east", text(
+      size: 0.6em,
+      fill: oklch(40%, 0.02, 265deg),
+    )[#val])
   }
 
-  // y-axis ticks: 0, 0.5, 1
-  y-tick(0, "0")
-  y-tick(0.5, "0.5", tick-len: 0.04, stroke: 0.2pt + luma(65%), size: 0.5em, fill: luma(55%))
-  y-tick(1, "1")
+  // Grid cells: product a_j * b_i, with diagonal band coloring
+  for i in range(b.len()) {
+    for j in range(a.len()) {
+      let n = i + j // which c_n this term contributes to
+      let x = j * cell + 0.7
+      let y = -i * cell
+      let prod = a.at(j) * b.at(i)
 
-  // Axis labels
-  draw.content(
-    (tx(5.3), ty(-0.45)),
-    text(size: 0.7em, fill: c-axis)[$x$],
-  )
-  draw.content(
-    (tx(-0.5), ty(0.55)),
-    text(size: 0.7em, fill: c-axis)[$mu(x)$],
-  )
+      // Cell background with band color
+      draw.rect(
+        (x, y - cell),
+        (x + cell, y),
+        fill: c-conv-band(n),
+        stroke: oklch(85%, 0.01, 260deg) + 0.3pt,
+        radius: 2pt,
+      )
 
-  // ── Dashed horizontal at y = 1 ──
-  draw.line(
-    (tx(0), ty(1)),
-    (tx(10), ty(1)),
-    stroke: (paint: luma(78%), thickness: 0.3pt, dash: "dashed"),
-  )
-
-  // ── 1. Triangular: μ(x) = max(0, 1 − |x−5|/3) ──
-  // Rises from x=2 to x=5, falls from x=5 to x=8.
-  draw.line(
-    (tx(2), ty(0)),
-    (tx(5), ty(1)),
-    stroke: 1pt + c-tri,
-  )
-  draw.line(
-    (tx(5), ty(1)),
-    (tx(8), ty(0)),
-    stroke: 1pt + c-tri,
-  )
-
-  // ── 2. Trapezoidal: rise 2->4, plateau 4->7, fall 7->9 ──
-  draw.line(
-    (tx(2), ty(0)),
-    (tx(4), ty(1)),
-    stroke: 1pt + c-trap,
-  )
-  draw.line(
-    (tx(4), ty(1)),
-    (tx(7), ty(1)),
-    stroke: 1pt + c-trap,
-  )
-  draw.line(
-    (tx(7), ty(1)),
-    (tx(9), ty(0)),
-    stroke: 1pt + c-trap,
-  )
-
-  // ── 3. Gaussian-like bell: centred at x = 5 ──
-  // Left half: slow rise -> steep approach -> peak.
-  draw.bezier(
-    (tx(2), ty(0)),
-    (tx(5), ty(1)),
-    (tx(3.2), ty(0.03)),
-    (tx(4.3), ty(0.88)),
-    stroke: 1pt + c-gauss,
-  )
-  // Right half: gentle descent -> steep drop -> zero.
-  draw.bezier(
-    (tx(5), ty(1)),
-    (tx(8), ty(0)),
-    (tx(5.7), ty(0.88)),
-    (tx(6.8), ty(0.03)),
-    stroke: 1pt + c-gauss,
-  )
-
-  // ── Legend ──
-  let ly = ty(1.18)
-  let lx = tx(5.8)
-  let lg = 0.55
-  let ls = 0.22
-
-  // Helper: one legend entry (line + label)
-  let legend-item(y, color, label) = {
-    draw.line((lx, y), (lx + lg, y), stroke: 1pt + color)
-    draw.content((lx + lg + 0.15, y), anchor: "west", text(size: 0.55em, fill: c-axis)[#label])
+      // Product value
+      draw.content((x + cell / 2, y - cell / 2), text(size: 0.65em, fill: oklch(
+        30%,
+        0.02,
+        265deg,
+      ))[#prod])
+    }
   }
 
-  legend-item(ly, c-tri, "Треугольная")
-  legend-item(ly - ls, c-trap, "Трапецеидальная")
-  legend-item(ly - 2 * ls, c-gauss, "Гауссова")
+  // Diagonal band labels on the right
+  for n in range(a.len() + b.len() - 1) {
+    let y = -(n * cell / 2) - cell / 2
+    draw.content((a.len() * cell + 1.0, y), anchor: "west", text(
+      size: 0.65em,
+      weight: "bold",
+      fill: oklch(35%, 0.15, 250deg),
+    )[$c_#n$])
+  }
+
+  // Convolution equation at bottom
+  draw.content((a.len() * cell / 2 + 0.35, -(b.len()) * cell - 0.6), text(
+    size: 0.7em,
+    fill: oklch(35%, 0.02, 265deg),
+  )[
+    $c_n = sum_(i+j=n) a_i b_j$
+  ])
 })
 
-// ── Fuzzy set operations ──
+#let cat-node-fill = oklch(88%, 0.03, 250deg)
 
-#let c-muA = oklch(55%, 0.18, 250deg)
-#let c-muA-dim = oklch(70%, 0.08, 250deg)
-#let c-muB = oklch(55%, 0.18, 25deg)
-#let c-muB-dim = oklch(70%, 0.08, 25deg)
-#let c-result = oklch(40%, 0.16, 280deg)
+#let cat-node-str = oklch(55%, 0.08, 250deg) + 0.6pt
 
-// ── Union (max), intersection (min), complement --- three panels ──
-#let fuzzy-operations = canvas({
+#let cat-edge-color = oklch(35%, 0.02, 265deg)
 
-  // Panel offsets: each sub-plot is 4.6 wide, with 0.4 gap between.
-  // Plot area within panel: [ox+0.6, ox+4.0] in x, [0.5, 3.0] in y.
-  //
-  // Triangle vertices for A: (ox+0.8,0.5) -> (ox+1.8,3.0) -> (ox+2.8,0.5)
-  // Triangle vertices for B: (ox+1.8,0.5) -> (ox+2.8,3.0) -> (ox+3.8,0.5)
-  // Intersection A-right ∩ B-left at (ox+2.3, 1.75)
+#let cat-label = oklch(35%, 0.02, 265deg)
 
-  // Helper: axes with ticks and axis labels for one panel
-  let panel-axes(ox) = {
-    draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
-    draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
-    draw.line((ox + 0.6 - 0.08, 0.5), (ox + 0.6, 0.5), stroke: 0.3pt + c-tick)
-    draw.content((ox + 0.44, 0.5), anchor: "east", text(
-      size: 0.5em,
-      fill: c-tick,
-    )[0])
-    draw.line((ox + 0.6 - 0.08, 3.0), (ox + 0.6, 3.0), stroke: 0.3pt + c-tick)
-    draw.content((ox + 0.44, 3.0), anchor: "east", text(
-      size: 0.5em,
-      fill: c-tick,
-    )[1])
-    draw.content((ox + 2.3, -0.1), text(size: 0.55em, fill: c-axis)[$x$])
-    draw.content((ox + 0.35, 1.75), anchor: "east", text(
-      size: 0.55em,
-      fill: c-axis,
-    )[$mu$])
+#let cat-node(pos, name) = {
+  draw.circle(
+    pos,
+    radius: 0.22,
+    fill: cat-node-fill,
+    stroke: cat-node-str,
+    name: name,
+  )
+}
+
+#let cat-leaf(pos, name) = {
+  let (cx, cy) = pos
+  draw.rect(
+    (cx - 0.12, cy - 0.12),
+    (cx + 0.12, cy + 0.12),
+    fill: white,
+    stroke: cat-node-str,
+    radius: 1pt,
+    name: name,
+  )
+}
+
+#let cat-edge(from, to) = {
+  draw.line(from, to, stroke: cat-edge-color + 0.6pt)
+}
+
+#let catalan-recursive = canvas({
+  // ── Original tree (left) ──
+  // Root
+  cat-node((0, 4), "root")
+  // Left subtree: one internal node + two leaves
+  cat-node((-1.2, 2.8), "L")
+  cat-leaf((-1.6, 1.6), "LL")
+  cat-leaf((-0.8, 1.6), "LR")
+  // Right subtree: two internal nodes + three leaves
+  cat-node((1.2, 2.8), "R")
+  cat-node((0.7, 1.6), "RL")
+  cat-leaf((0.3, 0.4), "RLL")
+  cat-leaf((1.1, 0.4), "RLR")
+  cat-leaf((1.7, 1.6), "RR")
+
+  // Edges between named nodes
+  cat-edge("root", "L")
+  cat-edge("root", "R")
+  cat-edge("L", "LL")
+  cat-edge("L", "LR")
+  cat-edge("R", "RL")
+  cat-edge("R", "RR")
+  cat-edge("RL", "RLL")
+  cat-edge("RL", "RLR")
+
+  // Label
+  draw.content((0, -0.3), text(
+    size: 0.7em,
+    weight: "bold",
+    fill: cat-label,
+  )[$C_4$])
+
+  // ── Equality sign ──
+  draw.content((2.8, 2.0), text(size: 1.2em, fill: cat-label)[$=$])
+
+  // ── Decomposition (right side): sum of products C_i·C_{3-i} ──
+  let terms = (
+    (0, 3, 3.8, 3.5, 5.5, 2.0),
+    (1, 2, 6.5, 3.5, 8.2, 2.0),
+    (2, 1, 9.2, 3.5, 10.9, 2.0),
+    (3, 0, 11.9, 3.5, 13.6, 2.0),
+  )
+
+  for (i, (li, ri, x1, y1, x2, y2)) in terms.enumerate() {
+    draw.rect(
+      (x1 - 0.6, y1 - 0.4),
+      (x1 + 0.6, y1 + 0.4),
+      radius: 4pt,
+      fill: oklch(92%, 0.03, 250deg).transparentize(40%),
+      stroke: oklch(60%, 0.08, 250deg) + 0.5pt,
+      name: "ci" + str(i) + "-l",
+    )
+    draw.content((x1, y1), text(size: 0.6em, fill: cat-label)[$C_#li$])
+
+    draw.rect(
+      (x2 - 0.6, y2 - 0.4),
+      (x2 + 0.6, y2 + 0.4),
+      radius: 4pt,
+      fill: oklch(92%, 0.04, 155deg).transparentize(40%),
+      stroke: oklch(55%, 0.18, 155deg) + 0.5pt,
+      name: "ci" + str(i) + "-r",
+    )
+    draw.content((x2, y2), text(size: 0.6em, fill: cat-label)[$C_#ri$])
+
+    if i < terms.len() - 1 {
+      draw.content((x2 + 0.9, y1), text(size: 0.8em, fill: cat-label)[$+$])
+    }
   }
-
-  // ══════ Panel 1: Union (max) ══════
-  let ox = 0
-  // Axes
-  panel-axes(ox)
-  // Dim curves A and B
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 0.5pt + c-muB-dim)
-  draw.line((ox + 2.8, 3.0), (ox + 3.8, 0.5), stroke: 0.5pt + c-muB-dim)
-  // Max: upper envelope
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 1.2pt + c-muA)
-  draw.line((ox + 1.8, 3.0), (ox + 2.3, 1.75), stroke: 1.2pt + c-muA)
-  draw.line((ox + 2.3, 1.75), (ox + 2.8, 3.0), stroke: 1.2pt + c-muA)
-  draw.line((ox + 2.8, 3.0), (ox + 3.8, 0.5), stroke: 1.2pt + c-muA)
-  // Labels
-  draw.content((ox + 1.6, 2.4), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muA,
-  )[$mu_A$])
-  draw.content((ox + 3.4, 2.2), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muB,
-  )[$mu_B$])
-  draw.content((ox + 2.3, 3.4), text(
-    size: 0.7em,
-    weight: "semibold",
-    fill: c-axis,
-  )[Объединение $(max)$])
-
-  // ══════ Panel 2: Intersection (min) ══════
-  ox = 5.0
-  panel-axes(ox)
-  // Dim curves A and B
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 0.5pt + c-muB-dim)
-  draw.line((ox + 2.8, 3.0), (ox + 3.8, 0.5), stroke: 0.5pt + c-muB-dim)
-  // Min: lower envelope
-  draw.line((ox + 1.8, 0.5), (ox + 2.3, 1.75), stroke: 1.2pt + c-result)
-  draw.line((ox + 2.3, 1.75), (ox + 2.8, 0.5), stroke: 1.2pt + c-result)
-  // Labels
-  draw.content((ox + 1.6, 2.4), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muA,
-  )[$mu_A$])
-  draw.content((ox + 3.4, 2.2), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muB,
-  )[$mu_B$])
-  draw.content((ox + 2.3, 3.4), text(
-    size: 0.7em,
-    weight: "semibold",
-    fill: c-axis,
-  )[Пересечение $(min)$])
-
-  // ══════ Panel 3: Complement ─═════
-  ox = 10.0
-  panel-axes(ox)
-  // Original A
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.8pt + c-muA)
-  draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.8pt + c-muA)
-  // ¬A: mirrored about y = 1.75
-  draw.line((ox + 0.8, 3.0), (ox + 1.8, 0.5), stroke: 1.2pt + c-result)
-  draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 1.2pt + c-result)
-  // Labels
-  draw.content((ox + 1.2, 1.5), anchor: "west", text(
-    size: 0.55em,
-    fill: c-muA,
-  )[$mu_A$])
-  draw.content((ox + 1.2, 2.6), anchor: "west", text(
-    size: 0.55em,
-    fill: c-result,
-  )[$mu_{not A}$])
-  draw.content((ox + 2.3, 3.4), text(
-    size: 0.7em,
-    weight: "semibold",
-    fill: c-axis,
-  )[Дополнение $(1-mu)$])
 })

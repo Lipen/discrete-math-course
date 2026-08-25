@@ -1,7 +1,7 @@
 // M05 --- Отношения: математический язык связей между объектами.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m03.typ": equivalence-partition, hasse-divisibility, rel-digraph
+#import "diagrams/m05.typ": equivalence-partition, hasse-divisibility, rel-digraph
 
 = Отношения <chap:relations>
 
@@ -1058,4 +1058,6 @@ $ forall w in Sigma^*: delta^*(p, w) in F iff delta^*(q, w) in F, $
     инструмент, который по таблице отношения сообщает все его свойства, строит рефлексивное/симметричное/транзитивное замыкания, выделяет классы эквивалентности и перечисляет линейные расширения частичного порядка.
   ]
 ]
+
+
 

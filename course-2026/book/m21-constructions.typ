@@ -1,7 +1,7 @@
 // M21 --- Конструкции чисел.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": banach-tarski
+#import "diagrams/m21.typ": banach-tarski
 
 = Конструкции чисел <chap:constructions>
 
@@ -1380,4 +1380,6 @@ $
     Докажите, что $alpha dot alpha = 2$ в смысле умножения сечений из текста.
     Подсказка: докажите оба включения, для обратного используйте плотность квадратов рациональных чисел.
 ]
+
+
 

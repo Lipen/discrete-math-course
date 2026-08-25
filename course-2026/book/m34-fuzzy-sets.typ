@@ -1,7 +1,7 @@
 // M34 --- Нечёткие множества: градуальная принадлежность и размытая логика.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m20.typ": fuzzy-operations, membership-functions
+#import "diagrams/m34.typ": fuzzy-operations, membership-functions
 
 = Нечёткие множества <chap:fuzzy>
 
@@ -863,4 +863,6 @@ $alpha$-срезы и теорема декомпозиции связывают
     измеренное сравнение двух регуляторов на одном входе: метрики дребезга, таблица девяти пар ($t$-норма, дефаззификатор) и разбор парадокса кучи как цены бинарной границы.
   ]
 ]
+
+
 

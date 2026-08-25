@@ -1,8 +1,7 @@
 // M17 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m10.typ": burnside-necklaces, ramsey-k6
-#import "diagrams/m11.typ": combinatorial-numbers, decision-tree, pascal-triangle, venn-inclusion-exclusion
+#import "diagrams/m17.typ": burnside-necklaces, ramsey-k6, combinatorial-numbers, decision-tree, pascal-triangle, venn-inclusion-exclusion
 
 = Комбинаторика <chap:combinatorics>
 
@@ -1870,4 +1869,6 @@ XOR мы впервые встретили в булевой алгебре (г�
     инструмент, который для каждого семейства перечисляет объекты, присваивает ранг и восстанавливает объект по рангу; количество объектов совпадает с формулой ($n!$, $C(n,k)$, $!n$, $p(n)$).
   ]
 ]
+
+
 

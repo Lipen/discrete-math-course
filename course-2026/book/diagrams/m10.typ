@@ -1,214 +1,251 @@
-// Combinatorics (used by m17): Pascal's triangle, inclusion--exclusion.
+// m10 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
 #import cetz: canvas, draw
 
-#let c-num = oklch(35%, 0.02, 265deg)
+#let c-km-line = oklch(35%, 0.02, 265deg) + 0.5pt
 
-// ── Pascal's triangle, rows 0..7 ──
-#let pascals-triangle = canvas({
-  let dx = 0.9
-  let dy = 0.9
-  // Precompute rows of Pascal's triangle
-  let rows = (
-    (1,),
-    (1, 1),
-    (1, 2, 1),
-    (1, 3, 3, 1),
-    (1, 4, 6, 4, 1),
-    (1, 5, 10, 10, 5, 1),
-    (1, 6, 15, 20, 15, 6, 1),
-    (1, 7, 21, 35, 35, 21, 7, 1),
-  )
-  for (i, row) in rows.enumerate() {
-    for (j, val) in row.enumerate() {
-      let x = (j - i / 2) * dx
-      let y = i * -dy
-      draw.content((x, y), text(size: 0.78em, fill: c-num)[#val])
-    }
+#let c-km-fill = oklch(88%, 0.03, 155deg)
+
+#let c-km-num = oklch(35%, 0.02, 265deg)
+
+#let karnaugh-3var = canvas({
+  let s = 1.2 // cell size
+  let rows = 4
+  let cols = 2
+
+  // Grid
+  for i in range(rows + 1) {
+    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
   }
+  for j in range(cols + 1) {
+    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
+  }
+
+  // Row labels (yz)
+  let yz = ("00", "01", "11", "10")
+  for (i, label) in yz.enumerate() {
+    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.72em,
+      fill: c-km-num,
+    )[#label])
+  }
+
+  // Column label (x)
+  draw.content((0.5 * s, 0.35), anchor: "south", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$x$])
+
+  // Column header values
+  for j in range(cols) {
+    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
+      size: 0.65em,
+      fill: c-km-num,
+    )[#j])
+  }
+
+  // Axis labels
+  draw.content((-1.0, -2 * s), anchor: "east", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$y z$])
 })
 
+#let karnaugh-4var = canvas({
+  let s = 1.0
+  let rows = 4
+  let cols = 4
 
-// ── Burnside: necklaces of 3 beads, 2 colors -> 4 orbits ──
-#let c-bead-b = oklch(25%, 0.02, 265deg)  // black bead
-#let c-bead-w = oklch(92%, 0.01, 90deg)   // white bead
-#let c-bead-str = oklch(35%, 0.02, 265deg) + 0.5pt
-#let c-orbit = oklch(35%, 0.02, 265deg)
-#let c-rot = oklch(55%, 0.10, 250deg)
+  // Grid
+  for i in range(rows + 1) {
+    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
+  }
+  for j in range(cols + 1) {
+    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
+  }
 
-// Draw one necklace: circle with n colored dots on it.
-#let necklace(center, colors, radius: 0.55, name: none) = {
-  let n = colors.len()
-  let (cx, cy) = center
-  draw.circle(
-    center,
-    radius: radius,
-    fill: none,
-    stroke: c-bead-str,
-    name: name,
-  )
-  for (i, col) in colors.enumerate() {
-    let angle = 90deg - i * (360deg / n)
-    let bx = cx + radius * calc.cos(angle)
-    let by = cy + radius * calc.sin(angle)
-    draw.circle(
-      (bx, by),
-      radius: 0.12,
-      fill: if col == "b" { c-bead-b } else { c-bead-w },
-      stroke: c-bead-str,
+  // Row labels (yz) in Gray code
+  let yz = ("00", "01", "11", "10")
+  for (i, label) in yz.enumerate() {
+    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.72em,
+      fill: c-km-num,
+    )[#label])
+  }
+
+  // Column labels (wx) in Gray code
+  let wx = ("00", "01", "11", "10")
+  for (j, label) in wx.enumerate() {
+    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
+      size: 0.65em,
+      fill: c-km-num,
+    )[#label])
+  }
+
+  // Axis labels
+  draw.content((-0.8, -2 * s), anchor: "east", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$y z$])
+  draw.content((2 * s, 0.7), anchor: "south", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$w x$])
+})
+
+#let karnaugh-3var-majority = canvas({
+  let s = 1.2
+  let rows = 4
+  let cols = 2
+
+  // Grid
+  for i in range(rows + 1) {
+    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
+  }
+  for j in range(cols + 1) {
+    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
+  }
+
+  // Filled cells: minterms where majority(x,y,z)=1
+  // yz=00: x=0->0, x=1->0
+  // yz=01: x=0->0, x=1->1 (cell row=1, col=1)
+  // yz=11: x=0->1 (row=2, col=0), x=1->1 (row=2, col=1)
+  // yz=10: x=0->0, x=1->1 (row=3, col=1)
+  let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
+  for (row, col) in ones {
+    draw.rect(
+      (col * s, -row * s),
+      ((col + 1) * s, -(row + 1) * s),
+      fill: c-km-fill,
+      stroke: none,
     )
   }
-}
 
-// Orbit 1: all-black {000} --- one element
-// Orbit 2: all-white {111} --- one element
-// Orbit 3: one-white {001, 010, 100} --- three elements (rotate)
-// Orbit 4: two-white {011, 101, 110} --- three elements (rotate)
+  // Cell labels
+  for (row, col) in ones {
+    draw.content(((col + 0.5) * s, -(row + 0.5) * s), text(
+      size: 0.8em,
+      fill: c-km-num,
+    )[1])
+  }
 
-#let burnside-necklaces = canvas({
-  // Orbit 1: {000}
-  necklace((-1.5, 1.8), ("b", "b", "b"))
-  draw.content((-1.5, 0.9), text(size: 0.55em, fill: c-orbit)[1 элемент])
-  draw.content((-1.5, 0.55), text(size: 0.5em, fill: luma(50%))[$"000"$])
+  // Row labels (yz)
+  let yz = ("00", "01", "11", "10")
+  for (i, label) in yz.enumerate() {
+    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
+      size: 0.72em,
+      fill: c-km-num,
+    )[#label])
+  }
 
-  // Orbit 2: {111}
-  necklace((1.5, 1.8), ("w", "w", "w"))
-  draw.content((1.5, 0.9), text(size: 0.55em, fill: c-orbit)[1 элемент])
-  draw.content((1.5, 0.55), text(size: 0.5em, fill: luma(50%))[$"111"$])
+  // Column labels
+  draw.content((0.5 * s, 0.35), anchor: "south", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$x$])
+  for j in range(cols) {
+    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
+      size: 0.65em,
+      fill: c-km-num,
+    )[#j])
+  }
 
-  // Orbit 3: one white bead --- {001, 010, 100}
-  necklace((-3.0, -1.0), ("w", "b", "b"), name: "o3a")
-  necklace((-1.5, -1.0), ("b", "w", "b"), name: "o3b")
-  necklace((0.0, -1.0), ("b", "b", "w"), name: "o3c")
-  draw.line("o3a.east", "o3b.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line("o3b.east", "o3c.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.content((-2.5, -1.7), text(
-    size: 0.55em,
-    fill: c-orbit,
-  )[3 элемента (повороты)])
-  draw.content((-2.5, -2.1), text(
-    size: 0.5em,
-    fill: luma(50%),
-  )[$"001", "010", "100"$])
-
-  // Orbit 4: two white beads --- {011, 101, 110}
-  necklace((-3.0, -3.5), ("w", "w", "b"), name: "o4a")
-  necklace((-1.5, -3.5), ("b", "w", "w"), name: "o4b")
-  necklace((0.0, -3.5), ("w", "b", "w"), name: "o4c")
-  draw.line("o4a.east", "o4b.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.line("o4b.east", "o4c.west", stroke: c-rot + 0.5pt, mark: (end: ">"))
-  draw.content((-2.5, -4.2), text(
-    size: 0.55em,
-    fill: c-orbit,
-  )[3 элемента (повороты)])
-  draw.content((-2.5, -4.6), text(
-    size: 0.5em,
-    fill: luma(50%),
-  )[$"011", "101", "110"$])
+  draw.content((-1.0, -2 * s), anchor: "east", text(
+    size: 0.72em,
+    fill: c-km-num,
+  )[$y z$])
 })
 
-// ── Ramsey R(3,3) ≤ 6: proof by pigeonhole ──
-// Metaphor: vertex 1 connects to 5 others. By pigeonhole, ≥3 edges
-// from 1 have the same color (say red, to vertices 2,3,4).
-// The triangle {2,3,4} either has a red edge (-> red K₃ with 1)
-// or is all blue (-> blue K₃). A monochromatic triangle is inevitable.
-#let c-red = oklch(58%, 0.22, 22deg)
-#let c-blue = oklch(58%, 0.18, 250deg)
-#let c-ram-node = oklch(88%, 0.03, 250deg)
-#let c-ram-str = oklch(60%, 0.08, 250deg) + 0.7pt
-#let c-hi = oklch(65%, 0.20, 45deg)
+#let bdd-lo-paint = oklch(55%, 0.12, 22deg)
 
-#let ramsey-k6 = canvas({
-  // Vertex 1 in center, others around
-  let center = (0, 0)
-  let others = (
-    (0, 2.5),
-    (2.4, 0.8),
-    (1.5, -2),
-    (-1.5, -2),
-    (-2.4, 0.8),
-  )
+#let bdd-hi-paint = oklch(50%, 0.14, 250deg)
 
-  // Center vertex 1 (highlighted)
+#let bdd-label = oklch(30%, 0.02, 265deg)
+
+#let bdd-node-fill = oklch(92%, 0.02, 260deg)
+
+#let bdd-node-str = oklch(55%, 0.06, 260deg) + 0.7pt
+
+#let bdd-term-str = oklch(35%, 0.02, 265deg) + 0.8pt
+
+#let bdd-node(pos, var, name) = {
   draw.circle(
-    center,
-    radius: 0.38,
-    fill: c-hi,
-    stroke: oklch(55%, 0.18, 45deg) + 1pt,
-    name: "c",
+    pos,
+    radius: 0.4,
+    fill: bdd-node-fill,
+    stroke: bdd-node-str,
+    name: name,
   )
-  draw.content(center, text(size: 0.7em, weight: "bold", fill: oklch(
-    30%,
-    0.02,
-    265deg,
-  ))[1])
+  draw.content(pos, text(
+    size: 0.8em,
+    weight: "semibold",
+    fill: bdd-label,
+  )[#var])
+}
 
-  // Outer vertices 2..6
-  for (i, p) in others.enumerate() {
-    let lab = str(i + 2)
-    // Vertices 2,3,4 are the "pigeonhole" set (connected to 1 in red)
-    let fill = if i < 3 { oklch(88%, 0.06, 22deg) } else { c-ram-node }
-    let str = if i < 3 { oklch(55%, 0.18, 22deg) + 0.8pt } else { c-ram-str }
-    draw.circle(p, radius: 0.32, fill: fill, stroke: str, name: "v" + lab)
-    draw.content(p, text(size: 0.65em, fill: oklch(30%, 0.02, 265deg))[#lab])
-  }
+#let bdd-term(pos, val, name) = {
+  let (cx, cy) = pos
+  draw.rect(
+    (cx - 0.3, cy - 0.3),
+    (cx + 0.3, cy + 0.3),
+    radius: 2pt,
+    fill: white,
+    stroke: bdd-term-str,
+    name: name,
+  )
+  draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
+}
 
-  // Edges from vertex 1: 3 red (to 2,3,4), 2 blue (to 5,6)
-  for i in range(5) {
-    let lab = str(i + 2)
-    let is-red = (i < 3)
-    draw.line("c", "v" + lab, stroke: (
-      paint: if is-red { c-red } else { c-blue },
-      thickness: if is-red { 1.6pt } else { 0.8pt },
-    ))
-  }
+#let lo-edge(from, to, edge-name) = {
+  draw.line(from, to, name: edge-name, stroke: (
+    paint: bdd-lo-paint,
+    thickness: 0.7pt,
+    dash: "dashed",
+  ))
+  draw.content(
+    edge-name + ".30%",
+    text(size: 0.65em, fill: bdd-lo-paint)[$0$],
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+  )
+}
 
-  // Triangle {2,3,4}: edge 2-3 red -> red triangle {1,2,3}
-  draw.line("v2", "v3", stroke: (paint: c-red, thickness: 2.0pt))
-  draw.line("v3", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
-  draw.line("v2", "v4", stroke: (paint: c-blue, thickness: 0.8pt))
+#let hi-edge(from, to, edge-name) = {
+  draw.line(from, to, name: edge-name, stroke: (
+    paint: bdd-hi-paint,
+    thickness: 0.8pt,
+  ))
+  draw.content(
+    edge-name + ".30%",
+    text(size: 0.65em, fill: bdd-hi-paint)[$1$],
+    frame: "rect",
+    fill: white,
+    stroke: none,
+    padding: 1pt,
+  )
+}
 
-  // Other edges (thin, dimmed) using named nodes
-  for (a, b) in (
-    ("v2", "v6"),
-    ("v2", "v5"),
-    ("v3", "v5"),
-    ("v3", "v6"),
-    ("v4", "v5"),
-    ("v4", "v6"),
-    ("v5", "v6"),
-  ) {
-    draw.line(a, b, stroke: (paint: luma(70%), thickness: 0.3pt))
-  }
+#let bdd-xor = canvas({
+  // ── Nodes ──
+  bdd-node((0, 3), $x$, "x")
+  bdd-node((-2.0, 1), $y$, "y-lo")
+  bdd-node((2.0, 1), $y$, "y-hi")
+  bdd-term((-1.6, -1), 0, "t0")
+  bdd-term((1.6, -1), 1, "t1")
 
-  // Highlight the red triangle {1,2,3}
-  draw.line("c", "v2", stroke: (paint: c-red, thickness: 2.5pt))
-  draw.line("c", "v3", stroke: (paint: c-red, thickness: 2.5pt))
+  // ── Root -> cofactors ──
+  lo-edge("x", "y-lo", "e-x-lo")
+  hi-edge("x", "y-hi", "e-x-hi")
 
-  // Legend
-  draw.line((3.8, 2.0), (4.5, 2.0), stroke: (paint: c-red, thickness: 1.5pt))
-  draw.content((4.8, 2.0), text(size: 0.55em, fill: oklch(
-    30%,
-    0.02,
-    265deg,
-  ))[красное])
-  draw.line((3.8, 1.3), (4.5, 1.3), stroke: (paint: c-blue, thickness: 1.5pt))
-  draw.content((4.8, 1.3), text(size: 0.55em, fill: oklch(
-    30%,
-    0.02,
-    265deg,
-  ))[синее])
+  // ── Left cofactor f(0,y) = y: lo->0, hi->1 ──
+  lo-edge("y-lo", "t0", "e-yl-t0")
+  hi-edge("y-lo", "t1", "e-yl-t1")
 
-  // Annotation
-  draw.content((3.5, 0.3), text(size: 0.5em, fill: luma(50%))[
-    Из 5 рёбер от вершины 1 минимум 3 одного цвета.
-  ])
-  draw.content((3.5, -0.2), text(size: 0.5em, fill: luma(50%))[
-    Среди их концов найдётся ребро того же цвета
-  ])
-  draw.content((3.5, -0.7), text(size: 0.5em, fill: luma(50%))[
-    либо все три ребра --- другого цвета.
-  ])
+  // ── Right cofactor f(1,y) = ¬y: lo->1, hi->0 ──
+  lo-edge("y-hi", "t1", "e-yr-t1")
+  hi-edge("y-hi", "t0", "e-yr-t0")
 })

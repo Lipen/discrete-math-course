@@ -2,7 +2,7 @@
 #import "common.typ": *
 #import "notation.typ": *
 #import cetz: canvas, draw
-#import "diagrams/m09.typ": code-lattice, hamming-groups, hamming-spheres, huffman-tree
+#import "diagrams/m12.typ": code-lattice, hamming-groups, hamming-spheres, huffman-tree
 
 = Коды и информация <chap:codes>
 
@@ -1110,4 +1110,6 @@ QR-код использует RS над $"GF"(256)$: даже если трет
     работающий кодек: кодирование и исправление одиночной ошибки кодом $(7, 4)$, обнаружение двойной кодом $(8, 4)$, статистика симуляции канала и проверка границы Хэмминга с объяснением, почему один код совершенный, а другой --- нет.
   ]
 ]
+
+
 

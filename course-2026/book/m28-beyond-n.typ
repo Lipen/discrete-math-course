@@ -1,7 +1,7 @@
 // M28 --- За пределами N.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m12.typ": ordinals
+#import "diagrams/m28.typ": ordinals
 
 = За пределами натуральных чисел <chap:beyond-n>
 
@@ -913,4 +913,6 @@ $
     Подсказка: множество всех счётных ординалов само является ординалом --- его называют $omega_1$.
     Сколько слагаемых в объединении $omega_1 = union_(beta < omega_1) beta$?
 ]
+
+
 

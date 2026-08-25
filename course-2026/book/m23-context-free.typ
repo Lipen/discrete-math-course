@@ -1,8 +1,7 @@
 // M23 --- Контекстно-свободные языки: за границей регулярности.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m15.typ": chomsky-hierarchy
-#import "diagrams/m23.typ": parse-tree-a3b3
+#import "diagrams/m23.typ": chomsky-hierarchy, parse-tree-a3b3
 
 = Контекстно-свободные языки <chap:context-free>
 
@@ -843,4 +842,6 @@ $
     инструмент "грамматика на вход --- сертификат однозначности до $N$ либо конкретное слово с двумя деревьями и способ устранения неоднозначности", проверенный на приоритете операторов и языке Дика.
   ]
 ]
+
+
 

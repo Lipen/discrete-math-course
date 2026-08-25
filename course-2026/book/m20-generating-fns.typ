@@ -1,7 +1,7 @@
 // M20 --- Производящие функции: алгебраический мост от последовательностей к замкнутым формам.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m11.typ": catalan-recursive, convolution-grid
+#import "diagrams/m20.typ": catalan-recursive, convolution-grid
 
 = Производящие функции <chap:generating>
 
@@ -1351,4 +1351,6 @@ $
     быстрый счётчик разбиений, который заново открывает тождество Эйлера, измеряет ускорение, даваемое производящей функцией, и доводит подсчёт до асимптотики.
   ]
 ]
+
+
 

@@ -1,21 +1,52 @@
-// M23 diagrams: дерево разбора слова a^3 b^3.
+// m23 diagrams.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
 #import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
-// ── Общие константы ──
+#let chomsky-hierarchy = canvas({
+  let c-reg = oklch(88%, 0.05, 155deg)
+  let c-cf = oklch(88%, 0.04, 70deg)
+  let c-cs = oklch(88%, 0.04, 300deg)
+  let c-re = oklch(85%, 0.03, 22deg)
+  let c-label = oklch(35%, 0.02, 265deg)
+  let c-border = oklch(50%, 0.05, 250deg) + 0.5pt
+
+  // Regular (innermost)
+  draw.circle((0, 0), radius: (0.8, 0.4), fill: c-reg, stroke: c-border)
+  draw.content((0, 0.3), text(size: 0.6em, fill: c-label)[Regular])
+
+  // Context-Free
+  draw.circle((0, 0.4), radius: (1.4, 0.8), fill: c-cf, stroke: c-border)
+  draw.content((0, 1.0), text(size: 0.6em, fill: c-label)[Context-Free])
+
+  // Context-Sensitive
+  draw.circle((0, 1.2), radius: (2.6, 1.6), fill: c-cs, stroke: c-border)
+  draw.content((0, 2.0), text(size: 0.6em, fill: c-label)[Context-Sensitive])
+
+  // Recursively Enumerable (outermost)
+  draw.circle((0, 2.4), radius: (4, 2.8), fill: c-re, stroke: c-border)
+  draw.content((0, 3.4), text(
+    size: 0.6em,
+    fill: c-label,
+  )[Recursively Enumerable])
+})
+
+#let c-label = oklch(35%, 0.02, 265deg)
+
+#let c-border = oklch(50%, 0.05, 250deg) + 0.5pt
+
 #let n-size = 1.5em
+
 #let n-stroke = 0.6pt + luma(70%)
+
 #let e-stroke = (paint: oklch(35%, 0.02, 265deg), thickness: 0.8pt)
+
 #let c-nonterm = oklch(92%, 0.04, 45deg)
+
 #let c-term = oklch(92%, 0.02, 155deg)
 
-// ── Дерево разбора a^3 b^3 ──
-// Дерево растёт слева направо: корень S слева, листья справа.
-// На каждой стрелке --- правило, применённое к родительскому нетерминалу.
-// Колонки и ряды расставлены с запасом, чтобы метки правил не налезали на узлы.
 #let parse-tree-a3b3 = {
   let cn(pos, label, ..args) = node(
     pos,
