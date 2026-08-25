@@ -25,36 +25,70 @@
 #align(center + horizon)[
   #block(
     fill: white,
-    inset: (x: 3.5em, y: 2.5em),
-    radius: 6pt,
-    stroke: 0.4pt + luma(80%),
+    inset: (x: 5em, y: 3.2em),
+    radius: 0pt,
+    stroke: 0.5pt + luma(78%),
     width: auto,
   )[
     #align(center)[
+      // Шапка --- университет, мелко и разрежённо
       #text(
         size: 9pt,
         weight: "semibold",
-        fill: accent-color,
-        tracking: 0.14em,
+        fill: luma(50%),
+        tracking: 0.2em,
       )[#upper[университет итмо]]
-      #v(0.8em)
+
+      #v(1.7em)
+
+      // Заглавие на греческом --- как в "Началах"
       #text(
-        size: 44pt,
-        weight: "bold",
+        size: 27pt,
+        weight: "medium",
         fill: accent-color,
-        font: "Libertinus Sans",
-      )[ДИСКРЕТНАЯ]
-      #v(0em)
+        font: "Libertinus Serif",
+        tracking: 0.06em,
+      )[ΔΙΑΚΡΙΤΑ ΜΑΘΗΜΑΤΙΚΑ]
+
+      #v(0.7em)
+      #line(length: 5cm, stroke: 0.7pt + accent-color)
+      #v(0.35em)
       #text(
-        size: 44pt,
-        weight: "light",
-        fill: accent-color,
-        font: "Libertinus Sans",
-      )[МАТЕМАТИКА]
-      #v(0.6em)
-      #line(length: 4cm, stroke: 0.5pt + accent-color)
-      #v(0.8em)
-      #text(size: 10pt, fill: luma(45%))[2026 / 2027]
+        size: 12pt,
+        style: "italic",
+        fill: luma(55%),
+        font: "Libertinus Serif",
+        tracking: 0.18em,
+      )[Mathematica Discreta]
+
+      #v(1.6em)
+
+      // Русское заглавие --- читаемое
+      #text(size: 19pt, weight: "medium", fill: black)[Дискретная математика]
+      #v(0.25em)
+      #text(size: 11.5pt, fill: luma(45%), tracking: 0.04em)[конспект лекций]
+
+      #v(1.8em)
+
+      // Эпиграф --- знаменитые слова Эвклида
+      #text(
+        size: 10.5pt,
+        style: "italic",
+        fill: luma(40%),
+        font: "Libertinus Serif",
+      )[«Οὐκ ἔστι βασιλικὴ ὁδὸς ἐπὶ γεωμετρίαν»]
+      #v(0.3em)
+      #text(size: 9.5pt, fill: luma(55%))[к геометрии нет царского пути]
+      #v(0.35em)
+      #text(size: 9.5pt, weight: "semibold", fill: luma(50%))[--- Евклид]
+
+      #v(2.0em)
+
+      #line(length: 3cm, stroke: 0.4pt + luma(80%))
+      #v(0.7em)
+      #text(size: 10.5pt, fill: luma(40%))[Константин Чухарев]
+      #v(0.3em)
+      #text(size: 9.5pt, fill: luma(50%))[2026 / 2027]
     ]
   ]
 ]
