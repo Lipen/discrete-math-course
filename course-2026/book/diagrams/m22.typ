@@ -1,158 +1,161 @@
-// m22 diagrams.
+// m22 diagrams: ДКА, НКА-00-11, лемма о накачке, НКА-пример, ε-НКА.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
-#let c-state = oklch(88%, 0.03, 250deg)
+// Общие токены состояния: заливка c-fl, граница c-bd+t-bd, рёбра c-edge+t-ed.
+#let n-stroke = t-bd + c-bd
+#let e-stroke = (paint: c-edge, thickness: t-ed)
+#let start-stroke = (paint: c-accent, thickness: t-ed)
+// Допускающее состояние: двойной кружок.
+#let acc-extrude = (0, 2pt)
 
-#let c-state-str = oklch(60%, 0.08, 250deg)
+#let st(pos, label, name, accept: false) = if accept {
+  node(pos, label, name: name, extrude: acc-extrude)
+} else {
+  node(pos, label, name: name)
+}
 
-#let c-accept = oklch(88%, 0.05, 155deg)
+#let tr(from, to, label, stroke: e-stroke, ..args) = edge(
+  from, to, "-}>",
+  label: label,
+  label-size: s-cap,
+  stroke: stroke,
+  ..args,
+)
 
-#let c-accept-str = oklch(55%, 0.18, 155deg)
+#let start-arrow(to) = edge((-1, 0), to, "-}>", stroke: start-stroke)
 
-#let c-edge = oklch(35%, 0.02, 265deg)
-
+// ── ДКА над {0,1}: строки, где за "0" идёт "1" ──
 #let dfa-01 = diagram(
-  node-stroke: (paint: c-state-str, thickness: 0.8pt),
-  node-fill: c-state,
-  edge-stroke: (paint: c-edge, thickness: 0.7pt),
+  node-stroke: n-stroke,
+  node-fill: c-fl,
   spacing: 3em,
-  // Incoming arrow
-  edge((-1, 0), "-}>"),
-  node((0, 0), $q_0$, name: <q0>),
-  edge(<q0>, <q1>, "-}>", label: "0"),
-  node((1, 0), $q_1$, name: <q1>),
-  edge(<q1>, <q2>, "-}>", label: "1"),
-  node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.2pt,
-  )),
-  // Self-loops
-  edge(<q0>, <q0>, "-}>", label: "1", bend: -50deg),
-  edge(<q1>, <q1>, "-}>", label: "0", bend: -50deg),
-  // Back edges
-  edge(<q2>, <q1>, "-}>", label: "0", bend: 40deg),
-  edge(<q2>, <q0>, "-}>", label: "1", bend: -40deg),
+
+  start-arrow(<q0>),
+  st((0, 0), $q_0$, <q0>),
+  st((1, 0), $q_1$, <q1>),
+  st((2, 0), $q_2$, <q2>, accept: true),
+
+  tr(<q0>, <q1>, "0"),
+  tr(<q1>, <q2>, "1"),
+  tr(<q0>, <q0>, "1", bend: -50deg),
+  tr(<q1>, <q1>, "0", bend: -50deg),
+  tr(<q2>, <q1>, "0", bend: 40deg),
+  tr(<q2>, <q0>, "1", bend: -40deg),
 )
 
+// ── НКА-00-11: строки, содержащие "00" или "11" ──
 #let nfa-00-11 = diagram(
-  node-stroke: (paint: c-state-str, thickness: 0.8pt),
-  node-fill: c-state,
-  edge-stroke: (paint: c-edge, thickness: 0.7pt),
+  node-stroke: n-stroke,
+  node-fill: c-fl,
   spacing: 3em,
-  edge((-1, 0), "-}>"),
-  node((0, 0), $q_0$, name: <s0>),
-  // q0 self-loop: keep scanning until the run of "00" or "11" starts
-  edge(<s0>, <s0>, "-}>", label: "0,1", bend: 80deg),
-  // Upper branch
-  edge(<s0>, <s1>, "-}>", label: "0"),
-  node((1, 1), $q_1$, name: <s1>),
-  edge(<s1>, <sa>, "-}>", label: "0"),
-  node((2, 1), $q_a$, name: <sa>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.2pt,
-  )),
-  // Lower branch
-  edge(<s0>, <s2>, "-}>", label: "1"),
-  node((1, -1), $q_2$, name: <s2>),
-  edge(<s2>, <sb>, "-}>", label: "1"),
-  node((2, -1), $q_b$, name: <sb>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.2pt,
-  )),
-  // Accepting self-loops
-  edge(<sa>, <sa>, "-}>", label: "0,1", bend: -50deg),
-  edge(<sb>, <sb>, "-}>", label: "0,1", bend: 50deg),
+
+  start-arrow(<s0>),
+  st((0, 0), $q_0$, <s0>),
+  st((1, 1), $q_1$, <s1>),
+  st((2, 1), $q_a$, <sa>, accept: true),
+  st((1, -1), $q_2$, <s2>),
+  st((2, -1), $q_b$, <sb>, accept: true),
+
+  tr(<s0>, <s0>, "0,1", bend: 80deg),
+  tr(<s0>, <s1>, "0"),
+  tr(<s1>, <sa>, "0"),
+  tr(<s0>, <s2>, "1"),
+  tr(<s2>, <sb>, "1"),
+  tr(<sa>, <sa>, "0,1", bend: -50deg),
+  tr(<sb>, <sb>, "0,1", bend: 50deg),
 )
 
-#let pl-node-fill = oklch(90%, 0.02, 260deg)
+// ── НКА-пример: {0,1}-строки, оканчивающиеся на "01" ──
+#let nfa-example = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3em,
 
-#let pl-node-str = oklch(55%, 0.06, 260deg) + 0.7pt
+  start-arrow(<q0>),
+  st((0, 0), $q_0$, <q0>),
+  st((1, 0), $q_1$, <q1>),
+  st((2, 0), $q_2$, <q2>, accept: true),
 
-#let pl-y-color = oklch(55%, 0.18, 22deg)
+  tr(<q0>, <q0>, "0,1", bend: -50deg),
+  tr(<q0>, <q1>, "0"),
+  tr(<q1>, <q2>, "1"),
+)
 
-#let pl-edge = oklch(35%, 0.02, 265deg) + 0.7pt
+// ── ε-НКА: ε-переходы (пунктир) до и после состояния ──
+#let epsilon-nfa = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 3em,
 
-#let pl-label = oklch(30%, 0.02, 265deg)
+  start-arrow(<q0>),
+  st((0, 0), $q_0$, <q0>),
+  st((1, 0), $q_1$, <q1>),
+  st((2, 0), $q_2$, <q2>, accept: true),
 
-#let pl-state(pos, label, name, ..style) = {
-  draw.circle(
-    pos,
-    radius: 0.35,
-    fill: pl-node-fill,
-    stroke: pl-node-str,
-    name: name,
-    ..style,
+  tr(<q0>, <q1>, $epsilon$, stroke: (
+    paint: c-edge,
+    thickness: t-ed,
+    dash: "dashed",
+  )),
+  tr(<q1>, <q2>, $epsilon$, stroke: (
+    paint: c-edge,
+    thickness: t-ed,
+    dash: "dashed",
+  )),
+  tr(<q1>, <q1>, $"a"$, bend: -50deg),
+  tr(<q2>, <q2>, $"b"$, bend: -50deg),
+)
+
+// ── Лемма о накачке: цикл q_i -> q_j -> q_i (накачка y) ──
+#let pl-state(pos, label, name, accept: false) = {
+  draw.circle(pos, radius: 0.42, fill: c-fl, stroke: n-stroke, name: name)
+  draw.content(pos, text(size: s-node, fill: c-ink)[#label])
+  if accept {
+    draw.circle(pos, radius: 0.54, stroke: n-stroke)
+  }
+}
+
+#let pl-edge(from, to, name, label, stroke: e-stroke, fill: c-ink) = {
+  draw.line(from, to, name: name, stroke: stroke)
+  draw.content(
+    name + ".mid",
+    text(size: s-cap, fill: fill)[#label],
+    fill: white,
+    stroke: none,
+    padding: 2pt,
   )
-  draw.content(pos, text(size: 0.65em, fill: pl-label)[#label])
 }
 
 #let pumping-lemma = canvas({
-  // ── States (left to right) ──
+  let acc-stroke = (paint: c-accent, thickness: t-hi)
+
   pl-state((-3, 0), $q_0$, "q0")
   pl-state((-0.5, 0), $q_i$, "qi")
   pl-state((2, 0), $q_j$, "qj")
-  pl-state((4.5, 0), $q_f$, "qf")
-  // Accept state: double circle
-  draw.circle(
-    (4.5, 0),
-    radius: 0.45,
-    fill: none,
-    stroke: pl-node-str,
-    name: "qf-ring",
-  )
+  pl-state((4.5, 0), $q_f$, "qf", accept: true)
 
-  // ── Forward edges ──
-  draw.line("q0", "qi", name: "e-x", stroke: pl-edge)
-  draw.content(
-    "e-x.mid",
-    text(size: 0.65em, fill: pl-label)[$x$],
-    frame: "rect",
-    fill: white,
-    stroke: none,
-    padding: 1pt,
-    anchor: "south",
+  pl-edge("q0", "qi", "e-x", $x$)
+  pl-edge(
+    "qi", "qj", "e-y", $y$,
+    stroke: acc-stroke,
+    fill: c-accent,
   )
+  pl-edge("qj", "qf", "e-z", $z$)
 
-  draw.line("qi", "qj", name: "e-y", stroke: (
-    paint: pl-y-color,
-    thickness: 0.9pt,
-  ))
-  draw.content(
-    "e-y.mid",
-    text(size: 0.65em, fill: pl-y-color, weight: "bold")[$y$],
-    frame: "rect",
-    fill: white,
-    stroke: none,
-    padding: 1pt,
-    anchor: "south",
-  )
-
-  draw.line("qj", "qf", name: "e-z", stroke: pl-edge)
-  draw.content(
-    "e-z.mid",
-    text(size: 0.65em, fill: pl-label)[$z$],
-    frame: "rect",
-    fill: white,
-    stroke: none,
-    padding: 1pt,
-    anchor: "south",
-  )
-
-  // ── Loop back: q_j -> q_i (the "pumping" cycle) ──
   draw.bezier(
     "qj.north",
     "qi.north",
     (1.5, 1.5),
     (-0.2, 1.5),
     name: "e-loop",
-    stroke: (paint: pl-y-color, thickness: 0.7pt, dash: "dashed"),
+    stroke: (paint: c-accent, thickness: t-ed, dash: "dashed"),
   )
 
-  // ── Pumped strings below ──
   let pumped = (
     ([$x z$ (0 повторений)], -1.8),
     ([$x y z$ (1 повторение)], -2.3),
@@ -160,59 +163,9 @@
     ([$x y^k z$ ($k$ повторений)], -3.3),
   )
   for (k, (label, y)) in pumped.enumerate() {
-    draw.content((0.5, y), text(size: 0.65em, fill: if k == 1 {
-      pl-label
-    } else { luma(55%) })[#label])
+    draw.content(
+      (0.5, y),
+      text(size: s-cap, fill: if k == 1 { c-ink } else { c-muted })[#label],
+    )
   }
 })
-
-#let nfa-example = diagram(
-  node-stroke: (paint: c-state-str, thickness: 0.8pt),
-  node-fill: c-state,
-  edge-stroke: (paint: c-edge, thickness: 0.7pt),
-  spacing: 3em,
-  edge((-1, 0), "-}>"),
-  node((0, 0), $q_0$, name: <q0>),
-  edge(<q0>, <q0>, "-}>", label: "0,1", bend: -50deg),
-  edge(<q0>, <q1>, "-}>", label: "0"),
-  node((1, 0), $q_1$, name: <q1>),
-  edge(<q1>, <q2>, "-}>", label: "1"),
-  node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.5pt,
-  )),
-)
-
-#let epsilon-nfa = diagram(
-  node-stroke: (paint: c-state-str, thickness: 0.8pt),
-  node-fill: c-state,
-  edge-stroke: (paint: c-edge, thickness: 0.7pt),
-  spacing: 3em,
-  // Start arrow into q0
-  edge((-1, 0), "-}>"),
-  // q0 (start)
-  node((0, 0), $q_0$, name: <q0>),
-  // epsilon: q0 -> q1 (spontaneous)
-  edge(<q0>, <q1>, "-}>", label: $epsilon$, stroke: (
-    paint: c-edge,
-    thickness: 0.7pt,
-    dash: "dashed",
-  )),
-  // q1
-  node((1, 0), $q_1$, name: <q1>),
-  // self-loop: q1 --a--> q1
-  edge(<q1>, <q1>, "-}>", label: $"a"$, bend: -50deg),
-  // epsilon: q1 -> q2 (spontaneous)
-  edge(<q1>, <q2>, "-}>", label: $epsilon$, stroke: (
-    paint: c-edge,
-    thickness: 0.7pt,
-    dash: "dashed",
-  )),
-  // q2 (accept)
-  node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.5pt,
-  )),
-  // self-loop: q2 --b--> q2
-  edge(<q2>, <q2>, "-}>", label: $"b"$, bend: -50deg),
-)

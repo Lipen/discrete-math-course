@@ -1,48 +1,60 @@
-// m25 diagrams.
+// m25 diagrams: сводимость HALT→EMPTY.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-label = oklch(35%, 0.02, 265deg)
+#let reduction-halt-empty = {
+  let machine(name, content, pos) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - 2.4, y + 0.6),
+      (x + 2.4, y - 0.6),
+      name: name,
+      fill: c-fl,
+      stroke: t-bd + c-bd,
+      radius: 6pt,
+    )
+    draw.content(name, text(size: s-node, fill: c-ink)[#content])
+  }
 
-#let reduction-halt-empty = canvas({
-  let c-box = oklch(88%, 0.03, 250deg)
-  let c-box-str = oklch(60%, 0.08, 250deg) + 0.5pt
-  let c-arrow = oklch(35%, 0.02, 265deg) + 0.6pt
-  let c-label = oklch(35%, 0.02, 265deg)
+  canvas({
+    machine("input", [$chevron.l M chevron.r w$], (-3, 0))
+    machine("transformed", [$chevron.l M' chevron.r$], (4.2, 0))
 
-  // Input box
-  draw.rect((-1.5, -0.5), (1.5, 0.5), fill: c-box, stroke: c-box-str)
-  draw.content((0, 0), text(
-    size: 0.7em,
-    fill: c-label,
-  )[$chevron.l M chevron.r w$])
+    draw.line(
+      (-0.3, 0),
+      (1.7, 0),
+      name: "f-arrow",
+      stroke: c-accent + t-hi,
+      mark: (end: "stealth", fill: c-accent),
+    )
+    draw.content(
+      "f-arrow",
+      text(size: s-cap, fill: c-accent)[$f$],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
 
-  // f arrow
-  draw.line((1.8, 0), (3.2, 0), stroke: c-arrow, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.content((2.5, 0.3), anchor: "south", text(
-    size: 0.65em,
-    fill: c-label,
-  )[$f$])
+    draw.line(
+      (6.9, 0),
+      (8.3, 0),
+      name: "res-arrow",
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
 
-  // f box
-  draw.rect((3.5, -0.5), (6.5, 0.5), fill: none, stroke: c-box-str)
-  draw.content((5, 0), text(
-    size: 0.7em,
-    fill: c-label,
-  )[$chevron.l M' chevron.r$])
-
-  // Result arrow
-  draw.line((6.8, 0), (8.2, 0), stroke: c-arrow, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-
-  // Output labels
-  draw.content((5, 0.9), anchor: "south", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[описание МТ,])
-  draw.content((5, 0.6), anchor: "south", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[чей язык пуст iff M(w) останавливается])
-})
+    draw.content(
+      (9.0, 0),
+      anchor: "west",
+      text(size: s-cap, fill: c-muted)[
+        #align(left)[
+          описание МТ,\
+          чей язык пуст iff M(w) останавливается
+        ]
+      ],
+    )
+  })
+}

@@ -26,7 +26,7 @@
 #let band(f, s, motifs, gutter: tile-gap, height: 1.05cm) = grid(
   columns: (auto,) * motifs.len(),
   column-gutter: gutter,
-  ..motifs.map(m => tile(m(f, s), height: height)),
+  ..motifs.map(m => tile(m(f: f, s: s), height: height)),
 )
 
 // ── Орнаменты ──

@@ -1,188 +1,157 @@
-// m20 diagrams.
+// m20 diagrams: решётка свёртки, дерево рекурсии Каталана.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-conv-band(n) = {
-  let hue = calc.rem(250 + n * 55, 360)
-  oklch(70%, 0.08, hue * 1deg).transparentize(70%)
-}
+// Тон анти-диагонали свёртки: одна ступень светлоты (акцентная синева) на слагаемое c_n.
+#let c-conv-band(n) = oklch(93% - 2.4% * n, 0.05, 230deg)
 
-#let convolution-grid = canvas({
+// ── Решётка свёртки ──
+#let convolution-grid = {
   let a = (2, 1, 3, 0, 1)
   let b = (1, 3, 2, 0)
   let cell = 0.9
+  let cols = a.len()
+  let rows = b.len()
+  let xs(j) = 0.7 + j * cell
+  let ys(i) = -i * cell
 
-  // Column headers (a_j)
-  for (j, val) in a.enumerate() {
-    draw.content((j * cell + cell / 2 + 0.7, 0.8), text(
-      size: 0.7em,
-      weight: "bold",
-      fill: oklch(45%, 0.12, 250deg),
-    )[$a_#j$])
-    draw.content((j * cell + cell / 2 + 0.7, 0.3), text(
-      size: 0.6em,
-      fill: oklch(40%, 0.02, 265deg),
-    )[#val])
+  // Ячейка (j, i): произведение a_j·b_i, заливка по диагонали n = i + j.
+  let cell-box(j, i, n, val) = {
+    let x = xs(j)
+    let y = ys(i)
+    draw.rect(
+      (x, y - cell),
+      (x + cell, y),
+      fill: c-conv-band(n),
+      stroke: (paint: c-bd, thickness: t-hr),
+      radius: 2pt,
+    )
+    draw.content(
+      (x + cell / 2, y - cell / 2),
+      text(size: s-tiny, fill: c-muted)[#val],
+    )
   }
 
-  // Row headers (b_i)
-  for (i, val) in b.enumerate() {
-    draw.content((-0.1, -i * cell - cell / 2), anchor: "east", text(
-      size: 0.7em,
-      weight: "bold",
-      fill: oklch(45%, 0.12, 22deg),
-    )[$b_#i$])
-    draw.content((0.3, -i * cell - cell / 2), anchor: "east", text(
-      size: 0.6em,
-      fill: oklch(40%, 0.02, 265deg),
-    )[#val])
+  let col-head(j, val) = {
+    let x = xs(j) + cell / 2
+    draw.content((x, 0.85), text(size: s-cap, weight: "bold", fill: c-ink)[$a_#j$])
+    draw.content((x, 0.4), text(size: s-tiny, fill: c-muted)[#val])
+  }
+  let row-head(i, val) = {
+    let y = ys(i) - cell / 2
+    draw.content((-0.15, y), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$b_#i$])
+    draw.content((0.35, y), anchor: "east", text(size: s-tiny, fill: c-muted)[#val])
   }
 
-  // grid cells: a_j * b_i, diagonal band coloring
-  for i in range(b.len()) {
-    for j in range(a.len()) {
-      let n = i + j
-      let x = j * cell + 0.7
-      let y = -i * cell
-      let prod = a.at(j) * b.at(i)
-
-      draw.rect(
-        (x, y - cell),
-        (x + cell, y),
-        fill: c-conv-band(n),
-        stroke: oklch(85%, 0.01, 260deg) + 0.3pt,
-        radius: 2pt,
+  canvas({
+    for (j, val) in a.enumerate() {
+      col-head(j, val)
+    }
+    for (i, val) in b.enumerate() {
+      row-head(i, val)
+    }
+    for i in range(rows) {
+      for j in range(cols) {
+        cell-box(j, i, i + j, a.at(j) * b.at(i))
+      }
+    }
+    for n in range(cols + rows - 1) {
+      draw.content(
+        (xs(cols - 1) + cell + 0.5, -(n * cell / 2) - cell / 2),
+        anchor: "west",
+        text(size: s-cap, weight: "bold", fill: c-accent)[$c_#n$],
       )
-
-      draw.content((x + cell / 2, y - cell / 2), text(size: 0.65em, fill: oklch(
-        30%,
-        0.02,
-        265deg,
-      ))[#prod])
     }
-  }
+    draw.content(
+      ((xs(0) + xs(cols - 1) + cell) / 2, ys(rows - 1) - cell - 0.7),
+      text(size: s-node, fill: c-ink)[$c_n = sum_(i+j=n) a_i b_j$],
+    )
+  })
+}
 
-  // Diagonal band labels on the right
-  for n in range(a.len() + b.len() - 1) {
-    let y = -(n * cell / 2) - cell / 2
-    draw.content((a.len() * cell + 1.0, y), anchor: "west", text(
-      size: 0.65em,
-      weight: "bold",
-      fill: oklch(35%, 0.15, 250deg),
-    )[$c_#n$])
-  }
+// ── Дерево рекурсии Каталана ──
+#let catalan-recursive = {
+  let r = 0.2
+  let l = 0.11
 
-  // Convolution equation at bottom
-  draw.content((a.len() * cell / 2 + 0.35, -(b.len()) * cell - 0.6), text(
-    size: 0.7em,
-    fill: oklch(35%, 0.02, 265deg),
-  )[
-    $c_n = sum_(i+j=n) a_i b_j$
-  ])
-})
-
-#let cat-node-fill = oklch(88%, 0.03, 250deg)
-
-#let cat-node-str = oklch(55%, 0.08, 250deg) + 0.6pt
-
-#let cat-edge-color = oklch(35%, 0.02, 265deg)
-
-#let cat-label = oklch(35%, 0.02, 265deg)
-
-#let cat-node(pos, name) = {
-  draw.circle(
+  let cat-node(pos, name) = draw.circle(
     pos,
-    radius: 0.22,
-    fill: cat-node-fill,
-    stroke: cat-node-str,
+    radius: r,
+    fill: c-fl,
+    stroke: (paint: c-bd, thickness: t-bd),
     name: name,
   )
-}
-
-#let cat-leaf(pos, name) = {
-  let (cx, cy) = pos
-  draw.rect(
-    (cx - 0.12, cy - 0.12),
-    (cx + 0.12, cy + 0.12),
-    fill: white,
-    stroke: cat-node-str,
-    radius: 1pt,
-    name: name,
-  )
-}
-
-#let cat-edge(from, to) = {
-  draw.line(from, to, stroke: cat-edge-color + 0.6pt)
-}
-
-#let catalan-recursive = canvas({
-  // ── Original tree (left) ──
-  // Root
-  cat-node((0, 4), "root")
-  // Left subtree: one internal node + two leaves
-  cat-node((-1.2, 2.8), "L")
-  cat-leaf((-1.6, 1.6), "LL")
-  cat-leaf((-0.8, 1.6), "LR")
-  // Right subtree: two internal nodes + three leaves
-  cat-node((1.2, 2.8), "R")
-  cat-node((0.7, 1.6), "RL")
-  cat-leaf((0.3, 0.4), "RLL")
-  cat-leaf((1.1, 0.4), "RLR")
-  cat-leaf((1.7, 1.6), "RR")
-
-  // edges
-  cat-edge("root", "L")
-  cat-edge("root", "R")
-  cat-edge("L", "LL")
-  cat-edge("L", "LR")
-  cat-edge("R", "RL")
-  cat-edge("R", "RR")
-  cat-edge("RL", "RLL")
-  cat-edge("RL", "RLR")
-
-  // Label
-  draw.content((0, -0.3), text(
-    size: 0.7em,
-    weight: "bold",
-    fill: cat-label,
-  )[$C_4$])
-
-  // ── Equality sign ──
-  draw.content((2.8, 2.0), text(size: 1.2em, fill: cat-label)[$=$])
-
-  // ── Decomposition (right side): sum of products C_i·C_{3-i} ──
-  let terms = (
-    (0, 3, 3.8, 3.5, 5.5, 2.0),
-    (1, 2, 6.5, 3.5, 8.2, 2.0),
-    (2, 1, 9.2, 3.5, 10.9, 2.0),
-    (3, 0, 11.9, 3.5, 13.6, 2.0),
-  )
-
-  for (i, (li, ri, x1, y1, x2, y2)) in terms.enumerate() {
+  let cat-leaf(pos, name) = {
+    let (x, y) = pos
     draw.rect(
-      (x1 - 0.6, y1 - 0.4),
-      (x1 + 0.6, y1 + 0.4),
-      radius: 4pt,
-      fill: oklch(92%, 0.03, 250deg).transparentize(40%),
-      stroke: oklch(60%, 0.08, 250deg) + 0.5pt,
-      name: "ci" + str(i) + "-l",
+      (x - l, y - l),
+      (x + l, y + l),
+      fill: white,
+      stroke: (paint: c-bd, thickness: t-bd),
+      radius: 1.5pt,
+      name: name,
     )
-    draw.content((x1, y1), text(size: 0.6em, fill: cat-label)[$C_#li$])
-
-    draw.rect(
-      (x2 - 0.6, y2 - 0.4),
-      (x2 + 0.6, y2 + 0.4),
-      radius: 4pt,
-      fill: oklch(92%, 0.04, 155deg).transparentize(40%),
-      stroke: oklch(55%, 0.18, 155deg) + 0.5pt,
-      name: "ci" + str(i) + "-r",
-    )
-    draw.content((x2, y2), text(size: 0.6em, fill: cat-label)[$C_#ri$])
-
-    if i < terms.len() - 1 {
-      draw.content((x2 + 0.9, y1), text(size: 0.8em, fill: cat-label)[$+$])
-    }
   }
-})
+  let cat-edge(from, to) = draw.line(from, to, stroke: (paint: c-edge, thickness: t-ed))
+
+  canvas({
+    cat-node((0, 3.4), "root")
+    cat-node((-1.2, 2.2), "L")
+    cat-node((1.2, 2.2), "R")
+    cat-leaf((-1.85, 1.0), "LL")
+    cat-leaf((-0.55, 1.0), "LR")
+    cat-node((0.55, 1.0), "RL")
+    cat-leaf((1.85, 1.0), "RR")
+    cat-leaf((0.25, -0.2), "RLL")
+    cat-leaf((0.85, -0.2), "RLR")
+
+    cat-edge("root", "L")
+    cat-edge("root", "R")
+    cat-edge("L", "LL")
+    cat-edge("L", "LR")
+    cat-edge("R", "RL")
+    cat-edge("R", "RR")
+    cat-edge("RL", "RLL")
+    cat-edge("RL", "RLR")
+
+    draw.content((0, -0.9), text(size: s-node, weight: "bold", fill: c-ink)[$C_4$])
+
+    let bw = 0.46
+    let pitch = 2.9
+    let x0 = 3.5
+    let y = 2.0
+
+    let term(i, x) = {
+      let ri = 3 - i
+      draw.rect(
+        (x - bw, y - 0.4),
+        (x + bw, y + 0.4),
+        fill: c-fl,
+        stroke: (paint: c-bd, thickness: t-bd),
+        radius: 4pt,
+      )
+      draw.content((x, y), text(size: s-node, fill: c-ink)[$C_#i$])
+      draw.content((x + 0.7, y), text(size: s-cap, fill: c-ink)[$dot$])
+      draw.rect(
+        (x + 1.4 - bw, y - 0.4),
+        (x + 1.4 + bw, y + 0.4),
+        fill: c-atom,
+        stroke: (paint: c-bd, thickness: t-bd),
+        radius: 4pt,
+      )
+      draw.content((x + 1.4, y), text(size: s-node, fill: c-ink)[$C_#ri$])
+    }
+
+    draw.content((2.6, y), text(size: 1.1em, fill: c-ink)[$=$])
+
+    for i in range(4) {
+      term(i, x0 + pitch * i)
+      if i < 3 {
+        draw.content((x0 + pitch * i + 2.15, y), text(size: s-node, fill: c-ink)[$+$])
+      }
+    }
+  })
+}

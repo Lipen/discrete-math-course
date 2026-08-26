@@ -1,39 +1,36 @@
-// m05 diagrams.
+// m05 diagrams: граф отношения, диаграмма Хассе (делимость), разбиение на классы эквивалентности.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
-#let n-fill = oklch(88%, 0.03, 250deg)
-
-#let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-
-#let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
+#let e-stroke = (paint: c-edge, thickness: t-ed)
 
 #let cn(pos, body, ..args) = node(
   pos,
   body,
-  fill: n-fill,
+  fill: c-fl,
   width: 1.2em,
   height: 1.2em,
   ..args,
 )
 
-#let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-str, ..args)
+#let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-stroke, ..args)
 
 #let el(from, to, angle: 30deg, ..args) = edge(
   from,
   to,
   "-}>",
-  stroke: e-str,
+  stroke: e-stroke,
   loop-angle: angle,
   ..args,
 )
 
 #let rel-digraph = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: t-bd + c-bd,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.6em,
@@ -53,22 +50,15 @@
   el(<5>, <5>, angle: 240deg),
 )
 
+// ── Диаграмма Хассе: делимость на {1,2,3,4,6,12} ──
 #let hasse-divisibility = canvas({
-  import cetz: draw
-  let fill = oklch(88%, 0.03, 250deg)
-  let stroke = 0.6pt + oklch(50%, 0.08, 250deg)
-  let edge-str = 0.6pt + oklch(35%, 0.02, 265deg)
-
-  // node: named circle with label
   let v(name, pos) = {
-    draw.circle(pos, radius: 0.35, fill: fill, stroke: stroke, name: name)
-    draw.content(pos, text(size: 0.7em)[#name])
+    draw.circle(pos, radius: 0.35, fill: c-fl, stroke: t-bd + c-bd, name: name)
+    draw.content(pos, text(size: s-node, fill: c-ink)[#name])
   }
 
-  // edge: line between two nodes
-  let e(a, b) = draw.line(a, b, stroke: edge-str)
+  let e(a, b) = draw.line(a, b, stroke: e-stroke)
 
-  // 1 at bottom, 12 at top
   v("12", (0, 3.0))
   v("4", (-1.5, 2.0))
   v("6", (1.5, 2.0))
@@ -76,7 +66,7 @@
   v("3", (1.0, 1.0))
   v("1", (0, 0.0))
 
-  // cover relations only (no transitive shortcuts)
+  // Только покрывающие отношения, без транзитивных сокращений.
   e("1", "2")
   e("1", "3")
   e("2", "4")
@@ -86,63 +76,30 @@
   e("6", "12")
 })
 
-#let c-eq-a = oklch(88%, 0.06, 250deg)
-
-#let c-eq-b = oklch(88%, 0.06, 155deg)
-
-#let c-eq-c = oklch(88%, 0.10, 45deg)
-
-#let c-eq-str = oklch(50%, 0.08, 250deg) + 0.6pt
-
-#let c-eq-label = oklch(35%, 0.02, 265deg)
+// ── Разбиение целых по остатку mod 3 ──
+#let eq-class(y, fill, residue, items) = {
+  draw.rect(
+    (-3.8, y + 0.8),
+    (3.8, y - 0.8),
+    radius: 12pt,
+    fill: fill,
+    stroke: t-bd + c-bd,
+  )
+  for (x, n) in items {
+    draw.content((x, y), text(size: s-cap, fill: c-ink)[#n])
+  }
+  draw.content(
+    (2.35, y),
+    anchor: "west",
+    text(size: s-cap, fill: c-muted)[$"mod" 3 = #residue$],
+  )
+}
 
 #let equivalence-partition = canvas({
-  // Class [0]: {3, 6, 9}
-  draw.rect(
-    (-3.8, 1.2),
-    (3.8, 2.8),
-    radius: 12pt,
-    fill: c-eq-a,
-    stroke: c-eq-str,
-  )
-  draw.content((-2.5, 2.0), text(size: 0.7em, fill: c-eq-label)[3])
-  draw.content((-0.8, 2.0), text(size: 0.7em, fill: c-eq-label)[6])
-  draw.content((0.9, 2.0), text(size: 0.7em, fill: c-eq-label)[9])
-  draw.content((3.2, 2.0), anchor: "west", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[$"mod" 3 = 0$])
-
-  // Class [1]: {1, 4, 7, 10}
-  draw.rect(
-    (-3.8, -0.3),
-    (3.8, 1.3),
-    radius: 12pt,
-    fill: c-eq-b,
-    stroke: c-eq-str,
-  )
-  draw.content((-2.5, 0.5), text(size: 0.7em, fill: c-eq-label)[1])
-  draw.content((-0.8, 0.5), text(size: 0.7em, fill: c-eq-label)[4])
-  draw.content((0.9, 0.5), text(size: 0.7em, fill: c-eq-label)[7])
-  draw.content((2.6, 0.5), text(size: 0.7em, fill: c-eq-label)[10])
-  draw.content((3.2, 0.5), anchor: "west", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[$"mod" 3 = 1$])
-
-  // Class [2]: {2, 5, 8}
-  draw.rect(
-    (-3.8, -1.8),
-    (3.8, -0.2),
-    radius: 12pt,
-    fill: c-eq-c,
-    stroke: c-eq-str,
-  )
-  draw.content((-1.5, -1.0), text(size: 0.7em, fill: c-eq-label)[2])
-  draw.content((0.2, -1.0), text(size: 0.7em, fill: c-eq-label)[5])
-  draw.content((1.9, -1.0), text(size: 0.7em, fill: c-eq-label)[8])
-  draw.content((3.2, -1.0), anchor: "west", text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[$"mod" 3 = 2$])
+  // [0] = {3, 6, 9}
+  eq-class(2.5, c-fl, 0, ((-2.5, 3), (-0.8, 6), (0.9, 9)))
+  // [1] = {1, 4, 7, 10}
+  eq-class(0.8, c-atom, 1, ((-2.5, 1), (-0.8, 4), (0.9, 7), (1.9, 10)))
+  // [2] = {2, 5, 8}
+  eq-class(-0.9, c-warn, 2, ((-1.5, 2), (0.2, 5), (1.9, 8)))
 })

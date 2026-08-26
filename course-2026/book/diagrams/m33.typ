@@ -1,71 +1,45 @@
-// m33 diagrams.
+// m33 diagrams: два мира Крипке, зонтик доступности (монотонность принуждения).
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let k-node-str = 0.6pt + oklch(55%, 0.08, 250deg)
+#let k-radius = 0.55
 
-#let k-node-fill = oklch(92%, 0.03, 250deg)
+#let k-cap-gap = 1.0
 
-#let k-forced-fill = oklch(92%, 0.06, 155deg)
+#let k-edge = t-ed + c-edge
 
-#let k-edge = 0.6pt + oklch(35%, 0.02, 265deg)
+// k-forced-str: зелёная обводка принуждающего мира.
+#let k-forced-str = oklch(50%, 0.16, 155deg)
 
-#let k-label = oklch(30%, 0.02, 265deg)
+#let kripke-world(pos, name, lbl, caption, fill: c-fl, stroke: t-bd + c-bd) = {
+  let (x, y) = pos
+  draw.circle(pos, radius: k-radius, fill: fill, stroke: stroke, name: name)
+  draw.content(name, text(size: s-node, fill: c-ink)[#lbl])
+  draw.content((x, y - k-cap-gap), text(size: s-cap, fill: c-muted)[#caption])
+}
 
+// ── Два мира: p принуждается только в v ──
 #let kripke-two-worlds = canvas({
-  // World u : p not forced
-  draw.circle((-1.5, 0), radius: 0.5, fill: k-node-fill, stroke: k-node-str, name: "u")
-  draw.content((-1.5, 0), text(size: 0.8em, fill: k-label)[$u$])
-  draw.content((-1.5, -0.9), text(size: 0.55em, fill: luma(45%))[$p$ не принуждается])
+  kripke-world((-1.5, 0), "u", $u$, [$p$ не принуждается])
+  kripke-world((1.5, 0), "v", $v$, [$p$ принуждается], fill: c-atom, stroke: t-bd + k-forced-str)
 
-  // World v : p forced
-  draw.circle((1.5, 0), radius: 0.5, fill: k-forced-fill, stroke: (
-    paint: oklch(50%, 0.16, 155deg),
-    thickness: 0.8pt,
-  ), name: "v")
-  draw.content((1.5, 0), text(size: 0.8em, fill: k-label)[$v$])
-  draw.content((1.5, -0.9), text(size: 0.55em, fill: luma(45%))[$p$ принуждается])
+  draw.line("u", "v", stroke: k-edge, mark: (end: ">", fill: c-edge), name: "uv")
+  draw.content("uv", text(size: s-tiny, fill: c-muted)[$u <= v$], fill: white, stroke: none, padding: 2pt)
 
-  // Accessibility edge u -> v.
-  draw.line("u", "v", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.content((0, 0.35), text(size: 0.55em, fill: luma(45%))[$u <= v$])
-
-  draw.content((0, -1.6), text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[оценка: $V(p) = {v}$])
+  draw.content((0, -1.7), text(size: s-cap, fill: c-muted)[оценка: $V(p) = {v}$])
 })
 
+// ── Зонтик: монотонность истинности при движении вверх ──
 #let kripke-umbrella = canvas({
-  // World w0 : neither p nor q forced
-  draw.circle((-1.8, 0), radius: 0.5, fill: k-node-fill, stroke: k-node-str, name: "w0")
-  draw.content((-1.8, 0), text(size: 0.8em, fill: k-label)[$w_0$])
-  draw.content((-1.8, -0.9), text(size: 0.55em, fill: luma(45%))[ни $p$, ни $q$ не принуждаются])
+  kripke-world((-1.8, 0), "w0", $w_0$, [ни $p$, ни $q$ не принуждаются])
+  kripke-world((0.0, 2), "w1", $w_1$, [$p$ и $q$ принуждаются], fill: c-atom, stroke: t-bd + k-forced-str)
+  kripke-world((3.2, 2), "w1'", $w_1'$, [$p$ принуждается, $q$ --- нет], fill: c-atom, stroke: t-bd + k-forced-str)
 
-  // World w1 : both p and q forced
-  draw.circle((0.4, 2), radius: 0.5, fill: k-forced-fill, stroke: (
-    paint: oklch(50%, 0.16, 155deg),
-    thickness: 0.8pt,
-  ), name: "w1")
-  draw.content((0.4, 2), text(size: 0.8em, fill: k-label)[$w_1$])
-  draw.content((0.4, 1.05), text(size: 0.55em, fill: luma(45%))[$p$ и $q$ принуждаются])
+  draw.line("w0", (-1.8, 1.5), (0.0, 1.5), "w1", stroke: k-edge, mark: (end: ">", fill: c-edge), name: "e1")
+  draw.line("w0", (-1.8, 1.5), (3.2, 1.5), "w1'", stroke: k-edge, mark: (end: ">", fill: c-edge), name: "e2")
 
-  // World w1' : p forced, q not
-  draw.circle((2.2, 2), radius: 0.5, fill: k-forced-fill, stroke: (
-    paint: oklch(50%, 0.16, 155deg),
-    thickness: 0.8pt,
-  ), name: "w1'")
-  draw.content((2.2, 2), text(size: 0.8em, fill: k-label)[$w_1'$])
-  draw.content((2.2, 1.05), text(size: 0.55em, fill: luma(45%))[$p$ принуждается, $q$ --- нет])
-
-  // Accessibility edges w0 -> w1 and w0 -> w1'
-  draw.line("w0", (-1.8, 1.5), (2.2, 1.5), "w1'", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.line("w0", (-1.8, 1.5), (0.4, 1.5), "w1", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-
-  draw.content((0.6, -1.7), text(
-    size: 0.55em,
-    fill: luma(50%),
-  )[оценка: $V(p) = {w_1, w_1'}$, $V(q) = {w_1}$])
+  draw.content((0.7, -1.75), text(size: s-cap, fill: c-muted)[оценка: $V(p) = {w_1, w_1'}$, $V(q) = {w_1}$])
 })

@@ -1,239 +1,163 @@
-// m34 diagrams.
+// m34 diagrams: функции принадлежности, операции над нечёткими множествами.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-tri = oklch(55%, 0.18, 22deg)
-
-#let c-trap = oklch(50%, 0.14, 260deg)
-
+// Локальные цвета: зелёная кривая (гауссова) и результирующая кривая операций.
 #let c-gauss = oklch(46%, 0.13, 140deg)
 
-#let c-axis = oklch(35%, 0.02, 265deg)
+#let c-res = oklch(40%, 0.16, 280deg)
 
-#let c-tick = oklch(40%, 0.02, 265deg)
-
+// ── Функции принадлежности ──
 #let membership-functions = canvas({
 
   let tx(x) = 0.5 + x * 0.7
   let ty(y) = 0.5 + y * 4.0
 
-  // ── Axes ──
-  draw.line((tx(0), ty(0)), (tx(10.6), ty(0)), stroke: 0.5pt + c-axis)
-  draw.line((tx(0), ty(0)), (tx(0), ty(1.15)), stroke: 0.5pt + c-axis)
+  let axis = c-edge + t-ed
+  let tick = c-edge + t-hr
+  let curve-stroke(color) = (paint: color, thickness: 1.1pt)
 
-  // x-axis ticks
+  draw.line((tx(0), ty(0)), (tx(10), ty(0)), stroke: axis)
+  draw.line((tx(0), ty(0)), (tx(0), ty(1.2)), stroke: axis)
+  draw.content((tx(5), ty(-0.5)), text(size: s-cap, fill: c-muted)[$x$])
+  draw.content((tx(0) - 0.15, ty(1.24)), anchor: "east", text(size: s-cap, fill: c-muted)[$mu(x)$])
+
   for i in range(1, 11) {
-    draw.line(
-      (tx(i), ty(0) - 0.06),
-      (tx(i), ty(0) + 0.06),
-      stroke: 0.3pt + c-tick,
-    )
-    draw.content(
-      (tx(i), ty(-0.18)),
-      text(size: 0.55em, fill: c-tick)[#i],
-    )
+    draw.line((tx(i), ty(0) - 0.06), (tx(i), ty(0) + 0.06), stroke: tick)
+    draw.content((tx(i), ty(-0.2)), text(size: s-tiny, fill: c-muted)[#i])
+  }
+  for (yy, lab) in ((0, "0"), (0.5, "0.5"), (1, "1")) {
+    draw.line((tx(-0.06), ty(yy)), (tx(0.06), ty(yy)), stroke: tick)
+    draw.content((tx(-0.15), ty(yy)), anchor: "east", text(size: s-tiny, fill: c-muted)[#lab])
   }
 
-  // y-axis tick with label
-  let y-tick(y, label, tick-len: 0.06, stroke: 0.3pt + c-tick, size: 0.55em, fill: c-tick) = {
-    draw.line((tx(0) - tick-len, ty(y)), (tx(0) + tick-len, ty(y)), stroke: stroke)
-    draw.content((tx(-0.15), ty(y)), anchor: "east", text(size: size, fill: fill)[#label])
-  }
+  draw.line((tx(0), ty(1)), (tx(10), ty(1)), stroke: (paint: c-muted, thickness: t-hr, dash: "dashed"))
 
-  y-tick(0, "0")
-  y-tick(0.5, "0.5", tick-len: 0.04, stroke: 0.2pt + luma(65%), size: 0.5em, fill: luma(55%))
-  y-tick(1, "1")
+  draw.line((tx(2), ty(0)), (tx(5), ty(1)), stroke: curve-stroke(c-accent))
+  draw.line((tx(5), ty(1)), (tx(8), ty(0)), stroke: curve-stroke(c-accent))
 
-  // Axis labels
-  draw.content(
-    (tx(5.3), ty(-0.45)),
-    text(size: 0.7em, fill: c-axis)[$x$],
-  )
-  draw.content(
-    (tx(-0.5), ty(0.55)),
-    text(size: 0.7em, fill: c-axis)[$mu(x)$],
-  )
+  draw.line((tx(2), ty(0)), (tx(4), ty(1)), stroke: curve-stroke(c-hot))
+  draw.line((tx(4), ty(1)), (tx(7), ty(1)), stroke: curve-stroke(c-hot))
+  draw.line((tx(7), ty(1)), (tx(9), ty(0)), stroke: curve-stroke(c-hot))
 
-  // ── Dashed horizontal at y = 1 ──
-  draw.line(
-    (tx(0), ty(1)),
-    (tx(10), ty(1)),
-    stroke: (paint: luma(78%), thickness: 0.3pt, dash: "dashed"),
-  )
-
-  // ── 1. Triangular: μ(x) = max(0, 1 − |x−5|/3) ──
-  draw.line(
-    (tx(2), ty(0)),
-    (tx(5), ty(1)),
-    stroke: 1pt + c-tri,
-  )
-  draw.line(
-    (tx(5), ty(1)),
-    (tx(8), ty(0)),
-    stroke: 1pt + c-tri,
-  )
-
-  // ── 2. Trapezoidal ──
-  draw.line(
-    (tx(2), ty(0)),
-    (tx(4), ty(1)),
-    stroke: 1pt + c-trap,
-  )
-  draw.line(
-    (tx(4), ty(1)),
-    (tx(7), ty(1)),
-    stroke: 1pt + c-trap,
-  )
-  draw.line(
-    (tx(7), ty(1)),
-    (tx(9), ty(0)),
-    stroke: 1pt + c-trap,
-  )
-
-  // ── 3. Gaussian-like bell ──
   draw.bezier(
     (tx(2), ty(0)),
     (tx(5), ty(1)),
     (tx(3.2), ty(0.03)),
     (tx(4.3), ty(0.88)),
-    stroke: 1pt + c-gauss,
+    stroke: curve-stroke(c-gauss),
   )
   draw.bezier(
     (tx(5), ty(1)),
     (tx(8), ty(0)),
     (tx(5.7), ty(0.88)),
     (tx(6.8), ty(0.03)),
-    stroke: 1pt + c-gauss,
+    stroke: curve-stroke(c-gauss),
   )
 
-  // ── Legend ──
-  let ly = ty(1.18)
+  let ly = ty(1.32)
   let lx = tx(5.8)
   let lg = 0.55
   let ls = 0.22
-
-  // legend entry (line + label)
-  let legend-item(y, color, label) = {
-    draw.line((lx, y), (lx + lg, y), stroke: 1pt + color)
-    draw.content((lx + lg + 0.15, y), anchor: "west", text(size: 0.55em, fill: c-axis)[#label])
+  let legend-item(y, color, lab) = {
+    draw.line((lx, y), (lx + lg, y), stroke: curve-stroke(color))
+    draw.content((lx + lg + 0.15, y), anchor: "west", text(size: s-tiny, fill: c-muted)[#lab])
   }
 
-  legend-item(ly, c-tri, "Треугольная")
-  legend-item(ly - ls, c-trap, "Трапецеидальная")
+  legend-item(ly, c-accent, "Треугольная")
+  legend-item(ly - ls, c-hot, "Трапецеидальная")
   legend-item(ly - 2 * ls, c-gauss, "Гауссова")
 })
 
-#let c-muA = oklch(55%, 0.18, 250deg)
-
-#let c-muA-dim = oklch(70%, 0.08, 250deg)
-
-#let c-muB = oklch(55%, 0.18, 25deg)
-
-#let c-muB-dim = oklch(70%, 0.08, 25deg)
-
-#let c-result = oklch(40%, 0.16, 280deg)
-
+// ── Операции над нечёткими множествами ──
 #let fuzzy-operations = canvas({
 
-  // panel axes
-  let panel-axes(ox) = {
-    draw.line((ox + 0.6, 0.5), (ox + 4.0, 0.5), stroke: 0.5pt + c-axis)
-    draw.line((ox + 0.6, 0.5), (ox + 0.6, 3.0), stroke: 0.5pt + c-axis)
-    draw.line((ox + 0.6 - 0.08, 0.5), (ox + 0.6, 0.5), stroke: 0.3pt + c-tick)
-    draw.content((ox + 0.44, 0.5), anchor: "east", text(
-      size: 0.5em,
-      fill: c-tick,
-    )[0])
-    draw.line((ox + 0.6 - 0.08, 3.0), (ox + 0.6, 3.0), stroke: 0.3pt + c-tick)
-    draw.content((ox + 0.44, 3.0), anchor: "east", text(
-      size: 0.5em,
-      fill: c-tick,
-    )[1])
-    draw.content((ox + 2.3, -0.1), text(size: 0.55em, fill: c-axis)[$x$])
-    draw.content((ox + 0.35, 1.75), anchor: "east", text(
-      size: 0.55em,
-      fill: c-axis,
-    )[$mu$])
+  let axis = c-edge + t-ed
+  let tick = c-edge + t-hr
+  let res-stroke = (paint: c-res, thickness: 1.2pt)
+
+  let my(mu) = 0.5 + 2.5 * mu
+  let p(ox, x, mu) = (ox + x, my(mu))
+
+  let lab(at, body, color: c-muted, anchor: "center") = draw.content(
+    at,
+    text(size: s-tiny, fill: color)[#body],
+    fill: white,
+    stroke: none,
+    padding: 2pt,
+    anchor: anchor,
+  )
+
+  let panel-axes(ox, title) = {
+    draw.line((ox + 0.5, my(0)), (ox + 4.0, my(0)), stroke: axis)
+    draw.line((ox + 0.5, my(0)), (ox + 0.5, my(1)), stroke: axis)
+    draw.line((ox + 0.42, my(0)), (ox + 0.5, my(0)), stroke: tick)
+    draw.content((ox + 0.38, my(0)), anchor: "east", text(size: s-tiny, fill: c-muted)[0])
+    draw.line((ox + 0.42, my(1)), (ox + 0.5, my(1)), stroke: tick)
+    draw.content((ox + 0.38, my(1)), anchor: "east", text(size: s-tiny, fill: c-muted)[1])
+    draw.content((ox + 2.25, my(-0.25)), text(size: s-cap, fill: c-muted)[$x$])
+    draw.content((ox + 0.15, my(0.55)), anchor: "east", text(size: s-cap, fill: c-muted)[$mu$])
+    draw.content((ox + 2.25, my(1) + 0.5), text(size: s-cap, weight: "semibold", fill: c-muted)[#title])
   }
 
-  // ══════ Panel 1: Union (max) ══════
-  let ox = 0
-  // Axes
-  panel-axes(ox)
-  // Dim curves A and B
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 0.5pt + c-muB-dim)
-  draw.line((ox + 2.8, 3.0), (ox + 3.8, 0.5), stroke: 0.5pt + c-muB-dim)
-  // Max: upper envelope
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 1.2pt + c-muA)
-  draw.line((ox + 1.8, 3.0), (ox + 2.3, 1.75), stroke: 1.2pt + c-muA)
-  draw.line((ox + 2.3, 1.75), (ox + 2.8, 3.0), stroke: 1.2pt + c-muA)
-  draw.line((ox + 2.8, 3.0), (ox + 3.8, 0.5), stroke: 1.2pt + c-muA)
-  // Labels
-  draw.content((ox + 1.6, 2.4), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muA,
-  )[$mu_A$])
-  draw.content((ox + 3.4, 2.2), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muB,
-  )[$mu_B$])
-  draw.content((ox + 2.3, 3.4), text(
-    size: 0.7em,
-    weight: "semibold",
-    fill: c-axis,
-  )[Объединение $(max)$])
+  let dim-ab(ox) = {
+    draw.line(p(ox, 0.8, 0), p(ox, 1.8, 1), stroke: 0.7pt + c-accent)
+    draw.line(p(ox, 1.8, 1), p(ox, 2.8, 0), stroke: 0.7pt + c-accent)
+    draw.line(p(ox, 1.8, 0), p(ox, 2.8, 1), stroke: 0.7pt + c-hot)
+    draw.line(p(ox, 2.8, 1), p(ox, 3.8, 0), stroke: 0.7pt + c-hot)
+  }
 
-  // ══════ Panel 2: Intersection (min) ══════
-  ox = 5.0
-  panel-axes(ox)
-  // Dim curves A and B
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.5pt + c-muA-dim)
-  draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 0.5pt + c-muB-dim)
-  draw.line((ox + 2.8, 3.0), (ox + 3.8, 0.5), stroke: 0.5pt + c-muB-dim)
-  // Min: lower envelope
-  draw.line((ox + 1.8, 0.5), (ox + 2.3, 1.75), stroke: 1.2pt + c-result)
-  draw.line((ox + 2.3, 1.75), (ox + 2.8, 0.5), stroke: 1.2pt + c-result)
-  // Labels
-  draw.content((ox + 1.6, 2.4), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muA,
-  )[$mu_A$])
-  draw.content((ox + 3.4, 2.2), anchor: "south", text(
-    size: 0.55em,
-    fill: c-muB,
-  )[$mu_B$])
-  draw.content((ox + 2.3, 3.4), text(
-    size: 0.7em,
-    weight: "semibold",
-    fill: c-axis,
-  )[Пересечение $(min)$])
+  let ab-labels(ox) = {
+    lab(p(ox, 1.15, 0.72), $mu_A$, color: c-accent, anchor: "east")
+    lab(p(ox, 3.4, 0.72), $mu_B$, color: c-hot, anchor: "west")
+  }
 
-  // ══════ Panel 3: Complement ─═════
-  ox = 10.0
-  panel-axes(ox)
-  // Original A
-  draw.line((ox + 0.8, 0.5), (ox + 1.8, 3.0), stroke: 0.8pt + c-muA)
-  draw.line((ox + 1.8, 3.0), (ox + 2.8, 0.5), stroke: 0.8pt + c-muA)
-  // ¬A: mirrored
-  draw.line((ox + 0.8, 3.0), (ox + 1.8, 0.5), stroke: 1.2pt + c-result)
-  draw.line((ox + 1.8, 0.5), (ox + 2.8, 3.0), stroke: 1.2pt + c-result)
-  // Labels
-  draw.content((ox + 1.2, 1.5), anchor: "west", text(
-    size: 0.55em,
-    fill: c-muA,
-  )[$mu_A$])
-  draw.content((ox + 1.2, 2.6), anchor: "west", text(
-    size: 0.55em,
-    fill: c-result,
-  )[$mu_{not A}$])
-  draw.content((ox + 2.3, 3.4), text(
-    size: 0.7em,
-    weight: "semibold",
-    fill: c-axis,
-  )[Дополнение $(1-mu)$])
+  // ── Объединение (max) -- верхняя огибающая
+  panel-axes(0, [Объединение ($max$)])
+  draw.line(
+    p(0, 0.8, 0),
+    p(0, 1.8, 1),
+    p(0, 2.3, 0.5),
+    p(0, 2.8, 1),
+    p(0, 3.8, 0),
+    close: true,
+    fill: c-fl,
+    stroke: none,
+  )
+  dim-ab(0)
+  draw.line(p(0, 0.8, 0), p(0, 1.8, 1), stroke: res-stroke)
+  draw.line(p(0, 1.8, 1), p(0, 2.3, 0.5), stroke: res-stroke)
+  draw.line(p(0, 2.3, 0.5), p(0, 2.8, 1), stroke: res-stroke)
+  draw.line(p(0, 2.8, 1), p(0, 3.8, 0), stroke: res-stroke)
+  ab-labels(0)
+
+  // ── Пересечение (min) -- нижняя огибающая
+  panel-axes(5, [Пересечение ($min$)])
+  draw.line(p(5, 1.8, 0), p(5, 2.3, 0.5), p(5, 2.8, 0), close: true, fill: c-fl, stroke: none)
+  dim-ab(5)
+  draw.line(p(5, 1.8, 0), p(5, 2.3, 0.5), stroke: res-stroke)
+  draw.line(p(5, 2.3, 0.5), p(5, 2.8, 0), stroke: res-stroke)
+  ab-labels(5)
+
+  // ── Дополнение (1 - mu) -- зеркальная кривая
+  panel-axes(10, [Дополнение ($1 - mu$)])
+  draw.line(
+    p(10, 0.8, 1),
+    p(10, 1.8, 0),
+    p(10, 2.8, 1),
+    p(10, 2.8, 0),
+    p(10, 0.8, 0),
+    close: true,
+    fill: c-fl,
+    stroke: none,
+  )
+  draw.line(p(10, 0.8, 0), p(10, 1.8, 1), stroke: 0.7pt + c-accent)
+  draw.line(p(10, 1.8, 1), p(10, 2.8, 0), stroke: 0.7pt + c-accent)
+  draw.line(p(10, 0.8, 1), p(10, 1.8, 0), stroke: res-stroke)
+  draw.line(p(10, 1.8, 0), p(10, 2.8, 1), stroke: res-stroke)
+  lab(p(10, 0.9, 0.3), $mu_A$, color: c-accent, anchor: "west")
+  lab(p(10, 0.9, 0.82), $mu_{not A}$, color: c-res, anchor: "west")
 })

@@ -1,132 +1,125 @@
-// m32 diagrams.
+// m32 diagrams: Крипке-гараж (светофор), куб модальностей, состояния мьютекса.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let k-node = oklch(88%, 0.03, 250deg)
+// Доступность (стрелки переходов) выделяется книжным акцентом.
+#let acc-stroke = (paint: c-accent, thickness: t-ed)
 
-#let k-node-str = oklch(60%, 0.08, 250deg)
+// Узел D --- деонтическая система, лежащая на ребре K→T, вне осей куба.
+#let d-fill = c-conn
+#let d-str = oklch(60%, 0.10, 60deg) + t-bd
 
-#let k-edge = oklch(35%, 0.02, 265deg) + 0.6pt
-
-#let k-label = oklch(35%, 0.02, 265deg)
-
-#let k-forbidden = (paint: oklch(55%, 0.19, 25deg), thickness: 0.8pt, dash: "dashed")
-
+// ── Крипке-гараж (светофор): три состояния, цикл переходов. ──
 #let kripke-traffic = canvas({
-  let r = 0.45
-  draw.circle((0, 0.9), radius: r, fill: k-node, stroke: k-node-str, name: "G")
-  draw.content((0, 0.9), text(size: 0.72em, fill: k-label)[$G$])
-
-  draw.circle((0.95, -0.55), radius: r, fill: k-node, stroke: k-node-str, name: "Y")
-  draw.content((0.95, -0.55), text(size: 0.72em, fill: k-label)[$Y$])
-
-  draw.circle((-0.95, -0.55), radius: r, fill: k-node, stroke: k-node-str, name: "R")
-  draw.content((-0.95, -0.55), text(size: 0.72em, fill: k-label)[$R$])
-
-  draw.line("G", "Y", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.line("Y", "R", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.line("R", "G", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-
-  // Atom labels
-  draw.content((0, 1.5), anchor: "south", text(size: 0.62em, fill: k-label)[${"green"}$])
-  draw.content((1.05, -1.15), anchor: "west", text(size: 0.62em, fill: k-label)[${"yellow"}$])
-  draw.content((-1.05, -1.15), anchor: "east", text(size: 0.62em, fill: k-label)[${"red"}$])
-})
-
-#let mc-n-fill = oklch(88%, 0.03, 250deg)
-
-#let mc-n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-
-#let mc-dim-fill = oklch(94%, 0.008, 265deg)
-
-#let mc-dim-str = 0.6pt + oklch(55%, 0.02, 265deg)
-
-#let mc-dim-label = oklch(50%, 0.02, 265deg)
-
-#let mc-e-str = 0.6pt + oklch(35%, 0.02, 265deg)
-
-#let mc-label = oklch(35%, 0.02, 265deg)
-
-#let mc-d-fill = oklch(93%, 0.06, 65deg)
-
-#let mc-d-str = 0.8pt + oklch(60%, 0.12, 65deg)
-
-#let modal-cube = canvas({
-  let r = 0.36
-  let pk = (0, 0)
-  let pt = (1.7, 0)
-  let pkb = (0, 1.7)
-  let pb = (1.7, 1.7)
-  let pk4 = (0.6, 1.0)
-  let ps4 = (2.3, 1.0)
-  let pkb4 = (0.6, 2.7)
-  let ps5 = (2.3, 2.7)
-  let pd = (0.55, 0)
-
-  let wnode(pos, body, name, fill: mc-n-fill, stroke: mc-n-str, label: mc-label) = {
-    draw.circle(pos, radius: r, fill: fill, stroke: stroke, name: name)
-    draw.content(pos, text(size: 0.6em, fill: label)[#body])
+  let r = 0.5
+  let t-node(pos, body, name) = {
+    draw.circle(pos, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: name)
+    draw.content(pos, text(size: s-node, fill: c-ink)[#body])
   }
-  let wedge(a, b) = draw.line(a, b, stroke: mc-e-str)
+  let acc-edge(from, to) = draw.line(
+    from,
+    to,
+    stroke: acc-stroke,
+    mark: (end: "stealth", fill: c-accent),
+  )
 
-  // Cube frame: bottom square (T × B), top square (+4), verticals.
-  wedge(pk, pt)
-  wedge(pk, pkb)
-  wedge(pt, pb)
-  wedge(pkb, pb)
-  wedge(pk4, ps4)
-  wedge(pk4, pkb4)
-  wedge(ps4, ps5)
-  wedge(pkb4, ps5)
-  wedge(pk, pk4)
-  wedge(pt, ps4)
-  wedge(pkb, pkb4)
-  wedge(pb, ps5)
+  t-node((0, 0.95), $G$, "G")
+  t-node((0.95, -0.5), $Y$, "Y")
+  t-node((-0.95, -0.5), $R$, "R")
 
-  // Axis labels: adding one axiom.
-  draw.content((0.85, -0.42), text(size: 0.55em, fill: mc-dim-label)[+$T$])
-  draw.content((-0.5, 0.85), text(size: 0.55em, fill: mc-dim-label)[+$B$])
-  draw.content((0.18, 0.62), text(size: 0.55em, fill: mc-dim-label)[+$4$])
+  acc-edge("G", "Y")
+  acc-edge("Y", "R")
+  acc-edge("R", "G")
 
-  // Bottom square: K, T, KB, B.
-  wnode(pk, $K$, "k")
-  wnode(pt, $T$, "t")
-  wnode(pkb, $K B$, "kb", fill: mc-dim-fill, stroke: mc-dim-str, label: mc-dim-label)
-  wnode(pb, $B$, "b")
-
-  // Top square: K4, S4, KB4, S5
-  wnode(pk4, $K_4$, "k4", fill: mc-dim-fill, stroke: mc-dim-str, label: mc-dim-label)
-  wnode(ps4, $S_4$, "s4")
-  wnode(pkb4, $K B_4$, "kb4", fill: mc-dim-fill, stroke: mc-dim-str, label: mc-dim-label)
-  wnode(ps5, $S_5$, "s5")
-
-  // D on the K->T edge: D ⊂ T, but D is not an axis of the cube.
-  draw.circle(pd, radius: 0.24, fill: mc-d-fill, stroke: mc-d-str, name: "d")
-  draw.content(pd, text(size: 0.55em, fill: mc-label)[$D$])
+  draw.content((0, 1.6), anchor: "south", text(size: s-cap, fill: c-muted)[$"green"$])
+  draw.content((1.05, -1.05), anchor: "west", text(size: s-cap, fill: c-muted)[$"yellow"$])
+  draw.content((-1.05, -1.05), anchor: "east", text(size: s-cap, fill: c-muted)[$"red"$])
 })
 
+// ── Куб модальностей: оси +T, +B, +4; D на ребре K→T. ──
+#let modal-cube = canvas({
+  let r = 0.44
+  let frame-stroke = (paint: c-edge, thickness: t-ed)
+  let w-node(pos, body, name, dim: false) = {
+    let label-col = if dim { c-muted } else { c-ink }
+    draw.circle(pos, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: name)
+    draw.content(pos, text(size: s-node, fill: label-col)[#body])
+  }
+  let frame(from, to) = draw.line(from, to, stroke: frame-stroke)
+
+  let pk = (0, 0)
+  let pt = (2.2, 0)
+  let pkb = (0, 2.2)
+  let pb = (2.2, 2.2)
+  let pk4 = (0.7, 1.3)
+  let ps4 = (2.9, 1.3)
+  let pkb4 = (0.7, 3.5)
+  let ps5 = (2.9, 3.5)
+
+  frame(pk, pt)
+  frame(pk, pkb)
+  frame(pt, pb)
+  frame(pkb, pb)
+  frame(pk4, ps4)
+  frame(pk4, pkb4)
+  frame(ps4, ps5)
+  frame(pkb4, ps5)
+  frame(pk, pk4)
+  frame(pt, ps4)
+  frame(pkb, pkb4)
+  frame(pb, ps5)
+
+  draw.content((0.9, -0.6), text(size: s-cap, fill: c-muted)[+$T$])
+  draw.content((-0.55, 1.1), text(size: s-cap, fill: c-muted)[+$B$])
+  draw.content((0.15, 0.7), text(size: s-cap, fill: c-muted)[+$4$])
+
+  w-node(pk, $K$, "k")
+  w-node(pt, $T$, "t")
+  w-node(pkb, $K B$, "kb", dim: true)
+  w-node(pb, $B$, "b", dim: true)
+
+  w-node(pk4, $K_4$, "k4", dim: true)
+  w-node(ps4, $S_4$, "s4")
+  w-node(pkb4, $K B_4$, "kb4", dim: true)
+  w-node(ps5, $S_5$, "s5")
+
+  let d-pos = (1.1, 0)
+  draw.circle(d-pos, radius: 0.28, fill: d-fill, stroke: d-str, name: "d")
+  draw.content(d-pos, text(size: s-node, fill: c-ink)[$D$])
+})
+
+// ── Состояния мьютекса: (C,C) запрещено, переходы между остальными. ──
 #let mutex-states = canvas({
-  let r = 0.42
-  draw.circle((0, 0), radius: r, fill: k-node, stroke: k-node-str, name: "oo")
-  draw.content((0, 0), text(size: 0.62em, fill: k-label)[${(O, O)}$])
-  draw.content((0, -0.75), anchor: "north", text(size: 0.55em, fill: k-label)[$nothing$])
+  let r = 0.52
+  let m-node(pos, body, name) = {
+    draw.circle(pos, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: name)
+    draw.content(pos, text(size: s-node, fill: c-ink)[#body])
+  }
+  let acc-edge(from, to) = draw.line(
+    from,
+    to,
+    stroke: acc-stroke,
+    mark: (end: "stealth", fill: c-accent),
+  )
 
-  draw.circle((-1.4, 1.4), radius: r, fill: k-node, stroke: k-node-str, name: "co")
-  draw.content((-1.4, 1.4), text(size: 0.62em, fill: k-label)[${(C, O)}$])
-  draw.content((-1.95, 1.4), anchor: "east", text(size: 0.55em, fill: k-label)[${"crit"_1}$])
+  m-node((0, 0), $(O, O)$, "oo")
+  draw.content((0, -0.85), anchor: "north", text(size: s-cap, fill: c-muted)[$nothing$])
 
-  draw.circle((1.4, 1.4), radius: r, fill: k-node, stroke: k-node-str, name: "oc")
-  draw.content((1.4, 1.4), text(size: 0.62em, fill: k-label)[${(O, C)}$])
-  draw.content((1.95, 1.4), anchor: "west", text(size: 0.55em, fill: k-label)[${"crit"_2}$])
+  m-node((-1.6, 1.7), $(C, O)$, "co")
+  draw.content((-2.35, 1.7), anchor: "east", text(size: s-cap, fill: c-muted)[$"crit"_1$])
 
-  draw.circle((0, 2.9), radius: r, fill: none, stroke: k-forbidden, name: "cc")
-  draw.content((0, 2.9), text(size: 0.62em, fill: k-label)[${(C, C)}$])
-  draw.content((0.55, 2.9), anchor: "west", text(size: 0.55em, fill: k-label)[${"crit"_1, "crit"_2}$])
+  m-node((1.6, 1.7), $(O, C)$, "oc")
+  draw.content((2.35, 1.7), anchor: "west", text(size: s-cap, fill: c-muted)[$"crit"_2$])
 
-  draw.line("oo", "co", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.line("oo", "oc", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.line("co", "oo", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
-  draw.line("oc", "oo", stroke: k-edge, mark: (end: ">", fill: oklch(35%, 0.02, 265deg)))
+  draw.circle((0, 3.5), radius: r, fill: none, stroke: (paint: c-hot, thickness: t-bd, dash: "dashed"), name: "cc")
+  draw.content((0, 3.5), text(size: s-node, fill: c-ink)[$(C, C)$])
+  draw.content((0.65, 3.5), anchor: "west", text(size: s-cap, fill: c-muted)[$"crit"_1, "crit"_2$])
+
+  acc-edge("oo", "co")
+  acc-edge("oo", "oc")
+  acc-edge("co", "oo")
+  acc-edge("oc", "oo")
 })

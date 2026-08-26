@@ -1,247 +1,208 @@
-// m10 diagrams.
+// m10 diagrams: карты Карно 3 и 4 переменных, карта большинства, BDD для XOR.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-km-line = oklch(35%, 0.02, 265deg) + 0.5pt
+#let km-grid(rows, cols, s) = {
+  let g = (paint: c-edge, thickness: t-hr)
+  for i in range(rows + 1) {
+    draw.line((0, -i * s), (cols * s, -i * s), stroke: g)
+  }
+  for j in range(cols + 1) {
+    draw.line((j * s, 0), (j * s, -rows * s), stroke: g)
+  }
+}
 
-#let c-km-fill = oklch(88%, 0.03, 155deg)
-
-#let c-km-num = oklch(35%, 0.02, 265deg)
-
+// ── Карта Карно 3 переменных ──
 #let karnaugh-3var = canvas({
-  let s = 1.2 // cell size
-  let rows = 4
-  let cols = 2
+  let s = 1.2
+  km-grid(4, 2, s)
 
-  // Grid
-  for i in range(rows + 1) {
-    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
-  }
-  for j in range(cols + 1) {
-    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
-  }
-
-  // Row labels (yz)
-  let yz = ("00", "01", "11", "10")
-  for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
-      size: 0.72em,
-      fill: c-km-num,
-    )[#label])
+  let yz-coords = ("00", "01", "11", "10")
+  for (i, label) in yz-coords.enumerate() {
+    draw.content(
+      (-0.4, -(i + 0.5) * s),
+      anchor: "east",
+      text(size: s-cap, fill: c-muted)[#label],
+    )
   }
 
-  // Column label (x)
-  draw.content((0.5 * s, 0.35), anchor: "south", text(
-    size: 0.72em,
-    fill: c-km-num,
-  )[$x$])
-
-  // Column header values
-  for j in range(cols) {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
-      size: 0.65em,
-      fill: c-km-num,
-    )[#j])
+  draw.content(
+    (s, 0.55),
+    anchor: "south",
+    text(size: s-cap, fill: c-muted)[$x$],
+  )
+  for j in range(2) {
+    draw.content(
+      ((j + 0.5) * s, 0.25),
+      anchor: "south",
+      text(size: s-tiny, fill: c-muted)[#j],
+    )
   }
 
-  // Axis labels
-  draw.content((-1.0, -2 * s), anchor: "east", text(
-    size: 0.72em,
-    fill: c-km-num,
-  )[$y z$])
+  draw.content(
+    (-1.0, -2 * s),
+    anchor: "east",
+    text(size: s-cap, fill: c-muted)[$y z$],
+  )
 })
 
+// ── Карта Карно 4 переменных ──
 #let karnaugh-4var = canvas({
-  let s = 1.0
-  let rows = 4
-  let cols = 4
+  let s = 1.2
+  km-grid(4, 4, s)
 
-  // Grid
-  for i in range(rows + 1) {
-    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
-  }
-  for j in range(cols + 1) {
-    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
-  }
-
-  // Row labels (yz) in Gray code
-  let yz = ("00", "01", "11", "10")
-  for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
-      size: 0.72em,
-      fill: c-km-num,
-    )[#label])
+  let yz-coords = ("00", "01", "11", "10")
+  for (i, label) in yz-coords.enumerate() {
+    draw.content(
+      (-0.4, -(i + 0.5) * s),
+      anchor: "east",
+      text(size: s-cap, fill: c-muted)[#label],
+    )
   }
 
-  // Column labels (wx) in Gray code
-  let wx = ("00", "01", "11", "10")
-  for (j, label) in wx.enumerate() {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
-      size: 0.65em,
-      fill: c-km-num,
-    )[#label])
+  let wx-coords = ("00", "01", "11", "10")
+  for (j, label) in wx-coords.enumerate() {
+    draw.content(
+      ((j + 0.5) * s, 0.25),
+      anchor: "south",
+      text(size: s-cap, fill: c-muted)[#label],
+    )
   }
 
-  // Axis labels
-  draw.content((-0.8, -2 * s), anchor: "east", text(
-    size: 0.72em,
-    fill: c-km-num,
-  )[$y z$])
-  draw.content((2 * s, 0.7), anchor: "south", text(
-    size: 0.72em,
-    fill: c-km-num,
-  )[$w x$])
+  draw.content(
+    (-0.8, -2 * s),
+    anchor: "east",
+    text(size: s-cap, fill: c-muted)[$y z$],
+  )
+  draw.content(
+    (2 * s, 0.7),
+    anchor: "south",
+    text(size: s-cap, fill: c-muted)[$w x$],
+  )
 })
 
+// ── Карта Карно функции большинства ──
 #let karnaugh-3var-majority = canvas({
   let s = 1.2
-  let rows = 4
-  let cols = 2
 
-  // Grid
-  for i in range(rows + 1) {
-    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
-  }
-  for j in range(cols + 1) {
-    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
-  }
-
-  // Filled cells: minterms where majority(x,y,z)=1
+  // Единичные клетки f(x,y,z)=xy∨xz∨yz; заливка до сетки.
   let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
   for (row, col) in ones {
     draw.rect(
       (col * s, -row * s),
       ((col + 1) * s, -(row + 1) * s),
-      fill: c-km-fill,
+      fill: c-fl,
       stroke: none,
     )
   }
 
-  // Cell labels
+  km-grid(4, 2, s)
+
   for (row, col) in ones {
-    draw.content(((col + 0.5) * s, -(row + 0.5) * s), text(
-      size: 0.8em,
-      fill: c-km-num,
-    )[1])
+    draw.content(
+      ((col + 0.5) * s, -(row + 0.5) * s),
+      text(size: s-node, fill: c-ink)[1],
+    )
   }
 
-  // Row labels (yz)
-  let yz = ("00", "01", "11", "10")
-  for (i, label) in yz.enumerate() {
-    draw.content((-0.4, -(i + 0.5) * s), anchor: "east", text(
-      size: 0.72em,
-      fill: c-km-num,
-    )[#label])
+  let yz-coords = ("00", "01", "11", "10")
+  for (i, label) in yz-coords.enumerate() {
+    draw.content(
+      (-0.4, -(i + 0.5) * s),
+      anchor: "east",
+      text(size: s-cap, fill: c-muted)[#label],
+    )
   }
 
-  // Column labels
-  draw.content((0.5 * s, 0.35), anchor: "south", text(
-    size: 0.72em,
-    fill: c-km-num,
-  )[$x$])
-  for j in range(cols) {
-    draw.content(((j + 0.5) * s, 0.25), anchor: "south", text(
-      size: 0.65em,
-      fill: c-km-num,
-    )[#j])
+  draw.content(
+    (s, 0.55),
+    anchor: "south",
+    text(size: s-cap, fill: c-muted)[$x$],
+  )
+  for j in range(2) {
+    draw.content(
+      ((j + 0.5) * s, 0.25),
+      anchor: "south",
+      text(size: s-tiny, fill: c-muted)[#j],
+    )
   }
 
-  draw.content((-1.0, -2 * s), anchor: "east", text(
-    size: 0.72em,
-    fill: c-km-num,
-  )[$y z$])
+  draw.content(
+    (-1.0, -2 * s),
+    anchor: "east",
+    text(size: s-cap, fill: c-muted)[$y z$],
+  )
 })
 
-#let bdd-lo-paint = oklch(55%, 0.12, 22deg)
+// ── BDD для XOR ──
+#let bdd-xor = {
+  let vnode(pos, var, name) = {
+    draw.circle(
+      pos,
+      radius: 0.4,
+      fill: c-conn,
+      stroke: t-bd + c-bd,
+      name: name,
+    )
+    draw.content(pos, text(size: s-node, fill: c-ink)[#var])
+  }
+  let tnode(pos, val, name) = {
+    let (cx, cy) = pos
+    draw.rect(
+      (cx - 0.3, cy - 0.3),
+      (cx + 0.3, cy + 0.3),
+      radius: 2pt,
+      fill: c-atom,
+      stroke: t-bd + c-bd,
+      name: name,
+    )
+    draw.content(pos, text(size: s-node, fill: c-ink)[#val])
+  }
 
-#let bdd-hi-paint = oklch(50%, 0.14, 250deg)
+  let ledge(from, to, edge-name) = {
+    draw.line(
+      from,
+      to,
+      name: edge-name,
+      stroke: (paint: c-edge, thickness: t-ed, dash: "dashed"),
+    )
+    draw.content(
+      edge-name + ".30%",
+      text(size: s-tiny, fill: c-muted)[$0$],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
+  }
+  let hedge(from, to, edge-name) = {
+    draw.line(from, to, name: edge-name, stroke: (paint: c-edge, thickness: t-ed))
+    draw.content(
+      edge-name + ".30%",
+      text(size: s-tiny, fill: c-muted)[$1$],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
+  }
 
-#let bdd-label = oklch(30%, 0.02, 265deg)
+  canvas({
+    vnode((0, 3), $x$, "x")
+    vnode((-2.0, 1), $y$, "y-lo")
+    vnode((2.0, 1), $y$, "y-hi")
+    tnode((-1.6, -1), 0, "t0")
+    tnode((1.6, -1), 1, "t1")
 
-#let bdd-node-fill = oklch(92%, 0.02, 260deg)
+    // x = 0 ведёт в f(0,y) = y, x = 1 --- в f(1,y) = ¬y.
+    ledge("x", "y-lo", "e-x-lo")
+    hedge("x", "y-hi", "e-x-hi")
 
-#let bdd-node-str = oklch(55%, 0.06, 260deg) + 0.7pt
+    ledge("y-lo", "t0", "e-yl-t0")
+    hedge("y-lo", "t1", "e-yl-t1")
 
-#let bdd-term-str = oklch(35%, 0.02, 265deg) + 0.8pt
-
-#let bdd-node(pos, var, name) = {
-  draw.circle(
-    pos,
-    radius: 0.4,
-    fill: bdd-node-fill,
-    stroke: bdd-node-str,
-    name: name,
-  )
-  draw.content(pos, text(
-    size: 0.8em,
-    weight: "semibold",
-    fill: bdd-label,
-  )[#var])
+    ledge("y-hi", "t1", "e-yr-t1")
+    hedge("y-hi", "t0", "e-yr-t0")
+  })
 }
-
-#let bdd-term(pos, val, name) = {
-  let (cx, cy) = pos
-  draw.rect(
-    (cx - 0.3, cy - 0.3),
-    (cx + 0.3, cy + 0.3),
-    radius: 2pt,
-    fill: white,
-    stroke: bdd-term-str,
-    name: name,
-  )
-  draw.content(pos, text(size: 0.8em, fill: bdd-label)[#val])
-}
-
-#let lo-edge(from, to, edge-name) = {
-  draw.line(from, to, name: edge-name, stroke: (
-    paint: bdd-lo-paint,
-    thickness: 0.7pt,
-    dash: "dashed",
-  ))
-  draw.content(
-    edge-name + ".30%",
-    text(size: 0.65em, fill: bdd-lo-paint)[$0$],
-    frame: "rect",
-    fill: white,
-    stroke: none,
-    padding: 1pt,
-  )
-}
-
-#let hi-edge(from, to, edge-name) = {
-  draw.line(from, to, name: edge-name, stroke: (
-    paint: bdd-hi-paint,
-    thickness: 0.8pt,
-  ))
-  draw.content(
-    edge-name + ".30%",
-    text(size: 0.65em, fill: bdd-hi-paint)[$1$],
-    frame: "rect",
-    fill: white,
-    stroke: none,
-    padding: 1pt,
-  )
-}
-
-#let bdd-xor = canvas({
-  // ── Nodes ──
-  bdd-node((0, 3), $x$, "x")
-  bdd-node((-2.0, 1), $y$, "y-lo")
-  bdd-node((2.0, 1), $y$, "y-hi")
-  bdd-term((-1.6, -1), 0, "t0")
-  bdd-term((1.6, -1), 1, "t1")
-
-  // ── Root -> cofactors ──
-  lo-edge("x", "y-lo", "e-x-lo")
-  hi-edge("x", "y-hi", "e-x-hi")
-
-  // ── Left cofactor f(0,y) = y: lo->0, hi->1 ──
-  lo-edge("y-lo", "t0", "e-yl-t0")
-  hi-edge("y-lo", "t1", "e-yl-t1")
-
-  // ── Right cofactor f(1,y) = ¬y: lo->1, hi->0 ──
-  lo-edge("y-hi", "t1", "e-yr-t1")
-  hi-edge("y-hi", "t0", "e-yr-t0")
-})

@@ -1,150 +1,111 @@
-// m19 diagrams.
+// m19 diagrams: цепь Маркова, дерево вероятностей, байесовская сеть.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-mc-state = oklch(88%, 0.03, 250deg)
+#let n-stroke = t-bd + c-bd
 
-#let c-mc-str = oklch(60%, 0.08, 250deg)
+#let e-stroke = (paint: c-edge, thickness: t-ed)
 
-#let c-mc-edge = oklch(35%, 0.02, 265deg)
-
-#let c-mc-label = oklch(30%, 0.02, 265deg)
-
+// ── Цепь Маркова ──
 #let markov-chain = canvas({
-
-  // state node helper
   let state(pos, label, name) = {
     let (x, y) = pos
-    draw.circle(
-      (x, y),
-      radius: 0.5,
-      name: name,
-      fill: c-mc-state,
-      stroke: 0.8pt + c-mc-str,
-    )
-    draw.content(
-      (x, y),
-      text(size: 0.9em, fill: c-mc-label, weight: "bold")[#label],
-    )
+    draw.circle((x, y), radius: 0.5, name: name, fill: c-fl, stroke: n-stroke)
+    draw.content((x, y), text(size: s-node, fill: c-ink, weight: "bold")[#label])
   }
 
-  // edge label helper
-  let elabel(edge-name, label-text, anchor: "south") = {
+  // Вероятность перехода --- в середине ребра.
+  let elabel(edge-name, prob) = {
     draw.content(
       edge-name + ".mid",
-      text(size: 0.7em, fill: c-mc-label)[#label-text],
-      frame: "rect",
+      text(size: s-cap, fill: c-accent)[#prob],
       fill: white,
       stroke: none,
-      padding: 1pt,
-      anchor: anchor,
+      padding: 2pt,
+      anchor: "south",
     )
   }
 
-  // ── States ──
+  // ── Состояния ──
   state((0, 0), [$S$], "S")
   state((5, 0), [$R$], "R")
 
-  // ── Transitions ──
-
-  // S -> R
+  // ── Переходы ──
   draw.line(
     "S.north-east",
     "R.north-west",
     name: "s-r",
-    stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">", fill: c-mc-edge),
+    stroke: e-stroke,
+    mark: (end: ">", fill: c-edge),
   )
   elabel("s-r", [$0.2$])
 
-  // R -> S
   draw.line(
     "R.south-west",
     "S.south-east",
     name: "r-s",
-    stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">", fill: c-mc-edge),
+    stroke: e-stroke,
+    mark: (end: ">", fill: c-edge),
   )
   elabel("r-s", [$0.4$])
 
-  // S -> S (self-loop)
   draw.bezier(
     "S.north-west",
     "S.north-east",
     (-1.2, 1.5),
     (1.2, 1.5),
     name: "s-s",
-    stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">", fill: c-mc-edge),
+    stroke: e-stroke,
+    mark: (end: ">", fill: c-edge),
   )
   elabel("s-s", [$0.8$])
 
-  // R -> R (self-loop)
   draw.bezier(
     "R.north-west",
     "R.north-east",
     (3.8, 1.5),
     (6.2, 1.5),
     name: "r-r",
-    stroke: 0.7pt + c-mc-edge,
-    mark: (end: ">", fill: c-mc-edge),
+    stroke: e-stroke,
+    mark: (end: ">", fill: c-edge),
   )
   elabel("r-r", [$0.6$])
 })
 
-#let c-pt-node = oklch(55%, 0.13, 250deg)
-
-#let c-pt-leaf = oklch(55%, 0.12, 160deg)
-
-#let c-pt-edge = oklch(35%, 0.02, 265deg)
-
-#let c-pt-label = oklch(35%, 0.02, 265deg)
-
-#let c-pt-prob = oklch(55%, 0.12, 22deg)
-
+// ── Дерево вероятностей ──
 #let probability-tree = canvas({
-  // prob edge helper
   let prob-edge(from, to, prob) = {
     let name = "e-" + from + "-" + to
-    draw.line(from, to, stroke: 0.6pt + c-pt-edge, name: name)
+    draw.line(from, to, stroke: e-stroke, name: name)
     draw.content(
-      name,
-      text(size: 0.75em, fill: c-pt-label)[$#prob$],
-      frame: "rect",
+      name + ".mid",
+      text(size: s-cap, fill: c-accent)[$#prob$],
       fill: white,
       stroke: none,
-      padding: 1pt,
+      padding: 2pt,
     )
   }
 
-  // leaf label helper
-  let leaf-label(name, outcome, prob) = {
-    draw.content(
-      name,
-      anchor: "south",
-      text(size: 0.7em, fill: c-pt-label)[#outcome],
-      padding: 0.08,
-    )
-    draw.content(
-      name,
-      anchor: "north",
-      text(size: 0.65em, fill: c-pt-prob)[$#prob$],
-      padding: 0.06,
-    )
+  let leaf-label(pos, outcome, prob) = {
+    let (x, y) = pos
+    draw.content((x, y - 0.4), text(size: s-cap, fill: c-muted)[#outcome])
+    draw.content((x, y - 0.78), text(size: s-cap, fill: c-accent)[$#prob$])
   }
 
-  // ── Nodes ──
-  draw.circle((0, 3.5), radius: 0.15, fill: c-pt-node, name: "root")
-  draw.circle((2, 1.8), radius: 0.14, fill: c-pt-node, name: "H")
-  draw.circle((-2, 1.8), radius: 0.14, fill: c-pt-node, name: "T")
-  draw.circle((3, 0), radius: 0.12, fill: c-pt-leaf, name: "HH")
-  draw.circle((1, 0), radius: 0.12, fill: c-pt-leaf, name: "HT")
-  draw.circle((-1, 0), radius: 0.12, fill: c-pt-leaf, name: "TH")
-  draw.circle((-3, 0), radius: 0.12, fill: c-pt-leaf, name: "TT")
+  // ── Узлы: ветвления ──
+  draw.circle((0, 3.4), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "root")
+  draw.circle((2.8, 1.8), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "H")
+  draw.circle((-2.8, 1.8), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "T")
 
-  // ── Edges with labels ──
+  draw.circle((4.2, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "HH")
+  draw.circle((1.4, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "HT")
+  draw.circle((-1.4, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "TH")
+  draw.circle((-4.2, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "TT")
+
+  // ── Ветви с вероятностями ──
   prob-edge("root", "H", 0.6)
   prob-edge("root", "T", 0.4)
   prob-edge("H", "HH", 0.6)
@@ -152,94 +113,73 @@
   prob-edge("T", "TH", 0.6)
   prob-edge("T", "TT", 0.4)
 
-  // ── Node labels (level 1) ──
-  draw.content(
-    "H",
-    anchor: "west",
-    text(size: 0.8em, fill: c-pt-node, weight: "bold")[$H$],
-    padding: 0.15,
-  )
-  draw.content(
-    "T",
-    anchor: "east",
-    text(size: 0.8em, fill: c-pt-node, weight: "bold")[$T$],
-    padding: 0.15,
-  )
+  // ── Метки ветвлений (в открытом месте, вне рёбер) ──
+  draw.content((3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$H$])
+  draw.content((-3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$T$])
 
-  // ── Leaf labels ──
-  leaf-label("HH", [$H H$], 0.36)
-  leaf-label("HT", [$H T$], 0.24)
-  leaf-label("TH", [$T H$], 0.24)
-  leaf-label("TT", [$T T$], 0.16)
+  // ── Исходы ──
+  leaf-label((4.2, 0), [$H H$], 0.36)
+  leaf-label((1.4, 0), [$H T$], 0.24)
+  leaf-label((-1.4, 0), [$T H$], 0.24)
+  leaf-label((-4.2, 0), [$T T$], 0.16)
 })
 
+// ── Байесовская сеть ──
 #let bayes-net = canvas({
-  let c-bn-fill = oklch(92%, 0.04, 250deg)
-  let c-bn-stroke = oklch(55%, 0.08, 250deg)
-  let c-bn-label = oklch(30%, 0.02, 265deg)
-  let c-bn-edge = oklch(35%, 0.02, 265deg)
-
-  // Rounded rectangle node
-  let node(pos, label, name) = {
+  let bn-node(pos, label, name) = {
     let (x, y) = pos
     draw.rect(
       (x - 1.2, y + 0.45),
       (x + 1.2, y - 0.45),
       name: name,
-      fill: c-bn-fill,
-      stroke: 0.8pt + c-bn-stroke,
+      fill: c-fl,
+      stroke: n-stroke,
       radius: 8pt,
     )
-    draw.content(
-      (x, y),
-      text(size: 0.9em, fill: c-bn-label, weight: "bold")[#label],
-    )
+    draw.content((x, y), text(size: s-node, fill: c-ink, weight: "bold")[#label])
   }
 
-  // Directed edge
   let dir-edge(from-anchor, to-anchor) = {
     draw.line(
       from-anchor,
       to-anchor,
-      stroke: 0.7pt + c-bn-edge,
-      mark: (end: ">", fill: c-bn-edge),
+      stroke: e-stroke,
+      mark: (end: ">", fill: c-edge),
     )
   }
 
-  // ── Nodes ──
-  node((0, 2.2), [Грипп], "flu")
-  node((-2.5, -0.3), [Кашель], "cough")
-  node((2.5, -0.3), [Температура], "fever")
+  // ── Узлы ──
+  bn-node((0, 2.2), [Грипп], "flu")
+  bn-node((-2.5, -0.3), [Кашель], "cough")
+  bn-node((2.5, -0.3), [Температура], "fever")
 
-  // ── Edges ──
+  // ── Причинно-следственные связи ──
   dir-edge("flu.south-west", "cough.north")
   dir-edge("flu.south-east", "fever.north")
 
-  // ── CPT: Flu ──
+  // ── CPT-аннотации ──
   draw.content(
     "flu.east",
-    text(size: 0.65em, fill: c-bn-label)[$P("Flu") = 0.05$],
+    text(size: s-cap, fill: c-muted)[$P("Flu") = 0.05$],
     anchor: "west",
     padding: 0.3,
   )
 
-  // ── CPT: Cough ──
   draw.content(
-    "cough.east",
-    anchor: "west",
+    "cough.west",
+    anchor: "east",
     padding: 0.25,
-    text(size: 0.6em, fill: c-bn-label)[
+    text(size: s-cap, fill: c-muted)[
       $P("Cough" | "Flu") = 0.8$\
       $P("Cough" | not "Flu") = 0.1$
     ],
   )
 
-  // ── CPT: Fever ──
   draw.content(
     "fever.east",
     anchor: "west",
     padding: 0.25,
-    text(size: 0.6em, fill: c-bn-label)[
+    text(size: s-cap, fill: c-muted)[
       $P("Fever" | "Flu") = 0.9$\
       $P("Fever" | not "Flu") = 0.05$
     ],

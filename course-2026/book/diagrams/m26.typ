@@ -1,156 +1,101 @@
-// m26 diagrams.
+// m26 diagrams: синтаксическое дерево λ-терма, алмаз Чёрча-Россера.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-app = oklch(92%, 0.04, 45deg)
-
-#let c-abs = oklch(90%, 0.04, 260deg)
-
-#let c-var = oklch(93%, 0.02, 155deg)
-
-#let c-node-str = oklch(50%, 0.08, 260deg) + 0.6pt
-
-#let c-edge = oklch(35%, 0.02, 265deg) + 0.6pt
-
-#let c-label = oklch(30%, 0.02, 265deg)
-
-#let c-beta = oklch(55%, 0.18, 22deg) + 0.6pt
-
+// ── Синтаксическое дерево терма (λx. x x) y ──
 #let lambda-syntax-tree = {
-  let tree-node(pos, name, label, fill) = {
+  let tn(pos, name, label, fill) = {
     let (x, y) = pos
     draw.rect(
-      (x - 0.55, y + 0.28),
-      (x + 0.55, y - 0.28),
+      (x - 0.7, y + 0.3),
+      (x + 0.7, y - 0.3),
       name: name,
       fill: fill,
-      stroke: c-node-str,
+      stroke: c-bd + t-bd,
       radius: 4pt,
     )
-    draw.content(name, text(size: 0.75em, fill: c-label)[#label])
+    draw.content(name, text(size: s-node, fill: c-ink)[#label])
   }
 
-  let tree-edge(parent, child) = {
-    draw.line(parent, child, stroke: c-edge)
+  let te(from, to, name, label) = {
+    draw.line(from, to, name: name, stroke: c-edge + t-ed)
+    draw.content(
+      name,
+      text(size: s-cap, fill: c-muted)[#label],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
   }
 
   canvas({
+    tn((0, 1.9), "root", $@$, c-conn)
+    tn((-1.9, 0.3), "lam", $lambda x$, c-conn)
+    tn((1.9, 0.3), "yvar", $y$, c-atom)
+    tn((-1.9, -1.3), "app", $@$, c-conn)
+    tn((-2.9, -2.9), "x1", $x$, c-atom)
+    tn((0.1, -2.9), "x2", $x$, c-atom)
 
-    // Level 0 --- root application
-    tree-node((0, 1.8), "root", $@$, c-app)
+    te("root", "lam", "e-root-lam", [функция])
+    te("root", "yvar", "e-root-yvar", [аргумент])
+    te("lam", "app", "e-lam-app", [тело])
+    te("app", "x1", "e-app-x1", [функция])
+    te("app", "x2", "e-app-x2", [аргумент])
 
-    // Level 1 --- children of root
-    tree-node((-1.2, 0.3), "lam", $lambda x$, c-abs)
-    tree-node((1.2, 0.3), "y-var", $y$, c-var)
-
-    // Level 2 --- body of λx
-    tree-node((-1.2, -1.2), "inner-app", $@$, c-app)
-
-    // Level 3 --- the two x's
-    tree-node((-2.0, -2.7), "x1", $x$, c-var)
-    tree-node((-0.4, -2.7), "x2", $x$, c-var)
-
-    // Edges
-    tree-edge("root", "lam")
-    tree-edge("root", "y-var")
-    tree-edge("lam", "inner-app")
-    tree-edge("inner-app", "x1")
-    tree-edge("inner-app", "x2")
-
-    let el(size: 0.6em, body) = text(size: size, fill: luma(45%))[#body]
-
-    draw.content((-1.1, 1.05), el[функция])
-    draw.content((1.1, 1.05), el[аргумент])
-    draw.content((-1.9, -0.45), el[тело])
-    draw.content((-2.0, -1.95), el[функция])
-    draw.content((-0.4, -1.95), el[аргумент])
-
-    // Caption
-    draw.content((0, -3.5), text(
-      size: 0.55em,
-      fill: luma(45%),
-    )[Синтаксическое дерево терма $(lambda x . x x) y$])
+    draw.content((0, -3.9), text(size: s-cap, fill: c-muted)[
+      Синтаксическое дерево терма $(lambda x . x x) y$
+    ])
   })
 }
 
+// ── Алмаз Чёрча-Россера: оба порядка редукции сходятся к z ──
 #let church-rosser-diamond = {
-  let cr-node(pos, name, label, style: "normal") = {
+  let dn(pos, name, label, fill) = {
     let (x, y) = pos
-    let f = if style == "start" {
-      oklch(93%, 0.03, 45deg)
-    } else if style == "end" {
-      oklch(93%, 0.04, 155deg)
-    } else {
-      oklch(95%, 0.01, 265deg)
-    }
-    let str = if style == "start" or style == "end" {
-      c-node-str
-    } else {
-      oklch(45%, 0.02, 265deg) + 0.5pt
-    }
     draw.rect(
-      (x - 1.3, y + 0.35),
-      (x + 1.3, y - 0.35),
+      (x - 2.4, y + 0.4),
+      (x + 2.4, y - 0.4),
       name: name,
-      fill: f,
-      stroke: str,
+      fill: fill,
+      stroke: c-bd + t-bd,
       radius: 4pt,
     )
-    draw.content(name, text(size: 0.6em, fill: c-label)[#label])
+    draw.content(name, text(size: s-node, fill: c-ink)[#label])
+  }
+
+  let de(from, to, name, label, size: s-cap) = {
+    draw.line(
+      from,
+      to,
+      name: name,
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
+    draw.content(
+      name,
+      text(size: size, fill: c-muted)[#label],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
   }
 
   canvas({
+    dn((0, 2.8), "M", $M = (lambda x . x) ((lambda y . y) z)$, c-conn)
+    dn((-4.0, 0.6), "N1", $N_1 = (lambda y . y) z$, c-fl)
+    dn((4.0, 0.6), "N2", $N_2 = (lambda x . x) z$, c-fl)
+    dn((0, -1.8), "L", $L = z$, c-atom)
 
-    // M --- top
-    cr-node(
-      (0, 2.8),
-      "M",
-      $M = (lambda x . x) ((lambda y . y) z)$,
-      style: "start",
-    )
+    de("M", "N1", "e1", [внешний редекс])
+    de("M", "N2", "e2", [внутренний редекс])
+    de("N1", "L", "e3", size: s-tiny, [$arrow.r_beta$])
+    de("N2", "L", "e4", size: s-tiny, [$arrow.r_beta$])
 
-    // N1 --- left
-    cr-node((-3.2, 0.6), "N1", $N_1 = (lambda y . y) z$, style: "normal")
-
-    // N2 --- right
-    cr-node((3.2, 0.6), "N2", $N_2 = (lambda x . x) z$, style: "normal")
-
-    // L --- bottom
-    cr-node((0, -1.7), "L", $L = z$, style: "end")
-
-    // Edges
-    draw.line("M", "N1", stroke: c-beta, name: "e1")
-    draw.content("e1", text(
-      size: 0.55em,
-      fill: oklch(45%, 0.18, 22deg),
-    )[внешний редекс])
-
-    draw.line("M", "N2", stroke: c-beta, name: "e2")
-    draw.content("e2", text(
-      size: 0.55em,
-      fill: oklch(45%, 0.18, 22deg),
-    )[внутренний редекс])
-
-    draw.line("N1", "L", stroke: c-beta, name: "e3")
-    draw.content("e3", text(size: 0.55em, fill: oklch(
-      45%,
-      0.18,
-      22deg,
-    ))[$arrow.r_beta$])
-
-    draw.line("N2", "L", stroke: c-beta, name: "e4")
-    draw.content("e4", text(size: 0.55em, fill: oklch(
-      45%,
-      0.18,
-      22deg,
-    ))[$arrow.r_beta$])
-
-    // Caption
-    draw.content((0, -3.2), text(
-      size: 0.55em,
-      fill: luma(45%),
-    )[Теорема Чёрча--Россера: внешний и внутренний пути редукции сходятся к $z$.])
+    draw.content((0, -3.4), text(size: s-cap, fill: c-muted)[
+      Теорема Чёрча--Россера: внешний и внутренний пути редукции сходятся к $z$.
+    ])
   })
 }

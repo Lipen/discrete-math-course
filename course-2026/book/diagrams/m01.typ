@@ -1,25 +1,22 @@
-// m01 diagrams.
+// m01 diagrams: деревья разбора, порядок кванторов, квадрат оппозиций, DAG резолюции.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
-#let n-size = 1.6em
+#let n-size = 1.5em
 
-#let n-stroke = 0.6pt + luma(70%)
+#let n-stroke = t-bd + c-bd
 
-#let e-stroke = (paint: oklch(35%, 0.02, 265deg), thickness: 0.8pt)
-
-#let c-connective = oklch(92%, 0.04, 45deg)
-
-#let c-atom = oklch(92%, 0.02, 155deg)
+#let e-stroke = (paint: c-edge, thickness: t-ed)
 
 #let parse-tree-imply = {
   let cn(pos, label, ..args) = node(
     pos,
     label,
-    fill: c-connective,
+    fill: c-conn,
     width: n-size,
     height: n-size,
     ..args,
@@ -41,7 +38,6 @@
     node-outset: 0pt,
     spacing: 2em,
 
-    // Tree structure: root at top, leaves at bottom
     cn((0, 0), $imply$, name: <root>),
     cn((-2, 1), $and$, name: <and>),
     an((2, 1), $r$, name: <r>),
@@ -75,7 +71,6 @@
     node-outset: 0pt,
     spacing: 2em,
 
-    // ∀x ∃y --- left
     node(
       (-3, 4),
       text(size: 0.85em)[$forall x exists y$],
@@ -92,7 +87,6 @@
     e(<x2>, <y2>),
     e(<x3>, <y3>),
 
-    // ∃y ∀x --- right
     node(
       (3, 4),
       text(size: 0.85em)[$exists y forall x$],
@@ -109,101 +103,80 @@
   )
 }
 
+// Квадрат оппозиций: A (общеутв.), E (общеотриц.), I (частноутв.), O (частноотриц.).
+// Горизонтали --- контрарность и субконтрарность, диагонали --- противоречие,
+// вертикали (стрелки вниз) --- подчинение от общего к частному.
 #let square-of-opposition = {
-  let c-square = oklch(45%, 0.12, 260deg)
-  let corner-size = 0.4
-  let square-width = 3.0
+  let half = 2.1
+  let box = 0.62
+  let c-line = c-accent
 
   let corner(pos, label-text) = {
     let (x, y) = pos
     draw.rect(
-      (x - corner-size, y + corner-size),
-      (x + corner-size, y - corner-size),
+      (x - box, y + box),
+      (x + box, y - box),
       name: label-text,
-      stroke: 1pt + c-square,
-      radius: 5pt,
+      fill: c-fl,
+      stroke: t-bd + c-bd,
+      radius: 6pt,
     )
-    draw.content(label-text, text(1.4em)[#label-text])
+    draw.content(label-text, text(size: s-node, fill: c-ink)[#label-text])
   }
 
-  let sq-edge(from, to, style: "solid", ..args) = {
-    let st = if style == "dashed" {
-      (paint: c-square, thickness: 2pt, dash: "dashed")
-    } else if style == "arrow" {
-      (paint: c-square, thickness: 2pt)
+  let sq-edge(from, to, label: none, dashed: false, arrow: false) = {
+    let st = if dashed {
+      (paint: c-line, thickness: t-bd, dash: "dashed")
     } else {
-      2pt + c-square
+      (paint: c-line, thickness: t-bd)
     }
-    draw.line(from, to, name: from + "-" + to, stroke: st, ..args)
-  }
-
-  let edge-label(edge-name, body, ..args) = {
-    draw.content(edge-name, body, ..args)
+    let mark = if arrow { (end: "stealth", fill: c-line) } else { none }
+    draw.line(from, to, name: from + "-" + to, stroke: st, mark: mark)
+    if label != none {
+      draw.content(
+        from + "-" + to,
+        text(size: s-cap, fill: c-muted)[#label],
+        fill: white,
+        stroke: none,
+        padding: 2pt,
+      )
+    }
   }
 
   canvas({
+    corner((-half, half), "A")
+    corner((half, half), "E")
+    corner((-half, -half), "I")
+    corner((half, -half), "O")
 
-    // Four corners
-    corner((0, 0), "A")
-    corner((square-width, 0), "E")
-    corner((0, -square-width), "I")
-    corner((square-width, -square-width), "O")
+    sq-edge("A", "E", label: [контрарность])
+    sq-edge("I", "O", label: [субконтрарность])
+    sq-edge("A", "I", label: [подчинение], arrow: true)
+    sq-edge("E", "O", label: [подчинение], arrow: true)
 
-    // Top: contraries
-    sq-edge("A", "E")
-    // Bottom: subcontraries
-    sq-edge("I", "O")
-    // Diagonals: contradictories
-    sq-edge("A", "O", style: "dashed")
-    sq-edge("I", "E", style: "dashed")
-    // Verticals: subalternation
-    sq-edge("A", "I", style: "arrow", mark: (end: "stealth", fill: c-square))
-    sq-edge("E", "O", style: "arrow", mark: (end: "stealth", fill: c-square))
-
-    edge-label(
-      "A-E",
-      [Противоположность\ (contraries)],
-      anchor: "south",
-      padding: 0.2,
-    )
-    edge-label(
-      "I-O",
-      [Частичная совместимость\ (subcontraries)],
-      anchor: "north",
-      padding: 0.2,
-    )
-    edge-label(
-      "A-I",
-      [Подчинение\ (subalternation)],
-      anchor: "east",
-      padding: 0.2,
-    )
-    edge-label(
-      "E-O",
-      [Подчинение\ (subalternation)],
-      anchor: "west",
-      padding: 0.2,
-    )
-    edge-label(
-      "I-E",
-      box(fill: white, inset: 3pt)[Противоречие\ (contradictories)],
-      anchor: "south",
-      padding: 1pt,
+    sq-edge("A", "O", dashed: true)
+    sq-edge("I", "E", dashed: true)
+    draw.content(
+      (0, 0),
+      text(size: s-cap, fill: c-muted)[противоречие],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
     )
   })
 }
 
-#let c-res-in = oklch(88%, 0.03, 250deg)
+#let c-res-in = c-fl
 
-#let c-res-mid = oklch(88%, 0.03, 155deg)
+#let c-res-mid = c-atom
 
-#let c-res-empty = oklch(88%, 0.06, 22deg)
+#let c-res-empty = c-conn
 
-#let c-res-str = oklch(60%, 0.08, 250deg) + 0.7pt
+#let c-res-str = c-bd + t-bd
 
-#let c-res-empty-str = oklch(55%, 0.18, 22deg) + 0.7pt
+#let c-res-empty-str = c-hot + t-bd
 
-#let c-res-edge = oklch(35%, 0.02, 265deg) + 0.6pt
+#let c-res-edge = c-edge + t-ed
 
 #let cn(pos, body, fill: c-res-in, ..args) = node(
   pos,
@@ -223,17 +196,14 @@
   node-outset: 4pt,
   spacing: 1.6em,
 
-  // Input clauses (top row)
   cn((-4, 0), $not p or q$, name: <c1>),
   cn((-2, 0), $p$, name: <c3>),
   cn((0, 0), $not q or r$, name: <c2>),
   cn((2, 0), $not r$, name: <c4>),
 
-  // Intermediate resolvents (middle row)
   cn((-3, 1.5), $q$, fill: c-res-mid, name: <r1>),
   cn((1, 1.5), $r$, fill: c-res-mid, name: <r2>),
 
-  // Empty clause (bottom)
   cn(
     (-1, 3),
     $square$,
@@ -242,7 +212,6 @@
     name: <empty>,
   ),
 
-  // Resolution edges
   re(<c1>, <r1>),
   re(<c3>, <r1>),
   re(<c2>, <r2>),
@@ -250,7 +219,6 @@
   re(<r2>, <empty>),
   re(<c4>, <empty>),
 
-  // Edge labels (cut variables)
   edge(<c1>, <r1>, "-", stroke: none, label: [$p$], label-size: 0.55em),
   edge(<c3>, <r1>, "-", stroke: none, label: [$p$], label-size: 0.55em),
   edge(<c2>, <r2>, "-", stroke: none, label: [$q$], label-size: 0.55em),

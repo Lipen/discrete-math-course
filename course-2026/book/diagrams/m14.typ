@@ -1,147 +1,119 @@
-// m14 diagrams.
+// m14 diagrams: архитектура DPLL(T), отрицательный цикл разности, замыкание конгруэнтности.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
-#import circuiteria: circuit, element, wire
 
-#let d-node = oklch(88%, 0.03, 250deg)
+#let n-stroke = t-bd + c-bd
+#let e-stroke = (paint: c-edge, thickness: t-ed)
+#let hi-stroke = (paint: c-edge, thickness: t-hi)
+#let hot-stroke = (paint: c-hot, thickness: t-hi)
 
-#let d-node-str = oklch(60%, 0.08, 250deg) + 0.6pt
-
-#let d-text = oklch(30%, 0.02, 265deg)
-
-#let d-muted = oklch(55%, 0.02, 265deg)
-
-#let d-edge = oklch(35%, 0.02, 265deg) + 0.8pt
-
-#let d-edge-thick = oklch(35%, 0.02, 265deg) + 1.0pt
-
-#let d-neg = oklch(58%, 0.20, 22deg)
-
-#let d-sat = oklch(88%, 0.05, 250deg)
-
-#let d-theory = oklch(88%, 0.05, 155deg)
-
-#let d-merge = oklch(88%, 0.05, 155deg)
-
-#let d-conflict = oklch(58%, 0.20, 22deg)
-
-#let cnode(pos, label, fill: d-node) = {
-  draw.circle(pos, radius: 0.42, fill: fill, stroke: d-node-str)
-  draw.content(pos, text(size: 0.68em, fill: d-text)[#label])
-}
-
+// ── Архитектура DPLL(T) ──
+// SAT-решатель отдаёт кандидата-модель theory-солверу, тот возвращает T-лемму.
 #let dpll-t-architecture = canvas({
-  // SAT solver box (top): boolean skeleton + CDCL search.
-  draw.rect((-2.7, 0.55), (2.7, 1.65), fill: d-sat, stroke: d-node-str, radius: 3pt)
-  draw.content((0, 1.3), text(size: 0.72em, fill: d-text, weight: "bold")[SAT-решатель])
-  draw.content((0, 0.95), text(size: 0.58em, fill: d-muted)[DPLL / CDCL])
+  let module(cy, title, subtitle, fill) = {
+    draw.rect((-2.7, cy - 0.55), (2.7, cy + 0.55), fill: fill, stroke: n-stroke, radius: 3pt)
+    draw.content((0, cy + 0.2), text(size: s-node, fill: c-ink, weight: "bold")[#title])
+    draw.content((0, cy - 0.2), text(size: s-cap, fill: c-muted)[#subtitle])
+  }
 
-  // Theory solver box (bottom): checks consistency of theory atoms.
-  draw.rect((-2.7, -1.65), (2.7, -0.55), fill: d-theory, stroke: d-node-str, radius: 3pt)
-  draw.content((0, -0.95), text(size: 0.72em, fill: d-text, weight: "bold")[Theory-солвер])
-  draw.content((0, -1.3), text(size: 0.58em, fill: d-muted)[DL, EUF, LRA, ...])
+  module(1.1, [SAT-решатель], [DPLL / CDCL], c-fl)
+  module(-1.1, [Theory-солвер], [DL, EUF, LRA, ...], c-atom)
 
-  // SAT -> theory: candidate model.
-  draw.line((1.7, 0.55), (1.7, -0.55), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge)
-  draw.content((2.15, 0), anchor: "west", text(size: 0.58em, fill: d-text)[кандидат-модель])
+  draw.line((1.7, 0.55), (1.7, -0.55), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
+  draw.content((2.2, 0), anchor: "west", text(size: s-cap, fill: c-muted)[кандидат-модель])
 
-  // Theory -> SAT: conflict clause (T-lemma).
-  draw.line((-1.7, -0.55), (-1.7, 0.55), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge)
-  draw.content((-2.15, 0), anchor: "east", text(size: 0.58em, fill: d-text)[$T$-лемма])
+  draw.line((-1.7, -0.55), (-1.7, 0.55), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
+  draw.content((-2.2, 0), anchor: "east", text(size: s-cap, fill: c-muted)[$T$-лемма])
 })
 
+// ── Отрицательный цикл разности ──
+// x=0 фиксировано; z>=x+3, w>=z+1, w<=x+2 образуют цикл с суммой -2:
+// при пробном z=3.5 требуется w>=4.5, а красная граница допускает только w<=2.
 #let dl-negative-cycle = canvas({
-  // Number line: variables are positions on the axis, constraints are offsets.
   let ax-y = 0
-  let d-guide = (paint: d-muted, thickness: 0.5pt, dash: "dashed")
-  let d-red-guide = (paint: d-neg, thickness: 0.6pt, dash: "dashed")
+  let guide-stroke = (paint: c-muted, thickness: 0.5pt, dash: "dashed")
+  let hot-guide = (paint: c-hot, thickness: 0.6pt, dash: "dashed")
 
-  // Tick mark + numeric label on the axis.
   let tick(v) = {
-    draw.line((v, ax-y), (v, ax-y - 0.14), stroke: d-text + 0.7pt)
-    draw.content((v, ax-y - 0.5), text(size: 0.62em, fill: d-muted)[#v])
+    draw.line((v, ax-y), (v, ax-y - 0.14), stroke: c-muted + 0.6pt)
+    draw.content((v, ax-y - 0.5), text(size: s-tiny, fill: c-muted)[#v])
   }
 
-  // Variable point on the axis: filled = anchored, open = hypothesized.
   let vpoint(pos, label, open: false) = {
     draw.circle(pos, radius: 0.16,
-      fill: if open { white } else { d-text },
-      stroke: if open { (paint: d-neg, thickness: 0.7pt, dash: "dashed") } else { d-text })
-    draw.content((pos.at(0), pos.at(1) + 0.42), anchor: "south",
-      text(size: 0.72em, fill: d-text, weight: "bold")[#label])
+      fill: if open { white } else { c-ink },
+      stroke: if open { (paint: c-hot, thickness: 0.7pt, dash: "dashed") } else { c-ink + 0.7pt })
+    draw.content((pos.at(0) - if open { 0.3 } else { 0 }, pos.at(1) + 0.42), anchor: "south",
+      text(size: s-node, fill: c-ink, weight: "bold")[#label])
   }
 
-  // Dashed vertical guide from an axis position up to a given height.
-  let guide(px, py, stroke: d-guide) = draw.line((px, ax-y), (px, py), stroke: stroke)
+  let guide(px, py, stroke: guide-stroke) = draw.line((px, ax-y), (px, py), stroke: stroke)
 
-  // Axis with arrowhead; integer ticks 0..5.
-  draw.line((-2.0, ax-y), (5.9, ax-y), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge)
+  draw.line((-2.0, ax-y), (5.9, ax-y), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
   for v in range(6) { tick(v) }
-
-  // x anchored at position 0.
   vpoint((0, ax-y), $x$)
 
-  // z >= x + 3: z must lie at least 3 units right of x; allowed region [3, +oo).
-  draw.line((0, 1.0), (3, 1.0), name: "zspan", stroke: d-edge-thick)
-  draw.line((3, 0.82), (3, 1.18), stroke: d-edge-thick)             // closed cap
-  draw.line((3, 1.0), (5.5, 1.0), mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge-thick)
-  draw.content((1.5, 1.45), text(size: 0.66em, fill: d-text)[$z >= x + 3$])
-  draw.content((4.4, 0.7), anchor: "west", text(size: 0.6em, fill: d-muted)[разрешено $z >= 3$])
+  draw.line((0, 1.0), (3, 1.0), stroke: hi-stroke)
+  draw.line((3, 0.82), (3, 1.18), stroke: hi-stroke)
+  draw.line((3, 1.0), (5.6, 1.0), stroke: hi-stroke, mark: (end: "stealth", fill: c-edge))
+  draw.content((1.5, 1.42), text(size: s-cap, fill: c-ink)[$z >= x + 3$])
+  draw.content((2.95, 1.42), anchor: "west", text(size: s-tiny, fill: c-muted)[разрешено $z >= 3$])
   guide(3.5, 1.0)
-  vpoint((3.5, ax-y), [z?], open: true)
+  vpoint((3.5, ax-y), $z?$, open: true)
 
-  // w >= z + 1: w must lie at least 1 unit right of z; sample z = 3.5 forces w >= 4.5.
-  draw.line((3.5, 1.9), (4.5, 1.9), name: "wspan", mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)), stroke: d-edge-thick)
-  draw.content((3.25, 2.25), anchor: "east", text(size: 0.66em, fill: d-text)[$w >= z + 1$])
-  guide(4.5, 2.8, stroke: d-red-guide)                                 // w's required position
-  vpoint((4.5, ax-y), [w?], open: true)
+  draw.line((3.5, 2.0), (4.5, 2.0), stroke: hi-stroke, mark: (end: "stealth", fill: c-edge))
+  draw.content((3.3, 2.35), anchor: "east", text(size: s-cap, fill: c-ink)[$w >= z + 1$])
+  guide(4.5, 3.0, stroke: hot-guide)
+  vpoint((4.5, ax-y), $w?$, open: true)
 
-  // w <= x + 2 (RED): w allowed only in (-oo, 2]; required w >= 4.5 falls outside.
-  draw.line((-2.0, 2.8), (2, 2.8), name: "wcap", stroke: d-neg + 1.2pt)
-  draw.line((-2.0, 2.8), (-2.9, 2.8), mark: (end: "stealth", fill: d-neg), stroke: d-neg + 1.2pt)
-  draw.line((2, 2.62), (2, 2.98), stroke: d-neg + 1.2pt)               // closed cap
-  draw.content((0.1, 3.2), text(size: 0.66em, fill: d-neg, weight: "bold")[$w <= x + 2$])
-  draw.content((0.1, 2.45), anchor: "north", text(size: 0.6em, fill: d-neg)[разрешено $w <= 2$])
-  draw.content((3.3, 2.8), text(size: 1.0em, fill: d-neg, weight: "bold")[✗])
-  draw.content((3.3, 3.25), anchor: "south", text(size: 0.66em, fill: d-neg, weight: "bold")[противоречие])
+  draw.line((-2.0, 3.0), (2, 3.0), stroke: hot-stroke)
+  draw.line((2, 2.82), (2, 3.18), stroke: hot-stroke)
+  draw.line((-2.0, 3.0), (-2.9, 3.0), stroke: hot-stroke, mark: (end: "stealth", fill: c-hot))
+  draw.content((0.1, 3.42), text(size: s-cap, fill: c-hot, weight: "bold")[$w <= x + 2$])
+  draw.content((0.1, 2.62), anchor: "north", text(size: s-tiny, fill: c-hot)[разрешено $w <= 2$])
+  draw.content((3.3, 3.0), text(size: 1.0em, fill: c-hot, weight: "bold")[✗])
+  draw.content((3.3, 3.45), anchor: "south", text(size: s-cap, fill: c-hot, weight: "bold")[противоречие])
 
-  // Summary: the cycle accumulates to a negative value.
-  draw.content((1.6, -1.5), text(size: 0.68em, fill: d-neg, weight: "bold")[
+  draw.content((1.6, -1.5), text(size: s-cap, fill: c-hot, weight: "bold")[
     требуется $w >= 4.5$, но разрешено $w <= 2$ ⟹ $-3 - 1 + 2 = -2 < 0$
   ])
 })
 
+// ── Замыкание конгруэнтности ──
+// Два класса делят b, сливаются в {a, b, f(a)}; конгруэнтность даёт g(a)=g(f(a)),
+// что противоречит третьему литералу.
 #let congruence-closure-merge = canvas({
-  // Stage 1: two initial equivalence classes sharing b.
-  draw.rect((-3.8, 2.6), (-0.2, 3.6), fill: d-node, stroke: d-node-str, radius: 3pt)
-  cnode((-2.7, 3.1), $a$)
-  cnode((-1.3, 3.1), $b$)
-  draw.content((-2.0, 4.05), anchor: "south", text(size: 0.62em, fill: d-text, weight: "bold")[класс ${a, b}$])
+  let cnode(pos, label, fill: c-fl) = {
+    draw.circle(pos, radius: 0.42, fill: fill, stroke: n-stroke)
+    draw.content(pos, text(size: s-node, fill: c-ink)[#label])
+  }
 
-  draw.rect((0.2, 2.6), (3.8, 3.6), fill: d-node, stroke: d-node-str, radius: 3pt)
-  cnode((1.3, 3.1), $f(a)$)
-  cnode((2.7, 3.1), $b$)
-  draw.content((2.0, 4.05), anchor: "south", text(size: 0.62em, fill: d-text, weight: "bold")[класс ${f(a), b}$])
+  draw.rect((-3.8, 2.7), (-0.2, 3.7), fill: c-fl, stroke: n-stroke, radius: 3pt)
+  cnode((-2.7, 3.2), $a$)
+  cnode((-1.3, 3.2), $b$)
+  draw.content((-2.0, 4.15), anchor: "south", text(size: s-cap, fill: c-ink, weight: "bold")[класс ${a, b}$])
 
-  // Merge arrow: the shared element b glues the two classes together.
-  draw.line((0, 2.6), (0, 2.2), stroke: d-edge, mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)))
-  draw.content((0.25, 2.4), anchor: "west", text(size: 0.58em, fill: d-muted)[слияние])
+  draw.rect((0.2, 2.7), (3.8, 3.7), fill: c-fl, stroke: n-stroke, radius: 3pt)
+  cnode((1.3, 3.2), $f(a)$)
+  cnode((2.7, 3.2), $b$)
+  draw.content((2.0, 4.15), anchor: "south", text(size: s-cap, fill: c-ink, weight: "bold")[класс ${f(a), b}$])
 
-  // Stage 2: merged class {a, b, f(a)}.
-  draw.rect((-2.9, 0.8), (2.9, 2.0), fill: d-merge, stroke: d-node-str, radius: 3pt)
+  draw.line((0, 2.7), (0, 2.2), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
+  draw.content((0.22, 2.45), anchor: "west", text(size: s-tiny, fill: c-muted)[слияние])
+
+  draw.rect((-2.9, 0.7), (2.9, 2.2), fill: c-atom, stroke: n-stroke, radius: 3pt)
   cnode((-1.8, 1.25), $a$)
   cnode((0, 1.25), $b$)
   cnode((1.8, 1.25), $f(a)$)
-  draw.content((0, 1.82), text(size: 0.55em, fill: d-text, weight: "bold")[класс ${a, b, f(a)}$])
+  draw.content((0, 1.92), text(size: s-cap, fill: c-ink, weight: "bold")[класс ${a, b, f(a)}$])
 
-  // Congruence arrow: a = f(a) inside the class.
-  draw.line((0, 0.8), (0, 0.42), stroke: d-edge, mark: (end: "stealth", fill: oklch(35%, 0.02, 265deg)))
-  draw.content((0.25, 0.61), anchor: "west", text(size: 0.58em, fill: d-muted)[конгруэнтность: $a = f(a)$])
+  draw.line((0, 0.7), (0, 0.05), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
+  draw.content((0.22, 0.38), anchor: "west", text(size: s-tiny, fill: c-muted)[конгруэнтность: $a = f(a)$])
 
-  // Stage 3: implied equality contradicts the third literal.
-  draw.rect((-2.9, -0.5), (2.9, 0.0), fill: d-node, stroke: d-conflict + 0.9pt, radius: 3pt)
-  draw.content((0, -0.25), text(size: 0.7em, fill: d-text, weight: "bold")[$g(a) = g(f(a))$])
-  draw.content((0, -1.0), text(size: 0.6em, fill: d-conflict, weight: "bold")[противоречит $not (g(a) = g(f(a)))$])
+  draw.rect((-2.9, -0.6), (2.9, 0.0), fill: c-fl, stroke: hot-stroke, radius: 3pt)
+  draw.content((0, -0.3), text(size: s-node, fill: c-ink, weight: "bold")[$g(a) = g(f(a))$])
+  draw.content((0, -1.0), text(size: s-cap, fill: c-hot, weight: "bold")[противоречит $not (g(a) = g(f(a)))$])
 })

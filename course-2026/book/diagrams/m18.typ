@@ -1,38 +1,62 @@
-// m18 diagrams.
+// m18 diagrams: meet-in-the-middle атака на обмен ключами Диффи--Хеллмана.
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let c-edge = oklch(35%, 0.02, 265deg)
-
+// Локальная семантика: `c-fl` --- обычные участники (Алиса, Боб);
+// `c-accent` --- злоумышленник в середине (Ева).
 #let mitm = canvas({
-  let c-node = oklch(35%, 0.02, 265deg)
-  let c-edge = oklch(45%, 0.09, 250deg)
-  let c-eve = oklch(50%, 0.16, 25deg)
+  let hw = 1.0
+  let hh = 0.45
 
-  // Actors
-  draw.content((-3.1, 0), text(size: 0.95em, fill: c-node)[Алиса], name: "alice")
-  draw.content((0, 0), text(size: 0.95em, fill: c-eve)[Ева], name: "eve")
-  draw.content((3.1, 0), text(size: 0.95em, fill: c-node)[Боб], name: "bob")
+  let actor(pos, label, fill: c-fl) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - hw, y + hh),
+      (x + hw, y - hh),
+      name: label,
+      fill: fill,
+      stroke: t-bd + c-bd,
+      radius: 4pt,
+    )
+    let ink = if fill == c-accent { white } else { c-ink }
+    draw.content(label, text(size: s-node, fill: ink)[#label])
+  }
 
-  // Edge helper
-  let arrow(a, b) = draw.line(a, b, stroke: c-edge, mark: (end: "stealth", fill: c-edge))
+  let swap(from-name, from, to-name, to, dy, label) = {
+    let (fx, fy) = from
+    let (tx, ty) = to
+    let s = if tx > fx { 1 } else { -1 }
+    let e-name = from-name + "-" + to-name
+    draw.line(
+      (fx + s * hw, fy + dy),
+      (tx - s * hw, ty + dy),
+      name: e-name,
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
+    draw.content(
+      e-name,
+      text(size: s-cap, fill: c-ink)[#label],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
+  }
 
-  // Алиса -> Ева: A = g^a; Ева -> Алиса: B' = g^y.
-  arrow("alice", "eve")
-  draw.content((-1.5, 0.85), text(size: 0.72em, fill: c-node)[$A = g^a$])
-  arrow("eve", "alice")
-  draw.content((-1.5, -0.85), text(size: 0.72em, fill: c-node)[$B' = g^y$])
+  actor((-3.6, 0), "Алиса")
+  actor((0, 0), "Ева", fill: c-accent)
+  actor((3.6, 0), "Боб")
 
-  // Боб -> Ева: B = g^b; Ева -> Боб: A' = g^x.
-  arrow("bob", "eve")
-  draw.content((1.5, 0.85), text(size: 0.72em, fill: c-node)[$B = g^b$])
-  arrow("eve", "bob")
-  draw.content((1.5, -0.85), text(size: 0.72em, fill: c-node)[$A' = g^x$])
+  swap("Алиса", (-3.6, 0), "Ева", (0, 0), 0.28, [$A = g^a$])
+  swap("Ева", (0, 0), "Алиса", (-3.6, 0), -0.28, [$B' = g^y$])
+  swap("Боб", (3.6, 0), "Ева", (0, 0), 0.28, [$B = g^b$])
+  swap("Ева", (0, 0), "Боб", (3.6, 0), -0.28, [$A' = g^x$])
 
-  draw.content((0, -1.75), text(
-    size: 0.7em,
-    fill: c-eve,
-  )[два секрета: с Алисой и с Бобом])
+  draw.content(
+    (0, -1.4),
+    text(size: s-cap, fill: c-muted)[два секрета: с Алисой и с Бобом],
+  )
 })

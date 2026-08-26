@@ -1,32 +1,28 @@
-// m08 diagrams.
+// m08 diagrams: диаграммы Хассе делителей 12, цепи 3, булеана 2/3, решётки M3 и N5.
+
 #import "../requirements.typ": *
 #import "../notation.typ": *
 
+#import "style.typ": *
+
 #import fletcher: diagram, edge, node
-#import circuiteria: circuit, element, wire
 
 #let n-size = 1.2em
 
-#let n-fill = oklch(88%, 0.03, 250deg)
-
-#let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-
-#let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
-
 #let cn(pos, body, ..args) = node(
   pos,
-  body,
-  fill: n-fill,
+  text(size: s-node, fill: c-ink)[#body],
+  fill: c-fl,
   width: n-size,
   height: n-size,
   ..args,
 )
 
-#let e(from, to) = edge(from, to, "-", stroke: e-str)
+#let e(from, to) = edge(from, to, "-", stroke: (paint: c-edge, thickness: t-ed))
 
 #let hasse-divisors-12 = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: (paint: c-bd, thickness: t-bd),
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 2em,
@@ -47,7 +43,7 @@
 
 #let hasse-chain-3 = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: (paint: c-bd, thickness: t-bd),
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.4em,
@@ -60,7 +56,7 @@
 
 #let hasse-powerset-2 = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: (paint: c-bd, thickness: t-bd),
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 2em,
@@ -76,23 +72,19 @@
 
 #let hasse-powerset-3 = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: (paint: c-bd, thickness: t-bd),
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.8em,
-  // Layer 3: full set (top)
   cn((0, 0), ${1,2,3}$, name: <p123>),
-  // Layer 2: pairs
   cn((-1.2, 1), ${1,2}$, name: <p12>),
   cn((0, 1), ${1,3}$, name: <p13>),
   cn((1.2, 1), ${2,3}$, name: <p23>),
-  // Layer 1: singletons
   cn((-1.2, 2), ${1}$, name: <p1>),
   cn((0, 2), ${2}$, name: <p2>),
   cn((1.2, 2), ${3}$, name: <p3>),
-  // Layer 0: empty set (bottom)
   cn((0, 3), $nothing$, name: <p0>),
-  // Edges (cover = add exactly one element)
+  // Покрытие = добавить ровно один элемент.
   e(<p0>, <p1>),
   e(<p0>, <p2>),
   e(<p0>, <p3>),
@@ -109,7 +101,7 @@
 
 #let lattice-m3 = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: (paint: c-bd, thickness: t-bd),
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.6em,
@@ -128,7 +120,7 @@
 
 #let lattice-n5 = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-stroke: (paint: c-bd, thickness: t-bd),
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.6em,

@@ -1,62 +1,40 @@
-// m21 diagrams.
+// m21 diagrams: парадокс Банаха-Тарского (разбиение шара на 5 частей и сборка двух шаров того же радиуса).
 #import "../requirements.typ": *
 #import "../notation.typ": *
+#import "style.typ": *
 
 #import cetz: canvas, draw
 
+// ── Банах-Тарский ──
 #let banach-tarski = canvas({
-  let s = 1.2
+  let r = 0.65 // единый радиус: результат --- два шара того же радиуса, что и исходный.
+  let ball(center, label, tag) = {
+    draw.circle(center, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: tag)
+    draw.content(center, text(size: s-node, fill: c-ink)[#label])
+  }
 
-  // Labels
-  draw.content((0, 1.5), text(weight: "bold", size: 0.9em)[Исходный шар])
-  draw.content((s * 3, 1.5), text(weight: "bold", size: 0.9em)[Два шара])
-
-  // Left: single sphere
-  draw.circle(
-    (0, 0),
-    radius: 1.0,
-    fill: oklch(65%, 0.14, 250deg).transparentize(80%),
-    stroke: 0.5pt + oklch(55%, 0.14, 250deg),
+  ball((0, 0), $B$, "bsrc")
+  ball((2.8, 0.28), $B_1$, "b1")
+  draw.line(
+    "bsrc.east",
+    (2.1, 0),
+    stroke: t-ed + c-hot,
+    mark: (end: ">", fill: c-hot),
+    name: "split",
   )
-  draw.content((0, 0), text(weight: "bold", size: 0.85em, fill: oklch(
-    55%,
-    0.14,
-    250deg,
-  ))[$B$])
-
-  // Arrow
-  draw.line((1.0, 0), (s * 2 - 1.0, 0), stroke: 0.5pt + luma(50%), mark: (
-    end: ">", fill: luma(50%),
-  ))
-  draw.content((s * 1.5, 0.4), text(size: 0.55em, fill: luma(40%))[5 частей])
-
-  // Right: two spheres
-  draw.circle(
-    (s * 3 - 0.45, 0.15),
-    radius: 0.65,
-    fill: oklch(65%, 0.12, 22deg).transparentize(80%),
-    stroke: 0.5pt + oklch(55%, 0.12, 22deg),
+  draw.content(
+    "split",
+    text(size: s-cap, fill: c-hot)[5 частей],
+    fill: white,
+    stroke: none,
+    padding: 2pt,
   )
-  draw.content((s * 3 - 0.45, 0.15), text(size: 0.7em, fill: oklch(
-    55%,
-    0.12,
-    22deg,
-  ))[$B_1$])
-  draw.circle(
-    (s * 3 + 0.45, -0.15),
-    radius: 0.65,
-    fill: oklch(65%, 0.12, 310deg).transparentize(80%),
-    stroke: 0.5pt + oklch(55%, 0.12, 310deg),
-  )
-  draw.content((s * 3 + 0.45, -0.15), text(size: 0.7em, fill: oklch(
-    55%,
-    0.12,
-    310deg,
-  ))[$B_2$])
 
-  // Caption below
-  draw.content((s * 1.5, -1.6), text(
-    size: 0.55em,
-    fill: luma(45%),
-  )[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.])
+  draw.content((0, 1.25), text(size: s-node, fill: c-ink, weight: "bold")[Исходный шар])
+  draw.content((3.5, 1.25), text(size: s-node, fill: c-ink, weight: "bold")[Два шара])
+
+  draw.content(
+    (2.1, -1.4),
+    text(size: s-cap, fill: c-muted)[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.],
+  )
 })
