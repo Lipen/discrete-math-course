@@ -75,34 +75,34 @@
     node-outset: 0pt,
     spacing: 2em,
 
-    // ∀x ∃y row
+    // ∀x ∃y --- left
     node(
-      (-4, 0),
+      (-3, 4),
       text(size: 0.85em)[$forall x exists y$],
       fill: none,
       stroke: none,
     ),
-    x-node((-2, 0), $x_1$, name: <x1>),
-    x-node((-2, 1.5), $x_2$, name: <x2>),
-    x-node((-2, 3), $x_3$, name: <x3>),
-    x-node((0, 0), $y_1$, name: <y1>),
-    x-node((0, 1.5), $y_2$, name: <y2>),
-    x-node((0, 3), $y_3$, name: <y3>),
+    x-node((-4, 0), $x_1$, name: <x1>),
+    x-node((-4, 1.5), $x_2$, name: <x2>),
+    x-node((-4, 3), $x_3$, name: <x3>),
+    x-node((-2, 0), $y_1$, name: <y1>),
+    x-node((-2, 1.5), $y_2$, name: <y2>),
+    x-node((-2, 3), $y_3$, name: <y3>),
     e(<x1>, <y1>),
     e(<x2>, <y2>),
     e(<x3>, <y3>),
 
-    // ∃y ∀x row
+    // ∃y ∀x --- right
     node(
-      (-4, 5),
+      (3, 4),
       text(size: 0.85em)[$exists y forall x$],
       fill: none,
       stroke: none,
     ),
-    x-node((-2, 5), $x_1$, name: <a1>),
-    x-node((-2, 6.5), $x_2$, name: <a2>),
-    x-node((-2, 8), $x_3$, name: <a3>),
-    x-node((0, 6.5), $y$, name: <yy>),
+    x-node((2, 0), $x_1$, name: <a1>),
+    x-node((2, 1.5), $x_2$, name: <a2>),
+    x-node((2, 3), $x_3$, name: <a3>),
+    x-node((4, 1.5), $y$, name: <yy>),
     e(<a1>, <yy>),
     e(<a2>, <yy>),
     e(<a3>, <yy>),
