@@ -284,7 +284,7 @@
     text(fill: c-accent)[$n!$],
     text(fill: c-accent)[$C_n$ (Catalan)],
     text(fill: c-accent)[$S(n,3)$ (Stirling)],
-    text(fill: c-accent)[$B_n$ (Bell)]
+    text(fill: c-accent)[$B_n$ (Bell)],
   ),
   [1], [1], [1], [0], [1],
   [2], [2], [2], [0], [2],

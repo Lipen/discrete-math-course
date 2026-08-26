@@ -230,7 +230,13 @@
     impl-edge("nx4", "x5", "nx4-x5")
     impl-edge("x5", "conf", "x5-conf")
 
-    draw.content("x1-nx2", text(size: s-tiny, fill: c-muted)[$overline(x_1) or overline(x_2)$], fill: white, stroke: none, padding: 2pt)
+    draw.content(
+      "x1-nx2",
+      text(size: s-tiny, fill: c-muted)[$overline(x_1) or overline(x_2)$],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
     draw.content("nx2-x3", text(size: s-tiny, fill: c-muted)[$x_2 or x_3$], fill: white, stroke: none, padding: 2pt)
     draw.content("nx4-x5", text(size: s-tiny, fill: c-muted)[$x_4 or x_5$], fill: white, stroke: none, padding: 2pt)
 

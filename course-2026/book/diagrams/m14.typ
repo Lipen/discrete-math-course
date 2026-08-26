@@ -42,11 +42,17 @@
   }
 
   let vpoint(pos, label, open: false) = {
-    draw.circle(pos, radius: 0.16,
+    draw.circle(
+      pos,
+      radius: 0.16,
       fill: if open { white } else { c-ink },
-      stroke: if open { (paint: c-hot, thickness: 0.7pt, dash: "dashed") } else { c-ink + 0.7pt })
-    draw.content((pos.at(0) - if open { 0.3 } else { 0 }, pos.at(1) + 0.42), anchor: "south",
-      text(size: s-node, fill: c-ink, weight: "bold")[#label])
+      stroke: if open { (paint: c-hot, thickness: 0.7pt, dash: "dashed") } else { c-ink + 0.7pt },
+    )
+    draw.content((pos.at(0) - if open { 0.3 } else { 0 }, pos.at(1) + 0.42), anchor: "south", text(
+      size: s-node,
+      fill: c-ink,
+      weight: "bold",
+    )[#label])
   }
 
   let guide(px, py, stroke: guide-stroke) = draw.line((px, ax-y), (px, py), stroke: stroke)

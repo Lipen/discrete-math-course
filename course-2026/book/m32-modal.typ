@@ -360,7 +360,7 @@ $S_5$ --- стандартная логика знания: агент полн�
 
 #figure(
   modal-cube,
-caption: [Куб модальностей: системы, порождённые аксиомами $T, B, 4$.],
+  caption: [Куб модальностей: системы, порождённые аксиомами $T, B, 4$.],
 ) <fig:modal-cube>
 
 Читается куб так: каждая вершина --- система $K$ плюс своё подмножество аксиом $\{T, B, 4\}$.
@@ -547,21 +547,18 @@ $diamond phi$ --- "когда-нибудь $phi$" (в будущем, включ
 $square phi$ --- "всегда $phi$" (во всех состояниях пути).
 
 #definition[Семантика LTL][
-  Пусть $pi = s_0, s_1, s_2, dots$ --- путь.
-  $pi^i$ --- хвост пути с $s_i$.
+  Пусть $pi = s_0, s_1, s_2, dots$ --- путь, а $pi^i$ --- его хвост с $s_i$.
   Запись $pi models phi$ означает "формула $phi$ истинна на пути $pi$".
+  Истинность задаётся индукцией по структуре формулы:
   $
               pi models p & iff p in L(s_0), \
         pi models not phi & iff pi nmodels phi, \
     pi models phi and psi & iff pi models phi and pi models psi, \
      pi models phi or psi & iff pi models phi or pi models psi, \
-     pi models circle phi & iff pi^1 models phi.
+     pi models circle phi & iff pi^1 models phi, \
+      pi models phi U psi & iff exists j: (pi^j models psi
+                              and forall i < j: pi^i models phi).
   $
-  Для оператора $U$: $pi models phi U psi$ тогда и только тогда, когда
-  существует $j$ такое, что $pi^j models psi$,
-  и $forall i < j: pi^i models phi$.
-  По-русски: на пути сначала (сколько нужно) идёт $phi$, и в момент $j$ наступает $psi$.
-  Пример: $"yellow" U "red"$ --- "горит жёлтый, и в какой-то момент загорается красный".
 ]
 
 #example[Свойства в LTL][
@@ -607,10 +604,12 @@ _CTL_ (Computation Tree Logic) рассматривает _все_ пути ср
   - Атомарное утверждение --- формула.
   - Булевы комбинации формул --- формулы.
   - Если $phi, psi$ --- формулы, то $A circle phi, E circle phi, A (phi U psi), E (phi U psi)$ --- формулы.
-  Производные: $A diamond phi equiv A ("true" U phi)$ ("на всех путях когда-нибудь").
-  $E diamond phi equiv E ("true" U phi)$ ("существует путь, где когда-нибудь").
-  $A square phi equiv not E diamond not phi$.
-  $E square phi equiv not A diamond not phi$.
+
+  Производные операторы:
+  - $A diamond phi equiv A ("true" U phi)$ ("на всех путях когда-нибудь").
+  - $E diamond phi equiv E ("true" U phi)$ ("существует путь, где когда-нибудь").
+  - $A square phi equiv not E diamond not phi$.
+  - $E square phi equiv not A diamond not phi$.
 ]
 
 #definition[Семантика CTL][
@@ -623,7 +622,7 @@ _CTL_ (Computation Tree Logic) рассматривает _все_ пути ср
   $
   Для $U$:
   - $M, s models A (phi U psi)$ --- на _всех_ путях, начинающихся в $s$,
-    выполняется $phi U psi$ (в смысле LTL: сначала $phi$, затем $psi$).
+    выполняется $phi U psi$ (сначала $phi$, затем $psi$).
   - $M, s models E (phi U psi)$ --- существует путь из $s$,
     на котором выполняется $phi U psi$.
 ]
@@ -662,12 +661,12 @@ $X -> psi or (phi and E circle X)$.
 Для $E square phi$ --- наоборот, наибольшая неподвижная точка.
 
 #definition[Неподвижные точки CTL][
-  Для $E (phi U psi)$ выполняется наименьшая неподвижная точка:
-  $ E (phi U psi) equiv psi or (phi and E circle E (phi U psi)) . $
-  Для $E square phi$ --- наибольшая:
-  $ E square phi equiv phi and E circle E square phi . $
-  Для $A (phi U psi)$:
-  $ A (phi U psi) equiv psi or (phi and A circle A (phi U psi)) . $
+  - Для $E (phi U psi)$ --- наименьшая неподвижная точка:
+    $ E (phi U psi) equiv psi or (phi and E circle E (phi U psi)) . $
+  - Для $E square phi$ --- наибольшая:
+    $ E square phi equiv phi and E circle E square phi . $
+  - Для $A (phi U psi)$:
+    $ A (phi U psi) equiv psi or (phi and A circle A (phi U psi)) . $
 ]
 
 #example[Labeling-алгоритм для CTL][
