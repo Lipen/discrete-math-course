@@ -1,4 +1,3 @@
-// m32 diagrams: Крипке-гараж (светофор), куб модальностей, состояния мьютекса.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

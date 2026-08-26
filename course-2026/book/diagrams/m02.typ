@@ -1,4 +1,3 @@
-// m02 diagrams: выводы в дедукции, деревья секвенций, резолюция.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

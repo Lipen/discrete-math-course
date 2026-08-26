@@ -1,4 +1,3 @@
-// m33 diagrams: два мира Крипке, зонтик доступности (монотонность принуждения).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

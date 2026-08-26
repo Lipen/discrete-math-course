@@ -1,4 +1,3 @@
-// m20 diagrams: решётка свёртки, дерево рекурсии Каталана.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

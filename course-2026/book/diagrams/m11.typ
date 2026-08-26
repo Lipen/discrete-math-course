@@ -1,4 +1,3 @@
-// m11 diagrams: полусумматор, полный сумматор, мультиплексор 4→1, функции vs схемы, включение классов.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

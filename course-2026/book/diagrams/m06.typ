@@ -1,4 +1,3 @@
-// m06 diagrams: инъекция, сюръекция, биекция, части функции.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

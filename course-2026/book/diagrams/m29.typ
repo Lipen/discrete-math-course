@@ -1,4 +1,3 @@
-// m29 diagrams: классы сложности, NP-дерево сведения, Венн для ZPP.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

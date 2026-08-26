@@ -1,4 +1,3 @@
-// m23 diagrams: иерархия Хомского, дерево разбора a³b³.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

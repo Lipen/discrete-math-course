@@ -1,4 +1,3 @@
-// m28 diagrams: ординалы как продолжение натурального ряда (числовая ось).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

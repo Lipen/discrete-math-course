@@ -1,5 +1,3 @@
-// m08 diagrams: диаграммы Хассе делителей 12, цепи 3, булеана 2/3, решётки M3 и N5.
-
 #import "../requirements.typ": *
 #import "../notation.typ": *
 

@@ -1,4 +1,3 @@
-// m01 diagrams: деревья разбора, порядок кванторов, квадрат оппозиций, DAG резолюции.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

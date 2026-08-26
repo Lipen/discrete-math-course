@@ -1,4 +1,3 @@
-// m21 diagrams: парадокс Банаха-Тарского (разбиение шара на 5 частей и сборка двух шаров того же радиуса).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

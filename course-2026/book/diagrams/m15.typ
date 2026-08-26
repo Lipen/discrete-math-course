@@ -1,4 +1,3 @@
-// m15 diagrams: SLD-дерево для ancestor.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

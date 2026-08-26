@@ -1,4 +1,3 @@
-// m13 diagrams: граф импликаций 2-SAT, дерево DPLL, таблица Кука-Левина, конфликт-граф CDCL.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

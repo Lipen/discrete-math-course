@@ -1,4 +1,3 @@
-// m18 diagrams: meet-in-the-middle атака на обмен ключами Диффи--Хеллмана.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

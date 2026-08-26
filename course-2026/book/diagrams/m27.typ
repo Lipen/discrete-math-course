@@ -1,4 +1,3 @@
-// m27 diagrams: деревья вывода типизации (id, K).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

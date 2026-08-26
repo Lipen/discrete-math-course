@@ -1,4 +1,3 @@
-// m24 diagrams: машина Тьюринга, конфигурации вычисления.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

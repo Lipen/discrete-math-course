@@ -1,4 +1,3 @@
-// m14 diagrams: архитектура DPLL(T), отрицательный цикл разности, замыкание конгруэнтности.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

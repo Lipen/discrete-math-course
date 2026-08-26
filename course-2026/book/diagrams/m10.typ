@@ -1,4 +1,3 @@
-// m10 diagrams: карты Карно 3 и 4 переменных, карта большинства, BDD для XOR.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -88,7 +87,7 @@
 #let karnaugh-3var-majority = canvas({
   let s = 1.2
 
-  // Единичные клетки f(x,y,z)=xy∨xz∨yz; заливка до сетки.
+  // Единичные клетки функции большинства.
   let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
   for (row, col) in ones {
     draw.rect(

@@ -1,4 +1,3 @@
-// m34 diagrams: функции принадлежности, операции над нечёткими множествами.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

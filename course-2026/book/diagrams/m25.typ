@@ -1,4 +1,3 @@
-// m25 diagrams: сводимость HALT→EMPTY.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

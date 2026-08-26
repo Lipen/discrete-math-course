@@ -1,4 +1,3 @@
-// m16 diagrams: источники матроида, контрпример жадного, интервальное расписание.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -11,7 +10,6 @@
 #let e-stroke = (paint: c-edge, thickness: t-ed)
 
 // ── Источники матроида ──
-// Свойства-«доноры» независимости собираются в два аксиоматичных свойства матроида.
 #let matroid-sources = {
   let src(pos, body, name) = node(pos, body, name: name, fill: c-fl)
 
@@ -39,7 +37,6 @@
 }
 
 // ── Контрпример жадного ──
-// Жадный берёт $a$ (вес $5$), но $a$ конфликтует с $b$ и $c$; оптимум --- пара ${b,c}$.
 #let greedy-counterexample = canvas({
   let elem(pos, letter, weight, name, fill: c-fl) = {
     draw.circle(pos, radius: 0.5, fill: fill, stroke: n-stroke, name: name)

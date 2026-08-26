@@ -1,4 +1,3 @@
-// m22 diagrams: ДКА, НКА-00-11, лемма о накачке, НКА-пример, ε-НКА.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

@@ -1,4 +1,3 @@
-// m04 diagrams: диаграммы Венна --- объединение, пересечение, разность, подмножество.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

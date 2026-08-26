@@ -1,4 +1,3 @@
-// m26 diagrams: синтаксическое дерево λ-терма, алмаз Чёрча-Россера.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

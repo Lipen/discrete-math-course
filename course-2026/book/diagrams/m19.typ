@@ -1,4 +1,3 @@
-// m19 diagrams: цепь Маркова, дерево вероятностей, байесовская сеть.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

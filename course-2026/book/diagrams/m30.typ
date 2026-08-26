@@ -1,4 +1,3 @@
-// m30 diagrams: решётка знаков, widening.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
