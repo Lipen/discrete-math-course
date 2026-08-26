@@ -53,11 +53,11 @@ $exists y forall x space L(x, y)$ требует один и тот же $y$ д�
     Аристотель. "Analytica Priora". Около 350 г. до н. э.
   ] построил из таких суждений силлогистику, и две тысячи лет она была единственной логикой.
   Буль в 1854 году в "Исследовании законов мысли"#footnote[
-    G. Boole. "An Investigation of the Laws of Thought". London, 1854.
+    G. Boole. "An Investigation of the Laws of Thought". 1854.
   ] алгебраизировал классы, но его уравнения связывали множества, а не объекты: кванторов и отношений по-прежнему не было.
 
   Прорыв произошёл в 1879 году, когда Фреге в "Begriffsschrift"#footnote[
-    G. Frege. "Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens". Halle, 1879.
+    G. Frege. "Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens". 1879.
   ] записал "для всех" и "существует" отдельными знаками.
   Тогда предикат перестал быть приговором об одном субъекте и стал шаблоном с местами для объектов, а формула --- конечной строкой с бесконечным смыслом.
   Это и есть язык, на котором "каждый любит кого-то" отличим от "кого-то любят все".
