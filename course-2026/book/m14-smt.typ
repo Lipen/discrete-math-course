@@ -285,7 +285,7 @@ $
     Над вещественными числами эти два неравенства равносильны.
 ]
 
-Вопрос о $cal(T)$-выполнимости --- алгоритмический, и алгоритм, отвечающий на него, называется _процедурой решения_#footnote[D. Kroening, O. Strichman. "Decision Procedures: An Algorithmic Point of View". Springer, 2016; A. Bradley, Z. Manna. "The Calculus of Computation: Decision Procedures with Applications to Verification". Springer, 2007.].
+Вопрос о $cal(T)$-выполнимости --- алгоритмический, и алгоритм, отвечающий на него, называется _процедурой решения_#footnote[D. Kroening, O. Strichman. "Decision Procedures: An Algorithmic Point of View". 2016; A. Bradley, Z. Manna. "The Calculus of Computation: Decision Procedures with Applications to Verification". 2007.].
 
 #definition[Процедура решения][
   Процедура решения (decision procedure) для класса формул --- алгоритм, который для любой формулы из класса завершается и отвечает "да" или "нет".
