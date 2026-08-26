@@ -49,10 +49,16 @@ $exists y forall x space L(x, y)$ требует один и тот же $y$ д�
 
 #history-note[
   До Фреге логика говорила о форме "все $S$ суть $P$" --- одного субъекта и одного предиката.
-  Аристотель в "Первой аналитике"#footnote[Аристотель. "Analytica Priora". Около 350 г. до н. э.] построил из таких суждений силлогистику, и две тысячи лет она была единственной логикой.
-  Буль в 1854 году в "Исследовании законов мысли"#footnote[G. Boole. "An Investigation of the Laws of Thought". London, 1854.] алгебраизировал классы, но его уравнения связывали множества, а не объекты: кванторов и отношений по-прежнему не было.
+  Аристотель в "Первой аналитике"#footnote[
+    Аристотель. "Analytica Priora". Около 350 г. до н. э.
+  ] построил из таких суждений силлогистику, и две тысячи лет она была единственной логикой.
+  Буль в 1854 году в "Исследовании законов мысли"#footnote[
+    G. Boole. "An Investigation of the Laws of Thought". London, 1854.
+  ] алгебраизировал классы, но его уравнения связывали множества, а не объекты: кванторов и отношений по-прежнему не было.
 
-  Прорыв произошёл в 1879 году, когда Фреге в "Begriffsschrift"#footnote[G. Frege. "Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens". Halle, 1879.] записал "для всех" и "существует" отдельными знаками.
+  Прорыв произошёл в 1879 году, когда Фреге в "Begriffsschrift"#footnote[
+    G. Frege. "Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens". Halle, 1879.
+  ] записал "для всех" и "существует" отдельными знаками.
   Тогда предикат перестал быть приговором об одном субъекте и стал шаблоном с местами для объектов, а формула --- конечной строкой с бесконечным смыслом.
   Это и есть язык, на котором "каждый любит кого-то" отличим от "кого-то любят все".
 ]
@@ -499,7 +505,9 @@ $
 Это Булева алгебра, которую мы рассмотрим в главе @chap:boolean.
 
 После Буля оставался последний шаг --- включить кванторы и отношения, чего не было ни у Аристотеля, ни у Буля.
-Это сделал Готлоб Фреге в "Begriffsschrift"#footnote[G. Frege. "Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens". 1879.], создав логику предикатов --- ту самую, которую мы используем сегодня.
+Это сделал Готлоб Фреге в "Begriffsschrift"#footnote[
+  G. Frege. "Begriffsschrift, eine der arithmetischen nachgebildete Formelsprache des reinen Denkens". 1879.
+], создав логику предикатов --- ту самую, которую мы используем сегодня.
 
 == Семантика: модели и истинность
 
@@ -586,7 +594,9 @@ $exists x space A(x)$ --- если хотя бы для одного.
 #theorem[Теорема Гёделя о полноте][
   Исчисление первого порядка корректно и полно:
   $Gamma models phi$ тогда и только тогда, когда
-  $Gamma proves phi$.#footnote[K. Gödel. "Die Vollständigkeit der Axiome des logischen Funktionenkalküls". Monatshefte für Mathematik und Physik, 1930.]
+  $Gamma proves phi$.#footnote[
+    K. Gödel. "Die Vollständigkeit der Axiome des logischen Funktionenkalküls". Monatshefte für Mathematik und Physik, 1930.
+  ]
 ]
 
 Доказательство полноты --- та же конструкция Генкина, что и в главе @chap:deduction, с одним дополнением.
