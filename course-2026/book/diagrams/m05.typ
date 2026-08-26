@@ -1,4 +1,3 @@
-// m05 diagrams: граф отношения, диаграмма Хассе (делимость), разбиение на классы эквивалентности.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -78,28 +77,42 @@
 
 // ── Разбиение целых по остатку mod 3 ──
 #let eq-class(y, fill, residue, items) = {
+  let bw = 5.6
+  let x0 = -bw / 2
   draw.rect(
-    (-3.8, y + 0.8),
-    (3.8, y - 0.8),
-    radius: 12pt,
+    (x0, y + 0.5),
+    (x0 + bw, y - 0.5),
+    radius: 7pt,
     fill: fill,
     stroke: t-bd + c-bd,
   )
-  for (x, n) in items {
-    draw.content((x, y), text(size: s-cap, fill: c-ink)[#n])
-  }
   draw.content(
-    (2.35, y),
+    (x0 + 0.45, y),
     anchor: "west",
-    text(size: s-cap, fill: c-muted)[$"mod" 3 = #residue$],
+    text(size: s-node, weight: "bold", fill: c-ink)[$[#residue]$],
   )
+  draw.line(
+    (x0 + 1.2, y + 0.34),
+    (x0 + 1.2, y - 0.34),
+    stroke: c-edge + t-hr,
+  )
+  let step = 0.95
+  let start = x0 + 1.65
+  for (i, it) in items.enumerate() {
+    let cx = start + i * step
+    draw.rect(
+      (cx - 0.32, y + 0.22),
+      (cx + 0.32, y - 0.22),
+      radius: 3pt,
+      fill: white,
+      stroke: c-bd + t-hr,
+    )
+    draw.content((cx, y), text(size: s-node, fill: c-ink)[#it])
+  }
 }
 
 #let equivalence-partition = canvas({
-  // [0] = {3, 6, 9}
-  eq-class(2.5, c-fl, 0, ((-2.5, 3), (-0.8, 6), (0.9, 9)))
-  // [1] = {1, 4, 7, 10}
-  eq-class(0.8, c-atom, 1, ((-2.5, 1), (-0.8, 4), (0.9, 7), (1.9, 10)))
-  // [2] = {2, 5, 8}
-  eq-class(-0.9, c-warn, 2, ((-1.5, 2), (0.2, 5), (1.9, 8)))
+  eq-class(2.6, c-fl, 0, (3, 6, 9))
+  eq-class(0, c-atom, 1, (1, 4, 7, 10))
+  eq-class(-2.6, c-warn, 2, (2, 5, 8))
 })
