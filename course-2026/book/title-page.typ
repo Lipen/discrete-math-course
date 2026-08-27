@@ -171,14 +171,13 @@
           #orn-rule(width: 3.6, weight: 0.5pt, color: gold.transparentize(15%))
           #v(1fr)
 
-          #text(fill: ink, font: "Libertinus Serif")[Магистр]
-          #v(1em, weak: true)
           #text(
             size: 14pt,
             weight: "semibold",
             fill: ink,
-            tracking: 0.12em,
-          )[КОНСТАНТИН]
+          )[Константин Чухарев]
+          #v(0.35em, weak: true)
+          #text(size: 10pt, fill: ink-muted)[Университет ИТМО]
           #v(1.5em, weak: true)
           #text(size: 10pt, fill: ink-muted)[MMXXVI--MMXXVII]
           #v(1fr)
