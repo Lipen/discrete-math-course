@@ -466,17 +466,17 @@ SLD --- это Selective Linear resolution for Definite clauses: резолюц�
 // Поиск в глубину: стек отложенных выводов (choice points).
 while let Some(ChoicePoint { goals, sigma }) = self.stack.pop() {
     if goals.is_empty() {
-        Return Some(sigma). // пустая цель: успех
+        return Some(sigma); // пустая цель: успех
     }
     let (head, rest) = goals.split_first().unwrap();
     if let Goal::Call(term) = apply_goal(head, &sigma) {
         let Some(clauses) = self.db.clauses_for(&term) else {
-            Continue. // подходящих клауз нет: ветвь обрывается
+            continue; // подходящих клауз нет: ветвь обрывается
         };
         // Клаузы в порядке программы: первая должна быть испробована
         // первой, поэтому кладётся на стек последней (перебор в обратном порядке).
         for clause in clauses.iter().rev() {
-            Let fresh_clause = rename_clause(clause, &mut self.fresh). // свежие переменные
+            let fresh_clause = rename_clause(clause, &mut self.fresh); // свежие переменные
             let mut cand = sigma.clone();
             if unify(&term, &fresh_clause.head, &mut cand) {
                 self.stack.push(ChoicePoint {
