@@ -176,8 +176,6 @@
             weight: "semibold",
             fill: ink,
           )[Константин Чухарев]
-          #v(0.35em, weak: true)
-          #text(size: 10pt, fill: ink-muted)[Университет ИТМО]
           #v(1.5em, weak: true)
           #text(size: 10pt, fill: ink-muted)[MMXXVI--MMXXVII]
           #v(1fr)
