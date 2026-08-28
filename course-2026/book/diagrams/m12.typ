@@ -40,38 +40,29 @@
 })
 
 // ── Циклическая группа: образующий в ZZ_8 ──
-#let cyclic-generator = canvas({
-  let hf-node(pos, name, body, fill: c-fl) = {
-    draw.circle(pos, radius: 0.42, stroke: n-stroke, fill: fill, name: name)
-    draw.content(name, text(size: s-node, fill: c-ink)[#body])
-  }
-
-  let hf-edge(fr, to, name) = {
-    draw.line(fr, to, stroke: e-stroke, mark: (end: ">"), name: name)
-    draw.content(name, text(size: s-cap, fill: c-ink)[$+1$], fill: white,
-      stroke: none, padding: 1pt)
-  }
-
-  hf-node((0, 3.2), "b0", $0$)
-  hf-node((2.3, 2.3), "b1", $1$)
-  hf-node((3.2, 0), "b2", $2$)
-  hf-node((2.3, -2.3), "b3", $3$)
-  hf-node((0, -3.2), "b4", $4$)
-  hf-node((-2.3, -2.3), "b5", $5$)
-  hf-node((-3.2, 0), "b6", $6$)
-  hf-node((-2.3, 2.3), "b7", $7$)
-
-  hf-edge("b0", "b1", "e01")
-  hf-edge("b1", "b2", "e12")
-  hf-edge("b2", "b3", "e23")
-  hf-edge("b3", "b4", "e34")
-  hf-edge("b4", "b5", "e45")
-  hf-edge("b5", "b6", "e56")
-  hf-edge("b6", "b7", "e67")
-  hf-edge("b7", "b0", "e70")
-
-  draw.content((0, 0), text(size: s-node, fill: c-ink)[$ZZ_8$])
-})
+#let cyclic-generator = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  edge-stroke: e-stroke,
+  spacing: 1.8em,
+  node((0, 2.2), $0$, name: <b0>),
+  node((1.6, 1.6), $1$, name: <b1>),
+  node((2.2, 0), $2$, name: <b2>),
+  node((1.6, -1.6), $3$, name: <b3>),
+  node((0, -2.2), $4$, name: <b4>),
+  node((-1.6, -1.6), $5$, name: <b5>),
+  node((-2.2, 0), $6$, name: <b6>),
+  node((-1.6, 1.6), $7$, name: <b7>),
+  node((0, 0), $ZZ_8$, fill: none, stroke: none, name: <center>),
+  edge(<b0>, <b1>, "-}>", label: [$+1$]),
+  edge(<b1>, <b2>, "-}>", label: [$+1$]),
+  edge(<b2>, <b3>, "-}>", label: [$+1$]),
+  edge(<b3>, <b4>, "-}>", label: [$+1$]),
+  edge(<b4>, <b5>, "-}>", label: [$+1$]),
+  edge(<b5>, <b6>, "-}>", label: [$+1$]),
+  edge(<b6>, <b7>, "-}>", label: [$+1$]),
+  edge(<b7>, <b0>, "-}>", label: [$+1$]),
+)
 
 // ── Коммутативная диаграмма гомоморфизма ──
 #let hom-square = canvas({
