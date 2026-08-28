@@ -365,7 +365,7 @@ _Бинарная операция_ --- правило, которое кажд�
 #figure(
   table(
     columns: 9,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } else if x == 1 { (right: 0.8pt) },
+    stroke: (x, y) => if x == 0 { (right: 0.8pt) } + if y == 0 { (bottom: 0.8pt) },
     table.header([$dot$], [$e$], [$r$], [$r^2$], [$r^3$], [$s$], [$r s$], [$r^2 s$], [$r^3 s$]),
     [$e$], [$e$], [$r$], [$r^2$], [$r^3$], [$s$], [$r s$], [$r^2 s$], [$r^3 s$],
     [$r$], [$r$], [$r^2$], [$r^3$], [$e$], [$r s$], [$r^2 s$], [$r^3 s$], [$s$],
@@ -560,7 +560,7 @@ _Бинарная операция_ --- правило, которое кажд�
   #table(
     columns: (auto, auto, auto),
     align: (left, center, center),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } else if x == 1 { (right: 0.8pt) },
+    stroke: (x, y) => if x == 0 { (right: 0.8pt) } + if y == 0 { (bottom: 0.8pt) },
     table.header([Подгруппа $H$], [Порядок $|H|$], [Порождает элемент]),
     [${0}$], [$1$], [$0$],
     [${0, 6}$], [$2$], [$6$],
@@ -601,7 +601,7 @@ _Бинарная операция_ --- правило, которое кажд�
 #table(
   columns: 3,
   align: center,
-  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } else if x == 1 { (right: 0.8pt) },
+  stroke: (x, y) => if x == 0 { (right: 0.8pt) } + if y == 0 { (bottom: 0.8pt) },
   table.header([Смежный класс], [Элементы], [Число элементов]),
   [$0 + H$], [${0, 4, 8}$], [$3$],
   [$1 + H$], [${1, 5, 9}$], [$3$],
@@ -1033,7 +1033,7 @@ _Бинарная операция_ --- правило, которое кажд�
 
 #example[Поле $ZZ_7$][
   #table(
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } else if x == 1 { (right: 0.8pt) },
+    stroke: (x, y) => if x == 0 { (right: 0.8pt) } + if y == 0 { (bottom: 0.8pt) },
     columns: 7,
     [*$a$*], [$1$], [$2$], [$3$], [$4$], [$5$], [$6$],
     [*$a^(-1)$*], [$1$], [$4$], [$5$], [$2$], [$3$], [$6$],
@@ -1213,7 +1213,7 @@ _Бинарная операция_ --- правило, которое кажд�
   #figure(
     table(
       columns: 5,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } else if x == 1 { (right: 0.8pt) },
+      stroke: (x, y) => if x == 0 { (right: 0.8pt) } + if y == 0 { (bottom: 0.8pt) },
       table.header([$+$], [$0$], [$1$], [$alpha$], [$alpha + 1$]),
       [$0$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
       [$1$], [$1$], [$0$], [$alpha + 1$], [$alpha$],
@@ -1228,7 +1228,7 @@ _Бинарная операция_ --- правило, которое кажд�
   #figure(
     table(
       columns: 5,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } else if x == 1 { (right: 0.8pt) },
+      stroke: (x, y) => if x == 0 { (right: 0.8pt) } + if y == 0 { (bottom: 0.8pt) },
       table.header([$times$], [$0$], [$1$], [$alpha$], [$alpha + 1$]),
       [$0$], [$0$], [$0$], [$0$], [$0$],
       [$1$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
