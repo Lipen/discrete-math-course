@@ -7,7 +7,7 @@ all: topics-s1 topics-s2 schedule-s1 schedule-s2 program
 
 # Working program (РПД) as PDF
 program:
-    pandoc program.md -o program.pdf --pdf-engine=xelatex -V mainfont="DejaVu Serif" -V lang=ru -V geometry:margin=2.5cm -V fontsize=11pt --standalone
+    pandoc program.md -o program.pdf --pdf-engine=xelatex -V mainfont="Libertinus Serif" -V lang=ru -V geometry:margin=2.5cm -V fontsize=11pt --standalone
 
 # Course prospectus: semester 1
 topics-s1:
