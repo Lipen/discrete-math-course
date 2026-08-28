@@ -4,183 +4,58 @@
 
 #import cetz: canvas, draw
 
-#let n-stroke = t-bd + c-bd
+// Локальная семантика: `c-fl` --- обычные участники (Алиса, Боб);
+// `c-accent` --- злоумышленник в середине (Ева).
+#let mitm = canvas({
+  let hw = 1.0
+  let hh = 0.45
 
-#let e-stroke = (paint: c-edge, thickness: t-ed)
-
-// ── Цепь Маркова ──
-#let markov-chain = canvas({
-  let state(pos, label, name) = {
-    let (x, y) = pos
-    draw.circle((x, y), radius: 0.5, name: name, fill: c-fl, stroke: n-stroke)
-    draw.content((x, y), text(size: s-node, fill: c-ink, weight: "bold")[#label])
-  }
-
-  // Вероятность перехода --- в середине ребра.
-  let elabel(edge-name, prob) = {
-    draw.content(
-      edge-name + ".mid",
-      text(size: s-cap, fill: c-accent)[#prob],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-      anchor: "south",
-    )
-  }
-
-  // ── Состояния ──
-  state((0, 0), [$S$], "S")
-  state((5, 0), [$R$], "R")
-
-  // ── Переходы ──
-  draw.line(
-    "S.north-east",
-    "R.north-west",
-    name: "s-r",
-    stroke: e-stroke,
-    mark: (end: ">", fill: c-edge),
-  )
-  elabel("s-r", [$0.2$])
-
-  draw.line(
-    "R.south-west",
-    "S.south-east",
-    name: "r-s",
-    stroke: e-stroke,
-    mark: (end: ">", fill: c-edge),
-  )
-  elabel("r-s", [$0.4$])
-
-  draw.bezier(
-    "S.north-west",
-    "S.north-east",
-    (-1.2, 1.5),
-    (1.2, 1.5),
-    name: "s-s",
-    stroke: e-stroke,
-    mark: (end: ">", fill: c-edge),
-  )
-  elabel("s-s", [$0.8$])
-
-  draw.bezier(
-    "R.north-west",
-    "R.north-east",
-    (3.8, 1.5),
-    (6.2, 1.5),
-    name: "r-r",
-    stroke: e-stroke,
-    mark: (end: ">", fill: c-edge),
-  )
-  elabel("r-r", [$0.6$])
-})
-
-// ── Дерево вероятностей ──
-#let probability-tree = canvas({
-  let prob-edge(from, to, prob) = {
-    let name = "e-" + from + "-" + to
-    draw.line(from, to, stroke: e-stroke, name: name)
-    draw.content(
-      name + ".mid",
-      text(size: s-cap, fill: c-accent)[$#prob$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-  }
-
-  let leaf-label(pos, outcome, prob) = {
-    let (x, y) = pos
-    draw.content((x, y - 0.4), text(size: s-cap, fill: c-muted)[#outcome])
-    draw.content((x, y - 0.78), text(size: s-cap, fill: c-accent)[$#prob$])
-  }
-
-  // ── Узлы: ветвления ──
-  draw.circle((0, 3.4), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "root")
-  draw.circle((2.8, 1.8), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "H")
-  draw.circle((-2.8, 1.8), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "T")
-
-  draw.circle((4.2, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "HH")
-  draw.circle((1.4, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "HT")
-  draw.circle((-1.4, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "TH")
-  draw.circle((-4.2, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "TT")
-
-  // ── Ветви с вероятностями ──
-  prob-edge("root", "H", 0.6)
-  prob-edge("root", "T", 0.4)
-  prob-edge("H", "HH", 0.6)
-  prob-edge("H", "HT", 0.4)
-  prob-edge("T", "TH", 0.6)
-  prob-edge("T", "TT", 0.4)
-
-  // ── Метки ветвлений (в открытом месте, вне рёбер) ──
-  draw.content((3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$H$])
-  draw.content((-3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$T$])
-
-  // ── Исходы ──
-  leaf-label((4.2, 0), [$H H$], 0.36)
-  leaf-label((1.4, 0), [$H T$], 0.24)
-  leaf-label((-1.4, 0), [$T H$], 0.24)
-  leaf-label((-4.2, 0), [$T T$], 0.16)
-})
-
-// ── Байесовская сеть ──
-#let bayes-net = canvas({
-  let bn-node(pos, label, name) = {
+  let actor(pos, label, fill: c-fl) = {
     let (x, y) = pos
     draw.rect(
-      (x - 1.2, y + 0.45),
-      (x + 1.2, y - 0.45),
-      name: name,
-      fill: c-fl,
-      stroke: n-stroke,
-      radius: 8pt,
+      (x - hw, y + hh),
+      (x + hw, y - hh),
+      name: label,
+      fill: fill,
+      stroke: t-bd + c-bd,
+      radius: 4pt,
     )
-    draw.content((x, y), text(size: s-node, fill: c-ink, weight: "bold")[#label])
+    let ink = if fill == c-accent { white } else { c-ink }
+    draw.content(label, text(size: s-node, fill: ink)[#label])
   }
 
-  let dir-edge(from-anchor, to-anchor) = {
+  let swap(from-name, from, to-name, to, dy, label) = {
+    let (fx, fy) = from
+    let (tx, ty) = to
+    let s = if tx > fx { 1 } else { -1 }
+    let e-name = from-name + "-" + to-name
     draw.line(
-      from-anchor,
-      to-anchor,
-      stroke: e-stroke,
-      mark: (end: ">", fill: c-edge),
+      (fx + s * hw, fy + dy),
+      (tx - s * hw, ty + dy),
+      name: e-name,
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
+    draw.content(
+      e-name,
+      text(size: s-cap, fill: c-ink)[#label],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
     )
   }
 
-  // ── Узлы ──
-  bn-node((0, 2.2), [Грипп], "flu")
-  bn-node((-2.5, -0.3), [Кашель], "cough")
-  bn-node((2.5, -0.3), [Температура], "fever")
+  actor((-3.6, 0), "Алиса")
+  actor((0, 0), "Ева", fill: c-accent)
+  actor((3.6, 0), "Боб")
 
-  // ── Причинно-следственные связи ──
-  dir-edge("flu.south-west", "cough.north")
-  dir-edge("flu.south-east", "fever.north")
-
-  // ── CPT-аннотации ──
-  draw.content(
-    "flu.east",
-    text(size: s-cap, fill: c-muted)[$P("Flu") = 0.05$],
-    anchor: "west",
-    padding: 0.3,
-  )
+  swap("Алиса", (-3.6, 0), "Ева", (0, 0), 0.28, [$A = g^a$])
+  swap("Ева", (0, 0), "Алиса", (-3.6, 0), -0.28, [$B' = g^y$])
+  swap("Боб", (3.6, 0), "Ева", (0, 0), 0.28, [$B = g^b$])
+  swap("Ева", (0, 0), "Боб", (3.6, 0), -0.28, [$A' = g^x$])
 
   draw.content(
-    "cough.west",
-    anchor: "east",
-    padding: 0.25,
-    text(size: s-cap, fill: c-muted)[
-      $P("Cough" | "Flu") = 0.8$\
-      $P("Cough" | not "Flu") = 0.1$
-    ],
-  )
-
-  draw.content(
-    "fever.east",
-    anchor: "west",
-    padding: 0.25,
-    text(size: s-cap, fill: c-muted)[
-      $P("Fever" | "Flu") = 0.9$\
-      $P("Fever" | not "Flu") = 0.05$
-    ],
+    (0, -1.4),
+    text(size: s-cap, fill: c-muted)[два секрета: с Алисой и с Бобом],
   )
 })

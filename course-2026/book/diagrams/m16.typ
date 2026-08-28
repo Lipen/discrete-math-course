@@ -3,79 +3,73 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
-#import fletcher: diagram, edge, node
 
-#let n-stroke = t-bd + c-bd
+#let sld-tree = canvas({
+  let hw = 1.7
+  let sol-hw = 1.6
+  let sol-hh = 0.3
 
-#let e-stroke = (paint: c-edge, thickness: t-ed)
+  let goal-str = t-bd + c-bd
+  let e-str = t-ed + c-edge
 
-// ── Источники матроида ──
-#let matroid-sources = {
-  let src(pos, body, name) = node(pos, body, name: name, fill: c-fl)
+  let goal(pos, label, name) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - hw, y + 0.34),
+      (x + hw, y - 0.34),
+      fill: c-fl,
+      stroke: goal-str,
+      radius: 3pt,
+      name: name,
+    )
+    draw.content(pos, text(size: s-node, fill: c-ink)[#label])
+  }
+  let solution(pos, label, name) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - sol-hw, y + sol-hh),
+      (x + sol-hw, y - sol-hh),
+      fill: c-atom,
+      stroke: goal-str,
+      radius: 3pt,
+      name: name,
+    )
+    draw.content(pos, text(size: s-node, fill: c-ink)[#label])
+  }
+  let tree-edge(a, b) = draw.line(a, b, stroke: e-str, name: a + "-" + b)
 
-  diagram(
-    node-stroke: n-stroke,
-    node-inset: 5pt,
-    spacing: 1.8em,
+  let root = (0, 0)
+  let base1 = (-3.4, -1.8)
+  let recur1 = (3.4, -1.8)
+  let sol1 = (-3.4, -3.6)
+  let anc = (3.4, -3.6)
+  let base2 = (1.6, -5.4)
+  let recur2 = (5.2, -5.4)
+  let sol2 = (1.6, -7.2)
+  let dead = (5.2, -7.2)
 
-    src((0, 0), [Лес \ ацикличность], <src-forest>),
-    src((3, 0), [Векторы \ независимость], <src-linear>),
-    src((6, 0), [Не более $k$ \ размер], <src-uniform>),
+  goal(root, [`ancestor(alice, Y)`], "root")
+  goal(base1, [`parent(alice, Y)`], "base1")
+  goal(recur1, [`parent(alice, Z)` \ `ancestor(Z, Y)`], "recur1")
+  solution(sol1, [$Y = "bob"$], "sol1")
+  goal(anc, [`ancestor(bob, Y)`], "anc")
+  goal(base2, [`parent(bob, Y)`], "base2")
+  goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`], "recur2")
+  solution(sol2, [$Y = "carol"$], "sol2")
+  goal(dead, [`ancestor(carol, Y)`], "dead")
 
-    node(
-      (3, 2.6),
-      [Матроид \ два свойства],
-      name: <matroid>,
-      fill: c-conn,
-      stroke: n-stroke,
-    ),
-
-    edge(<src-forest>, <matroid>, "-}>", stroke: e-stroke),
-    edge(<src-linear>, <matroid>, "-}>", stroke: e-stroke),
-    edge(<src-uniform>, <matroid>, "-}>", stroke: e-stroke),
+  // Ветвь, не давшая ответа, --- откат (failure); помечаем цветом противоречия.
+  draw.content(
+    (dead.at(0), dead.at(1) - 0.85),
+    text(size: s-cap, fill: c-hot, weight: "bold")[тупик],
   )
-}
 
-// ── Контрпример жадного ──
-#let greedy-counterexample = canvas({
-  let elem(pos, letter, weight, name, fill: c-fl) = {
-    draw.circle(pos, radius: 0.5, fill: fill, stroke: n-stroke, name: name)
-    draw.content(pos, text(size: s-node, fill: c-ink)[#letter \ #weight])
-  }
-  let conflict(from, to) = draw.line(from, to, stroke: (
-    paint: c-hot,
-    thickness: t-bd,
-    dash: "dashed",
-  ))
-  let result(from, to) = draw.line(from, to, stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
-
-  elem((-1.9, 0), $a$, $5$, "a", fill: c-warn)
-  elem((0.9, 1.2), $b$, $4$, "b")
-  elem((0.9, -1.2), $c$, $4$, "c")
-
-  conflict("a.north-east", "b.south-west")
-  conflict("a.south-east", "c.north-west")
-
-  draw.content((-1.9, -1.9), text(size: s-cap, fill: c-hot)[жадный: ${a}$, вес $5$], name: "lbl-greedy")
-  draw.content((0.9, -2.7), text(size: s-cap, fill: c-ink)[оптимум: ${b,c}$, вес $8$], name: "lbl-opt")
-  result("a.south", "lbl-greedy.north")
-  result("c.south", "lbl-opt.north")
-})
-
-// ── Интервальное расписание ──
-#let interval-scheduling = canvas({
-  let bar(y, x1, x2, label, name, fill) = {
-    draw.rect((x1, y + 0.25), (x2, y - 0.25), fill: fill, stroke: e-stroke, radius: 2pt, name: name)
-    draw.content(name + ".north", anchor: "south", text(size: s-node, fill: c-ink)[#label])
-  }
-
-  draw.line((0, 0), (11, 0), stroke: e-stroke)
-  for i in range(11) {
-    draw.line((i, -0.12), (i, 0.12), stroke: e-stroke)
-    draw.content((i, -0.45), text(size: s-tiny, fill: c-muted)[#i])
-  }
-
-  bar(2.6, 1, 10, $A$, "bar-a", c-warn)
-  bar(1.3, 1, 2, $B$, "bar-b", c-fl)
-  bar(1.3, 3, 4, $C$, "bar-c", c-fl)
+  tree-edge("root", "base1")
+  tree-edge("root", "recur1")
+  tree-edge("base1", "sol1")
+  tree-edge("recur1", "anc")
+  tree-edge("anc", "base2")
+  tree-edge("anc", "recur2")
+  tree-edge("base2", "sol2")
+  tree-edge("recur2", "dead")
 })

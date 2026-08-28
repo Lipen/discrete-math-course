@@ -4,47 +4,77 @@
 
 #import cetz: canvas, draw
 
-#let ordinals = canvas({
-  let line-y = -0.5
-  let r = 0.22
-
-  draw.line(
-    (-3.6, line-y),
-    (4.6, line-y),
-    stroke: (paint: c-edge, thickness: t-ed),
-    mark: (end: ">", fill: c-edge),
+// Узлы суждений, боковые подписи правил и вертикальные рёбра вывода.
+#let judgment-node(pos, name, w, body) = {
+  let (x, y) = pos
+  draw.rect(
+    (x - w, y + 0.35),
+    (x + w, y - 0.35),
+    name: name,
+    fill: c-fl,
+    stroke: t-bd + c-bd,
+    radius: 4pt,
   )
+  draw.content(name, text(size: s-node, fill: c-ink)[#body])
+}
 
-  // Предельные ординалы (ω, ω·2, ω²) выделены тёплым акцентом.
-  let ord-node(pos, label, limit: false) = {
-    let st = if limit {
-      (paint: c-hot, thickness: t-bd)
-    } else {
-      (paint: c-bd, thickness: t-bd)
-    }
-    draw.circle(
-      (pos, line-y),
-      radius: r,
-      fill: c-fl,
-      stroke: st,
-    )
-    draw.content(
-      (pos, line-y - 0.55),
-      text(
-        size: s-cap,
-        fill: if limit { c-hot } else { c-muted },
-        weight: if limit { "bold" } else { "regular" },
-      )[#label],
-    )
-  }
+#let rule-label(node-name, body) = {
+  draw.content(
+    (rel: (0.3em, 0), to: node-name + ".east"),
+    anchor: "west",
+    text(size: s-cap, fill: c-accent, weight: "semibold")[#body],
+  )
+}
 
-  ord-node(-3, [0])
-  ord-node(-2, [1])
-  ord-node(-1, [2])
-  ord-node(0, [$omega$], limit: true)
-  ord-node(1, [$omega + 1$])
-  ord-node(2.5, [$omega dot 2$], limit: true)
-  ord-node(4, [$omega^2$], limit: true)
+#let vert-edge(parent, child) = {
+  draw.line(
+    (parent + ".south"),
+    (child + ".north"),
+    stroke: t-ed + c-edge,
+  )
+}
 
-  draw.content((3.3, line-y), text(size: s-cap, fill: c-muted)[$dots$])
+// ── id ──
+#let derivation-id = canvas({
+  let nw = 3.3
+  let py = 3.0
+  let cy = 1.0
+
+  judgment-node((3.0, py), "prem", nw, {
+    $x : "Nat" tack.r x : "Nat"$
+  })
+  rule-label("prem", [(var)])
+
+  judgment-node((3.0, cy), "conc", nw, {
+    $tack.r lambda x : "Nat" . x : "Nat" -> "Nat"$
+  })
+  rule-label("conc", [(abs)])
+
+  vert-edge("prem", "conc")
+})
+
+// ── K ──
+#let derivation-k = canvas({
+  let nw = 4.0
+  let py = 4.4
+  let my = 2.6
+  let cy = 0.8
+
+  judgment-node((3.5, py), "k-prem", nw, {
+    $x : "Nat", y : "Bool" tack.r x : "Nat"$
+  })
+  rule-label("k-prem", [(var)])
+
+  judgment-node((3.5, my), "k-mid", nw, {
+    $x : "Nat" tack.r lambda y : "Bool" . x : "Bool" -> "Nat"$
+  })
+  rule-label("k-mid", [(abs)])
+
+  judgment-node((3.5, cy), "k-top", nw, {
+    $tack.r lambda x : "Nat" . lambda y : "Bool" . x : "Nat" -> "Bool" -> "Nat"$
+  })
+  rule-label("k-top", [(abs)])
+
+  vert-edge("k-prem", "k-mid")
+  vert-edge("k-mid", "k-top")
 })

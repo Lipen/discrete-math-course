@@ -1,7 +1,7 @@
 // M33 --- Интуиционистская логика: за пределами классической логики.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m33.typ": kripke-two-worlds, kripke-umbrella
+#import "diagrams/m34.typ": kripke-two-worlds, kripke-umbrella
 
 = Интуиционистская логика <chap:intuitionism>
 
@@ -636,7 +636,7 @@ _Доказательные ассистенты_ (_proof assistants_) --- си�
 
 Упражнение о компактности опирается на раздел выше и на теорему главы @chap:fol.
 
-#tasklist("m33")[
+#tasklist("m34")[
   _Интуиционизм и БХК._
   + Почему закон исключённого третьего неприемлем для интуициониста?
   + По БХК-интерпретации: что является доказательством $A -> B$? А доказательством $exists x. A(x)$?

@@ -1,7 +1,7 @@
 // M14 --- SMT: Satisfiability Modulo Theories.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m14.typ": congruence-closure-merge, dl-negative-cycle, dpll-t-architecture
+#import "diagrams/m15.typ": congruence-closure-merge, dl-negative-cycle, dpll-t-architecture
 
 = SMT <chap:smt>
 
@@ -1542,7 +1542,7 @@ SMT автоматизирует проверку выполнимости по 
 Вопрос меняется с "существует ли модель" на "какие ответы следуют из теории".
 == Упражнения
 
-#tasklist("m14")[
+#tasklist("m15")[
   _Базовые понятия SMT._
   + Что такое ранг функционального символа в многосортной логике? Приведите ранг $"read"$ из теории массивов.
   + Чем теория отличается от чистой логики первого порядка? Что означает $cal(T)$-общезначимость?

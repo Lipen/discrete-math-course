@@ -1,7 +1,7 @@
 // M21 --- Конструкции чисел.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m21.typ": banach-tarski
+#import "diagrams/m22.typ": banach-tarski
 
 = Конструкции чисел <chap:constructions>
 
@@ -1345,7 +1345,7 @@ $
 
 == Упражнения
 
-#tasklist("m21")[
+#tasklist("m22")[
   _Аксиомы Пеано и алгебры Дедекинда._
   + Проверьте, что $(NN, 0, n |-> n+1)$ является алгеброй Дедекинда: последовательно проверьте все пять условий определения.
 

@@ -3,7 +3,7 @@
 // лемма о накачке, теорема Майхилла--Нерода, минимизация, разрешимость, применения.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m22.typ": dfa-01, nfa-00-11, pumping-lemma, epsilon-nfa, nfa-example
+#import "diagrams/m23.typ": dfa-01, nfa-00-11, pumping-lemma, epsilon-nfa, nfa-example
 
 = Конечные автоматы и регулярные языки <chap:automata>
 
@@ -1422,7 +1422,7 @@ fn is_empty(trans: &[Vec<usize>], start: usize, accept: &[bool]) -> bool {
 
 == Упражнения
 
-#tasklist("m22")[
+#tasklist("m23")[
   _ДКА: построение и анализ._
   + Постройте ДКА, распознающий язык всех слов над алфавитом ${0, 1}$, заканчивающихся на `00`.
     Нарисуйте диаграмму переходов и выпишите таблицу переходов.

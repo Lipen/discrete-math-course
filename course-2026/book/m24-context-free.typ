@@ -1,7 +1,7 @@
 // M23 --- Контекстно-свободные языки: за границей регулярности.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m23.typ": chomsky-hierarchy, parse-tree-a3b3
+#import "diagrams/m24.typ": chomsky-hierarchy, parse-tree-a3b3
 
 = Контекстно-свободные языки <chap:context-free>
 
@@ -775,7 +775,7 @@ $
 
 == Упражнения
 
-#tasklist("m23")[
+#tasklist("m24")[
   _КС-грамматики: построение._
   + Постройте КС-грамматику для языка строк над ${a, b}$.
     В каждом слове букв $a, b$ поровну.

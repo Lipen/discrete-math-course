@@ -1,7 +1,7 @@
 // M13 --- SAT: задача булевой выполнимости и её роль в теории вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m13.typ": cdcl-conflict-graph, cook-levin-table, dpll-tree, implication-graph-2sat-simple
+#import "diagrams/m14.typ": cdcl-conflict-graph, cook-levin-table, dpll-tree, implication-graph-2sat-simple
 #import "diagrams/m01.typ": resolution-dag
 
 = SAT <chap:sat>
@@ -1099,7 +1099,7 @@ SAT решал выполнимость булевых формул. SMT спр�
 
 == Упражнения
 
-#tasklist("m13")[
+#tasklist("m14")[
   _Базовые понятия SAT._
   + Какие из следующих КНФ-формул выполнимы? Для выполнимых укажите модель.
     + $(x or y) and (overline(x) or overline(y))$

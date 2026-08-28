@@ -2,7 +2,7 @@
 
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m16.typ": greedy-counterexample, interval-scheduling, matroid-sources
+#import "diagrams/m17.typ": greedy-counterexample, interval-scheduling, matroid-sources
 
 = Матроиды <chap:matroids>
 
@@ -739,7 +739,7 @@ $d_i in {1, ..., n}, p_i >= 0$.
 Дальнейшая теория матроидов включает функцию ранга, двойственные матроиды и пересечение матроидов.
 == Упражнения
 
-#tasklist("m16")[
+#tasklist("m17")[
   _Проверка аксиом._
   + Пусть $E = {1, 2, 3, 4}$, независимы подмножества размера не более двух.
     Является ли это семейство матроидом?

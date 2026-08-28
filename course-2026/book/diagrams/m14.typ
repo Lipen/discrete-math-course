@@ -4,121 +4,246 @@
 
 #import cetz: canvas, draw
 
-#let n-stroke = t-bd + c-bd
-#let e-stroke = (paint: c-edge, thickness: t-ed)
-#let hi-stroke = (paint: c-edge, thickness: t-hi)
-#let hot-stroke = (paint: c-hot, thickness: t-hi)
-
-// ── Архитектура DPLL(T) ──
-// SAT-решатель отдаёт кандидата-модель theory-солверу, тот возвращает T-лемму.
-#let dpll-t-architecture = canvas({
-  let module(cy, title, subtitle, fill) = {
-    draw.rect((-2.7, cy - 0.55), (2.7, cy + 0.55), fill: fill, stroke: n-stroke, radius: 3pt)
-    draw.content((0, cy + 0.2), text(size: s-node, fill: c-ink, weight: "bold")[#title])
-    draw.content((0, cy - 0.2), text(size: s-cap, fill: c-muted)[#subtitle])
-  }
-
-  module(1.1, [SAT-решатель], [DPLL / CDCL], c-fl)
-  module(-1.1, [Theory-солвер], [DL, EUF, LRA, ...], c-atom)
-
-  draw.line((1.7, 0.55), (1.7, -0.55), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
-  draw.content((2.2, 0), anchor: "west", text(size: s-cap, fill: c-muted)[кандидат-модель])
-
-  draw.line((-1.7, -0.55), (-1.7, 0.55), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
-  draw.content((-2.2, 0), anchor: "east", text(size: s-cap, fill: c-muted)[$T$-лемма])
-})
-
-// ── Отрицательный цикл разности ──
-// x=0 фиксировано; z>=x+3, w>=z+1, w<=x+2 образуют цикл с суммой -2:
-// при пробном z=3.5 требуется w>=4.5, а красная граница допускает только w<=2.
-#let dl-negative-cycle = canvas({
-  let ax-y = 0
-  let guide-stroke = (paint: c-muted, thickness: 0.5pt, dash: "dashed")
-  let hot-guide = (paint: c-hot, thickness: 0.6pt, dash: "dashed")
-
-  let tick(v) = {
-    draw.line((v, ax-y), (v, ax-y - 0.14), stroke: c-muted + 0.6pt)
-    draw.content((v, ax-y - 0.5), text(size: s-tiny, fill: c-muted)[#v])
-  }
-
-  let vpoint(pos, label, open: false) = {
-    draw.circle(
-      pos,
-      radius: 0.16,
-      fill: if open { white } else { c-ink },
-      stroke: if open { (paint: c-hot, thickness: 0.7pt, dash: "dashed") } else { c-ink + 0.7pt },
-    )
-    draw.content((pos.at(0) - if open { 0.3 } else { 0 }, pos.at(1) + 0.42), anchor: "south", text(
-      size: s-node,
-      fill: c-ink,
-      weight: "bold",
-    )[#label])
-  }
-
-  let guide(px, py, stroke: guide-stroke) = draw.line((px, ax-y), (px, py), stroke: stroke)
-
-  draw.line((-2.0, ax-y), (5.9, ax-y), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
-  for v in range(6) { tick(v) }
-  vpoint((0, ax-y), $x$)
-
-  draw.line((0, 1.0), (3, 1.0), stroke: hi-stroke)
-  draw.line((3, 0.82), (3, 1.18), stroke: hi-stroke)
-  draw.line((3, 1.0), (5.6, 1.0), stroke: hi-stroke, mark: (end: "stealth", fill: c-edge))
-  draw.content((1.5, 1.42), text(size: s-cap, fill: c-ink)[$z >= x + 3$])
-  draw.content((2.95, 1.42), anchor: "west", text(size: s-tiny, fill: c-muted)[разрешено $z >= 3$])
-  guide(3.5, 1.0)
-  vpoint((3.5, ax-y), $z?$, open: true)
-
-  draw.line((3.5, 2.0), (4.5, 2.0), stroke: hi-stroke, mark: (end: "stealth", fill: c-edge))
-  draw.content((3.3, 2.35), anchor: "east", text(size: s-cap, fill: c-ink)[$w >= z + 1$])
-  guide(4.5, 3.0, stroke: hot-guide)
-  vpoint((4.5, ax-y), $w?$, open: true)
-
-  draw.line((-2.0, 3.0), (2, 3.0), stroke: hot-stroke)
-  draw.line((2, 2.82), (2, 3.18), stroke: hot-stroke)
-  draw.line((-2.0, 3.0), (-2.9, 3.0), stroke: hot-stroke, mark: (end: "stealth", fill: c-hot))
-  draw.content((0.1, 3.42), text(size: s-cap, fill: c-hot, weight: "bold")[$w <= x + 2$])
-  draw.content((0.1, 2.62), anchor: "north", text(size: s-tiny, fill: c-hot)[разрешено $w <= 2$])
-  draw.content((3.3, 3.0), text(size: 1.0em, fill: c-hot, weight: "bold")[✗])
-  draw.content((3.3, 3.45), anchor: "south", text(size: s-cap, fill: c-hot, weight: "bold")[противоречие])
-
-  draw.content((1.6, -1.5), text(size: s-cap, fill: c-hot, weight: "bold")[
-    требуется $w >= 4.5$, но разрешено $w <= 2$ ⟹ $-3 - 1 + 2 = -2 < 0$
-  ])
-})
-
-// ── Замыкание конгруэнтности ──
-// Два класса делят b, сливаются в {a, b, f(a)}; конгруэнтность даёт g(a)=g(f(a)),
-// что противоречит третьему литералу.
-#let congruence-closure-merge = canvas({
-  let cnode(pos, label, fill: c-fl) = {
-    draw.circle(pos, radius: 0.42, fill: fill, stroke: n-stroke)
+// ── Граф импликаций 2-SAT ──
+#let implication-graph-2sat-simple = {
+  let lit-node(pos, label, name) = {
+    draw.circle(pos, radius: 0.4, fill: c-atom, stroke: t-bd + c-bd, name: name)
     draw.content(pos, text(size: s-node, fill: c-ink)[#label])
   }
 
-  draw.rect((-3.8, 2.7), (-0.2, 3.7), fill: c-fl, stroke: n-stroke, radius: 3pt)
-  cnode((-2.7, 3.2), $a$)
-  cnode((-1.3, 3.2), $b$)
-  draw.content((-2.0, 4.15), anchor: "south", text(size: s-cap, fill: c-ink, weight: "bold")[класс ${a, b}$])
+  // Стрелки соответствуют дизъюнктам: (x or y) и (not x or y).
+  let impl-edge(from, to, name) = draw.line(
+    from,
+    to,
+    name: name,
+    stroke: c-edge + t-ed,
+    mark: (end: "stealth", fill: c-edge),
+  )
 
-  draw.rect((0.2, 2.7), (3.8, 3.7), fill: c-fl, stroke: n-stroke, radius: 3pt)
-  cnode((1.3, 3.2), $f(a)$)
-  cnode((2.7, 3.2), $b$)
-  draw.content((2.0, 4.15), anchor: "south", text(size: s-cap, fill: c-ink, weight: "bold")[класс ${f(a), b}$])
+  canvas({
+    lit-node((0, 0.8), $x$, "x")
+    lit-node((0, -0.8), $overline(x)$, "notx")
+    lit-node((2, 0.8), $y$, "y")
+    lit-node((2, -0.8), $overline(y)$, "noty")
 
-  draw.line((0, 2.7), (0, 2.2), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
-  draw.content((0.22, 2.45), anchor: "west", text(size: s-tiny, fill: c-muted)[слияние])
+    impl-edge("notx", "y", "e-lower")
+    impl-edge("x", "y", "e-upper")
 
-  draw.rect((-2.9, 0.7), (2.9, 2.2), fill: c-atom, stroke: n-stroke, radius: 3pt)
-  cnode((-1.8, 1.25), $a$)
-  cnode((0, 1.25), $b$)
-  cnode((1.8, 1.25), $f(a)$)
-  draw.content((0, 1.92), text(size: s-cap, fill: c-ink, weight: "bold")[класс ${a, b, f(a)}$])
+    draw.content("e-upper", text(size: s-cap, fill: c-muted)[$x or y$], fill: white, stroke: none, padding: 2pt)
+    draw.content("e-lower", text(size: s-cap, fill: c-muted)[$not x or y$], fill: white, stroke: none, padding: 2pt)
+  })
+}
 
-  draw.line((0, 0.7), (0, 0.05), stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
-  draw.content((0.22, 0.38), anchor: "west", text(size: s-tiny, fill: c-muted)[конгруэнтность: $a = f(a)$])
+// ── Дерево DPLL ──
+#let dpll-box(pos, w, h, fill, stroke, title, subtitle, name) = {
+  let (cx, cy) = pos
+  draw.rect(
+    (cx - w / 2, cy - h / 2),
+    (cx + w / 2, cy + h / 2),
+    radius: 4pt,
+    fill: fill,
+    stroke: stroke,
+    name: name,
+  )
+  draw.content((cx, cy + 0.15), text(size: s-cap, fill: c-ink)[#title])
+  if subtitle != none {
+    draw.content((cx, cy - 0.2), text(size: s-tiny, fill: c-muted)[#subtitle])
+  }
+}
 
-  draw.rect((-2.9, -0.6), (2.9, 0.0), fill: c-fl, stroke: hot-stroke, radius: 3pt)
-  draw.content((0, -0.3), text(size: s-node, fill: c-ink, weight: "bold")[$g(a) = g(f(a))$])
-  draw.content((0, -1.0), text(size: s-cap, fill: c-hot, weight: "bold")[противоречит $not (g(a) = g(f(a)))$])
-})
+#let dpll-dead-end(pos, name) = {
+  let (cx, cy) = pos
+  draw.line(
+    (cx - 0.2, cy - 0.15),
+    (cx + 0.2, cy - 0.4),
+    stroke: c-hot + t-bd,
+    name: name + "-x1",
+  )
+  draw.line(
+    (cx + 0.2, cy - 0.15),
+    (cx - 0.2, cy - 0.4),
+    stroke: c-hot + t-bd,
+    name: name + "-x2",
+  )
+}
+
+#let dpll-edge(from-anchor, to-anchor) = {
+  draw.line(from-anchor, to-anchor, stroke: c-edge + t-ed)
+}
+
+#let dpll-tree = {
+  canvas({
+    dpll-box(
+      (0, 4.2),
+      5.0,
+      0.8,
+      c-fl,
+      t-bd + c-bd,
+      $(x or y) and (not x or y) and (x or not y) and (not x or not y)$,
+      none,
+      "formula",
+    )
+
+    dpll-box((0, 3.0), 2.0, 0.6, c-conn, t-bd + c-bd, [выбор $x$], none, "decision")
+    dpll-edge("formula.south", "decision.north")
+
+    draw.content((-2.1, 3.3), anchor: "south", text(size: s-cap, fill: c-accent)[$x = 1$])
+    dpll-box(
+      (-2.1, 1.9),
+      2.2,
+      0.8,
+      c-atom,
+      t-bd + c-bd,
+      [unit propagation],
+      [$(not x or y) -> y = 1$],
+      "up-left",
+    )
+    dpll-edge("decision.south-west", "up-left.north")
+
+    dpll-box(
+      (-2.1, 0.7),
+      2.2,
+      0.8,
+      c-warn,
+      t-bd + c-hot,
+      [конфликт],
+      [$(not x or not y)$ пуст],
+      "conf-left",
+    )
+    dpll-edge("up-left.south", "conf-left.north")
+    dpll-dead-end((-2.1, 0.0), "dead-left")
+
+    draw.content((2.1, 3.3), anchor: "south", text(size: s-cap, fill: c-accent)[$x = 0$])
+    dpll-box(
+      (2.1, 1.9),
+      2.2,
+      0.8,
+      c-atom,
+      t-bd + c-bd,
+      [unit propagation],
+      [$(x or y) -> y = 1$],
+      "up-right",
+    )
+    dpll-edge("decision.south-east", "up-right.north")
+
+    dpll-box(
+      (2.1, 0.7),
+      2.2,
+      0.8,
+      c-warn,
+      t-bd + c-hot,
+      [конфликт],
+      [$(x or not y)$ пуст],
+      "conf-right",
+    )
+    dpll-edge("up-right.south", "conf-right.north")
+    dpll-dead-end((2.1, 0.0), "dead-right")
+  })
+}
+
+// ── Таблица Кука-Левина ──
+#let cook-levin-table = {
+  canvas({
+    let rows = 4
+    let cols = 6
+    let cell = 0.55
+
+    for t in range(rows) {
+      for i in range(cols) {
+        let x = (i - (cols - 1) / 2) * cell
+        let y = (rows / 2 - 0.5 - t) * cell
+        draw.rect(
+          (x - cell / 2, y - cell / 2),
+          (x + cell / 2, y + cell / 2),
+          fill: c-fl,
+          stroke: t-hr + c-bd,
+          name: "c-" + str(t) + "-" + str(i),
+        )
+      }
+    }
+
+    for i in range(2, 5) {
+      let x = (i - (cols - 1) / 2) * cell
+      let y = (rows / 2 - 0.5 - 1) * cell
+      draw.content((x, y + 0.02), text(size: s-tiny, fill: c-hot)[$H$])
+    }
+
+    let x0 = (2 - (cols - 1) / 2) * cell - cell / 2
+    let x1 = (4 - (cols - 1) / 2) * cell + cell / 2
+    let y0 = (rows / 2 - 0.5 - 1) * cell + cell / 2
+    let y1 = (rows / 2 - 0.5 - 0) * cell - cell / 2
+    draw.rect((x0, y0), (x1, y1), stroke: t-bd + c-hot, fill: none, name: "window")
+
+    draw.content(
+      (0, (rows / 2 + 0.8) * cell),
+      text(size: s-cap, fill: c-muted)[шаг $t$],
+    )
+    draw.content(
+      (-(cols / 2 + 0.5) * cell, 0),
+      rotate(90deg, text(size: s-cap, fill: c-muted)[позиция $i$]),
+    )
+    draw.content(
+      ((cols / 2 + 0.8) * cell, 0),
+      rotate(-90deg, text(size: s-tiny, fill: c-muted)[локальность: ячейка зависит от трёх выше]),
+    )
+  })
+}
+
+// ── Конфликт-граф CDCL ──
+#let cdcl-node(pos, label, name, ..style) = {
+  let (cx, cy) = pos
+  draw.circle(
+    (cx, cy),
+    radius: 0.32,
+    fill: c-fl,
+    stroke: t-bd + c-bd,
+    name: name,
+    ..style,
+  )
+  draw.content((cx, cy), text(size: s-node, fill: c-ink)[#label])
+}
+
+#let cdcl-conflict-graph = {
+  let impl-edge(from, to, name) = draw.line(
+    from,
+    to,
+    name: name,
+    stroke: c-edge + t-ed,
+    mark: (end: "stealth", fill: c-edge),
+  )
+
+  canvas({
+    cdcl-node((-2.6, 1.6), $x_1$, "x1", fill: c-atom, stroke: t-hi + c-bd)
+    draw.content((-3.3, 1.9), text(size: s-tiny, fill: c-muted)[ур. 1])
+    cdcl-node((-1.5, 0.6), $overline(x_2)$, "nx2")
+    cdcl-node((-0.4, 0.0), $x_3$, "x3")
+
+    cdcl-node((2.6, 1.6), $overline(x_4)$, "nx4", fill: c-atom, stroke: t-hi + c-bd)
+    draw.content((3.3, 1.9), text(size: s-tiny, fill: c-muted)[ур. 2])
+    cdcl-node((1.5, 0.6), $x_5$, "x5")
+
+    cdcl-node((0.0, -1.2), $bot$, "conf", fill: c-warn, stroke: t-bd + c-hot)
+
+    impl-edge("x1", "nx2", "x1-nx2")
+    impl-edge("nx2", "x3", "nx2-x3")
+    impl-edge("x3", "conf", "x3-conf")
+    impl-edge("nx4", "x5", "nx4-x5")
+    impl-edge("x5", "conf", "x5-conf")
+
+    draw.content(
+      "x1-nx2",
+      text(size: s-tiny, fill: c-muted)[$overline(x_1) or overline(x_2)$],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
+    draw.content("nx2-x3", text(size: s-tiny, fill: c-muted)[$x_2 or x_3$], fill: white, stroke: none, padding: 2pt)
+    draw.content("nx4-x5", text(size: s-tiny, fill: c-muted)[$x_4 or x_5$], fill: white, stroke: none, padding: 2pt)
+
+    // Разрез за первым UIP отделяет причину от следствия.
+    draw.line((-0.9, 0.7), (0.9, 0.7), name: "cut", stroke: t-bd + c-hot, dash: "dashed")
+    draw.content((0.95, 0.85), anchor: "west", text(size: s-tiny, fill: c-hot)[разрез 1-UIP])
+
+    draw.content((0, -1.9), text(size: s-cap, fill: c-ink)[выученный дизъюнкт: $x_1 or x_4$])
+  })
+}

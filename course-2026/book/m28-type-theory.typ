@@ -1,7 +1,7 @@
 // M27 --- Теория типов: от $lambda$-исчисления к соответствию Карри--Ховарда.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m27.typ": derivation-id, derivation-k
+#import "diagrams/m28.typ": derivation-id, derivation-k
 #import curryst: prooftree, rule
 
 = Теория типов <chap:typetheory>
@@ -767,7 +767,7 @@ $lambda$-куб Барендрегта показывает, как полимо
 
 == Упражнения
 
-#tasklist("m27")[
+#tasklist("m28")[
   _Простые типы и правила типизации._
   + Постройте дерево вывода типа для $lambda x : "Bool" . lambda y : "Nat" . y$ в $lambda ->$.
     Покажите каждый шаг и укажите применяемое правило.

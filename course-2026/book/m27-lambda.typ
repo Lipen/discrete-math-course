@@ -1,7 +1,7 @@
 // M26 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m26.typ": church-rosser-diamond, lambda-syntax-tree
+#import "diagrams/m27.typ": church-rosser-diamond, lambda-syntax-tree
 
 = Бестиповое $lambda$-исчисление <chap:lambda>
 
@@ -910,7 +910,7 @@ $2 "true"$ --- синтаксически корректный терм, хот�
 
 == Упражнения
 
-#tasklist("m26")[
+#tasklist("m27")[
   _Синтаксис, свободные и связанные переменные._
   + Найдите свободные переменные термов: $lambda x . x y, x (lambda x . x y), lambda a b . a b c, (lambda p . p q)(lambda q . q p)$.
 

@@ -2,7 +2,7 @@
 #import "common.typ": *
 #import "notation.typ": *
 #import cetz: canvas, draw
-#import "diagrams/m12.typ": code-lattice, hamming-groups, hamming-spheres, huffman-tree
+#import "diagrams/m13.typ": code-lattice, hamming-groups, hamming-spheres, huffman-tree
 
 = Коды и информация <chap:codes>
 
@@ -1234,7 +1234,7 @@ TCP строится поверх IP и восстанавливает надё�
 
 == Упражнения
 
-#tasklist("m12")[
+#tasklist("m13")[
   _Расстояние Хэмминга и кодовое расстояние._
   + Вычислите расстояние Хэмминга между парами строк: $1100101$ и $1010110$.
     Затем: $0001111$ и $1110000$.

@@ -1,7 +1,7 @@
 // M34 --- Нечёткие множества: градуальная принадлежность и размытая логика.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m34.typ": fuzzy-operations, membership-functions
+#import "diagrams/m35.typ": fuzzy-operations, membership-functions
 
 = Нечёткие множества <chap:fuzzy>
 
@@ -777,7 +777,7 @@ $alpha$-срезы и теорема декомпозиции связывают
 
 == Упражнения
 
-#tasklist("m34")[
+#tasklist("m35")[
   _Функция принадлежности и нечёткие числа._
   + Определите функцию принадлежности нечёткого множества "средний возраст" на универсуме $U = [0, 120]$ (возраст в годах).
     Пусть ядро --- интервал $[35, 50]$.

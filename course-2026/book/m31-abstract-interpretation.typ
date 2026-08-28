@@ -1,7 +1,7 @@
 // M30 --- Абстрактная интерпретация: автоматическое доказательство свойств программ.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m30.typ": sign-lattice, widening
+#import "diagrams/m31.typ": sign-lattice, widening
 
 = Абстрактная интерпретация <chap:abstract-interp>
 
@@ -750,7 +750,7 @@ Frama-C --- открытая платформа анализа кода на C, 
 
 == Упражнения
 
-#tasklist("m30")[
+#tasklist("m31")[
   _Абстракция и переносящие функции._
   + Что такое переносящая функция? Почему она должна быть корректной?
 

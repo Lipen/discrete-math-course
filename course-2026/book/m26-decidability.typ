@@ -1,7 +1,7 @@
 // M25 --- Разрешимость и неразрешимость: пределы вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m25.typ": reduction-halt-empty
+#import "diagrams/m26.typ": reduction-halt-empty
 
 = Разрешимость и неразрешимость <chap:decidability>
 
@@ -822,7 +822,7 @@ Coverity и Infer находят реальные баги, не гаранти�
 
 == Упражнения
 
-#tasklist("m25")[
+#tasklist("m26")[
   _Разрешимость и проблема остановки._
   + Объясните различие между распознаваемостью и разрешимостью.
     Приведите пример языка, который распознаваем, но не разрешим.

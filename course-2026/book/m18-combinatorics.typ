@@ -1,7 +1,7 @@
 // M17 --- Комбинаторика: искусство подсчёта без перечисления.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m17.typ": burnside-necklaces, ramsey-k6, combinatorial-numbers, decision-tree, pascal-triangle, venn-inclusion-exclusion
+#import "diagrams/m18.typ": burnside-necklaces, ramsey-k6, combinatorial-numbers, decision-tree, pascal-triangle, venn-inclusion-exclusion
 
 = Комбинаторика <chap:combinatorics>
 
@@ -1766,7 +1766,7 @@ XOR мы впервые встретили в булевой алгебре (г�
 А дискретная вероятность (глава @chap:probability) применит формулы этой главы к случайным исходам.
 == Упражнения
 
-#tasklist("m17")[
+#tasklist("m18")[
   _Правила подсчёта._
   + Покажите, что в любой компании из шести человек найдутся либо трое попарно знакомых, либо трое попарно незнакомых.
     Почему пяти человек для этого утверждения недостаточно?

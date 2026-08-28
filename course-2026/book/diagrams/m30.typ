@@ -4,84 +4,132 @@
 
 #import cetz: canvas, draw
 
-// ── Решётка знаков ──
-#let sign-lattice = canvas({
-  let snode(pos, label) = {
+// ── Классы сложности ──
+// Вложенные эллипсы: больший класс содержит меньший; P лежит в NP ∩ coNP.
+#let complexity-classes = {
+  let ellipse(pos, rx, ry, fill, name) = {
+    let (x, y) = pos
     draw.circle(
-      pos,
-      radius: 0.42,
-      fill: c-fl,
+      (x, y),
+      radius: (rx, ry),
+      name: name,
+      fill: fill,
       stroke: t-bd + c-bd,
     )
-    draw.content(pos, text(size: s-node, fill: c-ink, weight: "bold")[#label])
   }
-  let e(from, to) = draw.line(from, to, stroke: (paint: c-edge, thickness: t-ed))
+  let lb(pos, body) = {
+    draw.content(pos, text(size: s-node, fill: c-ink)[#body])
+  }
 
-  let p-top = (0, 2.4)
-  let p-neg = (-1.7, 0)
-  let p-zero = (0, 0)
-  let p-pos = (1.7, 0)
-  let p-bot = (0, -2.4)
+  canvas({
+    ellipse((0, 0), 3.0, 1.9, c-fl, "exp")
+    ellipse((0, 0), 2.2, 1.35, c-fl, "pspace")
+    ellipse((-0.4, 0), 1.05, 0.72, c-conn, "np")
+    ellipse((0.4, 0), 1.05, 0.72, c-conn, "conp")
+    ellipse((0, 0), 0.55, 0.34, c-atom, "p")
 
-  e(p-top, p-neg)
-  e(p-top, p-zero)
-  e(p-top, p-pos)
-  e(p-neg, p-bot)
-  e(p-zero, p-bot)
-  e(p-pos, p-bot)
+    lb((2.35, 0.75), [EXP])
+    lb((1.7, -0.6), [PSPACE])
+    lb((-1.2, 0), [NP])
+    lb((1.2, 0), [coNP])
+    lb((0, 0), [P])
 
-  snode(p-top, $top$)
-  snode(p-neg, $minus$)
-  snode(p-zero, $0$)
-  snode(p-pos, $plus$)
-  snode(p-bot, $bot$)
-})
-
-// ── Widening для интервалов ──
-#let widening = canvas({
-  draw.line(
-    (-0.6, -0.6),
-    (11.6, -0.6),
-    stroke: (paint: c-edge, thickness: t-hr),
-  )
-  draw.content((0, -1.5), anchor: "center", fill: white, stroke: none, padding: 2pt)[
-    #text(size: s-cap, fill: c-muted)[$0$]
-  ]
-  draw.content((12, -1.5), anchor: "center")[
-    #text(size: s-cap, fill: c-muted)[значение]
-  ]
-
-  for k in range(4) {
-    if k == 0 {
-      draw.circle((0, 0), radius: 0.06, fill: c-edge, stroke: none)
-    } else {
-      draw.line((0, k), (k, k), stroke: (paint: c-edge, thickness: t-ed))
-    }
+    // Открытый вопрос: равно ли NP coNP.
     draw.content(
-      (-0.4, k),
-      anchor: "east",
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )[#text(size: s-cap, fill: c-muted)[$[0, #k]$]]
+      (0.85, 1.0),
+      text(size: s-cap, fill: c-muted)[$?$],
+    )
+
+    // Теорема об иерархии: P строго внутри EXP.
+    draw.content(
+      (0, 2.35),
+      text(size: s-cap, fill: c-muted)[$P != "EXP"$ (теорема об иерархии)],
+    )
+  })
+}
+
+// ── NP-дерево сведения ──
+// Набор известных полиномиальных сведений; стрелка = ≤_p.
+#let np-reduction-tree = {
+  let box-h = 0.6
+
+  let rbox(name, x, y, body, fill, width: 2.4) = {
+    draw.rect(
+      (x - width / 2, y - box-h / 2),
+      (x + width / 2, y + box-h / 2),
+      name: name,
+      fill: fill,
+      stroke: t-bd + c-bd,
+      radius: 3pt,
+    )
+    draw.content((x, y), text(size: s-node, fill: c-ink)[#body])
+  }
+  let red(from, to) = {
+    draw.line(
+      from,
+      to,
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
   }
 
-  draw.content((3.6, 3), anchor: "west", fill: white, stroke: none, padding: 2pt)[
-    #text(size: s-cap, fill: c-muted)[$dots$]
-  ]
+  canvas({
+    rbox("sat", 0, 0, [SAT], c-conn)
+    rbox("3sat", -1.3, -1.8, [3-SAT], c-fl)
+    rbox("vc", 1.7, -1.8, [Vertex Cover], c-fl, width: 3.3)
+    rbox("subset", -2.9, -3.6, [Subset Sum], c-fl)
+    rbox("clique", 0.2, -3.6, [Clique], c-fl)
+    rbox("ham", 3.3, -3.6, [Ham. Cycle], c-fl, width: 2.6)
 
-  draw.line((0, 5), (11.2, 5), stroke: (paint: c-hot, thickness: t-hi))
-  draw.content((11.5, 5), anchor: "west", fill: white, stroke: none, padding: 2pt)[
-    #text(size: s-node, fill: c-hot)[$[0, +oo]$]
-  ]
+    red("sat.south", "3sat.north")
+    red("3sat.south", "subset.north")
+    red("vc.south", "clique.north")
+    red("vc.south", "ham.north")
 
-  draw.line(
-    (2.9, 3.2),
-    (1.3, 4.55),
-    stroke: (paint: c-hot, thickness: t-hi),
-    marker: (end: "arrow", fill: c-hot),
-  )
-  draw.content((2.6, 4.1), anchor: "west", fill: white, stroke: none, padding: 2pt)[
-    #text(size: s-node, fill: c-hot)[$nabla$]
-  ]
-})
+    draw.content(
+      (0, -4.7),
+      text(size: s-cap, fill: c-muted)[
+        Каждая стрелка: $<=_p$ (полиномиальное сведение)
+      ],
+    )
+  })
+}
+
+// ── Венн для ZPP ──
+// BPP ⊇ RP и coRP; ZPP = RP ∩ coRP; P внутри ZPP.
+#let zpp-venn = {
+  let ellipse(pos, rx, ry, fill, name) = {
+    let (x, y) = pos
+    draw.circle(
+      (x, y),
+      radius: (rx, ry),
+      name: name,
+      fill: fill,
+      stroke: t-bd + c-bd,
+    )
+  }
+  let lb(pos, body, size: s-node, fill: c-ink) = {
+    draw.content(pos, text(size: size, fill: fill)[#body])
+  }
+
+  canvas({
+    ellipse((0, 0), 2.6, 1.7, c-fl, "bpp")
+    ellipse((0.7, 0.1), 1.4, 1.0, c-conn, "corp")
+    ellipse((-0.7, 0.1), 1.4, 1.0, c-atom, "rp")
+    ellipse((0, 0.1), 0.62, 0.5, c-atom, "zpp")
+    ellipse((0, 0.1), 0.22, 0.16, white, "p")
+
+    lb((2.25, 0.7), [BPP])
+    lb((-1.75, 0.1), [RP])
+    lb((1.75, 0.1), [coRP])
+    lb((0, -0.29), [ZPP])
+    lb((0, 0.1), [P])
+
+    lb(
+      (0, -2.1),
+      [$P subset.eq "ZPP" = "RP" inter "coRP" subset.eq "BPP"$],
+      size: s-cap,
+      fill: c-muted,
+    )
+  })
+}

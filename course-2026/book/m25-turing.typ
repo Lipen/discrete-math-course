@@ -1,7 +1,7 @@
 // M24 --- Машины Тьюринга: универсальная модель вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m24.typ": tm-computation, turing-machine
+#import "diagrams/m25.typ": tm-computation, turing-machine
 
 = Машины Тьюринга <chap:turing>
 
@@ -651,7 +651,7 @@
 
 == Упражнения
 
-#tasklist("m24")[
+#tasklist("m25")[
   _Определение МТ и конфигурации._
   + Запишите машину Тьюринга, принимающую язык ${0^n 1^n mid(|) n >= 0}$,
     в виде семёрки $(Q, Gamma, Sigma, delta, q_0, qAccept, qReject)$.

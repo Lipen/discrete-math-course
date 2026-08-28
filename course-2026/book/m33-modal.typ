@@ -1,7 +1,7 @@
 // M32 --- Модальная логика: модели Крипке, LTL/CTL, model checking.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m32.typ": kripke-traffic, modal-cube, mutex-states
+#import "diagrams/m33.typ": kripke-traffic, modal-cube, mutex-states
 
 = Модальная логика <chap:modal>
 
@@ -815,7 +815,7 @@ Model checking проверяет такие свойства автоматич
 В главе @chap:intuitionism мы сменим классическую семантику на конструктивную, где истина --- предъявленное доказательство.
 == Упражнения
 
-#tasklist("m32")[
+#tasklist("m33")[
   _Фреймы и системы аксиом._
   + Постройте фрейм из трёх миров, на котором $square p -> p$ (аксиома $T$) не валидна.
     Какое свойство отношения $R$ нарушено?

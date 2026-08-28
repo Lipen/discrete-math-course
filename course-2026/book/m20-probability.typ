@@ -1,7 +1,7 @@
 // M19 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m19.typ": bayes-net, markov-chain, probability-tree
+#import "diagrams/m20.typ": bayes-net, markov-chain, probability-tree
 
 = Дискретная вероятность <chap:probability>
 
@@ -1497,7 +1497,7 @@ $
 
 == Упражнения
 
-#tasklist("m19")[
+#tasklist("m20")[
   _Вероятностное пространство._
   + Бросаем два кубика.
     Какова вероятность, что сумма равна 8?

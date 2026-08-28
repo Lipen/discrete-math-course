@@ -1,8 +1,8 @@
 // M29 --- Сложность и NP-полнота: пределы эффективных вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m29.typ": complexity-classes, np-reduction-tree, zpp-venn
-#import "diagrams/m13.typ": cook-levin-table
+#import "diagrams/m30.typ": complexity-classes, np-reduction-tree, zpp-venn
+#import "diagrams/m14.typ": cook-levin-table
 
 = Сложность и NP-полнота <chap:complexity>
 
@@ -1110,7 +1110,7 @@ PH --- не просто ещё один класс.
 
 == Упражнения
 
-#tasklist("m29")[
+#tasklist("m30")[
   _Классы P и NP._
   + Объясните, почему $"P" subset.eq "NP" subset.eq "PSPACE"$.
     Какие включения являются строгими (доказано), а какие остаются открытыми проблемами?
