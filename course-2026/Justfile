@@ -11,6 +11,10 @@ lectures:
     just lectures/all
 
 
+# Build all course documents
+course:
+    just course/all
+
 # Build all homeworks
 homework:
     just homework/all
