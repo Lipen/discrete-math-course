@@ -39,20 +39,23 @@
   draw.content((-3.8, 1.4), anchor: "west", text(size: s-cap, fill: c-muted)[делители 12])
 })
 
+// Точка на круге радиуса r под углом a (градусы от положительной оси X).
+// Ось Y в диаграммах fletcher направлена вниз, поэтому Y берём с минусом.
+#let polar(r, a) = (calc.cos(a * calc.pi / 180) * r, -calc.sin(a * calc.pi / 180) * r)
+
 // ── Циклическая группа: образующий в ZZ_8 ──
 #let cyclic-generator = diagram(
   node-stroke: n-stroke,
   node-fill: c-fl,
   edge-stroke: e-stroke,
-  spacing: 1.8em,
-  node((0, -2.2), $0$, name: <b0>),
-  node((1.6, -1.6), $1$, name: <b1>),
-  node((2.2, 0), $2$, name: <b2>),
-  node((1.6, 1.6), $3$, name: <b3>),
-  node((0, 2.2), $4$, name: <b4>),
-  node((-1.6, 1.6), $5$, name: <b5>),
-  node((-2.2, 0), $6$, name: <b6>),
-  node((-1.6, -1.6), $7$, name: <b7>),
+  node(polar(2.2, 90), $0$, name: <b0>),
+  node(polar(2.2, 45), $1$, name: <b1>),
+  node(polar(2.2, 0), $2$, name: <b2>),
+  node(polar(2.2, -45), $3$, name: <b3>),
+  node(polar(2.2, -90), $4$, name: <b4>),
+  node(polar(2.2, -135), $5$, name: <b5>),
+  node(polar(2.2, 180), $6$, name: <b6>),
+  node(polar(2.2, 135), $7$, name: <b7>),
   node((0, 0), $ZZ_8$, fill: none, stroke: none, name: <center>),
   edge(<b0>, <b1>, "-}>", label: [$+1$]),
   edge(<b1>, <b2>, "-}>", label: [$+1$]),
