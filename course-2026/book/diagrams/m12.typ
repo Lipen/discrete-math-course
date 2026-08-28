@@ -46,8 +46,10 @@
     draw.content(name, text(size: s-node, fill: c-ink)[#body])
   }
 
-  let hf-edge(fr, to) = {
-    draw.line(fr, to, stroke: e-stroke)
+  let hf-edge(fr, to, name) = {
+    draw.line(fr, to, stroke: e-stroke, mark: (end: ">"), name: name)
+    draw.content(name, text(size: s-cap, fill: c-ink)[$+1$], fill: white,
+      stroke: none, padding: 1pt)
   }
 
   hf-node((0, 3.2), "b0", $0$)
@@ -59,16 +61,16 @@
   hf-node((-3.2, 0), "b6", $6$)
   hf-node((-2.3, 2.3), "b7", $7$)
 
-  hf-edge("b0", "b1")
-  hf-edge("b1", "b2")
-  hf-edge("b2", "b3")
-  hf-edge("b3", "b4")
-  hf-edge("b4", "b5")
-  hf-edge("b5", "b6")
-  hf-edge("b6", "b7")
-  hf-edge("b7", "b0")
+  hf-edge("b0", "b1", "e01")
+  hf-edge("b1", "b2", "e12")
+  hf-edge("b2", "b3", "e23")
+  hf-edge("b3", "b4", "e34")
+  hf-edge("b4", "b5", "e45")
+  hf-edge("b5", "b6", "e56")
+  hf-edge("b6", "b7", "e67")
+  hf-edge("b7", "b0", "e70")
 
-  draw.content((0, 0), text(size: s-cap, fill: c-ink)[$ZZ_8$])
+  draw.content((0, 0), text(size: s-node, fill: c-ink)[$ZZ_8$])
 })
 
 // ── Коммутативная диаграмма гомоморфизма ──
