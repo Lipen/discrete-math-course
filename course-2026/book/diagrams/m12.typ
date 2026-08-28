@@ -47,17 +47,18 @@
 #let cyclic-generator = {
   let radius = 1.6
   let nname(i) = label("n" + str(i))
-  let items = range(8).map(i => (
-    node(polar(radius, 90 - i * 45), $#i$, name: nname(i)),
-    edge(nname(i), nname(if i == 7 { 0 } else { i + 1 }), "-}>", label: [$+1$]),
-  )).flatten()
 
   diagram(
     node-stroke: n-stroke,
     node-fill: c-fl,
     edge-stroke: e-stroke,
-    ..items,
-    node((0, 0), $ZZ_8$, fill: none, stroke: none),
+    {
+      for i in range(8) {
+        node(polar(radius, 90 - i * 45), $#i$, name: nname(i))
+        edge(nname(i), nname(if i == 7 { 0 } else { i + 1 }), "-}>", label: [$+1$])
+      }
+      node((0, 0), $ZZ_8$, fill: none, stroke: none)
+    },
   )
 }
 
