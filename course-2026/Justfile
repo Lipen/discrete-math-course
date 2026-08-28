@@ -2,6 +2,9 @@
 default:
     @just --list
 
+# Build everything (book, lectures, course docs, homeworks)
+all: book lectures course homework
+
 # Build the book
 book:
     just book/build
@@ -9,7 +12,6 @@ book:
 # Build all lectures
 lectures:
     just lectures/all
-
 
 # Build all course documents
 course:
