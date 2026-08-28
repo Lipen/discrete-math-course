@@ -198,7 +198,7 @@
 Сравним цену защиты.
 
 #table(
-  columns: (1fr, 1.2fr, 1.2fr, 1.2fr),
+  columns: 4,
   align: (left, center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Код], [$n$], [Полезных бит на слово], [Исправляет]),
@@ -331,7 +331,7 @@ $
 Все семь ненулевых синдромов соответствуют семи позициям кодового слова.
 
 #table(
-  columns: (1fr, 1fr, 1fr, 1.4fr, 1fr),
+  columns: 5,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([$s_1$], [$s_2$], [$s_4$], [Синдром $(s_4 s_2 s_1)_2$], [Позиция]),
@@ -423,7 +423,7 @@ $
 Код по-прежнему исправляет одну ошибку, но теперь отличает двойную от одиночной.
 
 #table(
-  columns: (1fr, 1fr, 1.8fr),
+  columns: (auto, auto, 1fr),
   align: (left, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([Синдром], [Чётность], [Что это и что делать]),
@@ -563,7 +563,7 @@ $
   Таблица сложения (XOR коэффициентов):
   #figure(
     table(
-      columns: (auto, auto, auto, auto, auto),
+      columns: 5,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([$+$], [$0$], [$1$], [$alpha$], [$alpha + 1$]),
       [$0$], [$0$], [$1$], [$alpha$], [$alpha + 1$],
@@ -577,7 +577,7 @@ $
   Таблица умножения ($alpha^2 = alpha + 1$):
   #figure(
     table(
-      columns: (auto, auto, auto, auto, auto),
+      columns: 5,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([$times$], [$0$], [$1$], [$alpha$], [$alpha + 1$]),
       [$0$], [$0$], [$0$], [$0$], [$0$],
@@ -695,7 +695,7 @@ $
 
   Пропускная способность симметрична относительно $p$ и $1 - p$ и убывает к нулю при приближении к $p = 0.5$:
   #table(
-    columns: (1fr, 1fr, 1.4fr),
+    columns: (auto, auto, 1fr),
     align: center,
     table.header([$p$], [$C = 1 - H(p)$], [Что это значит]),
     [$0$], [$1$], [канал без ошибок],
@@ -1121,7 +1121,7 @@ QR-код использует RS над $"GF"(256)$: даже если трет
 
   Закодируем входной поток $u = 1, 0, 1, 1$, начиная с нулевого состояния:
   #table(
-    columns: (1fr, 1fr, 1fr, 1fr),
+    columns: 4,
     align: center,
     table.header([$u$], [Состояние $(s_1, s_0)$], [$c_1 c_2$], [Состояние после]),
     [$1$], [$(0, 0)$], [$1, 1$], [$(1, 0)$],
