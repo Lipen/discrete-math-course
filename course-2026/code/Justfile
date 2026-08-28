@@ -1,0 +1,7 @@
+[private]
+default:
+    @just --list
+
+# Run all workspace crate tests
+test:
+    cargo test --workspace

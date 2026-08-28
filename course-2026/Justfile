@@ -17,4 +17,4 @@ homework:
 
 # Run all Rust crate tests
 test:
-    cd code && cargo test --workspace
+    just code/test
