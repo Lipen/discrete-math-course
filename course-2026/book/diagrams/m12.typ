@@ -44,28 +44,22 @@
 #let polar(r, a) = (calc.cos(a * calc.pi / 180) * r, -calc.sin(a * calc.pi / 180) * r)
 
 // ── Циклическая группа: образующий в ZZ_8 ──
-#let cyclic-generator = diagram(
-  node-stroke: n-stroke,
-  node-fill: c-fl,
-  edge-stroke: e-stroke,
-  node(polar(1.6, 90), $0$, name: <b0>),
-  node(polar(1.6, 45), $1$, name: <b1>),
-  node(polar(1.6, 0), $2$, name: <b2>),
-  node(polar(1.6, -45), $3$, name: <b3>),
-  node(polar(1.6, -90), $4$, name: <b4>),
-  node(polar(1.6, -135), $5$, name: <b5>),
-  node(polar(1.6, 180), $6$, name: <b6>),
-  node(polar(1.6, 135), $7$, name: <b7>),
-  node((0, 0), $ZZ_8$, fill: none, stroke: none, name: <center>),
-  edge(<b0>, <b1>, "-}>", label: [$+1$]),
-  edge(<b1>, <b2>, "-}>", label: [$+1$]),
-  edge(<b2>, <b3>, "-}>", label: [$+1$]),
-  edge(<b3>, <b4>, "-}>", label: [$+1$]),
-  edge(<b4>, <b5>, "-}>", label: [$+1$]),
-  edge(<b5>, <b6>, "-}>", label: [$+1$]),
-  edge(<b6>, <b7>, "-}>", label: [$+1$]),
-  edge(<b7>, <b0>, "-}>", label: [$+1$]),
-)
+#let cyclic-generator = {
+  let radius = 1.6
+  let nname(i) = label("n" + str(i))
+  let items = range(8).map(i => (
+    node(polar(radius, 90 - i * 45), $#i$, name: nname(i)),
+    edge(nname(i), nname(if i == 7 { 0 } else { i + 1 }), "-}>", label: [$+1$]),
+  )).flatten()
+
+  diagram(
+    node-stroke: n-stroke,
+    node-fill: c-fl,
+    edge-stroke: e-stroke,
+    ..items,
+    node((0, 0), $ZZ_8$, fill: none, stroke: none),
+  )
+}
 
 // ── Коммутативная диаграмма гомоморфизма ──
 #let hom-square = canvas({
