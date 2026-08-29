@@ -54,6 +54,7 @@ produces modular inverses. The instances then use standard iterators.
 | `gcd`, `extended_gcd`, `mod_inverse` | Hand-rolled Euclidean algorithm |
 | `power`, `order`, `subgroup`, `is_abelian` | Generic helpers on groups |
 | `Type` | Types as data: the semiring of types with `cardinality` and `simplify` |
+| `Zero`, `One`, `Sum`, `Prod` | The type-level semiring: `0`, `1`, `+`, `*` with isomorphism proofs |
 | `BoolSet<T>` | The powerset as a boolean ring: symmetric difference and intersection |
 | `Category`, `Hask`, `compose`, `id` | The category of sets: functions as morphisms |
 | `curry`, `uncurry`, `constant`, `flip` | Exponentials and morphism combinators |

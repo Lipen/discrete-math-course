@@ -18,6 +18,7 @@ pub mod perm;
 pub mod powerset;
 pub mod table_group;
 pub mod traits;
+pub mod type_algebra;
 pub mod types;
 pub mod zn;
 
@@ -31,6 +32,7 @@ pub use perm::Perm;
 pub use powerset::BoolSet;
 pub use table_group::TableGroup;
 pub use traits::{Field, Group, Monoid, Ring, Semigroup};
+pub use type_algebra::{One, Prod, Sum, Zero};
 pub use types::Type;
 pub use zn::{Unit, Zn};
 
