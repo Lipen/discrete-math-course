@@ -6,18 +6,20 @@ use algebra::Zn;
 fn main() {
     let elems: Vec<Zn<4>> = (0..4).map(Zn::new).collect();
 
-    // Header row.
-    print!("    ");
-    for b in &elems {
-        print!("{:4}", b.0);
-    }
+    println!("The additive group Z_4 has four elements, and its whole");
+    println!("operation is one 4×4 table; row a and column b meet at a + b:");
     println!();
 
-    // One row per element: the entry is a op b = (a + b) mod 4.
+    print!("{:>4}", "+");
+    for b in &elems {
+        print!("{:>4}", b.0);
+    }
+    println!();
+    println!("{}", "-".repeat(4 * (elems.len() + 1)));
     for a in &elems {
-        print!("{:4}", a.0);
+        print!("{:>4}", a.0);
         for b in &elems {
-            print!("{:4}", a.op(b).0);
+            print!("{:>4}", a.op(b).0);
         }
         println!();
     }
@@ -28,5 +30,9 @@ fn main() {
         row.sort_unstable();
         assert_eq!(row, vec![0, 1, 2, 3]);
     }
-    println!("every row is a permutation of 0..3: a Latin square");
+
+    println!();
+    println!("Each row is 0, 1, 2, 3 in some order -- a Latin square. That is");
+    println!("the table's way of saying every element has an inverse: the");
+    println!("equation a + x = b has a unique solution x for every a and b.");
 }
