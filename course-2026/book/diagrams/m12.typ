@@ -122,3 +122,39 @@
   hf-step("b3", "b4", "s34", [вторая операция])
   hf-step("b4", "b5", "s45", [деление])
 })
+
+// ── Обмен ключами Диффи--Хеллмана ──
+#let dh-exchange = canvas({
+  let box(c, name, body, fill: c-fl) = {
+    draw.rect(
+      (c.at(0) - 1.55, c.at(1) - 0.55),
+      (c.at(0) + 1.55, c.at(1) + 0.55),
+      radius: 6pt,
+      stroke: n-stroke,
+      fill: fill,
+      name: name,
+    )
+    draw.content(name, text(size: s-node, fill: c-ink)[#body])
+  }
+
+  let msg-arrow(fr, to, dy, label, above) = {
+    let a = (fr.at(0), fr.at(1) + dy)
+    let b = (to.at(0), to.at(1) + dy)
+    draw.line(a, b, stroke: e-stroke, mark: (end: ">"))
+    draw.content(
+      ((a.at(0) + b.at(0)) / 2, a.at(1) + (if above { 0.36 } else { -0.36 })),
+      anchor: if above { "south" } else { "north" },
+      text(size: s-cap, fill: c-ink)[#label],
+    )
+  }
+
+  box((-3.7, 2.0), "alice", [Алиса, знает $a$], fill: c-fl)
+  box((3.7, 2.0), "bob", [Боб, знает $b$], fill: c-fl)
+  box((0, -2.3), "eve", [Ева], fill: c-warn)
+
+  msg-arrow((-2.15, 2.0), (2.15, 2.0), 0.15, [$g^a mod p$], true)
+  msg-arrow((2.15, 2.0), (-2.15, 2.0), -0.15, [$g^b mod p$], false)
+
+  draw.line((0, -1.75), (0, 1.7), stroke: (paint: c-edge, thickness: t-ed, dash: "dashed"), mark: none)
+  draw.content((0.5, -0.2), anchor: "west", text(size: s-cap, fill: c-muted)[подслушивает канал])
+})
