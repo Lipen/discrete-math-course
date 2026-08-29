@@ -38,3 +38,23 @@ impl<const N: usize> Group for Perm<N> {
         Perm(arr)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Perm;
+    use crate::traits::{Group, Monoid, Semigroup};
+
+    #[test]
+    fn three_cycle_has_order_three() {
+        let c = Perm([1, 2, 0]);
+        let c3 = c.op(&c).op(&c);
+        assert_eq!(c3, Perm::<3>::identity());
+        assert_ne!(c.op(&c), Perm::<3>::identity());
+    }
+
+    #[test]
+    fn inverse_undoes_composition() {
+        let p = Perm([2, 0, 1]);
+        assert_eq!(p.op(&p.inverse()), Perm::<3>::identity());
+    }
+}

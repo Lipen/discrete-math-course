@@ -55,3 +55,28 @@ impl Field for Bool {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Bool;
+    use crate::traits::{Field, Group, Ring, Semigroup};
+
+    #[test]
+    fn xor_is_add_and_self_inverse() {
+        let t = Bool(true);
+        assert_eq!(t.op(&t), Bool(false));
+        assert_eq!(t.inverse(), Bool(true));
+    }
+
+    #[test]
+    fn true_is_invertible_false_is_not() {
+        assert_eq!(Bool(true).inv(), Some(Bool(true)));
+        assert_eq!(Bool(false).inv(), None);
+    }
+
+    #[test]
+    fn distributivity_holds() {
+        let (a, b, c) = (Bool(true), Bool(false), Bool(true));
+        assert_eq!(a.mul(&b.add(&c)), a.mul(&b).add(&a.mul(&c)));
+    }
+}

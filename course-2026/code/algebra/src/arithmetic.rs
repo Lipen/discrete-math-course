@@ -44,3 +44,31 @@ pub fn mod_inverse(a: i64, m: i64) -> Option<i64> {
     }
     Some(x.rem_euclid(m))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn gcd_is_correct() {
+        assert_eq!(gcd(12, 8), 4);
+        assert_eq!(gcd(17, 5), 1);
+        assert_eq!(gcd(0, 7), 7);
+    }
+
+    #[test]
+    fn bezout_identity_holds() {
+        for (a, b) in [(12, 8), (17, 5), (100, 45), (7, 0)] {
+            let (g, x, y) = extended_gcd(a, b);
+            assert_eq!(a * x + b * y, g);
+            assert_eq!(g, gcd(a, b));
+        }
+    }
+
+    #[test]
+    fn inverses_exist_exactly_for_coprimes() {
+        assert_eq!(mod_inverse(3, 5), Some(2));
+        assert_eq!(mod_inverse(2, 6), None);
+        assert_eq!(mod_inverse(0, 5), None);
+    }
+}

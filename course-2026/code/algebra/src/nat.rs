@@ -64,3 +64,30 @@ impl Monoid for Nat {
         Nat::Zero
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::Nat;
+    use crate::traits::{Monoid, Semigroup};
+
+    #[test]
+    fn peano_adds_and_multiplies() {
+        let three = Nat::from_u32(3);
+        let four = Nat::from_u32(4);
+        assert_eq!(three.add(&four).to_u32(), 7);
+        assert_eq!(three.mul(&four).to_u32(), 12);
+    }
+
+    #[test]
+    fn zero_is_the_additive_identity() {
+        let five = Nat::from_u32(5);
+        assert_eq!(Nat::identity().op(&five).to_u32(), 5);
+    }
+
+    #[test]
+    fn roundtrips_through_u32() {
+        for n in 0..20 {
+            assert_eq!(Nat::from_u32(n).to_u32(), n);
+        }
+    }
+}

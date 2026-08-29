@@ -51,3 +51,8 @@ produces modular inverses. The instances then use standard iterators.
 | `Nat` | Peano naturals (from scratch) |
 | `gcd`, `extended_gcd`, `mod_inverse` | Hand-rolled Euclidean algorithm |
 | `power`, `order`, `subgroup`, `is_abelian` | Generic helpers on groups |
+| `Type` | Types as data: the semiring of types with `cardinality` and `simplify` |
+| `BoolSet<T>` | The powerset as a boolean ring: symmetric difference and intersection |
+| `Category`, `Hask`, `compose`, `id` | The category of sets: functions as morphisms |
+| `curry`, `uncurry`, `constant`, `flip` | Exponentials and morphism combinators |
+| `Functor`, `Fix`, `OptionF`, `cata` | Functors and fixed points: `Nat = Fix(Option)` |

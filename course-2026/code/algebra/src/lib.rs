@@ -2,25 +2,32 @@
 //!
 //! A code companion to the algebra chapter. The structures are modeled as
 //! Rust traits -- [`Semigroup`], [`Monoid`], [`Group`], [`Ring`], [`Field`] --
-//! plus a few concrete instances. The bottom layer is deliberately built
-//! from scratch: [`Nat`] is the Peano definition of the natural numbers, and
-//! [`arithmetic`] hand-rolls the Euclidean algorithm that later yields
-//! modular inverses. Above that layer the instances sit on the traits and
-//! use standard iterators freely, showing how simple pieces assemble into
-//! groups and rings.
+//! plus concrete instances and two meta-layers: [`types`] models the
+//! semiring of types as data, while [`category`] and [`functor`] model
+//! morphisms and fixed points. The bottom layer is built from scratch:
+//! [`Nat`] is the Peano naturals and [`arithmetic`] hand-rolls the Euclidean
+//! algorithm.
 
 pub mod arithmetic;
 pub mod boolean;
+pub mod category;
+pub mod functor;
 pub mod nat;
 pub mod perm;
+pub mod powerset;
 pub mod traits;
+pub mod types;
 pub mod zn;
 
 pub use arithmetic::{extended_gcd, gcd, mod_inverse};
 pub use boolean::Bool;
+pub use category::{compose, constant, curry, flip, id, uncurry, Category, Hask};
+pub use functor::{cata, Fix, Functor, OptionF};
 pub use nat::Nat;
 pub use perm::Perm;
+pub use powerset::BoolSet;
 pub use traits::{Field, Group, Monoid, Ring, Semigroup};
+pub use types::Type;
 pub use zn::{Unit, Zn};
 
 /// `g^k` by repeated squaring: `O(log k)` applications of the operation.
@@ -79,4 +86,26 @@ pub fn is_abelian<G: Group>(elements: &[G]) -> bool {
         }
     }
     true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn powers_and_orders() {
+        let two = Zn::<8>::new(2);
+        assert_eq!(power(&two, 3), Zn::new(6)); // 2 + 2 + 2 = 6
+        assert_eq!(order(&two, 64), Some(4));
+        assert_eq!(
+            subgroup(&two, 64),
+            vec![Zn::new(0), Zn::new(2), Zn::new(4), Zn::new(6)]
+        );
+    }
+
+    #[test]
+    fn z8_is_abelian() {
+        let elems: Vec<Zn<8>> = (0..8).map(Zn::new).collect();
+        assert!(is_abelian(&elems));
+    }
 }
