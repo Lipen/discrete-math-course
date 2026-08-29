@@ -7,8 +7,8 @@ fn main() {
     // Z_6 as a ring: 2 and 3 are zero divisors, so 2 has no inverse.
     let two: Zn<6> = Zn::new(2);
     let three: Zn<6> = Zn::new(3);
-    println!("2 * 3 = {:?} in Z_6: a zero divisor", two.mul(&three));
-    println!("inverse of 2 mod 6 = {:?} (none)", mod_inverse(2, 6));
+    println!("2 * 3 = {} in Z_6: a zero divisor", two.mul(&three).0);
+    println!("inverse of 2 mod 6 = none");
 
     // Z_5 is a field: every nonzero residue is a unit.
     println!("units of Z_5:");
@@ -27,10 +27,10 @@ fn main() {
     // GF(2): booleans with XOR and AND.
     let t = Bool(true);
     let f = Bool(false);
-    println!("true + true = {:?} (XOR, so 1 + 1 = 0)", t.add(&t));
-    println!("true * true = {:?} (AND)", t.mul(&t));
-    println!("inverse of true = {:?}", t.inv());
-    println!("inverse of false = {:?} (no division by zero)", f.inv());
+    println!("true + true = {} (XOR, so 1 + 1 = 0)", t.add(&t).0);
+    println!("true * true = {} (AND)", t.mul(&t).0);
+    println!("inverse of true = {}", t.inv().unwrap().0);
+    println!("inverse of false = none (no division by zero)");
 
     assert_eq!(two.mul(&three), Zn::new(0));
     assert_eq!(t.add(&t), Bool(false));

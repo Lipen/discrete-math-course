@@ -24,7 +24,7 @@ fn main() {
     println!("D_4 as a table (pure data):");
     println!("  closed      : {}", d4.is_closed());
     println!("  associative : {}", d4.is_associative());
-    println!("  identity    : {:?}", d4.identity());
+    println!("  identity    : {}", d4.identity().unwrap());
     println!("  inverses    : {}", d4.has_inverses());
     println!("  is a group  : {}", d4.is_group());
     println!("  abelian     : {}", d4.is_abelian());
@@ -37,7 +37,7 @@ fn main() {
     println!("\nconstant table on 2 elements (a·b = 0 always):");
     println!("  closed      : {}", constant.is_closed());
     println!("  associative : {}", constant.is_associative());
-    println!("  identity    : {:?} (none)", constant.identity());
+    println!("  identity    : none");
     println!("  is a group  : {}", constant.is_group());
 
     assert!(d4.is_group());

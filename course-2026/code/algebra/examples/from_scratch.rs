@@ -25,11 +25,8 @@ fn main() {
     println!("extended_gcd(12, 8) = ({g}, {x}, {y}); check 12*{x} + 8*{y} = {g}");
 
     // Modular inverse via Bezout: 3 * 2 = 6 = 1 mod 5, so 2 inverts 3 mod 5.
-    println!("inverse of 3 mod 5 = {:?}", mod_inverse(3, 5));
-    println!(
-        "inverse of 2 mod 6 = {:?} (2 and 6 are not coprime)",
-        mod_inverse(2, 6)
-    );
+    println!("inverse of 3 mod 5 = {}", mod_inverse(3, 5).unwrap());
+    println!("inverse of 2 mod 6 = none (2 and 6 are not coprime)");
 
     assert_eq!(three.op(&four).to_u32(), 7);
     assert_eq!(three.mul(&four).to_u32(), 12);
