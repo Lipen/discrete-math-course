@@ -17,4 +17,5 @@ members = [
     "matroids",
     "lattices",
     "fitch",
+    "algebra",
 ]
