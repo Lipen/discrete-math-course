@@ -37,6 +37,8 @@ produces modular inverses. The instances then use standard iterators.
 | `groups` | Residues mod 8, permutations, the unit group Z_8^*: orders, powers, subgroups |
 | `rings` | Zero divisors in Z_6, units of Z_5, the field GF(2) |
 | `cayley` | Cayley table of Z_4 and the Latin-square property |
+| `dihedral` | D_4: orders, the Cayley table, non-commutativity, the rotation subgroup |
+| `table_group` | A group as pure data: axiom checks and a non-group counterexample |
 
 ## API
 
@@ -56,3 +58,5 @@ produces modular inverses. The instances then use standard iterators.
 | `Category`, `Hask`, `compose`, `id` | The category of sets: functions as morphisms |
 | `curry`, `uncurry`, `constant`, `flip` | Exponentials and morphism combinators |
 | `Functor`, `Fix`, `OptionF`, `cata` | Functors and fixed points: `Nat = Fix(Option)` |
+| `D4` | The dihedral group of order 8: symmetries of the square |
+| `TableGroup` | A finite group given only by its Cayley table, with axiom checks |
