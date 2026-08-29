@@ -11,7 +11,7 @@
 // ── Решётка подгрупп ZZ_12 ──
 #let subgroup-lattice = canvas({
   let hf-node(pos, name, body, fill: c-fl) = {
-    draw.circle(pos, radius: 0.42, stroke: n-stroke, fill: fill, name: name)
+    draw.circle(pos, radius: 0.46, stroke: n-stroke, fill: fill, name: name)
     draw.content(name, text(size: s-node, fill: c-ink)[#body])
   }
 
@@ -19,24 +19,21 @@
     draw.line(fr, to, stroke: e-stroke)
   }
 
-  hf-node((0, 4.2), "n12", $12$)
-  hf-node((-2.0, 2.8), "n6", $6$)
-  hf-node((0.0, 2.8), "n4", $4$)
-  hf-node((2.0, 2.8), "n3", $3$)
-  hf-node((-1.0, 1.4), "n2", $2$)
-  hf-node((1.0, 1.4), "n1", $1$)
+  // Узел chevron.l g chevron.r --- подгруппа, порождённая элементом g.
+  hf-node((0, 4.2), "g1", $chevron.l 1 chevron.r$)
+  hf-node((-1.7, 2.8), "g2", $chevron.l 2 chevron.r$)
+  hf-node((1.7, 2.8), "g3", $chevron.l 3 chevron.r$)
+  hf-node((-2.5, 1.4), "g4", $chevron.l 4 chevron.r$)
+  hf-node((0.0, 1.4), "g6", $chevron.l 6 chevron.r$)
+  hf-node((-1.3, 0.0), "g0", $chevron.l 0 chevron.r$)
 
-  hf-edge("n12", "n6")
-  hf-edge("n12", "n4")
-  hf-edge("n12", "n3")
-  hf-edge("n6", "n2")
-  hf-edge("n4", "n2")
-  hf-edge("n3", "n1")
-  hf-edge("n2", "n1")
-
-  draw.content((-3.6, 4.2), anchor: "west", text(size: s-cap, fill: c-muted)[$ZZ_12$])
-  draw.content((-3.6, 2.8), anchor: "west", text(size: s-cap, fill: c-muted)[порядки])
-  draw.content((-3.8, 1.4), anchor: "west", text(size: s-cap, fill: c-muted)[делители 12])
+  hf-edge("g1", "g2")
+  hf-edge("g1", "g3")
+  hf-edge("g2", "g4")
+  hf-edge("g2", "g6")
+  hf-edge("g3", "g6")
+  hf-edge("g4", "g0")
+  hf-edge("g6", "g0")
 })
 
 // Точка на круге радиуса r под углом a (градусы от положительной оси X).
@@ -89,7 +86,7 @@
   hf-arrow("g", "h", "a-gh", [$phi$])
   hf-arrow("g", "gk", "a-gk", [$pi$])
   hf-arrow("gk", "im", "a-ki", [$tilde(phi)$])
-  hf-arrow("h", "im", "a-hi", [$"in"$])
+  hf-arrow("im", "h", "a-hi", [$iota$])
 })
 
 // ── Лестница структур ──
