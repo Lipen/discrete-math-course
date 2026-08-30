@@ -211,5 +211,5 @@
   draw.content((-0.5, 3.4), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$55$])
   draw.content((-0.5, 4.2), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$75$])
   draw.content((-0.5, 4.7), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$85$])
-  draw.content((-0.5, 5.4), anchor: "west", text(size: s-cap, fill: c-muted)[млн лет назад])
+  draw.content((-0.5, 5.4), anchor: "west", text(size: s-cap, fill: c-muted)[MYA])
 })
