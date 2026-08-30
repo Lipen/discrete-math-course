@@ -155,9 +155,9 @@
   draw.content((-0.35, 3), anchor: "east", text(size: s-node, fill: c-ink)[$3$])
 })
 
-// ── Филогенетическое дерево человекообразных обезьян ──
-#let primate-tree = canvas({
-  let sc = 0.4
+// ── Филогенетическое дерево млекопитающих ──
+#let mammal-tree = canvas({
+  let sc = 0.05
   let hline(a, b) = draw.line(a, b, stroke: e-stroke)
   let vline(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label) = {
@@ -166,26 +166,39 @@
 
   leaf(0, [🚶 человек])
   leaf(2, [🐒 шимпанзе])
-  leaf(4, [🦍 горилла])
-  leaf(6, [🦧 орангутан])
+  leaf(4, [🐕 собака])
+  leaf(6, [🐈 кошка])
+  leaf(8, [🐬 дельфин])
+  leaf(10, [🐄 корова])
 
   // Человек и шимпанзе расходятся около 6 млн лет назад.
   vline((0, 0), (0, 6 * sc))
   vline((2, 0), (2, 6 * sc))
   hline((0, 6 * sc), (2, 6 * sc))
 
-  // Горилла ответвляется около 8 млн лет назад.
-  vline((1, 6 * sc), (1, 8 * sc))
-  vline((4, 0), (4, 8 * sc))
-  hline((1, 8 * sc), (4, 8 * sc))
+  // Собака и кошка расходятся около 55 млн лет назад.
+  vline((4, 0), (4, 55 * sc))
+  vline((6, 0), (6, 55 * sc))
+  hline((4, 55 * sc), (6, 55 * sc))
 
-  // Орангутан ответвляется около 14 млн лет назад.
-  vline((2.5, 8 * sc), (2.5, 14 * sc))
-  vline((6, 0), (6, 14 * sc))
-  hline((2.5, 14 * sc), (6, 14 * sc))
+  // Дельфин и корова расходятся около 55 млн лет назад.
+  vline((8, 0), (8, 55 * sc))
+  vline((10, 0), (10, 55 * sc))
+  hline((8, 55 * sc), (10, 55 * sc))
+
+  // Хищные и китопарнокопытные расходятся около 75 млн лет назад.
+  vline((5, 55 * sc), (5, 75 * sc))
+  vline((9, 55 * sc), (9, 75 * sc))
+  hline((5, 75 * sc), (9, 75 * sc))
+
+  // Приматы и лавразиатерии расходятся около 85 млн лет назад.
+  vline((1, 6 * sc), (1, 85 * sc))
+  vline((7, 75 * sc), (7, 85 * sc))
+  hline((1, 85 * sc), (7, 85 * sc))
 
   draw.content((-0.4, 6 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$6$])
-  draw.content((-0.4, 8 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$8$])
-  draw.content((-0.4, 14 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$14$])
-  draw.content((-0.4, 15 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[млн лет назад])
+  draw.content((-0.4, 55 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$55$])
+  draw.content((-0.4, 75 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$75$])
+  draw.content((-0.4, 85 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$85$])
+  draw.content((-0.4, 95 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[млн лет назад])
 })
