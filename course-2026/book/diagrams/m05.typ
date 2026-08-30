@@ -162,13 +162,13 @@
   let vline(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label) = {
     draw.rect(
-      (x - 1.05, -0.35),
-      (x + 1.05, -1.25),
+      (x - 1.05, -0.32),
+      (x + 1.05, -0.92),
       fill: luma(235),
       stroke: luma(160) + 0.6pt,
       radius: 6pt,
     )
-    draw.content((x, -0.8), text(size: s-node, fill: c-ink)[#label])
+    draw.content((x, -0.62), text(size: s-node, fill: c-ink)[#label])
   }
 
   leaf(0, [🚶 человек])
