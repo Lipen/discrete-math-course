@@ -10,18 +10,16 @@ construction. Simulating a circuit is a single ordered pass; measuring it gives
 the two resources every engineer trades off -- **size** (gate count, the chip
 area) and **depth** (the longest input-to-output path, the signal delay).
 
-The running example is addition: a half adder, a full adder, and two ways to
-chain them into an `n`-bit adder. The ripple-carry chain is compact but slow
-(the carry travels through every bit, depth `O(n)`); the carry-lookahead adder
-precomputes generate/propagate signals and combines them in a tree, so the
-carry path is only `O(log n)` deep at the cost of extra gates.
+The running example is addition: a half adder, a full adder, and the
+ripple-carry chain that combines `n` of them into an `n`-bit adder. The carry
+travels through every bit, so size and depth both grow linearly with the
+width -- the compact, honest baseline.
 
 ## Quick start
 
 ```bash
 cargo run -p circuits --example half_adder
 cargo run -p circuits --example ripple_carry
-cargo run -p circuits --example carry_lookahead
 cargo run -p circuits --example fuzz
 cargo test -p circuits
 ```
@@ -50,10 +48,7 @@ assert!(c.eval(f, &[true, true, false]).unwrap());
 
 A full adder is five gates (two XOR, two AND, one OR) and computes
 `S = A XOR B XOR Cin`, `Cout = majority(A, B, Cin)`. Pairing `n` full adders
-gives a ripple-carry adder; precomputing generate `G_i = A_i AND B_i` and
-propagate `P_i = A_i XOR B_i` and combining them with the block rule
-`G = G_hi OR (P_hi AND G_lo)`, `P = P_hi AND P_lo` in a prefix tree gives a
-carry-lookahead adder.
+gives a ripple-carry adder.
 
 ## API
 
@@ -69,7 +64,6 @@ carry-lookahead adder.
 | `half_adder` | `S = A XOR B`, `C = A AND B` |
 | `full_adder` | `S = A XOR B XOR Cin`, `Cout` = majority |
 | `ripple_carry_adder(n)` | Chain of `n` full adders; size and depth `O(n)` |
-| `carry_lookahead_adder(n)` | Prefix-tree carries; depth `O(log n)` |
 | `Adder::add` / `add_exact` / `add_bits` | Evaluate an adder against integers or bit slices |
 | `bits_of` / `value_of` | Convert between integers and LSB-first bit slices |
 
@@ -79,7 +73,6 @@ carry-lookahead adder.
 | --- | --- |
 | `half_adder` | Truth tables of the half and full adder, with size and depth |
 | `ripple_carry` | Book trace `0111 + 0001 = 1000`, then a wider sum checked against arithmetic |
-| `carry_lookahead` | Ripple vs carry-lookahead size/depth across widths, plus a sum check |
 | `fuzz` | Random operands at many bit widths, compared with integer addition |
 
 ## Tests
@@ -90,6 +83,5 @@ cargo test -p circuits
 
 Unit tests cover the half/full adder truth tables, size and depth (including
 the rule that parallel branches count once), input and constant reuse,
-missing-input errors, the book's 4-bit ripple trace, a cross-check of
-carry-lookahead against ripple and integer arithmetic, and the bit
-conversions.
+missing-input errors, the book's 4-bit ripple trace, a cross-check of ripple
+against integer arithmetic, and the bit conversions.

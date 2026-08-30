@@ -56,7 +56,7 @@ Every crate builds, tests, and runs on its own; none imports another.
 
 | Crate | Topic | Highlights |
 | --- | --- | --- |
-| [`circuits`](circuits/README.md) | Combinational circuits | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry and carry-lookahead adders; demos: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`carry_lookahead`](circuits/examples/carry_lookahead.rs), [`fuzz`](circuits/examples/fuzz.rs) |
+| [`circuits`](circuits/README.md) | Combinational circuits | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry adder; demos: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`fuzz`](circuits/examples/fuzz.rs) |
 | [`bdd`](bdd/README.md) | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation |
 | [`model-checking`](model-checking/README.md) | CTL model checking | Kripke structures, state labeling, fixed-point semantics of EX/AX/EF/EG/EU; demos: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
 | [`analysis`](analysis/README.md) | Abstract interpretation | Sign, interval, and constant domains; transfer functions; widening |

@@ -57,7 +57,7 @@ Rust-компаньон курса дискретной математики: **
 
 | Крейт | Тема | Что внутри |
 | --- | --- | --- |
-| [`circuits`](circuits/README.ru.md) | Комбинационные схемы | Графы вентилей (DAG), топологическая симуляция, размер/глубина, полусумматор/полный сумматор, цепочка с последовательным переносом и с опережающим переносом; демо: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`carry_lookahead`](circuits/examples/carry_lookahead.rs), [`fuzz`](circuits/examples/fuzz.rs) |
+| [`circuits`](circuits/README.ru.md) | Комбинационные схемы | Графы вентилей (DAG), топологическая симуляция, размер/глубина, полусумматор/полный сумматор, сумматор с последовательным переносом; демо: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`fuzz`](circuits/examples/fuzz.rs) |
 | [`bdd`](bdd/README.ru.md) | Диаграммы решений | ROBDD с дополняющими рёбрами, операция `ite` |
 | [`model-checking`](model-checking/README.ru.md) | Проверка моделей (CTL) | Структуры Крипке, раскраска состояний, семантика неподвижных точек для EX/AX/EF/EG/EU; демо: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
 | [`analysis`](analysis/README.ru.md) | Абстрактная интерпретация | Домены знаков, интервалов и констант; переносящие функции; widening |

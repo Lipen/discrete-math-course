@@ -1,12 +1,8 @@
 //! Adders built from gates.
 //!
-//! A half adder is two gates; a full adder is five. Chains of full adders
-//! ripple the carry through every bit, so both size and depth grow linearly
-//! with the width. A carry-lookahead adder instead precomputes, for each bit,
-//! the **generate** `G_i = A_i AND B_i` and **propagate** `P_i = A_i XOR B_i`
-//! signals, then combines them in a balanced tree so all carries are ready in
-//! `O(log n)` levels. It trades area for speed -- the classic engineering
-//! bargain between size and depth.
+//! A half adder is two gates; a full adder is five. Chaining `n` full adders
+//! gives a ripple-carry adder: the carry travels through every bit, so size
+//! and depth both grow linearly with the width.
 
 use crate::circuit::{Circuit, CircuitError, NodeId};
 
@@ -125,81 +121,6 @@ pub fn ripple_carry_adder(n: usize) -> Adder {
     }
 }
 
-/// An `n`-bit carry-lookahead adder.
-///
-/// For each bit it precomputes generate `G_i = A_i AND B_i` and propagate
-/// `P_i = A_i XOR B_i`. The block combine rule
-///
-/// ```text
-/// G = G_hi OR (P_hi AND G_lo)      P = P_hi AND P_lo
-/// ```
-///
-/// is associative, so a parallel prefix tree computes `G_{0..=i}` for every
-/// `i` at once. With no incoming carry, the carry into bit `i` is exactly
-/// `G_{0..=i-1}`, and the final carry-out is `G_{0..=n-1}`. The carry path is
-/// `O(log n)` deep rather than `O(n)`.
-pub fn carry_lookahead_adder(n: usize) -> Adder {
-    let mut c = Circuit::new();
-    let mut a = Vec::with_capacity(n);
-    let mut b = Vec::with_capacity(n);
-    for i in 0..n {
-        a.push(c.input(i));
-        b.push(c.input(i + n));
-    }
-
-    let zero = c.zero();
-    let mut g = Vec::with_capacity(n);
-    let mut p = Vec::with_capacity(n);
-    for i in 0..n {
-        g.push(c.and(a[i], b[i])); // G_i
-        p.push(c.xor(a[i], b[i])); // P_i
-    }
-
-    // Parallel prefix over (G, P) blocks. After a round at distance `dist`,
-    // block `i` spans the contiguous range `[i - 2*dist + 1, i]`.
-    let mut g_block = g.clone();
-    let mut p_block = p.clone();
-    let mut dist = 1;
-    while dist < n {
-        let mut ng = Vec::with_capacity(n);
-        let mut np = Vec::with_capacity(n);
-        for i in 0..n {
-            if i >= dist {
-                // hi = block at i (more significant), lo = block at i - dist.
-                let hi_g = g_block[i];
-                let hi_p = p_block[i];
-                let lo_g = g_block[i - dist];
-                let lo_p = p_block[i - dist];
-                let and = c.and(hi_p, lo_g);
-                ng.push(c.or(hi_g, and));
-                np.push(c.and(hi_p, lo_p));
-            } else {
-                ng.push(g_block[i]);
-                np.push(p_block[i]);
-            }
-        }
-        g_block = ng;
-        p_block = np;
-        dist *= 2;
-    }
-
-    // C_0 = 0, so C_{i+1} = G_{0..=i} OR (P_{0..=i} AND 0) = G_{0..=i}.
-    let mut sum = Vec::with_capacity(n);
-    for i in 0..n {
-        let c_in = if i == 0 { zero } else { g_block[i - 1] };
-        sum.push(c.xor(p[i], c_in));
-    }
-    let carry_out = g_block[n - 1];
-
-    Adder {
-        circuit: c,
-        a,
-        b,
-        sum,
-        carry_out,
-    }
-}
-
 /// The low `n` bits of `x`, least significant bit first.
 pub fn bits_of(x: u64, n: usize) -> Vec<bool> {
     (0..n).map(|i| (x >> i) & 1 != 0).collect()
@@ -286,15 +207,10 @@ mod tests {
     }
 
     #[test]
-    fn cla_matches_ripple_and_integer_addition() {
+    fn ripple_matches_integer_addition() {
         for n in [1usize, 2, 3, 4, 8, 12, 20, 32, 40] {
             let ripple = ripple_carry_adder(n);
-            let cla = carry_lookahead_adder(n);
-            let mask = if n == 64 {
-                u64::MAX
-            } else {
-                (1u64 << n) - 1
-            };
+            let mask = (1u64 << n) - 1;
 
             // Exhaustive small widths, random samples for larger ones.
             let samples = if n <= 4 { 1 << n } else { 200 };
@@ -311,30 +227,18 @@ mod tests {
                 }
 
                 let r = ripple.add_exact(x, y).unwrap();
-                let c = cla.add_exact(x, y).unwrap();
-                assert_eq!(c, r, "CLA vs ripple at n={n}, x={x}, y={y}");
                 let expected = x as u128 + y as u128;
-                assert_eq!(c, expected, "n={n}, x={x}, y={y}");
+                assert_eq!(r, expected, "n={n}, x={x}, y={y}");
             }
         }
     }
 
     #[test]
-    fn cla_depth_is_logarithmic() {
+    fn ripple_size_and_depth_are_linear() {
         let n = 32;
         let ripple = ripple_carry_adder(n);
-        let cla = carry_lookahead_adder(n);
 
         assert_eq!(ripple.circuit.size(), 5 * n); // n full adders, 5 gates each
-        // The carry path is O(log n), not O(n).
-        assert!(
-            cla.circuit.depth() < ripple.circuit.depth() / 3,
-            "cla={}, ripple={}",
-            cla.circuit.depth(),
-            ripple.circuit.depth()
-        );
-        // Each stage adds 2 to the carry path (AND then OR), plus the two
-        // initial gates of the first full adder: C_out_i = 2*(i+1) + 1.
         assert_eq!(ripple.circuit.depth(), 2 * n + 1);
     }
 
