@@ -27,6 +27,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`heyting`](heyting/README.md) | Алгебры Гейтинга | Трёхэлементная алгебра {0, 1/2, 1}, относительное псевдодополнение, закон исключённого третьего не работает; демо: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fitch`](fitch/README.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 | [`algebra`](algebra/README.md) | Алгебраические структуры | Трейты полугруппы/моноида/группы/кольца/поля, гомоморфизмы и факторгруппы, конечные поля `GF(2^m)` |
+| [`context-free`](context-free/README.md) | Контекстно-свободные грамматики | Деревья разбора, приведение к НФХ, распознавание CYK, проверка однозначности; демо: [`dyck`](context-free/examples/dyck.rs), [`arithmetic`](context-free/examples/arithmetic.rs), [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
 
 
 ## Структура
@@ -87,6 +88,7 @@ README каждого крейта объясняет модуль и переч
 - [heyting/README.md](heyting/README.md)
 - [fitch/README.md](fitch/README.md)
 - [algebra/README.md](algebra/README.md)
+- [context-free/README.md](context-free/README.md)
 
 ## Английская версия
 

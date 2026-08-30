@@ -27,6 +27,7 @@ Crates build, test, and run on their own.
 | [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 | [`algebra`](algebra/README.md) | Algebraic structures | Semigroup/monoid/group/ring/field traits, homomorphisms and quotient groups, finite fields GF(2^m) |
+| [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition, ambiguity check; demos: [`dyck`](context-free/examples/dyck.rs), [`arithmetic`](context-free/examples/arithmetic.rs), [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
 
 ## Layout
 
@@ -86,6 +87,7 @@ Each crate README explains its module and lists every demo:
 - [heyting/README.md](heyting/README.md)
 - [fitch/README.md](fitch/README.md)
 - [algebra/README.md](algebra/README.md)
+- [context-free/README.md](context-free/README.md)
 
 ## Russian version
 

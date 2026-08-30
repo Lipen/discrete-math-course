@@ -18,4 +18,5 @@ members = [
     "lattices",
     "fitch",
     "algebra",
+    "context-free",
 ]
