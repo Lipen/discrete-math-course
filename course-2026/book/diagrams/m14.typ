@@ -29,8 +29,8 @@
     impl-edge("notx", "y", "e-lower")
     impl-edge("x", "y", "e-upper")
 
-    draw.content("e-upper", text(size: s-cap, fill: c-muted)[$x or y$], fill: white, stroke: none, padding: 2pt)
-    draw.content("e-lower", text(size: s-cap, fill: c-muted)[$not x or y$], fill: white, stroke: none, padding: 2pt)
+    draw.content("e-upper", text(size: s-cap, fill: c-muted)[$not x or y$], fill: white, stroke: none, padding: 2pt)
+    draw.content("e-lower", text(size: s-cap, fill: c-muted)[$x or y$], fill: white, stroke: none, padding: 2pt)
   })
 }
 
@@ -171,7 +171,7 @@
     let x0 = (2 - (cols - 1) / 2) * cell - cell / 2
     let x1 = (4 - (cols - 1) / 2) * cell + cell / 2
     let y0 = (rows / 2 - 0.5 - 1) * cell + cell / 2
-    let y1 = (rows / 2 - 0.5 - 0) * cell - cell / 2
+    let y1 = (rows / 2 - 0.5 - 2) * cell - cell / 2
     draw.rect((x0, y0), (x1, y1), stroke: t-bd + c-hot, fill: none, name: "window")
 
     draw.content(
@@ -213,37 +213,34 @@
   )
 
   canvas({
-    cdcl-node((-2.6, 1.6), $x_1$, "x1", fill: c-atom, stroke: t-hi + c-bd)
-    draw.content((-3.3, 1.9), text(size: s-tiny, fill: c-muted)[ур. 1])
-    cdcl-node((-1.5, 0.6), $overline(x_2)$, "nx2")
-    cdcl-node((-0.4, 0.0), $x_3$, "x3")
+    // Решения: x₁ = 1 (уровень 1), x₂ = 0, то есть ¬x₂ (уровень 2).
+    cdcl-node((-3.0, 2.2), $x_1$, "x1", fill: c-atom, stroke: t-hi + c-bd)
+    draw.content((-3.7, 2.45), text(size: s-tiny, fill: c-muted)[ур. 1])
+    cdcl-node((3.0, 2.2), $overline(x_2)$, "nx2", fill: c-atom, stroke: t-hi + c-bd)
+    draw.content((3.7, 2.45), text(size: s-tiny, fill: c-muted)[ур. 2])
 
-    cdcl-node((2.6, 1.6), $overline(x_4)$, "nx4", fill: c-atom, stroke: t-hi + c-bd)
-    draw.content((3.3, 1.9), text(size: s-tiny, fill: c-muted)[ур. 2])
-    cdcl-node((1.5, 0.6), $x_5$, "x5")
+    cdcl-node((-2.2, 1.2), $x_3$, "x3")
+    cdcl-node((-1.2, 0.6), $x_4$, "x4")
+    cdcl-node((2.2, 1.2), $x_5$, "x5")
+    cdcl-node((0.5, -0.1), $x_6$, "x6")
+    cdcl-node((0, -0.9), $bot$, "conf", fill: c-warn, stroke: t-bd + c-hot)
 
-    cdcl-node((0.0, -1.2), $bot$, "conf", fill: c-warn, stroke: t-bd + c-hot)
-
-    impl-edge("x1", "nx2", "x1-nx2")
-    impl-edge("nx2", "x3", "nx2-x3")
-    impl-edge("x3", "conf", "x3-conf")
-    impl-edge("nx4", "x5", "nx4-x5")
+    impl-edge("x1", "x3", "x1-x3")
+    impl-edge("x3", "x4", "x3-x4")
+    impl-edge("x4", "x6", "x4-x6")
+    impl-edge("nx2", "x5", "nx2-x5")
+    impl-edge("x5", "x6", "x5-x6")
+    impl-edge("x6", "conf", "x6-conf")
     impl-edge("x5", "conf", "x5-conf")
 
-    draw.content(
-      "x1-nx2",
-      text(size: s-tiny, fill: c-muted)[$overline(x_1) or overline(x_2)$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-    draw.content("nx2-x3", text(size: s-tiny, fill: c-muted)[$x_2 or x_3$], fill: white, stroke: none, padding: 2pt)
-    draw.content("nx4-x5", text(size: s-tiny, fill: c-muted)[$x_4 or x_5$], fill: white, stroke: none, padding: 2pt)
+    draw.content("x1-x3", text(size: s-tiny, fill: c-muted)[$overline(x_1) or x_3$], fill: white, stroke: none, padding: 2pt)
+    draw.content("x3-x4", text(size: s-tiny, fill: c-muted)[$overline(x_3) or x_4$], fill: white, stroke: none, padding: 2pt)
+    draw.content("nx2-x5", text(size: s-tiny, fill: c-muted)[$x_2 or x_5$], fill: white, stroke: none, padding: 2pt)
 
-    // Разрез за первым UIP отделяет причину от следствия.
-    draw.line((-0.9, 0.7), (0.9, 0.7), name: "cut", stroke: t-bd + c-hot, dash: "dashed")
-    draw.content((0.95, 0.85), anchor: "west", text(size: s-tiny, fill: c-hot)[разрез 1-UIP])
+    // Разрез сразу за первым UIP (x₅) отделяет причину от следствия.
+    draw.line((-2.8, 0.25), (3.2, 0.25), name: "cut", stroke: t-bd + c-hot, dash: "dashed")
+    draw.content((3.4, 0.25), anchor: "west", text(size: s-tiny, fill: c-hot)[разрез 1-UIP])
 
-    draw.content((0, -1.9), text(size: s-cap, fill: c-ink)[выученный дизъюнкт: $x_1 or x_4$])
+    draw.content((0, -1.55), text(size: s-cap, fill: c-ink)[выученный дизъюнкт: $overline(x_4) or overline(x_5)$])
   })
 }

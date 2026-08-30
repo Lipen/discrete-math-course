@@ -83,6 +83,7 @@
 
     red("sat.south", "3sat.north")
     red("3sat.south", "subset.north")
+    red("3sat.east", "vc.west")
     red("vc.south", "clique.north")
     red("vc.south", "ham.north")
 

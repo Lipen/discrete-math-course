@@ -42,9 +42,9 @@
   rule(
     name: rname[контракция],
     rule(
-      name: rname[$or R_1$],
+      name: rname[$or R_2$],
       rule(
-        name: rname[$or R_2$],
+        name: rname[$or R_1$],
         rule(
           name: rname[$not$R],
           $A proves A$,

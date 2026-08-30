@@ -40,7 +40,7 @@
     stroke: e-stroke,
     mark: (end: ">", fill: c-edge),
   )
-  elabel("s-r", [$0.2$])
+  elabel("s-r", [$0.1$])
 
   draw.line(
     "R.south-west",
@@ -49,7 +49,7 @@
     stroke: e-stroke,
     mark: (end: ">", fill: c-edge),
   )
-  elabel("r-s", [$0.4$])
+  elabel("r-s", [$0.5$])
 
   draw.bezier(
     "S.north-west",
@@ -60,7 +60,7 @@
     stroke: e-stroke,
     mark: (end: ">", fill: c-edge),
   )
-  elabel("s-s", [$0.8$])
+  elabel("s-s", [$0.9$])
 
   draw.bezier(
     "R.north-west",
@@ -71,7 +71,7 @@
     stroke: e-stroke,
     mark: (end: ">", fill: c-edge),
   )
-  elabel("r-r", [$0.6$])
+  elabel("r-r", [$0.5$])
 })
 
 // ── Дерево вероятностей ──

@@ -78,7 +78,7 @@
   w-node(pk, $K$, "k")
   w-node(pt, $T$, "t")
   w-node(pkb, $K B$, "kb", dim: true)
-  w-node(pb, $B$, "b", dim: true)
+  w-node(pb, $B$, "b")
 
   w-node(pk4, $K_4$, "k4", dim: true)
   w-node(ps4, $S_4$, "s4")
