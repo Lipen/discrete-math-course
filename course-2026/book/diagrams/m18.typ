@@ -272,25 +272,30 @@
   draw.line((1.1, ly), (1.7, ly - 0.2), stroke: c-venn-b + t-bd)
   draw.line((1.1, ly), (1.7, ly + 0.2), stroke: c-venn-c + t-bd)
   draw.content((2.4, ly), text(size: s-cap, fill: c-muted)[$-|A inter B|-|A inter C|-|B inter C|$])
+  draw.circle((-2.93, ly - 0.75), radius: 0.12, fill: c-venn-a.transparentize(40%), stroke: c-venn-a + t-bd)
+  draw.circle((-2.8, ly - 0.75), radius: 0.12, fill: c-venn-b.transparentize(40%), stroke: c-venn-b + t-bd)
+  draw.circle((-2.67, ly - 0.75), radius: 0.12, fill: c-venn-c.transparentize(40%), stroke: c-venn-c + t-bd)
+  draw.content((-1.8, ly - 0.75), text(size: s-cap, fill: c-muted)[$+|A inter B inter C|$ --- тройное])
 })
 
 // ── Комбинаторные числа ──
 #let combinatorial-numbers = table(
-  columns: 5,
+  columns: 6,
   align: center + horizon,
   stroke: (x, y) => if y == 0 { (bottom: c-accent + t-bd) },
   table.header(
     text(fill: c-accent)[$n$],
     text(fill: c-accent)[$n!$],
+    text(fill: c-accent)[$binom(n, 2)$],
     text(fill: c-accent)[$C_n$ (Catalan)],
     text(fill: c-accent)[$S(n,3)$ (Stirling)],
     text(fill: c-accent)[$B_n$ (Bell)],
   ),
-  [1], [1], [1], [0], [1],
-  [2], [2], [2], [0], [2],
-  [3], [6], [5], [1], [5],
-  [4], [24], [14], [6], [15],
-  [5], [120], [42], [25], [52],
+  [1], [1], [0], [1], [0], [1],
+  [2], [2], [1], [2], [0], [2],
+  [3], [6], [3], [5], [1], [5],
+  [4], [24], [6], [14], [6], [15],
+  [5], [120], [10], [42], [25], [52],
 )
 
 // ── Треугольник Паскаля ──

@@ -10,13 +10,13 @@
   let rows = 5
   let cols = 7
   let digits = (
-    (3, 5, 2, 7, 1, 4, 8),
-    (1, 8, 4, 6, 2, 9, 0),
-    (7, 2, 5, 9, 3, 0, 6),
-    (0, 3, 1, 8, 6, 2, 7),
-    (9, 4, 7, 2, 0, 5, 3),
+    (5, 1, 8, 4, 2, 6, 9),
+    (2, 7, 3, 6, 9, 1, 4),
+    (9, 0, 4, 1, 1, 7, 3),
+    (6, 5, 7, 3, 3, 8, 0),
+    (1, 4, 2, 8, 5, 7, 1),
   )
-  let constructed = (4, 4, 4, 4, 4)
+  let constructed = (4, 4, 5, 4, 4)
 
   draw.rect(
     (-0.7, 0.5),
@@ -52,7 +52,7 @@
 
   draw.content((cols * s + 0.5, -(rows / 2) * s), text(size: s-tiny, fill: c-muted)[$dots$])
 
-  // Конструируемое число r = 0.44444 (не встречается в перечислении).
+  // Конструируемое число r = 0.44544 (не встречается в перечислении).
   draw.content((-0.4, -(rows + 1.2) * s), text(size: s-cap, weight: "bold", fill: c-accent)[$r = 0.$])
   for j in range(rows) {
     draw.content(
@@ -96,15 +96,15 @@
   let size = 5
   let diag-fill(d) = oklch(75%, 0.1, 260deg - d * 30deg).transparentize(80%)
 
-  for i in range(1, size + 1) {
-    draw.content((i + 0.5, 1), anchor: "south", padding: 0.3, text(size: s-cap, fill: c-muted)[$#i$])
-    draw.content((1, i + 0.5), anchor: "east", padding: 0.3, text(size: s-cap, fill: c-muted)[$#i$])
+  for i in range(size) {
+    draw.content((i + 0.5, 0), anchor: "south", padding: 0.3, text(size: s-cap, fill: c-muted)[$#i$])
+    draw.content((0, i + 0.5), anchor: "east", padding: 0.3, text(size: s-cap, fill: c-muted)[$#i$])
   }
 
   // Путь по диагоналям: клетки в порядке возрастания s = i + j.
   let cells = ()
-  for s in range(2, size * size) {
-    for i in range(calc.max(1, s - size), calc.min(size, s - 1) + 1) {
+  for s in range(2 * size - 1) {
+    for i in range(calc.max(0, s - (size - 1)), calc.min(size - 1, s) + 1) {
       cells.push((i, s - i))
     }
   }
@@ -124,13 +124,13 @@
       (cj + 0.5, ci),
       anchor: "north",
       padding: 0.1,
-      text(size: s-tiny, fill: c-hot, weight: "bold")[#(idx + 1)],
+      text(size: s-tiny, fill: c-hot, weight: "bold")[#idx],
     )
   }
 
-  for i in range(1, size + 1) {
-    for j in range(1, size + 1) {
-      let n = i + j + 1
+  for i in range(size) {
+    for j in range(size) {
+      let n = i + j
       draw.rect(
         (j, i),
         (j + 1, i + 1),
