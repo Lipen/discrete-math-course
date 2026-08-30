@@ -20,6 +20,7 @@ Crates build, test, and run on their own.
 | [`analysis`](analysis/README.md) | Abstract interpretation | Sign, interval, and constant domains; transfer functions; widening |
 | [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
 | [`lambda`](lambda/README.md) | Untyped λ-calculus | Terms, capture-avoiding substitution, β-reduction, Church numerals |
+| [`type-theory`](type-theory/README.md) | Simply-typed λ-calculus (λ→) | Types and contexts, the var/app/abs rules, unification-based inference, subject reduction; demos: [`typed_terms`](type-theory/examples/typed_terms.rs), [`inference`](type-theory/examples/inference.rs), [`subject_reduction`](type-theory/examples/subject_reduction.rs) |
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
 | [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring; SVG/DOT/cytoscape/HTML renderers |
 | [`matroids`](matroids/README.md) | Matroids | Independence axioms, graphic/linear/uniform/scheduling matroids, rank, greedy optimality; demos: [`counterexample`](matroids/examples/counterexample.rs), [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
@@ -82,6 +83,7 @@ Each crate README explains its module and lists every demo:
 - [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)
 - [lambda/README.md](lambda/README.md)
+- [type-theory/README.md](type-theory/README.md)
 - [turing/README.md](turing/README.md)
 - [graphs/README.md](graphs/README.md)
 - [matroids/README.md](matroids/README.md)

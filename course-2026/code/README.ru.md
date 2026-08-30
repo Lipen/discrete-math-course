@@ -20,6 +20,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`analysis`](analysis/README.md) | Абстрактная интерпретация | Домены знаков, интервалов и констант; переносящие функции; widening |
 | [`crypto`](crypto/README.md) | Теория чисел и криптография | Модулярная арифметика, RSA, реальные атаки на него |
 | [`lambda`](lambda/README.md) | Бестиповое λ-исчисление | Термы, подстановка без захвата, β-редукция, числа Чёрча |
+| [`type-theory`](type-theory/README.md) | Простое типизированное λ-исчисление (λ→) | Типы и контексты, правила var/app/abs, вывод типа через унификацию, subject reduction; демо: [`typed_terms`](type-theory/examples/typed_terms.rs), [`inference`](type-theory/examples/inference.rs), [`subject_reduction`](type-theory/examples/subject_reduction.rs) |
 | [`turing`](turing/README.md) | Машины Тьюринга | Лента на двух стеках, таблица переходов, трассы вычислений, примеры машин |
 | [`graphs`](graphs/README.md) | Графы | Простая модель без дженериков, BFS/DFS, Дейкстра, Краскал, Эйлер, мосты, раскраска; рендер в SVG/DOT/cytoscape/HTML |
 | [`matroids`](matroids/README.md) | Матроиды | Аксиомы независимости, графический/линейный/равномерный матроид и матроид расписаний, ранг, оптимальность жадного алгоритма; демо: [`counterexample`](matroids/examples/counterexample.rs), [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
@@ -29,7 +30,6 @@ Rust-компаньон к курсу дискретной математики.
 | [`fitch`](fitch/README.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 | [`algebra`](algebra/README.md) | Алгебраические структуры | Трейты полугруппы/моноида/группы/кольца/поля, гомоморфизмы и факторгруппы, конечные поля `GF(2^m)` |
 | [`combinatorics`](combinatorics/README.md) | Генераторы комбинаторных объектов | Перестановки, сочетания, беспорядки, разбиения числа; лексикографическое перечисление, ранг/де-ранг; демо: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
-
 
 ## Структура
 
@@ -82,6 +82,7 @@ README каждого крейта объясняет модуль и переч
 - [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)
 - [lambda/README.md](lambda/README.md)
+- [type-theory/README.md](type-theory/README.md)
 - [turing/README.md](turing/README.md)
 - [graphs/README.md](graphs/README.md)
 - [matroids/README.md](matroids/README.md)

@@ -21,4 +21,5 @@ members = [
     "algebra",
     "context-free",
     "combinatorics",
+    "type-theory",
 ]

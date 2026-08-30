@@ -1,0 +1,5 @@
+[package]
+name = "type-theory"
+version = "0.1.0"
+edition = "2021"
+description = "Simply-typed lambda calculus"
