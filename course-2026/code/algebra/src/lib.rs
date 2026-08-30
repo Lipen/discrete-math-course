@@ -6,13 +6,17 @@
 //! semiring of types as data, while [`category`] and [`functor`] model
 //! morphisms and fixed points. The bottom layer is built from scratch:
 //! [`Nat`] is the Peano naturals and [`arithmetic`] hand-rolls the Euclidean
-//! algorithm.
+//! algorithm. Beyond the traits, [`homomorphism`] covers structure-preserving
+//! maps, kernels, cosets, and quotient groups, and [`gf`] builds the finite
+//! fields `GF(2^m)`.
 
 pub mod arithmetic;
 pub mod boolean;
 pub mod category;
 pub mod dihedral;
 pub mod functor;
+pub mod gf;
+pub mod homomorphism;
 pub mod nat;
 pub mod perm;
 pub mod powerset;
@@ -27,6 +31,8 @@ pub use boolean::Bool;
 pub use category::{compose, constant, curry, flip, id, uncurry, Category, Hask};
 pub use dihedral::D4;
 pub use functor::{cata, Fix, Functor, OptionF};
+pub use gf::{Gf, Gf256, Gf4};
+pub use homomorphism::{coset_product, image, is_homomorphism, is_normal, kernel, left_cosets};
 pub use nat::Nat;
 pub use perm::Perm;
 pub use powerset::BoolSet;

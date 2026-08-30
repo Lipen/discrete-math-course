@@ -1,6 +1,7 @@
 # algebra
 
-Algebraic structures as Rust traits: semigroup, monoid, group, ring, field.
+Algebraic structures as Rust traits: semigroup, monoid, group, ring, field --
+plus group homomorphisms and quotient groups, and the finite fields `GF(2^m)`.
 
 The hierarchy mirrors the book's algebra chapter. The bottom layer is built
 from scratch -- Peano naturals and a hand-rolled Euclidean algorithm -- while
@@ -14,6 +15,8 @@ cargo run -p algebra --example from_scratch
 cargo run -p algebra --example groups
 cargo run -p algebra --example rings
 cargo run -p algebra --example cayley
+cargo run -p algebra --example homomorphism
+cargo run -p algebra --example finite_field
 cargo test -p algebra
 ```
 
@@ -39,6 +42,8 @@ produces modular inverses. The instances then use standard iterators.
 | `cayley` | Cayley table of Z_4 and the Latin-square property |
 | `dihedral` | D_4: orders, the Cayley table, non-commutativity, the rotation subgroup |
 | `table_group` | A group as pure data: axiom checks and a non-group counterexample |
+| `homomorphism` | The map Z_6 -> Z_3, its kernel and cosets, the first isomorphism theorem |
+| `finite_field` | GF(4) addition/multiplication tables, the primitive element, GF(256) orders |
 
 ## API
 
@@ -61,3 +66,6 @@ produces modular inverses. The instances then use standard iterators.
 | `Functor`, `Fix`, `OptionF`, `cata` | Functors and fixed points: `Nat = Fix(Option)` |
 | `D4` | The dihedral group of order 8: symmetries of the square |
 | `TableGroup` | A finite group given only by its Cayley table, with axiom checks |
+| `is_homomorphism`, `kernel`, `image` | Structure-preserving maps between groups and their invariants |
+| `left_cosets`, `is_normal`, `coset_product` | Cosets, normality, and the quotient group operation |
+| `Gf<M, MOD>`, `Gf4`, `Gf256` | The finite fields `GF(2^m)`: GF(4) and the byte field of AES |
