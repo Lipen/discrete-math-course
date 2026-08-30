@@ -158,58 +158,103 @@
 // ── Филогенетическое дерево млекопитающих ──
 #let mammal-tree = canvas({
   // Схема: высоты ветвлений не в масштабе, времена подписаны.
-  let hline(a, b) = draw.line(a, b, stroke: e-stroke)
-  let vline(a, b) = draw.line(a, b, stroke: e-stroke)
+  let edge = e-stroke
+
+  // Плашка под листом.
+  let plate-w = 0.9
+  let plate-top = -0.3
+  let plate-bot = -0.9
+  let plate-mid = (plate-top + plate-bot) / 2
+
+  // Высоты ветвлений (схематичная шкала).
+  let h6 = 1.5
+  let h8 = 2.0
+  let h14 = 2.5
+  let h55 = 3.5
+  let h75 = 4.0
+  let h85 = 4.5
+
+  // Горизонтальные позиции листьев.
+  let gap = 2.0
+  let x0 = 0
+  let x1 = x0 + gap
+  let x2 = x1 + gap
+  let x3 = x2 + gap
+  let x4 = x3 + gap
+  let x5 = x4 + gap
+  let x6 = x5 + gap
+
+  // Середины групп.
+  let m-human-chimp = (x0 + x1) / 2
+  let m-ape3 = (m-human-chimp + x2) / 2
+  let m-ape4 = (m-ape3 + x3) / 2
+  let m-dog-cat = (x4 + x5) / 2
+  let m-laur = (m-dog-cat + x6) / 2
+  let m-root = (m-ape4 + m-laur) / 2
+
+  // Вспомогательные построения.
+  let line(a, b) = draw.line(a, b, stroke: edge)
   let leaf(x, label) = {
     draw.rect(
-      (x - 1.05, -0.32),
-      (x + 1.05, -0.92),
+      (x - plate-w, plate-top),
+      (x + plate-w, plate-bot),
       fill: luma(235),
       stroke: luma(160) + 0.6pt,
       radius: 6pt,
     )
-    draw.content((x, -0.62), text(size: s-node, fill: c-ink)[#label])
+    draw.content((x, plate-mid), text(size: s-node, fill: c-ink)[#label])
   }
+  let stem(x, h) = line((x, 0), (x, h))
 
-  leaf(0, [🚶 человек])
-  leaf(2.2, [🐒 шимпанзе])
-  leaf(4.4, [🦍 горилла])
-  leaf(6.6, [🦧 орангутан])
-  leaf(8.8, [🐕 собака])
-  leaf(11.0, [🐈 кошка])
-  leaf(13.2, [🐬 дельфин])
+  // Листья.
+  leaf(x0, [🚶 человек])
+  leaf(x1, [🐒 шимпанзе])
+  leaf(x2, [🦍 горилла])
+  leaf(x3, [🦧 орангутан])
+  leaf(x4, [🐕 собака])
+  leaf(x5, [🐈 кошка])
+  leaf(x6, [🐬 дельфин])
 
-  // Человек + шимпанзе (6), затем горилла (8), затем орангутан (14).
-  vline((0, 0), (0, 1.5))
-  vline((2.2, 0), (2.2, 1.5))
-  hline((0, 1.5), (2.2, 1.5))
-  vline((1.1, 1.5), (1.1, 2.0))
-  vline((4.4, 0), (4.4, 2.0))
-  hline((1.1, 2.0), (4.4, 2.0))
-  vline((2.75, 2.0), (2.75, 2.6))
-  vline((6.6, 0), (6.6, 2.6))
-  hline((2.75, 2.6), (6.6, 2.6))
-  vline((4.675, 2.6), (4.675, 4.7))
+  // Стволы листьев.
+  stem(x0, h6)
+  stem(x1, h6)
+  stem(x2, h8)
+  stem(x3, h14)
+  stem(x4, h55)
+  stem(x5, h55)
+  stem(x6, h75)
 
-  // Собака + кошка (55), дельфин отделяется тоже около 55, а от хищных --- около 75.
-  vline((8.8, 0), (8.8, 3.4))
-  vline((11.0, 0), (11.0, 3.4))
-  hline((8.8, 3.4), (11.0, 3.4))
-  vline((9.9, 3.4), (9.9, 4.2))
-  vline((13.2, 0), (13.2, 4.2))
-  hline((9.9, 4.2), (13.2, 4.2))
-  vline((11.55, 4.2), (11.55, 4.7))
-  hline((4.675, 4.7), (11.55, 4.7))
+  // Приматы: человек+шимпанзе (6), затем горилла (8), затем орангутан (14).
+  line((x0, h6), (x1, h6))
+  line((m-human-chimp, h6), (m-human-chimp, h8))
+  line((m-human-chimp, h8), (x2, h8))
+  line((m-ape3, h8), (m-ape3, h14))
+  line((m-ape3, h14), (x3, h14))
+  line((m-ape4, h14), (m-ape4, h85))
 
-  // Корень --- маленький кончик.
-  vline((8.11, 4.7), (8.11, 5.1))
+  // Хищные и китообразные: собака+кошка (55), дельфин отделяется около 55, от хищных --- 75.
+  line((x4, h55), (x5, h55))
+  line((m-dog-cat, h55), (m-dog-cat, h75))
+  line((m-dog-cat, h75), (x6, h75))
+  line((m-laur, h75), (m-laur, h85))
 
-  // Метки времени (слева).
-  draw.content((-0.5, 1.5), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$6$])
-  draw.content((-0.5, 2.0), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$8$])
-  draw.content((-0.5, 2.6), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$14$])
-  draw.content((-0.5, 3.4), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$55$])
-  draw.content((-0.5, 4.2), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$75$])
-  draw.content((-0.5, 4.7), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$85$])
-  draw.content((-0.5, 5.4), anchor: "west", text(size: s-cap, fill: c-muted)[MYA (млн лет назад)])
+  // Корень и кончик.
+  line((m-ape4, h85), (m-laur, h85))
+  let tip = 0.4
+  line((m-root, h85), (m-root, h85 + tip))
+
+  // Метки времени.
+  let axis-x = -0.5
+  let label(h, t) = draw.content(
+    (axis-x, h),
+    anchor: "east",
+    text(size: s-cap, weight: "bold", fill: c-ink)[$#t$],
+  )
+  label(h6, 6)
+  label(h8, 8)
+  label(h14, 14)
+  label(h55, 55)
+  label(h75, 75)
+  label(h85, 85)
+  draw.content((axis-x, h85 + 2 * tip), anchor: "west", text(size: s-cap, fill: c-muted)[MYA (млн лет назад)])
 })
