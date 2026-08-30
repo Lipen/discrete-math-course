@@ -4,20 +4,8 @@
 //! capture common patterns of function composition and application. Together,
 //! `S` and `K` form a basis: every closed term can be expressed using only
 //! `S` and `K` (and applications).
-//!
-//! Non-terminating terms like Ω = (λx. x x)(λx. x x) demonstrate that not
-//! every term has a normal form. Fixed-point combinators (Y and Z) live in
-//! the [`fixpoint`](crate::fixpoint) module; the call-by-name Y combinator
-//! is re-exported here for convenience.
 
 use crate::term::Term;
-
-/// Call-by-name Y fixed-point combinator, defined in [`crate::fixpoint`].
-///
-/// Re-exported here so that `lambda::combinators::y` keeps working; the
-/// definition lives next to the call-by-value variant
-/// [`z`](crate::fixpoint::z) in the [`fixpoint`](crate::fixpoint) module.
-pub use crate::fixpoint::y;
 
 // ===========================================================================
 // SKI combinators
@@ -87,41 +75,6 @@ pub fn s() -> Term {
 }
 
 // ===========================================================================
-// Self-application and non-termination
-// ===========================================================================
-
-/// Self-application: `ω = λx. x x`.
-///
-/// When applied to itself, it produces Ω = ω ω, a term that reduces to itself
-/// indefinitely -- the simplest example of a term with no normal form.
-///
-/// ```
-/// use lambda::combinators::self_app;
-/// assert_eq!(self_app().to_string(), "λx. x x");
-/// ```
-pub fn self_app() -> Term {
-    Term::abs("x", Term::app(Term::var("x"), Term::var("x")))
-}
-
-/// The non-terminating combinator: `Ω = (λx. x x)(λx. x x)`.
-///
-/// β-reduction of Ω yields Ω again -- it loops forever. This is the classic
-/// demonstration that not every λ-term has a normal form.
-///
-/// ```
-/// use lambda::combinators::omega;
-/// use lambda::Term;
-///
-/// // Omega reduces to itself -- it stays non-normal after any number of steps.
-/// let t = omega();
-/// assert!(!t.is_normal_form());
-/// assert_eq!(t.normalize(5), t); // unchanged after 5 reductions
-/// ```
-pub fn omega() -> Term {
-    Term::app(self_app(), self_app())
-}
-
-// ===========================================================================
 // Tests
 // ===========================================================================
 
@@ -148,23 +101,6 @@ mod tests {
         // S K K x  ->  x  (SKK is extensionally equal to I)
         let skk = Term::app(Term::app(Term::app(s(), k()), k()), Term::var("x"));
         assert_eq!(skk.normalize(100), Term::var("x"));
-    }
-
-    #[test]
-    fn omega_has_no_normal_form() {
-        let t = omega();
-        assert!(!t.is_normal_form());
-        // After one reduction, it's still omega (same shape, different memory).
-        let reduced = t.beta_reduce().unwrap();
-        assert!(!reduced.is_normal_form());
-    }
-
-    #[test]
-    fn omega_stays_same_under_reduction() {
-        // Ω -> Ω (reduces to itself, structurally)
-        let t = omega();
-        let reduced = t.beta_reduce().unwrap();
-        assert_eq!(reduced.beta_reduce(), Some(omega()));
     }
 
     #[test]

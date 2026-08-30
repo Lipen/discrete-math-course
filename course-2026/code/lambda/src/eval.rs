@@ -389,7 +389,13 @@ fn trace_loop(start: &Term, max_steps: usize, step: fn(&Term) -> Option<Term>) -
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::combinators::omega;
+
+    /// The self-applying diverging term Ω = (λx. x x)(λx. x x), built inline
+    /// as a fixture for the fuel-limited reduction tests.
+    fn omega() -> Term {
+        let self_app = Term::abs("x", Term::app(Term::var("x"), Term::var("x")));
+        Term::app(self_app.clone(), self_app)
+    }
 
     // -- beta_reduce (normal order) ==========================================
 

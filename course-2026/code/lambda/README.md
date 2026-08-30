@@ -4,9 +4,8 @@ Untyped λ-calculus.
 
 Terms, capture-avoiding substitution, β-reduction under three strategies
 (normal order, applicative order, weak head normal form), Church encodings
-(numerals, booleans, pairs), well-known combinators (SKI, Ω), fixed-point
-combinators (Y, Z) with a factorial built from Z, and a tiny simply-typed
-layer.
+(numerals, booleans, pairs), well-known SKI combinators, and a tiny
+simply-typed layer.
 
 ## Quick start
 
@@ -14,7 +13,6 @@ layer.
 cargo run -p lambda --example church_arith
 cargo run -p lambda --example combinators
 cargo run -p lambda --example beta_trace
-cargo run -p lambda --example fixpoint
 cargo test -p lambda
 ```
 
@@ -38,8 +36,7 @@ The diagram reduces the constant combinator step by step: $(\lambda x.\,\lambda 
 | `subst` | Capture-avoiding substitution `M[x := N]`, α-conversion `rename` |
 | `eval` | Reduction strategies and fuel-limited drivers with step counters |
 | `church` | Church numerals, booleans, pairs, zero test, predecessor |
-| `combinators` | I, K, S, self-application ω, non-terminating Ω |
-| `fixpoint` | Y (call-by-name) and Z (call-by-value) fixed-point combinators, factorial |
+| `combinators` | I, K, S combinators (S and K form a basis) |
 | `stlc` | Tiny simply-typed layer: `Ty`, `STerm`, type checker, type erasure |
 
 ## API
@@ -69,10 +66,6 @@ The diagram reduces the constant combinator step by step: $(\lambda x.\,\lambda 
 | `church_to_bool` | Interpret a Church boolean back to `bool` |
 | `pair` / `fst` / `snd` | Church pairs and projections |
 | `i` / `k` / `s` | SKI combinators (S and K form a basis) |
-| `self_app` / `omega` | Self-application ω and non-terminating Ω |
-| `y` | Call-by-name Y fixed-point combinator |
-| `z` | Call-by-value Z fixed-point combinator |
-| `fact` / `fact_step` | Factorial as a fixed point of `Fact` (and `Fact` itself) |
 | `Ty` / `STerm` | Simply-typed terms: `Base`, `Arrow`, annotated binders |
 | `STerm::erase` | Erase types to the untyped `Term` |
 | `STerm::infer` / `type_of` | Type check against a context / the empty context |
@@ -80,35 +73,23 @@ The diagram reduces the constant combinator step by step: $(\lambda x.\,\lambda 
 
 ## Reduction strategies
 
-All drivers are fuel-limited (`max_steps`) so diverging terms like Ω cannot
-hang the process, and report their progress as a `Reduction` with a step
-counter.
+All drivers are fuel-limited (`max_steps`) so diverging terms cannot hang
+the process, and report their progress as a `Reduction` with a step counter.
 
 - **Normal order** (leftmost outermost) -- if a normal form exists, normal
   order finds it.
 - **Applicative order** (leftmost innermost) -- evaluates arguments first;
-  can loop where normal order terminates, e.g. on `(λx. y) Ω`.
+  can loop where normal order terminates, e.g. when the argument diverges.
 - **Weak head normal form** -- stops once the head is a variable or a
   binder; redexes inside arguments are left alone.
-
-## Fixed points
-
-Recursion in λ-calculus is a *fixed point*: `X` with `X = F X`. The
-call-by-name combinator `Y = λf. (λx. f (x x)) (λx. f (x x))` unfolds as
-`Y F -> F (Y F)`. The call-by-value combinator `Z = λf. (λx. f (λv. x x v))
-(λx. f (λv. x x v))` adds a `λv` wrapper so the recursive expansion is
-delayed until an argument arrives. The factorial `fact = Z Fact` computes
-`3! = 6` in about 1500 pure β-steps (naive substitution is exponential --
-real implementations share subterms).
 
 ## Demo
 
 | Demo | Shows |
 |------|-------|
 | `church_arith` | Church numerals: succ, add, mult, power (2^4 = 16, etc.) |
-| `combinators` | I, K, S combinators; SKK = I; Ω non-termination |
-| `beta_trace` | Step-by-step reduction trace; Ω with step limit; Church arithmetic with trace |
-| `fixpoint` | Y unfolds `Y K -> K (Y K) -> λx. x`; factorial via Z |
+| `combinators` | I, K, S combinators; SKK = I |
+| `beta_trace` | Step-by-step reduction trace; Church arithmetic with trace |
 
 ## Tests
 

@@ -195,24 +195,6 @@ impl FuzzySet {
         }
     }
 
-    /// The set `min(mu, level)`: a consequent truncated at a firing strength.
-    pub fn clip(&self, level: f64) -> FuzzySet {
-        let mut xs: Vec<f64> = self.points.iter().map(|p| p.0).collect();
-        for (a, b) in self.alpha_cut(level) {
-            xs.push(a);
-            xs.push(b);
-        }
-        xs.sort_by(|a, b| a.partial_cmp(b).unwrap());
-        xs.dedup_by(|a, b| (*a - *b).abs() < 1e-12);
-        let pts: Vec<(f64, f64)> = xs
-            .iter()
-            .map(|&x| (x, self.membership(x).min(level)))
-            .collect();
-        FuzzySet {
-            points: remove_collinear(pts),
-        }
-    }
-
     /// Combine two sets pointwise: `result(x) = op(self(x), other(x))`.
     ///
     /// Breakpoints of both sets plus every crossing point of the two
@@ -387,16 +369,5 @@ mod tests {
         assert!((union.membership(0.6) - 0.6).abs() < 1e-9);
         // mu(A ∩ ¬A)(0.6) = min(0.6, 0.4) = 0.4, not 0.
         assert!((inter.membership(0.6) - 0.4).abs() < 1e-9);
-    }
-
-    #[test]
-    fn clip_truncates_at_the_level() {
-        let t = FuzzySet::new(vec![(0.0, 0.0), (1.0, 1.0), (2.0, 0.0)]);
-        let clipped = t.clip(0.5);
-        assert_eq!(clipped.height(), 0.5);
-        assert_eq!(clipped.membership(0.5), 0.5);
-        assert_eq!(clipped.membership(0.25), 0.25);
-        assert_eq!(clipped.membership(1.5), 0.5);
-        assert_eq!(clipped.membership(1.75), 0.25);
     }
 }

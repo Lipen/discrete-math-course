@@ -2,6 +2,6 @@
 name = "context-free"
 version = "0.1.0"
 edition = "2021"
-description = "Context-free grammars: parse trees, Chomsky normal form, CYK, ambiguity"
+description = "Context-free grammars: parse trees, Chomsky normal form, CYK"
 
 [dependencies]

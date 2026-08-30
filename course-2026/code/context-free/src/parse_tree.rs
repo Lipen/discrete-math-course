@@ -136,9 +136,6 @@ impl std::fmt::Display for ParseTree {
 /// [`MAX_PARSE_TREES`]; a grammar with an epsilon-cycle such as
 /// `S -> S S | ε` or a unit-cycle such as `A -> B, B -> A` exceeds the cap and
 /// yields [`GrammarError::TooManyParseTrees`].
-///
-/// The ambiguity module applies epsilon-elimination and unit-removal first,
-/// which makes it safe for those grammars as well.
 pub fn all_parse_trees(grammar: &Grammar, word: &[String]) -> Result<Vec<ParseTree>, GrammarError> {
     let n = word.len();
     // memo[(nonterminal, start, end)] = trees for that nonterminal over

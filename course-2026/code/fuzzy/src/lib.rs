@@ -1,4 +1,4 @@
-//! Fuzzy sets, fuzzy numbers, fuzzy relations, and a Mamdani inference engine.
+//! Fuzzy sets, fuzzy numbers, and fuzzy relations.
 //!
 //! A fuzzy set replaces the crisp characteristic function `chi: U -> {0, 1}`
 //! with a membership function `mu: U -> [0, 1]`: an element belongs to the
@@ -6,17 +6,13 @@
 //! trapezoidal, and any polyline) as piecewise-linear functions, implements
 //! Zadeh's operations (union `max`, intersection `min`, complement `1 - mu`),
 //! the three classical t-norm/t-conorm families, fuzzy numbers with their
-//! alpha-cuts, fuzzy relations with max-min composition, and a Mamdani
-//! controller that turns crisp inputs into a crisp output via fuzzification,
-//! a rule base, aggregation, and defuzzification.
+//! alpha-cuts, and fuzzy relations with max-min composition.
 
-pub mod inference;
 pub mod number;
 pub mod relation;
 pub mod set;
 pub mod tnorm;
 
-pub use inference::{defuzzify, Defuzzifier, Mamdani, Rule, Term, Variable};
 pub use number::{Trapezoidal, Triangular};
 pub use relation::FuzzyRelation;
 pub use set::FuzzySet;

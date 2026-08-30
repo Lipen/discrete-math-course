@@ -19,14 +19,14 @@ Rust-компаньон курса дискретной математики: **
 | [`fitch`](fitch/README.ru.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 | [`prolog`](prolog/README.ru.md) | Логическое программирование | Термы, подстановки, унификация с occurs-check, база дизъюнктов; демо: [`family_tree`](prolog/examples/family_tree.rs), [`unify_demo`](prolog/examples/unify_demo.rs) |
 | [`heyting`](heyting/README.ru.md) | Алгебры Гейтинга | Трёхэлементная алгебра {0, 1/2, 1}, относительное псевдодополнение, закон исключённого третьего не работает; демо: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
-| [`fuzzy`](fuzzy/README.ru.md) | Нечёткие множества и нечёткая логика | Кусочно-линейные функции принадлежности, операции Заде (min/max/дополнение), t-нормы, α-срезы и декомпозиция, арифметика ТНЧ, max-min-композиция, вывод Мамдани с дефаззификацией (центроид, среднее максимума, биссектриса); демо: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs), [`controller`](fuzzy/examples/controller.rs) |
+| [`fuzzy`](fuzzy/README.ru.md) | Нечёткие множества и нечёткая логика | Кусочно-линейные функции принадлежности, операции Заде (min/max/дополнение), t-нормы, α-срезы и декомпозиция, арифметика ТНЧ, max-min-композиция; демо: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs) |
 
 ### Автоматы, языки, вычислимость
 
 | Крейт | Тема | Что внутри |
 | --- | --- | --- |
-| [`automata`](automata/README.ru.md) | Конечные автоматы и регулярные языки | ДКА, НКА, конструкция подмножеств, регулярки через Томпсона, минимизация, операции над языками |
-| [`context-free`](context-free/README.ru.md) | Контекстно-свободные грамматики | Деревья разбора, приведение к НФХ, распознавание по CYK, проверка неоднозначности; демо: [`dyck`](context-free/examples/dyck.rs), [`arithmetic`](context-free/examples/arithmetic.rs), [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
+| [`automata`](automata/README.ru.md) | Конечные автоматы и регулярные языки | ДКА, НКА, конструкция подмножеств, операции над языками |
+| [`context-free`](context-free/README.ru.md) | Контекстно-свободные грамматики | Деревья разбора, приведение к НФХ, распознавание по CYK; демо: [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
 | [`turing`](turing/README.ru.md) | Машины Тьюринга | Лента на двух стеках, таблица переходов, трассы вычислений, примеры машин |
 | [`codes`](codes/README.ru.md) | Коды Хэмминга | Hamming(7,4), синдромное декодирование, исправление одиночной ошибки |
 
@@ -59,8 +59,8 @@ Rust-компаньон курса дискретной математики: **
 | --- | --- | --- |
 | [`circuits`](circuits/README.ru.md) | Комбинационные схемы | Графы вентилей (DAG), топологическая симуляция, размер/глубина, полусумматор/полный сумматор, сумматор с последовательным переносом; демо: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`fuzz`](circuits/examples/fuzz.rs) |
 | [`bdd`](bdd/README.ru.md) | Диаграммы решений | ROBDD с дополняющими рёбрами, операция `ite` |
-| [`model-checking`](model-checking/README.ru.md) | Проверка моделей (CTL) | Структуры Крипке, раскраска состояний, семантика неподвижных точек для EX/AX/EF/EG/EU; демо: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
-| [`analysis`](analysis/README.ru.md) | Абстрактная интерпретация | Домены знаков, интервалов и констант; переносящие функции; widening |
+| [`model-checking`](model-checking/README.ru.md) | Проверка моделей (CTL) | Структуры Крипке, раскраска состояний, модальности EX/AX за один шаг |
+| [`analysis`](analysis/README.ru.md) | Абстрактная интерпретация | Домен распространения констант; решётка + монотонный трансформер + итерация Клейна |
 
 ## Быстрый старт
 

@@ -221,7 +221,10 @@ mod tests {
             Ty::arrow(Ty::arrow(o(), o()), o()).to_string(),
             "(o -> o) -> o"
         );
-        assert_eq!(Ty::arrow(o(), Ty::arrow(o(), o())).to_string(), "o -> o -> o");
+        assert_eq!(
+            Ty::arrow(o(), Ty::arrow(o(), o())).to_string(),
+            "o -> o -> o"
+        );
     }
 
     // -- Type checking =======================================================

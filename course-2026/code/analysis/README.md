@@ -1,17 +1,16 @@
 # analysis
 
-Abstract interpretation: abstract domains, transfer functions, and widening.
+Abstract interpretation: the constant domain, transfer functions, and fixed-point iteration.
 
-The sign, interval, and constant domains; abstract arithmetic on them; and transfer
-functions over a tiny imperative program.
-Loops are analyzed by computing a fixpoint; on the infinite interval and
-constant domains widening makes the iteration converge.
+A tiny imperative program is analyzed on abstract values.
+The constant domain tracks which variables hold a known integer (⊥ is
+unreachable, ⊤ is "not a constant").
+Assignments evaluate expressions abstractly; an `if` merges both branches with
+the join ⊔; a `while` loop iterates its body to a fixpoint by Kleene iteration.
 
 ## Quick start
 
 ```bash
-cargo run -p analysis --example sign_analysis
-cargo run -p analysis --example interval_analysis
 cargo run -p analysis --example constant_propagation
 cargo run -p analysis --example distributive_flow
 cargo test -p analysis
@@ -22,34 +21,27 @@ cargo test -p analysis
 A program runs on abstract values instead of concrete ones.
 Assignments evaluate expressions abstractly; an `if` merges both branches with
 the join ⊔; a `while` loop iterates its body to a fixpoint.
-The sign lattice is finite, so plain iteration converges; the interval and
-constant lattices are infinite, so loops are iterated with widening:
+The loop is analyzed by Kleene iteration from the loop-head state: after each
+pass the state is joined with the loop-head entry state, and the iteration
+stops once it stabilizes.
 
-$$ w_{k+1} = w_k \nabla F(w_k) $$
-
-The interval demo runs the counter loop: naive iteration
-climbs `[0,0], [0,1], [0,2], ...` forever, while widening drops the moving
-bound and converges on `[0, +∞)` in two steps.
-The constant demo shows the key insight that zero times unknown is still zero.
+Because the join of two different constants is ⊤ (and every operation
+preserves ⊤), the iteration converges quickly.
+The demo shows the key insight of constant propagation: zero times unknown is
+still zero.
 
 ## API
 
 | Item | Purpose |
 | --- | --- |
-| `Sign` | The five-element sign lattice (−, 0, +, ⊥, ⊤) with `+`, `*`, `-`, and `lub` |
-| `Interval` | The interval domain with `+`, `*`, `-`, `lub`, and `widen` (∇) |
-| `Const` | The constant domain with `+`, `*`, `-`, `lub`, and `widen` (∇) |
+| `Const` | The constant domain (⊥, known values, ⊤) with `+`, `*`, `-`, and `lub` (⊔) |
 | `Expr`, `Stmt` | A tiny imperative program |
-| `eval_sign`, `exec_sign` | Sign-domain transfer functions |
-| `eval_interval`, `exec_interval` | Interval-domain transfer functions with widening |
-| `eval_const`, `exec_const` | Constant-domain transfer functions with widening |
+| `eval_const`, `exec_const` | Constant-domain transfer functions with Kleene fixed-point iteration |
 
 ## Demos
 
 | Demo | Shows |
 | --- | --- |
-| `sign_analysis` | The cost of abstraction: `+ ⊞ − = ⊤`, and branch merging via the join |
-| `interval_analysis` | The counter loop: widening turns a diverging iteration into a fixpoint |
 | `constant_propagation` | Constants through arithmetic, branch-induced precision loss, and 0·⊤ = 0 |
 | `distributive_flow` | Why distributivity of flow functions matters: `f(x ⊔ y)` vs `f(x) ⊔ f(y)` on a monotone and a distributive function |
 
@@ -59,6 +51,6 @@ The constant demo shows the key insight that zero times unknown is still zero.
 cargo test -p analysis
 ```
 
-Tests cover the abstract-arithmetic tables for all three domains, branch
-merging, widening edge cases, fixpoint convergence on while loops, and the
-zero-times-unknown insight of constant propagation.
+Tests cover the constant-domain lattice and arithmetic, branch merging,
+Kleene fixed-point convergence on a while loop, and the zero-times-unknown
+insight of constant propagation.

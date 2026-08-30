@@ -6,10 +6,9 @@
 //! which `accepts` catches and treats as rejection.
 //!
 //! The module also provides language operations -- complement, union,
-//! intersection, difference -- and minimization by Moore's
-//! partition-refinement algorithm. Union, intersection and difference use
-//! the product construction; complement completes the automaton and flips
-//! the accepting flags.
+//! intersection, difference. Union, intersection and difference use the
+//! product construction; complement completes the automaton and flips the
+//! accepting flags.
 //!
 //! ```
 //! use automata::Dfa;
@@ -403,119 +402,6 @@ impl Dfa {
         self.product(other, |a, b| a && !b)
     }
 
-    /// Minimization by Moore's algorithm: partition states into
-    /// indistinguishable classes.
-    ///
-    /// First drops unreachable states, then iteratively refines the
-    /// partition by transition signature until no further split is
-    /// possible. Returns a DFA with the minimal number of states.
-    ///
-    /// ```
-    /// use automata::Dfa;
-    ///
-    /// // A 3-state DFA where states 1 and 2 are indistinguishable.
-    /// let mut dfa = Dfa::new(3, 0, vec!['0', '1']);
-    /// dfa.set_transition(0, '0', 1).unwrap();
-    /// dfa.set_transition(0, '1', 0).unwrap();
-    /// dfa.set_transition(1, '0', 2).unwrap();
-    /// dfa.set_transition(1, '1', 1).unwrap();
-    /// dfa.set_transition(2, '0', 1).unwrap();
-    /// dfa.set_transition(2, '1', 2).unwrap();
-    /// dfa.set_accepting(vec![false, true, true]);
-    ///
-    /// let min = dfa.minimize();
-    /// assert!(min.num_states() < dfa.num_states());
-    /// // The languages must be equivalent.
-    /// assert!(dfa.equivalent_to(&min));
-    /// ```
-    pub fn minimize(&self) -> Dfa {
-        // Drop unreachable states.
-        let mut reachable = vec![false; self.states];
-        let mut stack = vec![self.start];
-        reachable[self.start] = true;
-        while let Some(s) = stack.pop() {
-            for &to in &self.delta[s] {
-                if to < self.states && !reachable[to] {
-                    reachable[to] = true;
-                    stack.push(to);
-                }
-            }
-        }
-
-        // Initial partition: accepting versus non-accepting.
-        let mut block = vec![usize::MAX; self.states];
-        let mut blocks: Vec<Vec<usize>> = Vec::new();
-        for s in 0..self.states {
-            if !reachable[s] {
-                continue;
-            }
-            let b = if self.accepting[s] { 0 } else { 1 };
-            while blocks.len() <= b {
-                blocks.push(Vec::new());
-            }
-            block[s] = b;
-            blocks[b].push(s);
-        }
-        if blocks.is_empty() {
-            blocks = vec![Vec::new(); 2];
-        }
-
-        // Iterative refinement by transition signature.
-        loop {
-            let mut new_blocks: Vec<Vec<usize>> = Vec::new();
-            let mut new_block = vec![usize::MAX; self.states];
-            let mut refined = false;
-            for states_in_block in &blocks {
-                let mut groups: HashMap<Vec<usize>, Vec<usize>> = HashMap::new();
-                for &s in states_in_block {
-                    let sig: Vec<usize> = self.delta[s]
-                        .iter()
-                        .map(|&to| {
-                            if to < self.states {
-                                block[to]
-                            } else {
-                                usize::MAX
-                            }
-                        })
-                        .collect();
-                    groups.entry(sig).or_default().push(s);
-                }
-                for group in groups.values() {
-                    if group.len() < states_in_block.len() {
-                        refined = true;
-                    }
-                    let nb = new_blocks.len();
-                    new_blocks.push(group.clone());
-                    for &s in group {
-                        new_block[s] = nb;
-                    }
-                }
-            }
-            block = new_block;
-            blocks = new_blocks;
-            if !refined {
-                break;
-            }
-        }
-
-        // Build the minimal automaton: one state per block.
-        let m = blocks.len();
-        let start_block = block[self.start];
-        let mut dfa = Dfa::new(m, start_block, self.alphabet.clone());
-        for (b, group) in blocks.iter().enumerate() {
-            let rep = group[0];
-            for (sym_idx, &to) in self.delta[rep].iter().enumerate() {
-                if to < self.states {
-                    dfa.set_transition(b, self.alphabet[sym_idx], block[to])
-                        .expect("symbol from the automaton's own alphabet");
-                }
-            }
-        }
-        let accepting = blocks.iter().map(|g| self.accepting[g[0]]).collect();
-        dfa.set_accepting(accepting);
-        dfa
-    }
-
     // ==================================================================
     // Private helpers
     // ==================================================================
@@ -770,8 +656,15 @@ mod tests {
         dfa.set_transition(2, '1', 2).unwrap();
         dfa.set_accepting(vec![false, true, true]);
 
-        let min = dfa.minimize();
-        assert!(dfa.equivalent_to(&min));
+        // The equivalent 2-state automaton (states 1 and 2 merged).
+        let mut minimal = Dfa::new(2, 0, vec!['0', '1']);
+        minimal.set_transition(0, '0', 1).unwrap();
+        minimal.set_transition(0, '1', 0).unwrap();
+        minimal.set_transition(1, '0', 1).unwrap();
+        minimal.set_transition(1, '1', 1).unwrap();
+        minimal.set_accepting(vec![false, true]);
+
+        assert!(dfa.equivalent_to(&minimal));
     }
 
     #[test]
@@ -779,35 +672,6 @@ mod tests {
         let even = even_ones();
         let end0 = ends_with_zero();
         assert!(!even.equivalent_to(&end0));
-    }
-
-    #[test]
-    fn minimize_preserves_language() {
-        // An automaton with a redundant (duplicate) state.
-        let mut dfa = Dfa::new(3, 0, vec!['0', '1']);
-        dfa.set_transition(0, '0', 1).unwrap();
-        dfa.set_transition(0, '1', 0).unwrap();
-        dfa.set_transition(1, '0', 2).unwrap();
-        dfa.set_transition(1, '1', 1).unwrap();
-        dfa.set_transition(2, '0', 1).unwrap();
-        dfa.set_transition(2, '1', 2).unwrap();
-        dfa.set_accepting(vec![false, true, true]); // states 1 and 2 are indistinguishable
-
-        let min = dfa.minimize();
-        for w in words() {
-            assert_eq!(min.accepts(w), dfa.accepts(w), "word {w:?}");
-        }
-        assert!(
-            min.num_states() < dfa.num_states(),
-            "the automaton must shrink"
-        );
-    }
-
-    #[test]
-    fn minimize_already_minimal() {
-        let dfa = even_ones();
-        let min = dfa.minimize();
-        assert_eq!(min.num_states(), dfa.num_states());
     }
 
     #[test]

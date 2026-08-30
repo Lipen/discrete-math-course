@@ -2,6 +2,6 @@
 name = "fuzzy"
 version = "0.1.0"
 edition = "2021"
-description = "Fuzzy sets, fuzzy numbers, fuzzy relations, and Mamdani inference"
+description = "Fuzzy sets, fuzzy numbers, and fuzzy relations"
 
 [dependencies]

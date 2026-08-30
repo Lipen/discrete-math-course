@@ -2,14 +2,12 @@
 
 Context-free grammars and languages.
 
-Parse trees, Chomsky normal form, CYK recognition, and the ambiguity question -- a grammar is ambiguous when some word has more than one parse tree.
-Every idea has a runnable demo in `examples/`.
+Parse trees, Chomsky normal form, and CYK recognition.
+A runnable demo ships in `examples/`.
 
 ## Quick start
 
 ```bash
-cargo run -p context-free --example dyck
-cargo run -p context-free --example arithmetic
 cargo run -p context-free --example cnf_cyk
 cargo test -p context-free
 ```
@@ -38,21 +36,16 @@ The leaves spell $a a a \varepsilon b b b = a^3 b^3$.
 | `all_parse_trees` | Every parse tree of a word | -- |
 | `to_cnf` | Chomsky normal form | -- |
 | `recognize` / `table` | CYK recognition / CYK table | -- |
-| `count_trees` / `ambiguous_word` / `is_unambiguous` | Ambiguity analysis | -- |
 
 ## Demos
 
 | Demo | Shows |
 | --- | --- |
-| `dyck` | The Dyck language is unambiguous; the naive grammar breaks at `()()()` |
-| `arithmetic` | `id+id*id` has two trees; precedence levels fix it; division groups two ways |
 | `cnf_cyk` | $S \to a S b \mid \varepsilon$ in CNF, then the CYK table |
 
-## Ambiguity
+## Parse trees
 
-`count_trees` counts parse trees under the book's convention: epsilon is eliminated first, so `()` in $S \to S S \mid (S) \mid \varepsilon$ has exactly one tree.
-`ambiguous_word` returns the shortest word with at least two trees, and `is_unambiguous` gives a certificate up to a length bound.
-
+`all_parse_trees` enumerates every parse tree of a word.
 Enumeration is capped at `MAX_PARSE_TREES` trees per `(nonterminal, substring)`: a grammar with an epsilon-cycle such as $S \to S S \mid \varepsilon$ is reported as `GrammarError::TooManyParseTrees` instead of looping forever.
 Membership (`in_language`) is decided by CYK and always terminates.
 

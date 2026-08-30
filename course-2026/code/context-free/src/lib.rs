@@ -2,10 +2,9 @@
 //!
 //! A context-free grammar generates a language by rules `A -> alpha`, where a
 //! nonterminal is replaced by a string of terminals and nonterminals. The same
-//! word can have several parse trees -- that is ambiguity. This crate models
-//! grammars, enumerates every parse tree of a word, converts grammars to
-//! Chomsky normal form, recognizes words with CYK, and finds the shortest
-//! ambiguous word (or an unambiguous certificate).
+//! word can have several parse trees. This crate models grammars, enumerates
+//! every parse tree of a word, converts grammars to Chomsky normal form, and
+//! recognizes words with CYK.
 //!
 //! ```
 //! use context_free::{Grammar, Production, recognize, to_cnf, t, nt};
@@ -22,7 +21,6 @@
 //! assert!(recognize(&cnf, ""));
 //! ```
 
-pub mod ambiguity;
 pub mod cnf;
 pub mod cyk;
 pub mod grammar;
@@ -50,7 +48,6 @@ impl fmt::Display for GrammarError {
 
 impl std::error::Error for GrammarError {}
 
-pub use ambiguity::{ambiguous_word, count_trees, is_unambiguous};
 pub use cnf::to_cnf;
 pub use cyk::{recognize, table};
 pub use grammar::{nt, t, Grammar, Production, Symbol};

@@ -3,9 +3,8 @@
 //! Terms ([`term`]), capture-avoiding substitution and α-conversion
 //! ([`subst`]), reduction strategies -- normal order, applicative order, and
 //! weak head normal form, all fuel-limited with step counters ([`eval`]) --
-//! Church encodings ([`church`]), well-known combinators ([`combinators`]),
-//! fixed-point combinators Y and Z with a factorial built from Z
-//! ([`fixpoint`]), and a tiny simply-typed layer ([`stlc`]).
+//! Church encodings ([`church`]), well-known SKI combinators
+//! ([`combinators`]), and a tiny simply-typed layer ([`stlc`]).
 //!
 //! ```
 //! use lambda::{Term, church};
@@ -20,7 +19,6 @@
 pub mod church;
 pub mod combinators;
 pub mod eval;
-pub mod fixpoint;
 pub mod stlc;
 pub mod subst;
 pub mod term;
@@ -29,7 +27,6 @@ pub use church::{
     add, church, church_false, church_to_bool, church_true, is_zero, mult, power, pred, succ,
     to_nat,
 };
-pub use combinators::{i, k, omega, s, self_app, y};
+pub use combinators::{i, k, s};
 pub use eval::Reduction;
-pub use fixpoint::{fact, fact_step, z};
 pub use term::Term;

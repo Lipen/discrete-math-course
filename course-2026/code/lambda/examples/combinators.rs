@@ -1,9 +1,9 @@
-//! Combinators: I, K, S, and the non-terminating Ω.
+//! Combinators: I, K, S.
 //!
 //! Each combinator is a closed term that captures a fundamental pattern of
 //! function application.
 
-use lambda::{i, k, omega, s, Term};
+use lambda::{i, k, s, Term};
 
 fn main() {
     // -- I: identity =========================================================
@@ -27,10 +27,4 @@ fn main() {
     for (i, step) in skk.trace(20).iter().enumerate() {
         println!("  step {}: {}", i, step);
     }
-
-    // -- Ω: non-terminating combinator =======================================
-
-    println!("\nΩ  =  {}", omega());
-    println!("Ω is in normal form?  {}", omega().is_normal_form());
-    println!("Ω after 3 reductions:  {}", omega().normalize(3));
 }

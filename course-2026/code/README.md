@@ -18,14 +18,14 @@ Every crate builds, tests, and runs on its own; none imports another.
 | [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 | [`prolog`](prolog/README.md) | Logic programming | Terms, substitutions, unification with the occurs check, clause databases; demos: [`family_tree`](prolog/examples/family_tree.rs), [`unify_demo`](prolog/examples/unify_demo.rs) |
 | [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
-| [`fuzzy`](fuzzy/README.md) | Fuzzy sets and fuzzy logic | Piecewise-linear membership functions, Zadeh operations (min/max/complement), t-norms, alpha-cuts and decomposition, TFN arithmetic, max-min composition, Mamdani inference with centroid/mean-of-max/bisector defuzzification; demos: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs), [`controller`](fuzzy/examples/controller.rs) |
+| [`fuzzy`](fuzzy/README.md) | Fuzzy sets and fuzzy logic | Piecewise-linear membership functions, Zadeh operations (min/max/complement), t-norms, alpha-cuts and decomposition, TFN arithmetic, max-min composition; demos: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs) |
 
 ### Automata, languages, computability
 
 | Crate | Topic | Highlights |
 | --- | --- | --- |
-| [`automata`](automata/README.md) | Finite automata and regular languages | DFA, NFA, subset construction, regex via Thompson, minimization, language operations |
-| [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition, ambiguity check; demos: [`dyck`](context-free/examples/dyck.rs), [`arithmetic`](context-free/examples/arithmetic.rs), [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
+| [`automata`](automata/README.md) | Finite automata and regular languages | DFA, NFA, subset construction, language operations |
+| [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition; demos: [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
 | [`codes`](codes/README.md) | Hamming codes | Hamming(7,4), syndrome decoding, single-error correction |
 
@@ -58,8 +58,8 @@ Every crate builds, tests, and runs on its own; none imports another.
 | --- | --- | --- |
 | [`circuits`](circuits/README.md) | Combinational circuits | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry adder; demos: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`fuzz`](circuits/examples/fuzz.rs) |
 | [`bdd`](bdd/README.md) | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation |
-| [`model-checking`](model-checking/README.md) | CTL model checking | Kripke structures, state labeling, fixed-point semantics of EX/AX/EF/EG/EU; demos: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
-| [`analysis`](analysis/README.md) | Abstract interpretation | Sign, interval, and constant domains; transfer functions; widening |
+| [`model-checking`](model-checking/README.md) | CTL model checking | Kripke structures, state labeling, EX/AX single-step modalities |
+| [`analysis`](analysis/README.md) | Abstract interpretation | Constant propagation domain; lattice + monotone transfer + Kleene fixed-point iteration |
 
 ## Quick start
 
