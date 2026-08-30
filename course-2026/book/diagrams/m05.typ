@@ -116,3 +116,41 @@
   eq-class(0, c-atom, 1, (1, 4, 7, 10))
   eq-class(-2.6, c-warn, 2, (2, 5, 8))
 })
+
+// ── Дендрограмма: ультраметрическая кластеризация {a,b,c,d} ──
+#let dendrogram = canvas({
+  let hline(a, b) = draw.line(a, b, stroke: e-stroke)
+  let vline(a, b) = draw.line(a, b, stroke: e-stroke)
+
+  let leaf(x, label) = {
+    draw.content((x, -0.35), anchor: "north", text(
+      size: s-node,
+      fill: c-ink,
+    )[#label])
+  }
+
+  leaf(0, $a$)
+  leaf(1, $b$)
+  leaf(2, $c$)
+  leaf(3, $d$)
+
+  // Слияние a и b на высоте 1.
+  vline((0, 0), (0, 1))
+  vline((1, 0), (1, 1))
+  hline((0, 1), (1, 1))
+
+  // Слияние c и d на высоте 2.
+  vline((2, 0), (2, 2))
+  vline((3, 0), (3, 2))
+  hline((2, 2), (3, 2))
+
+  // Слияние всех на высоте 3.
+  vline((0.5, 1), (0.5, 3))
+  vline((2.5, 2), (2.5, 3))
+  hline((0.5, 3), (2.5, 3))
+
+  // Метки высот.
+  draw.content((-0.35, 1), anchor: "east", text(size: s-node, fill: c-ink)[$1$])
+  draw.content((-0.35, 2), anchor: "east", text(size: s-node, fill: c-ink)[$2$])
+  draw.content((-0.35, 3), anchor: "east", text(size: s-node, fill: c-ink)[$3$])
+})
