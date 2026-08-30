@@ -20,4 +20,5 @@ members = [
     "fitch",
     "algebra",
     "context-free",
+    "combinatorics",
 ]

@@ -29,6 +29,7 @@ Crates build, test, and run on their own.
 | [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
 | [`algebra`](algebra/README.md) | Algebraic structures | Semigroup/monoid/group/ring/field traits, homomorphisms and quotient groups, finite fields GF(2^m) |
 | [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition, ambiguity check; demos: [`dyck`](context-free/examples/dyck.rs), [`arithmetic`](context-free/examples/arithmetic.rs), [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
+| [`combinatorics`](combinatorics/README.md) | Combinatorial object generators | Permutations, combinations, derangements, integer partitions; lexicographic enumeration, rank/unrank; demos: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
 
 ## Layout
 
@@ -90,6 +91,7 @@ Each crate README explains its module and lists every demo:
 - [fitch/README.md](fitch/README.md)
 - [algebra/README.md](algebra/README.md)
 - [context-free/README.md](context-free/README.md)
+- [combinatorics/README.md](combinatorics/README.md)
 
 ## Russian version
 
