@@ -52,6 +52,27 @@
   columns(cols, gutter: 1em)[#body]
 }
 
+// Ссылка на упражнение по id (через metadata + query, как в банке задач).
+// Упражнение помечает себя так: #metadata((ex-id: "m01:t3"))
+// Вызов: #ex-ref("m01:t3") --- кликабельный номер задачи с авто-номером.
+#let ex-ref(id) = context {
+  let m = query(metadata).find(m => {
+    let v = m.value
+    type(v) == dictionary and v.at("ex-id", default: none) == id
+  })
+  if m == none {
+    return text(fill: red.darken(20%))[??]
+  }
+  let ctr = id.split(":").first()
+  // В #tasklist счётчик инкрементится до тела пункта (step до display),
+  // поэтому на позиции metadata счётчик на единицу впереди номера.
+  let n = counter(ctr).at(m.location()).first()
+  if n == none {
+    return text(fill: red.darken(20%))[??]
+  }
+  link(m.location())[#(n - 1)]
+}
+
 // --- Окружения: front-matter / main-matter ---
 #let front-matter = {
   set page(numbering: "i")
