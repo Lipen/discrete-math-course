@@ -184,7 +184,8 @@
       sticky: true,
     )[
       #text(size: 16pt, weight: "medium")[
-        #text(fill: theme)[§] #counter(heading).display()#h(0.5em)#it.body
+        #if it.numbering != none [#text(fill: theme)[§] #counter(heading).display()#h(0.5em)]
+        #it.body
       ]
       #section-rule(luma(80%))
     ]
