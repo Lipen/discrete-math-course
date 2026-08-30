@@ -26,6 +26,8 @@ Rust-компаньон к курсу дискретной математики.
 | [`lattices`](lattices/README.md) | Решётки и порядки | join/meet, дистрибутивность, модулярность, характеризация Биркгофа (запрещённые подрешётки M3/N5) |
 | [`heyting`](heyting/README.md) | Алгебры Гейтинга | Трёхэлементная алгебра {0, 1/2, 1}, относительное псевдодополнение, закон исключённого третьего не работает; демо: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fitch`](fitch/README.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
+| [`algebra`](algebra/README.md) | Алгебраические структуры | Трейты полугруппы/моноида/группы/кольца/поля, гомоморфизмы и факторгруппы, конечные поля `GF(2^m)` |
+
 
 ## Структура
 
@@ -84,6 +86,7 @@ README каждого крейта объясняет модуль и переч
 - [lattices/README.md](lattices/README.md)
 - [heyting/README.md](heyting/README.md)
 - [fitch/README.md](fitch/README.md)
+- [algebra/README.md](algebra/README.md)
 
 ## Английская версия
 

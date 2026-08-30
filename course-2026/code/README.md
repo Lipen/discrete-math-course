@@ -26,6 +26,7 @@ Crates build, test, and run on their own.
 | [`lattices`](lattices/README.md) | Lattices and orders | Join/meet, distributivity, modularity, Birkhoff characterization (M3/N5 forbidden sublattices) |
 | [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
+| [`algebra`](algebra/README.md) | Algebraic structures | Semigroup/monoid/group/ring/field traits, homomorphisms and quotient groups, finite fields GF(2^m) |
 
 ## Layout
 
@@ -84,6 +85,7 @@ Each crate README explains its module and lists every demo:
 - [lattices/README.md](lattices/README.md)
 - [heyting/README.md](heyting/README.md)
 - [fitch/README.md](fitch/README.md)
+- [algebra/README.md](algebra/README.md)
 
 ## Russian version
 
