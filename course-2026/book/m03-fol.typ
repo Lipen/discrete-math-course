@@ -674,4 +674,10 @@ $
   + Общезначима ли формула $forall x (P(x) or not P(x))$?
     А выполнима ли $exists x forall y space R(x, y)$?
   + \* Выведите следствие конечности из компактности: если $Gamma models phi$, то $phi$ следует из конечного подмножества $Gamma$.
+  + Какие вхождения переменных в формулу $forall x space (P(x) -> exists y space Q(x, y)) or R(x, z)$ свободны, а какие связаны?
+  + Приведите к предварённой нормальной форме формулу $not forall x space P(x) or exists y space Q(y)$.
+  + Запишите формулой «ровно один студент сдал все экзамены» через $exists$ и $forall$, и выпишите её отрицание.
+  + Постройте модель из двух элементов, в которой $exists x space forall y space R(x, y)$ истинна, а $forall y space exists x space R(x, y)$ ложна.
+  + Пошагово вычислите отрицание формулы $forall x space exists y space forall z space P(x, y, z)$.
+  + \* Докажите, что формула $forall x space forall y space (P(x, y) -> P(y, x))$ не общезначима: предъявите модель из двух элементов, где она ложна.
 ]
