@@ -1,0 +1,18 @@
+graph G {
+    Moscow [label="Moscow"];
+    Piter [label="Piter"];
+    Novgorod [label="Novgorod"];
+    Nizhny [label="Nizhny"];
+    Kazan [label="Kazan"];
+    Samara [label="Samara"];
+    Rostov [label="Rostov"];
+    Moscow -- Piter [label="700"];
+    Moscow -- Novgorod [label="530"];
+    Piter -- Novgorod [label="180"];
+    Moscow -- Nizhny [label="400"];
+    Moscow -- Kazan [label="800"];
+    Nizhny -- Kazan [label="400"];
+    Kazan -- Samara [label="350"];
+    Moscow -- Rostov [label="1100"];
+    Kazan -- Rostov [label="980"];
+}

@@ -27,6 +27,8 @@ A second representation lives in `matrix.rs`: `AdjMatrix`, an `n x n` table of e
 
 The figure above is the `visualize` demo graph: the crate writes the DOT source, and the example renders the picture itself with `dot -O -Tsvg` (the `dot` engine lays the graph out hierarchically).
 
+The DOT source behind this figure is committed at [`assets/graphs-demo.dot`](assets/graphs-demo.dot), so you can re-lay it out with any Graphviz engine (`dot`, `neato`, `fdp`, `circo`).
+
 ## API
 
 ### Graph (`graph.rs`)
