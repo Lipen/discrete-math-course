@@ -161,44 +161,53 @@
   let hline(a, b) = draw.line(a, b, stroke: e-stroke)
   let vline(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label) = {
-    draw.content((x, -0.35), anchor: "north", text(size: s-node, fill: c-ink)[#label])
+    draw.content(
+      (x, -0.35),
+      anchor: "north",
+      text(size: s-node, fill: c-ink)[#label],
+      frame: "rect",
+      fill: luma(235),
+      stroke: luma(160) + 0.6pt,
+      radius: 3pt,
+      padding: 2.5pt,
+    )
   }
 
   leaf(0, [🚶 человек])
-  leaf(2, [🐒 шимпанзе])
-  leaf(4, [🐕 собака])
-  leaf(6, [🐈 кошка])
-  leaf(8, [🐬 дельфин])
-  leaf(10, [🐄 корова])
+  leaf(2.4, [🐒 шимпанзе])
+  leaf(4.8, [🐕 собака])
+  leaf(7.2, [🐈 кошка])
+  leaf(9.6, [🐬 дельфин])
+  leaf(12, [🐄 корова])
 
   // Человек и шимпанзе расходятся около 6 млн лет назад.
   vline((0, 0), (0, 6 * sc))
-  vline((2, 0), (2, 6 * sc))
-  hline((0, 6 * sc), (2, 6 * sc))
+  vline((2.4, 0), (2.4, 6 * sc))
+  hline((0, 6 * sc), (2.4, 6 * sc))
 
   // Собака и кошка расходятся около 55 млн лет назад.
-  vline((4, 0), (4, 55 * sc))
-  vline((6, 0), (6, 55 * sc))
-  hline((4, 55 * sc), (6, 55 * sc))
+  vline((4.8, 0), (4.8, 55 * sc))
+  vline((7.2, 0), (7.2, 55 * sc))
+  hline((4.8, 55 * sc), (7.2, 55 * sc))
 
   // Дельфин и корова расходятся около 55 млн лет назад.
-  vline((8, 0), (8, 55 * sc))
-  vline((10, 0), (10, 55 * sc))
-  hline((8, 55 * sc), (10, 55 * sc))
+  vline((9.6, 0), (9.6, 55 * sc))
+  vline((12, 0), (12, 55 * sc))
+  hline((9.6, 55 * sc), (12, 55 * sc))
 
   // Хищные и китопарнокопытные расходятся около 75 млн лет назад.
-  vline((5, 55 * sc), (5, 75 * sc))
-  vline((9, 55 * sc), (9, 75 * sc))
-  hline((5, 75 * sc), (9, 75 * sc))
+  vline((6.0, 55 * sc), (6.0, 75 * sc))
+  vline((10.8, 55 * sc), (10.8, 75 * sc))
+  hline((6.0, 75 * sc), (10.8, 75 * sc))
 
   // Приматы и лавразиатерии расходятся около 85 млн лет назад.
-  vline((1, 6 * sc), (1, 85 * sc))
-  vline((7, 75 * sc), (7, 85 * sc))
-  hline((1, 85 * sc), (7, 85 * sc))
+  vline((1.2, 6 * sc), (1.2, 85 * sc))
+  vline((8.4, 75 * sc), (8.4, 85 * sc))
+  hline((1.2, 85 * sc), (8.4, 85 * sc))
 
-  draw.content((-0.4, 6 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$6$])
-  draw.content((-0.4, 55 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$55$])
-  draw.content((-0.4, 75 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$75$])
-  draw.content((-0.4, 85 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$85$])
-  draw.content((-0.4, 95 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[млн лет назад])
+  draw.content((-0.5, 6 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$6$])
+  draw.content((-0.5, 55 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$55$])
+  draw.content((-0.5, 75 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$75$])
+  draw.content((-0.5, 85 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$85$])
+  draw.content((-0.5, 95 * sc), anchor: "east", text(size: s-cap, fill: c-muted)[млн лет назад])
 })
