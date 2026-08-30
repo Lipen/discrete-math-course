@@ -154,3 +154,38 @@
   draw.content((-0.35, 2), anchor: "east", text(size: s-node, fill: c-ink)[$2$])
   draw.content((-0.35, 3), anchor: "east", text(size: s-node, fill: c-ink)[$3$])
 })
+
+// ── Филогенетическое дерево человекообразных обезьян ──
+#let primate-tree = canvas({
+  let sc = 0.4
+  let hline(a, b) = draw.line(a, b, stroke: e-stroke)
+  let vline(a, b) = draw.line(a, b, stroke: e-stroke)
+  let leaf(x, label) = {
+    draw.content((x, -0.35), anchor: "north", text(size: s-node, fill: c-ink)[#label])
+  }
+
+  leaf(0, [человек])
+  leaf(2, [шимпанзе])
+  leaf(4, [горилла])
+  leaf(6, [орангутан])
+
+  // Человек и шимпанзе расходятся около 6 млн лет назад.
+  vline((0, 0), (0, 6 * sc))
+  vline((2, 0), (2, 6 * sc))
+  hline((0, 6 * sc), (2, 6 * sc))
+
+  // Горилла ответвляется около 8 млн лет назад.
+  vline((1, 6 * sc), (1, 8 * sc))
+  vline((4, 0), (4, 8 * sc))
+  hline((1, 8 * sc), (4, 8 * sc))
+
+  // Орангутан ответвляется около 14 млн лет назад.
+  vline((2.5, 8 * sc), (2.5, 14 * sc))
+  vline((6, 0), (6, 14 * sc))
+  hline((2.5, 14 * sc), (6, 14 * sc))
+
+  draw.content((-0.4, 6 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$6$])
+  draw.content((-0.4, 8 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$8$])
+  draw.content((-0.4, 14 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[$14$])
+  draw.content((-0.4, 15 * sc), anchor: "east", text(size: s-tiny, fill: c-muted)[млн лет назад])
+})
