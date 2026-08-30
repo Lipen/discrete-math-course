@@ -16,7 +16,7 @@ Every crate builds, tests, and runs on its own; none imports another.
 | [`smt`](smt/README.md) | Satisfiability modulo theories | Difference logic `x - y <= c`, negative-cycle detection via Bellman-Ford; demos: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
 | [`fol`](fol/README.md) | First-order logic | Terms, formulas, quantifiers, capture-avoiding substitution, Tarski models, finite-domain validity/satisfiability by enumeration; demos: [`mortal`](fol/examples/mortal.rs), [`quantifier_scope`](fol/examples/quantifier_scope.rs), [`substitution`](fol/examples/substitution.rs), [`validity`](fol/examples/validity.rs) |
 | [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
-| [`prolog`](prolog/README.md) | Logic programming | Terms, unification with the occurs check, SLD resolution with backtracking |
+| [`prolog`](prolog/README.md) | Logic programming | Terms, substitutions, unification with the occurs check, clause databases; demos: [`family_tree`](prolog/examples/family_tree.rs), [`unify_demo`](prolog/examples/unify_demo.rs) |
 | [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fuzzy`](fuzzy/README.md) | Fuzzy sets and fuzzy logic | Piecewise-linear membership functions, Zadeh operations (min/max/complement), t-norms, alpha-cuts and decomposition, TFN arithmetic, max-min composition, Mamdani inference with centroid/mean-of-max/bisector defuzzification; demos: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs), [`controller`](fuzzy/examples/controller.rs) |
 
@@ -49,7 +49,7 @@ Every crate builds, tests, and runs on its own; none imports another.
 | Crate | Topic | Highlights |
 | --- | --- | --- |
 | [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring; SVG/DOT/cytoscape/HTML renderers |
-| [`matroids`](matroids/README.md) | Matroids | Independence axioms, graphic/linear/uniform/scheduling matroids, rank, greedy optimality; demos: [`counterexample`](matroids/examples/counterexample.rs), [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
+| [`matroids`](matroids/README.md) | Matroids | Independence axioms, graphic/linear/uniform/scheduling matroids, rank, greedy optimality; demos: [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
 | [`combinatorics`](combinatorics/README.md) | Combinatorial object generators | Permutations, combinations, derangements, integer partitions; lexicographic enumeration; demos: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
 
 ### Circuits and verification

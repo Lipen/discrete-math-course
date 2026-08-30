@@ -1,4 +1,4 @@
-//! Concrete independence systems: four matroids and one non-matroid.
+//! Concrete independence systems: four matroids.
 
 use crate::Matroid;
 
@@ -111,28 +111,5 @@ impl<'a> Matroid for BinaryLinearMatroid<'a> {
             basis.push(row);
         }
         true
-    }
-}
-
-/// An independence system that is NOT a matroid: used to show that greedy can fail.
-/// Independent sets: size at most `max_size`, excluding sets that contain a forbidden subset.
-pub struct SimpleIndependenceSystem {
-    pub n: u32,
-    pub max_size: u32,
-    pub forbidden: Vec<Vec<u32>>,
-}
-
-impl Matroid for SimpleIndependenceSystem {
-    fn n(&self) -> u32 {
-        self.n
-    }
-    fn is_independent(&self, set: &[u32]) -> bool {
-        if set.len() as u32 > self.max_size {
-            return false;
-        }
-        !self
-            .forbidden
-            .iter()
-            .any(|f| f.iter().all(|&x| set.contains(&x)))
     }
 }

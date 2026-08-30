@@ -17,7 +17,7 @@ Rust-компаньон курса дискретной математики: **
 | [`smt`](smt/README.ru.md) | Выполнимость с теориями (SMT) | Разностная логика `x - y <= c`, поиск отрицательного цикла через Беллмана-Форда; демо: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
 | [`fol`](fol/README.ru.md) | Логика предикатов | Термы, формулы, кванторы, подстановка без захвата, модели по Тарскому, общезначимость/выполнимость перебором конечного домена; демо: [`mortal`](fol/examples/mortal.rs), [`quantifier_scope`](fol/examples/quantifier_scope.rs), [`substitution`](fol/examples/substitution.rs), [`validity`](fol/examples/validity.rs) |
 | [`fitch`](fitch/README.ru.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
-| [`prolog`](prolog/README.ru.md) | Логическое программирование | Термы, унификация с occurs-check, SLD-резолюция с бэктрекингом |
+| [`prolog`](prolog/README.ru.md) | Логическое программирование | Термы, подстановки, унификация с occurs-check, база дизъюнктов; демо: [`family_tree`](prolog/examples/family_tree.rs), [`unify_demo`](prolog/examples/unify_demo.rs) |
 | [`heyting`](heyting/README.ru.md) | Алгебры Гейтинга | Трёхэлементная алгебра {0, 1/2, 1}, относительное псевдодополнение, закон исключённого третьего не работает; демо: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fuzzy`](fuzzy/README.ru.md) | Нечёткие множества и нечёткая логика | Кусочно-линейные функции принадлежности, операции Заде (min/max/дополнение), t-нормы, α-срезы и декомпозиция, арифметика ТНЧ, max-min-композиция, вывод Мамдани с дефаззификацией (центроид, среднее максимума, биссектриса); демо: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs), [`controller`](fuzzy/examples/controller.rs) |
 
@@ -50,7 +50,7 @@ Rust-компаньон курса дискретной математики: **
 | Крейт | Тема | Что внутри |
 | --- | --- | --- |
 | [`graphs`](graphs/README.ru.md) | Графы | Простая модель без дженериков, BFS/DFS, Дейкстра, Краскал, Эйлер, мосты, раскраска; рендер в SVG/DOT/cytoscape/HTML |
-| [`matroids`](matroids/README.ru.md) | Матроиды | Аксиомы независимости, графический/линейный/равномерный матроид и матроид расписаний, ранг, оптимальность жадного алгоритма; демо: [`counterexample`](matroids/examples/counterexample.rs), [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
+| [`matroids`](matroids/README.ru.md) | Матроиды | Аксиомы независимости, графический/линейный/равномерный матроид и матроид расписаний, ранг, оптимальность жадного алгоритма; демо: [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
 | [`combinatorics`](combinatorics/README.ru.md) | Генераторы комбинаторных объектов | Перестановки, сочетания, беспорядки, разбиения числа; лексикографическое перечисление; демо: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
 
 ### Схемы и верификация

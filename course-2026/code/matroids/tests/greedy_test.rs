@@ -1,8 +1,6 @@
-//! Greedy is optimal on matroids and can fail on a non-matroid.
+//! Greedy is optimal on matroids.
 
-use matroids::examples::{
-    GraphicMatroid, SchedulingMatroid, SimpleIndependenceSystem, UniformMatroid,
-};
+use matroids::examples::{GraphicMatroid, SchedulingMatroid, UniformMatroid};
 use matroids::{greedy, weight};
 
 #[test]
@@ -23,21 +21,6 @@ fn graphic_matroid_greedy_is_max_spanning_tree() {
     let base = greedy(&m, &weights);
     assert_eq!(base.len(), 2);
     assert_eq!(weight(&base, &weights), 9); // {0, 1}
-}
-
-#[test]
-fn greedy_fails_on_non_matroid() {
-    // a(5), b(4), c(4); independent: {}, {a}, {b}, {c}, {b,c}.
-    let system = SimpleIndependenceSystem {
-        n: 3,
-        max_size: 2,
-        forbidden: vec![vec![0, 1], vec![0, 2]],
-    };
-    let weights = [5u32, 4, 4];
-    let base = greedy(&system, &weights);
-    let got = weight(&base, &weights);
-    assert_eq!(got, 5); // greedy takes {a}
-    assert_ne!(got, 8); // optimum {b, c} = 8 is out of reach
 }
 
 #[test]
