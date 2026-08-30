@@ -6,10 +6,7 @@
 //! `!0 = 1` and `!1 = 0`.
 //!
 //! Enumeration walks the positions in lexicographic order, skipping the
-//! fixed-point value at each step. Rank and unrank count completions with
-//! memoization, so they avoid materializing the whole list.
-
-use std::collections::HashMap;
+//! fixed-point value at each step.
 
 /// The subfactorial `!n`: the number of derangements of `0..n`.
 ///
@@ -35,34 +32,6 @@ pub fn subfactorial(n: usize) -> u64 {
             b
         }
     }
-}
-
-/// Number of ways to complete a partial derangement: fill positions
-/// `pos..n` with the still-unused values so no value equals its position.
-///
-/// `mask` is the set of already-used values; `pos` is recovered as the count
-/// of used values, since positions are filled in order.
-fn count_completions(n: usize, mask: u64, memo: &mut HashMap<u64, u64>) -> u64 {
-    let pos = mask.count_ones() as usize;
-    if pos == n {
-        return 1;
-    }
-    if let Some(&c) = memo.get(&mask) {
-        return c;
-    }
-
-    let mut total = 0u64;
-    for v in 0..n {
-        if (mask >> v) & 1 == 1 {
-            continue;
-        }
-        if v == pos {
-            continue; // a fixed point is forbidden.
-        }
-        total += count_completions(n, mask | (1 << v), memo);
-    }
-    memo.insert(mask, total);
-    total
 }
 
 /// All derangements of `0..n` in lexicographic order.
@@ -100,70 +69,6 @@ pub fn derangements(n: usize) -> Vec<Vec<usize>> {
     out
 }
 
-/// The lexicographic rank of a derangement `p`, from `0` to `!n - 1`.
-///
-/// `p` must be a valid derangement of `0..n` (`n = p.len()`).
-#[allow(clippy::needless_range_loop)]
-pub fn rank_derangement(p: &[usize]) -> u64 {
-    let n = p.len();
-    let mut memo = HashMap::new();
-    let mut rank = 0u64;
-    let mut mask = 0u64;
-
-    for pos in 0..n {
-        // Every derangement with a smaller value at this position and the
-        // same prefix is smaller than `p`.
-        for v in 0..p[pos] {
-            if (mask >> v) & 1 == 1 {
-                continue;
-            }
-            if v == pos {
-                continue;
-            }
-            rank += count_completions(n, mask | (1 << v), &mut memo);
-        }
-        mask |= 1 << p[pos];
-    }
-    rank
-}
-
-/// The derangement of `0..n` with the given lexicographic rank.
-///
-/// `rank` must lie in `0..!n`.
-///
-/// ```
-/// use combinatorics::{rank_derangement, unrank_derangement};
-/// for r in 0..9 {
-///     let p = unrank_derangement(4, r);
-///     assert_eq!(rank_derangement(&p), r);
-/// }
-/// ```
-pub fn unrank_derangement(n: usize, rank: u64) -> Vec<usize> {
-    let mut p = Vec::with_capacity(n);
-    let mut memo = HashMap::new();
-    let mut r = rank;
-    let mut mask = 0u64;
-
-    for pos in 0..n {
-        for v in 0..n {
-            if (mask >> v) & 1 == 1 {
-                continue;
-            }
-            if v == pos {
-                continue;
-            }
-            let block = count_completions(n, mask | (1 << v), &mut memo);
-            if r < block {
-                p.push(v);
-                mask |= 1 << v;
-                break;
-            }
-            r -= block;
-        }
-    }
-    p
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -199,17 +104,6 @@ mod tests {
         let ds = derangements(5);
         for w in ds.windows(2) {
             assert!(w[0] < w[1]);
-        }
-    }
-
-    #[test]
-    fn rank_unrank_round_trip() {
-        for n in 0..8 {
-            let count = subfactorial(n);
-            for r in 0..count {
-                let p = unrank_derangement(n, r);
-                assert_eq!(rank_derangement(&p), r);
-            }
         }
     }
 }

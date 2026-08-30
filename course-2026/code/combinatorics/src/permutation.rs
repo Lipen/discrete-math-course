@@ -1,14 +1,10 @@
-//! Permutations: lexicographic enumeration, rank, and unrank.
+//! Permutations: lexicographic enumeration.
 //!
 //! A permutation of `0..n` is a list of the `n` values, each used exactly
 //! once. The classic `next_permutation` advances to the next permutation in
 //! lexicographic order in three steps: find the longest decreasing suffix,
 //! swap the pivot just before it with the smallest element of the suffix that
 //! is larger than the pivot, and reverse the suffix.
-//!
-//! Ranking uses the factorial number system: at position `i`, the number of
-//! still-unused values smaller than `p[i]` contributes to the rank, each
-//! scaled by `(n - 1 - i)!`.
 
 /// The number of permutations of `n` items, `n!`.
 ///
@@ -81,58 +77,6 @@ pub fn permutations(n: usize) -> Vec<Vec<usize>> {
     out
 }
 
-/// The lexicographic rank of a permutation of `0..n`, from `0` to `n! - 1`.
-///
-/// ```
-/// use combinatorics::{permutations, rank_permutation};
-/// for (r, p) in permutations(4).iter().enumerate() {
-///     assert_eq!(rank_permutation(p) as usize, r);
-/// }
-/// ```
-pub fn rank_permutation(p: &[usize]) -> u64 {
-    let n = p.len();
-    let mut rank = 0u64;
-    let mut used = vec![false; n];
-
-    for i in 0..n {
-        // Count unused values smaller than p[i] at this position.
-        let mut smaller = 0u64;
-        for is_used in &used[..p[i]] {
-            if !is_used {
-                smaller += 1;
-            }
-        }
-        rank += smaller * factorial(n - 1 - i);
-        used[p[i]] = true;
-    }
-    rank
-}
-
-/// The permutation of `0..n` with the given lexicographic rank.
-///
-/// `rank` must lie in `0..n!`.
-///
-/// ```
-/// use combinatorics::{rank_permutation, unrank_permutation};
-/// for r in 0..24 {
-///     let p = unrank_permutation(4, r);
-///     assert_eq!(rank_permutation(&p), r);
-/// }
-/// ```
-pub fn unrank_permutation(n: usize, rank: u64) -> Vec<usize> {
-    let mut p = Vec::with_capacity(n);
-    let mut available: Vec<usize> = (0..n).collect();
-    let mut r = rank;
-
-    for i in 0..n {
-        let block = factorial(n - 1 - i);
-        let idx = (r / block) as usize;
-        r %= block;
-        p.push(available.remove(idx));
-    }
-    p
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -178,16 +122,6 @@ mod tests {
         let all = permutations(4);
         for w in all.windows(2) {
             assert!(w[0] < w[1]);
-        }
-    }
-
-    #[test]
-    fn rank_unrank_round_trip() {
-        for n in 0..6 {
-            for r in 0..factorial(n) {
-                let p = unrank_permutation(n, r);
-                assert_eq!(rank_permutation(&p), r);
-            }
         }
     }
 }
