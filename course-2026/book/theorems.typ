@@ -95,10 +95,19 @@
   }
 }
 
-// Бейдж: цветная плашка с белым текстом.
+// Тональные производные от accent. Полоса/рамка --- сам accent, а фон карточки,
+// текст метки/заголовка и фон бейджа выводятся из него по единой формуле:
+// палитра остаётся согласованной, какой бы ряд ни использовался.
+#let _tint(accent) = accent.transparentize(90%)   // фон карточки (почти белый оттенок)
+#let _label-text(accent) = accent.darken(30%)     // текст метки без бейджа
+#let _title-text(accent) = accent.darken(20%)     // заголовок рядом с меткой
+#let _badge-bg(accent) = accent.darken(25%)       // фон бейджа (белый текст читаем)
+
+// Бейдж: цветная плашка с белым текстом. Фон затемняется, чтобы белый текст
+// оставался читаемым на насыщенных акцентах.
 #let badge(color, body) = {
   box(
-    fill: color,
+    fill: _badge-bg(color),
     radius: 2pt,
     inset: (x: 0.5em),
     outset: (y: 0.5em),
@@ -121,6 +130,21 @@
 // Вспомогательный блок: только левая полоса, без рамки и фона.
 #let _aux-stroke(accent) = (left: 1.8pt + accent)
 
+// Карточка: фон-заливка + рамка + скругление вокруг тела блока.
+// `_block` собирает на ней шапку; внешние компоновщики (банк задач) могут
+// переиспользовать её для собственных карточек.
+#let _card(accent, body, badged: true, above: auto, below: auto, bottom-inset: 0.8em) = {
+  block(
+    above: above,
+    below: below,
+    width: 100%,
+    fill: if badged { _tint(accent) } else { none },
+    stroke: if badged { _stroke(accent) } else { _aux-stroke(accent) },
+    inset: (x: 0.8em, top: if badged { 0.7em } else { 0.6em }, bottom: bottom-inset),
+    radius: 3pt,
+  )[#body]
+}
+
 // Общий каркас блока: бейдж или текстовая метка, необязательный заголовок, тело.
 // fill и тон заголовка выводятся из цвета-акцента по единой формуле.
 #let _block(
@@ -135,15 +159,7 @@
   below: auto,
 ) = {
   if ctr != none { ctr.step() }
-  block(
-    above: above,
-    below: below,
-    width: 100%,
-    fill: if badged { accent.transparentize(90%) } else { none },
-    stroke: if badged { _stroke(accent) } else { _aux-stroke(accent) },
-    inset: (x: 0.8em, top: if badged { 0.7em } else { 0.6em }, bottom: 0.8em),
-    radius: 3pt,
-  )[
+  _card(accent, badged: badged, above: above, below: below)[
     #set par(first-line-indent: 0pt)
     #_sticky[
       #if badged [
@@ -153,12 +169,12 @@
           size: 0.9em,
           weight: "semibold",
           style: if label-italic { "italic" } else { "normal" },
-          fill: accent.darken(30%),
+          fill: _label-text(accent),
         )[#label]
       ]
       #if title != none [
         #h(0.6em, weak: true)
-        #text(weight: "semibold", fill: accent.darken(20%))[#title]
+        #text(weight: "semibold", fill: _title-text(accent))[#title]
       ]
     ]
     #v(0.9em, weak: true)
