@@ -31,6 +31,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`fol`](fol/README.md) | Логика предикатов | Термы, формулы, кванторы, подстановка без захвата, модели по Тарскому, общезначимость/выполнимость перебором конечного домена; демо: [`mortal`](fol/examples/mortal.rs), [`quantifier_scope`](fol/examples/quantifier_scope.rs), [`substitution`](fol/examples/substitution.rs), [`validity`](fol/examples/validity.rs) |
 | [`algebra`](algebra/README.md) | Алгебраические структуры | Трейты полугруппы/моноида/группы/кольца/поля, гомоморфизмы и факторгруппы, конечные поля `GF(2^m)` |
 | [`combinatorics`](combinatorics/README.md) | Генераторы комбинаторных объектов | Перестановки, сочетания, беспорядки, разбиения числа; лексикографическое перечисление, ранг/де-ранг; демо: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
+| [`fuzzy`](fuzzy/README.md) | Нечёткие множества и нечёткая логика | Кусочно-линейные функции принадлежности, операции Заде (min/max/дополнение), t-нормы, α-срезы и декомпозиция, арифметика ТНЧ, max-min-композиция, вывод Мамдани с дефаззификацией (центроид, среднее максимума, биссектриса); демо: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs), [`controller`](fuzzy/examples/controller.rs) |
 
 ## Структура
 
@@ -95,6 +96,7 @@ README каждого крейта объясняет модуль и переч
 - [algebra/README.md](algebra/README.md)
 - [context-free/README.md](context-free/README.md)
 - [combinatorics/README.md](combinatorics/README.md)
+- [fuzzy/README.md](fuzzy/README.md)
 
 ## Английская версия
 
