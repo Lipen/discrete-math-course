@@ -55,7 +55,9 @@ fn main() {
 
         println!(
             "{n:>4}  | {:>7} | {:>10} | {:>10}",
-            samples, ok, if bad == 0 { "none" } else { "FOUND" }
+            samples,
+            ok,
+            if bad == 0 { "none" } else { "FOUND" }
         );
     }
 

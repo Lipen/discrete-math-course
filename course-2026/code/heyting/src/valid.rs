@@ -398,9 +398,7 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
                     i = j;
                 }
             }
-            if groups.len() == cells.len()
-                && groups.iter().zip(cells.iter()).all(|(g, c)| g == c)
-            {
+            if groups.len() == cells.len() && groups.iter().zip(cells.iter()).all(|(g, c)| g == c) {
                 *cells = groups;
                 return;
             }
@@ -435,11 +433,7 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
     // relabeling assigns names 1..n-2 to it (bottom and top keep 0 and
     // n-1).  The minimal flattened table over all terminal partitions is
     // the canonical form.
-    fn search(
-        norm: &Algebra,
-        cells: &mut Vec<Vec<usize>>,
-        best: &mut Option<Vec<usize>>,
-    ) {
+    fn search(norm: &Algebra, cells: &mut Vec<Vec<usize>>, best: &mut Option<Vec<usize>>) {
         refine(norm, cells);
         // Find the first non-singleton cell.
         let target = cells.iter().position(|c| c.len() > 1);

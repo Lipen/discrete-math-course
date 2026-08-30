@@ -12,7 +12,11 @@ fn show_bits(name: &str, bits: &[bool]) {
         .iter()
         .enumerate()
         .fold(0, |acc, (i, &b)| if b { acc | (1 << i) } else { acc });
-    let string: String = bits.iter().rev().map(|&b| if b { '1' } else { '0' }).collect();
+    let string: String = bits
+        .iter()
+        .rev()
+        .map(|&b| if b { '1' } else { '0' })
+        .collect();
     println!("  {name}: {string}  (= {value})");
 }
 
@@ -28,7 +32,11 @@ fn main() {
     show_bits("B      ", &[true, false, false, false]);
     show_bits("sum    ", &sum);
     println!("  carry out: {}", carry as u8);
-    println!("  size {} gates, depth {}", adder.circuit.size(), adder.circuit.depth());
+    println!(
+        "  size {} gates, depth {}",
+        adder.circuit.size(),
+        adder.circuit.depth()
+    );
 
     // --- A wider pair, checked against integer addition -----------------
     let adder = ripple_carry_adder(8);
@@ -40,5 +48,9 @@ fn main() {
     let exact = adder.add_exact(x, y).unwrap();
     println!("  sum (mod 2^8) = {sum}, carry out = {carry}");
     println!("  exact {x} + {y} = {exact} (u128 check)");
-    println!("  size {} gates, depth {}", adder.circuit.size(), adder.circuit.depth());
+    println!(
+        "  size {} gates, depth {}",
+        adder.circuit.size(),
+        adder.circuit.depth()
+    );
 }

@@ -70,11 +70,7 @@ impl Adder {
 
     /// Add two LSB-first bit slices and return the `n` sum bits plus the final
     /// carry. Every slice must have `bits()` entries.
-    pub fn add_bits(
-        &self,
-        x: &[bool],
-        y: &[bool],
-    ) -> Result<(Vec<bool>, bool), CircuitError> {
+    pub fn add_bits(&self, x: &[bool], y: &[bool]) -> Result<(Vec<bool>, bool), CircuitError> {
         let n = self.bits();
         if x.len() != n || y.len() != n {
             return Err(CircuitError::WidthMismatch {
@@ -188,7 +184,11 @@ mod tests {
             let s = c.eval(sum, &[a, b, cin]).unwrap();
             let co = c.eval(carry, &[a, b, cin]).unwrap();
             let total = (a as u8) + (b as u8) + (cin as u8);
-            assert_eq!((s, co), (total & 1 == 1, total >= 2), "A={a}, B={b}, Cin={cin}");
+            assert_eq!(
+                (s, co),
+                (total & 1 == 1, total >= 2),
+                "A={a}, B={b}, Cin={cin}"
+            );
         }
     }
 
@@ -196,11 +196,9 @@ mod tests {
     fn ripple_carry_4_bit_trace_matches_book_example() {
         let adder = ripple_carry_adder(4);
         // 0111 + 0001 = 1000, carry out 0.
-        let (sum_bits, carry) = adder.add_bits(
-            &[true, true, true, false],
-            &[true, false, false, false],
-        )
-        .unwrap();
+        let (sum_bits, carry) = adder
+            .add_bits(&[true, true, true, false], &[true, false, false, false])
+            .unwrap();
         assert_eq!(sum_bits, vec![false, false, false, true]);
         assert!(!carry);
         assert_eq!(value_of(&sum_bits), 8);
@@ -245,7 +243,9 @@ mod tests {
     #[test]
     fn wrong_width_is_rejected() {
         let adder = ripple_carry_adder(3);
-        let err = adder.add_bits(&[true, false], &[true, false, true]).unwrap_err();
+        let err = adder
+            .add_bits(&[true, false], &[true, false, true])
+            .unwrap_err();
         assert!(matches!(err, CircuitError::WidthMismatch { .. }));
     }
 

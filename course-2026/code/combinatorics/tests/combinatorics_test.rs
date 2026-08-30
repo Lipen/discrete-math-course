@@ -16,10 +16,7 @@ fn permutations_count_is_factorial() {
 fn combinations_count_is_binomial() {
     for n in 0usize..8 {
         for k in 0..=n {
-            assert_eq!(
-                combinations(n, k).len() as u64,
-                count_combinations(n, k)
-            );
+            assert_eq!(combinations(n, k).len() as u64, count_combinations(n, k));
         }
     }
     assert_eq!(count_combinations(10, 5), 252);

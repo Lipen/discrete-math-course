@@ -22,7 +22,5 @@
 pub mod adder;
 pub mod circuit;
 
-pub use adder::{
-    bits_of, full_adder, half_adder, ripple_carry_adder, value_of, Adder,
-};
+pub use adder::{bits_of, full_adder, half_adder, ripple_carry_adder, value_of, Adder};
 pub use circuit::{Circuit, CircuitError, Gate, NodeId};

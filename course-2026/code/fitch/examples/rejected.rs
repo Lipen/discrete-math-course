@@ -13,8 +13,16 @@ fn main() {
 
     // From A, ∨-introduction may state A ∨ X -- but not B ∨ C.
     let wrong_disjunct = vec![
-        Step { depth: 0, formula: a.clone(), just: Just::Assumption },
-        Step { depth: 0, formula: or(b.clone(), c.clone()), just: Just::OrIntroLeft { disj: 1 } },
+        Step {
+            depth: 0,
+            formula: a.clone(),
+            just: Just::Assumption,
+        },
+        Step {
+            depth: 0,
+            formula: or(b.clone(), c.clone()),
+            just: Just::OrIntroLeft { disj: 1 },
+        },
     ];
 
     let p = atom("P");
@@ -22,14 +30,29 @@ fn main() {
     // The subproof hypothesis Q (line 2) is discharged by line 3; line 4
     // still tries to use it.
     let out_of_scope = vec![
-        Step { depth: 0, formula: p.clone(), just: Just::Assumption },
-        Step { depth: 1, formula: q.clone(), just: Just::Assumption },
+        Step {
+            depth: 0,
+            formula: p.clone(),
+            just: Just::Assumption,
+        },
+        Step {
+            depth: 1,
+            formula: q.clone(),
+            just: Just::Assumption,
+        },
         Step {
             depth: 0,
             formula: implies(q.clone(), q.clone()),
-            just: Just::ImpliesIntro { assump: 2, concl: 2 },
+            just: Just::ImpliesIntro {
+                assump: 2,
+                concl: 2,
+            },
         },
-        Step { depth: 0, formula: q.clone(), just: Just::AndElimLeft { conj: 2 } },
+        Step {
+            depth: 0,
+            formula: q.clone(),
+            just: Just::AndElimLeft { conj: 2 },
+        },
     ];
 
     report("wrong disjunct", &wrong_disjunct);

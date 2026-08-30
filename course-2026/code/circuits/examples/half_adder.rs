@@ -49,12 +49,7 @@ fn main() {
         let total = (x as u8) + (y as u8) + (z as u8);
         println!(
             "  {}  {}   {} | {}  {}   (sum of bits = {})",
-            x as u8,
-            y as u8,
-            z as u8,
-            s as u8,
-            k as u8,
-            total
+            x as u8, y as u8, z as u8, s as u8, k as u8, total
         );
     }
 }

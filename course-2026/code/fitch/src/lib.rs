@@ -132,23 +132,42 @@ pub enum Error {
     /// A referenced line does not exist or is out of scope.
     OutOfScope(Line),
     /// A referenced line has the wrong formula.
-    WrongFormula { line: Line, expected: Formula, found: Formula },
+    WrongFormula {
+        line: Line,
+        expected: Formula,
+        found: Formula,
+    },
     /// A subproof reference does not point at an open assumption.
     NotAnAssumption(Line),
     /// A rule derives a formula different from the one stated on the step.
-    Mismatch { line: Line, derived: Formula, stated: Formula },
+    Mismatch {
+        line: Line,
+        derived: Formula,
+        stated: Formula,
+    },
 }
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Error::OutOfScope(l) => write!(f, "line {l} is out of scope"),
-            Error::WrongFormula { line, expected, found } => {
+            Error::WrongFormula {
+                line,
+                expected,
+                found,
+            } => {
                 write!(f, "line {line}: expected {expected}, found {found}")
             }
             Error::NotAnAssumption(l) => write!(f, "line {l} is not an open assumption"),
-            Error::Mismatch { line, derived, stated } => {
-                write!(f, "line {line}: rule derives {derived}, but {stated} is stated")
+            Error::Mismatch {
+                line,
+                derived,
+                stated,
+            } => {
+                write!(
+                    f,
+                    "line {line}: rule derives {derived}, but {stated} is stated"
+                )
             }
         }
     }
@@ -184,38 +203,76 @@ pub fn check(steps: &[Step]) -> Result<(), Error> {
             }
             Just::AndElimLeft { conj } => match scope(&active, &formulas, conj)? {
                 Formula::And(a, _) => *a,
-                f => return Err(Error::WrongFormula { line: conj, expected: and(atom("_"), atom("_")), found: f }),
+                f => {
+                    return Err(Error::WrongFormula {
+                        line: conj,
+                        expected: and(atom("_"), atom("_")),
+                        found: f,
+                    })
+                }
             },
             Just::AndElimRight { conj } => match scope(&active, &formulas, conj)? {
                 Formula::And(_, b) => *b,
-                f => return Err(Error::WrongFormula { line: conj, expected: and(atom("_"), atom("_")), found: f }),
+                f => {
+                    return Err(Error::WrongFormula {
+                        line: conj,
+                        expected: and(atom("_"), atom("_")),
+                        found: f,
+                    })
+                }
             },
             Just::OrIntroLeft { disj } => {
                 let (x, _) = match &step.formula {
                     Formula::Or(x, y) => ((**x).clone(), (**y).clone()),
-                    f => return Err(Error::WrongFormula { line, expected: or(atom("_"), atom("_")), found: f.clone() }),
+                    f => {
+                        return Err(Error::WrongFormula {
+                            line,
+                            expected: or(atom("_"), atom("_")),
+                            found: f.clone(),
+                        })
+                    }
                 };
                 let a = scope(&active, &formulas, disj)?;
                 if a != x {
-                    return Err(Error::WrongFormula { line: disj, expected: x, found: a });
+                    return Err(Error::WrongFormula {
+                        line: disj,
+                        expected: x,
+                        found: a,
+                    });
                 }
                 step.formula.clone()
             }
             Just::OrIntroRight { disj } => {
                 let (_, y) = match &step.formula {
                     Formula::Or(x, y) => ((**x).clone(), (**y).clone()),
-                    f => return Err(Error::WrongFormula { line, expected: or(atom("_"), atom("_")), found: f.clone() }),
+                    f => {
+                        return Err(Error::WrongFormula {
+                            line,
+                            expected: or(atom("_"), atom("_")),
+                            found: f.clone(),
+                        })
+                    }
                 };
                 let b = scope(&active, &formulas, disj)?;
                 if b != y {
-                    return Err(Error::WrongFormula { line: disj, expected: y, found: b });
+                    return Err(Error::WrongFormula {
+                        line: disj,
+                        expected: y,
+                        found: b,
+                    });
                 }
                 step.formula.clone()
             }
             Just::OrElim { disj, left, right } => {
                 let (a, b) = match scope(&active, &formulas, disj)? {
                     Formula::Or(a, b) => (*a, *b),
-                    f => return Err(Error::WrongFormula { line: disj, expected: or(atom("_"), atom("_")), found: f }),
+                    f => {
+                        return Err(Error::WrongFormula {
+                            line: disj,
+                            expected: or(atom("_"), atom("_")),
+                            found: f,
+                        })
+                    }
                 };
                 let c1 = scope(&active, &formulas, left)?;
                 let c2 = scope(&active, &formulas, right)?;
@@ -240,11 +297,21 @@ pub fn check(steps: &[Step]) -> Result<(), Error> {
             Just::ImpliesElim { imp, ante } => {
                 let (a, b) = match scope(&active, &formulas, imp)? {
                     Formula::Implies(a, b) => (*a, *b),
-                    f => return Err(Error::WrongFormula { line: imp, expected: implies(atom("_"), atom("_")), found: f }),
+                    f => {
+                        return Err(Error::WrongFormula {
+                            line: imp,
+                            expected: implies(atom("_"), atom("_")),
+                            found: f,
+                        })
+                    }
                 };
                 let x = scope(&active, &formulas, ante)?;
                 if x != a {
-                    return Err(Error::WrongFormula { line: ante, expected: a, found: x });
+                    return Err(Error::WrongFormula {
+                        line: ante,
+                        expected: a,
+                        found: x,
+                    });
                 }
                 b
             }
@@ -252,7 +319,11 @@ pub fn check(steps: &[Step]) -> Result<(), Error> {
                 let a = scope(&active, &formulas, assump)?;
                 let c = scope(&active, &formulas, concl)?;
                 if c != Formula::Bottom {
-                    return Err(Error::WrongFormula { line: concl, expected: Formula::Bottom, found: c });
+                    return Err(Error::WrongFormula {
+                        line: concl,
+                        expected: Formula::Bottom,
+                        found: c,
+                    });
                 }
                 close_subproof(&mut active, &depths, &mut assumptions, assump)?;
                 not(a)
@@ -262,27 +333,53 @@ pub fn check(steps: &[Step]) -> Result<(), Error> {
                 let p = scope(&active, &formulas, pos)?;
                 match n {
                     Formula::Not(x) if *x == p => Formula::Bottom,
-                    _ => return Err(Error::WrongFormula { line: neg, expected: not(p.clone()), found: n }),
+                    _ => {
+                        return Err(Error::WrongFormula {
+                            line: neg,
+                            expected: not(p.clone()),
+                            found: n,
+                        })
+                    }
                 }
             }
             Just::BotElim { bot } => {
                 let c = scope(&active, &formulas, bot)?;
                 if c != Formula::Bottom {
-                    return Err(Error::WrongFormula { line: bot, expected: Formula::Bottom, found: c });
+                    return Err(Error::WrongFormula {
+                        line: bot,
+                        expected: Formula::Bottom,
+                        found: c,
+                    });
                 }
                 step.formula.clone()
             }
             Just::Dne { notnot } => match scope(&active, &formulas, notnot)? {
                 Formula::Not(n) => match *n {
                     Formula::Not(x) => *x,
-                    f => return Err(Error::WrongFormula { line: notnot, expected: not(not(atom("_"))), found: not(f) }),
+                    f => {
+                        return Err(Error::WrongFormula {
+                            line: notnot,
+                            expected: not(not(atom("_"))),
+                            found: not(f),
+                        })
+                    }
                 },
-                f => return Err(Error::WrongFormula { line: notnot, expected: not(not(atom("_"))), found: f }),
+                f => {
+                    return Err(Error::WrongFormula {
+                        line: notnot,
+                        expected: not(not(atom("_"))),
+                        found: f,
+                    })
+                }
             },
         };
 
         if derived != step.formula {
-            return Err(Error::Mismatch { line, derived, stated: step.formula.clone() });
+            return Err(Error::Mismatch {
+                line,
+                derived,
+                stated: step.formula.clone(),
+            });
         }
         active.push(line);
     }
@@ -321,11 +418,13 @@ fn close_case(
     assumptions: &mut Vec<(Line, Formula)>,
     expected: &Formula,
 ) -> Result<(), Error> {
-    let (assump, a) = assumptions
-        .pop()
-        .ok_or(Error::NotAnAssumption(0))?;
+    let (assump, a) = assumptions.pop().ok_or(Error::NotAnAssumption(0))?;
     if a != *expected {
-        return Err(Error::WrongFormula { line: assump, expected: expected.clone(), found: a });
+        return Err(Error::WrongFormula {
+            line: assump,
+            expected: expected.clone(),
+            found: a,
+        });
     }
     let barrier = depths[assump - 1];
     active.retain(|&l| depths[l - 1] < barrier);
@@ -341,17 +440,54 @@ mod tests {
         let p = atom("P");
         let q = atom("Q");
         let steps = vec![
-            Step { depth: 0, formula: implies(p.clone(), q.clone()), just: Just::Assumption },
-            Step { depth: 1, formula: not(q.clone()), just: Just::Assumption },
-            Step { depth: 2, formula: p.clone(), just: Just::Assumption },
-            Step { depth: 2, formula: q.clone(), just: Just::ImpliesElim { imp: 1, ante: 3 } },
-            Step { depth: 2, formula: bottom(), just: Just::NotElim { neg: 2, pos: 4 } },
-            Step { depth: 1, formula: not(p.clone()), just: Just::NotIntro { assump: 3, concl: 5 } },
-            Step { depth: 0, formula: implies(not(q.clone()), not(p.clone())), just: Just::ImpliesIntro { assump: 2, concl: 6 } },
+            Step {
+                depth: 0,
+                formula: implies(p.clone(), q.clone()),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 1,
+                formula: not(q.clone()),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 2,
+                formula: p.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 2,
+                formula: q.clone(),
+                just: Just::ImpliesElim { imp: 1, ante: 3 },
+            },
+            Step {
+                depth: 2,
+                formula: bottom(),
+                just: Just::NotElim { neg: 2, pos: 4 },
+            },
+            Step {
+                depth: 1,
+                formula: not(p.clone()),
+                just: Just::NotIntro {
+                    assump: 3,
+                    concl: 5,
+                },
+            },
+            Step {
+                depth: 0,
+                formula: implies(not(q.clone()), not(p.clone())),
+                just: Just::ImpliesIntro {
+                    assump: 2,
+                    concl: 6,
+                },
+            },
             Step {
                 depth: 0,
                 formula: implies(implies(p.clone(), q.clone()), implies(not(q), not(p))),
-                just: Just::ImpliesIntro { assump: 1, concl: 7 },
+                just: Just::ImpliesIntro {
+                    assump: 1,
+                    concl: 7,
+                },
             },
         ];
         assert!(check(&steps).is_ok(), "{:?}", check(&steps));
@@ -362,8 +498,16 @@ mod tests {
         // ¬¬P ⊢ P needs DNE.
         let p = atom("P");
         let steps = vec![
-            Step { depth: 0, formula: not(not(p.clone())), just: Just::Assumption },
-            Step { depth: 0, formula: p.clone(), just: Just::Dne { notnot: 1 } },
+            Step {
+                depth: 0,
+                formula: not(not(p.clone())),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: p.clone(),
+                just: Just::Dne { notnot: 1 },
+            },
         ];
         assert!(check(&steps).is_ok(), "{:?}", check(&steps));
     }
@@ -375,14 +519,50 @@ mod tests {
         let b = atom("B");
         let c = atom("C");
         let steps = vec![
-            Step { depth: 0, formula: or(a.clone(), b.clone()), just: Just::Assumption },
-            Step { depth: 0, formula: implies(a.clone(), c.clone()), just: Just::Assumption },
-            Step { depth: 0, formula: implies(b.clone(), c.clone()), just: Just::Assumption },
-            Step { depth: 1, formula: a.clone(), just: Just::Assumption },
-            Step { depth: 1, formula: c.clone(), just: Just::ImpliesElim { imp: 2, ante: 4 } },
-            Step { depth: 1, formula: b.clone(), just: Just::Assumption },
-            Step { depth: 1, formula: c.clone(), just: Just::ImpliesElim { imp: 3, ante: 6 } },
-            Step { depth: 0, formula: c.clone(), just: Just::OrElim { disj: 1, left: 5, right: 7 } },
+            Step {
+                depth: 0,
+                formula: or(a.clone(), b.clone()),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: implies(a.clone(), c.clone()),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: implies(b.clone(), c.clone()),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 1,
+                formula: a.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 1,
+                formula: c.clone(),
+                just: Just::ImpliesElim { imp: 2, ante: 4 },
+            },
+            Step {
+                depth: 1,
+                formula: b.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 1,
+                formula: c.clone(),
+                just: Just::ImpliesElim { imp: 3, ante: 6 },
+            },
+            Step {
+                depth: 0,
+                formula: c.clone(),
+                just: Just::OrElim {
+                    disj: 1,
+                    left: 5,
+                    right: 7,
+                },
+            },
         ];
         assert!(check(&steps).is_ok(), "{:?}", check(&steps));
     }
@@ -393,9 +573,21 @@ mod tests {
         let a = atom("A");
         let b = atom("B");
         let steps = vec![
-            Step { depth: 0, formula: a.clone(), just: Just::Assumption },
-            Step { depth: 0, formula: or(a.clone(), b.clone()), just: Just::OrIntroLeft { disj: 1 } },
-            Step { depth: 0, formula: or(b.clone(), a.clone()), just: Just::OrIntroRight { disj: 1 } },
+            Step {
+                depth: 0,
+                formula: a.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: or(a.clone(), b.clone()),
+                just: Just::OrIntroLeft { disj: 1 },
+            },
+            Step {
+                depth: 0,
+                formula: or(b.clone(), a.clone()),
+                just: Just::OrIntroRight { disj: 1 },
+            },
         ];
         assert!(check(&steps).is_ok(), "{:?}", check(&steps));
     }
@@ -407,10 +599,21 @@ mod tests {
         let b = atom("B");
         let c = atom("C");
         let steps = vec![
-            Step { depth: 0, formula: a.clone(), just: Just::Assumption },
-            Step { depth: 0, formula: or(b.clone(), c.clone()), just: Just::OrIntroLeft { disj: 1 } },
+            Step {
+                depth: 0,
+                formula: a.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: or(b.clone(), c.clone()),
+                just: Just::OrIntroLeft { disj: 1 },
+            },
         ];
-        assert!(matches!(check(&steps), Err(Error::WrongFormula { line: 1, .. })));
+        assert!(matches!(
+            check(&steps),
+            Err(Error::WrongFormula { line: 1, .. })
+        ));
     }
 
     #[test]
@@ -419,11 +622,30 @@ mod tests {
         let p = atom("P");
         let q = atom("Q");
         let steps = vec![
-            Step { depth: 0, formula: p.clone(), just: Just::Assumption },
-            Step { depth: 1, formula: q.clone(), just: Just::Assumption },
-            Step { depth: 0, formula: implies(q.clone(), q.clone()), just: Just::ImpliesIntro { assump: 2, concl: 2 } },
+            Step {
+                depth: 0,
+                formula: p.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 1,
+                formula: q.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: implies(q.clone(), q.clone()),
+                just: Just::ImpliesIntro {
+                    assump: 2,
+                    concl: 2,
+                },
+            },
             // Line 4 tries to use line 2, which is now discharged.
-            Step { depth: 0, formula: q.clone(), just: Just::AndElimLeft { conj: 2 } },
+            Step {
+                depth: 0,
+                formula: q.clone(),
+                just: Just::AndElimLeft { conj: 2 },
+            },
         ];
         assert!(matches!(check(&steps), Err(Error::OutOfScope(2))));
     }
@@ -434,8 +656,16 @@ mod tests {
         let p = atom("P");
         let q = atom("Q");
         let steps = vec![
-            Step { depth: 0, formula: p.clone(), just: Just::Assumption },
-            Step { depth: 0, formula: q.clone(), just: Just::AndElimLeft { conj: 1 } },
+            Step {
+                depth: 0,
+                formula: p.clone(),
+                just: Just::Assumption,
+            },
+            Step {
+                depth: 0,
+                formula: q.clone(),
+                just: Just::AndElimLeft { conj: 1 },
+            },
         ];
         assert!(matches!(check(&steps), Err(Error::WrongFormula { .. })));
     }

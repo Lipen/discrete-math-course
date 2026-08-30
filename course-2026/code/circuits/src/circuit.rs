@@ -240,9 +240,7 @@ impl Circuit {
         let mut values = vec![false; self.nodes.len()];
         for (id, gate) in self.nodes.iter().enumerate() {
             values[id] = match *gate {
-                Gate::Input(i) => *inputs
-                    .get(i)
-                    .ok_or(CircuitError::MissingInput(i))?,
+                Gate::Input(i) => *inputs.get(i).ok_or(CircuitError::MissingInput(i))?,
                 Gate::Const(v) => v,
                 Gate::And(a, b) => at(&values, a)? & at(&values, b)?,
                 Gate::Or(a, b) => at(&values, a)? | at(&values, b)?,
@@ -256,12 +254,18 @@ impl Circuit {
     /// Simulate and return the value of a single output node.
     pub fn eval(&self, node: NodeId, inputs: &[bool]) -> Result<bool, CircuitError> {
         let values = self.simulate(inputs)?;
-        values.get(node).copied().ok_or(CircuitError::UnknownNode(node))
+        values
+            .get(node)
+            .copied()
+            .ok_or(CircuitError::UnknownNode(node))
     }
 }
 
 fn at(values: &[bool], node: NodeId) -> Result<bool, CircuitError> {
-    values.get(node).copied().ok_or(CircuitError::UnknownNode(node))
+    values
+        .get(node)
+        .copied()
+        .ok_or(CircuitError::UnknownNode(node))
 }
 
 #[cfg(test)]

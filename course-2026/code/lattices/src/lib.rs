@@ -349,11 +349,8 @@ pub fn hasse(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
 /// assert!(l.is_distributive());
 /// ```
 pub fn hasse_reflexive(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
-    let mut reflexive: Vec<(usize, usize)> = pairs
-        .iter()
-        .copied()
-        .filter(|&(a, b)| a == b)
-        .collect();
+    let mut reflexive: Vec<(usize, usize)> =
+        pairs.iter().copied().filter(|&(a, b)| a == b).collect();
     reflexive.append(&mut hasse(pairs));
     reflexive.sort_unstable();
     reflexive
@@ -487,9 +484,7 @@ mod tests {
         // Divisor poset of 12 built from scratch: a <= b iff a divides b.
         // Indices: 0=1, 1=2, 2=3, 3=4, 4=6, 5=12.
         let d12 = divisors_12();
-        let pairs = crate::relation_pairs(6, |i, j| {
-            d12.le(d12.elements[i], d12.elements[j])
-        });
+        let pairs = crate::relation_pairs(6, |i, j| d12.le(d12.elements[i], d12.elements[j]));
         let covers = crate::hasse(&pairs);
         // The covers are the covering pairs: 1<2, 1<3, 2<4, 2<6, 3<6,
         // 4<12, 6<12. The transitive pairs (1,4), (1,6), (1,12), (2,12),

@@ -19,5 +19,8 @@ fn main() {
         println!("  {:?}", q);
     }
 
-    println!("\ncount: {} permutations of 0..5 (5!)", permutations(5).len());
+    println!(
+        "\ncount: {} permutations of 0..5 (5!)",
+        permutations(5).len()
+    );
 }
