@@ -175,7 +175,7 @@
   let h85 = 4.5
 
   // Горизонтальные позиции листьев.
-  let gap = 2.0
+  let gap = 2.2
   let x0 = 0
   let x1 = x0 + gap
   let x2 = x1 + gap
@@ -194,10 +194,10 @@
 
   // Вспомогательные построения.
   let line(a, b) = draw.line(a, b, stroke: edge)
-  let leaf(x, label) = {
+  let leaf(x, label, w: plate-w) = {
     draw.rect(
-      (x - plate-w, plate-top),
-      (x + plate-w, plate-bot),
+      (x - w, plate-top),
+      (x + w, plate-bot),
       fill: luma(235),
       stroke: luma(160) + 0.6pt,
       radius: 6pt,
@@ -208,12 +208,12 @@
 
   // Листья.
   leaf(x0, [🚶 человек])
-  leaf(x1, [🐒 шимпанзе])
+  leaf(x1, [🐒 шимпанзе], w: 1.15)
   leaf(x2, [🦍 горилла])
-  leaf(x3, [🦧 орангутан])
+  leaf(x3, [🦧 орангутан], w: 1.1)
   leaf(x4, [🐕 собака])
   leaf(x5, [🐈 кошка])
-  leaf(x6, [🐬 дельфин])
+  leaf(x6, [🐬 дельфин], w: 1.0)
 
   // Стволы листьев.
   stem(x0, h6)
