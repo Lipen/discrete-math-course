@@ -157,8 +157,9 @@
 
 // ── Филогенетическое дерево млекопитающих ──
 #let mammal-tree = canvas({
-  let sc = 0.05
-  let hline(a, b) = draw.line(a, b, stroke: e-stroke)
+  // Схема: высоты ветвлений не в масштабе, времена подписаны.
+  let dash-stroke = (paint: c-edge, thickness: t-ed, dash: "dashed")
+  let hline(a, b) = draw.line(a, b, stroke: dash-stroke)
   let vline(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label) = {
     draw.content(
@@ -168,46 +169,50 @@
       frame: "rect",
       fill: luma(235),
       stroke: luma(160) + 0.6pt,
-      radius: 3pt,
+      radius: 5pt,
       padding: 2.5pt,
     )
   }
 
   leaf(0, [🚶 человек])
-  leaf(2.4, [🐒 шимпанзе])
-  leaf(4.8, [🐕 собака])
-  leaf(7.2, [🐈 кошка])
-  leaf(9.6, [🐬 дельфин])
-  leaf(12, [🐄 корова])
+  leaf(2.2, [🐒 шимпанзе])
+  leaf(4.4, [🦍 горилла])
+  leaf(6.6, [🦧 орангутан])
+  leaf(8.8, [🐕 собака])
+  leaf(11.0, [🐈 кошка])
+  leaf(13.2, [🐬 дельфин])
 
-  // Человек и шимпанзе расходятся около 6 млн лет назад.
-  vline((0, 0), (0, 6 * sc))
-  vline((2.4, 0), (2.4, 6 * sc))
-  hline((0, 6 * sc), (2.4, 6 * sc))
+  // Человек + шимпанзе (6), затем горилла (8), затем орангутан (14).
+  vline((0, 0), (0, 1.5))
+  vline((2.2, 0), (2.2, 1.5))
+  hline((0, 1.5), (2.2, 1.5))
+  vline((1.1, 1.5), (1.1, 2.0))
+  vline((4.4, 0), (4.4, 2.0))
+  hline((1.1, 2.0), (4.4, 2.0))
+  vline((2.75, 2.0), (2.75, 2.6))
+  vline((6.6, 0), (6.6, 2.6))
+  hline((2.75, 2.6), (6.6, 2.6))
+  vline((4.675, 2.6), (4.675, 4.7))
 
-  // Собака и кошка расходятся около 55 млн лет назад.
-  vline((4.8, 0), (4.8, 55 * sc))
-  vline((7.2, 0), (7.2, 55 * sc))
-  hline((4.8, 55 * sc), (7.2, 55 * sc))
+  // Собака + кошка (55), дельфин отделяется тоже около 55, а от хищных --- около 75.
+  vline((8.8, 0), (8.8, 3.4))
+  vline((11.0, 0), (11.0, 3.4))
+  hline((8.8, 3.4), (11.0, 3.4))
+  vline((9.9, 3.4), (9.9, 4.2))
+  vline((13.2, 0), (13.2, 4.2))
+  hline((9.9, 4.2), (13.2, 4.2))
+  vline((11.55, 4.2), (11.55, 4.7))
+  hline((4.675, 4.7), (11.55, 4.7))
 
-  // Дельфин и корова расходятся около 55 млн лет назад.
-  vline((9.6, 0), (9.6, 55 * sc))
-  vline((12, 0), (12, 55 * sc))
-  hline((9.6, 55 * sc), (12, 55 * sc))
+  // Корень --- маленький кончик.
+  vline((8.11, 4.7), (8.11, 5.1))
 
-  // Хищные и китопарнокопытные расходятся около 75 млн лет назад.
-  vline((6.0, 55 * sc), (6.0, 75 * sc))
-  vline((10.8, 55 * sc), (10.8, 75 * sc))
-  hline((6.0, 75 * sc), (10.8, 75 * sc))
-
-  // Приматы и лавразиатерии расходятся около 85 млн лет назад.
-  vline((1.2, 6 * sc), (1.2, 85 * sc))
-  vline((8.4, 75 * sc), (8.4, 85 * sc))
-  hline((1.2, 85 * sc), (8.4, 85 * sc))
-
-  draw.content((-0.5, 6 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$6$])
-  draw.content((-0.5, 55 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$55$])
-  draw.content((-0.5, 75 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$75$])
-  draw.content((-0.5, 85 * sc), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$85$])
-  draw.content((-0.5, 95 * sc), anchor: "east", text(size: s-cap, fill: c-muted)[млн лет назад])
+  // Метки времени (слева).
+  draw.content((-0.5, 1.5), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$6$])
+  draw.content((-0.5, 2.0), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$8$])
+  draw.content((-0.5, 2.6), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$14$])
+  draw.content((-0.5, 3.4), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$55$])
+  draw.content((-0.5, 4.2), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$75$])
+  draw.content((-0.5, 4.7), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$85$])
+  draw.content((-0.5, 5.4), anchor: "west", text(size: s-cap, fill: c-muted)[млн лет назад])
 })
