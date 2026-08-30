@@ -1,5 +1,5 @@
-// M21 diagrams --- Turing machine schematic.
-// Скопировано из book/diagrams/m14.typ, чтобы лекции не зависели от книги.
+// Turing machine schematic.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 #let c-tape = oklch(90%, 0.02, 80deg)

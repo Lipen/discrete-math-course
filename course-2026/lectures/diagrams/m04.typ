@@ -1,5 +1,5 @@
-// M02 diagrams --- Venn diagrams for set operations.
-// Скопировано из book/diagrams/m02.typ, чтобы лекции не зависели от книги.
+// Venn diagrams for set operations.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "../theme.typ": setminus
 

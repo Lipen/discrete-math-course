@@ -1,5 +1,5 @@
-// M14 diagrams --- combinatorics: Pascal triangle, inclusion-exclusion.
-// Скопировано из book/diagrams/m11.typ, чтобы лекции не зависели от книги.
+// Combinatorics: Pascal triangle, inclusion-exclusion.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Inclusion-exclusion Venn ──

@@ -1,5 +1,5 @@
-// M12 diagrams --- logic programming: SLD tree.
-// Скопировано из book/diagrams/logic-programming.typ, чтобы лекции не зависели от книги.
+// Logic programming: SLD tree.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 #let sld-goal-fill = oklch(97%, 0.02, 240deg)

@@ -1,5 +1,5 @@
-// M04 diagrams --- injection, surjection, bijection mapping schemes.
-// Скопировано из book/diagrams/m04.typ, чтобы лекции не зависели от книги.
+// Injection, surjection, bijection mapping schemes.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 #let c-dom = oklch(80%, 0.06, 250deg)

@@ -1,5 +1,5 @@
-// M06 Hasse diagrams --- poset visualization via fletcher.
-// Скопировано из book/diagrams/m05.typ, чтобы лекции не зависели от книги.
+// Hasse diagrams --- poset visualization via fletcher.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
 #let n-size = 0.6em

@@ -1,5 +1,5 @@
-// M14 (SMT) lecture diagrams: DPLL(T) architecture, difference-logic negative cycle.
-// Выделено из m15.typ: лекция m14 (SMT) не должна зависеть от файла диаграмм модальной лекции.
+// SMT lecture diagrams: DPLL(T) architecture, difference-logic negative cycle.
+// Выделено из диаграмм модальной лекции: лекция SMT не должна зависеть от них.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Palette ──

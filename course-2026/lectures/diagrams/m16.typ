@@ -1,5 +1,5 @@
-// M13 diagrams --- matroids.
-// Скопировано из book/diagrams/m28.typ, чтобы лекции не зависели от книги.
+// Matroids.
+// Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
