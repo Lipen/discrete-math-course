@@ -15,6 +15,7 @@ files := """
     lec-graphs.typ
     lec-boolean.typ
     lec-circuits.typ
+    lec-algebra.typ
     lec-codes.typ
     lec-sat.typ
     lec-smt.typ
