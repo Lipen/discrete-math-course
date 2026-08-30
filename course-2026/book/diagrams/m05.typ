@@ -162,16 +162,14 @@
   let hline(a, b) = draw.line(a, b, stroke: e-stroke)
   let vline(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label) = {
-    draw.content(
-      (x, -0.35),
-      anchor: "north",
-      text(size: s-node, fill: c-ink)[#label],
-      frame: "rect",
+    draw.rect(
+      (x - 1.05, -0.35),
+      (x + 1.05, -1.25),
       fill: luma(235),
       stroke: luma(160) + 0.6pt,
-      radius: 5pt,
-      padding: 2.5pt,
+      radius: 6pt,
     )
+    draw.content((x, -0.8), text(size: s-node, fill: c-ink)[#label])
   }
 
 
