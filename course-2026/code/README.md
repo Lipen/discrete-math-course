@@ -15,6 +15,7 @@ Crates build, test, and run on their own.
 | [`sat`](sat/README.md) | Boolean satisfiability | A DPLL solver with unit propagation and backtracking |
 | [`smt`](smt/README.md) | Satisfiability modulo theories | Difference logic `x - y <= c`, negative-cycle detection via Bellman-Ford; demos: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
 | [`bdd`](bdd/README.md) | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation |
+| [`circuits`](circuits/README.md) | Combinational circuits | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry and carry-lookahead adders; demos: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`carry_lookahead`](circuits/examples/carry_lookahead.rs), [`fuzz`](circuits/examples/fuzz.rs) |
 | [`model-checking`](model-checking/README.md) | CTL model checking | Kripke structures, state labeling, fixed-point semantics of EX/AX/EF/EG/EU; demos: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
 | [`analysis`](analysis/README.md) | Abstract interpretation | Sign, interval, and constant domains; transfer functions; widening |
 | [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
@@ -75,6 +76,7 @@ Each crate README explains its module and lists every demo:
 - [sat/README.md](sat/README.md)
 - [smt/README.md](smt/README.md)
 - [bdd/README.md](bdd/README.md)
+- [circuits/README.md](circuits/README.md)
 - [model-checking/README.md](model-checking/README.md)
 - [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)

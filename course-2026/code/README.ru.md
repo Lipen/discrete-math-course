@@ -15,6 +15,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`sat`](sat/README.md) | Выполнимость | DPLL-солвер с единичным распространением и возвратом |
 | [`smt`](smt/README.md) | Выполнимость с теориями (SMT) | Разностная логика `x - y <= c`, поиск отрицательного цикла через Беллмана-Форда; демо: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
 | [`bdd`](bdd/README.md) | Диаграммы решений | ROBDD с дополняющими рёбрами, операция `ite` |
+| [`circuits`](circuits/README.md) | Комбинационные схемы | Графы вентилей (DAG), топологическая симуляция, размер/глубина, полусумматор/полный сумматор, цепочка с последовательным переносом и с опережающим переносом; демо: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`carry_lookahead`](circuits/examples/carry_lookahead.rs), [`fuzz`](circuits/examples/fuzz.rs) |
 | [`model-checking`](model-checking/README.md) | Проверка моделей (CTL) | Структуры Крипке, раскраска состояний, семантика неподвижных точек для EX/AX/EF/EG/EU; демо: [`mutex`](model-checking/examples/mutex.rs), [`deadlock`](model-checking/examples/deadlock.rs) |
 | [`analysis`](analysis/README.md) | Абстрактная интерпретация | Домены знаков, интервалов и констант; переносящие функции; widening |
 | [`crypto`](crypto/README.md) | Теория чисел и криптография | Модулярная арифметика, RSA, реальные атаки на него |
@@ -76,6 +77,7 @@ README каждого крейта объясняет модуль и переч
 - [sat/README.md](sat/README.md)
 - [smt/README.md](smt/README.md)
 - [bdd/README.md](bdd/README.md)
+- [circuits/README.md](circuits/README.md)
 - [model-checking/README.md](model-checking/README.md)
 - [analysis/README.md](analysis/README.md)
 - [crypto/README.md](crypto/README.md)

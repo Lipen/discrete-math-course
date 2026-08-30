@@ -6,6 +6,7 @@ members = [
     "crypto",
     "turing",
     "codes",
+    "circuits",
     "sat",
     "smt",
     "model-checking",
