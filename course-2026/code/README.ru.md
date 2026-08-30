@@ -28,6 +28,7 @@ Rust-компаньон к курсу дискретной математики.
 | [`lattices`](lattices/README.md) | Решётки и порядки | join/meet, дистрибутивность, модулярность, характеризация Биркгофа (запрещённые подрешётки M3/N5) |
 | [`heyting`](heyting/README.md) | Алгебры Гейтинга | Трёхэлементная алгебра {0, 1/2, 1}, относительное псевдодополнение, закон исключённого третьего не работает; демо: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fitch`](fitch/README.md) | Натуральная дедукция | Проверка доказательств в стиле Фитча, вложенные поддоказательства по глубине, разрядка допущений; демо: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
+| [`fol`](fol/README.md) | Логика предикатов | Термы, формулы, кванторы, подстановка без захвата, модели по Тарскому, общезначимость/выполнимость перебором конечного домена; демо: [`mortal`](fol/examples/mortal.rs), [`quantifier_scope`](fol/examples/quantifier_scope.rs), [`substitution`](fol/examples/substitution.rs), [`validity`](fol/examples/validity.rs) |
 | [`algebra`](algebra/README.md) | Алгебраические структуры | Трейты полугруппы/моноида/группы/кольца/поля, гомоморфизмы и факторгруппы, конечные поля `GF(2^m)` |
 | [`combinatorics`](combinatorics/README.md) | Генераторы комбинаторных объектов | Перестановки, сочетания, беспорядки, разбиения числа; лексикографическое перечисление, ранг/де-ранг; демо: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
 
@@ -90,6 +91,7 @@ README каждого крейта объясняет модуль и переч
 - [lattices/README.md](lattices/README.md)
 - [heyting/README.md](heyting/README.md)
 - [fitch/README.md](fitch/README.md)
+- [fol/README.md](fol/README.md)
 - [algebra/README.md](algebra/README.md)
 - [context-free/README.md](context-free/README.md)
 - [combinatorics/README.md](combinatorics/README.md)

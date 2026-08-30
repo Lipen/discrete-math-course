@@ -18,6 +18,7 @@ members = [
     "matroids",
     "lattices",
     "fitch",
+    "fol",
     "algebra",
     "context-free",
     "combinatorics",

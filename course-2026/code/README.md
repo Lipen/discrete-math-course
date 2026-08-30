@@ -28,6 +28,7 @@ Crates build, test, and run on their own.
 | [`lattices`](lattices/README.md) | Lattices and orders | Join/meet, distributivity, modularity, Birkhoff characterization (M3/N5 forbidden sublattices) |
 | [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
 | [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
+| [`fol`](fol/README.md) | First-order logic | Terms, formulas, quantifiers, capture-avoiding substitution, Tarski models, finite-domain validity/satisfiability by enumeration; demos: [`mortal`](fol/examples/mortal.rs), [`quantifier_scope`](fol/examples/quantifier_scope.rs), [`substitution`](fol/examples/substitution.rs), [`validity`](fol/examples/validity.rs) |
 | [`algebra`](algebra/README.md) | Algebraic structures | Semigroup/monoid/group/ring/field traits, homomorphisms and quotient groups, finite fields GF(2^m) |
 | [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition, ambiguity check; demos: [`dyck`](context-free/examples/dyck.rs), [`arithmetic`](context-free/examples/arithmetic.rs), [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
 | [`combinatorics`](combinatorics/README.md) | Combinatorial object generators | Permutations, combinations, derangements, integer partitions; lexicographic enumeration, rank/unrank; demos: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
@@ -91,6 +92,7 @@ Each crate README explains its module and lists every demo:
 - [lattices/README.md](lattices/README.md)
 - [heyting/README.md](heyting/README.md)
 - [fitch/README.md](fitch/README.md)
+- [fol/README.md](fol/README.md)
 - [algebra/README.md](algebra/README.md)
 - [context-free/README.md](context-free/README.md)
 - [combinatorics/README.md](combinatorics/README.md)

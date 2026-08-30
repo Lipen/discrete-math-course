@@ -1,0 +1,5 @@
+[package]
+name = "fol"
+version = "0.1.0"
+edition = "2021"
+description = "First-order logic: terms, formulas, Tarski models, finite-domain validity"
