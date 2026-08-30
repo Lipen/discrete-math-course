@@ -158,8 +158,8 @@
 // ── Филогенетическое дерево млекопитающих ──
 #let mammal-tree = canvas({
   // Схема: высоты ветвлений не в масштабе, времена подписаны.
-  let dash-stroke = (paint: c-edge, thickness: t-ed, dash: "dashed")
-  let hline(a, b) = draw.line(a, b, stroke: dash-stroke)
+  let grid-stroke = (paint: luma(200), thickness: 0.5pt, dash: "dashed")
+  let hline(a, b) = draw.line(a, b, stroke: e-stroke)
   let vline(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label) = {
     draw.content(
@@ -174,6 +174,11 @@
     )
   }
 
+
+  // Слабые пунктирные направляющие от чисел на оси.
+  for y in (1.5, 2.0, 2.6, 3.4, 4.2, 4.7) {
+    draw.line((-0.15, y), (14.3, y), stroke: grid-stroke)
+  }
   leaf(0, [🚶 человек])
   leaf(2.2, [🐒 шимпанзе])
   leaf(4.4, [🦍 горилла])
