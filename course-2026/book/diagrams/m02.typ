@@ -37,6 +37,141 @@
   stroke: bar-str,
 )
 
+
+// ── Схемы правил натуральной дедукции (посылки над чертой, заключение под ней) ──
+#let nd-rule-iie = prooftree(
+  rule(
+    name: rname[$->$E],
+    $A -> B$,
+    $A$,
+    $B$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-iii = prooftree(
+  rule(
+    name: rname[$->$I],
+    rule(
+      $[A]^1$,
+      $dots.v$,
+      $B$,
+    ),
+    $A -> B$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-andi = prooftree(
+  rule(
+    name: rname[$and$I],
+    $A$,
+    $B$,
+    $A and B$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-ande = prooftree(
+  rule(
+    name: rname[$and$E],
+    $A and B$,
+    $A$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-ori = prooftree(
+  rule(
+    name: rname[$or$I],
+    $A$,
+    $A or B$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-ore = prooftree(
+  rule(
+    name: rname[$or$E],
+    $A or B$,
+    rule(
+      $[A]^1$,
+      $dots.v$,
+      $C$,
+    ),
+    rule(
+      $[B]^2$,
+      $dots.v$,
+      $C$,
+    ),
+    $C$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-ne = prooftree(
+  rule(
+    name: rname[$not$E],
+    $A$,
+    $not A$,
+    $bot$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-ni = prooftree(
+  rule(
+    name: rname[$not$I],
+    rule(
+      $[A]^1$,
+      $dots.v$,
+      $bot$,
+    ),
+    $not A$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-bote = prooftree(
+  rule(
+    name: rname[$bot$ E],
+    $bot$,
+    $A$,
+  ),
+  stroke: bar-str,
+)
+
+#let nd-rule-ip = prooftree(
+  rule(
+    name: rname[IP],
+    rule(
+      $[not A]^1$,
+      $dots.v$,
+      $bot$,
+    ),
+    $A$,
+  ),
+  stroke: bar-str,
+)
+
+// ── nd-tree-comm: коммутативность конъюнкции ──
+#let nd-tree-comm = prooftree(
+  rule(
+    name: rname[$and$I],
+    rule(
+      name: rname[$and$E],
+      $A and B$,
+      $B$,
+    ),
+    rule(
+      name: rname[$and$E],
+      $A and B$,
+      $A$,
+    ),
+    $B and A$,
+  ),
+  stroke: bar-str,
+)
 // ── seq-tree-lem: закон исключённого третьего (контракция) ──
 #let seq-tree-lem = prooftree(
   rule(
