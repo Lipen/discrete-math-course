@@ -3,24 +3,28 @@ default:
     @just --list
 
 # Build all course documents
-all: topics-s1 topics-s2 schedule-s1 schedule-s2 program
+all: syllabus topics-s1 topics-s2 schedule-s1 schedule-s2 program
 
-# Working program (РПД) as PDF
+# Working program (РПД)
 program:
     pandoc program.md -o program.pdf --pdf-engine=xelatex -V mainfont="Libertinus Serif" -V lang=ru -V geometry:margin=2.5cm -V fontsize=11pt --standalone
 
-# Course prospectus: semester 1
+# Course syllabus
+syllabus:
+    typst compile --root .. syllabus.typ
+
+# Topics: semester 1
 topics-s1:
     typst compile --root .. topics-s1.typ
 
-# Course prospectus: semester 2
+# Topics: semester 2
 topics-s2:
     typst compile --root .. topics-s2.typ
 
-# Semester 1 schedule
+# Schedule: semester 1
 schedule-s1:
     typst compile --root .. schedule-s1.typ
 
-# Semester 2 schedule
+# Schedule: semester 2
 schedule-s2:
     typst compile --root .. schedule-s2.typ
