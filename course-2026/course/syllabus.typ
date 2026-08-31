@@ -54,9 +54,8 @@
   #line(length: 55%, stroke: 1pt + accent)
 ]
 
-#show link: it => text(fill: accent, it.body)
 
-#v(1.2em)
+#show link: it => underline(stroke: 0pt, text(fill: accent, it))
 #outline(title: [Содержание], depth: 1)
 
 = О курсе
