@@ -1264,7 +1264,7 @@ _neighbour-joining_#footnote[N. Saitou, M. Nei. "The Neighbor-joining Method: A 
     (Подсказка: числа Белла.)
     #metadata((ex-id: "m05:t9"))
 
-  + \*\* Докажите: $a tilde.op b$, если $a - b in QQ$, --- отношение эквивалентности на $RR$.
+  + \*\* Докажите, что $a tilde.op b$, когда $a - b in QQ$, задаёт отношение эквивалентности на $RR$.
     Опишите мощность каждого класса эквивалентности.
     Сколько различных классов?
     #metadata((ex-id: "m05:t10"))
