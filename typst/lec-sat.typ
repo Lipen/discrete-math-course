@@ -3764,7 +3764,7 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 ]
 
 #example[
-  ApproxMC can count solutions to formulas with $10^{100}$ solutions with guaranteed accuracy $(1 plus.minus epsilon)$ and high probability!
+  ApproxMC can count solutions to formulas with $10^100$ solutions with guaranteed accuracy $(1 plus.minus epsilon)$ and high probability!
 ]
 
 == AllSAT: Enumerating All Solutions

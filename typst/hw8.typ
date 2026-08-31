@@ -285,7 +285,7 @@ This problem follows the thread from Euler's product to Ramanujan's congruences.
 
 #tasklist("probB")[
   + *Vanishing coefficients and the partition GF.*
-    Expand $(1 - x)(1 - x^2) dots.c (1 - x^{30})$ and inspect the coefficients:
+    Expand $(1 - x)(1 - x^2) dots.c (1 - x^30)$ and inspect the coefficients:
     they are only $0, +1, -1$, and the nonzero indices form the sequence
     $1, 2, 5, 7, 12, 15, 22, 26, dots$
     - Verify that these are exactly $k(3k - 1) \/ 2$ for $k = plus.minus 1, plus.minus 2, plus.minus 3, dots$ and that the sign at index $k(3k-1)\/2$ is $(-1)^k$.
