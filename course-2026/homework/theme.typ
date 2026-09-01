@@ -1,6 +1,13 @@
-// Тема и нотация домашних заданий курса "Дискретная математика".
-// Самодостаточная: не зависит от внешних typst-модулей и от `../typst`.
-// Подключается из ДЗ: `#import "theme.typ": *` и `#show: template`.
+// usage:
+// ```
+// #import "theme.typ": *
+// #show: template
+// ```
+
+// ── Палитра ──
+#let accent = blue.darken(25%)
+#let warn = rgb("#b45309")
+#let good = rgb("#15803d")
 
 // ── Темплеет ──
 #let template(dark: false, doc) = {
@@ -10,8 +17,8 @@
   set text(12pt, lang: "ru")
   set par(justify: true)
 
-  show emph: set text(fill: blue.darken(20%))
-  show link: set text(fill: blue.darken(20%))
+  show emph: set text(fill: accent)
+  show link: set text(fill: accent)
 
   show sym.emptyset: set text(font: "Libertinus Sans")
 
@@ -21,7 +28,42 @@
 
   set math.mat(column-gap: 1em)
 
+  // Заголовки задач: цвет, размер и волосяная линейка снизу.
+  show heading.where(level: 2): set text(size: 13pt, weight: "bold", fill: accent)
+  show heading.where(level: 2): it => block(
+    width: 100%,
+    above: 1.6em,
+    below: 0.9em,
+    inset: (bottom: 0.35em),
+    stroke: (bottom: 0.8pt + accent.lighten(40%)),
+    it,
+  )
+
   doc
+}
+
+// ── Пункты задачи: сквозная нумерация внутри задачи; подпункты: (а), (б), ... ──
+#let letters = ("а", "б", "в", "г", "д", "е", "ж", "з", "и", "к", "л", "м", "н", "о", "п")
+
+// Первый уровень --- "1.", "2.", ... (общий счётчик: нумерация продолжается
+// через колонки). Второй уровень --- "(а)", "(б)", ... Параметр format
+// задаёт формат первого уровня (например, "1)" для списков-перечислений).
+#let tasklist(id, cols: 1, format: none, full: true, body) = {
+  let s = counter(id)
+  s.update(1)
+  set enum(full: full, numbering: (..n) => context {
+    if n.pos().len() <= 1 {
+      s.step()
+      if format != none {
+        s.display(format)
+      } else {
+        s.display("1.")
+      }
+    } else {
+      "(" + letters.at(n.pos().last() - 1) + ")"
+    }
+  })
+  columns(cols, gutter: 1em)[#body]
 }
 
 // ── Алиасы ──
@@ -47,51 +89,54 @@
 #let vmat = math.mat.with(delim: "|")
 #let Vmat = math.mat.with(delim: "||")
 
-// ── Список задач с собственным счётчиком ──
-#let tasklist(id, cols: 1, format: "1.", body) = {
-  let s = counter(id)
-  s.update(1)
-  set enum(numbering: _ => context {
-    s.step()
-    s.display(format)
-  })
-  columns(cols, gutter: 1em)[#body]
-}
-
-// ── Бокс (курсив, серая рамка) ──
-#let Box(body, align: left, inset: 0.8em) = std.align(align)[
-  #box(
-    stroke: 0.4pt + gray,
-    inset: inset,
-    radius: 3pt,
-  )[
-    #set std.align(left)
-    #set text(size: 10pt, style: "italic")
-    #body
-  ]
+#let Given(body) = block(
+  width: 100%,
+  above: 1em,
+  below: 1em,
+  inset: (left: 10pt),
+  stroke: (left: 1.5pt + accent.lighten(40%)),
+)[
+  #body
 ]
 
-// ── Блок (левая рамка) ──
+// ── Указание ──
+#let Hint(body) = block(
+  width: 100%,
+  above: 0.5em,
+  below: 0.5em,
+)[
+  #set text(size: 0.9em)
+  #text(fill: warn, weight: "bold")[Указание.] #emph[#body]
+]
+
+// ── Бокс (цитата-эпиграф) ──
+#let Box(body, align: right, inset: 0.8em) = std.align(align)[
+  #set std.align(right)
+  #set text(size: 10.5pt, style: "italic", fill: luma(35%))
+  #body
+]
+
+// ── Блок с левой рамкой ──
 #let Block(body, ..args) = {
   block(
     body,
     inset: (x: 1em),
-    stroke: (left: 3pt + gray),
+    stroke: (left: 2pt + accent),
     outset: (y: 3pt, left: -3pt),
     ..args,
   )
 }
 
-// ── Теги ──
+// ── Теги-пилюли ──
 #let Tag(label, color) = {
-  set text(size: 0.8em)
+  set text(size: 0.72em, weight: "bold", fill: color.darken(25%))
   box(
     label,
-    radius: 5pt,
-    inset: (x: 0.4em),
-    outset: (y: 0.4em),
-    stroke: 0.6pt + color.darken(20%),
-    fill: color.lighten(80%),
+    radius: 50%,
+    inset: (x: 0.5em, y: 0.2em),
+    outset: (y: 0.2em),
+    stroke: 0.7pt + color.darken(25%),
+    fill: color.lighten(88%),
   )
 }
 #let TagCore = Tag("База", green)
