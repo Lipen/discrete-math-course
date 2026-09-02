@@ -271,7 +271,7 @@
   + Сколько элементов в $cal(P)(cal(P)(emptyset))$?
     А в $cal(P)(cal(P)(cal(P)(emptyset)))$?
 
-  + Докажите: если $A subset.eq B$, то $cal(P)(A) subset.eq cal(P)(B)$.
+  + Докажите, что если $A subset.eq B$, то $cal(P)(A) subset.eq cal(P)(B)$.
 
   + Докажите равенство
 
