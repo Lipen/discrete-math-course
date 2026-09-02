@@ -1,9 +1,10 @@
 //! What happens at 0, 1, 2, or 3 flipped bits: the limits of repetition (3,1,3).
 //!
-//! Each bit is sent three times and the receiver takes a majority vote. One
-//! error is outvoted; two errors flip the vote and silently corrupt the data;
-//! three errors turn the word into the other valid codeword. Flipped bits are
-//! drawn in red when the terminal supports it.
+//! Each bit is sent three times and the receiver takes a majority vote.
+//! One error is outvoted.
+//! Two errors flip the vote and silently corrupt the data.
+//! Three errors turn the word into the other valid codeword.
+//! Flipped bits are drawn in red when the terminal supports it.
 
 use codes::{repeat_decode, repeat_encode};
 use std::io::IsTerminal;

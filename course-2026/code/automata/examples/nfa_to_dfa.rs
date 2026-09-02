@@ -1,7 +1,7 @@
 //! Subset construction: NFA -> DFA.
 //!
-//! An NFA for the language "contains 00 or 11" is determinized into a DFA;
-//! the languages agree on all test words.
+//! An NFA for the language "contains 00 or 11" is determinized into a DFA.
+//! The languages agree on all test words.
 
 use automata::Nfa;
 

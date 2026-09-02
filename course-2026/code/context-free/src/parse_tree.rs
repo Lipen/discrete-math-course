@@ -20,7 +20,9 @@ pub const MAX_PARSE_TREES: usize = 100_000;
 /// children (the right-hand side of the production it applies).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParseTree {
+    /// A leaf: the terminal it spells.
     Leaf(String),
+    /// An internal node: the nonterminal and its children.
     Node(String, Vec<ParseTree>),
 }
 
@@ -131,11 +133,12 @@ impl std::fmt::Display for ParseTree {
 /// All parse trees of `word` rooted at the grammar's start symbol.
 ///
 /// The enumerator keeps epsilon productions (a node with no children) and unit
-/// productions, so the trees show the grammar exactly as written. To guarantee
-/// termination it caps each `(nonterminal, substring)` at
-/// [`MAX_PARSE_TREES`]; a grammar with an epsilon-cycle such as
-/// `S -> S S | ε` or a unit-cycle such as `A -> B, B -> A` exceeds the cap and
-/// yields [`GrammarError::TooManyParseTrees`].
+/// productions, so the trees show the grammar exactly as written.
+/// To guarantee termination it caps each `(nonterminal, substring)` at
+/// [`MAX_PARSE_TREES`].
+/// A grammar with an epsilon-cycle such as `S -> S S | ε` or a unit-cycle such
+/// as `A -> B, B -> A` exceeds the cap and yields
+/// [`GrammarError::TooManyParseTrees`].
 pub fn all_parse_trees(grammar: &Grammar, word: &[String]) -> Result<Vec<ParseTree>, GrammarError> {
     let n = word.len();
     // memo[(nonterminal, start, end)] = trees for that nonterminal over
@@ -252,7 +255,7 @@ mod tests {
     }
 
     #[test]
-    fn leftmost_derivation_matches_book() {
+    fn leftmost_derivation_steps_for_ab() {
         // S -> a S b | ε on "ab".
         let g = Grammar::new(
             "S",

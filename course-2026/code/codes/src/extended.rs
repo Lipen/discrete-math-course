@@ -18,12 +18,13 @@ use crate::hamming;
 
 /// Encodes 4 data bits into an 8-bit extended Hamming codeword.
 ///
-/// The first 7 bits are the Hamming(7,4) codeword; bit 8 is the overall parity,
-/// chosen so that the whole word has an even number of ones.
+/// The first 7 bits are the Hamming(7,4) codeword.
+/// Bit 8 is the overall parity, chosen so that the whole word has an even
+/// number of ones.
 ///
 /// ```
 /// let word = codes::extended::encode([true, false, true, true]);
-/// // Hamming(7,4) of 1011 is 0100111; it has four ones (even), so parity bit is 0.
+/// // Hamming(7,4) of 1011 is 0100111. It has four ones (even), so the parity bit is 0.
 /// assert_eq!(word, [false, true, true, false, false, true, true, false]);
 /// ```
 pub fn encode(data: [bool; 4]) -> [bool; 8] {
@@ -56,8 +57,9 @@ pub struct Decoded {
 
 /// Decodes an 8-bit word: corrects a single error, detects a double one.
 ///
-/// The syndrome says where a single error would be; the overall parity says
-/// whether the number of errors is odd (one) or even (zero or two). When both
+/// The syndrome says where a single error would be.
+/// The overall parity says whether the number of errors is odd (one) or
+/// even (zero or two). When both
 /// indicate trouble -- nonzero syndrome with even parity -- it is two errors,
 /// and the decoder reports `Double` instead of correcting the wrong bit.
 ///

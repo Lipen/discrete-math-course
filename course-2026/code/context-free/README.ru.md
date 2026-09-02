@@ -3,57 +3,61 @@
 Контекстно-свободные грамматики и языки.
 
 Деревья разбора, нормальная форма Хомского и распознавание CYK.
-Демо-примеры лежат в `examples/`.
+Демо-пример лежит в `examples/`.
 
 ## Быстрый старт
 
 ```bash
-cargo run -p context-free --example cnf_cyk
-cargo test -p context-free
+cargo test
+cargo run --example cnf_cyk
 ```
 
 ## Что порождает грамматика
 
-Контекстно-свободная грамматика --- это кортеж $G = (V, \Sigma, P, S)$: нетерминалы $V$, терминалы $\Sigma$, продукции $A \to \alpha$ и начальный символ $S$.
+Контекстно-свободная грамматика — это кортеж $G = (V, \Sigma, P, S)$: нетерминалы $V$, терминалы $\Sigma$, продукции $A \to \alpha$ и начальный символ $S$.
 Она порождает язык
 
 $$ L(G) = \{ w \in \Sigma^* \mid S \Rightarrow^* w \} $$
 
-У слова может быть несколько выводов; структура одного вывода --- это дерево разбора.
+У слова может быть несколько выводов.
+Структура одного вывода — это дерево разбора.
 
 ![Дерево разбора a³b³](assets/parse-tree-a3b3.svg)
 
 Дерево показывает, как $S \to a S b \mid \varepsilon$ выводит $a^3 b^3$: три вложенных применения $S \to a S b$, затем $S \to \varepsilon$.
 Листья дают $a a a \varepsilon b b b = a^3 b^3$.
 
-## API
-
-| Тип | Назначение | Ключевые методы |
-| --- | --- | --- |
-| `Grammar` | Контекстно-свободная грамматика | `lex`, `nullable`, `eliminate_epsilon`, `remove_unit_productions` |
-| `Symbol` | Терминал или нетерминал | `terminal`, `nonterminal` |
-| `ParseTree` | Одно дерево разбора слова | `yield_string`, `leaves`, `leftmost_derivation`, `parenthesized` |
-| `all_parse_trees` | Все деревья разбора слова | -- |
-| `to_cnf` | Нормальная форма Хомского | -- |
-| `recognize` / `table` | Распознавание CYK / таблица CYK | -- |
-
 ## Демо
 
-| Демо | Что показывает |
-| --- | --- |
-| `cnf_cyk` | $S \to a S b \mid \varepsilon$ в НФХ, затем таблица CYK |
+| Демо      | Что показывает                                                                           |
+| ---       | ---                                                                                      |
+| `cnf_cyk` | $S \to a S b \mid \varepsilon$ в нормальной форме Хомского, затем таблица CYK для `aabb` |
+
+Нормальная форма Хомского приводит каждую продукцию к виду $A \to B C$ или $A \to a$ — именно его требует CYK.
+Демо печатает преобразованную грамматику, вердикты о принадлежности для нескольких слов и треугольную таблицу CYK.
+
+## API
+
+| Элемент              | Назначение                                                                                         |
+| ---                  | ---                                                                                                |
+| `Grammar`            | Контекстно-свободная грамматика: `lex`, `nullable`, `eliminate_epsilon`, `remove_unit_productions` |
+| `Symbol`             | Терминал или нетерминал, конструкторы `t` и `nt`                                                   |
+| `ParseTree`          | Одно дерево разбора слова: `yield_string`, `leaves`, `leftmost_derivation`, `parenthesized`        |
+| `all_parse_trees`    | Все деревья разбора слова                                                                          |
+| `to_cnf`             | Нормальная форма Хомского                                                                          |
+| `recognize`, `table` | Распознавание CYK и таблица CYK                                                                    |
 
 ## Деревья разбора
 
 `all_parse_trees` перечисляет все деревья разбора слова.
-Перечисление ограничено `MAX_PARSE_TREES` деревьями на `(nonterminal, substring)`: грамматика с ε-циклом, такая как $S \to S S \mid \varepsilon$, сообщается как `GrammarError::TooManyParseTrees` вместо бесконечного зацикливания.
+Перечисление ограничено `MAX_PARSE_TREES` деревьями на пару `(nonterminal, substring)`: грамматика с ε-циклом, такая как $S \to S S \mid \varepsilon$, сообщается как `GrammarError::TooManyParseTrees` вместо бесконечного зацикливания.
 Принадлежность (`in_language`) решается алгоритмом CYK и всегда завершается.
 
 ## Тесты
 
 ```bash
-cargo test -p context-free
+cargo test
 ```
 
 Модульные тесты лежат рядом с кодом в `src/`.
-Запустите `cargo test -p context-free`, чтобы также увидеть doc-тесты, покрывающие публичное API.
+Doc-тесты покрывают публичное API.

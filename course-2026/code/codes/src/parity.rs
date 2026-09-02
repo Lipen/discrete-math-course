@@ -33,7 +33,8 @@ pub fn encode(data: &[bool]) -> Vec<bool> {
 
 /// True when `word` passes the even-parity check.
 ///
-/// Any odd number of errors fails the check; an even number slips through.
+/// Any odd number of errors fails the check.
+/// An even number slips through.
 ///
 /// ```
 /// let word = codes::parity::encode(&[true, false, true, false]);

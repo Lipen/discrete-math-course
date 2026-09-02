@@ -36,8 +36,8 @@ pub fn encode(data: [bool; 4]) -> [bool; 7] {
 
 /// The 3-bit syndrome of a 7-bit word.
 ///
-/// Zero means a valid codeword; any other value is the 1-based position of a
-/// single error.
+/// Zero means a valid codeword.
+/// Any other value is the 1-based position of a single error.
 ///
 /// ```
 /// let word = codes::hamming::encode([true, false, true, true]);

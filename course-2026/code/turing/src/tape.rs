@@ -9,8 +9,11 @@
 /// The direction the head moves after writing.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Direction {
+    /// Move the head one cell to the left.
     Left,
+    /// Move the head one cell to the right.
     Right,
+    /// Leave the head on the same cell.
     Stay,
 }
 

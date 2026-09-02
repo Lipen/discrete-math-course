@@ -25,8 +25,8 @@ fn tr<Sym: Clone, State>(
 
 /// A machine that accepts words over `{0, 1}` ending in `0`.
 ///
-/// State `q0` means "the last symbol seen was 1" (or we are at the start);
-/// `q1` means "the last symbol seen was 0".
+/// State `q0` means "the last symbol seen was 1" (or we are at the start).
+/// State `q1` means "the last symbol seen was 0".
 ///
 /// ```
 /// use turing::{machines, Tape, Outcome};
@@ -52,8 +52,8 @@ pub fn ends_with_zero() -> Machine<char, &'static str> {
 /// A machine that recognises the language `0^n 1^n` (n >= 0).
 ///
 /// The algorithm repeatedly crosses out the leftmost `0` and the rightmost
-/// `1` with `X`. When all symbols are crossed out the machine accepts;
-/// a mismatch leads to rejection.
+/// `1` with `X`. When all symbols are crossed out the machine accepts.
+/// A mismatch leads to rejection.
 ///
 /// ```
 /// use turing::{machines, Tape, Outcome};

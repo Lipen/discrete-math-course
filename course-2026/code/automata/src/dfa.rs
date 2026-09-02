@@ -6,9 +6,9 @@
 //! which `accepts` catches and treats as rejection.
 //!
 //! The module also provides language operations -- complement, union,
-//! intersection, difference. Union, intersection and difference use the
-//! product construction; complement completes the automaton and flips the
-//! accepting flags.
+//! intersection, difference.
+//! Union, intersection and difference use the product construction.
+//! Complement completes the automaton and flips the accepting flags.
 //!
 //! ```
 //! use automata::Dfa;

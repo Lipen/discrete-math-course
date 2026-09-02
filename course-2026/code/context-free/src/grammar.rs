@@ -2,14 +2,18 @@
 //!
 //! A context-free grammar is a tuple `G = (V, Sigma, P, S)` where `V` is the
 //! set of nonterminals, `Sigma` the terminals, `P` the productions `A -> alpha`,
-//! and `S` the start symbol. Here nonterminals and terminals are both named by
-//! strings; a symbol is a terminal only when it appears in a production body
+//! and `S` the start symbol.
+//! Here nonterminals and terminals are both named by strings.
+//! A symbol is a terminal only when it appears in a production body
 //! as [`Symbol::Terminal`].
 
 use std::collections::HashSet;
+/// A grammar symbol: a terminal or a nonterminal.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Symbol {
+    /// A terminal: a letter the words of the language are built from.
     Terminal(String),
+    /// A nonterminal: a symbol that expands via productions.
     Nonterminal(String),
 }
 
@@ -47,7 +51,9 @@ pub fn nt(s: &str) -> Symbol {
 /// A production `head -> body`.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Production {
+    /// The nonterminal on the left-hand side.
     pub head: String,
+    /// The replacement on the right-hand side, possibly empty.
     pub body: Vec<Symbol>,
 }
 
@@ -64,17 +70,21 @@ impl Production {
 /// A context-free grammar `G = (V, Sigma, P, S)`.
 #[derive(Debug, Clone)]
 pub struct Grammar {
+    /// The start symbol.
     pub start: String,
+    /// All productions.
     pub productions: Vec<Production>,
+    /// The nonterminals: exactly the production heads.
     pub nonterminals: HashSet<String>,
+    /// The terminals appearing in production bodies.
     pub terminals: HashSet<String>,
 }
 
 impl Grammar {
     /// Build a grammar from a start symbol and a list of productions.
     ///
-    /// Nonterminals are exactly the production heads; terminals are the
-    /// terminal symbols that appear in some body.
+    /// Nonterminals are exactly the production heads.
+    /// Terminals are the terminal symbols that appear in some body.
     pub fn new(start: &str, productions: Vec<Production>) -> Grammar {
         let mut nonterminals = HashSet::new();
         let mut terminals = HashSet::new();

@@ -1,8 +1,9 @@
 //! Repetition code (3, 1, 3): each bit sent three times, majority vote.
 //!
-//! Distance 3 means one error is outvoted; two errors flip the vote. The code is
-//! the honest naive answer to noise -- it works, but spends three bits to
-//! protect one (rate 1/3).
+//! Distance 3 means one error is outvoted.
+//! Two errors flip the vote.
+//! The code is the honest naive answer to noise -- it works, but spends three
+//! bits to protect one (rate 1/3).
 
 /// Encodes one bit as three identical bits.
 ///

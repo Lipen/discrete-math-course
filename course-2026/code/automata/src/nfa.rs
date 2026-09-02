@@ -43,8 +43,8 @@ use crate::dfa::Dfa;
 ///
 /// States are added via [`add_state`](Self::add_state) and return
 /// consecutive integer identifiers.
-/// Transitions on symbols go to sets of states; epsilon transitions
-/// go to single states.
+/// Transitions on symbols go to sets of states.
+/// Epsilon transitions go to single states.
 #[derive(Debug, Clone)]
 pub struct Nfa {
     start: usize,

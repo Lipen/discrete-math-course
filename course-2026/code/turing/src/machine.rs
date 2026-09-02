@@ -25,8 +25,11 @@ use crate::tape::{Direction, Tape};
 /// ```
 #[derive(Debug, Clone)]
 pub struct Transition<Sym, State> {
+    /// The symbol written under the head before the move.
     pub write: Sym,
+    /// Where the head moves after writing.
     pub direction: Direction,
+    /// The state the machine switches to.
     pub next_state: State,
 }
 
@@ -41,7 +44,9 @@ pub struct Transition<Sym, State> {
 /// ```
 #[derive(Debug, Clone)]
 pub struct Configuration<Sym, State> {
+    /// The state the machine is in.
     pub state: State,
+    /// The tape with the head at its current position.
     pub tape: Tape<Sym>,
 }
 
@@ -52,7 +57,8 @@ pub enum Outcome {
     Accepted,
     /// A rejecting state was reached.
     Rejected,
-    /// No transition applied; the machine neither accepts nor rejects.
+    /// No transition applied.
+    /// The machine neither accepts nor rejects.
     ///
     /// In the theoretical model this is the same as a rejection -- a machine
     /// that halts without accepting is said to reject the input. Here the two
@@ -77,7 +83,9 @@ impl fmt::Display for Outcome {
 /// with the outcome.
 #[derive(Debug, Clone)]
 pub struct Run<Sym, State> {
+    /// How the run ended.
     pub outcome: Outcome,
+    /// Every configuration from the start to the halt, in order.
     pub configs: Vec<Configuration<Sym, State>>,
 }
 
@@ -180,8 +188,9 @@ where
 
     /// Runs the machine on `tape` and returns the trace with the outcome.
     ///
-    /// Takes at most `max_steps` transitions; a machine that has not halted
-    /// by then ends with `Outcome::Limit` instead of running forever.
+    /// Takes at most `max_steps` transitions.
+    /// A machine that has not halted by then ends with `Outcome::Limit`
+    /// instead of running forever.
     ///
     /// `Limit` is an engineering substitute for non-termination, not a
     /// theoretical outcome: whether a machine stops at all is undecidable, so
