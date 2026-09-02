@@ -2,25 +2,21 @@
 //!
 //! A tiny C-like language with pointers and four statements:
 //!
-//! - `x = &y` -- take the address of `y`;
-//! - `x = y` -- copy a pointer;
-//! - `x = *y` -- load a pointer through another pointer;
+//! - `x = &y` -- take the address of `y`.
+//! - `x = y` -- copy a pointer.
+//! - `x = *y` -- load a pointer through another pointer.
 //! - `*x = y` -- store a pointer through another pointer.
 //!
-//! The analysis computes, for every variable, the set of locations it may
-//! point to. The trick that makes Steensgaard's algorithm run in
-//! $O(n alpha(n))$: every variable and every location is a node, and every
-//! node has at most one outgoing points-to edge. When a constraint demands
-//! that a node point to two different targets, those targets are *unified*
-//! into a single abstract location (a union-find class). One representative
-//! per class keeps the invariant, and the union-find absorbs the merging
-//! cost. The price is precision: `p = &x; q = &y; p = q;` merges `x` and
-//! `y`, so afterwards both `p` and `q` may point to either.
+//! The analysis computes, for every variable, the set of locations it may point to.
+//! The trick that makes Steensgaard's algorithm run in $O(n alpha(n))$: every variable and every location is a node, and every node has at most one outgoing points-to edge.
+//! When a constraint demands that a node point to two different targets, those targets are *unified* into a single abstract location (a union-find class).
+//! One representative per class keeps the invariant, and the union-find absorbs the merging cost.
+//! The price is precision: `p = &x; q = &y; p = q;` merges `x` and `y`, so afterwards both `p` and `q` may point to either.
 //!
-//! Points-to sets are the equivalence classes of the union-find: the set
-//! that `x` points to is the class of `x`'s target node.
+//! Points-to sets are the equivalence classes of the union-find: the set that `x` points to is the class of `x`'s target node.
 //!
-//! Worked example. The program
+//! Worked example.
+//! The program
 //!
 //! ```text
 //! p = &x;
@@ -28,12 +24,10 @@
 //! p = q;
 //! ```
 //!
-//! is analyzed as follows. After the first two statements `pt(p) = {x}`
-//! and `pt(q) = {y}`. The copy `p = q` demands `pt(p) sup pt(q)`, and with
-//! a single target per node the only way is to merge the two targets: `x`
-//! and `y` become one abstract location, and `pt(p) = pt(q) = {x, y}`.
-//! The analysis is safe (both pointers really point to both locations in
-//! some run) but coarse: it cannot tell `x` and `y` apart anymore.
+//! is analyzed as follows.
+//! The first two statements give `pt(p) = {x}` and `pt(q) = {y}`.
+//! The copy `p = q` demands `pt(p) sup pt(q)`, and with a single target per node the only way is to merge the two targets: `x` and `y` become one abstract location, and `pt(p) = pt(q) = {x, y}`.
+//! The analysis is safe (both pointers really point to both locations in some run) but coarse: it cannot tell `x` and `y` apart anymore.
 //!
 //! ```
 //! use graphs::{Stmt, Steensgaard};
@@ -58,8 +52,8 @@ use crate::UnionFind;
 
 /// A statement of the tiny pointer language.
 ///
-/// The four forms match the four statements of the module documentation;
-/// every `x` and `y` is a variable name (never a literal address).
+/// The four forms match the four statements of the module documentation.
+/// Every `x` and `y` is a variable name (never a literal address).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Stmt {
     /// `x = &y` -- `x` points to the location of `y`.
@@ -74,9 +68,9 @@ pub enum Stmt {
 
 /// A unification-based pointer analysis (Steensgaard's algorithm).
 ///
-/// Nodes are variables and abstract locations. `find`/`union` come from
-/// [`UnionFind`]; `target` records the single points-to
-/// edge of each class representative.
+/// Nodes are variables and abstract locations.
+/// `find`/`union` come from [`UnionFind`].
+/// `target` records the single points-to edge of each class representative.
 ///
 /// ```
 /// use graphs::Steensgaard;
@@ -89,15 +83,14 @@ pub enum Stmt {
 /// ```
 #[derive(Debug)]
 pub struct Steensgaard {
-    /// `names[i]` -- the variable name of node `i` (`None` for anonymous
-    /// locations created by the dereference rules).
+    /// `names[i]` -- the variable name of node `i` (`None` for anonymous locations created by the dereference rules).
     names: Vec<Option<String>>,
     /// Variable name -> node id.
     vars: HashMap<String, usize>,
     /// The union-find over nodes.
     uf: UnionFind,
-    /// `target[r]` -- the node that the representative `r` points to
-    /// (`None`: nothing known). Only meaningful for representatives.
+    /// `target[r]` -- the node that the representative `r` points to (`None`: nothing known).
+    /// Only meaningful for representatives.
     target: Vec<Option<usize>>,
 }
 
@@ -119,8 +112,9 @@ impl Steensgaard {
         }
     }
 
-    /// Declare a variable; returns its node id. Repeated declarations
-    /// return the same id (the analysis is flow-insensitive).
+    /// Declare a variable.
+    /// Returns its node id.
+    /// Repeated declarations return the same id (the analysis is flow-insensitive).
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -172,8 +166,8 @@ impl Steensgaard {
         }
     }
 
-    /// `x = &y`: `x` points to `y`. If `x` already points to a different
-    /// location, the two targets are unified.
+    /// `x = &y`: `x` points to `y`.
+    /// If `x` already points to a different location, the two targets are unified.
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -193,8 +187,7 @@ impl Steensgaard {
         }
     }
 
-    /// `x = y`: the two variables share storage, so their nodes (and,
-    /// transitively, their targets) are unified.
+    /// `x = y`: the two variables share storage, so their nodes (and, transitively, their targets) are unified.
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -210,9 +203,8 @@ impl Steensgaard {
         self.unify(nx, ny);
     }
 
-    /// `x = *y`: `x` must point to whatever the location that `y` points
-    /// to points to, so `x` and that location are unified. If `y` points
-    /// to nothing known yet, a fresh location is created for it.
+    /// `x = *y`: `x` must point to whatever the location that `y` points to points to, so `x` and that location are unified.
+    /// If `y` points to nothing known yet, a fresh location is created for it.
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -230,9 +222,8 @@ impl Steensgaard {
         self.unify(nx, loc);
     }
 
-    /// `*x = y`: the location that `x` points to receives `y`, so `y` and
-    /// that location are unified. If `x` points to nothing known yet, a
-    /// fresh location is created for it.
+    /// `*x = y`: the location that `x` points to receives `y`, so `y` and that location are unified.
+    /// If `x` points to nothing known yet, a fresh location is created for it.
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -249,9 +240,8 @@ impl Steensgaard {
         self.unify(loc, ny);
     }
 
-    /// The points-to set of a variable: the names of the declared
-    /// variables in the class of its target. An empty set means "points to
-    /// nothing known".
+    /// The points-to set of a variable: the names of the declared variables in the class of its target.
+    /// An empty set means "points to nothing known".
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -282,8 +272,7 @@ impl Steensgaard {
         }
     }
 
-    /// The points-to sets of all declared variables, in declaration order:
-    /// pairs (variable, set of variables it may point to).
+    /// The points-to sets of all declared variables, in declaration order: pairs (variable, set of variables it may point to).
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -308,10 +297,8 @@ impl Steensgaard {
             .collect()
     }
 
-    /// Whether `x` and `y` may alias: they are the same storage, or their
-    /// points-to sets overlap. Unification-based analysis answers "may",
-    /// so a `true` here means the two variables could be the same memory
-    /// in some run of the program.
+    /// Whether `x` and `y` may alias: they are the same storage, or their points-to sets overlap.
+    /// Unification-based analysis answers "may", so a `true` here means the two variables could be the same memory in some run of the program.
     ///
     /// ```
     /// use graphs::Steensgaard;
@@ -336,8 +323,7 @@ impl Steensgaard {
         px.iter().any(|a| py.iter().any(|b| a == b))
     }
 
-    /// The target of the representative of `node`, creating a fresh
-    /// abstract location if the node points to nothing yet.
+    /// The target of the representative of `node`, creating a fresh abstract location if the node points to nothing yet.
     fn target_or_fresh(&mut self, node: usize) -> usize {
         let r = self.uf.find(node);
         match self.target[r] {
@@ -352,8 +338,7 @@ impl Steensgaard {
         }
     }
 
-    /// Merge the classes of `a` and `b`, and merge their points-to targets
-    /// the same way (recursively).
+    /// Merge the classes of `a` and `b`, and merge their points-to targets the same way (recursively).
     fn unify(&mut self, a: usize, b: usize) {
         let ra = self.uf.find(a);
         let rb = self.uf.find(b);

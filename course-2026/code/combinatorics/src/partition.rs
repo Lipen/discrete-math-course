@@ -1,8 +1,7 @@
 //! Integer partitions: lexicographic enumeration.
 //!
-//! A partition of `n` is a non-increasing list of positive integers summing
-//! to `n` (e.g. `3 + 1` and `2 + 2` for `n = 4`). The enumeration walks the
-//! non-increasing sequences in lexicographic order.
+//! A partition of `n` is a non-increasing list of positive integers summing to `n` (e.g. `3 + 1` and `2 + 2` for `n = 4`).
+//! The enumeration walks the non-increasing sequences in lexicographic order.
 
 /// All non-increasing partitions of `n` in lexicographic order.
 ///

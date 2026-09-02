@@ -1,10 +1,7 @@
 //! Disjoint-set union (union-find / DSU).
 //!
-//! Keeps a partition of vertices into components and supports two operations:
-//! `find(x)` -- the representative of `x`'s component, `union(a, b)` --
-//! merge the components of `a` and `b`. Used by Kruskal's algorithm
-//! (minimum spanning tree) and by cycle detection in undirected graphs:
-//! an edge joining vertices already in one component -- means a cycle.
+//! Keeps a partition of vertices into components and supports two operations: `find(x)` -- the representative of `x`'s component, `union(a, b)` -- merge the components of `a` and `b`.
+//! Used by Kruskal's algorithm (minimum spanning tree) and by cycle detection in undirected graphs: an edge joining vertices already in one component -- means a cycle.
 
 /// A partition of the set `{0, 1, ..., n-1}` into components.
 ///
@@ -70,8 +67,7 @@ impl UnionFind {
 
     /// Merge the components of vertices `a` and `b`.
     ///
-    /// Returns `false` if the vertices were already in one component
-    /// (and nothing changed), and `true` if the components merged.
+    /// Returns `false` if the vertices were already in one component (and nothing changed), and `true` if the components merged.
     ///
     /// ```
     /// use graphs::UnionFind;
@@ -112,11 +108,11 @@ impl UnionFind {
         self.find(a) == self.find(b)
     }
 
-    /// Add a new element as its own component; returns its id.
+    /// Add a new element as its own component.
+    /// Returns its id.
     ///
-    /// The structure grows by one: useful when the number of elements is
-    /// not known in advance (for example, fresh locations in a pointer
-    /// analysis). Existing ids stay valid.
+    /// The structure grows by one: useful when the number of elements is not known in advance (for example, fresh locations in a pointer analysis).
+    /// Existing ids stay valid.
     ///
     /// ```
     /// use graphs::UnionFind;
@@ -137,9 +133,8 @@ impl UnionFind {
 
     /// The equivalence classes of the current partition.
     ///
-    /// Each class is a sorted list of element ids, and the classes
-    /// themselves are ordered by their smallest element, so the result is
-    /// deterministic. Runs in $O(n alpha(n))$.
+    /// Each class is a sorted list of element ids, and the classes themselves are ordered by their smallest element, so the result is deterministic.
+    /// Runs in $O(n alpha(n))$.
     ///
     /// ```
     /// use graphs::UnionFind;

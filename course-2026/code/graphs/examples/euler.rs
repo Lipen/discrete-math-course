@@ -1,9 +1,7 @@
 //! Eulerian paths and circuits.
 //!
-//! Euler's criterion: in an undirected graph either all degrees are even
-//! (there is an Eulerian circuit), or exactly two are odd (there is an
-//! Eulerian path between them). The trail itself is built by Hierholzer's
-//! algorithm.
+//! Euler's criterion: in an undirected graph either all degrees are even (there is an Eulerian circuit), or exactly two are odd (there is an Eulerian path between them).
+//! The trail itself is built by Hierholzer's algorithm.
 
 use graphs::{find_eulerian_path, Graph};
 

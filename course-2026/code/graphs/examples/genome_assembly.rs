@@ -1,9 +1,6 @@
-//! Genome assembly from reads: reads -> de Bruijn graph -> Eulerian path
-//! -> genome.
+//! Genome assembly from reads: reads -> de Bruijn graph -> Eulerian path -> genome.
 //!
-//! Two runs: a linear genome (the trail is a path), and a circular genome
-//! (the trail is a cycle, so the assembled string is a rotation of the
-//! genome).
+//! Two runs: a linear genome (the trail is a path), and a circular genome (the trail is a cycle, so the assembled string is a rotation of the genome).
 
 use graphs::DeBruijnGraph;
 
@@ -34,8 +31,7 @@ fn linear_genome() {
     println!("the assembled string contains every read\n");
 }
 
-/// The same four reads form a cycle: the genome is circular, and any
-/// rotation of the assembled string is a valid assembly.
+/// The same four reads form a cycle: the genome is circular, and any rotation of the assembled string is a valid assembly.
 fn circular_genome() {
     let k = 3;
     let reads = ["TAC", "ACG", "CGT", "GTA"];

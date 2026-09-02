@@ -1,7 +1,7 @@
 //! Combinations: lexicographic enumeration of `k`-subsets.
 //!
-//! A `k`-subset of `0..n` is a strictly increasing list of `k` values. The
-//! enumeration walks the choices in lexicographic order.
+//! A `k`-subset of `0..n` is a strictly increasing list of `k` values.
+//! The enumeration walks the choices in lexicographic order.
 
 /// The binomial coefficient `C(n, k)`, as the number of `k`-subsets of `n`.
 ///

@@ -1,8 +1,7 @@
 //! Rank of a matroid: size of a maximum independent set.
 //!
 //! All bases of a matroid have the same size, so the rank is well-defined.
-//! A triangle (graphic matroid) has rank 2, three binary vectors have rank 2,
-//! and the uniform matroid U(2,4) has rank 2.
+//! A triangle (graphic matroid) has rank 2, three binary vectors have rank 2, and the uniform matroid U(2,4) has rank 2.
 
 use matroids::examples::{BinaryLinearMatroid, GraphicMatroid, UniformMatroid};
 use matroids::rank;

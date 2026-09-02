@@ -1,7 +1,6 @@
 //! Graphs: modeling, algorithms, and visualization.
 //!
-//! A simple model without generics
-//! or traits, the classic algorithms, and ways to render a graph.
+//! A simple model without generics or traits, the classic algorithms, and ways to render a graph.
 //!
 //! ```no_run
 //! use graphs::Graph;

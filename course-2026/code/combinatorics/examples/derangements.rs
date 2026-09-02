@@ -1,7 +1,7 @@
 //! Derangements: subfactorial and enumeration.
 //!
-//! A derangement is a permutation with no fixed point. The count is the
-//! subfactorial !n = (n-1)(!(n-1) + !(n-2)).
+//! A derangement is a permutation with no fixed point.
+//! The count is the subfactorial !n = (n-1)(!(n-1) + !(n-2)).
 
 use combinatorics::{derangements, subfactorial};
 

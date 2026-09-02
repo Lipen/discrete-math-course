@@ -1,9 +1,7 @@
 //! Combinatorial object generators.
 //!
-//! Four families of combinatorial objects -- permutations, combinations,
-//! derangements, and integer partitions -- each enumerated in lexicographic
-//! order. The counts match the theory: `n!`, `C(n, k)`, and the subfactorial
-//! `!n`.
+//! Four families of combinatorial objects -- permutations, combinations, derangements, and integer partitions -- each enumerated in lexicographic order.
+//! The counts match the theory: `n!`, `C(n, k)`, and the subfactorial `!n`.
 //!
 //! ```
 //! use combinatorics::{next_permutation, permutations};

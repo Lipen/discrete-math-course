@@ -1,8 +1,6 @@
 //! Graph structure: components, bridges, articulation points, bipartiteness.
 //!
-//! One example, several "passports" of the graph: what parts it falls apart
-//! into, which edges and vertices are critical (removing them tears the
-//! graph), and whether it can be colored with two colors.
+//! One example, several "passports" of the graph: what parts it falls apart into, which edges and vertices are critical (removing them tears the graph), and whether it can be colored with two colors.
 
 use graphs::{articulation_points, bridges, connected_components, diameter, is_bipartite, Graph};
 

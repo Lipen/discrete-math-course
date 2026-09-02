@@ -1,15 +1,13 @@
 //! Render a graph in the Graphviz DOT format.
 //!
-//! DOT is a text description of a graph that the `dot` utility (from the
-//! graphviz package) turns into a picture:
+//! DOT is a text description of a graph that the `dot` utility (from the graphviz package) turns into a picture:
 //!
 //! ```bash
-//! cargo run -p graphs --example visualize   # writes graph.dot into a temp folder
+//! cargo run --example visualize   # writes graph.dot into a temp folder
 //! dot -O -Tsvg graph.dot                   # writes graph.dot.svg next to it
 //! ```
 //!
-//! The `-O` flag names the output after the input file, so the picture
-//! lands right next to the source.
+//! The `-O` flag names the output after the input file, so the picture lands right next to the source.
 
 use crate::graph::Graph;
 use crate::viz::dot_id;
@@ -21,8 +19,7 @@ fn escape_dot_label(text: &str) -> String {
 
 /// A description of the graph in DOT format.
 ///
-/// For an undirected graph -- a `graph` block with `--` edges, for a
-/// directed one -- a `digraph` block with `->` edges.
+/// For an undirected graph -- a `graph` block with `--` edges, for a directed one -- a `digraph` block with `->` edges.
 ///
 /// ```
 /// use graphs::viz::dot;
@@ -38,9 +35,8 @@ fn escape_dot_label(text: &str) -> String {
 /// assert!(dot.contains("a -- b;"));
 /// ```
 pub fn render(g: &Graph) -> String {
-    // DOT ids come from names but must be unique. Two different names can
-    // sanitize to one id ("a b" and "a_b") -- then the vertices would merge
-    // in the picture, so on a collision we append a suffix.
+    // DOT ids come from names but must be unique.
+    // Two different names can sanitize to one id ("a b" and "a_b") -- then the vertices would merge in the picture, so on a collision we append a suffix.
     let mut ids = Vec::with_capacity(g.node_count());
     let mut used = std::collections::HashSet::new();
     for u in 0..g.node_count() {

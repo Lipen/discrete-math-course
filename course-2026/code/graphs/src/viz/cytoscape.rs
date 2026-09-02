@@ -1,19 +1,15 @@
 //! Render a graph as JSON for cytoscape.js.
 //!
-//! [cytoscape.js](https://js.cytoscape.org) is a browser library for
-//! interactive graphs. [`render`] produces the `elements` JSON:
+//! [cytoscape.js](https://js.cytoscape.org) is a browser library for interactive graphs.
+//! [`render`] produces the `elements` JSON:
 //!
 //! ```js
 //! const cy = cytoscape({ elements: <output of render> });
 //! ```
 //!
-//! [`render_html`] goes one step further and wraps the JSON into a
-//! self-contained HTML page: cytoscape.js is loaded from a CDN, so the page
-//! opens in a browser without a server.
+//! [`render_html`] goes one step further and wraps the JSON into a self-contained HTML page: cytoscape.js is loaded from a CDN, so the page opens in a browser without a server.
 //!
-//! The JSON is assembled by serde: the `NodeData`/`EdgeData` structs describe
-//! the schema, and `serde_json` handles string escaping -- vertex names may
-//! contain quotes, slashes, and newlines, and the JSON stays valid.
+//! The JSON is assembled by serde: the `NodeData`/`EdgeData` structs describe the schema, and `serde_json` handles string escaping -- vertex names may contain quotes, slashes, and newlines, and the JSON stays valid.
 
 use serde::Serialize;
 
@@ -89,14 +85,9 @@ pub fn render(g: &Graph) -> String {
 
 /// A self-contained HTML page with the graph, interactive in a browser.
 ///
-/// The JSON from [`render`] is inlined into the page, and cytoscape.js is
-/// loaded from a CDN, so the page needs no server and no extra files:
-/// double-click the file and it works (an internet connection is only
-/// needed to fetch the library once).
+/// The JSON from [`render`] is inlined into the page, and cytoscape.js is loaded from a CDN, so the page needs no server and no extra files: double-click the file and it works (an internet connection is only needed to fetch the library once).
 ///
-/// Vertex names go through `serde_json` escaping plus one extra rule: every
-/// `<` becomes `\u003c`, so a name like `</script>` cannot break out of the
-/// inline script.
+/// Vertex names go through `serde_json` escaping plus one extra rule: every `<` becomes `\u003c`, so a name like `</script>` cannot break out of the inline script.
 ///
 /// ```
 /// use graphs::viz::cytoscape;

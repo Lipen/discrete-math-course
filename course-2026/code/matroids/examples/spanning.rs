@@ -1,7 +1,7 @@
 //! Kruskal as greedy on the graphic matroid: a triangle with edge weights 5, 4, 3.
 //!
-//! The greedy algorithm takes edges in decreasing weight order while keeping the
-//! chosen set acyclic (a forest). It builds the maximum spanning tree of weight 9.
+//! The greedy algorithm takes edges in decreasing weight order while keeping the chosen set acyclic (a forest).
+//! It builds the maximum spanning tree of weight 9.
 
 use matroids::examples::GraphicMatroid;
 use matroids::{greedy, weight};

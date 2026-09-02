@@ -1,15 +1,14 @@
 //! The graph model: vertices, edges, degrees.
 //!
-//! `Graph` is a simple structure for the course: no generics, no traits.
-//! Vertices are numbered `0..n` and may have names; every edge has a weight
-//! (1 by default). The graph stores its data twice:
+//! `Graph` is a deliberately simple structure: no generics, no traits.
+//! Vertices are numbered `0..n` and may have names.
+//! Every edge has a weight (1 by default).
+//! The graph stores its data twice:
 //!
-//! - `edges` -- the list of all edges (read by the weighted algorithms:
-//!   Dijkstra, Kruskal, Bellman--Ford);
+//! - `edges` -- the list of all edges (read by the weighted algorithms: Dijkstra, Kruskal, Bellman--Ford).
 //! - `adj` -- the adjacency lists (read by the BFS/DFS traversals).
 //!
-//! The fields are public: the structure can be read and assembled by hand,
-//! which makes it easier to see how a graph works inside.
+//! The fields are public: the structure can be read and assembled directly in code, which makes it easier to see how a graph works inside.
 
 /// An edge of the graph.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -18,15 +17,14 @@ pub struct Edge {
     pub from: usize,
     /// The vertex the edge enters.
     pub to: usize,
-    /// The edge weight (an integer; algorithms that need non-negativity
-    /// document it themselves).
+    /// The edge weight (an integer: algorithms that need non-negativity document it themselves).
     pub weight: i64,
 }
 
 /// A graph: directed or undirected, with vertex names and edge weights.
 ///
-/// Methods and algorithms that take vertex ids panic if the id is outside
-/// `0..node_count()`; ids come from `add_node` and `add_edge`.
+/// Methods and algorithms that take vertex ids panic if the id is outside `0..node_count()`.
+/// Ids come from `add_node` and `add_edge`.
 ///
 /// ```
 /// use graphs::Graph;
@@ -48,11 +46,11 @@ pub struct Graph {
     pub names: Vec<String>,
     /// Adjacency lists: `adj[u]` holds pairs (neighbor, edge id).
     ///
-    /// In an undirected graph an edge lands in the lists of both vertices,
-    /// in a directed one -- only in the source's list. A self-loop (edge
-    /// `u -> u`) sits in the list once.
+    /// In an undirected graph an edge lands in the lists of both vertices, in a directed one -- only in the source's list.
+    /// A self-loop (edge `u -> u`) sits in the list once.
     pub adj: Vec<Vec<(usize, usize)>>,
-    /// All edges of the graph; `edges[e]` is the edge with id `e`.
+    /// All edges of the graph.
+    /// `edges[e]` is the edge with id `e`.
     pub edges: Vec<Edge>,
 }
 
@@ -90,7 +88,8 @@ impl Graph {
         }
     }
 
-    /// Add a vertex with a name; returns its id.
+    /// Add a vertex with a name.
+    /// Returns its id.
     ///
     /// ```
     /// use graphs::Graph;
@@ -108,7 +107,8 @@ impl Graph {
         id
     }
 
-    /// Add an edge with weight 1; returns the edge id.
+    /// Add an edge with weight 1.
+    /// Returns the edge id.
     ///
     /// ```
     /// use graphs::Graph;
@@ -123,7 +123,8 @@ impl Graph {
         self.add_weighted_edge(from, to, 1)
     }
 
-    /// Add an edge with a weight; returns the edge id.
+    /// Add an edge with a weight.
+    /// Returns the edge id.
     ///
     /// ```
     /// use graphs::Graph;
@@ -229,9 +230,8 @@ impl Graph {
 
     /// Degree of vertex `u` -- the number of neighbors.
     ///
-    /// For a directed graph this is the out-degree (the number of edges
-    /// leaving `u`). See [`in_degree`](Graph::in_degree) for the edges
-    /// entering the vertex.
+    /// For a directed graph this is the out-degree (the number of edges leaving `u`).
+    /// See [`in_degree`](Graph::in_degree) for the edges entering the vertex.
     ///
     /// ```
     /// use graphs::Graph;
@@ -317,10 +317,8 @@ impl Graph {
 
     /// A random undirected Erdős--Rényi graph $G(n, p)$.
     ///
-    /// `n` vertices, every edge appears independently with probability `p`
-    /// (which must lie in the interval `[0, 1]`).
-    /// `seed` fixes the generator, so the same seed always gives the same
-    /// graph (for reproducible examples).
+    /// `n` vertices, every edge appears independently with probability `p` (which must lie in the interval `[0, 1]`).
+    /// `seed` fixes the generator, so the same seed always gives the same graph (for reproducible examples).
     ///
     /// ```
     /// use graphs::Graph;
@@ -349,8 +347,8 @@ impl Graph {
     }
 }
 
-/// A tiny random number generator (xorshift64) so we avoid external
-/// dependencies. Good for teaching examples, not for cryptography.
+/// A tiny random number generator (xorshift64) so we avoid external dependencies.
+/// Good for teaching examples, not for cryptography.
 struct XorShift64(u64);
 
 impl XorShift64 {

@@ -1,7 +1,7 @@
 //! Permutations: next_permutation and lexicographic enumeration.
 //!
-//! The three classic steps of `next_permutation`: the longest decreasing
-//! suffix, the pivot swap, and the reversal. Then the whole list.
+//! The three classic steps of `next_permutation`: the longest decreasing suffix, the pivot swap, and the reversal.
+//! Then the whole list.
 
 use combinatorics::{next_permutation, permutations};
 

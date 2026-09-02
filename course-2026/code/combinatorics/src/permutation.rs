@@ -1,24 +1,19 @@
 //! Permutations: lexicographic enumeration.
 //!
-//! A permutation of `0..n` is a list of the `n` values, each used exactly
-//! once. The classic `next_permutation` advances to the next permutation in
-//! lexicographic order in three steps: find the longest decreasing suffix,
-//! swap the pivot just before it with the smallest element of the suffix that
-//! is larger than the pivot, and reverse the suffix.
+//! A permutation of `0..n` is a list of the `n` values, each used exactly once.
+//! The classic `next_permutation` advances to the next permutation in lexicographic order in three steps: find the longest decreasing suffix, swap the pivot just before it with the smallest element of the suffix that is larger than the pivot, and reverse the suffix.
 
 /// The number of permutations of `n` items, `n!`.
 ///
-/// `n!` fits in `u64` for `n <= 20`; larger `n` overflows and panics in debug
-/// builds.
+/// `n!` fits in `u64` for `n <= 20`.
+/// Larger `n` overflows and panics in debug builds.
 pub fn factorial(n: usize) -> u64 {
     (1..=n).fold(1u64, |acc, k| acc * k as u64)
 }
 
 /// Advance `p` to the next permutation in lexicographic order.
 ///
-/// Returns `true` when `p` was advanced and `false` when `p` was already the
-/// last permutation (the strictly decreasing sequence), in which case `p` is
-/// left unchanged.
+/// Returns `true` when `p` was advanced and `false` when `p` was already the last permutation (the strictly decreasing sequence), in which case `p` is left unchanged.
 ///
 /// ```
 /// use combinatorics::next_permutation;

@@ -1,12 +1,9 @@
 //! Derangements: permutations with no fixed point.
 //!
-//! A derangement of `0..n` is a permutation in which no element stays in its
-//! own position (`p[i] != i` for every `i`). The count is the subfactorial
-//! `!n`, given by the recurrence `!n = (n - 1) * (!(n-1) + !(n-2))` with
-//! `!0 = 1` and `!1 = 0`.
+//! A derangement of `0..n` is a permutation in which no element stays in its own position (`p[i] != i` for every `i`).
+//! The count is the subfactorial `!n`, given by the recurrence `!n = (n - 1) * (!(n-1) + !(n-2))` with `!0 = 1` and `!1 = 0`.
 //!
-//! Enumeration walks the positions in lexicographic order, skipping the
-//! fixed-point value at each step.
+//! Enumeration walks the positions in lexicographic order, skipping the fixed-point value at each step.
 
 /// The subfactorial `!n`: the number of derangements of `0..n`.
 ///

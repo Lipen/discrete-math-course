@@ -1,18 +1,14 @@
 //! Visualization: one graph -- a picture and two editable sources.
 //!
-//! The layout is not drawn by hand but by ready-made tools, so the example
-//! writes the graph in three files into the `graphs-visualize/` temp folder
-//! and prints their absolute paths:
+//! The layout is drawn by ready-made tools, so the example writes the graph in three files into the `graphs-visualize/` temp folder and prints their absolute paths:
 //!
-//! - `graph.dot` -- the Graphviz DOT source;
-//! - `graph.dot.svg` -- the picture, rendered right here by the `dot`
-//!   engine (`dot -O -Tsvg graph.dot`). Open it in a browser to preview;
-//! - `graph.html` -- the same graph as a self-contained page: cytoscape.js
-//!   reads the JSON inlined into the page and makes the graph interactive.
+//! - `graph.dot` -- the Graphviz DOT source.
+//! - `graph.dot.svg` -- the picture, rendered right here by the `dot` engine (`dot -O -Tsvg graph.dot`).
+//!   Open it in a browser to preview.
+//! - `graph.html` -- the same graph as a self-contained page: cytoscape.js reads the JSON inlined into the page and makes the graph interactive.
 //!
-//! The example writes nothing into the current folder: the repository stays
-//! clean. If the `dot` utility is not installed, the SVG is skipped with a
-//! hint -- the DOT source is still there for any Graphviz engine.
+//! The example writes nothing into the current folder: the repository stays clean.
+//! If the `dot` utility is not installed, the SVG is skipped with a hint -- the DOT source is still there for any Graphviz engine.
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -59,8 +55,7 @@ fn main() {
     );
 }
 
-/// Renders the picture with the `dot` engine: `dot -O -Tsvg` writes
-/// `graph.dot.svg` next to the source file.
+/// Renders the picture with the `dot` engine: `dot -O -Tsvg` writes `graph.dot.svg` next to the source file.
 fn render_svg(dot_path: &Path) -> Result<(), String> {
     let output = Command::new("dot")
         .arg("-O") // output file is named after the input: graph.dot.svg

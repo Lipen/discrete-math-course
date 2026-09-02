@@ -1,8 +1,7 @@
 //! Directed graphs: topological sort, cycles, strong connectivity.
 //!
-//! A topological order is a schedule: all "ancestors" first, then
-//! "descendants". Strongly connected components are regions where any vertex
-//! can reach any other (Kosaraju's algorithm).
+//! A topological order is a schedule: all "ancestors" first, then "descendants".
+//! Strongly connected components are regions where any vertex can reach any other (Kosaraju's algorithm).
 
 use graphs::{is_cyclic, strongly_connected_components, topological_sort, Graph};
 
@@ -40,7 +39,7 @@ fn main() {
         g.add_node(name);
     }
     g.add_edges(&[(0, 1), (1, 2), (2, 0), (1, 3), (3, 4)]);
-    // A -> B -> C -> A form one component; D and E are singletons.
+    // A -> B -> C -> A form one component. D and E are singletons.
 
     for (i, comp) in strongly_connected_components(&g).iter().enumerate() {
         let names: Vec<&str> = comp.iter().map(|&u| g.node_name(u)).collect();

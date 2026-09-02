@@ -1,32 +1,24 @@
 //! De Bruijn graphs and genome assembly.
 //!
-//! The classic genome-assembly pipeline turns short sequenced fragments
-//! (reads) into one long string:
+//! The classic genome-assembly pipeline turns short sequenced fragments (reads) into one long string:
 //!
-//! 1. chop every read into k-mers (substrings of length `k`);
-//! 2. build the de Bruijn graph: vertices are the (k-1)-mers, and every
-//!    k-mer `s` becomes an edge from its first (k-1) characters to its
-//!    last (k-1) characters;
-//! 3. find an Eulerian path -- a trail that uses every edge exactly once;
-//!    the path spells the assembled genome.
+//! 1. chop every read into k-mers (substrings of length `k`).
+//! 2. build the de Bruijn graph: vertices are the (k-1)-mers, and every k-mer `s` becomes an edge from its first (k-1) characters to its last (k-1) characters.
+//! 3. find an Eulerian path -- a trail that uses every edge exactly once.
+//!    The path spells the assembled genome.
 //!
-//! Why does an Eulerian path give the genome? Two consecutive edges
-//! `x -> y` and `y -> z` overlap in the (k-1)-mer `y`, so the second edge
-//! continues exactly where the first ended: their k-mers are
-//! `x + y[k-2]` and `y + z[k-2]`. Walking every edge in a trail therefore
-//! concatenates the reads into one contiguous string.
+//! Why does an Eulerian path give the genome?
+//! Two consecutive edges `x -> y` and `y -> z` overlap in the (k-1)-mer `y`, so the second edge continues exactly where the first ended: their k-mers are `x + y[k-2]` and `y + z[k-2]`.
+//! Walking every edge in a trail therefore concatenates the reads into one contiguous string.
 //!
-//! Worked example. The reads `ACG`, `CGT`, `GTA` with `k = 3`:
+//! Worked example.
+//! The reads `ACG`, `CGT`, `GTA` with `k = 3`:
 //!
-//! - vertices (2-mers): `AC`, `CG`, `GT`, `TA`;
-//! - edges (3-mers): `AC -> CG` (read `ACG`), `CG -> GT` (read `CGT`),
-//!   `GT -> TA` (read `GTA`);
-//! - the Eulerian path `AC -> CG -> GT -> TA` spells
-//!   `AC` + `G` + `T` + `A` = `ACGTA`, the original genome.
+//! - vertices (2-mers): `AC`, `CG`, `GT`, `TA`.
+//! - edges (3-mers): `AC -> CG` (read `ACG`), `CG -> GT` (read `CGT`), `GT -> TA` (read `GTA`).
+//! - the Eulerian path `AC -> CG -> GT -> TA` spells `AC` + `G` + `T` + `A` = `ACGTA`, the original genome.
 //!
-//! Reads from a circular genome close the trail into a cycle, and the
-//! assembled string is a rotation of the genome -- any rotation is a valid
-//! assembly.
+//! Reads from a circular genome close the trail into a cycle, and the assembled string is a rotation of the genome -- any rotation is a valid assembly.
 //!
 //! ```
 //! use graphs::DeBruijnGraph;
@@ -40,10 +32,9 @@ use std::collections::HashMap;
 
 /// A de Bruijn graph built from k-mer reads.
 ///
-/// `names[v]` is the (k-1)-mer at vertex id `v`; `adj[u]` holds pairs
-/// `(to, count)` -- how many reads spell the edge `u -> to`. Both fields
-/// are public: the graph is a plain structure you can read and build by
-/// hand.
+/// `names[v]` is the (k-1)-mer at vertex id `v`.
+/// `adj[u]` holds pairs `(to, count)` -- how many reads spell the edge `u -> to`.
+/// Both fields are public: the graph is a plain structure you can read and build directly in code.
 ///
 /// ```
 /// use graphs::DeBruijnGraph;
@@ -65,11 +56,8 @@ pub struct DeBruijnGraph {
 }
 
 impl DeBruijnGraph {
-    /// Build the graph from reads: every substring of length `k` of every
-    /// read becomes one edge (a read longer than `k` is chopped into
-    /// k-mers). A read repeated twice raises the edge count twice, and the
-    /// Eulerian path must use the edge as many times -- that is exactly
-    /// how repeated coverage is handled.
+    /// Build the graph from reads: every substring of length `k` of every read becomes one edge (a read longer than `k` is chopped into k-mers).
+    /// A read repeated twice raises the edge count twice, and the Eulerian path must use the edge as many times -- that is exactly how repeated coverage is handled.
     ///
     /// Panics if `k < 2` or a read is shorter than `k`.
     ///
@@ -135,8 +123,7 @@ impl DeBruijnGraph {
             .sum()
     }
 
-    /// The k-mer spelled by the edge `u -> v`: the (k-1)-mer of `u` plus
-    /// the last character of the (k-1)-mer of `v`.
+    /// The k-mer spelled by the edge `u -> v`: the (k-1)-mer of `u` plus the last character of the (k-1)-mer of `v`.
     ///
     /// ```
     /// use graphs::DeBruijnGraph;
@@ -152,16 +139,12 @@ impl DeBruijnGraph {
         label
     }
 
-    /// An Eulerian path or cycle: a trail that uses every edge exactly
-    /// once, as a sequence of vertex ids. `None` if no such trail exists.
+    /// An Eulerian path or cycle: a trail that uses every edge exactly once, as a sequence of vertex ids.
+    /// `None` if no such trail exists.
     ///
-    /// Euler's criterion for directed graphs: every vertex needs equal
-    /// out- and in-degree, except at most one vertex with one more
-    /// outgoing edge (the start of the trail) and at most one with one
-    /// more incoming edge (the end). If every balance is zero the trail is
-    /// a cycle and may start anywhere. The trail itself is built by
-    /// Hierholzer's algorithm: walk edges greedily and splice the walk
-    /// into the finished trail when a vertex runs out of unused edges.
+    /// Euler's criterion for directed graphs: every vertex needs equal out- and in-degree, except at most one vertex with one more outgoing edge (the start of the trail) and at most one with one more incoming edge (the end).
+    /// If every balance is zero the trail is a cycle and may start anywhere.
+    /// The trail itself is built by Hierholzer's algorithm: walk edges greedily and splice the walk into the finished trail when a vertex runs out of unused edges.
     /// Runs in $O(V + E)$.
     ///
     /// ```
@@ -255,10 +238,8 @@ impl DeBruijnGraph {
         Some(trail)
     }
 
-    /// Reconstruct the genome from an Eulerian path: the (k-1)-mer of the
-    /// start vertex, then the last character of every following vertex.
-    /// Consecutive path vertices overlap in (k-1) characters, so this
-    /// concatenates the reads spelled by the path into one string.
+    /// Reconstruct the genome from an Eulerian path: the (k-1)-mer of the start vertex, then the last character of every following vertex.
+    /// Consecutive path vertices overlap in (k-1) characters, so this concatenates the reads spelled by the path into one string.
     ///
     /// An empty path gives an empty string.
     ///
@@ -280,8 +261,8 @@ impl DeBruijnGraph {
         genome
     }
 
-    /// Assemble the genome in one call: find the Eulerian path, then read
-    /// the string it spells. `None` if the graph has no Eulerian path.
+    /// Assemble the genome in one call: find the Eulerian path, then read the string it spells.
+    /// `None` if the graph has no Eulerian path.
     ///
     /// ```
     /// use graphs::DeBruijnGraph;
@@ -322,8 +303,8 @@ mod tests {
 
     #[test]
     fn repeated_reads_count_as_separate_edges() {
-        // One repeated read unbalances the graph; the trail must start at
-        // AC (one more outgoing edge) and end at CG (one more incoming).
+        // One repeated read unbalances the graph.
+        // The trail must start at AC (one more outgoing edge) and end at CG (one more incoming).
         let g = DeBruijnGraph::build(&["ACG", "ACG", "CGT", "GTA", "TAC"], 3);
         assert_eq!(g.edge_count(), 5);
         let genome = g.assemble().unwrap();

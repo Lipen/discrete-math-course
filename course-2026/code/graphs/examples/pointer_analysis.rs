@@ -1,8 +1,7 @@
 //! Steensgaard's pointer analysis on a tiny C-like program.
 //!
-//! The program uses all four statement forms. After every statement the
-//! current points-to sets are printed, so the unification steps -- the
-//! places where two locations merge into one -- are visible.
+//! The program uses all four statement forms.
+//! After every statement the current points-to sets are printed, so the unification steps -- the places where two locations merge into one -- are visible.
 
 use graphs::{Steensgaard, Stmt};
 
@@ -13,7 +12,7 @@ fn main() {
     //   q = &y;   // q points to y
     //   *p = q;   // store: x receives q, so x and q unify
     //   r = q;    // copy: r unifies with q (and hence with x)
-    //   p = &z;   // p already points to x; now it also points to z,
+    //   p = &z;   // p already points to x. Now it also points to z,
     //             // so x and z merge into one location
     //   z = &w;   // z's location must hold y and w: y and w merge too
     let program = [

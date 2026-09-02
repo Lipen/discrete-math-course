@@ -1,7 +1,8 @@
 //! Linear matroid over GF(2): the three vectors.
 //!
 //! v1 = (1,0) weight 5, v2 = (0,1) weight 4, v3 = (1,1) weight 3.
-//! Any two vectors are independent; all three are dependent (v3 = v1 + v2).
+//! Any two vectors are independent.
+//! All three are dependent (v3 = v1 + v2).
 //! Greedy takes v1 and v2, drops v3, and reaches weight 9.
 
 use matroids::examples::BinaryLinearMatroid;

@@ -1,8 +1,7 @@
 //! Minimum spanning tree: Kruskal's algorithm.
 //!
 //! A spanning tree connects all vertices with the minimum total edge weight.
-//! Kruskal sorts edges by weight and takes every edge that does not close a
-//! cycle (checked with a union-find structure).
+//! Kruskal sorts edges by weight and takes every edge that does not close a cycle (checked with a union-find structure).
 
 use graphs::{min_spanning_tree, Graph};
 

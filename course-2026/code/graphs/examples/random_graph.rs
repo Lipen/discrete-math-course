@@ -1,10 +1,9 @@
 //! Random graphs: the Erdős--Rényi model G(n, p).
 //!
 //! n vertices, every edge appears independently with probability p.
-//! The same seed always gives the same graph -- the examples are
-//! reproducible. Along the way we check the handshake lemma: the sum of
-//! degrees is even. The DOT description is written to a file, and the path
-//! is printed.
+//! The same seed always gives the same graph -- the examples are reproducible.
+//! Along the way we check the handshake lemma: the sum of degrees is even.
+//! The DOT description is written to a file, and the path is printed.
 
 use std::fs;
 

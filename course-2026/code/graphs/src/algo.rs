@@ -1,11 +1,10 @@
 //! Graph algorithms.
 //!
 //! Every algorithm is a free function taking `&Graph`.
-//! The model is separate from the algorithms: the same graph can be fed to
-//! any number of functions.
+//! The model is separate from the algorithms: the same graph can be fed to any number of functions.
 //!
-//! Each algorithm's complexity and idea are described in its documentation;
-//! working demos live in `examples/`.
+//! Each algorithm's complexity and idea are described in its documentation.
+//! Working demos live in `examples/`.
 
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, VecDeque};
@@ -18,19 +17,18 @@ use crate::unionfind::UnionFind;
 pub struct BfsResult {
     /// Vertices in the order they were visited.
     pub order: Vec<usize>,
-    /// Distance from the start vertex; `usize::MAX` means unreachable
-    /// (a sentinel; the weighted algorithms
-    /// Dijkstra and Bellman--Ford mark unreachable vertices as `None`).
+    /// Distance from the start vertex.
+    /// `usize::MAX` means unreachable (a sentinel: the weighted algorithms Dijkstra and Bellman--Ford mark unreachable vertices as `None`).
     pub dist: Vec<usize>,
-    /// Parent in the BFS tree; `None` for the start vertex and unreachable ones.
+    /// Parent in the BFS tree.
+    /// `None` for the start vertex and unreachable ones.
     pub parent: Vec<Option<usize>>,
 }
 
 /// Breadth-first search (BFS) from the vertex `start`.
 ///
-/// Visits the graph layer by layer: first vertices at distance 1, then 2,
-/// and so on. Runs in $O(V + E)$ and finds shortest paths in an unweighted
-/// graph (weights are ignored).
+/// Visits the graph layer by layer: first vertices at distance 1, then 2, and so on.
+/// Runs in $O(V + E)$ and finds shortest paths in an unweighted graph (weights are ignored).
 ///
 /// ```
 /// use graphs::{bfs, Graph};
@@ -73,28 +71,27 @@ pub fn bfs(g: &Graph, start: usize) -> BfsResult {
 /// Result of a depth-first search.
 #[derive(Debug)]
 pub struct DfsResult {
-    /// Entry time of the vertex (1-based; 0 means not visited in this pass).
+    /// Entry time of the vertex (1-based: 0 means not visited in this pass).
     pub pre: Vec<usize>,
     /// Exit time of the vertex.
     pub post: Vec<usize>,
-    /// Parent in the DFS forest; `None` for roots.
+    /// Parent in the DFS forest.
+    /// `None` for roots.
     pub parent: Vec<Option<usize>>,
     /// Vertices in the order of first visit.
     pub order: Vec<usize>,
     /// Vertices in the order their processing finished.
     ///
-    /// The reverse order is a topological order of a DAG's vertices, and it
-    /// is exactly what Kosaraju's algorithm needs for strong components.
+    /// The reverse order is a topological order of a DAG's vertices, and it is exactly what Kosaraju's algorithm needs for strong components.
     pub finish: Vec<usize>,
 }
 
 /// Depth-first search (DFS) over all vertices of the graph.
 ///
-/// Goes deep: recursively explores the first unvisited neighbor, then its
-/// neighbor, and so on; the entry `pre` and exit `post` times carry
-/// structural information about edges (tree, back, and cross edges).
-/// Runs in $O(V + E)$. Recursive: may overflow the call stack on very
-/// large graphs.
+/// Goes deep: recursively explores the first unvisited neighbor, then its neighbor, and so on.
+/// The entry `pre` and exit `post` times carry structural information about edges (tree, back, and cross edges).
+/// Runs in $O(V + E)$.
+/// Recursive: may overflow the call stack on very large graphs.
 ///
 /// ```
 /// use graphs::{dfs, Graph};
@@ -143,8 +140,7 @@ pub fn dfs(g: &Graph) -> DfsResult {
 
 /// Number of connected components and the component label of every vertex.
 ///
-/// For a directed graph this counts the *weakly* connected components:
-/// edge directions are ignored.
+/// For a directed graph this counts the *weakly* connected components: edge directions are ignored.
 ///
 /// ```
 /// use graphs::{connected_components, Graph};
@@ -183,10 +179,8 @@ pub fn connected_components(g: &Graph) -> (usize, Vec<usize>) {
 
 /// Strongly connected components (Kosaraju's algorithm), directed graphs only.
 ///
-/// Two passes: DFS on the original graph gives the finish order, DFS on the
-/// reversed graph in reverse finish order gives the components themselves.
-/// For an undirected graph use [`connected_components`]: passing one here is
-/// a mistake, and the function panics on it.
+/// Two passes: DFS on the original graph gives the finish order, DFS on the reversed graph in reverse finish order gives the components themselves.
+/// For an undirected graph use [`connected_components`]: passing one here is a mistake, and the function panics on it.
 ///
 /// ```
 /// use graphs::{strongly_connected_components, Graph};
@@ -239,9 +233,8 @@ fn collect(u: usize, rev: &[Vec<usize>], visited: &mut [bool], comp: &mut Vec<us
 
 /// Whether the graph has a cycle.
 ///
-/// An undirected graph is checked with a union-find structure (an edge that
-/// joins vertices of one component closes a cycle); a directed graph -- with
-/// colored DFS (gray means an edge into the current recursion stack).
+/// An undirected graph is checked with a union-find structure (an edge that joins vertices of one component closes a cycle).
+/// A directed graph -- with colored DFS (gray means an edge into the current recursion stack).
 ///
 /// ```
 /// use graphs::{is_cyclic, Graph};
@@ -293,9 +286,8 @@ pub fn is_cyclic(g: &Graph) -> bool {
 /// Topological sort (Kahn's algorithm), for directed acyclic graphs.
 ///
 /// Returns `None` if the graph has a cycle (no topological order exists).
-/// The order is such that every edge goes from an earlier vertex to a later
-/// one. Topological sort is undefined for undirected graphs, and the
-/// function panics on them.
+/// The order is such that every edge goes from an earlier vertex to a later one.
+/// Topological sort is undefined for undirected graphs, and the function panics on them.
 ///
 /// ```
 /// use graphs::{topological_sort, Graph};
@@ -338,15 +330,13 @@ pub fn topological_sort(g: &Graph) -> Option<Vec<usize>> {
 
 /// Distances from the source and predecessors on the shortest paths.
 ///
-/// A pair `(dist, prev)`: `dist[v]` is the length of the shortest path to `v`
-/// (`None` means unreachable), `prev[v]` is the previous vertex on that path.
+/// A pair `(dist, prev)`: `dist[v]` is the length of the shortest path to `v` (`None` means unreachable), `prev[v]` is the previous vertex on that path.
 pub type ShortestPaths = (Vec<Option<i64>>, Vec<Option<usize>>);
 
 /// Shortest paths from `start` (Dijkstra's algorithm).
 ///
-/// Edge weights must be non-negative (checked in debug builds). Returns
-/// [`ShortestPaths`]: the distance to every vertex and the predecessor on
-/// the shortest path (to reconstruct the path itself).
+/// Edge weights must be non-negative (checked in debug builds).
+/// Returns [`ShortestPaths`]: the distance to every vertex and the predecessor on the shortest path (to reconstruct the path itself).
 /// Runs in $O((V + E) log V)$.
 ///
 /// ```
@@ -404,12 +394,10 @@ pub fn dijkstra(g: &Graph, start: usize) -> ShortestPaths {
 
 /// Shortest paths from `start` (Bellman--Ford algorithm).
 ///
-/// Works with negative weights too: only Dijkstra's "adding an edge never
-/// shortens a path" assumption fails there, while Bellman--Ford relaxes all
-/// edges for $V - 1$ rounds and considers paths of any length. It only
-/// breaks on negative cycles: if `start` can reach such a cycle, it returns
-/// `None` (an unreachable cycle does not matter). After $k$ rounds paths of
-/// at most $k$ edges are correct. Runs in $O(V E)$.
+/// Works with negative weights too: only Dijkstra's "adding an edge never shortens a path" assumption fails there, while Bellman--Ford relaxes all edges for $V - 1$ rounds and considers paths of any length.
+/// It only breaks on negative cycles: if `start` can reach such a cycle, it returns `None` (an unreachable cycle does not matter).
+/// After $k$ rounds paths of at most $k$ edges are correct.
+/// Runs in $O(V E)$.
 ///
 /// ```
 /// use graphs::{bellman_ford, Graph};
@@ -470,10 +458,9 @@ pub fn bellman_ford(g: &Graph, start: usize) -> Option<ShortestPaths> {
 
 /// Minimum spanning tree (Kruskal's algorithm), for undirected graphs.
 ///
-/// Sorts edges by weight and adds every edge that joins two different
-/// components (checked with a union-find structure). Returns the edge ids of
-/// the spanning tree; for a disconnected graph -- a spanning forest (one
-/// tree per component).
+/// Sorts edges by weight and adds every edge that joins two different components (checked with a union-find structure).
+/// Returns the edge ids of the spanning tree.
+/// For a disconnected graph -- a spanning forest (one tree per component).
 ///
 /// ```
 /// use graphs::{min_spanning_tree, Graph};
@@ -506,11 +493,10 @@ pub fn min_spanning_tree(g: &Graph) -> Vec<usize> {
 
 /// Minimum spanning tree (Prim's algorithm), for undirected graphs.
 ///
-/// Grows a tree from a start vertex: at every step it takes the lightest edge
-/// crossing the cut between the tree and the rest of the graph, using a binary
-/// min-heap of candidate edges. Kruskal is friendlier to sparse graphs, Prim
-/// to dense ones. Returns the edge ids of the spanning tree; for a
-/// disconnected graph -- a spanning forest.
+/// Grows a tree from a start vertex: at every step it takes the lightest edge crossing the cut between the tree and the rest of the graph, using a binary min-heap of candidate edges.
+/// Kruskal is friendlier to sparse graphs, Prim to dense ones.
+/// Returns the edge ids of the spanning tree.
+/// For a disconnected graph -- a spanning forest.
 ///
 /// ```
 /// use graphs::{prim, Graph};
@@ -565,13 +551,11 @@ pub fn prim(g: &Graph) -> Vec<usize> {
 
 /// Eulerian path: a trail that visits every edge exactly once.
 ///
-/// Returns `None` if no such trail exists. Euler's criterion: in an
-/// undirected graph either all degrees are even (then the trail is a circuit
-/// and may start anywhere), or exactly two vertices have odd degree (then it
-/// starts at one of them). For directed graphs the same, but by the
-/// difference of out- and in-degrees. The trail itself is built by
-/// Hierholzer's algorithm; if not all edges are eaten, the graph is
-/// disconnected and there is no answer.
+/// Returns `None` if no such trail exists.
+/// Euler's criterion: in an undirected graph either all degrees are even (then the trail is a circuit and may start anywhere), or exactly two vertices have odd degree (then it starts at one of them).
+/// For directed graphs the same, but by the difference of out- and in-degrees.
+/// The trail itself is built by Hierholzer's algorithm.
+/// If not all edges are eaten, the graph is disconnected and there is no answer.
 ///
 /// ```
 /// use graphs::{find_eulerian_path, Graph};
@@ -679,11 +663,11 @@ pub fn find_eulerian_path(g: &Graph) -> Option<Vec<usize>> {
     Some(trail)
 }
 
-/// Whether the graph is bipartite; if so, a 2-coloring of its vertices (0 and 1).
+/// Whether the graph is bipartite.
+/// If so, a 2-coloring of its vertices (0 and 1).
 ///
-/// The coloring is built by a traversal: neighbors get the opposite color; if
-/// a neighbor is already colored with the same color, the graph has an odd
-/// cycle and is not bipartite (`None`).
+/// The coloring is built by a traversal: neighbors get the opposite color.
+/// If a neighbor is already colored with the same color, the graph has an odd cycle and is not bipartite (`None`).
 ///
 /// ```
 /// use graphs::{is_bipartite, Graph};
@@ -730,10 +714,10 @@ pub fn is_bipartite(g: &Graph) -> Option<Vec<usize>> {
 
 /// Bridges -- edges whose removal increases the number of connected components.
 ///
-/// Tarjan's algorithm: a depth-first search with entry times `tin` and
-/// low-link values `low` (the earliest entry time reachable via back edges).
-/// An edge `(u, v)` is a bridge if $"low"(v) > "tin"(u)`. Undirected graphs
-/// only; parallel edges are never bridges.
+/// Tarjan's algorithm: a depth-first search with entry times `tin` and low-link values `low` (the earliest entry time reachable via back edges).
+/// An edge `(u, v)` is a bridge if `low(v) > tin(u)`.
+/// Undirected graphs only.
+/// Parallel edges are never bridges.
 /// Recursive: may overflow the call stack on very large graphs.
 ///
 /// ```
@@ -792,9 +776,9 @@ pub fn bridges(g: &Graph) -> Vec<(usize, usize)> {
 
 /// Articulation points -- vertices whose removal increases the number of components.
 ///
-/// The same Tarjan walk: a non-root vertex `u` is an articulation point if it
-/// has a child `v` with $"low"(v) >= "tin"(u)`; the root of a DFS tree -- if
-/// it has more than one child. Undirected graphs only.
+/// The same Tarjan walk: a non-root vertex `u` is an articulation point if it has a child `v` with `low(v) >= tin(u)`.
+/// The root of a DFS tree -- if it has more than one child.
+/// Undirected graphs only.
 /// Recursive: may overflow the call stack on very large graphs.
 ///
 /// ```
@@ -867,11 +851,9 @@ pub fn articulation_points(g: &Graph) -> Vec<usize> {
 
 /// Greedy vertex coloring.
 ///
-/// Vertices are colored in id order; each gets the smallest color
-/// (0, 1, 2, ...) not used by any already-colored neighbor. The number of
-/// colors depends on the vertex order and is not guaranteed minimal: on a
-/// bipartite graph a bad order can make the greedy algorithm use three
-/// colors even though two suffice.
+/// Vertices are colored in id order.
+/// Each gets the smallest color (0, 1, 2, ...) not used by any already-colored neighbor.
+/// The number of colors depends on the vertex order and is not guaranteed minimal: on a bipartite graph a bad order can make the greedy algorithm use three colors even though two suffice.
 ///
 /// ```
 /// use graphs::{greedy_coloring, Graph};
@@ -909,8 +891,8 @@ pub fn greedy_coloring(g: &Graph) -> Vec<usize> {
 
 /// Distance between vertices $u$ and $v$ (edges on the shortest path).
 ///
-/// `None` if $v$ is unreachable from $u$. Weights are ignored (this is the
-/// unweighted distance).
+/// `None` if $v$ is unreachable from $u$.
+/// Weights are ignored (this is the unweighted distance).
 ///
 /// ```
 /// use graphs::{distance, Graph};
@@ -945,8 +927,8 @@ pub fn eccentricity(g: &Graph, u: usize) -> Option<usize> {
 
 /// Diameter of the graph: the maximum distance over all pairs of vertices.
 ///
-/// For a disconnected graph -- the maximum within components (vertices in
-/// different components have no distance). An empty graph gives `None`.
+/// For a disconnected graph -- the maximum within components (vertices in different components have no distance).
+/// An empty graph gives `None`.
 ///
 /// ```
 /// use graphs::{diameter, Graph};

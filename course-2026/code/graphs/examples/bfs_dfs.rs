@@ -1,7 +1,7 @@
 //! Breadth-first and depth-first search on one graph.
 //!
-//! BFS visits the graph layer by layer and finds shortest distances from the
-//! start; DFS goes deep and records entry/exit times.
+//! BFS visits the graph layer by layer and finds shortest distances from the start.
+//! DFS goes deep and records entry/exit times.
 
 use graphs::{bfs, dfs, Graph};
 

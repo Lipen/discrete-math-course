@@ -1,8 +1,8 @@
 //! Shortest paths: Dijkstra and Bellman--Ford.
 //!
-//! Dijkstra works only with non-negative weights, but is fast; Bellman--Ford
-//! survives negative weights, but not negative cycles. The demo shows how to
-//! reconstruct the path itself from the predecessors.
+//! Dijkstra works only with non-negative weights, but is fast.
+//! Bellman--Ford survives negative weights, but not negative cycles.
+//! The demo shows how to reconstruct the path itself from the predecessors.
 
 use graphs::{bellman_ford, dijkstra, Graph};
 

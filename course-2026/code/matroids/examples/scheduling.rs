@@ -1,7 +1,7 @@
 //! Scheduling with deadlines as a matroid: A(d1,p50), B(d1,p40), C(d2,p30).
 //!
-//! Independent sets are schedulable sets of jobs: at every time t, at most t
-//! jobs have deadline <= t. Greedy by profit picks {A, C} with total 80.
+//! Independent sets are schedulable sets of jobs: at every time t, at most t jobs have deadline <= t.
+//! Greedy by profit picks {A, C} with total 80.
 
 use matroids::examples::SchedulingMatroid;
 use matroids::{greedy, weight};

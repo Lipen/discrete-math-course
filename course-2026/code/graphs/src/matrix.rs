@@ -1,26 +1,20 @@
 //! The adjacency matrix representation.
 //!
-//! [`Graph`] stores edges in a list and in adjacency lists --
-//! the natural choice for sparse graphs and for traversals. The second
-//! classic representation is the adjacency matrix: an `n x n` table where
-//! the cell `(u, v)` holds the weight of the edge `u -> v` (or `None`).
+//! [`Graph`] stores edges in a list and in adjacency lists -- the natural choice for sparse graphs and for traversals.
+//! The second classic representation is the adjacency matrix: an `n x n` table where the cell `(u, v)` holds the weight of the edge `u -> v` (or `None`).
 //!
-//! The matrix pays off when the graph is dense, when edge tests must run
-//! in $O(1)$, and -- the reason it matters in a course -- when the graph
-//! is studied with linear algebra: the number of walks of length `L` from
-//! `u` to `v` is the entry `(u, v)` of the `L`-th power of the adjacency
-//! matrix ([`AdjMatrix::count_walks`]).
+//! The matrix pays off when the graph is dense, when edge tests must run in $O(1)$, and when the graph is studied with linear algebra: the number of walks of length `L` from `u` to `v` is the entry `(u, v)` of the `L`-th power of the adjacency matrix ([`AdjMatrix::count_walks`]).
 //!
-//! One thing a matrix cannot do is represent parallel edges: a conversion
-//! from [`Graph`] collapses them and keeps the lightest
-//! weight. Conversions in both directions are provided.
+//! One thing a matrix cannot do is represent parallel edges: a conversion from [`Graph`] collapses them and keeps the lightest weight.
+//! Conversions in both directions are provided.
 
 use crate::graph::Graph;
 
 /// A graph stored as an `n x n` matrix of edge weights.
 ///
-/// `w[u][v]` is the weight of the edge `u -> v`; `None` means no edge.
-/// The fields are public, and the matrix can be built by hand.
+/// `w[u][v]` is the weight of the edge `u -> v`.
+/// `None` means no edge.
+/// The fields are public, and the matrix can be assembled directly in code.
 ///
 /// ```
 /// use graphs::AdjMatrix;
@@ -36,11 +30,9 @@ use crate::graph::Graph;
 /// ```
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct AdjMatrix {
-    /// `true` -- a directed graph (an arbitrary matrix), `false` -- an
-    /// undirected one (a symmetric matrix).
+    /// `true` -- a directed graph (an arbitrary matrix), `false` -- an undirected one (a symmetric matrix).
     pub directed: bool,
-    /// `w[u][v]` -- the weight of the edge `u -> v`, or `None` if there is
-    /// no edge.
+    /// `w[u][v]` -- the weight of the edge `u -> v`, or `None` if there is no edge.
     pub w: Vec<Vec<Option<i64>>>,
 }
 
@@ -68,9 +60,8 @@ impl AdjMatrix {
 
     /// Add an edge `u -> v` with a weight (or update it).
     ///
-    /// If the cell already holds an edge, the lighter weight wins -- this
-    /// is what a conversion from a multigraph needs. For an undirected
-    /// matrix the reverse cell is updated the same way.
+    /// If the cell already holds an edge, the lighter weight wins -- this is what a conversion from a multigraph needs.
+    /// For an undirected matrix the reverse cell is updated the same way.
     ///
     /// ```
     /// use graphs::AdjMatrix;
@@ -150,8 +141,9 @@ impl AdjMatrix {
 
     /// Build the matrix from a [`Graph`].
     ///
-    /// Parallel edges collapse to the lightest one; self-loops are kept;
-    /// vertex names are lost (the matrix stores only ids).
+    /// Parallel edges collapse to the lightest one.
+    /// Self-loops are kept.
+    /// Vertex names are lost (the matrix stores only ids).
     ///
     /// ```
     /// use graphs::{AdjMatrix, Graph};
@@ -177,9 +169,9 @@ impl AdjMatrix {
 
     /// Build a [`Graph`] with the same edges and weights.
     ///
-    /// The matrix stores no names, so vertices are named `"0"`, `"1"`,
-    /// ... in id order. In an undirected matrix every edge is stored
-    /// twice (symmetric cells); the graph gets it once.
+    /// The matrix stores no names, so vertices are named `"0"`, `"1"`, ... in id order.
+    /// In an undirected matrix every edge is stored twice (symmetric cells).
+    /// The graph gets it once.
     ///
     /// ```
     /// use graphs::{AdjMatrix, Graph};
@@ -217,8 +209,8 @@ impl AdjMatrix {
 
     /// The number of walks of length `len` from `u` to `v`.
     ///
-    /// A walk may repeat vertices and edges; this is exactly the entry
-    /// `(u, v)` of the `len`-th power of the boolean adjacency matrix.
+    /// A walk may repeat vertices and edges.
+    /// This is exactly the entry `(u, v)` of the `len`-th power of the boolean adjacency matrix.
     /// Counts are `u64`: they can overflow on big graphs and lengths.
     ///
     /// ```

@@ -1,7 +1,6 @@
 //! Integer partitions: lexicographic enumeration.
 //!
-//! A partition is written as a non-increasing list, and the enumeration walks
-//! those in lexicographic order.
+//! A partition is written as a non-increasing list, and the enumeration walks those in lexicographic order.
 
 use combinatorics::partitions;
 
