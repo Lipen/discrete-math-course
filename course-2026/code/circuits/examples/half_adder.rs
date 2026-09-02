@@ -8,7 +8,7 @@
 use circuits::{full_adder, half_adder, Circuit};
 
 fn main() {
-    // --- Half adder -----------------------------------------------------
+    // -- Half adder --
     let mut c = Circuit::new();
     let a = c.input(0);
     let b = c.input(1);
@@ -23,7 +23,7 @@ fn main() {
         println!("  {}  {}  | {}  {}", x as u8, y as u8, s as u8, k as u8);
     }
 
-    // --- Full adder -----------------------------------------------------
+    // -- Full adder --
     let mut d = Circuit::new();
     let a = d.input(0);
     let b = d.input(1);

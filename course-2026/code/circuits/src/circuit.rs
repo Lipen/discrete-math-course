@@ -8,7 +8,7 @@
 //!
 //! Two measures describe a circuit:
 //!
-//! * **size** -- the number of gates (the hardware cost, chip area);
+//! * **size** -- the number of gates (the hardware cost, chip area).
 //! * **depth** -- the longest path from an input to an output (the signal
 //!   delay, the clock rate).
 //!
@@ -17,7 +17,7 @@
 
 use std::fmt;
 
-/// A node id: an index into a [`Circuit`]`'s node table.
+/// A node id: an index into the node table of a [`Circuit`].
 pub type NodeId = usize;
 
 /// A circuit node: a source (input or constant) or a logic gate.
@@ -207,7 +207,7 @@ impl Circuit {
     }
 
     /// Depth: the longest path from a source to any node, in gates.
-    /// Sources sit at depth 0; each gate adds one to its deepest input.
+    /// Sources sit at depth 0, and each gate adds one to its deepest input.
     pub fn depth(&self) -> usize {
         self.depths().into_iter().max().unwrap_or(0)
     }

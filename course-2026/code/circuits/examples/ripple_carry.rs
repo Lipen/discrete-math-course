@@ -1,9 +1,9 @@
 //! Ripple-carry adder: a chain of full adders.
 //!
 //! The carry propagates from the least significant bit through every stage,
-//! so the depth is proportional to the width. The demo traces the book's
-//! worked example `0111 + 0001 = 1000`, then adds a wider pair and prints the
-//! resulting size and depth.
+//! so the depth is proportional to the width. The demo traces the 4-bit sum
+//! `0111 + 0001 = 1000`, then adds a wider pair and prints the resulting
+//! size and depth.
 
 use circuits::ripple_carry_adder;
 
@@ -21,7 +21,7 @@ fn show_bits(name: &str, bits: &[bool]) {
 }
 
 fn main() {
-    // --- Book trace: 0111 + 0001 = 1000 --------------------------------
+    // -- A 4-bit trace: 0111 + 0001 = 1000 --
     let adder = ripple_carry_adder(4);
     let (sum, carry) = adder
         .add_bits(&[true, true, true, false], &[true, false, false, false])
@@ -38,7 +38,7 @@ fn main() {
         adder.circuit.depth()
     );
 
-    // --- A wider pair, checked against integer addition -----------------
+    // -- A wider pair, checked against integer addition --
     let adder = ripple_carry_adder(8);
     let x = 0b0110_1011u64; // 107
     let y = 0b0000_1101u64; // 13

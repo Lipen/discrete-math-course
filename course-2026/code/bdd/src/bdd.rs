@@ -51,7 +51,7 @@ pub struct PlainNode {
 /// points to a *plain* child index, so a `*`-free traversal is a plain
 /// (not complemented) Shannon tree.
 pub struct PlainBdd {
-    /// The node table; `nodes[0]` is FALSE and `nodes[1]` is TRUE.
+    /// The node table, where `nodes[0]` is FALSE and `nodes[1]` is TRUE.
     pub nodes: Vec<PlainNode>,
     /// Plain index of the converted root.
     pub root: u32,
@@ -417,11 +417,13 @@ impl Bdd {
 
     /// Renders the BDD rooted at `root` as a Graphviz DOT string.
     ///
-    /// Each node is a circle labelled `x<var>`; the FALSE and TRUE terminals
-    /// are boxes labelled `0` and `1`. Every edge is labelled with its Shannon
-    /// branch (`0` for the "false" child, `1` for the "true" child). A
-    /// **complemented edge** is drawn dashed with a trailing `~`, so negation
-    /// is always visible on the diagram. The constant node appears twice, as
+    /// Each node is a circle labelled `x<var>`.
+    /// The FALSE and TRUE terminals are boxes labelled `0` and `1`.
+    /// Every edge is labelled with its Shannon branch (`0` for the "false"
+    /// child, `1` for the "true" child).
+    /// A **complemented edge** is drawn dashed with a trailing `~`, so
+    /// negation is always visible on the diagram.
+    /// The constant node appears twice, as
     /// the two terminal boxes, because a complemented edge to it is exactly
     /// the FALSE terminal.
     ///
@@ -660,9 +662,9 @@ impl Bdd {
 
     /// Restricts `e` to `v = 0` (lo) and `v = 1` (hi).
     ///
-    /// If `e` is a constant or a node below `v`, the restriction is a no-op;
-    /// a node on `v` splits into its two children. A complement flag on the
-    /// edge negates both children.
+    /// If `e` is a constant or a node below `v`, the restriction is a no-op,
+    /// and a node on `v` splits into its two children.
+    /// A complement flag on the edge negates both children.
     fn cofactor(&self, e: Edge, v: u32) -> (Edge, Edge) {
         let idx = e >> 1;
         if idx == 0 {
@@ -696,7 +698,7 @@ impl Bdd {
             };
         }
         let node = &self.nodes[idx as usize];
-        // Variables cur_var..node.var do not occur on this path; each one
+        // Variables cur_var..node.var do not occur on this path, and each one
         // doubles the count. The count from node.var down is memoized per
         // node, so it does not depend on the level we are reached from.
         let skipped = pow2_sat(node.var - cur_var);

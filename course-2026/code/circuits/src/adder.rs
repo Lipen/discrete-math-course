@@ -1,8 +1,8 @@
 //! Adders built from gates.
 //!
-//! A half adder is two gates; a full adder is five. Chaining `n` full adders
-//! gives a ripple-carry adder: the carry travels through every bit, so size
-//! and depth both grow linearly with the width.
+//! A half adder is two gates, a full adder is five.
+//! Chaining `n` full adders gives a ripple-carry adder: the carry travels
+//! through every bit, so size and depth both grow linearly with the width.
 
 use crate::circuit::{Circuit, CircuitError, NodeId};
 
@@ -193,7 +193,7 @@ mod tests {
     }
 
     #[test]
-    fn ripple_carry_4_bit_trace_matches_book_example() {
+    fn ripple_carry_4_bit_trace() {
         let adder = ripple_carry_adder(4);
         // 0111 + 0001 = 1000, carry out 0.
         let (sum_bits, carry) = adder

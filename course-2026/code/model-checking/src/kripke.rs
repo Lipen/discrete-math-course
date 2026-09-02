@@ -2,8 +2,8 @@
 
 /// A finite Kripke structure `(S, R, L)`.
 ///
-/// States are indexed `0..n`. Atoms are indexed `0..`; `atoms[s]` lists the
-/// atoms true in state `s`.
+/// States are indexed `0..n`, and atoms are indexed `0..`.
+/// `atoms[s]` lists the atoms true in state `s`.
 #[derive(Debug, Clone)]
 pub struct Kripke {
     /// Number of states.
@@ -15,7 +15,7 @@ pub struct Kripke {
 }
 
 impl Kripke {
-    /// Build a Kripke structure; panics if the three vectors differ in length.
+    /// Build a Kripke structure. Panics if the three vectors differ in length.
     pub fn new(successors: Vec<Vec<usize>>, atoms: Vec<Vec<usize>>) -> Self {
         assert_eq!(successors.len(), atoms.len());
         Self {
@@ -51,7 +51,7 @@ mod tests {
 
     #[test]
     fn pre_exists_is_false_at_a_dead_end() {
-        // EX φ needs a successor in the set; a state with no successors
+        // EX φ needs a successor in the set, so a state with no successors
         // cannot have one, even when the set is everything.
         let m = Kripke::new(vec![vec![], vec![0]], vec![vec![], vec![]]);
         assert_eq!(m.pre_exists(&[true, true]), vec![false, true]);

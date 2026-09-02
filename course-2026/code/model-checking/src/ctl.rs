@@ -1,7 +1,7 @@
 //! CTL formulas and the labeling model-checking algorithm.
 //!
-//! Only the single-step modalities `EX` and `AX` are covered here; the
-//! fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals) are the
+//! Only the single-step modalities `EX` and `AX` are covered here.
+//! The fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals) are the
 //! subject of a later project.
 
 use crate::kripke::Kripke;
@@ -9,9 +9,13 @@ use crate::kripke::Kripke;
 /// A CTL formula over atoms indexed by `usize`.
 #[derive(Debug, Clone)]
 pub enum Formula {
+    /// An atom by index into `Kripke::atoms`.
     Atom(usize),
+    /// `¬φ`.
     Not(Box<Formula>),
+    /// `φ ∧ ψ`.
     And(Box<Formula>, Box<Formula>),
+    /// `φ ∨ ψ`.
     Or(Box<Formula>, Box<Formula>),
     /// `EX φ` -- some successor satisfies `φ`.
     Ex(Box<Formula>),

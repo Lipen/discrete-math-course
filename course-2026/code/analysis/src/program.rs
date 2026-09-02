@@ -11,10 +11,15 @@ use crate::domains::Const;
 /// An integer expression.
 #[derive(Debug, Clone)]
 pub enum Expr {
+    /// An integer literal.
     Const(i64),
+    /// A read of the variable with this name.
     Var(String),
+    /// `a + b`.
     Add(Box<Expr>, Box<Expr>),
+    /// `a * b`.
     Mul(Box<Expr>, Box<Expr>),
+    /// `-a`.
     Neg(Box<Expr>),
 }
 
@@ -23,8 +28,11 @@ pub enum Expr {
 /// loop body to a fixpoint.
 #[derive(Debug, Clone)]
 pub enum Stmt {
+    /// `x := e`.
     Assign(String, Expr),
+    /// Runs `then` and `else` on copies of the state and merges the results.
     If { then: Vec<Stmt>, els: Vec<Stmt> },
+    /// Iterates the body to a fixpoint.
     While { body: Vec<Stmt> },
 }
 

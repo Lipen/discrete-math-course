@@ -25,7 +25,6 @@ fn main() {
     println!("fuzzing the ripple-carry adder against integer addition");
     println!();
     println!("width | samples | ripple ok | mismatches");
-    println!("------+---------+-----------+-----------");
 
     let mut total = 0u64;
     let mut bad = 0u64;
@@ -62,5 +61,5 @@ fn main() {
     }
 
     println!();
-    println!("checked {total} cases (ripple); mismatches: {bad}");
+    println!("checked {total} ripple cases, mismatches: {bad}");
 }
