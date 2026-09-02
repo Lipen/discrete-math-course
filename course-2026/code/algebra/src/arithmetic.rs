@@ -1,9 +1,8 @@
-//! The Euclidean algorithm, written from scratch.
+//! The Euclidean algorithm: `gcd`, `extended_gcd`, and `mod_inverse`.
 //!
-//! `gcd` and `extended_gcd` are the hand-rolled core of modular arithmetic:
-//! `extended_gcd(a, m)` produces Bezout coefficients, and `mod_inverse`
-//! extracts a multiplicative inverse from them. Nothing here is imported;
-//! the loop is the whole algorithm.
+//! `extended_gcd(a, b)` produces Bezout coefficients, and `mod_inverse`
+//! extracts a multiplicative inverse from them.
+//! Nothing here is imported: the loop is the whole algorithm.
 
 /// Greatest common divisor of two non-negative integers.
 pub fn gcd(mut a: i64, mut b: i64) -> i64 {

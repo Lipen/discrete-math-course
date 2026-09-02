@@ -7,7 +7,7 @@ fn main() {
     let elems: Vec<Zn<4>> = (0..4).map(Zn::new).collect();
 
     println!("The additive group Z_4 has four elements, and its whole");
-    println!("operation is one 4×4 table; row a and column b meet at a + b:");
+    println!("operation is one 4×4 table, where row a and column b meet at a + b:");
     println!();
 
     print!("{:>4}", "+");

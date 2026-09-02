@@ -15,7 +15,7 @@ fn main() {
 
     let elems = Gf4::elements();
 
-    // Addition table (XOR of coefficients), matching the chapter.
+    // Addition table (XOR of coefficients).
     println!("\naddition table (coefficient bits):");
     print!("  +");
     for b in &elems {

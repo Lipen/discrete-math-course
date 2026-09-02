@@ -1,15 +1,14 @@
-//! From-scratch layer: Peano naturals and the Euclidean algorithm.
+//! The bottom layer: Peano naturals and the Euclidean algorithm.
 //!
 //! `Nat` builds numbers from `Zero` and `Succ` and adds by recursion, with
-//! no `u32` arithmetic. `extended_gcd` is the hand-rolled core that later
-//! yields modular inverses.
+//! no `u32` arithmetic.
+//! `extended_gcd` is the core that later yields modular inverses.
 
 use algebra::arithmetic::{extended_gcd, gcd, mod_inverse};
 use algebra::nat::Nat;
 use algebra::traits::{Monoid, Semigroup};
 
 fn main() {
-    // Peano addition and multiplication, entirely by recursion.
     let three = Nat::from_u32(3);
     let four = Nat::from_u32(4);
     println!("3 + 4 = {}", three.op(&four).to_u32());
@@ -19,10 +18,9 @@ fn main() {
         Nat::identity().op(&three).to_u32()
     );
 
-    // Hand-rolled Euclid.
     println!("gcd(12, 8) = {}", gcd(12, 8));
     let (g, x, y) = extended_gcd(12, 8);
-    println!("extended_gcd(12, 8) = ({g}, {x}, {y}); check 12*{x} + 8*{y} = {g}");
+    println!("extended_gcd(12, 8) = ({g}, {x}, {y}), check: 12*{x} + 8*{y} = {g}");
 
     // Modular inverse via Bezout: 3 * 2 = 6 = 1 mod 5, so 2 inverts 3 mod 5.
     println!("inverse of 3 mod 5 = {}", mod_inverse(3, 5).unwrap());

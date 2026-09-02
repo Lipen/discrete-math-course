@@ -1,8 +1,9 @@
 //! A finite group given only by its Cayley table.
 //!
 //! Here a group is pure data: a set of elements labelled `0..n` plus a
-//! multiplication table. Nothing about the operation is known except the
-//! table; [`TableGroup::is_group`] checks the axioms against the data.
+//! multiplication table.
+//! Nothing about the operation is known except the table, and
+//! [`TableGroup::is_group`] checks the axioms against the data.
 
 /// A finite group specified by data: elements `0..n` and a table
 /// `table[i][j] = k`, where `k` is the label of the product of `i` and `j`.

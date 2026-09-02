@@ -1,9 +1,9 @@
 //! The Birkhoff characterization of distributive lattices.
 //!
 //! A lattice is distributive exactly when it contains no sublattice
-//! isomorphic to M3 or N5. The demo checks this on the running examples:
-//! the divisor lattice of 12 and the Boolean lattice B3 are distributive;
-//! M3 and N5 are not.
+//! isomorphic to M3 or N5.
+//! The demo checks this on the running examples: the divisor lattice of 12
+//! and the Boolean lattice B3 are distributive, M3 and N5 are not.
 
 use lattices::examples::{boolean_3, divisors_12, m3, n5};
 

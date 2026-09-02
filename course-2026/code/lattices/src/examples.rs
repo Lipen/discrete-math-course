@@ -60,9 +60,8 @@ pub fn divisors_12() -> Lattice {
 }
 
 /// Boolean lattice of subsets of {1, 2, 3} ordered by inclusion.
-///
-/// Each element is a bitmask over the three elements; `a <= b` means `a` is
-/// a subset of `b`.
+/// Each element is a bitmask over the three elements.
+/// `a <= b` means `a` is a subset of `b`.
 pub fn boolean_3() -> Lattice {
     let elements: Vec<u32> = (0..8).collect();
     let mut leq = Vec::new();

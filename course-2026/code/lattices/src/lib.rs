@@ -13,10 +13,12 @@ pub mod examples;
 
 /// A finite lattice given explicitly: a set of elements and the relation `<=`.
 ///
-/// The relation is the full list of pairs `(a, b)` with `a <= b`. Keeping it
-/// explicit makes the code transparent; the examples are small.
+/// The relation is the full list of pairs `(a, b)` with `a <= b`.
+/// Keeping it explicit makes the code transparent for the small examples.
 pub struct Lattice {
+    /// The elements of the lattice.
     pub elements: Vec<u32>,
+    /// The relation `<=` as pairs `(a, b)`, transitively closed.
     pub leq: Vec<(u32, u32)>,
 }
 
@@ -234,7 +236,7 @@ impl Lattice {
 
     /// Whether the lattice contains a sublattice isomorphic to M3.
     ///
-    /// Brute force over 5-element subsets; fine for the small examples.
+    /// Brute force over 5-element subsets, fine for the small examples.
     pub fn has_m3_sublattice(&self) -> bool {
         combinations(&self.elements, 5)
             .into_iter()
@@ -324,10 +326,11 @@ pub fn hasse(pairs: &[(usize, usize)]) -> Vec<(usize, usize)> {
 ///
 /// Like `hasse`, this removes the transitive pairs, but it keeps the
 /// reflexive pairs `(a, a)`, so the result is in the same pair format as
-/// `Lattice::leq`. Note that `Lattice::leq` must be transitively closed,
-/// while the Hasse diagram is deliberately not: to build a `Lattice` from a
-/// Hasse diagram, take the transitive closure first (for a poset, the
-/// transitive closure of the covers is the whole relation).
+/// `Lattice::leq`.
+/// `Lattice::leq` must be transitively closed, while the Hasse diagram
+/// is deliberately not: to build a `Lattice` from a Hasse diagram, take
+/// the transitive closure first (for a poset, the transitive closure of
+/// the covers is the whole relation).
 ///
 /// ```
 /// use lattices::{hasse_reflexive, relation_pairs, Lattice};
@@ -481,7 +484,7 @@ mod tests {
 
     #[test]
     fn hasse_on_divisors_12_matches_building_blocks() {
-        // Divisor poset of 12 built from scratch: a <= b iff a divides b.
+        // Divisor poset of 12: a <= b iff a divides b.
         // Indices: 0=1, 1=2, 2=3, 3=4, 4=6, 5=12.
         let d12 = divisors_12();
         let pairs = crate::relation_pairs(6, |i, j| d12.le(d12.elements[i], d12.elements[j]));

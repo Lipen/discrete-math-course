@@ -1,9 +1,10 @@
-//! Peano natural numbers, built from scratch.
+//! Peano natural numbers.
 //!
-//! `Zero` and `Succ` are the only constructors; addition and multiplication
-//! are written as recursion over those constructors, with no `u32`
-//! arithmetic. This is the slow, obvious definition, kept to show what an
-//! operation is before any built-in number type enters the picture.
+//! `Zero` and `Succ` are the only constructors.
+//! Addition and multiplication are written as recursion over those
+//! constructors, with no `u32` arithmetic.
+//! This is the slow, obvious definition, kept to show what an operation is
+//! before any built-in number type enters the picture.
 
 use crate::traits::{Monoid, Semigroup};
 

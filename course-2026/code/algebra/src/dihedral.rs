@@ -38,7 +38,7 @@ impl D4 {
         D4 { k: k % 4, s: true }
     }
 
-    /// All eight symmetries in the book's order.
+    /// All eight symmetries: the four rotations first, then the four reflections.
     pub fn elements() -> Vec<D4> {
         let mut out = Vec::with_capacity(8);
         for k in 0..4 {

@@ -6,8 +6,8 @@ use crate::traits::Group;
 
 /// Whether `f: G -> H` preserves the operation on every pair of `elems`.
 ///
-/// `elems` is the complete element list of a finite group `G`; the check is
-/// `f(a op b) == f(a) op f(b)` for all `a`, `b`.
+/// `elems` is the complete element list of a finite group `G`, and the check
+/// is `f(a op b) == f(a) op f(b)` for all `a`, `b`.
 pub fn is_homomorphism<G: Group, H: Group>(elems: &[G], f: &dyn Fn(&G) -> H) -> bool {
     for a in elems {
         for b in elems {
@@ -39,9 +39,9 @@ pub fn image<G: Group, H: Group>(elems: &[G], f: &dyn Fn(&G) -> H) -> Vec<H> {
 
 /// The left cosets `gK` of a subgroup `K` in a finite group, one per coset.
 ///
-/// `group` is the complete element list; `subgroup` is a subgroup of it (its
-/// own complete element list). Returns each distinct coset `{ g*k : k in K }`
-/// as a list of group elements.
+/// `group` is the complete element list, and `subgroup` is a subgroup of it
+/// (its own complete element list).
+/// Returns each distinct coset `{ g*k : k in K }` as a list of group elements.
 pub fn left_cosets<G: Group>(group: &[G], subgroup: &[G]) -> Vec<Vec<G>> {
     let mut seen: Vec<G> = Vec::new();
     let mut out: Vec<Vec<G>> = Vec::new();

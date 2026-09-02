@@ -1,11 +1,11 @@
 //! The finite fields `GF(2^m)`: polynomials over `GF(2)` modulo an
 //! irreducible polynomial.
 //!
-//! The chapter builds `GF(p^m)` as `GF(p)[x] / (f(x))` for an irreducible
-//! `f`; here `p = 2`, the case used by AES and by linear codes over `GF(2)`.
+//! The field `GF(2^m)` is `GF(2)[x] / (f(x))` for an irreducible `f` of
+//! degree `m`, the case used by AES and by linear codes over `GF(2)`.
 //! Addition is XOR, multiplication is polynomial multiplication reduced mod
-//! the irreducible modulus, and every nonzero element has an inverse found by
-//! the extended Euclidean algorithm on polynomials.
+//! the irreducible modulus, and every nonzero element has an inverse found
+//! by the extended Euclidean algorithm on polynomials.
 
 use std::fmt;
 
@@ -15,8 +15,9 @@ use crate::traits::{Field, Ring};
 /// as its coefficient bits (bit `i` is the coefficient of `x^i`).
 ///
 /// The field is `GF(2)[x] / (MOD)`, where `MOD` is an irreducible polynomial
-/// of degree `m` (its degree-`m` bit included). `M` is the degree `m`; use
-/// [`Gf::new`] to build elements, which masks off bits of degree `>= m`.
+/// of degree `m` (its degree-`m` bit included).
+/// `M` is the degree `m`, and [`Gf::new`] builds elements by masking off
+/// bits of degree `>= m`.
 #[derive(Clone, Copy, PartialEq, Eq, Hash, Debug)]
 pub struct Gf<const M: usize, const MOD: u64>(pub u64);
 
@@ -210,7 +211,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn gf4_matches_the_chapter_tables() {
+    fn gf4_addition_and_multiplication() {
         let a = Gf4::new(2); // alpha
         let ap1 = Gf4::new(3); // alpha + 1
         assert_eq!(a.add(&ap1), Gf4::one()); // x + (x+1) = 1

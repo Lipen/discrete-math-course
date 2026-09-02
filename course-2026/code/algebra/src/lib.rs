@@ -1,13 +1,13 @@
 //! Algebraic structures: semigroup, monoid, group, ring, field.
 //!
-//! A code companion to the algebra chapter. The structures are modeled as
-//! Rust traits -- [`Semigroup`], [`Monoid`], [`Group`], [`Ring`], [`Field`] --
-//! plus concrete instances and two meta-layers: [`types`] models the
-//! semiring of types as data, while [`category`] and [`functor`] model
-//! morphisms and fixed points. The bottom layer is built from scratch:
-//! [`Nat`] is the Peano naturals and [`arithmetic`] hand-rolls the Euclidean
-//! algorithm. Beyond the traits, [`homomorphism`] covers structure-preserving
-//! maps, kernels, cosets, and quotient groups, and [`gf`] builds the finite
+//! The structures are modeled as Rust traits -- [`Semigroup`], [`Monoid`],
+//! [`Group`], [`Ring`], [`Field`] -- plus concrete instances and two
+//! meta-layers: [`types`] models the semiring of types as data, while
+//! [`category`] and [`functor`] model morphisms and fixed points.
+//! The bottom layer defines the Peano naturals in [`Nat`] and the Euclidean
+//! algorithm in [`arithmetic`].
+//! Beyond the traits, [`homomorphism`] covers structure-preserving maps,
+//! kernels, cosets, and quotient groups, and [`gf`] builds the finite
 //! fields `GF(2^m)`.
 
 pub mod arithmetic;

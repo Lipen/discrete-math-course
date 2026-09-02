@@ -11,10 +11,10 @@
 
 /// A functor: a type constructor with a `map` that lifts functions.
 ///
-/// Rust has no higher-kinded types, so `F` cannot be written `F<T>`; a marker
+/// Rust has no higher-kinded types, so `F` cannot be written `F<T>`: a marker
 /// type such as [`OptionF`] stands for the constructor, and its associated
-/// type constructor [`Functor::Target`] is what gets applied to an argument:
-/// `OptionF::Target<A> = Option<A>`.
+/// type constructor [`Functor::Target`] is what gets applied to an argument,
+/// giving `OptionF::Target<A> = Option<A>`.
 ///
 /// A lawful functor satisfies two equations:
 /// 1. `map(id) = id` -- mapping the identity leaves the structure untouched.
@@ -44,9 +44,9 @@ impl Functor for OptionF {
 
 /// The least fixed point of a functor: `Fix<F> = F<Fix<F>>`.
 ///
-/// A value of `Fix<F>` is a finite tree of `F` layers; "least" means only
-/// the finite unfoldings exist (no infinite chains). The `Box` gives the
-/// recursion a pointer so the type has finite size.
+/// A value of `Fix<F>` is a finite tree of `F` layers.
+/// "Least" means only the finite unfoldings exist (no infinite chains).
+/// The `Box` gives the recursion a pointer so the type has finite size.
 ///
 /// `Fix<OptionF>` is the Peano naturals: `zero = Fix(None)` and
 /// `succ(n) = Fix(Some(n))`.
@@ -85,8 +85,9 @@ impl Fix<OptionF> {
 /// "fold" associated with the data type.
 ///
 /// For `Fix<OptionF>` the algebra `None -> 0, Some(n) -> n + 1` computes
-/// `to_u32`; a different algebra folds the same naturals into a different
-/// function (e.g. `None -> 1, Some(n) -> n * 2` counts powers of two).
+/// `to_u32`.
+/// A different algebra folds the same naturals into a different function
+/// (e.g. `None -> 1, Some(n) -> n * 2` counts powers of two).
 pub fn cata<F: Functor, A>(fix: &Fix<F>, alg: &dyn Fn(F::Target<A>) -> A) -> A {
     let mapped = F::map(fix.0.as_ref(), |sub: &Fix<F>| cata(sub, alg));
     alg(mapped)

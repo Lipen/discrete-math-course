@@ -21,7 +21,9 @@ pub struct One;
 /// The sum `A + B`: a value is either a `Left` of `A` or a `Right` of `B`.
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 pub enum Sum<A, B> {
+    /// The value of type `A`.
     Left(A),
+    /// The value of type `B`.
     Right(B),
 }
 

@@ -39,14 +39,17 @@ impl<T: Eq + Hash + Clone> BoolSet<T> {
         BoolSet(self.0.difference(&other.0).cloned().collect())
     }
 
+    /// Whether `x` is an element of the set.
     pub fn contains(&self, x: &T) -> bool {
         self.0.contains(x)
     }
 
+    /// The number of elements.
     pub fn len(&self) -> usize {
         self.0.len()
     }
 
+    /// Whether the set has no elements.
     pub fn is_empty(&self) -> bool {
         self.0.is_empty()
     }

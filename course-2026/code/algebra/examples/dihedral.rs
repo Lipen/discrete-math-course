@@ -21,7 +21,7 @@ fn main() {
         println!("  order({}) = {}", g.name(), order(g, 8).unwrap());
     }
 
-    println!("\nThe whole group lives in one 8×8 Cayley table; row a and");
+    println!("\nThe whole group lives in one 8×8 Cayley table, where row a and");
     println!("column b meet at a·b:");
     print!("{:>4}", "·");
     for b in &elems {
@@ -42,7 +42,7 @@ fn main() {
     println!("So D_4 is non-abelian.");
 
     let rotations: Vec<D4> = (0..4).map(D4::rotation).collect();
-    println!("\nThe four rotations alone close under composition; they form the");
+    println!("\nThe four rotations alone close under composition and form the");
     println!(
         "cyclic subgroup C_4 = {}.",
         rotations

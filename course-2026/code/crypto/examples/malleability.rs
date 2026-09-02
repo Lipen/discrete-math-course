@@ -1,8 +1,9 @@
 //! RSA malleability.
 //!
-//! The product of ciphertexts is the ciphertext of the product of the messages:
-//! $c_1 c_2 = (m_1 m_2)^e mod n$. The attacker does not read the messages
-//! but can forge their values -- which is why bare RSA is not used.
+//! The product of ciphertexts is the ciphertext of the product of the
+//! messages: `c1 * c2 = (m1 * m2)^e mod n`.
+//! The attacker does not read the messages but can forge their values --
+//! which is why bare RSA is not used.
 
 use crypto::attacks::malleable_product;
 use crypto::{mod_inverse, mod_pow};

@@ -1,8 +1,8 @@
 //! Pohlig--Hellman attack on DLOG.
 //!
-//! If the group order $p - 1$ is smooth, the discrete logarithm reduces
+//! If the group order `p - 1` is smooth, the discrete logarithm reduces
 //! to logarithms in subgroups of small orders and is assembled via CRT.
-//! For $p = 29$ the order $28 = 2^2 * 7$ is smooth, and the logarithm
+//! For `p = 29` the order `28 = 2^2 * 7` is smooth, and the logarithm
 //! is found almost instantly.
 
 use crypto::attacks::pohlig_hellman;

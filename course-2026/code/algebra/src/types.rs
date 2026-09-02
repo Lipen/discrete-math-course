@@ -1,10 +1,12 @@
 //! Types as data: a small language of type expressions.
 //!
-//! A compiler or analyzer does not reason with Rust's own types; it holds
-//! types as values. `Type` is such a representation, and the "semiring of
-//! types" becomes ordinary functions over it: sum is a variant, product is a
-//! pair, `Void` is `0` and `Unit` is `1`. The semiring laws hold up to
-//! isomorphism and are shown as rewrite rules in [`Type::simplify`].
+//! A compiler or analyzer does not reason with Rust's own types: it holds
+//! types as values.
+//! [`Type`] is such a representation, and the "semiring of types" becomes
+//! ordinary functions over it: sum is a variant, product is a pair, `Void`
+//! is `0` and `Unit` is `1`.
+//! The semiring laws hold up to isomorphism and are shown as rewrite rules
+//! in [`Type::simplify`].
 
 /// A type expression over a tiny universe.
 #[derive(Clone, PartialEq, Eq, Debug)]
@@ -39,7 +41,7 @@ impl Type {
         Type::Func(Box::new(a), Box::new(b))
     }
 
-    /// Number of values, for finite types; `None` for infinite types.
+    /// Number of values for finite types, `None` for infinite types.
     pub fn cardinality(&self) -> Option<u128> {
         match self {
             Type::Void => Some(0),
@@ -54,9 +56,9 @@ impl Type {
     }
 
     /// Normalize using the semiring laws:
-    /// - `0 + A = A` -- the empty sum;
-    /// - `1 * A = A` -- the unit product;
-    /// - `0 * A = 0` -- the empty product;
+    /// - `0 + A = A` -- the empty sum.
+    /// - `1 * A = A` -- the unit product.
+    /// - `0 * A = 0` -- the empty product.
     /// - `1^A = 1`, `B^0 = 1`, `B^1 = B` -- the exponential laws.
     pub fn simplify(&self) -> Type {
         match self {
