@@ -1,10 +1,9 @@
 # code
 
-Rust companion to the discrete-math course: **23 crates, one per topic**.
+Rust study samples for discrete mathematics: **23 crates, one per topic**.
 
-Each crate is a self-contained study aid -- a library, its unit tests, and
-runnable examples you can read like code, not just execute.
-Every crate builds, tests, and runs on its own; none imports another.
+Each crate is a self-contained study aid — a library, its unit tests, and runnable examples you read like code, not just execute.
+Every crate builds, tests, and runs on its own. None imports another.
 
 ## Crates, by theme
 
@@ -13,19 +12,19 @@ Every crate builds, tests, and runs on its own; none imports another.
 | Crate | Topic | Highlights |
 | --- | --- | --- |
 | [`sat`](sat/README.md) | Boolean satisfiability | A DPLL solver with unit propagation and backtracking |
-| [`smt`](smt/README.md) | Satisfiability modulo theories | Difference logic `x - y <= c`, negative-cycle detection via Bellman-Ford; demos: [`solve`](smt/examples/solve.rs), [`unsat`](smt/examples/unsat.rs) |
-| [`fol`](fol/README.md) | First-order logic | Terms, formulas, quantifiers, capture-avoiding substitution, Tarski models, finite-domain validity/satisfiability by enumeration; demos: [`mortal`](fol/examples/mortal.rs), [`quantifier_scope`](fol/examples/quantifier_scope.rs), [`substitution`](fol/examples/substitution.rs), [`validity`](fol/examples/validity.rs) |
-| [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge; demos: [`contrapositive`](fitch/examples/contrapositive.rs), [`rejected`](fitch/examples/rejected.rs) |
-| [`prolog`](prolog/README.md) | Logic programming | Terms, substitutions, unification with the occurs check, clause databases; demos: [`family_tree`](prolog/examples/family_tree.rs), [`unify_demo`](prolog/examples/unify_demo.rs) |
-| [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails; demos: [`values`](heyting/examples/values.rs), [`excluded_middle`](heyting/examples/excluded_middle.rs) |
-| [`fuzzy`](fuzzy/README.md) | Fuzzy sets and fuzzy logic | Piecewise-linear membership functions, Zadeh operations (min/max/complement), t-norms, alpha-cuts and decomposition, TFN arithmetic, max-min composition; demos: [`operations`](fuzzy/examples/operations.rs), [`fuzzy_numbers`](fuzzy/examples/fuzzy_numbers.rs), [`relations`](fuzzy/examples/relations.rs) |
+| [`smt`](smt/README.md) | Satisfiability modulo theories | Difference logic `x - y <= c`, negative-cycle detection via Bellman-Ford |
+| [`fol`](fol/README.md) | First-order logic | Terms, formulas, quantifiers, capture-avoiding substitution, Tarski models, finite-domain validity/satisfiability by enumeration |
+| [`fitch`](fitch/README.md) | Natural deduction | Fitch-style proof checker, nested subproofs by depth, assumption discharge |
+| [`prolog`](prolog/README.md) | Logic programming | Terms, substitutions, unification with the occurs check, clause databases |
+| [`heyting`](heyting/README.md) | Heyting algebras | Three-element algebra {0, 1/2, 1}, relative pseudo-complement, excluded middle fails |
+| [`fuzzy`](fuzzy/README.md) | Fuzzy sets and fuzzy logic | Piecewise-linear membership functions, Zadeh operations, t-norms, alpha-cuts, TFN arithmetic |
 
 ### Automata, languages, computability
 
 | Crate | Topic | Highlights |
 | --- | --- | --- |
 | [`automata`](automata/README.md) | Finite automata and regular languages | DFA, NFA, subset construction, language operations |
-| [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition; demos: [`cnf_cyk`](context-free/examples/cnf_cyk.rs) |
+| [`context-free`](context-free/README.md) | Context-free grammars | Parse trees, CNF conversion, CYK recognition |
 | [`turing`](turing/README.md) | Turing machines | Two-stack tape, transition table, run traces, example machines |
 | [`codes`](codes/README.md) | Hamming codes | Hamming(7,4), syndrome decoding, single-error correction |
 
@@ -34,7 +33,7 @@ Every crate builds, tests, and runs on its own; none imports another.
 | Crate | Topic | Highlights |
 | --- | --- | --- |
 | [`lambda`](lambda/README.md) | Untyped λ-calculus | Terms, capture-avoiding substitution, β-reduction, Church numerals |
-| [`type-theory`](type-theory/README.md) | Simply-typed λ-calculus (λ→) | Types and contexts, the var/app/abs rules, unification-based inference, subject reduction; demos: [`typed_terms`](type-theory/examples/typed_terms.rs), [`inference`](type-theory/examples/inference.rs), [`subject_reduction`](type-theory/examples/subject_reduction.rs) |
+| [`type-theory`](type-theory/README.md) | Simply-typed λ-calculus (λ→) | Types and contexts, the var/app/abs rules, unification-based inference, subject reduction |
 
 ### Algebra and structures
 
@@ -48,18 +47,18 @@ Every crate builds, tests, and runs on its own; none imports another.
 
 | Crate | Topic | Highlights |
 | --- | --- | --- |
-| [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring; SVG/DOT/cytoscape/HTML renderers |
-| [`matroids`](matroids/README.md) | Matroids | Independence axioms, graphic/linear/uniform/scheduling matroids, rank, greedy optimality; demos: [`spanning`](matroids/examples/spanning.rs), [`scheduling`](matroids/examples/scheduling.rs), [`linear`](matroids/examples/linear.rs), [`rank`](matroids/examples/rank.rs) |
-| [`combinatorics`](combinatorics/README.md) | Combinatorial object generators | Permutations, combinations, derangements, integer partitions; lexicographic enumeration; demos: [`permutations`](combinatorics/examples/permutations.rs), [`combinations`](combinatorics/examples/combinations.rs), [`derangements`](combinatorics/examples/derangements.rs), [`partitions`](combinatorics/examples/partitions.rs) |
+| [`graphs`](graphs/README.md) | Graphs | Simple no-generics model, BFS/DFS, Dijkstra, Kruskal, Euler, bridges, coloring, and SVG/DOT/cytoscape/HTML renderers |
+| [`matroids`](matroids/README.md) | Matroids | Independence axioms, graphic/linear/uniform/scheduling matroids, rank, greedy optimality |
+| [`combinatorics`](combinatorics/README.md) | Combinatorial object generators | Permutations, combinations, derangements, integer partitions in lexicographic order |
 
 ### Circuits and verification
 
 | Crate | Topic | Highlights |
 | --- | --- | --- |
-| [`circuits`](circuits/README.md) | Combinational circuits | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry adder; demos: [`half_adder`](circuits/examples/half_adder.rs), [`ripple_carry`](circuits/examples/ripple_carry.rs), [`fuzz`](circuits/examples/fuzz.rs) |
+| [`circuits`](circuits/README.md) | Combinational circuits | Gate DAGs, topological simulation, size/depth, half/full adder, ripple-carry adder |
 | [`bdd`](bdd/README.md) | Binary decision diagrams | ROBDDs with complement edges, the `ite` operation |
 | [`model-checking`](model-checking/README.md) | CTL model checking | Kripke structures, state labeling, EX/AX single-step modalities |
-| [`analysis`](analysis/README.md) | Abstract interpretation | Constant propagation domain; lattice + monotone transfer + Kleene fixed-point iteration |
+| [`analysis`](analysis/README.md) | Abstract interpretation | Constant propagation domain: a lattice, a monotone transfer, and Kleene fixed-point iteration |
 
 ## Quick start
 
@@ -67,12 +66,14 @@ Every crate builds, tests, and runs on its own; none imports another.
 cargo build --workspace     # build all 23 crates
 cargo test --workspace      # run every test in every crate
 cargo clippy --workspace --all-targets   # lint everything, warning-free
-
-cargo run -p <crate> --example <name>    # run one demo
 ```
 
-`-p <crate>` selects the crate, `--example <name>` the demo (without the `.rs`
-suffix). For example, `cargo run -p automata --example even_ones`.
+Each crate README gives the per-crate commands to run from that crate's folder:
+
+```bash
+cd <crate>
+cargo run --example <name>    # run one demo
+```
 
 ## Layout
 
@@ -93,7 +94,6 @@ Every crate follows the same shape:
 
 Every demo is written to be read, not just executed.
 It prints its inputs, the intermediate steps, and the result.
-Names map one-to-one to the mathematical concepts.
 
 Each crate README explains its modules and lists every demo.
 
