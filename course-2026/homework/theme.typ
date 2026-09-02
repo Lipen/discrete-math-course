@@ -34,6 +34,7 @@
     width: 100%,
     above: 1.6em,
     below: 0.9em,
+    sticky: true,
     inset: (bottom: 0.35em),
     stroke: (bottom: 0.8pt + accent.lighten(40%)),
     it,
