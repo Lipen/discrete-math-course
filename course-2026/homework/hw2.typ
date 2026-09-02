@@ -11,7 +11,7 @@
     #h(1fr)
     #link("https://github.com/Lipen/discrete-math-course")[*Дискретная математика*]
     \
-    *Отношения, функции, мощности, порядок*
+    *Бинарные отношения*
     #h(1fr)
     _$#emoji.leaf.maple$ Осень 2026_
     #place(bottom, dy: 0.4em)[
