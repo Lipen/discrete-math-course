@@ -1,15 +1,6 @@
 #import "theme.typ": *
 #show: template
 
-#let nand = sym.arrow.t
-#let pair(a, b) = $chevron.l #a, #b chevron.r$
-#let card(x) = $abs(#x)$
-#let Jaccard = math.op("Jaccard")
-#let JaccardDist = $d_J$
-#let Cosine = math.op("Cosine")
-#let CosineDist = $d_cos$
-#let Sim = math.op("Sim")
-
 #set page(
   paper: "a4",
   margin: (top: 3cm, rest: 2cm),
@@ -28,6 +19,15 @@
     ]
   ],
 )
+
+#let nand = sym.arrow.t
+#let pair(a, b) = $chevron.l #a, #b chevron.r$
+#let card(x) = $abs(#x)$
+#let Jaccard = math.op("Jaccard")
+#let JaccardDist = $d_J$
+#let Cosine = math.op("Cosine")
+#let CosineDist = $d_cos$
+#let Sim = math.op("Sim")
 
 
 #Box[

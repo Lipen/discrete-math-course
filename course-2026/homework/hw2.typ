@@ -1,15 +1,5 @@
-// Домашнее задание №2: отношения, функции, мощности, порядок (семестр 1, лекции 4--8, m05--m08).
 #import "theme.typ": *
 #show: template
-
-#let compose = sym.compose
-#let card(x) = $abs(#x)$
-#let join = sym.union.sq
-#let meet = sym.inter.sq
-#let finer = sym.lt.closed.eq
-#let boolprod = sym.dot.o
-#let equinum = sym.approx
-#let dominates = sym.subset.sq
 
 #set page(
   paper: "a4",
@@ -29,6 +19,14 @@
     ]
   ],
 )
+
+#let card(x) = $abs(#x)$
+#let join = sym.union.sq
+#let meet = sym.inter.sq
+#let finer = sym.lt.closed.eq
+#let boolprod = sym.dot.o
+#let equinum = sym.approx
+#let dominates = sym.subset.sq
 
 
 #Box[
