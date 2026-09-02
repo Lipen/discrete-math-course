@@ -1,10 +1,7 @@
 //! Untyped lambda calculus.
 //!
-//! Terms ([`term`]), capture-avoiding substitution and α-conversion
-//! ([`subst`]), reduction strategies -- normal order, applicative order, and
-//! weak head normal form, all fuel-limited with step counters ([`eval`]) --
-//! Church encodings ([`church`]), well-known SKI combinators
-//! ([`combinators`]), and a tiny simply-typed layer ([`stlc`]).
+//! The crate provides terms ([`term`]), capture-avoiding substitution and α-conversion ([`subst`]), and fuel-limited reduction strategies with step counters ([`eval`]): normal order, applicative order, and weak head normal form.
+//! Church encodings ([`church`]) and the SKI combinators ([`combinators`]) are pure λ-terms, and a tiny simply-typed layer ([`stlc`]) sits on top.
 //!
 //! ```
 //! use lambda::{Term, church};

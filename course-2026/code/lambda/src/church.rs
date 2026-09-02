@@ -10,9 +10,8 @@
 //! church n = λf x. f (f (... (f x)...))
 //! ```
 //!
-//! Arithmetic, booleans, and conditionals are all encoded as pure λ-terms
-//! with no built-in types. The zero test and the predecessor (built from
-//! pairs) complete the toolkit needed for recursion.
+//! Arithmetic, booleans, and conditionals are all encoded as pure λ-terms with no built-in types.
+//! The zero test and the predecessor (built from pairs) complete the toolkit needed for recursion.
 
 use crate::term::Term;
 
@@ -39,10 +38,8 @@ pub fn church(n: usize) -> Term {
 
 /// If the term is a Church numeral in normal form, return its value.
 ///
-/// Returns `None` for terms that are not Church numerals: wrong structure,
-/// a body that is not `f` applied repeatedly to `x`, or a redex inside. The
-/// two outer binder names are ignored (a numeral is α-equivalent under any
-/// renaming of its binders).
+/// Returns `None` for terms that are not Church numerals: wrong structure, a body that is not `f` applied repeatedly to `x`, or a redex inside.
+/// The two outer binder names are ignored (a numeral is α-equivalent under any renaming of its binders).
 ///
 /// ```
 /// use lambda::Term;
@@ -160,8 +157,7 @@ pub fn mult() -> Term {
 /// Exponentiation: `power = λm n f x. n m f x`.
 ///
 /// Uses the Church numeral `n` as a multiplier: `m` is applied `n` times.
-/// Because Church numerals iterate their first argument, `n m` applies
-/// `m` (as a function on numerals) `n` times, which is exponentiation.
+/// Because Church numerals iterate their first argument, `n m` applies `m` (as a function on numerals) `n` times, which is exponentiation.
 ///
 /// ```
 /// use lambda::church::{church, power, to_nat};
@@ -191,8 +187,7 @@ pub fn power() -> Term {
 
 /// Zero test: `isZero = λn. n (λx. false) true`.
 ///
-/// Applies the constant `false`-function `n` times starting from `true`:
-/// only `0` returns `true`, every positive numeral returns `false`.
+/// Applies the constant `false`-function `n` times starting from `true`: only `0` returns `true`, every positive numeral returns `false`.
 ///
 /// ```
 /// use lambda::church::{church, church_to_bool, is_zero};
@@ -215,9 +210,9 @@ pub fn is_zero() -> Term {
 
 /// Predecessor: `pred = λn. fst (n (λp. pair (snd p) (succ (snd p))) (pair 0 0))`.
 ///
-/// Shifts the pair `(a, b) -> (b, succ b)` `n` times starting from `(0, 0)`;
-/// after `n` shifts the *first* component holds `n - 1`. By convention
-/// `pred 0 = 0`.
+/// Shifts the pair `(a, b) -> (b, succ b)` `n` times starting from `(0, 0)`.
+/// After `n` shifts the *first* component holds `n - 1`.
+/// By convention `pred 0 = 0`.
 ///
 /// ```
 /// use lambda::church::{church, pred, to_nat};
@@ -271,8 +266,7 @@ pub fn church_false() -> Term {
 
 /// Logical AND: `and = λp q. p q p`.
 ///
-/// If `p` is `true`, the result is `q`; if `p` is `false`, the result is
-/// `false`.
+/// If `p` is `true`, the result is `q`, otherwise it is `false`.
 ///
 /// ```
 /// use lambda::church::{and, church_true, church_false, church_to_bool};
@@ -294,8 +288,7 @@ pub fn and() -> Term {
 
 /// Logical OR: `or = λp q. p p q`.
 ///
-/// If `p` is `true`, the result is `true`; if `p` is `false`, the result
-/// is `q`.
+/// If `p` is `true`, the result is `true`, otherwise it is `q`.
 ///
 /// ```
 /// use lambda::church::{church_true, church_false, church_to_bool, or};
@@ -339,7 +332,7 @@ pub fn not() -> Term {
 
 /// Conditional: `ifthenelse = λp x y. p x y`.
 ///
-/// If `p` is `true`, returns `x`; if `p` is `false`, returns `y`.
+/// If `p` is `true`, returns `x`, otherwise returns `y`.
 ///
 /// ```
 /// use lambda::church::{church_false, church_true, ifthenelse};
@@ -409,8 +402,7 @@ pub fn pair() -> Term {
     )
 }
 
-/// First projection: `fst = λp. p (λx y. x)` -- extract the first element
-/// of a Church pair.
+/// First projection: `fst = λp. p (λx y. x)` -- extract the first element of a Church pair.
 ///
 /// ```
 /// use lambda::church::{church, fst, pair, to_nat};
@@ -430,8 +422,7 @@ pub fn fst() -> Term {
     )
 }
 
-/// Second projection: `snd = λp. p (λx y. y)` -- extract the second element
-/// of a Church pair.
+/// Second projection: `snd = λp. p (λx y. y)` -- extract the second element of a Church pair.
 ///
 /// ```
 /// use lambda::church::{church, pair, snd, to_nat};

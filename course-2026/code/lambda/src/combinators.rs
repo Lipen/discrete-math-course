@@ -1,9 +1,7 @@
 //! Well-known combinators.
 //!
-//! Combinators are closed lambda terms -- terms with no free variables -- that
-//! capture common patterns of function composition and application. Together,
-//! `S` and `K` form a basis: every closed term can be expressed using only
-//! `S` and `K` (and applications).
+//! Combinators are closed lambda terms -- terms with no free variables -- that capture common patterns of function composition and application.
+//! Together, `S` and `K` form a basis: every closed term can be expressed using only `S` and `K` (and applications).
 
 use crate::term::Term;
 
@@ -39,11 +37,9 @@ pub fn k() -> Term {
 
 /// Substitution (Starling): `S = λx y z. x z (y z)`.
 ///
-/// Distributes the third argument to both `x` and `y` before applying `x` to
-/// the result.
+/// Distributes the third argument to both `x` and `y` before applying `x` to the result.
 ///
-/// S and K together form a **combinator basis**: any closed term can be
-/// expressed using only applications of S and K.
+/// S and K together form a **combinator basis**: any closed term can be expressed using only applications of S and K.
 ///
 /// ```
 /// use lambda::combinators::{k, s};
@@ -54,7 +50,7 @@ pub fn k() -> Term {
 ///     Term::app(Term::app(s(), k()), k()),
 ///     Term::var("x"),
 /// );
-/// // Normalizes to x; the trace contracts S and K one step at a time.
+/// // Normalizes to x, with the trace contracting S and K one step at a time.
 /// let result = skk.normalize(100);
 /// assert_eq!(result, Term::var("x"));
 /// ```

@@ -1,9 +1,8 @@
 //! Type inference on untyped terms via unification.
 //!
-//! Terms carry no annotations. The inferencer assigns a fresh metavariable to
-//! each binder and unifies the constraints of the var/app/abs rules. A
-//! metavariable left unbound at the end generalizes to a schematic variable
-//! `a`, `b`, ... -- so the identity infers as `a -> a`, the scheme σ -> σ.
+//! Terms carry no annotations.
+//! The inferencer assigns a fresh metavariable to each binder and unifies the constraints of the var/app/abs rules.
+//! A metavariable left unbound at the end generalizes to a schematic variable `a`, `b`, ... -- so the identity infers as `a -> a`, the scheme σ -> σ.
 
 use type_theory::ty::Type;
 use type_theory::{infer, Term};
@@ -58,7 +57,7 @@ fn main() {
         Ok(t) => println!("λx. x x          → unexpectedly typed as {t}"),
         Err(e) => println!("λx. x x          → REJECTED -- {e}"),
     }
-    println!("  (would need σ = σ -> τ; the occurs check finds no finite type)");
+    println!("  (would need σ = σ -> τ, and the occurs check finds no finite type)");
 
     // -- Ω = (λx. x x)(λx. x x) is rejected too ================================
     let self_app = Term::abs("x", Term::app(Term::var("x"), Term::var("x")));

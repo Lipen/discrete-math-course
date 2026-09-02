@@ -1,8 +1,7 @@
 //! Types and typing contexts for the simply-typed lambda calculus (λ→).
 //!
-//! A type is a named base type (`Nat`, `Bool`, ...) or a function type
-//! `dom -> cod`. Types are written right-associative: `Nat -> Nat -> Nat` is
-//! `Nat -> (Nat -> Nat)`.
+//! A type is a named base type (`Nat`, `Bool`, ...) or a function type `dom -> cod`.
+//! Types are written right-associative: `Nat -> Nat -> Nat` is `Nat -> (Nat -> Nat)`.
 //!
 //! ```
 //! use type_theory::ty::Type;
@@ -21,19 +20,17 @@ use std::fmt;
 /// A type of the simply-typed lambda calculus (λ→).
 ///
 /// Three forms:
-/// - `Base` -- a named base type such as `Nat` or `Bool`;
-/// - `Arrow` -- a function type `dom -> cod`;
-/// - `Var` -- a type variable. After generalization the name is a schematic
-///   variable (`a`, `b`, ...); during unification-based inference the name is
-///   a metavariable (`?0`, `?1`, ...).
+/// - `Base` -- a named base type such as `Nat` or `Bool`.
+/// - `Arrow` -- a function type `dom -> cod`.
+/// - `Var` -- a type variable.
+///   After generalization the name is a schematic variable (`a`, `b`, ...), and during unification-based inference it is a metavariable (`?0`, `?1`, ...).
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Type {
     /// A named base type, e.g. `Nat` or `Bool`.
     Base(String),
     /// Function type `dom -> cod`.
     Arrow(Box<Type>, Box<Type>),
-    /// A type variable -- schematic after generalization, an inference
-    /// metavariable during unification.
+    /// A type variable -- schematic after generalization, an inference metavariable during unification.
     Var(String),
 }
 
@@ -112,9 +109,8 @@ impl fmt::Display for Type {
 
 /// A typing context `Γ`: a list of variable -> type assumptions.
 ///
-/// Contexts display as `x : Nat, f : Nat -> Bool`. The context is a list;
-/// a later assumption of the same name shadows an earlier one, so the
-/// innermost binder wins.
+/// Contexts display as `x : Nat, f : Nat -> Bool`.
+/// The context is a list, and a later assumption of the same name shadows an earlier one, so the innermost binder wins.
 ///
 /// ```
 /// use type_theory::ty::{Context, Type};

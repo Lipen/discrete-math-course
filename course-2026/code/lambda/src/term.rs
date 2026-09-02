@@ -4,10 +4,7 @@
 //! built from variables, abstractions, and applications.
 //!
 //! The only computation rule is β-reduction: `(λx.M) N -> M[x := N]`.
-//! Substitution is capture-avoiding -- when a free variable of `N` would be
-//! captured by a binder in `M`, the binder is α-renamed first (the
-//! substitution itself lives in [`crate::subst`], the reduction strategies
-//! in [`crate::eval`]).
+//! Substitution is capture-avoiding -- when a free variable of `N` would be captured by a binder in `M`, the binder is α-renamed first (the substitution itself lives in [`crate::subst`], the reduction strategies in [`crate::eval`]).
 //!
 //! ```
 //! use lambda::Term;
@@ -100,10 +97,9 @@ impl Term {
     ///
     /// Precedence levels:
     /// - 0 -- top-level or body of an abstraction (no parens needed).
-    /// - 1 -- left side of application (abstractions need parens here;
-    ///   applications are left-associative so they stay flat).
-    /// - 2 -- right side of application (both abstractions and applications
-    ///   need parens).
+    /// - 1 -- the left side of an application. Abstractions need parentheses here.
+    ///   Applications stay flat because application is left-associative.
+    /// - 2 -- the right side of an application. Both abstractions and applications need parentheses.
     fn fmt_prec(&self, f: &mut fmt::Formatter<'_>, prec: usize) -> fmt::Result {
         match self {
             Term::Var(x) => write!(f, "{}", x),
@@ -172,9 +168,8 @@ impl Term {
         }
     }
 
-    /// Collect every variable name occurring anywhere in the term, free or
-    /// bound. Used to pick a name that is fresh with respect to the whole
-    /// body during capture-avoiding α-renaming.
+    /// Collect every variable name occurring anywhere in the term, free or bound.
+    /// Used to pick a name that is fresh with respect to the whole body during capture-avoiding α-renaming.
     pub(crate) fn all_vars(&self) -> HashSet<String> {
         match self {
             Term::Var(x) => {

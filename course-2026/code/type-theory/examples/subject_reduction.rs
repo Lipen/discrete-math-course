@@ -1,13 +1,10 @@
 //! Subject reduction: a typed term β-reduces preserving its type.
 //!
-//! Subject reduction: if `Γ ⊢ M : σ` and `M →β M'`, then `Γ ⊢ M' : σ`. The
-//! type is a static property -- it is fixed before execution and survives
-//! every step of the computation.
+//! If `Γ ⊢ M : σ` and `M →β M'`, then `Γ ⊢ M' : σ`.
+//! The type is a static property -- it is fixed before execution and survives every step of the computation.
 //!
-//! We check the detour term of the chapter,
-//! `M = (λf:A→A. λx:A. f x)(λx:A. x)` of type `A → A`, then reduce it to
-//! normal form *keeping the annotations*, and check again. The type does not
-//! change.
+//! The demo checks the detour term `M = (λf:A→A. λx:A. f x)(λx:A. x)` of type `A → A`, reduces it to normal form *keeping the annotations*, and checks again.
+//! The type does not change.
 
 use type_theory::checker::STerm;
 use type_theory::ty::Type;

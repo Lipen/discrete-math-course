@@ -1,15 +1,10 @@
 //! A tiny simply-typed lambda calculus.
 //!
-//! Types are built from a base type `o` and function arrows `τ -> σ`. Typed
-//! terms ([`STerm`]) carry type annotations on binders; [`STerm::erase`]
-//! forgets them and produces the untyped [`Term`]. [`STerm::infer`] type
-//! checks a term against a typing context and returns its type, or a
-//! [`TypeError`].
+//! Types are built from a base type `o` and function arrows `τ -> σ`.
+//! Typed terms ([`STerm`]) carry type annotations on binders, [`STerm::erase`] forgets them and produces the untyped [`Term`], and [`STerm::infer`] type checks a term against a typing context and returns its type, or a [`TypeError`].
 //!
-//! The type system is deliberately small: with only `o` and `->` there is no
-//! type for self-application, so terms like `λx. x x` are rejected. That is
-//! why the untyped Y combinator cannot be typed here -- recursion needs an
-//! explicit fixed-point rule (see the type-theory chapter of the book).
+//! The type system is deliberately small: with only `o` and `->` there is no type for self-application, so terms like `λx. x x` are rejected.
+//! That is why the untyped Y combinator cannot be typed here -- recursion needs an explicit fixed-point rule, which this layer does not provide.
 
 use std::fmt;
 
@@ -60,9 +55,8 @@ impl fmt::Display for Ty {
 
 /// A term of the simply-typed lambda calculus.
 ///
-/// Like [`Term`], but every binder carries its type annotation. Terms are
-/// built with the helper methods [`var`](STerm::var), [`abs`](STerm::abs),
-/// and [`app`](STerm::app).
+/// Like [`Term`], but every binder carries its type annotation.
+/// Terms are built with the helper methods [`var`](STerm::var), [`abs`](STerm::abs), and [`app`](STerm::app).
 ///
 /// ```
 /// use lambda::stlc::{STerm, Ty};
@@ -124,8 +118,8 @@ impl STerm {
 
     /// Type check `self` in the context `ctx`, returning its type.
     ///
-    /// The context lists the types of the free variables, in order; a
-    /// variable later in the list shadows an earlier one of the same name.
+    /// The context lists the types of the free variables, in order.
+    /// A variable later in the list shadows an earlier one of the same name.
     ///
     /// ```
     /// use lambda::stlc::{STerm, Ty};

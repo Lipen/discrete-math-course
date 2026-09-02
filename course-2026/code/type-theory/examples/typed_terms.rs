@@ -1,9 +1,8 @@
 //! Typing well-typed and ill-typed terms with the three rules of λ→.
 //!
-//! Each term carries its binder annotations (`λx:σ. M`) and is checked by the
-//! var/app/abs rules in [`STerm::check`]. Well-typed terms get their type;
-//! ill-typed terms are rejected with the reason. This is the *checking* side
-//! of the chapter: a term is correctly typed exactly when a typing tree exists.
+//! Each term carries its binder annotations (`λx:σ. M`) and is checked by the var/app/abs rules in [`STerm::check`].
+//! Well-typed terms get their type, and ill-typed terms are rejected with the reason.
+//! This is the *checking* side: a term is correctly typed exactly when a typing tree exists.
 
 use type_theory::checker::STerm;
 use type_theory::ty::{Context, Type};
@@ -42,8 +41,7 @@ fn main() {
     println!("church 2        : {}", two);
     println!("  ⊢             : {}", two.type_of().unwrap());
     println!("  (typed on the base type Nat)");
-    // Apply 2 to a function f : Nat -> Nat and a value x : Nat; each of the
-    // two applications keeps the type Nat -> Nat, so 2 f x : Nat.
+    // Apply 2 to a function f : Nat -> Nat and a value x : Nat, and each of the two applications keeps the type Nat -> Nat, so 2 f x : Nat.
     let ctx_app = Context::new()
         .extend("f", Type::arrow(nat.clone(), nat.clone()))
         .extend("x", nat.clone());

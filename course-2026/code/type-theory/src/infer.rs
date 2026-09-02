@@ -5,9 +5,8 @@
 //! Self-application `λx. x x` forces the equation `σ = σ -> τ`, which the
 //! occurs check rejects.
 //!
-//! The type system is monomorphic (λ→ has no type quantifiers). A metavariable
-//! left unbound at the end becomes a schematic variable `a`, `b`, ... -- so an
-//! open result like the identity reads `a -> a` (the scheme σ → σ).
+//! The type system is monomorphic (λ→ has no type quantifiers).
+//! A metavariable left unbound at the end becomes a schematic variable `a`, `b`, ... -- so an open result like the identity reads `a -> a` (the scheme σ → σ).
 //!
 //! ```
 //! use type_theory::{infer, Term};
@@ -23,9 +22,8 @@ use std::collections::HashMap;
 use crate::term::Term;
 use crate::ty::{Context, Type};
 
-/// A metavariable is a unification variable named `?0`, `?1`, ...; its name is
-/// its identity. A variable without the `?` prefix is a schematic (rigid)
-/// variable and must match itself exactly.
+/// A metavariable is a unification variable named `?0`, `?1`, ..., and its name is its identity.
+/// A variable without the `?` prefix is a schematic (rigid) variable and must match itself exactly.
 fn is_meta(name: &str) -> bool {
     name.starts_with('?')
 }
@@ -44,8 +42,8 @@ pub fn infer(term: &Term) -> Result<Type, InferError> {
 
 /// Infer the type of `term` in the context `ctx`.
 ///
-/// `ctx` gives the types of the free variables. Any variable in the context
-/// must be a concrete type (a base or arrow type), not an open schematic one.
+/// `ctx` gives the types of the free variables.
+/// Any variable in the context must be a concrete type (a base or arrow type), not an open schematic one.
 pub fn infer_in(term: &Term, ctx: &Context) -> Result<Type, InferError> {
     let mut inf = Infer::new();
     let entries: Vec<(String, Type)> = ctx.iter().cloned().collect();
@@ -89,8 +87,7 @@ impl Infer {
 
     /// Does the metavariable `name` occur anywhere inside `ty`?
     ///
-    /// An occurrence would make `name = ... name ...` a cyclic (infinite) type,
-    /// e.g. `σ = σ -> τ`, so it has no finite solution.
+    /// An occurrence would make `name = ... name ...` a cyclic (infinite) type, e.g. `σ = σ -> τ`, so it has no finite solution.
     fn occurs(&self, name: &str, ty: &Type) -> bool {
         match self.resolve(ty) {
             Type::Var(n) => n == name,
@@ -157,8 +154,7 @@ impl Infer {
         }
     }
 
-    /// Replace every yet-unbound metavariable with a schematic variable
-    /// `a`, `b`, ... in order of first appearance, left-to-right.
+    /// Replace every yet-unbound metavariable with a schematic variable `a`, `b`, ... in order of first appearance, left-to-right.
     fn generalize(&self, ty: &Type) -> Type {
         let mut names: HashMap<String, String> = HashMap::new();
         let mut next = 0usize;
@@ -206,8 +202,7 @@ fn schematic_name(mut i: usize) -> String {
 pub enum InferError {
     /// A free variable that is not in the typing context.
     UnboundVariable(String),
-    /// Unification would produce a cyclic type, e.g. `σ = σ -> τ` for
-    /// self-application `λx. x x`.
+    /// Unification would produce a cyclic type, e.g. `σ = σ -> τ` for self-application `λx. x x`.
     OccursCheck { var: String, ty: Type },
     /// Two types that must be equal are not.
     Mismatch { expected: Type, found: Type },
@@ -307,12 +302,11 @@ mod tests {
 
     #[test]
     fn self_application_is_rejected() {
-        // λx. x x  -- needs σ = σ -> τ; the occurs check fails.
+        // λx. x x  -- needs σ = σ -> τ, so the occurs check fails.
         let omega = Term::abs("x", Term::app(Term::var("x"), Term::var("x")));
         match infer(&omega) {
             Err(InferError::OccursCheck { var, ty }) => {
-                // `var` is the metavariable for `x`; it would have to equal a
-                // function type containing itself: σ = σ -> τ.
+                // `var` is the metavariable for `x`: it would have to equal a function type containing itself, σ = σ -> τ.
                 assert!(var.starts_with('?'));
                 assert!(ty.is_arrow());
                 assert_eq!(ty.dom(), Some(&Type::Var(var.clone())));
@@ -358,8 +352,7 @@ mod tests {
     #[test]
     fn erased_application_agree_between_checking_and_inference() {
         // Checking and inference agree on well-typed annotated applications.
-        // Erasing (λx:Nat. x) a gives (λx. x) a; inferring it in the context
-        // a : Nat gives Nat, exactly what checking says.
+        // Erasing (λx:Nat. x) a gives (λx. x) a, and inferring it in the context a : Nat gives Nat, exactly what checking says.
         use crate::checker::STerm;
         use crate::ty::{Context, Type};
         let id = STerm::abs("x", Type::nat(), STerm::var("x"));

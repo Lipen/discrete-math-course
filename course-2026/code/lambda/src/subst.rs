@@ -1,13 +1,10 @@
 //! Capture-avoiding substitution and α-conversion.
 //!
-//! Substitution `M[x := N]` replaces every *free* occurrence of `x` in `M`
-//! with `N`. The subtlety is capture: if `N` has a free variable `y` and `M`
-//! binds `y` somewhere around an occurrence of `x`, a naive replacement would
-//! make that `y` bound -- changing the meaning of the term. The fix is to
-//! α-rename the binder first (see [`Term::substitute`]).
+//! Substitution `M[x := N]` replaces every *free* occurrence of `x` in `M` with `N`.
+//! The subtlety is capture: if `N` has a free variable `y` and `M` binds `y` somewhere around an occurrence of `x`, a naive replacement would make that `y` bound, changing the meaning of the term.
+//! The fix is to α-rename the binder first (see [`Term::substitute`]).
 //!
-//! [`Term::rename`] performs a single α-conversion: renaming a bound
-//! variable everywhere inside its scope, leaving free variables alone.
+//! [`Term::rename`] performs a single α-conversion: renaming a bound variable everywhere inside its scope, leaving free variables alone.
 
 use std::collections::HashSet;
 
@@ -34,8 +31,7 @@ impl Term {
     /// Capture-avoiding substitution: `self[x := replacement]`.
     ///
     /// Replaces every free occurrence of `x` with `replacement`.
-    /// When `replacement` contains a free variable that would be captured by
-    /// a binder in `self`, the binder is α-renamed to a fresh name first.
+    /// When `replacement` contains a free variable that would be captured by a binder in `self`, the binder is α-renamed to a fresh name first.
     ///
     /// ```
     /// use lambda::Term;
@@ -81,10 +77,8 @@ impl Term {
 
     /// α-conversion: rename the bound variable `from` to `to`.
     ///
-    /// Only occurrences bound by a matching `Abs(from, _)` are renamed;
-    /// free variables are left alone. `to` must be fresh: it must not occur
-    /// (free or bound) anywhere in the term, otherwise the renamed binder
-    /// captures those occurrences and changes the meaning of the term.
+    /// Only occurrences bound by a matching `Abs(from, _)` are renamed, and free variables are left alone.
+    /// `to` must be fresh: it must not occur (free or bound) anywhere in the term, otherwise the renamed binder captures those occurrences and changes the meaning of the term.
     ///
     /// ```
     /// use lambda::Term;
@@ -103,8 +97,7 @@ impl Term {
                 Term::Abs(to.to_string(), Box::new(body.subst_var(from, to)))
             }
             Term::Abs(y, body) if y == to => {
-                // The binder already uses `to` -- the inner `from` is
-                // shadowed; stop.
+                // The binder already uses `to`, so the inner `from` is shadowed: stop.
                 Term::Abs(y.clone(), body.clone())
             }
             Term::Abs(y, body) => Term::Abs(y.clone(), Box::new(body.rename(from, to))),
@@ -117,9 +110,8 @@ impl Term {
 
     /// Rename all occurrences of `from` to `to` (no capture semantics).
     ///
-    /// This is a low-level helper called inside the scope of a matching
-    /// binder where all `from` variables are bound. Stops at shadow
-    /// boundaries (`Abs(from, _)` or `Abs(to, _)`).
+    /// This is a low-level helper called inside the scope of a matching binder where all `from` variables are bound.
+    /// Stops at shadow boundaries (`Abs(from, _)` or `Abs(to, _)`).
     fn subst_var(&self, from: &str, to: &str) -> Term {
         match self {
             Term::Var(y) if y == from => Term::Var(to.to_string()),
@@ -190,7 +182,7 @@ mod tests {
 
     #[test]
     fn substitute_does_not_rename_when_safe() {
-        // [x := z] (λy. y x)  ->  λy. y z   (no rename needed; z ≠ y)
+        // [x := z] (λy. y x)  ->  λy. y z   (no rename needed, z ≠ y)
         let t = Term::abs("y", Term::app(Term::var("y"), Term::var("x")));
         let result = t.substitute("x", &Term::var("z"));
         assert_eq!(result.to_string(), "λy. y z");
@@ -199,9 +191,7 @@ mod tests {
     #[test]
     fn substitute_avoids_capture_by_nested_bound_name() {
         // [x := y] (λy. λy'. y x)
-        // The outer `y` binds the `y` in `y x`; the fresh name chosen for the
-        // α-renamed binder must not collide with the inner bound `y'`.
-        // Correct result: λy''. λy'. y'' y  (up to α).
+        // The outer `y` binds the `y` in `y x`, and the fresh name chosen for the α-renamed binder must not collide with the inner bound `y'`.
         let t = Term::abs(
             "y",
             Term::abs("y'", Term::app(Term::var("y"), Term::var("x"))),
@@ -218,7 +208,7 @@ mod tests {
             }
             other => panic!("expected abstraction, got {other}"),
         }
-        // The substituted `y` stays free; only it is a free variable.
+        // The substituted `y` stays free, and it is the only free variable.
         assert_eq!(result.free_vars().len(), 1);
         assert!(result.free_vars().contains("y"));
     }

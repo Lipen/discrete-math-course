@@ -1,8 +1,7 @@
 //! Untyped lambda terms.
 //!
-//! A term is a variable, an abstraction, or an application. This is the
-//! syntax on which type inference ([`crate::infer`]) runs: the same `Term`
-//! the lambda crate uses, but self-contained here.
+//! A term is a variable, an abstraction, or an application.
+//! This is the syntax on which type inference ([`crate::infer`]) runs.
 //!
 //! ```
 //! use type_theory::Term;

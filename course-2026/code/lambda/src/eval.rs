@@ -1,28 +1,19 @@
 //! Reduction strategies: how to pick the next redex.
 //!
-//! β-reduction itself is fixed; strategies differ in *which* redex is
-//! contracted next:
+//! β-reduction itself is fixed, and strategies differ in *which* redex is contracted next:
 //!
-//! - **Normal order** (leftmost outermost) -- the strategy of the book.
-//!   If a term has a normal form, normal order finds it.
-//! - **Applicative order** (leftmost innermost) -- arguments are evaluated
-//!   before functions are applied. It can loop where normal order
-//!   terminates, e.g. on `(λx. y) Ω`.
-//! - **Weak head normal form** (WHNF) -- stops as soon as the *head* (the
-//!   leftmost spine of the term) is a variable or a binder. Redexes inside
-//!   arguments are left untouched, which is how lazy languages evaluate.
+//! - **Normal order** (leftmost outermost). If a term has a normal form, normal order finds it.
+//! - **Applicative order** (leftmost innermost). Arguments are evaluated before functions are applied, so it can loop where normal order terminates, e.g. on `(λx. y) Ω`.
+//! - **Weak head normal form** (WHNF). Stops as soon as the *head* (the leftmost spine of the term) is a variable or a binder.
+//!   Redexes inside arguments are left untouched, which is how lazy languages evaluate.
 //!
-//! Every multi-step driver takes a fuel limit (`max_steps`) so that
-//! diverging terms such as `Ω` cannot hang the process, and reports the
-//! outcome as a [`Reduction`] with a step counter.
+//! Every multi-step driver takes a fuel limit (`max_steps`) so that diverging terms such as `Ω` cannot hang the process, and reports the outcome as a [`Reduction`] with a step counter.
 
 use crate::term::Term;
 
 /// Outcome of a fuel-limited reduction run.
+/// The driver performs `steps` single-step reductions, then either reached a normal form (`converged == true`) or ran out of fuel (`converged == false` -- the term may still contain redexes).
 ///
-/// The driver performs `steps` single-step reductions, then either reached a
-/// normal form (`converged == true`) or ran out of fuel (`converged ==
-/// false` -- the term may still contain redexes).
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Reduction {
     /// The term reached after `steps` reductions.
@@ -40,8 +31,7 @@ pub struct Reduction {
 impl Term {
     /// One step of **normal-order** β-reduction (leftmost outermost redex).
     ///
-    /// Returns `None` if the term is already in β-normal form -- i.e., no
-    /// subterm has the shape `(λx.M) N`.
+    /// Returns `None` if the term is already in β-normal form -- i.e., no subterm has the shape `(λx.M) N`.
     ///
     /// ```
     /// use lambda::Term;
@@ -73,13 +63,10 @@ impl Term {
         }
     }
 
-    /// One step of **applicative-order** β-reduction (leftmost innermost
-    /// redex).
+    /// One step of **applicative-order** β-reduction (leftmost innermost redex).
     ///
-    /// Arguments are reduced before functions are applied: inside a redex
-    /// `(λx. body) arg`, the body and the argument are searched for inner
-    /// redexes first, and only when both are inert is the redex itself
-    /// contracted.
+    /// Arguments are reduced before functions are applied.
+    /// Inside a redex `(λx. body) arg`, the body and the argument are searched for inner redexes first, and only when both are inert is the redex itself contracted.
     ///
     /// ```
     /// use lambda::Term;
@@ -124,9 +111,8 @@ impl Term {
 
     /// One step toward **weak head normal form**.
     ///
-    /// Contracts the first redex on the head spine -- the leftmost chain of
-    /// applications -- and nothing else. Returns `None` when the head is a
-    /// variable or a binder.
+    /// Contracts the first redex on the head spine -- the leftmost chain of applications -- and nothing else.
+    /// Returns `None` when the head is a variable or a binder.
     ///
     /// ```
     /// use lambda::Term;
@@ -177,8 +163,8 @@ impl Term {
         }
     }
 
-    /// Check whether the term is in **weak head normal form**: the head is a
-    /// variable or a binder. Redexes inside arguments do not matter.
+    /// Check whether the term is in **weak head normal form**: the head is a variable or a binder.
+    /// Redexes inside arguments do not matter.
     ///
     /// ```
     /// use lambda::Term;
@@ -204,11 +190,9 @@ impl Term {
 // ===========================================================================
 
 impl Term {
-    /// Reduce to normal form with **normal-order** reduction, stopping after
-    /// `max_steps` iterations.
+    /// Reduce to normal form with **normal-order** reduction, stopping after `max_steps` iterations.
     ///
-    /// The step guard prevents infinite loops on non-terminating terms such
-    /// as `Ω = (λx. x x)(λx. x x)`.
+    /// The step guard prevents infinite loops on non-terminating terms such as `Ω = (λx. x x)(λx. x x)`.
     ///
     /// ```
     /// use lambda::Term;
@@ -220,12 +204,9 @@ impl Term {
         self.reduce_normal(max_steps).term
     }
 
-    /// Reduce to normal form with **applicative-order** reduction, stopping
-    /// after `max_steps` iterations.
+    /// Reduce to normal form with **applicative-order** reduction, stopping after `max_steps` iterations.
     ///
-    /// When both strategies terminate they reach the same normal form
-    /// (Church--Rosser), but applicative order may burn its fuel on
-    /// diverging arguments first.
+    /// When both strategies terminate they reach the same normal form (Church--Rosser), but applicative order may burn its fuel on diverging arguments first.
     ///
     /// ```
     /// use lambda::Term;
@@ -237,12 +218,11 @@ impl Term {
         self.reduce_applicative(max_steps).term
     }
 
-    /// Reduce to **weak head normal form**, stopping after `max_steps`
-    /// iterations.
+    /// Reduce to **weak head normal form**, stopping after `max_steps` iterations.
     ///
     /// ```
     /// use lambda::Term;
-    /// // Only the head redex is contracted; the redex in the argument stays.
+    /// // Only the head redex is contracted, and the redex in the argument stays.
     /// let term = Term::app(
     ///     Term::abs("x", Term::var("x")),
     ///     Term::app(Term::var("f"), Term::app(Term::abs("y", Term::var("y")), Term::var("a"))),
@@ -253,8 +233,7 @@ impl Term {
         self.reduce_whnf(max_steps).term
     }
 
-    /// Normal-order reduction with a step counter: returns the term reached
-    /// and how many steps it took.
+    /// Normal-order reduction with a step counter: returns the term reached and how many steps it took.
     ///
     /// ```
     /// use lambda::Term;
@@ -272,8 +251,7 @@ impl Term {
     ///
     /// ```
     /// use lambda::Term;
-    /// // (λx. y) Ω: normal order finds y at once; applicative order spends
-    /// // its fuel inside Ω and does not converge.
+    /// // (λx. y) Ω: normal order finds y at once, applicative order spends its fuel inside Ω and does not converge.
     /// let omega = Term::app(
     ///     Term::abs("x", Term::app(Term::var("x"), Term::var("x"))),
     ///     Term::abs("x", Term::app(Term::var("x"), Term::var("x"))),
@@ -304,8 +282,7 @@ impl Term {
         reduce_loop(self, max_steps, Term::whnf_step)
     }
 
-    /// Full **normal-order** reduction trace: records each intermediate term
-    /// from start to normal form (or until `max_steps` is exhausted).
+    /// Full **normal-order** reduction trace: records each intermediate term from start to normal form (or until `max_steps` is exhausted).
     ///
     /// ```
     /// use lambda::Term;
@@ -338,8 +315,7 @@ impl Term {
     }
 }
 
-/// Shared loop: apply a one-step reducer until it returns `None` or the fuel
-/// runs out, counting the steps.
+/// Shared loop: apply a one-step reducer until it returns `None` or the fuel runs out, counting the steps.
 fn reduce_loop(start: &Term, max_steps: usize, step: fn(&Term) -> Option<Term>) -> Reduction {
     let mut t = start.clone();
     let mut steps = 0;
@@ -365,8 +341,7 @@ fn reduce_loop(start: &Term, max_steps: usize, step: fn(&Term) -> Option<Term>) 
     }
 }
 
-/// Shared loop: collect every intermediate term like `reduce_loop`, but
-/// return the whole trace instead of the final outcome.
+/// Shared loop: collect every intermediate term like `reduce_loop`, but return the whole trace instead of the final outcome.
 fn trace_loop(start: &Term, max_steps: usize, step: fn(&Term) -> Option<Term>) -> Vec<Term> {
     let mut steps = vec![start.clone()];
     let mut t = start.clone();
@@ -390,8 +365,7 @@ fn trace_loop(start: &Term, max_steps: usize, step: fn(&Term) -> Option<Term>) -
 mod tests {
     use super::*;
 
-    /// The self-applying diverging term Ω = (λx. x x)(λx. x x), built inline
-    /// as a fixture for the fuel-limited reduction tests.
+    /// The self-applying diverging term Ω = (λx. x x)(λx. x x), built inline as a fixture for the fuel-limited reduction tests.
     fn omega() -> Term {
         let self_app = Term::abs("x", Term::app(Term::var("x"), Term::var("x")));
         Term::app(self_app.clone(), self_app)
@@ -435,8 +409,7 @@ mod tests {
 
     #[test]
     fn applicative_reduces_innermost_first() {
-        // (λx. (λy. y) x) z -- two redexes; applicative order takes the
-        // inner one, normal order the outer one.
+        // (λx. (λy. y) x) z has two redexes: applicative order takes the inner one, normal order the outer one.
         let inner = Term::app(Term::abs("y", Term::var("y")), Term::var("x"));
         let t = Term::app(Term::abs("x", inner), Term::var("z"));
         assert_eq!(
@@ -467,8 +440,7 @@ mod tests {
 
     #[test]
     fn normalize_respects_step_limit_on_non_terminating_term() {
-        // Ω = (λx. x x)(λx. x x) stays the same shape; the step limit
-        // prevents an infinite loop.
+        // Ω = (λx. x x)(λx. x x) stays the same shape, and the step limit prevents an infinite loop.
         let t = omega();
         let result = t.normalize(3);
         // After 3 reductions of Ω, it's still not in normal form.
@@ -489,7 +461,7 @@ mod tests {
 
     #[test]
     fn applicative_diverges_where_normal_terminates() {
-        // The book's example: (λx. y) Ω.
+        // (λx. y) Ω: normal order terminates in one step, applicative order loops.
         let t = Term::app(Term::abs("x", Term::var("y")), omega());
         let normal = t.reduce_normal(100);
         assert!(normal.converged);

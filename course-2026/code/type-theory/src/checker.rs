@@ -3,14 +3,12 @@
 //! A typed term [`STerm`] carries its binder annotations: `λx:σ. M`. The
 //! three rules
 //!
-//! - **var**: `Γ, x:σ ⊢ x : σ`;
-//! - **app**: `Γ ⊢ M : σ→τ` and `Γ ⊢ N : σ` give `Γ ⊢ M N : τ`;
-//! - **abs**: `Γ, x:σ ⊢ M : τ` gives `Γ ⊢ λx:σ. M : σ→τ`;
+//! - **var**: `Γ, x:σ ⊢ x : σ`.
+//! - **app**: `Γ ⊢ M : σ→τ` and `Γ ⊢ N : σ` give `Γ ⊢ M N : τ`.
+//! - **abs**: `Γ, x:σ ⊢ M : τ` gives `Γ ⊢ λx:σ. M : σ→τ`.
 //!
-//! are implemented by [`STerm::check`] against a [`Context`]. Because a
-//! redex kept in annotated form β-reduces while preserving annotations
-//! ([`STerm::beta_reduce`]), the same module demonstrates **subject
-//! reduction**: if `Γ ⊢ M : σ` and `M →β M'`, then `Γ ⊢ M' : σ`.
+//! are implemented by [`STerm::check`] against a [`Context`].
+//! Because a redex kept in annotated form β-reduces while preserving annotations ([`STerm::beta_reduce`]), the same module demonstrates **subject reduction**: if `Γ ⊢ M : σ` and `M →β M'`, then `Γ ⊢ M' : σ`.
 //!
 //! ```
 //! use type_theory::checker::STerm;
@@ -61,9 +59,8 @@ impl STerm {
 
     /// Type check `self` in the context `ctx`, returning its type.
     ///
-    /// This is the algorithmic form of the three rules var/app/abs. The
-    /// context lists the types of the free variables; a later assumption of
-    /// the same name shadows an earlier one.
+    /// This is the algorithmic form of the three rules var/app/abs.
+    /// The context lists the types of the free variables, and a later assumption of the same name shadows an earlier one.
     ///
     /// ```
     /// use type_theory::checker::STerm;
@@ -222,9 +219,8 @@ impl STerm {
 
     /// One β-step (leftmost outermost), keeping annotations.
     ///
-    /// Returns `None` at a normal form. Because annotations are preserved,
-    /// checking before and after a step gives the same type -- subject
-    /// reduction.
+    /// Returns `None` at a normal form.
+    /// Because annotations are preserved, checking before and after a step gives the same type -- subject reduction.
     pub fn beta_reduce(&self) -> Option<STerm> {
         match self {
             STerm::App(fun, arg) => {
@@ -500,7 +496,7 @@ mod tests {
 
     #[test]
     fn subject_reduction_composition_steps() {
-        // The detour example of the chapter, step by step:
+        // The detour example, step by step:
         //   M = (λf:A→A. λx:A. f x)(λx:A. x)  →β  λx:A. (λx:A. x) x  →β  λx:A. x
         let a = Type::base("A");
         let f = STerm::var("f");
