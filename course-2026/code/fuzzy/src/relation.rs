@@ -1,16 +1,16 @@
 //! Fuzzy relations and max-min composition.
 //!
-//! A fuzzy relation is a fuzzy set on a Cartesian product `X × Y`: the
-//! degree `R(x, y)` says how strongly `x` is related to `y`. On finite sets
-//! a relation is a matrix, and two relations compose exactly like classical
-//! relations, with `min` and `max` standing in for `and` and `or`.
+//! A fuzzy relation is a fuzzy set on a Cartesian product `X × Y`: the degree `R(x, y)` says how strongly `x` is related to `y`.
+//! On finite sets a relation is a matrix, and two relations compose exactly like classical relations, with `min` and `max` standing in for `and` and `or`.
 
-/// A fuzzy relation `R: X × Y -> [0, 1]` on finite sets, stored as a dense
-/// row-major matrix of `rows × cols` membership degrees.
+/// A fuzzy relation `R: X × Y -> [0, 1]` on finite sets, stored as a dense row-major matrix of `rows × cols` membership degrees.
 #[derive(Clone, Debug, PartialEq)]
 pub struct FuzzyRelation {
+    /// Number of rows.
     pub rows: usize,
+    /// Number of columns.
     pub cols: usize,
+    /// Membership degrees in row-major order: `rows * cols` entries.
     pub data: Vec<f64>,
 }
 
@@ -107,7 +107,7 @@ mod tests {
     }
 
     #[test]
-    fn closeness_degrees_match_the_chapter() {
+    fn closeness_degrees_match_the_formula() {
         let r = close();
         assert_eq!(r.get(0, 0), 1.0);
         assert!((r.get(0, 1) - 2.0 / 3.0).abs() < 1e-12);

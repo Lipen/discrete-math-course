@@ -36,18 +36,22 @@ pub fn eq(a: Term, b: Term) -> Formula {
     Formula::Eq(a, b)
 }
 
+/// Negation `¬f`.
 pub fn not(f: Formula) -> Formula {
     Formula::Not(Box::new(f))
 }
 
+/// Conjunction `f ∧ g`.
 pub fn and(a: Formula, b: Formula) -> Formula {
     Formula::And(Box::new(a), Box::new(b))
 }
 
+/// Disjunction `f ∨ g`.
 pub fn or(a: Formula, b: Formula) -> Formula {
     Formula::Or(Box::new(a), Box::new(b))
 }
 
+/// Implication `f -> g`.
 pub fn implies(a: Formula, b: Formula) -> Formula {
     Formula::Implies(Box::new(a), Box::new(b))
 }
@@ -80,9 +84,8 @@ impl Formula {
         }
     }
 
-    /// Capture-avoiding substitution: replace every free occurrence of `x`
-    /// by the term `with`. A bound variable is renamed first when the
-    /// replacement would otherwise be captured.
+    /// Capture-avoiding substitution: replace every free occurrence of `x` by the term `with`.
+    /// A bound variable is renamed first when the replacement would otherwise be captured.
     pub fn substitute(&self, x: &str, with: &Term) -> Formula {
         match self {
             Formula::Pred(p, args) => Formula::Pred(

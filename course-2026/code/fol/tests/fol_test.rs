@@ -1,5 +1,4 @@
-//! Integration tests: evaluation matches hand calculations, and enumeration
-//! decides satisfiability and validity over small domains.
+//! Integration tests: evaluation matches hand calculations, and enumeration decides satisfiability and validity over small domains.
 
 use std::collections::{HashMap, HashSet};
 

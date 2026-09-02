@@ -1,25 +1,17 @@
 //! Terms, substitutions, unification, and clause databases.
 //!
 //! This crate models the *data* of logic programming without the search.
-//! It provides the terms a Prolog program is made of, substitutions and
-//! unification with the occurs check, and a database of definite clauses
-//! (facts and rules). Building the SLD resolver on top of these pieces --
-//! the depth-first proof search with backtracking -- is the student
-//! project.
+//! It provides the terms a logic program is made of, substitutions and unification with the occurs check, and a database of definite clauses (facts and rules).
 //!
-//! - terms ([`term::Term`]) -- variables, constants, and structures;
-//! - substitutions ([`subst`]) and unification with the occurs check
-//!   ([`mod@unify`]);
-//! - definite clauses ([`clause::Clause`]): facts and rules;
-//! - a program ([`database::Database`]) that indexes clauses by predicate.
+//! - [`term::Term`] holds variables, constants, and structures.
+//! - [`subst`] and [`mod@unify`] solve equations between terms, with the occurs check.
+//! - [`clause::Clause`] is a fact or a rule.
+//! - [`database::Database`] is a program, indexing clauses by predicate.
 //!
-//! The library deliberately stops before a full language: there is no
-//! parser, no REPL, no arithmetic, and no cut or negation, and no solver
-//! that runs a query. Building those on top of this core is a natural
-//! student project.
+//! The library deliberately stops before a full language: there is no parser, no REPL, no arithmetic, no cut or negation, and no solver that runs a query.
+//! Building the missing SLD resolver (the depth-first proof search with backtracking) on top of this core is a self-contained exercise.
 //!
-//! The shortest end-to-end example: unify two terms, then watch the occurs
-//! check reject a cyclic binding.
+//! The shortest end-to-end example: unify two terms, then watch the occurs check reject a cyclic binding.
 //!
 //! ```
 //! use prolog::term::Term;

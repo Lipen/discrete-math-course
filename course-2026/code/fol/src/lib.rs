@@ -1,23 +1,14 @@
 //! First-order logic: terms, formulas, and finite models.
 //!
-//! A first-order language has a [`signature::Signature`] of constants,
-//! function symbols, and predicate symbols. From these we build
-//! [`term::Term`]s (variables, constants, function applications) and
-//! [`formula::Formula`]s (atoms, equality, the connectives `¬ ∧ ∨ ->`, and
-//! the quantifiers `∀` and `∃`).
+//! A first-order language has a [`signature::Signature`] of constants, function symbols, and predicate symbols.
+//! From these we build [`term::Term`]s (variables, constants, function applications) and [`formula::Formula`]s (atoms, equality, the connectives `¬ ∧ ∨ ->`, and the quantifiers `∀` and `∃`).
 //!
-//! A [`structure::Structure`] gives the symbols a meaning: a non-empty
-//! domain, a value for each constant, a total function for each function
-//! symbol, and a relation for each predicate symbol.
-//! [`structure::Structure::eval`] computes the truth of a sentence by
-//! Tarski's definition, with quantifiers ranging over the whole domain.
+//! A [`structure::Structure`] gives the symbols a meaning: a non-empty domain, a value for each constant, a total function for each function symbol, and a relation for each predicate symbol.
+//! [`structure::Structure::eval`] computes the truth of a sentence by Tarski's definition, with quantifiers ranging over the whole domain.
 //!
-//! [`formula::Formula::substitute`] replaces a free variable by a term,
-//! renaming a bound variable first when capture would otherwise occur. Over a
-//! fixed finite domain there are finitely many structures;
-//! [`enumerate::enumerate_structures`] lists them all, and
-//! [`enumerate::satisfiable_over`] / [`enumerate::valid_over`] decide
-//! satisfiability and validity by exhaustion.
+//! [`formula::Formula::substitute`] replaces a free variable by a term, renaming a bound variable first when capture would otherwise occur.
+//! Over a fixed finite domain there are finitely many structures.
+//! [`enumerate::enumerate_structures`] lists them all, and [`enumerate::satisfiable_over`] / [`enumerate::valid_over`] decide satisfiability and validity by exhaustion.
 //!
 //! ```
 //! use fol::formula::{exists, forall, pred};

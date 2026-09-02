@@ -1,7 +1,6 @@
-//! Random 3-SAT: generate instances at increasing clause-to-variable ratios
-//! and observe the phase transition from mostly-SAT to mostly-UNSAT.
+//! Random 3-SAT: generate instances at increasing clause-to-variable ratios and observe the phase transition from mostly-SAT to mostly-UNSAT.
 //!
-//! Run with `cargo run -p sat --example random_3sat`.
+//! Run with `cargo run --example random_3sat`.
 
 use sat::cnf::Cnf;
 use sat::solve;

@@ -1,9 +1,9 @@
 //! Fuzzy numbers on the real line.
 //!
-//! A fuzzy number models "about x0" as a fuzzy set on the reals. The
-//! triangular form `(l, m, r)` rises from `l` to the mode `m` and falls back
-//! to `r`; the trapezoidal form `(a, b, c, d)` adds a flat top. Both are
-//! piecewise-linear, so their alpha-cuts are closed intervals.
+//! A fuzzy number models "about x0" as a fuzzy set on the reals.
+//! The triangular form `(l, m, r)` rises from `l` to the mode `m` and falls back to `r`.
+//! The trapezoidal form `(a, b, c, d)` adds a flat top.
+//! Both are piecewise-linear, so their alpha-cuts are closed intervals.
 
 use crate::set::FuzzySet;
 
@@ -13,8 +13,11 @@ use crate::set::FuzzySet;
 /// `m` (where it is `1`), and falls linearly back to `r`.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Triangular {
+    /// Left edge: membership is 0 at and below `left`, then rises linearly.
     pub left: f64,
+    /// The mode: membership is 1.
     pub mode: f64,
+    /// Right edge: membership falls to 0 at `right` and stays 0 above.
     pub right: f64,
 }
 
@@ -81,13 +84,16 @@ impl Triangular {
     }
 }
 
-/// A trapezoidal fuzzy number `(a, b, c, d)`: rises `a -> b`, flat on
-/// `[b, c]`, falls `c -> d`.
+/// A trapezoidal fuzzy number `(a, b, c, d)`: rises `a -> b`, flat on `[b, c]`, falls `c -> d`.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Trapezoidal {
+    /// Left edge: membership is 0 at and below `a`, then rises linearly.
     pub a: f64,
+    /// Plateau start: membership is 1 from `b` on.
     pub b: f64,
+    /// Plateau end: membership is 1 up to `c`, then falls linearly.
     pub c: f64,
+    /// Right edge: membership is 0 at and above `d`.
     pub d: f64,
 }
 

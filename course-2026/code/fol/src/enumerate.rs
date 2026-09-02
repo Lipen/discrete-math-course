@@ -1,5 +1,4 @@
-//! Finite-domain semantics: enumerating structures and deciding
-//! satisfiability and validity by exhaustion.
+//! Finite-domain semantics: enumerating structures and deciding satisfiability and validity by exhaustion.
 
 use std::collections::{HashMap, HashSet};
 

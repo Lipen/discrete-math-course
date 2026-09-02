@@ -1,8 +1,7 @@
 //! Triangular norms and conorms on the unit interval `[0, 1]`.
 //!
-//! A t-norm generalizes logical AND to degrees of membership; an s-norm (a
-//! t-conorm) generalizes OR. The three classical families are Zadeh
-//! (`min`/`max`), the product (probabilistic) family, and Lukasiewicz.
+//! A t-norm generalizes logical AND to degrees of membership, and an s-norm (a t-conorm) generalizes OR.
+//! The three classical families are Zadeh (`min`/`max`), the product (probabilistic) family, and Lukasiewicz.
 
 /// A family of triangular norm (AND) and conorm (OR) on `[0, 1]`.
 ///

@@ -1,12 +1,10 @@
 //! The three-element Heyting algebra {0, 1/2, 1}.
 //!
-//! The demo prints the truth tables of the connectives, then evaluates two
-//! formulas over all valuations of their atoms: the axiom p -> (q -> p),
-//! which holds everywhere, and Peirce's law ((p -> q) -> p) -> p, which is
-//! classically valid but fails at p = 1/2, q = 0.
+//! The demo prints the truth tables of the connectives, then evaluates two formulas over all valuations of their atoms.
+//! The axiom `p -> (q -> p)` holds everywhere.
+//! Peirce's law `((p -> q) -> p) -> p` is classically valid but fails at `p = 1/2, q = 0`.
 //!
-//! The same algebra is available as a table algebra via `chain_three()`,
-//! which is the downset algebra of the two-element chain.
+//! The same algebra is available as a table algebra via `chain_three()`, which is the downset algebra of the two-element chain.
 
 use heyting::Value;
 

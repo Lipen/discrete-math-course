@@ -1,18 +1,12 @@
 //! Finite Heyting algebras and intuitionistic validity.
 //!
-//! A Heyting algebra is a distributive lattice with a relative
-//! pseudo-complement `a -> b`: the weakest `c` with `a ∧ c <= b`.  The
-//! formulas valid in *every* Heyting algebra are exactly the theorems of
-//! intuitionistic logic, so finite Heyting algebras are the standard
-//! counterexample semantics: a formula that fails in one of them is not
-//! intuitionistically provable.
+//! A Heyting algebra is a distributive lattice with a relative pseudo-complement `a -> b`: the weakest `c` with `a ∧ c <= b`.
+//! The formulas valid in *every* Heyting algebra are exactly the theorems of intuitionistic logic, so finite Heyting algebras are the standard counterexample semantics: a formula that fails in one of them is not intuitionistically provable.
 //!
 //! This crate has five layers:
 //!
-//! - [`Value`], the three-element algebra `{0, 1/2, 1}`, the simplest
-//!   non-Boolean Heyting algebra and the flagship example.  It stays
-//!   first-class: `!!a = a` fails at `1/2`, so the law of excluded middle is
-//!   not a tautology.
+//! - [`Value`], the three-element algebra `{0, 1/2, 1}`, the simplest non-Boolean Heyting algebra and the flagship example.
+//!   It stays first-class: `!!a = a` fails at `1/2`, so the law of excluded middle is not a tautology.
 //!
 //! ```
 //! use heyting::Value;
@@ -26,23 +20,15 @@
 //! assert_eq!(lem.not().not(), Value::Top);
 //! ```
 //!
-//! - [`Algebra`], a general table-driven finite Heyting algebra: elements
-//!   `0..n` with meet/join/implies tables, bottom and top.  It can be built
-//!   from lattice tables ([`Algebra::from_meet_join`]) or from a small poset
-//!   via its downsets ([`Poset::downset_algebra`]); Boolean algebras are
-//!   constructed with [`bool_algebra`].
+//! - [`Algebra`], a general table-driven finite Heyting algebra: elements `0..n` with meet/join/implies tables, bottom and top.
+//!   It can be built from lattice tables ([`Algebra::from_meet_join`]) or from a small poset via its downsets ([`Poset::downset_algebra`]), and Boolean algebras are constructed with [`bool_algebra`].
 //!
-//! - [`Poset`] and the downset (order ideal) construction, the key link
-//!   between partial orders and intuitionistic semantics: the downsets of a
-//!   poset form a Heyting algebra, and every finite Heyting algebra is (up to
-//!   isomorphism) a subalgebra of one of these.
+//! - [`Poset`] and the downset (order ideal) construction, the key link between partial orders and intuitionistic semantics: the downsets of a poset form a Heyting algebra, and every finite Heyting algebra is (up to isomorphism) a subalgebra of one of these.
 //!
-//! - [`Formula`], a tiny propositional formula type (atoms, and/or/implies/
-//!   not/top/bottom) evaluated in any [`Algebra`] under a valuation.
+//! - [`Formula`], a tiny propositional formula type (atoms, and/or/implies/not/top/bottom) evaluated in any [`Algebra`] under a valuation.
 //!
-//! - [`valid`], an exhaustive validity checker over all finite Heyting
-//!   algebras up to a documented size bound (16 elements).  It is a
-//!   small-scale decision procedure for intuitionistic validity.
+//! - [`valid`], an exhaustive validity checker over all finite Heyting algebras up to a documented size bound (16 elements).
+//!   It is a small-scale decision procedure for intuitionistic validity.
 //!
 //! ```
 //! use heyting::{Formula, valid};

@@ -1,18 +1,13 @@
 //! A small DPLL(T) stack for quantifier-free SMT problems.
 //!
-//! The crate builds a satisfiability solver in layers, from the Boolean core
-//! up to a mixed-signature driver:
+//! The crate builds a satisfiability solver in layers, from the Boolean core up to a mixed-signature driver:
 //!
-//! - [`sat`] -- a self-contained DPLL SAT solver (unit propagation and
-//!   backtracking), the engine every other module uses;
-//! - [`difference`] -- difference logic, solved as a negative-cycle test;
-//! - [`linear`] -- linear real arithmetic by Fourier--Motzkin elimination
-//!   with exact rational arithmetic;
-//! - [`integers`] -- linear integer arithmetic by branch and bound on the
-//!   rational relaxation;
-//! - [`bitvec`] -- fixed-width bitvectors by bit-blasting into the SAT core;
-//! - [`driver`] -- the DPLL(T) loop: abstract a mixed formula to Booleans,
-//!   hand each SAT model to the theory solvers, and learn conflicts.
+//! - [`sat`] -- a self-contained DPLL SAT solver (unit propagation and backtracking), the engine every other module uses.
+//! - [`difference`] -- difference logic, solved as a negative-cycle test.
+//! - [`linear`] -- linear real arithmetic by Fourier--Motzkin elimination with exact rational arithmetic.
+//! - [`integers`] -- linear integer arithmetic by branch and bound on the rational relaxation.
+//! - [`bitvec`] -- fixed-width bitvectors by bit-blasting into the SAT core.
+//! - [`driver`] -- the DPLL(T) loop: abstract a mixed formula to Booleans, hand each SAT model to the theory solvers, and learn conflicts.
 //!
 //! The classic example, difference logic, is still solved directly:
 //!

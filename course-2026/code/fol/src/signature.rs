@@ -40,8 +40,7 @@ impl Signature {
         self
     }
 
-    /// Check that every symbol occurring in `f` is declared here with the
-    /// right arity.
+    /// Check that every symbol occurring in `f` is declared here with the right arity.
     pub fn validate(&self, f: &Formula) -> Result<(), Error> {
         match f {
             Formula::Pred(p, args) => {

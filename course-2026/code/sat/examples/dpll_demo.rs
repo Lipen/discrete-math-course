@@ -1,10 +1,9 @@
-//! DPLL on the worked example, plus a satisfiable formula.
+//! DPLL on a small unsatisfiable formula, then on a satisfiable one.
 //!
-//! The first is the worked example: DPLL exhausts every
-//! branch and reports UNSAT. The second is a satisfiable formula -- the
-//! solver finds a model and prints it.
+//! The first run exhausts every branch and reports UNSAT.
+//! The second run finds a model and prints it.
 //!
-//! Run with `cargo run -p sat --example dpll_demo`.
+//! Run with `cargo run --example dpll_demo`.
 
 use sat::cnf::{neg, pos, Cnf};
 use sat::solve_traced;

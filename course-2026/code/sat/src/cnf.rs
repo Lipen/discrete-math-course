@@ -1,7 +1,7 @@
 //! CNF formulas: literals, clauses, and formula construction.
 //!
-//! A literal is an integer: positive `v` means "variable `v` is true",
-//! negative `-v` means "variable `v` is false". Variables are numbered from 1.
+//! A literal is an integer: positive `v` means "variable `v` is true", negative `-v` means "variable `v` is false".
+//! Variables are numbered from 1.
 //! A clause is a disjunction of literals.
 //! A CNF formula is a conjunction of clauses.
 
@@ -76,8 +76,8 @@ pub fn clause_satisfied(clause: &Clause, assign: &[Option<bool>]) -> bool {
 
 /// The forced literal of a unit clause, or `None`.
 ///
-/// A clause is unit when exactly one literal is unassigned and all the rest
-/// are false; then that literal is forced to true.
+/// A clause is unit when exactly one literal is unassigned and all the rest are false.
+/// Then that literal is forced to true.
 ///
 /// ```
 /// use sat::cnf::*;
@@ -170,8 +170,7 @@ impl Cnf {
 
     /// Generate a random 3-SAT formula.
     ///
-    /// Each clause has exactly 3 literals over distinct variables, each with
-    /// random polarity. The formula may or may not be satisfiable.
+    /// Each clause has exactly 3 literals over distinct variables, each with random polarity.
     ///
     /// ```
     /// use sat::cnf::Cnf;

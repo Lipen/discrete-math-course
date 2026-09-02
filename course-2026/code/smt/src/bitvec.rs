@@ -1,17 +1,12 @@
 //! A bitvector solver by bit-blasting.
 //!
-//! Fixed-width bitvector expressions are translated into boolean clauses --
-//! one SAT variable per bit -- and decided by the internal DPLL SAT solver
-//! (the [`sat`](crate::sat) module). Supported operations: constants,
-//! variables, `Not`, `And`, `Or`, `Add`, `Sub` (two's complement, modular
-//! arithmetic), `Extract`, and equality/disequality of bitvectors as the
-//! top-level literals. `Mul` and `Shl` are recognised but deliberately not
-//! implemented: they fail with an explicit [`BitvecError::UnsupportedOp`]
-//! instead of silently misbehaving.
+//! Fixed-width bitvector expressions are translated into boolean clauses -- one SAT variable per bit -- and decided by the internal DPLL SAT solver (the [`sat`](crate::sat) module).
+//! Supported operations: constants, variables, `Not`, `And`, `Or`, `Add`, `Sub` (two's complement, modular arithmetic), `Extract`, and equality/disequality of bitvectors as the top-level literals.
+//! `Mul` and `Shl` are recognised but deliberately not implemented: they fail with an explicit [`BitvecError::UnsupportedOp`] instead of silently misbehaving.
 //!
-//! Widths from 1 to 64 bits are accepted; the operands of a binary operation
-//! must have equal width. Variables are numbered from 0, and the model
-//! returned by [`solve`] is indexed by variable number.
+//! Widths from 1 to 64 bits are accepted.
+//! The operands of a binary operation must have equal width.
+//! Variables are numbered from 0, and the model returned by [`solve`] is indexed by variable number.
 //!
 //! ```
 //! use smt::bitvec::{solve, BoolExpr, Expr};
@@ -40,9 +35,9 @@ use crate::sat;
 /// A bitvector expression of a fixed width.
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum Expr {
-    /// A constant: `Const(value, width)`; the value is truncated to the width.
+    /// A constant: `Const(value, width)`. The value is truncated to the width.
     Const(u64, u32),
-    /// A variable: `Var(number, width)`; the model is indexed by number.
+    /// A variable: `Var(number, width)`. The model is indexed by number.
     Var(usize, u32),
     /// Bitwise NOT.
     Not(Box<Expr>),
@@ -121,8 +116,8 @@ type Lit = (i32, bool);
 /// and `Err` when the problem uses an unsupported operation or a bad width.
 /// `model[i]` is the value of variable `i` (variables that never occur are 0).
 pub fn solve(literals: &[BoolExpr]) -> Result<Option<Vec<u64>>, BitvecError> {
-    // Flatten the expression trees into an arena; identical subexpressions
-    // are shared, so the same circuit is never built twice.
+    // Flatten the expression trees into an arena.
+    // Identical subexpressions are shared, so the same circuit is never built twice.
     let mut nodes: Vec<BNode> = vec![];
     let mut widths: Vec<u32> = vec![];
     let mut cache: HashMap<Expr, usize> = HashMap::new();
@@ -157,8 +152,8 @@ pub fn solve(literals: &[BoolExpr]) -> Result<Option<Vec<u64>>, BitvecError> {
         widths.push(1);
     }
 
-    // Bit-blast: each node gets one SAT variable per bit; each operation
-    // emits the clauses that define its output bits.
+    // Bit-blast: each node gets one SAT variable per bit.
+    // Each operation emits the clauses that define its output bits.
     let mut blaster = Blaster::new();
     let mut bits: Vec<Vec<Lit>> = vec![vec![]; nodes.len()];
     let mut model_bits: Vec<(usize, Vec<Lit>)> = vec![];
@@ -250,9 +245,8 @@ fn flatten(
         }
         Expr::Var(id, w) => {
             check_width(*w)?;
-            // A variable has one fixed width in a well-formed problem;
-            // using it at two widths would make the two bit-sets
-            // independent, silently producing an inconsistent model.
+            // A variable has one fixed width in a well-formed problem.
+            // Using it at two widths would make the two bit-sets independent, silently producing an inconsistent model.
             if let Some(&prev) = var_widths.get(id) {
                 if prev != *w {
                     return Err(BitvecError::WidthMismatch(prev, *w));
@@ -398,8 +392,8 @@ fn blast_adder(blaster: &mut Blaster, a: &[Lit], b: &[Lit], carry_in: Lit) -> Ve
         blaster.emit(vec![(s, true), (tv, !tp), (cv, cp)]);
         blaster.emit(vec![(s, false), (tv, !tp), (cv, !cp)]);
         // next carry = majority(a, b, carry): the clauses exclude the rows
-        // outside the truth table (carry is 1 when at least two inputs are 1;
-        // the last clause also rules out carry = 1 with all inputs 0).
+        // outside the truth table.
+        // Carry is 1 when at least two inputs are 1, and the last clause rules out carry = 1 with all inputs 0.
         let next = blaster.fresh();
         blaster.emit(vec![(next, true), (av, !ap), (bv, !bp)]);
         blaster.emit(vec![(next, true), (av, !ap), (cv, !cp)]);
@@ -457,9 +451,8 @@ mod tests {
         BoolExpr::Neq(Box::new(a), Box::new(b))
     }
 
-    /// Evaluate an expression under a model; used to re-check the circuits.
-    /// Results are masked to the expression width, matching the modular
-    /// (two's complement) semantics of the bit-blasted circuit.
+    /// Evaluate an expression under a model, used to re-check the circuits.
+    /// Results are masked to the expression width, matching the modular (two's complement) semantics of the bit-blasted circuit.
     fn eval(e: &Expr, m: &[u64]) -> (u64, u32) {
         fn mask(v: u64, w: u32) -> u64 {
             if w == 64 {
@@ -554,8 +547,8 @@ mod tests {
 
     #[test]
     fn and_or_not() {
-        // (x AND 0b1100) == 0b1000 forces x3 = 1 and x2 = 0; together with
-        // (x OR 0b0001) == 0b1001 that leaves x = 0b1000 or 0b1001.
+        // (x AND 0b1100) == 0b1000 forces x3 = 1 and x2 = 0.
+        // Together with (x OR 0b0001) == 0b1001 that leaves x = 0b1000 or 0b1001.
         let lits = vec![
             eq(
                 Expr::And(Box::new(var(0, 4)), Box::new(cnst(0b1100, 4))),
@@ -591,7 +584,7 @@ mod tests {
 
     #[test]
     fn disequality_is_solved() {
-        // x == 3 with x == 5 is impossible; x != 3 with x != 5 is satisfiable.
+        // x == 3 with x == 5 is impossible, while x != 3 with x != 5 is satisfiable.
         assert_eq!(
             solve(&[eq(var(0, 4), cnst(3, 4)), eq(var(0, 4), cnst(5, 4))]).unwrap(),
             None

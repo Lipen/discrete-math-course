@@ -1,9 +1,7 @@
 //! A tiny propositional formula type evaluated in finite Heyting algebras.
 //!
-//! Formulas are built from atoms (numbered `0, 1, 2, ...`) with the
-//! connectives `∧`, `∨`, `->`, `¬` and the constants `⊤`, `⊥`.  A formula is
-//! evaluated in an [`Algebra`] under a **valuation**: a choice of one element
-//! for every atom.
+//! Formulas are built from atoms (numbered `0, 1, 2, ...`) with the connectives `∧`, `∨`, `->`, `¬` and the constants `⊤`, `⊥`.
+//! A formula is evaluated in an [`Algebra`] under a **valuation**: a choice of one element for every atom.
 //!
 //! ```
 //! use heyting::{Formula, chain_three};
@@ -83,8 +81,7 @@ impl Formula {
 
     /// Negation `¬self` (also available as the `!` operator).
     ///
-    /// The name deliberately echoes [`std::ops::Not`]; use `!f` for the
-    /// operator form.
+    /// The name deliberately echoes [`std::ops::Not`], and `!f` is the operator form.
     #[allow(clippy::should_implement_trait)] // `not` is the teaching name, like `Value::not`
     pub fn not(self) -> Formula {
         Formula::Not(Box::new(self))
@@ -92,8 +89,7 @@ impl Formula {
 
     /// Evaluate the formula in an algebra under a valuation.
     ///
-    /// `valuation[i]` is the element assigned to atom `i` (atoms used by the
-    /// formula must be covered by the valuation slice).
+    /// `valuation[i]` is the element assigned to atom `i` (atoms used by the formula must be covered by the valuation slice).
     ///
     /// ```
     /// use heyting::{Formula, bool_algebra};
@@ -157,9 +153,8 @@ impl std::ops::Not for Formula {
 
 /// All valuations of `n` atoms in an algebra of `size` elements.
 ///
-/// Each valuation is a slice of `n` element indices; the iterator yields them
-/// in lexicographic order (atom 0 varying slowest).  Use it to check a
-/// formula under every valuation.
+/// Each valuation is a slice of `n` element indices, and the iterator yields them in lexicographic order (atom 0 varying slowest).
+/// Use it to check a formula under every valuation.
 ///
 /// ```
 /// use heyting::{Formula, chain_three, all_valuations};

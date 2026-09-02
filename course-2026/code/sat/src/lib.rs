@@ -1,7 +1,6 @@
 //! A small DPLL SAT solver.
 //!
-//! Implements the Davis-Putnam-Logemann-Loveland algorithm with unit
-//! propagation, pure literal elimination, and chronological backtracking.
+//! Implements the Davis-Putnam-Logemann-Loveland algorithm with unit propagation, pure literal elimination, and chronological backtracking.
 //!
 //! ```
 //! use sat::cnf::{Cnf, pos, neg};

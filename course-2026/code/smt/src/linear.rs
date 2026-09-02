@@ -1,25 +1,17 @@
 //! A small solver for linear real arithmetic by Fourier--Motzkin elimination.
 //!
-//! Input: a conjunction of linear constraints over real variables,
-//! `a1*x1 + ... + an*xn <= b` (or `< b`, or `= b`). Output: an exact
-//! rational assignment, or `None` when the system is unsatisfiable.
+//! Input: a conjunction of linear constraints over real variables, `a1*x1 + ... + an*xn <= b` (or `< b`, or `= b`).
+//! Output: an exact rational assignment, or `None` when the system is unsatisfiable.
 //!
-//! Fourier--Motzkin elimination removes one variable at a time. A variable
-//! `x` appears in upper bounds `x <= u` (positive coefficient) and in lower
-//! bounds `x >= l` (negative coefficient). Every pair (lower, upper) is
-//! combined into a new constraint `l <= u` that no longer mentions `x`; if
-//! only one kind of bound exists, `x` is unbounded on the other side and the
-//! pairings are skipped. After all variables are gone, only constraints
-//! `0 <= c` remain, and any `c < 0` (or strict `0 < 0`) is a contradiction.
-//! The assignment is recovered by back-substitution: each eliminated variable
-//! is placed inside the bounds left for it.
+//! Fourier--Motzkin elimination removes one variable at a time.
+//! A variable `x` appears in upper bounds `x <= u` (positive coefficient) and in lower bounds `x >= l` (negative coefficient).
+//! Every pair (lower, upper) is combined into a new constraint `l <= u` that no longer mentions `x`.
+//! If only one kind of bound exists, `x` is unbounded on the other side and the pairings are skipped.
+//! After all variables are gone, only constraints `0 <= c` remain, and any `c < 0` (or strict `0 < 0`) is a contradiction.
+//! The assignment is recovered by back-substitution: each eliminated variable is placed inside the bounds left for it.
 //!
-//! All arithmetic is exact rational arithmetic ([`Rat`]); there are no
-//! floating-point tolerances. Two limits are inherent to the method: the
-//! elimination multiplies coefficients, so intermediate products must stay
-//! within `i128` (keep the numbers small), and the constraint set can double
-//! per eliminated variable, so this is meant for small systems of a handful
-//! of variables.
+//! All arithmetic is exact rational arithmetic ([`Rat`]), with no floating-point tolerances.
+//! Two limits are inherent to the method: the elimination multiplies coefficients, so intermediate products must stay within `i128` (keep the numbers small), and the constraint set can double per eliminated variable, so this is meant for small systems of a handful of variables.
 //!
 //! ```
 //! use smt::linear::{solve, Constraint, Rel, Rat};
@@ -167,9 +159,9 @@ pub enum Rel {
 
 /// A linear constraint `a1*x1 + ... + an*xn <rel> b`.
 ///
-/// Variable `i` is the coefficient `coeffs[i]`; the number of variables is
-/// inferred as the largest coefficient list length. Shorter lists are padded
-/// with zeros.
+/// Variable `i` is the coefficient `coeffs[i]`.
+/// The number of variables is inferred as the largest coefficient list length.
+/// Shorter lists are padded with zeros.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Constraint {
     /// Coefficients `a1..an`.
@@ -191,8 +183,8 @@ struct ICons {
 
 /// Solve a conjunction of linear constraints over the reals.
 ///
-/// Returns `Some(assignment)` when satisfiable, where `assignment[i]` is the
-/// (exact rational) value of variable `i`; `None` means unsatisfiable.
+/// Returns `Some(assignment)` when satisfiable, where `assignment[i]` is the (exact rational) value of variable `i`.
+/// `None` means unsatisfiable.
 pub fn solve(constraints: &[Constraint]) -> Option<Vec<Rat>> {
     let n = constraints
         .iter()
@@ -352,8 +344,8 @@ fn tighten_lower(cur: Option<(Rat, bool)>, cand: (Rat, bool)) -> Option<(Rat, bo
 
 /// Pick a value inside the tightest bounds. A bound is `(value, strict)`.
 ///
-/// The elimination guarantees the bounds are consistent, so `None` here can
-/// only be reached through a bug; it is returned rather than panicking.
+/// The elimination guarantees the bounds are consistent, so `None` here can only be reached through a bug.
+/// It is returned rather than panicking.
 fn choose_value(lower: Option<(Rat, bool)>, upper: Option<(Rat, bool)>) -> Option<Rat> {
     match (lower, upper) {
         (Some((l, ls)), Some((u, us))) => {
@@ -480,7 +472,7 @@ mod tests {
 
     #[test]
     fn mixed_strict_and_equality() {
-        // x + y = 1 with x > 0 and y > 0: many solutions; must find one.
+        // x + y = 1 with x > 0 and y > 0: many solutions, must find one.
         let cs = vec![
             Constraint {
                 coeffs: vec![1, 1],

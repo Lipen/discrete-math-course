@@ -1,9 +1,9 @@
 //! Solving a small difference-logic system.
 //!
-//! Variable 0 is a task finish, variable 1 its start: the task takes
-//! between 4 and 5 time units (4 <= x0 - x1 <= 5). Variable 2 is a
-//! deadline: it may lag the start by at most 2 units (x2 - x1 <= 2).
-//! The solver returns an assignment; the demo re-checks every constraint.
+//! Variable 0 is a task finish, variable 1 its start: the task takes between 4 and 5 time units (4 <= x0 - x1 <= 5).
+//! Variable 2 is a deadline: it may lag the start by at most 2 units (x2 - x1 <= 2).
+//! The solver returns an assignment.
+//! The demo re-checks every constraint.
 
 use smt::difference::{solve, Constraint};
 

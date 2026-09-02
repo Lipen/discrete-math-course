@@ -1,11 +1,9 @@
 //! Fitch-style natural deduction proof checker for propositional logic.
 //!
-//! A proof is a flat list of [`Step`]s. Each step carries a formula, a nesting
-//! [`Step::depth`] (0 = main proof, 1 = inside one subproof, ...), and a
-//! [`Just`]ification: an assumption, or a rule applied to earlier lines.
+//! A proof is a flat list of [`Step`]s.
+//! Each step carries a formula, a nesting [`Step::depth`] (0 = main proof, 1 = inside one subproof, ...), and a justification of type [`Just`]: an assumption, or a rule applied to earlier lines.
 //!
-//! [`check`] verifies that every inference step is an instance of its rule and
-//! that all referenced lines are in scope (not inside a discharged subproof).
+//! [`check`] verifies that every inference step is an instance of its rule and that all referenced lines are in scope (not inside a discharged subproof).
 //!
 //! ```
 //! use fitch::{check, Step, Just};
@@ -33,12 +31,17 @@ use std::fmt;
 /// A propositional formula.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Formula {
+    /// An atomic formula: a name.
     Atom(String),
     /// Contradiction: `⊥`.
     Bottom,
+    /// Negation `¬f`.
     Not(Box<Formula>),
+    /// Conjunction `f ∧ g`.
     And(Box<Formula>, Box<Formula>),
+    /// Disjunction `f ∨ g`.
     Or(Box<Formula>, Box<Formula>),
+    /// Implication `f -> g`.
     Implies(Box<Formula>, Box<Formula>),
 }
 
@@ -52,18 +55,22 @@ pub fn bottom() -> Formula {
     Formula::Bottom
 }
 
+/// Negation `¬f`.
 pub fn not(f: Formula) -> Formula {
     Formula::Not(Box::new(f))
 }
 
+/// Conjunction `f ∧ g`.
 pub fn and(a: Formula, b: Formula) -> Formula {
     Formula::And(Box::new(a), Box::new(b))
 }
 
+/// Disjunction `f ∨ g`.
 pub fn or(a: Formula, b: Formula) -> Formula {
     Formula::Or(Box::new(a), Box::new(b))
 }
 
+/// Implication `f -> g`.
 pub fn implies(a: Formula, b: Formula) -> Formula {
     Formula::Implies(Box::new(a), Box::new(b))
 }
@@ -189,7 +196,7 @@ pub fn check(steps: &[Step]) -> Result<(), Error> {
         formulas.push(step.formula.clone());
         depths.push(step.depth);
 
-        // The formula the rule derives; None for Assumption.
+        // The formula the rule derives, or `None` for Assumption.
         let derived: Formula = match step.just {
             Just::Assumption => {
                 active.push(line);

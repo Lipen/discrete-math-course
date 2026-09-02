@@ -2,44 +2,34 @@
 //!
 //! The driver combines the Boolean core with the theory solvers:
 //!
-//! 1. Every distinct theory atom is abstracted to a Boolean variable, and
-//!    the formula is converted to clauses (Tseitin encoding).
+//! 1. Every distinct theory atom is abstracted to a Boolean variable, and the formula is converted to clauses (Tseitin encoding).
 //! 2. The internal SAT solver produces a model.
-//! 3. The atoms that the model makes true -- and the negations of those it
-//!    makes false -- are handed to the matching theory solver, one theory at
-//!    a time (difference, linear, integers, bitvectors).
-//! 4. If a theory rejects the assignment, the driver learns the negation of
-//!    that assignment as a new clause (naive learning: the whole offending
-//!    set is blocked) and re-solves. Each learned clause eliminates at least
-//!    one Boolean model, so the loop terminates.
-//! 5. When every theory accepts, the formula is satisfiable; when the SAT
-//!    core runs out of models, it is unsatisfiable.
+//! 3. The atoms that the model makes true -- and the negations of those it makes false -- are handed to the matching theory solver, one theory at a time (difference, linear, integers, bitvectors).
+//! 4. If a theory rejects the assignment, the driver learns the negation of that assignment as a new clause (naive learning: the whole offending set is blocked) and re-solves.
+//!    Each learned clause eliminates at least one Boolean model, so the loop terminates.
+//! 5. When every theory accepts, the formula is satisfiable.
+//!    When the SAT core runs out of models, it is unsatisfiable.
 //!
 //! Strong assumptions, documented rather than hidden:
 //!
-//! - Every atom belongs to exactly one theory, and the theories do not share
-//!   variables (no Nelson--Oppen combination): `Atom::Diff` uses the
-//!   difference-logic numbering, `Atom::Linear` and `Atom::Integer` their
-//!   own, and `Atom::Bitvec` the bitvector numbering.
-//! - Linear equality atoms are rejected. Their negation is a disjunction
-//!   (`sum > b` or `sum < b`), which a single theory check cannot decide;
-//!   write `sum == b` as the two atoms `sum <= b` and `-sum <= -b` instead.
+//! - Every atom belongs to exactly one theory, and the theories do not share variables (no Nelson--Oppen combination): `Atom::Diff` uses the difference-logic numbering, `Atom::Linear` and `Atom::Integer` their own, and `Atom::Bitvec` the bitvector numbering.
+//! - Linear equality atoms are rejected.
+//!   Their negation is a disjunction (`sum > b` or `sum < b`), which a single theory check cannot decide.
+//!   Write `sum == b` as the two atoms `sum <= b` and `-sum <= -b` instead.
 //!
 //! ```
 //! use smt::{check, Atom, Formula, Verdict};
 //! use smt::difference::Constraint as Diff;
 //!
-//! // (x0 - x1 <= 2) OR (x1 - x0 <= -3): a task that takes at most 2 time
-//! // units or at least 3. The second disjunct alone is satisfiable.
+//! // (x0 - x1 <= 2) OR (x1 - x0 <= -3): a task that takes at most 2 time units or at least 3.
+//! // The second disjunct alone is satisfiable.
 //! let f = Formula::Or(
 //!     Box::new(Formula::Atom(Atom::Diff(Diff { x: 0, y: 1, c: 2 }))),
 //!     Box::new(Formula::Atom(Atom::Diff(Diff { x: 1, y: 0, c: -3 }))),
 //! );
 //! assert_eq!(check(&f).unwrap(), Verdict::Sat);
 //!
-//! // (x0 - x1 <= 2 AND x1 - x0 <= -3) OR (0x <= -1):
-//! // the first branch is a negative cycle, the second is arithmetically
-//! // impossible, so the whole formula is unsatisfiable.
+//! // (x0 - x1 <= 2 AND x1 - x0 <= -3) OR (0x <= -1): the first branch is a negative cycle, the second is arithmetically impossible, so the whole formula is unsatisfiable.
 //! let g = Formula::Or(
 //!     Box::new(Formula::And(
 //!         Box::new(Formula::Atom(Atom::Diff(Diff { x: 0, y: 1, c: 2 }))),
@@ -63,8 +53,7 @@ use crate::sat;
 pub enum Atom {
     /// A difference-logic constraint `x - y <= c`.
     Diff(difference::Constraint),
-    /// A linear real constraint `sum <rel> b` (equalities are not allowed
-    /// here, see the module documentation).
+    /// A linear real constraint `sum <rel> b`. Equalities are not allowed here, see the module documentation.
     Linear(linear::Constraint),
     /// An integer linear constraint `sum <= b`.
     Integer(integers::Constraint),
@@ -123,13 +112,14 @@ impl std::error::Error for Error {}
 /// Decide a quantifier-free mixed formula: `Ok(Sat)` or `Ok(Unsat)`, or an
 /// error when the formula uses a construct outside the supported signature.
 pub fn check(formula: &Formula) -> Result<Verdict, Error> {
-    // Collect the distinct atoms; linear equality atoms are rejected here so
-    // that no theory check ever has to decide their negation.
+    // Collect the distinct atoms.
+    // Linear equality atoms are rejected here so that no theory check ever has to decide their negation.
     let mut atoms: Vec<Atom> = vec![];
     collect(formula, &mut atoms)?;
 
     // Tseitin encoding: each subformula gets a fresh Boolean variable, with
-    // clauses relating it to its children; the root is asserted true.
+    // clauses relating it to its children.
+    // The root is asserted true.
     let mut clauses: Vec<Vec<i32>> = vec![];
     let mut next_var = atoms.len();
     let root = tseitin(formula, &atoms, &mut clauses, &mut next_var);
@@ -186,17 +176,16 @@ pub fn check(formula: &Formula) -> Result<Verdict, Error> {
     }
 }
 
-/// Walk the formula, collecting each distinct atom once. Rejects linear
-/// equality atoms, whose negation is a disjunction no theory check can
-/// decide (see the module documentation).
+/// Walk the formula, collecting each distinct atom once.
+/// Rejects linear equality atoms, whose negation is a disjunction no theory check can decide (see the module documentation).
 fn collect(formula: &Formula, atoms: &mut Vec<Atom>) -> Result<(), Error> {
     match formula {
         Formula::Atom(atom) => {
             if let Atom::Linear(c) = atom {
                 if c.rel == linear::Rel::Eq {
                     return Err(Error::UnsupportedNegation(
-                        "linear equality atoms are not supported in the driver; \
-                         write `sum = b` as the two atoms `sum <= b` and `-sum <= -b`"
+                        "linear equality atoms are not supported in the driver. \
+                         Write `sum = b` as the two atoms `sum <= b` and `-sum <= -b`"
                             .to_string(),
                     ));
                 }
@@ -264,9 +253,8 @@ fn fresh(next: &mut usize) -> i32 {
     v
 }
 
-/// Check one theory's share of the model. Returns the clause to learn when
-/// the theory rejects the assignment (the negation of the offending set), or
-/// `None` when the theory accepts.
+/// Check one theory's share of the model.
+/// Returns the clause to learn when the theory rejects the assignment (the negation of the offending set), or `None` when the theory accepts.
 fn theory_conflict(lits: &[(usize, bool)], atoms: &[Atom]) -> Result<Option<Vec<i32>>, Error> {
     let Some(&(first, _)) = lits.first() else {
         return Ok(None); // the theory has no atoms in this formula
@@ -303,15 +291,15 @@ fn theory_conflict(lits: &[(usize, bool)], atoms: &[Atom]) -> Result<Option<Vec<
                     cs.push(c.clone());
                 } else {
                     let neg: Vec<i64> = c.coeffs.iter().map(|&v| -v).collect();
-                    // NOT (sum <= b) is -sum < -b; NOT (sum < b) is -sum <= -b.
+                    // NOT (sum <= b) is -sum < -b, and NOT (sum < b) is -sum <= -b.
                     let rel = match c.rel {
                         linear::Rel::Le => linear::Rel::Lt,
                         linear::Rel::Lt => linear::Rel::Le,
                         linear::Rel::Eq => {
                             return Err(Error::UnsupportedNegation(
-                                "linear equality atoms are not supported in the driver; \
-                                 write `sum = b` as the two atoms `sum <= b` and \
-                                 `-sum <= -b`"
+                                "linear equality atoms are not supported in the driver. \
+                                 Write `sum = b` as the two atoms `sum <= b` and \
+                                 `-sum <= -b"
                                     .to_string(),
                             ))
                         }
@@ -448,7 +436,8 @@ mod tests {
     fn learning_visits_several_models() {
         // (x0 - x1 <= 2 AND x1 - x0 <= -3) OR (0x <= -1):
         // the first branch is a negative cycle, the second is a constant
-        // contradiction; both Boolean models get rejected.
+        // contradiction.
+        // Both Boolean models get rejected.
         let cycle = Formula::And(
             Box::new(Formula::Atom(d(0, 1, 2))),
             Box::new(Formula::Atom(d(1, 0, -3))),

@@ -1,11 +1,9 @@
-//! Pigeonhole principle: PHP(n, n-1) -- place n pigeons into n-1 holes so
-//! that no two pigeons share a hole. This is impossible, and the CNF formula
-//! is unsatisfiable.
+//! Pigeonhole principle: PHP(n, n-1) places n pigeons into n-1 holes so that no two pigeons share a hole.
+//! This is impossible, and the CNF formula is unsatisfiable.
 //!
-//! The pigeonhole principle is a classic hard case for SAT solvers: the
-//! formula is UNSAT, but unit propagation alone cannot detect it.
+//! The pigeonhole principle is a classic hard case for SAT solvers: the formula is UNSAT, but unit propagation alone cannot detect it.
 //!
-//! Run with `cargo run -p sat --example pigeonhole`.
+//! Run with `cargo run --example pigeonhole`.
 
 use sat::cnf::{neg, pos, Cnf};
 use sat::solve;

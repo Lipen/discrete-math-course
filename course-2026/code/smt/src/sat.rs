@@ -1,18 +1,13 @@
 //! A small self-contained SAT solver (DPLL).
 //!
-//! The solver takes a set of clauses -- disjunctions of boolean literals --
-//! and decides satisfiability by the DPLL procedure: decide an unassigned
-//! variable, assign everything forced by the clauses (unit propagation),
-//! and on a conflict flip the last decision (backtracking). No clause
-//! learning is used: this is the plain Davis--Putnam--Logemann--Loveland
-//! skeleton that the DPLL(T) driver of this crate builds on, and the engine
-//! that the bitvector solver calls after bit-blasting.
+//! The solver takes a set of clauses -- disjunctions of boolean literals -- and decides satisfiability by the DPLL procedure.
+//! It decides an unassigned variable, assigns everything forced by the clauses (unit propagation), and on a conflict flips the last decision (backtracking).
+//! No clause learning is used: this is the plain Davis--Putnam--Logemann--Loveland skeleton that the DPLL(T) driver of this crate builds on, and the engine that the bitvector solver calls after bit-blasting.
 //!
-//! Variables are numbered from 1; a literal is a signed variable index:
-//! `v > 0` means "variable `v` is true", `v < 0` means "variable `-v` is
-//! false". A clause is a list of literals joined by OR, and a set of clauses
-//! is joined by AND. The model returned by [`solve`] is indexed from 0:
-//! `model[i]` is the value of variable `i + 1`.
+//! Variables are numbered from 1.
+//! A literal is a signed variable index: `v > 0` means "variable `v` is true", `v < 0` means "variable `-v` is false".
+//! A clause is a list of literals joined by OR, and a set of clauses is joined by AND.
+//! The model returned by [`solve`] is indexed from 0: `model[i]` is the value of variable `i + 1`.
 //!
 //! ```
 //! use smt::sat::{solve, Clause};
@@ -35,8 +30,7 @@ pub type Literal = i32;
 /// A clause: a list of literals joined by OR.
 pub type Clause = Vec<Literal>;
 
-/// One entry of the assignment trail: a variable, its value, and whether the
-/// value was chosen by a decision (as opposed to forced by propagation).
+/// One entry of the assignment trail: a variable, its value, and whether the value was chosen by a decision (as opposed to forced by propagation).
 #[derive(Debug, Clone, Copy)]
 struct TrailEntry {
     var: usize,
@@ -48,9 +42,8 @@ struct TrailEntry {
 
 /// An incremental SAT solver: add clauses, then ask for a model.
 ///
-/// A [`Solver`] may be solved repeatedly; each call to [`Solver::solve`]
-/// restarts the search from scratch over the accumulated clauses, which is
-/// exactly what the DPLL(T) driver needs after learning a conflict clause.
+/// A [`Solver`] may be solved repeatedly.
+/// Each call to [`Solver::solve`] restarts the search over the accumulated clauses, which is exactly what the DPLL(T) driver needs after learning a conflict clause.
 pub struct Solver {
     num_vars: usize,
     clauses: Vec<Clause>,
@@ -76,8 +69,8 @@ impl Solver {
 
     /// Decide satisfiability and return a model, or `None` if unsatisfiable.
     ///
-    /// The model is a vector over variables indexed from 0; every variable
-    /// gets a value (unassigned variables default to `false`).
+    /// The model is a vector over variables indexed from 0.
+    /// Every variable gets a value (unassigned variables default to `false`).
     pub fn solve(&mut self) -> Option<Vec<bool>> {
         self.assign = vec![None; self.num_vars];
         self.trail = vec![];
@@ -220,8 +213,8 @@ mod tests {
     fn decision_is_flipped() {
         // (x1 OR x2) AND (NOT x1 OR x3) AND (x2 OR NOT x3) AND (NOT x1 OR
         // NOT x2) AND (x1 OR NOT x3). Deciding x1 = true propagates x3 = true
-        // and x2 = true, which conflicts with (NOT x1 OR NOT x2); the
-        // decision must be flipped to x1 = false, and x = (false, true,
+        // and x2 = true, which conflicts with (NOT x1 OR NOT x2).
+        // The decision must be flipped to x1 = false, and x = (false, true,
         // false) is the model.
         let clauses = vec![
             vec![1, 2],
@@ -298,7 +291,8 @@ mod tests {
         let mut solver = Solver::new(2);
         solver.add_clause(&[1, 2]);
         // The solver decides x1 = true, so x = (true, true) satisfies
-        // (x1 OR x2); the point is that a model is returned.
+        // (x1 OR x2).
+        // The point is that a model is returned.
         assert_eq!(solver.solve().unwrap(), vec![true, true]);
         solver.add_clause(&[-1]);
         solver.add_clause(&[-2]);

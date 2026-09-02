@@ -1,12 +1,11 @@
 //! A family tree as a clause database: facts and rules.
 //!
-//! This is the classic first Prolog program. Facts record who is whose
-//! parent; two rules extend "parent" to "ancestor": an ancestor is a
-//! parent, or a parent of an ancestor. The database holds the program
-//! ready for a resolver to run; resolving a query against it is the
-//! student project built on top of this crate.
+//! This is the classic first Prolog program.
+//! Facts record who is whose parent.
+//! Two rules extend "parent" to "ancestor": an ancestor is a parent, or a parent of an ancestor.
+//! The database holds the program ready for a resolver to run, and resolving a query against it is the exercise built on top of this crate.
 //!
-//! Run with `cargo run -p prolog --example family_tree`.
+//! Run with `cargo run --example family_tree`.
 
 use prolog::clause::Clause;
 use prolog::database::Database;
@@ -59,8 +58,8 @@ fn main() {
     println!("program: {}", recursive);
     db.add(recursive);
 
-    // Unification is the engine that will later match a goal against a
-    // clause head. Here: match parent(_0, _1) against the fact parent(alice, bob).
+    // Unification is the engine that will later match a goal against a clause head.
+    // Here: match parent(_0, _1) against the fact parent(alice, bob).
     println!("\nunify(parent(_0, _1), parent(alice, bob)):");
     let mut subst = Subst::new();
     let goal = parent_term(0, 1);

@@ -1,8 +1,7 @@
 //! Unification: solving equations between terms.
 //!
 //! Two terms unify when there is a substitution that makes them equal.
-//! Unification is the single engine of Prolog: matching a goal against a
-//! clause head is one call to `unify`.
+//! Unification is the single engine of Prolog: matching a goal against a clause head is one call to `unify`.
 
 use std::fmt::{self, Display};
 
@@ -37,11 +36,10 @@ impl Display for UnifyError {
 
 /// Unify two terms, extending `subst` into a common unifier.
 ///
-/// This is Robinson's algorithm (1965) with the occurs check: a variable is
-/// never bound to a term that contains it. On success the substitution maps
-/// both terms to one and the same term; on failure the reason is returned.
-/// A failure does not roll back bindings already made, so `subst` may be
-/// left partially extended.
+/// This is Robinson's algorithm (1965) with the occurs check: a variable is never bound to a term that contains it.
+/// On success the substitution maps both terms to one and the same term.
+/// On failure the reason is returned.
+/// A failure does not roll back bindings already made, so `subst` may be left partially extended.
 ///
 /// ```
 /// use prolog::term::Term;
@@ -87,8 +85,7 @@ pub fn unify(t1: &Term, t2: &Term, subst: &mut Subst) -> Result<(), UnifyError> 
 
 /// Bind a variable to a term, rejecting cyclic bindings.
 ///
-/// The occurs check consults the variable against the fully applied term,
-/// so a binding like `_0 -> _1` followed by `_1 -> f(_0)` is also caught.
+/// The occurs check consults the variable against the fully applied term, so a binding like `_0 -> _1` followed by `_1 -> f(_0)` is also caught.
 fn bind(var: usize, term: &Term, subst: &mut Subst) -> Result<(), UnifyError> {
     if term.contains(var) {
         return Err(UnifyError::OccursCheck {

@@ -6,8 +6,11 @@ use std::fmt;
 /// A first-order term: a variable, a constant, or a function application.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Term {
+    /// A variable.
     Var(String),
+    /// A constant symbol.
     Const(String),
+    /// A function application `f(t1, ..., tn)`.
     Fun(String, Vec<Term>),
 }
 

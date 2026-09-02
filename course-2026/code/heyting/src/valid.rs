@@ -1,38 +1,22 @@
 //! Exhaustive intuitionistic validity checking over finite Heyting algebras.
 //!
-//! A formula is **valid** when it evaluates to `⊤` in every finite Heyting
-//! algebra under every valuation; the formulas valid in *all* Heyting
-//! algebras are exactly the theorems of intuitionistic logic.  Finite
-//! Heyting algebras cannot decide full intuitionistic logic, but the
-//! collection of all finite Heyting algebras up to a size bound gives a
-//! sound and, up to that bound, complete check.
+//! A formula is **valid** when it evaluates to `⊤` in every finite Heyting algebra under every valuation.
+//! The formulas valid in *all* Heyting algebras are exactly the theorems of intuitionistic logic.
+//! Finite Heyting algebras cannot decide full intuitionistic logic, but the collection of all finite Heyting algebras up to a size bound gives a sound and, up to that bound, complete check.
 //!
 //! # The enumeration
 //!
-//! [`all_finite_heyting_algebras`] returns the finite Heyting algebras used
-//! by [`valid`].  It is built in three steps, all cached after the first
-//! call:
+//! [`all_finite_heyting_algebras`] returns the finite Heyting algebras used by [`valid`].
+//! It is built in three steps, all cached after the first call:
 //!
-//! 1. **Posets**: every partial order on `0..n` for `n <= 4` (there are
-//!    1 + 1 + 3 + 19 + 219 = 243 of them).
-//! 2. **Downset algebras**: for each poset, its downset algebra
-//!    ([`crate::Poset::downset_algebra`]), of at most `2^4 = 16` elements.
-//! 3. **Subalgebras**: every subalgebra of every downset algebra, i.e. every
-//!    subset of elements closed under `∧`, `∨` and `->` (and hence containing
-//!    `0` and `1`), generated from subsets of the join-irreducibles (in a
-//!    downset algebra these are the principal downsets, at most 4 of them).
-//!    Duplicate algebras are identified up to isomorphism by a canonical
-//!    form.
+//! 1. **Posets**: every partial order on `0..n` for `n <= 4` (there are 1 + 1 + 3 + 19 + 219 = 243 of them).
+//! 2. **Downset algebras**: for each poset, its downset algebra ([`crate::Poset::downset_algebra`]), of at most `2^4 = 16` elements.
+//! 3. **Subalgebras**: every subalgebra of every downset algebra, i.e. every subset of elements closed under `∧`, `∨` and `->` (and hence containing `0` and `1`), generated from subsets of the join-irreducibles (in a downset algebra these are the principal downsets, at most 4 of them).
+//!    Duplicate algebras are identified up to isomorphism by a canonical form.
 //!
-//! Every finite Heyting algebra is a finite distributive lattice, and by
-//! Birkhoff duality a finite distributive lattice is the downset algebra of
-//! the poset of its join-irreducibles.  A Heyting algebra of at most 5
-//! elements has at most 4 join-irreducibles, so the enumeration contains
-//! **every finite Heyting algebra with up to 5 elements** (the counts per
-//! size are 1, 1, 1, 2, 3), and it goes on with 4 algebras of size 6 and
-//! larger ones up to the 16-element Boolean algebra.  [`valid`] therefore
-//! checks a formula against all finite Heyting algebras up to size 5 and a
-//! further, documented selection of larger ones.
+//! Every finite Heyting algebra is a finite distributive lattice, and by Birkhoff duality a finite distributive lattice is the downset algebra of the poset of its join-irreducibles.
+//! A Heyting algebra of at most 5 elements has at most 4 join-irreducibles, so the enumeration contains **every finite Heyting algebra with up to 5 elements** (the counts per size are 1, 1, 1, 2, 3), and it goes on with 4 algebras of size 6 and larger ones up to the 16-element Boolean algebra.
+//! [`valid`] therefore checks a formula against all finite Heyting algebras up to size 5 and a further, documented selection of larger ones.
 //!
 //! ```
 //! use heyting::{Formula, valid};
@@ -61,13 +45,13 @@ use std::sync::OnceLock;
 /// downset algebras have at most `2^4 = 16` elements.
 const MAX_POSET_SIZE: usize = 4;
 
-/// All finite Heyting algebras up to 5 elements (plus larger subalgebras of
-/// the downset algebras), cached after first use.
+/// One refinement signature: for a fixed element, the sorted list of `(partner class, class of the meet, class of the join, class of the implication result)` over all partners.
+type SigPairs = Vec<(usize, usize, usize, usize)>;
+
+/// All finite Heyting algebras up to 5 elements (plus larger subalgebras of the downset algebras), cached after first use.
 ///
-/// The enumeration is described in the module documentation; this is the
-/// exact collection [`valid`] quantifies over.  The algebras are deduplicated
-/// up to isomorphism (same meet/join/implies structure, different element
-/// names), so each appears once.
+/// The enumeration is described in the module documentation, and this is the exact collection [`valid`] quantifies over.
+/// The algebras are deduplicated up to isomorphism (same meet/join/implies structure, different element names), so each appears once.
 ///
 /// ```
 /// use heyting::all_finite_heyting_algebras;
@@ -94,11 +78,9 @@ pub fn all_finite_heyting_algebras() -> &'static [Algebra] {
     ALGEBRAS.get_or_init(build_enumeration)
 }
 
-/// Build the enumeration: subalgebras of downset algebras of posets on
-/// `<= MAX_POSET_SIZE` elements, deduplicated up to isomorphism.
+/// Build the enumeration: subalgebras of downset algebras of posets on `<= MAX_POSET_SIZE` elements, deduplicated up to isomorphism.
 fn build_enumeration() -> Vec<Algebra> {
-    // Group candidates by (size, fingerprint); isomorphic algebras share the
-    // fingerprint, so exact isomorphism checks only run within a group.
+    // Group candidates by (size, fingerprint): isomorphic algebras share the fingerprint, so exact isomorphism checks only run within a group.
     let mut groups: HashMap<(usize, Vec<usize>), Vec<Algebra>> = HashMap::new();
 
     for size in 0..=MAX_POSET_SIZE {
@@ -130,11 +112,8 @@ fn build_enumeration() -> Vec<Algebra> {
     out
 }
 
-/// A cheap isomorphism invariant: the sorted lists of meet- and join-degrees
-/// of the elements (how many elements are below/above each element).  Two
-/// isomorphic algebras always have the same fingerprint; different ones
-/// usually do not, which keeps the exact checks in [`build_enumeration`]
-/// small.
+/// A cheap isomorphism invariant: the sorted lists of meet- and join-degrees of the elements (how many elements are below/above each element).
+/// Two isomorphic algebras always have the same fingerprint, while different ones usually do not, which keeps the exact checks in [`build_enumeration`] small.
 fn fingerprint(a: &Algebra) -> Vec<usize> {
     let n = a.size;
     let mut meet_deg = Vec::with_capacity(n);
@@ -160,9 +139,8 @@ fn fingerprint(a: &Algebra) -> Vec<usize> {
     f
 }
 
-/// Every partial order on `0..size`, enumerated by trying all `2^(size²)`
-/// relation matrices. At `MAX_POSET_SIZE = 4` that is 65536 matrices; size 5
-/// would be 2^25 (seconds), size 6 -- 2^36 (minutes).
+/// Enumerate every partial order on `0..size` by trying all `2^(size²)` relation matrices.
+/// At `MAX_POSET_SIZE = 4` that is 65536 matrices, size 5 would be 2^25 (seconds), and size 6 would be 2^36 (minutes).
 fn all_posets(size: usize) -> Vec<Poset> {
     let mut out = Vec::new();
     let cells = size * size;
@@ -204,20 +182,15 @@ fn is_partial_order(size: usize, less: impl Fn(usize, usize) -> bool) -> bool {
 
 /// All subalgebras of `a`: closures of subsets under `∧`, `∨` and `->`.
 ///
-/// Any subalgebra is generated by its join-irreducible elements (every
-/// element is a join of join-irreducibles below it), so it is enough to
-/// enumerate the closures of all subsets of the join-irreducibles.  In the
-/// downset algebra of a poset with `m` elements the join-irreducibles are
-/// exactly the principal downsets, so there are at most `m <= 5` of them and
-/// at most `2^5 = 32` subsets to try.  Every closure contains `bottom` and
-/// `top` (the empty meet and join are reached in the closure process).
+/// Any subalgebra is generated by its join-irreducible elements (every element is a join of join-irreducibles below it), so it is enough to enumerate the closures of all subsets of the join-irreducibles.
+/// In the downset algebra of a poset with `m` elements the join-irreducibles are exactly the principal downsets, so there are at most `m <= 5` of them and at most `2^5 = 32` subsets to try.
+/// Every closure contains `bottom` and `top` (the empty meet and join are reached in the closure process).
 fn subalgebras(a: &Algebra) -> Vec<Algebra> {
     let n = a.size;
     let mut seen: std::collections::HashSet<Vec<usize>> = std::collections::HashSet::new();
     let mut out = Vec::new();
 
-    // Join-irreducibles: elements x != bottom that cannot be written as the
-    // join of two strictly smaller elements.
+    // Join-irreducibles: elements x != bottom that cannot be written as the join of two strictly smaller elements.
     let mut join_irreducible = Vec::new();
     for x in 0..n {
         if x == a.bottom {
@@ -312,35 +285,26 @@ fn subalgebra_algebra(a: &Algebra, elems: &[usize]) -> Algebra {
     }
 }
 
-/// The canonical form of an algebra: relabel the elements so that `bottom`
-/// becomes 0, `top` becomes `size - 1`, and the remaining elements are
-/// ordered to make the flattened tables lexicographically smallest.  Two
-/// algebras are isomorphic iff they have the same canonical form.
+/// The canonical form of an algebra: relabel the elements so that `bottom` becomes 0, `top` becomes `size - 1`, and the remaining elements are ordered to make the flattened tables lexicographically smallest.
+/// Two algebras are isomorphic iff they have the same canonical form.
 ///
-/// Individualization-refinement: elements are partitioned by isomorphism
-/// invariants, cells of size > 1 are split by individualizing one element,
-/// and the minimal flattened table over all terminal partitions is the
-/// canonical form.  Every isomorphism is reached by some branch, unlike a
-/// naive degree-pruned relabeling search.
+/// Individualization-refinement: elements are partitioned by isomorphism invariants, cells of size > 1 are split by individualizing one element, and the minimal flattened table over all terminal partitions is the canonical form.
+/// Every isomorphism is reached by some branch, unlike a naive degree-pruned relabeling search.
 ///
-/// Worst case: a highly symmetric algebra (16-element Boolean: three
-/// interchangeable cells) costs ~4·10⁵ leaves, ~40 ms in debug.
+/// Worst case: a highly symmetric algebra (16-element Boolean: three interchangeable cells) costs ~4·10⁵ leaves, ~40 ms in debug.
 fn canonical_form(a: &Algebra) -> Vec<usize> {
     let n = a.size;
     if n == 0 {
         return Vec::new();
     }
-    // Normalize: relabel the elements so that bottom is at 0 and top at
-    // n - 1 (the standard form used by all algebras in this crate).  This
-    // makes the canonical form independent of the given element order.
+    // Normalize: relabel the elements so that bottom is at 0 and top at n - 1 (the standard form used by all algebras in this crate).
+    // This makes the canonical form independent of the given element order.
     let norm = normalized(a);
 
-    // The current partition of elements into cells, plus the order in which
-    // elements were individualized (a tie-breaker for terminal partitions).
+    // The current partition of elements into cells, plus the order in which elements were individualized (a tie-breaker for terminal partitions).
     let mut best: Option<Vec<usize>> = None;
 
-    // Refine a partition by the degree pair and by the classes of all
-    // meet/join/implication results.  Returns the refined partition.
+    // Refine a partition by the degree pair and by the classes of all meet/join/implication results, returning the refined partition.
     fn refine(norm: &Algebra, cells: &mut Vec<Vec<usize>>) {
         loop {
             let mut class_of = vec![0usize; norm.size];
@@ -349,10 +313,9 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
                     class_of[x] = ci;
                 }
             }
-            // Signature of x: (own class, sorted pairs (partner class,
-            // class of meet/join/implies result)) -- an isomorphism invariant.
+            // Signature of x: (own class, sorted pairs (partner class, class of meet/join/implies result)) -- an isomorphism invariant.
             let sig = |x: usize| {
-                let mut pairs: Vec<(usize, usize, usize, usize)> = (0..norm.size)
+                let mut pairs: SigPairs = (0..norm.size)
                     .map(|y| {
                         (
                             class_of[y],
@@ -365,16 +328,13 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
                 pairs.sort_unstable();
                 (class_of[x], pairs)
             };
-            // Group elements by (old cell, signature); order the new cells
-            // canonically: by old cell, then by signature (so isomorphic
-            // algebras always lay out their cells in the same order), then
-            // by first element as a deterministic tie-breaker.
+            // Group elements by (old cell, signature) and order the new cells canonically: by old cell, then by signature (so isomorphic algebras always lay out their cells in the same order), then by first element as a deterministic tie-breaker.
             let mut groups: Vec<Vec<usize>> = Vec::new();
             let mut placed = vec![false; norm.size];
-            for old in 0..cells.len() {
+            for cell in cells.iter() {
                 // All signatures inside one old cell, with their elements.
-                let mut entries: Vec<(Vec<(usize, usize, usize, usize)>, usize)> = Vec::new();
-                for &x in &cells[old] {
+                let mut entries: Vec<(SigPairs, usize)> = Vec::new();
+                for &x in cell {
                     if placed[x] {
                         continue;
                     }
@@ -406,8 +366,7 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
         }
     }
 
-    // Flatten the tables under the given element order (perm[x] = the new
-    // name of element x).
+    // Flatten the tables under the given element order (perm[x] = the new name of element x).
     fn key_of(norm: &Algebra, perm: &[usize]) -> Vec<usize> {
         let n = norm.size;
         let mut nm = vec![vec![0; n]; n];
@@ -427,21 +386,16 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
         key
     }
 
-    // Search over individualizations.  At a terminal partition every cell
-    // is a singleton, and the cell order (as laid out by refine() and the
-    // individualization splits) is the canonical element order: the
-    // relabeling assigns names 1..n-2 to it (bottom and top keep 0 and
-    // n-1).  The minimal flattened table over all terminal partitions is
-    // the canonical form.
+    // Search over individualizations.
+    // At a terminal partition every cell is a singleton, and the cell order (as laid out by refine() and the individualization splits) is the canonical element order: the relabeling assigns names 1..n-2 to it (bottom and top keep 0 and n-1).
+    // The minimal flattened table over all terminal partitions is the canonical form.
     fn search(norm: &Algebra, cells: &mut Vec<Vec<usize>>, best: &mut Option<Vec<usize>>) {
         refine(norm, cells);
         // Find the first non-singleton cell.
         let target = cells.iter().position(|c| c.len() > 1);
         let Some(ti) = target else {
-            // Terminal: every cell is a singleton, so `cells` already
-            // determines a total element order (the order refine() laid
-            // the cells out).  Assign names 1..n-2 to that order; bottom
-            // and top keep 0 and n-1.
+            // Terminal: every cell is a singleton, so `cells` already determines a total element order (the order refine() laid the cells out).
+            // Assign names 1..n-2 to that order, bottom and top keep 0 and n-1.
             let mut perm = vec![0usize; norm.size];
             perm[norm.bottom] = 0;
             perm[norm.top] = norm.size - 1;
@@ -475,12 +429,10 @@ fn canonical_form(a: &Algebra) -> Vec<usize> {
     best.expect("every algebra has at least one terminal partition")
 }
 
-/// A copy of the algebra whose elements are relabeled so that `bottom` is 0
-/// and `top` is `size - 1`, preserving the tables.
+/// A copy of the algebra whose elements are relabeled so that `bottom` is 0 and `top` is `size - 1`, preserving the tables.
 fn normalized(a: &Algebra) -> Algebra {
     let n = a.size;
-    // Map each element to a new name: bottom -> 0, top -> n-1, the rest in
-    // the order they appear.
+    // Map each element to a new name: bottom -> 0, top -> n-1, the rest in the order they appear.
     let mut new_name = vec![usize::MAX; n];
     new_name[a.bottom] = 0;
     new_name[a.top] = n - 1;
@@ -539,14 +491,10 @@ pub fn valid_in(a: &Algebra, f: &Formula) -> bool {
     all_valuations(atoms, a.size()).all(|v| f.eval(a, &v) == a.top)
 }
 
-/// Is the formula valid in every finite Heyting algebra with up to 5
-/// elements (and in the larger subalgebras of the small downset algebras)?
+/// Is the formula valid in every finite Heyting algebra with up to 5 elements (and in the larger subalgebras of the small downset algebras)?
 ///
-/// This is the small-scale intuitionistic validity check: the formulas that
-/// pass are intuitionistically provable, and every formula with a
-/// counterexample in a finite Heyting algebra of at most 5 elements is
-/// rejected.  (A formula could still fail in a larger or infinite algebra
-/// and pass here -- the bound is documented and intentional.)
+/// This is the small-scale intuitionistic validity check: the formulas that pass are intuitionistically provable, and every formula with a counterexample in a finite Heyting algebra of at most 5 elements is rejected.
+/// A formula could still fail in a larger or infinite algebra and pass here, so the bound is documented and intentional.
 ///
 /// ```
 /// use heyting::{Formula, valid};
@@ -579,14 +527,9 @@ mod tests {
         for a in algebras {
             *by_size.entry(a.size()).or_insert(0) += 1;
         }
-        // Complete up to size 5: a Heyting algebra of size <= 5 has at
-        // most 4 join-irreducibles, so by Birkhoff duality it is a subalgebra
-        // of the downset algebra of a poset on <= 4 elements, which the
-        // enumeration covers.  The counts match the known numbers of finite
-        // distributive lattices (OEIS A006982: 1, 1, 1, 2, 3 for sizes 1..5;
-        // size 6 has five distributive lattices, and the enumeration covers
-        // four of them -- the 6-element chain needs 5 join-irreducibles,
-        // hence a 5-element poset, beyond the <= 4-element bound).
+        // Complete up to size 5: a Heyting algebra of size <= 5 has at most 4 join-irreducibles, so by Birkhoff duality it is a subalgebra of the downset algebra of a poset on <= 4 elements, which the enumeration covers.
+        // The counts match the known numbers of finite distributive lattices (OEIS A006982: 1, 1, 1, 2, 3 for sizes 1..5).
+        // Size 6 has five distributive lattices, and the enumeration covers four of them: the 6-element chain needs 5 join-irreducibles, hence a 5-element poset, beyond the <= 4-element bound.
         assert_eq!(by_size.get(&1), Some(&1));
         assert_eq!(by_size.get(&2), Some(&1));
         assert_eq!(by_size.get(&3), Some(&1));
@@ -611,9 +554,7 @@ mod tests {
 
     #[test]
     fn subalgebras_are_closed() {
-        // Every returned subalgebra of the downset algebra of a 4-element
-        // antichain (the 16-element Boolean algebra) must itself be closed
-        // under the operations.
+        // Every returned subalgebra of the downset algebra of a 4-element antichain (the 16-element Boolean algebra) must itself be closed under the operations.
         let poset = Poset::from_less(4, |x, y| x == y);
         let base = poset.downset_algebra();
         for sub in subalgebras(&base) {
@@ -627,8 +568,7 @@ mod tests {
         }
     }
 
-    /// Relabel the elements of an algebra by the permutation `perm`
-    /// (`perm[x]` is the new name of element `x`).
+    /// Relabel the elements of an algebra by the permutation `perm` (`perm[x]` is the new name of element `x`).
     fn relabel(a: &Algebra, perm: &[usize]) -> Algebra {
         let n = a.size;
         let map = |x: usize| perm[x];

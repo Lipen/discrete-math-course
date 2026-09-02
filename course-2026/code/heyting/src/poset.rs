@@ -1,18 +1,14 @@
 //! Small posets and their downset (order ideal) algebras.
 //!
-//! This is the key construction linking partial orders with intuitionistic
-//! semantics.  A **downset** (order ideal) of a poset `P` is a subset `D`
-//! closed under going down: if `y ∈ D` and `x <= y` then `x ∈ D`.  The
-//! downsets of `P` form a Heyting algebra with:
+//! This is the key construction linking partial orders with intuitionistic semantics.
+//! A **downset** (order ideal) of a poset `P` is a subset `D` closed under going down: if `y ∈ D` and `x <= y` then `x ∈ D`.
+//! The downsets of `P` form a Heyting algebra with:
 //!
 //! - meet = intersection, join = union,
 //! - implication `A -> B` = the largest ideal `I` with `I ∩ A ⊆ B`.
 //!
-//! Every finite Heyting algebra is, up to isomorphism, a subalgebra of the
-//! downset algebra of some finite poset (Birkhoff duality: a finite
-//! distributive lattice is the downset algebra of its poset of
-//! join-irreducibles).  The downset algebra of a small poset is therefore a
-//! rich source of counterexamples for intuitionistic formulas.
+//! Every finite Heyting algebra is, up to isomorphism, a subalgebra of the downset algebra of some finite poset (Birkhoff duality: a finite distributive lattice is the downset algebra of its poset of join-irreducibles).
+//! The downset algebra of a small poset is therefore a rich source of counterexamples for intuitionistic formulas.
 //!
 //! ```
 //! use heyting::Poset;
@@ -27,10 +23,9 @@ use crate::algebra::{format_subset, Algebra};
 
 /// A finite poset given by its order relation.
 ///
-/// The elements are `0..size`.  The order is stored as a relation matrix in a
-/// bitmask: bit `x * size + y` is set exactly when `x <= y`.  Build one with
-/// [`Poset::from_relations`] (transitive closure is computed for you) or
-/// [`Poset::from_less`] (pass a full `less` function).
+/// The elements are `0..size`.
+/// The order is stored as a relation matrix in a bitmask: bit `x * size + y` is set exactly when `x <= y`.
+/// Build one with [`Poset::from_relations`] (transitive closure is computed for you) or [`Poset::from_less`] (pass a full `less` function).
 ///
 /// ```
 /// use heyting::Poset;
@@ -42,19 +37,17 @@ use crate::algebra::{format_subset, Algebra};
 /// ```
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Poset {
-    /// Number of elements; elements are `0..size`.
+    /// Number of elements: the elements are `0..size`.
     pub size: usize,
-    /// Relation matrix: bit `x * size + y` means `x <= y`.  Public so the
-    /// enumeration in [`crate::valid`] can build posets straight from a
-    /// bitmask.
+    /// Relation matrix: bit `x * size + y` means `x <= y`.
+    /// Public so the enumeration in [`crate::valid`] can build posets straight from a bitmask.
     pub mask: usize,
 }
 
 impl Poset {
     /// A poset on `0..size` ordered by `less`.
     ///
-    /// `less` must describe a genuine partial order (reflexive, antisymmetric
-    /// and transitive); it is not checked.
+    /// `less` must describe a genuine partial order (reflexive, antisymmetric and transitive), and it is not checked.
     ///
     /// ```
     /// use heyting::Poset;
@@ -78,10 +71,8 @@ impl Poset {
     /// The poset on `0..size` whose order is the reflexive-transitive closure
     /// of the given covering relations `(x, y)` with `x < y`.
     ///
-    /// The relations need not be covering edges -- any strict `x < y` works,
-    /// and chains of them are closed transitively.  Panics if a relation
-    /// refers to an element outside `0..size` or the closure is not
-    /// antisymmetric (e.g. a cycle).
+    /// The relations need not be covering edges: any strict `x < y` works, and chains of them are closed transitively.
+    /// Panics if a relation refers to an element outside `0..size` or the closure is not antisymmetric (e.g. a cycle).
     ///
     /// ```
     /// use heyting::Poset;
@@ -173,10 +164,8 @@ impl Poset {
 
     /// The Heyting algebra of downsets of this poset.
     ///
-    /// Elements are the downsets in increasing numeric order; meet is
-    /// intersection, join is union, and `A -> B` is the largest ideal `I`
-    /// with `I ∩ A ⊆ B` (computed from the lattice by
-    /// [`Algebra::from_meet_join`], which realizes the Heyting adjunction).
+    /// Elements are the downsets in increasing numeric order.
+    /// Meet is intersection, join is union, and `A -> B` is the largest ideal `I` with `I ∩ A ⊆ B` (computed from the lattice by [`Algebra::from_meet_join`], which realizes the Heyting adjunction).
     ///
     /// ```
     /// use heyting::Poset;

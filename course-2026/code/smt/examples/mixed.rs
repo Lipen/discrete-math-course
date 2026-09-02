@@ -1,15 +1,11 @@
 //! A mixed-signature formula decided by the DPLL(T) driver.
 //!
-//! A small job shop: task A takes between 4 and 5 time units
-//! (4 <= finish - start <= 5), and the deadline may lag the start by at most
-//! 2 units (deadline - start <= 2). Alongside the schedule, a 4-bit secret
-//! must satisfy `secret + 1 == 5`. The driver abstracts every theory atom to
-//! a Boolean variable, lets the internal SAT solver pick a model, and hands
-//! each model to the matching theory solver.
+//! A small job shop: task A takes between 4 and 5 time units (4 <= finish - start <= 5), and the deadline may lag the start by at most 2 units (deadline - start <= 2).
+//! Alongside the schedule, a 4-bit secret must satisfy `secret + 1 == 5`.
+//! The driver abstracts every theory atom to a Boolean variable, lets the internal SAT solver pick a model, and hands each model to the matching theory solver.
 //!
-//! The demo then shows an unsatisfiable mix: the same scheduling atoms plus
-//! `secret == 0` and `secret == 1` at once -- the SAT core alone cannot see
-//! the contradiction, but the bitvector theory rejects every model.
+//! The demo then shows an unsatisfiable mix: the same scheduling atoms plus `secret == 0` and `secret == 1` at once.
+//! The SAT core alone cannot see the contradiction, but the bitvector theory rejects every model.
 
 use smt::bitvec::{BoolExpr, Expr};
 use smt::difference::Constraint as Diff;
@@ -59,9 +55,9 @@ fn main() {
 
     // Two branches, each fine on its own but arithmetically contradictory:
     // branch A asks the secret to be 0 and 1 at once, branch B asks for
-    // x + y <= 6 and x + y >= 7. The SAT core proposes each branch, the
-    // matching theory rejects it, and the driver learns the conflict; in the
-    // end no Boolean model survives.
+    // x + y <= 6 and x + y >= 7.
+    // The SAT core proposes each branch, the matching theory rejects it, and
+    // the driver learns the conflict, so in the end no Boolean model survives.
     let secret_0 = Formula::Atom(Atom::Bitvec(BoolExpr::Eq(
         Box::new(Expr::Var(0, 4)),
         Box::new(Expr::Const(0, 4)),

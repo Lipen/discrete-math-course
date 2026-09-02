@@ -1,9 +1,8 @@
 //! Definite clauses: facts and rules.
 //!
-//! A logic program is a finite set of clauses. A clause is either a fact,
-//! `head.`, or a rule, `head :- body.`. Logically every clause is a
-//! universally quantified Horn clause; operationally a clause says "to
-//! prove the head, prove the body".
+//! A logic program is a finite set of clauses.
+//! A clause is either a fact, `head.`, or a rule, `head :- body.`.
+//! Logically every clause is a universally quantified Horn clause, and operationally a clause says "to prove the head, prove the body".
 
 use std::fmt::{self, Display};
 
@@ -12,11 +11,9 @@ use crate::term::Term;
 
 /// A definite clause: a fact or a rule.
 ///
-/// A fact `parent(alice, bob).` has an empty body. A rule
-/// `ancestor(X, Y) :- parent(X, Y).` proves its head whenever its body
-/// holds. Variables are shared between head and body: the rule above says
-/// "if there are `X` and `Y` with `parent(X, Y)`, then `ancestor(X, Y)`".
-///
+/// A fact `parent(alice, bob).` has an empty body.
+/// A rule `ancestor(X, Y) :- parent(X, Y).` proves its head whenever its body holds.
+/// Variables are shared between head and body: the rule above says "if there are `X` and `Y` with `parent(X, Y)`, then `ancestor(X, Y)`".
 /// ```
 /// use prolog::term::Term;
 /// use prolog::goal::Goal;

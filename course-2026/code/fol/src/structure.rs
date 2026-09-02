@@ -6,8 +6,7 @@ use crate::error::Error;
 use crate::formula::Formula;
 use crate::term::Term;
 
-/// A model: a non-empty domain together with an interpretation of every
-/// constant, function symbol, and predicate symbol.
+/// A model: a non-empty domain together with an interpretation of every constant, function symbol, and predicate symbol.
 #[derive(Debug, Clone)]
 pub struct Structure {
     /// The domain of individuals.
@@ -21,8 +20,7 @@ pub struct Structure {
 }
 
 impl Structure {
-    /// A structure over the given non-empty domain, with no symbols
-    /// interpreted yet.
+    /// A structure over the given non-empty domain, with no symbols interpreted yet.
     pub fn new(domain: Vec<String>) -> Self {
         assert!(
             !domain.is_empty(),
@@ -42,8 +40,7 @@ impl Structure {
         self
     }
 
-    /// Interpret a function symbol by a total table from argument tuples to
-    /// values.
+    /// Interpret a function symbol by a total table from argument tuples to values.
     pub fn with_function(mut self, name: &str, table: HashMap<Vec<String>, String>) -> Self {
         self.functions.insert(name.to_string(), table);
         self
@@ -88,8 +85,7 @@ impl Structure {
         }
     }
 
-    /// The truth of a formula under an assignment of free variables, by
-    /// Tarski's definition.
+    /// The truth of a formula under an assignment of free variables, by Tarski's definition.
     pub fn eval_with(
         &self,
         f: &Formula,

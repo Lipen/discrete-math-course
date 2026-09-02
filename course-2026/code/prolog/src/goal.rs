@@ -1,8 +1,7 @@
 //! Goals: what a logic program is asked to prove.
 //!
-//! A query is a goal; the body of a rule is a goal. The solver reduces a
-//! goal to the empty goal by resolving its leftmost atom against program
-//! clauses.
+//! A query is a goal, and the body of a rule is a goal.
+//! The solver reduces a goal to the empty goal by resolving its leftmost atom against program clauses.
 
 use std::fmt::{self, Display};
 
@@ -10,9 +9,8 @@ use crate::term::Term;
 
 /// A goal: an atomic call, a conjunction of subgoals, or the empty goal.
 ///
-/// The body of a fact is the empty goal `True`. A query like
-/// `?- parent(X, bob).` is `Call(parent(_0, bob))`; a rule body like
-/// `parent(X, Z), ancestor(Z, Y)` is a conjunction.
+/// The body of a fact is the empty goal `True`.
+/// A query like `?- parent(X, bob).` is `Call(parent(_0, bob))`, and a rule body like `parent(X, Z), ancestor(Z, Y)` is a conjunction.
 ///
 /// ```
 /// use prolog::term::Term;
@@ -59,7 +57,7 @@ impl Goal {
 
     /// A conjunction of goals, flattened and simplified.
     ///
-    /// An empty list of goals is `True`; a single goal is that goal itself.
+    /// An empty list of goals is `True`, and a single goal is that goal itself.
     ///
     /// ```
     /// use prolog::goal::Goal;

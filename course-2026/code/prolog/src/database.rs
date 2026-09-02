@@ -1,7 +1,6 @@
 //! A logic program: a database of clauses.
 //!
-//! Clauses are indexed by the predicate of their head, so that a goal is
-//! resolved only against the clauses that can possibly prove it.
+//! Clauses are indexed by the predicate of their head, so that a goal is resolved only against the clauses that can possibly prove it.
 
 use std::collections::HashMap;
 

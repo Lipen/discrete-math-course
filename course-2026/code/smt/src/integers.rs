@@ -11,11 +11,10 @@
 //! 4. Otherwise pick a fractional variable `x` with rational value `v` and
 //!    branch: try adding `x <= floor(v)`, then `x >= ceil(v)`, and recurse.
 //!
-//! Branching on a fractional value can only add integer bounds, so each
-//! branch strictly narrows the feasible region and the search terminates;
-//! in the worst case it is exponential, so keep the systems small. Variables
-//! that are unbounded in the relaxation are assigned integer values directly
-//! and never branched on. Solutions are integers that must fit `i64`.
+//! Branching on a fractional value can only add integer bounds, so each branch strictly narrows the feasible region and the search terminates.
+//! In the worst case it is exponential, so keep the systems small.
+//! Variables that are unbounded in the relaxation are assigned integer values directly and never branched on.
+//! Solutions are integers that must fit `i64`.
 //!
 //! ```
 //! use smt::integers::{solve, Constraint};
@@ -42,8 +41,8 @@ use crate::linear;
 
 /// A linear constraint `a1*x1 + ... + an*xn <= b` over integer variables.
 ///
-/// Variable `i` is the coefficient `coeffs[i]`; the number of variables is
-/// inferred as the largest coefficient list length.
+/// Variable `i` is the coefficient `coeffs[i]`.
+/// The number of variables is inferred as the largest coefficient list length.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Constraint {
     /// Coefficients `a1..an`.
@@ -54,8 +53,8 @@ pub struct Constraint {
 
 /// Solve a conjunction of integer linear constraints.
 ///
-/// Returns `Some(assignment)` when satisfiable, where `assignment[i]` is the
-/// integer value of variable `i`; `None` means unsatisfiable.
+/// Returns `Some(assignment)` when satisfiable, where `assignment[i]` is the integer value of variable `i`.
+/// `None` means unsatisfiable.
 pub fn solve(constraints: &[Constraint]) -> Option<Vec<i64>> {
     let n = constraints
         .iter()
@@ -77,7 +76,7 @@ pub fn solve(constraints: &[Constraint]) -> Option<Vec<i64>> {
 fn search(lin: &[linear::Constraint], n: usize) -> Option<Vec<i64>> {
     let lp = linear::solve(lin)?;
 
-    // A fractional variable triggers the split; the first one is fine.
+    // A fractional variable triggers the split. The first one is fine.
     let mut fractional: Option<usize> = None;
     for (i, v) in lp.iter().enumerate() {
         if !v.is_integer() {

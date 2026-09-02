@@ -1,12 +1,8 @@
 //! Semantics of intuitionistic logic: posets, downset algebras and validity.
 //!
-//! (a) Builds the downset algebra of a three-element poset (a "V":
-//!     a < b and a < c) and prints its elements and implication table.
-//! (b) Evaluates the law of excluded middle p ∨ ¬p and double-negation
-//!     elimination ¬¬p -> p over all valuations in that algebra.
-//! (c) Checks the validity of several formulas over the small enumeration
-//!     of finite Heyting algebras (all up to 5 elements, see
-//!     `all_finite_heyting_algebras`).
+//! (a) Builds the downset algebra of a three-element poset (a "V": `a < b` and `a < c`) and prints its elements and implication table.
+//! (b) Evaluates the law of excluded middle `p ∨ ¬p` and double-negation elimination `¬¬p -> p` over all valuations in that algebra.
+//! (c) Checks the validity of several formulas over the small enumeration of finite Heyting algebras (all up to 5 elements, see `all_finite_heyting_algebras`).
 
 use heyting::{all_finite_heyting_algebras, all_valuations, valid, Formula, Poset};
 

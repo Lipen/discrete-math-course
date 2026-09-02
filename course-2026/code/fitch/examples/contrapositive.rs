@@ -1,8 +1,6 @@
 //! Check a proof of the contrapositive `(P -> Q) -> (~Q -> ~P)`.
 //!
-//! The demo builds the proof line by line, prints the nested subproof
-//! structure with the rule and line references used at each step, and lets
-//! the checker give its verdict.
+//! The demo builds the proof line by line, prints the nested subproof structure with the rule and line references used at each step, and lets the checker give its verdict.
 
 use fitch::{atom, bottom, check, implies, not, Just, Step};
 

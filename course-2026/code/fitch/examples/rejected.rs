@@ -27,8 +27,8 @@ fn main() {
 
     let p = atom("P");
     let q = atom("Q");
-    // The subproof hypothesis Q (line 2) is discharged by line 3; line 4
-    // still tries to use it.
+    // The subproof hypothesis Q (line 2) is discharged by line 3.
+    // Line 4 still tries to use it.
     let out_of_scope = vec![
         Step {
             depth: 0,

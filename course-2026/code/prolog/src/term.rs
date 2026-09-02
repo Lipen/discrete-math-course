@@ -1,16 +1,13 @@
 //! Terms: the data of logic programming.
 //!
 //! A term is a tree built from variables, constant atoms, and structures.
-//! Terms are what Prolog programs compute over: a fact like
-//! `parent(alice, bob)` is a term, and so is the list `[a, b, c]`.
+//! Terms are what Prolog programs compute over: a fact like `parent(alice, bob)` is a term, and so is the list `[a, b, c]`.
 
 use std::fmt::{self, Display};
 
 /// A logic-programming term.
 ///
-/// A term is either a variable (with a unique id), a constant atom (a name
-/// with no arguments, like `alice` or `[]`), or a structure: a functor
-/// applied to argument terms, like `parent(alice, bob)`.
+/// A term is either a variable (with a unique id), a constant atom (a name with no arguments, like `alice` or `[]`), or a structure: a functor applied to argument terms, like `parent(alice, bob)`.
 ///
 /// ```
 /// use prolog::term::Term;
@@ -33,8 +30,7 @@ pub enum Term {
 impl Term {
     /// A variable with the given id.
     ///
-    /// Variables are numbered so that renaming (standardizing clauses apart)
-    /// can give every use of a clause fresh ids.
+    /// Variables are numbered so that renaming (standardizing clauses apart) can give every use of a clause fresh ids.
     ///
     /// ```
     /// use prolog::term::Term;
@@ -67,8 +63,7 @@ impl Term {
 
     /// The empty list.
     ///
-    /// Lists are sugar over the structure `.(head, tail)`, ending in the
-    /// atom `[]`.
+    /// Lists are sugar over the structure `.(head, tail)`, ending in the atom `[]`.
     ///
     /// ```
     /// use prolog::term::Term;
@@ -107,8 +102,7 @@ impl Term {
         out
     }
 
-    /// The ids of all variables occurring in this term, in no particular
-    /// order.
+    /// The ids of all variables occurring in this term, in no particular order.
     ///
     /// ```
     /// use prolog::term::Term;
@@ -173,9 +167,9 @@ impl Display for Term {
 
 /// Render a list built from `.`/`[]` in Prolog notation.
 ///
-/// A proper list `[a, b]` is `.(a, .(b, []))`; an open list `[a | T]` ends
-/// in a non-empty tail. Anything that is not a `.` spine returns `None`, so
-/// it falls through to the ordinary structure display.
+/// A proper list `[a, b]` is `.(a, .(b, []))`.
+/// An open list `[a | T]` ends in a non-empty tail.
+/// Anything that is not a `.` spine returns `None`, so it falls through to the ordinary structure display.
 fn as_list(term: &Term) -> Option<String> {
     let mut items: Vec<String> = Vec::new();
     let mut cur = term;

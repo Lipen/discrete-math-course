@@ -1,11 +1,9 @@
-//! Unification by hand: most general unifiers and the occurs check.
+//! Unification step by step: most general unifiers and the occurs check.
 //!
-//! Unification solves equations between terms. The demo walks three
-//! equations: two that unify (printing the most general unifier and the
-//! common term both sides reduce to) and one that fails the occurs check
-//! -- a variable can never be bound to a term that contains it.
+//! Unification solves equations between terms.
+//! The demo walks three equations: two that unify, printing the most general unifier and the common term both sides reduce to, and one that fails the occurs check, because a variable can never be bound to a term that contains it.
 //!
-//! Run with `cargo run -p prolog --example unify_demo`.
+//! Run with `cargo run --example unify_demo`.
 
 use prolog::subst::{apply, Subst};
 use prolog::term::Term;

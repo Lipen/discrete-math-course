@@ -1,25 +1,20 @@
 //! Fuzzy sets as piecewise-linear membership functions.
 //!
-//! A fuzzy set on a numeric universe is a membership function `mu: U ->
-//! [0, 1]`. This module represents the common shapes (triangular,
-//! trapezoidal, and any polyline) as a sorted list of `(x, mu)` breakpoints
-//! with linear interpolation between them and value `0` outside the span.
-//! Zadeh's operations -- union (`max`), intersection (`min`), complement
-//! (`1 - mu`) -- are exact on this representation: the result of combining
-//! two piecewise-linear functions is again piecewise-linear.
+//! A fuzzy set on a numeric universe is a membership function `mu: U -> [0, 1]`.
+//! This module represents the common shapes (triangular, trapezoidal, and any polyline) as a sorted list of `(x, mu)` breakpoints with linear interpolation between them and value `0` outside the span.
+//! Zadeh's operations (union `max`, intersection `min`, complement `1 - mu`) are exact on this representation: the result of combining two piecewise-linear functions is again piecewise-linear.
 
 /// A fuzzy set given by a piecewise-linear membership function.
 ///
-/// `points` is a list of breakpoints `(x, mu)` sorted by `x`, with `mu` in
-/// `[0, 1]`. The membership of any `x` outside the first and last breakpoint
-/// is `0`. Between consecutive breakpoints the function is the linear
-/// interpolation, so a triangular fuzzy set `(l, m, r)` is the three points
-/// `[(l, 0), (m, 1), (r, 0)]`.
+/// `points` is a list of breakpoints `(x, mu)` sorted by `x`, with `mu` in `[0, 1]`.
+/// The membership of any `x` outside the first and last breakpoint is `0`.
+/// Between consecutive breakpoints the function is the linear interpolation, so a triangular fuzzy set `(l, m, r)` is the three points `[(l, 0), (m, 1), (r, 0)]`.
 ///
 /// To make `alpha_cut(0)` span the whole universe, include the universe
 /// boundaries as zero-membership breakpoints (see the examples).
 #[derive(Clone, Debug, PartialEq)]
 pub struct FuzzySet {
+    /// Breakpoints `(x, mu)` sorted by `x`, with `mu` in `[0, 1]`.
     pub points: Vec<(f64, f64)>,
 }
 
@@ -71,8 +66,7 @@ impl FuzzySet {
         self.points.iter().map(|p| p.1).fold(0.0, f64::max)
     }
 
-    /// The support: the open interval of points with strictly positive
-    /// membership, returned as `(left_boundary, right_boundary)`.
+    /// The support: the open interval of points with strictly positive membership, returned as `(left_boundary, right_boundary)`.
     pub fn support(&self) -> (f64, f64) {
         let pts = &self.points;
         assert!(

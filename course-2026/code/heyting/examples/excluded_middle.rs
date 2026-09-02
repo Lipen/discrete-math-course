@@ -1,9 +1,8 @@
 //! Where the law of excluded middle fails.
 //!
-//! Classically p ∨ ¬p is always true. In the three-element Heyting algebra
-//! the middle element 1/2 is "not yet constructed": neither 1/2 nor its
-//! negation is true, so p ∨ ¬p = 1/2 ≠ 1. Double-negation elimination
-//! ¬¬p -> p fails at the same element.
+//! Classically `p ∨ ¬p` is always true.
+//! In the three-element Heyting algebra the middle element 1/2 is "not yet constructed": neither 1/2 nor its negation is true, so `p ∨ ¬p = 1/2 ≠ 1`.
+//! Double-negation elimination `¬¬p -> p` fails at the same element.
 
 use heyting::Value;
 

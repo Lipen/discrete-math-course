@@ -13,17 +13,14 @@ pub struct Constraint {
 
 /// Solve a conjunction of difference constraints.
 ///
-/// Returns `Some(assignment)` if satisfiable, where `assignment[i]` is a value
-/// for variable `i` (variables are indexed from `0`, and the count is inferred
-/// as one more than the largest index occurring in any constraint).
+/// Returns `Some(assignment)` if satisfiable, where `assignment[i]` is a value for variable `i`.
+/// Variables are indexed from `0`, and the count is inferred as one more than the largest index occurring in any constraint.
 ///
-/// Returns `None` if unsatisfiable: then the constraint graph contains a
-/// negative cycle, an arithmetic contradiction.
+/// Returns `None` if unsatisfiable: then the constraint graph contains a negative cycle, an arithmetic contradiction.
 ///
-/// Each constraint `x - y <= c` becomes an edge `y -> x` of weight `c`, since
-/// `x <= y + c`. A super-source with zero-weight edges to every variable
-/// initialises Bellman--Ford; a negative cycle makes the relaxation fail to
-/// converge, which is reported as unsatisfiability.
+/// Each constraint `x - y <= c` becomes an edge `y -> x` of weight `c`, since `x <= y + c`.
+/// A super-source with zero-weight edges to every variable initialises Bellman--Ford.
+/// A negative cycle makes the relaxation fail to converge, which is reported as unsatisfiability.
 pub fn solve(constraints: &[Constraint]) -> Option<Vec<i64>> {
     let n = constraints
         .iter()

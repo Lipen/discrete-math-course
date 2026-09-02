@@ -28,7 +28,7 @@ fn main() {
     println!();
 
     println!("max-min composition R ∘ R (closeness through one middle town)");
-    println!("-------------------------------------------------------------");
+    println!("==============================================================");
     let rr = close.max_min_compose(&close).unwrap();
     for i in 0..4 {
         let row: Vec<String> = (0..4).map(|j| format!("{:5.2}", rr.get(i, j))).collect();
@@ -40,7 +40,7 @@ fn main() {
     println!();
 
     println!("max-product composition R · R (Larsen)");
-    println!("--------------------------------------");
+    println!("=======================================");
     let rp = close.max_product_compose(&close).unwrap();
     for i in 0..4 {
         let row: Vec<String> = (0..4).map(|j| format!("{:5.2}", rp.get(i, j))).collect();

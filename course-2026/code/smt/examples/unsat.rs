@@ -1,8 +1,7 @@
 //! An unsatisfiable system and the negative cycle behind it.
 //!
-//! x0 - x1 <= 2 and x1 - x0 <= -3 together force x0 - x1 <= 2 and
-//! x0 - x1 >= 3 at once -- the constraint graph contains a cycle of
-//! total weight 2 + (-3) = -1, which Bellman-Ford detects.
+//! x0 - x1 <= 2 and x1 - x0 <= -3 together force x0 - x1 <= 2 and x0 - x1 >= 3 at once.
+//! The constraint graph contains a cycle of total weight 2 + (-3) = -1, which Bellman-Ford detects.
 
 use smt::difference::{solve, Constraint};
 

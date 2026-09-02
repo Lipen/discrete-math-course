@@ -1,7 +1,6 @@
 //! DPLL: Davis-Putnam-Logemann-Loveland SAT solver.
 //!
-//! Implements unit propagation, pure literal elimination, and chronological
-//! backtracking -- exactly the DPLL algorithm.
+//! Implements unit propagation, pure literal elimination, and chronological backtracking -- exactly the DPLL algorithm.
 //!
 //! ```
 //! use sat::cnf::{Cnf, pos, neg};
@@ -216,8 +215,7 @@ fn propagate_all_traced(cnf: &Cnf, assign: &mut [Option<bool>], depth: usize) ->
 
 // ── Pure literal elimination ─────────────────────────────────────────────
 
-/// Eliminate pure literals: if a variable appears only in one polarity across
-/// all unsatisfied clauses, set it to the satisfying value.
+/// Eliminate pure literals: if a variable appears only in one polarity across all unsatisfied clauses, set it to the satisfying value.
 ///
 /// Returns `true` if any variable was assigned.
 fn pure_literal_eliminate(cnf: &Cnf, assign: &mut [Option<bool>]) -> bool {

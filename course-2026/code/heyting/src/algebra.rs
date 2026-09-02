@@ -1,9 +1,7 @@
 //! A general table-driven finite Heyting algebra.
 //!
-//! An [`Algebra`] is a finite lattice whose elements are numbered `0..n`, with
-//! meet, join and implication stored as lookup tables.  Everything is plain
-//! data: no traits, no generics, so the tables are directly printable and
-//! checkable.
+//! An [`Algebra`] is a finite lattice whose elements are numbered `0..n`, with meet, join and implication stored as lookup tables.
+//! Everything is plain data: no traits, no generics, so the tables are directly printable and checkable.
 //!
 //! ```
 //! use heyting::Algebra;
@@ -20,13 +18,12 @@
 
 /// A finite Heyting algebra given by operation tables.
 ///
-/// `meet[a][b]`, `join[a][b]` and `implies[a][b]` are the results of `a ∧ b`,
-/// `a ∨ b` and `a -> b`; `bottom` and `top` are the indices of `0` and `1`;
-/// `labels` gives each element a human-readable name (e.g. the set it stands
-/// for in the downset construction).
+/// `meet[a][b]`, `join[a][b]` and `implies[a][b]` are the results of `a ∧ b`, `a ∨ b` and `a -> b`.
+/// `bottom` and `top` are the indices of `0` and `1`.
+/// `labels` gives each element a human-readable name (e.g. the set it stands for in the downset construction).
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Algebra {
-    /// Number of elements; elements are the indices `0..size`.
+    /// Number of elements: the elements are the indices `0..size`.
     pub size: usize,
     /// Meet table: `meet[a][b] = a ∧ b`.
     pub meet: Vec<Vec<usize>>,
@@ -82,12 +79,9 @@ impl Algebra {
 
     /// Build an algebra from meet and join tables, deriving implication.
     ///
-    /// The tables must describe a finite distributive lattice (this is not
-    /// checked -- the caller is expected to hand over a genuine lattice).  The
-    /// implication is then forced by the Heyting adjunction: `a -> b` is the
-    /// join of all `c` with `a ∧ c <= b`.  In a finite distributive lattice
-    /// this join is the unique largest such `c`, so the result is a Heyting
-    /// algebra.
+    /// The tables must describe a finite distributive lattice, which is not checked.
+    /// The implication is forced by the Heyting adjunction: `a -> b` is the join of all `c` with `a ∧ c <= b`.
+    /// In a finite distributive lattice this join is the unique largest such `c`, so the result is a Heyting algebra.
     ///
     /// ```
     /// use heyting::Algebra;
@@ -140,13 +134,10 @@ impl Algebra {
     }
 }
 
-/// The canonical example: the three-element chain `{0, 1/2, 1}` as a table
-/// algebra.
+/// The canonical example: the three-element chain `{0, 1/2, 1}` as a table algebra.
 ///
-/// It is the downset algebra of the two-element chain `a < b`: the ideals are
-/// `∅`, `{a}` and `{a, b}`, which play the roles of `Bot`, `Mid` and `Top`.
-/// This algebra is exactly the algebra of [`crate::Value`]: the same three
-/// elements with the same meet, join and implication tables.
+/// It is the downset algebra of the two-element chain `a < b`: the ideals are `∅`, `{a}` and `{a, b}`, which play the roles of `Bot`, `Mid` and `Top`.
+/// This algebra is exactly the algebra of [`crate::Value`]: the same three elements with the same meet, join and implication tables.
 ///
 /// ```
 /// use heyting::{chain_three, Value};
@@ -174,11 +165,9 @@ pub fn chain_three() -> Algebra {
 
 /// The Boolean algebra of all subsets of an `n`-element set.
 ///
-/// The elements are the subsets of `{0, 1, ..., n-1}` (up to `2^n` of them,
-/// so keep `n` small).  Meet is intersection, join is union, and implication
-/// is `¬a ∨ b`, derived from the lattice by [`Algebra::from_meet_join`].
-/// For `n = 1` this is the two-element Boolean algebra `{0, 1}`; for `n = 2`
-/// the four-element one.
+/// The elements are the subsets of `{0, 1, ..., n-1}` (up to `2^n` of them, so keep `n` small).
+/// Meet is intersection, join is union, and implication is `¬a ∨ b`, derived from the lattice by [`Algebra::from_meet_join`].
+/// For `n = 1` this is the two-element Boolean algebra `{0, 1}`, and for `n = 2` the four-element one.
 ///
 /// ```
 /// use heyting::bool_algebra;

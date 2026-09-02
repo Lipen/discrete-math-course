@@ -1,8 +1,7 @@
 //! Substitutions: finite maps from variables to terms.
 //!
-//! A substitution is the answer that a logic-programming query produces and
-//! the instrument that unification builds. Applying a substitution replaces
-//! every bound variable in a term by its binding.
+//! A substitution is the answer that a logic-programming query produces and the instrument that unification builds.
+//! Applying a substitution replaces every bound variable in a term by its binding.
 
 use std::collections::HashMap;
 
