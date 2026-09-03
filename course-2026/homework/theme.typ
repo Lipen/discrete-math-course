@@ -90,13 +90,17 @@
 #let vmat = math.mat.with(delim: "|")
 #let Vmat = math.mat.with(delim: "||")
 
-#let Given(body) = block(
+#let Given(title: none, body) = block(
   width: 100%,
   above: 1em,
   below: 1em,
   inset: (left: 10pt),
   stroke: (left: 1.5pt + accent.lighten(40%)),
 )[
+  #if title != none [
+    #text(size: 0.82em, weight: "bold", fill: accent, tracking: 0.3pt)[#title]
+    #v(0.25em, weak: true)
+  ]
   #body
 ]
 
