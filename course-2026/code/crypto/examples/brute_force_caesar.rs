@@ -1,7 +1,8 @@
 //! Breaking the Caesar cipher by brute force.
 //!
-//! The cipher key is a shift from 1 to 32. We try all shifts in reverse:
-//! the meaningful word "ШИФР" appears at a shift of 3 positions.
+//! The cipher key is a shift from 1 to 32.
+//! Every shift is tried, and the meaningful word "ШИФР" appears at a
+//! shift of 3 positions.
 
 /// Russian alphabet (33 letters, with Ё).
 const RUS: &str = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ";

@@ -1,8 +1,7 @@
 # crypto
 
-Number theory and cryptography.
+Modular arithmetic on `u64`, a textbook RSA with signing, and the attacks that actually break it.
 
-A small, zero-dependency toolbox of modular arithmetic on `u64`, a textbook RSA with signing, and a set of attacks that actually break it.
 The point of the crate: to trust a cryptosystem you first have to attack it.
 
 ## Quick start
@@ -10,7 +9,11 @@ The point of the crate: to trust a cryptosystem you first have to attack it.
 ```bash
 cargo test
 cargo run --example rsa_demo
+cargo run --example common_modulus
+cargo run --example malleability
 cargo run --example pohlig_hellman
+cargo run --example brute_force_caesar
+cargo run --example frequency_analysis
 ```
 
 ## Modules
@@ -25,16 +28,23 @@ cargo run --example pohlig_hellman
 
 ![RSA flow](assets/rsa-flow.svg)
 
-Key generation picks primes $p$, $q$, computes $n = pq$ and $\phi(n) = (p-1)(q-1)$, chooses a public exponent $e$ coprime to $\phi(n)$, and derives the private key $d = e^{-1} \bmod \phi(n)$.
+Key generation from the primes $p$ and $q$:
+
+- computes the modulus $n = pq$ and $\phi(n) = (p-1)(q-1)$
+- picks a public exponent $e$ coprime to $\phi(n)$
+- derives the private exponent $d = e^{-1} \bmod \phi(n)$
+
 Encryption and decryption are the same operation with different exponents:
 
 $$ c = m^e \bmod n \qquad m = c^d \bmod n $$
+
+A signature applies the same operation with the private exponent: $s = m^d \bmod n$, and verification checks $s^e \bmod n = m$.
 
 ## API
 
 | Item                                    | Purpose                                         |
 | --------------------------------------- | ----------------------------------------------- |
-| `gcd`, `egcd`, `mod_inverse`, `mod_pow` | Modular-arithmetic toolbox                      |
+| `gcd`, `egcd`, `mod_inverse`, `mod_pow` | Euclid's algorithm, modular inverse, fast power |
 | `Rsa::new`, `encrypt`, `decrypt`        | Textbook RSA on small numbers                   |
 | `Rsa::sign`, `verify`                   | Digital signature with RSA                      |
 | `attacks::common_modulus_attack`        | Recover $m$ from two ciphertexts that share $n$ |
@@ -56,5 +66,5 @@ $$ c = m^e \bmod n \qquad m = c^d \bmod n $$
 
 ## Tests
 
-Unit tests cover the modular toolbox, the RSA round trip and signatures, and every attack on both its success and failure cases.
+Unit tests cover the modular-arithmetic functions, the RSA round trip and signatures, and every attack on both its success and failure cases.
 The doc comments carry compiled examples: each public function is exercised by an `# Examples` doctest.

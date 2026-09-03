@@ -2,7 +2,8 @@
 //!
 //! Each attack shows the boundary beyond which a system stops being
 //! secure: the common modulus and malleability break careless RSA,
-//! Pohlig--Hellman breaks DLOG in a group of smooth order.
+//! trial division breaks small moduli, and Pohlig--Hellman breaks DLOG
+//! in a group of smooth order.
 
 use super::modular::{egcd, mod_inverse, mod_pow};
 

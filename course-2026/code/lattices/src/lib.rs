@@ -8,6 +8,15 @@
 //! contains no sublattice isomorphic to M3 (the diamond) or N5 (the
 //! pentagon). This crate lets you build small lattices, check these
 //! properties, and search for the forbidden sublattices.
+//!
+//! ```
+//! use lattices::examples::divisors_12;
+//!
+//! let d = divisors_12();
+//! assert_eq!(d.join(2, 3), Some(6)); // lcm(2, 3)
+//! assert_eq!(d.meet(2, 3), Some(1)); // gcd(2, 3)
+//! assert!(d.is_distributive());
+//! ```
 
 pub mod examples;
 

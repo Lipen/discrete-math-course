@@ -9,6 +9,16 @@
 //! Beyond the traits, [`homomorphism`] covers structure-preserving maps,
 //! kernels, cosets, and quotient groups, and [`gf`] builds the finite
 //! fields `GF(2^m)`.
+//!
+//! ```
+//! use algebra::{Group, Monoid, Semigroup, Zn};
+//!
+//! let a = Zn::<7>::new(3);
+//! let b = Zn::<7>::new(5);
+//! assert_eq!(a.op(&b), Zn::<7>::new(1)); // 3 + 5 = 1 (mod 7)
+//! assert_eq!(Zn::<7>::identity(), Zn::<7>::new(0));
+//! assert_eq!(a.inverse(), Zn::<7>::new(4)); // 3 + 4 = 0 (mod 7)
+//! ```
 
 pub mod arithmetic;
 pub mod boolean;
