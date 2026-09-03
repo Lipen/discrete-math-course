@@ -64,6 +64,7 @@
 #show heading.where(level: 2): set text(13.2pt, weight: "semibold")
 #show heading.where(level: 2): set block(above: 2em, below: 0.75em)
 #show heading: set par(justify: false)
+#show table.cell: set par(justify: false)
 
 #let card(kind: c-accent, soft: auto, title: none, body) = block(
   width: 100%,
@@ -82,9 +83,10 @@
 )[
   #set par(justify: false)
   #if title != none [
-    #text(weight: "bold", fill: kind.darken(10%))[#title]
+    #text(hyphenate: false, weight: "bold", fill: kind.darken(10%))[#title]
     #v(0.5em)
   ]
+  #set text(hyphenate: true)
   #body
 ]
 
@@ -102,10 +104,10 @@
   inset: (x: 14pt, y: 11pt),
   breakable: false,
 )[
-  #set text(hyphenate: false)
   #set par(justify: false)
-  #text(weight: "bold", fill: c-accent.darken(10%))[#title]
+  #text(hyphenate: false, weight: "bold", fill: c-accent.darken(10%))[#title]
   #v(0.5em)
+  #set text(hyphenate: true)
   #body
 ]
 
@@ -168,14 +170,16 @@
   inset: (x: 11pt, y: 9pt),
   breakable: false,
 )[
-  #set text(hyphenate: false)
   #set par(justify: false)
-  #text(weight: "bold")[#title] \
-  #text(size: 0.75em, fill: c-soft)[#meta]
+  #block[
+    #set text(hyphenate: false)
+    #text(weight: "bold")[#title] \
+    #text(size: 0.75em, fill: c-soft)[#meta]
+  ]
   #v(0.25em)
-  #text(size: 0.85em)[#keywords]
+  #text(size: 0.85em, hyphenate: true)[#keywords]
   #v(0.15em)
-  #text(size: 0.85em, fill: color)[-> #hook]
+  #text(size: 0.85em, hyphenate: true, fill: color)[-> #hook]
 ]
 
 // Сегмент таймлайна: пастельная полоса с цветной верхней линией.
