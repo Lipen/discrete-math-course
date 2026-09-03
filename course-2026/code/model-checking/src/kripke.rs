@@ -1,4 +1,9 @@
-//! A Kripke structure: states, transitions, and atom labeling.
+//! A Kripke structure: a finite set of states, a transition relation, and a
+//! labeling of each state with the atoms true in it.
+//!
+//! The structure is the semantic domain for CTL: a formula holds in a state
+//! or not, and the preimage operators `pre_exists` / `pre_forall` push a
+//! label one transition back through the graph.
 
 /// A finite Kripke structure `(S, R, L)`.
 ///

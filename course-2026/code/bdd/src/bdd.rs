@@ -423,9 +423,8 @@ impl Bdd {
     /// child, `1` for the "true" child).
     /// A **complemented edge** is drawn dashed with a trailing `~`, so
     /// negation is always visible on the diagram.
-    /// The constant node appears twice, as
-    /// the two terminal boxes, because a complemented edge to it is exactly
-    /// the FALSE terminal.
+    /// The single constant node appears as the two terminal boxes `0` and
+    /// `1`, since a complemented edge to it is the other terminal.
     ///
     /// ```
     /// use bdd::Bdd;

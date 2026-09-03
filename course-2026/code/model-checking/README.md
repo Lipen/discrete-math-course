@@ -1,11 +1,9 @@
 # model-checking
 
-A model-checking toolkit: CTL state labeling over Kripke structures.
+CTL state labeling over Kripke structures.
 
 A Kripke structure `(S, R, L)` is a directed graph of states with atom labels.
-The CTL checker works by *state labeling*: it computes, bottom-up over subformulas, the set of states in which each subformula holds.
-This crate covers the base of that algorithm — atoms, boolean connectives, and the single-step modalities `EX` / `AX`.
-The fixed-point modalities (`EF`, `EG`, `EU` and their `A`-duals) that compute reachability, liveness, and safety are a later project.
+The checker computes, bottom-up over subformulas, the set of states in which each subformula holds — atoms, boolean connectives, and the single-step modalities `EX` / `AX`.
 
 ## Quick start
 
@@ -22,6 +20,13 @@ The single-step operators look one transition ahead:
 - `EX φ` — *some* successor state satisfies `φ`.
 - `AX φ` — *every* successor state satisfies `φ` (vacuously true at a dead end).
 
+Write $R(s)$ for the successors of $s$ and $[\varphi]$ for the set of states where `φ` holds.
+Both operators are preimages of the label under $R$:
+
+$$[\mathrm{EX}\,\varphi] \;=\; \{\, s : R(s) \cap [\varphi] \neq \varnothing \,\} \qquad [\mathrm{AX}\,\varphi] \;=\; \{\, s : R(s) \subseteq [\varphi] \,\}$$
+
+### Labeling rules
+
 The checker labels each state with the subformulas true in it, working bottom-up:
 
 | Operator           | Labeling rule                                        |
@@ -33,15 +38,9 @@ The checker labels each state with the subformulas true in it, working bottom-up
 | `AX φ`             | states with *every* successor in `φ`'s label         |
 
 The `EX` / `AX` steps are exactly the preimage operators `Kripke::pre_exists` / `Kripke::pre_forall`.
+The fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals), which compute reachability, liveness, and safety, are a later project.
 
-## API
-
-| Item                                              | What it does                                                                 |
-| ------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `Kripke::new(successors, atoms)`                  | A Kripke structure with `n` states, `successors[s]` and `atoms[s]` per state |
-| `Kripke::pre_exists(set)` / `pre_forall(set)`     | Preimage under one transition (the `EX` / `AX` step)                         |
-| `ctl::Formula`                                    | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
-| `check(&Kripke, &Formula) -> Vec<bool>`           | The labeling check, one bit per state                                        |
+### A traffic light
 
 ```rust
 use model_checking::{check, Formula, Kripke};
@@ -61,6 +60,16 @@ let next_green = Formula::Ax(Box::new(Formula::Atom(0)));
 assert_eq!(check(&m, &next_green), vec![false, false, true]);
 ```
 
+## API
+
+| Item                                              | What it does                                                                 |
+| ------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `Kripke::new(successors, atoms)`                  | A Kripke structure with `n` states, `successors[s]` and `atoms[s]` per state |
+| `Kripke::pre_exists(set)` / `pre_forall(set)`     | Preimage under one transition (the `EX` / `AX` step)                         |
+| `ctl::Formula`                                    | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
+| `check(&Kripke, &Formula) -> Vec<bool>`           | The labeling check, one bit per state                                        |
+
 ## Tests
 
-Unit tests cover the preimage operators at dead ends and self-loops, and the labeling check on a traffic-light cycle for atoms, boolean connectives, `EX`, and `AX`.
+- the preimage operators at dead ends and self-loops
+- the labeling check on a traffic-light cycle: atoms, boolean connectives, `EX`, `AX`

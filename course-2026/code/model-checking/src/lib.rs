@@ -1,5 +1,10 @@
 //! A model-checking toolkit: CTL state labeling over Kripke structures.
 //!
+//! A Kripke structure is a directed graph of states, each labeled with the
+//! atoms true in it. `check` computes, bottom-up over subformulas, the set
+//! of states in which each subformula holds, so a query returns one bit per
+//! state.
+//!
 //! ```
 //! use model_checking::{check, Formula, Kripke};
 //!

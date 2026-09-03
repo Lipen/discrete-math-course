@@ -2,9 +2,8 @@
 
 Reduced ordered binary decision diagrams (ROBDDs) with complement edges.
 
-A canonical BDD manager: a node table with the unique-node rule, reduction (dropping redundant nodes), and complement edges so negation costs nothing.
-The fundamental operation is `ite`, and `and`, `or`, and `xor` are its special cases.
-Once the canonical BDD is built, satisfiability, tautology, and equivalence checks are immediate: every function has exactly one representation.
+Under a fixed variable order every boolean function has exactly one ROBDD, so satisfiability, tautology, and equivalence checks reduce to comparing single edges.
+The manager builds each subdiagram once and shares it, and negation rides on the edges instead of costing new nodes.
 
 ## Quick start
 
@@ -18,8 +17,14 @@ cargo test
 
 ## How it works
 
-A BDD represents a boolean function by Shannon expansion: a node `(v, lo, hi)` means "if variable `v` then `hi` else `lo`".
-Reduction and node sharing make the representation canonical: for a fixed variable order every function has exactly one ROBDD.
+A BDD represents a boolean function by Shannon expansion:
+
+$$f \;=\; (\lnot v \land f|_{v=0}) \;\lor\; (v \land f|_{v=1})$$
+
+A node `(v, lo, hi)` stores one such split: follow `lo` when `v` is false and `hi` when `v` is true.
+The fundamental operation is `ite(f, g, h)` — if `f` then `g` else `h` — and `and`, `or`, and `xor` are its special cases.
+Memoization builds each subresult once.
+Reduction and node sharing make the representation canonical: a node whose `lo` and `hi` coincide is dropped, and equal subgraphs merge into a single node.
 Complement edges store negation as a flag on an edge, so `not` never builds a new node and complement-heavy functions stay compact.
 
 ![The ROBDD for x XOR y](assets/xor-bdd.svg)
@@ -32,6 +37,9 @@ Complement edges store negation as a flag on an edge, so `not` never builds a ne
 | `var_order` | How variable ordering affects BDD size                                         |
 | `expr_demo` | Building BDDs from expressions, equivalence, tautology check                   |
 | `visualize` | DOT rendering, an indented tree dump, and the complement-free plain form       |
+
+`var_order` builds the same function twice under different index orders and prints the node counts.
+`visualize` writes a DOT file into a temp dir and prints its absolute path.
 
 ## API
 
@@ -50,9 +58,15 @@ Complement edges store negation as a flag on an edge, so `not` never builds a ne
 | `Bdd::to_dot`                                    | Render the diagram as a Graphviz DOT string                          |
 | `Bdd::to_tree_string`                            | Dump the diagram as an indented tree with sharing marks              |
 | `Bdd::to_plain`, `PlainBdd`, `PlainNode`         | The complement-free form of a diagram                                |
+| `Edge`, `TRUE` / `FALSE`                         | Node index plus a complement flag in bit 0, `TRUE` = 0, `FALSE` = 1  |
 | `Expr`                                           | Boolean expression AST (`Var`, `Not`, `And`, `Or`, `Xor`, `Implies`) |
 | `Expr::to_bdd`                                   | Build the BDD for an expression                                      |
 
 ## Tests
 
-Unit tests cover boolean operations against reference truth tables, the unique-table and reduction rules, `sat_count` on several functions, `restrict` with and without complement edges, `ite` base cases, and expression-to-BDD conversion including tautology detection.
+- boolean operations against reference truth tables
+- the unique-table and reduction rules
+- `sat_count` on several functions
+- `restrict` with and without complement edges
+- `ite` base cases
+- expression-to-BDD conversion, including tautology detection

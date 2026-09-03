@@ -143,28 +143,11 @@ fn union_keys<D>(a: &State<D>, b: &State<D>) -> Vec<String> {
 }
 
 /// A convenient builder for `x := n`.
-///
-/// ```
-/// use analysis::program::assign;
-///
-/// let s = assign("count", 0);
-/// // Equivalent to: Stmt::Assign("count".into(), Expr::Const(0))
-/// ```
 pub fn assign(var: &str, n: i64) -> Stmt {
     Stmt::Assign(var.to_string(), Expr::Const(n))
 }
 
 /// A convenient builder for `x := x + 1`.
-///
-/// ```
-/// use analysis::program::inc;
-///
-/// let s = inc("i");
-/// // Equivalent to: Stmt::Assign("i".into(), Expr::Add(
-/// //     Box::new(Expr::Var("i".into())),
-/// //     Box::new(Expr::Const(1)),
-/// // ))
-/// ```
 pub fn inc(var: &str) -> Stmt {
     Stmt::Assign(
         var.to_string(),

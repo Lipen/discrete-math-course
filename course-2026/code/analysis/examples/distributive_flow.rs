@@ -1,12 +1,12 @@
 //! Distributive flow functions, the idea behind IFDS.
 //!
 //! In dataflow analysis a program point holds a set of facts, and the join
-//! of two sets merges what two branches contribute. A monotone flow function
-//! `f` only guarantees `f(x) join f(y) <= f(x join y)`: merging the inputs
-//! before applying `f` can lose precision. When `f` is *distributive* --
-//! `f(x join y) = f(x) join f(y)` -- each fact can be run through `f` on its
-//! own and the results merged. That is exactly what the IFDS class of
-//! analyses relies on.
+//! ⊔ of two sets merges what two branches contribute. A monotone flow
+//! function `f` only guarantees `f(x ⊔ y) ⊒ f(x) ⊔ f(y)`: merging the
+//! inputs before applying `f` can add facts that no branch alone justified.
+//! When `f` is *distributive* -- `f(x ⊔ y) = f(x) ⊔ f(y)` -- each fact can
+//! be run through `f` on its own and the results merged with no loss. That
+//! is exactly what the IFDS class of analyses relies on.
 
 /// A set of facts, one bit per fact. The universe is {x, y, z}.
 type Facts = u8;

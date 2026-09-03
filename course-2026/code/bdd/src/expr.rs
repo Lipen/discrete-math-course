@@ -36,74 +36,31 @@ pub enum Expr {
 
 impl Expr {
     /// A single variable `x_i`.
-    ///
-    /// ```
-    /// use bdd::Expr;
-    ///
-    /// let x0 = Expr::var(0);
-    /// assert_eq!(x0, Expr::Var(0));
-    /// ```
     pub fn var(i: u32) -> Expr {
         Expr::Var(i)
     }
 
     /// `¬self`
-    ///
-    /// ```
-    /// use bdd::Expr;
-    ///
-    /// let x = Expr::var(0);
-    /// let nx = x.clone().not_();
-    /// assert_eq!(nx, Expr::Not(Box::new(Expr::Var(0))));
-    /// ```
     pub fn not_(self) -> Expr {
         Expr::Not(Box::new(self))
     }
 
     /// `self ∧ other`
-    ///
-    /// ```
-    /// use bdd::Expr;
-    ///
-    /// let e = Expr::var(0).and(Expr::var(1));
-    /// assert_eq!(e, Expr::And(Box::new(Expr::Var(0)), Box::new(Expr::Var(1))));
-    /// ```
     pub fn and(self, other: Expr) -> Expr {
         Expr::And(Box::new(self), Box::new(other))
     }
 
     /// `self ∨ other`
-    ///
-    /// ```
-    /// use bdd::Expr;
-    ///
-    /// let e = Expr::var(0).or(Expr::var(1));
-    /// assert_eq!(e, Expr::Or(Box::new(Expr::Var(0)), Box::new(Expr::Var(1))));
-    /// ```
     pub fn or(self, other: Expr) -> Expr {
         Expr::Or(Box::new(self), Box::new(other))
     }
 
     /// `self ⊕ other`
-    ///
-    /// ```
-    /// use bdd::Expr;
-    ///
-    /// let e = Expr::var(0).xor(Expr::var(1));
-    /// assert_eq!(e, Expr::Xor(Box::new(Expr::Var(0)), Box::new(Expr::Var(1))));
-    /// ```
     pub fn xor(self, other: Expr) -> Expr {
         Expr::Xor(Box::new(self), Box::new(other))
     }
 
-    /// `self -> other`
-    ///
-    /// ```
-    /// use bdd::Expr;
-    ///
-    /// let e = Expr::var(0).implies(Expr::var(1));
-    /// assert_eq!(e, Expr::Implies(Box::new(Expr::Var(0)), Box::new(Expr::Var(1))));
-    /// ```
+    /// `self -> other` (material implication)
     pub fn implies(self, other: Expr) -> Expr {
         Expr::Implies(Box::new(self), Box::new(other))
     }

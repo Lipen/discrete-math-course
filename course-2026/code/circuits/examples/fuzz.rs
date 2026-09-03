@@ -7,7 +7,7 @@
 
 use circuits::ripple_carry_adder;
 
-/// A tiny deterministic xorshift64 generator (no external dependencies).
+/// A tiny deterministic xorshift64 generator.
 struct Rng(u64);
 
 impl Rng {

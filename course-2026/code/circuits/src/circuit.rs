@@ -339,7 +339,7 @@ mod tests {
         let x = c.input(0);
         let y = c.input(1);
         let z = c.input(2);
-        // depth 2 even though three gates are on the path-like chain.
+        // depth 2: AND and NOT are parallel, OR consumes both.
         let xy = c.and(x, y);
         let nz = c.not(z);
         let f = c.or(xy, nz);

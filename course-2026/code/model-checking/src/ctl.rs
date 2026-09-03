@@ -1,6 +1,8 @@
 //! CTL formulas and the labeling model-checking algorithm.
 //!
-//! Only the single-step modalities `EX` and `AX` are covered here.
+//! The label of a formula is the set of states in which it holds, computed
+//! bottom-up over subformulas. Only the single-step modalities `EX` and
+//! `AX` are covered here.
 //! The fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals) are the
 //! subject of a later project.
 
@@ -23,7 +25,7 @@ pub enum Formula {
     Ax(Box<Formula>),
 }
 
-/// Compute the set of states (as a bitmask over `0..m.n`) where `f` holds.
+/// The label of `f`: one bit per state, `true` where the formula holds.
 pub fn check(m: &Kripke, f: &Formula) -> Vec<bool> {
     let sat = |g: &Formula| check(m, g);
     match f {

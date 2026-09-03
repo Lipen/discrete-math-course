@@ -1,13 +1,7 @@
-//! Combinational circuits as DAGs of gates.
-//!
-//! A circuit is a directed acyclic graph whose sources are the primary inputs
-//! and the constants 0/1, whose internal nodes are logic gates (AND, OR, XOR,
-//! NOT), and whose sinks are the outputs. Signals flow strictly from inputs to
-//! outputs, so a circuit computes a boolean function with no memory. This
-//! crate simulates circuits, measures their **size** (gate count) and
-//! **depth** (longest input-to-output path), and builds the standard adders --
-//! a half adder, a full adder, and the ripple-carry chain of `n` full adders --
-//! verifying them against ordinary integer addition.
+//! Combinational circuits as DAGs of gates: build a circuit from inputs,
+//! constants, and logic gates, simulate it in one ordered pass, measure its
+//! **size** (gate count) and **depth** (longest input-to-output path), and
+//! check the standard adders against ordinary integer addition.
 //!
 //! ```
 //! use circuits::adder::ripple_carry_adder;

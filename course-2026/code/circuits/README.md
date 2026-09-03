@@ -2,14 +2,8 @@
 
 Combinational circuits as DAGs of gates.
 
-A circuit is a directed acyclic graph: the sources are the primary inputs and the constants 0/1, the internal nodes are logic gates (AND, OR, XOR, NOT), and the sinks are the outputs.
-Because a gate only references earlier nodes, the builder keeps the graph in topological order and acyclicity holds by construction.
-Simulating a circuit is a single ordered pass.
-Measuring a circuit gives the two resources every design trades off — **size** (gate count, the chip area) and **depth** (the longest input-to-output path, the signal delay).
-
-The running example is addition.
-A half adder is two gates, a full adder is five, and chaining `n` full adders gives an `n`-bit ripple-carry adder.
-The carry travels through every bit, so size and depth both grow linearly with the width — the compact, honest baseline.
+A gate only references nodes created before it, so the builder keeps the node list in topological order and acyclicity holds by construction.
+Simulation is a single ordered pass, and two numbers measure a circuit: **size** (gate count) and **depth** (longest input-to-output path).
 
 ## Quick start
 
@@ -22,6 +16,9 @@ cargo test
 
 ## How it works
 
+### Gates and nodes
+
+A circuit is a directed acyclic graph: the sources are the primary inputs and the constants 0/1, the internal nodes are logic gates (AND, OR, XOR, NOT), and the sinks are the outputs.
 Build a `Circuit`, create its sources, then combine them into gates.
 Each constructor returns a `NodeId` that later gates may feed on, so one output can drive many inputs (fan-out).
 
@@ -39,8 +36,25 @@ assert_eq!(c.depth(), 2);
 assert!(c.eval(f, &[true, true, false]).unwrap());
 ```
 
-A full adder is five gates (two XOR, two AND, one OR) and computes `S = A XOR B XOR Cin` and `Cout = majority(A, B, Cin)`.
+### Size and depth
+
+Size is the number of gates, the hardware cost.
+Depth is the longest input-to-output path, the signal delay.
+Sources sit at depth 0, and each gate adds one to its deepest input, so parallel branches count only once:
+
+$$d(\text{source}) = 0 \qquad d(\text{gate}) = 1 + \max_{\text{inputs}} d(\text{input})$$
+
+### Adders
+
+The running example is addition.
+A half adder is two gates, a full adder is five (two XOR, two AND, one OR), with `A XOR B` computed once and shared by the sum and the carry:
+
+$$S = A \oplus B \qquad C = A \land B$$
+
+$$S = A \oplus B \oplus C_{in} \qquad C_{out} = (A \land B) \lor \bigl(C_{in} \land (A \oplus B)\bigr)$$
+
 Pairing `n` full adders gives a ripple-carry adder.
+The carry travels through every bit, so size and depth both grow linearly with the width.
 
 ![The half adder: XOR for the sum, AND for the carry](assets/half-adder.svg)
 
@@ -54,21 +68,26 @@ Pairing `n` full adders gives a ripple-carry adder.
 
 ## API
 
-| Item                                     | Purpose                                                     |
-| ---------------------------------------- | ----------------------------------------------------------- |
-| `Circuit::new`                           | A fresh empty circuit                                       |
-| `Circuit::input(i)`                      | The `i`-th primary input (created once, then reused)        |
-| `Circuit::constant(v)` / `zero` / `one`  | The constants 0/1                                           |
-| `Circuit::and` / `or` / `xor` / `not`    | Add a gate and return its `NodeId`                          |
-| `Circuit::size`                          | Gate count (the area)                                       |
-| `Circuit::depth` / `node_depth`          | Longest input-to-output path (the delay)                    |
-| `Circuit::simulate` / `eval`             | One topological pass to evaluate every output               |
-| `half_adder`                             | `S = A XOR B`, `C = A AND B`                                |
-| `full_adder`                             | `S = A XOR B XOR Cin`, `Cout` = majority                    |
-| `ripple_carry_adder(n)`                  | Chain of `n` full adders, size and depth `O(n)`             |
-| `Adder::add` / `add_exact` / `add_bits`  | Evaluate an adder against integers or bit slices            |
-| `bits_of` / `value_of`                   | Convert between integers and LSB-first bit slices           |
+| Item                                     | Purpose                                                 |
+| ---------------------------------------- | ------------------------------------------------------- |
+| `Circuit::new`                           | A fresh empty circuit                                   |
+| `Circuit::input(i)`                      | The `i`-th primary input (created once, then reused)    |
+| `Circuit::constant(v)` / `zero` / `one`  | The constants 0/1                                       |
+| `Circuit::and` / `or` / `xor` / `not`    | Add a gate and return its `NodeId`                      |
+| `Circuit::size`                          | Gate count (the area)                                   |
+| `Circuit::depth` / `node_depth`          | Longest input-to-output path (the delay)                |
+| `Circuit::simulate` / `eval`             | One topological pass to evaluate every output           |
+| `Circuit::node_count` / `input_count`    | All nodes (sources and gates) / distinct primary inputs |
+| `half_adder`                             | `S = A XOR B`, `C = A AND B`                            |
+| `full_adder`                             | `S = A XOR B XOR Cin`, `Cout` = majority                |
+| `ripple_carry_adder(n)`                  | Chain of `n` full adders, size and depth `O(n)`         |
+| `Adder::add` / `add_exact` / `add_bits`  | Evaluate an adder against integers or bit slices        |
+| `bits_of` / `value_of`                   | Convert between integers and LSB-first bit slices       |
 
 ## Tests
 
-Unit tests cover the half and full adder truth tables, size and depth (including the rule that parallel branches count once), input and constant reuse, missing-input errors, a 4-bit ripple trace, a cross-check of ripple against integer arithmetic, and the bit conversions.
+- the half and full adder truth tables
+- size and depth, including the rule that parallel branches count once
+- input and constant reuse, missing-input errors
+- a 4-bit ripple trace and a cross-check of ripple against integer arithmetic
+- the bit conversions

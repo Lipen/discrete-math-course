@@ -133,7 +133,7 @@ pub fn value_of(bits: &[bool]) -> u64 {
 mod tests {
     use super::*;
 
-    /// A tiny xorshift64 pseudo-random generator (deterministic, no deps).
+    /// A tiny deterministic xorshift64 pseudo-random generator.
     fn next(state: &mut u64) -> u64 {
         let mut x = *state;
         x ^= x << 13;
