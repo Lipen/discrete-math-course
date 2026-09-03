@@ -63,6 +63,7 @@
 )
 #show heading.where(level: 2): set text(13.2pt, weight: "semibold")
 #show heading.where(level: 2): set block(above: 2em, below: 0.75em)
+#show heading: set par(justify: false)
 
 #let card(kind: c-accent, soft: auto, title: none, body) = block(
   width: 100%,
@@ -102,6 +103,7 @@
   breakable: false,
 )[
   #set text(hyphenate: false)
+  #set par(justify: false)
   #text(weight: "bold", fill: c-accent.darken(10%))[#title]
   #v(0.5em)
   #body
@@ -144,6 +146,7 @@
   breakable: false,
   {
     set text(hyphenate: false)
+    set par(justify: false)
     align(center + horizon)[
       #text(weight: "bold", fill: main)[#range] \
       #text(size: 0.75em, fill: c-soft)[#name]
@@ -166,6 +169,7 @@
   breakable: false,
 )[
   #set text(hyphenate: false)
+  #set par(justify: false)
   #text(weight: "bold")[#title] \
   #text(size: 0.75em, fill: c-soft)[#meta]
   #v(0.25em)
@@ -185,6 +189,7 @@
   breakable: false,
   {
     set text(hyphenate: false)
+    set par(justify: false)
     align(center + horizon)[
       #text(size: 0.85em, weight: "bold", fill: color)[#name]
       #text(size: 0.7em, fill: c-soft)[#lects]
@@ -224,6 +229,7 @@
   breakable: false,
   {
     set text(hyphenate: false)
+    set par(justify: false)
     align(center + horizon)[
       #text(size: 1.3em, weight: "bold", fill: c-accent)[#num]
       #text(size: 0.75em, fill: c-soft)[#label]
