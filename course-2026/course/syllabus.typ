@@ -15,15 +15,15 @@
 #let c-kr-dark = oklch(38%, 0.13, 262deg)
 #let c-tm-dark = oklch(38%, 0.13, 320deg)
 
-// Пастельные заливки --- прозрачные смеси базовых цветов над белой страницей.
-#let p-blue = c-blue.transparentize(80%)
-#let p-cyan = c-cyan.transparentize(80%)
-#let p-purple = c-purple.transparentize(80%)
-#let p-green = c-green.transparentize(80%)
-#let p-amber = c-amber.transparentize(80%)
-#let p-bad = c-bad.transparentize(80%)
-#let p-warn = c-warn.transparentize(80%)
-#let s-warn = c-warn.transparentize(88%)
+// Заливки: сочный источник оттенка, 90% прозрачности над белой страницей.
+#let p-blue = oklch(52%, 0.19, 262deg).transparentize(90%)
+#let p-cyan = oklch(52%, 0.17, 205deg).transparentize(90%)
+#let p-purple = oklch(52%, 0.18, 320deg).transparentize(90%)
+#let p-green = oklch(52%, 0.17, 150deg).transparentize(90%)
+#let p-amber = oklch(56%, 0.16, 75deg).transparentize(90%)
+#let p-bad = oklch(52%, 0.21, 27deg).transparentize(90%)
+#let p-warn = oklch(56%, 0.17, 60deg).transparentize(90%)
+#let s-warn = oklch(56%, 0.17, 60deg).transparentize(93%)
 
 #set text(12pt, lang: "ru")
 #set par(justify: true)
@@ -71,11 +71,11 @@
   fill: if soft == auto { kind.transparentize(88%) } else { soft },
   stroke: (
     left: 2.5pt + kind,
-    top: 0.6pt + kind.lighten(70%),
-    bottom: 0.6pt + kind.lighten(70%),
-    right: 0.6pt + kind.lighten(70%),
+    top: 0.6pt + kind.lighten(76%),
+    bottom: 0.6pt + kind.lighten(76%),
+    right: 0.6pt + kind.lighten(76%),
   ),
-  radius: (top-right: 8pt, bottom-right: 8pt),
+  radius: 8pt,
   inset: (x: 14pt, y: 11pt),
   breakable: false,
 )[
@@ -87,8 +87,8 @@
 ]
 
 // FAQ-ячейка: заливка на grid.cell, чтобы пара в ряду была одной высоты.
-#let fcard(title, body) = grid.cell(
-  fill: c-accent.transparentize(88%),
+#let fcard(title, body) = table.cell(
+  fill: c-accent.transparentize(92%),
   stroke: (
     left: 2.5pt + c-accent,
     top: 0.6pt + c-accent.lighten(70%),
@@ -97,6 +97,7 @@
   ),
   inset: (x: 14pt, y: 11pt),
 )[
+  #set text(hyphenate: false)
   #text(weight: "bold", fill: c-accent.darken(10%))[#title]
   #v(0.5em)
   #body
@@ -108,7 +109,7 @@
     width: 100%,
     fill: pastel,
     stroke: (top: 2.4pt + main),
-    radius: (bottom-left: 4pt, bottom-right: 4pt),
+    radius: 5pt,
     inset: (y: 5pt),
     height: 2.2em,
     breakable: false,
@@ -123,7 +124,7 @@
   width: 100%,
   fill: pastel,
   stroke: (top: 2.4pt + main),
-  radius: (bottom-left: 4pt, bottom-right: 4pt),
+  radius: 5pt,
   inset: (x: 2pt, y: 5pt),
   height: 3.2em,
   breakable: false,
@@ -137,7 +138,7 @@
 )
 
 // Карточка модуля в карте курса.
-#let mod-card(color, pastel, title, meta, keywords, hook, colspan: 1) = grid.cell(
+#let mod-card(color, pastel, title, meta, keywords, hook, colspan: 1) = table.cell(
   colspan: colspan,
   fill: pastel,
   stroke: (
@@ -148,6 +149,7 @@
   ),
   inset: (x: 11pt, y: 9pt),
 )[
+  #set text(hyphenate: false)
   #text(weight: "bold", size: 10.5pt)[#title]
   #text(size: 8.5pt, fill: c-soft)[#meta]
   #v(0.25em)
@@ -161,7 +163,7 @@
   width: 100%,
   fill: pastel,
   stroke: (top: 2.4pt + color),
-  radius: (bottom-left: 4pt, bottom-right: 4pt),
+  radius: 5pt,
   inset: (x: 2pt, y: 4pt),
   height: 3em,
   breakable: false,
@@ -201,7 +203,7 @@
 #let stat(num, label) = block(
   fill: c-accent.transparentize(90%),
   stroke: 0.6pt + c-accent.lighten(68%),
-  radius: 6pt,
+  radius: 8pt,
   inset: (x: 10pt, y: 9pt),
   height: 3.4em,
   breakable: false,
@@ -224,7 +226,7 @@
     bottom: 0.7pt + c-accent.lighten(52%),
     right: 0.7pt + c-accent.lighten(52%),
   ),
-  radius: (top-right: 12pt, bottom-right: 12pt),
+  radius: 12pt,
   inset: (x: 18pt, y: 20pt),
 )[
   #align(center)[
@@ -259,9 +261,10 @@
 
 Осень учит говорить строго: от высказываний и множеств --- через отношения и функции --- к формальным правилам вывода, а финалом идёт железо: булева алгебра, схемы и коды, защищающие данные от шума.
 
-#grid(
+#table(
   columns: (1fr, 1fr),
   gutter: 8pt,
+  stroke: none,
   mod-card(c-blue, p-blue, [Логика и множества], [лекции 1--3 · недели 1--3], [
     Высказывания и связки, таблицы истинности ($2^n$ строк на $n$ атомов), кванторы; методы доказательств --- индукция, от противного, контрпример; множества, булеан, декартово произведение, законы де Моргана.
   ], [упрощение условий в коде, assert'ы, инварианты циклов]),
@@ -283,9 +286,10 @@
 
 Весна --- про вычисления: графы как карта всего, автоматы как память без счёта, машина Тьюринга как предел возможного, комбинаторика как искусство считать, не перебирая.
 
-#grid(
+#table(
   columns: (1fr, 1fr),
   gutter: 8pt,
+  stroke: none,
   mod-card(c-blue, p-blue, [Графы], [лекции 1--4], [
     Обходы BFS и DFS, топологическая сортировка, деревья и остовы; эйлеровы и гамильтоновы циклы, двудольность и паросочетания; планарность, раскраска, кратчайшие пути, сетевые потоки.
   ], [маршрутизация, зависимости сборки, расписания]),
@@ -683,9 +687,10 @@
 
 = Частые вопросы
 
-#grid(
+#table(
   columns: (1fr, 1fr),
   gutter: 8pt,
+  stroke: none,
   fcard([Что и когда читать?])[
     Обязательную главу после каждой лекции --- по ней идёт флеш-опросник на следующей лекции.
     Остальное --- по желанию и по интересу.
