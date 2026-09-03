@@ -180,8 +180,8 @@ impl Dfa {
 
     /// Whether the language of the automaton is empty.
     ///
-    /// Uses BFS from the start state: if no accepting state is reachable,
-    /// the language is empty.
+    /// Runs a reachability traversal from the start state: if no accepting
+    /// state is reachable, the language is empty.
     ///
     /// ```
     /// use automata::Dfa;
@@ -259,7 +259,6 @@ impl Dfa {
     ///
     /// let comp = dfa.complete();
     /// assert_eq!(comp.num_states(), 2); // original + trap
-    /// // Now every symbol has a transition from every state.
     /// ```
     pub fn complete(&self) -> Dfa {
         let mut d = self.clone();

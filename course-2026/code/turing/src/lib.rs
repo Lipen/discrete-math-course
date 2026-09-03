@@ -2,8 +2,8 @@
 //!
 //! A concrete model: a tape held as two stacks, a deterministic transition
 //! table, accepting and rejecting states, and a trace of every configuration
-//! the machine visits. The design follows the mathematical definition --
-//! simple, transparent, no generics beyond what the model naturally needs.
+//! the machine visits. The design follows the mathematical definition,
+//! generic over the symbol and state types and nothing more.
 //!
 //! ```
 //! use turing::{machines, Tape, Outcome};

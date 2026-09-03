@@ -356,13 +356,11 @@ impl fmt::Display for Nfa {
             let arrow = if s == self.start { "->" } else { " " };
             let star = if self.accepting[s] { "*" } else { " " };
             write!(f, "  {arrow}q{s}{star}:")?;
-            // Symbol transitions.
             for (sym_idx, targets) in self.transitions[s].iter().enumerate() {
                 if !targets.is_empty() {
                     write!(f, " {}->{{{}}}", self.alphabet[sym_idx], fmt_set(targets))?;
                 }
             }
-            // Epsilon transitions.
             if !self.epsilon[s].is_empty() {
                 write!(f, " ε->{{{}}}", fmt_set(&self.epsilon[s]))?;
             }

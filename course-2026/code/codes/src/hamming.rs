@@ -12,8 +12,9 @@
 //!
 //! The syndrome -- recomputed parity of the received word -- forms a 3-bit
 //! number `(s4 s2 s1)`: zero for a valid codeword, else the 1-based position of
-//! the flipped bit. This works because each parity bit covers a unique subset,
-//! so the three checks together pinpoint the error.
+//! the flipped bit. The trick works because codeword position `i` is covered
+//! by exactly the parity bits whose numbers appear in the binary expansion of
+//! `i`, so the syndrome bits spell out the position.
 
 /// Encodes 4 data bits into a 7-bit Hamming codeword.
 ///
