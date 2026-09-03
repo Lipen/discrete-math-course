@@ -65,7 +65,7 @@
 #show heading: set par(justify: false)
 #show table.cell: set par(justify: false)
 
-#let card(kind: c-accent, soft: auto, title: none, body) = block(
+#let card(kind: c-accent, soft: auto, title: none, brk: false, body) = block(
   width: 100%,
   above: 0.8em,
   below: 0.8em,
@@ -78,7 +78,7 @@
   ),
   outset: (y: -1.25pt),
   inset: (x: 14pt, y: 11pt),
-  breakable: false,
+  breakable: brk,
 )[
   #set par(justify: false)
   #if title != none [
@@ -183,16 +183,17 @@
 
 // Крупная цифра для шпаргалки.
 #let stat(num, label) = block(
+  width: 100%,
   fill: c-accent.transparentize(90%),
   stroke: 0.6pt + c-accent.lighten(68%),
   inset: (x: 10pt, y: 9pt),
-  height: 3.4em,
+  height: 3.6em,
   breakable: false,
   {
     set text(hyphenate: false)
     set par(justify: false)
     align(center + horizon)[
-      #text(size: 1.3em, weight: "bold", fill: c-accent)[#num]
+      #text(size: 1.3em, weight: "bold", fill: c-accent)[#num] \\
       #text(size: 0.75em, fill: c-soft)[#label]
     ]
   },
@@ -374,7 +375,7 @@
 
 #align(center)[
   #table(
-    columns: 3,
+    columns: (1.4fr, 0.9fr, 2.2fr),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (left, center, left),
     inset: (x: 8pt, y: 7.5pt),
@@ -542,14 +543,15 @@
 Полтора часа, письменно, в аудитории, на листочках.
 С собой --- любые бумажные материалы, и никакой электроники.
 
-#card(kind: c-good, title: [Можно])[
-  + Пользоваться любыми бумажными источниками: конспектами, книгами, шпаргалками.
-]
-
-#card(kind: c-warn, soft: s-warn, title: [Нельзя])[
-  + Списывать.
-  + Пользоваться электроникой, включая телефоны и LLM.
-  + Обсуждать решения во время работы.
+#block(breakable: false)[
+  #card(kind: c-good, title: [Можно])[
+    + Пользоваться любыми бумажными источниками: конспектами, книгами, шпаргалками.
+  ]
+  #card(kind: c-warn, soft: s-warn, title: [Нельзя])[
+    + Списывать.
+    + Пользоваться электроникой, включая телефоны и LLM.
+    + Обсуждать решения во время работы.
+  ]
 ]
 
 Контрольные пишут оба потока одновременно --- отдельных дней сдачи не бывает.
@@ -612,14 +614,15 @@
 Всё происходит в один день: письменная часть пишется в аудитории, устная сдаётся лично.
 Проверка письменной части --- после экзамена.
 
-#card(kind: c-good, title: [Можно])[
-  + Пользоваться чем угодно, кроме LLM.
-  + Оформлять письменную часть электронно.
-]
-
-#card(kind: c-warn, soft: s-warn, title: [Нельзя])[
-  + Списывать.
-  + Провалить любой из трёх этапов: неудовлетворительный этап --- ноль за весь экзамен, без утешительных.
+#block(breakable: false)[
+  #card(kind: c-good, title: [Можно])[
+    + Пользоваться чем угодно, кроме LLM.
+    + Оформлять письменную часть электронно.
+  ]
+  #card(kind: c-warn, soft: s-warn, title: [Нельзя])[
+    + Списывать.
+    + Провалить любой из трёх этапов: неудовлетворительный этап --- ноль за весь экзамен, без утешительных.
+  ]
 ]
 
 Списки билетов и заданий заранее не публикуются.
@@ -743,7 +746,7 @@
 
 = Шпаргалка
 
-#card(kind: c-accent, title: [Ключевые цифры])[
+#card(kind: c-accent, title: [Ключевые цифры], brk: true)[
   #grid(
     columns: (1fr,) * 4,
     gutter: 8pt,
@@ -849,6 +852,6 @@
 
 = Ссылки
 
-+ Репозиторий курса: книга, конспекты, слайды, домашние задания --- #link("https://github.com/Lipen/discrete-math-course").
++ Репозиторий курса: книга, конспекты, слайды, домашние задания --- #link("https://github.com/Lipen/discrete-math-course")[github.com/Lipen/discrete-math-course].
 + Папки Dropbox для сдачи --- в анонсах.
 + Форма анонимного фидбека --- в анонсах.
