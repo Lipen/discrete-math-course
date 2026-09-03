@@ -1,4 +1,5 @@
 // Обзор курса "Дискретная математика" 2026/27 --- живой syllabus для студентов.
+#import "diagrams/timeline.typ": semester-timeline
 
 // ── Палитра ──
 // Штрихи, тёмный текст и маркеры.
@@ -180,48 +181,6 @@
   #text(size: 0.85em, hyphenate: true)[#keywords]
   #v(0.15em)
   #text(size: 0.85em, hyphenate: true, fill: color)[-> #hook]
-]
-
-// Сегмент таймлайна: пастельная полоса с цветной верхней линией.
-#let tl-seg(color, pastel, name, lects) = block(
-  width: 100%,
-  fill: pastel,
-  stroke: (top: 2.4pt + color),
-  outset: (x: -1.2pt),
-  inset: (x: 2pt, y: 4pt),
-  height: 3em,
-  breakable: false,
-  {
-    set text(hyphenate: false)
-    set par(justify: false)
-    align(center + horizon)[
-      #text(size: 0.85em, weight: "bold", fill: color)[#name]
-      #text(size: 0.7em, fill: c-soft)[#lects]
-    ]
-  },
-)
-
-// Маркер контроля на таймлайне.
-#let tl-mark(color, sym, label) = align(center)[
-  #text(fill: color, size: 0.7em)[#sym]
-  #text(size: 0.7em, fill: c-soft)[#label]
-]
-
-// Таймлайн: modules --- (недели, цвет, пастель, имя, диапазон), marks --- словарь неделя => (цвет, символ, метка).
-#let timeline(cols, modules, marks) = block(width: 100%, above: 1.1em, below: 0.4em)[
-  #grid(
-    columns: (1fr,) * cols,
-    gutter: 2pt,
-    ..modules.map(m => grid.cell(colspan: m.at(0), tl-seg(m.at(1), m.at(2), m.at(3), m.at(4)))),
-  )
-  #v(3pt)
-  #grid(
-    columns: (1fr,) * cols,
-    ..range(cols).map(i => {
-      let w = i + 1
-      if marks.keys().contains(str(w)) { tl-mark(..marks.at(str(w))) } else { [] }
-    }),
-  )
 ]
 
 // Крупная цифра для шпаргалки.
@@ -692,25 +651,25 @@
 
 == Семестр 1: 7 сентября --- 27 декабря
 
-Пять модулей по неделям; точки --- контрольные, ромбы --- теормины.
+Пять модулей по неделям; точки на оси --- контрольные и теормины.
 Контрольная приходится на последнюю неделю модуля или ближайшую после него.
 
-#timeline(
+#semester-timeline(
   16,
   (
-    (3, c-blue, p-blue, [Логика], [недели 1--3]),
-    (5, c-cyan, p-cyan, [Отношения и функции], [недели 4--8]),
-    (3, c-purple, p-purple, [Формальная логика], [недели 9--11]),
-    (3, c-green, p-green, [Булева алгебра], [недели 12--14]),
-    (2, c-amber, p-amber, [Коды], [недели 15--16]),
+    (1, 3, [Логика]),
+    (4, 8, [Отношения и функции]),
+    (9, 11, [Формальная логика]),
+    (12, 14, [Булева алгебра]),
+    (15, 16, [Коды]),
   ),
   (
-    "5": (c-kr-dark, sym.circle.filled.small, [КР1]),
-    "9": (c-kr-dark, sym.circle.filled.small, [КР2]),
-    "10": (c-tm-dark, sym.diamond.filled.small, [ТМ1]),
-    "11": (c-kr-dark, sym.circle.filled.small, [КР3]),
-    "14": (c-kr-dark, sym.circle.filled.small, [КР4]),
-    "16": (c-tm-dark, sym.diamond.filled.small, [ТМ2]),
+    (5, "kr", [КР1]),
+    (9, "kr", [КР2]),
+    (10, "tm", [ТМ1]),
+    (11, "kr", [КР3]),
+    (14, "kr", [КР4]),
+    (16, "tm", [ТМ2]),
   ),
 )
 
@@ -731,24 +690,24 @@
 
 == Семестр 2: 1 февраля --- 30 мая
 
-Четыре модуля по лекциям; точки --- контрольные, ромбы --- теормины.
+Четыре модуля по неделям; точки на оси --- контрольные и теормины.
 Каждая контрольная пишется по материалу закрывшегося модуля.
 
-#timeline(
+#semester-timeline(
   16,
   (
-    (4, c-blue, p-blue, [Графы], [лекции 1--4]),
-    (4, c-cyan, p-cyan, [Автоматы], [лекции 5--8]),
-    (4, c-purple, p-purple, [Машина Тьюринга], [лекции 9--12]),
-    (4, c-green, p-green, [Комбинаторика], [лекции 13--16]),
+    (1, 4, [Графы]),
+    (5, 8, [Автоматы]),
+    (9, 12, [Машина Тьюринга]),
+    (13, 16, [Комбинаторика]),
   ),
   (
-    "4": (c-kr-dark, sym.circle.filled.small, [КР1]),
-    "8": (c-kr-dark, sym.circle.filled.small, [КР2]),
-    "9": (c-tm-dark, sym.diamond.filled.small, [ТМ1]),
-    "12": (c-kr-dark, sym.circle.filled.small, [КР3]),
-    "15": (c-kr-dark, sym.circle.filled.small, [КР4]),
-    "16": (c-tm-dark, sym.diamond.filled.small, [ТМ2]),
+    (4, "kr", [КР1]),
+    (8, "kr", [КР2]),
+    (9, "tm", [ТМ1]),
+    (12, "kr", [КР3]),
+    (15, "kr", [КР4]),
+    (16, "tm", [ТМ2]),
   ),
 )
 
