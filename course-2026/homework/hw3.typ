@@ -21,13 +21,13 @@
 )
 
 #let card(x) = $abs(#x)$
+#show table: set block(breakable: false)
 
 
 #Box[
   "Математика --- это наука, в которой мы никогда не знаем, о чём говорим, и верно ли то, что мы говорим."
   #align(right)[--- Бертран Рассел]
 ]
-#show table: set block(breakable: false)
 
 
 #Block[
