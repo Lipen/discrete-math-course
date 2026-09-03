@@ -161,10 +161,6 @@ Everything is also re-exported flat from the crate root under familiar names (`c
 
 ## Tests
 
-```bash
-cargo test
-```
-
 Unit tests: 29.
 Doc-tests: 19 (every public function has a runnable example).
 Coverage:

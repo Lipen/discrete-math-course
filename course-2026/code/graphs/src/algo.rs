@@ -4,7 +4,6 @@
 //! The model is separate from the algorithms: the same graph can be fed to any number of functions.
 //!
 //! Each algorithm's complexity and idea are described in its documentation.
-//! Working demos live in `examples/`.
 
 use std::cmp::Reverse;
 use std::collections::{BinaryHeap, VecDeque};

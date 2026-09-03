@@ -103,7 +103,7 @@ The laws hold up to isomorphism, witnessed by pairs of inverse functions.
 | `TableGroup`                 | A finite group given only by its Cayley table, with axiom checks |
 | `Gf<M, MOD>`, `Gf4`, `Gf256` | The finite fields `GF(2^m)`: `GF(4)` and the byte field of AES   |
 
-### Constructions
+### Functions
 
 | Item                                        | What it does                                        |
 | ------------------------------------------- | --------------------------------------------------- |
