@@ -3,7 +3,6 @@
 Finite automata and regular languages.
 
 Deterministic and nondeterministic automata over `char` alphabets, the subset construction, and the classic language operations — complement, union, intersection, difference.
-Every idea has a runnable demo in `examples/`.
 
 ## Quick start
 
@@ -73,5 +72,12 @@ The verdict `ok` on each line confirms that the subset construction preserved th
 ## Tests
 
 Unit tests live next to the code in `src/`.
-They check acceptance word by word, rejection outside the alphabet, emptiness, the complement law $\overline{\overline{L}} = L$, union, intersection, and difference against set algebra, equivalence of structurally different machines with one language, and the epsilon-closure laws.
+They cover:
+
+- acceptance word by word and rejection of symbols outside the alphabet
+- emptiness of the language and the complement law $\overline{\overline{L}} = L$
+- union, intersection, and difference against set algebra
+- equivalence of structurally different machines with one language
+- the epsilon-closure laws
+
 Doc-tests cover every public method.

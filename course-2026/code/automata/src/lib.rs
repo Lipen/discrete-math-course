@@ -3,8 +3,6 @@
 //! DFAs, NFAs (with epsilon transitions), the subset construction and
 //! operations on languages (complement, union, intersection, difference).
 //!
-//! Every concept has runnable examples in `examples/`.
-//!
 //! ```
 //! use automata::{Dfa, Nfa};
 //!

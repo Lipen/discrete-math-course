@@ -3,7 +3,6 @@
 Context-free grammars and languages.
 
 Grammars, parse trees, Chomsky normal form, and CYK recognition.
-A runnable demo ships in `examples/`.
 
 ## Quick start
 
@@ -80,5 +79,12 @@ The demo prints the converted grammar, acceptance verdicts for several words, an
 ## Tests
 
 Unit tests live next to the code in `src/`.
-They check the CNF shape (every production is $A \to B C$, $A \to a$, or the restored $S \to \varepsilon$), language preservation under conversion, the CYK table cells for `aabb`, the tree count of an ambiguous grammar ($S \to S S \mid a$ gives two trees for `aaa`), and the cap that turns an epsilon-cycle into `GrammarError::TooManyParseTrees`.
+They cover:
+
+- the CNF shape: every production is $A \to B C$, $A \to a$, or the restored $S \to \varepsilon$
+- language preservation under conversion
+- the CYK table cells for `aabb`
+- the tree count of an ambiguous grammar: $S \to S S \mid a$ gives two trees for `aaa`
+- the cap that turns an epsilon-cycle into `GrammarError::TooManyParseTrees`
+
 Doc-tests cover the public API.

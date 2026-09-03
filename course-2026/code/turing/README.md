@@ -3,7 +3,6 @@
 Turing machines.
 
 A concrete model: a tape held as two stacks, a transition table, accepting and rejecting states, and a trace of every configuration the machine visits.
-The design follows the mathematical definition, not any specific hardware.
 
 ## Quick start
 
@@ -77,5 +76,11 @@ Never-visited cells hold the blank symbol, and `content_trimmed` strips the lead
 ## Tests
 
 Unit tests live next to the code in `src/`.
-Each example machine is checked against accept/reject word lists, the $0^n 1^n$ trace is checked configuration by configuration, binary increment is checked digit by digit on eight inputs, and a machine that moves right forever ends with `Limit`.
+They cover:
+
+- every example machine against accept/reject word lists
+- the $0^n 1^n$ run, configuration by configuration
+- binary increment digit by digit on eight inputs
+- a machine that moves right forever, which ends with `Limit`
+
 Doc-tests run one scenario per public item.
