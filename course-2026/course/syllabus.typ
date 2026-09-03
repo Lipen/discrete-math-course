@@ -15,15 +15,15 @@
 #let c-kr-dark = oklch(38%, 0.13, 262deg)
 #let c-tm-dark = oklch(38%, 0.13, 320deg)
 
-// Пастельные заливки с одинаковой хромой: lighten() даёт неровную пастель из-за клампинга sRGB.
-#let p-blue = oklch(90%, 0.045, 262deg)
-#let p-cyan = oklch(90%, 0.045, 205deg)
-#let p-purple = oklch(90%, 0.045, 320deg)
-#let p-green = oklch(90%, 0.045, 150deg)
-#let p-amber = oklch(90%, 0.045, 70deg)
-#let p-bad = oklch(90%, 0.05, 27deg)
-#let p-warn = oklch(90%, 0.05, 55deg)
-#let s-warn = oklch(94%, 0.035, 55deg)
+// Пастельные заливки --- прозрачные смеси базовых цветов над белой страницей.
+#let p-blue = c-blue.transparentize(80%)
+#let p-cyan = c-cyan.transparentize(80%)
+#let p-purple = c-purple.transparentize(80%)
+#let p-green = c-green.transparentize(80%)
+#let p-amber = c-amber.transparentize(80%)
+#let p-bad = c-bad.transparentize(80%)
+#let p-warn = c-warn.transparentize(80%)
+#let s-warn = c-warn.transparentize(88%)
 
 #set text(12pt, lang: "ru")
 #set par(justify: true)
@@ -68,7 +68,7 @@
   width: 100%,
   above: 0.8em,
   below: 0.8em,
-  fill: if soft == auto { kind.lighten(93%) } else { soft },
+  fill: if soft == auto { kind.transparentize(88%) } else { soft },
   stroke: (
     left: 2.5pt + kind,
     top: 0.6pt + kind.lighten(70%),
@@ -88,7 +88,7 @@
 
 // FAQ-ячейка: заливка на grid.cell, чтобы пара в ряду была одной высоты.
 #let fcard(title, body) = grid.cell(
-  fill: c-accent.lighten(93%),
+  fill: c-accent.transparentize(88%),
   stroke: (
     left: 2.5pt + c-accent,
     top: 0.6pt + c-accent.lighten(70%),
@@ -199,7 +199,7 @@
 
 // Крупная цифра для шпаргалки.
 #let stat(num, label) = block(
-  fill: c-accent.lighten(94%),
+  fill: c-accent.transparentize(90%),
   stroke: 0.6pt + c-accent.lighten(68%),
   radius: 6pt,
   inset: (x: 10pt, y: 9pt),
@@ -217,7 +217,7 @@
 
 #block(
   width: 100%,
-  fill: c-accent.lighten(93%),
+  fill: c-accent.transparentize(88%),
   stroke: (
     left: 3.5pt + c-accent,
     top: 0.7pt + c-accent.lighten(52%),
