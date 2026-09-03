@@ -1,8 +1,6 @@
 # lambda
 
-Untyped λ-calculus as a small, self-contained library.
-
-The crate provides λ-terms with capture-avoiding substitution, β-reduction under three strategies (normal order, applicative order, weak head normal form), Church encodings of numerals, booleans, and pairs, the SKI combinators, and a minimal simply-typed layer on top.
+Untyped λ-calculus: terms with capture-avoiding substitution, three fuel-limited reduction strategies, Church encodings, the SKI combinators, and a simply-typed layer.
 
 ## Quick start
 
@@ -46,44 +44,66 @@ All drivers are fuel-limited (`max_steps`), so diverging terms such as $\Omega$ 
 
 ## Demos
 
-| Demo           | Shows                                                                    |
-| -------------- | ------------------------------------------------------------------------ |
-| `church_arith` | Church numerals: `succ`, `add`, `mult`, `power` ($2^4 = 16$)             |
-| `combinators`  | I, K, S and the reduction of `S K K` to the identity                     |
-| `beta_trace`   | Step-by-step β-reduction traces, including Church `succ` applied to 2    |
+| Demo           | Shows                                                                 |
+| -------------- | --------------------------------------------------------------------- |
+| `church_arith` | Church numerals: `succ`, `add`, `mult`, `power` ($2^4 = 16$)          |
+| `combinators`  | I, K, S and the reduction of `S K K` to the identity                  |
+| `beta_trace`   | Step-by-step β-reduction traces, including Church `succ` applied to 2 |
 
 ## API
 
-| Item                                                         | Purpose                                                                           |
-| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| `Term`                                                       | A λ-term: `Var`, `Abs`, `App`                                                     |
-| `Term::var` / `Term::abs` / `Term::app`                      | Constructors                                                                      |
-| `Term::free_vars`                                            | Free variables of a term                                                          |
-| `Term::substitute`                                           | Capture-avoiding substitution $M[x := N]$                                         |
-| `Term::rename`                                               | α-conversion (rename a bound variable)                                            |
-| `Term::beta_reduce`                                          | One normal-order β-step, `None` at a normal form                                  |
-| `Term::beta_reduce_applicative`                              | One applicative-order β-step (leftmost innermost)                                 |
-| `Term::whnf_step`                                            | One step toward weak head normal form                                             |
-| `Term::normalize`                                            | Normal-order reduction to normal form, fuel-limited                               |
-| `Term::normalize_applicative`                                | Applicative-order reduction, fuel-limited                                         |
-| `Term::whnf`                                                 | Weak-head reduction, fuel-limited                                                 |
-| `Term::reduce_normal` / `reduce_applicative` / `reduce_whnf` | The same runs, returning a `Reduction` with a step counter                        |
-| `Reduction`                                                  | `{ term, steps, converged }` — the term reached, the steps taken, the fuel status |
-| `Term::trace` / `trace_applicative`                          | Step-by-step reduction traces                                                     |
-| `Term::is_normal_form` / `is_whnf`                           | Normal-form predicates                                                            |
-| `church` / `to_nat`                                          | Church numerals and reading their value back                                      |
-| `succ` / `add` / `mult` / `power`                            | Arithmetic on Church numerals                                                     |
-| `is_zero` / `pred`                                           | Zero test and predecessor (pair shift)                                            |
-| `church_true` / `church_false`                               | Church booleans                                                                   |
-| `and` / `or` / `not` / `ifthenelse`                          | Boolean logic                                                                     |
-| `church_to_bool`                                             | Interpret a Church boolean back to `bool`                                         |
-| `pair` / `fst` / `snd`                                       | Church pairs and projections                                                      |
-| `i` / `k` / `s`                                              | SKI combinators (S and K form a basis)                                            |
-| `Ty` / `STerm`                                               | Simply-typed terms: `Base`, `Arrow`, annotated binders                            |
-| `STerm::erase`                                               | Erase types to the untyped `Term`                                                 |
-| `STerm::infer` / `type_of`                                   | Type check against a context or the empty context                                 |
-| `TypeError`                                                  | Why a typed term failed to check                                                  |
+### Terms and reduction
+
+| Item                                                         | Purpose                                                                            |
+| ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| `Term` (`Var`, `Abs`, `App`)                                 | a λ-term                                                                           |
+| `Term::var` / `Term::abs` / `Term::app`                      | constructors                                                                       |
+| `Term::free_vars`                                            | free variables of a term                                                           |
+| `Term::substitute`                                           | capture-avoiding substitution $M[x := N]$                                          |
+| `Term::rename`                                               | α-conversion (rename a bound variable)                                             |
+| `Term::beta_reduce`                                          | one normal-order β-step, `None` at a normal form                                   |
+| `Term::beta_reduce_applicative`                              | one applicative-order β-step (leftmost innermost)                                  |
+| `Term::whnf_step`                                            | one step toward weak head normal form                                              |
+| `Term::normalize`                                            | normal-order reduction to normal form, fuel-limited                                |
+| `Term::normalize_applicative`                                | applicative-order reduction, fuel-limited                                          |
+| `Term::whnf`                                                 | weak-head reduction, fuel-limited                                                  |
+| `Term::reduce_normal` / `reduce_applicative` / `reduce_whnf` | the same runs, returning a `Reduction` with a step counter                         |
+| `Reduction`                                                  | `{ term, steps, converged }` — the term reached, the steps taken, the fuel status  |
+| `Term::trace` / `trace_applicative`                          | step-by-step reduction traces                                                      |
+| `Term::is_normal_form` / `is_whnf`                           | normal-form predicates                                                             |
+
+### Church encodings
+
+| Item                                | Purpose                                      |
+| ----------------------------------- | -------------------------------------------- |
+| `church` / `to_nat`                 | Church numerals and reading their value back |
+| `succ` / `add` / `mult` / `power`   | arithmetic on Church numerals                |
+| `is_zero` / `pred`                  | zero test and predecessor (pair shift)       |
+| `church_true` / `church_false`      | Church booleans                              |
+| `and` / `or` / `not` / `ifthenelse` | boolean logic                                |
+| `church_to_bool`                    | interpret a Church boolean back to `bool`    |
+| `pair` / `fst` / `snd`              | Church pairs and projections                 |
+
+### Combinators
+
+| Item            | Purpose                                |
+| --------------- | -------------------------------------- |
+| `i` / `k` / `s` | SKI combinators (S and K form a basis) |
+
+### Simply-typed layer
+
+| Item                       | Purpose                                                |
+| -------------------------- | ------------------------------------------------------ |
+| `Ty` / `STerm`             | simply-typed terms: `Base`, `Arrow`, annotated binders |
+| `STerm::erase`             | erase types to the untyped `Term`                      |
+| `STerm::infer` / `type_of` | type check against a context or the empty context      |
+| `TypeError`                | why a typed term failed to check                       |
 
 ## Tests
 
-Unit tests cover capture-avoidance edge cases, the divergence of applicative order on $\Omega$ where normal order terminates, weak-head behavior, and the arithmetic identities of the Church encodings.
+The unit tests cover:
+
+- capture-avoidance edge cases: renaming under nested binders, shadow boundaries, names bound deeper in the body
+- the divergence of applicative order on $\Omega$ where normal order terminates
+- weak-head behavior: redexes inside arguments are left untouched
+- the arithmetic identities of the Church encodings

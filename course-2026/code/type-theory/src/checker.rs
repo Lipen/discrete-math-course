@@ -1,13 +1,12 @@
 //! Church-style typed terms and the three typing rules of λ→.
 //!
-//! A typed term [`STerm`] carries its binder annotations: `λx:σ. M`. The
-//! three rules
+//! A typed term [`STerm`] carries its binder annotations: `λx:σ. M`.
+//! [`STerm::check`] implements the three rules against a [`Context`]:
 //!
 //! - **var**: `Γ, x:σ ⊢ x : σ`.
 //! - **app**: `Γ ⊢ M : σ→τ` and `Γ ⊢ N : σ` give `Γ ⊢ M N : τ`.
 //! - **abs**: `Γ, x:σ ⊢ M : τ` gives `Γ ⊢ λx:σ. M : σ→τ`.
 //!
-//! are implemented by [`STerm::check`] against a [`Context`].
 //! Because a redex kept in annotated form β-reduces while preserving annotations ([`STerm::beta_reduce`]), the same module demonstrates **subject reduction**: if `Γ ⊢ M : σ` and `M →β M'`, then `Γ ⊢ M' : σ`.
 //!
 //! ```
@@ -29,8 +28,8 @@ use crate::ty::{Context, Type};
 
 /// A term of the simply-typed lambda calculus, with binder annotations.
 ///
-/// `Abs(x, ty, body)` is `λx:ty. body`. Built through the helper methods
-/// [`var`](STerm::var), [`abs`](STerm::abs), and [`app`](STerm::app).
+/// `Abs(x, ty, body)` is `λx:ty. body`.
+/// Built through the helper methods [`var`](STerm::var), [`abs`](STerm::abs), and [`app`](STerm::app).
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum STerm {
     /// A variable.

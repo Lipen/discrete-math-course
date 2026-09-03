@@ -2,8 +2,7 @@
 
 Simply-typed λ-calculus (λ→).
 
-The crate provides types and contexts, the three typing rules var/app/abs as *checking* over Church-annotated terms, *inference* of the most general type of an untyped term by unification with metavariables, and subject reduction: a typed term β-reduces preserving its type.
-Self-application `λx. x x` is rejected — it would need `σ = σ -> τ`.
+Church-annotated terms are checked by the var/app/abs rules, untyped terms get their most general type by unification, and β-reduction of a typed term preserves its type.
 
 ## Quick start
 
@@ -16,7 +15,10 @@ cargo run --example subject_reduction
 
 ## The type system
 
-A type is a base type (`Nat`, `Bool`, ...) or a function type `σ -> τ`.
+Types are built from base names and arrows, and arrows associate to the right: `Nat -> Nat -> Nat` reads `Nat -> (Nat -> Nat)`.
+
+$$\sigma ::= B \mid \sigma \to \tau$$
+
 The three typing rules are the whole system:
 
 $$
@@ -25,10 +27,9 @@ $$
    \frac{\Gamma,x:\sigma\vdash M:\tau}{\Gamma\vdash\lambda x:\sigma.\;M:\sigma\to\tau}\;\textbf{abs}
 $$
 
-Checking an annotated term is a short walk over these rules.
-Inferring the type of an untyped term assigns fresh metavariables to each binder and unifies.
-Because `x` in `λx. x x` would have to be both the argument and a function, inference demands `σ = σ -> τ`, which the occurs check rejects.
+### Checking
 
+Checking a Church-annotated term (`λx:σ. M`) is a walk over these rules: a variable looks up its type in the context, a binder extends the context, and an application compares the argument type with the function's domain.
 The identity `λx:A. x` types as `A -> A` by one `var` step under one `abs` step:
 
 $$
@@ -39,14 +40,27 @@ $$
 }\;\textbf{abs}
 $$
 
-## The core idea
+### Inference
 
-`λx. x` has type `σ -> σ` for any `σ`.
-Checked on `Nat` it reads `Nat -> Nat`, and its inferred most general type is `a -> a`.
-The K combinator `λx. λy. x` types as `σ -> τ -> σ` (inferred as `a -> b -> a`), which reads as the axiom `A -> B -> A` of minimal logic.
-Self-application `λx. x x` has no type: it would need `σ = σ -> τ`.
-The non-terminating term $\Omega = (\lambda x.\;x\,x)(\lambda x.\;x\,x)$ is rejected for the same reason.
-Subject reduction makes the type an *invariant* of computation: each β-step of a typed term preserves it.
+Inferring the type of an untyped term assigns a fresh metavariable to each binder and unifies the constraints of the three rules (algorithm W).
+Unbound metavariables `?0`, `?1`, ... generalize, in order of first appearance, to schematic variables `a`, `b`, ..., so the identity infers as the scheme `a -> a`.
+Because `x` in `λx. x x` would have to be both the argument and a function, inference demands `σ = σ -> τ`, which the occurs check rejects.
+
+## Canonical terms
+
+| Term          | Checked       | Inferred      | Reading                                       |
+| ------------- | ------------- | ------------- | --------------------------------------------- |
+| `λx. x`       | `σ -> σ`      | `a -> a`      | the identity function                         |
+| `λx. λy. x`   | `σ -> τ -> σ` | `a -> b -> a` | the axiom `A -> B -> A` of minimal logic      |
+| `ω = λx. x x` | rejected      | rejected      | needs `σ = σ -> τ`                            |
+| `Ω = ω ω`     | rejected      | rejected      | contains `ω`, and the term does not terminate |
+
+Checked on `Nat`, the identity reads `Nat -> Nat`.
+
+## Subject reduction
+
+The type is an *invariant* of computation: if `Γ ⊢ M : σ` and `M →β M'`, then `Γ ⊢ M' : σ`.
+Reduction on `STerm` keeps the binder annotations, so each β-step of a typed term can be followed by a re-check.
 
 ## Modules
 
@@ -59,11 +73,11 @@ Subject reduction makes the type an *invariant* of computation: each β-step of 
 
 ## Demos
 
-| Demo                | Shows                                                                                                                                    |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `typed_terms`       | Checking identity, K, a Church numeral, and composition, with ill-typed terms (self-application, mismatch, unbound variable) rejected    |
-| `inference`         | Inferring the most general type of identity, K, S, and Church 2, with $\omega$ and $\Omega$ rejected by the occurs check                 |
-| `subject_reduction` | `(λf:A→A. λx:A. f x)(λx:A. x)` reduces to `λx:A. x` with the type `A → A` preserved at every step                                        |
+| Demo                 | Shows                                                                                                                                 |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `typed_terms`        | Checking identity, K, a Church numeral, and composition, with ill-typed terms (self-application, mismatch, unbound variable) rejected |
+| `inference`          | Inferring the most general type of identity, K, S, and Church 2, with $\omega$ and $\Omega$ rejected by the occurs check              |
+| `subject_reduction`  | `(λf:A→A. λx:A. f x)(λx:A. x)` reduces to `λx:A. x` with the type `A → A` preserved at every step                                     |
 
 ## API
 
@@ -85,4 +99,8 @@ Subject reduction makes the type an *invariant* of computation: each β-step of 
 
 ## Tests
 
-The suite covers the typing of identity and K, the rejection of self-application $\omega = \lambda x.\;x\;x$, and subject reduction on the detour example.
+The unit tests and doc tests cover:
+
+- typing of identity and K
+- rejection of self-application $\omega = \lambda x.\;x\;x$
+- subject reduction on the detour example

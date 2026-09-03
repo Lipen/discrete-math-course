@@ -12,8 +12,8 @@
 use crate::term::Term;
 
 /// Outcome of a fuel-limited reduction run.
-/// The driver performs `steps` single-step reductions, then either reached a normal form (`converged == true`) or ran out of fuel (`converged == false` -- the term may still contain redexes).
 ///
+/// The driver performs `steps` single-step reductions, then either reached a normal form (`converged == true`) or ran out of fuel (`converged == false` -- the term may still contain redexes).
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Reduction {
     /// The term reached after `steps` reductions.

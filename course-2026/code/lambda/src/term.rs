@@ -29,9 +29,7 @@ use std::fmt;
 /// | `Abs(x, M)` | Abstraction `λx. M` | `λx. x` |
 /// | `App(M, N)` | Application `M N` | `(λx. x) y` |
 ///
-/// Terms are constructed through the helper methods [`var`](Term::var),
-/// [`abs`](Term::abs), and [`app`](Term::app) so that `Box`-wrapping is
-/// handled internally.
+/// Terms are constructed through the helper methods [`var`](Term::var), [`abs`](Term::abs), and [`app`](Term::app) so that `Box`-wrapping is handled internally.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Term {
     /// A variable.
