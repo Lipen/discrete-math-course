@@ -52,7 +52,7 @@ Around the traits stand the standard constructions:
 
 The finite fields build `GF(2^m)` as a quotient of the polynomial ring over `GF(2)`:
 
-$$GF(2^m) = GF(2)[x]/(f(x))$$
+$$GF(2^m) \cong GF(2)[x]/(f(x))$$
 
 for an irreducible polynomial $f$ of degree $m$: addition is the XOR of coefficient bits, and multiplication is polynomial multiplication reduced modulo $f$.
 
