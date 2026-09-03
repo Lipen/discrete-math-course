@@ -32,7 +32,7 @@
   margin: (x: 2.2cm, top: 2.8cm, bottom: 2.4cm),
   header: context {
     if counter(page).get().first() > 1 {
-      set text(9pt, fill: c-soft)
+      set text(0.75em, fill: c-soft)
       block(
         width: 100%,
         stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
@@ -45,14 +45,14 @@
     }
   },
   footer: context [
-    #set text(9pt, fill: c-soft)
+    #set text(0.75em, fill: c-soft)
     #counter(page).display("1 / 1")
   ],
 )
 
 #set heading(numbering: "1.")
 
-#show heading.where(level: 1): set text(15.5pt, weight: "bold", fill: c-accent)
+#show heading.where(level: 1): set text(15.6pt, weight: "bold", fill: c-accent)
 #show heading.where(level: 1): it => block(
   width: 100%,
   above: 1.7em,
@@ -61,7 +61,7 @@
   stroke: (bottom: 0.7pt + c-accent.lighten(55%)),
   it,
 )
-#show heading.where(level: 2): set text(13pt, weight: "semibold")
+#show heading.where(level: 2): set text(13.2pt, weight: "semibold")
 #show heading.where(level: 2): set block(above: 2em, below: 0.75em)
 
 #let card(kind: c-accent, soft: auto, title: none, body) = block(
@@ -79,6 +79,7 @@
   inset: (x: 14pt, y: 11pt),
   breakable: false,
 )[
+  #set par(justify: false)
   #if title != none [
     #text(weight: "bold", fill: kind.darken(10%))[#title]
     #v(0.5em)
@@ -118,7 +119,7 @@
     breakable: false,
     align(center + horizon)[
       #text(
-        size: 13pt,
+        size: 1.1em,
         weight: "bold",
         fill: main,
       )[#num]
@@ -126,7 +127,7 @@
   )
   align(center)[
     #text(
-      size: 8pt,
+      size: 0.75em,
       fill: c-soft,
     )[#label]
   ]
@@ -144,8 +145,8 @@
   {
     set text(hyphenate: false)
     align(center + horizon)[
-      #text(size: 12pt, weight: "bold", fill: main)[#range] \
-      #text(size: 9pt, fill: c-soft)[#name]
+      #text(weight: "bold", fill: main)[#range] \
+      #text(size: 0.75em, fill: c-soft)[#name]
     ]
   },
 )
@@ -165,12 +166,12 @@
   breakable: false,
 )[
   #set text(hyphenate: false)
-  #text(weight: "bold", size: 10.5pt)[#title] \
-  #text(size: 8.5pt, fill: c-soft)[#meta]
+  #text(weight: "bold")[#title] \
+  #text(size: 0.75em, fill: c-soft)[#meta]
   #v(0.25em)
-  #text(size: 9pt)[#keywords]
+  #text(size: 0.85em)[#keywords]
   #v(0.15em)
-  #text(size: 8.5pt, fill: color)[-> #hook]
+  #text(size: 0.85em, fill: color)[-> #hook]
 ]
 
 // Сегмент таймлайна: пастельная полоса с цветной верхней линией.
@@ -185,16 +186,16 @@
   {
     set text(hyphenate: false)
     align(center + horizon)[
-      #text(size: 8pt, weight: "bold", fill: color)[#name]
-      #text(size: 7pt, fill: c-soft)[#lects]
+      #text(size: 0.85em, weight: "bold", fill: color)[#name]
+      #text(size: 0.7em, fill: c-soft)[#lects]
     ]
   },
 )
 
 // Маркер контроля на таймлайне.
 #let tl-mark(color, sym, label) = align(center)[
-  #text(fill: color, size: 8pt)[#sym]
-  #text(size: 7pt, fill: c-soft)[#label]
+  #text(fill: color, size: 0.7em)[#sym]
+  #text(size: 0.7em, fill: c-soft)[#label]
 ]
 
 // Таймлайн: modules --- (недели, цвет, пастель, имя, диапазон), marks --- словарь неделя => (цвет, символ, метка).
@@ -224,8 +225,8 @@
   {
     set text(hyphenate: false)
     align(center + horizon)[
-      #text(size: 16pt, weight: "bold", fill: c-accent)[#num]
-      #text(size: 8.5pt, fill: c-soft)[#label]
+      #text(size: 1.3em, weight: "bold", fill: c-accent)[#num]
+      #text(size: 0.75em, fill: c-soft)[#label]
     ]
   },
 )
@@ -245,22 +246,20 @@
 )[
   #align(center)[
     #text(
-      24pt,
+      2em,
       weight: "bold",
     )[Дискретная математика]
     #v(0.5em)
     #text(
-      13pt,
+      1.1em,
       fill: c-accent,
       weight: "semibold",
     )[Обзор курса · 2026/27]
     #v(0.7em)
-    #text(
-      11pt,
-    )[#emoji.leaf.maple Семестр 1: 7 сентября --- 27 декабря #h(1.2em) #emoji.flower.tulip Семестр 2: 1 февраля --- 30 мая]
+    #emoji.leaf.maple Семестр 1: 7 сентября --- 27 декабря #h(1.2em) #emoji.flower.tulip Семестр 2: 1 февраля --- 30 мая
     #v(0.7em)
     #text(
-      10pt,
+      0.85em,
       fill: c-soft,
     )[2 семестра #h(1.1em) 144 ак. часа #h(1.1em) 4 зачётные единицы #h(1.1em) 16 лекций и 16 практик в семестре]
   ]
@@ -596,7 +595,7 @@
 Что берёт каждый:
 
 #table(
-  columns: (0.7fr, 1.7fr, 1.9fr),
+  columns: 3,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   align: (center, left, left),
   inset: (x: 8pt, y: 7.5pt),
