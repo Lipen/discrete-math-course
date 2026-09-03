@@ -347,7 +347,7 @@ impl Graph {
     }
 }
 
-/// A tiny random number generator (xorshift64) so we avoid external dependencies.
+/// A tiny random number generator (xorshift64), kept to avoid an external dependency.
 /// Good for teaching examples, not for cryptography.
 struct XorShift64(u64);
 

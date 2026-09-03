@@ -3,9 +3,7 @@
 Combinatorial object generators.
 
 Four families of objects — permutations, combinations, derangements, and integer partitions — each enumerated in lexicographic order.
-The counts match the theory exactly: $n!$, $C(n, k)$, and the subfactorial $!n$.
-Integer partitions are counted by the length of the enumeration, not by Euler's $p(n)$ recurrence.
-Every idea has a runnable demo in `examples/`.
+Every enumeration yields exactly the count the theory predicts: $n!$, $C(n, k)$, and the subfactorial $!n$.
 
 ## Quick start
 
@@ -19,16 +17,21 @@ cargo test
 
 ## What the crate generates
 
-Each family is enumerated in lexicographic order.
-The tests check that each enumeration yields exactly the matching formula: $n!$, $C(n, k)$, and $!n$.
-Integer partitions are verified by counting the enumerated list.
+| Family             | Object                                     | Count     | Enumeration order |
+| ------------------ | ------------------------------------------ | --------- | ----------------- |
+| Permutations       | a list of `0..n`, each value once          | $n!$      | lexicographic     |
+| Combinations       | a strictly increasing `k`-subset of `0..n` | $C(n, k)$ | lexicographic     |
+| Derangements       | a permutation with no fixed point          | $!n$      | lexicographic     |
+| Integer partitions | a non-increasing list summing to `n`       | $p(n)$    | lexicographic     |
 
-| Family             | Object                                     | Count                  | Enumeration order |
-| ------------------ | ------------------------------------------ | ---------------------- | ----------------- |
-| Permutations       | a list of `0..n`, each value once          | $n!$                   | lexicographic     |
-| Combinations       | a strictly increasing `k`-subset of `0..n` | $C(n, k)$              | lexicographic     |
-| Derangements       | a permutation with no fixed point          | $!n$                   | lexicographic     |
-| Integer partitions | a non-increasing list summing to `n`       | counted by enumeration | lexicographic     |
+### The counts
+
+$C(n, k) = \binom{n}{k}$ is the binomial coefficient.
+The subfactorial $!n$ obeys the recurrence
+
+$$!n = (n - 1) \cdot \bigl(!(n - 1) + !(n - 2)\bigr), \qquad !0 = 1,\ \ !1 = 0$$
+
+The partition count $p(n)$ comes from the enumeration itself: the crate counts the generated list rather than evaluating a recurrence.
 
 ## Demos
 
@@ -41,18 +44,21 @@ Integer partitions are verified by counting the enumerated list.
 
 ## API
 
-| Module        | Functions                                        |
-| ------------- | ------------------------------------------------ |
-| `permutation` | `next_permutation`, `permutations`, `factorial`  |
-| `combination` | `combinations`, `binomial`, `count_combinations` |
-| `derangement` | `derangements`, `subfactorial`                   |
-| `partition`   | `partitions`                                     |
+| Function                                     | Result                                                      |
+| -------------------------------------------- | ----------------------------------------------------------- |
+| `factorial(n)`                               | $n!$ (fits in `u64` for $n \le 20$)                         |
+| `next_permutation(&mut p)`                   | advance `p` to the next permutation, `false` after the last |
+| `permutations(n)`                            | all $n!$ permutations of `0..n`                             |
+| `binomial(n, k)`, `count_combinations(n, k)` | $C(n, k)$ (fits in `u64` for $n \le 67$)                    |
+| `combinations(n, k)`                         | all $C(n, k)$ `k`-subsets of `0..n`                         |
+| `subfactorial(n)`                            | $!n$ (fits in `u64` for $n \le 20$)                         |
+| `derangements(n)`                            | all $!n$ derangements of `0..n`                             |
+| `partitions(n)`                              | all $p(n)$ partitions of `n`                                |
 
 ## Notes
 
 - `next_permutation` uses the three classic steps: find the longest decreasing suffix, swap the pivot with the smallest larger element of the suffix, and reverse the suffix.
 - Derangements are enumerated without fixed points: at each position the matching value is skipped.
-- Counts are `u64`: $n!$ fits for $n \le 20$, $C(n, k)$ for $n \le 67$, and $!n$ for $n \le 20$.
 
 ## Tests
 

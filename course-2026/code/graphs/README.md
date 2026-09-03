@@ -67,6 +67,9 @@ The DOT source is committed at [`assets/graphs-demo.dot`](assets/graphs-demo.dot
 | `edge_weight(e)`, `adjacent(u, v)`                          | edge lookups                                 |
 | `degrees()`                                                 | all degrees (handshake lemma, histograms)    |
 | `Graph::erdos_renyi(n, p, seed)`                            | random graph $G(n, p)$, reproducible by seed |
+The degrees obey the handshake lemma:
+
+$$\sum_{v \in V} \deg v = 2 \, |E|$$
 
 ### Algorithms (`algo.rs`)
 
@@ -126,6 +129,9 @@ Kruskal's algorithm, undirected cycle detection, and Steensgaard's pointer analy
 | `neighbors(u)`, `in_neighbors(u)` | in- and out-neighbors                            |
 | `from_graph(&g)`, `to_graph()`    | conversion to and from `Graph`                   |
 | `count_walks(u, v, len)`          | number of walks of a given length (matrix power) |
+`count_walks(u, v, len)` uses the classic identity: the number of walks of length $\ell$ from $u$ to $v$ is the $(u, v)$ entry of the $\ell$-th power of the adjacency matrix $A$:
+
+$$(A^{\ell})_{uv} = \sum_{w \in V} (A^{\ell - 1})_{uw} \, A_{wv}$$
 
 ### De Bruijn graphs (`de_bruijn.rs`)
 
@@ -183,5 +189,15 @@ The two backends cover the easy routes, and the same data feeds the harder ones:
 ## Tests
 
 `cargo test` runs the unit tests next to the code in `src/` and the doc tests.
-Every algorithm has cases with explicit expected values: BFS distances on a square, Dijkstra's shortcut through a middle vertex, the Euler criterion (circuit vs path vs none), bridges and articulation points of a path, hostile vertex names staying valid JSON/DOT, the de Bruijn pipeline (read chopping, repeated reads, self-loops, unbalanced and disconnected graphs), the unification steps of the pointer analysis, matrix round-trips and walk counts, and union-find equivalence classes.
+Every algorithm has cases with explicit expected values:
+
+- BFS distances on a square, Dijkstra's shortcut through a middle vertex
+- the Euler criterion: circuit vs path vs none
+- bridges and articulation points of a path
+- hostile vertex names staying valid JSON and DOT
+- the de Bruijn pipeline: read chopping, repeated reads, self-loops, unbalanced and disconnected graphs
+- the unification steps of the pointer analysis
+- matrix round-trips and walk counts
+- union-find equivalence classes
+
 The doc tests in `src/` double as documentation.

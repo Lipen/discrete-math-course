@@ -2,7 +2,8 @@
 
 Matroids and the greedy algorithm.
 
-The independence axioms, three concrete matroids (graphic, linear over GF(2), uniform), the scheduling matroid, the rank function, and the key fact that the greedy algorithm is optimal on a matroid.
+The independence axioms define a matroid, and the exchange axiom makes the greedy algorithm provably optimal on it.
+Four concrete systems implement the axioms.
 
 ## Quick start
 
@@ -16,15 +17,25 @@ cargo test
 
 ## The idea
 
-A matroid is a ground set with a family of independent sets satisfying two axioms.
+A matroid is a finite ground set with a family of independent sets $\mathcal{I}$ satisfying two axioms.
+Heredity requires that every subset of an independent set be independent:
 
-- *Heredity*: every subset of an independent set is independent.
-- *Exchange*: if `A` and `B` are independent and $|B| > |A|$, some element of $B \setminus A$ can be added to `A` keeping it independent.
+$$A \in \mathcal{I},\ B \subseteq A \implies B \in \mathcal{I}$$
 
-On a matroid the greedy algorithm finds a maximum-weight independent set: take elements in decreasing weight order while independence holds.
+Exchange requires that some element of the larger independent set can be added to the smaller one:
+
+$$A, B \in \mathcal{I},\ |A| < |B| \implies \exists\, x \in B \setminus A:\ A \cup \{x\} \in \mathcal{I}$$
+
+### The greedy guarantee
+
+On a matroid the greedy algorithm finds a maximum-weight independent set:
+
+$$\operatorname{greedy}(M, w) \in \operatorname{arg\,max}_{I \in \mathcal{I}} \; \sum_{e \in I} w(e)$$
+
+The procedure takes elements in decreasing weight order while independence holds.
 On any other independence system the same procedure can be fooled.
 
-Concrete systems in the crate:
+### The systems of the crate
 
 | System                     | Ground set                 | Independent sets                        |
 | -------------------------- | -------------------------- | --------------------------------------- |
@@ -33,8 +44,12 @@ Concrete systems in the crate:
 | `BinaryLinearMatroid`      | rows of a binary matrix    | linearly independent subsets over GF(2) |
 | `SchedulingMatroid`        | job indices with deadlines | sets of jobs schedulable by deadlines   |
 
-The rank function `rank(m)` returns the size of a maximum independent set.
-Greedy with unit weights returns a base, and all bases of a matroid have the same size, so the rank is well-defined.
+### Rank
+
+$$r(M) = \max_{I \in \mathcal{I}} |I|$$
+
+The function `rank(m)` computes the rank as greedy with unit weights.
+Greedy returns a base, and the exchange property forces all bases of a matroid to have the same size, so the rank is well-defined.
 
 ## Demos
 

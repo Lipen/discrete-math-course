@@ -3,6 +3,17 @@
 //! A matroid is a finite ground set with an independence family closed under subsets (heredity) and satisfying the exchange property.
 //! On a matroid the greedy algorithm finds a maximum-weight independent set.
 //! On any other independence system it can be fooled.
+//!
+//! ```
+//! use matroids::examples::UniformMatroid;
+//! use matroids::{greedy, weight};
+//!
+//! let m = UniformMatroid { n: 4, k: 2 };
+//! let weights = [5u32, 3, 4, 2];
+//! let chosen = greedy(&m, &weights);
+//! assert_eq!(chosen.len(), 2); // a base of U(2, 4): the two heaviest elements
+//! assert_eq!(weight(&chosen, &weights), 9);
+//! ```
 
 pub mod examples;
 
@@ -15,6 +26,8 @@ pub trait Matroid {
 }
 
 /// Greedy algorithm: consider elements in decreasing weight order, take an element when independence of the chosen set is preserved.
+///
+/// The returned indices are sorted in increasing order.
 pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
     let mut order: Vec<u32> = (0..m.n()).collect();
     order.sort_by(|&a, &b| weights[b as usize].cmp(&weights[a as usize]));

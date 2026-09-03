@@ -3,7 +3,7 @@
 //! A `k`-subset of `0..n` is a strictly increasing list of `k` values.
 //! The enumeration walks the choices in lexicographic order.
 
-/// The binomial coefficient `C(n, k)`, as the number of `k`-subsets of `n`.
+/// The binomial coefficient `C(n, k)`, as the number of `k`-subsets of `0..n`.
 ///
 /// `C(n, k)` fits in `u64` for `n <= 67`.
 pub fn binomial(n: usize, k: usize) -> u64 {
@@ -18,7 +18,9 @@ pub fn binomial(n: usize, k: usize) -> u64 {
     r
 }
 
-/// The number of `k`-subsets of `0..n`, `C(n, k)`.
+/// The number of `k`-subsets of `0..n`: `C(n, k)`.
+///
+/// Alias of [`binomial`], named after [`combinations`].
 pub fn count_combinations(n: usize, k: usize) -> u64 {
     binomial(n, k)
 }
