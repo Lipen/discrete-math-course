@@ -75,7 +75,7 @@
     bottom: 0.6pt + kind.lighten(76%),
     right: 0.6pt + kind.lighten(76%),
   ),
-  radius: 8pt,
+  outset: (y: -1.25pt),
   inset: (x: 14pt, y: 11pt),
   breakable: false,
 )[
@@ -96,7 +96,7 @@
     bottom: 0.6pt + c-accent.lighten(70%),
     right: 0.6pt + c-accent.lighten(70%),
   ),
-  radius: 8pt,
+  outset: (y: -1.25pt),
   inset: (x: 14pt, y: 11pt),
   breakable: false,
 )[
@@ -112,7 +112,7 @@
     width: 100%,
     fill: pastel,
     stroke: (top: 2.4pt + main),
-    radius: 5pt,
+    outset: (x: -1.2pt),
     inset: (y: 5pt),
     height: 2.2em,
     breakable: false,
@@ -127,7 +127,7 @@
   width: 100%,
   fill: pastel,
   stroke: (top: 2.4pt + main),
-  radius: 5pt,
+  outset: (x: -1.2pt),
   inset: (x: 2pt, y: 5pt),
   height: 3.2em,
   breakable: false,
@@ -150,7 +150,7 @@
     bottom: 0.6pt + color.lighten(72%),
     right: 0.6pt + color.lighten(72%),
   ),
-  radius: 8pt,
+  outset: (y: -1.5pt),
   inset: (x: 11pt, y: 9pt),
   breakable: false,
 )[
@@ -168,7 +168,7 @@
   width: 100%,
   fill: pastel,
   stroke: (top: 2.4pt + color),
-  radius: 5pt,
+  outset: (x: -1.2pt),
   inset: (x: 2pt, y: 4pt),
   height: 3em,
   breakable: false,
@@ -208,7 +208,6 @@
 #let stat(num, label) = block(
   fill: c-accent.transparentize(90%),
   stroke: 0.6pt + c-accent.lighten(68%),
-  radius: 8pt,
   inset: (x: 10pt, y: 9pt),
   height: 3.4em,
   breakable: false,
@@ -231,7 +230,7 @@
     bottom: 0.7pt + c-accent.lighten(52%),
     right: 0.7pt + c-accent.lighten(52%),
   ),
-  radius: 12pt,
+  outset: (y: -1.75pt),
   inset: (x: 18pt, y: 20pt),
 )[
   #align(center)[
@@ -324,7 +323,7 @@
 
 #align(center)[
   #table(
-    columns: (1.6fr, 1.35fr, 2.65fr),
+    columns: 3,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (left, center, left),
     inset: (x: 8pt, y: 7.5pt),
@@ -334,8 +333,8 @@
     [Консультации], [~10 штук], [вопросы, разборы, досдачи ---\ свободное посещение],
     [Домашние задания], [4 штуки], [практика и кап для баллов\ за контрольные],
     [Контрольные работы], [4 штуки], [проверка усвоения модуля],
-    [Теормины], [2 штуки], [устный минимум: термины, вопросы, доказательство],
-    [Флеш-опросники], [каждую лекцию], [первые 5 минут; баллы за лекции],
+    [Теормины], [2 штуки], [устный минимум: термины,\ вопросы, доказательство],
+    [Флеш-опросники], [каждую лекцию], [баллы за лекции],
     [Экзамен], [1 штука], [итоговая проверка всего семестра],
   )
 ]
