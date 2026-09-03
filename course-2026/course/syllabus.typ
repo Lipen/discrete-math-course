@@ -62,7 +62,7 @@
   it,
 )
 #show heading.where(level: 2): set text(13pt, weight: "semibold")
-#show heading.where(level: 2): set block(above: 1.15em, below: 0.55em)
+#show heading.where(level: 2): set block(above: 2em, below: 0.75em)
 
 #let card(kind: c-accent, soft: auto, title: none, body) = block(
   width: 100%,
