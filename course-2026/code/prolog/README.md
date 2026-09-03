@@ -3,7 +3,6 @@
 Terms, substitutions, unification, and clause databases.
 
 A deliberately small model of the *data* of logic programming.
-No parser, no REPL, no arithmetic, no cut, no solver.
 The library stops where the theory of terms and unification is complete.
 
 ## Quick start
@@ -24,6 +23,12 @@ This crate models the ingredients of such a program, and nothing more:
 - `Term`: variables, constants, and structures, with lists as sugar over the `.`/`[]` functors.
 - `Subst` and `unify`: solving equations between terms, with the occurs check (a variable never binds to a term that contains it).
 - `Clause`, `Goal`, `Database`: facts, rules, and the program, indexed by predicate.
+
+The central operation is unification: a substitution $\sigma$ unifies $t_1$ and $t_2$ when
+
+$$\sigma t_1 = \sigma t_2$$
+
+and `unify` extends $\sigma$ into the most general such substitution.
 
 What is *missing* is the engine that runs a query: the depth-first SLD resolver with backtracking.
 It matches a goal against clause heads by unification, pushes one suspended derivation per matching clause, and falls back when a branch dies.

@@ -27,7 +27,7 @@
 //!
 //! - [`Formula`], a tiny propositional formula type (atoms, and/or/implies/not/top/bottom) evaluated in any [`Algebra`] under a valuation.
 //!
-//! - [`valid`], an exhaustive validity checker over all finite Heyting algebras up to a documented size bound (16 elements).
+//! - [`valid`], an exhaustive validity check over all finite Heyting algebras with up to 5 elements, plus larger algebras from the same enumeration (up to 16 elements).
 //!   It is a small-scale decision procedure for intuitionistic validity.
 //!
 //! ```

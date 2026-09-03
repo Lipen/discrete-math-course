@@ -18,26 +18,50 @@ cargo test
 
 Natural deduction formalizes mathematical proof as a game of introduction and elimination rules.
 To prove `A -> B`, assume `A` in a subproof and derive `B`.
-To use `A -> B`, combine it with `A` and conclude `B`.
-Fitch diagrams draw the subproofs as nested boxes, and here the nesting is the `depth` field.
+To use `A -> B`, combine it with `A` and conclude `B`:
+
+$$\frac{[A] \;\; B}{A \to B} \;(\to\text{I}) \qquad\qquad \frac{A \to B \qquad A}{B} \;(\to\text{E})$$
+
+The square brackets mark the assumption discharged by the introduction rule.
+Fitch diagrams draw such subproofs as nested boxes, and here the nesting is the `depth` field.
 The rule set is complete for classical propositional logic: double-negation elimination (`Dne`) is the one classical step, and every other rule is intuitionistically valid.
 
 ## Demos
 
-| Demo             | What it shows                                                                                               |
-| ---              | ---                                                                                                         |
-| `contrapositive` | Builds and checks a proof of `(P -> Q) -> (~Q -> ~P)` with two nested subproofs                             |
-| `rejected`       | Two invalid proofs — a wrong disjunct and an out-of-scope line — and the error each triggers                |
+| Demo             | What it shows                                                                                |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| `contrapositive` | Builds and checks a proof of `(P -> Q) -> (~Q -> ~P)` with two nested subproofs              |
+| `rejected`       | Two invalid proofs — a wrong disjunct and an out-of-scope line — and the error each triggers |
 
 ## API
 
-| Item                                | What it does                                                                                                                                                     |
-| ---                                 | ---                                                                                                                                                              |
-| `Formula`                           | A propositional formula: `Atom`, `Bottom`, `Not`, `And`, `Or`, `Implies`                                                                                         |
-| `atom`, `bottom`, `not`, `and`, `or`, `implies` | Formula constructors                                                                                                                                 |
-| `Step { depth, formula, just }`     | One line of a proof                                                                                                                                              |
-| `Just`                              | `Assumption` plus the rules: and-intro/elim, or-intro/elim, implies-intro/elim, not-intro/elim, bottom-elim, double-negation elim                                |
-| `check(&[Step]) -> Result<(), Error>` | Verifies every step, `Error` names the offending line and the reason                                                                                           |
+| Item                                            | What it does                                                             |
+| ----------------------------------------------- | ------------------------------------------------------------------------ |
+| `Formula`                                       | A propositional formula: `Atom`, `Bottom`, `Not`, `And`, `Or`, `Implies` |
+| `atom`, `bottom`, `not`, `and`, `or`, `implies` | Formula constructors                                                     |
+| `Step { depth, formula, just }`                 | One line of a proof                                                      |
+| `Just`                                          | The justification of a step, one variant per rule (the table below)      |
+| `check(&[Step]) -> Result<(), Error>`           | Verifies every step, `Error` names the offending line and the reason     |
+
+### The rules
+
+| Justification                    | Reads                                       | Derives               |
+| -------------------------------- | ------------------------------------------- | --------------------- |
+| `Assumption`                     | —                                           | the hypothesis itself |
+| `AndIntro { left, right }`       | `A`, `B`                                    | `A ∧ B`               |
+| `AndElimLeft { conj }`           | `A ∧ B`                                     | `A`                   |
+| `AndElimRight { conj }`          | `A ∧ B`                                     | `B`                   |
+| `OrIntroLeft { disj }`           | `A`                                         | `A ∨ B`               |
+| `OrIntroRight { disj }`          | `B`                                         | `A ∨ B`               |
+| `OrElim { disj, left, right }`   | `A ∨ B`, subproof `A ⊢ C`, subproof `B ⊢ C` | `C`                   |
+| `ImpliesIntro { assump, concl }` | subproof `A ⊢ B`                            | `A -> B`              |
+| `ImpliesElim { imp, ante }`      | `A -> B`, `A`                               | `B`                   |
+| `NotIntro { assump, concl }`     | subproof `A ⊢ ⊥`                            | `¬A`                  |
+| `NotElim { neg, pos }`           | `¬A`, `A`                                   | `⊥`                   |
+| `BotElim { bot }`                | `⊥`                                         | `A`                   |
+| `Dne { notnot }`                 | `¬¬A`                                       | `A` (classical)       |
+
+A subproof is cited by its first assumption line and its last line, and the rule discharges them both.
 
 Formulas are built with constructors and displayed in the usual notation:
 

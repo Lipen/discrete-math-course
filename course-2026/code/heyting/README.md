@@ -2,11 +2,20 @@
 
 Finite Heyting algebras and intuitionistic validity.
 
-A Heyting algebra is a distributive lattice with a relative pseudo-complement $a \to b$: the weakest $c$ with $a \land c \le b$.
+A Heyting algebra is a distributive lattice with a relative pseudo-complement: an operation $\to$ where $a \to b$ is the weakest $c$ satisfying
+
+$$a \land c \le b.$$
+
 The three-element algebra $\{0, 1/2, 1\}$ is the simplest non-Boolean one.
 Its middle element $1/2$ ("not yet constructed") is where the law of excluded middle fails, which makes the algebra the standard counterexample semantics for intuitionistic logic.
 
-The crate offers table-driven finite Heyting algebras, the downset (order ideal) construction from small posets, Boolean algebras, a tiny formula language evaluated in any algebra, and an exhaustive validity checker over all finite Heyting algebras up to 5 elements.
+The crate contains:
+
+- `Value` — the three-element algebra as a plain enum, with `meet`/`join`/`implies` and `!` for negation
+- `Algebra` — any finite Heyting algebra given by meet/join/implies tables, built from lattice tables or as a Boolean algebra
+- `Poset` and downsets — the order-ideal construction linking partial orders with intuitionistic semantics
+- `Formula` — a tiny propositional formula language, evaluated in any algebra
+- `valid` — an exhaustive validity check over all finite Heyting algebras up to 5 elements
 
 ## Quick start
 
@@ -20,8 +29,15 @@ cargo test
 ## The idea
 
 Boolean algebras model classical truth: every proposition is either true or false.
-A Heyting algebra keeps the lattice structure (meet is `and`, join is `or`, the pseudo-complement is implication) and drops the law $a \lor \lnot a = 1$.
-In $\{0, 1/2, 1\}$ negation is $\lnot a = a \to 0$, so $\lnot(1/2) = 0$ and $1/2 \lor \lnot(1/2) = 1/2 \ne 1$.
+A Heyting algebra keeps the lattice structure and drops the law $a \lor \lnot a = 1$:
+
+- meet $\land$ plays the role of `and`,
+- join $\lor$ the role of `or`,
+- the relative pseudo-complement $\to$ the role of implication.
+
+In $\{0, 1/2, 1\}$ negation is $\lnot a = a \to 0$, so $\lnot(1/2) = 0$ and
+
+$$1/2 \lor \lnot(1/2) = 1/2 \ne 1.$$
 Excluded middle and double-negation elimination are not tautologies there.
 The formulas valid in *every* Heyting algebra are exactly the theorems of intuitionistic logic, so finite Heyting algebras pin down what constructive mathematics refuses to assert.
 

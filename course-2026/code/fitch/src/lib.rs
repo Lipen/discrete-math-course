@@ -182,7 +182,11 @@ impl fmt::Display for Error {
 
 impl std::error::Error for Error {}
 
-/// Check a Fitch proof. Returns `Ok(())` if every step is valid.
+/// Verify a Fitch proof: every justification must be a correct instance of
+/// its rule, and every referenced line must still be in scope (a line inside
+/// a discharged subproof can no longer be used).
+///
+/// `Err` names the offending line and the reason.
 pub fn check(steps: &[Step]) -> Result<(), Error> {
     let mut formulas: Vec<Formula> = Vec::new();
     let mut depths: Vec<usize> = Vec::new();

@@ -82,6 +82,7 @@ impl Algebra {
     /// The tables must describe a finite distributive lattice, which is not checked.
     /// The implication is forced by the Heyting adjunction: `a -> b` is the join of all `c` with `a ∧ c <= b`.
     /// In a finite distributive lattice this join is the unique largest such `c`, so the result is a Heyting algebra.
+    /// The `name` argument is accepted for call-site readability and is not stored.
     ///
     /// ```
     /// use heyting::Algebra;
@@ -94,7 +95,7 @@ impl Algebra {
     /// assert_eq!(a.not(a.not(0)), 0);
     /// ```
     pub fn from_meet_join(
-        name: &str,
+        _name: &str,
         meet: Vec<Vec<usize>>,
         join: Vec<Vec<usize>>,
         labels: Vec<String>,
@@ -121,7 +122,6 @@ impl Algebra {
             }
         }
 
-        let _ = name;
         Algebra {
             size,
             meet,

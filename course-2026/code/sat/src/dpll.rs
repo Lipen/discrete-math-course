@@ -82,15 +82,13 @@ pub fn solve_traced(cnf: &Cnf) -> Option<Vec<bool>> {
 // ── Core DPLL (clean) ────────────────────────────────────────────────────
 
 fn dpll(cnf: &Cnf, assign: &mut Vec<Option<bool>>) -> Option<Vec<bool>> {
-    // Unit propagation + pure literal elimination to fixed point.
     propagate_all(cnf, assign)?;
 
-    // All clauses satisfied?
     if cnf.clauses.iter().all(|c| clause_satisfied(c, assign)) {
         return Some(assign.iter().map(|x| x.unwrap_or(false)).collect());
     }
 
-    // Decide: pick the first unassigned variable.
+    // Decide: the first unassigned variable, tried both ways.
     let v = (0..cnf.num_vars).find(|&i| assign[i].is_none())?;
 
     let saved = assign.clone();
@@ -109,15 +107,13 @@ fn dpll(cnf: &Cnf, assign: &mut Vec<Option<bool>>) -> Option<Vec<bool>> {
 fn dpll_traced(cnf: &Cnf, assign: &mut Vec<Option<bool>>, depth: usize) -> Option<Vec<bool>> {
     let indent = "  ".repeat(depth);
 
-    // Unit propagation + pure literal elimination to fixed point.
     propagate_all_traced(cnf, assign, depth)?;
 
-    // All clauses satisfied?
     if cnf.clauses.iter().all(|c| clause_satisfied(c, assign)) {
         return Some(assign.iter().map(|x| x.unwrap_or(false)).collect());
     }
 
-    // Decide: pick the first unassigned variable.
+    // Decide: the first unassigned variable, tried both ways.
     let v = (0..cnf.num_vars).find(|&i| assign[i].is_none())?;
     println!("{}decide: x{}", indent, v + 1);
 
@@ -143,7 +139,6 @@ fn propagate_all(cnf: &Cnf, assign: &mut [Option<bool>]) -> Option<()> {
     loop {
         let mut changed = false;
 
-        // Unit propagation pass.
         for clause in &cnf.clauses {
             if clause_satisfied(clause, assign) {
                 continue;
@@ -156,7 +151,6 @@ fn propagate_all(cnf: &Cnf, assign: &mut [Option<bool>]) -> Option<()> {
             }
         }
 
-        // Pure literal elimination pass.
         if pure_literal_eliminate(cnf, assign) {
             changed = true;
         }
@@ -174,7 +168,6 @@ fn propagate_all_traced(cnf: &Cnf, assign: &mut [Option<bool>], depth: usize) ->
     loop {
         let mut changed = false;
 
-        // Unit propagation pass.
         for clause in &cnf.clauses {
             if clause_satisfied(clause, assign) {
                 continue;
@@ -200,8 +193,6 @@ fn propagate_all_traced(cnf: &Cnf, assign: &mut [Option<bool>], depth: usize) ->
                 return None;
             }
         }
-
-        // Pure literal elimination pass.
         if pure_literal_eliminate_traced(cnf, assign, depth) {
             changed = true;
         }

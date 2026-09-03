@@ -255,6 +255,7 @@ impl XorShift64 {
         }
     }
 
+    /// A pseudo-random `usize` in `0..n`.
     pub(crate) fn below(&mut self, n: usize) -> usize {
         let mut x = self.0;
         x ^= x << 13;

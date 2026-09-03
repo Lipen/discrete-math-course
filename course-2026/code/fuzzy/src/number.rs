@@ -4,6 +4,16 @@
 //! The triangular form `(l, m, r)` rises from `l` to the mode `m` and falls back to `r`.
 //! The trapezoidal form `(a, b, c, d)` adds a flat top.
 //! Both are piecewise-linear, so their alpha-cuts are closed intervals.
+//!
+//! ```
+//! use fuzzy::Triangular;
+//!
+//! let about2 = Triangular::new(1.0, 2.0, 3.0);
+//! assert_eq!(about2.membership(2.0), 1.0);
+//!
+//! // The alpha-cut at level `alpha` is `[l + alpha*(m - l), r - alpha*(r - m)]`.
+//! assert_eq!(about2.alpha_cut(0.5), (1.5, 2.5));
+//! ```
 
 use crate::set::FuzzySet;
 
@@ -51,7 +61,7 @@ impl Triangular {
         )
     }
 
-    /// Componentwise addition (the alpha-cut arithmetic).
+    /// Componentwise addition, which is exact alpha-cut interval arithmetic.
     pub fn add(&self, other: Triangular) -> Triangular {
         Triangular::new(
             self.left + other.left,
@@ -60,7 +70,7 @@ impl Triangular {
         )
     }
 
-    /// Componentwise subtraction.
+    /// Componentwise subtraction, which is exact alpha-cut interval arithmetic.
     pub fn sub(&self, other: Triangular) -> Triangular {
         Triangular::new(
             self.left - other.right,
@@ -69,7 +79,7 @@ impl Triangular {
         )
     }
 
-    /// Componentwise (approximate) multiplication.
+    /// Componentwise multiplication: exact alpha-cut arithmetic for non-negative numbers, an approximation otherwise (the product of triangular numbers is not triangular in general).
     pub fn mul(&self, other: Triangular) -> Triangular {
         Triangular::new(
             self.left * other.left,

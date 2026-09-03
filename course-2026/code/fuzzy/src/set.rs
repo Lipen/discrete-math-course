@@ -10,8 +10,15 @@
 /// The membership of any `x` outside the first and last breakpoint is `0`.
 /// Between consecutive breakpoints the function is the linear interpolation, so a triangular fuzzy set `(l, m, r)` is the three points `[(l, 0), (m, 1), (r, 0)]`.
 ///
-/// To make `alpha_cut(0)` span the whole universe, include the universe
-/// boundaries as zero-membership breakpoints (see the examples).
+/// To make `alpha_cut(0)` span a chosen universe, include the universe boundaries as zero-membership breakpoints:
+///
+/// ```
+/// use fuzzy::FuzzySet;
+///
+/// // The universe [0, 100] with "young" = 1 below 25, falling to 0 at 40.
+/// let young = FuzzySet::new(vec![(0.0, 1.0), (25.0, 1.0), (40.0, 0.0), (100.0, 0.0)]);
+/// assert_eq!(young.alpha_cut(0.0), vec![(0.0, 100.0)]);
+/// ```
 #[derive(Clone, Debug, PartialEq)]
 pub struct FuzzySet {
     /// Breakpoints `(x, mu)` sorted by `x`, with `mu` in `[0, 1]`.
@@ -153,8 +160,9 @@ impl FuzzySet {
         result
     }
 
-    /// Reconstruct `mu(x)` from the alpha-cuts: the supremum of the levels
-    /// `alpha` at which `x` belongs to the cut (the decomposition theorem).
+    /// Reconstruct `mu(x)` from its alpha-cuts (the decomposition theorem).
+    ///
+    /// The result is the supremum of the given `levels` whose cut still contains `x`, so the finer the grid of levels, the closer the result is to the exact `membership(x)`.
     pub fn decompose_at(&self, x: f64, levels: &[f64]) -> f64 {
         levels
             .iter()
