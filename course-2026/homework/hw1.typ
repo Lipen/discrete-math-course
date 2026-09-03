@@ -28,6 +28,7 @@
 #let Cosine = math.op("Cosine")
 #let CosineDist = $d_cos$
 #let Sim = math.op("Sim")
+#show table: set block(breakable: false)
 
 
 #Box[
