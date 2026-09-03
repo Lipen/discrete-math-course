@@ -111,31 +111,41 @@
   block(
     width: 100%,
     fill: pastel,
-    stroke: (top: 2.4pt + main),
+    below: 0.5em,
+    stroke: (top: 2pt + main),
     outset: (x: -1.2pt),
-    inset: (y: 5pt),
-    height: 2.2em,
+    height: 2em,
     breakable: false,
-    align(center + horizon)[#text(size: 13pt, weight: "bold", fill: main)[#num]],
+    align(center + horizon)[
+      #text(
+        size: 13pt,
+        weight: "bold",
+        fill: main,
+      )[#num]
+    ],
   )
-  v(2.5pt)
-  align(center)[#text(size: 8pt, fill: c-soft)[#label]]
+  align(center)[
+    #text(
+      size: 8pt,
+      fill: c-soft,
+    )[#label]
+  ]
 }
 
 // Зона шкалы оценок: диапазон и имя на разных строках, фиксированная высота.
 #let zone(main, pastel, range, name) = block(
   width: 100%,
   fill: pastel,
-  stroke: (top: 2.4pt + main),
+  stroke: (top: 2pt + main),
   outset: (x: -1.2pt),
   inset: (x: 2pt, y: 5pt),
-  height: 3.2em,
+  height: 3em,
   breakable: false,
   {
     set text(hyphenate: false)
     align(center + horizon)[
-      #text(size: 8.5pt, weight: "bold", fill: main)[#range]
-      #text(size: 7.5pt, fill: c-soft)[#name]
+      #text(size: 12pt, weight: "bold", fill: main)[#range] \
+      #text(size: 9pt, fill: c-soft)[#name]
     ]
   },
 )
@@ -424,17 +434,16 @@
 
 Итог за семестр --- 100 баллов, и складываются они так:
 
-#block(width: 100%, above: 0.9em, below: 1.1em)[
-  #grid(
-    columns: (40fr, 20fr, 20fr, 10fr, 10fr),
-    gutter: 2.5pt,
-    pseg(c-blue, p-blue, [40], [контрольные]),
-    pseg(c-cyan, p-cyan, [20], [теормины]),
-    pseg(c-purple, p-purple, [20], [экзамен]),
-    pseg(c-green, p-green, [10], [практики]),
-    pseg(c-amber, p-amber, [10], [лекции]),
-  )
-]
+#grid(
+  columns: (40fr, 20fr, 20fr, 10fr, 10fr),
+  column-gutter: 0.5em,
+  row-gutter: 0.5em,
+  pseg(c-blue, p-blue, [40], [контрольные]),
+  pseg(c-cyan, p-cyan, [20], [теормины]),
+  pseg(c-purple, p-purple, [20], [экзамен]),
+  pseg(c-green, p-green, [10], [практики]),
+  pseg(c-amber, p-amber, [10], [лекции]),
+)
 
 #align(center)[
   #table(
@@ -455,7 +464,7 @@
 
 #block(width: 100%, above: 0.9em)[
   #grid(
-    columns: (58fr, 14fr, 15fr, 14fr),
+    columns: (60fr, 14fr, 16fr, 11fr),
     gutter: 2pt,
     zone(c-bad, p-bad, [0--59], [долг]),
     zone(c-warn, p-warn, [60--73], [удовл.]),
@@ -464,10 +473,11 @@
   )
 ]
 
-Формально $S < 60$ --- долг, $60 <= S < 74$ --- "удовл.", $74 <= S < 90$ --- "хорошо", $S >= 90$ --- "отлично".
+Формально $S < 60$ --- долг, $60 <= S <= 74$ --- "удовл.", $74 < S <= 90$ --- "хорошо", $S > 90$ --- "отлично".
 
 Практическая часть $P$ --- всё, кроме экзамена, поэтому $P <= 80$.
-Допуск к экзамену --- $P >= 48$ и все сданные работы.
+
+Допуск к экзамену: $P >= 48$ и все сданные работы.
 
 == Сценарии
 
@@ -476,13 +486,13 @@
 
 #align(center)[
   #table(
-    columns: (2.7fr, 0.8fr, 0.8fr, 0.9fr, 0.8fr, 0.8fr, 0.9fr, 1.2fr),
+    columns: (2.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 0.8fr, 1.1fr),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (left, center, center, center, center, center, center, left),
     inset: (x: 6pt, y: 7pt),
     table.header([*Сценарий*], [*КР*], [*ТМ*], [*Практ.*], [*Лек.*], [*Экз.*], [*Итог*], [*Оценка*]),
     ["На отлично"], [37], [18], [10], [10], [17], [92], [отлично],
-    ["Всё сдано,\ без экзамена"], [40], [20], [10], [10], [---], [80], [хорошо],
+    ["Всё сдано, без экзамена"], [40], [20], [10], [10], [---], [80], [хорошо],
     ["У проходного"], [26], [13], [6], [6], [12], [63], [удовл.],
     ["Провал экзамена"], [30], [10], [3], [5], [0], [48], [долг],
   )
