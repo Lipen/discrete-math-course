@@ -148,7 +148,7 @@
 == Сведение
 
 #definition[
-  Сведение (_reduction_): $ A <=_m B $, если есть вычислимая $f$: $w in A iff f(w) in B$.
+  Сведение (_reduction_): $A <=_m B$, если есть вычислимая $f$: $w in A iff f(w) in B$.
 
   Решив $B$, решаем $A$.
 ]

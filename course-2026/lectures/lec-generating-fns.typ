@@ -77,7 +77,8 @@
 == Свёртка
 
 #theorem[Свёртка][
-  $ A(x) B(x) = sum c_n x^n $, где $ c_n = sum_(i=0)^n a_i b_(n-i). $
+  $ A(x) B(x) = sum c_n x^n, $
+  где $c_n = sum_(i=0)^n a_i b_(n-i)$.
   Произведение рядов --- свёртка последовательностей.
 ]
 
@@ -90,7 +91,8 @@
 == Частичные суммы
 
 #theorem[
-  $ A(x)/(1-x) = sum s_n x^n $, где $ s_n = sum_(i=0)^n a_i. $
+  $ A(x)/(1-x) = sum s_n x^n, $
+  где $s_n = sum_(i=0)^n a_i$.
 ]
 
 #important[
