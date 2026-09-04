@@ -1,9 +1,7 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": (
-  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
-)
+#import "diagrams/m01.typ": parse-tree-imply
 
 = Логика и доказательства <chap:logic>
 
