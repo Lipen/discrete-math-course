@@ -265,38 +265,38 @@
   set page(header: none, foreground: none, margin: 0pt)
 
   place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
-    #block(
-      fill: colors.accent,
-      radius: 4pt,
-      inset: (x: 0.7em, y: 0.35em),
-    )[
-      #text(fill: white, weight: "bold", size: 1.05em)[Лекция #num]
-    ]
-    #v(0.6em, weak: true)
-    #block(width: 90%)[
-      #text(
-        1.9em,
-        weight: "bold",
-        font: "Libertinus Sans",
-        fill: colors.accent-strong,
-      )[#title]
-    ]
-    #if week != none [
-      #v(0.4em, weak: true)
-      #text(1.05em, fill: colors.muted)[#week]
-    ]
-    #if recap != none [
-      #v(1em, weak: true)
-      #block(
-        ..card(colors.accent, colors.accent.transparentize(93%)),
-        width: 80%,
-        inset: (x: 1em, y: 0.5em),
+    #stack(
+      dir: ttb,
+      spacing: 1.1em,
+      block(
+        fill: colors.accent,
+        radius: 4pt,
+        inset: (x: 0.7em, y: 0.35em),
       )[
-        #text(fill: colors.accent, weight: "bold")[На прошлой лекции]
-        #v(0.4em, weak: true)
-        #recap
-      ]
-    ]
+        #text(fill: white, weight: "bold", size: 1.05em)[Лекция #num]
+      ],
+      block(width: 92%)[
+        #set par(leading: 0.62em)
+        #text(
+          2.1em,
+          weight: "bold",
+          font: "Libertinus Sans",
+          fill: colors.accent-strong,
+        )[#title]
+      ],
+      if week != none { text(1.05em, fill: colors.muted)[#week] },
+      if recap != none {
+        block(
+          ..card(colors.accent, colors.accent.transparentize(93%)),
+          width: 80%,
+          inset: (x: 1em, y: 0.5em),
+        )[
+          #text(fill: colors.accent, weight: "bold")[На прошлой лекции]
+          #v(0.5em, weak: true)
+          #recap
+        ]
+      },
+    )
   ])
 
   pagebreak(weak: true)
