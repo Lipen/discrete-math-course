@@ -85,7 +85,7 @@
 #let numbered-env(bar, tint, label, counter, title, body) = {
   let head = text(fill: bar, weight: "bold")[
     #counter.step()
-    #label #context counter.display("1")#(if title != none [.#h(0.5em)#title])
+    #label #context counter.display("1")#(if title != none [ (#title)])
   ]
   env-box(bar, tint, head, body)
 }
@@ -149,10 +149,9 @@
     colors.muted,
     colors.line.lighten(40%),
     text(fill: colors.muted, weight: "bold")[
-      Пример#(if title != none [: #title])
+      Пример#(if title != none [ (#title)])
     ],
     body,
-    header: false,
   )
 }
 
