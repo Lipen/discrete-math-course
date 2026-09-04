@@ -193,7 +193,7 @@
     set text(hyphenate: false)
     set par(justify: false)
     align(center + horizon)[
-      #text(size: 1.3em, weight: "bold", fill: c-accent)[#num] \\
+      #text(size: 1.3em, weight: "bold", fill: c-accent)[#num] \
       #text(size: 0.75em, fill: c-soft)[#label]
     ]
   },

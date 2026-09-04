@@ -43,18 +43,17 @@
   // Легенда точек.
   draw.content(
     (0, -1.02),
+    anchor: "west",
     [
       #text(fill: c-kr, size: 7pt)[#sym.circle.filled] --- контрольная #h(0.6em) #text(fill: c-tm, size: 7pt)[#sym.diamond.filled] --- теормин
     ],
     size: 6.5pt,
     fill: c-mute,
   )
-  // Модули: цветной кронштейн над диапазоном недель, имя в два уровня.
-  for (i, m) in modules.enumerate() {
-    let (a, b, name, color) = m
+  // Модули: цветной кронштейн над диапазоном недель, имя над ним.
+  for (a, b, name, color) in modules {
     span-bracket(a - 0.88, b - 0.12, 0.52, color)
-    let y = if calc.even(i) { 1.08 } else { 1.42 }
-    draw.content(((a - 1 + b) / 2, y), name, size: 7pt, fill: color)
+    draw.content(((a - 1 + b) / 2, 1.12), name, size: 7pt, fill: color)
   }
   // Точки контроля на оси.
   for (w, kind, n) in marks {
