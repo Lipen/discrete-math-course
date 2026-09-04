@@ -264,24 +264,28 @@
   set page(header: none, footer: none, margin: 0pt)
 
   place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
+    #block(
+      fill: colors.accent,
+      radius: 4pt,
+      inset: (x: 0.7em, y: 0.35em),
+    )[
+      #text(fill: white, weight: "bold", size: 1.05em)[Лекция #num]
+    ]
+    #v(0.6em, weak: true)
     #block(width: 90%)[
-      #text(1.05em, weight: "bold", fill: colors.muted)[Лекция #num]
-      #v(0.3em, weak: true)
       #text(
-        2.2em,
+        1.9em,
         weight: "bold",
         font: "Libertinus Sans",
         fill: colors.accent-strong,
       )[#title]
     ]
-    #v(0.7em, weak: true)
-    #line(length: 32%, stroke: 2pt + colors.accent)
     #if week != none [
-      #v(0.5em, weak: true)
+      #v(0.4em, weak: true)
       #text(1.05em, fill: colors.muted)[#week]
     ]
     #if recap != none [
-      #v(0.9em, weak: true)
+      #v(1em, weak: true)
       #block(
         ..card(colors.accent, colors.accent.transparentize(93%)),
         width: 80%,
