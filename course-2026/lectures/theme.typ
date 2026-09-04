@@ -152,7 +152,7 @@
       Пример#(if title != none [ (#title)])
     ],
     body,
-    gap: 0.5em,
+    gap: 0.8em,
   )
 }
 
@@ -296,8 +296,8 @@
           #text(
             fill: colors.accent,
             weight: "bold",
-          )[На прошлой лекции]
-          #v(1em, weak: true)
+          )[На прошлой лекции:]
+          #v(0.8em, weak: true)
           #recap
         ]
       },
