@@ -1698,17 +1698,82 @@ $ {x in U mid(|) P(x)} $
 
 == Множества и SQL
 
-Таблица в базе данных --- подмножество декартова произведения:
-- строка --- кортеж
-- колонка --- компонент кортежа
+Таблица в базе данных --- подмножество декартова произведения: строка --- кортеж, колонка --- компонент кортежа.
+
+#grid(
+  columns: (1fr, 1fr, 1fr),
+  column-gutter: 0.8em,
+  align: top + center,
+  grid(
+    align: center,
+    [`student`],
+    table(
+      columns: 2,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*id*], [*name*]),
+      [1], [Аня],
+      [2], [Борис],
+      [3], [Вера],
+    ),
+  ),
+  grid(
+    align: center,
+    [`knows`],
+    table(
+      columns: 2,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*student*], [*lang*]),
+      [1], [`python`],
+      [1], [`rust`],
+      [2], [`python`],
+      [3], [`haskell`],
+    ),
+  ),
+  grid(
+    align: center,
+    [результат `JOIN`],
+    table(
+      columns: 2,
+      align: center,
+      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+      table.header([*name*], [*lang*]),
+      [Аня], [`python`],
+      [Аня], [`rust`],
+      [Борис], [`python`],
+      [Вера], [`haskell`],
+    ),
+  ),
+)
+
+```sql
+SELECT student.name, knows.lang
+FROM student JOIN knows ON student.id = knows.student;
+```
 
 #note[
-  - SELECT --- проекция.
-  - WHERE --- отбор по предикату.
-  - JOIN --- декартово произведение с условием.
-  - UNION, INTERSECT, EXCEPT --- объединение, пересечение, разность.
+  JOIN --- декартово произведение с условием: пар было $3 dot 4 = 12$, предикат оставил 4.
+]
 
-  SQL --- теория множеств в продакшене.
+== Операции над множествами в SQL
+
+Два подмножества одной таблицы, вырезанные предикатом `WHERE`:
+
+```sql
+SELECT lang FROM knows WHERE student = 1
+INTERSECT SELECT lang FROM knows WHERE student = 2;
+```
+
+#example[
+  - INTERSECT -> `python` --- общий язык.
+  - EXCEPT -> `rust` --- только у Ани.
+  - UNION -> `python`, `rust` --- повторы убраны.
+  - UNION ALL -> `python`, `rust`, `python` --- повторы на месте.
+]
+
+#note[
+  UNION ведёт себя как объединение множеств, а UNION ALL --- как сложение мультимножеств: таблицы в SQL вообще-то мультимножества, и лишь операции над множествами возвращают им исходный смысл.
 ]
 
 == Типы как множества
