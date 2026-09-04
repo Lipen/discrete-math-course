@@ -23,6 +23,7 @@
   to,
   "-}>",
   stroke: e-stroke,
+  bend: 125deg,
   loop-angle: angle,
   ..args,
 )
