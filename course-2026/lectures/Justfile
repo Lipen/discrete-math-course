@@ -5,6 +5,7 @@ default:
 files := """
     course-intro.typ
     s1-mod1-logic-sets.typ
+    s1-mod2-relations-orders-functions-cardinals.typ
     lec-logic.typ
     lec-deduction.typ
     lec-fol.typ
