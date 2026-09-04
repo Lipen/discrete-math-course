@@ -100,18 +100,18 @@
     step: 1,
     stroke: (paint: luma(85%), thickness: 0.4pt),
   )
-  draw.line((-0.3, 0), (5, 0), stroke: c-str, mark: (end: "stealth"))
+  draw.line((-0.3, 0), (5.4, 0), stroke: c-str, mark: (end: "stealth"))
   draw.line((0, -0.3), (0, 4.6), stroke: c-str, mark: (end: "stealth"))
-  label((5.2, -0.35), $x$)
+  label((5.6, -0.35), $x$)
   label((-0.4, 4.8), $y$)
   label((-0.35, -0.35), $0$)
   for i in range(1, 6) {
     draw.line((i, 0.08), (i, -0.08), stroke: c-str)
-    label((i, -0.4), $[#i]$)
+    label((i, -0.4), [#i])
   }
   for i in range(1, 5) {
     draw.line((0.08, i), (-0.08, i), stroke: c-str)
-    label((-0.4, i), $[#i]$)
+    label((-0.4, i), [#i])
   }
 
   draw.line((1, -0.65), (4, -0.65), stroke: c-str)
