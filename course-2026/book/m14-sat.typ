@@ -1,7 +1,10 @@
 // M13 --- SAT: задача булевой выполнимости и её роль в теории вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m14.typ": cdcl-conflict-graph, cook-levin-table, dpll-tree, implication-graph-2sat-simple
+#import "diagrams/m14.typ": (
+  cdcl-conflict-graph, cook-levin-table, dpll-tree,
+  implication-graph-2sat-simple,
+)
 #import "diagrams/m01.typ": resolution-dag
 
 = SAT <chap:sat>
@@ -474,8 +477,13 @@ SAT-решатели --- мощные инструменты.
     [$overline(x_(r,c,d)) or overline(x_(r,c',d))$ для $c < c'$],
     [$9 dot 9 dot 36 = 2916$],
 
-    [в столбце $c$ цифра $d$ не повторяется], [$overline(x_(r,c,d)) or overline(x_(r',c,d))$ для $r < r'$], [$2916$],
-    [в блоке $3 times 3$ цифра $d$ не повторяется], [попарные запреты для пар клеток внутри блока], [$2916$],
+    [в столбце $c$ цифра $d$ не повторяется],
+    [$overline(x_(r,c,d)) or overline(x_(r',c,d))$ для $r < r'$],
+    [$2916$],
+
+    [в блоке $3 times 3$ цифра $d$ не повторяется],
+    [попарные запреты для пар клеток внутри блока],
+    [$2916$],
   )
 
   *Заданные цифры*: если в клетке $(r, c)$ стоит цифра $d$, добавляем единичный дизъюнкт $x_(r,c,d)$.
@@ -873,7 +881,11 @@ CDCL решает SAT на индустриальных входах, а не в
     [$x_2 = 1$ из $overline(x_1) or x_2$, затем $x_3 = 0$ из $overline(x_2) or overline(x_3)$],
     [конфликт в $overline(x_2) or x_3$],
 
-    [$x_1 = 0, x_2 = 0$], [$x_2 = 0$], [$x_3 = 0$ из $x_2 or overline(x_3)$], [конфликт в $x_1 or x_2 or x_3$],
+    [$x_1 = 0, x_2 = 0$],
+    [$x_2 = 0$],
+    [$x_3 = 0$ из $x_2 or overline(x_3)$],
+    [конфликт в $x_1 or x_2 or x_3$],
+
     [$x_1 = 0, x_2 = 1$],
     [$x_2 = 1$],
     [$x_3 = 0$ из $overline(x_2) or overline(x_3)$],

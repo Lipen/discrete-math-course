@@ -2,11 +2,9 @@
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m02.typ": (
-  mp-chain-tree, nd-tree-projection, res-tree-trans, seq-tree-comm,
-  seq-tree-lem,
-  nd-rule-iii, nd-rule-iie, nd-rule-andi, nd-rule-ande, nd-rule-ori,
-  nd-rule-ore, nd-rule-ni, nd-rule-ne, nd-rule-bote, nd-rule-ip,
-  nd-tree-comm,
+  mp-chain-tree, nd-rule-ande, nd-rule-andi, nd-rule-bote, nd-rule-iie,
+  nd-rule-iii, nd-rule-ip, nd-rule-ne, nd-rule-ni, nd-rule-ore, nd-rule-ori,
+  nd-tree-comm, nd-tree-projection, res-tree-trans, seq-tree-comm, seq-tree-lem,
 )
 #import "@preview/frederic:0.1.0": (
   assume as fitch-assume, premise as fitch-premise, proof as fitch-proof,

@@ -1,7 +1,9 @@
 // M06 --- Функции: математическая формализация вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m06.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection
+#import "diagrams/m06.typ": (
+  function-parts, mapping-bijection, mapping-injection, mapping-surjection,
+)
 
 = Функции <chap:functions>
 
@@ -549,9 +551,20 @@ $f^(-1)(4) = {-2, 2}$ --- прообраз (множество из двух э�
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
-    [Инъекция], [$f(a_1) = f(a_2) imply a_1 = a_2$], [$abs(A) <= abs(B)$], [Левая обратная\ $g compose f = "id"_A$],
-    [Сюръекция], [$forall b exists a: f(a) = b$], [$abs(A) >= abs(B)$], [Правая обратная\ $f compose g = "id"_B$],
-    [Биекция], [Инъективна\ + сюръективна], [$abs(A) = abs(B)$], [Двусторонняя обратная\ $f^(-1)$],
+    [Инъекция],
+    [$f(a_1) = f(a_2) imply a_1 = a_2$],
+    [$abs(A) <= abs(B)$],
+    [Левая обратная\ $g compose f = "id"_A$],
+
+    [Сюръекция],
+    [$forall b exists a: f(a) = b$],
+    [$abs(A) >= abs(B)$],
+    [Правая обратная\ $f compose g = "id"_B$],
+
+    [Биекция],
+    [Инъективна\ + сюръективна],
+    [$abs(A) = abs(B)$],
+    [Двусторонняя обратная\ $f^(-1)$],
   ) ]
 
 #raven[

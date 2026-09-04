@@ -546,7 +546,7 @@ $
 
   #figure(
     catalan-recursive,
-    caption: [Дерево $C_4$ и его разложение на пары $C_i C_(3-i)$]
+    caption: [Дерево $C_4$ и его разложение на пары $C_i C_(3-i)$],
   ) <fig:catalan-decomposition>
 
   Пусть $C(x) = sum_(n=0)^oo C_n x^n$.

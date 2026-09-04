@@ -2,7 +2,9 @@
 
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m17.typ": greedy-counterexample, interval-scheduling, matroid-sources
+#import "diagrams/m17.typ": (
+  greedy-counterexample, interval-scheduling, matroid-sources,
+)
 
 = Матроиды <chap:matroids>
 

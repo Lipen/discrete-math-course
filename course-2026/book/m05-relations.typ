@@ -2,7 +2,8 @@
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m05.typ": (
-  dendrogram, equivalence-partition, hasse-divisibility, mammal-tree, rel-digraph,
+  dendrogram, equivalence-partition, hasse-divisibility, mammal-tree,
+  rel-digraph,
 )
 
 = Отношения <chap:relations>

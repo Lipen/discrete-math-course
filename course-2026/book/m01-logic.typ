@@ -1,7 +1,9 @@
 // M01 --- Логика и доказательства: формальный язык для рассуждений о дискретных объектах.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m01.typ": parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition
+#import "diagrams/m01.typ": (
+  parse-tree-imply, quantifier-order, resolution-dag, square-of-opposition,
+)
 
 = Логика и доказательства <chap:logic>
 
@@ -467,9 +469,13 @@ _Атомарное высказывание_ --- это высказывани�
 
     [Коммутативность], [$p and q equiv q and p$], [$p or q equiv q or p$],
 
-    [Ассоциативность], [$(p and q) and r equiv p and (q and r)$], [$(p or q) or r equiv p or (q or r)$],
+    [Ассоциативность],
+    [$(p and q) and r equiv p and (q and r)$],
+    [$(p or q) or r equiv p or (q or r)$],
 
-    [Дистрибутивность], [$p and (q or r) equiv (p and q) or (p and r)$], [$p or (q and r) equiv (p or q) and (p or r)$],
+    [Дистрибутивность],
+    [$p and (q or r) equiv (p and q) or (p and r)$],
+    [$p or (q and r) equiv (p or q) and (p or r)$],
 
     [Идемпотентность], [$p and p equiv p$], [$p or p equiv p$],
 
