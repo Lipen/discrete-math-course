@@ -40,11 +40,11 @@
   for (name, x0, x1) in months {
     draw.content(((x0 + x1) / 2, -0.66), text(size: 6pt, fill: c-mute)[#name])
   }
-  // Легенда точек: фигуры как на оси, подписи рядом.
-  draw.circle((0.1, -1.18), radius: 0.11, fill: c-kr, name: none)
-  draw.content((0.32, -1.18), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "base")
-  draw.line((1.64, -1.18), (1.8, -1.01), (1.96, -1.18), (1.8, -1.35), (1.64, -1.18), close: true, fill: c-tm, name: none)
-  draw.content((2.28, -1.18), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "base")
+  // Легенда точек: фигуры как на оси, подписи справа от фигур.
+  draw.circle((0.08, -1.18), radius: 0.11, fill: c-kr, name: none)
+  draw.content((0.26, -1.18), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "text")
+  draw.line((1.65, -1.18), (1.81, -1.01), (1.97, -1.18), (1.81, -1.35), (1.65, -1.18), close: true, fill: c-tm, name: none)
+  draw.content((2.12, -1.18), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "text")
   // Модули: цветной кронштейн над диапазоном недель, имя над ним.
   for (a, b, name, color) in modules {
     span-bracket(a - 0.88, b - 0.12, 0.52, color)
