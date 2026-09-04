@@ -1,4 +1,4 @@
-// M26 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
+// M27 --- Бестиповое $lambda$-исчисление: вычисление как подстановка.
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m27.typ": church-rosser-diamond, lambda-syntax-tree

@@ -1,4 +1,4 @@
-// M32 --- Модальная логика: модели Крипке, LTL/CTL, model checking.
+// M33 --- Модальная логика: модели Крипке, LTL/CTL, model checking.
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m33.typ": kripke-traffic, modal-cube, mutex-states

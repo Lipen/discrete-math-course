@@ -1,4 +1,4 @@
-// M14 --- SMT: Satisfiability Modulo Theories.
+// M15 --- SMT: Satisfiability Modulo Theories.
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m15.typ": (

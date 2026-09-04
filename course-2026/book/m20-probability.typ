@@ -1,4 +1,4 @@
-// M19 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
+// M20 --- Дискретная вероятность: от подсчёта исходов к оценке рисков.
 #import "common.typ": *
 #import "notation.typ": *
 #import "diagrams/m20.typ": bayes-net, markov-chain, probability-tree
