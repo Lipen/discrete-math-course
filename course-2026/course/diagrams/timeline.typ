@@ -20,7 +20,7 @@
 
 // Теормин: ромб с номером внутри.
 #let tm-point(x, n) = {
-  draw.line((x, 0.2), (x + 0.2, 0), (x, -0.2), (x - 0.2, 0), (x, 0.2), close: true, fill: c-tm, name: none)
+  draw.polygon((x, 0), 4, radius: 0.2, fill: c-tm, stroke: none, name: none)
   draw.content((x, 0), text(fill: white, size: 6pt)[#n])
 }
 
@@ -43,7 +43,7 @@
   // Легенда точек: фигуры как на оси, подписи справа от фигур.
   draw.circle((0.08, -1.18), radius: 0.11, fill: c-kr, name: none)
   draw.content((0.26, -1.18), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "text")
-  draw.line((1.65, -1.18), (1.81, -1.01), (1.97, -1.18), (1.81, -1.35), (1.65, -1.18), close: true, fill: c-tm, name: none)
+  draw.polygon((1.81, -1.18), 4, radius: (0.16, 0.17), fill: c-tm, stroke: none, name: none)
   draw.content((2.12, -1.18), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "text")
   // Модули: цветной кронштейн над диапазоном недель, имя над ним.
   for (a, b, name, color) in modules {
