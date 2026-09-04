@@ -62,12 +62,12 @@
 #let corollary-counter = counter("corollary")
 
 // === Общий каркас окружения ===
-#let env-box(bar, tint, head, body, header: true) = block(
+#let env-box(bar, tint, head, body, header: true, gap: 1em) = block(
   ..card(bar, tint),
   width: 100%,
   inset: (x: 0.8em, y: 0.5em),
 )[
-  #if header [#head #v(1em, weak: true) #body] else [#head #h(
+  #if header [#head #v(gap, weak: true) #body] else [#head #h(
       0.5em,
       weak: true,
     ) #body]
@@ -137,7 +137,7 @@
     inset: (x: 1em, y: 0.5em),
   )[
     #text(fill: colors.muted, weight: "bold")[
-      Доказательство#(if title != none [.#h(0.5em)#title])
+      Доказательство#(if title != none [ (#title)])
     ]
     #v(1em, weak: true)
     #body
@@ -152,6 +152,7 @@
       Пример#(if title != none [ (#title)])
     ],
     body,
+    gap: 0.5em,
   )
 }
 
