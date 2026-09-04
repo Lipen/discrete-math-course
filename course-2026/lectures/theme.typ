@@ -394,6 +394,14 @@
   show emph: set text(fill: colors.accent)
   show link: underline
 
+  // === Блочный код: плашка ===
+  show raw.where(block: true): block.with(
+    fill: luma(96%),
+    inset: 0.8em,
+    radius: 4pt,
+    width: 100%,
+  )
+
   // === Титульная страница ===
   if title != none {
     if (type(authors) != array) {
