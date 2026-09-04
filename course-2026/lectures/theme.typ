@@ -49,9 +49,9 @@
   fill: tint,
   stroke: (
     left: 3pt + bar,
-    top: 0.5pt + bar.lighten(50%),
-    bottom: 0.5pt + bar.lighten(50%),
-    right: 0.5pt + bar.lighten(50%),
+    top: 0.4pt + bar.lighten(50%),
+    bottom: 0.4pt + bar.lighten(50%),
+    right: 0.4pt + bar.lighten(50%),
   ),
   radius: 4pt,
 )
@@ -129,9 +129,9 @@
     fill: luma(96%),
     stroke: (
       left: 3pt + colors.muted,
-      top: 0.5pt + colors.line,
-      bottom: 0.5pt + colors.line,
-      right: 0.5pt + colors.line,
+      top: 0.4pt + colors.line,
+      bottom: 0.4pt + colors.line,
+      right: 0.4pt + colors.line,
     ),
     radius: 4pt,
     inset: (x: 1em, y: 0.5em),
@@ -163,9 +163,9 @@
   fill: color.transparentize(93%),
   stroke: (
     left: 3pt + color.darken(10%),
-    top: 0.5pt + color.lighten(50%),
-    bottom: 0.5pt + color.lighten(50%),
-    right: 0.5pt + color.lighten(50%),
+    top: 0.4pt + color.lighten(50%),
+    bottom: 0.4pt + color.lighten(50%),
+    right: 0.4pt + color.lighten(50%),
   ),
   radius: 4pt,
   inset: (x: 1em, y: 0.5em),
@@ -229,7 +229,7 @@
     #v(1em, weak: true)
     #line(
       length: 30%,
-      stroke: 1.5pt + colors.accent,
+      stroke: 2pt + colors.accent,
     )
     #if epigraph != none [
       #v(1em, weak: true)
@@ -245,7 +245,7 @@
       #if epigraph-author != none [
         #v(1em, weak: true)
         #align(right)[
-          #set text(0.9em, weight: "bold", fill: colors.accent-strong)
+          #set text(0.8em, weight: "bold", fill: colors.accent-strong)
           --- #epigraph-author
         ]
       ]
@@ -267,24 +267,27 @@
   place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
     #stack(
       dir: ttb,
-      spacing: 1.1em,
+      spacing: 1em,
       block(
         fill: colors.accent,
         radius: 4pt,
-        inset: (x: 0.7em, y: 0.35em),
+        inset: (x: 0.5em, y: 0.25em),
       )[
-        #text(fill: white, weight: "bold", size: 1.05em)[Лекция #num]
+        #text(fill: white, weight: "bold")[Лекция #num]
       ],
       block(width: 92%)[
-        #set par(leading: 0.62em)
+        #set par(leading: 0.5em)
         #text(
-          2.1em,
+          2.4em,
           weight: "bold",
           font: "Libertinus Sans",
           fill: colors.accent-strong,
         )[#title]
+        #if week != none [
+          #v(1em, weak: true)
+          #text(fill: colors.muted)[#week]
+        ]
       ],
-      if week != none { text(1.05em, fill: colors.muted)[#week] },
       if recap != none {
         block(
           ..card(colors.accent, colors.accent.transparentize(93%)),
@@ -353,7 +356,7 @@
         }
         block(
           outset: (bottom: 0.4em, x: 0.1em),
-          stroke: (bottom: 0.5pt + title-color),
+          stroke: (bottom: 0.4pt + title-color),
         )[
           #set par(leading: 0.4em)
           #body
@@ -364,8 +367,8 @@
       place(
         bottom + right,
         dx: -0.8cm,
-        dy: -0.4cm,
-        text(0.75em, fill: luma(50%))[
+        dy: -0.5cm,
+        text(0.8em, fill: luma(50%))[
           #counter(page).display("1 / 1", both: true)
         ],
       )
@@ -401,9 +404,9 @@
           #set text(3em, weight: "bold", font: title-font, fill: title-color)
           #title
         ]
-        #v(1.1em, weak: true)
+        #v(1em, weak: true)
         #line(length: 32%, stroke: 2pt + colors.accent)
-        #v(1.1em, weak: true)
+        #v(1em, weak: true)
         #if subtitle != none [
           #set text(1.2em, fill: colors.muted)
           #subtitle
@@ -413,15 +416,15 @@
       place(
         bottom + left,
         dx: 2cm,
-        dy: -0.9cm,
-        text(0.95em, fill: luma(45%))[#authors.join(", ", last: " и ")],
+        dy: -1cm,
+        text(0.8em, fill: luma(45%))[#authors.join(", ", last: " и ")],
       )
       place(
         bottom + right,
         dx: -2cm,
-        dy: -0.9cm,
+        dy: -1cm,
         if date != none {
-          text(0.85em, fill: luma(55%))[#date]
+          text(0.8em, fill: luma(55%))[#date]
         },
       )
     })
