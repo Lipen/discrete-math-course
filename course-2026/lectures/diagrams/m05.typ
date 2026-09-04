@@ -4,15 +4,15 @@
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
 #let n-fill = oklch(88%, 0.03, 250deg)
-#let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-#let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
+#let n-str = 0.8pt + oklch(60%, 0.08, 250deg)
+#let e-str = 0.8pt + oklch(35%, 0.02, 265deg)
 
 #let cn(pos, body, ..args) = node(
   pos,
-  text(size: 0.7em)[#body],
+  text(size: 1.4em)[#body],
   fill: n-fill,
-  width: 0.6em,
-  height: 0.6em,
+  width: 1.2em,
+  height: 1.2em,
   ..args,
 )
 #let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-str, ..args)
@@ -21,8 +21,8 @@
   to,
   "-}>",
   stroke: e-str,
+  bend: 125deg,
   loop-angle: angle,
-  ..args,
 )
 
 // ── Digraph of R on A = {1,2,3,4,5} ──
@@ -31,7 +31,7 @@
   node-stroke: n-str,
   node-inset: 0pt,
   node-outset: 0pt,
-  spacing: 0.8em,
+  spacing: 2.6em,
   cn((-0.4, 1.6), $1$, name: <1>),
   cn((1.3, 0.8), $2$, name: <2>),
   cn((1.3, -0.8), $3$, name: <3>),
