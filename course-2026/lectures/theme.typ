@@ -190,7 +190,7 @@
 
 // === Титульный слайд презентации ===
 #let title-slide(content) = {
-  set page(header: none, footer: none, margin: 0pt)
+  set page(header: none, foreground: none, margin: 0pt)
   content
   pagebreak(weak: true)
 }
@@ -210,7 +210,7 @@
     title
   }
 
-  set page(header: none, footer: none, margin: 0pt)
+  set page(header: none, foreground: none, margin: 0pt)
 
   // Заголовок, акцентная линия, эпиграф --- как на титульной странице
   place(left + horizon, block(
@@ -262,7 +262,7 @@
   theorem-counter.update(0)
   corollary-counter.update(0)
 
-  set page(header: none, footer: none, margin: 0pt)
+  set page(header: none, foreground: none, margin: 0pt)
 
   place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
     #block(
@@ -360,10 +360,15 @@
         ]
       }
     },
-    footer: context {
-      set text(0.8em, fill: luma(50%))
-      set align(right)
-      counter(page).display("1 / 1", both: true)
+    foreground: context {
+      place(
+        bottom + right,
+        dx: -0.8cm,
+        dy: -0.4cm,
+        text(0.75em, fill: luma(50%))[
+          #counter(page).display("1 / 1", both: true)
+        ],
+      )
     },
   )
   set document(title: title, author: authors) if (title != none)
