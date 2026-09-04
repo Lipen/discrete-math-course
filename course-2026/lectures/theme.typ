@@ -48,7 +48,7 @@
 #let card(bar, tint) = (
   fill: tint,
   stroke: (
-    left: 3pt + bar,
+    left: 2pt + bar,
     top: 0.4pt + bar.lighten(50%),
     bottom: 0.4pt + bar.lighten(50%),
     right: 0.4pt + bar.lighten(50%),
@@ -65,7 +65,7 @@
 #let env-box(bar, tint, head, body, header: true, gap: 1em) = block(
   ..card(bar, tint),
   width: 100%,
-  inset: (x: 0.8em, y: 0.5em),
+  inset: (x: 1em, y: 0.5em),
 )[
   #if header [#head #v(gap, weak: true) #body] else [#head #h(
       0.5em,
@@ -128,7 +128,7 @@
   block(
     fill: luma(96%),
     stroke: (
-      left: 3pt + colors.muted,
+      left: 2pt + colors.muted,
       top: 0.4pt + colors.line,
       bottom: 0.4pt + colors.line,
       right: 0.4pt + colors.line,
@@ -162,7 +162,7 @@
   body,
   fill: color.transparentize(93%),
   stroke: (
-    left: 3pt + color.darken(10%),
+    left: 2pt + color.darken(10%),
     top: 0.4pt + color.lighten(50%),
     bottom: 0.4pt + color.lighten(50%),
     right: 0.4pt + color.lighten(50%),
@@ -291,11 +291,13 @@
       if recap != none {
         block(
           ..card(colors.accent, colors.accent.transparentize(93%)),
-          width: 80%,
           inset: (x: 1em, y: 0.5em),
         )[
-          #text(fill: colors.accent, weight: "bold")[На прошлой лекции]
-          #v(0.5em, weak: true)
+          #text(
+            fill: colors.accent,
+            weight: "bold",
+          )[На прошлой лекции]
+          #v(1em, weak: true)
           #recap
         ]
       },
