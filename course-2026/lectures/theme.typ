@@ -4,13 +4,13 @@
 
 // === Палитра: единый объект цветов ===
 #let colors = (
-  accent: oklch(50%, 0.15, 250deg), // сине-индиго, основной
-  accent-strong: oklch(45%, 0.15, 250deg), // заголовки
-  amber: oklch(70%, 0.15, 80deg), // ключевые выводы
-  warn: oklch(60%, 0.15, 40deg), // предупреждения
-  green: oklch(50%, 0.14, 150deg), // определения
+  accent: oklch(50%, 0.17, 250deg), // сине-индиго, основной
+  accent-strong: oklch(45%, 0.17, 250deg), // заголовки
+  amber: oklch(70%, 0.17, 80deg), // ключевые выводы
+  warn: oklch(60%, 0.17, 40deg), // предупреждения
+  green: oklch(50%, 0.16, 150deg), // определения
   red: oklch(50%, 0.2, 25deg), // ложь в таблицах истинности
-  violet: oklch(55%, 0.15, 300deg), // теоремы
+  violet: oklch(55%, 0.17, 300deg), // теоремы
   ink: oklch(30%, 0.02, 250deg), // основной текст
   muted: oklch(45%, 0.01, 250deg), // вторичный текст
   line: luma(88%), // тонкие границы
@@ -94,7 +94,7 @@
   let (title, body) = split-args(args)
   numbered-env(
     colors.green.darken(10%),
-    colors.green.transparentize(90%),
+    colors.green.transparentize(93%),
     "Определение",
     definition-counter,
     title,
@@ -105,7 +105,7 @@
   let (title, body) = split-args(args)
   numbered-env(
     colors.violet.darken(10%),
-    colors.violet.transparentize(90%),
+    colors.violet.transparentize(93%),
     "Теорема",
     theorem-counter,
     title,
@@ -116,7 +116,7 @@
   let (title, body) = split-args(args)
   numbered-env(
     colors.violet.darken(10%),
-    colors.violet.transparentize(90%),
+    colors.violet.transparentize(93%),
     "Следствие",
     corollary-counter,
     title,
@@ -160,7 +160,7 @@
 // color --- акцент блока (colors.accent для применений, colors.amber для выводов, colors.warn для предупреждений).
 #let Block(color: colors.accent, body, ..args) = block(
   body,
-  fill: color.transparentize(90%),
+  fill: color.transparentize(93%),
   stroke: (
     left: 3pt + color.darken(10%),
     top: 0.5pt + color.lighten(50%),
@@ -248,6 +248,49 @@
           #set text(0.9em, weight: "bold", fill: colors.accent-strong)
           --- #epigraph-author
         ]
+      ]
+    ]
+  ])
+
+  pagebreak(weak: true)
+}
+
+// === Слайд-разделитель лекции (внутри модульного дека: несколько лекций в одном файле) ===
+// Сбрасывает нумерацию окружений; recap --- короткое повторение прошлой лекции.
+#let lecture-slide(num, title, week: none, recap: none) = {
+  definition-counter.update(0)
+  theorem-counter.update(0)
+  corollary-counter.update(0)
+
+  set page(header: none, footer: none, margin: 0pt)
+
+  place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
+    #block(width: 90%)[
+      #text(1.05em, weight: "bold", fill: colors.muted)[Лекция #num]
+      #v(0.3em, weak: true)
+      #text(
+        2.2em,
+        weight: "bold",
+        font: "Libertinus Sans",
+        fill: colors.accent-strong,
+      )[#title]
+    ]
+    #v(0.7em, weak: true)
+    #line(length: 32%, stroke: 2pt + colors.accent)
+    #if week != none [
+      #v(0.5em, weak: true)
+      #text(1.05em, fill: colors.muted)[#week]
+    ]
+    #if recap != none [
+      #v(0.9em, weak: true)
+      #block(
+        ..card(colors.accent, colors.accent.transparentize(93%)),
+        width: 80%,
+        inset: (x: 1em, y: 0.5em),
+      )[
+        #text(fill: colors.accent, weight: "bold")[На прошлой лекции]
+        #v(0.4em, weak: true)
+        #recap
       ]
     ]
   ])
