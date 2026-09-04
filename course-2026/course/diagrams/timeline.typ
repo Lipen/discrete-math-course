@@ -43,7 +43,7 @@
   // Легенда точек: фигуры как на оси, подписи рядом.
   draw.circle((0.1, -1.18), radius: 0.11, fill: c-kr, name: none)
   draw.content((0.32, -1.18), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "base")
-  draw.line((1.68, -1.18), (1.8, -1.05), (1.92, -1.18), (2.04, -1.31), (1.68, -1.18), close: true, fill: c-tm, name: none)
+  draw.line((1.64, -1.18), (1.8, -1.01), (1.96, -1.18), (1.8, -1.35), (1.64, -1.18), close: true, fill: c-tm, name: none)
   draw.content((2.28, -1.18), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "base")
   // Модули: цветной кронштейн над диапазоном недель, имя над ним.
   for (a, b, name, color) in modules {
