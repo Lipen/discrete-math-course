@@ -33,27 +33,22 @@
   draw.line((0, 0), (weeks, 0), stroke: 0.9pt + c-ink)
   for w in range(1, weeks + 1) {
     draw.line((w - 1, 0), (w - 1, -0.1), stroke: 0.5pt + c-mute)
-    draw.content((w - 0.5, -0.34), [#w], size: 6.5pt, fill: c-mute)
+    draw.content((w - 0.5, -0.34), text(size: 6.5pt, fill: c-mute)[#w])
   }
   draw.line((weeks, 0), (weeks, -0.1), stroke: 0.5pt + c-mute)
   // Месяцы под номерами недель.
   for (name, x0, x1) in months {
-    draw.content(((x0 + x1) / 2, -0.66), name, size: 6pt, fill: c-mute)
+    draw.content(((x0 + x1) / 2, -0.66), text(size: 6pt, fill: c-mute)[#name])
   }
-  // Легенда точек.
-  draw.content(
-    (0, -1.02),
-    anchor: "west",
-    [
-      #text(fill: c-kr, size: 7pt)[#sym.circle.filled] --- контрольная #h(0.6em) #text(fill: c-tm, size: 7pt)[#sym.diamond.filled] --- теормин
-    ],
-    size: 6.5pt,
-    fill: c-mute,
-  )
+  // Легенда точек: фигуры как на оси, подписи рядом.
+  draw.circle((0.1, -1.18), radius: 0.11, fill: c-kr, name: none)
+  draw.content((0.32, -1.18), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "base")
+  draw.line((1.68, -1.18), (1.8, -1.05), (1.92, -1.18), (2.04, -1.31), (1.68, -1.18), close: true, fill: c-tm, name: none)
+  draw.content((2.28, -1.18), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "base")
   // Модули: цветной кронштейн над диапазоном недель, имя над ним.
   for (a, b, name, color) in modules {
     span-bracket(a - 0.88, b - 0.12, 0.52, color)
-    draw.content(((a - 1 + b) / 2, 1.12), name, size: 7pt, fill: color)
+    draw.content(((a - 1 + b) / 2, 1.05), text(size: 6.5pt, fill: color)[#name], anchor: "base")
   }
   // Точки контроля на оси.
   for (w, kind, n) in marks {
