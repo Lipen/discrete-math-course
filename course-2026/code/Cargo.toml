@@ -24,4 +24,5 @@ members = [
     "combinatorics",
     "type-theory",
     "fuzzy",
+    "categories",
 ]

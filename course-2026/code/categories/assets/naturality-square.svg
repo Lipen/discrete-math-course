@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="252" viewBox="0 0 460 252" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#0f172a"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="460" height="252" fill="#ffffff"/>
+  <text x="230" y="26" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">Naturality square of a transformation τ : F ⇒ G</text>
+
+  <rect x="70" y="60" width="110" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="125" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">F(A)</text>
+  <rect x="280" y="60" width="110" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="335" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#14532d">G(A)</text>
+  <rect x="70" y="156" width="110" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="125" y="184" text-anchor="middle" font-size="14" font-weight="700" fill="#1e3a8a">F(B)</text>
+  <rect x="280" y="156" width="110" height="44" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="2"/>
+  <text x="335" y="184" text-anchor="middle" font-size="14" font-weight="700" fill="#14532d">G(B)</text>
+
+  <path d="M 182 82 H 276" fill="none" stroke="#0f172a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text x="229" y="74" text-anchor="middle" font-size="13" font-style="italic" fill="#0f172a">τ_A</text>
+  <path d="M 182 178 H 276" fill="none" stroke="#0f172a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text x="229" y="170" text-anchor="middle" font-size="13" font-style="italic" fill="#0f172a">τ_B</text>
+
+  <path d="M 125 106 V 152" fill="none" stroke="#0f172a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text x="133" y="134" text-anchor="start" font-size="13" font-style="italic" fill="#0f172a">F(f)</text>
+  <path d="M 335 106 V 152" fill="none" stroke="#0f172a" stroke-width="1.4" marker-end="url(#arrow)"/>
+  <text x="343" y="134" text-anchor="start" font-size="13" font-style="italic" fill="#0f172a">G(f)</text>
+
+  <text x="230" y="234" text-anchor="middle" font-size="12" fill="#64748b">G(f) ∘ τ_A = τ_B ∘ F(f) : every square of this shape commutes</text>
+</svg>
