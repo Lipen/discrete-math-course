@@ -28,6 +28,8 @@
   ..args,
 )
 
+#let e(from, to) = edge(from, to, "-", stroke: e-stroke)
+
 #let rel-digraph = diagram(
   node-shape: "circle",
   node-stroke: t-bd + c-bd,
@@ -50,31 +52,23 @@
   el(<5>, <5>, angle: 240deg),
 )
 
-// ── Диаграмма Хассе: делимость на {1,2,3,4,6,12} ──
-#let hasse-divisibility = canvas({
-  let v(name, pos) = {
-    draw.circle(pos, radius: 0.35, fill: c-fl, stroke: t-bd + c-bd, name: name)
-    draw.content(pos, text(size: s-node, fill: c-ink)[#name])
-  }
-
-  let e(a, b) = draw.line(a, b, stroke: e-stroke)
-
-  v("12", (0, 3.0))
-  v("4", (-1.5, 2.0))
-  v("6", (1.5, 2.0))
-  v("2", (-1.0, 1.0))
-  v("3", (1.0, 1.0))
-  v("1", (0, 0.0))
-
-  // Только покрывающие отношения, без транзитивных сокращений.
-  e("1", "2")
-  e("1", "3")
-  e("2", "4")
-  e("2", "6")
-  e("3", "6")
-  e("4", "12")
-  e("6", "12")
-})
+// ── Диаграмма Хассе: включение на P({1,2}) ──
+#let hasse-inclusion = diagram(
+  node-shape: "circle",
+  node-stroke: t-bd + c-bd,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 2em,
+  cn((0, 2), $emptyset$, name: <p0>),
+  cn((-1, 1), ${1}$, name: <p1>),
+  cn((1, 1), ${2}$, name: <p2>),
+  cn((0, 0), ${1,2}$, name: <p12>),
+  // Покрытие: добавление одного элемента.
+  e(<p0>, <p1>),
+  e(<p0>, <p2>),
+  e(<p1>, <p12>),
+  e(<p2>, <p12>),
+)
 
 // ── Разбиение целых по остатку mod 3 ──
 #let eq-class(y, fill, residue, items) = {
