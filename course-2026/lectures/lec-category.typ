@@ -204,7 +204,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
     columns: (auto, auto, auto),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (center, left, left),
-    table.header([Категория], [Произведение], [Копроизведение]),
+    table.header([*Категория*], [*Произведение*], [*Копроизведение*]),
     [множества], [пары $A times B$], [дизъюнктное объединение],
     [логика], [$p and q$], [$p or q$],
     [порядок], [инфимум $a and b$], [супремум $a or b$],
