@@ -119,6 +119,7 @@
 #include "m33-modal.typ"
 #include "m34-intuitionism.typ"
 #include "m35-fuzzy-sets.typ"
+#include "m36-categories.typ"
 #include "conclusion.typ"
 
 // --- Указания к упражнениям со звёздочкой ---
