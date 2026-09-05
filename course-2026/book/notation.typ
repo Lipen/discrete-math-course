@@ -107,4 +107,9 @@
 
 // === Тройки Хоара (m01) ===
 // sep --- зазор вокруг оператора S: $space$ (thick, по умолчанию), $quad$ (display), none (без зазора).
+
+
 #let hoare(P, S, Q, sep: $space$) = ${#P} #sep #S #sep {#Q}$
+
+// === Теория категорий (m36) ===
+#let dashv = sym.tack.l  // сопряжение функторов: F dashv G (зеркально proves = tack.r)
