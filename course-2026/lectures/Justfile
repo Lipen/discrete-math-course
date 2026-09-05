@@ -44,6 +44,7 @@ files := """
     lec-abstract-interpretation.typ
     lec-verification.typ
     lec-fuzzy.typ
+    lec-category.typ
 """
 
 # Compile all lectures
