@@ -165,68 +165,24 @@
 )
 
 // ── Сопряжение: биекция множеств стрелок ──
-#let adjunction-bijection = canvas({
-  let box(x, y, w, h, name, body) = {
-    draw.rect(
-      (x - w / 2, y - h / 2),
-      (x + w / 2, y + h / 2),
-      name: name,
-      radius: 5pt,
-      stroke: c-bd + t-bd,
-      fill: none,
-    )
-    draw.content(name, text(size: s-node, fill: c-ink)[#body])
-  }
+#let adjunction-bijection = diagram(
+  node-stroke: n-stroke,
+  node-fill: none,
+  spacing: 3em,
+  {
+    node((0, 0), $cal(C)$, name: <cc>, shape: rect, width: 8em, height: 6.5em)
+    node((5.2, 0), $cal(D)$, name: <dd>, shape: rect, width: 8em, height: 6.5em)
 
-  // Категория C слева, D справа; F туда, G обратно.
-  box(0, 1.2, 1.6, 2.6, "cc", $cal(C)$)
-  box(5.6, 1.2, 1.6, 2.6, "dd", $cal(D)$)
+    // F и G --- рёбра из якорей вершин.
+    edge((name: "cc", anchor: "north"), (name: "dd", anchor: "north"), "-|>", label: [$F$], label-size: s-cap, stroke: e-stroke)
+    edge((name: "dd", anchor: "south"), (name: "cc", anchor: "south"), "-|>", label: [$G$], label-size: s-cap, stroke: e-stroke)
 
-  draw.line(
-    (0.05, 3.1),
-    (5.55, 3.1),
-    stroke: e-stroke,
-    mark: (end: ">"),
-    name: "farr",
-  )
-  draw.content("farr", text(size: s-cap, fill: c-ink)[$F$], anchor: "south")
-  draw.line(
-    (5.55, -0.7),
-    (0.05, -0.7),
-    stroke: e-stroke,
-    mark: (end: ">"),
-    name: "garr",
-  )
-  draw.content("garr", text(size: s-cap, fill: c-ink)[$G$], anchor: "north")
-
-  // Два множества стрелок --- по строке на каждый элемент.
-  draw.content(
-    (3.3, 2.0),
-    text(size: s-cap, fill: c-hot)[$F(X) -> Y$],
-    anchor: "south",
-    name: "top1",
-  )
-  draw.content(
-    (3.3, 0.4),
-    text(size: s-cap, fill: c-hot)[$X -> G(Y)$],
-    anchor: "south",
-    name: "top2",
-  )
-
-  // Биекция --- вертикальное пунктирное соответствие.
-  draw.line(
-    (3.3, 0.62),
-    (3.3, 1.86),
-    stroke: (paint: c-muted, thickness: t-hr, dash: "dashed"),
-    mark: (end: ">", begin: ">"),
-    name: "bij",
-  )
-  draw.content(
-    "bij",
-    text(size: s-tiny, fill: c-muted)[биекция],
-    anchor: "west",
-  )
-})
+    // Два множества стрелок --- безрамные вершины, биекция --- ребро между ними.
+    node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
+    node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
+    edge(<fy>, <xg>, "-|>-|-|>", label: [биекция], label-size: s-cap, stroke: (paint: c-muted, thickness: t-hr, dash: "dashed"))
+  },
+)
 
 // ── Монада из сопряжения ──
 #let monad-from-adjunction = canvas({
@@ -253,25 +209,23 @@
     )
     draw.content(name, text(size: s-cap, fill: c-ink)[#lab])
   }
-  let wire(fr, to, lab: none) = {
-    draw.line(fr, to, stroke: e-stroke, name: if lab != none {
-      fr + "-" + to
-    } else { none })
-  }
+  let wire(fr, to) = draw.line(fr, to, stroke: e-stroke)
 
   // m : A ⊗ B -> C, затем n : C ⊗ D -> E. Провода идут снизу вверх.
   op(1.4, 0, "m", $m$)
   op(1.4, 2.4, "n", $n$)
-  wire((-0.2, -1), (0.85, -0.28))
-  wire((1.4, -1), (1.95, -0.28))
-  wire((1.4, 0.28), (0.85, 2.12))
-  wire((3.0, -1), (1.95, 2.12))
-  wire((1.4, 2.68), (1.4, 3.6))
 
-  draw.content((-0.2, -1.35), text(size: s-cap, fill: c-muted)[$A$])
-  draw.content((1.4, -1.35), text(size: s-cap, fill: c-muted)[$B$])
-  draw.content((3.0, -1.35), text(size: s-cap, fill: c-muted)[$D$])
-  draw.content((1.4, 3.9), text(size: s-cap, fill: c-muted)[$E$])
+  // Свободные концы --- именованные точки, провода идут из якорей.
+  draw.content((-0.2, -1.35), text(size: s-cap, fill: c-ink)[$A$], name: "wA")
+  draw.content((1.4, -1.35), text(size: s-cap, fill: c-ink)[$B$], name: "wB")
+  draw.content((3.0, -1.35), text(size: s-cap, fill: c-ink)[$D$], name: "wD")
+  draw.content((1.4, 3.9), text(size: s-cap, fill: c-ink)[$E$], name: "wE")
+
+  wire("wA.north", "m.south-west")
+  wire("wB.north", "m.south-east")
+  wire("m.north-west", "n.south-west")
+  wire("wD.north", "n.south-east")
+  wire("n.north", "wE.south")
   draw.content((0.72, 1.2), text(size: s-cap, fill: c-muted)[$C$])
 })
 

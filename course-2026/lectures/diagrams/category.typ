@@ -139,23 +139,21 @@
 )
 
 // ── Сопряжение: биекция стрелок ──
-#let adjunction-bijection = canvas({
-  let box(x, y, w, h, name, body) = {
-    draw.rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), name: name, radius: 5pt, stroke: n-stroke, fill: none)
-    draw.content(name, text(size: 1.1em, fill: c-ink)[#body])
-  }
+#let adjunction-bijection = diagram(
+  node-stroke: n-stroke,
+  node-fill: none,
+  spacing: 3em,
+  {
+    node((0, 0), $cal(C)$, name: <cc>, shape: rect, width: 8em, height: 6.5em)
+    node((5.2, 0), $cal(D)$, name: <dd>, shape: rect, width: 8em, height: 6.5em)
 
-  box(0, 1.2, 1.7, 2.7, "cc", $cal(C)$)
-  box(5.7, 1.2, 1.7, 2.7, "dd", $cal(D)$)
+    // F и G --- рёбра из якорей вершин.
+    edge((name: "cc", anchor: "north"), (name: "dd", anchor: "north"), "-|>", label: [$F$], label-size: 0.8em, stroke: e-stroke)
+    edge((name: "dd", anchor: "south"), (name: "cc", anchor: "south"), "-|>", label: [$G$], label-size: 0.8em, stroke: e-stroke)
 
-  draw.line((0.05, 3.15), (5.65, 3.15), stroke: e-stroke, mark: (end: ">"), name: "farr")
-  draw.content("farr", text(size: 0.8em, fill: c-ink)[$F$], anchor: "south")
-  draw.line((5.65, -0.75), (0.05, -0.75), stroke: e-stroke, mark: (end: ">"), name: "garr")
-  draw.content("garr", text(size: 0.8em, fill: c-ink)[$G$], anchor: "north")
-
-  draw.content((3.35, 2.05), text(size: 0.8em, fill: c-hot)[$F(X) -> Y$], anchor: "south", name: "top1")
-  draw.content((3.35, 0.4), text(size: 0.8em, fill: c-hot)[$X -> G(Y)$], anchor: "south", name: "top2")
-
-  draw.line((3.35, 0.62), (3.35, 1.9), stroke: (paint: c-muted, thickness: 0.5pt, dash: "dashed"), mark: (end: ">", begin: ">"), name: "bij")
-  draw.content("bij", text(size: 0.7em, fill: c-muted)[биекция], anchor: "west")
-})
+    // Два множества стрелок --- безрамные вершины, биекция --- ребро между ними.
+    node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
+    node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
+    edge(<fy>, <xg>, "-|>-|-|>", label: [биекция], label-size: 0.7em, stroke: (paint: c-muted, thickness: 0.5pt, dash: "dashed"))
+  },
+)
