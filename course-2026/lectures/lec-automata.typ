@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m22.typ": dfa-01, nfa-01-eps
+#import "diagrams/m23.typ": dfa-01, nfa-01-eps
 
 = Языки
 #focus-slide(

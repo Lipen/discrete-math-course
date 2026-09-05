@@ -1,98 +1,175 @@
-// Chomsky hierarchy and parse tree.
+// Finite automata.
 // Скопировано из книги, чтобы лекции не зависели от неё.
-#import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 
-#let chomsky-hierarchy = canvas({
-  let c-reg = oklch(88%, 0.05, 155deg)
-  let c-cf = oklch(88%, 0.04, 70deg)
-  let c-cs = oklch(88%, 0.04, 300deg)
-  let c-re = oklch(85%, 0.03, 22deg)
-  let c-label = oklch(35%, 0.02, 265deg)
-  let c-border = oklch(50%, 0.05, 250deg) + 0.5pt
+#let c-state = oklch(88%, 0.03, 250deg)
+#let c-state-str = oklch(60%, 0.08, 250deg)
+#let c-accept = oklch(88%, 0.05, 155deg)
+#let c-accept-str = oklch(55%, 0.18, 155deg)
+#let c-edge = oklch(35%, 0.02, 265deg)
 
-  draw.circle((0, 0), radius: (0.4, 0.2), fill: c-reg, stroke: c-border)
-  draw.content((0, 0.15), text(size: 0.42em, fill: c-label)[Regular])
+// ── 1. DFA: strings over {0,1} ending with "01" ──
+#let dfa-01 = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 3em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $q_0$, name: <q0>),
+  edge(<q0>, <q1>, "-}>", label: [0]),
+  node((1, 0), $q_1$, name: <q1>),
+  edge(<q1>, <q2>, "-}>", label: [1]),
+  node((2, 0), $q_2$, name: <q2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  edge(<q0>, <q0>, "-}>", label: [1], bend: -50deg),
+  edge(<q1>, <q1>, "-}>", label: [0], bend: -50deg),
+  edge(<q2>, <q1>, "-}>", label: [0], bend: 40deg),
+  edge(<q2>, <q0>, "-}>", label: [1], bend: -50deg),
+)
 
-  draw.circle((0, 0.2), radius: (0.7, 0.4), fill: c-cf, stroke: c-border)
-  draw.content((0, 0.5), text(size: 0.42em, fill: c-label)[Context-Free])
+// ── 2. NFA with epsilon: contains "01", or the empty word ──
+#let nfa-01-eps = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 3em,
+  edge((-0.6, 0), <s>, "-}>"),
+  node((0, 0), $s$, name: <s>),
+  edge(<s>, <q0>, "-}>", label: [$epsilon$]),
+  edge(<s>, <q2>, "-}>", label: [$epsilon$], bend: 30deg),
+  node((1, 0), $q_0$, name: <q0>),
+  edge(<q0>, <q0>, "-}>", label: [0,1], bend: -50deg),
+  edge(<q0>, <q1>, "-}>", label: [0], label-side: right),
+  node((2, 1), $q_1$, name: <q1>),
+  edge(<q1>, <q2>, "-}>", label: [1]),
+  node((2, -1), $q_2$, name: <q2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  edge(<q2>, <q2>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
+)
 
-  draw.circle((0, 0.6), radius: (1.3, 0.8), fill: c-cs, stroke: c-border)
-  draw.content((0, 1.0), text(size: 0.42em, fill: c-label)[Context-Sensitive])
+// ── 3. DFA: even number of ones ──
+#let dfa-even-ones = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 3em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $q_0$, name: <e0>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  node((1, 0), $q_1$, name: <e1>),
+  edge(<e0>, <e0>, "-}>", label: [0], loop-angle: 90deg, bend: 120deg),
+  edge(<e0>, <e1>, "-}>", label: [1], bend: 30deg),
+  edge(<e1>, <e1>, "-}>", label: [0], loop-angle: 90deg, bend: 120deg),
+  edge(<e1>, <e0>, "-}>", label: [1], bend: 30deg),
+)
 
-  draw.circle((0, 1.2), radius: (2, 1.4), fill: c-re, stroke: c-border)
-  draw.content((0, 1.7), text(
-    size: 0.42em,
-    fill: c-label,
-  )[Recursively Enumerable])
-})
+// ── 4. NFA: strings ending with "01" ──
+#let nfa-ends-01 = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 3em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $s$, name: <n0>),
+  edge(<n0>, <n0>, "-}>", label: [0, 1], loop-angle: 90deg, bend: 120deg),
+  node((2, 0), $q_1$, name: <n1>),
+  edge(<n0>, <n1>, "-}>", label: [0]),
+  node((4, 0), $q_2$, name: <n2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  edge(<n1>, <n2>, "-}>", label: [1]),
+)
 
-// ── Дерево разбора a^3 b^3 ──
-// Дерево растёт слева направо: корень S слева, листья справа.
-// На каждой стрелке --- правило, применённое к родительскому нетерминалу.
-#let parse-tree-a3b3 = {
-  let n-size = 1.5em
-  let n-stroke = 0.6pt + luma(70%)
-  let e-stroke = (paint: oklch(35%, 0.02, 265deg), thickness: 0.8pt)
-  let c-nonterm = oklch(92%, 0.04, 45deg)
-  let c-term = oklch(92%, 0.02, 155deg)
+// ── 5. Subset construction result: states are sets of NFA states ──
+#let dfa-subset-01 = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 5em,
+  edge((-1.4, 0), "-}>"),
+  node((0, 0), text(size: 0.75em)[$q_0$], name: <m0>),
+  edge(<m0>, <m0>, "-}>", label: [1], loop-angle: 90deg, bend: 120deg),
+  node((2.5, 0), text(size: 0.75em)[$q_0, q_1$], name: <m1>),
+  edge(<m0>, <m1>, "-}>", label: [0]),
+  edge(<m1>, <m1>, "-}>", label: [0], loop-angle: 90deg, bend: 120deg),
+  node((5, 0), text(size: 0.75em)[$q_0, q_2$], name: <m2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  edge(<m1>, <m2>, "-}>", label: [1]),
+  edge(<m2>, <m1>, "-}>", label: [0], bend: -40deg),
+  edge(<m2>, <m0>, "-}>", label: [1], bend: -50deg),
+)
+// ── 6. NFA: third symbol from the end equals 1 ──
+#let nfa-third-one = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 3.5em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $s$, name: <t0>),
+  edge(<t0>, <t0>, "-}>", label: [0, 1], loop-angle: 90deg, bend: 120deg),
+  node((2, 0), $q_1$, name: <t1>),
+  edge(<t0>, <t1>, "-}>", label: [1]),
+  node((4, 0), $q_2$, name: <t2>),
+  edge(<t1>, <t2>, "-}>", label: [0, 1]),
+  node((6, 0), $q_3$, name: <t3>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  edge(<t2>, <t3>, "-}>", label: [0, 1]),
+)
 
-  let cn(pos, label, ..args) = node(
-    pos,
-    label,
-    fill: c-nonterm,
-    width: n-size,
-    height: n-size,
-    ..args,
-  )
-  let tn(pos, label, ..args) = node(
-    pos,
-    label,
-    fill: c-term,
-    width: n-size,
-    height: n-size,
-    ..args,
-  )
-  let re(from, to, label) = edge(
-    from,
-    to,
-    "-",
-    stroke: e-stroke,
-    label: label,
-    label-anchor: "center",
-    label-angle: auto,
-    label-size: 0.55em,
-  )
+// ── 7. Thompson construction for (0|1)*1 ──
+#let thompson-star-one = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 3em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $s$, name: <p0>),
+  node((1.5, 0), $q$, name: <p1>),
+  edge(<p0>, <p1>, "-}>", label: [$epsilon$]),
+  edge(<p1>, <p1>, "-}>", label: [0, 1], loop-angle: 90deg, bend: 120deg),
+  node((3, 0), $r$, name: <p2>),
+  edge(<p1>, <p2>, "-}>", label: [$epsilon$]),
+  node((4.5, 0), $f$, name: <p3>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  edge(<p2>, <p3>, "-}>", label: [1]),
+)
 
-  diagram(
-    node-shape: "circle",
-    node-stroke: n-stroke,
-    node-inset: 0pt,
-    node-outset: 0pt,
-    spacing: 2em,
-
-    // Корень и уровни вложенности (ось y вниз; дети S --- столбец a, S, b).
-    cn((0, 0), $S$, name: <s0>),
-    tn((2, -1.2), $a$, name: <a1>),
-    cn((2, 0), $S$, name: <s1>),
-    tn((2, 1.2), $b$, name: <b1>),
-    tn((4, -1.2), $a$, name: <a2>),
-    cn((4, 0), $S$, name: <s2>),
-    tn((4, 1.2), $b$, name: <b2>),
-    tn((6, -1.2), $a$, name: <a3>),
-    cn((6, 0), $S$, name: <s3>),
-    tn((6, 1.2), $b$, name: <b3>),
-    tn((8, 0), $epsilon$, name: <eps>),
-
-    re(<s0>, <a1>, $S -> a S b$),
-    re(<s0>, <s1>, $S -> a S b$),
-    re(<s0>, <b1>, $S -> a S b$),
-    re(<s1>, <a2>, $S -> a S b$),
-    re(<s1>, <s2>, $S -> a S b$),
-    re(<s1>, <b2>, $S -> a S b$),
-    re(<s2>, <a3>, $S -> a S b$),
-    re(<s2>, <s3>, $S -> a S b$),
-    re(<s2>, <b3>, $S -> a S b$),
-    re(<s3>, <eps>, $S -> epsilon$),
-  )
-}
+// ── 8. Four-state DFA for the even-ones language ──
+#let dfa-redundant = diagram(
+  node-stroke: (paint: c-state-str, thickness: 0.8pt),
+  node-fill: c-state,
+  edge-stroke: (paint: c-edge, thickness: 0.8pt),
+  spacing: 4em,
+  edge((-1, 0), "-}>"),
+  node((0, 0), $r_0$, name: <d0>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  node((2, 0), $r_1$, name: <d1>),
+  node((0, 2), $r_2$, name: <d2>, fill: c-accept, stroke: (
+    paint: c-accept-str,
+    thickness: 1.2pt,
+  )),
+  node((2, 2), $r_3$, name: <d3>),
+  edge(<d0>, <d1>, "-}>", label: [1]),
+  edge(<d1>, <d0>, "-}>", label: [1], bend: 40deg),
+  edge(<d0>, <d2>, "-}>", label: [0]),
+  edge(<d1>, <d1>, "-}>", label: [0], loop-angle: 0deg, bend: 120deg),
+  edge(<d2>, <d3>, "-}>", label: [1]),
+  edge(<d3>, <d2>, "-}>", label: [1], bend: 40deg),
+  edge(<d2>, <d2>, "-}>", label: [0], loop-angle: 180deg, bend: 120deg),
+  edge(<d3>, <d3>, "-}>", label: [0], loop-angle: 0deg, bend: 120deg),
+)

@@ -6,7 +6,7 @@
   date: "Весна 2027",
   authors: "Константин Чухарев",
 )
-#import "diagrams/m22.typ": (
+#import "diagrams/m23.typ": (
   dfa-01, dfa-even-ones, dfa-redundant, dfa-subset-01, nfa-01-eps, nfa-ends-01,
   nfa-third-one, thompson-star-one,
 )

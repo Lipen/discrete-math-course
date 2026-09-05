@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m23.typ": chomsky-hierarchy, parse-tree-a3b3
+#import "diagrams/m24.typ": chomsky-hierarchy, parse-tree-a3b3
 
 = Грамматики
 #focus-slide(
