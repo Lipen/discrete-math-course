@@ -95,6 +95,42 @@ impl FiniteCategory {
         }
     }
 
+    /// The cyclic monoid `Z_n` under addition mod `n`, as a one-object category.
+    ///
+    /// Elements are named `m0` to `m(n-1)`, the identity is `m0` (the residue 0).
+    /// Panics when `n == 0`.
+    /// ```
+    /// use categories::FiniteCategory;
+    /// let z4 = FiniteCategory::zn(4);
+    /// assert!(z4.check_axioms());
+    /// assert_eq!(z4.morphisms.len(), 4);
+    /// ```
+    pub fn zn(n: usize) -> Self {
+        assert!(n > 0, "Z_n needs n >= 1");
+        let table: Vec<Vec<usize>> = (0..n)
+            .map(|i| (0..n).map(|j| (i + j) % n).collect())
+            .collect();
+        let rows: Vec<&[usize]> = table.iter().map(|r| r.as_slice()).collect();
+        Self::from_monoid(&format!("Z{n}"), &rows)
+    }
+
+    /// A one-object category from a binary operation on `{0, ..., n-1}` given as a closure.
+    ///
+    /// The closure receives element indices; the result must be in range.
+    /// Panics when the operation has no identity element or produces an out-of-range value.
+    /// ```
+    /// use categories::FiniteCategory;
+    /// // The two-element monoid {e, s} with s * s = e.
+    /// let flip = FiniteCategory::from_operation("flip", 2, &|a, b| a ^ b);
+    /// assert!(flip.check_axioms());
+    /// ```
+    pub fn from_operation(name: &str, n: usize, op: &dyn Fn(usize, usize) -> usize) -> Self {
+        assert!(n > 0, "operation needs at least one element");
+        let table: Vec<Vec<usize>> = (0..n).map(|i| (0..n).map(|j| op(i, j)).collect()).collect();
+        let rows: Vec<&[usize]> = table.iter().map(|r| r.as_slice()).collect();
+        Self::from_monoid(name, &rows)
+    }
+
     /// The thin category of a reflexive relation: one morphism `a -> b` exactly when `le[a][b]` holds.
     ///
     /// Objects are named `0`, `1` and so on after their indices.

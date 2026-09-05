@@ -3,10 +3,7 @@
 use categories::{FiniteCategory, Functor, Morphism, ObjId};
 
 fn z4() -> FiniteCategory {
-    FiniteCategory::from_monoid(
-        "Z4",
-        &[&[0, 1, 2, 3], &[1, 2, 3, 0], &[2, 3, 0, 1], &[3, 0, 1, 2]],
-    )
+    FiniteCategory::zn(4)
 }
 
 fn chain() -> FiniteCategory {

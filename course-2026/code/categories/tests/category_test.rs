@@ -3,10 +3,7 @@
 use categories::{FiniteCategory, Morphism, ObjId};
 
 fn z4() -> FiniteCategory {
-    FiniteCategory::from_monoid(
-        "Z4",
-        &[&[0, 1, 2, 3], &[1, 2, 3, 0], &[2, 3, 0, 1], &[3, 0, 1, 2]],
-    )
+    FiniteCategory::zn(4)
 }
 
 fn chain() -> FiniteCategory {
@@ -197,4 +194,42 @@ fn composing_unrelated_arrows_panics() {
     let cat = free_triangle();
     let b = by_name(&cat, "b");
     let _ = cat.compose(&b, &b.clone());
+}
+
+#[test]
+fn zn_builds_valid_categories_for_small_n() {
+    for n in 1..=8 {
+        let cat = FiniteCategory::zn(n);
+        assert!(cat.check_axioms(), "Z{n} must satisfy category axioms");
+        assert_eq!(cat.morphisms.len(), n);
+    }
+}
+
+#[test]
+fn zn_identity_is_m0() {
+    let z5 = FiniteCategory::zn(5);
+    let id = z5.identity(ObjId(0));
+    assert_eq!(id.name, "m0");
+}
+
+#[test]
+fn from_operation_xor_gives_valid_monoid() {
+    // XOR on {0, 1}: identity is 0, associative, commutative.
+    let xor = FiniteCategory::from_operation("xor", 2, &|a, b| a ^ b);
+    assert!(xor.check_axioms());
+    assert_eq!(xor.morphisms.len(), 2);
+}
+
+#[test]
+fn from_operation_max_gives_valid_monoid() {
+    // Max on {0, 1, 2}: identity is 0, associative.
+    let max = FiniteCategory::from_operation("max", 3, &|a, b| a.max(b));
+    assert!(max.check_axioms());
+}
+
+#[test]
+#[should_panic(expected = "identity")]
+fn from_operation_without_identity_panics() {
+    // Constants have no identity unless the sole value is idempotent in the right way.
+    let _ = FiniteCategory::from_operation("bad", 3, &|a, _b| (a + 1) % 3);
 }

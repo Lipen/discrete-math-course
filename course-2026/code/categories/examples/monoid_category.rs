@@ -33,10 +33,7 @@ fn table(cat: &FiniteCategory) {
 }
 
 fn main() {
-    let cat = FiniteCategory::from_monoid(
-        "Z4",
-        &[&[0, 1, 2, 3], &[1, 2, 3, 0], &[2, 3, 0, 1], &[3, 0, 1, 2]],
-    );
+    let cat = FiniteCategory::zn(4);
 
     let width = 60;
     println!("{}", "=".repeat(width));

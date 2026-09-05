@@ -72,10 +72,7 @@ fn report(title: &str, cat: &FiniteCategory, a: ObjId, f: &SetFunctor) {
 
 fn main() {
     // Z4: F sends the single object to {even, odd} and odd elements flip parity.
-    let z4 = FiniteCategory::from_monoid(
-        "Z4",
-        &[&[0, 1, 2, 3], &[1, 2, 3, 0], &[2, 3, 0, 1], &[3, 0, 1, 2]],
-    );
+    let z4 = FiniteCategory::zn(4);
     let parity = SetFunctor {
         cat: &z4,
         obj_map: vec![vec!["even".into(), "odd".into()]],

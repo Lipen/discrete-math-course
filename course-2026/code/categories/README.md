@@ -27,6 +27,8 @@ Everything here is finite: the crate keeps the entire composition table, so chec
 | Builder           | Category                 | Morphisms                                                |
 |-------------------|--------------------------|----------------------------------------------------------|
 | `from_monoid`     | one object               | the elements of the monoid, composed by the Cayley table |
+| `zn`              | one object               | the cyclic monoid `Z_n` under addition mod `n`           |
+| `from_operation`  | one object               | elements `0..n-1` with a closure `(i, j) -> k`           |
 | `from_poset`      | a reflexive relation     | exactly one morphism $a \to b$ when $a \le b$            |
 | `free_from_graph` | a directed acyclic graph | paths, with `e2*e1` meaning $e_2$ after $e_1$            |
 
