@@ -24,19 +24,14 @@
 
 // ── Моноид как категория с одним объектом ──
 #let monoid-loops = canvas({
+  // Петли-лассо: окружности, касающиеся объекта, рисуются до него.
+  draw.arc((-0.85, 0), start: 30deg, stop: 330deg, radius: 0.85, stroke: e-stroke, mark: (end: ">"))
+  draw.arc((0.85, 0), start: 210deg, stop: 510deg, radius: 0.85, stroke: e-stroke, mark: (end: ">"))
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "m")
   draw.content("m", text(size: 1.1em, fill: c-ink)[$M$])
-  draw.arc(
-    "m", start: 25deg, stop: 155deg, radius: 0.8,
-    stroke: e-stroke, mark: (end: ">"), name: "loop-a",
-  )
-  draw.content((0, 1.3), text(size: 0.8em, fill: c-ink)[$a$])
-  draw.arc(
-    "m", start: 35deg, stop: 145deg, radius: 1.55,
-    stroke: e-stroke, mark: (end: ">"), name: "loop-aa",
-  )
-  draw.content((0, 2.05), text(size: 0.8em, fill: c-ink)[$a star a$])
-  draw.content((0, -0.85), text(size: 0.8em, fill: c-muted)[$"id"_M = e$])
+  draw.content((-1.9, 0), text(size: 0.8em, fill: c-ink)[$a$])
+  draw.content((1.9, 0), text(size: 0.8em, fill: c-ink)[$a star a$])
+  draw.content((0, -1.0), text(size: 0.8em, fill: c-muted)[$"id"_M = e$])
 })
 
 // ── Цепочка как тонкая категория ──
