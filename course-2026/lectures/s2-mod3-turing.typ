@@ -1,6 +1,6 @@
 // s2-mod3 --- Машина Тьюринга и разрешимость: модуль расписания семестра 2, лекции 9--12.
 #import "theme.typ": *
-#import "diagrams/m24.typ": turing-machine
+#import "diagrams/m25.typ": turing-machine
 #import "diagrams/m25.typ": reduction-halt-empty, tm-configuration
 
 #show: slides.with(
