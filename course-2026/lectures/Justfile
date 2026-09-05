@@ -9,6 +9,10 @@ files := """
     s1-mod3-logic.typ
     s1-mod4-boolean.typ
     s1-mod5-codes.typ
+    s2-mod1-graphs.typ
+    s2-mod2-automata.typ
+    s2-mod3-turing.typ
+    s2-mod4-combinatorics.typ
     lec-logic.typ
     lec-deduction.typ
     lec-fol.typ
