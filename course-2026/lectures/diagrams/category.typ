@@ -40,12 +40,12 @@
   node-fill: c-fl,
   spacing: 3.2em,
   {
-    node((0, 0), $0$, name: <z>)
+    node((0, 3.2), $0$, name: <z>)
     node((0, 1.6), $1$, name: <o>)
-    node((0, 3.2), $2$, name: <t>)
-    arrow(<z>, <o>, $<=$)
-    arrow(<o>, <t>, $<=$)
-    edge(<z>, <t>, "-}>", label: [$<=$], label-side: left, label-size: 0.8em, stroke: d-stroke)
+    node((0, 0), $2$, name: <t>)
+    arrow(<z>, <o>, $<=$, side: left)
+    arrow(<o>, <t>, $<=$, side: left)
+    edge(<z>, <t>, "-}>", bend: -28deg, label: [$<=$], label-side: right, label-size: 0.8em, stroke: d-stroke)
   },
 )
 

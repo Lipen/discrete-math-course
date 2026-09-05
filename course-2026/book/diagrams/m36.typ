@@ -50,17 +50,18 @@
   node-fill: c-fl,
   spacing: 2.6em,
   {
-    node((0, 0), $0$, name: <z>)
+    node((0, 3), $0$, name: <z>)
     node((0, 1.5), $1$, name: <o>)
-    node((0, 3), $2$, name: <t>)
-    arrow(<z>, <o>, $<=$)
-    arrow(<o>, <t>, $<=$)
+    node((0, 0), $2$, name: <t>)
+    arrow(<z>, <o>, $<=$, side: left)
+    arrow(<o>, <t>, $<=$, side: left)
     edge(
       <z>,
       <t>,
       "-}>",
+      bend: -28deg,
       label: [$<=$],
-      label-side: left,
+      label-side: right,
       label-size: s-cap,
       stroke: d-stroke,
     )
