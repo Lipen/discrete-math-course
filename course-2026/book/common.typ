@@ -205,7 +205,9 @@
       sticky: true,
     )[
       #text(size: 16pt, weight: "medium")[
-        #if it.numbering != none [#text(fill: theme)[§] #counter(heading).display()#h(0.5em)]
+        #if it.numbering != none [#text(fill: theme)[§] #counter(
+            heading,
+          ).display()#h(0.5em)]
         #it.body
       ]
       #section-rule(luma(80%))
@@ -294,3 +296,12 @@
 
   it
 }
+// Листинги кода: врезка с фоном, 90% ширины, по центру.
+#show raw.where(block: true): it => align(center, block(
+  width: 90%,
+  inset: (x: 1.1em, y: 0.9em),
+  radius: 5pt,
+  fill: luma(96%),
+  stroke: (left: 2pt + luma(72%)),
+  text(size: 0.85em)[#it],
+))
