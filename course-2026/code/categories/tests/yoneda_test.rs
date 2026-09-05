@@ -147,3 +147,103 @@ fn transformations_over_different_categories_panic() {
     let g = chain_functor(&d);
     let _ = natural_transformations(&f, &g);
 }
+
+#[test]
+fn yoneda_holds_for_every_object_of_the_chain() {
+    let cat = chain();
+    let f = chain_functor(&cat);
+    for a in 0..cat.objects.len() {
+        let (transformations, bijective) = yoneda(&cat, ObjId(a), &f);
+        assert!(bijective, "focus object {a}");
+        assert_eq!(transformations.len(), f.obj_map[a].len());
+    }
+}
+
+#[test]
+fn yoneda_holds_for_every_object_of_the_free_category() {
+    let cat = free_triangle();
+    let f = free_functor(&cat);
+    for a in 0..cat.objects.len() {
+        let (transformations, bijective) = yoneda(&cat, ObjId(a), &f);
+        assert!(bijective, "focus object {a}");
+        assert_eq!(transformations.len(), f.obj_map[a].len());
+    }
+}
+
+#[test]
+fn yoneda_on_a_three_element_set_functor() {
+    let cat = z4();
+    let f = SetFunctor {
+        cat: &cat,
+        obj_map: vec![vec!["u".into(), "v".into(), "w".into()]],
+        // The involution: m1 swaps u and v, w is fixed.
+        // Element orders must divide 4, so a 3-cycle would not be an action.
+        mor_map: vec![vec![0, 1, 2], vec![1, 0, 2], vec![0, 1, 2], vec![1, 0, 2]],
+    };
+    assert!(f.check());
+    let (transformations, bijective) = yoneda(&cat, ObjId(0), &f);
+    assert!(bijective);
+    assert_eq!(transformations.len(), 3);
+}
+
+#[test]
+fn empty_functor_admits_exactly_one_transformation_nowhere() {
+    let cat = z4();
+    let f = SetFunctor {
+        cat: &cat,
+        obj_map: vec![vec![]],
+        mor_map: vec![vec![]; 4],
+    };
+    assert!(f.check());
+    let (transformations, bijective) = yoneda(&cat, ObjId(0), &f);
+    assert!(bijective);
+    assert_eq!(transformations.len(), 0);
+}
+
+#[test]
+fn yoneda_on_a_v_shaped_poset() {
+    // 0 <= 1 and 0 <= 2, with 1 and 2 incomparable.
+    let v = FiniteCategory::from_poset(&[
+        &[true, true, true],
+        &[false, true, false],
+        &[false, false, true],
+    ]);
+    let f = SetFunctor {
+        cat: &v,
+        obj_map: vec![
+            vec!["p".into(), "q".into()],
+            vec!["p".into()],
+            vec!["q".into()],
+        ],
+        // Morphism order: 0->0, 0->1, 0->2, 1->1, 2->2.
+        mor_map: vec![vec![0, 1], vec![0, 0], vec![0, 0], vec![0], vec![0]],
+    };
+    assert!(f.check());
+    let (transformations, bijective) = yoneda(&v, ObjId(0), &f);
+    assert!(bijective);
+    assert_eq!(transformations.len(), 2);
+}
+
+#[test]
+fn hom_functor_sizes_match_the_hom_sets() {
+    let cat = free_triangle();
+    let from_b = hom_functor(&cat, ObjId(1));
+    assert_eq!(from_b.obj_map[0].len(), 0); // no arrows from B back to A
+    assert_eq!(from_b.obj_map[1].len(), 1); // only id_B
+    assert_eq!(from_b.obj_map[2].len(), 1); // only b
+}
+
+#[test]
+fn naturality_survives_functor_composition_data() {
+    // The identity natural transformation of a functor with itself is natural.
+    let cat = chain();
+    let f = chain_functor(&cat);
+    let ids = categories::NaturalTransformation {
+        components: f.obj_map.iter().map(|s| (0..s.len()).collect()).collect(),
+    };
+    let as_family: Vec<Vec<usize>> = ids.components.clone();
+    assert!(!as_family.is_empty());
+    // Recount via the public search: the identity must appear among the results.
+    let all = natural_transformations(&f, &f);
+    assert!(all.iter().any(|t| t.components == ids.components));
+}

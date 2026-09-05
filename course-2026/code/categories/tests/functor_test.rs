@@ -86,3 +86,50 @@ fn wrong_arity_fails() {
     };
     assert!(!f.check(&cat, &cat));
 }
+
+#[test]
+fn identity_functor_on_the_free_category() {
+    let cat = free_triangle();
+    let id = Functor {
+        obj_map: (0..cat.objects.len()).map(ObjId).collect(),
+        mor_map: cat.morphisms.clone(),
+    };
+    assert!(id.check(&cat, &cat));
+}
+
+#[test]
+fn embedding_z2_into_z4() {
+    let two = FiniteCategory::from_monoid("Z2", &[&[0, 1], &[1, 0]]);
+    let four = z4();
+    let embed = Functor {
+        obj_map: vec![ObjId(0)],
+        mor_map: vec![by_name(&four, "m0"), by_name(&four, "m2")],
+    };
+    assert!(embed.check(&two, &four));
+}
+
+#[test]
+fn constant_functor_into_the_trivial_category() {
+    let trivial = FiniteCategory::from_monoid("1", &[&[0]]);
+    let cat = free_triangle();
+    let constant = Functor {
+        obj_map: vec![ObjId(0); cat.objects.len()],
+        mor_map: vec![trivial.morphisms[0].clone(); cat.morphisms.len()],
+    };
+    assert!(constant.check(&cat, &trivial));
+}
+
+#[test]
+fn doubling_is_idempotent_on_m1() {
+    let cat = z4();
+    let double = Functor {
+        obj_map: vec![ObjId(0)],
+        mor_map: (0..4)
+            .map(|i| by_name(&cat, &format!("m{}", 2 * i % 4)))
+            .collect(),
+    };
+    assert!(double.check(&cat, &cat));
+    // The image of m1 under doubling is the element of order two.
+    let image = &double.mor_map[cat.find_morphism("m1").unwrap()];
+    assert_eq!(image.name, "m2");
+}

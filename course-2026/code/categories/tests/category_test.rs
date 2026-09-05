@@ -112,3 +112,89 @@ fn one_object_one_morphism_category() {
     let id = cat.identity(ObjId(0));
     assert_eq!(cat.compose(&id, &id), id);
 }
+
+#[test]
+fn monoid_associativity_on_every_triple() {
+    let cat = z4();
+    for f in cat.morphisms.clone() {
+        for g in cat.morphisms.clone() {
+            if f.dst != g.src {
+                continue;
+            }
+            for h in cat.morphisms.clone() {
+                if g.dst != h.src {
+                    continue;
+                }
+                let left = cat.compose(&cat.compose(&f, &g), &h);
+                let right = cat.compose(&f, &cat.compose(&g, &h));
+                assert_eq!(left.name, right.name);
+            }
+        }
+    }
+}
+
+#[test]
+fn monoid_identity_neutral_for_every_arrow() {
+    let cat = z4();
+    let id = cat.identity(ObjId(0));
+    for f in &cat.morphisms {
+        assert_eq!(cat.compose(&id, f).name, f.name);
+        assert_eq!(cat.compose(f, &id).name, f.name);
+    }
+}
+
+#[test]
+fn poset_diamond_counts_comparable_pairs() {
+    // 1 <= 2, both above 0 and below 3.
+    let diamond = FiniteCategory::from_poset(&[
+        &[true, true, true, true],
+        &[false, true, false, true],
+        &[false, false, true, true],
+        &[false, false, false, true],
+    ]);
+    assert_eq!(diamond.morphisms.len(), 9);
+    assert!(diamond.check_axioms());
+    let zero_one = by_name(&diamond, "0->1");
+    let one_three = by_name(&diamond, "1->3");
+    assert_eq!(diamond.compose(&zero_one, &one_three).name, "0->3");
+}
+
+#[test]
+fn preorder_with_two_ways_round_trip_still_a_category() {
+    // a <= b and b <= a at once: not antisymmetric, but the category axioms hold.
+    let ring = FiniteCategory::from_poset(&[&[true, true], &[true, true]]);
+    assert!(ring.check_axioms());
+    assert_eq!(ring.morphisms.len(), 4);
+}
+
+#[test]
+fn free_chain_of_four_nodes_has_ten_paths() {
+    let line = FiniteCategory::free_from_graph(
+        &["A", "B", "C", "D"],
+        &[("a", 0, 1), ("b", 1, 2), ("c", 2, 3)],
+    );
+    assert_eq!(line.morphisms.len(), 10);
+    assert!(line.find_morphism("c*b*a").is_some());
+    assert!(line.check_axioms());
+}
+
+#[test]
+fn free_category_of_disconnected_graph_has_only_identities() {
+    let dots = FiniteCategory::free_from_graph(&["A", "B"], &[]);
+    assert_eq!(dots.morphisms.len(), 2);
+    assert!(dots.check_axioms());
+}
+
+#[test]
+#[should_panic(expected = "reflexive")]
+fn non_reflexive_relation_panics() {
+    let _ = FiniteCategory::from_poset(&[&[false, true], &[false, true]]);
+}
+
+#[test]
+#[should_panic]
+fn composing_unrelated_arrows_panics() {
+    let cat = free_triangle();
+    let b = by_name(&cat, "b");
+    let _ = cat.compose(&b, &b.clone());
+}
