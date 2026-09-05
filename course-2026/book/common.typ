@@ -257,7 +257,7 @@
         #context {
           let nums = counter(heading).at(it.element.location())
           text(size: 11.5pt)[
-            #if toc-numbers.contains(2) [
+            #if toc-numbers.contains(2) and nums.len() >= 2 [
               #text(fill: theme)[#numbering("1.1", ..nums.slice(0, 2))]
               #h(0.5em, weak: true)
             ]
