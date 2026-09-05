@@ -393,7 +393,6 @@
   set enum(numbering: nums => text(fill: title-color)[*#nums.*])
   show emph: set text(fill: colors.accent)
   show link: underline
-  show table.cell.where(y: 0): strong
 
   // === Блочный код: плашка ===
   show raw.where(block: true): block.with(
