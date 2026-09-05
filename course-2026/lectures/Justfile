@@ -6,6 +6,9 @@ files := """
     course-intro.typ
     s1-mod1-sets.typ
     s1-mod2-relations.typ
+    s1-mod3-logic.typ
+    s1-mod4-boolean.typ
+    s1-mod5-codes.typ
     lec-logic.typ
     lec-deduction.typ
     lec-fol.typ
