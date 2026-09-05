@@ -38,10 +38,10 @@
   draw.arc((-0.85, 0), start: 30deg, stop: 330deg, radius: 0.85, stroke: e-stroke, mark: (end: ">"))
   draw.arc((0.85, 0), start: 210deg, stop: 510deg, radius: 0.85, stroke: e-stroke, mark: (end: ">"))
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "m")
-  draw.content("m", text(size: s-node, fill: c-ink)[$M$])
+  draw.content("m", text(size: s-node, fill: c-ink)[$tilde(M)$])
   draw.content((-1.9, 0), text(size: s-cap, fill: c-ink)[$a$])
   draw.content((1.9, 0), text(size: s-cap, fill: c-ink)[$a star a$])
-  draw.content((0, -1.0), text(size: s-cap, fill: c-muted)[$"id"_M = e$])
+  draw.content((0, -1.0), text(size: s-cap, fill: c-muted)[$"id"_tilde(M) = e$])
 })
 
 // ── Чум как тонкая категория ──
