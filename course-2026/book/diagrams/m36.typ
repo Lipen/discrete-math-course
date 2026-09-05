@@ -28,7 +28,7 @@
     node((3.2, 0), $C$, name: <c>)
     arrow(<a>, <b>, $f$)
     arrow(<b>, <c>, $g$)
-    arrow(<a>, <c>, $g circle.stroked.tiny f$, stroke: hi-stroke, pos: 0.5)
+    arrow(<a>, <c>, $g circle.stroked.tiny f$, stroke: hi-stroke, pos: 0.5, bend: -22deg)
   },
 )
 
@@ -78,7 +78,7 @@
     node((3.2, 0), $C$, name: <c>)
     arrow(<a>, <b>, $f$)
     arrow(<b>, <c>, $g$)
-    arrow(<a>, <c>, $g circle.stroked.tiny f$, stroke: hi-stroke, pos: 0.5)
+    arrow(<a>, <c>, $g circle.stroked.tiny f$, stroke: hi-stroke, pos: 0.5, bend: -22deg)
   },
 )
 
