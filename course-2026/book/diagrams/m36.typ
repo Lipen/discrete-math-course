@@ -11,10 +11,10 @@
 #let hot-stroke = (paint: c-hot, thickness: t-hi)
 #let n-stroke = c-bd + t-bd
 
-#let arrow(fr, to, lab, stroke: e-stroke, side: auto, pos: none) = {
+#let arrow(fr, to, lab, stroke: e-stroke, side: auto, pos: none, ..extra) = {
   let opts = (label: lab, label-side: side, label-size: s-cap, stroke: stroke)
   if pos != none { opts.insert("label-pos", pos) }
-  edge(fr, to, "-}>", ..opts)
+  edge(fr, to, "-}>", ..opts, ..extra)
 }
 
 // ── Коммутативный треугольник: композиция ──
@@ -109,8 +109,8 @@
     node((0, 2), $cal(P)(A)$, name: <pa>)
     node((2, 2), $cal(P)(B)$, name: <pb>)
     arrow(<a>, <b>, $f$, pos: 0.45)
-    arrow(<pa>, <pb>, $"img"_f$, stroke: d-stroke, pos: 0.45)
-    arrow(<pb>, <pa>, $f^(-1)$, stroke: hot-stroke, pos: 0.45, side: right)
+    arrow(<pa>, <pb>, $"img"_f$, stroke: d-stroke, pos: 0.45, bend: 18deg)
+    arrow(<pb>, <pa>, $f^(-1)$, stroke: hot-stroke, pos: 0.45, side: right, bend: 18deg)
   },
 )
 
