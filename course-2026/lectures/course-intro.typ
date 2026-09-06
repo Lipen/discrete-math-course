@@ -1,11 +1,8 @@
 // course-intro --- вводная лекция: наука, устройство курса, баллы, карта семестра.
-#import "theme-mag.typ": *
+#import "theme-intro.typ": *
 
 #set document(title: "Дискретная математика", author: "Константин Чухарев")
 #show: slides.with()
-
-#set par(spacing: 1em)
-#set block(above: 1em, below: 1em)
 
 // ── Журнальные виджеты ──
 #let tcard(color, title, body) = block(
