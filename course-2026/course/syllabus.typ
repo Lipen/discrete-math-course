@@ -58,18 +58,13 @@
   below: 0.9em,
   inset: (bottom: 0.45em),
   stroke: (bottom: 0.7pt + c-accent.lighten(55%)),
-  it,
+  text(fill: c-accent.lighten(35%), size: 0.85em, weight: "bold")[#sym.section] + h(0.4em) + it,
 )
 #show heading.where(level: 2): it => block(
   width: 100%,
   above: 2em,
   below: 0.75em,
-  text(
-    fill: c-accent,
-    size: 13.2pt,
-    weight: "semibold",
-    underline(evade: false, offset: 0.4em, stroke: 1.5pt + c-accent.lighten(35%), it),
-  ),
+  text(fill: c-accent, size: 13.2pt, weight: "semibold", it),
 )
 #show heading.where(level: 3): it => block(
   width: 100%,
