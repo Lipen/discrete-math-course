@@ -1,5 +1,5 @@
 // Обзор курса "Дискретная математика" 2026/27 --- живой syllabus для студентов.
-#import "diagrams/timeline.typ": semester-timeline, year-strip
+#import "diagrams/timeline.typ": semester-timeline
 
 // ── Палитра ──
 // Штрихи, тёмный текст и маркеры.
@@ -91,7 +91,7 @@
 )
 
 #set document(
-  title: "Дискретная математика --- обзор курса 2026/27",
+  title: "Дискретная математика. Обзор курса 2026/27",
   keywords: ("дискретная математика", "обзор курса", "расписание"),
 )
 #let flat(c) = {
@@ -306,28 +306,7 @@
   #v(0.6em)
   #text(size: 1.1em, fill: c-soft)[Математический фундамент программиста]
 ]
-#v(3em)
-#align(center)[
-  #year-strip(
-    (
-      fill: p-blue,
-      ink: c-accent,
-      label: [#emoji.leaf.maple Семестр 1],
-      dates: [7 сентября --- 27 декабря],
-      marks: marks-1,
-      ticks: (4, 8, 12),
-    ),
-    (
-      fill: p-spring,
-      ink: c-spring,
-      label: [#emoji.flower.tulip Семестр 2],
-      dates: [8 февраля --- 30 мая],
-      marks: marks-2,
-      ticks: (3, 8, 12),
-    ),
-  )
-]
-#v(3em)
+#v(1fr)
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 10pt,
@@ -341,8 +320,8 @@
 #v(1fr)
 #align(center)[
   #grid(
-    columns: (auto, auto, auto, auto),
-    column-gutter: 3em,
+    columns: (1fr, 1fr, 1fr, 1fr),
+    column-gutter: 0em,
     align: center,
     ..(
       ([16], [лекций]),

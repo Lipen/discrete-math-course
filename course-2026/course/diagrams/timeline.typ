@@ -53,27 +53,3 @@
     draw.content((x, 0.34), text(size: 5pt, fill: label-color)[#date])
   }
 })
-
-// Полоса года для обложки: два семестра пастелью, месячные насечки,
-// метки контроля над полосой. sem: (fill, ink, label, dates, marks, ticks).
-#let year-strip(sem1, sem2) = canvas(length: 0.45cm, {
-  let half(sem, x0) = {
-    draw.rect((x0, 0), (x0 + 16, 2.2), fill: sem.fill, stroke: 0.6pt + c-mute, radius: 4pt, name: none)
-    for t in sem.ticks {
-      draw.line((x0 + t, 0.12), (x0 + t, 2.08), stroke: 0.5pt + c-mute)
-    }
-    draw.content((x0 + 8, 1.75), text(size: 8pt, weight: "bold", fill: sem.ink)[#sem.label], anchor: "south")
-    draw.content((x0 + 8, 0.45), text(size: 6pt, fill: c-mute)[#sem.dates], anchor: "north")
-    for (w, kind, n, d) in sem.marks {
-      let x = x0 + w - 0.25
-      if kind == "kr" {
-        draw.circle((x, 2.75), radius: 0.34, fill: c-kr, name: none)
-      } else {
-        draw.polygon((x, 2.75), 4, radius: 0.36, fill: c-tm, stroke: none, name: none)
-      }
-      draw.content((x, 2.75), text(size: 6pt, fill: white)[#n])
-    }
-  }
-  half(sem1, 0)
-  half(sem2, 17.5)
-})
