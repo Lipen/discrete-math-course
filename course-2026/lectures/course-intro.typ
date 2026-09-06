@@ -92,6 +92,7 @@
 #title-slide({
   set page(fill: colors.accent)
 
+  // Водяной знак --- единственная работа place на странице
   place(right + top, dx: -1.1cm, dy: 0.8cm)[
     #text(
       8em,
@@ -101,7 +102,10 @@
     )[ДМ]
   ]
 
-  place(left + top, dx: 1.6cm, dy: 1.5cm)[
+  block(
+    height: 100%,
+    inset: (left: 1.6cm, right: 1.6cm, top: 1.5cm, bottom: 0.85cm),
+  )[
     #text(
       0.8em,
       weight: "bold",
@@ -110,33 +114,25 @@
     )[
       ПЕРВЫЙ КУРС · ВВОДНАЯ ЛЕКЦИЯ
     ]
-  ]
-
-  place(left + top, dx: 1.6cm, dy: 2.6cm, block(width: 88%)[
-    #block(
-      stroke: (bottom: 2pt + white),
-      inset: (bottom: 0.5em),
+    #v(1fr)
+    #text(
+      3em,
+      weight: "bold",
+      font: "Libertinus Sans",
+      fill: white,
+      hyphenate: false,
     )[
-      #text(
-        3em,
-        weight: "bold",
-        font: "Libertinus Sans",
-        fill: white,
-        hyphenate: false,
-      )[
-        Дискретная\ математика
-      ]
+      Дискретная\ математика
     ]
+    #v(2em, weak: true)
     #text(
       1.2em,
       fill: white.transparentize(25%),
     )[Математический фундамент программиста]
-  ])
-
-  place(bottom, dy: -1.6cm, block(width: 100%, inset: (x: 1.6cm))[
+    #v(1fr)
     #grid(
       columns: (1fr,) * 4,
-      column-gutter: 12pt,
+      column-gutter: 1em,
       ..(
         ([2], [семестра]),
         ([32], [лекции]),
@@ -148,18 +144,17 @@
           inset: (top: 7pt),
         )[
           #text(1.4em, weight: "bold", fill: white)[#n]
-          #v(3pt)
+          #v(0.5em, weak: true)
           #text(0.8em, fill: white.transparentize(30%))[#l]
         ],
       ),
     )
-  ])
-
-  place(bottom + left, dx: 1.6cm, dy: -0.85cm)[
-    #text(0.8em, fill: white.transparentize(35%))[Константин Чухарев]
-  ]
-  place(bottom + right, dx: -1.6cm, dy: -0.85cm)[
-    #text(0.8em, fill: white.transparentize(35%))[Осень 2026]
+    #v(1em)
+    #grid(columns: (1fr, auto))[
+      #text(0.8em, fill: white.transparentize(35%))[Константин Чухарев]
+    ][
+      #text(0.8em, fill: white.transparentize(35%))[Осень 2026]
+    ]
   ]
 })
 
