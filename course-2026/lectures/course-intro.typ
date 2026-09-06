@@ -4,7 +4,7 @@
 #set document(title: "Дискретная математика", author: "Константин Чухарев")
 #show: slides.with()
 
-#set par(leading: 0.58em, spacing: 1.05em)
+#set par(spacing: 1em)
 #set block(above: 1em, below: 1em)
 
 // ── Журнальные виджеты ──
@@ -18,10 +18,10 @@
     right: 0.4pt + color.lighten(50%),
   ),
   radius: 4pt,
-  inset: (x: 10pt, y: 5pt),
+  inset: (x: 0.8em, y: 0.5em),
 )[
   #text(size: 0.8em, weight: "bold", fill: color.darken(10%))[#title]
-  #v(0.25em)
+  #v(0.5em)
   #body
 ]
 
@@ -30,10 +30,10 @@
   fill: colors.accent.transparentize(93%),
   stroke: 0.4pt + colors.accent.lighten(55%),
   radius: 4pt,
-  inset: (x: 6pt, y: 9pt),
+  inset: (x: 0.5em, y: 0.8em),
   align(center)[
-    #text(1.4em, weight: "bold", fill: colors.accent-strong)[#num]
-    #v(2pt)
+    #text(2.4em, weight: "bold", fill: colors.accent-strong)[#num]
+    #v(0.5em)
     #text(0.8em, fill: colors.muted)[#label]
   ],
 )
@@ -48,7 +48,7 @@
     breakable: false,
     align(center + horizon)[#text(1.2em, weight: "bold", fill: color)[#num]],
   )
-  v(3pt)
+  v(0.5em)
   align(center)[#text(0.8em, fill: colors.muted)[#label]]
 }
 
@@ -57,7 +57,7 @@
   fill: color.transparentize(90%),
   stroke: (top: 2pt + color),
   radius: (top: 4pt),
-  inset: (x: 2pt, y: 5pt),
+  inset: (x: 0.5em, y: 0.5em),
   height: 2.6em,
   breakable: false,
   align(center + horizon)[
@@ -70,11 +70,11 @@
 #title-slide({
   set page(fill: colors.accent)
 
-  place(right + top, dx: -0.6cm, dy: -2.4cm)[
+  place(right + top, dx: -1.1cm, dy: 0.8cm)[
     #text(
-      16em,
+      8em,
       weight: "bold",
-      fill: white.transparentize(85%),
+      fill: white.transparentize(60%),
       font: "Libertinus Sans",
     )[ДМ]
   ]
@@ -149,31 +149,33 @@
 == Что изучает курс?
 
 Дискретная математика --- математический фундамент computer science.
-Её объекты дискретны: множества, отношения, функции, графы, автоматы, слова.
 
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 8pt,
   row-gutter: 8pt,
-  tcard(colors.accent, [Алгоритмы])[
-    Корректность и сложность: логика, инварианты, комбинаторика.
+  tcard(colors.accent, [Логика])[
+    Высказывания, доказательства, дедукция.
   ],
-  tcard(colors.green, [Базы данных])[
-    SQL --- это множества, отношения и реляционная алгебра.
+  tcard(colors.green, [Структуры])[
+    Множества, отношения, функции, графы.
   ],
 
-  tcard(colors.amber, [Криптография])[
-    Арифметика остатков, простые числа, подсчёт без перебора.
+  tcard(colors.amber, [Алгебра и коды])[
+    Булева алгебра, схемы, коды с коррекцией.
   ],
-  tcard(colors.violet, [Компиляторы])[
-    Регулярные выражения, автоматы, грамматики.
+  tcard(colors.violet, [Вычисление])[
+    Автоматы, машина Тьюринга, вычислимость.
   ],
 )
 
 #important[
-  Всё упирается в вопрос "что вообще можно вычислить?" --- машина Тьюринга, весенний семестр.
   Две оси --- объекты и _как рассуждать_ о них.
-  Логика --- первая глава и сквозная тема.
+  Логика --- первая глава и сквозная тема курса.
+]
+
+#note[
+  SQL и компиляторы описаны на этом языке --- это то, ради чего он нужен.
 ]
 
 = Как работает курс
@@ -183,7 +185,7 @@
   epigraph-author: [Лорд Кельвин],
 )
 
-== Как дышит неделя
+== Лекция, книга, практика
 
 #grid(
   columns: (1fr, 1fr, 1fr),
@@ -210,7 +212,7 @@
   Книга шире курса: часть глав --- чтение для любопытных.
 ]
 
-== Пять минут на листочке
+== Флеш-опросники
 
 Начало каждой лекции --- именной листочек: вопросы по прошлой лекции и заданному чтению.
 
@@ -233,8 +235,8 @@
 
 == Домашние задания и капы
 
-Четыре работы за семестр, на пройденные темы, около десяти заданий трёх сортов.
-Первая --- письменно, от руки.
+Четыре работы за семестр, около десяти заданий трёх сортов.
+Первая --- от руки.
 
 #grid(
   columns: (1fr, 1fr, 1fr),
@@ -246,7 +248,7 @@
     Задачи посложнее: пропускать можно, решать интереснее.
   ],
   tcard(colors.amber, [Бонус])[
-    Для тех, кому десяти задач мало. Кап не двигает.
+    Для тех, кому десяти задач мало.
   ],
 )
 
