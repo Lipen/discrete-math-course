@@ -101,25 +101,36 @@
   if it.numbering != none {
     block(
       width: 100%,
-      above: 1.9em,
-      below: 0.95em,
-      inset: (bottom: 0.55em),
+      above: 2em,
+      below: 1em,
+      inset: (bottom: 0.5em),
       stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
     )[
+      #set text(size: 12pt)
       #grid(
         columns: (auto, 1fr),
         column-gutter: 12pt,
         align: (left + horizon, left),
-        box(fill: c-accent.lighten(10%), inset: (x: 10pt, y: 4pt), radius: 4pt)[
-          #context text(1.2em, weight: "bold", fill: white, hyphenate: false)[#counter(heading).display("1")]
+        box(
+          fill: c-accent.lighten(10%),
+          inset: (x: 10pt),
+          outset: (y: 4pt),
+          radius: 4pt,
+        )[
+          #context text(1.4em, weight: "bold", fill: white, hyphenate: false)[#counter(heading).display("1")]
         ],
-        text(1.5em, weight: "bold", fill: c-ink, hyphenate: false)[#it.body],
+        text(
+          1.4em,
+          weight: "bold",
+          fill: c-ink,
+          hyphenate: false,
+        )[#it.body],
       )
     ]
   } else {
     block(
       width: 100%,
-      above: 1.9em,
+      above: 2em,
       below: 1em,
       inset: (bottom: 0.5em),
       stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
@@ -266,7 +277,7 @@
     breakable: false,
     align(center + horizon)[
       #text(
-        size: 1.1em,
+        size: 1.2em,
         weight: "bold",
         fill: main,
       )[#num]
@@ -319,10 +330,10 @@
     #text(weight: "bold")[#title] \
     #text(size: 0.8em, fill: c-soft)[#meta]
   ]
-  #v(0.25em)
-  #text(size: 0.85em, hyphenate: true)[#keywords]
-  #v(0.15em)
-  #text(size: 0.85em, hyphenate: true, fill: color)[-> #hook]
+  #v(0.5em)
+  #text(size: 0.8em, hyphenate: true)[#keywords]
+  #v(0.5em)
+  #text(size: 0.8em, hyphenate: true, fill: color)[-> #hook]
 ]
 
 // Крупная цифра для шпаргалки.
@@ -337,7 +348,7 @@
     set text(hyphenate: false)
     set par(justify: false)
     align(center + horizon)[
-      #text(size: 1.3em, weight: "bold", fill: c-accent)[#num] \
+      #text(size: 1.2em, weight: "bold", fill: c-accent)[#num] \
       #text(size: 0.8em, fill: c-soft)[#label]
     ]
   },
@@ -349,11 +360,11 @@
 #v(1fr)
 #align(center)[
   #text(size: 0.8em, weight: "semibold", fill: c-accent)[#smallcaps[Обзор курса · 2026/27]]
-  #v(1.2em)
+  #v(1em)
   #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
   #v(0.8em)
-  #text(size: 1.1em, fill: c-soft)[Математический фундамент программиста]
-  #v(1.8em)
+  #text(size: 1.2em, fill: c-soft)[Математический фундамент программиста]
+  #v(2em)
   #grid(
     columns: (1fr, 1fr),
     column-gutter: 10pt,
@@ -364,7 +375,7 @@
       #align(center, text(hyphenate: false)[#emoji.flower.tulip Семестр 2 · 8 февраля --- 30 мая])
     ],
   )
-  #v(1.4em)
+  #v(1em)
   #grid(
     columns: (1fr, 1fr, 1fr, 1fr),
     column-gutter: 0em,
@@ -377,12 +388,12 @@
     ).map(((n, l)) => (
       grid.cell[
         #text(size: 1.4em, weight: "bold", fill: c-accent)[#n]
-        #v(0.2em)
+        #v(0.5em)
         #text(size: 0.8em, fill: c-soft)[#l]
       ]
     )),
   )
-  #v(0.6em)
+  #v(0.5em)
   #text(size: 0.8em, fill: c-soft)[(в каждом семестре)]
   #v(1em)
   #text(size: 0.8em, fill: c-soft)[#smallcaps[2 семестра · 144 ак. часа · 4 зачётные единицы]]
@@ -577,7 +588,7 @@
 
 Оценка за семестр выставляется автоматически по итоговым баллам $S$:
 
-#block(width: 100%, above: 0.9em)[
+#block(width: 100%, above: 1em)[
   #grid(
     columns: (60fr, 14fr, 16fr, 11fr),
     gutter: 2pt,
@@ -1115,7 +1126,7 @@
     stat([60], [минимум за семестр]),
     stat([12--20], [баллы за экзамен]),
   )
-  #v(0.7em)
+  #v(0.8em)
   + Оценки: *90+* --- "отлично", *74+* --- "хорошо", *60+* --- "удовлетворительно", ниже --- долг с пересдачей на 60.
   + Допуск к экзамену --- *48* практики и все работы сданы.
   + Лекции --- флеш-опросником: нормально написал --- балл (0--10), опоздал --- без балла.
