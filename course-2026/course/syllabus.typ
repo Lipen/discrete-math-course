@@ -68,7 +68,7 @@
     fill: c-accent,
     size: 13.2pt,
     weight: "semibold",
-    underline(offset: 0.4em, stroke: 1.5pt + c-accent.lighten(35%), it),
+    underline(evade: false, offset: 0.4em, stroke: 1.5pt + c-accent.lighten(35%), it),
   ),
 )
 #show heading.where(level: 3): it => block(
