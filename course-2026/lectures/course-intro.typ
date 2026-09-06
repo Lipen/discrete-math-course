@@ -8,22 +8,40 @@
 #show: slides.with()
 
 // ── Журнальные виджеты ──
-#let tcard(color, title, body) = block(
-  width: 100%,
-  fill: color.transparentize(93%),
-  stroke: (
-    left: 2pt + color,
-    top: 0.4pt + color.lighten(50%),
-    bottom: 0.4pt + color.lighten(50%),
-    right: 0.4pt + color.lighten(50%),
-  ),
-  radius: 4pt,
-  inset: (x: 0.8em, y: 0.5em),
-)[
-  #text(size: 0.8em, weight: "bold", fill: color.darken(10%))[#title]
-  #v(0.5em)
-  #body
-]
+#let tcard(color, title, body) = {
+  let head-fill = color.darken(8%)
+  let head-ink = if color == colors.amber { colors.ink } else { white }
+  block(
+    width: 100%,
+    fill: color.transparentize(93%),
+    stroke: (
+      top: 0.4pt + color.lighten(50%),
+      bottom: 0.4pt + color.lighten(50%),
+      right: 0.4pt + color.lighten(50%),
+    ),
+    radius: 4pt,
+    inset: 0pt,
+  )[
+    #block(
+      width: 100%,
+      fill: head-fill,
+      radius: (top-left: 4pt, top-right: 4pt),
+      inset: (x: 0.8em, y: 0.5em),
+      above: 0em,
+      below: 0em,
+    )[
+      #text(size: 1.2em, weight: "bold", fill: head-ink)[#title]
+    ]
+    #block(
+      width: 100%,
+      inset: (x: 0.8em, y: 0.5em),
+      above: 0em,
+      below: 0em,
+    )[
+      #body
+    ]
+  ]
+}
 
 #let stat(num, label) = block(
   width: 100%,
