@@ -330,14 +330,14 @@
       ([2], [теормина]),
     ).map(((n, l)) => (
       grid.cell[
-        #text(size: 1.4em, weight: "bold", fill: c-accent)[#n#super[\*]]
+        #text(size: 1.4em, weight: "bold", fill: c-accent)[#n]
         #v(0.2em)
         #text(size: 0.75em, fill: c-soft)[#l]
       ]
     )),
   )
   #v(0.4em)
-  #text(size: 0.75em, fill: c-soft)[\* в каждом семестре]
+  #text(size: 0.75em, fill: c-soft)[(в каждом семестре)]
   #v(1em)
   #text(size: 0.75em, fill: c-soft)[#smallcaps[2 семестра · 144 ак. часа · 4 зачётные единицы]]
 ]
