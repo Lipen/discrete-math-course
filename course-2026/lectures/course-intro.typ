@@ -64,8 +64,13 @@
   block(
     width: 100%,
     fill: color.transparentize(90%),
-    stroke: (top: 2pt + color),
-    radius: (top: 4pt),
+    stroke: (
+      top: 2pt + color,
+      left: 0.4pt + color.lighten(50%),
+      bottom: 0.4pt + color.lighten(50%),
+      right: 0.4pt + color.lighten(50%),
+    ),
+    radius: 4pt,
     height: 1.9em,
     breakable: false,
     align(center + horizon)[#text(1.2em, weight: "bold", fill: color)[#num]],
@@ -77,8 +82,13 @@
 #let zone(color, range, name) = block(
   width: 100%,
   fill: color.transparentize(90%),
-  stroke: (top: 2pt + color),
-  radius: (top: 4pt),
+  stroke: (
+    top: 2pt + color,
+    left: 0.4pt + color.lighten(50%),
+    bottom: 0.4pt + color.lighten(50%),
+    right: 0.4pt + color.lighten(50%),
+  ),
+  radius: 4pt,
   inset: (x: 0.5em, y: 0.5em),
   height: 2.6em,
   breakable: false,
