@@ -81,10 +81,11 @@
     radius: 4pt,
     height: 1.9em,
     breakable: false,
+    below: 0em,
     align(center + horizon)[#text(1.2em, weight: "bold", fill: color)[#num]],
   )
-  v(0.5em)
-  align(center)[#text(0.8em, fill: colors.muted)[#label]]
+  v(0.5em, weak: true)
+  block(above: 0em, align(center)[#text(0.8em, fill: colors.muted)[#label]])
 }
 
 #let zone(color, range, name) = block(
