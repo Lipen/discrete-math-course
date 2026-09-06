@@ -39,9 +39,9 @@
     draw.content(((x0 + x1) / 2, -0.94), text(size: 6pt, fill: c-mute)[#name])
   }
   draw.circle((0.08, -1.5), radius: 0.11, fill: c-kr, name: none)
-  draw.content((0.26, -1.5), text(size: 6pt, fill: c-mute)[контрольная], anchor: "mid")
+  draw.content((0.27, -1.5), text(size: 6pt, fill: c-mute)[контрольная], anchor: "mid-west")
   draw.polygon((1.81, -1.5), 4, radius: (0.16, 0.17), fill: c-tm, stroke: none, name: none)
-  draw.content((2.12, -1.5), text(size: 6pt, fill: c-mute)[теормин], anchor: "mid")
+  draw.content((2.06, -1.5), text(size: 6pt, fill: c-mute)[теормин], anchor: "mid-west")
   for (a, b, name, color) in modules {
     decorations.brace((a - 0.88, 0.58), (b - 0.12, 0.58), fill: color, amplitude: 0.32)
     draw.content(((a + b - 1) / 2, 1.2), text(size: 6pt, fill: color)[#name], anchor: "south")
