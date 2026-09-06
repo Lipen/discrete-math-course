@@ -1377,8 +1377,8 @@ $
 Первый проход сортирует по тому, чем пути могут быть завершены, --- по классам обращённого отношения $meq_{L^R}$, а вторая пара замыкает сортировку до классов $meq_L$.
 
 #theorem[Минимализация двойным обращением#footnote[
-    Brzozowski J. A. "Canonical regular expressions and minimal state graphs for definite events", Mathematical Theory of Automata, 1963.
-    Метод известен как минимизация двойным обращением (double reversal).
+    J. A. Brzozowski. "Canonical regular expressions and minimal state graphs for definite events". Mathematical Theory of Automata, 1963.
+    Метод известен как минимализация двойным обращением (double reversal).
   ]][
   Для любого НКА $N$ автомат $ "det"("rev"("det"("rev"(N)))) $ --- минимальный ДКА, распознающий язык $N$.
 ]
