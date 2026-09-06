@@ -116,7 +116,13 @@
 }
 
 // === Слайды: точка входа ===
-#let slides(content) = {
+#let slides(
+  content,
+  title: none,
+  subtitle: none,
+  date: none,
+  authors: (),
+) = {
   // === Текст ===
   set text(
     lang: "ru",
@@ -195,6 +201,54 @@
   ))
   set enum(numbering: nums => text(fill: title-color)[*#nums.*])
   show emph: set text(fill: colors.accent)
+
+  // === Титульная страница ===
+  if title != none {
+    if (type(authors) != array) {
+      authors = (authors,)
+    }
+    title-slide({
+      // Центрированный постер: кикер --- заголовок --- линия --- подзаголовок
+      place(center + horizon, block(width: 88%, inset: (x: 1cm))[
+        #align(center)[
+          #text(
+            0.8em,
+            weight: "bold",
+            tracking: 0.25em,
+            fill: colors.muted,
+          )[ДИСКРЕТНАЯ МАТЕМАТИКА]
+          #v(0.8em, weak: true)
+          #text(
+            3em,
+            weight: "bold",
+            font: title-font,
+            fill: title-color,
+          )[#title]
+          #v(1em, weak: true)
+          #line(length: 20%, stroke: 2pt + colors.accent)
+          #v(1em, weak: true)
+          #if subtitle != none [
+            #text(1.2em, fill: colors.muted)[#subtitle]
+          ]
+        ]
+      ])
+      // Авторы и дата внизу
+      place(
+        bottom + left,
+        dx: 2cm,
+        dy: -1cm,
+        text(0.8em, fill: luma(45%))[#authors.join(", ", last: " и ")],
+      )
+      place(
+        bottom + right,
+        dx: -2cm,
+        dy: -1cm,
+        if date != none {
+          text(0.8em, fill: luma(55%))[#date]
+        },
+      )
+    })
+  }
 
   content
 }

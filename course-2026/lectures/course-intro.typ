@@ -1,8 +1,16 @@
 // course-intro --- вводная лекция: наука, устройство курса, баллы, карта семестра.
 #import "theme-intro.typ": *
 
-#set document(title: "Дискретная математика", author: "Константин Чухарев")
-#show: slides.with()
+#set document(
+  title: "Дискретная математика --- вводная лекция",
+  author: "Константин Чухарев",
+)
+#show: slides.with(
+  title: [Вводная лекция],
+  subtitle: [Обзор курса],
+  date: "Осень 2026",
+  authors: "Константин Чухарев",
+)
 
 #set list(spacing: 0.8em)
 #set enum(spacing: 0.8em)
@@ -98,75 +106,6 @@
   ],
 )
 
-// ── Обложка ──
-#title-slide({
-  set page(fill: colors.accent)
-
-  // Водяной знак --- единственная работа place на странице
-  place(right + top, dx: -1.1cm, dy: 0.8cm)[
-    #text(
-      8em,
-      weight: "bold",
-      fill: white.transparentize(60%),
-      font: "Libertinus Sans",
-    )[ДМ]
-  ]
-
-  block(
-    height: 100%,
-    inset: (left: 1.6cm, right: 1.6cm, top: 1.5cm, bottom: 0.85cm),
-  )[
-    #text(
-      0.8em,
-      weight: "bold",
-      tracking: 0.3em,
-      fill: white.transparentize(35%),
-    )[
-      ПЕРВЫЙ КУРС · ВВОДНАЯ ЛЕКЦИЯ
-    ]
-    #v(1fr)
-    #text(
-      3em,
-      weight: "bold",
-      font: "Libertinus Sans",
-      fill: white,
-      hyphenate: false,
-    )[
-      Дискретная\ математика
-    ]
-    #v(2em, weak: true)
-    #text(
-      1.2em,
-      fill: white.transparentize(25%),
-    )[Математический фундамент программиста]
-    #v(1fr)
-    #grid(
-      columns: (1fr,) * 4,
-      column-gutter: 1em,
-      ..(
-        ([2], [семестра]),
-        ([32], [лекции]),
-        ([8], [контрольных]),
-        ([4], [теормина]),
-      ).map(
-        ((n, l)) => grid.cell(
-          stroke: (top: 0.8pt + white.transparentize(60%)),
-          inset: (top: 7pt),
-        )[
-          #text(1.4em, weight: "bold", fill: white)[#n]
-          #v(0.5em, weak: true)
-          #text(0.8em, fill: white.transparentize(30%))[#l]
-        ],
-      ),
-    )
-    #v(1em)
-    #grid(columns: (1fr, auto))[
-      #text(0.8em, fill: white.transparentize(35%))[Константин Чухарев]
-    ][
-      #text(0.8em, fill: white.transparentize(35%))[Осень 2026]
-    ]
-  ]
-})
 
 = Что это за наука?
 
@@ -413,12 +352,12 @@
 #important[
   Сегодня --- высказывания и логические связки: атомы смысла и способы их соединения.
 ]
-#v(0.6em)
+#v(0.8em)
 
 #note[
   К следующей паре --- глава о них в книге.
 ]
-#v(0.6em)
+#v(0.8em)
 
 #Block(color: colors.green)[
   Но сначала --- первый опросник.\
