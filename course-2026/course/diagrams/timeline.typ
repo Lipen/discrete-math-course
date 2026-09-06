@@ -9,23 +9,23 @@
 
 // ── Геометрия (в единицах оси: 1 = неделя) ──
 #let g = (
-  tick: 0.12, // высота деления недели
+  tick: 0.15, // высота деления недели
   num-y: -0.3, // номер недели
-  date-y: -0.62, // дни лекций недели
-  month-top: -0.74, // лента месяца
-  month-bot: -1.14,
+  date-y: -0.6, // дни лекций недели
+  month-top: -0.8, // лента месяца
+  month-bot: -1.2,
   legend-y: -1.5, // строка легенды
-  legend-x: 0.08,
-  legend-kr-r: 0.11, // кружок «контрольная»
-  legend-tm-r: (0.16, 0.17), // ромб «теормин»
-  legend-gap: 0.48, // от конца слова до центра ромба
-  kr-r: 0.19, // точка контрольной
-  tm-r: 0.22, // теормина
+  legend-x: 0.5,
+  legend-kr-r: 0.1, // кружок «контрольная»
+  legend-tm-r: 0.15, // ромб «теормин»
+  legend-gap: 0.5, // от конца слова до центра ромба
+  kr-r: 0.15, // точка контрольной
+  tm-r: 0.15, // теормина
   mark-date: 0.15, // зазор дата над точкой
   saturday: 0.25, // метка на 75% недели
-  brace-y: 0.5, // скобка модуля
-  brace-amp: 0.3,
-  brace-inset: 0.12, // отступ кончиков от краёв модуля
+  brace-y: 0.4, // скобка модуля
+  brace-amp: 0.3, // амплитуда скобок
+  brace-inset: 0.1, // отступ кончиков от краёв модуля
 )
 
 // ── Помощники ──
@@ -68,7 +68,6 @@
       4,
       radius: g.tm-r,
       fill: c-tm,
-      stroke: none,
       name: id,
     )
   }
@@ -76,9 +75,10 @@
 
 // Дата субботы над точкой контроля.
 #let mark-date(id, date, color) = draw.content(
-  (id + ".north", g.mark-date, (0, 10)),
+  id + ".north",
   text(size: 5pt, fill: color)[#date],
-  anchor: "center",
+  anchor: "south",
+  padding: 0.05,
 )
 
 // Легенда: кружок и ромб, подписи пристёгнуты к фигурам.
@@ -92,22 +92,21 @@
   draw.content(
     "leg-kr.east",
     text(size: 6pt, fill: c-mute)[контрольная],
-    anchor: "mid-west",
+    anchor: "west",
     padding: (left: 0.08),
     name: "leg-kr-lab",
   )
   draw.polygon(
-    ("leg-kr-lab.mid-east", g.legend-gap, (12, g.legend-y)),
+    ("leg-kr-lab.east", g.legend-gap, (12, g.legend-y)),
     4,
     radius: g.legend-tm-r,
     fill: c-tm,
-    stroke: none,
     name: "leg-tm",
   )
   draw.content(
     "leg-tm.east",
     text(size: 6pt, fill: c-mute)[теормин],
-    anchor: "mid-west",
+    anchor: "west",
     padding: (left: 0.09),
   )
 }
@@ -120,13 +119,26 @@
 #let semester-timeline(weeks, modules, marks, months, dates) = canvas({
   draw.set-style(stroke: (paint: c-mute, thickness: 0.5pt))
 
-  draw.line((0, 0), (weeks, 0), stroke: 1.6pt + c-ink, cap: "round", name: "axis")
   for w in range(1, weeks + 1) {
     week-tick(w - 1)
-    draw.content((w - 0.5, g.num-y), text(size: 6pt, fill: c-mute)[#w])
-    draw.content((w - 0.5, g.date-y), text(size: 5pt, fill: c-mute)[#dates.at(w - 1)])
+    draw.content(
+      (w - 0.5, g.num-y),
+      text(size: 8pt, fill: c-mute)[#w],
+    )
+    draw.content(
+      (w - 0.5, g.date-y),
+      text(size: 5pt, fill: c-mute)[#dates.at(w - 1)],
+    )
   }
   week-tick(weeks)
+
+  draw.line(
+    (0, 0),
+    (weeks, 0),
+    stroke: 1.6pt + c-ink,
+    cap: "round",
+    name: "axis",
+  )
 
   for (i, (name, x0, x1)) in months.enumerate() {
     month-band(i, name, x0, x1)
@@ -142,7 +154,12 @@
       amplitude: g.brace-amp,
       name: lab,
     )
-    draw.content(lab, text(size: 6pt, fill: color)[#name], anchor: "south", padding: 0.2)
+    draw.content(
+      lab + ".spike",
+      text(size: 8pt, fill: color)[#name],
+      anchor: "south",
+      padding: 0.05,
+    )
   }
 
   for (w, kind, n, date) in marks {
