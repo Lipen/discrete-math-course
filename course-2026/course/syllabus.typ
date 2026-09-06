@@ -4,6 +4,7 @@
 // ── Палитра ──
 // Штрихи, тёмный текст и маркеры.
 #let c-accent = oklch(45%, 0.13, 262deg)
+#let c-ink = oklch(30%, 0.02, 265deg)
 #let c-soft = oklch(45%, 0.02, 265deg)
 #let c-blue = oklch(45%, 0.12, 262deg)
 #let c-cyan = oklch(45%, 0.11, 205deg)
@@ -96,24 +97,43 @@
 )
 #set heading(numbering: "1.")
 
-#show heading.where(level: 1): it => block(
-  width: 100%,
-  above: 1.7em,
-  below: 0.9em,
-  inset: (bottom: 0.5em),
-  stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
-  text(size: 16pt, weight: "bold", fill: c-accent)[
-    #if it.numbering != none [
-      #text(
-        fill: c-accent.lighten(35%),
-        weight: "bold",
-      )[#sym.section]
-      #context counter(heading).display(it.numbering)
-      #h(0.5em, weak: true)
+#show heading.where(level: 1): it => {
+  if it.numbering != none {
+    block(
+      width: 100%,
+      above: 2.2em,
+      below: 1.2em,
+      inset: (top: 0.5em, bottom: 0.6em),
+      stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
+    )[
+      #grid(
+        columns: (auto, 1fr),
+        column-gutter: 16pt,
+        box(
+          fill: c-accent.transparentize(88%),
+          inset: (x: 12pt, y: 7pt),
+          radius: 4pt,
+        )[
+          #context text(2.4em, weight: "bold", fill: c-accent, hyphenate: false)[#counter(heading).display(it.numbering)]
+        ],
+        block[
+          #text(0.75em, weight: "bold", fill: c-accent.lighten(30%), tracking: 1.5pt)[#smallcaps[Раздел]]
+          #v(0.3em)
+          #text(1.5em, weight: "bold", fill: c-ink, hyphenate: false)[#it.body]
+        ],
+      )
     ]
-    #it.body
-  ],
-)
+  } else {
+    block(
+      width: 100%,
+      above: 2.2em,
+      below: 1.1em,
+      inset: (bottom: 0.5em),
+      stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
+      text(16pt, weight: "bold", fill: c-accent)[#it.body],
+    )
+  }
+}
 // Весенний семестр в заголовке: тил вместо акцента.
 #show heading.where(label: <sem2>): it => block(
   width: 100%,
