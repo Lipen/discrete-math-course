@@ -28,6 +28,25 @@
 #let c-spring = oklch(45%, 0.12, 175deg)
 #let p-spring = oklch(52%, 0.16, 175deg).transparentize(88%)
 
+
+// Метки контроля: неделя, вид, номер, дата субботы.
+// Единый источник для обложки, таймлайнов и бейджей недель.
+#let marks-1 = (
+  (5, "kr", [1], [10.10]),
+  (9, "kr", [2], [7.11]),
+  (10, "tm", [1], [14.11]),
+  (12, "kr", [3], [28.11]),
+  (15, "kr", [4], [19.12]),
+  (16, "tm", [2], [26.12]),
+)
+#let marks-2 = (
+  (4, "kr", [1], [6.3]),
+  (8, "kr", [2], [3.4]),
+  (9, "tm", [1], [10.4]),
+  (12, "kr", [3], [1.5]),
+  (15, "kr", [4], [22.5]),
+  (16, "tm", [2], [29.5]),
+)
 #set text(12pt, lang: "ru")
 #set par(justify: true)
 #set page(
@@ -75,46 +94,70 @@
   title: "Дискретная математика --- обзор курса 2026/27",
   keywords: ("дискретная математика", "обзор курса", "расписание"),
 )
+#let flat(c) = {
+  if c.has("text") { c.text }
+  else if c.has("children") { c.children.map(flat).join() }
+  else { "" }
+}
 
-#set heading(numbering: "1.")
+#let week-ctr = counter("week")
+#let sem-ctr = counter("semester")
 
-#show heading.where(level: 1): it => block(
-  width: 100%,
-  above: 1.7em,
-  below: 0.9em,
-  inset: (bottom: 0.45em),
-  stroke: (bottom: 0.7pt + c-accent.lighten(55%)),
-  text(size: 15.6pt, weight: "bold", fill: c-accent)[
-    #if it.numbering != none [
-      #text(fill: c-accent.lighten(35%), size: 0.8em, weight: "bold")[#sym.section]
-      #h(0.4em, weak: true)
-      #context counter(heading).display(it.numbering)
-      #h(0.25em)
-    ]
-    #it.body
-  ],
-)
-#show heading.where(level: 2): it => block(
-  width: 100%,
-  above: 2em,
-  below: 0.75em,
-  text(
-    fill: c-accent,
-    size: 13pt,
-    weight: "semibold",
-    it,
-  ),
-)
-#show heading.where(level: 3): it => block(
-  width: 100%,
-  above: 1.3em,
-  below: 0.55em,
-  text(
-    fill: c-soft,
-    weight: "semibold",
-    it,
-  ),
-)
+#show heading.where(level: 2): it => {
+  let col = c-accent
+  let txt = flat(it.body)
+  if txt.contains(regex("^Семестр")) {
+    week-ctr.update(0)
+    if txt.contains(regex("^Семестр 2")) {
+      sem-ctr.update(2)
+      col = c-spring
+    } else {
+      sem-ctr.update(1)
+    }
+  }
+  block(
+    width: 100%,
+    above: 2em,
+    below: 0.75em,
+    text(fill: col, size: 13pt, weight: "semibold", it),
+  )
+}
+#show heading.where(level: 3): it => {
+  let is-week = flat(it.body).contains(regex("^\d"))
+  if is-week {
+    week-ctr.step()
+    context {
+      let n = week-ctr.get().first()
+      let s = sem-ctr.get().first()
+      let col = if s == 2 { c-spring } else { c-accent }
+      let marks = if s == 2 { marks-2 } else { marks-1 }
+      block(width: 100%, above: 1.4em, below: 0.6em)[
+        #box(fill: col, radius: 3pt, inset: (x: 6pt, y: 2.5pt), outset: (y: 2.5pt))[
+          #text(size: 0.75em, weight: "bold", fill: white)[#n]
+        ]
+        #h(0.5em)
+        #text(fill: c-soft, weight: "semibold", it.body)
+        #h(1fr)
+        #for (w, kind, num, d) in marks {
+          if w == n {
+            box(radius: 3pt, inset: (x: 6pt, y: 2pt), outset: (y: 2.5pt), fill: if kind == "kr" { p-blue } else { p-purple })[
+              #text(size: 0.75em, weight: "bold", fill: if kind == "kr" { c-accent } else { c-purple })[
+                #if kind == "kr" [#sym.circle.small.filled #h(0.3em) КР #num] else [#sym.diamond.small.filled #h(0.3em) ТМ #num]
+              ]
+            ]
+          }
+        }
+      ]
+    }
+  } else {
+    block(
+      width: 100%,
+      above: 1.3em,
+      below: 0.55em,
+      text(fill: c-soft, weight: "semibold", it),
+    )
+  }
+}
 #show heading: set par(justify: false)
 #show table.cell: set par(justify: false)
 
@@ -254,22 +297,6 @@
 
 
 // ── Обложка ──
-#let marks-1 = (
-  (5, "kr", [1], [10.10]),
-  (9, "kr", [2], [7.11]),
-  (10, "tm", [1], [14.11]),
-  (12, "kr", [3], [28.11]),
-  (15, "kr", [4], [19.12]),
-  (16, "tm", [2], [26.12]),
-)
-#let marks-2 = (
-  (4, "kr", [1], [6.3]),
-  (8, "kr", [2], [3.4]),
-  (9, "tm", [1], [10.4]),
-  (12, "kr", [3], [1.5]),
-  (15, "kr", [4], [22.5]),
-  (16, "tm", [2], [29.5]),
-)
 
 #align(center)[
   #v(3em)
