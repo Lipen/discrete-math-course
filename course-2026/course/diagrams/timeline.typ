@@ -19,12 +19,12 @@
   draw.content((x, 0), text(fill: white, size: 6pt)[#n])
 }
 
-// Ось: недели с датами понедельников, чередующиеся ленты месяцев,
-// точки контроля с датами недель, фигурные скобки модулей с именами на кончике.
+// Ось: недели с днями лекций, ленты месяцев по границам недель, точки контроля
+// на 75% недели (суббота) с датой, фигурные скобки модулей с именами на кончике.
 // modules: ((первая-неделя, последняя-неделя, имя, цвет), ...);
-// marks: ((неделя, "kr"|"tm", номер-в-семестре), ...);
+// marks: ((неделя, "kr"|"tm", номер-в-семестре, дата-субботы), ...);
 // months: ((имя, x-начало, x-конец), ...);
-// dates: дата каждой недели (понедельник), по одной на неделю.
+// dates: дни лекций недели, по одной записи на неделю.
 #let semester-timeline(weeks, modules, marks, months, dates) = canvas({
   draw.line((0, 0), (weeks, 0), stroke: 1.6pt + c-ink, cap: "round")
   for w in range(1, weeks + 1) {
@@ -46,9 +46,10 @@
     decorations.brace((a - 0.88, 0.58), (b - 0.12, 0.58), fill: color, amplitude: 0.32)
     draw.content(((a + b - 1) / 2, 1.2), text(size: 6.5pt, fill: color)[#name], anchor: "south")
   }
-  for (w, kind, n) in marks {
-    if kind == "kr" { kr-point(w - 0.5, n) } else { tm-point(w - 0.5, n) }
+  for (w, kind, n, date) in marks {
+    let x = w - 0.25
+    if kind == "kr" { kr-point(x, n) } else { tm-point(x, n) }
     let label-color = if kind == "kr" { c-kr } else { c-tm }
-    draw.content((w - 0.5, 0.34), text(size: 5.5pt, fill: label-color)[#dates.at(w - 1)])
+    draw.content((x, 0.34), text(size: 5.5pt, fill: label-color)[#date])
   }
 })
