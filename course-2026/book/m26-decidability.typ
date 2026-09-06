@@ -1,7 +1,7 @@
 // M26 --- Разрешимость и неразрешимость: пределы вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m26.typ": reduction-halt-empty
+#import "diagrams/m26.typ": reduction-halt-empty, m-reduction
 
 = Разрешимость и неразрешимость <chap:decidability>
 
@@ -280,6 +280,15 @@
     w in A <=> f(w) in B.
   $
 ]
+
+Функция $f$ переносит принадлежность: вопрос "$w in A$?" превращается в вопрос "$f(w) in B$?", как на рис. @fig:reduction-m.
+Точка в $A$ переходит в точку в $B$, а точка вне $A$ --- в точку вне $B$.
+Поэтому разрешитель для $B$ отвечает сразу на оба вопроса.
+
+#figure(
+  m-reduction,
+  caption: [Сведение $A mreduce B$ через функцию $f$.],
+) <fig:reduction-m>
 
 #proposition[Использование сведений][
   - Если $A mreduce B$ и задача $B$ разрешима, то разрешима и задача $A$.
