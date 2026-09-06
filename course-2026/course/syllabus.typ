@@ -51,14 +51,21 @@
 
 #set heading(numbering: "1.")
 
-#show heading.where(level: 1): set text(15.6pt, weight: "bold", fill: c-accent)
 #show heading.where(level: 1): it => block(
   width: 100%,
   above: 1.7em,
   below: 0.9em,
   inset: (bottom: 0.45em),
   stroke: (bottom: 0.7pt + c-accent.lighten(55%)),
-  text(fill: c-accent.lighten(35%), size: 0.85em, weight: "bold")[#sym.section] + h(0.4em) + it,
+  text(size: 15.6pt, weight: "bold", fill: c-accent)[
+    #if it.numbering != none [
+      #text(fill: c-accent.lighten(35%), size: 0.85em, weight: "bold")[#sym.section]
+      #h(0.4em)
+      #context counter(heading).display(it.numbering)
+      #h(0.25em)
+    ]
+    #it.body
+  ],
 )
 #show heading.where(level: 2): it => block(
   width: 100%,
