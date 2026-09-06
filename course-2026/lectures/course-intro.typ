@@ -114,7 +114,6 @@
 
   place(left + top, dx: 1.6cm, dy: 2.6cm, block(width: 88%)[
     #block(
-      width: 100%,
       stroke: (bottom: 2pt + white),
       inset: (bottom: 0.5em),
     )[
