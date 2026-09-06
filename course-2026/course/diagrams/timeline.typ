@@ -43,8 +43,8 @@
   draw.polygon((1.81, -1.5), 4, radius: (0.16, 0.17), fill: c-tm, stroke: none, name: none)
   draw.content((2.12, -1.5), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "text")
   for (a, b, name, color) in modules {
-    decorations.brace((a - 0.88, 0.7), (b - 0.12, 0.7), fill: color, amplitude: 0.32)
-    draw.content(((a + b - 1) / 2, 1.32), text(size: 6.5pt, fill: color)[#name], anchor: "south")
+    decorations.brace((a - 0.88, 0.58), (b - 0.12, 0.58), fill: color, amplitude: 0.32)
+    draw.content(((a + b - 1) / 2, 1.2), text(size: 6.5pt, fill: color)[#name], anchor: "south")
   }
   for (w, kind, n) in marks {
     if kind == "kr" { kr-point(w - 0.5, n) } else { tm-point(w - 0.5, n) }
