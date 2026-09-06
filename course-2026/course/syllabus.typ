@@ -94,6 +94,24 @@
   title: "Дискретная математика. Обзор курса 2026/27",
   keywords: ("дискретная математика", "обзор курса", "расписание"),
 )
+#set heading(numbering: "1.")
+
+#show heading.where(level: 1): it => block(
+  width: 100%,
+  above: 1.7em,
+  below: 0.9em,
+  inset: (bottom: 0.45em),
+  stroke: (bottom: 0.7pt + c-accent.lighten(55%)),
+  text(size: 15.6pt, weight: "bold", fill: c-accent)[
+    #if it.numbering != none [
+      #text(fill: c-accent.lighten(35%), size: 0.8em, weight: "bold")[#sym.section]
+      #h(0.4em, weak: true)
+      #context counter(heading).display(it.numbering)
+      #h(0.25em)
+    ]
+    #it.body
+  ],
+)
 // Весенний семестр в заголовке: тил вместо акцента.
 #show heading.where(label: <sem2>): it => block(
   width: 100%,
