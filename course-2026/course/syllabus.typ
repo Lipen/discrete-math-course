@@ -101,33 +101,30 @@
   if it.numbering != none {
     block(
       width: 100%,
-      above: 2.2em,
-      below: 1.2em,
-      inset: (top: 0.5em, bottom: 0.6em),
+      above: 1.9em,
+      below: 0.95em,
+      inset: (bottom: 0.55em),
       stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
     )[
       #grid(
         columns: (auto, 1fr),
-        column-gutter: 16pt,
-        box(
-          fill: c-accent.transparentize(88%),
-          inset: (x: 12pt, y: 7pt),
-          radius: 4pt,
-        )[
-          #context text(2.4em, weight: "bold", fill: c-accent, hyphenate: false)[#counter(heading).display(it.numbering)]
+        column-gutter: 14pt,
+        align: (left, left),
+        text(2.4em, weight: "bold", fill: c-accent.lighten(45%), hyphenate: false)[
+          #context counter(heading).display(it.numbering)
         ],
         block[
           #text(0.75em, weight: "bold", fill: c-accent.lighten(30%), tracking: 1.5pt)[#smallcaps[Раздел]]
-          #v(0.3em)
-          #text(1.5em, weight: "bold", fill: c-ink, hyphenate: false)[#it.body]
+          #v(0.25em)
+          #text(1.45em, weight: "bold", fill: c-ink, hyphenate: false)[#it.body]
         ],
       )
     ]
   } else {
     block(
       width: 100%,
-      above: 2.2em,
-      below: 1.1em,
+      above: 1.9em,
+      below: 1em,
       inset: (bottom: 0.5em),
       stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
       text(16pt, weight: "bold", fill: c-accent)[#it.body],
