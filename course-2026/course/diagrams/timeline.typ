@@ -9,23 +9,23 @@
 
 // ── Геометрия (в единицах оси: 1 = неделя) ──
 #let g = (
-  tick: 0.12,          // высота деления недели
-  num-y: -0.3,         // номер недели
-  date-y: -0.62,       // дни лекций недели
-  month-top: -0.74,    // лента месяца
+  tick: 0.12, // высота деления недели
+  num-y: -0.3, // номер недели
+  date-y: -0.62, // дни лекций недели
+  month-top: -0.74, // лента месяца
   month-bot: -1.14,
-  legend-y: -1.5,      // строка легенды
+  legend-y: -1.5, // строка легенды
   legend-x: 0.08,
-  legend-kr-r: 0.11,   // кружок «контрольная»
+  legend-kr-r: 0.11, // кружок «контрольная»
   legend-tm-r: (0.16, 0.17), // ромб «теормин»
-  legend-gap: 0.48,    // от конца слова до центра ромба
-  kr-r: 0.19,          // точка контрольной
-  tm-r: 0.22,          // теормина
-  mark-date: 0.15,     // зазор дата над точкой
-  saturday: 0.25,      // метка на 75% недели
-  brace-y: 0.5,        // скобка модуля
+  legend-gap: 0.48, // от конца слова до центра ромба
+  kr-r: 0.19, // точка контрольной
+  tm-r: 0.22, // теормина
+  mark-date: 0.15, // зазор дата над точкой
+  saturday: 0.25, // метка на 75% недели
+  brace-y: 0.5, // скобка модуля
   brace-amp: 0.3,
-  brace-inset: 0.12,   // отступ кончиков от краёв модуля
+  brace-inset: 0.12, // отступ кончиков от краёв модуля
 )
 
 // ── Помощники ──
@@ -35,17 +35,42 @@
 
 // Лента месяца с именем по центру.
 #let month-band(i, name, x0, x1) = {
-  let fill = if calc.even(i) { c-mute.transparentize(88%) } else { c-mute.transparentize(95%) }
-  draw.rect((x0, g.month-bot), (x1, g.month-top), fill: fill, name: "month-" + str(i))
-  draw.content("month-" + str(i), text(size: 6pt, fill: c-mute)[#name])
+  let id = "month-" + str(i)
+  let fill = if calc.even(i) {
+    c-mute.transparentize(88%)
+  } else {
+    c-mute.transparentize(95%)
+  }
+  draw.rect(
+    (x0, g.month-bot),
+    (x1, g.month-top),
+    fill: fill,
+    name: id,
+  )
+  draw.content(
+    id,
+    text(size: 6pt, fill: c-mute)[#name],
+  )
 }
 
 // Точка контроля с номером внутри; имя --- для привязки даты.
 #let mark-point(id, kind, x) = {
   if kind == "kr" {
-    draw.circle((x, 0), radius: g.kr-r, fill: c-kr, name: id)
+    draw.circle(
+      (x, 0),
+      radius: g.kr-r,
+      fill: c-kr,
+      name: id,
+    )
   } else {
-    draw.polygon((x, 0), 4, radius: g.tm-r, fill: c-tm, stroke: none, name: id)
+    draw.polygon(
+      (x, 0),
+      4,
+      radius: g.tm-r,
+      fill: c-tm,
+      stroke: none,
+      name: id,
+    )
   }
 }
 
@@ -58,7 +83,12 @@
 
 // Легенда: кружок и ромб, подписи пристёгнуты к фигурам.
 #let legend() = {
-  draw.circle((g.legend-x, g.legend-y), radius: g.legend-kr-r, fill: c-kr, name: "leg-kr")
+  draw.circle(
+    (g.legend-x, g.legend-y),
+    radius: g.legend-kr-r,
+    fill: c-kr,
+    name: "leg-kr",
+  )
   draw.content(
     "leg-kr.east",
     text(size: 6pt, fill: c-mute)[контрольная],
