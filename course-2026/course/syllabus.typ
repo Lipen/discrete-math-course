@@ -1,5 +1,5 @@
 // Обзор курса "Дискретная математика" 2026/27 --- живой syllabus для студентов.
-#import "diagrams/timeline.typ": semester-timeline
+#import "diagrams/timeline.typ": semester-timeline, year-strip
 
 // ── Палитра ──
 // Штрихи, тёмный текст и маркеры.
@@ -253,39 +253,87 @@
 )
 
 
-#block(
-  width: 100%,
-  fill: c-accent.transparentize(88%),
-  stroke: (
-    left: 3.5pt + c-accent,
-    top: 0.7pt + c-accent.lighten(52%),
-    bottom: 0.7pt + c-accent.lighten(52%),
-    right: 0.7pt + c-accent.lighten(52%),
-  ),
-  outset: (y: -1.75pt),
-  inset: (x: 18pt, y: 20pt),
-)[
-  #align(center)[
-    #text(
-      2em,
-      weight: "bold",
-    )[Дискретная математика]
-    #v(0.5em)
-    #text(
-      1.1em,
-      fill: c-accent,
-      weight: "semibold",
-    )[Обзор курса · 2026/27]
-    #v(0.7em)
-    #emoji.leaf.maple Семестр 1: 7 сентября --- 27 декабря #h(1.2em) #emoji.flower.tulip Семестр 2: 8 февраля --- 30 мая
-    #v(0.7em)
-    #text(
-      0.85em,
-      fill: c-soft,
-    )[2 семестра #h(1.1em) 144 ак. часа #h(1.1em) 4 зачётные единицы #h(1.1em) 16 лекций и 16 практик в семестре]
-  ]
-]
+// ── Обложка ──
+#let marks-1 = (
+  (5, "kr", [1], [10.10]),
+  (9, "kr", [2], [7.11]),
+  (10, "tm", [1], [14.11]),
+  (12, "kr", [3], [28.11]),
+  (15, "kr", [4], [19.12]),
+  (16, "tm", [2], [26.12]),
+)
+#let marks-2 = (
+  (4, "kr", [1], [6.3]),
+  (8, "kr", [2], [3.4]),
+  (9, "tm", [1], [10.4]),
+  (12, "kr", [3], [1.5]),
+  (15, "kr", [4], [22.5]),
+  (16, "tm", [2], [29.5]),
+)
 
+#align(center)[
+  #v(3em)
+  #text(size: 0.8em, weight: "semibold", fill: c-accent)[#smallcaps[Обзор курса · 2026/27]]
+  #v(1em)
+  #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
+  #v(0.6em)
+  #text(size: 1.1em, fill: c-soft)[Математический фундамент программиста]
+]
+#v(3em)
+#align(center)[
+  #year-strip(
+    (
+      fill: p-blue,
+      ink: c-accent,
+      label: [#emoji.leaf.maple Семестр 1],
+      dates: [7 сентября --- 27 декабря],
+      marks: marks-1,
+      ticks: (4, 8, 12),
+    ),
+    (
+      fill: p-spring,
+      ink: c-spring,
+      label: [#emoji.flower.tulip Семестр 2],
+      dates: [8 февраля --- 30 мая],
+      marks: marks-2,
+      ticks: (3, 8, 12),
+    ),
+  )
+]
+#v(3em)
+#grid(
+  columns: (1fr, 1fr),
+  column-gutter: 10pt,
+  box(width: 100%, fill: p-blue, stroke: 0.6pt + c-accent.lighten(76%), radius: 4pt, inset: (x: 12pt, y: 9pt))[
+    #align(center, text(hyphenate: false)[#emoji.leaf.maple Семестр 1 · 7 сентября --- 27 декабря])
+  ],
+  box(width: 100%, fill: p-spring, stroke: 0.6pt + c-spring.lighten(76%), radius: 4pt, inset: (x: 12pt, y: 9pt))[
+    #align(center, text(hyphenate: false)[#emoji.flower.tulip Семестр 2 · 8 февраля --- 30 мая])
+  ],
+)
+#v(1fr)
+#align(center)[
+  #grid(
+    columns: (auto, auto, auto, auto),
+    column-gutter: 3em,
+    align: center,
+    ..(
+      ([16], [лекций]),
+      ([16], [практик]),
+      ([4], [контрольные]),
+      ([2], [теормина]),
+    ).map(((n, l)) => (
+      grid.cell[
+        #text(size: 1.4em, weight: "bold", fill: c-accent)[#n]
+        #v(0.2em)
+        #text(size: 0.75em, fill: c-soft)[#l]
+      ]
+    )),
+  )
+  #v(1em)
+  #text(size: 0.75em, fill: c-soft)[#smallcaps[2 семестра · 144 ак. часа · 4 зачётные единицы]]
+]
+#pagebreak()
 
 #show link: it => text(fill: c-accent, it)
 #outline(title: [Содержание], depth: 1)
@@ -725,14 +773,7 @@
     (12, 14, [Булева алгебра], c-green),
     (15, 16, [Коды], c-amber),
   ),
-  (
-    (5, "kr", [1], [10.10]),
-    (9, "kr", [2], [7.11]),
-    (10, "tm", [1], [14.11]),
-    (12, "kr", [3], [28.11]),
-    (15, "kr", [4], [19.12]),
-    (16, "tm", [2], [26.12]),
-  ),
+  marks-1,
   (
     ([сентябрь], 0, 4),
     ([октябрь], 4, 8),
@@ -888,14 +929,7 @@
     (9, 12, [Машина Тьюринга], c-purple),
     (13, 16, [Комбинаторика], c-green),
   ),
-  (
-    (4, "kr", [1], [6.3]),
-    (8, "kr", [2], [3.4]),
-    (9, "tm", [1], [10.4]),
-    (12, "kr", [3], [1.5]),
-    (15, "kr", [4], [22.5]),
-    (16, "tm", [2], [29.5]),
-  ),
+  marks-2,
   (
     ([февраль], 0, 3),
     ([март], 3, 8),
