@@ -709,7 +709,7 @@
 
 #block(breakable: false)[
   #table(
-    columns: (0.9fr, 2.1fr, 2.7fr),
+    columns: (1fr, 2fr, 3fr),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (center, left, left),
     inset: (x: 8pt, y: 7.5pt),
@@ -873,7 +873,7 @@
 
 #block(breakable: false)[
   #table(
-    columns: (0.9fr, 2.1fr, 2.9fr),
+    columns: (1fr, 2fr, 3fr),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (center, left, left),
     inset: (x: 8pt, y: 7.5pt),
