@@ -110,8 +110,8 @@
         columns: (auto, 1fr),
         column-gutter: 12pt,
         align: (left + horizon, left),
-        box(fill: c-accent, inset: (x: 9pt, y: 4pt), radius: 4pt)[
-          #context text(1em, weight: "bold", fill: white, hyphenate: false)[#counter(heading).display("1")]
+        box(fill: c-accent.lighten(10%), inset: (x: 10pt, y: 4pt), radius: 4pt)[
+          #context text(1.2em, weight: "bold", fill: white, hyphenate: false)[#counter(heading).display("1")]
         ],
         text(1.5em, weight: "bold", fill: c-ink, hyphenate: false)[#it.body],
       )
