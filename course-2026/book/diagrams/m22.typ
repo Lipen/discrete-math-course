@@ -37,3 +37,25 @@
     text(size: s-cap, fill: c-muted)[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.],
   )
 })
+
+// ── Ординалы фон Неймана ──
+#let von-neumann-nesting = canvas({
+  let nesting-box(min, max, tag, label) = {
+    draw.rect(min, max, name: tag, stroke: t-bd + c-bd)
+    draw.content(
+      (min.at(0) + 0.18, max.at(1) - 0.17),
+      text(size: s-node, fill: c-ink)[#label],
+    )
+  }
+
+  nesting-box((-0.4, -0.3), (0.4, 0.3), "vn-0", $0$)
+  nesting-box((-0.9, -0.62), (0.9, 0.62), "vn-1", $1$)
+  nesting-box((-1.45, -1.0), (1.45, 1.0), "vn-2", $2$)
+  nesting-box((-2.0, -1.42), (2.0, 1.42), "vn-3", $3$)
+
+  // Пунктир: omega --- предельный ординал, его нельзя получить шагом n -> n + 1.
+  let omega-stroke = (paint: c-edge, thickness: t-bd, dash: "dashed")
+  draw.rect((-2.85, -1.95), (2.85, 1.95), name: "vn-omega", stroke: omega-stroke)
+  draw.content((3.15, 1.95), text(size: s-node, fill: c-ink)[$omega$])
+  draw.content((0, -1.68), text(size: s-cap, fill: c-muted)[$dots.c$])
+})
