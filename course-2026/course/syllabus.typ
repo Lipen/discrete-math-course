@@ -346,59 +346,48 @@
 
 // ── Обложка ──
 
-#align(center)[
-  #v(2.5em)
-  #text(size: 0.8em, weight: "semibold", fill: c-accent)[#smallcaps[Обзор курса · 2026/27]]
-  #v(1em)
-  #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
-  #v(0.6em)
-  #text(size: 1.1em, fill: c-soft)[Математический фундамент программиста]
-]
 #v(1fr)
-#box(
-  width: 100%,
-  fill: c-accent.transparentize(94%),
-  stroke: (top: 2.5pt + c-accent),
-  inset: (x: 18pt, y: 15pt),
-  radius: 4pt,
-)[
+#align(center)[
+  #text(size: 0.8em, weight: "semibold", fill: c-accent)[#smallcaps[Обзор курса · 2026/27]]
+  #v(1.2em)
+  #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
+  #v(0.8em)
+  #text(size: 1.1em, fill: c-soft)[Математический фундамент программиста]
+  #v(1.8em)
   #grid(
     columns: (1fr, 1fr),
     column-gutter: 10pt,
-    box(width: 100%, fill: p-blue, stroke: 0.6pt + c-accent.lighten(76%), radius: 4pt, inset: (x: 12pt, y: 9pt))[
+    box(width: 100%, fill: p-blue, stroke: 0.6pt + c-accent.lighten(76%), radius: 4pt, inset: (x: 8pt, y: 8pt))[
       #align(center, text(hyphenate: false)[#emoji.leaf.maple Семестр 1 · 7 сентября --- 27 декабря])
     ],
-    box(width: 100%, fill: p-spring, stroke: 0.6pt + c-spring.lighten(76%), radius: 4pt, inset: (x: 12pt, y: 9pt))[
+    box(width: 100%, fill: p-spring, stroke: 0.6pt + c-spring.lighten(76%), radius: 4pt, inset: (x: 8pt, y: 8pt))[
       #align(center, text(hyphenate: false)[#emoji.flower.tulip Семестр 2 · 8 февраля --- 30 мая])
     ],
   )
-  #v(1.2em)
-  #align(center)[
-    #grid(
-      columns: (1fr, 1fr, 1fr, 1fr),
-      column-gutter: 0em,
-      align: center,
-      ..(
-        ([16], [лекций]),
-        ([16], [практик]),
-        ([4], [контрольные]),
-        ([2], [теормина]),
-      ).map(((n, l)) => (
-        grid.cell[
-          #text(size: 1.4em, weight: "bold", fill: c-accent)[#n]
-          #v(0.2em)
-          #text(size: 0.8em, fill: c-soft)[#l]
-        ]
-      )),
-    )
-    #v(0.5em)
-    #text(size: 0.8em, fill: c-soft)[(в каждом семестре)]
-  ]
-  #v(0.9em)
-  #align(center)[
-    #text(size: 0.8em, fill: c-soft)[#smallcaps[2 семестра · 144 ак. часа · 4 зачётные единицы]]
-  ]
+  #v(1.4em)
+  #grid(
+    columns: (1fr, 1fr, 1fr, 1fr),
+    column-gutter: 0em,
+    align: center,
+    ..(
+      ([16], [лекций]),
+      ([16], [практик]),
+      ([4], [контрольные]),
+      ([2], [теормина]),
+    ).map(((n, l)) => (
+      grid.cell[
+        #text(size: 1.4em, weight: "bold", fill: c-accent)[#n]
+        #v(0.2em)
+        #text(size: 0.8em, fill: c-soft)[#l]
+      ]
+    )),
+  )
+  #v(0.6em)
+  #text(size: 0.8em, fill: c-soft)[(в каждом семестре)]
+  #v(1em)
+  #text(size: 0.8em, fill: c-soft)[#smallcaps[2 семестра · 144 ак. часа · 4 зачётные единицы]]
 ]
+#v(1fr)
 #pagebreak()
 
 #show link: it => text(fill: c-accent, it)
