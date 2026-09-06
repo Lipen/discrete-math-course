@@ -20,7 +20,7 @@
   radius: 4pt,
   inset: (x: 10pt, y: 5pt),
 )[
-  #text(size: 0.9em, weight: "bold", fill: color.darken(10%))[#title]
+  #text(size: 0.8em, weight: "bold", fill: color.darken(10%))[#title]
   #v(0.25em)
   #body
 ]
@@ -46,10 +46,10 @@
     radius: (top: 4pt),
     height: 1.9em,
     breakable: false,
-    align(center + horizon)[#text(1.1em, weight: "bold", fill: color)[#num]],
+    align(center + horizon)[#text(1.2em, weight: "bold", fill: color)[#num]],
   )
   v(3pt)
-  align(center)[#text(0.72em, fill: colors.muted)[#label]]
+  align(center)[#text(0.8em, fill: colors.muted)[#label]]
 }
 
 #let zone(color, range, name) = block(
@@ -62,7 +62,7 @@
   breakable: false,
   align(center + horizon)[
     #text(weight: "bold", fill: color)[#range] \
-    #text(0.75em, fill: colors.muted)[#name]
+    #text(0.8em, fill: colors.muted)[#name]
   ],
 )
 
@@ -92,7 +92,7 @@
 
   place(left + top, dx: 1.6cm, dy: 2.6cm, block(width: 88%)[
     #text(
-      3.4em,
+      3em,
       weight: "bold",
       font: "Libertinus Sans",
       fill: white,
