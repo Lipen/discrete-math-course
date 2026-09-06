@@ -29,8 +29,8 @@
   draw.line((0, 0), (weeks, 0), stroke: 1.6pt + c-ink, cap: "round")
   for w in range(1, weeks + 1) {
     draw.line((w - 1, 0), (w - 1, -0.12), stroke: 0.5pt + c-mute)
-    draw.content((w - 0.5, -0.3), text(size: 6.5pt, fill: c-mute)[#w])
-    draw.content((w - 0.5, -0.62), text(size: 5.5pt, fill: c-mute)[#dates.at(w - 1)])
+    draw.content((w - 0.5, -0.3), text(size: 6pt, fill: c-mute)[#w])
+    draw.content((w - 0.5, -0.62), text(size: 5pt, fill: c-mute)[#dates.at(w - 1)])
   }
   draw.line((weeks, 0), (weeks, -0.12), stroke: 0.5pt + c-mute)
   for (i, (name, x0, x1)) in months.enumerate() {
@@ -39,17 +39,17 @@
     draw.content(((x0 + x1) / 2, -0.94), text(size: 6pt, fill: c-mute)[#name])
   }
   draw.circle((0.08, -1.5), radius: 0.11, fill: c-kr, name: none)
-  draw.content((0.26, -1.5), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "mid")
+  draw.content((0.26, -1.5), text(size: 6pt, fill: c-mute)[контрольная], anchor: "mid")
   draw.polygon((1.81, -1.5), 4, radius: (0.16, 0.17), fill: c-tm, stroke: none, name: none)
-  draw.content((2.12, -1.5), text(size: 6.5pt, fill: c-mute)[теормин], anchor: "mid")
+  draw.content((2.12, -1.5), text(size: 6pt, fill: c-mute)[теормин], anchor: "mid")
   for (a, b, name, color) in modules {
     decorations.brace((a - 0.88, 0.58), (b - 0.12, 0.58), fill: color, amplitude: 0.32)
-    draw.content(((a + b - 1) / 2, 1.2), text(size: 6.5pt, fill: color)[#name], anchor: "south")
+    draw.content(((a + b - 1) / 2, 1.2), text(size: 6pt, fill: color)[#name], anchor: "south")
   }
   for (w, kind, n, date) in marks {
     let x = w - 0.25
     if kind == "kr" { kr-point(x, n) } else { tm-point(x, n) }
     let label-color = if kind == "kr" { c-kr } else { c-tm }
-    draw.content((x, 0.34), text(size: 5.5pt, fill: label-color)[#date])
+    draw.content((x, 0.34), text(size: 5pt, fill: label-color)[#date])
   }
 })

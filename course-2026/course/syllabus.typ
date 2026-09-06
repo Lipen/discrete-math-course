@@ -59,9 +59,10 @@
   stroke: (bottom: 0.7pt + c-accent.lighten(55%)),
   text(size: 15.6pt, weight: "bold", fill: c-accent)[
     #if it.numbering != none [
-      #text(fill: c-accent.lighten(35%), size: 0.85em, weight: "bold")[#sym.section]
-      #context counter(heading).display(it.numbering)
+      #text(fill: c-accent.lighten(35%), size: 0.8em, weight: "bold")[#sym.section]
       #h(0.4em, weak: true)
+      #context counter(heading).display(it.numbering)
+      #h(0.25em)
     ]
     #it.body
   ],
@@ -84,7 +85,6 @@
   text(
     fill: c-soft,
     weight: "semibold",
-    size: 0.95em,
     it,
   ),
 )
@@ -684,7 +684,7 @@
 Если выпадает праздничная неделя, лекция не вводится, а материал уплотняется.
 Резервных недель в сетке нет.
 
-== Семестр 1: 7 сентября --- 27 декабря
+== Семестр I: 7 сентября -- 27 декабря
 
 Первая лекция --- 8--9 сентября, на двух потоках.
 Последние занятия --- 22--23 декабря.
@@ -852,7 +852,7 @@
   [16], [m13], ["Код Хаффмана", "Граница Шеннона", "Циклические коды", "Коды Рида---Соломона".],
 )
 
-== Семестр 2: 8 февраля --- 30 мая
+== Семестр II: 8 февраля -- 30 мая
 
 Первая лекция --- 9--10 февраля, на двух потоках.
 Последние занятия --- 25--26 мая.
