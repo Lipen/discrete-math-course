@@ -142,7 +142,7 @@
           if w == n {
             box(radius: 3pt, inset: (x: 6pt, y: 2pt), outset: (y: 2.5pt), fill: if kind == "kr" { p-blue } else { p-purple })[
               #text(size: 0.75em, weight: "bold", fill: if kind == "kr" { c-accent } else { c-purple })[
-                #if kind == "kr" [#sym.circle.small.filled #h(0.3em) КР #num] else [#sym.diamond.small.filled #h(0.3em) ТМ #num]
+                #if kind == "kr" [#circle(radius: 4pt, fill: c-accent) #h(0.3em) КР #num] else [#box(height: 8pt)[#polygon(fill: c-purple, (4pt, 0pt), (8pt, 4pt), (4pt, 8pt), (0pt, 4pt))] #h(0.3em) ТМ #num]
               ]
             ]
           }
