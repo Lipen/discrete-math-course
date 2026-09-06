@@ -1,7 +1,10 @@
 // course-intro --- вводная лекция: наука, устройство курса, баллы, карта семестра.
 #import "theme-intro.typ": *
 
-#set document(title: "Дискретная математика", author: "Константин Чухарев")
+#set document(
+  title: "Дискретная математика",
+  author: "Константин Чухарев",
+)
 #show: slides.with()
 
 // ── Журнальные виджеты ──
@@ -88,18 +91,21 @@
   ]
 
   place(left + top, dx: 1.6cm, dy: 2.6cm, block(width: 88%)[
-    #text(
-      3em,
-      weight: "bold",
-      font: "Libertinus Sans",
-      fill: white,
-      hyphenate: false,
+    #block(
+      width: 100%,
+      stroke: (bottom: 2pt + white),
+      inset: (bottom: 0.5em),
     )[
-      Дискретная\ математика
+      #text(
+        3em,
+        weight: "bold",
+        font: "Libertinus Sans",
+        fill: white,
+        hyphenate: false,
+      )[
+        Дискретная\ математика
+      ]
     ]
-    #v(0.9em, weak: true)
-    #line(length: 22%, stroke: 2pt + white)
-    #v(0.9em, weak: true)
     #text(
       1.2em,
       fill: white.transparentize(25%),
