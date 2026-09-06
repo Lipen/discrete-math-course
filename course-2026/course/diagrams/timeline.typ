@@ -34,10 +34,14 @@
   }
   draw.line((weeks, 0), (weeks, -0.12), stroke: 0.5pt + c-mute)
   for (i, (name, x0, x1)) in months.enumerate() {
-    let band = if calc.even(i) { c-mute.transparentize(94%) } else { c-mute.transparentize(97%) }
+    let band = if calc.even(i) { c-mute.transparentize(88%) } else { c-mute.transparentize(95%) }
     draw.rect((x0, -1.14), (x1, -0.74), fill: band, stroke: none, name: none)
     draw.content(((x0 + x1) / 2, -0.94), text(size: 6pt, fill: c-mute)[#name])
   }
+  for (name, x0, x1) in months {
+    draw.line((x0, -1.14), (x0, -0.74), stroke: 0.5pt + c-mute)
+  }
+  draw.line((weeks, -1.14), (weeks, -0.74), stroke: 0.5pt + c-mute)
   draw.circle((0.08, -1.5), radius: 0.11, fill: c-kr, name: none)
   draw.content((0.26, -1.5), text(size: 6.5pt, fill: c-mute)[контрольная], anchor: "text")
   draw.polygon((1.81, -1.5), 4, radius: (0.16, 0.17), fill: c-tm, stroke: none, name: none)
