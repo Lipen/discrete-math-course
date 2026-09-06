@@ -85,7 +85,10 @@
     align(center + horizon)[#text(1.2em, weight: "bold", fill: color)[#num]],
   )
   v(0.5em, weak: true)
-  block(above: 0em, align(center)[#text(0.8em, fill: colors.muted)[#label]])
+  block(width: 100%, above: 0em, align(center)[#text(
+    0.8em,
+    fill: colors.muted,
+  )[#label]])
 }
 
 #let zone(color, range, name) = block(
@@ -353,12 +356,10 @@
 #important[
   Сегодня --- высказывания и логические связки: атомы смысла и способы их соединения.
 ]
-#v(0.8em)
 
 #note[
   К следующей паре --- глава о них в книге.
 ]
-#v(0.8em)
 
 #Block(color: colors.green)[
   Но сначала --- первый опросник.\
