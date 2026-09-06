@@ -24,6 +24,10 @@
 #let p-warn = oklch(56%, 0.17, 60deg).transparentize(90%)
 #let s-warn = oklch(56%, 0.17, 60deg).transparentize(93%)
 
+// Весенний семестр: тил, зеркалом осенней синей семьи.
+#let c-spring = oklch(45%, 0.12, 175deg)
+#let p-spring = oklch(52%, 0.16, 175deg).transparentize(88%)
+
 #set text(12pt, lang: "ru")
 #set par(justify: true)
 #set page(
@@ -32,6 +36,8 @@
   header: context {
     if counter(page).get().first() > 1 {
       set text(0.75em, fill: c-soft)
+      let heads = query(heading.where(level: 1))
+      let cur = heads.filter(h => h.location().page() <= here().page()).last()
       block(
         width: 100%,
         stroke: (bottom: 0.6pt + c-accent.lighten(55%)),
@@ -39,14 +45,35 @@
       )[
         #smallcaps[Дискретная математика]
         #h(1fr)
-        Обзор курса 2026/27
+        #if cur != none [#smallcaps[#cur.body]]
       ]
     }
   },
-  footer: context [
-    #set text(0.75em, fill: c-soft)
-    #counter(page).display("1 / 1")
-  ],
+  footer: context {
+    if counter(page).get().first() > 1 {
+      set text(0.75em, fill: c-soft)
+      let p = counter(page).get().first()
+      let t = counter(page).final().first()
+      block(width: 100%)[
+        #grid(
+          columns: (1fr, auto),
+          column-gutter: 1em,
+          align: (left, right),
+          grid(
+            columns: (100% * calc.min(1, p / t), 1fr),
+            rect(width: 100%, height: 2pt, fill: c-accent.lighten(45%), stroke: none),
+            rect(width: 100%, height: 2pt, fill: c-soft.transparentize(90%), stroke: none),
+          ),
+          counter(page).display("1 / 1"),
+        )
+      ]
+    }
+  },
+)
+
+#set document(
+  title: "Дискретная математика --- обзор курса 2026/27",
+  keywords: ("дискретная математика", "обзор курса", "расписание"),
 )
 
 #set heading(numbering: "1.")
