@@ -3,6 +3,7 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
 // Локальная семантика: `c-fl` --- обычные участники (Алиса, Боб);
 // `c-accent` --- злоумышленник в середине (Ева).
@@ -59,3 +60,29 @@
     text(size: s-cap, fill: c-muted)[два секрета: с Алисой и с Бобом],
   )
 })
+
+// Точка на круге радиуса r под углом a в градусах.
+// Ось Y в диаграммах fletcher направлена вниз, поэтому Y берём с минусом.
+#let polar(r, a) = (calc.cos(a * calc.pi / 180) * r, -calc.sin(a * calc.pi / 180) * r)
+
+// ── Цикл степеней тройки по модулю 7 ──
+#let gen-cycle = {
+  let n-stroke = c-bd + t-bd
+  let e-stroke = (paint: c-edge, thickness: t-ed)
+  let radius = 1.5
+  let nname(i) = label("n" + str(i))
+  let values = ($3$, $2$, $6$, $4$, $5$, $1$)
+
+  diagram(
+    node-stroke: n-stroke,
+    node-fill: c-fl,
+    edge-stroke: e-stroke,
+    {
+      for i in range(6) {
+        node(polar(radius, 90 - i * 60), values.at(i), name: nname(i))
+        edge(nname(i), nname(if i == 5 { 0 } else { i + 1 }), "-}>", label: [$times 3$])
+      }
+      node((0, 0), $ZZ_7^*$, fill: none, stroke: none)
+    },
+  )
+}
