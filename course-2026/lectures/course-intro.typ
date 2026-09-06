@@ -8,9 +8,13 @@
 #show: slides.with()
 
 // ── Журнальные виджеты ──
+// Пастельная палитра карточек: пыльные тона, белый болд в плашках читается крупным кеглем.
+#let c-blue = oklch(56%, 0.10, 258deg)
+#let c-green = oklch(56%, 0.08, 152deg)
+#let c-red = oklch(55%, 0.12, 25deg)
+#let c-violet = oklch(56%, 0.10, 305deg)
+
 #let tcard(color, title, body) = {
-  let head-fill = color.darken(8%)
-  let head-ink = if color == colors.amber { colors.ink } else { white }
   block(
     width: 100%,
     fill: color.transparentize(93%),
@@ -24,13 +28,13 @@
   )[
     #block(
       width: 100%,
-      fill: head-fill,
+      fill: color,
       radius: (top-left: 4pt, top-right: 4pt),
       inset: (x: 0.8em, y: 0.5em),
       above: 0em,
       below: 0em,
     )[
-      #text(size: 1.2em, weight: "bold", fill: head-ink)[#title]
+      #text(size: 1.2em, weight: "bold", fill: white)[#title]
     ]
     #block(
       width: 100%,
@@ -50,7 +54,7 @@
   radius: 4pt,
   inset: (x: 0.5em, y: 0.8em),
   align(center)[
-    #text(2.4em, weight: "bold", fill: colors.accent-strong)[#num]
+    #text(3em, weight: "bold", fill: colors.accent-strong)[#num]
     #v(0.5em)
     #text(0.8em, fill: colors.muted)[#label]
   ],
@@ -175,17 +179,17 @@
   columns: (1fr, 1fr),
   column-gutter: 8pt,
   row-gutter: 8pt,
-  tcard(colors.accent, [Логика])[
+  tcard(c-blue, [Логика])[
     Высказывания, доказательства, дедукция.
   ],
-  tcard(colors.green, [Структуры])[
+  tcard(c-green, [Структуры])[
     Множества, отношения, функции, графы.
   ],
 
-  tcard(colors.amber, [Алгебра и коды])[
+  tcard(c-red, [Алгебра и коды])[
     Булева алгебра, схемы, коды с коррекцией.
   ],
-  tcard(colors.violet, [Вычисление])[
+  tcard(c-violet, [Вычисление])[
     Автоматы, машина Тьюринга, вычислимость.
   ],
 )
@@ -211,14 +215,14 @@
 #grid(
   columns: (1fr, 1fr, 1fr),
   column-gutter: 8pt,
-  tcard(colors.accent, [Лекция])[
+  tcard(c-blue, [Лекция])[
     Живое введение: слайды, примеры, мотивация.
   ],
-  tcard(colors.green, [Книга])[
+  tcard(c-green, [Книга])[
     Текст для чтения: детали, доказательства, история.
     На каждую лекцию --- глава.
   ],
-  tcard(colors.violet, [Практика])[
+  tcard(c-violet, [Практика])[
     Разбор задач и защиты домашних заданий.
   ],
 )
@@ -262,13 +266,13 @@
 #grid(
   columns: (1fr, 1fr, 1fr),
   column-gutter: 8pt,
-  tcard(colors.green, [База])[
+  tcard(c-green, [База])[
     Обязательный минимум --- пропускать нельзя.
   ],
-  tcard(colors.accent, [Челлендж])[
+  tcard(c-blue, [Челлендж])[
     Задачи посложнее: пропускать можно, решать интереснее.
   ],
-  tcard(colors.amber, [Бонус])[
+  tcard(c-red, [Бонус])[
     Для тех, кому десяти задач мало.
   ],
 )
@@ -290,12 +294,12 @@
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 8pt,
-  tcard(colors.accent, [Контрольные --- четыре])[
+  tcard(c-blue, [Контрольные --- четыре])[
     По материалу своего модуля: полтора часа, письменно, на отдельной паре.
     С собой --- любые бумажные материалы, электроника запрещена.
     Пишутся всем курсом одновременно: отдельных дней сдачи нет.
   ],
-  tcard(colors.violet, [Теормины --- два])[
+  tcard(c-violet, [Теормины --- два])[
     Устный ответ: вопросы и термины по пройденному материалу плюс небольшое доказательство.
     ТМ1 --- множества, отношения и логика.
     ТМ2 --- булева алгебра и коды.
@@ -307,13 +311,13 @@
 #grid(
   columns: (1fr, 1fr),
   column-gutter: 8pt,
-  tcard(colors.amber, [Экзамен --- январь])[
+  tcard(c-red, [Экзамен --- январь])[
     Один день, три части: письменные билеты, практические задачи, устные вопросы.
     Разрешено всё, кроме ИИ.
     Баллы --- от 12 до 20 или ноль при провале.
     Не обязателен: без него итог ограничен 80 баллами.
   ],
-  tcard(colors.green, [ИИ-политика])[
+  tcard(c-green, [ИИ-политика])[
     В домашних работах ИИ разрешён --- при раскрытии: напишите, что и как использовали.
     На контрольных, теорминах и экзамене --- запрещён.
   ],
