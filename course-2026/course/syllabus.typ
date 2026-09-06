@@ -64,17 +64,18 @@
   width: 100%,
   above: 2em,
   below: 0.75em,
-  inset: (left: 10pt),
-  stroke: (left: 2.5pt + c-accent),
-  text(fill: c-accent, size: 13.2pt, weight: "semibold", it),
+  text(
+    fill: c-accent,
+    size: 13.2pt,
+    weight: "semibold",
+    underline(offset: 0.4em, stroke: 1.5pt + c-accent.lighten(35%), it),
+  ),
 )
 #show heading.where(level: 3): it => block(
   width: 100%,
   above: 1.3em,
   below: 0.55em,
-  inset: (left: 8pt),
-  stroke: (left: 1.2pt + c-accent.lighten(35%)),
-  text(fill: c-accent.darken(8%), weight: "semibold", size: 0.95em, it),
+  text(fill: c-soft, weight: "semibold", size: 0.95em, it),
 )
 #show heading: set par(justify: false)
 #show table.cell: set par(justify: false)
