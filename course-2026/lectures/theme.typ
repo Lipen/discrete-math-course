@@ -286,11 +286,9 @@
     let fits(s) = (
       measure(probe(s), width: 13.2cm).height <= 3.05 * 12pt * (s / 1em)
     )
-    let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(
-      1.8em,
-    ) { 1.8em } else { 1.4em }
+    let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(1.8em) { 1.8em } else { 1.4em }
     place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
-      #block(width: 90%)[
+      #block[
         #set text(
           pick,
           weight: "bold",
@@ -302,7 +300,7 @@
       #v(1.4em, weak: true)
       #if epigraph != none [
         #block(
-          width: 88%,
+          width: 100%,
           stroke: (left: 2pt + acc),
           inset: (x: 1em),
         )[
@@ -373,7 +371,7 @@
           tracking: 0.25em,
           fill: white.transparentize(15%),
         )[ЛЕКЦИЯ],
-        block(width: 92%)[
+        block(width: 100%)[
           #set par(leading: 0.5em)
           #text(
             pick,
