@@ -8,10 +8,7 @@
   module: "graphs",
 )
 
-#import "diagrams/m09.typ": (
-  bfs-grid, bipartite, bridge-cut, eulerian, graph-coloring, k33, k5, petersen,
-  planar, tree,
-)
+#import "diagrams/m09.typ": bfs-grid, bipartite, bridge-cut, eulerian, graph-coloring, k33, k5, petersen, planar, tree
 
 = Лекция 1. Графы
 

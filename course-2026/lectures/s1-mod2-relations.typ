@@ -9,16 +9,9 @@
 )
 
 #import "diagrams/m05.typ": equivalence-partition, rel-digraph
-#import "diagrams/m06.typ": (
-  function-parts, mapping-bijection, mapping-injection, mapping-surjection,
-)
-#import "diagrams/m07.typ": (
-  aleph-beth, cantor-diagonal, cantor-line-square, qq-pairing,
-)
-#import "diagrams/m08.typ": (
-  hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
-  sign-lattice,
-)
+#import "diagrams/m06.typ": function-parts, mapping-bijection, mapping-injection, mapping-surjection
+#import "diagrams/m07.typ": aleph-beth, cantor-diagonal, cantor-line-square, qq-pairing
+#import "diagrams/m08.typ": hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3, sign-lattice
 
 = Лекция 4. Бинарные отношения
 
@@ -110,8 +103,7 @@
   table.header([*Способ*], [*Идея*]),
   [Множество пар], [$R = {(a_1, b_1), (a_2, b_2), ...}$],
   [Матрица смежности], [$M_(i j) = 1$, если $(a_i, a_j) in R$, и $0$ иначе],
-  [Ориентированный граф (_directed graph_)],
-  [вершины --- элементы, ребро $a -> b$ --- пара $(a, b)$],
+  [Ориентированный граф (_directed graph_)], [вершины --- элементы, ребро $a -> b$ --- пара $(a, b)$],
 )
 
 #important[
@@ -303,13 +295,9 @@
   [Рефлексивность], [единицы на диагонали], [петля у каждой вершины],
   [Иррефлексивность], [нули на диагонали], [петель нет],
   [Симметричность], [матрица симметрична], [каждое ребро двунаправлено],
-  [Антисимметричность],
-  [нет симметричных единиц вне диагонали],
-  [нет двунаправленных рёбер],
+  [Антисимметричность], [нет симметричных единиц вне диагонали], [нет двунаправленных рёбер],
 
-  [Транзитивность],
-  [путь длины 2 имеет прямое ребро],
-  [путь длины 2 имеет прямое ребро],
+  [Транзитивность], [путь длины 2 имеет прямое ребро], [путь длины 2 имеет прямое ребро],
 )
 
 #important[
@@ -1145,9 +1133,7 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
   columns: 4,
   align: (left, center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header(
-    [*Понятие*], [*Единственен?*], [*В конечном ЧУМ?*], [*Сравним со всеми?*]
-  ),
+  table.header([*Понятие*], [*Единственен?*], [*В конечном ЧУМ?*], [*Сравним со всеми?*]),
   [Минимальный], [нет], [да], [нет],
   [Максимальный], [нет], [да], [нет],
   [Наименьший], [да], [не гарантирован], [да],
@@ -1566,9 +1552,7 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
   columns: 3,
   column-gutter: 1em,
   align: center,
-  align(center, mapping-injection),
-  align(center, mapping-surjection),
-  align(center, mapping-bijection),
+  align(center, mapping-injection), align(center, mapping-surjection), align(center, mapping-bijection),
 )
 
 #note[
@@ -1584,20 +1568,14 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
   align: (center, center, center, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Тип*], [*Условие*], [*Мощность*], [*Обратная*]),
-  [Инъекция],
-  [$a_1 != a_2 imply f(a_1) != f(a_2)$],
-  [$abs(A) <= abs(B)$],
-  [левая\ $g compose f = "id"_A$],
+  [Инъекция], [$a_1 != a_2 imply f(a_1) != f(a_2)$], [$abs(A) <= abs(B)$], [левая\ $g compose f = "id"_A$],
 
   [Сюръекция],
   [$forall b in B. thin exists a in A. thin f(a) = b$],
   [$abs(A) >= abs(B)$],
   [правая\ $f compose g = "id"_B$],
 
-  [Биекция],
-  [инъекция + сюръекция],
-  [$abs(A) = abs(B)$],
-  [двусторонняя\ $f^(-1)$],
+  [Биекция], [инъекция + сюръекция], [$abs(A) = abs(B)$], [двусторонняя\ $f^(-1)$],
 )
 
 #important[
