@@ -1,7 +1,9 @@
 // s2-mod1 --- Графы: модуль расписания семестра 2, лекции 1--4.
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": (
-  bfs-ghost, graph-ghost, k33-ghost, path-ghost, tree-ghost,
+  bfs-ghost, dijkstra-ghost, flow-ghost, graph-ghost, hamiltonian-ghost,
+  k33-ghost, konigsberg-ghost, map-coloring-ghost, matching-ghost, path-ghost,
+  tree-ghost,
 )
 #show: slides.with(
   title: [Графы],
@@ -789,7 +791,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Эйлеровы графы
 
 #focus-slide(
-  ghost: $pi$,
+  ghost: konigsberg-ghost,
   epigraph: [Я не удовлетворён алгеброй: она не даёт ни кратчайших путей, ни красивейших построений геометрии.],
   epigraph-author: [Готфрид Лейбниц],
 )
@@ -873,7 +875,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Гамильтоновы графы
 
 #focus-slide(
-  ghost: $arrow.l$,
+  ghost: hamiltonian-ghost,
   epigraph: [Задачи, достойные атаки, доказывают свою ценность тем, что дают сдачи.],
   epigraph-author: [Пит Хайн],
 )
@@ -952,7 +954,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Двудольность и паросочетания
 
 #focus-slide(
-  ghost: $union.plus$,
+  ghost: matching-ghost,
   epigraph: [Каждый из нас --- половинка человека, и каждый вечно ищет половину, соответствующую ему.],
   epigraph-author: [Платон],
 )
@@ -1075,7 +1077,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Кратчайшие пути
 
 #focus-slide(
-  ghost: $arrow.r.double$,
+  ghost: dijkstra-ghost,
   epigraph: [Путь в тысячу ли начинается с одного шага.],
   epigraph-author: [Лао-цзы],
 )
@@ -1301,7 +1303,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Раскраска
 
 #focus-slide(
-  ghost: $square.filled$,
+  ghost: map-coloring-ghost,
   epigraph: [Цвет --- сила, которая непосредственно влияет на душу.],
   epigraph-author: [Василий Кандинский],
 )
@@ -1408,7 +1410,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Сетевые потоки
 
 #focus-slide(
-  ghost: $arrow.r$,
+  ghost: flow-ghost,
   epigraph: [Всё течёт.],
   epigraph-author: [Гераклит],
 )
