@@ -30,7 +30,9 @@
   radius: 4pt,
   inset: (x: 0.8em, y: 0.5em),
 )[
-  #text(size: 1.2em, weight: "bold", fill: color.darken(10%))[#title]
+  #block(sticky: true)[
+    #text(size: 1.2em, weight: "bold", fill: color.darken(10%))[#title]
+  ]
   #v(0.5em, weak: true)
   #body
 ]
