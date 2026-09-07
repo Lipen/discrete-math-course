@@ -555,11 +555,7 @@
           #line(length: 20%, stroke: 2pt + mod-acc)
           #v(1em, weak: true)
           #if subtitle != none [
-            #box(
-              inset: (x: 0.8em, y: 0.3em),
-              stroke: 1pt + mod-acc.transparentize(40%),
-              radius: 4pt,
-            )[#text(fill: colors.muted)[#subtitle]]
+            #text(1.2em, fill: colors.muted)[#subtitle]
           ]
           #v(1.2em, weak: true)
           #context {
