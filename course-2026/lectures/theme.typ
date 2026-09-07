@@ -40,28 +40,6 @@
   turing: "Машина Тьюринга",
   combinatorics: "Комбинаторика",
 )
-#let module-index = (
-  sets: 0,
-  relations: 1,
-  logic: 2,
-  boolean: 3,
-  codes: 4,
-  graphs: 0,
-  automata: 1,
-  turing: 2,
-  combinatorics: 3,
-)
-#let module-dots = (
-  sets: 5,
-  relations: 5,
-  logic: 5,
-  boolean: 5,
-  codes: 5,
-  graphs: 4,
-  automata: 4,
-  turing: 4,
-  combinatorics: 4,
-)
 
 // Текущий модуль; читают мебельные слайды и note.
 #let mod-state = state("theme-module", none)
@@ -497,23 +475,6 @@
             ],
             if subtitle != none [
               #text(1.2em, fill: white.transparentize(15%))[#subtitle]
-            ],
-            if lecture != none [
-              #context {
-                let m = mod-state.final()
-                if m != none and m in module-dots {
-                  for i in range(module-dots.at(m)) {
-                    if i > 0 { h(0.8em) }
-                    box(circle(
-                      radius: 4pt,
-                      fill: if i == module-index.at(m) { white },
-                      stroke: if i != module-index.at(m) {
-                        0.8pt + white.transparentize(50%)
-                      },
-                    ))
-                  }
-                }
-              }
             ],
             if lecture != none and lecture.week != none [
               #box(
