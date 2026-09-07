@@ -392,7 +392,7 @@
             width: 14.6cm,
             fill: white,
             radius: 4pt,
-            inset: (x: 1em, y: 0.5em),
+            inset: (x: 1em, y: 0.8em),
           )[
             #set text(fill: colors.ink, style: "italic")
             #teaser
