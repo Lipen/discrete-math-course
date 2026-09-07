@@ -4,15 +4,38 @@ default:
 
 files := """
     course-intro.typ
-    s1-mod1-sets.typ
-    s1-mod2-relations.typ
-    s1-mod3-logic.typ
-    s1-mod4-boolean.typ
-    s1-mod5-codes.typ
-    s2-mod1-graphs.typ
-    s2-mod2-automata.typ
-    s2-mod3-turing.typ
-    s2-mod4-combinatorics.typ
+    s1-lec01-statements.typ
+    s1-lec02-predicates.typ
+    s1-lec03-sets.typ
+    s1-lec04-relations.typ
+    s1-lec05-equivalence.typ
+    s1-lec06-order.typ
+    s1-lec07-functions.typ
+    s1-lec08-cardinality.typ
+    s1-lec09-propositional.typ
+    s1-lec10-deduction.typ
+    s1-lec11-fol.typ
+    s1-lec12-boolean-sat.typ
+    s1-lec13-zhegalkin.typ
+    s1-lec14-circuits.typ
+    s1-lec15-codes.typ
+    s1-lec16-compression.typ
+    s2-lec01-graphs.typ
+    s2-lec02-traversal.typ
+    s2-lec03-matching.typ
+    s2-lec04-planarity.typ
+    s2-lec05-dfa.typ
+    s2-lec06-nfa.typ
+    s2-lec07-regex.typ
+    s2-lec08-minimization.typ
+    s2-lec09-turing.typ
+    s2-lec10-universal.typ
+    s2-lec11-halting.typ
+    s2-lec12-decidability.typ
+    s2-lec13-counting.typ
+    s2-lec14-binomial.typ
+    s2-lec15-genfun.typ
+    s2-lec16-ramsey.typ
     lec-logic.typ
     lec-deduction.typ
     lec-fol.typ
