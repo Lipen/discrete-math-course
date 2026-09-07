@@ -1,5 +1,8 @@
 // s1-mod4 --- Булева алгебра и схемы: модуль расписания семестра 1, лекции 12--14.
 #import "theme.typ": *
+#import "diagrams/ghosts.typ": (
+  boolfun-ghost, circuit-ghost, miter-ghost, sat-ghost, zhegalkin-ghost,
+)
 #show: slides.with(
   title: [Булева алгебра и схемы],
   subtitle: [Дискретная математика --- модуль 4, лекции 12--14],
@@ -26,7 +29,7 @@
 = Булевы функции
 
 #focus-slide(
-  ghost: $and$,
+  ghost: boolfun-ghost,
   epigraph: [Логика --- алгебра высказываний.],
   epigraph-author: [Джордж Буль],
 )
@@ -216,7 +219,7 @@ $
 = Задача SAT
 
 #focus-slide(
-  ghost: $models$,
+  ghost: sat-ghost,
   epigraph: [Нет царского пути в геометрию.],
   epigraph-author: [Евклид],
 )
@@ -489,7 +492,7 @@ $
 = Минимизация и полином Жегалкина
 
 #focus-slide(
-  ghost: $xor$,
+  ghost: zhegalkin-ghost,
   epigraph: [Преждевременная оптимизация --- корень всех зол.],
   epigraph-author: [Дональд Кнут],
 )
@@ -787,7 +790,7 @@ $
 = Логические схемы
 
 #focus-slide(
-  ghost: nand,
+  ghost: circuit-ghost,
   epigraph: [Что я не могу создать, я не понимаю.],
   epigraph-author: [Ричард Фейнман],
 )
@@ -1032,7 +1035,7 @@ $
 = Верификация через SAT
 
 #focus-slide(
-  ghost: $therefore$,
+  ghost: miter-ghost,
   epigraph: [Тестирование программы может убедительно продемонстрировать наличие ошибок, но безнадёжно несостоятельно для демонстрации их отсутствия.],
   epigraph-author: [Эдсгер Дейкстра],
 )

@@ -1,6 +1,9 @@
 // s2-mod2 --- Конечные автоматы и регулярные языки: модуль расписания семестра 2, лекции 5--8.
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": dfa-ghost
+#import "diagrams/ghosts.typ": (
+  dfa-ghost, distinguish-ghost, minimize-ghost, nerode-ghost, nfa-ghost,
+  pumping-ghost, regex-ghost, subset-ghost, words-ghost,
+)
 #show: slides.with(
   title: [Конечные автоматы и регулярные языки],
   subtitle: [Дискретная математика --- модуль 2, лекции 5--8],
@@ -28,7 +31,7 @@
 = Языки и слова
 
 #focus-slide(
-  ghost: $Sigma$,
+  ghost: words-ghost,
   epigraph: [Язык есть орган, образующий мысль.],
   epigraph-author: [Вильгельм фон Гумбольдт],
 )
@@ -398,7 +401,7 @@ $
 = Недетерминизм
 
 #focus-slide(
-  ghost: $epsilon$,
+  ghost: nfa-ghost,
   epigraph: [Две дороги разошлись в лесу, и я --- я выбрал ту, что меньше была пройдена.],
   epigraph-author: [Роберт Фрост],
 )
@@ -534,7 +537,7 @@ $epsilon$-переход --- смена состояния без чтения �
 = Конструкция подмножеств
 
 #focus-slide(
-  ghost: $cal(P)$,
+  ghost: subset-ghost,
   epigraph: [Бог не играет в кости.],
   epigraph-author: [Альберт Эйнштейн],
 )
@@ -720,7 +723,7 @@ $epsilon$-переход --- смена состояния без чтения �
 = Регулярные выражения
 
 #focus-slide(
-  ghost: sym.star,
+  ghost: regex-ghost,
   epigraph: [Аналитическая машина ткёт алгебраические узоры так же, как жаккардовый станок ткёт цветы и листья.],
   epigraph-author: [Ада Лавлейс],
 )
@@ -867,7 +870,7 @@ $
 = Нерегулярные языки
 
 #focus-slide(
-  ghost: $not$,
+  ghost: pumping-ghost,
   epigraph: [В одну и ту же реку нельзя войти дважды.],
   epigraph-author: [Гераклит],
 )
@@ -1030,7 +1033,7 @@ $
 = Различимость состояний
 
 #focus-slide(
-  ghost: $!=$,
+  ghost: distinguish-ghost,
   epigraph: [Что значит имя? Роза пахнет розой, хоть розой назови её, хоть нет.],
   epigraph-author: [Уильям Шекспир],
 )
@@ -1089,7 +1092,7 @@ $
 = Минимизация
 
 #focus-slide(
-  ghost: $min$,
+  ghost: minimize-ghost,
   epigraph: [Совершенство достигается не тогда, когда уже нечего прибавить, но когда уже ничего нельзя отнять.],
   epigraph-author: [Антуан де Сент-Экзюпери],
 )
@@ -1175,7 +1178,7 @@ $
 = Классы неразличимости
 
 #focus-slide(
-  ghost: $equiv$,
+  ghost: nerode-ghost,
   epigraph: [Напрасно пытаться посредством большего делать то, что может быть сделано посредством меньшего.],
   epigraph-author: [Уильям Оккам],
 )

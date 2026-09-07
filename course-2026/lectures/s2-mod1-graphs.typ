@@ -1,6 +1,8 @@
 // s2-mod1 --- Графы: модуль расписания семестра 2, лекции 1--4.
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": bfs-ghost, graph-ghost, k33-ghost, path-ghost, tree-ghost
+#import "diagrams/ghosts.typ": (
+  bfs-ghost, graph-ghost, k33-ghost, path-ghost, tree-ghost,
+)
 #show: slides.with(
   title: [Графы],
   subtitle: [Дискретная математика --- модуль 1, лекции 1--4],

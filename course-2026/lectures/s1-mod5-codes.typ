@@ -1,5 +1,6 @@
 // s1-mod5 --- Теория кодирования: модуль расписания семестра 1, лекции 15--16.
 #import "theme.typ": *
+#import "diagrams/ghosts.typ": hamming-balls-ghost, huffman-ghost
 #show: slides.with(
   title: [Теория кодирования],
   subtitle: [Дискретная математика --- модуль 5, лекции 15--16],
@@ -25,7 +26,7 @@
 = Коды, исправляющие ошибки
 
 #focus-slide(
-  ghost: $hat(x)$,
+  ghost: hamming-balls-ghost,
   epigraph: [Цель вычислений --- проникновение в суть, а не числа.],
   epigraph-author: [Ричард Хэмминг],
 )
@@ -513,7 +514,7 @@ $
 = Код Хаффмана и границы
 
 #focus-slide(
-  ghost: $H$,
+  ghost: huffman-ghost,
   epigraph: [Основная задача связи состоит в точном или приближенном воспроизведении в некотором месте сообщения, выбранного для передачи в другом месте.],
   epigraph-author: [Клод Шеннон],
 )

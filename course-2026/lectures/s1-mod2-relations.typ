@@ -1,6 +1,9 @@
 // s1-mod2 --- Отношения, порядок, функции и счётность: модуль расписания семестра 1, лекции 4--8.
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": diamond-ghost, partition-ghost
+#import "diagrams/ghosts.typ": (
+  cantor-ghost, closure-ghost, composition-ghost, diamond-ghost, function-ghost,
+  hotel-ghost, partition-ghost, poset-ghost, quotient-ghost, relation-ghost,
+)
 #show: slides.with(
   title: [Отношения, порядок, функции и счётность],
   subtitle: [Дискретная математика --- модуль 2, лекции 4--8],
@@ -36,7 +39,7 @@
 = Бинарные отношения
 
 #focus-slide(
-  ghost: $times$,
+  ghost: relation-ghost,
   epigraph: [Реляционный взгляд на данные описывает их в их естественной структуре.],
   epigraph-author: [Эдгар Кодд],
 )
@@ -158,7 +161,7 @@
 = Свойства и замыкания
 
 #focus-slide(
-  ghost: $square$,
+  ghost: closure-ghost,
   epigraph: [Порядок и связь идей те же, что порядок и связь вещей.],
   epigraph-author: [Бенедикт Спиноза],
 )
@@ -581,7 +584,7 @@
 = Разбиения и фактор-множество
 
 #focus-slide(
-  ghost: $union.plus$,
+  ghost: quotient-ghost,
   epigraph: [Математика --- это искусство давать одно и то же имя разным вещам.],
   epigraph-author: [Анри Пуанкаре],
 )
@@ -835,7 +838,7 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
 = Частичный порядок
 
 #focus-slide(
-  ghost: $prec.eq$,
+  ghost: poset-ghost,
   epigraph: [Порядок --- это расположение вещей, дающее каждой своё место.],
   epigraph-author: [Августин Блаженный],
 )
@@ -1375,7 +1378,7 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
 = Функции и отображения
 
 #focus-slide(
-  ghost: $arrow.r$,
+  ghost: function-ghost,
   epigraph: [Функция ненасыщена: она содержит место, которое заполняется аргументом.],
   epigraph-author: [Готлоб Фреге],
 )
@@ -1660,7 +1663,7 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
 = Композиция, образ и прообраз
 
 #focus-slide(
-  ghost: $circle.small$,
+  ghost: composition-ghost,
   epigraph: [Если я видел дальше других, то потому, что стоял на плечах гигантов.],
   epigraph-author: [Исаак Ньютон],
 )
@@ -1915,7 +1918,7 @@ $ [(a, b)] + [(c, d)] = [(a d + b c, b d)]. $
 = Равномощность и отель Гильберта
 
 #focus-slide(
-  ghost: $aleph$,
+  ghost: hotel-ghost,
   epigraph: [Я протестую против использования бесконечной величины как чего-то завершённого.],
   epigraph-author: [Карл Фридрих Гаусс],
 )
@@ -2158,7 +2161,7 @@ $QQ$ плотно заполняет прямую --- и всё же счётн�
 = Теорема Кантора и иерархия мощностей
 
 #focus-slide(
-  ghost: $beth$,
+  ghost: cantor-ghost,
   epigraph: [Из рая, который создал для нас Кантор, никто не сможет нас изгнать.],
   epigraph-author: [Давид Гильберт],
 )

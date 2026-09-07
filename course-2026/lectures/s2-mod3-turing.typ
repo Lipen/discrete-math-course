@@ -1,6 +1,10 @@
 // s2-mod3 --- Машина Тьюринга и разрешимость: модуль расписания семестра 2, лекции 9--12.
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": tape-ghost
+#import "diagrams/ghosts.typ": (
+  churchturing-ghost, diagonalization-ghost, enumerator-ghost, halting-ghost,
+  multitape-ghost, oracle-ghost, reduction-ghost, rice-ghost, tape-ghost,
+  universal-ghost,
+)
 #import "diagrams/m25.typ": turing-machine
 #import "diagrams/m25.typ": reduction-halt-empty, tm-configuration
 
@@ -390,7 +394,7 @@
 = Варианты и устойчивость
 
 #focus-slide(
-  ghost: $equiv$,
+  ghost: multitape-ghost,
   epigraph: [Вопрос, могут ли машины думать, примерно так же актуален, как вопрос, умеют ли подводные лодки плавать.],
   epigraph-author: [Эдсгер Дейкстра],
 )
@@ -484,7 +488,7 @@
 = Тезис Чёрча--Тьюринга
 
 #focus-slide(
-  ghost: $asymp$,
+  ghost: churchturing-ghost,
   epigraph: [Впервые удалось дать абсолютное определение интересного эпистемологического понятия --- понятия, не зависящего от выбранного формализма.],
   epigraph-author: [Курт Гёдель],
 )
@@ -547,7 +551,7 @@
 = Универсальная машина
 
 #focus-slide(
-  ghost: $U$,
+  ghost: universal-ghost,
   epigraph: [Лучший способ предсказать будущее --- изобрести его.],
   epigraph-author: [Алан Кэй],
 )
@@ -679,7 +683,7 @@
 = Диагональный аргумент
 
 #focus-slide(
-  ghost: $backslash$,
+  ghost: diagonalization-ghost,
   epigraph: [Сущность математики лежит именно в её свободе.],
   epigraph-author: [Георг Кантор],
 )
@@ -753,7 +757,7 @@
 = Проблема остановки
 
 #focus-slide(
-  ghost: $bot$,
+  ghost: halting-ghost,
   epigraph: [Математику можно определить как предмет, в котором мы никогда не знаем ни того, о чём говорим, ни того, истинно ли то, что мы говорим.],
   epigraph-author: [Бертран Рассел],
 )
@@ -844,7 +848,7 @@
 = Сведения
 
 #focus-slide(
-  ghost: $arrow.r.long$,
+  ghost: reduction-ghost,
   epigraph: [Если не удаётся решить предложенную задачу, попробуйте сначала решить какую-нибудь родственную.],
   epigraph-author: [Дьёрдь Пойа],
 )
@@ -984,7 +988,7 @@
 = Разрешимость и перечислимость
 
 #focus-slide(
-  ghost: $infinity$,
+  ghost: enumerator-ghost,
   epigraph: [Мы должны знать. Мы будем знать.],
   epigraph-author: [Давид Гильберт],
 )
@@ -1048,7 +1052,7 @@
 = Теорема Райса
 
 #focus-slide(
-  ghost: $not$,
+  ghost: rice-ghost,
   epigraph: [Остерегайтесь ошибок в приведённом выше коде: я лишь доказал его корректность, но не исполнил его.],
   epigraph-author: [Дональд Кнут],
 )
@@ -1125,7 +1129,7 @@ $ L(M_1) = L(M_2) quad => quad (la M_1 ra in P iff la M_2 ra in P). $
 = За пределами машин Тьюринга
 
 #focus-slide(
-  ghost: $beth$,
+  ghost: oracle-ghost,
   epigraph: [Любая достаточно развитая технология неотличима от магии.],
   epigraph-author: [Артур Кларк],
 )

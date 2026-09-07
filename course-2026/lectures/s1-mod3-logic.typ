@@ -1,5 +1,9 @@
 // s1-mod3 --- Формальная логика: модуль расписания семестра 1, лекции 9--11.
 #import "theme.typ": *
+#import "diagrams/ghosts.typ": (
+  adequacy-ghost, consequence-ghost, inference-ghost, normal-forms-ghost,
+  syllogism-ghost, syntax-semantics-ghost,
+)
 #show: slides.with(
   title: [Формальная логика],
   subtitle: [Дискретная математика --- модуль 3, лекции 9--11],
@@ -8,9 +12,14 @@
   module: "logic",
 )
 
-#import "@preview/frederic:0.1.0": fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof
+#import "@preview/frederic:0.1.0": (
+  fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
+)
 #import "diagrams/m02-deduction.typ": mp-chain, nd-comm, nd-impi, nd-projection
-#import "diagrams/m03-fol.typ": euler-barbara, euler-celarent, euler-darii, judgment-circles, square-of-opposition
+#import "diagrams/m03-fol.typ": (
+  euler-barbara, euler-celarent, euler-darii, judgment-circles,
+  square-of-opposition,
+)
 
 = Лекция 9. Логика высказываний
 
@@ -27,7 +36,7 @@
 = Семантика и следствие
 
 #focus-slide(
-  ghost: $models$,
+  ghost: consequence-ghost,
   epigraph: [Логика не учение, а отражение мира.],
   epigraph-author: [Людвиг Витгенштейн],
 )
@@ -238,7 +247,8 @@
   table.header([*Закон*], [*Формулы*]),
   [Идемпотентность], [$P or P equiv P$, $quad P and P equiv P$],
   [Коммутативность], [$P or Q equiv Q or P$, $quad P and Q equiv Q and P$],
-  [Ассоциативность], [$(P or Q) or R equiv P or (Q or R)$, $quad (P and Q) and R equiv P and (Q and R)$],
+  [Ассоциативность],
+  [$(P or Q) or R equiv P or (Q or R)$, $quad (P and Q) and R equiv P and (Q and R)$],
 
   [Дистрибутивность], [$P and (Q or R) equiv (P and Q) or (P and R)$],
   [], [$P or (Q and R) equiv (P or Q) and (P or R)$],
@@ -352,7 +362,7 @@
 = Нормальные формы
 
 #focus-slide(
-  ghost: $arrow.t$,
+  ghost: normal-forms-ghost,
   epigraph: ["Снег бел" истинно тогда и только тогда, когда снег бел.],
   epigraph-author: [Альфред Тарский],
 )
@@ -582,7 +592,7 @@
 = Правила вывода
 
 #focus-slide(
-  ghost: $tack.r$,
+  ghost: inference-ghost,
   epigraph: [Когда возникнет спор, двум философам не понадобится дискуссия: достаточно взять перья и сказать --- вычислим!],
   epigraph-author: [Готфрид Лейбниц],
 )
@@ -872,7 +882,7 @@ $not I$: из вывода $bot$ из $A$ --- принимаем $not A$, гип
 = Корректность и полнота
 
 #focus-slide(
-  ghost: $arrow.l.r$,
+  ghost: adequacy-ghost,
   epigraph: [Существовать --- значит быть построенным.],
   epigraph-author: [Л. Э. Я. Брауэр],
 )
@@ -924,7 +934,8 @@ $not I$: из вывода $bot$ из $A$ --- принимаем $not A$, гип
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Хотим узнать*], [*Как*]),
-  [Следует ли $psi$ из $Gamma$], [искать вывод --- конечный объект для проверки],
+  [Следует ли $psi$ из $Gamma$],
+  [искать вывод --- конечный объект для проверки],
 
   [Не следует ли], [искать контрпример-интерпретацию],
 )
@@ -1002,7 +1013,7 @@ $not I$: из вывода $bot$ из $A$ --- принимаем $not A$, гип
 = Синтаксис и семантика
 
 #focus-slide(
-  ghost: $arrow.r.double$,
+  ghost: syntax-semantics-ghost,
   epigraph: [Всякий хороший математик хотя бы наполовину философ, и всякий хороший философ хотя бы наполовину математик.],
   epigraph-author: [Готлоб Фреге],
 )
@@ -1229,7 +1240,7 @@ $not I$: из вывода $bot$ из $A$ --- принимаем $not A$, гип
 = Силлогизмы Аристотеля
 
 #focus-slide(
-  ghost: $subset.eq$,
+  ghost: syllogism-ghost,
   epigraph: [Логика до сих пор не могла сделать ни шага вперёд и, судя по всему, кажется наукой вполне законченной и завершённой.],
   epigraph-author: [Иммануил Кант],
 )
@@ -1255,13 +1266,25 @@ $not I$: из вывода $bot$ из $A$ --- принимаем $not A$, гип
   align: (center, left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Тип*], [*Форма*], [*Имя*], [*Современная запись*]),
-  [$A$], [Все $S$ суть $P$], [общеутвердительное], [$forall x thin (S (x) imply P (x))$],
+  [$A$],
+  [Все $S$ суть $P$],
+  [общеутвердительное],
+  [$forall x thin (S (x) imply P (x))$],
 
-  [$E$], [Ни одно $S$ не есть $P$], [общеотрицательное], [$forall x thin (S (x) imply not P (x))$],
+  [$E$],
+  [Ни одно $S$ не есть $P$],
+  [общеотрицательное],
+  [$forall x thin (S (x) imply not P (x))$],
 
-  [$I$], [Некоторые $S$ суть $P$], [частноутвердительное], [$exists x thin (S (x) and P (x))$],
+  [$I$],
+  [Некоторые $S$ суть $P$],
+  [частноутвердительное],
+  [$exists x thin (S (x) and P (x))$],
 
-  [$O$], [Некоторые $S$ не суть $P$], [частноотрицательное], [$exists x thin (S (x) and not P (x))$],
+  [$O$],
+  [Некоторые $S$ не суть $P$],
+  [частноотрицательное],
+  [$exists x thin (S (x) and not P (x))$],
 )
 
 Буквы $A$, $E$, $I$, $O$ --- из средневековой латинской мнемоники, в ходу до сих пор.

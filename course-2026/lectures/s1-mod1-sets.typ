@@ -1,6 +1,9 @@
 // s1-mod1 --- Логика и множества: модуль расписания семестра 1, лекции 1--3.
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": venn-ghost
+#import "diagrams/ghosts.typ": (
+  domino-ghost, proofchain-ghost, prop-ghost, quantifier-ghost, setlogic-ghost,
+  truthtable-ghost, venn-ghost,
+)
 #show: slides.with(
   title: [Логика и множества],
   subtitle: [Дискретная математика --- модуль 1, лекции 1--3],
@@ -28,7 +31,7 @@
 = Логика высказываний
 
 #focus-slide(
-  ghost: $and$,
+  ghost: prop-ghost,
   epigraph: [Книга природы написана на языке математики.],
   epigraph-author: [Галилео Галилей],
 )
@@ -377,7 +380,7 @@ A говорит: "Мы оба лжецы".
 = Таблицы истинности и законы логики
 
 #focus-slide(
-  ghost: $equiv$,
+  ghost: truthtable-ghost,
   epigraph: [Цель абстракции --- не расплывчатость, а новый уровень точности.],
   epigraph-author: [Эдсгер Дейкстра],
 )
@@ -649,7 +652,7 @@ $
 = Предикаты и кванторы
 
 #focus-slide(
-  ghost: $forall$,
+  ghost: quantifier-ghost,
   epigraph: [Всё начинается со слова "все".],
   epigraph-author: [Аристотель],
 )
@@ -865,7 +868,7 @@ $
 = Методы доказательств
 
 #focus-slide(
-  ghost: $therefore$,
+  ghost: proofchain-ghost,
   epigraph: [Если я не могу объяснить это проще, значит, я сам ещё не понял.],
   epigraph-author: [Ричард Фейнман],
 )
@@ -1021,7 +1024,7 @@ $
 = Индукция
 
 #focus-slide(
-  ghost: $natural$,
+  ghost: domino-ghost,
   epigraph: [Хотя у этого предложения бесконечное число случаев, я дам для него весьма короткое доказательство.],
   epigraph-author: [Блез Паскаль],
 )
@@ -1213,7 +1216,7 @@ $
 = Логика множеств
 
 #focus-slide(
-  ghost: $union$,
+  ghost: setlogic-ghost,
   epigraph: [Алгебра щедра: часто она даёт больше, чем у неё просят.],
   epigraph-author: [Жан д'Аламбер],
 )
