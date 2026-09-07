@@ -79,7 +79,45 @@
   }
 })
 
+// ── Произвольный граф: цикл, диагональ, хвост ──
+#let graph-ghost(c) = canvas({
+  let st = ink-stroke(c)
+  draw.circle((0.3, 1.0), radius: 0.16, name: "ga", stroke: st)
+  draw.circle((1.5, 2.2), radius: 0.16, name: "gb", stroke: st)
+  draw.circle((2.9, 1.6), radius: 0.16, name: "gc", stroke: st)
+  draw.circle((2.5, 0.3), radius: 0.16, name: "gd", stroke: st)
+  draw.circle((1.2, 0.0), radius: 0.16, name: "ge", stroke: st)
+  for p in (("ga", "gb"), ("gb", "gc"), ("gc", "gd"), ("gd", "ga"), ("gb", "gd"), ("gd", "ge")) {
+    draw.line(p.at(0), p.at(1), name: "g" + p.at(0) + p.at(1), stroke: st)
+  }
+})
+
+// ── Путь в графе: маршрут выделен жирным ──
+#let path-ghost(c) = canvas({
+  draw.circle((0.25, 1.5), radius: 0.16, name: "ps", stroke: ink-stroke(c))
+  draw.circle((0.25, 1.5), radius: 0.27, name: "psr", stroke: ink-stroke(c))
+  draw.circle((1.2, 2.3), radius: 0.16, name: "p1", stroke: ink-stroke(c))
+  draw.circle((2.3, 1.8), radius: 0.16, name: "p2", stroke: ink-stroke(c))
+  draw.circle((3.2, 2.5), radius: 0.16, name: "p3", stroke: ink-stroke(c))
+  draw.circle((4.1, 1.6), radius: 0.16, name: "p4", stroke: ink-stroke(c))
+  draw.circle((1.0, 0.6), radius: 0.14, name: "f1", stroke: 0.8pt + c)
+  draw.circle((2.1, 0.3), radius: 0.14, name: "f2", stroke: 0.8pt + c)
+  draw.circle((3.4, 0.8), radius: 0.14, name: "f3", stroke: 0.8pt + c)
+  draw.line("ps", "f1", name: "b1", stroke: 0.8pt + c)
+  draw.line("f1", "f2", name: "b2", stroke: 0.8pt + c)
+  draw.line("f2", "f3", name: "b3", stroke: 0.8pt + c)
+  draw.line("f3", "p4", name: "b4", stroke: 0.8pt + c)
+  draw.line("f1", "p1", name: "b5", stroke: 0.8pt + c)
+  draw.line("f2", "p2", name: "b6", stroke: 0.8pt + c)
+  draw.line("f3", "p3", name: "b7", stroke: 0.8pt + c)
+  draw.line("ps", "p1", name: "m1", stroke: ink-stroke(c))
+  draw.line("p1", "p2", name: "m2", stroke: ink-stroke(c))
+  draw.line("p2", "p3", name: "m3", stroke: ink-stroke(c))
+  draw.line("p3", "p4", name: "m4", stroke: ink-stroke(c), mark: (end: "stealth", fill: c))
+})
+
 // ── K_(3,3): силуэт непланарности ──
+
 #let k33-ghost(c) = canvas({
   for i in range(3) {
     draw.circle((0, i), radius: 0.16, name: "a" + str(i), stroke: ink-stroke(c))

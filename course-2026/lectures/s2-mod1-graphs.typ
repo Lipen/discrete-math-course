@@ -1,6 +1,6 @@
 // s2-mod1 --- Графы: модуль расписания семестра 2, лекции 1--4.
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": bfs-ghost, k33-ghost, tree-ghost
+#import "diagrams/ghosts.typ": bfs-ghost, graph-ghost, k33-ghost, path-ghost, tree-ghost
 #show: slides.with(
   title: [Графы],
   subtitle: [Дискретная математика --- модуль 1, лекции 1--4],
@@ -29,7 +29,7 @@
 = Язык графов
 
 #focus-slide(
-  ghost: $circle.filled$,
+  ghost: graph-ghost,
   epigraph: [Карта не есть территория.],
   epigraph-author: [Альфред Коржибски],
 )
@@ -286,7 +286,7 @@
 = Пути и связность
 
 #focus-slide(
-  ghost: $arrow.r.r$,
+  ghost: path-ghost,
   epigraph: [Человек не остров, сам по себе существующий.],
   epigraph-author: [Джон Донн],
 )
