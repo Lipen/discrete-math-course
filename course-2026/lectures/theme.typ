@@ -42,14 +42,25 @@
 )
 #let module-index = (
   sets: 0,
-  relations: 0,
-  logic: 1,
-  boolean: 2,
-  codes: 3,
+  relations: 1,
+  logic: 2,
+  boolean: 3,
+  codes: 4,
   graphs: 0,
   automata: 1,
   turing: 2,
   combinatorics: 3,
+)
+#let module-dots = (
+  sets: 5,
+  relations: 5,
+  logic: 5,
+  boolean: 5,
+  codes: 5,
+  graphs: 4,
+  automata: 4,
+  turing: 4,
+  combinatorics: 4,
 )
 
 // Текущий модуль; читают мебельные слайды и note.
@@ -292,7 +303,11 @@
     let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(
       1.8em,
     ) { 1.8em } else { 1.4em }
-    place(left + horizon, block(width: 100%, inset: (left: 2cm, right: 1cm, y: 1cm))[
+    place(left + horizon, block(width: 100%, inset: (
+      left: 2cm,
+      right: 1cm,
+      y: 1cm,
+    ))[
       #block[
         #set text(
           pick,
@@ -560,8 +575,8 @@
           #v(1.2em, weak: true)
           #context {
             let m = mod-state.final()
-            if m != none and m in module-index {
-              for i in range(4) {
+            if m != none and m in module-dots {
+              for i in range(module-dots.at(m)) {
                 if i > 0 { h(0.8em) }
                 box(circle(
                   radius: 4pt,
