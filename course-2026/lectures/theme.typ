@@ -467,23 +467,12 @@
           margin: 0pt,
         )
 
-        // Гигантский номер лекции --- главный акцент обложки
+        // Подпись лекции
         if lecture != none {
-          place(right + top, dx: -1.1cm, dy: 0.8cm)[
-            #text(
-              8em,
-              weight: "bold",
-              fill: white.transparentize(60%),
-              font: title-font,
-            )[#lecture.num]
-          ]
-          place(left + top, dx: 2cm, dy: 1.2cm)[
-            #text(
-              0.8em,
-              weight: "bold",
-              tracking: 0.25em,
-              fill: white.transparentize(15%),
-            )[ЛЕКЦИЯ]
+          place(left + top, dx: 2cm, dy: 2cm)[
+            #text(1.2em, weight: "bold", fill: white)[
+              Лекция #lecture.num
+            ]
           ]
         }
 
@@ -533,17 +522,6 @@
                 radius: 4pt,
               )[
                 #text(fill: white)[#lecture.week]
-              ]
-            ],
-            if lecture != none and lecture.teaser != none [
-              #block(
-                width: 14.6cm,
-                fill: white,
-                radius: 4pt,
-                inset: (x: 1em, y: 0.8em),
-              )[
-                #set text(fill: colors.ink, style: "italic")
-                #lecture.teaser
               ]
             ],
           )
