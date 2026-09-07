@@ -270,23 +270,28 @@
     if ghost != none {
       place(right + top, dx: -1.1cm, dy: 0.8cm)[
         #if type(ghost) == function {
-          ghost(acc.transparentize(80%))
+          ghost(acc.transparentize(88%))
         } else {
           text(
             8em,
             weight: "bold",
-            fill: acc.transparentize(80%),
+            fill: acc.transparentize(88%),
             font: "Libertinus Sans",
           )[#ghost]
         }
       ]
     }
 
-    let probe(s) = text(s, weight: "bold", font: "Libertinus Sans")[#title]
+    let probe(s) = text(s, weight: "bold", font: "Libertinus Sans")[
+      #set par(leading: 0.5em)
+      #title
+    ]
     let fits(s) = (
       measure(probe(s), width: 13.2cm).height <= 3.05 * 12pt * (s / 1em)
     )
-    let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(1.8em) { 1.8em } else { 1.4em }
+    let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(
+      1.8em,
+    ) { 1.8em } else { 1.4em }
     place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
       #block[
         #set text(
@@ -295,6 +300,7 @@
           font: "Libertinus Sans",
           fill: strong,
         )
+        #set par(leading: 0.5em)
         #title
       ]
       #v(1.4em, weak: true)
