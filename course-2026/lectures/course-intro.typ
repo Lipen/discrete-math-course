@@ -1,10 +1,6 @@
 // course-intro --- вводная лекция: наука, устройство курса, баллы, карта семестра.
-#import "theme-intro.typ": *
+#import "theme.typ": *
 
-#set document(
-  title: "Дискретная математика --- вводная лекция",
-  author: "Константин Чухарев",
-)
 #show: slides.with(
   title: [Дискретная математика],
   subtitle: [Вводная лекция --- обзор курса],
@@ -15,45 +11,30 @@
 #set list(spacing: 0.8em)
 #set enum(spacing: 0.8em)
 
-// ── Журнальные виджеты ──
-// Пастельная палитра карточек: пыльные тона, белый болд в плашках читается крупным кеглем.
-#let c-blue = oklch(56%, 0.10, 258deg)
-#let c-green = oklch(56%, 0.08, 152deg)
-#let c-red = oklch(55%, 0.12, 25deg)
-#let c-violet = oklch(56%, 0.10, 305deg)
+// ── Виджеты обложки курса ──
+// Четыре смысловых цвета --- из палитры темы; мебель карточек --- как у окружений.
+#let c-blue = colors.accent
+#let c-green = colors.green
+#let c-red = colors.red
+#let c-violet = colors.violet
 
-#let tcard(color, title, body) = {
-  block(
-    width: 100%,
-    fill: color.transparentize(93%),
-    stroke: (
-      top: 0.4pt + color.lighten(50%),
-      bottom: 0.4pt + color.lighten(50%),
-      right: 0.4pt + color.lighten(50%),
-    ),
-    radius: 4pt,
-    inset: 0pt,
-  )[
-    #block(
-      width: 100%,
-      fill: color,
-      radius: (top-left: 4pt, top-right: 4pt),
-      inset: (x: 0.8em, y: 0.5em),
-      above: 0em,
-      below: 0em,
-    )[
-      #text(size: 1.2em, weight: "bold", fill: white)[#title]
-    ]
-    #block(
-      width: 100%,
-      inset: (x: 0.8em, y: 0.5em),
-      above: 0em,
-      below: 0em,
-    )[
-      #body
-    ]
-  ]
-}
+#let tcard(color, title, body) = block(
+  width: 100%,
+  fill: color.transparentize(93%),
+  stroke: (
+    left: 2pt + color.darken(10%),
+    top: 0.4pt + color.lighten(50%),
+    bottom: 0.4pt + color.lighten(50%),
+    right: 0.4pt + color.lighten(50%),
+  ),
+  radius: 4pt,
+  inset: (x: 0.8em, y: 0.5em),
+)[
+  #text(size: 1.2em, weight: "bold", fill: color.darken(10%))[#title]
+  #v(0.5em, weak: true)
+  #body
+]
+
 
 #let stat(num, label) = block(
   width: 100%,
@@ -114,6 +95,7 @@
 = Что это за наука?
 
 #focus-slide(
+  ghost: $NN$,
   epigraph: [Бог создал целые числа, всё остальное --- дело рук человека.],
   epigraph-author: [Леопольд Кронекер],
 )
@@ -153,6 +135,7 @@
 = Как работает курс?
 
 #focus-slide(
+  ghost: $sum$,
   epigraph: [Когда вы можете измерить то, о чём говорите, и выразить это в числах, вы кое-что об этом знаете.],
   epigraph-author: [Лорд Кельвин],
 )
@@ -191,7 +174,9 @@
 #grid(
   columns: (1fr, 1fr, 1fr),
   column-gutter: 8pt,
-  stat([5], [минут в начале лекции]), stat([1], [балл за понимание]), stat([0--10], [максимум за семестр]),
+  stat([5], [минут в начале лекции]),
+  stat([1], [балл за понимание]),
+  stat([0--10], [максимум за семестр]),
 )
 
 #important[
@@ -310,6 +295,7 @@
 = Семестр 1
 
 #focus-slide(
+  ghost: $Sigma^*$,
   epigraph: [Границы моего языка означают границы моего мира.],
   epigraph-author: [Людвиг Витгенштейн],
 )
@@ -325,7 +311,9 @@
   inset: (x: 8pt, y: 5pt),
   table.header([*Недели*], [*Модуль*], [*Контроль*]),
   [1--3], [Логика и множества], [КР 1 --- нед. 5],
-  [4--8], [Отношения, порядок, функции и счётность], [КР 2 --- нед. 9, ТМ 1 --- нед. 10],
+  [4--8],
+  [Отношения, порядок, функции и счётность],
+  [КР 2 --- нед. 9, ТМ 1 --- нед. 10],
 
   [9--11], [Формальная логика], [КР 3 --- нед. 12],
   [12--14], [Булева алгебра и схемы], [КР 4 --- нед. 15],
@@ -338,9 +326,11 @@
     columns: (1fr, 1fr),
     column-gutter: 1em,
     row-gutter: 0.5em,
-    [- SQL --- на множествах и отношениях], [- цифровые схемы --- на булевой алгебре],
+    [- SQL --- на множествах и отношениях],
+    [- цифровые схемы --- на булевой алгебре],
 
-    [- память с коррекцией ошибок --- на кодах], [- регулярные выражения --- на автоматах],
+    [- память с коррекцией ошибок --- на кодах],
+    [- регулярные выражения --- на автоматах],
   )
 ]
 
