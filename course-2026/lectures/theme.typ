@@ -523,55 +523,76 @@
       authors = (authors,)
     }
     title-slide({
-      // Центрированный постер: заголовок --- линия --- подзаголовок
-      place(center + horizon, block(width: 88%, inset: (x: 1cm))[
-        #align(center)[
+      context {
+        set page(fill: mod-acc.transparentize(92%))
+
+        place(left + top, dx: 2cm, dy: 1.2cm)[
           #text(
-            3em,
+            0.8em,
             weight: "bold",
-            font: title-font,
+            tracking: 0.25em,
             fill: title-color,
-          )[#title]
+          )[ЛЕКЦИЯ]
+        ]
+
+        let probe(s) = text(s, weight: "bold", font: title-font)[#title]
+        let fits(s) = (
+          measure(probe(s), width: 13.2cm).height <= 3.05 * 12pt * (s / 1em)
+        )
+        let pick = if fits(3em) { 3em } else if fits(2.4em) {
+          2.4em
+        } else if fits(
+          1.8em,
+        ) { 1.8em } else { 1.4em }
+
+        place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
+          #block(width: 100%)[
+            #set text(pick, weight: "bold", font: title-font, fill: title-color)
+            #set par(leading: 0.5em)
+            #title
+          ]
           #v(1em, weak: true)
-          #line(length: 20%, stroke: 2pt + colors.accent)
+          #line(length: 20%, stroke: 2pt + mod-acc)
           #v(1em, weak: true)
           #if subtitle != none [
-            #text(1.2em, fill: colors.muted)[#subtitle]
+            #box(
+              inset: (x: 0.8em, y: 0.3em),
+              stroke: 1pt + mod-acc.transparentize(40%),
+              radius: 4pt,
+            )[#text(fill: colors.muted)[#subtitle]]
           ]
+          #v(1.2em, weak: true)
           #context {
             let m = mod-state.final()
             if m != none and m in module-index {
-              v(1em, weak: true)
-              box(inset: (y: 0.4em))[
-                #let active = module-index.at(m)
-                #for i in range(4) {
-                  if i > 0 { h(0.8em) }
-                  box(circle(
-                    radius: 4pt,
-                    fill: if i == active { module-accents.at(m) },
-                    stroke: if i != active { 0.8pt + colors.line },
-                  ))
-                }
-              ]
+              for i in range(4) {
+                if i > 0 { h(0.8em) }
+                box(circle(
+                  radius: 4pt,
+                  fill: if i == module-index.at(m) { mod-acc },
+                  stroke: if i != module-index.at(m) { 0.8pt + colors.line },
+                ))
+              }
             }
           }
-        ]
-      ])
-      // Авторы и дата внизу
-      place(
-        bottom + left,
-        dx: 2cm,
-        dy: -1cm,
-        text(0.8em, fill: luma(45%))[#authors.join(", ", last: " и ")],
-      )
-      place(
-        bottom + right,
-        dx: -2cm,
-        dy: -1cm,
-        if date != none {
-          text(0.8em, fill: luma(55%))[#date]
-        },
-      )
+        ])
+
+        // Авторы и дата внизу
+        place(
+          bottom + left,
+          dx: 2cm,
+          dy: -1cm,
+          text(0.8em, fill: luma(45%))[#authors.join(", ", last: " и ")],
+        )
+        place(
+          bottom + right,
+          dx: -2cm,
+          dy: -1cm,
+          if date != none {
+            text(0.8em, fill: luma(55%))[#date]
+          },
+        )
+      }
     })
   }
 
