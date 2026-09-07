@@ -292,7 +292,7 @@
     let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(
       1.8em,
     ) { 1.8em } else { 1.4em }
-    place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
+    place(left + horizon, block(width: 100%, inset: (left: 2cm, right: 1cm, y: 1cm))[
       #block[
         #set text(
           pick,
