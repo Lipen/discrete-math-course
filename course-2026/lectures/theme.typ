@@ -29,17 +29,6 @@
   turing: oklch(52%, 0.15, 320deg),
   combinatorics: oklch(50%, 0.13, 150deg),
 )
-#let module-names = (
-  sets: "Множества",
-  relations: "Отношения",
-  logic: "Формальная логика",
-  boolean: "Булева алгебра",
-  codes: "Коды",
-  graphs: "Графы",
-  automata: "Конечные автоматы",
-  turing: "Машина Тьюринга",
-  combinatorics: "Комбинаторика",
-)
 
 // Текущий модуль; читают мебельные слайды и note.
 #let mod-state = state("theme-module", none)
@@ -431,7 +420,7 @@
     width: 100%,
   )
 
-  // === Титульный постер ===
+  // === Титульный слайд: подпись --- титул --- строка авторов, всё потоком ===
   if title != none {
     if (type(authors) != array) {
       authors = (authors,)
@@ -442,16 +431,11 @@
           fill: mod-acc.lighten(6%).desaturate(12%),
           header: none,
           foreground: none,
-          margin: 0pt,
+          margin: (top: 2cm, bottom: 1cm, x: 2cm),
         )
 
-        // Подпись лекции
         if lecture != none {
-          place(left + top, dx: 2cm, dy: 2cm)[
-            #text(1.2em, weight: "bold", fill: white)[
-              Лекция #lecture.num
-            ]
-          ]
+          text(1.2em, weight: "bold", fill: white)[Лекция #lecture.num]
         }
 
         let probe(s) = text(s, weight: "bold", font: title-font)[#title]
@@ -464,43 +448,36 @@
           1.8em,
         ) { 1.8em } else { 1.4em }
 
-        place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
-          #stack(
-            dir: ttb,
-            spacing: 1em,
-            block(width: 100%)[
-              #set text(pick, weight: "bold", font: title-font, fill: white)
-              #set par(leading: 0.5em)
-              #title
-            ],
-            if subtitle != none [
-              #text(1.2em, fill: white.transparentize(15%))[#subtitle]
-            ],
-            if lecture != none and lecture.week != none [
-              #box(
-                inset: (x: 0.8em, y: 0.3em),
-                stroke: 1pt + white.transparentize(40%),
-                radius: 4pt,
-              )[
-                #text(fill: white)[#lecture.week]
-              ]
-            ],
-          )
-        ])
+        v(1fr)
+        stack(
+          dir: ttb,
+          spacing: 1em,
+          block(width: 100%)[
+            #set text(pick, weight: "bold", font: title-font, fill: white)
+            #set par(leading: 0.5em)
+            #title
+          ],
+          if subtitle != none [
+            #text(1.2em, fill: white.transparentize(15%))[#subtitle]
+          ],
+          if lecture != none and lecture.week != none [
+            #box(
+              inset: (x: 0.8em, y: 0.3em),
+              stroke: 1pt + white.transparentize(40%),
+              radius: 4pt,
+            )[
+              #text(fill: white)[#lecture.week]
+            ]
+          ],
+        )
+        v(1fr)
 
-        // Авторы и курс с датой внизу
-        place(
-          bottom + left,
-          dx: 2cm,
-          dy: -1cm,
+        grid(
+          columns: (1fr, auto),
+          align: (left, right),
           text(0.8em, fill: white.transparentize(35%))[
             #authors.join(", ", last: " и ")
           ],
-        )
-        place(
-          bottom + right,
-          dx: -2cm,
-          dy: -1cm,
           text(0.8em, fill: white.transparentize(35%))[
             #if lecture != none [Дискретная математика --- ]#date
           ],
