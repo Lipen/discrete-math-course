@@ -266,15 +266,19 @@
       margin: 0pt,
     )
 
-    // Символ-призрак секции: тематический, на усмотрение автора
+    // Призрак секции: глиф или CeTZ/Fletcher-функция --- она получает цвет призрака
     if ghost != none {
       place(right + top, dx: -1.1cm, dy: 0.8cm)[
-        #text(
-          8em,
-          weight: "bold",
-          fill: acc.transparentize(82%),
-          font: "Libertinus Sans",
-        )[#ghost]
+        #if type(ghost) == function {
+          ghost(acc.transparentize(80%))
+        } else {
+          text(
+            8em,
+            weight: "bold",
+            fill: acc.transparentize(80%),
+            font: "Libertinus Sans",
+          )[#ghost]
+        }
       ]
     }
 
