@@ -345,90 +345,10 @@
   pagebreak(weak: true)
 }
 
-// === Слайд-разделитель лекции (внутри модульного дека: несколько лекций в одном файле) ===
-// Сбрасывает нумерацию окружений; teaser --- анонс лекции на карточке постера.
-#let lecture-slide(num, title, week: none, teaser: none) = {
-  definition-counter.update(0)
-  theorem-counter.update(0)
-  corollary-counter.update(0)
-
-  context {
-    let m = mod-state.final()
-    let acc = if m != none { module-accents.at(m) } else { colors.accent }
-    let strong = acc.darken(8%)
-
-    set page(
-      fill: acc,
-      header: none,
-      foreground: none,
-      margin: 0pt,
-    )
-
-    // Гигантский номер-призрак
-    place(right + top, dx: -1.1cm, dy: 0.8cm)[
-      #text(
-        8em,
-        weight: "bold",
-        fill: white.transparentize(60%),
-        font: "Libertinus Sans",
-      )[#num]
-    ]
-
-    // Единый вертикальный поток; кегль титула --- не выше двух строк
-    let probe(s) = text(s, weight: "bold", font: "Libertinus Sans")[#title]
-    let fits(s) = (
-      measure(probe(s), width: 13.5cm).height <= 3.05 * 12pt * (s / 1em)
-    )
-    let pick = if fits(3em) { 3em } else if fits(2.4em) { 2.4em } else if fits(
-      1.8em,
-    ) { 1.8em } else { 1.4em }
-    place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
-      #stack(
-        dir: ttb,
-        spacing: 1em,
-        text(
-          0.8em,
-          weight: "bold",
-          tracking: 0.25em,
-          fill: white.transparentize(15%),
-        )[ЛЕКЦИЯ],
-        block(width: 100%)[
-          #set par(leading: 0.5em)
-          #text(
-            pick,
-            weight: "bold",
-            font: "Libertinus Sans",
-            fill: white,
-          )[#title]
-        ],
-        if week != none [
-          #box(
-            inset: (x: 0.8em, y: 0.3em),
-            stroke: 1pt + white.transparentize(40%),
-            radius: 4pt,
-          )[
-            #text(fill: white)[#week]
-          ]
-        ],
-        if teaser != none [
-          #block(
-            width: 14.6cm,
-            fill: white,
-            radius: 4pt,
-            inset: (x: 1em, y: 0.8em),
-          )[
-            #set text(fill: colors.ink, style: "italic")
-            #teaser
-          ]
-        ],
-      )
-    ])
-  }
-
-  pagebreak(weak: true)
-}
 
 // === Слайды: точка входа ===
+// lecture --- данные нумерованной лекции: (num: 1, week: [...], teaser: [...]);
+// обложка рисуется как полноэкранный постер с гигантским номером.
 #let slides(
   content,
   title: none,
@@ -436,6 +356,7 @@
   date: none,
   authors: (),
   module: none,
+  lecture: none,
 ) = {
   if module != none {
     mod-state.update(module)
@@ -532,23 +453,39 @@
     width: 100%,
   )
 
-  // === Титульная страница ===
+  // === Титульный постер ===
   if title != none {
     if (type(authors) != array) {
       authors = (authors,)
     }
     title-slide({
       context {
-        set page(fill: mod-acc.transparentize(92%))
+        set page(
+          fill: mod-acc.lighten(6%).desaturate(12%),
+          header: none,
+          foreground: none,
+          margin: 0pt,
+        )
 
-        place(left + top, dx: 2cm, dy: 1.2cm)[
-          #text(
-            0.8em,
-            weight: "bold",
-            tracking: 0.25em,
-            fill: title-color,
-          )[ЛЕКЦИЯ]
-        ]
+        // Гигантский номер лекции --- главный акцент обложки
+        if lecture != none {
+          place(right + top, dx: -1.1cm, dy: 0.8cm)[
+            #text(
+              8em,
+              weight: "bold",
+              fill: white.transparentize(60%),
+              font: title-font,
+            )[#lecture.num]
+          ]
+          place(left + top, dx: 2cm, dy: 1.2cm)[
+            #text(
+              0.8em,
+              weight: "bold",
+              tracking: 0.25em,
+              fill: white.transparentize(15%),
+            )[ЛЕКЦИЯ]
+          ]
+        }
 
         let probe(s) = text(s, weight: "bold", font: title-font)[#title]
         let fits(s) = (
@@ -560,48 +497,74 @@
           1.8em,
         ) { 1.8em } else { 1.4em }
 
-        place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 1cm))[
-          #block(width: 100%)[
-            #set text(pick, weight: "bold", font: title-font, fill: title-color)
-            #set par(leading: 0.5em)
-            #title
-          ]
-          #v(1em, weak: true)
-          #line(length: 20%, stroke: 2pt + mod-acc)
-          #v(1em, weak: true)
-          #if subtitle != none [
-            #text(1.2em, fill: colors.muted)[#subtitle]
-          ]
-          #v(1.2em, weak: true)
-          #context {
-            let m = mod-state.final()
-            if m != none and m in module-dots {
-              for i in range(module-dots.at(m)) {
-                if i > 0 { h(0.8em) }
-                box(circle(
-                  radius: 4pt,
-                  fill: if i == module-index.at(m) { mod-acc },
-                  stroke: if i != module-index.at(m) { 0.8pt + colors.line },
-                ))
+        place(left + horizon, block(width: 100%, inset: (x: 2cm, y: 0.5cm))[
+          #stack(
+            dir: ttb,
+            spacing: 1em,
+            block(width: 100%)[
+              #set text(pick, weight: "bold", font: title-font, fill: white)
+              #set par(leading: 0.5em)
+              #title
+            ],
+            if subtitle != none [
+              #text(1.2em, fill: white.transparentize(15%))[#subtitle]
+            ],
+            if lecture != none [
+              #context {
+                let m = mod-state.final()
+                if m != none and m in module-dots {
+                  for i in range(module-dots.at(m)) {
+                    if i > 0 { h(0.8em) }
+                    box(circle(
+                      radius: 4pt,
+                      fill: if i == module-index.at(m) { white },
+                      stroke: if i != module-index.at(m) {
+                        0.8pt + white.transparentize(50%)
+                      },
+                    ))
+                  }
+                }
               }
-            }
-          }
+            ],
+            if lecture != none and lecture.week != none [
+              #box(
+                inset: (x: 0.8em, y: 0.3em),
+                stroke: 1pt + white.transparentize(40%),
+                radius: 4pt,
+              )[
+                #text(fill: white)[#lecture.week]
+              ]
+            ],
+            if lecture != none and lecture.teaser != none [
+              #block(
+                width: 14.6cm,
+                fill: white,
+                radius: 4pt,
+                inset: (x: 1em, y: 0.8em),
+              )[
+                #set text(fill: colors.ink, style: "italic")
+                #lecture.teaser
+              ]
+            ],
+          )
         ])
 
-        // Авторы и дата внизу
+        // Авторы и курс с датой внизу
         place(
           bottom + left,
           dx: 2cm,
           dy: -1cm,
-          text(0.8em, fill: luma(45%))[#authors.join(", ", last: " и ")],
+          text(0.8em, fill: white.transparentize(35%))[
+            #authors.join(", ", last: " и ")
+          ],
         )
         place(
           bottom + right,
           dx: -2cm,
           dy: -1cm,
-          if date != none {
-            text(0.8em, fill: luma(55%))[#date]
-          },
+          text(0.8em, fill: white.transparentize(35%))[
+            #if lecture != none [Дискретная математика --- ]#date
+          ],
         )
       }
     })
