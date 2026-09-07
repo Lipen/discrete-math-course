@@ -515,16 +515,9 @@
       authors = (authors,)
     }
     title-slide({
-      // Центрированный постер: кикер --- заголовок --- линия --- подзаголовок
+      // Центрированный постер: заголовок --- линия --- подзаголовок
       place(center + horizon, block(width: 88%, inset: (x: 1cm))[
         #align(center)[
-          #text(
-            0.8em,
-            weight: "bold",
-            tracking: 0.25em,
-            fill: colors.muted,
-          )[ДИСКРЕТНАЯ МАТЕМАТИКА]
-          #v(0.8em, weak: true)
           #text(
             3em,
             weight: "bold",
