@@ -50,7 +50,14 @@
 
 // ── BFS grid (3×2) ──
 #let bfs-grid = canvas({
-  let rows = ((0, 0), (0.75, 0), (1.5, 0), (0, -0.75), (0.75, -0.75), (1.5, -0.75))
+  let rows = (
+    (0, 0),
+    (0.75, 0),
+    (1.5, 0),
+    (0, -0.75),
+    (0.75, -0.75),
+    (1.5, -0.75),
+  )
   for (i, p) in rows.enumerate() { node(p, str(i + 1)) }
 
   // Horizontal
@@ -90,7 +97,13 @@
     fill: c-pa-fill,
     stroke: none,
   )
-  draw.rect((1.7, 1.25), (2.3, -1.25), radius: 3pt, fill: c-pb-fill, stroke: none)
+  draw.rect(
+    (1.7, 1.25),
+    (2.3, -1.25),
+    radius: 3pt,
+    fill: c-pb-fill,
+    stroke: none,
+  )
   // Nodes FIRST : named so line() routes border-to-border
   for (i, p) in left.enumerate() {
     draw.circle(p, radius: 0.14, fill: c-pa-dot, name: "l" + str(i + 1))
@@ -118,7 +131,13 @@
   let top = ((-0.5, 0.75), (0.25, 0.75), (1, 0.75))
   let bot = ((-0.5, -0.75), (0.25, -0.75), (1, -0.75))
   // Background regions
-  draw.rect((-0.9, 1.1), (1.4, 0.4), radius: 2.5pt, fill: c-pa-fill, stroke: none)
+  draw.rect(
+    (-0.9, 1.1),
+    (1.4, 0.4),
+    radius: 2.5pt,
+    fill: c-pa-fill,
+    stroke: none,
+  )
   draw.rect(
     (-0.9, -0.4),
     (1.4, -1.1),
@@ -166,7 +185,11 @@
     )
     draw.content((x, y))[#text(size: 0.5em, weight: "bold")[#lab]]
   }
-  for (x, y, lab) in ((-1.35, -0.75, "g"), (-0.6, -0.75, "h"), (0.1, -0.75, "i")) {
+  for (x, y, lab) in (
+    (-1.35, -0.75, "g"),
+    (-0.6, -0.75, "h"),
+    (0.1, -0.75, "i"),
+  ) {
     draw.circle(
       (x, y),
       radius: 0.14,
@@ -194,7 +217,8 @@
 
 // ── Bridges of Königsberg ──
 #let eulerian = canvas({
-  let v = ((0, 1.1), (0, -1.1), (-1, 0), (1, 0))
+  // Берега --- слева и справа, острова --- в центре: как на карте Кёнигсберга.
+  let v = ((-1.5, 0), (1.5, 0), (0, 0.6), (0, -0.6))
   let names = ("A", "B", "C", "D")
   let r = 0.26
 
@@ -220,14 +244,14 @@
 
   let bridge-style = (paint: c-edge, thickness: 0.7pt)
 
-  // Single bridges (straight, node-based)
+  // Single bridges: banks to islands and the island pair
   draw.line("A", "D", stroke: bridge-style)
   draw.line("B", "D", stroke: bridge-style)
   draw.line("C", "D", stroke: bridge-style)
 
-  // Double bridge A--C: one straight, one bezier curving outward (left)
+  // Double bridge A--C: straight plus an arc bowing to the north-west
   draw.line("A", "C", stroke: bridge-style)
-  let ac-ctrl = (-0.65, 0.65)
+  let ac-ctrl = (-0.95, 0.65)
   draw.bezier(
     rim(v.at(0), ac-ctrl),
     rim(v.at(2), ac-ctrl),
@@ -236,9 +260,9 @@
     stroke: bridge-style,
   )
 
-  // Double bridge B--C: one straight, one bezier curving outward (left)
+  // Double bridge B--C: straight plus an arc bowing to the north-east
   draw.line("B", "C", stroke: bridge-style)
-  let bc-ctrl = (-0.65, -0.65)
+  let bc-ctrl = (0.95, 0.65)
   draw.bezier(
     rim(v.at(1), bc-ctrl),
     rim(v.at(2), bc-ctrl),
@@ -250,28 +274,28 @@
   // Degree labels
   draw.content(
     "A",
-    anchor: "north",
+    anchor: "west",
     outset: 0.3em,
     size: .4em,
     fill: c-edge-dim,
   )[$3$]
   draw.content(
     "B",
-    anchor: "south",
+    anchor: "east",
     outset: 0.3em,
     size: .4em,
     fill: c-edge-dim,
   )[$3$]
   draw.content(
     "C",
-    anchor: "west",
+    anchor: "north",
     outset: 0.3em,
     size: .4em,
     fill: c-edge-dim,
   )[$5$]
   draw.content(
     "D",
-    anchor: "east",
+    anchor: "south",
     outset: 0.3em,
     size: .4em,
     fill: c-edge-dim,
