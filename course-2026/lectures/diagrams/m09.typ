@@ -251,7 +251,7 @@
 
   // Double bridge A--C: straight plus an arc bowing to the north-west
   draw.line("A", "C", stroke: bridge-style)
-  let ac-ctrl = (-0.95, 0.65)
+  let ac-ctrl = (-1.05, 0.85)
   draw.bezier(
     rim(v.at(0), ac-ctrl),
     rim(v.at(2), ac-ctrl),
@@ -262,7 +262,7 @@
 
   // Double bridge B--C: straight plus an arc bowing to the north-east
   draw.line("B", "C", stroke: bridge-style)
-  let bc-ctrl = (0.95, 0.65)
+  let bc-ctrl = (1.05, 0.85)
   draw.bezier(
     rim(v.at(1), bc-ctrl),
     rim(v.at(2), bc-ctrl),
