@@ -1,5 +1,6 @@
 // s2-mod3 --- Машина Тьюринга и разрешимость: модуль расписания семестра 2, лекции 9--12.
 #import "theme.typ": *
+#import "diagrams/ghosts.typ": tape-ghost
 #import "diagrams/m25.typ": turing-machine
 #import "diagrams/m25.typ": reduction-halt-empty, tm-configuration
 
@@ -26,7 +27,7 @@
 = Машина Тьюринга
 
 #focus-slide(
-  ghost: $Gamma$,
+  ghost: tape-ghost,
   epigraph: [Вычисление обычно выполняется записыванием определённых символов на бумаге.],
   epigraph-author: [Алан Тьюринг],
 )

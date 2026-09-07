@@ -1,5 +1,6 @@
 // s1-mod1 --- Логика и множества: модуль расписания семестра 1, лекции 1--3.
 #import "theme.typ": *
+#import "diagrams/ghosts.typ": venn-ghost
 #show: slides.with(
   title: [Логика и множества],
   subtitle: [Дискретная математика --- модуль 1, лекции 1--3],
@@ -8,7 +9,9 @@
   module: "sets",
 )
 
-#import "diagrams/m04.typ": product-plane, venn-difference, venn-intersection, venn-subset, venn-union
+#import "diagrams/m04.typ": (
+  product-plane, venn-difference, venn-intersection, venn-subset, venn-union,
+)
 
 = Лекция 1. Высказывания и связки
 
@@ -126,7 +129,9 @@ A говорит: "Мы оба лжецы".
   [$and$], [и], ["светит солнце и нет дождя"],
   [$or$], [или (включающее)], ["возьму зонт или дождевик"],
   [$imply$], [если ... то], ["если дождь, то возьму зонт"],
-  [$iff$], [тогда и только тогда], ["дождь тогда и только тогда, когда небо в тучах"],
+  [$iff$],
+  [тогда и только тогда],
+  ["дождь тогда и только тогда, когда небо в тучах"],
 )
 
 == Отрицание
@@ -516,9 +521,11 @@ A говорит: "Мы оба лжецы".
   table.header([*Закон*], [*Формулы*]),
   [Идемпотентность], [$P or P equiv P$,\ $P and P equiv P$],
   [Коммутативность], [$P or Q equiv Q or P$,\ $P and Q equiv Q and P$],
-  [Ассоциативность], [$(P or Q) or R equiv P or (Q or R)$,\ $(P and Q) and R equiv P and (Q and R)$],
+  [Ассоциативность],
+  [$(P or Q) or R equiv P or (Q or R)$,\ $(P and Q) and R equiv P and (Q and R)$],
 
-  [Дистрибутивность], [$P and (Q or R) equiv (P and Q) or (P and R)$,\ $P or (Q and R) equiv (P or Q) and (P or R)$],
+  [Дистрибутивность],
+  [$P and (Q or R) equiv (P and Q) or (P and R)$,\ $P or (Q and R) equiv (P or Q) and (P or R)$],
 
   [Поглощение], [$P or (P and Q) equiv P$,\ $P and (P or Q) equiv P$],
   [Двойное отрицание], [$not not P equiv P$],
@@ -1307,7 +1314,7 @@ $ {x in U mid(|) P(x)} $
 = Наивная теория множеств
 
 #focus-slide(
-  ghost: $in$,
+  ghost: venn-ghost,
   epigraph: [Множество --- это многое, мыслимое как единое.],
   epigraph-author: [Георг Кантор],
 )
@@ -1460,7 +1467,8 @@ $ {x in U mid(|) P(x)} $
   [Объединение], [$A union B = {x mid(|) x in A or x in B}$],
   [Пересечение], [$A inter B = {x mid(|) x in A and x in B}$],
   [Разность], [$A setminus B = {x mid(|) x in A and x in.not B}$],
-  [Симметрическая разность], [$A symdiff B = (A setminus B) union (B setminus A)$],
+  [Симметрическая разность],
+  [$A symdiff B = (A setminus B) union (B setminus A)$],
 
   [Дополнение], [$overline(A) = U setminus A = {x mid(|) x in.not A}$],
 )
@@ -1515,7 +1523,8 @@ $ {x in U mid(|) P(x)} $
   table.header([*Закон*], [*Формулы*]),
   [Идемпотентность], [$A union A = A$, $A inter A = A$],
   [Коммутативность], [$A union B = B union A$, $A inter B = B inter A$],
-  [Ассоциативность], [$(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$],
+  [Ассоциативность],
+  [$(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$],
 
   [Дистрибутивность],
   [$A union (B inter C) = (A union B) inter (A union C)$, $A inter (B union C) = (A inter B) union (A inter C)$],
@@ -1569,9 +1578,9 @@ $ {x in U mid(|) P(x)} $
   Цепочка эквивалентностей для произвольного $x$:
   $
     x in A setminus (B union C) & equiv x in A and x in.not (B union C) \
-                                & equiv x in A and (x in.not B and x in.not C) \
-                                & equiv (x in A and x in.not B) and (x in A and x in.not C) \
-                                & equiv x in (A setminus B) inter (A setminus C)
+    & equiv x in A and (x in.not B and x in.not C) \
+    & equiv (x in A and x in.not B) and (x in A and x in.not C) \
+    & equiv x in (A setminus B) inter (A setminus C)
   $
 
   Множества совпадают, потому что совпадают их элементы.

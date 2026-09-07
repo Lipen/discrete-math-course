@@ -1,5 +1,6 @@
 // s2-mod1 --- Графы: модуль расписания семестра 2, лекции 1--4.
 #import "theme.typ": *
+#import "diagrams/ghosts.typ": bfs-ghost, k33-ghost, tree-ghost
 #show: slides.with(
   title: [Графы],
   subtitle: [Дискретная математика --- модуль 1, лекции 1--4],
@@ -8,7 +9,10 @@
   module: "graphs",
 )
 
-#import "diagrams/m09.typ": bfs-grid, bipartite, bridge-cut, eulerian, graph-coloring, k33, k5, petersen, planar, tree
+#import "diagrams/m09.typ": (
+  bfs-grid, bipartite, bridge-cut, eulerian, graph-coloring, k33, k5, petersen,
+  planar, tree,
+)
 
 = Лекция 1. Графы
 
@@ -407,7 +411,7 @@
 = Обходы графа
 
 #focus-slide(
-  ghost: $arrow.t.b$,
+  ghost: bfs-ghost,
   epigraph: [Не все, кто блуждает, потеряны.],
   epigraph-author: [Дж. Р. Р. Толкин],
 )
@@ -620,7 +624,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Деревья
 
 #focus-slide(
-  ghost: $arrow.t$,
+  ghost: tree-ghost,
   epigraph: [Родственные связи всех существ одного класса иногда изображали в виде великого дерева. Я~верю, что эта метафора во многом соответствует истине.],
   epigraph-author: [Чарльз Дарвин],
 )
@@ -1178,7 +1182,7 @@ DFS живёт в стеке вызовов, и стек не бесконече
 = Планарность
 
 #focus-slide(
-  ghost: $subset$,
+  ghost: k33-ghost,
   epigraph: [Хорошие заборы делают хороших соседей.],
   epigraph-author: [Роберт Фрост],
 )
