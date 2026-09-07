@@ -116,32 +116,25 @@
 // ── Волна обхода: фронты BFS вокруг источника ──
 #let bfs-ghost(c) = canvas({
   let st = ink-stroke(c)
-  draw.circle((0.3, 1.7), radius: 0.16, name: "src", stroke: st)
-  draw.circle((0.3, 1.7), radius: 0.27, name: "srcr", stroke: st)
-  draw.arc(
-    (0.3, 1.7),
-    start: -58deg,
-    stop: 58deg,
-    radius: 1.2,
-    name: "w1",
-    stroke: st,
-  )
-  draw.arc(
-    (0.3, 1.7),
-    start: -45deg,
-    stop: 45deg,
-    radius: 2.2,
-    name: "w2",
-    stroke: st,
-  )
-  draw.arc(
-    (0.3, 1.7),
-    start: -32deg,
-    stop: 32deg,
-    radius: 3.2,
-    name: "w3",
-    stroke: st,
-  )
+  let (cx, cy) = (0.3, 1.7)
+  draw.circle((cx, cy), radius: 0.16, name: "src", stroke: st)
+  draw.circle((cx, cy), radius: 0.27, name: "srcr", stroke: st)
+  // ceTZ-arc: position --- точка старта дуги, центр волны = position - r*(cos start, sin start)
+  for wave in (
+    (1.2, -58deg, 58deg, "w1"),
+    (2.2, -45deg, 45deg, "w2"),
+    (3.2, -32deg, 32deg, "w3"),
+  ) {
+    let (r, a0, a1, nm) = wave
+    draw.arc(
+      (cx + r * calc.cos(a0), cy + r * calc.sin(a0)),
+      start: a0,
+      stop: a1,
+      radius: r,
+      name: nm,
+      stroke: st,
+    )
+  }
   let ring = (
     (
       (1.36, 2.26),
