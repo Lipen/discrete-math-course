@@ -23,7 +23,7 @@
 ## Сборка
 
 ```bash
-cd course-2026/homework
+cd homework
 just all          # hw1.pdf … hw8.pdf
 ```
 
