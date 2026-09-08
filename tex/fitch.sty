@@ -1,4 +1,4 @@
-% Macros for Fitch-style natural deduction. 
+% Macros for Fitch-style natural deduction.
 % Author: Peter Selinger, University of Ottawa
 % Created: Jan 14, 2002
 % Modified: Feb 8, 2005
@@ -22,30 +22,30 @@
 % General Public License for more details.
 %
 % You should have received a copy of the GNU General Public License
-% along with this program; if not, write to the Free Software Foundation, 
+% along with this program; if not, write to the Free Software Foundation,
 % Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
 
 % USAGE EXAMPLE:
-% 
+%
 % The following is a simple example illustrating the usage of this
 % package.  For detailed instructions and additional functionality, see
 % the user guide, which can be found in the file fitchdoc.tex.
-% 
+%
 % \[
 % \begin{nd}
-%   \hypo{1}  {P\lor Q}   
-%   \hypo{2}  {\neg Q}                         
-%   \open                              
+%   \hypo{1}  {P\lor Q}
+%   \hypo{2}  {\neg Q}
+%   \open
 %   \hypo{3a} {P}
 %   \have{3b} {P}        \r{3a}
-%   \close                   
+%   \close
 %   \open
 %   \hypo{4a} {Q}
 %   \have{4b} {\neg Q}   \r{2}
 %   \have{4c} {\bot}     \ne{4a,4b}
 %   \have{4d} {P}        \be{4c}
-%   \close                             
-%   \have{5}  {P}        \oe{1,3a-3b,4a-4d}                 
+%   \close
+%   \have{5}  {P}        \oe{1,3a-3b,4a-4d}
 % \end{nd}
 % \]
 
@@ -83,7 +83,7 @@
 % Layer A
 
 % define various dimensions (explained in fitchdoc.tex):
-\newlength{\nd*dim} 
+\newlength{\nd*dim}
 \newdimen\nd*depthdim
 \newdimen\nd*hsep
 \newdimen\ndindent
@@ -97,7 +97,7 @@
 
 \def\nd*v{\rule[-\nd*depthdim]{\nd*thickness}{\nd*height}}
 \def\nd*t{\rule[-\nd*depthdim]{0mm}{\nd*height}\rule[-\nd*depthdim]{\nd*thickness}{\nd*initheight}}
-\def\nd*i{\hspace{\nd*indent}} 
+\def\nd*i{\hspace{\nd*indent}}
 \def\nd*s{\hspace{\nd*hsep}}
 \def\nd*g#1{\nd*f{\makebox[\nd*indent][c]{$#1$}}}
 \def\nd*f#1{\raisebox{0pt}[0pt][0pt]{$#1$}}

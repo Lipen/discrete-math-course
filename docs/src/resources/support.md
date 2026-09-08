@@ -138,4 +138,3 @@ Help us improve the course:
 - Propose alternative explanations
 
 Your input shapes the course!
-
