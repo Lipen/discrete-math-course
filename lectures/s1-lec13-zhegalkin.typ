@@ -5,7 +5,7 @@
 )
 #import "diagrams/m11.typ": full-adder, half-adder, multiplexer-4to1
 #import "diagrams/m10.typ": karnaugh-3var-majority
-#import "diagrams/m13.typ": implication-graph-2sat-simple
+#import "diagrams/m14.typ": implication-graph-2sat-simple
 #show: slides.with(
   title: [Минимизация и полином Жегалкина],
   date: "Осень 2026",

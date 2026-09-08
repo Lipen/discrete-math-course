@@ -6,9 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/algebra-structures.typ": (
-  cyclic-generator, hom-square, subgroup-lattice,
-)
+#import "diagrams/m12.typ": cyclic-generator, hom-square, subgroup-lattice
 
 = Зачем структуры
 #focus-slide(

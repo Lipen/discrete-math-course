@@ -1,5 +1,5 @@
 #import "theme.typ": *
-#import "diagrams/category.typ": (
+#import "diagrams/m36.typ": (
   adjunction-bijection, cone-limit, free-cat-paths, monoid-loops, nat-square,
   poset-chain, powerset-functor, product-universal,
 )

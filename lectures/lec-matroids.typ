@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m16.typ": greedy-counterexample, matroid-sources
+#import "diagrams/m17.typ": greedy-counterexample, matroid-sources
 
 = Жадный алгоритм
 #focus-slide(

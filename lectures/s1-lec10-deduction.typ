@@ -8,8 +8,8 @@
 #import "@preview/frederic:0.1.0": (
   fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
 )
-#import "diagrams/m02-deduction.typ": mp-chain, nd-comm, nd-impi, nd-projection
-#import "diagrams/m03-fol.typ": (
+#import "diagrams/m02.typ": mp-chain, nd-comm, nd-impi, nd-projection
+#import "diagrams/m03.typ": (
   euler-barbara, euler-celarent, euler-darii, judgment-circles,
   square-of-opposition,
 )

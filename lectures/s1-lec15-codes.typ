@@ -1,7 +1,7 @@
 // s1, лекция 15 --- Коды, исправляющие ошибки (неделя 14--20 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": hamming-balls-ghost, huffman-ghost
-#import "diagrams/m12.typ": hamming-groups, hamming-spheres, huffman-tree
+#import "diagrams/m13.typ": hamming-groups, hamming-spheres, huffman-tree
 #show: slides.with(
   title: [Коды, исправляющие ошибки],
   date: "Осень 2026",

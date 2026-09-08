@@ -1,87 +1,72 @@
-// Matroids.
+// Logic programming: SLD tree.
 // Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
-#import "@preview/fletcher:0.5.8": diagram, edge, node
 
-#let c-src-fill = oklch(94%, 0.03, 250deg)
-#let c-src-str = 0.7pt + oklch(55%, 0.10, 250deg)
-#let c-mat-fill = oklch(87%, 0.08, 250deg)
-#let c-mat-str = 0.9pt + oklch(45%, 0.12, 250deg)
-#let c-conflict = oklch(55%, 0.16, 22deg)
-#let c-label = oklch(30%, 0.02, 265deg)
-#let e-str = 0.7pt + oklch(35%, 0.02, 265deg)
+#let sld-goal-fill = oklch(97%, 0.02, 240deg)
+#let sld-goal-str = 0.7pt + oklch(40%, 0.05, 240deg)
+#let sld-sol-fill = oklch(93%, 0.06, 145deg)
+#let sld-dead-col = oklch(45%, 0.10, 15deg)
 
-// ── 1. Три источника -> один матроид ──
-#let matroid-sources = {
-  let src(pos, body, name) = node(
-    pos,
-    text(size: 0.6em, body),
-    name: name,
-    fill: c-src-fill,
-  )
-  diagram(
-    node-stroke: c-src-str,
-    node-inset: 2pt,
-    spacing: 0.9em,
-    src((0, 0), [Лес \ ацикличность], <src-forest>),
-    src((1.5, 0), [Векторы \ независимость], <src-linear>),
-    src((3, 0), [Не более $k$ \ размер], <src-uniform>),
-    node(
-      (1.5, 1.3),
-      text(size: 0.6em)[Матроид \ два свойства],
-      name: <matroid>,
-      fill: c-mat-fill,
-      stroke: c-mat-str,
-    ),
-    edge(<src-forest>, <matroid>, "-}>", stroke: e-str),
-    edge(<src-linear>, <matroid>, "-}>", stroke: e-str),
-    edge(<src-uniform>, <matroid>, "-}>", stroke: e-str),
-  )
-}
+#let sld-tree = canvas({
+  let hw = 0.85 // полуширина плашки цели
 
-// ── 2. Контрпример: граф конфликтов ──
-#let greedy-counterexample = canvas({
-  let elem(pos, letter, weight, name) = {
-    draw.circle(
-      pos,
-      radius: 0.25,
-      fill: c-src-fill,
-      stroke: c-src-str,
+  let goal(pos, label, name) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - hw, y + 0.17),
+      (x + hw, y - 0.17),
+      fill: sld-goal-fill,
+      stroke: sld-goal-str,
+      radius: 2pt,
       name: name,
     )
-    draw.content(pos, text(size: 0.45em, fill: c-label)[#letter \ #weight])
+    draw.content(pos, text(size: 0.5em, label))
   }
-  elem((-0.95, 0), $a$, $5$, "a")
-  elem((0.45, 0.6), $b$, $4$, "b")
-  elem((0.45, -0.6), $c$, $4$, "c")
-  draw.line("a.north-east", "b.south-west", stroke: (
-    paint: c-conflict,
-    thickness: 0.9pt,
-    dash: "dashed",
-  ))
-  draw.line("a.south-east", "c.north-west", stroke: (
-    paint: c-conflict,
-    thickness: 0.9pt,
-    dash: "dashed",
-  ))
-  draw.content(
-    (-0.95, -0.95),
-    text(
-      size: 0.45em,
-      fill: c-label,
-    )[жадный: ${a}$, вес $5$],
-    name: "lbl-greedy",
-  )
-  draw.content(
-    (0.45, -1.35),
-    text(
-      size: 0.45em,
-      fill: c-label,
-    )[оптимум: ${b,c}$, вес $8$],
-    name: "lbl-opt",
-  )
-  draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (
-    end: "stealth",
-  ))
-  draw.line("c.south", "lbl-opt.north", stroke: e-str, mark: (end: "stealth"))
+  let solution(pos, label, name) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - 0.8, y + 0.15),
+      (x + 0.8, y - 0.15),
+      fill: sld-sol-fill,
+      stroke: 0.7pt + sld-sol-fill,
+      radius: 2pt,
+      name: name,
+    )
+    draw.content(pos, text(size: 0.5em, label))
+  }
+  let edge(a, b) = draw.line(a, b, stroke: sld-goal-str)
+
+  let root = (0, 0)
+  let base1 = (-1.7, -0.9)
+  let recur1 = (1.7, -0.9)
+  let sol1 = (-1.7, -1.8)
+  let anc = (1.7, -1.8)
+  let base2 = (0.8, -2.7)
+  let recur2 = (2.6, -2.7)
+  let sol2 = (0.8, -3.6)
+  let dead = (2.6, -3.6)
+
+  goal(root, [`ancestor(alice, Y)`], "root")
+  goal(base1, [`parent(alice, Y)`], "base1")
+  goal(recur1, [`parent(alice, Z)` \ `ancestor(Z, Y)`], "recur1")
+  solution(sol1, [$Y = "bob"$], "sol1")
+  goal(anc, [`ancestor(bob, Y)`], "anc")
+  goal(base2, [`parent(bob, Y)`], "base2")
+  goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`], "recur2")
+  solution(sol2, [$Y = "carol"$], "sol2")
+  goal(dead, [`ancestor(carol, Y)`], "dead")
+  draw.content((dead.at(0), dead.at(1) - 0.425), text(
+    size: 0.45em,
+    fill: sld-dead-col,
+    weight: "bold",
+  )[тупик])
+
+  edge("root", "base1")
+  edge("root", "recur1")
+  edge("base1", "sol1")
+  edge("recur1", "anc")
+  edge("anc", "base2")
+  edge("anc", "recur2")
+  edge("base2", "sol2")
+  edge("recur2", "dead")
 })

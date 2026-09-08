@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m15.typ": sld-tree
+#import "diagrams/m16.typ": sld-tree
 
 = Термы и унификация
 #focus-slide(

@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m17.typ": pascal-triangle, venn-inclusion-exclusion
+#import "diagrams/m18.typ": pascal-triangle, venn-inclusion-exclusion
 
 = Правила счёта
 #focus-slide(

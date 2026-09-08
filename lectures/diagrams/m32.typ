@@ -1,5 +1,5 @@
 // Kripke (modal) lecture diagrams: CTL computation tree.
-// SMT diagrams (dpll-t-architecture, dl-negative-cycle) вынесены в m14-smt.typ.
+// SMT diagrams (dpll-t-architecture, dl-negative-cycle) вынесены в m15.typ.
 #import "@preview/cetz:0.5.2": canvas, draw
 
 // ── Palette ──

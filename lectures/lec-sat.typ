@@ -6,7 +6,7 @@
   authors: "Константин Чухарев",
 )
 
-#import "diagrams/m13.typ": implication-graph-2sat-simple
+#import "diagrams/m14.typ": implication-graph-2sat-simple
 
 = Задача SAT
 #focus-slide(

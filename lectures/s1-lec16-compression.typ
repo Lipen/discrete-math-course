@@ -1,7 +1,7 @@
 // s1, лекция 16 --- Сжатие и границы (неделя 21--27 декабря).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": hamming-balls-ghost, huffman-ghost
-#import "diagrams/m12.typ": hamming-groups, hamming-spheres, huffman-tree
+#import "diagrams/m13.typ": hamming-groups, hamming-spheres, huffman-tree
 #show: slides.with(
   title: [Сжатие и границы],
   date: "Осень 2026",

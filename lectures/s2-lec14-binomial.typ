@@ -5,8 +5,8 @@
   necklace-ghost, ogf-ghost, pigeonhole-ghost, ramsey-ghost, recurrence-ghost,
   venn3-ghost,
 )
-#import "diagrams/m17.typ": pascal-triangle, venn-inclusion-exclusion
-#import "diagrams/m18.typ": catalan-lattice, decision-tree
+#import "diagrams/m18.typ": pascal-triangle, venn-inclusion-exclusion
+#import "diagrams/m21.typ": catalan-lattice, decision-tree
 #show: slides.with(
   title: [Бином и включение-исключение],
   date: "Весна 2027",
