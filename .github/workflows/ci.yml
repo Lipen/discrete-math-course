@@ -13,8 +13,26 @@ on:
       - "!.github/workflows/ci.yml"
   workflow_dispatch:
 
+env:
+  TYPST_VERSION: "0.15.1"
+
 jobs:
-  build-typst:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install prek
+        run: pip install prek
+
+      - name: Run hooks
+        run: prek run --all-files
+
+  build-course:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -23,142 +41,138 @@ jobs:
       - name: Install Libertinus fonts
         run: |
           curl -sSL https://github.com/alerque/libertinus/releases/download/v7.051/Libertinus-7.051.zip -o libertinus.zip
-          unzip libertinus.zip
+          unzip -q libertinus.zip
           mkdir -p ~/.fonts
           cp Libertinus-7.051/static/OTF/*.otf ~/.fonts/
 
       - name: Install Font Awesome fonts
         run: |
           curl -sSL https://github.com/FortAwesome/Font-Awesome/releases/download/7.2.0/fontawesome-free-7.2.0-desktop.zip -o fa.zip
-          unzip fa.zip
-          mkdir -p ~/.fonts
+          unzip -q fa.zip
           cp fontawesome-free-7.2.0-desktop/otfs/*.otf ~/.fonts/
 
       - name: Install Source fonts
         run: |
           curl -sSL https://github.com/fontist/source-fonts/releases/download/v1.2/source-fonts-latn-1.2.zip -o source.zip
-          unzip source.zip
-          mkdir -p ~/.fonts
+          unzip -q source.zip
           cp fonts-latn/*.ttf ~/.fonts/
-
-      - run: ls -lh ~/.fonts
-      - run: echo "TYPST_FONT_PATHS=$HOME/.fonts" >> $GITHUB_ENV
+          fc-cache -f
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
-          typst-version: ^0.14
-          cache-dependency-path: typst/requirements.typ
+          typst-version: "0.15.1"
+          cache-dependency-path: book/requirements.typ
 
-      - run: rm -f typst/requirements.pdf
-      - run: typst --version
-      - run: typst fonts
-
-      - run: typst compile typst/syllabus.typ
-      - run: typst compile typst/overview.typ
-      - run: typst compile typst/jaccard.typ
-      - run: typst compile typst/lec-set-theory.typ
-      - run: typst compile typst/lec-relations.typ
-      - run: typst compile typst/lec-boolean-algebra.typ
-      - run: typst compile typst/lec-sat.typ
-      - run: typst compile typst/lec-logic.typ
-      - run: typst compile typst/lec-graphs.typ
-      - run: typst compile typst/lec-computation.typ
-      - run: typst compile typst/lec-combinatorics.typ
-      - run: typst compile typst/hw1.typ
-      - run: typst compile typst/hw1-ru.typ
-      - run: typst compile typst/hw2.typ
-      - run: typst compile typst/hw3.typ
-      - run: typst compile typst/hw4.typ
-      - run: typst compile typst/hw5.typ
-      - run: typst compile typst/hw6.typ
-      - run: typst compile typst/hw7.typ
-      - run: typst compile typst/hw8.typ
-
-      - name: List generated PDFs
-        run: ls -lh typst/*.pdf
-
-      - name: Upload PDFs as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdf-typst
-          path: "typst/*.pdf"
-
-  build-tex:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Build LaTeX project and generate PDFs
-        uses: xu-cheng/latex-action@v3
-        with:
-          working_directory: tex
-          root_file: "*.tex"
-
-      - name: Upload PDFs as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pdf-tex
-          path: "tex/*.pdf"
-
-  build-mdbook:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup mdBook
-        uses: peaceiris/actions-mdbook@v2
-        with:
-          mdbook-version: "0.4.52"
-          # mdbook-version: 'latest'
-
-      - name: Build website with mdBook
+      - name: Install circuiteria package
         run: |
-          cd docs
-          mdbook build
+          mkdir -p ~/.local/share/typst/packages/local/circuiteria/0.2.1
+          curl -fsSL https://packages.typst.org/preview/circuiteria-0.2.1.tar.gz |
+            tar xz -C ~/.local/share/typst/packages/local/circuiteria/0.2.1
 
-      - name: Upload website artifact
+      - name: Install just
+        uses: taiki-e/install-action@v2
+        with:
+          tool: just
+
+      - name: Install LaTeX toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-xetex texlive-lang-cyrillic
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache cargo
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: code
+
+      - name: Build book, lectures, course, homework
+        run: just all
+
+      - name: Test code companion
+        run: just test
+
+      - name: Collect PDFs
+        run: |
+          mkdir -p dist
+          cp book/book.pdf dist/
+          cp lectures/*.pdf dist/
+          cp course/*.pdf dist/
+          cp homework/*.pdf dist/
+
+      - name: Upload PDFs
         uses: actions/upload-artifact@v4
         with:
-          name: website
-          path: "docs/dist/"
+          name: course-pdf
+          path: dist/
 
   deploy:
     runs-on: ubuntu-latest
-    needs: [build-typst, build-tex, build-mdbook]
+    needs: [lint, build-course]
+    permissions:
+      contents: write
     concurrency:
       group: "pages"
       cancel-in-progress: false
     steps:
-      - name: Checkout code
+      - name: Checkout gh-pages
         uses: actions/checkout@v4
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v5
         with:
-          pattern: "*"
+          ref: gh-pages
+          fetch-depth: 0
 
-      - name: Show downloaded files
-        run: ls -R
-
-      - name: Prepare files for gh-pages
+      - name: Archive previous site
         run: |
-          # Create public directory and copy website files first
-          mkdir -p public
-          cp -r website/* public/
+          if [ ! -d old ]; then
+            mkdir old
+            find . -mindepth 1 -maxdepth 1 ! -name old ! -name .git -exec mv {} old/ \;
+          fi
 
-          # Copy all Typst PDFs to the root
-          cp pdf-typst/*.pdf public/
-
-          # Copy TeX PDFs to tex/ subdirectory
-          mkdir -p public/tex
-          cp pdf-tex/*.pdf public/tex/
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Download new artifacts
+        uses: actions/download-artifact@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-          force_orphan: true
+          name: course-pdf
+          path: new-site
+
+      - name: Publish new site at root
+        run: |
+          find . -mindepth 1 -maxdepth 1 ! -name old ! -name .git ! -name new-site -exec rm -rf {} +
+          cp -r new-site/. .
+          rm -rf new-site
+          cat > index.html <<'EOF'
+          <!doctype html>
+          <html lang="ru">
+          <head>
+            <meta charset="utf-8">
+            <title>Дискретная математика</title>
+            <style>
+              body { font-family: sans-serif; max-width: 40rem; margin: 3rem auto; line-height: 1.6; }
+              li { margin: 0.4rem 0; }
+            </style>
+          </head>
+          <body>
+            <h1>Дискретная математика</h1>
+            <p>Материалы курса 2026/27. Архив 2023–2025 — в <a href="old/">old/</a>.</p>
+            <ul>
+              <li><a href="book.pdf">Книга-справочник</a></li>
+              <li><a href="syllabus.pdf">Силлабус</a></li>
+              <li><a href="topics-s1.pdf">План семестра 1</a></li>
+              <li><a href="topics-s2.pdf">План семестра 2</a></li>
+              <li><a href="program.pdf">Рабочая программа</a></li>
+              <li><a href="mentors.pdf">Хендбук ментора</a></li>
+              <li>Лекции: <code>s1-lec*.pdf</code>, <code>s2-lec*.pdf</code></li>
+              <li>Домашние задания: <code>hw1.pdf</code> … <code>hw8.pdf</code></li>
+            </ul>
+          </body>
+          </html>
+          EOF
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "deploy: update course site" || echo "nothing to commit"
+          git push
+
+      - name: Show deployed tree
+        run: ls -lh
