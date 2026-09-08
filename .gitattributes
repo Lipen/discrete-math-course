@@ -1,0 +1,6 @@
+*.pdf binary
+
+# Frozen 2023-2025 material: keep it out of language stats
+typst/** linguist-vendored
+tex/** linguist-vendored
+docs/** linguist-vendored
