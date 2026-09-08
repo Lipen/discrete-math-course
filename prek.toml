@@ -1,4 +1,4 @@
-minimum_prek_version = "0.5.0"
+minimum_prek_version = "0.5.2"
 
 [[repos]]
 repo = "builtin"
