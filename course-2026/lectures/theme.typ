@@ -435,27 +435,34 @@
           ),
           header: none,
           foreground: none,
-          margin: (top: 1.4cm, bottom: 1cm, x: 2cm),
+          margin: (y: 1cm, x: 2cm),
         )
 
         // 1. Контурный номер лекции
         if lecture != none {
           align(right)[
-            #text(
-              6em,
-              weight: "bold",
-              fill: white.transparentize(96%),
-              stroke: 1.2pt + white.transparentize(35%),
-            )[#lecture.num]
+            #block[
+              #text(
+                8em,
+                weight: "bold",
+                fill: white.transparentize(99%),
+                stroke: 1.2pt + white.transparentize(50%),
+              )[#lecture.num]
+            ]
           ]
         }
+        v(1fr)
 
         // 2. Титул
         stack(
-          dir: ttb,
           spacing: 0.8em,
           block(width: 100%)[
-            #set text(2em, weight: "bold", font: title-font, fill: white)
+            #set text(
+              2em,
+              weight: "bold",
+              font: title-font,
+              fill: white,
+            )
             #set par(leading: 0.5em)
             #title
           ],
@@ -464,7 +471,7 @@
           ],
           if lecture != none and lecture.week != none [
             #box(
-              inset: (x: 0.8em, y: 0.3em),
+              inset: (x: 0.8em, y: 0.4em),
               stroke: 1pt + white.transparentize(40%),
               radius: 4pt,
             )[
@@ -479,10 +486,12 @@
         grid(
           columns: (1fr, auto),
           align: (left, right),
-          text(0.8em, fill: white.transparentize(35%))[
-            #authors.join(", ", last: " и ")
-          ],
-          text(0.8em, fill: white.transparentize(35%))[
+          text(
+            fill: white.transparentize(30%),
+          )[#authors.join(", ", last: " и ")],
+          text(
+            fill: white.transparentize(30%),
+          )[
             #if lecture != none [Дискретная математика --- ]#date
           ],
         )
