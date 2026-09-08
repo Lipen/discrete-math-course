@@ -3,7 +3,8 @@
 Rust study samples for discrete mathematics: **23 crates, one per topic**.
 
 Each crate is a self-contained study aid — a library, its unit tests, and runnable examples you read like code, not just execute.
-Every crate builds, tests, and runs on its own. None imports another.
+Every crate builds, tests, and runs on its own.
+None imports another.
 
 ## Crates, by theme
 
