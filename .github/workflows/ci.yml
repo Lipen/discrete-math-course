@@ -68,12 +68,6 @@ jobs:
           typst-version: "0.15.1"
           cache-dependency-path: book/requirements.typ
 
-      - name: Install circuiteria package
-        run: |
-          mkdir -p ~/.local/share/typst/packages/local/circuiteria/0.2.1
-          curl -fsSL https://packages.typst.org/preview/circuiteria-0.2.1.tar.gz |
-            tar xz -C ~/.local/share/typst/packages/local/circuiteria/0.2.1
-
       - name: Install just
         uses: taiki-e/install-action@v2
         with:
