@@ -420,7 +420,7 @@
     width: 100%,
   )
 
-  // === Титульный слайд: подпись --- титул --- строка авторов, всё потоком ===
+  // === Титульный слайд: цифра --- кикер и титул --- строка авторов, всё потоком ===
   if title != none {
     if (type(authors) != array) {
       authors = (authors,)
@@ -428,70 +428,59 @@
     title-slide({
       context {
         set page(
-          fill: gradient.linear(
-            mod-acc.darken(18%),
-            mod-acc.lighten(10%),
-            angle: -45deg,
-          ),
           header: none,
           foreground: none,
           margin: (y: 1cm, x: 2cm),
         )
 
-        // 1. Контурный номер лекции
+        // Цифра-водяной знак --- верхний правый угол
         if lecture != none {
-          align(right)[
-            #block[
-              #text(
-                8em,
-                weight: "bold",
-                fill: white.transparentize(99%),
-                stroke: 1.2pt + white.transparentize(50%),
-              )[#lecture.num]
+          place(right + top, dx: 1.2cm, dy: -0.6cm)[
+            #text(9em, weight: "bold", fill: mod-acc.transparentize(86%))[
+              #lecture.num
             ]
           ]
         }
-        v(1fr)
 
-        // 2. Титул
+        v(1fr)
         stack(
-          spacing: 0.8em,
+          spacing: 1em,
+          if lecture != none [
+            #text(1.3em, weight: "bold", fill: title-color)[Лекция #lecture.num]
+            #if lecture.week != none [
+              #h(0.7em)
+              #box(
+                inset: (x: 0.8em, y: 0.35em),
+                stroke: 1pt + title-color.transparentize(45%),
+                radius: 4pt,
+              )[
+                #text(1.1em, fill: title-color)[#lecture.week]
+              ]
+            ]
+          ],
+          if subtitle != none [
+            #text(1.3em, weight: "bold", fill: title-color)[#subtitle]
+          ],
           block(width: 100%)[
             #set text(
-              2em,
+              2.8em,
               weight: "bold",
               font: title-font,
-              fill: white,
+              fill: title-color,
             )
             #set par(leading: 0.5em)
             #title
           ],
-          if subtitle != none [
-            #text(1.2em, fill: white.transparentize(15%))[#subtitle]
-          ],
-          if lecture != none and lecture.week != none [
-            #box(
-              inset: (x: 0.8em, y: 0.4em),
-              stroke: 1pt + white.transparentize(40%),
-              radius: 4pt,
-            )[
-              #text(fill: white)[#lecture.week]
-            ]
-          ],
         )
-
-        // 3. Дата --- упирается в низ страницы
         v(1fr)
 
         grid(
           columns: (1fr, auto),
           align: (left, right),
-          text(
-            fill: white.transparentize(30%),
-          )[#authors.join(", ", last: " и ")],
-          text(
-            fill: white.transparentize(30%),
-          )[
+          text(fill: luma(45%))[
+            #authors.join(", ", last: " и ")
+          ],
+          text(fill: luma(45%))[
             #if lecture != none [Дискретная математика --- ]#date
           ],
         )
