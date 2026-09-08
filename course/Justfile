@@ -3,7 +3,7 @@ default:
     @just --list
 
 # Build all course documents
-all: syllabus topics-s1 topics-s2 mentors program
+all: syllabus topics-s1 topics-s2 mentors
 
 # Working program (РПД)
 program:

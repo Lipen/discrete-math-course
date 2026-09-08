@@ -51,7 +51,8 @@ just               # показать все команды
 just all           # собрать книгу, лекции, документы курса, домашки
 just book          # собрать книгу
 just lectures      # собрать лекции
-just course/all    # собрать документы курса
+just course         # собрать документы курса
+just course/program # РПД отдельно (pandoc + xelatex)
 just homework      # собрать домашние задания
 just test          # тесты code-компаньона
 ```

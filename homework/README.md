@@ -18,13 +18,16 @@
 | `hw8.typ` | 2 | Комбинаторика | комбинаторика, рекурренции, ПФ (ДНК, Фибоначчи-зоопарк, Эйлеровы пятиугольные, решатель) |
 
 `theme.typ` — самодостаточная тема (темплеет, алиасы, `tasklist`, `Box`, `Block`, теги, цвета).
-`Justfile` — `just all` собирает `hw1.pdf`…`hw8.pdf`; `just hwN` — конкретную.
+`Justfile` — `all` собирает `hw1.pdf`…`hw8.pdf`, `parallel` — то же параллельно.
 
 ## Сборка
 
+Из корня репозитория:
+
 ```bash
-cd homework
-just all          # hw1.pdf … hw8.pdf
+just homework                  # hw1.pdf … hw8.pdf
+just homework/parallel         # параллельно
+just homework/_compile hw1.typ # одну
 ```
 
 ## Покрытие
