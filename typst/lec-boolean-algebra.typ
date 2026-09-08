@@ -41,10 +41,18 @@
 
     // Draw grid
     for i in range(3) {
-      line((offset-x, offset-y + i * cell-size), (offset-x + 2 * cell-size, offset-y + i * cell-size), stroke: 0.5pt)
+      line(
+        (offset-x, offset-y + i * cell-size),
+        (offset-x + 2 * cell-size, offset-y + i * cell-size),
+        stroke: 0.5pt,
+      )
     }
     for i in range(3) {
-      line((offset-x + i * cell-size, offset-y), (offset-x + i * cell-size, offset-y + 2 * cell-size), stroke: 0.5pt)
+      line(
+        (offset-x + i * cell-size, offset-y),
+        (offset-x + i * cell-size, offset-y + 2 * cell-size),
+        stroke: 0.5pt,
+      )
     }
 
     // Draw highlights (regions)
@@ -66,7 +74,10 @@
       let row = if idx < 2 { 0 } else { 1 }
       let col = calc.rem(idx, 2)
       content(
-        (offset-x + (col + 0.5) * cell-size, offset-y + (1.5 - row) * cell-size),
+        (
+          offset-x + (col + 0.5) * cell-size,
+          offset-y + (1.5 - row) * cell-size,
+        ),
         [#val],
         anchor: "center",
       )
@@ -77,7 +88,10 @@
       let row = if current < 2 { 0 } else { 1 }
       let col = calc.rem(current, 2)
       circle(
-        (offset-x + (col + 0.5) * cell-size, offset-y + (1.5 - row) * cell-size),
+        (
+          offset-x + (col + 0.5) * cell-size,
+          offset-y + (1.5 - row) * cell-size,
+        ),
         radius: 0.45,
         stroke: 3pt + red,
         fill: none,
@@ -85,10 +99,26 @@
     }
 
     // Labels
-    content((offset-x - 0.4, offset-y + 1.5 * cell-size), [$x=0$], anchor: "east")
-    content((offset-x - 0.4, offset-y + 0.5 * cell-size), [$x=1$], anchor: "east")
-    content((offset-x + 0.5 * cell-size, offset-y + 2 * cell-size + 0.3), [$y=0$], anchor: "south")
-    content((offset-x + 1.5 * cell-size, offset-y + 2 * cell-size + 0.3), [$y=1$], anchor: "south")
+    content(
+      (offset-x - 0.4, offset-y + 1.5 * cell-size),
+      [$x=0$],
+      anchor: "east",
+    )
+    content(
+      (offset-x - 0.4, offset-y + 0.5 * cell-size),
+      [$x=1$],
+      anchor: "east",
+    )
+    content(
+      (offset-x + 0.5 * cell-size, offset-y + 2 * cell-size + 0.3),
+      [$y=0$],
+      anchor: "south",
+    )
+    content(
+      (offset-x + 1.5 * cell-size, offset-y + 2 * cell-size + 0.3),
+      [$y=1$],
+      anchor: "south",
+    )
   })
 }
 
@@ -125,10 +155,18 @@
 
     // Draw grid (4 rows × 2 cols)
     for i in range(5) {
-      line((offset-x, offset-y + i * cell-size), (offset-x + 2 * cell-size, offset-y + i * cell-size), stroke: 0.5pt)
+      line(
+        (offset-x, offset-y + i * cell-size),
+        (offset-x + 2 * cell-size, offset-y + i * cell-size),
+        stroke: 0.5pt,
+      )
     }
     for i in range(3) {
-      line((offset-x + i * cell-size, offset-y), (offset-x + i * cell-size, offset-y + 4 * cell-size), stroke: 0.5pt)
+      line(
+        (offset-x + i * cell-size, offset-y),
+        (offset-x + i * cell-size, offset-y + 4 * cell-size),
+        stroke: 0.5pt,
+      )
     }
 
     // Draw highlights
@@ -150,7 +188,10 @@
       let row = idx-to-row(idx)
       let col = idx-to-col(idx)
       content(
-        (offset-x + (col + 0.5) * cell-size, offset-y + (3.5 - row) * cell-size),
+        (
+          offset-x + (col + 0.5) * cell-size,
+          offset-y + (3.5 - row) * cell-size,
+        ),
         [#val],
         anchor: "center",
       )
@@ -161,7 +202,10 @@
       let row = idx-to-row(current)
       let col = idx-to-col(current)
       circle(
-        (offset-x + (col + 0.5) * cell-size, offset-y + (3.5 - row) * cell-size),
+        (
+          offset-x + (col + 0.5) * cell-size,
+          offset-y + (3.5 - row) * cell-size,
+        ),
         radius: 0.38,
         stroke: 3pt + red,
         fill: none,
@@ -169,12 +213,36 @@
     }
 
     // Labels (Gray code order: 00, 01, 11, 10)
-    content((offset-x - 0.4, offset-y + 3.5 * cell-size), [$x=0, y=0$], anchor: "east")
-    content((offset-x - 0.4, offset-y + 2.5 * cell-size), [$x=0, y=1$], anchor: "east")
-    content((offset-x - 0.4, offset-y + 1.5 * cell-size), [$x=1, y=1$], anchor: "east")
-    content((offset-x - 0.4, offset-y + 0.5 * cell-size), [$x=1, y=0$], anchor: "east")
-    content((offset-x + 0.5 * cell-size, offset-y + 4 * cell-size + 0.3), [$z=0$], anchor: "south")
-    content((offset-x + 1.5 * cell-size, offset-y + 4 * cell-size + 0.3), [$z=1$], anchor: "south")
+    content(
+      (offset-x - 0.4, offset-y + 3.5 * cell-size),
+      [$x=0, y=0$],
+      anchor: "east",
+    )
+    content(
+      (offset-x - 0.4, offset-y + 2.5 * cell-size),
+      [$x=0, y=1$],
+      anchor: "east",
+    )
+    content(
+      (offset-x - 0.4, offset-y + 1.5 * cell-size),
+      [$x=1, y=1$],
+      anchor: "east",
+    )
+    content(
+      (offset-x - 0.4, offset-y + 0.5 * cell-size),
+      [$x=1, y=0$],
+      anchor: "east",
+    )
+    content(
+      (offset-x + 0.5 * cell-size, offset-y + 4 * cell-size + 0.3),
+      [$z=0$],
+      anchor: "south",
+    )
+    content(
+      (offset-x + 1.5 * cell-size, offset-y + 4 * cell-size + 0.3),
+      [$z=1$],
+      anchor: "south",
+    )
   })
 }
 
@@ -623,7 +691,9 @@ When a clause has only one unassigned literal, that literal must be true.
   #align(center)[
     #table(
       columns: 3,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) }
+      ),
       table.header([*$x$*], [*$y$*], [*$x and y$*]),
       [0], [0], [0],
       [0], [1], [0],
@@ -660,9 +730,18 @@ When a clause has only one unassigned literal, that literal must be true.
   #align(center)[
     #table(
       columns: 6,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.8pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.8pt) }
+      ),
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-      table.header([*$x$*], [*$y$*], [*$z$*], [*$x and y$*], [*$not x and z$*], [*Result ($or$)*]),
+      table.header(
+        [*$x$*],
+        [*$y$*],
+        [*$z$*],
+        [*$x and y$*],
+        [*$not x and z$*],
+        [*Result ($or$)*],
+      ),
       [0], [0], [0], [0], [0], [0],
       [0], [0], [1], [0], [1], [1],
       [0], [1], [0], [0], [0], [0],
@@ -736,9 +815,13 @@ When a clause has only one unassigned literal, that literal must be true.
   #align(center)[
     #table(
       columns: 5,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) }
+      ),
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-      table.header([*$x$*], [*$y$*], [*$not (x and y)$*], [*$not x or not y$*], [*Equal?*]),
+      table.header(
+        [*$x$*], [*$y$*], [*$not (x and y)$*], [*$not x or not y$*], [*Equal?*]
+      ),
       [0], [0], [1], [1], [#YES],
       [0], [1], [1], [1], [#YES],
       [1], [0], [1], [1], [#YES],
@@ -1035,7 +1118,8 @@ When a clause has only one unassigned literal, that literal must be true.
     table.header([*Original*], [*Dual*]),
     [$x or 0 = x$], [$x and 1 = x$],
     [$x or (x and y) = x$], [$x and (x or y) = x$],
-    [$overline(x or y) = overline(x) and overline(y)$], [$overline(x and y) = overline(x) or overline(y)$],
+    [$overline(x or y) = overline(x) and overline(y)$],
+    [$overline(x and y) = overline(x) or overline(y)$],
   )
 ]
 
@@ -1371,11 +1455,19 @@ We can index minterms and maxterms by their binary representations:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header([*Index*], [*Binary*], [*Minterm $m_i$*], [*Maxterm $M_i$*]),
-      [0], [000], [$overline(x) thin overline(y) thin overline(z)$], [$x + y + z$],
+      [0],
+      [000],
+      [$overline(x) thin overline(y) thin overline(z)$],
+      [$x + y + z$],
+
       [1], [001], [$overline(x) thin overline(y) z$], [$x + y + overline(z)$],
       [2], [010], [$overline(x) y thin overline(z)$], [$x + overline(y) + z$],
       [3], [011], [$overline(x) y z$], [$x + overline(y) + overline(z)$],
-      [4], [100], [$x thin overline(y) thin overline(z)$], [$overline(x) + y + z$],
+      [4],
+      [100],
+      [$x thin overline(y) thin overline(z)$],
+      [$overline(x) + y + z$],
+
       [5], [101], [$x thin overline(y) z$], [$overline(x) + y + overline(z)$],
       [6], [110], [$x y thin overline(z)$], [$overline(x) + overline(y) + z$],
       [7], [111], [$x y z$], [$overline(x) + overline(y) + overline(z)$],
@@ -1418,7 +1510,9 @@ We can index minterms and maxterms by their binary representations:
     #table(
       columns: 4,
       align: center,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.4pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.4pt) }
+      ),
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
       table.header([*$x$*], [*$y$*], [*$z$*], [*$f$*]),
       [0], [0], [0], [0],
@@ -1443,7 +1537,7 @@ We can index minterms and maxterms by their binary representations:
   *Step 3:* OR them together:
   $
     f & = m_1 or m_3 or m_6 or m_7 = \
-      & = overline(x) thin overline(y) z + overline(x) y z + x y overline(z) + x y z
+    & = overline(x) thin overline(y) z + overline(x) y z + x y overline(z) + x y z
   $
 ]
 
@@ -1459,7 +1553,7 @@ We can index minterms and maxterms by their binary representations:
   For the *same function*, use rows where $f = 0$ (rows 0, 2, 4, 5):
   $
     f & = M_0 and M_2 and M_4 and M_5 \
-      & = (x + y + z) dot (x + overline(y) + z) dot (overline(x) + y + z) dot (overline(x) + y + overline(z))
+    & = (x + y + z) dot (x + overline(y) + z) dot (overline(x) + y + z) dot (overline(x) + y + overline(z))
   $
 ]
 
@@ -1608,7 +1702,7 @@ $
 *Step 4:* Simplify:
 $
   f & = (overline(x) and y and z) or (y and z) or (overline(x) and overline(y) and overline(z)) or 0 \
-    & = (overline(x) and y and z) or (y and z) or (overline(x) and overline(y) and overline(z))
+  & = (overline(x) and y and z) or (y and z) or (overline(x) and overline(y) and overline(z))
 $
 
 #pagebreak()
@@ -1676,10 +1770,17 @@ Now consider converting _between_ DNF and CNF (not from arbitrary formulas).
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Step*], [*Expression*]),
-    [*Step 1*: Distribute OR over AND], [$f = (x or (overline(x) and z)) and (y or (overline(x) and z))$],
-    [*Step 2*: Distribute inner ORs], [$f = ((x or overline(x)) and (x or z)) and ((y or overline(x)) and (y or z))$],
-    [*Step 3*: Simplify complements], [$f = (1 and (x or z)) and ((overline(x) or y) and (y or z))$],
-    [*Step 4*: Apply identity], [$f = (x or z) and (overline(x) or y) and (y or z)$],
+    [*Step 1*: Distribute OR over AND],
+    [$f = (x or (overline(x) and z)) and (y or (overline(x) and z))$],
+
+    [*Step 2*: Distribute inner ORs],
+    [$f = ((x or overline(x)) and (x or z)) and ((y or overline(x)) and (y or z))$],
+
+    [*Step 3*: Simplify complements],
+    [$f = (1 and (x or z)) and ((overline(x) or y) and (y or z))$],
+
+    [*Step 4*: Apply identity],
+    [$f = (x or z) and (overline(x) or y) and (y or z)$],
   )
 
   *Result:* 2 cubes $=>$ 3 clauses (modest growth)
@@ -2065,8 +2166,15 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
     columns: 4,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Group*], [*Cells*], [*Pattern*], [*Term*]),
-    [Corners], [0, 2, 8, 10], [$B = 0$, $D = 0$, $A$ and $C$ vary], [$overline(B) thin overline(D)$],
-    [Vertical], [5, 13], [$B = 1$, $C = 0$, $D = 1$, $A$ varies], [$B thin overline(C) thin D$],
+    [Corners],
+    [0, 2, 8, 10],
+    [$B = 0$, $D = 0$, $A$ and $C$ vary],
+    [$overline(B) thin overline(D)$],
+
+    [Vertical],
+    [5, 13],
+    [$B = 1$, $C = 0$, $D = 1$, $A$ varies],
+    [$B thin overline(C) thin D$],
   )
 
   *Minimal DNF:* $f = overline(B) thin overline(D) + B thin overline(C) thin D$
@@ -2091,7 +2199,12 @@ For 4 variables, use a 4×4 grid with Gray code on both axes:
       columns: 4,
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-      table.header([*Group \ Size*], [*Variables \ Eliminated*], [*Literals \ Left*], [*Example \ Term*]),
+      table.header(
+        [*Group \ Size*],
+        [*Variables \ Eliminated*],
+        [*Literals \ Left*],
+        [*Example \ Term*],
+      ),
       [1 cell], [0], [4], [$A B C D$],
       [2 cells], [1], [3], [$A B C$],
       [4 cells], [2], [2], [$A B$],
@@ -2185,7 +2298,10 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
       table.header([*Law*], [*Sum Form*], [*Product Form*]),
       [Idempotent], [$X + X = X$], [$X dot X = X$],
       [Absorption], [$X + X Y = X$], [$X(X + Y) = X$],
-      [Combining], [$X Y + X overline(Y) = X$], [$(X + Y)(X + overline(Y)) = X$],
+      [Combining],
+      [$X Y + X overline(Y) = X$],
+      [$(X + Y)(X + overline(Y)) = X$],
+
       [Consensus \ theorem],
       [$X Y + overline(X) Z + Y Z$ \ $= X Y + overline(X) Z$],
       [$(X + Y)(overline(X) + Z)(Y + Z)$ \ $= (X + Y)(overline(X) + Z)$],
@@ -2201,8 +2317,8 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
   *Step 1:* Look for combining opportunities
   $
     f & = A B C + A B overline(C) + overline(A) B C + overline(A) overline(B) C \
-      & = A B (C + overline(C)) + overline(A) B C + overline(A) overline(B) C   & quad & "(factor)" \
-      & = A B + overline(A) B C + overline(A) overline(B) C                     & quad & "(complement)"
+    & = A B (C + overline(C)) + overline(A) B C + overline(A) overline(B) C & quad & "(factor)" \
+    & = A B + overline(A) B C + overline(A) overline(B) C & quad & "(complement)"
   $
 
   *Step 2:* Apply more combining
@@ -2224,10 +2340,10 @@ Beyond K-maps, we can minimize algebraically using Boolean laws:
 
 #proof[
   $
-    X Y + overline(X) Z + Y Z & = X Y + overline(X) Z + (X + overline(X)) Y Z   & quad & "(complement)" \
-                              & = X Y + overline(X) Z + X Y Z + overline(X) Y Z & quad & "(distributive)" \
-                              & = X Y (1 + Z) + overline(X) Z (1 + Y)           & quad & "(factor)" \
-                              & = X Y + overline(X) Z                           & quad & "(null: " 1 + X = 1 ")"
+    X Y + overline(X) Z + Y Z & = X Y + overline(X) Z + (X + overline(X)) Y Z & quad & "(complement)" \
+    & = X Y + overline(X) Z + X Y Z + overline(X) Y Z & quad & "(distributive)" \
+    & = X Y (1 + Z) + overline(X) Z (1 + Y) & quad & "(factor)" \
+    & = X Y + overline(X) Z & quad & "(null: " 1 + X = 1 ")"
   $
 ]
 
@@ -2464,7 +2580,9 @@ The Q-M algorithm has two phases:
     columns: 4,
     align: (center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Dash pos.*], [*Implicant*], [*Pattern*], [*Size 4 Implicant*]),
+    table.header(
+      [*Dash pos.*], [*Implicant*], [*Pattern*], [*Size 4 Implicant*]
+    ),
     [pos. 0],
     [$m_(1,5)$ #YES],
     [−01],
@@ -2546,9 +2664,24 @@ These 4 prime implicants cannot be reduced further.
   #align(center)[
     #table(
       columns: 6,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      table.header([*Prime Implicant*], [*$m_1$*], [*$m_3$*], [*$m_5$*], [*$m_6$*], [*$m_7$*]),
-      [$C$ (−−1)], [$checkmark$], [$checkmark$], [$checkmark$], [], [$checkmark$],
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+      ),
+      table.header(
+        [*Prime Implicant*],
+        [*$m_1$*],
+        [*$m_3$*],
+        [*$m_5$*],
+        [*$m_6$*],
+        [*$m_7$*],
+      ),
+      [$C$ (−−1)],
+      [$checkmark$],
+      [$checkmark$],
+      [$checkmark$],
+      [],
+      [$checkmark$],
+
       [$A B$ (11−)], [], [], [], [$checkmark$], [$checkmark$],
     )
   ]
@@ -2581,7 +2714,9 @@ These 4 prime implicants cannot be reduced further.
     #align(center)[
       #table(
         columns: 4,
-        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+        stroke: (x, y) => (
+          if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+        ),
         [], [$m_i$], [$m_j$], [$m_k$],
         [$"PI"_1$], [$cross$], [$cross$], [],
         [$"PI"_2$], [], [$cross$], [$cross$],
@@ -2630,7 +2765,9 @@ When multiple prime implicants remain after selecting essentials:
   #align(center)[
     #table(
       columns: 5,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+      ),
       [], [$m_1$], [$m_2$], [$m_3$], [$m_4$],
       [$P_1$], [$cross$], [$cross$], [], [],
       [$P_2$], [$cross$], [], [$cross$], [],
@@ -2684,7 +2821,15 @@ When multiple prime implicants remain after selecting essentials:
     align: horizon,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     inset: (x, y) => if x == 0 { 5pt } else { 3pt },
-    table.header([*Group*], [*Minterm*], [*Binary*], [*$->$*], [*Comb 1*], [*$->$*], [*Comb 2*]),
+    table.header(
+      [*Group*],
+      [*Minterm*],
+      [*Binary*],
+      [*$->$*],
+      [*Comb 1*],
+      [*$->$*],
+      [*Comb 2*],
+    ),
     [0], [0], [0000], [], [0,1: 000−], [], [0,1,8,9: −00−],
     [1], [1], [0001], [], [0,2: 00−0], [], [0,2,8,10: −0−0],
     [], [2], [0010], [], [0,8: −000], [], [],
@@ -2712,8 +2857,12 @@ When multiple prime implicants remain after selecting essentials:
 #box(baseline: 100% - 1em)[
   #table(
     columns: 11,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-    table.header([], [*0*], [*1*], [*2*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*14*]),
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+    ),
+    table.header(
+      [], [*0*], [*1*], [*2*], [*5*], [*6*], [*7*], [*8*], [*9*], [*10*], [*14*]
+    ),
     [$P_1$], [$cross$], [$cross$], [], [], [], [], [$cross$], [$cross$], [], [],
     [$P_2$], [$cross$], [], [$cross$], [], [], [], [$cross$], [], [$cross$], [],
     [$P_3$], [], [], [$cross$], [], [$cross$], [], [], [], [$cross$], [$cross$],
@@ -3146,8 +3295,19 @@ We will examine three methods for computing ANF from truth tables:
     columns: 5,
     align: (left, center, center, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Method*], [*Complexity*], [*Variables*], [*Difficulty*], [*Best suited for*]),
-    [Direct computation], [$O(2^(2n))$], [1-3], [High], [Theoretical understanding],
+    table.header(
+      [*Method*],
+      [*Complexity*],
+      [*Variables*],
+      [*Difficulty*],
+      [*Best suited for*],
+    ),
+    [Direct computation],
+    [$O(2^(2n))$],
+    [1-3],
+    [High],
+    [Theoretical understanding],
+
     [Pascal's triangle], [$O(2^n)$], [1-5], [Medium], [Hand calculations],
     [Karnaugh map], [$O(2^n)$], [2-4], [Low], [Visual intuition],
   )
@@ -3211,9 +3371,21 @@ From truth table, substitute each $(x, y)$ to get 4 equations over $FF_2$:
     align: (center, left, center, center),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*$(x,y)$*], [*Substituted equation*], [], [*$f$*]),
-    [(0,0)], [$a_0 xor (a_1 dot 0) xor (a_2 dot 0) xor (a_3 dot 0 dot 0) = a_0$], [$=$], [1],
-    [(0,1)], [$a_0 xor (a_1 dot 0) xor (a_2 dot 1) xor (a_3 dot 0 dot 1) = a_0 xor a_2$], [$=$], [1],
-    [(1,0)], [$a_0 xor (a_1 dot 1) xor (a_2 dot 0) xor (a_3 dot 1 dot 0) = a_0 xor a_1$], [$=$], [1],
+    [(0,0)],
+    [$a_0 xor (a_1 dot 0) xor (a_2 dot 0) xor (a_3 dot 0 dot 0) = a_0$],
+    [$=$],
+    [1],
+
+    [(0,1)],
+    [$a_0 xor (a_1 dot 0) xor (a_2 dot 1) xor (a_3 dot 0 dot 1) = a_0 xor a_2$],
+    [$=$],
+    [1],
+
+    [(1,0)],
+    [$a_0 xor (a_1 dot 1) xor (a_2 dot 0) xor (a_3 dot 1 dot 0) = a_0 xor a_1$],
+    [$=$],
+    [1],
+
     [(1,1)], [$a_0 xor a_1 xor a_2 xor a_3$], [$=$], [0],
   )
 ]
@@ -3266,9 +3438,20 @@ Find ANF for $f(x, y, z) = sum m(0, 1, 3, 7)$:
   }
   #table(
     columns: 10,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) }
+    ),
     table.header(
-      [$x y z$], [$f$], [$a_1$], [$a_z$], [$a_y$], [$a_(y z)$], [$a_x$], [$a_(x z)$], [$a_(x y)$], [$a_(x y z)$]
+      [$x y z$],
+      [$f$],
+      [$a_1$],
+      [$a_z$],
+      [$a_y$],
+      [$a_(y z)$],
+      [$a_x$],
+      [$a_(x z)$],
+      [$a_(x y)$],
+      [$a_(x y z)$],
     ),
     [000], [1], bb[1], [0], bb[1], bb[1], bb[1], [0], bb[1], [0],
     [001], [1], [1], [1], [0], [0], [1], [1], [1], [ ],
@@ -3563,7 +3746,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 0, highlights: (((0, 1, 2, 3, 4, 5, 6, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 1, 1, 1),
+        current: 0,
+        highlights: (((0, 1, 2, 3, 4, 5, 6, 7), blue),),
+      )
     ]
   ],
   [
@@ -3605,7 +3792,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 4, highlights: (((4, 5, 6, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 1, 1, 1),
+        current: 4,
+        highlights: (((4, 5, 6, 7), blue),),
+      )
     ]
   ],
   [
@@ -3647,7 +3838,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 2, highlights: (((2, 3, 6, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 1, 1, 1),
+        current: 2,
+        highlights: (((2, 3, 6, 7), blue),),
+      )
     ]
   ],
   [
@@ -3689,7 +3884,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 1, highlights: (((1, 3, 5, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 1, 1, 1),
+        current: 1,
+        highlights: (((1, 3, 5, 7), blue),),
+      )
     ]
   ],
   [
@@ -3731,7 +3930,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 1, 1, 1), current: 6, highlights: (((6, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 1, 1, 1),
+        current: 6,
+        highlights: (((6, 7), blue),),
+      )
     ]
   ],
   [
@@ -3777,7 +3980,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 1, 0, 0), current: 5, highlights: (((5, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 1, 0, 0),
+        current: 5,
+        highlights: (((5, 7), blue),),
+      )
     ]
   ],
   [
@@ -3823,7 +4030,11 @@ Each coefficient $a_S$ is the XOR of all function values $f(T)$ where $T subset.
   column-gutter: 1em,
   [
     #align(center)[
-      #kmap3((0, 0, 0, 1, 0, 0, 0, 1), current: 3, highlights: (((3, 7), blue),))
+      #kmap3(
+        (0, 0, 0, 1, 0, 0, 0, 1),
+        current: 3,
+        highlights: (((3, 7), blue),),
+      )
     ]
   ],
   [
@@ -4216,7 +4427,9 @@ Two approaches for converting between representations:
   }
   #table(
     columns: 6,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) },
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.8pt) }
+    ),
     table.header([$x y$], [$f$], [$a_1$], [$a_x$], [$a_y$], [$a_(x y)$]),
     [00], [0], [0], bb[1], bb[1], [0],
     [01], [1], [1], [0], [1], [ ],
@@ -4390,7 +4603,9 @@ Informally, $[F]$ contains all functions you can build by _combining_ functions 
   #table(
     columns: 6,
     align: (right, center, center, center, center, center),
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.4pt) },
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.4pt) }
+    ),
     inset: (x, y) => if x == 0 { 5pt } else { 3pt },
     table.header([*Function*], [$T_0$], [$T_1$], [$S$], [$M$], [$L$]),
     [Constant 0], [#YES], [#NO], [#NO], [#YES], [#YES],
@@ -4648,7 +4863,9 @@ Since ${"NAND"} = {nand}$ is complete, we can build any function using only NAND
       [NOT], [$not x$], [$x nand x$],
       [AND], [$x and y = not (x nand y)$], [$(x nand y) nand (x nand y)$],
       [OR], [$x or y = not (not x and not y)$], [$(x nand x) nand (y nand y)$],
-      [XOR], [$x xor y = (x and not y) or (not x and not y)$], [$(x nand (x nand y)) nand (y nand (x nand y))$],
+      [XOR],
+      [$x xor y = (x and not y) or (not x and not y)$],
+      [$(x nand (x nand y)) nand (y nand (x nand y))$],
     )
   ]
 ]
@@ -4807,7 +5024,10 @@ Two main notation standards for logic gates:
     [NAND], [D-shape + bubble], [$overline(A and B)$], [NOT-AND],
     [NOR], [Shield + bubble], [$overline(A or B)$], [NOT-OR],
     [XOR], [Shield + curve], [$A xor B$], [Output 1 when inputs differ],
-    [XNOR], [Shield + curve + bubble], [$overline(A xor B)$], [Output 1 when inputs match],
+    [XNOR],
+    [Shield + curve + bubble],
+    [$overline(A xor B)$],
+    [Output 1 when inputs match],
   )
 ]
 
@@ -4930,7 +5150,9 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
       #table(
         columns: 4,
         align: center,
-        stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.4pt) },
+        stroke: (x, y) => (
+          if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.4pt) }
+        ),
         inset: (x, y) => if y == 0 { 5pt } else { 3pt },
         table.header([$A$], [$B$], [$S$], [$C$]),
         [0], [0], [0], [0],
@@ -5159,19 +5381,40 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
           )
 
           // Wire from HA1 to HA2: XOR1 to XOR2 (Sum)
-          wire.wire("w-s1", ("xor1-port-out", "xor2-port-in0"), style: "zigzag", zigzag-ratio: 30%)
+          wire.wire(
+            "w-s1",
+            ("xor1-port-out", "xor2-port-in0"),
+            style: "zigzag",
+            zigzag-ratio: 30%,
+          )
 
           // Wire from HA1 to HA2: XOR1 to AND2 (S1 shared)
           wire.intersection("w-s1.zig")
-          wire.wire("w-s1-and", ("w-s1.zig", "and2-port-in0"), style: "zigzag", zigzag-ratio: 0%)
+          wire.wire(
+            "w-s1-and",
+            ("w-s1.zig", "and2-port-in0"),
+            style: "zigzag",
+            zigzag-ratio: 0%,
+          )
 
           // Wires from carries to OR
-          wire.wire("w-c1", ("and1-port-out", "or-port-in0"), style: "zigzag", zigzag-ratio: 30%)
+          wire.wire(
+            "w-c1",
+            ("and1-port-out", "or-port-in0"),
+            style: "zigzag",
+            zigzag-ratio: 30%,
+          )
           wire.wire("w-c2", ("and2-port-out", "or-port-in1"), style: "zigzag")
 
           // Input offsets
-          draw.hide(draw.line(name: "l1", "xor1-port-in0", (rel: (-1, 0), to: ())))
-          draw.hide(draw.line(name: "l2", "xor1-port-in1", (rel: (-1.5, 0), to: ())))
+          draw.hide(draw.line(name: "l1", "xor1-port-in0", (
+            rel: (-1, 0),
+            to: (),
+          )))
+          draw.hide(draw.line(name: "l2", "xor1-port-in1", (
+            rel: (-1.5, 0),
+            to: (),
+          )))
 
           let a = "l1.end"
           let b = "l2.end"
@@ -5180,17 +5423,38 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
           // A to HA1
           wire.wire("wA1", (a, "xor1-port-in0"))
           wire.intersection(a)
-          wire.wire("wA2", (a, "and1-port-in0"), style: "zigzag", zigzag-ratio: 0%)
+          wire.wire(
+            "wA2",
+            (a, "and1-port-in0"),
+            style: "zigzag",
+            zigzag-ratio: 0%,
+          )
 
           // B to HA1
           wire.wire("wB1", (b, "xor1-port-in1"))
           wire.intersection(b)
-          wire.wire("wB2", (b, "and1-port-in1"), style: "zigzag", zigzag-ratio: 0%)
+          wire.wire(
+            "wB2",
+            (b, "and1-port-in1"),
+            style: "zigzag",
+            zigzag-ratio: 0%,
+          )
 
           // Cin to HA2
-          wire.wire("wC1", (cin, "xor2-port-in1"), style: "zigzag", zigzag-ratio: 75%)
+          wire.wire(
+            "wC1",
+            (cin, "xor2-port-in1"),
+            style: "zigzag",
+            zigzag-ratio: 75%,
+          )
           wire.intersection(cin)
-          wire.wire("wC2", (cin, "and2-port-in1"), style: "dodge", dodge-y: -6.6em, dodge-margins: (0, 1))
+          wire.wire(
+            "wC2",
+            (cin, "and2-port-in1"),
+            style: "dodge",
+            dodge-y: -6.6em,
+            dodge-margins: (0, 1),
+          )
         },
       )
 
@@ -5199,21 +5463,36 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
       let cin = (a, 200%, b)
 
       // Input labels
-      draw.line(name: "in-a", a, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
+      draw.line(name: "in-a", a, (
+        rel: (-0.5, 0),
+        to: (horizontal: "full-adder.west", vertical: ()),
+      ))
       draw.content("in-a.end", [$A$], anchor: "east", padding: 0.2)
 
-      draw.line(name: "in-b", b, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
+      draw.line(name: "in-b", b, (
+        rel: (-0.5, 0),
+        to: (horizontal: "full-adder.west", vertical: ()),
+      ))
       draw.content("in-b.end", [$B$], anchor: "east", padding: 0.2)
 
-      draw.line(name: "in-cin", cin, (rel: (-0.5, 0), to: (horizontal: "full-adder.west", vertical: ())))
+      draw.line(name: "in-cin", cin, (
+        rel: (-0.5, 0),
+        to: (horizontal: "full-adder.west", vertical: ()),
+      ))
       draw.content("in-cin.end", [$C_"in"$], anchor: "east", padding: 0.2)
 
       // Output Sum
-      draw.line(name: "w-sum", "xor2-port-out", (rel: (0.5, 0), to: (horizontal: "full-adder.east", vertical: ())))
+      draw.line(name: "w-sum", "xor2-port-out", (
+        rel: (0.5, 0),
+        to: (horizontal: "full-adder.east", vertical: ()),
+      ))
       draw.content("w-sum.end", [$S$], anchor: "west", padding: 0.2)
 
       // Output Carry
-      draw.line(name: "w-cout", "or-port-out", (rel: (0.5, 0), to: (horizontal: "full-adder.east", vertical: ())))
+      draw.line(name: "w-cout", "or-port-out", (
+        rel: (0.5, 0),
+        to: (horizontal: "full-adder.east", vertical: ()),
+      ))
       draw.content("w-cout.end", [$C_"out"$], anchor: "west", padding: 0.2)
     })
   ],
@@ -5257,9 +5536,18 @@ We often need to compute _multiple functions_ simultaneously, using one circiut 
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Circuit*], [*Function*], [*Key Components*]),
     [Subtractor], [Compute $A - B$], [Use 2's complement, add with negation],
-    [Comparator], [Test $A < B$, $A = B$, $A > B$], [XOR for equality, cascaded logic],
-    [Multiplexer], [Select one of $n$ inputs], [$log_2 n$ select lines, AND-OR structure],
-    [Demultiplexer], [Route input to one of $n$ outputs], [Inverse of multiplexer],
+    [Comparator],
+    [Test $A < B$, $A = B$, $A > B$],
+    [XOR for equality, cascaded logic],
+
+    [Multiplexer],
+    [Select one of $n$ inputs],
+    [$log_2 n$ select lines, AND-OR structure],
+
+    [Demultiplexer],
+    [Route input to one of $n$ outputs],
+    [Inverse of multiplexer],
+
     [Encoder], [Convert $2^n$ inputs to $n$-bit code], [Priority encoding],
     [Decoder], [Convert $n$-bit code to $2^n$ outputs], [Minterm generation],
   )
@@ -5314,8 +5602,14 @@ Now that we've seen various combinational circuits, let's consider: *How do we m
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Technique*], [*Best For*], [*Limitations*]),
     [Algebraic laws], [Small expressions, manual], [Error-prone, no guarantee],
-    [K-maps], [2-4 variables, visualization], [Does not scale beyond 6 variables],
-    [Quine-McCluskey], [Exact minimization, automation], [Exponential complexity],
+    [K-maps],
+    [2-4 variables, visualization],
+    [Does not scale beyond 6 variables],
+
+    [Quine-McCluskey],
+    [Exact minimization, automation],
+    [Exponential complexity],
+
     [Espresso], [Multi-output, heuristic], [May not find optimal solution],
     [Technology mapping], [Gate libraries, ASIC/FPGA], [Requires EDA tools],
   )
@@ -5500,7 +5794,9 @@ Now that we've seen various combinational circuits, let's consider: *How do we m
     #table(
       columns: 5,
       align: (center, center, center, center, left),
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 or x == 3 { (right: 0.4pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 1 or x == 3 { (right: 0.4pt) }
+      ),
       table.header([$S$], [$R$], [$Q_t$], [$Q_(t+1)$], [Action]),
       [0], [0], [0], [0], [Hold],
       [0], [0], [1], [1], [Hold],
@@ -5605,7 +5901,12 @@ Same inputs, different outputs! This violates the basic idea of a function.
         stroke: red + 1.5pt,
       )
       // Mark rising edge with arrow
-      line((x, y-clk - 0.2), (x, y-clk + sig-height + 0.2), stroke: green + 1pt, mark: (end: ">"))
+      line(
+        (x, y-clk - 0.2),
+        (x, y-clk + sig-height + 0.2),
+        stroke: green + 1pt,
+        mark: (end: ">"),
+      )
     }
 
     // D input signal

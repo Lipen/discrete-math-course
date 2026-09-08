@@ -8,7 +8,9 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#3*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Discrete Mathematics*]
     \
     *Boolean Algebra*
     #h(1fr)
@@ -196,7 +198,12 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
     // Gate-to-gate connections
     wire.wire("w1", ("g2-port-out", "g3-port-in0"), style: "zigzag")
     wire.intersection("w1.zig")
-    wire.wire("w2", ("w1.zig", "g4-port-in1"), style: "zigzag", zigzag-ratio: 0%)
+    wire.wire(
+      "w2",
+      ("w1.zig", "g4-port-in1"),
+      style: "zigzag",
+      zigzag-ratio: 0%,
+    )
     wire.wire("w3", ("g4-port-out", "g5-port-in0"), style: "zigzag")
     wire.wire("w4", ("g3-port-out", "g5-port-in1"), style: "zigzag")
     wire.wire("w5", ("g5-port-out", "g6-port-in1"), style: "zigzag")
@@ -206,18 +213,68 @@ Given a combinational circuit with 3 inputs $(A, B, C)$ and 2 outputs $(f_1, f_2
     wire.wire("w8", ("g1-port-out", "g8-port-in1"), style: "zigzag")
 
     // Labels for inputs
-    draw.content((rel: (-0.5, 0), to: "g2-port-in0"), anchor: "east", label[$A$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g6-port-in0"), anchor: "east", label[$A$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g1-port-in0"), anchor: "east", label[$A$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g2-port-in1"), anchor: "east", label[$B$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g1-port-in1"), anchor: "east", label[$B$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g7-port-in1"), anchor: "east", label[$B$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g3-port-in1"), anchor: "east", label[$C$], padding: .2)
-    draw.content((rel: (-0.5, 0), to: "g4-port-in0"), anchor: "east", label[$C$], padding: .2)
+    draw.content(
+      (rel: (-0.5, 0), to: "g2-port-in0"),
+      anchor: "east",
+      label[$A$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g6-port-in0"),
+      anchor: "east",
+      label[$A$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g1-port-in0"),
+      anchor: "east",
+      label[$A$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g2-port-in1"),
+      anchor: "east",
+      label[$B$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g1-port-in1"),
+      anchor: "east",
+      label[$B$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g7-port-in1"),
+      anchor: "east",
+      label[$B$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g3-port-in1"),
+      anchor: "east",
+      label[$C$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (-0.5, 0), to: "g4-port-in0"),
+      anchor: "east",
+      label[$C$],
+      padding: .2,
+    )
 
     // Labels for outputs
-    draw.content((rel: (0.5, 0), to: "g6-port-out"), anchor: "west", label[$f_1$], padding: .2)
-    draw.content((rel: (0.5, 0), to: "g8-port-out"), anchor: "west", label[$f_2$], padding: .2)
+    draw.content(
+      (rel: (0.5, 0), to: "g6-port-out"),
+      anchor: "west",
+      label[$f_1$],
+      padding: .2,
+    )
+    draw.content(
+      (rel: (0.5, 0), to: "g8-port-out"),
+      anchor: "west",
+      label[$f_2$],
+      padding: .2,
+    )
 
     // Gate labels
     draw.content("g2", label[$g_2$])

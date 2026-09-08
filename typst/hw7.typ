@@ -8,7 +8,9 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#7*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Discrete Mathematics*]
     \
     *Combinatorics*
     #h(1fr)
@@ -283,9 +285,22 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
 
     #align(center)[
       #cetz.canvas({
-        draw-3d-box("A", balls: ((0.45, 0.4, ""), (0.6, 0.3, ""), (0.28, 0.28, "")), ox: 0)
+        draw-3d-box(
+          "A",
+          balls: ((0.45, 0.4, ""), (0.6, 0.3, ""), (0.28, 0.28, "")),
+          ox: 0,
+        )
         draw-3d-box("B", ox: 1.6)
-        draw-3d-box("C", balls: ((0.5, 0.5, ""), (0.9, 0.5, ""), (0.31, 0.33, ""), (0.71, 0.3, "")), ox: 3.2)
+        draw-3d-box(
+          "C",
+          balls: (
+            (0.5, 0.5, ""),
+            (0.9, 0.5, ""),
+            (0.31, 0.33, ""),
+            (0.71, 0.3, ""),
+          ),
+          ox: 3.2,
+        )
         draw-3d-box("D", balls: ((0.4, 0.3, ""), (0.8, 0.5, "")), ox: 4.8)
         draw-3d-box("E", balls: ((0.6, 0.4, ""),), ox: 6.4)
       })
@@ -298,8 +313,21 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
         draw-3d-box("", balls: ((0.55, 0.3, "1"),), ox: 0)
         draw-3d-box("", balls: ((0.4, 0.3, "2"), (0.8, 0.5, "3")), ox: 1.6)
         draw-3d-box("", ox: 3.2)
-        draw-3d-box("", balls: ((0.5, 0.55, "4"), (0.9, 0.5, "5"), (0.31, 0.33, "6"), (0.7, 0.3, "7")), ox: 4.8)
-        draw-3d-box("", balls: ((0.6, 0.4, "8"), (0.9, 0.55, "9"), (0.3, 0.3, "10")), ox: 6.4)
+        draw-3d-box(
+          "",
+          balls: (
+            (0.5, 0.55, "4"),
+            (0.9, 0.5, "5"),
+            (0.31, 0.33, "6"),
+            (0.7, 0.3, "7"),
+          ),
+          ox: 4.8,
+        )
+        draw-3d-box(
+          "",
+          balls: ((0.6, 0.4, "8"), (0.9, 0.55, "9"), (0.3, 0.3, "10")),
+          ox: 6.4,
+        )
       })
     ]
 
@@ -311,9 +339,22 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
       #cetz.canvas({
         draw-3d-box("A", balls: ((0.3, 0.3, "1"), (0.8, 0.5, "2")), ox: 0)
         draw-3d-box("B", balls: ((0.6, 0.5, "3"),), ox: 1.6)
-        draw-3d-box("C", balls: ((0.5, 0.55, "4"), (0.9, 0.5, "5"), (0.3, 0.3, "6")), ox: 3.2)
+        draw-3d-box(
+          "C",
+          balls: ((0.5, 0.55, "4"), (0.9, 0.5, "5"), (0.3, 0.3, "6")),
+          ox: 3.2,
+        )
         draw-3d-box("D", ox: 4.8)
-        draw-3d-box("E", balls: ((0.5, 0.55, "7"), (0.9, 0.55, "8"), (0.3, 0.3, "9"), (0.7, 0.3, "10")), ox: 6.4)
+        draw-3d-box(
+          "E",
+          balls: (
+            (0.5, 0.55, "7"),
+            (0.9, 0.55, "8"),
+            (0.3, 0.3, "9"),
+            (0.7, 0.3, "10"),
+          ),
+          ox: 6.4,
+        )
       })
     ]
 
@@ -321,8 +362,21 @@ Visualize some arrangements for your chosen values of $n$ and $k$.
 
     #align(center)[
       #cetz.canvas({
-        draw-3d-box("", balls: ((0.5, 0.55, ""), (0.9, 0.5, ""), (0.3, 0.3, ""), (0.7, 0.3, "")), ox: 0)
-        draw-3d-box("", balls: ((0.5, 0.5, ""), (0.9, 0.5, ""), (0.3, 0.3, "")), ox: 1.6)
+        draw-3d-box(
+          "",
+          balls: (
+            (0.5, 0.55, ""),
+            (0.9, 0.5, ""),
+            (0.3, 0.3, ""),
+            (0.7, 0.3, ""),
+          ),
+          ox: 0,
+        )
+        draw-3d-box(
+          "",
+          balls: ((0.5, 0.5, ""), (0.9, 0.5, ""), (0.3, 0.3, "")),
+          ox: 1.6,
+        )
         draw-3d-box("", balls: ((0.4, 0.3, ""), (0.8, 0.5, "")), ox: 3.2)
         draw-3d-box("", balls: ((0.6, 0.4, ""),), ox: 4.8)
         draw-3d-box("", ox: 6.4)
@@ -686,7 +740,9 @@ Let $S(n,k)$ be the Stirling numbers of the second kind and let $B_n$ be the $n$
 
 #v(1em)
 #align(center)[
-  #line(length: 30%, stroke: 0.1pt) #h(0.5em) $ast$ #h(0.5em) $ast$ #h(0.5em) $ast$ #h(0.5em) #line(
+  #line(length: 30%, stroke: 0.1pt) #h(0.5em) $ast$ #h(0.5em) $ast$ #h(
+    0.5em,
+  ) $ast$ #h(0.5em) #line(
     length: 30%,
     stroke: 0.1pt,
   )

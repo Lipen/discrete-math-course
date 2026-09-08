@@ -52,7 +52,12 @@
   draw.circle(pos, radius: 0.15, fill: black, name: name, ..args)
   let label-side = align2anchor(side)
   let label-anchor = align2anchor(side.inv())
-  draw.content(name + "." + label-side, label, anchor: label-anchor, padding: .2)
+  draw.content(
+    name + "." + label-side,
+    label,
+    anchor: label-anchor,
+    padding: .2,
+  )
 }
 
 
@@ -138,7 +143,9 @@ Relations capture connections between elements of sets.
   Let $"Students" = {"Alice", "Bob"}$ and $"Subjects" = {"Math", "Algorithms"}$.
 
   The relation "likes" (between students and subjects) might be:
-  $ R = {pair("Alice", "Math"), pair("Alice", "Algorithms"), pair("Bob", "Algorithms")} $
+  $
+    R = {pair("Alice", "Math"), pair("Alice", "Algorithms"), pair("Bob", "Algorithms")}
+  $
 
   We write "Alice $rel(R)$ Math" to denote that "Alice likes Math".
 ]
@@ -260,13 +267,43 @@ Heterogeneous relations connect elements from two different sets.
     }
 
     // Left partition (animals)
-    draw-vertex((-2, 1), "rabbit", [$#emoji.rabbit$], fill: green.lighten(80%), stroke: 1pt + green.darken(20%))
-    draw-vertex((-2, 0), "cat", [$#emoji.cat$], fill: green.lighten(80%), stroke: 1pt + green.darken(20%))
-    draw-vertex((-2, -1), "dog", [$#emoji.dog$], fill: green.lighten(80%), stroke: 1pt + green.darken(20%))
+    draw-vertex(
+      (-2, 1),
+      "rabbit",
+      [$#emoji.rabbit$],
+      fill: green.lighten(80%),
+      stroke: 1pt + green.darken(20%),
+    )
+    draw-vertex(
+      (-2, 0),
+      "cat",
+      [$#emoji.cat$],
+      fill: green.lighten(80%),
+      stroke: 1pt + green.darken(20%),
+    )
+    draw-vertex(
+      (-2, -1),
+      "dog",
+      [$#emoji.dog$],
+      fill: green.lighten(80%),
+      stroke: 1pt + green.darken(20%),
+    )
 
     // Right partition (food)
-    draw-vertex((2, 0.5), "carrot", [$#emoji.carrot$], fill: orange.lighten(80%), stroke: 1pt + orange.darken(20%))
-    draw-vertex((2, -0.5), "fish", [$#emoji.fish$], fill: orange.lighten(80%), stroke: 1pt + orange.darken(20%))
+    draw-vertex(
+      (2, 0.5),
+      "carrot",
+      [$#emoji.carrot$],
+      fill: orange.lighten(80%),
+      stroke: 1pt + orange.darken(20%),
+    )
+    draw-vertex(
+      (2, -0.5),
+      "fish",
+      [$#emoji.fish$],
+      fill: orange.lighten(80%),
+      stroke: 1pt + orange.darken(20%),
+    )
 
     // Edges representing the "likes to eat" relation
     draw-edge("cat", "fish")
@@ -827,11 +864,24 @@ A relation is asymmetric if it never goes both ways.
     columns: 3,
     align: (left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
-    table.header([*Representative*], [*Equivalence Class*], [*Rational Number*]),
-    [$pair(1, 2)$], [${pair(1, 2), pair(2, 4), pair(3, 6), pair(-1, -2), pair(-2, -4), ...}$], [$1"/"2$],
-    [$pair(0, 1)$], [${pair(0, 1), pair(0, 2), pair(0, -3), pair(0, 7), ...}$], [$0$],
-    [$pair(3, 4)$], [${pair(3, 4), pair(6, 8), pair(-3, -4), pair(9, 12), ...}$], [$3"/"4$],
-    [$pair(-5, 3)$], [${pair(-5, 3), pair(5, -3), pair(-10, 6), pair(10, -6), ...}$], [$-5"/"3$],
+    table.header(
+      [*Representative*], [*Equivalence Class*], [*Rational Number*]
+    ),
+    [$pair(1, 2)$],
+    [${pair(1, 2), pair(2, 4), pair(3, 6), pair(-1, -2), pair(-2, -4), ...}$],
+    [$1"/"2$],
+
+    [$pair(0, 1)$],
+    [${pair(0, 1), pair(0, 2), pair(0, -3), pair(0, 7), ...}$],
+    [$0$],
+
+    [$pair(3, 4)$],
+    [${pair(3, 4), pair(6, 8), pair(-3, -4), pair(9, 12), ...}$],
+    [$3"/"4$],
+
+    [$pair(-5, 3)$],
+    [${pair(-5, 3), pair(5, -3), pair(-10, 6), pair(10, -6), ...}$],
+    [$-5"/"3$],
   )
 
   *Quotient set:* All equivalence classes together form the set of rational numbers:
@@ -847,7 +897,7 @@ A relation is asymmetric if it never goes both ways.
   *Operations on the quotient set:*
   We can define arithmetic operations on $QQ$ by:
   $
-      eqclass(pair(a, b), sim) + eqclass(pair(c, d), sim) & := eqclass(pair(a d + b c, b d), sim) \
+    eqclass(pair(a, b), sim) + eqclass(pair(c, d), sim) & := eqclass(pair(a d + b c, b d), sim) \
     eqclass(pair(a, b), sim) dot eqclass(pair(c, d), sim) & := eqclass(pair(a c, b d), sim)
   $
 
@@ -1180,9 +1230,30 @@ A relation is asymmetric if it never goes both ways.
     blob((2, 0), [$3$], tint: blue, name: <3>),
     edge("-}>"),
     blob((3, 0), [$4$], tint: red, name: <4>),
-    edge(<1>, <3>, "--}>", bend: 45deg, stroke: blue.darken(20%), label: [$R^2$]),
-    edge(<2>, <4>, "--}>", bend: 45deg, stroke: blue.darken(20%), label: [$R^2$]),
-    edge(<1>, <4>, "--}>", bend: -30deg, stroke: green.darken(20%), label: [$R^3$]),
+    edge(
+      <1>,
+      <3>,
+      "--}>",
+      bend: 45deg,
+      stroke: blue.darken(20%),
+      label: [$R^2$],
+    ),
+    edge(
+      <2>,
+      <4>,
+      "--}>",
+      bend: 45deg,
+      stroke: blue.darken(20%),
+      label: [$R^2$],
+    ),
+    edge(
+      <1>,
+      <4>,
+      "--}>",
+      bend: -30deg,
+      stroke: green.darken(20%),
+      label: [$R^3$],
+    ),
   )
 ]
 
@@ -1384,14 +1455,20 @@ Sometimes we have a relation that _almost_ has a property we want, but not quite
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Step*], [*Description*], [*New pairs added*], [*Result*]),
 
-    [*Step 1:*], [Direct connections \ ($R^1 = R$)], [$pair(1, 2), pair(2, 3)$], [$R^1 = {pair(1, 2), pair(2, 3)}$],
+    [*Step 1:*],
+    [Direct connections \ ($R^1 = R$)],
+    [$pair(1, 2), pair(2, 3)$],
+    [$R^1 = {pair(1, 2), pair(2, 3)}$],
 
     [*Step 2:*],
     [Two-step paths \ ($R^2 = R compose R$)],
     [$pair(1, 3)$ from path $1 -> 2 -> 3$],
     [$R^2 = {pair(1, 3)}$],
 
-    [*Step 3:*], [Three-step paths \ ($R^3 = R^2 compose R$)], [None (no three-step paths)], [$R^3 = emptyset$],
+    [*Step 3:*],
+    [Three-step paths \ ($R^3 = R^2 compose R$)],
+    [None (no three-step paths)],
+    [$R^3 = emptyset$],
 
     [*Final Result:*],
     [Transitive closure],
@@ -1435,13 +1512,13 @@ Closures can be combined to achieve multiple properties at once.
 
   *Method 1:* Reflexive first, then symmetric
   $
-      r(R) & = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} \
+    r(R) & = {pair(1, 1), pair(1, 2), pair(2, 2), pair(2, 3), pair(3, 3)} \
     s r(R) & = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)}
   $
 
   *Method 2:* Symmetric first, then reflexive
   $
-      s(R) & = {pair(1, 2), pair(2, 1), pair(2, 3), pair(3, 2)} \
+    s(R) & = {pair(1, 2), pair(2, 1), pair(2, 3), pair(3, 2)} \
     r s(R) & = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2), pair(2, 3), pair(3, 2), pair(3, 3)}
   $
 
@@ -1459,7 +1536,9 @@ The reflexive-transitive closure is particularly important and has a special not
   $ t(R) = R union R^2 = {pair(a, b), pair(b, c), pair(a, c)} $
 
   *Step 2:* Add reflexivity
-  $ r t(R) = t(R) union I_M = {pair(a, a), pair(a, b), pair(a, c), pair(b, b), pair(b, c), pair(c, c)} $
+  $
+    r t(R) = t(R) union I_M = {pair(a, a), pair(a, b), pair(a, c), pair(b, b), pair(b, c), pair(c, c)}
+  $
 ]
 
 #note[
@@ -1490,7 +1569,10 @@ The equivalence closure makes a relation reflexive, symmetric, and transitive.
     [$pair(2, 1), pair(4, 3)$],
     [$s r(R) = {pair(1, 1), pair(1, 2), pair(2, 1), pair(2, 2),$ \ $#h(4.5em) pair(3, 3), pair(3, 4), pair(4, 3), pair(4, 4)}$],
 
-    [*Step 3:*], [Transitive closure], [None (no new pairs needed)], [$t s r(R) = s r(R)$],
+    [*Step 3:*],
+    [Transitive closure],
+    [None (no new pairs needed)],
+    [$t s r(R) = s r(R)$],
   )
 ]
 
@@ -1504,7 +1586,9 @@ The equivalence closure makes a relation reflexive, symmetric, and transitive.
   Let $M = {a, b, c, d, e}$ and $R = {pair(a, b), pair(b, c), pair(d, e)}$ (chain $a -> b -> c$ and pair $d -> e$).
 
   *Step 1:* Add reflexivity --- all self-loops
-  $ r(R) = R union {pair(a, a), pair(b, b), pair(c, c), pair(d, d), pair(e, e)} $
+  $
+    r(R) = R union {pair(a, a), pair(b, b), pair(c, c), pair(d, d), pair(e, e)}
+  $
 
   *Step 2:* Add symmetry --- reverse all arrows
   $ s r(R) = r(R) union {pair(b, a), pair(c, b), pair(e, d)} $
@@ -1741,7 +1825,13 @@ Closures satisfy important mathematical properties.
       let hgap = 0.9
       let vgap = 1.2
       let draw-rect((x, y), name) = {
-        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 3pt, stroke: 1pt, name: name)
+        rect(
+          (x - w / 2, y - h / 2),
+          (x + w / 2, y + h / 2),
+          radius: 3pt,
+          stroke: 1pt,
+          name: name,
+        )
         content(name, [#name], anchor: "center")
       }
       let draw-edge(from, to) = {
@@ -2636,7 +2726,9 @@ Functions can be characterized by several key properties that determine their ma
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Property*], [*Definition*]),
   [*Functional* (Right-unique)], [Each input maps to _at most one_ output],
-  [*Total* (Left-total)], [Each input maps to _at least one_ output (defined everywhere)],
+  [*Total* (Left-total)],
+  [Each input maps to _at least one_ output (defined everywhere)],
+
   [*Partial*], [Functional but not total (may be undefined for some inputs)],
   [*Injective* (Left-unique)], [Different inputs $==>$ different outputs],
   [*Surjective* (Right-total)], [Every codomain element is covered],
@@ -2911,7 +3003,10 @@ Functions can be characterized by several key properties that determine their ma
       let p2 = (to - 0.3 * (to - from), height)
       let p3 = (to, 0)
 
-      bezier(p0, p3, p1, p2, stroke: 1.5pt + color, mark: (end: ">", fill: color))
+      bezier(p0, p3, p1, p2, stroke: 1.5pt + color, mark: (
+        end: ">",
+        fill: color,
+      ))
 
       // Function to calculate point on Bézier curve at parameter t
       // Cubic Bézier formula: B(t) = (1-t)³P₀ + 3(1-t)²tP₁ + 3(1-t)t²P₂ + t³P₃
@@ -3212,7 +3307,13 @@ Functions can be characterized by several key properties that determine their ma
       let vgap = 2
 
       let draw-vertex((x, y), name, label) = {
-        rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, name: name)
+        rect(
+          (x - w / 2, y - h / 2),
+          (x + w / 2, y + h / 2),
+          radius: 0.3,
+          stroke: 1pt,
+          name: name,
+        )
         content(name, [#label])
       }
       let draw-edge(start, end) = {
@@ -3372,7 +3473,14 @@ Functions can be characterized by several key properties that determine their ma
     let vgap = 1.8
 
     let draw-vertex((x, y), name, label, color: white) = {
-      rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), radius: 0.3, stroke: 1pt, fill: color, name: name)
+      rect(
+        (x - w / 2, y - h / 2),
+        (x + w / 2, y + h / 2),
+        radius: 0.3,
+        stroke: 1pt,
+        fill: color,
+        name: name,
+      )
       content(name, [#label], anchor: "center")
     }
 
@@ -3403,9 +3511,21 @@ Functions can be characterized by several key properties that determine their ma
     // content((-hgap, -0.5), text(fill: orange.darken(30%))[Tree 3], anchor: "center")
 
     // Legend
-    content((-6, 0.4), text(size: 0.9em, fill: green.darken(30%))[Maximal elements], anchor: "west")
-    content((-6, 0), text(size: 0.9em, fill: blue)[Minimal elements], anchor: "west")
-    content((-6, -0.4), text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal], anchor: "west")
+    content(
+      (-6, 0.4),
+      text(size: 0.9em, fill: green.darken(30%))[Maximal elements],
+      anchor: "west",
+    )
+    content(
+      (-6, 0),
+      text(size: 0.9em, fill: blue)[Minimal elements],
+      anchor: "west",
+    )
+    content(
+      (-6, -0.4),
+      text(size: 0.9em, fill: orange.darken(30%))[Both minimal & maximal],
+      anchor: "west",
+    )
   })
 ]
 
@@ -4360,7 +4480,13 @@ Functions can be characterized by several key properties that determine their ma
     node((3, -3), [20], name: <20>),
     node((4, -3), [$dots.c$], name: <l3>),
     // Level 4
-    node((2.5, -4), [0], name: <0>, shape: fletcher.shapes.rect, corner-radius: 3pt),
+    node(
+      (2.5, -4),
+      [0],
+      name: <0>,
+      shape: fletcher.shapes.rect,
+      corner-radius: 3pt,
+    ),
 
     // Edges
     edge(<1>, <l1>, "..", stroke: 0.8pt),
@@ -4646,8 +4772,12 @@ In programming language theory, _types_ form a lattice under the _subtyping_ rel
     #table(
       columns: 5,
       align: center,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.4pt) },
-      table.header([*$x$*], [*$y$*], [*$x Join y$*], [*$x Meet y$*], [*$not x$*]),
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 1 { (right: 0.4pt) }
+      ),
+      table.header(
+        [*$x$*], [*$y$*], [*$x Join y$*], [*$x Meet y$*], [*$not x$*]
+      ),
       [0], [0], [0], [0], [1],
       [0], [1], [1], [0], [1],
       [1], [0], [1], [0], [0],
@@ -5497,7 +5627,10 @@ These abstract concepts --- well-orders, well-founded relations, and chain condi
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Concept*], [*Definition*], [*Equivalent to*]),
-    [*Well-ordered*], [Every subset has _unique least_ element], [Total + well-founded],
+    [*Well-ordered*],
+    [Every subset has _unique least_ element],
+    [Total + well-founded],
+
     [*Well-founded*], [Every subset has _minimal_ elements], [DCC],
     [*Noetherian*], [Every subset has _maximal_ elements], [ACC],
     [*DCC (Artinian)*], [No infinite descending chains], [Well-founded],
@@ -5726,7 +5859,9 @@ $
     align: center + horizon,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     inset: (x, y) => if y == 0 { 5pt } else { 3pt },
-    table.header([*Original*], [*Current Guest*], [*$-->$*], [*New Room*], [*New Guest*]),
+    table.header(
+      [*Original*], [*Current Guest*], [*$-->$*], [*New Room*], [*New Guest*]
+    ),
     [Room 1], [Guest \#1], [], [Room 2], [],
     [Room 2], [Guest \#2], [], [Room 4], [],
     [Room 3], [Guest \#3], [], [Room 6], [],
@@ -5827,39 +5962,101 @@ $
     #table(
       columns: 6,
       align: center,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+      ),
 
-      table.header([*$n arrow.b quad k arrow.r$*], [*$0$*], [*$1$*], [*$2$*], [*$3$*], [*$dots$*]),
+      table.header(
+        [*$n arrow.b quad k arrow.r$*],
+        [*$0$*],
+        [*$1$*],
+        [*$2$*],
+        [*$3$*],
+        [*$dots$*],
+      ),
 
       [*$0$*],
-      [#text(fill: red.darken(20%))[$pair(0, 0)$] \ #text(size: 0.8em, fill: red.darken(20%))[$#cantor(0, 0)$]],
-      [#text(fill: orange.darken(20%))[$pair(0, 1)$] \ #text(size: 0.8em, fill: orange.darken(20%))[$#cantor(0, 1)$]],
-      [#text(fill: green.darken(20%))[$pair(0, 2)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(0, 2)$]],
-      [#text(fill: blue.darken(20%))[$pair(0, 3)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(0, 3)$]],
+      [#text(fill: red.darken(20%))[$pair(0, 0)$] \ #text(
+          size: 0.8em,
+          fill: red.darken(20%),
+        )[$#cantor(0, 0)$]],
+      [#text(fill: orange.darken(20%))[$pair(0, 1)$] \ #text(
+          size: 0.8em,
+          fill: orange.darken(20%),
+        )[$#cantor(0, 1)$]],
+      [#text(fill: green.darken(20%))[$pair(0, 2)$] \ #text(
+          size: 0.8em,
+          fill: green.darken(20%),
+        )[$#cantor(0, 2)$]],
+      [#text(fill: blue.darken(20%))[$pair(0, 3)$] \ #text(
+          size: 0.8em,
+          fill: blue.darken(20%),
+        )[$#cantor(0, 3)$]],
       [$dots$],
 
       [*$1$*],
-      [#text(fill: orange.darken(20%))[$pair(1, 0)$] \ #text(size: 0.8em, fill: orange.darken(20%))[$#cantor(1, 0)$]],
-      [#text(fill: green.darken(20%))[$pair(1, 1)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(1, 1)$]],
-      [#text(fill: blue.darken(20%))[$pair(1, 2)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(1, 2)$]],
-      [#text(fill: purple.darken(20%))[$pair(1, 3)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(1, 3)$]],
+      [#text(fill: orange.darken(20%))[$pair(1, 0)$] \ #text(
+          size: 0.8em,
+          fill: orange.darken(20%),
+        )[$#cantor(1, 0)$]],
+      [#text(fill: green.darken(20%))[$pair(1, 1)$] \ #text(
+          size: 0.8em,
+          fill: green.darken(20%),
+        )[$#cantor(1, 1)$]],
+      [#text(fill: blue.darken(20%))[$pair(1, 2)$] \ #text(
+          size: 0.8em,
+          fill: blue.darken(20%),
+        )[$#cantor(1, 2)$]],
+      [#text(fill: purple.darken(20%))[$pair(1, 3)$] \ #text(
+          size: 0.8em,
+          fill: purple.darken(20%),
+        )[$#cantor(1, 3)$]],
       [$dots$],
 
       [*$2$*],
-      [#text(fill: green.darken(20%))[$pair(2, 0)$] \ #text(size: 0.8em, fill: green.darken(20%))[$#cantor(2, 0)$]],
-      [#text(fill: blue.darken(20%))[$pair(2, 1)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(2, 1)$]],
-      [#text(fill: purple.darken(20%))[$pair(2, 2)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(2, 2)$]],
-      [#text(fill: teal.darken(20%))[$pair(2, 3)$] \ #text(size: 0.8em, fill: teal.darken(20%))[$#cantor(2, 3)$]],
+      [#text(fill: green.darken(20%))[$pair(2, 0)$] \ #text(
+          size: 0.8em,
+          fill: green.darken(20%),
+        )[$#cantor(2, 0)$]],
+      [#text(fill: blue.darken(20%))[$pair(2, 1)$] \ #text(
+          size: 0.8em,
+          fill: blue.darken(20%),
+        )[$#cantor(2, 1)$]],
+      [#text(fill: purple.darken(20%))[$pair(2, 2)$] \ #text(
+          size: 0.8em,
+          fill: purple.darken(20%),
+        )[$#cantor(2, 2)$]],
+      [#text(fill: teal.darken(20%))[$pair(2, 3)$] \ #text(
+          size: 0.8em,
+          fill: teal.darken(20%),
+        )[$#cantor(2, 3)$]],
       [$dots$],
 
       [*$3$*],
-      [#text(fill: blue.darken(20%))[$pair(3, 0)$] \ #text(size: 0.8em, fill: blue.darken(20%))[$#cantor(3, 0)$]],
-      [#text(fill: purple.darken(20%))[$pair(3, 1)$] \ #text(size: 0.8em, fill: purple.darken(20%))[$#cantor(3, 1)$]],
-      [#text(fill: teal.darken(20%))[$pair(3, 2)$] \ #text(size: 0.8em, fill: teal.darken(20%))[$#cantor(3, 2)$]],
-      [#text(fill: navy.lighten(20%))[$pair(3, 3)$] \ #text(size: 0.8em, fill: navy.lighten(20%))[$#cantor(3, 3)$]],
+      [#text(fill: blue.darken(20%))[$pair(3, 0)$] \ #text(
+          size: 0.8em,
+          fill: blue.darken(20%),
+        )[$#cantor(3, 0)$]],
+      [#text(fill: purple.darken(20%))[$pair(3, 1)$] \ #text(
+          size: 0.8em,
+          fill: purple.darken(20%),
+        )[$#cantor(3, 1)$]],
+      [#text(fill: teal.darken(20%))[$pair(3, 2)$] \ #text(
+          size: 0.8em,
+          fill: teal.darken(20%),
+        )[$#cantor(3, 2)$]],
+      [#text(fill: navy.lighten(20%))[$pair(3, 3)$] \ #text(
+          size: 0.8em,
+          fill: navy.lighten(20%),
+        )[$#cantor(3, 3)$]],
       [$dots$],
 
-      [*$dots.v$*], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.down$],
+      [*$dots.v$*],
+      [$dots.v$],
+      [$dots.v$],
+      [$dots.v$],
+      [$dots.v$],
+      [$dots.down$],
     )
   ]
 
@@ -5934,12 +6131,40 @@ $
     #table(
       columns: 6,
       align: center,
-      stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-      table.header([*Seq*], [*Bit 1*], [*Bit 2*], [*Bit 3*], [*Bit 4*], [*$dots$*]),
-      [$x_1$], [#text(fill: red)[*$b_(1 1)$*]], [$b_(1 2)$], [$b_(1 3)$], [$b_(1 4)$], [$dots$],
-      [$x_2$], [$b_(2 1)$], [#text(fill: red)[*$b_(2 2)$*]], [$b_(2 3)$], [$b_(2 4)$], [$dots$],
-      [$x_3$], [$b_(3 1)$], [$b_(3 2)$], [#text(fill: red)[*$b_(3 3)$*]], [$b_(3 4)$], [$dots$],
-      [$x_4$], [$b_(4 1)$], [$b_(4 2)$], [$b_(4 3)$], [#text(fill: red)[*$b_(4 4)$*]], [$dots$],
+      stroke: (x, y) => (
+        if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+      ),
+      table.header(
+        [*Seq*], [*Bit 1*], [*Bit 2*], [*Bit 3*], [*Bit 4*], [*$dots$*]
+      ),
+      [$x_1$],
+      [#text(fill: red)[*$b_(1 1)$*]],
+      [$b_(1 2)$],
+      [$b_(1 3)$],
+      [$b_(1 4)$],
+      [$dots$],
+
+      [$x_2$],
+      [$b_(2 1)$],
+      [#text(fill: red)[*$b_(2 2)$*]],
+      [$b_(2 3)$],
+      [$b_(2 4)$],
+      [$dots$],
+
+      [$x_3$],
+      [$b_(3 1)$],
+      [$b_(3 2)$],
+      [#text(fill: red)[*$b_(3 3)$*]],
+      [$b_(3 4)$],
+      [$dots$],
+
+      [$x_4$],
+      [$b_(4 1)$],
+      [$b_(4 2)$],
+      [$b_(4 3)$],
+      [#text(fill: red)[*$b_(4 4)$*]],
+      [$dots$],
+
       [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.v$], [$dots.down$],
       [#text(fill: blue)[*$Delta$*]],
       [#text(fill: blue)[*$overline(b)_(1 1)$*]],
@@ -6462,8 +6687,14 @@ Two key hierarchies help us organize these infinities:
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Beth*], [*Value*], [*Interpretation*]),
     [$beth_0$], [$aleph_0 = abs(NN)$], [Countable infinity],
-    [$beth_1$], [$2^(aleph_0) = abs(power(NN)) = abs(RR) = frak(c)$], [The continuum (real numbers)],
-    [$beth_2$], [$2^frak(c) = abs(power(RR))$], [All functions $RR to RR$, all subsets of $RR$],
+    [$beth_1$],
+    [$2^(aleph_0) = abs(power(NN)) = abs(RR) = frak(c)$],
+    [The continuum (real numbers)],
+
+    [$beth_2$],
+    [$2^frak(c) = abs(power(RR))$],
+    [All functions $RR to RR$, all subsets of $RR$],
+
     [$beth_3$], [$2^(beth_2) = abs(power(power(RR)))$], [All relations on $RR$],
   )
 ]
@@ -6539,30 +6770,128 @@ Two key hierarchies help us organize these infinities:
     edge-stroke: 1pt,
 
     // Starting point (both hierarchies agree)
-    node((0, 0.5), $aleph_0 = beth_0$, stroke: blue, fill: blue.lighten(80%), name: <start>),
+    node(
+      (0, 0.5),
+      $aleph_0 = beth_0$,
+      stroke: blue,
+      fill: blue.lighten(80%),
+      name: <start>,
+    ),
 
     // Aleph chain (top) - ordinal succession
-    node((2, 1), $aleph_1$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a1>),
-    node((4, 1), $aleph_2$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a2>),
-    node((6, 1), $aleph_3$, stroke: red.darken(20%), fill: red.lighten(80%), name: <a3>),
-    node((7, 1), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <adots>),
+    node(
+      (2, 1),
+      $aleph_1$,
+      stroke: red.darken(20%),
+      fill: red.lighten(80%),
+      name: <a1>,
+    ),
+    node(
+      (4, 1),
+      $aleph_2$,
+      stroke: red.darken(20%),
+      fill: red.lighten(80%),
+      name: <a2>,
+    ),
+    node(
+      (6, 1),
+      $aleph_3$,
+      stroke: red.darken(20%),
+      fill: red.lighten(80%),
+      name: <a3>,
+    ),
+    node(
+      (7, 1),
+      $dots$,
+      stroke: none,
+      shape: fletcher.shapes.circle,
+      name: <adots>,
+    ),
 
     // Beth chain (bottom) - powerset iteration
-    node((2, 0), $beth_1 = 2^(aleph_0)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b1>),
-    node((4, 0), $beth_2 = 2^(beth_1)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b2>),
-    node((6, 0), $beth_3 = 2^(beth_2)$, stroke: green.darken(20%), fill: green.lighten(80%), name: <b3>),
-    node((7, 0), $dots$, stroke: none, shape: fletcher.shapes.circle, name: <bdots>),
+    node(
+      (2, 0),
+      $beth_1 = 2^(aleph_0)$,
+      stroke: green.darken(20%),
+      fill: green.lighten(80%),
+      name: <b1>,
+    ),
+    node(
+      (4, 0),
+      $beth_2 = 2^(beth_1)$,
+      stroke: green.darken(20%),
+      fill: green.lighten(80%),
+      name: <b2>,
+    ),
+    node(
+      (6, 0),
+      $beth_3 = 2^(beth_2)$,
+      stroke: green.darken(20%),
+      fill: green.lighten(80%),
+      name: <b3>,
+    ),
+    node(
+      (7, 0),
+      $dots$,
+      stroke: none,
+      shape: fletcher.shapes.circle,
+      name: <bdots>,
+    ),
 
     // Edges for aleph chain
-    edge(<start>, <a1>, "-}>", label: "successor", label-angle: auto, label-side: right, stroke: red.darken(20%)),
-    edge(<a1>, <a2>, "-}>", label: "successor", label-side: right, stroke: red.darken(20%)),
-    edge(<a2>, <a3>, "-}>", label: "successor", label-side: right, stroke: red.darken(20%)),
+    edge(
+      <start>,
+      <a1>,
+      "-}>",
+      label: "successor",
+      label-angle: auto,
+      label-side: right,
+      stroke: red.darken(20%),
+    ),
+    edge(
+      <a1>,
+      <a2>,
+      "-}>",
+      label: "successor",
+      label-side: right,
+      stroke: red.darken(20%),
+    ),
+    edge(
+      <a2>,
+      <a3>,
+      "-}>",
+      label: "successor",
+      label-side: right,
+      stroke: red.darken(20%),
+    ),
     edge(<a3>, <adots>, "-}>", stroke: red.darken(20%)),
 
     // Edges for beth chain
-    edge(<start>, <b1>, "-}>", label: "powerset", label-angle: auto, label-side: left, stroke: green.darken(20%)),
-    edge(<b1>, <b2>, "-}>", label: "powerset", stroke: green.darken(20%), label-side: left),
-    edge(<b2>, <b3>, "-}>", label: "powerset", stroke: green.darken(20%), label-side: left),
+    edge(
+      <start>,
+      <b1>,
+      "-}>",
+      label: "powerset",
+      label-angle: auto,
+      label-side: left,
+      stroke: green.darken(20%),
+    ),
+    edge(
+      <b1>,
+      <b2>,
+      "-}>",
+      label: "powerset",
+      stroke: green.darken(20%),
+      label-side: left,
+    ),
+    edge(
+      <b2>,
+      <b3>,
+      "-}>",
+      label: "powerset",
+      stroke: green.darken(20%),
+      label-side: left,
+    ),
     edge(<b3>, <bdots>, "-}>", stroke: green.darken(20%)),
 
     // Question mark between a1 and b1

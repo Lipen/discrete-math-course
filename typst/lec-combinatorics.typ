@@ -26,7 +26,9 @@
 
 #let equ(eq, id: none) = {
   let numbering = if type(id) != none { "(1)" } else { none }
-  let body = if type(id) == none { eq } else if type(id) == label [#eq #id] else [#eq #label(id)]
+  let body = if type(id) == none { eq } else if (
+    type(id) == label
+  ) [#eq #id] else [#eq #label(id)]
   set math.equation(numbering: numbering)
   body
 }
@@ -346,7 +348,9 @@ Hereinafter, let $X$ be a finite set.
       columns: 8,
       align: center,
       inset: (x: 5pt, y: 3pt),
-      stroke: (x, y) => if x == 0 { (right: 0.4pt) } + if y == 0 { (bottom: 0.4pt) },
+      stroke: (x, y) => (
+        if x == 0 { (right: 0.4pt) } + if y == 0 { (bottom: 0.4pt) }
+      ),
       $i$, [1], [2], [3], [4], [5], [6], [7],
       $s(i)$,
       [#emoji.crab],
@@ -374,7 +378,9 @@ Hereinafter, let $X$ be a finite set.
       columns: 8,
       align: center,
       inset: (x: 5pt, y: 3pt),
-      stroke: (x, y) => if x == 0 { (right: 0.4pt) } + if y == 0 { (bottom: 0.4pt) },
+      stroke: (x, y) => (
+        if x == 0 { (right: 0.4pt) } + if y == 0 { (bottom: 0.4pt) }
+      ),
       $i$, [1], [2], [3], [4], [5], [6], [7],
       $pi(i)$, [2], [7], [1], [3], [5], [4], [6],
     )
@@ -407,7 +413,13 @@ Hereinafter, let $X$ be a finite set.
         let nodes = ((0, 0), (2, 0), (4, 0))
         let labels = ("1", "2", "3")
         for (i, (x, y)) in nodes.enumerate() {
-          circle((x, y), radius: 0.35, fill: blue.lighten(80%), stroke: blue.darken(20%), name: "n" + str(i + 1))
+          circle(
+            (x, y),
+            radius: 0.35,
+            fill: blue.lighten(80%),
+            stroke: blue.darken(20%),
+            name: "n" + str(i + 1),
+          )
           content((x, y), text(size: 0.9em)[#labels.at(i)])
         }
         line("n1", "n2", mark: (end: ">", fill: black))
@@ -424,9 +436,27 @@ Hereinafter, let $X$ be a finite set.
         import cetz.draw: *
         // Equilateral triangle, radius 0.75, node radius 0.3
         // Node positions: top=(0,0.75), right=(0.65,-0.375), left=(-0.65,-0.375)
-        circle((0, 0.75), radius: 0.3, fill: teal.lighten(80%), stroke: teal.darken(20%), name: "n1")
-        circle((0.65, -0.375), radius: 0.3, fill: teal.lighten(80%), stroke: teal.darken(20%), name: "n2")
-        circle((-0.65, -0.375), radius: 0.3, fill: teal.lighten(80%), stroke: teal.darken(20%), name: "n3")
+        circle(
+          (0, 0.75),
+          radius: 0.3,
+          fill: teal.lighten(80%),
+          stroke: teal.darken(20%),
+          name: "n1",
+        )
+        circle(
+          (0.65, -0.375),
+          radius: 0.3,
+          fill: teal.lighten(80%),
+          stroke: teal.darken(20%),
+          name: "n2",
+        )
+        circle(
+          (-0.65, -0.375),
+          radius: 0.3,
+          fill: teal.lighten(80%),
+          stroke: teal.darken(20%),
+          name: "n3",
+        )
         content((0, 0.75), text(size: 0.9em)[1])
         content((0.65, -0.375), text(size: 0.9em)[2])
         content((-0.65, -0.375), text(size: 0.9em)[3])
@@ -554,8 +584,13 @@ Then $S$ is simply a _subset_ of $X$, denoted $S subset.eq X$.
       s
     },
     table.header([], [*No repetition*], [*With repetition*]),
-    [*Ordered* ($k$-perm., sequence)], $display(n! / (n-k)!) = n^underline(k)$, $n^k$,
-    [*Unordered* ($k$-comb., subset)], $display(binom(n, k) = n! / (k! dot (n - k)!))$, $display(binom(k + n - 1, k))$,
+    [*Ordered* ($k$-perm., sequence)],
+    $display(n! / (n-k)!) = n^underline(k)$,
+    $n^k$,
+
+    [*Unordered* ($k$-comb., subset)],
+    $display(binom(n, k) = n! / (k! dot (n - k)!))$,
+    $display(binom(k + n - 1, k))$,
   )
 ]
 
@@ -663,7 +698,12 @@ Each entry is the sum of the two entries above it: $binom(n, k) = binom(n-1, k-1
           let y = -row * rh
           let v = bincoef(row, col)
           let clr = if v == 1 { blue.lighten(88%) } else { blue.lighten(72%) }
-          circle((x, y), radius: 0.38, fill: clr, stroke: 0.5pt + blue.darken(20%))
+          circle(
+            (x, y),
+            radius: 0.38,
+            fill: clr,
+            stroke: 0.5pt + blue.darken(20%),
+          )
           content((x, y), str(v))
         }
       }
@@ -1082,7 +1122,13 @@ The _partition function_ $p(n) = sum_(k = 0)^(n) p_(k)(n)$ counts all partitions
   // Element
   let c(x, y) = if young {
     // Box
-    rect((x - w / 2, y - h / 2), (x + w / 2, y + h / 2), stroke: 0.8pt, radius: 1pt, fill: green.lighten(80%))
+    rect(
+      (x - w / 2, y - h / 2),
+      (x + w / 2, y + h / 2),
+      stroke: 0.8pt,
+      radius: 1pt,
+      fill: green.lighten(80%),
+    )
   } else {
     // Dot
     circle((x, y), radius: 0.1, stroke: 0.8pt, fill: green.lighten(80%))
@@ -1247,7 +1293,9 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
       *Step 3: Apply PIE*
 
       Use @thm:pie to compute a closed formula:
-      $ abs(X setminus (X_1 union dots union X_m)) = sum_(S subset.eq [m]) (-1)^abs(S) N(S) $
+      $
+        abs(X setminus (X_1 union dots union X_m)) = sum_(S subset.eq [m]) (-1)^abs(S) N(S)
+      $
     ]
   ],
 )
@@ -1285,8 +1333,8 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
     Using @thm:pie, the number of surjections from $[k]$ to $[n]$ is
     $
       abs(X setminus (X_1 union dots union X_n)) & =^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
-                                                 & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k \
-                                                 & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k \
+      & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))^k \
+      & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)^k \
     $
     In the last step, we used that $(-1)^abs(S) (n - abs(S))^k$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
 ]
@@ -1342,8 +1390,8 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
   + Using @thm:pie, the number of derangements is given by
     $
       abs(X setminus (X_1 union dots union X_n)) & =^"PIE" sum_(S subset.eq [n]) (-1)^abs(S) abs(N(S)) \
-                                                 & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))! \
-                                                 & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
+      & = sum_(S subset.eq [n]) (-1)^abs(S) (n - abs(S))! \
+      & = sum_(i = 0)^n (-1)^i binom(n, i) (n - i)!
     $
 
     In the last step, we used that $(-1)^abs(S) (n - abs(S))!$ only depends on the size of $S$, and there are $binom(n, i)$ sets #box[$S subset.eq [n]$] of size $i$.
@@ -1372,7 +1420,9 @@ Generalizing this to an arbitrary number of sets gives the full PIE theorem.
 
 == Generating Functions
 
-#quote(attribution: [George Pólya, Mathematics and Plausible Reasoning @polya1954])[
+#quote(
+  attribution: [George Pólya, Mathematics and Plausible Reasoning @polya1954],
+)[
   _A generating function is a device somewhat similar to a bag. Instead of carrying many little objects detachedly, which could be embarrassing, we put them all in a bag, and then we have only one object to carry, the bag._
 ]
 
@@ -1453,7 +1503,11 @@ The generating function $G(x) = 1 + x + x^2 + dots$ is also known as the _Maclau
   align: (right, left, left, left).map(x => x + horizon),
   stroke: (x, y) => if y == 0 { (bottom: .8pt) },
   table.header([*Formula*], [*Power series*], [*Sequence*], [*Description*]),
-  box($ 1 / (1 - x) $), box($ sum_(n = 0)^infinity x^n = 1 + x + x^2 + x^3 + dots $), $(1, 1, 1, dots)$, [constant 1],
+  box($ 1 / (1 - x) $),
+  box($ sum_(n = 0)^infinity x^n = 1 + x + x^2 + x^3 + dots $),
+  $(1, 1, 1, dots)$,
+  [constant 1],
+
   box($ 2 / (1 - x) $),
   box($ sum_(n = 0)^infinity 2 x^n = 2 + 2x + 2x^2 + 2x^3 + dots $),
   $(2, 2, 2, dots)$,
@@ -1487,9 +1541,9 @@ The generating function $G(x) = 1 + x + x^2 + dots$ is also known as the _Maclau
 
 $
   frac(1-x^(n+1), 1-x) & = frac(1, 1-x) - frac(x^(n+1), 1-x) = \
-                       & eq.delta (1,1,1,dots) - \(underbrace(0\,0\,dots\,0, n+1 "zeros"),1,1,dots) = \
-                       & = \(underbrace(1\,1\,dots\,1, n+1 "ones"), 0,0,dots) = \
-                       & eq.delta 1 + x + x^2 + dots + x^n
+  & eq.delta (1,1,1,dots) - \(underbrace(0\,0\,dots\,0, n+1 "zeros"),1,1,dots) = \
+  & = \(underbrace(1\,1\,dots\,1, n+1 "ones"), 0,0,dots) = \
+  & eq.delta 1 + x + x^2 + dots + x^n
 $
 
 == Exercises
@@ -1634,11 +1688,19 @@ All operations are performed _term-wise_ on the power series.
   align: left + horizon,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Operation*], [*Result*]),
-  [Differentiate $F(x)$ term-wise], box($ F'(x) = sum_(n = 0)^infinity (n + 1) a_(n + 1) x^n $),
-  [Multiply $F(x)$ by a scalar $lambda in RR$ term-wise], box($ lambda F(x) = sum_(n = 0)^infinity lambda a_n x^n $),
-  [Add $F(x)$ and $G(x)$ term-wise], box($ F(x) + G(x) = sum_(n = 0)^infinity (a_n + b_n) x^n $),
+  [Differentiate $F(x)$ term-wise],
+  box($ F'(x) = sum_(n = 0)^infinity (n + 1) a_(n + 1) x^n $),
+
+  [Multiply $F(x)$ by a scalar $lambda in RR$ term-wise],
+  box($ lambda F(x) = sum_(n = 0)^infinity lambda a_n x^n $),
+
+  [Add $F(x)$ and $G(x)$ term-wise],
+  box($ F(x) + G(x) = sum_(n = 0)^infinity (a_n + b_n) x^n $),
+
   [Multiply $F(x)$ and $G(x)$ term-wise \ (_Cauchy product_, or _convolution_)],
-  box($ F(x) dot G(x) = sum_(n = 0)^infinity (sum_(k = 0)^n a_k b_(n - k)) x^n $),
+  box(
+    $ F(x) dot G(x) = sum_(n = 0)^infinity (sum_(k = 0)^n a_k b_(n - k)) x^n $,
+  ),
 )
 
 == Catalan Numbers via Generating Functions
@@ -1835,9 +1897,9 @@ where $binom(n, k) = 0$ for $k > n$.
   Going back to the example with the number of well-formed paranthesis expressions, we get:
   $
     F(x) & = (1 - sqrt(1 - 4x)) / (2x)
-           = 1 / (2x) sum_(n = 1)^infinity 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
-         & = 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
-           = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
+    = 1 / (2x) sum_(n = 1)^infinity 2 dot binom(2n - 2, n - 1) dot (-1)^n dot 1 / (2^(2n)) dot 1 / n dot (-4x)^n \
+    & = 1 / x sum_(n = 1)^infinity binom(2n - 2, n - 1) 1 / n x^n
+    = sum_(n = 0)^infinity binom(2n, n) 1 / (n+1) x^n
   $
   The numbers $C_n := display(binom(2n, n) 1 / (n+1))$ are called _Catalan numbers_.
 ]
@@ -1851,7 +1913,9 @@ where $binom(n, k) = 0$ for $k > n$.
   - triangulations of a convex $(n+2)$-gon,
   - monotone lattice paths from $(0,0)$ to $(n,n)$ not crossing the diagonal.
 
-  $ C_0=1, quad C_1=1, quad C_2=2, quad C_3=5, quad C_4=14, quad C_5=42, quad dots $
+  $
+    C_0=1, quad C_1=1, quad C_2=2, quad C_3=5, quad C_4=14, quad C_5=42, quad dots
+  $
 ]
 
 
@@ -1938,10 +2002,21 @@ _unwind the recurrence_.
       }
       // Disks on peg A (n=4)
       let widths = (2.5, 2.0, 1.5, 1.0)
-      let colors = (red.lighten(80%), blue.lighten(80%), green.lighten(80%), orange.lighten(80%))
+      let colors = (
+        red.lighten(80%),
+        blue.lighten(80%),
+        green.lighten(80%),
+        orange.lighten(80%),
+      )
       for (i, w) in widths.enumerate() {
         let y = 0.25 + i * 0.5
-        rect((-2.2 - w / 2, y - 0.2), (-2.2 + w / 2, y + 0.2), fill: colors.at(i), stroke: 0.5pt, radius: 2pt)
+        rect(
+          (-2.2 - w / 2, y - 0.2),
+          (-2.2 + w / 2, y + 0.2),
+          fill: colors.at(i),
+          stroke: 0.5pt,
+          radius: 2pt,
+        )
       }
     })
   ],
@@ -2109,7 +2184,15 @@ In particular, $F_(n+1) \/ F_n to phi$ as $n to infinity$.
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([$n$], [1], [2], [3], [4], [5], [6], [7], [8]),
     [$F_n$], [1], [1], [2], [3], [5], [8], [13], [21],
-    [$F_(n+1) \/ F_n$], [1.000], [2.000], [1.500], [1.667], [1.600], [1.625], [1.615], [1.619],
+    [$F_(n+1) \/ F_n$],
+    [1.000],
+    [2.000],
+    [1.500],
+    [1.667],
+    [1.600],
+    [1.625],
+    [1.615],
+    [1.619],
   )
 ]
 
@@ -2252,11 +2335,24 @@ For $a_n = c_1 a_(n-1) + c_2 a_(n-2)$, the solution method is always the same fo
 #align(center)[
   #table(
     columns: 4,
-    align: (left + horizon, center + horizon, center + horizon, center + horizon),
+    align: (
+      left + horizon,
+      center + horizon,
+      center + horizon,
+      center + horizon,
+    ),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Step*], [*Distinct Real*], [*Repeated*], [*Complex*]),
-    [1. Char. eq.], [$r^2 - c_1 r - c_2 = 0$], [$r^2 - c_1 r - c_2 = 0$], [$r^2 - c_1 r - c_2 = 0$],
-    [2. Roots], [$r_1 != r_2$], [$r_0$ (multiplicity 2)], [$rho e^(plus.minus i theta)$],
+    [1. Char. eq.],
+    [$r^2 - c_1 r - c_2 = 0$],
+    [$r^2 - c_1 r - c_2 = 0$],
+    [$r^2 - c_1 r - c_2 = 0$],
+
+    [2. Roots],
+    [$r_1 != r_2$],
+    [$r_0$ (multiplicity 2)],
+    [$rho e^(plus.minus i theta)$],
+
     [3. Form],
     [$alpha_1 r_1^n + alpha_2 r_2^n$],
     [$(alpha_1 + alpha_2 n) r_0^n$],
@@ -2277,10 +2373,16 @@ The entire theory mirrors the continuous case.
     align: (left, center, center).map(x => x + horizon),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Aspect*], [*Differential Equation*], [*Recurrence*]),
-    [1st order], [$y' = c y arrow.r y_0 e^(c t)$], [$a_n = c a_(n-1) arrow.r a_0 c^n$],
+    [1st order],
+    [$y' = c y arrow.r y_0 e^(c t)$],
+    [$a_n = c a_(n-1) arrow.r a_0 c^n$],
+
     [2nd order], [$y'' + p y' + q y = 0$], [$a_n + p a_(n-1) + q a_(n-2) = 0$],
     [Char. eq.], [$lambda^2 + p lambda + q = 0$], [$r^2 + p r + q = 0$],
-    [Double root], [$(c_1 + c_2 t) e^(lambda t)$], [$(alpha_1 + alpha_2 n) r_0^n$],
+    [Double root],
+    [$(c_1 + c_2 t) e^(lambda t)$],
+    [$(alpha_1 + alpha_2 n) r_0^n$],
+
     [Particular sol.], [Undetermined coefficients], [Same method],
     [Resonance], [$t e^(lambda t)$ factors], [$n r_0^n$ factors],
   )
@@ -2295,7 +2397,10 @@ The entire theory mirrors the continuous case.
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Step*], [*Homogeneous*], [*Non-homogeneous*]),
     [1. Classify], [No $F(n)$ term?], [Has $F(n)$ term?],
-    [2. Char. eq.], [$r^k - c_1 r^(k-1) - dots - c_k = 0$], [Same (ignore $F(n)$)],
+    [2. Char. eq.],
+    [$r^k - c_1 r^(k-1) - dots - c_k = 0$],
+    [Same (ignore $F(n)$)],
+
     [3. Roots], [Distinct / repeated / complex], [Same],
     [4. Homog. sol.], [$a_n^(("h"))$ from root type], [Same],
     [5. Partic. sol.], [---], [Guess form matching $F(n)$],
@@ -2589,10 +2694,14 @@ $
   $shift - 1$, $alpha$,
   $shift - a$, $alpha a^n$,
   $(shift - a)(shift - b)$, $alpha a^n + beta b^n quad ["if" a != b]$,
-  $(shift - a_0)(shift - a_1) dots (shift - a_k)$, $sum_(i=0)^k alpha_i a_i^n quad ["if" a_i "are distinct"]$,
+  $(shift - a_0)(shift - a_1) dots (shift - a_k)$,
+  $sum_(i=0)^k alpha_i a_i^n quad ["if" a_i "are distinct"]$,
+
   $(shift - 1)^2$, $alpha n + beta$,
   $(shift - a)^2$, $(alpha n + beta) a^n$,
-  $(shift - a)^2 (shift - b)$, $(alpha n + beta) a^n + gamma b^n quad ["if" a != b]$,
+  $(shift - a)^2 (shift - b)$,
+  $(alpha n + beta) a^n + gamma b^n quad ["if" a != b]$,
+
   $(shift - a)^d$, $(sum_(i=0)^(d-1) alpha_i n^i) a^n$,
 )
 
@@ -2656,8 +2765,18 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
     )
     for (i, (label, color)) in steps.enumerate() {
       let x = float(i) * 2.6
-      rect((x, -0.35), (x + 2.2, 0.35), fill: color.lighten(90%), stroke: 0.7pt + color.darken(20%), radius: 3pt)
-      content((x + 1.1, 0), text(size: 0.8em, fill: color.darken(30%), strong(label)))
+      rect(
+        (x, -0.35),
+        (x + 2.2, 0.35),
+        fill: color.lighten(90%),
+        stroke: 0.7pt + color.darken(20%),
+        radius: 3pt,
+      )
+      content((x + 1.1, 0), text(
+        size: 0.8em,
+        fill: color.darken(30%),
+        strong(label),
+      ))
       if i < steps.len() - 1 {
         content((x + 2.4, 0), text(size: 0.8em, [$=>$]))
       }
@@ -2908,11 +3027,30 @@ The annihilator method is a systematic five-step procedure for solving recurrenc
   align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Notation*], [*Name*], [*Description*], [*Limit definition*]),
-  $f in o(g)$, [Small Oh], [$f$ is dominated by $g$], $ lim_(n to infinity) f(n) / g(n) = 0 $,
-  $f in O(g)$, [Big Oh], [$f$ is bounded above by $g$], $ limsup_(n to infinity) abs(f(n)) / g(n) < infinity $,
-  $f tilde g$, [Equivalence], [$f$ is asympotically equal to $g$], $ lim_(n to infinity) f(n) / g(n) = 1 $,
-  $f in Omega(g)$, [Big Omega], [$f$ is bounded below by $g$], $ liminf_(n to infinity) f(n) / g(n) > 0 $,
-  $f in omega(g)$, [Small Omega], [$f$ dominates $g$], $ lim_(n to infinity) f(n) / g(n) = infinity $,
+  $f in o(g)$,
+  [Small Oh],
+  [$f$ is dominated by $g$],
+  $ lim_(n to infinity) f(n) / g(n) = 0 $,
+
+  $f in O(g)$,
+  [Big Oh],
+  [$f$ is bounded above by $g$],
+  $ limsup_(n to infinity) abs(f(n)) / g(n) < infinity $,
+
+  $f tilde g$,
+  [Equivalence],
+  [$f$ is asympotically equal to $g$],
+  $ lim_(n to infinity) f(n) / g(n) = 1 $,
+
+  $f in Omega(g)$,
+  [Big Omega],
+  [$f$ is bounded below by $g$],
+  $ liminf_(n to infinity) f(n) / g(n) > 0 $,
+
+  $f in omega(g)$,
+  [Small Omega],
+  [$f$ dominates $g$],
+  $ lim_(n to infinity) f(n) / g(n) = infinity $,
 )
 
 == Asymptotic Equivalence
@@ -2991,13 +3129,20 @@ where $c_"crit" = log_b a$ is the _critical exponent_.
   align: left,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Case*], [*Description*], [*Condition*], [*Bound*]),
-  [Case I], ["merge" $<<$ "recursion"], [$f(n) in O(n^c)$, $c < c_"crit"$], [$T(n) in Theta(n^(c_"crit"))$],
+  [Case I],
+  ["merge" $<<$ "recursion"],
+  [$f(n) in O(n^c)$, $c < c_"crit"$],
+  [$T(n) in Theta(n^(c_"crit"))$],
+
   [Case II],
   ["merge" $approx$ "recursion"],
   [$f(n) in Theta(n^(c_"crit") log^k n)$, $k >= 0$],
   [$T(n) in Theta(n^(c_"crit") log^(k+1) n)$],
 
-  [Case III], ["merge" $>>$ "recursion"], [$f(n) in Omega(n^c)$, $c > c_"crit"$], [$T(n) in Theta(f(n))$],
+  [Case III],
+  ["merge" $>>$ "recursion"],
+  [$f(n) in Omega(n^c)$, $c > c_"crit"$],
+  [$T(n) in Theta(f(n))$],
 )
 
 #note[
@@ -3174,8 +3319,14 @@ The integral converges for all $z$ with $Re(z) > 0$ because the exponential $e^(
     #cetz.canvas(length: 1.4cm, {
       import cetz.draw: *
       // Axes
-      line((-0.3, 0), (4.8, 0), stroke: 0.7pt + black, mark: (end: ">", fill: black))
-      line((0, -0.3), (0, 3.8), stroke: 0.7pt + black, mark: (end: ">", fill: black))
+      line((-0.3, 0), (4.8, 0), stroke: 0.7pt + black, mark: (
+        end: ">",
+        fill: black,
+      ))
+      line((0, -0.3), (0, 3.8), stroke: 0.7pt + black, mark: (
+        end: ">",
+        fill: black,
+      ))
       // Y gridlines (canvas y = value * sy = value * 0.5)
       for (val, py) in ((1, 0.5), (2, 1), (4, 2), (6, 3)) {
         line((0, py), (4.5, py), stroke: (dash: "dotted", paint: luma(80%)))
@@ -3259,10 +3410,22 @@ The integral converges for all $z$ with $Re(z) > 0$ because the exponential $e^(
         content(target, text(fill: blue.darken(20%), label))
       }
       // Mark Gamma(1/2)
-      circle((0.5, 1.77 * sy), radius: 0.07, fill: orange.darken(20%), stroke: none)
-      content((0.58, 1.77 * sy + 0.18), text(fill: orange.darken(20%), [$sqrt(pi)$]))
+      circle(
+        (0.5, 1.77 * sy),
+        radius: 0.07,
+        fill: orange.darken(20%),
+        stroke: none,
+      )
+      content((0.58, 1.77 * sy + 0.18), text(
+        fill: orange.darken(20%),
+        [$sqrt(pi)$],
+      ))
       content((4.6, -0.35), text(size: 0.8em, [$x$]))
-      content((0.25, 3.5), text(size: 0.8em, fill: blue.darken(20%), [$Gamma(x)$]))
+      content((0.25, 3.5), text(
+        size: 0.8em,
+        fill: blue.darken(20%),
+        [$Gamma(x)$],
+      ))
     })
   ],
   align(left + horizon)[
@@ -3306,8 +3469,14 @@ This will guarantee that the Gauss limit and Weierstrass product (introduced nex
   #cetz.canvas(length: 2cm, {
     import cetz.draw: *
     let yoff = 0.4
-    line((-0.2, yoff), (4.2, yoff), stroke: 0.7pt + black, mark: (end: ">", fill: black))
-    line((0, yoff - 0.7), (0, 2.5), stroke: 0.7pt + black, mark: (end: ">", fill: black))
+    line((-0.2, yoff), (4.2, yoff), stroke: 0.7pt + black, mark: (
+      end: ">",
+      fill: black,
+    ))
+    line((0, yoff - 0.7), (0, 2.5), stroke: 0.7pt + black, mark: (
+      end: ">",
+      fill: black,
+    ))
     content((-0.4, yoff - 0.25), text(size: 0.8em, [$0$]))
     for px in (1, 2, 3) {
       line((px, yoff - 0.05), (px, yoff + 0.05), stroke: 0.5pt)
@@ -3354,7 +3523,11 @@ This will guarantee that the Gauss limit and Weierstrass product (introduced nex
     let scaled = pts.map(((x, y)) => (x, y * sy + yoff))
     line(..scaled, stroke: 1.5pt + blue.darken(20%))
     // Chord from (1, ln Γ(1)=0) to (3, ln Γ(3)=ln2≈0.693)
-    line((1.0, yoff), (3.0, 0.693 * sy + yoff), stroke: (paint: black.lighten(40%), thickness: 1pt, dash: "dashed"))
+    line((1.0, yoff), (3.0, 0.693 * sy + yoff), stroke: (
+      paint: black.lighten(40%),
+      thickness: 1pt,
+      dash: "dashed",
+    ))
     let alt = (
       (0.4, 0.797),
       (0.7, 0.261),
@@ -3377,9 +3550,21 @@ This will guarantee that the Gauss limit and Weierstrass product (introduced nex
       (3.7, 1.428),
     )
     let alt_scaled = alt.map(((x, y)) => (x, y * sy + yoff))
-    line(..alt_scaled, stroke: (paint: red.darken(20%), thickness: 1pt, dash: "dashed"))
-    content((2.3, 2.3), text(size: 0.8em, fill: blue.darken(20%), [$ln Gamma(x)$ " (convex)"]))
-    content((2.3, 1.9), text(size: 0.8em, fill: red.darken(20%), ["non-convex alternative"]))
+    line(..alt_scaled, stroke: (
+      paint: red.darken(20%),
+      thickness: 1pt,
+      dash: "dashed",
+    ))
+    content((2.3, 2.3), text(
+      size: 0.8em,
+      fill: blue.darken(20%),
+      [$ln Gamma(x)$ " (convex)"],
+    ))
+    content((2.3, 1.9), text(
+      size: 0.8em,
+      fill: red.darken(20%),
+      ["non-convex alternative"],
+    ))
     content((4.0, yoff - 0.7), text(size: 0.8em, [$x$]))
     content((0.2, 2.4), text(size: 0.8em, [$ln f$]))
   })
@@ -4195,8 +4380,14 @@ We saw four posets, each with its own Möbius function:
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Poset*], [*Möbius function*], [*What it gives*]),
-    [Chain $(NN, <=)$], [$mu(n, n)=1$, $mu(n-1, n)=-1$], [Finite differences: $F(n)=G(n)-G(n-1)$],
-    [Boolean $(2^([n]), subset.eq)$], [$mu(A, B) = (-1)^(abs(B) - abs(A))$], [Inclusion--exclusion],
+    [Chain $(NN, <=)$],
+    [$mu(n, n)=1$, $mu(n-1, n)=-1$],
+    [Finite differences: $F(n)=G(n)-G(n-1)$],
+
+    [Boolean $(2^([n]), subset.eq)$],
+    [$mu(A, B) = (-1)^(abs(B) - abs(A))$],
+    [Inclusion--exclusion],
+
     [Boolean over $G F(2)$], [$mu(A, B) = 1$ always], [Zhegalkin polynomials],
     [Divisors $(ZZ^+, |)$], [$mu(d)$: classical], [Number-theoretic inversion],
   )
@@ -4261,7 +4452,9 @@ Total: $2 times 2 times 3 = 12$ cases.
       columns: 2,
       stroke: 0.4pt,
       [*Placement*], [*Description*],
-      [Ball 1 $arrow.r$ Box 1, Ball 2 $arrow.r$ Box 2], [each ball in its own box],
+      [Ball 1 $arrow.r$ Box 1, Ball 2 $arrow.r$ Box 2],
+      [each ball in its own box],
+
       [Ball 1 $arrow.r$ Box 2, Ball 2 $arrow.r$ Box 1], [balls swapped],
     )
   ]
@@ -4470,11 +4663,21 @@ For _surjective_ arrangements, every placement becomes one of $k!$ equivalent ar
     align: center,
     inset: 1em,
     stroke: (x, y) => if y == 0 { (top: 1pt, bottom: 0.8pt) },
-    table.header([*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]),
+    table.header(
+      [*Balls*], [*Boxes*], [*Unrestricted*], [*Injective*], [*Surjective*]
+    ),
     [*Distinct*], [*Distinct*], [$k^n$], [$(k)_n$], [$k! s2(n, k)$],
-    [*Indist.*], [*Distinct*], [$binom(n+k-1, n)$], [$binom(k, n)$], [$binom(n-1, k-1)$],
+    [*Indist.*],
+    [*Distinct*],
+    [$binom(n+k-1, n)$],
+    [$binom(k, n)$],
+    [$binom(n-1, k-1)$],
     table.hline(stroke: 0.4pt),
-    [*Distinct*], [*Indist.*], [$sum_(j=1)^k s2(n, j)$], [$[n <= k]$], [$s2(n, k)$],
+    [*Distinct*],
+    [*Indist.*],
+    [$sum_(j=1)^k s2(n, j)$],
+    [$[n <= k]$],
+    [$s2(n, k)$],
     [*Indist.*], [*Indist.*], [$sum_(j=1)^k p_j(n)$], [$[n <= k]$], [$p_k(n)$],
     table.hline(stroke: 0.8pt),
   )

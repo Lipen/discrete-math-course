@@ -8,7 +8,9 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#6*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Discrete Mathematics*]
     \
     *Languages and Computation*
     #h(1fr)
@@ -26,7 +28,10 @@
 #show heading.where(level: 2): set block(below: 1em, above: 1.4em)
 #show emph: set text(fill: blue.darken(20%))
 
-#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
+#let iff = symbol(math.arrow.double.l.r.long, (
+  "not",
+  math.arrow.double.l.r.not,
+))
 
 // Custom operators for formal language theory
 #let lang(x) = $cal(L)(#x)$
@@ -141,7 +146,10 @@
 
       // ── Title: top-left corner of the canvas ────────────────────────
       if title != none {
-        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(1em, emph(title))))
+        content((-lpad, lpad), anchor: "south-east", align(right + bottom, text(
+          1em,
+          emph(title),
+        )))
       }
 
       // ── Grid cells ──────────────────────────────────────────────────
@@ -156,14 +164,24 @@
       // ── Top column labels ────────────────────────────────────────────
       for (col, pat) in cpats-top.enumerate() {
         let cx = left-w + col * sz + sz / 2
-        content((cx, -top-h + lpad), anchor: "south-east", angle: -60deg, ltext(pat))
+        content(
+          (cx, -top-h + lpad),
+          anchor: "south-east",
+          angle: -60deg,
+          ltext(pat),
+        )
       }
 
       // ── Bottom column labels ─────────────────────────────────────────
       if has-bot {
         for (col, pat) in cpats-bot.enumerate() {
           let cx = left-w + col * sz + sz / 2
-          content((cx, -(top-h + grid-h) - lpad), anchor: "north-west", angle: -60deg, ltext(pat))
+          content(
+            (cx, -(top-h + grid-h) - lpad),
+            anchor: "north-west",
+            angle: -60deg,
+            ltext(pat),
+          )
         }
       }
 
@@ -447,7 +465,12 @@ Consider the NFA $cal(N)$ over $Sigma = {0, 1}$ with states $Q = {q_0, q_1, q_2,
         columns: 4,
         align: center,
         stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-        table.header([*State*], [$delta(-, mono("0"))$], [$delta(-, mono("1"))$], [*Accepting?*]),
+        table.header(
+          [*State*],
+          [$delta(-, mono("0"))$],
+          [$delta(-, mono("1"))$],
+          [*Accepting?*],
+        ),
         [$q_0$], [${ q_0, q_1 }$], [${ q_0 }$], [],
         [$q_1$], [$emptyset$], [${ q_2 }$], [],
         [$q_2$], [${ q_3 }$], [$emptyset$], [],
@@ -874,7 +897,9 @@ The language $cal(L)(G)$ is the set of all terminal strings derivable from $S$.
 
   + *Minimal automata for modular counting.*
     Fix an integer $m >= 2$ and define the language
-    $ L_m = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thin (mod thin m) } $
+    $
+      L_m = { w in {a,b}^* mid(|) hash_a (w) equiv hash_b (w) thin (mod thin m) }
+    $
 
     #tasklist("prob11c", format: "(a)")[
       + Construct a DFA $cal(A)_m$ for $L_m$ with $m$ states.

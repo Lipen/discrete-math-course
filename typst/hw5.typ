@@ -8,7 +8,9 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#5*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Discrete Mathematics*]
     \
     *Graph Theory*
     #h(1fr)
@@ -574,8 +576,12 @@ A dance school has 6 leaders and 6 followers. Each leader is willing to dance wi
 #align(center)[
   #table(
     columns: 7,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
-    table.header([], [*$F_1$*], [*$F_2$*], [*$F_3$*], [*$F_4$*], [*$F_5$*], [*$F_6$*]),
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+    ),
+    table.header(
+      [], [*$F_1$*], [*$F_2$*], [*$F_3$*], [*$F_4$*], [*$F_5$*], [*$F_6$*]
+    ),
     [*$L_1$*], [$times$], [$times$], [], [], [], [$times$],
     [*$L_2$*], [$times$], [], [$times$], [], [], [],
     [*$L_3$*], [], [$times$], [], [$times$], [], [],

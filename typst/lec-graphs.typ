@@ -502,8 +502,20 @@ Graphs are _everywhere_ --- they model relationships, connections, and structure
         blob((0, 0), $a$, tint: blue, shape: shapes.circle, name: <a>),
         blob((1, 0), $b$, tint: green, shape: shapes.circle, name: <b>),
         blob((2, 0), $c$, tint: blue, shape: shapes.circle, name: <c>),
-        blob((0.5, calc.cos(30deg)), $d$, tint: green, shape: shapes.circle, name: <d>),
-        blob((1.5, calc.cos(30deg)), $e$, tint: green, shape: shapes.circle, name: <e>),
+        blob(
+          (0.5, calc.cos(30deg)),
+          $d$,
+          tint: green,
+          shape: shapes.circle,
+          name: <d>,
+        ),
+        blob(
+          (1.5, calc.cos(30deg)),
+          $e$,
+          tint: green,
+          shape: shapes.circle,
+          name: <e>,
+        ),
         edge(<a>, <b>),
         edge(<b>, <c>),
         edge(<b>, <d>),
@@ -1248,7 +1260,9 @@ Both graphs are isomorphic to $C_4$. The bijection $phi: 1 |-> a, 2 |-> b, 3 |->
   Left inequality: $min <= max$ (by definition).
 
   Right inequality: Let $u, v$ achieve $diam(G) = dist(u, v)$, and let $w in Center(G)$. By triangle inequality:
-  $ diam(G) = dist(u, v) <= dist(u, w) + dist(w, v) <= 2 dot ecc(w) = 2 dot rad(G) $
+  $
+    diam(G) = dist(u, v) <= dist(u, w) + dist(w, v) <= 2 dot ecc(w) = 2 dot rad(G)
+  $
   #qedhere
 ]
 
@@ -1815,7 +1829,8 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         edge(<a>, <c>, stroke: 2pt + orange, bend: -30deg),
       ),
 
-      [*Before:* tree $T$], [*After:* $T + {a,c}$ has exactly one cycle $a$-$b$-$c$-$a$],
+      [*Before:* tree $T$],
+      [*After:* $T + {a,c}$ has exactly one cycle $a$-$b$-$c$-$a$],
     )
   ]
 ]
@@ -1853,7 +1868,15 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
         node-stroke: 1pt,
         edge-stroke: 1pt,
         node-corner-radius: 3pt,
-        vertex((1, 0), [root], <root>, orange, shape: shapes.rect, width: 2.5em, radius: auto),
+        vertex(
+          (1, 0),
+          [root],
+          <root>,
+          orange,
+          shape: shapes.rect,
+          width: 2.5em,
+          radius: auto,
+        ),
         vertex((0, 1), $a$, <a>, blue),
         vertex((2, 1), $b$, <b>, blue),
         vertex((-0.5, 2), $c$, <c>, green),
@@ -2381,7 +2404,9 @@ This graph has 3 connected components: ${a, b, c}$, ${d, e}$, and ${f}$.
 
 #theorem[Menger][
   Let $u, v$ be non-adjacent vertices in $G$. Then:
-  $ max{"number of internally vertex-disjoint" u"-"v "paths"} = min{|S| : S "is a" u"-"v "separator"} $
+  $
+    max{"number of internally vertex-disjoint" u"-"v "paths"} = min{|S| : S "is a" u"-"v "separator"}
+  $
 ]
 
 In other words: the maximum number of paths from $u$ to $v$ that share _no internal vertices_ equals the minimum number of vertices needed to separate $u$ from $v$.
@@ -2444,7 +2469,8 @@ In other words: the maximum number of paths from $u$ to $v$ that share _no inter
         edge(<c>, <d>, stroke: gray),
       ),
 
-      [*2 internally vertex-disjoint paths* (max)], [*Min vertex separator:* ${a, b}$ of size 2],
+      [*2 internally vertex-disjoint paths* (max)],
+      [*Min vertex separator:* ${a, b}$ of size 2],
     )
   ]
 
@@ -2512,7 +2538,9 @@ In other words: the maximum number of paths from $u$ to $v$ that share _no inter
 
 #theorem[Menger][
   For any distinct vertices $u, v$ in $G$:
-  $ max{"number of edge-disjoint" u"-"v "paths"} = min{|F| : F "is a" u"-"v "edge cut"} $
+  $
+    max{"number of edge-disjoint" u"-"v "paths"} = min{|F| : F "is a" u"-"v "edge cut"}
+  $
 ]
 
 #example[
@@ -2570,7 +2598,8 @@ In other words: the maximum number of paths from $u$ to $v$ that share _no inter
         edge(<c>, <d>, stroke: gray),
       ),
 
-      [*2 edge-disjoint paths* (max)], [*Min edge cut:* ${(c,v), (d,v)}$ of size 2],
+      [*2 edge-disjoint paths* (max)],
+      [*Min edge cut:* ${(c,v), (d,v)}$ of size 2],
     )
   ]
 
@@ -4253,15 +4282,47 @@ Many _real-world_ problems ask: _"how much can move from A to B through a networ
     blob((1, 1), $b$, tint: blue, name: <nb>),
     blob((2, -1), $c$, tint: blue, name: <nc>),
     blob((2, 1), $d$, tint: blue, name: <nd>),
-    edge(<s>, <na>, "-}>", [$16$], label-side: center, label-angle: auto, bend: 30deg),
-    edge(<s>, <nb>, "-}>", [$13$], label-side: center, label-angle: auto, bend: -30deg),
+    edge(
+      <s>,
+      <na>,
+      "-}>",
+      [$16$],
+      label-side: center,
+      label-angle: auto,
+      bend: 30deg,
+    ),
+    edge(
+      <s>,
+      <nb>,
+      "-}>",
+      [$13$],
+      label-side: center,
+      label-angle: auto,
+      bend: -30deg,
+    ),
     edge(<na>, <nc>, "-}>", [$12$], label-side: center, label-angle: auto),
     edge(<nb>, <na>, "-}>", [$4$], label-side: center),
     edge(<nb>, <nd>, "-}>", [$14$], label-side: center, label-angle: auto),
     edge(<nc>, <nb>, "-}>", [$9$], label-side: center, label-angle: auto),
-    edge(<nc>, <t>, "-}>", [$20$], label-side: center, label-angle: auto, bend: 30deg),
+    edge(
+      <nc>,
+      <t>,
+      "-}>",
+      [$20$],
+      label-side: center,
+      label-angle: auto,
+      bend: 30deg,
+    ),
     edge(<nd>, <nc>, "-}>", [$7$], label-side: center),
-    edge(<nd>, <t>, "-}>", [$4$], label-side: center, label-angle: auto, bend: -30deg),
+    edge(
+      <nd>,
+      <t>,
+      "-}>",
+      [$4$],
+      label-side: center,
+      label-angle: auto,
+      bend: -30deg,
+    ),
   )
 ]
 
@@ -4363,15 +4424,77 @@ Edges carrying strictly less than capacity are shown normally; _saturated_ edges
     blob((1, 1), $b$, tint: blue, name: <nb>),
     blob((2, -1), $c$, tint: blue, name: <nc>),
     blob((2, 1), $d$, tint: blue, name: <nd>),
-    edge(<s>, <na>, "-}>", [$12 slash 16$], label-side: center, label-angle: auto, bend: 30deg),
-    edge(<s>, <nb>, "-}>", [$11 slash 13$], label-side: center, label-angle: auto, bend: -30deg),
-    edge(<na>, <nc>, "-}>", [$12 slash 12$], label-side: center, label-angle: auto, stroke: 2pt + red),
+    edge(
+      <s>,
+      <na>,
+      "-}>",
+      [$12 slash 16$],
+      label-side: center,
+      label-angle: auto,
+      bend: 30deg,
+    ),
+    edge(
+      <s>,
+      <nb>,
+      "-}>",
+      [$11 slash 13$],
+      label-side: center,
+      label-angle: auto,
+      bend: -30deg,
+    ),
+    edge(
+      <na>,
+      <nc>,
+      "-}>",
+      [$12 slash 12$],
+      label-side: center,
+      label-angle: auto,
+      stroke: 2pt + red,
+    ),
     edge(<nb>, <na>, "-}>", [$0 slash 4$], label-side: center),
-    edge(<nb>, <nd>, "-}>", [$11 slash 14$], label-side: center, label-angle: auto),
-    edge(<nc>, <nb>, "-}>", [$0 slash 9$], label-side: center, label-angle: auto),
-    edge(<nc>, <t>, "-}>", [$19 slash 20$], label-side: center, label-angle: auto, bend: 30deg),
-    edge(<nd>, <nc>, "-}>", [$7 slash 7$], label-side: center, stroke: 2pt + red),
-    edge(<nd>, <t>, "-}>", [$4 slash 4$], label-side: center, label-angle: auto, bend: -30deg, stroke: 2pt + red),
+    edge(
+      <nb>,
+      <nd>,
+      "-}>",
+      [$11 slash 14$],
+      label-side: center,
+      label-angle: auto,
+    ),
+    edge(
+      <nc>,
+      <nb>,
+      "-}>",
+      [$0 slash 9$],
+      label-side: center,
+      label-angle: auto,
+    ),
+    edge(
+      <nc>,
+      <t>,
+      "-}>",
+      [$19 slash 20$],
+      label-side: center,
+      label-angle: auto,
+      bend: 30deg,
+    ),
+    edge(
+      <nd>,
+      <nc>,
+      "-}>",
+      [$7 slash 7$],
+      label-side: center,
+      stroke: 2pt + red,
+    ),
+    edge(
+      <nd>,
+      <t>,
+      "-}>",
+      [$4 slash 4$],
+      label-side: center,
+      label-angle: auto,
+      bend: -30deg,
+      stroke: 2pt + red,
+    ),
   )
 ]
 
@@ -4432,15 +4555,71 @@ This flow turns out to be _maximum_ --- we will prove this shortly using the Min
     blob((1, 1), $b$, tint: green, name: <nb>),
     blob((2, -1), $c$, tint: red, name: <nc>),
     blob((2, 1), $d$, tint: red, name: <nd>),
-    edge(<s>, <na>, "-}>", [$16$], label-side: center, label-angle: auto, bend: 30deg),
-    edge(<s>, <nb>, "-}>", [$13$], label-side: center, label-angle: auto, bend: -30deg),
-    edge(<na>, <nc>, "-}>", [$12$], label-side: center, label-angle: auto, stroke: 2pt + red),
+    edge(
+      <s>,
+      <na>,
+      "-}>",
+      [$16$],
+      label-side: center,
+      label-angle: auto,
+      bend: 30deg,
+    ),
+    edge(
+      <s>,
+      <nb>,
+      "-}>",
+      [$13$],
+      label-side: center,
+      label-angle: auto,
+      bend: -30deg,
+    ),
+    edge(
+      <na>,
+      <nc>,
+      "-}>",
+      [$12$],
+      label-side: center,
+      label-angle: auto,
+      stroke: 2pt + red,
+    ),
     edge(<nb>, <na>, "-}>", [$4$], label-side: center),
-    edge(<nb>, <nd>, "-}>", [$14$], label-side: center, label-angle: auto, stroke: 2pt + red),
-    edge(<nc>, <nb>, "-}>", [$9$], label-side: center, label-angle: auto, stroke: gray),
-    edge(<nc>, <t>, "-}>", [$20$], label-side: center, label-angle: auto, bend: 30deg),
+    edge(
+      <nb>,
+      <nd>,
+      "-}>",
+      [$14$],
+      label-side: center,
+      label-angle: auto,
+      stroke: 2pt + red,
+    ),
+    edge(
+      <nc>,
+      <nb>,
+      "-}>",
+      [$9$],
+      label-side: center,
+      label-angle: auto,
+      stroke: gray,
+    ),
+    edge(
+      <nc>,
+      <t>,
+      "-}>",
+      [$20$],
+      label-side: center,
+      label-angle: auto,
+      bend: 30deg,
+    ),
     edge(<nd>, <nc>, "-}>", [$7$], label-side: center),
-    edge(<nd>, <t>, "-}>", [$4$], label-side: center, label-angle: auto, bend: -30deg),
+    edge(
+      <nd>,
+      <t>,
+      "-}>",
+      [$4$],
+      label-side: center,
+      label-angle: auto,
+      bend: -30deg,
+    ),
   )
 ]
 
@@ -4805,14 +4984,62 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
         vertex((1, 1), <nb>, $b$, blue),
         vertex((2, -1), <nc>, $c$, blue),
         vertex((2, 1), <nd>, $d$, blue),
-        edge(<s>, <na>, "-}>", [$4$], label-side: center, label-angle: auto, bend: 20deg),
-        edge(<s>, <nb>, "-}>", [$2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <s>,
+          <na>,
+          "-}>",
+          [$4$],
+          label-side: center,
+          label-angle: auto,
+          bend: 20deg,
+        ),
+        edge(
+          <s>,
+          <nb>,
+          "-}>",
+          [$2$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
         edge(<na>, <nc>, "-}>", [$3$], label-side: center, label-angle: auto),
         edge(<nb>, <nd>, "-}>", [$3$], label-side: center, label-angle: auto),
-        edge(<nb>, <nc>, "-}>", [$2$], label-side: center, label-angle: auto, bend: -20deg),
-        edge(<nc>, <nb>, "-}>", [$1$], label-side: center, label-angle: auto, bend: -20deg),
-        edge(<nc>, <t>, "-}>", [$2$], label-side: center, label-angle: auto, bend: 20deg),
-        edge(<nd>, <t>, "-}>", [$4$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <nb>,
+          <nc>,
+          "-}>",
+          [$2$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
+        edge(
+          <nc>,
+          <nb>,
+          "-}>",
+          [$1$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
+        edge(
+          <nc>,
+          <t>,
+          "-}>",
+          [$2$],
+          label-side: center,
+          label-angle: auto,
+          bend: 20deg,
+        ),
+        edge(
+          <nd>,
+          <t>,
+          "-}>",
+          [$4$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
       )
     ],
     [
@@ -4828,7 +5055,15 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
         vertex((1, 1), <nb>, $b$, blue),
         vertex((2, -1), <nc>, $c$, blue),
         vertex((2, 1), <nd>, $d$, blue),
-        edge(<s>, <na>, "-}>", [$0 slash 4$], label-side: center, label-angle: auto, bend: 20deg),
+        edge(
+          <s>,
+          <na>,
+          "-}>",
+          [$0 slash 4$],
+          label-side: center,
+          label-angle: auto,
+          bend: 20deg,
+        ),
         edge(
           <s>,
           <nb>,
@@ -4839,8 +5074,22 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
           label-angle: auto,
           bend: -20deg,
         ),
-        edge(<na>, <nc>, "-}>", [$0 slash 3$], label-side: center, label-angle: auto),
-        edge(<nb>, <nd>, "-}>", [$0 slash 3$], label-side: center, label-angle: auto),
+        edge(
+          <na>,
+          <nc>,
+          "-}>",
+          [$0 slash 3$],
+          label-side: center,
+          label-angle: auto,
+        ),
+        edge(
+          <nb>,
+          <nd>,
+          "-}>",
+          [$0 slash 3$],
+          label-side: center,
+          label-angle: auto,
+        ),
         edge(
           <nb>,
           <nc>,
@@ -4851,7 +5100,15 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
           label-angle: auto,
           bend: -20deg,
         ),
-        edge(<nc>, <nb>, "-}>", [$0 slash 1$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <nc>,
+          <nb>,
+          "-}>",
+          [$0 slash 1$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
         edge(
           <nc>,
           <t>,
@@ -4862,7 +5119,15 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
           label-angle: auto,
           bend: 20deg,
         ),
-        edge(<nd>, <t>, "-}>", [$0 slash 4$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <nd>,
+          <t>,
+          "-}>",
+          [$0 slash 4$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
       )
     ],
     [
@@ -4888,10 +5153,42 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
           label-angle: auto,
           bend: 20deg,
         ),
-        edge(<s>, <nb>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
-        edge(<na>, <nc>, "-}>", [$3 slash 3$], label-side: center, stroke: green + 1.5pt, label-angle: auto),
-        edge(<nb>, <nd>, "-}>", [$3 slash 3$], label-side: center, stroke: green + 1.5pt, label-angle: auto),
-        edge(<nb>, <nc>, "-}>", [$0 slash 2$], label-side: center, label-angle: auto, bend: -20deg),
+        edge(
+          <s>,
+          <nb>,
+          "-}>",
+          [$2 slash 2$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
+        edge(
+          <na>,
+          <nc>,
+          "-}>",
+          [$3 slash 3$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+        ),
+        edge(
+          <nb>,
+          <nd>,
+          "-}>",
+          [$3 slash 3$],
+          label-side: center,
+          stroke: green + 1.5pt,
+          label-angle: auto,
+        ),
+        edge(
+          <nb>,
+          <nc>,
+          "-}>",
+          [$0 slash 2$],
+          label-side: center,
+          label-angle: auto,
+          bend: -20deg,
+        ),
         edge(
           <nc>,
           <nb>,
@@ -4902,7 +5199,15 @@ To find maximum flows, we need to answer: _"where can we still push more flow?"_
           label-angle: auto,
           bend: -20deg,
         ),
-        edge(<nc>, <t>, "-}>", [$2 slash 2$], label-side: center, label-angle: auto, bend: 20deg),
+        edge(
+          <nc>,
+          <t>,
+          "-}>",
+          [$2 slash 2$],
+          label-side: center,
+          label-angle: auto,
+          bend: 20deg,
+        ),
         edge(
           <nd>,
           <t>,
@@ -5432,7 +5737,14 @@ Original edges become $u_"out" -> v_"in"$ with capacity $infinity$.
     edge(<bin>, <bout>, "-}>", $1$, label-side: center, label-angle: auto),
     edge(<aout>, <t>, "-}>", $infinity$, label-side: center, label-angle: auto),
     edge(<bout>, <t>, "-}>", $infinity$, label-side: center, label-angle: auto),
-    edge(<aout>, <bin>, "-}>", $infinity$, label-side: center, label-angle: auto),
+    edge(
+      <aout>,
+      <bin>,
+      "-}>",
+      $infinity$,
+      label-side: center,
+      label-angle: auto,
+    ),
   )
 ]
 
@@ -5577,9 +5889,14 @@ Max flow $= 2 < 3$ --- *$D$ is eliminated*, even though $D$ is tied for the lead
     table.header([*Theorem*], [*Max side*], [*Min side*]),
     [Max-Flow Min-Cut], [flow value $|f|$], [cut capacity $c(A,B)$],
     [Menger (edge form)], [edge-disjoint $s$-$t$ paths], [min edge separator],
-    [Menger (vertex form)], [vertex-disjoint $s$-$t$ paths], [min vertex separator],
+    [Menger (vertex form)],
+    [vertex-disjoint $s$-$t$ paths],
+    [min vertex separator],
+
     [König's theorem], [max matching $nu(G)$], [min vertex cover $tau(G)$],
-    [Hall's theorem], [matching saturating $X$], [Hall condition $|N(S)| >= |S|$],
+    [Hall's theorem],
+    [matching saturating $X$],
+    [Hall condition $|N(S)| >= |S|$],
   )
 ]
 

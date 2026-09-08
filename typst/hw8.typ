@@ -8,7 +8,9 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#8*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Discrete Mathematics*]
     \
     *Recurrences and Generating Functions*
     #h(1fr)
@@ -300,7 +302,9 @@ This problem follows the thread from Euler's product to Ramanujan's congruences.
     $ 1 = (sum_k (-1)^k x^(k(3k-1)\/2)) dot (sum_n p(n) x^n) $
     For $n >= 1$, the coefficient of $x^n$ on the right must vanish.
     Setting it to zero gives a recurrence with pentagonal-number offsets:
-    $ p(n) = p(n - 1) + p(n - 2) - p(n - 5) - p(n - 7) + p(n - 12) + p(n - 15) - dots $
+    $
+      p(n) = p(n - 1) + p(n - 2) - p(n - 5) - p(n - 7) + p(n - 12) + p(n - 15) - dots
+    $
     (signs alternate in pairs, negative indices treated as zero).
     - Implement this recurrence and compute $p(n)$ for $n = 0, dots, 100$.
       Verify $p(10) = 42$, $p(50) = 204226$, $p(100) = 190569292$.

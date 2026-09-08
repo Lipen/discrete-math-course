@@ -15,7 +15,10 @@
 #show quote: set par(justify: false)
 #show quote: set align(left)
 
-#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
+#let iff = symbol(math.arrow.double.l.r.long, (
+  "not",
+  math.arrow.double.l.r.not,
+))
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $chevron.l #a, #b chevron.r$
 #let rel(x) = math.class("relation", x)
@@ -99,7 +102,13 @@
     import draw: *
 
     // Central node
-    circle((0, 0), radius: 1.5, fill: red.lighten(80%), stroke: 2pt + red, name: "central")
+    circle(
+      (0, 0),
+      radius: 1.5,
+      fill: red.lighten(80%),
+      stroke: 2pt + red,
+      name: "central",
+    )
     content((0, 0), block(
       width: 2.5cm,
       align(center, text(
@@ -128,7 +137,9 @@
       orange,
     )
 
-    for (i, (pos, topic, color)) in array.zip(positions, topics, colors).enumerate() {
+    for (i, (pos, topic, color)) in array
+      .zip(positions, topics, colors)
+      .enumerate() {
       let name = "node-" + str(i)
       // Topic circle
       circle(
@@ -224,7 +235,10 @@
       )
 
       // Label
-      content((x, y - r), anchor: "north", padding: .2, align(center, text(size: 0.8em, weight: "bold")[#label]))
+      content((x, y - r), anchor: "north", padding: .2, align(center, text(
+        size: 0.8em,
+        weight: "bold",
+      )[#label]))
     }
 
     // Connections
@@ -232,7 +246,11 @@
       line(
         "step" + str(i),
         "step" + str(i + 1),
-        stroke: 2pt + gradient.linear(steps.at(i).at(2).darken(20%), steps.at(i + 1).at(2).darken(20%)),
+        stroke: 2pt
+          + gradient.linear(
+            steps.at(i).at(2).darken(20%),
+            steps.at(i + 1).at(2).darken(20%),
+          ),
       )
     }
   })
@@ -355,13 +373,24 @@
 
     // Draw path
     for i in range(path-points.len() - 1) {
-      line(path-points.at(i), path-points.at(i + 1), stroke: 1.5pt + gray.darken(30%))
+      line(
+        path-points.at(i),
+        path-points.at(i + 1),
+        stroke: 1.5pt + gray.darken(30%),
+      )
     }
 
     // Draw nodes
-    for (i, (point, label, color)) in array.zip(path-points, labels, colors).enumerate() {
+    for (i, (point, label, color)) in array
+      .zip(path-points, labels, colors)
+      .enumerate() {
       let radius = if i == 0 or i == path-points.len() - 1 { 0.5 } else { 0.4 }
-      circle(point, radius: radius, fill: color.lighten(70%), stroke: 1.5pt + color)
+      circle(
+        point,
+        radius: radius,
+        fill: color.lighten(70%),
+        stroke: 1.5pt + color,
+      )
 
       if i == 0 {
         content(point, text(size: 0.5em, weight: "bold")[🚀])
@@ -372,7 +401,10 @@
       }
 
       // Label below
-      content((point.at(0), point.at(1) - 0.8), text(size: 0.4em, weight: "bold")[#label])
+      content((point.at(0), point.at(1) - 0.8), text(
+        size: 0.4em,
+        weight: "bold",
+      )[#label])
     }
   })
 }
@@ -425,13 +457,24 @@
       let height = points / 40 * max-height // normalize to max 40 points
 
       // Draw bar
-      rect((x - bar-width / 2, 0), (x + bar-width / 2, height), fill: color.lighten(70%), stroke: 1pt + color)
+      rect(
+        (x - bar-width / 2, 0),
+        (x + bar-width / 2, height),
+        fill: color.lighten(70%),
+        stroke: 1pt + color,
+      )
 
       // Points label on bar
-      content((x, height), padding: .2, anchor: "south", text(size: 0.8em, weight: "bold")[#points])
+      content((x, height), padding: .2, anchor: "south", text(
+        size: 0.8em,
+        weight: "bold",
+      )[#points])
 
       // Name label below
-      content((x, 0), padding: .2, anchor: "north", text(size: 0.8em, weight: "bold")[#name])
+      content((x, 0), padding: .2, anchor: "north", text(
+        size: 0.8em,
+        weight: "bold",
+      )[#name])
     }
 
     // Total label
@@ -578,7 +621,13 @@
       let x = week * cell-width + skew
       let y = cell-height
       let name = "hw" + str(i)
-      circle((x, y), radius: (0.4, 0.3), fill: blue.lighten(20%), stroke: 1pt + blue.darken(20%), name: name)
+      circle(
+        (x, y),
+        radius: (0.4, 0.3),
+        fill: blue.lighten(20%),
+        stroke: 1pt + blue.darken(20%),
+        name: name,
+      )
       content(name, text(size: 0.7em, fill: white, weight: "bold")[HW #(i + 1)])
     }
 
@@ -587,8 +636,18 @@
       let x = (week - 1) * cell-width + cell-width / 2
       let y = 0
       let name = "test" + str(week)
-      circle((x, y), radius: (0.4, 0.3), fill: green.lighten(20%), stroke: 1pt + green.darken(20%), name: name)
-      content(name, text(size: 0.7em, fill: black, weight: "bold")[Test #(i + 1)])
+      circle(
+        (x, y),
+        radius: (0.4, 0.3),
+        fill: green.lighten(20%),
+        stroke: 1pt + green.darken(20%),
+        name: name,
+      )
+      content(name, text(
+        size: 0.7em,
+        fill: black,
+        weight: "bold",
+      )[Test #(i + 1)])
     }
 
     // Theoretical minimum markers
@@ -596,7 +655,13 @@
       let x = (week - 1) * cell-width + cell-width / 2 + skew
       let y = cell-height
       let name = "tm" + str(i)
-      circle((x, y), radius: (0.4, 0.3), fill: purple.lighten(50%), stroke: 1pt + purple.darken(20%), name: name)
+      circle(
+        (x, y),
+        radius: (0.4, 0.3),
+        fill: purple.lighten(50%),
+        stroke: 1pt + purple.darken(20%),
+        name: name,
+      )
       content(name, text(size: 0.7em, fill: black, weight: "bold")[TM #(i + 1)])
     }
 
@@ -719,7 +784,11 @@
       - GitHub for course feedback
     ]
 
-    #visual-box(color: blue, icon: emoji.silhouette.double, header: [Study Community])[
+    #visual-box(
+      color: blue,
+      icon: emoji.silhouette.double,
+      header: [Study Community],
+    )[
       - Form study groups with classmates
       - Discuss problems
       - Share learning strategies

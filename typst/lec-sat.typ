@@ -180,14 +180,30 @@
     #cetz.canvas({
       import cetz.draw: *
 
-      rect((-4, -1.5), (4, 1), fill: gray.transparentize(90%), stroke: 1pt, radius: 5pt)
+      rect(
+        (-4, -1.5),
+        (4, 1),
+        fill: gray.transparentize(90%),
+        stroke: 1pt,
+        radius: 5pt,
+      )
       content((0, -1.5), [All $2^n$ assignments], anchor: "north", padding: 0.2)
 
-      circle((-2.5, 0), radius: 0.4, fill: green.transparentize(50%), stroke: 1pt + green)
+      circle(
+        (-2.5, 0),
+        radius: 0.4,
+        fill: green.transparentize(50%),
+        stroke: 1pt + green,
+      )
       content((-2.5, -0.9), text(fill: green.darken(20%))[SAT: $exists$ one])
 
       for x in range(-1, 4) {
-        circle((0.8 * x + 1, 0), radius: 0.3, fill: green.transparentize(50%), stroke: 1pt + green)
+        circle(
+          (0.8 * x + 1, 0),
+          radius: 0.3,
+          fill: green.transparentize(50%),
+          stroke: 1pt + green,
+        )
       }
       content((1.6, -0.9), text(fill: purple.darken(20%))[TAUT: $forall$ all])
     })
@@ -208,7 +224,9 @@
   Is $(x and y) -> (x or y)$ a tautology?
 
   Check if $not((x and y) -> (x or y))$ is unsatisfiable:
-  $ not((x and y) -> (x or y)) = (x and y) and not(x or y) = (x and y) and (not x and not y) $
+  $
+    not((x and y) -> (x or y)) = (x and y) and not(x or y) = (x and y) and (not x and not y)
+  $
 
   Requires $x = 1$ and $x = 0$ simultaneously --- contradiction! UNSAT.
 
@@ -523,10 +541,21 @@ We need a smarter approach...
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Gate*], [*Meaning*], [*CNF clauses*]),
     [$t <-> not a$], [$t = not a$], [$(t or a) and (not t or not a)$],
-    [$t <-> a and b$], [$t = a and b$], [$(not t or a) and (not t or b) and (t or not a or not b)$],
-    [$t <-> a or b$], [$t = a or b$], [$(t or not a) and (t or not b) and (not t or a or b)$],
-    [$t <-> a -> b$], [$t = not a or b$], [$(t or a) and (t or not b) and (not t or not a or b)$],
-    [$t <-> a <-> b$], [$t = (a equiv b)$], [$(not t or not a or b) and (not t or a or not b) and ...$],
+    [$t <-> a and b$],
+    [$t = a and b$],
+    [$(not t or a) and (not t or b) and (t or not a or not b)$],
+
+    [$t <-> a or b$],
+    [$t = a or b$],
+    [$(t or not a) and (t or not b) and (not t or a or b)$],
+
+    [$t <-> a -> b$],
+    [$t = not a or b$],
+    [$(t or a) and (t or not b) and (not t or not a or b)$],
+
+    [$t <-> a <-> b$],
+    [$t = (a equiv b)$],
+    [$(not t or not a or b) and (not t or a or not b) and ...$],
   )
 ]
 
@@ -1197,7 +1226,13 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
     node-stroke: 1pt,
     edge-stroke: 1pt,
     // Decision node (column 0)
-    blob((0, 0), [$x = 1$], tint: green, shape: fletcher.shapes.rect, name: <x>),
+    blob(
+      (0, 0),
+      [$x = 1$],
+      tint: green,
+      shape: fletcher.shapes.rect,
+      name: <x>,
+    ),
     blob((0, 1), text(size: 0.8em)[_decision_]),
     // Propagated nodes (column 1) - y above, z below
     blob((1, -0.5), [$y = 0$], tint: blue, name: <y>),
@@ -1205,7 +1240,13 @@ Richard Karp showed 21 classic problems are NP-complete by reducing SAT to them.
     // w node (column 2)
     blob((2, 0), [$w = 0$], tint: blue, name: <w>),
     // Conflict node (column 3)
-    blob((3, 0), [$kappa$], tint: red, shape: fletcher.shapes.circle, name: <conf>),
+    blob(
+      (3, 0),
+      [$kappa$],
+      tint: red,
+      shape: fletcher.shapes.circle,
+      name: <conf>,
+    ),
     blob((3, 1), text(size: 0.8em, fill: red)[_conflict_]),
     // Edges: x -> y, x -> z
     edge(
@@ -2884,23 +2925,49 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
     import cetz.draw: *
 
     // Stacked boxes showing hierarchy - centered with consistent widths
-    rect((-3, 0), (3, 1.3), fill: blue.lighten(85%), stroke: 1pt + blue.darken(20%), radius: 4pt)
+    rect(
+      (-3, 0),
+      (3, 1.3),
+      fill: blue.lighten(85%),
+      stroke: 1pt + blue.darken(20%),
+      radius: 4pt,
+    )
     content((0, 0.65), [*Resolution* (SAT/CDCL)])
 
-    rect((-3.3, 2), (3.3, 3.3), fill: green.lighten(85%), stroke: 1pt + green.darken(20%), radius: 4pt)
+    rect(
+      (-3.3, 2),
+      (3.3, 3.3),
+      fill: green.lighten(85%),
+      stroke: 1pt + green.darken(20%),
+      radius: 4pt,
+    )
     content((0, 2.65), [*Cutting Planes* (ILP)])
 
-    rect((-3.6, 4), (3.6, 5.3), fill: yellow.lighten(85%), stroke: 1pt + yellow.darken(20%), radius: 4pt)
+    rect(
+      (-3.6, 4),
+      (3.6, 5.3),
+      fill: yellow.lighten(85%),
+      stroke: 1pt + yellow.darken(20%),
+      radius: 4pt,
+    )
     content((0, 4.65), [*Frege* (propositional logic)])
 
-    rect((-4, 6), (4, 7.3), fill: orange.lighten(85%), stroke: 1pt + orange.darken(20%), radius: 4pt)
+    rect(
+      (-4, 6),
+      (4, 7.3),
+      fill: orange.lighten(85%),
+      stroke: 1pt + orange.darken(20%),
+      radius: 4pt,
+    )
     content((0, 6.65), [*Extended Frege* (with abbreviations)])
 
     // Annotations on the right - better positioned
     line((3.2, 0.65), (4.5, 0.65), stroke: 0.6pt + red, mark: (end: ">"))
     content((6.3, 0.65), text(size: 0.65em, fill: red)[PHP hard])
 
-    line((3.5, 2.65), (4.5, 2.65), stroke: 0.6pt + green.darken(30%), mark: (end: ">"))
+    line((3.5, 2.65), (4.5, 2.65), stroke: 0.6pt + green.darken(30%), mark: (
+      end: ">",
+    ))
     content((6.3, 2.65), text(size: 0.65em, fill: green.darken(30%))[PHP easy!])
 
     // Vertical "stronger" arrow on the left
@@ -3158,10 +3225,20 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
     rect((2.5, 0.3), (4.4, 2.2), fill: green.lighten(70%), stroke: 1pt + green)
     content((3.45, 1.25), text(size: 0.7em)[$x_1=1$\ $x_3=0$])
 
-    rect((4.7, 0.3), (6.6, 2.2), fill: yellow.lighten(70%), stroke: 1pt + yellow.darken(20%))
+    rect(
+      (4.7, 0.3),
+      (6.6, 2.2),
+      fill: yellow.lighten(70%),
+      stroke: 1pt + yellow.darken(20%),
+    )
     content((5.65, 1.25), text(size: 0.7em)[$x_1=1$\ $x_3=1$])
 
-    rect((6.9, 0.3), (8.8, 2.2), fill: orange.lighten(70%), stroke: 1pt + orange)
+    rect(
+      (6.9, 0.3),
+      (8.8, 2.2),
+      fill: orange.lighten(70%),
+      stroke: 1pt + orange,
+    )
     content((7.85, 1.25), text(size: 0.7em)[$x_2=0$\ $x_7=1$])
 
     content((9.5, 1.25), text(size: 0.8em)[...])
@@ -3213,7 +3290,12 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
     // Variables (left side) - evenly spaced
     for i in range(4) {
-      circle((-4, -i * 1.8), radius: 0.5, fill: blue.lighten(70%), stroke: 1pt + blue.darken(20%))
+      circle(
+        (-4, -i * 1.8),
+        radius: 0.5,
+        fill: blue.lighten(70%),
+        stroke: 1pt + blue.darken(20%),
+      )
       content((-4, -i * 1.8), text(size: 0.65em)[$x_#(i + 1)$])
     }
     content((-4, 1.2), text(size: 0.7em, weight: "bold")[Variables])
@@ -3245,7 +3327,10 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
     line((-3.5, -5.4), (3.5, -4.5), stroke: 0.7pt + gray.darken(20%))
 
     // Message passing annotation
-    content((0, -2.7), std.rotate(-8deg, text(size: 0.7em, fill: purple)[message passing]))
+    content((0, -2.7), std.rotate(-8deg, text(
+      size: 0.7em,
+      fill: purple,
+    )[message passing]))
 
     // Output arrow and label
     line((5.5, -2.7), (7.5, -2.7), stroke: 1.2pt, mark: (end: ">"))
@@ -4152,7 +4237,11 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
       stroke: 0.8pt + blue.darken(10%),
       name: "decidable",
     )
-    content((-9, 4.2), text(fill: blue.darken(25%), size: 0.6em)[Decidable], anchor: "south-west")
+    content(
+      (-9, 4.2),
+      text(fill: blue.darken(25%), size: 0.6em)[Decidable],
+      anchor: "south-west",
+    )
 
     // EXPTIME
     circle(
@@ -4221,7 +4310,11 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
     content((-6.3, -0.15), text(size: 0.8em)[MST])
 
     // NP-complete region
-    content((0, 1.1), text(size: 0.8em, fill: orange.darken(10%), weight: "bold")[NP-complete])
+    content((0, 1.1), text(
+      size: 0.8em,
+      fill: orange.darken(10%),
+      weight: "bold",
+    )[NP-complete])
     content((0, 0.5), text(size: 0.8em)[SAT])
     content((0, 0.05), text(size: 0.8em)[3-SAT])
     content((0, -0.4), text(size: 0.8em)[Clique])
@@ -4231,7 +4324,10 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
 
     // NP but not P or NPC (if P≠NP)
     content((-3.8, 1.6), text(size: 0.45em, fill: gray.darken(20%))[Graph Iso?])
-    content((-4.2, -1.8), text(size: 0.45em, fill: gray.darken(20%))[Factoring?])
+    content((-4.2, -1.8), text(
+      size: 0.45em,
+      fill: gray.darken(20%),
+    )[Factoring?])
 
     // EXPTIME-complete (NP-hard, in EXPTIME, outside NP)
     content((4, 0.9), text(size: 0.45em)[Gen. Chess])
@@ -4240,8 +4336,15 @@ A common constraint: "at most one of $x_1, ..., x_n$ is true."
     content((4, -0.45), text(size: 0.45em)[QBF/QSAT])
 
     // Undecidable problems (still NP-hard!)
-    content((15, 3), text(size: 0.55em, fill: gray.darken(35%), weight: "bold")[Undecidable])
-    content((15, 2.4), text(size: 0.45em, fill: gray.darken(25%))[(also NP-hard!)])
+    content((15, 3), text(
+      size: 0.55em,
+      fill: gray.darken(35%),
+      weight: "bold",
+    )[Undecidable])
+    content((15, 2.4), text(
+      size: 0.45em,
+      fill: gray.darken(25%),
+    )[(also NP-hard!)])
     content((15, 1.4), text(size: 0.45em)[Halting problem])
     content((15, 0.8), text(size: 0.45em)[Post corresp.])
     content((15, 0.2), text(size: 0.45em)[Diophantine eqs])

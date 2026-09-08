@@ -39,7 +39,10 @@
   overshoot-y: 0.7,
 ) = {
   // Horizontal axis:
-  draw.line((-overshoot-x, 0), (max-x + overshoot-y, 0), name: "x-axis", mark: (end: "stealth", fill: black))
+  draw.line((-overshoot-x, 0), (max-x + overshoot-y, 0), name: "x-axis", mark: (
+    end: "stealth",
+    fill: black,
+  ))
   // Axis label:
   draw.content("x-axis.end", [$x$], anchor: "north", padding: 0.1)
   for x in range(1, max-x + 1) {
@@ -55,7 +58,10 @@
   overshoot-y: 0.7,
 ) = {
   // Vertical axis:
-  draw.line((0, -overshoot-x), (0, max-y + overshoot-y), name: "y-axis", mark: (end: "stealth", fill: black))
+  draw.line((0, -overshoot-x), (0, max-y + overshoot-y), name: "y-axis", mark: (
+    end: "stealth",
+    fill: black,
+  ))
   // Axis label:
   draw.content("y-axis.end", [$y$], anchor: "east", padding: 0.1)
   for y in range(1, max-y + 1) {
@@ -304,7 +310,12 @@ We can check if an object is an _element_ of a set or not using the symbols $in$
         draw.content((x, y), text(size: 1.2em, body))
       }
       let draw-label(x, y, body) = {
-        draw.content((x, y), text(size: .9em, body), anchor: "north", padding: .2)
+        draw.content(
+          (x, y),
+          text(size: .9em, body),
+          anchor: "north",
+          padding: .2,
+        )
       }
 
       let draw-set(x, y, body, label) = {
@@ -464,8 +475,14 @@ How can we fix this?..
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Criterion*], [*Naive*], [*Axiomatic*]),
-    [Set formation], [_Any collection_ of objects], [From _existing_ sets using _axioms_],
-    [Comprehension], [Unrestricted: ${x | P(x)}$], [Restricted: ${x in A | P(x)}$],
+    [Set formation],
+    [_Any collection_ of objects],
+    [From _existing_ sets using _axioms_],
+
+    [Comprehension],
+    [Unrestricted: ${x | P(x)}$],
+    [Restricted: ${x in A | P(x)}$],
+
     [Distinctions], [Simple and intuitive], [Mathematically rigorous],
     [Consistency], [Leads to _paradoxes_], [Axiomatically _consistent_],
   )
@@ -561,7 +578,12 @@ How can we fix this?..
       #cetz.canvas({
         import cetz.draw: *
         circle((0, 0), radius: 1, fill: green.transparentize(80%), name: "A")
-        circle((0, 0.5), radius: (1.5, 2), fill: blue.transparentize(80%), name: "B")
+        circle(
+          (0, 0.5),
+          radius: (1.5, 2),
+          fill: blue.transparentize(80%),
+          name: "B",
+        )
         circle((3, 0.5), radius: 1, fill: red.transparentize(80%), name: "C")
         content((-0.3, -0.4), [$1$])
         content((0.3, -0.2), [$2$])
@@ -571,9 +593,15 @@ How can we fix this?..
         content((2.5, 0.7), [$6$])
         content((3.1, 0.0), [$7$])
         content((3.4, 0.8), [$8$])
-        content("A.north-west", anchor: "north-west", padding: .1, text(fill: green.darken(20%))[$A$])
-        content("B.north-east", anchor: "south-west", padding: .1, text(fill: blue.darken(20%))[$B$])
-        content("C.south", anchor: "north", padding: .2, text(fill: red.darken(20%))[$C$])
+        content("A.north-west", anchor: "north-west", padding: .1, text(
+          fill: green.darken(20%),
+        )[$A$])
+        content("B.north-east", anchor: "south-west", padding: .1, text(
+          fill: blue.darken(20%),
+        )[$B$])
+        content("C.south", anchor: "north", padding: .2, text(
+          fill: red.darken(20%),
+        )[$C$])
       })
     ],
     [
@@ -783,19 +811,63 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
     // content("venn.ac", text(size: 0.5em)[$A intersect C$])
     // content("venn.bc", text(size: 0.5em)[$B intersect C$])
     // content("venn.abc", text(size: 0.3em)[$A intersect B intersect C$])
-    content("venn.not-abc", text(0.7em)[$overline(A union B union C)$], anchor: "south-west")
+    content(
+      "venn.not-abc",
+      text(0.7em)[$overline(A union B union C)$],
+      anchor: "south-west",
+    )
 
-    line("venn.bc", (rel: (2.5, -1.2)), mark: (start: "o", fill: black), name: "arrow-bc")
-    content("arrow-bc.end", [$(B intersect C) without A$], anchor: "west", padding: .1)
+    line(
+      "venn.bc",
+      (rel: (2.5, -1.2)),
+      mark: (start: "o", fill: black),
+      name: "arrow-bc",
+    )
+    content(
+      "arrow-bc.end",
+      [$(B intersect C) without A$],
+      anchor: "west",
+      padding: .1,
+    )
 
-    line("venn.ac", (rel: (-2.5, -1.2)), mark: (start: "o", fill: black), name: "arrow-ac")
-    content("arrow-ac.end", [$(A intersect C) without B$], anchor: "east", padding: .1)
+    line(
+      "venn.ac",
+      (rel: (-2.5, -1.2)),
+      mark: (start: "o", fill: black),
+      name: "arrow-ac",
+    )
+    content(
+      "arrow-ac.end",
+      [$(A intersect C) without B$],
+      anchor: "east",
+      padding: .1,
+    )
 
-    line((rel: (0, 0.1), to: "venn.ab"), (rel: (-2.3, .7)), mark: (start: "o", fill: black), name: "arrow-ab")
-    content("arrow-ab.end", [$(A intersect B) without C$], anchor: "east", padding: .1)
+    line(
+      (rel: (0, 0.1), to: "venn.ab"),
+      (rel: (-2.3, .7)),
+      mark: (start: "o", fill: black),
+      name: "arrow-ab",
+    )
+    content(
+      "arrow-ab.end",
+      [$(A intersect B) without C$],
+      anchor: "east",
+      padding: .1,
+    )
 
-    line("venn.abc", (rel: (2.5, .3)), mark: (start: "o", fill: black), name: "arrow-abc")
-    content("arrow-abc.end", [$A intersect B intersect C$], anchor: "west", padding: .1)
+    line(
+      "venn.abc",
+      (rel: (2.5, .3)),
+      mark: (start: "o", fill: black),
+      name: "arrow-abc",
+    )
+    content(
+      "arrow-abc.end",
+      [$A intersect B intersect C$],
+      anchor: "west",
+      padding: .1,
+    )
   })
 ]
 
@@ -840,7 +912,9 @@ The elements of the power set of ${a, b, c}$ ordered with respect to inclusion (
   align: (left, right, left, center).map(x => x + horizon),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
 
-  table.header([*Operation*], [*Notation*], [*Formal definition*], [*Venn diagram*]),
+  table.header(
+    [*Operation*], [*Notation*], [*Formal definition*], [*Venn diagram*]
+  ),
 
   [Union],
   $A union B$,
@@ -1018,9 +1092,9 @@ Here, we use an _algebraic approach_ with set identities.
   $
     & A union (A intersect B) = \
     & = (A intersect U) union (A intersect B) && quad slash.double "identity law:" A = A intersect U \
-    & = A intersect (U union B)               && quad slash.double "distributive law" \
-    & = A intersect U                         && quad slash.double "since" U union B = U "for any set" B \
-    & = A                                     && quad slash.double "identity law:" A intersect U = A
+    & = A intersect (U union B) && quad slash.double "distributive law" \
+    & = A intersect U && quad slash.double "since" U union B = U "for any set" B \
+    & = A && quad slash.double "identity law:" A intersect U = A
   $
 
   Therefore, $A union (A intersect B) = A$.
@@ -1204,12 +1278,16 @@ Here, we use _circular reasoning_ to prove the triple equivalence: $(1) imply (2
 
 #example[
   If $A = {1, 2}$ and $B = {x, y, z}$, then their product is
-  $ A times B = { pair(1, x), pair(1, y), pair(1, z), pair(2, x), pair(2, y), pair(2, z) } $
+  $
+    A times B = { pair(1, x), pair(1, y), pair(1, z), pair(2, x), pair(2, y), pair(2, z) }
+  $
 ]
 
 #definition[
   The _n-fold Cartesian product_ (also known as _Cartesian power_) of a set $A$ is defined as:
-  $ A^n = underbrace(A times A times dots times A, n "times") = { (a_1, a_2, dots, a_n) | a_i in A } $
+  $
+    A^n = underbrace(A times A times dots times A, n "times") = { (a_1, a_2, dots, a_n) | a_i in A }
+  $
 ]
 
 #example[
@@ -1259,7 +1337,9 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
       for a in A {
         for b in B {
           draw.circle((a, b), radius: 0.1, fill: blue, stroke: blue)
-          draw.content((a, b), anchor: "north", padding: .2, text(size: 0.6em)[$pair(#a, #b)$])
+          draw.content((a, b), anchor: "north", padding: .2, text(
+            size: 0.6em,
+          )[$pair(#a, #b)$])
         }
       }
     })
@@ -1327,8 +1407,16 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
 
     // Boundary of A × B
     draw.line((Al, Br), (Ar, Br), stroke: (paint: blue, thickness: 2pt)) // top
-    draw.line((Ar, Br), (Ar, Bl), stroke: (paint: blue, thickness: 2pt, dash: "dashed")) // right
-    draw.line((Ar, Bl), (Al, Bl), stroke: (paint: blue, thickness: 2pt, dash: "dashed")) // bottom
+    draw.line((Ar, Br), (Ar, Bl), stroke: (
+      paint: blue,
+      thickness: 2pt,
+      dash: "dashed",
+    )) // right
+    draw.line((Ar, Bl), (Al, Bl), stroke: (
+      paint: blue,
+      thickness: 2pt,
+      dash: "dashed",
+    )) // bottom
     draw.line((Al, Bl), (Al, Br), stroke: (paint: blue, thickness: 2pt)) // left
 
     // Corner points
@@ -1445,9 +1533,18 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
 
     let pat = tiling(size: (30pt, 30pt))[
       #place(rect(fill: blue.transparentize(80%)))
-      #place(line(start: (0%, 100%), end: (100%, 0%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
-      #place(line(start: (-10%, 10%), end: (10%, -10%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
-      #place(line(start: (90%, 110%), end: (110%, 90%), stroke: (paint: blue.transparentize(50%), thickness: 1pt)))
+      #place(line(start: (0%, 100%), end: (100%, 0%), stroke: (
+        paint: blue.transparentize(50%),
+        thickness: 1pt,
+      )))
+      #place(line(start: (-10%, 10%), end: (10%, -10%), stroke: (
+        paint: blue.transparentize(50%),
+        thickness: 1pt,
+      )))
+      #place(line(start: (90%, 110%), end: (110%, 90%), stroke: (
+        paint: blue.transparentize(50%),
+        thickness: 1pt,
+      )))
     ]
 
     // A × B (outer rectangle)
@@ -1460,14 +1557,30 @@ The Cartesian product $A times B$ can be visualized as a region on the coordinat
     // Outer boundary
     draw.line((Al, Br), (Ar, Br), stroke: 2pt + blue) // top
     draw.line((Ar, Br), (Ar, Bl), stroke: 2pt + blue) // right
-    draw.line((Ar, Bl), (Al, Bl), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // bottom
-    draw.line((Al, Bl), (Al, Br), stroke: (thickness: 2pt, paint: blue, dash: "dashed")) // left
+    draw.line((Ar, Bl), (Al, Bl), stroke: (
+      thickness: 2pt,
+      paint: blue,
+      dash: "dashed",
+    )) // bottom
+    draw.line((Al, Bl), (Al, Br), stroke: (
+      thickness: 2pt,
+      paint: blue,
+      dash: "dashed",
+    )) // left
 
     // Inner boundary (hole)
     draw.line((Cl, Dl), (Cr, Dl), stroke: 2pt + orange) // bottom
-    draw.line((Cr, Dl), (Cr, Dr), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // right
+    draw.line((Cr, Dl), (Cr, Dr), stroke: (
+      thickness: 2pt,
+      paint: orange,
+      dash: "dashed",
+    )) // right
     draw.line((Cr, Dr), (Cl, Dr), stroke: 2pt + orange) // top
-    draw.line((Cl, Dr), (Cl, Dl), stroke: (thickness: 2pt, paint: orange, dash: "dashed")) // left
+    draw.line((Cl, Dr), (Cl, Dl), stroke: (
+      thickness: 2pt,
+      paint: orange,
+      dash: "dashed",
+    )) // left
 
     // Corner points for outer rectangle
     draw.circle((Ar, Br), radius: 0.1, fill: blue, stroke: 1.5pt + blue) // (top-right) included
@@ -1526,7 +1639,8 @@ The _Zermelo-Fraenkel axioms with Choice_ (ZFC) form the standard foundation of 
     image("assets/Abraham_Fraenkel.jpg", height: 3cm),
   )),
 
-  text(fill: blue.darken(20%))[Ernst \ Zermelo], text(fill: blue.darken(20%))[Abraham\ Fraenkel],
+  text(fill: blue.darken(20%))[Ernst \ Zermelo],
+  text(fill: blue.darken(20%))[Abraham\ Fraenkel],
 )
 
 #definition[Extensionality][

@@ -62,7 +62,10 @@
     }
 
     let head-pos = (head + 0.5) * cell-size
-    line((head-pos, -0.08), (head-pos, -0.6), stroke: 1pt, mark: (start: ">", fill: black))
+    line((head-pos, -0.08), (head-pos, -0.6), stroke: 1pt, mark: (
+      start: ">",
+      fill: black,
+    ))
 
     if state != none {
       content((head-pos, -0.6), anchor: "north", padding: 0.1, Blue[state])
@@ -222,8 +225,15 @@ Formal languages are classified by _Chomsky hierarchy_ --- a nested family of in
     table.header([*Type*], [*Class*], [*Machine*], [*Example*]),
     [3], [Regular], [Finite Automata], [${ a^n mid(|) n >= 0 }$],
     [2], [Context-Free], [Pushdown Automata], [${ a^n b^n mid(|) n >= 0 }$],
-    [1], [Context-Sensitive], [Linear-Bounded TMs], [${ a^n b^n c^n mid(|) n >= 0 }$],
-    [0], [Recursively Enumerable], [Turing Machines], [${ angle.l M, w angle.r mid(|) M "halts on" w }$],
+    [1],
+    [Context-Sensitive],
+    [Linear-Bounded TMs],
+    [${ a^n b^n c^n mid(|) n >= 0 }$],
+
+    [0],
+    [Recursively Enumerable],
+    [Turing Machines],
+    [${ angle.l M, w angle.r mid(|) M "halts on" w }$],
   )
 ]
 
@@ -440,7 +450,11 @@ There are two main types of finite-state _machines_:
     node-corner-radius: 3pt,
     edge-stroke: 0.8pt,
     blob((-1, 0), name: <input>, tint: yellow)[$w in Sigma^*$],
-    blob((0, 0), name: <automaton>, tint: blue)[Automaton $cal(A)$ \ $lang(cal(A)) = L$],
+    blob(
+      (0, 0),
+      name: <automaton>,
+      tint: blue,
+    )[Automaton $cal(A)$ \ $lang(cal(A)) = L$],
     blob((1, -0.5), name: <acc>, tint: green)[accept],
     blob((1, 0.5), name: <rej>, tint: red)[reject],
     edge((-1, 0), <automaton>, "-|>")[$w in^quest L$],
@@ -1077,7 +1091,11 @@ Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
     import cetz.draw: *
     import finite.draw: state, transition
 
-    set-style(state: (radius: 0.5, extrude: 0.8, initial: (label: (text: none))))
+    set-style(state: (
+      radius: 0.5,
+      extrude: 0.8,
+      initial: (label: (text: none)),
+    ))
 
     state((0, 0), "a1_q0", label: $q_0$, initial: true)
     state((1.5, 0), "a1_q1", label: $q_1$, final: true)
@@ -1092,9 +1110,18 @@ Show that $forall k. thin "Reg"_k subset.eq "AUT"$.
     state((1.5, 0), "a3_q1", label: $q_1$, final: true)
     transition("a3_q0", "a3_q1", inputs: "c", label: $c$, curve: 0.5)
 
-    content((rel: (0, -1), to: ("a1_q0.center", 50%, "a1_q1.center")))[$L = emptyset$]
-    content((rel: (0, -1), to: ("a2_q0.center", 50%, "a2_q1.center")))[$L = {epsilon}$]
-    content((rel: (0, -1), to: ("a3_q0.center", 50%, "a3_q1.center")))[$L = {c}$]
+    content((
+      rel: (0, -1),
+      to: ("a1_q0.center", 50%, "a1_q1.center"),
+    ))[$L = emptyset$]
+    content((
+      rel: (0, -1),
+      to: ("a2_q0.center", 50%, "a2_q1.center"),
+    ))[$L = {epsilon}$]
+    content((
+      rel: (0, -1),
+      to: ("a3_q0.center", 50%, "a3_q1.center"),
+    ))[$L = {c}$]
   })
 ]
 
@@ -1118,9 +1145,9 @@ We can define $R_(i j)^k$ recursively:
 $
   R_(i j)^k & = R_(i j)^(k-1) union R_(i k)^(k-1) (R_(k k)^(k-1))^* R_(k j)^(k - 1) \
   R_(i j)^0 & = cases(
-                {a mid(|) delta(q_i, a) = q_j} & "if" i != j,
-                {a mid(|) delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
-              )
+    {a mid(|) delta(q_i, a) = q_j} & "if" i != j,
+    {a mid(|) delta(q_i, a) = q_j} union {epsilon} & "if" i = j,
+  )
 $
 
 #Block(color: teal)[
@@ -1171,7 +1198,10 @@ To formalize this, we exploit the simplest consequence of finite state spaces: t
     import finite.draw: state, transition
 
     set-style(state: (radius: 0.5, extrude: 0.8))
-    set-style(transition: (stroke: (dash: "dashed"), mark: (end: (symbol: ">", fill: black))))
+    set-style(transition: (
+      stroke: (dash: "dashed"),
+      mark: (end: (symbol: ">", fill: black)),
+    ))
 
     state((0, 0), "q1", initial: true, label: $q_1$)
     state((2, 0), "q2", label: $q_2$)
@@ -1399,7 +1429,10 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
     import cetz.draw: *
     import finite.draw: state, transition
 
-    set-style(state: (radius: 0.5, extrude: 0.8), transition: (mark: (end: (symbol: ">", fill: black))))
+    set-style(
+      state: (radius: 0.5, extrude: 0.8),
+      transition: (mark: (end: (symbol: ">", fill: black))),
+    )
 
     scale(85%)
 
@@ -1418,7 +1451,9 @@ By the pigeonhole principle: any accepting path visiting $n+1$ states must revis
     transition("q2", "q3", inputs: 1, curve: 0.5)
     transition("q3", "q1", inputs: 0, curve: 0)
     transition("q3", "q4", inputs: 1, curve: 0.001)
-    transition("q4", "q5", inputs: (0, 1), curve: -1.2, stroke: (dash: "dashed"))
+    transition("q4", "q5", inputs: (0, 1), curve: -1.2, stroke: (
+      dash: "dashed",
+    ))
     transition("q5", "q5", inputs: (0, 1), curve: 0.5, stroke: (dash: "dashed"))
   })
 ]
@@ -1707,12 +1742,29 @@ To prove that a language is _not_ regular using Myhill-Nerode, it is enough to e
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Method*], [*Strength*], [*Application*]),
-    [Pumping Lemma], [Necessary condition only], [Can disprove regularity, cannot prove it],
-    [Myhill-Nerode], [Necessary and sufficient], [Can both prove and disprove regularity],
-    [Pumping Lemma], [Constructive counterexample], [Adversary splits, you choose pump value],
-    [Myhill-Nerode], [Structural characterization], [Exhibit infinite distinguishable set],
-    [Pumping Lemma], [Based on pigeonhole principle], [Focuses on long strings in the language],
-    [Myhill-Nerode], [Based on equivalence relations], [Focuses on distinguishing extensions],
+    [Pumping Lemma],
+    [Necessary condition only],
+    [Can disprove regularity, cannot prove it],
+
+    [Myhill-Nerode],
+    [Necessary and sufficient],
+    [Can both prove and disprove regularity],
+
+    [Pumping Lemma],
+    [Constructive counterexample],
+    [Adversary splits, you choose pump value],
+
+    [Myhill-Nerode],
+    [Structural characterization],
+    [Exhibit infinite distinguishable set],
+
+    [Pumping Lemma],
+    [Based on pigeonhole principle],
+    [Focuses on long strings in the language],
+
+    [Myhill-Nerode],
+    [Based on equivalence relations],
+    [Focuses on distinguishing extensions],
   )
 ]
 
@@ -1734,10 +1786,30 @@ For a regular language, the equivalence classes correspond to states in the mini
     set-style(fill: none)
 
     // Equivalence classes as circles
-    circle((0, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
-    circle((2, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
-    circle((4, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
-    circle((6, 0), radius: 0.5, stroke: blue.darken(20%), fill: blue.lighten(90%))
+    circle(
+      (0, 0),
+      radius: 0.5,
+      stroke: blue.darken(20%),
+      fill: blue.lighten(90%),
+    )
+    circle(
+      (2, 0),
+      radius: 0.5,
+      stroke: blue.darken(20%),
+      fill: blue.lighten(90%),
+    )
+    circle(
+      (4, 0),
+      radius: 0.5,
+      stroke: blue.darken(20%),
+      fill: blue.lighten(90%),
+    )
+    circle(
+      (6, 0),
+      radius: 0.5,
+      stroke: blue.darken(20%),
+      fill: blue.lighten(90%),
+    )
 
     content((0, 0))[$[epsilon]$]
     content((2, 0))[$[0]$]
@@ -1759,9 +1831,24 @@ For a regular language, the equivalence classes correspond to states in the mini
     // DFA on the bottom
     translate((0, -2))
 
-    circle((1, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
-    circle((3, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
-    circle((5, 0), radius: 0.5, stroke: green.darken(20%), fill: green.lighten(90%))
+    circle(
+      (1, 0),
+      radius: 0.5,
+      stroke: green.darken(20%),
+      fill: green.lighten(90%),
+    )
+    circle(
+      (3, 0),
+      radius: 0.5,
+      stroke: green.darken(20%),
+      fill: green.lighten(90%),
+    )
+    circle(
+      (5, 0),
+      radius: 0.5,
+      stroke: green.darken(20%),
+      fill: green.lighten(90%),
+    )
 
     content((1, 0))[$q_0$]
     content((3, 0))[$q_1$]
@@ -1788,9 +1875,12 @@ For a regular language, the equivalence classes correspond to states in the mini
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Diagram Part*], [*Meaning*]),
-    [Top row: $[epsilon], [0], [00], dots$], [Myhill-Nerode equivalence classes of prefixes],
+    [Top row: $[epsilon], [0], [00], dots$],
+    [Myhill-Nerode equivalence classes of prefixes],
+
     [Bottom row: $q_0, q_1, q_2$], [States of the minimal DFA],
-    [Arrows labeled 0], [Appending symbol $0$ and moving to the class of the extended prefix],
+    [Arrows labeled 0],
+    [Appending symbol $0$ and moving to the class of the extended prefix],
   )
 ]
 
@@ -2214,7 +2304,10 @@ _Extended BNF_ (EBNF) adds shorthand notation --- no new expressive power, but m
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*EBNF syntax*], [*Meaning*], [*BNF equivalent*]),
     [$[alpha]$], [Optional: zero or one $alpha$], [$S -> alpha mid(|) epsilon$],
-    [${ alpha }$ or $alpha^*$], [Repetition: zero or more $alpha$], [$S -> alpha S mid(|) epsilon$],
+    [${ alpha }$ or $alpha^*$],
+    [Repetition: zero or more $alpha$],
+    [$S -> alpha S mid(|) epsilon$],
+
     [$alpha^+$], [One or more $alpha$], [$S -> alpha alpha^*$],
     [$(alpha_1 | alpha_2)$], [Grouping with alternatives], [Inline alternative],
   )
@@ -2281,7 +2374,10 @@ The same derivation information can be rendered as a _parse tree_:
     align: (left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Productions*], [*Language*], [*Application*]),
-    [$S -> 0 S 1 mid(|) epsilon$], [${ 0^n 1^n mid(|) n >= 0 }$], [Classic matched pairs],
+    [$S -> 0 S 1 mid(|) epsilon$],
+    [${ 0^n 1^n mid(|) n >= 0 }$],
+    [Classic matched pairs],
+
     [$S -> a S a mid(|) b S b mid(|) a mid(|) b mid(|) epsilon$],
     [Palindromes over ${ a, b }^*$],
     [Hashing, bioinformatics],
@@ -2547,7 +2643,13 @@ We trace the PDA for $L = { 0^n 1^n mid(|) n >= 0 }$ on input $mono("0011")$:
     columns: 5,
     align: (center, center, left, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Step*], [*State*], [*Input remaining*], [*Stack* (top $arrow.l$)], [*Action*]),
+    table.header(
+      [*Step*],
+      [*State*],
+      [*Input remaining*],
+      [*Stack* (top $arrow.l$)],
+      [*Action*],
+    ),
     [0], [$q_0$], [`0011`], [$Z_0$], [Initial configuration],
     [1], [$q_0$], [`011`], [$\$ Z_0$], [Read `0`, push $\$$],
     [2], [$q_0$], [`11`], [$\$ \$ Z_0$], [Read `0`, push $\$$],
@@ -2693,17 +2795,35 @@ The pumping length is $n = 2^(abs(V)+1)$, where $abs(V)$ is the number of variab
       import cetz.draw: *
       // S above the outer A
       content((3, 6.2), $S$)
-      line((3, 6.05), (3, 5.5), stroke: (paint: gray, dash: "dashed", thickness: 0.6pt))
+      line((3, 6.05), (3, 5.5), stroke: (
+        paint: gray,
+        dash: "dashed",
+        thickness: 0.6pt,
+      ))
       // Outer A
-      circle((3, 5.2), radius: 0.3, fill: yellow.lighten(80%), stroke: blue.darken(20%) + 1pt)
+      circle(
+        (3, 5.2),
+        radius: 0.3,
+        fill: yellow.lighten(80%),
+        stroke: blue.darken(20%) + 1pt,
+      )
       content((3, 5.2), text(fill: blue.darken(20%))[$A$])
       // Big outer triangle
       line((3, 4.9), (1, 0.5), stroke: 1pt + blue.darken(20%))
       line((3, 4.9), (5, 0.5), stroke: 1pt + blue.darken(20%))
       // Dashed path to inner A
-      line((3, 4.9), (3, 2.7), stroke: (paint: gray, dash: "dashed", thickness: 0.6pt))
+      line((3, 4.9), (3, 2.7), stroke: (
+        paint: gray,
+        dash: "dashed",
+        thickness: 0.6pt,
+      ))
       // Inner A
-      circle((3, 2.5), radius: 0.3, fill: yellow.lighten(80%), stroke: blue.darken(20%) + 1pt)
+      circle(
+        (3, 2.5),
+        radius: 0.3,
+        fill: yellow.lighten(80%),
+        stroke: blue.darken(20%) + 1pt,
+      )
       content((3, 2.5), text(fill: blue.darken(20%))[$A$])
       // Small inner triangle
       line((3, 2.2), (2.1, 0.5), stroke: 1pt + blue.darken(20%))
@@ -2718,9 +2838,15 @@ The pumping length is $n = 2^(abs(V)+1)$, where $abs(V)$ is the number of variab
       content((6.1, -0.1), $z$)
       // Region ground bars
       line((-0.5, 0.3), (1, 0.3), stroke: 0.5pt)
-      line((1, 0.3), (2.1, 0.3), stroke: (paint: red.darken(20%), thickness: 1.2pt))
+      line((1, 0.3), (2.1, 0.3), stroke: (
+        paint: red.darken(20%),
+        thickness: 1.2pt,
+      ))
       line((2.1, 0.3), (3.9, 0.3), stroke: 0.5pt)
-      line((3.9, 0.3), (5, 0.3), stroke: (paint: red.darken(20%), thickness: 1.2pt))
+      line((3.9, 0.3), (5, 0.3), stroke: (
+        paint: red.darken(20%),
+        thickness: 1.2pt,
+      ))
       line((5, 0.3), (6.5, 0.3), stroke: 0.5pt)
     })
   ],
@@ -2798,9 +2924,18 @@ The pumping length is $n = 2^(abs(V)+1)$, where $abs(V)$ is the number of variab
     [Kleene star $L^*$], [#YES], [New start $S -> S S' mid(|) epsilon$],
     [Reversal $L^R$], [#YES], [Reverse all production RHSs],
     [Homomorphism $h(L)$], [#YES], [Apply $h$ to each terminal in grammar],
-    [$intersect$ with regular, $L inter R$], [#YES], [Product of PDA stack $times$ DFA state],
-    [Intersection $L_1 inter L_2$], [#NO], [${ a^n b^n } inter { b^n c^n } = { a^n b^n c^n } notin "CFL"$],
-    [Complement $overline(L)$], [#NO], [From non-closure under $intersect$ via De Morgan],
+    [$intersect$ with regular, $L inter R$],
+    [#YES],
+    [Product of PDA stack $times$ DFA state],
+
+    [Intersection $L_1 inter L_2$],
+    [#NO],
+    [${ a^n b^n } inter { b^n c^n } = { a^n b^n c^n } notin "CFL"$],
+
+    [Complement $overline(L)$],
+    [#NO],
+    [From non-closure under $intersect$ via De Morgan],
+
     [Difference $L_1 setminus L_2$],
     [#NO],
     [$L setminus R in "CFL"$ for regular $R$; but $L_1 setminus L_2$ may not be],
@@ -3113,9 +3248,24 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
   columns: 3,
   column-gutter: 1em,
   row-gutter: 1em,
-  tm-excerpt([Step 1 --- Initial], ($0$, $0$, $1$, $1$, $Blank$), head: 0, state: [$q_0$]),
-  tm-excerpt([Step 2], ($times$, $0$, $1$, $1$, $Blank$), head: 1, state: [$q_1$]),
-  tm-excerpt([Step 3], ($times$, $0$, $1$, $1$, $Blank$), head: 2, state: [$q_1$]),
+  tm-excerpt(
+    [Step 1 --- Initial],
+    ($0$, $0$, $1$, $1$, $Blank$),
+    head: 0,
+    state: [$q_0$],
+  ),
+  tm-excerpt(
+    [Step 2],
+    ($times$, $0$, $1$, $1$, $Blank$),
+    head: 1,
+    state: [$q_1$],
+  ),
+  tm-excerpt(
+    [Step 3],
+    ($times$, $0$, $1$, $1$, $Blank$),
+    head: 2,
+    state: [$q_1$],
+  ),
 )
 
 #note[
@@ -3128,9 +3278,24 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
   columns: 3,
   column-gutter: 1em,
   row-gutter: 1em,
-  tm-excerpt([Step 4], ($times$, $0$, $times$, $1$, $Blank$), head: 3, state: [$q_2$]),
-  tm-excerpt([Step 5], ($times$, $0$, $times$, $1$, $Blank$), head: 1, state: [$q_3$]),
-  tm-excerpt([Step 6], ($times$, $0$, $times$, $1$, $Blank$), head: 0, state: [$q_3$]),
+  tm-excerpt(
+    [Step 4],
+    ($times$, $0$, $times$, $1$, $Blank$),
+    head: 3,
+    state: [$q_2$],
+  ),
+  tm-excerpt(
+    [Step 5],
+    ($times$, $0$, $times$, $1$, $Blank$),
+    head: 1,
+    state: [$q_3$],
+  ),
+  tm-excerpt(
+    [Step 6],
+    ($times$, $0$, $times$, $1$, $Blank$),
+    head: 0,
+    state: [$q_3$],
+  ),
 )
 
 #note[
@@ -3145,9 +3310,24 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
   columns: 3,
   column-gutter: 1em,
   row-gutter: 1em,
-  tm-excerpt([Step 7], ($times$, $0$, $times$, $1$, $Blank$), head: 1, state: [$q_0$]),
-  tm-excerpt([Step 8], ($times$, $times$, $times$, $1$, $Blank$), head: 2, state: [$q_1$]),
-  tm-excerpt([Step 9], ($times$, $times$, $times$, $1$, $Blank$), head: 3, state: [$q_1$]),
+  tm-excerpt(
+    [Step 7],
+    ($times$, $0$, $times$, $1$, $Blank$),
+    head: 1,
+    state: [$q_0$],
+  ),
+  tm-excerpt(
+    [Step 8],
+    ($times$, $times$, $times$, $1$, $Blank$),
+    head: 2,
+    state: [$q_1$],
+  ),
+  tm-excerpt(
+    [Step 9],
+    ($times$, $times$, $times$, $1$, $Blank$),
+    head: 3,
+    state: [$q_1$],
+  ),
 )
 
 #note[
@@ -3160,8 +3340,18 @@ The trace makes the strategy visible: the machine marks one matching $0$-$1$ pai
   columns: 2,
   column-gutter: 1em,
   row-gutter: 1em,
-  tm-excerpt([Step 10], ($times$, $times$, $times$, $times$, $Blank$), head: 4, state: [$q_2$]),
-  tm-excerpt([Step 11 --- Accept], ($times$, $times$, $times$, $times$, $Blank$), head: 3, state: [$q_3$]),
+  tm-excerpt(
+    [Step 10],
+    ($times$, $times$, $times$, $times$, $Blank$),
+    head: 4,
+    state: [$q_2$],
+  ),
+  tm-excerpt(
+    [Step 11 --- Accept],
+    ($times$, $times$, $times$, $times$, $Blank$),
+    head: 3,
+    state: [$q_3$],
+  ),
 )
 
 Formal trace (abbreviated):
@@ -3184,9 +3374,17 @@ $
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Feature*], [*DFA*], [*PDA*], [*TM*]),
     [Memory], [Finite control only], [One stack], [Read/write tape],
-    [Input access], [Single left-to-right pass], [Single pass + stack access], [Move left or right],
+    [Input access],
+    [Single left-to-right pass],
+    [Single pass + stack access],
+    [Move left or right],
+
     [Can modify memory?], [No], [Only push/pop], [Yes],
-    [Typical task], [Pattern matching], [Parsing nested syntax], [General algorithmic computation],
+    [Typical task],
+    [Pattern matching],
+    [Parsing nested syntax],
+    [General algorithmic computation],
+
     [Halting], [Always halts], [Always halts], [May run forever],
     [Language class], [Regular], [Context-free], [Decidable / recognizable],
   )
@@ -3246,11 +3444,25 @@ What makes the notion of computability convincing is its _robustness_: several i
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Model*], [*Main idea*], [*Where it appears*]),
-    [Lambda calculus], [Computation by substitution], [Logic, proof theory, \ functional programming],
-    [Recursive functions], [Composition, primitive recursion, \ minimization], [Number theory and \ mathematical logic],
-    [Register / \ RAM machines], [Instructions on integer registers], [Assembly language and \ algorithm design],
-    [Boolean circuits], [Finite networks of gates], [Hardware and complexity theory],
-    [Cellular automata], [Simple local update rules], [Physics, emergence, simulation],
+    [Lambda calculus],
+    [Computation by substitution],
+    [Logic, proof theory, \ functional programming],
+
+    [Recursive functions],
+    [Composition, primitive recursion, \ minimization],
+    [Number theory and \ mathematical logic],
+
+    [Register / \ RAM machines],
+    [Instructions on integer registers],
+    [Assembly language and \ algorithm design],
+
+    [Boolean circuits],
+    [Finite networks of gates],
+    [Hardware and complexity theory],
+
+    [Cellular automata],
+    [Simple local update rules],
+    [Physics, emergence, simulation],
   )
 ]
 
@@ -3335,7 +3547,10 @@ However, every formal model of computation ever proposed has turned out to be _e
     [DFA membership], [D], [Run the automaton once; it always halts],
     [CFG membership], [D], [Use CYK or another parsing algorithm],
     [SAT], [D], [There are finitely many assignments to try],
-    [$"HALT"$], [$"RE" setminus "R"$], [Simulate and accept when halting is observed],
+    [$"HALT"$],
+    [$"RE" setminus "R"$],
+    [Simulate and accept when halting is observed],
+
     [$overline("HALT")$], [$"co-RE" setminus "R"$], [Its complement is HALT],
     [$"REGULAR"_"TM"$], [Neither], [No recognizer exists in either direction],
   )
@@ -3444,11 +3659,15 @@ That requires encoding machines as strings.
     content((0, -1.2), text(size: .7em, fill: red.darken(20%))[co-RE])
     // Problem instances
     circle((2.2, 1.5), radius: 3pt, fill: yellow.darken(10%))
-    content((2.2, 1.5), anchor: "north-west", padding: 4pt, text(size: .7em)[SAT])
+    content((2.2, 1.5), anchor: "north-west", padding: 4pt, text(
+      size: .7em,
+    )[SAT])
     circle((1, 3), radius: 3pt, fill: yellow.darken(10%))
     content((1, 3), anchor: "south-west", padding: 4pt, text(size: .7em)[HALT])
     circle((2.5, 3.5), radius: 3pt, fill: yellow.darken(10%))
-    content((2.5, 3.5), anchor: "south-west", padding: 4pt, text(size: .7em)[$"REGULAR"_"TM"$])
+    content((2.5, 3.5), anchor: "south-west", padding: 4pt, text(
+      size: .7em,
+    )[$"REGULAR"_"TM"$])
   }),
 
   [
@@ -3589,16 +3808,30 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
     align: (left, center, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Property of $cal(L)(M)$*], [*Decidable?*], [*Reason*]),
-    [$cal(L)(M) = emptyset$ (empty language)], [#NO], [Semantic, non-trivial: Rice],
+    [$cal(L)(M) = emptyset$ (empty language)],
+    [#NO],
+    [Semantic, non-trivial: Rice],
+
     [$cal(L)(M)$ is finite], [#NO], [Semantic, non-trivial: Rice],
     [$cal(L)(M)$ is infinite], [#NO], [Semantic, non-trivial: Rice],
     [$cal(L)(M)$ contains string $w_0$], [#NO], [Semantic, non-trivial: Rice],
     [$cal(L)(M)$ is regular], [#NO], [Semantic, non-trivial: Rice],
     [$cal(L)(M) = Sigma^*$ (accepts all)], [#NO], [Semantic, non-trivial: Rice],
-    [$cal(L)(M_1) = cal(L)(M_2)$ (equivalence)], [#NO], [Semantic, non-trivial: Rice],
-    [*$M$ has fewer than 100 states*], [#YES], [*Syntactic* (structural) --- NOT semantic!],
-    [*$M$ halts on the empty string $epsilon$ within 100 steps*], [#YES], [*Syntactic:* simulate 100 steps directly],
-    [*Is $w in cal(L)(M)$?* for a _fixed known decider_ $M$], [#YES], [Run $M$ on $w$; by assumption it always halts],
+    [$cal(L)(M_1) = cal(L)(M_2)$ (equivalence)],
+    [#NO],
+    [Semantic, non-trivial: Rice],
+
+    [*$M$ has fewer than 100 states*],
+    [#YES],
+    [*Syntactic* (structural) --- NOT semantic!],
+
+    [*$M$ halts on the empty string $epsilon$ within 100 steps*],
+    [#YES],
+    [*Syntactic:* simulate 100 steps directly],
+
+    [*Is $w in cal(L)(M)$?* for a _fixed known decider_ $M$],
+    [#YES],
+    [Run $M$ on $w$; by assumption it always halts],
   )
 ]
 
@@ -3625,7 +3858,12 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
     edge-stroke: 0.8pt,
     blob((0, 0), [*DFA* \ finite memory], name: <dfa>, tint: green),
     blob((1, 0), [*PDA* \ stack memory], name: <pda>, tint: blue),
-    blob((2, 0), [*TM* (decider) \ infinite tape, always halts], name: <dec>, tint: purple),
+    blob(
+      (2, 0),
+      [*TM* (decider) \ infinite tape, always halts],
+      name: <dec>,
+      tint: purple,
+    ),
     blob((3, 0), [*TM* (recognizer) \ may not halt], name: <rec>, tint: orange),
     edge(<dfa>, <pda>, "-}>"),
     edge(<pda>, <dec>, "-}>"),
@@ -3640,7 +3878,10 @@ The Halting Problem is just one undecidable problem. Rice's theorem shows that _
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Language Class*], [*Machine*], [*Closure*]),
     [Regular], [DFA/NFA], [All Boolean operations],
-    [Context-Free], [PDA], [Union, concat, star; \ not intersection or complement],
+    [Context-Free],
+    [PDA],
+    [Union, concat, star; \ not intersection or complement],
+
     [Decidable], [TM (decider)], [All Boolean operations],
     [Recognizable], [TM (recognizer)], [Union, intersection; \ not complement],
   )

@@ -1,6 +1,9 @@
 // Note: this file should NOT contain `show` rules!
 
-#let iff = symbol(math.arrow.double.l.r.long, ("not", math.arrow.double.l.r.not))
+#let iff = symbol(math.arrow.double.l.r.long, (
+  "not",
+  math.arrow.double.l.r.not,
+))
 #let power(x) = $cal(P)(#x)$
 #let pair(a, b) = $chevron.l #a, #b chevron.r$
 

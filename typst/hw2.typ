@@ -8,7 +8,9 @@
     #set text(10pt)
     #smallcaps[*Homework Assignment \#2*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Discrete Mathematics*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Discrete Mathematics*]
     \
     *Binary Relations*
     #h(1fr)
@@ -193,12 +195,19 @@ Consider six researchers with expertise in the following areas:
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.6pt) },
   table.header([*Researcher*], [*Expertise Areas*]),
-  [赖 (Lài)], [$"Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases"$],
-  [石 (Shí)], [$"Internet of Things", "Cryptography", "Formal Methods", "Embedded Systems"$],
+  [赖 (Lài)],
+  [$"Graph Theory", "High-Performance Computing", "Bioinformatics", "Databases"$],
+
+  [石 (Shí)],
+  [$"Internet of Things", "Cryptography", "Formal Methods", "Embedded Systems"$],
+
   [邱 (Qiū)], [$"Cryptography", "Algorithms", "Bioinformatics"$],
-  [魏 (Wèi)], [$"High-Performance Computing", "Databases", "Graph Theory", "Algorithms"$],
+  [魏 (Wèi)],
+  [$"High-Performance Computing", "Databases", "Graph Theory", "Algorithms"$],
+
   [辛 (Xīn)], [$"Embedded Systems", "Algorithms", "Databases"$],
-  [朱 (Zhū)], [$"Formal Methods", "Internet of Things", "Cryptography", "Databases"$],
+  [朱 (Zhū)],
+  [$"Formal Methods", "Internet of Things", "Cryptography", "Databases"$],
 ))
 
 #block(sticky: true)[*Part (a): Building the Collaboration Network*]
@@ -490,7 +499,11 @@ $N = {"C", "C"sharp, "D", "D"sharp, "E", "F", "F"sharp, "G", "G"sharp, "A", "A"s
     [1], [Perfect Consonances], [$"G", "F"$], [Perfect 5th, 4th],
     [2], [Imperfect Consonances], [$"E", "A"$], [Major 3rd, 6th],
     [3], [Near Consonances], [$"D", "B"$], [Major 2nd, 7th],
-    [4], [Mild Dissonances], [$"C"sharp, "D"sharp, "G"sharp, "A"sharp$], [Minor intervals],
+    [4],
+    [Mild Dissonances],
+    [$"C"sharp, "D"sharp, "G"sharp, "A"sharp$],
+    [Minor intervals],
+
     [5], [Maximum Dissonance], [$"F"sharp$], [Tritone],
   ))
   Define the _consonance dominance_ relation $consonance$ such that $x consonance y$ if note $x$ is strictly more consonant than note $y$, that is, $"level"(x) < "level"(y)$.

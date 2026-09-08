@@ -87,7 +87,7 @@ $
   S_i triangle S_j
   = & (S_i without S_j) union (S_j without S_i) \
   = & ((S_i without (S_j union S_k)) union ((S_i inter S_k) without S_j)) union \
-    & quad union ((S_j without (S_i union S_k)) union ((S_j inter S_k) without S_i)) \
+  & quad union ((S_j without (S_i union S_k)) union ((S_j inter S_k) without S_i)) \
   = & T_i union T_j
 $
 

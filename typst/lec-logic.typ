@@ -187,12 +187,33 @@
       columns: 5,
       align: (center, center, left, center, left),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-      table.header([*Priority*], [*Connective*], [*Name*], [*Associativity*], [*Example*]),
-      [1 (highest)], [$not$], [Negation], [Right], [$not not P and Q equiv (not (not P)) and Q$],
-      [2], [$and$], [Conjunction], [Left], [$P and Q and R equiv (P and Q) and R$],
+      table.header(
+        [*Priority*], [*Connective*], [*Name*], [*Associativity*], [*Example*]
+      ),
+      [1 (highest)],
+      [$not$],
+      [Negation],
+      [Right],
+      [$not not P and Q equiv (not (not P)) and Q$],
+
+      [2],
+      [$and$],
+      [Conjunction],
+      [Left],
+      [$P and Q and R equiv (P and Q) and R$],
+
       [3], [$or$], [Disjunction], [Left], [$P or Q or R equiv (P or Q) or R$],
-      [4], [$imply$], [Implication], [Right], [$P imply Q imply R equiv P imply (Q imply R)$],
-      [5 (lowest)], [$iff$], [Biconditional], [Left], [$P iff Q iff R equiv (P iff Q) iff R$],
+      [4],
+      [$imply$],
+      [Implication],
+      [Right],
+      [$P imply Q imply R equiv P imply (Q imply R)$],
+
+      [5 (lowest)],
+      [$iff$],
+      [Biconditional],
+      [Left],
+      [$P iff Q iff R equiv (P iff Q) iff R$],
     )
   ]
 ]
@@ -305,14 +326,14 @@
   The _evaluation_ (or _truth value_) of a formula $phi$ under interpretation $nu$, written $Eval(phi)$, is~defined recursively:
 
   $
-                   Eval(P) & = nu(P) && "for propositional variable" P \
-                 Eval(top) & = True \
-                 Eval(bot) & = False \
-           Eval(not alpha) & = True  && iff Eval(alpha) = False \
-      Eval(alpha and beta) & = True  && iff Eval(alpha) = True "and" Eval(beta) = True \
-       Eval(alpha or beta) & = True  && iff Eval(alpha) = True "or" Eval(beta) = True \
+    Eval(P) & = nu(P) && "for propositional variable" P \
+    Eval(top) & = True \
+    Eval(bot) & = False \
+    Eval(not alpha) & = True && iff Eval(alpha) = False \
+    Eval(alpha and beta) & = True && iff Eval(alpha) = True "and" Eval(beta) = True \
+    Eval(alpha or beta) & = True && iff Eval(alpha) = True "or" Eval(beta) = True \
     Eval(alpha imply beta) & = False && iff Eval(alpha) = True "and" Eval(beta) = False \
-      Eval(alpha iff beta) & = True  && iff Eval(alpha) = Eval(beta)
+    Eval(alpha iff beta) & = True && iff Eval(alpha) = Eval(beta)
   $
 ]
 
@@ -1344,7 +1365,9 @@ A single inhabitant stands there. You may ask *one yes/no question*.
   columns: 4,
   align: (center, left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([*Connective*], [*Introduction*], [*Elimination*], [*Intuition*]),
+  table.header(
+    [*Connective*], [*Introduction*], [*Elimination*], [*Intuition*]
+  ),
   [$and$], [Combine two proofs], [Extract component], ["Both"],
   [$or$], [Provide one proof], [Case analysis], ["Either"],
   [$imply$], [Assume, derive], [Modus ponens], ["If...then"],
@@ -2575,11 +2598,22 @@ A single inhabitant stands there. You may ask *one yes/no question*.
     columns: 5,
     align: (center, center, center, left, left),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header([*Form*], [*Quantifier*], [*Quality*], [*Structure*], [*Example*]),
+    table.header(
+      [*Form*], [*Quantifier*], [*Quality*], [*Structure*], [*Example*]
+    ),
     [*A*], [Universal], [Affirmative], [All S are P], ["All cats are mammals"],
     [*E*], [Universal], [Negative], [No S are P], ["No fish are mammals"],
-    [*I*], [Particular], [Affirmative], [Some S are P], ["Some birds are flightless"],
-    [*O*], [Particular], [Negative], [Some S are not P], ["Some animals are not vertebrates"],
+    [*I*],
+    [Particular],
+    [Affirmative],
+    [Some S are P],
+    ["Some birds are flightless"],
+
+    [*O*],
+    [Particular],
+    [Negative],
+    [Some S are not P],
+    ["Some animals are not vertebrates"],
   )
 ]
 
@@ -2779,10 +2813,21 @@ A single inhabitant stands there. You may ask *one yes/no question*.
     align: left,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Traditional*], [*Modern Logic*], [*Reading*]),
-    [All S are P], [$forall x (S(x) imply P(x))$], ["For all x, if x is S then x is P"],
-    [No S are P], [$forall x (S(x) imply not P(x))$], ["For all x, if x is S then x is not P"],
-    [Some S are P], [$exists x (S(x) and P(x))$], ["There exists x such that x is S and x is P"],
-    [Some S are not P], [$exists x (S(x) and not P(x))$], ["There exists x such that x is S and x is not P"],
+    [All S are P],
+    [$forall x (S(x) imply P(x))$],
+    ["For all x, if x is S then x is P"],
+
+    [No S are P],
+    [$forall x (S(x) imply not P(x))$],
+    ["For all x, if x is S then x is not P"],
+
+    [Some S are P],
+    [$exists x (S(x) and P(x))$],
+    ["There exists x such that x is S and x is P"],
+
+    [Some S are not P],
+    [$exists x (S(x) and not P(x))$],
+    ["There exists x such that x is S and x is not P"],
   )
 ]
 
@@ -3096,7 +3141,9 @@ In FOL, equality ($=$) is a special predicate with fixed meaning: "is the same o
     ]
 
     Semantically equivalent to a (possibly infinite) conjunction:
-    $ forall x. thin P(x) thin approx thin P(a_1) and P(a_2) and P(a_3) and dots $
+    $
+      forall x. thin P(x) thin approx thin P(a_1) and P(a_2) and P(a_3) and dots
+    $
   ],
   [
     #definition[
@@ -3141,8 +3188,11 @@ In FOL, equality ($=$) is a special predicate with fixed meaning: "is the same o
     columns: 2,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Formula*], [*Meaning*]),
-    [$forall x. exists y. thin L(x, y)$], [Everyone loves someone (possibly different)],
-    [$exists y. forall x. thin L(x, y)$], [Someone is loved by everyone (same person)],
+    [$forall x. exists y. thin L(x, y)$],
+    [Everyone loves someone (possibly different)],
+
+    [$exists y. forall x. thin L(x, y)$],
+    [Someone is loved by everyone (same person)],
   )
 ]
 
@@ -3260,7 +3310,9 @@ To translate natural language into FOL, we must first define a _vocabulary_ (or 
     table.header([*English*], [*FOL*]),
     [All humans are mortal], [$forall x. thin [H(x) imply M(x)]$],
     [Some humans are mortal], [$exists x. thin [H(x) and M(x)]$],
-    [No humans are immortal], [$forall x. thin [H(x) imply M(x)]$ or $not exists x. thin [H(x) and not M(x)]$],
+    [No humans are immortal],
+    [$forall x. thin [H(x) imply M(x)]$ or $not exists x. thin [H(x) and not M(x)]$],
+
     [Socrates is human], [$H(s)$],
     [Not all humans are mortal], [$exists x. thin [H(x) and not M(x)]$],
   )
@@ -3275,7 +3327,8 @@ To translate natural language into FOL, we must first define a _vocabulary_ (or 
     table.header([*English*], [*FOL*]),
     [Only humans are rational], [$forall x. thin [R(x) imply H(x)]$],
     [At least one student passed], [$exists x. thin [S(x) and P(x)]$],
-    [At most one student passed], [$forall x, y. thin [(S(x) and P(x) and S(y) and P(y)) imply x = y]$],
+    [At most one student passed],
+    [$forall x, y. thin [(S(x) and P(x) and S(y) and P(y)) imply x = y]$],
   )
 ]
 
@@ -3306,8 +3359,11 @@ To translate natural language into FOL, we must first define a _vocabulary_ (or 
     [Everyone has a mother], [$forall x. exists y. thin M(y, x)$],
     [Everyone has exactly one mother], [$forall x. exists! y. thin M(y, x)$],
     [Some people are mothers], [$exists x. exists y. thin M(x, y)$],
-    [Mothers are not their own mothers], [$forall x. forall y. thin [M(x, y) imply (x != y)]$],
-    [Grandmother is mother's mother], [$G(x, z) iff exists y. thin [M(x, y) and M(y, z)]$],
+    [Mothers are not their own mothers],
+    [$forall x. forall y. thin [M(x, y) imply (x != y)]$],
+
+    [Grandmother is mother's mother],
+    [$G(x, z) iff exists y. thin [M(x, y) and M(y, z)]$],
   )
 ]
 
@@ -3432,14 +3488,14 @@ Now we can formalize the syllogism that propositional logic could not handle:
 #theorem[
   $
     forall x. thin (phi(x) and psi(x)) quad & equiv quad (forall x. thin phi(x)) and (forall x. thin psi(x)) \
-     exists x. thin (phi(x) or psi(x)) quad & equiv quad (exists x. thin phi(x)) or (exists x. thin psi(x))
+    exists x. thin (phi(x) or psi(x)) quad & equiv quad (exists x. thin phi(x)) or (exists x. thin psi(x))
   $
 ]
 
 #Block(color: orange)[
   *Warning:* These do _not_ hold in general:
   $
-     forall x. thin (phi(x) or psi(x)) quad & equiv.not quad (forall x. thin phi(x)) or (forall x. thin psi(x)) \
+    forall x. thin (phi(x) or psi(x)) quad & equiv.not quad (forall x. thin phi(x)) or (forall x. thin psi(x)) \
     exists x. thin (phi(x) and psi(x)) quad & equiv.not quad (exists x. thin phi(x)) and (exists x. thin psi(x))
   $
 ]
@@ -3452,8 +3508,8 @@ If $x$ is _not free_ in $psi$, we can move the quantifier:
   $
     (forall x. thin phi(x)) and psi quad & equiv quad forall x. thin (phi(x) and psi) \
     (exists x. thin phi(x)) and psi quad & equiv quad exists x. thin (phi(x) and psi) \
-     (forall x. thin phi(x)) or psi quad & equiv quad forall x. thin (phi(x) or psi) \
-     (exists x. thin phi(x)) or psi quad & equiv quad exists x. thin (phi(x) or psi)
+    (forall x. thin phi(x)) or psi quad & equiv quad forall x. thin (phi(x) or psi) \
+    (exists x. thin phi(x)) or psi quad & equiv quad exists x. thin (phi(x) or psi)
   $
 ]
 
@@ -3731,7 +3787,10 @@ Compactness is often used to extend properties from finite to infinite structure
       draw.circle((x, y), radius: 0.12, fill: col, stroke: none)
       draw.content((x, y + 0.3), text(size: 0.8em)[#lbl], anchor: "south")
     }
-    draw.bezier((0.5, 4), (6, 0.3), (2.5, 3.5), (4.5, 1), stroke: (dash: "dashed", paint: gray))
+    draw.bezier((0.5, 4), (6, 0.3), (2.5, 3.5), (4.5, 1), stroke: (
+      dash: "dashed",
+      paint: gray,
+    ))
   })
 ]
 
@@ -3896,16 +3955,40 @@ More expressive logics are harder (or impossible) to decide.
     import cetz: draw
 
     // Worlds
-    draw.circle((0, 0), radius: 0.4, fill: blue.lighten(70%), stroke: 1pt, name: "w")
+    draw.circle(
+      (0, 0),
+      radius: 0.4,
+      fill: blue.lighten(70%),
+      stroke: 1pt,
+      name: "w",
+    )
     draw.content("w", $w$)
 
-    draw.circle((2.5, 1), radius: 0.4, fill: green.lighten(70%), stroke: 1pt, name: "v1")
+    draw.circle(
+      (2.5, 1),
+      radius: 0.4,
+      fill: green.lighten(70%),
+      stroke: 1pt,
+      name: "v1",
+    )
     draw.content("v1", $v_1$)
 
-    draw.circle((2.5, -1), radius: 0.4, fill: green.lighten(70%), stroke: 1pt, name: "v2")
+    draw.circle(
+      (2.5, -1),
+      radius: 0.4,
+      fill: green.lighten(70%),
+      stroke: 1pt,
+      name: "v2",
+    )
     draw.content("v2", $v_2$)
 
-    draw.circle((5, 0), radius: 0.4, fill: orange.lighten(70%), stroke: 1pt, name: "u")
+    draw.circle(
+      (5, 0),
+      radius: 0.4,
+      fill: orange.lighten(70%),
+      stroke: 1pt,
+      name: "u",
+    )
     draw.content("u", $u$)
 
     // Arrows
@@ -3963,9 +4046,14 @@ More expressive logics are harder (or impossible) to decide.
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*Axiom*], [*Name*], [*Frame Condition*]),
     [$square phi imply phi$], [T], [Reflexive: $forall w. thick w R w$],
-    [$square phi imply square square phi$], [4], [Transitive: $w R v and v R u imply w R u$],
+    [$square phi imply square square phi$],
+    [4],
+    [Transitive: $w R v and v R u imply w R u$],
+
     [$phi imply square diamond phi$], [B], [Symmetric: $w R v imply v R w$],
-    [$diamond phi imply square diamond phi$], [5], [Euclidean: $w R v and w R u imply v R u$],
+    [$diamond phi imply square diamond phi$],
+    [5],
+    [Euclidean: $w R v and w R u imply v R u$],
   )
 ]
 
