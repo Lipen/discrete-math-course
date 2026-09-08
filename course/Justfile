@@ -3,11 +3,11 @@ default:
     @just --list
 
 # Build all course documents
-all: syllabus topics-s1 topics-s2 mentors
+all: syllabus topics-s1 topics-s2 mentors program
 
 # Working program (РПД)
 program:
-    pandoc program.md -o program.pdf --pdf-engine=xelatex -V mainfont="Libertinus Serif" -V lang=ru -V geometry:margin=2.5cm -V fontsize=11pt --standalone
+    typst compile --root .. program.typ
 
 # Course syllabus
 syllabus:

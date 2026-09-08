@@ -92,19 +92,6 @@ jobs:
 
       - name: Build homework
         run: just homework
-
-      - name: Build program (РПД)
-        uses: xu-cheng/texlive-action@v3
-        with:
-          run: |
-            apk add --no-cache pandoc
-            curl -sSL https://github.com/alerque/libertinus/releases/download/v7.051/Libertinus-7.051.zip -o /tmp/lib.zip
-            unzip -q /tmp/lib.zip -d /tmp/lib
-            mkdir -p /usr/share/fonts/libertinus
-            cp /tmp/lib/Libertinus-7.051/static/OTF/*.otf /usr/share/fonts/libertinus/
-            fc-cache -f
-            pandoc course/program.md -o course/program.pdf --pdf-engine=xelatex -V mainfont="Libertinus Serif" -V lang=ru -V geometry:margin=2.5cm -V fontsize=11pt --standalone
-
       - name: Test code companion
         run: just test
 
