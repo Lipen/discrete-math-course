@@ -428,32 +428,34 @@
     title-slide({
       context {
         set page(
-          fill: mod-acc.lighten(6%).desaturate(12%),
+          fill: gradient.linear(
+            mod-acc.darken(18%),
+            mod-acc.lighten(10%),
+            angle: -45deg,
+          ),
           header: none,
           foreground: none,
-          margin: (top: 2cm, bottom: 1cm, x: 2cm),
+          margin: (top: 1.4cm, bottom: 1cm, x: 2cm),
         )
 
+        // 1. Контурный номер лекции
         if lecture != none {
-          text(1.2em, weight: "bold", fill: white)[Лекция #lecture.num]
+          align(right)[
+            #text(
+              6em,
+              weight: "bold",
+              fill: white.transparentize(96%),
+              stroke: 1.2pt + white.transparentize(35%),
+            )[#lecture.num]
+          ]
         }
 
-        let probe(s) = text(s, weight: "bold", font: title-font)[#title]
-        let fits(s) = (
-          measure(probe(s), width: 13.2cm).height <= 3.05 * 12pt * (s / 1em)
-        )
-        let pick = if fits(3em) { 3em } else if fits(2.4em) {
-          2.4em
-        } else if fits(
-          1.8em,
-        ) { 1.8em } else { 1.4em }
-
-        v(1fr)
+        // 2. Титул
         stack(
           dir: ttb,
-          spacing: 1em,
+          spacing: 0.8em,
           block(width: 100%)[
-            #set text(pick, weight: "bold", font: title-font, fill: white)
+            #set text(2em, weight: "bold", font: title-font, fill: white)
             #set par(leading: 0.5em)
             #title
           ],
@@ -470,6 +472,8 @@
             ]
           ],
         )
+
+        // 3. Дата --- упирается в низ страницы
         v(1fr)
 
         grid(
