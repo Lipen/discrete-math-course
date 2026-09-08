@@ -5,11 +5,11 @@
 
 > Материалы двухсеместрового курса «Дискретная математика» для программистов и научно-популярная книга по курсу.
 
-## Документы
+## 📋 Документы
 
 [![Книга](https://img.shields.io/badge/Книга-blue)](https://lipen.github.io/discrete-math-course/book.pdf) [![Организация курса](https://img.shields.io/badge/Организация_курса-blue)](https://lipen.github.io/discrete-math-course/syllabus.pdf) [![Рабочая программа](https://img.shields.io/badge/РПД-blue)](https://lipen.github.io/discrete-math-course/program.pdf) [![Хендбук ментора](https://img.shields.io/badge/Хендбук_ментора-blue)](https://lipen.github.io/discrete-math-course/mentors.pdf)
 
-## Лекции
+## 🎞️ Лекции
 
 | Семестр 1 | Семестр 2 |
 |---|---|
@@ -32,7 +32,7 @@
 
 Полный курс лекций по модулям книги — `lec-*.pdf` в корне сайта.
 
-## Домашние задания
+## 🧾 Домашние задания
 
 | Семестр 1 | Семестр 2 |
 |---|---|
@@ -41,7 +41,7 @@
 | [![ДЗ 3 - Формальная логика](https://img.shields.io/badge/ДЗ_3-Формальная_логика-blue?style=social&logo=gitbook)](https://lipen.github.io/discrete-math-course/hw3.pdf) | [![ДЗ 7 - Вычислимость и сложность](https://img.shields.io/badge/ДЗ_7-Вычислимость_и_сложность-blue?style=social&logo=gitbook)](https://lipen.github.io/discrete-math-course/hw7.pdf) |
 | [![ДЗ 4 - Булева алгебра и коды](https://img.shields.io/badge/ДЗ_4-Булева_алгебра_и_коды-blue?style=social&logo=gitbook)](https://lipen.github.io/discrete-math-course/hw4.pdf) | [![ДЗ 8 - Комбинаторика](https://img.shields.io/badge/ДЗ_8-Комбинаторика-blue?style=social&logo=gitbook)](https://lipen.github.io/discrete-math-course/hw8.pdf) |
 
-## Сборка
+## ⚙️ Сборка
 
 Нужны [Typst](https://github.com/typst/typst) 0.15 и [just](https://github.com/casey/just).
 Для тестов — [Rust](https://www.rust-lang.org/), для РПД — [pandoc](https://pandoc.org/) с xelatex.
@@ -56,12 +56,12 @@ just homework      # собрать домашние задания
 just test          # тесты code-компаньона
 ```
 
-## Архив
+## 📦 Архив
 
 - [`typst/`](https://lipen.github.io/discrete-math-course/typst/)
 - [`tex/`](https://lipen.github.io/discrete-math-course/tex/)
 - [`docs/`](https://lipen.github.io/discrete-math-course/docs/)
 
-## Лицензия
+## 📜 Лицензия
 
 [GPL-3.0](LICENSE)
