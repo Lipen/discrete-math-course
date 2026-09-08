@@ -49,14 +49,19 @@ jobs:
         run: |
           curl -sSL https://github.com/FortAwesome/Font-Awesome/releases/download/7.2.0/fontawesome-free-7.2.0-desktop.zip -o fa.zip
           unzip -q fa.zip
+          mkdir -p ~/.fonts
           cp fontawesome-free-7.2.0-desktop/otfs/*.otf ~/.fonts/
 
       - name: Install Source fonts
         run: |
           curl -sSL https://github.com/fontist/source-fonts/releases/download/v1.2/source-fonts-latn-1.2.zip -o source.zip
           unzip -q source.zip
+          mkdir -p ~/.fonts
           cp fonts-latn/*.ttf ~/.fonts/
           fc-cache -f
+
+      - name: Point Typst at user fonts
+        run: echo "TYPST_FONT_PATHS=$HOME/.fonts" >> $GITHUB_ENV
 
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
