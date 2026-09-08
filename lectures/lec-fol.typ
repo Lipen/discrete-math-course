@@ -78,7 +78,7 @@
   Над конечной областью $A = {a_1, dots, a_n}$ кванторы --- лишь сокращение:
   $
     forall x space P(x) & equiv and.big_(x in A) P(x) & equiv P(a_1) and dots and P(a_n) \
-    exists x space P(x) & equiv or.big_(x in A) P(x)  &   equiv P(a_1) or dots or P(a_n)
+    exists x space P(x) & equiv or.big_(x in A) P(x) & equiv P(a_1) or dots or P(a_n)
   $
   Подлинная сила кванторов --- в бесконечных областях.
 ]
@@ -142,7 +142,9 @@
 
 #example[Предел на языке кванторов][
   $limits(lim)_(x -> a) f(x) = L$:
-  $ forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta -> abs(f(x) - L) < epsilon) $
+  $
+    forall epsilon > 0 space exists delta > 0 space forall x space (0 < abs(x - a) < delta -> abs(f(x) - L) < epsilon)
+  $
   Три квантора и два неравенства в одном предложении --- вот сила логики предикатов.
 ]
 

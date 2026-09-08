@@ -19,7 +19,9 @@
 }
 
 #let tr(from, to, label, stroke: e-stroke, ..args) = edge(
-  from, to, "-}>",
+  from,
+  to,
+  "-}>",
   label: label,
   label-size: s-cap,
   stroke: stroke,
@@ -140,7 +142,10 @@
 
   pl-edge("q0", "qi", "e-x", $x$)
   pl-edge(
-    "qi", "qj", "e-y", $y$,
+    "qi",
+    "qj",
+    "e-y",
+    $y$,
     stroke: acc-stroke,
     fill: c-accent,
   )

@@ -114,7 +114,15 @@
         #align(center)[
           // Первый ряд сверху.
           #band(gold-soft, gold-soft, (
-            m-venn, m-logic, m-truth, m-k4, m-binom, m-3venn, m-tree, m-matrix, m-poset,
+            m-venn,
+            m-logic,
+            m-truth,
+            m-k4,
+            m-binom,
+            m-3venn,
+            m-tree,
+            m-matrix,
+            m-poset,
           ))
           #v(0.5em)
 
@@ -190,7 +198,15 @@
 
           // Первый ряд снизу.
           #band(gold-soft, gold-soft, (
-            m-cube, m-gate, m-judgement, m-dfa, m-pascal, m-hamming, m-tape, m-combinator, m-pairing,
+            m-cube,
+            m-gate,
+            m-judgement,
+            m-dfa,
+            m-pascal,
+            m-hamming,
+            m-tape,
+            m-combinator,
+            m-pairing,
           ))
         ]
       ]

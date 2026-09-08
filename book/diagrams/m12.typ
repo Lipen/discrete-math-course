@@ -38,7 +38,10 @@
 
 // Точка на круге радиуса r под углом a (градусы от положительной оси X).
 // Ось Y в диаграммах fletcher направлена вниз, поэтому Y берём с минусом.
-#let polar(r, a) = (calc.cos(a * calc.pi / 180) * r, -calc.sin(a * calc.pi / 180) * r)
+#let polar(r, a) = (
+  calc.cos(a * calc.pi / 180) * r,
+  -calc.sin(a * calc.pi / 180) * r,
+)
 
 // ── Циклическая группа: образующий в ZZ_8 ──
 #let cyclic-generator = {
@@ -52,7 +55,12 @@
     {
       for i in range(8) {
         node(polar(radius, 90 - i * 45), $#i$, name: nname(i))
-        edge(nname(i), nname(if i == 7 { 0 } else { i + 1 }), "-}>", label: [$+1$])
+        edge(
+          nname(i),
+          nname(if i == 7 { 0 } else { i + 1 }),
+          "-}>",
+          label: [$+1$],
+        )
       }
       node((0, 0), $ZZ_8$, fill: none, stroke: none)
     },
@@ -152,6 +160,14 @@
   msg-arrow((-2.15, 2.0), (2.15, 2.0), 0.15, [$g^a mod p$], true)
   msg-arrow((2.15, 2.0), (-2.15, 2.0), -0.15, [$g^b mod p$], false)
 
-  draw.line((0, -1.75), (0, 1.7), stroke: (paint: c-edge, thickness: t-ed, dash: "dashed"), mark: none)
-  draw.content((0.5, -0.2), anchor: "west", text(size: s-cap, fill: c-muted)[подслушивает канал])
+  draw.line(
+    (0, -1.75),
+    (0, 1.7),
+    stroke: (paint: c-edge, thickness: t-ed, dash: "dashed"),
+    mark: none,
+  )
+  draw.content((0.5, -0.2), anchor: "west", text(
+    size: s-cap,
+    fill: c-muted,
+  )[подслушивает канал])
 })

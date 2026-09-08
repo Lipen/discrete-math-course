@@ -1,7 +1,7 @@
 #import "theme.typ": *
 #import "diagrams/category.typ": (
-  monoid-loops, poset-chain, free-cat-paths, powerset-functor,
-  nat-square, product-universal, cone-limit, adjunction-bijection,
+  adjunction-bijection, cone-limit, free-cat-paths, monoid-loops, nat-square,
+  poset-chain, powerset-functor, product-universal,
 )
 #show: slides.with(
   title: [Теория категорий],
@@ -57,7 +57,11 @@
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     align: (left, left, left, left),
     table.header([*Мир*], [*Стрелки*], [*Композиция*], [*Тождество*]),
-    [множества], [функции $f: A -> B$], [$g circle.stroked.tiny f$], [$"id"_A (x) = x$],
+    [множества],
+    [функции $f: A -> B$],
+    [$g circle.stroked.tiny f$],
+    [$"id"_A (x) = x$],
+
     [моноид], [элементы $m: M -> M$], [умножение $a dot b$], [единица $e$],
     [порядок], [$a -> b$ при $a <= b$], [транзитивность], [рефлексивность],
   )

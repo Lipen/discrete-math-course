@@ -10,7 +10,9 @@
     #set text(10pt)
     #smallcaps[*Домашнее задание \#6*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Дискретная математика*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Дискретная математика*]
     \
     *Языки и автоматы*
     #h(1fr)

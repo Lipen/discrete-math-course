@@ -27,7 +27,10 @@
   ..args,
 )
 
-#let under(pos, body) = draw.content(pos, text(size: s-cap, fill: c-muted)[#body])
+#let under(pos, body) = draw.content(pos, text(
+  size: s-cap,
+  fill: c-muted,
+)[#body])
 
 #let decide(pos, radius: 0.62, name: none, body) = {
   let (x, y) = pos
@@ -106,7 +109,13 @@
     flow("p.south", "inv.north")
     flow("inv.south", (0, 1.77))
     flow((0.62, 1.15), "s.west")
-    draw.line((1.95, 1.55), (1.95, 2.35), (0.575, 2.35), stroke: c-edge + t-ed, mark: (end: (symbol: ">", fill: c-edge)))
+    draw.line(
+      (1.95, 1.55),
+      (1.95, 2.35),
+      (0.575, 2.35),
+      stroke: c-edge + t-ed,
+      mark: (end: (symbol: ">", fill: c-edge)),
+    )
     flow((0, 0.53), "exit.north")
     flow("exit.south", "q.north")
     draw.content((1.15, 1.35), text(size: s-tiny, fill: c-muted)[истина])

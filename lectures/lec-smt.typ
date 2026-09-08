@@ -5,7 +5,7 @@
   date: "Осень 2026",
   authors: "Константин Чухарев",
 )
-#import "diagrams/m14-smt.typ": dpll-t-architecture, dl-negative-cycle
+#import "diagrams/m14-smt.typ": dl-negative-cycle, dpll-t-architecture
 
 = SMT
 #focus-slide(

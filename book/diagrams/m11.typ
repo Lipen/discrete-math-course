@@ -58,10 +58,22 @@
   wire.wire("s-out", ("xor-port-out", lj(2.0, "xor-port-out")), color: c-edge)
   wire.wire("c-out", ("and-port-out", lj(2.0, "and-port-out")), color: c-edge)
 
-  draw.content(lj(-2.1, "xor-port-in0"), anchor: "east", text(size: s-node, fill: c-ink)[$A$])
-  draw.content(lj(-2.1, "and-port-in1"), anchor: "east", text(size: s-node, fill: c-ink)[$B$])
-  draw.content(lj(2.1, "xor-port-out"), anchor: "west", text(size: s-node, fill: c-ink)[$S$])
-  draw.content(lj(2.1, "and-port-out"), anchor: "west", text(size: s-node, fill: c-ink)[$C$])
+  draw.content(lj(-2.1, "xor-port-in0"), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$A$])
+  draw.content(lj(-2.1, "and-port-in1"), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$B$])
+  draw.content(lj(2.1, "xor-port-out"), anchor: "west", text(
+    size: s-node,
+    fill: c-ink,
+  )[$S$])
+  draw.content(lj(2.1, "and-port-out"), anchor: "west", text(
+    size: s-node,
+    fill: c-ink,
+  )[$C$])
 })
 
 // ── Полный сумматор ──
@@ -141,13 +153,32 @@
   wire.intersection("and2-or.zig", radius: ir, fill: c-edge)
 
   wire.wire("s-out", ("xor2-port-out", lj(5.3, "xor2-port-out")), color: c-edge)
-  wire.wire("cout-out", ("or1-port-out", lj(7.8, "or1-port-out")), color: c-edge)
+  wire.wire(
+    "cout-out",
+    ("or1-port-out", lj(7.8, "or1-port-out")),
+    color: c-edge,
+  )
 
-  draw.content(lj(-2.1, "xor1-port-in0"), anchor: "east", text(size: s-node, fill: c-ink)[$A$])
-  draw.content(lj(-2.1, "and1-port-in1"), anchor: "east", text(size: s-node, fill: c-ink)[$B$])
-  draw.content((-2.3, -1.25), anchor: "east", text(size: s-node, fill: c-ink)[$C_"in"$])
-  draw.content(lj(5.3, "xor2-port-out"), anchor: "west", text(size: s-node, fill: c-ink)[$S$])
-  draw.content(lj(7.8, "or1-port-out"), anchor: "west", text(size: s-node, fill: c-ink)[$C_"out"$])
+  draw.content(lj(-2.1, "xor1-port-in0"), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$A$])
+  draw.content(lj(-2.1, "and1-port-in1"), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$B$])
+  draw.content((-2.3, -1.25), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$C_"in"$])
+  draw.content(lj(5.3, "xor2-port-out"), anchor: "west", text(
+    size: s-node,
+    fill: c-ink,
+  )[$S$])
+  draw.content(lj(7.8, "or1-port-out"), anchor: "west", text(
+    size: s-node,
+    fill: c-ink,
+  )[$C_"out"$])
 })
 
 // ── Мультиплексор 4→1 ──
@@ -168,7 +199,10 @@
   let dy = (2.1, 0.7, -0.7, -2.1)
   for (i, y) in dy.enumerate() {
     draw.line((-1.2, y), (0, y), stroke: c-edge + t-ed)
-    draw.content((-1.3, y), anchor: "east", text(size: s-cap, fill: c-ink)[$D_#i$])
+    draw.content((-1.3, y), anchor: "east", text(
+      size: s-cap,
+      fill: c-ink,
+    )[$D_#i$])
   }
 
   draw.line((5, 0), (6.2, 0), stroke: c-edge + t-ed)
@@ -176,9 +210,15 @@
 
   let top-y(x) = 2.8 - 0.28 * x
   draw.line((1.5, top-y(1.5)), (1.5, 3.4), stroke: c-edge + t-ed)
-  draw.content((1.5, 3.45), anchor: "south", text(size: s-cap, fill: c-ink)[$S_0$])
+  draw.content((1.5, 3.45), anchor: "south", text(
+    size: s-cap,
+    fill: c-ink,
+  )[$S_0$])
   draw.line((3.5, top-y(3.5)), (3.5, 3.4), stroke: c-edge + t-ed)
-  draw.content((3.5, 3.45), anchor: "south", text(size: s-cap, fill: c-ink)[$S_1$])
+  draw.content((3.5, 3.45), anchor: "south", text(
+    size: s-cap,
+    fill: c-ink,
+  )[$S_1$])
 
   draw.content((2.5, -3.5), text(size: s-tiny, fill: c-muted)[
     $Y = D_((S_1 S_0)_2)$

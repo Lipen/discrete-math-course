@@ -11,13 +11,25 @@
   let edge-stroke = (paint: c-edge, thickness: t-ed)
 
   let hf-node(pos, name, radius, body, fill: none) = {
-    draw.circle(pos, radius: radius, stroke: node-stroke, fill: fill, name: name)
+    draw.circle(
+      pos,
+      radius: radius,
+      stroke: node-stroke,
+      fill: fill,
+      name: name,
+    )
     draw.content(name, text(size: s-node, fill: c-ink)[#body])
   }
 
   let hf-edge(fr, to, name, label) = {
     draw.line(fr, to, stroke: edge-stroke, name: name)
-    draw.content(name, text(size: s-tiny, fill: c-ink)[#label], fill: white, stroke: none, padding: 2pt)
+    draw.content(
+      name,
+      text(size: s-tiny, fill: c-ink)[#label],
+      fill: white,
+      stroke: none,
+      padding: 2pt,
+    )
   }
 
   let root = (0, 0)
@@ -216,11 +228,16 @@
   let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
   for (i, y) in data-y.enumerate() {
     draw.line((-0.6, y), (6.6, y), stroke: hg-data-line)
-    draw.content((-1.7, y), text(size: s-cap, fill: hg-data-text)[#data-name.at(i)])
+    draw.content((-1.7, y), text(size: s-cap, fill: hg-data-text)[#data-name.at(
+      i,
+    )])
   }
 
   let hg-bit(bx, label, num, color) = {
-    draw.circle((bx, cy), radius: r, fill: hg-bit-fill, stroke: (paint: color, thickness: t-bd))
+    draw.circle((bx, cy), radius: r, fill: hg-bit-fill, stroke: (
+      paint: color,
+      thickness: t-bd,
+    ))
     draw.content((bx, cy), text(size: s-node, fill: hg-data-text)[#label])
     draw.content((bx, cy + 0.8), text(size: s-tiny, fill: hg-pos-text)[#num])
   }
@@ -233,7 +250,10 @@
   hg-bit(x.at(6), $d_4$, 7, hg-data-text)
 
   let hg-edge(bx, bottom, color, dots) = {
-    draw.line((bx, y-top), (bx, bottom), stroke: (paint: color, thickness: hg-conn-thick))
+    draw.line((bx, y-top), (bx, bottom), stroke: (
+      paint: color,
+      thickness: hg-conn-thick,
+    ))
     for d in dots {
       draw.circle((bx, d), radius: 0.13, fill: color)
     }

@@ -251,5 +251,8 @@
   label(h55, 55)
   label(h75, 75)
   label(h85, 85)
-  draw.content((axis-x, h85 + 2 * tip), anchor: "west", text(size: s-cap, fill: c-muted)[MYA (млн лет назад)])
+  draw.content((axis-x, h85 + 2 * tip), anchor: "west", text(
+    size: s-cap,
+    fill: c-muted,
+  )[MYA (млн лет назад)])
 })

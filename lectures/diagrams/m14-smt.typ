@@ -37,7 +37,11 @@
     stroke: (paint: d-node-border, thickness: 0.8pt),
     radius: 3pt,
   )
-  draw.content((0, 0.55), text(size: 0.45em, fill: d-text, weight: "bold")[SAT-решатель])
+  draw.content((0, 0.55), text(
+    size: 0.45em,
+    fill: d-text,
+    weight: "bold",
+  )[SAT-решатель])
   draw.content((0, 0.4), text(size: 0.4em, fill: d-muted)[DPLL / CDCL])
 
   draw.rect(
@@ -47,7 +51,11 @@
     stroke: (paint: d-node-border, thickness: 0.8pt),
     radius: 3pt,
   )
-  draw.content((0, -0.55), text(size: 0.45em, fill: d-text, weight: "bold")[Theory-солвер])
+  draw.content((0, -0.55), text(
+    size: 0.45em,
+    fill: d-text,
+    weight: "bold",
+  )[Theory-солвер])
   draw.content((0, -0.7), text(size: 0.4em, fill: d-muted)[DL, EUF, LRA, ...])
 
   // SAT -> theory: proposes a model
@@ -57,7 +65,10 @@
     mark: (end: "stealth"),
     stroke: d-edge + 0.8pt,
   )
-  draw.content((1.075, 0), anchor: "west", text(size: 0.4em, fill: d-text)[модель])
+  draw.content((1.075, 0), anchor: "west", text(
+    size: 0.4em,
+    fill: d-text,
+  )[модель])
 
   // theory -> SAT: returns T-lemma on conflict
   draw.line(
@@ -66,7 +77,10 @@
     mark: (end: "stealth"),
     stroke: d-edge + 0.8pt,
   )
-  draw.content((-1.075, 0), anchor: "east", text(size: 0.4em, fill: d-text)[$T$-лемма])
+  draw.content((-1.075, 0), anchor: "east", text(
+    size: 0.4em,
+    fill: d-text,
+  )[$T$-лемма])
 })
 
 // ── Difference-logic negative cycle ──
@@ -83,13 +97,24 @@
 
   // x -> w, weight +2
   draw.line(x, w, mark: (end: "stealth"), stroke: d-pos + 1pt)
-  draw.content((-0.24, -0.08), text(size: 0.42em, fill: d-pos, weight: "bold")[$+2$])
+  draw.content((-0.24, -0.08), text(
+    size: 0.42em,
+    fill: d-pos,
+    weight: "bold",
+  )[$+2$])
   // w -> z, weight -1
   draw.line(w, z, mark: (end: "stealth"), stroke: d-neg + 1pt)
-  draw.content((0.26, -0.08), text(size: 0.42em, fill: d-neg, weight: "bold")[$-1$])
+  draw.content((0.26, -0.08), text(
+    size: 0.42em,
+    fill: d-neg,
+    weight: "bold",
+  )[$-1$])
   // z -> x, weight -3
   draw.line(z, x, mark: (end: "stealth"), stroke: d-neg + 1pt)
   draw.content((0, 0.44), text(size: 0.42em, fill: d-neg, weight: "bold")[$-3$])
 
-  draw.content((0, -0.6), text(size: 0.42em, fill: d-neg)[$+2 - 1 - 3 = -2 < 0$])
+  draw.content((0, -0.6), text(
+    size: 0.42em,
+    fill: d-neg,
+  )[$+2 - 1 - 3 = -2 < 0$])
 })

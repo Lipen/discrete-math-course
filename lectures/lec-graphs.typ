@@ -556,8 +556,7 @@ BFS находит кратчайшие пути в невзвешенном г�
   columns: 2,
   column-gutter: 2em,
   align: center,
-  align(center, k5),
-  align(center, k33),
+  align(center, k5), align(center, k33),
 )
 
 #important[

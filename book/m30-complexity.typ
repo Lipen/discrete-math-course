@@ -893,8 +893,8 @@ FPT превращает NP-полную задачу в практически 
 ]
 
 #theorem[Теорема об иерархии по времени#footnote[
-  Hartmanis J., Stearns R. E. "On the Computational Complexity of Algorithms", Transactions of the American Mathematical Society, 1965.
-]][
+    Hartmanis J., Stearns R. E. "On the Computational Complexity of Algorithms", Transactions of the American Mathematical Society, 1965.
+  ]][
   Для любой конструируемой по времени функции $t(n) >= n log n$, вычислимой за время $O(t(n))$,
   $
     "TIME"(o(t(n))) subset.neq "TIME"(t(n) log t(n)).

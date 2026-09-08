@@ -372,21 +372,39 @@
 #let m-logic(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$and or not$]
 #let m-binom(f: c-ink, s: c-bd) = text(fill: f, size: s-node)[$binom(n, k)$]
 // Комбинатор неподвижной точки
-#let m-combinator(f: c-ink, s: c-bd) = text(fill: f, size: s-tiny)[$Y f = f (Y f)$]
+#let m-combinator(f: c-ink, s: c-bd) = text(
+  fill: f,
+  size: s-tiny,
+)[$Y f = f (Y f)$]
 
 // ── Исчисление, типы, бесконечность ──
 
 // Лямбда-глиф
-#let m-lambda(f: c-ink, s: c-bd) = text(fill: f, size: s-node + 3pt, font: "Libertinus Serif")[#sym.lambda]
+#let m-lambda(f: c-ink, s: c-bd) = text(
+  fill: f,
+  size: s-node + 3pt,
+  font: "Libertinus Serif",
+)[#sym.lambda]
 
 // Типовое суждение
-#let m-judgement(f: c-ink, s: c-bd) = text(fill: f, size: s-tiny)[$Gamma tack e : tau$]
+#let m-judgement(f: c-ink, s: c-bd) = text(
+  fill: f,
+  size: s-tiny,
+)[$Gamma tack e : tau$]
 
 // Сумма
-#let m-sum(f: c-ink, s: c-bd) = text(fill: f, size: s-node + 3pt, font: "Libertinus Serif")[#sym.sum]
+#let m-sum(f: c-ink, s: c-bd) = text(
+  fill: f,
+  size: s-node + 3pt,
+  font: "Libertinus Serif",
+)[#sym.sum]
 
 // Алеф
-#let m-aleph(f: c-ink, s: c-bd) = text(fill: f, size: s-node + 3pt, font: "Libertinus Serif")[#sym.aleph]
+#let m-aleph(f: c-ink, s: c-bd) = text(
+  fill: f,
+  size: s-node + 3pt,
+  font: "Libertinus Serif",
+)[#sym.aleph]
 
 // ── Счётность: канторовская диагональ, зигзаг-перечисление ──
 
@@ -434,7 +452,10 @@
 
 // Граф Петерсена
 #let m-petersen(f: c-fl, s: c-bd) = canvas({
-  let at(radius, ang) = (0.5 + radius * calc.cos(ang), 0.5 + radius * calc.sin(ang))
+  let at(radius, ang) = (
+    0.5 + radius * calc.cos(ang),
+    0.5 + radius * calc.sin(ang),
+  )
   for k in range(5) {
     vtx("O" + str(k), at(0.4, 90deg + k * 72deg), f, s)
     vtx("I" + str(k), at(0.2, 90deg + k * 72deg + 36deg), f, s)
@@ -475,11 +496,35 @@
   vtx("w0", (0.2, 0.2), f, s)
   vtx("w1", (0.8, 0.2), f, s)
   vtx("w2", (0.5, 0.75), f, s)
-  draw.arc((0.2, 0.2), radius: m-r, start: 20deg, delta: 320deg, stroke: m-st + s)
-  draw.arc((0.8, 0.2), radius: m-r, start: 160deg, delta: 320deg, stroke: m-st + s)
-  draw.arc((0.5, 0.75), radius: m-r, start: 90deg, delta: 320deg, stroke: m-st + s)
-  draw.line("w2.south-west", "w0.north-east", stroke: m-st + s, mark: (end: ">", scale: 0.25))
-  draw.line("w2.south-east", "w1.north-west", stroke: m-st + s, mark: (end: ">", scale: 0.25))
+  draw.arc(
+    (0.2, 0.2),
+    radius: m-r,
+    start: 20deg,
+    delta: 320deg,
+    stroke: m-st + s,
+  )
+  draw.arc(
+    (0.8, 0.2),
+    radius: m-r,
+    start: 160deg,
+    delta: 320deg,
+    stroke: m-st + s,
+  )
+  draw.arc(
+    (0.5, 0.75),
+    radius: m-r,
+    start: 90deg,
+    delta: 320deg,
+    stroke: m-st + s,
+  )
+  draw.line("w2.south-west", "w0.north-east", stroke: m-st + s, mark: (
+    end: ">",
+    scale: 0.25,
+  ))
+  draw.line("w2.south-east", "w1.north-west", stroke: m-st + s, mark: (
+    end: ">",
+    scale: 0.25,
+  ))
 })
 
 // Истинность
@@ -487,7 +532,11 @@
   let xs = (0.1, 0.3, 0.5, 0.7)
   let rows = (0.55, 0.3, 0.1)
   for (k, x) in xs.enumerate() {
-    draw.rect((x, rows.at(0)), (x + 0.15, rows.at(0) + 0.15), stroke: m-st + s.transparentize(30%))
+    draw.rect(
+      (x, rows.at(0)),
+      (x + 0.15, rows.at(0) + 0.15),
+      stroke: m-st + s.transparentize(30%),
+    )
   }
   for (ri, ry) in rows.enumerate() {
     for (k, x) in xs.enumerate() {
@@ -505,8 +554,20 @@
   let yc = 0.5
   draw.line((0, yt), (0.1, yt), stroke: m-st + s)
   draw.line((0, yb), (0.1, yb), stroke: m-st + s)
-  draw.arc((0.1, yc), start: 90deg, delta: -180deg, radius: 0.3, stroke: m-st + s)
-  draw.arc((0.15, yc), start: 90deg, delta: -180deg, radius: 0.3, stroke: m-st + s)
+  draw.arc(
+    (0.1, yc),
+    start: 90deg,
+    delta: -180deg,
+    radius: 0.3,
+    stroke: m-st + s,
+  )
+  draw.arc(
+    (0.15, yc),
+    start: 90deg,
+    delta: -180deg,
+    radius: 0.3,
+    stroke: m-st + s,
+  )
   draw.line((0.15, yt), (0.7, yc), stroke: m-st + s)
   draw.line((0.15, yb), (0.7, yc), stroke: m-st + s)
   draw.line((0.7, yc), (0.85, yc), stroke: m-st + s)

@@ -9,7 +9,9 @@
     #set text(10pt)
     #smallcaps[*Домашнее задание \#1*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Дискретная математика*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Дискретная математика*]
     \
     *Множества и логика*
     #h(1fr)
@@ -62,7 +64,7 @@
   Все дополнения в этой задаче считаются относительно $T$.
 
   $
-    X &= A inter P inter N,     Y &= (A inter P) without N,     Z &= A without (X union Y).
+    X &= A inter P inter N, Y &= (A inter P) without N, Z &= A without (X union Y).
   $
 ]
 
@@ -106,9 +108,13 @@
   Для двух непустых конечных множеств $X, Y$ определены две меры сходства, индекс Жаккара и косинусная мера, вместе с соответствующими расстояниями.
   Индекс Жаккара --- доля общих элементов в объединении:
 
-  $ Jaccard(X, Y) = card(X inter Y) / card(X union Y), quad JaccardDist = 1 - Jaccard, $
+  $
+    Jaccard(X, Y) = card(X inter Y) / card(X union Y), quad JaccardDist = 1 - Jaccard,
+  $
 
-  $ Cosine(X, Y) = card(X inter Y) / sqrt(card(X) dot card(Y)), quad CosineDist = 1 - Cosine. $
+  $
+    Cosine(X, Y) = card(X inter Y) / sqrt(card(X) dot card(Y)), quad CosineDist = 1 - Cosine.
+  $
 
   #table(
     columns: 2,
@@ -346,7 +352,7 @@
   + Докажите законы де Моргана:
 
     $
-      not (p and q) & equiv (not p or not q),       not (p or q) & equiv (not p and not q).
+      not (p and q) & equiv (not p or not q), not (p or q) & equiv (not p and not q).
     $
 
   + Куратор "доказывает" закон де Моргана проверкой одной строки: "при $p = 1$, $q = 1$ обе части $not (p and q) equiv not p or not q$ равны 0, значит закон верен".

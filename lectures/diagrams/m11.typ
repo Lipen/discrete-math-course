@@ -128,8 +128,16 @@
   draw.line((0, -1.0), (0, 1.0), stroke: c-gate-str + 0.8pt)
 
   // Внутренняя подпись.
-  draw.content((1.0, 0.1), text(size: 0.42em, fill: c-text, weight: "bold")[MUX])
-  draw.content((1.0, -0.35), text(size: 0.4em, fill: oklch(45%, 0.02, 265deg))[$4 times 1$])
+  draw.content((1.0, 0.1), text(
+    size: 0.42em,
+    fill: c-text,
+    weight: "bold",
+  )[MUX])
+  draw.content((1.0, -0.35), text(size: 0.4em, fill: oklch(
+    45%,
+    0.02,
+    265deg,
+  ))[$4 times 1$])
 
   // Входы данных D0..D3 слева.
   let dy = (0.75, 0.25, -0.25, -0.75)

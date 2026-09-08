@@ -13,7 +13,12 @@
 
 // ── 1. Три источника -> один матроид ──
 #let matroid-sources = {
-  let src(pos, body, name) = node(pos, text(size: 0.6em, body), name: name, fill: c-src-fill)
+  let src(pos, body, name) = node(
+    pos,
+    text(size: 0.6em, body),
+    name: name,
+    fill: c-src-fill,
+  )
   diagram(
     node-stroke: c-src-str,
     node-inset: 2pt,
@@ -59,14 +64,24 @@
     thickness: 0.9pt,
     dash: "dashed",
   ))
-  draw.content((-0.95, -0.95), text(
-    size: 0.45em,
-    fill: c-label,
-  )[жадный: ${a}$, вес $5$], name: "lbl-greedy")
-  draw.content((0.45, -1.35), text(
-    size: 0.45em,
-    fill: c-label,
-  )[оптимум: ${b,c}$, вес $8$], name: "lbl-opt")
-  draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (end: "stealth"))
+  draw.content(
+    (-0.95, -0.95),
+    text(
+      size: 0.45em,
+      fill: c-label,
+    )[жадный: ${a}$, вес $5$],
+    name: "lbl-greedy",
+  )
+  draw.content(
+    (0.45, -1.35),
+    text(
+      size: 0.45em,
+      fill: c-label,
+    )[оптимум: ${b,c}$, вес $8$],
+    name: "lbl-opt",
+  )
+  draw.line("a.south", "lbl-greedy.north", stroke: e-str, mark: (
+    end: "stealth",
+  ))
   draw.line("c.south", "lbl-opt.north", stroke: e-str, mark: (end: "stealth"))
 })

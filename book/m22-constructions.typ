@@ -1,7 +1,7 @@
 // M22 --- Конструкции чисел.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m22.typ": (banach-tarski, von-neumann-nesting)
+#import "diagrams/m22.typ": banach-tarski, von-neumann-nesting
 
 = Конструкции чисел <chap:constructions>
 

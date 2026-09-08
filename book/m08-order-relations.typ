@@ -359,8 +359,8 @@
 Понадобится ширина и в проекте главы @chap:relations: там она вычисляется по таблице отношения для малых порядков.
 
 #theorem[Теорема Дилуорса#footnote[
-  R. P. Dilworth. "A Decomposition Theorem for Partially Ordered Sets". Annals of Mathematics, 1950.
-]][
+    R. P. Dilworth. "A Decomposition Theorem for Partially Ordered Sets". Annals of Mathematics, 1950.
+  ]][
   В конечном ЧУ-множестве наименьшее число цепей, на которые разбивается множество, равно ширине.
 ]
 

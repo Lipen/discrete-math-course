@@ -58,16 +58,28 @@
   necklace((-3.0, -1.0), ("w", "b", "b"), name: "o3a")
   necklace((-1.5, -1.0), ("b", "w", "b"), name: "o3b")
   necklace((0.0, -1.0), ("b", "b", "w"), name: "o3c")
-  draw.line("o3a.east", "o3b.west", stroke: c-accent + t-ed, mark: (end: ">", fill: c-accent))
-  draw.line("o3b.east", "o3c.west", stroke: c-accent + t-ed, mark: (end: ">", fill: c-accent))
+  draw.line("o3a.east", "o3b.west", stroke: c-accent + t-ed, mark: (
+    end: ">",
+    fill: c-accent,
+  ))
+  draw.line("o3b.east", "o3c.west", stroke: c-accent + t-ed, mark: (
+    end: ">",
+    fill: c-accent,
+  ))
   orbit-label(-1.5, -1.7, [3 элемента (повороты)])
   orbit-strings(-1.5, -2.1, [$"001", "010", "100"$])
 
   necklace((-3.0, -3.5), ("w", "w", "b"), name: "o4a")
   necklace((-1.5, -3.5), ("b", "w", "w"), name: "o4b")
   necklace((0.0, -3.5), ("w", "b", "w"), name: "o4c")
-  draw.line("o4a.east", "o4b.west", stroke: c-accent + t-ed, mark: (end: ">", fill: c-accent))
-  draw.line("o4b.east", "o4c.west", stroke: c-accent + t-ed, mark: (end: ">", fill: c-accent))
+  draw.line("o4a.east", "o4b.west", stroke: c-accent + t-ed, mark: (
+    end: ">",
+    fill: c-accent,
+  ))
+  draw.line("o4b.east", "o4c.west", stroke: c-accent + t-ed, mark: (
+    end: ">",
+    fill: c-accent,
+  ))
   orbit-label(-1.5, -4.2, [3 элемента (повороты)])
   orbit-strings(-1.5, -4.6, [$"011", "101", "110"$])
 })
@@ -88,7 +100,13 @@
   let hi = c-hot + t-hi
   let dim = c-muted + t-hr
 
-  draw.circle(center, radius: vr + 0.05, fill: c-warn, stroke: c-hot + t-bd, name: "c")
+  draw.circle(
+    center,
+    radius: vr + 0.05,
+    fill: c-warn,
+    stroke: c-hot + t-bd,
+    name: "c",
+  )
   draw.content(center, text(size: s-node, weight: "bold", fill: c-ink)[1])
 
   for (p, lab, is-red) in (
@@ -108,7 +126,15 @@
     draw.content(p, text(size: s-node, fill: c-ink)[#lab])
   }
 
-  for (a, b) in (("v2", "v5"), ("v2", "v6"), ("v3", "v5"), ("v3", "v6"), ("v4", "v5"), ("v4", "v6"), ("v5", "v6")) {
+  for (a, b) in (
+    ("v2", "v5"),
+    ("v2", "v6"),
+    ("v3", "v5"),
+    ("v3", "v6"),
+    ("v4", "v5"),
+    ("v4", "v6"),
+    ("v5", "v6"),
+  ) {
     draw.line(a, b, stroke: dim)
   }
 
@@ -124,9 +150,17 @@
   draw.line("v2", "v3", stroke: hi)
 
   draw.line((3.3, 2.0), (3.9, 2.0), stroke: c-hot + t-hi)
-  draw.content((4.1, 2.0), text(size: s-cap, fill: c-muted)[красное], anchor: "west")
+  draw.content(
+    (4.1, 2.0),
+    text(size: s-cap, fill: c-muted)[красное],
+    anchor: "west",
+  )
   draw.line((3.3, 1.4), (3.9, 1.4), stroke: c-accent + t-hi)
-  draw.content((4.1, 1.4), text(size: s-cap, fill: c-muted)[синее], anchor: "west")
+  draw.content(
+    (4.1, 1.4),
+    text(size: s-cap, fill: c-muted)[синее],
+    anchor: "west",
+  )
 
   let note-x = -2.2
   let note-y = -2.55
@@ -135,7 +169,11 @@
     [Среди их концов найдётся ребро того же цвета],
     [либо все три ребра --- другого цвета.],
   ).enumerate() {
-    draw.content((note-x, note-y - k * 0.5), text(size: s-cap, fill: c-muted)[#line], anchor: "west")
+    draw.content(
+      (note-x, note-y - k * 0.5),
+      text(size: s-cap, fill: c-muted)[#line],
+      anchor: "west",
+    )
   }
 })
 
@@ -175,7 +213,10 @@
   let cba = (5.0, 0.3)
 
   tnode(start, "start")
-  draw.content((start.at(0), start.at(1) + 0.35), text(size: s-cap, fill: c-ink)[старт])
+  draw.content((start.at(0), start.at(1) + 0.35), text(
+    size: s-cap,
+    fill: c-ink,
+  )[старт])
 
   tnode(a, "a")
   draw.content((a.at(0), a.at(1) - 0.35), text(size: s-cap, fill: c-ink)[A])
@@ -198,17 +239,41 @@
   draw.content((cb.at(0), cb.at(1) - 0.35), text(size: s-cap, fill: c-ink)[CB])
 
   tnode(abc, "abc")
-  draw.content((abc.at(0), abc.at(1) - 0.4), text(size: s-cap, weight: "bold", fill: c-accent)[ABC])
+  draw.content((abc.at(0), abc.at(1) - 0.4), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[ABC])
   tnode(acb, "acb")
-  draw.content((acb.at(0), acb.at(1) - 0.4), text(size: s-cap, weight: "bold", fill: c-accent)[ACB])
+  draw.content((acb.at(0), acb.at(1) - 0.4), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[ACB])
   tnode(bac, "bac")
-  draw.content((bac.at(0), bac.at(1) - 0.4), text(size: s-cap, weight: "bold", fill: c-accent)[BAC])
+  draw.content((bac.at(0), bac.at(1) - 0.4), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[BAC])
   tnode(bca, "bca")
-  draw.content((bca.at(0), bca.at(1) - 0.4), text(size: s-cap, weight: "bold", fill: c-accent)[BCA])
+  draw.content((bca.at(0), bca.at(1) - 0.4), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[BCA])
   tnode(cab, "cab")
-  draw.content((cab.at(0), cab.at(1) - 0.4), text(size: s-cap, weight: "bold", fill: c-accent)[CAB])
+  draw.content((cab.at(0), cab.at(1) - 0.4), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[CAB])
   tnode(cba, "cba")
-  draw.content((cba.at(0), cba.at(1) - 0.4), text(size: s-cap, weight: "bold", fill: c-accent)[CBA])
+  draw.content((cba.at(0), cba.at(1) - 0.4), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[CBA])
 
   ledge("start", "a", [A])
   ledge("start", "b", [B])
@@ -235,15 +300,48 @@
   let pc = (0, -1.55)
   let vstroke(color) = (paint: color, thickness: t-bd)
 
-  draw.circle(pa, radius: r, fill: c-venn-a.transparentize(60%), stroke: vstroke(c-venn-a), name: "A")
-  draw.circle(pb, radius: r, fill: c-venn-b.transparentize(60%), stroke: vstroke(c-venn-b), name: "B")
-  draw.circle(pc, radius: r, fill: c-venn-c.transparentize(60%), stroke: vstroke(c-venn-c), name: "C")
+  draw.circle(
+    pa,
+    radius: r,
+    fill: c-venn-a.transparentize(60%),
+    stroke: vstroke(c-venn-a),
+    name: "A",
+  )
+  draw.circle(
+    pb,
+    radius: r,
+    fill: c-venn-b.transparentize(60%),
+    stroke: vstroke(c-venn-b),
+    name: "B",
+  )
+  draw.circle(
+    pc,
+    radius: r,
+    fill: c-venn-c.transparentize(60%),
+    stroke: vstroke(c-venn-c),
+    name: "C",
+  )
 
-  draw.content((-2.8, 2.5), text(size: s-node, weight: "bold", fill: c-venn-a)[$A$])
-  draw.content((2.8, 2.5), text(size: s-node, weight: "bold", fill: c-venn-b)[$B$])
-  draw.content((0, -3.5), text(size: s-node, weight: "bold", fill: c-venn-c)[$C$])
+  draw.content((-2.8, 2.5), text(
+    size: s-node,
+    weight: "bold",
+    fill: c-venn-a,
+  )[$A$])
+  draw.content((2.8, 2.5), text(
+    size: s-node,
+    weight: "bold",
+    fill: c-venn-b,
+  )[$B$])
+  draw.content((0, -3.5), text(
+    size: s-node,
+    weight: "bold",
+    fill: c-venn-c,
+  )[$C$])
 
-  let sign(x, y, body) = draw.content((x, y), text(size: s-cap, fill: c-ink)[#body])
+  let sign(x, y, body) = draw.content((x, y), text(
+    size: s-cap,
+    fill: c-ink,
+  )[#body])
   sign(-2.1, 0.2, $+1$)
   sign(2.1, 0.2, $+1$)
   sign(0, -2.8, $+1$)
@@ -260,7 +358,10 @@
     stroke: c-venn-a + t-bd,
     radius: 2pt,
   )
-  draw.content((-1.8, ly), text(size: s-cap, fill: c-muted)[$|A|+|B|+|C|$ --- одиночные])
+  draw.content((-1.8, ly), text(
+    size: s-cap,
+    fill: c-muted,
+  )[$|A|+|B|+|C|$ --- одиночные])
 
   draw.rect(
     (0.5, ly - 0.2),
@@ -271,11 +372,32 @@
   )
   draw.line((1.1, ly), (1.7, ly - 0.2), stroke: c-venn-b + t-bd)
   draw.line((1.1, ly), (1.7, ly + 0.2), stroke: c-venn-c + t-bd)
-  draw.content((2.4, ly), text(size: s-cap, fill: c-muted)[$-|A inter B|-|A inter C|-|B inter C|$])
-  draw.circle((-2.93, ly - 0.75), radius: 0.12, fill: c-venn-a.transparentize(40%), stroke: c-venn-a + t-bd)
-  draw.circle((-2.8, ly - 0.75), radius: 0.12, fill: c-venn-b.transparentize(40%), stroke: c-venn-b + t-bd)
-  draw.circle((-2.67, ly - 0.75), radius: 0.12, fill: c-venn-c.transparentize(40%), stroke: c-venn-c + t-bd)
-  draw.content((-1.8, ly - 0.75), text(size: s-cap, fill: c-muted)[$+|A inter B inter C|$ --- тройное])
+  draw.content((2.4, ly), text(
+    size: s-cap,
+    fill: c-muted,
+  )[$-|A inter B|-|A inter C|-|B inter C|$])
+  draw.circle(
+    (-2.93, ly - 0.75),
+    radius: 0.12,
+    fill: c-venn-a.transparentize(40%),
+    stroke: c-venn-a + t-bd,
+  )
+  draw.circle(
+    (-2.8, ly - 0.75),
+    radius: 0.12,
+    fill: c-venn-b.transparentize(40%),
+    stroke: c-venn-b + t-bd,
+  )
+  draw.circle(
+    (-2.67, ly - 0.75),
+    radius: 0.12,
+    fill: c-venn-c.transparentize(40%),
+    stroke: c-venn-c + t-bd,
+  )
+  draw.content((-1.8, ly - 0.75), text(
+    size: s-cap,
+    fill: c-muted,
+  )[$+|A inter B inter C|$ --- тройное])
 })
 
 // ── Комбинаторные числа ──
@@ -312,7 +434,11 @@
     (1, 6, 15, 20, 15, 6, 1),
   )
 
-  draw.line((0, 7.05), (0, 0.45), stroke: (paint: c-muted, thickness: t-hr, dash: "dashed"))
+  draw.line((0, 7.05), (0, 0.45), stroke: (
+    paint: c-muted,
+    thickness: t-hr,
+    dash: "dashed",
+  ))
   for (n, row) in rows.enumerate() {
     for (k, val) in row.enumerate() {
       let x = (2 * k - n) * s

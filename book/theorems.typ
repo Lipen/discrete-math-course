@@ -133,14 +133,25 @@
 // Карточка: фон-заливка + рамка + скругление вокруг тела блока.
 // `_block` собирает на ней шапку; внешние компоновщики (банк задач) могут
 // переиспользовать её для собственных карточек.
-#let _card(accent, body, badged: true, above: auto, below: auto, bottom-inset: 0.8em) = {
+#let _card(
+  accent,
+  body,
+  badged: true,
+  above: auto,
+  below: auto,
+  bottom-inset: 0.8em,
+) = {
   block(
     above: above,
     below: below,
     width: 100%,
     fill: if badged { _tint(accent) } else { none },
     stroke: if badged { _stroke(accent) } else { _aux-stroke(accent) },
-    inset: (x: 0.8em, top: if badged { 0.7em } else { 0.6em }, bottom: bottom-inset),
+    inset: (
+      x: 0.8em,
+      top: if badged { 0.7em } else { 0.6em },
+      bottom: bottom-inset,
+    ),
     radius: 3pt,
   )[#body]
 }
@@ -314,8 +325,16 @@
           stroke: 0.8pt + project-color,
           radius: 50%,
           inset: (x: 0.32em, y: 0.15em),
-        )[#text(size: 0.85em, weight: "bold", fill: project-color.darken(20%))[#n]],
-        text(style: "italic", weight: "semibold", fill: project-color.darken(20%))[#title],
+        )[#text(
+          size: 0.85em,
+          weight: "bold",
+          fill: project-color.darken(20%),
+        )[#n]],
+        text(
+          style: "italic",
+          weight: "semibold",
+          fill: project-color.darken(20%),
+        )[#title],
         // Тело во второй колонке: висячий отступ по заголовку, как
         // продолжение элемента списка по началу его текста.
         [], body,

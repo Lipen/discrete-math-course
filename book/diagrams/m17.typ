@@ -47,7 +47,10 @@
     thickness: t-bd,
     dash: "dashed",
   ))
-  let result(from, to) = draw.line(from, to, stroke: e-stroke, mark: (end: "stealth", fill: c-edge))
+  let result(from, to) = draw.line(from, to, stroke: e-stroke, mark: (
+    end: "stealth",
+    fill: c-edge,
+  ))
 
   elem((-1.9, 0), $a$, $5$, "a", fill: c-warn)
   elem((0.9, 1.2), $b$, $4$, "b")
@@ -56,8 +59,16 @@
   conflict("a.north-east", "b.south-west")
   conflict("a.south-east", "c.north-west")
 
-  draw.content((-1.9, -1.9), text(size: s-cap, fill: c-hot)[жадный: ${a}$, вес $5$], name: "lbl-greedy")
-  draw.content((0.9, -2.7), text(size: s-cap, fill: c-ink)[оптимум: ${b,c}$, вес $8$], name: "lbl-opt")
+  draw.content(
+    (-1.9, -1.9),
+    text(size: s-cap, fill: c-hot)[жадный: ${a}$, вес $5$],
+    name: "lbl-greedy",
+  )
+  draw.content(
+    (0.9, -2.7),
+    text(size: s-cap, fill: c-ink)[оптимум: ${b,c}$, вес $8$],
+    name: "lbl-opt",
+  )
   result("a.south", "lbl-greedy.north")
   result("c.south", "lbl-opt.north")
 })
@@ -65,8 +76,18 @@
 // ── Интервальное расписание ──
 #let interval-scheduling = canvas({
   let bar(y, x1, x2, label, name, fill) = {
-    draw.rect((x1, y + 0.25), (x2, y - 0.25), fill: fill, stroke: e-stroke, radius: 2pt, name: name)
-    draw.content(name + ".north", anchor: "south", text(size: s-node, fill: c-ink)[#label])
+    draw.rect(
+      (x1, y + 0.25),
+      (x2, y - 0.25),
+      fill: fill,
+      stroke: e-stroke,
+      radius: 2pt,
+      name: name,
+    )
+    draw.content(name + ".north", anchor: "south", text(
+      size: s-node,
+      fill: c-ink,
+    )[#label])
   }
 
   draw.line((0, 0), (11, 0), stroke: e-stroke)

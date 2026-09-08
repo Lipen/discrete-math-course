@@ -33,7 +33,10 @@
   let tape-right = n / 2 * cell
   draw.content((tape-left - 0.4, 0), text(size: s-cap, fill: c-muted)[$dots$])
   draw.content((tape-right + 0.4, 0), text(size: s-cap, fill: c-muted)[$dots$])
-  draw.content((tape-left, 0.7), anchor: "west", text(size: s-cap, fill: c-muted)[Лента:])
+  draw.content((tape-left, 0.7), anchor: "west", text(
+    size: s-cap,
+    fill: c-muted,
+  )[Лента:])
 
   let ctrl-w = 2.5
   draw.rect(
@@ -46,7 +49,10 @@
   draw.content((0, -1.9), text(size: s-node, fill: c-ink)[$q_i$])
   draw.content((0, -2.4), text(size: s-cap, fill: c-muted)[конечное])
 
-  draw.line((0, -1.6), (0, -0.72), stroke: head-stroke, mark: (end: "stealth", fill: c-accent))
+  draw.line((0, -1.6), (0, -0.72), stroke: head-stroke, mark: (
+    end: "stealth",
+    fill: c-accent,
+  ))
 })
 
 #let tm-computation = canvas({
@@ -84,5 +90,11 @@
   transition-arrow(0.95, [читает 1, пишет 1, $R$])
   config-row(0.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, $q_0$)
   transition-arrow(-0.45, [читает ␣, принимает])
-  config-row(-1.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, qAccept, state-color: c-accent)
+  config-row(
+    -1.2,
+    ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$),
+    2,
+    qAccept,
+    state-color: c-accent,
+  )
 })

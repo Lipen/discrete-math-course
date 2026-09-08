@@ -1,9 +1,12 @@
 // s1, лекция 3 --- Множества (неделя 21--27 сентября).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": (
-  domino-ghost, proofchain-ghost, prop-ghost, quantifier-ghost, setlogic-ghost, truthtable-ghost, venn-ghost,
+  domino-ghost, proofchain-ghost, prop-ghost, quantifier-ghost, setlogic-ghost,
+  truthtable-ghost, venn-ghost,
 )
-#import "diagrams/m04.typ": product-plane, venn-difference, venn-intersection, venn-subset, venn-union
+#import "diagrams/m04.typ": (
+  product-plane, venn-difference, venn-intersection, venn-subset, venn-union,
+)
 #show: slides.with(
   title: [Множества],
   date: "Осень 2026",
@@ -276,7 +279,8 @@ $ {x in U mid(|) P(x)} $
   [Объединение], [$A union B = {x mid(|) x in A or x in B}$],
   [Пересечение], [$A inter B = {x mid(|) x in A and x in B}$],
   [Разность], [$A setminus B = {x mid(|) x in A and x in.not B}$],
-  [Симметрическая разность], [$A symdiff B = (A setminus B) union (B setminus A)$],
+  [Симметрическая разность],
+  [$A symdiff B = (A setminus B) union (B setminus A)$],
 
   [Дополнение], [$overline(A) = U setminus A = {x mid(|) x in.not A}$],
 )
@@ -331,7 +335,8 @@ $ {x in U mid(|) P(x)} $
   table.header([*Закон*], [*Формулы*]),
   [Идемпотентность], [$A union A = A$, $A inter A = A$],
   [Коммутативность], [$A union B = B union A$, $A inter B = B inter A$],
-  [Ассоциативность], [$(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$],
+  [Ассоциативность],
+  [$(A union B) union C = A union (B union C)$, $(A inter B) inter C = A inter (B inter C)$],
 
   [Дистрибутивность],
   [$A union (B inter C) = (A union B) inter (A union C)$, $A inter (B union C) = (A inter B) union (A inter C)$],
@@ -385,9 +390,9 @@ $ {x in U mid(|) P(x)} $
   Цепочка эквивалентностей для произвольного $x$:
   $
     x in A setminus (B union C) & equiv x in A and x in.not (B union C) \
-                                & equiv x in A and (x in.not B and x in.not C) \
-                                & equiv (x in A and x in.not B) and (x in A and x in.not C) \
-                                & equiv x in (A setminus B) inter (A setminus C)
+    & equiv x in A and (x in.not B and x in.not C) \
+    & equiv (x in A and x in.not B) and (x in A and x in.not C) \
+    & equiv x in (A setminus B) inter (A setminus C)
   $
 
   Множества совпадают, потому что совпадают их элементы.

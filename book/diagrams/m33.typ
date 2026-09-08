@@ -33,9 +33,18 @@
   acc-edge("Y", "R")
   acc-edge("R", "G")
 
-  draw.content((0, 1.6), anchor: "south", text(size: s-cap, fill: c-muted)[$"green"$])
-  draw.content((1.05, -1.05), anchor: "west", text(size: s-cap, fill: c-muted)[$"yellow"$])
-  draw.content((-1.05, -1.05), anchor: "east", text(size: s-cap, fill: c-muted)[$"red"$])
+  draw.content((0, 1.6), anchor: "south", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$"green"$])
+  draw.content((1.05, -1.05), anchor: "west", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$"yellow"$])
+  draw.content((-1.05, -1.05), anchor: "east", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$"red"$])
 })
 
 // ── Куб модальностей: оси +T, +B, +4; D на ребре K→T. ──
@@ -105,17 +114,35 @@
   )
 
   m-node((0, 0), $(O, O)$, "oo")
-  draw.content((0, -0.85), anchor: "north", text(size: s-cap, fill: c-muted)[$nothing$])
+  draw.content((0, -0.85), anchor: "north", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$nothing$])
 
   m-node((-1.6, 1.7), $(C, O)$, "co")
-  draw.content((-2.35, 1.7), anchor: "east", text(size: s-cap, fill: c-muted)[$"crit"_1$])
+  draw.content((-2.35, 1.7), anchor: "east", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$"crit"_1$])
 
   m-node((1.6, 1.7), $(O, C)$, "oc")
-  draw.content((2.35, 1.7), anchor: "west", text(size: s-cap, fill: c-muted)[$"crit"_2$])
+  draw.content((2.35, 1.7), anchor: "west", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$"crit"_2$])
 
-  draw.circle((0, 3.5), radius: r, fill: none, stroke: (paint: c-hot, thickness: t-bd, dash: "dashed"), name: "cc")
+  draw.circle(
+    (0, 3.5),
+    radius: r,
+    fill: none,
+    stroke: (paint: c-hot, thickness: t-bd, dash: "dashed"),
+    name: "cc",
+  )
   draw.content((0, 3.5), text(size: s-node, fill: c-ink)[$(C, C)$])
-  draw.content((0.65, 3.5), anchor: "west", text(size: s-cap, fill: c-muted)[$"crit"_1, "crit"_2$])
+  draw.content((0.65, 3.5), anchor: "west", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$"crit"_1, "crit"_2$])
 
   acc-edge("oo", "co")
   acc-edge("oo", "oc")

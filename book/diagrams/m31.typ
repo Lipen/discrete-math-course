@@ -15,7 +15,10 @@
     )
     draw.content(pos, text(size: s-node, fill: c-ink, weight: "bold")[#label])
   }
-  let e(from, to) = draw.line(from, to, stroke: (paint: c-edge, thickness: t-ed))
+  let e(from, to) = draw.line(from, to, stroke: (
+    paint: c-edge,
+    thickness: t-ed,
+  ))
 
   let p-top = (0, 2.4)
   let p-neg = (-1.7, 0)
@@ -44,7 +47,13 @@
     (11.6, -0.6),
     stroke: (paint: c-edge, thickness: t-hr),
   )
-  draw.content((0, -1.5), anchor: "center", fill: white, stroke: none, padding: 2pt)[
+  draw.content(
+    (0, -1.5),
+    anchor: "center",
+    fill: white,
+    stroke: none,
+    padding: 2pt,
+  )[
     #text(size: s-cap, fill: c-muted)[$0$]
   ]
   draw.content((12, -1.5), anchor: "center")[
@@ -66,12 +75,24 @@
     )[#text(size: s-cap, fill: c-muted)[$[0, #k]$]]
   }
 
-  draw.content((3.6, 3), anchor: "west", fill: white, stroke: none, padding: 2pt)[
+  draw.content(
+    (3.6, 3),
+    anchor: "west",
+    fill: white,
+    stroke: none,
+    padding: 2pt,
+  )[
     #text(size: s-cap, fill: c-muted)[$dots$]
   ]
 
   draw.line((0, 5), (11.2, 5), stroke: (paint: c-hot, thickness: t-hi))
-  draw.content((11.5, 5), anchor: "west", fill: white, stroke: none, padding: 2pt)[
+  draw.content(
+    (11.5, 5),
+    anchor: "west",
+    fill: white,
+    stroke: none,
+    padding: 2pt,
+  )[
     #text(size: s-node, fill: c-hot)[$[0, +oo]$]
   ]
 
@@ -81,7 +102,13 @@
     stroke: (paint: c-hot, thickness: t-hi),
     marker: (end: "arrow", fill: c-hot),
   )
-  draw.content((2.6, 4.1), anchor: "west", fill: white, stroke: none, padding: 2pt)[
+  draw.content(
+    (2.6, 4.1),
+    anchor: "west",
+    fill: white,
+    stroke: none,
+    padding: 2pt,
+  )[
     #text(size: s-node, fill: c-hot)[$nabla$]
   ]
 })

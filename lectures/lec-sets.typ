@@ -158,11 +158,9 @@
   columns: 2,
   column-gutter: 1em,
   row-gutter: 1em,
-  align(center, venn-union),
-  align(center, venn-intersection),
+  align(center, venn-union), align(center, venn-intersection),
 
-  align(center, venn-difference),
-  align(center, venn-subset),
+  align(center, venn-difference), align(center, venn-subset),
 )
 
 == Пределы диаграмм

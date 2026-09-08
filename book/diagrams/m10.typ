@@ -177,7 +177,10 @@
     )
   }
   let hedge(from, to, edge-name) = {
-    draw.line(from, to, name: edge-name, stroke: (paint: c-edge, thickness: t-ed))
+    draw.line(from, to, name: edge-name, stroke: (
+      paint: c-edge,
+      thickness: t-ed,
+    ))
     draw.content(
       edge-name + ".30%",
       text(size: s-tiny, fill: c-muted)[$1$],

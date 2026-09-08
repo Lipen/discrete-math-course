@@ -1,6 +1,6 @@
 // Семестр 1 --- "Язык и объекты": разбивка тем.
 
-#import "../book/notation.typ": imply, iff, setminus, rel
+#import "../book/notation.typ": iff, imply, rel, setminus
 
 = Семестр 1. Язык и объекты
 

@@ -78,7 +78,10 @@
   }
   let arrow(fr, to, label) = {
     draw.line(fr, to, stroke: d-edge, mark: (end: ">"))
-    draw.content((fr, 50%, to), dy: 0.7em, text(size: 0.55em, fill: d-ink)[#label])
+    draw.content((fr, 50%, to), dy: 0.7em, text(
+      size: 0.55em,
+      fill: d-ink,
+    )[#label])
   }
 
   node((0, 2.0), "g", $G$)

@@ -62,7 +62,8 @@
 // ── m-сведение: $f$ переносит принадлежность ──
 #let m-reduction = {
   let dot(pos, member, name) = node(
-    pos, [],
+    pos,
+    [],
     shape: circle,
     radius: 0.1cm,
     inset: 0.1cm,
@@ -73,7 +74,8 @@
   )
   let tag(pos, body) = node(pos, body, fill: none, stroke: none)
   let region(pos) = node(
-    pos, [],
+    pos,
+    [],
     shape: rect,
     width: 3.2cm,
     height: 5.2cm,
@@ -106,14 +108,18 @@
     els.push(dot((6.9cm, y), member, label("b" + str(i))))
     if i == 2 {
       els.push(edge(
-        label("a2"), label("b2"),
-        text(fill: c-accent)[$f$], "-}>",
+        label("a2"),
+        label("b2"),
+        text(fill: c-accent)[$f$],
+        "-}>",
         stroke: c-accent + t-hi,
         label-side: left,
       ))
     } else {
       els.push(edge(
-        label("a" + str(i)), label("b" + str(i)), "-}>",
+        label("a" + str(i)),
+        label("b" + str(i)),
+        "-}>",
         stroke: c-edge + t-ed,
       ))
     }

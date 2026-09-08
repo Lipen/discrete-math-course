@@ -27,7 +27,10 @@
   )
 
   for i in range(rows) {
-    draw.content((-0.4, -(i + 0.5) * s), text(size: s-tiny, fill: c-muted)[$r_#(i + 1)$])
+    draw.content((-0.4, -(i + 0.5) * s), text(
+      size: s-tiny,
+      fill: c-muted,
+    )[$r_#(i + 1)$])
     for j in range(cols) {
       let x = j * s + 0.1
       let y = -(i + 0.5) * s
@@ -50,10 +53,17 @@
     }
   }
 
-  draw.content((cols * s + 0.5, -(rows / 2) * s), text(size: s-tiny, fill: c-muted)[$dots$])
+  draw.content((cols * s + 0.5, -(rows / 2) * s), text(
+    size: s-tiny,
+    fill: c-muted,
+  )[$dots$])
 
   // Конструируемое число r = 0.44544 (не встречается в перечислении).
-  draw.content((-0.4, -(rows + 1.2) * s), text(size: s-cap, weight: "bold", fill: c-accent)[$r = 0.$])
+  draw.content((-0.4, -(rows + 1.2) * s), text(
+    size: s-cap,
+    weight: "bold",
+    fill: c-accent,
+  )[$r = 0.$])
   for j in range(rows) {
     draw.content(
       (j * s + s / 2 + 0.1, -(rows + 1.2) * s),
@@ -97,8 +107,14 @@
   let diag-fill(d) = oklch(75%, 0.1, 260deg - d * 30deg).transparentize(80%)
 
   for i in range(size) {
-    draw.content((i + 0.5, 0), anchor: "south", padding: 0.3, text(size: s-cap, fill: c-muted)[$#i$])
-    draw.content((0, i + 0.5), anchor: "east", padding: 0.3, text(size: s-cap, fill: c-muted)[$#i$])
+    draw.content((i + 0.5, 0), anchor: "south", padding: 0.3, text(
+      size: s-cap,
+      fill: c-muted,
+    )[$#i$])
+    draw.content((0, i + 0.5), anchor: "east", padding: 0.3, text(
+      size: s-cap,
+      fill: c-muted,
+    )[$#i$])
   }
 
   // Путь по диагоналям: клетки в порядке возрастания s = i + j.
@@ -208,7 +224,10 @@
   draw.content((w / 2, w / 2), text(size: s-node, fill: c-ink)[$L = [0,1]$])
 
   draw.rect((w + gap, 0), (w + gap + w, w), fill: c-fl, stroke: t-bd + c-bd)
-  draw.content((w + gap + w / 2, w / 2), text(size: s-node, fill: c-ink)[$S = [0,1]^2$])
+  draw.content((w + gap + w / 2, w / 2), text(
+    size: s-node,
+    fill: c-ink,
+  )[$S = [0,1]^2$])
 
   draw.content((w + gap / 2, w / 2), text(size: s-cap, fill: c-muted)[$approx$])
 })
@@ -246,17 +265,40 @@
   node((2 * gap, 0), $beth_2 = 2^(beth_1)$, "b2", c-atom, c-pow-str)
   node((3 * gap, 0), $beth_3 = 2^(beth_2)$, "b3", c-atom, c-pow-str)
 
-  draw.line("start", "a1", stroke: t-ed + c-hot, mark: (end: "stealth", fill: c-hot))
-  draw.line("start", "b1", stroke: t-ed + c-pow-str, mark: (end: "stealth", fill: c-pow-str))
+  draw.line("start", "a1", stroke: t-ed + c-hot, mark: (
+    end: "stealth",
+    fill: c-hot,
+  ))
+  draw.line("start", "b1", stroke: t-ed + c-pow-str, mark: (
+    end: "stealth",
+    fill: c-pow-str,
+  ))
 
-  draw.line("a1", "a2", stroke: t-ed + c-hot, mark: (end: "stealth", fill: c-hot))
-  draw.line("a2", "a3", stroke: t-ed + c-hot, mark: (end: "stealth", fill: c-hot))
+  draw.line("a1", "a2", stroke: t-ed + c-hot, mark: (
+    end: "stealth",
+    fill: c-hot,
+  ))
+  draw.line("a2", "a3", stroke: t-ed + c-hot, mark: (
+    end: "stealth",
+    fill: c-hot,
+  ))
 
-  draw.line("b1", "b2", stroke: t-ed + c-pow-str, mark: (end: "stealth", fill: c-pow-str))
-  draw.line("b2", "b3", stroke: t-ed + c-pow-str, mark: (end: "stealth", fill: c-pow-str))
+  draw.line("b1", "b2", stroke: t-ed + c-pow-str, mark: (
+    end: "stealth",
+    fill: c-pow-str,
+  ))
+  draw.line("b2", "b3", stroke: t-ed + c-pow-str, mark: (
+    end: "stealth",
+    fill: c-pow-str,
+  ))
 
   // Континуум-гипотеза: вопрос между aleph_1 и beth_1.
-  draw.line("a1", "b1", stroke: (paint: c-muted, thickness: 1pt, dash: "dashed"), mark: none)
+  draw.line(
+    "a1",
+    "b1",
+    stroke: (paint: c-muted, thickness: 1pt, dash: "dashed"),
+    mark: none,
+  )
   draw.content(
     (gap, y + 0.25),
     text(size: s-node, fill: c-hot, weight: "bold")[$?$],
@@ -266,6 +308,9 @@
     padding: 0.6pt,
   )
 
-  draw.content((gap / 2, 2 * y + 0.6), text(size: s-tiny, fill: c-muted)[следующий])
+  draw.content((gap / 2, 2 * y + 0.6), text(
+    size: s-tiny,
+    fill: c-muted,
+  )[следующий])
   draw.content((gap / 2, -0.6), text(size: s-tiny, fill: c-muted)[булеан])
 })

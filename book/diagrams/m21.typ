@@ -36,13 +36,24 @@
 
   let col-head(j, val) = {
     let x = xs(j) + cell / 2
-    draw.content((x, 0.85), text(size: s-cap, weight: "bold", fill: c-ink)[$a_#j$])
+    draw.content((x, 0.85), text(
+      size: s-cap,
+      weight: "bold",
+      fill: c-ink,
+    )[$a_#j$])
     draw.content((x, 0.4), text(size: s-tiny, fill: c-muted)[#val])
   }
   let row-head(i, val) = {
     let y = ys(i) - cell / 2
-    draw.content((-0.15, y), anchor: "east", text(size: s-cap, weight: "bold", fill: c-ink)[$b_#i$])
-    draw.content((0.35, y), anchor: "east", text(size: s-tiny, fill: c-muted)[#val])
+    draw.content((-0.15, y), anchor: "east", text(
+      size: s-cap,
+      weight: "bold",
+      fill: c-ink,
+    )[$b_#i$])
+    draw.content((0.35, y), anchor: "east", text(
+      size: s-tiny,
+      fill: c-muted,
+    )[#val])
   }
 
   canvas({
@@ -94,7 +105,10 @@
       name: name,
     )
   }
-  let cat-edge(from, to) = draw.line(from, to, stroke: (paint: c-edge, thickness: t-ed))
+  let cat-edge(from, to) = draw.line(from, to, stroke: (
+    paint: c-edge,
+    thickness: t-ed,
+  ))
 
   canvas({
     cat-node((0, 3.4), "root")
@@ -116,7 +130,11 @@
     cat-edge("RL", "RLL")
     cat-edge("RL", "RLR")
 
-    draw.content((0, -0.9), text(size: s-node, weight: "bold", fill: c-ink)[$C_4$])
+    draw.content((0, -0.9), text(
+      size: s-node,
+      weight: "bold",
+      fill: c-ink,
+    )[$C_4$])
 
     let bw = 0.46
     let pitch = 2.9
@@ -149,7 +167,10 @@
     for i in range(4) {
       term(i, x0 + pitch * i)
       if i < 3 {
-        draw.content((x0 + pitch * i + 2.15, y), text(size: s-node, fill: c-ink)[$+$])
+        draw.content((x0 + pitch * i + 2.15, y), text(
+          size: s-node,
+          fill: c-ink,
+        )[$+$])
       }
     }
   })

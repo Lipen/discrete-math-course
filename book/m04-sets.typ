@@ -1,7 +1,9 @@
 // M04 --- Множества: универсальный контейнер для дискретных объектов.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m04.typ": venn-difference, venn-intersection, venn-subset, venn-union
+#import "diagrams/m04.typ": (
+  venn-difference, venn-intersection, venn-subset, venn-union,
+)
 
 #import cetz: canvas, draw
 
@@ -31,8 +33,24 @@
   let a-bot = calc.atan2(0.35, -ym)
   let b-top = calc.atan2(-0.35, ym)
   let b-bot = calc.atan2(-0.35, -ym) + 360deg
-  draw.arc((0, ym), start: a-top, stop: a-bot, radius: r, mode: "CLOSE", fill: white, stroke: none)
-  draw.arc((0, -ym), start: b-bot, stop: b-top, radius: r, mode: "CLOSE", fill: white, stroke: none)
+  draw.arc(
+    (0, ym),
+    start: a-top,
+    stop: a-bot,
+    radius: r,
+    mode: "CLOSE",
+    fill: white,
+    stroke: none,
+  )
+  draw.arc(
+    (0, -ym),
+    start: b-bot,
+    stop: b-top,
+    radius: r,
+    mode: "CLOSE",
+    fill: white,
+    stroke: none,
+  )
   // контуры и подписи
   draw.circle((-0.35, 0), radius: r, fill: none, stroke: c-str)
   draw.circle((0.35, 0), radius: r, fill: none, stroke: c-str)
@@ -961,13 +979,22 @@ SQL --- это порождающая запись множеств с синт�
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Аксиома*], [*Что постулирует*]),
   [Объёмность], [множества с одними и теми же элементами равны],
-  [Выделение], [из существующего множества выделимо подмножество по любому выразимому свойству],
+  [Выделение],
+  [из существующего множества выделимо подмножество по любому выразимому свойству],
+
   [Пара], [для любых элементов $a$ и $b$ существует множество ${a, b}$],
-  [Объединение], [для любого множества $A$ существует $union.big A$ --- множество всех элементов элементов $A$],
+  [Объединение],
+  [для любого множества $A$ существует $union.big A$ --- множество всех элементов элементов $A$],
+
   [Степень], [для любого множества $A$ существует булеан $cal(P)(A)$],
-  [Бесконечность], [существует множество, содержащее $emptyset$ и замкнутое относительно $x -> x union {x}$],
-  [Подстановка], [образ множества при функциональном свойстве $F$ --- снова множество],
-  [Регулярность], [всякое непустое множество $A$ содержит элемент $x$ с $x inter A = emptyset$],
+  [Бесконечность],
+  [существует множество, содержащее $emptyset$ и замкнутое относительно $x -> x union {x}$],
+
+  [Подстановка],
+  [образ множества при функциональном свойстве $F$ --- снова множество],
+
+  [Регулярность],
+  [всякое непустое множество $A$ содержит элемент $x$ с $x inter A = emptyset$],
 )
 
 Из аксиомы пары и выделения получается синглетон ${a} = {a, a}$, а из пар собираются упорядоченные пары и декартово произведение.

@@ -99,10 +99,16 @@
   node((2.5, 0), text(size: 0.75em)[$q_0, q_1$], name: <m1>),
   edge(<m0>, <m1>, "-}>", label: [0]),
   edge(<m1>, <m1>, "-}>", label: [0], loop-angle: 90deg, bend: 120deg),
-  node((5, 0), text(size: 0.75em)[$q_0, q_2$], name: <m2>, fill: c-accept, stroke: (
-    paint: c-accept-str,
-    thickness: 1.2pt,
-  )),
+  node(
+    (5, 0),
+    text(size: 0.75em)[$q_0, q_2$],
+    name: <m2>,
+    fill: c-accept,
+    stroke: (
+      paint: c-accept-str,
+      thickness: 1.2pt,
+    ),
+  ),
   edge(<m1>, <m2>, "-}>", label: [1]),
   edge(<m2>, <m1>, "-}>", label: [0], bend: -40deg),
   edge(<m2>, <m0>, "-}>", label: [1], bend: -50deg),

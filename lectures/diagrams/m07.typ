@@ -228,7 +228,11 @@
   }
 
   // ── Shared start: aleph_0 = beth_0 = |NN| ──
-  node((0, y), $aleph_0 = beth_0 = abs(NN)$, "start", luma(92%), oklch(55%, 0.02, 265deg))
+  node((0, y), $aleph_0 = beth_0 = abs(NN)$, "start", luma(92%), oklch(
+    55%,
+    0.02,
+    265deg,
+  ))
 
   // ── Aleph chain (top) ──
   node((gap, 2 * y), $aleph_1$, "a1", c-aleph-fill, c-aleph-str)
@@ -241,17 +245,35 @@
   node((3 * gap, 0), $beth_3 = 2^(beth_2)$, "b3", c-beth-fill, c-beth-str)
 
   // ── Start -> aleph_1 (successor) ──
-  draw.line("start", "a1", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
+  draw.line("start", "a1", stroke: 0.7pt + c-aleph-str, mark: (
+    end: "stealth",
+    fill: c-aleph-str,
+  ))
   // ── Start -> beth_1 (powerset) ──
-  draw.line("start", "b1", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
+  draw.line("start", "b1", stroke: 0.7pt + c-beth-str, mark: (
+    end: "stealth",
+    fill: c-beth-str,
+  ))
 
   // ── Aleph chain edges ──
-  draw.line("a1", "a2", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
-  draw.line("a2", "a3", stroke: 0.7pt + c-aleph-str, mark: (end: "stealth", fill: c-aleph-str))
+  draw.line("a1", "a2", stroke: 0.7pt + c-aleph-str, mark: (
+    end: "stealth",
+    fill: c-aleph-str,
+  ))
+  draw.line("a2", "a3", stroke: 0.7pt + c-aleph-str, mark: (
+    end: "stealth",
+    fill: c-aleph-str,
+  ))
 
   // ── Beth chain edges ──
-  draw.line("b1", "b2", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
-  draw.line("b2", "b3", stroke: 0.7pt + c-beth-str, mark: (end: "stealth", fill: c-beth-str))
+  draw.line("b1", "b2", stroke: 0.7pt + c-beth-str, mark: (
+    end: "stealth",
+    fill: c-beth-str,
+  ))
+  draw.line("b2", "b3", stroke: 0.7pt + c-beth-str, mark: (
+    end: "stealth",
+    fill: c-beth-str,
+  ))
 
   // ── CH question mark between aleph_1 and beth_1 ──
   draw.line(
@@ -263,6 +285,9 @@
   draw.content((gap, y + 0.25), text(size: 1.1em, fill: c-qmark)[$?$])
 
   // ── Labels: successor vs powerset ──
-  draw.content((gap / 2, 2 * y + 0.6), text(size: 0.6em, fill: c-aleph-str)["следующий"])
+  draw.content((gap / 2, 2 * y + 0.6), text(
+    size: 0.6em,
+    fill: c-aleph-str,
+  )["следующий"])
   draw.content((gap / 2, -0.6), text(size: 0.6em, fill: c-beth-str)["булеан"])
 })

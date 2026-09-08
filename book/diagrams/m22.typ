@@ -29,12 +29,23 @@
     padding: 2pt,
   )
 
-  draw.content((0, 1.25), text(size: s-node, fill: c-ink, weight: "bold")[Исходный шар])
-  draw.content((3.5, 1.25), text(size: s-node, fill: c-ink, weight: "bold")[Два шара])
+  draw.content((0, 1.25), text(
+    size: s-node,
+    fill: c-ink,
+    weight: "bold",
+  )[Исходный шар])
+  draw.content((3.5, 1.25), text(
+    size: s-node,
+    fill: c-ink,
+    weight: "bold",
+  )[Два шара])
 
   draw.content(
     (2.1, -1.4),
-    text(size: s-cap, fill: c-muted)[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.],
+    text(
+      size: s-cap,
+      fill: c-muted,
+    )[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.],
   )
 })
 
@@ -55,7 +66,12 @@
 
   // Пунктир: omega --- предельный ординал, его нельзя получить шагом n -> n + 1.
   let omega-stroke = (paint: c-edge, thickness: t-bd, dash: "dashed")
-  draw.rect((-2.85, -1.95), (2.85, 1.95), name: "vn-omega", stroke: omega-stroke)
+  draw.rect(
+    (-2.85, -1.95),
+    (2.85, 1.95),
+    name: "vn-omega",
+    stroke: omega-stroke,
+  )
   draw.content((3.15, 1.95), text(size: s-node, fill: c-ink)[$omega$])
   draw.content((0, -1.68), text(size: s-cap, fill: c-muted)[$dots.c$])
 })

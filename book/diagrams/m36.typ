@@ -35,8 +35,22 @@
 // ── Моноид как категория с одним объектом ──
 #let monoid-one-object = canvas({
   // Петли-лассо: окружности, касающиеся объекта, рисуются до него.
-  draw.arc((-0.85, 0), start: 30deg, stop: 330deg, radius: 0.85, stroke: e-stroke, mark: (end: ">"))
-  draw.arc((0.85, 0), start: 210deg, stop: 510deg, radius: 0.85, stroke: e-stroke, mark: (end: ">"))
+  draw.arc(
+    (-0.85, 0),
+    start: 30deg,
+    stop: 330deg,
+    radius: 0.85,
+    stroke: e-stroke,
+    mark: (end: ">"),
+  )
+  draw.arc(
+    (0.85, 0),
+    start: 210deg,
+    stop: 510deg,
+    radius: 0.85,
+    stroke: e-stroke,
+    mark: (end: ">"),
+  )
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "m")
   draw.content("m", text(size: s-node, fill: c-ink)[$tilde(M)$])
   draw.content((-1.9, 0), text(size: s-cap, fill: c-ink)[$a$])
@@ -95,7 +109,15 @@
     node((2, 2), $cal(P)(B)$, name: <pb>)
     arrow(<a>, <b>, $f$, pos: 0.45)
     arrow(<pa>, <pb>, $"img"_f$, stroke: d-stroke, pos: 0.45, bend: 18deg)
-    arrow(<pb>, <pa>, $f^(-1)$, stroke: hot-stroke, pos: 0.45, side: right, bend: 18deg)
+    arrow(
+      <pb>,
+      <pa>,
+      $f^(-1)$,
+      stroke: hot-stroke,
+      pos: 0.45,
+      side: right,
+      bend: 18deg,
+    )
   },
 )
 
@@ -175,13 +197,31 @@
     node((5.2, 0), $cal(D)$, name: <dd>, shape: rect, width: 8em, height: 6.5em)
 
     // F и G --- рёбра из якорей вершин.
-    edge((name: "cc", anchor: "north"), (name: "dd", anchor: "north"), "-|>", label: [$F$], label-size: s-cap, stroke: e-stroke)
-    edge((name: "dd", anchor: "south"), (name: "cc", anchor: "south"), "-|>", label: [$G$], label-size: s-cap, stroke: e-stroke)
+    edge(
+      (name: "cc", anchor: "north"),
+      (name: "dd", anchor: "north"),
+      "-|>",
+      label: [$F$],
+      label-size: s-cap,
+      stroke: e-stroke,
+    )
+    edge(
+      (name: "dd", anchor: "south"),
+      (name: "cc", anchor: "south"),
+      "-|>",
+      label: [$G$],
+      label-size: s-cap,
+      stroke: e-stroke,
+    )
 
     // Два множества стрелок --- безрамные вершины, биекция --- ребро между ними.
     node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
     node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
-    edge(<fy>, <xg>, "-|>-|-|>", label: [биекция], label-size: s-cap, stroke: (paint: c-muted, thickness: t-hr, dash: "dashed"))
+    edge(<fy>, <xg>, "-|>-|-|>", label: [биекция], label-size: s-cap, stroke: (
+      paint: c-muted,
+      thickness: t-hr,
+      dash: "dashed",
+    ))
   },
 )
 
@@ -191,10 +231,18 @@
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "cc")
   draw.content("cc", text(size: s-node, fill: c-ink)[$cal(C)$])
   draw.arc(
-    "cc", start: 30deg, stop: 150deg, radius: 1.1,
-    stroke: e-stroke, mark: (end: ">"), name: "loop-t",
+    "cc",
+    start: 30deg,
+    stop: 150deg,
+    radius: 1.1,
+    stroke: e-stroke,
+    mark: (end: ">"),
+    name: "loop-t",
   )
-  draw.content((0, 1.75), text(size: s-cap, fill: c-ink)[$T = G circle.stroked.tiny F$])
+  draw.content((0, 1.75), text(
+    size: s-cap,
+    fill: c-ink,
+  )[$T = G circle.stroked.tiny F$])
 })
 
 // ── Стринг-диаграмма: композиция проводков ──

@@ -270,7 +270,9 @@
 #example[
   Один шаг $beta$:
 
-  $ Y F = (lambda x . F (x x)) (lambda x . F (x x)) -> F ((lambda x . F (x x)) (lambda x . F (x x))) = F (Y F). $
+  $
+    Y F = (lambda x . F (x x)) (lambda x . F (x x)) -> F ((lambda x . F (x x)) (lambda x . F (x x))) = F (Y F).
+  $
 
   $F$ --- один шаг рекурсии, $Y$ повторяет его бесконечно.
 ]

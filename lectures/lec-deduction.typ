@@ -1,5 +1,8 @@
 #import "theme.typ": *
-#import "@preview/frederic:0.1.0": proof as fitch-proof, premise as fitch-premise, step as fitch-step, assume as fitch-assume, subproof as fitch-subproof
+#import "@preview/frederic:0.1.0": (
+  assume as fitch-assume, premise as fitch-premise, proof as fitch-proof,
+  step as fitch-step, subproof as fitch-subproof,
+)
 #show: slides.with(
   title: [Дедукция и системы вывода],
   subtitle: "Дискретная математика",

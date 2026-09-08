@@ -1,6 +1,6 @@
 // Семестр 2 --- "Вычисления": разбивка тем.
 
-#import "../book/notation.typ": iff, setminus, mreduce, preduce, la, ra, Blank
+#import "../book/notation.typ": Blank, iff, la, mreduce, preduce, ra, setminus
 
 = Семестр 2. Вычисления
 

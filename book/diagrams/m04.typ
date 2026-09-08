@@ -8,7 +8,10 @@
 
 #let v-stroke = (paint: c-edge, thickness: t-ed)
 
-#let label(pos, body) = draw.content(pos, text(size: s-node, fill: c-ink)[#body])
+#let label(pos, body) = draw.content(pos, text(
+  size: s-node,
+  fill: c-ink,
+)[#body])
 
 // ── Объединение ──
 #let venn-union = canvas({

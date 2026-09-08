@@ -1,9 +1,12 @@
 // s1, лекция 2 --- Предикаты и доказательства (неделя 14--20 сентября).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": (
-  domino-ghost, proofchain-ghost, prop-ghost, quantifier-ghost, setlogic-ghost, truthtable-ghost, venn-ghost,
+  domino-ghost, proofchain-ghost, prop-ghost, quantifier-ghost, setlogic-ghost,
+  truthtable-ghost, venn-ghost,
 )
-#import "diagrams/m04.typ": product-plane, venn-difference, venn-intersection, venn-subset, venn-union
+#import "diagrams/m04.typ": (
+  product-plane, venn-difference, venn-intersection, venn-subset, venn-union,
+)
 #show: slides.with(
   title: [Предикаты и доказательства],
   date: "Осень 2026",

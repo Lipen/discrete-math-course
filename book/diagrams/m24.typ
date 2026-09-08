@@ -20,7 +20,12 @@
 #let chomsky-hierarchy = canvas({
   // Вложенные кольца: внешнее рисуем первым, чтобы каждая меньшая область
   // накрывала предыдущую и зазор между эллипсами сохранял свою заливку.
-  let ring(rx, ry, fill) = draw.circle((0, 0), radius: (rx, ry), fill: fill, stroke: c-bd + t-bd)
+  let ring(rx, ry, fill) = draw.circle(
+    (0, 0),
+    radius: (rx, ry),
+    fill: fill,
+    stroke: c-bd + t-bd,
+  )
 
   ring(3.8, 2.7, c-re)
   ring(2.9, 2.05, c-cs)
@@ -36,9 +41,32 @@
 
 // ── Дерево разбора a³b³ ──
 #let parse-tree-a3b3 = {
-  let cn(pos, body, ..args) = node(pos, body, fill: c-conn, width: n-size, height: n-size, ..args)
-  let tn(pos, body, ..args) = node(pos, body, fill: c-atom, width: n-size, height: n-size, ..args)
-  let re(from, to, label) = edge(from, to, "-", stroke: e-stroke, label: label, label-side: center, label-fill: white, label-size: s-tiny)
+  let cn(pos, body, ..args) = node(
+    pos,
+    body,
+    fill: c-conn,
+    width: n-size,
+    height: n-size,
+    ..args,
+  )
+  let tn(pos, body, ..args) = node(
+    pos,
+    body,
+    fill: c-atom,
+    width: n-size,
+    height: n-size,
+    ..args,
+  )
+  let re(from, to, label) = edge(
+    from,
+    to,
+    "-",
+    stroke: e-stroke,
+    label: label,
+    label-side: center,
+    label-fill: white,
+    label-size: s-tiny,
+  )
 
   diagram(
     node-shape: "circle",

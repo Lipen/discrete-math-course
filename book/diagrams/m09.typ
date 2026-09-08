@@ -29,10 +29,10 @@
 #let c-pb-dot = oklch(65%, 0.14, 45deg)    // сторона B: узлы (персик)
 // Раскраска C5.
 #let c-colors = (
-  oklch(80%, 0.14, 22deg),  // тёплый
+  oklch(80%, 0.14, 22deg), // тёплый
   oklch(80%, 0.12, 150deg), // зелёный
   oklch(80%, 0.12, 250deg), // синий
-  oklch(82%, 0.14, 90deg),  // жёлтый
+  oklch(82%, 0.14, 90deg), // жёлтый
 )
 // Код Прюфера: удалённые вершины/рёбра и ещё не восстановленные рёбра (серые).
 #let c-pr-rem = oklch(82%, 0.01, 260deg)
@@ -267,10 +267,34 @@
     stroke: bridge-style,
   )
 
-  draw.content("A", anchor: "north", outset: 0.6em, size: s-cap, fill: c-muted)[$3$]
-  draw.content("B", anchor: "south", outset: 0.6em, size: s-cap, fill: c-muted)[$3$]
-  draw.content("C", anchor: "west", outset: 0.6em, size: s-cap, fill: c-muted)[$5$]
-  draw.content("D", anchor: "east", outset: 0.6em, size: s-cap, fill: c-muted)[$3$]
+  draw.content(
+    "A",
+    anchor: "north",
+    outset: 0.6em,
+    size: s-cap,
+    fill: c-muted,
+  )[$3$]
+  draw.content(
+    "B",
+    anchor: "south",
+    outset: 0.6em,
+    size: s-cap,
+    fill: c-muted,
+  )[$3$]
+  draw.content(
+    "C",
+    anchor: "west",
+    outset: 0.6em,
+    size: s-cap,
+    fill: c-muted,
+  )[$5$]
+  draw.content(
+    "D",
+    anchor: "east",
+    outset: 0.6em,
+    size: s-cap,
+    fill: c-muted,
+  )[$3$]
 })
 
 // ── Планарный граф ──
@@ -331,7 +355,12 @@
   for i in range(5) {
     e("c" + str(i), "c" + str(calc.rem(i + 1, 5)))
   }
-  draw.content((0, -2.3), anchor: "north", size: s-cap, fill: c-muted)[$chi = 3$]
+  draw.content(
+    (0, -2.3),
+    anchor: "north",
+    size: s-cap,
+    fill: c-muted,
+  )[$chi = 3$]
 })
 
 // ── Ориентированный граф ──
@@ -443,7 +472,15 @@
     (cx + (tx - cx) / d * r, cy + (ty - cy) / d * r)
   }
 
-  let shifts = ((0, 0.85), (-0.85, 0), (0.85, 0), (0, -0.85), (0, -0.85), (0, -0.85), (0, -0.85))
+  let shifts = (
+    (0, 0.85),
+    (-0.85, 0),
+    (0.85, 0),
+    (0, -0.85),
+    (0, -0.85),
+    (0, -0.85),
+    (0, -0.85),
+  )
   for (i, p) in v.enumerate() {
     node(p, str(i + 1), radius: 0.33)
     draw.content(
@@ -719,7 +756,7 @@
 // ── Теорема Менгера ──
 #let menger-paths = canvas({
   let c-path-green = oklch(55%, 0.18, 155deg) // путь 1 (зелёный)
-  let c-path-blue = oklch(50%, 0.15, 250deg)  // путь 2 (синий)
+  let c-path-blue = oklch(50%, 0.15, 250deg) // путь 2 (синий)
 
   node((0, 0.5), "u")
   node((1, 0), "a")
@@ -808,7 +845,9 @@
 // ── Сеть потока ──
 #let flow-network = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  for (i, p) in v.enumerate() {
+    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
+  }
   let arr = (
     mark: (end: "stealth", fill: c-edge),
     stroke: (paint: c-edge, thickness: t-ed),
@@ -839,7 +878,9 @@
 // ── Допустимый поток ──
 #let flow-values = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  for (i, p) in v.enumerate() {
+    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
+  }
   let arr = (
     mark: (end: "stealth", fill: c-edge),
     stroke: (paint: c-edge, thickness: t-ed),
@@ -868,7 +909,9 @@
 // ── Остаточная сеть ──
 #let residual-network = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  for (i, p) in v.enumerate() {
+    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
+  }
 
   for (fr, to, cf, off, dim) in (
     ("s", "a", "2", (-0.12, 0.26), false),
@@ -909,7 +952,9 @@
 // ── Разрез ──
 #let flow-cut = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() { node(p, ("s", "a", "b", "t").at(i), radius: 0.36) }
+  for (i, p) in v.enumerate() {
+    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
+  }
 
   for (fr, to, cap, off, hi) in (
     ("s", "a", "5", (-0.1, 0.26), false),
@@ -951,7 +996,9 @@
 #let flow-cut-net = canvas({
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() {
-    let (lbl, infA) = (("s", true), ("a", true), ("b", false), ("t", false)).at(i)
+    let (lbl, infA) = (("s", true), ("a", true), ("b", false), ("t", false)).at(
+      i,
+    )
     draw.circle(
       p,
       radius: 0.36,

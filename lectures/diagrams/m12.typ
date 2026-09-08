@@ -21,14 +21,42 @@
 
   // Nodes, named
   hf-node((0, 0), 0.15, $1.0$, "root")
-  hf-node((-1.75, -0.9), 0.18, [$A: 0.40$], "A", stroke: hf-leaf-str, fill: white)
+  hf-node(
+    (-1.75, -0.9),
+    0.18,
+    [$A: 0.40$],
+    "A",
+    stroke: hf-leaf-str,
+    fill: white,
+  )
   hf-node((0.75, -0.9), 0.15, $0.60$, "R")
-  hf-node((-0.25, -1.8), 0.18, [$B: 0.25$], "B", stroke: hf-leaf-str, fill: white)
+  hf-node(
+    (-0.25, -1.8),
+    0.18,
+    [$B: 0.25$],
+    "B",
+    stroke: hf-leaf-str,
+    fill: white,
+  )
   hf-node((1.25, -1.8), 0.15, $0.35$, "R2")
   hf-node((0.5, -2.7), 0.18, [$C: 0.20$], "C", stroke: hf-leaf-str, fill: white)
   hf-node((1.75, -2.7), 0.15, $0.15$, "R3")
-  hf-node((1.25, -3.6), 0.18, [$D: 0.10$], "D", stroke: hf-leaf-str, fill: white)
-  hf-node((2.25, -3.6), 0.18, [$E: 0.05$], "E", stroke: hf-leaf-str, fill: white)
+  hf-node(
+    (1.25, -3.6),
+    0.18,
+    [$D: 0.10$],
+    "D",
+    stroke: hf-leaf-str,
+    fill: white,
+  )
+  hf-node(
+    (2.25, -3.6),
+    0.18,
+    [$E: 0.05$],
+    "E",
+    stroke: hf-leaf-str,
+    fill: white,
+  )
 
   // Edges, node-based
   mid-label("root", "A", (-0.2, 0.05), [_0_])
@@ -158,7 +186,9 @@
   let data-name = (($d_1$), ($d_2$), ($d_3$), ($d_4$))
   for (i, y) in data-y.enumerate() {
     draw.line((-0.3, y), (3.3, y), stroke: (paint: hg-line, thickness: 0.5pt))
-    draw.content((-0.85, y), text(size: 0.45em, fill: hg-data)[#data-name.at(i)])
+    draw.content((-0.85, y), text(size: 0.45em, fill: hg-data)[#data-name.at(
+      i,
+    )])
   }
 
   let hg-bit(bx, label, num, color) = {

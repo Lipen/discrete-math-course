@@ -9,7 +9,9 @@
     #set text(10pt)
     #smallcaps[*Домашнее задание \#4*]
     #h(1fr)
-    #link("https://github.com/Lipen/discrete-math-course")[*Дискретная математика*]
+    #link(
+      "https://github.com/Lipen/discrete-math-course",
+    )[*Дискретная математика*]
     \
     *Булева алгебра и кодирование*
     #h(1fr)
@@ -46,7 +48,9 @@
   #table(
     columns: 4,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.8pt) },
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 2 { (right: 0.8pt) }
+    ),
     table.header([*$x$*], [*$y$*], [*$z$*], [*$f$*]),
     [0], [0], [0], [1],
     [0], [0], [1], [0],
@@ -91,7 +95,9 @@
   #table(
     columns: 5,
     align: center,
-    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) },
+    stroke: (x, y) => (
+      if y == 0 { (bottom: 0.8pt) } + if x == 0 { (right: 0.8pt) }
+    ),
     table.header([], [$x y = 00$], [$01$], [$11$], [$10$]),
     [$z = 0$], [1], [1], [1], [1],
     [$z = 1$], [0], [0], [1], [0],

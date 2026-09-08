@@ -63,7 +63,10 @@
 
 // Точка на круге радиуса r под углом a в градусах.
 // Ось Y в диаграммах fletcher направлена вниз, поэтому Y берём с минусом.
-#let polar(r, a) = (calc.cos(a * calc.pi / 180) * r, -calc.sin(a * calc.pi / 180) * r)
+#let polar(r, a) = (
+  calc.cos(a * calc.pi / 180) * r,
+  -calc.sin(a * calc.pi / 180) * r,
+)
 
 // ── Цикл степеней тройки по модулю 7 ──
 #let gen-cycle = {
@@ -80,7 +83,12 @@
     {
       for i in range(6) {
         node(polar(radius, 90 - i * 60), values.at(i), name: nname(i))
-        edge(nname(i), nname(if i == 5 { 0 } else { i + 1 }), "-}>", label: [$times 3$])
+        edge(
+          nname(i),
+          nname(if i == 5 { 0 } else { i + 1 }),
+          "-}>",
+          label: [$times 3$],
+        )
       }
       node((0, 0), $ZZ_7^*$, fill: none, stroke: none)
     },

@@ -1,7 +1,7 @@
 // M26 --- Разрешимость и неразрешимость: пределы вычислений.
 #import "common.typ": *
 #import "notation.typ": *
-#import "diagrams/m26.typ": reduction-halt-empty, m-reduction
+#import "diagrams/m26.typ": m-reduction, reduction-halt-empty
 
 = Разрешимость и неразрешимость <chap:decidability>
 

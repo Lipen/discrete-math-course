@@ -11,7 +11,6 @@
 
 // ── Функции принадлежности ──
 #let membership-functions = canvas({
-
   let tx(x) = 0.5 + x * 0.7
   let ty(y) = 0.5 + y * 4.0
 
@@ -22,7 +21,10 @@
   draw.line((tx(0), ty(0)), (tx(10), ty(0)), stroke: axis)
   draw.line((tx(0), ty(0)), (tx(0), ty(1.2)), stroke: axis)
   draw.content((tx(5), ty(-0.5)), text(size: s-cap, fill: c-muted)[$x$])
-  draw.content((tx(0) - 0.15, ty(1.24)), anchor: "east", text(size: s-cap, fill: c-muted)[$mu(x)$])
+  draw.content((tx(0) - 0.15, ty(1.24)), anchor: "east", text(
+    size: s-cap,
+    fill: c-muted,
+  )[$mu(x)$])
 
   for i in range(1, 11) {
     draw.line((tx(i), ty(0) - 0.06), (tx(i), ty(0) + 0.06), stroke: tick)
@@ -30,10 +32,17 @@
   }
   for (yy, lab) in ((0, "0"), (0.5, "0.5"), (1, "1")) {
     draw.line((tx(-0.06), ty(yy)), (tx(0.06), ty(yy)), stroke: tick)
-    draw.content((tx(-0.15), ty(yy)), anchor: "east", text(size: s-tiny, fill: c-muted)[#lab])
+    draw.content((tx(-0.15), ty(yy)), anchor: "east", text(
+      size: s-tiny,
+      fill: c-muted,
+    )[#lab])
   }
 
-  draw.line((tx(0), ty(1)), (tx(10), ty(1)), stroke: (paint: c-muted, thickness: t-hr, dash: "dashed"))
+  draw.line((tx(0), ty(1)), (tx(10), ty(1)), stroke: (
+    paint: c-muted,
+    thickness: t-hr,
+    dash: "dashed",
+  ))
 
   draw.line((tx(2), ty(0)), (tx(5), ty(1)), stroke: curve-stroke(c-accent))
   draw.line((tx(5), ty(1)), (tx(8), ty(0)), stroke: curve-stroke(c-accent))
@@ -63,7 +72,10 @@
   let ls = 0.22
   let legend-item(y, color, lab) = {
     draw.line((lx, y), (lx + lg, y), stroke: curve-stroke(color))
-    draw.content((lx + lg + 0.15, y), anchor: "west", text(size: s-tiny, fill: c-muted)[#lab])
+    draw.content((lx + lg + 0.15, y), anchor: "west", text(
+      size: s-tiny,
+      fill: c-muted,
+    )[#lab])
   }
 
   legend-item(ly, c-accent, "Треугольная")
@@ -73,7 +85,6 @@
 
 // ── Операции над нечёткими множествами ──
 #let fuzzy-operations = canvas({
-
   let axis = c-edge + t-ed
   let tick = c-edge + t-hr
   let res-stroke = (paint: c-res, thickness: 1.2pt)
@@ -94,12 +105,25 @@
     draw.line((ox + 0.5, my(0)), (ox + 4.0, my(0)), stroke: axis)
     draw.line((ox + 0.5, my(0)), (ox + 0.5, my(1)), stroke: axis)
     draw.line((ox + 0.42, my(0)), (ox + 0.5, my(0)), stroke: tick)
-    draw.content((ox + 0.38, my(0)), anchor: "east", text(size: s-tiny, fill: c-muted)[0])
+    draw.content((ox + 0.38, my(0)), anchor: "east", text(
+      size: s-tiny,
+      fill: c-muted,
+    )[0])
     draw.line((ox + 0.42, my(1)), (ox + 0.5, my(1)), stroke: tick)
-    draw.content((ox + 0.38, my(1)), anchor: "east", text(size: s-tiny, fill: c-muted)[1])
+    draw.content((ox + 0.38, my(1)), anchor: "east", text(
+      size: s-tiny,
+      fill: c-muted,
+    )[1])
     draw.content((ox + 2.25, my(-0.25)), text(size: s-cap, fill: c-muted)[$x$])
-    draw.content((ox + 0.15, my(0.55)), anchor: "east", text(size: s-cap, fill: c-muted)[$mu$])
-    draw.content((ox + 2.25, my(1) + 0.5), text(size: s-cap, weight: "semibold", fill: c-muted)[#title])
+    draw.content((ox + 0.15, my(0.55)), anchor: "east", text(
+      size: s-cap,
+      fill: c-muted,
+    )[$mu$])
+    draw.content((ox + 2.25, my(1) + 0.5), text(
+      size: s-cap,
+      weight: "semibold",
+      fill: c-muted,
+    )[#title])
   }
 
   let dim-ab(ox) = {
@@ -135,7 +159,14 @@
 
   // ── Пересечение (min) -- нижняя огибающая
   panel-axes(5, [Пересечение ($min$)])
-  draw.line(p(5, 1.8, 0), p(5, 2.3, 0.5), p(5, 2.8, 0), close: true, fill: c-fl, stroke: none)
+  draw.line(
+    p(5, 1.8, 0),
+    p(5, 2.3, 0.5),
+    p(5, 2.8, 0),
+    close: true,
+    fill: c-fl,
+    stroke: none,
+  )
   dim-ab(5)
   draw.line(p(5, 1.8, 0), p(5, 2.3, 0.5), stroke: res-stroke)
   draw.line(p(5, 2.3, 0.5), p(5, 2.8, 0), stroke: res-stroke)

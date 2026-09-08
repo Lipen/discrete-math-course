@@ -13,7 +13,11 @@
   let state(pos, label, name) = {
     let (x, y) = pos
     draw.circle((x, y), radius: 0.5, name: name, fill: c-fl, stroke: n-stroke)
-    draw.content((x, y), text(size: s-node, fill: c-ink, weight: "bold")[#label])
+    draw.content((x, y), text(
+      size: s-node,
+      fill: c-ink,
+      weight: "bold",
+    )[#label])
   }
 
   // Вероятность перехода --- в середине ребра.
@@ -95,14 +99,50 @@
   }
 
   // ── Узлы: ветвления ──
-  draw.circle((0, 3.4), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "root")
+  draw.circle(
+    (0, 3.4),
+    radius: 0.17,
+    fill: c-fl,
+    stroke: n-stroke,
+    name: "root",
+  )
   draw.circle((2.8, 1.8), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "H")
-  draw.circle((-2.8, 1.8), radius: 0.17, fill: c-fl, stroke: n-stroke, name: "T")
+  draw.circle(
+    (-2.8, 1.8),
+    radius: 0.17,
+    fill: c-fl,
+    stroke: n-stroke,
+    name: "T",
+  )
 
-  draw.circle((4.2, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "HH")
-  draw.circle((1.4, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "HT")
-  draw.circle((-1.4, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "TH")
-  draw.circle((-4.2, 0), radius: 0.17, fill: c-atom, stroke: n-stroke, name: "TT")
+  draw.circle(
+    (4.2, 0),
+    radius: 0.17,
+    fill: c-atom,
+    stroke: n-stroke,
+    name: "HH",
+  )
+  draw.circle(
+    (1.4, 0),
+    radius: 0.17,
+    fill: c-atom,
+    stroke: n-stroke,
+    name: "HT",
+  )
+  draw.circle(
+    (-1.4, 0),
+    radius: 0.17,
+    fill: c-atom,
+    stroke: n-stroke,
+    name: "TH",
+  )
+  draw.circle(
+    (-4.2, 0),
+    radius: 0.17,
+    fill: c-atom,
+    stroke: n-stroke,
+    name: "TT",
+  )
 
   // ── Ветви с вероятностями ──
   prob-edge("root", "H", 0.6)
@@ -114,7 +154,11 @@
 
   // ── Метки ветвлений (в открытом месте, вне рёбер) ──
   draw.content((3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$H$])
-  draw.content((-3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$T$])
+  draw.content((-3.4, 2.4), text(
+    size: s-node,
+    fill: c-ink,
+    weight: "bold",
+  )[$T$])
 
   // ── Исходы ──
   leaf-label((4.2, 0), [$H H$], 0.36)
@@ -135,7 +179,11 @@
       stroke: n-stroke,
       radius: 8pt,
     )
-    draw.content((x, y), text(size: s-node, fill: c-ink, weight: "bold")[#label])
+    draw.content((x, y), text(
+      size: s-node,
+      fill: c-ink,
+      weight: "bold",
+    )[#label])
   }
 
   let dir-edge(from-anchor, to-anchor) = {

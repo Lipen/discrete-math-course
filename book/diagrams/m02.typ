@@ -2,7 +2,7 @@
 #import "../notation.typ": *
 #import "style.typ": *
 
-#import "@preview/curryst:0.6.0": rule, prooftree
+#import "@preview/curryst:0.6.0": prooftree, rule
 
 #let bar-str = c-edge + t-ed
 #let rname(body) = text(size: s-cap, fill: c-muted)[#body]
