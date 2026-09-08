@@ -65,7 +65,7 @@ jobs:
       - name: Setup Typst
         uses: typst-community/setup-typst@v4
         with:
-          typst-version: "0.15.1"
+          typst-version: ^0.15
           cache-dependency-path: book/requirements.typ
 
       - name: Install just
