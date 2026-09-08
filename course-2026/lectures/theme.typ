@@ -238,7 +238,7 @@
     let strong = acc.darken(8%)
 
     set page(
-      fill: acc.transparentize(94%),
+      fill: acc.transparentize(95%),
       header: none,
       foreground: none,
       margin: 0pt,
@@ -448,24 +448,35 @@
         stack(
           spacing: 1em,
           if lecture != none [
-            #text(1.3em, weight: "bold", fill: title-color)[Лекция #lecture.num]
+            #text(
+              1.4em,
+              weight: "bold",
+              fill: title-color,
+            )[Лекция]
             #if lecture.week != none [
-              #h(0.7em)
+              #h(1em, weak: true)
               #box(
-                inset: (x: 0.8em, y: 0.35em),
-                stroke: 1pt + title-color.transparentize(45%),
+                inset: (x: 0.8em, y: 0.4em),
+                stroke: 1pt + title-color.transparentize(50%),
                 radius: 4pt,
               )[
-                #text(1.1em, fill: title-color)[#lecture.week]
+                #text(
+                  1.2em,
+                  fill: title-color,
+                )[#lecture.week]
               ]
             ]
           ],
           if subtitle != none [
-            #text(1.3em, weight: "bold", fill: title-color)[#subtitle]
+            #text(
+              1.5em,
+              weight: "bold",
+              fill: title-color,
+            )[#subtitle]
           ],
           block(width: 100%)[
             #set text(
-              2.8em,
+              3em,
               weight: "bold",
               font: title-font,
               fill: title-color,
