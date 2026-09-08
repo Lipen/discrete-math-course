@@ -1,14 +1,33 @@
-minimum_prek_version = "0.4.0"
+minimum_prek_version = "0.5.0"
 
 [[repos]]
 repo = "builtin"
 hooks = [
   { id = "trailing-whitespace" },
   { id = "end-of-file-fixer" },
+  { id = "mixed-line-ending" },
   { id = "check-merge-conflict" },
   { id = "detect-private-key" },
-  { id = "check-added-large-files" },
+  { id = "check-added-large-files", args = ["--maxkb=1024"] },
   { id = "check-case-conflict" },
+  { id = "check-illegal-windows-names" },
   { id = "check-toml" },
-  { id = "mixed-line-ending" },
+  { id = "check-yaml" },
+  { id = "check-json" },
+  { id = "fix-byte-order-marker" },
+  { id = "check-shebang-scripts-are-executable" },
+]
+
+[[repos]]
+repo = "https://github.com/typstyle-rs/pre-commit-typstyle"
+rev = "v0.15.1"
+hooks = [
+  { id = "typstyle" },
+]
+
+[[repos]]
+repo = "local"
+hooks = [
+  { id = "cargo-fmt", name = "cargo fmt", entry = "cargo fmt --check --all --manifest-path code/Cargo.toml", language = "system", files = '^code/', pass_filenames = false },
+  { id = "check-ex-ids", name = "check exercise ids", entry = "python3 tools/check-ex-ids.py", language = "system", files = '^book/.*\.typ$', pass_filenames = false },
 ]
