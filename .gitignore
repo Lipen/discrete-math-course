@@ -7,6 +7,16 @@ _*
 *.txt
 *.cmd
 
+## Agent docs (local-only, see ~/.gitignore)
+CLAUDE.md
+CLAUDE.local.md
+
+## Course build artifacts and tool state
+/all/
+private/
+__pycache__/
+**/tinymist.lock
+
 ## TeX
 # Core latex/pdflatex auxiliary files:
 *.aux
