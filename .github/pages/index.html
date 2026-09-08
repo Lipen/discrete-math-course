@@ -1,33 +1,195 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <title>Дискретная математика</title>
-  <style>
-    body { font-family: sans-serif; max-width: 40rem; margin: 3rem auto; line-height: 1.6; }
-    li { margin: 0.4rem 0; }
-    h2 { font-size: 1.1rem; margin-top: 2rem; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Дискретная математика · 2026/27</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #fafaf9; --fg: #1c1917; --muted: #78716c;
+    --card: #ffffff; --border: #e7e5e4; --accent: #4f46e5; --accent-soft: #eef2ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0c0a09; --fg: #fafaf9; --muted: #a8a29e;
+      --card: #1c1917; --border: #292524; --accent: #818cf8; --accent-soft: #1e1b4b;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  main { max-width: 46rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; }
+  h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); letter-spacing: -0.02em; line-height: 1.15; }
+  .sub { color: var(--muted); margin-top: 0.5rem; }
+  section { margin-top: 2.75rem; }
+  h2 {
+    font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); margin-bottom: 0.9rem;
+  }
+  a { color: inherit; text-decoration: none; }
+  .hero-book {
+    display: block; margin-top: 1.75rem; padding: 1.4rem 1.5rem;
+    background: var(--accent-soft); border: 1px solid var(--border); border-radius: 1rem;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .hero-book:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .hero-book .t { font-size: 1.2rem; font-weight: 650; color: var(--accent); }
+  .hero-book .d { color: var(--muted); font-size: 0.95rem; margin-top: 0.15rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 0.7rem; }
+  .card {
+    display: block; padding: 0.85rem 1.05rem;
+    background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .card:hover { transform: translateY(-2px); border-color: var(--accent); }
+  .card .t { font-weight: 600; }
+  .card .d { color: var(--muted); font-size: 0.85rem; }
+  .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .pill {
+    padding: 0.32rem 0.75rem; border: 1px solid var(--border); border-radius: 999px;
+    background: var(--card); font-size: 0.9rem;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--accent); }
+  .pill b { font-weight: 600; color: var(--accent); }
+  footer {
+    margin-top: 3.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.9rem;
+  }
+  footer a { color: var(--accent); }
+</style>
 </head>
 <body>
+<main>
   <h1>Дискретная математика</h1>
-  <p>Материалы курса 2026/27.</p>
-  <ul>
-    <li><a href="book.pdf">Книга-справочник</a></li>
-    <li><a href="syllabus.pdf">Силлабус</a></li>
-    <li><a href="topics-s1.pdf">План семестра 1</a></li>
-    <li><a href="topics-s2.pdf">План семестра 2</a></li>
-    <li><a href="program.pdf">Рабочая программа</a></li>
-    <li><a href="mentors.pdf">Хендбук ментора</a></li>
-    <li>Лекции: <code>s1-lec*.pdf</code>, <code>s2-lec*.pdf</code></li>
-    <li>Домашние задания: <code>hw1.pdf</code> … <code>hw8.pdf</code></li>
-  </ul>
+  <p class="sub">Курс для программистов · 2026/27 · ИТМО</p>
 
-  <h2>Архив 2023–2025</h2>
-  <ul>
-    <li><a href="typst/">Слайды и домашки (typst)</a></li>
-    <li><a href="tex/">Материалы (tex)</a></li>
-    <li><a href="docs/">Сайт курса (mdBook)</a></li>
-  </ul>
+  <a class="hero-book" href="book.pdf">
+    <div class="t">Книга-справочник</div>
+    <div class="d">От логических связок до нечётких множеств — 36 модулей с упражнениями и указаниями</div>
+  </a>
+
+  <section>
+    <h2>Документы курса</h2>
+    <div class="grid">
+      <a class="card" href="syllabus.pdf"><div class="t">Организация курса</div><div class="d">Правила, баллы, расписания</div></a>
+      <a class="card" href="program.pdf"><div class="t">Рабочая программа</div><div class="d">РПД</div></a>
+      <a class="card" href="mentors.pdf"><div class="t">Хендбук ментора</div><div class="d">Для ведущих семинары</div></a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Лекции · семестр 1</h2>
+    <div class="pills">
+      <a class="pill" href="s1-lec01-statements.pdf"><b>01</b> Statements</a>
+      <a class="pill" href="s1-lec02-predicates.pdf"><b>02</b> Predicates</a>
+      <a class="pill" href="s1-lec03-sets.pdf"><b>03</b> Sets</a>
+      <a class="pill" href="s1-lec04-relations.pdf"><b>04</b> Relations</a>
+      <a class="pill" href="s1-lec05-equivalence.pdf"><b>05</b> Equivalence</a>
+      <a class="pill" href="s1-lec06-order.pdf"><b>06</b> Order</a>
+      <a class="pill" href="s1-lec07-functions.pdf"><b>07</b> Functions</a>
+      <a class="pill" href="s1-lec08-cardinality.pdf"><b>08</b> Cardinality</a>
+      <a class="pill" href="s1-lec09-propositional.pdf"><b>09</b> Propositional</a>
+      <a class="pill" href="s1-lec10-deduction.pdf"><b>10</b> Deduction</a>
+      <a class="pill" href="s1-lec11-fol.pdf"><b>11</b> FOL</a>
+      <a class="pill" href="s1-lec12-boolean-sat.pdf"><b>12</b> Boolean &amp; SAT</a>
+      <a class="pill" href="s1-lec13-zhegalkin.pdf"><b>13</b> Zhegalkin</a>
+      <a class="pill" href="s1-lec14-circuits.pdf"><b>14</b> Circuits</a>
+      <a class="pill" href="s1-lec15-codes.pdf"><b>15</b> Codes</a>
+      <a class="pill" href="s1-lec16-compression.pdf"><b>16</b> Compression</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Лекции · семестр 2</h2>
+    <div class="pills">
+      <a class="pill" href="s2-lec01-graphs.pdf"><b>01</b> Graphs</a>
+      <a class="pill" href="s2-lec02-traversal.pdf"><b>02</b> Traversal</a>
+      <a class="pill" href="s2-lec03-matching.pdf"><b>03</b> Matching</a>
+      <a class="pill" href="s2-lec04-planarity.pdf"><b>04</b> Planarity</a>
+      <a class="pill" href="s2-lec05-dfa.pdf"><b>05</b> DFA</a>
+      <a class="pill" href="s2-lec06-nfa.pdf"><b>06</b> NFA</a>
+      <a class="pill" href="s2-lec07-regex.pdf"><b>07</b> Regex</a>
+      <a class="pill" href="s2-lec08-minimization.pdf"><b>08</b> Minimization</a>
+      <a class="pill" href="s2-lec09-turing.pdf"><b>09</b> Turing</a>
+      <a class="pill" href="s2-lec10-universal.pdf"><b>10</b> Universal</a>
+      <a class="pill" href="s2-lec11-halting.pdf"><b>11</b> Halting</a>
+      <a class="pill" href="s2-lec12-decidability.pdf"><b>12</b> Decidability</a>
+      <a class="pill" href="s2-lec13-counting.pdf"><b>13</b> Counting</a>
+      <a class="pill" href="s2-lec14-binomial.pdf"><b>14</b> Binomial</a>
+      <a class="pill" href="s2-lec15-genfun.pdf"><b>15</b> GenFun</a>
+      <a class="pill" href="s2-lec16-ramsey.pdf"><b>16</b> Ramsey</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Лекции по модулям книги</h2>
+    <div class="pills">
+      <a class="pill" href="lec-logic.pdf"><b>m01</b> Логика</a>
+      <a class="pill" href="lec-deduction.pdf"><b>m02</b> Дедукция</a>
+      <a class="pill" href="lec-fol.pdf"><b>m03</b> Логика предикатов</a>
+      <a class="pill" href="lec-sets.pdf"><b>m04</b> Множества</a>
+      <a class="pill" href="lec-relations.pdf"><b>m05</b> Отношения</a>
+      <a class="pill" href="lec-functions.pdf"><b>m06</b> Функции</a>
+      <a class="pill" href="lec-cardinals.pdf"><b>m07</b> Мощность</a>
+      <a class="pill" href="lec-orders.pdf"><b>m08</b> Порядок</a>
+      <a class="pill" href="lec-graphs.pdf"><b>m09</b> Графы</a>
+      <a class="pill" href="lec-boolean.pdf"><b>m10</b> Булева алгебра</a>
+      <a class="pill" href="lec-circuits.pdf"><b>m11</b> Схемы</a>
+      <a class="pill" href="lec-algebra.pdf"><b>m12</b> Алгебраические структуры</a>
+      <a class="pill" href="lec-codes.pdf"><b>m13</b> Коды и информация</a>
+      <a class="pill" href="lec-sat.pdf"><b>m14</b> SAT</a>
+      <a class="pill" href="lec-smt.pdf"><b>m15</b> SMT</a>
+      <a class="pill" href="lec-logic-programming.pdf"><b>m16</b> Логическое программирование</a>
+      <a class="pill" href="lec-matroids.pdf"><b>m17</b> Матроиды</a>
+      <a class="pill" href="lec-combinatorics.pdf"><b>m18</b> Комбинаторика</a>
+      <a class="pill" href="lec-number-theory.pdf"><b>m19</b> Числа и криптография</a>
+      <a class="pill" href="lec-probability.pdf"><b>m20</b> Вероятность</a>
+      <a class="pill" href="lec-generating-fns.pdf"><b>m21</b> Производящие функции</a>
+      <a class="pill" href="lec-constructions.pdf"><b>m22</b> Конструкции чисел</a>
+      <a class="pill" href="lec-automata.pdf"><b>m23</b> Автоматы</a>
+      <a class="pill" href="lec-context-free.pdf"><b>m24</b> КС-языки</a>
+      <a class="pill" href="lec-turing.pdf"><b>m25</b> Машины Тьюринга</a>
+      <a class="pill" href="lec-decidability.pdf"><b>m26</b> Разрешимость</a>
+      <a class="pill" href="lec-lambda.pdf"><b>m27</b> Лямбда-исчисление</a>
+      <a class="pill" href="lec-type-theory.pdf"><b>m28</b> Теория типов</a>
+      <a class="pill" href="lec-beyond-n.pdf"><b>m29</b> За пределами N</a>
+      <a class="pill" href="lec-complexity.pdf"><b>m30</b> Сложность</a>
+      <a class="pill" href="lec-abstract-interpretation.pdf"><b>m31</b> Абстрактная интерпретация</a>
+      <a class="pill" href="lec-verification.pdf"><b>m32</b> Верификация</a>
+      <a class="pill" href="lec-modal.pdf"><b>m33</b> Модальная логика</a>
+      <a class="pill" href="lec-intuitionism.pdf"><b>m34</b> Интуиционизм</a>
+      <a class="pill" href="lec-fuzzy.pdf"><b>m35</b> Нечёткие множества</a>
+      <a class="pill" href="lec-category.pdf"><b>m36</b> Категории</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Домашние задания</h2>
+    <div class="pills">
+      <a class="pill" href="hw1.pdf"><b>HW</b> 1</a>
+      <a class="pill" href="hw2.pdf"><b>HW</b> 2</a>
+      <a class="pill" href="hw3.pdf"><b>HW</b> 3</a>
+      <a class="pill" href="hw4.pdf"><b>HW</b> 4</a>
+      <a class="pill" href="hw5.pdf"><b>HW</b> 5</a>
+      <a class="pill" href="hw6.pdf"><b>HW</b> 6</a>
+      <a class="pill" href="hw7.pdf"><b>HW</b> 7</a>
+      <a class="pill" href="hw8.pdf"><b>HW</b> 8</a>
+    </div>
+  </section>
+
+  <footer>
+    Архив 2023–2025:
+    <a href="typst/">слайды и домашки</a> ·
+    <a href="tex/">tex-материалы</a> ·
+    <a href="docs/">сайт старого курса</a>
+    <br>Лицензия GPL-3.0 · <a href="https://github.com/Lipen/discrete-math-course">исходники</a>
+  </footer>
+</main>
 </body>
 </html>
