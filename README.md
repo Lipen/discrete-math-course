@@ -64,4 +64,4 @@ just test          # тесты code-компаньона
 
 ## Лицензия
 
-[GPL-3.0](LICENSE).
+[GPL-3.0](LICENSE)
