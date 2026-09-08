@@ -430,15 +430,17 @@
         set page(
           header: none,
           foreground: none,
-          margin: (y: 1cm, x: 2cm),
+          margin: (left: 2cm, right: 1cm, y: 1cm),
         )
 
         // Цифра-водяной знак --- верхний правый угол
         if lecture != none {
-          place(right + top, dx: 1.2cm, dy: -0.6cm)[
-            #text(9em, weight: "bold", fill: mod-acc.transparentize(86%))[
-              #lecture.num
-            ]
+          place(right + top)[
+            #text(
+              9em,
+              weight: "bold",
+              fill: mod-acc.transparentize(86%),
+            )[#lecture.num]
           ]
         }
 
