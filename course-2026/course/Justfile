@@ -3,7 +3,7 @@ default:
     @just --list
 
 # Build all course documents
-all: syllabus topics-s1 topics-s2 program
+all: syllabus topics-s1 topics-s2 mentors program
 
 # Working program (РПД)
 program:
@@ -20,3 +20,7 @@ topics-s1:
 # Topics: semester 2
 topics-s2:
     typst compile --root .. topics-s2.typ
+
+# Mentor handbook
+mentors:
+    typst compile --root .. mentors.typ
