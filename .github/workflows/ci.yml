@@ -240,6 +240,17 @@ jobs:
           cp pdf-typst/*.pdf public/typst/
           cp pdf-tex/*.pdf public/tex/
           cp -r website/* public/docs/
+          shopt -s nullglob
+          for d in typst tex; do
+            {
+              echo '<!doctype html><meta charset="utf-8"><title>Archive: '"$d"'</title><ul>'
+              for f in public/$d/*.pdf; do
+                b=$(basename "$f")
+                echo "<li><a href=\"$b\">$b</a></li>"
+              done
+              echo '</ul>'
+            } > "public/$d/index.html"
+          done
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
