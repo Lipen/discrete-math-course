@@ -1124,7 +1124,7 @@ $
 
 == Упражнения
 
-#tasklist("m04")[
+#tasklist("set")[
   _Принадлежность, включение и равенство._
   + Даны $A = {1, 2, 3}, B = {2, 3, 4}$.
     Найдите $A union B, A inter B, A setminus B, B setminus A, A symdiff B$.
@@ -1142,7 +1142,7 @@ $
   + Упростите выражение $(A inter B) union (A inter overline(B))$, используя законы алгебры множеств.
     Какому множеству оно эквивалентно?
 
-  + #task-id("m04:t6") \* Докажите методом взаимного включения: $A setminus (B inter C) = (A setminus B) union (A setminus C)$.
+  + #task-id("set:difference-de-morgan") \* Докажите методом взаимного включения: $A setminus (B inter C) = (A setminus B) union (A setminus C)$.
     Проверьте равенство на конкретном примере.
 
   _Булеан и декартово произведение._
@@ -1153,7 +1153,7 @@ $
   + Докажите или опровергните: $cal(P)(A union B) = cal(P)(A) union cal(P)(B)$.
     Приведите контрпример в случае неверности.
 
-  + #task-id("m04:t9") \* Покажите, что $A times (B union C) = (A times B) union (A times C)$.
+  + #task-id("set:cartesian-distrib") \* Покажите, что $A times (B union C) = (A times B) union (A times C)$.
     Верно ли аналогичное равенство для пересечения?
 
   _Парадокс Рассела и аксиома выделения._
@@ -1167,7 +1167,7 @@ $
     Универсум: $U = {1, 2, 3, 4, 5, 6}$.
     Вычислите $b_(X union Y), b_(X inter Y)$ через побитовые операции и проверьте результат.
 
-  + #task-id("m04:t13") \* Тип `Option<T>` = ${"None"} union {"Some"(v) mid(|) v in T}$.
+  + #task-id("set:option-type") \* Тип `Option<T>` = ${"None"} union {"Some"(v) mid(|) v in T}$.
     Какой теоретико-множественной конструкции это соответствует?
     Как записать через неё тип `Result<T, E>`?
 ]
