@@ -69,6 +69,13 @@ assert_eq!(check(&m, &next_green), vec![false, false, true]);
 | `ctl::Formula`                                    | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
 | `check(&Kripke, &Formula) -> Vec<bool>`           | The labeling check, one bit per state                                        |
 
+## Demos
+
+| Demo              | What it shows                                                                                   |
+| ----------------- | ----------------------------------------------------------------------------------------------- |
+| `traffic_light`   | the 3-state light: `EX red`, `AX green`, and `red OR (not green)` labeled per state             |
+| `branching`       | a branching state and a dead end: the `EX` / `AX` split and vacuous `AX` truth at the dead end  |
+
 ## Tests
 
 - the preimage operators at dead ends and self-loops
