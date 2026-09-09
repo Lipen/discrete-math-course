@@ -50,8 +50,8 @@
 )
 
 #set document(
-  title: "Дискретная математика. Обзор курса 2026/27",
-  keywords: ("дискретная математика", "обзор курса", "расписание"),
+  title: "Дискретная математика. Syllabus 2026/27",
+  keywords: ("дискретная математика", "syllabus", "расписание"),
 )
 
 #set text(12pt, lang: "ru")
@@ -359,7 +359,7 @@
     size: 0.8em,
     weight: "semibold",
     fill: c-accent,
-  )[#smallcaps[Обзор курса · 2026/27]]
+  )[#smallcaps[Syllabus · 2026/27]]
   #v(1fr)
   #text(size: 3em, weight: "bold", hyphenate: false)[Дискретная\ математика]
   #v(0.8em)

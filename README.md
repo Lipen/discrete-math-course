@@ -9,7 +9,7 @@
 
 [![Книга](https://img.shields.io/badge/Книга-blue?style=flat-square)](https://lipen.github.io/discrete-math-course/book.pdf)
 [![Введение в курс](https://img.shields.io/badge/Введение_в_курс-blueviolet?style=flat-square)](https://lipen.github.io/discrete-math-course/course-intro.pdf)
-[![Организация курса](https://img.shields.io/badge/Организация_курса-teal?style=flat-square)](https://lipen.github.io/discrete-math-course/syllabus.pdf)
+[![Syllabus](https://img.shields.io/badge/Syllabus-teal?style=flat-square)](https://lipen.github.io/discrete-math-course/syllabus.pdf)
 [![Рабочая программа](https://img.shields.io/badge/РПД-teal?style=flat-square)](https://lipen.github.io/discrete-math-course/program.pdf)
 [![Хендбук ментора](https://img.shields.io/badge/Хендбук_ментора-teal?style=flat-square)](https://lipen.github.io/discrete-math-course/mentors.pdf)
 
