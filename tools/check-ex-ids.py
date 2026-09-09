@@ -11,6 +11,19 @@
    задачи молчаливыми указателями на первую (без красного ??).
 2. Каждая #ex-ref в hints.typ разрешается в существующую метку.
 
+
+Таблица глава -> namespace (по темам банка private/problems/bank; банк внутри
+одной темы может вести несколько префиксов --- делим по гранулярности глав):
+  m01 lang    m02 ded     m03 lang    m04 set     m05 rel     m06 fun
+  m07 card    m08 ord     m09 graphs  m10 bool    m11 circ    m12 alg
+  m13 code    m14 sat     m15 smt     m16 lp      m17 mat     m18 comb
+  m19 nt      m20 prob    m21 gf      m22 con     m23 aut     m24 cfg
+  m25 turing  m26 turing  m27 lam     m28 ty      m29 nonstd  m30 comp
+  m31 ai      m32 verif   m33 mod     m34 int     m35 fuzzy   m36 cat
+Особые случаи: m03 -> lang (тема language покрывает m01, m03-m06); m25/m26
+делят turing; m36 -> cat --- в банке темы categories нет, префикс введён
+нами. Задача, дословно совпадающая с банковской, несёт её id без изменений.
+
 Запуск: python3 tools/check-ex-ids.py  (из корня репозитория)
 """
 
