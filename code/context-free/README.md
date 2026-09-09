@@ -59,11 +59,15 @@ Membership (`in_language`) goes through CYK and always terminates.
 
 ## Demos
 
-| Demo      | Shows                                                                                          |
-| --------- | ---------------------------------------------------------------------------------------------- |
-| `cnf_cyk` | $S \to a S b \mid \varepsilon$ converted to Chomsky normal form, then the CYK table for `aabb` |
+| Demo         | Shows                                                                                          |
+| ------------ | ---------------------------------------------------------------------------------------------- |
+| `cnf_cyk`    | $S \to a S b \mid \varepsilon$ converted to Chomsky normal form, then the CYK table for `aabb` |
+| `recognize`  | CYK accept/reject verdicts for the balanced-parentheses grammar                                |
+| `parse_tree` | two readings of `id+id*id`, then one tree under a precedence ladder                            |
 
-The demo prints the converted grammar, acceptance verdicts for several words, and the triangular CYK table.
+`cnf_cyk` prints the converted grammar, acceptance verdicts, and the triangular CYK table.
+`recognize` reuses one converted grammar to print a membership verdict for each of eleven words.
+`parse_tree` prints both readings of an ambiguous word, then the single tree and its leftmost derivation.
 
 ## API
 
