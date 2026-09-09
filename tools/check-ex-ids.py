@@ -9,6 +9,7 @@
 
 Запуск: python3 tools/check-ex-ids.py  (из корня репозитория)
 """
+
 import re
 import sys
 from pathlib import Path

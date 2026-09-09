@@ -29,9 +29,16 @@ PAGE = """<!doctype html>
 </ul>
 """
 
+
 def typst_stems() -> list[str]:
     text = CI.read_text(encoding="utf-8")
-    return sorted(set(re.findall(r"^\s*- run: typst compile typst/([a-z0-9-]+)\.typ$", text, re.M)))
+    return sorted(
+        set(
+            re.findall(
+                r"^\s*- run: typst compile typst/([a-z0-9-]+)\.typ$", text, re.MULTILINE
+            )
+        )
+    )
 
 
 def tex_stems() -> list[str]:

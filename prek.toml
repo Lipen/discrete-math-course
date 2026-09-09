@@ -26,6 +26,14 @@ hooks = [
 ]
 
 [[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.16.6"
+hooks = [
+  { id = "ruff" },
+  { id = "ruff-format" },
+]
+
+[[repos]]
 repo = "local"
 hooks = [
   { id = "cargo-fmt", name = "cargo fmt", entry = "cargo fmt --check --all --manifest-path code/Cargo.toml", language = "system", files = '^code/', pass_filenames = false },
