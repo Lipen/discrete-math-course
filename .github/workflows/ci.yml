@@ -234,10 +234,10 @@ jobs:
 
       - name: Prepare files for gh-pages
         run: |
-          mkdir -p public/tex public/docs
+          mkdir -p public/typst public/tex public/docs
           cp .github/pages/index.html public/
           cp course-pdf/*.pdf public/
-          cp pdf-typst/*.pdf public/
+          cp pdf-typst/*.pdf public/typst/
           cp pdf-tex/*.pdf public/tex/
           cp -r website/* public/docs/
 
