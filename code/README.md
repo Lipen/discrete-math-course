@@ -1,6 +1,6 @@
 # code
 
-Rust study samples for discrete mathematics: **23 crates, one per topic**.
+Rust study samples for discrete mathematics: **24 crates, one per topic**.
 
 Each crate is a self-contained study aid — a library, its unit tests, and runnable examples you read like code, not just execute.
 Every crate builds, tests, and runs on its own.
@@ -42,6 +42,7 @@ None imports another.
 | --- | --- | --- |
 | [`algebra`](algebra/README.md) | Algebraic structures | Semigroup/monoid/group/ring/field traits, homomorphisms and quotient groups, finite fields GF(2^m) |
 | [`lattices`](lattices/README.md) | Lattices and orders | Join/meet, distributivity, modularity, Birkhoff characterization (M3/N5 forbidden sublattices) |
+| [`categories`](categories/README.md) | Categories | Finite categories, functors, natural transformations, the Yoneda bijection, exhaustive law checks |
 | [`crypto`](crypto/README.md) | Number theory and cryptography | Modular arithmetic, RSA, real attacks on it |
 
 ### Graphs and combinatorics
@@ -64,7 +65,7 @@ None imports another.
 ## Quick start
 
 ```bash
-cargo build --workspace     # build all 23 crates
+cargo build --workspace     # build all 24 crates
 cargo test --workspace      # run every test in every crate
 cargo clippy --workspace --all-targets   # lint everything, warning-free
 ```
