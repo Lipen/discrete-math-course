@@ -22,7 +22,7 @@ ITEM = re.compile(r"^  \+ ")
 errs = []
 ids = {}
 
-for f in sorted(BOOK.glob("m*.typ")):
+for f in sorted(BOOK.glob("chapters/m*.typ")):
     chap = f.name[:3]
     lines = f.read_text(encoding="utf-8").split("\n")
     src = "".join(lines)
