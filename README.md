@@ -13,7 +13,7 @@
 [![Рабочая программа](https://img.shields.io/badge/РПД-teal?style=flat-square)](https://lipen.github.io/discrete-math-course/program.pdf)
 [![Хендбук ментора](https://img.shields.io/badge/Хендбук_ментора-teal?style=flat-square)](https://lipen.github.io/discrete-math-course/mentors.pdf)
 
-## 🎞️ Лекции
+## 🎓 Лекции
 
 | Семестр 1 | Семестр 2 |
 |---|---|
@@ -34,7 +34,7 @@
 | [![Лекция 15 - Codes](https://img.shields.io/badge/Лекция_15-Codes-blue?style=flat-square)](https://lipen.github.io/discrete-math-course/s1-lec15-codes.pdf) | [![Лекция 15 - GenFun](https://img.shields.io/badge/Лекция_15-GenFun-orange?style=flat-square)](https://lipen.github.io/discrete-math-course/s2-lec15-genfun.pdf) |
 | [![Лекция 16 - Compression](https://img.shields.io/badge/Лекция_16-Compression-blue?style=flat-square)](https://lipen.github.io/discrete-math-course/s1-lec16-compression.pdf) | [![Лекция 16 - Ramsey](https://img.shields.io/badge/Лекция_16-Ramsey-orange?style=flat-square)](https://lipen.github.io/discrete-math-course/s2-lec16-ramsey.pdf) |
 
-## 🧾 Домашние задания
+## 📝 Домашние задания
 
 | Семестр 1 | Семестр 2 |
 |---|---|
