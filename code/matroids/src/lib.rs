@@ -55,3 +55,46 @@ pub fn rank<M: Matroid>(m: &M) -> u32 {
     let unit = vec![1; m.n() as usize];
     greedy(m, &unit).len() as u32
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::examples::UniformMatroid;
+
+    #[test]
+    fn greedy_takes_the_two_heaviest_sorted() {
+        let m = UniformMatroid { n: 4, k: 2 };
+        let weights = [5u32, 3, 4, 2];
+        let chosen = greedy(&m, &weights);
+        assert_eq!(chosen, vec![0, 2]); // the two heaviest, increasing order
+        assert!(m.is_independent(&chosen));
+        assert_eq!(weight(&chosen, &weights), 9);
+    }
+
+    #[test]
+    fn greedy_never_leaves_the_independent_family() {
+        let m = UniformMatroid { n: 4, k: 1 };
+        let weights = [7u32, 6, 5, 4];
+        let chosen = greedy(&m, &weights);
+        assert_eq!(chosen, vec![0]); // k = 1: only the heaviest element fits
+        assert!(m.is_independent(&chosen));
+    }
+
+    #[test]
+    fn weight_sums_element_weights() {
+        let weights = [5u32, 3, 4, 2];
+        assert_eq!(weight(&[0, 2], &weights), 9);
+        assert_eq!(weight(&[], &weights), 0);
+    }
+
+    #[test]
+    fn rank_equals_base_size() {
+        let m = UniformMatroid { n: 4, k: 2 };
+        assert_eq!(rank(&m), 2);
+        // Unit-weight greedy returns a base: independent and of maximal size.
+        let unit = vec![1; m.n() as usize];
+        let base = greedy(&m, &unit);
+        assert!(m.is_independent(&base));
+        assert_eq!(base.len() as u32, rank(&m));
+    }
+}

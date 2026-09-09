@@ -122,3 +122,47 @@ impl<'a> Matroid for BinaryLinearMatroid<'a> {
         true
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn uniform_oracle_u42() {
+        let m = UniformMatroid { n: 4, k: 2 };
+        assert!(m.is_independent(&[]));
+        assert!(m.is_independent(&[0, 1]));
+        assert!(!m.is_independent(&[0, 1, 2]));
+    }
+
+    #[test]
+    fn graphic_oracle_triangle() {
+        // Triangle: edge 0 = (0,1), edge 1 = (1,2), edge 2 = (0,2).
+        let edges = vec![(0u32, 1u32), (1u32, 2u32), (0u32, 2u32)];
+        let m = GraphicMatroid::new(3, &edges);
+        assert!(m.is_independent(&[0, 1])); // any two edges form a path
+        assert!(m.is_independent(&[0, 2]));
+        assert!(m.is_independent(&[1, 2]));
+        assert!(!m.is_independent(&[0, 1, 2])); // all three edges close the cycle
+    }
+
+    #[test]
+    fn scheduling_oracle_deadlines_112() {
+        let m = SchedulingMatroid {
+            deadlines: vec![1, 1, 2],
+        };
+        assert!(m.is_independent(&[0, 2])); // job 0 at time 1, job 2 at time 2
+        assert!(!m.is_independent(&[0, 1])); // both due at time 1: one slot
+        assert!(!m.is_independent(&[0, 1, 2])); // three jobs need three slots
+    }
+
+    #[test]
+    fn binary_linear_oracle_gf2() {
+        let indep = vec![vec![1u8, 0], vec![1u8, 1]];
+        let m = BinaryLinearMatroid { vectors: &indep };
+        assert!(m.is_independent(&[0, 1])); // [1,0] and [1,1] are linearly independent
+        let dup = vec![vec![1u8, 0], vec![1u8, 0]];
+        let m_dup = BinaryLinearMatroid { vectors: &dup };
+        assert!(!m_dup.is_independent(&[0, 1])); // [1,0] twice is dependent
+    }
+}
