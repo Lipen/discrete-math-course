@@ -7,7 +7,10 @@
 
 ## 📋 Документы
 
-[![Книга](https://img.shields.io/badge/Книга-blue)](https://lipen.github.io/discrete-math-course/book.pdf) [![Организация курса](https://img.shields.io/badge/Организация_курса-blue)](https://lipen.github.io/discrete-math-course/syllabus.pdf) [![Рабочая программа](https://img.shields.io/badge/РПД-blue)](https://lipen.github.io/discrete-math-course/program.pdf) [![Хендбук ментора](https://img.shields.io/badge/Хендбук_ментора-blue)](https://lipen.github.io/discrete-math-course/mentors.pdf)
+[![Книга](https://img.shields.io/badge/Книга-blue)](https://lipen.github.io/discrete-math-course/book.pdf)
+[![Организация курса](https://img.shields.io/badge/Организация_курса-blue)](https://lipen.github.io/discrete-math-course/syllabus.pdf)
+[![Рабочая программа](https://img.shields.io/badge/РПД-blue)](https://lipen.github.io/discrete-math-course/program.pdf)
+[![Хендбук ментора](https://img.shields.io/badge/Хендбук_ментора-blue)](https://lipen.github.io/discrete-math-course/mentors.pdf)
 
 ## 🎞️ Лекции
 
@@ -44,7 +47,7 @@
 ## ⚙️ Сборка
 
 Нужны [Typst](https://github.com/typst/typst) 0.15 и [just](https://github.com/casey/just).
-Для тестов — [Rust](https://www.rust-lang.org/), для РПД — [pandoc](https://pandoc.org/) с xelatex.
+Для тестов — [Rust](https://www.rust-lang.org/).
 
 ```bash
 just               # показать все команды
