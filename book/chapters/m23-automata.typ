@@ -679,7 +679,7 @@ $epsilon$-замыкание начального множества ${q_0}$ с�
 Инженерный успех Томпсона опирался на математический результат, полученный за два десятилетия до того.
 
 #theorem[Теорема Клини#footnote[
-    Kleene S. C. "Representation of events in nerve nets and finite automata", RAND Corporation, 1951 (опубликована в сборнике "Automata Studies", 1956).
+    S. C. Kleene. "Representation of events in nerve nets and finite automata". RAND Corporation, 1951 (опубликована в сборнике "Automata Studies", 1956).
     Клини ввёл понятие регулярного выражения и доказал эквивалентность конечным автоматам.
   ]][
   Язык регулярен тогда и только тогда, когда он представим регулярным выражением: $"AUT" = "REG"$.
@@ -1117,8 +1117,8 @@ $meq_L$ --- отношение эквивалентности: рефлекси�
 Это не совпадение: теорема Майхилла--Нерода утверждает, что индекс $meq_L$ _всегда_ равен числу состояний минимального ДКА для $L$.
 
 #theorem[Теорема Майхилла--Нерода#footnote[
-    Myhill J. "Finite automata and the representation of events", WADD TR-57-624, 1957.
-    Nerode A. "Linear automaton transformations", Proceedings of the AMS, 1958.
+    J. Myhill. "Finite automata and the representation of events". WADD TR-57-624, 1957.
+    A. Nerode. "Linear automaton transformations". Proceedings of the AMS, 1958.
     Теорема даёт алгебраическую характеризацию регулярных языков и конструкцию минимального ДКА.
   ]][
   Для языка $L subset.eq Sigma^*$ следующие утверждения эквивалентны:

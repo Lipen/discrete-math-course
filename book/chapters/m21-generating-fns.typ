@@ -1174,7 +1174,7 @@ $
 
 == \* Формула Кэли
 
-#theorem[Формула Кэли#footnote[Cayley A. "A Theorem on Trees", Quarterly Journal of Pure and Applied Mathematics, 1889.]][
+#theorem[Формула Кэли#footnote[A. Cayley. "A Theorem on Trees". Quarterly Journal of Pure and Applied Mathematics, 1889.]][
   Число помеченных деревьев на $n$ вершинах равно
   $
     n^(n-2).

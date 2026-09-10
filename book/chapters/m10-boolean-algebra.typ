@@ -199,8 +199,8 @@ _Булева функция_ --- это простейшая возможная
 NAND и NOR выделяются среди остальных вентилей: каждого из них по отдельности достаточно для построения всей булевой алгебры.
 
 #theorem[Штрих Шеффера и стрелка Пирса#footnote[
-    Sheffer H. M. "A set of five independent postulates for Boolean algebras, with application to logical constants", Transactions of the AMS, 1913.
-    Peirce C. S. описал NOR-функцию ранее (1880), но его работа не была опубликована при жизни.
+    H. M. Sheffer. "A set of five independent postulates for Boolean algebras, with application to logical constants". Transactions of the AMS, 1913.
+    C. S. Peirce описал NOR-функцию ранее (1880), но его работа не была опубликована при жизни.
   ]][
   Набор ${"И-НЕ"}$ (штрих Шеффера, #nand) по отдельности функционально полон.
   То же верно для набора ${"ИЛИ-НЕ"}$ (стрелка Пирса, #nor).
@@ -275,7 +275,7 @@ NAND и NOR выделяются среди остальных вентилей:
 Каждый класс Поста фиксирует конкретный "дефект" --- ограничение, запрещающее выражать функции определённого типа.
 Критерий Поста утверждает, что этих пяти дефектов достаточно: если набор избегает всех, он полон.
 
-#theorem[Критерий Поста#footnote[Post E. L. "The Two-Valued Iterative Systems of Mathematical Logic", Annals of Mathematics Studies, 1941. Русский перевод: Э. Пост, "Двузначные итеративные системы математической логики".]][
+#theorem[Критерий Поста#footnote[E. L. Post. "The Two-Valued Iterative Systems of Mathematical Logic". Annals of Mathematics Studies, 1941. Русский перевод: Э. Пост. "Двузначные итеративные системы математической логики".]][
   Множество булевых функций $F$ функционально полно тогда и только тогда, когда оно НЕ содержится целиком ни в одном из классов $T_0$, $T_1$, $S$, $M$, $L$.
 ]
 
@@ -299,7 +299,7 @@ NAND и NOR выделяются среди остальных вентилей:
   Функция $x and y$ не самодвойственна: $not(not x and not y) = x or y != x and y$.
   Функция $not x$ не монотонна, поэтому не входит в класс $M$.
   Функция $x and y$ не линейна, поэтому не входит в класс $L$.
-  Все пять --- максимальные замкнутые классы#footnote[Post E. L. "The Two-Valued Iterative Systems of Mathematical Logic", Annals of Mathematics Studies, 1941.].
+  Все пять --- максимальные замкнутые классы#footnote[E. L. Post. "The Two-Valued Iterative Systems of Mathematical Logic". Annals of Mathematics Studies, 1941.].
 
   *Доказательство критерия.*
 
@@ -930,7 +930,7 @@ $x or (x and overline(y))$ --- корректная ДНФ, но не совер
     Несклеенные термы --- простые импликанты.
   + *Фаза покрытия*: составить таблицу покрытия (строки --- простые импликанты, столбцы --- исходные минтермы) и выбрать минимальное по числу импликант подмножество строк, покрывающее все столбцы.
     Это задача о покрытии множества, в общем случае NP-трудная, но на практике решается эвристиками#footnote[
-      R. Brayton et al., "Logic Minimization Algorithms for VLSI Synthesis", Kluwer, 1984.
+      R. Brayton et al. "Logic Minimization Algorithms for VLSI Synthesis". Kluwer, 1984.
       ABC: https://github.com/berkeley-abc/abc.
     ] для типичных размеров.
 ]

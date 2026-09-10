@@ -345,7 +345,7 @@
 Для приближённой оценки больших факториалов служит формула Стирлинга.
 
 #proposition[Формула Стирлинга#footnote[
-    Stirling J. "Methodus Differentialis" (Дифференциальный метод), 1730.
+    J. Stirling. "Methodus Differentialis" (Дифференциальный метод). 1730.
     Первым асимптотику $log n!$ получил Абрахам де Муавр (Abraham de Moivre, 1730).
     Стирлинг уточнил константу до $sqrt(2 pi)$.
   ]][
@@ -1028,7 +1028,7 @@ $C_3 = 5$.
 Теперь пометим вершины номерами: деревья с разными пометками --- разные, и их уже не перепутаешь.
 Помеченное дерево допускает сжатие до короткой кодовой записи, и это сжатие обратимо.
 
-Код Прюфера#footnote[Prüfer H. "Neuer Beweis eines Satzes über Permutationen", Archiv der Mathematik und Physik, 1918.] --- способ закодировать помеченное дерево с $n$ вершинами последовательностью длины $n-2$ из чисел ${1, dots, n}$.
+Код Прюфера#footnote[H. Prüfer. "Neuer Beweis eines Satzes über Permutationen". Archiv der Mathematik und Physik, 1918.] --- способ закодировать помеченное дерево с $n$ вершинами последовательностью длины $n-2$ из чисел ${1, dots, n}$.
 
 *Из дерева в код.* Повторяем $n-2$ раза: найти лист (вершину степени 1) с наименьшим номером, записать номер его единственного соседа, удалить лист.
 
@@ -1065,7 +1065,7 @@ $C_3 = 5$.
 
 === Формула Кэли
 
-#theorem[Формула Кэли#footnote[Cayley A. "A Theorem on Trees", Quarterly Journal of Pure and Applied Mathematics, 1889.]][
+#theorem[Формула Кэли#footnote[A. Cayley. "A Theorem on Trees". Quarterly Journal of Pure and Applied Mathematics, 1889.]][
   Число помеченных деревьев на $n$ вершинах --- $n^(n-2)$.
 ]
 
@@ -1578,7 +1578,7 @@ $
 === Лемма Бёрнсайда
 
 #theorem[Лемма Бёрнсайда#footnote[
-    Burnside W. "Theory of Groups of Finite Order", 1897 (2-е изд., 1911, §232).
+    W. Burnside. "Theory of Groups of Finite Order". 1897 (2-е изд., 1911, §232).
     Лемма была известна Коши (1845) и Фробениусу (1887) задолго до книги Бёрнсайда. Бёрнсайд популяризовал её в своём учебнике, и имя закрепилось.
     В континентальной Европе она чаще известна как лемма Коши--Фробениуса.
   ]][
@@ -1738,7 +1738,7 @@ $
   $
 ]
 
-#theorem[Теорема Бутона#footnote[Bouton C. L. "Nim, a game with a complete mathematical theory", Annals of Mathematics, 1901. Первый полный анализ impartial-игры. Позже обобщён теоремой Шпрага--Гранди (Sprague--Grundy, 1935--1939).]][
+#theorem[Теорема Бутона#footnote[C. L. Bouton. "Nim, a game with a complete mathematical theory". Annals of Mathematics, 1901. Первый полный анализ impartial-игры. Позже обобщён теоремой Шпрага--Гранди (Sprague--Grundy, 1935--1939).]][
   Позиция в Ниме выигрышна для второго игрока, если её Nim-сумма равна 0.
   В противном случае выигрывает первый.
 ]

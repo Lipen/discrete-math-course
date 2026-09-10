@@ -381,8 +381,8 @@ $overline(l_1) -> l_2, overline(l_2) -> l_1$ (контрапозиции).
 Сводись всякая 3-КНФ к 2-SAT, SAT решался бы за полиномиальное время --- вопреки NP-полноте 3-SAT.
 
 Добавление одного литерала в дизъюнкт разрушает структуру, делающую полиномиальный алгоритм возможным.#footnote[
-  B. Aspvall, M. F. Plass, R. E. Tarjan, "A Linear-Time Algorithm for Testing the Truth of Certain Quantified Boolean Formulas", Information Processing Letters, 1979;
-  контраст с общим случаем: S. A. Cook, "The Complexity of Theorem-Proving Procedures", STOC 1971 --- доказательство NP-полноты SAT.
+  B. Aspvall, M. F. Plass, R. E. Tarjan. "A Linear-Time Algorithm for Testing the Truth of Certain Quantified Boolean Formulas". Information Processing Letters, 1979;
+  контраст с общим случаем: S. A. Cook. "The Complexity of Theorem-Proving Procedures". STOC, 1971 --- доказательство NP-полноты SAT.
 ]
 
 Разложение на импликации --- мотивировка контраста: оно показывает, почему 2-SAT лёгок, а 3-SAT труден.
@@ -784,8 +784,8 @@ CDCL добавляет к этому механизм _обучения на к
   Решатель находит совместимый набор версий.
 
 Этот феномен --- NP-полная задача, систематически решаемая на практике для структурированных входов --- превратил SAT из теоретической диковинки в индустриальный инструмент.#footnote[
-  S. Malik, L. Zhang, "Boolean Satisfiability: From Theoretical Hardness to Practical Success", Communications of the ACM, 2009;
-  A. Biere et al. (ред.), "Handbook of Satisfiability", 2-е изд., IOS Press, 2021.
+  S. Malik, L. Zhang. "Boolean Satisfiability: From Theoretical Hardness to Practical Success". Communications of the ACM, 2009;
+  A. Biere et al. (ред.). "Handbook of Satisfiability". 2-е изд., IOS Press, 2021.
 ]
 
 === Локальный поиск: WalkSAT
@@ -860,7 +860,7 @@ CDCL обобщает эту идею на КНФ произвольной дл�
 
 Анализ конфликта выделяет *разрез* графа импликаций, разделяющий причину конфликта и его следствие.
 Выученный дизъюнкт --- это отрицание литералов на стороне причины: он запрещает комбинацию присваиваний, приведшую к конфликту, и тем самым "перерезает" все пути, ведущие к данному конфликту в будущем.#footnote[
-  J. P. Marques-Silva, K. A. Sakallah, "GRASP: A Search Algorithm for Propositional Satisfiability", IEEE Transactions on Computers, 1999.
+  J. P. Marques-Silva, K. A. Sakallah. "GRASP: A Search Algorithm for Propositional Satisfiability". IEEE Transactions on Computers, 1999.
 ]
 
 #remark[Два графа под одним именем][
@@ -885,7 +885,7 @@ SAT --- точка отсчёта в теории сложности.
 Теорема Кука (1971) утверждает, что SAT --- NP-полная задача, "самая трудная" в классе NP.
 
 #theorem[Теорема Кука --- формулировка#footnote[
-    Cook S. A. "The Complexity of Theorem-Proving Procedures", Proceedings of the 3rd ACM Symposium on Theory of Computing (STOC), 1971.
+    S. A. Cook. "The Complexity of Theorem-Proving Procedures". STOC, 1971.
     Первая доказанная NP-полнота.
     Конструкция сводит произвольную NP-машину к булевой формуле через таблицу вычисления.
   ]][
@@ -988,8 +988,8 @@ CDCL решает SAT на индустриальных входах, а не в
 Алгоритм эксплуатирует структурные свойства формул через два механизма:
 + VSIDS --- отдаёт приоритет "активным" переменным.
 + Обучение дизъюнктам --- накопление "структурного знания" о формуле.#footnote[
-    C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman, "Satisfiability Solvers", глава 2 в "Handbook of Knowledge Representation", Elsevier, 2008;
-    C. Ansótegui, M. L. Bonet, J. Levy, "On the Structure of Industrial SAT Instances", CP 2009.
+    C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman. "Satisfiability Solvers". Глава 2 в "Handbook of Knowledge Representation", Elsevier, 2008;
+    C. Ansótegui, M. L. Bonet, J. Levy. "On the Structure of Industrial SAT Instances". CP, 2009.
   ]
 
 == Итоги главы

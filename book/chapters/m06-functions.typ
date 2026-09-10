@@ -255,13 +255,13 @@ $f^(-1)(4) = {-2, 2}$ --- прообраз (множество из двух э�
 
 Ответ на оба вопроса --- нет.
 Остановка сводится к тотальности: по паре $(M, x)$ строится программа, тотальная ровно тогда, когда $M$ останавливается на $x$.#footnote[
-  A. Turing, "On Computable Numbers, with an Application to the Entscheidungsproblem", Proceedings of the London Mathematical Society, 1936--1937.
+  A. Turing. "On Computable Numbers, with an Application to the Entscheidungsproblem". Proceedings of the London Mathematical Society, 1936--1937.
 ]
 Но это разные вопросы: остановка спрашивает про один конкретный вход, тотальность --- про все сразу.
 
 Доказательство тотальности программы --- задача верификации.
 Системы вроде Coq#footnote[Coq proof assistant, INRIA, https://coq.inria.fr.] и Agda#footnote[
-  U. Norell, "Towards a Practical Programming Language Based on Dependent Type Theory", PhD thesis, Chalmers, 2007.
+  U. Norell. "Towards a Practical Programming Language Based on Dependent Type Theory". PhD thesis, Chalmers, 2007.
 ] требуют доказательства тотальности для каждой определённой в них функции: компилятор отвергает код, для которого не доказана завершимость.
 Требование тотальности --- следствие логики: в соответствии Карри--Говарда незавершающаяся функция соответствовала бы некорректному доказательству (из ложной посылки можно вывести что угодно).
 

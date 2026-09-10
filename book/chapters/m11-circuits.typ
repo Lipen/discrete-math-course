@@ -815,7 +815,7 @@ $n$-битное АЛУ --- $n$ срезов с цепочкой перенос�
 Оба преобразования выполняются за $O(n)$ и допускают эффективную аппаратную реализацию с помощью цепочки XOR-ов.
 
 Практические применения кода Грея охватывают разные области:#footnote[
-  F. Gray, "Pulse Code Communication", US Patent 2,632,058, 1953.
+  F. Gray. "Pulse Code Communication". US Patent 2,632,058, 1953.
 ]
 + Поворотные энкодеры: устранение ложных состояний при переключении.
 + Карты Карно: упорядочивание строк и столбцов для склеивания смежных клеток.
@@ -886,7 +886,7 @@ CDCL можно реализовать аппаратно на FPGA (от анг
 Там распространение булевых ограничений (Boolean Constraint Propagation, далее --- BCP) выполняется параллельно.
 BCP занимает 80--90% времени в программном CDCL.
 В аппаратной реализации все дизъюнкты проверяются одновременно, что даёт ускорение на порядок.#footnote[
-  I. Skliarova, A. Ferrari, "A Survey of FPGA-Based SAT Solvers", ACM Computing Surveys, 2020.
+  I. Skliarova, A. Ferrari. "A Survey of FPGA-Based SAT Solvers". ACM Computing Surveys, 2020.
 ]
 
 == Схемная сложность
@@ -935,7 +935,7 @@ BCP занимает 80--90% времени в программном CDCL.
 ) <fig:functions-vs-circuits>
 
 Обобщим подсчёт на все $n$.
-Ответ принадлежит Клоду Шеннону#footnote[C. E. Shannon, "The Synthesis of Two-Terminal Switching Circuits", Bell System Technical Journal, 1949.].
+Ответ принадлежит Клоду Шеннону#footnote[C. E. Shannon. "The Synthesis of Two-Terminal Switching Circuits". Bell System Technical Journal, 1949.].
 
 #theorem[Мощностной аргумент Шеннона (_Shannon's counting argument_)][
   Почти все $n$-арные булевы функции требуют схем размера $>= 2^n/(2n)$.
@@ -988,7 +988,7 @@ BCP занимает 80--90% времени в программном CDCL.
   В этом разрыве между $2^n/n$ и $5n$ живёт открытая проблема.
 ]
 
-Лучшая известная нижняя оценка для _явно заданной_ функции линейная: $5n - o(n)$#footnote[K. Iwama, H. Morizumi, "An explicit lower bound of $5n - o(n)$ for Boolean circuits", 2002. Предыдущий рекорд --- $3n - o(n)$ --- принадлежал N. Blum, "A Boolean Function Requiring 3n Network Size", Theoretical Computer Science, 1984.].
+Лучшая известная нижняя оценка для _явно заданной_ функции линейная: $5n - o(n)$#footnote[K. Iwama, H. Morizumi. "An explicit lower bound of $5n - o(n)$ for Boolean circuits". 2002. Предыдущий рекорд --- $3n - o(n)$ --- принадлежал N. Blum. "A Boolean Function Requiring 3n Network Size". Theoretical Computer Science, 1984.].
 Явно заданная функция --- та, которую можно описать алгоритмически, а не доказать её существование мощностным аргументом.
 Десятилетия усилий не принесли ничего существенно лучшего: суперлинейная нижняя оценка для конкретной функции не доказана до сих пор.
 А суперполиномиальная нижняя оценка для функции из NP означала бы $P != "NP"$.
@@ -1020,7 +1020,7 @@ BCP занимает 80--90% времени в программном CDCL.
   caption: [Вложенность классов $P subset.eq "P/poly"$.],
 ) <fig:class-inclusion>
 
-Теорема Карпа-Липтона#footnote[R. M. Karp, R. J. Lipton, "Some Connections Between Nonuniform and Uniform Complexity Classes", STOC, 1980.] связывает схемы со всей иерархией классов.
+Теорема Карпа-Липтона#footnote[R. M. Karp, R. J. Lipton. "Some Connections Between Nonuniform and Uniform Complexity Classes". STOC, 1980.] связывает схемы со всей иерархией классов.
 Если $"NP" subset.eq "P/poly"$, полиномиальная иерархия схлопывается до второго уровня.
 Нижние оценки для схем поэтому --- вопрос о структуре всех классов сложности, выходящий за рамки локальных свойств конкретных функций.
 
@@ -1034,9 +1034,9 @@ BCP занимает 80--90% времени в программном CDCL.
 
 Известные результаты скромны.
 Для монотонных схем --- без отрицаний --- Александр Разборов доказал в 1985 году суперполиномиальную нижнюю оценку для CLIQUE ($n^(Omega(log n))$)#footnote[
-  А. А. Разборов, "О нижних оценках монотонной сложности некоторых булевых функций", Доклады АН СССР, 1985.
+  А. А. Разборов. "О нижних оценках монотонной сложности некоторых булевых функций". Доклады АН СССР, 1985.
 ], а Алон и Боппана в 1987 году --- экспоненциальную#footnote[
-  N. Alon, R. B. Boppana, "The Monotone Circuit Complexity of Boolean Functions", Combinatorica, 1987.
+  N. Alon, R. B. Boppana. "The Monotone Circuit Complexity of Boolean Functions". Combinatorica, 1987.
 ].
 Отрицание в общих схемах оказалось барьером, который не преодолён до сих пор.
 

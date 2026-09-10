@@ -768,7 +768,7 @@ $M_3$ и $N_5$ --- две наименьшие недистрибутивные 
   Задачи этого класса решаются за полиномиальное время: анализ сводится к достижимости в специально построенном графе --- той же технике, что и в главе о графах (@chap:graphs).
 
   Среди приложений --- достигающие определения (reaching definitions) и taint-анализ: проверка, что непроверенные данные не попадают в критичные места программы.#footnote[
-    T. Reps, S. Horwitz, S. Sagiv, "Precise Interprocedural Dataflow Analysis via Graph Reachability", POPL 1995.
+    T. Reps, S. Horwitz, S. Sagiv. "Precise Interprocedural Dataflow Analysis via Graph Reachability". POPL, 1995.
   ]
   Дистрибутивность нужна именно этому классу задач.
   Общая абстрактная интерпретация работает и на недистрибутивных решётках, и к ней мы вернёмся в главе~@chap:abstract-interp.
@@ -887,7 +887,7 @@ $M_3$ модулярна, поэтому в модулярной характе�
   В планировании задач метод PERT (Program Evaluation and Review Technique) вычисляет ранние и поздние сроки начала и завершения каждого узла обходом в топологическом порядке.
   Критический путь определяется как максимальная суммарная длительность зависимых задач.
   Любая система, моделирующая зависимости --- CI/CD пайплайны, планировщики задач, электронные таблицы --- опирается на ту же идею.#footnote[
-    A. B. Kahn, "Topological Sorting of Large Networks", Communications of the ACM, 1962.
+    A. B. Kahn. "Topological Sorting of Large Networks". Communications of the ACM, 1962.
   ]
 ]
 
@@ -1161,8 +1161,8 @@ Colex-порядок на таких векторах группирует по�
 
 Большинство объектно-ориентированных языков не гарантируют существования наименьшего общего надтипа для произвольной пары типов.
 Решёточная модель --- идеализация, описывающая структурные свойства системы типов, а не детали реализации конкретного компилятора.#footnote[
-  L. Cardelli, "A Semantics of Multiple Inheritance", Information and Computation, 1988.
-  B. Pierce, "Types and Programming Languages", 2002, главы 15--16.
+  L. Cardelli. "A Semantics of Multiple Inheritance". Information and Computation, 1988.
+  B. Pierce. "Types and Programming Languages". 2002, главы 15--16.
 ]
 
 === Векторные часы и причинность
@@ -1188,7 +1188,7 @@ Colex-порядок на таких векторах группирует по�
 
 Сравнение векторных часов: $a -> b iff forall j: "VC"(a)[j] <= "VC"(b)[j]$, и хотя бы одно неравенство строгое.
 Если векторы несравнимы (ни один не превосходит другой покомпонентно) --- события конкурентны.
-#footnote[L. Lamport, "Time, Clocks, and the Ordering of Events in a Distributed System", Communications of the ACM, 1978.]
+#footnote[L. Lamport. "Time, Clocks, and the Ordering of Events in a Distributed System". Communications of the ACM, 1978.]
 
 === Версионирование и совместимость
 
@@ -1222,7 +1222,7 @@ Colex-порядок на таких векторах группирует по�
 + порядок родителей в объявлении класса (слева направо) должен быть сохранён в MRO.
 + наследники должны появляться в MRO раньше родителей.
 Если эти ограничения невыполнимы (например, из-за конфликта при "ромбовидном" наследовании с несогласованным порядком), C3 отвергает определение класса --- в Python это вызывает `TypeError`.#footnote[
-  K. Barrett, B. Cassels, P. Haahr, D. A. Moon, K. Playford, P. T. Withington, "A Monotonic Superclass Linearization for Dylan", OOPSLA 1996.
+  K. Barrett, B. Cassels, P. Haahr, D. A. Moon, K. Playford, P. T. Withington. "A Monotonic Superclass Linearization for Dylan". OOPSLA, 1996.
 ]
 
 == Неподвижные точки в решётках <sec:fixpoints>
@@ -1242,9 +1242,9 @@ _Неподвижная точка_ (fixed point) функции $f$ --- эле�
 Решётка $NN$ с обычным порядком не полна: у неё нет супремума, потому что нет наибольшего натурального числа.
 
 #theorem[Кнастера--Тарского о неподвижной точке#footnote[
-    Knaster B. "Un théorème sur les fonctions d'ensembles", Annales de la Société Polonaise de Mathématique, 1928.
+    B. Knaster. "Un théorème sur les fonctions d'ensembles". Annales de la Société Polonaise de Mathématique, 1928.
   ]#footnote[
-    Tarski A. "A lattice-theoretical fixpoint theorem and its applications", Pacific Journal of Mathematics, 1955.]][
+    A. Tarski. "A lattice-theoretical fixpoint theorem and its applications". Pacific Journal of Mathematics, 1955.]][
   Пусть $(L, prec.eq)$ --- полная решётка (решётка, в которой супремум и инфимум существуют для любого, не обязательно конечного, подмножества).
   Всякая монотонная функция $f: L -> L$ имеет наименьшую и наибольшую неподвижные точки.
   Их обозначают $"lfp"(f), "gfp"(f)$.

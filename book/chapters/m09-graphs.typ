@@ -889,7 +889,7 @@ DAG --- редкий случай: циклов нет.
   Разные нумерации одного и того же дерева дают разные помеченные деревья, поэтому речь идёт о подсчёте на фиксированном множестве меток.
 ]
 
-#theorem[Формула Кэли#footnote[Cayley A. "A theorem on trees", Quarterly Journal of Mathematics, 1889.]][
+#theorem[Формула Кэли#footnote[A. Cayley. "A theorem on trees". Quarterly Journal of Pure and Applied Mathematics, 1889.]][
   Количество помеченных деревьев на $n$ вершинах равно
   $
     n^(n-2).
@@ -1184,7 +1184,7 @@ DAG --- редкий случай: циклов нет.
 ]
 
 #theorem[Критерий Эйлера#footnote[
-    Euler L. "Solutio problematis ad geometriam situs pertinentis" (Решение задачи, относящейся к геометрии положения), Commentarii academiae scientiarum Petropolitanae, 1741.
+    L. Euler. "Solutio problematis ad geometriam situs pertinentis" (Решение задачи, относящейся к геометрии положения). Commentarii academiae scientiarum Petropolitanae, 1741.
     Первая работа по теории графов --- задача о кёнигсбергских мостах.
   ]][
   Связный неориентированный граф является эйлеровым тогда и только тогда, когда все степени чётны.
@@ -1630,13 +1630,13 @@ $
 Паросочетание --- множество рёбер без общих вершин (формальное определение --- ниже, в разделе о двудольных графах). Совершенное на подграфе нечётных вершин --- покрывающее их все.
 Алгоритм состоит из трёх шагов:
 + Найти паросочетание минимального веса на подграфе вершин нечётной степени (задача о взвешенном совершенном паросочетании, алгоритм
-Эдмондса#footnote[Edmonds J., Johnson E.L. "Matching, Euler tours and the Chinese postman", Mathematical Programming, 1973.]).
+Эдмондса#footnote[J. Edmonds, E. L. Johnson. "Matching, Euler tours and the Chinese postman". Mathematical Programming, 1973.]).
 + Добавить рёбра паросочетания как дублируемые --- после этого все степени становятся чётными.
 + В полученном мультиграфе построить эйлеров цикл.
 Итоговая сложность --- $O(V^3)$.
 
 Та же задача возникает при планировании маршрутов уборочной техники и инспекции трубопроводов: нужно покрыть все сегменты сети, минимизируя повторные проходы.#footnote[
-  Kwan M.-K. "Graphic programming using odd or even points", Chinese Mathematics, 1962.
+  M.-K. Kwan. "Graphic programming using odd or even points". Chinese Mathematics, 1962.
 ]
 
 === Задача коммивояжёра
@@ -1648,7 +1648,7 @@ $
 + Задача формулируется как целочисленная линейная программа.
 + Решается её линейная релаксация (переменные могут быть дробными).
 + Нецелочисленные решения отсекаются добавлением отрезающих плоскостей --- линейных неравенств, которым удовлетворяют все гамильтоновы циклы, но которые нарушаются текущим дробным решением.#footnote[
-    Dantzig G., Fulkerson R., Johnson S. "Solution of a large-scale traveling-salesman problem", J. Operations Research Society of America, 1954.
+    G. Dantzig, R. Fulkerson, S. Johnson. "Solution of a large-scale traveling-salesman problem". J. Operations Research Society of America, 1954.
   ]
 
 Для метрического TSP (расстояния удовлетворяют неравенству треугольника) алгоритм Кристофидеса (1976) даёт 1.5-приближение за полиномиальное время.
@@ -1657,7 +1657,7 @@ $
 + На вершинах нечётной степени в MST находится совершенное паросочетание минимального веса.
 + Объединение MST и паросочетания даёт эйлеров мультиграф.
 + Из эйлерова цикла строится гамильтонов цикл shortcut'ами (пропуская повторно посещённые вершины).#footnote[
-    Christofides N. "Worst-case analysis of a new heuristic for the travelling salesman problem", Report 388, Carnegie-Mellon, 1976.
+    N. Christofides. "Worst-case analysis of a new heuristic for the travelling salesman problem". Report 388, Carnegie-Mellon University, 1976.
   ]
 
 == Двудольные графы <sec:bipartite>
@@ -1752,7 +1752,7 @@ $
 если у нескольких вершин из $X$ общие соседи, рёбер может не хватить.
 Теорема Холла даёт точное условие.
 
-#theorem[Теорема Холла#footnote[Hall P. "On representatives of subsets", Journal of the London Mathematical Society, 1935.]][
+#theorem[Теорема Холла#footnote[P. Hall. "On representatives of subsets". Journal of the London Mathematical Society, 1935.]][
   В двудольном графе $(X union Y, E)$
   паросочетание, покрывающее $X$,
   существует тогда и только тогда, когда
@@ -2058,7 +2058,7 @@ $
   Совпадение не случайно: минимальный разрез и есть бутылочное горлышко сети.
 ]
 
-#theorem[Max-flow min-cut#footnote[Ford L. R., Fulkerson D. R. "Maximal flow through a network", Canadian Journal of Mathematics, 1956. Также известна как теорема Форда--Фалкерсона.]][
+#theorem[Max-flow min-cut#footnote[L. R. Ford, D. R. Fulkerson. "Maximal Flow Through a Network". Canadian Journal of Mathematics, 1956. Также известна как теорема Форда--Фалкерсона.]][
   Величина максимального потока равна минимальной пропускной способности разреза.
 ]
 
@@ -2196,7 +2196,7 @@ $
 У неё две формы: рёберная (маршруты не делят каналы) и вершинная (маршруты не делят узлы).
 Формулировки и доказательства разные, поэтому разберём их отдельно.
 
-#theorem[Теорема Менгера: рёберная форма#footnote[Menger K. "Zur allgemeinen Kurventheorie", Fundamenta Mathematicae, 1927.]][
+#theorem[Теорема Менгера: рёберная форма#footnote[K. Menger. "Zur allgemeinen Kurventheorie". Fundamenta Mathematicae, 1927.]][
   Для любых двух вершин $u, v$
   максимальное число попарно рёберно-непересекающихся путей,
   соединяющих их,
@@ -2324,7 +2324,7 @@ $
   caption: [Двудольный граф с максимальным паросочетанием и минимальным вершинным покрытием.],
 ) <fig:konig-cover>
 
-#theorem[Теорема Кёнига#footnote[König D. "Gráfok és matrixok", Matematikai és Fizikai Lapok, 1931.]][
+#theorem[Теорема Кёнига#footnote[D. König. "Gráfok és matrixok". Matematikai és Fizikai Lapok, 1931.]][
   В двудольном графе размер максимального паросочетания равен размеру минимального вершинного покрытия:
   $
     nu(G) = tau(G),
@@ -2528,7 +2528,7 @@ $K_(3,3)$
 
 Интуитивно: если нельзя нарисовать $K_5$ или $K_(3,3)$ на плоскости, то добавить лишние вершины на рёбра этих графов и обойти запрет тоже не получится.
 
-#theorem[Теорема Куратовского#footnote[Kuratowski K. "Sur le problème des courbes gauches en topologie", Fundamenta Mathematicae, 1930.]][
+#theorem[Теорема Куратовского#footnote[K. Kuratowski. "Sur le problème des courbes gauches en topologie". Fundamenta Mathematicae, 1930.]][
   Граф планарен тогда и только тогда,
   когда он не содержит подграфа,
   гомеоморфного $K_5$ или $K_(3,3)$
@@ -2634,7 +2634,7 @@ $K_(3,3)$
 Аналог для рёберной раскраски даёт теорема Визинга.
 Рёберное хроматическое число $chi'(G)$ --- минимум цветов для правильной раскраски рёбер: рёбра с общей вершиной получают разные цвета.
 
-#theorem[Теорема Визинга#footnote[Vizing V. G. "On an estimate of the chromatic class of a p-graph", Diskretnyi Analiz, 1964 (на русском: Визинг В. Г. "Об оценке хроматического класса p-графа").]][
+#theorem[Теорема Визинга#footnote[V. G. Vizing. "On an estimate of the chromatic class of a p-graph". Diskretnyi Analiz, 1964 (на русском: В. Г. Визинг, "Об оценке хроматического класса p-графа").]][
   Для рёберной раскраски:
   $
     Delta(G) <= chi'(G) <= Delta(G) + 1.
@@ -2680,8 +2680,8 @@ $K_(3,3)$
 Это в точности задача $k$-раскраски --- NP-трудная в общем случае.
 На практике компиляторы используют эвристики.
 Алгоритм Чайтина (1982)#footnote[
-  Chaitin G. et al. "Register allocation via coloring", Computer Languages, 1981.
-  Chaitin G. "Register allocation & spilling via graph coloring", SIGPLAN Notices, 1982.
+  G. Chaitin et al. "Register allocation via coloring". Computer Languages, 1981.
+  G. Chaitin. "Register allocation & spilling via graph coloring". SIGPLAN Notices, 1982.
 ] работает итеративно:
 + Удаляются вершины со степенью $< k$ и складываются в стек.
 + Когда удалять больше нечего, вершины раскрашиваются в обратном порядке (извлекая из стека).
@@ -2718,8 +2718,8 @@ $K_(3,3)$
 Каждое удаление увеличивает число компонент связности, и на каждом шаге пересчитывается промежуточность оставшихся рёбер.
 Альтернативный подход --- максимизация модулярности (modularity):
 меры того, насколько плотность рёбер внутри предполагаемых сообществ превышает ожидаемую плотность в случайном графе с теми же степенями вершин.#footnote[
-  Girvan M., Newman M. "Community structure in social and biological networks", PNAS, 2002.
-  Newman M. "Networks: An Introduction", 2010.
+  M. Girvan, M. E. Newman. "Community structure in social and biological networks". PNAS, 2002.
+  M. E. J. Newman. "Networks: An Introduction". 2010.
 ]
 
 === Маршрутизация в сетях
@@ -2727,7 +2727,7 @@ $K_(3,3)$
 Интернет: маршрутизаторы --- вершины, каналы связи --- рёбра с весами (задержка или стоимость соединения).
 
 Протокол OSPF (Open Shortest Path First) решает задачу внутридоменной маршрутизации:
-каждый маршрутизатор вычисляет кратчайшие пути до всех остальных в своей автономной системе.#footnote[Moy J. "OSPF Version 2", RFC 2328, 1998.]
+каждый маршрутизатор вычисляет кратчайшие пути до всех остальных в своей автономной системе.#footnote[J. Moy. "OSPF Version 2". RFC 2328, 1998.]
 Механизм: каждый маршрутизатор хранит полную карту сети (link-state database) --- взвешенный граф своей области.
 При изменении топологии (отказ канала, добавление маршрутизатора) обновлённая информация рассылается лавинно (flooding) всем участникам.
 Затем каждый маршрутизатор независимо запускает алгоритм Дейкстры.
@@ -2735,7 +2735,7 @@ $K_(3,3)$
 Поддерживается множество посещённых вершин и min-heap граничных расстояний.
 На каждом шаге извлекается ближайшая непосещённая вершина, и расстояния до её соседей обновляются, если найден более короткий путь.
 Результат --- дерево кратчайших путей от данного маршрутизатора до всех остальных.
-Пакеты направляются по следующему шагу этого дерева.#footnote[Dijkstra E.W. "A note on two problems in connexion with graphs", Numerische Mathematik, 1959.]
+Пакеты направляются по следующему шагу этого дерева.#footnote[E. W. Dijkstra. "A note on two problems in connexion with graphs". Numerische Mathematik, 1959.]
 
 Междоменная маршрутизация (BGP --- Border Gateway Protocol) принципиально иная.
 Автономные системы обмениваются информацией о доступных префиксах с учётом политик (какие пути предпочтительны по коммерческим соглашениям), а не только расстояний.
@@ -2794,7 +2794,7 @@ $
 Метод сходится к единственному решению, потому что фактор телепортации делает марковскую цепь эргодичной (из любого состояния достижимо любое).
 
 На графе из миллиардов вершин это соответствует распределённому умножению разреженной матрицы на вектор --- основная вычислительная нагрузка поисковых систем.#footnote[
-  Brin S., Page L. "The anatomy of a large-scale hypertextual Web search engine", Computer Networks, 1998.
+  S. Brin, L. Page. "The anatomy of a large-scale hypertextual Web search engine". Computer Networks, 1998.
 ]
 
 == \* Случайные графы

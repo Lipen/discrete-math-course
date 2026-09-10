@@ -865,7 +865,7 @@ $
 Следовательно, любые два кардинала сравнимы.
 
 Эрнст Цермело доказал теорему в 1904 году, впервые явно сформулировав аксиому выбора, --- и вызвал бурные дебаты.#footnote[
-  Zermelo E. "Beweis, daß jede Menge wohlgeordnet werden kann", Mathematische Annalen, 1904.
+  E. Zermelo. "Beweis, daß jede Menge wohlgeordnet werden kann". Mathematische Annalen, 1904.
   Возражения опубликовали Борель, Лебег, Бэр и Адамар в том же журнале в 1905 году.
 ]
 
@@ -958,7 +958,7 @@ $
 Коротко итог парадокса записывают так --- из одного шара получаются два, ничего не добавив, $1 = 2$.
 
 Соловей (1970) построил модель теории множеств без AC, в которой все множества вещественных чисел измеримы по Лебегу.#footnote[
-  Solovay R. "A model of set-theory in which every set of reals is Lebesgue measurable", Annals of Mathematics, 1970.
+  R. Solovay. "A model of set-theory in which every set of reals is Lebesgue measurable". Annals of Mathematics, 1970.
   Модель требует аксиомы зависимого выбора (DC) и существования недостижимого кардинала.
 ]
 Парадокс Банаха--Тарского невозможен без AC.

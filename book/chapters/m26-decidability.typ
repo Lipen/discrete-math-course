@@ -397,7 +397,7 @@
 
 == Теорема Райса <sec:rice>
 
-#theorem[Теорема Райса#footnote[Rice H. G. "Classes of Recursively Enumerable Sets and Their Decision Problems", Transactions of the AMS, 1953.]][
+#theorem[Теорема Райса#footnote[H. G. Rice. "Classes of Recursively Enumerable Sets and Their Decision Problems". Transactions of the AMS, 1953.]][
   Пусть $P$ --- свойство распознаваемых языков (формально: множество описаний МТ), такое что:
   - Свойство зависит только от языка: $L(M_1) = L(M_2) => (la M_1 ra in P <=> la M_2 ra in P)$.
   - Свойство нетривиально: найдутся машины $M_1$, $M_2$ такие, что $L(M_1) in P$ и $L(M_2) in.not P$.
@@ -796,7 +796,7 @@ $
   По монотонности $S(n) > f(n)$ для всех достаточно больших $n$.
 ]
 
-Функция занятого бобра#footnote[T. Radó, "On Non-Computable Functions", Bell System Technical Journal, 1962.] --- точная граница вычислимости: она мажорирует любую вычислимую функцию.
+Функция занятого бобра#footnote[T. Radó. "On Non-Computable Functions". Bell System Technical Journal, 1962.] --- точная граница вычислимости: она мажорирует любую вычислимую функцию.
 
 #raven[
   $Sigma(n)$ --- максимум по конечному множеству.

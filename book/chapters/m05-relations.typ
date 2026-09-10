@@ -530,7 +530,7 @@ $R^3$ --- за три.
   Итог в том, что замыкание содержит $(1, 2), (2, 3), (1, 3)$ --- исходные пары плюс добавленная.
 ]
 
-Алгоритм Уоршелла (1962#footnote[S. Warshall, "A Theorem on Boolean Matrices", Journal of the ACM, 1962.]) и алгоритм Флойда--Уоршелла для кратчайших путей --- структурно один и тот же алгоритм: замена $or -> "min", and -> "+"$ превращает тот же перебор вершин в поиск кратчайших путей#footnote[R. W. Floyd, "Algorithm 97: Shortest Path", Communications of the ACM, 1962.].
+Алгоритм Уоршелла (1962#footnote[S. Warshall. "A Theorem on Boolean Matrices". Journal of the ACM, 1962.]) и алгоритм Флойда--Уоршелла для кратчайших путей --- структурно один и тот же алгоритм: замена $or -> "min", and -> "+"$ превращает тот же перебор вершин в поиск кратчайших путей#footnote[R. W. Floyd. "Algorithm 97: Shortest Path". Communications of the ACM, 1962.].
 
 В алгоритме Флойда--Уоршелла роль матрицы смежности играет таблица расстояний: на пересечении строки и столбца --- длина кратчайшего пути.
 
@@ -813,7 +813,7 @@ $R^3$ --- за три.
 С ростом $epsilon$ близкие точки сливаются в кластеры.
 При достаточно большом $epsilon$ все точки слиты в один кластер.
 Результат изображается дендрограммой: дерево, листья которого --- исходные точки, а внутренние узлы --- слияние кластеров на конкретном пороге.#footnote[
-  A. K. Jain, M. N. Murty, P. J. Flynn, "Data Clustering: A Review", ACM Computing Surveys, 1999.
+  A. K. Jain, M. N. Murty, P. J. Flynn. "Data Clustering: A Review". ACM Computing Surveys, 1999.
 ]
 Полное построение --- от расстояния к дереву и обратно --- разобрано в дополнительном разделе~@sec:ultrametric ниже.
 
@@ -831,7 +831,7 @@ $R^3$ --- за три.
 Коллизии неизбежны: если $|K| > m$, хотя бы одна корзина содержит более одного ключа.
 Разрешение коллизий (цепочки, открытая адресация) --- это реализация работы с классом эквивалентности как с множеством.
 Ключи в одной корзине хранятся вместе, и поиск нужного требует дополнительного сравнения внутри класса.#footnote[
-  D. E. Knuth, "The Art of Computer Programming", Vol. 3: Sorting and Searching, Section 6.4: Hashing, 1973.
+  D. E. Knuth. "The Art of Computer Programming". Vol. 3: Sorting and Searching, Section 6.4: Hashing, 1973.
 ]
 
 == Минимизация ДКА через отношение неразличимости
@@ -851,9 +851,9 @@ $ forall w in Sigma^*: delta^*(p, w) in F iff delta^*(q, w) in F, $
 Склеивание эквивалентных состояний (замена класса одним состоянием) даёт _минимальный_ ДКА --- автомат с наименьшим возможным числом состояний, распознающий тот же язык.
 
 Минимальность доказывается теоремой Майхилла--Нерода:#footnote[
-  J. Myhill, "Finite Automata and the Representation of Events", WADD TR-57-624, 1957.
+  J. Myhill. "Finite Automata and the Representation of Events". WADD TR-57-624, 1957.
 ]#footnote[
-  A. Nerode, "Linear Automaton Transformations", Proceedings of the AMS, 1958.
+  A. Nerode. "Linear Automaton Transformations". Proceedings of the AMS, 1958.
 ]
 число состояний минимального ДКА равно числу классов эквивалентности отношения Майхилла--Нерода на строках.
 

@@ -195,10 +195,10 @@ _Атомарное высказывание_ --- это высказывани�
 
   Альтернативные прочтения "если... то" существуют.
   Строгая импликация Льюиса объявляет, что $p$ строго влечёт $q$, когда _невозможно_, чтобы $p$ было истинно, а $q$ ложно.#footnote[
-    Lewis C. I. "Implication and the Algebra of Logic", Mind, 1912.
+    C. I. Lewis. "Implication and the Algebra of Logic". Mind, 1912.
   ]
   Релевантная логика Андерсона и Белнапа требует, чтобы посылка действительно использовалась в выводе заключения.#footnote[
-    Anderson A. R., Belnap N. D. "Entailment: The Logic of Relevance and Necessity", Vol. 1, 1975.
+    A. R. Anderson, N. D. Belnap. "Entailment: The Logic of Relevance and Necessity". Vol. 1, 1975.
   ]
   Обе системы ближе к интуитивному "если... то" и обе жертвуют главным достоинством материальной импликации: ни одна не допускает механической проверки формулы конечным перебором строк таблицы истинности.
   Модальные системы, выросшие из строгой импликации, разбираются в главе~@chap:modal.
@@ -767,9 +767,9 @@ _Атомарное высказывание_ --- это высказывани�
 Иногда он доказывает _существование_ объекта, не предъявляя его --- потому что в каждом из случаев свидетель существует, но в разных случаях это разные объекты.
 
 Классический пример --- доказательство, приписываемое Джеффри Хантеру#footnote[
-  Hunter G. "Metalogic: An Introduction to the Metatheory of Standard First Order Logic", University of California Press, 1971.
+  G. Hunter. "Metalogic: An Introduction to the Metatheory of Standard First Order Logic". University of California Press, 1971.
 ] и популяризированное Довом Джарденом#footnote[
-  Jarden D. "A simple proof that a power of an irrational number to an irrational exponent may be rational", Mathematics Magazine, 1953.
+  D. Jarden. "A simple proof that a power of an irrational number to an irrational exponent may be rational". Mathematics Magazine, 1953.
 ].
 
 #proposition[Иррациональная степень иррационального числа][
@@ -1072,9 +1072,9 @@ _Атомарное высказывание_ --- это высказывани�
 
 Структурная индукция обобщает этот принцип на деревья, формулы и программы.
 Именно на ней держится доказательство корректности компиляторов и свойств систем типов.
-CompCert --- верифицированный компилятор C, сертифицированный с помощью Coq (X. Leroy et al., "CompCert --- A Formally Verified Optimizing Compiler", INRIA, 2005--2025).
+CompCert --- верифицированный компилятор C, сертифицированный с помощью Coq#footnote[X. Leroy et al. "CompCert --- A Formally Verified Optimizing Compiler". INRIA, 2005--2025.].
 В теории языков программирования стандартное доказательство type safety опирается на два свойства --- progress и preservation.
-Оба доказываются структурной индукцией по дереву вывода типов (B. Pierce, "Types and Programming Languages", 2002, глава 8).
+Оба доказываются структурной индукцией по дереву вывода типов#footnote[B. Pierce. "Types and Programming Languages". Глава 8, 2002.].
 
 === Структурная индукция
 
