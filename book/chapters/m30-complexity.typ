@@ -254,7 +254,7 @@ $
 
 Вопрос $"P"$ против $"NP"$ не поддаётся решению полвека, и одна из причин --- барьер релятивизации.
 Бейкер, Гилл и Соловей в 1975 году доказали: стандартный метод теории сложности, диагонализация, не может разрешить этот вопрос#footnote[
-  Baker T., Gill J., Solovay R. "Relativizations of the P=?NP Question", SIAM Journal on Computing, 1975.
+  T. Baker, J. Gill, R. Solovay. "Relativizations of the P=?NP Question". SIAM Journal on Computing, 1975.
 ].
 А именно: существуют оракулы $A$ и $B$, такие что $"P"^A = "NP"^A$, но $"P"^B != "NP"^B$.
 
@@ -745,7 +745,7 @@ FPT превращает NP-полную задачу в практически 
 
 #theorem[Теорема Курселя][
   Любое свойство графа, выразимое в монадической логике второго порядка ($"MSO"_2$), разрешимо за линейное время на графах с ограниченной константой древесной ширины.#footnote[
-    B. Courcelle, "The Monadic Second-Order Logic of Graphs I: Recognizable Sets of Finite Graphs", Information and Computation, 1990.
+    B. Courcelle. "The Monadic Second-Order Logic of Graphs I: Recognizable Sets of Finite Graphs". Information and Computation, 1990.
   ]
   В $"MSO"_2$ выразимы $k$-раскрашиваемость, наличие гамильтонова цикла, вершинное покрытие, связность --- словом, большинство NP-трудных графовых задач.
 
@@ -893,7 +893,7 @@ FPT превращает NP-полную задачу в практически 
 ]
 
 #theorem[Теорема об иерархии по времени#footnote[
-    Hartmanis J., Stearns R. E. "On the Computational Complexity of Algorithms", Transactions of the American Mathematical Society, 1965.
+    J. Hartmanis, R. E. Stearns. "On the Computational Complexity of Algorithms". Transactions of the American Mathematical Society, 1965.
   ]][
   Для любой конструируемой по времени функции $t(n) >= n log n$, вычислимой за время $O(t(n))$,
   $
@@ -967,7 +967,7 @@ FPT превращает NP-полную задачу в практически 
 Вопрос, добавляет ли недетерминизм силы, для времени остаётся открытым --- это проблема $"P" "vs" "NP"$.
 Для полиномиальной памяти тот же вопрос решён, и ответ даёт теорема Сэвича.
 
-#theorem[Теорема Сэвича#footnote[Savitch W. J. "Relationships between nondeterministic and deterministic tape complexities", Journal of Computer and System Sciences, 1970.]][
+#theorem[Теорема Сэвича#footnote[W. J. Savitch. "Relationships between nondeterministic and deterministic tape complexities". Journal of Computer and System Sciences, 1970.]][
   $"NPSPACE" = "PSPACE"$.
   Недетерминизм не добавляет мощности для полиномиальной памяти, в отличие от времени (где вопрос $"P" "vs" "NP"$ открыт).
 ]

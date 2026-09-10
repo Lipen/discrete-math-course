@@ -988,7 +988,7 @@ CDCL решает SAT на индустриальных входах, а не в
 Алгоритм эксплуатирует структурные свойства формул через два механизма:
 + VSIDS --- отдаёт приоритет "активным" переменным.
 + Обучение дизъюнктам --- накопление "структурного знания" о формуле.#footnote[
-    C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman. "Satisfiability Solvers". Глава 2 в "Handbook of Knowledge Representation", Elsevier, 2008;
+    C. P. Gomes, H. Kautz, A. Sabharwal, B. Selman. "Satisfiability Solvers". Глава 2 в "Handbook of Knowledge Representation". Elsevier, 2008;
     C. Ansótegui, M. L. Bonet, J. Levy. "On the Structure of Industrial SAT Instances". CP, 2009.
   ]
 

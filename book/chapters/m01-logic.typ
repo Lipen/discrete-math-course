@@ -497,7 +497,7 @@ _Атомарное высказывание_ --- это высказывани�
 Из таблицы законов особо выделяются два --- законы де Моргана: они связывают отрицание с конъюнкцией и дизъюнкцией.
 
 #theorem[Законы де Моргана#footnote[
-    De Morgan A. "Formal Logic: or, The Calculus of Inference, Necessary and Probable", 1847.
+    A. De Morgan. "Formal Logic: or, The Calculus of Inference, Necessary and Probable". 1847.
     Законы были известны в схоластической логике (XIV век, Уильям Оккам), но вошли в оборот современной логики благодаря Де Моргану и Булю.
   ]][
   - $not (p and q) equiv not p or not q$.
