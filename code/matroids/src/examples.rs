@@ -165,4 +165,57 @@ mod tests {
         let m_dup = BinaryLinearMatroid { vectors: &dup };
         assert!(!m_dup.is_independent(&[0, 1])); // [1,0] twice is dependent
     }
+    #[test]
+    fn all_examples_satisfy_matroid_axioms() {
+        fn all_subsets(n: u32) -> Vec<Vec<u32>> {
+            (0..1u32 << n)
+                .map(|mask| (0..n).filter(|&i| mask & (1 << i) != 0).collect())
+                .collect()
+        }
+
+        let uniform = UniformMatroid { n: 4, k: 2 };
+        let edges = vec![(0u32, 1u32), (1u32, 2u32), (0u32, 2u32), (2u32, 3u32)];
+        let graphic = GraphicMatroid::new(4, &edges);
+        let scheduling = SchedulingMatroid {
+            deadlines: vec![1, 1, 2],
+        };
+        let vectors = vec![vec![1u8, 0], vec![1u8, 1]];
+        let linear = BinaryLinearMatroid { vectors: &vectors };
+        let matroids: [&dyn Matroid; 4] = [&uniform, &graphic, &scheduling, &linear];
+        for m in matroids {
+            let subsets = all_subsets(m.n());
+            // Heredity: every subset of an independent set is independent.
+            for s in &subsets {
+                if !m.is_independent(s) {
+                    continue;
+                }
+                for t in &subsets {
+                    if t.iter().all(|e| s.contains(e)) {
+                        assert!(m.is_independent(t), "heredity fails for {t:?}");
+                    }
+                }
+            }
+            // Exchange: |A| < |B| independent implies some e in B \ A keeps A + e independent.
+            for a in &subsets {
+                if !m.is_independent(a) {
+                    continue;
+                }
+                for b in &subsets {
+                    if !m.is_independent(b) || b.len() <= a.len() {
+                        continue;
+                    }
+                    let extends = b.iter().any(|&e| {
+                        if a.contains(&e) {
+                            return false;
+                        }
+                        let mut cand = a.clone();
+                        cand.push(e);
+                        cand.sort_unstable();
+                        m.is_independent(&cand)
+                    });
+                    assert!(extends, "exchange fails for {a:?} and {b:?}");
+                }
+            }
+        }
+    }
 }

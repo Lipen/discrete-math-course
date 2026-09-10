@@ -59,7 +59,7 @@ pub fn rank<M: Matroid>(m: &M) -> u32 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::examples::UniformMatroid;
+    use crate::examples::{GraphicMatroid, UniformMatroid};
 
     #[test]
     fn greedy_takes_the_two_heaviest_sorted() {
@@ -96,5 +96,19 @@ mod tests {
         let base = greedy(&m, &unit);
         assert!(m.is_independent(&base));
         assert_eq!(base.len() as u32, rank(&m));
+    }
+
+    #[test]
+    fn greedy_on_graphic_matroid_with_tie() {
+        // Triangle 0-1-2 plus tail 2-3: every spanning tree must take the tail edge.
+        let edges = vec![(0u32, 1u32), (1u32, 2u32), (0u32, 2u32), (2u32, 3u32)];
+        let m = GraphicMatroid::new(4, &edges);
+        let weights = [4u32, 3, 3, 5];
+        // Descending order: d (5), a (4), then the b/c tie resolved by index order;
+        // the last candidate closes the triangle and is rejected.
+        let chosen = greedy(&m, &weights);
+        assert_eq!(chosen, vec![0, 1, 3]);
+        assert!(m.is_independent(&chosen));
+        assert_eq!(weight(&chosen, &weights), 12); // the maximum spanning tree
     }
 }
