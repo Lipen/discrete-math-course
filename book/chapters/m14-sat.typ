@@ -58,7 +58,7 @@ NP-полнота описывает худший случай --- намере�
   Дэвис, Логеман и Лавленд#footnote[M. Davis, G. Logemann, D. Loveland. "A Machine Program for Theorem-Proving". Communications of the ACM, 1962.] модифицировали его в DPLL: замена резолюции на поиск с возвратом (backtracking) и распространение единичного дизъюнкта (unit propagation).
   DPLL стал стандартным подходом на три десятилетия, но на трудных формулах всё равно требовал экспоненциального времени.
 
-  Стивен Кук#footnote[S. A. Cook. "The Complexity of Theorem-Proving Procedures". 1971.] и Леонид Левин#footnote[L. A. Levin. "Universal Search Problems". 1973.] независимо доказали NP-полноту SAT.
+  Стивен Кук#footnote[S. A. Cook. "The Complexity of Theorem-Proving Procedures". STOC, 1971.] и Леонид Левин#footnote[Л. А. Левин. "Универсальные задачи перебора". Проблемы передачи информации, 1973.] независимо доказали NP-полноту SAT.
   Теорема Кука--Левина утверждает: если SAT решается за полиномиальное время, то $"P" = "NP"$.
   SAT стал эталонной трудной задачей --- и одновременно главной целью алгоритмических атак.
 
