@@ -78,6 +78,17 @@
   link(m.location())[#(n - 1)]
 }
 
+// URL репозитория --- единственная точка правды для внешних ссылок из книги.
+#let repo-url = "https://github.com/Lipen/discrete-math-course"
+#let repo-branch = "master"
+
+// Ссылка на крейт в code/: видна как `code/имя`, ведёт в дерево крейта на GitHub.
+// Вызов: #crate-ref("graphs") --- кликабельный, путь считатся от repo-url.
+#let crate-ref(name) = link(
+  repo-url + "/tree/" + repo-branch + "/code/" + name,
+  raw("code/" + name),
+)
+
 // --- Окружения: front-matter / main-matter ---
 #let front-matter = {
   set page(numbering: "i")
