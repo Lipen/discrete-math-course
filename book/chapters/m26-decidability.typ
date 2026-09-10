@@ -808,7 +808,7 @@ $
 
 За ней --- область, куда не может зайти ни один алгоритм.
 Конкретные значения для малых $n$ известны.
-Поведение для $n >= 6$ --- открытое поле, где теория вычислимости встречается с комбинаторной оптимизацией#footnote[A. H. Brady, "The Busy Beaver Game and the Meaning of Life", в сб. "The Universal Turing Machine: A Half-Century Survey" (ред. R. Herken), 1988.].
+Поведение для $n >= 6$ --- открытое поле, где теория вычислимости встречается с комбинаторной оптимизацией#footnote[A. H. Brady. "The Busy Beaver Game and the Meaning of Life". В сб. "The Universal Turing Machine: A Half-Century Survey" (ред. R. Herken), 1988.].
 
 
 == \* Теорема Райса и статический анализ программ

@@ -939,7 +939,7 @@ $
   EE[X^2] = G_X''(1) + G_X'(1), space "Var"[X] = G_X''(1) + G_X'(1) - (G_X'(1))^2.
 $
 Свёртке распределений соответствует произведение функций.#footnote[
-  W. Feller, "An Introduction to Probability Theory and Its Applications", т. 1, 3-е изд., 1968, гл. XI.
+  W. Feller. "An Introduction to Probability Theory and Its Applications". Т. 1, 3-е изд., 1968, гл. XI.
 ]
 
 #example[Вероятностная производящая функция кубика][
@@ -1237,7 +1237,7 @@ $
     C(x) approx 2 - 2 sqrt(1 - 4x).
   $
   Слагаемое $sqrt(1 - 4x)$ определяет асимптотику.
-  По лемме о переносе#footnote[P. Flajolet, R. Sedgewick. "Analytic Combinatorics". 2009, гл. VI.] для $alpha$ не равного целому неотрицательному:
+  По лемме о переносе#footnote[P. Flajolet, R. Sedgewick. "Analytic Combinatorics". Гл. VI, 2009.] для $alpha$ не равного целому неотрицательному:
   $
     [x^n] (1 - x/rho)^alpha tilde.op rho^(-n) n^(-alpha-1) / Gamma(-alpha).
   $

@@ -852,7 +852,6 @@ $ forall w in Sigma^*: delta^*(p, w) in F iff delta^*(q, w) in F, $
 
 Минимальность доказывается теоремой Майхилла--Нерода:#footnote[
   J. Myhill. "Finite Automata and the Representation of Events". WADD TR-57-624, 1957.
-]#footnote[
   A. Nerode. "Linear Automaton Transformations". Proceedings of the AMS, 1958.
 ]
 число состояний минимального ДКА равно числу классов эквивалентности отношения Майхилла--Нерода на строках.

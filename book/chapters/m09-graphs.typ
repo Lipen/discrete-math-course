@@ -2765,7 +2765,7 @@ CFG строится на этапе промежуточного предста
 вершины --- переменные, "живые" одновременно.
 $k$ регистров --- $k$ цветов.
 NP-трудная задача решается эвристиками (алгоритм Чайтина с вытеснением, описанный в разделе о раскраске графов).#footnote[
-  A. Aho, M. Lam, R. Sethi, J. Ullman. "Compilers: Principles, Techniques, and Tools". 2nd ed., 2006.
+  A. Aho, M. Lam, R. Sethi, J. Ullman. "Compilers: Principles, Techniques, and Tools". 2-е изд., 2006.
 ]
 
 === PageRank и поисковые системы

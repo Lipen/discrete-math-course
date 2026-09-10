@@ -737,8 +737,8 @@ $M_3$ и $N_5$ --- две наименьшие недистрибутивные 
 Обратное направление --- что всякая недистрибутивная решётка содержит $M_3, N_5$ --- нетривиально.
 Из тройки $a, b, c$, нарушающей дистрибутивный закон, нужно построить одну из двух фигур.
 Доказательство приведено в классических монографиях по теории решёток.#footnote[
-  G. Birkhoff, "Lattice Theory", 1940.
-  G. Grätzer, "General Lattice Theory", 1978.
+  G. Birkhoff. "Lattice Theory". 1940.
+  G. Grätzer. "General Lattice Theory". 1978.
 ]
 
 #example[Применение: IFDS в статическом анализе][
@@ -1202,7 +1202,7 @@ Colex-порядок на таких векторах группирует по�
 для каждого пакета нужно выбрать наибольшую версию, совместимую с уже выбранными версиями других пакетов.
 Именно эту задачу решают пакетные менеджеры (npm, Cargo, pip) при разрешении зависимостей:
 строится граф зависимостей с ограничениями на версии, и SAT/ASP-решатель ищет удовлетворяющую конфигурацию.#footnote[
-  T. Preston-Werner, "Semantic Versioning 2.0.0", https://semver.org, 2013.
+  T. Preston-Werner. "Semantic Versioning 2.0.0". https://semver.org, 2013.
 ]
 
 === Наследование и линеаризация
@@ -1243,7 +1243,6 @@ _Неподвижная точка_ (fixed point) функции $f$ --- эле�
 
 #theorem[Кнастера--Тарского о неподвижной точке#footnote[
     B. Knaster. "Un théorème sur les fonctions d'ensembles". Annales de la Société Polonaise de Mathématique, 1928.
-  ]#footnote[
     A. Tarski. "A lattice-theoretical fixpoint theorem and its applications". Pacific Journal of Mathematics, 1955.]][
   Пусть $(L, prec.eq)$ --- полная решётка (решётка, в которой супремум и инфимум существуют для любого, не обязательно конечного, подмножества).
   Всякая монотонная функция $f: L -> L$ имеет наименьшую и наибольшую неподвижные точки.

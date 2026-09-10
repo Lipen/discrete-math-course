@@ -812,11 +812,11 @@ $
 
 Классическое изложение того, как регулярные выражения становятся рабочим инструментом компилятора, --- в книге Альфреда Ахо, Рави Сети и Джеффри Ульмана.
 Книга называется "Компиляторы: принципы, технологии и инструменты"#footnote[
-  A. V. Aho, R. Sethi, J. D. Ullman, "Compilers: Principles, Techniques, and Tools", 1986. Второе издание 2006 года с M. S. Lam.
+  A. V. Aho, R. Sethi, J. D. Ullman. "Compilers: Principles, Techniques, and Tools". 1986. Второе издание 2006 года с M. S. Lam.
   За обложку с драконом книгу называют Dragon Book. Лексеру и регулярным выражениям в ней посвящены главы 3--4.
 ].
 Тот же Ульман --- соавтор учебника по теории автоматов, на который мы ссылались в доказательствах#footnote[
-  J. E. Hopcroft, R. Motwani, J. D. Ullman, "Introduction to Automata Theory, Languages, and Computation", 3-е изд., 2006.
+  J. E. Hopcroft, R. Motwani, J. D. Ullman. "Introduction to Automata Theory, Languages, and Computation". 3-е изд., 2006.
 ]. Теория регулярных языков и инженерия компиляторов написаны одними людьми.
 
 Утилита grep (Кен Томпсон, 1973) --- пример автономного лексера: регулярное выражение компилируется в ДКА, фильтрующий строки текста.
