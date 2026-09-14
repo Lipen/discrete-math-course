@@ -251,7 +251,7 @@
           ghost(acc.transparentize(88%))
         } else {
           text(
-            10em,
+            6em,
             weight: "bold",
             fill: acc.transparentize(88%),
             font: "Libertinus Sans",
