@@ -1,6 +1,6 @@
 // s1, лекция 2 --- Предикаты и доказательства (неделя 14--20 сентября).
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": domino-ghost, proofchain-ghost, quantifier-ghost
+#import "diagrams/ghosts.typ": domino-ghost, proofchain-ghost
 #show: slides.with(
   title: [Предикаты и доказательства],
   date: "Осень 2026",
@@ -19,9 +19,9 @@
 = Предикаты и кванторы
 
 #focus-slide(
-  ghost: quantifier-ghost,
-  epigraph: [Все люди по природе стремятся к знанию.],
-  epigraph-author: [Аристотель],
+  ghost: $forall$,
+  epigraph: [Математику можно определить как предмет, в котором мы никогда не знаем ни того, о чём говорим, ни того, истинно ли то, что мы говорим.],
+  epigraph-author: [Бертран Рассел],
 )
 
 == Зачем нужны кванторы?
