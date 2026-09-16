@@ -26,8 +26,6 @@
   show "e.g.": set text(style: "italic")
   show "etc.": set text(style: "italic")
 
-  set math.mat(column-gap: 1em)
-
   // Заголовки задач: цвет, размер и волосяная линейка снизу.
   show heading.where(level: 2): set text(
     size: 13pt,
@@ -110,19 +108,15 @@
 #let vmat = math.mat.with(delim: "|")
 #let Vmat = math.mat.with(delim: "||")
 
-#let Given(title: none, body) = block(
+// ── Данные задачи ──
+#let Given(body) = block(
   width: 100%,
   above: 1em,
   below: 1em,
-  inset: (left: 10pt),
+  inset: (x: 10pt),
   stroke: (left: 1.5pt + accent.lighten(40%)),
-)[
-  #if title != none [
-    #text(size: 0.82em, weight: "bold", fill: accent, tracking: 0.3pt)[#title]
-    #v(0.25em, weak: true)
-  ]
-  #body
-]
+  body,
+)
 
 // ── Указание ──
 #let Hint(body) = block(
