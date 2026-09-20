@@ -85,9 +85,13 @@
 #tasklist("t1")[
   + Вычислите следующие множества и охарактеризуйте каждое одной фразой --- какими признаками обладают входящие в него события:
 
-    + $A inter B$
-    + $overline(A) inter B$
-    + $(A inter B) without C$
+    #tasklist("t1a", cols: 3, format: "letters", full: false)[
+      + $A inter B$
+      #colbreak()
+      + $overline(A) inter B$
+      #colbreak()
+      + $(A inter B) without C$
+    ]
 
   + Запишите формулой множество событий, обладающих признаком $B$ и не более чем одним из признаков $A$ и $C$ (ни одним или ровно одним).
 
@@ -96,7 +100,7 @@
 
   + Установите истинность утверждений: ложность объясните (где можно --- контрпримером), истинность обоснуйте кратко.
 
-    #tasklist("t1x", cols: 2, format: "1)", full: false)[
+    #tasklist("t1x", cols: 2, format: "letters", full: false)[
       + $emptyset in A$
       + $emptyset subset.eq A$
       + $emptyset subset A$

@@ -66,17 +66,21 @@
 
 // Первый уровень --- "1.", "2.", ... (общий счётчик: нумерация продолжается
 // через колонки). Второй уровень --- "(а)", "(б)", ... Параметр format
-// задаёт формат первого уровня (например, "1)" для списков-перечислений).
-#let tasklist(id, cols: 1, format: none, full: true, body) = {
+// задаёт метку первого уровня: auto --- "1.", none --- без метки,
+// "letters" --- "(а)", "(б)", ... через массив letters (переживает #colbreak(),
+// в отличие от паттерна с кириллицей), иначе --- numbering-паттерн ("(a)", "1)").
+#let tasklist(id, cols: 1, format: auto, full: true, body) = {
   let s = counter(id)
   s.update(1)
   set enum(full: full, numbering: (..n) => context {
     if n.pos().len() <= 1 {
       s.step()
-      if format != none {
-        s.display(format)
-      } else {
+      if format == "letters" {
+        "(" + letters.at(s.get().first() - 1) + ")"
+      } else if format == auto {
         s.display("1.")
+      } else {
+        s.display(format)
       }
     } else {
       "(" + letters.at(n.pos().last() - 1) + ")"
