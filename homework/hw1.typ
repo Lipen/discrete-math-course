@@ -85,7 +85,7 @@
 #tasklist("t1")[
   + Вычислите следующие множества и охарактеризуйте каждое одной фразой --- какими признаками обладают входящие в него события:
 
-    #tasklist("t1a", cols: 3, format: "letters", full: false)[
+    #tasklist("t1.1", cols: 3, format: "letters", full: false)[
       + $A inter B$
       #colbreak()
       + $overline(A) inter B$
@@ -98,9 +98,9 @@
   + При каком условии на произвольные множества $M$ и $K$ верно $M without K = K without M$? \
     Докажите необходимость и достаточность.
 
-  + Установите истинность утверждений: ложность объясните (где можно --- контрпримером), истинность обоснуйте кратко.
+  + Установите истинность утверждений:
 
-    #tasklist("t1x", cols: 2, format: "letters", full: false)[
+    #tasklist("t1.4", cols: 2, format: "letters", full: false)[
       + $emptyset in A$
       + $emptyset subset.eq A$
       + $emptyset subset A$
@@ -181,7 +181,10 @@
         JaccardDist (X, Y) = card(X symdiff Y) / card(X union Y).
       $
 
-    + Проверьте аксиомы неотрицательности, симметрии и тождества неразличимых ($JaccardDist (X, Y) = 0 iff X = Y$).
+    + Проверьте аксиомы неотрицательности и симметрии, а также тождество неразличимых:
+      $
+        JaccardDist (X, Y) = 0 iff X = Y.
+      $
 
     + Куратор "доказывает" неравенство треугольника для $JaccardDist$:
 
