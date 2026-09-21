@@ -242,7 +242,7 @@
 
 Отрицание проносится сквозь квантор, меняя его тип:
 
-#theorem[Де Моргана для кванторов][
+#theorem[Отрицание кванторов][
   - $not forall x thin P (x) equiv exists x thin not P (x)$.
   - $not exists x thin P (x) equiv forall x thin not P (x)$.
 ]
