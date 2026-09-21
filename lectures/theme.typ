@@ -45,6 +45,8 @@
 #let setminus = sym.without
 #let symdiff = $Delta$
 #let sim = sym.tilde
+#let meq = $scripts(tilde.eq)$ // отношение неразличимости Майхилла--Нерода
+#let Blank = math.class("normal", sym.square.stroked)
 #let partialto = sym.arrow.r.bar
 #let nand = sym.arrow.t // штрих Шеффера
 #let nor = sym.arrow.b // стрелка Пирса
