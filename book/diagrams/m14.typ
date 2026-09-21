@@ -274,6 +274,7 @@
     impl-edge("x5", "x6", "x5-x6")
     impl-edge("x6", "conf", "x6-conf")
     impl-edge("x5", "conf", "x5-conf")
+    impl-edge("x4", "conf", "x4-conf")
 
     draw.content(
       "x1-x3",
