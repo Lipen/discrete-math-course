@@ -515,7 +515,7 @@
 
   + Докажите три факта о произведении непустых множеств $X$ и $Y$.
 
-    + Докажите: $X times Y subset.eq Z times W$ равносильно одновременному выполнению $X subset.eq Z$ и $Y subset.eq W$.
+    + Докажите: $X times Y subset.eq Z times W$ равносильно одновременному выполнению $X subset.eq Z$ и #box[$Y subset.eq W$].
       Укажите шаг, на котором нужна непустота.
     + Выведите, при каком условии на $X$ и $Y$ верно $X times Y = Y times X$.
     + Докажите для конечных $X$ и $Y$ формулу $card(X times Y) = card(X) dot card(Y)$.
