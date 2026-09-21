@@ -158,7 +158,7 @@
   node-stroke: (paint: c-state-str, thickness: 0.8pt),
   node-fill: c-state,
   edge-stroke: (paint: c-edge, thickness: 0.8pt),
-  spacing: 4em,
+  spacing: 2.5em,
   edge((-1, 0), "-}>"),
   node((0, 0), $r_0$, name: <d0>, fill: c-accept, stroke: (
     paint: c-accept-str,
