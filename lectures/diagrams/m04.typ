@@ -135,3 +135,13 @@
   dot-hollow((4, 2))
   label((2.5, 3.15), $A times B$)
 })
+
+// ── Венн против Эйлера ──
+#let venn-vs-euler = canvas({
+  draw.circle((-0.75, 0), radius: 1.35, fill: ca, stroke: c-str, name: "venn")
+  draw.circle((0.75, 0), radius: 1.35, fill: cb, stroke: c-str, name: "euler")
+  draw.circle((0, 0), radius: 0.45, fill: white, stroke: c-str, name: "both")
+  label((-1.45, 0), $1$)
+  label((1.45, 0), $2$)
+  label((0, 0), $3$)
+})
