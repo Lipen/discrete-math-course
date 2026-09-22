@@ -1170,6 +1170,39 @@ Modus ponens устроен так, что в нём невозможно усо
   + Докажите в нотации Фитча: $(A -> B) -> ((B -> C) -> (A -> C))$ (цепочка).
   + Докажите в нотации Фитча: $A or (B and C) proves (A or B) and (A or C)$ (дистрибутивность).
   + Докажите в нотации Фитча $not (A and not A)$ (закон непротиворечия).
+  + Восстановите испорченный вывод: в выводе $P -> R$ из посылок $P -> Q$ и $not Q$ стёрты часть формул и часть оправданий.
+    Заполните пропуски:
+    #fitch-proof(
+      fitch-premise(1, $P -> Q$),
+      fitch-premise(2, $not Q$),
+      fitch-subproof(
+        fitch-assume(3, $?$),
+        fitch-step(4, $Q$, rule: [?]),
+        fitch-step(5, $bot$, rule: [?]),
+        fitch-step(6, $R$, rule: [?]),
+      ),
+      fitch-step(7, $P -> R$, rule: [?]),
+    )
+
+  + Восстановите испорченный вывод: в выводе $not A -> B$ из посылки $A or B$ стёрты часть формул и часть оправданий.
+    Заполните пропуски:
+    #fitch-proof(
+      fitch-premise(1, $A or B$),
+      fitch-subproof(
+        fitch-assume(2, $?$),
+        fitch-subproof(
+          fitch-assume(3, $A$),
+          fitch-step(4, $bot$, rule: [?]),
+          fitch-step(5, $B$, rule: [?]),
+        ),
+        fitch-subproof(
+          fitch-assume(6, $B$),
+          fitch-step(7, $B$, rule: [R 6]),
+        ),
+        fitch-step(8, $?$, rule: [?]),
+      ),
+      fitch-step(9, $not A -> B$, rule: [?]),
+    )
 
   _Схемы аксиом и секвенции._
   + В системе Гильберта со схемами $K$ и $S$ выведите $A -> A$.
