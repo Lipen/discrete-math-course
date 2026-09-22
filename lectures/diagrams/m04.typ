@@ -145,3 +145,28 @@
   label((1.45, 0), $2$)
   label((0, 0), $3$)
 })
+
+// ── Коробка-множество ──
+#let set-box = canvas({
+  draw.rect((0, 0), (3.2, 2.4), radius: 5pt, fill: ca, stroke: c-str)
+  draw.content((1.05, 1.6), text(size: 2.2em)[#emoji.bird])
+  draw.content((2.3, 1.6), text(size: 1.6em)[$5$])
+  draw.content((1.65, 0.7), text(size: 1.6em)[$triangle$])
+  label((1.6, 2.8), $A = {5, triangle, #emoji.bird}$)
+})
+
+// ── Боксы равенства ──
+#let equality-boxes = canvas({
+  let w = 1.5
+  let h = 0.8
+  let gap = 0.55
+  let bodies = (${a, b}$, ${b, a}$, ${a, b, b}$, ${b, a, b}$)
+  for i in range(4) {
+    let x = i * (w + gap)
+    draw.rect((x, 0), (x + w, h), radius: 3pt, fill: ca, stroke: c-str)
+    draw.content((x + w / 2, h / 2), bodies.at(i))
+    if i < 3 {
+      draw.content((x + w + gap / 2, h / 2), $=$)
+    }
+  }
+})
