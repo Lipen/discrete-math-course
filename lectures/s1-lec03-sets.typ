@@ -2,7 +2,8 @@
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": pigeonhole-ghost, venn-ghost
 #import "diagrams/m04.typ": (
-  equality-boxes, product-plane, set-box, venn-difference, venn-intersection, venn-subset, venn-union, venn-vs-euler,
+  equality-boxes, product-plane, set-box, venn-difference, venn-intersection,
+  venn-subset, venn-union, venn-vs-euler,
 )
 #show: slides.with(
   title: [Множества],
@@ -152,7 +153,19 @@
   Слева от черты может стоять выражение:\ ${2^n mid(|) n in NN} = {1, 2, 4, 8, ...}$, то есть степени двойки.
 
   Генераторы множеств в Python --- та же запись: `{n * n for n in nums}`.
+
+  Квадраты простых: ${p^2 mid(|) p in P}$, где $P$ --- простые числа, дают ${4, 9, 25, 49, ...}$.
 ]
+
+== Важные множества
+
+- $NN = {0, 1, 2, ...}$ --- натуральные числа.
+- $ZZ = {..., -2, -1, 0, 1, 2, ...}$ --- целые.
+- $QQ = {a\/b mid(|) a in ZZ, b in NN, b != 0}$ --- рациональные.
+- $RR$ --- действительные: вся координатная прямая.
+- $BB = {#False, #True}$ --- булевы значения.
+
+$A^*$ --- конечные строки над алфавитом $A$, $A^omega$ --- бесконечные последовательности.
 
 == Парадокс Рассела
 
@@ -325,7 +338,9 @@
   [Объединение], [$A union B = {x mid(|) x in A or x in B}$], [$or$],
   [Пересечение], [$A inter B = {x mid(|) x in A and x in B}$], [$and$],
   [Разность], [$A setminus B = {x mid(|) x in A and x in.not B}$], [$and not$],
-  [Симметрическая разность], [$A symdiff B = (A setminus B) union (B setminus A)$], [$xor$],
+  [Симметрическая разность],
+  [$A symdiff B = (A setminus B) union (B setminus A)$],
+  [$xor$],
 
   [Дополнение], [$overline(A) = U setminus A = {x mid(|) x in.not A}$], [$not$],
   [Включение], [$A subset.eq B$], [$imply$],
@@ -366,7 +381,7 @@
   Цепочка эквивалентностей для произвольного $x$:
   $
     x in overline(A inter B) & equiv x in.not (A inter B) quad equiv not (x in A and x in B) \
-                             & equiv (x in.not A) or (x in.not B) quad equiv x in overline(A) union overline(B)
+    & equiv (x in.not A) or (x in.not B) quad equiv x in overline(A) union overline(B)
   $
 
   Третий переход --- де Морган из логики, остальные --- по определению.
@@ -386,9 +401,9 @@
   Цепочка эквивалентностей для произвольного $x$:
   $
     x in A setminus (B union C) & equiv x in A and x in.not (B union C) \
-                                & equiv x in A and (x in.not B and x in.not C) \
-                                & equiv (x in A and x in.not B) and (x in A and x in.not C) \
-                                & equiv x in (A setminus B) inter (A setminus C)
+    & equiv x in A and (x in.not B and x in.not C) \
+    & equiv (x in A and x in.not B) and (x in A and x in.not C) \
+    & equiv x in (A setminus B) inter (A setminus C)
   $
 ]
 
@@ -425,9 +440,9 @@
   Цепочка готовых законов, каждый шаг подписан:
   $
     A union (A inter B) & = (A inter U) union (A inter B) & quad & #[тождество $A = A inter U$] \
-                        & = A inter (U union B)           &      & #[дистрибутивность] \
-                        & = A inter U                     &      & #[так как $U union B = U$] \
-                        & = A                             &      & #[тождество]
+    & = A inter (U union B) & & #[дистрибутивность] \
+    & = A inter U & & #[так как $U union B = U$] \
+    & = A & & #[тождество]
   $
 ]
 
