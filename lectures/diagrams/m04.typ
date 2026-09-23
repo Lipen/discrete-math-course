@@ -136,6 +136,40 @@
   label((2.5, 3.15), $A times B$)
 })
 
+// ── Сетка точек A × B ──
+#let points-grid = canvas({
+  let ink = oklch(35%, 0.02, 265deg)
+  let a-set = (1, 2, 3)
+  let b-set = (1, 2)
+
+  draw.grid(
+    (0, 0),
+    (3.5, 2.7),
+    step: 1,
+    stroke: (paint: luma(85%), thickness: 0.4pt),
+  )
+  draw.line((-0.2, 0), (3.5, 0), stroke: c-str, mark: (end: "stealth"))
+  draw.line((0, -0.2), (0, 2.7), stroke: c-str, mark: (end: "stealth"))
+  label((3.7, -0.35), $x$)
+  label((-0.4, 2.9), $y$)
+  for a in a-set {
+    label((a, -0.35), [#a])
+  }
+  for b in b-set {
+    label((-0.35, b), [#b])
+  }
+  for a in a-set {
+    for b in b-set {
+      draw.circle((a, b), radius: 0.07, fill: ink, stroke: none)
+      draw.content(
+        (a, b + 0.2),
+        text(size: 0.8em)[$(#a, #b)$],
+        anchor: "south",
+      )
+    }
+  }
+})
+
 // ── Разность прямоугольников ──
 #let rect-difference = canvas({
   let ink = oklch(35%, 0.02, 265deg)

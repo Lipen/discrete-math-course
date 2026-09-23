@@ -7,7 +7,7 @@
 )
 
 #import "diagrams/m04.typ": (
-  venn-difference, venn-intersection, venn-subset, venn-union,
+  points-grid, venn-difference, venn-intersection, venn-subset, venn-union,
 )
 
 = Наивная теория множеств
@@ -290,9 +290,9 @@
 
   *$1 imply 2$.* Если $x in A setminus C$, то $x in A subset.eq B union C$ и $x in.not C$, значит, $x in B$.
 
-  *$2 imply 3$.* Если $x in A inter overline(B)$, то $x in A$ и $x in.not B$; при $x in.not C$ вышло бы $x in A setminus C subset.eq B$.
+  *$2 imply 3$.* Если $x in A inter overline(B)$, то $x in A$ и $x in.not B$. При $x in.not C$ вышло бы $x in A setminus C subset.eq B$.
 
-  *$3 imply 1$.* Если $x in A$, то либо $x in B$, либо $x in A inter overline(B) subset.eq C$; в обоих случаях $x in B union C$.
+  *$3 imply 1$.* Если $x in A$, то либо $x in B$, либо $x in A inter overline(B) subset.eq C$. В обоих случаях $x in B union C$.
 ]
 
 #important[
@@ -392,6 +392,23 @@
   Уже при $n = 20$ подмножеств больше миллиона.
 ]
 
+== Индукция по размеру
+
+#proof[
+  Докажем $abs(power(A)) = 2^n$ индукцией по $n = abs(A)$.
+
+  *База.* При $n = 0$ имеем $A = emptyset$ и $power(A) = {emptyset}$, значит, $abs(power(A)) = 1 = 2^0$.
+
+  *Шаг.* Пусть формула верна для множеств размера $k$, и $abs(A) = k + 1$.
+  Выделим $a in A$ и положим $A' = A setminus {a}$.
+
+  Подмножества $A$ делятся на две части.
+  Без $a$ --- это $power(A')$, их $2^k$.
+  С $a$ --- вида $S union {a}$ для $S subset.eq A'$, их тоже $2^k$.
+
+  Всего $2^k + 2^k = 2^(k+1)$.
+]
+
 == Декартово произведение
 
 #definition[
@@ -415,9 +432,20 @@
 
 == Декартово произведение в приложениях
 
-#important[
-  Декартово произведение --- основа координатной плоскости и кортежей в базах данных.
-]
+#grid(
+  columns: (1fr, auto),
+  column-gutter: 1em,
+  align: (top + left, top + center),
+  [
+    Точка плоскости --- пара $(a, b)$.
+    Произведение --- все точки такой сетки.
+
+    #important[
+      Декартово произведение --- основа координатной плоскости и кортежей в базах данных.
+    ]
+  ],
+  points-grid,
+)
 
 == Разбиения
 
@@ -431,6 +459,15 @@
 
 #important[
   Разбиения тесно связаны с отношениями эквивалентности --- следующая тема.
+]
+
+== Что не разбиение
+
+#example[
+  Три условия определения --- три способа нарушить их для $X = {1, 2, 3, 4}$:
+  - ${{1, 2}, {2, 3}, {4}}$ --- блоки пересекаются по элементу $2$.
+  - ${{1, 2}, {3}}$ --- элемент $4$ не покрыт.
+  - ${{1, 2}, {3, 4}, emptyset}$ --- пустой блок.
 ]
 
 == Множества и SQL
