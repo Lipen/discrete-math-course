@@ -68,6 +68,7 @@ files := """
     lec-intuitionism.typ
     lec-beyond-n.typ
     lec-complexity.typ
+    lec-zfc.typ
     lec-abstract-interpretation.typ
     lec-verification.typ
     lec-fuzzy.typ

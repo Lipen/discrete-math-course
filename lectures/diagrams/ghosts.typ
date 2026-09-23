@@ -1916,6 +1916,21 @@
   )
 })
 
+// ── Иерархия фон Неймана: ступени V_α ──
+#let hierarchy-ghost(c) = canvas({
+  let thin = 0.8pt + c
+  for i in range(5) {
+    let y = i * 0.55
+    let half = 1.7 - i * 0.3
+    draw.rect(
+      (1.7 - half, y),
+      (1.7 + half, y + 0.45),
+      name: "stage-" + str(i),
+      stroke: if i == 4 { ink-stroke(c) } else { thin },
+    )
+  }
+})
+
 // ── Оракул ──
 #let oracle-ghost(c) = canvas({
   let st = ink-stroke(c)
