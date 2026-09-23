@@ -76,6 +76,14 @@
   Предикат $P(x)$ из прошлых лекций превращается в множество ${x mid(|) P(x)}$.
 ]
 
+== Важные множества
+
+- $NN = {0, 1, 2, ...}$ --- натуральные числа.
+- $ZZ = {..., -2, -1, 0, 1, 2, ...}$ --- целые.
+- $QQ = {a\/b mid(|) a in ZZ, b in NN, b != 0}$ --- рациональные.
+- $RR$ --- действительные: вся координатная прямая.
+- $BB = {#False, #True}$ --- булевы значения.
+
 == Равенство множеств
 
 #definition[
@@ -266,6 +274,29 @@
 
 #important[
   Второй переход --- закон де Моргана из логики в действии.
+]
+
+== Циклическое доказательство
+
+#theorem[
+  Для любых множеств $A$, $B$, $C$:
+  $
+    A subset.eq B union C quad iff quad A setminus C subset.eq B quad iff quad A inter overline(B) subset.eq C
+  $
+]
+
+#proof[
+  Докажем по кругу: $1 imply 2 imply 3 imply 1$.
+
+  *$1 imply 2$.* Если $x in A setminus C$, то $x in A subset.eq B union C$ и $x in.not C$, значит, $x in B$.
+
+  *$2 imply 3$.* Если $x in A inter overline(B)$, то $x in A$ и $x in.not B$; при $x in.not C$ вышло бы $x in A setminus C subset.eq B$.
+
+  *$3 imply 1$.* Если $x in A$, то либо $x in B$, либо $x in A inter overline(B) subset.eq C$; в обоих случаях $x in B union C$.
+]
+
+#important[
+  Порядок обхода круга произволен: годится любая перестановка.
 ]
 
 == Ложная аналогия
