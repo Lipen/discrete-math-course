@@ -148,7 +148,7 @@
 
 // ── Коробка-множество ──
 #let set-box = canvas({
-  draw.rect((0, 0), (3.2, 2.4), radius: 5pt, fill: ca, stroke: c-str)
+  draw.rect((0, 0), (3.0, 2.4), radius: 5pt, fill: ca, stroke: c-str)
   draw.content((1.05, 1.6), text(size: 2.2em)[#emoji.bird])
   draw.content((2.3, 1.6), text(size: 1.6em)[$5$])
   draw.content((1.65, 0.7), text(size: 1.6em)[$triangle$])

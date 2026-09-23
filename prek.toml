@@ -18,12 +18,12 @@ hooks = [
   { id = "check-shebang-scripts-are-executable" },
 ]
 
-[[repos]]
-repo = "https://github.com/typstyle-rs/pre-commit-typstyle"
-rev = "v0.15.1"
-hooks = [
-  { id = "typstyle" },
-]
+# [[repos]]
+# repo = "https://github.com/typstyle-rs/pre-commit-typstyle"
+# rev = "v0.15.1"
+# hooks = [
+#   { id = "typstyle" },
+# ]
 
 [[repos]]
 repo = "https://github.com/astral-sh/ruff-pre-commit"

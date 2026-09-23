@@ -2,8 +2,7 @@
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": pigeonhole-ghost, venn-ghost
 #import "diagrams/m04.typ": (
-  equality-boxes, product-plane, set-box, venn-difference, venn-intersection,
-  venn-subset, venn-union, venn-vs-euler,
+  equality-boxes, product-plane, set-box, venn-difference, venn-intersection, venn-subset, venn-union, venn-vs-euler,
 )
 #show: slides.with(
   title: [Множества],
@@ -51,13 +50,13 @@
 
 == Примеры множеств
 
-#example[Обычные][
+#example[Обычные множества][
   - Простые числа: $P = {2, 3, 5, 7, 11, 13}$.
   - Фрукты: $F = {#emoji.apple, #emoji.banana, #emoji.grapes}$.
   - Знаменитые константы: $C = {pi, e, sqrt(2)}$.
 ]
 
-#example[Особые][
+#example[Особые множества][
   - Пустое множество: $emptyset = {}$.
   - Синглетон из пустого: ${emptyset}$.
   - Два множества как элементы: $N = {{1, 2}, {3, 4}}$.
@@ -71,7 +70,9 @@
 ]
 
 #example[
-  Множество $A = {42, #emoji.koala, #emoji.bread}$ содержит коалу и хлеб, поэтому $#emoji.koala in A$ истинно, а $#emoji.penguin in.not A$.
+  Множество $A = {42, #emoji.koala, #emoji.bread}$ содержит коалу и хлеб, поэтому:
+  - $#emoji.koala in A$,
+  - $#emoji.penguin in.not A$.
 ]
 
 #note[
@@ -156,7 +157,7 @@
 == Парадокс Рассела
 
 #place(top + right)[
-  #image("../typst/assets/Bertrand_Russell.jpg", height: 2.6cm)
+  #image("assets/Bertrand_Russell.jpg", height: 2.6cm)
 ]
 
 #block(width: 80%)[
@@ -175,7 +176,7 @@
 == Аксиома выделения
 
 #place(top + right)[
-  #image("../typst/assets/Ernst_Zermelo.jpg", height: 2.4cm)
+  #image("assets/Ernst_Zermelo.jpg", height: 2.4cm)
 ]
 
 #block(width: 80%)[
@@ -324,9 +325,7 @@
   [Объединение], [$A union B = {x mid(|) x in A or x in B}$], [$or$],
   [Пересечение], [$A inter B = {x mid(|) x in A and x in B}$], [$and$],
   [Разность], [$A setminus B = {x mid(|) x in A and x in.not B}$], [$and not$],
-  [Симметрическая разность],
-  [$A symdiff B = (A setminus B) union (B setminus A)$],
-  [$xor$],
+  [Симметрическая разность], [$A symdiff B = (A setminus B) union (B setminus A)$], [$xor$],
 
   [Дополнение], [$overline(A) = U setminus A = {x mid(|) x in.not A}$], [$not$],
   [Включение], [$A subset.eq B$], [$imply$],
@@ -345,12 +344,6 @@
     venn-union, venn-intersection,
     venn-difference, venn-subset,
   )
-]
-
-#note[
-  Диаграмма подсказывает тождество.
-
-  Несовпадающая область --- готовый контрпример.
 ]
 
 == Венн против Эйлера
@@ -373,7 +366,7 @@
   Цепочка эквивалентностей для произвольного $x$:
   $
     x in overline(A inter B) & equiv x in.not (A inter B) quad equiv not (x in A and x in B) \
-    & equiv (x in.not A) or (x in.not B) quad equiv x in overline(A) union overline(B)
+                             & equiv (x in.not A) or (x in.not B) quad equiv x in overline(A) union overline(B)
   $
 
   Третий переход --- де Морган из логики, остальные --- по определению.
@@ -393,9 +386,9 @@
   Цепочка эквивалентностей для произвольного $x$:
   $
     x in A setminus (B union C) & equiv x in A and x in.not (B union C) \
-    & equiv x in A and (x in.not B and x in.not C) \
-    & equiv (x in A and x in.not B) and (x in A and x in.not C) \
-    & equiv x in (A setminus B) inter (A setminus C)
+                                & equiv x in A and (x in.not B and x in.not C) \
+                                & equiv (x in A and x in.not B) and (x in A and x in.not C) \
+                                & equiv x in (A setminus B) inter (A setminus C)
   $
 ]
 
@@ -412,11 +405,11 @@
   Докажем двумя включениями.
 
   *Включение $subset.eq$.* Пусть $x in A union (overline(A) inter B)$.
-  При $x in A$ элемент уже лежит в $A union B$.
+  При $x in A$ элемент уже лежит в $A union B$. \
   При $x in.not A$ от $x in overline(A) inter B$ остаётся $x in B$.
 
   *Включение $supset.eq$.* Пусть $x in A union B$.
-  При $x in A$ элемент лежит и слева.
+  При $x in A$ элемент лежит и слева. \
   При $x in.not A$ из $x in B$ следует $x in overline(A) inter B$.
 ]
 
@@ -431,10 +424,10 @@
 #proof[
   Цепочка готовых законов, каждый шаг подписан:
   $
-    A union (A inter B) & = (A inter U) union (A inter B) && #[тождество: A = A inter U] \
-    & = A inter (U union B) && #[дистрибутивность] \
-    & = A inter U && #[так как U union B = U] \
-    & = A && #[тождество]
+    A union (A inter B) & = (A inter U) union (A inter B) & quad & #[тождество $A = A inter U$] \
+                        & = A inter (U union B)           &      & #[дистрибутивность] \
+                        & = A inter U                     &      & #[так как $U union B = U$] \
+                        & = A                             &      & #[тождество]
   $
 ]
 
