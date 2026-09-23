@@ -1,0 +1,395 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Tips &amp; FAQs - Discrete Mathematics</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="Course materials for Discrete Mathematics at ITMO University">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+        <!-- MathJax -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Discrete Mathematics</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/Lipen/discrete-math-course/edit/master/docs/src/assessments/tests/tips.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="-test-tips--success-strategies"><a class="header" href="#-test-tips--success-strategies">💡 Test Tips &amp; Success Strategies</a></h1>
+<h2 id="-time-management"><a class="header" href="#-time-management">⏰ Time Management</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Phase</th><th>Duration</th><th>Strategy</th></tr></thead><tbody>
+<tr><td><strong>Initial Scan</strong></td><td>2–3 min</td><td>Read all problems, identify easiest ones</td></tr>
+<tr><td><strong>Problem Solving</strong></td><td>10–15 min/problem</td><td>Start with easiest</td></tr>
+<tr><td><strong>Review</strong></td><td>5–10 min</td><td>Check answers, catch errors</td></tr>
+<tr><td><strong>Buffer</strong></td><td>Remaining time</td><td>Return to skipped problems</td></tr>
+</tbody></table>
+</div>
+<h3 id="pro-time-tips"><a class="header" href="#pro-time-tips">Pro Time Tips</a></h3>
+<ul>
+<li><input disabled="" type="checkbox" checked=""/>
+<strong>Quick wins first</strong> – boost confidence with easy problems</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<strong>Don’t get stuck</strong> – if problem takes &gt;20 min, move on</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<strong>Watch the clock</strong> – check time every 20–25 minutes</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<strong>Always review</strong> – use any remaining time to verify work</li>
+<li><input disabled="" type="checkbox" checked=""/>
+<strong>Partial credit</strong> – write what you know even if incomplete</li>
+</ul>
+<h2 id="-during-the-test"><a class="header" href="#-during-the-test">📝 During the Test</a></h2>
+<h3 id="essential-practices"><a class="header" href="#essential-practices">Essential Practices</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Do This</th><th>Why</th></tr></thead><tbody>
+<tr><td><strong>Show all work</strong></td><td>Partial credit awarded generously</td></tr>
+<tr><td><strong>Write clearly</strong></td><td>Grader must read it to credit it</td></tr>
+<tr><td><strong>Label final answers</strong></td><td>Make them easy to find</td></tr>
+<tr><td><strong>Use scratch space</strong></td><td>Organize your thinking</td></tr>
+<tr><td><strong>Breathe and refocus</strong></td><td>Stay calm if stuck</td></tr>
+</tbody></table>
+</div>
+<h3 id="step-by-step-approach"><a class="header" href="#step-by-step-approach">Step-by-Step Approach</a></h3>
+<ol>
+<li><strong>Read problem carefully</strong> – underline key information</li>
+<li><strong>Plan approach</strong> – think before writing</li>
+<li><strong>Show intermediate steps</strong> – justify your reasoning</li>
+<li><strong>Box or circle final answer</strong> – make it prominent</li>
+<li><strong>Quick sanity check</strong> – does answer make sense?</li>
+</ol>
+<h2 id="-what-to-bring"><a class="header" href="#-what-to-bring">🎒 What to Bring</a></h2>
+<h3 id="-required"><a class="header" href="#-required">✅ Required</a></h3>
+<ul>
+<li><strong>Writing materials</strong>: Pens (blue/black), pencils</li>
+<li><strong>Eraser</strong>: For diagrams and scratch work</li>
+<li><strong>Notes</strong>: Handwritten or typed (printed)</li>
+</ul>
+<h3 id="-optional-but-helpful"><a class="header" href="#-optional-but-helpful">✅ Optional but Helpful</a></h3>
+<ul>
+<li><strong>Textbook</strong>: For reference formulas</li>
+<li><strong>Calculator</strong>: If needed for specific tests</li>
+<li><strong>Highlighters</strong>: To mark key parts of problems</li>
+<li><strong>Cheatsheet</strong>: Your own summary of key concepts</li>
+</ul>
+<h3 id="-not-allowed"><a class="header" href="#-not-allowed">❌ Not Allowed</a></h3>
+<ul>
+<li>Collaboration with others</li>
+<li>ChatGPT and similar LLM/AI tools</li>
+</ul>
+<h2 id="-frequently-asked-questions"><a class="header" href="#-frequently-asked-questions">❓ Frequently Asked Questions</a></h2>
+<h3 id="test-logistics"><a class="header" href="#test-logistics">Test Logistics</a></h3>
+<blockquote>
+<p>🦫 <strong>Q: Can I use my laptop for notes?</strong> <br />
+👨🏻‍🏫 A: Yes, you can use the laptop to access the materials, <em>unless</em> it is specifically prohibited by you instructor!</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: What if I finish early?</strong> <br />
+👨🏻‍🏫 A: Review your work thoroughly. Most students use the full 90 minutes — you should too!</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: Can I ask questions during the test?</strong> <br />
+👨🏻‍🏫 A: Yes, but only clarification questions about problem wording — not hints on how to solve.</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: What happens if I’m late?</strong> <br />
+👨🏻‍🏫 A: You’ll receive whatever time remains. Tests start promptly — arrive 5 minutes early.</p>
+</blockquote>
+<h3 id="preparation"><a class="header" href="#preparation">Preparation</a></h3>
+<blockquote>
+<p>🦫 <strong>Q: Is there a practice test available?</strong> <br />
+👨🏻‍🏫 A: Nope. Just do the homework, watch the lectures, and you will be ready!</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: How should I study?</strong> <br />
+👨🏻‍🏫 A: Review notes, do homework early, practice similar problems from the books, try to <em>understand</em> the concepts (not just memorize).</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: Can I collaborate on studying?</strong> <br />
+👨🏻‍🏫 A: Absolutely! Study groups are encouraged before the test.</p>
+</blockquote>
+<h3 id="grading"><a class="header" href="#grading">Grading</a></h3>
+<blockquote>
+<p>🦫 <strong>Q: How much <em>fancy</em> my work should be?</strong> <br />
+👨🏻‍🏫 A: Work must be <strong>legible</strong>. Extremely messy answers may lose points (-1 of max).</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: Do I lose points for wrong answers?</strong> <br />
+👨🏻‍🏫 A: No extra penalty for incorrect work — you only earn points for correct reasoning.</p>
+</blockquote>
+<blockquote>
+<p>🦫 <strong>Q: Can I get a regrade?</strong> <br />
+👨🏻‍🏫 A: No.</p>
+</blockquote>
+<h2 id="-success-strategies"><a class="header" href="#-success-strategies">🎯 Success Strategies</a></h2>
+<h3 id="before-the-test"><a class="header" href="#before-the-test">Before the Test</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Strategy</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Review systematically</strong></td><td>Go through all lecture notes for covered topics</td></tr>
+<tr><td><strong>Practice actively</strong></td><td>Redo homework without looking at solutions</td></tr>
+<tr><td><strong>Create cheatsheet</strong></td><td>Summarize key formulas, theorems, examples</td></tr>
+<tr><td><strong>Test yourself</strong></td><td>Do practice problems under timed conditions</td></tr>
+<tr><td><strong>Get adequate sleep</strong></td><td>7–8 hours the night before</td></tr>
+<tr><td><strong>Eat properly</strong></td><td>Good breakfast on test day</td></tr>
+</tbody></table>
+</div>
+<h3 id="during-the-test"><a class="header" href="#during-the-test">During the Test</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Strategy</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Stay calm</strong></td><td>Deep breaths if you feel anxious</td></tr>
+<tr><td><strong>Read carefully</strong></td><td>Don’t misread problem requirements</td></tr>
+<tr><td><strong>Manage time</strong></td><td>Don’t spend 40 minutes on one problem</td></tr>
+<tr><td><strong>Show work</strong></td><td>Write out reasoning even if seems obvious</td></tr>
+<tr><td><strong>Double-check</strong></td><td>Verify calculations and logic</td></tr>
+</tbody></table>
+</div>
+<h3 id="after-the-test"><a class="header" href="#after-the-test">After the Test</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>Strategy</th><th>Details</th></tr></thead><tbody>
+<tr><td><strong>Review feedback</strong></td><td>Understand mistakes when test is returned</td></tr>
+<tr><td><strong>Don’t dwell</strong></td><td>One test doesn’t define your grade</td></tr>
+</tbody></table>
+</div>
+<h2 id="-mental-preparation"><a class="header" href="#-mental-preparation">🧠 Mental Preparation</a></h2>
+<blockquote>
+<p><strong>💭 Mindset Tips</strong></p>
+<ul>
+<li>You’ve prepared – trust your preparation</li>
+<li>Partial credit means every step counts</li>
+<li>It’s okay to skip hard problems temporarily</li>
+<li>Mistakes are learning opportunities, not failures</li>
+<li>The test measures understanding, not speed</li>
+</ul>
+</blockquote>
+<h3 id="stress-management"><a class="header" href="#stress-management">Stress Management</a></h3>
+<ul>
+<li><strong>Before</strong>: Exercise, good sleep, positive self-talk</li>
+<li><strong>During</strong>: Deep breathing, skip and return, focus on what you know</li>
+<li><strong>After</strong>: Reflect constructively, don’t catastrophize</li>
+</ul>
+<h2 id="-common-mistakes-to-avoid"><a class="header" href="#-common-mistakes-to-avoid">📊 Common Mistakes to Avoid</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>Mistake</th><th>Solution</th></tr></thead><tbody>
+<tr><td>❌ <strong>Not reading carefully</strong></td><td>Underline key words, reread if unclear</td></tr>
+<tr><td>❌ <strong>Skipping work steps</strong></td><td>Show all reasoning for partial credit</td></tr>
+<tr><td>❌ <strong>Poor time allocation</strong></td><td>Scan all problems first, budget time</td></tr>
+<tr><td>❌ <strong>Messy presentation</strong></td><td>Write clearly, organize work logically</td></tr>
+<tr><td>❌ <strong>Giving up too easily</strong></td><td>Write what you know, attempt every problem</td></tr>
+<tr><td>❌ <strong>Not checking answers</strong></td><td>Always verify if time permits</td></tr>
+</tbody></table>
+</div>
+<p>Good luck on your tests! Remember: preparation + strategy = success. 🎓</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../assessments/tests/test4.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../assessments/colloquiums/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../assessments/tests/test4.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../assessments/colloquiums/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>
