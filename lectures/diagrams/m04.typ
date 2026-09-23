@@ -136,6 +136,107 @@
   label((2.5, 3.15), $A times B$)
 })
 
+// ── Разность прямоугольников ──
+#let rect-difference = canvas({
+  let ink = oklch(35%, 0.02, 265deg)
+  let warm = oklch(55%, 0.14, 45deg)
+  let c-dash = (paint: ink, thickness: 0.7pt, dash: "dashed")
+  let c-dash-warm = (paint: warm, thickness: 0.9pt, dash: "dashed")
+
+  let dot(pos, open: false, paint: ink) = draw.circle(
+    pos,
+    radius: 0.07,
+    fill: if open { white } else { paint },
+    stroke: if open { paint + 0.7pt } else { none },
+  )
+
+  let hatch = tiling(size: (26pt, 26pt))[
+    #place(rect(fill: ca))
+    #place(line(
+      start: (0%, 100%),
+      end: (100%, 0%),
+      stroke: (paint: ink, thickness: 0.8pt),
+    ))
+    #place(line(
+      start: (-10%, 10%),
+      end: (10%, -10%),
+      stroke: (paint: ink, thickness: 0.8pt),
+    ))
+    #place(line(
+      start: (90%, 110%),
+      end: (110%, 90%),
+      stroke: (paint: ink, thickness: 0.8pt),
+    ))
+  ]
+
+  let (a0, a1) = (1, 5)
+  let (b0, b1) = (1, 4)
+  let (c0, c1) = (2, 4)
+  let (d0, d1) = (2, 3)
+
+  draw.grid(
+    (0, 0),
+    (5.6, 4.6),
+    step: 1,
+    stroke: (paint: luma(85%), thickness: 0.4pt),
+  )
+  draw.line((-0.3, 0), (5.6, 0), stroke: c-str, mark: (end: "stealth"))
+  draw.line((0, -0.3), (0, 4.6), stroke: c-str, mark: (end: "stealth"))
+  label((5.8, -0.35), $x$)
+  label((-0.4, 4.8), $y$)
+
+  draw.rect((a0, b0), (a1, b1), fill: hatch, stroke: none)
+  draw.rect((c0, d0), (c1, d1), fill: white, stroke: none)
+
+  draw.line((a0, b1), (a1, b1), stroke: c-str)
+  draw.line((a1, b0), (a1, b1), stroke: c-str)
+  draw.line((a0, b0), (a1, b0), stroke: c-dash)
+  draw.line((a0, b0), (a0, b1), stroke: c-str)
+
+  draw.line((c0, d0), (c1, d0), stroke: c-dash-warm)
+  draw.line((c1, d0), (c1, d1), stroke: c-dash-warm)
+  draw.line((c0, d1), (c1, d1), stroke: c-dash-warm)
+  draw.line((c0, d0), (c0, d1), stroke: c-dash-warm)
+
+  dot((a0, b1))
+  dot((a1, b1))
+  dot((a0, b0), open: true)
+  dot((a1, b0), open: true)
+  for pos in ((c0, d0), (c1, d0), (c0, d1), (c1, d1)) {
+    dot(pos, open: true, paint: warm)
+  }
+
+  draw.line((a0, -0.6), (a1, -0.6), stroke: c-str)
+  dot((a0, -0.6))
+  dot((a1, -0.6))
+  label((3, -1.0), $A = [1; 5]$)
+
+  draw.line((-0.6, b0), (-0.6, b1), stroke: c-str)
+  dot((-0.6, b0), open: true)
+  dot((-0.6, b1))
+  draw.content(
+    (-1.1, 2.5),
+    text(size: 0.85em)[$B = (1; 4\]$],
+    angle: 90deg,
+    anchor: "south",
+  )
+
+  draw.line((c0, -1.4), (c1, -1.4), stroke: warm)
+  dot((c0, -1.4), open: true, paint: warm)
+  dot((c1, -1.4), open: true, paint: warm)
+  label((3, -1.8), $C = (2; 4)$)
+
+  draw.line((-1.4, d0), (-1.4, d1), stroke: warm)
+  dot((-1.4, d0), open: true, paint: warm)
+  dot((-1.4, d1), open: true, paint: warm)
+  draw.content(
+    (-2.15, 2.5),
+    text(size: 0.85em)[$D = (2; 3)$],
+    angle: 90deg,
+    anchor: "south",
+  )
+})
+
 // ── Венн против Эйлера ──
 #let venn-vs-euler = canvas({
   draw.circle((-0.75, 0), radius: 1.35, fill: ca, stroke: c-str, name: "venn")
