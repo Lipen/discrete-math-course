@@ -1921,12 +1921,12 @@
   let thin = 0.8pt + c
   for i in range(5) {
     let y = i * 0.55
-    let half = 1.7 - i * 0.3
+    let half = 0.5 + i * 0.3
     draw.rect(
       (1.7 - half, y),
       (1.7 + half, y + 0.45),
       name: "stage-" + str(i),
-      stroke: if i == 4 { ink-stroke(c) } else { thin },
+      stroke: if i == 0 { ink-stroke(c) } else { thin },
     )
   }
 })
