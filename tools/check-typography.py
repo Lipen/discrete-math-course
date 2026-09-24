@@ -57,8 +57,20 @@ def scan(path: Path) -> tuple[list[str], list[str]]:
     return hard, soft
 
 
+LIVE_DIRS = ("book", "lectures", "course", "homework")
+
+
 def main(argv: list[str]) -> int:
-    targets = [Path(a) for a in argv if a.endswith(".typ") and Path(a).is_file()]
+    if "--all" in argv:
+        root = Path(__file__).resolve().parent.parent
+        targets = sorted(
+            path
+            for folder in LIVE_DIRS
+            for path in (root / folder).rglob("*.typ")
+            if "_archive" not in path.parts and "archive" not in path.parts
+        )
+    else:
+        targets = [Path(a) for a in argv if a.endswith(".typ") and Path(a).is_file()]
     if not targets:
         return 0
     hard: list[str] = []
