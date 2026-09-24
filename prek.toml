@@ -38,4 +38,5 @@ repo = "local"
 hooks = [
   { id = "cargo-fmt", name = "cargo fmt", entry = "cargo fmt --check --all --manifest-path code/Cargo.toml", language = "system", files = '^code/', pass_filenames = false },
   { id = "check-ex-ids", name = "check exercise ids", entry = "python3 tools/check-ex-ids.py", language = "system", files = '^book/.*\.typ$', pass_filenames = false },
+  { id = "check-typography", name = "check typography", entry = "python3 tools/check-typography.py", language = "system", files = '\.typ$' },
 ]
