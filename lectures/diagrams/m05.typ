@@ -138,3 +138,155 @@
     fill: luma(50%),
   )[$"mod" 3 = 2$])
 })
+
+// ── Three views of one relation: pairs, matrix, digraph ──
+#let rel-three-views = diagram(
+  spacing: 2em,
+  node(
+    (-4.6, 0),
+    text(size: 0.8em)[$A = {1, 2, 3}$ \ $R = {(1, 1), (1, 2), (2, 3), (3, 1)}$],
+    stroke: none,
+  ),
+  node(
+    (0.4, 0),
+    text(size: 0.8em)[$mat(1, 1, 0; 0, 0, 1; 1, 0, 0)$],
+    stroke: none,
+  ),
+  cn((3.4, -1.0), $1$, name: <1>, stroke: n-str, shape: "circle"),
+  cn((5.1, 0), $2$, name: <2>, stroke: n-str, shape: "circle"),
+  cn((3.4, 1.0), $3$, name: <3>, stroke: n-str, shape: "circle"),
+  el(<1>, <1>, angle: 135deg),
+  ea(<1>, <2>),
+  ea(<2>, <3>),
+  ea(<3>, <1>),
+  node((-4.6, 1.9), text(size: 0.6em, fill: luma(50%))[пары], stroke: none),
+  node((0.4, 1.9), text(size: 0.6em, fill: luma(50%))[матрица], stroke: none),
+  node((4.2, 1.9), text(size: 0.6em, fill: luma(50%))[орграф], stroke: none),
+)
+
+// ── Composition as path gluing: R, then S, then the result ──
+#let rel-composition-paths = diagram(
+  spacing: 2em,
+  cn((-5.4, -0.9), $1$, name: <r-a1>, stroke: n-str, shape: "circle"),
+  cn((-5.4, 0.9), $2$, name: <r-a2>, stroke: n-str, shape: "circle"),
+  cn((-3.4, -0.9), $x$, name: <r-b1>, stroke: n-str, shape: "circle"),
+  cn((-3.4, 0.9), $y$, name: <r-b2>, stroke: n-str, shape: "circle"),
+  ea(<r-a1>, <r-b1>),
+  ea(<r-a2>, <r-b1>),
+  ea(<r-a2>, <r-b2>),
+  cn((-1.4, -0.9), $x$, name: <s-b1>, stroke: n-str, shape: "circle"),
+  cn((-1.4, 0.9), $y$, name: <s-b2>, stroke: n-str, shape: "circle"),
+  cn((0.6, -0.9), $alpha$, name: <s-c1>, stroke: n-str, shape: "circle"),
+  cn((0.6, 0.9), $beta$, name: <s-c2>, stroke: n-str, shape: "circle"),
+  ea(<s-b1>, <s-c1>),
+  ea(<s-b2>, <s-c2>),
+  cn((2.6, -0.9), $1$, name: <f-a1>, stroke: n-str, shape: "circle"),
+  cn((2.6, 0.9), $2$, name: <f-a2>, stroke: n-str, shape: "circle"),
+  cn((4.6, -0.9), $alpha$, name: <f-c1>, stroke: n-str, shape: "circle"),
+  cn((4.6, 0.9), $beta$, name: <f-c2>, stroke: n-str, shape: "circle"),
+  ea(<f-a1>, <f-c1>),
+  ea(<f-a2>, <f-c1>),
+  ea(<f-a2>, <f-c2>),
+  node((-5.4, -1.9), text(size: 0.45em, fill: luma(50%))[$A$], stroke: none),
+  node((-3.4, -1.9), text(size: 0.45em, fill: luma(50%))[$B$], stroke: none),
+  node((-1.4, -1.9), text(size: 0.45em, fill: luma(50%))[$B$], stroke: none),
+  node((0.6, -1.9), text(size: 0.45em, fill: luma(50%))[$C$], stroke: none),
+  node((2.6, -1.9), text(size: 0.45em, fill: luma(50%))[$A$], stroke: none),
+  node((4.6, -1.9), text(size: 0.45em, fill: luma(50%))[$C$], stroke: none),
+  node((-4.4, 2.0), text(size: 0.6em)[$R$], stroke: none),
+  node((-0.4, 2.0), text(size: 0.6em)[$S$], stroke: none),
+  node((3.6, 2.0), text(size: 0.6em)[$S compose R$], stroke: none),
+)
+
+// ── Warshall run: digraph and matrix after k = 1, 2, 3 ──
+// Unit born at the current Warshall step.
+#let c-new = oklch(52%, 0.17, 30deg)
+#let c-new-fill = oklch(93%, 0.05, 50deg)
+
+#let rel-warshall-steps = {
+  let mat-table(m, new-ij) = {
+    let body = ()
+    for i in range(3) {
+      body.push([#(i + 1)])
+      for j in range(3) {
+        let born = new-ij != none and new-ij.at(0) == i and new-ij.at(1) == j
+        body.push(if born {
+          table.cell(fill: c-new-fill)[#text(fill: c-new, weight: "bold")[1]]
+        } else {
+          [#m.at(i).at(j)]
+        })
+      }
+    }
+    table(
+      columns: 4,
+      align: center,
+      inset: 4pt,
+      stroke: (x, y) => if y == 0 { (bottom: n-str) },
+      table.header([], [*1*], [*2*], [*3*]),
+      ..body,
+    )
+  }
+
+  diagram(
+    spacing: 2em,
+    cn((0, -1.0), $1$, name: <1>, stroke: n-str, shape: "circle"),
+    cn((1.3, 0), $2$, name: <2>, stroke: n-str, shape: "circle"),
+    cn((0, 1.0), $3$, name: <3>, stroke: n-str, shape: "circle"),
+    ea(<1>, <2>),
+    ea(<2>, <3>),
+    node((0.55, 1.9), text(size: 0.6em)[$R$], stroke: none),
+    node(
+      (4.0, 0),
+      mat-table(((0, 1, 0), (0, 0, 1), (0, 0, 0)), none),
+      stroke: none,
+    ),
+    node(
+      (6.8, 0),
+      mat-table(((0, 1, 1), (0, 0, 1), (0, 0, 0)), (0, 2)),
+      stroke: none,
+    ),
+    node(
+      (9.6, 0),
+      mat-table(((0, 1, 1), (0, 0, 1), (0, 0, 0)), none),
+      stroke: none,
+    ),
+    node(
+      (4.0, 1.9),
+      text(size: 0.6em, fill: luma(50%))[после $k = 1$],
+      stroke: none,
+    ),
+    node(
+      (6.8, 1.9),
+      text(size: 0.6em, fill: luma(50%))[после $k = 2$],
+      stroke: none,
+    ),
+    node(
+      (9.6, 1.9),
+      text(size: 0.6em, fill: luma(50%))[после $k = 3$],
+      stroke: none,
+    ),
+  )
+}
+
+// ── Bipartite view of R between different sets ──
+#let rel-bipartite = diagram(
+  spacing: 2em,
+  cn((-1.6, -1.4), $1$, name: <a1>, stroke: n-str, shape: "circle"),
+  cn((-1.6, 0), $2$, name: <a2>, stroke: n-str, shape: "circle"),
+  cn((-1.6, 1.4), $3$, name: <a3>, stroke: n-str, shape: "circle"),
+  cn((1.6, -0.7), $a$, name: <b1>, stroke: n-str, shape: "circle"),
+  cn((1.6, 0.7), $b$, name: <b2>, stroke: n-str, shape: "circle"),
+  ea(<a1>, <b1>),
+  ea(<a2>, <b1>),
+  ea(<a3>, <b2>),
+  node((-1.6, -2.3), text(size: 0.45em, fill: luma(50%))[$A$], stroke: none),
+  node((1.6, -2.3), text(size: 0.45em, fill: luma(50%))[$B$], stroke: none),
+  node(
+    (0, 2.3),
+    text(
+      size: 0.6em,
+      fill: luma(50%),
+    )[Двудольное представление отношения $R subset.eq A times B$.],
+    stroke: none,
+  ),
+)
