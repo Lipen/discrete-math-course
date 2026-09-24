@@ -31,6 +31,107 @@ CONTINUATION = re.compile(r"^(.*?)\s*\[(\d+)\]$")
 DIAGRAM = re.compile(r"^#(align\(center\)\[|figure\(|canvas\()")
 
 
+BLOCK_START = re.compile(
+    r"^#(definition|theorem|lemma|corollary|proposition|proof|proof-sketch|example"
+    r"|note|remark|important|trap|check|table|algorithm|tasklist|project)\b"
+)
+DIAGRAM_START = re.compile(r"^#(align\(center\)\[|figure\(|canvas\()")
+
+
+def content_runs(
+    typ: Path, threshold: int = 12
+) -> tuple[list[tuple[str, int, int]], dict[str, int]]:
+    """Report sections whose plain prose runs longer than `threshold` lines.
+
+    Returns ([(section, start line, run length)], {form: count}) where the counts
+    mix formal examples, tables and diagrams across the whole deck.
+    """
+    runs = []
+    forms = {"example": 0, "table": 0, "diagram": 0, "proof": 0, "theorem": 0}
+    section = "(начало)"
+    run = 0
+    run_start = 0
+    lines = typ.read_text(encoding="utf-8").splitlines()
+    first_slide = next(
+        (i for i, line in enumerate(lines) if line.startswith("== ")), len(lines)
+    )
+    for number, line in enumerate(lines[: first_slide + 1], 1):
+        stripped = line.strip()
+        if stripped.startswith("== "):
+            if run >= threshold:
+                runs.append((section, run_start, run))
+            section, run, run_start = stripped[3:], 0, number + 1
+            continue
+        if not stripped:
+            continue
+        if (
+            BLOCK_START.match(stripped)
+            or DIAGRAM_START.match(stripped)
+            or line != line.lstrip()
+        ):
+            if line != line.lstrip():
+                if run >= threshold:
+                    runs.append((section, run_start, run))
+                run, run_start = 0, number + 1
+                continue
+            if DIAGRAM_START.match(stripped):
+                forms["diagram"] += 1
+            elif stripped.startswith("#example"):
+                forms["example"] += 1
+            elif stripped.startswith("#table"):
+                forms["table"] += 1
+            elif stripped.startswith("#proof"):
+                forms["proof"] += 1
+            elif stripped.startswith("#theorem"):
+                forms["theorem"] += 1
+            if run >= threshold:
+                runs.append((section, run_start, run))
+            run, run_start = 0, number + 1
+        else:
+            if run == 0:
+                run_start = number
+            run += 1
+    for number, line in enumerate(lines[first_slide + 1 :], first_slide + 2):
+        stripped = line.strip()
+        if stripped.startswith("== "):
+            if run >= threshold:
+                runs.append((section, run_start, run))
+            section, run, run_start = stripped[3:], 0, number + 1
+            continue
+        if not stripped:
+            continue
+        if (
+            BLOCK_START.match(stripped)
+            or DIAGRAM_START.match(stripped)
+            or line != line.lstrip()
+        ):
+            if line != line.lstrip():
+                if run >= threshold:
+                    runs.append((section, run_start, run))
+                run, run_start = 0, number + 1
+                continue
+            if DIAGRAM_START.match(stripped):
+                forms["diagram"] += 1
+            elif stripped.startswith("#example"):
+                forms["example"] += 1
+            elif stripped.startswith("#table"):
+                forms["table"] += 1
+            elif stripped.startswith("#proof"):
+                forms["proof"] += 1
+            elif stripped.startswith("#theorem"):
+                forms["theorem"] += 1
+            if run >= threshold:
+                runs.append((section, run_start, run))
+            run, run_start = 0, number + 1
+        else:
+            if run == 0:
+                run_start = number
+            run += 1
+    if run >= threshold:
+        runs.append((section, run_start, run))
+    return runs, forms
+
+
 def slide_layout(typ: Path) -> tuple[int, list[tuple[str, int, int]]]:
     """Return (slide count, [(title, block count, content lines)]) from the source."""
     text = typ.read_text(encoding="utf-8")
@@ -98,7 +199,9 @@ def main(argv: list[str]) -> int:
             if b == 0 and n < 5 and not has_diagram(chunk)
         ]
         rows.append((count, blocks, typ.name, pages, len(spills), len(thin)))
-        mark = "OK " if not spills and not thin else "!! "
+        runs, forms = content_runs(typ)
+        longest = max((length for _, _, length in runs), default=0)
+        mark = "OK " if not spills and not thin and not runs else "!! "
         print(
             f"{mark}{typ.name}: {pages} pages, slides {count}, blocks/slide {blocks / max(count, 1):.2f}, "
             f"continuations {len(spills)}, thin {len(thin)}"
@@ -107,6 +210,13 @@ def main(argv: list[str]) -> int:
             print(f"     continuation p{number} «{title}» (+{keep} lines)")
         for title, lines in thin:
             print(f"     thin slide «{title}» ({lines} lines)")
+        print(
+            f"     prose runs >= 12 lines: {len(runs)} (longest {longest}); "
+            f"examples {forms['example']}, tables {forms['table']}, diagrams {forms['diagram']}, "
+            f"theorems {forms['theorem']}, proofs {forms['proof']}"
+        )
+        for title, start, length in runs:
+            print(f"     text dump «{title}» line {start}, {length} lines")
         problems += len(spills) + len(thin)
     rows.sort(key=lambda r: r[1] / max(r[0], 1))
     print("\nlowest density first:")

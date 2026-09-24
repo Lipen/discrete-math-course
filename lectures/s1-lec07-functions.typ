@@ -1,19 +1,9 @@
 // s1, лекция 7 --- Функции (неделя 19--25 октября).
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": (
-  cantor-ghost, closure-ghost, composition-ghost, diamond-ghost, function-ghost,
-  hotel-ghost, partition-ghost, poset-ghost, quotient-ghost, relation-ghost,
-)
-#import "diagrams/m05.typ": equivalence-partition, rel-digraph
+#import "diagrams/ghosts.typ": composition-ghost, function-ghost
 #import "diagrams/m06.typ": (
-  function-parts, mapping-bijection, mapping-injection, mapping-surjection,
-)
-#import "diagrams/m07.typ": (
-  aleph-beth, cantor-diagonal, cantor-line-square, qq-pairing,
-)
-#import "diagrams/m08.typ": (
-  hasse-chain-3, hasse-divisors-12, hasse-powerset-2, hasse-powerset-3,
-  sign-lattice,
+  composition-pipeline, floor-ceil-line, floor-ceil-steps, function-parts,
+  image-preimage, mapping-bijection, mapping-injection, mapping-surjection,
 )
 #show: slides.with(
   title: [Функции],
@@ -34,7 +24,7 @@
 
 #focus-slide(
   ghost: function-ghost,
-  epigraph: [Функция ненасыщена: она содержит место, которое заполняется аргументом.],
+  epigraph: [Функция ненасыщена (ungesättigt): она содержит место, которое заполняется аргументом.],
   epigraph-author: [Готлоб Фреге],
 )
 
@@ -193,6 +183,18 @@
   $f(X)$ отвечает на вопрос "что вышло", $f^(-1) (Y)$ --- "кто пришёл".
 
   Прообраз определён всегда, даже когда обратной функции не существует.
+]
+
+== Образ и прообраз: картинка
+
+#align(center)[#image-preimage]
+
+#note[
+  Множество $X$ внутри $A$ выделено слева, его образ $f(X)$ --- справа.
+
+  Множество $Y$ внутри $B$ выделено справа, его прообраз $f^(-1) (Y)$ --- слева.
+
+  Обратите внимание: $X$ и $f^(-1) (f(X))$ не обязаны совпадать --- в $f^(-1) (Y)$ попадают все входы, ведущие в $Y$, даже если их не было в $X$.
 ]
 
 == Тотальные и частичные функции
@@ -579,6 +581,16 @@
   $(g compose f)(x) = (x + 1)^2$, а $(f compose g)(x) = x^2 + 1$ --- порядок имеет значение.
 ]
 
+== Композиция на схеме
+
+#align(center)[#composition-pipeline]
+
+#note[
+  Верхний путь --- два шага по очереди, нижняя дуга --- составное отображение $g compose f$.
+
+  Обе дороги ведут из $A$ в $C$, и равенство $(g compose f)(a) = g(f(a))$ означает, что пути дают один и тот же результат.
+]
+
 == Композиция сохраняет тип
 
 #theorem[Композиция сохраняет свойства][
@@ -814,16 +826,52 @@
   $ceil(x)$ --- наименьшее целое, не меньшее $x$.
 ]
 
+Для отрицательных чисел пол уходит вниз, к меньшему числу, а потолок --- вверх, к большему: у $-3.7$ это $-4$ и $-3$.
+
 #example[
   $floor(3.7) = 3$, $ceil(3.7) = 4$.
 
   $floor(-3.7) = -4$, $ceil(-3.7) = -3$.
 ]
 
+== Пол и потолок на прямой
+
+#align(center)[#floor-ceil-line]
+
+#note[
+  Точки $x = 2.7$ и $x = -1.3$ отмечены на прямой вместе со своими полом и потолком.
+
+  Зелёные точки --- пол, сиреневые --- потолок: расстояние между ними не больше единицы.
+]
+
+== Как считать пол и потолок
+
+#align(center)[#floor-ceil-steps]
+
+#example[
+  Разберём $x = 2.7$: условие $floor(x) <= x$ выполняется для $2$, значит $floor(2.7) = 2$, а условие $x <= ceil(x)$ даёт $ceil(2.7) = 3$.
+]
+
+== Ловушка: пол суммы
+
+#trap[
+  Тождество $floor(x) + floor(y) = floor(x + y)$ неверно.
+
+  Возьмём $x = y = 0.5$: слева $0 + 0 = 0$, справа $floor(1) = 1$.
+
+  Верно лишь неравенство $floor(x) + floor(y) <= floor(x + y)$, и разрыв не больше единицы.
+]
+
+== Где это нужно
+
 #note[
   Бинарный поиск делает $floor(log_2 n) + 1$ сравнений.
 
   Разбиение $n$ элементов на блоки размера $k$ требует $ceil(n/k)$ блоков.
+]
+
+#example[
+  Для $n = 1000$: $log_2 1000 approx 9.97$, значит $floor(log_2 1000) + 1 = 10$ сравнений, а деление $1000$ задач на блоки по $7$ требует $ceil(1000\/7) = 143$ блоков.
 ]
 
 == Нотация Айверсона
