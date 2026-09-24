@@ -290,3 +290,140 @@
     stroke: none,
   ),
 )
+
+// ── Классы эквивалентности: непересекающиеся области внутри A ──
+#let equivalence-classes-blobs = canvas({
+  draw.scale(1.7)
+  let dot(pos, label) = {
+    draw.circle(pos, radius: 0.06, fill: c-eq-label, stroke: none)
+    draw.content((pos.at(0), pos.at(1) + 0.24), text(
+      size: 0.4em,
+      fill: c-eq-label,
+    )[#label])
+  }
+  let blob(from, to, fill) = draw.rect(
+    from,
+    to,
+    radius: 10pt,
+    fill: fill,
+    stroke: c-eq-str,
+  )
+
+  draw.rect(
+    (-2.3, -1.2),
+    (2.3, 1.2),
+    radius: 6pt,
+    stroke: 0.6pt + c-eq-label,
+    name: "universe",
+  )
+  draw.content((2.02, 1.0), text(size: 0.5em, fill: c-eq-label)[$A$])
+
+  blob((-2.0, 0.25), (-0.5, 1.0), c-eq-a)
+  blob((-2.0, -1.0), (-0.5, -0.25), c-eq-b)
+  blob((0.15, -1.0), (2.0, 1.0), c-eq-c)
+
+  dot((-1.65, 0.62), $a$)
+  dot((-0.85, 0.62), $b$)
+  dot((-1.65, -0.62), $c$)
+  dot((-0.85, -0.62), $d$)
+  dot((0.6, 0.35), $e$)
+  dot((1.2, 0.35), $f$)
+  dot((1.65, -0.35), $g$)
+
+  draw.content(
+    (-1.25, 0.15),
+    anchor: "north",
+    text(size: 0.42em, fill: c-eq-label)[$[a] = [b]$],
+  )
+  draw.content(
+    (-1.25, -1.1),
+    anchor: "north",
+    text(size: 0.42em, fill: c-eq-label)[$[c]$],
+  )
+  draw.content(
+    (1.05, -1.1),
+    anchor: "north",
+    text(size: 0.42em, fill: c-eq-label)[$[e]$],
+  )
+})
+
+// ── Каноническая проекция: классы сжимаются в точки фактор-множества ──
+#let quotient-collapse = canvas({
+  draw.scale(1.7)
+  let blob(from, to, fill) = draw.rect(
+    from,
+    to,
+    radius: 10pt,
+    fill: fill,
+    stroke: c-eq-str,
+  )
+  let klass(pos, label) = {
+    draw.circle(pos, radius: 0.13, fill: c-eq-label, stroke: none)
+    draw.content((pos.at(0), pos.at(1) - 0.3), text(
+      size: 0.42em,
+      fill: c-eq-label,
+    )[#label])
+  }
+  let arrow(from, to, name) = draw.line(
+    from,
+    to,
+    stroke: e-str,
+    mark: (end: "stealth"),
+    name: name,
+  )
+
+  blob((-3.6, 0.55), (-1.9, 1.15), c-eq-a)
+  blob((-3.6, -0.3), (-1.9, 0.3), c-eq-b)
+  blob((-3.6, -1.15), (-1.9, -0.55), c-eq-c)
+
+  klass((1.0, 0.85), $[a]$)
+  klass((1.0, 0.0), $[c]$)
+  klass((1.0, -0.85), $[e]$)
+
+  arrow((-1.8, 0.85), (0.85, 0.85), "pi-a")
+  arrow((-1.8, 0.0), (0.85, 0.0), "pi-c")
+  arrow((-1.8, -0.85), (0.85, -0.85), "pi-e")
+
+  draw.content((-0.5, 1.2), text(size: 0.5em, fill: c-eq-label)[$pi$])
+  draw.content(
+    (-0.5, -1.5),
+    anchor: "north",
+    text(size: 0.42em, fill: c-eq-label)[$A\/_tilde$],
+  )
+})
+
+// ── Эквивалентность в матрице: единицы блоками, вне блоков нули ──
+#let equivalence-matrix-blocks = canvas({
+  draw.scale(1.7)
+  let cell = 0.3
+  let n = 5
+  let fills = (c-eq-a, c-eq-b, c-eq-c)
+  let klass(i) = if i <= 2 { 1 } else if i == 3 { 2 } else { 3 }
+
+  for i in range(n) {
+    draw.content(
+      (i * cell + cell / 2, cell * 0.35),
+      text(size: 0.38em, fill: c-eq-label)[#(i + 1)],
+    )
+    draw.content(
+      (-cell * 0.35, -i * cell - cell / 2),
+      text(size: 0.38em, fill: c-eq-label)[#(i + 1)],
+    )
+    for j in range(n) {
+      draw.rect(
+        (i * cell, -j * cell),
+        ((i + 1) * cell, -(j + 1) * cell),
+        fill: if klass(i + 1) == klass(j + 1) {
+          fills.at(klass(i + 1) - 1)
+        } else { white },
+        stroke: 0.3pt + c-eq-label,
+      )
+    }
+  }
+
+  draw.content(
+    (n * cell / 2, -n * cell - 0.35),
+    anchor: "north",
+    text(size: 0.42em, fill: c-eq-label)[единицы блоками],
+  )
+})
