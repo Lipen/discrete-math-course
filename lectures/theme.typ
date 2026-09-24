@@ -194,6 +194,21 @@
 // === Неформальные блоки: цвет без текстовой метки ===
 // important --- важное (amber), note --- пояснение (голубое).
 #let important(..args) = Block(..args, color: colors.amber)
+// trap --- типичная ошибка или ловушка (красный).
+#let trap(..args) = Block(..args, color: colors.red)
+// check --- вопросы для самопроверки, без ответов (акцент модуля).
+#let check(..args) = {
+  let (title, body) = split-args(args)
+  env-box(
+    colors.accent,
+    colors.accent.transparentize(95%),
+    text(fill: colors.accent.darken(10%), weight: "bold")[
+      Вопросы для самопроверки#(if title != none [ --- #title])
+    ],
+    body,
+    gap: 0.8em,
+  )
+}
 #let note(..args) = context {
   let m = mod-state.final()
   let c = if m != none { module-accents.at(m) } else { colors.accent }
