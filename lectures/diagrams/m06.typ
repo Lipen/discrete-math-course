@@ -170,10 +170,10 @@
     dash: "dashed",
   ))
 
-  draw.content((-3.05, -0.675), text(size: 0.85em, $X$))
-  draw.content((3.2, -0.55), text(size: 0.85em, $f(X)$))
-  draw.content((3.2, 0.55), text(size: 0.85em, $Y$))
-  draw.content((-3.05, 0.675), text(size: 0.85em, $f^(-1) (Y)$))
+  draw.content((-2.72, -0.675), text(size: 0.85em, $X$), anchor: "east")
+  draw.content((2.78, -0.55), text(size: 0.85em, $f(X)$), anchor: "west")
+  draw.content((2.78, 0.55), text(size: 0.85em, $Y$), anchor: "west")
+  draw.content((-2.72, 0.675), text(size: 0.85em, $f^(-1) (Y)$), anchor: "east")
 })
 
 // ── Composition of two maps as a pipeline ──
