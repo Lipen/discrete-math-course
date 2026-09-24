@@ -165,6 +165,8 @@
   $chi(K_n) = n$: каждому нужна своя краска.
 ]
 
+== Раскраска и двудольность
+
 #align(center)[#graph-coloring]
 
 #important[

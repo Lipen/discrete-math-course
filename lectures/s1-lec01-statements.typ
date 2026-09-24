@@ -525,6 +525,17 @@ A говорит: "Мы оба лжецы".
   [$P and (Q or R) equiv (P and Q) or (P and R)$,\ $P or (Q and R) equiv (P or Q) and (P or R)$],
 
   [Поглощение], [$P or (P and Q) equiv P$,\ $P and (P or Q) equiv P$],
+)
+
+== Отрицание и константы
+
+Вторая группа законов описывает работу отрицания и констант $#T$, $#F$.
+
+#table(
+  columns: 2,
+  align: (left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Закон*], [*Формулы*]),
   [Двойное отрицание], [$not not P equiv P$],
   [Тождество], [$P or #F equiv P$,\ $P and #T equiv P$],
   [Дополнение], [$P or not P equiv #T$,\ $P and not P equiv #F$],
