@@ -103,8 +103,6 @@
 }
 
 // Квадрат оппозиций: A (общеутв.), E (общеотриц.), I (частноутв.), O (частноотриц.).
-// Горизонтали --- контрарность и субконтрарность, диагонали --- противоречие,
-// вертикали (стрелки вниз) --- подчинение от общего к частному.
 #let square-of-opposition = {
   let half = 2.1
   let box = 0.62
@@ -135,7 +133,7 @@
       draw.content(
         from + "-" + to,
         text(size: s-cap, fill: c-muted)[#label],
-        fill: white,
+        fill: c-white,
         stroke: none,
         padding: 2pt,
       )
@@ -158,7 +156,7 @@
     draw.content(
       (0, 0),
       text(size: s-cap, fill: c-muted)[противоречие],
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 2pt,
     )

@@ -3,169 +3,148 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
 // ── Граф импликаций 2-SAT ──
-#let implication-graph-2sat-simple = {
-  let lit-node(pos, label, name) = {
-    draw.circle(pos, radius: 0.4, fill: c-atom, stroke: t-bd + c-bd, name: name)
-    draw.content(pos, text(size: s-node, fill: c-ink)[#label])
-  }
+#let implication-graph-2sat-simple = diagram(
+  node-shape: circle,
+  node-fill: c-atom,
+  node-stroke: t-bd + c-bd,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 5em,
+  node(
+    (0, 0),
+    text(size: s-node, fill: c-ink)[$x$],
+    name: <x>,
+    width: 2em,
+    height: 2em,
+  ),
+  node(
+    (0, 1),
+    text(size: s-node, fill: c-ink)[$overline(x)$],
+    name: <notx>,
+    width: 2em,
+    height: 2em,
+  ),
+  node(
+    (1, 0),
+    text(size: s-node, fill: c-ink)[$y$],
+    name: <y>,
+    width: 2em,
+    height: 2em,
+  ),
+  node(
+    (1, 1),
+    text(size: s-node, fill: c-ink)[$overline(y)$],
+    name: <noty>,
+    width: 2em,
+    height: 2em,
+  ),
 
   // Стрелки соответствуют дизъюнктам: (x or y) и (not x or y).
-  let impl-edge(from, to, name) = draw.line(
-    from,
-    to,
-    name: name,
+  edge(
+    <notx>,
+    <y>,
+    "->",
     stroke: c-edge + t-ed,
-    mark: (end: "stealth", fill: c-edge),
-  )
-
-  canvas({
-    lit-node((0, 0.8), $x$, "x")
-    lit-node((0, -0.8), $overline(x)$, "notx")
-    lit-node((2, 0.8), $y$, "y")
-    lit-node((2, -0.8), $overline(y)$, "noty")
-
-    impl-edge("notx", "y", "e-lower")
-    impl-edge("x", "y", "e-upper")
-
-    draw.content(
-      "e-upper",
-      text(size: s-cap, fill: c-muted)[$not x or y$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-    draw.content(
-      "e-lower",
-      text(size: s-cap, fill: c-muted)[$x or y$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-  })
-}
+    label: text(size: s-cap, fill: c-muted)[$x or y$],
+    label-side: center,
+    label-fill: c-white,
+  ),
+  edge(
+    <x>,
+    <y>,
+    "->",
+    stroke: c-edge + t-ed,
+    label: text(size: s-cap, fill: c-muted)[$not x or y$],
+    label-side: center,
+    label-fill: c-white,
+  ),
+)
 
 // ── Дерево DPLL ──
-#let dpll-box(pos, w, h, fill, stroke, title, subtitle, name) = {
-  let (cx, cy) = pos
-  draw.rect(
-    (cx - w / 2, cy - h / 2),
-    (cx + w / 2, cy + h / 2),
-    radius: 4pt,
+#let dpll-tree = {
+  let dnode(pos, name, fill, stroke, title, subtitle) = node(
+    pos,
+    {
+      text(size: s-cap, fill: c-ink)[#title]
+      if subtitle != none {
+        linebreak()
+        text(size: s-tiny, fill: c-muted)[#subtitle]
+      }
+    },
+    name: name,
     fill: fill,
     stroke: stroke,
-    name: name,
+    shape: rect,
+    inset: 8pt,
+    corner-radius: 4pt,
   )
-  draw.content((cx, cy + 0.15), text(size: s-cap, fill: c-ink)[#title])
-  if subtitle != none {
-    draw.content((cx, cy - 0.2), text(size: s-tiny, fill: c-muted)[#subtitle])
-  }
-}
-
-#let dpll-dead-end(pos, name) = {
-  let (cx, cy) = pos
-  draw.line(
-    (cx - 0.2, cy - 0.15),
-    (cx + 0.2, cy - 0.4),
-    stroke: c-hot + t-bd,
-    name: name + "-x1",
+  let dnote(pos, body) = node(
+    pos,
+    body,
+    fill: none,
+    stroke: none,
+    shape: rect,
+    inset: 0pt,
   )
-  draw.line(
-    (cx + 0.2, cy - 0.15),
-    (cx - 0.2, cy - 0.4),
-    stroke: c-hot + t-bd,
-    name: name + "-x2",
-  )
-}
+  let dtree-edge(fr, to) = edge(fr, to, "-", stroke: c-edge + t-ed)
 
-#let dpll-edge(from-anchor, to-anchor) = {
-  draw.line(from-anchor, to-anchor, stroke: c-edge + t-ed)
-}
-
-#let dpll-tree = {
-  canvas({
-    dpll-box(
-      (0, 4.2),
-      5.0,
-      0.8,
+  diagram(
+    spacing: (5em, 3.4em),
+    dnode(
+      (0, 0),
+      <formula>,
       c-fl,
       t-bd + c-bd,
       $(x or y) and (not x or y) and (x or not y) and (not x or not y)$,
       none,
-      "formula",
-    )
-
-    dpll-box(
-      (0, 3.0),
-      2.0,
-      0.6,
-      c-conn,
-      t-bd + c-bd,
-      [выбор $x$],
-      none,
-      "decision",
-    )
-    dpll-edge("formula.south", "decision.north")
-
-    draw.content((-2.1, 3.3), anchor: "south", text(
-      size: s-cap,
-      fill: c-accent,
-    )[$x = 1$])
-    dpll-box(
-      (-2.1, 1.9),
-      2.2,
-      0.8,
+    ),
+    dnode((0, 1), <decision>, c-conn, t-bd + c-bd, [выбор $x$], none),
+    dnote((-1.2, 1.45), text(size: s-cap, fill: c-accent)[$x = 1$]),
+    dnode(
+      (-1.2, 2),
+      <up-left>,
       c-atom,
       t-bd + c-bd,
       [unit propagation],
       [$(not x or y) -> y = 1$],
-      "up-left",
-    )
-    dpll-edge("decision.south-west", "up-left.north")
-
-    dpll-box(
-      (-2.1, 0.7),
-      2.2,
-      0.8,
+    ),
+    dnode(
+      (-1.2, 3),
+      <conf-left>,
       c-warn,
       t-bd + c-hot,
       [конфликт],
       [$(not x or not y)$ пуст],
-      "conf-left",
-    )
-    dpll-edge("up-left.south", "conf-left.north")
-    dpll-dead-end((-2.1, 0.0), "dead-left")
-
-    draw.content((2.1, 3.3), anchor: "south", text(
-      size: s-cap,
-      fill: c-accent,
-    )[$x = 0$])
-    dpll-box(
-      (2.1, 1.9),
-      2.2,
-      0.8,
+    ),
+    dnote((-1.2, 3.7), text(size: s-cap, fill: c-hot, weight: "bold")[$times$]),
+    dnote((1.2, 1.45), text(size: s-cap, fill: c-accent)[$x = 0$]),
+    dnode(
+      (1.2, 2),
+      <up-right>,
       c-atom,
       t-bd + c-bd,
       [unit propagation],
       [$(x or y) -> y = 1$],
-      "up-right",
-    )
-    dpll-edge("decision.south-east", "up-right.north")
-
-    dpll-box(
-      (2.1, 0.7),
-      2.2,
-      0.8,
+    ),
+    dnode(
+      (1.2, 3),
+      <conf-right>,
       c-warn,
       t-bd + c-hot,
       [конфликт],
       [$(x or not y)$ пуст],
-      "conf-right",
-    )
-    dpll-edge("up-right.south", "conf-right.north")
-    dpll-dead-end((2.1, 0.0), "dead-right")
-  })
+    ),
+    dnote((1.2, 3.7), text(size: s-cap, fill: c-hot, weight: "bold")[$times$]),
+
+    dtree-edge(<formula>, <decision>),
+    dtree-edge(<decision>, <up-left>),
+    dtree-edge(<decision>, <up-right>),
+    dtree-edge(<up-left>, <conf-left>),
+    dtree-edge(<up-right>, <conf-right>),
+  )
 }
 
 // ── Таблица Кука-Левина ──
@@ -226,94 +205,89 @@
 }
 
 // ── Конфликт-граф CDCL ──
-#let cdcl-node(pos, label, name, ..style) = {
-  let (cx, cy) = pos
-  draw.circle(
-    (cx, cy),
-    radius: 0.32,
+#let cdcl-conflict-graph = {
+  let cnode(pos, name, label, ..args) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#label],
+    name: name,
+    shape: circle,
+    width: 1.8em,
+    height: 1.8em,
+    inset: 0pt,
     fill: c-fl,
     stroke: t-bd + c-bd,
-    name: name,
-    ..style,
+    ..args,
   )
-  draw.content((cx, cy), text(size: s-node, fill: c-ink)[#label])
-}
-
-#let cdcl-conflict-graph = {
-  let impl-edge(from, to, name) = draw.line(
-    from,
+  let cnote(pos, body) = node(
+    pos,
+    body,
+    fill: none,
+    stroke: none,
+    shape: rect,
+    inset: 0pt,
+  )
+  let impl-edge(fr, to, ..args) = edge(
+    fr,
     to,
-    name: name,
+    "->",
     stroke: c-edge + t-ed,
-    mark: (end: "stealth", fill: c-edge),
+    ..args,
   )
 
-  canvas({
+  diagram(
+    spacing: (4.5em, 4em),
     // Решения: x₁ = 1 (уровень 1), x₂ = 0, то есть ¬x₂ (уровень 2).
-    cdcl-node((-3.0, 2.2), $x_1$, "x1", fill: c-atom, stroke: t-hi + c-bd)
-    draw.content((-3.7, 2.45), text(size: s-tiny, fill: c-muted)[ур. 1])
-    cdcl-node(
-      (3.0, 2.2),
-      $overline(x_2)$,
-      "nx2",
-      fill: c-atom,
-      stroke: t-hi + c-bd,
-    )
-    draw.content((3.7, 2.45), text(size: s-tiny, fill: c-muted)[ур. 2])
+    cnode((-1.5, 0), <x1>, $x_1$, fill: c-atom, stroke: t-hi + c-bd),
+    cnote((-1.9, -0.22), text(size: s-tiny, fill: c-muted)[ур. 1]),
+    cnode((1.5, 0), <nx2>, $overline(x_2)$, fill: c-atom, stroke: t-hi + c-bd),
+    cnote((1.9, -0.22), text(size: s-tiny, fill: c-muted)[ур. 2]),
 
-    cdcl-node((-2.2, 1.2), $x_3$, "x3")
-    cdcl-node((-1.2, 0.6), $x_4$, "x4")
-    cdcl-node((2.2, 1.2), $x_5$, "x5")
-    cdcl-node((0.5, -0.1), $x_6$, "x6")
-    cdcl-node((0, -0.9), $bot$, "conf", fill: c-warn, stroke: t-bd + c-hot)
+    cnode((-1.1, 1), <x3>, $x_3$),
+    cnode((-0.6, 1.45), <x4>, $x_4$),
+    cnode((1.1, 1), <x5>, $x_5$),
+    cnode((0.25, 2.1), <x6>, $x_6$),
+    cnode((0, 2.75), <conf>, $bot$, fill: c-warn, stroke: t-bd + c-hot),
 
-    impl-edge("x1", "x3", "x1-x3")
-    impl-edge("x3", "x4", "x3-x4")
-    impl-edge("x4", "x6", "x4-x6")
-    impl-edge("nx2", "x5", "nx2-x5")
-    impl-edge("x5", "x6", "x5-x6")
-    impl-edge("x6", "conf", "x6-conf")
-    impl-edge("x5", "conf", "x5-conf")
-    impl-edge("x4", "conf", "x4-conf")
-
-    draw.content(
-      "x1-x3",
-      text(size: s-tiny, fill: c-muted)[$overline(x_1) or x_3$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-    draw.content(
-      "x3-x4",
-      text(size: s-tiny, fill: c-muted)[$overline(x_3) or x_4$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-    draw.content(
-      "nx2-x5",
-      text(size: s-tiny, fill: c-muted)[$x_2 or x_5$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
+    impl-edge(
+      <x1>,
+      <x3>,
+      label: text(size: s-tiny, fill: c-muted)[$overline(x_1) or x_3$],
+      label-side: center,
+      label-fill: c-white,
+    ),
+    impl-edge(
+      <x3>,
+      <x4>,
+      label: text(size: s-tiny, fill: c-muted)[$overline(x_3) or x_4$],
+      label-side: center,
+      label-fill: c-white,
+    ),
+    impl-edge(<x4>, <x6>),
+    impl-edge(
+      <nx2>,
+      <x5>,
+      label: text(size: s-tiny, fill: c-muted)[$x_2 or x_5$],
+      label-side: center,
+      label-fill: c-white,
+    ),
+    impl-edge(<x5>, <x6>),
+    impl-edge(<x6>, <conf>),
+    impl-edge(<x5>, <conf>),
+    impl-edge(<x4>, <conf>),
 
     // Разрез сразу за первым UIP (x₅) отделяет причину от следствия.
-    draw.line(
-      (-2.8, 0.25),
-      (3.2, 0.25),
-      name: "cut",
-      stroke: t-bd + c-hot,
-      dash: "dashed",
-    )
-    draw.content((3.4, 0.25), anchor: "west", text(
-      size: s-tiny,
-      fill: c-hot,
-    )[разрез 1-UIP])
-
-    draw.content((0, -1.55), text(
+    edge(
+      (-1.9, 1.85),
+      (1.9, 1.85),
+      "-",
+      stroke: (paint: c-hot, thickness: t-bd, dash: "dashed"),
+      label: text(size: s-tiny, fill: c-hot)[разрез 1-UIP],
+      label-pos: 0.93,
+      label-side: left,
+    ),
+    cnote((0, 3.45), text(
       size: s-cap,
       fill: c-ink,
-    )[выученный дизъюнкт: $overline(x_4) or overline(x_5)$])
-  })
+    )[выученный дизъюнкт: $overline(x_4) or overline(x_5)$]),
+  )
 }

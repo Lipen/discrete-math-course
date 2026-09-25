@@ -16,7 +16,7 @@
   ball((2.8, 0.28), $B_1$, "b1")
   draw.line(
     "bsrc.east",
-    (2.1, 0),
+    "b1.west",
     stroke: t-ed + c-hot,
     mark: (end: ">", fill: c-hot),
     name: "split",

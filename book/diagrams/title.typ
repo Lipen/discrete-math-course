@@ -5,9 +5,6 @@
 #import cetz: canvas, draw
 
 // ── Единый стиль миниатюр ──
-// Один набор на все иконки: одинаковый радиус узлов, толщина штриха и цвета.
-// Цвета берутся из токенов (заливка узла c-fl, штрих c-bd), но позволяют
-// тему через (f, s): f --- заливка/акцент, s --- цвет штриха.
 #let m-r = 0.05
 #let m-st = 0.4pt
 
@@ -25,13 +22,13 @@
 
 // ── Язык: множества, отношения, функции, порядок, графы ──
 
-// Пересечение множеств
+// ── Venn ──
 #let m-venn(f: c-fl, s: c-bd) = canvas({
   draw.circle((0.35, 0.5), radius: 0.35, stroke: m-st + s)
   draw.circle((0.75, 0.5), radius: 0.35, stroke: m-st + s)
 })
 
-// Булева матрица
+// ── Matrix ──
 #let m-matrix(f: c-fl, s: c-bd) = canvas({
   let xs = (0.3, 0.55, 0.85)
   let ys = (0.75, 0.5, 0.25)
@@ -56,7 +53,7 @@
   }
 })
 
-// Функция как отображение
+// ── Fn ──
 #let m-fn(f: c-fl, s: c-bd) = canvas({
   draw.circle((0.2, 0.5), radius: (0.15, 0.4), stroke: m-st + s)
   draw.circle((0.8, 0.5), radius: (0.15, 0.4), stroke: m-st + s)
@@ -76,7 +73,7 @@
   }
 })
 
-// Пентагон N5
+// ── Poset N5 ──
 #let m-poset(f: c-fl, s: c-bd) = canvas({
   vtx("bot", (0.5, 0.05), f, s)
   vtx("a", (0.15, 0.35), f, s)
@@ -94,7 +91,7 @@
   })
 })
 
-// Решётка-diamond
+// ── Diamond ──
 #let m-diamond(f: c-fl, s: c-bd) = canvas({
   vtx("bot", (0.5, 0.1), f, s)
   vtx("l", (0.1, 0.55), f, s)
@@ -107,7 +104,7 @@
   })
 })
 
-// Бинарное дерево
+// ── Tree ──
 #let m-tree(f: c-fl, s: c-bd) = canvas({
   vtx("root", (0.5, 0.85), f, s)
   vtx("l", (0.15, 0.5), f, s)
@@ -127,7 +124,7 @@
   })
 })
 
-// Двудольный граф K(2,3)
+// ── Bipartite ──
 #let m-bipartite(f: c-fl, s: c-bd) = canvas({
   let top = ("t0", "t1")
   let bot = ("b0", "b1", "b2")
@@ -142,7 +139,7 @@
   })
 })
 
-// Полный граф K4
+// ── K4 ──
 #let m-k4(f: c-fl, s: c-bd) = canvas({
   for (k, pos) in (
     (0.1, 0.25),
@@ -159,7 +156,7 @@
   })
 })
 
-// Цикл C5
+// ── C5 ──
 #let m-c5(f: c-fl, s: c-bd) = canvas({
   let pts = ((0.5, 0.1), (0.9, 0.4), (0.75, 0.9), (0.25, 0.9), (0.1, 0.4))
   for (k, pos) in pts.enumerate() { vtx("v" + str(k), pos, f, s) }
@@ -172,7 +169,7 @@
 
 // ── Алгебра и инженерия: булева алгебра, схемы, коды ──
 
-// Булев куб B3
+// ── Cube ──
 #let m-cube(f: c-fl, s: c-bd) = canvas({
   let front = ((0.05, 0.05), (0.6, 0.05), (0.6, 0.6), (0.05, 0.6))
   let back = ((0.35, 0.35), (0.9, 0.35), (0.9, 0.9), (0.35, 0.9))
@@ -197,7 +194,7 @@
   })
 })
 
-// Логический вентиль
+// ── Gate ──
 #let m-gate(f: c-fl, s: c-bd) = canvas({
   draw.line((0.15, 0.85), (0.5, 0.85), stroke: m-st + s)
   draw.line((0.15, 0.2), (0.5, 0.2), stroke: m-st + s)
@@ -214,7 +211,7 @@
   draw.line((0.85, 0.5), (1.0, 0.5), stroke: m-st + s)
 })
 
-// Код Хэмминга (7,4)
+// ── Hamming (7,4) ──
 #let m-hamming(f: c-fl, s: c-bd) = canvas({
   let R = 0.3
   let d = 0.15
@@ -236,7 +233,7 @@
 
 // ── Счёт и случайность: комбинаторика, вычеты ──
 
-// Треугольник Паскаля
+// ── Pascal ──
 #let m-pascal(f: c-fl, s: c-bd) = canvas({
   for i in range(4) {
     let y = 0.9 - i * 0.25
@@ -251,7 +248,7 @@
   }
 })
 
-// Арифметика по модулю
+// ── Modclock ──
 #let m-modclock(f: c-fl, s: c-bd) = canvas({
   let R = 0.4
   let at(rad, ang) = (0.5 + rad * calc.cos(ang), 0.5 + rad * calc.sin(ang))
@@ -264,7 +261,7 @@
   draw.circle((0.5, 0.5), radius: m-r, fill: f, stroke: none)
 })
 
-// Перестановка
+// ── Perm ──
 #let m-perm(f: c-fl, s: c-bd) = canvas({
   let xs = (0.1, 0.35, 0.65, 0.9)
   for (k, x) in xs.enumerate() {
@@ -278,7 +275,7 @@
   })
 })
 
-// Диаграмма Юнга
+// ── Ferrers ──
 #let m-ferrers(f: c-fl, s: c-bd) = canvas({
   let u = 0.25
   for (row, cnt) in ((0, 3), (1, 2), (2, 1)) {
@@ -294,7 +291,7 @@
 
 // ── Вычисление: автоматы, машины, нечёткость ──
 
-// Конечный автомат
+// ── DFA ──
 #let m-dfa(f: c-fl, s: c-bd) = canvas({
   let r = 0.1
   let hgap = 0.5
@@ -321,7 +318,7 @@
   )
 })
 
-// Лента машины Тьюринга
+// ── Tape ──
 #let m-tape(f: c-fl, s: c-bd) = canvas({
   let u = 0.2
   for k in range(5) {
@@ -346,7 +343,7 @@
   )
 })
 
-// Функция принадлежности нечёткого множества
+// ── Fuzzy ──
 #let m-fuzzy(f: c-fl, s: c-bd) = canvas({
   draw.line((0, 0.15), (1, 0.15), stroke: m-st + s.transparentize(45%))
   draw.line((0.05, 0.15), (0.05, 0.9), stroke: m-st + s.transparentize(45%))
@@ -371,7 +368,7 @@
 #let m-compose(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$g compose f$]
 #let m-logic(f: c-ink, s: c-bd) = text(fill: f, size: s-cap)[$and or not$]
 #let m-binom(f: c-ink, s: c-bd) = text(fill: f, size: s-node)[$binom(n, k)$]
-// Комбинатор неподвижной точки
+// ── Combinator ──
 #let m-combinator(f: c-ink, s: c-bd) = text(
   fill: f,
   size: s-tiny,
@@ -379,27 +376,27 @@
 
 // ── Исчисление, типы, бесконечность ──
 
-// Лямбда-глиф
+// ── Lambda ──
 #let m-lambda(f: c-ink, s: c-bd) = text(
   fill: f,
   size: s-node + 3pt,
   font: "Libertinus Serif",
 )[#sym.lambda]
 
-// Типовое суждение
+// ── Judgement ──
 #let m-judgement(f: c-ink, s: c-bd) = text(
   fill: f,
   size: s-tiny,
 )[$Gamma tack e : tau$]
 
-// Сумма
+// ── Sum ──
 #let m-sum(f: c-ink, s: c-bd) = text(
   fill: f,
   size: s-node + 3pt,
   font: "Libertinus Serif",
 )[#sym.sum]
 
-// Алеф
+// ── Aleph ──
 #let m-aleph(f: c-ink, s: c-bd) = text(
   fill: f,
   size: s-node + 3pt,
@@ -408,7 +405,7 @@
 
 // ── Счётность: канторовская диагональ, зигзаг-перечисление ──
 
-// Диагональ Кантора
+// ── Diag ──
 #let m-diag(f: c-fl, s: c-bd) = canvas({
   let n = 3
   for i in range(n) {
@@ -427,7 +424,7 @@
   draw.circle("g11", radius: m-r, fill: f, stroke: none)
 })
 
-// Зигзаг-перечисление
+// ── Pairing ──
 #let m-pairing(f: c-fl, s: c-bd) = canvas({
   let n = 3
   for i in range(n) {
@@ -450,7 +447,7 @@
 
 // ── Узнаваемые «герои» книги ──
 
-// Граф Петерсена
+// ── Petersen ──
 #let m-petersen(f: c-fl, s: c-bd) = canvas({
   let at(radius, ang) = (
     0.5 + radius * calc.cos(ang),
@@ -469,7 +466,7 @@
   })
 })
 
-// Дерево вывода грамматики
+// ── Derive ──
 #let m-derive(f: c-fl, s: c-bd) = canvas({
   vtx("s", (0.5, 0.8), f, s)
   vtx("np", (0.25, 0.5), f, s)
@@ -491,7 +488,7 @@
   })
 })
 
-// Kripke-фрейм
+// ── Kripke ──
 #let m-kripke(f: c-fl, s: c-bd) = canvas({
   vtx("w0", (0.2, 0.2), f, s)
   vtx("w1", (0.8, 0.2), f, s)
@@ -527,7 +524,7 @@
   ))
 })
 
-// Истинность
+// ── Truth ──
 #let m-truth(f: c-fl, s: c-bd) = canvas({
   let xs = (0.1, 0.3, 0.5, 0.7)
   let rows = (0.55, 0.3, 0.1)
@@ -547,7 +544,7 @@
   }
 })
 
-// XOR-вентиль
+// ── Adder: XOR ──
 #let m-adder(f: c-fl, s: c-bd) = canvas({
   let yt = 0.8
   let yb = 0.2
@@ -573,7 +570,7 @@
   draw.line((0.7, yc), (0.85, yc), stroke: m-st + s)
 })
 
-// Дерево применения
+// ── App ──
 #let m-app(f: c-fl, s: c-bd) = canvas({
   vtx("ap", (0.5, 0.85), f, s)
   vtx("lam", (0.15, 0.5), f, s)
@@ -586,7 +583,7 @@
   })
 })
 
-// Три пересекающихся множества
+// ── 3Venn ──
 #let m-3venn(f: c-fl, s: c-bd) = canvas({
   draw.circle((0.35, 0.6), radius: 0.35, stroke: m-st + s)
   draw.circle((0.65, 0.6), radius: 0.35, stroke: m-st + s)

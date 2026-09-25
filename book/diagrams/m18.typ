@@ -3,6 +3,7 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
 // Семантические цвета: две бусины ожерелья и три множества Венна.
 #let c-bead-b = oklch(25%, 0.02, 265deg)  // тёмная бусина
@@ -178,119 +179,78 @@
 })
 
 // ── Дерево решений: перестановки {A,B,C} ──
-#let decision-tree = canvas({
-  let tnode(pos, name) = {
-    draw.circle(pos, radius: 0.2, fill: c-fl, stroke: c-bd + t-bd, name: name)
-  }
-
-  let ledge(from, to, label) = {
-    let edgename = from + "-" + to
-    draw.line(from, to, name: edgename, stroke: c-edge + t-ed)
-    draw.content(
-      edgename,
-      text(size: s-cap, fill: c-ink)[#label],
-      fill: white,
+#let decision-tree = {
+  let tnode(pos, name, label) = {
+    node(
+      pos,
+      name: name,
+      shape: circle,
+      width: 0.42cm,
+      height: 0.42cm,
+      fill: c-fl,
+      stroke: c-bd + t-bd,
+      inset: 0pt,
+    )
+    node(
+      (pos.at(0), pos.at(1) + 0.22),
+      label,
+      fill: none,
       stroke: none,
-      padding: 2pt,
+      shape: rect,
+      inset: 0pt,
     )
   }
-
-  let start = (0.0, 5.2)
-  let a = (-4.0, 3.5)
-  let b = (0.0, 3.5)
-  let c = (4.0, 3.5)
-  let ab = (-5.0, 1.8)
-  let ac = (-3.0, 1.8)
-  let ba = (-1.0, 1.8)
-  let bc = (1.0, 1.8)
-  let ca = (3.0, 1.8)
-  let cb = (5.0, 1.8)
-  let abc = (-5.0, 0.3)
-  let acb = (-3.0, 0.3)
-  let bac = (-1.0, 0.3)
-  let bca = (1.0, 0.3)
-  let cab = (3.0, 0.3)
-  let cba = (5.0, 0.3)
-
-  tnode(start, "start")
-  draw.content((start.at(0), start.at(1) + 0.35), text(
-    size: s-cap,
-    fill: c-ink,
-  )[старт])
-
-  tnode(a, "a")
-  draw.content((a.at(0), a.at(1) - 0.35), text(size: s-cap, fill: c-ink)[A])
-  tnode(b, "b")
-  draw.content((b.at(0), b.at(1) - 0.35), text(size: s-cap, fill: c-ink)[B])
-  tnode(c, "c")
-  draw.content((c.at(0), c.at(1) - 0.35), text(size: s-cap, fill: c-ink)[C])
-
-  tnode(ab, "ab")
-  draw.content((ab.at(0), ab.at(1) - 0.35), text(size: s-cap, fill: c-ink)[AB])
-  tnode(ac, "ac")
-  draw.content((ac.at(0), ac.at(1) - 0.35), text(size: s-cap, fill: c-ink)[AC])
-  tnode(ba, "ba")
-  draw.content((ba.at(0), ba.at(1) - 0.35), text(size: s-cap, fill: c-ink)[BA])
-  tnode(bc, "bc")
-  draw.content((bc.at(0), bc.at(1) - 0.35), text(size: s-cap, fill: c-ink)[BC])
-  tnode(ca, "ca")
-  draw.content((ca.at(0), ca.at(1) - 0.35), text(size: s-cap, fill: c-ink)[CA])
-  tnode(cb, "cb")
-  draw.content((cb.at(0), cb.at(1) - 0.35), text(size: s-cap, fill: c-ink)[CB])
-
-  tnode(abc, "abc")
-  draw.content((abc.at(0), abc.at(1) - 0.4), text(
+  let leaf-label(body) = text(
     size: s-cap,
     weight: "bold",
     fill: c-accent,
-  )[ABC])
-  tnode(acb, "acb")
-  draw.content((acb.at(0), acb.at(1) - 0.4), text(
-    size: s-cap,
-    weight: "bold",
-    fill: c-accent,
-  )[ACB])
-  tnode(bac, "bac")
-  draw.content((bac.at(0), bac.at(1) - 0.4), text(
-    size: s-cap,
-    weight: "bold",
-    fill: c-accent,
-  )[BAC])
-  tnode(bca, "bca")
-  draw.content((bca.at(0), bca.at(1) - 0.4), text(
-    size: s-cap,
-    weight: "bold",
-    fill: c-accent,
-  )[BCA])
-  tnode(cab, "cab")
-  draw.content((cab.at(0), cab.at(1) - 0.4), text(
-    size: s-cap,
-    weight: "bold",
-    fill: c-accent,
-  )[CAB])
-  tnode(cba, "cba")
-  draw.content((cba.at(0), cba.at(1) - 0.4), text(
-    size: s-cap,
-    weight: "bold",
-    fill: c-accent,
-  )[CBA])
+  )[#body]
+  let ledge(fr, to, label) = edge(
+    fr,
+    to,
+    "-",
+    stroke: c-edge + t-ed,
+    label: text(size: s-cap, fill: c-ink)[#label],
+    label-side: center,
+    label-fill: c-white,
+  )
 
-  ledge("start", "a", [A])
-  ledge("start", "b", [B])
-  ledge("start", "c", [C])
-  ledge("a", "ab", [B])
-  ledge("a", "ac", [C])
-  ledge("b", "ba", [A])
-  ledge("b", "bc", [C])
-  ledge("c", "ca", [A])
-  ledge("c", "cb", [B])
-  ledge("ab", "abc", [C])
-  ledge("ac", "acb", [B])
-  ledge("ba", "bac", [C])
-  ledge("bc", "bca", [A])
-  ledge("ca", "cab", [B])
-  ledge("cb", "cba", [A])
-})
+  diagram(
+    spacing: (4cm, 1.7cm),
+    tnode((0, 0), <start>, text(size: s-cap, fill: c-ink)[старт]),
+    tnode((-1, 1), <a>, text(size: s-cap, fill: c-ink)[A]),
+    tnode((0, 1), <b>, text(size: s-cap, fill: c-ink)[B]),
+    tnode((1, 1), <c>, text(size: s-cap, fill: c-ink)[C]),
+    tnode((-1.25, 2), <ab>, text(size: s-cap, fill: c-ink)[AB]),
+    tnode((-0.75, 2), <ac>, text(size: s-cap, fill: c-ink)[AC]),
+    tnode((-0.25, 2), <ba>, text(size: s-cap, fill: c-ink)[BA]),
+    tnode((0.25, 2), <bc>, text(size: s-cap, fill: c-ink)[BC]),
+    tnode((0.75, 2), <ca>, text(size: s-cap, fill: c-ink)[CA]),
+    tnode((1.25, 2), <cb>, text(size: s-cap, fill: c-ink)[CB]),
+    tnode((-1.25, 3), <abc>, leaf-label[ABC]),
+    tnode((-0.75, 3), <acb>, leaf-label[ACB]),
+    tnode((-0.25, 3), <bac>, leaf-label[BAC]),
+    tnode((0.25, 3), <bca>, leaf-label[BCA]),
+    tnode((0.75, 3), <cab>, leaf-label[CAB]),
+    tnode((1.25, 3), <cba>, leaf-label[CBA]),
+
+    ledge(<start>, <a>, [A]),
+    ledge(<start>, <b>, [B]),
+    ledge(<start>, <c>, [C]),
+    ledge(<a>, <ab>, [B]),
+    ledge(<a>, <ac>, [C]),
+    ledge(<b>, <ba>, [A]),
+    ledge(<b>, <bc>, [C]),
+    ledge(<c>, <ca>, [A]),
+    ledge(<c>, <cb>, [B]),
+    ledge(<ab>, <abc>, [C]),
+    ledge(<ac>, <acb>, [B]),
+    ledge(<ba>, <bac>, [C]),
+    ledge(<bc>, <bca>, [A]),
+    ledge(<ca>, <cab>, [B]),
+    ledge(<cb>, <cba>, [A]),
+  )
+}
 
 // ── Включения-исключения: знаки вклада областей трёх множеств ──
 #let venn-inclusion-exclusion = canvas({
@@ -446,7 +406,7 @@
       draw.content(
         (x, y),
         text(size: s-tiny, fill: c-ink)[#val],
-        fill: if x == 0 { white } else { none },
+        fill: if x == 0 { c-white } else { none },
         stroke: none,
         padding: 1pt,
       )

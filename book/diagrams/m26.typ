@@ -6,57 +6,49 @@
 #import fletcher: diagram, edge, node
 
 #let reduction-halt-empty = {
-  let machine(name, content, pos) = {
-    let (x, y) = pos
-    draw.rect(
-      (x - 2.4, y + 0.6),
-      (x + 2.4, y - 0.6),
-      name: name,
-      fill: c-fl,
-      stroke: t-bd + c-bd,
-      radius: 6pt,
-    )
-    draw.content(name, text(size: s-node, fill: c-ink)[#content])
-  }
+  let machine(pos, name, body) = node(
+    pos,
+    body,
+    name: name,
+    shape: rect,
+    width: 4.8cm,
+    height: 1.2cm,
+    corner-radius: 6pt,
+    fill: c-fl,
+    stroke: t-bd + c-bd,
+    inset: 0pt,
+  )
 
-  canvas({
-    machine("input", [$chevron.l M chevron.r w$], (-3, 0))
-    machine("transformed", [$chevron.l M' chevron.r$], (4.2, 0))
-
-    draw.line(
-      (-0.3, 0),
-      (1.7, 0),
-      name: "f-arrow",
+  diagram(
+    machine((0, 0), <in>, text(
+      size: s-node,
+      fill: c-ink,
+    )[$chevron.l M chevron.r w$]),
+    machine((7.2, 0), <out>, text(
+      size: s-node,
+      fill: c-ink,
+    )[$chevron.l M' chevron.r$]),
+    edge(
+      <in>,
+      <out>,
+      "-}>",
+      label: text(size: s-cap, fill: c-accent)[$f$],
       stroke: c-accent + t-hi,
-      mark: (end: "stealth", fill: c-accent),
-    )
-    draw.content(
-      "f-arrow",
-      text(size: s-cap, fill: c-accent)[$f$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-
-    draw.line(
-      (6.9, 0),
-      (8.3, 0),
-      name: "res-arrow",
-      stroke: c-edge + t-ed,
-      mark: (end: "stealth", fill: c-edge),
-    )
-
-    draw.content(
-      (9.0, 0),
-      anchor: "west",
+    ),
+    node(
+      (11.4, 0),
       text(size: s-cap, fill: c-muted)[
         #align(left)[
           описание МТ,\
           чей язык пуст iff M(w) зацикливается
         ]
       ],
-    )
-  })
+      name: <note>,
+      fill: none,
+      stroke: none,
+    ),
+    edge(<out>, <note>, "-}>", stroke: c-edge + t-ed),
+  )
 }
 
 // ── m-сведение: $f$ переносит принадлежность ──

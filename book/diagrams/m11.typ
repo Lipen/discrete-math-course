@@ -281,7 +281,7 @@
     (-1.55, -1.05),
     (0.75, 0.65),
     radius: 8pt,
-    fill: white,
+    fill: c-white,
     stroke: c-bd + t-bd,
     name: "p",
   )

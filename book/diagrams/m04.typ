@@ -58,7 +58,7 @@
 // ── Разность ──
 #let venn-difference = canvas({
   draw.circle((-0.35, 0), radius: r, fill: c-fl, stroke: none)
-  draw.circle((0.35, 0), radius: r, fill: white, stroke: v-stroke)
+  draw.circle((0.35, 0), radius: r, fill: c-white, stroke: v-stroke)
   draw.circle((-0.35, 0), radius: r, fill: none, stroke: v-stroke)
   label((-r - 0.1, 0), $A$)
   label((r + 0.1, 0), $B$)

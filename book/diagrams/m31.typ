@@ -100,7 +100,7 @@
     (2.9, 3.2),
     (1.3, 4.55),
     stroke: (paint: c-hot, thickness: t-hi),
-    marker: (end: "arrow", fill: c-hot),
+    mark: (end: "stealth", fill: c-hot),
   )
   draw.content(
     (2.6, 4.1),

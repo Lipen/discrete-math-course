@@ -9,35 +9,54 @@
 #let n-stroke = c-bd + t-bd
 
 // ── Решётка подгрупп ZZ_12 ──
-#let subgroup-lattice = canvas({
-  let hf-node(pos, name, body, fill: c-fl) = {
-    draw.circle(pos, radius: 0.46, stroke: n-stroke, fill: fill, name: name)
-    draw.content(name, text(size: s-node, fill: c-ink)[#body])
-  }
-
-  let hf-edge(fr, to) = {
-    draw.line(fr, to, stroke: e-stroke)
-  }
-
-  // Узел chevron.l g chevron.r --- подгруппа, порождённая элементом g.
-  hf-node((0, 4.2), "g1", $chevron.l 1 chevron.r$)
-  hf-node((-1.7, 2.8), "g2", $chevron.l 2 chevron.r$)
-  hf-node((1.7, 2.8), "g3", $chevron.l 3 chevron.r$)
-  hf-node((-2.5, 1.4), "g4", $chevron.l 4 chevron.r$)
-  hf-node((0.0, 1.4), "g6", $chevron.l 6 chevron.r$)
-  hf-node((-1.3, 0.0), "g0", $chevron.l 0 chevron.r$)
-
-  hf-edge("g1", "g2")
-  hf-edge("g1", "g3")
-  hf-edge("g2", "g4")
-  hf-edge("g2", "g6")
-  hf-edge("g3", "g6")
-  hf-edge("g4", "g0")
-  hf-edge("g6", "g0")
-})
+// Узел chevron.l g chevron.r --- подгруппа, порождённая элементом g.
+#let subgroup-lattice = diagram(
+  node-shape: circle,
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  node-inset: 0pt,
+  node-outset: 0pt,
+  spacing: 4.5em,
+  node(
+    (0, 0),
+    text(size: s-node, fill: c-ink)[$chevron.l 1 chevron.r$],
+    name: <g1>,
+  ),
+  node(
+    (-1, 1),
+    text(size: s-node, fill: c-ink)[$chevron.l 2 chevron.r$],
+    name: <g2>,
+  ),
+  node(
+    (1, 1),
+    text(size: s-node, fill: c-ink)[$chevron.l 3 chevron.r$],
+    name: <g3>,
+  ),
+  node(
+    (-1.5, 2),
+    text(size: s-node, fill: c-ink)[$chevron.l 4 chevron.r$],
+    name: <g4>,
+  ),
+  node(
+    (0, 2),
+    text(size: s-node, fill: c-ink)[$chevron.l 6 chevron.r$],
+    name: <g6>,
+  ),
+  node(
+    (-0.9, 3),
+    text(size: s-node, fill: c-ink)[$chevron.l 0 chevron.r$],
+    name: <g0>,
+  ),
+  edge(<g1>, <g2>, "-", stroke: e-stroke),
+  edge(<g1>, <g3>, "-", stroke: e-stroke),
+  edge(<g2>, <g4>, "-", stroke: e-stroke),
+  edge(<g2>, <g6>, "-", stroke: e-stroke),
+  edge(<g3>, <g6>, "-", stroke: e-stroke),
+  edge(<g4>, <g0>, "-", stroke: e-stroke),
+  edge(<g6>, <g0>, "-", stroke: e-stroke),
+)
 
 // Точка на круге радиуса r под углом a (градусы от положительной оси X).
-// Ось Y в диаграммах fletcher направлена вниз, поэтому Y берём с минусом.
 #let polar(r, a) = (
   calc.cos(a * calc.pi / 180) * r,
   -calc.sin(a * calc.pi / 180) * r,
@@ -68,65 +87,97 @@
 }
 
 // ── Коммутативная диаграмма гомоморфизма ──
-#let hom-square = canvas({
-  let hf-node(pos, name, body) = {
-    draw.rect(
-      (pos.at(0) - 1.1, pos.at(1) - 0.5),
-      (pos.at(0) + 1.1, pos.at(1) + 0.5),
-      radius: 4pt,
-      stroke: n-stroke,
-      fill: c-fl,
-      name: name,
-    )
-    draw.content(name, text(size: s-node, fill: c-ink)[#body])
-  }
-
-  let hf-arrow(fr, to, name, label) = {
-    draw.line(fr, to, stroke: e-stroke, name: name, mark: (end: ">"))
-    draw.content(name, text(size: s-cap, fill: c-ink)[#label])
-  }
-
-  hf-node((0, 2.2), "g", $G$)
-  hf-node((3.4, 2.2), "h", $H$)
-  hf-node((0, -2.2), "gk", $G / "ker"(phi)$)
-  hf-node((3.4, -2.2), "im", $"im"(phi)$)
-
-  hf-arrow("g", "h", "a-gh", [$phi$])
-  hf-arrow("g", "gk", "a-gk", [$pi$])
-  hf-arrow("gk", "im", "a-ki", [$tilde(phi)$])
-  hf-arrow("im", "h", "a-hi", [$iota$])
-})
+#let hom-square = diagram(
+  node-shape: rect,
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  node-inset: 8pt,
+  node-outset: 2pt,
+  node-corner-radius: 4pt,
+  spacing: 7em,
+  node((0, 0), text(size: s-node, fill: c-ink)[$G$], name: <g>),
+  node((1, 0), text(size: s-node, fill: c-ink)[$H$], name: <h>),
+  node((0, 1), text(size: s-node, fill: c-ink)[$G / "ker"(phi)$], name: <gk>),
+  node((1, 1), text(size: s-node, fill: c-ink)[$"im"(phi)$], name: <im>),
+  edge(<g>, <h>, "->", stroke: e-stroke, label: text(
+    size: s-cap,
+    fill: c-ink,
+  )[$phi$]),
+  edge(<g>, <gk>, "->", stroke: e-stroke, label: text(
+    size: s-cap,
+    fill: c-ink,
+  )[$pi$]),
+  edge(<gk>, <im>, "->", stroke: e-stroke, label: text(
+    size: s-cap,
+    fill: c-ink,
+  )[$tilde(phi)$]),
+  edge(<im>, <h>, "->", stroke: e-stroke, label: text(
+    size: s-cap,
+    fill: c-ink,
+  )[$iota$]),
+)
 
 // ── Лестница структур ──
-#let structure-staircase = canvas({
-  let hf-node(pos, name, body, fill: c-fl) = {
-    draw.rect(
-      (pos.at(0) - 1.2, pos.at(1) - 0.32),
-      (pos.at(0) + 1.2, pos.at(1) + 0.32),
-      radius: 4pt,
-      stroke: n-stroke,
-      fill: fill,
-      name: name,
-    )
-    draw.content(name, text(size: s-node, fill: c-ink)[#body])
-  }
-
-  let hf-step(fr, to, name, label) = {
-    draw.line(fr, to, stroke: e-stroke, name: name, mark: (end: ">"))
-    draw.content(name, text(size: s-cap, fill: c-ink)[#label], dy: 0.9em)
-  }
-
-  hf-node((0, 3.2), "b1", [полугруппа], fill: c-fl)
-  hf-node((3.6, 2.4), "b2", [моноид], fill: c-conn)
-  hf-node((7.2, 1.6), "b3", [группа], fill: c-warn)
-  hf-node((10.8, 0.8), "b4", [кольцо], fill: c-fl)
-  hf-node((14.4, 0.0), "b5", [поле], fill: c-atom)
-
-  hf-step("b1", "b2", "s12", [нейтральный])
-  hf-step("b2", "b3", "s23", [обратный])
-  hf-step("b3", "b4", "s34", [вторая операция])
-  hf-step("b4", "b5", "s45", [деление])
-})
+#let structure-staircase = diagram(
+  node-shape: rect,
+  node-stroke: n-stroke,
+  node-inset: 6pt,
+  node-outset: 2pt,
+  node-corner-radius: 4pt,
+  spacing: (8em, 1.8em),
+  node(
+    (0, 0),
+    text(size: s-node, fill: c-ink)[полугруппа],
+    fill: c-fl,
+    name: <b1>,
+  ),
+  node(
+    (1, 1),
+    text(size: s-node, fill: c-ink)[моноид],
+    fill: c-conn,
+    name: <b2>,
+  ),
+  node(
+    (2, 2),
+    text(size: s-node, fill: c-ink)[группа],
+    fill: c-warn,
+    name: <b3>,
+  ),
+  node((3, 3), text(size: s-node, fill: c-ink)[кольцо], fill: c-fl, name: <b4>),
+  node((4, 4), text(size: s-node, fill: c-ink)[поле], fill: c-atom, name: <b5>),
+  edge(
+    <b1>,
+    <b2>,
+    "->",
+    stroke: e-stroke,
+    label: text(size: s-cap, fill: c-ink)[нейтральный],
+    label-side: left,
+  ),
+  edge(
+    <b2>,
+    <b3>,
+    "->",
+    stroke: e-stroke,
+    label: text(size: s-cap, fill: c-ink)[обратный],
+    label-side: left,
+  ),
+  edge(
+    <b3>,
+    <b4>,
+    "->",
+    stroke: e-stroke,
+    label: text(size: s-cap, fill: c-ink)[вторая операция],
+    label-side: left,
+  ),
+  edge(
+    <b4>,
+    <b5>,
+    "->",
+    stroke: e-stroke,
+    label: text(size: s-cap, fill: c-ink)[деление],
+    label-side: left,
+  ),
+)
 
 // ── Обмен ключами Диффи--Хеллмана ──
 #let dh-exchange = canvas({
@@ -142,13 +193,14 @@
     draw.content(name, text(size: s-node, fill: c-ink)[#body])
   }
 
-  let msg-arrow(fr, to, dy, label, above) = {
+  let msg-arrow(name, fr, to, dy, label, above) = {
     let a = (fr.at(0), fr.at(1) + dy)
     let b = (to.at(0), to.at(1) + dy)
-    draw.line(a, b, stroke: e-stroke, mark: (end: ">"))
+    draw.line(a, b, stroke: e-stroke, mark: (end: ">"), name: name)
     draw.content(
-      ((a.at(0) + b.at(0)) / 2, a.at(1) + (if above { 0.36 } else { -0.36 })),
+      name,
       anchor: if above { "south" } else { "north" },
+      dy: if above { 0.36 } else { -0.36 },
       text(size: s-cap, fill: c-ink)[#label],
     )
   }
@@ -157,8 +209,8 @@
   box((3.7, 2.0), "bob", [Боб, знает $b$], fill: c-fl)
   box((0, -2.3), "eve", [Ева], fill: c-warn)
 
-  msg-arrow((-2.15, 2.0), (2.15, 2.0), 0.15, [$g^a mod p$], true)
-  msg-arrow((2.15, 2.0), (-2.15, 2.0), -0.15, [$g^b mod p$], false)
+  msg-arrow("a-to-b", (-2.15, 2.0), (2.15, 2.0), 0.15, [$g^a mod p$], true)
+  msg-arrow("b-to-a", (2.15, 2.0), (-2.15, 2.0), -0.15, [$g^b mod p$], false)
 
   draw.line(
     (0, -1.75),

@@ -2,74 +2,63 @@
 #import "../notation.typ": *
 #import "style.typ": *
 
-#import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
-#let sld-tree = canvas({
-  let hw = 1.7
-  let sol-hw = 1.6
-  let sol-hh = 0.3
-
-  let goal-str = t-bd + c-bd
-  let e-str = t-ed + c-edge
-
-  let goal(pos, label, name) = {
-    let (x, y) = pos
-    draw.rect(
-      (x - hw, y + 0.34),
-      (x + hw, y - 0.34),
-      fill: c-fl,
-      stroke: goal-str,
-      radius: 3pt,
-      name: name,
-    )
-    draw.content(pos, text(size: s-node, fill: c-ink)[#label])
-  }
-  let solution(pos, label, name) = {
-    let (x, y) = pos
-    draw.rect(
-      (x - sol-hw, y + sol-hh),
-      (x + sol-hw, y - sol-hh),
-      fill: c-atom,
-      stroke: goal-str,
-      radius: 3pt,
-      name: name,
-    )
-    draw.content(pos, text(size: s-node, fill: c-ink)[#label])
-  }
-  let tree-edge(a, b) = draw.line(a, b, stroke: e-str, name: a + "-" + b)
-
-  let root = (0, 0)
-  let base1 = (-3.4, -1.8)
-  let recur1 = (3.4, -1.8)
-  let sol1 = (-3.4, -3.6)
-  let anc = (3.4, -3.6)
-  let base2 = (1.6, -5.4)
-  let recur2 = (5.2, -5.4)
-  let sol2 = (1.6, -7.2)
-  let dead = (5.2, -7.2)
-
-  goal(root, [`ancestor(alice, Y)`], "root")
-  goal(base1, [`parent(alice, Y)`], "base1")
-  goal(recur1, [`parent(alice, Z)` \ `ancestor(Z, Y)`], "recur1")
-  solution(sol1, [$Y = "bob"$], "sol1")
-  goal(anc, [`ancestor(bob, Y)`], "anc")
-  goal(base2, [`parent(bob, Y)`], "base2")
-  goal(recur2, [`parent(bob, Z')` \ `ancestor(Z', Y)`], "recur2")
-  solution(sol2, [$Y = "carol"$], "sol2")
-  goal(dead, [`ancestor(carol, Y)`], "dead")
-
-  // Ветвь, не давшая ответа, --- откат (failure); помечаем цветом противоречия.
-  draw.content(
-    (dead.at(0), dead.at(1) - 0.85),
-    text(size: s-cap, fill: c-hot, weight: "bold")[тупик],
+#let sld-tree = {
+  let goal(pos, name, label) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#label],
+    name: name,
+    fill: c-fl,
+    stroke: t-bd + c-bd,
+    inset: 6pt,
+    corner-radius: 3pt,
+  )
+  let solution(pos, name, label) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#label],
+    name: name,
+    fill: c-atom,
+    stroke: t-bd + c-bd,
+    inset: 6pt,
+    corner-radius: 3pt,
+  )
+  let tree-edge(fr, to) = edge(fr, to, "-", stroke: t-ed + c-edge)
+  let sld-note(pos, body) = node(
+    pos,
+    body,
+    fill: none,
+    stroke: none,
+    shape: rect,
+    inset: 0pt,
   )
 
-  tree-edge("root", "base1")
-  tree-edge("root", "recur1")
-  tree-edge("base1", "sol1")
-  tree-edge("recur1", "anc")
-  tree-edge("anc", "base2")
-  tree-edge("anc", "recur2")
-  tree-edge("base2", "sol2")
-  tree-edge("recur2", "dead")
-})
+  diagram(
+    spacing: (3.4cm, 1.8cm),
+    goal((0, 0), <root>, [`ancestor(alice, Y)`]),
+    goal((-1, 1), <base1>, [`parent(alice, Y)`]),
+    goal((1, 1), <recur1>, [`parent(alice, Z)` \ `ancestor(Z, Y)`]),
+    solution((-1, 2), <sol1>, [$Y = "bob"$]),
+    goal((1, 2), <anc>, [`ancestor(bob, Y)`]),
+    goal((0.47, 3), <base2>, [`parent(bob, Y)`]),
+    goal((1.53, 3), <recur2>, [`parent(bob, Z')` \ `ancestor(Z', Y)`]),
+    solution((0.47, 4), <sol2>, [$Y = "carol"$]),
+    goal((1.53, 4), <dead>, [`ancestor(carol, Y)`]),
+
+    // Ветвь, не давшая ответа, --- откат (failure); помечаем цветом противоречия.
+    sld-note((1.53, 4.47), text(
+      size: s-cap,
+      fill: c-hot,
+      weight: "bold",
+    )[тупик]),
+
+    tree-edge(<root>, <base1>),
+    tree-edge(<root>, <recur1>),
+    tree-edge(<base1>, <sol1>),
+    tree-edge(<recur1>, <anc>),
+    tree-edge(<anc>, <base2>),
+    tree-edge(<anc>, <recur2>),
+    tree-edge(<base2>, <sol2>),
+    tree-edge(<recur2>, <dead>),
+  )
+}

@@ -12,13 +12,14 @@
 // ── Архитектура DPLL(T) ──
 // SAT-решатель отдаёт кандидата-модель theory-солверу, тот возвращает T-лемму.
 #let dpll-t-architecture = canvas({
-  let module(cy, title, subtitle, fill) = {
+  let module(name, cy, title, subtitle, fill) = {
     draw.rect(
       (-2.7, cy - 0.55),
       (2.7, cy + 0.55),
       fill: fill,
       stroke: n-stroke,
       radius: 3pt,
+      name: name,
     )
     draw.content((0, cy + 0.2), text(
       size: s-node,
@@ -28,23 +29,27 @@
     draw.content((0, cy - 0.2), text(size: s-cap, fill: c-muted)[#subtitle])
   }
 
-  module(1.1, [SAT-решатель], [DPLL / CDCL], c-fl)
-  module(-1.1, [Theory-солвер], [DL, EUF, LRA, ...], c-atom)
+  module("sat", 1.1, [SAT-решатель], [DPLL / CDCL], c-fl)
+  module("solver", -1.1, [Theory-солвер], [DL, EUF, LRA, ...], c-atom)
 
-  draw.line((1.7, 0.55), (1.7, -0.55), stroke: e-stroke, mark: (
-    end: "stealth",
-    fill: c-edge,
-  ))
-  draw.content((2.2, 0), anchor: "west", text(
+  draw.line(
+    "sat.south-east",
+    "solver.north-east",
+    stroke: e-stroke,
+    mark: (end: "stealth", fill: c-edge),
+  )
+  draw.content((2.95, 0), anchor: "west", text(
     size: s-cap,
     fill: c-muted,
   )[кандидат-модель])
 
-  draw.line((-1.7, -0.55), (-1.7, 0.55), stroke: e-stroke, mark: (
-    end: "stealth",
-    fill: c-edge,
-  ))
-  draw.content((-2.2, 0), anchor: "east", text(
+  draw.line(
+    "solver.north-west",
+    "sat.south-west",
+    stroke: e-stroke,
+    mark: (end: "stealth", fill: c-edge),
+  )
+  draw.content((-2.95, 0), anchor: "east", text(
     size: s-cap,
     fill: c-muted,
   )[$T$-лемма])
@@ -67,7 +72,7 @@
     draw.circle(
       pos,
       radius: 0.16,
-      fill: if open { white } else { c-ink },
+      fill: if open { c-white } else { c-ink },
       stroke: if open {
         (paint: c-hot, thickness: 0.7pt, dash: "dashed")
       } else { c-ink + 0.7pt },
@@ -152,37 +157,42 @@
 // Два класса делят b, сливаются в {a, b, f(a)}; конгруэнтность даёт g(a)=g(f(a)),
 // что противоречит третьему литералу.
 #let congruence-closure-merge = canvas({
-  let cnode(pos, label, fill: c-fl) = {
-    draw.circle(pos, radius: 0.42, fill: fill, stroke: n-stroke)
+  let cnode(pos, name, label, fill: c-fl) = {
+    draw.circle(pos, radius: 0.42, fill: fill, stroke: n-stroke, name: name)
     draw.content(pos, text(size: s-node, fill: c-ink)[#label])
   }
 
-  draw.rect((-3.8, 2.7), (-0.2, 3.7), fill: c-fl, stroke: n-stroke, radius: 3pt)
-  cnode((-2.7, 3.2), $a$)
-  cnode((-1.3, 3.2), $b$)
+  draw.rect(
+    (-3.8, 2.7),
+    (-0.2, 3.7),
+    fill: c-fl,
+    stroke: n-stroke,
+    radius: 3pt,
+    name: "row-left",
+  )
+  cnode((-2.7, 3.2), "a-left", $a$)
+  cnode((-1.3, 3.2), "b-left", $b$)
   draw.content((-2.0, 4.15), anchor: "south", text(
     size: s-cap,
     fill: c-ink,
     weight: "bold",
   )[класс ${a, b}$])
 
-  draw.rect((0.2, 2.7), (3.8, 3.7), fill: c-fl, stroke: n-stroke, radius: 3pt)
-  cnode((1.3, 3.2), $f(a)$)
-  cnode((2.7, 3.2), $b$)
+  draw.rect(
+    (0.2, 2.7),
+    (3.8, 3.7),
+    fill: c-fl,
+    stroke: n-stroke,
+    radius: 3pt,
+    name: "row-right",
+  )
+  cnode((1.3, 3.2), "fa-right", $f(a)$)
+  cnode((2.7, 3.2), "b-right", $b$)
   draw.content((2.0, 4.15), anchor: "south", text(
     size: s-cap,
     fill: c-ink,
     weight: "bold",
   )[класс ${f(a), b}$])
-
-  draw.line((0, 2.7), (0, 2.2), stroke: e-stroke, mark: (
-    end: "stealth",
-    fill: c-edge,
-  ))
-  draw.content((0.22, 2.45), anchor: "west", text(
-    size: s-tiny,
-    fill: c-muted,
-  )[слияние])
 
   draw.rect(
     (-2.9, 0.7),
@@ -190,24 +200,16 @@
     fill: c-atom,
     stroke: n-stroke,
     radius: 3pt,
+    name: "row-merged",
   )
-  cnode((-1.8, 1.25), $a$)
-  cnode((0, 1.25), $b$)
-  cnode((1.8, 1.25), $f(a)$)
+  cnode((-1.8, 1.25), "a-merged", $a$)
+  cnode((0, 1.25), "b-merged", $b$)
+  cnode((1.8, 1.25), "fa-merged", $f(a)$)
   draw.content((0, 1.92), text(
     size: s-cap,
     fill: c-ink,
     weight: "bold",
   )[класс ${a, b, f(a)}$])
-
-  draw.line((0, 0.7), (0, 0.05), stroke: e-stroke, mark: (
-    end: "stealth",
-    fill: c-edge,
-  ))
-  draw.content((0.22, 0.38), anchor: "west", text(
-    size: s-tiny,
-    fill: c-muted,
-  )[конгруэнтность: $a = f(a)$])
 
   draw.rect(
     (-2.9, -0.6),
@@ -215,6 +217,7 @@
     fill: c-fl,
     stroke: hot-stroke,
     radius: 3pt,
+    name: "row-bottom",
   )
   draw.content((0, -0.3), text(
     size: s-node,
@@ -226,4 +229,26 @@
     fill: c-hot,
     weight: "bold",
   )[противоречит $not (g(a) = g(f(a)))$])
+
+  draw.line(
+    "row-left.south-east",
+    "row-merged.north",
+    stroke: e-stroke,
+    mark: (end: "stealth", fill: c-edge),
+  )
+  draw.content((0.22, 2.45), anchor: "west", text(
+    size: s-tiny,
+    fill: c-muted,
+  )[слияние])
+
+  draw.line(
+    "row-merged.south",
+    "row-bottom.north",
+    stroke: e-stroke,
+    mark: (end: "stealth", fill: c-edge),
+  )
+  draw.content((0.22, 0.38), anchor: "west", text(
+    size: s-tiny,
+    fill: c-muted,
+  )[конгруэнтность: $a = f(a)$])
 })

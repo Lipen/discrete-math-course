@@ -5,9 +5,9 @@
 #import cetz: canvas, draw
 #import fletcher: diagram, edge, node
 
-// Общие токены состояния: заливка c-fl, граница c-bd+t-bd, рёбра c-edge+t-ed.
 #let n-stroke = t-bd + c-bd
 #let e-stroke = (paint: c-edge, thickness: t-ed)
+#let eps-stroke = (paint: c-edge, thickness: t-ed, dash: "dashed")
 #let start-stroke = (paint: c-accent, thickness: t-ed)
 // Допускающее состояние: двойной кружок.
 #let acc-extrude = (0, 2pt)
@@ -98,16 +98,8 @@
   st((1, 0), $q_1$, <q1>),
   st((2, 0), $q_2$, <q2>, accept: true),
 
-  tr(<q0>, <q1>, $epsilon$, stroke: (
-    paint: c-edge,
-    thickness: t-ed,
-    dash: "dashed",
-  )),
-  tr(<q1>, <q2>, $epsilon$, stroke: (
-    paint: c-edge,
-    thickness: t-ed,
-    dash: "dashed",
-  )),
+  tr(<q0>, <q1>, $epsilon$, stroke: eps-stroke),
+  tr(<q1>, <q2>, $epsilon$, stroke: eps-stroke),
   tr(<q1>, <q1>, $"a"$, bend: -50deg),
   tr(<q2>, <q2>, $"b"$, bend: -50deg),
 )

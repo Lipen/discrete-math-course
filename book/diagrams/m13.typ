@@ -6,52 +6,50 @@
 #import fletcher: diagram, edge, node
 
 // ── Дерево Хаффмана ──
-#let huffman-tree = canvas({
-  let node-stroke = c-bd + t-bd
-  let edge-stroke = (paint: c-edge, thickness: t-ed)
+#let huffman-tree = {
+  let hf-node(pos, name, body, ..args) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#body],
+    name: name,
+    shape: circle,
+    stroke: c-bd + t-bd,
+    width: 4em,
+    height: 4em,
+    inset: 0pt,
+    ..args,
+  )
+  let hf-edge(fr, to, label) = edge(
+    fr,
+    to,
+    "-",
+    stroke: (paint: c-edge, thickness: t-ed),
+    label: text(size: s-tiny, fill: c-ink)[#label],
+    label-side: center,
+    label-fill: c-white,
+  )
 
-  let hf-node(pos, name, radius, body, fill: none) = {
-    draw.circle(
-      pos,
-      radius: radius,
-      stroke: node-stroke,
-      fill: fill,
-      name: name,
-    )
-    draw.content(name, text(size: s-node, fill: c-ink)[#body])
-  }
+  diagram(
+    spacing: 5em,
+    hf-node((0, 0), <root>, $1.0$),
+    hf-node((0.85, 1), <r1>, $0.60$),
+    hf-node((1.4, 2), <r2>, $0.35$),
+    hf-node((1.95, 3), <r3>, $0.15$),
+    hf-node((-1.95, 1), <a>, $A: 0.40$, fill: c-fl),
+    hf-node((-0.3, 2), <b>, $B: 0.25$, fill: c-fl),
+    hf-node((0.55, 3), <c>, $C: 0.20$, fill: c-fl),
+    hf-node((1.4, 4), <d>, $D: 0.10$, fill: c-fl),
+    hf-node((2.5, 4), <e>, $E: 0.05$, fill: c-fl),
 
-  let hf-edge(fr, to, name, label) = {
-    draw.line(fr, to, stroke: edge-stroke, name: name)
-    draw.content(
-      name,
-      text(size: s-tiny, fill: c-ink)[#label],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-  }
-
-  let root = (0, 0)
-  hf-node(root, "root", 0.75, $1.0$)
-  hf-node((1.5, -1.8), "R1", 0.75, $0.60$)
-  hf-node((2.5, -3.6), "R2", 0.75, $0.35$)
-  hf-node((3.5, -5.4), "R3", 0.75, $0.15$)
-  hf-node((-3.5, -1.8), "A", 0.75, $A: 0.40$, fill: c-fl)
-  hf-node((-0.5, -3.6), "B", 0.75, $B: 0.25$, fill: c-fl)
-  hf-node((1, -5.4), "C", 0.75, $C: 0.20$, fill: c-fl)
-  hf-node((2.5, -7.2), "D", 0.75, $D: 0.10$, fill: c-fl)
-  hf-node((4.5, -7.2), "E", 0.75, $E: 0.05$, fill: c-fl)
-
-  hf-edge("root", "A", "e-rA", [_0_])
-  hf-edge("root", "R1", "e-rR1", [_1_])
-  hf-edge("R1", "B", "e-r1B", [_0_])
-  hf-edge("R1", "R2", "e-r1r2", [_1_])
-  hf-edge("R2", "C", "e-r2C", [_0_])
-  hf-edge("R2", "R3", "e-r2r3", [_1_])
-  hf-edge("R3", "D", "e-r3D", [_0_])
-  hf-edge("R3", "E", "e-r3E", [_1_])
-})
+    hf-edge(<root>, <a>, [_0_]),
+    hf-edge(<root>, <r1>, [_1_]),
+    hf-edge(<r1>, <b>, [_0_]),
+    hf-edge(<r1>, <r2>, [_1_]),
+    hf-edge(<r2>, <c>, [_0_]),
+    hf-edge(<r2>, <r3>, [_1_]),
+    hf-edge(<r3>, <d>, [_0_]),
+    hf-edge(<r3>, <e>, [_1_]),
+  )
+}
 
 // ── Сферы Хэмминга ──
 #let hs-sphere-stroke = (paint: c-edge, thickness: t-ed, dash: "dashed")

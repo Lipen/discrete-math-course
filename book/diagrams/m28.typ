@@ -4,7 +4,6 @@
 
 #import cetz: canvas, draw
 
-// Узлы суждений, боковые подписи правил и вертикальные рёбра вывода.
 #let judgment-node(pos, name, w, body) = {
   let (x, y) = pos
   draw.rect(

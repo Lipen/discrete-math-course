@@ -3,6 +3,7 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
 // ── Диагональ Кантора: R несчётно ──
 #let cantor-diagonal = canvas({
@@ -90,10 +91,10 @@
   }
   for i in range(rows) {
     draw.content(
-      (i * s + s / 2 + 0.1, -(rows + 0.7) * s),
+      (rel: (0, 0.2), to: "r" + str(i) + ".north"),
       text(size: s-tiny, fill: c-hot)[$≠$],
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 0.6pt,
     )
@@ -164,56 +165,34 @@
 })
 
 // ── Диаграмма Хассе булеана ──
-#let power-set-hasse = canvas({
-  let xgap = 2
-  let ygap = 1.5
-  let w = 1.4
-  let h = 0.6
-
-  let node(pos, label, name) = {
-    let (x, y) = pos
-    draw.rect(
-      (x - w / 2, y + h / 2),
-      (x + w / 2, y - h / 2),
-      name: name,
-      fill: c-atom,
-      stroke: t-bd + c-bd,
-      radius: 4pt,
-    )
-    draw.content((x, y), text(size: s-node, fill: c-ink)[#label])
-  }
-
-  let subset-edge(from-name, to-name) = {
-    draw.line(
-      from-name,
-      to-name,
-      stroke: t-ed + c-edge,
-      mark: (end: "stealth", fill: c-edge),
-    )
-  }
-
-  node((0, ygap * 3), ${a, b, c}$, "abc")
-  node((-xgap, ygap * 2), ${a, b}$, "ab")
-  node((0, ygap * 2), ${a, c}$, "ac")
-  node((xgap, ygap * 2), ${b, c}$, "bc")
-  node((-xgap, ygap), ${a}$, "a")
-  node((0, ygap), ${b}$, "b")
-  node((xgap, ygap), ${c}$, "c")
-  node((0, 0), $emptyset$, "e")
-
-  subset-edge("e", "a")
-  subset-edge("e", "b")
-  subset-edge("e", "c")
-  subset-edge("a", "ab")
-  subset-edge("a", "ac")
-  subset-edge("b", "ab")
-  subset-edge("b", "bc")
-  subset-edge("c", "ac")
-  subset-edge("c", "bc")
-  subset-edge("ab", "abc")
-  subset-edge("ac", "abc")
-  subset-edge("bc", "abc")
-})
+#let power-set-hasse = diagram(
+  node-shape: rect,
+  node-fill: c-atom,
+  node-stroke: t-bd + c-bd,
+  node-inset: 5pt,
+  node-outset: 2pt,
+  spacing: (3cm, 1.6cm),
+  node((0, 0), text(size: s-node, fill: c-ink)[${a, b, c}$], name: <abc>),
+  node((-1, 1), text(size: s-node, fill: c-ink)[${a, b}$], name: <ab>),
+  node((0, 1), text(size: s-node, fill: c-ink)[${a, c}$], name: <ac>),
+  node((1, 1), text(size: s-node, fill: c-ink)[${b, c}$], name: <bc>),
+  node((-1, 2), text(size: s-node, fill: c-ink)[${a}$], name: <a>),
+  node((0, 2), text(size: s-node, fill: c-ink)[${b}$], name: <b>),
+  node((1, 2), text(size: s-node, fill: c-ink)[${c}$], name: <c>),
+  node((0, 3), text(size: s-node, fill: c-ink)[$emptyset$], name: <e>),
+  edge(<e>, <a>, "->", stroke: t-ed + c-edge),
+  edge(<e>, <b>, "->", stroke: t-ed + c-edge),
+  edge(<e>, <c>, "->", stroke: t-ed + c-edge),
+  edge(<a>, <ab>, "->", stroke: t-ed + c-edge),
+  edge(<a>, <ac>, "->", stroke: t-ed + c-edge),
+  edge(<b>, <ab>, "->", stroke: t-ed + c-edge),
+  edge(<b>, <bc>, "->", stroke: t-ed + c-edge),
+  edge(<c>, <ac>, "->", stroke: t-ed + c-edge),
+  edge(<c>, <bc>, "->", stroke: t-ed + c-edge),
+  edge(<ab>, <abc>, "->", stroke: t-ed + c-edge),
+  edge(<ac>, <abc>, "->", stroke: t-ed + c-edge),
+  edge(<bc>, <abc>, "->", stroke: t-ed + c-edge),
+)
 
 // ── Биекция отрезка на квадрат ──
 #let cantor-line-square = canvas({
@@ -235,82 +214,65 @@
 // ── Цепочки алеф-бет ──
 // Семантические цвета цепочек: алеф-цепь (преемник) --- тёплая, бет-цепь (булеан) --- зелёная.
 // Зелёный штрих булеана --- единственный локальный цвет: для него нет токена.
-#let aleph-beth = canvas({
-  let gap = 2.6
-  let y = 1.6
-
+#let aleph-beth = {
   let c-pow-str = oklch(50%, 0.10, 155deg)
 
-  let node(pos, label, name, fill, str) = {
-    let (x, yy) = pos
-    draw.rect(
-      (x - 1.3, yy + 0.45),
-      (x + 1.3, yy - 0.45),
-      name: name,
-      fill: fill,
-      stroke: t-bd + str,
-      radius: 5pt,
-    )
-    draw.content((x, yy), text(size: s-node, fill: c-ink)[#label])
-  }
-
-  // Общее начало: aleph_0 = beth_0 = |N|.
-  node((0, y), $aleph_0 = beth_0 = abs(NN)$, "start", c-fl, c-bd)
-
-  node((gap, 2 * y), $aleph_1$, "a1", c-warn, c-hot)
-  node((2 * gap, 2 * y), $aleph_2$, "a2", c-warn, c-hot)
-  node((3 * gap, 2 * y), $aleph_3$, "a3", c-warn, c-hot)
-
-  node((gap, 0), $beth_1 = 2^(aleph_0)$, "b1", c-atom, c-pow-str)
-  node((2 * gap, 0), $beth_2 = 2^(beth_1)$, "b2", c-atom, c-pow-str)
-  node((3 * gap, 0), $beth_3 = 2^(beth_2)$, "b3", c-atom, c-pow-str)
-
-  draw.line("start", "a1", stroke: t-ed + c-hot, mark: (
-    end: "stealth",
-    fill: c-hot,
-  ))
-  draw.line("start", "b1", stroke: t-ed + c-pow-str, mark: (
-    end: "stealth",
-    fill: c-pow-str,
-  ))
-
-  draw.line("a1", "a2", stroke: t-ed + c-hot, mark: (
-    end: "stealth",
-    fill: c-hot,
-  ))
-  draw.line("a2", "a3", stroke: t-ed + c-hot, mark: (
-    end: "stealth",
-    fill: c-hot,
-  ))
-
-  draw.line("b1", "b2", stroke: t-ed + c-pow-str, mark: (
-    end: "stealth",
-    fill: c-pow-str,
-  ))
-  draw.line("b2", "b3", stroke: t-ed + c-pow-str, mark: (
-    end: "stealth",
-    fill: c-pow-str,
-  ))
-
-  // Континуум-гипотеза: вопрос между aleph_1 и beth_1.
-  draw.line(
-    "a1",
-    "b1",
-    stroke: (paint: c-muted, thickness: 1pt, dash: "dashed"),
-    mark: none,
-  )
-  draw.content(
-    (gap, y + 0.25),
-    text(size: s-node, fill: c-hot, weight: "bold")[$?$],
-    frame: "rect",
-    fill: white,
-    stroke: none,
-    padding: 0.6pt,
+  let anode(pos, name, body, fill, str) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#body],
+    name: name,
+    fill: fill,
+    stroke: t-bd + str,
+    inset: 5pt,
+    corner-radius: 5pt,
   )
 
-  draw.content((gap / 2, 2 * y + 0.6), text(
-    size: s-tiny,
-    fill: c-muted,
-  )[следующий])
-  draw.content((gap / 2, -0.6), text(size: s-tiny, fill: c-muted)[булеан])
-})
+  diagram(
+    spacing: (3.4cm, 1.9cm),
+    anode((0, 1), <start>, $aleph_0 = beth_0 = abs(NN)$, c-fl, c-bd),
+    anode((1, 0), <a1>, $aleph_1$, c-warn, c-hot),
+    anode((2, 0), <a2>, $aleph_2$, c-warn, c-hot),
+    anode((3, 0), <a3>, $aleph_3$, c-warn, c-hot),
+    anode((1, 2), <b1>, $beth_1 = 2^(aleph_0)$, c-atom, c-pow-str),
+    anode((2, 2), <b2>, $beth_2 = 2^(beth_1)$, c-atom, c-pow-str),
+    anode((3, 2), <b3>, $beth_3 = 2^(beth_2)$, c-atom, c-pow-str),
+
+    edge(
+      <start>,
+      <a1>,
+      "->",
+      stroke: t-ed + c-hot,
+      label: text(
+        size: s-tiny,
+        fill: c-muted,
+      )[следующий],
+      label-side: left,
+    ),
+    edge(
+      <start>,
+      <b1>,
+      "->",
+      stroke: t-ed + c-pow-str,
+      label: text(
+        size: s-tiny,
+        fill: c-muted,
+      )[булеан],
+      label-side: right,
+    ),
+    edge(<a1>, <a2>, "->", stroke: t-ed + c-hot),
+    edge(<a2>, <a3>, "->", stroke: t-ed + c-hot),
+    edge(<b1>, <b2>, "->", stroke: t-ed + c-pow-str),
+    edge(<b2>, <b3>, "->", stroke: t-ed + c-pow-str),
+
+    // Континуум-гипотеза: вопрос между aleph_1 и beth_1.
+    edge(
+      <a1>,
+      <b1>,
+      "-",
+      stroke: (paint: c-muted, thickness: 1pt, dash: "dashed"),
+      label: text(size: s-node, fill: c-hot, weight: "bold")[$?$],
+      label-fill: c-white,
+      label-side: center,
+    ),
+  )
+}

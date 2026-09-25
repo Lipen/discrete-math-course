@@ -34,7 +34,6 @@
 
 // ── Моноид как категория с одним объектом ──
 #let monoid-one-object = canvas({
-  // Петли-лассо: окружности, касающиеся объекта, рисуются до него.
   draw.arc(
     (-0.85, 0),
     start: 30deg,
@@ -69,16 +68,7 @@
     node((0, 0), $2$, name: <t>)
     arrow(<z>, <o>, $<=$, side: left)
     arrow(<o>, <t>, $<=$, side: left)
-    edge(
-      <z>,
-      <t>,
-      "-}>",
-      bend: -28deg,
-      label: [$<=$],
-      label-side: right,
-      label-size: s-cap,
-      stroke: d-stroke,
-    )
+    arrow(<z>, <t>, $<=$, side: right, stroke: d-stroke, bend: -28deg)
   },
 )
 
@@ -196,7 +186,6 @@
     node((0, 0), $cal(C)$, name: <cc>, shape: rect, width: 8em, height: 6.5em)
     node((5.2, 0), $cal(D)$, name: <dd>, shape: rect, width: 8em, height: 6.5em)
 
-    // F и G --- рёбра из якорей вершин.
     edge(
       (name: "cc", anchor: "north"),
       (name: "dd", anchor: "north"),
@@ -214,7 +203,6 @@
       stroke: e-stroke,
     )
 
-    // Два множества стрелок --- безрамные вершины, биекция --- ребро между ними.
     node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
     node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
     edge(<fy>, <xg>, "-|>-|-|>", label: [биекция], label-size: s-cap, stroke: (
@@ -227,7 +215,6 @@
 
 // ── Монада из сопряжения ──
 #let monad-from-adjunction = canvas({
-  // Эндофунктор T рисуется петлёй над категорией.
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "cc")
   draw.content("cc", text(size: s-node, fill: c-ink)[$cal(C)$])
   draw.arc(
@@ -260,11 +247,10 @@
   }
   let wire(fr, to) = draw.line(fr, to, stroke: e-stroke)
 
-  // m : A ⊗ B -> C, затем n : C ⊗ D -> E. Провода идут снизу вверх.
+  // m : A ⊗ B -> C, затем n : C ⊗ D -> E.
   op(1.4, 0, "m", $m$)
   op(1.4, 2.4, "n", $n$)
 
-  // Свободные концы --- именованные точки, провода идут из якорей.
   draw.content((-0.2, -1.35), text(size: s-cap, fill: c-ink)[$A$], name: "wA")
   draw.content((1.4, -1.35), text(size: s-cap, fill: c-ink)[$B$], name: "wB")
   draw.content((3.0, -1.35), text(size: s-cap, fill: c-ink)[$D$], name: "wD")

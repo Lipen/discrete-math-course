@@ -3,6 +3,7 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
 #let km-grid(rows, cols, s) = {
   let g = (paint: c-edge, thickness: t-hr)
@@ -138,73 +139,54 @@
 
 // ── BDD для XOR ──
 #let bdd-xor = {
-  let vnode(pos, var, name) = {
-    draw.circle(
-      pos,
-      radius: 0.4,
-      fill: c-conn,
-      stroke: t-bd + c-bd,
-      name: name,
-    )
-    draw.content(pos, text(size: s-node, fill: c-ink)[#var])
-  }
-  let tnode(pos, val, name) = {
-    let (cx, cy) = pos
-    draw.rect(
-      (cx - 0.3, cy - 0.3),
-      (cx + 0.3, cy + 0.3),
-      radius: 2pt,
-      fill: c-atom,
-      stroke: t-bd + c-bd,
-      name: name,
-    )
-    draw.content(pos, text(size: s-node, fill: c-ink)[#val])
-  }
+  let vnode(pos, name, body) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#body],
+    name: name,
+    shape: circle,
+    fill: c-conn,
+    stroke: t-bd + c-bd,
+    width: 1.5em,
+    height: 1.5em,
+    inset: 0pt,
+  )
+  let tnode(pos, name, val) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#val],
+    name: name,
+    fill: c-atom,
+    stroke: t-bd + c-bd,
+    inset: 4pt,
+  )
+  let bedge(from, to, bit) = edge(
+    from,
+    to,
+    "-",
+    stroke: if bit == 0 {
+      (paint: c-edge, thickness: t-ed, dash: "dashed")
+    } else {
+      (paint: c-edge, thickness: t-ed)
+    },
+    label: text(size: s-tiny, fill: c-muted)[$#bit$],
+    label-pos: 30%,
+    label-side: center,
+    label-fill: c-white,
+  )
 
-  let ledge(from, to, edge-name) = {
-    draw.line(
-      from,
-      to,
-      name: edge-name,
-      stroke: (paint: c-edge, thickness: t-ed, dash: "dashed"),
-    )
-    draw.content(
-      edge-name + ".30%",
-      text(size: s-tiny, fill: c-muted)[$0$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-  }
-  let hedge(from, to, edge-name) = {
-    draw.line(from, to, name: edge-name, stroke: (
-      paint: c-edge,
-      thickness: t-ed,
-    ))
-    draw.content(
-      edge-name + ".30%",
-      text(size: s-tiny, fill: c-muted)[$1$],
-      fill: white,
-      stroke: none,
-      padding: 2pt,
-    )
-  }
-
-  canvas({
-    vnode((0, 3), $x$, "x")
-    vnode((-2.0, 1), $y$, "y-lo")
-    vnode((2.0, 1), $y$, "y-hi")
-    tnode((-1.6, -1), 0, "t0")
-    tnode((1.6, -1), 1, "t1")
+  diagram(
+    spacing: 3.6em,
+    vnode((0, 0), <x>, $x$),
+    vnode((-1.5, 1), <y-lo>, $y$),
+    vnode((1.5, 1), <y-hi>, $y$),
+    tnode((-1.2, 2), <t0>, 0),
+    tnode((1.2, 2), <t1>, 1),
 
     // x = 0 ведёт в f(0,y) = y, x = 1 --- в f(1,y) = ¬y.
-    ledge("x", "y-lo", "e-x-lo")
-    hedge("x", "y-hi", "e-x-hi")
-
-    ledge("y-lo", "t0", "e-yl-t0")
-    hedge("y-lo", "t1", "e-yl-t1")
-
-    ledge("y-hi", "t1", "e-yr-t1")
-    hedge("y-hi", "t0", "e-yr-t0")
-  })
+    bedge(<x>, <y-lo>, 0),
+    bedge(<x>, <y-hi>, 1),
+    bedge(<y-lo>, <t0>, 0),
+    bedge(<y-lo>, <t1>, 1),
+    bedge(<y-hi>, <t1>, 0),
+    bedge(<y-hi>, <t0>, 1),
+  )
 }

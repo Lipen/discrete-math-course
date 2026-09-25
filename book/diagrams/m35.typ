@@ -138,7 +138,6 @@
     lab(p(ox, 3.4, 0.72), $mu_B$, color: c-hot, anchor: "west")
   }
 
-  // ── Объединение (max) -- верхняя огибающая
   panel-axes(0, [Объединение ($max$)])
   draw.line(
     p(0, 0.8, 0),
@@ -157,7 +156,6 @@
   draw.line(p(0, 2.8, 1), p(0, 3.8, 0), stroke: res-stroke)
   ab-labels(0)
 
-  // ── Пересечение (min) -- нижняя огибающая
   panel-axes(5, [Пересечение ($min$)])
   draw.line(
     p(5, 1.8, 0),
@@ -172,7 +170,6 @@
   draw.line(p(5, 2.3, 0.5), p(5, 2.8, 0), stroke: res-stroke)
   ab-labels(5)
 
-  // ── Дополнение (1 - mu) -- зеркальная кривая
   panel-axes(10, [Дополнение ($1 - mu$)])
   draw.line(
     p(10, 0.8, 1),

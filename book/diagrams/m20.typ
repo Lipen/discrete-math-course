@@ -20,7 +20,6 @@
     )[#label])
   }
 
-  // Вероятность перехода --- в середине ребра.
   let elabel(edge-name, prob) = {
     draw.content(
       edge-name + ".mid",
@@ -32,11 +31,9 @@
     )
   }
 
-  // ── Состояния ──
   state((0, 0), [$S$], "S")
   state((5, 0), [$R$], "R")
 
-  // ── Переходы ──
   draw.line(
     "S.north-east",
     "R.north-west",
@@ -92,13 +89,17 @@
     )
   }
 
-  let leaf-label(pos, outcome, prob) = {
-    let (x, y) = pos
-    draw.content((x, y - 0.4), text(size: s-cap, fill: c-muted)[#outcome])
-    draw.content((x, y - 0.78), text(size: s-cap, fill: c-accent)[$#prob$])
+  let leaf-label(leaf, outcome, prob) = {
+    draw.content(
+      (rel: (0, -0.4), to: leaf),
+      text(size: s-cap, fill: c-muted)[#outcome],
+    )
+    draw.content(
+      (rel: (0, -0.78), to: leaf),
+      text(size: s-cap, fill: c-accent)[$#prob$],
+    )
   }
 
-  // ── Узлы: ветвления ──
   draw.circle(
     (0, 3.4),
     radius: 0.17,
@@ -144,7 +145,6 @@
     name: "TT",
   )
 
-  // ── Ветви с вероятностями ──
   prob-edge("root", "H", 0.6)
   prob-edge("root", "T", 0.4)
   prob-edge("H", "HH", 0.6)
@@ -160,11 +160,10 @@
     weight: "bold",
   )[$T$])
 
-  // ── Исходы ──
-  leaf-label((4.2, 0), [$H H$], 0.36)
-  leaf-label((1.4, 0), [$H T$], 0.24)
-  leaf-label((-1.4, 0), [$T H$], 0.24)
-  leaf-label((-4.2, 0), [$T T$], 0.16)
+  leaf-label("HH", [$H H$], 0.36)
+  leaf-label("HT", [$H T$], 0.24)
+  leaf-label("TH", [$T H$], 0.24)
+  leaf-label("TT", [$T T$], 0.16)
 })
 
 // ── Байесовская сеть ──
@@ -195,16 +194,13 @@
     )
   }
 
-  // ── Узлы ──
   bn-node((0, 2.2), [Грипп], "flu")
   bn-node((-2.5, -0.3), [Кашель], "cough")
   bn-node((2.5, -0.3), [Температура], "fever")
 
-  // ── Причинно-следственные связи ──
   dir-edge("flu.south-west", "cough.north")
   dir-edge("flu.south-east", "fever.north")
 
-  // ── CPT-аннотации ──
   draw.content(
     "flu.east",
     text(size: s-cap, fill: c-muted)[$P("Flu") = 0.05$],

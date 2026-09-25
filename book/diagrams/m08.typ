@@ -5,6 +5,8 @@
 
 #import fletcher: diagram, edge, node
 
+#let n-stroke = c-bd + t-bd
+
 #let n-size = 1.2em
 
 #let cn(pos, body, ..args) = node(
@@ -20,7 +22,7 @@
 
 #let hasse-divisors-12 = diagram(
   node-shape: "circle",
-  node-stroke: (paint: c-bd, thickness: t-bd),
+  node-stroke: n-stroke,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 2em,
@@ -41,7 +43,7 @@
 
 #let hasse-chain-3 = diagram(
   node-shape: "circle",
-  node-stroke: (paint: c-bd, thickness: t-bd),
+  node-stroke: n-stroke,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.4em,
@@ -54,7 +56,7 @@
 
 #let hasse-powerset-2 = diagram(
   node-shape: "circle",
-  node-stroke: (paint: c-bd, thickness: t-bd),
+  node-stroke: n-stroke,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 2em,
@@ -70,7 +72,7 @@
 
 #let hasse-powerset-3 = diagram(
   node-shape: "circle",
-  node-stroke: (paint: c-bd, thickness: t-bd),
+  node-stroke: n-stroke,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.8em,
@@ -99,7 +101,7 @@
 
 #let lattice-m3 = diagram(
   node-shape: "circle",
-  node-stroke: (paint: c-bd, thickness: t-bd),
+  node-stroke: n-stroke,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.6em,
@@ -118,7 +120,7 @@
 
 #let lattice-n5 = diagram(
   node-shape: "circle",
-  node-stroke: (paint: c-bd, thickness: t-bd),
+  node-stroke: n-stroke,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 1.6em,

@@ -209,7 +209,7 @@
       (rel: off, to: ename + ".mid"),
       weight,
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 1pt,
       size: s-tiny,
@@ -548,7 +548,7 @@
     let ename = a + "-" + b
     draw.line(a, b, stroke: (paint: c-pa-dot, thickness: t-hi), name: ename)
     let pt = (rel: off, to: ename + ".mid")
-    draw.circle(pt, radius: 0.23, fill: white, stroke: (
+    draw.circle(pt, radius: 0.23, fill: c-white, stroke: (
       paint: c-pa-dot,
       thickness: t-bd,
     ))
@@ -865,7 +865,7 @@
       (rel: off, to: ename + ".mid"),
       cap,
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 1pt,
       size: s-tiny,
@@ -898,7 +898,7 @@
       (rel: off, to: ename + ".mid"),
       lb,
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 1pt,
       size: s-tiny,
@@ -941,7 +941,7 @@
       (rel: off, to: ename + ".mid"),
       cf,
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 1pt,
       size: s-tiny,
@@ -978,7 +978,7 @@
       (rel: off, to: ename + ".mid"),
       cap,
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 1pt,
       size: s-tiny,
@@ -1031,7 +1031,7 @@
       (rel: off, to: ename + ".mid"),
       lb,
       frame: "rect",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 1pt,
       size: s-tiny,

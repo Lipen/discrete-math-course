@@ -3,6 +3,7 @@
 #import "style.typ": *
 
 #import cetz: canvas, draw
+#import fletcher: diagram, edge, node
 
 // Доступность (стрелки переходов) выделяется книжным акцентом.
 #let acc-stroke = (paint: c-accent, thickness: t-ed)
@@ -12,40 +13,35 @@
 #let d-str = oklch(60%, 0.10, 60deg) + t-bd
 
 // ── Крипке-гараж (светофор): три состояния, цикл переходов. ──
-#let kripke-traffic = canvas({
-  let r = 0.5
-  let t-node(pos, body, name) = {
-    draw.circle(pos, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: name)
-    draw.content(pos, text(size: s-node, fill: c-ink)[#body])
-  }
-  let acc-edge(from, to) = draw.line(
-    from,
-    to,
-    stroke: acc-stroke,
-    mark: (end: "stealth", fill: c-accent),
-  )
-
-  t-node((0, 0.95), $G$, "G")
-  t-node((0.95, -0.5), $Y$, "Y")
-  t-node((-0.95, -0.5), $R$, "R")
-
-  acc-edge("G", "Y")
-  acc-edge("Y", "R")
-  acc-edge("R", "G")
-
-  draw.content((0, 1.6), anchor: "south", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$"green"$])
-  draw.content((1.05, -1.05), anchor: "west", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$"yellow"$])
-  draw.content((-1.05, -1.05), anchor: "east", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$"red"$])
-})
+#let kripke-traffic = diagram(
+  node-shape: circle,
+  node-stroke: t-bd + c-bd,
+  node-fill: c-fl,
+  node((0, -1.1), $G$, name: <g>),
+  node((1.05, 0.55), $Y$, name: <y>),
+  node((-1.05, 0.55), $R$, name: <r>),
+  edge(<g>, <y>, "-}>", stroke: acc-stroke),
+  edge(<y>, <r>, "-}>", stroke: acc-stroke),
+  edge(<r>, <g>, "-}>", stroke: acc-stroke),
+  node(
+    (0, -1.95),
+    text(size: s-cap, fill: c-muted)[$"green"$],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (1.7, 1),
+    text(size: s-cap, fill: c-muted)[$"yellow"$],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (-1.7, 1),
+    text(size: s-cap, fill: c-muted)[$"red"$],
+    fill: none,
+    stroke: none,
+  ),
+)
 
 // ── Куб модальностей: оси +T, +B, +4; D на ребре K→T. ──
 #let modal-cube = canvas({
@@ -100,52 +96,40 @@
 })
 
 // ── Состояния мьютекса: (C,C) запрещено, переходы между остальными. ──
-#let mutex-states = canvas({
-  let r = 0.52
-  let m-node(pos, body, name) = {
-    draw.circle(pos, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: name)
-    draw.content(pos, text(size: s-node, fill: c-ink)[#body])
-  }
-  let acc-edge(from, to) = draw.line(
-    from,
-    to,
-    stroke: acc-stroke,
-    mark: (end: "stealth", fill: c-accent),
-  )
-
-  m-node((0, 0), $(O, O)$, "oo")
-  draw.content((0, -0.85), anchor: "north", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$nothing$])
-
-  m-node((-1.6, 1.7), $(C, O)$, "co")
-  draw.content((-2.35, 1.7), anchor: "east", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$"crit"_1$])
-
-  m-node((1.6, 1.7), $(O, C)$, "oc")
-  draw.content((2.35, 1.7), anchor: "west", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$"crit"_2$])
-
-  draw.circle(
-    (0, 3.5),
-    radius: r,
+#let mutex-states = diagram(
+  node-shape: circle,
+  node-stroke: t-bd + c-bd,
+  node-fill: c-fl,
+  node((0, 1.7), $(O, O)$, name: <oo>),
+  node((-1.7, 0), $(C, O)$, name: <co>),
+  node((1.7, 0), $(O, C)$, name: <oc>),
+  node(
+    (0, -1.9),
+    $(C, C)$,
+    name: <cc>,
     fill: none,
     stroke: (paint: c-hot, thickness: t-bd, dash: "dashed"),
-    name: "cc",
-  )
-  draw.content((0, 3.5), text(size: s-node, fill: c-ink)[$(C, C)$])
-  draw.content((0.65, 3.5), anchor: "west", text(
-    size: s-cap,
-    fill: c-muted,
-  )[$"crit"_1, "crit"_2$])
-
-  acc-edge("oo", "co")
-  acc-edge("oo", "oc")
-  acc-edge("co", "oo")
-  acc-edge("oc", "oo")
-})
+  ),
+  edge(<oo>, <co>, "-}>", stroke: acc-stroke),
+  edge(<co>, <oo>, "-}>", stroke: acc-stroke),
+  edge(<oo>, <oc>, "-}>", stroke: acc-stroke),
+  edge(<oc>, <oo>, "-}>", stroke: acc-stroke),
+  node(
+    (-2.75, 0),
+    text(size: s-cap, fill: c-muted)[$"crit"_1$],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (2.75, 0),
+    text(size: s-cap, fill: c-muted)[$"crit"_2$],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (1.45, -1.9),
+    text(size: s-cap, fill: c-muted)[$"crit"_1, "crit"_2$],
+    fill: none,
+    stroke: none,
+  ),
+)

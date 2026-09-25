@@ -99,7 +99,7 @@
       (cx - 0.32, y + 0.22),
       (cx + 0.32, y - 0.22),
       radius: 3pt,
-      fill: white,
+      fill: c-white,
       stroke: c-bd + t-hr,
     )
     draw.content((cx, y), text(size: s-node, fill: c-ink)[#it])
@@ -129,22 +129,18 @@
   leaf(2, $c$)
   leaf(3, $d$)
 
-  // Слияние a и b на высоте 1.
   vline((0, 0), (0, 1))
   vline((1, 0), (1, 1))
   hline((0, 1), (1, 1))
 
-  // Слияние c и d на высоте 2.
   vline((2, 0), (2, 2))
   vline((3, 0), (3, 2))
   hline((2, 2), (3, 2))
 
-  // Слияние всех на высоте 3.
   vline((0.5, 1), (0.5, 3))
   vline((2.5, 2), (2.5, 3))
   hline((0.5, 3), (2.5, 3))
 
-  // Метки высот.
   draw.content((-0.35, 1), anchor: "east", text(size: s-node, fill: c-ink)[$1$])
   draw.content((-0.35, 2), anchor: "east", text(size: s-node, fill: c-ink)[$2$])
   draw.content((-0.35, 3), anchor: "east", text(size: s-node, fill: c-ink)[$3$])
@@ -155,13 +151,11 @@
   // Схема: высоты ветвлений не в масштабе, времена подписаны.
   let edge = e-stroke
 
-  // Плашка под листом.
   let plate-w = 0.9
   let plate-top = -0.3
   let plate-bot = -0.9
   let plate-mid = (plate-top + plate-bot) / 2
 
-  // Высоты ветвлений (схематичная шкала).
   let h6 = 1.5
   let h8 = 2.0
   let h14 = 2.5
@@ -169,7 +163,6 @@
   let h75 = 4.0
   let h85 = 4.5
 
-  // Горизонтальные позиции листьев.
   let gap = 2.2
   let x0 = 0
   let x1 = x0 + gap
@@ -179,7 +172,6 @@
   let x5 = x4 + gap
   let x6 = x5 + gap
 
-  // Середины групп.
   let m-human-chimp = (x0 + x1) / 2
   let m-ape3 = (m-human-chimp + x2) / 2
   let m-ape4 = (m-ape3 + x3) / 2
@@ -187,21 +179,23 @@
   let m-laur = (m-dog-cat + x6) / 2
   let m-root = (m-ape4 + m-laur) / 2
 
-  // Вспомогательные построения.
+  // Плашки листьев: холодный серый вне палитры токенов.
+  let c-plate = oklch(93%, 0.005, 260deg)
+  let c-plate-bd = oklch(70%, 0.01, 260deg)
+
   let line(a, b) = draw.line(a, b, stroke: edge)
   let leaf(x, label, w: plate-w) = {
     draw.rect(
       (x - w, plate-top),
       (x + w, plate-bot),
-      fill: luma(235),
-      stroke: luma(160) + 0.6pt,
+      fill: c-plate,
+      stroke: c-plate-bd + 0.6pt,
       radius: 6pt,
     )
     draw.content((x, plate-mid), text(size: s-node, fill: c-ink)[#label])
   }
   let stem(x, h) = line((x, 0), (x, h))
 
-  // Листья.
   leaf(x0, [🚶 человек])
   leaf(x1, [🐒 шимпанзе], w: 1.15)
   leaf(x2, [🦍 горилла])
@@ -210,7 +204,6 @@
   leaf(x5, [🐈 кошка])
   leaf(x6, [🐬 дельфин], w: 1.0)
 
-  // Стволы листьев.
   stem(x0, h6)
   stem(x1, h6)
   stem(x2, h8)
@@ -233,12 +226,10 @@
   line((m-dog-cat, h75), (x6, h75))
   line((m-laur, h75), (m-laur, h85))
 
-  // Корень и кончик.
   line((m-ape4, h85), (m-laur, h85))
   let tip = 0.4
   line((m-root, h85), (m-root, h85 + tip))
 
-  // Метки времени.
   let axis-x = -0.5
   let label(h, t) = draw.content(
     (axis-x, h),
