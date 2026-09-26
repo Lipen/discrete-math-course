@@ -268,28 +268,82 @@
   )
 }
 
-// ── Bipartite view of R between different sets ──
-#let rel-bipartite = diagram(
-  spacing: 2em,
-  cn((-1.6, -1.4), $1$, name: <a1>, stroke: n-str, shape: "circle"),
-  cn((-1.6, 0), $2$, name: <a2>, stroke: n-str, shape: "circle"),
-  cn((-1.6, 1.4), $3$, name: <a3>, stroke: n-str, shape: "circle"),
-  cn((1.6, -0.7), $a$, name: <b1>, stroke: n-str, shape: "circle"),
-  cn((1.6, 0.7), $b$, name: <b2>, stroke: n-str, shape: "circle"),
-  ea(<a1>, <b1>),
-  ea(<a2>, <b1>),
-  ea(<a3>, <b2>),
-  node((-1.6, -2.3), text(size: 0.45em, fill: luma(50%))[$A$], stroke: none),
-  node((1.6, -2.3), text(size: 0.45em, fill: luma(50%))[$B$], stroke: none),
-  node(
-    (0, 2.3),
-    text(
-      size: 0.6em,
-      fill: luma(50%),
-    )[Двудольное представление отношения $R subset.eq A times B$.],
-    stroke: none,
-  ),
-)
+// ── Двудольное представление: две части, рёбра поперёк ──
+#let rel-bipartite = canvas({
+  let c-left = oklch(52%, 0.11, 250deg)
+  let c-right = oklch(55%, 0.12, 25deg)
+  let muted = (paint: oklch(45%, 0.03, 265deg), thickness: 0.9pt, cap: "round")
+  let hot = (paint: oklch(55%, 0.17, 25deg), thickness: 2.4pt, cap: "round")
+
+  let circles = (
+    l1: (-2.25, 2.1),
+    l2: (-2.25, 1.05),
+    l3: (-2.25, 0),
+    l4: (-2.25, -1.05),
+    l5: (-2.25, -2.1),
+  )
+  let squares = (r1: (2.25, 1.31), r2: (2.25, 0), r3: (2.25, -1.31))
+  let ties = (
+    ("l1", "r1", 0.52, false),
+    ("l1", "r2", 0.38, false),
+    ("l2", "r1", 0.41, true),
+    ("l3", "r1", 0.22, false),
+    ("l3", "r3", -0.45, false),
+    ("l4", "r2", -0.32, false),
+  )
+
+  draw.rect(
+    (-3.75, -2.62),
+    (-0.75, 2.62),
+    radius: 0.26,
+    fill: oklch(96%, 0.015, 250deg),
+    stroke: 0.7pt + c-left.lighten(45%),
+  )
+  draw.rect(
+    (0.75, -2.62),
+    (3.75, 2.62),
+    radius: 0.26,
+    fill: oklch(96%, 0.02, 25deg),
+    stroke: 0.7pt + c-right.lighten(45%),
+  )
+  draw.line(
+    (0, -2.33),
+    (0, 2.33),
+    stroke: (paint: oklch(72%, 0.02, 265deg), thickness: 0.5pt, dash: "dashed"),
+  )
+
+  for (name, pos) in circles {
+    draw.circle(
+      pos,
+      radius: 0.32,
+      fill: white,
+      stroke: 1.4pt + c-left,
+      name: name,
+    )
+  }
+  for (name, pos) in squares {
+    draw.rect(
+      (pos.at(0) - 0.29, pos.at(1) - 0.29),
+      (pos.at(0) + 0.29, pos.at(1) + 0.29),
+      radius: 0.1,
+      fill: white,
+      stroke: 1.4pt + c-right,
+      name: name,
+    )
+  }
+
+  for (a, b, lift, accent) in ties {
+    let (_, ay) = circles.at(a)
+    let (_, by) = squares.at(b)
+    draw.bezier(
+      a + ".east",
+      b + ".west",
+      (0, (ay + by) / 2 + lift),
+      stroke: if accent { hot } else { muted },
+    )
+  }
+})
+
 
 // ── Классы эквивалентности: непересекающиеся области внутри A ──
 #let equivalence-classes-blobs = canvas({
