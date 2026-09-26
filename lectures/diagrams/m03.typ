@@ -1,95 +1,59 @@
 // Круги Эйлера и квадрат оппозиций для силлогистики Аристотеля.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "style.typ": *
 
-#let c-fill = oklch(88%, 0.03, 250deg)
-#let c-fill-warm = oklch(90%, 0.05, 90deg)
-#let c-str = 0.8pt + oklch(50%, 0.08, 250deg)
-#let c-label = oklch(30%, 0.02, 265deg)
-#let c-dot = oklch(50%, 0.2, 25deg)
+// Терминам силлогистики -- свои токены: S тёплый, M зелёный, P холодный.
+#let euler-set(name, pos, r, tone, fill) = draw.circle(
+  pos,
+  radius: r,
+  fill: fill,
+  stroke: 1.1pt + tone,
+  name: name,
+)
 
-#let tag(pos, body) = draw.content(pos, text(size: 0.8em, fill: c-label)[#body])
+// Свидетель exists-суждения: тёплая точка с белой обводкой.
+#let witness(pos) = draw.circle(
+  pos,
+  radius: 0.075,
+  fill: warm,
+  stroke: 0.8pt + white,
+)
 
 // ── Четыре типа суждений: A, E, I, O ──
 #let judgment-circles = canvas({
   let pair-a(x) = {
-    draw.circle((x, 0), radius: 1, stroke: c-str, fill: c-fill, name: "A-P")
-    draw.circle(
-      (x, 0.32),
-      radius: 0.42,
-      stroke: c-str,
-      fill: c-fill-warm,
-      name: "A-S",
-    )
-    tag((x, 0.32), $S$)
-    tag((x - 0.45, -0.62), $P$)
-    tag((x, -1.5), [*$A$*])
+    panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
+    euler-set("A-P", (x, 0), 1, cool, panel-cool)
+    euler-set("A-S", (x, 0.32), 0.42, warm, panel-warm)
+    mark((x, 0.32), $S$)
+    mark((x - 0.45, -0.62), $P$)
+    mark((x, -1.55), [*$A$*])
   }
   let pair-e(x) = {
-    draw.circle(
-      (x - 0.52, 0),
-      radius: 0.55,
-      stroke: c-str,
-      fill: c-fill-warm,
-      name: "E-S",
-    )
-    draw.circle(
-      (x + 0.72, 0),
-      radius: 0.55,
-      stroke: c-str,
-      fill: c-fill,
-      name: "E-P",
-    )
-    tag((x - 0.52, 0), $S$)
-    tag((x + 0.72, 0), $P$)
-    tag((x, -1.5), [*$E$*])
+    panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
+    euler-set("E-S", (x - 0.65, 0), 0.55, warm, panel-warm)
+    euler-set("E-P", (x + 0.65, 0), 0.55, cool, panel-cool)
+    mark((x - 0.65, 0), $S$)
+    mark((x + 0.65, 0), $P$)
+    mark((x, -1.55), [*$E$*])
   }
   let pair-i(x) = {
-    draw.circle(
-      (x - 0.4, 0),
-      radius: 0.65,
-      stroke: c-str,
-      fill: c-fill-warm,
-      name: "I-S",
-    )
-    draw.circle(
-      (x + 0.5, 0),
-      radius: 0.65,
-      stroke: c-str,
-      fill: c-fill,
-      name: "I-P",
-    )
-    draw.content((x + 0.05, 0), circle(
-      radius: 2.2pt,
-      fill: c-dot,
-      stroke: none,
-    ))
-    tag((x - 0.55, 0.35), $S$)
-    tag((x + 0.7, 0.35), $P$)
-    tag((x, -1.5), [*$I$*])
+    panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
+    euler-set("I-S", (x - 0.4, 0), 0.65, warm, panel-warm)
+    euler-set("I-P", (x + 0.5, 0), 0.65, cool, panel-cool)
+    witness((x + 0.05, 0))
+    mark((x - 0.55, 0.35), $S$)
+    mark((x + 0.7, 0.35), $P$)
+    mark((x, -1.55), [*$I$*])
   }
   let pair-o(x) = {
-    draw.circle(
-      (x - 0.3, 0),
-      radius: 0.65,
-      stroke: c-str,
-      fill: c-fill-warm,
-      name: "O-S",
-    )
-    draw.circle(
-      (x + 0.6, -0.28),
-      radius: 0.65,
-      stroke: c-str,
-      fill: c-fill,
-      name: "O-P",
-    )
-    draw.content((x - 0.55, 0.38), circle(
-      radius: 2.2pt,
-      fill: c-dot,
-      stroke: none,
-    ))
-    tag((x - 0.45, -0.15), $S$)
-    tag((x + 0.85, -0.6), $P$)
-    tag((x, -1.5), [*$O$*])
+    panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
+    euler-set("O-S", (x - 0.3, 0), 0.65, warm, panel-warm)
+    euler-set("O-P", (x + 0.55, -0.28), 0.65, cool, panel-cool)
+    witness((x - 0.55, 0.38))
+    mark((x - 0.45, -0.15), $S$)
+    mark((x + 0.85, -0.6), $P$)
+    mark((x, -1.55), [*$O$*])
   }
 
   pair-a(0)
@@ -100,63 +64,33 @@
 
 // ── Barbara: все M суть P, все S суть M --- все S суть P ──
 #let euler-barbara = canvas({
-  draw.circle((0, 0), radius: 1.6, stroke: c-str, fill: c-fill, name: "P")
-  draw.circle(
-    (0.2, -0.35),
-    radius: 0.95,
-    stroke: c-str,
-    fill: c-fill-warm,
-    name: "M",
-  )
-  draw.circle((0.38, -0.6), radius: 0.42, stroke: c-str, fill: white, name: "S")
-  tag((0.38, -0.6), $S$)
-  tag((1.05, -0.35), $M$)
-  tag((0.75, 1.05), $P$)
+  euler-set("P", (0, 0), 1.6, cool, panel-cool)
+  euler-set("M", (0.2, -0.35), 0.95, green, panel-green)
+  euler-set("S", (0.38, -0.6), 0.42, warm, panel-warm)
+  mark((0.38, -0.6), $S$)
+  mark((1.05, -0.35), $M$)
+  mark((0.75, 1.05), $P$)
 })
 
 // ── Celarent: ни одно M не есть P, все S суть M --- ни одно S не есть P ──
 #let euler-celarent = canvas({
-  draw.circle(
-    (-1.05, 0),
-    radius: 1.15,
-    stroke: c-str,
-    fill: c-fill-warm,
-    name: "M",
-  )
-  draw.circle((1.35, 0), radius: 1.15, stroke: c-str, fill: c-fill, name: "P")
-  draw.circle(
-    (-1.05, -0.35),
-    radius: 0.42,
-    stroke: c-str,
-    fill: white,
-    name: "S",
-  )
-  tag((-1.05, -0.35), $S$)
-  tag((-1.05, 0.72), $M$)
-  tag((1.35, 0), $P$)
+  euler-set("M", (-1.05, 0), 1.15, green, panel-green)
+  euler-set("P", (1.35, 0), 1.15, cool, panel-cool)
+  euler-set("S", (-1.05, -0.35), 0.42, warm, panel-warm)
+  mark((-1.05, -0.35), $S$)
+  mark((-1.05, 0.72), $M$)
+  mark((1.35, 0), $P$)
 })
 
 // ── Darii: все M суть P, некоторые S суть M --- некоторые S суть P ──
 #let euler-darii = canvas({
-  draw.circle((0.35, 0), radius: 1.5, stroke: c-str, fill: c-fill, name: "P")
-  draw.circle(
-    (0.5, -0.2),
-    radius: 0.9,
-    stroke: c-str,
-    fill: c-fill-warm,
-    name: "M",
-  )
-  draw.circle(
-    (-0.85, -0.5),
-    radius: 0.85,
-    stroke: c-str,
-    fill: white,
-    name: "S",
-  )
-  draw.content((0.0, -0.45), circle(radius: 2.4pt, fill: c-dot, stroke: none))
-  tag((-0.85, 0.42), $S$)
-  tag((1.0, -0.2), $M$)
-  tag((1.0, 1.0), $P$)
+  euler-set("P", (0.35, 0), 1.5, cool, panel-cool)
+  euler-set("M", (0.5, -0.2), 0.9, green, panel-green)
+  euler-set("S", (-0.85, -0.5), 0.85, warm, panel-warm)
+  witness((-0.25, -0.42))
+  mark((-1.3, -0.2), $S$)
+  mark((1.0, -0.2), $M$)
+  mark((1.0, 1.0), $P$)
 })
 
 // ── Квадрат оппозиций: A, E, I, O и отношения между суждениями ──
@@ -164,33 +98,34 @@
   let xh = 2.7
   let yh = 1.35
   let box = 0.5
-  let c-line = oklch(45%, 0.02, 265deg)
 
-  let corner(pos, label-text) = {
+  // Универсальные суждения холодные, частные тёплые.
+  let corner(pos, name, tone) = {
     let (x, y) = pos
     draw.rect(
       (x - box, y + box),
       (x + box, y - box),
-      name: label-text,
-      fill: c-fill,
-      stroke: c-str,
+      name: name,
+      fill: white,
+      stroke: 1.2pt + tone,
       radius: 4pt,
     )
-    draw.content(label-text, text(size: 1em, fill: c-label)[#label-text])
+    mark(pos, [*#name*])
   }
 
-  let sq-edge(from, to, label: none, dashed: false, arrow: false, at: none) = {
+  let link(from, to, label: none, dashed: false, arrow: false, at: none) = {
     let st = if dashed {
-      (paint: c-line, thickness: 0.4pt, dash: "dashed")
+      edge-soft
     } else {
-      (paint: c-line, thickness: 0.8pt)
+      (paint: ink, thickness: 0.8pt, cap: "round")
     }
-    let mark = if arrow { (end: "stealth", fill: c-line) } else { none }
-    draw.line(from, to, name: from + "-" + to, stroke: st, mark: mark)
+    let mk = if arrow { (end: (symbol: "stealth", fill: ink)) } else { none }
+    draw.line(from, to, name: from + "-" + to, stroke: st, mark: mk)
     if label != none {
+      let anchor = if at == none { from + "-" + to } else { at }
       draw.content(
-        if at == none { from + "-" + to } else { at },
-        text(size: 0.7em, fill: c-label)[#label],
+        anchor,
+        text(size: 0.42em, fill: ink)[#label],
         fill: white,
         padding: 2pt,
       )
@@ -198,21 +133,21 @@
   }
 
   canvas({
-    corner((-xh, yh), "A")
-    corner((xh, yh), "E")
-    corner((-xh, -yh), "I")
-    corner((xh, -yh), "O")
+    corner((-xh, yh), "A", cool)
+    corner((xh, yh), "E", cool)
+    corner((-xh, -yh), "I", warm)
+    corner((xh, -yh), "O", warm)
 
-    sq-edge("A", "E", label: [контрарность])
-    sq-edge("I", "O", label: [субконтрарность])
-    sq-edge("A", "I", label: [подчинение], arrow: true, at: (-xh, 0))
-    sq-edge("E", "O", label: [подчинение], arrow: true, at: (xh, 0))
+    link("A", "E", label: [контрарность])
+    link("I", "O", label: [субконтрарность])
+    link("A", "I", label: [подчинение], arrow: true, at: (-xh, 0))
+    link("E", "O", label: [подчинение], arrow: true, at: (xh, 0))
 
-    sq-edge("A", "O", dashed: true)
-    sq-edge("I", "E", dashed: true)
+    link("A", "O", dashed: true)
+    link("I", "E", dashed: true)
     draw.content(
       (0, 0),
-      text(size: 0.7em, fill: c-label)[противоречие],
+      text(size: 0.42em, fill: ink)[противоречие],
       fill: white,
       padding: 2pt,
     )

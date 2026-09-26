@@ -1,280 +1,296 @@
-// Relation digraphs via fletcher.
-// Скопировано из книги, чтобы лекции не зависели от неё.
+// Отношения: орграф, делимость, три представления, композиция, Уоршелл, эквивалентность.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "style.typ": *
+#import "../theme.typ": sim
 
-#let n-fill = oklch(88%, 0.03, 250deg)
-#let n-str = 0.8pt + oklch(60%, 0.08, 250deg)
-#let e-str = 0.8pt + oklch(35%, 0.02, 265deg)
+// Три класса эквивалентности: общие тона для всех фигур файла.
+#let class-tones = (cool, green, warm)
+#let class-fills = (cool.lighten(78%), green.lighten(78%), warm.lighten(78%))
 
-#let cn(pos, body, ..args) = node(
+#let vertex-node(pos, body, ..args) = node(
   pos,
-  text(size: 1.4em)[#body],
-  fill: n-fill,
-  width: 1.2em,
-  height: 1.2em,
+  text(size: 1.2em, fill: ink)[#body],
   ..args,
 )
-#let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-str, ..args)
-#let el(from, to, angle: 30deg, ..args) = edge(
+#let edge-arrow(from, to, ..args) = edge(
   from,
   to,
   "-}>",
-  stroke: e-str,
+  stroke: edge-plain,
+  ..args,
+)
+#let loop-edge(from, to, angle: 30deg) = edge(
+  from,
+  to,
+  "-}>",
+  stroke: edge-plain,
   bend: 125deg,
   loop-angle: angle,
 )
+#let flow(
+  a,
+  b,
+  ctrl,
+  style: edge-plain,
+  from: "east",
+  to: "west",
+) = draw.bezier(
+  a + "." + from,
+  b + "." + to,
+  ctrl,
+  stroke: style,
+  mark: (end: "stealth", fill: style.paint),
+)
 
-// ── Digraph of R on A = {1,2,3,4,5} ──
+// ── Орграф R на {1, ..., 5}: петли 1 и 5, цикл 1 -> 2 -> 3 -> 1 ──
 #let rel-digraph = diagram(
   node-shape: "circle",
-  node-stroke: n-str,
+  node-fill: white,
+  node-stroke: 1.2pt + cool,
   node-inset: 0pt,
   node-outset: 0pt,
   spacing: 2.6em,
-  cn((-0.4, 1.6), $1$, name: <1>),
-  cn((1.3, 0.8), $2$, name: <2>),
-  cn((1.3, -0.8), $3$, name: <3>),
-  cn((-1.3, -0.8), $4$, name: <4>),
-  cn((-1.3, 0.8), $5$, name: <5>),
-  el(<1>, <1>, angle: 120deg),
-  ea(<1>, <2>),
-  ea(<1>, <5>),
-  ea(<2>, <3>),
-  ea(<2>, <4>),
-  ea(<3>, <1>),
-  ea(<4>, <2>),
-  ea(<5>, <3>),
-  el(<5>, <5>, angle: 240deg),
+  vertex-node((-0.4, 1.6), $1$, name: <1>),
+  vertex-node((1.3, 0.8), $2$, name: <2>),
+  vertex-node((1.3, -0.8), $3$, name: <3>),
+  vertex-node((-1.3, -0.8), $4$, name: <4>),
+  vertex-node((-1.3, 0.8), $5$, name: <5>),
+  loop-edge(<1>, <1>, angle: 120deg),
+  loop-edge(<5>, <5>, angle: 240deg),
+  edge(<1>, <2>, "-}>", stroke: edge-hot),
+  edge(<2>, <3>, "-}>", stroke: edge-hot),
+  edge(<3>, <1>, "-}>", stroke: edge-hot),
+  edge-arrow(<1>, <5>),
+  edge-arrow(<2>, <4>),
+  edge-arrow(<4>, <2>),
+  edge-arrow(<5>, <3>),
 )
 
-// ── Hasse diagram of divisibility on {1,2,3,4,6,12} ──
+// ── Хассе: делимость на {1, 2, 3, 4, 6, 12}, только покрывающие рёбра ──
 #let hasse-divisibility = canvas({
-  let fill = oklch(88%, 0.03, 250deg)
-  let stroke = 0.6pt + oklch(50%, 0.08, 250deg)
-  let edge-str = 0.6pt + oklch(35%, 0.02, 265deg)
-
-  // Node helper: named circle with a label
-  let v(name, pos) = {
-    draw.circle(pos, radius: 0.18, fill: fill, stroke: stroke, name: name)
-    draw.content(pos, text(size: 0.45em)[#name])
+  let spot(name, pos) = {
+    vertex(name, pos, size: 0.19)
+    mark(pos, name, size: 0.42em)
   }
 
-  // Edge helper: straight line between two named nodes
-  let e(a, b) = draw.line(a, b, stroke: edge-str)
+  spot("12", (0, 1.5))
+  spot("4", (-0.75, 1.0))
+  spot("6", (0.75, 1.0))
+  spot("2", (-0.5, 0.5))
+  spot("3", (0.5, 0.5))
+  spot("1", (0, 0))
 
-  // Nodes, named
-  v("12", (0, 1.5))
-  v("4", (-0.75, 1.0))
-  v("6", (0.75, 1.0))
-  v("2", (-0.5, 0.5))
-  v("3", (0.5, 0.5))
-  v("1", (0, 0.0))
-
-  // Edges --- only cover relations (no transitive shortcuts), node-based
-  e("1", "2")
-  e("1", "3")
-  e("2", "4")
-  e("2", "6")
-  e("3", "6")
-  e("4", "12")
-  e("6", "12")
+  for (a, b) in (
+    ("1", "2"),
+    ("1", "3"),
+    ("2", "4"),
+    ("2", "6"),
+    ("3", "6"),
+    ("4", "12"),
+    ("6", "12"),
+  ) {
+    draw.line(a, b, stroke: edge-plain)
+  }
 })
 
-// ── Equivalence partition: numbers 1..10 modulo 3 ──
-#let c-eq-a = oklch(88%, 0.06, 250deg)
-#let c-eq-b = oklch(88%, 0.06, 155deg)
-#let c-eq-c = oklch(88%, 0.10, 45deg)
-#let c-eq-str = oklch(50%, 0.08, 250deg) + 0.6pt
-#let c-eq-label = oklch(35%, 0.02, 265deg)
-
+// ── Разбиение {1, ..., 10} на классы по остаткам ──
 #let equivalence-partition = canvas({
-  // Class [0]: {3, 6, 9}
-  draw.rect(
-    (-1.9, 0.6),
-    (1.9, 1.4),
-    radius: 6pt,
-    fill: c-eq-a,
-    stroke: c-eq-str,
+  let rows = (
+    (elements: (3, 6, 9), residue: 0, tone: cool, fill: panel-cool),
+    (elements: (1, 4, 7, 10), residue: 1, tone: green, fill: panel-green),
+    (elements: (2, 5, 8), residue: 2, tone: warm, fill: panel-warm),
   )
-  draw.content((-1.25, 1.0), text(size: 0.45em, fill: c-eq-label)[3])
-  draw.content((-0.4, 1.0), text(size: 0.45em, fill: c-eq-label)[6])
-  draw.content((0.45, 1.0), text(size: 0.45em, fill: c-eq-label)[9])
-  draw.content((1.6, 1.0), anchor: "west", text(
-    size: 0.4em,
-    fill: luma(50%),
-  )[$"mod" 3 = 0$])
-
-  // Class [1]: {1, 4, 7, 10}
-  draw.rect(
-    (-1.9, -0.15),
-    (1.9, 0.65),
-    radius: 6pt,
-    fill: c-eq-b,
-    stroke: c-eq-str,
-  )
-  draw.content((-1.25, 0.25), text(size: 0.45em, fill: c-eq-label)[1])
-  draw.content((-0.4, 0.25), text(size: 0.45em, fill: c-eq-label)[4])
-  draw.content((0.45, 0.25), text(size: 0.45em, fill: c-eq-label)[7])
-  draw.content((1.3, 0.25), text(size: 0.45em, fill: c-eq-label)[10])
-  draw.content((1.6, 0.25), anchor: "west", text(
-    size: 0.4em,
-    fill: luma(50%),
-  )[$"mod" 3 = 1$])
-
-  // Class [2]: {2, 5, 8}
-  draw.rect(
-    (-1.9, -0.9),
-    (1.9, -0.1),
-    radius: 6pt,
-    fill: c-eq-c,
-    stroke: c-eq-str,
-  )
-  draw.content((-0.75, -0.5), text(size: 0.45em, fill: c-eq-label)[2])
-  draw.content((0.1, -0.5), text(size: 0.45em, fill: c-eq-label)[5])
-  draw.content((0.95, -0.5), text(size: 0.45em, fill: c-eq-label)[8])
-  draw.content((1.6, -0.5), anchor: "west", text(
-    size: 0.4em,
-    fill: luma(50%),
-  )[$"mod" 3 = 2$])
+  for (k, row) in rows.enumerate() {
+    let y = 1.0 - k * 1.0
+    panel((-2.4, y - 0.42), (2.4, y + 0.42), tone: row.tone, fill: row.fill)
+    for (i, n) in row.elements.enumerate() {
+      let x = -1.85 + i * 0.8
+      cell(str(n), (x, y), tone: row.tone)
+      mark((x, y), str(n), size: 0.45em)
+    }
+    mark((1.6, y), [$"mod" 3 = #row.residue$], tone: ink-soft, size: 0.45em)
+  }
 })
 
-// ── Three views of one relation: pairs, matrix, digraph ──
-#let rel-three-views = diagram(
-  spacing: 2em,
-  node(
-    (-4.6, 0),
-    text(size: 0.8em)[$A = {1, 2, 3}$ \ $R = {(1, 1), (1, 2), (2, 3), (3, 1)}$],
-    stroke: none,
-  ),
-  node(
-    (0.4, 0),
-    text(size: 0.8em)[$mat(1, 1, 0; 0, 0, 1; 1, 0, 0)$],
-    stroke: none,
-  ),
-  cn((3.4, -1.0), $1$, name: <1>, stroke: n-str, shape: "circle"),
-  cn((5.1, 0), $2$, name: <2>, stroke: n-str, shape: "circle"),
-  cn((3.4, 1.0), $3$, name: <3>, stroke: n-str, shape: "circle"),
-  el(<1>, <1>, angle: 135deg),
-  ea(<1>, <2>),
-  ea(<2>, <3>),
-  ea(<3>, <1>),
-  node((-4.6, 1.9), text(size: 0.6em, fill: luma(50%))[пары], stroke: none),
-  node((0.4, 1.9), text(size: 0.6em, fill: luma(50%))[матрица], stroke: none),
-  node((4.2, 1.9), text(size: 0.6em, fill: luma(50%))[орграф], stroke: none),
-)
+// ── Одно отношение в трёх представлениях: пары, матрица, орграф ──
+#let rel-three-views = canvas({
+  let m = ((1, 1, 0), (0, 0, 1), (1, 0, 0))
 
-// ── Composition as path gluing: R, then S, then the result ──
-#let rel-composition-paths = diagram(
-  spacing: 2em,
-  cn((-5.4, -0.9), $1$, name: <r-a1>, stroke: n-str, shape: "circle"),
-  cn((-5.4, 0.9), $2$, name: <r-a2>, stroke: n-str, shape: "circle"),
-  cn((-3.4, -0.9), $x$, name: <r-b1>, stroke: n-str, shape: "circle"),
-  cn((-3.4, 0.9), $y$, name: <r-b2>, stroke: n-str, shape: "circle"),
-  ea(<r-a1>, <r-b1>),
-  ea(<r-a2>, <r-b1>),
-  ea(<r-a2>, <r-b2>),
-  cn((-1.4, -0.9), $x$, name: <s-b1>, stroke: n-str, shape: "circle"),
-  cn((-1.4, 0.9), $y$, name: <s-b2>, stroke: n-str, shape: "circle"),
-  cn((0.6, -0.9), $alpha$, name: <s-c1>, stroke: n-str, shape: "circle"),
-  cn((0.6, 0.9), $beta$, name: <s-c2>, stroke: n-str, shape: "circle"),
-  ea(<s-b1>, <s-c1>),
-  ea(<s-b2>, <s-c2>),
-  cn((2.6, -0.9), $1$, name: <f-a1>, stroke: n-str, shape: "circle"),
-  cn((2.6, 0.9), $2$, name: <f-a2>, stroke: n-str, shape: "circle"),
-  cn((4.6, -0.9), $alpha$, name: <f-c1>, stroke: n-str, shape: "circle"),
-  cn((4.6, 0.9), $beta$, name: <f-c2>, stroke: n-str, shape: "circle"),
-  ea(<f-a1>, <f-c1>),
-  ea(<f-a2>, <f-c1>),
-  ea(<f-a2>, <f-c2>),
-  node((-5.4, -1.9), text(size: 0.45em, fill: luma(50%))[$A$], stroke: none),
-  node((-3.4, -1.9), text(size: 0.45em, fill: luma(50%))[$B$], stroke: none),
-  node((-1.4, -1.9), text(size: 0.45em, fill: luma(50%))[$B$], stroke: none),
-  node((0.6, -1.9), text(size: 0.45em, fill: luma(50%))[$C$], stroke: none),
-  node((2.6, -1.9), text(size: 0.45em, fill: luma(50%))[$A$], stroke: none),
-  node((4.6, -1.9), text(size: 0.45em, fill: luma(50%))[$C$], stroke: none),
-  node((-4.4, 2.0), text(size: 0.6em)[$R$], stroke: none),
-  node((-0.4, 2.0), text(size: 0.6em)[$S$], stroke: none),
-  node((3.6, 2.0), text(size: 0.6em)[$S compose R$], stroke: none),
-)
+  panel((-5.5, -0.7), (-0.85, 0.7), tone: cool)
+  draw.content(
+    (-3.0, 0),
+    text(
+      size: 0.48em,
+      fill: ink,
+    )[$A = {1, 2, 3}$ \ $R = {(1, 1), (1, 2), (2, 3), (3, 1)}$],
+  )
 
-// ── Warshall run: digraph and matrix after k = 1, 2, 3 ──
-// Unit born at the current Warshall step.
-#let c-new = oklch(52%, 0.17, 30deg)
-#let c-new-fill = oklch(93%, 0.05, 50deg)
-
-#let rel-warshall-steps = {
-  let mat-table(m, new-ij) = {
-    let body = ()
-    for i in range(3) {
-      body.push([#(i + 1)])
-      for j in range(3) {
-        let born = new-ij != none and new-ij.at(0) == i and new-ij.at(1) == j
-        body.push(if born {
-          table.cell(fill: c-new-fill)[#text(fill: c-new, weight: "bold")[1]]
-        } else {
-          [#m.at(i).at(j)]
-        })
+  panel((-0.5, -0.95), (1.7, 0.95), tone: green, fill: panel-green)
+  let c = 0.42
+  for i in range(3) {
+    for j in range(3) {
+      let x = -0.03 + j * c
+      let y = 0.63 - i * c
+      draw.rect(
+        (x, y - c),
+        (x + c, y),
+        fill: white,
+        stroke: (paint: ink-soft, thickness: 0.4pt),
+      )
+      if m.at(i).at(j) == 1 {
+        draw.content(
+          (x + c / 2, y - c / 2),
+          text(size: 0.5em, fill: ink, weight: "bold")[1],
+        )
       }
     }
-    table(
-      columns: 4,
-      align: center,
-      inset: 4pt,
-      stroke: (x, y) => if y == 0 { (bottom: n-str) },
-      table.header([], [*1*], [*2*], [*3*]),
-      ..body,
-    )
   }
 
-  diagram(
-    spacing: 2em,
-    cn((0, -1.0), $1$, name: <1>, stroke: n-str, shape: "circle"),
-    cn((1.3, 0), $2$, name: <2>, stroke: n-str, shape: "circle"),
-    cn((0, 1.0), $3$, name: <3>, stroke: n-str, shape: "circle"),
-    ea(<1>, <2>),
-    ea(<2>, <3>),
-    node((0.55, 1.9), text(size: 0.6em)[$R$], stroke: none),
-    node(
-      (4.0, 0),
-      mat-table(((0, 1, 0), (0, 0, 1), (0, 0, 0)), none),
-      stroke: none,
-    ),
-    node(
-      (6.8, 0),
-      mat-table(((0, 1, 1), (0, 0, 1), (0, 0, 0)), (0, 2)),
-      stroke: none,
-    ),
-    node(
-      (9.6, 0),
-      mat-table(((0, 1, 1), (0, 0, 1), (0, 0, 0)), none),
-      stroke: none,
-    ),
-    node(
-      (4.0, 1.9),
-      text(size: 0.6em, fill: luma(50%))[после $k = 1$],
-      stroke: none,
-    ),
-    node(
-      (6.8, 1.9),
-      text(size: 0.6em, fill: luma(50%))[после $k = 2$],
-      stroke: none,
-    ),
-    node(
-      (9.6, 1.9),
-      text(size: 0.6em, fill: luma(50%))[после $k = 3$],
-      stroke: none,
-    ),
+  panel((2.1, -0.95), (5.3, 0.95), tone: warm, fill: panel-warm)
+  vertex("t1", (2.95, 0.5), tone: warm, size: 0.26)
+  vertex("t2", (2.95, -0.5), tone: warm, size: 0.26)
+  vertex("t3", (4.45, 0), tone: warm, size: 0.26)
+  mark((2.95, 0.5), $1$, size: 0.5em)
+  mark((2.95, -0.5), $2$, size: 0.5em)
+  mark((4.45, 0), $3$, size: 0.5em)
+  flow("t1", "t1", (2.6, 0.95), from: "north", to: "west")
+  flow("t1", "t2", (2.95, 0), from: "south", to: "north")
+  flow("t2", "t3", (3.85, -0.45), from: "east", to: "south")
+  flow("t3", "t1", (3.7, 0.42), from: "west", to: "east")
+})
+
+// ── Композиция как склейка путей: R, затем S, итог S∘R ──
+#let rel-composition-paths = canvas({
+  let dy = 0.85
+  let spot(name, pos, label, tone) = {
+    vertex(name, pos, tone: tone, size: 0.27)
+    mark(pos, label, size: 0.5em)
+  }
+
+  panel((-0.55, -1.3), (2.25, 1.3), tone: cool)
+  spot("ra1", (0, dy), $1$, cool)
+  spot("ra2", (0, -dy), $2$, cool)
+  spot("rb1", (1.7, dy), $x$, cool)
+  spot("rb2", (1.7, -dy), $y$, cool)
+  flow("ra1", "rb1", (0.85, dy + 0.16))
+  flow("ra2", "rb1", (0.85, 0.1), style: edge-hot)
+  flow("ra2", "rb2", (0.85, -dy - 0.16))
+  mark((0.85, 1.62), $R$, size: 0.55em)
+  mark((0, -1.62), $A$, size: 0.5em)
+  mark((1.7, -1.62), $B$, size: 0.5em)
+
+  panel((2.75, -1.3), (5.55, 1.3), tone: green, fill: panel-green)
+  spot("sb1", (3.3, dy), $x$, green)
+  spot("sb2", (3.3, -dy), $y$, green)
+  spot("sc1", (5.0, dy), $alpha$, green)
+  spot("sc2", (5.0, -dy), $beta$, green)
+  flow("sb1", "sc1", (4.15, dy + 0.16), style: edge-hot)
+  flow("sb2", "sc2", (4.15, -dy - 0.16))
+  mark((4.15, 1.62), $S$, size: 0.55em)
+  mark((3.3, -1.62), $B$, size: 0.5em)
+  mark((5.0, -1.62), $C$, size: 0.5em)
+
+  panel((6.05, -1.3), (8.85, 1.3), tone: warm, fill: panel-warm)
+  spot("fa1", (6.6, dy), $1$, warm)
+  spot("fa2", (6.6, -dy), $2$, warm)
+  spot("fc1", (8.3, dy), $alpha$, warm)
+  spot("fc2", (8.3, -dy), $beta$, warm)
+  flow("fa1", "fc1", (7.45, dy + 0.16))
+  flow("fa2", "fc1", (7.45, 0.1), style: edge-hot)
+  flow("fa2", "fc2", (7.45, -dy - 0.16))
+  mark((7.45, 1.62), $S compose R$, size: 0.55em)
+  mark((6.6, -1.62), $A$, size: 0.5em)
+  mark((8.3, -1.62), $C$, size: 0.5em)
+})
+
+// ── Уоршелл: единица, рождённая на текущем шаге ──
+#let rel-warshall-steps = canvas({
+  let c = 0.34
+  let base = ((0, 1, 0), (0, 0, 1), (0, 0, 0))
+  let after = ((0, 1, 1), (0, 0, 1), (0, 0, 0))
+
+  vertex("w1", (0.45, -0.75), size: 0.26)
+  vertex("w2", (1.55, 0), size: 0.26)
+  vertex("w3", (0.45, 0.75), size: 0.26)
+  mark((0.45, -0.75), $1$, size: 0.5em)
+  mark((1.55, 0), $2$, size: 0.5em)
+  mark((0.45, 0.75), $3$, size: 0.5em)
+  draw.line(
+    (0.66, -0.6),
+    (1.34, -0.15),
+    stroke: edge-plain,
+    mark: (end: "stealth", fill: edge-plain.paint),
   )
-}
+  draw.line(
+    (1.34, 0.15),
+    (0.66, 0.6),
+    stroke: edge-plain,
+    mark: (end: "stealth", fill: edge-plain.paint),
+  )
+  mark((1.0, 1.35), $R$, size: 0.55em)
+
+  let grid(x0, m, born) = {
+    let top = 0.55
+    for i in range(3) {
+      for j in range(3) {
+        let hot = born != none and born.at(0) == i and born.at(1) == j
+        draw.rect(
+          (x0 + j * c, top - (i + 1) * c),
+          (x0 + (j + 1) * c, top - i * c),
+          fill: if hot { warm.lighten(75%) },
+          stroke: (paint: ink-soft, thickness: 0.4pt),
+        )
+        if m.at(i).at(j) == 1 {
+          draw.content(
+            (x0 + (j + 0.5) * c, top - (i + 0.5) * c),
+            text(
+              size: 0.45em,
+              fill: if hot { warm } else { ink },
+              weight: "bold",
+            )[1],
+          )
+        }
+      }
+    }
+    for t in range(3) {
+      mark(
+        (x0 + (t + 0.5) * c, top + 0.18),
+        str(t + 1),
+        tone: ink-soft,
+        size: 0.38em,
+      )
+      mark(
+        (x0 - 0.18, top - (t + 0.5) * c),
+        str(t + 1),
+        tone: ink-soft,
+        size: 0.38em,
+      )
+    }
+  }
+
+  grid(
+    2.5,
+    base,
+    none,
+  )
+  grid(
+    4.4,
+    after,
+    (0, 2),
+  )
+  grid(
+    6.3,
+    after,
+    none,
+  )
+  mark((3.01, 1.35), $k = 1$, size: 0.5em)
+  mark((4.91, 1.35), $k = 2$, size: 0.5em)
+  mark((6.81, 1.35), $k = 3$, size: 0.5em)
+})
 
 // ── Двудольное представление: две части, рёбра поперёк ──
 #let rel-bipartite = canvas({
-  let c-left = oklch(52%, 0.11, 250deg)
-  let c-right = oklch(55%, 0.12, 25deg)
-  let muted = (paint: oklch(45%, 0.03, 265deg), thickness: 0.9pt, cap: "round")
-  let hot = (paint: oklch(55%, 0.17, 25deg), thickness: 2.4pt, cap: "round")
-
   let circles = (
     l1: (-2.25, 2.1),
     l2: (-2.25, 1.05),
@@ -292,192 +308,126 @@
     ("l4", "r2", -0.32, false),
   )
 
-  draw.rect(
-    (-3.75, -2.62),
-    (-0.75, 2.62),
-    radius: 0.26,
-    fill: oklch(96%, 0.015, 250deg),
-    stroke: 0.7pt + c-left.lighten(45%),
-  )
-  draw.rect(
-    (0.75, -2.62),
-    (3.75, 2.62),
-    radius: 0.26,
-    fill: oklch(96%, 0.02, 25deg),
-    stroke: 0.7pt + c-right.lighten(45%),
-  )
-  draw.line(
-    (0, -2.33),
-    (0, 2.33),
-    stroke: (paint: oklch(72%, 0.02, 265deg), thickness: 0.5pt, dash: "dashed"),
-  )
+  panel((-3.75, -2.62), (-0.75, 2.62), tone: cool)
+  panel((0.75, -2.62), (3.75, 2.62), tone: warm, fill: panel-warm)
+  draw.line((0, -2.33), (0, 2.33), stroke: edge-soft)
 
   for (name, pos) in circles {
-    draw.circle(
-      pos,
-      radius: 0.32,
-      fill: white,
-      stroke: 1.4pt + c-left,
-      name: name,
-    )
+    vertex(name, pos, tone: cool, size: 0.32)
   }
   for (name, pos) in squares {
-    draw.rect(
-      (pos.at(0) - 0.29, pos.at(1) - 0.29),
-      (pos.at(0) + 0.29, pos.at(1) + 0.29),
-      radius: 0.1,
-      fill: white,
-      stroke: 1.4pt + c-right,
-      name: name,
-    )
+    cell(name, pos, tone: warm)
   }
-
   for (a, b, lift, accent) in ties {
-    let (_, ay) = circles.at(a)
-    let (_, by) = squares.at(b)
-    draw.bezier(
-      a + ".east",
-      b + ".west",
-      (0, (ay + by) / 2 + lift),
-      stroke: if accent { hot } else { muted },
-    )
+    let ay = circles.at(a).at(1)
+    let by = squares.at(b).at(1)
+    tie(a, b, (0, (ay + by) / 2 + lift), style: if accent { edge-hot } else {
+      edge-plain
+    })
   }
 })
-
 
 // ── Классы эквивалентности: непересекающиеся области внутри A ──
 #let equivalence-classes-blobs = canvas({
-  draw.scale(1.7)
-  let dot(pos, label) = {
-    draw.circle(pos, radius: 0.06, fill: c-eq-label, stroke: none)
-    draw.content((pos.at(0), pos.at(1) + 0.24), text(
-      size: 0.4em,
-      fill: c-eq-label,
-    )[#label])
-  }
-  let blob(from, to, fill) = draw.rect(
-    from,
-    to,
-    radius: 10pt,
-    fill: fill,
-    stroke: c-eq-str,
-  )
-
   draw.rect(
-    (-2.3, -1.2),
-    (2.3, 1.2),
-    radius: 6pt,
-    stroke: 0.6pt + c-eq-label,
+    (-3.91, -2.04),
+    (3.91, 2.04),
+    radius: 0.2,
+    stroke: (paint: ink, thickness: 0.8pt),
     name: "universe",
   )
-  draw.content((2.02, 1.0), text(size: 0.5em, fill: c-eq-label)[$A$])
+  mark((3.35, 1.62), $A$, size: 0.55em)
 
-  blob((-2.0, 0.25), (-0.5, 1.0), c-eq-a)
-  blob((-2.0, -1.0), (-0.5, -0.25), c-eq-b)
-  blob((0.15, -1.0), (2.0, 1.0), c-eq-c)
-
-  dot((-1.65, 0.62), $a$)
-  dot((-0.85, 0.62), $b$)
-  dot((-1.65, -0.62), $c$)
-  dot((-0.85, -0.62), $d$)
-  dot((0.6, 0.35), $e$)
-  dot((1.2, 0.35), $f$)
-  dot((1.65, -0.35), $g$)
-
-  draw.content(
-    (-1.25, 0.15),
-    anchor: "north",
-    text(size: 0.42em, fill: c-eq-label)[$[a] = [b]$],
-  )
-  draw.content(
-    (-1.25, -1.1),
-    anchor: "north",
-    text(size: 0.42em, fill: c-eq-label)[$[c]$],
-  )
-  draw.content(
-    (1.05, -1.1),
-    anchor: "north",
-    text(size: 0.42em, fill: c-eq-label)[$[e]$],
-  )
-})
-
-// ── Каноническая проекция: классы сжимаются в точки фактор-множества ──
-#let quotient-collapse = canvas({
-  draw.scale(1.7)
-  let blob(from, to, fill) = draw.rect(
-    from,
-    to,
-    radius: 10pt,
-    fill: fill,
-    stroke: c-eq-str,
-  )
-  let klass(pos, label) = {
-    draw.circle(pos, radius: 0.13, fill: c-eq-label, stroke: none)
-    draw.content((pos.at(0), pos.at(1) - 0.3), text(
-      size: 0.42em,
-      fill: c-eq-label,
-    )[#label])
+  for (k, bounds) in (
+    ((-3.4, 0.43), (-0.85, 1.7)),
+    ((-3.4, -1.7), (-0.85, -0.43)),
+    ((0.26, -1.7), (3.4, 1.7)),
+  ).enumerate() {
+    draw.rect(
+      bounds.at(0),
+      bounds.at(1),
+      radius: 0.3,
+      fill: class-fills.at(k),
+      stroke: 0.7pt + class-tones.at(k),
+    )
   }
-  let arrow(from, to, name) = draw.line(
-    from,
-    to,
-    stroke: e-str,
-    mark: (end: "stealth"),
-    name: name,
-  )
 
-  blob((-3.6, 0.55), (-1.9, 1.15), c-eq-a)
-  blob((-3.6, -0.3), (-1.9, 0.3), c-eq-b)
-  blob((-3.6, -1.15), (-1.9, -0.55), c-eq-c)
+  let dot(pos, label) = {
+    draw.circle(pos, radius: 0.1, fill: ink, stroke: none)
+    mark((pos.at(0), pos.at(1) + 0.42), label, size: 0.42em)
+  }
+  dot((-2.81, 1.05), $a$)
+  dot((-1.45, 1.05), $b$)
+  dot((-2.81, -1.05), $c$)
+  dot((-1.45, -1.05), $d$)
+  dot((1.02, 0.6), $e$)
+  dot((2.04, 0.6), $f$)
+  dot((2.81, -0.6), $g$)
 
-  klass((1.0, 0.85), $[a]$)
-  klass((1.0, 0.0), $[c]$)
-  klass((1.0, -0.85), $[e]$)
-
-  arrow((-1.8, 0.85), (0.85, 0.85), "pi-a")
-  arrow((-1.8, 0.0), (0.85, 0.0), "pi-c")
-  arrow((-1.8, -0.85), (0.85, -0.85), "pi-e")
-
-  draw.content((-0.5, 1.2), text(size: 0.5em, fill: c-eq-label)[$pi$])
-  draw.content(
-    (-0.5, -1.5),
-    anchor: "north",
-    text(size: 0.42em, fill: c-eq-label)[$A\/_tilde$],
-  )
+  mark((-2.13, 0.68), $[a] = [b]$, size: 0.45em)
+  mark((-2.13, -1.45), $[c]$, size: 0.45em)
+  mark((1.83, -1.45), $[e]$, size: 0.45em)
 })
 
-// ── Эквивалентность в матрице: единицы блоками, вне блоков нули ──
+// ── Каноническая проекция: классы сжимаются в точки фактора ──
+#let quotient-collapse = canvas({
+  for (k, bounds) in (
+    ((-6.12, 0.94), (-3.23, 1.96)),
+    ((-6.12, -0.51), (-3.23, 0.51)),
+    ((-6.12, -1.96), (-3.23, -0.94)),
+  ).enumerate() {
+    draw.rect(
+      bounds.at(0),
+      bounds.at(1),
+      radius: 0.3,
+      fill: class-fills.at(k),
+      stroke: 0.7pt + class-tones.at(k),
+    )
+  }
+  draw.rect(
+    (-6.35, -2.19),
+    (-3.0, 2.19),
+    radius: 0.2,
+    stroke: (paint: ink, thickness: 0.8pt),
+  )
+
+  panel((0.7, -2.19), (2.7, 2.19), tone: cool)
+  vertex("qa", (1.7, 1.45), tone: cool, size: 0.18)
+  vertex("qc", (1.7, 0), tone: green, size: 0.18)
+  vertex("qe", (1.7, -1.45), tone: warm, size: 0.18)
+  mark((1.7, 0.95), $[a]$, size: 0.45em)
+  mark((1.7, -0.5), $[c]$, size: 0.45em)
+  mark((1.7, -1.95), $[e]$, size: 0.45em)
+
+  for y in (1.45, 0, -1.45) {
+    draw.line(
+      (-3.23, y),
+      (1.5, y),
+      stroke: (paint: cool, thickness: 1.2pt, cap: "round"),
+      mark: (end: "stealth", fill: cool),
+    )
+  }
+  mark((-0.85, 1.75), $pi$, tone: cool, size: 0.55em)
+  mark((-4.68, -2.55), $A$, size: 0.5em)
+  mark((1.7, -2.55), $A\/_sim$, size: 0.5em)
+})
+
+// ── Эквивалентность в матрице: единицы блоками по диагонали ──
 #let equivalence-matrix-blocks = canvas({
-  draw.scale(1.7)
-  let cell = 0.3
+  let c = 0.5
   let n = 5
-  let fills = (c-eq-a, c-eq-b, c-eq-c)
-  let klass(i) = if i <= 2 { 1 } else if i == 3 { 2 } else { 3 }
+  let klass(i) = if i <= 2 { 0 } else if i == 3 { 1 } else { 2 }
 
   for i in range(n) {
-    draw.content(
-      (i * cell + cell / 2, cell * 0.35),
-      text(size: 0.38em, fill: c-eq-label)[#(i + 1)],
-    )
-    draw.content(
-      (-cell * 0.35, -i * cell - cell / 2),
-      text(size: 0.38em, fill: c-eq-label)[#(i + 1)],
-    )
+    mark(((i + 0.5) * c, 0.35), str(i + 1), size: 0.42em)
+    mark((-0.35, -(i + 0.5) * c), str(i + 1), size: 0.42em)
     for j in range(n) {
       draw.rect(
-        (i * cell, -j * cell),
-        ((i + 1) * cell, -(j + 1) * cell),
-        fill: if klass(i + 1) == klass(j + 1) {
-          fills.at(klass(i + 1) - 1)
-        } else { white },
-        stroke: 0.3pt + c-eq-label,
+        (j * c, -(i + 1) * c),
+        ((j + 1) * c, -i * c),
+        fill: if klass(i) == klass(j) { class-fills.at(klass(i)) },
+        stroke: (paint: ink-soft, thickness: 0.4pt),
       )
     }
   }
-
-  draw.content(
-    (n * cell / 2, -n * cell - 0.35),
-    anchor: "north",
-    text(size: 0.42em, fill: c-eq-label)[единицы блоками],
-  )
 })

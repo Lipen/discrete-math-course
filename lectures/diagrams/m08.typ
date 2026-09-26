@@ -1,127 +1,111 @@
-// Hasse diagrams --- poset visualization via fletcher.
-// Скопировано из книги, чтобы лекции не зависели от неё.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
+// Диаграммы Хассе: порядок по делимости, цепь, булеаны, решётка знаков.
+#import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
+#import "style.typ": *
 
-#let n-size = 0.6em
-#let n-fill = oklch(88%, 0.03, 250deg)
-#let n-str = 0.6pt + oklch(60%, 0.08, 250deg)
-#let e-str = 0.6pt + oklch(35%, 0.02, 265deg)
-
-#let cn(pos, body, ..args) = node(
+// Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
+// наименьший --- максимальный y. Рёбра Хассе идут вверх без стрелок.
+#let hn(pos, body, tone: cool, fill: white, ..args) = node(
   pos,
-  text(size: 0.7em)[#body],
-  fill: n-fill,
-  width: n-size,
-  height: n-size,
+  text(size: 0.65em, fill: ink)[#body],
+  fill: fill,
+  stroke: 1.1pt + tone,
   ..args,
 )
-#let e(from, to) = edge(from, to, "-", stroke: e-str)
+#let he(from, to) = edge(from, to, "-", stroke: edge-plain)
 
-// Fletcher y-axis: points downward (screen convention). In Hasse diagrams,
-// larger elements go upward --- so y=0 is the top element, y=max is the bottom.
-// ── 1. Divisor poset on {1,2,3,4,6,12} ordered by | ──
+// общие параметры вершин: эллипс плотно вокруг имени
+#let node-opts = (
+  node-shape: shapes.ellipse,
+  node-inset: 2.5pt,
+  node-outset: 0pt,
+)
+
+// ── Делимость на {1, 2, 3, 4, 6, 12} ──
 #let hasse-divisors-12 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
+  ..node-opts,
   spacing: 1em,
-  cn((0, 3), $1$, name: <d1>),
-  cn((-1, 2), $2$, name: <d2>),
-  cn((1, 2), $3$, name: <d3>),
-  cn((-1, 1), $4$, name: <d4>),
-  cn((1, 1), $6$, name: <d6>),
-  cn((0, 0), $12$, name: <d12>),
-  e(<d1>, <d2>),
-  e(<d1>, <d3>),
-  e(<d2>, <d4>),
-  e(<d2>, <d6>),
-  e(<d3>, <d6>),
-  e(<d4>, <d12>),
-  e(<d6>, <d12>),
+  hn((0, 3), $1$, name: <d1>),
+  hn((-1, 2), $2$, name: <d2>),
+  hn((1, 2), $3$, name: <d3>),
+  hn((-1, 1), $4$, name: <d4>),
+  hn((1, 1), $6$, name: <d6>),
+  // само число --- акцент
+  hn((0, 0), $12$, tone: warm, fill: warm.transparentize(75%), name: <d12>),
+  he(<d1>, <d2>),
+  he(<d1>, <d3>),
+  he(<d2>, <d4>),
+  he(<d2>, <d6>),
+  he(<d3>, <d6>),
+  he(<d4>, <d12>),
+  he(<d6>, <d12>),
 )
 
-// ── 2. Simple total order {1,2,3} : just a chain for reference ──
+// ── Цепь {1 < 2 < 3} ──
 #let hasse-chain-3 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
+  ..node-opts,
   spacing: 0.7em,
-  cn((0, 2), $1$, name: <c1>),
-  cn((0, 1), $2$, name: <c2>),
-  cn((0, 0), $3$, name: <c3>),
-  e(<c1>, <c2>),
-  e(<c2>, <c3>),
+  hn((0, 2), $1$, name: <c1>),
+  hn((0, 1), $2$, name: <c2>),
+  hn((0, 0), $3$, name: <c3>),
+  edge(<c1>, <c2>, "-", stroke: edge-cool),
+  edge(<c2>, <c3>, "-", stroke: edge-cool),
 )
 
-// ── 3. Powerset of {1,2} ordered by ⊆ (Boolean lattice B₂) ──
+// ── Булеан {1, 2} по включению (квадрат B₂) ──
 #let hasse-powerset-2 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
+  ..node-opts,
   spacing: 1em,
-  cn((0, 2), $nothing$, name: <p0>),
-  cn((-1, 1), ${1}$, name: <p1>),
-  cn((1, 1), ${2}$, name: <p2>),
-  cn((0, 0), ${1,2}$, name: <p12>),
-  e(<p0>, <p1>),
-  e(<p0>, <p2>),
-  e(<p1>, <p12>),
-  e(<p2>, <p12>),
+  hn((0, 2), $emptyset$, name: <p0>),
+  hn((-1, 1), ${1}$, name: <p1>),
+  hn((1, 1), ${2}$, name: <p2>),
+  hn((0, 0), ${1,2}$, name: <p12>),
+  he(<p0>, <p1>),
+  he(<p0>, <p2>),
+  he(<p1>, <p12>),
+  he(<p2>, <p12>),
 )
 
-// ── 4. Sign lattice for abstract interpretation ──
+// ── Решётка знаков ──
 #let sign-lattice = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
+  ..node-opts,
   spacing: 0.9em,
-  cn((0, 2), $bot$, name: <bot>),
-  cn((-1, 1), $-$, name: <neg>),
-  cn((0, 1), $0$, name: <zero>),
-  cn((1, 1), $+$, name: <pos>),
-  cn((0, 0), $top$, name: <top>),
-  e(<bot>, <neg>),
-  e(<bot>, <zero>),
-  e(<bot>, <pos>),
-  e(<neg>, <top>),
-  e(<zero>, <top>),
-  e(<pos>, <top>),
+  // дно точности --- акцент
+  hn((0, 2), $bot$, tone: green, fill: green.transparentize(75%), name: <bot>),
+  hn((-1, 1), $-$, name: <neg>),
+  hn((0, 1), $0$, name: <zero>),
+  hn((1, 1), $+$, name: <pos>),
+  hn((0, 0), $top$, name: <top>),
+  he(<bot>, <neg>),
+  he(<bot>, <zero>),
+  he(<bot>, <pos>),
+  he(<neg>, <top>),
+  he(<zero>, <top>),
+  he(<pos>, <top>),
 )
 
-// ── 5. Powerset of {1,2,3} ordered by ⊆ (Boolean lattice B₃, a cube) ──
+// ── Булеан {1, 2, 3} по включению (куб B₃) ──
 #let hasse-powerset-3 = diagram(
-  node-shape: "circle",
-  node-stroke: n-str,
-  node-inset: 0pt,
-  node-outset: 0pt,
+  ..node-opts,
   spacing: 0.9em,
-  // Layer 3: full set (top)
-  cn((0, 0), ${1,2,3}$, name: <p123>),
-  // Layer 2: pairs
-  cn((-1.2, 1), ${1,2}$, name: <p12>),
-  cn((0, 1), ${1,3}$, name: <p13>),
-  cn((1.2, 1), ${2,3}$, name: <p23>),
-  // Layer 1: singletons
-  cn((-1.2, 2), ${1}$, name: <p1>),
-  cn((0, 2), ${2}$, name: <p2>),
-  cn((1.2, 2), ${3}$, name: <p3>),
-  // Layer 0: empty set (bottom)
-  cn((0, 3), $nothing$, name: <p0>),
-  // Edges (cover = add exactly one element)
-  e(<p0>, <p1>),
-  e(<p0>, <p2>),
-  e(<p0>, <p3>),
-  e(<p1>, <p12>),
-  e(<p1>, <p13>),
-  e(<p2>, <p12>),
-  e(<p2>, <p23>),
-  e(<p3>, <p13>),
-  e(<p3>, <p23>),
-  e(<p12>, <p123>),
-  e(<p13>, <p123>),
-  e(<p23>, <p123>),
+  hn((0, 0), ${1,2,3}$, name: <p123>),
+  hn((-1.2, 1), ${1,2}$, name: <p12>),
+  hn((0, 1), ${1,3}$, name: <p13>),
+  hn((1.2, 1), ${2,3}$, name: <p23>),
+  hn((-1.2, 2), ${1}$, name: <p1>),
+  hn((0, 2), ${2}$, name: <p2>),
+  hn((1.2, 2), ${3}$, name: <p3>),
+  hn((0, 3), $emptyset$, name: <p0>),
+  // покрывающие рёбра: добавление одного элемента
+  he(<p0>, <p1>),
+  he(<p0>, <p2>),
+  he(<p0>, <p3>),
+  he(<p1>, <p12>),
+  he(<p1>, <p13>),
+  he(<p2>, <p12>),
+  he(<p2>, <p23>),
+  he(<p3>, <p13>),
+  he(<p3>, <p23>),
+  he(<p12>, <p123>),
+  he(<p13>, <p123>),
+  he(<p23>, <p123>),
 )

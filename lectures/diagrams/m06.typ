@@ -1,103 +1,121 @@
-// Injection, surjection, bijection mapping schemes.
-// Скопировано из книги, чтобы лекции не зависели от неё.
+// Функции: типы отображений, домен/кодомен, образ и прообраз, композиция, пол и потолок.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "style.typ": *
 
-#let c-dom = oklch(80%, 0.06, 250deg)
-#let c-cod = oklch(80%, 0.06, 25deg)
-#let c-dot = oklch(35%, 0.02, 265deg)
-#let c-str = oklch(35%, 0.02, 265deg) + 0.7pt
+#let set-ellipse(pos, rx, ry, tone, fill, name: none) = draw.circle(
+  pos,
+  radius: (rx, ry),
+  fill: fill,
+  stroke: 0.7pt + tone.lighten(45%),
+  name: name,
+)
 
-#let label(pos, body) = draw.content(pos, text(size: 0.85em, body))
+#let dom-el(name, pos) = vertex(name, pos, tone: cool, size: 0.13)
+#let cod-el(name, pos) = cell(name, pos, tone: warm, size: 0.12, radius: 0.04)
 
-// ── Injection (one-to-one): each B element reached at most once ──
+#let map-edge(a, b, curve, style) = draw.bezier(
+  a + ".east",
+  b + ".west",
+  (0, curve),
+  stroke: style,
+  mark: (end: (symbol: ">", fill: style.paint)),
+)
+
+// ── Инъекция: каждый элемент B задействован не более одного раза ──
 #let mapping-injection = canvas({
-  draw.circle((-1.5, 0), radius: (0.55, 1.1), fill: c-dom, stroke: c-str)
-  label((-1.5, 1.4), $A$)
-  draw.circle((-1.5, -0.65), radius: 0.07, fill: c-dot, name: "a1")
-  draw.circle((-1.5, -0.25), radius: 0.07, fill: c-dot, name: "a2")
-  draw.circle((-1.5, 0.15), radius: 0.07, fill: c-dot, name: "a3")
-  draw.circle((-1.5, 0.55), radius: 0.07, fill: c-dot, name: "a4")
+  set-ellipse((-1.6, 0), 0.55, 1.15, cool, panel-cool)
+  mark((-1.6, 1.5), $A$)
+  dom-el("a1", (-1.6, -0.6))
+  dom-el("a2", (-1.6, -0.2))
+  dom-el("a3", (-1.6, 0.2))
+  dom-el("a4", (-1.6, 0.6))
 
-  draw.circle((1.5, 0), radius: (0.55, 1.4), fill: c-cod, stroke: c-str)
-  label((1.5, 1.7), $B$)
-  draw.circle((1.5, -1.05), radius: 0.07, fill: c-dot, name: "b1")
-  draw.circle((1.5, -0.65), radius: 0.07, fill: c-dot, name: "b2")
-  draw.circle((1.5, -0.25), radius: 0.07, fill: c-dot, name: "b3")
-  draw.circle((1.5, 0.15), radius: 0.07, fill: c-dot, name: "b4")
-  draw.circle((1.5, 0.55), radius: 0.07, fill: c-dot, name: "b5")
-  draw.circle((1.5, 0.95), radius: 0.07, fill: c-dot, name: "b6")
+  set-ellipse((1.6, 0), 0.58, 1.45, warm, panel-warm)
+  mark((1.6, 1.8), $B$)
+  cod-el("b1", (1.6, -1.05))
+  cod-el("b2", (1.6, -0.63))
+  cod-el("b3", (1.6, -0.21))
+  cod-el("b4", (1.6, 0.21))
+  cod-el("b5", (1.6, 0.63))
+  cod-el("b6", (1.6, 1.05))
 
-  draw.line("a1", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a2", "b5", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a3", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a4", "b6", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  label((0, -2.2), text(weight: "bold")[Инъекция])
+  map-edge("a1", "b2", -0.9, edge-cool)
+  map-edge("a2", "b5", 0.35, edge-cool)
+  map-edge("a3", "b3", -0.35, edge-cool)
+  map-edge("a4", "b6", 1.0, edge-cool)
 })
 
-// ── Surjection (onto): each B element reached at least once ──
+// ── Сюръекция: каждый элемент B задействован хотя бы один раз ──
 #let mapping-surjection = canvas({
-  draw.circle((-1.5, 0), radius: (0.55, 1.4), fill: c-dom, stroke: c-str)
-  label((-1.5, 1.7), $A$)
-  draw.circle((-1.5, -1.05), radius: 0.07, fill: c-dot, name: "a1")
-  draw.circle((-1.5, -0.65), radius: 0.07, fill: c-dot, name: "a2")
-  draw.circle((-1.5, -0.25), radius: 0.07, fill: c-dot, name: "a3")
-  draw.circle((-1.5, 0.15), radius: 0.07, fill: c-dot, name: "a4")
-  draw.circle((-1.5, 0.55), radius: 0.07, fill: c-dot, name: "a5")
-  draw.circle((-1.5, 0.95), radius: 0.07, fill: c-dot, name: "a6")
+  set-ellipse((-1.6, 0), 0.55, 1.45, cool, panel-cool)
+  mark((-1.6, 1.8), $A$)
+  dom-el("a1", (-1.6, -1.05))
+  dom-el("a2", (-1.6, -0.63))
+  dom-el("a3", (-1.6, -0.21))
+  dom-el("a4", (-1.6, 0.21))
+  dom-el("a5", (-1.6, 0.63))
+  dom-el("a6", (-1.6, 1.05))
 
-  draw.circle((1.5, 0), radius: (0.55, 0.9), fill: c-cod, stroke: c-str)
-  label((1.5, 1.2), $B$)
-  draw.circle((1.5, -0.45), radius: 0.07, fill: c-dot, name: "b1")
-  draw.circle((1.5, 0), radius: 0.07, fill: c-dot, name: "b2")
-  draw.circle((1.5, 0.45), radius: 0.07, fill: c-dot, name: "b3")
+  set-ellipse((1.6, 0), 0.5, 0.95, warm, panel-warm)
+  mark((1.6, 1.25), $B$)
+  cod-el("b1", (1.6, -0.45))
+  cod-el("b2", (1.6, 0))
+  cod-el("b3", (1.6, 0.45))
 
-  draw.line("a1", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a3", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a5", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a6", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  label((0, -2.2), text(weight: "bold")[Сюръекция])
+  map-edge("a1", "b1", -1.0, edge-green)
+  map-edge("a2", "b1", -0.55, edge-green)
+  map-edge("a3", "b2", -0.35, edge-green)
+  map-edge("a4", "b2", 0.35, edge-green)
+  map-edge("a5", "b3", 0.55, edge-green)
+  map-edge("a6", "b3", 1.0, edge-green)
 })
 
-// ── Bijection: one-to-one AND onto ──
+// ── Биекция: и не более одного, и хотя бы один ──
 #let mapping-bijection = canvas({
-  draw.circle((-1.5, 0), radius: (0.55, 1.1), fill: c-dom, stroke: c-str)
-  label((-1.5, 1.4), $A$)
-  draw.circle((-1.5, -0.65), radius: 0.07, fill: c-dot, name: "a1")
-  draw.circle((-1.5, -0.25), radius: 0.07, fill: c-dot, name: "a2")
-  draw.circle((-1.5, 0.15), radius: 0.07, fill: c-dot, name: "a3")
-  draw.circle((-1.5, 0.55), radius: 0.07, fill: c-dot, name: "a4")
+  set-ellipse((-1.6, 0), 0.55, 1.15, cool, panel-cool)
+  mark((-1.6, 1.5), $A$)
+  dom-el("a1", (-1.6, -0.6))
+  dom-el("a2", (-1.6, -0.2))
+  dom-el("a3", (-1.6, 0.2))
+  dom-el("a4", (-1.6, 0.6))
 
-  draw.circle((1.5, 0), radius: (0.55, 1.1), fill: c-cod, stroke: c-str)
-  label((1.5, 1.4), $B$)
-  draw.circle((1.5, -0.65), radius: 0.07, fill: c-dot, name: "b1")
-  draw.circle((1.5, -0.25), radius: 0.07, fill: c-dot, name: "b2")
-  draw.circle((1.5, 0.15), radius: 0.07, fill: c-dot, name: "b3")
-  draw.circle((1.5, 0.55), radius: 0.07, fill: c-dot, name: "b4")
+  set-ellipse((1.6, 0), 0.55, 1.15, warm, panel-warm)
+  mark((1.6, 1.5), $B$)
+  cod-el("b1", (1.6, -0.75))
+  cod-el("b2", (1.6, -0.25))
+  cod-el("b3", (1.6, 0.25))
+  cod-el("b4", (1.6, 0.75))
 
-  draw.line("a1", "b3", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a2", "b1", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a3", "b4", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  draw.line("a4", "b2", stroke: c-str, mark: (end: (symbol: ">", fill: black)))
-  label((0, -2.2), text(weight: "bold")[Биекция])
+  map-edge("a1", "b3", 0.55, edge-hot)
+  map-edge("a2", "b1", -0.8, edge-hot)
+  map-edge("a3", "b4", 0.8, edge-hot)
+  map-edge("a4", "b2", -0.55, edge-hot)
 })
 
-// ── Function parts: domain and codomain, f: A -> B ──
+// ── Части функции: домен и кодомен, f: A -> B ──
 #let function-parts = canvas({
-  // Sets A and B
-  draw.circle((-1.6, 0), radius: (0.6, 1.0), fill: c-dom, stroke: c-str)
-  label((-1.6, 1.35), $A$)
-  draw.circle((1.6, 0), radius: (0.6, 1.0), fill: c-cod, stroke: c-str)
-  label((1.6, 1.35), $B$)
+  draw.circle(
+    (-1.6, 0),
+    radius: (0.6, 1.05),
+    fill: panel-cool,
+    stroke: 0.7pt + cool.lighten(45%),
+    name: "set-a",
+  )
+  mark((-1.6, 1.4), $A$)
+  draw.circle(
+    (1.6, 0),
+    radius: (0.6, 1.05),
+    fill: panel-warm,
+    stroke: 0.7pt + warm.lighten(45%),
+    name: "set-b",
+  )
+  mark((1.6, 1.4), $B$)
 
-  // Functional arrow f
-  draw.line((-1.0, 0), (1.0, 0), stroke: 1.2pt + c-dot, mark: (
-    end: (symbol: ">", fill: black),
+  draw.line("set-a.east", "set-b.west", stroke: edge-cool, mark: (
+    end: (symbol: ">", fill: cool),
   ))
-  label((0, 0.4), $f$)
+  mark((0, 0.35), $f$, tone: cool)
 
-  // Underbrace: smooth dip below a set, with a label
   let underbrace(x0, x1, y, body) = {
     let xc = (x0 + x1) / 2
     let w = x1 - x0
@@ -107,175 +125,153 @@
       (xc, y - dip),
       (x0 + 0.3 * w, y),
       (xc - 0.3 * w, y - dip),
-      stroke: c-str,
+      stroke: edge-thin,
     )
     draw.bezier(
       (xc, y - dip),
       (x1, y),
       (xc + 0.3 * w, y - dip),
       (x1 - 0.3 * w, y),
-      stroke: c-str,
+      stroke: edge-thin,
     )
-    draw.content((xc, y - dip - 0.22), text(size: 0.8em, fill: c-dot)[#body])
+    mark((xc, y - dip - 0.3), body)
   }
 
-  underbrace(-2.25, -0.95, -1.3, "домен")
-  underbrace(0.95, 2.25, -1.3, "кодомен")
+  underbrace(-2.25, -0.95, -1.3, [домен])
+  underbrace(0.95, 2.25, -1.3, [кодомен])
 })
 
-#let c-floor = oklch(50%, 0.16, 150deg)
-#let c-ceil = oklch(55%, 0.17, 300deg)
-#let c-hl = oklch(50%, 0.15, 300deg)
-
-// ── Image and preimage of a subset ──
+// ── Образ и прообраз подмножества ──
 #let image-preimage = canvas({
-  draw.circle((-1.9, 0), radius: (0.72, 1.35), fill: c-dom, stroke: c-str)
-  label((-1.9, 1.65), $A$)
-  draw.circle((-1.9, -0.9), radius: 0.07, fill: c-dot, name: "ia1")
-  draw.circle((-1.9, -0.45), radius: 0.07, fill: c-dot, name: "ia2")
-  draw.circle((-1.9, 0), radius: 0.07, fill: c-dot, name: "ia3")
-  draw.circle((-1.9, 0.45), radius: 0.07, fill: c-dot, name: "ia4")
-  draw.circle((-1.9, 0.9), radius: 0.07, fill: c-dot, name: "ia5")
+  set-ellipse((-1.9, 0), 0.72, 1.35, cool, panel-cool)
+  mark((-1.9, 1.65), $A$)
+  dom-el("ia1", (-1.9, -0.9))
+  dom-el("ia2", (-1.9, -0.45))
+  dom-el("ia3", (-1.9, 0))
+  dom-el("ia4", (-1.9, 0.45))
+  dom-el("ia5", (-1.9, 0.9))
 
-  draw.circle((1.9, 0), radius: (0.78, 1.05), fill: c-cod, stroke: c-str)
-  label((1.9, 1.35), $B$)
-  draw.circle((1.9, -0.55), radius: 0.07, fill: c-dot, name: "ib1")
-  draw.circle((1.9, 0), radius: 0.07, fill: c-dot, name: "ib2")
-  draw.circle((1.9, 0.55), radius: 0.07, fill: c-dot, name: "ib3")
+  set-ellipse((1.9, 0), 0.78, 1.05, warm, panel-warm)
+  mark((1.9, 1.35), $B$)
+  cod-el("ib1", (1.9, -0.55))
+  cod-el("ib2", (1.9, 0))
+  cod-el("ib3", (1.9, 0.55))
 
-  draw.line("ia1", "ib1", stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
-  ))
-  draw.line("ia2", "ib1", stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
-  ))
-  draw.line("ia3", "ib2", stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
-  ))
-  draw.line("ia4", "ib3", stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
-  ))
-  draw.line("ia5", "ib3", stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
-  ))
+  map-edge("ia1", "ib1", -0.85, edge-plain)
+  map-edge("ia2", "ib1", -0.35, edge-plain)
+  map-edge("ia3", "ib2", 0.15, edge-plain)
+  map-edge("ia4", "ib3", 0.35, edge-plain)
+  map-edge("ia5", "ib3", 0.85, edge-plain)
 
-  draw.circle((-1.9, -0.675), radius: (0.36, 0.4), stroke: (
-    paint: c-hl,
+  let region(pos, radius) = draw.circle(pos, radius: radius, stroke: (
+    paint: violet,
+    thickness: 1.1pt,
     dash: "dashed",
   ))
-  draw.circle((1.9, -0.55), radius: 0.18, stroke: (paint: c-hl, dash: "dashed"))
-  draw.circle((1.9, 0.55), radius: 0.18, stroke: (paint: c-hl, dash: "dashed"))
-  draw.circle((-1.9, 0.675), radius: (0.36, 0.4), stroke: (
-    paint: c-hl,
-    dash: "dashed",
-  ))
+  region((-1.9, -0.675), (0.36, 0.42))
+  region((1.9, -0.55), 0.19)
+  region((1.9, 0.55), 0.19)
+  region((-1.9, 0.675), (0.36, 0.42))
 
-  draw.content((-2.72, -0.675), text(size: 0.85em, $X$), anchor: "east")
-  draw.content((2.78, -0.55), text(size: 0.85em, $f(X)$), anchor: "west")
-  draw.content((2.78, 0.55), text(size: 0.85em, $Y$), anchor: "west")
-  draw.content((-2.72, 0.675), text(size: 0.85em, $f^(-1) (Y)$), anchor: "east")
+  mark((-2.78, -0.675), $X$, tone: violet)
+  mark((2.85, -0.55), $f(X)$, tone: violet)
+  mark((2.85, 0.55), $Y$, tone: violet)
+  mark((-2.98, 0.675), $f^(-1) (Y)$, tone: violet)
 })
 
-// ── Composition of two maps as a pipeline ──
+// ── Композиция двух отображений как конвейер ──
 #let composition-pipeline = canvas({
-  draw.circle((-2.6, 0), radius: (0.5, 0.95), fill: c-dom, stroke: c-str)
-  label((-2.6, 1.2), $A$)
-  draw.circle((0, 0), radius: (0.5, 0.95), fill: c-dom, stroke: c-str)
-  label((0, 1.2), $B$)
-  draw.circle((2.6, 0), radius: (0.5, 0.95), fill: c-cod, stroke: c-str)
-  label((2.6, 1.2), $C$)
+  set-ellipse((-2.6, 0), 0.5, 0.95, cool, panel-cool, name: "set-a")
+  mark((-2.6, 1.25), $A$)
+  set-ellipse((0, 0), 0.5, 0.95, green, panel-green, name: "set-b")
+  mark((0, 1.25), $B$)
+  set-ellipse((2.6, 0), 0.5, 0.95, warm, panel-warm, name: "set-c")
+  mark((2.6, 1.25), $C$)
 
-  draw.line((-2.1, 0), (-0.5, 0), stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
+  draw.line("set-a.east", "set-b.west", stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
   ))
-  label((-1.3, 0.3), $f$)
-  draw.line((0.5, 0), (2.1, 0), stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
+  mark((-1.3, 0.32), $f$)
+  draw.line("set-b.east", "set-c.west", stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
   ))
-  label((1.3, 0.3), $g$)
+  mark((1.3, 0.32), $g$)
 
   draw.bezier(
     (-2.6, -0.9),
     (2.6, -0.9),
-    (-1.5, -1.9),
-    (1.5, -1.9),
-    stroke: c-hl,
-    mark: (
-      end: (symbol: ">", fill: black),
-    ),
+    (-1.5, -1.85),
+    (1.5, -1.85),
+    stroke: edge-hot,
+    mark: (end: (symbol: ">", fill: edge-hot.paint)),
   )
-  draw.content((0, -1.95), text(size: 0.85em, $g compose f$))
+  mark((0, -2.1), $g compose f$)
 })
 
-// ── Floor and ceiling on the number line ──
+// ── Пол и потолок на числовой прямой ──
 #let floor-ceil-line = canvas({
-  draw.line((-2.8, 0), (4.0, 0), stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
+  draw.line((-2.9, 0), (4.2, 0), stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
   ))
   for k in range(-2, 4) {
-    draw.line((k, -0.08), (k, 0.08), stroke: c-str)
-    label((k, -0.32), [#k])
+    draw.line((k, -0.08), (k, 0.08), stroke: edge-thin)
+    mark((k, -0.34), [#k])
   }
 
-  draw.circle((2.7, 0), radius: 0.06, fill: c-dot)
-  draw.circle((2, 0), radius: 0.06, fill: c-floor)
-  draw.circle((3, 0), radius: 0.06, fill: c-ceil)
+  draw.circle((2, 0), radius: 0.075, fill: green)
+  draw.circle((2.7, 0), radius: 0.075, fill: ink)
+  draw.circle((3, 0), radius: 0.075, fill: violet)
+  mark((2, 0.42), $floor(x)$, tone: green)
+  mark((2.7, -0.34), $x$)
+  mark((3, 0.42), $ceil(x)$, tone: violet)
 
-  draw.circle((-1.3, 0), radius: 0.06, fill: c-dot)
-  draw.circle((-2, 0), radius: 0.06, fill: c-floor)
-  draw.circle((-1, 0), radius: 0.06, fill: c-ceil)
-
-  draw.content((0.5, 0.75), text(
-    size: 0.85em,
-  )[$x = 2.7$: $floor(x) = 2$, $ceil(x) = 3$])
-  draw.content((0.5, 1.25), text(
-    size: 0.85em,
-  )[$x = -1.3$: $floor(x) = -2$, $ceil(x) = -1$])
+  draw.circle((-2, 0), radius: 0.075, fill: green)
+  draw.circle((-1.3, 0), radius: 0.075, fill: ink)
+  draw.circle((-1, 0), radius: 0.075, fill: violet)
+  mark((-2, 0.42), $floor(x)$, tone: green)
+  mark((-1.3, -0.34), $x$)
+  mark((-1, 0.42), $ceil(x)$, tone: violet)
 })
 
-// ── Step graphs of floor and ceiling ──
+// ── Ступеньки пола и потолка ──
 #let floor-ceil-steps = canvas({
-  draw.line((-1.9, 0), (3.5, 0), stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
+  draw.line((-1.9, 0), (3.5, 0), stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
   ))
-  draw.line((0, -1.9), (0, 3.5), stroke: c-str, mark: (
-    end: (symbol: ">", fill: black),
+  draw.line((0, -1.9), (0, 3.5), stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
   ))
-  label((3.1, -0.35), $x$)
-  label((0.35, 3.15), $y$)
+  mark((3.1, -0.35), $x$)
+  mark((0.35, 3.15), $y$)
 
-  let solid(pos, color) = draw.circle(pos, radius: 0.055, fill: color)
-  let open(pos, color) = draw.circle(
+  let solid(pos, tone) = draw.circle(pos, radius: 0.055, fill: tone)
+  let open(pos, tone) = draw.circle(
     pos,
     radius: 0.055,
     fill: white,
-    stroke: 0.9pt + color,
+    stroke: 0.9pt + tone,
   )
 
   for k in range(-1, 3) {
-    draw.line((k, k), (k + 1, k), stroke: 1.1pt + c-floor)
-    solid((k, k), c-floor)
-    open((k + 1, k), c-floor)
+    draw.line((k, k), (k + 1, k), stroke: (
+      paint: green,
+      thickness: 1.2pt,
+      cap: "round",
+    ))
+    solid((k, k), green)
+    open((k + 1, k), green)
   }
 
   for k in range(0, 3) {
     draw.line((k, k + 1), (k + 1, k + 1), stroke: (
-      paint: c-ceil,
-      dash: "dashed",
-      thickness: 1.1pt,
+      paint: violet,
+      thickness: 1.2pt,
+      cap: "round",
     ))
-    open((k, k + 1), c-ceil)
-    solid((k + 1, k + 1), c-ceil)
+    open((k, k + 1), violet)
+    solid((k + 1, k + 1), violet)
   }
 
-  draw.content(
-    (2.8, 1.1),
-    text(size: 0.8em, fill: c-floor)[пол],
-    anchor: "west",
-  )
-  draw.content(
-    (2.8, 2.1),
-    text(size: 0.8em, fill: c-ceil)[потолок],
-    anchor: "west",
-  )
+  mark((3.55, 2.0), [пол], tone: green)
+  mark((3.55, 3.0), [потолок], tone: violet)
 })
