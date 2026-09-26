@@ -1,125 +1,119 @@
-// Карта Карно и ROBDD для XOR.
-// Скопировано из книги, чтобы лекции не зависели от неё.
+// Булевы функции: карта Карно функции большинства и ROBDD для XOR.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "style.typ": *
 
-#let c-km-line = oklch(35%, 0.02, 265deg) + 0.5pt
-#let c-km-fill = oklch(88%, 0.03, 155deg)
-#let c-km-num = oklch(35%, 0.02, 265deg)
+// ── Карта Карно: f = x y + x z + y z, единицы и склейки ──
+#let k-grid = (paint: ink-soft, thickness: 0.5pt)
+#let k-unit = green.lighten(72%)
+#let k-loop(paint) = (paint: paint, thickness: 1.8pt, cap: "round")
 
-// Example: Karnaugh map for f(x,y,z) = xy + xz + yz (majority function).
-// Filled cells show where f = 1.
 #let karnaugh-3var-majority = canvas({
-  let s = 0.6
-  let rows = 4
-  let cols = 2
+  let s = 0.62
 
-  // Grid
-  for i in range(rows + 1) {
-    draw.line((0, -i * s), (cols * s, -i * s), stroke: c-km-line)
+  for i in range(5) {
+    draw.line((0, -i * s), (2 * s, -i * s), stroke: k-grid)
   }
-  for j in range(cols + 1) {
-    draw.line((j * s, 0), (j * s, -rows * s), stroke: c-km-line)
+  for j in range(3) {
+    draw.line((j * s, 0), (j * s, -4 * s), stroke: k-grid)
   }
 
-  // Filled cells: minterms where majority(x,y,z)=1
-  let ones = ((1, 1), (2, 0), (2, 1), (3, 1))
-  for (row, col) in ones {
+  // Единицы --- минтермы функции большинства.
+  for (row, col) in ((1, 1), (2, 0), (2, 1), (3, 1)) {
     draw.rect(
-      (col * s, -row * s),
-      ((col + 1) * s, -(row + 1) * s),
-      fill: c-km-fill,
+      (col * s + 0.035, -(row + 1) * s + 0.035),
+      ((col + 1) * s - 0.035, -row * s - 0.035),
+      fill: k-unit,
       stroke: none,
+      radius: 0.07,
     )
   }
 
-  // Cell labels
-  for (row, col) in ones {
-    draw.content(((col + 0.5) * s, -(row + 0.5) * s), text(
-      size: 0.45em,
-      fill: c-km-num,
-    )[1])
+  // Склейки --- простые импликанты xz, yz, xy.
+  draw.rect(
+    (s + 0.07, -3 * s + 0.07),
+    (2 * s - 0.07, -s - 0.07),
+    stroke: k-loop(cool),
+    radius: 0.09,
+  )
+  draw.rect(
+    (0.07, -3 * s + 0.07),
+    (2 * s - 0.07, -2 * s - 0.07),
+    stroke: k-loop(green),
+    radius: 0.09,
+  )
+  draw.rect(
+    (s + 0.07, -4 * s + 0.07),
+    (2 * s - 0.07, -2 * s - 0.07),
+    stroke: k-loop(warm),
+    radius: 0.09,
+  )
+
+  // Код Грея на осях.
+  mark((0.5 * s, 0.2), [0], size: 0.45em)
+  mark((1.5 * s, 0.2), [1], size: 0.45em)
+  for (i, code) in ("00", "01", "11", "10").enumerate() {
+    mark((-0.38, -(i + 0.5) * s), code, size: 0.45em)
   }
 
-  // Row labels (yz)
-  let yz = ("00", "01", "11", "10")
-  for (i, label) in yz.enumerate() {
-    draw.content((-0.2, -(i + 0.5) * s), anchor: "east", text(
-      size: 0.42em,
-      fill: c-km-num,
-    )[#label])
-  }
+  draw.line((0.08, 0.38), (2 * s - 0.08, 0.38), stroke: k-grid)
+  mark((s, 0.62), $x$, size: 0.5em)
+  draw.line((-0.62, -0.06), (-0.62, -4 * s + 0.06), stroke: k-grid)
+  mark((-0.9, -2 * s), $y z$, size: 0.5em)
 
-  // Column labels
-  draw.content((0.5 * s, 0.18), anchor: "south", text(
-    size: 0.42em,
-    fill: c-km-num,
-  )[$x$])
-  for j in range(cols) {
-    draw.content(((j + 0.5) * s, 0.13), anchor: "south", text(
-      size: 0.4em,
-      fill: c-km-num,
-    )[#j])
-  }
-
-  draw.content((-0.5, -2 * s), anchor: "east", text(
-    size: 0.42em,
-    fill: c-km-num,
-  )[$y z$])
+  mark((1.5 * s, -1.5 * s), $x z$, size: 0.5em, tone: cool)
+  mark((0.5 * s, -2.5 * s), $y z$, size: 0.5em, tone: green)
+  mark((1.5 * s, -3.5 * s), $x y$, size: 0.5em, tone: warm)
 })
 
-// ── BDD для XOR ──
-#let n-fill = oklch(88%, 0.03, 250deg)
-#let n-str = 0.8pt + oklch(60%, 0.08, 250deg)
-#let c-leaf-fill = oklch(91%, 0.025, 155deg)
-
+// ── ROBDD: x xor y со слитыми листьями ──
 #let bdd-xor = {
   let vnode(pos, name, body) = node(
     pos,
-    text(size: 0.8em, fill: c-km-num)[#body],
+    text(size: 0.8em, fill: ink)[#body],
     name: name,
     shape: circle,
-    fill: n-fill,
-    stroke: n-str,
-    width: 1.3em,
-    height: 1.3em,
+    fill: white,
+    stroke: (paint: cool, thickness: 1.1pt),
     inset: 0pt,
+    width: 1.6em,
+    height: 1.6em,
   )
-  let tnode(pos, name, val) = node(
+  let leaf(pos, name, val, tone) = node(
     pos,
-    text(size: 0.8em, fill: c-km-num)[#val],
+    text(size: 0.8em, fill: ink)[#val],
     name: name,
-    fill: c-leaf-fill,
-    stroke: n-str,
-    inset: 4pt,
+    fill: white,
+    stroke: (paint: tone, thickness: 1pt),
+    inset: 3pt,
   )
-  let bedge(from, to, bit) = edge(
+  let branch(from, to, bit, label-pos: 30%) = edge(
     from,
     to,
     "-",
     stroke: if bit == 0 {
-      (paint: c-km-num, thickness: 0.7pt, dash: "dashed")
+      (paint: ink-soft, thickness: 0.7pt, dash: "dashed")
     } else {
-      (paint: c-km-num, thickness: 0.7pt)
+      edge-hot
     },
-    label: text(size: 0.55em, fill: c-km-num)[$#bit$],
-    label-pos: 30%,
+    label: text(size: 0.5em, fill: ink)[$#bit$],
+    label-pos: label-pos,
     label-side: center,
     label-fill: white,
   )
 
   diagram(
-    spacing: 2.6em,
+    spacing: 2.8em,
     vnode((0, 0), <x>, $x$),
-    vnode((-1.5, 1), <y-lo>, $y$),
-    vnode((1.5, 1), <y-hi>, $y$),
-    tnode((-1.2, 2), <t0>, 0),
-    tnode((1.2, 2), <t1>, 1),
-    bedge(<x>, <y-lo>, 0),
-    bedge(<x>, <y-hi>, 1),
-    bedge(<y-lo>, <t0>, 0),
-    bedge(<y-lo>, <t1>, 1),
-    bedge(<y-hi>, <t1>, 0),
-    bedge(<y-hi>, <t0>, 1),
+    vnode((-1.6, 1), <y-lo>, $y$),
+    vnode((1.6, 1), <y-hi>, $y$),
+    leaf((-0.8, 2), <t0>, $0$, ink-soft),
+    leaf((0.8, 2), <t1>, $1$, green),
+    branch(<x>, <y-lo>, 0),
+    branch(<x>, <y-hi>, 1),
+    branch(<y-lo>, <t0>, 0),
+    branch(<y-lo>, <t1>, 1, label-pos: 22%),
+    branch(<y-hi>, <t1>, 0),
+    branch(<y-hi>, <t0>, 1, label-pos: 22%),
   )
 }

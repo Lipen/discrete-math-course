@@ -1,54 +1,24 @@
-// SAT: implication graph.
-// Скопировано из книги, чтобы лекции не зависели от неё.
+// SAT: граф импликаций 2-SAT --- оба дизъюнкта ведут в y.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "style.typ": *
 
-#let c-node = oklch(88%, 0.03, 250deg)
-#let c-node-str = oklch(60%, 0.08, 250deg)
-#let c-edge = oklch(35%, 0.02, 265deg) + 0.5pt
-#let c-label = oklch(35%, 0.02, 265deg)
-
-// Implication graph for (x or y) and (not x or y).
-// Clauses: (x or y) -> not x -> y;  (not x or y) -> x -> y.
-// Satisfiable: set y = true.
 #let implication-graph-2sat-simple = canvas({
-  let r = 0.4
-  draw.circle((0, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "x")
-  draw.content((0, 0.8), text(size: 0.72em, fill: c-label)[$x$])
+  vertex("x", (0, 0.8))
+  vertex("notx", (0, -0.8))
+  vertex("y", (2.2, 0.8), tone: warm)
+  vertex("noty", (2.2, -0.8), tone: ink-soft)
 
-  draw.circle(
-    (0, -0.8),
-    radius: r,
-    fill: c-node,
-    stroke: c-node-str,
-    name: "notx",
-  )
-  draw.content((0, -0.8), text(size: 0.72em, fill: c-label)[$overline(x)$])
+  mark((0, 0.8), $x$, size: 0.7em)
+  mark((0, -0.8), $overline(x)$, size: 0.7em)
+  mark((2.2, 0.8), $y$, size: 0.7em)
+  mark((2.2, -0.8), $overline(y)$, size: 0.7em)
 
-  draw.circle((2, 0.8), radius: r, fill: c-node, stroke: c-node-str, name: "y")
-  draw.content((2, 0.8), text(size: 0.72em, fill: c-label)[$y$])
+  // (not x or y): x -> y;  (x or y): not x -> y.
+  draw.line("x.east", "y.west", stroke: edge-hot, mark: (end: ">"))
+  draw.bezier("notx.east", "y.south", (1.05, -0.5), stroke: edge-hot, mark: (
+    end: ">",
+  ))
 
-  draw.circle(
-    (2, -0.8),
-    radius: r,
-    fill: c-node,
-    stroke: c-node-str,
-    name: "noty",
-  )
-  draw.content((2, -0.8), text(size: 0.72em, fill: c-label)[$overline(y)$])
-
-  // Edges : node names, border-to-border
-  draw.line("notx", "y", stroke: c-edge, mark: (end: ">"))
-  draw.line("x", "y", stroke: c-edge, mark: (end: ">"))
-
-  // Labels
-  draw.content((1, 1.4), anchor: "south", text(size: 0.65em, fill: oklch(
-    45%,
-    0.02,
-    265deg,
-  ))[$x or y$])
-  draw.content((1, -1.4), anchor: "north", text(size: 0.65em, fill: oklch(
-    45%,
-    0.02,
-    265deg,
-  ))[$not x or y$])
+  mark((1.1, 1.14), $not x or y$, size: 0.5em)
+  mark((1.2, -0.75), $x or y$, size: 0.5em)
 })
