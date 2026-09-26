@@ -1,4 +1,4 @@
-// Cantor diagonal, QQ pairing, line-to-square.
+// Cantor diagonal, QQ pairing, line-to-square, aleph-beth, ordinal ladder.
 // Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
 
@@ -290,4 +290,42 @@
     fill: c-aleph-str,
   )["следующий"])
   draw.content((gap / 2, -0.6), text(size: 0.6em, fill: c-beth-str)["булеан"])
+})
+
+// --- Ordinal ladder: 0, 1, 2, ..., ω, ω+1, ..., 2ω, ..., ω², ..., ω^ω ---
+#let ordinal-ladder = canvas({
+  let c-str = oklch(50%, 0.02, 265deg)
+  let c-plain = oklch(45%, 0.02, 265deg)
+  let c-limit = oklch(55%, 0.18, 22deg)
+
+  let xs = (0, 1.05, 2.1, 4.3, 5.5, 7.9, 10.4, 12.7)
+  let labels = ($0$, $1$, $2$, $omega$, $omega + 1$, $2 omega$, $omega^2$, $omega^omega$)
+  let plain-edges = ((0, 1), (1, 2), (3, 4))
+  let limit-edges = ((2, 3), (4, 5), (5, 6), (6, 7))
+
+  // Предельные прыжки: точки пропущенных членов серии лежат под линией.
+  for (i, j) in limit-edges {
+    draw.line(
+      (xs.at(i), 0),
+      (xs.at(j), 0),
+      stroke: 1.1pt + c-limit,
+      mark: (end: "stealth", fill: c-limit),
+    )
+  }
+  for (i, j) in plain-edges {
+    draw.line(
+      (xs.at(i), 0),
+      (xs.at(j), 0),
+      stroke: 0.6pt + c-plain,
+      mark: (end: "stealth", fill: c-plain),
+    )
+  }
+  for i in range(xs.len()) {
+    draw.circle((xs.at(i), 0), radius: 0.1, fill: white, stroke: 0.9pt + c-str)
+    draw.content((xs.at(i), 0.55), text(size: 0.72em)[#labels.at(i)])
+  }
+  for x in (3.2, 6.7, 9.15, 11.55) {
+    draw.content((x, -0.5), text(size: 0.7em, fill: luma(45%))[$dots$])
+  }
+  draw.content((3.2, -1.1), text(size: 0.55em, fill: c-limit)[предельный шаг])
 })

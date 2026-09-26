@@ -11,6 +11,7 @@ files := """
     s1-lec05-order.typ
     s1-lec06-functions.typ
     s1-lec07-cardinality.typ
+    s1-lec08-transfinite.typ
     s1-lec09-propositional.typ
     s1-lec10-deduction.typ
     s1-lec11-fol.typ

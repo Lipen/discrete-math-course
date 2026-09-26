@@ -1,6 +1,7 @@
-// Karnaugh maps.
+// Карта Карно и ROBDD для XOR.
 // Скопировано из книги, чтобы лекции не зависели от неё.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "@preview/fletcher:0.5.8": diagram, edge, node
 
 #let c-km-line = oklch(35%, 0.02, 265deg) + 0.5pt
 #let c-km-fill = oklch(88%, 0.03, 155deg)
@@ -66,3 +67,59 @@
     fill: c-km-num,
   )[$y z$])
 })
+
+// ── BDD для XOR ──
+#let n-fill = oklch(88%, 0.03, 250deg)
+#let n-str = 0.8pt + oklch(60%, 0.08, 250deg)
+#let c-leaf-fill = oklch(91%, 0.025, 155deg)
+
+#let bdd-xor = {
+  let vnode(pos, name, body) = node(
+    pos,
+    text(size: 0.8em, fill: c-km-num)[#body],
+    name: name,
+    shape: circle,
+    fill: n-fill,
+    stroke: n-str,
+    width: 1.3em,
+    height: 1.3em,
+    inset: 0pt,
+  )
+  let tnode(pos, name, val) = node(
+    pos,
+    text(size: 0.8em, fill: c-km-num)[#val],
+    name: name,
+    fill: c-leaf-fill,
+    stroke: n-str,
+    inset: 4pt,
+  )
+  let bedge(from, to, bit) = edge(
+    from,
+    to,
+    "-",
+    stroke: if bit == 0 {
+      (paint: c-km-num, thickness: 0.7pt, dash: "dashed")
+    } else {
+      (paint: c-km-num, thickness: 0.7pt)
+    },
+    label: text(size: 0.55em, fill: c-km-num)[$#bit$],
+    label-pos: 30%,
+    label-side: center,
+    label-fill: white,
+  )
+
+  diagram(
+    spacing: 2.6em,
+    vnode((0, 0), <x>, $x$),
+    vnode((-1.5, 1), <y-lo>, $y$),
+    vnode((1.5, 1), <y-hi>, $y$),
+    tnode((-1.2, 2), <t0>, 0),
+    tnode((1.2, 2), <t1>, 1),
+    bedge(<x>, <y-lo>, 0),
+    bedge(<x>, <y-hi>, 1),
+    bedge(<y-lo>, <t0>, 0),
+    bedge(<y-lo>, <t1>, 1),
+    bedge(<y-hi>, <t1>, 0),
+    bedge(<y-hi>, <t0>, 1),
+  )
+}
