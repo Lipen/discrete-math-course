@@ -1202,6 +1202,18 @@ Modus ponens устроен так, что в нём невозможно усо
       fitch-step(9, $not A -> B$, rule: [?]),
     )
 
+  + #task-id("ded:restore-neg-intro") Восстановите испорченный вывод: в выводе $not A$ из посылки $A -> not A$ стёрты часть формул и часть оправданий.
+    Заполните пропуски:
+    #fitch-proof(
+      fitch-premise(1, $A -> not A$),
+      fitch-subproof(
+        fitch-assume(2, $?$),
+        fitch-step(3, $not A$, rule: [?]),
+        fitch-step(4, $?$, rule: [$not$E 3, 2]),
+      ),
+      fitch-step(5, $?$, rule: [?]),
+    )
+
   _Схемы аксиом и секвенции._
   + В системе Гильберта со схемами $K$ и $S$ выведите $A -> A$.
     Сколько шагов потребовалось?
