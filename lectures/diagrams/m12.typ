@@ -1,96 +1,92 @@
 // Диаграммы для лекции "Алгебраические структуры".
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "style.typ": *
 
-#let d-node = 0.8pt + oklch(50%, 0.15, 250deg)
-#let d-edge = 0.7pt + oklch(40%, 0.03, 265deg)
-#let d-fill = oklch(91%, 0.03, 250deg)
-#let d-ink = oklch(30%, 0.02, 250deg)
-
-// ── Решётка подгрупп ZZ_12 ──
+// ── Решётка порядков подгрупп ZZ_12 ──
 #let subgroup-lattice = canvas({
-  let node(pos, name, body) = {
-    draw.circle(pos, radius: 0.4, stroke: d-node, fill: d-fill, name: name)
-    draw.content(name, text(size: 0.7em, fill: d-ink)[#body])
+  let vs = (
+    ("n12", (0, 3.2), "12"),
+    ("n6", (-1.5, 2.1), "6"),
+    ("n4", (1.5, 2.1), "4"),
+    ("n3", (-0.85, 1.0), "3"),
+    ("n2", (0.85, 1.0), "2"),
+    ("n1", (0, 0), "1"),
+  )
+  for (nm, p, lab) in vs {
+    vertex(nm, p)
+    mark(p, lab, size: 0.5em)
   }
-  let edge(fr, to) = {
-    draw.line(fr, to, stroke: d-edge)
+  for (a, b) in (
+    ("n12", "n6"),
+    ("n12", "n4"),
+    ("n6", "n3"),
+    ("n6", "n2"),
+    ("n4", "n2"),
+    ("n3", "n1"),
+    ("n2", "n1"),
+  ) {
+    draw.line(a, b, stroke: edge-plain)
   }
-
-  node((0, 4.0), "n12", $12$)
-  node((-2.0, 2.7), "n6", $6$)
-  node((0.0, 2.7), "n4", $4$)
-  node((2.0, 2.7), "n3", $3$)
-  node((-1.0, 1.4), "n2", $2$)
-  node((1.0, 1.4), "n1", $1$)
-
-  edge("n12", "n6")
-  edge("n12", "n4")
-  edge("n12", "n3")
-  edge("n6", "n2")
-  edge("n4", "n2")
-  edge("n3", "n1")
-  edge("n2", "n1")
 })
 
-// ── Циклическая группа ZZ_8 ──
+// ── Циклическая группа ZZ_8: шаги образующей по кругу ──
 #let cyclic-generator = canvas({
-  let node(pos, name, body) = {
-    draw.circle(pos, radius: 0.4, stroke: d-node, fill: d-fill, name: name)
-    draw.content(name, text(size: 0.7em, fill: d-ink)[#body])
+  let R = 2.3
+  let r = 0.3
+  let pts = range(8).map(i => {
+    let a = 90deg - i * 45deg
+    (R * calc.cos(a), R * calc.sin(a))
+  })
+  for i in range(8) {
+    vertex("g" + str(i), pts.at(i), size: r)
+    mark(pts.at(i), str(i), size: 0.5em)
   }
-  let edge(fr, to) = {
-    draw.line(fr, to, stroke: d-edge)
+
+  let rim(p, toward) = {
+    let dx = toward.at(0) - p.at(0)
+    let dy = toward.at(1) - p.at(1)
+    let d = calc.sqrt(dx * dx + dy * dy)
+    (p.at(0) + dx / d * r, p.at(1) + dy / d * r)
   }
-
-  node((0, 3.0), "b0", $0$)
-  node((2.1, 2.1), "b1", $1$)
-  node((3.0, 0), "b2", $2$)
-  node((2.1, -2.1), "b3", $3$)
-  node((0, -3.0), "b4", $4$)
-  node((-2.1, -2.1), "b5", $5$)
-  node((-3.0, 0), "b6", $6$)
-  node((-2.1, 2.1), "b7", $7$)
-
-  edge("b0", "b1")
-  edge("b1", "b2")
-  edge("b2", "b3")
-  edge("b3", "b4")
-  edge("b4", "b5")
-  edge("b5", "b6")
-  edge("b6", "b7")
-  edge("b7", "b0")
-
-  draw.content((0, 0), text(size: 0.6em, fill: d-ink)[$ZZ_8$])
-})
-
-// ── Коммутативная диаграмма гомоморфизма ──
-#let hom-square = canvas({
-  let node(pos, name, body) = {
-    draw.rect(
-      (pos.at(0) - 1.0, pos.at(1) - 0.45),
-      (pos.at(0) + 1.0, pos.at(1) + 0.45),
-      radius: 4pt,
-      stroke: d-node,
-      fill: d-fill,
-      name: name,
+  for i in range(8) {
+    let j = calc.rem(i + 1, 8)
+    let ctrl = (
+      (pts.at(i).at(0) + pts.at(j).at(0)) * 0.75,
+      (pts.at(i).at(1) + pts.at(j).at(1)) * 0.75,
     )
-    draw.content(name, text(size: 0.7em, fill: d-ink)[#body])
+    draw.bezier(
+      rim(pts.at(i), ctrl),
+      rim(pts.at(j), ctrl),
+      ctrl,
+      mark: (end: "stealth"),
+      stroke: if i == 0 { edge-hot } else { edge-plain },
+    )
   }
-  let arrow(fr, to, label) = {
-    draw.line(fr, to, stroke: d-edge, mark: (end: ">"))
-    draw.content((fr, 50%, to), dy: 0.7em, text(
-      size: 0.55em,
-      fill: d-ink,
-    )[#label])
-  }
-
-  node((0, 2.0), "g", $G$)
-  node((3.2, 2.0), "h", $H$)
-  node((0, -2.0), "gk", $G / "ker"(phi)$)
-  node((3.2, -2.0), "im", $"im"(phi)$)
-
-  arrow("g", "h", $phi$)
-  arrow("g", "gk", $pi$)
-  arrow("gk", "im", $tilde(phi)$)
-  arrow("h", "im", $"in"$)
+  mark((0, 0), $ZZ_8$, size: 0.5em)
 })
+
+// ── Квадрат первой теоремы об изоморфизме ──
+#let hom-square = diagram(
+  node-stroke: (paint: cool, thickness: 1.1pt),
+  node-fill: white,
+  node-inset: 6pt,
+  spacing: 3.4em,
+  {
+    node((0, 0), text(size: 0.8em)[$G$], name: <g>)
+    node((3, 0), text(size: 0.8em)[$H$], name: <h>)
+    node((0, 2), text(size: 0.8em)[$G / "ker"(phi)$], name: <gk>)
+    node((3, 2), text(size: 0.8em)[$"im"(phi)$], name: <im>)
+    edge(<g>, <h>, "->", label: $phi$, label-size: 0.7em, stroke: edge-plain)
+    edge(<g>, <gk>, "->", label: $pi$, label-size: 0.7em, stroke: edge-plain)
+    edge(
+      <gk>,
+      <im>,
+      "->",
+      label: $tilde(phi)$,
+      label-size: 0.7em,
+      stroke: edge-hot,
+    )
+    edge(<im>, <h>, "-hook->", stroke: edge-thin)
+  },
+)

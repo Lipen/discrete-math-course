@@ -1,120 +1,48 @@
-// SMT lecture diagrams: DPLL(T) architecture, difference-logic negative cycle.
-// Выделено из диаграмм модальной лекции: лекция SMT не должна зависеть от них.
+// Диаграммы лекции SMT: архитектура DPLL(T), отрицательный цикл в разностной логике.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "style.typ": *
 
-// ── Palette ──
-#let d-node-fill = oklch(90%, 0.03, 250deg)
-#let d-node-border = oklch(55%, 0.10, 250deg)
-#let d-text = oklch(30%, 0.02, 265deg)
-#let d-muted = oklch(55%, 0.02, 265deg)
-#let d-edge = oklch(35%, 0.02, 265deg)
-#let d-neg = oklch(58%, 0.20, 22deg)    // negative-cycle highlight
-#let d-pos = oklch(55%, 0.15, 150deg)   // positive edge
-#let d-sat = oklch(88%, 0.05, 250deg)   // SAT solver box
-#let d-theory = oklch(88%, 0.05, 155deg) // theory solver box
-
-#let c-node(pos, label, fill: d-node-fill) = {
-  draw.circle(
-    pos,
-    radius: 0.17,
-    fill: fill,
-    stroke: (paint: d-node-border, thickness: 0.8pt),
-  )
-  draw.content(pos, text(size: 0.42em, fill: d-text, weight: "bold")[#label])
-}
-
-// ── DPLL(T) architecture ──
+// ── DPLL(T): SAT-солвер и theory-солвер ──
 #let dpll-t-architecture = canvas({
-  let sat-top = (0, 0.8)
-  let sat-bot = (0, 0.3)
-  let th-top = (0, -0.3)
-  let th-bot = (0, -0.8)
+  panel((-1.5, 0.22), (1.5, 1.18), tone: cool)
+  panel((-1.5, -1.18), (1.5, -0.22), tone: green, fill: panel-green)
+  mark((0, 0.86), text(weight: "bold")[SAT-решатель], size: 0.5em)
+  mark((0, 0.5), [DPLL / CDCL], tone: ink-soft, size: 0.45em)
+  mark((0, -0.5), text(weight: "bold")[Theory-солвер], size: 0.5em)
+  mark((0, -0.86), [DL, EUF, LRA, ...], tone: ink-soft, size: 0.45em)
 
-  draw.rect(
-    (-1.3, sat-bot.at(1)),
-    (1.3, sat-top.at(1)),
-    fill: d-sat,
-    stroke: (paint: d-node-border, thickness: 0.8pt),
-    radius: 3pt,
-  )
-  draw.content((0, 0.55), text(
-    size: 0.45em,
-    fill: d-text,
-    weight: "bold",
-  )[SAT-решатель])
-  draw.content((0, 0.4), text(size: 0.4em, fill: d-muted)[DPLL / CDCL])
-
-  draw.rect(
-    (-1.3, th-bot.at(1)),
-    (1.3, th-top.at(1)),
-    fill: d-theory,
-    stroke: (paint: d-node-border, thickness: 0.8pt),
-    radius: 3pt,
-  )
-  draw.content((0, -0.55), text(
-    size: 0.45em,
-    fill: d-text,
-    weight: "bold",
-  )[Theory-солвер])
-  draw.content((0, -0.7), text(size: 0.4em, fill: d-muted)[DL, EUF, LRA, ...])
-
-  // SAT -> theory: proposes a model
   draw.line(
-    (0.85, 0.3),
-    (0.85, -0.3),
+    (0.85, 0.22),
+    (0.85, -0.22),
     mark: (end: "stealth"),
-    stroke: d-edge + 0.8pt,
+    stroke: edge-plain,
   )
-  draw.content((1.075, 0), anchor: "west", text(
-    size: 0.4em,
-    fill: d-text,
-  )[модель])
-
-  // theory -> SAT: returns T-lemma on conflict
   draw.line(
-    (-0.85, -0.3),
-    (-0.85, 0.3),
+    (-0.85, -0.22),
+    (-0.85, 0.22),
     mark: (end: "stealth"),
-    stroke: d-edge + 0.8pt,
+    stroke: edge-plain,
   )
-  draw.content((-1.075, 0), anchor: "east", text(
-    size: 0.4em,
-    fill: d-text,
-  )[$T$-лемма])
+  mark((1.9, 0), [модель], size: 0.45em)
+  mark((-1.9, 0), [$T$-лемма], size: 0.45em)
 })
 
-// ── Difference-logic negative cycle ──
-// Convention: constraint u - v <= c becomes edge v -> u (from the subtrahend to the minuend).
-// Cycle x -> w (+2), w -> z (-1), z -> x (-3), sum +2 - 1 - 3 = -2.
+// ── Отрицательный цикл: ребро v -> u для u - v <= c ──
 #let dl-negative-cycle = canvas({
-  let x = (-0.4, 0.32)
-  let z = (0.4, 0.32)
-  let w = (0, -0.4)
+  let px = (-0.9, 0.55)
+  let pz = (0.9, 0.55)
+  let pw = (0, -0.7)
+  vertex("x", px, size: 0.24)
+  vertex("z", pz, size: 0.24)
+  vertex("w", pw, size: 0.24)
+  mark(px, $x$, size: 0.45em)
+  mark(pz, $z$, size: 0.45em)
+  mark(pw, $w$, size: 0.45em)
 
-  c-node(x, $x$)
-  c-node(z, $z$)
-  c-node(w, $w$)
-
-  // x -> w, weight +2
-  draw.line(x, w, mark: (end: "stealth"), stroke: d-pos + 1pt)
-  draw.content((-0.24, -0.08), text(
-    size: 0.42em,
-    fill: d-pos,
-    weight: "bold",
-  )[$+2$])
-  // w -> z, weight -1
-  draw.line(w, z, mark: (end: "stealth"), stroke: d-neg + 1pt)
-  draw.content((0.26, -0.08), text(
-    size: 0.42em,
-    fill: d-neg,
-    weight: "bold",
-  )[$-1$])
-  // z -> x, weight -3
-  draw.line(z, x, mark: (end: "stealth"), stroke: d-neg + 1pt)
-  draw.content((0, 0.44), text(size: 0.42em, fill: d-neg, weight: "bold")[$-3$])
-
-  draw.content((0, -0.6), text(
-    size: 0.42em,
-    fill: d-neg,
-  )[$+2 - 1 - 3 = -2 < 0$])
+  draw.line("x", "w", mark: (end: "stealth"), stroke: edge-plain)
+  draw.line("w", "z", mark: (end: "stealth"), stroke: edge-hot)
+  draw.line("z", "x", mark: (end: "stealth"), stroke: edge-hot)
+  mark((-0.63, -0.2), $+2$, size: 0.45em)
+  mark((0.63, -0.2), $-1$, size: 0.45em, tone: warm)
+  mark((0, 0.86), $-3$, size: 0.45em, tone: warm)
 })
