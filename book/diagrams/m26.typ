@@ -118,3 +118,52 @@
   }
   diagram(..els)
 }
+
+// ── Карта RE / co-RE: разрешимые в линзе пересечения, экземпляры задач по регионам ──
+#let re-co-re-map = canvas({
+  let dot(pos, name) = draw.circle(
+    pos,
+    radius: 0.055,
+    fill: c-ink,
+    stroke: none,
+    name: name,
+  )
+  let tag(pos, body) = draw.content(pos, text(size: s-cap, fill: c-ink)[#body])
+
+  draw.rect((-3.6, -2.5), (3.6, 2.5), stroke: (paint: c-edge, thickness: t-hr))
+  draw.content((-2.5, 2.18), text(size: s-cap, fill: c-muted)[все языки])
+
+  draw.circle(
+    (-0.8, 0),
+    radius: 1.6,
+    fill: c-fl.transparentize(30%),
+    stroke: t-bd + c-bd,
+    name: "re",
+  )
+  draw.circle(
+    (0.8, 0),
+    radius: 1.6,
+    fill: c-conn.transparentize(30%),
+    stroke: t-bd + c-bd,
+    name: "co-re",
+  )
+  draw.content((-1.4, 1.22), text(size: s-node, fill: c-ink)[$"RE"$])
+  draw.content((-1.35, 0.92), text(size: s-tiny, fill: c-muted)[распознаваемые])
+  draw.content((1.4, 1.22), text(size: s-node, fill: c-ink)[$"co-RE"$])
+  draw.content((1.35, 0.92), text(
+    size: s-tiny,
+    fill: c-muted,
+  )[ко-распознаваемые])
+
+  draw.line((0, -1.42), (0, -1.62), stroke: (paint: c-muted, thickness: t-hr))
+  draw.content((0, -1.92), text(size: s-cap, fill: c-ink)[разрешимые])
+
+  dot((0, 0.55), "dec")
+  tag((0, 0.25), ${0^n 1^n}$)
+  dot((-1.8, 0.5), "halt")
+  tag((-1.8, 0.2), $"HALT"$)
+  dot((1.8, 0.5), "cohalt")
+  tag((1.8, 0.2), $overline("HALT")$)
+  dot((2.65, 1.7), "eq")
+  tag((2.65, 1.38), $"EQ"_"TM"$)
+})

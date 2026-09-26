@@ -73,3 +73,30 @@
   label((-0.35, 0), $A$)
   label((0, r + 0.5), $A subset B$)
 })
+
+// ── Пороговый граф ──
+#let th-node(pos, name, body) = {
+  draw.circle(pos, radius: 0.4, name: name, fill: c-fl, stroke: v-stroke)
+  draw.content(name, text(size: s-node, fill: c-ink)[#body])
+}
+
+#let th-edge(a, b) = draw.line(a, b, stroke: (paint: c-edge, thickness: t-ed))
+
+#let threshold-graph = canvas({
+  let pos = ((0, 2.1), (-1.9, 0.65), (1.9, 0.65), (-1.2, -1.7), (1.2, -1.7))
+  let names = ("A", "B", "C", "D", "E")
+  let labels = ($A_5$, $B_4$, $C_3$, $D_2$, $E_1$)
+  for i in range(5) {
+    th-node(pos.at(i), names.at(i), labels.at(i))
+  }
+  for (a, b) in (
+    ("A", "B"),
+    ("A", "C"),
+    ("A", "D"),
+    ("A", "E"),
+    ("B", "C"),
+    ("B", "D"),
+  ) {
+    th-edge(a, b)
+  }
+})

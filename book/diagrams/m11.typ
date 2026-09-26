@@ -181,6 +181,59 @@
   )[$C_"out"$])
 })
 
+// ── SR-защёлка ──
+// Обратная связь тёплым цветом: петля --- и есть смысл рисунка.
+#let sr-latch = circuit({
+  gate(element.gate-nor, 0, 1, "nor-top")
+  gate(element.gate-nor, 0, -1, "nor-bot")
+
+  wire.wire(
+    "r-in",
+    (lj(-2.0, "nor-top-port-in0"), "nor-top-port-in0"),
+    color: c-edge,
+  )
+  wire.wire(
+    "s-in",
+    (lj(-2.0, "nor-bot-port-in1"), "nor-bot-port-in1"),
+    color: c-edge,
+  )
+
+  wire.wire(
+    "q-out",
+    ("nor-top-port-out", lj(2.6, "nor-top-port-out")),
+    color: c-edge,
+  )
+  wire.wire(
+    "nq-out",
+    ("nor-bot-port-out", lj(2.6, "nor-bot-port-out")),
+    color: c-edge,
+  )
+
+  wire.wire("fb-top", ((1.9, 1.5), (-0.3, -0.25)), color: c-hot)
+  wire.wire("fb-top-in", ((-0.3, -0.25), "nor-bot-port-in0"), color: c-hot)
+  wire.wire("fb-bot", ((1.9, -0.5), (-0.3, 1.25)), color: c-hot)
+  wire.wire("fb-bot-in", ((-0.3, 1.25), "nor-top-port-in1"), color: c-hot)
+  wire.intersection((1.9, 1.5), radius: ir, fill: c-hot)
+  wire.intersection((1.9, -0.5), radius: ir, fill: c-hot)
+
+  draw.content(lj(-2.1, "nor-top-port-in0"), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$R$])
+  draw.content(lj(-2.1, "nor-bot-port-in1"), anchor: "east", text(
+    size: s-node,
+    fill: c-ink,
+  )[$S$])
+  draw.content(lj(2.7, "nor-top-port-out"), anchor: "west", text(
+    size: s-node,
+    fill: c-ink,
+  )[$Q$])
+  draw.content(lj(2.7, "nor-bot-port-out"), anchor: "west", text(
+    size: s-node,
+    fill: c-ink,
+  )[$overline(Q)$])
+})
+
 // ── Мультиплексор 4→1 ──
 #let multiplexer-4to1 = ccetz.canvas({
   draw.line(

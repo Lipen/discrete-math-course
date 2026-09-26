@@ -48,6 +48,40 @@
   )
 }
 
+// ── Решётка делителей D_12 со значениями функции Мёбиуса ──
+#let mobius-divisors = {
+  let mu-node(pos, name, d, v) = node(
+    pos,
+    align(center, stack(spacing: 0.45em, d, text(
+      size: s-cap,
+      fill: c-muted,
+    )[$mu(1, #d) = #v$])),
+    name: name,
+    shape: rect,
+    inset: 6pt,
+    corner-radius: 4pt,
+  )
+
+  diagram(
+    node-stroke: c-bd + t-bd,
+    node-fill: c-fl,
+    edge-stroke: c-edge + t-ed,
+    mu-node((0, 2.9), <one>, [$1$], [$1$]),
+    mu-node((-1.6, 1.95), <two>, [$2$], [$-1$]),
+    mu-node((1.6, 1.95), <three>, [$3$], [$-1$]),
+    mu-node((-3.2, 1), <four>, [$4$], [$0$]),
+    mu-node((0, 1), <six>, [$6$], [$1$]),
+    mu-node((0, 0), <twelve>, [$12$], [$0$]),
+    edge(<one>, <two>),
+    edge(<one>, <three>),
+    edge(<two>, <four>),
+    edge(<two>, <six>),
+    edge(<three>, <six>),
+    edge(<four>, <twelve>),
+    edge(<six>, <twelve>),
+  )
+}
+
 // Точка на круге радиуса r под углом a в градусах.
 // Ось Y в диаграммах fletcher направлена вниз, поэтому Y берём с минусом.
 #let polar(r, a) = (
