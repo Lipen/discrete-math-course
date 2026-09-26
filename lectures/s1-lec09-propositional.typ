@@ -1,17 +1,6 @@
 // s1, лекция 9 --- Логика высказываний (неделя 2--8 ноября).
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": (
-  adequacy-ghost, consequence-ghost, inference-ghost, normal-forms-ghost,
-  syllogism-ghost, syntax-semantics-ghost,
-)
-#import "@preview/frederic:0.1.0": (
-  fitch-assume, fitch-premise, fitch-proof, fitch-step, fitch-subproof,
-)
-#import "diagrams/m02.typ": mp-chain, nd-comm, nd-impi, nd-projection
-#import "diagrams/m03.typ": (
-  euler-barbara, euler-celarent, euler-darii, judgment-circles,
-  square-of-opposition,
-)
+#import "diagrams/ghosts.typ": consequence-ghost, normal-forms-ghost
 #show: slides.with(
   title: [Логика высказываний],
   date: "Осень 2026",
