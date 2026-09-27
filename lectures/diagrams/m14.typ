@@ -3,22 +3,22 @@
 #import "style.typ": *
 
 #let implication-graph-2sat-simple = canvas({
-  vertex("x", (0, 0.8))
-  vertex("notx", (0, -0.8))
-  vertex("y", (2.2, 0.8), tone: warm)
-  vertex("noty", (2.2, -0.8), tone: ink-soft)
+  vertex("x", (0, 1.0), size: 0.34)
+  vertex("notx", (0, -1.0), size: 0.34)
+  vertex("y", (2.9, 1.0), tone: warm, size: 0.34)
+  vertex("noty", (2.9, -1.0), tone: ink-soft, size: 0.34)
 
-  mark((0, 0.8), $x$, size: 0.7em)
-  mark((0, -0.8), $overline(x)$, size: 0.7em)
-  mark((2.2, 0.8), $y$, size: 0.7em)
-  mark((2.2, -0.8), $overline(y)$, size: 0.7em)
+  mark((0, 1.0), $x$)
+  mark((0, -1.0), $overline(x)$)
+  mark((2.9, 1.0), $y$)
+  mark((2.9, -1.0), $overline(y)$)
 
   // (not x or y): x -> y;  (x or y): not x -> y.
   draw.line("x.east", "y.west", stroke: edge-hot, mark: (end: ">"))
-  draw.bezier("notx.east", "y.south", (1.05, -0.5), stroke: edge-hot, mark: (
+  draw.bezier("notx.east", "y.south", (1.4, -0.6), stroke: edge-hot, mark: (
     end: ">",
   ))
 
-  mark((1.1, 1.14), $not x or y$, size: 0.5em)
-  mark((1.2, -0.75), $x or y$, size: 0.5em)
+  mark((1.45, 1.38), $not x or y$)
+  mark((1.42, -1.22), $x or y$)
 })
