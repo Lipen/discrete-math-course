@@ -5,34 +5,35 @@
 
 // ── Иерархия Хомского: вложенные классы языков ──
 #let chomsky-hierarchy = canvas({
+  // вложенные арки с общей нижней касательной y = -0.2
   draw.circle(
-    (0, 1.2),
-    radius: (2, 1.4),
+    (0, 1.8),
+    radius: (2.5, 2.0),
     fill: fill-soft,
-    stroke: (paint: ink-soft, thickness: 0.6pt),
+    stroke: (paint: ink-soft, thickness: 0.8pt),
   )
   draw.circle(
-    (0, 0.6),
-    radius: (1.3, 0.8),
+    (0, 1.3),
+    radius: (1.75, 1.5),
     fill: violet.lighten(82%),
-    stroke: (paint: violet, thickness: 0.6pt),
+    stroke: (paint: violet, thickness: 0.8pt),
   )
   draw.circle(
-    (0, 0.2),
-    radius: (0.7, 0.4),
+    (0, 0.8),
+    radius: (1.35, 1.0),
     fill: amber.lighten(80%),
-    stroke: (paint: amber, thickness: 0.6pt),
+    stroke: (paint: amber, thickness: 0.8pt),
   )
   draw.circle(
-    (0, 0),
-    radius: (0.4, 0.2),
+    (0, 0.25),
+    radius: (0.95, 0.45),
     fill: green.lighten(75%),
-    stroke: (paint: green, thickness: 0.7pt),
+    stroke: (paint: green, thickness: 0.8pt),
   )
-  mark((0, 0.15), [Regular], size: 0.42em)
-  mark((0, 0.5), [Context-Free], size: 0.42em)
-  mark((0, 1.0), [Context-Sensitive], size: 0.42em)
-  mark((0, 1.7), [Recursively Enumerable], size: 0.42em)
+  mark((0, 0.25), [Regular])
+  mark((0, 1.2), [Context-Free])
+  mark((0, 2.2), [Context-Sensitive])
+  mark((0, 3.3), [Recursively Enumerable])
 })
 
 // ── Дерево разбора a^3 b^3: корень S слева, листья справа ──
@@ -41,7 +42,7 @@
     pos,
     label,
     name: name,
-    fill: white,
+    fill: cool.lighten(82%),
     stroke: (paint: cool, thickness: 1.1pt),
     shape: circle,
     width: 1.6em,
@@ -51,7 +52,7 @@
     pos,
     label,
     name: name,
-    fill: white,
+    fill: green.lighten(82%),
     stroke: (paint: green, thickness: 1.1pt),
     shape: circle,
     width: 1.6em,
@@ -62,7 +63,7 @@
     to,
     "-",
     stroke: edge-plain,
-    label: text(fill: ink-soft, size: 0.5em)[$S -> a S b$],
+    label: text(fill: ink-soft)[$S -> a S b$],
     label-anchor: "center",
     label-angle: auto,
   )
@@ -83,7 +84,7 @@
     cn((6, 0), $S$, <s3>),
     tn((6, 1.2), $b$, <b3>),
     node(
-      (8, 0),
+      (8.7, 0),
       text(fill: ink-soft)[$epsilon$],
       name: <eps>,
       fill: none,
@@ -107,7 +108,7 @@
       <eps>,
       "-",
       stroke: edge-hot,
-      label: text(size: 0.5em)[$S -> epsilon$],
+      label: text[$S -> epsilon$],
       label-anchor: "center",
       label-angle: auto,
     ),

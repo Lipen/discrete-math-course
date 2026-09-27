@@ -6,16 +6,16 @@
 // ── Три источника -> один матроид ──
 #let matroid-sources = diagram(
   node-stroke: (paint: cool, thickness: 1pt),
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   node-inset: 6pt,
   spacing: 1.1em,
   {
-    node((0, 0), text(size: 0.6em)[Лес \ ацикличность], name: <forest>)
-    node((2.3, 0), text(size: 0.6em)[Векторы \ независимость], name: <vec>)
-    node((4.6, 0), text(size: 0.6em)[Не более $k$ \ размер], name: <unif>)
+    node((0, 0), text[Лес \ ацикличность], name: <forest>)
+    node((2.3, 0), text[Векторы \ независимость], name: <vec>)
+    node((4.6, 0), text[Не более $k$ \ размер], name: <unif>)
     node(
       (2.3, 1.6),
-      text(size: 0.6em, weight: "bold")[Матроид \ два свойства],
+      text(weight: "bold")[Матроид \ два свойства],
       name: <matroid>,
       fill: panel-green,
       stroke: (paint: green, thickness: 1.2pt),
@@ -31,9 +31,12 @@
   vertex("a", (-0.9, 0.3), size: 0.36)
   vertex("b", (0.9, 0.9), size: 0.36)
   vertex("c", (0.9, -0.3), size: 0.36)
-  mark((-0.9, 0.3), [$a$ \ $5$], size: 0.45em)
-  mark((0.9, 0.9), [$b$ \ $4$], size: 0.45em)
-  mark((0.9, -0.3), [$c$ \ $4$], size: 0.45em)
+  mark((-0.9, 0.3), [$a$])
+  mark((0.9, 0.9), [$b$])
+  mark((0.9, -0.3), [$c$])
+  mark((-1.52, 0.3), [$5$])
+  mark((1.52, 0.9), [$4$])
+  mark((1.52, -0.3), [$4$])
 
   draw.line("a", "b", stroke: edge-hot)
   draw.line("a", "c", stroke: edge-hot)

@@ -15,7 +15,7 @@
   )
   for (nm, p, lab) in vs {
     vertex(nm, p)
-    mark(p, lab, size: 0.5em)
+    mark(p, lab)
   }
   for (a, b) in (
     ("n12", "n6"),
@@ -40,7 +40,7 @@
   })
   for i in range(8) {
     vertex("g" + str(i), pts.at(i), size: r)
-    mark(pts.at(i), str(i), size: 0.5em)
+    mark(pts.at(i), str(i))
   }
 
   let rim(p, toward) = {
@@ -63,30 +63,30 @@
       stroke: if i == 0 { edge-hot } else { edge-plain },
     )
   }
-  mark((0, 0), $ZZ_8$, size: 0.5em)
+  mark((0, 0), $ZZ_8$)
 })
 
 // ── Квадрат первой теоремы об изоморфизме ──
 #let hom-square = diagram(
   node-stroke: (paint: cool, thickness: 1.1pt),
-  node-fill: white,
+  node-fill: cool.lighten(82%),
+  node-shape: rect,
   node-inset: 6pt,
   spacing: 3.4em,
   {
-    node((0, 0), text(size: 0.8em)[$G$], name: <g>)
-    node((3, 0), text(size: 0.8em)[$H$], name: <h>)
-    node((0, 2), text(size: 0.8em)[$G / "ker"(phi)$], name: <gk>)
-    node((3, 2), text(size: 0.8em)[$"im"(phi)$], name: <im>)
-    edge(<g>, <h>, "->", label: $phi$, label-size: 0.7em, stroke: edge-plain)
-    edge(<g>, <gk>, "->", label: $pi$, label-size: 0.7em, stroke: edge-plain)
+    node((0, 0), text[$G$], name: <g>)
+    node((3, 0), text[$H$], name: <h>)
+    node((0, 2), text[$G / "ker"(phi)$], name: <gk>)
+    node((3, 2), text[$"im"(phi)$], name: <im>)
+    edge(<g>, <h>, "->", label: $phi$, stroke: edge-plain)
+    edge(<g>, <gk>, "->", label: $pi$, stroke: edge-plain)
     edge(
       <gk>,
       <im>,
       "->",
       label: $tilde(phi)$,
-      label-size: 0.7em,
       stroke: edge-hot,
     )
-    edge(<im>, <h>, "-hook->", stroke: edge-thin)
+    edge(<im>, <h>, "hook->", stroke: edge-thin)
   },
 )

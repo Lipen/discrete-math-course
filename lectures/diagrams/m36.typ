@@ -7,7 +7,7 @@
 #let derived-stroke = (paint: ink-soft, thickness: 0.9pt, dash: "dashed")
 
 #let arrow(fr, to, lab, stroke: edge-plain, side: auto, pos: none, ..extra) = {
-  let opts = (label: lab, label-side: side, label-size: 0.8em, stroke: stroke)
+  let opts = (label: lab, label-side: side, stroke: stroke)
   if pos != none { opts.insert("label-pos", pos) }
   edge(fr, to, "->", ..opts, ..extra)
 }
@@ -15,47 +15,46 @@
 // ── Моноид как категория с одним объектом: элементы --- петли ──
 #let monoid-loops = canvas({
   draw.arc(
-    (-0.9, 0),
-    start: 30deg,
-    stop: 330deg,
-    radius: 0.9,
+    (-1.05, 0),
+    start: 40deg,
+    stop: 320deg,
+    radius: 1.05,
     stroke: edge-hot,
     mark: (end: "stealth"),
   )
   draw.arc(
-    (0.9, 0),
-    start: 210deg,
-    stop: 510deg,
-    radius: 0.9,
+    (1.05, 0),
+    start: 220deg,
+    stop: 500deg,
+    radius: 1.05,
     stroke: edge-hot,
     mark: (end: "stealth"),
   )
-  draw.circle((0, 0), radius: 0.42, stroke: obj-stroke, fill: white, name: "m")
-  mark((0, 0), $M$, size: 1em)
-  mark((-1.95, 0), $a$, size: 0.8em)
-  mark((1.95, 0), $a star a$, size: 0.8em)
-  mark((0, -1.1), $"id"_M = e$, tone: ink-soft, size: 0.8em)
+  draw.circle((0, 0), radius: 0.5, stroke: obj-stroke, fill: cool.lighten(82%), name: "m")
+  mark((0, 0), $M$, size: 1.0em)
+  mark((-2.45, 0), $a$, size: 1.0em)
+  mark((2.75, 0), $a star a$, size: 1.0em)
+  mark((0, -1.45), $"id"_M = e$, tone: ink-soft, size: 1.0em)
 })
 
 // ── Цепочка как тонкая категория: композиция даёт пунктирную стрелку ──
 #let poset-chain = diagram(
   node-stroke: obj-stroke,
-  node-fill: white,
-  spacing: 3.2em,
+  node-fill: cool.lighten(82%),
+  spacing: 2.8em,
   {
-    node((0, 3.2), $0$, name: <z>)
-    node((0, 1.6), $1$, name: <o>)
-    node((0, 0), $2$, name: <t>)
-    arrow(<z>, <o>, $<=$, stroke: edge-cool, side: left)
-    arrow(<o>, <t>, $<=$, stroke: edge-cool, side: left)
+    node((0, 2.2), text(1.2em)[$0$], name: <z>)
+    node((0, 1.1), text(1.2em)[$1$], name: <o>)
+    node((0, 0), text(1.2em)[$2$], name: <t>)
+    arrow(<z>, <o>, text(1.2em)[$<=$], stroke: edge-cool, side: left)
+    arrow(<o>, <t>, text(1.2em)[$<=$], stroke: edge-cool, side: left)
     edge(
       <z>,
       <t>,
       "->",
       bend: -28deg,
-      label: [$<=$],
+      label: text(1.2em)[$<=$],
       label-side: right,
-      label-size: 0.8em,
       stroke: derived-stroke,
     )
   },
@@ -64,7 +63,7 @@
 // ── Свободная категория графа: композиция рождает новый морфизм ──
 #let free-cat-paths = diagram(
   node-stroke: obj-stroke,
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   spacing: 3.6em,
   {
     node((0, 0), $A$, name: <a>)
@@ -86,13 +85,13 @@
 // ── Булеан: основы --- круги, множества подмножеств --- прямоугольники ──
 #let powerset-functor = diagram(
   node-stroke: obj-stroke,
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   spacing: 3.6em,
   {
     node((0, 0), $A$, name: <a>, shape: circle, width: 1.5em, height: 1.5em)
     node((2, 0), $B$, name: <b>, shape: circle, width: 1.5em, height: 1.5em)
-    node((0, 2), $cal(P)(A)$, name: <pa>)
-    node((2, 2), $cal(P)(B)$, name: <pb>)
+    node((0, 2), $cal(P)(A)$, name: <pa>, fill: cool.lighten(88%))
+    node((2, 2), $cal(P)(B)$, name: <pb>, fill: cool.lighten(88%))
     arrow(<a>, <b>, $f$, pos: 0.45)
     arrow(<pa>, <pb>, $"img"_f$, stroke: derived-stroke, pos: 0.45, bend: 18deg)
     arrow(
@@ -102,7 +101,7 @@
       stroke: edge-hot,
       pos: 0.45,
       side: right,
-      bend: 18deg,
+      bend: 10deg,
     )
   },
 )
@@ -110,7 +109,7 @@
 // ── Квадрат естественности: альфа --- семейство стрелок ──
 #let nat-square = diagram(
   node-stroke: obj-stroke,
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   spacing: 3.6em,
   {
     node((0, 0), $F(A)$, name: <fa>)
@@ -127,15 +126,15 @@
 // ── Универсальное свойство произведения: единственная стрелка через пару ──
 #let product-universal = diagram(
   node-stroke: obj-stroke,
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   spacing: 3.4em,
   {
     node((1.5, 0), $A times B$, name: <ab>)
     node((0, 1.9), $A$, name: <a>)
     node((3, 1.9), $B$, name: <b>)
     node((-2.3, 0), $X$, name: <x>)
-    arrow(<ab>, <a>, $pi_1$, side: left)
-    arrow(<ab>, <b>, $pi_2$, side: right)
+    arrow(<ab>, <a>, $pi_1$, side: left, pos: 0.25)
+    arrow(<ab>, <b>, $pi_2$, side: right, pos: 0.25)
     arrow(<x>, <a>, $f$, stroke: derived-stroke, pos: 0.5)
     arrow(<x>, <b>, $g$, stroke: derived-stroke, pos: 0.5)
     arrow(<x>, <ab>, $chevron.l f, g chevron.r^!$, stroke: edge-cool, pos: 0.5)
@@ -145,7 +144,7 @@
 // ── Конус и предел: зелёный предел пропускает любой конус ──
 #let cone-limit = diagram(
   node-stroke: obj-stroke,
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   spacing: 3em,
   {
     node((2.7, 0.9), $A$, name: <a>)
@@ -153,11 +152,17 @@
     node((3.55, -0.6), $C$, name: <c>)
     arrow(<a>, <c>, $u$)
     arrow(<b>, <c>, $v$)
-    node((2.7, 3.1), $N$, name: <n>, stroke: derived-stroke)
+    node((2.7, 3.35), $N$, name: <n>, stroke: derived-stroke)
     edge(<n>, <a>, "->", stroke: derived-stroke)
     edge(<n>, <b>, "->", stroke: derived-stroke)
     edge(<n>, <c>, "->", stroke: derived-stroke)
-    node((0, 3.1), $lim D$, name: <l>, stroke: (paint: green, thickness: 1.4pt))
+    node(
+      (-1.3, 2.7),
+      $lim D$,
+      name: <l>,
+      stroke: (paint: green, thickness: 1.4pt),
+      fill: green.lighten(82%),
+    )
     edge(<l>, <a>, "->", stroke: edge-green)
     edge(<l>, <b>, "->", stroke: edge-green)
     edge(<l>, <c>, "->", stroke: edge-green)
@@ -166,7 +171,7 @@
       <l>,
       "-|>",
       label: [$!$],
-      label-size: 0.8em,
+      label-pos: 0.35,
       stroke: derived-stroke,
     )
   },
@@ -182,7 +187,7 @@
       name: <cc>,
       shape: rect,
       width: 8em,
-      height: 6.5em,
+      height: 8em,
       fill: panel-cool,
       stroke: (paint: cool.lighten(30%), thickness: 0.7pt),
     )
@@ -192,7 +197,7 @@
       name: <dd>,
       shape: rect,
       width: 8em,
-      height: 6.5em,
+      height: 8em,
       fill: panel-green,
       stroke: (paint: green.lighten(30%), thickness: 0.7pt),
     )
@@ -202,7 +207,6 @@
       (name: "dd", anchor: "north"),
       "->",
       label: [$F$],
-      label-size: 0.8em,
       stroke: edge-plain,
     )
     edge(
@@ -210,18 +214,18 @@
       (name: "cc", anchor: "south"),
       "->",
       label: [$G$],
-      label-size: 0.8em,
+      label-pos: 0.3,
+      label-side: right,
       stroke: edge-plain,
     )
 
-    node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
-    node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
+    node((2.6, 0.4), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
+    node((2.6, -0.4), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
     edge(
       <fy>,
       <xg>,
       "<->",
       label: [биекция],
-      label-size: 0.7em,
       stroke: edge-hot,
     )
   },
