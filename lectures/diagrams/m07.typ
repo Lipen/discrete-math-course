@@ -211,7 +211,7 @@
     $2$,
     $omega$,
     $omega + 1$,
-    $2 omega$,
+    $omega dot 2$,
     $omega^2$,
     $omega^omega$,
   )

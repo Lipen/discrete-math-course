@@ -177,19 +177,29 @@
 
 // === Блок: прозрачная заливка, левая полоса ===
 // color --- акцент блока (colors.accent для применений, colors.amber для выводов, colors.warn для предупреждений).
-#let Block(color: colors.accent, body, ..args) = block(
-  body,
-  fill: color.transparentize(93%),
-  stroke: (
-    left: 2pt + color.darken(10%),
-    top: 0.4pt + color.lighten(50%),
-    bottom: 0.4pt + color.lighten(50%),
-    right: 0.4pt + color.lighten(50%),
-  ),
-  radius: 4pt,
-  inset: (x: 1em, y: 0.5em),
-  ..args.named(),
-)
+// Формы вызова: `Block[тело]` и `Block[заголовок][тело]` --- как у definition/theorem.
+#let Block(color: colors.accent, ..args) = {
+  let (title, body) = split-args(args)
+  block(
+    {
+      if title != none [
+        #text(weight: "bold", fill: color.darken(15%))[#title]
+        #v(0.5em, weak: true)
+      ]
+      body
+    },
+    fill: color.transparentize(93%),
+    stroke: (
+      left: 2pt + color.darken(10%),
+      top: 0.4pt + color.lighten(50%),
+      bottom: 0.4pt + color.lighten(50%),
+      right: 0.4pt + color.lighten(50%),
+    ),
+    radius: 4pt,
+    inset: (x: 1em, y: 0.5em),
+    ..args.named(),
+  )
+}
 
 // === Неформальные блоки: цвет без текстовой метки ===
 // important --- важное (amber), note --- пояснение (голубое).
