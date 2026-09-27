@@ -30,20 +30,20 @@
   stroke: 0.7pt + tone.lighten(45%),
 )
 
-#let vertex(name, pos, tone: cool, size: 0.31) = draw.circle(
+#let vertex(name, pos, tone: cool, size: 0.31, fill: none) = draw.circle(
   pos,
   radius: size,
-  fill: white,
-  stroke: 1.4pt + tone,
+  fill: if fill == none { tone.lighten(82%) } else { fill },
+  stroke: 1.6pt + tone,
   name: name,
 )
 
-#let cell(name, pos, tone: cool, size: 0.29, radius: 0.1) = draw.rect(
+#let cell(name, pos, tone: cool, size: 0.29, radius: 0.1, fill: none) = draw.rect(
   (pos.at(0) - size, pos.at(1) - size),
   (pos.at(0) + size, pos.at(1) + size),
   radius: radius,
-  fill: white,
-  stroke: 1.4pt + tone,
+  fill: if fill == none { tone.lighten(88%) } else { fill },
+  stroke: 1.5pt + tone,
   name: name,
 )
 
@@ -54,7 +54,9 @@
   stroke: style,
 )
 
-#let mark(pos, body, tone: ink, size: 0.42em) = draw.content(
+#let label-size = 0.8em
+
+#let mark(pos, body, tone: ink, size: label-size) = draw.content(
   pos,
   text(size: size, fill: tone)[#body],
 )
