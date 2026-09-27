@@ -25,11 +25,11 @@
       size: 0.45,
       radius: 0.07,
     )
-    mark((cx(i), 0), syms.at(i), size: 0.8em)
+    mark((cx(i), 0), syms.at(i))
   }
 
-  mark((-(n / 2) * cw - 0.4, 0), $dots$, tone: ink-soft, size: 0.7em)
-  mark(((n / 2) * cw + 0.4, 0), $dots$, tone: ink-soft, size: 0.7em)
+  mark((-(n / 2) * cw - 0.4, 0), $dots$, tone: ink-soft)
+  mark(((n / 2) * cw + 0.4, 0), $dots$, tone: ink-soft)
 
   let hx = cx(head-i)
   draw.line(
@@ -44,17 +44,17 @@
     (hx - 0.55, 1.0),
     (hx + 0.55, 1.62),
     radius: 4pt,
-    fill: white,
+    fill: machine-tint.lighten(88%),
     stroke: 1.4pt + machine-tint,
     name: "state",
   )
-  mark("state", $q_1$, size: 0.85em)
+  mark("state", $q_1$)
 
   let brace(from-i, to-i, label) = {
     let x0 = cx(from-i) - cw / 2
     let x1 = cx(to-i) + cw / 2
     draw.line((x0, -0.8), (x1, -0.8), stroke: edge-thin)
-    mark(((x0 + x1) / 2, -1.2), label, size: 0.85em)
+    mark(((x0 + x1) / 2, -1.2), label)
   }
 
   brace(0, 1, $u$)
@@ -70,7 +70,7 @@
       (0, 0),
       $chevron.l M, w chevron.r$,
       name: <in>,
-      fill: white,
+      fill: machine-tint.lighten(88%),
       stroke: box-stroke,
       corner-radius: 4pt,
       inset: 0.55em,
@@ -79,7 +79,7 @@
       (2, 0),
       $chevron.l M' chevron.r$,
       name: <mp>,
-      fill: white,
+      fill: machine-tint.lighten(88%),
       stroke: box-stroke,
       corner-radius: 4pt,
       inset: 0.55em,
@@ -97,17 +97,15 @@
       (6, 0),
       $"HALT"$,
       name: <out>,
-      fill: white,
+      fill: machine-tint.lighten(88%),
       stroke: box-stroke,
       corner-radius: 4pt,
       inset: 0.55em,
     ),
-    edge(<in>, <mp>, "-|>", stroke: edge-plain, label: text(size: 0.8em)[$f$]),
+    edge(<in>, <mp>, "-|>", stroke: edge-plain, label: text[$f$]),
     edge(<mp>, <e>, "-|>", stroke: edge-plain, label: text(
-      size: 0.8em,
     )[$chevron.l M' chevron.r$]),
     edge(<e>, <out>, "-|>", stroke: edge-plain, label: text(
-      size: 0.8em,
     )[инверсия]),
   )
 }
@@ -130,11 +128,11 @@
       size: 0.4,
       radius: 0.06,
     )
-    mark((cx(i), 0), syms.at(i), size: 0.8em)
+    mark((cx(i), 0), syms.at(i))
   }
 
-  mark((-(n / 2) * cw - 0.4, 0), $dots$, tone: ink-soft, size: 0.7em)
-  mark(((n / 2) * cw + 0.4, 0), $dots$, tone: ink-soft, size: 0.7em)
+  mark((-(n / 2) * cw - 0.4, 0), $dots$, tone: ink-soft)
+  mark(((n / 2) * cw + 0.4, 0), $dots$, tone: ink-soft)
 
   draw.line(
     (hx, -0.46),
@@ -149,8 +147,8 @@
     (hx - 0.85, -1.12),
     (hx + 0.85, -1.98),
     radius: 4pt,
-    fill: white,
+    fill: machine-tint.lighten(88%),
     stroke: 1.4pt + machine-tint,
   )
-  mark((hx, -1.55), $q_i$, size: 0.85em)
+  mark((hx, -1.55), $q_i$)
 })

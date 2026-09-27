@@ -9,12 +9,12 @@
 #let decision-tree = canvas({
   // корень --- единственный акцент: выбор начинается здесь
   draw.circle((0, 2.2), radius: 0.5, fill: cool, stroke: none, name: "root")
-  mark((0, 2.2), text(size: 0.5em, weight: "bold", fill: white)[старт])
+  mark((0, 2.2), text(weight: "bold", fill: white)[старт])
 
   let branches = (("a", -2.6, [$A$]), ("b", 0, [$B$]), ("c", 2.6, [$C$]))
   for (nm, x, letter) in branches {
     vertex(nm, (x, 1.25), size: 0.3)
-    mark((x, 1.25), text(size: 0.85em)[#letter])
+    mark((x, 1.25), text[#letter])
   }
 
   let leaves = (
@@ -27,7 +27,7 @@
   )
   for (nm, x, perm) in leaves {
     cell(nm, (x, 0.05), size: 0.5, radius: 0.12)
-    mark((x, 0.05), text(size: 0.75em)[#perm])
+    mark((x, 0.05), text[#perm])
   }
 
   for (nm, ..) in branches {
@@ -87,14 +87,14 @@
   draw.circle(
     (0, 0),
     radius: 0.1,
-    fill: white,
+    fill: cool.lighten(82%),
     stroke: 1.2pt + cool,
     name: "start",
   )
   draw.circle(
     (n, n),
     radius: 0.1,
-    fill: white,
+    fill: cool.lighten(82%),
     stroke: 1.2pt + cool,
     name: "end",
   )

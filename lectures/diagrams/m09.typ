@@ -123,7 +123,7 @@
     draw.circle(
       pts.at(lab),
       radius: 0.19,
-      fill: white,
+      fill: fill-soft,
       stroke: edge-thin,
       name: lab,
     )
