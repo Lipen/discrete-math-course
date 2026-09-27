@@ -4,10 +4,10 @@
 
 // Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
 // наименьший --- максимальный y. Рёбра Хассе идут вверх без стрелок.
-#let hn(pos, body, tone: cool, fill: white, ..args) = node(
+#let hn(pos, body, tone: cool, fill: none, ..args) = node(
   pos,
-  text(size: 0.65em, fill: ink)[#body],
-  fill: fill,
+  text(fill: ink)[#body],
+  fill: if fill == none { tone.lighten(82%) } else { fill },
   stroke: 1.1pt + tone,
   ..args,
 )
@@ -30,7 +30,7 @@
   hn((-1, 1), $4$, name: <d4>),
   hn((1, 1), $6$, name: <d6>),
   // само число --- акцент
-  hn((0, 0), $12$, tone: warm, fill: warm.transparentize(75%), name: <d12>),
+  hn((0, 0), $12$, tone: warm, fill: warm.lighten(82%), name: <d12>),
   he(<d1>, <d2>),
   he(<d1>, <d3>),
   he(<d2>, <d4>),
@@ -43,7 +43,7 @@
 // ── Цепь {1 < 2 < 3} ──
 #let hasse-chain-3 = diagram(
   ..node-opts,
-  spacing: 0.7em,
+  spacing: 1em,
   hn((0, 2), $1$, name: <c1>),
   hn((0, 1), $2$, name: <c2>),
   hn((0, 0), $3$, name: <c3>),
@@ -70,7 +70,7 @@
   ..node-opts,
   spacing: 0.9em,
   // дно точности --- акцент
-  hn((0, 2), $bot$, tone: green, fill: green.transparentize(75%), name: <bot>),
+  hn((0, 2), $bot$, tone: green, fill: green.lighten(82%), name: <bot>),
   hn((-1, 1), $-$, name: <neg>),
   hn((0, 1), $0$, name: <zero>),
   hn((1, 1), $+$, name: <pos>),
@@ -88,12 +88,12 @@
   ..node-opts,
   spacing: 0.9em,
   hn((0, 0), ${1,2,3}$, name: <p123>),
-  hn((-1.2, 1), ${1,2}$, name: <p12>),
+  hn((-1.8, 1), ${1,2}$, name: <p12>),
   hn((0, 1), ${1,3}$, name: <p13>),
-  hn((1.2, 1), ${2,3}$, name: <p23>),
-  hn((-1.2, 2), ${1}$, name: <p1>),
+  hn((1.8, 1), ${2,3}$, name: <p23>),
+  hn((-1.8, 2), ${1}$, name: <p1>),
   hn((0, 2), ${2}$, name: <p2>),
-  hn((1.2, 2), ${3}$, name: <p3>),
+  hn((1.8, 2), ${3}$, name: <p3>),
   hn((0, 3), $emptyset$, name: <p0>),
   // покрывающие рёбра: добавление одного элемента
   he(<p0>, <p1>),

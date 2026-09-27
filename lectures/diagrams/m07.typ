@@ -25,7 +25,7 @@
   )
 
   for i in range(rows) {
-    mark((-0.4, -(i + 0.5) * s), [$r_#(i + 1)$], tone: ink-soft, size: 0.6em)
+    mark((-0.4, -(i + 0.5) * s), [$r_#(i + 1)$], tone: ink-soft)
     for j in range(cols) {
       let x = j * s + 0.1
       let y = -(i + 0.5) * s
@@ -40,30 +40,27 @@
         )
       }
       draw.content((x + s / 2, y), text(
-        size: 0.7em,
         fill: if is-diag { warm } else { ink },
         weight: if is-diag { "bold" } else { "regular" },
       )[#digits.at(i).at(j)])
     }
   }
 
-  mark((cols * s + 0.5, -(rows / 2) * s), $dots$, tone: ink-soft, size: 0.65em)
+  mark((cols * s + 0.5, -(rows / 2) * s), $dots$, tone: ink-soft)
 
   for i in range(rows) {
     let x = i * s + s / 2 + 0.1
-    mark((x, -(rows + 0.75) * s), $!=$, tone: warm, size: 0.6em)
+    mark((x, -(rows + 0.75) * s), $!=$, tone: warm)
     draw.content((x, -(rows + 1.55) * s), text(
-      size: 0.75em,
       fill: ink,
       weight: "bold",
     )[#constructed.at(i)])
   }
   draw.content((-0.4, -(rows + 1.55) * s), text(
-    size: 0.65em,
     weight: "bold",
     fill: ink,
   )[$r = 0.$])
-  mark((1.5, -(rows + 2.4) * s), $dots not in {r_1, r_2, dots}$, size: 0.65em)
+  mark((1.5, -(rows + 2.4) * s), $dots not in {r_1, r_2, dots}$)
 })
 
 // ── Спаривание QQ: счёт по диагоналям ──
@@ -91,12 +88,12 @@
   }
   for (idx, sq) in cells.enumerate() {
     let (i, j) = sq
-    mark((j - 0.5, i - 0.5), str(idx + 1), size: 0.7em)
+    mark((j - 0.5, i - 0.5), str(idx + 1))
   }
 
   for i in range(1, size + 1) {
-    mark((i - 0.5, -0.42), str(i), tone: ink-soft, size: 0.6em)
-    mark((-0.42, i - 0.5), str(i), tone: ink-soft, size: 0.6em)
+    mark((i - 0.5, -0.42), str(i), tone: ink-soft)
+    mark((-0.42, i - 0.5), str(i), tone: ink-soft)
   }
 })
 
@@ -113,9 +110,9 @@
   )
   draw.line((0, -0.14), (0, 0.14), stroke: (paint: ink, thickness: 1.2pt))
   draw.line((w, -0.14), (w, 0.14), stroke: (paint: ink, thickness: 1.2pt))
-  mark((w / 2, -0.45), $L = [0, 1]$, size: 0.55em)
-  mark((0, -0.42), $0$, tone: ink-soft, size: 0.45em)
-  mark((w, -0.42), $1$, tone: ink-soft, size: 0.45em)
+  mark((w / 2, -0.45), $L = [0, 1]$)
+  mark((0, -0.42), $0$, tone: ink-soft)
+  mark((w, -0.42), $1$, tone: ink-soft)
 
   panel((w + gap, 0), (w + gap + w, w), tone: cool, radius: 0.12)
   for t in (1, 2) {
@@ -130,9 +127,9 @@
       stroke: (paint: ink-soft, thickness: 0.4pt),
     )
   }
-  mark((w + gap + w / 2, w + 0.45), $S = [0, 1]^2$, size: 0.55em)
-  mark((w + gap, -0.42), $0$, tone: ink-soft, size: 0.45em)
-  mark((w + gap + w, -0.42), $1$, tone: ink-soft, size: 0.45em)
+  mark((w + gap + w / 2, w + 0.45), $S = [0, 1]^2$)
+  mark((w + gap, -0.42), $0$, tone: ink-soft)
+  mark((w + gap + w, -0.42), $1$, tone: ink-soft)
 
   for (sx, tx, ty) in ((0.45, 0.6, 0.75), (1.3, 1.6, 1.95), (2.15, 2.3, 1.1)) {
     draw.circle((sx, 0), radius: 0.06, fill: ink, stroke: none)
@@ -145,7 +142,7 @@
     )
   }
 
-  mark((w + gap / 2, 1.75), $approx$, size: 1.2em)
+  mark((w + gap / 2 - 0.25, 2.15), $approx$, size: 1.2em)
 })
 
 // ── Алефы и беты: общий старт, разные операции; вопрос между aleph_1 и beth_1 ──
@@ -159,11 +156,11 @@
       (x - hw, yy + 0.42),
       (x + hw, yy - 0.42),
       name: name,
-      fill: if tone == none { white } else { tone.lighten(80%) },
+      fill: if tone == none { fill-soft } else { tone.lighten(88%) },
       stroke: if tone == none { 0.9pt + ink } else { 0.9pt + tone },
       radius: 5pt,
     )
-    draw.content((x, yy), text(size: 0.68em, fill: ink)[#label])
+    draw.content((x, yy), text(fill: ink)[#label])
   }
 
   node((0, y), $aleph_0 = beth_0 = abs(NN)$, "start", none, hw: 1.75)
@@ -192,10 +189,17 @@
     "b1",
     stroke: (paint: warm, thickness: 1.2pt, dash: "dashed"),
   )
-  mark((gap, y + 0.3), $?$, tone: warm, size: 1.1em)
+  // Плашка под "?" --- пунктир не должен просвечивать сквозь знак.
+  draw.rect(
+    (gap - 0.2, y + 0.05),
+    (gap + 0.2, y + 0.55),
+    fill: white,
+    stroke: none,
+  )
+  mark((gap, y + 0.3), $?$, tone: warm, size: 1.2em)
 
-  mark((gap / 2, 2 * y + 0.62), "следующий", tone: cool, size: 0.55em)
-  mark((gap / 2, -0.62), "булеан", tone: green, size: 0.55em)
+  mark((gap / 2, 2 * y + 0.62), "следующий", tone: cool)
+  mark((gap / 2, -0.62), "булеан", tone: green)
 })
 
 // ── Лестница ординалов: цветные прыжки --- предельные шаги ──
@@ -213,28 +217,29 @@
   )
   let plain-edges = ((0, 1), (1, 2), (3, 4))
   let limit-edges = ((2, 3), (4, 5), (5, 6), (6, 7))
+  let r = 0.13
 
   for (i, j) in limit-edges {
     draw.line(
-      (xs.at(i), 0),
-      (xs.at(j), 0),
+      (xs.at(i) + r, 0),
+      (xs.at(j) - r, 0),
       stroke: (paint: warm, thickness: 1.6pt, cap: "round"),
       mark: (end: "stealth", fill: warm),
     )
   }
   for (i, j) in plain-edges {
     draw.line(
-      (xs.at(i), 0),
-      (xs.at(j), 0),
+      (xs.at(i) + r, 0),
+      (xs.at(j) - r, 0),
       stroke: edge-plain,
       mark: (end: "stealth", fill: edge-plain.paint),
     )
   }
   for i in range(xs.len()) {
-    draw.circle((xs.at(i), 0), radius: 0.11, fill: white, stroke: 1pt + ink)
-    mark((xs.at(i), 0.55), labels.at(i), size: 0.72em)
+    draw.circle((xs.at(i), 0), radius: 0.11, fill: fill-soft, stroke: 1pt + ink)
+    mark((xs.at(i), 0.55), labels.at(i))
   }
   for x in (3.2, 6.7, 9.15, 11.55) {
-    mark((x, -0.5), $dots$, tone: ink-soft, size: 0.7em)
+    mark((x, -0.5), $dots$, tone: ink-soft)
   }
 })

@@ -12,7 +12,7 @@
 #let a-fill = cool.transparentize(60%)
 #let b-fill = warm.transparentize(60%)
 
-#let tag(pos, body, tone: ink) = mark(pos, body, tone: tone, size: 0.6em)
+#let tag(pos, body, tone: ink) = mark(pos, body, tone: tone)
 
 // дуга окружности с центром (cx, 0) от угла from до to против часовой
 #let arc-at(cx, rad, from, to, ..args) = draw.arc(
@@ -184,7 +184,7 @@
   }
   for a in a-set {
     for b in b-set {
-      draw.circle((a, b), radius: 0.16, fill: white, stroke: 1.3pt + cool)
+      draw.circle((a, b), radius: 0.16, fill: cool.lighten(82%), stroke: 1.3pt + cool)
       tag((a, b + 0.45), $(#a, #b)$)
     }
   }
@@ -245,7 +245,7 @@
   dot((-0.6, b1))
   draw.content(
     (-1.1, 2.5),
-    text(size: 0.6em, fill: ink)[$B = (1; 4\]$],
+    text(size: label-size, fill: ink)[$B = (1; 4\]$],
     angle: 90deg,
     anchor: "south",
   )
@@ -255,12 +255,13 @@
   dot((c1, -1.4), open: true, tone: warm)
   tag((3, -1.8), $C = (2; 4)$)
 
-  draw.line((-1.4, d0), (-1.4, d1), stroke: 1pt + warm)
-  dot((-1.4, d0), open: true, tone: warm)
-  dot((-1.4, d1), open: true, tone: warm)
+  let d-int = -2.6
+  draw.line((d-int, d0), (d-int, d1), stroke: 1pt + warm)
+  dot((d-int, d0), open: true, tone: warm)
+  dot((d-int, d1), open: true, tone: warm)
   draw.content(
-    (-2.15, 2.5),
-    text(size: 0.6em, fill: ink)[$D = (2; 3)$],
+    (-3.0, 2.5),
+    text(size: label-size, fill: ink)[$D = (2; 3)$],
     angle: 90deg,
     anchor: "south",
   )
@@ -308,9 +309,9 @@
   cell("el-bird", (0.75, 1.6), tone: cool)
   draw.content("el-bird", text(size: 1.2em)[#emoji.bird])
   cell("el-five", (2.25, 1.6), tone: warm)
-  draw.content("el-five", text(size: 0.9em)[$5$])
+  draw.content("el-five", text[$5$])
   cell("el-tri", (1.5, 0.7), tone: green)
-  draw.content("el-tri", text(size: 0.9em)[$triangle$])
+  draw.content("el-tri", text[$triangle$])
   tag((1.5, 2.8), $A = {5, triangle, #emoji.bird}$)
 })
 

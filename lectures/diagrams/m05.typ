@@ -46,7 +46,7 @@
 // ── Орграф R на {1, ..., 5}: петли 1 и 5, цикл 1 -> 2 -> 3 -> 1 ──
 #let rel-digraph = diagram(
   node-shape: "circle",
-  node-fill: white,
+  node-fill: cool.lighten(82%),
   node-stroke: 1.2pt + cool,
   node-inset: 0pt,
   node-outset: 0pt,
@@ -56,8 +56,8 @@
   vertex-node((1.3, -0.8), $3$, name: <3>),
   vertex-node((-1.3, -0.8), $4$, name: <4>),
   vertex-node((-1.3, 0.8), $5$, name: <5>),
-  loop-edge(<1>, <1>, angle: 120deg),
-  loop-edge(<5>, <5>, angle: 240deg),
+  loop-edge(<1>, <1>, angle: 270deg),
+  loop-edge(<5>, <5>, angle: 135deg),
   edge(<1>, <2>, "-}>", stroke: edge-hot),
   edge(<2>, <3>, "-}>", stroke: edge-hot),
   edge(<3>, <1>, "-}>", stroke: edge-hot),
@@ -71,7 +71,7 @@
 #let hasse-divisibility = canvas({
   let spot(name, pos) = {
     vertex(name, pos, size: 0.19)
-    mark(pos, name, size: 0.42em)
+    mark(pos, name)
   }
 
   spot("12", (0, 1.5))
@@ -107,9 +107,9 @@
     for (i, n) in row.elements.enumerate() {
       let x = -1.85 + i * 0.8
       cell(str(n), (x, y), tone: row.tone)
-      mark((x, y), str(n), size: 0.45em)
+      mark((x, y), str(n))
     }
-    mark((1.6, y), [$"mod" 3 = #row.residue$], tone: ink-soft, size: 0.45em)
+    mark((1.6, y), [$"mod" 3 = #row.residue$], tone: ink-soft)
   }
 })
 
@@ -118,13 +118,7 @@
   let m = ((1, 1, 0), (0, 0, 1), (1, 0, 0))
 
   panel((-5.5, -0.7), (-0.85, 0.7), tone: cool)
-  draw.content(
-    (-3.0, 0),
-    text(
-      size: 0.48em,
-      fill: ink,
-    )[$A = {1, 2, 3}$ \ $R = {(1, 1), (1, 2), (2, 3), (3, 1)}$],
-  )
+  mark((-3.0, 0), [$A = {1, 2, 3}$ \ $R = {(1, 1), (1, 2), (2, 3), (3, 1)}$])
 
   panel((-0.5, -0.95), (1.7, 0.95), tone: green, fill: panel-green)
   let c = 0.42
@@ -141,7 +135,7 @@
       if m.at(i).at(j) == 1 {
         draw.content(
           (x + c / 2, y - c / 2),
-          text(size: 0.5em, fill: ink, weight: "bold")[1],
+          text(fill: ink, weight: "bold")[1],
         )
       }
     }
@@ -151,9 +145,9 @@
   vertex("t1", (2.95, 0.5), tone: warm, size: 0.26)
   vertex("t2", (2.95, -0.5), tone: warm, size: 0.26)
   vertex("t3", (4.45, 0), tone: warm, size: 0.26)
-  mark((2.95, 0.5), $1$, size: 0.5em)
-  mark((2.95, -0.5), $2$, size: 0.5em)
-  mark((4.45, 0), $3$, size: 0.5em)
+  mark((2.95, 0.5), $1$)
+  mark((2.95, -0.5), $2$)
+  mark((4.45, 0), $3$)
   flow("t1", "t1", (2.6, 0.95), from: "north", to: "west")
   flow("t1", "t2", (2.95, 0), from: "south", to: "north")
   flow("t2", "t3", (3.85, -0.45), from: "east", to: "south")
@@ -165,7 +159,7 @@
   let dy = 0.85
   let spot(name, pos, label, tone) = {
     vertex(name, pos, tone: tone, size: 0.27)
-    mark(pos, label, size: 0.5em)
+    mark(pos, label)
   }
 
   panel((-0.55, -1.3), (2.25, 1.3), tone: cool)
@@ -176,9 +170,9 @@
   flow("ra1", "rb1", (0.85, dy + 0.16))
   flow("ra2", "rb1", (0.85, 0.1), style: edge-hot)
   flow("ra2", "rb2", (0.85, -dy - 0.16))
-  mark((0.85, 1.62), $R$, size: 0.55em)
-  mark((0, -1.62), $A$, size: 0.5em)
-  mark((1.7, -1.62), $B$, size: 0.5em)
+  mark((0.85, 1.62), $R$)
+  mark((0, -1.62), $A$)
+  mark((1.7, -1.62), $B$)
 
   panel((2.75, -1.3), (5.55, 1.3), tone: green, fill: panel-green)
   spot("sb1", (3.3, dy), $x$, green)
@@ -187,9 +181,9 @@
   spot("sc2", (5.0, -dy), $beta$, green)
   flow("sb1", "sc1", (4.15, dy + 0.16), style: edge-hot)
   flow("sb2", "sc2", (4.15, -dy - 0.16))
-  mark((4.15, 1.62), $S$, size: 0.55em)
-  mark((3.3, -1.62), $B$, size: 0.5em)
-  mark((5.0, -1.62), $C$, size: 0.5em)
+  mark((4.15, 1.62), $S$)
+  mark((3.3, -1.62), $B$)
+  mark((5.0, -1.62), $C$)
 
   panel((6.05, -1.3), (8.85, 1.3), tone: warm, fill: panel-warm)
   spot("fa1", (6.6, dy), $1$, warm)
@@ -199,9 +193,9 @@
   flow("fa1", "fc1", (7.45, dy + 0.16))
   flow("fa2", "fc1", (7.45, 0.1), style: edge-hot)
   flow("fa2", "fc2", (7.45, -dy - 0.16))
-  mark((7.45, 1.62), $S compose R$, size: 0.55em)
-  mark((6.6, -1.62), $A$, size: 0.5em)
-  mark((8.3, -1.62), $C$, size: 0.5em)
+  mark((7.45, 1.62), $S compose R$)
+  mark((6.6, -1.62), $A$)
+  mark((8.3, -1.62), $C$)
 })
 
 // ── Уоршелл: единица, рождённая на текущем шаге ──
@@ -213,9 +207,9 @@
   vertex("w1", (0.45, -0.75), size: 0.26)
   vertex("w2", (1.55, 0), size: 0.26)
   vertex("w3", (0.45, 0.75), size: 0.26)
-  mark((0.45, -0.75), $1$, size: 0.5em)
-  mark((1.55, 0), $2$, size: 0.5em)
-  mark((0.45, 0.75), $3$, size: 0.5em)
+  mark((0.45, -0.75), $1$)
+  mark((1.55, 0), $2$)
+  mark((0.45, 0.75), $3$)
   draw.line(
     (0.66, -0.6),
     (1.34, -0.15),
@@ -228,7 +222,7 @@
     stroke: edge-plain,
     mark: (end: "stealth", fill: edge-plain.paint),
   )
-  mark((1.0, 1.35), $R$, size: 0.55em)
+  mark((1.0, 1.35), $R$)
 
   let grid(x0, m, born) = {
     let top = 0.55
@@ -245,7 +239,6 @@
           draw.content(
             (x0 + (j + 0.5) * c, top - (i + 0.5) * c),
             text(
-              size: 0.45em,
               fill: if hot { warm } else { ink },
               weight: "bold",
             )[1],
@@ -258,13 +251,11 @@
         (x0 + (t + 0.5) * c, top + 0.18),
         str(t + 1),
         tone: ink-soft,
-        size: 0.38em,
       )
       mark(
         (x0 - 0.18, top - (t + 0.5) * c),
         str(t + 1),
         tone: ink-soft,
-        size: 0.38em,
       )
     }
   }
@@ -284,9 +275,9 @@
     after,
     none,
   )
-  mark((3.01, 1.35), $k = 1$, size: 0.5em)
-  mark((4.91, 1.35), $k = 2$, size: 0.5em)
-  mark((6.81, 1.35), $k = 3$, size: 0.5em)
+  mark((3.01, 1.35), $k = 1$)
+  mark((4.91, 1.35), $k = 2$)
+  mark((6.81, 1.35), $k = 3$)
 })
 
 // ── Двудольное представление: две части, рёбра поперёк ──
@@ -330,13 +321,13 @@
 // ── Классы эквивалентности: непересекающиеся области внутри A ──
 #let equivalence-classes-blobs = canvas({
   draw.rect(
-    (-3.91, -2.04),
-    (3.91, 2.04),
+    (-4.05, -2.2),
+    (4.05, 2.2),
     radius: 0.2,
     stroke: (paint: ink, thickness: 0.8pt),
     name: "universe",
   )
-  mark((3.35, 1.62), $A$, size: 0.55em)
+  mark((3.6, 1.9), $A$)
 
   for (k, bounds) in (
     ((-3.4, 0.43), (-0.85, 1.7)),
@@ -354,7 +345,7 @@
 
   let dot(pos, label) = {
     draw.circle(pos, radius: 0.1, fill: ink, stroke: none)
-    mark((pos.at(0), pos.at(1) + 0.42), label, size: 0.42em)
+    mark((pos.at(0), pos.at(1) + 0.42), label)
   }
   dot((-2.81, 1.05), $a$)
   dot((-1.45, 1.05), $b$)
@@ -364,9 +355,9 @@
   dot((2.04, 0.6), $f$)
   dot((2.81, -0.6), $g$)
 
-  mark((-2.13, 0.68), $[a] = [b]$, size: 0.45em)
-  mark((-2.13, -1.45), $[c]$, size: 0.45em)
-  mark((1.83, -1.45), $[e]$, size: 0.45em)
+  mark((-2.13, 0.68), $[a] = [b]$)
+  mark((-2.13, -1.45), $[c]$)
+  mark((1.83, -1.45), $[e]$)
 })
 
 // ── Каноническая проекция: классы сжимаются в точки фактора ──
@@ -395,9 +386,9 @@
   vertex("qa", (1.7, 1.45), tone: cool, size: 0.18)
   vertex("qc", (1.7, 0), tone: green, size: 0.18)
   vertex("qe", (1.7, -1.45), tone: warm, size: 0.18)
-  mark((1.7, 0.95), $[a]$, size: 0.45em)
-  mark((1.7, -0.5), $[c]$, size: 0.45em)
-  mark((1.7, -1.95), $[e]$, size: 0.45em)
+  mark((1.7, 0.95), $[a]$)
+  mark((1.7, -0.5), $[c]$)
+  mark((1.7, -1.95), $[e]$)
 
   for y in (1.45, 0, -1.45) {
     draw.line(
@@ -407,9 +398,9 @@
       mark: (end: "stealth", fill: cool),
     )
   }
-  mark((-0.85, 1.75), $pi$, tone: cool, size: 0.55em)
-  mark((-4.68, -2.55), $A$, size: 0.5em)
-  mark((1.7, -2.55), $A\/_sim$, size: 0.5em)
+  mark((-0.85, 1.75), $pi$, tone: cool)
+  mark((-4.68, -2.55), $A$)
+  mark((1.7, -2.55), $A\/_sim$)
 })
 
 // ── Эквивалентность в матрице: единицы блоками по диагонали ──
@@ -419,8 +410,8 @@
   let klass(i) = if i <= 2 { 0 } else if i == 3 { 1 } else { 2 }
 
   for i in range(n) {
-    mark(((i + 0.5) * c, 0.35), str(i + 1), size: 0.42em)
-    mark((-0.35, -(i + 0.5) * c), str(i + 1), size: 0.42em)
+    mark(((i + 0.5) * c, 0.35), str(i + 1))
+    mark((-0.35, -(i + 0.5) * c), str(i + 1))
     for j in range(n) {
       draw.rect(
         (j * c, -(i + 1) * c),

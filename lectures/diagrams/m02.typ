@@ -5,7 +5,7 @@
 #let premise-node(pos, body, ..args) = node(
   pos,
   text(size: 1.4em)[#body],
-  fill: white,
+  fill: cool.lighten(88%),
   stroke: 1.1pt + cool,
   corner-radius: 4pt,
   inset: 0.3em,
@@ -17,7 +17,7 @@
 #let conclusion-node(pos, body, ..args) = node(
   pos,
   text(size: 1.4em)[#body],
-  fill: panel-warm,
+  fill: warm.lighten(88%),
   stroke: 1.4pt + warm,
   corner-radius: 4pt,
   inset: 0.3em,
@@ -30,7 +30,7 @@
 #let discharged-node(pos, body, ..args) = node(
   pos,
   text(size: 1.4em)[#body],
-  fill: white,
+  fill: violet.lighten(88%),
   stroke: (paint: violet, thickness: 1.1pt, dash: "dashed"),
   corner-radius: 4pt,
   inset: 0.3em,
@@ -44,7 +44,7 @@
   to,
   "-}>",
   stroke: 1.1pt + cool,
-  label: text(size: 0.9em, fill: ink)[#name],
+  label: text(fill: ink)[#name],
   label-side: side,
 )
 

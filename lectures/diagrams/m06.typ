@@ -173,10 +173,10 @@
   region((1.9, 0.55), 0.19)
   region((-1.9, 0.675), (0.36, 0.42))
 
-  mark((-2.78, -0.675), $X$, tone: violet)
-  mark((2.85, -0.55), $f(X)$, tone: violet)
-  mark((2.85, 0.55), $Y$, tone: violet)
-  mark((-2.98, 0.675), $f^(-1) (Y)$, tone: violet)
+  mark((-2.95, -0.675), $X$, tone: violet)
+  mark((3.1, -0.55), $f(X)$, tone: violet)
+  mark((3.1, 0.55), $Y$, tone: violet)
+  mark((-3.35, 0.675), $f^(-1) (Y)$, tone: violet)
 })
 
 // ── Композиция двух отображений как конвейер ──
@@ -222,14 +222,14 @@
   draw.circle((2.7, 0), radius: 0.075, fill: ink)
   draw.circle((3, 0), radius: 0.075, fill: violet)
   mark((2, 0.42), $floor(x)$, tone: green)
-  mark((2.7, -0.34), $x$)
+  mark((2.7, -0.62), $x$)
   mark((3, 0.42), $ceil(x)$, tone: violet)
 
   draw.circle((-2, 0), radius: 0.075, fill: green)
   draw.circle((-1.3, 0), radius: 0.075, fill: ink)
   draw.circle((-1, 0), radius: 0.075, fill: violet)
   mark((-2, 0.42), $floor(x)$, tone: green)
-  mark((-1.3, -0.34), $x$)
+  mark((-1.3, -0.62), $x$)
   mark((-1, 0.42), $ceil(x)$, tone: violet)
 })
 

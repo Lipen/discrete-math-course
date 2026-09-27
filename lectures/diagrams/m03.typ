@@ -23,24 +23,24 @@
 #let judgment-circles = canvas({
   let pair-a(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("A-P", (x, 0), 1, cool, panel-cool)
-    euler-set("A-S", (x, 0.32), 0.42, warm, panel-warm)
+    euler-set("A-P", (x, 0), 1, cool, cool.lighten(82%))
+    euler-set("A-S", (x, 0.32), 0.42, warm, warm.lighten(82%))
     mark((x, 0.32), $S$)
     mark((x - 0.45, -0.62), $P$)
     mark((x, -1.55), [*$A$*])
   }
   let pair-e(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("E-S", (x - 0.65, 0), 0.55, warm, panel-warm)
-    euler-set("E-P", (x + 0.65, 0), 0.55, cool, panel-cool)
+    euler-set("E-S", (x - 0.65, 0), 0.55, warm, warm.lighten(82%))
+    euler-set("E-P", (x + 0.65, 0), 0.55, cool, cool.lighten(82%))
     mark((x - 0.65, 0), $S$)
     mark((x + 0.65, 0), $P$)
     mark((x, -1.55), [*$E$*])
   }
   let pair-i(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("I-S", (x - 0.4, 0), 0.65, warm, panel-warm)
-    euler-set("I-P", (x + 0.5, 0), 0.65, cool, panel-cool)
+    euler-set("I-S", (x - 0.4, 0), 0.65, warm, warm.lighten(82%))
+    euler-set("I-P", (x + 0.5, 0), 0.65, cool, cool.lighten(82%))
     witness((x + 0.05, 0))
     mark((x - 0.55, 0.35), $S$)
     mark((x + 0.7, 0.35), $P$)
@@ -48,8 +48,8 @@
   }
   let pair-o(x) = {
     panel((x - 1.25, -1.85), (x + 1.25, 1.2), tone: cool)
-    euler-set("O-S", (x - 0.3, 0), 0.65, warm, panel-warm)
-    euler-set("O-P", (x + 0.55, -0.28), 0.65, cool, panel-cool)
+    euler-set("O-S", (x - 0.3, 0), 0.65, warm, warm.lighten(82%))
+    euler-set("O-P", (x + 0.55, -0.28), 0.65, cool, cool.lighten(82%))
     witness((x - 0.55, 0.38))
     mark((x - 0.45, -0.15), $S$)
     mark((x + 0.85, -0.6), $P$)
@@ -64,19 +64,19 @@
 
 // ── Barbara: все M суть P, все S суть M --- все S суть P ──
 #let euler-barbara = canvas({
-  euler-set("P", (0, 0), 1.6, cool, panel-cool)
-  euler-set("M", (0.2, -0.35), 0.95, green, panel-green)
-  euler-set("S", (0.38, -0.6), 0.42, warm, panel-warm)
+  euler-set("P", (0, 0), 1.6, cool, cool.lighten(82%))
+  euler-set("M", (0.2, -0.35), 0.95, green, green.lighten(82%))
+  euler-set("S", (0.38, -0.6), 0.42, warm, warm.lighten(82%))
   mark((0.38, -0.6), $S$)
-  mark((1.05, -0.35), $M$)
+  mark((-0.35, 0.15), $M$)
   mark((0.75, 1.05), $P$)
 })
 
 // ── Celarent: ни одно M не есть P, все S суть M --- ни одно S не есть P ──
 #let euler-celarent = canvas({
-  euler-set("M", (-1.05, 0), 1.15, green, panel-green)
-  euler-set("P", (1.35, 0), 1.15, cool, panel-cool)
-  euler-set("S", (-1.05, -0.35), 0.42, warm, panel-warm)
+  euler-set("M", (-1.05, 0), 1.15, green, green.lighten(82%))
+  euler-set("P", (1.35, 0), 1.15, cool, cool.lighten(82%))
+  euler-set("S", (-1.05, -0.35), 0.42, warm, warm.lighten(82%))
   mark((-1.05, -0.35), $S$)
   mark((-1.05, 0.72), $M$)
   mark((1.35, 0), $P$)
@@ -84,9 +84,9 @@
 
 // ── Darii: все M суть P, некоторые S суть M --- некоторые S суть P ──
 #let euler-darii = canvas({
-  euler-set("P", (0.35, 0), 1.5, cool, panel-cool)
-  euler-set("M", (0.5, -0.2), 0.9, green, panel-green)
-  euler-set("S", (-0.85, -0.5), 0.85, warm, panel-warm)
+  euler-set("P", (0.35, 0), 1.5, cool, cool.lighten(82%))
+  euler-set("M", (0.5, -0.2), 0.9, green, green.lighten(82%))
+  euler-set("S", (-0.85, -0.5), 0.85, warm, warm.lighten(82%))
   witness((-0.25, -0.42))
   mark((-1.3, -0.2), $S$)
   mark((1.0, -0.2), $M$)
@@ -106,7 +106,7 @@
       (x - box, y + box),
       (x + box, y - box),
       name: name,
-      fill: white,
+      fill: tone.lighten(88%),
       stroke: 1.2pt + tone,
       radius: 4pt,
     )
@@ -125,7 +125,7 @@
       let anchor = if at == none { from + "-" + to } else { at }
       draw.content(
         anchor,
-        text(size: 0.42em, fill: ink)[#label],
+        text(fill: ink)[#label],
         fill: white,
         padding: 2pt,
       )
@@ -147,7 +147,7 @@
     link("I", "E", dashed: true)
     draw.content(
       (0, 0),
-      text(size: 0.42em, fill: ink)[противоречие],
+      text(fill: ink)[противоречие],
       fill: white,
       padding: 2pt,
     )
