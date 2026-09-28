@@ -94,14 +94,13 @@
 
 #example[
   На $A = {1, 2, 3}$:
-  #table(
-    columns: 3,
-    align: center,
-    stroke: none,
-    [$M_(emptyset) = mat(0, 0, 0; 0, 0, 0; 0, 0, 0)$],
-    [$M_("id") = mat(1, 0, 0; 0, 1, 0; 0, 0, 1)$],
-    [$M_(A times A) = mat(1, 1, 1; 1, 1, 1; 1, 1, 1)$],
-  )
+  $
+    M_(emptyset) = mat(0, 0, 0; 0, 0, 0; 0, 0, 0)
+    quad
+    M_("id") = mat(1, 0, 0; 0, 1, 0; 0, 0, 1)
+    quad
+    M_(A times A) = mat(1, 1, 1; 1, 1, 1; 1, 1, 1).
+  $
 ]
 
 #note[
