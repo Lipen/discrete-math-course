@@ -23,11 +23,11 @@ $$\bot \;\sqsubset\; n \;\sqsubset\; \top \quad (n \in \mathbb{Z}) \qquad m \,\p
 
 The join merges branch states: equal values stay, different constants fall to ⊤, and ⊥ is neutral.
 
-| $x \sqcup y$ | ⊥            | $n$                    | ⊤   |
-| ------------ | ------------ | ---------------------- | --- |
-| ⊥            | ⊥            | $n$                    | ⊤   |
-| $m$          | $m$          | $m$ if $m = n$, else ⊤ | ⊤   |
-| ⊤            | ⊤            | ⊤                      | ⊤   |
+| $x \sqcup y$ | ⊥   | $n$                    | ⊤ |
+| ------------ | --- | ---------------------- | - |
+| ⊥            | ⊥   | $n$                    | ⊤ |
+| $m$          | $m$ | $m$ if $m = n$, else ⊤ | ⊤ |
+| ⊤            | ⊤   | ⊤                      | ⊤ |
 
 ### Transfer functions
 
@@ -49,23 +49,23 @@ Because the join of two different constants is ⊤ (and every operation preserve
 
 ## Demos
 
-| Demo                    | Shows                                                                                                                             |
-| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `constant_propagation`  | Constants through arithmetic, branch-induced precision loss, and $0 \cdot \top = 0$                                               |
-| `distributive_flow`     | Why distributivity of flow functions matters: $f(x \sqcup y)$ versus $f(x) \sqcup f(y)$ on a monotone and a distributive function |
+| Demo                   | Shows                                                                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `constant_propagation` | Constants through arithmetic, branch-induced precision loss, and $0 \cdot \top = 0$                                               |
+| `distributive_flow`    | Why distributivity of flow functions matters: $f(x \sqcup y)$ versus $f(x) \sqcup f(y)$ on a monotone and a distributive function |
 
 `distributive_flow` contrasts a monotone flow function, which can gain facts from a merged input ($f(x \sqcup y) \supsetneq f(x) \sqcup f(y)$), with a distributive one, where both orders agree — the property the IFDS class of analyses relies on.
 
 ## API
 
-| Item                       | Purpose                                                                        |
-| -------------------------- | ------------------------------------------------------------------------------ |
-| `Const`                    | The constant domain (⊥, known values, ⊤) with `+`, `*`, `-`, and `lub` (⊔)     |
-| `Expr`, `Stmt`             | A tiny imperative program                                                      |
-| `State<D>`                 | An abstract state: a value per variable                                        |
-| `eval_const`               | Abstract evaluation of an expression in the constant domain                    |
-| `exec_const`               | Run statements: assignments transfer, branches merge, loops reach a fixpoint   |
-| `assign`, `inc`            | Builders for `x := n` and `x := x + 1`                                         |
+| Item            | Purpose                                                                      |
+| --------------- | ---------------------------------------------------------------------------- |
+| `Const`         | The constant domain (⊥, known values, ⊤) with `+`, `*`, `-`, and `lub` (⊔)   |
+| `Expr`, `Stmt`  | A tiny imperative program                                                    |
+| `State<D>`      | An abstract state: a value per variable                                      |
+| `eval_const`    | Abstract evaluation of an expression in the constant domain                  |
+| `exec_const`    | Run statements: assignments transfer, branches merge, loops reach a fixpoint |
+| `assign`, `inc` | Builders for `x := n` and `x := x + 1`                                       |
 
 ## Tests
 

@@ -71,10 +71,10 @@ The second half derives the same poset from the divisibility predicate and reduc
 ## Tests
 
 | Example               | Modular | Distributive |
-| --------------------- | :-----: | :----------: |
-| divisors of 12        | yes     | yes          |
-| Boolean lattice `B_3` | yes     | yes          |
-| M3, the diamond       | yes     | no           |
-| N5, the pentagon      | no      | no           |
+| --------------------- | :------- | :------------ |
+| divisors of 12        |   yes   |     yes      |
+| Boolean lattice `B_3` |   yes   |     yes      |
+| M3, the diamond       |   yes   |      no      |
+| N5, the pentagon      |   no    |      no      |
 
 The unit tests assert exactly this on the four running examples, and the Birkhoff search agrees with the distributive law on all of them.

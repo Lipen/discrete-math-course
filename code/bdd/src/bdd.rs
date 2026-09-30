@@ -1,3 +1,6 @@
+//! The reduced diagram itself: nodes, complement edges, and the `Bdd` builder
+//! with the core operations -- apply, restrict, evaluate, counting.
+
 use std::collections::{HashMap, HashSet};
 
 /// An edge in the BDD: a node index shifted left by one, with the low bit

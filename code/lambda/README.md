@@ -54,23 +54,23 @@ All drivers are fuel-limited (`max_steps`), so diverging terms such as $\Omega$ 
 
 ### Terms and reduction
 
-| Item                                                         | Purpose                                                                            |
-| ------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| `Term` (`Var`, `Abs`, `App`)                                 | a λ-term                                                                           |
-| `Term::var` / `Term::abs` / `Term::app`                      | constructors                                                                       |
-| `Term::free_vars`                                            | free variables of a term                                                           |
-| `Term::substitute`                                           | capture-avoiding substitution $M[x := N]$                                          |
-| `Term::rename`                                               | α-conversion (rename a bound variable)                                             |
-| `Term::beta_reduce`                                          | one normal-order β-step, `None` at a normal form                                   |
-| `Term::beta_reduce_applicative`                              | one applicative-order β-step (leftmost innermost)                                  |
-| `Term::whnf_step`                                            | one step toward weak head normal form                                              |
-| `Term::normalize`                                            | normal-order reduction to normal form, fuel-limited                                |
-| `Term::normalize_applicative`                                | applicative-order reduction, fuel-limited                                          |
-| `Term::whnf`                                                 | weak-head reduction, fuel-limited                                                  |
-| `Term::reduce_normal` / `reduce_applicative` / `reduce_whnf` | the same runs, returning a `Reduction` with a step counter                         |
-| `Reduction`                                                  | `{ term, steps, converged }` — the term reached, the steps taken, the fuel status  |
-| `Term::trace` / `trace_applicative`                          | step-by-step reduction traces                                                      |
-| `Term::is_normal_form` / `is_whnf`                           | normal-form predicates                                                             |
+| Item                                                         | Purpose                                                                           |
+| ------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| `Term` (`Var`, `Abs`, `App`)                                 | a λ-term                                                                          |
+| `Term::var` / `Term::abs` / `Term::app`                      | constructors                                                                      |
+| `Term::free_vars`                                            | free variables of a term                                                          |
+| `Term::substitute`                                           | capture-avoiding substitution $M[x := N]$                                         |
+| `Term::rename`                                               | α-conversion (rename a bound variable)                                            |
+| `Term::beta_reduce`                                          | one normal-order β-step, `None` at a normal form                                  |
+| `Term::beta_reduce_applicative`                              | one applicative-order β-step (leftmost innermost)                                 |
+| `Term::whnf_step`                                            | one step toward weak head normal form                                             |
+| `Term::normalize`                                            | normal-order reduction to normal form, fuel-limited                               |
+| `Term::normalize_applicative`                                | applicative-order reduction, fuel-limited                                         |
+| `Term::whnf`                                                 | weak-head reduction, fuel-limited                                                 |
+| `Term::reduce_normal` / `reduce_applicative` / `reduce_whnf` | the same runs, returning a `Reduction` with a step counter                        |
+| `Reduction`                                                  | `{ term, steps, converged }` — the term reached, the steps taken, the fuel status |
+| `Term::trace` / `trace_applicative`                          | step-by-step reduction traces                                                     |
+| `Term::is_normal_form` / `is_whnf`                           | normal-form predicates                                                            |
 
 ### Church encodings
 

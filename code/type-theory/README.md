@@ -73,29 +73,29 @@ Reduction on `STerm` keeps the binder annotations, so each β-step of a typed te
 
 ## Demos
 
-| Demo                 | Shows                                                                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `typed_terms`        | Checking identity, K, a Church numeral, and composition, with ill-typed terms (self-application, mismatch, unbound variable) rejected |
-| `inference`          | Inferring the most general type of identity, K, S, and Church 2, with $\omega$ and $\Omega$ rejected by the occurs check              |
-| `subject_reduction`  | `(λf:A→A. λx:A. f x)(λx:A. x)` reduces to `λx:A. x` with the type `A → A` preserved at every step                                     |
+| Demo                | Shows                                                                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `typed_terms`       | Checking identity, K, a Church numeral, and composition, with ill-typed terms (self-application, mismatch, unbound variable) rejected |
+| `inference`         | Inferring the most general type of identity, K, S, and Church 2, with $\omega$ and $\Omega$ rejected by the occurs check              |
+| `subject_reduction` | `(λf:A→A. λx:A. f x)(λx:A. x)` reduces to `λx:A. x` with the type `A → A` preserved at every step                                     |
 
 ## API
 
-| Item                                         | Purpose                                                       |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| `Type::base` / `Type::nat` / `Type::boolean` | Base types                                                    |
-| `Type::arrow`                                | Function type `dom -> cod`                                    |
-| `Type::var`                                  | A type variable (schematic `a` or metavariable `?0`)          |
-| `Context::new` / `extend` / `lookup`         | Typing context: innermost binding wins                        |
-| `Term::var` / `abs` / `app`                  | Untyped term constructors                                     |
-| `Term::beta_reduce` / `normalize`            | One β-step / normal form (fuel-limited)                       |
-| `Term::substitute`                           | Capture-avoiding substitution $M[x := N]$                     |
-| `STerm::var` / `abs` / `app`                 | Church-annotated term constructors                            |
-| `STerm::check` / `type_of`                   | Type check against a context / the empty context              |
-| `STerm::erase`                               | Erase annotations to the untyped `Term`                       |
-| `STerm::beta_reduce` / `normalize`           | β-reduction keeping annotations (subject reduction)           |
-| `infer` / `infer_in`                         | The most general type of an untyped term                      |
-| `TypeError` / `InferError`                   | Why a term failed to type check                               |
+| Item                                         | Purpose                                              |
+| -------------------------------------------- | ---------------------------------------------------- |
+| `Type::base` / `Type::nat` / `Type::boolean` | Base types                                           |
+| `Type::arrow`                                | Function type `dom -> cod`                           |
+| `Type::var`                                  | A type variable (schematic `a` or metavariable `?0`) |
+| `Context::new` / `extend` / `lookup`         | Typing context: innermost binding wins               |
+| `Term::var` / `abs` / `app`                  | Untyped term constructors                            |
+| `Term::beta_reduce` / `normalize`            | One β-step / normal form (fuel-limited)              |
+| `Term::substitute`                           | Capture-avoiding substitution $M[x := N]$            |
+| `STerm::var` / `abs` / `app`                 | Church-annotated term constructors                   |
+| `STerm::check` / `type_of`                   | Type check against a context / the empty context     |
+| `STerm::erase`                               | Erase annotations to the untyped `Term`              |
+| `STerm::beta_reduce` / `normalize`           | β-reduction keeping annotations (subject reduction)  |
+| `infer` / `infer_in`                         | The most general type of an untyped term             |
+| `TypeError` / `InferError`                   | Why a term failed to type check                      |
 
 ## Tests
 

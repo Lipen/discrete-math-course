@@ -29,13 +29,13 @@ $$[\mathrm{EX}\,\varphi] \;=\; \{\, s : R(s) \cap [\varphi] \neq \varnothing \,\
 
 The checker labels each state with the subformulas true in it, working bottom-up:
 
-| Operator           | Labeling rule                                        |
-| ------------------ | ---------------------------------------------------- |
-| atom `p`           | states whose `atoms` list contains `p`               |
-| `¬φ`               | complement of `φ`'s label                            |
-| `φ ∧ ψ` / `φ ∨ ψ`  | pointwise and / or of the two labels                 |
-| `EX φ`             | states with *some* successor in `φ`'s label          |
-| `AX φ`             | states with *every* successor in `φ`'s label         |
+| Operator          | Labeling rule                                |
+| ----------------- | -------------------------------------------- |
+| atom `p`          | states whose `atoms` list contains `p`       |
+| `¬φ`              | complement of `φ`'s label                    |
+| `φ ∧ ψ` / `φ ∨ ψ` | pointwise and / or of the two labels         |
+| `EX φ`            | states with *some* successor in `φ`'s label  |
+| `AX φ`            | states with *every* successor in `φ`'s label |
 
 The `EX` / `AX` steps are exactly the preimage operators `Kripke::pre_exists` / `Kripke::pre_forall`.
 The fixed-point modalities (`EF`, `EG`, `EU`, and their `A`-duals), which compute reachability, liveness, and safety, are a later project.
@@ -62,19 +62,19 @@ assert_eq!(check(&m, &next_green), vec![false, false, true]);
 
 ## API
 
-| Item                                              | What it does                                                                 |
-| ------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `Kripke::new(successors, atoms)`                  | A Kripke structure with `n` states, `successors[s]` and `atoms[s]` per state |
-| `Kripke::pre_exists(set)` / `pre_forall(set)`     | Preimage under one transition (the `EX` / `AX` step)                         |
-| `ctl::Formula`                                    | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
-| `check(&Kripke, &Formula) -> Vec<bool>`           | The labeling check, one bit per state                                        |
+| Item                                          | What it does                                                                 |
+| --------------------------------------------- | ---------------------------------------------------------------------------- |
+| `Kripke::new(successors, atoms)`              | A Kripke structure with `n` states, `successors[s]` and `atoms[s]` per state |
+| `Kripke::pre_exists(set)` / `pre_forall(set)` | Preimage under one transition (the `EX` / `AX` step)                         |
+| `ctl::Formula`                                | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
+| `check(&Kripke, &Formula) -> Vec<bool>`       | The labeling check, one bit per state                                        |
 
 ## Demos
 
-| Demo              | What it shows                                                                                   |
-| ----------------- | ----------------------------------------------------------------------------------------------- |
-| `traffic_light`   | the 3-state light: `EX red`, `AX green`, and `red OR (not green)` labeled per state             |
-| `branching`       | a branching state and a dead end: the `EX` / `AX` split and vacuous `AX` truth at the dead end  |
+| Demo            | What it shows                                                                                  |
+| --------------- | ---------------------------------------------------------------------------------------------- |
+| `traffic_light` | the 3-state light: `EX red`, `AX green`, and `red OR (not green)` labeled per state            |
+| `branching`     | a branching state and a dead end: the `EX` / `AX` split and vacuous `AX` truth at the dead end |
 
 ## Tests
 

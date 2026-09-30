@@ -57,8 +57,8 @@ A signature applies the same operation with the private exponent: $s = m^d \bmod
 
 | Demo                 | Idea                             | What it prints                                                  |
 | -------------------- | -------------------------------- | --------------------------------------------------------------- |
-| `brute_force_caesar` | Caesar cipher                    | All 32 shifts, with the plaintext at shift 3                    |
-| `frequency_analysis` | Simple substitution              | Letter frequencies, where the top ciphertext letter maps to "о" |
+| `brute_force_caesar` | Caesar cipher                    | All 25 shifts, with the plaintext at shift 3                    |
+| `frequency_analysis` | Simple substitution              | Letter frequencies, where the top ciphertext letter maps to "e" |
 | `common_modulus`     | RSA common-modulus attack        | $m$ recovered without any private key                           |
 | `malleability`       | RSA malleability                 | $c_1 c_2$ decrypts to $m_1 m_2$                                 |
 | `pohlig_hellman`     | Discrete log with a smooth order | $x$ with $g^x = h \pmod p$                                      |

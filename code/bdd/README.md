@@ -11,7 +11,7 @@ The manager builds each subdiagram once and shares it, and negation rides on the
 cargo run --example bdd_demo
 cargo run --example var_order
 cargo run --example expr_demo
-cargo run --example visualize
+cargo run --example render
 cargo test
 ```
 
@@ -31,36 +31,36 @@ Complement edges store negation as a flag on an edge, so `not` never builds a ne
 
 ## Demos
 
-| Demo        | Shows                                                                          |
-| ----------- | ------------------------------------------------------------------------------ |
-| `bdd_demo`  | Building the ROBDD for `x XOR y`, evaluation, `sat_count`, `restrict`          |
-| `var_order` | How variable ordering affects BDD size                                         |
-| `expr_demo` | Building BDDs from expressions, equivalence, tautology check                   |
-| `visualize` | DOT rendering, an indented tree dump, and the complement-free plain form       |
+| Demo        | Shows                                                                    |
+| ----------- | ------------------------------------------------------------------------ |
+| `bdd_demo`  | Building the ROBDD for `x XOR y`, evaluation, `sat_count`, `restrict`    |
+| `var_order` | How variable ordering affects BDD size                                   |
+| `expr_demo` | Building BDDs from expressions, equivalence, tautology check             |
+| `render`    | DOT rendering, an indented tree dump, and the complement-free plain form |
 
 `var_order` builds the same function twice under different index orders and prints the node counts.
-`visualize` writes a DOT file into a temp dir and prints its absolute path.
+`render` writes a DOT file into a temp dir and prints its absolute path.
 
 ## API
 
-| Item                                             | Purpose                                                              |
-| ------------------------------------------------ | -------------------------------------------------------------------- |
-| `Bdd::new`                                       | Create a fresh manager with the constant node                        |
-| `Bdd::var`                                       | The BDD for a single variable `x_i`                                  |
-| `Bdd::not`, `and`, `or`, `xor`                   | Boolean operations built on `ite`                                    |
-| `Bdd::ite`                                       | The fundamental ternary operator `ite(f, g, h)`                      |
-| `Bdd::eval`                                      | Evaluate the function under a variable assignment                    |
-| `Bdd::sat_count`                                 | Count how many assignments satisfy the function                      |
-| `Bdd::restrict`                                  | Fix a variable to a value                                            |
-| `Bdd::is_tautology`                              | Check whether the function is always true                            |
-| `Bdd::is_satisfiable`                            | Check whether the function has at least one model                    |
-| `Bdd::size`                                      | Number of nodes in the manager                                       |
-| `Bdd::to_dot`                                    | Render the diagram as a Graphviz DOT string                          |
-| `Bdd::to_tree_string`                            | Dump the diagram as an indented tree with sharing marks              |
-| `Bdd::to_plain`, `PlainBdd`, `PlainNode`         | The complement-free form of a diagram                                |
-| `Edge`, `TRUE` / `FALSE`                         | Node index plus a complement flag in bit 0, `TRUE` = 0, `FALSE` = 1  |
-| `Expr`                                           | Boolean expression AST (`Var`, `Not`, `And`, `Or`, `Xor`, `Implies`) |
-| `Expr::to_bdd`                                   | Build the BDD for an expression                                      |
+| Item                                     | Purpose                                                              |
+| ---------------------------------------- | -------------------------------------------------------------------- |
+| `Bdd::new`                               | Create a fresh manager with the constant node                        |
+| `Bdd::var`                               | The BDD for a single variable `x_i`                                  |
+| `Bdd::not`, `and`, `or`, `xor`           | Boolean operations built on `ite`                                    |
+| `Bdd::ite`                               | The fundamental ternary operator `ite(f, g, h)`                      |
+| `Bdd::eval`                              | Evaluate the function under a variable assignment                    |
+| `Bdd::sat_count`                         | Count how many assignments satisfy the function                      |
+| `Bdd::restrict`                          | Fix a variable to a value                                            |
+| `Bdd::is_tautology`                      | Check whether the function is always true                            |
+| `Bdd::is_satisfiable`                    | Check whether the function has at least one model                    |
+| `Bdd::size`                              | Number of nodes in the manager                                       |
+| `Bdd::to_dot`                            | Render the diagram as a Graphviz DOT string                          |
+| `Bdd::to_tree_string`                    | Dump the diagram as an indented tree with sharing marks              |
+| `Bdd::to_plain`, `PlainBdd`, `PlainNode` | The complement-free form of a diagram                                |
+| `Edge`, `TRUE` / `FALSE`                 | Node index plus a complement flag in bit 0, `TRUE` = 0, `FALSE` = 1  |
+| `Expr`                                   | Boolean expression AST (`Var`, `Not`, `And`, `Or`, `Xor`, `Implies`) |
+| `Expr::to_bdd`                           | Build the BDD for an expression                                      |
 
 ## Tests
 

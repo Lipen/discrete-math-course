@@ -1,3 +1,5 @@
+//! Boolean expressions over named variables and their conversion to BDDs.
+
 use crate::bdd::{Bdd, Edge, TRUE};
 
 /// A boolean expression over named variables `x_0, x_1, ...`.

@@ -25,7 +25,7 @@ Everything here is finite: the crate keeps the entire composition table, so chec
 ### Three builders
 
 | Builder           | Category                 | Morphisms                                                |
-|-------------------|--------------------------|----------------------------------------------------------|
+| ----------------- | ------------------------ | -------------------------------------------------------- |
 | `from_monoid`     | one object               | the elements of the monoid, composed by the Cayley table |
 | `zn`              | one object               | the cyclic monoid `Z_n` under addition mod `n`           |
 | `from_operation`  | one object               | elements `0..n-1` with a closure `(i, j) -> k`           |
@@ -67,7 +67,7 @@ Associativity of the composition and the unit laws hold on the concrete pipeline
 ## Demos
 
 | Demo              | What it shows                                                                        |
-|-------------------|--------------------------------------------------------------------------------------|
+| ----------------- | ------------------------------------------------------------------------------------ |
 | `monoid_category` | $\mathbb{Z}_4$ as a one-object category: the composition table is the Cayley table   |
 | `free_category`   | the six paths of `A -a-> B -b-> C` and how composition glues them end to end         |
 | `yoneda_check`    | the bijection on the monoid, the chain $0 < 1 < 2$, and the free category of a graph |
@@ -76,7 +76,7 @@ Associativity of the composition and the unit laws hold on the concrete pipeline
 ## API
 
 | Item                              | What it does                                                                    |
-|-----------------------------------|---------------------------------------------------------------------------------|
+| --------------------------------- | ------------------------------------------------------------------------------- |
 | `ObjId` / `Morphism`              | an object index / a named morphism with `src` and `dst`                         |
 | `FiniteCategory`                  | objects, morphisms, and a total composition table                               |
 | `FiniteCategory::from_monoid`     | the one-object category of a monoid                                             |

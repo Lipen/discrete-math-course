@@ -68,21 +68,21 @@ The carry travels through every bit, so size and depth both grow linearly with t
 
 ## API
 
-| Item                                     | Purpose                                                 |
-| ---------------------------------------- | ------------------------------------------------------- |
-| `Circuit::new`                           | A fresh empty circuit                                   |
-| `Circuit::input(i)`                      | The `i`-th primary input (created once, then reused)    |
-| `Circuit::constant(v)` / `zero` / `one`  | The constants 0/1                                       |
-| `Circuit::and` / `or` / `xor` / `not`    | Add a gate and return its `NodeId`                      |
-| `Circuit::size`                          | Gate count (the area)                                   |
-| `Circuit::depth` / `node_depth`          | Longest input-to-output path (the delay)                |
-| `Circuit::simulate` / `eval`             | One topological pass to evaluate every output           |
-| `Circuit::node_count` / `input_count`    | All nodes (sources and gates) / distinct primary inputs |
-| `half_adder`                             | `S = A XOR B`, `C = A AND B`                            |
-| `full_adder`                             | `S = A XOR B XOR Cin`, `Cout` = majority                |
-| `ripple_carry_adder(n)`                  | Chain of `n` full adders, size and depth `O(n)`         |
-| `Adder::add` / `add_exact` / `add_bits`  | Evaluate an adder against integers or bit slices        |
-| `bits_of` / `value_of`                   | Convert between integers and LSB-first bit slices       |
+| Item                                    | Purpose                                                 |
+| --------------------------------------- | ------------------------------------------------------- |
+| `Circuit::new`                          | A fresh empty circuit                                   |
+| `Circuit::input(i)`                     | The `i`-th primary input (created once, then reused)    |
+| `Circuit::constant(v)` / `zero` / `one` | The constants 0/1                                       |
+| `Circuit::and` / `or` / `xor` / `not`   | Add a gate and return its `NodeId`                      |
+| `Circuit::size`                         | Gate count (the area)                                   |
+| `Circuit::depth` / `node_depth`         | Longest input-to-output path (the delay)                |
+| `Circuit::simulate` / `eval`            | One topological pass to evaluate every output           |
+| `Circuit::node_count` / `input_count`   | All nodes (sources and gates) / distinct primary inputs |
+| `half_adder`                            | `S = A XOR B`, `C = A AND B`                            |
+| `full_adder`                            | `S = A XOR B XOR Cin`, `Cout` = majority                |
+| `ripple_carry_adder(n)`                 | Chain of `n` full adders, size and depth `O(n)`         |
+| `Adder::add` / `add_exact` / `add_bits` | Evaluate an adder against integers or bit slices        |
+| `bits_of` / `value_of`                  | Convert between integers and LSB-first bit slices       |
 
 ## Tests
 
