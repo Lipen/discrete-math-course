@@ -53,6 +53,25 @@
   edge(<q2>, <q2>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
 )
 
+// ── 2b. Same automaton with the epsilon-edge repaired: the empty word is
+// ──     served by a separate accepting state with no outgoing edges.
+#let nfa-01-eps-fixed = diagram(
+  edge-stroke: edge-plain,
+  spacing: 3em,
+  start-at(<s>),
+  state(<s>, (0, 0), $s$),
+  state(<q0>, (1, 0), $q_0$),
+  state(<q1>, (2, 1), $q_1$),
+  state(<q2>, (2, -1), $q_2$, accept: true),
+  state(<f>, (0, -1.8), $f$, accept: true),
+  edge(<s>, <q0>, "-}>", label: [$epsilon$], stroke: edge-soft),
+  edge(<s>, <f>, "-}>", label: [$epsilon$], stroke: edge-soft),
+  edge(<q0>, <q0>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
+  edge(<q0>, <q1>, "-}>", label: [0], label-side: right),
+  edge(<q1>, <q2>, "-}>", label: [1]),
+  edge(<q2>, <q2>, "-}>", label: [0,1], loop-angle: 90deg, bend: 120deg),
+)
+
 // ── 3. DFA: even number of ones ──
 #let dfa-even-ones = diagram(
   edge-stroke: edge-plain,
@@ -84,9 +103,9 @@
   edge-stroke: edge-plain,
   spacing: 4.5em,
   start-at(<m0>, from: -0.5),
-  state(<m0>, (0, 0), text[$q_0$]),
-  state(<m1>, (1.6, 0), text[$q_0, q_1$]),
-  state(<m2>, (3.2, 0), text[$q_0, q_2$], accept: true),
+  state(<m0>, (0, 0), text[$s$]),
+  state(<m1>, (1.6, 0), text[$s, q_1$]),
+  state(<m2>, (3.2, 0), text[$s, q_2$], accept: true),
   edge(<m0>, <m0>, "-}>", label: [1], loop-angle: 90deg, bend: 120deg),
   edge(<m0>, <m1>, "-}>", label: [0]),
   edge(<m1>, <m1>, "-}>", label: [0], loop-angle: 90deg, bend: 120deg),

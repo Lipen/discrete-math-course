@@ -93,6 +93,45 @@
   mark((1.0, 1.0), $P$)
 })
 
+// ── Дерево разбора: φ = ∀x (P(x) → ∃y Q(x, f(y))) ──
+// Операторы тёплые, термы и атомы холодные; пунктир --- область действия внутреннего квантора.
+#let parse-tree = canvas({
+  let node(pos, body, tone: ink) = mark(pos, body, tone: tone)
+  let link(from, to) = draw.line(from, to, stroke: edge-plain)
+
+  draw.rect(
+    (0.4, 1.78),
+    (3.9, -1.18),
+    radius: 0.22,
+    fill: none,
+    stroke: edge-soft,
+  )
+
+  link((0, 3.02), (0, 2.65))
+  link((-0.2, 2.22), (-2.25, 1.78))
+  link((0.2, 2.22), (2.0, 1.78))
+  link((2.1, 1.32), (2.1, 0.98))
+  link((1.9, 0.56), (0.9, 0.18))
+  link((2.35, 0.56), (3.3, 0.18))
+  link((3.4, -0.16), (3.4, -0.62))
+
+  node((0, 3.3), $forall x$, tone: warm)
+  node((0, 2.45), $->$, tone: warm)
+  node((-2.4, 1.6), $P (x)$, tone: cool)
+  node((2.1, 1.6), $exists y$, tone: warm)
+  node((2.1, 0.8), $Q (x, f (y))$, tone: cool)
+  node((0.8, 0.0), $x$, tone: cool)
+  node((3.4, 0.0), $f (y)$, tone: cool)
+  node((3.4, -0.8), $y$, tone: cool)
+
+  mark(
+    (2.15, -1.52),
+    [область действия $exists y$],
+    tone: ink-soft,
+    size: 0.8em,
+  )
+})
+
 // ── Квадрат оппозиций: A, E, I, O и отношения между суждениями ──
 #let square-of-opposition = {
   let xh = 2.7
