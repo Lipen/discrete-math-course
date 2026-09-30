@@ -304,7 +304,7 @@
     name: "small",
   )
   draw.content((sx, sy + 0.25), text(size: s-tiny, fill: c-ink)[малые схемы])
-  draw.content((sx, sy - 0.3), text(size: s-cap, fill: c-ink)[$(c s)^s$])
+  draw.content((sx, sy - 0.3), text(size: s-cap, fill: c-ink)[$(t (n + s)^2)^s$])
 })
 
 // ── Включение классов ──
