@@ -92,7 +92,7 @@
   [Отрицание $x$], [$not x$], [NOT x],
   [Отрицание $y$], [$not y$], [NOT y],
   [Конъюнкция], [$x and y$], [AND],
-  [Отрицание импликации], [$not (x imply y)$], [$x and overline(y)$],
+  [Запрет $y$], [$not (x imply y)$], [$x and overline(y)$],
   [Обратная импликация], [$y imply x$], [не y или x],
 )
 
@@ -106,7 +106,7 @@
   align: (left, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Имя*], [*Формула*], [*Обозначение*]),
-  [Не x и y], [$not x and y$], [$overline(x) and y$],
+  [Запрет $x$], [$not x and y$], [$overline(x) and y$],
   [Дизъюнкция], [$x or y$], [OR],
   [Импликация], [$x imply y$], [IMP],
   [XOR], [$x xor y$], [XOR],

@@ -67,7 +67,7 @@
   spacing: 2.6em,
   conclusion-node((0, 0), $A -> (B -> A)$, name: <goal>),
   premise-node((0, 1.4), $B -> A$, name: <mid>),
-  discharged-node((0, 2.8), $[A]^1 [A]^2$, name: <hyp>),
+  discharged-node((0, 2.8), $[A]^1 [B]^2$, name: <hyp>),
   rule-edge(<hyp>, <mid>, $-> I\,2$),
   rule-edge(<mid>, <goal>, $-> I\,1$),
 )

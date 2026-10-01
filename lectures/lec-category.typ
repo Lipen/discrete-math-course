@@ -315,7 +315,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 #theorem[Лемма Йонеды][
   Естественные преобразования $cal(C)(A, -) -> F$ находятся во взаимно однозначном соответствии с элементами $F (A)$:
   $
-    "Nat"(cal(C)(A, -), thin space F) quad tilde.equiv quad F (A).
+    "Nat"(cal(C)(A, -), thin F) quad tilde.equiv quad F (A).
   $
 ]
 
@@ -367,7 +367,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 #example[Экспоненциал][
   В категории $"Set"$ функции двух аргументов --- то же, что функции в функции:
   $
-    "Set"(A times B, thin space C) quad tilde.equiv quad "Set"(A, thin space C^B).
+    "Set"(A times B, thin C) quad tilde.equiv quad "Set"(A, thin C^B).
   $
 ]
 

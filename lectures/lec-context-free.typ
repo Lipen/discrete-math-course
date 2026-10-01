@@ -45,7 +45,7 @@
 #example[
   $ S -> a S b mid(|) epsilon. $
 
-  Три шага вывода дают $a^3 b^3$: $S -> a S b -> a a S b b -> a a a S b b b -> a^3 b^3$.
+  Три раскрытия $S -> a S b$ и завершение $S -> epsilon$ дают $a^3 b^3$: $S -> a S b -> a a S b b -> a a a S b b b -> a^3 b^3$.
 
   Не регулярен, но контекстно-свободен.
 ]
