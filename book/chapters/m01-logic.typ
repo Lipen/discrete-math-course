@@ -1354,8 +1354,8 @@ CompCert --- верифицированный компилятор C, серти
 
 #example[Тройка Хоара с условным оператором][
   $
-    {x >= 0} thin
-    "if" x > 0 "then" y := x "else" y := -x thin
+    {x >= 0} quad
+    "if" x > 0 "then" y := x "else" y := -x quad
     {y = |x|}
   $
 
