@@ -164,6 +164,7 @@
 
 ### Practical Evaluation Criteria
 
+| Criterion | Weight | Description |
 |-----------|--------|-----------------|
 | **Correctness** | ~50% | Does it solve the problem correctly? |
 | **Efficiency** | ~20% | Is the approach reasonable? (Not necessarily optimal) |

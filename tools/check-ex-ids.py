@@ -12,7 +12,7 @@
 2. Каждая #ex-ref в hints.typ разрешается в существующую метку.
 
 
-Таблица глава -> namespace (по темам банка private/problems/bank; банк внутри
+Таблица глава -> namespace (по темам банка задач; банк внутри
 одной темы может вести несколько префиксов --- делим по гранулярности глав):
   m01 lang    m02 ded     m03 lang    m04 set     m05 rel     m06 fun
   m07 card    m08 ord     m09 graphs  m10 bool    m11 circ    m12 alg
