@@ -715,8 +715,6 @@ fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool],
 
 Пять городов, семь дорог.
 
-Цены по возрастанию и судьба каждого ребра у Крускала:
-
 #table(
   columns: 4,
   align: (center, center, center, left),
