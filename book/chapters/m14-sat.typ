@@ -155,7 +155,7 @@ _Принцип резолюции_ (_resolution_) --- это система в�
 
   Формально:
   $
-    C_1 or x, space C_2 or overline(x) proves C_1 or C_2.
+    C_1 or x, thin C_2 or overline(x) proves C_1 or C_2.
   $
 ]
 

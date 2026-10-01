@@ -5,7 +5,7 @@
 #import cetz: canvas, draw
 
 // ── Классы сложности ──
-// Вложенные эллипсы: больший класс содержит меньший; P лежит в NP ∩ coNP.
+// Вложенные эллипсы: больший класс содержит меньший; P лежит в NP inter coNP.
 #let complexity-classes = {
   let ellipse(pos, rx, ry, fill, name) = {
     let (x, y) = pos
@@ -97,7 +97,7 @@
 }
 
 // ── Венн для ZPP ──
-// BPP ⊇ RP и coRP; ZPP = RP ∩ coRP; P внутри ZPP.
+// BPP ⊇ RP и coRP; ZPP = RP inter coRP; P внутри ZPP.
 #let zpp-venn = {
   let ellipse(pos, rx, ry, fill, name) = {
     let (x, y) = pos

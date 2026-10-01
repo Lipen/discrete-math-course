@@ -234,7 +234,7 @@
   )[$overline(Q)$])
 })
 
-// ── Мультиплексор 4→1 ──
+// ── Мультиплексор 4 -> 1 ──
 #let multiplexer-4to1 = ccetz.canvas({
   draw.line(
     (0, 2.8),

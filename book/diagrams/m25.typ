@@ -76,11 +76,11 @@
       text(size: s-cap, fill: state-color, weight: "bold")[#state-label],
     )
     let hx = (head-idx - n / 2 + 0.5) * cell + cell / 2
-    draw.content((hx, y - 0.6), text(size: s-cap, fill: c-accent)[↓])
+    draw.content((hx, y - 0.6), text(size: s-cap, fill: c-accent)[$arrow.b$])
   }
 
   let transition-arrow(y, body) = {
-    draw.content((-n / 2 * cell - 0.35, y), text(size: s-cap, fill: c-muted)[↓])
+    draw.content((-n / 2 * cell - 0.35, y), text(size: s-cap, fill: c-muted)[$arrow.b$])
     draw.content((-0.2, y), text(size: s-cap, fill: c-muted)[#body])
   }
 

@@ -23,7 +23,7 @@
   stroke: bar-str,
 )
 
-// ── nd-tree-projection: проекция конъюнкции, введённой по →I ──
+// ── nd-tree-projection: проекция конъюнкции, введённой по ->I ──
 #let nd-tree-projection = prooftree(
   rule(
     name: rname[$->$I],
