@@ -29,8 +29,7 @@
   hn((1, 2), $3$, name: <d3>),
   hn((-1, 1), $4$, name: <d4>),
   hn((1, 1), $6$, name: <d6>),
-  // само число --- акцент
-  hn((0, 0), $12$, tone: warm, fill: warm.lighten(82%), name: <d12>),
+  hn((0, 0), $12$, name: <d12>),
   he(<d1>, <d2>),
   he(<d1>, <d3>),
   he(<d2>, <d4>),
@@ -102,8 +101,7 @@
 #let sign-lattice = diagram(
   ..node-opts,
   spacing: 0.9em,
-  // дно точности --- акцент
-  hn((0, 2), $bot$, tone: green, fill: green.lighten(82%), name: <bot>),
+  hn((0, 2), $bot$, name: <bot>),
   hn((-1, 1), $-$, name: <neg>),
   hn((0, 1), $0$, name: <zero>),
   hn((1, 1), $+$, name: <pos>),
