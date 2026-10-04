@@ -494,21 +494,21 @@
   vtx("w1", (0.8, 0.2), f, s)
   vtx("w2", (0.5, 0.75), f, s)
   draw.arc(
-    (0.2, 0.2),
+    "w0",
     radius: m-r,
     start: 20deg,
     delta: 320deg,
     stroke: m-st + s,
   )
   draw.arc(
-    (0.8, 0.2),
+    "w1",
     radius: m-r,
     start: 160deg,
     delta: 320deg,
     stroke: m-st + s,
   )
   draw.arc(
-    (0.5, 0.75),
+    "w2",
     radius: m-r,
     start: 90deg,
     delta: 320deg,
@@ -528,13 +528,6 @@
 #let m-truth(f: c-fl, s: c-bd) = canvas({
   let xs = (0.1, 0.3, 0.5, 0.7)
   let rows = (0.55, 0.3, 0.1)
-  for (k, x) in xs.enumerate() {
-    draw.rect(
-      (x, rows.at(0)),
-      (x + 0.15, rows.at(0) + 0.15),
-      stroke: m-st + s.transparentize(30%),
-    )
-  }
   for (ri, ry) in rows.enumerate() {
     for (k, x) in xs.enumerate() {
       let fill = none

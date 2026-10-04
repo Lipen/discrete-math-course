@@ -1,3 +1,4 @@
+// M10 diagrams: карты Карно и BDD для XOR.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -15,53 +16,20 @@
   }
 }
 
-// ── Карта Карно 3 переменных ──
-#let karnaugh-3var = canvas({
-  let s = 1.2
-  km-grid(4, 2, s)
-
-  let yz-coords = ("00", "01", "11", "10")
-  for (i, label) in yz-coords.enumerate() {
-    draw.content(
-      (-0.4, -(i + 0.5) * s),
-      anchor: "east",
-      text(size: s-cap, fill: c-muted)[#label],
-    )
-  }
-
+#let km-yz-labels(s) = for (i, label) in ("00", "01", "11", "10").enumerate() {
   draw.content(
-    (s, 0.55),
-    anchor: "south",
-    text(size: s-cap, fill: c-muted)[$x$],
-  )
-  for j in range(2) {
-    draw.content(
-      ((j + 0.5) * s, 0.25),
-      anchor: "south",
-      text(size: s-tiny, fill: c-muted)[#j],
-    )
-  }
-
-  draw.content(
-    (-1.0, -2 * s),
+    (-0.4, -(i + 0.5) * s),
     anchor: "east",
-    text(size: s-cap, fill: c-muted)[$y z$],
+    text(size: s-cap, fill: c-muted)[#label],
   )
-})
+}
 
 // ── Карта Карно 4 переменных ──
 #let karnaugh-4var = canvas({
   let s = 1.2
   km-grid(4, 4, s)
 
-  let yz-coords = ("00", "01", "11", "10")
-  for (i, label) in yz-coords.enumerate() {
-    draw.content(
-      (-0.4, -(i + 0.5) * s),
-      anchor: "east",
-      text(size: s-cap, fill: c-muted)[#label],
-    )
-  }
+  km-yz-labels(s)
 
   let wx-coords = ("00", "01", "11", "10")
   for (j, label) in wx-coords.enumerate() {
@@ -108,14 +76,7 @@
     )
   }
 
-  let yz-coords = ("00", "01", "11", "10")
-  for (i, label) in yz-coords.enumerate() {
-    draw.content(
-      (-0.4, -(i + 0.5) * s),
-      anchor: "east",
-      text(size: s-cap, fill: c-muted)[#label],
-    )
-  }
+  km-yz-labels(s)
 
   draw.content(
     (s, 0.55),

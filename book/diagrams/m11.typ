@@ -2,6 +2,7 @@
 #import "../notation.typ": *
 #import "style.typ": *
 
+// cetz 0.3.4 --- та же версия, что внутри circuiteria 0.2.1: draw рисует в её canvas.
 #import "@preview/cetz:0.3.4" as ccetz
 #import ccetz: draw
 #import circuiteria: circuit, element, wire
@@ -122,8 +123,10 @@
   wire.intersection("x1-and2.zig", radius: ir, fill: c-edge)
 
   let j2 = lj(2.1, "and2-port-in1")
-  wire.wire("cin-in", ((-2.3, -1.25), (2.1, -1.25)), color: c-edge)
-  wire.wire("cin-up", ((2.1, -1.25), j2), color: c-edge)
+  let cin-pt = (-2.3, -1.25)
+  let cin-join = (2.1, cin-pt.at(1))
+  wire.wire("cin-in", (cin-pt, cin-join), color: c-edge)
+  wire.wire("cin-up", (cin-join, j2), color: c-edge)
   wire.wire("cin-and2", (j2, "and2-port-in1"), color: c-edge)
   wire.wire(
     "cin-xor2",
@@ -167,7 +170,7 @@
     size: s-node,
     fill: c-ink,
   )[$B$])
-  draw.content((-2.3, -1.25), anchor: "east", text(
+  draw.content(cin-pt, anchor: "east", text(
     size: s-node,
     fill: c-ink,
   )[$C_"in"$])
@@ -209,12 +212,16 @@
     color: c-edge,
   )
 
-  wire.wire("fb-top", ((1.9, 1.5), (-0.3, -0.25)), color: c-hot)
-  wire.wire("fb-top-in", ((-0.3, -0.25), "nor-bot-port-in0"), color: c-hot)
-  wire.wire("fb-bot", ((1.9, -0.5), (-0.3, 1.25)), color: c-hot)
-  wire.wire("fb-bot-in", ((-0.3, 1.25), "nor-top-port-in1"), color: c-hot)
-  wire.intersection((1.9, 1.5), radius: ir, fill: c-hot)
-  wire.intersection((1.9, -0.5), radius: ir, fill: c-hot)
+  let fb-top-from = (1.9, 1.5)
+  let fb-top-bend = (-0.3, -0.25)
+  let fb-bot-from = (1.9, -0.5)
+  let fb-bot-bend = (-0.3, 1.25)
+  wire.wire("fb-top", (fb-top-from, fb-top-bend), color: c-hot)
+  wire.wire("fb-top-in", (fb-top-bend, "nor-bot-port-in0"), color: c-hot)
+  wire.wire("fb-bot", (fb-bot-from, fb-bot-bend), color: c-hot)
+  wire.wire("fb-bot-in", (fb-bot-bend, "nor-top-port-in1"), color: c-hot)
+  wire.intersection(fb-top-from, radius: ir, fill: c-hot)
+  wire.intersection(fb-bot-from, radius: ir, fill: c-hot)
 
   draw.content(lj(-2.1, "nor-top-port-in0"), anchor: "east", text(
     size: s-node,
@@ -304,7 +311,10 @@
     name: "small",
   )
   draw.content((sx, sy + 0.25), text(size: s-tiny, fill: c-ink)[малые схемы])
-  draw.content((sx, sy - 0.3), text(size: s-cap, fill: c-ink)[$(t (n + s)^2)^s$])
+  draw.content((sx, sy - 0.3), text(
+    size: s-cap,
+    fill: c-ink,
+  )[$(t (n + s)^2)^s$])
 })
 
 // ── Включение классов ──

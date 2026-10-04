@@ -1,24 +1,34 @@
+// M09 diagrams: графы: виды графов, обходы, деревья, паросочетания, потоки, планарность.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
 
 #import cetz: canvas, draw
 
+#let n-stroke = (paint: c-bd, thickness: t-bd)
+
+#let e-stroke = (paint: c-edge, thickness: t-ed)
+
+#let arrow-style = (
+  mark: (end: "stealth", fill: c-edge),
+  stroke: e-stroke,
+)
+
 #let node(pos, label, radius: 0.38) = {
   draw.circle(
     pos,
     radius: radius,
     fill: c-fl,
-    stroke: (paint: c-bd, thickness: t-bd),
+    stroke: n-stroke,
     name: label,
   )
   draw.content(pos)[#text(fill: c-ink, weight: "bold", size: s-node)[#label]]
 }
 
-#let snode(pos, label) = node(pos, label, radius: 0.28)
+#let small-node(pos, label) = node(pos, label, radius: 0.28)
 
-#let e(a, b, ..style) = {
-  draw.line(a, b, stroke: (paint: c-edge, thickness: t-ed), ..style)
+#let edge-line(a, b, ..style) = {
+  draw.line(a, b, stroke: e-stroke, ..style)
 }
 
 // ── Локальные семантические цвета ──
@@ -42,22 +52,22 @@
 #let bfs-grid = canvas({
   let rows = ((0, 0), (1.5, 0), (3.0, 0), (0, -1.5), (1.5, -1.5), (3.0, -1.5))
   for (i, p) in rows.enumerate() { node(p, str(i + 1)) }
-  e("1", "2")
-  e("2", "3")
-  e("4", "5")
-  e("5", "6")
-  e("1", "4")
-  e("2", "5")
-  e("3", "6")
+  edge-line("1", "2")
+  edge-line("2", "3")
+  edge-line("4", "5")
+  edge-line("5", "6")
+  edge-line("1", "4")
+  edge-line("2", "5")
+  edge-line("3", "6")
 })
 
 // ── K5 ──
 #let k5 = canvas({
   let v = ((0, 2.5), (2.4, 0.8), (1.5, -2), (-1.5, -2), (-2.4, 0.8))
-  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  for (i, p) in v.enumerate() { small-node(p, str(i + 1)) }
   for i in range(5) {
     for j in range(i + 1, 5) {
-      e(str(i + 1), str(j + 1))
+      edge-line(str(i + 1), str(j + 1))
     }
   }
 })
@@ -77,15 +87,15 @@
   draw.rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
   for (i, p) in left.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pa-dot, name: "l" + str(i + 1))
-    draw.content(p, $v_i$, anchor: "west", outset: 0.3em, size: s-node)
+    draw.content(p, $v_#(i + 1)$, anchor: "west", outset: 0.3em, size: s-node)
   }
   for (i, p) in right.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pb-dot, name: "r" + str(i + 1))
-    draw.content(p, $u_i$, anchor: "east", outset: 0.3em, size: s-node)
+    draw.content(p, $u_#(i + 1)$, anchor: "east", outset: 0.3em, size: s-node)
   }
   for i in range(3) {
     for j in range(3) {
-      e("l" + str(i + 1), "r" + str(j + 1))
+      edge-line("l" + str(i + 1), "r" + str(j + 1))
     }
   }
   draw.content((0, 2.6), anchor: "south")[$X$]
@@ -111,13 +121,13 @@
   for (i, p) in bot.enumerate() {
     draw.circle(p, radius: 0.38, fill: c-pb-dot, name: "b" + str(i + 1))
   }
-  e("t1", "b1")
-  e("t1", "b2")
-  e("t2", "b1")
-  e("t2", "b2")
-  e("t2", "b3")
-  e("t3", "b2")
-  e("t3", "b3")
+  edge-line("t1", "b1")
+  edge-line("t1", "b2")
+  edge-line("t2", "b1")
+  edge-line("t2", "b2")
+  edge-line("t2", "b3")
+  edge-line("t3", "b2")
+  edge-line("t3", "b3")
   draw.content((-2.2, 1.5), anchor: "east")[$X$]
   draw.content((-2.2, -1.5), anchor: "east")[$Y$]
 })
@@ -137,7 +147,7 @@
       (x, y),
       radius: 0.28,
       fill: c-atom,
-      stroke: (paint: c-bd, thickness: t-bd),
+      stroke: n-stroke,
       name: lab,
     )
     draw.content((x, y))[#text(fill: c-ink, weight: "bold", size: s-node)[#lab]]
@@ -147,7 +157,7 @@
       (x, y),
       radius: 0.28,
       fill: none,
-      stroke: (paint: c-bd, thickness: t-bd),
+      stroke: n-stroke,
       name: lab,
     )
     draw.content((x, y))[#text(fill: c-ink, weight: "bold", size: s-node)[#lab]]
@@ -163,7 +173,7 @@
     ("d", "h"),
     ("e", "i"),
   ) {
-    e(a, b)
+    edge-line(a, b)
   }
 })
 
@@ -183,7 +193,7 @@
   )
 
   for (ai, bi, _, _) in w {
-    e(str(ai + 1), str(bi + 1), name: str(ai + 1) + "-" + str(bi + 1))
+    edge-line(str(ai + 1), str(bi + 1), name: str(ai + 1) + "-" + str(bi + 1))
   }
   for (a, b) in (("1", "3"), ("1", "2"), ("2", "4"), ("3", "5")) {
     draw.line(a, b, stroke: (paint: c-accent, thickness: t-hi))
@@ -226,30 +236,28 @@
     draw.content(p)[#text(weight: "bold", size: s-node)[#names.at(i)]]
   }
 
-  let bridge-style = (paint: c-edge, thickness: t-ed)
+  draw.line("A", "D", stroke: e-stroke)
+  draw.line("B", "D", stroke: e-stroke)
+  draw.line("C", "D", stroke: e-stroke)
 
-  draw.line("A", "D", stroke: bridge-style)
-  draw.line("B", "D", stroke: bridge-style)
-  draw.line("C", "D", stroke: bridge-style)
-
-  draw.line("A", "C", stroke: bridge-style)
+  draw.line("A", "C", stroke: e-stroke)
   let ac-ctrl = (-1.3, 1.3)
   draw.bezier(
     rim(v.at(0), ac-ctrl),
     rim(v.at(2), ac-ctrl),
     ac-ctrl,
     ac-ctrl,
-    stroke: bridge-style,
+    stroke: e-stroke,
   )
 
-  draw.line("B", "C", stroke: bridge-style)
+  draw.line("B", "C", stroke: e-stroke)
   let bc-ctrl = (-1.3, -1.3)
   draw.bezier(
     rim(v.at(1), bc-ctrl),
     rim(v.at(2), bc-ctrl),
     bc-ctrl,
     bc-ctrl,
-    stroke: bridge-style,
+    stroke: e-stroke,
   )
 
   draw.content(
@@ -294,15 +302,15 @@
   )
   for (i, p) in v.enumerate() { node(p, str(i + 1), radius: 0.3) }
 
-  e("1", "2")
-  e("2", "3")
-  e("3", "4")
-  e("4", "5")
-  e("5", "6")
-  e("6", "1")
-  e("1", "3")
-  e("1", "4")
-  e("1", "5")
+  edge-line("1", "2")
+  edge-line("2", "3")
+  edge-line("3", "4")
+  edge-line("4", "5")
+  edge-line("5", "6")
+  edge-line("6", "1")
+  edge-line("1", "3")
+  edge-line("1", "4")
+  edge-line("1", "5")
 
   for (p, lab) in (
     ((1.2, 1.2), $f_1$),
@@ -338,7 +346,7 @@
     )
   }
   for i in range(5) {
-    e("c" + str(i), "c" + str(calc.rem(i + 1, 5)))
+    edge-line("c" + str(i), "c" + str(calc.rem(i + 1, 5)))
   }
   draw.content(
     (0, -2.3),
@@ -351,19 +359,15 @@
 // ── Ориентированный граф ──
 #let directed-graph = canvas({
   let v = ((0, 2.5), (2.5, 1), (2.5, -1), (0, -2.5), (-2.5, -1), (-2.5, 1))
-  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
-  let arr = (
-    mark: (end: "stealth", fill: c-edge),
-    stroke: (paint: c-edge, thickness: t-ed),
-  )
-  draw.line("1", "2", ..arr)
-  draw.line("2", "3", ..arr)
-  draw.line("3", "1", ..arr)
-  draw.line("1", "4", ..arr)
-  draw.line("4", "5", ..arr)
-  draw.line("5", "4", ..arr)
-  draw.line("6", "1", ..arr)
-  draw.line("2", "6", ..arr)
+  for (i, p) in v.enumerate() { small-node(p, str(i + 1)) }
+  draw.line("1", "2", ..arrow-style)
+  draw.line("2", "3", ..arrow-style)
+  draw.line("3", "1", ..arrow-style)
+  draw.line("1", "4", ..arrow-style)
+  draw.line("4", "5", ..arrow-style)
+  draw.line("5", "4", ..arrow-style)
+  draw.line("6", "1", ..arrow-style)
+  draw.line("2", "6", ..arrow-style)
 
   draw.circle((0, 0.75), radius: 3.1, fill: none, stroke: (
     paint: c-pa-dot,
@@ -387,8 +391,8 @@
     (-0.72, -0.98),
     (-1.15, 0.37),
   )
-  for (i, p) in outer.enumerate() { snode(p, str(i + 1)) }
-  for (i, p) in inner.enumerate() { snode(p, str(6 + i)) }
+  for (i, p) in outer.enumerate() { small-node(p, str(i + 1)) }
+  for (i, p) in inner.enumerate() { small-node(p, str(6 + i)) }
   for (a, b) in (
     ("1", "2"),
     ("2", "3"),
@@ -401,10 +405,10 @@
     ("9", "6"),
     ("10", "7"),
   ) {
-    e(a, b)
+    edge-line(a, b)
   }
   for i in range(5) {
-    e(str(i + 1), str(6 + i))
+    edge-line(str(i + 1), str(6 + i))
   }
 })
 
@@ -418,7 +422,7 @@
     (0, -0.5),
     (1.5, -0.5),
   )
-  for (i, p) in v.enumerate() { snode(p, str(i + 1)) }
+  for (i, p) in v.enumerate() { small-node(p, str(i + 1)) }
   for (a, b) in (
     ("1", "4"),
     ("4", "5"),
@@ -427,7 +431,7 @@
     ("3", "6"),
     ("2", "6"),
   ) {
-    e(a, b)
+    edge-line(a, b)
   }
   draw.line("1", "2", stroke: (paint: c-hot, thickness: t-hi))
   draw.circle(v.at(0), radius: 0.38, fill: none, stroke: (
@@ -541,13 +545,9 @@
   }
 })
 
-// ── Наибольшее паросочетание ──
-#let bipartite-matching = canvas({
-  let ly = (0, 1.5, 3)
-  let ry = (0, 1.5, 3)
-  let xl = 0
-  let xr = 4
-
+// ── Наибольшее паросочетание и покрытие Кёнига ──
+// Общая сцена: доли X/Y, серые непокрытые рёбра, жирное паросочетание.
+#let matching-scene = {
   draw.rect(
     (-0.6, 3.5),
     (0.6, -0.5),
@@ -557,20 +557,18 @@
   )
   draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
 
-  for (i, y) in ly.enumerate() {
-    draw.circle((xl, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
+  for (i, y) in (0, 1.5, 3).enumerate() {
+    draw.circle((0, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
     draw.content(
-      (xl, y),
+      (0, y),
       $x_#(i + 1)$,
       anchor: "east",
       outset: 0.4em,
       size: s-node,
     )
-  }
-  for (i, y) in ry.enumerate() {
-    draw.circle((xr, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
+    draw.circle((4, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
     draw.content(
-      (xr, y),
+      (4, y),
       $y_#(i + 1)$,
       anchor: "west",
       outset: 0.4em,
@@ -587,6 +585,21 @@
 
   draw.content((0, 3.6), anchor: "south")[$X$]
   draw.content((4, 3.6), anchor: "south")[$Y$]
+}
+
+#let bipartite-matching = canvas({
+  matching-scene
+})
+
+#let konig-cover = canvas({
+  matching-scene
+
+  for y in (0, 1.5, 3) {
+    draw.circle((4, y), radius: 0.38, fill: none, stroke: (
+      paint: c-hot,
+      thickness: t-hi,
+    ))
+  }
 })
 
 // ── Контрпример Дейкстры ──
@@ -595,15 +608,10 @@
   node((3, 1.8), "A")
   node((3, -1.8), "B")
 
-  let arr = (
-    mark: (end: "stealth", fill: c-edge),
-    stroke: (paint: c-edge, thickness: t-ed),
-  )
-
-  draw.line("S", "A", ..arr, name: "sa")
+  draw.line("S", "A", ..arrow-style, name: "sa")
   draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $3$, size: s-tiny)
 
-  draw.line("S", "B", ..arr, name: "sb")
+  draw.line("S", "B", ..arrow-style, name: "sb")
   draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $2$, size: s-tiny)
 
   draw.line(
@@ -750,17 +758,17 @@
   node((2, 1), "d")
   node((3, 0.5), "v")
 
-  e("a", "d", stroke: (paint: c-muted, thickness: t-ed))
-  e("b", "c", stroke: (paint: c-muted, thickness: t-ed))
-  e("c", "d", stroke: (paint: c-muted, thickness: t-ed))
+  edge-line("a", "d", stroke: (paint: c-muted, thickness: t-ed))
+  edge-line("b", "c", stroke: (paint: c-muted, thickness: t-ed))
+  edge-line("c", "d", stroke: (paint: c-muted, thickness: t-ed))
 
-  e("u", "a", stroke: (paint: c-path-green, thickness: t-hi))
-  e("a", "c", stroke: (paint: c-path-green, thickness: t-hi))
-  e("c", "v", stroke: (paint: c-path-green, thickness: t-hi))
+  edge-line("u", "a", stroke: (paint: c-path-green, thickness: t-hi))
+  edge-line("a", "c", stroke: (paint: c-path-green, thickness: t-hi))
+  edge-line("c", "v", stroke: (paint: c-path-green, thickness: t-hi))
 
-  e("u", "b", stroke: (paint: c-path-blue, thickness: t-hi))
-  e("b", "d", stroke: (paint: c-path-blue, thickness: t-hi))
-  e("d", "v", stroke: (paint: c-path-blue, thickness: t-hi))
+  edge-line("u", "b", stroke: (paint: c-path-blue, thickness: t-hi))
+  edge-line("b", "d", stroke: (paint: c-path-blue, thickness: t-hi))
+  edge-line("d", "v", stroke: (paint: c-path-blue, thickness: t-hi))
 
   draw.circle((1, 0), radius: 0.38, fill: none, stroke: (
     paint: c-hot,
@@ -772,71 +780,38 @@
   ))
 })
 
-// ── Минимальное вершинное покрытие ──
-#let konig-cover = canvas({
-  let ly = (0, 1.5, 3)
-  let ry = (0, 1.5, 3)
-  let xl = 0
-  let xr = 4
-
-  draw.rect(
-    (-0.6, 3.5),
-    (0.6, -0.5),
-    radius: 6pt,
-    fill: c-pa-fill,
-    stroke: none,
-  )
-  draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
-
-  for (i, y) in ly.enumerate() {
-    draw.circle((xl, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
-    draw.content(
-      (xl, y),
-      $x_#(i + 1)$,
-      anchor: "east",
-      outset: 0.4em,
-      size: s-node,
-    )
-  }
-  for (i, y) in ry.enumerate() {
-    draw.circle((xr, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
-    draw.content(
-      (xr, y),
-      $y_#(i + 1)$,
-      anchor: "west",
-      outset: 0.4em,
-      size: s-node,
-    )
-  }
-
-  draw.line("L1", "R2", stroke: (paint: c-muted, thickness: t-ed))
-  draw.line("L2", "R3", stroke: (paint: c-muted, thickness: t-ed))
-
-  draw.line("L1", "R1", stroke: (paint: c-accent, thickness: t-hi))
-  draw.line("L2", "R2", stroke: (paint: c-accent, thickness: t-hi))
-  draw.line("L3", "R3", stroke: (paint: c-accent, thickness: t-hi))
-
-  for (i, y) in ry.enumerate() {
-    draw.circle((xr, y), radius: 0.38, fill: none, stroke: (
-      paint: c-hot,
-      thickness: t-hi,
-    ))
-  }
-
-  draw.content((0, 3.6), anchor: "south")[$X$]
-  draw.content((4, 3.6), anchor: "south")[$Y$]
-})
-
-// ── Сеть потока ──
-#let flow-network = canvas({
+// ── Сеть потока и её варианты ──
+// Общие узлы сети s-a-b-t и ребро с подписью на плашке.
+#let flow-nodes = {
   let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
   for (i, p) in v.enumerate() {
     node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
   }
-  let arr = (
-    mark: (end: "stealth", fill: c-edge),
-    stroke: (paint: c-edge, thickness: t-ed),
+}
+
+#let labeled-arrow(
+  from,
+  to,
+  label,
+  offset,
+  stroke: e-stroke,
+  mark: (end: "stealth", fill: c-edge),
+) = {
+  let ename = from + "-" + to
+  draw.line(from, to, name: ename, stroke: stroke, mark: mark)
+  draw.content(
+    (rel: offset, to: ename + ".mid"),
+    label,
+    frame: "rect",
+    fill: c-white,
+    stroke: none,
+    padding: 1pt,
+    size: s-tiny,
   )
+}
+
+#let flow-network = canvas({
+  flow-nodes
   for (fr, to, cap, off) in (
     ("s", "a", "5", (-0.1, 0.26)),
     ("s", "b", "3", (-0.1, -0.26)),
@@ -844,17 +819,7 @@
     ("b", "t", "4", (0.1, -0.26)),
     ("a", "b", "2", (0.22, 0)),
   ) {
-    let ename = fr + "-" + to
-    draw.line(fr, to, name: ename, ..arr)
-    draw.content(
-      (rel: off, to: ename + ".mid"),
-      cap,
-      frame: "rect",
-      fill: c-white,
-      stroke: none,
-      padding: 1pt,
-      size: s-tiny,
-    )
+    labeled-arrow(fr, to, cap, off)
   }
   draw.content((-3, 1.9), anchor: "south")[$s$]
   draw.content((2.5, 1.9), anchor: "south")[$t$]
@@ -862,14 +827,7 @@
 
 // ── Допустимый поток ──
 #let flow-values = canvas({
-  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() {
-    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
-  }
-  let arr = (
-    mark: (end: "stealth", fill: c-edge),
-    stroke: (paint: c-edge, thickness: t-ed),
-  )
+  flow-nodes
   for (fr, to, lb, off) in (
     ("s", "a", "3/5", (-0.12, 0.26)),
     ("s", "b", "2/3", (-0.12, -0.26)),
@@ -877,26 +835,13 @@
     ("b", "t", "3/4", (0.12, -0.26)),
     ("a", "b", "1/2", (0.24, 0)),
   ) {
-    let ename = fr + "-" + to
-    draw.line(fr, to, name: ename, ..arr)
-    draw.content(
-      (rel: off, to: ename + ".mid"),
-      lb,
-      frame: "rect",
-      fill: c-white,
-      stroke: none,
-      padding: 1pt,
-      size: s-tiny,
-    )
+    labeled-arrow(fr, to, lb, off)
   }
 })
 
 // ── Остаточная сеть ──
 #let residual-network = canvas({
-  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() {
-    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
-  }
+  flow-nodes
 
   for (fr, to, cf, off, dim) in (
     ("s", "a", "2", (-0.12, 0.26), false),
@@ -910,11 +855,11 @@
     ("a", "b", "1", (0.24, 0), false),
     ("b", "a", "1", (0.24, 0.1), true),
   ) {
-    let ename = fr + "-" + to
-    draw.line(
+    labeled-arrow(
       fr,
       to,
-      name: ename,
+      cf,
+      off,
       stroke: (
         paint: if dim { c-muted } else { c-edge },
         thickness: t-ed,
@@ -922,24 +867,12 @@
       ),
       mark: (end: "stealth", fill: (if dim { c-muted } else { c-edge })),
     )
-    draw.content(
-      (rel: off, to: ename + ".mid"),
-      cf,
-      frame: "rect",
-      fill: c-white,
-      stroke: none,
-      padding: 1pt,
-      size: s-tiny,
-    )
   }
 })
 
 // ── Разрез ──
 #let flow-cut = canvas({
-  let v = ((-3, 0), (-0.5, 1.2), (-0.5, -1.2), (2.5, 0))
-  for (i, p) in v.enumerate() {
-    node(p, ("s", "a", "b", "t").at(i), radius: 0.36)
-  }
+  flow-nodes
 
   for (fr, to, cap, off, hi) in (
     ("s", "a", "5", (-0.1, 0.26), false),
@@ -948,25 +881,16 @@
     ("b", "t", "4", (0.1, -0.26), true),
     ("a", "b", "2", (0.24, 0), false),
   ) {
-    let ename = fr + "-" + to
-    draw.line(
+    labeled-arrow(
       fr,
       to,
-      name: ename,
+      cap,
+      off,
       stroke: (
         paint: if hi { c-hot } else { c-edge },
         thickness: if hi { t-hi } else { t-ed },
       ),
       mark: (end: "stealth", fill: (if hi { c-hot } else { c-edge })),
-    )
-    draw.content(
-      (rel: off, to: ename + ".mid"),
-      cap,
-      frame: "rect",
-      fill: c-white,
-      stroke: none,
-      padding: 1pt,
-      size: s-tiny,
     )
   }
   draw.circle(
@@ -988,7 +912,7 @@
       p,
       radius: 0.36,
       fill: if infA { c-atom } else { c-conn },
-      stroke: (paint: c-bd, thickness: t-bd),
+      stroke: n-stroke,
       name: lbl,
     )
     draw.content(p)[#text(fill: c-ink, weight: "bold", size: s-node)[#lbl]]
@@ -1001,25 +925,16 @@
     ("b", "t", "3/3", (0.12, -0.26), false),
     ("a", "b", "1/1", (0.28, 0), true),
   ) {
-    let ename = fr + "-" + to
-    draw.line(
+    labeled-arrow(
       fr,
       to,
-      name: ename,
+      lb,
+      off,
       stroke: (
         paint: if cross { c-hot } else { c-edge },
         thickness: if cross { t-hi } else { t-ed },
       ),
       mark: (end: "stealth", fill: (if cross { c-hot } else { c-edge })),
-    )
-    draw.content(
-      (rel: off, to: ename + ".mid"),
-      lb,
-      frame: "rect",
-      fill: c-white,
-      stroke: none,
-      padding: 1pt,
-      size: s-tiny,
     )
   }
 })

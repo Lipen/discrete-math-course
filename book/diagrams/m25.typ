@@ -14,19 +14,21 @@
   let syms = ("0", "1", "1", "0", "1", "0", "0", "1")
   let read-idx = 3
 
-  let tape-cell(x, sym, highlighted: false) = {
+  let tape-cell(x, sym, highlighted: false, name: none) = {
     draw.rect(
       (x, -cell / 2),
       (x + cell, cell / 2),
       fill: if highlighted { c-warn } else { c-fl },
       stroke: tape-cell-stroke,
+      name: name,
     )
     draw.content((x + cell / 2, 0), text(size: s-cap, fill: c-ink)[#sym])
   }
 
   for i in range(n) {
     let x = (i - n / 2 + 0.5) * cell
-    tape-cell(x, syms.at(i), highlighted: i == read-idx)
+    tape-cell(x, syms.at(i), highlighted: i == read-idx, name: if i
+      == read-idx { "read" })
   }
 
   let tape-left = -n / 2 * cell
@@ -45,11 +47,12 @@
     radius: 4pt,
     fill: c-fl,
     stroke: tape-cell-stroke,
+    name: "ctrl",
   )
   draw.content((0, -1.9), text(size: s-node, fill: c-ink)[$q_i$])
   draw.content((0, -2.4), text(size: s-cap, fill: c-muted)[конечное])
 
-  draw.line((0, -1.6), (0, -0.72), stroke: head-stroke, mark: (
+  draw.line("ctrl.north", "read.south", stroke: head-stroke, mark: (
     end: "stealth",
     fill: c-accent,
   ))
@@ -80,7 +83,10 @@
   }
 
   let transition-arrow(y, body) = {
-    draw.content((-n / 2 * cell - 0.35, y), text(size: s-cap, fill: c-muted)[$arrow.b$])
+    draw.content((-n / 2 * cell - 0.35, y), text(
+      size: s-cap,
+      fill: c-muted,
+    )[$arrow.b$])
     draw.content((-0.2, y), text(size: s-cap, fill: c-muted)[#body])
   }
 

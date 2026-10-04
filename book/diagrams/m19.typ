@@ -33,7 +33,7 @@
 
   diagram(
     actor((0, 0), <alice>, [Алиса]),
-    actor((3.2, 0), <eve>, [Ева], fill: c-accent, ink: white),
+    actor((3.2, 0), <eve>, [Ева], fill: c-accent, ink: c-white),
     actor((6.4, 0), <bob>, [Боб]),
     msg(<alice>, <eve>, 0.28cm, [$A = g^a$]),
     msg(<eve>, <alice>, 0.28cm, [$B' = g^y$]),

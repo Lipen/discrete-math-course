@@ -31,10 +31,10 @@
   ring(1.15, 0.8, c-reg)
 
   let lab(pos, body) = draw.content(pos, text(size: s-cap, fill: c-ink)[#body])
-  lab((0, 2.3), [Recursively Enumerable])
-  lab((0, 1.65), [Context-Sensitive])
-  lab((0, 1.0), [Context-Free])
-  lab((0, 0.5), [Regular])
+  lab((0, 2.3), [Рекурсивно перечислимые])
+  lab((0, 1.65), [Контекстно-зависимые])
+  lab((0, 1.0), [Контекстно-свободные])
+  lab((0, 0.5), [Регулярные])
 })
 
 // ── Дерево разбора a³b³ ──
@@ -55,14 +55,14 @@
     height: n-size,
     ..args,
   )
-  let re(from, to, label) = edge(
+  let re(from, to, label: $S -> a S b$) = edge(
     from,
     to,
     "-",
     stroke: e-stroke,
     label: label,
     label-side: center,
-    label-fill: white,
+    label-fill: c-white,
     label-size: s-tiny,
   )
 
@@ -85,15 +85,15 @@
     tn((6, 1.2), $b$, name: <b3>),
     tn((8, 0), $epsilon$, name: <eps>),
 
-    re(<s0>, <a1>, $S -> a S b$),
-    re(<s0>, <s1>, $S -> a S b$),
-    re(<s0>, <b1>, $S -> a S b$),
-    re(<s1>, <a2>, $S -> a S b$),
-    re(<s1>, <s2>, $S -> a S b$),
-    re(<s1>, <b2>, $S -> a S b$),
-    re(<s2>, <a3>, $S -> a S b$),
-    re(<s2>, <s3>, $S -> a S b$),
-    re(<s2>, <b3>, $S -> a S b$),
-    re(<s3>, <eps>, $S -> epsilon$),
+    re(<s0>, <a1>),
+    re(<s0>, <s1>),
+    re(<s0>, <b1>),
+    re(<s1>, <a2>),
+    re(<s1>, <s2>),
+    re(<s1>, <b2>),
+    re(<s2>, <a3>),
+    re(<s2>, <s3>),
+    re(<s2>, <b3>),
+    re(<s3>, <eps>, label: $S -> epsilon$),
   )
 }

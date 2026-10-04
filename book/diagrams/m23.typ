@@ -30,7 +30,7 @@
 
 #let start-arrow(to) = edge((-1, 0), to, "-}>", stroke: start-stroke)
 
-// ── ДКА над {0,1}: строки, где за "0" идёт "1" ──
+// ── ДКА: {0,1}-строки, оканчивающиеся на "01" ──
 #let dfa-01 = diagram(
   node-stroke: n-stroke,
   node-fill: c-fl,
@@ -87,7 +87,7 @@
   tr(<q1>, <q2>, "1"),
 )
 
-// ── ε-НКА: ε-переходы (пунктир) до и после состояния ──
+// ── ε-НКА для a*b*: ε-переходы (пунктир) между фазами ──
 #let epsilon-nfa = diagram(
   node-stroke: n-stroke,
   node-fill: c-fl,
@@ -118,7 +118,7 @@
   draw.content(
     name + ".mid",
     text(size: s-cap, fill: fill)[#label],
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )

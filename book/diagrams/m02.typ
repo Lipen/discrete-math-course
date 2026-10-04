@@ -1,3 +1,4 @@
+// M02 diagrams: деревья вывода и схемы правил (curryst).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -134,7 +135,7 @@
 
 #let nd-rule-bote = prooftree(
   rule(
-    name: rname[$bot$ E],
+    name: rname[$bot$E],
     $bot$,
     $A$,
   ),

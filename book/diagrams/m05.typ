@@ -1,3 +1,4 @@
+// M05 diagrams: орграф, диаграммы Хассе, разбиение на классы, дендрограмма, филогенетическое дерево.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -7,7 +8,7 @@
 
 #let e-stroke = (paint: c-edge, thickness: t-ed)
 
-#let cn(pos, body, ..args) = node(
+#let rel-node(pos, body, ..args) = node(
   pos,
   body,
   fill: c-fl,
@@ -16,9 +17,15 @@
   ..args,
 )
 
-#let ea(from, to, ..args) = edge(from, to, "-}>", stroke: e-stroke, ..args)
+#let arrow-edge(from, to, ..args) = edge(
+  from,
+  to,
+  "-}>",
+  stroke: e-stroke,
+  ..args,
+)
 
-#let el(from, to, angle: 30deg, ..args) = edge(
+#let loop-edge(from, to, angle: 30deg, ..args) = edge(
   from,
   to,
   "-}>",
@@ -28,85 +35,85 @@
   ..args,
 )
 
-#let e(from, to) = edge(from, to, "-", stroke: e-stroke)
+#let cover-edge(from, to) = edge(from, to, "-", stroke: e-stroke)
 
-#let rel-digraph = diagram(
+#let rel-diagram(spacing: 2em, ..nodes) = diagram(
   node-shape: "circle",
   node-stroke: t-bd + c-bd,
   node-inset: 0pt,
   node-outset: 0pt,
+  spacing: spacing,
+  ..nodes,
+)
+
+#let rel-digraph = rel-diagram(
   spacing: 1.6em,
-  cn((-0.4, 1.6), $1$, name: <1>),
-  cn((1.3, 0.8), $2$, name: <2>),
-  cn((1.3, -0.8), $3$, name: <3>),
-  cn((-1.3, -0.8), $4$, name: <4>),
-  cn((-1.3, 0.8), $5$, name: <5>),
-  el(<1>, <1>, angle: 120deg),
-  ea(<1>, <2>),
-  ea(<1>, <5>),
-  ea(<2>, <3>),
-  ea(<2>, <4>),
-  ea(<3>, <1>),
-  ea(<4>, <2>),
-  ea(<5>, <3>),
-  el(<5>, <5>, angle: 240deg),
+  rel-node((-0.4, 1.6), $1$, name: <1>),
+  rel-node((1.3, 0.8), $2$, name: <2>),
+  rel-node((1.3, -0.8), $3$, name: <3>),
+  rel-node((-1.3, -0.8), $4$, name: <4>),
+  rel-node((-1.3, 0.8), $5$, name: <5>),
+  loop-edge(<1>, <1>, angle: 120deg),
+  arrow-edge(<1>, <2>),
+  arrow-edge(<1>, <5>),
+  arrow-edge(<2>, <3>),
+  arrow-edge(<2>, <4>),
+  arrow-edge(<3>, <1>),
+  arrow-edge(<4>, <2>),
+  arrow-edge(<5>, <3>),
+  loop-edge(<5>, <5>, angle: 240deg),
 )
 
 // ── Диаграмма Хассе: включение на P({1,2}) ──
-#let hasse-inclusion = diagram(
-  node-shape: "circle",
-  node-stroke: t-bd + c-bd,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 2em,
-  cn((0, 2), $emptyset$, name: <p0>),
-  cn((-1, 1), ${1}$, name: <p1>),
-  cn((1, 1), ${2}$, name: <p2>),
-  cn((0, 0), ${1,2}$, name: <p12>),
+#let hasse-inclusion = rel-diagram(
+  rel-node((0, 2), $emptyset$, name: <p0>),
+  rel-node((-1, 1), ${1}$, name: <p1>),
+  rel-node((1, 1), ${2}$, name: <p2>),
+  rel-node((0, 0), ${1,2}$, name: <p12>),
   // Покрытие: добавление одного элемента.
-  e(<p0>, <p1>),
-  e(<p0>, <p2>),
-  e(<p1>, <p12>),
-  e(<p2>, <p12>),
+  cover-edge(<p0>, <p1>),
+  cover-edge(<p0>, <p2>),
+  cover-edge(<p1>, <p12>),
+  cover-edge(<p2>, <p12>),
 )
 
 // ── Разбиение целых по остатку mod 3 ──
-#let eq-class(y, fill, residue, items) = {
-  let bw = 5.6
-  let x0 = -bw / 2
-  draw.rect(
-    (x0, y + 0.5),
-    (x0 + bw, y - 0.5),
-    radius: 7pt,
-    fill: fill,
-    stroke: t-bd + c-bd,
-  )
-  draw.content(
-    (x0 + 0.45, y),
-    anchor: "west",
-    text(size: s-node, weight: "bold", fill: c-ink)[$[#residue]$],
-  )
-  draw.line(
-    (x0 + 1.2, y + 0.34),
-    (x0 + 1.2, y - 0.34),
-    stroke: c-edge + t-hr,
-  )
-  let step = 0.95
-  let start = x0 + 1.65
-  for (i, it) in items.enumerate() {
-    let cx = start + i * step
-    draw.rect(
-      (cx - 0.32, y + 0.22),
-      (cx + 0.32, y - 0.22),
-      radius: 3pt,
-      fill: c-white,
-      stroke: c-bd + t-hr,
-    )
-    draw.content((cx, y), text(size: s-node, fill: c-ink)[#it])
-  }
-}
-
 #let equivalence-partition = canvas({
+  let eq-class(y, fill, residue, items) = {
+    let bw = 5.6
+    let x0 = -bw / 2
+    draw.rect(
+      (x0, y + 0.5),
+      (x0 + bw, y - 0.5),
+      radius: 7pt,
+      fill: fill,
+      stroke: t-bd + c-bd,
+    )
+    draw.content(
+      (x0 + 0.45, y),
+      anchor: "west",
+      text(size: s-node, weight: "bold", fill: c-ink)[$[#residue]$],
+    )
+    draw.line(
+      (x0 + 1.2, y + 0.34),
+      (x0 + 1.2, y - 0.34),
+      stroke: c-edge + t-hr,
+    )
+    let step = 0.95
+    let start = x0 + 1.65
+    for (i, it) in items.enumerate() {
+      let cx = start + i * step
+      draw.rect(
+        (cx - 0.32, y + 0.22),
+        (cx + 0.32, y - 0.22),
+        radius: 3pt,
+        fill: c-white,
+        stroke: c-bd + t-hr,
+      )
+      draw.content((cx, y), text(size: s-node, fill: c-ink)[#it])
+    }
+  }
+
   eq-class(2.6, c-fl, 0, (3, 6, 9))
   eq-class(0, c-atom, 1, (1, 4, 7, 10))
   eq-class(-2.6, c-warn, 2, (2, 5, 8))
@@ -149,8 +156,6 @@
 // ── Филогенетическое дерево млекопитающих ──
 #let mammal-tree = canvas({
   // Схема: высоты ветвлений не в масштабе, времена подписаны.
-  let edge = e-stroke
-
   let plate-w = 0.9
   let plate-top = -0.3
   let plate-bot = -0.9
@@ -183,7 +188,7 @@
   let c-plate = oklch(93%, 0.005, 260deg)
   let c-plate-bd = oklch(70%, 0.01, 260deg)
 
-  let line(a, b) = draw.line(a, b, stroke: edge)
+  let line(a, b) = draw.line(a, b, stroke: e-stroke)
   let leaf(x, label, w: plate-w) = {
     draw.rect(
       (x - w, plate-top),

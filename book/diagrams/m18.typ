@@ -41,48 +41,42 @@
 
 // ── Орбиты ожерелий Бёрнсайда ──
 #let burnside-necklaces = canvas({
-  let orbit-label(x, y, body) = {
-    draw.content((x, y), text(size: s-cap, fill: c-muted)[#body])
+  let orbit-note(x, y, body, size: s-cap) = {
+    draw.content((x, y), text(size: size, fill: c-muted)[#body])
   }
-  let orbit-strings(x, y, body) = {
-    draw.content((x, y), text(size: s-tiny, fill: c-muted)[#body])
-  }
+  let orbit-arrow(from, to) = draw.line(
+    from,
+    to,
+    stroke: c-accent + t-ed,
+    mark: (
+      end: ">",
+      fill: c-accent,
+    ),
+  )
 
   necklace((-1.5, 1.8), ("b", "b", "b"))
-  orbit-label(-1.5, 0.9, [1 элемент])
-  orbit-strings(-1.5, 0.55, [$"000"$])
+  orbit-note(-1.5, 0.9, [1 элемент])
+  orbit-note(-1.5, 0.55, [$"000"$], size: s-tiny)
 
   necklace((1.5, 1.8), ("w", "w", "w"))
-  orbit-label(1.5, 0.9, [1 элемент])
-  orbit-strings(1.5, 0.55, [$"111"$])
+  orbit-note(1.5, 0.9, [1 элемент])
+  orbit-note(1.5, 0.55, [$"111"$], size: s-tiny)
 
   necklace((-3.0, -1.0), ("w", "b", "b"), name: "o3a")
   necklace((-1.5, -1.0), ("b", "w", "b"), name: "o3b")
   necklace((0.0, -1.0), ("b", "b", "w"), name: "o3c")
-  draw.line("o3a.east", "o3b.west", stroke: c-accent + t-ed, mark: (
-    end: ">",
-    fill: c-accent,
-  ))
-  draw.line("o3b.east", "o3c.west", stroke: c-accent + t-ed, mark: (
-    end: ">",
-    fill: c-accent,
-  ))
-  orbit-label(-1.5, -1.7, [3 элемента (повороты)])
-  orbit-strings(-1.5, -2.1, [$"001", "010", "100"$])
+  orbit-arrow("o3a.east", "o3b.west")
+  orbit-arrow("o3b.east", "o3c.west")
+  orbit-note(-1.5, -1.7, [3 элемента (повороты)])
+  orbit-note(-1.5, -2.1, [$"001", "010", "100"$], size: s-tiny)
 
   necklace((-3.0, -3.5), ("w", "w", "b"), name: "o4a")
   necklace((-1.5, -3.5), ("b", "w", "w"), name: "o4b")
   necklace((0.0, -3.5), ("w", "b", "w"), name: "o4c")
-  draw.line("o4a.east", "o4b.west", stroke: c-accent + t-ed, mark: (
-    end: ">",
-    fill: c-accent,
-  ))
-  draw.line("o4b.east", "o4c.west", stroke: c-accent + t-ed, mark: (
-    end: ">",
-    fill: c-accent,
-  ))
-  orbit-label(-1.5, -4.2, [3 элемента (повороты)])
-  orbit-strings(-1.5, -4.6, [$"011", "101", "110"$])
+  orbit-arrow("o4a.east", "o4b.west")
+  orbit-arrow("o4b.east", "o4c.west")
+  orbit-note(-1.5, -4.2, [3 элемента (повороты)])
+  orbit-note(-1.5, -4.6, [$"011", "101", "110"$], size: s-tiny)
 })
 
 // ── Раскраска K6 и форсированный одноцветный треугольник ──
@@ -90,16 +84,12 @@
   let R = 2.2
   let vr = 0.32
   let center = (0, 0)
-  let v2 = (0, 2.2)
-  let v3 = (2.092, 0.68)
-  let v4 = (1.293, -1.78)
-  let v5 = (-1.293, -1.78)
-  let v6 = (-2.092, 0.68)
+  let hot-verts = (2, 3, 4)
 
-  let red = c-hot + t-ed
-  let blue = c-accent + t-ed
-  let hi = c-hot + t-hi
-  let dim = c-muted + t-hr
+  let hot-line = c-hot + t-ed
+  let accent-line = c-accent + t-ed
+  let hot-hi = c-hot + t-hi
+  let dim-line = c-muted + t-hr
 
   draw.circle(
     center,
@@ -110,21 +100,20 @@
   )
   draw.content(center, text(size: s-node, weight: "bold", fill: c-ink)[1])
 
-  for (p, lab, is-red) in (
-    (v2, "2", true),
-    (v3, "3", true),
-    (v4, "4", true),
-    (v5, "5", false),
-    (v6, "6", false),
-  ) {
+  for i in range(2, 7) {
+    let p = (
+      R * calc.cos(90deg - (i - 2) * 72deg),
+      R * calc.sin(90deg - (i - 2) * 72deg),
+    )
+    let hot = hot-verts.contains(i)
     draw.circle(
       p,
       radius: vr,
-      fill: if is-red { c-warn } else { c-fl },
-      stroke: if is-red { c-hot + t-bd } else { c-bd + t-bd },
-      name: "v" + lab,
+      fill: if hot { c-warn } else { c-fl },
+      stroke: if hot { c-hot + t-bd } else { c-bd + t-bd },
+      name: "v" + str(i),
     )
-    draw.content(p, text(size: s-node, fill: c-ink)[#lab])
+    draw.content(p, text(size: s-node, fill: c-ink)[#i])
   }
 
   for (a, b) in (
@@ -136,19 +125,19 @@
     ("v4", "v6"),
     ("v5", "v6"),
   ) {
-    draw.line(a, b, stroke: dim)
+    draw.line(a, b, stroke: dim-line)
   }
 
-  draw.line("c", "v5", stroke: blue)
-  draw.line("c", "v6", stroke: blue)
-  draw.line("v3", "v4", stroke: blue)
-  draw.line("v2", "v4", stroke: blue)
+  draw.line("c", "v5", stroke: accent-line)
+  draw.line("c", "v6", stroke: accent-line)
+  draw.line("v3", "v4", stroke: accent-line)
+  draw.line("v2", "v4", stroke: accent-line)
 
-  draw.line("c", "v4", stroke: red)
+  draw.line("c", "v4", stroke: hot-line)
 
-  draw.line("c", "v2", stroke: hi)
-  draw.line("c", "v3", stroke: hi)
-  draw.line("v2", "v3", stroke: hi)
+  draw.line("c", "v2", stroke: hot-hi)
+  draw.line("c", "v3", stroke: hot-hi)
+  draw.line("v2", "v3", stroke: hot-hi)
 
   draw.line((3.3, 2.0), (3.9, 2.0), stroke: c-hot + t-hi)
   draw.content(

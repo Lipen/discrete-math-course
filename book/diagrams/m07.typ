@@ -1,3 +1,4 @@
+// M07 diagrams: диагональ Кантора, диагональная нумерация пар, булеан, алефы и беты.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -165,34 +166,43 @@
 })
 
 // ── Диаграмма Хассе булеана ──
-#let power-set-hasse = diagram(
-  node-shape: rect,
-  node-fill: c-atom,
-  node-stroke: t-bd + c-bd,
-  node-inset: 5pt,
-  node-outset: 2pt,
-  spacing: (3cm, 1.6cm),
-  node((0, 0), text(size: s-node, fill: c-ink)[${a, b, c}$], name: <abc>),
-  node((-1, 1), text(size: s-node, fill: c-ink)[${a, b}$], name: <ab>),
-  node((0, 1), text(size: s-node, fill: c-ink)[${a, c}$], name: <ac>),
-  node((1, 1), text(size: s-node, fill: c-ink)[${b, c}$], name: <bc>),
-  node((-1, 2), text(size: s-node, fill: c-ink)[${a}$], name: <a>),
-  node((0, 2), text(size: s-node, fill: c-ink)[${b}$], name: <b>),
-  node((1, 2), text(size: s-node, fill: c-ink)[${c}$], name: <c>),
-  node((0, 3), text(size: s-node, fill: c-ink)[$emptyset$], name: <e>),
-  edge(<e>, <a>, "->", stroke: t-ed + c-edge),
-  edge(<e>, <b>, "->", stroke: t-ed + c-edge),
-  edge(<e>, <c>, "->", stroke: t-ed + c-edge),
-  edge(<a>, <ab>, "->", stroke: t-ed + c-edge),
-  edge(<a>, <ac>, "->", stroke: t-ed + c-edge),
-  edge(<b>, <ab>, "->", stroke: t-ed + c-edge),
-  edge(<b>, <bc>, "->", stroke: t-ed + c-edge),
-  edge(<c>, <ac>, "->", stroke: t-ed + c-edge),
-  edge(<c>, <bc>, "->", stroke: t-ed + c-edge),
-  edge(<ab>, <abc>, "->", stroke: t-ed + c-edge),
-  edge(<ac>, <abc>, "->", stroke: t-ed + c-edge),
-  edge(<bc>, <abc>, "->", stroke: t-ed + c-edge),
-)
+#let power-set-hasse = {
+  let ps-node(pos, body, ..args) = node(
+    pos,
+    text(size: s-node, fill: c-ink)[#body],
+    ..args,
+  )
+
+  diagram(
+    node-shape: rect,
+    node-fill: c-atom,
+    node-stroke: t-bd + c-bd,
+    node-inset: 5pt,
+    node-outset: 2pt,
+    spacing: (3cm, 1.6cm),
+    ps-node((0, 0), ${a, b, c}$, name: <abc>),
+    ps-node((-1, 1), ${a, b}$, name: <ab>),
+    ps-node((0, 1), ${a, c}$, name: <ac>),
+    ps-node((1, 1), ${b, c}$, name: <bc>),
+    ps-node((-1, 2), ${a}$, name: <a>),
+    ps-node((0, 2), ${b}$, name: <b>),
+    ps-node((1, 2), ${c}$, name: <c>),
+    ps-node((0, 3), $emptyset$, name: <e>),
+
+    edge(<e>, <a>, "->", stroke: t-ed + c-edge),
+    edge(<e>, <b>, "->", stroke: t-ed + c-edge),
+    edge(<e>, <c>, "->", stroke: t-ed + c-edge),
+    edge(<a>, <ab>, "->", stroke: t-ed + c-edge),
+    edge(<a>, <ac>, "->", stroke: t-ed + c-edge),
+    edge(<b>, <ab>, "->", stroke: t-ed + c-edge),
+    edge(<b>, <bc>, "->", stroke: t-ed + c-edge),
+    edge(<c>, <ac>, "->", stroke: t-ed + c-edge),
+    edge(<c>, <bc>, "->", stroke: t-ed + c-edge),
+    edge(<ab>, <abc>, "->", stroke: t-ed + c-edge),
+    edge(<ac>, <abc>, "->", stroke: t-ed + c-edge),
+    edge(<bc>, <abc>, "->", stroke: t-ed + c-edge),
+  )
+}
 
 // ── Биекция отрезка на квадрат ──
 #let cantor-line-square = canvas({

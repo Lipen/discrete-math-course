@@ -95,7 +95,7 @@
   let lab(at, body, color: c-muted, anchor: "center") = draw.content(
     at,
     text(size: s-tiny, fill: color)[#body],
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
     anchor: anchor,

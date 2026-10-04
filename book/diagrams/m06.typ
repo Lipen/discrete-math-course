@@ -1,18 +1,30 @@
+// M06 diagrams: отображения между множествами: инъекция, сюръекция, биекция, домен и кодомен.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
 
 #import cetz: canvas, draw
 
-#let lens(pos, rx, ry, fill, label-text) = {
+#let set-lens(pos, rx, ry, fill, label-text) = {
   let (x, y) = pos
   draw.circle(pos, radius: (rx, ry), fill: fill, stroke: c-edge + t-ed)
   draw.content((x, y + ry + 0.3), text(size: s-node, fill: c-ink)[#label-text])
 }
 
-#let dot(pos, name) = draw.circle(pos, radius: 0.07, fill: c-ink, name: name)
+#let elem-dot(pos, name) = draw.circle(
+  pos,
+  radius: 0.07,
+  fill: c-ink,
+  name: name,
+)
 
-#let arrow(a, b) = draw.line(
+#let dot-column(x, ys, prefix) = {
+  for (i, y) in ys.enumerate() {
+    elem-dot((x, y), prefix + str(i + 1))
+  }
+}
+
+#let map-arrow(a, b) = draw.line(
   a,
   b,
   stroke: c-edge + t-ed,
@@ -26,81 +38,60 @@
 
 // ── Инъекция ──
 #let mapping-injection = canvas({
-  lens((-1.5, 0), 0.55, 1.1, c-fl, $A$)
-  dot((-1.5, -0.65), "a1")
-  dot((-1.5, -0.25), "a2")
-  dot((-1.5, 0.15), "a3")
-  dot((-1.5, 0.55), "a4")
+  set-lens((-1.5, 0), 0.55, 1.1, c-fl, $A$)
+  dot-column(-1.5, (-0.65, -0.25, 0.15, 0.55), "a")
 
-  lens((1.5, 0), 0.55, 1.4, c-conn, $B$)
-  dot((1.5, -1.05), "b1")
-  dot((1.5, -0.65), "b2")
-  dot((1.5, -0.25), "b3")
-  dot((1.5, 0.15), "b4")
-  dot((1.5, 0.55), "b5")
-  dot((1.5, 0.95), "b6")
+  set-lens((1.5, 0), 0.55, 1.4, c-conn, $B$)
+  dot-column(1.5, (-1.05, -0.65, -0.25, 0.15, 0.55, 0.95), "b")
 
-  arrow("a1", "b2")
-  arrow("a2", "b5")
-  arrow("a3", "b3")
-  arrow("a4", "b6")
+  map-arrow("a1", "b2")
+  map-arrow("a2", "b5")
+  map-arrow("a3", "b3")
+  map-arrow("a4", "b6")
 
   kicker([Инъекция])
 })
 
 // ── Сюръекция ──
 #let mapping-surjection = canvas({
-  lens((-1.5, 0), 0.55, 1.4, c-fl, $A$)
-  dot((-1.5, -1.05), "a1")
-  dot((-1.5, -0.65), "a2")
-  dot((-1.5, -0.25), "a3")
-  dot((-1.5, 0.15), "a4")
-  dot((-1.5, 0.55), "a5")
-  dot((-1.5, 0.95), "a6")
+  set-lens((-1.5, 0), 0.55, 1.4, c-fl, $A$)
+  dot-column(-1.5, (-1.05, -0.65, -0.25, 0.15, 0.55, 0.95), "a")
 
-  lens((1.5, 0), 0.55, 0.9, c-conn, $B$)
-  dot((1.5, -0.45), "b1")
-  dot((1.5, 0), "b2")
-  dot((1.5, 0.45), "b3")
+  set-lens((1.5, 0), 0.55, 0.9, c-conn, $B$)
+  dot-column(1.5, (-0.45, 0, 0.45), "b")
 
-  arrow("a1", "b1")
-  arrow("a2", "b1")
-  arrow("a3", "b2")
-  arrow("a4", "b2")
-  arrow("a5", "b3")
-  arrow("a6", "b3")
+  map-arrow("a1", "b1")
+  map-arrow("a2", "b1")
+  map-arrow("a3", "b2")
+  map-arrow("a4", "b2")
+  map-arrow("a5", "b3")
+  map-arrow("a6", "b3")
 
   kicker([Сюръекция])
 })
 
 // ── Биекция ──
 #let mapping-bijection = canvas({
-  lens((-1.5, 0), 0.55, 1.1, c-fl, $A$)
-  dot((-1.5, -0.65), "a1")
-  dot((-1.5, -0.25), "a2")
-  dot((-1.5, 0.15), "a3")
-  dot((-1.5, 0.55), "a4")
+  set-lens((-1.5, 0), 0.55, 1.1, c-fl, $A$)
+  dot-column(-1.5, (-0.65, -0.25, 0.15, 0.55), "a")
 
-  lens((1.5, 0), 0.55, 1.1, c-conn, $B$)
-  dot((1.5, -0.65), "b1")
-  dot((1.5, -0.25), "b2")
-  dot((1.5, 0.15), "b3")
-  dot((1.5, 0.55), "b4")
+  set-lens((1.5, 0), 0.55, 1.1, c-conn, $B$)
+  dot-column(1.5, (-0.65, -0.25, 0.15, 0.55), "b")
 
-  arrow("a1", "b3")
-  arrow("a2", "b1")
-  arrow("a3", "b4")
-  arrow("a4", "b2")
+  map-arrow("a1", "b3")
+  map-arrow("a2", "b1")
+  map-arrow("a3", "b4")
+  map-arrow("a4", "b2")
 
   kicker([Биекция])
 })
 
 // ── Части функции ──
 #let function-parts = canvas({
-  lens((-1.6, 0), 0.6, 1.0, c-fl, $A$)
-  lens((1.6, 0), 0.6, 1.0, c-conn, $B$)
+  set-lens((-1.6, 0), 0.6, 1.0, c-fl, $A$)
+  set-lens((1.6, 0), 0.6, 1.0, c-conn, $B$)
 
-  arrow((-1.0, 0), (1.0, 0))
+  map-arrow((-1.0, 0), (1.0, 0))
   draw.content((0, 0.4), text(size: s-cap, fill: c-ink)[$f$])
 
   let underbrace(x0, x1, y, body) = {

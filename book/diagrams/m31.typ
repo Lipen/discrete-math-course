@@ -6,38 +6,30 @@
 
 // ── Решётка знаков ──
 #let sign-lattice = canvas({
-  let snode(pos, label) = {
-    draw.circle(
-      pos,
-      radius: 0.42,
-      fill: c-fl,
-      stroke: t-bd + c-bd,
-    )
-    draw.content(pos, text(size: s-node, fill: c-ink, weight: "bold")[#label])
+  let snode(pos, name, label) = {
+    draw.circle(pos, radius: 0.42, fill: c-fl, stroke: t-bd + c-bd, name: name)
+    draw.content(name, text(size: s-node, fill: c-ink, weight: "bold")[#label])
   }
   let e(from, to) = draw.line(from, to, stroke: (
     paint: c-edge,
     thickness: t-ed,
   ))
 
-  let p-top = (0, 2.4)
-  let p-neg = (-1.7, 0)
-  let p-zero = (0, 0)
-  let p-pos = (1.7, 0)
-  let p-bot = (0, -2.4)
+  snode((0, 2.4), "top", $top$)
+  snode((-1.7, 0), "neg", $minus$)
+  snode((0, 0), "zero", $0$)
+  snode((1.7, 0), "pos", $plus$)
+  snode((0, -2.4), "bot", $bot$)
 
-  e(p-top, p-neg)
-  e(p-top, p-zero)
-  e(p-top, p-pos)
-  e(p-neg, p-bot)
-  e(p-zero, p-bot)
-  e(p-pos, p-bot)
-
-  snode(p-top, $top$)
-  snode(p-neg, $minus$)
-  snode(p-zero, $0$)
-  snode(p-pos, $plus$)
-  snode(p-bot, $bot$)
+  // Рёбра по именам узлов, слоем ниже: стыки линий скрыты заливкой.
+  draw.on-layer(-1, {
+    e("top", "neg")
+    e("top", "zero")
+    e("top", "pos")
+    e("neg", "bot")
+    e("zero", "bot")
+    e("pos", "bot")
+  })
 })
 
 // ── Widening для интервалов ──
@@ -50,7 +42,7 @@
   draw.content(
     (0, -1.5),
     anchor: "center",
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )[
@@ -69,7 +61,7 @@
     draw.content(
       (-0.4, k),
       anchor: "east",
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 2pt,
     )[#text(size: s-cap, fill: c-muted)[$[0, #k]$]]
@@ -78,7 +70,7 @@
   draw.content(
     (3.6, 3),
     anchor: "west",
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )[
@@ -89,7 +81,7 @@
   draw.content(
     (11.5, 5),
     anchor: "west",
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )[
@@ -105,7 +97,7 @@
   draw.content(
     (2.6, 4.1),
     anchor: "west",
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )[

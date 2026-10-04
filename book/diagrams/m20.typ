@@ -24,7 +24,7 @@
     draw.content(
       edge-name + ".mid",
       text(size: s-cap, fill: c-accent)[#prob],
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 2pt,
       anchor: "south",
@@ -83,7 +83,7 @@
     draw.content(
       name + ".mid",
       text(size: s-cap, fill: c-accent)[$#prob$],
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 2pt,
     )
@@ -152,7 +152,7 @@
   prob-edge("T", "TH", 0.6)
   prob-edge("T", "TT", 0.4)
 
-  // ── Метки ветвлений (в открытом месте, вне рёбер) ──
+  // Исход первого броска.
   draw.content((3.4, 2.4), text(size: s-node, fill: c-ink, weight: "bold")[$H$])
   draw.content((-3.4, 2.4), text(
     size: s-node,

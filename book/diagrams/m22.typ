@@ -24,7 +24,7 @@
   draw.content(
     "split",
     text(size: s-cap, fill: c-hot)[5 частей],
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )
@@ -39,14 +39,6 @@
     fill: c-ink,
     weight: "bold",
   )[Два шара])
-
-  draw.content(
-    (2.1, -1.4),
-    text(
-      size: s-cap,
-      fill: c-muted,
-    )[Разбиение сферы на 5 частей (вращения + AC) $->$ два шара того же радиуса.],
-  )
 })
 
 // ── Ординалы фон Неймана ──

@@ -9,6 +9,7 @@
 #let n-stroke = t-bd + c-bd
 #let e-stroke = (paint: c-edge, thickness: t-ed)
 
+// ── Ординалы ──
 #let ordinals = canvas({
   let line-y = -0.5
   let r = 0.22
@@ -16,17 +17,13 @@
   draw.line(
     (-3.6, line-y),
     (4.6, line-y),
-    stroke: (paint: c-edge, thickness: t-ed),
+    stroke: e-stroke,
     mark: (end: ">", fill: c-edge),
   )
 
   // Предельные ординалы (ω, ω·2, ω²) выделены тёплым акцентом.
   let ord-node(pos, label, limit: false) = {
-    let st = if limit {
-      (paint: c-hot, thickness: t-bd)
-    } else {
-      (paint: c-bd, thickness: t-bd)
-    }
+    let st = if limit { t-bd + c-hot } else { t-bd + c-bd }
     draw.circle(
       (pos, line-y),
       radius: r,

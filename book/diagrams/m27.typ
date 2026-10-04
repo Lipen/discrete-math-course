@@ -24,7 +24,7 @@
     draw.content(
       name,
       text(size: s-cap, fill: c-muted)[#label],
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 2pt,
     )
@@ -43,10 +43,6 @@
     te("lam", "app", "e-lam-app", [тело])
     te("app", "x1", "e-app-x1", [функция])
     te("app", "x2", "e-app-x2", [аргумент])
-
-    draw.content((0, -3.9), text(size: s-cap, fill: c-muted)[
-      Синтаксическое дерево терма $(lambda x . x x) y$
-    ])
   })
 }
 
@@ -76,7 +72,7 @@
     draw.content(
       name,
       text(size: size, fill: c-muted)[#label],
-      fill: white,
+      fill: c-white,
       stroke: none,
       padding: 2pt,
     )
@@ -92,9 +88,5 @@
     de("M", "N2", "e2", [внутренний редекс])
     de("N1", "L", "e3", size: s-tiny, [$arrow.r_beta$])
     de("N2", "L", "e4", size: s-tiny, [$arrow.r_beta$])
-
-    draw.content((0, -3.4), text(size: s-cap, fill: c-muted)[
-      Теорема Чёрча--Россера: внешний и внутренний пути редукции сходятся к $z$.
-    ])
   })
 }

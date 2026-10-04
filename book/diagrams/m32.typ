@@ -110,9 +110,9 @@
     flow("inv.south", (0, 1.77))
     flow((0.62, 1.15), "s.west")
     draw.line(
-      (1.95, 1.55),
+      "s.north",
       (1.95, 2.35),
-      (0.575, 2.35),
+      "inv.east",
       stroke: c-edge + t-ed,
       mark: (end: (symbol: ">", fill: c-edge)),
     )

@@ -10,6 +10,7 @@
 #let hi-stroke = (paint: c-accent, thickness: t-hi)
 #let hot-stroke = (paint: c-hot, thickness: t-hi)
 #let n-stroke = c-bd + t-bd
+#let hr-dash = (paint: c-muted, thickness: t-hr, dash: "dashed")
 
 #let arrow(fr, to, lab, stroke: e-stroke, side: auto, pos: none, ..extra) = {
   let opts = (label: lab, label-side: side, label-size: s-cap, stroke: stroke)
@@ -17,11 +18,12 @@
   edge(fr, to, "-}>", ..opts, ..extra)
 }
 
-// ── Коммутативный треугольник: композиция ──
-#let assoc-triangle = diagram(
+// ── Треугольник f, g и их композиции h ──
+// Один рисунок служит и аксиомой ассоциативности, и свободной категорией графа A -> B -> C.
+#let fgh-triangle(spacing) = diagram(
   node-stroke: n-stroke,
   node-fill: c-fl,
-  spacing: 3.2em,
+  spacing: spacing,
   {
     node((0, 0), $A$, name: <a>)
     node((1.6, 0), $B$, name: <b>)
@@ -31,6 +33,8 @@
     arrow(<a>, <c>, $h$, stroke: hi-stroke, pos: 0.5, bend: -22deg)
   },
 )
+
+#let assoc-triangle = fgh-triangle(3.2em)
 
 // ── Моноид как категория с одним объектом ──
 #let monoid-one-object = canvas({
@@ -73,19 +77,7 @@
 )
 
 // ── Свободная категория графа: морфизмы --- пути ──
-#let free-category = diagram(
-  node-stroke: n-stroke,
-  node-fill: c-fl,
-  spacing: 3em,
-  {
-    node((0, 0), $A$, name: <a>)
-    node((1.6, 0), $B$, name: <b>)
-    node((3.2, 0), $C$, name: <c>)
-    arrow(<a>, <b>, $f$)
-    arrow(<b>, <c>, $g$)
-    arrow(<a>, <c>, $h$, stroke: hi-stroke, pos: 0.5, bend: -22deg)
-  },
-)
+#let free-category = fgh-triangle(3em)
 
 // ── Булеан: образ и прообраз ──
 #let image-inverse-image = diagram(
@@ -165,15 +157,11 @@
     edge(<n>, <a>, "-}>", stroke: d-stroke)
     edge(<n>, <b>, "-}>", stroke: d-stroke)
     edge(<n>, <c>, "-}>", stroke: d-stroke)
-    node((0, 3), $lim D$, name: <l>, stroke: (paint: c-accent, thickness: t-hi))
+    node((0, 3), $lim D$, name: <l>, stroke: hi-stroke)
     edge(<l>, <a>, "-}>", stroke: hi-stroke)
     edge(<l>, <b>, "-}>", stroke: hi-stroke)
     edge(<l>, <c>, "-}>", stroke: hi-stroke)
-    edge(<n>, <l>, "-|>", label: [$!$], label-size: s-cap, stroke: (
-      paint: c-muted,
-      thickness: t-hr,
-      dash: "dashed",
-    ))
+    edge(<n>, <l>, "-|>", label: [$!$], label-size: s-cap, stroke: hr-dash)
   },
 )
 
@@ -205,11 +193,14 @@
 
     node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
     node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
-    edge(<fy>, <xg>, "-|>-|-|>", label: [биекция], label-size: s-cap, stroke: (
-      paint: c-muted,
-      thickness: t-hr,
-      dash: "dashed",
-    ))
+    edge(
+      <fy>,
+      <xg>,
+      "-|>-|-|>",
+      label: [биекция],
+      label-size: s-cap,
+      stroke: hr-dash,
+    )
   },
 )
 
@@ -245,7 +236,7 @@
     )
     draw.content(name, text(size: s-cap, fill: c-ink)[#lab])
   }
-  let wire(fr, to) = draw.line(fr, to, stroke: e-stroke)
+  let wire(fr, to, name: none) = draw.line(fr, to, stroke: e-stroke, name: name)
 
   // m : A ⊗ B -> C, затем n : C ⊗ D -> E.
   op(1.4, 0, "m", $m$)
@@ -258,10 +249,13 @@
 
   wire("wA.north", "m.south-west")
   wire("wB.north", "m.south-east")
-  wire("m.north-west", "n.south-west")
+  wire("m.north-west", "n.south-west", name: "mn")
   wire("wD.north", "n.south-east")
   wire("n.north", "wE.south")
-  draw.content((0.72, 1.2), text(size: s-cap, fill: c-muted)[$C$])
+  draw.content("mn", anchor: "east", padding: 2pt, text(
+    size: s-cap,
+    fill: c-muted,
+  )[$C$])
 })
 
 // ── Начальная алгебра списка и катаморфизм ──

@@ -33,8 +33,8 @@
   )
 
   draw.line(
-    "u",
-    "v",
+    "u.east",
+    "v.west",
     stroke: k-edge,
     mark: (end: ">", fill: c-edge),
     name: "uv",
@@ -42,7 +42,7 @@
   draw.content(
     "uv",
     text(size: s-tiny, fill: c-muted)[$u <= v$],
-    fill: white,
+    fill: c-white,
     stroke: none,
     padding: 2pt,
   )

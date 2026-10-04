@@ -40,7 +40,7 @@
       text(size: s-cap, fill: c-muted)[
         #align(left)[
           описание МТ,\
-          чей язык пуст iff M(w) зацикливается
+          чей язык пуст $<=>$ M(w) зацикливается
         ]
       ],
       name: <note>,
@@ -60,7 +60,7 @@
     radius: 0.1cm,
     inset: 0.1cm,
     outset: 0pt,
-    fill: if member { c-ink } else { white },
+    fill: if member { c-ink } else { c-white },
     stroke: if member { none } else { t-bd + c-ink },
     name: name,
   )

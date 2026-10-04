@@ -99,7 +99,7 @@
     draw.rect(
       (x - l, y - l),
       (x + l, y + l),
-      fill: white,
+      fill: c-white,
       stroke: (paint: c-bd, thickness: t-bd),
       radius: 1.5pt,
       name: name,

@@ -8,11 +8,13 @@
 // Доступность (стрелки переходов) выделяется книжным акцентом.
 #let acc-stroke = (paint: c-accent, thickness: t-ed)
 
+#let e-stroke = (paint: c-edge, thickness: t-ed)
+
 // Узел D --- деонтическая система, лежащая на ребре $K -> T$, вне осей куба.
 #let d-fill = c-conn
 #let d-str = oklch(60%, 0.10, 60deg) + t-bd
 
-// ── Крипке-гараж (светофор): три состояния, цикл переходов. ──
+// ── Крипке-модель светофора ──
 #let kripke-traffic = diagram(
   node-shape: circle,
   node-stroke: t-bd + c-bd,
@@ -43,59 +45,55 @@
   ),
 )
 
-// ── Куб модальностей: оси +T, +B, +4; D на ребре $K -> T$. ──
+// ── Куб модальностей ──
 #let modal-cube = canvas({
   let r = 0.44
-  let frame-stroke = (paint: c-edge, thickness: t-ed)
   let w-node(pos, body, name, dim: false) = {
     let label-col = if dim { c-muted } else { c-ink }
     draw.circle(pos, radius: r, fill: c-fl, stroke: t-bd + c-bd, name: name)
     draw.content(pos, text(size: s-node, fill: label-col)[#body])
   }
-  let frame(from, to) = draw.line(from, to, stroke: frame-stroke)
+  let frame(from, to, name: none) = draw.line(
+    from,
+    to,
+    stroke: e-stroke,
+    name: name,
+  )
 
-  let pk = (0, 0)
-  let pt = (2.2, 0)
-  let pkb = (0, 2.2)
-  let pb = (2.2, 2.2)
-  let pk4 = (0.7, 1.3)
-  let ps4 = (2.9, 1.3)
-  let pkb4 = (0.7, 3.5)
-  let ps5 = (2.9, 3.5)
+  w-node((0, 0), $K$, "k")
+  w-node((2.2, 0), $T$, "t")
+  w-node((0, 2.2), $K B$, "kb", dim: true)
+  w-node((2.2, 2.2), $B$, "b")
+  w-node((0.7, 1.3), $K_4$, "k4", dim: true)
+  w-node((2.9, 1.3), $S_4$, "s4")
+  w-node((0.7, 3.5), $K B_4$, "kb4", dim: true)
+  w-node((2.9, 3.5), $S_5$, "s5")
 
-  frame(pk, pt)
-  frame(pk, pkb)
-  frame(pt, pb)
-  frame(pkb, pb)
-  frame(pk4, ps4)
-  frame(pk4, pkb4)
-  frame(ps4, ps5)
-  frame(pkb4, ps5)
-  frame(pk, pk4)
-  frame(pt, ps4)
-  frame(pkb, pkb4)
-  frame(pb, ps5)
+  // Каркас куба под узлами: рёбра читаются по именам вершин, стыки скрыты заливкой.
+  draw.on-layer(-1, {
+    frame("k", "t", name: "kt")
+    frame("k", "kb")
+    frame("t", "b")
+    frame("kb", "b")
+    frame("k4", "s4")
+    frame("k4", "kb4")
+    frame("s4", "s5")
+    frame("kb4", "s5")
+    frame("k", "k4")
+    frame("t", "s4")
+    frame("kb", "kb4")
+    frame("b", "s5")
+  })
 
   draw.content((0.9, -0.6), text(size: s-cap, fill: c-muted)[+$T$])
   draw.content((-0.55, 1.1), text(size: s-cap, fill: c-muted)[+$B$])
   draw.content((0.15, 0.7), text(size: s-cap, fill: c-muted)[+$4$])
 
-  w-node(pk, $K$, "k")
-  w-node(pt, $T$, "t")
-  w-node(pkb, $K B$, "kb", dim: true)
-  w-node(pb, $B$, "b")
-
-  w-node(pk4, $K_4$, "k4", dim: true)
-  w-node(ps4, $S_4$, "s4")
-  w-node(pkb4, $K B_4$, "kb4", dim: true)
-  w-node(ps5, $S_5$, "s5")
-
-  let d-pos = (1.1, 0)
-  draw.circle(d-pos, radius: 0.28, fill: d-fill, stroke: d-str, name: "d")
-  draw.content(d-pos, text(size: s-node, fill: c-ink)[$D$])
+  draw.circle("kt", radius: 0.28, fill: d-fill, stroke: d-str, name: "d")
+  draw.content("d", text(size: s-node, fill: c-ink)[$D$])
 })
 
-// ── Состояния мьютекса: (C,C) запрещено, переходы между остальными. ──
+// ── Состояния мьютекса ──
 #let mutex-states = diagram(
   node-shape: circle,
   node-stroke: t-bd + c-bd,
