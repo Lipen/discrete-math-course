@@ -65,6 +65,39 @@
   he(<p2>, <p12>),
 )
 
+// ── Ромб M₃: попарно несравнимая середина ──
+#let lattice-m3 = diagram(
+  ..node-opts,
+  spacing: 1em,
+  hn((0, 2), $bot$, name: <m3-bot>),
+  hn((-1, 1), $a$, name: <m3-a>),
+  hn((0, 1), $b$, name: <m3-b>),
+  hn((1, 1), $c$, name: <m3-c>),
+  hn((0, 0), $top$, name: <m3-top>),
+  he(<m3-bot>, <m3-a>),
+  he(<m3-bot>, <m3-b>),
+  he(<m3-bot>, <m3-c>),
+  he(<m3-a>, <m3-top>),
+  he(<m3-b>, <m3-top>),
+  he(<m3-c>, <m3-top>),
+)
+
+// ── Пентагон N₅: немодулярная решётка ──
+#let lattice-n5 = diagram(
+  ..node-opts,
+  spacing: 1em,
+  hn((0, 3), $bot$, name: <n5-bot>),
+  hn((-1, 2), $a$, name: <n5-a>),
+  hn((-1, 1), $b$, name: <n5-b>),
+  hn((1, 1), $c$, name: <n5-c>),
+  hn((0, 0), $top$, name: <n5-top>),
+  he(<n5-bot>, <n5-a>),
+  he(<n5-bot>, <n5-c>),
+  he(<n5-a>, <n5-b>),
+  he(<n5-b>, <n5-top>),
+  he(<n5-c>, <n5-top>),
+)
+
 // ── Решётка знаков ──
 #let sign-lattice = diagram(
   ..node-opts,
