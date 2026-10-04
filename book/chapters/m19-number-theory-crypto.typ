@@ -407,6 +407,7 @@ $
 ]
 
 #figure(
+  kind: table,
   table(
     columns: 13,
     align: center,
