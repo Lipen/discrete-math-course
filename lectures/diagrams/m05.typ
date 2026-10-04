@@ -1,6 +1,5 @@
 // Отношения: орграф, делимость, три представления, композиция, Уоршелл, эквивалентность.
 #import "@preview/cetz:0.5.2": canvas, draw
-#import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "style.typ": *
 #import "../theme.typ": sim
 
@@ -8,26 +7,14 @@
 #let class-tones = (cool, green, warm)
 #let class-fills = (cool.lighten(78%), green.lighten(78%), warm.lighten(78%))
 
-#let vertex-node(pos, body, ..args) = node(
-  pos,
-  text(size: 1.2em, fill: ink)[#body],
-  ..args,
-)
-#let edge-arrow(from, to, ..args) = edge(
-  from,
-  to,
-  "-}>",
-  stroke: edge-plain,
-  ..args,
-)
-#let loop-edge(from, to, angle: 30deg) = edge(
-  from,
-  to,
-  "-}>",
-  stroke: edge-plain,
-  bend: 125deg,
-  loop-angle: angle,
-)
+#let vadd(a, b) = (a.at(0) + b.at(0), a.at(1) + b.at(1))
+#let vsub(a, b) = (a.at(0) - b.at(0), a.at(1) - b.at(1))
+#let vmul(a, k) = (a.at(0) * k, a.at(1) * k)
+#let vunit(a) = {
+  let n = calc.sqrt(a.at(0) * a.at(0) + a.at(1) * a.at(1))
+  vmul(a, 1 / n)
+}
+
 #let flow(
   a,
   b,
@@ -43,29 +30,67 @@
   mark: (end: "stealth", fill: style.paint),
 )
 
-// ── Орграф R на {1, ..., 5}: петли 1 и 5, цикл 1 -> 2 -> 3 -> 1 ──
-#let rel-digraph = diagram(
-  node-shape: "circle",
-  node-fill: cool.lighten(82%),
-  node-stroke: 1.2pt + cool,
-  node-inset: 0pt,
-  node-outset: 0pt,
-  spacing: 2.6em,
-  vertex-node((-0.4, 1.6), $1$, name: <1>),
-  vertex-node((1.3, 0.8), $2$, name: <2>),
-  vertex-node((1.3, -0.8), $3$, name: <3>),
-  vertex-node((-1.3, -0.8), $4$, name: <4>),
-  vertex-node((-1.3, 0.8), $5$, name: <5>),
-  loop-edge(<1>, <1>, angle: 270deg),
-  loop-edge(<5>, <5>, angle: 135deg),
-  edge(<1>, <2>, "-}>", stroke: edge-hot),
-  edge(<2>, <3>, "-}>", stroke: edge-hot),
-  edge(<3>, <1>, "-}>", stroke: edge-hot),
-  edge-arrow(<1>, <5>),
-  edge-arrow(<2>, <4>),
-  edge-arrow(<4>, <2>),
-  edge-arrow(<5>, <3>),
-)
+// ── Орграф отношения с петлями ──
+#let rel-digraph = canvas({
+  let node-r = 0.30
+  let at = (
+    "1": (0.0, -1.8),
+    "2": (1.9, -1.2),
+    "3": (1.9, 0.9),
+    "4": (1.9, -2.4),
+    "5": (-1.9, 0.2),
+  )
+  let spot(name, body) = {
+    vertex(name, at.at(name), size: node-r)
+    mark(at.at(name), body, size: 1.15em)
+  }
+  let arrow(from, to, bow: 0) = {
+    let pa = at.at(from)
+    let pb = at.at(to)
+    let mid = vmul(vadd(pa, pb), 0.5)
+    let c = vadd(
+      mid,
+      vmul(vunit((-(pb.at(1) - pa.at(1)), pb.at(0) - pa.at(0))), bow),
+    )
+    draw.bezier(
+      vadd(pa, vmul(vunit(vsub(c, pa)), node-r)),
+      vadd(pb, vmul(vunit(vsub(c, pb)), node-r)),
+      c,
+      stroke: edge-plain,
+      mark: (end: "stealth", fill: edge-plain.paint),
+    )
+  }
+  let self-loop(from, dir) = {
+    let p = at.at(from)
+    let d = vunit(dir)
+    let perp = (-d.at(1), d.at(0))
+    let k = 0.883
+    let j = 0.469
+    draw.bezier(
+      vadd(p, vmul(vadd(vmul(d, j), vmul(perp, k)), node-r)),
+      vadd(p, vmul(vadd(vmul(d, j), vmul(perp, -k)), node-r)),
+      vadd(p, vmul(d, node-r + 1.0)),
+      stroke: edge-plain,
+      mark: (end: "stealth", fill: edge-plain.paint),
+    )
+  }
+
+  spot("1", $1$)
+  spot("2", $2$)
+  spot("3", $3$)
+  spot("4", $4$)
+  spot("5", $5$)
+
+  arrow("1", "2")
+  arrow("2", "3")
+  arrow("3", "1", bow: -0.35)
+  arrow("1", "5")
+  arrow("5", "3")
+  arrow("2", "4", bow: 0.3)
+  arrow("4", "2", bow: 0.3)
+  self-loop("1", (0.0, -1.0))
+  self-loop("5", (-1.0, 0.0))
+})
 
 // ── Хассе: делимость на {1, 2, 3, 4, 6, 12}, только покрывающие рёбра ──
 #let hasse-divisibility = canvas({
@@ -280,46 +305,39 @@
   mark((6.81, 1.35), $k = 3$)
 })
 
-// ── Двудольное представление: две части, рёбра поперёк ──
+// ── Двудольный граф делимости ──
 #let rel-bipartite = canvas({
-  let circles = (
-    l1: (-2.25, 2.1),
-    l2: (-2.25, 1.05),
-    l3: (-2.25, 0),
-    l4: (-2.25, -1.05),
-    l5: (-2.25, -2.1),
-  )
-  let squares = (r1: (2.25, 1.31), r2: (2.25, 0), r3: (2.25, -1.31))
-  let ties = (
-    ("l1", "r1", 0.52, false),
-    ("l1", "r2", 0.38, false),
-    ("l2", "r1", 0.41, true),
-    ("l3", "r1", 0.22, false),
-    ("l3", "r3", -0.45, false),
-    ("l4", "r2", -0.32, false),
-  )
+  let left = ("2": (-2.2, 1.0), "3": (-2.2, -1.0))
+  let right = ("4": (2.2, 1.5), "6": (2.2, 0.0), "9": (2.2, -1.5))
+  let node-r = 0.34
 
-  panel((-3.75, -2.62), (-0.75, 2.62), tone: cool)
-  panel((0.75, -2.62), (3.75, 2.62), tone: warm, fill: panel-warm)
-  draw.line((0, -2.33), (0, 2.33), stroke: edge-soft)
+  panel((-3.0, -2.15), (-1.1, 2.15), tone: cool)
+  panel((1.1, -2.15), (3.0, 2.15), tone: warm, fill: panel-warm)
 
-  for (name, pos) in circles {
-    vertex(name, pos, tone: cool, size: 0.32)
+  for (name, pos) in left {
+    vertex(name, pos, tone: cool, size: node-r)
+    mark(pos, name, size: 1.1em)
   }
-  for (name, pos) in squares {
-    cell(name, pos, tone: warm)
-  }
-  for (a, b, lift, accent) in ties {
-    let ay = circles.at(a).at(1)
-    let by = squares.at(b).at(1)
-    tie(a, b, (0, (ay + by) / 2 + lift), style: if accent { edge-hot } else {
-      edge-plain
-    })
+  for (name, pos) in right {
+    cell(name, pos, tone: warm, size: node-r)
+    mark(pos, name, size: 1.1em)
   }
 
-  mark((0, 2.5), $R$)
-  mark((-2.25, -3.0), $A$)
-  mark((2.25, -3.0), $B$)
+  for (a, b) in (("2", "4"), ("2", "6"), ("3", "6"), ("3", "9")) {
+    let pa = left.at(a)
+    let pb = right.at(b)
+    let d = vsub(pb, pa)
+    let u = vmul(d, 1 / calc.sqrt(d.at(0) * d.at(0) + d.at(1) * d.at(1)))
+    draw.line(
+      vadd(pa, vmul(u, node-r)),
+      vsub(pb, vmul(u, node-r)),
+      stroke: edge-plain,
+    )
+  }
+
+  mark((-2.2, 2.55), $A$)
+  mark((0.0, 2.55), $R$)
+  mark((2.2, 2.55), $B$)
 })
 
 // ── Классы эквивалентности: непересекающиеся области внутри A ──
