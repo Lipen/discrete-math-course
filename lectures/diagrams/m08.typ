@@ -1,5 +1,5 @@
 // Диаграммы Хассе: порядок по делимости, цепь, булеаны, решётка знаков.
-#import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
+#import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "style.typ": *
 
 // Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
