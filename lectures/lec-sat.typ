@@ -149,7 +149,7 @@ $ overline(l_1) -> l_2, quad overline(l_2) -> l_1. $
 
 == Теорема Кука
 
-#theorem[Теорема Кука, 1971][
+#theorem[Кук, 1971][
   SAT NP-полна.
 ]
 
