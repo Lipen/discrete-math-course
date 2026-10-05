@@ -4,9 +4,9 @@
 
 // Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
 // наименьший --- максимальный y. Рёбра Хассе идут вверх без стрелок.
-#let hn(pos, body, tone: cool, fill: none, size: 0.9em, ..args) = node(
+#let hn(pos, body, tone: cool, fill: none, size: 0.9em, label: 0.8em, ..args) = node(
   pos,
-  text(size: 0.8em, fill: ink)[#body],
+  text(size: label, fill: ink)[#body],
   fill: if fill == none { tone.lighten(82%) } else { fill },
   stroke: 1.1pt + tone,
   width: size,
@@ -128,6 +128,46 @@
   hn((0, 2), ${2}$, size: 1.2em, name: <p2>),
   hn((1.8, 2), ${3}$, size: 1.2em, name: <p3>),
   hn((0, 3), $emptyset$, size: 1.2em, name: <p0>),
+  // покрывающие рёбра: добавление одного элемента
+  he(<p0>, <p1>),
+  he(<p0>, <p2>),
+  he(<p0>, <p3>),
+  he(<p1>, <p12>),
+  he(<p1>, <p13>),
+  he(<p2>, <p12>),
+  he(<p2>, <p23>),
+  he(<p3>, <p13>),
+  he(<p3>, <p23>),
+  he(<p12>, <p123>),
+  he(<p13>, <p123>),
+  he(<p23>, <p123>),
+)
+
+// ── Крупный куб B₃ для сольного слайда ──
+#let hasse-powerset-3-large = diagram(
+  ..node-opts,
+  spacing: 1.65em,
+  hn((0, 0), ${1,2,3}$, size: 1.5em, label: 0.9em, name: <p123>),
+  hn((-1.8, 1), ${1,2}$, size: 1.5em, label: 0.9em, name: <p12>),
+  hn((0, 1), ${1,3}$, size: 1.5em, label: 0.9em, name: <p13>),
+  hn((1.8, 1), ${2,3}$, size: 1.5em, label: 0.9em, name: <p23>),
+  hn((-1.8, 2), ${1}$, size: 1.5em, label: 0.9em, name: <p1>),
+  hn((0, 2), ${2}$, size: 1.5em, label: 0.9em, name: <p2>),
+  hn((1.8, 2), ${3}$, size: 1.5em, label: 0.9em, name: <p3>),
+  hn((0, 3), $emptyset$, size: 1.5em, label: 0.9em, name: <p0>),
+  he(<p0>, <p1>),
+  he(<p0>, <p2>),
+  he(<p0>, <p3>),
+  he(<p1>, <p12>),
+  he(<p1>, <p13>),
+  he(<p2>, <p12>),
+  he(<p2>, <p23>),
+  he(<p3>, <p13>),
+  he(<p3>, <p23>),
+  he(<p12>, <p123>),
+  he(<p13>, <p123>),
+  he(<p23>, <p123>),
+)
   // покрывающие рёбра: добавление одного элемента
   he(<p0>, <p1>),
   he(<p0>, <p2>),

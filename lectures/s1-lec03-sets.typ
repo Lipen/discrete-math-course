@@ -5,7 +5,7 @@
   equality-boxes, points-grid, product-plane, rect-difference, set-box,
   venn-difference, venn-intersection, venn-subset, venn-union, venn-vs-euler,
 )
-#import "diagrams/m08.typ": hasse-powerset-3
+#import "diagrams/m08.typ": hasse-powerset-3-large
 #show: slides.with(
   title: [Множества],
   date: "Осень 2026",
@@ -898,7 +898,7 @@ $x in A symdiff B equiv (x in A) xor (x in B)$: элемент лежит ров
 
 == Решётка подмножеств
 
-#align(center)[#scale(125%, reflow: true)[#hasse-powerset-3]]
+#align(center)[#hasse-powerset-3-large]
 
 Подмножества $power({1, 2, 3})$, упорядоченные включением: соседние отличаются одним элементом.
 
