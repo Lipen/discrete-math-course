@@ -6,24 +6,26 @@
 // наименьший --- максимальный y. Рёбра Хассе идут вверх без стрелок.
 #let hn(pos, body, tone: cool, fill: none, ..args) = node(
   pos,
-  text(fill: ink)[#body],
+  text(size: 0.8em, fill: ink)[#body],
   fill: if fill == none { tone.lighten(82%) } else { fill },
   stroke: 1.1pt + tone,
+  width: 0.9em,
+  height: 0.9em,
   ..args,
 )
 #let he(from, to) = edge(from, to, "-", stroke: edge-plain)
 
-// общие параметры вершин: эллипс плотно вокруг имени
+// общие параметры вершин: круг одного размера, как в книге
 #let node-opts = (
-  node-shape: shapes.ellipse,
-  node-inset: 2.5pt,
+  node-shape: "circle",
+  node-inset: 0pt,
   node-outset: 0pt,
 )
 
 // ── Делимость на {1, 2, 3, 4, 6, 12} ──
 #let hasse-divisors-12 = diagram(
   ..node-opts,
-  spacing: 1em,
+  spacing: 1.25em,
   hn((0, 3), $1$, name: <d1>),
   hn((-1, 2), $2$, name: <d2>),
   hn((1, 2), $3$, name: <d3>),
@@ -42,7 +44,7 @@
 // ── Цепь {1 < 2 < 3} ──
 #let hasse-chain-3 = diagram(
   ..node-opts,
-  spacing: 1em,
+  spacing: 1.05em,
   hn((0, 2), $1$, name: <c1>),
   hn((0, 1), $2$, name: <c2>),
   hn((0, 0), $3$, name: <c3>),
@@ -53,7 +55,7 @@
 // ── Булеан {1, 2} по включению (квадрат B₂) ──
 #let hasse-powerset-2 = diagram(
   ..node-opts,
-  spacing: 1em,
+  spacing: 1.25em,
   hn((0, 2), $emptyset$, name: <p0>),
   hn((-1, 1), ${1}$, name: <p1>),
   hn((1, 1), ${2}$, name: <p2>),
@@ -67,7 +69,7 @@
 // ── Ромб M₃: попарно несравнимая середина ──
 #let lattice-m3 = diagram(
   ..node-opts,
-  spacing: 1em,
+  spacing: 1.25em,
   hn((0, 2), $bot$, name: <m3-bot>),
   hn((-1, 1), $a$, name: <m3-a>),
   hn((0, 1), $b$, name: <m3-b>),
@@ -84,7 +86,7 @@
 // ── Пентагон N₅: немодулярная решётка ──
 #let lattice-n5 = diagram(
   ..node-opts,
-  spacing: 1em,
+  spacing: 1.25em,
   hn((0, 3), $bot$, name: <n5-bot>),
   hn((-1, 2), $a$, name: <n5-a>),
   hn((-1, 1), $b$, name: <n5-b>),
@@ -100,7 +102,7 @@
 // ── Решётка знаков ──
 #let sign-lattice = diagram(
   ..node-opts,
-  spacing: 0.9em,
+  spacing: 1.05em,
   hn((0, 2), $bot$, name: <bot>),
   hn((-1, 1), $-$, name: <neg>),
   hn((0, 1), $0$, name: <zero>),
@@ -117,7 +119,7 @@
 // ── Булеан {1, 2, 3} по включению (куб B₃) ──
 #let hasse-powerset-3 = diagram(
   ..node-opts,
-  spacing: 0.9em,
+  spacing: 1.15em,
   hn((0, 0), ${1,2,3}$, name: <p123>),
   hn((-1.8, 1), ${1,2}$, name: <p12>),
   hn((0, 1), ${1,3}$, name: <p13>),
