@@ -663,12 +663,12 @@ _Композиция_ --- операция склеивания функций 
   Утверждение о биективности следует из этих двух.
 
   Сначала докажем сохранение инъективности.
-  Инъективность $f$ и $g$ означает, что $f(x_1) = f(x_2) => x_1 = x_2$ и аналогично для $g$.
+  Инъективность $f$ и $g$ означает, что $f(x_1) = f(x_2) arrow.double.r x_1 = x_2$ и аналогично для $g$.
   Тогда
   $
-    (g compose f)(x_1) = (g compose f)(x_2) & => g(f(x_1)) = g(f(x_2)) \
-                                            & => f(x_1) = f(x_2) \
-                                            & => x_1 = x_2.
+    (g compose f)(x_1) = (g compose f)(x_2) & arrow.double.r g(f(x_1)) = g(f(x_2)) \
+                                            & arrow.double.r f(x_1) = f(x_2) \
+                                            & arrow.double.r x_1 = x_2.
   $
   Второй переход использует инъективность $g$, третий --- инъективность $f$.
 
@@ -775,16 +775,16 @@ _Композиция_ --- операция склеивания функций 
 
   *Образ пересечения.*
   $
-    y in f(A inter B) & => exists x in A inter B: f(x) = y \
-                      & => y in f(A) and y in f(B).
+    y in f(A inter B) & arrow.double.r exists x in A inter B: f(x) = y \
+                      & arrow.double.r y in f(A) and y in f(B).
   $
 
   Обратное верно, когда $f$ инъективна:
   $
-    y in f(A) inter f(B) & => exists a in A, b in B: f(a) = f(b) = y \
-                         & => a = b quad ("инъективность") \
-                         & => a in A inter B \
-                         & => y in f(A inter B).
+    y in f(A) inter f(B) & arrow.double.r exists a in A, b in B: f(a) = f(b) = y \
+                         & arrow.double.r a = b quad ("инъективность") \
+                         & arrow.double.r a in A inter B \
+                         & arrow.double.r y in f(A inter B).
   $
 ]
 
