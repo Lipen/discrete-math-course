@@ -898,7 +898,7 @@ $x in A symdiff B equiv (x in A) xor (x in B)$: элемент лежит ров
 
 == Решётка подмножеств
 
-#align(center)[#scale(150%, reflow: true)[#hasse-powerset-3]]
+#align(center)[#scale(125%, reflow: true)[#hasse-powerset-3]]
 
 Подмножества $power({1, 2, 3})$, упорядоченные включением: соседние отличаются одним элементом.
 

@@ -4,13 +4,13 @@
 
 // Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
 // наименьший --- максимальный y. Рёбра Хассе идут вверх без стрелок.
-#let hn(pos, body, tone: cool, fill: none, ..args) = node(
+#let hn(pos, body, tone: cool, fill: none, size: 0.9em, ..args) = node(
   pos,
   text(size: 0.8em, fill: ink)[#body],
   fill: if fill == none { tone.lighten(82%) } else { fill },
   stroke: 1.1pt + tone,
-  width: 0.9em,
-  height: 0.9em,
+  width: size,
+  height: size,
   ..args,
 )
 #let he(from, to) = edge(from, to, "-", stroke: edge-plain)
@@ -55,11 +55,11 @@
 // ── Булеан {1, 2} по включению (квадрат B₂) ──
 #let hasse-powerset-2 = diagram(
   ..node-opts,
-  spacing: 1.25em,
-  hn((0, 2), $emptyset$, name: <p0>),
-  hn((-1, 1), ${1}$, name: <p1>),
-  hn((1, 1), ${2}$, name: <p2>),
-  hn((0, 0), ${1,2}$, name: <p12>),
+  spacing: 1.45em,
+  hn((0, 2), $emptyset$, size: 1.2em, name: <p0>),
+  hn((-1, 1), ${1}$, size: 1.2em, name: <p1>),
+  hn((1, 1), ${2}$, size: 1.2em, name: <p2>),
+  hn((0, 0), ${1,2}$, size: 1.2em, name: <p12>),
   he(<p0>, <p1>),
   he(<p0>, <p2>),
   he(<p1>, <p12>),
@@ -119,15 +119,15 @@
 // ── Булеан {1, 2, 3} по включению (куб B₃) ──
 #let hasse-powerset-3 = diagram(
   ..node-opts,
-  spacing: 1.15em,
-  hn((0, 0), ${1,2,3}$, name: <p123>),
-  hn((-1.8, 1), ${1,2}$, name: <p12>),
-  hn((0, 1), ${1,3}$, name: <p13>),
-  hn((1.8, 1), ${2,3}$, name: <p23>),
-  hn((-1.8, 2), ${1}$, name: <p1>),
-  hn((0, 2), ${2}$, name: <p2>),
-  hn((1.8, 2), ${3}$, name: <p3>),
-  hn((0, 3), $emptyset$, name: <p0>),
+  spacing: 1.3em,
+  hn((0, 0), ${1,2,3}$, size: 1.2em, name: <p123>),
+  hn((-1.8, 1), ${1,2}$, size: 1.2em, name: <p12>),
+  hn((0, 1), ${1,3}$, size: 1.2em, name: <p13>),
+  hn((1.8, 1), ${2,3}$, size: 1.2em, name: <p23>),
+  hn((-1.8, 2), ${1}$, size: 1.2em, name: <p1>),
+  hn((0, 2), ${2}$, size: 1.2em, name: <p2>),
+  hn((1.8, 2), ${3}$, size: 1.2em, name: <p3>),
+  hn((0, 3), $emptyset$, size: 1.2em, name: <p0>),
   // покрывающие рёбра: добавление одного элемента
   he(<p0>, <p1>),
   he(<p0>, <p2>),

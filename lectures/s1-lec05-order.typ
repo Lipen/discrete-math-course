@@ -410,12 +410,14 @@
 
 == Булева решётка
 
-#grid(
-  columns: 2,
-  column-gutter: 2em,
-  align: center,
-  align(center, hasse-powerset-2), align(center, hasse-powerset-3),
-)
+#align(center)[
+  #grid(
+    columns: (auto, auto),
+    column-gutter: 6em,
+    hasse-powerset-2,
+    hasse-powerset-3,
+  )
+]
 
 Подмножества ${1, 2}$ и ${1, 2, 3}$ по включению: слева --- квадрат $B_2$, справа --- куб $B_3$.
 
