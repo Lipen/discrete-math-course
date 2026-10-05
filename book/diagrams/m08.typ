@@ -1,4 +1,3 @@
-// M08 diagrams: диаграммы Хассе порядков и решётки M3, N5.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 

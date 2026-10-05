@@ -1,4 +1,3 @@
-// M02 diagrams: деревья вывода и схемы правил (curryst).
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

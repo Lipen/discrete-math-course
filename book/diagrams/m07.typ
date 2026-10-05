@@ -1,4 +1,3 @@
-// M07 diagrams: диагональ Кантора, диагональная нумерация пар, булеан, алефы и беты.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

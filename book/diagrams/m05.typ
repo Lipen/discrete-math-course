@@ -1,4 +1,3 @@
-// M05 diagrams: орграф, диаграммы Хассе, разбиение на классы, дендрограмма, филогенетическое дерево.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

@@ -1,4 +1,3 @@
-// M10 diagrams: карты Карно и BDD для XOR.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

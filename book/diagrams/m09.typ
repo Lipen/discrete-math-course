@@ -1,4 +1,3 @@
-// M09 diagrams: графы: виды графов, обходы, деревья, паросочетания, потоки, планарность.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -87,11 +86,11 @@
   draw.rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
   for (i, p) in left.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pa-dot, name: "l" + str(i + 1))
-    draw.content(p, $v_#(i + 1)$, anchor: "west", outset: 0.3em, size: s-node)
+    draw.content(p, $v_#(i + 1)$, anchor: "east", outset: 0.35em, size: s-tiny)
   }
   for (i, p) in right.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pb-dot, name: "r" + str(i + 1))
-    draw.content(p, $u_#(i + 1)$, anchor: "east", outset: 0.3em, size: s-node)
+    draw.content(p, $u_#(i + 1)$, anchor: "west", outset: 0.35em, size: s-tiny)
   }
   for i in range(3) {
     for j in range(3) {
@@ -919,7 +918,7 @@
   }
 
   for (fr, to, lb, off, cross) in (
-    ("s", "a", "3/3", (-0.12, 0.26), true),
+    ("s", "a", "3/3", (-0.12, 0.26), false),
     ("s", "b", "2/2", (-0.12, -0.26), true),
     ("a", "t", "2/2", (0.12, 0.26), true),
     ("b", "t", "3/3", (0.12, -0.26), false),

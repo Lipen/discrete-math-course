@@ -1,4 +1,3 @@
-// M01 diagrams: дерево разбора, порядок кванторов, логический квадрат, резолюционное опровержение.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

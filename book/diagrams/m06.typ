@@ -1,4 +1,3 @@
-// M06 diagrams: отображения между множествами: инъекция, сюръекция, биекция, домен и кодомен.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *

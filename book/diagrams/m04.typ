@@ -1,4 +1,3 @@
-// M04 diagrams: диаграммы Венна и пороговый граф.
 #import "../requirements.typ": *
 #import "../notation.typ": *
 #import "style.typ": *
@@ -105,25 +104,22 @@
 // ── Дополнение и симметрическая разность ──
 #let ca = oklch(72%, 0.1, 250deg).transparentize(55%)
 #let cb = oklch(72%, 0.1, 25deg).transparentize(55%)
-#let c-str = oklch(35%, 0.02, 265deg) + 0.7pt
-#let venn-r = 0.85
-#let label-venn(pos, body) = draw.content(pos, text(size: 0.85em)[#body])
 
 // Дополнение: U \ A, закрашено всё вне круга A.
 #let venn-complement = canvas({
-  draw.rect((-1.3, -1.15), (1.3, 1.15), fill: ca, stroke: c-str)
-  draw.circle((0, 0), radius: venn-r, fill: white, stroke: c-str)
-  label-venn((-1.05, 0.9), $U$)
-  label-venn((0, 0), $A$)
-  label-venn((0, venn-r + 0.5), $overline(A)$)
+  draw.rect((-1.3, -1.15), (1.3, 1.15), fill: ca, stroke: v-stroke)
+  draw.circle((0, 0), radius: r, fill: c-white, stroke: v-stroke)
+  venn-label((-1.05, 0.9), $U$)
+  venn-label((0, 0), $A$)
+  venn-label((0, r + 0.5), $overline(A)$)
 })
 
 // Симметрическая разность: (A \ B) union (B \ A).
 #let venn-symdiff = canvas({
-  draw.circle((-0.35, 0), radius: venn-r, fill: ca, stroke: none)
-  draw.circle((0.35, 0), radius: venn-r, fill: cb, stroke: none)
+  draw.circle((-0.35, 0), radius: r, fill: ca, stroke: none)
+  draw.circle((0.35, 0), radius: r, fill: cb, stroke: none)
   // пересечение вырезается белым
-  let ym = calc.sqrt(venn-r * venn-r - 0.35 * 0.35)
+  let ym = calc.sqrt(r * r - 0.35 * 0.35)
   let a-top = calc.atan2(0.35, ym)
   let a-bot = calc.atan2(0.35, -ym)
   let b-top = calc.atan2(-0.35, ym)
@@ -132,23 +128,23 @@
     (0, ym),
     start: a-top,
     stop: a-bot,
-    radius: venn-r,
+    radius: r,
     mode: "CLOSE",
-    fill: white,
+    fill: c-white,
     stroke: none,
   )
   draw.arc(
     (0, -ym),
     start: b-bot,
     stop: b-top,
-    radius: venn-r,
+    radius: r,
     mode: "CLOSE",
-    fill: white,
+    fill: c-white,
     stroke: none,
   )
-  draw.circle((-0.35, 0), radius: venn-r, fill: none, stroke: c-str)
-  draw.circle((0.35, 0), radius: venn-r, fill: none, stroke: c-str)
-  label-venn((-venn-r - 0.1, 0), $A$)
-  label-venn((venn-r + 0.1, 0), $B$)
-  label-venn((0, venn-r + 0.5), $A symdiff B$)
+  draw.circle((-0.35, 0), radius: r, fill: none, stroke: v-stroke)
+  draw.circle((0.35, 0), radius: r, fill: none, stroke: v-stroke)
+  venn-label((-r - 0.1, 0), $A$)
+  venn-label((r + 0.1, 0), $B$)
+  venn-label((0, r + 0.5), $A symdiff B$)
 })
