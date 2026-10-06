@@ -1,0 +1,5 @@
+[package]
+name = "bignum"
+version = "0.1.0"
+edition = "2021"
+description = "Schoolbook arbitrary-precision integers: a sign plus a magnitude of base-2^32 limbs"

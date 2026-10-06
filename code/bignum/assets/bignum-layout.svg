@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="346" viewBox="0 0 760 346" font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="carry" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#2563eb"/>
+    </marker>
+    <marker id="compare" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="346" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="15" font-weight="600" fill="#0f172a">A BigInt is a sign plus a magnitude: limbs of base 2^32, least significant first</text>
+  <text x="380" y="48" text-anchor="middle" font-size="12" fill="#475569">example: 2^64 + 5 is stored as the positive value with limbs [5, 0, 1]</text>
+
+  <!-- Sign panel -->
+  <rect x="40" y="66" width="180" height="196" rx="10" fill="#f8fafc" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="130" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#2563eb">Sign</text>
+  <rect x="58" y="104" width="144" height="30" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1"/>
+  <text x="130" y="124" text-anchor="middle" font-size="12" fill="#1e40af">Positive</text>
+  <rect x="58" y="142" width="144" height="30" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="130" y="162" text-anchor="middle" font-size="12" fill="#64748b">Negative</text>
+  <text x="130" y="196" text-anchor="middle" font-size="11" fill="#334155">zero is always Positive,</text>
+  <text x="130" y="212" text-anchor="middle" font-size="11" fill="#334155">so every value has one</text>
+  <text x="130" y="228" text-anchor="middle" font-size="11" fill="#334155">representation</text>
+
+  <!-- Limb panel -->
+  <rect x="250" y="66" width="470" height="196" rx="10" fill="#f8fafc" stroke="#64748b" stroke-width="1.6"/>
+  <text x="485" y="92" text-anchor="middle" font-size="13" font-weight="700" fill="#334155">Magnitude limbs, one u32 each</text>
+
+  <line x1="290" y1="130" x2="700" y2="130" stroke="#2563eb" stroke-width="1.4" marker-end="url(#carry)"/>
+  <text x="495" y="124" text-anchor="middle" font-size="11" fill="#2563eb">carry ripples this way: limb + limb + carry fits a u64</text>
+
+  <rect x="290" y="142" width="120" height="48" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="350" y="172" text-anchor="middle" font-size="16" font-weight="700" fill="#1e40af">5</text>
+  <rect x="430" y="142" width="120" height="48" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.4"/>
+  <text x="490" y="172" text-anchor="middle" font-size="16" font-weight="700" fill="#64748b">0</text>
+  <rect x="570" y="142" width="120" height="48" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="630" y="172" text-anchor="middle" font-size="16" font-weight="700" fill="#1e40af">1</text>
+
+  <text x="350" y="208" text-anchor="middle" font-size="11" fill="#475569">limb 0, worth 2^0</text>
+  <text x="490" y="208" text-anchor="middle" font-size="11" fill="#475569">limb 1, worth 2^32</text>
+  <text x="630" y="208" text-anchor="middle" font-size="11" fill="#475569">limb 2, worth 2^64</text>
+  <text x="485" y="238" text-anchor="middle" font-size="11" fill="#334155">no leading zero limbs: the top limb is nonzero unless the value is zero, stored as [0]</text>
+
+  <!-- Comparison direction -->
+  <line x1="700" y1="286" x2="290" y2="286" stroke="#dc2626" stroke-width="1.4" marker-end="url(#compare)"/>
+  <text x="495" y="280" text-anchor="middle" font-size="11" fill="#dc2626">comparison reads from the top limb: width first, then limbs downward</text>
+
+  <!-- Value equation -->
+  <rect x="40" y="304" width="680" height="30" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="380" y="324" text-anchor="middle" font-size="12" fill="#0f172a">value = 5 + 0 x 2^32 + 1 x 2^64 = 2^64 + 5 = 18446744073709551621, sign Positive</text>
+</svg>

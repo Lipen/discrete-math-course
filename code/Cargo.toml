@@ -25,4 +25,5 @@ members = [
     "type-theory",
     "fuzzy",
     "categories",
+    "bignum",
 ]
