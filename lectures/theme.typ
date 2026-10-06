@@ -40,7 +40,6 @@
 #let RR = $RR$
 
 #let imply = sym.arrow.r
-#let before = sym.arrow.r // произошло-до (Лампорт); before.not --- отрицание
 #let iff = sym.arrow.l.r
 #let models = sym.tack.rr // семантическое следование
 #let setminus = sym.without

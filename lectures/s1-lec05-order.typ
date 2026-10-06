@@ -8,6 +8,7 @@
   hasse-permissions, hasse-powerset-2, hasse-powerset-3, lattice-m3, lattice-n5,
   partition-lattice-3, sign-lattice,
 )
+#let before = sym.arrow.r // произошло-до (Лампорт); before.not --- отрицание
 #show: slides.with(
   title: [Отношение порядка],
   date: "Осень 2026",
