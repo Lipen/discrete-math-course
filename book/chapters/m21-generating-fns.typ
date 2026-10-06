@@ -930,7 +930,7 @@ $
   "Var"[X] & = G_X''(1) + G_X'(1) - (G_X'(1))^2.
 $
 Свёртке распределений соответствует произведение функций.#footnote[
-  W. Feller. "An Introduction to Probability Theory and Its Applications". Т. 1, 3-е изд., 1968, гл. XIII.
+  W. Feller. "An Introduction to Probability Theory and Its Applications". Т. 1, 3-е изд., 1968, гл. XI.
 ]
 
 #example[Вероятностная производящая функция кубика][
