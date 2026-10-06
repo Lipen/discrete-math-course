@@ -4,7 +4,15 @@
 
 // Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
 // наименьший --- максимальный y. Рёбра Хассе идут вверх без стрелок.
-#let hn(pos, body, tone: cool, fill: none, size: 0.9em, label: 0.8em, ..args) = node(
+#let hn(
+  pos,
+  body,
+  tone: cool,
+  fill: none,
+  size: 0.9em,
+  label: 0.8em,
+  ..args,
+) = node(
   pos,
   text(size: label, fill: ink)[#body],
   fill: if fill == none { tone.lighten(82%) } else { fill },
@@ -168,17 +176,79 @@
   he(<p13>, <p123>),
   he(<p23>, <p123>),
 )
-  // покрывающие рёбра: добавление одного элемента
-  he(<p0>, <p1>),
-  he(<p0>, <p2>),
-  he(<p0>, <p3>),
-  he(<p1>, <p12>),
-  he(<p1>, <p13>),
-  he(<p2>, <p12>),
-  he(<p2>, <p23>),
-  he(<p3>, <p13>),
-  he(<p3>, <p23>),
-  he(<p12>, <p123>),
-  he(<p13>, <p123>),
-  he(<p23>, <p123>),
+
+// ── Полное отношение на {1, 2, 3, 6}: петли, транзитивность, стрелки ──
+#let hasse-digraph-full = diagram(
+  ..node-opts,
+  spacing: 1.1em,
+  hn((0, 1.6), $1$, name: <f1>),
+  hn((-0.9, 0.8), $2$, name: <f2>),
+  hn((0.9, 0.8), $3$, name: <f3>),
+  hn((0, 0), $6$, name: <f6>),
+  edge(<f1>, <f2>, "-->", stroke: edge-thin),
+  edge(<f1>, <f3>, "-->", stroke: edge-thin),
+  edge(<f2>, <f6>, "-->", stroke: edge-thin),
+  edge(<f3>, <f6>, "-->", stroke: edge-thin),
+  edge(<f1>, <f6>, "-->", stroke: edge-soft),
+  edge(<f1>, <f1>, "-", stroke: edge-soft),
+  edge(<f2>, <f2>, "-", stroke: edge-soft),
+  edge(<f3>, <f3>, "-", stroke: edge-soft),
+  edge(<f6>, <f6>, "-", stroke: edge-soft),
+)
+
+// ── Транзитивное сокращение на {1, 2, 3, 6}: только покрытия ──
+#let hasse-digraph-cover = diagram(
+  ..node-opts,
+  spacing: 1.1em,
+  hn((0, 1.6), $1$, name: <c1>),
+  hn((-0.9, 0.8), $2$, name: <c2>),
+  hn((0.9, 0.8), $3$, name: <c3>),
+  hn((0, 0), $6$, name: <c6>),
+  he(<c1>, <c2>),
+  he(<c1>, <c3>),
+  he(<c2>, <c6>),
+  he(<c3>, <c6>),
+)
+
+// ── Права доступа Unix: булеан {r, w, x} ──
+#let hasse-permissions = diagram(
+  ..node-opts,
+  spacing: 1.25em,
+  hn((0, 0), [rwx], size: 1.2em, name: <perm-rwx>),
+  hn((-1.8, 1), [rw], size: 1.2em, name: <perm-rw>),
+  hn((0, 1), [rx], size: 1.2em, name: <perm-rx>),
+  hn((1.8, 1), [wx], size: 1.2em, name: <perm-wx>),
+  hn((-1.8, 2), [r], size: 1.2em, name: <perm-r>),
+  hn((0, 2), [w], size: 1.2em, name: <perm-w>),
+  hn((1.8, 2), [x], size: 1.2em, name: <perm-x>),
+  hn((0, 3), $emptyset$, size: 1.2em, name: <perm-none>),
+  he(<perm-none>, <perm-r>),
+  he(<perm-none>, <perm-w>),
+  he(<perm-none>, <perm-x>),
+  he(<perm-r>, <perm-rw>),
+  he(<perm-r>, <perm-rx>),
+  he(<perm-w>, <perm-rw>),
+  he(<perm-w>, <perm-wx>),
+  he(<perm-x>, <perm-rx>),
+  he(<perm-x>, <perm-wx>),
+  he(<perm-rw>, <perm-rwx>),
+  he(<perm-rx>, <perm-rwx>),
+  he(<perm-wx>, <perm-rwx>),
+)
+
+// ── Решётка разбиений Π₃ трёхэлементного множества ──
+#let partition-lattice-3 = diagram(
+  ..node-opts,
+  spacing: 1.25em,
+  hn((0, 2), [1|2|3], name: <pi-bot>),
+  hn((-1, 1), [12|3], name: <pi-12>),
+  hn((0, 1), [13|2], name: <pi-13>),
+  hn((1, 1), [23|1], name: <pi-23>),
+  hn((0, 0), [123], name: <pi-top>),
+  he(<pi-bot>, <pi-12>),
+  he(<pi-bot>, <pi-13>),
+  he(<pi-bot>, <pi-23>),
+  he(<pi-12>, <pi-top>),
+  he(<pi-13>, <pi-top>),
+  he(<pi-23>, <pi-top>),
 )
