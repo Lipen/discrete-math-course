@@ -352,20 +352,21 @@
   he(<bt-a>, <bt-c>),
 )
 
-// ── 1/n на числовой прямой: инфимум 0 не принадлежит множеству ──
-#let inf-number-line = canvas(length: 1cm, {
-  draw.line((-0.15, 0), (11.3, 0), stroke: 0.9pt + ink)
-  let n-lab = ("1", "1/2", "1/3", "1/4")
-  for k in range(1, 7) {
-    let x = 10 / k
-    draw.circle((x, 0), radius: 0.09, fill: ink, stroke: none)
-    if k <= 4 {
-      draw.content((x, -0.42), text(size: 0.8em, fill: ink)[$#n-lab.at(k - 1)$])
-    }
+// ── 1/n на числовой прямой: сгущение к нулю, инфимум вне множества ──
+#let inf-number-line = canvas({
+  // ось со стрелкой
+  draw.line((-0.6, 0), (12.8, 0), stroke: 0.9pt + ink, mark: (end: "stealth"))
+  // точки 1/n: промежутки убывают, сгусток урезает к нулю
+  for k in range(1, 13) {
+    draw.circle((12 / k, 0), radius: 0.09, fill: ink, stroke: none)
   }
-  draw.circle((0, 0), radius: 0.13, fill: none, stroke: 1.3pt + green)
-  draw.content((0, -0.42), text(size: 0.8em, fill: green)[$0$])
-  draw.content((11.0, 0.38), text(size: 0.8em, fill: ink)[$1\/n$])
+  let labels = ((1, $1$), (2, $1/2$), (3, $1/3$), (4, $1/4$))
+  for (k, lab) in labels {
+    draw.content((12 / k, -0.45), text(size: 0.8em, fill: ink)[#lab])
+  }
+  // инфимум: ноль вне множества
+  draw.circle((0, 0), radius: 0.14, fill: none, stroke: 1.4pt + green)
+  draw.content((0, -0.45), text(size: 0.8em, fill: green)[$0$])
 })
 
 // ── Права доступа Unix: булеан {r, w, x} ──
