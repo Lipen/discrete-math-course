@@ -1,5 +1,5 @@
 // Диаграммы Хассе: порядок по делимости, цепь, булеаны, решётка знаков.
-#import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "@preview/fletcher:0.5.8": diagram, edge, node, shapes
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "style.typ": *
 
@@ -23,6 +23,17 @@
   ..args,
 )
 #let he(from, to) = edge(from, to, "-", stroke: edge-plain)
+
+// Оболочка подмножества S: капсула обхватывает перечисленные вершины, метка S в центре.
+#let set-blob(vertices, inset: 0.35em) = node(
+  (0, 0),
+  text(size: 0.75em, fill: cool)[$S$],
+  enclose: vertices,
+  inset: inset,
+  shape: shapes.pill,
+  fill: cool.lighten(93%),
+  stroke: 0.9pt + cool,
+)
 
 // общие параметры вершин: круг одного размера, как в книге
 #let node-opts = (
@@ -248,23 +259,14 @@
 // ── Грани пары S = {2, 3} в D₁₂: верхние тёплые, нижняя зелёная ──
 #let bounds-d12 = diagram(
   ..node-opts,
-  spacing: 1.15em,
+  spacing: 1em,
   hn((0, 0), $12$, tone: warm, fill: warm.lighten(88%), name: <bd-12>),
-  hn((-1.2, 1), $4$, name: <bd-4>),
-  hn((1.2, 1), $6$, tone: warm, fill: warm.lighten(88%), name: <bd-6>),
-  hn(
-    (-1.2, 2),
-    $2$,
-    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-    name: <bd-2>,
-  ),
-  hn(
-    (1.2, 2),
-    $3$,
-    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-    name: <bd-3>,
-  ),
-  hn((0, 3), $1$, tone: green, fill: green.lighten(88%), name: <bd-1>),
+  hn((-1.3, 1.55), $4$, name: <bd-4>),
+  hn((1.3, 1.55), $6$, tone: warm, fill: warm.lighten(88%), name: <bd-6>),
+  hn((-1.3, 3.1), $2$, name: <bd-2>),
+  hn((1.3, 3.1), $3$, name: <bd-3>),
+  set-blob((<bd-2>, <bd-3>)),
+  hn((0, 4.65), $1$, tone: green, fill: green.lighten(88%), name: <bd-1>),
   he(<bd-2>, <bd-4>),
   he(<bd-2>, <bd-6>),
   he(<bd-3>, <bd-6>),
@@ -281,30 +283,23 @@
   align(center)[
     #diagram(
       ..node-opts,
-      spacing: 1.05em,
-      hn((0, 0), $12$, name: <su-12>),
-      hn((-1.2, 1), $4$, name: <su-4>),
+      spacing: 1em,
+      hn((0, 0), $12$, size: 0.8em, label: 0.72em, name: <su-12>),
+      hn((-1.3, 1.4), $4$, size: 0.8em, label: 0.72em, name: <su-4>),
       hn(
-        (1.2, 1),
+        (1.3, 1.4),
         $6$,
+        size: 0.8em,
+        label: 0.72em,
         tone: warm,
         stroke: 2pt + warm,
         fill: warm.lighten(82%),
         name: <su-6>,
       ),
-      hn(
-        (-1.2, 2),
-        $2$,
-        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-        name: <su-2>,
-      ),
-      hn(
-        (1.2, 2),
-        $3$,
-        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-        name: <su-3>,
-      ),
-      hn((0, 3), $1$, name: <su-1>),
+      hn((-1.3, 2.8), $2$, size: 0.8em, label: 0.72em, name: <su-2>),
+      hn((1.3, 2.8), $3$, size: 0.8em, label: 0.72em, name: <su-3>),
+      set-blob((<su-2>, <su-3>), inset: 0.3em),
+      hn((0, 4.2), $1$, size: 0.8em, label: 0.72em, name: <su-1>),
       he(<su-2>, <su-4>),
       he(<su-2>, <su-6>),
       he(<su-3>, <su-6>),
@@ -317,30 +312,23 @@
   align(center)[
     #diagram(
       ..node-opts,
-      spacing: 1.05em,
-      hn((0, 0), $12$, name: <in-12>),
+      spacing: 1em,
+      hn((0, 0), $12$, size: 0.8em, label: 0.72em, name: <in-12>),
+      hn((-1.3, 1.4), $4$, size: 0.8em, label: 0.72em, name: <in-4>),
+      hn((1.3, 1.4), $6$, size: 0.8em, label: 0.72em, name: <in-6>),
+      set-blob((<in-4>, <in-6>), inset: 0.3em),
       hn(
-        (-1.2, 1),
-        $4$,
-        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-        name: <in-4>,
-      ),
-      hn(
-        (1.2, 1),
-        $6$,
-        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-        name: <in-6>,
-      ),
-      hn(
-        (-1.2, 2),
+        (-1.3, 2.8),
         $2$,
+        size: 0.8em,
+        label: 0.72em,
         tone: green,
         stroke: 2pt + green,
         fill: green.lighten(82%),
         name: <in-2>,
       ),
-      hn((1.2, 2), $3$, name: <in-3>),
-      hn((0, 3), $1$, name: <in-1>),
+      hn((1.3, 2.8), $3$, size: 0.8em, label: 0.72em, name: <in-3>),
+      hn((0, 4.2), $1$, size: 0.8em, label: 0.72em, name: <in-1>),
       he(<in-2>, <in-4>),
       he(<in-2>, <in-6>),
       he(<in-3>, <in-6>),
@@ -355,20 +343,11 @@
 // ── Супремума нет: над парой нет вершины ──
 #let sup-bowtie = diagram(
   ..node-opts,
-  spacing: 1.4em,
-  hn(
-    (-0.7, 0),
-    $b$,
-    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-    name: <bt-b>,
-  ),
-  hn(
-    (0.7, 0),
-    $c$,
-    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
-    name: <bt-c>,
-  ),
-  hn((0, 1), $a$, name: <bt-a>),
+  spacing: 1em,
+  hn((-0.7, 0), $b$, name: <bt-b>),
+  hn((0.7, 0), $c$, name: <bt-c>),
+  set-blob((<bt-b>, <bt-c>)),
+  hn((0, 1.55), $a$, name: <bt-a>),
   he(<bt-a>, <bt-b>),
   he(<bt-a>, <bt-c>),
 )
