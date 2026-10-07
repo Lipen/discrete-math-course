@@ -197,9 +197,7 @@ Shortlex упорядочивает строки от коротких к дли
   Длины --- натуральные числа: минимум есть, строк минимальной длины конечное число (алфавит конечен, длина фиксирована), и среди них есть наименьшая словарно.
 ]
 
-== Порядок в коде: PartialOrd
-
-В Rust частичный порядок выражается трейтом `PartialOrd`, и несравнимость вписана прямо в тип возврата: для `${1}` и `${2}` метод `partial_cmp` вернёт `None`.
+== Порядок в коде
 
 ```rust
 pub trait PartialOrd<Rhs = Self> {
@@ -210,6 +208,21 @@ pub trait PartialOrd<Rhs = Self> {
 pub trait Ord {
     // линейность: результат определён для любой пары
     fn cmp(&self, other: &Self) -> Ordering;
+}
+
+// Div(2) и Div(3) несравнимы, Div(2) <= Div(6)
+struct Div(u64);
+
+impl PartialOrd for Div {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        match (self.0 % other.0, other.0 % self.0) {
+            // взаимная делимость --- равенство
+            (0, 0) => Some(Ordering::Equal),
+            (_, 0) => Some(Ordering::Less),
+            (0, _) => Some(Ordering::Greater),
+            _ => None,
+        }
+    }
 }
 ```
 
