@@ -1,5 +1,6 @@
 // Диаграммы Хассе: порядок по делимости, цепь, булеаны, решётка знаков.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
+#import "@preview/cetz:0.5.2": canvas, draw
 #import "style.typ": *
 
 // Ось y у fletcher направлена вниз: наибольший элемент получает y = 0,
@@ -213,6 +214,180 @@
   he(<c2>, <c6>),
   he(<c3>, <c6>),
 )
+
+// ── Экстремумы: максимальный без наибольшего ──
+#let extrema-maximal-chain = diagram(
+  ..node-opts,
+  spacing: 1.15em,
+  hn((-0.7, 0), $m$, tone: warm, fill: warm.lighten(85%), name: <mx-m>),
+  hn((0.7, 2.4), $x_0$, name: <mx-x0>),
+  hn((1.6, 1.6), $x_1$, name: <mx-x1>),
+  hn((2.5, 0.8), $x_2$, name: <mx-x2>),
+  node((3.2, 0.3), text(size: 0.9em, fill: ink)[$dots$], name: <mx-dots>),
+  he(<mx-x0>, <mx-x1>),
+  he(<mx-x1>, <mx-x2>),
+  edge(<mx-x2>, <mx-dots>, "-", stroke: edge-plain),
+)
+
+// ── Экстремумы: два минимальных, наименьшего нет ──
+#let extrema-two-minimals = diagram(
+  ..node-opts,
+  spacing: 1.1em,
+  hn((0, 0), $12$, name: <tm-12>),
+  hn((-1.2, 1), $4$, name: <tm-4>),
+  hn((1.2, 1), $6$, name: <tm-6>),
+  hn((-1.2, 2), $2$, tone: warm, fill: warm.lighten(85%), name: <tm-2>),
+  hn((1.2, 2), $3$, tone: warm, fill: warm.lighten(85%), name: <tm-3>),
+  he(<tm-2>, <tm-4>),
+  he(<tm-2>, <tm-6>),
+  he(<tm-3>, <tm-6>),
+  he(<tm-4>, <tm-12>),
+  he(<tm-6>, <tm-12>),
+)
+
+// ── Грани пары S = {2, 3} в D₁₂: верхние тёплые, нижняя зелёная ──
+#let bounds-d12 = diagram(
+  ..node-opts,
+  spacing: 1.15em,
+  hn((0, 0), $12$, tone: warm, fill: warm.lighten(88%), name: <bd-12>),
+  hn((-1.2, 1), $4$, name: <bd-4>),
+  hn((1.2, 1), $6$, tone: warm, fill: warm.lighten(88%), name: <bd-6>),
+  hn(
+    (-1.2, 2),
+    $2$,
+    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+    name: <bd-2>,
+  ),
+  hn(
+    (1.2, 2),
+    $3$,
+    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+    name: <bd-3>,
+  ),
+  hn((0, 3), $1$, tone: green, fill: green.lighten(88%), name: <bd-1>),
+  he(<bd-2>, <bd-4>),
+  he(<bd-2>, <bd-6>),
+  he(<bd-3>, <bd-6>),
+  he(<bd-4>, <bd-12>),
+  he(<bd-6>, <bd-12>),
+  he(<bd-1>, <bd-2>),
+  he(<bd-1>, <bd-3>),
+)
+
+// ── Супремум и инфимум в D₁₂: sup {2,3} = 6, inf {4,6} = 2 ──
+#let sup-inf-d12 = grid(
+  columns: 2,
+  column-gutter: 4.5em,
+  align(center)[
+    #diagram(
+      ..node-opts,
+      spacing: 1.05em,
+      hn((0, 0), $12$, name: <su-12>),
+      hn((-1.2, 1), $4$, name: <su-4>),
+      hn(
+        (1.2, 1),
+        $6$,
+        tone: warm,
+        stroke: 2pt + warm,
+        fill: warm.lighten(82%),
+        name: <su-6>,
+      ),
+      hn(
+        (-1.2, 2),
+        $2$,
+        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+        name: <su-2>,
+      ),
+      hn(
+        (1.2, 2),
+        $3$,
+        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+        name: <su-3>,
+      ),
+      hn((0, 3), $1$, name: <su-1>),
+      he(<su-2>, <su-4>),
+      he(<su-2>, <su-6>),
+      he(<su-3>, <su-6>),
+      he(<su-4>, <su-12>),
+      he(<su-6>, <su-12>),
+      he(<su-1>, <su-2>),
+      he(<su-1>, <su-3>),
+    )
+  ],
+  align(center)[
+    #diagram(
+      ..node-opts,
+      spacing: 1.05em,
+      hn((0, 0), $12$, name: <in-12>),
+      hn(
+        (-1.2, 1),
+        $4$,
+        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+        name: <in-4>,
+      ),
+      hn(
+        (1.2, 1),
+        $6$,
+        stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+        name: <in-6>,
+      ),
+      hn(
+        (-1.2, 2),
+        $2$,
+        tone: green,
+        stroke: 2pt + green,
+        fill: green.lighten(82%),
+        name: <in-2>,
+      ),
+      hn((1.2, 2), $3$, name: <in-3>),
+      hn((0, 3), $1$, name: <in-1>),
+      he(<in-2>, <in-4>),
+      he(<in-2>, <in-6>),
+      he(<in-3>, <in-6>),
+      he(<in-4>, <in-12>),
+      he(<in-6>, <in-12>),
+      he(<in-1>, <in-2>),
+      he(<in-1>, <in-3>),
+    )
+  ],
+)
+
+// ── Супремума нет: над парой нет вершины ──
+#let sup-bowtie = diagram(
+  ..node-opts,
+  spacing: 1.4em,
+  hn(
+    (-0.7, 0),
+    $b$,
+    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+    name: <bt-b>,
+  ),
+  hn(
+    (0.7, 0),
+    $c$,
+    stroke: (paint: cool, thickness: 1.1pt, dash: "dashed"),
+    name: <bt-c>,
+  ),
+  hn((0, 1), $a$, name: <bt-a>),
+  he(<bt-a>, <bt-b>),
+  he(<bt-a>, <bt-c>),
+)
+
+// ── 1/n на числовой прямой: инфимум 0 не принадлежит множеству ──
+#let inf-number-line = canvas(length: 1cm, {
+  draw.line((-0.15, 0), (11.3, 0), stroke: 0.9pt + ink)
+  let n-lab = ("1", "1/2", "1/3", "1/4")
+  for k in range(1, 7) {
+    let x = 10 / k
+    draw.circle((x, 0), radius: 0.09, fill: ink, stroke: none)
+    if k <= 4 {
+      draw.content((x, -0.42), text(size: 0.8em, fill: ink)[$#n-lab.at(k - 1)$])
+    }
+  }
+  draw.circle((0, 0), radius: 0.13, fill: none, stroke: 1.3pt + green)
+  draw.content((0, -0.42), text(size: 0.8em, fill: green)[$0$])
+  draw.content((11.0, 0.38), text(size: 0.8em, fill: ink)[$1\/n$])
+})
 
 // ── Права доступа Unix: булеан {r, w, x} ──
 #let hasse-permissions = diagram(
