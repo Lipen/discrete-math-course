@@ -209,7 +209,11 @@ pub trait Ord {
     // линейность: результат определён для любой пары
     fn cmp(&self, other: &Self) -> Ordering;
 }
+```
 
+== Несравнимость в коде
+
+```rust
 // Div(2) и Div(3) несравнимы, Div(2) <= Div(6)
 struct Div(u64);
 
