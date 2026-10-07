@@ -45,7 +45,7 @@
 // ── Делимость на {1, 2, 3, 4, 6, 12} ──
 #let hasse-divisors-12 = diagram(
   ..node-opts,
-  spacing: 1.25em,
+  spacing: 1.7em,
   hn((0, 3), $1$, name: <d1>),
   hn((-1, 2), $2$, name: <d2>),
   hn((1, 2), $3$, name: <d3>),
@@ -64,12 +64,12 @@
 // ── Цепь {1 < 2 < 3} ──
 #let hasse-chain-3 = diagram(
   ..node-opts,
-  spacing: 1.05em,
+  spacing: 1.8em,
   hn((0, 2), $1$, name: <c1>),
   hn((0, 1), $2$, name: <c2>),
   hn((0, 0), $3$, name: <c3>),
-  edge(<c1>, <c2>, "-", stroke: edge-cool),
-  edge(<c2>, <c3>, "-", stroke: edge-cool),
+  he(<c1>, <c2>),
+  he(<c2>, <c3>),
 )
 
 // ── Булеан {1, 2} по включению (квадрат B₂) ──
@@ -89,7 +89,7 @@
 // ── Ромб M₃: попарно несравнимая середина ──
 #let lattice-m3 = diagram(
   ..node-opts,
-  spacing: 1.25em,
+  spacing: 1.8em,
   hn((0, 2), $bot$, name: <m3-bot>),
   hn((-1, 1), $a$, name: <m3-a>),
   hn((0, 1), $b$, name: <m3-b>),
@@ -106,7 +106,7 @@
 // ── Пентагон N₅: немодулярная решётка ──
 #let lattice-n5 = diagram(
   ..node-opts,
-  spacing: 1.25em,
+  spacing: 1.8em,
   hn((0, 3), $bot$, name: <n5-bot>),
   hn((-1, 2), $a$, name: <n5-a>),
   hn((-1, 1), $b$, name: <n5-b>),
@@ -122,7 +122,7 @@
 // ── Решётка знаков ──
 #let sign-lattice = diagram(
   ..node-opts,
-  spacing: 1.05em,
+  spacing: 1.5em,
   hn((0, 2), $bot$, name: <bot>),
   hn((-1, 1), $-$, name: <neg>),
   hn((0, 1), $0$, name: <zero>),
@@ -139,7 +139,7 @@
 // ── Булеан {1, 2, 3} по включению (куб B₃) ──
 #let hasse-powerset-3 = diagram(
   ..node-opts,
-  spacing: 1.3em,
+  spacing: 1.8em,
   hn((0, 0), ${1,2,3}$, size: 1.2em, name: <p123>),
   hn((-1.8, 1), ${1,2}$, size: 1.2em, name: <p12>),
   hn((0, 1), ${1,3}$, size: 1.2em, name: <p13>),
@@ -166,7 +166,7 @@
 // ── Крупный куб B₃ для сольного слайда ──
 #let hasse-powerset-3-large = diagram(
   ..node-opts,
-  spacing: 1.65em,
+  spacing: 2.2em,
   hn((0, 0), ${1,2,3}$, size: 1.5em, label: 0.9em, name: <p123>),
   hn((-1.8, 1), ${1,2}$, size: 1.5em, label: 0.9em, name: <p12>),
   hn((0, 1), ${1,3}$, size: 1.5em, label: 0.9em, name: <p13>),
@@ -283,7 +283,7 @@
   align(center)[
     #diagram(
       ..node-opts,
-      spacing: 1em,
+      spacing: 1.2em,
       hn((0, 0), $12$, size: 0.8em, label: 0.72em, name: <su-12>),
       hn((-1.3, 1.4), $4$, size: 0.8em, label: 0.72em, name: <su-4>),
       hn(
@@ -312,7 +312,7 @@
   align(center)[
     #diagram(
       ..node-opts,
-      spacing: 1em,
+      spacing: 1.2em,
       hn((0, 0), $12$, size: 0.8em, label: 0.72em, name: <in-12>),
       hn((-1.3, 1.4), $4$, size: 0.8em, label: 0.72em, name: <in-4>),
       hn((1.3, 1.4), $6$, size: 0.8em, label: 0.72em, name: <in-6>),
@@ -363,8 +363,8 @@
   set-blob((<ub-b>, <ub-c>)),
   he(<ub-b>, <ub-u>),
   he(<ub-c>, <ub-v>),
-  edge(<ub-b>, <ub-v>, "-", stroke: edge-plain, bend: 24deg),
-  edge(<ub-c>, <ub-u>, "-", stroke: edge-plain, bend: 24deg),
+  edge(<ub-b>, <ub-v>, "-", stroke: edge-plain, bend: 32deg),
+  edge(<ub-c>, <ub-u>, "-", stroke: edge-plain, bend: 32deg),
 )
 
 // ── 1/n на числовой прямой: сгущение к нулю, инфимум вне множества ──
@@ -413,8 +413,8 @@
 // ── Решётка разбиений Π₃ трёхэлементного множества ──
 #let partition-lattice-3 = diagram(
   ..node-opts,
-  spacing: 1.05em,
-  hn((0, 2), [1|2|3], size: 1.35em, label: 0.72em, name: <pi-bot>),
+  spacing: 1.6em,
+  hn((0, 2), [1|2|3], size: 1.4em, label: 0.75em, name: <pi-bot>),
   hn((-1, 1), [12|3], size: 1.4em, label: 0.75em, name: <pi-12>),
   hn((0, 1), [13|2], size: 1.4em, label: 0.75em, name: <pi-13>),
   hn((1, 1), [23|1], size: 1.4em, label: 0.75em, name: <pi-23>),
