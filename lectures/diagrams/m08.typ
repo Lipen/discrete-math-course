@@ -217,7 +217,7 @@
 // ── Права доступа Unix: булеан {r, w, x} ──
 #let hasse-permissions = diagram(
   ..node-opts,
-  spacing: 1.25em,
+  spacing: 1.5em,
   hn((0, 0), [rwx], size: 1.3em, label: 0.75em, name: <perm-rwx>),
   hn((-1.8, 1), [rw], size: 1.3em, label: 0.75em, name: <perm-rw>),
   hn((0, 1), [rx], size: 1.3em, label: 0.75em, name: <perm-rx>),
@@ -227,6 +227,12 @@
   hn((1.8, 2), [x], size: 1.3em, label: 0.75em, name: <perm-x>),
   hn((0, 3), $emptyset$, size: 1.3em, label: 0.75em, name: <perm-none>),
   he(<perm-none>, <perm-r>),
+  he(<perm-none>, <perm-w>),
+  he(<perm-none>, <perm-x>),
+  he(<perm-r>, <perm-rw>),
+  he(<perm-r>, <perm-rx>),
+  he(<perm-w>, <perm-rw>),
+  he(<perm-w>, <perm-wx>),
   he(<perm-x>, <perm-rx>),
   he(<perm-x>, <perm-wx>),
   he(<perm-rw>, <perm-rwx>),
