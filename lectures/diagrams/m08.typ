@@ -352,6 +352,21 @@
   he(<bt-a>, <bt-c>),
 )
 
+// ── Супремума нет: две минимальные верхние грани над парой ──
+#let sup-two-bounds = diagram(
+  ..node-opts,
+  spacing: 1em,
+  hn((-0.8, 0), $u$, tone: warm, fill: warm.lighten(85%), name: <ub-u>),
+  hn((0.8, 0), $v$, tone: warm, fill: warm.lighten(85%), name: <ub-v>),
+  hn((-0.8, 1.4), $b$, name: <ub-b>),
+  hn((0.8, 1.4), $c$, name: <ub-c>),
+  set-blob((<ub-b>, <ub-c>)),
+  he(<ub-b>, <ub-u>),
+  he(<ub-c>, <ub-v>),
+  edge(<ub-b>, <ub-v>, "-", stroke: edge-plain, bend: 24deg),
+  edge(<ub-c>, <ub-u>, "-", stroke: edge-plain, bend: 24deg),
+)
+
 // ── 1/n на числовой прямой: сгущение к нулю, инфимум вне множества ──
 #let inf-number-line = canvas({
   // ось со стрелкой

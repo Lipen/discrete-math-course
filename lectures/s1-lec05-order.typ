@@ -7,7 +7,7 @@
   bounds-d12, extrema-maximal-chain, extrema-two-minimals, hasse-chain-3,
   hasse-digraph-cover, hasse-digraph-full, hasse-divisors-12, hasse-permissions,
   hasse-powerset-2, hasse-powerset-3, inf-number-line, lattice-m3, lattice-n5,
-  partition-lattice-3, sign-lattice, sup-bowtie, sup-inf-d12,
+  partition-lattice-3, sign-lattice, sup-bowtie, sup-inf-d12, sup-two-bounds,
 )
 #let before = sym.arrow.r // произошло-до (Лампорт); before.not --- отрицание
 #show: slides.with(
@@ -584,6 +584,17 @@ $sup space {2, 3} = 6$ слева, $inf space {4, 6} = 2$ справа.
   Супремум и инфимум единственны, когда существуют.
 
   Но в произвольном ЧУМ они могут отсутствовать.
+]
+
+== Две минимальные верхние грани
+
+Верхние грани могут существовать, а наименьшей среди них не быть.
+
+#align(center)[#sup-two-bounds]
+
+#example[
+  ЧУМ из четырёх элементов ${b, c, u, v}$: каждый из $u$ и $v$ лежит над обоими элементами пары, а $u$ и $v$ несравнимы.
+  Верхние грани пары ${b, c}$ --- ровно $u$ и $v$, наименьшей из них нет, супремума нет.
 ]
 
 == Инфимум без наименьшего
