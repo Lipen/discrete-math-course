@@ -26,6 +26,8 @@ cargo run --example hamming_errors
 cargo run --example hamming_extended
 cargo run --example repetition_errors
 cargo run --example parity_errors
+cargo run --example rs_demo
+cargo run --example lz_demo
 ```
 
 | Пример              | Что он показывает                                                 |
@@ -36,6 +38,8 @@ cargo run --example parity_errors
 | `hamming_extended`  | Расширенный Хэмминг: как один бит чётности отличает 1 ошибку от 2 |
 | `repetition_errors` | Повторение при 0, 1, 2, 3 перевёрнутых битах                      |
 | `parity_errors`     | Чётность при 0, 1, 2, 3 перевёрнутых битах                        |
+| `rs_demo`           | Рид--Соломон (7, 3, 5) над GF(8): две символьные ошибки           |
+| `lz_demo`           | Тройки LZ77 и пары LZ78 на слове "ABRACADABRA"                    |
 
 Демо `*_errors` рисуют перевёрнутые биты красным, когда терминал это поддерживает.
 
