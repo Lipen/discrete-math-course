@@ -1,8 +1,8 @@
-//! Church arithmetic: numerals, addition, multiplication, exponentiation.
+//! Church arithmetic: numerals, addition, multiplication, exponentiation, predecessor.
 //!
 //! All computation is pure beta reduction -- no built-in numbers.
 
-use lambda::{add, church, mult, power, succ, to_nat, Term};
+use lambda::{add, church, mult, power, pred, succ, to_nat, Term};
 
 fn main() {
     let two = church(2);
@@ -13,6 +13,12 @@ fn main() {
 
     let one_more = Term::app(succ(), two.clone()).normalize(1000);
     println!("succ 2 = {}", to_nat(&one_more).unwrap());
+
+    // -- Predecessor ==========================================================
+
+    // The Kleene trick: iterate a pair-shift n times from (0, 0).
+    let before = Term::app(pred(), four.clone()).normalize(100000);
+    println!("pred 4 = {}", to_nat(&before).unwrap());
 
     // -- Addition =============================================================
 
