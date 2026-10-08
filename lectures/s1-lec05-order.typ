@@ -4,10 +4,11 @@
   diamond-ghost, graph-ghost, path-ghost, poset-ghost, tree-ghost,
 )
 #import "diagrams/m08.typ": (
-  bounds-d12, extrema-maximal-chain, extrema-two-minimals, hasse-chain-3,
-  hasse-digraph-cover, hasse-digraph-full, hasse-divisors-12, hasse-permissions,
-  hasse-powerset-2, hasse-powerset-3, inf-number-line, lattice-m3, lattice-n5,
-  partition-lattice-3, sign-lattice, sup-bowtie, sup-inf-d12, sup-two-bounds,
+  bounds-d12, extrema-maximal-chain, extrema-two-minimals, forbidden-pair,
+  hasse-chain-3, hasse-digraph-cover, hasse-digraph-full, hasse-divisors-12,
+  hasse-permissions, hasse-powerset-2, hasse-powerset-3, inf-number-line,
+  lamport-spacetime, lattice-m3, lattice-n5, partition-lattice-3, sign-lattice,
+  sup-bowtie, sup-inf-d12, sup-two-bounds,
 )
 #let before = sym.arrow.r // произошло-до (Лампорт); before.not --- отрицание
 #show: slides.with(
@@ -716,6 +717,10 @@ $sup space {2, 3} = 6$ слева, $inf space {4, 6} = 2$ справа.
   Решётка модулярна тогда и только тогда, когда в ней нет подрешётки $N_5$, и дистрибутивна --- когда нет ни $M_3$, ни $N_5$.
 ]
 
+Слева --- запрет дистрибутивности $M_3$, справа --- запрет модулярности $N_5$.
+
+#align(center)[#forbidden-pair]
+
 == Булева алгебра
 
 Логика высказываний и алгебра множеств попадают в один каркас, если к дистрибутивной решётке добавить дополнение.
@@ -996,15 +1001,16 @@ let y = 100 / x;
 #example[
   Процесс $P_1$ выполняет $a_1$, затем отправляет сообщение (событие $a_2$).
   Процесс $P_2$ выполняет $b_1$, получает сообщение ($b_2$) и продолжает с $b_3$.
-
-  Правила дают $a_1 before a_2$, $a_2 before b_2$, $b_2 before b_3$, и транзитивность соединяет цепочку: $a_1 before b_3$.
-
-  События $a_2$ и $b_1$ конкурентны: между ними нет ни локального порядка, ни сообщения.
 ]
 
-События с $a before.not b$ и $b before.not a$ называются _конкурентными_: причинной связи нет, и разные машины могут увидеть их в разном порядке.
+Транзитивность соединяет цепочку: $a_1 before b_3$.
+События $a_2$ и $b_1$ конкурентны: ни локального порядка, ни сообщения между ними нет, $a_2 before.not b_1$ и обратно.
 
-Отношение задаёт порядок, но не даёт способа проверить его по данным --- это делают векторные часы.
+#align(center)[#lamport-spacetime]
+
+Конкурентные события разные машины могут увидеть в разном порядке.
+
+Задать порядок --- мало: проверить его по данным позволяют векторные часы.
 
 == Векторные часы
 

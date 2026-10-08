@@ -384,6 +384,74 @@
   draw.content((0, -0.45), text(size: 0.8em, fill: green)[$0$])
 })
 
+// ── Лампорт: пространство-время двух процессов ──
+#let lamport-spacetime = canvas({
+  // линии жизни процессов
+  draw.line((-0.3, 1.7), (7.2, 1.7), stroke: 0.7pt + ink.lighten(50%))
+  draw.line((-0.3, 0), (7.2, 0), stroke: 0.7pt + ink.lighten(50%))
+  draw.content((-0.95, 1.7), text(size: 0.8em, fill: ink)[$P_1$])
+  draw.content((-0.95, 0), text(size: 0.8em, fill: ink)[$P_2$])
+  // события
+  let ev(pos, lab, dy) = {
+    draw.circle(pos, radius: 0.09, fill: ink, stroke: none)
+    draw.content((pos.at(0), pos.at(1) + dy), text(
+      size: 0.8em,
+      fill: ink,
+    )[#lab])
+  }
+  ev((1, 1.7), $a_1$, 0.35)
+  ev((3, 1.7), $a_2$, 0.35)
+  ev((0.8, 0), $b_1$, -0.35)
+  ev((4.4, 0), $b_2$, -0.35)
+  ev((6.2, 0), $b_3$, -0.35)
+  // сообщение a2 -> b2
+  draw.line(
+    (3, 1.7),
+    (4.4, 0),
+    stroke: (paint: warm, thickness: 1.1pt),
+    mark: (end: "stealth"),
+  )
+})
+
+// ── Запрещённые фигуры Дедекинда --- Биркгофа: мини M₃ и N₅ ──
+#let forbidden-pair = grid(
+  columns: 2,
+  column-gutter: 3.5em,
+  align(center)[
+    #diagram(
+      ..node-opts,
+      spacing: 1.15em,
+      hn((0, 2), $bot$, size: 0.8em, label: 0.8em, name: <fm-bot>),
+      hn((-1, 1), $a$, size: 0.8em, label: 0.8em, name: <fm-a>),
+      hn((0, 1), $b$, size: 0.8em, label: 0.8em, name: <fm-b>),
+      hn((1, 1), $c$, size: 0.8em, label: 0.8em, name: <fm-c>),
+      hn((0, 0), $top$, size: 0.8em, label: 0.8em, name: <fm-top>),
+      he(<fm-bot>, <fm-a>),
+      he(<fm-bot>, <fm-b>),
+      he(<fm-bot>, <fm-c>),
+      he(<fm-a>, <fm-top>),
+      he(<fm-b>, <fm-top>),
+      he(<fm-c>, <fm-top>),
+    )
+  ],
+  align(center)[
+    #diagram(
+      ..node-opts,
+      spacing: 1.15em,
+      hn((0, 3), $bot$, size: 0.8em, label: 0.8em, name: <fn-bot>),
+      hn((-1, 2), $a$, size: 0.8em, label: 0.8em, name: <fn-a>),
+      hn((-1, 1), $b$, size: 0.8em, label: 0.8em, name: <fn-b>),
+      hn((1, 1), $c$, size: 0.8em, label: 0.8em, name: <fn-c>),
+      hn((0, 0), $top$, size: 0.8em, label: 0.8em, name: <fn-top>),
+      he(<fn-bot>, <fn-a>),
+      he(<fn-bot>, <fn-c>),
+      he(<fn-a>, <fn-b>),
+      he(<fn-b>, <fn-top>),
+      he(<fn-c>, <fn-top>),
+    )
+  ],
+)
+
 // ── Права доступа Unix: булеан {r, w, x} ──
 #let hasse-permissions = diagram(
   ..node-opts,
