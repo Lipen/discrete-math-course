@@ -97,6 +97,101 @@
   )
 })
 
+// ── Гиперкуб Q4 в раскладке карты Карно ──
+// Синие дуги --- циклические рёбра тора: они обходят карту снаружи.
+#let hypercube-q4 = canvas({
+  let s = 1.2
+  let gray = ("00", "01", "11", "10")
+  let e-straight = (paint: c-edge, thickness: t-ed)
+  let e-wrap = (paint: c-accent, thickness: t-ed)
+
+  let ctr(r, j) = ((j + 0.5) * s, -(r + 0.5) * s)
+  let shift(p, d) = (p.at(0) + d.at(0), p.at(1) + d.at(1))
+
+  let half-wrap(node, exit, apex, tan) = draw.bezier(
+    node,
+    apex,
+    shift(node, exit),
+    shift(apex, tan),
+    stroke: e-wrap,
+  )
+  let wrap-h(r, apex-y, exit-l, exit-r, tan-x) = {
+    let apex = (2 * s, apex-y)
+    half-wrap(ctr(r, 0), exit-l, apex, (-tan-x, 0))
+    half-wrap(ctr(r, 3), exit-r, apex, (tan-x, 0))
+  }
+  let wrap-v(j, apex-x, exit-bot, exit-top, tan-y) = {
+    let apex = (apex-x, -2 * s)
+    half-wrap(ctr(3, j), exit-bot, apex, (0, -tan-y))
+    half-wrap(ctr(0, j), exit-top, apex, (0, tan-y))
+  }
+
+  wrap-h(0, 0.9, (-0.25, 0.85), (0.25, 0.85), 1.1)
+  wrap-h(1, 1.75, (0.35, 0.95), (-0.35, 0.95), 1.3)
+  wrap-h(3, -5.95, (0.18, -0.9), (-0.18, -0.9), 1.15)
+  wrap-h(2, -6.75, (0.35, -0.95), (-0.35, -0.95), 1.3)
+  wrap-v(0, -1.4, (-0.85, 0.35), (-0.85, -0.35), 1.1)
+  wrap-v(1, -2.4, (-0.55, -0.3), (-0.45, -0.95), 1.3)
+  wrap-v(3, 6.2, (0.85, 0.35), (0.85, -0.35), 1.1)
+  wrap-v(2, 7.2, (0.55, -0.3), (0.45, -0.95), 1.3)
+
+  for r in range(4) {
+    for j in range(4) {
+      draw.circle(
+        ctr(r, j),
+        radius: 0.38,
+        name: "v" + str(r) + str(j),
+        fill: c-fl,
+        stroke: t-bd + c-bd,
+      )
+      draw.content("v" + str(r) + str(j), text(size: s-cap, fill: c-ink)[#(
+        gray.at(j) + gray.at(r)
+      )])
+    }
+  }
+  for r in range(4) {
+    for j in range(3) {
+      draw.line(
+        "v" + str(r) + str(j),
+        "v" + str(r) + str(j + 1),
+        stroke: e-straight,
+      )
+    }
+  }
+  for j in range(4) {
+    for r in range(3) {
+      draw.line(
+        "v" + str(r) + str(j),
+        "v" + str(r + 1) + str(j),
+        stroke: e-straight,
+      )
+    }
+  }
+
+  for (r, label) in gray.enumerate() {
+    draw.content(
+      (-0.35, -(r + 0.5) * s),
+      anchor: "east",
+      frame: "rect",
+      fill: c-white,
+      stroke: none,
+      padding: 2pt,
+      text(size: s-cap, fill: c-muted)[#label],
+    )
+  }
+  for (j, label) in gray.enumerate() {
+    draw.content(
+      ((j + 0.5) * s, 0.25),
+      anchor: "south",
+      frame: "rect",
+      fill: c-white,
+      stroke: none,
+      padding: 2pt,
+      text(size: s-cap, fill: c-muted)[#label],
+    )
+  }
+})
+
 // ── BDD для XOR ──
 #let bdd-xor = {
   let vnode(pos, name, body) = node(
