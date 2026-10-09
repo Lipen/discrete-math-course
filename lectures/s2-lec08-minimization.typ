@@ -1,13 +1,7 @@
 // s2, лекция 8 --- Минимизация автоматов (неделя 29 марта --- 4 апреля).
 #import "theme.typ": *
-#import "diagrams/ghosts.typ": (
-  dfa-ghost, distinguish-ghost, minimize-ghost, nerode-ghost, nfa-ghost,
-  pumping-ghost, regex-ghost, subset-ghost, words-ghost,
-)
-#import "diagrams/m23.typ": (
-  dfa-01, dfa-even-ones, dfa-redundant, dfa-subset-01, nfa-01-eps, nfa-ends-01,
-  nfa-third-one, thompson-star-one,
-)
+#import "diagrams/ghosts.typ": distinguish-ghost, minimize-ghost, nerode-ghost
+#import "diagrams/m23.typ": dfa-redundant
 #show: slides.with(
   title: [Минимизация автоматов],
   date: "Весна 2027",
@@ -140,7 +134,7 @@
   [$(r_2, r_3)$], [$(r_2, r_3)$], [$(r_3, r_2)$], [помечена], [различимы],
 )
 
-Образы кандидатов --- пары $(r_1, r_3)$ и $(r_0, r_2)$ --- сами пусты, и итерация ничего не добавляет: таблица остановилась.
+Образы кандидатов --- пары $(r_1, r_3)$ и $(r_0, r_2)$ --- не помечены, и итерация ничего не добавляет: таблица остановилась.
 
 #note[Вырожденные образы][
   Клетки для пар вида $(r_2, r_2)$ в таблице нет: состояние с самим собой разводить нечем.
@@ -289,7 +283,7 @@ $ x meq_L y quad <=> quad C_x = C_y. $
 
 == Теорема Майхилла--Нерода
 
-#theorem[Майхилл --- Нерод][
+#theorem[Майхилл --- Нерод, 1958][
   Для языка $L$ следующие утверждения эквивалентны:
   + $L$ регулярен.
   + Отношение $meq_L$ имеет конечный индекс.
