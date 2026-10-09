@@ -276,3 +276,240 @@
   hg-edge(x.at(5), data-y.at(2), hg-data-text, (data-y.at(2),))
   hg-edge(x.at(6), data-y.at(3), hg-data-text, (data-y.at(3),))
 })
+
+// ── Границы кодирования: карта (δ, R) ──
+// Заливки локальны для этой карты: тёплая полупрозрачная --- запрет, голубая --- гарантия существования.
+#let cb-forbidden = oklch(88%, 0.06, 22deg, 55%)
+
+#let cb-gv = oklch(48%, 0.12, 155deg)
+
+#let cb-h2(p) = if p <= 0 or p >= 1 { 0 } else {
+  -p * calc.log(p, base: 2) - (1 - p) * calc.log(1 - p, base: 2)
+}
+
+#let codes-bounds = canvas({
+  let s = 6
+  let pt(d, r) = (d * s, r * s)
+  let hamming-pt(d) = pt(d, 1 - cb-h2(d / 2))
+  let gv-pt(d) = pt(d, calc.max(0, 1 - cb-h2(d)))
+  let samples(f, from, to, n) = range(0, n + 1).map(i => f(
+    from + (to - from) * i / n,
+  ))
+
+  draw.rect(pt(0.5, 0), pt(1, 1), fill: cb-forbidden, stroke: none)
+  draw.line(
+    pt(0, 1),
+    ..samples(hamming-pt, 0, 1, 60),
+    pt(1, 0),
+    pt(1, 1),
+    close: true,
+    fill: cb-forbidden,
+    stroke: none,
+  )
+  draw.line(
+    pt(0, 0),
+    pt(0, 1),
+    ..samples(gv-pt, 0, 0.5, 40),
+    close: true,
+    fill: c-fl,
+    stroke: none,
+  )
+  draw.rect((0, 0), (s, s), stroke: (paint: c-muted, thickness: t-hr))
+
+  draw.line(..samples(gv-pt, 0, 0.5, 40), stroke: (
+    paint: cb-gv,
+    thickness: t-hi,
+  ))
+  draw.line(..samples(hamming-pt, 0, 1, 60), stroke: (
+    paint: c-accent,
+    thickness: t-hi,
+  ))
+  draw.line((0, s), (s, 0), stroke: (
+    paint: c-edge,
+    thickness: t-ed,
+    dash: "dashed",
+  ))
+  draw.line(pt(0.5, 0), pt(0.5, 1), stroke: (
+    paint: c-hot,
+    thickness: t-ed,
+    dash: "dashed",
+  ))
+
+  let axis-stroke = (paint: c-ink, thickness: t-ed)
+  draw.line((0, 0), (s + 0.45, 0), stroke: axis-stroke, mark: (
+    symbol: "triangle",
+    fill: c-ink,
+    scale: 0.5,
+  ))
+  draw.line((0, 0), (0, s + 0.45), stroke: axis-stroke, mark: (
+    symbol: "triangle",
+    fill: c-ink,
+    scale: 0.5,
+  ))
+  draw.line((0.5 * s, -0.07), (0.5 * s, 0.07), stroke: axis-stroke)
+  draw.line((s, -0.07), (s, 0.07), stroke: axis-stroke)
+  draw.line((-0.07, 0.5 * s), (0.07, 0.5 * s), stroke: axis-stroke)
+  draw.line((-0.07, s), (0.07, s), stroke: axis-stroke)
+  draw.content((0.5 * s, -0.25), text(size: s-cap, fill: c-muted)[$0.5$])
+  draw.content((s, -0.25), text(size: s-cap, fill: c-muted)[$1$])
+  draw.content((-0.28, 0.5 * s), text(size: s-cap, fill: c-muted)[$0.5$])
+  draw.content((-0.28, s), text(size: s-cap, fill: c-muted)[$1$])
+  draw.content((s / 2, -0.95), text(
+    size: s-cap,
+    fill: c-ink,
+  )[относительное расстояние $delta = d / n$])
+  draw.content((-1.05, s / 2), angle: 90deg, text(
+    size: s-cap,
+    fill: c-ink,
+  )[скорость $R = k / n$])
+
+  draw.content((1.0, 1.15), text(
+    size: s-cap,
+    fill: c-ink,
+  )[Варшамов--Гилберт: \ коды существуют])
+  draw.content((4.4, 4.6), text(size: s-cap, fill: c-ink)[запрещено])
+  draw.content((2.0, 2.1), frame: "rect", fill: c-white, text(
+    size: s-cap,
+    fill: c-accent,
+  )[Хэмминг])
+  draw.content((1.05, 4.95), angle: -45deg, frame: "rect", fill: c-white, text(
+    size: s-cap,
+    fill: c-edge,
+  )[Синглтон])
+  draw.content((2.82, 5.15), angle: 90deg, frame: "rect", fill: c-white, text(
+    size: s-cap,
+    fill: c-hot,
+  )[Плоткин])
+
+  let family-stroke = (paint: c-accent, thickness: t-ed)
+  draw.line((2.45, 3.55), (1.65, 4.35), stroke: family-stroke, mark: (
+    symbol: "triangle",
+    fill: c-accent,
+    scale: 0.45,
+  ))
+  draw.line((4.15, 1.85), (5.15, 0.85), stroke: family-stroke, mark: (
+    symbol: "triangle",
+    fill: c-accent,
+    scale: 0.45,
+  ))
+
+  let marks = (
+    (3 / 7, 4 / 7, [Хэмминг $(7, 4)$], (0.22, 0.12), "west"),
+    (3 / 7, 3 / 7, [RS $(7, 3)$], (0.22, 0.0), "west"),
+    (2 / 3, 1 / 3, [повторение $(3, 1)$], (0.85, -1.5), "south"),
+  )
+  for (d, r, label, off, anc) in marks {
+    draw.circle(pt(d, r), radius: 0.09, fill: c-accent)
+    draw.content(
+      (d * s + off.at(0), r * s + off.at(1)),
+      anchor: anc,
+      frame: "rect",
+      fill: c-white,
+      text(size: s-cap, fill: c-ink)[#label],
+    )
+  }
+})
+
+// ── Решётка свёрточного кода и путь Витерби ──
+#let vt-rows = ("00", "01", "10", "11")
+
+#let viterbi-trellis = {
+  let row-of = ("00": 0, "01": 1, "10": 2, "11": 3)
+  let nm = (
+    "00": (<a0>, <a1>, <a2>, <a3>, <a4>),
+    "01": (<b0>, <b1>, <b2>, <b3>, <b4>),
+    "10": (<c0>, <c1>, <c2>, <c3>, <c4>),
+    "11": (<d0>, <d1>, <d2>, <d3>, <d4>),
+  )
+  let trans = (
+    ("00", "00", [00], false),
+    ("00", "10", [11], true),
+    ("01", "00", [11], false),
+    ("01", "10", [00], true),
+    ("10", "01", [10], false),
+    ("10", "11", [01], true),
+    ("11", "01", [01], false),
+    ("11", "11", [10], true),
+  )
+  let survivor = ((0, "00"), (1, "10"), (2, "01"), (3, "10"), (4, "11"))
+
+  let edge-stroke = (paint: c-edge, thickness: t-ed)
+  let vt-edge(fr-nm, to-nm, out, dash) = edge(
+    fr-nm,
+    to-nm,
+    "-",
+    stroke: if dash { (..edge-stroke, dash: "dashed") } else { edge-stroke },
+    label: text(size: s-tiny, fill: c-ink)[#out],
+    label-fill: c-white,
+    label-side: center,
+  )
+  let surv-stroke = (paint: c-accent, thickness: 1.5pt)
+  let surv-edge(t, fr, to, dash) = edge(
+    nm.at(fr).at(t),
+    nm.at(to).at(t + 1),
+    "-",
+    stroke: if dash { (..surv-stroke, dash: "dashed") } else { surv-stroke },
+  )
+  let vt-node(t, st) = {
+    let final = (t == 4 and st == "11")
+    node(
+      (t, row-of.at(st)),
+      text(size: s-node, fill: if final { c-white } else { c-ink })[#st],
+      name: nm.at(st).at(t),
+      shape: circle,
+      width: 2.7em,
+      height: 2.7em,
+      inset: 0pt,
+      fill: if final { c-accent } else { c-fl },
+      stroke: if (t, st) in survivor {
+        (paint: c-accent, thickness: t-hi)
+      } else { c-bd + t-bd },
+    )
+  }
+
+  let elems = ()
+  for t in range(5) {
+    for st in vt-rows {
+      elems.push(vt-node(t, st))
+    }
+  }
+  for t in range(4) {
+    let active = if t == 0 { ("00",) } else if t == 1 { ("00", "10") } else {
+      vt-rows
+    }
+    for (fr, to, out, dash) in trans {
+      if fr in active {
+        elems.push(vt-edge(nm.at(fr).at(t), nm.at(to).at(t + 1), out, dash))
+      }
+    }
+  }
+  elems.push(surv-edge(0, "00", "10", true))
+  elems.push(surv-edge(1, "10", "01", false))
+  elems.push(surv-edge(2, "01", "10", true))
+  elems.push(surv-edge(3, "10", "11", true))
+
+  let received = ([11], [00], [00], [01])
+  elems.push(node((-0.7, -0.65), text(size: s-cap, fill: c-muted)[принято]))
+  for t in range(4) {
+    elems.push(node((t + 0.5, -0.65), text(
+      size: s-cap,
+      fill: c-muted,
+    )[#received.at(t)]))
+  }
+  for st in vt-rows {
+    elems.push(node((-0.6, row-of.at(st)), text(
+      size: s-tiny,
+      fill: c-muted,
+    )[$#st$]))
+  }
+  let metrics = (3, 2, 3, 1)
+  elems.push(node((4.62, -0.65), text(size: s-cap, fill: c-muted)[метрика]))
+  for i in range(4) {
+    elems.push(node((4.6, i), text(
+      size: s-tiny,
+      fill: c-muted,
+    )[$#metrics.at(i)$]))
+  }
+
+  diagram(spacing: 1.7em, ..elems)
+}
