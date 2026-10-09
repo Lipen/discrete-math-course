@@ -97,3 +97,80 @@
     re(<s3>, <eps>, label: $S -> epsilon$),
   )
 }
+
+// ── Два дерева разбора одного слова ──
+#let ambig-parse-trees = {
+  let n-amb = 2em
+
+  let cn(pos, body, ..args) = node(
+    pos,
+    body,
+    fill: c-conn,
+    width: n-amb,
+    height: n-amb,
+    ..args,
+  )
+  let tn(pos, body, ..args) = node(
+    pos,
+    body,
+    fill: c-atom,
+    width: n-amb,
+    height: n-amb,
+    ..args,
+  )
+  let te(from, to) = edge(from, to, "-", stroke: e-stroke)
+  let cap(pos, body) = node(pos, body, shape: rect, fill: none, stroke: none)
+
+  diagram(
+    node-shape: "circle",
+    node-stroke: n-stroke,
+    node-inset: 0pt,
+    node-outset: 0pt,
+    spacing: 2em,
+
+    cn((2, 0), $E$, name: <a-rot>),
+    cn((1, 1), $E$, name: <a-l>),
+    tn((3, 1), $"*"$, name: <a-mul>),
+    cn((4, 1), $E$, name: <a-r>),
+    cn((0, 2), $E$, name: <a-ll>),
+    tn((1, 2), $"+"$, name: <a-add>),
+    cn((2, 2), $E$, name: <a-lr>),
+    tn((0, 3), $"id"$, name: <a-id0>),
+    tn((2, 3), $"id"$, name: <a-id2>),
+    tn((4, 3), $"id"$, name: <a-id4>),
+
+    cn((8.5, 0), $E$, name: <b-rot>),
+    cn((6.5, 1), $E$, name: <b-l>),
+    tn((7.5, 1), $"+"$, name: <b-add>),
+    cn((8.5, 1), $E$, name: <b-r>),
+    cn((8.5, 2), $E$, name: <b-rl>),
+    tn((9.5, 2), $"*"$, name: <b-mul>),
+    cn((10.5, 2), $E$, name: <b-rr>),
+    tn((6.5, 3), $"id"$, name: <b-id0>),
+    tn((8.5, 3), $"id"$, name: <b-id2>),
+    tn((10.5, 3), $"id"$, name: <b-id4>),
+
+    cap((2, 4), [$("id" + "id") * "id"$]),
+    cap((8.5, 4), [$"id" + ("id" * "id")$]),
+
+    te(<a-rot>, <a-l>),
+    te(<a-rot>, <a-mul>),
+    te(<a-rot>, <a-r>),
+    te(<a-l>, <a-ll>),
+    te(<a-l>, <a-add>),
+    te(<a-l>, <a-lr>),
+    te(<a-ll>, <a-id0>),
+    te(<a-lr>, <a-id2>),
+    te(<a-r>, <a-id4>),
+
+    te(<b-rot>, <b-l>),
+    te(<b-rot>, <b-add>),
+    te(<b-rot>, <b-r>),
+    te(<b-r>, <b-rl>),
+    te(<b-r>, <b-mul>),
+    te(<b-r>, <b-rr>),
+    te(<b-l>, <b-id0>),
+    te(<b-rl>, <b-id2>),
+    te(<b-rr>, <b-id4>),
+  )
+}
