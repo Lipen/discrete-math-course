@@ -23,7 +23,14 @@
     inset: 6pt,
     corner-radius: 3pt,
   )
-  let tree-edge(fr, to) = edge(fr, to, "-", stroke: t-ed + c-edge)
+  let tree-edge(fr, to, num) = edge(
+    fr,
+    to,
+    "-",
+    stroke: t-ed + c-edge,
+    label: text(size: s-tiny, fill: c-accent, weight: "bold")[#num],
+    label-fill: c-white,
+  )
   let sld-note(pos, body) = node(
     pos,
     body,
@@ -34,7 +41,7 @@
   )
 
   diagram(
-    spacing: (3.4cm, 1.8cm),
+    spacing: (1.9cm, 1.5cm),
     goal((0, 0), <root>, [`ancestor(alice, Y)`]),
     goal((-1, 1), <base1>, [`parent(alice, Y)`]),
     goal((1, 1), <recur1>, [`parent(alice, Z)` \ `ancestor(Z, Y)`]),
@@ -52,13 +59,13 @@
       weight: "bold",
     )[тупик]),
 
-    tree-edge(<root>, <base1>),
-    tree-edge(<root>, <recur1>),
-    tree-edge(<base1>, <sol1>),
-    tree-edge(<recur1>, <anc>),
-    tree-edge(<anc>, <base2>),
-    tree-edge(<anc>, <recur2>),
-    tree-edge(<base2>, <sol2>),
-    tree-edge(<recur2>, <dead>),
+    tree-edge(<root>, <base1>, 1),
+    tree-edge(<base1>, <sol1>, 2),
+    tree-edge(<root>, <recur1>, 3),
+    tree-edge(<recur1>, <anc>, 4),
+    tree-edge(<anc>, <base2>, 5),
+    tree-edge(<base2>, <sol2>, 6),
+    tree-edge(<anc>, <recur2>, 7),
+    tree-edge(<recur2>, <dead>, 8),
   )
 }
