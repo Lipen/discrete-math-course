@@ -87,10 +87,10 @@
   let r = 0.2
   let l = 0.11
 
-  let cat-node(pos, name) = draw.circle(
+  let cat-node(pos, name, fill: c-fl) = draw.circle(
     pos,
     radius: r,
-    fill: c-fl,
+    fill: fill,
     stroke: (paint: c-bd, thickness: t-bd),
     name: name,
   )
@@ -111,15 +111,15 @@
   ))
 
   canvas({
-    cat-node((0, 3.4), "root")
-    cat-node((-1.2, 2.2), "L")
-    cat-node((1.2, 2.2), "R")
-    cat-leaf((-1.85, 1.0), "LL")
-    cat-leaf((-0.55, 1.0), "LR")
-    cat-node((0.55, 1.0), "RL")
-    cat-leaf((1.85, 1.0), "RR")
-    cat-leaf((0.25, -0.2), "RLL")
-    cat-leaf((0.85, -0.2), "RLR")
+    cat-node((0, 3.4), "root", fill: c-white)
+    cat-node((-0.9, 2.2), "L")
+    cat-node((0.9, 2.2), "R", fill: c-atom)
+    cat-leaf((-1.4, 1.0), "LL")
+    cat-leaf((-0.45, 1.0), "LR")
+    cat-node((0.45, 1.0), "RL", fill: c-atom)
+    cat-leaf((1.4, 1.0), "RR")
+    cat-leaf((0.15, -0.2), "RLL")
+    cat-leaf((0.75, -0.2), "RLR")
 
     cat-edge("root", "L")
     cat-edge("root", "R")
@@ -136,9 +136,9 @@
       fill: c-ink,
     )[$C_4$])
 
-    let bw = 0.46
-    let pitch = 2.9
-    let x0 = 3.5
+    let bw = 0.42
+    let pitch = 2.65
+    let x0 = 2.9
     let y = 2.0
 
     let term(i, x) = {
@@ -151,23 +151,23 @@
         radius: 4pt,
       )
       draw.content((x, y), text(size: s-node, fill: c-ink)[$C_#i$])
-      draw.content((x + 0.7, y), text(size: s-cap, fill: c-ink)[$dot$])
+      draw.content((x + 0.66, y), text(size: s-cap, fill: c-ink)[$dot$])
       draw.rect(
-        (x + 1.4 - bw, y - 0.4),
-        (x + 1.4 + bw, y + 0.4),
+        (x + 1.32 - bw, y - 0.4),
+        (x + 1.32 + bw, y + 0.4),
         fill: c-atom,
         stroke: (paint: c-bd, thickness: t-bd),
         radius: 4pt,
       )
-      draw.content((x + 1.4, y), text(size: s-node, fill: c-ink)[$C_#ri$])
+      draw.content((x + 1.32, y), text(size: s-node, fill: c-ink)[$C_#ri$])
     }
 
-    draw.content((2.6, y), text(size: 1.1em, fill: c-ink)[$=$])
+    draw.content((2.05, y), text(size: 1.1em, fill: c-ink)[$=$])
 
     for i in range(4) {
       term(i, x0 + pitch * i)
       if i < 3 {
-        draw.content((x0 + pitch * i + 2.15, y), text(
+        draw.content((x0 + pitch * i + 1.985, y), text(
           size: s-node,
           fill: c-ink,
         )[$+$])
