@@ -127,7 +127,7 @@
     )
     draw.content(
       (w - 0.5, g.date-y),
-      text(size: 5pt, fill: c-mute)[#dates.at(w - 1)],
+      text(size: 5pt, fill: c-mute)[#dates.at(w - 1, default: [])],
     )
   }
   week-tick(weeks)
