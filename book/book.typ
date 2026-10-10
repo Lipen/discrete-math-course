@@ -122,6 +122,9 @@
 #include "conclusion.typ"
 #include "chapters/m36-categories.typ"
 
+// --- Приложение: словарь обозначений ---
+#include "appendix-notation.typ"
+
 // --- Указания к упражнениям со звёздочкой ---
 #include "hints.typ"
 
