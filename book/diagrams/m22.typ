@@ -67,3 +67,50 @@
   draw.content((3.15, 1.95), text(size: s-node, fill: c-ink)[$omega$])
   draw.content((0, -1.68), text(size: s-cap, fill: c-muted)[$dots.c$])
 })
+
+// ── Сечения Дедекинда ──
+#let dedekind-cuts = canvas({
+  let ray-stroke = (paint: c-accent, thickness: 3pt, cap: "round")
+  let axis-stroke = (paint: c-edge, thickness: t-ed)
+
+  let cut-row(y, x-cut, hole, tag, bound-label, cut-label, ticks) = {
+    draw.line(
+      (-0.25, y),
+      (3.15, y),
+      name: tag + "-axis",
+      stroke: axis-stroke,
+      mark: (end: ">", fill: c-edge),
+    )
+    draw.line((-0.25, y), (x-cut, y), stroke: ray-stroke)
+    if hole {
+      draw.circle((x-cut, y), radius: 0.1, name: tag + "-bnd", fill: c-white, stroke: 1pt + c-hot)
+    } else {
+      draw.circle((x-cut, y), radius: 0.1, name: tag + "-bnd", fill: c-hot, stroke: none)
+    }
+    draw.content((x-cut, y + 0.34), text(size: s-node, fill: c-ink)[#bound-label])
+    for t in ticks {
+      draw.line((t.x, y - 0.08), (t.x, y + 0.08), stroke: axis-stroke)
+      draw.content((t.x, y - 0.34), text(size: s-tiny, fill: c-muted)[#t.n])
+    }
+    draw.content((1.45, y - 0.66), text(size: s-node, fill: c-ink)[#cut-label])
+  }
+
+  cut-row(
+    1.9,
+    1.414,
+    true,
+    "cut-irr",
+    $sqrt(2)$,
+    ${q in QQ mid(|) q < sqrt(2)}$,
+    ((x: 0, n: $0$), (x: 1, n: $1$)),
+  )
+  cut-row(
+    0.5,
+    1,
+    false,
+    "cut-rat",
+    $1$,
+    ${q in QQ mid(|) q < 1}$,
+    ((x: 0, n: $0$),),
+  )
+})

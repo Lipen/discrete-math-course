@@ -317,6 +317,95 @@
   )[$(t (n + s)^2)^s$])
 })
 
+// ── Дерево объединения блоков опережающего переноса ──
+// n = 8: листья --- биты с их G_i, P_i; каждый внутренний узел объединяет
+// два подблока: G = G_hi or (P_hi and G_lo), P = P_hi and P_lo.
+#let carry-tree = ccetz.canvas({
+  let step = 1.8
+  let bh = 0.95
+  let leaf-w = 1.75
+  let bw = 1.6
+
+  let box(name, cx, cy, w, fill) = {
+    draw.rect(
+      (cx - w / 2, cy - bh / 2),
+      (cx + w / 2, cy + bh / 2),
+      radius: 4pt,
+      fill: fill,
+      stroke: c-bd + t-bd,
+      name: name,
+    )
+  }
+
+  let label(cx, cy, body) = draw.content((cx, cy), text(
+    size: s-node,
+    fill: c-ink,
+  )[body])
+
+  // Каждый внутренний узел --- середина своих двух детей.
+  let leaf-x = range(8).map(i => i * step)
+  let l1-x = range(4).map(i => (leaf-x.at(2 * i) + leaf-x.at(2 * i + 1)) / 2)
+  let l2-x = range(2).map(i => (l1-x.at(2 * i) + l1-x.at(2 * i + 1)) / 2)
+  let root-x = (l2-x.at(0) + l2-x.at(1)) / 2
+  let y = (0.0, 1.8, 3.6, 5.4)
+
+  // ── Листья: биты 0..7 с их G_i, P_i ──
+  for i in range(8) {
+    box("leaf-" + str(i), leaf-x.at(i), y.at(0), leaf-w, c-atom)
+    label(leaf-x.at(i), y.at(0) + 0.18, [$G_#i$, $P_#i$])
+    label(leaf-x.at(i), y.at(0) - 0.25, [$#i$])
+  }
+
+  // ── Уровень 1: блоки по 2 бита ──
+  for i in range(4) {
+    let lo = 2 * i
+    box("l1-" + str(i), l1-x.at(i), y.at(1), bw, c-conn)
+    label(l1-x.at(i), y.at(1) + 0.18, [$G$, $P$])
+    label(l1-x.at(i), y.at(1) - 0.25, [$"#lo:#(lo + 1)"$])
+  }
+
+  // ── Уровень 2: блоки по 4 бита ──
+  for i in range(2) {
+    let lo = 4 * i
+    box("l2-" + str(i), l2-x.at(i), y.at(2), bw, c-conn)
+    label(l2-x.at(i), y.at(2) + 0.18, [$G$, $P$])
+    label(l2-x.at(i), y.at(2) - 0.25, [$"#lo:#(lo + 3)"$])
+  }
+
+  // ── Корень: весь байт [0:7] ──
+  box("root", root-x, y.at(3), bw, c-conn)
+  label(root-x, y.at(3) + 0.18, [$G$, $P$])
+  label(root-x, y.at(3) - 0.25, [$"0:7"$])
+
+  // ── Рёбра ──
+  for i in range(4) {
+    draw.line("leaf-" + str(2 * i), "l1-" + str(i), stroke: c-edge + t-ed)
+    draw.line("leaf-" + str(2 * i + 1), "l1-" + str(i), stroke: c-edge + t-ed)
+  }
+  for i in range(2) {
+    draw.line("l1-" + str(2 * i), "l2-" + str(i), stroke: c-edge + t-ed)
+    draw.line("l1-" + str(2 * i + 1), "l2-" + str(i), stroke: c-edge + t-ed)
+  }
+  draw.line("l2-0", "root", stroke: c-edge + t-ed)
+  draw.line("l2-1", "root", stroke: c-edge + t-ed)
+
+  // Формула объединения одна на все внутренние узлы.
+  draw.content(
+    (root-x, y.at(3) + 0.95),
+    text(size: s-cap, fill: c-muted)[
+      на каждом объединении: $G = G_"hi" or (P_"hi" and G_"lo")$, $P = P_"hi" and P_"lo"$
+    ],
+  )
+
+  // Номер уровня слева от каждого ряда: уровни дерева = глубина схемы.
+  for lvl in range(4) {
+    draw.content((-0.35, y.at(lvl)), anchor: "east", text(
+      size: s-tiny,
+      fill: c-muted,
+    )[#lvl])
+  }
+})
+
 // ── Включение классов ──
 #let class-inclusion = ccetz.canvas({
   let all-w = 7.8

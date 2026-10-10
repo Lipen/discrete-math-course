@@ -167,6 +167,49 @@
   }
 })
 
+// ── Цикл C5 --- свидетель R(3, 3) > 5 ──
+#let ramsey-c5 = canvas({
+  let R = 2.2
+  let vr = 0.32
+  let know-line = c-accent + t-hi
+  let stranger-line = c-hot + t-hi
+
+  for i in range(1, 6) {
+    let p = (
+      R * calc.cos(90deg - (i - 1) * 72deg),
+      R * calc.sin(90deg - (i - 1) * 72deg),
+    )
+    draw.circle(p, radius: vr, fill: c-fl, stroke: c-bd + t-bd, name: "v" + str(i))
+    draw.content(p, text(size: s-node, fill: c-ink)[#i])
+  }
+
+  for (a, b) in (("v1", "v3"), ("v1", "v4"), ("v2", "v4"), ("v2", "v5"), ("v3", "v5")) {
+    draw.line(a, b, stroke: stranger-line)
+  }
+  for (a, b) in (("v1", "v2"), ("v2", "v3"), ("v3", "v4"), ("v4", "v5"), ("v5", "v1")) {
+    draw.line(a, b, stroke: know-line)
+  }
+
+  draw.line((3.3, 2.0), (3.9, 2.0), stroke: c-hot + t-hi)
+  draw.content((4.1, 2.0), text(size: s-cap, fill: c-muted)[незнакомы], anchor: "west")
+  draw.line((3.3, 1.4), (3.9, 1.4), stroke: c-accent + t-hi)
+  draw.content((4.1, 1.4), text(size: s-cap, fill: c-muted)[знакомы], anchor: "west")
+
+  let note-x = -2.2
+  let note-y = -2.55
+  for (k, line) in (
+    [Каждые три вершины содержат пару соседей по циклу],
+    [и пару несоседей: ни синего треугольника, ни красного.],
+    [Пять вершин недостаточно: $R(3, 3) > 5$.],
+  ).enumerate() {
+    draw.content(
+      (note-x, note-y - k * 0.5),
+      text(size: s-cap, fill: c-muted)[#line],
+      anchor: "west",
+    )
+  }
+})
+
 // ── Дерево решений: перестановки {A,B,C} ──
 #let decision-tree = {
   let tnode(pos, name, label) = {
