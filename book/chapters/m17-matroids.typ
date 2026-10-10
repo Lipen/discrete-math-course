@@ -207,7 +207,7 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
 Жадное построение не остановится на локальном максимуме, если есть куда расти.
 
 #definition[Свойство замены][
-  Семейство $cal(F)$ обладает *свойством замены*, если $A, B in cal(F) and abs(A) < abs(B) ==> exists x in B setminus A: A union {x} in cal(F)$.
+  Семейство $cal(F)$ обладает *свойством замены*, если $A, B in cal(F) and abs(A) < abs(B) ==> exists x in B setminus A . thin A union {x} in cal(F)$.
 ]
 
 Проверим свойство замены для трёх задач.
@@ -262,7 +262,7 @@ pub fn greedy<M: Matroid>(m: &M, weights: &[u32]) -> Vec<u32> {
   Пара $(E, cal(I))$ называется *матроидом*, если выполнены следующие условия:
   + *Непустота:* семейство $cal(I)$ содержит хотя бы одно множество.
   + *Наследственность:* $A in cal(I) and B subset.eq A ==> B in cal(I)$.
-  + *Свойство замены:* $A, B in cal(I) and abs(A) < abs(B) ==> exists x in B setminus A: A union {x} in cal(I)$.
+  + *Свойство замены:* $A, B in cal(I) and abs(A) < abs(B) ==> exists x in B setminus A . thin A union {x} in cal(I)$.
 
   Множества из $cal(I)$ называются *независимыми множествами*.
   Элементы множества $E$ называются *элементами матроида*.

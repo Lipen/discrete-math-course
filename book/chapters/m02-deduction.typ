@@ -944,8 +944,8 @@
 === Универсальное устранение
 
 #definition[Универсальное устранение ($forall$E)][
-  $forall x thin phi(x) proves phi(t)$ для любого терма $t$:
-  $ frac(forall x thin phi(x), phi(t)) $
+  $forall x . thin phi(x) proves phi(t)$ для любого терма $t$:
+  $ frac(forall x . thin phi(x), phi(t)) $
   Терм $t$ подставляется вместо $x$ свободно: ни одна переменная терма не должна оказаться связанной квантором внутри $phi$.
 ]
 
@@ -953,7 +953,7 @@
 
 #example[Универсальное устранение][
   #fitch-proof(
-    fitch-premise(1, $forall x thin P(x)$),
+    fitch-premise(1, $forall x . thin P(x)$),
     fitch-step(2, $P(a)$, rule: [$forall$E 1]),
   )
 
@@ -964,8 +964,8 @@
 #example[Захват переменной при подстановке][
   Применять универсальное устранение можно не с любым термом.
   Пусть $P(x, y)$ означает "$x$ меньше $y$".
-  Посылка $forall x exists y thin P(x, y)$ истинна на натуральных числах: у каждого числа есть большее.
-  Подстановка терма $y$ вместо $x$ даёт $exists y thin P(y, y)$ --- "существует число, меньшее самого себя".
+  Посылка $forall x exists y . thin P(x, y)$ истинна на натуральных числах: у каждого числа есть большее.
+  Подстановка терма $y$ вместо $x$ даёт $exists y . thin P(y, y)$ --- "существует число, меньшее самого себя".
   Такое заключение ложно, хотя посылка истинна: переменная терма попала под квантор существования и была им захвачена.
   Правило требует свободной подстановки: ни одна переменная терма не должна оказаться связанной квантором внутри формулы.
 ]
@@ -973,8 +973,8 @@
 === Универсальное введение
 
 #definition[Универсальное введение ($forall$I)][
-  $phi(a) proves forall x thin phi(x)$, где $a$ --- свежая переменная:
-  $ frac(phi(a), forall x thin phi(x)) $
+  $phi(a) proves forall x . thin phi(x)$, где $a$ --- свежая переменная:
+  $ frac(phi(a), forall x . thin phi(x)) $
   Условие: $a$ не встречается свободно ни в одной открытой гипотезе, от которой зависит вывод $phi(a)$.
 ]
 
@@ -982,26 +982,26 @@
 
 #example[Универсальное введение][
   #fitch-proof(
-    fitch-premise(1, $forall x thin (P(x) and Q(x))$),
+    fitch-premise(1, $forall x . thin (P(x) and Q(x))$),
     fitch-subproof(
       fitch-assume(2, $a$, rule: [произвольное $a$]),
       fitch-step(3, $P(a) and Q(a)$, rule: [$forall$E 1]),
       fitch-step(4, $P(a)$, rule: [$and$E 3]),
     ),
 
-    fitch-step(5, $forall x thin P(x)$, rule: [$forall$I 2-4]),
+    fitch-step(5, $forall x . thin P(x)$, rule: [$forall$I 2-4]),
   )
 
   Строка 2 объявляет $a$ произвольным --- это не формула, а свежее имя, читаемое как "пусть $a$ --- любой объект".
-  Из неё выводится $P(a)$, и только затем обобщение до $forall x thin P(x)$.
+  Из неё выводится $P(a)$, и только затем обобщение до $forall x . thin P(x)$.
   Гипотеза строки 2 снимается правилом $forall$I --- заключение не зависит от выбора $a$.
 ]
 
 === Экзистенциальное введение
 
 #definition[Экзистенциальное введение ($exists$I)][
-  $phi(t) proves exists x thin phi(x)$ для некоторого терма $t$:
-  $ frac(phi(t), exists x thin phi(x)) $
+  $phi(t) proves exists x . thin phi(x)$ для некоторого терма $t$:
+  $ frac(phi(t), exists x . thin phi(x)) $
   Терм $t$ подставляется вместо $x$ свободно.
 ]
 
@@ -1011,7 +1011,7 @@
 #example[Экзистенциальное введение][
   #fitch-proof(
     fitch-premise(1, $P(a)$),
-    fitch-step(2, $exists x thin P(x)$, rule: [$exists$I 1]),
+    fitch-step(2, $exists x . thin P(x)$, rule: [$exists$I 1]),
   )
 
   Из "$a$ обладает свойством $P$" следует "существует объект со свойством $P$".
@@ -1021,8 +1021,8 @@
 === Экзистенциальное устранение
 
 #definition[Экзистенциальное устранение ($exists$E)][
-  Из $exists x thin phi(x)$ и подвывода $phi(a) proves C$ выводится $C$:
-  $ frac(exists x thin phi(x) quad phi(a) proves C, C) $
+  Из $exists x . thin phi(x)$ и подвывода $phi(a) proves C$ выводится $C$:
+  $ frac(exists x . thin phi(x) quad phi(a) proves C, C) $
   Условие: $a$ не встречается свободно ни в $C$, ни в открытых гипотезах, кроме самой $phi(a)$.
 ]
 
@@ -1031,18 +1031,18 @@
 
 #example[Экзистенциальное устранение][
   #fitch-proof(
-    fitch-premise(1, $exists x thin (P(x) and Q(x))$),
+    fitch-premise(1, $exists x . thin (P(x) and Q(x))$),
     fitch-subproof(
       fitch-assume(2, $P(a) and Q(a)$, rule: [свежее $a$]),
       fitch-step(3, $P(a)$, rule: [$and$E 2]),
-      fitch-step(4, $exists x thin P(x)$, rule: [$exists$I 3]),
+      fitch-step(4, $exists x . thin P(x)$, rule: [$exists$I 3]),
     ),
 
-    fitch-step(5, $exists x thin P(x)$, rule: [$exists$E 1, 2-4]),
+    fitch-step(5, $exists x . thin P(x)$, rule: [$exists$E 1, 2-4]),
   )
 
   Гипотеза $P(a) and Q(a)$ вводит свежую переменную $a$ --- имя, о котором ничего не известно.
-  Из неё выводится $exists x thin P(x)$.
+  Из неё выводится $exists x . thin P(x)$.
   Правило $exists$E снимает гипотезу: заключение не зависит от конкретного $a$.
 ]
 
@@ -1086,7 +1086,7 @@
   Конъюнкция истинна ровно при истинных членах, дизъюнкция --- хотя бы при одном, отрицание --- при ложности формулы, а $bot$ нигде не истинно, поэтому из него следует любая формула.
   Косвенное доказательство корректно в классической семантике: если $Gamma, not A models bot$, то допущение $not A$ несовместимо с истинным $Gamma$, и, поскольку каждая формула истинна или ложна, отсюда следует истинность $A$.
 
-  *Кванторы.* Универсальное устранение из истинной формулы $forall x thin phi(x)$ даёт истинную $phi(t)$, если подстановка свободна. Универсальное введение из $phi(a)$ со свежим $a$ даёт $forall x thin phi(x)$, потому что про $a$ ничего не предполагалось.
+  *Кванторы.* Универсальное устранение из истинной формулы $forall x . thin phi(x)$ даёт истинную $phi(t)$, если подстановка свободна. Универсальное введение из $phi(a)$ со свежим $a$ даёт $forall x . thin phi(x)$, потому что про $a$ ничего не предполагалось.
   Экзистенциальные правила зеркальны.
   Точное определение истинности в модели --- предмет главы~@chap:fol.
 

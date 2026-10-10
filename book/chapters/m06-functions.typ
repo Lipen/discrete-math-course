@@ -79,7 +79,7 @@
 
 #definition[Функция][
   Бинарное отношение $f subset.eq A times B$ называется *функцией*, если выполнены два условия:
-  - *Левая тотальность* (англ. serial): $forall a in A, exists b in B: (a, b) in f$;
+  - *Левая тотальность* (англ. serial): $forall a in A exists b in B . thin (a, b) in f$;
   - *Однозначность* (англ. functional): $(a, b_1), (a, b_2) in f imply b_1 = b_2$.
 
   Такая функция обозначается $f: A -> B$.
@@ -395,7 +395,7 @@ $f^(-1) (4) = {-2, 2}$ --- прообраз из двух элементов, и
 #definition[Сюръекция][
   Функция $f$ называется *сюръективной*, если каждый элемент кодомена $B$ достигается:
   $
-    forall b in B, exists a in A: f(a) = b.
+    forall b in B exists a in A . thin f(a) = b.
   $
   Эквивалентно: $f(A) = B$.
 ]
@@ -577,7 +577,7 @@ $f^(-1) (4) = {-2, 2}$ --- прообраз из двух элементов, и
     [Левая обратная\ $g compose f = "id"_A$],
 
     [Сюръекция],
-    [$forall b exists a: f(a) = b$],
+    [$forall b exists a . thin f(a) = b$],
     [$abs(A) >= abs(B)$],
     [Правая обратная\ $f compose g = "id"_B$],
 
@@ -768,8 +768,8 @@ _Композиция_ --- операция склеивания функций 
 
   *Образ объединения.*
   $
-    y in f(A union B) & iff exists x in A union B: f(x) = y \
-                      & iff (exists x in A: f(x) = y) or (exists x in B: f(x) = y) \
+    y in f(A union B) & iff exists x in A union B . thin f(x) = y \
+                      & iff (exists x in A . thin f(x) = y) or (exists x in B . thin f(x) = y) \
                       & iff y in f(A) union f(B).
   $
 
@@ -777,13 +777,13 @@ _Композиция_ --- операция склеивания функций 
 
   *Образ пересечения.*
   $
-    y in f(A inter B) & arrow.double.r exists x in A inter B: f(x) = y \
+    y in f(A inter B) & arrow.double.r exists x in A inter B . thin f(x) = y \
                       & arrow.double.r y in f(A) and y in f(B).
   $
 
   Обратное верно, когда $f$ инъективна:
   $
-    y in f(A) inter f(B) & arrow.double.r exists a in A, b in B: f(a) = f(b) = y \
+    y in f(A) inter f(B) & arrow.double.r exists a in A exists b in B . thin f(a) = f(b) = y \
                          & arrow.double.r a = b quad ("инъективность") \
                          & arrow.double.r a in A inter B \
                          & arrow.double.r y in f(A inter B).
@@ -1017,7 +1017,7 @@ $
     $ limits(lim)_(n -> oo) n^10/2^n = 0 , $
     откуда $2^n/n^10 -> oo$.
 
-  - $forall epsilon > 0: log n in o(n^epsilon)$.
+  - $forall epsilon > 0 . thin log n in o(n^epsilon)$.
     Предел отношения равен $limits(lim)_(n -> oo) (log n)/n^epsilon = 0$.
 
   Здесь использованы два стандартных факта: логарифм растёт медленнее любой положительной степени, экспонента --- быстрее любого полинома.

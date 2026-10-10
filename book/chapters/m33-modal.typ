@@ -123,7 +123,7 @@
     с $R(w, w')$.
 ]
 
-Формула $A$ истинна в модели $M$, если $forall w in W: M, w forces A$.
+Формула $A$ истинна в модели $M$, если $forall w in W . thin M, w forces A$.
 
 #note[Почему "принуждение"][
   Отношение называют принуждением (forcing), а не истинностью: значение модальной формулы определяется всей структурой достижимости вокруг мира, а не одним миром.
@@ -196,9 +196,9 @@ $
 #theorem[Соответствие свойства и аксиомы][
   Каждая аксиома валидна во фрейме $F$ тогда и только тогда, когда отношение $R$ фрейма обладает парным ей свойством:
 
-  - _Серийность_ ($forall u exists v: R(u, v)$) --- у каждого мира есть хотя бы один достижимый.
+  - _Серийность_ ($forall u exists v . thin R(u, v)$) --- у каждого мира есть хотя бы один достижимый.
     Соответствует аксиоме $D$: $square p -> diamond p$.
-  - _Рефлексивность_ ($forall w: R(w, w)$) --- каждый мир виден из самого себя.
+  - _Рефлексивность_ ($forall w . thin R(w, w)$) --- каждый мир виден из самого себя.
     Соответствует аксиоме $T$: $square p -> p$.
   - _Симметричность_ ($R(u, v) -> R(v, u)$) --- достижимость взаимна.
     Соответствует аксиоме $B$: $p -> square diamond p$.
@@ -471,7 +471,7 @@ $S_5$ --- стандартная логика знания: агент полн�
 
 #example[Модальная формула как формула первого порядка][
   Формула $square diamond p$ в мире $w$ переводится как
-  $ forall u: R(w, u) -> exists v: (R(u, v) and p(v)) . $
+  $ forall u . thin R(w, u) -> exists v . thin (R(u, v) and p(v)) . $
   Читается: из любого мира, достижимого из $w$, достижим мир, где $p$ истинно.
   Свободная переменная $w$ --- тот мир, в котором формулу проверяют.
   Символы $R$ и $p$ становятся обычными предикатами, и задача о модальной формуле становится задачей первого порядка.
@@ -594,8 +594,8 @@ $diamond phi$ --- "когда-нибудь $phi$" (в будущем, включ
     pi models phi and psi & iff pi models phi and pi models psi, \
      pi models phi or psi & iff pi models phi or pi models psi, \
      pi models circle phi & iff pi^1 models phi, \
-      pi models phi U psi & iff exists j: (pi^j models psi
-                              and forall i < j: pi^i models phi).
+      pi models phi U psi & iff exists j . thin (pi^j models psi
+                              and forall i < j . thin pi^i models phi).
   $
 ]
 
@@ -653,8 +653,8 @@ _CTL_ (Computation Tree Logic) рассматривает _все_ пути ср
   Отношение $M, s forces phi$ определяется индукцией по формуле.
   Случаи для $circle$:
   $
-    M, s forces A circle phi & iff forall s' in R(s): M, s' forces phi, \
-    M, s forces E circle phi & iff exists s' in R(s): M, s' forces phi .
+    M, s forces A circle phi & iff forall s' in R(s) . thin M, s' forces phi, \
+    M, s forces E circle phi & iff exists s' in R(s) . thin M, s' forces phi .
   $
   Для $U$:
   - $M, s forces A (phi U psi)$ --- на _всех_ путях, начинающихся в $s$,

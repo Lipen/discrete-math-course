@@ -673,14 +673,14 @@ $A -> B -> A, (A -> B -> C) -> (A -> B) -> (A -> C)$.
 
 #definition[System F ($lambda 2$)][
   Система $lambda 2$ (System F) расширяет $lambda ->$ зависимостью термов от типов.
-  Типы пополняются схемой: вместе с типом $sigma$, содержащим типовую переменную $alpha$, разрешён тип $forall alpha . sigma$.
+  Типы пополняются схемой: вместе с типом $sigma$, содержащим типовую переменную $alpha$, разрешён тип $forall alpha . thin sigma$.
   Термы пополняются двумя формами, и правил типизации два:
-  + абстракция по типу $Lambda alpha . M$ получает тип $forall alpha . sigma$, когда тело $M$ типизируется как $sigma$.
-  + применение к типу $M [tau]$ получает тип $sigma [alpha := tau]$, когда $M$ типизируется как $forall alpha . sigma$.
+  + абстракция по типу $Lambda alpha . M$ получает тип $forall alpha . thin sigma$, когда тело $M$ типизируется как $sigma$.
+  + применение к типу $M [tau]$ получает тип $sigma [alpha := tau]$, когда $M$ типизируется как $forall alpha . thin sigma$.
 ]
 
 #example[Полиморфная тождественная функция][
-  Терм $Lambda alpha . lambda x : alpha . x : forall alpha . alpha -> alpha$.
+  Терм $Lambda alpha . lambda x : alpha . x : forall alpha . thin alpha -> alpha$.
   Подставим вместо $alpha$ тип $"Nat"$.
   Получим тождественную функцию на числах: $lambda x : "Nat" . x : "Nat" -> "Nat"$.
   Подставим $"Bool"$.
@@ -691,7 +691,7 @@ $A -> B -> A, (A -> B -> C) -> (A -> B) -> (A -> C)$.
 
 #example[Числа Чёрча][
   Число $2$ кодируется термом $2 = Lambda alpha . lambda f : alpha -> alpha . lambda x : alpha . f (f x)$.
-  Его тип --- ровно $"Nat" = forall alpha . (alpha -> alpha) -> alpha -> alpha$.
+  Его тип --- ровно $"Nat" = forall alpha . thin (alpha -> alpha) -> alpha -> alpha$.
   Число применяет аргумент-функцию $n$ раз, и тип это фиксирует.
   Покажем редукцию на конкретных типах.
   Применим $2$ к функции $g : "Nat" -> "Nat"$ и к числу $0$:

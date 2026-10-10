@@ -166,7 +166,7 @@ _Экстенсиональность_ ставит на этом точку: м
 #definition[Экстенсиональность][
   Два множества называются *равными*, обозначается $A = B$, если они содержат в точности одни и те же элементы:
   $
-    forall x quad (x in A iff x in B).
+    forall x . thin (x in A iff x in B).
   $
 ]
 
@@ -188,7 +188,7 @@ _Экстенсиональность_ ставит на этом точку: м
 #definition[Подмножество][
   Множество $A$ называется *подмножеством* множества $B$, обозначается $A subset.eq B$, если каждый элемент $A$ является элементом $B$:
   $
-    forall x quad (x in A imply x in B).
+    forall x . thin (x in A imply x in B).
   $
 ]
 
@@ -665,14 +665,14 @@ $
 #definition[Объединение семейства][
   *Объединение семейства* ${A_i}_(i in I)$ --- множество элементов, попадающих хотя бы в одно из множеств семейства:
   $
-    union.big_(i in I) A_i = {x mid(|) exists i in I quad x in A_i}.
+    union.big_(i in I) A_i = {x mid(|) exists i in I . thin x in A_i}.
   $
 ]
 
 #definition[Пересечение семейства][
   *Пересечение семейства* ${A_i}_(i in I)$ --- множество элементов, попадающих в каждое из множеств семейства:
   $
-    inter.big_(i in I) A_i = {x mid(|) forall i in I quad x in A_i}.
+    inter.big_(i in I) A_i = {x mid(|) forall i in I . thin x in A_i}.
   $
 ]
 
@@ -1207,7 +1207,7 @@ $
 #definition[Аксиома выбора][
   Для любого семейства непустых множеств ${A_i}_(i in I)$ существует функция выбора:
   $
-    f: I -> union.big_(i in I) A_i, quad f(i) in A_i quad forall i in I.
+    forall i in I . thin f(i) in A_i, quad f: I -> union.big_(i in I) A_i.
   $
 ]
 

@@ -78,15 +78,15 @@
 
   + $0 in NN$.
 
-  + $forall n in NN, S(n) in NN$.
+  + $forall n in NN . thin S(n) in NN$.
 
-  + $forall n in NN, S(n) != 0$.
+  + $forall n in NN . thin S(n) != 0$.
 
-  + $forall n, m in NN, S(n) = S(m) => n = m$.
+  + $forall n, m in NN . thin S(n) = S(m) => n = m$.
 
   + *(Аксиома индукции)* Для любого свойства $P$ выполнено:
     $
-      P(0) and forall n (P(n) => P(S(n))) => forall n in NN, P(n).
+      P(0) and forall n . thin (P(n) => P(S(n))) => forall n in NN . thin P(n).
     $
 ]
 
@@ -112,7 +112,7 @@
 Вместо неё выписывают бесконечное семейство аксиом --- по одной на каждую формулу $phi(x)$ языка:
 
 $
-  [phi(0) and forall n (phi(n) => phi(S(n)))] => forall n phi(n)
+  [phi(0) and forall n . thin (phi(n) => phi(S(n)))] => forall n . thin phi(n)
 $
 
 Это _схема аксиом_, а не одна аксиома, и разница принципиальна.
