@@ -23,8 +23,8 @@
 #definition[Схема индукции][
   Для каждой формулы $phi(x)$ языка:
   $
-    (phi(0) and forall n. (phi(n) #imply phi(S(n)))) \
-    #imply forall n. phi(n).
+    (phi(0) and forall n . thin (phi(n) #imply phi(S(n)))) \
+    #imply forall n . thin phi(n).
   $
 ]
 
@@ -224,7 +224,7 @@ PA первого порядка категоричной не является:
 
 Определение предела через $epsilon, delta$:
 $
-  forall epsilon > 0, exists delta > 0, dots
+  forall epsilon > 0 exists delta > 0 . thin dots
 $
 заменяется прямым утверждением о бесконечной близости:
 $x approx a => f(x) approx L$.
@@ -232,7 +232,7 @@ $x approx a => f(x) approx L$.
 == Перенос на конкретной формуле
 
 #example[Обратная величина бесконечно малого][
-  В $RR$ истинно $forall x. thin (x != 0 -> exists y. thin x dot y = 1)$.
+  В $RR$ истинно $forall x . thin (x != 0 -> exists y . thin x dot y = 1)$.
   По переносу то же истинно в $"*" RR$: у каждого ненулевого гиперреального есть обратный.
   Возьмём бесконечно малое $epsilon > 0$ и стандартное $r > 0$.
   Из определения бесконечной малости $epsilon < 1 / r$, умножаем на $r$: $epsilon dot r < 1$, делим на $epsilon$: $r < 1 / epsilon$.

@@ -90,7 +90,7 @@ NP расшифровывается как Nondeterministic Polynomial time.
 #definition[Класс $"NP"$][
   Языки $L$, для которых есть полиномиальный верификатор $V$ и полином $p$:
   $
-    w in L quad #iff quad exists c: |c| <= p(|w|) "и" V(w, c) "принимает".
+    w in L quad #iff quad exists c . thin |c| <= p(|w|) "и" V(w, c) "принимает".
   $
   Неформально: "угадай сертификат, проверь за полиномиальное время".
 ]
@@ -184,7 +184,7 @@ $
 
 #definition[NP-трудная задача][
   Задача $B$ NP-трудна, если любая задача из NP сводится к ней:
-  $ forall A in "NP": A <=_p B. $
+  $ forall A in "NP" . thin A <=_p B. $
 ]
 
 #definition[NP-полная задача][

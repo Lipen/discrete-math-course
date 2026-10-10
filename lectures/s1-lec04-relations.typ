@@ -246,7 +246,7 @@
 
 #definition[
   $R$ называется *рефлексивным*, если каждый элемент связан с собой:
-  $ forall a in A. thin a R a. $
+  $ forall a in A . thin a R a. $
 ]
 
 #example[
@@ -261,7 +261,7 @@
 
 #definition[
   $R$ называется *иррефлексивным*, если ни один элемент не связан с собой:
-  $ forall a in A. thin not (a R a). $
+  $ forall a in A . thin not (a R a). $
 ]
 
 #example[
@@ -272,9 +272,9 @@
 #trap[Не рефлексивно --- не значит иррефлексивно][
   #v(-.5em)
   $
-    exists a in A. thin not (a R a)
+    exists a in A . thin not (a R a)
     quad "против" quad
-    forall a in A. thin not (a R a)
+    forall a in A . thin not (a R a)
   $
   #v(-.5em)
   Первое допускает петли: ${(1, 1)}$ на ${1, 2}$ подходит под него, но не под второе.
@@ -300,7 +300,7 @@
 
 #definition[
   $R$ называется *антисимметричным*, если $a R b$ и $b R a$ влекут $a = b$:
-  $ forall a, b in A. thin (a R b and b R a) imply a = b. $
+  $ forall a, b in A . thin (a R b and b R a) imply a = b. $
 ]
 
 #example[
@@ -321,7 +321,7 @@
 
 #definition[
   $R$ называется *асимметричным*, если для всех $a, b in A$ из $a R b$ следует $not (b R a)$:
-  $ forall a, b in A. thin a R b imply not (b R a). $
+  $ forall a, b in A . thin a R b imply not (b R a). $
 ]
 
 #example[
@@ -355,7 +355,7 @@
 
 #definition[
   $R$ называется *транзитивным*, если для всех $a, b, c in A$ из $a R b$ и $b R c$ следует $a R c$:
-  $ forall a, b, c in A. thin (a R b and b R c) imply a R c. $
+  $ forall a, b, c in A . thin (a R b and b R c) imply a R c. $
 ]
 
 #example[
@@ -374,12 +374,12 @@
 
 #definition[
   $R$ называется *связным*, если любые два различных элемента сравнимы:
-  $ forall a, b in A. thin a != b imply (a R b or b R a). $
+  $ forall a, b in A . thin a != b imply (a R b or b R a). $
 ]
 
 #definition[
   $R$ называется *сильно связным*, если сравнимы даже совпадающие элементы:
-  $ forall a, b in A. thin a R b or b R a. $
+  $ forall a, b in A . thin a R b or b R a. $
 ]
 
 #example[
@@ -564,7 +564,7 @@
 
 #definition[Композиция][
   Для отношений $R subset.eq A times B$ и $S subset.eq B times C$ *композицией* называется отношение #box[$S compose R subset.eq A times C$] из всех пар, связанных через промежуточный элемент:
-  $ S compose R = {(a, c) mid(|) exists b in B: (a, b) in R and (b, c) in S}. $
+  $ S compose R = {(a, c) mid(|) exists b in B . thin (a, b) in R and (b, c) in S}. $
 ]
 
 #note[
@@ -1044,12 +1044,12 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #definition[
   $R subset.eq A times B$ называется *тотальным слева*, если каждый элемент $A$ участвует хотя бы в одной паре:
-  $ forall a in A. thin exists b in B. thin a R b. $
+  $ forall a in A exists b in B . thin a R b. $
 ]
 
 #definition[
   $R subset.eq A times B$ называется *тотальным справа*, если каждый элемент $B$ участвует хотя бы в одной паре:
-  $ forall b in B. thin exists a in A. thin a R b. $
+  $ forall b in B exists a in A . thin a R b. $
 ]
 
 #note[
@@ -1083,7 +1083,7 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #definition[
   $R$ называется *корефлексивным*, если связь возможна только между элементом и им самим:
-  $ forall a, b in A. thin a R b imply a = b. $
+  $ forall a, b in A . thin a R b imply a = b. $
 ]
 
 #example[
@@ -1100,12 +1100,12 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #definition[
   $R$ называется *евклидовым справа*, если из $a R b$ и $a R c$ следует $b R c$:
-  $ forall a, b, c in A. thin (a R b and a R c) imply b R c. $
+  $ forall a, b, c in A . thin (a R b and a R c) imply b R c. $
 ]
 
 #definition[
   $R$ называется *евклидовым слева*, если из $b R a$ и $c R a$ следует $b R c$:
-  $ forall a, b, c in A. thin (b R a and c R a) imply b R c. $
+  $ forall a, b, c in A . thin (b R a and c R a) imply b R c. $
 ]
 
 #example[
@@ -1116,7 +1116,7 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #definition[
   $R$ называется *плотным*, если между любыми двумя связанными элементами есть третий:
-  $ forall a, b in A. thin a R b imply exists c in A. thin (a R c and c R b). $
+  $ forall a, b in A . thin a R b imply exists c in A . thin (a R c and c R b). $
 ]
 
 #example[

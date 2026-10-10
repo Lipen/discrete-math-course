@@ -76,7 +76,7 @@ $ {x mid(|) P(x)} $
 
 Формулы строятся из переменных и $in$ связками $and$, $or$, $not$, $imply$ и кванторами $forall$, $exists$.
 
-Равенство в этом языке можно не вводить: $A = B$ --- сокращение для $forall x. thin (x in A iff x in B)$.
+Равенство в этом языке можно не вводить: $A = B$ --- сокращение для $forall x . thin (x in A iff x in B)$.
 
 #important[
   Всё, о чём говорит ZFC, --- это принадлежность.
@@ -88,7 +88,7 @@ $ {x mid(|) P(x)} $
 
 Остальные символы --- удобные сокращения, а не новые сущности.
 
-- $A subset.eq B$ --- это $forall x. thin (x in A imply x in B)$.
+- $A subset.eq B$ --- это $forall x . thin (x in A imply x in B)$.
 - $A inter B$, $A union B$, $A setminus B$ --- множества, заданные формулами про $in$.
 - "бесконечно" --- не слово языка: его приходится кодировать формулой.
 
@@ -192,7 +192,7 @@ $V_3$ удовлетворяет объёмности, регулярности,
 
 #definition[
   *Аксиома объёмности*: множества равны, если у них одни и те же элементы,
-  $ forall A, B. thin (forall x. thin (x in A iff x in B)) -> A = B. $
+  $ forall A, B . thin (forall x . thin (x in A iff x in B)) -> A = B. $
 ]
 
 Множество задаётся своим $in$-объёмом, а не способом описания.
@@ -203,7 +203,7 @@ $V_3$ удовлетворяет объёмности, регулярности,
 
 Объёмность позволяет считать $=$ сокращением, а не отдельным символом.
 
-$ A = B quad "означает" quad forall x. thin (x in A iff x in B). $
+$ A = B quad "означает" quad forall x . thin (x in A iff x in B). $
 
 #important[
   Примитив остаётся один --- $in$.
@@ -230,7 +230,7 @@ $ A = B quad "означает" quad forall x. thin (x in A iff x in B). $
 #definition[
   *Аксиома регулярности* (основание, foundation): у каждого непустого множества есть $in$-минимальный элемент,
   $
-    forall A. thin (A != emptyset -> exists a in A. thin forall b in A. thin (b in.not a)).
+    forall A . thin (A != emptyset -> exists a in A forall b in A . thin (b in.not a)).
   $
 ]
 
@@ -254,7 +254,7 @@ $ A = B quad "означает" quad forall x. thin (x in A iff x in B). $
 
 #definition[
   *Ранг* множества --- наименьший ординал, больший рангов всех его элементов,
-  $ "rank"(a) = min { alpha mid(|) forall b in a. thin "rank"(b) < alpha }. $
+  $ "rank"(a) = min { alpha mid(|) forall b in a . thin "rank"(b) < alpha }. $
 ]
 
 Без регулярности ранг мог бы не существовать: рекурсия по $in$ не имеет дна.
@@ -304,7 +304,7 @@ $
 #definition[
   *Аксиома пары*: для любых двух множеств есть множество ровно из них,
   $
-    forall a, b. thin exists c. thin forall x. thin (x in c iff x = a or x = b).
+    forall a, b exists c forall x . thin (x in c iff x = a or x = b).
   $
 ]
 
@@ -317,7 +317,7 @@ $
 #definition[
   *Аксиома объединения*: для любого множества есть объединение всех его элементов,
   $
-    forall a. thin exists b. thin forall x. thin (x in b iff exists y. thin (y in a and x in y)).
+    forall a exists b forall x . thin (x in b iff exists y . thin (y in a and x in y)).
   $
 ]
 
@@ -373,12 +373,12 @@ $
 
 #definition[
   Множество $S$ *индуктивно*, если содержит пустое множество и замкнуто относительно операции следования $x -> x union {x}$,
-  $ emptyset in S and forall x in S. thin (x union {x} in S). $
+  $ emptyset in S and forall x in S . thin (x union {x} in S). $
 ]
 
 #definition[
   *Аксиома бесконечности*: индуктивное множество существует,
-  $ exists S. thin (emptyset in S and forall x in S. thin (x union {x} in S)). $
+  $ exists S . thin (emptyset in S and forall x in S . thin (x union {x} in S)). $
 ]
 
 Наименьшее индуктивное множество --- натуральный ряд $omega$.
@@ -456,7 +456,7 @@ $
 
 #definition[
   *Аксиома степени*: для любого множества есть множество всех его подмножеств,
-  $ forall a. thin exists p. thin forall x. thin (x in p iff x subset.eq a). $
+  $ forall a exists p forall x . thin (x in p iff x subset.eq a). $
 ]
 
 $ power(a) $ --- булеан, множество всех подмножеств $a$.
@@ -504,7 +504,7 @@ $ power(a) $ --- булеан, множество всех подмножест�
 #definition[
   *Схема выделения*: для множества $A$ и формулы $phi$ существует подмножество его элементов, удовлетворяющих $phi$,
   $
-    forall A. thin exists B. thin forall x. thin (x in B iff (x in A and phi(x))).
+    forall A exists B forall x . thin (x in B iff (x in A and phi(x))).
   $
 ]
 
@@ -533,7 +533,7 @@ $ R = {A in X mid(|) A in.not A} $ --- законное множество, по
 #example[Выделение одноэлементных множеств][
   Возьмём $A = {emptyset, {emptyset}, {{emptyset}}}$ и формулу
   $
-    phi(x) equiv exists u. thin forall v. thin (v in x iff v = u).
+    phi(x) equiv exists u forall v . thin (v in x iff v = u).
   $
   Формула $phi$ выделяет множества ровно с одним элементом.
   Проверяем элементы $A$ по одному: $emptyset$ пуст и не подходит, а ${emptyset}$ и ${{emptyset}}$ содержат по одному элементу и подходят.
@@ -546,7 +546,7 @@ $ R = {A in X mid(|) A in.not A} $ --- законное множество, по
 #definition[
   *Схема подстановка*: если формула $phi$ задаёт функцию, то образ множества --- снова множество,
   $
-    forall A. thin (forall x in A. thin exists y. thin phi(x, y)) -> exists B. thin forall y. thin (y in B iff exists x in A. thin phi(x, y)).
+    forall A . thin (forall x in A exists y . thin phi(x, y)) -> exists B forall y . thin (y in B iff exists x in A . thin phi(x, y)).
   $
 ]
 
@@ -600,7 +600,7 @@ $ R = {A in X mid(|) A in.not A} $ --- законное множество, по
 #definition[
   *Аксиома выбора*: у любого семейства непустых множеств есть функция, выбирающая по элементу из каждого,
   $
-    forall i in I. thin A_i != emptyset -> exists f. thin forall i in I. thin (f(i) in A_i).
+    forall i in I . thin A_i != emptyset -> exists f forall i in I . thin (f(i) in A_i).
   $
 ]
 

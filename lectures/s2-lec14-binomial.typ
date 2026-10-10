@@ -112,7 +112,7 @@
 
 #definition[Перестановки с повторениями][
   Если среди $n$ объектов $n_1$ копий первого типа, $n_2$ --- второго и так далее, число перестановок
-  $ n! / (n_1 ! thin n_2 ! thin dots.c thin n_k !) $
+  $ n! / (n_1 ! thin n_2 ! thin dots.c . thin n_k !) $
   --- мультиномиальный коэффициент.
 ]
 
@@ -382,7 +382,7 @@
 
 #theorem[Мультиномиальная теорема][
   $
-    (x_1 + dots.c + x_m)^n = sum_(k_1 + dots.c + k_m = n) (n!)/(k_1 ! thin k_2 ! thin dots.c thin k_m !) x_1^(k_1) dots.c x_m^(k_m).
+    (x_1 + dots.c + x_m)^n = sum_(k_1 + dots.c + k_m = n) (n!)/(k_1 ! thin k_2 ! thin dots.c . thin k_m !) x_1^(k_1) dots.c x_m^(k_m).
   $
 ]
 

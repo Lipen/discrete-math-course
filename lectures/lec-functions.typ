@@ -175,7 +175,7 @@
 
 #definition[
   $f$ *сюръективна*, если каждый элемент кодомена достигается:
-  $ forall b in B. thin exists a in A. thin f(a) = b. $
+  $ forall b in B exists a in A . thin f(a) = b. $
   Эквивалентно: $f(A) = B$.
 ]
 
@@ -246,7 +246,7 @@
   [левая\ $g compose f = "id"_A$],
 
   [Сюръекция],
-  [$forall b in B. thin exists a in A. thin f(a) = b$],
+  [$forall b in B exists a in A . thin f(a) = b$],
   [$|A| >= |B|$],
   [правая\ $f compose g = "id"_B$],
 

@@ -381,7 +381,7 @@
 
 #definition[
   $f$ *сюръективна*, если каждый элемент кодомена достигается:
-  $ forall b in B. thin exists a in A. thin f(a) = b. $
+  $ forall b in B exists a in A . thin f(a) = b. $
 
   Эквивалентно: $f(A) = B$.
 ]
@@ -501,7 +501,7 @@
   [левая\ $g compose f = "id"_A$],
 
   [Сюръекция],
-  [$forall b in B. thin exists a in A. thin f(a) = b$],
+  [$forall b in B exists a in A . thin f(a) = b$],
   [$abs(A) >= abs(B)$],
   [правая\ $f compose g = "id"_B$],
 
@@ -1106,7 +1106,7 @@ $
   Запись $f(n) in BigO(g(n))$ означает: первая функция растёт _не быстрее_ второй (с точностью до константы).
   Определение:
   $
-    exists C > 0, n_0: forall n >= n_0, f(n) <= C dot g(n).
+    exists C > 0, n_0 forall n >= n_0 . thin f(n) <= C dot g(n).
   $
 ]
 
@@ -1128,7 +1128,7 @@ $BigO(g(n))$ --- это множество функций, а не одна фу
   Запись $f(n) in Omega(g(n))$ означает: первая функция растёт _не медленнее_ второй (с точностью до константы).
   Определение:
   $
-    exists c > 0, n_0: forall n >= n_0, f(n) >= c dot g(n).
+    exists c > 0, n_0 forall n >= n_0 . thin f(n) >= c dot g(n).
   $
 ]
 
@@ -1157,7 +1157,7 @@ $Theta$ --- пересечение $BigO$ и $Omega$: рост известен 
   Запись $f(n) in o(g(n))$ означает: рост _строго медленнее_.
   Определение:
   $
-    forall c > 0, exists n_0: forall n >= n_0, f(n) <= c dot g(n).
+    forall c > 0 exists n_0 forall n >= n_0 . thin f(n) <= c dot g(n).
   $
 ]
 
@@ -1165,7 +1165,7 @@ $Theta$ --- пересечение $BigO$ и $Omega$: рост известен 
   Запись $f(n) in omega(g(n))$ означает: рост _строго быстрее_.
   Определение:
   $
-    forall c > 0, exists n_0: forall n >= n_0, f(n) >= c dot g(n).
+    forall c > 0 exists n_0 forall n >= n_0 . thin f(n) >= c dot g(n).
   $
 ]
 
@@ -1192,7 +1192,7 @@ $Theta$ --- пересечение $BigO$ и $Omega$: рост известен 
 - $5 n^2 + 3 n + 10 in Theta(n^2)$: предел отношения равен $5$.
 - $n log n in o(n^2)$: предел $(n log n)/n^2 = (log n)/n$ равен $0$.
 - $2^n in omega(n^10)$: предел $n^10/2^n$ равен $0$, откуда $2^n/n^10 -> oo$.
-- $forall epsilon > 0: log n in o(n^epsilon)$.
+- $forall epsilon > 0 . thin log n in o(n^epsilon)$.
 
 За каждым пунктом --- один предел отношения.
 

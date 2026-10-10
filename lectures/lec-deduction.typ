@@ -580,10 +580,10 @@ $ frac((Gamma, A tack.r Delta) quad (A, Pi tack.r Lambda), (Gamma, Pi tack.r Del
 К правилам связок добавляются правила для $forall$ и $exists$.
 
 #definition[Правила кванторов][
-  - $forall$E: из $forall x. thin P(x)$ вывести $P(c)$ для любого имени $c$.
-  - $forall$I: из $P(c)$ для _произвольного_ $c$ вывести $forall x. thin P(x)$.
-  - $exists$I: из $P(c)$ вывести $exists x. thin P(x)$.
-  - $exists$E: из $exists x. thin P(x)$ и подвывода $P(c) imply B$ со свежим $c$ вывести $B$.
+  - $forall$E: из $forall x . thin P(x)$ вывести $P(c)$ для любого имени $c$.
+  - $forall$I: из $P(c)$ для _произвольного_ $c$ вывести $forall x . thin P(x)$.
+  - $exists$I: из $P(c)$ вывести $exists x . thin P(x)$.
+  - $exists$E: из $exists x . thin P(x)$ и подвывода $P(c) imply B$ со свежим $c$ вывести $B$.
 ]
 
 Удаление всеобщности подставляет конкретное имя.
@@ -599,7 +599,7 @@ $ frac((Gamma, A tack.r Delta) quad (A, Pi tack.r Lambda), (Gamma, Pi tack.r Del
 
 #trap[
   Пусть $c$ --- конкретный элемент и про него известно $P(c)$.
-  Заменить его на "для всех" нельзя: $forall x. thin P(x)$ утверждает больше, чем дано.
+  Заменить его на "для всех" нельзя: $forall x . thin P(x)$ утверждает больше, чем дано.
 ]
 
 Так же подвывод $exists$E со свежим $c$ моделирует "возьмём произвольный свидетель": в заключение $B$ он не попадает.
@@ -608,8 +608,8 @@ $ frac((Gamma, A tack.r Delta) quad (A, Pi tack.r Lambda), (Gamma, Pi tack.r Del
 
 #example[Обобщение и свидетель][
   + Из посылки $P(c)$ для фиксированного $c$ правило $forall$I неприменимо: имя $c$ встречается в посылке.
-  + Из $exists x. thin P(x)$ нельзя сразу заключить $P(c)$ --- свидетель не назван.
-  + Верный ход: из $exists x. thin P(x)$ открыть подвывод со свежим $c$, предположить $P(c)$, вывести $B$ и закрыть подвывод правилом $exists$E.
+  + Из $exists x . thin P(x)$ нельзя сразу заключить $P(c)$ --- свидетель не назван.
+  + Верный ход: из $exists x . thin P(x)$ открыть подвывод со свежим $c$, предположить $P(c)$, вывести $B$ и закрыть подвывод правилом $exists$E.
 ]
 
 = Корректность и полнота

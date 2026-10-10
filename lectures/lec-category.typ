@@ -240,7 +240,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
   Семейство `head` переводит список в `Option`: пустой --- в `None`, непустой --- в первый элемент.
   Естественность --- это равенство
   $
-    "map" thin g thin ("head" thin "xs") quad = quad "head" thin ("map" thin g thin "xs")
+    "map" thin g . thin ("head" thin "xs") quad = quad "head" thin ("map" thin g . thin "xs")
   $
   для любой функции $g$.
   Достать первый и преобразовать --- то же, что преобразовать все и достать первый.

@@ -325,7 +325,7 @@
 
 #definition[Подмножество][
   $A$ --- *подмножество* $B$ (обозначается $A subset.eq B$), если каждый элемент $A$ лежит в $B$:
-  $ forall x. thin (x in A) imply (x in B). $
+  $ forall x . thin (x in A) imply (x in B). $
 ]
 
 #definition[Строгое подмножество][
@@ -377,7 +377,7 @@
 
 #definition[
   Множества $A$ и $B$ *равны*, если состоят из одних и тех же элементов:
-  $ A = B iff forall x. thin (x in A) iff (x in B). $
+  $ A = B iff forall x . thin (x in A) iff (x in B). $
 ]
 
 #align(center)[#equality-boxes]

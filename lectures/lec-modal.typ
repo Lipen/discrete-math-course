@@ -59,11 +59,11 @@
   #table(
     columns: (1fr, auto, 1fr),
     table.header([*Свойство $R$*], [], [*Аксиома*]),
-    [серийность: $forall u exists v: R(u, v)$],
+    [серийность: $forall u exists v . thin R(u, v)$],
     [ $<->$ ],
     [$D$: $square p -> diamond p$],
 
-    [рефлексивность: $forall w: R(w, w)$], [ $<->$ ], [$T$: $square p -> p$],
+    [рефлексивность: $forall w . thin R(w, w)$], [ $<->$ ], [$T$: $square p -> p$],
     [симметричность: $R(u, v) -> R(v, u)$],
     [ $<->$ ],
     [$B$: $p -> square diamond p$],
@@ -167,7 +167,7 @@ $circle$ сдвигает окно на один шаг вперёд, а $phi U 
 #definition[Семантика LTL][
   На пути $pi = s_0, s_1, dots$:
   - $pi models circle phi$ тогда и только тогда, когда $pi^1 models phi$;
-  - $pi models phi U psi$ тогда и только тогда, когда существует $j >= 0$: $pi^j models psi$ и $forall i < j: pi^i models phi$.
+  - $pi models phi U psi$ тогда и только тогда, когда существует $j >= 0$: $pi^j models psi$ и $forall i < j . thin pi^i models phi$.
 ]
 
 #example[Свойства в LTL][
@@ -222,13 +222,13 @@ $circle$ сдвигает окно на один шаг вперёд, а $phi U 
 == Model checking: разметка состояний
 
 #definition[Labeling-алгоритм][
-  Проверка $E (phi U psi)$ в модели $M = (S, R, L)$ через пре-образ $"pre"_exists (X) = {s : exists s' in R(s), s' in X}$:
+  Проверка $E (phi U psi)$ в модели $M = (S, R, L)$ через пре-образ $"pre"_exists (X) = {s : exists s' in R(s) . thin s' in X}$:
   - $Y := {s : s models psi}$;
   - повторять, пока не стабилизируется: $Y := Y union ({s : s models phi} inter "pre"_exists (Y))$.
   Итог $Y$ --- в точности состояния с $E (phi U psi)$.
 ]
 
-Для $A square phi$ --- пре-образ "по всем преемникам": $"pre"_forall (X) = {s : forall s' in R(s), s' in X}$.
+Для $A square phi$ --- пре-образ "по всем преемникам": $"pre"_forall (X) = {s : forall s' in R(s) . thin s' in X}$.
 
 #important[
   - Живость ($diamond$, $U$) --- наименьшие неподвижные точки.

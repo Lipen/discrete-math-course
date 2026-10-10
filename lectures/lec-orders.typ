@@ -83,7 +83,7 @@
 Частичный порядок допускает несравнимые пары. Линейный порядок несравнимых пар не допускает.
 
 #definition[Линейный порядок][
-  Частичный порядок, в котором любая пара сравнима: $forall a, b: (a prec.eq b) or (b prec.eq a)$.
+  Частичный порядок, в котором любая пара сравнима: $forall a, b . thin (a prec.eq b) or (b prec.eq a)$.
   Линейный порядок (_total order_) --- это порядок, в котором всё множество сравнимо и само образует цепь.
 ]
 
@@ -206,10 +206,10 @@
 
 #definition[Минимальный и максимальный][
   $m$ *минимален*, если нет элемента строго меньше:
-  $ exists.not a in A: a prec m. $
+  $ exists.not a in A . thin a prec m. $
 
   $m$ *максимален*, если нет элемента строго больше:
-  $ exists.not a in A: m prec a. $
+  $ exists.not a in A . thin m prec a. $
 ]
 
 #important[
@@ -224,10 +224,10 @@
 
 #definition[Наименьший и наибольший][
   $m$ *наименьший*, если он меньше (нестрого) всех:
-  $ forall a in A: m prec.eq a. $
+  $ forall a in A . thin m prec.eq a. $
 
   $m$ *наибольший*, если он больше (нестрого) всех:
-  $ forall a in A: a prec.eq m. $
+  $ forall a in A . thin a prec.eq m. $
 ]
 
 #example[

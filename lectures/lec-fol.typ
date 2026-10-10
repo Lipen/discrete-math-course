@@ -42,7 +42,7 @@
 #definition[Формула][
   - Всякий атом --- формула.
   - Если $phi$ и $psi$ --- формулы, то $not phi$, $phi and psi$, $phi or psi$, $phi imply psi$ --- формулы.
-  - Если $phi$ --- формула, а $x$ --- переменная, то $forall x thin phi$ и $exists x thin phi$ --- формулы.
+  - Если $phi$ --- формула, а $x$ --- переменная, то $forall x . thin phi$ и $exists x . thin phi$ --- формулы.
 ]
 
 Ничто другое формулой не является.
@@ -76,17 +76,17 @@
 == Кванторы
 
 #definition[Квантор всеобщности][
-  $forall x thin P(x)$ --- "$P(x)$ для _каждого_ $x$ из области".
+  $forall x . thin P(x)$ --- "$P(x)$ для _каждого_ $x$ из области".
 ]
 
 #definition[Квантор существования][
-  $exists x thin P(x)$ --- "$P(x)$ хотя бы для _одного_ $x$ из области".
+  $exists x . thin P(x)$ --- "$P(x)$ хотя бы для _одного_ $x$ из области".
 ]
 
 #example[Кванторы над $NN$][
-  - $forall x thin x >= 0$ --- истинно.
-  - $exists x thin x < 0$ --- ложно.
-  - $forall x exists y thin y > x$ --- истинно (натуральные числа не ограничены).
+  - $forall x . thin x >= 0$ --- истинно.
+  - $exists x . thin x < 0$ --- ложно.
+  - $forall x exists y . thin y > x$ --- истинно (натуральные числа не ограничены).
 ]
 
 == Кванторы над конечной областью
@@ -94,8 +94,8 @@
 #note[
   Над конечной областью $A = {a_1, dots, a_n}$ кванторы --- лишь сокращение:
   $
-    forall x thin P(x) & equiv and.big_(x in A) P(x) & equiv P(a_1) and dots and P(a_n) \
-    exists x thin P(x) & equiv or.big_(x in A) P(x) & equiv P(a_1) or dots or P(a_n)
+    forall x . thin P(x) & equiv and.big_(x in A) P(x) & equiv P(a_1) and dots and P(a_n) \
+    exists x . thin P(x) & equiv or.big_(x in A) P(x) & equiv P(a_1) or dots or P(a_n)
   $
   Подлинная сила кванторов --- в бесконечных областях.
 ]
@@ -110,8 +110,8 @@
 
 #theorem[Законы де Моргана для кванторов][
   $
-    not forall x thin P(x) & equiv exists x thin not P(x) \
-    not exists x thin P(x) & equiv forall x thin not P(x)
+    not forall x . thin P(x) & equiv exists x . thin not P(x) \
+    not exists x . thin P(x) & equiv forall x . thin not P(x)
   $
 ]
 
@@ -129,13 +129,13 @@
 Квантор распределяется по связке не всегда: пара связок решает дело.
 
 #theorem[Распределение и перенос][
-  - $forall x thin (phi(x) and psi(x)) equiv forall x thin phi(x) and forall x thin psi(x)$.
-  - $exists x thin (phi(x) or psi(x)) equiv exists x thin phi(x) or exists x thin psi(x)$.
+  - $forall x . thin (phi(x) and psi(x)) equiv forall x . thin phi(x) and forall x . thin psi(x)$.
+  - $exists x . thin (phi(x) or psi(x)) equiv exists x . thin phi(x) or exists x . thin psi(x)$.
 
   Если $x$ не свободна в $psi$:
-  - $forall x thin (phi(x) or psi) equiv forall x thin phi(x) or psi$.
-  - $exists x thin (phi(x) and psi) equiv exists x thin phi(x) and psi$.
-  - $forall x thin (phi(x) imply psi) equiv exists x thin phi(x) imply psi$.
+  - $forall x . thin (phi(x) or psi) equiv forall x . thin phi(x) or psi$.
+  - $exists x . thin (phi(x) and psi) equiv exists x . thin phi(x) and psi$.
+  - $forall x . thin (phi(x) imply psi) equiv exists x . thin phi(x) imply psi$.
 ]
 
 #trap[
@@ -147,9 +147,9 @@
 #example[Контрпример на $NN$][
   Пусть $E(x)$ --- "$x$ чётно", $O(x)$ --- "$x$ нечётно".
 
-  Формула $forall x thin (E(x) or O(x))$ истинна, а $forall x thin E(x) or forall x thin O(x)$ ложна.
+  Формула $forall x . thin (E(x) or O(x))$ истинна, а $forall x . thin E(x) or forall x . thin O(x)$ ложна.
 
-  Формула $exists x thin (E(x) and O(x))$ ложна, а $exists x thin E(x) and exists x thin O(x)$ истинна.
+  Формула $exists x . thin (E(x) and O(x))$ ложна, а $exists x . thin E(x) and exists x . thin O(x)$ истинна.
 ]
 
 #important[
@@ -164,8 +164,8 @@
 
 #example[Порядок кванторов][
   - $P(x, y)$ = "$y$ --- мать $x$".
-  - $forall x exists y thin P(x, y)$ --- "у каждого есть мать" (истинно): для каждого $x$ свой $y$.
-  - $exists y forall x thin P(x, y)$ --- "существует мать всех" (ложно): один общий $y$ для всех $x$.
+  - $forall x exists y . thin P(x, y)$ --- "у каждого есть мать" (истинно): для каждого $x$ свой $y$.
+  - $exists y forall x . thin P(x, y)$ --- "существует мать всех" (ложно): один общий $y$ для всех $x$.
 ]
 
 Программист узнаёт в $forall x exists y$ вложенный цикл: внутренний $y$ подбирается под текущий $x$.
@@ -176,8 +176,8 @@ $exists y forall x$ --- значение, вычисленное до цикла
 Квантификация почти всегда идёт по ограниченному множеству, и здесь таится частая ошибка.
 
 #definition[Ограниченный квантор][
-  - $forall x in A thin P(x)$ сокращает $forall x thin (x in A imply P(x))$.
-  - $exists x in A thin P(x)$ сокращает $exists x thin (x in A and P(x))$.
+  - $forall x in A . thin P(x)$ сокращает $forall x . thin (x in A imply P(x))$.
+  - $exists x in A . thin P(x)$ сокращает $exists x . thin (x in A and P(x))$.
 ]
 
 #important[
@@ -194,13 +194,13 @@ $exists y forall x$ --- значение, вычисленное до цикла
 
 #example[Массив отсортирован][
   "Массив $A$ отсортирован по возрастанию":
-  $ forall i in {0, dots, n-2} thin A[i] <= A[i+1] $
+  $ forall i in {0, dots, n-2} . thin A[i] <= A[i+1] $
 ]
 
 #example[Предел на языке кванторов][
   $limits(lim)_(x -> a) f(x) = L$:
   $
-    forall epsilon > 0 thin exists delta > 0 thin forall x thin (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon)
+    forall epsilon > 0 exists delta > 0 forall x . thin (0 < abs(x - a) < delta imply abs(f(x) - L) < epsilon)
   $
   Три квантора и два неравенства в одном предложении --- вот сила логики предикатов.
 ]
@@ -263,7 +263,7 @@ $exists y forall x$ --- значение, вычисленное до цикла
 ]
 
 #example[Модель][
-  Формула $forall x thin (P(x) imply Q(x))$ в модели с $D = {"люди"}$, $P$ = "смертен", $Q$ = "говорит" означает "всякий смертный говорит" --- истинность зависит от того, все ли люди говорят.
+  Формула $forall x . thin (P(x) imply Q(x))$ в модели с $D = {"люди"}$, $P$ = "смертен", $Q$ = "говорит" означает "всякий смертный говорит" --- истинность зависит от того, все ли люди говорят.
 ]
 
 == Выполнимость и общезначимость
@@ -288,9 +288,9 @@ $exists y forall x$ --- значение, вычисленное до цикла
 Истинность --- свойство пары "формула и модель", поэтому статус меняется при смене носителя.
 
 #example[Три формулы][
-  - $forall x thin P(x) imply exists x thin P(x)$ общезначима: носитель непуст, и раз $P$ выполнена на всех, то и хотя бы на одном.
-  - $forall x thin P(x)$ выполнима, но не общезначима: на одноэлементном носителе с $P^I = {a}$ истинна, с $P^I = emptyset$ ложна.
-  - $forall x thin (P(x) and not P(x))$ невыполнима: конъюнкция ложна на каждом элементе непустого носителя.
+  - $forall x . thin P(x) imply exists x . thin P(x)$ общезначима: носитель непуст, и раз $P$ выполнена на всех, то и хотя бы на одном.
+  - $forall x . thin P(x)$ выполнима, но не общезначима: на одноэлементном носителе с $P^I = {a}$ истинна, с $P^I = emptyset$ ложна.
+  - $forall x . thin (P(x) and not P(x))$ невыполнима: конъюнкция ложна на каждом элементе непустого носителя.
 ]
 
 == Свободные переменные и замыкание
@@ -298,11 +298,11 @@ $exists y forall x$ --- значение, вычисленное до цикла
 Формула со свободной переменной --- не высказывание: значение зависит от того, чему равна переменная.
 
 #definition[Замыкание][
-  *Замыкание* формулы $phi(x)$ --- формула $forall x thin phi(x)$: свободные переменные связываются кванторами.
+  *Замыкание* формулы $phi(x)$ --- формула $forall x . thin phi(x)$: свободные переменные связываются кванторами.
 ]
 
 #example[Свободная и связанная][
-  В формуле $forall x thin (P(x) imply Q(y))$ переменная $x$ связана, а $y$ свободна.
+  В формуле $forall x . thin (P(x) imply Q(y))$ переменная $x$ связана, а $y$ свободна.
   Значение формулы зависит от выбора $y$, поэтому истинность --- свойство пары "формула и приписывание значений свободным переменным".
 ]
 
@@ -335,10 +335,10 @@ $exists y forall x$ --- значение, вычисленное до цикла
 Для доказательств формул с кванторами нужны правила ввода и удаления.
 
 #definition[Правила кванторов][
-  - $forall$E: из $forall x thin P(x)$ вывести $P(c)$ для любого имени $c$.
-  - $forall$I: из $P(c)$ для _произвольного_ $c$ вывести $forall x thin P(x)$.
-  - $exists$I: из $P(c)$ вывести $exists x thin P(x)$.
-  - $exists$E: из $exists x thin P(x)$ и подвывода $P(c) imply B$ (со свежим $c$) вывести $B$.
+  - $forall$E: из $forall x . thin P(x)$ вывести $P(c)$ для любого имени $c$.
+  - $forall$I: из $P(c)$ для _произвольного_ $c$ вывести $forall x . thin P(x)$.
+  - $exists$I: из $P(c)$ вывести $exists x . thin P(x)$.
+  - $exists$E: из $exists x . thin P(x)$ и подвывода $P(c) imply B$ (со свежим $c$) вывести $B$.
 ]
 
 Удаление всеобщности подставляет конкретное имя, введение --- обобщает.
@@ -352,12 +352,12 @@ $exists y forall x$ --- значение, вычисленное до цикла
 
 #trap[
   Пусть про конкретный элемент $c$ известно $P(c)$.
-  Обобщить до $forall x thin P(x)$ нельзя: квантор утверждает больше, чем дано о выбранном $c$.
+  Обобщить до $forall x . thin P(x)$ нельзя: квантор утверждает больше, чем дано о выбранном $c$.
 ]
 
 #example[Ошибка и защита][
   - Из посылки $P(c)$ для фиксированного $c$ правило $forall$I неприменимо: имя $c$ встречается в посылке.
-  - Из $exists y thin P(y)$ нельзя сразу заключить $P(c)$: свидетель не назван.
+  - Из $exists y . thin P(y)$ нельзя сразу заключить $P(c)$: свидетель не назван.
   - Верный ход: открыть подвывод со свежим $c$, предположить $P(c)$, вывести $B$ и закрыть подвывод правилом $exists$E.
 ]
 
@@ -372,9 +372,9 @@ $exists y forall x$ --- значение, вычисленное до цикла
 #example[Функция или константа][
   Пусть $P(x, y)$ --- "$y$ --- мать $x$".
 
-  Формула $forall x exists y thin P(x, y)$ переходит в $forall x thin P(x, f(x))$: функция подбирает мать каждому.
+  Формула $forall x exists y . thin P(x, y)$ переходит в $forall x . thin P(x, f(x))$: функция подбирает мать каждому.
 
-  Формула $exists y forall x thin P(x, y)$ переходит в $forall x thin P(x, c)$: свидетель один на всех, ему не от чего зависеть.
+  Формула $exists y forall x . thin P(x, y)$ переходит в $forall x . thin P(x, c)$: свидетель один на всех, ему не от чего зависеть.
 ]
 
 #important[
@@ -451,10 +451,10 @@ $exists y forall x$ --- значение, вычисленное до цикла
 
 #check[
   - Запишите формулой: "каждый студент, изучающий дискретную математику, умеет программировать", и её отрицание.
-  - Чем $forall x exists y thin P(x, y)$ отличается от $exists y forall x thin P(x, y)$?
+  - Чем $forall x exists y . thin P(x, y)$ отличается от $exists y forall x . thin P(x, y)$?
     Приведите пример, где первая истинна, а вторая ложна.
   - Почему в $forall x in A$ стоит импликация, а в $exists x in A$ --- конъюнкция?
-  - Сформулируйте отрицание формулы: $forall x thin (P(x) imply exists y thin Q(x, y))$.
+  - Сформулируйте отрицание формулы: $forall x . thin (P(x) imply exists y . thin Q(x, y))$.
   - Какие пары квантора и связки распределяются, а какие дают лишь включение?
   - Зачем при сколемизации квантор существования заменяют функцией, а не константой?
   - Что утверждает теорема компактности?

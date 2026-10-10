@@ -226,7 +226,7 @@
 
 #definition[
   Для языка $L$ слова $x, y$ *неразличимы по продолжению*, $x meq_L y$, если
-  $ forall z in Sigma^* : quad x z in L quad <=> quad y z in L. $
+  $ forall z in Sigma^* . thin x z in L quad <=> quad y z in L. $
 
   Иначе слова различимы: продолжение $z$ разводит их ответы.
 ]

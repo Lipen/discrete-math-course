@@ -93,7 +93,7 @@
   mark((1.0, 1.0), $P$)
 })
 
-// ── Дерево разбора: $forall x (P(x) -> exists y Q(x, f(y)))$ ──
+// ── Дерево разбора: $forall x . thin (P(x) -> exists y . thin Q(x, f(y)))$ ──
 // Операторы тёплые, термы и атомы холодные; пунктир --- область действия внутреннего квантора.
 #let parse-tree = canvas({
   let node(pos, body, tone: ink) = mark(pos, body, tone: tone)

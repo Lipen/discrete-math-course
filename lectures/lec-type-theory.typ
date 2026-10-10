@@ -312,7 +312,7 @@
 #example[
   Полиморфная тождественная функция:
 
-  $Lambda alpha . lambda x : alpha . x : forall alpha . alpha -> alpha$.
+  $Lambda alpha . lambda x : alpha . x : forall alpha . thin alpha -> alpha$.
 ]
 
 == Зависимые типы: $lambda P$

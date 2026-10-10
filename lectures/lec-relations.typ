@@ -132,7 +132,7 @@
 
 #definition[
   $R$ называется *рефлексивным*, если каждый элемент связан с собой:
-  $ forall a in A. thin a R a. $
+  $ forall a in A . thin a R a. $
 ]
 
 #example[
@@ -145,7 +145,7 @@
 
 #definition[
   $R$ называется *иррефлексивным*, если ни один элемент не связан с собой:
-  $ forall a in A. thin not (a R a). $
+  $ forall a in A . thin not (a R a). $
 ]
 
 #example[
@@ -264,7 +264,7 @@
 
 #definition[
   *Композиция* $S compose R$ --- все пары $(a, c)$, для которых существует промежуточный $b$:
-  $ S compose R = {(a, c) mid(|) exists b in B, (a, b) in R and (b, c) in S}. $
+  $ S compose R = {(a, c) mid(|) exists b in B . thin (a, b) in R and (b, c) in S}. $
 ]
 
 #note[
