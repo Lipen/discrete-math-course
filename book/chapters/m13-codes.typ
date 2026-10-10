@@ -642,6 +642,7 @@ $
   #table(
     columns: (auto, auto, 1fr),
     align: center,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([$p$], [$C = 1 - H(p)$], [Что это значит]),
     [$0$], [$1$], [канал без ошибок],
     [$0.01$], [$0.92$], [почти идеальный],
@@ -1399,6 +1400,7 @@ QR-код использует RS над $"GF"(256)$, и даже если тр�
   #table(
     columns: 4,
     align: center,
+    stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header(
       [$u$], [Состояние $(s_1, s_0)$], [$c_1 c_2$], [Состояние после]
     ),

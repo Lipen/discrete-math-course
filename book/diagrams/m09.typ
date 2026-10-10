@@ -937,3 +937,58 @@
     )
   }
 })
+
+// ── Block-cut дерево ──
+#let block-cut-tree = canvas({
+  let vertex(pos, name, label: none) = {
+    let shown = if label == none { name } else { label }
+    draw.circle(pos, radius: 0.28, fill: c-fl, stroke: n-stroke, name: name)
+    draw.content(pos, text(fill: c-ink, weight: "bold", size: s-node)[#shown])
+  }
+  let block(pos, name, label) = {
+    draw.rect(
+      (pos.at(0) - 0.45, pos.at(1) + 0.3),
+      (pos.at(0) + 0.45, pos.at(1) - 0.3),
+      radius: 4pt,
+      fill: c-conn,
+      stroke: n-stroke,
+      name: name,
+    )
+    draw.content(pos, text(fill: c-ink, weight: "bold", size: s-node)[#label])
+  }
+  let cut-ring(pos) = draw.circle(
+    pos,
+    radius: 0.44,
+    fill: none,
+    stroke: (paint: c-hot, thickness: t-hi, dash: "dashed"),
+  )
+
+  for (x, y, name) in (
+    (-1.2, 1.9, "1"), (-1.2, 0.3, "2"), (0.6, 0.1, "4"), (1.0, 2.0, "6"), (2.7, 0.0, "7"),
+  ) { vertex((x, y), name) }
+  vertex((0, 1.1), "3")
+  vertex((1.7, 0.9), "5")
+  cut-ring((0, 1.1))
+  cut-ring((1.7, 0.9))
+
+  for (a, b) in (("1", "2"), ("1", "3"), ("2", "3"), ("3", "4"), ("3", "5"), ("4", "5")) {
+    edge-line(a, b)
+  }
+  draw.line("3", "6", stroke: (paint: c-hot, thickness: t-hi))
+  draw.line("5", "7", stroke: (paint: c-hot, thickness: t-hi))
+
+  block((4.3, 2.2), "B1", $B_1$)
+  block((6.9, 2.2), "B3", $B_3$)
+  block((5.6, 0.1), "B2", $B_2$)
+  block((5.6, -2.1), "B4", $B_4$)
+  vertex((5.6, 1.1), "cut3", label: "3")
+  vertex((5.6, -0.9), "cut5", label: "5")
+  edge-line("B1", "cut3")
+  edge-line("B3", "cut3")
+  edge-line("cut3", "B2")
+  edge-line("B2", "cut5")
+  edge-line("cut5", "B4")
+
+  draw.content((0.6, 2.55), anchor: "south", size: s-cap, fill: c-muted)[граф]
+  draw.content((5.6, 2.75), anchor: "south", size: s-cap, fill: c-muted)[block-cut дерево]
+})
