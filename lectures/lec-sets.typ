@@ -92,7 +92,7 @@ $ NN subset.eq ZZ subset.eq QQ subset.eq RR $
 
 #definition[
   Множества $A$ и $B$ равны, если у них одни и те же элементы.
-  Формально: $A = B$ iff $forall x . thin (x in A) iff (x in B)$.
+  Формально, $A = B$ iff $forall x . thin (x in A) iff (x in B)$.
 ]
 
 Равенство можно проверить двойным включением: $A = B$ iff $A subset.eq B$ and $B subset.eq A$.
@@ -112,7 +112,7 @@ $ NN subset.eq ZZ subset.eq QQ subset.eq RR $
 #definition[
   Множество $A$ --- _подмножество_ $B$, если каждый элемент $A$ лежит в $B$.
   Пишут $A subset.eq B$.
-  Формально: $A subset.eq B$ iff $forall x . thin (x in A) -> (x in B)$.
+  Формально, $A subset.eq B$ iff $forall x . thin (x in A) -> (x in B)$.
 ]
 
 Если $A subset.eq B$ и $A != B$, то $A$ --- _собственное_ подмножество: $A subset B$.
