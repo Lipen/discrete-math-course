@@ -34,7 +34,7 @@
 )
 
 // ── Карта курса ──
-#let course-map = block(width: 100%)[
+#let course-map = block(width: 100%, breakable: false)[
   #grid(
     columns: (auto, 1fr, 1fr, 1fr, 1fr),
     gutter: (8pt, 5pt),
