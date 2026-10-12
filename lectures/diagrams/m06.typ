@@ -210,68 +210,68 @@
 
 // ── Пол и потолок на числовой прямой ──
 #let floor-ceil-line = canvas({
-  draw.line((-2.9, 0), (4.2, 0), stroke: edge-plain, mark: (
+  draw.line((-3.7, 0), (4.3, 0), stroke: edge-plain, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
-  for k in range(-2, 4) {
+  for k in range(-3, 4) {
     draw.line((k, -0.08), (k, 0.08), stroke: edge-thin)
-    mark((k, -0.34), [#k])
+    mark((k, -0.4), [#k], size: 0.7em)
   }
 
-  draw.circle((2, 0), radius: 0.075, fill: green)
-  draw.circle((2.7, 0), radius: 0.075, fill: ink)
-  draw.circle((3, 0), radius: 0.075, fill: violet)
-  mark((2, 0.42), $floor(x)$, tone: green)
-  mark((2.7, -0.62), $x$)
-  mark((3, 0.42), $ceil(x)$, tone: violet)
+  let cluster(x, xl, xr) = {
+    draw.circle((xl, 0), radius: 0.075, fill: green)
+    draw.circle((x, 0), radius: 0.075, fill: ink)
+    draw.circle((xr, 0), radius: 0.075, fill: violet)
+    draw.line((xl, 0.1), (xl, 0.52), stroke: edge-thin)
+    draw.line((xr, 0.1), (xr, 1.18), stroke: edge-thin)
+    mark((xl, 0.72), $floor(x)$, tone: green)
+    mark((x, -0.78), $x$)
+    mark((xr, 1.4), $ceil(x)$, tone: violet)
+  }
 
-  draw.circle((-2, 0), radius: 0.075, fill: green)
-  draw.circle((-1.3, 0), radius: 0.075, fill: ink)
-  draw.circle((-1, 0), radius: 0.075, fill: violet)
-  mark((-2, 0.42), $floor(x)$, tone: green)
-  mark((-1.3, -0.62), $x$)
-  mark((-1, 0.42), $ceil(x)$, tone: violet)
+  cluster(2.7, 2, 3)
+  cluster(-1.3, -2, -1)
 })
 
-// ── Ступеньки пола и потолка ──
-#let floor-ceil-steps = canvas({
-  draw.line((-1.9, 0), (3.5, 0), stroke: edge-plain, mark: (
+// ── Ступеньки пола и потолка: две панели с чередующимся акцентом ──
+#let steps-panel(focus) = canvas({
+  draw.line((-1.9, 0), (3.9, 0), stroke: edge-plain, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
-  draw.line((0, -1.9), (0, 3.5), stroke: edge-plain, mark: (
+  draw.line((0, -1.9), (0, 3.9), stroke: edge-plain, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
-  mark((3.1, -0.35), $x$)
-  mark((0.35, 3.15), $y$)
-
-  let solid(pos, tone) = draw.circle(pos, radius: 0.055, fill: tone)
-  let open(pos, tone) = draw.circle(
-    pos,
-    radius: 0.055,
-    fill: white,
-    stroke: 0.9pt + tone,
-  )
+  mark((3.5, -0.4), $x$, size: 0.8em)
+  mark((-0.4, 3.5), $y$, size: 0.8em)
 
   for k in range(-1, 3) {
     draw.line((k, k), (k + 1, k), stroke: (
-      paint: green,
-      thickness: 1.2pt,
+      paint: if focus == "floor" { green } else { green.lighten(68%) },
+      thickness: if focus == "floor" { 1.8pt } else { 1pt },
       cap: "round",
     ))
-    solid((k, k), green)
-    open((k + 1, k), green)
+    draw.circle((k, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: if focus == "floor" { green } else { green.lighten(68%) })
+    draw.circle((k + 1, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: if focus == "floor" { green } else { green.lighten(68%) }, thickness: 0.8pt))
   }
 
   for k in range(0, 3) {
     draw.line((k, k + 1), (k + 1, k + 1), stroke: (
-      paint: violet,
-      thickness: 1.2pt,
+      paint: if focus == "ceil" { violet } else { violet.lighten(68%) },
+      thickness: if focus == "ceil" { 1.8pt } else { 1pt },
       cap: "round",
     ))
-    open((k, k + 1), violet)
-    solid((k + 1, k + 1), violet)
+    draw.circle((k, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: if focus == "ceil" { violet } else { violet.lighten(68%) }, thickness: 0.8pt))
+    draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: if focus == "ceil" { violet } else { violet.lighten(68%) })
   }
 
-  mark((3.55, 2.0), [пол], tone: green)
-  mark((3.55, 3.0), [потолок], tone: violet)
+  draw.content((3.6, 2), text(fill: if focus == "floor" { green } else { green.lighten(30%) }, size: label-size)[пол], anchor: "west")
+  draw.content((3.6, 3), text(fill: if focus == "ceil" { violet } else { violet.lighten(30%) }, size: label-size)[потолок], anchor: "west")
 })
+
+#let floor-ceil-steps = grid(
+  columns: (auto, auto),
+  gutter: 2.5em,
+  align: center,
+  steps-panel("floor"),
+  steps-panel("ceil"),
+)
