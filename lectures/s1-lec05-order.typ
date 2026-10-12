@@ -115,6 +115,8 @@
 
 На ${1, 2, 3}$ строгая делимость ${(1,2), (1,3)}$ асимметричности не постулировала --- а выполняется сама.
 
+#pagebreak()
+
 #important[
   В определении строгого порядка достаточно иррефлексивности и транзитивности.
 
@@ -149,6 +151,7 @@
 
 #align(center)[#hasse-chain-3]
 
+#pagebreak()
 
 #important[
   $(NN, <=)$ и $(RR, <=)$ --- линейные, делимость --- лишь частичная.
@@ -246,19 +249,17 @@ pub trait Ord {
 Делимость считается за два остатка: взаимная делимость даёт `Equal`, односторонняя --- `Less` или `Greater`, иначе ответ `None`.
 
 ```rust
-// Div(2) и Div(3) несравнимы, Div(2) <= Div(6)
 struct Div(u64);
 
 impl PartialOrd for Div {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         match (self.0 % other.0, other.0 % self.0) {
-            // взаимная делимость --- равенство
             (0, 0) => Some(Ordering::Equal),
             (_, 0) => Some(Ordering::Less),
             (0, _) => Some(Ordering::Greater),
             _ => None,
         }
-    }
+…
 }
 ```
 
@@ -443,6 +444,8 @@ impl PartialOrd for Div {
 ]
 
 #align(center)[#extrema-maximal-chain]
+
+#pagebreak()
 
 #example[
   $m$ максимален: над ним нет элементов.
@@ -683,6 +686,8 @@ $sup space {2, 3} = 6$ слева, $inf space {4, 6} = 2$ справа.
   - Линейный порядок: join --- максимум, meet --- минимум.
 ]
 
+#pagebreak()
+
 #important[
   Решётка не требует линейности: несравнимость допускается, но каждая пара имеет точные грани.
 ]
@@ -746,6 +751,8 @@ $sup space {2, 3} = 6$ слева, $inf space {4, 6} = 2$ справа.
 #definition[Подрешётка][
   Подрешётка --- подмножество, замкнутое относительно join и meet.
 ]
+
+#pagebreak()
 
 #example[
   В $N_5$ при $a prec.eq b$ модулярный закон нарушается: $a or (c and b) = a$, а $(a or c) and b = b$.
