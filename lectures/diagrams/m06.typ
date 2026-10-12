@@ -218,19 +218,19 @@
     mark((k, -0.4), [#k], size: 0.7em)
   }
 
-  let cluster(x, xl, xr) = {
+  let cluster(x, xl, xr, lbl) = {
     draw.circle((xl, 0), radius: 0.075, fill: green)
     draw.circle((x, 0), radius: 0.075, fill: ink)
     draw.circle((xr, 0), radius: 0.075, fill: violet)
     draw.line((xl, 0.1), (xl, 0.52), stroke: edge-thin)
     draw.line((xr, 0.1), (xr, 1.18), stroke: edge-thin)
-    mark((xl, 0.72), $floor(x)$, tone: green)
-    mark((x, -0.78), $x$)
-    mark((xr, 1.4), $ceil(x)$, tone: violet)
+    mark((xl, 0.72), $floor(#lbl)$, tone: green)
+    mark((x, -0.78), $lbl$)
+    mark((xr, 1.4), $ceil(#lbl)$, tone: violet)
   }
 
-  cluster(2.7, 2, 3)
-  cluster(-1.3, -2, -1)
+  cluster(2.7, 2, 3, $x_1$)
+  cluster(-1.3, -2, -1, $x_2$)
 })
 
 // ── Ступеньки пола и потолка: две панели с чередующимся акцентом ──
