@@ -33,8 +33,8 @@
   ],
 )
 
-#let join = sym.union.sq
-#let meet = sym.inter.sq
+#let join = sym.or
+#let meet = sym.and
 #let finer = sym.lt.closed.eq
 #let boolprod = sym.dot.o
 #let equinum = sym.approx
