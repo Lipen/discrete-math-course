@@ -377,23 +377,23 @@
   mark((0, -0.48), $0$, tone: ink)
   mark((2, -0.48), $1$, tone: ink)
   draw.bezier(
-    (0.17, 0.12),
-    (1.83, 0.12),
-    (0.55, 0.9),
-    (1.45, 0.9),
+    (0.1, 0.15),
+    (2.0, 0.15),
+    (0.5, 0.7),
+    (1.4, 0.7),
     stroke: edge-hot,
     mark: (end: (symbol: ">", fill: edge-hot.paint)),
   )
   draw.bezier(
-    (1.83, -0.12),
-    (0.17, -0.12),
-    (1.45, -0.9),
-    (0.55, -0.9),
+    (1.9, -0.15),
+    (0.1, -0.15),
+    (1.4, -0.7),
+    (0.6, -0.7),
     stroke: edge-hot,
     mark: (end: (symbol: ">", fill: edge-hot.paint)),
   )
-  mark((1, 1.2), $f$, tone: edge-hot.paint)
-  mark((1, -1.2), $f$, tone: edge-hot.paint)
+  mark((1, 0.9), $f$, tone: edge-hot.paint)
+  mark((1, -0.9), $f$, tone: edge-hot.paint)
 })
 
 // ── Сетка Канторовой пары: цвет ячейки --- диагональ k_1 + k_2 = s ──
