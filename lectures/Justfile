@@ -36,43 +36,6 @@ files := """
     s2-lec14-binomial.typ
     s2-lec15-genfun.typ
     s2-lec16-ramsey.typ
-    lec-logic.typ
-    lec-deduction.typ
-    lec-fol.typ
-    lec-sets.typ
-    lec-relations.typ
-    lec-functions.typ
-    lec-cardinals.typ
-    lec-orders.typ
-    lec-graphs.typ
-    lec-boolean.typ
-    lec-circuits.typ
-    lec-algebra.typ
-    lec-codes.typ
-    lec-sat.typ
-    lec-smt.typ
-    lec-logic-programming.typ
-    lec-matroids.typ
-    lec-combinatorics.typ
-    lec-number-theory.typ
-    lec-probability.typ
-    lec-generating-fns.typ
-    lec-constructions.typ
-    lec-automata.typ
-    lec-context-free.typ
-    lec-turing.typ
-    lec-decidability.typ
-    lec-lambda.typ
-    lec-type-theory.typ
-    lec-modal.typ
-    lec-intuitionism.typ
-    lec-beyond-n.typ
-    lec-complexity.typ
-    lec-zfc.typ
-    lec-abstract-interpretation.typ
-    lec-verification.typ
-    lec-fuzzy.typ
-    lec-category.typ
 """
 
 # Compile all lectures
