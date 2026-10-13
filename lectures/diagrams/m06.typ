@@ -1,5 +1,6 @@
 // Функции: типы отображений, домен/кодомен, образ и прообраз, композиция, пол и потолок.
 #import "@preview/cetz:0.5.2": canvas, draw
+#import "../theme.typ": setminus
 #import "style.typ": *
 
 #let set-ellipse(pos, rx, ry, tone, fill, name: none) = draw.circle(
@@ -208,6 +209,33 @@
   mark((0, -2.1), $g compose f$)
 })
 
+// ── Функция Дирихле: QQ и RR\QQ двумя цветами на прямой ──
+#let dirichlet-line = canvas({
+  let rationals = (0.5, 1, 1.5, 2, 2.5, 3)
+  let irrationals = (0.707, 1.414, 1.732, 2.236)
+
+  draw.line((-0.3, 0), (3.5, 0), stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
+  ))
+  mark((3.75, 0), $RR$)
+
+  for x in rationals {
+    draw.line((x, 0), (x, 0.52), stroke: edge-thin)
+    draw.circle((x, 0.62), radius: 0.085, fill: cool)
+  }
+  for x in irrationals {
+    draw.line((x, 0), (x, -0.52), stroke: edge-thin)
+    draw.circle((x, -0.62), radius: 0.085, fill: violet)
+  }
+
+  mark((-0.85, 0.62), $QQ$, tone: cool)
+  mark((-0.85, -0.62), $RR setminus QQ$, tone: violet)
+  mark((4.0, 0.62), $D = 1$, tone: cool)
+  mark((4.0, -0.62), $D = 0$, tone: violet)
+  mark((0.5, 0.97), $1 slash 2$)
+  mark((1.414, -0.99), $sqrt(2)$)
+})
+
 // ── Пол и потолок на числовой прямой ──
 #let floor-ceil-line = canvas({
   draw.line((-3.7, 0), (4.3, 0), stroke: edge-plain, mark: (
@@ -274,3 +302,151 @@
   steps-panel("floor"),
   steps-panel("ceil"),
 )
+
+// ── Итерации на числовой прямой: точки $x_0, x_1, dots$ и дуги переходов ──
+// xs --- положения точек на прямой, высота дуги растёт с номером шага.
+#let iteration-dots(xs, tone) = canvas({
+  draw.line((-3.9, 0), (4.0, 0), stroke: edge-thin, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
+  ))
+  for k in range(-3, 4) {
+    draw.line((k, -0.06), (k, 0.06), stroke: edge-thin)
+  }
+  mark((4.15, 0), $x$, size: 0.75em)
+
+  let n = xs.len()
+  for k in range(n) {
+    draw.circle((xs.at(k), 0), radius: 0.09, fill: tone)
+    let dy = if calc.odd(k) { -0.74 } else { -0.36 }
+    mark((xs.at(k), dy), $x_#k$, tone: tone, size: 0.72em)
+  }
+  for k in range(n - 1) {
+    let x0 = xs.at(k)
+    let x1 = xs.at(k + 1)
+    let h = 0.7 + 0.3 * k
+    draw.bezier(
+      (x0, 0.12),
+      (x1, 0.12),
+      (x0, h),
+      (x1, h),
+      stroke: (paint: tone, thickness: 1.2pt, cap: "round"),
+      mark: (end: (symbol: ">", fill: tone)),
+    )
+  }
+})
+
+// ── Удвоение: итерации x, 2x, 4x, 8x уходят вправо, дуги растут ──
+#let iteration-double = iteration-dots((0.2, 0.4, 0.8, 1.6, 3.2), edge-cool.paint)
+
+// ── Инволюция f(x) = 1 - x на {0, 1}: две дуги-стрелки между точками ──
+#let iteration-swap = canvas({
+  draw.circle((0, 0), radius: 0.16, fill: edge-hot.paint.lighten(82%), stroke: 1.6pt + edge-hot.paint)
+  draw.circle((2, 0), radius: 0.16, fill: edge-hot.paint.lighten(82%), stroke: 1.6pt + edge-hot.paint)
+  mark((0, -0.48), $0$, tone: ink)
+  mark((2, -0.48), $1$, tone: ink)
+  draw.bezier(
+    (0.17, 0.12),
+    (1.83, 0.12),
+    (0.55, 0.9),
+    (1.45, 0.9),
+    stroke: edge-hot,
+    mark: (end: (symbol: ">", fill: edge-hot.paint)),
+  )
+  draw.bezier(
+    (1.83, -0.12),
+    (0.17, -0.12),
+    (1.45, -0.9),
+    (0.55, -0.9),
+    stroke: edge-hot,
+    mark: (end: (symbol: ">", fill: edge-hot.paint)),
+  )
+  mark((1, 1.2), $f$, tone: edge-hot.paint)
+  mark((1, -1.2), $f$, tone: edge-hot.paint)
+})
+
+// ── Сетка Канторовой пары: цвет ячейки --- диагональ k_1 + k_2 = s ──
+#let diag-green = panel-green
+#let diag-amber = oklch(96%, 0.02, 70deg)
+#let diag-violet = oklch(96%, 0.015, 300deg)
+#let cantor-grid = table(
+  columns: 4,
+  align: center,
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([ ], [$k_1 = 0$], [$k_1 = 1$], [$k_1 = 2$]),
+  [$k_2 = 0$],
+  table.cell(fill: diag-green)[0],
+  table.cell(fill: diag-amber)[2],
+  table.cell(fill: diag-violet)[5],
+  [$k_2 = 1$],
+  table.cell(fill: diag-amber)[1],
+  table.cell(fill: diag-violet)[4],
+  [8],
+  [$k_2 = 2$],
+  table.cell(fill: diag-violet)[3],
+  [7],
+  [12],
+)
+
+// ── Каррирование: f: A × B -> C превращается в curry f: A -> (B -> C) ──
+#let curry-schema = canvas({
+  set-ellipse((-2.6, 1.05), 0.95, 0.6, cool, panel-cool, name: "prod")
+  mark((-2.6, 2.0), $A times B$)
+  set-ellipse((2.6, 1.05), 0.62, 0.6, warm, panel-warm, name: "cset")
+  mark((2.6, 2.0), $C$)
+  draw.line("prod.east", "cset.west", stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
+  ))
+  mark((0, 1.4), $f$)
+
+  set-ellipse((-2.6, -1.05), 0.62, 0.6, cool, panel-cool, name: "aset")
+  mark((-2.6, -0.05), $A$)
+  set-ellipse((2.6, -1.05), 0.95, 0.6, warm, panel-warm, name: "fun")
+  mark((2.6, -0.05), $B -> C$)
+  draw.line("aset.east", "fun.west", stroke: edge-hot, mark: (
+    end: (symbol: ">", fill: edge-hot.paint),
+  ))
+  mark((0, -0.55), $"curry" f$, tone: warm)
+})
+
+// ── Гонка скоростей роста: log n, n, n log n, n^2, 2^n (масштаб условный) ──
+#let growth-races = canvas({
+  let xs(n) = n / 8
+  draw.line((0, 0), (9.5, 0), stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
+  ))
+  draw.line((0, 0), (0, 4.7), stroke: edge-plain, mark: (
+    end: (symbol: ">", fill: edge-plain.paint),
+  ))
+  mark((9.75, 0.2), $n$)
+  mark((0.4, 4.85), $T(n)$)
+  for t in (8, 16, 32, 64) {
+    draw.line((xs(t), -0.08), (xs(t), 0.08), stroke: edge-thin)
+    mark((xs(t), -0.38), [#t], size: 0.7em)
+  }
+
+  let curve(f, scale, stroke-style) = {
+    let pts = range(1, 65).filter(n => calc.rem(n, 3) == 1).map(n => (xs(n), f(n) * scale))
+    for i in range(1, pts.len()) {
+      draw.line(pts.at(i - 1), pts.at(i), stroke: stroke-style)
+    }
+  }
+
+  curve(n => calc.log(n, base: 2), 0.085, (paint: ink-soft, thickness: 1.2pt, cap: "round"))
+  curve(n => n, 0.045, (paint: cool, thickness: 1.6pt, cap: "round"))
+  curve(n => n * calc.log(n, base: 2), 0.009, (paint: green, thickness: 1.6pt, cap: "round"))
+  curve(n => calc.pow(n, 2), 0.001, (paint: warm, thickness: 1.6pt, cap: "round"))
+
+  let pts-exp = range(1, 24).map(n => (xs(n), 0.00000036 * calc.pow(2, n)))
+  for i in range(1, pts-exp.len()) {
+    draw.line(pts-exp.at(i - 1), pts-exp.at(i), stroke: edge-hot)
+  }
+  draw.line(pts-exp.last(), (3.15, 4.45), stroke: edge-hot, mark: (
+    end: (symbol: ">", fill: edge-hot.paint),
+  ))
+
+  mark((8.9, 0.51), $log_2 n$, tone: ink-soft)
+  mark((8.9, 2.88), $n$, tone: cool)
+  mark((8.9, 3.46), $n log_2 n$, tone: green)
+  mark((8.9, 4.1), $n^2$, tone: warm)
+  mark((3.7, 4.3), $2^n$, tone: oklch(55%, 0.17, 25deg))
+})
