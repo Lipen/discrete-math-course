@@ -306,8 +306,8 @@
     draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: ce)
   }
 
-  draw.content((3.6, 2), text(..fl-lab, size: label-size)[пол], anchor: "west")
-  draw.content((3.6, 3), text(..ce-lab, size: label-size)[потолок], anchor: "west")
+  draw.content((3.6, 2), text(..fl-lab, size: label-size)[пол\ (floor)], anchor: "west")
+  draw.content((3.6, 3), text(..ce-lab, size: label-size)[потолок\ (ceil)], anchor: "west")
 })
 
 #let floor-ceil-steps = grid(
