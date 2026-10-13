@@ -8,7 +8,7 @@
   hasse-chain-3, hasse-digraph-cover, hasse-digraph-full, hasse-divisors-12,
   hasse-permissions, hasse-powerset-2, hasse-powerset-3, inf-number-line,
   lamport-spacetime, lattice-m3, lattice-n5, partition-lattice-3, sign-lattice,
-  sup-bowtie, sup-inf-d12, sup-two-bounds,
+  sup-missing, sup-inf-d12, sup-two-bounds,
 )
 #let before = sym.arrow.r // произошло-до (Лампорт); before.not --- отрицание
 #show: slides.with(
@@ -606,7 +606,7 @@ impl PartialOrd for Div {
 
 Грань обязана быть элементом ЧУМ: если над парой нет вершины, супремум взять неоткуда.
 
-#align(center)[#sup-bowtie]
+#align(center)[#sup-missing]
 
 #example[
   ЧУМ из трёх элементов ${a, b, c}$, где $a prec b$ и $a prec c$, а $b$ и $c$ несравнимы.

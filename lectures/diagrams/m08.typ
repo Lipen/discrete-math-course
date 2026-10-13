@@ -341,7 +341,7 @@
 )
 
 // ── Супремума нет: над парой нет вершины ──
-#let sup-bowtie = diagram(
+#let sup-missing = diagram(
   ..node-opts,
   spacing: 1em,
   hn((-0.7, 0), $b$, name: <bt-b>),
