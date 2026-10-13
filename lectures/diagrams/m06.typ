@@ -295,14 +295,32 @@
   }
 
   for k in range(-1, 3) {
-    draw.line((k, k), (k + 1, k), stroke: (paint: fl, thickness: if focus == "floor" { 1.8pt } else { 1pt }, cap: "round"))
+    draw.line((k, k), (k + 1, k), stroke: (
+      paint: fl,
+      thickness: if focus == "floor" { 1.8pt } else { 1pt },
+      cap: "round",
+    ))
     draw.circle((k, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: fl)
-    draw.circle((k + 1, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: fl, thickness: if focus == "floor" { 0.9pt } else { 0.8pt }))
+    draw.circle(
+      (k + 1, k),
+      radius: if focus == "floor" { 0.06 } else { 0.045 },
+      fill: white,
+      stroke: (paint: fl, thickness: if focus == "floor" { 0.9pt } else { 0.8pt }),
+    )
   }
 
   for k in range(-1, 3) {
-    draw.line((k, k + 1), (k + 1, k + 1), stroke: (paint: ce, thickness: if focus == "ceil" { 1.8pt } else { 1pt }, cap: "round"))
-    draw.circle((k, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: ce, thickness: if focus == "ceil" { 0.9pt } else { 0.8pt }))
+    draw.line((k, k + 1), (k + 1, k + 1), stroke: (
+      paint: ce,
+      thickness: if focus == "ceil" { 1.8pt } else { 1pt },
+      cap: "round",
+    ))
+    draw.circle(
+      (k, k + 1),
+      radius: if focus == "ceil" { 0.06 } else { 0.045 },
+      fill: white,
+      stroke: (paint: ce, thickness: if focus == "ceil" { 0.9pt } else { 0.8pt }),
+    )
     draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: ce)
   }
 
@@ -314,8 +332,7 @@
   columns: (auto, auto),
   gutter: 2.5em,
   align: center,
-  steps-panel("floor"),
-  steps-panel("ceil"),
+  steps-panel("floor"), steps-panel("ceil"),
 )
 
 // ── Итерации на числовой прямой: точки $x_0, x_1, dots$ и дуги переходов ──
