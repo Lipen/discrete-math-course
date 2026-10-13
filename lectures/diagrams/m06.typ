@@ -266,7 +266,12 @@
   mark((3.5, -0.4), $x$, size: 0.8em)
   mark((-0.4, 3.5), $y$, size: 0.8em)
 
-  // ось под ступенями: бледная ступень на y=0 читается поверх неё
+  let fl = if focus == "floor" { green } else { green.transparentize(45%) }
+  let ce = if focus == "ceil" { violet } else { violet.transparentize(45%) }
+  let fl-lab = if focus == "floor" { (fill: green, weight: "bold") } else { (fill: green.transparentize(45%)) }
+  let ce-lab = if focus == "ceil" { (fill: violet, weight: "bold") } else { (fill: violet.transparentize(45%)) }
+
+  // ось тоньше ступеней: бледная ступень на y=0 читается поверх неё
   draw.line((-1.9, 0), (3.9, 0), stroke: edge-thin, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
@@ -274,20 +279,30 @@
     end: (symbol: ">", fill: edge-plain.paint),
   ))
 
-  let fl = if focus == "floor" { green } else { green.transparentize(45%) }
-  let ce = if focus == "ceil" { violet } else { violet.transparentize(45%) }
-  let fl-lab = if focus == "floor" { (fill: green, weight: "bold") } else { (fill: green.transparentize(45%)) }
-  let ce-lab = if focus == "ceil" { (fill: violet, weight: "bold") } else { (fill: violet.transparentize(45%)) }
+  // приглушённая лестница первой: жирная кладёт общие маркеры поверх неё
+  if focus != "floor" {
+    for k in range(-1, 3) {
+      draw.line((k, k), (k + 1, k), stroke: (paint: fl, thickness: 1pt, cap: "round"))
+      draw.circle((k, k), radius: 0.045, fill: fl)
+      draw.circle((k + 1, k), radius: 0.045, fill: white, stroke: (paint: fl, thickness: 0.8pt))
+    }
+  } else {
+    for k in range(-1, 3) {
+      draw.line((k, k + 1), (k + 1, k + 1), stroke: (paint: ce, thickness: 1pt, cap: "round"))
+      draw.circle((k, k + 1), radius: 0.045, fill: white, stroke: (paint: ce, thickness: 0.8pt))
+      draw.circle((k + 1, k + 1), radius: 0.045, fill: ce)
+    }
+  }
 
   for k in range(-1, 3) {
     draw.line((k, k), (k + 1, k), stroke: (paint: fl, thickness: if focus == "floor" { 1.8pt } else { 1pt }, cap: "round"))
     draw.circle((k, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: fl)
-    draw.circle((k + 1, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: fl, thickness: 0.8pt))
+    draw.circle((k + 1, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: fl, thickness: if focus == "floor" { 0.9pt } else { 0.8pt }))
   }
 
   for k in range(-1, 3) {
     draw.line((k, k + 1), (k + 1, k + 1), stroke: (paint: ce, thickness: if focus == "ceil" { 1.8pt } else { 1pt }, cap: "round"))
-    draw.circle((k, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: ce, thickness: 0.8pt))
+    draw.circle((k, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: ce, thickness: if focus == "ceil" { 0.9pt } else { 0.8pt }))
     draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: ce)
   }
 
