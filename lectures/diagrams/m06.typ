@@ -463,10 +463,10 @@
     }
   }
 
-  curve(n => calc.log(n, base: 2), 0.085, (paint: ink-soft, thickness: 1.2pt, cap: "round"))
-  curve(n => n, 0.045, (paint: cool, thickness: 1.6pt, cap: "round"))
-  curve(n => n * calc.log(n, base: 2), 0.009, (paint: green, thickness: 1.6pt, cap: "round"))
-  curve(n => calc.pow(n, 2), 0.001, (paint: warm, thickness: 1.6pt, cap: "round"))
+  curve(n => calc.log(n, base: 2), 0.1, (paint: ink-soft, thickness: 1.2pt, cap: "round"))
+  curve(n => n, 0.0375, (paint: cool, thickness: 1.6pt, cap: "round"))
+  curve(n => if n < 13 { -1 } else { n * calc.log(n, base: 2) }, 0.00885, (paint: green, thickness: 1.6pt, cap: "round"))
+  curve(n => if n < 13 { -1 } else { calc.pow(n, 2) }, 0.00105, (paint: oklch(65%, 0.15, 55deg), thickness: 1.6pt, cap: "round"))
 
   let pts-exp = range(1, 24).map(n => (xs(n), 0.00000036 * calc.pow(2, n)))
   for i in range(1, pts-exp.len()) {
@@ -479,6 +479,6 @@
   mark((8.9, 0.51), $log_2 n$, tone: ink-soft)
   mark((8.9, 2.88), $n$, tone: cool)
   mark((8.9, 3.46), $n log_2 n$, tone: green)
-  mark((8.9, 4.1), $n^2$, tone: warm)
+  mark((8.9, 4.1), $n^2$, tone: oklch(65%, 0.15, 55deg))
   mark((3.7, 4.3), $2^n$, tone: oklch(55%, 0.17, 25deg))
 })
