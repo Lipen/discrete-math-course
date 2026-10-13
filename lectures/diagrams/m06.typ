@@ -235,37 +235,36 @@
 
 // ── Ступеньки пола и потолка: две панели с чередующимся акцентом ──
 #let steps-panel(focus) = canvas({
-  draw.line((-1.9, 0), (3.9, 0), stroke: edge-plain, mark: (
+  mark((3.5, -0.4), $x$, size: 0.8em)
+  mark((-0.4, 3.5), $y$, size: 0.8em)
+
+  // ось под ступенями: бледная ступень на y=0 читается поверх неё
+  draw.line((-1.9, 0), (3.9, 0), stroke: edge-thin, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
   draw.line((0, -1.9), (0, 3.9), stroke: edge-plain, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
-  mark((3.5, -0.4), $x$, size: 0.8em)
-  mark((-0.4, 3.5), $y$, size: 0.8em)
+
+  let fl = if focus == "floor" { green } else { green.transparentize(45%) }
+  let ce = if focus == "ceil" { violet } else { violet.transparentize(45%) }
+  let fl-lab = if focus == "floor" { (fill: green, weight: "bold") } else { (fill: green.transparentize(45%)) }
+  let ce-lab = if focus == "ceil" { (fill: violet, weight: "bold") } else { (fill: violet.transparentize(45%)) }
 
   for k in range(-1, 3) {
-    draw.line((k, k), (k + 1, k), stroke: (
-      paint: if focus == "floor" { green } else { green.lighten(68%) },
-      thickness: if focus == "floor" { 1.8pt } else { 1pt },
-      cap: "round",
-    ))
-    draw.circle((k, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: if focus == "floor" { green } else { green.lighten(68%) })
-    draw.circle((k + 1, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: if focus == "floor" { green } else { green.lighten(68%) }, thickness: 0.8pt))
+    draw.line((k, k), (k + 1, k), stroke: (paint: fl, thickness: if focus == "floor" { 1.8pt } else { 1pt }, cap: "round"))
+    draw.circle((k, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: fl)
+    draw.circle((k + 1, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: fl, thickness: 0.8pt))
   }
 
-  for k in range(0, 3) {
-    draw.line((k, k + 1), (k + 1, k + 1), stroke: (
-      paint: if focus == "ceil" { violet } else { violet.lighten(68%) },
-      thickness: if focus == "ceil" { 1.8pt } else { 1pt },
-      cap: "round",
-    ))
-    draw.circle((k, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: if focus == "ceil" { violet } else { violet.lighten(68%) }, thickness: 0.8pt))
-    draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: if focus == "ceil" { violet } else { violet.lighten(68%) })
+  for k in range(-1, 3) {
+    draw.line((k, k + 1), (k + 1, k + 1), stroke: (paint: ce, thickness: if focus == "ceil" { 1.8pt } else { 1pt }, cap: "round"))
+    draw.circle((k, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: white, stroke: (paint: ce, thickness: 0.8pt))
+    draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: ce)
   }
 
-  draw.content((3.6, 2), text(fill: if focus == "floor" { green } else { green.lighten(30%) }, size: label-size)[пол], anchor: "west")
-  draw.content((3.6, 3), text(fill: if focus == "ceil" { violet } else { violet.lighten(30%) }, size: label-size)[потолок], anchor: "west")
+  draw.content((3.6, 2), text(..fl-lab, size: label-size)[пол], anchor: "west")
+  draw.content((3.6, 3), text(..ce-lab, size: label-size)[потолок], anchor: "west")
 })
 
 #let floor-ceil-steps = grid(
