@@ -144,40 +144,51 @@
 
 // ── Образ и прообраз подмножества ──
 #let image-preimage = canvas({
-  set-ellipse((-1.9, 0), 0.72, 1.35, cool, panel-cool)
-  mark((-1.9, 1.65), $A$)
-  dom-el("ia1", (-1.9, -0.9))
-  dom-el("ia2", (-1.9, -0.45))
-  dom-el("ia3", (-1.9, 0))
-  dom-el("ia4", (-1.9, 0.45))
-  dom-el("ia5", (-1.9, 0.9))
-
-  set-ellipse((1.9, 0), 0.78, 1.05, warm, panel-warm)
-  mark((1.9, 1.35), $B$)
-  cod-el("ib1", (1.9, -0.55))
-  cod-el("ib2", (1.9, 0))
-  cod-el("ib3", (1.9, 0.55))
-
-  map-edge("ia1", "ib1", -0.85, edge-plain)
-  map-edge("ia2", "ib1", -0.35, edge-plain)
-  map-edge("ia3", "ib2", 0.15, edge-plain)
-  map-edge("ia4", "ib3", 0.35, edge-plain)
-  map-edge("ia5", "ib3", 0.85, edge-plain)
-
-  let region(pos, radius) = draw.circle(pos, radius: radius, stroke: (
-    paint: violet,
+  let el(name, pos, body) = {
+    vertex(name, pos, tone: cool, size: 0.2)
+    draw.content(name, text(size: 0.72em, fill: ink)[#body])
+  }
+  let bel(name, pos, body) = {
+    cell(name, pos, tone: warm, size: 0.18, radius: 0.08)
+    draw.content(name, text(size: 0.72em, fill: ink)[#body])
+  }
+  let region(pos, radius, tone: violet) = draw.circle(pos, radius: radius, stroke: (
+    paint: tone,
     thickness: 1.1pt,
     dash: "dashed",
   ))
-  region((-1.9, -0.675), (0.36, 0.42))
-  region((1.9, -0.55), 0.19)
-  region((1.9, 0.55), 0.19)
-  region((-1.9, 0.675), (0.36, 0.42))
 
-  mark((-2.95, -0.675), $X$, tone: violet)
-  mark((3.1, -0.55), $f(X)$, tone: violet)
-  mark((3.1, 0.55), $Y$, tone: violet)
-  mark((-3.35, 0.675), $f^(-1) (Y)$, tone: violet)
+  set-ellipse((-1.9, 0), 0.75, 1.5, cool, panel-cool)
+  mark((-1.9, 1.72), $A$)
+  set-ellipse((1.9, 0), 0.78, 1.05, warm, panel-warm)
+  mark((1.9, 1.35), $B$)
+
+  region((-1.9, -0.45), 0.78)
+  region((-1.9, -0.675), 0.46)
+  region((1.9, -0.55), 0.3)
+  region((-1.9, 0.675), 0.45, tone: green)
+
+  el("ia1", (-1.9, -0.9), [1])
+  el("ia2", (-1.9, -0.45), [2])
+  el("ia3", (-1.9, 0), [3])
+  el("ia4", (-1.9, 0.45), [4])
+  el("ia5", (-1.9, 0.9), [5])
+
+  bel("ib1", (1.9, -0.55), [$a$])
+  bel("ib2", (1.9, 0), [$b$])
+  bel("ib3", (1.9, 0.55), [$c$])
+
+  map-edge("ia1", "ib1", -0.85, edge-plain)
+  map-edge("ia2", "ib1", -0.35, edge-plain)
+  map-edge("ia3", "ib1", 0.15, edge-plain)
+  map-edge("ia4", "ib3", 0.35, edge-plain)
+  map-edge("ia5", "ib3", 0.85, edge-plain)
+
+  mark((-3.25, -0.675), $X = {1, 2}$, tone: violet)
+  mark((-1.9, -1.55), $f^(-1) (f(X)) = {1, 2, 3}$, tone: violet)
+  mark((3.1, -0.55), $f(X) = {a}$, tone: violet)
+  mark((-3.2, 0.675), $f^(-1) (Y) = {4, 5}$, tone: green)
+  mark((3.0, 0.55), $Y = {c}$, tone: green)
 })
 
 // ── Композиция двух отображений как конвейер ──
