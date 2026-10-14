@@ -144,6 +144,8 @@
 
 // ── Образ и прообраз подмножества ──
 #let image-preimage = canvas({
+  draw.scale(1.25)
+
   let el(name, pos, body) = {
     vertex(name, pos, tone: cool, size: 0.2)
     draw.content(name, text(size: 0.72em, fill: ink)[#body])
@@ -163,9 +165,8 @@
   set-ellipse((1.9, 0), 0.78, 1.05, warm, panel-warm)
   mark((1.9, 1.35), $B$)
 
-  region((-1.9, -0.45), 0.78)
-  region((-1.9, -0.675), 0.46)
-  region((1.9, -0.55), 0.3)
+  region((-1.9, -0.675), 0.5)
+  region((1.9, -0.55), 0.33)
   region((-1.9, 0.675), 0.45, tone: green)
 
   el("ia1", (-1.9, -0.9), [1])
@@ -185,10 +186,8 @@
   map-edge("ia5", "ib3", 0.85, edge-plain)
 
   mark((-3.25, -0.675), $X = {1, 2}$, tone: violet)
-  mark((-1.9, -1.55), $f^(-1) (f(X)) = {1, 2, 3}$, tone: violet)
   mark((3.1, -0.55), $f(X) = {a}$, tone: violet)
-  mark((-3.2, 0.675), $f^(-1) (Y) = {4, 5}$, tone: green)
-  mark((3.0, 0.55), $Y = {c}$, tone: green)
+  mark((-3.25, 0.675), $f^(-1) ({c}) = {4, 5}$, tone: green)
 })
 
 // ── Композиция двух отображений как конвейер ──
