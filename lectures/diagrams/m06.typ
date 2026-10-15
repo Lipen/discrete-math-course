@@ -25,7 +25,7 @@
 // ── Инъекция: каждый элемент B задействован не более одного раза ──
 #let mapping-injection = canvas({
   set-ellipse((-1.6, 0), 0.55, 1.15, cool, panel-cool)
-  mark((-1.6, 1.5), $A$)
+  mark((-1.6, 1.8), $A$)
   dom-el("a1", (-1.6, -0.6))
   dom-el("a2", (-1.6, -0.2))
   dom-el("a3", (-1.6, 0.2))
@@ -40,9 +40,9 @@
   cod-el("b5", (1.6, 0.63))
   cod-el("b6", (1.6, 1.05))
 
-  map-edge("a1", "b2", -0.9, edge-cool)
-  map-edge("a2", "b5", 0.35, edge-cool)
-  map-edge("a3", "b3", -0.35, edge-cool)
+  map-edge("a1", "b1", -0.9, edge-cool)
+  map-edge("a2", "b3", -0.35, edge-cool)
+  map-edge("a3", "b4", 0.35, edge-cool)
   map-edge("a4", "b6", 1.0, edge-cool)
 })
 
@@ -58,7 +58,7 @@
   dom-el("a6", (-1.6, 1.05))
 
   set-ellipse((1.6, 0), 0.5, 0.95, warm, panel-warm)
-  mark((1.6, 1.25), $B$)
+  mark((1.6, 1.8), $B$)
   cod-el("b1", (1.6, -0.45))
   cod-el("b2", (1.6, 0))
   cod-el("b3", (1.6, 0.45))
@@ -74,23 +74,23 @@
 // ── Биекция: и не более одного, и хотя бы один ──
 #let mapping-bijection = canvas({
   set-ellipse((-1.6, 0), 0.55, 1.15, cool, panel-cool)
-  mark((-1.6, 1.5), $A$)
+  mark((-1.6, 1.8), $A$)
   dom-el("a1", (-1.6, -0.6))
   dom-el("a2", (-1.6, -0.2))
   dom-el("a3", (-1.6, 0.2))
   dom-el("a4", (-1.6, 0.6))
 
-  set-ellipse((1.6, 0), 0.55, 1.15, warm, panel-warm)
-  mark((1.6, 1.5), $B$)
-  cod-el("b1", (1.6, -0.75))
-  cod-el("b2", (1.6, -0.25))
-  cod-el("b3", (1.6, 0.25))
-  cod-el("b4", (1.6, 0.75))
+  set-ellipse((1.6, 0), 0.55, 1.45, warm, panel-warm)
+  mark((1.6, 1.8), $B$)
+  cod-el("b1", (1.6, -1.0))
+  cod-el("b2", (1.6, -0.33))
+  cod-el("b3", (1.6, 0.33))
+  cod-el("b4", (1.6, 1.0))
 
-  map-edge("a1", "b3", 0.55, edge-hot)
-  map-edge("a2", "b1", -0.8, edge-hot)
-  map-edge("a3", "b4", 0.8, edge-hot)
-  map-edge("a4", "b2", -0.55, edge-hot)
+  map-edge("a1", "b1", -0.55, edge-hot)
+  map-edge("a2", "b2", -0.35, edge-hot)
+  map-edge("a3", "b3", 0.35, edge-hot)
+  map-edge("a4", "b4", 0.55, edge-hot)
 })
 
 // ── Части функции: домен и кодомен, f: A -> B ──
@@ -348,13 +348,14 @@
 // ── Итерации на числовой прямой: точки $x_0, x_1, dots$ и дуги переходов ──
 // xs --- положения точек на прямой, высота дуги растёт с номером шага.
 #let iteration-dots(xs, tone) = canvas({
-  draw.line((-3.9, 0), (4.0, 0), stroke: edge-thin, mark: (
+  draw.line((-0.5, 0), (9.2, 0), stroke: edge-thin, mark: (
     end: (symbol: ">", fill: edge-plain.paint),
   ))
-  for k in range(-3, 4) {
+  for k in range(0, 9) {
     draw.line((k, -0.06), (k, 0.06), stroke: edge-thin)
   }
-  mark((4.15, 0), $x$, size: 0.75em)
+  mark((0, -0.36), [0], tone: edge-plain.paint, size: 0.72em)
+  mark((9.4, 0), $x$, size: 0.75em)
 
   let n = xs.len()
   for k in range(n) {
@@ -378,7 +379,7 @@
 })
 
 // ── Удвоение: итерации x, 2x, 4x, 8x уходят вправо, дуги растут ──
-#let iteration-double = iteration-dots((0.2, 0.4, 0.8, 1.6, 3.2), edge-cool.paint)
+#let iteration-double = iteration-dots((0.5, 1, 2, 4, 8), edge-cool.paint)
 
 // ── Инволюция f(x) = 1 - x на {0, 1}: две дуги-стрелки между точками ──
 #let iteration-swap = canvas({
@@ -410,6 +411,8 @@
 #let diag-green = panel-green
 #let diag-amber = oklch(96%, 0.02, 70deg)
 #let diag-violet = oklch(96%, 0.015, 300deg)
+#let diag-teal = oklch(96%, 0.02, 190deg)
+#let diag-rose = oklch(96%, 0.02, 20deg)
 #let cantor-grid = table(
   columns: 4,
   align: center,
@@ -422,11 +425,11 @@
   [$k_2 = 1$],
   table.cell(fill: diag-amber)[1],
   table.cell(fill: diag-violet)[4],
-  [8],
+  table.cell(fill: diag-teal)[8],
   [$k_2 = 2$],
   table.cell(fill: diag-violet)[3],
-  [7],
-  [12],
+  table.cell(fill: diag-teal)[7],
+  table.cell(fill: diag-rose)[12],
 )
 
 // ── Каррирование: f: A × B -> C превращается в curry f: A -> (B -> C) ──
@@ -473,7 +476,7 @@
     }
   }
 
-  curve(n => calc.log(n, base: 2), 0.1, (paint: ink-soft, thickness: 1.2pt, cap: "round"))
+  curve(n => calc.log(n, base: 2), 0.1, (paint: ink, thickness: 1.2pt, cap: "round"))
   curve(n => n, 0.0375, (paint: cool, thickness: 1.6pt, cap: "round"))
   curve(n => if n < 13 { -1 } else { n * calc.log(n, base: 2) }, 0.0106, (paint: green, thickness: 1.6pt, cap: "round"))
   curve(n => if n < 13 { -1 } else { calc.pow(n, 2) }, 0.00126, (paint: oklch(65%, 0.15, 55deg), thickness: 1.6pt, cap: "round"))
@@ -486,7 +489,7 @@
     end: (symbol: ">", fill: edge-hot.paint),
   ))
 
-  mark((8.9, 0.51), $log_2 n$, tone: ink-soft)
+  mark((8.9, 0.51), $log_2 n$, tone: ink)
   mark((8.9, 2.88), $n$, tone: cool)
   mark((8.9, 3.9), $n log_2 n$, tone: green)
   mark((8.9, 5.1), $n^2$, tone: oklch(65%, 0.15, 55deg))
