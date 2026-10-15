@@ -103,6 +103,9 @@
     name: "set-a",
   )
   mark((-1.6, 1.4), $A$)
+  dom-el("pa1", (-1.6, -0.55))
+  dom-el("pa2", (-1.6, 0))
+  dom-el("pa3", (-1.6, 0.55))
   draw.circle(
     (1.6, 0),
     radius: (0.6, 1.05),
@@ -111,6 +114,20 @@
     name: "set-b",
   )
   mark((1.6, 1.4), $B$)
+  cod-el("pb1", (1.6, -0.7))
+  cod-el("pb2", (1.6, -0.2))
+  cod-el("pb3", (1.6, 0.6))
+
+  map-edge("pa1", "pb1", -0.5, edge-cool)
+  map-edge("pa2", "pb2", -0.25, edge-cool)
+  map-edge("pa3", "pb1", 0.45, edge-cool)
+
+  draw.circle((1.6, -0.45), radius: (0.36, 0.6), stroke: (
+    paint: cool,
+    thickness: 1pt,
+    dash: "dashed",
+  ))
+  mark((2.65, -0.45), $f(A)$, tone: cool)
 
   draw.line("set-a.east", "set-b.west", stroke: edge-cool, mark: (
     end: (symbol: ">", fill: cool),
