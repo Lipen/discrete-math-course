@@ -131,7 +131,8 @@
   stroke: (left: 2pt + accent),
   fill: accent.lighten(96%),
 )[
-  #block(below: 0.4em)[#strong[Теорема#if title != none [ (#title)]]]
+  #block[#strong[Теорема#if title != none [ (#title)]]]
+  #v(0.5em)
   #body
 ]
 
