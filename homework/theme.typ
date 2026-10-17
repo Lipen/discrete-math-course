@@ -122,6 +122,20 @@
   body,
 )
 
+// ── Теорема ──
+#let Theorem(title, body) = block(
+  width: 100%,
+  above: 1em,
+  below: 1em,
+  inset: (x: 10pt, y: 6pt),
+  stroke: (left: 2pt + accent),
+  fill: accent.lighten(96%),
+)[
+  #strong[Теорема#if title != none [ (#title)]]
+  #h(0.6em)
+  #body
+]
+
 // ── Указание ──
 #let Hint(body) = block(
   width: 100%,
