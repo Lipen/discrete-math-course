@@ -1422,8 +1422,8 @@ $
       ).
     $
 
-  + #task-id("nt:inverse-criterion") \* Докажите правило сокращения по модулю: если $"gcd"(a, m) = 1$ и $a x equiv a y quad (mod m)$, то $x equiv y quad (mod m)$.
-    Найдите $a, x, y, m$ с $"gcd"(a, m) > 1$, для которых $a x equiv a y quad (mod m)$, но $x equiv.not y quad (mod m)$.
+  + #task-id("nt:inverse-criterion") \* Докажите правило сокращения по модулю: если $"gcd"(a, m) = 1$ и $a x equiv a y (mod m)$, то $x equiv y (mod m)$.
+    Найдите $a, x, y, m$ с $"gcd"(a, m) > 1$, для которых $a x equiv a y (mod m)$, но $x equiv.not y (mod m)$.
 
   _RSA и атаки._
   + В RSA с $p = 61, q = 53$ вычислите $n$ и $phi(n)$.
