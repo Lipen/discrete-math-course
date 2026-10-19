@@ -62,15 +62,18 @@
 
   #v(1.2em)
 
-  #grid(
+  #table(
     columns: 5,
     align: center,
-    column-gutter: 0.8em,
-    [#image("assets/sheep.png", height: 3em) #h(0.25em) $0$],
-    [#image("assets/sheep.png", height: 3em) #h(0.25em) $1$],
-    [#image("assets/sheep.png", height: 3em) #h(0.25em) $2$],
-    [#image("assets/sheep.png", height: 3em) #h(0.25em) $3$],
-    [#image("assets/sheep.png", height: 3em) #h(0.25em) $4$],
+    stroke: none,
+    inset: (x: 0.4em, y: 0.2em),
+    [#image("assets/sheep.png", height: 3em)],
+    [#image("assets/sheep.png", height: 3em)],
+    [#image("assets/sheep.png", height: 3em)],
+    [#image("assets/sheep.png", height: 3em)],
+    [#image("assets/sheep.png", height: 3em)],
+
+    [$0$], [$1$], [$2$], [$3$], [$4$],
   )
 
   #v(1em)
