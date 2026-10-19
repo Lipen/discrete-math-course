@@ -1,13 +1,11 @@
-// Карта курса: два ряда модулей, чистый Typst-grid (читаемые кегли, надёжная вёрстка).
+// Карта курса: модули семестров и номера лекций.
 
-// Палитра --- зеркало syllabus.
 #let c-blue = oklch(45%, 0.12, 262deg)
 #let c-cyan = oklch(45%, 0.11, 205deg)
 #let c-purple = oklch(45%, 0.12, 320deg)
 #let c-green = oklch(45%, 0.12, 150deg)
 #let c-amber = oklch(48%, 0.12, 70deg)
 #let c-spring = oklch(45%, 0.12, 175deg)
-#let c-soft = oklch(45%, 0.02, 265deg)
 #let p-blue = oklch(52%, 0.19, 262deg).transparentize(90%)
 #let p-cyan = oklch(52%, 0.17, 205deg).transparentize(90%)
 #let p-purple = oklch(52%, 0.18, 320deg).transparentize(90%)
@@ -15,46 +13,42 @@
 #let p-amber = oklch(56%, 0.16, 75deg).transparentize(90%)
 #let p-spring = oklch(52%, 0.16, 175deg).transparentize(88%)
 
-#let map-cell(color, pastel, title, lec) = block(
-  width: 100%,
-  fill: pastel,
-  stroke: (top: 2.2pt + color),
-  inset: (x: 7pt, y: 6.5pt),
-  breakable: false,
-)[
-  #set par(justify: false)
-  #text(size: 0.8em, weight: "bold", hyphenate: false)[#title]
-  #v(0.1em)
-  #text(size: 0.72em, fill: c-soft)[#lec]
-]
+#let module-cell(fill, title) = table.cell(fill: fill, align: left)[#title]
 
-#let map-row(label, label-color, cells) = (
-  grid.cell(align(right + horizon)[#text(size: 0.8em, weight: "bold", fill: label-color, hyphenate: false)[#label]]),
-  ..cells.map(((c, p, t, l)) => grid.cell(map-cell(c, p, t, l))),
-)
-
-// ── Карта курса ──
 #let course-map = block(width: 100%, breakable: false)[
-  #grid(
-    columns: (auto, 1fr, 1fr, 1fr, 1fr),
-    gutter: (8pt, 5pt),
-    row-gutter: 4pt,
-    ..map-row([Семестр 1], c-blue, (
-      (c-blue, p-blue, [Множества и отношения], [лекции 1--8]),
-      (c-purple, p-purple, [Формальная логика], [лекции 9--11]),
-      (c-green, p-green, [Булева алгебра и схемы], [лекции 12--14]),
-      (c-amber, p-amber, [Коды], [лекции 15--16]),
-    )),
-    grid.cell(colspan: 5)[
-      #set align(center)
-      #set text(size: 0.72em, fill: c-soft)
-      ↓ вычисления и их пределы ↓
-    ],
-    ..map-row([Семестр 2], c-spring, (
-      (c-spring, p-spring, [Графы], [лекции 1--4]),
-      (c-cyan, p-cyan, [Конечные автоматы], [лекции 5--8]),
-      (c-purple, p-purple, [Машина Тьюринга и разрешимость], [лекции 9--12]),
-      (c-green, p-green, [Комбинаторика], [лекции 13--16]),
-    )),
-  )
+  #set text(size: 0.9em)
+  #table(
+  columns: (auto, 1fr, auto),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  align: (left, left, center),
+  inset: (x: 8pt, y: 2.5pt),
+  table.header([*Семестр*], [*Модуль*], [*Лекции*]),
+  [Семестр 1],
+  module-cell(p-blue, [Язык, множества и отношения]),
+  [1--4],
+  [],
+  module-cell(p-cyan, [Порядок, функции и мощность]),
+  [5--8],
+  [],
+  module-cell(p-purple, [Формальная логика]),
+  [9--11],
+  [],
+  module-cell(p-green, [Булева алгебра и схемы]),
+  [12--14],
+  [],
+  module-cell(p-amber, [Теория кодирования]),
+  [15--16],
+  [Семестр 2],
+  module-cell(p-spring, [Графы]),
+  [1--4],
+  [],
+  module-cell(p-cyan, [Конечные автоматы]),
+  [5--8],
+  [],
+  module-cell(p-purple, [Машина Тьюринга и разрешимость]),
+  [9--12],
+  [],
+  module-cell(p-green, [Комбинаторика]),
+  [13--16],
+)
 ]
