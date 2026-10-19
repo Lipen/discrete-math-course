@@ -82,7 +82,7 @@
     draw.rect(
       (j - 1, i - 1),
       (j, i),
-      fill: tone.lighten(75%),
+      fill: tone.lighten(80%).transparentize(40%),
       stroke: (paint: ink-soft, thickness: 0.4pt),
     )
   }
