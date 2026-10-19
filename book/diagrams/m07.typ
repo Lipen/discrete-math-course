@@ -74,7 +74,7 @@
   }
   draw.content(
     (cols * s + 0.3, -(rows + 1.2) * s),
-    text(size: s-cap, fill: c-hot)[$dots not in {r_1, r_2, dots}$],
+    text(size: s-cap, fill: c-hot)[$r in.not {r_1, r_2, dots}$],
   )
 
   for i in range(rows) {

@@ -60,7 +60,7 @@
     weight: "bold",
     fill: ink,
   )[$r = 0.$])
-  mark((1.5, -(rows + 2.4) * s), $dots not in {r_1, r_2, dots}$)
+  mark((1.5, -(rows + 2.4) * s), $r in.not {r_1, r_2, dots}$)
 })
 
 // ── Спаривание QQ: счёт по диагоналям ──
