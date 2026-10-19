@@ -195,14 +195,6 @@
   $NN$ --- дедекиндово бесконечное множество: равномощное собственному подмножеству.
 ]
 
-= Счётные множества
-
-#focus-slide(
-  ghost: hotel-ghost,
-  epigraph: [Числа --- свободное творение человеческого духа.],
-  epigraph-author: [Рихард Дедекинд],
-)
-
 == Отель Гильберта
 
 В бесконечном отеле Гильберта счётное число комнат.
@@ -319,6 +311,16 @@
 
   Несчётное множество гостей расселить по счётным комнатам нельзя: биекции с $NN$ не существует.
 ]
+
+= Счётные множества
+
+// Рихард Дедекинд, "Was sind und was sollen die Zahlen?" (1888), предисловие:
+// "Die Zahlen sind freie Schöpfungen des menschlichen Geistes".
+#focus-slide(
+  ghost: hotel-ghost,
+  epigraph: [Числа --- свободные творения человеческого духа.],
+  epigraph-author: [Рихард Дедекинд],
+)
 
 == Счётные операции
 
@@ -451,9 +453,11 @@ $
 
 = Несчётность
 
+// Георг Кантор, диссертация (1867): "In mathematics the art of proposing a question
+// must be held of higher value than solving it".
 #focus-slide(
   ghost: diagonalization-ghost,
-  epigraph: [Я вижу это, но не верю!],
+  epigraph: [Искусство ставить вопрос важнее искусства его решать.],
   epigraph-author: [Георг Кантор],
 )
 
