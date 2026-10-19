@@ -232,6 +232,7 @@
 
 #grid(
   columns: 2,
+  column-gutter: 0.5em,
   [
     В бесконечном отеле Гильберта счётное число комнат.
 
@@ -251,7 +252,7 @@
     stroke: 1pt + luma(80%),
     radius: 4pt,
     clip: true,
-  )[#image("assets/grand-hotel.jpg", width: 7.15cm)],
+  )[#image("assets/grand-hotel.jpg", width: 6.5cm)],
 )
 
 == Один новый гость
