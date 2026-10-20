@@ -1028,6 +1028,10 @@
   Значит, подмножеств столько же, сколько функций $U -> {0, 1}$, то есть $2^(abs(U))$.
 ]
 
+#pagebreak()
+
+== Таблица характеристических функций
+
 Соответствие видно построчно: множество слева, его таблица нулей и единиц справа.
 
 #table(
@@ -1236,13 +1240,13 @@ $ (delta_(i j))_(i, j = 1)^2 = mat(1, 0; 0, 1). $
 Применение подставляет аргумент в тело функции.
 
 #definition[$beta$-редукция][
-  $(lambda x . e) a #betared e[x := a]$: в тело $e$ подставляется $a$ вместо $x$.
+  $(lambda x . e) a #beta-red e[x := a]$: в тело $e$ подставляется $a$ вместо $x$.
 ]
 
 #example[
-  $(lambda x . x + x) 5 #betared 5 + 5 = 10$.
+  $(lambda x . x + x) 5 #beta-red 5 + 5 = 10$.
 
-  $(lambda x . lambda y . x) a b #betared (lambda y . a) b #betared a$.
+  $(lambda x . lambda y . x) a b #beta-red (lambda y . a) b #beta-red a$.
   Здесь $f a b$ означает $(f a) b$.
 ]
 
@@ -1259,7 +1263,7 @@ $ (delta_(i j))_(i, j = 1)^2 = mat(1, 0; 0, 1). $
 #example[
   В $lambda x . x + y$ переменная $x$ связана, а $y$ свободна.
 
-  $(lambda x . x + y) 3 #betared 3 + y$: $y$ остаётся снаружи.
+  $(lambda x . x + y) 3 #beta-red 3 + y$: $y$ остаётся снаружи.
 ]
 
 #important[
@@ -1269,7 +1273,7 @@ $ (delta_(i j))_(i, j = 1)^2 = mat(1, 0; 0, 1). $
 #trap[Захват переменной][
   В $(lambda x . lambda y . x) y$ подстановка даёт $lambda y . y$: свободный аргумент попал под $lambda y$.
 
-  Сначала переименуем связанную $y$: $(lambda x . lambda z . x) y #betared lambda z . y$.
+  Сначала переименуем связанную $y$: $(lambda x . lambda z . x) y #beta-red lambda z . y$.
 ]
 
 == Каррирование
@@ -1290,7 +1294,7 @@ $ (delta_(i j))_(i, j = 1)^2 = mat(1, 0; 0, 1). $
 #example[
   $"curry"(+)(2)$ --- функция "прибавить два": $lambda y . 2 + y$.
 
-  $(lambda y . 2 + y) 3 #betared 2 + 3 = 5$.
+  $(lambda y . 2 + y) 3 #beta-red 2 + 3 = 5$.
 
   ```python
   add = lambda x: lambda y: x + y
