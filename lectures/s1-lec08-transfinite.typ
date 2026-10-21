@@ -397,7 +397,7 @@ $ZZ$ и $QQ$ имеют тот же кардинал $aleph_0$, что и $NN$.
   table.header([*Наплыв гостей*], [*Кардинал*], [*Ответ*]),
   [один гость #emoji.person], [$aleph_0 + 1$], [$aleph_0$],
   [счётный автобус #emoji.bus], [$aleph_0 + aleph_0$], [$aleph_0$],
-  [счётное число автобусов #emoji.bus], [$aleph_0 dot aleph_0$], [$aleph_0$],
+  [счётное число автобусов #emoji.bus #emoji.bus #emoji.bus ...], [$aleph_0 dot aleph_0$], [$aleph_0$],
   [конечная степень], [$aleph_0^k$], [$aleph_0$],
 )
 
