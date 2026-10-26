@@ -2,8 +2,8 @@
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": cantor-ghost, hierarchy-ghost, poset-ghost
 #import "diagrams/m07.typ": (
-  addition-order, aleph-beth, hydra, lex-pairs, multiplication-order,
-  ordinal-ladder,
+  addition-order, aleph-beth, finite-representation, hydra, lex-pairs,
+  multiplication-order, ordinal-ladder,
 )
 #show: slides.with(
   title: [Трансфинитное],
@@ -309,6 +309,13 @@ $ alpha = {beta mid(|) beta < alpha} . $
   Конечный порядок из $n$ элементов даёт $n$, порядок на $NN$ даёт $omega$.
   Дальше отождествляем тип с его представителем.
 ]
+
+== Пример: конечный порядок
+
+#align(center)[#finite-representation]
+
+Порядок $a < b < c$ изоморфен ординалу $3$.
+Каждый конечный порядок получает свой номер.
 
 == Существование: рекурсия по элементу
 

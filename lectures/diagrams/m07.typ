@@ -435,3 +435,46 @@
     mark: (end: "stealth", fill: warm),
   )
 })
+
+// ── Конечный порядок и его ординал: изоморфизм на 3 ──
+#let finite-representation = canvas({
+  let node(pos, label, tone) = {
+    draw.circle(
+      pos,
+      radius: 0.18,
+      fill: tone.lighten(82%),
+      stroke: 1.2pt + tone,
+    )
+    mark(pos, label, tone: ink, size: 0.8em)
+  }
+  let edge(a, b, tone) = draw.line(
+    a,
+    b,
+    stroke: (paint: tone, thickness: 1pt, cap: "round"),
+    mark: (end: "stealth", fill: tone),
+  )
+
+  let left = ((0, 0), (0, 0.9), (0, 1.8))
+  node(left.at(0), $a$, cool)
+  node(left.at(1), $b$, cool)
+  node(left.at(2), $c$, cool)
+  edge(left.at(0), left.at(1), cool)
+  edge(left.at(1), left.at(2), cool)
+
+  let right = ((4.2, 0), (4.2, 0.9), (4.2, 1.8))
+  node(right.at(0), $0$, green)
+  node(right.at(1), $1$, green)
+  node(right.at(2), $2$, green)
+  edge(right.at(0), right.at(1), green)
+  edge(right.at(1), right.at(2), green)
+
+  draw.line(
+    (0.3, 0.9),
+    (3.9, 0.9),
+    stroke: (paint: warm, thickness: 1.2pt, cap: "round"),
+    mark: (end: "stealth", fill: warm),
+  )
+  mark((2.1, 1.2), $f$, tone: warm)
+  mark((0, -0.5), [порядок $a < b < c$], tone: ink-soft, size: 0.7em)
+  mark((4.2, -0.5), [ординал $3$], tone: ink-soft, size: 0.7em)
+})
