@@ -458,15 +458,15 @@
   node(left.at(0), $a$, cool)
   node(left.at(1), $b$, cool)
   node(left.at(2), $c$, cool)
-  edge(left.at(0), left.at(1), cool)
-  edge(left.at(1), left.at(2), cool)
+  edge((0, 0.18), (0, 0.72), cool)
+  edge((0, 1.08), (0, 1.62), cool)
 
   let right = ((4.2, 0), (4.2, 0.9), (4.2, 1.8))
   node(right.at(0), $0$, green)
   node(right.at(1), $1$, green)
   node(right.at(2), $2$, green)
-  edge(right.at(0), right.at(1), green)
-  edge(right.at(1), right.at(2), green)
+  edge((4.2, 0.18), (4.2, 0.72), green)
+  edge((4.2, 1.08), (4.2, 1.62), green)
 
   draw.line(
     (0.3, 0.9),
