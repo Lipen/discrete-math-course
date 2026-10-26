@@ -3,7 +3,7 @@
 #import "diagrams/ghosts.typ": (
   cantor-ghost, hierarchy-ghost, poset-ghost,
 )
-#import "diagrams/m07.typ": aleph-beth, hydra, ordinal-ladder
+#import "diagrams/m07.typ": addition-order, aleph-beth, hydra, ordinal-ladder
 #show: slides.with(
   title: [Трансфинитное],
   date: "Осень 2026",
@@ -484,6 +484,13 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots $
   - $2 + 3 = 5$: две точки, затем три.
   - $omega + 1 = omega union {omega}$: ряд, затем точка.
 ]
+
+== Две суммы
+
+#align(center)[#addition-order]
+
+В $1 + omega$ лишняя точка стоит перед рядом и растворяется в нём.
+В $omega + 1$ она стоит после ряда и становится наибольшим элементом.
 
 == Порядок слагаемых
 

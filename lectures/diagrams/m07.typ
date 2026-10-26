@@ -318,3 +318,28 @@
   )
   mark((3.85, 1.8), [удар], tone: warm, size: 0.7em)
 })
+
+// ── Сложение ординалов: лишняя точка впереди и позади ряда ──
+#let addition-order = canvas({
+  let point(pos, tone: cool) = draw.circle(
+    pos,
+    radius: 0.10,
+    fill: tone.lighten(82%),
+    stroke: 1.2pt + tone,
+  )
+  let row(y, start, count) = {
+    for i in range(count) {
+      point((start + i * 0.75, y))
+    }
+  }
+
+  point((0, 1.2), tone: warm)
+  row(1.2, 1.1, 6)
+  mark((5.9, 1.2), $dots$, tone: ink-soft)
+  mark((-1.5, 1.2), $1 + omega$)
+
+  row(0, 0, 7)
+  mark((5.4, 0), $dots$, tone: ink-soft)
+  point((6.5, 0), tone: warm)
+  mark((-1.5, 0), $omega + 1$)
+})
