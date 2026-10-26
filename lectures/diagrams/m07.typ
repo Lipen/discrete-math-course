@@ -243,3 +243,78 @@
     mark((x, -0.5), $dots$, tone: ink-soft)
   }
 })
+
+// ── Гидра: срезанная голова и удвоение поддерева ──
+#let hydra = canvas({
+  let head(pos, tone: green) = draw.circle(
+    pos,
+    radius: 0.12,
+    fill: tone.lighten(82%),
+    stroke: 1.2pt + tone,
+  )
+  let joint(pos) = draw.circle(
+    pos,
+    radius: 0.10,
+    fill: fill-soft,
+    stroke: 1pt + ink,
+  )
+  let branch(a, b, tone: ink-soft) = draw.line(
+    a,
+    b,
+    stroke: (paint: tone, thickness: 0.9pt, cap: "round"),
+  )
+
+  let root = (0, 0)
+  let trunk = (0, 1.3)
+  let left-head = (-1.3, 2.5)
+  let cut-parent = (1.3, 2.5)
+  let cut-head = (0.8, 3.7)
+  let other-head = (1.8, 3.7)
+
+  branch(root, trunk)
+  branch(trunk, left-head)
+  branch(trunk, cut-parent)
+  branch(cut-parent, cut-head, tone: warm)
+  branch(cut-parent, other-head)
+  joint(root)
+  joint(trunk)
+  head(left-head)
+  joint(cut-parent)
+  head(cut-head, tone: warm)
+  head(other-head)
+  mark((0.8, 4.0), [срез], tone: warm, size: 0.7em)
+  mark((0, -0.55), [до], tone: ink-soft, size: 0.7em)
+
+  let shift = 7.2
+  let root-r = (shift, 0)
+  let trunk-r = (shift, 1.3)
+  let left-head-r = (shift - 1.3, 2.5)
+  let copy-a = (shift - 0.6, 2.5)
+  let copy-b = (shift + 0.6, 2.5)
+  let copy-a-head = (shift - 1.0, 3.7)
+  let copy-b-head = (shift + 0.2, 3.7)
+
+  branch(root-r, trunk-r)
+  branch(trunk-r, left-head-r)
+  branch(trunk-r, copy-a)
+  branch(trunk-r, copy-b)
+  branch(copy-a, copy-a-head)
+  branch(copy-b, copy-b-head)
+  joint(root-r)
+  joint(trunk-r)
+  head(left-head-r)
+  joint(copy-a)
+  joint(copy-b)
+  head(copy-a-head)
+  head(copy-b-head)
+  mark((shift, 2.0), [$times 2$], tone: warm, size: 0.8em)
+  mark((shift, -0.55), [после], tone: ink-soft, size: 0.7em)
+
+  draw.line(
+    (3.2, 1.3),
+    (4.5, 1.3),
+    stroke: (paint: warm, thickness: 1.4pt, cap: "round"),
+    mark: (end: "stealth", fill: warm),
+  )
+  mark((3.85, 1.8), [удар], tone: warm, size: 0.7em)
+})
