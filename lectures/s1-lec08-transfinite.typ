@@ -719,6 +719,22 @@ $alpha dot beta$ --- это $beta$ копий порядка $alpha$, поста
   Для произвольных множеств этот способ требует аксиомы выбора: без неё не всякое множество вполне упорядочимо.
 ]
 
+== Ординал или кардинал?
+
+#table(
+  columns: (auto, auto, auto),
+  align: (left, left, left),
+  stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
+  table.header([*Запись*], [*Как ординал*], [*Как кардинал*]),
+  [$omega + 1$], [$omega + 1 > omega$], [$aleph_0 + 1 = aleph_0$],
+  [$omega dot 2$], [$omega dot 2 > omega$], [$aleph_0 dot 2 = aleph_0$],
+  [$omega^2$], [$omega^2 > omega$], [$aleph_0^2 = aleph_0$],
+  [$2^omega$], [$omega$], [$2^(aleph_0) > aleph_0$],
+)
+
+Одна и та же запись означает разные операции: ординальная следит за порядком, кардинальная --- только за количеством.
+Поэтому $2^omega = omega$, а $2^(aleph_0) > aleph_0$.
+
 == Алефы
 
 #definition[Алефы][
