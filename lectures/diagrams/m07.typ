@@ -343,3 +343,36 @@
   point((6.5, 0), tone: warm)
   mark((-1.5, 0), $omega + 1$)
 })
+
+// ── Лексикографический порядок на парах: строки-копии N ──
+#let lex-pairs = canvas({
+  let dx = 0.85
+  let dy = 0.85
+  let cols = 5
+  let rows = 2
+
+  for a in range(rows) {
+    let y = -a * dy
+    for b in range(cols) {
+      draw.circle((b * dx, y), radius: 0.07, fill: fill-soft, stroke: 1pt + ink)
+    }
+    draw.line(
+      (0, y),
+      ((cols - 1) * dx, y),
+      stroke: (paint: cool, thickness: 1.2pt, cap: "round"),
+      mark: (end: "stealth", fill: cool),
+    )
+    mark((-0.45, y), $a = #a$, tone: ink-soft, size: 0.7em)
+  }
+
+  draw.bezier(
+    ((cols - 1) * dx, 0),
+    (0, -dy),
+    ((cols - 1) * dx, -dy),
+    stroke: (paint: warm, thickness: 1pt, dash: "dashed", cap: "round"),
+    mark: (end: "stealth", fill: warm),
+  )
+
+  mark(((cols - 1) * dx / 2, -dy - 0.45), $b$, tone: ink-soft)
+  mark((0, -dy * rows - 0.1), $dots$, tone: ink-soft)
+})

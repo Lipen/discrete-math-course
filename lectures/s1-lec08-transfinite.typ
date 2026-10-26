@@ -1,7 +1,9 @@
 // s1, лекция 8 --- Трансфинитное (неделя 26 октября --- 1 ноября).
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": cantor-ghost, hierarchy-ghost, poset-ghost
-#import "diagrams/m07.typ": addition-order, aleph-beth, hydra, ordinal-ladder
+#import "diagrams/m07.typ": (
+  addition-order, aleph-beth, hydra, lex-pairs, ordinal-ladder,
+)
 #show: slides.with(
   title: [Трансфинитное],
   date: "Осень 2026",
@@ -54,6 +56,8 @@ while a > 0 {
 
 При фиксированном $a$ идёт копия натурального ряда по $b$.
 Копий столько же, сколько натуральных чисел.
+
+#align(center)[#lex-pairs]
 
 Первая координата убывает лишь конечное число раз.
 Между двумя её убываниями вторая координата убывает, а ниже нуля не опускается.
