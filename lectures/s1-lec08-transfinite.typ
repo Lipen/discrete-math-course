@@ -2,7 +2,8 @@
 #import "theme.typ": *
 #import "diagrams/ghosts.typ": cantor-ghost, hierarchy-ghost, poset-ghost
 #import "diagrams/m07.typ": (
-  addition-order, aleph-beth, hydra, lex-pairs, ordinal-ladder,
+  addition-order, aleph-beth, hydra, lex-pairs, multiplication-order,
+  ordinal-ladder,
 )
 #show: slides.with(
   title: [Трансфинитное],
@@ -528,6 +529,13 @@ $alpha dot beta$ --- это $beta$ копий порядка $alpha$, поста
 #important[
   $2 dot omega = omega$, но $omega dot 2 > omega$.
 ]
+
+== Две произведения
+
+#align(center)[#multiplication-order]
+
+В $2 dot omega$ пары идут одной строкой, поэтому тип остаётся $omega$.
+В $omega dot 2$ строк две, и вторая начинается после первой, поэтому тип больше.
 
 == Возведение в степень
 

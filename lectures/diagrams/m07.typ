@@ -376,3 +376,62 @@
   mark(((cols - 1) * dx / 2, -dy - 0.45), $b$, tone: ink-soft)
   mark((0, -dy * rows - 0.1), $dots$, tone: ink-soft)
 })
+
+// ── Умножение ординалов: пары в строке и две строки подряд ──
+#let multiplication-order = canvas({
+  let dot(pos, tone: cool) = draw.circle(
+    pos,
+    radius: 0.07,
+    fill: tone.lighten(82%),
+    stroke: 1pt + tone,
+  )
+
+  for k in range(4) {
+    let x = k * 1.35
+    dot((x, 1.4))
+    dot((x + 0.4, 1.4))
+    draw.rect(
+      (x - 0.12, 1.28),
+      (x + 0.52, 1.52),
+      radius: 2pt,
+      fill: none,
+      stroke: (paint: cool.transparentize(50%), thickness: 0.6pt),
+    )
+  }
+  draw.line(
+    (0, 1.4),
+    (4.8, 1.4),
+    stroke: (paint: cool, thickness: 1pt, cap: "round"),
+    mark: (end: "stealth", fill: cool),
+  )
+  mark((5.1, 1.4), $dots$, tone: ink-soft)
+  mark((-0.7, 1.4), $2 dot omega$, tone: ink-soft, size: 0.7em)
+
+  for i in range(5) {
+    dot((i * 0.8, 0))
+    dot((i * 0.8, -0.9), tone: warm)
+  }
+  draw.line(
+    (0, 0),
+    (3.2, 0),
+    stroke: (paint: cool, thickness: 1pt, cap: "round"),
+    mark: (end: "stealth", fill: cool),
+  )
+  draw.line(
+    (0, -0.9),
+    (3.2, -0.9),
+    stroke: (paint: warm, thickness: 1pt, cap: "round"),
+    mark: (end: "stealth", fill: warm),
+  )
+  mark((3.6, 0), $dots$, tone: ink-soft)
+  mark((3.6, -0.9), $dots$, tone: warm)
+  mark((-0.7, -0.45), $omega dot 2$, tone: ink-soft, size: 0.7em)
+
+  draw.bezier(
+    (3.2, 0),
+    (0, -0.9),
+    (3.2, -0.9),
+    stroke: (paint: warm, thickness: 1pt, dash: "dashed", cap: "round"),
+    mark: (end: "stealth", fill: warm),
+  )
+})
