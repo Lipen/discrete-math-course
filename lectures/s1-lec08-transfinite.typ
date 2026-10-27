@@ -357,7 +357,7 @@ $ alpha = {beta mid(|) beta < alpha} . $
 
 #theorem[
   Если $f: alpha -> beta$ --- порядковый изоморфизм ординалов, то $f(gamma) = gamma$ для всех $gamma in alpha$.
-  В частности, $alpha = beta$.
+  В~частности, $alpha = beta$.
 ]
 
 #proof[индукцией по $gamma$][
