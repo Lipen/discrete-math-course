@@ -368,7 +368,8 @@
   draw.bezier(
     ((cols - 1) * dx, 0),
     (0, -dy),
-    ((cols - 1) * dx, -dy),
+    ((cols - 1) * dx, -dy * 0.5),
+    (0, -dy * 0.5),
     stroke: (paint: warm, thickness: 1pt, dash: "dashed", cap: "round"),
     mark: (end: "stealth", fill: warm),
   )
