@@ -3,7 +3,9 @@
 #import "diagrams/ghosts.typ": (
   prop-ghost, syntax-semantics-ghost, truthtable-ghost,
 )
-#import "diagrams/m01.typ": parse-tree-prop
+#import "diagrams/m01.typ": (
+  dangling-else-inner, dangling-else-outer, parse-tree-prop,
+)
 #show: slides.with(
   title: [Язык и истина],
   date: "Осень 2026",
@@ -29,21 +31,54 @@
 
 == Висячий else
 
-Строка
+#{
+  show raw.line.where(number: 4): it => box(
+    fill: colors.amber.transparentize(70%),
+    inset: (x: 0.3em, y: 0.02em),
+    it,
+  )
 
-```text
-if a then if b then x else y
-```
+  grid(
+    columns: (0.38fr, 0.62fr),
+    column-gutter: 1.4em,
+    align: (left + top, center + top),
+    [
+      #set text(size: 1.15em)
+      #raw(
+        "if (a)\n    if (b)\n        x();\n    else\n        y();",
+        lang: "c",
+        block: true,
+      )
+    ],
+    [
+      #grid(
+        columns: (0.46fr, 0.54fr),
+        column-gutter: 0.8em,
+        align: (center + top, center + top),
+        [
+          #text(size: 1em, weight: "bold")[else у внутреннего if]
+          #v(0.2em)
+          #dangling-else-inner
+          #v(0.2em)
+          #text(size: 0.9em, fill: colors.muted)[при `a = false`: ничего]
+        ],
+        [
+          #text(size: 1em, weight: "bold")[else у внешнего if]
+          #v(0.2em)
+          #dangling-else-outer
+          #v(0.2em)
+          #text(size: 0.9em, fill: colors.muted)[при `a = false`: `y()`]
+        ],
+      )
+    ],
+  )
 
-допускает два разбора.
+  v(0.4em)
 
-Первый: `else` относится к внутреннему `if`, и при ложном `a` выполняется `y`.
-
-Второй: `else` относится к внешнему `if`, и при ложном `a` выполняется вся внутренняя конструкция.
-
-Пока грамматика молчит, у строки нет одного смысла.
-
-В языках программирования вопрос закрывает правило: `else` привязывается к ближайшему `if`.
+  important[
+    Грамматика молчит, и у строки два смысла. В C правило выбирает один: `else` привязывается к ближайшему `if`.
+  ]
+}
 
 == Три слоя
 

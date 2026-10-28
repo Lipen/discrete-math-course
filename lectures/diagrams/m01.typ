@@ -1,4 +1,3 @@
-// Деревья разбора пропозициональных формул.
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "style.typ": *
 
@@ -21,4 +20,70 @@
   pnode((-2.2, 1.35), $not$, tone: warm)
   pnode((-0.3, 1.35), $q$, tone: cool)
   pnode((-2.2, 0.45), $p$, tone: cool)
+})
+
+// ── Висячий else: два возможных разбора ──
+#let else-node(pos, body, tone: cool, half: 0.78) = {
+  draw.rect(
+    (pos.at(0) - half, pos.at(1) - 0.3),
+    (pos.at(0) + half, pos.at(1) + 0.3),
+    radius: 0.08,
+    fill: tone.lighten(90%),
+    stroke: 1pt + tone,
+  )
+  draw.content(pos, text(font: "DejaVu Sans Mono", size: 0.72em)[#body])
+}
+
+#let else-leaf(pos, body, tone: green) = else-node(
+  pos,
+  body,
+  tone: tone,
+  half: 0.38,
+)
+
+#let else-mid(a, b) = ((a.at(0) + b.at(0)) / 2, (a.at(1) + b.at(1)) / 2)
+
+#let else-edge(
+  a,
+  b,
+  label,
+  tone: ink-soft,
+  thickness: 0.9pt,
+  dx: 0.12,
+  dy: 0.08,
+) = {
+  draw.line(a, b, stroke: (paint: tone, thickness: thickness))
+  let m = else-mid(a, b)
+  draw.content(
+    (m.at(0) + dx, m.at(1) + dy),
+    text(size: 0.64em, fill: tone)[#label],
+  )
+}
+
+#let dangling-else-inner = canvas({
+  let root = (0.85, 3.35)
+  let inner = (0.45, 1.95)
+  let x = (0.0, 0.75)
+  let y = (0.9, 0.75)
+  else-edge(root, inner, [then], dx: -0.16, dy: 0.06)
+  else-edge(inner, x, [then], dx: -0.16, dy: 0.02)
+  else-edge(inner, y, [else], tone: warm, thickness: 2pt, dx: 0.14, dy: 0.02)
+  else-node(root, [if a])
+  else-node(inner, [if b])
+  else-leaf(x, [x()], tone: ink-soft)
+  else-leaf(y, [y()], tone: warm)
+})
+
+#let dangling-else-outer = canvas({
+  let root = (0.85, 3.35)
+  let inner = (0.1, 1.95)
+  let x = (0.1, 0.75)
+  let y = (1.8, 1.95)
+  else-edge(root, inner, [then], dx: -0.16, dy: 0.06)
+  else-edge(root, y, [else], tone: warm, thickness: 2pt, dx: 0.18, dy: -0.12)
+  else-edge(inner, x, [then], dx: 0.14, dy: 0.0)
+  else-node(root, [if a])
+  else-node(inner, [if b])
+  else-leaf(x, [x()], tone: ink-soft)
+  else-leaf(y, [y()], tone: warm)
 })
