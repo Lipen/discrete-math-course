@@ -22,34 +22,3 @@
   pnode((-0.3, 1.35), $q$, tone: cool)
   pnode((-2.2, 0.45), $p$, tone: cool)
 })
-
-// ── Одна строка, два разбора: $p and q or r$ без соглашений о приоритетах ──
-#let ambiguous-trees = canvas({
-  let left-tree(x) = {
-    plink((x, 2.45), (x - 0.95, 1.85))
-    plink((x, 2.45), (x + 0.95, 1.85))
-    plink((x - 0.95, 1.5), (x - 1.55, 0.95))
-    plink((x - 0.95, 1.5), (x - 0.35, 0.95))
-    pnode((x, 2.6), $or$, tone: warm)
-    pnode((x - 0.95, 1.65), $and$, tone: warm)
-    pnode((x + 0.95, 1.65), $r$, tone: cool)
-    pnode((x - 1.55, 0.75), $p$, tone: cool)
-    pnode((x - 0.35, 0.75), $q$, tone: cool)
-    mark((x, -0.1), $(p and q) or r$)
-  }
-  let right-tree(x) = {
-    plink((x, 2.45), (x - 0.95, 1.85))
-    plink((x, 2.45), (x + 0.95, 1.85))
-    plink((x + 0.95, 1.5), (x + 0.35, 0.95))
-    plink((x + 0.95, 1.5), (x + 1.55, 0.95))
-    pnode((x, 2.6), $and$, tone: warm)
-    pnode((x - 0.95, 1.65), $p$, tone: cool)
-    pnode((x + 0.95, 1.65), $or$, tone: warm)
-    pnode((x + 0.35, 0.75), $q$, tone: cool)
-    pnode((x + 1.55, 0.75), $r$, tone: cool)
-    mark((x, -0.1), $p and (q or r)$)
-  }
-
-  left-tree(0)
-  right-tree(4.6)
-})
