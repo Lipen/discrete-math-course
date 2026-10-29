@@ -16,6 +16,9 @@ from pathlib import Path
 
 CYRILLIC = re.compile(r"[А-Яа-яЁё]")
 SENTENCE_BREAK = re.compile(r"[.!?]\s+[А-ЯЁ]")
+QUESTION = re.compile(
+    r"^=+\s+(Что|Как|Почему|Зачем|Сколько|Где|Когда|Кто|Чем|Какой|Какая|Какие|Можно ли|Верно ли|Правда ли|Стоит ли|Нужно ли|Есть ли)\b"
+)
 ARG_LINE = re.compile(
     r"^\s*(title|date|authors|module|lecture|week|num|teaser|epigraph|"
     r"epigraph-author|reading|subtitle|ghost)\s*:"
@@ -48,6 +51,12 @@ def check(path: Path) -> list[tuple[int, str, str]]:
             findings.append((number, "S", line.strip()))
         if SENTENCE_BREAK.search(text):
             findings.append((number, "L", line.strip()))
+        if (
+            line.startswith("=")
+            and QUESTION.match(line)
+            and not line.rstrip().endswith("?")
+        ):
+            findings.append((number, "Q", line.strip()))
         if "—" in line or "–" in line:
             findings.append((number, "D", line.strip()))
     return findings
@@ -65,7 +74,9 @@ def main() -> int:
         for number, kind, text in findings:
             print(f"{path}:{number}: {kind}  {text}")
     if total:
-        print(f"\n{total} finding(s). C colon, S semicolon, L two sentences, D dash.")
+        print(
+            f"\n{total} finding(s). C colon, S semicolon, L two sentences, D dash, Q question heading."
+        )
         return 1
     return 0
 
