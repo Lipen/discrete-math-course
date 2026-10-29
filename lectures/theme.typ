@@ -207,14 +207,14 @@
 #let important(..args) = Block(..args, color: colors.amber)
 // trap --- типичная ошибка или ловушка (красный).
 #let trap(..args) = Block(..args, color: colors.red)
-// check --- вопросы для самопроверки, без ответов (акцент модуля).
+// check --- вопросы без ответов (акцент модуля).
 #let check(..args) = {
   let (title, body) = split-args(args)
   env-box(
     colors.accent,
     colors.accent.transparentize(95%),
     text(fill: colors.accent.darken(10%), weight: "bold")[
-      Вопросы для самопроверки#(if title != none [ --- #title])
+      #(if title != none { title } else { "Вопросы" })
     ],
     body,
     gap: 0.8em,

@@ -829,7 +829,7 @@ $
   - Линейные функции --- слова кода $"RM"(1, n)$ с расстоянием $2^(n - 1)$.
 ]
 
-== Вопросы для самопроверки
+== Вопросы по полиномам
 
 #check[
   + Минимизируйте по карте Карно $f = overline(x) overline(y) z or overline(x) y z or x y overline(z) or x overline(y) overline(z)$.
