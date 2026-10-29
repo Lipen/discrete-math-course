@@ -106,6 +106,10 @@
 #let intersect = sym.inter
 #let symdiff = sym.triangle
 #let sim = sym.tilde
+// Инфиксное отношение: rel(R) или #rel($<=$). Отрицание: nrel(R).
+#let _rel-body(x) = if type(x) == str { math.italic(x) } else { x }
+#let rel(x) = math.class("relation", _rel-body(x))
+#let nrel(x) = math.class("relation", _rel-body(x) + [̸])
 #let angle = sym.chevron
 #let bmat = math.mat.with(delim: "[")
 #let Bmat = math.mat.with(delim: "{")

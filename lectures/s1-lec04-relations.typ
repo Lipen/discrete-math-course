@@ -57,7 +57,7 @@
 
 #definition[
   *Бинарным отношением* между множествами $A$ и $B$ называется любое подмножество $R subset.eq A times B$.
-  Запись $(a, b) in R$ сокращается до $a R b$.
+  Запись $(a, b) in R$ сокращается до $a rel(R) b$.
 ]
 
 #example[
@@ -226,9 +226,9 @@
 Рефлексивность требует петель у всех элементов, иррефлексивность запрещает их всем.
 
 #definition[
-  $R$ называется *рефлексивным*, если $forall a in A . thin a R a$.
+  $R$ называется *рефлексивным*, если $forall a in A . thin a rel(R) a$.
 
-  $R$ называется *иррефлексивным*, если $forall a in A . thin not (a R a)$.
+  $R$ называется *иррефлексивным*, если $forall a in A . thin a nrel(R) a$.
 ]
 
 #example[
@@ -240,9 +240,9 @@
 #trap[Не рефлексивно --- не значит иррефлексивно][
   #v(-.5em)
   $
-    exists a in A . thin not (a R a)
+    exists a in A . thin a nrel(R) a
     quad "против" quad
-    forall a in A . thin not (a R a)
+    forall a in A . thin a nrel(R) a
   $
   #v(-.5em)
   Первое допускает петли. ${(1, 1)}$ на ${1, 2}$ подходит под него, но не под второе.
@@ -253,9 +253,9 @@
 Симметричность требует обратной пары, антисимметричность --- равенства.
 
 #definition[
-  $R$ называется *симметричным*, если $a R b$ влечёт $b R a$.
+  $R$ называется *симметричным*, если $a rel(R) b$ влечёт $b rel(R) a$.
 
-  $R$ называется *антисимметричным*, если $a R b$ и $b R a$ влекут $a = b$.
+  $R$ называется *антисимметричным*, если $a rel(R) b$ и $b rel(R) a$ влекут $a = b$.
 ]
 
 #example[
@@ -273,7 +273,7 @@
 Строгий вариант запрещает взаимность даже с самим собой.
 
 #definition[
-  $R$ называется *асимметричным*, если из $a R b$ следует $not (b R a)$ для всех $a, b$.
+  $R$ называется *асимметричным*, если из $a rel(R) b$ следует $b nrel(R) a$ для всех $a, b$.
 ]
 
 #example[
@@ -291,8 +291,8 @@
 Транзитивность требует замыкающего ребра для каждой цепочки из двух связей.
 
 #definition[
-  $R$ называется *транзитивным*, если для всех $a, b, c in A$ из $a R b$ и $b R c$ следует $a R c$.
-  $ forall a, b, c in A . thin (a R b and b R c) imply a R c. $
+  $R$ называется *транзитивным*, если для всех $a, b, c in A$ из $a rel(R) b$ и $b rel(R) c$ следует $a rel(R) c$.
+  $ forall a, b, c in A . thin (a rel(R) b and b rel(R) c) imply a rel(R) c. $
 ]
 
 #example[
@@ -314,12 +314,12 @@
 
 #definition[
   $R$ называется *связным*, если любые два различных элемента сравнимы.
-  $ forall a, b in A . thin a != b imply (a R b or b R a). $
+  $ forall a, b in A . thin a != b imply (a rel(R) b or b rel(R) a). $
 ]
 
 #definition[
   $R$ называется *сильно связным*, если сравнимы даже совпадающие элементы.
-  $ forall a, b in A . thin a R b or b R a. $
+  $ forall a, b in A . thin a rel(R) b or b rel(R) a. $
 ]
 
 #example[
@@ -906,12 +906,12 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #proof[взаимным включением][
   Пусть $(a, d) in (T compose S) compose R$.
-Есть $c$ с условиями $a R c$ и $(c, d) in T compose S$, а для второй пары --- $b$ с условиями $c S b$ и $b T d$.
-  Из $a R c$ и $c S b$ выходит $a (S compose R) b$, а вместе с $b T d$ --- пара $(a, d) in T compose (S compose R)$.
+Есть $c$ с условиями $a rel(R) c$ и $(c, d) in T compose S$, а для второй пары --- $b$ с условиями $c S b$ и $b T d$.
+  Из $a rel(R) c$ и $c S b$ выходит $a (S compose R) b$, а вместе с $b T d$ --- пара $(a, d) in T compose (S compose R)$.
 
   Обратно.
-Пусть $(a, d) in T compose (S compose R)$, то есть есть $b$ с $a (S compose R) b$ и $b T d$, а для первой пары есть $c$ с $a R c$ и $c S b$.
-  Тот же $b$ собирает $(c, d) in T compose S$, и вместе с $a R c$ выходит $(a, d) in (T compose S) compose R$.
+Пусть $(a, d) in T compose (S compose R)$, то есть есть $b$ с $a (S compose R) b$ и $b T d$, а для первой пары есть $c$ с $a rel(R) c$ и $c S b$.
+  Тот же $b$ собирает $(c, d) in T compose S$, и вместе с $a rel(R) c$ выходит $(a, d) in (T compose S) compose R$.
 ]
 
 == Обращение композиции
@@ -927,7 +927,7 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #proof[цепочкой равносильных переходов][
   Пара $(a, c)$ лежит в $(S compose R)^(-1)$ ровно тогда, когда $(c, a) in S compose R$.
-Найдётся $b$ с условиями $c R b$ и $b S a$, то есть $(b, c) in R^(-1)$ и $(a, b) in S^(-1)$.
+Найдётся $b$ с условиями $c rel(R) b$ и $b S a$, то есть $(b, c) in R^(-1)$ и $(a, b) in S^(-1)$.
   Последняя строка --- в точности определение пары $(a, c)$ в $R^(-1) compose S^(-1)$, и переходы обратимы.
 ]
 
@@ -949,9 +949,9 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #proof[в обе стороны][
   Пусть $R$ транзитивно и $(a, c) in R compose R$.
-  Тогда есть $b$ с условиями $a R b$ и $b R c$, а транзитивность даёт $a R c$.
+  Тогда есть $b$ с условиями $a rel(R) b$ и $b rel(R) c$, а транзитивность даёт $a rel(R) c$.
 
-  Обратно, если $R compose R subset.eq R$, а $a R b$ и $b R c$, то $(a, c) in R compose R subset.eq R$, то есть $a R c$.
+  Обратно, если $R compose R subset.eq R$, а $a rel(R) b$ и $b rel(R) c$, то $(a, c) in R compose R subset.eq R$, то есть $a rel(R) c$.
 ]
 
 == Степени и пути
@@ -966,7 +966,7 @@ $R^2$ собирает пары, соединённые ровно двумя ш
   База $k = 1$.
 Пара $(a, b) in R$ и есть путь из одного шага.
 
-  Шаг. $(a, c) in R^(k+1)$ означает $a R^k b$ и $b R c$.
+  Шаг. $(a, c) in R^(k+1)$ означает $a R^k b$ и $b rel(R) c$.
   По индукции первое даёт путь из $k$ шагов, второе --- ребро, вместе путь из $k + 1$ шага.
 
   Обратно, путь $a = v_0 -> ... -> v_(k+1) = c$ расщепляется на путь до $v_k$ и ребро $v_k -> c$.
@@ -1156,10 +1156,10 @@ $R^2$ собирает пары, соединённые ровно двумя ш
 
 #definition[
   $R$ *лево-тотально* (англ. left-total).
-Каждый элемент $A$ участвует хотя бы в одной паре, $forall a in A exists b in B . thin a R b$.
+Каждый элемент $A$ участвует хотя бы в одной паре, $forall a in A exists b in B . thin a rel(R) b$.
 
   $R$ *право-тотально* (англ. right-total).
-Каждый элемент $B$ участвует хотя бы в одной паре, $forall b in B exists a in A . thin a R b$.
+Каждый элемент $B$ участвует хотя бы в одной паре, $forall b in B exists a in A . thin a rel(R) b$.
 ]
 
 #example[
@@ -1175,9 +1175,9 @@ $R^2$ собирает пары, соединённые ровно двумя ш
   align: (left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Свойство*], [*Условие*], [*Пример*]),
-  [Корефлексивность], [$a R b imply a = b$], [часть диагонали],
-  [Евклидовость справа], [$a R b and a R c imply b R c$], [эквивалентность],
-  [Плотность], [$a R b imply exists c . thin (a R c and c R b)$], [$<$ на $QQ$],
+  [Корефлексивность], [$a rel(R) b imply a = b$], [часть диагонали],
+  [Евклидовость справа], [$a rel(R) b and a rel(R) c imply b rel(R) c$], [эквивалентность],
+  [Плотность], [$a rel(R) b imply exists c . thin (a rel(R) c and c rel(R) b)$], [$<$ на $QQ$],
 )
 
 #example[

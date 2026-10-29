@@ -45,6 +45,10 @@
 #let setminus = sym.without
 #let symdiff = $Delta$
 #let sim = sym.tilde
+// Инфиксное отношение: rel(R) или #rel($<=$). Отрицание: nrel(R).
+#let _rel-body(x) = if type(x) == str { math.italic(x) } else { x }
+#let rel(x) = math.class("relation", _rel-body(x))
+#let nrel(x) = math.class("relation", _rel-body(x) + [̸])
 #let meq = $scripts(tilde.eq)$ // отношение неразличимости Майхилла--Нерода
 #let Blank = math.class("normal", sym.square.stroked)
 #let partialto = sym.arrow.r.hook

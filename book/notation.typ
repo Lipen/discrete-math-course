@@ -22,7 +22,10 @@
 #let sim = sym.tilde
 
 // === Helpers ===
-#let rel(x) = math.class("relation", x)
+// Инфиксное отношение: rel(R) или rel($<=$). Отрицание: nrel(R).
+#let _rel-body(x) = if type(x) == str { math.italic(x) } else { x }
+#let rel(x) = math.class("relation", _rel-body(x))
+#let nrel(x) = math.class("relation", _rel-body(x) + [̸])
 
 // === Custom math operators (only those actually used across modules) ===
 #let dist = math.op("dist")
