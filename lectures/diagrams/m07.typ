@@ -380,7 +380,7 @@
 
 // ── Умножение ординалов: пары в строке и две строки подряд ──
 #let multiplication-order = canvas({
-  let dot(pos, tone: cool) = draw.circle(
+  let bead(pos, tone: cool) = draw.circle(
     pos,
     radius: 0.07,
     fill: tone.lighten(82%),
@@ -389,8 +389,8 @@
 
   for k in range(4) {
     let x = k * 1.35
-    dot((x, 1.4))
-    dot((x + 0.4, 1.4))
+    bead((x, 1.4))
+    bead((x + 0.4, 1.4))
     draw.rect(
       (x - 0.12, 1.28),
       (x + 0.52, 1.52),
@@ -409,8 +409,8 @@
   mark((-0.7, 1.4), $2 dot omega$, tone: ink-soft, size: 0.7em)
 
   for i in range(5) {
-    dot((i * 0.8, 0))
-    dot((i * 0.8, -0.9), tone: warm)
+    bead((i * 0.8, 0))
+    bead((i * 0.8, -0.9), tone: warm)
   }
   draw.line(
     (0, 0),

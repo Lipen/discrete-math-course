@@ -1,4 +1,4 @@
-// Деревья вывода: посылки снизу, заключение сверху, имена правил на рёбрах.
+// Деревья вывода: посылки сверху, заключение снизу, имена правил на рёбрах.
 #import "@preview/fletcher:0.5.8": diagram, edge, node
 #import "style.typ": *
 
@@ -51,11 +51,11 @@
 // ── Цепочка двух MP: C выводится из A -> B, A и B -> C ──
 #let mp-chain = diagram(
   spacing: 2.4em,
-  conclusion-node((0, 0), $C$, name: <c>),
+  conclusion-node((0, 2.8), $C$, name: <c>),
   premise-node((-1.7, 1.4), $B$, name: <b>),
-  premise-node((-3.4, 2.8), $A -> B$, name: <ab>),
-  premise-node((-0.2, 2.8), $A$, name: <a>),
-  premise-node((1.7, 2.8), $B -> C$, name: <bc>),
+  premise-node((-3.4, 0), $A -> B$, name: <ab>),
+  premise-node((-0.2, 0), $A$, name: <a>),
+  premise-node((1.7, 0), $B -> C$, name: <bc>),
   rule-edge(<ab>, <b>, $"MP"$, side: left),
   rule-edge(<a>, <b>, $"MP"$, side: right),
   rule-edge(<b>, <c>, $"MP"$, side: left),
@@ -65,9 +65,9 @@
 // ── Введение импликации: A -> (B -> A), гипотезы сняты дважды ──
 #let nd-impi = diagram(
   spacing: 2.6em,
-  conclusion-node((0, 0), $A -> (B -> A)$, name: <goal>),
+  conclusion-node((0, 2.8), $A -> (B -> A)$, name: <goal>),
   premise-node((0, 1.4), $B -> A$, name: <mid>),
-  discharged-node((0, 2.8), $[A]^1 [B]^2$, name: <hyp>),
+  discharged-node((0, 0), $[A]^1 [B]^2$, name: <hyp>),
   rule-edge(<hyp>, <mid>, $-> I\,2$),
   rule-edge(<mid>, <goal>, $-> I\,1$),
 )
@@ -75,9 +75,9 @@
 // ── Проекция: A and B -> A ──
 #let nd-projection = diagram(
   spacing: 2.6em,
-  conclusion-node((0, 0), $A and B -> A$, name: <goal>),
+  conclusion-node((0, 2.8), $A and B -> A$, name: <goal>),
   premise-node((0, 1.4), $A$, name: <half>),
-  discharged-node((0, 2.8), $[A and B]^1$, name: <hyp>),
+  discharged-node((0, 0), $[A and B]^1$, name: <hyp>),
   rule-edge(<hyp>, <half>, $and E$),
   rule-edge(<half>, <goal>, $-> I\,1$),
 )
@@ -85,12 +85,14 @@
 // ── Коммутативность: A and B -> B and A ──
 #let nd-comm = diagram(
   spacing: 2.4em,
-  conclusion-node((0, 0), $B and A$, name: <goal>),
-  premise-node((-1.5, 1.4), $B$, name: <left>),
-  premise-node((1.5, 1.4), $A$, name: <right>),
-  discharged-node((0, 2.8), $A and B$, name: <hyp>),
+  conclusion-node((0, 5.4), $A and B -> B and A$, name: <goal>),
+  premise-node((0, 3.6), $B and A$, name: <conj>),
+  premise-node((-1.5, 1.8), $B$, name: <left>),
+  premise-node((1.5, 1.8), $A$, name: <right>),
+  discharged-node((0, 0), $[A and B]^1$, name: <hyp>),
   rule-edge(<hyp>, <left>, $and E$, side: left),
   rule-edge(<hyp>, <right>, $and E$, side: right),
-  rule-edge(<left>, <goal>, $and I$, side: left),
-  rule-edge(<right>, <goal>, $and I$, side: right),
+  rule-edge(<left>, <conj>, $and I$, side: left),
+  rule-edge(<right>, <conj>, $and I$, side: right),
+  rule-edge(<conj>, <goal>, $-> I\,1$),
 )
