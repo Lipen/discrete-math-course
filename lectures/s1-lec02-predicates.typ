@@ -592,7 +592,8 @@ SQL называет те же два квантора по-своему.
 
 == Логические ошибки
 
-Корректные схемы с импликацией --- modus ponens ($P imply Q, P models Q$) и modus tollens ($P imply Q$, $not Q models not P$).
+Корректные схемы с импликацией таковы.
+Modus ponens выводит $Q$ из $P imply Q$ и $P$, а modus tollens выводит $not P$ из $P imply Q$ и $not Q$.
 
 Две ошибки зеркальны друг другу и встречаются чаще всего.
 
