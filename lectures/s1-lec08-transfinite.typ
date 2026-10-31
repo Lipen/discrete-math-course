@@ -290,12 +290,16 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots $
 
 == Пример трёх шагов
 
+Проверим схему на свойстве, которое верно для всех ординалов.
+
 #example[
   Докажем $0 + alpha = alpha$ для всех $alpha < omega dot 2$.
   База. $0 + 0 = 0$.
   Переход. $0 + (alpha + 1) = (0 + alpha) + 1 = alpha + 1$.
   Предел. $0 + lambda = sup_(beta < lambda)(0 + beta) = sup_(beta < lambda) beta = lambda$.
 ]
+
+Без предельного шага переход через $omega$ не закрыть.
 
 == Предельный шаг индукции
 
@@ -541,10 +545,14 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots $
 
 == Пример рекурсии
 
+Построим функцию по правилу из теоремы.
+
 #example[
   Пусть $f(0) = 1$ и $f(alpha + 1) = f(alpha) dot omega$.
   Тогда $f(1) = omega$, $f(2) = omega^2$, а $f(omega) = sup_(n < omega) omega^n = omega^omega$.
 ]
+
+Предельное значение $omega^omega$ получается только предельным шагом.
 
 == Ряд, повторённый дважды
 
