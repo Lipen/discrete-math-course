@@ -147,7 +147,7 @@ $ d(x, z) <= d(x, y) + d(y, z). $
   columns: 9,
   align: center,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([$i$], [1], [2], [3], [4], [5], [6], [7], [8]),
+  table.header(strong([$i$]), strong([1]), strong([2]), strong([3]), strong([4]), strong([5]), strong([6]), strong([7]), strong([8])),
   [$x$], [1], [0], [1], [1], [0], [1], [0], [0],
   [$y$], [1], [0], [0], [1], [1], [1], [1], [0],
   [$x + y$], [0], [0], [1], [0], [1], [0], [1], [0],

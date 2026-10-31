@@ -109,13 +109,13 @@
 == Сборка формулы по шагам
 
 #example[
-  Строим $phi = forall x . thin (P (x) -> exists y . thin Q (x, f (y)))$ в сигнатуре с $P$ арности $1$, $Q$ арности $2$ и $f$ арности $1$.
+  Строим $phi = forall x . thin (P (x) imply exists y . thin Q (x, f (y)))$ в сигнатуре с $P$ арности $1$, $Q$ арности $2$ и $f$ арности $1$.
 
   + термы $x$ и $y$ --- переменные
   + терм $f (y)$ --- правило функции
   + атомы $P (x)$ и $Q (x, f (y))$ --- правило предиката
   + формула $exists y . thin Q (x, f (y))$ --- правило квантора
-  + формула $P (x) -> exists y . thin Q (x, f (y))$ --- правило импликации
+  + формула $P (x) imply exists y . thin Q (x, f (y))$ --- правило импликации
   + формула $phi$ --- внешний квантор.
 
   Перестановка шагов ломает сборку.
@@ -485,14 +485,14 @@ $ exists x . thin (phi (x) and psi) quad equiv quad (exists x . thin phi (x)) an
 
 Импликация --- дизъюнкция с отрицанием посылки, поэтому в посылке квантор выворачивается наизнанку.
 
-$ forall x . thin (phi (x) -> psi) & equiv (exists x . thin phi (x)) -> psi \
-  exists x . thin (phi (x) -> psi) & equiv (forall x . thin phi (x)) -> psi $
+$ forall x . thin (phi (x) imply psi) & equiv (exists x . thin phi (x)) imply psi \
+  exists x . thin (phi (x) imply psi) & equiv (forall x . thin phi (x)) imply psi $
 
 #example[Чтение закона][
   Пусть $S (x)$ --- "$x$ сдал", а $C$ --- "сессия закрыта", и $x$ в $C$ не входит.
 
-  $forall x . thin (S (x) -> C)$ означает "стоит кому-то сдать, и сессия закрыта".
-  То же утверждение стоит справа, $(exists x . thin S (x)) -> C$, но квантор переехал из посылки наружу и сменил тип.
+  $forall x . thin (S (x) imply C)$ означает "стоит кому-то сдать, и сессия закрыта".
+  То же утверждение стоит справа, $(exists x . thin S (x)) imply C$, но квантор переехал из посылки наружу и сменил тип.
 ]
 
 == Ограниченные кванторы
@@ -579,10 +579,10 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 
 #example[
   #fitch-proof(
-    fitch-premise(1, $forall x . thin (S (x) -> P (x))$),
+    fitch-premise(1, $forall x . thin (S (x) imply P (x))$),
     fitch-premise(2, $S ("Марла")$),
-    fitch-step(3, $S ("Марла") -> P ("Марла")$, rule: [$forall$E 1]),
-    fitch-step(4, $P ("Марла")$, rule: [$->$E 3, 2]),
+    fitch-step(3, $S ("Марла") imply P ("Марла")$, rule: [$forall$E 1]),
+    fitch-step(4, $P ("Марла")$, rule: [$imply$E 3, 2]),
   )
 
   Строка 3 --- устранение квантора, и имя Марлы встало на место $x$.
@@ -617,7 +617,7 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 == Приведение к ПНФ
 
 #example[Полный разбор][
-  $phi = not forall x . thin (P (x) -> exists y . thin Q (x, y))$ --- шаг за шагом.
+  $phi = not forall x . thin (P (x) imply exists y . thin Q (x, y))$ --- шаг за шагом.
 
   + раскрываем импликацию, получаем $not forall x . thin (not P (x) or exists y . thin Q (x, y))$
   + отрицание проходит сквозь $forall$, получаем $exists x . thin not (not P (x) or exists y . thin Q (x, y))$
@@ -695,7 +695,7 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 Атомов конечное число, наборов значений ровно $2^n$, и вопрос закрывает таблица.
 
 #example[Формула без кванторов][
-  $P (c) -> (Q (c) -> P (c))$ --- подстановка в тавтологию $p -> (q -> p)$.
+  $P (c) imply (Q (c) imply P (c))$ --- подстановка в тавтологию $p imply (q imply p)$.
 
   Значения $P (c)$ и $Q (c)$ --- два булевых значения, и таблица истинности выносит приговор.
 ]
@@ -829,7 +829,7 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 
 Аксиома индукции второго порядка содержит квантор по предикатам.
 
-$ forall P . thin ((P (0) and forall x . thin (P (x) -> P (S (x)))) -> forall x . thin P (x)) $
+$ forall P . thin ((P (0) and forall x . thin (P (x) imply P (S (x)))) imply forall x . thin P (x)) $
 
 Один квантор пробегает *все* свойства.
 

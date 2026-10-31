@@ -127,7 +127,7 @@ $P$ и $Q$ здесь --- переменные.
   columns: 5,
   align: (center, center, center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header($P$, $Q$, $not P$, $P and Q$, $P or Q$),
+  table.header(strong($P$), strong($Q$), strong($not P$), strong($P and Q$), strong($P or Q$)),
   $#F$, $#F$, $#T$, $#F$, $#F$,
   $#F$, $#T$, $#T$, $#F$, $#T$,
   $#T$, $#F$, $#F$, $#F$, $#T$,
@@ -154,7 +154,7 @@ $P$ и $Q$ здесь --- переменные.
   columns: 3,
   align: (center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header($P$, $Q$, $P imply Q$),
+  table.header(strong($P$), strong($Q$), strong($P imply Q$)),
   $#F$, $#F$, $#T$,
   $#F$, $#T$, $#T$,
   $#T$, $#F$, $#F$,
@@ -205,7 +205,7 @@ $P$ и $Q$ здесь --- переменные.
   columns: 3,
   align: (center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header($P$, $Q$, $P iff Q$),
+  table.header(strong($P$), strong($Q$), strong($P iff Q$)),
   $#F$, $#F$, $#T$,
   $#F$, $#T$, $#F$,
   $#T$, $#F$, $#F$,
@@ -220,7 +220,7 @@ $P iff Q$ --- то же самое, что $(P imply Q) and (Q imply P)$.
 Проверим определение на конкретном утверждении.
 
 #example[
-  «Число делится на $6$ тогда и только тогда, когда делится на $3$» ложно.
+  "Число делится на $6$ тогда и только тогда, когда делится на $3$" ложно.
   При $n = 9$ левая часть ложна, а правая истинна.
 ]
 
@@ -316,7 +316,7 @@ $P iff Q$ --- то же самое, что $(P imply Q) and (Q imply P)$.
     columns: 5,
     align: center,
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header($P$, $Q$, $P or Q$, $not P$, $(P or Q) and not P$),
+    table.header(strong($P$), strong($Q$), strong($P or Q$), strong($not P$), strong($(P or Q) and not P$)),
     $#F$, $#F$, $#F$, $#T$, $#F$,
     $#F$, $#T$, $#T$, $#T$, $#T$,
     $#T$, $#F$, $#T$, $#F$, $#F$,
@@ -571,7 +571,7 @@ $
     columns: 4,
     align: (center, center, center, center),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header($P$, $Q$, $not (P and Q)$, $not P or not Q$),
+    table.header(strong($P$), strong($Q$), strong($not (P and Q)$), strong($not P or not Q$)),
     $#F$, $#F$, $#T$, $#T$,
     $#F$, $#T$, $#T$, $#T$,
     $#T$, $#F$, $#T$, $#T$,

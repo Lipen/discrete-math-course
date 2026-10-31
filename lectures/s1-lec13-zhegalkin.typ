@@ -596,7 +596,7 @@ $
   align: (left, center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header(
-    [*Цена*], [$x imply y$], [*Большинство*], [*Чётность, $n$ переменных*]
+    [*Цена*], [*$x imply y$*], [*Большинство*], [*Чётность, $n$ переменных*]
   ),
   [Базис AND\/OR\/NOT],
   [2 вентиля],

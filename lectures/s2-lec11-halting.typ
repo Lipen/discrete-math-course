@@ -57,7 +57,7 @@
   columns: (auto, 1fr, 1fr, 1fr, 1fr),
   align: (center, center, center, center, center),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header([], [$la M_1 ra$], [$la M_2 ra$], [$la M_3 ra$], [$la M_4 ra$]),
+  table.header([], strong([$la M_1 ra$]), strong([$la M_2 ra$]), strong([$la M_3 ra$]), strong([$la M_4 ra$])),
   [$M_1$],
   diag-cell[#Green[ост.]],
   [#Green[ост.]],
