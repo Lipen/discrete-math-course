@@ -299,7 +299,6 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots $
   Предел. $0 + lambda = sup_(beta < lambda)(0 + beta) = sup_(beta < lambda) beta = lambda$.
 ]
 
-Без предельного шага переход через $omega$ не закрыть.
 
 == Предельный шаг индукции
 
@@ -552,7 +551,6 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots $
   Тогда $f(1) = omega$, $f(2) = omega^2$, а $f(omega) = sup_(n < omega) omega^n = omega^omega$.
 ]
 
-Предельное значение $omega^omega$ получается только предельным шагом.
 
 == Ряд, повторённый дважды
 
