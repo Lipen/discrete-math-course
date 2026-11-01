@@ -21,7 +21,6 @@
 
 = Варианты и устойчивость
 
-// Источник: E. W. Dijkstra, "The Humble Programmer", 1972.
 #focus-slide(
   ghost: multitape-ghost,
   epigraph: [Абстракция нужна не для тумана, а для нового семантического уровня, на котором можно быть абсолютно точным.],
@@ -218,11 +217,10 @@
 
 = Тезис Чёрча--Тьюринга
 
-// Источник: K. Gödel, "Remarks before the Princeton Bicentennial Conference on Problems in Mathematics", 1946.
 #focus-slide(
   ghost: churchturing-ghost,
   epigraph: [Впервые удалось дать абсолютное определение интересного эпистемологического понятия --- понятия, не зависящего от выбранного формализма.],
-  epigraph-author: [Курт Гёдель],
+  epigraph-author: [Курт Гёдель, 1946],
 )
 
 == Вычислимая функция
@@ -317,11 +315,10 @@
 
 = Универсальная машина
 
-// Источник: A. M. Turing, "On Computable Numbers, with an Application to the Entscheidungsproblem", 1936, §1.
 #focus-slide(
   ghost: universal-ghost,
   epigraph: [Можно изобрести одну машину, которой можно пользоваться для вычисления любой вычислимой последовательности.],
-  epigraph-author: [Алан Тьюринг],
+  epigraph-author: [Алан Тьюринг, 1936],
 )
 
 == Сколько существует машин?
