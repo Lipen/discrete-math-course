@@ -575,7 +575,7 @@ $f^(-1) (4) = {-2, 2}$ --- прообраз из двух элементов, и
     [Инъекция],
     [$f(a_1) = f(a_2) imply a_1 = a_2$],
     [$abs(A) <= abs(B)$],
-    [Левая обратная\ $g compose f = "id"_A$],
+    [Левая обратная при $A != emptyset$\ $g compose f = "id"_A$],
 
     [Сюръекция],
     [$forall b exists a . thin f(a) = b$],
@@ -770,8 +770,8 @@ _Композиция_ --- операция склеивания функций 
   *Образ объединения.*
   $
     y in f(A union B) & iff exists x in A union B . thin f(x) = y \
-                      & iff (exists x in A . thin f(x) = y) or (exists x in B . thin f(x) = y) \
-                      & iff y in f(A) union f(B).
+    & iff (exists x in A . thin f(x) = y) or (exists x in B . thin f(x) = y) \
+    & iff y in f(A) union f(B).
   $
 
   Для пересечения прямое включение верно всегда, а обратное требует инъективности.
@@ -779,15 +779,15 @@ _Композиция_ --- операция склеивания функций 
   *Образ пересечения.*
   $
     y in f(A inter B) & arrow.double.r exists x in A inter B . thin f(x) = y \
-                      & arrow.double.r y in f(A) and y in f(B).
+                      & arrow.r y in f(A) and y in f(B).
   $
 
   Обратное верно, когда $f$ инъективна:
   $
     y in f(A) inter f(B) & arrow.double.r exists a in A exists b in B . thin f(a) = f(b) = y \
-                         & arrow.double.r a = b quad ("инъективность") \
-                         & arrow.double.r a in A inter B \
-                         & arrow.double.r y in f(A inter B).
+    & arrow.double.r a = b quad ("инъективность") \
+    & arrow.double.r a in A inter B \
+    & arrow.double.r y in f(A inter B).
   $
 ]
 
