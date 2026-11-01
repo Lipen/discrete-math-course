@@ -21,7 +21,7 @@ QUESTION = re.compile(
 )
 ARG_LINE = re.compile(
     r"^\s*(title|date|authors|module|lecture|week|num|teaser|epigraph|"
-    r"epigraph-author|reading|subtitle|ghost)\s*:"
+    r"epigraph-author|reading|subtitle|ghost|caption)\s*:"
 )
 SKIP_LINE = re.compile(r"^\s*(#|//|table\.header|\[)")
 
