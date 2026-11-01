@@ -87,7 +87,7 @@
   euler-set("P", (0.35, 0), 1.5, cool, cool.lighten(82%))
   euler-set("M", (0.5, -0.2), 0.9, green, green.lighten(82%))
   euler-set("S", (-0.85, -0.5), 0.85, warm, warm.lighten(82%))
-  witness((-0.25, -0.42))
+  witness((-0.3, -0.45))
   mark((-1.3, -0.2), $S$)
   mark((1.0, -0.2), $M$)
   mark((1.0, 1.0), $P$)

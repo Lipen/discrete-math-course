@@ -7,7 +7,7 @@
   let inner(pos, name, weight) = {
     draw.circle(
       pos,
-      radius: 0.33,
+      radius: 0.37,
       fill: cool.lighten(82%),
       stroke: (paint: cool, thickness: 1.1pt),
       name: name,
@@ -84,7 +84,7 @@
     (0.38, -0.12),
     (-0.26, 0.26),
     (-0.14, -0.45),
-    (-0.37, 0.05),
+    (-0.37, -0.10),
     (0.44, -0.27),
   ))
   ball(cw2, (
@@ -135,7 +135,7 @@
 
 // ── Проверки чётности Хэмминга: p_i контролируют свои позиции ──
 #let hamming-groups = canvas({
-  let xs = (0.0, 0.68, 1.36, 2.04, 2.72, 3.4, 4.08)
+  let xs = (0.0, 0.72, 1.44, 2.16, 2.88, 3.6, 4.32)
   let cy = 3.8
   let rows = (2.95, 2.38, 1.81, 1.24)
   let row-names = ($d_1$, $d_2$, $d_3$, $d_4$)
@@ -148,7 +148,7 @@
   let parity(name, x, label, num, tone, covers) = {
     vertex(name, (x, cy), tone: tone, size: 0.32)
     mark((x, cy), label)
-    mark((x, cy + 0.58), num)
+    mark((x, cy + 0.62), num)
     draw.line((x, cy - 0.32), (x, rows.at(covers.last())), stroke: (
       paint: tone,
       thickness: 1.1pt,
@@ -160,7 +160,7 @@
   let databit(name, x, label, num, row) = {
     cell(name, (x, cy), tone: ink, size: 0.28, radius: 0.08)
     mark((x, cy), label)
-    mark((x, cy + 0.58), num)
+    mark((x, cy + 0.62), num)
     draw.line((x, cy - 0.28), (x, rows.at(row)), stroke: edge-thin)
     draw.circle((x, rows.at(row)), radius: 0.075, fill: ink-soft)
   }

@@ -414,13 +414,13 @@
 
   for y in (1.45, 0, -1.45) {
     draw.line(
-      (-3.23, y),
+      (-3.0, y),
       (1.5, y),
       stroke: (paint: cool, thickness: 1.2pt, cap: "round"),
       mark: (end: "stealth", fill: cool),
     )
   }
-  mark((-0.85, 1.75), $pi$, tone: cool)
+  mark((-0.85, 1.95), $pi$, tone: cool)
   mark((-4.68, -2.55), $A$)
   mark((1.7, -2.55), $A\/_sim$)
 })

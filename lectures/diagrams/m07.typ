@@ -282,7 +282,7 @@
   joint(cut-parent)
   head(cut-head, tone: warm)
   head(other-head)
-  mark((0.8, 4.0), [срез], tone: warm, size: 0.7em)
+  mark((0.8, 4.3), [срез], tone: warm, size: 0.7em)
   mark((0, -0.55), [до], tone: ink-soft, size: 0.7em)
 
   let shift = 7.2
@@ -307,7 +307,7 @@
   joint(copy-b)
   head(copy-a-head)
   head(copy-b-head)
-  mark((shift, 2.0), [$times 2$], tone: warm, size: 0.8em)
+  mark((shift + 1.4, 2.0), [$times 2$], tone: warm, size: 0.8em)
   mark((shift, -0.55), [после], tone: ink-soft, size: 0.7em)
 
   draw.line(
@@ -362,7 +362,7 @@
       stroke: (paint: cool, thickness: 1.2pt, cap: "round"),
       mark: (end: "stealth", fill: cool),
     )
-    mark((-0.45, y), $a = #a$, tone: ink-soft, size: 0.7em)
+    mark((-0.8, y), $a = #a$, tone: ink-soft, size: 0.7em)
   }
 
   draw.bezier(

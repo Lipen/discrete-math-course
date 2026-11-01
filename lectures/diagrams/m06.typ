@@ -171,11 +171,15 @@
     cell(name, pos, tone: warm, size: 0.18, radius: 0.08)
     draw.content(name, text(size: 0.72em, fill: ink)[#body])
   }
-  let region(pos, radius, tone: violet) = draw.circle(pos, radius: radius, stroke: (
-    paint: tone,
-    thickness: 1.1pt,
-    dash: "dashed",
-  ))
+  let region(pos, radius, tone: violet) = draw.circle(
+    pos,
+    radius: radius,
+    stroke: (
+      paint: tone,
+      thickness: 1.1pt,
+      dash: "dashed",
+    ),
+  )
 
   set-ellipse((-1.9, 0), 0.75, 1.5, cool, panel-cool)
   mark((-1.9, 1.72), $A$)
@@ -203,8 +207,8 @@
   map-edge("ia5", "ib3", 0.85, edge-plain)
 
   mark((-3.25, -0.675), $X = {1, 2}$, tone: violet)
-  mark((3.1, -0.55), $f(X) = {a}$, tone: violet)
-  mark((-3.25, 0.675), $f^(-1) ({c}) = {4, 5}$, tone: green)
+  mark((3.55, -0.55), $f(X) = {a}$, tone: violet)
+  mark((-3.9, 0.675), $f^(-1) ({c}) = {4, 5}$, tone: green)
 })
 
 // ── Композиция двух отображений как конвейер ──
@@ -295,8 +299,12 @@
 
   let fl = if focus == "floor" { green } else { green.transparentize(45%) }
   let ce = if focus == "ceil" { violet } else { violet.transparentize(45%) }
-  let fl-lab = if focus == "floor" { (fill: green, weight: "bold") } else { (fill: green.transparentize(45%)) }
-  let ce-lab = if focus == "ceil" { (fill: violet, weight: "bold") } else { (fill: violet.transparentize(45%)) }
+  let fl-lab = if focus == "floor" { (fill: green, weight: "bold") } else {
+    (fill: green.transparentize(45%))
+  }
+  let ce-lab = if focus == "ceil" { (fill: violet, weight: "bold") } else {
+    (fill: violet.transparentize(45%))
+  }
 
   // ось тоньше ступеней: бледная ступень на y=0 читается поверх неё
   draw.line((-1.9, 0), (3.9, 0), stroke: edge-thin, mark: (
@@ -309,14 +317,28 @@
   // приглушённая лестница первой: жирная кладёт общие маркеры поверх неё
   if focus != "floor" {
     for k in range(-1, 3) {
-      draw.line((k, k), (k + 1, k), stroke: (paint: fl, thickness: 1pt, cap: "round"))
+      draw.line((k, k), (k + 1, k), stroke: (
+        paint: fl,
+        thickness: 1pt,
+        cap: "round",
+      ))
       draw.circle((k, k), radius: 0.045, fill: fl)
-      draw.circle((k + 1, k), radius: 0.045, fill: white, stroke: (paint: fl, thickness: 0.8pt))
+      draw.circle((k + 1, k), radius: 0.045, fill: white, stroke: (
+        paint: fl,
+        thickness: 0.8pt,
+      ))
     }
   } else {
     for k in range(-1, 3) {
-      draw.line((k, k + 1), (k + 1, k + 1), stroke: (paint: ce, thickness: 1pt, cap: "round"))
-      draw.circle((k, k + 1), radius: 0.045, fill: white, stroke: (paint: ce, thickness: 0.8pt))
+      draw.line((k, k + 1), (k + 1, k + 1), stroke: (
+        paint: ce,
+        thickness: 1pt,
+        cap: "round",
+      ))
+      draw.circle((k, k + 1), radius: 0.045, fill: white, stroke: (
+        paint: ce,
+        thickness: 0.8pt,
+      ))
       draw.circle((k + 1, k + 1), radius: 0.045, fill: ce)
     }
   }
@@ -327,12 +349,19 @@
       thickness: if focus == "floor" { 1.8pt } else { 1pt },
       cap: "round",
     ))
-    draw.circle((k, k), radius: if focus == "floor" { 0.06 } else { 0.045 }, fill: fl)
+    draw.circle(
+      (k, k),
+      radius: if focus == "floor" { 0.06 } else { 0.045 },
+      fill: fl,
+    )
     draw.circle(
       (k + 1, k),
       radius: if focus == "floor" { 0.06 } else { 0.045 },
       fill: white,
-      stroke: (paint: fl, thickness: if focus == "floor" { 0.9pt } else { 0.8pt }),
+      stroke: (
+        paint: fl,
+        thickness: if focus == "floor" { 0.9pt } else { 0.8pt },
+      ),
     )
   }
 
@@ -346,13 +375,28 @@
       (k, k + 1),
       radius: if focus == "ceil" { 0.06 } else { 0.045 },
       fill: white,
-      stroke: (paint: ce, thickness: if focus == "ceil" { 0.9pt } else { 0.8pt }),
+      stroke: (
+        paint: ce,
+        thickness: if focus == "ceil" { 0.9pt } else { 0.8pt },
+      ),
     )
-    draw.circle((k + 1, k + 1), radius: if focus == "ceil" { 0.06 } else { 0.045 }, fill: ce)
+    draw.circle(
+      (k + 1, k + 1),
+      radius: if focus == "ceil" { 0.06 } else { 0.045 },
+      fill: ce,
+    )
   }
 
-  draw.content((3.6, 2), text(..fl-lab, size: label-size)[пол\ (floor)], anchor: "west")
-  draw.content((3.6, 3), text(..ce-lab, size: label-size)[потолок\ (ceil)], anchor: "west")
+  draw.content(
+    (3.6, 2),
+    text(..fl-lab, size: label-size)[пол\ (floor)],
+    anchor: "west",
+  )
+  draw.content(
+    (3.6, 3),
+    text(..ce-lab, size: label-size)[потолок\ (ceil)],
+    anchor: "west",
+  )
 })
 
 #let floor-ceil-steps = grid(
@@ -400,8 +444,18 @@
 
 // ── Инволюция f(x) = 1 - x на {0, 1}: две дуги-стрелки между точками ──
 #let iteration-swap = canvas({
-  draw.circle((0, 0), radius: 0.16, fill: edge-hot.paint.lighten(82%), stroke: 1.6pt + edge-hot.paint)
-  draw.circle((2, 0), radius: 0.16, fill: edge-hot.paint.lighten(82%), stroke: 1.6pt + edge-hot.paint)
+  draw.circle(
+    (0, 0),
+    radius: 0.16,
+    fill: edge-hot.paint.lighten(82%),
+    stroke: 1.6pt + edge-hot.paint,
+  )
+  draw.circle(
+    (2, 0),
+    radius: 0.16,
+    fill: edge-hot.paint.lighten(82%),
+    stroke: 1.6pt + edge-hot.paint,
+  )
   mark((0, -0.48), $0$, tone: ink)
   mark((2, -0.48), $1$, tone: ink)
   draw.bezier(
@@ -487,16 +541,30 @@
   }
 
   let curve(f, scale, stroke-style) = {
-    let pts = range(1, 65).filter(n => calc.rem(n, 3) == 1).map(n => (xs(n), f(n) * scale))
+    let pts = range(1, 65)
+      .filter(n => calc.rem(n, 3) == 1)
+      .map(n => (xs(n), f(n) * scale))
     for i in range(1, pts.len()) {
       draw.line(pts.at(i - 1), pts.at(i), stroke: stroke-style)
     }
   }
 
-  curve(n => calc.log(n, base: 2), 0.1, (paint: ink, thickness: 1.2pt, cap: "round"))
+  curve(
+    n => calc.log(n, base: 2),
+    0.1,
+    (paint: ink, thickness: 1.2pt, cap: "round"),
+  )
   curve(n => n, 0.0375, (paint: cool, thickness: 1.6pt, cap: "round"))
-  curve(n => if n < 13 { -1 } else { n * calc.log(n, base: 2) }, 0.0106, (paint: green, thickness: 1.6pt, cap: "round"))
-  curve(n => if n < 13 { -1 } else { calc.pow(n, 2) }, 0.00126, (paint: oklch(65%, 0.15, 55deg), thickness: 1.6pt, cap: "round"))
+  curve(
+    n => if n < 13 { -1 } else { n * calc.log(n, base: 2) },
+    0.0106,
+    (paint: green, thickness: 1.6pt, cap: "round"),
+  )
+  curve(
+    n => if n < 13 { -1 } else { calc.pow(n, 2) },
+    0.00126,
+    (paint: oklch(65%, 0.15, 55deg), thickness: 1.6pt, cap: "round"),
+  )
 
   let pts-exp = range(1, 24).map(n => (xs(n), 0.00000036 * calc.pow(2, n)))
   for i in range(1, pts-exp.len()) {

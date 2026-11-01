@@ -48,6 +48,8 @@
   label-side: side,
 )
 
+#let silent-edge(from, to) = edge(from, to, "-}>", stroke: 1.1pt + cool)
+
 // ── Цепочка двух MP: C выводится из A -> B, A и B -> C ──
 #let mp-chain = diagram(
   spacing: 2.4em,
@@ -57,9 +59,9 @@
   premise-node((-0.2, 0), $A$, name: <a>),
   premise-node((1.7, 0), $B -> C$, name: <bc>),
   rule-edge(<ab>, <b>, $"MP"$, side: left),
-  rule-edge(<a>, <b>, $"MP"$, side: right),
+  silent-edge(<a>, <b>),
   rule-edge(<b>, <c>, $"MP"$, side: left),
-  rule-edge(<bc>, <c>, $"MP"$, side: right),
+  silent-edge(<bc>, <c>),
 )
 
 // ── Введение импликации: A -> (B -> A), гипотезы сняты дважды ──
@@ -68,8 +70,8 @@
   conclusion-node((0, 2.8), $A -> (B -> A)$, name: <goal>),
   premise-node((0, 1.4), $B -> A$, name: <mid>),
   discharged-node((0, 0), $[A]^1 [B]^2$, name: <hyp>),
-  rule-edge(<hyp>, <mid>, $-> I\,2$),
-  rule-edge(<mid>, <goal>, $-> I\,1$),
+  rule-edge(<hyp>, <mid>, $-> I thin 2$),
+  rule-edge(<mid>, <goal>, $-> I thin 1$),
 )
 
 // ── Проекция: A and B -> A ──
@@ -79,7 +81,7 @@
   premise-node((0, 1.4), $A$, name: <half>),
   discharged-node((0, 0), $[A and B]^1$, name: <hyp>),
   rule-edge(<hyp>, <half>, $and E$),
-  rule-edge(<half>, <goal>, $-> I\,1$),
+  rule-edge(<half>, <goal>, $-> I thin 1$),
 )
 
 // ── Коммутативность: A and B -> B and A ──
@@ -93,6 +95,6 @@
   rule-edge(<hyp>, <left>, $and E$, side: left),
   rule-edge(<hyp>, <right>, $and E$, side: right),
   rule-edge(<left>, <conj>, $and I$, side: left),
-  rule-edge(<right>, <conj>, $and I$, side: right),
-  rule-edge(<conj>, <goal>, $-> I\,1$),
+  silent-edge(<right>, <conj>),
+  rule-edge(<conj>, <goal>, $-> I thin 1$),
 )
