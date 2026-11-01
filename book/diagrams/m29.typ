@@ -48,7 +48,10 @@
   ord-node(2.5, [$omega dot 2$], limit: true)
   ord-node(4, [$omega^2$], limit: true)
 
-  draw.content((1.75, line-y), text(size: s-cap, fill: c-muted)[$dots$])
+  draw.content(
+    (1.75, line-y - 0.55),
+    text(size: s-cap, fill: c-muted)[$dots$],
+  )
 })
 
 // ── Дерево рождения сюрреальных чисел ──

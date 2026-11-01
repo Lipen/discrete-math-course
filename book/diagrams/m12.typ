@@ -14,7 +14,7 @@
   node-shape: circle,
   node-stroke: n-stroke,
   node-fill: c-fl,
-  node-inset: 0pt,
+  node-inset: 3pt,
   node-outset: 0pt,
   spacing: 4.5em,
   node(
@@ -125,6 +125,7 @@
   node-outset: 2pt,
   node-corner-radius: 4pt,
   spacing: (8em, 1.8em),
+  label-sep: 1em,
   node(
     (0, 0),
     text(size: s-node, fill: c-ink)[полугруппа],
@@ -193,14 +194,17 @@
     draw.content(name, text(size: s-node, fill: c-ink)[#body])
   }
 
-  let msg-arrow(name, fr, to, dy, label, above) = {
+  let msg-arrow(name, fr, to, dy, label, above, label-dx: 0) = {
     let a = (fr.at(0), fr.at(1) + dy)
     let b = (to.at(0), to.at(1) + dy)
     draw.line(a, b, stroke: e-stroke, mark: (end: ">"), name: name)
+    let mid = (
+      (a.at(0) + b.at(0)) / 2 + label-dx,
+      a.at(1) + if above { 0.28 } else { -0.28 },
+    )
     draw.content(
-      name,
+      mid,
       anchor: if above { "south" } else { "north" },
-      dy: if above { 0.36 } else { -0.36 },
       text(size: s-cap, fill: c-ink)[#label],
     )
   }
@@ -210,7 +214,15 @@
   box((0, -2.3), "eve", [Ева], fill: c-warn)
 
   msg-arrow("a-to-b", (-2.15, 2.0), (2.15, 2.0), 0.15, [$g^a mod p$], true)
-  msg-arrow("b-to-a", (2.15, 2.0), (-2.15, 2.0), -0.15, [$g^b mod p$], false)
+  msg-arrow(
+    "b-to-a",
+    (2.15, 2.0),
+    (-2.15, 2.0),
+    -0.15,
+    [$g^b mod p$],
+    false,
+    label-dx: 0.75,
+  )
 
   draw.line(
     (0, -1.75),

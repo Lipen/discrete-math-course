@@ -13,11 +13,19 @@
 // k-forced-str: зелёная обводка принуждающего мира.
 #let k-forced-str = oklch(50%, 0.16, 155deg)
 
-#let kripke-world(pos, name, lbl, caption, fill: c-fl, stroke: t-bd + c-bd) = {
+#let kripke-world(
+  pos,
+  name,
+  lbl,
+  caption,
+  fill: c-fl,
+  stroke: t-bd + c-bd,
+  cap-dy: k-cap-gap,
+) = {
   let (x, y) = pos
   draw.circle(pos, radius: k-radius, fill: fill, stroke: stroke, name: name)
   draw.content(name, text(size: s-node, fill: c-ink)[#lbl])
-  draw.content((x, y - k-cap-gap), text(size: s-cap, fill: c-muted)[#caption])
+  draw.content((x, y - cap-dy), text(size: s-cap, fill: c-muted)[#caption])
 }
 
 // ── Два мира: p принуждается только в v ──
@@ -39,13 +47,7 @@
     mark: (end: ">", fill: c-edge),
     name: "uv",
   )
-  draw.content(
-    "uv",
-    text(size: s-tiny, fill: c-muted)[$u <= v$],
-    fill: c-white,
-    stroke: none,
-    padding: 2pt,
-  )
+  draw.content((0, 0.32), text(size: s-tiny, fill: c-muted)[$u <= v$])
 
   draw.content((0, -1.7), text(
     size: s-cap,
@@ -63,6 +65,7 @@
     [$p$ и $q$ принуждаются],
     fill: c-atom,
     stroke: t-bd + k-forced-str,
+    cap-dy: 1.2,
   )
   kripke-world(
     (3.2, 2),
@@ -71,24 +74,25 @@
     [$p$ принуждается, $q$ --- нет],
     fill: c-atom,
     stroke: t-bd + k-forced-str,
+    cap-dy: 1.2,
   )
 
   draw.line(
     "w0",
-    (-1.8, 1.5),
-    (0.0, 1.5),
-    "w1",
+    (-1.8, 1.3),
+    (-0.70, 1.3),
+    (-0.389, 1.611),
     stroke: k-edge,
-    mark: (end: ">", fill: c-edge),
+    mark: (end: (symbol: ">", fill: c-edge)),
     name: "e1",
   )
   draw.line(
     "w0",
-    (-1.8, 1.5),
-    (3.2, 1.5),
-    "w1'",
+    (-1.8, 1.3),
+    (2.50, 1.3),
+    (2.811, 1.611),
     stroke: k-edge,
-    mark: (end: ">", fill: c-edge),
+    mark: (end: (symbol: ">", fill: c-edge)),
     name: "e2",
   )
 

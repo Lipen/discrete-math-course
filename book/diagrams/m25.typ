@@ -14,6 +14,8 @@
   let syms = ("0", "1", "1", "0", "1", "0", "0", "1")
   let read-idx = 3
 
+  let cell-left(i) = (i - n / 2 + 0.5) * cell
+
   let tape-cell(x, sym, highlighted: false, name: none) = {
     draw.rect(
       (x, -cell / 2),
@@ -26,13 +28,13 @@
   }
 
   for i in range(n) {
-    let x = (i - n / 2 + 0.5) * cell
+    let x = cell-left(i)
     tape-cell(x, syms.at(i), highlighted: i == read-idx, name: if i
       == read-idx { "read" })
   }
 
-  let tape-left = -n / 2 * cell
-  let tape-right = n / 2 * cell
+  let tape-left = cell-left(0)
+  let tape-right = cell-left(n - 1) + cell
   draw.content((tape-left - 0.4, 0), text(size: s-cap, fill: c-muted)[$dots$])
   draw.content((tape-right + 0.4, 0), text(size: s-cap, fill: c-muted)[$dots$])
   draw.content((tape-left, 0.7), anchor: "west", text(
@@ -90,14 +92,14 @@
     draw.content((-0.2, y), text(size: s-cap, fill: c-muted)[#body])
   }
 
-  config-row(3.0, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 0, $q_0$)
-  transition-arrow(2.35, [читает 1, пишет 1, $R$])
-  config-row(1.6, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 1, $q_1$)
-  transition-arrow(0.95, [читает 1, пишет 1, $R$])
-  config-row(0.2, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, $q_0$)
-  transition-arrow(-0.45, [читает ␣, принимает])
+  config-row(3.6, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 0, $q_0$)
+  transition-arrow(2.65, [читает 1, пишет 1, $R$])
+  config-row(1.8, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 1, $q_1$)
+  transition-arrow(0.85, [читает 1, пишет 1, $R$])
+  config-row(0.0, ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$), 2, $q_0$)
+  transition-arrow(-0.95, [читает ␣, принимает])
   config-row(
-    -1.2,
+    -1.8,
     ($1$, $1$, $Blank$, $Blank$, $Blank$, $Blank$),
     2,
     qAccept,

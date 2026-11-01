@@ -86,11 +86,21 @@
   draw.rect((3.4, 2.5), (4.6, -2.5), radius: 6pt, fill: c-pb-fill, stroke: none)
   for (i, p) in left.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pa-dot, name: "l" + str(i + 1))
-    draw.content(p, $v_#(i + 1)$, anchor: "east", outset: 0.35em, size: s-tiny)
+    draw.content(
+      "l" + str(i + 1) + ".west",
+      text(size: s-tiny)[$v_#(i + 1)$],
+      anchor: "east",
+      padding: (right: 3pt),
+    )
   }
   for (i, p) in right.enumerate() {
     draw.circle(p, radius: 0.28, fill: c-pb-dot, name: "r" + str(i + 1))
-    draw.content(p, $u_#(i + 1)$, anchor: "west", outset: 0.35em, size: s-tiny)
+    draw.content(
+      "r" + str(i + 1) + ".east",
+      text(size: s-tiny)[$u_#(i + 1)$],
+      anchor: "west",
+      padding: (left: 3pt),
+    )
   }
   for i in range(3) {
     for j in range(3) {
@@ -260,33 +270,29 @@
   )
 
   draw.content(
-    "A",
-    anchor: "north",
-    outset: 0.6em,
-    size: s-cap,
-    fill: c-muted,
-  )[$3$]
-  draw.content(
-    "B",
+    "A.north",
+    text(size: s-cap, fill: c-muted)[$3$],
     anchor: "south",
-    outset: 0.6em,
-    size: s-cap,
-    fill: c-muted,
-  )[$3$]
+    padding: (bottom: 3pt),
+  )
   draw.content(
-    "C",
-    anchor: "west",
-    outset: 0.6em,
-    size: s-cap,
-    fill: c-muted,
-  )[$5$]
+    "B.south",
+    text(size: s-cap, fill: c-muted)[$3$],
+    anchor: "north",
+    padding: (top: 3pt),
+  )
   draw.content(
-    "D",
+    "C.west",
+    text(size: s-cap, fill: c-muted)[$5$],
     anchor: "east",
-    outset: 0.6em,
-    size: s-cap,
-    fill: c-muted,
-  )[$3$]
+    padding: (right: 3pt),
+  )
+  draw.content(
+    "D.east",
+    text(size: s-cap, fill: c-muted)[$3$],
+    anchor: "west",
+    padding: (left: 3pt),
+  )
 })
 
 // ── Планарный граф ──
@@ -312,13 +318,13 @@
   edge-line("1", "5")
 
   for (p, lab) in (
-    ((1.2, 1.2), $f_1$),
-    ((1.8, 0), $f_2$),
-    ((1.2, -1.2), $f_3$),
-    ((-0.5, -1), $f_4$),
-    ((-1.5, 0), $f_5$),
+    ((1.6, 0.85), $f_1$),
+    ((0.8, -0.45), $f_2$),
+    ((-0.8, -0.45), $f_3$),
+    ((-1.6, 0.85), $f_4$),
+    ((-3.1, 0), $f_5$),
   ) {
-    draw.content(p, lab, size: s-cap, fill: c-muted)
+    draw.content(p, text(size: s-cap, fill: c-muted)[#lab])
   }
 })
 
@@ -338,7 +344,7 @@
       p,
       [#text(weight: "bold", size: s-node)[#str(i)]],
       frame: "circle",
-      radius: 0.42,
+      padding: 2pt,
       fill: col,
       stroke: col.darken(20%),
       name: "c" + str(i),
@@ -473,11 +479,8 @@
     node(p, str(i + 1), radius: 0.33)
     draw.content(
       (p.at(0) + shifts.at(i).at(0), p.at(1) + shifts.at(i).at(1)),
-      size: s-tiny,
-      fill: c-muted,
-    )[
-      $d!=!#((0, 1, 1, 2, 2, 2, 2).at(i))$
-    ]
+      text(size: s-tiny, fill: c-muted)[$d!=!#((0, 1, 1, 2, 2, 2, 2).at(i))$],
+    )
   }
 
   let cross-style = (paint: c-muted, thickness: t-hr, dash: "dashed")
@@ -548,30 +551,34 @@
 // Общая сцена: доли X/Y, серые непокрытые рёбра, жирное паросочетание.
 #let matching-scene = {
   draw.rect(
-    (-0.6, 3.5),
+    (-0.95, 3.5),
     (0.6, -0.5),
     radius: 6pt,
     fill: c-pa-fill,
     stroke: none,
   )
-  draw.rect((3.4, 3.5), (4.6, -0.5), radius: 6pt, fill: c-pb-fill, stroke: none)
+  draw.rect(
+    (3.4, 3.5),
+    (4.95, -0.5),
+    radius: 6pt,
+    fill: c-pb-fill,
+    stroke: none,
+  )
 
   for (i, y) in (0, 1.5, 3).enumerate() {
     draw.circle((0, y), radius: 0.38, fill: c-pa-dot, name: "L" + str(i + 1))
     draw.content(
-      (0, y),
-      $x_#(i + 1)$,
+      "L" + str(i + 1) + ".west",
+      text(size: s-node)[$x_#(i + 1)$],
       anchor: "east",
-      outset: 0.4em,
-      size: s-node,
+      padding: (right: 3pt),
     )
     draw.circle((4, y), radius: 0.38, fill: c-pb-dot, name: "R" + str(i + 1))
     draw.content(
-      (4, y),
-      $y_#(i + 1)$,
+      "R" + str(i + 1) + ".east",
+      text(size: s-node)[$y_#(i + 1)$],
       anchor: "west",
-      outset: 0.4em,
-      size: s-node,
+      padding: (left: 3pt),
     )
   }
 
@@ -608,10 +615,10 @@
   node((3, -1.8), "B")
 
   draw.line("S", "A", ..arrow-style, name: "sa")
-  draw.content((rel: (-0.05, 0.2), to: "sa.mid"), $3$, size: s-tiny)
+  draw.content((rel: (-0.05, 0.2), to: "sa.mid"), text(size: s-tiny)[$3$])
 
   draw.line("S", "B", ..arrow-style, name: "sb")
-  draw.content((rel: (-0.05, -0.2), to: "sb.mid"), $2$, size: s-tiny)
+  draw.content((rel: (-0.05, -0.2), to: "sb.mid"), text(size: s-tiny)[$2$])
 
   draw.line(
     "A",
@@ -620,7 +627,10 @@
     mark: (end: "stealth", fill: c-hot),
     name: "ab",
   )
-  draw.content((rel: (0.22, 0), to: "ab.mid"), $-2$, size: s-tiny, fill: c-hot)
+  draw.content((rel: (0.32, 0), to: "ab.mid"), text(
+    size: s-tiny,
+    fill: c-hot,
+  )[$-2$])
 })
 
 // ── Код Прюфера ──
@@ -851,8 +861,8 @@
     ("t", "a", "2", (0.36, 0.18), true),
     ("b", "t", "1", (0.12, -0.26), false),
     ("t", "b", "3", (0.36, -0.18), true),
-    ("a", "b", "1", (0.24, 0), false),
-    ("b", "a", "1", (0.24, 0.1), true),
+    ("a", "b", "1", (0.24, -0.35), false),
+    ("b", "a", "1", (0.24, 0.35), true),
   ) {
     labeled-arrow(
       fr,
@@ -964,14 +974,25 @@
   )
 
   for (x, y, name) in (
-    (-1.2, 1.9, "1"), (-1.2, 0.3, "2"), (0.6, 0.1, "4"), (1.0, 2.0, "6"), (2.7, 0.0, "7"),
+    (-1.2, 1.9, "1"),
+    (-1.2, 0.3, "2"),
+    (0.6, 0.1, "4"),
+    (1.0, 2.0, "6"),
+    (2.7, 0.0, "7"),
   ) { vertex((x, y), name) }
   vertex((0, 1.1), "3")
   vertex((1.7, 0.9), "5")
   cut-ring((0, 1.1))
   cut-ring((1.7, 0.9))
 
-  for (a, b) in (("1", "2"), ("1", "3"), ("2", "3"), ("3", "4"), ("3", "5"), ("4", "5")) {
+  for (a, b) in (
+    ("1", "2"),
+    ("1", "3"),
+    ("2", "3"),
+    ("3", "4"),
+    ("3", "5"),
+    ("4", "5"),
+  ) {
     edge-line(a, b)
   }
   draw.line("3", "6", stroke: (paint: c-hot, thickness: t-hi))
@@ -990,5 +1011,10 @@
   edge-line("cut5", "B4")
 
   draw.content((0.6, 2.55), anchor: "south", size: s-cap, fill: c-muted)[граф]
-  draw.content((5.6, 2.75), anchor: "south", size: s-cap, fill: c-muted)[block-cut дерево]
+  draw.content(
+    (5.6, 2.75),
+    anchor: "south",
+    size: s-cap,
+    fill: c-muted,
+  )[block-cut дерево]
 })

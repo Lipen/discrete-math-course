@@ -195,11 +195,11 @@
       rotate(90deg, text(size: s-cap, fill: c-muted)[позиция $i$]),
     )
     draw.content(
-      ((cols / 2 + 0.8) * cell, 0),
-      rotate(-90deg, text(
+      (0, -(rows / 2 + 0.55) * cell),
+      text(
         size: s-tiny,
         fill: c-muted,
-      )[локальность: ячейка зависит от трёх выше]),
+      )[локальность: ячейка зависит от трёх выше],
     )
   })
 }
@@ -245,7 +245,7 @@
     cnode((-1.1, 1), <x3>, $x_3$),
     cnode((-0.6, 1.45), <x4>, $x_4$),
     cnode((1.1, 1), <x5>, $x_5$),
-    cnode((0.25, 2.1), <x6>, $x_6$),
+    cnode((0.15, 2.1), <x6>, $x_6$),
     cnode((0, 2.75), <conf>, $bot$, fill: c-warn, stroke: t-bd + c-hot),
 
     impl-edge(
@@ -277,8 +277,8 @@
 
     // Разрез сразу за первым UIP (x₅) отделяет причину от следствия.
     edge(
-      (-1.9, 1.85),
-      (1.9, 1.85),
+      (-1.9, 1.78),
+      (1.9, 1.78),
       "-",
       stroke: (paint: c-hot, thickness: t-bd, dash: "dashed"),
       label: text(size: s-tiny, fill: c-hot)[разрез 1-UIP],

@@ -77,16 +77,20 @@
     text(size: s-cap, fill: c-hot)[$r in.not {r_1, r_2, dots}$],
   )
 
+  // Проводник идёт по жёлобу между колонками: прямая от диагональной цифры
+  // перечёркивала цифры строк, лежащих ниже.
+  let r-row = -(rows + 1.2) * s
   for i in range(rows) {
+    let col-edge = i * s + 0.15
     draw.line(
-      "d" + str(i) + ".south",
-      "r" + str(i) + ".north",
+      (col-edge, -(i + 0.5) * s - 0.35),
+      (col-edge, r-row + 0.36),
+      (i * s + s / 2 + 0.1, r-row + 0.36),
       stroke: (
         paint: c-accent.transparentize(50%),
         thickness: t-ed,
         dash: "dashed",
       ),
-      name: "arr" + str(i),
     )
   }
   for i in range(rows) {
@@ -96,7 +100,7 @@
       frame: "rect",
       fill: c-white,
       stroke: none,
-      padding: 0.6pt,
+      padding: 1pt,
     )
   }
 })
@@ -118,40 +122,12 @@
     )[$#i$])
   }
 
-  // Путь по диагоналям: клетки в порядке возрастания s = i + j.
-  let cells = ()
-  for s in range(2 * size - 1) {
-    for i in range(calc.max(0, s - (size - 1)), calc.min(size - 1, s) + 1) {
-      cells.push((i, s - i))
-    }
-  }
-  let path-col = c-hot.transparentize(50%)
-  for idx in range(0, cells.len()) {
-    let (ci, cj) = cells.at(idx)
-    if idx > 0 {
-      let (pi, pj) = cells.at(idx - 1)
-      draw.line(
-        (pj + 0.5, pi + 0.5),
-        (cj + 0.5, ci + 0.5),
-        stroke: t-ed + path-col,
-        mark: (end: "stealth", fill: path-col),
-      )
-    }
-    draw.content(
-      (cj + 0.5, ci),
-      anchor: "north",
-      padding: 0.1,
-      text(size: s-tiny, fill: c-hot, weight: "bold")[#idx],
-    )
-  }
-
   for i in range(size) {
     for j in range(size) {
-      let n = i + j
       draw.rect(
         (j, i),
         (j + 1, i + 1),
-        fill: diag-fill(n),
+        fill: diag-fill(i + j),
         stroke: t-hr + c-bd.transparentize(75%),
       )
       draw.content(
@@ -159,6 +135,20 @@
         anchor: "south",
         padding: 0.1,
         text(size: s-cap, fill: c-ink)[$(#i, #j)$],
+      )
+    }
+  }
+
+  // Номера --- значения h(i, j) = (i+j)(i+j+1)/2 + i: окно вырезано из таблицы NN times NN,
+  // поэтому на его границе номера идут с пропусками.
+  for i in range(size) {
+    for j in range(size) {
+      let h = calc.div-euclid((i + j) * (i + j + 1), 2) + i
+      draw.content(
+        (j + 0.5, i),
+        anchor: "north",
+        padding: 0.1,
+        text(size: s-tiny, fill: c-hot, weight: "bold")[#h],
       )
     }
   }

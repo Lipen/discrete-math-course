@@ -67,16 +67,16 @@
   necklace((0.0, -1.0), ("b", "b", "w"), name: "o3c")
   orbit-arrow("o3a.east", "o3b.west")
   orbit-arrow("o3b.east", "o3c.west")
-  orbit-note(-1.5, -1.7, [3 элемента (повороты)])
-  orbit-note(-1.5, -2.1, [$"001", "010", "100"$], size: s-tiny)
+  orbit-note(-1.5, -1.82, [3 элемента (повороты)])
+  orbit-note(-1.5, -2.22, [$"001", "010", "100"$], size: s-tiny)
 
   necklace((-3.0, -3.5), ("w", "w", "b"), name: "o4a")
   necklace((-1.5, -3.5), ("b", "w", "w"), name: "o4b")
   necklace((0.0, -3.5), ("w", "b", "w"), name: "o4c")
   orbit-arrow("o4a.east", "o4b.west")
   orbit-arrow("o4b.east", "o4c.west")
-  orbit-note(-1.5, -4.2, [3 элемента (повороты)])
-  orbit-note(-1.5, -4.6, [$"011", "101", "110"$], size: s-tiny)
+  orbit-note(-1.5, -4.32, [3 элемента (повороты)])
+  orbit-note(-1.5, -4.72, [$"011", "101", "110"$], size: s-tiny)
 })
 
 // ── Раскраска K6 и форсированный одноцветный треугольник ──
@@ -179,21 +179,47 @@
       R * calc.cos(90deg - (i - 1) * 72deg),
       R * calc.sin(90deg - (i - 1) * 72deg),
     )
-    draw.circle(p, radius: vr, fill: c-fl, stroke: c-bd + t-bd, name: "v" + str(i))
+    draw.circle(
+      p,
+      radius: vr,
+      fill: c-fl,
+      stroke: c-bd + t-bd,
+      name: "v" + str(i),
+    )
     draw.content(p, text(size: s-node, fill: c-ink)[#i])
   }
 
-  for (a, b) in (("v1", "v3"), ("v1", "v4"), ("v2", "v4"), ("v2", "v5"), ("v3", "v5")) {
+  for (a, b) in (
+    ("v1", "v3"),
+    ("v1", "v4"),
+    ("v2", "v4"),
+    ("v2", "v5"),
+    ("v3", "v5"),
+  ) {
     draw.line(a, b, stroke: stranger-line)
   }
-  for (a, b) in (("v1", "v2"), ("v2", "v3"), ("v3", "v4"), ("v4", "v5"), ("v5", "v1")) {
+  for (a, b) in (
+    ("v1", "v2"),
+    ("v2", "v3"),
+    ("v3", "v4"),
+    ("v4", "v5"),
+    ("v5", "v1"),
+  ) {
     draw.line(a, b, stroke: know-line)
   }
 
   draw.line((3.3, 2.0), (3.9, 2.0), stroke: c-hot + t-hi)
-  draw.content((4.1, 2.0), text(size: s-cap, fill: c-muted)[незнакомы], anchor: "west")
+  draw.content(
+    (4.1, 2.0),
+    text(size: s-cap, fill: c-muted)[незнакомы],
+    anchor: "west",
+  )
   draw.line((3.3, 1.4), (3.9, 1.4), stroke: c-accent + t-hi)
-  draw.content((4.1, 1.4), text(size: s-cap, fill: c-muted)[знакомы], anchor: "west")
+  draw.content(
+    (4.1, 1.4),
+    text(size: s-cap, fill: c-muted)[знакомы],
+    anchor: "west",
+  )
 
   let note-x = -2.2
   let note-y = -2.55
@@ -324,7 +350,7 @@
     weight: "bold",
     fill: c-venn-b,
   )[$B$])
-  draw.content((0, -3.5), text(
+  draw.content((0, -3.3), text(
     size: s-node,
     weight: "bold",
     fill: c-venn-c,
@@ -342,54 +368,37 @@
   sign(1.0, -0.7, [$-1$])
   draw.content((0, -0.05), text(size: s-cap, weight: "bold", fill: c-ink)[$+1$])
 
-  let ly = -4.2
-  draw.rect(
-    (-3.2, ly - 0.2),
-    (-2.6, ly + 0.2),
-    fill: c-venn-a.transparentize(30%),
-    stroke: c-venn-a + t-bd,
-    radius: 2pt,
-  )
-  draw.content((-1.8, ly), text(
-    size: s-cap,
-    fill: c-muted,
-  )[$|A|+|B|+|C|$ --- одиночные])
+  let badge(center, colors) = {
+    let n = colors.len()
+    for (i, col) in colors.enumerate() {
+      draw.circle(
+        (center.at(0) + (i - (n - 1) / 2) * 0.13, center.at(1)),
+        radius: 0.12,
+        fill: col.transparentize(40%),
+        stroke: col + t-bd,
+      )
+    }
+  }
+  let legend(y, colors, body) = {
+    badge((-3.16, y), colors)
+    draw.content(
+      (-2.78, y),
+      anchor: "west",
+      text(size: s-cap, fill: c-muted)[#body],
+    )
+  }
 
-  draw.rect(
-    (0.5, ly - 0.2),
-    (1.1, ly + 0.2),
-    fill: c-venn-a.transparentize(40%),
-    stroke: c-venn-a + t-bd,
-    radius: 2pt,
+  legend(-4.2, (c-venn-a,), [$|A| + |B| + |C|$ --- одиночные])
+  legend(
+    -4.85,
+    (c-venn-a, c-venn-b),
+    [$-|A inter B| - |A inter C| - |B inter C|$],
   )
-  draw.line((1.1, ly), (1.7, ly - 0.2), stroke: c-venn-b + t-bd)
-  draw.line((1.1, ly), (1.7, ly + 0.2), stroke: c-venn-c + t-bd)
-  draw.content((2.4, ly), text(
-    size: s-cap,
-    fill: c-muted,
-  )[$-|A inter B|-|A inter C|-|B inter C|$])
-  draw.circle(
-    (-2.93, ly - 0.75),
-    radius: 0.12,
-    fill: c-venn-a.transparentize(40%),
-    stroke: c-venn-a + t-bd,
+  legend(
+    -5.5,
+    (c-venn-a, c-venn-b, c-venn-c),
+    [$+|A inter B inter C|$ --- тройное],
   )
-  draw.circle(
-    (-2.8, ly - 0.75),
-    radius: 0.12,
-    fill: c-venn-b.transparentize(40%),
-    stroke: c-venn-b + t-bd,
-  )
-  draw.circle(
-    (-2.67, ly - 0.75),
-    radius: 0.12,
-    fill: c-venn-c.transparentize(40%),
-    stroke: c-venn-c + t-bd,
-  )
-  draw.content((-1.8, ly - 0.75), text(
-    size: s-cap,
-    fill: c-muted,
-  )[$+|A inter B inter C|$ --- тройное])
 })
 
 // ── Комбинаторные числа ──
@@ -400,7 +409,7 @@
   table.header(
     text(fill: c-accent)[$n$],
     text(fill: c-accent)[$n!$],
-    text(fill: c-accent)[$binom(n, 2)$],
+    table.cell(inset: (bottom: 10pt))[#text(fill: c-accent)[$binom(n, 2)$]],
     text(fill: c-accent)[$C_n$ (Catalan)],
     text(fill: c-accent)[$S(n,3)$ (Stirling)],
     text(fill: c-accent)[$B_n$ (Bell)],
@@ -448,8 +457,21 @@
   let p1 = (-s, h)
   let p2 = (s, h)
   let c20 = (0, 0)
-  draw.line(p1, c20, stroke: c-accent + t-ed)
-  draw.line(p2, c20, stroke: c-accent + t-ed)
+  let shorten(from, to, gap) = {
+    let (dx, dy) = (to.at(0) - from.at(0), to.at(1) - from.at(1))
+    let len = calc.sqrt(dx * dx + dy * dy)
+    (from.at(0) + dx / len * gap, from.at(1) + dy / len * gap)
+  }
+  draw.line(
+    shorten(p1, c20, 0.25),
+    shorten(c20, p1, 0.25),
+    stroke: c-accent + t-ed,
+  )
+  draw.line(
+    shorten(p2, c20, 0.25),
+    shorten(c20, p2, 0.25),
+    stroke: c-accent + t-ed,
+  )
   draw.content(p1, text(size: s-tiny, weight: "bold", fill: c-accent)[10])
   draw.content(p2, text(size: s-tiny, weight: "bold", fill: c-accent)[10])
   draw.content(c20, text(size: s-tiny, weight: "bold", fill: c-accent)[20])

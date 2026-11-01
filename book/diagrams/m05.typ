@@ -36,8 +36,8 @@
 
 #let cover-edge(from, to) = edge(from, to, "-", stroke: e-stroke)
 
-#let rel-diagram(spacing: 2em, ..nodes) = diagram(
-  node-shape: "circle",
+#let rel-diagram(shape: "circle", spacing: 2em, ..nodes) = diagram(
+  node-shape: shape,
   node-stroke: t-bd + c-bd,
   node-inset: 0pt,
   node-outset: 0pt,
@@ -64,11 +64,24 @@
 )
 
 // ── Диаграмма Хассе: включение на P({1,2}) ──
+// Подписи множеств шире круга, поэтому узлы здесь прямоугольные и растут по тексту.
+#let set-node(pos, body, ..args) = node(
+  pos,
+  body,
+  fill: c-fl,
+  inset: 5pt,
+  outset: 2pt,
+  corner-radius: 4pt,
+  ..args,
+)
+
 #let hasse-inclusion = rel-diagram(
-  rel-node((0, 2), $emptyset$, name: <p0>),
-  rel-node((-1, 1), ${1}$, name: <p1>),
-  rel-node((1, 1), ${2}$, name: <p2>),
-  rel-node((0, 0), ${1,2}$, name: <p12>),
+  shape: "rect",
+  spacing: (1.4cm, 1.1cm),
+  set-node((0, 2), $emptyset$, name: <p0>),
+  set-node((-1, 1), ${1}$, name: <p1>),
+  set-node((1, 1), ${2}$, name: <p2>),
+  set-node((0, 0), ${1,2}$, name: <p12>),
   // Покрытие: добавление одного элемента.
   cover-edge(<p0>, <p1>),
   cover-edge(<p0>, <p2>),
@@ -198,7 +211,7 @@
     )
     draw.content((x, plate-mid), text(size: s-node, fill: c-ink)[#label])
   }
-  let stem(x, h) = line((x, 0), (x, h))
+  let stem(x, h) = line((x, plate-top), (x, h))
 
   leaf(x0, [🚶 человек])
   leaf(x1, [🐒 шимпанзе], w: 1.15)

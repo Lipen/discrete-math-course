@@ -14,6 +14,7 @@
 
   ball((0, 0), $B$, "bsrc")
   ball((2.8, 0.28), $B_1$, "b1")
+  ball((4.5, 0.28), $B_2$, "b2")
   draw.line(
     "bsrc.east",
     "b1.west",
@@ -22,11 +23,9 @@
     name: "split",
   )
   draw.content(
-    "split",
+    (rel: (0, 0.48), to: "split.mid"),
     text(size: s-cap, fill: c-hot)[5 частей],
-    fill: c-white,
-    stroke: none,
-    padding: 2pt,
+    anchor: "south",
   )
 
   draw.content((0, 1.25), text(
@@ -34,7 +33,7 @@
     fill: c-ink,
     weight: "bold",
   )[Исходный шар])
-  draw.content((3.5, 1.25), text(
+  draw.content((3.65, 1.25), text(
     size: s-node,
     fill: c-ink,
     weight: "bold",
@@ -46,8 +45,9 @@
   let nesting-box(min, max, tag, label) = {
     draw.rect(min, max, name: tag, stroke: t-bd + c-bd)
     draw.content(
-      (min.at(0) + 0.18, max.at(1) - 0.17),
+      (min.at(0) + 0.12, max.at(1) - 0.12),
       text(size: s-node, fill: c-ink)[#label],
+      anchor: "north-west",
     )
   }
 
@@ -83,16 +83,31 @@
     )
     draw.line((-0.25, y), (x-cut, y), stroke: ray-stroke)
     if hole {
-      draw.circle((x-cut, y), radius: 0.1, name: tag + "-bnd", fill: c-white, stroke: 1pt + c-hot)
+      draw.circle(
+        (x-cut, y),
+        radius: 0.1,
+        name: tag + "-bnd",
+        fill: c-white,
+        stroke: 1pt + c-hot,
+      )
     } else {
-      draw.circle((x-cut, y), radius: 0.1, name: tag + "-bnd", fill: c-hot, stroke: none)
+      draw.circle(
+        (x-cut, y),
+        radius: 0.1,
+        name: tag + "-bnd",
+        fill: c-hot,
+        stroke: none,
+      )
     }
-    draw.content((x-cut, y + 0.34), text(size: s-node, fill: c-ink)[#bound-label])
+    draw.content((x-cut, y + 0.40), text(
+      size: s-node,
+      fill: c-ink,
+    )[#bound-label])
     for t in ticks {
       draw.line((t.x, y - 0.08), (t.x, y + 0.08), stroke: axis-stroke)
       draw.content((t.x, y - 0.34), text(size: s-tiny, fill: c-muted)[#t.n])
     }
-    draw.content((1.45, y - 0.66), text(size: s-node, fill: c-ink)[#cut-label])
+    draw.content((1.45, y - 0.86), text(size: s-node, fill: c-ink)[#cut-label])
   }
 
   cut-row(

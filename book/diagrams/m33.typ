@@ -71,7 +71,7 @@
 
   // Каркас куба под узлами: рёбра читаются по именам вершин, стыки скрыты заливкой.
   draw.on-layer(-1, {
-    frame("k", "t", name: "kt")
+    frame("k", "t")
     frame("k", "kb")
     frame("t", "b")
     frame("kb", "b")
@@ -87,9 +87,9 @@
 
   draw.content((0.9, -0.6), text(size: s-cap, fill: c-muted)[+$T$])
   draw.content((-0.55, 1.1), text(size: s-cap, fill: c-muted)[+$B$])
-  draw.content((0.15, 0.7), text(size: s-cap, fill: c-muted)[+$4$])
+  draw.content((0.60, 0.52), text(size: s-cap, fill: c-muted)[+$4$])
 
-  draw.circle("kt", radius: 0.28, fill: d-fill, stroke: d-str, name: "d")
+  draw.circle((1.25, 0), radius: 0.28, fill: d-fill, stroke: d-str, name: "d")
   draw.content("d", text(size: s-node, fill: c-ink)[$D$])
 })
 

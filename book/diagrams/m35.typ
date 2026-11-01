@@ -69,7 +69,7 @@
   let ly = ty(1.32)
   let lx = tx(5.8)
   let lg = 0.55
-  let ls = 0.22
+  let ls = 0.3
   let legend-item(y, color, lab) = {
     draw.line((lx, y), (lx + lg, y), stroke: curve-stroke(color))
     draw.content((lx + lg + 0.15, y), anchor: "west", text(
@@ -185,6 +185,6 @@
   draw.line(p(10, 1.8, 1), p(10, 2.8, 0), stroke: 0.7pt + c-accent)
   draw.line(p(10, 0.8, 1), p(10, 1.8, 0), stroke: res-stroke)
   draw.line(p(10, 1.8, 0), p(10, 2.8, 1), stroke: res-stroke)
-  lab(p(10, 0.9, 0.3), $mu_A$, color: c-accent, anchor: "west")
-  lab(p(10, 0.9, 0.82), $mu_{not A}$, color: c-res, anchor: "west")
+  lab(p(10, 2.92, 0.16), $mu_A$, color: c-accent, anchor: "west")
+  lab(p(10, 2.92, 0.84), $mu_{not A}$, color: c-res, anchor: "west")
 })

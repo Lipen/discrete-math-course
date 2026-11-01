@@ -11,8 +11,8 @@
     body,
     name: name,
     shape: rect,
-    width: 4.8cm,
-    height: 1.2cm,
+    width: 2.2cm,
+    height: 1.0cm,
     corner-radius: 6pt,
     fill: c-fl,
     stroke: t-bd + c-bd,
@@ -24,7 +24,7 @@
       size: s-node,
       fill: c-ink,
     )[$chevron.l M chevron.r w$]),
-    machine((7.2, 0), <out>, text(
+    machine((1, 0), <out>, text(
       size: s-node,
       fill: c-ink,
     )[$chevron.l M' chevron.r$]),
@@ -36,7 +36,7 @@
       stroke: c-accent + t-hi,
     ),
     node(
-      (11.4, 0),
+      (2, 0),
       text(size: s-cap, fill: c-muted)[
         #align(left)[
           описание МТ,\
@@ -134,29 +134,29 @@
   draw.content((-2.5, 2.18), text(size: s-cap, fill: c-muted)[все языки])
 
   draw.circle(
-    (-0.8, 0),
-    radius: 1.6,
+    (-1.2, 0),
+    radius: 1.85,
     fill: c-fl.transparentize(30%),
     stroke: t-bd + c-bd,
     name: "re",
   )
   draw.circle(
-    (0.8, 0),
-    radius: 1.6,
+    (1.2, 0),
+    radius: 1.85,
     fill: c-conn.transparentize(30%),
     stroke: t-bd + c-bd,
     name: "co-re",
   )
-  draw.content((-1.4, 1.22), text(size: s-node, fill: c-ink)[$"RE"$])
-  draw.content((-1.35, 0.92), text(size: s-tiny, fill: c-muted)[распознаваемые])
-  draw.content((1.4, 1.22), text(size: s-node, fill: c-ink)[$"co-RE"$])
-  draw.content((1.35, 0.92), text(
+  draw.content((-1.59, 1.35), text(size: s-node, fill: c-ink)[$"RE"$])
+  draw.content((-1.59, 0.93), text(size: s-tiny, fill: c-muted)[распознаваемые])
+  draw.content((1.59, 1.35), text(size: s-node, fill: c-ink)[$"co-RE"$])
+  draw.content((1.59, 0.93), text(
     size: s-tiny,
     fill: c-muted,
   )[ко-распознаваемые])
 
-  draw.line((0, -1.42), (0, -1.62), stroke: (paint: c-muted, thickness: t-hr))
-  draw.content((0, -1.92), text(size: s-cap, fill: c-ink)[разрешимые])
+  draw.line((0, -1.6), (0, -1.82), stroke: (paint: c-muted, thickness: t-hr))
+  draw.content((0, -2.15), text(size: s-cap, fill: c-ink)[разрешимые])
 
   dot((0, 0.55), "dec")
   tag((0, 0.25), ${0^n 1^n}$)
@@ -164,6 +164,6 @@
   tag((-1.8, 0.2), $"HALT"$)
   dot((1.8, 0.5), "cohalt")
   tag((1.8, 0.2), $overline("HALT")$)
-  dot((2.65, 1.7), "eq")
-  tag((2.65, 1.38), $"EQ"_"TM"$)
+  dot((2.95, 1.9), "eq")
+  tag((2.95, 1.58), $"EQ"_"TM"$)
 })

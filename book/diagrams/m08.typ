@@ -7,16 +7,12 @@
 
 #let n-stroke = c-bd + t-bd
 
-#let n-size = 1.2em
-
 #let e-stroke = (paint: c-edge, thickness: t-ed)
 
 #let hasse-node(pos, body, ..args) = node(
   pos,
   text(size: s-node, fill: c-ink)[#body],
   fill: c-fl,
-  width: n-size,
-  height: n-size,
   ..args,
 )
 
@@ -25,7 +21,7 @@
 #let hasse-diagram(spacing: 2em, ..nodes) = diagram(
   node-shape: "circle",
   node-stroke: n-stroke,
-  node-inset: 0pt,
+  node-inset: 4pt,
   node-outset: 0pt,
   spacing: spacing,
   ..nodes,
@@ -50,7 +46,7 @@
 
 // ── Цепь из трёх элементов ──
 #let hasse-chain-3 = hasse-diagram(
-  spacing: 1.4em,
+  spacing: 2em,
   hasse-node((0, 2), $1$, name: <c1>),
   hasse-node((0, 1), $2$, name: <c2>),
   hasse-node((0, 0), $3$, name: <c3>),
@@ -60,6 +56,7 @@
 
 // ── Булева решётка B2 ──
 #let hasse-powerset-2 = hasse-diagram(
+  spacing: 2.8em,
   hasse-node((0, 2), $nothing$, name: <p0>),
   hasse-node((-1, 1), ${1}$, name: <p1>),
   hasse-node((1, 1), ${2}$, name: <p2>),
@@ -72,7 +69,7 @@
 
 // ── Булева решётка B3 ──
 #let hasse-powerset-3 = hasse-diagram(
-  spacing: 1.8em,
+  spacing: 3.6em,
   hasse-node((0, 0), ${1,2,3}$, name: <p123>),
   hasse-node((-1.2, 1), ${1,2}$, name: <p12>),
   hasse-node((0, 1), ${1,3}$, name: <p13>),
@@ -98,7 +95,7 @@
 
 // ── Решётка M3 ──
 #let lattice-m3 = hasse-diagram(
-  spacing: 1.6em,
+  spacing: 2em,
   hasse-node((0, 2), $bot$, name: <m3-bot>),
   hasse-node((-1, 1), $a$, name: <m3-a>),
   hasse-node((0, 1), $b$, name: <m3-b>),
@@ -114,7 +111,7 @@
 
 // ── Решётка N5 ──
 #let lattice-n5 = hasse-diagram(
-  spacing: 1.6em,
+  spacing: 2em,
   hasse-node((0, 3), $0$, name: <n5-zero>),
   hasse-node((-1, 2), $a$, name: <n5-a>),
   hasse-node((-1, 1), $b$, name: <n5-b>),

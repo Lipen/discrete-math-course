@@ -103,41 +103,42 @@
 
 // ── Кумулятивная иерархия фон Неймана ──
 #let von-neumann-hierarchy = canvas({
-  let stage(x0, x1, y, h, name, label) = {
+  let h = 0.5
+  let stage(x0, y, name, label, fill: c-fl) = {
     draw.rect(
-      (-x0, y), (x0, y + h),
+      (-x0, y),
+      (x0, y + h),
       name: name,
-      fill: c-fl,
+      fill: fill,
       stroke: v-stroke,
     )
     draw.content(name, text(size: s-node, fill: c-ink)[#label])
   }
 
-  let h = 0.5
-  stage(0.35, none, 0, h, "v0", $V_0 = emptyset$)
-  stage(0.7, none, h, h, "v1", $V_1 = {emptyset}$)
-  stage(1.1, none, 2 * h, h, "v2", $V_2$)
-  stage(1.5, none, 3 * h, h, "v3", $V_3$)
-  draw.content((2.1, 3.5 * h), $dots.v$)
+  stage(0.65, 0, "v0", $V_0 = emptyset$)
+  stage(1.1, h, "v1", $V_1 = {emptyset}$)
+  stage(1.55, 2 * h, "v2", $V_2$)
+  stage(2.0, 3 * h, "v3", $V_3$)
+  draw.content((2.2, 3.5 * h), $dots.v$)
 
-  draw.rect(
-    (-1.9, 4 * h), (1.9, 4 * h + h),
+  stage(
+    2.45,
+    4 * h,
+    "limit",
+    [$V_omega$: первая предельная ступень],
     fill: c-conn,
-    stroke: v-stroke,
   )
-  draw.content((1.9, 4 * h + h / 2), text(size: s-node, fill: c-ink)[$V_omega$: первая предельная ступень], anchor: "east")
+  stage(2.9, 5 * h, "next", [$V_(omega + 1)$, $dots.v$])
   draw.rect(
-    (-2.3, 5 * h), (2.3, 5 * h + h),
+    (-3.35, 6 * h),
+    (3.35, 6 * h + h),
     fill: c-fl,
     stroke: v-stroke,
   )
-  draw.content((2.3, 5 * h + h / 2), text(size: s-node, fill: c-ink)[$V_(omega + 1)$, $dots.v$], anchor: "east")
-  draw.rect(
-    (-2.7, 6 * h), (2.7, 6 * h + h),
-    fill: c-fl,
-    stroke: v-stroke,
-  )
-  draw.content((-2.7, 6 * h + h + 0.25), text(size: s-node, fill: c-ink)[$V = union.big_alpha V_alpha$])
+  draw.content((0, 7 * h + 0.25), text(
+    size: s-node,
+    fill: c-ink,
+  )[$V = union.big_alpha V_alpha$])
 })
 
 // ── Дополнение и симметрическая разность ──

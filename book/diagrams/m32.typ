@@ -51,7 +51,7 @@
 #let hoare-triple = {
   canvas({
     a-box((-2.2, 0), (0.95, 0.9), $ {P} $, name: "p")
-    a-box((0, 0), (1.9, 1.15), $S$, fill: c-conn, name: "s")
+    a-box((0, 0), (1.9, 0.95), $S$, fill: c-conn, name: "s")
     a-box((2.2, 0), (0.95, 0.9), $ {Q} $, name: "q")
     flow("p.east", "s.west")
     flow("s.east", "q.west")
@@ -90,10 +90,10 @@
     flow((0.62, 1.6), "s2.north")
     flow("s1.south", "q.west")
     flow("s2.south", "q.east")
-    draw.content((-1.35, 1.05), text(size: s-tiny, fill: c-muted)[истина])
-    draw.content((1.35, 1.05), text(size: s-tiny, fill: c-muted)[ложь])
-    under((-1.8, -0.55), [$P and B$])
-    under((1.8, -0.55), [$P and not B$])
+    draw.content((-1.52, 1.53), text(size: s-tiny, fill: c-muted)[истина])
+    draw.content((1.52, 1.53), text(size: s-tiny, fill: c-muted)[ложь])
+    under((-2.1, -0.8), [$P and B$])
+    under((2.1, -0.8), [$P and not B$])
   })
 }
 
@@ -103,7 +103,7 @@
     a-box((0, 3.4), (1.0, 0.9), $ {P} $, name: "p")
     a-box((0, 2.35), (1.15, 0.78), $I$, fill: c-know, name: "inv")
     decide((0, 1.15), name: "b", [$B$])
-    a-box((1.95, 1.15), (1.25, 0.95), $S$, fill: c-conn, name: "s")
+    a-box((2.9, 1.15), (1.25, 0.95), $S$, fill: c-conn, name: "s")
     a-box((0, -0.6), (1.3, 0.82), $I and not B$, fill: c-know, name: "exit")
     a-box((0, -1.8), (1.0, 0.9), $ {Q} $, name: "q")
     flow("p.south", "inv.north")
@@ -111,16 +111,16 @@
     flow((0.62, 1.15), "s.west")
     draw.line(
       "s.north",
-      (1.95, 2.35),
+      (2.9, 2.35),
       "inv.east",
       stroke: c-edge + t-ed,
       mark: (end: (symbol: ">", fill: c-edge)),
     )
     flow((0, 0.53), "exit.north")
     flow("exit.south", "q.north")
-    draw.content((1.15, 1.35), text(size: s-tiny, fill: c-muted)[истина])
+    draw.content((1.0, 1.42), text(size: s-tiny, fill: c-muted)[истина])
     draw.content((0.45, 0.42), text(size: s-tiny, fill: c-muted)[ложь])
-    under((2.7, 1.7), [тело сохраняет $I$])
+    under((1.74, 2.72), [тело сохраняет $I$])
     under((-1.2, 2.35), [база])
     under((-1.2, -0.6), [выход])
   })

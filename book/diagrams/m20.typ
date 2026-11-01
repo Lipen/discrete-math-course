@@ -22,11 +22,8 @@
 
   let elabel(edge-name, prob) = {
     draw.content(
-      edge-name + ".mid",
+      (rel: (0, 0.13), to: edge-name + ".mid"),
       text(size: s-cap, fill: c-accent)[#prob],
-      fill: c-white,
-      stroke: none,
-      padding: 2pt,
       anchor: "south",
     )
   }
@@ -83,6 +80,7 @@
     draw.content(
       name + ".mid",
       text(size: s-cap, fill: c-accent)[$#prob$],
+      frame: "rect",
       fill: c-white,
       stroke: none,
       padding: 2pt,

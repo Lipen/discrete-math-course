@@ -165,8 +165,8 @@
     pos,
     body,
     fill: fill,
-    width: 2.2em,
-    height: 1.1em,
+    width: 4em,
+    height: 1.5em,
     ..args,
   )
   let resolve-edge(from, to, label: none) = edge(
@@ -191,10 +191,10 @@
     clause-node((2, 0), $not r$, name: <c4>),
 
     clause-node((-3, 1.5), $q$, fill: c-atom, name: <r1>),
-    clause-node((1, 1.5), $r$, fill: c-atom, name: <r2>),
+    clause-node((-0.4, 1.5), $r$, fill: c-atom, name: <r2>),
 
     clause-node(
-      (-1, 3),
+      (0.6, 3),
       $square$,
       fill: c-conn,
       stroke: c-hot + t-bd,

@@ -170,15 +170,15 @@
     size: s-node,
     fill: c-ink,
   )[$B$])
-  draw.content(cin-pt, anchor: "east", text(
+  draw.content((cin-pt.at(0) - 0.12, cin-pt.at(1)), anchor: "east", text(
     size: s-node,
     fill: c-ink,
   )[$C_"in"$])
-  draw.content(lj(5.3, "xor2-port-out"), anchor: "west", text(
+  draw.content(lj(5.42, "xor2-port-out"), anchor: "west", text(
     size: s-node,
     fill: c-ink,
   )[$S$])
-  draw.content(lj(7.8, "or1-port-out"), anchor: "west", text(
+  draw.content(lj(7.92, "or1-port-out"), anchor: "west", text(
     size: s-node,
     fill: c-ink,
   )[$C_"out"$])
@@ -231,11 +231,11 @@
     size: s-node,
     fill: c-ink,
   )[$S$])
-  draw.content(lj(2.7, "nor-top-port-out"), anchor: "west", text(
+  draw.content(lj(2.82, "nor-top-port-out"), anchor: "west", text(
     size: s-node,
     fill: c-ink,
   )[$Q$])
-  draw.content(lj(2.7, "nor-bot-port-out"), anchor: "west", text(
+  draw.content(lj(2.82, "nor-bot-port-out"), anchor: "west", text(
     size: s-node,
     fill: c-ink,
   )[$overline(Q)$])
@@ -270,12 +270,12 @@
 
   let top-y(x) = 2.8 - 0.28 * x
   draw.line((1.5, top-y(1.5)), (1.5, 3.4), stroke: c-edge + t-ed)
-  draw.content((1.5, 3.45), anchor: "south", text(
+  draw.content((1.5, 3.52), anchor: "south", text(
     size: s-cap,
     fill: c-ink,
   )[$S_0$])
   draw.line((3.5, top-y(3.5)), (3.5, 3.4), stroke: c-edge + t-ed)
-  draw.content((3.5, 3.45), anchor: "south", text(
+  draw.content((3.5, 3.52), anchor: "south", text(
     size: s-cap,
     fill: c-ink,
   )[$S_1$])

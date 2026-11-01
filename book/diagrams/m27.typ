@@ -24,6 +24,7 @@
     draw.content(
       name,
       text(size: s-cap, fill: c-muted)[#label],
+      frame: "rect",
       fill: c-white,
       stroke: none,
       padding: 2pt,
@@ -72,6 +73,7 @@
     draw.content(
       name,
       text(size: size, fill: c-muted)[#label],
+      frame: "rect",
       fill: c-white,
       stroke: none,
       padding: 2pt,

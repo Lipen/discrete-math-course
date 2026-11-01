@@ -81,25 +81,25 @@
   let cw3 = (4.0, -0.3)
 
   let n1 = (
-    (0.25, 0.50),
+    (-0.10, 0.25),
     (-0.50, -0.35),
     (0.10, -0.65),
     (0.60, -0.20),
     (-0.40, 0.40),
-    (0.55, 0.30),
+    (-0.05, 0.80),
     (-0.20, -0.70),
     (-0.55, 0.10),
     (0.70, -0.40),
   )
   let n2 = (
-    (-0.15, 0.55),
+    (-0.60, 0.10),
     (0.45, 0.25),
     (-0.45, -0.20),
     (-0.05, -0.45),
     (0.25, -0.40),
     (-0.35, 0.20),
     (0.60, 0.05),
-    (0.15, 0.50),
+    (0.70, 0.35),
     (-0.50, -0.50),
   )
   let n3 = (
@@ -144,7 +144,7 @@
     text(size: s-cap, fill: c-muted)[кодовое слово],
   )
   draw.line(
-    (cw2.at(0), cw2.at(1) + 0.42),
+    (cw2.at(0), cw2.at(1) + 0.54),
     (cw2.at(0), cw2.at(1) + 0.19),
     stroke: dim-stroke,
   )
@@ -363,7 +363,7 @@
     fill: c-ink,
   )[скорость $R = k / n$])
 
-  draw.content((1.0, 1.15), text(
+  draw.content((1.2, 1.15), frame: "rect", fill: c-white, text(
     size: s-cap,
     fill: c-ink,
   )[Варшамов--Гилберт: \ коды существуют])
@@ -434,7 +434,7 @@
   let survivor = ((0, "00"), (1, "10"), (2, "01"), (3, "10"), (4, "11"))
 
   let edge-stroke = (paint: c-edge, thickness: t-ed)
-  let vt-edge(fr-nm, to-nm, out, dash) = edge(
+  let vt-edge(fr-nm, to-nm, out, dash, pos) = edge(
     fr-nm,
     to-nm,
     "-",
@@ -442,6 +442,7 @@
     label: text(size: s-tiny, fill: c-ink)[#out],
     label-fill: c-white,
     label-side: center,
+    label-pos: pos,
   )
   let surv-stroke = (paint: c-accent, thickness: 1.5pt)
   let surv-edge(t, fr, to, dash) = edge(
@@ -479,7 +480,20 @@
     }
     for (fr, to, out, dash) in trans {
       if fr in active {
-        elems.push(vt-edge(nm.at(fr).at(t), nm.at(to).at(t + 1), out, dash))
+        let pos = if (fr, to) == ("01", "10") {
+          0.25
+        } else if (fr, to) == ("10", "01") {
+          0.75
+        } else {
+          0.5
+        }
+        elems.push(vt-edge(
+          nm.at(fr).at(t),
+          nm.at(to).at(t + 1),
+          out,
+          dash,
+          pos,
+        ))
       }
     }
   }
@@ -511,5 +525,5 @@
     )[$#metrics.at(i)$]))
   }
 
-  diagram(spacing: 1.7em, ..elems)
+  diagram(spacing: 2.4em, ..elems)
 }

@@ -56,8 +56,8 @@
   )
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "m")
   draw.content("m", text(size: s-node, fill: c-ink)[$tilde(M)$])
-  draw.content((-1.9, 0), text(size: s-cap, fill: c-ink)[$a$])
-  draw.content((1.9, 0), text(size: s-cap, fill: c-ink)[$a star a$])
+  draw.content((-1.7, 0), text(size: s-cap, fill: c-ink)[$a$])
+  draw.content((1.7, 0), text(size: s-cap, fill: c-ink)[$a star a$])
   draw.content((0, -1.0), text(size: s-cap, fill: c-muted)[$"id"_tilde(M) = e$])
 })
 
@@ -130,11 +130,11 @@
     node((0, 1.8), $A$, name: <a>)
     node((2.8, 1.8), $B$, name: <b>)
     node((-2.2, 0), $X$, name: <x>)
-    arrow(<ab>, <a>, $pi_1$, side: left)
+    arrow(<ab>, <a>, $pi_1$, side: right, pos: 0.2)
     arrow(<ab>, <b>, $pi_2$, side: right)
     arrow(<x>, <a>, $f$, stroke: d-stroke, pos: 0.5)
     arrow(<x>, <b>, $g$, stroke: d-stroke, pos: 0.5)
-    arrow(<x>, <ab>, $chevron.l f, g chevron.r^!$, stroke: hi-stroke, pos: 0.5)
+    arrow(<x>, <ab>, $chevron.l f, g chevron.r$, stroke: hi-stroke, pos: 0.5)
   },
 )
 
@@ -142,12 +142,21 @@
 #let cone-diagram = diagram(
   node-stroke: n-stroke,
   node-fill: c-fl,
-  spacing: 2.8em,
+  spacing: 3.4em,
   {
     node((2.6, 0.9), $A$, name: <a>)
     node((4.2, 0.9), $B$, name: <b>)
     node((3.4, -0.6), $C$, name: <c>)
-    arrow(<a>, <c>, $u$)
+    arrow(
+      <a>,
+      <c>,
+      $u$,
+      side: right,
+      pos: 0.2,
+      label-sep: 8pt,
+      label-anchor: "center",
+      label-angle: 0deg,
+    )
     arrow(<b>, <c>, $v$)
     node((2.6, 3), $N$, name: <n>, stroke: (
       paint: c-muted,
@@ -180,6 +189,7 @@
       "-|>",
       label: [$F$],
       label-size: s-cap,
+      label-pos: 0.3,
       stroke: e-stroke,
     )
     edge(
@@ -188,11 +198,12 @@
       "-|>",
       label: [$G$],
       label-size: s-cap,
+      label-pos: 0.3,
       stroke: e-stroke,
     )
 
-    node((2.8, 0.55), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
-    node((2.8, -0.55), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
+    node((2.8, 0.3), $F(X) -> Y$, name: <fy>, stroke: none, fill: none)
+    node((2.8, -0.3), $X -> G(Y)$, name: <xg>, stroke: none, fill: none)
     edge(
       <fy>,
       <xg>,
@@ -208,11 +219,16 @@
 #let monad-from-adjunction = canvas({
   draw.circle((0, 0), radius: 0.42, stroke: n-stroke, fill: c-fl, name: "cc")
   draw.content("cc", text(size: s-node, fill: c-ink)[$cal(C)$])
+  let loop-radius = 0.85
+  let loop-angle = 22deg
   draw.arc(
-    "cc",
-    start: 30deg,
-    stop: 150deg,
-    radius: 1.1,
+    (
+      loop-radius * calc.cos(loop-angle),
+      loop-radius * calc.sin(loop-angle),
+    ),
+    start: loop-angle,
+    stop: 180deg - loop-angle,
+    radius: loop-radius,
     stroke: e-stroke,
     mark: (end: ">"),
     name: "loop-t",
@@ -242,10 +258,22 @@
   op(1.4, 0, "m", $m$)
   op(1.4, 2.4, "n", $n$)
 
-  draw.content((-0.2, -1.35), text(size: s-cap, fill: c-ink)[$A$], name: "wA")
-  draw.content((1.4, -1.35), text(size: s-cap, fill: c-ink)[$B$], name: "wB")
-  draw.content((3.0, -1.35), text(size: s-cap, fill: c-ink)[$D$], name: "wD")
-  draw.content((1.4, 3.9), text(size: s-cap, fill: c-ink)[$E$], name: "wE")
+  draw.content((-0.2, -1.35), padding: 4pt, name: "wA", text(
+    size: s-cap,
+    fill: c-ink,
+  )[$A$])
+  draw.content((1.4, -1.35), padding: 4pt, name: "wB", text(
+    size: s-cap,
+    fill: c-ink,
+  )[$B$])
+  draw.content((3.0, -1.35), padding: 4pt, name: "wD", text(
+    size: s-cap,
+    fill: c-ink,
+  )[$D$])
+  draw.content((1.4, 3.9), padding: 4pt, name: "wE", text(
+    size: s-cap,
+    fill: c-ink,
+  )[$E$])
 
   wire("wA.north", "m.south-west")
   wire("wB.north", "m.south-east")

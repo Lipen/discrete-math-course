@@ -106,22 +106,27 @@
 
 // ── Лемма о накачке: цикл q_i -> q_j -> q_i (накачка y) ──
 #let pl-state(pos, label, name, accept: false) = {
+  draw.circle(
+    pos,
+    radius: 0.54,
+    stroke: if accept { n-stroke } else { none },
+    name: name + "-ring",
+  )
   draw.circle(pos, radius: 0.42, fill: c-fl, stroke: n-stroke, name: name)
   draw.content(pos, text(size: s-node, fill: c-ink)[#label])
-  if accept {
-    draw.circle(pos, radius: 0.54, stroke: n-stroke)
-  }
 }
 
-#let pl-edge(from, to, name, label, stroke: e-stroke, fill: c-ink) = {
-  draw.line(from, to, name: name, stroke: stroke)
-  draw.content(
-    name + ".mid",
-    text(size: s-cap, fill: fill)[#label],
-    fill: c-white,
-    stroke: none,
-    padding: 2pt,
-  )
+#let pl-edge(
+  from,
+  to,
+  name,
+  label,
+  label-pos,
+  stroke: e-stroke,
+  fill: c-ink,
+) = {
+  draw.line(from + "-ring.east", to + "-ring.west", name: name, stroke: stroke)
+  draw.content(label-pos, text(size: s-cap, fill: fill)[#label])
 }
 
 #let pumping-lemma = canvas({
@@ -132,20 +137,21 @@
   pl-state((2, 0), $q_j$, "qj")
   pl-state((4.5, 0), $q_f$, "qf", accept: true)
 
-  pl-edge("q0", "qi", "e-x", $x$)
+  pl-edge("q0", "qi", "e-x", $x$, (-1.75, 0.3))
   pl-edge(
     "qi",
     "qj",
     "e-y",
     $y$,
+    (0.75, 0.3),
     stroke: acc-stroke,
     fill: c-accent,
   )
-  pl-edge("qj", "qf", "e-z", $z$)
+  pl-edge("qj", "qf", "e-z", $z$, (3.25, 0.3))
 
   draw.bezier(
-    "qj.north",
-    "qi.north",
+    "qj-ring.north",
+    "qi-ring.north",
     (1.5, 1.5),
     (-0.2, 1.5),
     name: "e-loop",
