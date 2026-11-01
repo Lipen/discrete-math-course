@@ -221,7 +221,7 @@
   [Инъекция],
   [$a_1 != a_2 imply f(a_1) != f(a_2)$],
   [$abs(A) <= abs(B)$],
-  [левая\ $g compose f = "id"_A$],
+  [левая при $A != emptyset$\ $g compose f = "id"_A$],
 
   [Сюръекция],
   [$forall b in B exists a in A . thin f(a) = b$],
@@ -280,8 +280,6 @@
 ]
 
 #align(center)[#composition-pipeline]
-
-Кодомен $f$ обязан совпадать с областью определения $g$, иначе запись $g compose f$ не определена.
 
 == Порядок композиции
 
