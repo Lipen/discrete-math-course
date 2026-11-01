@@ -121,7 +121,7 @@ _Сорт_ переменной задаёт её домен.
   #table(
     columns: (auto, auto),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-    table.header[Символ][Ранг],
+    table.header([Символ], [Ранг]),
     [$0$], [$"rank"(0) = ("Nat")$],
     [$S$], [$"rank"(S) = ("Nat", "Nat")$],
     [$<$], [$"rank"(<) = ("Nat", "Nat", "Bool")$],
@@ -391,7 +391,9 @@ $
   - Умножение задаётся рекурсивно:
     $ x dot 0 = 0, x dot S(y) = x dot y + x . $
   - Схема индукции: для каждой формулы $phi(x)$ языка аксиома
-    $ (phi(0) and forall x . thin (phi(x) -> phi(S(x)))) -> forall x . thin phi(x) . $
+    $
+      (phi(0) and forall x . thin (phi(x) -> phi(S(x)))) -> forall x . thin phi(x) .
+    $
 ]
 
 Скажем эти аксиомы обычными словами.
@@ -571,7 +573,7 @@ NP-полная задача не решается за полиномиальн
 #table(
   columns: (auto, auto, auto),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header[Теория][Что описывает][Кванторно-свободный фрагмент],
+  table.header([Теория], [Что описывает], [Кванторно-свободный фрагмент]),
   [$cal(T)_"EUF"$],
   [равенство и неинтерпретируемые функции],
   [разрешим, $O(n log n)$],
@@ -1487,7 +1489,7 @@ EUF выпукла: конгруэнтность выводит равенств
 #table(
   columns: (auto, 1fr),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
-  table.header[Команда][Что делает],
+  table.header([Команда], [Что делает]),
   [`declare-const`], [`(declare-const x Int)` заводит переменную сорта $"Int"$],
   [`assert`],
   [добавляет формулу в задачу: солвер обязан учитывать все добавленные формулы],
