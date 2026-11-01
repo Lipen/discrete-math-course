@@ -290,13 +290,18 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots $
 
 == Пример трёх шагов
 
-Проверим схему на свойстве, которое верно для всех ординалов.
+Проверим схему на свойстве $0 + alpha = alpha$ для всех $alpha < omega dot 2$.
 
 #example[
-  Докажем $0 + alpha = alpha$ для всех $alpha < omega dot 2$.
-  База. $0 + 0 = 0$.
-  Переход. $0 + (alpha + 1) = (0 + alpha) + 1 = alpha + 1$.
-  Предел. $0 + lambda = sup_(beta < lambda)(0 + beta) = sup_(beta < lambda) beta = lambda$.
+  *База.* $0 + 0 = 0$ по определению сложения.
+
+  *Переход.* Если $0 + alpha = alpha$, то
+  $ 0 + (alpha + 1) = (0 + alpha) + 1 = alpha + 1 $
+  по индукционному предположению.
+
+  *Предел.* Если $0 + beta = beta$ для всех $beta < lambda$, то
+  $ 0 + lambda = sup_(beta < lambda)(0 + beta) = sup_(beta < lambda) beta = lambda $
+  по определению сложения и свойству супремума.
 ]
 
 
