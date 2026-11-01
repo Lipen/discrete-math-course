@@ -105,24 +105,24 @@
 // ── Корневое дерево: каркас зелёным, листья приглушены ──
 #let tree = canvas({
   let pts = (
-    "r": (0, 1.18),
-    "a": (-0.9, 0.48),
-    "b": (0.9, 0.48),
-    "c": (-1.35, -0.15),
-    "d": (-0.45, -0.15),
-    "e": (0.45, -0.15),
-    "f": (1.35, -0.15),
-    "g": (-1.6, -0.8),
-    "h": (-0.7, -0.8),
-    "i": (0.2, -0.8),
+    "r": (0, 0.708),
+    "a": (-0.54, 0.288),
+    "b": (0.54, 0.288),
+    "c": (-0.81, -0.09),
+    "d": (-0.27, -0.09),
+    "e": (0.27, -0.09),
+    "f": (0.81, -0.09),
+    "g": (-0.96, -0.48),
+    "h": (-0.42, -0.48),
+    "i": (0.12, -0.48),
   )
   for lab in ("r", "a", "b", "c", "d", "e", "f") {
-    vnode(lab, pts.at(lab), lab, tone: green)
+    vnode(lab, pts.at(lab), lab, tone: green, size: 0.22)
   }
   for lab in ("g", "h", "i") {
     draw.circle(
       pts.at(lab),
-      radius: 0.19,
+      radius: 0.13,
       fill: fill-soft,
       stroke: edge-thin,
       name: lab,
@@ -142,7 +142,7 @@
   ) {
     let (ax, ay) = pts.at(a)
     let (bx, by) = pts.at(b)
-    let bow = if ax > bx { 0.1 } else if ax < bx { -0.1 } else { 0 }
+    let bow = if ax > bx { 0.06 } else if ax < bx { -0.06 } else { 0 }
     tie(
       a,
       b,
