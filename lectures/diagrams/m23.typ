@@ -33,7 +33,7 @@
   edge(<q0>, <q0>, "-}>", label: [1], loop-angle: 90deg, bend: 120deg),
   edge(<q1>, <q1>, "-}>", label: [0], loop-angle: 90deg, bend: 120deg),
   edge(<q2>, <q1>, "-}>", label: [0], bend: 40deg),
-  edge(<q2>, <q0>, "-}>", label: [1], bend: -50deg),
+  edge(<q2>, <q0>, "-}>", label: [1], bend: -50deg, label-pos: 0.2),
 )
 
 // ── 2. NFA with epsilon: contains "01", or the empty word ──

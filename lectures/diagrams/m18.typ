@@ -67,6 +67,14 @@
       let x = (2 * k - n) * s
       let y = (rows.len() - 1 - n) * h
       let boundary = k == 0 or k == n
+      if x == 0 {
+        draw.rect(
+          (x - 0.12, y - 0.12),
+          (x + 0.12, y + 0.12),
+          fill: white,
+          stroke: none,
+        )
+      }
       mark((x, y), [#val], tone: if boundary { ink-soft } else { ink })
     }
   }
