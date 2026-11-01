@@ -708,7 +708,7 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 #focus-slide(
   ghost: consequence-ghost,
   epigraph: [Мы должны знать, мы будем знать.],
-  epigraph-author: [Давид Гильберт, Кёнигсберг, 1930],
+  epigraph-author: [Давид Гильберт],
 )
 
 == Граница табличного метода
