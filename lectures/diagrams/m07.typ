@@ -254,7 +254,7 @@
   )
   let joint(pos) = draw.circle(
     pos,
-    radius: 0.10,
+    radius: 0.09,
     fill: fill-soft,
     stroke: 1pt + ink,
   )
@@ -264,60 +264,45 @@
     stroke: (paint: tone, thickness: 0.9pt, cap: "round"),
   )
 
-  let root = (0, 0)
-  let trunk = (0, 1.3)
-  let left-head = (-1.3, 2.5)
-  let cut-parent = (1.3, 2.5)
-  let cut-head = (0.8, 3.7)
-  let other-head = (1.8, 3.7)
+  let panel(x, caption) = {
+    let root = (x, 0)
+    let trunk = (x, 0.55)
+    let left-head = (x - 0.85, 1.65)
+    branch(root, trunk)
+    branch(trunk, left-head)
+    joint(root)
+    joint(trunk)
+    head(left-head)
+    mark((x, -0.55), caption, tone: ink-soft, size: 0.7em)
+  }
 
-  branch(root, trunk)
-  branch(trunk, left-head)
-  branch(trunk, cut-parent)
-  branch(cut-parent, cut-head, tone: warm)
-  branch(cut-parent, other-head)
-  joint(root)
-  joint(trunk)
-  head(left-head)
-  joint(cut-parent)
-  head(cut-head, tone: warm)
-  head(other-head)
-  mark((0.8, 4.3), [срез], tone: warm, size: 0.7em)
-  mark((0, -0.55), [до], tone: ink-soft, size: 0.7em)
+  // Старт: три головы, A1 следующая на срез.
+  panel(0, [старт])
+  let a = (0.95, 0.85)
+  branch((0, 0.55), a)
+  branch(a, (0.55, 1.9))
+  branch(a, (1.35, 1.9))
+  joint(a)
+  head((0.55, 1.9), tone: warm)
+  head((1.35, 1.9))
 
-  let shift = 7.2
-  let root-r = (shift, 0)
-  let trunk-r = (shift, 1.3)
-  let left-head-r = (shift - 1.3, 2.5)
-  let copy-a = (shift - 0.6, 2.5)
-  let copy-b = (shift + 0.6, 2.5)
-  let copy-a-head = (shift - 1.0, 3.7)
-  let copy-b-head = (shift + 0.2, 3.7)
+  // Ход 1: A1 срезана, n = 1, ветка A с A2 остаётся одна.
+  panel(3.8, [ход 1: A1, n = 1])
+  let a2 = (4.75, 0.85)
+  branch((3.8, 0.55), a2)
+  branch(a2, (5.15, 1.9))
+  joint(a2)
+  head((5.15, 1.9), tone: warm)
 
-  branch(root-r, trunk-r)
-  branch(trunk-r, left-head-r)
-  branch(trunk-r, copy-a)
-  branch(trunk-r, copy-b)
-  branch(copy-a, copy-a-head)
-  branch(copy-b, copy-b-head)
-  joint(root-r)
-  joint(trunk-r)
-  head(left-head-r)
-  joint(copy-a)
-  joint(copy-b)
-  head(copy-a-head)
-  head(copy-b-head)
-  mark((shift + 1.4, 2.0), [$times 2$], tone: warm, size: 0.8em)
-  mark((shift, -0.55), [после], tone: ink-soft, size: 0.7em)
-
-  draw.line(
-    (3.2, 1.3),
-    (4.5, 1.3),
-    stroke: (paint: warm, thickness: 1.4pt, cap: "round"),
-    mark: (end: "stealth", fill: warm),
-  )
-  mark((3.85, 1.8), [удар], tone: warm, size: 0.7em)
+  // Ход 2: A2 срезана, n = 2, A стала головой и размножилась дважды.
+  panel(7.6, [ход 2: A2, n = 2])
+  branch((7.6, 0.55), (8.15, 1.9))
+  branch((7.6, 0.55), (9.05, 1.9))
+  head((8.15, 1.9), tone: warm)
+  head((9.05, 1.9), tone: warm)
+  mark((8.6, 2.25), [$times 2$], tone: warm, size: 0.7em)
 })
+
 
 // ── Сложение ординалов: лишняя точка впереди и позади ряда ──
 #let addition-order = canvas({
