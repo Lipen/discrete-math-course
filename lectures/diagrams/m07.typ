@@ -266,43 +266,39 @@
 
   let panel(x, caption) = {
     let root = (x, 0)
-    let trunk = (x, 0.55)
-    let left-head = (x - 0.85, 1.65)
-    branch(root, trunk)
-    branch(trunk, left-head)
+    let left-head = (x - 0.85, 1.5)
+    branch(root, left-head)
     joint(root)
-    joint(trunk)
     head(left-head)
     mark((x, -0.55), caption, tone: ink-soft, size: 0.7em)
   }
 
   // Старт: три головы, A1 следующая на срез.
   panel(0, [старт])
-  let a = (0.95, 0.85)
-  branch((0, 0.55), a)
-  branch(a, (0.55, 1.9))
-  branch(a, (1.35, 1.9))
+  let a = (0.95, 0.8)
+  branch((0, 0), a)
+  branch(a, (0.55, 1.8))
+  branch(a, (1.35, 1.8))
   joint(a)
-  head((0.55, 1.9), tone: warm)
-  head((1.35, 1.9))
+  head((0.55, 1.8), tone: warm)
+  head((1.35, 1.8))
 
   // Ход 1: A1 срезана, n = 1, ветка A с A2 остаётся одна.
   panel(3.8, [ход 1: A1, n = 1])
-  let a2 = (4.75, 0.85)
-  branch((3.8, 0.55), a2)
-  branch(a2, (5.15, 1.9))
+  let a2 = (4.75, 0.8)
+  branch((3.8, 0), a2)
+  branch(a2, (5.15, 1.8))
   joint(a2)
-  head((5.15, 1.9), tone: warm)
+  head((5.15, 1.8), tone: warm)
 
   // Ход 2: A2 срезана, n = 2, A стала головой и размножилась дважды.
   panel(7.6, [ход 2: A2, n = 2])
-  branch((7.6, 0.55), (8.15, 1.9))
-  branch((7.6, 0.55), (9.05, 1.9))
-  head((8.15, 1.9), tone: warm)
-  head((9.05, 1.9), tone: warm)
-  mark((8.6, 2.25), [$times 2$], tone: warm, size: 0.7em)
+  branch((7.6, 0), (8.15, 1.8))
+  branch((7.6, 0), (9.05, 1.8))
+  head((8.15, 1.8), tone: warm)
+  head((9.05, 1.8), tone: warm)
+  mark((8.6, 2.15), [$times 2$], tone: warm, size: 0.7em)
 })
-
 
 // ── Сложение ординалов: лишняя точка впереди и позади ряда ──
 #let addition-order = canvas({
