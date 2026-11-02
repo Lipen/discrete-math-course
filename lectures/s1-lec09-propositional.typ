@@ -289,14 +289,18 @@
   Возьмём $phi = (p or q) and not p$.
 
   *Первый набор.* $nu (p) = 0$, $nu (q) = 1$.
-  Тогда $nu (p or q) = max(0, 1) = 1$ и $nu (not p) = 1 - 0 = 1$, поэтому $nu (phi) = min(1, 1) = 1$.
+  $
+    nu (p or q) = max(0, 1) = 1, quad nu (not p) = 1 - 0 = 1 .
+  $
+  Поэтому $nu (phi) = min(1, 1) = 1$.
 
   *Второй набор.* $nu (p) = 1$, $nu (q) = 0$.
-  Тогда $nu (p or q) = max(1, 0) = 1$ и $nu (not p) = 1 - 1 = 0$, поэтому $nu (phi) = min(1, 0) = 0$.
+  $
+    nu (p or q) = max(1, 0) = 1, quad nu (not p) = 1 - 1 = 0 .
+  $
+  Поэтому $nu (phi) = min(1, 0) = 0$.
 ]
 
-Оценка --- функция от интерпретации.
-Одни и те же правила дают разные значения на разных наборах.
 
 == Таблица истинности
 
@@ -1058,7 +1062,7 @@ $ p iff q equiv (p imply q) and (q imply p) . $
 )
 
 При $p = 1$ дополнение даёт $1 and not 1 = 0$ и $1 or not 1 = 1$.
-При $p = 0$, $q = 1$ де Морган даёт $not (0 and 1) = 1$ и $not 0 or not 1 = 1$.
+При $p = 0$, $q = 1$ де Морган даёт #box[$not (0 and 1) = 1$] и #box[$not 0 or not 1 = 1$].
 
 == Законы импликации
 
@@ -1080,7 +1084,7 @@ $ p iff q equiv (p imply q) and (q imply p) . $
 )
 
 При $p = 1$, $q = 0$ обе части контрапозиции ложны.
-Слева $1 imply 0 = 0$, справа $not 0 imply not 1 = 1 imply 0 = 0$.
+Слева #box[$1 imply 0 = 0$], справа #box[$not 0 imply not 1 = 1 imply 0 = 0$].
 
 == Булева алгебра
 
@@ -1097,7 +1101,7 @@ $ p iff q equiv (p imply q) and (q imply p) . $
   - Булеан $cal(P)(X)$ с операциями $inter$, $union$, $overline(dot)$.
     Здесь $0 = emptyset$, $1 = X$.
   - Классы эквивалентных формул с операциями на классах.
-    Здесь $0 = [p and not p]$, $1 = [p or not p]$.
+    Здесь #box[$0 = [p and not p]$], #box[$1 = [p or not p]$].
 ]
 
 
@@ -1187,7 +1191,7 @@ $ p iff q equiv (p imply q) and (q imply p) . $
   По теореме о следствии и невыполнимости $Gamma union {not psi}$ невыполнимо.
 
   По компактности невыполнимо некоторое конечное $Delta subset.eq Gamma union {not psi}$.
-  Положим $Gamma_0 = Delta inter Gamma$.
+  Положим #box[$Gamma_0 = Delta inter Gamma$].
   Тогда $Gamma_0 union {not psi}$ невыполнимо, и по теореме о следствии и невыполнимости $Gamma_0 models psi$.
 ]
 
