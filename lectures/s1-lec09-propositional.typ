@@ -689,7 +689,7 @@ enum Formula {
     #table(
       columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
       align: center,
-      inset: (x: 0.45em, y: 0.16em),
+      inset: (x: 0.45em, y: 0.24em),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header(
         [*$p$*],
@@ -712,7 +712,7 @@ enum Formula {
     )
   ]
 
-  Ни одна строка не даёт единицу в столбце $A$ при нуле в $B$, поэтому $A imply B$ тавтологична.
+  Во всех восьми строках $A imply B$ истинно.
 ]
 
 == Контрмодель
@@ -902,7 +902,7 @@ enum Formula {
 #table(
   columns: (auto, auto),
   align: (left, left),
-  inset: (x: 0.55em, y: 0.16em),
+  inset: (x: 0.55em, y: 0.22em),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Связка*], [*Через NAND*]),
   [$not p$], [$p nand p$],
@@ -925,7 +925,7 @@ enum Formula {
   #table(
     columns: (auto, auto, auto, auto),
     align: center,
-    inset: (x: 0.55em, y: 0.16em),
+    inset: (x: 0.55em, y: 0.22em),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*$p$*], [*$q$*], [*$p imply q$*], [*Терм*]),
     $0$, $0$, $1$, [$not p and not q$],
