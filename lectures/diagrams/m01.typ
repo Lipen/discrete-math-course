@@ -49,14 +49,17 @@
   label,
   tone: ink-soft,
   thickness: 0.9pt,
-  dx: 0.12,
-  dy: 0.08,
+  dx: 0.0,
+  dy: 0.02,
+  anchor: "west",
 ) = {
   draw.line(a, b, stroke: (paint: tone, thickness: thickness))
   let m = else-mid(a, b)
   draw.content(
     (m.at(0) + dx, m.at(1) + dy),
     text(size: 0.64em, fill: tone)[#label],
+    anchor: anchor,
+    padding: 0.3,
   )
 }
 
@@ -65,9 +68,9 @@
   let inner = (0.45, 1.95)
   let x = (0.0, 0.75)
   let y = (0.9, 0.75)
-  else-edge(root, inner, [then], dx: -0.16, dy: 0.06)
-  else-edge(inner, x, [then], dx: -0.16, dy: 0.02)
-  else-edge(inner, y, [else], tone: warm, thickness: 2pt, dx: 0.14, dy: 0.02)
+  else-edge(root, inner, [then])
+  else-edge(inner, x, [then], anchor: "east")
+  else-edge(inner, y, [else], tone: warm, thickness: 2pt)
   else-node(root, [if a])
   else-node(inner, [if b])
   else-leaf(x, [x()], tone: ink-soft)
@@ -79,9 +82,9 @@
   let inner = (0.1, 1.95)
   let x = (0.1, 0.75)
   let y = (1.8, 1.95)
-  else-edge(root, inner, [then], dx: -0.16, dy: 0.06)
-  else-edge(root, y, [else], tone: warm, thickness: 2pt, dx: 0.18, dy: -0.12)
-  else-edge(inner, x, [then], dx: 0.14, dy: 0.0)
+  else-edge(root, inner, [then], anchor: "east")
+  else-edge(root, y, [else], tone: warm, thickness: 2pt, dy: 0.05)
+  else-edge(inner, x, [then])
   else-node(root, [if a])
   else-node(inner, [if b])
   else-leaf(x, [x()], tone: ink-soft)
