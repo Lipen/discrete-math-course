@@ -872,7 +872,7 @@ _Бет-иерархия_ строится булеаном, _алеф-иера�
 
   $
     beth_0 & = aleph_0, \
-    beth_(n+1) & = 2^(beth_n), \
+    beth_(beta+1) & = 2^(beth_beta), \
     beth_lambda & = limits(sup)_(alpha < lambda) beth_alpha, quad lambda > 0 "предельный".
   $
 ]
