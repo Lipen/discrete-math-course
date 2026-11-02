@@ -96,7 +96,14 @@
 // ── Дерево разбора: $forall x . thin (P(x) -> exists y . thin Q(x, f(y)))$ ──
 // Операторы тёплые, термы и атомы холодные; пунктир --- область действия внутреннего квантора.
 #let parse-tree = canvas({
-  let node(pos, body, tone: ink) = mark(pos, body, tone: tone)
+  let node(pos, body, tone: ink) = draw.content(
+    pos,
+    box(
+      fill: white,
+      outset: 4.5pt,
+      radius: 1pt,
+    )[#text(size: label-size, fill: tone)[#body]],
+  )
   let link(from, to) = draw.line(from, to, stroke: edge-plain)
 
   draw.rect(
