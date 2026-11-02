@@ -22,6 +22,8 @@
   ),
 )
 
+#show table: it => align(center, it)
+
 = Формальный язык
 
 #focus-slide(
@@ -91,7 +93,7 @@
 У формальной логики три слоя, и каждый отвечает на свой вопрос.
 
 #table(
-  columns: (auto, 1fr, 1fr, auto),
+  columns: (auto, auto, auto, auto),
   align: (left, left, left, left),
   column-gutter: 0.8em,
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
@@ -680,34 +682,37 @@ enum Formula {
 #example[
   Проверим формулу $((p imply q) and (q imply r)) imply (p imply r)$.
 
+  Обозначим $A = (p imply q) and (q imply r)$, $B = p imply r$.
+
   #[
     #set text(size: 0.8em)
     #table(
-      columns: (auto, auto, auto, 2.1fr, 1.2fr, auto),
+      columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
       align: center,
-      column-gutter: 0.35em,
-      inset: (x: 0.6em, y: 0.1em),
+      inset: (x: 0.45em, y: 0.16em),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
       table.header(
         [*$p$*],
         [*$q$*],
         [*$r$*],
-        [*$(p imply q) and (q imply r)$*],
-        [*$p imply r$*],
-        [*вся*],
+        [*$p imply q$*],
+        [*$q imply r$*],
+        [*$A$*],
+        [*$B$*],
+        [*$A imply B$*],
       ),
-      $0$, $0$, $0$, $1$, $1$, $1$,
-      $0$, $0$, $1$, $1$, $1$, $1$,
-      $0$, $1$, $0$, $0$, $1$, $1$,
-      $0$, $1$, $1$, $1$, $1$, $1$,
-      $1$, $0$, $0$, $0$, $0$, $1$,
-      $1$, $0$, $1$, $0$, $1$, $1$,
-      $1$, $1$, $0$, $0$, $0$, $1$,
-      $1$, $1$, $1$, $1$, $1$, $1$,
+      $0$, $0$, $0$, $1$, $1$, $1$, $1$, $1$,
+      $0$, $0$, $1$, $1$, $1$, $1$, $1$, $1$,
+      $0$, $1$, $0$, $1$, $0$, $0$, $1$, $1$,
+      $0$, $1$, $1$, $1$, $1$, $1$, $1$, $1$,
+      $1$, $0$, $0$, $0$, $1$, $0$, $0$, $1$,
+      $1$, $0$, $1$, $0$, $1$, $0$, $1$, $1$,
+      $1$, $1$, $0$, $1$, $0$, $0$, $0$, $1$,
+      $1$, $1$, $1$, $1$, $1$, $1$, $1$, $1$,
     )
   ]
 
-  Ни одна строка не даёт единицу в столбце посылок при нуле в $p imply r$, поэтому формула тавтологична.
+  Ни одна строка не даёт единицу в столбце $A$ при нуле в $B$, поэтому $A imply B$ тавтологична.
 ]
 
 == Контрмодель
@@ -897,7 +902,7 @@ enum Formula {
 #table(
   columns: (auto, auto),
   align: (left, left),
-  inset: (x: 0.6em, y: 0.1em),
+  inset: (x: 0.55em, y: 0.16em),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Связка*], [*Через NAND*]),
   [$not p$], [$p nand p$],
@@ -920,7 +925,7 @@ enum Formula {
   #table(
     columns: (auto, auto, auto, auto),
     align: center,
-    inset: (x: 0.6em, y: 0.12em),
+    inset: (x: 0.55em, y: 0.16em),
     stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
     table.header([*$p$*], [*$q$*], [*$p imply q$*], [*Терм*]),
     $0$, $0$, $1$, [$not p and not q$],
