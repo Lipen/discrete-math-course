@@ -253,6 +253,8 @@
   $
 ]
 
+Оценка --- это значение формулы при данной интерпретации.
+
 Рекурсия обрывается на листьях, потому что дерево конечно и единственно.
 
 == Пример оценки
@@ -506,11 +508,8 @@ enum Formula {
 }
 ```
 
-Перечисление повторяет грамматику пункт за пунктом.
-Это лист, отрицание и четыре бинарные связки.
-
-`Box` нужен потому, что вариант содержит формулу того же типа.
-Без указателя тип имел бы бесконечный размер.
+Грамматика задаёт, какие деревья считаются формулами.
+Тип задаёт те же деревья как данные, чтобы программа могла их обходить.
 
 == Свёртка
 
@@ -534,8 +533,28 @@ enum Formula {
 
 База стоит в листе, шаг --- в узле.
 
-Так же устроена оценка.
-Вместо числа атомов она возвращает $0$ или $1$, а вместо сложения применяет таблицу связки.
+== Значение формулы
+
+Та же оценка, записанная как функция.
+Атом берёт значение из интерпретации, узел применяет связку.
+
+#block[
+  #set text(size: 0.7em)
+  ```rust
+  fn eval(f: &Formula, nu: &dyn Fn(&str) -> bool) -> bool {
+      match f {
+          Formula::Atom(name) => nu(name),
+          Formula::Not(a) => !eval(a, nu),
+          Formula::And(a, b) => eval(a, nu) && eval(b, nu),
+          Formula::Or(a, b) => eval(a, nu) || eval(b, nu),
+          Formula::Imply(a, b) => !eval(a, nu) || eval(b, nu),
+          Formula::Iff(a, b) => eval(a, nu) == eval(b, nu),
+      }
+  }
+  ```
+]
+
+Это рекурсивное определение оценки из раздела "Оценка", переписанное как код.
 
 == Индукция по формуле
 
@@ -560,28 +579,54 @@ enum Formula {
 == Парсер
 
 Грамматика превращается в программу рекурсивным спуском.
+Строка сначала режется на токены.
+Токены --- это атомы, скобки и связки.
+Атом и отрицание разбираются сразу.
 
 #block[
-  #set text(size: 0.8em)
-  ```python
-  def parse(tokens):
-      if tokens.peek().kind == "atom":
-          return Atom(tokens.next().text)
-      tokens.expect("(")
-      if tokens.peek().text == "¬":
-          tokens.next()
-          body = parse(tokens)
-          tokens.expect(")")
-          return Not(body)
-      left = parse(tokens)
-      op = tokens.next().text
-      right = parse(tokens)
-      tokens.expect(")")
-      return Bin(op, left, right)
+  #set text(size: 0.7em)
+  ```rust
+  fn parse(tokens: &mut Tokens) -> Formula {
+      if tokens.peek().kind == Kind::Atom {
+          return Formula::Atom(tokens.next().text);
+      }
+      tokens.expect("(");
+      if tokens.peek().text == "¬" {
+          tokens.next();
+          let body = parse(tokens);
+          tokens.expect(")");
+          return Formula::Not(Box::new(body));
+      }
+      parse_binary(tokens)
+  }
   ```
 ]
 
 Знак после скобки отделяет отрицание от бинарной связки, поэтому спуск детерминирован.
+
+== Парсер бинарной связки
+
+Бинарный случай вынесен в отдельную функцию.
+Слева подформула, затем связка, справа ещё подформула.
+
+#block[
+  #set text(size: 0.7em)
+  ```rust
+  fn parse_binary(tokens: &mut Tokens) -> Formula {
+      let left = parse(tokens);
+      let op = tokens.next().text;
+      let right = parse(tokens);
+      tokens.expect(")");
+      match op.as_str() {
+          "∧" => Formula::And(Box::new(left), Box::new(right)),
+          "∨" => Formula::Or(Box::new(left), Box::new(right)),
+          "→" => Formula::Imply(Box::new(left), Box::new(right)),
+          "↔" => Formula::Iff(Box::new(left), Box::new(right)),
+          _ => unreachable!(),
+      }
+  }
+  ```
+]
 
 = Семантика и законы
 
