@@ -1,7 +1,14 @@
 #import "@preview/cetz:0.5.2": canvas, draw
 #import "style.typ": *
 
-#let pnode(pos, body, tone: ink) = mark(pos, body, tone: tone)
+#let pnode(pos, body, tone: ink) = draw.content(
+  pos,
+  box(
+    fill: white,
+    outset: 4.5pt,
+    radius: 1pt,
+  )[#text(size: label-size, fill: tone)[#body]],
+)
 
 #let plink(from, to) = draw.line(from, to, stroke: edge-plain)
 
