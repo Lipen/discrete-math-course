@@ -23,6 +23,7 @@
 )
 
 #show table: it => align(center, it)
+#show math.equation.where(block: false): box
 
 = Формальный язык
 
