@@ -19,6 +19,8 @@
   ),
 )
 
+#show table: it => align(center, it)
+
 = Мера без числа
 
 #focus-slide(
@@ -292,6 +294,7 @@ $ omega, quad omega^omega, quad omega^(omega^omega), quad dots . $
   Пусть $tau_0 = 1$, $tau_(n+1) = omega^(tau_n)$, а $epsilon = limits(sup)_n tau_n$.
   Каждая башня ниже $epsilon$, поэтому
   $ omega^epsilon = limits(sup)_(beta < epsilon) omega^beta . $
+
   Если $beta < epsilon$, то $beta < tau_n$ для некоторой башни $tau_n$.
   Тогда $omega^beta < omega^(tau_n) = tau_(n+1) < epsilon$, значит, правая часть не больше $epsilon$.
   С другой стороны, $tau_(n+1) <= omega^epsilon$, поэтому супремум равен $epsilon$.
