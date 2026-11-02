@@ -706,7 +706,7 @@ enum Formula {
   #[
     #set text(size: 0.8em)
     #table(
-      columns: (1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr, 1fr),
+      columns: (auto, auto, auto, auto, auto, auto, auto, auto),
       align: center,
       inset: (x: 0.45em, y: 0.24em),
       stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
@@ -987,7 +987,7 @@ enum Formula {
 Законы логики --- уравнения между функциями истинности.
 
 #table(
-  columns: (auto, 1fr, 1fr),
+  columns: (auto, auto, auto),
   align: (left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Закон*], [*Конъюнкция*], [*Дизъюнкция*]),
@@ -1015,7 +1015,7 @@ enum Formula {
 Это сокращения, а не новые символы алфавита.
 
 #table(
-  columns: (auto, 1fr),
+  columns: (auto, auto),
   align: (left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Закон*], [*Формула*]),
@@ -1035,7 +1035,7 @@ enum Formula {
 У импликации есть законы, которых нет среди уравнений булевой алгебры.
 
 #table(
-  columns: 3,
+  columns: (auto, auto, auto),
   align: (left, left, left),
   stroke: (x, y) => if y == 0 { (bottom: 0.8pt) },
   table.header([*Закон*], [*Формула*], [*Смысл*]),
