@@ -26,7 +26,6 @@
 #show math.equation.where(block: false): box
 
 = Формальный язык
-
 #focus-slide(
   ghost: syntax-semantics-ghost,
   epigraph: [Логика есть анатомия мысли.],
@@ -127,7 +126,6 @@
 ]
 
 = Синтаксис
-
 #focus-slide(
   ghost: prop-ghost,
   epigraph: [Всё, что вообще можно мыслить, можно мыслить ясно. Всё, что можно высказать, можно высказать ясно.],
@@ -245,7 +243,6 @@
 Дерево формулы $((not p) and q) imply r$ единственно.
 
 = Семантика
-
 #focus-slide(
   ghost: truthtable-ghost,
   epigraph: ["Снег бел" истинно тогда и только тогда, когда снег бел.],
@@ -481,6 +478,7 @@ fn eval(f: &Formula, nu: &dyn Fn(&str) -> bool) -> bool {
 ]
 
 = Рекурсия по синтаксису
+#focus-slide()
 
 == Структурная индукция
 
@@ -650,6 +648,7 @@ fn parse_binary(ts: &mut Tokens) -> Formula {
 Для некорректного входа парсер возвращал бы `Result`.
 
 = Семантика и законы
+#focus-slide()
 
 == Композициональность
 
@@ -1088,6 +1087,7 @@ fn parse_binary(ts: &mut Tokens) -> Formula {
 ]
 
 = Компактность
+#focus-slide()
 
 == Теорема компактности
 
@@ -1233,8 +1233,9 @@ $ {p_1, p_1 imply p_2, dots, p_(99) imply p_(100), not p_(100)}. $
 ]
 
 = Схемы
+#focus-slide()
 
-== Схемы
+== Схемы из вентилей
 
 Формулу можно изобразить схемой.
 Атомы служат входами, связки --- вентилями.
@@ -1294,6 +1295,7 @@ $ {p_1, p_1 imply p_2, dots, p_(99) imply p_(100), not p_(100)}. $
 )
 
 = Итоги
+#focus-slide()
 
 == Проверьте себя
 

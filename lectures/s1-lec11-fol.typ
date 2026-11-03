@@ -25,7 +25,6 @@
 )
 
 = Синтаксис и семантика
-
 #focus-slide(
   ghost: syntax-semantics-ghost,
   epigraph: [Всякий хороший математик хотя бы наполовину философ, и всякий хороший философ хотя бы наполовину математик.],
@@ -609,7 +608,6 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 ]
 
 = Нормальные формы
-
 #focus-slide(
   ghost: normal-forms-ghost,
   epigraph: [Когда возникнет спор, философам не нужно будет спорить --- достаточно взять перья и сказать: вычислим.],
@@ -703,7 +701,6 @@ $ not (forall x in A . thin P (x)) equiv exists x in A . thin not P (x) $
 ]
 
 = Границы метода
-
 #focus-slide(
   ghost: consequence-ghost,
   epigraph: [Мы должны знать, мы будем знать.],
@@ -933,7 +930,6 @@ $
 ]
 
 = Силлогизмы Аристотеля
-
 #focus-slide(
   ghost: syllogism-ghost,
   epigraph: [Логика до сих пор не могла сделать ни шага вперёд и, судя по всему, кажется наукой вполне законченной и завершённой.],

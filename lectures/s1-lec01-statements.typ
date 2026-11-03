@@ -18,7 +18,6 @@
 )
 
 = Логика высказываний
-
 #focus-slide(
   ghost: prop-ghost,
   epigraph: [Границы моего языка означают границы моего мира.],
@@ -305,7 +304,6 @@ $P iff Q$ --- то же самое, что $(P imply Q) and (Q imply P)$.
 ]
 
 = Семантика и законы
-
 #focus-slide(
   ghost: truthtable-ghost,
   epigraph: [Математика --- это искусство давать одно и то же имя разным вещам.],

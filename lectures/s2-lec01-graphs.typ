@@ -21,7 +21,6 @@
 #show raw.where(block: true): set text(0.75em)
 
 = Язык графов
-
 #focus-slide(
   ghost: graph-ghost,
   epigraph: [Карта не есть территория.],
@@ -333,7 +332,6 @@ sum(map(len, g.values()))   # 10 = 2 * 5
 ]
 
 = Пути и связность
-
 #focus-slide(
   ghost: path-ghost,
   epigraph: [Человек не остров, сам по себе существующий.],

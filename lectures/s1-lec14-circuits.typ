@@ -19,7 +19,6 @@
 )
 
 = Схемы и верификация
-
 #focus-slide(
   ghost: circuit-ghost,
   epigraph: [Что я не могу создать, я не понимаю.],

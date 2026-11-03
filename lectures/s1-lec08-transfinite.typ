@@ -23,7 +23,6 @@
 #show math.equation.where(block: false): box
 
 = Мера без числа
-
 #focus-slide(
   epigraph: [Если задачу решить не удаётся, рядом есть более простая задача, которую решить можно. Найдите её.],
   epigraph-author: [Дьёрдь Пойа],

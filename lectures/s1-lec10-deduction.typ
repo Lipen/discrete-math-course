@@ -24,7 +24,6 @@
 #show math.equation.where(block: false): box
 
 = Натуральная дедукция
-
 #focus-slide(
   ghost: inference-ghost,
   epigraph: [Хотя у этого предложения бесконечное число случаев, я дам для него весьма короткое доказательство.],

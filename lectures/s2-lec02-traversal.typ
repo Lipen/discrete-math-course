@@ -22,7 +22,6 @@
 #show table: set text(0.8em)
 
 = Обходы графа
-
 #focus-slide(
   ghost: bfs-ghost,
   epigraph: [Не все, кто блуждает, потеряны.],
@@ -604,7 +603,6 @@ fn dfs(u: usize, adj: &[Vec<usize>], seen: &mut [bool],
 ]
 
 = Деревья
-
 #focus-slide(
   ghost: tree-ghost,
   epigraph: [Родственные связи всех существ одного класса иногда изображали в виде великого дерева. Я~верю, что эта метафора во многом соответствует истине.],
