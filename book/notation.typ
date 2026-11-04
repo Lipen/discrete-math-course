@@ -88,6 +88,7 @@
 #let beta-eq = $=^beta$                       // =^beta (эквивалентность)
 #let alpha-eq = $=^alpha$                     // =^alpha (альфа-эквивалентность)
 #let par-red = $succ.eq$                       // succ.eq --- параллельная редукция (Church-Rosser proof)
+#let par-reds = $succ.eq^*$                     // её рефлексивно-транзитивное замыкание
 #let par-red-rel(M, N) = $#M succ.eq #N$       // M succ.eq N
 
 // Макросы для lambda-конструкций --- принимают content, возвращают math.
