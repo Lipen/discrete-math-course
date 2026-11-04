@@ -516,7 +516,7 @@
       fill: c-muted,
     )[$#st$]))
   }
-  let metrics = (3, 3, 3, 1)
+  let metrics = (3, 2, 3, 1)
   elems.push(node((4.62, -0.65), text(size: s-cap, fill: c-muted)[метрика]))
   for i in range(4) {
     elems.push(node((4.6, i), text(
