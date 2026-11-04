@@ -10,6 +10,15 @@
 
 #let e-stroke = (paint: c-edge, thickness: t-ed)
 
+#let loop-edge(from, angle: 90deg) = edge(
+  from,
+  from,
+  "-}>",
+  stroke: acc-stroke,
+  bend: 120deg,
+  loop-angle: angle,
+)
+
 // Узел D --- деонтическая система, лежащая на ребре $K -> T$, вне осей куба.
 #let d-fill = c-conn
 #let d-str = oklch(60%, 0.10, 60deg) + t-bd
@@ -127,6 +136,92 @@
   node(
     (1.45, -1.9),
     text(size: s-cap, fill: c-muted)[$"crit"_1, "crit"_2$],
+    fill: none,
+    stroke: none,
+  ),
+)
+
+// ── Модель Крипке: истинность вложенной модальности ──
+#let kripke-forcing = diagram(
+  node-shape: circle,
+  node-stroke: t-bd + c-bd,
+  node-fill: c-fl,
+  node((-1.1, -0.7), $w_0$, name: <w0>),
+  node((0.5, 0.8), $w_1$, name: <w1>),
+  node((1.5, -0.7), $w_2$, name: <w2>),
+  edge(<w0>, <w1>, "-}>", stroke: acc-stroke),
+  edge(<w0>, <w2>, "-}>", stroke: acc-stroke),
+  edge(<w1>, <w2>, "-}>", stroke: acc-stroke),
+  edge(<w2>, <w2>, "-}>", stroke: acc-stroke, bend: 120deg, loop-angle: 0deg),
+  node(
+    (-1.1, -1.55),
+    text(size: s-cap, fill: c-muted)[$square (p -> q)$],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (0.95, 1.35),
+    text(size: s-cap, fill: c-muted)[$q$],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (1.9, -1.55),
+    text(size: s-cap, fill: c-muted)[$p, q$],
+    fill: none,
+    stroke: none,
+  ),
+)
+
+// ── Классы фреймов: рефлексивность, предпорядок, эквивалентность ──
+#let frame-classes = diagram(
+  node-shape: circle,
+  node-stroke: t-bd + c-bd,
+  node-fill: c-fl,
+  node((-0.6, 0), $w$, name: <tw>),
+  node((0.6, 0), $v$, name: <tv>),
+  loop-edge(<tw>),
+  loop-edge(<tv>),
+  edge(<tw>, <tv>, "-}>", stroke: acc-stroke),
+
+  node((2.6, 0), $w$, name: <sw>),
+  node((3.6, 0.75), $v$, name: <sv>),
+  node((4.6, 0), $u$, name: <su>),
+  loop-edge(<sw>),
+  loop-edge(<sv>),
+  loop-edge(<su>),
+  edge(<sw>, <sv>, "-}>", stroke: acc-stroke),
+  edge(<sv>, <su>, "-}>", stroke: acc-stroke),
+  edge(<sw>, <su>, "-}>", stroke: acc-stroke, bend: -25deg),
+
+  node((6.4, 0), $w$, name: <ew>),
+  node((7.4, 0.75), $v$, name: <ev>),
+  node((8.4, 0), $u$, name: <eu>),
+  loop-edge(<ew>),
+  loop-edge(<ev>),
+  loop-edge(<eu>),
+  edge(<ew>, <ev>, "-}>", stroke: acc-stroke),
+  edge(<ev>, <ew>, "-}>", stroke: acc-stroke),
+  edge(<ev>, <eu>, "-}>", stroke: acc-stroke),
+  edge(<eu>, <ev>, "-}>", stroke: acc-stroke),
+  edge(<ew>, <eu>, "-}>", stroke: acc-stroke),
+  edge(<eu>, <ew>, "-}>", stroke: acc-stroke),
+
+  node(
+    (-0.6, -1.05),
+    text(size: s-cap, fill: c-muted)[$T$: рефлексивность],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (3.6, -1.05),
+    text(size: s-cap, fill: c-muted)[$S_4$: предпорядок],
+    fill: none,
+    stroke: none,
+  ),
+  node(
+    (7.4, -1.05),
+    text(size: s-cap, fill: c-muted)[$S_5$: эквивалентность],
     fill: none,
     stroke: none,
   ),
