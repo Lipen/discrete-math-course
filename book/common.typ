@@ -309,6 +309,7 @@
   // Рисунки: по центру, номер с префиксом главы; таблицы могут разрываться
   set figure(numbering: n => context numbering("1.1", counter(heading).get().first(), n))
   show figure: it => align(center, it)
+  show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set block(breakable: true)
 
   // Латинские сокращения

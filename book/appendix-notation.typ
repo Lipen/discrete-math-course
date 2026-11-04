@@ -15,9 +15,6 @@
 Колонка "Впервые" называет главу, где обозначение вводится и разбирается.
 При спорных случаях возвращайтесь к главе-первоисточнику.
 
-#show figure.where(kind: table): set figure.caption(position: top)
-#show figure.where(kind: table): set block(breakable: true)
-
 #figure(
   table(
     columns: (auto, 1fr, auto),
