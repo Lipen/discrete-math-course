@@ -1,13 +1,15 @@
 //! Example Turing machines.
 //!
-//! Each function builds a [`Machine`] that recognises a
-//! specific language or computes a simple function. The machines use
-//! `&'static str` for states (readable in traces) and `char` for tape
-//! symbols (with `' '` as the blank).
+//! Each function builds a machine that recognises a specific language or computes a simple function.
+//! Single-tape machines are [`Machine`] values, the two-tape copy machine is a [`MultiTapeMachine`], and the guessing machine is a [`NondeterministicMachine`].
+//!
+//! The machines use `&'static str` for states (readable in traces) and `char` for tape symbols (with `' '` as the blank).
 
 use std::collections::HashMap;
 
 use crate::machine::{Machine, Transition};
+use crate::multitape::{MultiTapeMachine, MultiTransition};
+use crate::nondeterministic::NondeterministicMachine;
 use crate::tape::Direction;
 
 /// Shorthand for building a transition.
@@ -19,6 +21,19 @@ fn tr<Sym: Clone, State>(
     Transition {
         write,
         direction,
+        next_state,
+    }
+}
+
+/// Shorthand for building a multi-tape transition.
+fn mtr<Sym: Clone, State>(
+    writes: Vec<Sym>,
+    directions: Vec<Direction>,
+    next_state: State,
+) -> MultiTransition<Sym, State> {
+    MultiTransition {
+        writes,
+        directions,
         next_state,
     }
 }
@@ -195,6 +210,125 @@ pub fn palindrome() -> Machine<char, &'static str> {
     t.insert(("back", 'X'), tr('X', Direction::Left, "back"));
     t.insert(("back", ' '), tr(' ', Direction::Right, "q0"));
     Machine::new(t, "q0", "accept", "reject")
+}
+
+/// A two-tape machine that copies the input word onto the second tape in reverse.
+///
+/// Tape 0 holds the word with its head on the first symbol.
+/// Tape 1 starts blank.
+/// State `scan` moves the first head to the right end, leaving the second head in place.
+/// State `back` walks the first head left and writes each symbol onto the second tape while its head moves right.
+/// The result on tape 1 is the reverse of the input, and the machine accepts.
+/// A symbol outside `{0, 1}` on tape 0 is rejected.
+///
+/// ```
+/// use turing::{machines, Outcome, Tape};
+///
+/// let m = machines::copy_reversed();
+/// let tapes = vec![Tape::with_word(&['0', '1', '1'], ' '), Tape::new(' ')];
+/// let run = m.run(tapes, 100);
+/// assert_eq!(run.outcome, Outcome::Accepted);
+///
+/// let last = run.configs.last().unwrap();
+/// let reversed: String = last.tapes[1].content_trimmed().iter().collect();
+/// assert_eq!(reversed, "110");
+/// ```
+pub fn copy_reversed() -> MultiTapeMachine<char, &'static str> {
+    let mut t = HashMap::new();
+
+    // scan: move the first head to the right end, second head stays.
+    t.insert(
+        ("scan", vec!['0', ' ']),
+        mtr(
+            vec!['0', ' '],
+            vec![Direction::Right, Direction::Stay],
+            "scan",
+        ),
+    );
+    t.insert(
+        ("scan", vec!['1', ' ']),
+        mtr(
+            vec!['1', ' '],
+            vec![Direction::Right, Direction::Stay],
+            "scan",
+        ),
+    );
+    t.insert(
+        ("scan", vec![' ', ' ']),
+        mtr(
+            vec![' ', ' '],
+            vec![Direction::Left, Direction::Stay],
+            "back",
+        ),
+    );
+    t.insert(
+        ("scan", vec!['X', ' ']),
+        mtr(
+            vec!['X', ' '],
+            vec![Direction::Stay, Direction::Stay],
+            "reject",
+        ),
+    );
+
+    // back: walk left, writing the reverse onto the second tape.
+    t.insert(
+        ("back", vec!['0', ' ']),
+        mtr(
+            vec!['0', '0'],
+            vec![Direction::Left, Direction::Right],
+            "back",
+        ),
+    );
+    t.insert(
+        ("back", vec!['1', ' ']),
+        mtr(
+            vec!['1', '1'],
+            vec![Direction::Left, Direction::Right],
+            "back",
+        ),
+    );
+    t.insert(
+        ("back", vec![' ', ' ']),
+        mtr(
+            vec![' ', ' '],
+            vec![Direction::Right, Direction::Stay],
+            "accept",
+        ),
+    );
+
+    MultiTapeMachine::new(t, 2, "scan", "accept", "reject")
+}
+
+/// A nondeterministic machine that accepts words containing `01`.
+///
+/// State `q0` walks right and at every `0` may either stay in `q0` or guess that this `0` starts the pair and switch to `q1`.
+/// State `q1` accepts on the next symbol if it is `1` and rejects if it is `0`.
+/// Guesses that run into the end of the word simply halt, so a word is rejected only when no guess survives.
+///
+/// ```
+/// use turing::{machines, NondeterministicOutcome, Tape};
+///
+/// let m = machines::contains_01();
+///
+/// let tape = Tape::with_word(&['1', '1', '0', '1'], ' ');
+/// assert_eq!(m.run(tape, 20).outcome, NondeterministicOutcome::Accepted);
+///
+/// let tape = Tape::with_word(&['1', '0', '0'], ' ');
+/// assert_eq!(m.run(tape, 20).outcome, NondeterministicOutcome::Rejected);
+/// ```
+pub fn contains_01() -> NondeterministicMachine<char, &'static str> {
+    let mut t = HashMap::new();
+    t.insert(
+        ("q0", '0'),
+        vec![
+            tr('0', Direction::Right, "q0"),
+            tr('0', Direction::Right, "q1"),
+        ],
+    );
+    t.insert(("q0", '1'), vec![tr('1', Direction::Right, "q0")]);
+    t.insert(("q1", '1'), vec![tr('1', Direction::Right, "accept")]);
+    t.insert(("q1", '0'), vec![tr('0', Direction::Right, "reject")]);
+    NondeterministicMachine::new(t, "q0", "accept", "reject")
 }
 
 #[cfg(test)]

@@ -42,7 +42,7 @@ pub struct Transition<Sym, State> {
 /// let cfg = Configuration { state: "q0", tape };
 /// assert_eq!(cfg.state, "q0");
 /// ```
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Configuration<Sym, State> {
     /// The state the machine is in.
     pub state: State,
@@ -153,6 +153,53 @@ where
             accept,
             reject,
         }
+    }
+
+    /// Returns the transition table.
+    ///
+    /// The table maps every (state, symbol) pair that has a transition to that transition. Pairs absent from the table halt the machine.
+    ///
+    /// ```
+    /// use turing::machines;
+    ///
+    /// let machine = machines::ends_with_zero();
+    /// assert_eq!(machine.transitions().len(), 6);
+    /// ```
+    pub fn transitions(&self) -> &HashMap<(State, Sym), Transition<Sym, State>> {
+        &self.transitions
+    }
+
+    /// Returns the start state.
+    ///
+    /// ```
+    /// use turing::machines;
+    ///
+    /// assert_eq!(*machines::ends_with_zero().start(), "q0");
+    /// ```
+    pub fn start(&self) -> &State {
+        &self.start
+    }
+
+    /// Returns the accepting state.
+    ///
+    /// ```
+    /// use turing::machines;
+    ///
+    /// assert_eq!(*machines::ends_with_zero().accept(), "accept");
+    /// ```
+    pub fn accept(&self) -> &State {
+        &self.accept
+    }
+
+    /// Returns the rejecting state.
+    ///
+    /// ```
+    /// use turing::machines;
+    ///
+    /// assert_eq!(*machines::ends_with_zero().reject(), "reject");
+    /// ```
+    pub fn reject(&self) -> &State {
+        &self.reject
     }
 
     /// Computes the next configuration from `config`, or `None` if no

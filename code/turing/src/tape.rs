@@ -1,10 +1,10 @@
-//! The tape: an infinite sequence of cells holding symbols,
-//! with a head that can read, write, and move left or right.
+//! The tape: an infinite sequence of cells holding symbols, with a head that can read, write, and move left or right.
 //!
-//! The tape is modelled as two stacks (`left` and `right`) with the head
-//! between them. Moving the head transfers a symbol between the stacks,
-//! so every operation is O(1). A blank symbol fills cells that have never
-//! been written.
+//! The tape is modelled as two stacks (`left` and `right`) with the head between them.
+//! Moving the head transfers a symbol between the stacks, so every operation is O(1).
+//! A blank symbol fills cells that have never been written.
+
+use std::fmt;
 
 /// The direction the head moves after writing.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -17,11 +17,22 @@ pub enum Direction {
     Stay,
 }
 
+impl fmt::Display for Direction {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Direction::Left => write!(f, "L"),
+            Direction::Right => write!(f, "R"),
+            Direction::Stay => write!(f, "S"),
+        }
+    }
+}
+
 /// A Turing-machine tape with a head.
 ///
 /// Symbols to the left of the head sit in the `left` stack (the top is the
 /// nearest cell); symbols to the right sit in `right` (the top is the nearest
-/// cell). Moving the head pops from one stack and pushes onto the other.
+/// cell).
+/// Moving the head pops from one stack and pushes onto the other.
 /// Every cell that has never been visited holds the `blank` symbol.
 ///
 /// ```
@@ -36,7 +47,7 @@ pub enum Direction {
 /// tape.move_left();
 /// assert_eq!(*tape.read(), 'a'); // back where we were
 /// ```
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Tape<Sym> {
     head: Sym,
     left: Vec<Sym>,
@@ -62,8 +73,8 @@ impl<Sym: Clone + Eq> Tape<Sym> {
         }
     }
 
-    /// Creates a tape containing `word`; the head is positioned on the first
-    /// symbol. Cells beyond the word are blank.
+    /// Creates a tape containing `word`; the head is positioned on the first symbol.
+    /// Cells beyond the word are blank.
     ///
     /// ```
     /// use turing::Tape;
@@ -85,6 +96,24 @@ impl<Sym: Clone + Eq> Tape<Sym> {
             tape.move_left();
         }
         tape
+    }
+
+    /// Returns the index of the head inside [`Tape::content`].
+    ///
+    /// The index counts cells from the leftmost visited cell, so it changes as the head moves.
+    /// It is useful for drawing a tape with the head marked.
+    ///
+    /// ```
+    /// use turing::Tape;
+    ///
+    /// let mut tape = Tape::with_word(&['a', 'b'], '_');
+    /// assert_eq!(tape.head_index(), 0);
+    /// tape.move_right();
+    /// assert_eq!(tape.head_index(), 1);
+    /// assert_eq!(tape.content(), vec!['a', 'b']);
+    /// ```
+    pub fn head_index(&self) -> usize {
+        self.left.len()
     }
 
     /// Returns the symbol under the head.
@@ -170,9 +199,7 @@ impl<Sym: Clone + Eq> Tape<Sym> {
         }
     }
 
-    /// Returns the tape content as `left` (bottom to top) + `head` + `right`
-    /// (reversed so the nearest cell comes first).
-    ///
+    /// Returns the tape content as `left` (bottom to top) + `head` + `right` (reversed so the nearest cell comes first).
     /// Blanks that the head has visited are included.
     ///
     /// ```
