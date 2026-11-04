@@ -8,6 +8,8 @@ A deliberately simple graph model — `usize` vertex ids, optional names, weight
 
 ```bash
 cargo run --example bfs_dfs
+cargo run --example flow_demo
+cargo run --example matching_demo
 cargo run --example visualize
 cargo test
 ```
@@ -47,8 +49,12 @@ The DOT source is committed at [`assets/graphs-demo.dot`](assets/graphs-demo.dot
 | `pointer_analysis` | Steensgaard's unification-based analysis of a tiny C-like program, with the points-to sets after every statement            |
 | `visualize`        | one graph written as DOT, an SVG picture, and a self-contained cytoscape.js HTML page in a temp dir, with the paths printed |
 | `random_graph`     | Erdős–Rényi $G(n, p)$: degrees, the handshake lemma, components, a DOT file written                                         |
+| `flow_demo`        | Edmonds–Karp max flow: residual paths, per-edge flow, minimum cut                                                           |
+| `matching_demo`    | Bipartite matching with augmenting paths, sides, pairs, size, odd-cycle rejection                                           |
 
 `dijkstra` contrasts the two shortest-path algorithms on the same vertices.
+`flow_demo` prints every augmenting path and the cut whose capacity matches the flow value.
+`matching_demo` flips an alternating path to reassign an already matched task.
 `genome_assembly` and `pointer_analysis` apply graphs to data and to program analysis.
 `visualize` produces files in a temp dir and prints their absolute paths.
 
@@ -104,6 +110,51 @@ Picking an algorithm:
 | components                                                | `connected_components` (undirected), `strongly_connected_components` (directed) |
 | bridges, articulation points, or a 2-coloring             | `bridges`, `articulation_points`, `is_bipartite`                                |
 | colors or distance measures                               | `greedy_coloring`, `distance`, `eccentricity`, `diameter`                       |
+| directed graph with capacities                            | `max_flow` (maximum flow and minimum cut)                                       |
+| bipartite graph, disjoint pairs                           | `bipartite_matching` (maximum cardinality)                                      |
+
+### Maximum flow (`flow.rs`)
+
+A flow network is a directed graph with a capacity on every edge, a designated source, and a designated sink.
+A flow respects the capacities and is conserved at every vertex except the source and the sink.
+Its value is the amount that leaves the source.
+The maximum flow equals the minimum cut:
+
+$$\max_{f} |f| = \min_{C} \sum_{e \in C} c_e$$
+
+| Item                     | Purpose                                                             |
+| ------------------------ | ------------------------------------------------------------------- |
+| `max_flow(&g, s, t)`     | Edmonds–Karp: value, per-edge flow, residual reachability           |
+| `MaxFlow::value`         | the maximum flow value                                              |
+| `MaxFlow::edge_flow`     | flow on every input edge, in `g.edges` order                        |
+| `MaxFlow::reachable`     | vertices reachable from the source in the final residual network    |
+| `MaxFlow::cut`           | edges of a minimum cut as `(from, to)`, capacities sum to the value |
+| `MaxFlow::augmentations` | each augmenting path with the amount pushed along it                |
+
+Capacities are the edge weights and must be non-negative.
+The graph must be directed.
+Each round takes a shortest augmenting path by BFS in the residual network, so the algorithm runs in $O(V E^2)$ and the sequence of paths is deterministic.
+The final residual network gives a minimum cut: the reachable vertices are its source side, and `cut` lists the edges that leave them.
+
+### Bipartite matching (`matching.rs`)
+
+A matching is a set of edges with no shared endpoints.
+In a bipartite graph the vertices split into two sides and every edge crosses the split.
+An augmenting path starts at an unmatched vertex, alternates unmatched and matched edges, and ends at an unmatched vertex.
+Flipping it raises the matching size by one, and a matching with no augmenting path left is maximum.
+
+| Item                       | Purpose                                                  |
+| -------------------------- | -------------------------------------------------------- |
+| `bipartite_matching(&g)`   | maximum matching, `None` on an odd cycle                 |
+| `BipartiteMatching::pairs` | matched `(left, right)` pairs, sorted by the left vertex |
+| `BipartiteMatching::size`  | the cardinality of the matching                          |
+| `BipartiteMatching::color` | the 2-coloring that defines the two sides                |
+| `BipartiteMatching::steps` | augmenting paths with the matching size after each one   |
+
+The input must be undirected.
+The sides come from a BFS 2-coloring, and `None` reports a graph with an odd cycle.
+Every augmenting path is found by a DFS and recorded, so `steps` shows how the matching grew.
+A single attempt costs $O(E)$ and every vertex of one side is tried once, so the whole run is $O(V E)$.
 
 ### Union-find (`unionfind.rs`)
 
@@ -199,5 +250,8 @@ Every algorithm has cases with explicit expected values:
 - the unification steps of the pointer analysis
 - matrix round-trips and walk counts
 - union-find equivalence classes
+- maximum flow on a small network: value, per-edge flow, conservation, and a cut of the same capacity
+- a disconnected network with zero flow and an unreachable sink
+- bipartite matchings: a perfect matching, an augmenting reassignment, and a graph without edges
 
 The doc tests in `src/` double as documentation.
