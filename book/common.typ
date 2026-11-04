@@ -13,9 +13,6 @@
 // --- Вёрстка и символы ---
 #let YES = text(fill: green, sym.checkmark)
 
-// Roman numeral helper
-#let roman(n) = numbering("I", n)
-
 // --- Орнаменты заголовков ---
 #let chapter-ornament(accent) = {
   v(-0.3em)
@@ -56,6 +53,9 @@
 // чтобы клик по ссылке вёл к началу условия.
 // Использование: `+ #task-id("m01:t3") \* Условие задачи...`
 #let task-id(id) = metadata((ex-id: id))
+
+// Метка предметного указателя: термин и страница, где он определён.
+#let idx(term) = metadata((idx: term))
 
 // Ссылка на упражнение по id (через metadata + query, как в банке задач).
 // Упражнение помечает себя макросом #task-id("m01:t3") в начале пункта.
@@ -185,6 +185,8 @@
       ]
     } else {
       pagebreak(weak: true)
+      counter(figure.where(kind: image)).update(0)
+      counter(figure.where(kind: table)).update(0)
       block(
         width: 100%,
         below: 2em,
@@ -198,7 +200,7 @@
             weight: "bold",
             fill: theme,
             tracking: 0.1em,
-          )[#roman(ch)]
+          )[#ch]
         ]
         #v(2em, weak: true)
         #text(
@@ -238,7 +240,10 @@
       sticky: true,
     )[
       #text(size: 14pt, weight: "medium")[
-        #counter(heading).display()#h(0.5em)#it.body
+        #if it.numbering != none [
+          #counter(heading).display()#h(0.5em)
+        ]
+        #it.body
       ]
     ]
   }
@@ -260,9 +265,9 @@
           #if it.element.numbering == none [
             #link(it.element.location())[#it.element.body]
           ] else [
-            #text(fill: theme)[#roman(nums.first())]#h(0.5em)#link(
-              it.element.location(),
-            )[#it.element.body]
+            #box(width: 1.6em, align(right)[#text(fill: theme)[#nums.first()]])
+            #h(0.6em)
+            #link(it.element.location())[#it.element.body]
           ]
           #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
           #it.page()
@@ -273,9 +278,9 @@
         #context {
           let nums = counter(heading).at(it.element.location())
           text(size: 11.5pt)[
-            #if toc-numbers.contains(2) and nums.len() >= 2 [
-              #text(fill: theme)[#numbering("1.1", ..nums.slice(0, 2))]
-              #h(0.5em, weak: true)
+            #if toc-numbers.contains(2) and nums.len() >= 2 and it.element.numbering != none [
+              #box(width: 2.4em, align(right)[#text(fill: theme)[#numbering("1.1", ..nums.slice(0, 2))]])
+              #h(0.6em)
             ]
             #link(it.element.location())[#it.element.body]
             #box(width: 1fr, repeat(gap: 0.5em, justify: true)[·])
@@ -301,9 +306,10 @@
     }
   }
 
-  // Рисунки: по центру
-  set figure(gap: 0.65em)
+  // Рисунки: по центру, номер с префиксом главы; таблицы могут разрываться
+  set figure(numbering: n => context numbering("1.1", counter(heading).get().first(), n))
   show figure: it => align(center, it)
+  show figure.where(kind: table): set block(breakable: true)
 
   // Латинские сокращения
   show "i.e.": set text(style: "italic")
@@ -311,12 +317,12 @@
 
   // Листинги кода: врезка с фоном, 90% ширины, по центру
   show raw.where(block: true): it => align(center, block(
-    width: 90%,
-    inset: (x: 1.1em, y: 0.9em),
+    width: 100%,
+    inset: (x: 0.9em, y: 0.9em),
     radius: 5pt,
     fill: luma(96%),
     stroke: (left: 2pt + luma(72%)),
-    text(size: 0.85em)[#it],
+    text(size: 0.8em)[#it],
   ))
   show "etc.": set text(style: "italic")
 

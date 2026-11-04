@@ -14,11 +14,9 @@
 #show: notes-template.with(theme: accent-color)
 
 // --- Титульная страница ---
-#front-matter
-
 #set page(
   paper: "a4",
-  margin: (left: 3cm, right: 2.5cm, top: 3cm, bottom: 2.5cm),
+  margin: (inside: 3cm, outside: 2.5cm, top: 3cm, bottom: 2.5cm),
   header: none,
   footer: none,
 )
@@ -27,7 +25,15 @@
 
 #pagebreak(weak: true)
 
-// --- Содержание ---
+// --- Содержание: римская пагинация ---
+#set page(
+  numbering: "i",
+  footer: align(center)[
+    #set text(size: 8pt, fill: luma(45%))
+    #context counter(page).display("i")
+  ],
+)
+#counter(page).update(2)
 #heading(
   level: 1,
   numbering: none,
@@ -36,13 +42,18 @@
 )[Содержание]
 #outline(title: none, indent: 1em, depth: 3)
 
-// --- Основной текст ---
-#main-matter
+// --- Основной текст: арабская пагинация с единицы ---
+#pagebreak(weak: true)
+#counter(page).update(1)
+#set page(numbering: "1")
 
 #set page(
   paper: "a4",
-  margin: (left: 3cm, right: 2.5cm, top: 3cm, bottom: 2.5cm),
-  header: [
+  margin: (inside: 3cm, outside: 2.5cm, top: 3cm, bottom: 2.5cm),
+  header: context {
+    let pg = counter(page).get().first()
+    let chapter-start = query(heading.where(level: 1)).any(h => counter(page).at(h.location()).first() == pg)
+    if not chapter-start [
     #set text(size: 8.5pt, fill: luma(45%))
     #grid(
       columns: (1fr, 1fr),
@@ -71,9 +82,10 @@
     )
     #v(0.25em)
     #line(length: 100%, stroke: 0.3pt + luma(80%))
-  ],
+    ]
+  },
   footer: align(center)[
-    #set text(size: 8pt, fill: luma(50%))
+    #set text(size: 8pt, fill: luma(45%))
     #align(center)[
       #line(length: 3cm, stroke: 0.3pt + luma(80%))
       #v(0.15em)
@@ -84,6 +96,8 @@
 
 // --- Главы ---
 #include "introduction.typ"
+
+#heading(level: 1, numbering: none)[Часть I. Язык~описания]
 #include "chapters/m01-logic.typ"
 #include "chapters/m02-deduction.typ"
 #include "chapters/m03-fol.typ"
@@ -93,6 +107,8 @@
 #include "chapters/m07-cardinals.typ"
 #include "chapters/m08-order-relations.typ"
 #include "chapters/m09-graphs.typ"
+
+#heading(level: 1, numbering: none)[Часть II. Алгебра~и~инженерия]
 #include "chapters/m10-boolean-algebra.typ"
 #include "chapters/m11-circuits.typ"
 #include "chapters/m12-algebra.typ"
@@ -101,11 +117,15 @@
 #include "chapters/m15-smt.typ"
 #include "chapters/m16-logic-programming.typ"
 #include "chapters/m17-matroids.typ"
+
+#heading(level: 1, numbering: none)[Часть III. Счёт,~случайность~и~бесконечность]
 #include "chapters/m18-combinatorics.typ"
 #include "chapters/m19-number-theory-crypto.typ"
 #include "chapters/m20-probability.typ"
 #include "chapters/m21-generating-fns.typ"
 #include "chapters/m22-constructions.typ"
+
+#heading(level: 1, numbering: none)[Часть IV. Вычисление]
 #include "chapters/m23-automata.typ"
 #include "chapters/m24-context-free.typ"
 #include "chapters/m25-turing.typ"
@@ -130,3 +150,6 @@
 
 // --- Глоссарий ---
 #include "glossary.typ"
+
+// --- Предметный указатель ---
+#include "index.typ"

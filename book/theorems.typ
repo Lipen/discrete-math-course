@@ -296,7 +296,7 @@
     radius: 3pt,
   )[
     #set par(first-line-indent: 0pt)
-    #set text(fill: luma(50%))
+    #set text(fill: luma(45%))
     #body
     #v(0.6em, weak: true)
     #align(right)[
@@ -314,7 +314,7 @@
   project-stage-num.step()
   context {
     let n = project-stage-num.get().first()
-    block(above: 0.6em, below: 0.55em)[
+    block(above: 0.6em, below: 0.55em, breakable: false)[
       #grid(
         columns: (auto, 1fr),
         column-gutter: 0.8em,
