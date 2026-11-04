@@ -4,7 +4,7 @@
 #set page(
   paper: "a4",
   margin: (top: 2.5cm, rest: 2cm),
-  numbering: "1 / 1",
+  numbering: none,
   header-ascent: 1em,
   header: [
     #set text(10pt)
