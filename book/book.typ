@@ -16,7 +16,7 @@
 // --- Титульная страница ---
 #set page(
   paper: "a4",
-  margin: (inside: 3cm, outside: 2.5cm, top: 3cm, bottom: 2.5cm),
+  margin: (x: 2.75cm, top: 3cm, bottom: 2.5cm),
   header: none,
   footer: none,
 )
@@ -49,7 +49,7 @@
 
 #set page(
   paper: "a4",
-  margin: (inside: 3cm, outside: 2.5cm, top: 3cm, bottom: 2.5cm),
+  margin: (x: 2.75cm, top: 3cm, bottom: 2.5cm),
   header: context {
     let pg = counter(page).get().first()
     let chapter-start = query(heading.where(level: 1)).any(h => counter(page).at(h.location()).first() == pg)
