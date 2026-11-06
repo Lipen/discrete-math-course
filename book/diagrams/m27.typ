@@ -92,3 +92,79 @@
     de("N2", "L", "e4", size: s-tiny, [$arrow.r_beta$])
   })
 }
+
+// ── Порядок редукции терма (λx. y) Ω ──
+#let reduction-strategies = {
+  let term-node(pos, name, label, fill) = {
+    let (x, y) = pos
+    draw.rect(
+      (x - 1.9, y + 0.45),
+      (x + 1.9, y - 0.45),
+      name: name,
+      fill: fill,
+      stroke: c-bd + t-bd,
+      radius: 4pt,
+    )
+    draw.content(name, text(size: s-node, fill: c-ink)[#label])
+  }
+
+  let step-arrow(from, to, name, label) = {
+    draw.line(
+      from,
+      to,
+      name: name,
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
+    draw.content(
+      name,
+      text(size: s-cap, fill: c-muted)[#label],
+      frame: "rect",
+      fill: c-white,
+      stroke: none,
+      padding: 2pt,
+    )
+  }
+
+  let panel-title(pos, name, label) = draw.content(
+    pos,
+    text(size: s-cap, weight: "bold", fill: c-muted)[#label],
+    name: name,
+  )
+
+  canvas({
+    panel-title((-4.2, 4.2), "title-normal", [нормальный порядок])
+    panel-title((3.6, 4.2), "title-applicative", [аппликативный порядок])
+
+    term-node((-4.2, 2.9), "normal-start", $(lambda x . y) Omega$, c-conn)
+    term-node((-4.2, 0.5), "normal-end", $y$, c-atom)
+    step-arrow("normal-start", "normal-end", "normal-step", [внешний редекс])
+    draw.content(
+      (-4.2, -0.55),
+      text(size: s-cap, fill: c-muted)[нормальная форма],
+      name: "normal-note",
+    )
+
+    term-node((3.6, 2.9), "app-start", $(lambda x . y) Omega$, c-conn)
+    term-node((3.6, 0.5), "app-omega", $Omega$, c-warn)
+    step-arrow("app-start", "app-omega", "app-step", [сначала аргумент])
+
+    draw.bezier(
+      "app-omega.south-west",
+      "app-omega.south-east",
+      (1.9, -1.9),
+      (5.3, -1.9),
+      name: "omega-loop",
+      stroke: c-edge + t-ed,
+      mark: (end: "stealth", fill: c-edge),
+    )
+    draw.content(
+      "omega-loop.mid",
+      text(size: s-cap, fill: c-muted)[$Omega arrow.r_beta Omega$, и снова],
+      frame: "rect",
+      fill: c-white,
+      stroke: none,
+      padding: 2pt,
+    )
+  })
+}
