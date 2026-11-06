@@ -813,7 +813,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #definition[Уравнитель][#idx("Уравнитель")
   *Уравнитель* (equalizer) пары стрелок $f, g: A -> B$ --- объект $E$ со стрелкой $e: E -> A$, для которой $f circle.stroked.tiny e = g circle.stroked.tiny e$.
-  Универсальность: для любой стрелки $h: X -> A$ с $f circle.stroked.tiny h = g circle.stroked.tiny h$ существует единственная стрелка $u: X -> E$, для которой $e circle.stroked.tiny u = h$.
+  Универсальность требует, чтобы для любой стрелки $h: X -> A$ с $f circle.stroked.tiny h = g circle.stroked.tiny h$ существовала единственная стрелка $u: X -> E$, для которой $e circle.stroked.tiny u = h$.
 ]
 
 #example[Уравнитель в $"Set"$][
@@ -827,7 +827,7 @@ fn map<T, U>(xs: &[T], f: impl Fn(&T) -> U) -> Vec<U> {
 
 #definition[Расслоенное произведение][#idx("Расслоенное произведение")
   *Расслоенное произведение* (pullback) стрелок $f: A -> C$ и $g: B -> C$ --- объект $P$ со стрелками $p_A: P -> A$ и $p_B: P -> B$, для которых $f circle.stroked.tiny p_A = g circle.stroked.tiny p_B$.
-  Универсальность: для любых стрелок $a: X -> A$ и $b: X -> B$ с $f circle.stroked.tiny a = g circle.stroked.tiny b$ существует единственная стрелка $u: X -> P$, для которой $p_A circle.stroked.tiny u = a$ и $p_B circle.stroked.tiny u = b$.
+  Универсальность требует, чтобы для любых стрелок $a: X -> A$ и $b: X -> B$ с $f circle.stroked.tiny a = g circle.stroked.tiny b$ существовала единственная стрелка $u: X -> P$, для которой $p_A circle.stroked.tiny u = a$ и $p_B circle.stroked.tiny u = b$.
 ]
 
 #example[Расслоенное произведение в $"Set"$][
