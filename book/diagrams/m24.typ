@@ -10,6 +10,45 @@
 #let n-stroke = t-bd + c-bd
 
 #let e-stroke = (paint: c-edge, thickness: t-ed)
+#let eps-stroke = (paint: c-edge, thickness: t-ed, dash: "dashed")
+#let start-stroke = (paint: c-accent, thickness: t-ed)
+
+#let st(pos, label, name, accept: false) = if accept {
+  node(pos, label, name: name, extrude: (0, 2pt))
+} else {
+  node(pos, label, name: name)
+}
+
+#let tr(from, to, label, stroke: e-stroke, ..args) = edge(
+  from,
+  to,
+  "-}>",
+  label: label,
+  label-size: s-tiny,
+  label-fill: c-white,
+  stroke: stroke,
+  ..args,
+)
+
+#let start-arrow(to) = edge((-1, 0), to, "-}>", stroke: start-stroke)
+
+// ── МП-автомат для a^n b^n ──
+#let pda-anbn = diagram(
+  node-stroke: n-stroke,
+  node-fill: c-fl,
+  spacing: 4em,
+
+  start-arrow(<p0>),
+  st((0, 0), $q_0$, <p0>),
+  st((2, 0), $q_1$, <p1>, accept: true),
+
+  tr(<p0>, <p0>, $a, Z_0 -> A Z_0$, bend: -55deg),
+  tr(<p0>, <p0>, $a, A -> A A$, bend: 55deg),
+  tr(<p0>, <p1>, $b, A -> epsilon$, bend: -18deg),
+  tr(<p0>, <p1>, $epsilon, Z_0 -> epsilon$, bend: 18deg, stroke: eps-stroke),
+  tr(<p1>, <p1>, $b, A -> epsilon$, bend: -55deg),
+  tr(<p1>, <p1>, $epsilon, Z_0 -> epsilon$, bend: 55deg, stroke: eps-stroke),
+)
 
 #let c-reg = oklch(88%, 0.05, 155deg)   // регулярные
 #let c-cf = oklch(88%, 0.04, 70deg)     // контекстно-свободные

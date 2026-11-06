@@ -2,7 +2,7 @@
 #import "../common.typ": *
 #import "../notation.typ": *
 #import "../diagrams/m24.typ": (
-  ambig-parse-trees, chomsky-hierarchy, parse-tree-a3b3,
+  ambig-parse-trees, chomsky-hierarchy, parse-tree-a3b3, pda-anbn,
 )
 
 = Контекстно-свободные языки <chap:context-free>
@@ -292,6 +292,13 @@ $
   Переходы $delta(q_1, a, dot), delta(q_0, b, Z_0)$ не определены.
   Это чтение $a$ в фазе $q_1$ и чтение $b$ на пустом счётчике.
   Попав в такую ситуацию, автомат застревает, и слово отвергается.
+
+  Две фазы и обе петли видны на диаграмме (рис.~@fig:pda-anbn).
+
+  #figure(
+    pda-anbn,
+    caption: [МП-автомат для $a^n b^n$: фаза накопления $A$ и фаза снятия.],
+  ) <fig:pda-anbn>
 
   Прогон слова $a a b b$ (донный символ стека --- $Z_0$):
   $
