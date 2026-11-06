@@ -26,4 +26,5 @@ members = [
     "fuzzy",
     "categories",
     "bignum",
+    "generating-functions",
 ]

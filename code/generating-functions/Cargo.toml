@@ -1,0 +1,7 @@
+[package]
+name = "generating-functions"
+version = "0.1.0"
+edition = "2021"
+description = "Truncated formal power series with the generating functions of Catalan, Fibonacci, and partition numbers"
+
+[dependencies]
