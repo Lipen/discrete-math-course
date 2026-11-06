@@ -72,6 +72,18 @@ assert_eq!(check(&m, &next_green), vec![false, false, true]);
 Фактор по бизмуляции поэтому даёт меньшую модель с той же модальной теорией.
 `quotient(&model)` сливает бизмулярные состояния и возвращает меньшую модель вместе с отображением старых состояний в классы.
 
+```rust
+use model_checking::{quotient, Kripke};
+
+let left = Kripke::new(
+    vec![vec![1, 2], vec![], vec![]],
+    vec![vec![], vec![0], vec![0]],
+);
+let (q, class) = quotient(&left);
+assert_eq!(q.n, 2);
+assert_eq!(class, vec![0, 1, 1]);
+```
+
 ## API
 
 | Элемент                                       | Что делает                                                                   |

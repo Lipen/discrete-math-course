@@ -72,6 +72,18 @@ Bisimilar states satisfy the same modal formulas, including `EX` and `AX`.
 The quotient by bisimulation is therefore a smaller model with the same modal theory.
 `quotient(&model)` merges bisimilar states and returns the smaller model together with the old-state-to-class map.
 
+```rust
+use model_checking::{quotient, Kripke};
+
+let left = Kripke::new(
+    vec![vec![1, 2], vec![], vec![]],
+    vec![vec![], vec![0], vec![0]],
+);
+let (q, class) = quotient(&left);
+assert_eq!(q.n, 2);
+assert_eq!(class, vec![0, 1, 1]);
+```
+
 ## API
 
 | Item                                          | What it does                                                                 |
