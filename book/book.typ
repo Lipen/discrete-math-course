@@ -13,10 +13,13 @@
 
 #show: notes-template.with(theme: accent-color)
 
+// Симметричные поля: книга читается на экране, без зеркального разворота.
+#let page-margin = (x: 2.75cm, top: 3cm, bottom: 2.5cm)
+
 // --- Титульная страница ---
 #set page(
   paper: "a4",
-  margin: (x: 2.75cm, top: 3cm, bottom: 2.5cm),
+  margin: page-margin,
   header: none,
   footer: none,
 )
@@ -49,7 +52,7 @@
 
 #set page(
   paper: "a4",
-  margin: (x: 2.75cm, top: 3cm, bottom: 2.5cm),
+  margin: page-margin,
   header: context {
     let pg = counter(page).get().first()
     let chapter-start = query(heading.where(level: 1)).any(h => counter(page).at(h.location()).first() == pg)
