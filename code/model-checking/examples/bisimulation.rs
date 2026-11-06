@@ -4,7 +4,7 @@
 //! single successor. The bisimulation pairs every left successor with the
 //! right one, so both roots satisfy the same modal formulas.
 
-use model_checking::{greatest_bisimulation, Kripke};
+use model_checking::{greatest_bisimulation, quotient, Kripke};
 
 fn main() {
     let left = Kripke::new(
@@ -29,4 +29,9 @@ fn main() {
 
     println!("roots are bisimilar: {}", z[0][0]);
     println!("models are isomorphic: false");
+
+    let (q, class) = quotient(&left);
+    println!("left quotient states: {}", q.n);
+    println!("left state classes:  {class:?}");
+    println!("quotient successors: {:?}", q.successors);
 }

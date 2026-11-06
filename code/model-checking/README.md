@@ -70,6 +70,7 @@ The computation starts with all pairs that agree on atoms and removes a pair whe
 
 Bisimilar states satisfy the same modal formulas, including `EX` and `AX`.
 The quotient by bisimulation is therefore a smaller model with the same modal theory.
+`quotient(&model)` merges bisimilar states and returns the smaller model together with the old-state-to-class map.
 
 ## API
 
@@ -80,6 +81,7 @@ The quotient by bisimulation is therefore a smaller model with the same modal th
 | `ctl::Formula`                                | CTL formulas: `Atom`, `Not`, `And`, `Or`, `Ex`, `Ax`                         |
 | `check(&Kripke, &Formula) -> Vec<bool>`       | The labeling check, one bit per state                                        |
 | `greatest_bisimulation(&left, &right)`        | Greatest bisimulation matrix between two Kripke structures                   |
+| `quotient(&model)`                            | Merge bisimilar states into a smaller model and return the class map        |
 
 ## Demos
 

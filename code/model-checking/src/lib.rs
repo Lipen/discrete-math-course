@@ -28,6 +28,6 @@ pub mod bisimulation;
 pub mod ctl;
 pub mod kripke;
 
-pub use bisimulation::greatest_bisimulation;
+pub use bisimulation::{greatest_bisimulation, quotient};
 pub use ctl::{check, Formula};
 pub use kripke::Kripke;
